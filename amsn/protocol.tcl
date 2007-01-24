@@ -1297,6 +1297,33 @@ namespace eval ::MSN {
 	#switch==1 means turn on, 0 means turn off 
 	#
         # Reference : http://zoronax.spaces.live.com/?_c11_BlogPart_FullView=1&_c11_BlogPart_blogpart=blogview&_c=BlogPart&partqs=amonth%3d6%26ayear%3d2006
+	#
+	# From http://forums.fanatic.net.nz/index.php?showtopic=17639 thanks to Ole Andre 
+	#define CapabilityMobileOnline 0x00000001
+	#define CapabilityMSN8User 0x00000002
+	#define CapabilityRendersGif 0x00000004
+	#define CapabilityRendersIsf 0x00000008
+	#define CapabilityWebCamDetected 0x00000010
+	#define CapabilitySupportsChunking 0x00000020
+	#define IsMobileEnabled 0x00000040
+	#// FIXME: the canonical meaning of 0x00000080 is missing
+	#define CapabilityWebIMClient 0x00000200
+	#define CapabiltiyConnectedViaTGW 0x00000800
+	#// FIXME: the canonical meaning of 0x00001000 is missing
+	#define CapabilityMCEUser 0x00002000
+	#define CapabilitySupportsDirectIM 0x00004000
+	#define CapabilitySupportsWinks 0x00008000
+	#define CapabilitySupportsSharedSearch 0x00010000
+	#define CapabilityIsBot 0x00020000
+	#define CapabilitySupportsVoiceIM 0x00040000
+	#define CapabilitySupportsSChannel 0x00080000
+	#define CapabilitySupportsSipInvite 0x00100000
+	#define CapabilitySupportsSDrive 0x00400000
+	#define CapabilityHasOnecare 0x01000000
+	#define CapabilityP2PSupportsTurn 0x02000000
+	#define CapabilityP2PBootstrapViaUUN 0x04000000
+	#define CapabilityMsgrVersion 0xf0000000
+	#define CapabilityP2PAware(id) ((id & CapabilityMsgrVersion) != 0)
 	proc setClientCap { cap { switch 1 } } {
 		set clientid [::config::getKey clientid 0]
 
@@ -1633,7 +1660,7 @@ namespace eval ::MSN {
 
 
 
-	proc SendInk { chatid  file } {
+	proc SendInk { chatid file } {
 
 		set maxchars 1202
 

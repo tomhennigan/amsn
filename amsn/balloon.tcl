@@ -81,7 +81,7 @@ proc kill_balloon {} {
 proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
     global Bulle
     #check that the mouse is over the target (fix a tk bug - in windows)
-    if {[eval winfo containing  [winfo pointerxy .]]!=$target} {
+    if {[OnWin] && [eval winfo containing  [winfo pointerxy .]]!=$target} {
     	set Bulle(first) 0
     	kill_balloon
    	return

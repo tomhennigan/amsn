@@ -403,6 +403,9 @@ proc mailicon_proc {num} {
 			set mailicon [newti $icon -tooltip offline -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
 
 			bind $icon <Button-1> "::hotmail::hotmail_login"
+			bind $icon <Enter> [list balloon_enter %W %X %Y $msg]
+			bind $icon <Motion> [list balloon_motion %W %X %Y $msg]
+			bind $icon <Leave> "+set Bulle(first) 0; kill_balloon"
 		}
 
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {
@@ -415,17 +418,25 @@ proc mailicon_proc {num} {
 			set mailicon 0
 		}
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && ([UnixDock] || [WinDock])  && $num > 0} {
+		set froms [::hotmail::getFroms]
+		set fromsText ""
+		foreach {from frommail} $froms {
+			append fromsText "\n[trans newmailfrom $from $frommail]"
+		}
+
 		if { $num == 1 } {
-			set msg [trans onenewmail]
+			set msg "[trans onenewmail]\n$fromsText"
 		} elseif { $num == 2 } {
-			set msg [trans twonewmail 2]
+			set msg "[trans twonewmail 2]\n$fromsText"
 		} else {
-			set msg [trans newmail $num]
+			set msg "[trans newmail $num]\n$fromsText"
 		}
 		if { [WinDock] } {
 			winico taskbar modify $winmailicon -text $msg
 		} else {
 			configureti $mailicon -tooltip $msg
+			bind $icon <Enter> [list balloon_enter %W %X %Y $msg]
+			bind $icon <Motion> [list balloon_motion %W %X %Y $msg]
 		}
 	} 
 }
