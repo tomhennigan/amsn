@@ -68,11 +68,11 @@ puts "filling for user $email"
 
 			set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins default displaypic] *.dat] $email 1]]
 			if {$email == "self"} {
-				set user_dps [lsort -index 1 -decreasing -command "$self compareDate" [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] $email]]
+				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] $email]]
 			} else {
-				set user_dps [lsort -index 1 -decreasing -command "$self compareDate" [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat] $email]]
+				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat] $email]]
 			}
-			set dps [concat $shipped_dps $user_dps]
+			set dps [linsert [concat $shipped_dps $user_dps] 0 [list "" "nopic" "[trans nopic]"]]
 
 			if { $email != "self" } {
 				if { [::abook::getContactData $email customdp ""] != "" } {
@@ -94,15 +94,26 @@ puts "filling for user $email"
 			foreach dp $dps {
 				#exclude the image the user is currently using
 				if { $options(-showcurrent) != 0 || [string first $pic_in_use [lindex $dp 0]] == -1 } {
-					#if a problem loading the image arises, go to next
-					set file [filenoext [lindex $dp 0]].png
-					if { [catch { image create photo userDP_${email}_$i -file $file -format cximage }] } { continue }
+					if {[lindex $dp 0] != ""} {
+						set file [filenoext [lindex $dp 0]].png
+						#if a problem loading the image arises, go to next
+						if { [catch { image create photo userDP_${email}_$i -file $file -format cximage }] } { continue }
+					} else {
+						set file ""
+						image create photo userDP_${email}_$i -file [displaypicture_std_none cget -file] -format cximage
+					}
 						
 					::picture::ResizeWithRatio userDP_${email}_$i 96 96
 
-						set entry $frame.${i}_tile
+					set entry $frame.${i}_tile
 
-						sexytile $entry -type filewidget -text [lindex $dp 1]\
+					if {[lindex $dp 2] == ""} {
+						set label [lindex $dp 1]
+					} else {
+						set label [lindex $dp 2]
+					}
+
+					sexytile $entry -type filewidget -text $label\
 						 -icon userDP_${email}_$i -bgcolor $options(-bg) -onpress [list $self onClick $entry $file]
 						
 						
@@ -166,10 +177,10 @@ puts "filling for user $email"
 		return $selected
 	}
 
-	method getDpsList { dat_list email {isInSkin 0} } {
+	method getDpsList { dat_list email {isShipped 0} } {
 		set dps_list ""
 		foreach dat $dat_list {
-			if {$isInSkin} {
+			if {$isShipped} {
 				set file [::skin::GetSkinFile displaypic [file tail $dat]]
 			} else {
 				set file $dat
@@ -178,12 +189,15 @@ puts "filling for user $email"
 			set greps [$self grep $fd $email]
 			close $fd
 			if {[lindex $greps 0]} {
-				lappend dps_list [list $file [lindex $greps 1]]
-				
+				set date [lindex $greps 1]
+				set readable_date ""
+				status_log "$date"
+				catch {set readable_date [clock format $date -format %x]} error_var
+				status_log "$error_var"
+				lappend dps_list [list $file $date $readable_date]
 			}
 		}
 		return $dps_list
-	
 	}
 
 #FIXME: there seems to be an encoding issue with the shipped dps	
@@ -206,10 +220,6 @@ puts "filling for user $email"
 				return 0
 			}
 		}
-	}
-	
-	method compareDate { date1 date2 } {
-		return [expr {[clock scan $date1] - [clock scan $date2]}]
 	}
 	
 	method showtooltip {X Y imgfile} {

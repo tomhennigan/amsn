@@ -929,7 +929,8 @@ namespace eval ::MSNP2P {
 							create_dir [file join $HOME displaypic]
 							set fd [open [file join $HOME displaypic $desc_file] w]
 							status_log "Writing description to $desc_file\n"
-							puts $fd "[clock format [clock seconds] -format %x]\n$user_login"
+#							puts $fd "[clock format [clock seconds] -format %x]\n$user_login"
+							puts $fd "[clock seconds]\n$user_login"
 							close $fd
 
 						} else {

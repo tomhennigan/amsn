@@ -6543,7 +6543,7 @@ proc dpBrowser { {target_user "self" } } {
 	#lower pane
 	grid $w.lowerpane -row 7 -column 0 -columnspan 2 -sticky e -padx 2 -pady 2
 	
-	bind $w <Destroy> "catch { image delete displaypicture_pre_$target_user}"
+	bind $w.dppreview <Destroy> "catch { image delete displaypicture_pre_$target_user }"
 }
 
 proc configuredpbrowser {target combowidget selection} {
@@ -6648,7 +6648,8 @@ proc pictureChooseFile { target } {
 			set desc_file "[filenoext [file tail $file]].dat"
 			set fd [open [file join $HOME displaypic $desc_file] w]
 			status_log "Writing description to $desc_file\n"
-			puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
+#			puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
+			puts $fd "[clock seconds]\n[filenoext [file tail $file]].png"
 			close $fd
 			
 			# Redraw dpBrowser's upper pane
