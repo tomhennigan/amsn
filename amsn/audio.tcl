@@ -67,28 +67,33 @@ namespace eval ::audio {
 			set fallback [lindex [snack::audio inputDevices] 0]
 		}
 		
-		return [setInputDevice [config::getKey snackInputDevice $fallback]]
+		return $fallback
 	}
 
 	################################################################
-	#	::audio::setInputDevice(device)
+	#	::audio::setInputDevice(device, [save])
 	#	This procedure sets the input device used by snack.
 	#	Arguements:
 	#		- device => (string) The name of the device to set.
+	#		- save => (boolean) [NOT REQUIRED] save the setting in config
 	#	Return:
 	#		Normal => (sting) Input device name.
 	#		Error	 => (string) ""
-	proc setInputDevice {device} {
+	proc setInputDevice {device {save 1}} {
 		if { [lsearch [snack::audio inputDevices] $device] != "-1"  } {
 			# The device is avaliable.
 			snack::audio selectInput $device
-			return [::config::setKey snackInputDevice $device]
+			if {$save} {
+				return [::config::setKey snackInputDevice $device]
+			} else { return "" }
 		} else {
 			# The selected device is not avaliable.
 			if {[llength [snack::audio inputDevices]] > 0} {
 				# If we have devices avaliable default to the first one.
 				snack::audio selectInput [lindex [snack::audio inputDevices] 0]
-				return [::config::setKey snackInputDevice [lindex [snack::audio inputDevices] 0]]
+				if {$save} {
+					return [::config::setKey snackInputDevice [lindex [snack::audio inputDevices] 0]]
+				} else { return "" }
 			} else {
 				# We have no devices avaliable, return an empty string.
 				return ""
@@ -102,16 +107,17 @@ namespace eval ::audio {
 	#	Return:
 	#		Normal => (int) The gain on the input device. (Range 0-100).
 	proc inputGain { } {
-		return [::config::setKey snackInputGain [snack::audio record_gain]]
+		return [snack::audio record_gain]
 	}
 	
 	################################################################
-	# ::audio::setInputGain(gain)
+	# ::audio::setInputGain(gain, [save])
 	#	Parameters:
 	#		- gain => (int) The gain factor to set on the input device. (Range 0-100).
+	#		- save => (boolean) [NOT REQUIRED] save the setting in config
 	#	Return
 	#		Normal => (int) The gain set on the input device.
-	proc setInputGain { gain } {
+	proc setInputGain { gain {save 1} } {
 		if { $gain < 0 } {
 			snack::audio record_gain 0
 		} elseif { $gain > 100 } {
@@ -120,7 +126,9 @@ namespace eval ::audio {
 			snack::audio record_gain $gain
 		}
 		
-		return [::config::setKey snackInputGain [snack::audio record_gain]]
+		if {$save} {
+			return [::config::setKey snackInputGain [snack::audio record_gain]]
+		} else { return "" }
 	}
 	
 	################################################################
@@ -143,28 +151,33 @@ namespace eval ::audio {
 			set fallback [lindex [snack::audio outputDevices] 0]
 		}
 		
-		return [setOutputDevice [config::getKey snackOutputDevice $fallback]]
+		return $fallback
 	}
 	
 	################################################################
-	#	::audio::setOutputDevice(device)
+	#	::audio::setOutputDevice(device, [save])
 	#	This procedure sets the output device used by snack.
 	#	Arguments:
 	#		- device => (string) The name of the device to change to.
+	#		- save => (boolean) [NOT REQUIRED] save the setting in config
 	#	Return:
 	#		Normal => (sting) Output device name.
 	#		Error	 => (string) ""
-	proc setOutputDevice {device} {
+	proc setOutputDevice {device {save 1 }} {
 		if { [lsearch [snack::audio outputDevices] $device] != "-1"  } {
 			# The device is avaliable.
 			snack::audio selectOutput $device
-			return [::config::setKey snackOutputDevice $device]
+			if {$save} {
+				return [::config::setKey snackOutputDevice $device]
+			} else { return "" }
 		} else {
 			# The selected device is not avaliable.
 			if {[llength [snack::audio outputDevices]] > 0} {
 				# If we have devices avaliable default to the first one.
 				snack::audio selectOutput [lindex [snack::audio outputDevices] 0]
-				return [::config::setKey snackOutputDevice [lindex [snack::audio outputDevices] 0]]
+				if {$save} {
+					return [::config::setKey snackOutputDevice [lindex [snack::audio outputDevices] 0]]
+				} else { return "" }
 			} else {
 				# Otherwise return an empty string.
 				return ""
@@ -178,16 +191,17 @@ namespace eval ::audio {
 	#	Return:
 	#		Normal => (int) The gain on the output device. (Range 0-100).
 	proc outputGain { } {
-		return [::config::setKey snackOutputGain [snack::audio play_gain]]
+		return [snack::audio play_gain]
 	}
 	
 	################################################################
-	#	::audio::setOutputGain(gain)
+	#	::audio::setOutputGain(gain, [save])
 	#	Parameters:
 	#		- gain => (int) The gain factor to set on the input device. (Range 0-100).
+	#		- save => (boolean) [NOT REQUIRED] save the setting in config
 	#	Return
 	#		Normal => (int) The gain set on the device.
-	proc setOutputGain { gain } {
+	proc setOutputGain { gain {save 1}} {
 		if { $gain < 0 } {
 			snack::audio play_gain 0
 		} elseif { $gain > 100 } {
@@ -196,7 +210,9 @@ namespace eval ::audio {
 			snack::audio play_gain $gain
 		}
 		
-		return [::config::setKey snackOutputGain [snack::audio play_gain]]
+		if {$save} {
+			return [::config::setKey snackOutputGain [snack::audio play_gain]]
+		} else { return "" }
 	}
 	
 	################################################################
@@ -205,7 +221,7 @@ namespace eval ::audio {
 	# 	Return:
 	#		Normal => (list) Avaliable mixers.
 	proc mixerDevices { } {
-		return [list [::config::setKey snackMixerDevice [snack::mixer devices]]]
+		return [snack::mixer devices]
 	}
 	
 	################################################################
@@ -221,28 +237,33 @@ namespace eval ::audio {
 			set fallback [lindex [snack::mixer devices] 0]
 		}
 		
-		return [setMixerDevice [config::getKey snackMixerDevice $fallback]]
+		return $fallback
 	}
 	
 	################################################################
-	#	::audio::setMixerDevice(device)
+	#	::audio::setMixerDevice(device, [save])
 	#	This procedure sets the mixer used by snack.
 	#	Arguements:
 	#		- device => (string) The name of the mixer device to use.
+	#		- save => (boolean) [NOT REQUIRED] save the setting in config
 	#	Return:
 	#		Normal => (sting) Mixer name.
 	#		Error	 => (string) ""
-	proc setMixerDevice { device } {
+	proc setMixerDevice { device {save 1} } {
 		if { [lsearch [snack::mixer devices] $device] != "-1"  } {
 			# The mixer is avaliable.
 			snack::mixer select $device
-			return [::config::setKey snackMixerDevice $device]
+			if {$save} {
+				return [::config::setKey snackMixerDevice $device]
+			} else { return "" }
 		} else {
 			# The selected mixer is not avaliable.
 			if {[llength [snack::mixer devices]] > 0} {
 				# If we have mixers avaliable default to the first one.
 				snack::mixer select [lindex [snack::mixer devices] 0]
-				return [::config::setKey snackMixerDevice [lindex [snack::mixer devices] 0]]
+				if {$save} {
+					return [::config::setKey snackMixerDevice [lindex [snack::mixer devices] 0]]
+				} else { return "" }
 			} else {
 				# Otherwise return an empty string.
 				return ""
@@ -258,49 +279,46 @@ namespace eval ::audio {
 	#		- line => (string) [NOT REQUIRED] The output line for the device.
 	#	Return:
 	#		Normal	=> (int) Volume.
-	proc getVolume {{line "Play"}} {
-		mixerDevice [lindex [snack::mixer devices] 0]
-		
-		if {[snack::mixer channels $line] != "Mono"} {
-			snack::mixer volume $line vol_l vol_r
-	        set vol_l $vol_r
+	proc getVolume {{line ""}} {
+		set mixDev [::audio::mixerDevice]
+		if {$line == "" } {
+			set line [lindex [snack::mixer lines] 0]
 		}
 		
-		return [::config::setKey snackMixerVolume [snack::mixer volume $line]]
+		return [snack::mixer volume $line]
 	}
 	
 	################################################################
-	#	::audio::setVolume(volume, [line])
+	#	::audio::setVolume(volume, [save], [line])
 	#	This procedure sets snack's internal volume.
 	#	Arguments:
 	#		- volume => (int) The playback volume to set on the mixer. (Range 0-100)
-	#		- line => (string) [NOT REQUIRED] The output line (default="Play").
+	#		- save => (boolean) [NOT REQUIRED] save the setting in config
+	#		- line => (string) [NOT REQUIRED] The output line (default=[lindex [snack::mixer lines] 0]).
 	#	Return:
 	#		Normal => (int) Volume
 	#		Error	 => (int) Volume
-	proc setVolume { volume { line "Play" } } {
-		getMixer [lindex [snack::mixer devices] 0]
+	proc setVolume { volume {save 1} { line "" } } {
 		
 		if { [llength [snack::mixer lines]] == "0" } {
 			# We have no input lines. (Bad setup).
 			return ""
 		}
 		
-		if { [lsearch [snack::mixer lines] $line] == "-1" } {
+		if { $line == "" || [lsearch [snack::mixer lines] $line] == "-1" } {
 			# The line chosen doesn't exist, so use the first one avaliable.
 			set line [lindex [snack::mixer lines] 0]
 		}
 		
+		set vol $volume
 		if {[snack::mixer channels $line] == "Mono"} {
 			snack::mixer volume $line vol
-			set vol $volume
 		} else {
-			snack::mixer volume $line vol_l vol_r
-	        set vol_l $volume
-    	    set vol_r $volume
+			snack::mixer volume $line $vol $vol
 		}
-		
-		return [::config::setKey snackMixerVolume [snack::mixer volume $line]]
+		if {$save} {
+			return [::config::setKey snackMixerVolume [snack::mixer volume $line]]
+		} else { return "" }
 	}
 	
 	################################################################
