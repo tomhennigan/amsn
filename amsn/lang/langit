@@ -11,7 +11,7 @@ add Aggiungi
 addedyou $1 ($2) ti ha aggiunto alla sua lista dei contatti
 addprofile Aggiungi un nuovo profilo
 addprofiledesc Inserisci il login per il quale vorresti creare un nuovo profilo. \nI login con un profilo ti permettono di avere differenti configurazioni per ogni login.\nSenza profili non puoi usare l'History, gli Allarmi o ricordare le password.
-addstate Aggiungi Nuovo Stato Personale
+addstate Aggiungi stato personale
 addto Aggiungi a $1
 addtocontacts Aggiungi questo contatto alla Lista Contatti
 addtoo Aggiungi questa persona alla mia Lista Contatti
@@ -214,6 +214,7 @@ custnotifyoffline Visualizza la finestra di notifica alla disconnessione di ques
 custnotifyonline Visualizza la finestra di notifica alla connessione di questo contatto
 custnotifystatus Visualizza la finestra di notifica al cambio di stato personale di questo contatto
 customcolor Colore Personalizzato
+customdp Immagine personalizzata
 custom_edit Crea un'emoticon personalizzata
 custom_new Aggiungi una nuova emoticon personalizzata
 customnick Soprannome Personalizzato
@@ -305,7 +306,7 @@ failed Non riuscito
 faq FAQ (Risposte alle domande più frequenti)
 file Archivio
 filedoesnotexist Il file non esiste
-filemanexample ( \$location sarà rimpiazzato dalla cartella ) Es: nautilus \$location
+filemanexample ( \$location sarà rimpiazzato dalla cartella ) Es: konqueror \$location
 fileman File Manager
 filename File
 filenotwritable Questo file non può essere cancellato
@@ -320,7 +321,7 @@ find Trova
 findasyoutype Trova mentre digiti
 findnext Trova successivo
 findprev Trova precedente
-followtext Segui il nuovo testo quando viene inserito
+followtext Scorri la finestra quando nuovo testo viene inserito
 friendlyname Nome comune
 ftporttest Test
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
@@ -541,6 +542,7 @@ nousersinsession Nessun utente nella sessione
 nosound Nessun suono viene rilevato, controlla che il microfono sia collegato correttamente
 nosound_or_hold Nessun suono viene rilevato. Per inviare un messaggio vocale devi premere e tener premuto il pulsante mentre parli, poi rilascialo per inviare il messaggio.
 nudge $1 chiede la tua attenzione
+nouserspecified Nessun utente specificato
 offline Sconnesso
 ok Ok
 onenewmail 1 nuovo messaggio di posta
@@ -557,7 +559,7 @@ ordergroupsby Ordina i gruppi per
 original Originale
 other Altro
 otherdisplaypic Altre immagini di questo utente (clicca per ulteriori opzioni)
-others Impostazioni avanzate
+others Altre impostazioni
 pager Impaginatore
 pass Password
 paste Incolla
@@ -823,7 +825,7 @@ version Versione
 videoconversationrequest Hai ricevuto una richiesta di conversazione video (audio e video bidirezionali). Questa funzionalità non è supportata da aMSN e la richiesta è stata annullata. Puoi comunque utilizzare la normale conversazione con webcam.
 viewcontactsby Visualizza contatti per
 viewprofile Mostra Profilo
-view Vista
+view Visualizzazione
 voice_notimplemented La ricezione dei messaggi vocali non è stata ancora implementata. Per favore sii paziente.
 voice_windows Visto che usi Windows, dovresti riuscire ad ascoltare il messaggio vocale aprendolo con il tuo player audio.
 voice_windows_click Clicca qui per farlo
