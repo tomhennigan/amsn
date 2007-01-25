@@ -7043,10 +7043,20 @@ namespace eval ::OIM_GUI {
 		set nick [lindex $oim_message 2]
 		set msg [lindex $oim_message 3]
 		set MsgId [lindex $oim_message 4]
+		set arrivalTime [lindex $oim_message 6]
         set unixtimestamp 0
-        regexp {MSG(\d+)\.\d+} $MsgId -> unixtimestamp 
-        #TODO : improve that date using our [timestamp]
-        set tstamp [clock format $unixtimestamp]
+        regexp {MSG(\d+)\.\d+} $MsgId -> unixtimestamp
+		status_log "MsgId = $MsgId\n unixtimestamp = $unixtimestamp\nArrivalTime = \"$arrivalTime\"" green
+
+		#convert the arrival time
+		set pos [string first . $arrivalTime]
+		incr pos -1
+		set arrivalTime [string range $arrivalTime 0 $pos]
+		set unixtimestamp [clock scan $arrivalTime -gmt 1]
+		set tstamp [::config::getKey leftdelimiter]
+		append tstamp [clock format $unixtimestamp -format "%D - %H:%M:%S"]
+		append tstamp [::config::getKey rightdelimiter]
+
         set chatid [GetChatId $user]
 
 		if { $chatid == 0 } {
@@ -7058,10 +7068,20 @@ namespace eval ::OIM_GUI {
 		set customchatstyle [::config::getKey customchatstyle]
 		switch [::config::getKey chatstyle] {
 			msn {
-				set customchatstyle "\$tstamp [trans says \$nick]: \$newline"
+				if {$unixtimestamp} {
+					set customchatstyle "\$tstamp [trans says \$nick]: \$newline"
+				} else {
+					set customchatstyle "[trans says \$nick]: \$newline"
+
+				}
 			}
 			irc {
-				set customchatstyle "\$tstamp <\$nick> "
+				if {$unixtimestamp} {
+					set customchatstyle "\$tstamp <\$nick> "
+				} else {
+					#timestamp is wrong
+					set customchatstyle "<\$nick> "
+				}
 			}
 			- {}
 		}

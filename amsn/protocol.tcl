@@ -2917,6 +2917,7 @@ namespace eval ::MSNOIM {
 			set body [string map {"\r\n" "\n"} [$msg getBody]]
 			set ctype [$msg getHeader Content-type]
 			set cencoding [$msg getHeader Content-Transfer-Encoding]
+			set arrivalTime [$msg getHeader X-OriginalArrivalTime]
 			set parts [split $from " "]
 			set nick [lindex $parts 0]
 			set email [lindex $parts 1]
@@ -2927,7 +2928,7 @@ namespace eval ::MSNOIM {
 			if { $cencoding == "base64" } {
 				set body [encoding convertfrom identity [string map {"\r\n" "\n"} [base64::decode [string trim $body]]]]
 			}
-			if {[catch {eval $callbk [list [list $sequence $email $nick $body $mid $runId]]} result]} {
+			if {[catch {eval $callbk [list [list $sequence $email $nick $body $mid $runId $arrivalTime]]} result]} {
 				bgerror $result
 			}
 		} else {
