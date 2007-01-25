@@ -2430,17 +2430,17 @@ namespace eval ::CAMGUI {
 		}
 		pack $w.capture -expand true -padx 5
 
-		checkbutton $w.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state disabled -command "::CAMGUI::buttonToggled"
+		checkbutton $w.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state active -command "::CAMGUI::buttonToggled"
 		pack $w.wanttosharecam
 
-		checkbutton $w.lowrescam -text "[trans lowrescam]" -font sboldf -variable [::config::getVar lowrescam] -onvalue 1 -offvalue 0 -state disabled
+		checkbutton $w.lowrescam -text "[trans lowrescam]" -font sboldf -variable [::config::getVar lowrescam] -onvalue 1 -offvalue 0 -state active 
 		if { [OnLinux] } {
 			pack $w.lowrescam
 		}
 
-		if { [::CAMGUI::camPresent] == 1 } {
-			$w.wanttosharecam configure -state active
-			$w.lowrescam configure -state active
+		if { [::CAMGUI::camPresent] == 0 } {
+			$w.wanttosharecam configure -state disabled
+			$w.lowrescam configure -state disabled
 		}
 
 		button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
