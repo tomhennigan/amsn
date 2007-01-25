@@ -7045,8 +7045,6 @@ namespace eval ::OIM_GUI {
 		set MsgId [lindex $oim_message 4]
 		set arrivalTime [lindex $oim_message 6]
         set unixtimestamp 0
-        regexp {MSG(\d+)\.\d+} $MsgId -> unixtimestamp
-		status_log "MsgId = $MsgId\n unixtimestamp = $unixtimestamp\nArrivalTime = \"$arrivalTime\"" green
 
 		#convert the arrival time
 		set pos [string first . $arrivalTime]
