@@ -700,6 +700,7 @@ showcontactemail Voir les contacts par leur email
 showcontactnick Voir les contacts par leur pseudonyme
 showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
 showdisplaypic Afficher l'avatar
+showhiddenfiles Voir les fichiers et les dossiers cachés dans l'explorateur de fichiers
 showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 showmypic Mon avatar
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
