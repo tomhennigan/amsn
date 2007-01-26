@@ -232,75 +232,6 @@ namespace eval ::config {
 	        ::config::setKey showmainmenu -1
 	        ::config::setKey showcwmenus -1
 
-		#Advanced options, not in preferences window
-		# Create the entry in the list and then, set
-		# the variable at bottom
-
-		#List like:
-		#	"" trans_section_name_1
-		#  optionname1 type1 trans_name1 trans_desc1(optional)
-		#  optionname2 type2 trans_name2 trans_desc2(optional)
-		#  ...
-		#
-		# type can be: bool | int | str | folder
-		set advanced_options [list \
-			[list title appearance] \
-			[list local tooltips bool tooltips] \
-			[list local emailsincontactlist bool emailsinlist] \
-			[list local leavejoinsinchat bool leavejoinsinchat] \
-			[list local animatenotify bool animatenotify] \
-			[list local enablebanner bool showbanner] \
-			[list local truncatenames bool truncatenames1] \
-			[list local truncatenicks bool truncatenames2] \
-			[list local showtimestamps bool timestamps] \
-			[list local savechatwinsize bool savechatwinsize] \
-			[list local winchatsize str defchatwinsize] \
-			[list local startontray bool startontray] \
-			[list local charscounter bool charscounter] \
-			[list local strictfonts bool strictfonts] \
-			[list local disableuserfonts bool disableuserfonts] \
-			[list local sngdblclick bool sngdblclick] \
-			[list local nogap bool nogap] \
-			[list local removeempty bool removeempty] \
-			[list local tabtitlenick bool tabtitlenick] \
-			[list local showpicnotify bool showpicnotify] \
-			[list local showmailicon bool showmailicon] \
-			[list local autoresizedp bool autoresizedp] \
-			[list title notifyoffset] \
-			[list local notifyXoffset int xoffset] \
-			[list local notifyYoffset int yoffset] \
-			[list title prefalerts] \
-			[list local notifyonline bool notify1] \
-			[list local notifyoffline bool notify1_5] \
-			[list local notifystate bool notify1_75] \
-			[list local notifymsg bool notify2] \
-			[list local notifyemail bool notify3] \
-			[list local notifyemailother bool notify4] \
-			[list local notifytimeout int notifytimeout] \
-			[list local soundactive bool soundactive] \
-		        [list local autolisten_voiceclips bool autolisten_voiceclips] \
-			[list local recentmsg bool recentmsg] \
-			[list title connection] \
-			[list local getdisppic bool getdisppic] \
-			[list local checkemail bool checkemail] \
-			[list local autoconnect bool autoconnect autoconnect2] \
-			[list local default_ns_server str notificationserver]\
-			[list local lazypicretrieval bool lazypicretrieval]\
-			[list local noftpreview bool noftpreview]\
-			[list title MSN] \
-			[list local displayp4context bool displayp4context] \
-			[list local p4contextprefix str p4contextprefix] \
-			[list title others] \
-			[list local activeautoupdate bool activeautoupdate] \
-			[list local allowbadwords bool allowbadwords] \
-			[list local libtls_temp folder TLS tlsexplain] \
-			[list local notifytyping bool notifytyping] \
-			[list local lineflushlog bool lineflushlog] \
-			[list local autocheckver bool autocheckver] \
-			[list local storename bool storenickname] \
-			[list local globaloverride bool globaloverride ] \
-			[list global disableprofiles bool disableprofiles] \
-		]
 		::config::setKey tooltips 1				;#Enable/disable tooltips
 		::config::setKey animatenotify 1		;#Animate notify window
 		::config::setKey disableuserfonts 0	;#Disable custom fonts for other users (use always yours).
@@ -356,6 +287,80 @@ namespace eval ::config {
 		::config::setKey autolisten_voiceclips 1                ;# whether voiceclips should be automatically played once received
 		::config::setKey use_new_cl 0                		;# whether we should use the new CL as the default one or not...
 		::config::setKey spacesinfo "inline"				;# how to draw MSN Spaces info
+
+		::config::setKey showhiddenfiles 0			;# Show/hide hidden files from the tk file browser
+
+
+		#Advanced options, not in preferences window
+		# Create the entry in the list and then, set
+		# the variable at bottom
+
+		#List like:
+		#	"" trans_section_name_1
+		#  optionname1 type1 trans_name1 trans_desc1(optional)
+		#  optionname2 type2 trans_name2 trans_desc2(optional)
+		#  ...
+		#
+		# type can be: bool | int | str | folder
+		set advanced_options [list \
+			[list title appearance] \
+			[list local tooltips bool tooltips] \
+			[list local emailsincontactlist bool emailsinlist] \
+			[list local leavejoinsinchat bool leavejoinsinchat] \
+			[list local animatenotify bool animatenotify] \
+			[list local enablebanner bool showbanner] \
+			[list local truncatenames bool truncatenames1] \
+			[list local truncatenicks bool truncatenames2] \
+			[list local showtimestamps bool timestamps] \
+			[list local savechatwinsize bool savechatwinsize] \
+			[list local winchatsize str defchatwinsize] \
+			[list local startontray bool startontray] \
+			[list local charscounter bool charscounter] \
+			[list local strictfonts bool strictfonts] \
+			[list local disableuserfonts bool disableuserfonts] \
+			[list local sngdblclick bool sngdblclick] \
+			[list local nogap bool nogap] \
+			[list local removeempty bool removeempty] \
+			[list local tabtitlenick bool tabtitlenick] \
+			[list local showpicnotify bool showpicnotify] \
+			[list local showmailicon bool showmailicon] \
+			[list local autoresizedp bool autoresizedp] \
+			[list local showhiddenfiles bool showhiddenfiles] \
+			[list title notifyoffset] \
+			[list local notifyXoffset int xoffset] \
+			[list local notifyYoffset int yoffset] \
+			[list title prefalerts] \
+			[list local notifyonline bool notify1] \
+			[list local notifyoffline bool notify1_5] \
+			[list local notifystate bool notify1_75] \
+			[list local notifymsg bool notify2] \
+			[list local notifyemail bool notify3] \
+			[list local notifyemailother bool notify4] \
+			[list local notifytimeout int notifytimeout] \
+			[list local soundactive bool soundactive] \
+		        [list local autolisten_voiceclips bool autolisten_voiceclips] \
+			[list local recentmsg bool recentmsg] \
+			[list title connection] \
+			[list local getdisppic bool getdisppic] \
+			[list local checkemail bool checkemail] \
+			[list local autoconnect bool autoconnect autoconnect2] \
+			[list local default_ns_server str notificationserver]\
+			[list local lazypicretrieval bool lazypicretrieval]\
+			[list local noftpreview bool noftpreview]\
+			[list title MSN] \
+			[list local displayp4context bool displayp4context] \
+			[list local p4contextprefix str p4contextprefix] \
+			[list title others] \
+			[list local activeautoupdate bool activeautoupdate] \
+			[list local allowbadwords bool allowbadwords] \
+			[list local libtls_temp folder TLS tlsexplain] \
+			[list local notifytyping bool notifytyping] \
+			[list local lineflushlog bool lineflushlog] \
+			[list local autocheckver bool autocheckver] \
+			[list local storename bool storenickname] \
+			[list local globaloverride bool globaloverride ] \
+			[list global disableprofiles bool disableprofiles] \
+		]
 
 	}
 
@@ -744,6 +749,13 @@ proc load_config {} {
 	
 	# This is a TEMPORARY HACK... 
 	::config::setKey use_new_cl 1
+
+	# show/hide hidden files in the tk file dialog depending on advanced option
+	# This is a check to make sure we don't get any bugs later on..
+	if {[::config::getKey showhiddenfiles 0] != 0 && [::config::getKey showhiddenfiles 0] != 1 } {
+		::config::setKey showhiddenfiles 0
+	}
+	set ::tk::dialog::file::showHiddenVar [::config::getKey showhiddenfiles 0]
 }
 
 
