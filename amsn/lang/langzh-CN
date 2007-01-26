@@ -864,4 +864,8 @@ youblocked 你已经被他封锁
 yousay 您说
 youwant 您要
 yesblock 确定阻止
-zoom 缩放 
+zoom 缩放
+blocknotifications 阻止通知窗口 
+blocksounds 静音 
+customdp 个性化显示图片 
+nouserspecified 无指定的用户 
