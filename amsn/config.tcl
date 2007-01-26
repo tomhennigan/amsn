@@ -324,9 +324,12 @@ namespace eval ::config {
 			[list local tabtitlenick bool tabtitlenick] \
 			[list local showpicnotify bool showpicnotify] \
 			[list local showmailicon bool showmailicon] \
-			[list local autoresizedp bool autoresizedp] \
-			[list local showhiddenfiles bool showhiddenfiles] \
-			[list title notifyoffset] \
+			[list local autoresizedp bool autoresizedp]]
+
+		if {[OnLinux]} {
+			lappend advanced_options [list local showhiddenfiles bool showhiddenfiles] 
+		}
+		lappend advanced_options [list title notifyoffset] \
 			[list local notifyXoffset int xoffset] \
 			[list local notifyYoffset int yoffset] \
 			[list title prefalerts] \
@@ -359,8 +362,8 @@ namespace eval ::config {
 			[list local autocheckver bool autocheckver] \
 			[list local storename bool storenickname] \
 			[list local globaloverride bool globaloverride ] \
-			[list global disableprofiles bool disableprofiles] \
-		]
+			[list global disableprofiles bool disableprofiles] 
+		
 
 	}
 
@@ -755,7 +758,14 @@ proc load_config {} {
 	if {[::config::getKey showhiddenfiles 0] != 0 && [::config::getKey showhiddenfiles 0] != 1 } {
 		::config::setKey showhiddenfiles 0
 	}
-	set ::tk::dialog::file::showHiddenVar [::config::getKey showhiddenfiles 0]
+
+	# Bye bye hidden files in file dialogs (works fine with Mac even without this).
+	if {[OnLinux]} {
+		# FIXME :  is this the best way to initialize the getOpenFile ?
+       		catch { tk_getOpenFile -w00t } ;# start file dialog with unknown option
+		set ::tk::dialog::file::showHiddenVar [::config::getKey showhiddenfiles 0]
+	}
+
 }
 
 

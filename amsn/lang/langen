@@ -700,6 +700,7 @@ showcontactemail Show Contacts with E-mail
 showcontactnick Show Contacts with Nickname
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
+showhiddenfiles Show hidden files and directories in the file browser
 showmailicon Show mail icon on traydock when new emails arrive
 showmypic My Display Picture
 shownotify Show notify window when some events happen
