@@ -9,7 +9,7 @@ Package: amsn
 Replaces: ccmsn
 Architecture: any
 Depends: tcl8.4, tk8.4, tcltls, ${shlibs:Depends}
-Suggests: mozilla | galeon | konqueror, sox, docker
+Suggests: mozilla | galeon | konqueror | iceweasel, sox, docker, libsnack2
 Description: An MSN messenger written in tcl
  A very nice MSN compatible messenger application. Works pretty much like its
  Windows based counterpart. Perfect for keeping in touch with those friends 
