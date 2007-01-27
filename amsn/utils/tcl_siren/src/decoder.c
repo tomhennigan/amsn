@@ -29,7 +29,6 @@ SirenDecoder Siren7_NewDecoder(int sample_rate) {
 	memset(decoder->context, 0, sizeof(decoder->context));
 	memset(decoder->backup_frame, 0, sizeof(decoder->backup_frame));
 
-	decoder->previous_frame_error = 0;
 	decoder->dw1 = 1;
 	decoder->dw2 = 1;
 	decoder->dw3 = 1;
@@ -68,7 +67,7 @@ int Siren7_DecodeFrame(SirenDecoder decoder, unsigned char *DataIn, unsigned cha
 	int rate_control = 0;
 	int number_of_available_bits;
 	int number_of_valid_coefs;
-	int frame_error;
+	int frame_error = 0;
 
 	int In[20];
 	float coefs[320];
@@ -175,16 +174,15 @@ int Siren7_DecodeFrame(SirenDecoder decoder, unsigned char *DataIn, unsigned cha
 			frame_error |= 8;
 	}
 
-	if (frame_error != 0) {
+	if (frame_error  != 0) {
 		for (i = 0; i < number_of_valid_coefs; i++) {
 			coefs[i] = decoder->backup_frame[i];
 			decoder->backup_frame[i] = 0;
 		}
-	} else if (decoder->previous_frame_error == 0) {
+	} else {
 		for (i = 0; i < number_of_valid_coefs; i++)
 			decoder->backup_frame[i] = coefs[i];
 	}
-	decoder->previous_frame_error = frame_error;
 
 
 	for (i = number_of_valid_coefs; i < number_of_coefs; i++)

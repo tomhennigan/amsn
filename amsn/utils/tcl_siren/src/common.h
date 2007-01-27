@@ -96,6 +96,7 @@ typedef struct {
 #define GUINT32_FROM_LE(val) ( (unsigned int) (val))
 
 
+#endif
 
 extern int region_size;
 extern float region_size_inverse;
@@ -118,7 +119,6 @@ extern int GetSirenCodecInfo(int flag, int sample_rate, int *number_of_coefs, in
 
 
 
-#endif
 
 
 #endif /* _SIREN_COMMON_H */
