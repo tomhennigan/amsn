@@ -1,49 +1,54 @@
 namespace eval ::chameleon::checkbutton {
 
    proc checkbutton_customParseConfArgs { w parsed_options args } {
-     	array set options $args
-	array set ttk_options $parsed_options
-
- 	if { [info exists options(-bd)] } {
- 	    set ttk_options(-padding) $options(-bd)
- 	}
- 	set padx 0
- 	if { [info exists options(-padx)] &&
- 	     [string is digit -strict $options(-padx)]  } {
- 	    set padx $options(-padx)
- 	}
- 	set pady 0
- 	if { [info exists options(-pady)] &&
- 	     [string is digit -strict $options(-pady)] } {
- 	    set pady $options(-pady)
- 	}
- 	if {$padx == 0 && $pady == 0 && 
- 	    [info exists options(-bd)] } {
- 	    set ttk_options(-padding) $options(-bd)
- 	} else {
- 	    if {$padx == 0 && $pady != 0 } {
- 		set ttk_options(-padding) [list 2 $pady]
- 	    } elseif {$padx != 0 && $pady == 0 } {
- 		set ttk_options(-padding) [list $padx 2]
- 	    } elseif {$padx != 0 && $pady != 0 } {
- 		set ttk_options(-padding) [list $padx $pady]
- 	    }
- 	}
-
-       if { [info exists options(-width)] } {
-	   if {$options(-width) == 0} {
-	       set ttk_options(-width) [list]
-	   } else {
-	       set ttk_options(-width) $options(-width)
+	   array set options $args
+	   array set ttk_options $parsed_options
+	   
+	   if { [info exists options(-bd)] } {
+		   set ttk_options(-padding) $options(-bd)
 	   }
-       }
-         
-       if { ![info exists options(-variable)] } {
-	   set idx [string last . $w]
-	   incr idx
-	   set varname [string range $w $idx end]
-	   set options(-variable) ::$varname
-       }
+	   set padx 0
+	   if { [info exists options(-padx)] &&
+		[string is digit -strict $options(-padx)]  } {
+		   set padx $options(-padx)
+	   }
+	   set pady 0
+	   if { [info exists options(-pady)] &&
+		[string is digit -strict $options(-pady)] } {
+		   set pady $options(-pady)
+	   }
+	   if {$padx == 0 && $pady == 0 && 
+	       [info exists options(-bd)] } {
+		   set ttk_options(-padding) $options(-bd)
+	   } else {
+		   if {$padx == 0 && $pady != 0 } {
+			   set ttk_options(-padding) [list 2 $pady]
+		   } elseif {$padx != 0 && $pady == 0 } {
+			   set ttk_options(-padding) [list $padx 2]
+		   } elseif {$padx != 0 && $pady != 0 } {
+			   set ttk_options(-padding) [list $padx $pady]
+		   }
+	   }
+	   
+	   if { [info exists options(-width)] } {
+		   if {$options(-width) == 0} {
+			   set ttk_options(-width) [list]
+		   } else {
+			   set ttk_options(-width) $options(-width)
+		   }
+	   }
+	   
+	   if { ![info exists options(-variable)]} {
+		   if {![catch {$w cget -variable} res] && $res != "" } {
+			   set options(-variable) $res
+		   } else {
+			   set idx [string last . $w]
+			   incr idx
+			   set varname [string range $w $idx end]
+			   set options(-variable) ::$varname
+		   }
+	   }
+
 	   set varname [set options(-variable)]
 	   set offvalue 0
 	   if { [info exists ttk_options(-offvalue)] } {
