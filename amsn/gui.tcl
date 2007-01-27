@@ -4398,8 +4398,6 @@ proc RefreshLogin { mainframe {extra 0} } {
 		$mainframe.loginentry configure -state disabled
 		$mainframe.passentry configure -state disabled
 		$mainframe.remember configure -state normal
-		# FIXME: Chameleon bug....
-		$mainframe.remember configure -variable [::config::getVar save_password]
 		focus $mainframe.passentry2
 	}
 }
