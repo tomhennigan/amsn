@@ -29,7 +29,7 @@ SirenDecoder Siren7_NewDecoder(int sample_rate) {
 	memset(decoder->context, 0, sizeof(decoder->context));
 	memset(decoder->backup_frame, 0, sizeof(decoder->backup_frame));
 
-	decoder->frame_error = 0;
+	decoder->previous_frame_error = 0;
 	decoder->dw1 = 1;
 	decoder->dw2 = 1;
 	decoder->dw3 = 1;
@@ -68,6 +68,7 @@ int Siren7_DecodeFrame(SirenDecoder decoder, unsigned char *DataIn, unsigned cha
 	int rate_control = 0;
 	int number_of_available_bits;
 	int number_of_valid_coefs;
+	int frame_error;
 
 	int In[20];
 	float coefs[320];
@@ -78,7 +79,7 @@ int Siren7_DecodeFrame(SirenDecoder decoder, unsigned char *DataIn, unsigned cha
 	int idx;
 	int temp1;
 	int temp2;
-
+	
 	int mystery[10];
 	
 	for (i = 0; i < 10; i++) 
@@ -133,18 +134,19 @@ int Siren7_DecodeFrame(SirenDecoder decoder, unsigned char *DataIn, unsigned cha
 	number_of_available_bits = decode_vector(decoder, number_of_regions, number_of_available_bits, decoder_standard_deviation, power_categories, coefs, scale_factor);
 
 
+	frame_error = 0;
 	if (number_of_available_bits > 0) {
 		for (i = 0; i < number_of_available_bits; i++) {
 			if (next_bit() == 0) 
-				decoder->frame_error = 1;
+				frame_error = 1;
 		}	
 	} else if (number_of_available_bits < 0 && rate_control + 1 < rate_control_possibilities) {
-		decoder->frame_error |= 2;
+		frame_error |= 2;
 	}
 
 	for (i = 0; i < number_of_regions; i++) {
 		if (absolute_region_power_index[i] > 33 || absolute_region_power_index[i] < -31)
-			decoder->frame_error |= 4;
+			frame_error |= 4;
 	}
 
 	if (checksum_bits > 0) {
@@ -170,18 +172,19 @@ int Siren7_DecodeFrame(SirenDecoder decoder, unsigned char *DataIn, unsigned cha
 		}
  
 		if (checksum != calculated_checksum)
-			decoder->frame_error |= 8;
+			frame_error |= 8;
 	}
 
-	if (decoder->frame_error != 0) {
+	if (frame_error != 0) {
 		for (i = 0; i < number_of_valid_coefs; i++) {
 			coefs[i] = decoder->backup_frame[i];
 			decoder->backup_frame[i] = 0;
 		}
-	} else {
+	} else if (decoder->previous_frame_error == 0) {
 		for (i = 0; i < number_of_valid_coefs; i++)
 			decoder->backup_frame[i] = coefs[i];
 	}
+	decoder->previous_frame_error = frame_error;
 
 
 	for (i = number_of_valid_coefs; i < number_of_coefs; i++)

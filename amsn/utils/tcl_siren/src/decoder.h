@@ -14,7 +14,7 @@ typedef struct stSirenDecoder {
 	int sample_rate;
 	PCMWavHeader WavHeader;
 	float context[320];
-	int frame_error;
+	int previous_frame_error;
 	float backup_frame[320];
 	int dw1;
 	int dw2;
