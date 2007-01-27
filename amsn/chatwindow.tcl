@@ -2356,7 +2356,7 @@ namespace eval ::ChatWindow {
 	}
 		
 	proc DecodeWave { file_in file_out } {
-		if { [catch {require_snack} ] || [package vcompare [set ::snack::patchLevel] 2.2.9] < 0 || [catch {package require tcl_siren }] } {
+		if { [catch {require_snack} ] || [package vcompare [set ::snack::patchLevel] 2.2.9] < 0 || [catch {package require tcl_siren 0.3}] } {
 			return -1
 		} else {
 			set fd [open $file_in r]
