@@ -2356,46 +2356,50 @@ namespace eval ::ChatWindow {
 	}
 		
 	proc DecodeWave { file_in file_out } {
-		set fd [open $file_in r]
-		fconfigure $fd -translation binary
-		set input [read $fd]
-		close $fd
-		
-		set riff ""
-		set wave ""
-		binary scan $input @0a4ia4 riff size wave
-		set offset 12
-		if { $riff == "RIFF" && $wave == "WAVE" } {
-			while { $offset < $size } {
-				binary scan $input @${offset}a4i id chunk_size
-				incr offset 8
-				if {$id == "fmt " } {
-					binary scan $input @${offset}ssiiss format channels sampleRate byteRate blockAlign bitsPerSample
+		if { [catch {require_snack} ] || [package vcompare [set ::snack::patchLevel] 2.2.9] < 0 || [catch {package require tcl_siren }] } {
+			return -1
+		} else {
+			set fd [open $file_in r]
+			fconfigure $fd -translation binary
+			set input [read $fd]
+			close $fd
+			
+			set riff ""
+			set wave ""
+			binary scan $input @0a4ia4 riff size wave
+			set offset 12
+			if { $riff == "RIFF" && $wave == "WAVE" } {
+				while { $offset < $size } {
+					binary scan $input @${offset}a4i id chunk_size
+					incr offset 8
+					if {$id == "fmt " } {
+						binary scan $input @${offset}ssiiss format channels sampleRate byteRate blockAlign bitsPerSample
+					}
+					if {$id == "data" } {
+						set data [string range $input $offset [expr {$offset + $chunk_size - 1}]]
+					} 
+					incr offset $chunk_size
+					
 				}
-				if {$id == "data" } {
-					set data [string range $input $offset [expr {$offset + $chunk_size - 1}]]
-				} 
-				incr offset $chunk_size
-				
 			}
-		}
-
-		if {![info exists format] } {
-			set format 1
-		}
-
-		if { [info exists data] && [expr {$format == 0x028E}] } {
-			set dec [::Siren::NewDecoder]
-			if { [catch {set out [::Siren::Decode $dec $data] } res] } {
-				::Siren::Close $dec    		
-				status_log "Error Decoding : $res"
+			
+			if {![info exists format] } {
+				set format 1
+			}
+			
+			if { [info exists data] && [expr {$format == 0x028E}] } {
+				set dec [::Siren::NewDecoder]
+				if { [catch {set out [::Siren::Decode $dec $data] } res] } {
+					::Siren::Close $dec    		
+					status_log "Error Decoding : $res"
+					return 0
+				}
+				::Siren::WriteWav $dec $file_out $out 
+				::Siren::Close $dec
+				return 1
+			} else {
 				return 0
 			}
-			::Siren::WriteWav $dec $file_out $out 
-			::Siren::Close $dec
-			return 1
-		} else {
-			return 0
 		}
 	}
 	
@@ -2501,19 +2505,19 @@ namespace eval ::ChatWindow {
 			set snd [snack::sound]
 			set play_snd_$uid $snd
 			$snd read $filename
-			$snd play -command [list ::ChatWindow::stopVoiceClip $w $filename $uid]	
+			$snd play -command [list ::ChatWindow::stopVoiceClipDelayed $w $filename $uid]	
 			[::ChatWindow::GetOutText $w] tag configure play_voice_clip_$uid -elide true
 			[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide false	
 		}
 	}
 
-	proc stopVoiceClip { w filename uid} {
+	proc stopVoiceClipDelayed { w filename uid} {
 		# We need this little hack because it looks like snack (at least on my PC) calls our callback 1 second before the audio
 		# really finished playing.
-		after 1100 [list ::ChatWindow::stopVoiceClipDelayed $w $filename $uid]
+		after 1200 [list ::ChatWindow::stopVoiceClip $w $filename $uid]
 	}
 
-	proc stopVoiceClipDelayed { w filename uid} {
+	proc stopVoiceClip { w filename uid} {
 		variable play_snd_$uid
 
 		if { [info exists play_snd_$uid] } {
@@ -2533,26 +2537,34 @@ namespace eval ::ChatWindow {
 		set filename_decoded "[filenoext $filename]_decoded.wav"
 		
 		# This proc should be uncommented once tcl_siren implements the decoder
-		DecodeWave $filename $filename_decoded
-
-		set uid [getUniqueValue]
-		set w [::ChatWindow::For $chatid]
-		
-		amsn::WinWrite $chatid "\n" red
-		amsn::WinWriteIcon $chatid greyline 3
-		amsn::WinWrite $chatid "\n" red
-		amsn::WinWriteIcon $chatid butvoice 3 2
-		amsn::WinWrite $chatid "[timestamp] [trans receivedvoice]\n  " green
-		amsn::WinWriteClickable $chatid "[trans play]" [list ::ChatWindow::playVoiceClip $w $filename_decoded $uid] play_voice_clip_$uid
-		amsn::WinWriteClickable $chatid "[trans stop]" [list ::ChatWindow::stopVoiceClip $w $filename_decoded $uid] stop_voice_clip_$uid
-		[::ChatWindow::GetOutText $w] tag configure play_voice_clip_$uid -elide false
-		[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide true
-		amsn::WinWrite $chatid " - " green
-		amsn::WinWriteClickable $chatid "[trans saveas]" [list ::ChatWindow::saveVoiceClip $filename_decoded] 
-		amsn::WinWriteIcon $chatid greyline 3
-
-		if { [::config::getKey autolisten_voiceclips 1] } {
-			playVoiceClip $w $filename_decoded $uid
+		if { [DecodeWave $filename $filename_decoded] == -1 } {
+			amsn::WinWrite $chatid "\n" red
+			amsn::WinWriteIcon $chatid greyline 3
+			amsn::WinWrite $chatid "\n" red
+			amsn::WinWriteIcon $chatid butvoice 3 2
+			amsn::WinWrite $chatid "[timestamp] [trans snackneeded]\n" red
+			amsn::WinWriteIcon $chatid greyline 3
+			return
+		} else {
+			set uid [getUniqueValue]
+			set w [::ChatWindow::For $chatid]
+			
+			amsn::WinWrite $chatid "\n" red
+			amsn::WinWriteIcon $chatid greyline 3
+			amsn::WinWrite $chatid "\n" red
+			amsn::WinWriteIcon $chatid butvoice 3 2
+			amsn::WinWrite $chatid "[timestamp] [trans receivedvoice]\n  " green
+			amsn::WinWriteClickable $chatid "[trans play]" [list ::ChatWindow::playVoiceClip $w $filename_decoded $uid] play_voice_clip_$uid
+			amsn::WinWriteClickable $chatid "[trans stop]" [list ::ChatWindow::stopVoiceClip $w $filename_decoded $uid] stop_voice_clip_$uid
+			[::ChatWindow::GetOutText $w] tag configure play_voice_clip_$uid -elide false
+			[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide true
+			amsn::WinWrite $chatid " - " green
+			amsn::WinWriteClickable $chatid "[trans saveas]" [list ::ChatWindow::saveVoiceClip $filename_decoded] 
+			amsn::WinWriteIcon $chatid greyline 3
+			
+			if { [::config::getKey autolisten_voiceclips 1] } {
+				playVoiceClip $w $filename_decoded $uid
+			}
 		}
 	}
 
@@ -2561,6 +2573,9 @@ namespace eval ::ChatWindow {
 			set file [chooseFileDialog "" "Save Voice Clip" "" "" save [list [list [trans soundfiles] [list *.wav]] [list [trans allfiles] *]]]
 			
 			if { $file != "" } {
+				if { ![string equal -nocase [file extension $file] ".wav"] } {
+					append file ".wav"
+				}
 				file copy -force $filename $file
 			}
 		}
