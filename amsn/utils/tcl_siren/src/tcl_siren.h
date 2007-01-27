@@ -51,15 +51,22 @@
 extern "C"
 #endif
 
+typedef enum enumSirenCodecType
+{
+    SIREN_ENCODER,
+	SIREN_DECODER,
+} SirenCodecType;
 
-typedef struct SirenEncoderObject {
+typedef struct SirenCodecObject {
 	SirenEncoder encoder;
+	SirenDecoder decoder;
+	SirenCodecType codecType;
 	char name[30];
-} SirenEncoderObject;
+} SirenCodecObject;
 
 
-#define g_list Encoders
-#define data_item SirenEncoderObject
+#define g_list Coders
+#define data_item SirenCodecObject
 #define list_element_id name
 
 
@@ -76,6 +83,15 @@ EXTERN int Siren_NewEncoder _ANSI_ARGS_((ClientData clientData,
 								Tcl_Obj *CONST objv[]));
 
 EXTERN int Siren_Encode _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+EXTERN int Siren_NewDecoder _ANSI_ARGS_((ClientData clientData,
+								Tcl_Interp *interp,
+								int objc,
+								Tcl_Obj *CONST objv[]));
+
+EXTERN int Siren_Decode _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,
 								int objc,
 								Tcl_Obj *CONST objv[]));

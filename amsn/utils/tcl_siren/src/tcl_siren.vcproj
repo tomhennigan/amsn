@@ -87,7 +87,7 @@
 				InlineFunctionExpansion="1"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;TCL_SIREN_EXPORTS;USE_TCL_STUBS;USE_TK_STUBS"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Release/Tcl_siren.pch"
@@ -150,6 +150,9 @@
 				RelativePath=".\dct4.c">
 			</File>
 			<File
+				RelativePath=".\decoder.c">
+			</File>
+			<File
 				RelativePath=".\encoder.c">
 			</File>
 			<File
@@ -166,13 +169,22 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
+				RelativePath=".\common.h">
+			</File>
+			<File
 				RelativePath=".\dct4.h">
+			</File>
+			<File
+				RelativePath=".\decoder.h">
 			</File>
 			<File
 				RelativePath=".\encoder.h">
 			</File>
 			<File
 				RelativePath=".\huffman.h">
+			</File>
+			<File
+				RelativePath=".\huffman_consts.h">
 			</File>
 			<File
 				RelativePath=".\rmlt.h">

@@ -5,7 +5,7 @@ OBJS-siren_test := $(tcl_siren_dir)/src/siren_test.o  $(tcl_siren_dir)/src/libsi
 TARGETS-siren_test := $(tcl_siren_dir)/siren_test
 
 OBJS-siren := 	$(tcl_siren_dir)/src/common.o  $(tcl_siren_dir)/src/dct4.o  $(tcl_siren_dir)/src/encoder.o \
-		$(tcl_siren_dir)/src/huffman.o $(tcl_siren_dir)/src/rmlt.o \
+		 $(tcl_siren_dir)/src/decoder.o $(tcl_siren_dir)/src/huffman.o $(tcl_siren_dir)/src/rmlt.o
 
 TARGETS-siren := $(tcl_siren_dir)/src/libsiren.a
 

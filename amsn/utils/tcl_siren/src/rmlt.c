@@ -23,7 +23,7 @@ void siren_rmlt_init() {
 	rmlt_initialized = 1;
 }
 
-int siren_rmlt(float *samples, float *old_samples, int dct_length, float *rmlt_coefs) { 
+int siren_rmlt_encode_samples(float *samples, float *old_samples, int dct_length, float *rmlt_coefs) { 
 	int half_dct_length = dct_length / 2;
 	float *old_ptr = old_samples + half_dct_length;
 	float *coef_high = rmlt_coefs + half_dct_length;
@@ -53,6 +53,60 @@ int siren_rmlt(float *samples, float *old_samples, int dct_length, float *rmlt_c
 		*old_ptr = (*samples_high * *window_high) + (*samples_low++ * *window_low++);
 	}
 	siren_dct4(rmlt_coefs, rmlt_coefs, dct_length);
+
+	return 0;
+}
+
+
+
+int siren_rmlt_decode_samples(float *coefs, float *old_coefs, int dct_length, float *samples)  {
+	int half_dct_length = dct_length / 2;
+	float *old_low = old_coefs;
+	float *old_high = old_coefs + half_dct_length;
+	float *samples_low = samples ;
+	float *samples_high = samples + dct_length;
+	float *samples_middle_low = samples + half_dct_length;
+	float *samples_middle_high = samples + half_dct_length;
+	float *window_low = NULL;
+	float *window_high = NULL;
+	float *window_middle_low = NULL;
+	float *window_middle_high = NULL;
+	float sample_low_val;
+	float sample_high_val;
+	float sample_middle_low_val;
+	float sample_middle_high_val;
+	int i = 0;
+
+	if (rmlt_initialized == 0)
+		siren_rmlt_init();
+
+	if (dct_length == 320)
+		window_low = rmlt_window_320;
+	else if (dct_length == 640)
+		window_low = rmlt_window_640;
+	else 
+		return 4;
+	
+
+	window_high = window_low + dct_length;
+	window_middle_low = window_low + half_dct_length;
+	window_middle_high = window_low + half_dct_length;
+
+	
+	siren_dct4(coefs, samples, dct_length);
+	
+	for (i = 0; i < half_dct_length; i+=2) {
+		sample_low_val = *samples_low;
+		sample_high_val = *--samples_high;
+		sample_middle_low_val = *--samples_middle_low;
+		sample_middle_high_val = *samples_middle_high;
+		*samples_low++ = (*old_low * *--window_high) + (sample_middle_low_val * *window_low);
+		*samples_high = (sample_middle_low_val * *window_high) - (*old_low * *window_low++);
+		*samples_middle_high++ = (sample_low_val * *window_middle_high) - (*--old_high * *--window_middle_low);
+		*samples_middle_low = (*old_high * *window_middle_high++) + (sample_low_val * *window_middle_low);
+		*old_low++ = sample_middle_high_val;
+		*old_high = sample_high_val;
+	}
 
 	return 0;
 }
