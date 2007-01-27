@@ -194,11 +194,11 @@ int Siren7_DecodeFrame(SirenDecoder decoder, unsigned char *DataIn, unsigned cha
 
 	for (i = 0; i < 320; i++) {
 		if (BufferOut[i] > 32767.0)
-			((short *)DataOut)[i] =  32767;
+			((short *)DataOut)[i] =  (short) GUINT16_TO_LE((short) 32767);
 		else if (BufferOut[i] <= -32768.0) 
-			((short *)DataOut)[i] =  32768;
+			((short *)DataOut)[i] =  (short) GUINT16_TO_LE((short) 32768);
 		else
-			((short *)DataOut)[i] = (short) BufferOut[i];
+			((short *)DataOut)[i] = (short) GUINT16_TO_LE((short) BufferOut[i]);
 	}
 
 	decoder->WavHeader.Samples = GUINT32_FROM_LE(decoder->WavHeader.Samples);
