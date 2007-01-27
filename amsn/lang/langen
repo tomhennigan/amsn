@@ -827,9 +827,6 @@ videoconversationrequest You just received a video conversation (bidirectional a
 viewcontactsby View contacts by
 viewprofile View Profile
 view View
-voice_notimplemented The Receiving of Voice Clips is not yet implemented. Please be patient.
-voice_windows Being a Windows user, you might be able to listen to the voice clip by opening the voice clip with your media player. 
-voice_windows_click Click here to do so.
 wanttosharecam I want to make my webcam available to others
 webcamcanceled The webcam session with $1 has been canceled
 webcamclosebefcancel You have to cancel all webcam sessions before closing the window
