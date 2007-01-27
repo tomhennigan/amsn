@@ -651,18 +651,26 @@ namespace eval ::abook {
 		if {$time == ""} {
 			return ""
 		} else {
-			if {![catch {clock scan [string range $time 0 7]}]} {
+			set delm [string first " " $time]
+			if { $delm == -1 } { set delm [string length $time]}
+			if {![catch {clock scan [string range $time 0 $delm]}]} {
 				#Checks if the time is today, and in this case puts today instead of the date
-				if {[clock scan $date] == [clock scan [string range $time 0 7]]} {
-					return "[trans today][string range $time 8 end]"
+				if {[clock scan $date] == [clock scan [string range $time 0 $delm]]} {
+					return "[trans today][string range $time $delm end]"
 					#Checks if the time is yesterday, and in this case puts yesterday instead of the date
-				} elseif { [expr { [clock scan $date] - [clock scan [string range $time 0 7]] }] == "86400"} {
-					return "[trans yesterday][string range $time 8 end]"
+				} elseif { [expr { [clock scan $date] - [clock scan [string range $time 0 $delm]] }] == "86400"} {
+					return "[trans yesterday][string range $time $delm end]"
 				} else {
-					set month [string range $time 0 1]
-					set day [string range $time 3 4]
-					set year [string range $time 6 7]
-					set end [string range $time 8 end]
+					#set month [string range $time 0 1]
+					#set day [string range $time 3 4]
+					#set year [string range $time 6 7]
+					#set end [string range $time 8 end]
+					set dateoftime [string range $time 0 $delm]
+					set timeTicks [clock scan $dateoftime]
+					set month [clock format $timeTicks -format %m]
+					set day [clock format $timeTicks -format %d]
+					set year [clock format $timeTicks -format %Y]
+					set end [string range $time $delm end]
 					#Month/Day/Year
 					if {[::config::getKey dateformat]=="MDY"} {
 						return $time
