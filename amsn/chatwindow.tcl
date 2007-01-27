@@ -2305,8 +2305,13 @@ namespace eval ::ChatWindow {
 				pack forget $inputtext
 				canvas $inputframe.wave -background [::skin::getKey chat_input_back_color] -borderwidth 0 -relief solid
 				eval pack $inputframe.wave $voice_text_pack
+
+				# This update here is necessary because it seems if we don't update, the waveform won't appear...
+				# this is because we depend on the [winfo width] and [winfo height] for the waveform size
 				update
+
 				$inputframe.wave create waveform 0 0 -sound $voice_sound -zerolevel 0 -width [winfo width $inputframe.wave] -height [winfo height $inputframe.wave] -pixelspersecond [expr {[winfo width $inputframe.wave] / 15}]
+
 								
 				
 				::MSN::SendRecordingUserNotification $chatid
@@ -2392,6 +2397,14 @@ namespace eval ::ChatWindow {
 		if { [info exists voice_text_pack] } {
 			set inputtext [GetInputText $w]
 			set inputframe [winfo parent $inputtext]
+			
+			# This update is here to prevent a race condition. if you click very fast ont he voice button the first time
+			# the 'pressed' event will get called, and the 'unpressed' event will be called too right after it, but if we do 
+			# a 'package require snack', etc.. it might take some time for it to load, etc, so we could get the stop_voice_clip
+			# proc being called before the start_voice_clip has finished processing, so we can get here, destroy the wave form before 
+			# the start_voice_clip proc finished using it, which would result in a bug.
+			# 
+			update
 			
 			destroy $inputframe.wave
 			eval pack $inputtext $voice_text_pack
