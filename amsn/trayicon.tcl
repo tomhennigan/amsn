@@ -204,7 +204,7 @@ proc statusicon_proc {status} {
 
 	if { ![WinDock] } {
 
-		set icon .si
+		set icon .trayiconwin.si
 		if { $systemtray_exist == 1 && $statusicon == 0 && [UnixDock]} {
 			set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
 			image create photo statustrayicon -file $pixmap
