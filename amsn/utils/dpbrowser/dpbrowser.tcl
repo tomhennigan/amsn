@@ -68,6 +68,27 @@ puts "filling for user $email"
 
 			set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins default displaypic] *.dat] $email 1]]
 			if {$email == "self"} {
+				# Delete dat files for non-existing png files
+				set dat_files [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
+				set png_files [glob -nocomplain -directory [file join $HOME displaypic] *.png]
+				foreach file $dat_files {
+					if {[lsearch $png_files "[filenoext $file].png"] == -1} {
+						file delete $file
+					}
+				}
+				# Create dat files for new png files
+				foreach file $png_files {
+					if {[lsearch $dat_files "[filenoext $file].dat"] == -1} {
+						set desc_file "[filenoext $file].dat"
+						set fd [open $desc_file w]
+						status_log "Writing description to $desc_file\n"
+						if {[catch {set mtime [file mtime $file]}]} {
+							set mtime [clock seconds]
+						}
+						puts $fd "$mtime\n[file tail $file]"
+						close $fd
+					}
+				}
 				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] $email]]
 			} else {
 				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat] $email]]
