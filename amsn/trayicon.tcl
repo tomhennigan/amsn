@@ -382,7 +382,7 @@ proc mailicon_proc {num} {
 		return
 	}
 
-	set icon .mi
+	set icon .trayiconwin.mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && ([UnixDock] || [WinDock])  && $num >0} {
 		set pixmap "[::skin::GetSkinFile pixmaps unread_tray.gif]"
 		if { $num == 1 } {
@@ -551,12 +551,12 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 
 		#X11/Freedesktop (linux) specific code
 		} elseif { [OnLinux] && $xiconpath != ""} {
-			if { [winfo exists .$name] } {
+			if { [winfo exists .trayiconwin.$name] } {
 				status_log "trayicon.tcl: won't add icon $name as it already exists"
 			} else {
 				if { [loadTrayLib] } {
 					#add the icon     !! name => .name
-					set name [newti .$name -pixmap [image create photo dest_$name] -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
+					set name [newti .trayiconwin.$name -pixmap [image create photo dest_$name] -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
 
 	#TODO: balloon bindings
 	#bind .$name <Motion> [list status_log "motion"]
@@ -592,10 +592,10 @@ proc rmTrayIcon {name} {
 			winico taskbar delete $name
 		#X11/Freedesktop (linux) specific code
 		} elseif { [OnLinux] } {
-			if { [catch {removeti .$name} errormsg] } {
+			if { [catch {removeti .trayiconwin.$name} errormsg] } {
 				status_log "$errormsg\n"
 			}
-			if { [catch {destroy .$name} errormsg] } {
+			if { [catch {destroy .trayiconwin.$name} errormsg] } {
 				status_log "$errormsg\n"
 			}
 		}
@@ -615,7 +615,7 @@ proc confTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "no
 
 		#X11/Freedesktop (linux) specific code
 		} elseif { [OnLinux] } {
-			configureti .$name
+			configureti .trayiconwin.$name
 			image create photo source_$name -file $xiconpath
 			image create photo dest_$name
 			
