@@ -71,6 +71,16 @@ proc trayicon_init {} {
 		#add the icon
 		winico taskbar add $wintrayicon -text "[trans offline]" -callback "taskbar_icon_handler %m %x %y"
 		set statusicon 1
+
+		#workaround for bug with the popup not unposting on Windows
+		destroy .trayiconwin
+		toplevel .trayiconwin -class Amsn
+		wm overrideredirect .trayiconwin 1
+		wm geometry .trayiconwin "+0+[expr {2 * [winfo screenheight .]}]"
+		wm state .trayiconwin withdrawn
+		destroy .trayiconwin.immain
+		set iconmenu .trayiconwin.immain
+
 	} else {
 		if { [catch {package require libtray} res] } {
 			set systemtray_exist 0
@@ -80,20 +90,12 @@ proc trayicon_init {} {
 		}
 
 		set systemtray_exist [systemtray_exist]; #a system tray exist?
+
+		destroy .immain
+		set iconmenu .immain
 	}
 
 
-	#workaround for bug with the popup not unposting on Windows
-	destroy .trayiconwin
-	toplevel .trayiconwin -class Amsn
-	wm overrideredirect .trayiconwin 1
-	wm geometry .trayiconwin "+0+[expr {2 * [winfo screenheight .]}]"
-	wm state .trayiconwin withdrawn
-	destroy .trayiconwin.immain
-	set iconmenu .trayiconwin.immain
-
-	#destroy .immain
-	#set iconmenu .immain
 	menu $iconmenu -tearoff 0 -type normal
 
 	menu $iconmenu.imstatus -tearoff 0 -type normal
@@ -204,16 +206,16 @@ proc statusicon_proc {status} {
 
 	if { ![WinDock] } {
 
-		set icon .trayiconwin.si
 		if { $systemtray_exist == 1 && $statusicon == 0 && [UnixDock]} {
 			set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
 			image create photo statustrayicon -file $pixmap
 			image create photo statustrayiconres
 			#add the icon
-			set statusicon [newti $icon -tooltip offline -pixmap statustrayiconres -command "::trayicon_callback statustrayicon statustrayiconres"]
+			set statusicon [newti .si -tooltip offline -pixmap statustrayiconres -command "::trayicon_callback statustrayicon statustrayiconres"]
+			wm overrideredirect .si 1
 
-			bind $icon <Button1-ButtonRelease> iconify_proc
-			bind $icon <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
+			bind .si <Button1-ButtonRelease> iconify_proc
+			bind .si <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
 		}
 	}
 
@@ -382,7 +384,6 @@ proc mailicon_proc {num} {
 		return
 	}
 
-	set icon .trayiconwin.mi
 	if {$systemtray_exist == 1 && $mailicon == 0 && ([UnixDock] || [WinDock])  && $num >0} {
 		set pixmap "[::skin::GetSkinFile pixmaps unread_tray.gif]"
 		if { $num == 1 } {
@@ -400,12 +401,13 @@ proc mailicon_proc {num} {
 		} else {
 			image create photo mailtrayicon -file $pixmap
 			image create photo mailtrayiconres
-			set mailicon [newti $icon -tooltip offline -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
+			set mailicon [newti .mi -tooltip offline -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
+			wm overrideredirect .mi 1
 
-			bind $icon <Button-1> "::hotmail::hotmail_login"
-			bind $icon <Enter> [list balloon_enter %W %X %Y $msg]
-			bind $icon <Motion> [list balloon_motion %W %X %Y $msg]
-			bind $icon <Leave> "+set Bulle(first) 0; kill_balloon"
+			bind .mi <Button-1> "::hotmail::hotmail_login"
+			bind .mi <Enter> [list balloon_enter %W %X %Y $msg]
+			bind .mi <Motion> [list balloon_motion %W %X %Y $msg]
+			bind .mi <Leave> "+set Bulle(first) 0; kill_balloon"
 		}
 
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {
@@ -551,12 +553,13 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 
 		#X11/Freedesktop (linux) specific code
 		} elseif { [OnLinux] && $xiconpath != ""} {
-			if { [winfo exists .trayiconwin.$name] } {
+			if { [winfo exists .$name] } {
 				status_log "trayicon.tcl: won't add icon $name as it already exists"
 			} else {
 				if { [loadTrayLib] } {
 					#add the icon     !! name => .name
-					set name [newti .trayiconwin.$name -pixmap [image create photo dest_$name] -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
+					set name [newti .$name -pixmap [image create photo dest_$name] -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
+					wm overrideredirect .$name 1
 
 	#TODO: balloon bindings
 	#bind .$name <Motion> [list status_log "motion"]
@@ -592,10 +595,10 @@ proc rmTrayIcon {name} {
 			winico taskbar delete $name
 		#X11/Freedesktop (linux) specific code
 		} elseif { [OnLinux] } {
-			if { [catch {removeti .trayiconwin.$name} errormsg] } {
+			if { [catch {removeti .$name} errormsg] } {
 				status_log "$errormsg\n"
 			}
-			if { [catch {destroy .trayiconwin.$name} errormsg] } {
+			if { [catch {destroy .$name} errormsg] } {
 				status_log "$errormsg\n"
 			}
 		}
@@ -615,7 +618,7 @@ proc confTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "no
 
 		#X11/Freedesktop (linux) specific code
 		} elseif { [OnLinux] } {
-			configureti .trayiconwin.$name
+			configureti .$name
 			image create photo source_$name -file $xiconpath
 			image create photo dest_$name
 			
