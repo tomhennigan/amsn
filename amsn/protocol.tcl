@@ -1237,6 +1237,8 @@ namespace eval ::MSN {
 	proc changeCurrentMedia { type enabled format args } {
 		set psm [::abook::getPersonal PSM]
 		set psm [::sxml::xmlreplace $psm]
+		set psm [encoding convertto utf-8 $psm]
+
 		if {$enabled == 1} {
 			set currentMedia "aMSN\\0$type\\01\\0$format\\0[join $args \\0]\\0"
 		} else {
