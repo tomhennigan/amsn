@@ -3030,6 +3030,8 @@ namespace eval ::MSNOIM {
 
 	proc sendOIMMessageError { callbk soap_req to msg retry error_msg } {
 		set xml [SOAP::dump $soap_req]
+		status_log "Error in OIM:" white
+		status_log $xml white
 		set list [xml2list $xml]
 		set faultcode [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
 		if { $faultcode == "q0:AuthenticationFailed" } {
@@ -3121,6 +3123,8 @@ namespace eval ::MSNOIM {
 		append xml {</MessageNumber></Sequence></soap:Header><soap:Body><MessageType xmlns="http://messenger.msn.com/ws/2004/09/oim/">text</MessageType><Content xmlns="http://messenger.msn.com/ws/2004/09/oim/">}
 		append xml "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\nX-OIM-Message-Type: OfflineMessage\r\nX-OIM-Run-Id: {3A3BE82C-684D-4F4F-8005-CBE8D4F82BAD}\r\nX-OIM-Sequence-Num: $seq_number\r\n\r\n$bmessage"
 		append xml {</Content></soap:Body></soap:Envelope>}
+		status_log "Sending OIM:" green
+		status_log $xml green
 		return $xml
 	}
 
