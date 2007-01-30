@@ -851,7 +851,7 @@ namespace eval ::ChatWindow {
 			searchdialog $w.search 
 			$w.search hide 
 			$w.search bindwindow $w
-
+			$w.search configure -searchin [::ChatWindow::GetOutText $w]
 
 		} else {
 			set w [CreateTabbedWindow $container]
