@@ -959,7 +959,7 @@ namespace eval ::MSNP2P {
 						# Winks support is not in the core, all we can do is support it in the msnp2p code
 						# and launch an event for an appropriate plugin to manage it.
 						set evPar(chatid) chatid
-						set evPar(filename) [file join $HOME winks cache ${filename}.mco]
+						set evPar(filename) [file join $HOME winks cache ${filename}.cab]
 						::plugins::PostEvent WinkReceived evPar
 					} elseif { [lindex [SessionList get $cSid] 7] == "filetransfer" } {
 						# Display message that file transfer is finished...
@@ -999,7 +999,7 @@ namespace eval ::MSNP2P {
 					create_dir [file join $HOME voiceclips cache]
 					set fd [open "[file join $HOME voiceclips cache ${filename}.wav]" w]
 				} elseif {$type == "wink" }  {
-					set fd [open "[file join $HOME winks cache ${filename}.mco]" w]
+					set fd [open "[file join $HOME winks cache ${filename}.cab]" w]
 				}
 
 				fconfigure $fd -translation {binary binary}
