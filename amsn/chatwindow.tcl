@@ -848,10 +848,6 @@ namespace eval ::ChatWindow {
 
 			wm state $w withdraw
 
-			searchdialog $w.search 
-			$w.search hide 
-			$w.search bindwindow $w
-			$w.search configure -searchin [::ChatWindow::GetOutText $w]
 
 		} else {
 			set w [CreateTabbedWindow $container]
@@ -905,6 +901,11 @@ namespace eval ::ChatWindow {
 		if { !([UseContainer] == 0 || $container == "" )} {
 			AddWindowToContainer $container $w
 		} else {
+			searchdialog $w.search 
+		        $w.search hide 
+		        $w.search bindwindow $w 
+       		 	$w.search configure -searchin [::ChatWindow::GetOutText $w]
+
 			if { ![OnMac] } {
 				lower $w
 				::ChatWindow::MacPosition $w
