@@ -1112,7 +1112,23 @@ namespace eval ::abookGui {
 			$actions.copyfileuri configure -state disabled
 		}
 	}
-		  
+
+	#menu when right-clicking the user's dp on the first tab
+	proc dp_mypicpopup_menu { X Y filename user} {
+		
+		#if user is self have another menu ?		
+		
+		# Create pop-up menu if it doesn't yet exists
+		set the_menu .userDPs_menu
+		catch {destroy $the_menu}
+		menu $the_menu -tearoff 0 -type normal
+		$the_menu add command \
+			-label "[trans copytoclipboard [string tolower [trans filename]]]" \
+			-command [list clipboard clear ; clipboard append $filename]
+		$the_menu add command -label "[trans setasmydp]" \
+			-command [list set_displaypic $filename]
+		tk_popup $the_menu $X $Y
+	}
 
 	proc showUserProperties { email } {
 		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email HOME customdp_img_$email
