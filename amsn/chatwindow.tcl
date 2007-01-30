@@ -2447,27 +2447,11 @@ namespace eval ::ChatWindow {
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid butvoice 3 2
 				if { [$voice_sound length -unit seconds] < 2 } {
-					#amsn::WinWrite $chatid "[timestamp] [trans nosound_or_hold]\n" red
-					set original_file [tk_getOpenFile]
-					catch {$voice_sound destroy}
-					set voice_sound [snack::sound]
-					if { [catch { $voice_sound read $original_file -progress snack::progressCallback} res] } {
-						amsn::WinWrite $chatid "[timestamp] [trans nosound_or_hold] $res\n" red
-						set has_sound 0
-					} else {
-						$voice_sound crop 0 [expr [$voice_sound cget -rate] * 15]
-						$voice_sound convert -rate 16000 -channels 1 -encoding Lin16
-						set has_sound 1
-					}
+					amsn::WinWrite $chatid "[timestamp] [trans nosound_or_hold]\n" red					
 				} else {
 					amsn::WinWrite $chatid "[timestamp] [trans nosound]\n" red
-					set has_sound 0
 				}
 			} else {
-				set has_sound 1
-			}
-			if { $has_sound } {
-				status_log "[$voice_sound cget -rate] [$voice_sound cget -channels] [$voice_sound cget -encoding]"
 				set enc [::Siren::NewEncoder]
 				# We need to add the -byteorder littleEndian because on Mac, the datasamples are in big endian and tcl_siren expects little endian
 				# since WAV file contents are in little endian.
