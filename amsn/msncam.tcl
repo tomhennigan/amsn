@@ -306,6 +306,7 @@ namespace eval ::MSNCAM {
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
 
+		::amsn::WinWrite $chatid "[timestamp] [trans webcamaccepted]" green
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
 		setObjOption $sid send_syn 1
 	}
