@@ -97,7 +97,7 @@ bind Pixmapmenu <ButtonPress> {
 	set type [$containing cget -type]
 	set x [RootXToX $containing %X]
 	set y [RootYToY $containing %Y]
-	set index [$containing index @${x},$y]
+	catch {set index [$containing index @${x},$y]}
 	switch $type {
 		"menubar" {
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
@@ -126,7 +126,7 @@ bind Pixmapmenu <B1-Motion> {
 	set type [$containing cget -type]
 	set x [RootXToX $containing %X]
 	set y [RootYToY $containing %Y]
-	set index [$containing index @${x},$y]
+	catch {set index [$containing index @${x},$y]}
 	switch $type {
 		"menubar" {
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
@@ -170,7 +170,7 @@ bind Pixmapmenu <Motion> {
 	set type [$containing cget -type]
 	set x [RootXToX $containing %X]
 	set y [RootYToY $containing %Y]
-	set index [$containing index @${x},$y]
+	catch {set index [$containing index @${x},$y]}
 	switch $type {
 		"menubar" {
 			if { $::tk::Priv(popup) == "" && $index != "none" } {
@@ -219,7 +219,7 @@ bind Pixmapmenu <Enter> {
 	set type [$containing cget -type]
 	set x [RootXToX $containing %X]
 	set y [RootYToY $containing %Y]
-	set index [$containing index @${x},$y]
+	catch {set index [$containing index @${x},$y]}
 
 	set parent [winfo parent [winfo parent %W]]
 	set ptype {}
@@ -274,7 +274,7 @@ bind Pixmapmenu <ButtonRelease> {
 	}
 	set x [RootXToX $containing %X]
 	set y [RootYToY $containing %Y]
-	set index [$containing index @${x},$y]
+	catch {set index [$containing index @${x},$y]}
 	set type [$containing cget -type]
 	switch $type {
 		menubar {

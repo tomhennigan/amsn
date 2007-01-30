@@ -1088,12 +1088,11 @@ namespace eval ::abookGui {
 		set actions $nbUserDPs.otherdpscontainer.actions
 
 		if { ![winfo exists $browser]} {
-			::dpbrowser $browser -user $email -width 7 -command [list\
+			::dpbrowser $browser -user $email -mode "selector" -width 6 -command [list\
 				::abookGui::activate_dpbrowser_actions $nbUserDPs.otherdpscontainer $email]
 
 			pack $browser -side left -expand true -fill both\
-				-before $nbUserDPs.otherdpscontainer.actions\
-
+				-before $nbUserDPs.otherdpscontainer.actions
 		}
 	}
 	proc activate_dpbrowser_actions {widget email} {
@@ -1106,7 +1105,7 @@ namespace eval ::abookGui {
 		if {$filepath != ""} {
 			$actions.setasmine configure -state normal -command [list set_displaypic $filepath ]
 			$actions.setascustom configure -state normal -command [list ::abookGui::setCustomDp $email $filepath $widget ]
-			$actions.copyfileuri configure -state normal -command [list clipboard clear ; clipboard append $filepath]
+			$actions.copyfileuri configure -state normal -command [list ::abookGui::copyDpToClipboard $filepath]
 		} else {
 			$actions.setasmine configure -state disabled
 			$actions.setascustom configure -state disabled
@@ -1114,24 +1113,6 @@ namespace eval ::abookGui {
 		}
 	}
 		  
-
-	#menu when right-clicking the user's dp on the first tab
-	proc dp_mypicpopup_menu { X Y filename user} {
-		
-		#if user is self have another menu ?		
-		
-		# Create pop-up menu if it doesn't yet exists
-		set the_menu .userDPs_menu
-		catch {destroy $the_menu}
-		menu $the_menu -tearoff 0 -type normal
-		$the_menu add command \
-			-label "[trans copytoclipboard [string tolower [trans filename]]]" \
-			-command [list clipboard clear ; clipboard append $filename]
-		$the_menu add command -label "[trans setasmydp]" \
-			-command [list set_displaypic $filename]
-		tk_popup $the_menu $X $Y
-	}
-
 
 	proc showUserProperties { email } {
 		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email HOME customdp_img_$email
@@ -1661,6 +1642,11 @@ namespace eval ::abookGui {
 			$widget.actions.displaypic configure -image [::skin::getDisplayPicture $email]
 		}
 		$widget.actions.removecustom configure -state disabled
+	}
+
+	proc copyDpToClipboard { file } {
+		clipboard clear
+		clipboard append $file
 	}
 
 

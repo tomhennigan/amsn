@@ -38,6 +38,7 @@ snit::widgetadaptor sexytile {
 	#boolean value for checkbutton
 	option -value -default 0 -configuremethod setConfig
 
+	option -disableselect -default 0 -readonly 1
 
 	constructor { args } {
 
@@ -46,7 +47,7 @@ snit::widgetadaptor sexytile {
 
 		#set the chosen settings
 		$self configurelist $args
-		puts "created sexytile widget $self with arguments $args at $hull"
+#		puts "created sexytile widget $self with arguments $args at $hull"
 
 		#add the bg image
 		image create photo bgimage_default
@@ -164,6 +165,9 @@ snit::widgetadaptor sexytile {
 	}
 
 	method setSelect {} {
+		if {$options(-disableselect)} {
+			return
+		}
 		set selcolor red
 		#this is for filewidget type only for now
 		if {$options(-type) == "filewidget"} {
@@ -178,6 +182,9 @@ snit::widgetadaptor sexytile {
 	}
 	
 	method deSelect {} {
+		if {$options(-disableselect)} {
+			return
+		}
 		#this is for filewidget type only for now
 		if {$options(-type) == "filewidget"} {
 			#remove the selection of the text

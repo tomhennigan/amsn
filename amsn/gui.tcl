@@ -6471,16 +6471,18 @@ proc dpBrowser { {target_user "self" } } {
 	#combobox to choose user which configures the widget with -user $user
 
 	set combo $w.moredpstitle.combo
-	combobox::combobox $combo -highlightthickness 0 -width 22  -font splainf -exportselection true -command "configuredpbrowser $target_user" -editable false -bg #FFFFFF
+	combobox::combobox $combo -highlightthickness 0 -width 22  -font splainf -exportselection true -command "configureDpBrowser $target_user" -editable false -bg #FFFFFF
 	$combo list delete 0 end
 	$combo list insert end "[trans selectcontact]:"
 	
+	set i 1
 	foreach contact $contactlist {
 		#put the name of the device in the widget
 		$combo list insert end $contact
 		if {$contact == $target_user} {
-			set selection [expr {[$combo list index end] - 1}]
+			set selection $i
 		}
+		incr i
 	}
 	
 	# If we are choosing a custom DP for a contact, show his cache in the lower pane
@@ -6495,9 +6497,9 @@ proc dpBrowser { {target_user "self" } } {
 	pack $w.moredpstitle.text -side left
 	pack $w.moredpstitle.combo -side right
 
-	::dpbrowser $w.mydps -width 3 -user self -command [list updateDpBrowserSelection $w.mydps $target_user] -mode selector
+	::dpbrowser $w.mydps -width 3 -user self -command [list updateDpBrowserSelection $w.mydps $target_user] -mode "both"
 
-	::dpbrowser $w.moredps -width 3 -user $selected_user -command [list updateDpBrowserSelection $w.moredps $target_user] -mode selector
+	::dpbrowser $w.moredps -width 3 -user $selected_user -command [list updateDpBrowserSelection $w.moredps $target_user] -mode "both"
 	
 	#################
 	# second column #
@@ -6546,7 +6548,7 @@ proc dpBrowser { {target_user "self" } } {
 	bind $w.dppreview <Destroy> "catch { image delete displaypicture_pre_$target_user }"
 }
 
-proc configuredpbrowser {target combowidget selection} {
+proc configureDpBrowser {target combowidget selection} {
 	#puts "$combowidget $selection"
 	if {$selection == "[trans selectcontact]:"} {set selection ""}
 	if {$selection == $target} {
