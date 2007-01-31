@@ -646,6 +646,7 @@ reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
 recorderror An error occured when trying to record the sound : $1
+recvwebcamaccepted $1 accepted your invitation to view his/her webcam. Connecting...
 reject Reject
 rememberpass Remember password
 remembersetting Remember my choice
@@ -682,6 +683,7 @@ sendmsg Send Message
 sendoim Send an Offline Message
 send Send
 sendvoice Send a Voice Clip
+sendwebcamaccepted $1 accepted your invitation to send your webcam. Connecting...
 sendwebcaminvite Invite a user to see your webcam
 sentbytes Sent $1 of $2 bytes
 sentvoice Sent Voice Clip

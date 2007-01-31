@@ -208,7 +208,7 @@ namespace eval ::MSNCAM {
 
 		SendAcceptInvite $sid $chatid
 		status_log "::MSNCAM::SendAcceptInvite $sid $chatid\n" green
-		SendSyn $sid $chatid
+		SendSyn $sid $chatid 0
 	}
 
 	proc AcceptWebcamOpenSB {chatid dest branchuid cseq uid sid producer } {
@@ -281,7 +281,7 @@ namespace eval ::MSNCAM {
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
 	}
 
-	proc SendSyn { sid chatid } {
+	proc SendSyn { sid chatid {winwriting 1} } {
 		if { [getObjOption $sid send_syn] == 1 } {
 			status_log "Try to send double syn"
 			return
@@ -306,10 +306,21 @@ namespace eval ::MSNCAM {
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
 
-		::amsn::WinWrite $chatid "[timestamp] [trans webcamaccepted]" green
+		set producer [getObjOption $sid producer]
+
+		if { $winwriting == 1 } {
+			::amsn::WinWrite $chatid "\n" green
+			::amsn::WinWriteIcon $chatid winwritecam 3 2
+			set nick [::abook::getDisplayNick $chatid]
+			if { $producer == 1 } {
+				::amsn::WinWrite $chatid "[timestamp] [trans sendwebcamaccepted $nick]" green
+			} else {
+				::amsn::WinWrite $chatid "[timestamp] [trans recvwebcamaccepted $nick]" green
+			}
+		}
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
 		setObjOption $sid send_syn 1
-	}
+	}	
 
 
 	proc SendAck { sid chatid } {
@@ -447,7 +458,7 @@ namespace eval ::MSNCAM {
 		set slpdata [::MSNP2P::MakeMSNSLP "DECLINE" $dest [::config::getKey login] $branchid 1 $callid 0 3]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
-		SendSyn $sid $chatid
+		SendSyn $sid $chatid 1
 
 	}
 
