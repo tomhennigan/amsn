@@ -6545,6 +6545,19 @@ proc dpBrowser { {target_user "self" } } {
 	#lower pane
 	grid $w.lowerpane -row 7 -column 0 -columnspan 2 -sticky e -padx 2 -pady 2
 	
+	# weight = 1 -> it will resize
+	# weight = 0 -> it will not resize
+	grid columnconfigure $w 0 -weight 1
+	grid columnconfigure $w 1 -weight 0
+	grid rowconfigure $w 0 -weight 0
+	grid rowconfigure $w 1 -weight 0
+	grid rowconfigure $w 2 -weight 0
+	grid rowconfigure $w 3 -weight 0
+	grid rowconfigure $w 4 -weight 1
+	grid rowconfigure $w 5 -weight 0
+	grid rowconfigure $w 6 -weight 1
+	grid rowconfigure $w 7 -weight 0
+
 	bind $w.dppreview <Destroy> "catch { image delete displaypicture_pre_$target_user }"
 }
 
