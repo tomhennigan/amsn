@@ -3051,15 +3051,6 @@ proc SavePreferences {} {
 		::config::setKey idletime $myconfig(idletime)
 	}
 
-	if {[::config::getKey showhiddenfiles 0] != 0 && [::config::getKey showhiddenfiles 0] != 1 } {
-		::config::setKey showhiddenfiles 0
-	}
-
-	if {[OnLinux]} {
-		catch { tk_getOpenFile -w00t } ;# start file dialog with unknown option
-		set ::tk::dialog::file::showHiddenVar [::config::getKey showhiddenfiles 0]
-	}
-
 	# Check and save phone numbers
         
 	if { [::MSN::myStatusIs] != "FLN" } {
@@ -3162,7 +3153,6 @@ proc SavePreferences {} {
 	#} else {
 		#StopVerifyBlocked
 	#}
-
 
 	# Save configuration.
 	save_config
