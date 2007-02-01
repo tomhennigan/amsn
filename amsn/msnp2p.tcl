@@ -898,15 +898,18 @@ namespace eval ::MSNP2P {
 				# File already open and being written to (fd exists)
 				# Lets write data to file
 				seek $fd $cOffset
-				if { ! [info exists ::totalbytes($fd)] } {
-					set ::totalbytes($fd) $cMsgSize
+				set written [getObjOption $sid written]
+				if { $written == "" } {
+					set written $cMsgSize
 				} else {
-					set ::totalbytes($fd) [expr { $::totalbytes($fd) + $cMsgSize}]
+					incr written $cMsgSize
 				}
+				setObjOption $sid written $written
+
 				puts -nonewline $fd [string range $data 0 [expr {$cMsgSize - 1}]]
 				#status_log "MSNP2P | $sid -> FD EXISTS, file already open... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize . Writing DATA to file\n" red
 				# Check if this is last part if splitted
-				if { $::totalbytes($fd) >= $cTotalDataSize } {
+				if { $written >= $cTotalDataSize } {
 					close $fd
 
 					set session_data [SessionList get $cSid]
