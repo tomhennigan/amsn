@@ -382,7 +382,7 @@ proc secureSocket { args } {
 
 
 			set tmp_data "$tmp_data\r\n\r\n$current_data"
-			status_log "::HTTPConnection::Write: PROXY POST Sending: ($name)\n$tmp_data\n" blue
+			#status_log "::HTTPConnection::Write: PROXY POST Sending: ($name)\n$tmp_data\n" blue
 			set options(-proxy_writing) $tmp_data
 			if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res] } {
 				$self connect $name [list $self RetryWrite $name]
@@ -774,7 +774,7 @@ proc secureSocket { args } {
 				#set log [string map {\r ""} $content_data]
 				set log $content_data
 
-				status_log "::HTTPConnection::HTTPRead: Proxy POST Received ($name):\n$headers\n " green
+				#status_log "::HTTPConnection::HTTPRead: Proxy POST Received ($name):\n$headers\n " green
 				while { $log != "" } {
 					set endofline [string first "\n" $log]
 					set command [string range $log 0 [expr {$endofline-2}]]
@@ -1161,7 +1161,7 @@ snit::type ProxyProxy {
 
 			set tmp_data "$tmp_data\r\n\r\n[string range $options(-proxy_queued_data) 0 $strend]"
 
-			status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
+			#status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
 			set options(-proxy_queued_data) [string replace $options(-proxy_queued_data) 0 $strend]
 			if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res] } {
 				$name configure -error_msg $res
@@ -1236,7 +1236,7 @@ snit::type ProxyProxy {
 				#set log [string map {\r ""} $content_data]
 				set log $content_data
 
-				status_log "Proxy POST Received ($name):\n$headers\n " green
+				#status_log "Proxy POST Received ($name):\n$headers\n " green
 				while { $log != "" } {
 					set endofline [string first "\n" $log]
 					set command [string range $log 0 [expr {$endofline-1}]]
