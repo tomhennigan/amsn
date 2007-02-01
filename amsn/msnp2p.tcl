@@ -771,7 +771,7 @@ namespace eval ::MSNP2P {
 								::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
 								::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
 							} elseif { $type == "webcam" } {
-								::MSNCAM::SendSyn $sid $chatid 0
+								::MSNCAM::SendSyn $sid $chatid
 							}
 						} 
 						if { [string first "IPv4Internal-Addrs: " $data] != -1 } {
@@ -789,7 +789,7 @@ namespace eval ::MSNP2P {
 								::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
 								::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
 							} elseif { $type == "webcam" } {
-								::MSNCAM::SendSyn $sid $chatid 0
+								::MSNCAM::SendSyn $sid $chatid
 							}
 						}
 
@@ -798,7 +798,7 @@ namespace eval ::MSNP2P {
 						if { $type == "filetransfer" } {
 							::MSN6FT::SendFTInvite2 $sid $chatid
 						} elseif { $type == "webcam" } {
-							::MSNCAM::SendSyn $sid $chatid 0
+							::MSNCAM::SendSyn $sid $chatid
 							#::MSNCAM::SendAcceptInvite $sid $chatid
 						}
 					} else {
@@ -870,7 +870,7 @@ namespace eval ::MSNP2P {
 				    if { $content_type != "null" } {
 					::CAMGUI::InvitationDeclined $chatid
 				    } else {
-					::MSNCAM::SendSyn $sid $chatid 0
+					::MSNCAM::SendSyn $sid $chatid
 				    }
 				}
 
@@ -891,7 +891,7 @@ namespace eval ::MSNP2P {
 
 			#If it's a file transfer, display Progress bar
 			if { $type == "filetransfer" } {
-				::amsn::FTProgress w $cSid "" [trans throughserver]
+				#::amsn::FTProgress w $cSid "" [trans throughserver]
 				::amsn::FTProgress r $cSid [lindex [SessionList get $cSid] 6] $cOffset $cTotalDataSize
 			}
 			if { $type != "webcam" && $fd != "" && $fd != 0 && $fd != -1 } {
@@ -1023,7 +1023,7 @@ namespace eval ::MSNP2P {
 
 				if { $msg == "syn\x00" } {
 
-					::MSNCAM::SendSyn $sid $chatid 0
+					::MSNCAM::SendSyn $sid $chatid
 
 					::MSNCAM::SendAck $sid $chatid
 
