@@ -6777,10 +6777,10 @@ namespace eval ::MSN6FT {
 			set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "$listening" "$nonce" "$clientip"\
 					 "$port" "$localip" "$port"]
 			::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
-				after 10000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
+				after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		} else {
 
-			after 10000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
+			after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		}
 	}
 
@@ -6794,6 +6794,12 @@ namespace eval ::MSN6FT {
 	}
 
 	proc handleMsnFT { nonce sid sending sock ip port } {
+
+		set state [lindex [SessionList get $sid] 4]
+		if { $state == "INVITE2 } {
+			status_log "Sending through SB already, giving up direct..."
+			return
+		}
 
 		setObjOption $sid sending $sending
 		setObjOption $sock nonce $nonce
@@ -6849,7 +6855,7 @@ namespace eval ::MSN6FT {
 		set ips [getObjOption $sid ips]
 		set connected_ips [getObjOption $sid connected_ips]
 		status_log "we have $ips connecting sockets and $connected_ips connected sockets\n" red
-		after 10000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
+		after 5000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		if { [llength $ips] == 0 && [llength $connected_ips] == 0 } {
 			status_log "No socket was connected\n" red
 			#after 5000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
