@@ -1452,14 +1452,14 @@ namespace eval ::MSNP2P {
 
 		if { [fileevent $sock writable] == "" } {
 			status_log "assining new fileevent proc\n"
-			fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"
+			fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd $match"
 		}
 
 
 
 	}
 
-	proc SendDataEvent { sbn sid fd } {
+	proc SendDataEvent { sbn sid fd match} {
 
 
 		set sock [$sbn cget -sock]
@@ -1479,6 +1479,10 @@ namespace eval ::MSNP2P {
 			return
 		}
 
+		if { [lindex [::MSNP2P::SessionList get $sid] 4] != "$match"} {
+			return
+		}
+
 		set data [read $fd 1202]
 		#		status_log "Reading 1202 bytes of data : got [string length $data]"
 		if { [string length $data] >= 1202 } {
@@ -1489,7 +1493,7 @@ namespace eval ::MSNP2P {
 			SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1 -1]
 			::amsn::FTProgress s $sid "" $offset $filesize
 			#catch {after 200 [list catch {fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"}]}
-			after 200 [list ::MSNP2P::SetSendDataFileEvent $sock $sbn $sid $fd]
+			after 200 [list ::MSNP2P::SetSendDataFileEvent $sock $sbn $sid $fd $match]
 			
 		} else {
 
@@ -1508,9 +1512,9 @@ namespace eval ::MSNP2P {
 		}
 	}
 	
-	proc SetSendDataFileEvent { sock sbn sid fd } { 
+	proc SetSendDataFileEvent { sock sbn sid fd match} { 
 		catch { 
-			fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd"
+			fileevent $sock writable "::MSNP2P::SendDataEvent $sbn $sid $fd $match"
 		}
 	}
 
