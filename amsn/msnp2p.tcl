@@ -897,10 +897,16 @@ namespace eval ::MSNP2P {
 			if { $type != "webcam" && $fd != "" && $fd != 0 && $fd != -1 } {
 				# File already open and being written to (fd exists)
 				# Lets write data to file
+				seek $fd $cOffset
+				if { ! [info exists ::totalbytes($fd)] } {
+					set ::totalbytes($fd) $cMsgSize
+				} else {
+					set ::totalbytes($fd) [expr { $::totalbytes($fd) + $cMsgSize}]
+				}
 				puts -nonewline $fd [string range $data 0 [expr {$cMsgSize - 1}]]
 				#status_log "MSNP2P | $sid -> FD EXISTS, file already open... with fd = $fd --- $cOffset + $cMsgSize + $cTotalDataSize . Writing DATA to file\n" red
 				# Check if this is last part if splitted
-				if { [expr {$cOffset + $cMsgSize}] >= $cTotalDataSize } {
+				if { $::totalbytes($fd) >= $cTotalDataSize } {
 					close $fd
 
 					set session_data [SessionList get $cSid]
