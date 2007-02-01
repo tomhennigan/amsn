@@ -437,8 +437,8 @@ proc mailicon_proc {num} {
 			winico taskbar modify $winmailicon -text $msg
 		} else {
 			configureti $mailicon -tooltip $msg
-			bind $icon <Enter> [list balloon_enter %W %X %Y $msg]
-			bind $icon <Motion> [list balloon_motion %W %X %Y $msg]
+			bind $mailicon <Enter> [list balloon_enter %W %X %Y $msg]
+			bind $mailicon <Motion> [list balloon_motion %W %X %Y $msg]
 		}
 	} 
 }
