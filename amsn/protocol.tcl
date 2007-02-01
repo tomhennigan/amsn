@@ -6795,12 +6795,6 @@ namespace eval ::MSN6FT {
 
 	proc handleMsnFT { nonce sid sending sock ip port } {
 
-		set state [lindex [SessionList get $sid] 4]
-		if { $state == "INVITE2 } {
-			status_log "Sending through SB already, giving up direct..."
-			return
-		}
-
 		setObjOption $sid sending $sending
 		setObjOption $sock nonce $nonce
 		setObjOption $sock state "FOO"
