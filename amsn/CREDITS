@@ -18,9 +18,7 @@ For all of them, our sincere thanks.
 Alvaro J. Iradier Muro - airadier@users.sourceforge.net
 Khalaf G. Philippe - burgerman@users.sourceforge.net
 Alaoui Youness - kakaroto@users.sourceforge.net
-Alberto Diaz Hernandez - yozko@users.sourceforge.net
 Luis Quesada T. - elezeta@users.sourceforge.net
-Jerome Gagnon-Voyer (Mac mantainer) - germinator2000@users.sourceforge.net
 Phil - lephilousophe@users.sourceforge.net
 Sander Hoentjen - tjikkun@users.sourceforge.net
 Frederic Diaz - gadget_boy@users.sourceforge.net
@@ -28,7 +26,8 @@ Vivia Nikolaidou - vivia@users.sourceforge.net
 Harry Vennik - thaven@users.sourceforge.net
 Jonne Zutt - jonne_z@users.sourceforge.net
 Tom Hennigan - tomhennigan@users.sourceforge.net
-Didimo E. Grimaldo T.
+Karel Demeyer - scapor@users.sourceforge.net
+Cristofaro Del Prete - dpcris85@users.sourceforge.net
 
 
 ========================================================
@@ -368,9 +367,11 @@ Yves Manuel (Hosted the forums and helped with the new website)
 ZoRoNaX (Documentation on MSNP2P)
 David Luyer (Universal Binaries for Mac, displaying Unicode text on Mac)
 Arieh Schneier (former windows maintainer)
-Karel Demeyer (former developper with many contributions)
 Luis Miguel Garcia
 Luigi Maria Quarta (translated the 0.96.1 Mac read me to Italian)
+Alberto Diaz Hernandez (former developer)
+Jerome Gagnon-Voyer (former developer and Mac mantainer)
+Didimo E. Grimaldo T.
 
 CxImage 5.99c - (c) 2001-2004 by Davide Pizzolato
 Ole Andre Vadla Ravnas - Special thanx for the libmimic implementation of webcam codec
