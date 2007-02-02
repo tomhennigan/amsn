@@ -265,13 +265,16 @@ namespace eval ::log {
 	proc PutLog { chatid user msg {fontformat ""} {failed 0}} {
 		if {$fontformat == ""} {
 			set color "NOR"
-		} elseif { $failed == 1 } {
-			set color "RED"
-			# When the message failed to deliver, we should show the deliverfail message instead of the user's nickname.
-			set user [trans deliverfail]
 		} else {
 			set color "C[lindex $fontformat 2]"
 		}
+
+		if { $failed == 1 } {
+			set color "RED"
+			# When the message failed to deliver, we should show the deliverfail message instead of the user's nickname.
+			set user [trans deliverfail]
+		} 
+
 		if {[::OIM_GUI::IsOIM $chatid]} {
 			::log::WriteLog $chatid "\|\"LITA$user :\|\"L$color $msg\n" 0 $chatid
 		} else  {
