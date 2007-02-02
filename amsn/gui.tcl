@@ -2401,6 +2401,10 @@ namespace eval ::amsn {
 	proc WinWriteFail {chatid msg} {
 		WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
 		WinWrite $chatid "$msg" gray "" 1 [::config::getKey login]
+		if {[::config::getKey keep_logs]} {
+			::log::PutLog $chatid [trans deliverfail] $msg "" 1
+		}
+
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
