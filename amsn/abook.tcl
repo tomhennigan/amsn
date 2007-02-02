@@ -724,7 +724,7 @@ namespace eval ::abook {
 			set evPar(globalnick) globalnick
 			set evPar(psm) psm
 			set evPar(user_login) user_login
-			#::plugins::PostEvent getDisplayNick evPar
+			::plugins::PostEvent getDisplayNick evPar
 			
 			if { [::config::getKey globaloverride] == 0 } {
 				if { $customnick != "" } {

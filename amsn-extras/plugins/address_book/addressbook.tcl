@@ -30,7 +30,7 @@ namespace eval ::macabook {
 			
 		# Check for errors.
 		if { $error1 || $error2 || $error3 } {
-			status_log "Error with osascript command. The log from the first command is: $error1.\nThe second log is: $error2.\nThe third log is: $error3." red
+			status_log "Error with osascript command. The log from the first command is: \"$error1\".\nThe second log is: \"$error2\".\nThe third log is: \"$error3\"." red
 		}
 		
 		# Register for our post event.
@@ -39,6 +39,8 @@ namespace eval ::macabook {
 
 	# The abook deinit proc.
 	proc deinit { } {
+		unset ::macabook::config(usableaddresses)
+		unset ::macabook::config(cachednicks)
 		# Unbind our key-stroke.
 		bind all <Command-A> ""
 		test
@@ -49,11 +51,11 @@ namespace eval ::macabook {
 		if {$::macabook::config(state)} {
 			# Get the pointer to the variables from the proc, so we can send feedback.
 			upvar 2 user_login user_login customnick customnick
-		
+			
 			# If the user has an address book entry, then lets go ahead and set their name.
 			if {[::macabook::checkLogin $user_login]} {
 	    		# Lookup the person's name in the abook.
-	        	set customnick [::macabook::getABookName $user_login]
+				set customnick [::macabook::getABookName $user_login]
 			}
 		}
 		return 1
@@ -79,6 +81,8 @@ namespace eval ::macabook {
 		} else {
 			set ::macabook::config(state) 1
 		}
+		# Locate the correct proc to do this..
+		#::guiContactList::updateCL
 		cmsn_draw_online
 	}
 }
