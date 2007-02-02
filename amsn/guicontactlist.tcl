@@ -933,12 +933,15 @@ namespace eval ::guiContactList {
 
 		set psm [::abook::getpsmmedia $email]
 
+		#@@@@@@@@@ Show webMSN buddy icon
 		if { [::MSN::userIsBlocked $email] } {
 			if { $state_code == "FLN" } { 
 				set img [::skin::loadPixmap blocked_off] 
 			} else {    
 				set img [::skin::loadPixmap blocked] 
 			}
+		#elseif [::abook::getContactData $email client] == "Webmessenger" 
+		#	set img [::skin::loadPixmap webmsn]
 		} elseif {[::config::getKey show_contactdps_in_cl] == "1" } {
 			set img [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]
 		} elseif { [::abook::getContactData $email msn_mobile] == "1" && $state_code == "FLN"} {
@@ -956,16 +959,19 @@ namespace eval ::guiContactList {
 		#the padding between nickname and state
 		set nickstatespacing 5
 		# TODO: skinsetting for the spacing between nicknames and the status
-		set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
 
-		if {$state_code == "NLN" || $state_code == "FLN"} {
-			set nickstatespacing 0
-			set statetext ""
-		}
-
-		if {$grId == "mobile"} {
-			set nickstatespacing 5
-			set statetext "\([trans mobile]\)"
+		if { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } { 
+			set statetext "\([trans web]\/[trans [::MSN::stateToDescription $state_code]]\)"
+		} else {
+			set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
+			if {$state_code == "NLN" || $state_code == "FLN"} {
+				set nickstatespacing 0
+				set statetext ""
+			}
+			if {$grId == "mobile"} {
+				set nickstatespacing 5
+				set statetext "\([trans mobile]\)"
+			}
 		}
 
 		# TODO: skinsetting for state-colour

@@ -233,7 +233,12 @@ namespace eval ::skin {
 		global HOME
 				
 		set picName displaypicture_std_$email
-		
+		#@@@@@@@@@ webMSN display picture (thanx to majinsoftware)
+		#if { [::abook::getContactData $email client] == "Webmessenger" } { 
+		#	set file [::skin::GetSkinFile displaypic webmsn_dp.gif]
+		#	image create photo $picName -file "$file" -format cximage
+		#	return $picName
+		#}
 		if {[catch {image width $picName}] == 0  && $force == 0} {
 			return $picName
 		}
@@ -283,6 +288,13 @@ namespace eval ::skin {
 		global HOME
 
 		set picName displaypicture_tny_$email
+		#@@@@@@@@@@ WebMSN Patch again by majinsoftware
+		#if { [::abook::getContactData $email client] == "Webmessenger" } { 
+		#	set file [::skin::GetSkinFile displaypic webmsn_dp.gif]
+		#	image create photo $picName -file "$file" -format cximage 
+		#	::picture::ResizeWithRatio $picName $height $height
+		#	return $picName
+		#}
 		
 		set imagetype ""
 
