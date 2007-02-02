@@ -646,6 +646,7 @@ reconnect2 Reconectar ao perder a conexão
 reconnect Esperando por $1 para reconectar
 reconnecting Reconectando ao servidor
 recorderror Um erro ocorreu na tentativa de gravar o som: $1
+recvwebcamaccepted $1 aceitou seu convite para ver a webcam dele/dela. Conectando...
 reject Recusar
 rememberpass Lembrar senha
 remembersetting Lembrar os ajustes
@@ -682,6 +683,7 @@ sendmobmsg Enviar mensagem a celular
 sendmsg Enviar mensagem
 sendoim Enviar mensagem offline.
 sendvoice Enviar Clip de Voz
+sendwebcamaccepted $1 aceitou o convite de envio da sua webcam. Conectando...
 sendwebcaminvite Convidar um usuário para ver sua webcam
 sentbytes Enviados $1 de $2 bytes
 sentvoice Clip de Voz enviado.
@@ -826,9 +828,6 @@ videoconversationrequest Você recebeu um pedido de videoconferência (áudio e víd
 viewcontactsby Visualizar contatos por
 viewprofile Ver Perfil
 view Visualizar
-voice_notimplemented A recepção de Clip de Voz não está implementado ainda. Seja paciente
-voice_windows_click Clique aqui para ser feito.
-voice_windows Sendo um usuário Windows, é possível que você consiga ouvir o Clip de Voz abrindo o clip de voz no seu Media Player.
 wanttosharecam Eu quero fazer minha câmera disponível para os outros
 webcamcanceled A sessão de webcam com $1 foi cancelada
 webcamclosebefcancel Você deve fechar todas as sessões de webcam antes de fechar a janela
