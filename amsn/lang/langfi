@@ -822,6 +822,9 @@ videoconversationrequest Olet juuri vastaanottanut videokeskustelun (kaksisuunta
 viewcontactsby N‰yt‰ yhteystiedot tavalla
 view N‰kym‰
 viewprofile N‰yt‰ profiili
+voice_notimplemented ƒ‰nileikkeitten vastaanottamista ei ole viel‰ toteutettu. Ole hyv‰ ja ole k‰rsiv‰llinen.
+voice_windows_click Paina t‰st‰ tehd‰ksesi niin.
+voice_windows Koska olet Windowsin k‰ytt‰j‰, voi olla mahdollista kuunnella ‰‰nileike avaamalle se mediasoittimella.
 wanttosharecam Haluan, ett‰ webcamini on muiden saatavilla
 webcamcanceled Webcam-sessio $1 kanssa on keskeytetty
 webcamclosebefcancel Sinun pit‰‰ keskeytt‰‰ kaikki webcam-sessiot ennen ikkunan sulkemista
@@ -864,5 +867,6 @@ blocknotifications ƒl‰ n‰yt‰ huomautus ikkunoita
 blocksounds Vaimenna ‰‰net
 customdp Oma keskustelukuvake
 nouserspecified K‰ytt‰j‰‰ ei ole m‰‰ritelty
+showhiddenfiles N‰yt‰ piilotetut tiedostot ja kansiot tiedostoselaimessa
 recvwebcamaccepted $1 hyv‰ksyi pyyntˆsi vastaanottaa webcam-kuvaa. Yhdist‰‰...
 sendwebcamaccepted $1 hyv‰ksyi pyyntˆsi l‰hett‰‰ webcam-kuvaa. Yhdist‰‰...
