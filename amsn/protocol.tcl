@@ -4207,12 +4207,14 @@ namespace eval ::Event {
 				}
 			}
 			application/x-msnmsgrp2p {
-				#TODO: check if header P2P-Dest == our own nick. If not, discard message
-				set p2pmessage [P2PMessage create %AUTO%]
-				$p2pmessage createFromMessage $message
-				::MSNP2P::ReadData $p2pmessage $chatid
-				#status_log [$p2pmessage toString 1]
-				catch { $p2pmessage destroy }
+				set dest [$message getHeader "P2P-Dest"]
+				if { $dest == [::config::getKey login] } {
+					set p2pmessage [P2PMessage create %AUTO%]
+					$p2pmessage createFromMessage $message
+					::MSNP2P::ReadData $p2pmessage $chatid
+					#status_log [$p2pmessage toString 1]
+					catch { $p2pmessage destroy }
+				}
 			}
 
 			text/x-mms-emoticon -
