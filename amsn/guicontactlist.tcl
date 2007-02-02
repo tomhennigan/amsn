@@ -940,8 +940,8 @@ namespace eval ::guiContactList {
 			} else {    
 				set img [::skin::loadPixmap blocked] 
 			}
-		#elseif [::abook::getContactData $email client] == "Webmessenger" 
-		#	set img [::skin::loadPixmap webmsn]
+		} elseif { [::abook::getContactData $email client] == "Webmessenger" } {
+			set img [::skin::loadPixmap webmsn]
 		} elseif {[::config::getKey show_contactdps_in_cl] == "1" } {
 			set img [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]
 		} elseif { [::abook::getContactData $email msn_mobile] == "1" && $state_code == "FLN"} {

@@ -234,9 +234,9 @@ namespace eval ::skin {
 				
 		set picName displaypicture_std_$email
 		#@@@@@@@@@ webMSN display picture (thanx to majinsoftware)
-		#if { [::abook::getContactData $email client] == "Webmessenger" } { 
-		#	return [::skin::loadPixmap webmsn_dp]
-		#}
+		if { [::abook::getContactData $email client] == "Webmessenger" } { 
+			return [::skin::loadPixmap webmsn_dp]
+		}
 		if {[catch {image width $picName}] == 0  && $force == 0} {
 			return $picName
 		}
@@ -287,11 +287,11 @@ namespace eval ::skin {
 
 		set picName displaypicture_tny_$email
 		#@@@@@@@@@@ WebMSN Patch again by majinsoftware
-		#if { [::abook::getContactData $email client] == "Webmessenger" } { 
-		#	set picName [::skin::loadPixmap webmsn_dp]
-		#	::picture::ResizeWithRatio $picName $height $height
-		#	return $picName
-		#}
+		if { [::abook::getContactData $email client] == "Webmessenger" } { 
+			set picName [::skin::loadPixmap webmsn_dp]
+			::picture::ResizeWithRatio $picName $height $height
+			return $picName
+		}
 		
 		set imagetype ""
 
@@ -859,7 +859,8 @@ namespace eval ::skin {
 		::skin::setPixmap no-emblem no-emblem.gif
 	
 		#@@@@@@@@ webMSN DP
-		#::skin::setPixmap webmsn_dp webmsn_dp.gif
+		::skin::setPixmap webmsn_dp webmsn_dp.gif
+		::skin::setPixmap webmsn webmsn.gif
 	
 		::skin::setPixmap fticon fticon.gif
 		::skin::setPixmap ftreject ftreject.gif
