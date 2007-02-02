@@ -87,6 +87,8 @@ blockinter4 segundos
 blocklist Lista de bloqueados (BL):
 blockmessage Los siguientes contactos están conectados y bloqueándote
 block No admitir
+blocknotifications Deshabilitar mostrar ventanas de notificación
+blocksounds Deshabilitar sonidos
 blockusers Comprobar continuamente 
 bouncedock Animacion del icono aMSN cuando se recibe un mensaje
 brightness Brillo
@@ -100,6 +102,7 @@ busy No disponible
 cachedpics $1 imágenes para mostrar almacenadas
 cagreement Acuerdo de confidencialidad
 cancel Cancelar
+cancelled Cancelado
 cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo usado por otra sesión de aMSN
 cantexec No se puede ejecutar la aplicación: $1. Comprueba las preferencias
 cantloadonlineversion No se pudo descargar de Internet la lista actualizada de idiomas
@@ -211,6 +214,7 @@ custnotifyoffline Mostrar ventana de aviso cuando este contacto se desconecte
 custnotifyonline Mostrar ventana de aviso cuando este contacto se conecte
 custnotifystatus Mostrar ventana de aviso cuando este contacto cambie su estado
 customcolor Color personal
+customdp Imagen personalizada para mostrar
 custom_edit Editar emoticono personalizado
 custom_new Añadir emoticono personalizado
 customnick Apodo personal
@@ -290,6 +294,7 @@ entercontactemail Introduce el correo electrónico de contacto
 enterfilename Introduce el nombre del archivo
 enternick Introduce tu apodo
 enterpsm Mensaje personal
+error Error
 errortls Error instalando el módulo TLS:
 eventhistory Ver historial de eventos
 examples Ejemplos
@@ -536,6 +541,7 @@ notinlist No estás en su lista de contactos
 notls La versión 9 del protocolo MSN requiere usar el paquete "TLS". Este paquete no parece estar instalado en el equipo. Si está instalado, la ruta al directorio debería ser especificada en la ventana de Preferencias (ej: /opt/tls/lib). \n \n Es posible descargar "TLS" en http://tls.sf.net.
 nottabbed Ventanas normales sin pestañas
 nousersinsession No hay usuarios en la sesión
+nouserspecified Usuario no especificado
 nudge $1 reclama tu atención
 offline Desconectado
 ok Aceptar
@@ -694,6 +700,7 @@ showcontactemail Mostrar el email de los contactos
 showcontactnick Mostrar el apodo de los contactos
 showdisplaypic2 Por defecto, ver la imagen para mostrar al abrir una ventana de conversación.
 showdisplaypic Ver imagen para mostrar
+showhiddenfiles Mostrar archivos y directorios ocultos en el explorador de archivos
 showmailicon Mostar el icono de correo en la bandeja del sistema cuando llegue un nuevo correo electrónico
 showmypic Mostrar mi imagen
 shownotify Mostrar ventana de avisos al producirse diversos eventos
@@ -836,6 +843,8 @@ webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para cámara web
 webcamhistory Ver sesiones de cámara web
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero aMSN todavía no soporta esta característica.
 webcaminvitereceived $1 Te ha invitado para iniciar una sesión de cámara web. ¿Quieres aceptar esta invitación?
+webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?
+webcaminvitesending $1 quiere ver tu cámara web. ¿Deseas aceptar la invitación?
 webcamrejected $1 ha rechazado la invitación para la sesión de cámara web 
 webcamrequestreceive Invitar para iniciar una sesión de cámara web  
 webcamrequestsend Invitar para que vean mi cámara web
@@ -862,11 +871,3 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
-blocknotifications Deshabilitar mostrar ventanas de notificación
-blocksounds Deshabilitar sonidos
-cancelled Cancelado
-customdp Imagen personalizada para mostrar
-error Error
-nouserspecified Usuario no especificado
-webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?
-webcaminvitesending $1 quiere ver tu cámara web. ¿Deseas aceptar la invitación?
