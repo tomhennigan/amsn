@@ -1797,9 +1797,17 @@ puts "going to download $thumbnailurl"
 			
 			# if group is empty and remove empty groups is set (or this is
 			# Individuals group) then skip this group
-			set grpCount [lindex [::groups::getGroupCount $grId] 1]
-			if { $kind != "full" && ($grId == 0 || [::config::getKey removeempty]) && $grpCount == 0} {
-				continue
+			if { $kind != "full" && ($grId == 0 || [::config::getKey removeempty]) } {
+				if { [::config::getKey orderbygroup] == 1 } {
+					#Group mode
+					set grpCount [lindex [::groups::getGroupCount $grId] 1]
+				} else {
+					#Status/Hybrid : we can use the getGroupCount function
+					set grpCount [getGroupCount $group]
+				}
+				if { $grpCount == 0 } {
+					continue
+				}
 			}
 
 			# First we append the group
@@ -1853,6 +1861,13 @@ puts "going to download $thumbnailurl"
 		}
 
 		return $groupcount
+	}
+
+	##################################################
+	# Get the group count
+	# Depend if user in status/group/hybrid mode
+	proc isGroupEmpty {element} {
+
 	}
 
 

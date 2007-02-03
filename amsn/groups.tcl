@@ -388,7 +388,7 @@ namespace eval ::groups {
 		abook::setContactData contactlist groups [array get groups]	
 		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
 		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
-		::Event::fireEvent groupAdded groups $gid
+		::Event::fireEvent groupAdded groups $gid $gname
 	}
    
 	proc ToggleStatus {gid} {

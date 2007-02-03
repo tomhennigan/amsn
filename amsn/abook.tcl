@@ -1727,6 +1727,7 @@ namespace eval ::abookGui {
 			::config::setKey globalnick "[.globalnick.frm.nick get]";
 			::MSN::contactListChanged;
 			cmsn_draw_online 0 2;
+			::Event::fireEvent changedNickDisplay gui
 			destroy .globalnick
 			}
 		button .globalnick.btn.cancel -text "[trans cancel]"  \
