@@ -15,6 +15,19 @@ Themes can be added and should be placed either in the themes/ directory of tile
 
 	<cvs_version>7841</cvs_version>
 
+	<lang>
+		<langcode>en</langcode>
+		<version>7909</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>7909</version>
+	</lang>
+	<lang>
+		<langcode>fr</langcode>
+		<version>7909</version>
+	</lang>
+
 	<file>
 		<path>button.tcl</path>
 		<version>6177</version>

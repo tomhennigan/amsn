@@ -1,0 +1,7 @@
+amsn_lang_version 2
+need_tile_extension L'extension Tile doit être installée pour que ce plugin fonctionne
+need_pixmapmenu Pixmapmenu doit être installé pour que ce plugin fonctionne
+widgets_to_wrap Widgets à couvrir
+theme Thème
+experimental Expérimental! (Un redémarrage peut être nécessaire)
+enable_pixmapmenu Cette option va activer les menus avec la technologie Pixmapmenu. C'est expérimental et vous devez l'utiliser à vos risques et périls!\n S'il y a un problème, arrêtez de l'utiliser. Pour activer ou désactiver cette fonctionnaliter, vous dever relancer aMSN.
