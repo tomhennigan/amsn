@@ -3020,9 +3020,9 @@ namespace eval ::MSNOIM {
 		return $xml
 	}
 
-	proc sendOIMMessageCallback { callbk data } {
+	proc sendOIMMessageCallback { callbk to data} {
 		variable seq_number
-		incr seq_number
+		incr seq_number($to)
 		if {[catch {eval $callbk [list "success"]} result]} {
 			bgerror $result
 		}
@@ -3063,7 +3063,6 @@ namespace eval ::MSNOIM {
 	}
 	
 	proc sendOIMMessage { callbk to msg {retry 1} {hasError 0}} {
-		variable seq_number
 		set res ""
 		if { [catch {package require dom 3.0}] == 0 && 
 		     [catch {package require SOAP}] == 0 && 
@@ -3079,7 +3078,7 @@ namespace eval ::MSNOIM {
 					  -proxy "https://ows.messenger.msn.com/OimWS/oim.asmx" \
 					  -action "http://messenger.msn.com/ws/2004/09/oim/Store" \
 					  -wrapProc [list sendOIMMessageXml $::authentication_ticket $to $msg] \
-					  -command [list sendOIMMessageCallback $callbk]]
+					  -command [list sendOIMMessageCallback $callbk $to]]
 
 			SOAP::configure SendOIMMessage_$id -errorCommand [list sendOIMMessageError "$callbk" "$soap_req" $to $msg $retry]
 
@@ -3100,16 +3099,21 @@ namespace eval ::MSNOIM {
 	proc sendOIMMessageXml {ticket to msg procVarName args} {
 		variable lockkey 
 		variable seq_number
+		variable runid
+
 		if { ![info exists lockkey ]} {
 			set lockkey ""
 		}
-		if {![info exists seq_number] } {
-			set seq_number 1
+		if {![info exists runid($to)]} {
+			set runid($to) "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr { int([expr {rand() * 1000000}])%65450 } ] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 		}
-		set bmessage [base64::encode [encoding convertto identity $msg]]
-		#set bnick [base64::encode [encoding convertto identity [::abook::getPersonal MFN]]]
+		if {![info exists seq_number($to)] } {
+			set seq_number($to) 1
+			#TODO: Do we need to reset the var when the user goes online ??
+		}
+		set bmessage [base64::encode [encoding convertto identity [string map {"\n" "\r\n"} $msg]]]
 
-		set bnick [string map {"\n" "" } [base64::encode [encoding convertto utf-8 [::abook::getPersonal MFN]]]]
+		set bnick [string map {"\n" "" } [string range [base64::encode [encoding convertto utf-8 [::abook::getPersonal MFN]]] 0 64 ]]
 
 		set ticket [string map { "&" "&amp;" } $ticket]
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><From}
@@ -3119,9 +3123,9 @@ namespace eval ::MSNOIM {
 		append xml {xmlns="http://messenger.msn.com/ws/2004/09/oim/"/><Ticket}
 		append xml " passport=\"$ticket\" appid=\"PROD01065C%ZFN6F\" lockkey=\"$lockkey\" xmlns=\"http://messenger.msn.com/ws/2004/09/oim/\"/>"
 		append xml {<Sequence xmlns="http://schemas.xmlsoap.org/ws/2003/03/rm"><Identifier xmlns="http://schemas.xmlsoap.org/ws/2002/07/utility">http://messenger.msn.com</Identifier><MessageNumber>}
-		append xml $seq_number
+		append xml $seq_number($to)
 		append xml {</MessageNumber></Sequence></soap:Header><soap:Body><MessageType xmlns="http://messenger.msn.com/ws/2004/09/oim/">text</MessageType><Content xmlns="http://messenger.msn.com/ws/2004/09/oim/">}
-		append xml "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\nX-OIM-Message-Type: OfflineMessage\r\nX-OIM-Run-Id: {3A3BE82C-684D-4F4F-8005-CBE8D4F82BAD}\r\nX-OIM-Sequence-Num: $seq_number\r\n\r\n$bmessage"
+		append xml "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\nX-OIM-Message-Type: OfflineMessage\r\nX-OIM-Run-Id: {$runid($to)}\r\nX-OIM-Sequence-Num: $seq_number($to)\r\n\r\n$bmessage\r\n"
 		append xml {</Content></soap:Body></soap:Envelope>}
 		status_log "Sending OIM:" green
 		status_log $xml green
