@@ -30,6 +30,7 @@ snit::widget dpbrowser {
 	variable selected ""
 	variable tempimg ""
 	variable pic_in_use ""
+	variable custom_pic_in_use ""
 	variable dps ""
 	variable enable_draw 0
 
