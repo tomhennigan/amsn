@@ -2494,12 +2494,12 @@ namespace eval ::amsn {
  			array set emotions $emoticons_for_this_chatid
  			unset emoticons_for_this_chatid
  		}
-
+		set fontformat $customfont
 		#Postevent for chat_msg_receive
 		set evPar(user) user
 		set evPar(msg) msg
 		set evPar(chatid) chatid
-		set evPar(fontformat) $fontformat
+		set evPar(fontformat) fontformat
 		set message $msg
 		set evPar(message) message
 		::plugins::PostEvent chat_msg_receive evPar
@@ -4464,7 +4464,7 @@ proc AddProfileWin {} {
 proc AddProfileOk {mainframe} {
 	#In case someone destroy .login
 	catch {wm group .add_profile .login}
-	set login [$mainframe.login get]
+	set login [string tolower [$mainframe.login get]]
 	if { $login == "" } {
 		return
 	}
