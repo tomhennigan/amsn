@@ -77,6 +77,7 @@ baduserpass Nombre de usuario o contraseña incorrectos
 badwebcam No se puede visualizar la imagen de la cámara web. Asegúrate de que la cámara web esté instalada y conectada
 bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
+block No admitir
 blocked Bloqueado
 blockedyougroup Mostrar un grupo aparte con los contactos que te bloquean
 blocking Bloqueo
@@ -86,7 +87,6 @@ blockinter3 contactos cada
 blockinter4 segundos
 blocklist Lista de bloqueados (BL):
 blockmessage Los siguientes contactos están conectados y bloqueándote
-block No admitir
 blocknotifications Deshabilitar mostrar ventanas de notificación
 blocksounds Deshabilitar sonidos
 blockusers Comprobar continuamente 
@@ -100,6 +100,7 @@ bugerror Lo sentimos, pero hubo un error conectando a la Base de Datos de Fallos
 bugnocomment ¿Enviar sin un comentario?. Comentar un fallo nos ayuda a hacernos una idea de qué fue mal y así poder arreglarlo fácilmente.
 busy No disponible
 cachedpics $1 imágenes para mostrar almacenadas
+cachedpicsfor Imágenes para mostrar almacenadas por
 cagreement Acuerdo de confidencialidad
 cancel Cancelar
 cancelled Cancelado
@@ -270,6 +271,7 @@ dontdownload No descargar TLS, lo instalaré yo mismo
 dontshow No mostrar
 download Descargar
 downloadingtls Descargando el módulo TLS desde:\n $1
+editavsettings Configurar cámara web
 editcontent Editar el contenido del campo Asunto y el campo Nota
 editcustomstate Editar estado personalizado
 edit Edición
@@ -484,6 +486,7 @@ myhomephone Mi teléfono de casa
 mymobilephone Mi teléfono móvil
 mynick Mi apodo
 mypic Mi imagen para mostrar:
+mypics Mis imágenes para mostrar:
 mystatus Mi estado
 myworkphone Mi teléfono de trabajo
 name Nombre
@@ -646,9 +649,11 @@ reconnect2 Reconectar al perder la conexión
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 recorderror Ocurrió un error al grabar el sonido: $1
+recvwebcamaccepted $1 aceptó tu invitación para ver su cámara web. Conectando...
 reject Rechazar
 rememberpass Recordar contraseña
 remembersetting Recordar esta selección
+removecustom Eliminar imagen personalizada
 removeempty Eliminar grupos vacíos de la lista de contactos
 removefromlist Borrar de esta lista
 rename Cambiar nombre
@@ -670,9 +675,10 @@ sbcon Conectando a la centralita telefónica
 searchdown Buscar arriba
 searchup Buscar abajo
 selectall Seleccionar todos
+selectcontact Seleccionar un contacto
 selectplugins Marca los plug-ins que deseas activar
 selectskin Elige un tema (skin) de la lista
-sendcam Enviar webcam
+sendcam Enviar cámara web
 sendemail Incluir mi dirección de correo electrónico para ser avisado de los cambios
 send Enviar
 sendfeedback Enviar comentarios
@@ -682,6 +688,7 @@ sendmobmsg Enviar a dispositivo móvil
 sendmsg Enviar mensaje
 sendoim Enviar un mensaje sin conexión
 sendvoice Enviar un Clip de Voz
+sendwebcamaccepted $1 aceptó tu invitación para enviar tu cámara web. Conectando...
 sendwebcaminvite Invitar al usuario a ver tu cámara web
 sentbytes Enviados $1 de $2 bytes totales
 sentvoice Clip de Voz enviado
@@ -690,6 +697,7 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 serverunavailable El servidor no está disponible
 session Sesión
+setascustom Establecer como imagen personalizada
 setasmydp Establecer como mi Imagen para Mostrar
 shareswebcam Usuario con cámara web
 showbanner Mostrar el cartel de aMSN en la lista de contactos
@@ -700,7 +708,6 @@ showcontactemail Mostrar el email de los contactos
 showcontactnick Mostrar el apodo de los contactos
 showdisplaypic2 Por defecto, ver la imagen para mostrar al abrir una ventana de conversación.
 showdisplaypic Ver imagen para mostrar
-showhiddenfiles Mostrar archivos y directorios ocultos en el explorador de archivos
 showmailicon Mostar el icono de correo en la bandeja del sistema cuando llegue un nuevo correo electrónico
 showmypic Mostrar mi imagen
 shownotify Mostrar ventana de avisos al producirse diversos eventos
@@ -770,7 +777,6 @@ tabbedglobal Una ventana con pestañas para todos los usuarios
 tabbedgroups Una ventana con pestañas para cada grupo
 tabbed Ventanas con pestañas
 tabtitlenick Mostrar apodos en lugar de direcciones de correo electrónico en las pestañas
-takesnapshot Capturar la imagen
 temp_state No almacenar (estado temporal, se perderá al reiniciar aMSN)
 textsize Tamaño del texto
 thismonth Este mes
@@ -811,7 +817,6 @@ updateonlycurrentlanguage Actualización sólo del lenguaje actual
 updating Actualizando
 useasdp Usar como imagen para mostrar
 useasregexp Interpretar como expresión regular
-usemsnp11 Activar soporte para Mensajes Personales (función EXPERIMENTAL) -- requiere usar un perfil, y reiniciar AMSN
 useother Usar un comando o programa distinto
 useralreadyonlist El usuario ya se encuentra en la lista de contactos.
 userblocked El usuario se encuentra conectado pero estás bloqueado
@@ -829,10 +834,8 @@ videoconversationrequest Acabas de recibir una petición de conversación de ví
 viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
-voice_notimplemented La recepción de Clips de Voz no está aún implementada. Por favor, sea paciente.
-voice_windows Al ser un usuario de Windows, podrás escuchar el Clip de Voz abriendolo con el reproductor de medios.
-voice_windows_click Haz click aquí para hacerlo.
 wanttosharecam Quiero que mi cámara web esté disponible para otros
+web Web
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
 webcam Cámara web
@@ -843,13 +846,12 @@ webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para cámara web
 webcamhistory Ver sesiones de cámara web
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero aMSN todavía no soporta esta característica.
 webcaminvitereceived $1 Te ha invitado para iniciar una sesión de cámara web. ¿Quieres aceptar esta invitación?
-webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?
-webcaminvitesending $1 quiere ver tu cámara web. ¿Deseas aceptar la invitación?
 webcamrejected $1 ha rechazado la invitación para la sesión de cámara web 
 webcamrequestreceive Invitar para iniciar una sesión de cámara web  
 webcamrequestsend Invitar para que vean mi cámara web
 webcamsending Lista de personas que actualmente te están viendo por tu cámara web\nClic para Cancelar
-webcamshot Captura de cámara web
+webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?
+webcaminvitesending $1 quiere ver tu cámara web. ¿Deseas aceptar la invitación?
 whatisamsn aMSN es un clon multiplataforma de MSN Messenger
 whatsize La imagen seleccionada no es del tamaño predefinido (96x96). ¿A qué tamaño te gustaría que fuera mostrada?
 willjoin Esperando que $1 se una a la conversación
@@ -864,7 +866,7 @@ xmmssend Enviar canción actual
 xoffset Desplazamiento X
 year Año
 yesblock Sí, y bloquear
-yes Si
+yes Sí
 yesterday Ayer
 yoffset Desplazamiento Y
 youblocked Has sido bloqueado
