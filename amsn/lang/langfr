@@ -449,7 +449,7 @@ logschats Enregistre les conversations
 logsin vient de se connecter
 logsmileys Afficher les émoticônes/smileys dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
-logwebcam Enregister toutes les sessions webcam sessions dans l'historique d'aMSN pour une lecture ultèrieure
+logwebcam Enregister toutes les sessions webcam dans l'historique d'aMSN pour une visualisation ultèrieure
 longnick Votre pseudonyme est supérieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Êtes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 longpsm Votre message personnel est trop long. Ce n'est pas supporté officiellement par le protocol MSN. Êtes-vous sûrs de vouloir le mettre ?
@@ -642,6 +642,7 @@ receiveddir Dossier des fichiers reçus
 receivedvoice Message vocal reçu
 receivefile Fichier reçu
 recentmsg Empêcher la fermeture d'une fenêtre de conversation lorsqu'un nouveau message est arrivé.
+recvwebcamaccepted $1 a accepté votre invitation pour voir sa webcam. Connexion en cours.
 reconnect2 Se reconnecter en cas de déconnexion
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
@@ -672,9 +673,9 @@ searchup Rechercher vers le haut
 selectall Tout sélectionner
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
+send Envoyer
 sendcam Envoyer la webcam 
 sendemail Envoyer mon adresse email pour m'avertir des changements
-send Envoyer
 sendfeedback Envoyer ses impressions sur aMSN
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
@@ -682,6 +683,7 @@ sendmobmsg Envoyer un message au mobile
 sendmsg Envoyer un message
 sendoim Envoyer un message différé
 sendvoice Envoyer un message vocal
+sendwebcamaccepted $1 a accepté votre invitation pour voir votre webcam. Connexion en cours.
 sendwebcaminvite Inviter un contact à voir votre webcam
 sentbytes $1 sur $2 octets envoyés
 sentvoice Message vocal envoyé
@@ -692,15 +694,14 @@ serverunavailable Serveur non disponible
 session Session
 setasmydp Utiliser comme avatar
 shareswebcam Possède une webcam
+show_contactdps_in_cl Montrer les avatars dans la liste des contacts
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showcachedpics Afficher/Masquer les avatars cachés
-show_contactdps_in_cl Montrer les avatars dans la liste des contacts
 showcontactemail Voir les contacts par leur email
 showcontactnick Voir les contacts par leur pseudonyme
-showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
 showdisplaypic Afficher l'avatar
-showhiddenfiles Voir les fichiers et les dossiers cachés dans l'explorateur de fichiers
+showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
 showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 showmypic Mon avatar
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
@@ -823,29 +824,27 @@ useryourself Vous ne pouvez pas dialoguer avec vous-même
 usesnack Utiliser la librairie Snack (interne à Tcl)
 verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
-videoconversationrequest Vous venez de recevoir une invite pour une conversation vidéo (conversation audio/video).Cette fonctionnalité n'est pas encore supportée par aMSN et a donc été annulée. Vous pouvez cependant toujours utiliser la conversation par webcam.
+videoconversationrequest Vous venez de recevoir une invitation pour une conversation vidéo (conversation audio/video). Cette fonctionnalité n'est pas encore disponible dans aMSN et a donc été annulée. Vous pouvez cependant toujours utiliser la conversation par webcam.
 view Affichage
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
-voice_notimplemented La réception de messages vocaux n'a pas encore été développée. Merci d'être patient.
-voice_windows_click Cliquez ici pour le faire.
-voice_windows Vous utilisez Windows, vous devriez donc pouvoir écouter le message vocal avec Media Player.
 wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
+web Web
 webcamcanceled La conversation par webcam avec $1 a été annulée
 webcamclosebefcancel Vous devez annuler toutes les conversations par webcam avant de fermer la fenêtre
 webcamconfigure Configurer la webcam
 webcamextloaded L'extension Webcamsn est chargée
 webcamextnotloaded L'extension Webcamsn n'est pas chargée. Vous devez la compiler.
-webcamfaq FAQ/Help à propos de la webcam
+webcamfaq FAQ/Aide à propos de la webcam
 webcamhistory Voir les sessions webcam
-webcaminvite $1 vous invite à démarrer un conversation par Webcam, mais aMSN ne supporte pas cette option.
-webcaminvitereceived $1 vous invite à démarrer un conversation par Webcam. Voulez-vous accepter cette conversation ?
+webcaminvite $1 vous invite à démarrer une conversation par Webcam, mais aMSN ne supporte pas cette option.
+webcaminvitereceived $1 vous invite à démarrer une conversation par Webcam. Voulez-vous accepter cette conversation ?
 webcaminvitereceiving Vous êtes invités à voir la webcam de $1. Acceptez-vous ?
-webcaminvitesending $1 voudrais voir votre webcam. Acceptez-vous ?
+webcaminvitesending $1 voudrait voir votre webcam. Acceptez-vous ?
 webcamrejected $1 a refusé l'invitation de la conversation par webcam.
 webcamrequestreceive Vous avez invité votre contact à afficher sa webcam
-webcamrequestsend Vous avez invité votre contact à démarrer votre webcam
-webcamsending Liste des personnes à qui vous envoyez votre webcam\nCliquez sur un nom pour annuler
+webcamrequestsend Vous avez invité votre contact à visionner votre webcam
+webcamsending Liste des personnes qui sont en train de voir votre webcam\nCliquez sur un nom pour annuler
 webcam Webcam
 whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses platformes telles que Linux, Windows, Mac OS X, *BSD ...
 whatsize L'image qui doit être affichée n'est pas à la taille normale : 96x96 \nDans quelle taille voulez-vous que l'image soit affichée ?
