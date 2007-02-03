@@ -1084,34 +1084,40 @@ namespace eval ::abookGui {
 		package require dpbrowser
 		set nbUserDPs [$nb getframe userDPs]
 
-		set browser $nbUserDPs.otherdpscontainer.browser
-		set actions $nbUserDPs.otherdpscontainer.actions
+#		set browser $nbUserDPs.otherdpscontainer.browser
+#		set actions $nbUserDPs.otherdpscontainer.actions
+#
+#		if { ![winfo exists $browser]} {
+#			::dpbrowser $browser -user $email -mode "selector" -width 6 -command [list\
+#				::abookGui::activate_dpbrowser_actions $nbUserDPs.otherdpscontainer $email]
+#
+#			pack $browser -side left -expand true -fill both\
+#				-before $nbUserDPs.otherdpscontainer.actions
+#		}
 
-		if { ![winfo exists $browser]} {
-			::dpbrowser $browser -user $email -mode "selector" -width 6 -command [list\
-				::abookGui::activate_dpbrowser_actions $nbUserDPs.otherdpscontainer $email]
-
-			pack $browser -side left -expand true -fill both\
-				-before $nbUserDPs.otherdpscontainer.actions
+		if { ![winfo exists $nbUserDPs.otherpics]} {
+			::dpbrowser $nbUserDPs.otherpics  -width 7 -user $email -mode "properties"
+			pack $nbUserDPs.otherpics -expand true -fill both
 		}
 	}
-	proc activate_dpbrowser_actions {widget email} {
 
-		set browser $widget.browser
-		set actions $widget.actions
-
-		set filepath [lindex [$browser getSelected] 1]
-		#activate the action buttons now an image is selected
-		if {$filepath != ""} {
-			$actions.setasmine configure -state normal -command [list set_displaypic $filepath ]
-			$actions.setascustom configure -state normal -command [list ::abookGui::setCustomDp $email $filepath $widget ]
-			$actions.copyfileuri configure -state normal -command [list ::abookGui::copyDpToClipboard $filepath]
-		} else {
-			$actions.setasmine configure -state disabled
-			$actions.setascustom configure -state disabled
-			$actions.copyfileuri configure -state disabled
-		}
-	}
+#	proc activate_dpbrowser_actions {widget email} {
+#
+#		set browser $widget.browser
+#		set actions $widget.actions
+#
+#		set filepath [lindex [$browser getSelected] 1]
+#		#activate the action buttons now an image is selected
+#		if {$filepath != ""} {
+#			$actions.setasmine configure -state normal -command [list set_displaypic $filepath ]
+#			$actions.setascustom configure -state normal -command [list ::abookGui::setCustomDp $email $filepath $widget ]
+#			$actions.copyfileuri configure -state normal -command [list ::abookGui::copyDpToClipboard $filepath]
+#		} else {
+#			$actions.setasmine configure -state disabled
+#			$actions.setascustom configure -state disabled
+#			$actions.copyfileuri configure -state disabled
+#		}
+#	}
 
 	#menu when right-clicking the user's dp on the first tab
 	proc dp_mypicpopup_menu { X Y filename user} {
@@ -1367,18 +1373,23 @@ namespace eval ::abookGui {
 		pack $nbSettings.fNick.fColor.bset -side left -padx 3 -pady 2
 		pack $nbSettings.fNick.fColor.brem -side left -padx 3 -pady 2
 		
-#		# The custom display pic frame
-#		label $nbSettings.fNick.lDispl -text "[trans customdp]:"
-#		frame $nbSettings.fNick.fDispl -relief flat
-#		set customdp_$email [::abook::getContactData $email customdp ""] 
-#		image create photo customdp_img_$email -file [set customdp_$email]
-
-#		label $nbSettings.fNick.fDispl.dp -image customdp_img_$email -borderwidth 0 -relief flat
-#		button $nbSettings.fNick.fDispl.bset -text "[trans change]" -command "::abookGui::ChangeCustomDp $email $nbSettings" 
-#		button $nbSettings.fNick.fDispl.brem -text "[trans delete]" -command "::abookGui::RemoveCustomDp $email $nbSettings" 
-#		pack $nbSettings.fNick.fDispl.dp -side left -expand true -fill y -pady 5 -padx 8
-#		pack $nbSettings.fNick.fDispl.bset -side left -padx 3 -pady 2
-#		pack $nbSettings.fNick.fDispl.brem -side left -padx 3 -pady 2
+		# The custom display pic frame
+		label $nbSettings.fNick.lDispl -text "[trans customdp]:"
+		frame $nbSettings.fNick.fDispl -relief flat
+		
+		set customdp_$email [::abook::getContactData $email customdp ""] 
+		if {[set customdp_$email] != ""} {
+			image create photo customdp_img_$email -file [set customdp_$email]
+			label $nbSettings.fNick.fDispl.dp -image customdp_img_$email -borderwidth 0 -relief flat
+		} else {
+			label $nbSettings.fNick.fDispl.dp -image "" -borderwidth 0 -relief flat
+		}
+		
+		button $nbSettings.fNick.fDispl.bset -text "[trans change]" -command "::abookGui::ChangeCustomDp $email $nbSettings" 
+		button $nbSettings.fNick.fDispl.brem -text "[trans delete]" -command "::abookGui::RemoveCustomDp $email $nbSettings" 
+		pack $nbSettings.fNick.fDispl.dp -side left -expand true -fill y -pady 5 -padx 8
+		pack $nbSettings.fNick.fDispl.bset -side left -padx 3 -pady 2
+		pack $nbSettings.fNick.fDispl.brem -side left -padx 3 -pady 2
 		
 		grid $nbSettings.fNick.customnickl -row 0 -column 0 -sticky e
 		grid $nbSettings.fNick.customnick -row 0 -column 1 -sticky we
@@ -1388,8 +1399,8 @@ namespace eval ::abookGui {
 		grid $nbSettings.fNick.ycustomfnick -row 2 -column 1 -sticky we
 		grid $nbSettings.fNick.lColor -row 3 -column 0 -sticky e
 		grid $nbSettings.fNick.fColor -row 3 -column 1 -sticky w
-#		grid $nbSettings.fNick.lDispl -row 4 -column 0 -sticky e
-#		grid $nbSettings.fNick.fDispl -row 4 -column 1 -sticky w
+		grid $nbSettings.fNick.lDispl -row 4 -column 0 -sticky e
+		grid $nbSettings.fNick.fDispl -row 4 -column 1 -sticky w
 		grid columnconfigure $nbSettings.fNick 1 -weight 1
 		
 		labelframe $nbSettings.fChat -relief groove -text [trans chat]
@@ -1458,29 +1469,25 @@ namespace eval ::abookGui {
 		label $nbUserDPs.titlepic2 -text "[trans otherdisplaypic]" \
 			-font bboldunder
 
-		frame $nbUserDPs.otherdpscontainer
-		set actions $nbUserDPs.otherdpscontainer.actions
-		#$nbUserDPs.otherdpscontainer.browser is created in userDPs_raise_cmd
-
-		frame $actions
-
-#TODO: buttons should be pimped to look better
-
-		label $actions.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf -anchor n
-		label $actions.displaypic -image [::skin::getDisplayPicture $email] -anchor n
-		
-		button $actions.setasmine -text "[trans setasmydp]" -state disabled -justify left
-		
-		button $actions.setascustom -text "[trans setascustom]" -state disabled
-		if {[::abook::getContactData $email customdp ""] != ""} {
-			button $actions.removecustom -text "[trans removecustom]" -state normal -command [list ::abookGui::unsetCustomDp $email $w]
-		} else {
-			button $actions.removecustom -text "[trans removecustom]" -state disabled
-		}
-		button $actions.copyfileuri -text "[trans copytoclipboard [string tolower [trans filename]]]" -state disabled
-		pack $actions.titlepic1 $actions.displaypic -fill x
-		pack $actions.setasmine $actions.setascustom $actions.removecustom $actions.copyfileuri  -anchor w -fill x
-		pack $actions -side left -fill y
+#		frame $nbUserDPs.otherdpscontainer
+#		set actions $nbUserDPs.otherdpscontainer.actions
+#		#$nbUserDPs.otherdpscontainer.browser is created in userDPs_raise_cmd
+#
+#		frame $actions
+#		label $actions.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf -anchor n
+#		label $actions.displaypic -image [::skin::getDisplayPicture $email] -anchor n
+#		
+#		button $actions.setasmine -text "[trans setasmydp]" -state disabled -justify left
+#		button $actions.setascustom -text "[trans setascustom]" -state disabled
+#		if {[::abook::getContactData $email customdp ""] != ""} {
+#			button $actions.removecustom -text "[trans removecustom]" -state normal -command [list ::abookGui::unsetCustomDp $email $w]
+#		} else {
+#			button $actions.removecustom -text "[trans removecustom]" -state disabled
+#		}
+#		button $actions.copyfileuri -text "[trans copytoclipboard [string tolower [trans filename]]]" -state disabled
+#		pack $actions.titlepic1 $actions.displaypic -fill x
+#		pack $actions.setasmine $actions.setascustom $actions.removecustom $actions.copyfileuri  -anchor w -fill x
+#		pack $actions -side left -fill y
 
 
 		#Other display pictures get loaded when the dp tab is raised
@@ -1489,7 +1496,7 @@ namespace eval ::abookGui {
 #		pack $nbUserDPs.titlepic1 -anchor w -padx 5 -pady 5
 #		pack $nbUserDPs.displaypic -anchor w -padx 7 -pady 5
 		pack $nbUserDPs.titlepic2 -anchor w -padx 5 -pady 5
-		pack $nbUserDPs.otherdpscontainer -anchor w -padx 5 -pady 5 -fill both -expand true
+#		pack $nbUserDPs.otherdpscontainer -anchor w -padx 5 -pady 5 -fill both -expand true
 
 		##########
 		#Common
@@ -1630,62 +1637,60 @@ namespace eval ::abookGui {
 		$w.fNick.fColor.col configure -background [$w.fNick.fColor cget -background] -highlightthickness 0
 	}
 
-	proc setCustomDp { email path widget } {
-		# Backup old custom dp
-		set old_customdp [::abook::getContactData $email customdp ""]	
-		# Store custom display information options
-		::abook::setAtomicContactData $email customdp $path
-		# Update display picture
-		if {$path != $old_customdp} {
-			::skin::getDisplayPicture $email 1
-			::skin::getLittleDisplayPicture $email 1
-			$widget.actions.displaypic configure -image [::skin::getDisplayPicture $email]
-		}
-		if {$old_customdp == ""} {
-			$widget.actions.removecustom configure -state normal -command [list ::abookGui::unsetCustomDp $email $widget]
-		}
-	}
+#	proc setCustomDp { email path widget } {
+#		# Backup old custom dp
+#		set old_customdp [::abook::getContactData $email customdp ""]	
+#		# Store custom display information options
+#		::abook::setAtomicContactData $email customdp $path
+#		# Update display picture
+#		if {$path != $old_customdp} {
+#			::skin::getDisplayPicture $email 1
+#			::skin::getLittleDisplayPicture $email 1
+#			$widget.actions.displaypic configure -image [::skin::getDisplayPicture $email]
+#		}
+#		if {$old_customdp == ""} {
+#			$widget.actions.removecustom configure -state normal -command [list ::abookGui::unsetCustomDp $email $widget]
+#		}
+#	}
 
-	proc unsetCustomDp { email widget } {
-		# Backup old custom dp
-		set old_customdp [::abook::getContactData $email customdp ""]	
-		# Store custom display information options
-		::abook::setAtomicContactData $email customdp ""
-		# Update display picture
-		if {$old_customdp != ""} {
-			::skin::getDisplayPicture $email 1
-			::skin::getLittleDisplayPicture $email 1
-			$widget.actions.displaypic configure -image [::skin::getDisplayPicture $email]
-		}
-		$widget.actions.removecustom configure -state disabled
-	}
+#	proc unsetCustomDp { email widget } {
+#		# Backup old custom dp
+#		set old_customdp [::abook::getContactData $email customdp ""]	
+#		# Store custom display information options
+#		::abook::setAtomicContactData $email customdp ""
+#		# Update display picture
+#		if {$old_customdp != ""} {
+#			::skin::getDisplayPicture $email 1
+#			::skin::getLittleDisplayPicture $email 1
+#			$widget.actions.displaypic configure -image [::skin::getDisplayPicture $email]
+#		}
+#		$widget.actions.removecustom configure -state disabled
+#	}
 
-	proc copyDpToClipboard { file } {
-		clipboard clear
-		clipboard append $file
-	}
+#	proc copyDpToClipboard { file } {
+#		clipboard clear
+#		clipboard append $file
+#	}
 
 
 	# These procedures change the custom DP. They need to be launched from within the properties screen,
 	# as the actual change is done through the PropOk procedure
-	#TODO: delete if not more needed
-#	proc ChangeCustomDp { email w } {
-#		global customdp_$email
-#		set customdp_$email [::abook::getContactData $email customdp ""]
-#		dpBrowser $email
-#		tkwait window .dpbrowser
-#		catch {image delete customdp_img_$email}
-#		image create photo customdp_img_$email -file [set customdp_$email]
-#		$w.fNick.fDispl.dp configure -image customdp_img_$email -borderwidth 0 -relief flat
-#	}
+	proc ChangeCustomDp { email w } {
+		global customdp_$email
+		set customdp_$email [::abook::getContactData $email customdp ""]
+		dpBrowser $email
+		tkwait window .dpbrowser
+		catch {image delete customdp_img_$email}
+		image create photo customdp_img_$email -file [set customdp_$email]
+		$w.fNick.fDispl.dp configure -image customdp_img_$email -borderwidth 0 -relief flat
+	}
 
 
-	#TODO: delete if not more needed
-#	proc RemoveCustomDp { email w } {
-#	   	global customdp_$email
-#		set customdp_$email ""
-#		$w.fNick.fDispl.dp configure -image [set customdp_$email] -borderwidth 0 -relief flat
-#	}
+	proc RemoveCustomDp { email w } {
+	   	global customdp_$email
+		set customdp_$email ""
+		$w.fNick.fDispl.dp configure -image [set customdp_$email] -borderwidth 0 -relief flat
+	}
 
 	proc SetGlobalNick { } {
 		
@@ -1735,7 +1740,7 @@ namespace eval ::abookGui {
 	}
 
 	proc PropOk { email w } {
-		global colorval_$email showcustomsmileys_$email ignorecontact_$email
+		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email
 		
 		if {[::alarms::SaveAlarm $email] != 0 } {
 			return
@@ -1744,18 +1749,18 @@ namespace eval ::abookGui {
 		set nbSettings [$w.nb getframe usersettings]
 		set nbSettings [$nbSettings.sw.sf getframe]
 		
-#		# Backup old custom dp
-#		set old_customdp [::abook::getContactData $email customdp ""]
+		# Backup old custom dp
+		set old_customdp [::abook::getContactData $email customdp ""]
 
 		# Store custom display information options
-		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor showcustomsmileys ignored] \
-			[list [$nbSettings.fNick.customnick.ent get] [$nbSettings.fNick.customfnick.ent get] [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set showcustomsmileys_$email] [set ignorecontact_$email]]
+		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor customdp showcustomsmileys ignored] \
+			[list [$nbSettings.fNick.customnick.ent get] [$nbSettings.fNick.customfnick.ent get] [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set ignorecontact_$email]]
 		
-#		# Update display picture
-#		if {[set customdp_$email] != $old_customdp} {
-#			::skin::getDisplayPicture $email 1
-#			::skin::getLittleDisplayPicture $email 1
-#		}
+		# Update display picture
+		if {[set customdp_$email] != $old_customdp} {
+			::skin::getDisplayPicture $email 1
+			::skin::getLittleDisplayPicture $email 1
+		}
 		
 		# Store groups
 		::groups::GroupmanagerOk $email

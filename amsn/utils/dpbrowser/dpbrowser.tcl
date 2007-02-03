@@ -97,18 +97,21 @@ snit::widget dpbrowser {
 			set dps [concat $shipped_dps $user_dps]
 
 			if { $email != "self" } {
-				if { [::abook::getContactData $email customdp ""] != "" } {
-					set image_name [::abook::getContactData $email customdp ""]
-				} else {
-					set image_name [::abook::getContactData $email displaypicfile ""]
-				}
+				set image_name [::abook::getContactData $email displaypicfile ""]
+				set custom_image_name [::abook::getContactData $email customdp ""]
 				if {$image_name != ""} {
 					set pic_in_use [file join $HOME displaypic cache [filenoext $image_name].png]
 				} else {
 					set pic_in_use ""
 				}
+				if { $custom_image_name != "" } {
+					set custom_pic_in_use [file join $HOME displaypic cache [filenoext $custom_image_name].png]
+				} else {
+					set custom_pic_in_use $pic_in_use
+				}
 			} else {
 				set pic_in_use [displaypicture_std_self cget -file]
+				set custom_pic_in_use $pic_in_use
 				set dps [linsert $dps 0 [list "" "nopic" "[trans nopic]"]]
 			}
 		}
@@ -177,8 +180,8 @@ snit::widget dpbrowser {
 					sexytile $entry -type filewidget -text $label -icon userDP_${email}_$i\
 						-bgcolor $options(-bg) -onpress [list $self onClick $entry $file]\
 						-disableselect $isSelectDisabled -padding 4
-
-					if {[regexp ^$HOME $file]} {
+					
+					if {[regexp ^$HOME $file] && $file != $pic_in_use && $file != $custom_pic_in_use} {
 						bind $entry <ButtonRelease-3> \
 							[list $self popupMenu %X %Y $file $entry 1]
 					} else {

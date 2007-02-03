@@ -6512,10 +6512,10 @@ proc dpBrowser { {target_user "self" } } {
 	#preview
 	label $w.dppreviewtxt -text "[trans preview]:"
 	if { $selected_path == "" || [catch {image create photo displaypicture_pre_$target_user -file $selected_path -format cximage}] } {
-		label $w.dppreview -image displaypicture_std_none
-	} else {
-		label $w.dppreview -image displaypicture_pre_$target_user
+		image create photo displaypicture_pre_$target_user -file [displaypicture_std_none cget -file] -format cximage
 	}
+	label $w.dppreview -image displaypicture_pre_$target_user
+
 	
 	#browse button
 	button $w.browsebutton -command "pictureChooseFile $target_user" -text "[trans browse]..."
@@ -6529,7 +6529,7 @@ proc dpBrowser { {target_user "self" } } {
 	# lower pane    #
 	#################	
 	frame $w.lowerpane -bd 0
-	button $w.lowerpane.ok -text "[trans ok]" -command "set_displaypic $target_user;destroy $w"
+	button $w.lowerpane.ok -text "[trans ok]" -command "applyDP $target_user;destroy $w"
 	button $w.lowerpane.cancel -text "[trans cancel]" -command "destroy .dpbrowser"
 	pack $w.lowerpane.ok $w.lowerpane.cancel -side right -padx 5
 
@@ -6582,19 +6582,15 @@ proc updateDpBrowserSelection { browser target } {
 
 	set old_image [$w.dppreview cget -image]
 	$w.dppreview configure -image ""
-	if { $old_image != "displaypicture_std_none" } {
-		catch {image delete $old_image}
+	catch {image delete $old_image}
+	if {$file == ""} {
+		set file [displaypicture_std_none cget -file]
 	}
-	status_log "will be created displaypicture_pre_$target with filename $file"
-	if {$file != ""} {
-		$w.dppreview configure -image [image create photo displaypicture_pre_$target -file $file -format cximage]
-		if{$browser == $w.mydps} {
-			$w.moredps deSelect
-		} else {
-			$w.mydps deSelect
-		}
+	$w.dppreview configure -image [image create photo displaypicture_pre_$target -file $file -format cximage]
+	if{$browser == $w.mydps} {
+		$w.moredps deSelect
 	} else {
-		$w.dppreview configure -image displaypicture_std_none
+		$w.mydps deSelect
 	}
 }
 
@@ -6727,10 +6723,13 @@ proc AskDPSize { cursize } {
 	return $dpsize
 }
 
-proc set_displaypic { { email "self" } } {
+proc applyDP { { email "self" } } {
 	set file ""
 	catch {set file [displaypicture_pre_$email cget -file]}
-	
+	set_displaypic $file $email
+}
+
+proc set_displaypic { file { email "self" } } {
 	if { $email == "self" } {
 		catch {image delete displaypicture_std_self}
 		catch {image delete displaypicture_not_self}
@@ -6749,7 +6748,6 @@ proc set_displaypic { { email "self" } } {
 			::MSN::changeStatus [set ::MSN::myStatus]
 		}
 	} else {
-		catch {image delete displaypicture_pre_$email}
 		global customdp_$email
 		set customdp_$email $file
 	}
