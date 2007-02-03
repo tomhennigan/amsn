@@ -152,6 +152,9 @@ namespace eval ::guiContactList {
 		::Event::registerEvent contactMoved all ::guiContactList::contactChanged
 		::Event::registerEvent contactAdded all ::guiContactList::contactChanged
 		::Event::registerEvent contactRemoved all ::guiContactList::contactRemoved
+		::Event::registerEvent groupRenamed all ::guiContactList::groupChanged
+		::Event::registerEvent groupAdded all ::guiContactList::groupChanged
+		::Event::registerEvent groupRemoved all ::guiContactList::groupRemoved
 		::Event::registerEvent contactlistLoaded all ::guiContactList::contactlistLoaded
 		::Event::registerEvent loggedOut all ::guiContactList::loggedOut
 		::Event::registerEvent changedSorting all ::guiContactList::changedSorting
@@ -378,10 +381,31 @@ namespace eval ::guiContactList {
 	}
 
 	proc contactRemoved { eventused email { gidlist ""} } {
+		variable GroupsRedrawQueue
+
+		set grId [lindex $gidlist 0]
+		if {[lsearch $GroupsRedrawQueue $grId] == -1 || [lsearch $GroupsRedrawQueue all] == -1} {
+			lappend GroupsRedrawQueue $grId
+		}
+
+		catch {after cancel $contactAfterId}
+		set contactAfterId [after 500 ::guiContactList::redrawFromQueue]
+	}
+
+	proc groupRemoved { eventused gid } {
 		variable clcanvas
 		if { [winfo exists $clcanvas] } {
 			::guiContactList::organiseList $clcanvas
 		}
+	}
+
+	proc groupChanged { eventused grId grName } {
+		variable GroupsRedrawQueue
+		if {[lsearch $GroupsRedrawQueue $grId] == -1 || [lsearch $GroupsRedrawQueue all] == -1} {
+			lappend GroupsRedrawQueue $grId
+		}
+		catch {after cancel $contactAfterId}
+		set contactAfterId [after 500 ::guiContactList::redrawFromQueue]
 	}
 
 	proc contactChanged { eventused emails { gidlist ""} } {
@@ -536,7 +560,7 @@ namespace eval ::guiContactList {
 		foreach group $groups {
 			switch $group {
 				"all" {
-					::guiContactList::drawGroups $clcanvas				
+					::guiContactList::drawGroups $clcanvas
 				}
 				default {
 					::guiContactList::drawGroup $clcanvas [list $group [::groups::GetName $group]]
@@ -853,7 +877,7 @@ namespace eval ::guiContactList {
 		$canvas bind $gid <<Button3>> ""
 
 		$canvas bind $gid <<Button1>> "+::guiContactList::toggleGroup [list $element] $canvas"
-		$canvas bind $gid <<Button3>> "+::groups::GroupMenu $gid %X %Y"
+		$canvas bind $gid <<Button3>> "+::groups::GroupMenu [lindex $element 0] %X %Y"
 
 		$canvas bind $gid <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $gid"
 		$canvas bind $gid <Leave> "+$canvas delete uline_$gid"
@@ -1773,7 +1797,8 @@ puts "going to download $thumbnailurl"
 			
 			# if group is empty and remove empty groups is set (or this is
 			# Individuals group) then skip this group
-			if { $kind != "full" && ($grId == 0 || [::config::getKey removeempty]) && [getGroupCount $group] == 0} {
+			set grpCount [lindex [::groups::getGroupCount $grId] 1]
+			if { $kind != "full" && ($grId == 0 || [::config::getKey removeempty]) && $grpCount == 0} {
 				continue
 			}
 
