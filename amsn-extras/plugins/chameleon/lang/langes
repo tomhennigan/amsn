@@ -1,0 +1,7 @@
+amsn_lang_version 2
+enable_pixmapmenu Esto activará los menús de pixmap con temas. ¡Es experimental y debes usarlo a tu propio riesgo!\n Si no te funciona, deja de usarlo. aMSN necesita reiniciarse para activar o desactivar esta característica.
+experimental ¡Experimental! (Puede requerir reiniciar aMSN)
+need_pixmapmenu Necesitas tener instalado pixmapmenu para ejecutar este plugin
+need_tile_extension Necesitas tener la extensión tile instalada para ejecutar este plugin
+theme Tema
+widgets_to_wrap Widgets a envolver

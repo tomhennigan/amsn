@@ -1,18 +1,24 @@
 amsn_lang_version 2
-musicaddsongtonick AÒadir nombre de canciÛn al apodo
-musictimeverify Comprobar nueva canciÛn cada ? segundos
+artistsong Artista-Canci√≥n
+artsend Enviar la portada del √°lbum actual
+changepic Cambiar la imagen mostrada a la portada del √°lbum, si es posible
+choose_order Elige orden para el nombre de la canci√≥n y artista
+music_mpd_ip Direcci√≥n IP address de tu servidor MPD
+music_mpd_port Puerto de tu servidor MPD
+musicaddsongtonick A√±adir nombre de canci√≥n al apodo
+musicaddsongtopsm A√±adir nombre de canci√≥n al Mensaje Personal
+musicballontext Clic aqu√≠ para mostrar/ocultar la canci√≥n en tu apodo
+musiccurrent Mostrar la canci√≥n actual
+musicerr No se esta reproduciendo nada, o el plugin no puede obtener la m√∫sica reproducida.
 musicnickname Apodo
-musicseparator Simbolo entre el apodo y la canciÛn
-musicstopmsg Mensaje cuando el reproductor est· parado
-musiccurrent Mostrar la canciÛn actual
-musicsend Enviar la canciÛn actual
-musicerr No se esta reproduciendo nada, o el plugin no puede obtener la m˙sica reproducida.
-playing Reproduciendo : $1
-musicoserr Su sistema operativo ($1) a˙n no es soportado por el plugin Music
+musicoserr Su sistema operativo ($1) an no es soportado por el plugin Music
 musicplayer Elige tu reproductor preferido
+musicsend Enviar la canci√≥n actual
+musicseparator S√≠mbolo entre el apodo y la canci√≥n
 musicstopdefault Reproductor parado
+musicstopmsg Mensaje cuando el reproductor est√° parado
+musictimeverify Comprobar nueva canci√≥n cada ? segundos
+playing Reproduciendo : $1
 separator Separador
-songartist CanciÛn-Artista
-artistsong Artista-CanciÛn
-choose_order Elige orden para el nombre de la canciÛn y artista
-musicballontext Click aquÌ para mostrar/ocultar la canciÛn en tu apodo
+songartist Canci√≥n-Artista
+song Canci√≥n
