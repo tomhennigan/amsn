@@ -180,13 +180,18 @@ namespace eval ::hotmail {
 				lappend oim_messages $oim
 			}
 			if { $oim_count > 0 } {
-				set answer [tk_messageBox -type yesno -title "New OIM Messages" -message "You have $oim_count new Offline Instant Messages. Do you want to read them ?"]
-				if { $answer == "yes" } {
-					::OIM_GUI::MessagesReceived $oim_messages
-				}
+				after 0 "::hotmail::askReadReceivedOIMs $oim_count [list $oim_messages]"
 			}
 		} else {
 			status_log "Mail-Data is invalid : $mailData"
+		}
+	}
+
+	proc askReadReceivedOIMs { oim_count oim_messages } {
+		set answer [tk_messageBox -type yesno -title "[trans newoim]" \
+			-message [trans receivedoimread $oim_count]]
+		if { $answer == "yes" } {
+			::OIM_GUI::MessagesReceived $oim_messages
 		}
 	}
 

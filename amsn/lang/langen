@@ -500,6 +500,7 @@ newmailfolder You have $1 new message(s) in other Hotmail folders
 newmailfrom New mail from $1 ($2)
 newmailfromother New mail in other folder from $1 ($2)
 newmsg New message
+newoim New Offline Messages
 newstate Add custom state
 newtabbedfeature aMSN has a new feature for managing conversation, you can now have all of your windows from the same group or from your whole contact list in one tabbed window. Please choose the way aMSN should manage your conversations
 newveravailable Newer version $1 available for download
@@ -639,6 +640,7 @@ readonlymsgbox The file transfer has been canceled due to the received directory
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
 receivedbytes Received $1 of $2 bytes
 receiveddir Received Files folder
+receivedoimread You have $1 new Offline Instant Messages. Do you want to read them ?
 receivedvoice Received Voice Clip
 receivefile Receive file
 recentmsg Prevent closing a chat window when a message has just arrived
