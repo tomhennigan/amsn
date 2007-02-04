@@ -13,8 +13,20 @@
 	<cvs_version>7668</cvs_version>
 
 	<lang>
+		<langcode>da</langcode>
+		<version>6846</version>
+	</lang>
+	<lang>
+		<langcode>ee</langcode>
+		<version>6846</version>
+	</lang>
+	<lang>
 		<langcode>en</langcode>
 		<version>6846</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>7908</version>
 	</lang>
 	<lang>
 		<langcode>fr</langcode>
@@ -25,16 +37,12 @@
 		<version>6846</version>
 	</lang>
 	<lang>
-		<langcode>ee</langcode>
-		<version>6846</version>
-	</lang>
-	<lang>
-		<langcode>da</langcode>
-		<version>6846</version>
-	</lang>
-	<lang>
 		<langcode>hu</langcode>
 		<version>6846</version>
+	</lang>
+	<lang>
+		<langcode>it</langcode>
+		<version>7653</version>
 	</lang>
 	<lang>
 		<langcode>sv</langcode>
