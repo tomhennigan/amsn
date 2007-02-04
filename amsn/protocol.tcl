@@ -1707,6 +1707,16 @@ namespace eval ::MSN {
 
 	}
 	
+	# This method sends an Action to MSNP13+ users, datacast id 4 with Data being the action message, the messages look like emotes, in grey with no '$nick says' heading
+	proc SendAction {chatid action } {
+		set sbn [::MSN::SBFor $chatid]
+		
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msnmsgr-datacast\r\n\r\nID: 4\r\nData: $action\r\n\r\n"
+		set msg_len [string length $msg]
+	
+		#Send the packet
+		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+	}
 
 	########################################################################
 	# Check if the old closed preferred SB is still the preferred SB, or
@@ -4271,18 +4281,28 @@ namespace eval ::Event {
 						set data $value
 					}
 				}
-				if { [info exists id] && [info exists data] } {
-					if {$id == "3" } {
-						::MSNP2P::RequestObjectEx $chatid $typer $data "voice"
-					}
-				}
-				
 				set evpar(chatid) chatid
 				set evpar(typer) typer
 				set evpar(nick) nick
 				set evpar(msg) message
 				set evpar(id) id
+				set evpar(date) data
 				::plugins::PostEvent DataCastPacketReceived evpar
+
+				if { [info exists id] && [info exists data] } {
+					if {$id == "3" } {
+						::MSNP2P::RequestObjectEx $chatid $typer $data "voice"
+					} elseif {$id == "4" } {
+						# Action messages... 
+						# TODO : find a better way to write the messages ?
+						::amsn::WinWrite $chatid "\n" gray
+						::amsn::WinWriteIcon $chatid greyline 3
+						::amsn::WinWrite $chatid $data gray
+						::amsn::WinWriteIcon $chatid greyline 3
+						::amsn::WinWrite $chatid "\n" gray
+					}
+				}
+				
 			}
 
 
