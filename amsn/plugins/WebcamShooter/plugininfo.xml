@@ -15,6 +15,34 @@
 		<langcode>en</langcode>
 		<version>1.1</version>
 	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>7909</version>
+	</lang>
+	<lang>
+		<langcode>fi</langcode>
+		<version>1.1</version>
+	</lang>
+	<lang>
+		<langcode>fr</langcode>
+		<version>7916</version>
+	</lang>
+	<lang>
+		<langcode>it</langcode>
+		<version>1.1</version>
+	</lang>
+	<lang>
+		<langcode>nl</langcode>
+		<version>1.1</version>
+	</lang>
+	<lang>
+		<langcode>pt_BR</langcode>
+		<version>1.1</version>
+	</lang>
+	<lang>
+		<langcode>sv</langcode>
+		<version>1.1</version>
+	</lang>
 
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins2/WebcamShooter/camshoot.tcl</main>
