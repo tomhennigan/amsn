@@ -2011,11 +2011,7 @@ namespace eval ::CAMGUI {
 		
 		toplevel $w
 		wm protocol $w WM_DELETE_WINDOW "::CAMGUI::CloseGrabberWindowMac"
-		if { [::config::getKey lowrescam] == 1 } {
-			set camwidth 160
-		} else {
-			set camwidth 320
-		}
+		set camwidth 320
 	
 		#Add grabber to the window
 		#Show message error if it's not possible
@@ -3607,7 +3603,7 @@ namespace eval ::CAMSETUP {
 				#create the 'rightframe' canvas where the preview-image will be shown
 				set rightframe $frame.right
 
-                                if { [::config::getKey lowrescam] == 1 } {
+                                if { [::config::getKey lowrescam] == 1 && [OnLinux] } {
                                         set camwidth 160
                                         set camheight 120
                                 } else {
@@ -3964,7 +3960,7 @@ status_log "$device"
 		#frame $leftframe -bd 0
 		#pack $leftframe -side left -padx 10
 
-               if { [::config::getKey lowrescam] == 1 } {
+               if { [::config::getKey lowrescam] == 1 && [OnLinux] } {
                         set camwidth 160
 			set camheight 120
 			set cam_res "QSIF"
