@@ -270,7 +270,7 @@ dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas la montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
 download Télécharger
-editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregister
+editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregistrer
 editcustomstate Editer le statut personnel
 edit Edition
 editmyprofile Modifier mon profil MSN
@@ -382,7 +382,7 @@ ignore Ignorer
 imagefiles Fichiers image
 inbox Boîte aux lettres
 insertsmiley Insérer des émoticônes/smileys
-inserttextnote Remplir les champ Sujet et Note, puis cliquer sur Enregister
+inserttextnote Remplir les champ Sujet et Note, puis cliquer sur Enregistrer
 installconvert Vous devez procéder à l'installation de ImageMagick (programme de convertion) afin de convertir les images au format requis par les serveurs de MSN. Vous pouvez télécharger les fichiers d'installation pour votre système d'exploitation à l'adresse ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Si ce programme est déjà installé, ceci est un bogue, veuillez nous le signaler.
 internalerror Erreur interne du serveur
 invalidfile2 Le fichier $1 ne peut pas être créée, assurez-vous d'avoir les permissions nécessaires.
@@ -449,7 +449,7 @@ logschats Enregistre les conversations
 logsin vient de se connecter
 logsmileys Afficher les émoticônes/smileys dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
-logwebcam Enregister toutes les sessions webcam dans l'historique d'aMSN pour une visualisation ultèrieure
+logwebcam Enregistrer toutes les sessions webcam dans l'historique d'aMSN pour une visualisation ultèrieure
 longnick Votre pseudonyme est supérieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Êtes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 longpsm Votre message personnel est trop long. Ce n'est pas supporté officiellement par le protocol MSN. Êtes-vous sûrs de vouloir le mettre ?
