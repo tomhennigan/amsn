@@ -100,7 +100,7 @@ namespace eval ::draw {
 		#remove the text/smiley controls		
 		pack forget $smileybut
 		pack forget $fontbut
-		pack forget $voice
+		if { [winfo exists $voice] } { pack forget $voice }
 
 		set w $window	
 		set inputframe $w.f.bottom.left.in.inner
@@ -228,7 +228,7 @@ status_log "reset to text mode"
 		#repack the text/smiley controls		
 		pack $fontbut -side left -padx 0 -pady 0
 		pack $smileybut -side left -padx 0 -pady 0
-		pack $voice -side left -padx 0 -pady 0
+		if { [winfo exists $voice] } { pack $voice -side left -padx 0 -pady 0 }
 		pack $inkswitch -side left -padx 0 -pady 0
 		
 		

@@ -9,7 +9,7 @@ Note : Windows users with the official client and the MS Journal Viewer installe
 	<plugin_file>inkdraw.tcl</plugin_file>
 	<plugin_namespace>draw</plugin_namespace>
 	<init_procedure>Init</init_procedure>
-	<cvs_version>7698</cvs_version>
+	<cvs_version>7913</cvs_version>
 
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins2/inkdraw/inkdraw.tcl</main>
