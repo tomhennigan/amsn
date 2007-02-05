@@ -13,6 +13,6 @@
 <cvs_version></cvs_version>
 	
 <URL>
-	<main>http://www.amsn-project.net/autoupdater/plugins/acv/acv.tcl</main>
-	<plugininfo>http://www.amsn-project.net/autoupdater/plugins/acv/plugininfo.xml</plugininfo>
+	<main>http://www.amsn-project.net/autoupdater/plugins/advancedconfigviewer/acv.tcl</main>
+	<plugininfo>http://www.amsn-project.net/autoupdater/plugins/advancedconfigviewer/plugininfo.xml</plugininfo>
 </URL>
