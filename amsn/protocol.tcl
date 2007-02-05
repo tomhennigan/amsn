@@ -6467,7 +6467,7 @@ proc add_Clientid {chatid clientid} {
 	::abook::setContactData $chatid clientid $clientid
 
         ##Find out how the client-program is called
-        switch [expr {$clientid & 0xFF000000}] {
+        switch [expr {$clientid & 0xF0000000}] {
                 268435456 {
                         # 0x10000000
                         set clientname "MSN 6.0"
@@ -6491,6 +6491,10 @@ proc add_Clientid {chatid clientid} {
                 1610612736 {
                         # 0x60000000
                         set clientname "Windows Live Messenger 8.0"
+                }
+                1879048192 {
+                        # 0x70000000
+                        set clientname "Windows Live Messenger 8.1"
                 }
                 default {
                         if {($clientid & 0x200) == [expr {0x200}]} {
