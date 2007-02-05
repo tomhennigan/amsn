@@ -4681,6 +4681,10 @@ proc cmsn_draw_buildtop_wrapped {} {
 	$pgBuddyTop.mystatus tag bind mystatus <Motion> \
 		+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
+	#Called when the window is resized
+	#TODO: make it called only when the window is fully resized
+	bind $pgBuddyTop.mystatus <Configure> "RedrawNick"
+
 	bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
 	bind $pgBuddyTop.bigstate <Leave> "+set Bulle(first) 0; kill_balloon;"
 	bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
@@ -4779,6 +4783,27 @@ proc cmsn_draw_buildtop_wrapped {} {
 	#finishes redrawing... and we end up with pgBuddyTop disappearing
 	#for 1 second with like 90 contacts
 	update idletasks
+}
+
+#Called $pgBuddyTop.mystatus is resized
+proc RedrawNick {} {
+	global pgBuddy pgBuddyTop
+
+	#get the new 
+	set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])}]
+	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
+	incr maxw [expr {0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]}]
+	set my_name [::abook::getPersonal MFN]
+	set my_short_name [trunc_with_smileys $my_name $pgBuddyTop.mystatus $maxw bboldf]
+	#position of the string in the widget
+	set pos [$pgBuddyTop.mystatus tag nextrange mystatus 0.0]
+	set pos1 [lindex $pos 0]
+	set pos2 [lindex $pos 1]
+
+	$pgBuddyTop.mystatus configure -state normal
+	$pgBuddyTop.mystatus delete $pos1 $pos2
+	$pgBuddyTop.mystatus insert $pos1 "$my_short_name ($my_state_desc)" mystatus
+	$pgBuddyTop.mystatus configure -state disabled
 }
 
 proc cmsn_draw_online_wrapped {} {
