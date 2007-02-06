@@ -27,6 +27,9 @@ foreach($reports as $id => $count) {
   mysql_query($query) or die("MySQL Error: ".mysql_error());
 }
 
+$query="UPDATE ".TBUGS." SET bug_priority='-1' WHERE NOT bug_flag='0'";
+$result=mysql_query($query) or die("MySQL Error: ".mysql_error());
+
 ?>
 </body>
 </html>
