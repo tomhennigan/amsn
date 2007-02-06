@@ -4787,6 +4787,11 @@ proc cmsn_draw_buildtop_wrapped {} {
 
 #Called $pgBuddyTop.mystatus is resized
 proc RedrawNick {} {
+	after cancel "RedrawNickDelayed"
+	after 200 "RedrawNickDelayed"
+}
+
+proc RedrawNickDelayed { } {
 	global pgBuddy pgBuddyTop
 
 	#get the new 
