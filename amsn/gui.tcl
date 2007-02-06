@@ -4679,7 +4679,6 @@ proc cmsn_draw_buildtop_wrapped {} {
 		+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
 	#Called when the window is resized
-	#TODO: make it called only when the window is fully resized
 	bind $pgBuddyTop.mystatus <Configure> "RedrawNick"
 
 	bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
@@ -4805,6 +4804,9 @@ proc RedrawNickDelayed { } {
 	$pgBuddyTop.mystatus configure -state normal
 	$pgBuddyTop.mystatus delete $pos1 $pos2
 	$pgBuddyTop.mystatus insert $pos1 "$my_short_name ($my_state_desc)" mystatus
+	if {[::config::getKey listsmileys]} {
+		::smiley::substSmileys $pgBuddyTop.mystatus
+	}
 	$pgBuddyTop.mystatus configure -state disabled
 }
 
