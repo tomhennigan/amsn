@@ -3654,9 +3654,6 @@ namespace eval ::Event {
 		::abook::setConsistent
 		::abook::saveToDisk
 
-		::Event::fireEvent contactlistLoaded protocol
-		::plugins::PostEvent contactlistLoaded evPar
-
 		after 0 { 
 			::MSNCCARD::InitCCard
 			cmsn_draw_online 1
@@ -3664,6 +3661,9 @@ namespace eval ::Event {
 			#Update Preferences window if it's open
 			after 1000 {catch {InitPref 1}}
 		}
+
+		::Event::fireEvent contactlistLoaded protocol
+		::plugins::PostEvent contactlistLoaded evPar
 
 	}
 

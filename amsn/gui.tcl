@@ -3286,26 +3286,26 @@ proc create_main_menu {wmenu} {
 
 	#Add the "view by" radio buttons
 	$view add radio -label "[trans sortcontactstatus]" -value 0 \
-	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
+	-variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui" -state disabled
 	$view add radio -label "[trans sortcontactgroup]" -value 1 \
-	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
+	-variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui" -state disabled
 	$view add radio -label "[trans sortcontacthybrid]" -value 2 \
-	-variable [::config::getVar orderbygroup] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
+	-variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui" -state disabled
 	#-------------------
 	$view add separator	
 	$view add radio -label "[trans showcontactnick]" -value 0 \
-		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedNickDisplay gui" -state disabled
+		-variable [::config::getVar emailsincontactlist] -command "::Event::fireEvent changedNickDisplay gui" -state disabled
 	$view add radio -label "[trans showcontactemail]" -value 1 \
-		-variable [::config::getVar emailsincontactlist] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedNickDisplay gui" -state disabled
+		-variable [::config::getVar emailsincontactlist] -command "::Event::fireEvent changedNickDisplay gui" -state disabled
 	#-------------------
 	$view add separator
 	$view add command -label "[trans changeglobnick]..." -command "::abookGui::SetGlobalNick"
 	#-------------------
 	$view add separator
 	$view add radio -label "[trans sortgroupsasc]" -value 1 \
-		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
+		-variable [::config::getVar ordergroupsbynormal] -command "::Event::fireEvent changedSorting gui" -state disabled
 	$view add radio -label "[trans sortgroupsdesc]" -value 0 \
-		-variable [::config::getVar ordergroupsbynormal] -command "cmsn_draw_online 0 2; ::Event::fireEvent changedSorting gui" -state disabled
+		-variable [::config::getVar ordergroupsbynormal] -command "::Event::fireEvent changedSorting gui" -state disabled
 
 	###########################
 	#Actions menu
@@ -3976,9 +3976,6 @@ proc status_save_file { filename } {
 proc cmsn_draw_offline {} {
 	bind . <Configure> ""
 
-	#leaving it just in case... dunno what to do with it :S
-	after cancel "cmsn_draw_online"
-
 	global password pgBuddyTop
 
 	# Now we get a lock on the contact list
@@ -4481,7 +4478,7 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 	$tw tag add $name $imgIdx
 	$tw tag bind $name <Enter> "$tw image configure $imgIdx -image [::skin::loadPixmap ${image}_hover]; $tw conf -cursor hand2"
 	$tw tag bind $name <Leave> "$tw image configure $imgIdx -image [::skin::loadPixmap $image]; $tw conf -cursor left_ptr"
-	$tw tag bind $name <Button1-ButtonRelease> "status_log \"$id\"; ::groups::ToggleStatus $id; cmsn_draw_online 0 2"
+	$tw tag bind $name <Button1-ButtonRelease> "status_log \"$id\"; ::groups::ToggleStatus $id"
 }
 #///////////////////////////////////////////////////////////////////////
 

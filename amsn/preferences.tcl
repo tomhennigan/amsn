@@ -3160,7 +3160,7 @@ proc SavePreferences {} {
 	::config::saveGlobal
 
 	if { [::MSN::myStatusIs] != "FLN" } {
-		cmsn_draw_online
+		cmsn_draw_online 0 1
 	}
 
 	if { [info exists ::start_on_windows_boot] } {
@@ -3196,8 +3196,10 @@ proc RestorePreferences { {win ".cfg"} } {
 	::config::saveGlobal
 
 	if { [::MSN::myStatusIs] != "FLN" } {
-		cmsn_draw_online
-	}	
+		cmsn_draw_online 0 1
+	}
+
+	::Event::fireEvent changedPreferences gui
 	
 	#::MSN::WriteSB ns "SYN" "0"
 
