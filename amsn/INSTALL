@@ -16,6 +16,6 @@ You can also create a .deb and .rpm package by launching respectively the comman
 and
 > make rpm
 
-For any other help, please refer to the FAQ or the website at http://amsn.sourceforge.net or visit the forums of amsn, but make sure you search for an answer to your question before asking it, it might have already been answered.
+For any other help, please refer to the FAQ at http://amsn-project.net/faq.php or the wiki at http://amsn-project.net/wiki or the website at http://amsn-project.net or visit the forums of amsn at http://amsn-project.net/forums, but make sure you search for an answer to your question before asking it, it might have already been answered.
 
 have fun.
