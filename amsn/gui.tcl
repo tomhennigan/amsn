@@ -4658,15 +4658,18 @@ proc cmsn_draw_buildtop_wrapped {} {
 		$pgBuddyTop.mystatus insert end "\n" mystatuslabel
 	}
 	
-	set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])}]
-	incr maxw [expr {0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]}]
-	set my_short_name [trunc_with_smileys $my_name $pgBuddyTop.mystatus $maxw bboldf]
-	$pgBuddyTop.mystatus insert end "$my_short_name " mystatus
-	$pgBuddyTop.mystatus insert end "($my_state_desc)" mystatus
+	drawNick
 	set psmmedia ""
 	if {[::config::getKey protocol] == 11} {
-		set psmmedia [::abook::getpsmmedia]
+		set psmmedia [::abook::getpsmmedia]	
+		$pgBuddyTop.mystatus configure -state normal
 		$pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
+		#substitute smileys in psm
+		if {[::config::getKey listsmileys]} {
+			set pos [lindex [$pgBuddyTop.mystatus tag nextrange mypsmmedia 0.0] 0]
+			::smiley::substSmileys $pgBuddyTop.mystatus $pos
+		}
+		$pgBuddyTop.mystatus configure -state disabled
 	}
 	
 	set balloon_message [list "[string map {"%" "%%"} $my_name]" "[string map {"%" "%%"} $psmmedia]" "[::config::getKey login]" "[trans status]: $my_state_desc"]
@@ -4781,13 +4784,13 @@ proc cmsn_draw_buildtop_wrapped {} {
 	update idletasks
 }
 
-#Called $pgBuddyTop.mystatus is resized
+#Called when $pgBuddyTop.mystatus is resized
 proc RedrawNick {} {
-	after cancel "RedrawNickDelayed"
-	after 200 "RedrawNickDelayed"
+	after cancel "drawNick"
+	after 200 "drawNick"
 }
 
-proc RedrawNickDelayed { } {
+proc drawNick { } {
 	global pgBuddy pgBuddyTop
 
 	#get the new 
@@ -4797,15 +4800,20 @@ proc RedrawNickDelayed { } {
 	set my_name [::abook::getPersonal MFN]
 	set my_short_name [trunc_with_smileys $my_name $pgBuddyTop.mystatus $maxw bboldf]
 	#position of the string in the widget
-	set pos [$pgBuddyTop.mystatus tag nextrange mystatus 0.0]
-	set pos1 [lindex $pos 0]
-	set pos2 [lindex $pos 1]
 
 	$pgBuddyTop.mystatus configure -state normal
-	$pgBuddyTop.mystatus delete $pos1 $pos2
+	set pos [$pgBuddyTop.mystatus tag ranges mystatus]
+	if { $pos != "" } {
+		set pos1 [lindex $pos 0]
+		set pos2 [lindex $pos 1]
+		$pgBuddyTop.mystatus delete $pos1 $pos2
+	} else {
+		set pos1 end
+	}
 	$pgBuddyTop.mystatus insert $pos1 "$my_short_name ($my_state_desc)" mystatus
 	if {[::config::getKey listsmileys]} {
-		::smiley::substSmileys $pgBuddyTop.mystatus
+		set pos2 [lindex [$pgBuddyTop.mystatus tag nextrange mystatus 0.0] 1]
+		::smiley::substSmileys $pgBuddyTop.mystatus $pos1 $pos2
 	}
 	$pgBuddyTop.mystatus configure -state disabled
 }
