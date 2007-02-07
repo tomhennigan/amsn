@@ -4688,9 +4688,6 @@ proc cmsn_draw_buildtop_wrapped {} {
 	bind $pgBuddyTop.bigstate <Leave> "+set Bulle(first) 0; kill_balloon;"
 	bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
-	if {[::config::getKey listsmileys]} {
-		::smiley::substSmileys $pgBuddyTop.mystatus
-	}
 	#Calculate number of lines, and set my status size (for multiline nicks)
 	set size [$pgBuddyTop.mystatus index end]
 	set posyx [split $size "."]
