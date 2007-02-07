@@ -541,13 +541,27 @@ snit::widgetadaptor pixmapscrollbar {
 		foreach orientation {horizontal vertical} {
 			foreach pic {arrow1 arrow2 slidertop sliderbody sliderbottom slidergrip} {
 				foreach hov {{} _hover _pressed _disabled} {
-					if { [file exists [file join $dir $orientation/${pic}${hov}.gif]] || $force } {
-						set ${orientation}_${pic}image${hov} [image create photo ${orientation}_${pic}image${hov} -file [file join $dir $orientation/${pic}${hov}.gif]]
+					foreach ext {gif png jpg bmp} {
+						if { [file exists [file join $dir $orientation/${pic}${hov}.${ext}]] \
+							|| $force } {
+							if { ![catch {set ${orientation}_${pic}image${hov} \
+								[image create photo ${orientation}_${pic}image${hov} \
+								-file [file join $dir $orientation/${pic}${hov}.${ext}]] \
+								}]} {
+								break
+							}
+						}
 					}
 				}
 			}
-			if { [file exists [file join $dir $orientation/trough.gif]] || $force } {
-				set ${orientation}_troughsrcimage [image create photo ${orientation}_troughsrcimage -file [file join $dir $orientation/trough.gif]]
+			foreach ext {gif png jpg bmp} {
+				if { [file exists [file join $dir $orientation/trough.${ext}]] || $force } {
+					if { ![catch {set ${orientation}_troughsrcimage [image create photo \
+						${orientation}_troughsrcimage -file [file join $dir \
+						$orientation/trough.${ext}]] }]} {
+						break
+					}
+				}
 			}
 			set ${orientation}_arrow1width [image width [set ${orientation}_arrow1image]]
 			set ${orientation}_arrow1height [image height [set ${orientation}_arrow1image]]
