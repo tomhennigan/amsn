@@ -162,13 +162,13 @@ snit::widget dpbrowser {
 					if {[lindex $dp 0] != ""} {
 						set file [filenoext [lindex $dp 0]].png
 						#if a problem loading the image arises, go to next
-						if { [catch { image create photo userDP_${email}_$i -file $file -format cximage }] } { continue }
+						if { [catch { set tempimage [image create photo [TmpImgName] -file $file -format cximage] }] } { continue }
 					} else {
 						set file ""
-						image create photo userDP_${email}_$i -file [displaypicture_std_none cget -file] -format cximage
+						set tempimage [image create photo [TmpImgName] -file [displaypicture_std_none cget -file] -format cximage]
 					}
 
-					::picture::ResizeWithRatio userDP_${email}_$i 96 96
+					::picture::ResizeWithRatio $tempimage 96 96
 
 					set entry $frame.${i}_tile
 
@@ -178,8 +178,8 @@ snit::widget dpbrowser {
 						set label [lindex $dp 2]
 					}
 
-					sexytile $entry -type filewidget -text $label -icon userDP_${email}_$i\
-						-bgcolor $options(-bg) -onpress [list $self onClick $entry $file]\
+					sexytile $entry -type filewidget -text $label -icon $tempimage \
+						-bgcolor $options(-bg) -onpress [list $self onClick $entry $file] \
 						-disableselect $isSelectDisabled -padding 4
 					
 					if {[regexp ^$HOME $file] && $file != $pic_in_use && $file != $custom_pic_in_use} {
@@ -190,7 +190,7 @@ snit::widget dpbrowser {
 							[list $self popupMenu %X %Y $file $entry 0]
 					}
 
-					bind $entry <Destroy> "catch { image delete userDP_${email}_$i}"
+					bind $entry <Destroy> "catch { image delete $tempimage }"
 					grid $entry \
 						-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
 						-pady $options(-padding) -padx $options(-padding)
