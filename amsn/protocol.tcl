@@ -4220,7 +4220,7 @@ namespace eval ::Event {
 			}
 			application/x-msnmsgrp2p {
 				set dest [$message getHeader "P2P-Dest"]
-				if { $dest == [::config::getKey login] } {
+				if { [string compare -nocase $dest [::config::getKey login]] == 0 } {
 					set p2pmessage [P2PMessage create %AUTO%]
 					$p2pmessage createFromMessage $message
 					::MSNP2P::ReadData $p2pmessage $chatid
