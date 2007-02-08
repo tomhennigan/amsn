@@ -113,7 +113,7 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
 		toplevel .balloon -relief flat -bg #C3C3C3 \
 		-class Balloonhelp; ::tk::unsupported::MacWindowStyle\
 		style .balloon help none
-		#wm attributes .balloon -alpha [::config::getKey windowalpha "1.0"]
+		#wm attributes .balloon
 	} else {
 		wm overrideredirect .balloon 1
 	}

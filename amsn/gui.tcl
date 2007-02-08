@@ -3593,13 +3593,6 @@ proc cmsn_draw_main {} {
 	#allow for display updates so window size is correct
 	update idletasks
 	
-	#Set the alpha value of the main window.
-	#tomhennigan:- I'm not sure of the cross platform issues with this so I've put it as OnMac just in case.
-	#The code to handle alpha for the rest of the windows is in utils/macosx/tkUnsupported/macWindowStyle.tcl
-	if {[OnMac]} {
-		catch {wm attributes . -alpha [::config::getKey windowalpha "1.0"]}
-	}
-	
 	# Make sure that visable area of main screen is shown.
 	if {[winfo x .] > [expr [winfo screenwidth .] - [winfo width .]] || [winfo y .] > [expr [winfo screenheight .] - [winfo height .]]} {
 		wm geometry . +20+40
