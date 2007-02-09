@@ -1545,9 +1545,13 @@ namespace eval ::log {
 			if { $fileid == 0 } {
 				StartLog $email
 				set fileid [LogArray $email get]
-				puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
+				if { $fileid != 0 } {
+					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
+					puts -nonewline $fileid "\|\"LGRA[timestamp]\|\"LGRE $txt\n"
+				}
+			} else {
+				puts -nonewline $fileid "\|\"LGRA[timestamp]\|\"LGRE $txt\n"
 			}
-			puts -nonewline $fileid "\|\"LGRA[timestamp]\|\"LGRE $txt\n"
 		}
 		
 		#Postevent when filetrasfer is logged
