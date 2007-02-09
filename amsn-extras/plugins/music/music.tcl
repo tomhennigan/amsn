@@ -214,6 +214,7 @@ namespace eval ::music {
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
 				"Audacious" [list GetSongAudacious return FillFrameEmpty] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+				"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
@@ -223,15 +224,17 @@ namespace eval ::music {
 				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 			]\
 			"freebsd" [list \
-				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
-				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
+				"Audacious" [list GetSongAudacious return FillFrameEmpty] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+				"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
-				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
+				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
+				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Totem" [list GetSongTotem TreatSongTotem FillFrameEmpty] \
+				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 			] \
 			"windows nt" [list \
 				"WinAmp" [list GetSongWinamp TreatSongWinamp FillFrameLess] \
@@ -1447,5 +1450,60 @@ namespace eval ::music {
 		}
 		return $return
 	}
+
+	###############################################
+	# ::music::TreatSongExaile                    #
+	# ------------------------------------------- #
+	# Gets the current playing song in Exaile     #
+	###############################################
+	proc TreatSongExaile {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoexaile"]] }
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongExaile                      #
+	# ------------------------------------------- #
+	# Gets the current playing song in Exaile     #
+	###############################################
+	proc GetSongExaile {} {
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 6 first lines
+		set path "none"
+		set status [lindex $tmplst 0]
+		set song [lindex $tmplst 1]
+		set art [lindex $tmplst 2]
+		set album [lindex $tmplst 3]
+		set songlength [lindex $tmplst 4]
+		set position [lindex $tmplst 5]
+
+		# Path not available in exile
+		#append newPath "file://" $path
+		
+		if {$status != "playing"} {
+			return 0
+		} else {
+			#Define in which  order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
+			}
+			lappend return $songart
+			lappend return [urldecode [string range $path 5 end]]
+
+			return $return
+		}
+	}
+
 
 }

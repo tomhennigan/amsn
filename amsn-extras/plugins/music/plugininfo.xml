@@ -51,14 +51,10 @@
 	
 	<file>
 		<path>display_and_send.scpt</path>
-		<version>6998</version>
+		<version>7949</version>
 	</file>
 	<file>
 		<path>infoamarok</path>
-		<version>7506</version>
-	</file>
-	<file>
-		<path>inforhythmbox</path>
 		<version>7506</version>
 	</file>
 	<file>
@@ -66,16 +62,24 @@
 		<version>7508</version>
 	</file>
 	<file>
+		<path>infoexaile</path>
+		<version>7949</version>
+	</file>
+	<file>
+		<path>infojuk</path>
+		<version>7569</version>
+	</file>
+	<file>
 		<path>infolisten</path>
+		<version>7506</version>
+	</file>
+	<file>
+		<path>inforhythmbox</path>
 		<version>7506</version>
 	</file>
 	<file>
 		<path>infototem</path>
 		<version>7508</version>
-	</file>
-	<file>
-		<path>infojuk</path>
-		<version>7569</version>
 	</file>
 	<file>
 		<path>MusicWA.exe</path>

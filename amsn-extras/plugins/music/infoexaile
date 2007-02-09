@@ -1,0 +1,12 @@
+#! /bin/bash
+
+EXAILE=`ps aux | grep exaile | grep -v grep | grep -v info`
+if [ "$EXAILE" ]
+then
+	exaile -q 2>/dev/null | sed 's/status:\ //g' | sed 's/\ self:\ /\n/g' \
+	| sed 's/\ artist:\ /\n/g' | sed 's/\ album:\ /\n/g' \
+	| sed 's/\ length:\ /\n/g' | sed 's/\ position:\ /\n/g'
+else
+	echo 0
+fi
+exit 0 
