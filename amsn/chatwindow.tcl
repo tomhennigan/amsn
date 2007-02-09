@@ -1870,7 +1870,7 @@ namespace eval ::ChatWindow {
 
 		# When someone type something in out.text, regive the focus to in.input and insert that key,
 		bind $textinner <KeyPress> "::ChatWindow::lastKeytyped %A %K $w"
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if {[OnMac]} {
 			bind $textinner <Command-KeyPress> ";"
 			bind $textinner <Command-KeyPress-v> "::ChatWindow::pasteToInput $w"
 		}

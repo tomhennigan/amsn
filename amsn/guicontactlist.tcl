@@ -68,7 +68,7 @@ namespace eval ::guiContactList {
 
 		# Let's avoid the bug of window behind the bar menu on MacOS X
 		catch {wm geometry $window [::config::getKey wingeometry]}
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if {[OnMac]} {
 			moveinscreen $window 30
 		}
 
@@ -169,7 +169,7 @@ namespace eval ::guiContactList {
 		#	so it's also at the right place when the bar is dragged
 
 		# MacOS Classic/OSX and Windows
-		if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		if {[OnMac]} {
 			#TODO: fix mac bindings -> Jerome's job ;)
 
 			bind $clcanvas <MouseWheel> {
