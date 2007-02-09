@@ -48,6 +48,11 @@ namespace eval ::hotmail {
 		set email [::config::getKey login]
 		set login [lindex [split $email "@"] 0]
 		
+		if {![string match *@hotmail.* $email ] && ![string match *@msn.* $email ]} {
+			launch_browser $main_url
+			return
+		}
+		
 		set kv $d(kv)
 		set sl [expr {[clock seconds] - $d(sessionstart)}]
 		set sid $d(sid)
