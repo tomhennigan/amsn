@@ -522,17 +522,9 @@ namespace eval ::MSNFT {
 
 	proc supportsNewFT { clientid } {
 
-		set msnc1 268435456
-		set msnc2 536870912
-		set msnc3 805306368
-		set msnc4 1073741824
-		set msnc5 1342177280
+		set msnc [expr 0xF0000000]
 
-		if { ($clientid & $msnc1) == $msnc1 || \
-			($clientid & $msnc2) == $msnc2 || \
-			($clientid & $msnc3) == $msnc3 || \
-			($clientid & $msnc4) == $msnc4 || \
-			($clientid & $msnc5) == $msnc5 } {
+		if { ($clientid & $msnc) !=  0 } {
 			return 1
 		}
 
@@ -1294,6 +1286,8 @@ namespace eval ::MSN {
 	# msnc3  This is the value for MSNC3 (MSN Msgr 6.2)
 	# msnc4  This is the value for MSNC4 (MSN Msgr 7.0)
 	# msnc5  This is the value for MSNC5 (MSN Msgr 7.5)
+	# msnc6  This is the value for MSNC5 (MSN Msgr 8.0)
+	# msnc7  This is the value for MSNC5 (MSN Msgr 8.1)
 	#
 	#switch==1 means turn on, 0 means turn off 
 	#
@@ -1355,6 +1349,7 @@ namespace eval ::MSN {
 				msnc4  { set clientid [expr {$clientid | 0x40000000} ] }
 				msnc5  { set clientid [expr {$clientid | 0x50000000} ] }
 				msnc6  { set clientid [expr {$clientid | 0x60000000} ] }
+				msnc7  { set clientid [expr {$clientid | 0x70000000} ] }
 			}
 		} else {
 			switch $cap {
@@ -1383,6 +1378,7 @@ namespace eval ::MSN {
 				msnc4  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x40000000)} ] }
 				msnc5  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x50000000)} ] }
 				msnc6  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x60000000)} ] }
+				msnc7  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x70000000)} ] }
 			}
 		}
 		::config::setKey clientid $clientid
