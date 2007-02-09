@@ -376,11 +376,15 @@ namespace eval ::ccard {
 			if {[expr $ypos + $winh] > [winfo vrootheight $w]} {
 				set ypos [expr [winfo vrootheight $w] - $winh -$border]
 			}
-			wm geometry $w ${winw}x${winh}+$xpos+$ypos
-			
+			if {[::config::getKey rememberccardposition "1"] && [::config::isSet ccardgeometry]} {
+				wm geometry $w [::config::getKey ccardgeometry]
+			} else {
+				# Default geomtry is relative to the mouse position.
+				wm geometry $w ${winw}x${winh}+$xpos+$ypos
+			}
 			
 			#close the window when ESC is pressed, set focus so it can be closed with ESC
-			bind $w <<Escape>> "destroy $w"
+			bind $w <<Escape>> "::ccard::closewindow $w"
 			focus $w
 			
 			#the overrideredirect makes it have no border and not draggable etc (no wm stuff)
@@ -419,7 +423,18 @@ namespace eval ::ccard {
 		pack $canvas -side top -fill x
 	}
 
-
+	#################################################
+	# closewindow( window )                         #
+	#  closes the wiccardndow						#
+	#################################################
+	proc closewindow { {window ".ccardwin"} } {
+		if {[winfo exists $window]} {
+			::config::setKey ccardgeometry "300x210+[winfo rootx $window]+[winfo rooty $window]"
+			kill_balloon
+			destroy $window
+		}
+		return
+	}
 
 	########################################################
 	# Procs used by drawwindow                             #
@@ -449,7 +464,7 @@ namespace eval ::ccard {
 
 		CreateButton $canvas closebutton [::skin::loadPixmap ccard_close] \
 			[::skin::loadPixmap ccard_close_hover] $xbegin \
-			"kill_balloon; destroy $w" "[trans close]" top $email
+			"::ccard::closewindow $w" "[trans close]" top $email
 
 		CreateButton $canvas rightbutton [::skin::loadPixmap ccard_right] \
 			[::skin::loadPixmap ccard_right_hover] $xbegin \
