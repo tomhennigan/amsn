@@ -500,6 +500,7 @@ newmailfolder Hai $1 nuovi messaggi Hotmail in cartelle varie
 newmailfrom Nuova e-mail da $1 ($2)
 newmailfromother Nuova posta in cartelle varie da $1 ($2)
 newmsg Nuovo messaggio
+newoim Nuovi messaggi Offline
 newstate Aggiungi uno Stato personale
 newtabbedfeature Su aMSN è ora possibile gestire le varie conversazioni anche riunendo tutte le finestre, di uno stesso gruppo o dell'intera lista contatti, in un'unica finestra a linguette. Scegli come vuoi che aMSN si comporti
 newveravailable La nuova versione $1 è disponibile per il download
@@ -639,6 +640,7 @@ readonlymsgbox Il trasferimento del file è stato annullato perché la directory d
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la directory "File Ricevuti" sembra essere protetta in scrittura.\nPer favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
 receivedbytes Ricevuti $1 byte su $2
 receiveddir Cartella file ricevuti
+receivedoimread Hai $1 nuovi messaggi Offline. Desideri leggerli ?
 receivedvoice Ricevuto un messaggio vocale
 receivefile Ricezione file in corso
 recentmsg Previeni la chiusura di una finestra di chat quando è appena arrivato un messaggio
@@ -845,6 +847,7 @@ webcamrequestreceive Inviata la richiesta per ricevere dalla webcam
 webcamrequestsend Inviata la richiesta per inviare immagini della webcam
 webcamsending Lista delle persone a cui stai inviando immagini della webcam\nClicca per annullare
 webcam Webcam
+web Web
 whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma
 whatsize L'immagine che hai richiesto non è nel normale formato di visualizzazione immagini (96x96) In che formato vuoi che l'immagine venga visualizzata?
 willjoin Sto aspettando che $1 si unisca alla conversazione
