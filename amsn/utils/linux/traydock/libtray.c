@@ -414,7 +414,7 @@ Tk_TrayIconNew (ClientData clientData,
 		icon->pixmap=Tk_GetImage(interp,icon->win,pixmap,ImageChangedProc, (ClientData)icon);
 		
 		/* Create callback function for event handling */
-		mask = StructureNotifyMask | SubstructureNotifyMask | ExposureMask | PropertyChangeMask | EnterWindowMask | LeaveWindowMask  | PropertyNotify | ReparentNotify | ResizeRedirectMask;
+		mask = StructureNotifyMask | ExposureMask | EnterWindowMask | LeaveWindowMask  | PropertyChangeMask;
 		Tk_CreateEventHandler(icon->win, mask, IconEvent, (ClientData) icon);
 		Tk_CreateClientMessageHandler(MessageEvent);
 		

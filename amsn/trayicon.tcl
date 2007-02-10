@@ -75,7 +75,6 @@ proc trayicon_init {} {
 		#workaround for bug with the popup not unposting on Windows
 		destroy .trayiconwin
 		toplevel .trayiconwin -class Amsn
-		wm overrideredirect .trayiconwin 1
 		wm geometry .trayiconwin "+0+[expr {2 * [winfo screenheight .]}]"
 		wm state .trayiconwin withdrawn
 		destroy .trayiconwin.immain
@@ -212,7 +211,6 @@ proc statusicon_proc {status} {
 			image create photo statustrayiconres
 			#add the icon
 			set statusicon [newti .si -tooltip offline -pixmap statustrayiconres -command "::trayicon_callback statustrayicon statustrayiconres"]
-			wm overrideredirect .si 1
 
 			bind .si <Button1-ButtonRelease> iconify_proc
 			bind .si <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
@@ -402,7 +400,6 @@ proc mailicon_proc {num} {
 			image create photo mailtrayicon -file $pixmap
 			image create photo mailtrayiconres
 			set mailicon [newti .mi -tooltip offline -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
-			wm overrideredirect .mi 1
 
 			bind .mi <Button-1> "::hotmail::hotmail_login"
 			bind .mi <Enter> [list balloon_enter %W %X %Y $msg]
@@ -559,7 +556,6 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 				if { [loadTrayLib] } {
 					#add the icon     !! name => .name
 					set name [newti .$name -pixmap [image create photo dest_$name] -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
-					wm overrideredirect .$name 1
 
 	#TODO: balloon bindings
 	#bind .$name <Motion> [list status_log "motion"]
