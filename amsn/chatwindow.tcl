@@ -2423,7 +2423,7 @@ namespace eval ::ChatWindow {
 			# proc being called before the start_voice_clip has finished processing, so we can get here, destroy the wave form before 
 			# the start_voice_clip proc finished using it, which would result in a bug.
 			# 
-			update
+			update idletasks
 			
 			destroy $inputframe.wave
 			eval pack $inputtext $voice_text_pack
