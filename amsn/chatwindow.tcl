@@ -2310,7 +2310,13 @@ namespace eval ::ChatWindow {
 				# This update here is necessary because it seems if we don't update, the waveform won't appear...
 				# this is because we depend on the [winfo width] and [winfo height] for the waveform size
 				update
-
+				
+				# If the user clicks/unclicks quickly then the update statement will cause the waveform to be destroyed. So we check for that.
+				if {![winfo exists ${inputframe}.wave]} {
+					status_log "VoiceClips: Waveform destroyed during start_voice_clip function." red
+					return
+				}
+				
 				$inputframe.wave create waveform 0 0 -sound $voice_sound -zerolevel 0 -width [winfo width $inputframe.wave] -height [winfo height $inputframe.wave] -pixelspersecond [expr {[winfo width $inputframe.wave] / 15}]
 
 								
@@ -2481,6 +2487,7 @@ namespace eval ::ChatWindow {
 				[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide true
 				amsn::WinWrite $chatid " - " green
 				amsn::WinWriteClickable $chatid "[trans saveas]" [list ::ChatWindow::saveVoiceClip $filename] 
+				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 			}
 		}
@@ -2561,6 +2568,7 @@ namespace eval ::ChatWindow {
 			[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide true
 			amsn::WinWrite $chatid " - " green
 			amsn::WinWriteClickable $chatid "[trans saveas]" [list ::ChatWindow::saveVoiceClip $filename_decoded] 
+			amsn::WinWrite $chatid "\n" red
 			amsn::WinWriteIcon $chatid greyline 3
 			
 			if { [::config::getKey autolisten_voiceclips 1] } {
