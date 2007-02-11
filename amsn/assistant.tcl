@@ -211,13 +211,13 @@ snit::widget assistant {
 			#leavingProc
 			set procToCall [lindex [lindex $steps_l $steps_l_i] 3]
 			if { $procToCall != "" } {
-				eval procToCall $self [$self clearContentFrame]
+				eval procToCall $self $contentf
 			}
 			
 			#closeProc
 			set procToCall [lindex [lindex $steps_l $steps_l_i] 5]
 			if { $procToCall != "" } {
-				eval procToCall $self [$self clearContentFrame]
+				eval procToCall $self $contentf
 			}
 		}
 	}
@@ -361,13 +361,13 @@ snit::widget assistant {
 		#leavingProc
 		set procToCall [lindex [lindex $steps_l $steps_l_i] 3]
 		if { $procToCall != "" } {
-			eval $procToCall $self [$self clearContentFrame]
+			eval $procToCall $self $contentf
 		}
 		
 		#backProc
 		set procToCall [lindex [lindex $steps_l $steps_l_i] 6]
 		if { $procToCall != "" } {
-			eval $procToCall $self [$self clearContentFrame]
+			eval $procToCall $self $contentf
 		}
 
 		incr steps_l_i -1
@@ -397,13 +397,13 @@ snit::widget assistant {
 		#leavingProc
 		set procToCall [lindex [lindex $steps_l $steps_l_i] 3]
 		if { $procToCall != "" } {
-			eval $procToCall $self [$self clearContentFrame]
+			eval $procToCall $self $contentf
 		}
 		
 		#nextProc
 		set procToCall [lindex [lindex $steps_l $steps_l_i] 4]
 		if { $procToCall != "" } {
-			eval $procToCall $self [$self clearContentFrame]
+			eval $procToCall $self $contentf
 		}
 
 		incr steps_l_i
@@ -466,7 +466,7 @@ snit::widget assistant {
 			#calling leavingProc
 			set leavingProc [lindex [lindex $steps_l $steps_l_i] 3]
 			if { $leavingProc != "" } {
-				eval $leavingProc $self [$self clearContentFrame]
+				eval $leavingProc $self $contentf
 			}
 			#calling mainProc
 			eval [lindex [lindex $steps_l $steps_l_i] 2] $self [$self clearContentFrame]
@@ -1209,7 +1209,9 @@ namespace eval ::AVAssistant {
 		stopPreviewGrabbing 0 0
 
 		#save settings
-		::config::setKey "webcamDevice" "$selecteddevice:$selectedchannel"
+		if {[info exists selecteddevice] && [info exists selectedchannel]} {
+			::config::setKey "webcamDevice" "$selecteddevice:$selectedchannel"
+		}
 	}
 
 	###
@@ -1432,7 +1434,9 @@ namespace eval ::AVAssistant {
 		variable color
 
 		#save settings
-		::config::setKey "webcam$selecteddevice:$selectedchannel" "$brightness:$contrast:$hue:$color"
+		if {[info exists brightness] && [info exists contrast] && [info exists hue] && [info exists color]} {
+			::config::setKey "webcam$selecteddevice:$selectedchannel" "$brightness:$contrast:$hue:$color"
+		}
 
 		stopPreviewGrabbing O O
 	}
