@@ -1166,7 +1166,7 @@ namespace eval ::amsn {
 		set w .ft$cookie
 		toplevel $w
 		wm group $w .
-		wm geometry $w 360x170
+		#wm geometry $w 360x170
 
 		#frame $w.f -class amsnChatFrame -background [::skin::getKey chatwindowbg] -borderwidth 0 -relief flat
 		#set w $ww.f
