@@ -3301,8 +3301,7 @@ namespace eval ::Event {
 			#first check there were some events registered to caller or it will fail
 			if { [array names eventsArray "$eventName,$call"] == "$eventName,$call" } {
 				foreach listener [set eventsArray($eventName,$call)] {
-					set call [linsert $args 0 $listener $eventName]
-					eval $call
+					eval $listener [linsert $args 0 $eventName]
 				}
 			}
 		}
@@ -5465,6 +5464,7 @@ proc cmsn_ns_msg {recv message} {
 	if {[string range $content 0 19] == "text/x-msmsgsprofile"} {
 		status_log "Getting demographic and auth information\n" blue
 		# 1033 is English. See XXXX for info
+		set d(email_enabled) [$message getHeader EmailEnabled]
 		set d(langpreference) [$message getHeader lang_preference]
 		set d(preferredemail) [$message getHeader preferredEmail]
 		set d(country) [$message getHeader country]
@@ -5481,6 +5481,11 @@ proc cmsn_ns_msg {recv message} {
 
 		::config::setKey myip $d(clientip)
 		status_log "My IP is [::config::getKey myip]\n"
+
+		# Looks like MSN sends us whether this user has his emails enabled, so for non hotmail accounts we can automatically remove that inbox line from the CL
+		if { [::conifig::getKey checkemail] == 1 && $d(email_enabled) == 0} {
+			::conifig::setKey checkemail $d(email_enabled)
+		}
 
 		if {$::msnp13} {
 			getAddressbook
