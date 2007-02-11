@@ -120,8 +120,8 @@ namespace eval ::guiContactList {
 		variable Xbegin
 		variable Ybegin
 
-		set Xbegin 10
-		set Ybegin 10
+		set Xbegin [::skin::getKey contactlist_xpad]
+		set Ybegin [::skin::getKey contactlist_ypad]
 
 		frame $w.cl -background [::skin::getKey contactlistbg]
 
@@ -654,7 +654,7 @@ namespace eval ::guiContactList {
 				}
 
 				set maxwidth [winfo width $canvas]
-				set boXpad 10
+				set boXpad $Xbegin
 				set width [expr {$maxwidth - ($boXpad*2)}]
 				if {$width <= 30} {set width 300}
 

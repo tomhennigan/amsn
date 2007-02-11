@@ -61,6 +61,8 @@
 		</Colors>
 		<Geometry>
 			<buddylistpad>2</buddylistpad>
+			<contactlist_xpad>10</contactlist_xpad>
+			<contactlist_ypad>10</contactlist_ypad>
 			<bigstate_xpad>5</bigstate_xpad>
 			<bigstate_ypad>5</bigstate_ypad>
 			<mystatus_xpad>3</mystatus_xpad>

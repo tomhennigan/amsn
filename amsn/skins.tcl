@@ -64,6 +64,9 @@ namespace eval ::skin {
 		
 		::skin::setKey expand_xpad 5
 		::skin::setKey expand_ypad 0
+
+		::skin::setKey contactlist_xpad 10
+		::skin::setKey contactlist_ypad 10
 		
 	}
 
