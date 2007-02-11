@@ -5483,8 +5483,8 @@ proc cmsn_ns_msg {recv message} {
 		status_log "My IP is [::config::getKey myip]\n"
 
 		# Looks like MSN sends us whether this user has his emails enabled, so for non hotmail accounts we can automatically remove that inbox line from the CL
-		if { [::conifig::getKey checkemail] == 1 && $d(email_enabled) == 0} {
-			::conifig::setKey checkemail $d(email_enabled)
+		if { [::config::getKey checkemail] == 1 && $d(email_enabled) == 0} {
+			::config::setKey checkemail $d(email_enabled)
 		}
 
 		if {$::msnp13} {
