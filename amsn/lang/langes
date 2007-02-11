@@ -77,7 +77,6 @@ baduserpass Nombre de usuario o contraseña incorrectos
 badwebcam No se puede visualizar la imagen de la cámara web. Asegúrate de que la cámara web esté instalada y conectada
 bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
-block No admitir
 blocked Bloqueado
 blockedyougroup Mostrar un grupo aparte con los contactos que te bloquean
 blocking Bloqueo
@@ -87,6 +86,7 @@ blockinter3 contactos cada
 blockinter4 segundos
 blocklist Lista de bloqueados (BL):
 blockmessage Los siguientes contactos están conectados y bloqueándote
+block No admitir
 blocknotifications Deshabilitar mostrar ventanas de notificación
 blocksounds Deshabilitar sonidos
 blockusers Comprobar continuamente 
@@ -172,12 +172,12 @@ color Color
 command Comando
 commandstatus Ejecutar comando
 configure Configurar
+confirm ¿ Estás seguro ?
 confirmbl ¿Estás seguro que deseas bloquear a este contacto?
 confirmdelete ¿Seguro que deseas borrar a $1?
 confirmdg ¿Estás seguro que deseas borrar este grupo?
 confirmdu ¿Estás seguro que deseas borrar este usuario?
 confirmeg ¿Estás seguro que deseas vaciar este grupo?
-confirm ¿ Estás seguro ?
 confirmpurge Todas las imágenes para mostrar del resto de los contactos (no las tuyas) serán eliminadas. ¿ Estás seguro ?
 confirmrfl ¿Estás seguro que deseas borrar este usuario de este grupo?
 connected Ahora estás conectado
@@ -837,10 +837,9 @@ viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
 wanttosharecam Quiero que mi cámara web esté disponible para otros
-web Web
+webcam Cámara web
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
-webcam Cámara web
 webcamconfigure Configurar cámara web
 webcamextloaded Extensión de cámara web cargada
 webcamextnotloaded La extensión de cámara web no ha sido cargada. Tendrás que compilarla.
@@ -848,12 +847,13 @@ webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para cámara web
 webcamhistory Ver sesiones de cámara web
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero aMSN todavía no soporta esta característica.
 webcaminvitereceived $1 Te ha invitado para iniciar una sesión de cámara web. ¿Quieres aceptar esta invitación?
+webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?
+webcaminvitesending $1 quiere ver tu cámara web. ¿Deseas aceptar la invitación?
 webcamrejected $1 ha rechazado la invitación para la sesión de cámara web 
 webcamrequestreceive Invitar para iniciar una sesión de cámara web  
 webcamrequestsend Invitar para que vean mi cámara web
 webcamsending Lista de personas que actualmente te están viendo por tu cámara web\nClic para Cancelar
-webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?
-webcaminvitesending $1 quiere ver tu cámara web. ¿Deseas aceptar la invitación?
+web Web
 whatisamsn aMSN es un clon multiplataforma de MSN Messenger
 whatsize La imagen seleccionada no es del tamaño predefinido (96x96). ¿A qué tamaño te gustaría que fuera mostrada?
 willjoin Esperando que $1 se una a la conversación
