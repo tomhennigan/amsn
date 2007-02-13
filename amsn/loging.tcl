@@ -338,7 +338,7 @@ namespace eval ::log {
 			set fileid [LogArray $email get]
 			if { $fileid != 0 } {
 				if {[::OIM_GUI::IsOIM $email] || $OIMStamp != 0} {
-					puts -nonewline $fileid "\|\"LRED\[[trans lconvstartedOIM [clock format [clockseconds] -format "%d %b %Y %T"]]\]\n"
+					puts -nonewline $fileid "\|\"LRED\[[trans lconvstartedOIM [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
 				} elseif { $conf == 0 } {
 					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
 				} else {
