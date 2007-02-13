@@ -416,6 +416,7 @@ lazypicretrieval Lazy Display Pictures retrieval
 lclosedwin $1 has closed the window on $2
 lconftopriv Conference turned into Private chat with $1
 lconvstarted Conversation started on $1
+lconvstartedOIM Started an Offline Instant Messaging conversation on $1
 leaveblankforhotmail Leave blank to use Hotmail
 leavejoinsinchat Show "leaves/joins conversation" notifications inside the chat window
 leaves $1 leaves conversation

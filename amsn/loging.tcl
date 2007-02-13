@@ -262,7 +262,7 @@ namespace eval ::log {
 	# user : user who sent message
 	# msg : msg
 
-	proc PutLog { chatid user msg {fontformat ""} {failed 0}} {
+	proc PutLog { chatid user msg {fontformat ""} {failed 0} {OIMStamp 0}} {
 		if {$fontformat == ""} {
 			set color "NOR"
 		} else {
@@ -275,8 +275,8 @@ namespace eval ::log {
 			set user [trans deliverfail]
 		} 
 
-		if {[::OIM_GUI::IsOIM $chatid]} {
-			::log::WriteLog $chatid "\|\"LITA$user :\|\"L$color $msg\n" 0 $chatid
+		if {[::OIM_GUI::IsOIM $chatid] || $OIMStamp != 0 } {
+			::log::WriteLog $chatid "\|\"LITA$user :\|\"L$color $msg\n" 0 $chatid $OIMStamp
 		} else  {
 			set user_list [::MSN::usersInChat $chatid]
 			foreach user_info $user_list {
@@ -303,7 +303,7 @@ namespace eval ::log {
 	# Checks if a fileid for current user already exists before writing
 	# conf 1 is used for conference messages
 
-	proc WriteLog { email txt {conf 0} {user_list ""}} {
+	proc WriteLog { email txt {conf 0} {user_list ""} {OIMStamp 0}} {
 
 		set fileid [LogArray $email get]
 
@@ -328,17 +328,27 @@ namespace eval ::log {
 					ConfArray $email set $conf
 				}
 			}
-			puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
+			if {$OIMStamp == 0 } {
+				puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
+			} else {
+				puts -nonewline $fileid "\|\"LGRA$OIMStamp $txt"				
+			}
 		} else {
 			StartLog $email
 			set fileid [LogArray $email get]
 			if { $fileid != 0 } {
-				if { $conf == 0 } {
+				if {[::OIM_GUI::IsOIM $email] || $OIMStamp != 0} {
+					puts -nonewline $fileid "\|\"LRED\[[trans lconvstartedOIM [clock format [clockseconds] -format "%d %b %Y %T"]]\]\n"
+				} elseif { $conf == 0 } {
 					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
 				} else {
 					puts -nonewline $fileid "\|\"LRED\[[trans lenteredconf $email [clock format [clock seconds] -format "%d %b %Y %T"]] \(${users}\) \]\n"
 				}
-				puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
+				if {$OIMStamp == 0 } {
+					puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
+				} else {
+					puts -nonewline $fileid "\|\"LGRA$OIMStamp $txt"				
+				}
 			}
 		}
 	}

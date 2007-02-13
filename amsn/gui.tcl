@@ -6986,8 +6986,7 @@ namespace eval ::OIM_GUI {
 
 	proc MessageSendCallback { chatid error } {
 		if {![string match *success* $error]} {
-			::amsn::WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
-			::amsn::WinWrite $chatid "\n$error\n" red
+			::amsn::WinWriteFail $chatid "($error)" red
 		}
 	}
 
@@ -7088,7 +7087,7 @@ namespace eval ::OIM_GUI {
 		set msg [lindex $oim_message 3]
 		set MsgId [lindex $oim_message 4]
 		set arrivalTime [lindex $oim_message 6]
-        set unixtimestamp 0
+		set unixtimestamp 0
 
 		#convert the arrival time
 		set pos [string first . $arrivalTime]
@@ -7099,7 +7098,7 @@ namespace eval ::OIM_GUI {
 		append tstamp [clock format $unixtimestamp -format "%D - %H:%M:%S"]
 		append tstamp [::config::getKey rightdelimiter]
 
-        set chatid [GetChatId $user]
+		set chatid [GetChatId $user]
 
 		if { $chatid == 0 } {
 			::amsn::chatUser $user
@@ -7135,13 +7134,13 @@ namespace eval ::OIM_GUI {
 		#Return the custom nick, replacing backslashses and variables
 		set customchatstyle [subst -nocommands $customchatstyle]
 		
-		set msg "\n${customchatstyle}${msg}"
-		SendMessageFIFO [list ::amsn::WinWrite $chatid "$msg" user] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		set custommsg "\n${customchatstyle}${msg}"
+		SendMessageFIFO [list ::amsn::WinWrite $chatid "$custommsg" user] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 		#We	should add an event for sending message
 		#loging
 		if {[::config::getKey keep_logs]} {
-			::log::PutLog $chatid $user $msg
+			::log::PutLog $chatid $nick $msg "" 0 $tstamp
 		}
 	}
 
