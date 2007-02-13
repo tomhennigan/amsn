@@ -211,13 +211,13 @@ snit::widget assistant {
 			#leavingProc
 			set procToCall [lindex [lindex $steps_l $steps_l_i] 3]
 			if { $procToCall != "" } {
-				eval procToCall $self $contentf
+				eval $procToCall $self $contentf
 			}
 			
 			#closeProc
 			set procToCall [lindex [lindex $steps_l $steps_l_i] 5]
 			if { $procToCall != "" } {
-				eval procToCall $self $contentf
+				eval $procToCall $self $contentf
 			}
 		}
 	}
@@ -852,70 +852,85 @@ namespace eval ::AVAssistant {
 				$assistant insertStepAfter $Step "Step1W"
 			}
 
-			#everything is fine, going to the next step
-			$assistant next
-		} else {
-			#we won't be able to configure the video settings
-
-			$contentf configure -padx 20 -pady 35
-		
-			#First part : the webcam extension
-			set wcextlabel $contentf.wcextlabel
-#TODO: translation
-			label $wcextlabel -justify left -anchor nw -font bboldf \
-				-text "Check if webcam extension is loaded ..."\
-				-image $wcextpic -compound right
-
-			if {!$::AVAssistant::infoarray(wcextloaded)} {
-#TODO: translation
-				label $contentf.wcextwarn -justify left -text "You won't be able to view your contacts' webcams. You may find answers on how to install that extension on our Wiki : "
-#TODO: fill the url
-				label $contentf.wcextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
-			}
-
-			pack $wcextlabel
-			
-			if {!$::AVAssistant::infoarray(wcextloaded)} {
-				pack $contentf.wcextwarn 
-				pack $contentf.wcextwarnurl
-
-				bind $contentf.wcextwarnurl <Enter> "%W configure -font sunderf"
-				bind $contentf.wcextwarnurl <Leave> "%W configure -font splainf"
-				bind $contentf.wcextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
-#TODO: when resizing for a bigger window, the label is not wrapped
-				#to get a nice wrapping
- 				bind $contentf.wcextwarn <Configure> [list %W configure -wraplength %w]
-			}
-
-			#Second part : the capture extension
-			set capextlabel $contentf.capextlabel
-#TODO: translation
-			label $capextlabel -justify left -anchor nw -font bboldf \
-				-text "Check if '$capextname' extension is loaded ..."\
-				-image $capextpic -compound right
-
-			if {!$::AVAssistant::infoarray(capextloaded)} {
-#TODO: translation
-				label $contentf.capextwarn -justify left -text "You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install that extension on our Wiki : "
-#TODO: fill the url
-				label $contentf.capextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
-			}
-
-			pack $capextlabel -pady [list 20 0]
-
-			if {!$::AVAssistant::infoarray(capextloaded)} {
-				pack $contentf.capextwarn
-				pack $contentf.capextwarnurl
-				bind $contentf.capextwarnurl <Enter> "%W configure -font sunderf"
-				bind $contentf.capextwarnurl <Leave> "%W configure -font splainf"
-				bind $contentf.capextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
-#TODO: when resizing for a bigger window, the label is not wrapped
-				#to get a nice wrapping
- 				bind $contentf.capextwarn <Configure> [list %W configure -wraplength %w]
-			}
 		}
-	}
+		#we won't be able to configure the video settings
+
+		$contentf configure -padx 20 -pady 35
 	
+		#First part : the webcam extension
+		set wcextlabel $contentf.wcextlabel
+#TODO: translation
+		label $wcextlabel -justify left -anchor nw -font bboldf \
+			-text "Check if webcam extension is loaded ..."\
+			-image $wcextpic -compound right
+
+		if {!$::AVAssistant::infoarray(wcextloaded)} {
+#TODO: translation
+			label $contentf.wcextwarn -justify left -text "You won't be able to view your contacts' webcams. You may find answers on how to install that extension on our Wiki : "
+#TODO: fill the url
+			label $contentf.wcextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+		}
+
+		pack $wcextlabel
+		
+		if {!$::AVAssistant::infoarray(wcextloaded)} {
+			pack $contentf.wcextwarn 
+			pack $contentf.wcextwarnurl
+
+			bind $contentf.wcextwarnurl <Enter> "%W configure -font sunderf"
+			bind $contentf.wcextwarnurl <Leave> "%W configure -font splainf"
+			bind $contentf.wcextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+#TODO: when resizing for a bigger window, the label is not wrapped
+			#to get a nice wrapping
+			bind $contentf.wcextwarn <Configure> [list %W configure -wraplength %w]
+		}
+
+		#Second part : the capture extension
+		set capextlabel $contentf.capextlabel
+#TODO: translation
+		label $capextlabel -justify left -anchor nw -font bboldf \
+			-text "Check if '$capextname' extension is loaded ..."\
+			-image $capextpic -compound right
+
+		if {!$::AVAssistant::infoarray(capextloaded)} {
+#TODO: translation
+			label $contentf.capextwarn -justify left -text "You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install that extension on our Wiki : "
+#TODO: fill the url
+			label $contentf.capextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+		}
+
+		pack $capextlabel -pady [list 20 0]
+
+		if {!$::AVAssistant::infoarray(capextloaded)} {
+			pack $contentf.capextwarn
+			pack $contentf.capextwarnurl
+			bind $contentf.capextwarnurl <Enter> "%W configure -font sunderf"
+			bind $contentf.capextwarnurl <Leave> "%W configure -font splainf"
+			bind $contentf.capextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+#TODO: when resizing for a bigger window, the label is not wrapped
+			#to get a nice wrapping
+			bind $contentf.capextwarn <Configure> [list %W configure -wraplength %w]
+		}
+#TODO: translation
+		button $contentf.nowebcam -text "nowebcam" -command "::AVAssistant::noWebcam $assistant"
+		pack $contentf.nowebcam -pady [list 50 10]
+	}
+
+
+	######################################################################################
+	# noWebcam: this proc is called when we don't have webcam, and want to skip the steps#
+	# where we change settings for webcam                                                #
+	######################################################################################
+	proc noWebcam {assistant} {
+	
+		#Remove useless steps
+		$assistant removeStep "Step1W"
+		$assistant removeStep "Step2W"
+		
+		#going to (what should be) the next step : audio settings
+		$assistant goToStep "Step1A"
+	}
+
 	######################################################################################
 	# Step 1 Video:  Set device/channel                                                  #
 	######################################################################################	
@@ -1305,7 +1320,7 @@ namespace eval ::AVAssistant {
 		set previmc $rightframe
 
 		#close the device if open
-		if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
+		if { [info exists ::CAMGUI::webcam_preview] && [::Capture::IsValid $::CAMGUI::webcam_preview] } {
 			::Capture::Close $::CAMGUI::webcam_preview
 		}
 
