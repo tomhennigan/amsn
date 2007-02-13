@@ -117,6 +117,36 @@ namespace eval ::remote {
 		}
 		write_remote "State changed"
 	}
+	proc listcustomstates { } { 
+		set numstates [StateList size] 
+		
+		if {$numstates > 0} { 
+			write_remote "ID\tState name" 
+			
+			for { set stateid 0 } { $stateid < $numstates } { incr stateid } { 
+				set state [StateList get $stateid] 
+				write_remote "$stateid\t [lindex $state 0]" 
+			} 
+		} else { 
+			write_remote "No custom states defined" 
+		} 
+	} 
+	
+	proc setcustomstate { state } { 
+		set numstates [StateList size] 
+		
+		if { [string is digit $state] != 1 || $state < 0 || $state >= $numstates } { 
+			write_remote "Invalid state" 
+		} else { 
+			ChCustomState $state 
+		} 
+	} 
+	
+
+       proc setpsm { {psm ""} } { 
+                       ::MSN::changePSM "$psm" 
+                       write_remote "PSM set to : $psm" 
+       } 
 
 	proc setnick { nickname } {
 		if {$nickname != ""} {

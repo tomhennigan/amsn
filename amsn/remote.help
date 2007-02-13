@@ -11,6 +11,12 @@ status
 	Shows your current nick, personal message, state
 getstate
 	Shows you our online state
+listcustomstates 
+	Lists all defined custom states with their ID numbers 
+setcustomstate { stateid } 
+	Sets your state to a custom defined state specified by its ID number 
+setpsm { psm } 
+	Sets your personal message (PSM)
 setstate { state }
 	Sets your state : Online/Away/Busy/NoActivity/BRB/OnPhone/Lunch/AppearOffline
 setnick { nickname }
