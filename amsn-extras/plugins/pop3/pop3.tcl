@@ -42,8 +42,8 @@ namespace eval ::pop3 {
 
 		for {set acntn 0} {$acntn<10} {incr acntn} {
 			array set ::pop3::config [ list \
-				host_[set acntn] {"your.mailserver.here"} \
-				user_[set acntn] {"user_login@here"} \
+				host_[set acntn] {your.mailserver.here} \
+				user_[set acntn] {user_login@here} \
 				passe_[set acntn] [::pop3::encrypt ""] \
 				port_[set acntn] {110} \
 				notify_[set acntn] {1} \
@@ -877,9 +877,8 @@ namespace eval ::pop3 {
 		if { [set ::pop3::config(loadMailProg_$acntn)] } {
 			$textb tag bind pop3mail_$acntn <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list ::pop3::loadDefaultEmail $acntn]"
 		}
-		if { [set ::pop3::config(rightdeletemenu_$acntn)] } {
-			$textb tag bind pop3mail_$acntn <Button3-ButtonRelease> "after 1 [list ::pop3::rightclick %X %Y $acntn]"
-		}
+		$textb tag bind pop3mail_$acntn <Button3-ButtonRelease> "after 1 [list ::pop3::rightclick %X %Y $acntn]"
+		
 		set balloon_message "$mailmsg[set ::pop3::balloontext_$acntn]"
 		$textb tag bind pop3mail_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 		$textb tag bind pop3mail_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
@@ -931,14 +930,18 @@ namespace eval ::pop3 {
 
 		menu $rmenu -tearoff 0 -type normal
 
-		$rmenu add command -label "Select an email to delete"
+		if { [set ::pop3::config(rightdeletemenu_$acntn)] } {
+			$rmenu add command -label "Select an email to delete"
+		}
 		$rmenu add command -label "Check for new email" -command ::pop3::check
 		$rmenu add separator
 
-		set i 0
-		foreach line [split [string range [set ::pop3::balloontext_$acntn] 17 end] \n] { 
-			incr i
-			$rmenu add command -label "$line" -command [list ::pop3::deletemail $acntn $i $line]
+		if { [set ::pop3::config(rightdeletemenu_$acntn)] } {
+			set i 0
+			foreach line [split [string range [set ::pop3::balloontext_$acntn] 17 end] \n] { 
+				incr i
+				$rmenu add command -label "$line" -command [list ::pop3::deletemail $acntn $i $line]
+			}
 		}
 
 		tk_popup $rmenu $X $Y

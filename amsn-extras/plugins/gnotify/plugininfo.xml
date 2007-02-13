@@ -26,6 +26,11 @@
 	</file>
 
 	<file>
+		<path>pixmaps/gnotify_error.png</path>
+		<version>7815</version>
+	</file>
+
+	<file>
 		<path>pixmaps/star.png</path>
 		<version>7821</version>
 	</file>
@@ -37,7 +42,12 @@
 
 	<lang>
 		<langcode>en</langcode>
-		<version>1.1</version>
+		<version>7815</version>
+	</lang>
+
+	<lang>
+		<langcode>fr</langcode>
+		<version>7815</version>
 	</lang>
 
 	<URL>
