@@ -1,4 +1,4 @@
-require_snack
+catch {require_snack}
 
 namespace eval ::audio {
 	################################################################

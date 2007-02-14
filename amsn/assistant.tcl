@@ -685,7 +685,7 @@ snit::widget assistant {
 	#     - newInfo => the new value given to partName
 	# Returns nothing
 	method modifyStepId {id partName newInfo} {
-		switch partName {
+		switch $partName {
 		  "name" {set i 0}
 		  "state" {set i 1}
 		  "mainProc" {set i 2}
@@ -702,8 +702,7 @@ snit::widget assistant {
 		if {$i != -1 && $id != -1} {
 			set step [lindex $steps_l $id]
 			set step [lreplace $step $i $i $newInfo]
-			$self removeStepId $id
-			$self insertStep $step $id
+			set steps_l [lreplace $steps_l $id $id $step]
 		} elseif {$i == -1} {
 				status_log "Assistant: invalid partName $partName while calling modifyStepId\nCan only be: name, state, mainProc, leavingProc, nextProc, closeProc, backProc, titleText, titlePixmap, displayNumber, displayFullNumber"
 		}
@@ -1480,7 +1479,7 @@ namespace eval ::AVAssistant {
 
 		if {[catch {package require snack}]} {
 			#can't load the package, warn the user
-			label $audiolabel -justify left -anchor nw -font bboldf \
+			label $contentf.audiolabel -justify left -anchor nw -font bboldf \
 				-text "Check if audio extension (Snack) is loaded ..."\
 				-image [::skin::loadPixmap no-emblem] -compound right
 #TODO : translation
@@ -1488,7 +1487,7 @@ namespace eval ::AVAssistant {
 #TODO: fill the url
 			label $contentf.audiowarnurl -justify left -text "$::weburl/userwiki/" -fg blue
 
-			pack $audiolabel
+			pack $contentf.audiolabel
 			pack $contentf.audiowarn 
 			pack $contentf.audiowarnurl
 
@@ -1497,6 +1496,9 @@ namespace eval ::AVAssistant {
 			bind $contentf.audiowarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
 			#to get a nice wrapping
  			bind $contentf.audiowarn <Configure> [list %W configure -wraplength %w]
+
+			#remove the saving of audio settings*
+			$assistant modifyStep "Step1A" nextProc ""
 
 		} else {
 		#succeed in loading snack

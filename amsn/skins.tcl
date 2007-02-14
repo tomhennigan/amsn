@@ -844,6 +844,8 @@ namespace eval ::skin {
 		::skin::setPixmap pausebuth pausebuth.gif
 		::skin::setPixmap playbut playbut.gif
 		::skin::setPixmap playbuth playbuth.gif
+		::skin::setPixmap recordbut recordbut.gif
+		::skin::setPixmap recordbuth recordbuth.gif
 		::skin::setPixmap pause pause.gif
 
 		::skin::setPixmap button button.gif
