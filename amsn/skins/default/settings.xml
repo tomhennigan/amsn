@@ -74,7 +74,7 @@
 			<expand_ypad>12</expand_ypad>
 			<x_dp_top>10</x_dp_top>
 			<y_dp_top>10</y_dp_top>
-			<buddy_xpad>25</buddy_xpad>
+			<buddy_xpad>10</buddy_xpad>
 			<buddy_ypad>0</buddy_ypad>
 
 		</Geometry>
