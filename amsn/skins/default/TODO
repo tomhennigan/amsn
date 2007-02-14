@@ -1,0 +1,10 @@
+TODO
+
+- Suggest (to devels) to use another pixmap for the CL than nopic.png, example clnopic.png. With this, we could use thansparent BG for that image (and leave amsn.png and nopic.png for the DP only).
+- Change inside displaypic folder the pixmap loading.gif (this was from Emerald1.0) and use new displaypics images (Design own ones).
+- Set (or check to have) same Blue, Green, Orange, Red, etc colors for every pixmap.
+- Improve every icon inside Preferences Window.
+- Design hole smiles and sounds set.
+- Set the colors for users status in CL and CW.
+- Update Ink (all icons), TeX and spellcheck icons in the CW. (DONE)
+- Design the icons/buttons for the webcam logs reproducer (Play, stop, etc etc). (DONE)
