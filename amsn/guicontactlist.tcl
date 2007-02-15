@@ -134,7 +134,7 @@ namespace eval ::guiContactList {
 			createNicknameArray
 		}
 
-		$clcanvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
+		drawBG $clcanvas 1
 		
 		after 0 ::guiContactList::drawList $clcanvas
 
@@ -175,7 +175,6 @@ namespace eval ::guiContactList {
 			bind $clcanvas <MouseWheel> {
 				%W yview scroll [expr {- (%D)}] units;
 
-				# $canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
 				::guiContactList::moveBGimage $::guiContactList::clcanvas
 			}
 		} elseif {$tcl_platform(platform) == "windows"} {
@@ -253,9 +252,8 @@ namespace eval ::guiContactList {
 
 		if { [winfo exists $clcanvas] } {
 			$clcanvas addtag all_cl all
-			$clcanvas delete all_cl			
-			$clcanvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
-			$clcanvas configure -scrollregion [list 0 0 2000 [lindex [$clcanvas bbox backgroundimage] 3]]
+			$clcanvas delete all_cl
+			drawBG $clcanvas 1
 
 			if { $::contactlist_loaded } {
 				::guiContactList::drawList $clcanvas
@@ -268,7 +266,8 @@ namespace eval ::guiContactList {
 		variable resizeAfterId
 #If, within 500 ms, another event for redrawing comes in, we redraw 'm together
 		catch {after cancel $resizeAfterId}		
-		set resizeAfterId [after 500 "::guiContactList::drawContacts $clcanvas; \
+		set resizeAfterId [after 500 "::guiContactList::drawBG $clcanvas 0; \
+			::guiContactList::drawContacts $clcanvas; \
 			::guiContactList::organiseList $clcanvas;"]
 		::guiContactList::centerItems $clcanvas
 	}
@@ -327,6 +326,32 @@ namespace eval ::guiContactList {
 		}
 	}
 
+	proc drawBG { canvas create} {
+		set bg_exists [llength [$canvas find withtag backgroundimage]]
+		if { $bg_exists == 0 && !$create } { return }
+
+		if {[catch {image type contactlist_background} imagetype] != 0 || $imagetype == ""} {
+			image create photo contactlist_background
+		}
+
+		set skin_image [::skin::loadPixmap back]
+
+		if { [::skin::getKey contactlistbgtile 0] != 0 } {
+			contactlist_background configure -width [winfo width $canvas] -height [winfo height $canvas]
+			contactlist_background copy $skin_image \
+				-to 0 0 [winfo width $canvas] [winfo height $canvas]
+		} else {
+			contactlist_background configure -width [image width $skin_image] \
+				-height [image height $skin_image]
+			contactlist_background copy $skin_image
+		}
+
+		if { $bg_exists == 0 } {
+			$canvas create image 0 0 -image contactlist_background -anchor nw -tag backgroundimage
+			$canvas configure -scrollregion [list 0 0 2000 [lindex [$canvas bbox backgroundimage] 3]]
+		}
+	}
+
 	proc changedSorting { eventused } {
 		variable clcanvas
 		if { [winfo exists $clcanvas] } {
@@ -365,8 +390,7 @@ namespace eval ::guiContactList {
 		if { [winfo exists $clcanvas] && !$::contactlist_loaded } {
 			$clcanvas addtag all_cl all
 			$clcanvas delete all_cl
-			$clcanvas create image 0 0 -image [::skin::loadPixmap back] -anchor nw -tag backgroundimage
-			$clcanvas configure -scrollregion [list 0 0 2000 [lindex [$clcanvas bbox backgroundimage] 3]]
+			drawBG $clcanvas 1
 		}
 
 	}
@@ -640,7 +664,7 @@ namespace eval ::guiContactList {
 				set ypad [::skin::getKey buddy_ypad]
 
 				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0] + $xpad] \
-					[expr [lindex $curPos 1] - [lindex $currentPos 1]]
+					[expr [lindex $curPos 1] - [lindex $currentPos 1] + $ypad]
 
 				set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1] + $nickheightArray($email) + $ypad}] ]
 			} else {
@@ -661,7 +685,7 @@ namespace eval ::guiContactList {
 				# If we're not drawing the first group, we should draw the end of the box of the \
 				# group before here and change the curPos
 				if {!$DrawingFirstGroup} {
-					set bodYend [expr {[lindex $curPos 1] + [::skin::getKey buddy_ypad]}]
+					set bodYend [lindex $curPos 1]
 					# Here we should draw the body
 					set height [expr {$bodYend - $bodYbegin}]
 					if {$height >0} {
@@ -702,7 +726,7 @@ namespace eval ::guiContactList {
 
 					set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1]+ $ypad}] ]
 				} else {
-					set curPos [list [lindex $curPos 0] [lindex $curPos 1] ]
+					#set curPos [list [lindex $curPos 0] [lindex $curPos 1] ]
 				}
 
 				# Move it to it's place an set the new curPos
@@ -729,17 +753,23 @@ namespace eval ::guiContactList {
 					[image height [::skin::loadPixmap upright]]
 
 				# Draw it
-				set topYbegin [expr {[lindex $curPos 1] -5}]
+				set topYbegin [lindex $curPos 1]
 				$canvas create image $boXpad $topYbegin -image boxupbar_$groupDrawn -anchor nw \
 					-tags [list box box_upbar $gid]
 
 				# Save the endypos for next body drawing
 				set bodYbegin [expr {$topYbegin + [image height [::skin::loadPixmap up]]}]
+
+				set grpBbox [$canvas bbox $tag]
+				#Here we center the group text in the up pixmap
+				set ypos [expr {[lindex $curPos 1]+([image height [::skin::loadPixmap up]])/2 \
+				- ([lindex $grpBbox 3] - [lindex $grpBbox 1])/2 }]
 			
 				$canvas move $tag [expr {[lindex $curPos 0] - [lindex $currentPos 0] + $xpad}] \
-					[expr {[lindex $curPos 1] - [lindex $currentPos 1]}]
-				set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1] + 20}] + $ypad]
-				# TODO: * change this '20' (height of the title) to the right value
+					[expr {$ypos - [lindex $currentPos 1]}]
+
+				set curPos [list [lindex $curPos 0] \
+					[expr {[lindex $curPos 1] + [image height [::skin::loadPixmap up]]}]]
 				# 	as we already drew a group, the next won't be the first anymore
 				set DrawingFirstGroup 0
 
@@ -884,12 +914,17 @@ namespace eval ::guiContactList {
 		$canvas bind $gid <<Button1>> "+::guiContactList::toggleGroup [list $element] $canvas"
 		$canvas bind $gid <<Button3>> "+::groups::GroupMenu [lindex $element 0] %X %Y"
 
-		$canvas bind $gid <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $gid"
-		$canvas bind $gid <Leave> "+$canvas delete uline_$gid"
+		# Add binding for underline if the skinner use it
+		if {[::skin::getKey underline_group]} {
+			$canvas bind $gid <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $gid"
+			$canvas bind $gid <Leave> "+$canvas delete uline_$gid"
+		}
 
-		# Change cursor bindings for contacts
-		$canvas bind $gid <Enter> "+$canvas configure -cursor hand2"
-		$canvas bind $gid <Leave> "+$canvas configure -cursor left_ptr"
+		#cursor change bindings
+		if { [::skin::getKey changecursor_group] } {
+			$canvas bind $gid <Enter> "+$canvas configure -cursor hand2"
+			$canvas bind $gid <Leave> "+$canvas configure -cursor left_ptr"
+		}
 	}
 
 
@@ -1572,8 +1607,10 @@ namespace eval ::guiContactList {
 		$canvas bind $tag <<Button2>> "::guiContactList::contactReleased $tag $canvas"
 
 		#cursor change bindings
-		$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
-		$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
+		if { [::skin::getKey changecursor_contact] } {
+			$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
+			$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
+		}
 
 		# Now store the nickname [and] height in the nickarray
 		# set nickheight [expr $ychange + [::skin::getKey buddy_ypad] ]
@@ -2122,9 +2159,6 @@ puts "going to download $thumbnailurl"
 			# be done as a command given to scrolledwindow, so it also
 			# works when dragging the scrollbar
 			moveBGimage $canvas
-
-			# $canvas coords backgroundimage 0 [expr {int([expr \
-			#	[lindex [$canvas yview] 0] * $canvaslength])}]
 		}
 	}
 

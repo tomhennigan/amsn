@@ -59,6 +59,7 @@
 			<changecursor_contact>1</changecursor_contact>
 			<changecursor_group>1</changecursor_group>
 			<showdisplaycontactlist>1</showdisplaycontactlist>
+			<contactlistbgtile>0</contactlistbgtile>
 		 </Options>
 		<Geometry>
 			<buddylistpad>0</buddylistpad>
@@ -75,8 +76,9 @@
 			<x_dp_top>10</x_dp_top>
 			<y_dp_top>10</y_dp_top>
 			<buddy_xpad>10</buddy_xpad>
-			<buddy_ypad>0</buddy_ypad>
-
+			<buddy_ypad>2</buddy_ypad>
+			<contactlist_xpad>0</contactlist_xpad>
+			<contactlist_ypad>0</contactlist_ypad>
 		</Geometry>
 	</ContactList>
 
