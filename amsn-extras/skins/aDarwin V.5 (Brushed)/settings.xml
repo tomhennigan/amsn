@@ -8,6 +8,41 @@
 		<Version>5.5</Version>
 	</Information>
 
+	 <Fonts>
+                <Font>
+                        <name>mystatuslabel</name>
+                        <family>Lucida Grande</family>
+                        <size>10</size>
+                        <weight>normal</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
+		<Font>
+                        <name>mystatuslabel2</name>
+                        <family>Lucida Grande</family>
+                        <size>10</size>
+                        <weight>normal</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
+		<Font>
+                        <name>mystatus</name>
+                        <family>Lucida Grande</family>
+                        <size>12</size>
+                        <weight>bold</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
+		<Font>
+                        <name>psmfont</name>
+                        <family>Lucida Grande</family>
+                        <size>10</size>
+                        <weight>normal</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
+        </Fonts>
+
 	<General>
 		<Colors>
 			<balloonbackground>#f6f6f6</balloonbackground>
@@ -39,7 +74,7 @@
 	<ContactList>
     		<Colors>
 			<mainwindowbg>#a3a3a3</mainwindowbg>
-			<contactlistbg>#FFFFFF</contactlistbg>
+			<contactlistbg>#f6f6f6</contactlistbg>
 			<topcontactlistbg>#edf3fe</topcontactlistbg>
 			<mystatus>#2a2a8a</mystatus>
 			<contact_online>black</contact_online>
@@ -50,8 +85,8 @@
 			<contact_busy>#860000</contact_busy>
 			<contact_gonelunch>#808284</contact_gonelunch>
 			<contact_offline>#a7a9ac</contact_offline>
-			<groupcolorextend>#2a2a8a</groupcolorextend>
-			<groupcolorcontract>#5757ba</groupcolorcontract>
+			<groupcolorextend>black</groupcolorextend>
+			<groupcolorcontract>#808284</groupcolorcontract>
 			<bannerbg>#a3a3a3</bannerbg>
    		 </Colors>
 		 <Options>
@@ -69,14 +104,14 @@
 			<mystatus_ypad>0</mystatus_ypad>
 			<mailbox_xpad>5</mailbox_xpad>
 			<mailbox_ypad>0</mailbox_ypad>
-			<contract_xpad>8</contract_xpad>
-			<contract_ypad>6</contract_ypad>
-			<expand_xpad>8</expand_xpad>
-			<expand_ypad>6</expand_ypad>
+			<contract_xpad>10</contract_xpad>
+			<contract_ypad>20</contract_ypad>
+			<expand_xpad>10</expand_xpad>
+			<expand_ypad>20</expand_ypad>
 			<x_dp_top>6</x_dp_top>
 			<y_dp_top>5</y_dp_top>
-			<buddy_xpad>0</buddy_xpad>
-			<buddy_ypad>0</buddy_ypad>			
+			<buddy_xpad>8</buddy_xpad>
+			<buddy_ypad>2</buddy_ypad>			
 		</Geometry>
 	</ContactList>
 
@@ -146,7 +181,7 @@
 			<chat_status_pady>0</chat_status_pady>
 			<chat_sash_pady>1</chat_sash_pady>
 			<chat_sash_relief>sunken</chat_sash_relief>
-			<chat_tabbar_pady>-0</chat_tabbar_pady>
+			<chat_tabbar_pady>0</chat_tabbar_pady>
 			<chat_tabbar_padx>8</chat_tabbar_padx>
 			<tab_text_x>5</tab_text_x>
                         <tab_text_y>5</tab_text_y>
