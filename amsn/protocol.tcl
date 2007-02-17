@@ -900,7 +900,6 @@ namespace eval ::MSN {
 
 	proc reconnect { error_msg } {
 		cmsn_draw_reconnect $error_msg
-		::config::setKey start_ns_server "messenger.hotmail.com:1863"
 		after 5000 ::MSN::connect
 
 	}
