@@ -772,6 +772,8 @@ namespace eval ::skin {
 	# ::skin::SetPixmapNames
 	# Setup the pixmap proxy using default filenames. Moved here from cmsn_draw_main.
 	proc SetPixmapNames { } {
+		::skin::setPixmap amsnicon amsnicon.png
+
 		::skin::setPixmap msndroid msnbot.gif
 		::skin::setPixmap online online.gif
 		::skin::setPixmap offline offline.gif

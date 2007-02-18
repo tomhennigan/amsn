@@ -1026,13 +1026,6 @@ namespace eval ::ChatWindow {
 		wm title $w "[trans chat]"
 		wm group $w .
 
-		# If the platform is NOT windows, set the windows' icon to our xbm
-		if { ![OnWin] } {
-			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
-			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
-		}
-
-
 		# Create the necessary bindings
 		bind $w <<Cut>> "status_log cut\n;tk_textCut \[::ChatWindow::GetCurrentWindow $w\]"
 		bind $w <<Copy>> "status_log copy\n;tk_textCopy \[::ChatWindow::GetCurrentWindow $w\]"
@@ -1091,13 +1084,6 @@ namespace eval ::ChatWindow {
         $w configure -padx 0 -pady 0
     }
 
-		# If the platform is NOT windows, set the windows' icon to our xbm
-		if { ![OnWin] } {
-			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
-			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
-		}
-
-
 		# Create the necessary bindings
 		bind $w <<Cut>> "status_log cut\n;tk_textCut $w"
 		bind $w <<Copy>> "status_log copy\n;tk_textCopy $w"
@@ -1151,12 +1137,6 @@ namespace eval ::ChatWindow {
 
 		wm title $w "[trans chat]"
 		wm group $w .
-
-		# If the platform is NOT windows, set the windows' icon to our xbm
-		if { ![OnWin] } {
-			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
-			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
-		}
 
 		# Create the necessary bindings
 		bind $w <<Cut>> "status_log cut\n;tk_textCut $w"
