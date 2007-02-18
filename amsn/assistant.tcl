@@ -108,7 +108,6 @@ snit::widget assistant {
 	#     assistant : name of the assistant
 	#     contentframe : path to the contentframe
 	#If you don't need nextProc, or closeProc or backProc, just set them as ""
-	#"null" for no titlePixmap, or "" for the default assistant pixmap 
 #TODO: what about using an array instead of a list to describe a step ?
 
 	#index in the list of steps
@@ -179,7 +178,7 @@ snit::widget assistant {
 		#set a default text for the title in the canvas that can be changed
 		$titlec create text 10 [expr {$options(-titleheight) / 2}] -text $titleText \
 			-anchor w -fill $options(-titlefg) -font bboldf -tag titletext
-		set image [::skin::loadPixmap null]
+		set image [::skin::loadPixmap assistant]
 		$titlec create image 0 [expr {$options(-titleheight)/2}] -image $image -anchor e -tag img
 		pack $titlec -fill x
 		pack $titlef -side top -fill x
@@ -338,16 +337,13 @@ snit::widget assistant {
 		$titlec delete titletext
 		$titlec create text 10 [expr {$options(-titleheight) / 2}] -text $newtitletext \
 			-anchor w -fill $options(-titlefg) -font bboldf -tag titletext
-#TODO:
 		set image [::skin::loadPixmap [lindex $step 8]]
-#         if { $image == "" } {
-#             set image [::skin::loadPixmap assistant]
-#         }
-		$titlec delete img
-		if {$image != ""} {
-			$titlec create image [expr {$options(-winwidth) - [image width $image]/2}] \
-				[expr {$options(-titleheight)/2}] -image $image -anchor e -tag img
+		if { $image == "" } {
+			set image [::skin::loadPixmap assistant]
 		}
+		$titlec delete img
+		$titlec create image [expr {$options(-winwidth) - [image width $image]/2}] \
+			[expr {$options(-titleheight)/2}] -image $image -anchor e -tag img
 	}
 
 
@@ -742,11 +738,11 @@ namespace eval ::AVAssistant {
 		set assistant [assistant create .%AUTO% -winname "Audio and Video assistant"]
 #TODO: translations
 		#introduction
-		set Step [list "Step0" 0 ::AVAssistant::Step0 "" "" "" "" "Starting the Assistant" webcam 0 0]
+		set Step [list "Step0" 0 ::AVAssistant::Step0 "" "" "" "" "Starting the Assistant" "" 0 0]
 		$assistant addStepEnd $Step
 
 		#check extensions for video
-		set Step [list "Step0W" 0 ::AVAssistant::Step0W "" "" "" "" "Check for required video extensions" webcam 0 0]
+		set Step [list "Step0W" 0 ::AVAssistant::Step0W "" "" "" "" "Check for required video extensions" assistant_webcam 0 0]
 		$assistant addStepEnd $Step
 
 		#here, we'll insert some steps
@@ -754,11 +750,11 @@ namespace eval ::AVAssistant {
 #TODO: add a skin pixmap for audio
 		#check for audio extensions, and configure it
 #TODO: add audio pixmap
-		set Step [list "Step1A" 1 ::AVAssistant::Step1A "" ::AVAssistant::saveAudioSettings "" "" "Configuring Audio settings" null 1 1]
+		set Step [list "Step1A" 1 ::AVAssistant::Step1A "" ::AVAssistant::saveAudioSettings "" "" "Configuring Audio settings" assistant_audio 1 1]
 		$assistant addStepEnd $Step
 
 		#Finishing, greetings
-		set Step [list "LastStep" 0 ::AVAssistant::LastStep "" "" "" "" "Congratulations" null 0 0]
+		set Step [list "LastStep" 0 ::AVAssistant::LastStep "" "" "" "" "Congratulations" "" 0 0]
 		$assistant addStepEnd $Step
 	}
 
@@ -843,11 +839,11 @@ namespace eval ::AVAssistant {
 			} else {
 				#OnLinux, or OnWindows
 				#webcam device + channel
-				set Step [list "Step1W" 1 ::AVAssistant::Step1W ::AVAssistant::stopPreviewGrabbing ::AVAssistant::saveDeviceChannel "" "" "Set up webcam device and channel" null 1 1]
+				set Step [list "Step1W" 1 ::AVAssistant::Step1W ::AVAssistant::stopPreviewGrabbing ::AVAssistant::saveDeviceChannel "" "" "Set up webcam device and channel" assistant_webcam 1 1]
 				$assistant insertStepAfter $Step "Step0W"
 
 				#Finetune picture
-				set Step [list "Step2W" 1 ::AVAssistant::Step2W ::AVAssistant::stopPreviewGrabbing ::AVAssistant::saveFinetuneSettings "" "" "Finetune picture settings" null 1 1]
+				set Step [list "Step2W" 1 ::AVAssistant::Step2W ::AVAssistant::stopPreviewGrabbing ::AVAssistant::saveFinetuneSettings "" "" "Finetune picture settings" assistant_webcam 1 1]
 				$assistant insertStepAfter $Step "Step1W"
 			}
 
@@ -1505,7 +1501,7 @@ namespace eval ::AVAssistant {
 
 			#add the second step of the audio assistant
 #TODO: add audio pixmap
-			set step [list "Step2A" 1 ::AVAssistant::Step2A "" ::AVAssistant::saveAudioSettings "" "" "Configuring the mic" null 1 1]
+			set step [list "Step2A" 1 ::AVAssistant::Step2A "" ::AVAssistant::saveAudioSettings "" "" "Configuring the mic" assistant_audio 1 1]
 			$assistant insertStepAfter $step "Step1A"
 
 

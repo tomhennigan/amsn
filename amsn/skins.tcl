@@ -893,6 +893,10 @@ namespace eval ::skin {
 	
 		::skin::setPixmap greyline greyline.gif
 	
+		::skin::setPixmap assistant assistant.gif
+		::skin::setPixmap assistant_audio assistant_audio.gif
+		::skin::setPixmap assistant_webcam assistant_webcam.gif
+		
 		::skin::setPixmap nullimage null
 		#set the nullimage transparent
 		[::skin::loadPixmap nullimage] blank
