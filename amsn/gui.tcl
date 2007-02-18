@@ -3416,15 +3416,14 @@ proc cmsn_draw_main {} {
 		# Set the window style (brushed/aqua) for the CL.
 		if {[::skin::getKey usebrushedmetal "0"] && [::config::getKey allowbrushedmetal "1"]} {
 			catch { ::tk::unsupported::MacWindowStyle style . document {closeBox horizontalZoom verticalZoom collapseBox resizable metal} }
-			frame .main -class Amsn -relief [::skin::getKey mainwindowrelief "flat"] -bd [::skin::getKey mainwindowbd "0"] -background [::skin::getKey mainwindowbg "white"]
- 		} else {
-			frame .main -class Amsn -relief flat -background white
-		}
+ 		}
 		frame .fake ;#Create the frame for play_Sound_Mac
-	} else {
-		#Put the color of the border around the contact list (from the skin)
-		frame .main -class Amsn -relief flat -background [::skin::getKey mainwindowbg]
 	}
+
+	#Put the color, size and style of the border around the contact list (from the skin)
+	frame .main -class Amsn -relief [::skin::getKey mainwindowrelief "flat"] \
+		-borderwidth [::skin::getKey mainwindowbd "1"] \
+		-background [::skin::getKey mainwindowbg "white"]
 
 	frame .main.f -class Amsn -relief flat -background white -borderwidth 0
 	pack .main -fill both -expand true

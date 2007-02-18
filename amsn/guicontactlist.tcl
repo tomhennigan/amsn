@@ -123,11 +123,12 @@ namespace eval ::guiContactList {
 		set Xbegin [::skin::getKey contactlist_xpad]
 		set Ybegin [::skin::getKey contactlist_ypad]
 
-		frame $w.cl -background [::skin::getKey contactlistbg]
+		frame $w.cl -background [::skin::getKey contactlistbg] -borderwidth 0
 
 		scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
 		# Create a blank canvas
-		canvas $clcanvas -background [::skin::getKey contactlistbg] -yscrollcommand "::guiContactList::setScroll $clscrollbar"
+		canvas $clcanvas -background [::skin::getKey contactlistbg] \
+			-yscrollcommand "::guiContactList::setScroll $clscrollbar" -borderwidth 0
 
 		if { $::contactlist_loaded } {
 			# Parse the nicknames for smiley/newline substitution

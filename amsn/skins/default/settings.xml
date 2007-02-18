@@ -51,8 +51,9 @@
 			<contact_offline>#666666</contact_offline>
 			<groupcolorextend>#333333</groupcolorextend>
 			<groupcolorcontract>#666666</groupcolorcontract>
-		</Colors>0
+		</Colors>
 		 <Options>
+			<mainwindowrelief>flat</mainwindowrelief>
 			<emailabovecolorbar>1</emailabovecolorbar>
 			<underline_contact>0</underline_contact>
 			<underline_group>0</underline_group>
@@ -62,6 +63,7 @@
 			<contactlistbgtile>0</contactlistbgtile>
 		 </Options>
 		<Geometry>
+			<mainwindowbd>1</mainwindowbd>
 			<buddylistpad>0</buddylistpad>
 			<bigstate_xpad>3</bigstate_xpad>
 			<bigstate_ypad>3</bigstate_ypad>
@@ -77,7 +79,7 @@
 			<y_dp_top>10</y_dp_top>
 			<buddy_xpad>10</buddy_xpad>
 			<buddy_ypad>2</buddy_ypad>
-			<contactlist_xpad>0</contactlist_xpad>
+			<contactlist_xpad>2</contactlist_xpad>
 			<contactlist_ypad>0</contactlist_ypad>
 		</Geometry>
 	</ContactList>
