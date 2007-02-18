@@ -3987,8 +3987,9 @@ proc cmsn_draw_offline {} {
 	set globe_image [::skin::loadPixmap globe]
 
 	$clcanvas create image 5 5 -image $globe_image -anchor nw
-	$clcanvas create text [expr [image width $globe_image] + 7] 5 -text "[trans language]" -font sunderf \
-		-fill #777777 -anchor nw -tags [list lang_sel]
+	$clcanvas create text [expr [image width $globe_image] + 10] [expr {[image height $globe_image]/2} + 5] \
+		-text "[trans language]" -font sunderf \
+		-fill #777777 -anchor w -tags [list lang_sel]
 
 	$clcanvas bind lang_sel <Enter> \
 		"$clcanvas itemconfigure lang_sel -fill #0000A0 -font splainf; \
