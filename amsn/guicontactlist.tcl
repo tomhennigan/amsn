@@ -1929,12 +1929,12 @@ puts "going to download $thumbnailurl"
 				set groupList [list ]
 			} else {
 				if {[::config::getKey showMobileGroup] == 1} {
-					set groupList [list [list "online" [trans online]] \
+					set groupList [list [list "online" [trans uonline]] \
 						[list "mobile" [trans mobile]] \
-						[list "offline" [trans offline]]]
+						[list "offline" [trans uoffline]]]
 				} else {
-					set groupList [list [list "online" [trans online]] \
-						[list "offline" [trans offline]]]
+					set groupList [list [list "online" [trans uonline]] \
+						[list "offline" [trans uoffline]]]
 				}
 			}
 
@@ -1979,7 +1979,7 @@ puts "going to download $thumbnailurl"
 			if {[::config::getKey showMobileGroup] == 1} {
 				lappend groupList [list "mobile" [trans mobile]]
 			}
-			lappend groupList [list "offline" [trans offline]]
+			lappend groupList [list "offline" [trans uoffline]]
 		}
 		
 		return $groupList
