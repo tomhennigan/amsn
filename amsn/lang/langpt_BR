@@ -416,6 +416,7 @@ lazypicretrieval Solicitação lenta de imagens de exibição
 lclosedwin $1 fechou a janela em $2
 lconftopriv Conferência privada com $1
 lconvstarted Conversa iniciada com $1
+lconvstartedOIM Iniciar uma conversa offline com $1
 leaveblankforhotmail Deixar em branco para utilizar o Hotmail
 leavejoinsinchat Mostrar notificações de entrada e saída dentro da janela de conversa
 leaves $1 saiu da conversa
@@ -500,6 +501,7 @@ newmailfolder Você tem $1 nova(s) mensagem(ns) em outras pastas do Hotmail
 newmailfrom Novo e-mail de $1 ($2)
 newmailfromother Nova mensagem em outra pasta de $1 ($2)
 newmsg Nova mensagem
+newoim Novas mensagens offline
 newstate Adicionar estado personalizado
 newtabbedfeature O aMSN tem uma nova ferramenta para gerenciar conversas: agora você pode ter, em uma única janela com abas, todas as janelas do mesmo grupo ou de toda a sua lista de contatos. Por favor, escolha a forma como o aMSN deve gerenciar suas conversas
 newveravailable Nova versão $1 disponível para download
@@ -639,6 +641,7 @@ readonlymsgbox Diretório sem permissão de escrita. Por favor ajuste as permissõe
 readonlywarn  AVISO: O arquivo provavelmente não será salvo corretamente pois a pasta "Arquivo recebidos" está protegido contra gravação. Por favor verifique se as permissões da pasta ($1) estão corretas antes de transferir o arquivo.
 receivedbytes Recebidos $1 de $2 bytes
 receiveddir Pasta de arquivos recebidos
+receivedoimread Você tem mensagens offline de $1. Deseja lê-las?
 receivedvoice Clip de Voz recebido.
 receivefile Arquivo recebido
 recentmsg Evitar fechar uma janela de conversa quando uma mensagem acaba de chegar
@@ -845,6 +848,7 @@ webcamrequestreceive Enviar um pedido para receber imagem da webcam
 webcamrequestsend Enviar pedido para enviar imagem da webcam
 webcamsending Lista de pessoas para as quais você está enviando a imagem da webcam\nClique para cancelar
 webcam Webcam
+web Web
 whatisamsn aMSN, clone do MSN Messenger independente de plataforma
 whatsize A imagem que você pediu não possui o tamanho correto (96x96) para ser mostrada.\nCom que tamanho você gostaria que a imagem ficasse?
 willjoin Aguardando $1 entrar na conversa
