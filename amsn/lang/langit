@@ -1,11 +1,11 @@
 amsn_lang_version 2
-aboutamsn Informazioni su Alvaro's Messenger
 about Informazioni
+aboutamsn Informazioni su Alvaro's Messenger
 accept Accetta
-acceptfile Accetto il file $1, dimensioni $2? Salvato in $3
+acceptfile Accetto il file $1, dimensioni $2? Sarà salvato in $3
 account Account
 actions Azioni
-activeautoupdate Aggiornamento automatico
+activeautoupdate Attiva aggiornamento automatico
 addacontact Aggiungi un contatto
 add Aggiungi
 addedyou $1 ($2) ti ha aggiunto alla sua lista dei contatti
@@ -13,10 +13,10 @@ addprofile Aggiungi un nuovo profilo
 addprofiledesc Inserisci il login per il quale vorresti creare un nuovo profilo. \nI login con un profilo ti permettono di avere differenti configurazioni per ogni login.\nSenza profili non puoi usare l'History, gli Allarmi o ricordare le password.
 addstate Aggiungi stato personale
 addto Aggiungi a $1
-addtocontacts Aggiungi questo contatto alla Lista Contatti
+addtocontacts Aggiungi alla Lista Contatti
 addtoo Aggiungi questa persona alla mia Lista Contatti
-admincontacts Amministrazione contatti
-admingroups Amministrazione gruppi
+admincontacts Gestione contatti
+admingroups Gestione gruppi
 advanced Avanzate
 advancedprefs Opzioni di configurazione avanzate
 adverts Avvertimenti
@@ -27,7 +27,7 @@ alarmonmsg Attiva un'allarme quando un utente ti manda un messaggio
 alarmonstatus Attiva un'allarme quando un utente cambia il suo stato personale
 alarmpref Impostazioni dell'allarme dell'utente
 alarms Allarmi
-alarmstatus (Dis)Abilita l'allarme per questo utente
+alarmstatus Abilita l'allarme per questo utente
 allfiles Tutti i file
 allmonths Tutti i mesi
 allowallbutbl Permetti a tutti gli utenti tranne quelli nella lista dei bloccati di contattarmi
@@ -49,7 +49,7 @@ askcontactwebcam per chiedere di visualizzare la webcam del tuo contatto, o
 askeachtime Chiedi ogni volta
 asksendingyourwebcam per chiedere di inviare immagini dalla tua webcam
 asksendoim Vuoi inviare questo messaggio come un messaggio "non in linea"?
-askwebcam Visualizza la webcam del contatto
+askwebcam Chidi di vedere la webcam del contatto
 author Autore
 autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
@@ -67,12 +67,12 @@ autonoact Mostrami come "Nessuna attività" quando non attivo per
 autoresizedp Ridimensiona automaticamente le immagini alla dimesione di Default
 avaccepted Chiamata di videoconferenza accettata
 avcanceled Chiamata di videoconferenza annullata
-avgotinvitation Ricevuto invito di videoconferenza da $1
+avgotinvitation Invito di videoconferenza ricevuto da $1
 avinitfailed Inizializzazione del plugin audio/video fallita. Chiamata annullata
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
+away Non al computer
 awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato personale in "Non al computer/Torno Subito/Occupato"
 awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
-away Non al computer
 baduserpass Username o password sbagliate
 badwebcam Impossibile visualizzare l'immagine della webcam. Assicurati che sia collegata e installata.
 bgcolor Cambia il colore di sfondo di aMSN
@@ -80,13 +80,13 @@ blankdirect Lascia vuoto per connessioni dirette
 block Blocca
 blocked Bloccato
 blockedyougroup Mostra un gruppo separato per le persone che ti hanno bloccato
-blocking in blocco
+blocking In blocco
 blockinter1 Quando il tuo stato personale è "In linea" controlla ogni
 blockinter2 secondi, altrimenti controlla ogni:
 blockinter3 ogni
 blockinter4 secondi.
 blocklist Lista di utenti bloccati:
-blockmessage Queste persone sono in linea e bloccate da te
+blockmessage Queste persone sono in linea e ti hanno bloccato
 blocknotifications Disattiva le finestre di notifica
 blocksounds Disattiva i suoni
 blockusers Numero di utenti da controllare subito
