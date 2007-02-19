@@ -1130,7 +1130,7 @@ namespace eval ::abookGui {
 		menu $the_menu -tearoff 0 -type normal
 		$the_menu add command \
 			-label "[trans copytoclipboard [string tolower [trans filename]]]" \
-			-command [list clipboard clear ; clipboard append $filename]
+			-command [list copyDpToClipboard $filename]
 		$the_menu add command -label "[trans setasmydp]" \
 			-command [list set_displaypic $filename]
 		tk_popup $the_menu $X $Y
@@ -1667,10 +1667,10 @@ namespace eval ::abookGui {
 #		$widget.actions.removecustom configure -state disabled
 #	}
 
-#	proc copyDpToClipboard { file } {
-#		clipboard clear
-#		clipboard append $file
-#	}
+	proc copyDpToClipboard { file } {
+		clipboard clear
+		clipboard append $file
+	}
 
 
 	# These procedures change the custom DP. They need to be launched from within the properties screen,

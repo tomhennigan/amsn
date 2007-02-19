@@ -307,6 +307,11 @@ snit::widget dpbrowser {
 
 	}
 
+	method copyDpToClipboard { file } {
+		clipboard clear
+		clipboard append $file
+	}
+
 	method popupMenu { X Y filename widget enable_delete} {
 		if { $options(-mode) != "both" && $options(-mode) != "properties" } {
 			return
@@ -317,7 +322,7 @@ snit::widget dpbrowser {
 		menu $the_menu -tearoff 0 -type normal
 		$the_menu add command \
 			-label "[trans copytoclipboard [string tolower [trans filename]]]" \
-			-command [list clipboard clear ; clipboard append $filename]
+			-command [list $self copyDpToClipboard $filename]
 		if { $enable_delete } {
 			$the_menu add command -label "[trans delete]" \
 				-command [list $self deleteEntry $filename $widget]
