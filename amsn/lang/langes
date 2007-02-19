@@ -172,12 +172,12 @@ color Color
 command Comando
 commandstatus Ejecutar comando
 configure Configurar
-confirm ¿ Estás seguro ?
 confirmbl ¿Estás seguro que deseas bloquear a este contacto?
 confirmdelete ¿Seguro que deseas borrar a $1?
 confirmdg ¿Estás seguro que deseas borrar este grupo?
 confirmdu ¿Estás seguro que deseas borrar este usuario?
 confirmeg ¿Estás seguro que deseas vaciar este grupo?
+confirm ¿ Estás seguro ?
 confirmpurge Todas las imágenes para mostrar del resto de los contactos (no las tuyas) serán eliminadas. ¿ Estás seguro ?
 confirmrfl ¿Estás seguro que deseas borrar este usuario de este grupo?
 connected Ahora estás conectado
@@ -418,6 +418,7 @@ lazypicretrieval Recuperación "a posteriori" de las imágenes para mostrar
 lclosedwin $1 ha cerrado la ventana a las $2
 lconftopriv La conversación pasa a ser un privado con $1
 lconvstarted Comienza la conversación a las $1
+lconvstartedOIM Iniciar una conversación de mensajes instantáneos sin conexión en $1
 leaveblankforhotmail Dejar en blanco para usar Hotmail
 leavejoinsinchat Mostrar notificaciones de "deja/se une a la conversación" en la ventana de chat
 leaves $1 deja la conversación
@@ -837,9 +838,9 @@ viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
 wanttosharecam Quiero que mi cámara web esté disponible para otros
-webcam Cámara web
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
+webcam Cámara web
 webcamconfigure Configurar cámara web
 webcamextloaded Extensión de cámara web cargada
 webcamextnotloaded La extensión de cámara web no ha sido cargada. Tendrás que compilarla.
