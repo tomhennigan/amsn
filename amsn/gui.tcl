@@ -3534,17 +3534,18 @@ proc cmsn_draw_main {} {
 	cmsn_draw_status
 	cmsn_draw_offline
 
-	if { [catch {wm iconphoto . -default [::skin::loadPixmap amsnicon]} res] } {
-		status_log "setting window icon failed: $res"
+	if { $::tk_patchLevel >= "8.4.8" } {
+		wm iconphoto . -default [::skin::loadPixmap amsnicon]
+	} else {
+		# above doesn't exist on 8.4.7 and older, so we try the old way
+		if { [OnWin] } {
+			catch {wm iconbitmap . [::skin::GetSkinFile winicons msn.ico]}
+			catch {wm iconbitmap . -default [::skin::GetSkinFile winicons msn.ico]}
+		} else {
+			catch {wm iconbitmap . @[::skin::GetSkinFile pixmaps amsn.xbm]}
+			catch {wm iconmask . @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
+		}
 	}
-	# if above doesn't work on 8.4 put it in an if else, with else below, and undo chatwindow.tcl changes
-	#if { [OnWin] } {
-	#	catch {wm iconbitmap . [::skin::GetSkinFile winicons msn.ico]}
-	#	catch {wm iconbitmap . -default [::skin::GetSkinFile winicons msn.ico]}
-	#} else {
-	#	catch {wm iconbitmap . @[::skin::GetSkinFile pixmaps amsn.xbm]}
-	#	catch {wm iconmask . @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
-	#}
 
 	update
 	
