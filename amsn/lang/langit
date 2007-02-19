@@ -21,10 +21,10 @@ advanced Avanzate
 advancedprefs Opzioni di configurazione avanzate
 adverts Avvertimenti
 agotinvitation Ricevuto invito audio da $1
-alarmonconnect Attiva un'allarme quando l'utente si connette
-alarmondisconnect Attiva un'allarme quando l'utente si sconnette o diventa invisibile
-alarmonmsg Attiva un'allarme quando l'utente ti manda un messaggio
-alarmonstatus Attiva un'allarme quando l'utente cambia il suo stato personale
+alarmonconnect Attiva l'allarme quando l'utente si connette
+alarmondisconnect Attiva l'allarme quando l'utente si sconnette o diventa invisibile
+alarmonmsg Attiva l'allarme quando l'utente ti manda un messaggio
+alarmonstatus Attiva l'allarme quando l'utente cambia il suo stato personale
 alarmpref Impostazioni dell'allarme dell'utente
 alarms Allarmi
 alarmstatus Abilita l'allarme per questo utente
