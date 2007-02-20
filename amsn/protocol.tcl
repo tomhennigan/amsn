@@ -1,53 +1,5 @@
 #	Microsoft Messenger Protocol Implementation
 #=======================================================================
-
-
-# The following functions were taken from TIP 268 http://www.tcl.tk/cgi-bin/tct/tip/268.html
-# Their purpose is to compare version numbers while taking into account the alpha/beta versions.
-
-proc version_intList {version} {
-	# Convert a version number to an equivalent list of integers
-	# Raise error for invalid version number
-	
-	if {$version eq {} || [string match *-* $version]} {
-		# Reject literal negative numbers
-		return -code error "invalid version number: \"$version\""
-	}
-	# Note only lowercase "a" and "b" accepted and only one
-	if {[llength [split $version ab]] > 2} {
-		return -code error "invalid version number: \"$version\""
-	}
-	set converted [string map {a .-2. b .-1.} $version]
-	set list {}
-	foreach element [split $converted .] {
-		if {[scan $element %d%s i trash] != 1} {
-			# Require decimal formatted numbers with no suffix
-			return -code error "invalid version number: \"$version\""      
-		}
-		if {[catch {incr i 0}] || $i < -2 } {
-			# Verify each component is integer >= -2
-			return -code error "invalid version number: \"$version\""      
-		}
-		lappend list $i
-	}
-	return $list
-}
-
-proc version_compare {l1 l2} {
-	# Compare lists of integers
-	foreach i1 $l1 i2 $l2 {
-		if {$i1 eq {}} {set i1 0}
-		if {$i2 eq {}} {set i2 0}
-		if {$i1 < $i2} {return -1}
-		if {$i1 > $i2} {return 1}
-	}
-	return 0 
-}
-
-proc version_vcompare {v1 v2} {
-	version_compare [version_intList $v1] [version_intList $v2]
-}
-
 if { $initialize_amsn == 1 } {
 	global list_BLP list_cmdhnd sb_list contactlist_loaded
 

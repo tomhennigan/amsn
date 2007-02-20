@@ -398,7 +398,6 @@ namespace eval ::smiley {
 		
 		set w .smile_selector
 		
-		
 		if { ! [winfo exists $w]} { CreateSmileyMenu }
 		
 		wm state $w normal

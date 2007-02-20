@@ -1026,6 +1026,12 @@ namespace eval ::ChatWindow {
 		wm title $w "[trans chat]"
 		wm group $w .
 
+		# If the platform is NOT windows, set the windows' icon to our xbm
+		if { ![OnWin] && [version_vcompare [info patchlevel] 8.4.8] >= 0 } {
+			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
+			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
+		}
+
 		# Create the necessary bindings
 		bind $w <<Cut>> "status_log cut\n;tk_textCut \[::ChatWindow::GetCurrentWindow $w\]"
 		bind $w <<Copy>> "status_log copy\n;tk_textCopy \[::ChatWindow::GetCurrentWindow $w\]"
@@ -1084,6 +1090,13 @@ namespace eval ::ChatWindow {
         $w configure -padx 0 -pady 0
     }
 
+		# If the platform is NOT windows, set the windows' icon to our xbm
+		if { ![OnWin] && [version_vcompare [info patchlevel] 8.4.8] >= 0 } {
+			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
+			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
+		}
+
+
 		# Create the necessary bindings
 		bind $w <<Cut>> "status_log cut\n;tk_textCut $w"
 		bind $w <<Copy>> "status_log copy\n;tk_textCopy $w"
@@ -1137,6 +1150,13 @@ namespace eval ::ChatWindow {
 
 		wm title $w "[trans chat]"
 		wm group $w .
+
+		# If the platform is NOT windows, set the windows' icon to our xbm
+		if { ![OnWin] && [version_vcompare [info patchlevel] 8.4.8] >= 0 } {
+			catch {wm iconbitmap $w @[::skin::GetSkinFile pixmaps amsn.xbm]}
+			catch {wm iconmask $w @[::skin::GetSkinFile pixmaps amsnmask.xbm]}
+		}
+
 
 		# Create the necessary bindings
 		bind $w <<Cut>> "status_log cut\n;tk_textCut $w"
@@ -2126,65 +2146,61 @@ namespace eval ::ChatWindow {
 		set input [::ChatWindow::GetInputText $w]
 
 
-		#Buttons are now labels, to get nicer interface on Mac OS X
-		
 		#Smiley button
-		label $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 0 \
+		button $smileys  -image [::skin::loadPixmap butsmile] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getKey buttonbarbg]  -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg]  -activebackground [::skin::getKey buttonbarbg]\
+			-command "::smiley::smileyMenu \[winfo rootx $smileys\] \[winfo rooty $smileys\] $input"
 		set_balloon $smileys [trans insertsmiley]
+
 	       	#Font button
-		label $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 0 \
+		button $fontsel -image [::skin::loadPixmap butfont] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			-command "after 1 change_font [string range $w 1 end] mychatfont"
 		set_balloon $fontsel [trans changefont]
 
-		label $voice -image [::skin::loadPixmap butvoice] -relief flat -padx 0 \
+		#Voice button
+		button $voice -image [::skin::loadPixmap butvoice] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		set_balloon $voice [trans sendvoice]
-		
+
 		#Block button
-		label $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
+		button $block -image [::skin::loadPixmap butblock] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			-command "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
 		set_balloon $block "--command--::ChatWindow::SetBlockText $w"
 		
 		#Send file button
-		label $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
+		button $sendfile -image [::skin::loadPixmap butsend] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			-command "::amsn::FileTransferSend $w"
 		set_balloon $sendfile [trans sendfile]
 	
 		#Invite another contact button
-		label $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 0 \
+		button $invite -image [::skin::loadPixmap butinvite] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			-command "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
 		set_balloon $invite [trans invite]
 
 		#Webcam button
-		label $webcam -image [::skin::loadPixmap butwebcam] -relief flat -padx 0 \
-			-background [::skin::getKey buttonbarbg] -highlightthickness 0\
-			 -borderwidth 0	-highlightbackground [::skin::getKey buttonbarbg]\
-			 -activebackground [::skin::getKey buttonbarbg]
-		set_balloon $webcam "--command--::ChatWindow::SetWebcamText"		
+		button $webcam -image [::skin::loadPixmap butwebcam] -relief flat -padx 0 \
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			-command "::ChatWindow::webcambuttonAction $w"
+		set_balloon $webcam "--command--::ChatWindow::SetWebcamText"
+
 
 		# Pack them
 		pack $fontsel $smileys $voice -side left -padx 0 -pady 0
 		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
-	
-		bind $smileys  <<Button1>> "::smiley::smileyMenu \%X \%Y $input"
-		bind $fontsel  <<Button1>> "after 1 change_font [string range $w 1 end] mychatfont"
-		bind $block    <<Button1>> "::amsn::ShowChatList \"[trans block]/[trans unblock]\" $w ::amsn::blockUnblockUser"
-		bind $sendfile <<Button1>> "::amsn::FileTransferSend $w"
-		bind $invite   <<Button1>> "::amsn::ShowInviteMenu $w \[winfo pointerx $w\] \[winfo pointery $w\]"
 
 		bind $voice    <ButtonPress-1> "::ChatWindow::start_voice_clip $w"
 		bind $voice    <Button1-ButtonRelease> "::ChatWindow::stop_and_send_voice_clip $w"
-
-		#if we have a webcam configured, have a "send webcam" button, else, use the button to open the wizard
-		bind $webcam   <<Button1>> "::ChatWindow::webcambuttonAction $w"
-
 
 		# Create our bindings
 		bind  $smileys  <Enter> "$smileys configure -image [::skin::loadPixmap butsmile_hover]"
