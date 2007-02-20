@@ -3534,7 +3534,7 @@ proc cmsn_draw_main {} {
 	cmsn_draw_status
 	cmsn_draw_offline
 
-	if { $::tk_patchLevel >= "8.4.8" } {
+	if { [version_vcompare [info patchlevel] 8.4.8] >= 0} {
 		wm iconphoto . -default [::skin::loadPixmap amsnicon]
 	} else {
 		# above doesn't exist on 8.4.7 and older, so we try the old way
