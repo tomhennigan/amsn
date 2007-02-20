@@ -416,6 +416,7 @@ lazypicretrieval Récupération des avatars des contacts lors d'une conversation
 lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence changée en conversation privée avec $1
 lconvstarted Conversation commencée le $1
+lconvstartedOIM Conversation par message différés commencée le $1
 leaveblankforhotmail Laisser vide pour un compte Hotmail
 leavejoinsinchat Annoncer les "Départ/Arrivées dans la conversation" au sein de la fenêtre de conversation
 leaves Départ de $1
