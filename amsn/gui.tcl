@@ -181,6 +181,11 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey balloonfont sboldf
 	::skin::setKey balloonborder #000000
 
+	::skin::setKey assistanttitleheight 50
+	::skin::setKey assistanttitlefg #FFFFFF
+	::skin::setKey assistanttitlebg #565672
+	::skin::setKey assistantbackground #FFFFFF
+
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
 	#On Mac OS X, there's a mistake between button2 and button3

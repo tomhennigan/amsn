@@ -12,33 +12,32 @@ package require snit
 
 snit::widget assistant {
 
-#TODO: complete it
-#DESCRIPTION:
+# DESCRIPTION:
 #  A Snit widget used to easily create assistants
 #
-#SYNOPSIS:
-#  assistant pathNameToTopLevel ?options?
+# SYNOPSIS:
+#  assistant pathName ?options?
 #
-#WIDGET SPECIFIC OPTIONS
-#TODO
-#  -winname          name of the window
-#  -titlebg          background color of the title frame (called titlef)
-#     Defaut: [::skin::getKey menuactivebackground]
-#  -titlefg          foreground color of the title frame (called titlef)
-#     Default: [::skin::getKey menuactiveforeground]  
-#  -titleheight      Height of the title frame (called titlef)
-#  -titletext        Text describing the assistant or the current step
-#     Default: Assistant
+# WIDGET SPECIFIC OPTION
+#  -winname   name of the window
+#  -winwidth  width of the window
+#  -winheight height of the window
 #
-#WIDGET SPECIFIC COMMANDS
+# WIDGET SPECIFIC COMMANDS
 #  pathname configure ?option? ?value?
 #  pathname cget option
 #  pathname getContentFrame
 #  pathname clearContentFrame
 #  pathname getName
+#  pathname setFinishProc
+#  pathname getFinishProc
 #  pathname setTitleText
+#  pathname addCancelProc
+#  pathname removeCancelProc
+#  pathname cancel
 #  pathname back
 #  pathname next
+#  pathname finish
 #  pathname enableNextButton
 #  pathname disableNextButton
 #  pathname goToStep
@@ -49,29 +48,29 @@ snit::widget assistant {
 #  pathname insertStepAfter
 #  pathname modifyStep
 #
-#Name of the parts of the window
+# Name of the parts of the window
 #
-#   +----------------------------------------------+<--window
-#   |+-----------++-----------------------------+|
-#   ||        <->||+---------------------------+||
-#   ||           |||           titlef          ||<---bodyf
-#   ||           ||+---------------------------+||
-#   ||   menuf   ||+---------------------------+||
-#   ||           |||                           |||
-#   ||           |||        ContentFrame       |||
-#   ||           |||                           |||
-#   ||           ||+---------------------------+||
-#   |+-----------++----------------------------+||
-#   |+-------------------------------------------+|
-#   ||                   buttonf                 ||
-#   |+-------------------------------------------+|
-#   +---------------------------------------------+
+#   +-------------------------------+<--window
+#   |+-----------------------------+|
+#   ||+---------------------------+||
+#   |||           titlef          ||<---bodyf
+#   ||+---------------------------+||
+#   ||+---------------------------+||
+#   |||                           |||
+#   |||        ContentFrame       |||
+#   |||                           |||
+#   ||+---------------------------+||
+#   |+----------------------------+||
+#   |+-----------------------------+|
+#   ||           buttonf           ||
+#   |+-----------------------------+|
+#   +-------------------------------+
 
 #TODO: add comments & improve documentation!
 #TODO: turn some methods into procs
 #TODO: add a listbox on the left where we diplay the steps once we've seen them
-#      a bit like Office installation. The menuf in the "preview" ^^. (Phil's idea)
-#TODO: there should be a default "wizard" pixmap
+#      a bit like Office installation. (Phil's idea)
+#      will be hard to implement
 
 	hulltype toplevel
 
@@ -88,13 +87,13 @@ snit::widget assistant {
 	# 2) mainProc: the main proc :). This proc displays the step.
 	# 3) leavingProc: this proc is called when we leave that step, to go to next 
 	#     or the previous, or closing, or to go to an other step. This proc is
-	#     is called before nextProc or closeProc, or backProc if they are
+	#     is called before nextProc or cancelProc, or backProc if they are
 	#     called.
 	# 4) nextProc: this proc is called just after the next button is pressed.
 	#     This proc should not go to the next step, but may be used for saving
 	#     configuration.
-	# 5) closeProc: proc called just after pressing the close button. Should not 
-	#     take care of destroying the window.
+	# 5) cancelProc: proc called just after pressing the cancel or close button. 
+	#     Should not take care of destroying the window.
 	# 6) backProc: proc called just after the back button is pressed. This proc
 	#     should not go to the previous step, but may be used for freeing smthg.
 	# 7) titleText: the text of the title
@@ -107,60 +106,62 @@ snit::widget assistant {
 	#All those procedures must have 2 arguments :
 	#     assistant : name of the assistant
 	#     contentframe : path to the contentframe
-	#If you don't need nextProc, or closeProc or backProc, just set them as ""
+	#If you don't need nextProc, or cancelProc or backProc, just set them as ""
 #TODO: what about using an array instead of a list to describe a step ?
 
 	#index in the list of steps
 	variable steps_l_i
 
+	#the text used as title of the current step
 	variable titleText
 
+	#number of "official" steps
 	variable stepsNumber
-	variable currentStep
+	#list describing their respective number for each step
+	#0 is that step has no "official" number
 	variable stepNumber_l
 
+	#some frames
 	variable titlec
 	variable titlef
 	variable menuf
 	variable buttonf
 	variable contentf
-#TODO: look at configure methods
-	option -winname -default "Assistant" -cgetmethod getOption -configuremethod setOption
-	
-	#TODO: turn those options into a skin key
-	option -titlebg -cgetmethod getOption -configuremethod setOption
-	option -titlefg -cgetmethod getOption -configuremethod setOption
-	
-	#TODO: turn into a skin key ??
-	option -titleheight -default 50 -cgetmethod getOption -configuremethod setOption
 
-	option -winwidth -default 600 -cgetmethod getOption -configuremethod resize
-	option -winheight -default 500 -cgetmethod getOption -configuremethod resize
+	#variable used to know when we can display the total number of steps
+	variable allStepsSeen
 
-#TODO:	
-#	option -menu -default 0 -configuremethod setOption
+	#proc called when we click on the finish button at the last step
+	variable finishProc
+
+	#list of procs called when we cancel the assistant
+	# it's different from the one from the step list since those ones are
+	# called on everystep after they are registered
+	variable cancelProcs
+
+	option -winname -default "Assistant" -cgetmethod getOption -configuremethod setWinName
+	
+	option -winwidth -default 650 -cgetmethod getOption -configuremethod resize
+	option -winheight -default 550 -cgetmethod getOption -configuremethod resize
+
 
 	###########################################################################
 	#The constructor.
-	#     Called when creating the assistant
+	#    Called when creating the assistant
 	constructor {args} {
 		#init some vars
 		set steps_l [list]
 		set steps_l_i 0
 		set titleText  "Some Text Here !"
 		set stepsNumber 0
-		set currentStep 0
 		set stepNumber_l [list]
-
-		#Make some defaults options
-		#TODO : have skin settings for those :
-		set options(-titlebg) [::skin::getKey menuactivebackground]
-		set options(-titlefg) [::skin::getKey menuactiveforeground]
+		set finishProc ""
+		set allStepsSeen 0
+		set cancelProcs [list]
 
 		$self configurelist $args
 		
-		set winname $options(-winname)
-		wm title $win $winname
+		wm title $win $options(-winname)
 		wm geometry $win $options(-winwidth)x$options(-winheight)
 
 		set bodyf $win.bodyf
@@ -168,23 +169,27 @@ snit::widget assistant {
 		set titlec $titlef.titlec
 		set buttonf $win.buttonf
 		set contentf $bodyf.contentf	
+		
+		set titlebg [::skin::getKey assistanttitlebg]
+		set titleheight [::skin::getKey assistanttitleheight]
+		set titlefg [::skin::getKey assistanttitlefg]
+		set background [::skin::getKey assistantbackground]
 
-		frame $bodyf -bd 1  -background $options(-titlebg) 
+		frame $bodyf -bd 1 -background $titlebg
 		
 		#create title frame and first contents
-		frame $titlef -height $options(-titleheight) -bd 0 -bg $options(-titlebg) 
-		canvas $titlec -height $options(-titleheight) -bg $options(-titlebg)
+		frame $titlef -height $titleheight -bd 0 -background $titlebg
+		canvas $titlec -height $titleheight -background $titlebg
 		
 		#set a default text for the title in the canvas that can be changed
-		$titlec create text 10 [expr {$options(-titleheight) / 2}] -text $titleText \
-			-anchor w -fill $options(-titlefg) -font bboldf -tag titletext
+		$titlec create text 10 [expr {$titleheight / 2}] -text $titleText \
+			-anchor w -fill $titlefg -font bboldf -tag titletext
 		set image [::skin::loadPixmap assistant]
-		$titlec create image 0 [expr {$options(-titleheight)/2}] -image $image -anchor e -tag img
+		$titlec create image 0 [expr {$titleheight/2}] -image $image -anchor e -tag img
 		pack $titlec -fill x
 		pack $titlef -side top -fill x
 		pack $bodyf -side top -fill both -padx 4 -pady 4 -expand 1
-
-		frame $contentf -padx 1 -pady 1 ;#-background #ffffff ;#-height 300   ;#these pads make a 1 pixel border
+		frame $contentf -padx 1 -pady 1 -background $background;#these pads make a 1 pixel border
 		pack $contentf -side top -fill both -expand 1 
 		
 		frame $buttonf  -bd 0 
@@ -193,10 +198,10 @@ snit::widget assistant {
 		button $buttonf.back -text [trans back] -command "$self back"\
 			-state disabled ;#first step of assistant, back button is disabled
 		button $buttonf.next -text [trans next] -command "$self next" -state disabled
-		button $buttonf.close -text [trans close] -command "destroy $self"
+		button $buttonf.cancel -text [trans cancel] -command "$self cancel"
 #TODO : maybe a button Help, and/or Defaults
 		#pack 'em
-		pack $buttonf.next $buttonf.back $buttonf.close -padx 10 -side right
+		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
 		
 		bind $win <Configure> "$self windowResized"
 
@@ -204,7 +209,7 @@ snit::widget assistant {
 
 	###########################################################################
 	# destructor
-	#     Called when closing the assistant
+	#    Called when closing the assistant
 	destructor {
 		if { $steps_l != [list] } {
 			#leavingProc
@@ -213,7 +218,7 @@ snit::widget assistant {
 				eval $procToCall $self $contentf
 			}
 			
-			#closeProc
+			#cancelProc
 			set procToCall [lindex [lindex $steps_l $steps_l_i] 5]
 			if { $procToCall != "" } {
 				eval $procToCall $self $contentf
@@ -223,8 +228,8 @@ snit::widget assistant {
 
 	###########################################################################
 	# method resize (option value)
-	#     Called by -configure winwidth/winheight
-	#     Resize the window
+	#    Called by -configure winwidth/winheight
+	#    Resize the window
 	# Returns nothing
 	method resize {option value} {
 		if {![string is digit value]} {
@@ -241,11 +246,11 @@ snit::widget assistant {
 
 	###########################################################################
 	# method windowResized()
-	#     Called when the window is resized and takes care of displaying 
-	#     objects in a right way
+	#    Called when the window is resized and takes care of displaying 
+	#    objects in a right way
 	# Returns nothing
 	method windowResized {} {
-		#TODO : add smthg so that it refreshes only when user stops resizing
+#TODO : add smthg so that it refreshes only when user stops resizing
 		#kind of "after 200 ....."
 		set newwidth [winfo width $contentf]
 		set xAmount [expr {$newwidth - $options(-winwidth)}]
@@ -256,10 +261,10 @@ snit::widget assistant {
 
 	###########################################################################
 	# method getOption (option)
-	#     Called with $self -cget $option in order to get the value of that 
-	#     option.
+	#    Called with $self -cget $option in order to get the value of that 
+	#    option.
 	# Argument:
-	#     - option => the considered option
+	#    - option => the considered option
 	# Returns the value of the option
 	method getOption {option} {
 		return $options($option)
@@ -267,43 +272,74 @@ snit::widget assistant {
 
 	###########################################################################
 	# method setOption (option, value)
-	#     Called with $self -configure $option $value to set the value to the 
-	#     refered option.
+	#    Called with $self -configure $option $value to set the value to the 
+	#    refered option.
 	# Arguments:
-	#     - option => the considerd option
-	#     - value => the value
+	#    - option => the considered option
+	#    - value => the value
 	# Returns nothing
 	method setOption {option value} {
 		set options($option) $value
 	}
 
 	###########################################################################
+	# method setWinName (option, value)
+	#    Called with $self -configure -winname $value to change the name of the 
+	#    window.
+	# Arguments:
+	#    - option => must be -winname
+	#    - value => the value
+	# Returns nothing
+	method setWinName {option value} {
+		if {$value != ""} {
+			set options(-winname) $value
+			wm title $win $options(-winname)
+		}
+	}
+
+	###########################################################################
 	# method getContentFrame()
-	#     Return the path of the ContentFrame
+	#    Return the path of the ContentFrame
 	method getContentFrame {} {
 		return $contentf
 	}
 
 	###########################################################################
 	# method clearContentFrame()
-	#     Returns the path of the ContentFrame once cleared
+	#    Returns the path of the ContentFrame once cleared
 	method clearContentFrame {} {
 		if {[winfo exists $contentf]} { destroy $contentf }
-		#TODO: skin setting for bg
-		frame $contentf -padx 1 -pady 1 -background #ffffff;#these pads make a 1 pixel border
+		frame $contentf -padx 1 -pady 1 -background [::skin::getKey assistantbackground];#these pads make a 1 pixel border
 		pack $contentf -side top -fill both -expand 1
 		return $contentf
 	}
 	
 	###########################################################################
 	# method getName ()
-	#     Returns the name of the current step, or "" if there's no step.
+	#    Returns the name of the current step, or "" if there's no step.
 	method getName {} {
 		set ret ""
 		if {$steps_l != [list] } {
 			set ret [lindex [lindex $steps_l $steps_l_i] 0] 
 		}
 		return $ret
+	}
+
+	###########################################################################
+	# method setFinishProc (proc)
+	#    set the proc called when we finish the assistant
+	# Argument:
+	#    - proc : name of the proc called when we finish the assistant
+	# Returns nothing
+	method setFinishProc {proc} {
+		set finishProc $proc
+	}
+	
+	###########################################################################
+	# method getFinishProc ()
+	#    Returns the name of the finish proc
+	method getFinishProc {} {
+		return $finishProc
 	}
 
 	###########################################################################
@@ -322,35 +358,102 @@ snit::widget assistant {
 
 	###########################################################################
 	# method updateTitle
-	#     Update the canvas titlec
+	#    Update the canvas titlec
 	# Returns nothing
 	method updateTitle {} {
 		set newtitletext $titleText
 		set step [lindex $steps_l $steps_l_i]
-		if {[lindex $step 1] == 1 } {
-			if {[lindex $step 10] == 1} {
+		set currentStep [lindex $stepNumber_l $steps_l_i]
+		if {[lindex $step 1] == 1 && $currentStep != 0} {
+			if {[lindex $step 10] == 1 && $allStepsSeen} {
 				set newtitletext "$titleText - [trans step] $currentStep/$stepsNumber"
 			} elseif {[lindex $step 9] == 1} {
 				set newtitletext "$titleText - [trans step] $currentStep"
 			}
 		}
 		$titlec delete titletext
-		$titlec create text 10 [expr {$options(-titleheight) / 2}] -text $newtitletext \
-			-anchor w -fill $options(-titlefg) -font bboldf -tag titletext
+		$titlec create text 10 [expr {[::skin::getKey assistanttitleheight] / 2}] -text $newtitletext \
+			-anchor w -fill [::skin::getKey assistanttitlefg] -font bboldf -tag titletext
 		set image [::skin::loadPixmap [lindex $step 8]]
 		if { $image == "" } {
 			set image [::skin::loadPixmap assistant]
 		}
 		$titlec delete img
 		$titlec create image [expr {$options(-winwidth) - [image width $image]/2}] \
-			[expr {$options(-titleheight)/2}] -image $image -anchor e -tag img
+			[expr {[::skin::getKey assistanttitleheight]/2}] -image $image -anchor e -tag img
 	}
 
 
+	###########################################################################
+	# method addCancelProc (name, proc)
+	#    Add a proc called when the assistant is canceled
+	# Arguments:
+	#    - name => name used to refer to that proc if we want to remove it
+	#    - proc => the proc called when the assistant is canceld
+	#        this proc should have 2 arguments : assistant and contentFrame
+	# Returns
+	#    1 if proc is added
+	#    0 if not
+	method addCancelProc {name proc} {
+		set err 1
+		#search if the name is not already registered
+		foreach proc $cancelProcs {
+			if {[string equal $name [lindex $proc 0]]} {
+				set err 0
+				break
+			}
+		}
+		if {$err == 1} {
+			set cancelProcs [lappend $cancelProcs [list $name $proc]]
+		} else {
+			status_log "Assistant: while calling addCancelProc, a proc identified by $name is already registered"
+		}
+		return $err
+	}
+	
+	###########################################################################
+	# method removeCancelProc (name)
+	#    Remove the proc called by $name
+	# Argument
+	#    - name => name of the proc we want to remove from the Cancel procs
+	# Returns
+	#    1 if proc is removed
+	#    0 if not
+	method removeCancelProc {name} {
+		set err 1
+		set i 0
+		#search the name in the list
+		foreach proc $cancelProcs {
+			if {[string equal $name [lindex $proc 0]]} {
+				set err 0
+				break
+			} else {
+				incr i
+			}
+		}
+		if {err == 1} { 
+			set $cancelProcs [lreplace $cancelProcs $i $i]
+		} else {
+			status_log "Assistant: while calling removeCancelProc, the proc identified by $name was not found"
+		}
+		return $err
+	}
+
+	###########################################################################
+	# method cancel
+	#    Called when the cancel button is pressed
+	# Returns nothing
+	method cancel {} {
+		foreach proc $cancelProcs {
+			eval [lindex $proc 1] $self $contentf
+		}
+		#calling leaving proc and cancelProc is done through the destructor
+		destroy $self
+	}
 
 	###########################################################################
 	# method back
-	#     Called when the back button is pressed
+	#    Called when the back button is pressed
 	# Returns nothing
 	method back {} {
 
@@ -379,6 +482,9 @@ snit::widget assistant {
 			$buttonf.back configure -state normal
 		}
 		$buttonf.next configure -state normal
+		#remove the finish button
+		$buttonf.next configure -text [trans next] -command "$self next"
+
 
 		#calling mainProc
 		eval [lindex [lindex $steps_l $steps_l_i] 2] $self [$self clearContentFrame]
@@ -386,7 +492,7 @@ snit::widget assistant {
 	
 	###########################################################################
 	# method next
-	#     Called when the next button is pressed
+	#    Called when the next button is pressed
 	# Returns nothing
 	method next {} {
 
@@ -410,9 +516,14 @@ snit::widget assistant {
 		
 		if { $steps_l_i == [expr {[llength $steps_l] - 1}] } {
 			# going to last step
-			$buttonf.next configure -state disabled
+			$buttonf.next configure -state normal
+			#add the finish button
+			$buttonf.next configure -text [trans finish] -command "$self finish"
+			#we have seen all steps
+			set allStepsSeen 1
 		} else {
 			$buttonf.next configure -state normal
+			$buttonf.next configure -text [trans next] -command "$self next"
 		}
 		$buttonf.back configure -state normal
 		
@@ -421,24 +532,40 @@ snit::widget assistant {
 	}
 	
 	###########################################################################
+	# method finish
+	#    Called when the finish button is pressed
+	#    This method takes care of destroying the assistant
+	# Returns nothing
+	method finish {} {
+		if {$finishProc != ""} {
+			#calling the finish proc
+			eval $finishProc $self [$self clearContentFrame]
+			destroy $self
+		}
+	}
+	
+	###########################################################################
 	# method enableNextButton()
-	#     Make the Next Button active
+	#    Make the Next Button active
 	method enableNextButton {} {
 		$buttonf.next configure -state normal
+		$buttonf.next configure -text [trans next] -command "$self next"
 	}
 
 	###########################################################################
 	# method disableNextButton()
-	#     Make the Next Button disabled
+	#    Make the Next Button disabled
 	method disableNextButton {} {
 		$buttonf.next configure -state disabled
+		$buttonf.next configure -text [trans next] -command "$self next"
+
 	}
 
 	###########################################################################
 	# method goToStepId (index)
-	#     Display the step given by the index
+	#    Display the step given by the index
 	# Argument:
-	#     - index => index refering to the step in the list of steps
+	#    - index => index refering to the step in the list of steps
 	# Returns nothing
 	method goToStepId { index } {
 		#Checking whether the index given is valid
@@ -455,9 +582,15 @@ snit::widget assistant {
 			}
 			if {$steps_l_i == [expr {[llength $steps_l] - 1}] } {
 				# going to last step
-				$buttonf.next configure -state disabled
+				$buttonf.next configure -state normal
+				#add the finish button
+				$buttonf.next configure -text [trans finish] -command "$self finish"
+				#we have seen all steps
+				set allStepsSeen 1
 			} else {
 				$buttonf.next configure -state normal
+				#remove the finish button
+				$buttonf.next configure -text [trans next] -command "$self next"
 			}
 			#calling leavingProc
 			set leavingProc [lindex [lindex $steps_l $steps_l_i] 3]
@@ -467,15 +600,15 @@ snit::widget assistant {
 			#calling mainProc
 			eval [lindex [lindex $steps_l $steps_l_i] 2] $self [$self clearContentFrame]
 		} else {
-			status_log "\[ASSISTANT\] trying to go to step $index, which is invalid" red
+			status_log "Assistant: trying to go to step $index, which is invalid" red
 		}
 	}
 	
 	###########################################################################
 	# method goToStep (Name)
-	#     Go to step given by it's name
+	#    Go to step given by it's name
 	# Argument
-	#     - Name => name of the wanted step
+	#    - Name => name of the wanted step
 	# Returns nothing
 	method goToStep {Name} {
 		$self goToStepId [$self searchStep $Name]
@@ -483,13 +616,12 @@ snit::widget assistant {
 
 	###########################################################################
 	# method clearSteps()
-	#     Remove all the steps and display an empty assistant
+	#    Remove all the steps and display an empty assistant
 	# Returns nothing
 	method clearSteps {} {
 		$self clearContentFrame
 		set steps_l [list]
 		set steps_l_i 0
-		set currentStep 0
 		set stepsNumber 0
 		set stepNumber_l [list]
 		$buttonf.back configure -state disabled
@@ -498,9 +630,9 @@ snit::widget assistant {
 	
 	###########################################################################
 	# method addStepEnd (Step)
-	#     Add a step to the assistant
+	#    Add a step to the assistant
 	# Arguments:
-	#     - Step => (list) contains the ?? elements describing a step
+	#    - Step => (list) contains the ?? elements describing a step
 	# Return:
 	#     nothing  
 	method addStepEnd { Step } {
@@ -522,13 +654,15 @@ snit::widget assistant {
 		} else {
 			$self enableNextButton
 		}
+		#since we're adding a step at the end, we can't have seen all steps
+		set allStepsSeen 0
 	}
 	
 	###########################################################################
 	# method removeStepId (id)
-	#     Remove the given step
+	#    Remove the given step
 	# Argument:
-	#     - id (int) => index of the step in the list of steps
+	#    - id (int) => index of the step in the list of steps
 	# Returns nothing
 	method removeStepId { id } {
 		if { $id != -1 } {
@@ -563,9 +697,9 @@ snit::widget assistant {
 
 	###########################################################################
 	# method removeStep (Name)
-	#     Remove the step called Name
+	#    Remove the step called Name
 	# Argument
-	#     - Name => name of the wanted step
+	#    - Name => name of the wanted step
 	# Returns nothing
 	method removeStep {Name} {
 		$self removeStepId [$self searchStep $Name]
@@ -573,10 +707,10 @@ snit::widget assistant {
 
 	###########################################################################
 	# method insertStep (Step, id)
-	#     Insert the given step after id
+	#    Insert the given step after id
 	# Arguments
-	#     - Step (list) => contains the ?? elements describing a step
-	#     - id (int) => index of the step in the list of steps
+	#    - Step (list) => contains the ?? elements describing a step
+	#    - id (int) => index of the step in the list of steps
 	#					The step will be inserted with that number (after id-1)
 	# Returns nothing.
 	method insertStep {Step id} {
@@ -589,15 +723,15 @@ snit::widget assistant {
 		if {[lindex $Step 1] == 1} {
 			#searching the number for that step
 			set stepNumber 1
-			for {set i $id} {$i >= 0 } {incr i -1} {
+			for {set i [expr {$id-1}]} {$i >= 0 } {incr i -1} {
 				if { [lindex $stepNumber_l $i] != 0} {
-					set stepNumber [lindex $stepNumber_l $i]
+					set stepNumber [expr {[lindex $stepNumber_l $i] +1}]
 					break
 				}
 			}
 			set stepNumber_l [linsert $stepNumber_l $id $stepNumber]
 			#we also have to do change stepNumber_l
-			for {set i $id} {$i < [llength $stepNumber_l]} {incr i} {
+			for {set i [expr {$id+1}]} {$i < [llength $stepNumber_l]} {incr i} {
 				set value [lindex $stepNumber_l $i]
 					if { $value != 0 } {
 						incr value
@@ -616,11 +750,11 @@ snit::widget assistant {
 
 	###########################################################################
 	# method insertStepBefore (Step, Name)
-	#     Insert a step before the one called Name
+	#    Insert a step before the one called Name
 	# Arguments:
-	#     - Step (list) => contains the ?? elements describing a step
-	#     - Name => name of the step which would be after the step we're adding
-	#        If there's no step called by Name, insert on head.
+	#    - Step (list) => contains the ?? elements describing a step
+	#    - Name => name of the step which would be after the step we're adding
+	#       If there's no step called by Name, insert on head.
 	# Returns nothing
 	method insertStepBefore {Step Name} {
 		set id [$self searchStep $Name]
@@ -633,11 +767,11 @@ snit::widget assistant {
 	
 	###########################################################################
 	# method insertStepAfter (Step, Name)
-	#     Insert a step after the one called Name
+	#    Insert a step after the one called Name
 	# Arguments:
-	#     - Step (list) => contains the ?? elements describing a step
-	#     - Name => name of the step which would be just before the step we're adding
-	#        If there's no step called by Name, insert on queue.
+	#    - Step (list) => contains the ?? elements describing a step
+	#    - Name => name of the step which would be just before the step we're adding
+	#       If there's no step called by Name, insert on queue.
 	# Returns nothing
 	method insertStepAfter {Step Name} {
 		set id [expr {[$self searchStep $Name] + 1 }]
@@ -650,9 +784,9 @@ snit::widget assistant {
 
 	###########################################################################
 	# method searchStep (Name)
-	#     Search the Step called Name
+	#    Search the Step called Name
 	# Argument:
-	#     - 
+	#    - Name => name of the step we're searching
 	# Returns
 	#   the index of the step in the list of steps
 	#	-1 if the step is not found
@@ -674,11 +808,11 @@ snit::widget assistant {
 
 	###########################################################################
 	# method modifyStep (id, partName, newInfo)
-	#     Change the value of one of the informations that describe a step
+	#    Change the value of one of the informations that describe a step
 	# Arguments:
-	#     - id (int) => index of the step in the list of steps
-	#     - partName (string) => name of the part of the step to change
-	#     - newInfo => the new value given to partName
+	#    - id (int) => index of the step in the list of steps
+	#    - partName (string) => name of the part of the step to change
+	#    - newInfo => the new value given to partName
 	# Returns nothing
 	method modifyStepId {id partName newInfo} {
 		switch $partName {
@@ -687,7 +821,7 @@ snit::widget assistant {
 		  "mainProc" {set i 2}
 		  "leavingProc" {set i 3}
 		  "nextProc" {set i 4}
-		  "closeProc" {set i 5}
+		  "cancelProc" {set i 5}
 		  "backProc" {set i 6}
 		  "titleText" {set i 7}
 		  "titlePixmap" {set i 8}
@@ -695,21 +829,67 @@ snit::widget assistant {
 		  "displayFullNumber" {set i 10}
 		  default {set i -1}
 		}
+
 		if {$i != -1 && $id != -1} {
 			set step [lindex $steps_l $id]
 			set step [lreplace $step $i $i $newInfo]
 			set steps_l [lreplace $steps_l $id $id $step]
+			
+			if { $i == 1 } {
+			#changing a state
+				#/!\ roughly same code in method insertStep
+				if { $newInfo == 1 && [lindex $stepNumber_l $id] == 0} {
+					#searching the number for that step
+					set stepNumber 1
+					for {set i $id} {$i >= 0 } {incr i -1} {
+						if { [lindex $stepNumber_l $i] != 0} {
+							set stepNumber [expr {[lindex $stepNumber_l $i]+1}]
+							break
+						}
+					}
+					set stepNumber_l [lreplace $stepNumber_l $id $id $stepNumber]
+
+					#increasing the number of "official" step
+					for {set j [expr {$id+1}]} {$j < [llength $stepNumber_l]} {incr j} {
+						set value [lindex $stepNumber_l $j]
+							if { $value != 0 } {
+								incr value
+								set stepNumber_l [lreplace $stepNumber_l $j $j $value]
+							}
+					}
+					#increasing the number of "official" steps
+					incr stepsNumber
+				} elseif {$newInfo == 0 && [lindex $stepNumber_l $id] > 0} {
+					set stepNumber_l [lreplace $stepNumber_l $id $id 0]
+					#decreasing the number of "official" step
+					for {set j $id} {$j < [llength $stepNumber_l]} {incr j} {
+						set value [lindex $stepNumber_l $j]
+							if { $value != 0 } {
+								incr value -1
+								set stepNumber_l [lreplace $stepNumber_l $j $j $value]
+							}
+					}
+					#increasing the number of "official" steps
+					incr stepsNumber -1
+				}
+
+				$self updateTitle
+			} elseif {$id == $steps_l_i && $i >= 7} {
+			#changing the current titleText or titlePixmap or displayNumber or displayFullNumber
+				$self updateTitle
+			}
 		} elseif {$i == -1} {
-				status_log "Assistant: invalid partName $partName while calling modifyStepId\nCan only be: name, state, mainProc, leavingProc, nextProc, closeProc, backProc, titleText, titlePixmap, displayNumber, displayFullNumber"
+				status_log "Assistant: invalid partName $partName while calling modifyStepId\nCan only be: name, state, mainProc, leavingProc, nextProc, cancelProc, backProc, titleText, titlePixmap, displayNumber, displayFullNumber"
 		}
 	}
 
 	###########################################################################
 	# method modifyStep (Name, partName, newInfo)
+	#    Modify the $partName of the step called $Name with $newInfo
 	# Arguments:
-	#     - Name (string) => name of the step we want to change
-	#     - partName (string) => name of the part of the step to change
-	#     - newInfo => the new value given to partName
+	#    - Name (string) => name of the step we want to change
+	#    - partName (string) => name of the part of the step to change
+	#    - newInfo => the new value given to partName
 	# Returns nothing
 	method modifyStep {Name partName newInfo} {
 		set id [$self searchStep $Name]
@@ -729,11 +909,17 @@ snit::widget assistant {
 
 namespace eval ::AVAssistant {
 
+	variable video_configured
+	variable audio_configured
+		
+	set video_configured 0
+	set audio_configured 0
+
 	######################################################################################
 	#Procedure that starts the assistant.  It creates the window's framework etc         #
 	######################################################################################
 	proc AVAssistant {} {
-		
+
 		#set the name of the window
 		set assistant [assistant create .%AUTO% -winname "Audio and Video assistant"]
 #TODO: translations
@@ -747,15 +933,14 @@ namespace eval ::AVAssistant {
 
 		#here, we'll insert some steps
 
-#TODO: add a skin pixmap for audio
 		#check for audio extensions, and configure it
-#TODO: add audio pixmap
-		set Step [list "Step1A" 1 ::AVAssistant::Step1A "" ::AVAssistant::saveAudioSettings "" "" "Configuring Audio settings" assistant_audio 1 1]
+		set Step [list "Step1A" 1 ::AVAssistant::Step1A ::AVAssistant::stopSound "" "" "" "Configuring Audio settings" assistant_audio 1 1]
 		$assistant addStepEnd $Step
 
 		#Finishing, greetings
 		set Step [list "LastStep" 0 ::AVAssistant::LastStep "" "" "" "" "Congratulations" "" 0 0]
 		$assistant addStepEnd $Step
+
 	}
 
 	################################
@@ -770,7 +955,6 @@ namespace eval ::AVAssistant {
 	# Step 0 (intro-page)                                                                #
 	######################################################################################	
 	proc Step0 {assistant contentf} {
-		status_log "entered step 0 of AudioVideo-Assistant"
 		
 		#add the Content
 #TODO: translation
@@ -786,7 +970,6 @@ namespace eval ::AVAssistant {
 	# Last Step (closing-page)                                                           #
 	######################################################################################	
 	proc LastStep {assistant contentf} {
-		status_log "entered last step of AudioVideo-Assistant"
 
 #TODO: translation
 		#add the Content
@@ -795,6 +978,8 @@ namespace eval ::AVAssistant {
 		pack $contentf.text -padx 20 -pady 20 -side left -fill both -expand 1
 		#to get a nice wrapping
 		bind $contentf.text <Configure> [list %W configure -wraplength %w]
+
+		$assistant setFinishProc ::AVAssistant::finish
 	}
 
 
@@ -803,15 +988,11 @@ namespace eval ::AVAssistant {
 	######################################################################################	
 	proc Step0W {assistant contentf} {
 
-		status_log "entered step 1 of Webcam-Assistant"
-		
 		##Webcam extension check##
 		if {[::CAMGUI::ExtensionLoaded]} {
 			set ::AVAssistant::infoarray(wcextloaded) 1
-			set wcextpic [::skin::loadPixmap yes-emblem]
 		} else {
 			set ::AVAssistant::infoarray(wcextloaded) 0
-			set wcextpic [::skin::loadPixmap no-emblem]
 		}
 
 		##Capture extension check
@@ -824,112 +1005,122 @@ namespace eval ::AVAssistant {
 		#check if loaded
 		if {[::CAMGUI::CaptureLoaded]} {
 			set ::AVAssistant::infoarray(capextloaded) 1
-			set capextpic [::skin::loadPixmap yes-emblem]
 		} else {
 			set ::AVAssistant::infoarray(capextloaded) 0
-			set capextpic [::skin::loadPixmap no-emblem]
 		}
+		
+		set camPresent [::CAMGUI::camPresent]
 
-		if {$::AVAssistant::infoarray(wcextloaded) && $::AVAssistant::infoarray(capextloaded)} {
+		if {$camPresent} {
 			#ok, we can add steps to configure video settings
+			$assistant modifyStep "Step0W" state 1
+			$assistant modifyStep "Step0W" displayNumber 1
+			$assistant modifyStep "Step0W" displayFullNumber 1
 			if {[OnDarwin]} {
 				#webcam device + finetune picture
-				set Step [list "Step1W" 1 ::AVAssistant::Step1W "" "" "" "" "Set up webcam device and channel and finetune picture" webcam 0 0]
-				$assistant insertStepAfter $Step "Step0W"
+				$assistant modifyStep "Step0W" titleText "Set up webcam device and channel and finetune picture"
+				$contentf configure -padx 10 -pady 10
+#TODO: translation
+				button $contentf.button -text "Open camsettings window" -command "::CAMGUI::ChooseDeviceMac"
+				pack $contentf.button
 			} else {
 				#OnLinux, or OnWindows
 				#webcam device + channel
-				set Step [list "Step1W" 1 ::AVAssistant::Step1W ::AVAssistant::stopPreviewGrabbing ::AVAssistant::saveDeviceChannel "" "" "Set up webcam device and channel" assistant_webcam 1 1]
+				
+				#Finetune picture
+				set Step [list "Step2W" 1 ::AVAssistant::Step2W ::AVAssistant::stopPreviewGrabbing "" "" "" "Finetune picture settings" assistant_webcam 1 1]
 				$assistant insertStepAfter $Step "Step0W"
 
-				#Finetune picture
-				set Step [list "Step2W" 1 ::AVAssistant::Step2W ::AVAssistant::stopPreviewGrabbing ::AVAssistant::saveFinetuneSettings "" "" "Finetune picture settings" assistant_webcam 1 1]
-				$assistant insertStepAfter $Step "Step1W"
+				variable video_configured
+				set video_configured 1
+
+				::AVAssistant::Step1W $assistant $contentf
+			}
+
+		} else {
+			#we won't be able to configure the video settings
+
+			$contentf configure -padx 20 -pady 35
+		
+			#First part: the webcam extension
+			if {!$::AVAssistant::infoarray(wcextloaded)} {
+#TODO: translation
+				label $contentf.wcextlabel -justify left -anchor nw -font bboldf \
+					-text "Check if webcam extension is loaded ..."\
+					-image [::skin::loadPixmap no-emblem] -compound right
+
+#TODO: translation
+				label $contentf.wcextwarn -justify left -text "You won't be able to view your contacts' webcams. You may find answers on how to install that extension on our Wiki : "
+#TODO: fill the url
+				label $contentf.wcextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+				pack $contentf.wcextlabel
+				pack $contentf.wcextwarn 
+				pack $contentf.wcextwarnurl
+
+				bind $contentf.wcextwarnurl <Enter> "%W configure -font sunderf"
+				bind $contentf.wcextwarnurl <Leave> "%W configure -font splainf"
+				bind $contentf.wcextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+				#to get a nice wrapping
+				bind $contentf.wcextwarn <Configure> [list %W configure -wraplength %w]
+			}
+
+			#Second part: the capture extension
+			if {!$::AVAssistant::infoarray(capextloaded)} {
+#TODO: translation
+				label $contentf.capextlabel -justify left -anchor nw -font bboldf \
+					-text "Check if '$capextname' extension is loaded ..."\
+					-image [::skin::loadPixmap no-emblem] -compound right
+#TODO: translation
+				label $contentf.capextwarn -justify left -text "You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install that extension on our Wiki : "
+#TODO: fill the url
+				label $contentf.capextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+
+				pack $contentf.capextlabel -pady [list 20 0]
+
+				pack $contentf.capextwarn
+				pack $contentf.capextwarnurl
+				bind $contentf.capextwarnurl <Enter> "%W configure -font sunderf"
+				bind $contentf.capextwarnurl <Leave> "%W configure -font splainf"
+				bind $contentf.capextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+				#to get a nice wrapping
+				bind $contentf.capextwarn <Configure> [list %W configure -wraplength %w]
+			}
+
+			#Third part: we can't find a cam
+			if {$::AVAssistant::infoarray(capextloaded) && $::AVAssistant::infoarray(wcextloaded) && !$camPresent } {
+#TODO: translation
+				label $contentf.nocamlabel -justify left -anchor nw -font bboldf \
+					-text "Check if a webcam is connected ..."\
+					-image [::skin::loadPixmap no-emblem] -compound right
+#TODO: translation
+				label $contentf.nocamwarn -justify left -text "No webcam were found or your webcam is already in use. You will find help on how to solve that issue on our Wiki : "
+#TODO: fill the url
+				label $contentf.nocamwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+
+				pack $contentf.nocamlabel -pady [list 20 0]
+
+				pack $contentf.nocamwarn
+				pack $contentf.nocamwarnurl
+				bind $contentf.nocamwarnurl <Enter> "%W configure -font sunderf"
+				bind $contentf.nocamwarnurl <Leave> "%W configure -font splainf"
+				bind $contentf.nocamwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+				#to get a nice wrapping
+				bind $contentf.nocamwarn <Configure> [list %W configure -wraplength %w]
 			}
 
 		}
-		#we won't be able to configure the video settings
-
-		$contentf configure -padx 20 -pady 35
-	
-		#First part : the webcam extension
-		set wcextlabel $contentf.wcextlabel
-#TODO: translation
-		label $wcextlabel -justify left -anchor nw -font bboldf \
-			-text "Check if webcam extension is loaded ..."\
-			-image $wcextpic -compound right
-
-		if {!$::AVAssistant::infoarray(wcextloaded)} {
-#TODO: translation
-			label $contentf.wcextwarn -justify left -text "You won't be able to view your contacts' webcams. You may find answers on how to install that extension on our Wiki : "
-#TODO: fill the url
-			label $contentf.wcextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
-		}
-
-		pack $wcextlabel
-		
-		if {!$::AVAssistant::infoarray(wcextloaded)} {
-			pack $contentf.wcextwarn 
-			pack $contentf.wcextwarnurl
-
-			bind $contentf.wcextwarnurl <Enter> "%W configure -font sunderf"
-			bind $contentf.wcextwarnurl <Leave> "%W configure -font splainf"
-			bind $contentf.wcextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
-#TODO: when resizing for a bigger window, the label is not wrapped
-			#to get a nice wrapping
-			bind $contentf.wcextwarn <Configure> [list %W configure -wraplength %w]
-		}
-
-		#Second part : the capture extension
-		set capextlabel $contentf.capextlabel
-#TODO: translation
-		label $capextlabel -justify left -anchor nw -font bboldf \
-			-text "Check if '$capextname' extension is loaded ..."\
-			-image $capextpic -compound right
-
-		if {!$::AVAssistant::infoarray(capextloaded)} {
-#TODO: translation
-			label $contentf.capextwarn -justify left -text "You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install that extension on our Wiki : "
-#TODO: fill the url
-			label $contentf.capextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
-		}
-
-		pack $capextlabel -pady [list 20 0]
-
-		if {!$::AVAssistant::infoarray(capextloaded)} {
-			pack $contentf.capextwarn
-			pack $contentf.capextwarnurl
-			bind $contentf.capextwarnurl <Enter> "%W configure -font sunderf"
-			bind $contentf.capextwarnurl <Leave> "%W configure -font splainf"
-			bind $contentf.capextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
-#TODO: when resizing for a bigger window, the label is not wrapped
-			#to get a nice wrapping
-			bind $contentf.capextwarn <Configure> [list %W configure -wraplength %w]
-		}
-#TODO: translation
-		button $contentf.nowebcam -text "nowebcam" -command "::AVAssistant::noWebcam $assistant"
-		pack $contentf.nowebcam -pady [list 50 10]
 	}
 
 
-	######################################################################################
-	# noWebcam: this proc is called when we don't have webcam, and want to skip the steps#
-	# where we change settings for webcam                                                #
-	######################################################################################
-	proc noWebcam {assistant} {
-	
-		#Remove useless steps
-		$assistant removeStep "Step1W"
-		$assistant removeStep "Step2W"
-		
-		#going to (what should be) the next step : audio settings
-		$assistant goToStep "Step1A"
-	}
 
 	######################################################################################
 	# Step 1 Video:  Set device/channel                                                  #
 	######################################################################################	
 	proc Step1W {assistant contentf} {
+		#extensions are present, we can change some settings	
+		$assistant modifyStep "Step0W" titleText "Set up webcam device and channel"
+		$assistant modifyStep "Step0W" leavingProc ::AVAssistant::stopPreviewGrabbing 
+
 		#we should be able to alter this vars in other procs
 		variable chanswidget
 		variable previmc
@@ -938,21 +1129,12 @@ namespace eval ::AVAssistant {
 		variable channels
 		variable previmg
 
-		status_log "entered step 2 of Webcam-Assistant, or 2&3 for mac"
-	
-		#when running on mac, this will be step 2 and 3 with only 1 button to open the QT prefs
-		if { [OnDarwin] } {
-			$contentf configure -padx 10 -pady 10
-#TODO: translation
-			button $contentf.button -text "Open camsettings window" -command "::CAMGUI::ChooseDeviceMac"
-			pack $contentf.button
-		} else {
+		##Here comes the content:##
 
-			##Here comes the content:##
-
-			#build the GUI framework (same for windows/linux)
-				
+		#build the GUI framework (same for windows/linux)
+			
 # +-------------------------+
+# |       descrition        |
 # |+----------+ +---------+ |--innerframe ($contenf)
 # ||          | |         | |
 # ||          | |         | |
@@ -963,123 +1145,111 @@ namespace eval ::AVAssistant {
 # |+----------+ +---------+ |
 # +-------------------------+
 
-			#create the left frame (for the comboboxes)
-			set leftframe $contentf.left
-			frame $leftframe -bd 0
-			pack $leftframe -side left -padx 10
+#TODO: translation
+		label $contentf.desc -justify left -text "Select your webcam in the list"
+		pack $contentf.desc -pady [list 20 0]
+		#to get a nice wrapping
+		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
 
-			#create the 'rightframe' canvas where the preview-image will be shown
-			set rightframe $contentf.right
+		#create the left frame (for the comboboxes)
+		set leftframe $contentf.left
+		frame $leftframe -bd 0
+		pack $leftframe -side left -padx 10
 
-			if { [::config::getKey lowrescam] == 1 } {
-				set camwidth 160
-				set camheight 120
-			} else {
-				set camwidth 320
-				set camheight 240
-			}
+		#create the 'rightframe' canvas where the preview-image will be shown
+		set rightframe $contentf.right
 
-			#this is a canvas so we can have a border and put some OSD-like text on it too
-			canvas $rightframe -background #000000 -width $camwidth -height $camheight -bd 0
-			pack $rightframe -side right -padx 10
+		if { [::config::getKey lowrescam] == 1 } {
+			set camwidth 160
+			set camheight 120
+		} else {
+			set camwidth 320
+			set camheight 240
+		}
 
-			#draw the border image that will be layed ON the preview-img
-			$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
-			#give the canvas a clear name
-			set previmc $rightframe
+		#this is a canvas so we can have a border and put some OSD-like text on it too
+		canvas $rightframe -background #000000 -width $camwidth -height $camheight -bd 0
+		pack $rightframe -side right -padx 10
 
-			##First "if on unix" (linux -> v4l), then for windows##
-			if {[OnLinux]} {
+		#draw the border image that will be layed ON the preview-img
+		$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
+		#give the canvas a clear name
+		set previmc $rightframe
 
-				#first clear the grabber var
-				set ::CAMGUI::webcam_preview ""
+		##First "if on unix" (linux -> v4l), then for windows##
+		if {[OnLinux]} {
 
-				#ask the list of devices on the system
+			#first clear the grabber var
+			set ::CAMGUI::webcam_preview ""
+	
+			#First line, device-chooser title
+			label $leftframe.devstxt -text "Choose device:"
+			pack $leftframe.devstxt -side top
+		
+			#create and pack the devices-combobox
+			combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command "::AVAssistant::FillChannelsLinux" 
 
-				set devices [::Capture::ListDevices]
-
-				#check if we have devices available, if not we're gonne show a msg instead of the 
-				# comboboxes
-				if { [llength $devices] == 0 } {
-					status_log "Webcam-Assistant: No devices available"
-					#have some message showing no device and go further with
-					#we have minimum 1 device available
-				} else {
-				
-					#First line, device-chooser title
-					label $leftframe.devstxt -text "Choose device:"
-					pack $leftframe.devstxt -side top
-				
-					#create and pack the devices-combobox
-					combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command "::AVAssistant::FillChannelsLinux" 
-
-					#make sure the devs-combobox is empty first
-					$leftframe.devs list delete 0 end
-					
-					#get the already set device from the config (if there is one set)
-					set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
-					#set the count to see which nr this device has in the list on -1 to begin,
-					# so it becomes 0 if it's the first element in the list ([lindex $foo 0])
-					set count -1
-					#set a start-value for the device's nr
-					set setdevnr -1
-						
-					#insert the device-names in the widget
-					foreach device $devices {
-						set dev [lindex $device 0]
-						set name [lindex $device 1]
-
-						#it will allways set the last one, which is a bit weird to the
-						# user though if he has like /dev/video0 that come both as V4L 
-						# and V4L2 device
-						incr count
-						#store which nr the setdev has in the combobox
-						if { $dev == $setdev} {
-							set setdevnr $count
-						}
-
-						#if we can't get the name, show it the user
-						if {$name == "" } {
-							#TODO: is this the right cause ?
-							set name "$dev (Err: busy?)"
-							status_log "Webcam-Assistant: No name found for $dev ... busy ?"
-						}
-						#put the name of the device in the widget
-						$leftframe.devs list insert end $name
-					}
-					#pack the dev's combobox
-					pack $leftframe.devs -side top
-
-					#create and pack the chans-txt
-					label $leftframe.chanstxt -text "\n\nChoose channel:"
-					pack $leftframe.chanstxt -side top
-
-					#create and pack the chans-combobox
-					set chanswidget $leftframe.chans
-					combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true -command "after 1 ::AVAssistant::StartPreviewLinux" -editable false -bg #FFFFFF
-					pack $leftframe.chans -side top 
-
-					#Select the device if in the combobox (won't select anything if -1)
-					catch {$leftframe.devs select $setdevnr}
+			#make sure the devs-combobox is empty first
+			$leftframe.devs list delete 0 end
 			
+			#get the already set device from the config (if there is one set)
+			set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
+			#set the count to see which nr this device has in the list on -1 to begin,
+			# so it becomes 0 if it's the first element in the list ([lindex $foo 0])
+			set count -1
+			#set a start-value for the device's nr
+			set setdevnr -1
 				
-				#close the "if no devices avaliable / else" statement
+			#insert the device-names in the widget
+			foreach device [::Capture::ListDevices] {
+				set dev [lindex $device 0]
+				set name [lindex $device 1]
+
+				#it will allways set the last one, which is a bit weird to the
+				# user though if he has like /dev/video0 that come both as V4L 
+				# and V4L2 device
+				incr count
+				#store which nr the setdev has in the combobox
+				if { $dev == $setdev} {
+					set setdevnr $count
 				}
-				
-			} else {
-			#If on windows
+
+				#if we can't get the name, show it the user
+				if {$name == "" } {
+#TODO: is this the right cause ?
+					set name "$dev (Err: busy?)"
+					status_log "Webcam-Assistant: No name found for $dev ... busy ?"
+				}
+				#put the name of the device in the widget
+				$leftframe.devs list insert end $name
+			}
+			#pack the dev's combobox
+			pack $leftframe.devs -side top
+
+			#create and pack the chans-txt
+			label $leftframe.chanstxt -text "\n\nChoose channel:"
+			pack $leftframe.chanstxt -side top
+
+			#create and pack the chans-combobox
+			set chanswidget $leftframe.chans
+			combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true \
+				-command "after 1 ::AVAssistant::StartPreviewLinux" -editable false -bg #FFFFFF
+			pack $leftframe.chans -side top 
+
+			#Select the device if in the combobox (won't select anything if -1)
+			catch {$leftframe.devs select $setdevnr}
+		} else {
+		#If on windows
 
 #TODO ... (to be continued ... :))
-				status_log "we are on windows, in developpement"
-									
-			
-			#End the platform checks
-			# we're sure it's win, lin or mac.  maybe a check for unsupported platform on the 1st page ?
-			} 
+			status_log "we are on windows, in developpement"
+								
+		
+		#End the platform checks
+		# we're sure it's win, lin or mac.  maybe a check for unsupported platform on the 1st page ?
+		} 
 
-		#end the "if on mac / else" statement
-		}		
-	#end the Step2 proc
+	#end the Step1W proc
 	}
 
 
@@ -1157,8 +1327,13 @@ namespace eval ::AVAssistant {
 			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
 				::Capture::Close $::CAMGUI::webcam_preview
 			}
-
-			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel]} errormsg] } {
+	
+			if { [::config::getKey lowrescam] == 1 } {
+				set cam_res "QSIF"
+			} else {
+				set cam_res "SIF"
+			}
+			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel $cam_res]} errormsg] } {
 				status_log "problem opening device: $errormsg"
 				return
 			}
@@ -1178,19 +1353,14 @@ namespace eval ::AVAssistant {
 			
 			set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 			set $semaphore 0
-			if { [::config::getKey lowrescam] == 1 } {
-				set cam_res "LOW"
-			} else {
-				set cam_res "HIGH"
-			}
 			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [ImageExists $previmg] } {
-				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg $cam_res} res ]} {
+				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
 					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
 				after 2000 "catch { $previmc delete errmsg }"
 					
 				}
-				after 1000 "incr $semaphore"
+				after 100 "incr $semaphore"
 				tkwait variable $semaphore
 			}
 		}
@@ -1210,19 +1380,6 @@ namespace eval ::AVAssistant {
 		status_log "Webcam-Assistant: Stopped grabbing"
 	}
 
-	###
-	# Saving Device and Channel when going to next step
-	proc saveDeviceChannel {assistant contentf} {
-		variable selecteddevice
-		variable selectedchannel
-
-		stopPreviewGrabbing 0 0
-
-		#save settings
-		if {[info exists selecteddevice] && [info exists selectedchannel]} {
-			::config::setKey "webcamDevice" "$selecteddevice:$selectedchannel"
-		}
-	}
 
 	###
 	# Set the picture settings
@@ -1284,14 +1441,22 @@ namespace eval ::AVAssistant {
 		variable hue
 		variable color
 		
-		status_log "entered step 3 of Webcam-Assistant"
+		variable shareCam
 
-		#create the innerframe
-		set frame $contentf.innerframe
-		frame $frame -bd 0
-		pack $frame -padx 10 -pady 10 -side left
+		$contentf configure -padx 10 -pady 10
+
+#TODO: translation
+		label $contentf.desc -justify left -text "Change the following settings to adjust the quality of the image from your webcam"
+		pack $contentf.desc -pady 10
+		#to get a nice wrapping
+		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
+
+		set shareCam [::config::getVar wanttosharecam] 
+		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable $shareCam -onvalue 1 -offvalue 0 -state active
+		pack $contentf.wanttosharecam
+
 		#create the left frame (for the comboboxes)
-		set leftframe $frame.left
+		set leftframe $contentf.left
 		#frame $leftframe -bd 0
 		#pack $leftframe -side left -padx 10
 
@@ -1304,7 +1469,7 @@ namespace eval ::AVAssistant {
 		}
 
 		#create the 'rightframe' canvas where the preview-image will be shown
-		set rightframe $frame.right
+		set rightframe $contentf.right
 		#this is a canvas so we gcan have a border and put some OSD-like text on it too
 		canvas $rightframe -background #000000 -width $camwidth -height $camheight -bd 0
 		pack $rightframe -side right -padx 10
@@ -1319,7 +1484,7 @@ namespace eval ::AVAssistant {
 			::Capture::Close $::CAMGUI::webcam_preview
 		}
 
-		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel]} errormsg] } {
+		if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel $cam_res]} errormsg] } {
 			status_log "problem opening device: $errormsg"
 			return
 		}
@@ -1361,14 +1526,23 @@ namespace eval ::AVAssistant {
 		}
 
 		set slides $leftframe
-		frame $slides
-		scale $slides.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Brightness" -command "::AVAssistant::Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview" -orient horizontal
-		scale $slides.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Contrast" -command "::AVAssistant::Properties_SetLinux $slides.c c $::CAMGUI::webcam_preview" -orient horizontal
-		scale $slides.h -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Hue" -command "::AVAssistant::Properties_SetLinux $slides.h h $::CAMGUI::webcam_preview" -orient horizontal
-		scale $slides.co -from 0 -to 65535 -resolution 1 -showvalue 1 -label "Colour" -command "::AVAssistant::Properties_SetLinux $slides.co co $::CAMGUI::webcam_preview" -orient horizontal
+		frame $slides -background #ffffff
+
+		scale $slides.b -from [::Capture::GetBrightness $::CAMGUI::webcam_preview MIN] -to [::Capture::GetBrightness $::CAMGUI::webcam_preview MAX] \
+			-resolution 1 -showvalue 1 -label "[trans brightness]" -orient horizontal \
+			-command "::AVAssistant::Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview"
+		scale $slides.c -from [::Capture::GetContrast $::CAMGUI::webcam_preview MIN] -to [::Capture::GetContrast $::CAMGUI::webcam_preview MAX] \
+			-resolution 1 -showvalue 1 -label "[trans contrast]" -orient horizontal\
+			-command "::AVAssistant::Properties_SetLinux $slides.c c $::CAMGUI::webcam_preview"
+		scale $slides.h -from [::Capture::GetHue $::CAMGUI::webcam_preview MIN] -to [::Capture::GetHue $::CAMGUI::webcam_preview MAX] \
+			-resolution 1 -showvalue 1 -label "[trans hue]" -orient horizontal \
+			-command "::AVAssistant::Properties_SetLinux $slides.h h $::CAMGUI::webcam_preview"
+		scale $slides.co -from [::Capture::GetColour $::CAMGUI::webcam_preview MIN] -to [::Capture::GetColour $::CAMGUI::webcam_preview MAX] \
+			-resolution 1 -showvalue 1 -label "[trans color]" -orient horizontal \
+			-command "::AVAssistant::Properties_SetLinux $slides.co co $::CAMGUI::webcam_preview"
 
 		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
-		pack $leftframe -side right -padx 10
+		pack $leftframe -side left -padx 10 -expand true -fill x
 
 		#set the sliders right
 		Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview $brightness
@@ -1379,7 +1553,7 @@ namespace eval ::AVAssistant {
 		set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 		set $semaphore 0
 		while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [ImageExists $previmg] } {
-			if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg $cam_res} res ]} {
+			if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg } res ]} {
 				status_log "Problem grabbing from the device:\n\t \"$res\""
 				$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
 				after 2000 "catch { $previmc delete errmsg }"				
@@ -1409,47 +1583,37 @@ namespace eval ::AVAssistant {
 		switch $property {
 			b {
 				::Capture::SetBrightness $capture_fd $new_value
-				set brightness [::Capture::GetBrightness $capture_fd]
+				#::Capture::GetBrightness doesn't work with my cam
+				#set brightness [::Capture::GetBrightness $capture_fd]
+				set brightness $new_value
 				$w set $brightness
 			}
 			c {
 				::Capture::SetContrast $capture_fd $new_value
-				set contrast [::Capture::GetContrast $capture_fd]
+				#::Capture::GetContrast doesn't work with my cam
+				#set contrast [::Capture::GetContrast $capture_fd]
+				set contrast $new_value
 				$w set $contrast
 			}
 			h
 			{
 				::Capture::SetHue $capture_fd $new_value
-				set hue [::Capture::GetHue $capture_fd]
+				#::Capture::GetContrast doesn't work with my cam
+				#set hue [::Capture::GetHue $capture_fd]
+				set hue $new_value
 				$w set $hue
 			}
 			co
 			{
 				::Capture::SetColour $capture_fd $new_value
-				set color [::Capture::GetColour $capture_fd]
+				#::Capture::GetContrast doesn't work with my cam
+				#set color [::Capture::GetColour $capture_fd]
+				set color $new_value
 				$w set $color
 			}
 		}
 	}
 
-	###
-	#Saving the values for finetune picture when going to next step
-	proc saveFinetuneSettings {assistant contentf} {
-		variable selecteddevice
-		variable selectedchannel
-
-		variable brightness
-		variable contrast
-		variable hue
-		variable color
-
-		#save settings
-		if {[info exists brightness] && [info exists contrast] && [info exists hue] && [info exists color]} {
-			::config::setKey "webcam$selecteddevice:$selectedchannel" "$brightness:$contrast:$hue:$color"
-		}
-
-		stopPreviewGrabbing O O
-	}
 	
 
 	######################################################################################
@@ -1466,8 +1630,6 @@ namespace eval ::AVAssistant {
 
 		variable waveid
 
-		status_log "entered step 1 of Audio-Assistant"
-		
 		$contentf configure -padx 10 -pady 10
 
 		##Here comes the content:##
@@ -1478,7 +1640,7 @@ namespace eval ::AVAssistant {
 			label $contentf.audiolabel -justify left -anchor nw -font bboldf \
 				-text "Check if audio extension (Snack) is loaded ..."\
 				-image [::skin::loadPixmap no-emblem] -compound right
-#TODO : translation
+#TODO: translation
 			label $contentf.audiowarn -justify left -text "You won't be able to record yourself, or speak (with voice) to friends. You may find answers on how to install that extension on our Wiki : "
 #TODO: fill the url
 			label $contentf.audiowarnurl -justify left -text "$::weburl/userwiki/" -fg blue
@@ -1498,28 +1660,37 @@ namespace eval ::AVAssistant {
 
 		} else {
 		#succeed in loading snack
+			variable audio_configured
+			set audio_configured 1
 
 			#add the second step of the audio assistant
-#TODO: add audio pixmap
-			set step [list "Step2A" 1 ::AVAssistant::Step2A "" ::AVAssistant::saveAudioSettings "" "" "Configuring the mic" assistant_audio 1 1]
+			set step [list "Step2A" 1 ::AVAssistant::Step2A ::AVAssistant::stopSound "" "" "" "Configuring the mic" assistant_audio 1 1]
 			$assistant insertStepAfter $step "Step1A"
 
 
-#TODO: when we leave, but not for saving, set mixers and all as default
-#and stop playing/recording (use leaving for that)
+			#when we leave, but not for saving, set mixers and all as default
 			::AVAssistant::storeAudioDefaults
-
+			$assistant addCancelProc resetAudio ::AVAssistant::resetAudio
 
 
 #       leftframe                                             rightframe
 #+------|-----------------------------------------------------|--------+
+#|                           $desc                                     |
 #|+---------------------------++--------------------------------------+|
-#||  Choose input device:     || Volume :   {scale}                   ||
+#||  Choose output device:    || Volume :   {scale}                   ||
 #||      {ComboBox}           || {Button Record} {Button PlayRecord}  ||
 #||  Choose mixer device:     || {Button PlayTestFile}                ||
 #||      {ComboBox}           || {Canvas Wave}                        ||--- contentf
 #|+---------------------------++--------------------------------------+|
 #+---------------------------------------------------------------------+
+
+
+#TODO: translation
+			label $contentf.desc -justify left -text "Choose your output device ........."
+			pack $contentf.desc -pady [list 20 0]
+			#to get a nice wrapping
+			bind $contentf.desc <Configure> [list %W configure -wraplength %w]
+
 			#create the left frame (for the comboboxes)
 			set leftframe $contentf.left
 			frame $leftframe -bd 0
@@ -1530,8 +1701,10 @@ namespace eval ::AVAssistant {
 			label $leftframe.outtxt -text "\n\nChoose output device:"
 
 			#create and pack the output-combobox
+#TODO: fix that combobox so that it takes the default value
 			combobox::combobox $leftframe.out -highlightthickness 0 -width 22 -font splainf \
-				-exportselection true -command "::AVAssistant::wrapSetOutputDevice" -editable false -bg #FFFFFF -listvar outputdev
+				-exportselection true -command "::AVAssistant::wrapSetOutputDevice" \
+				-editable false -bg #FFFFFF -listvar outputdev
 			$leftframe.out list delete 0 end
 			foreach output [::audio::outputDevices] {
 				$leftframe.out list insert end $output
@@ -1548,6 +1721,7 @@ namespace eval ::AVAssistant {
 			label $leftframe.mixtxt -text "Choose mixer device:"
 		
 			#create and pack the input-combobox
+#TODO: fix that combobox so that it takes the default value
 			combobox::combobox $leftframe.mix -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf \
 				-exportselection true -editable false -command "::AVAssistant::wrapSetMixerDevice" -listvar mixerdev
 			$leftframe.mix list delete 0 end
@@ -1557,14 +1731,13 @@ namespace eval ::AVAssistant {
 			pack $leftframe.mixtxt \
 			     $leftframe.mix -side top
 
-#TODO: improve the packing
-
 			#Volume
 #TODO: translation
 			frame $rightframe.volumef
 			set volf $rightframe.volumef
 			pack $volf -side top -pady 5
 			label $volf.voltxt -text "Volume :" -padx 10
+#TODO: make it working: changing volume!
 			scale $volf.volscale -from 0 -to 100 -resolution 1 -showvalue 1 \
 				-orient horizontal -command "::AVAssistant::wrapSetVolume" -variable volume
 			pack $volf.voltxt \
@@ -1641,17 +1814,18 @@ namespace eval ::AVAssistant {
 		::audio::setMixerDevice $mixerdev 0
 		::audio::setVolume $volume 0
 	}
+
 	###
-	# Save audio settings
-	proc saveAudioSettings {assistant contentf} {
-		variable inputdev
-		variable outputdev
-		variable mixerdev
-		variable volume
-		::audio::setInputDevice $inputdev
-		::audio::setOutputDevice $outputdev
-		::audio::setMixerDevice $mixerdev
-		::audio::setVolume $volume
+	# Stop playing sound from Assistant
+	proc stopSound {assistant contentf} {
+		variable sound_test
+		if {[info exists sound_test] } {
+			catch { $sound_test stop }
+		}
+		variable sound_record
+		if {[info exists sound_record] } {
+			catch { $sound_record stop }
+		}
 	}
 
 	###
@@ -1708,6 +1882,12 @@ namespace eval ::AVAssistant {
 	######################################################################################
 	proc Step2A {assistant contentf} {
 
+#TODO: translation
+		label $contentf.desc -justify left -text "Choose your input device ........."
+		pack $contentf.desc -pady [list 20 0]
+		#to get a nice wrapping
+		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
+
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
 		frame $leftframe -bd 0
@@ -1718,6 +1898,7 @@ namespace eval ::AVAssistant {
 		label $leftframe.intxt -text "Choose input device:"
 	
 		#create and pack the input-combobox
+#TODO: fix that combobox so that it takes the default value
 		combobox::combobox $leftframe.in -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf \
 			-exportselection true -editable false -command "::AVAssistant::wrapSetInputDevice" -listvar inputdev
 		$leftframe.in list delete 0 end
@@ -1742,7 +1923,7 @@ namespace eval ::AVAssistant {
 		set recf $rightframe.recf
 		pack $recf -side top -pady 5
 #TODO: translation
-#TODO: pressing the record button should start recording
+#TODO: IMHO, pressing the record button should start recording
 # pressing again on the record button, or on stop, should stop recording
 		label $recf.recordtxt -text "Record :" -padx 10
 		label $recf.record -image [::skin::loadPixmap recordbut]
@@ -1774,8 +1955,6 @@ namespace eval ::AVAssistant {
 		#use the alarm as test file for the moment
 		set sound_test [::snack::sound -file [::skin::GetSkinFile sounds alarm.wav] ]
 	}
-
-
 	
 	proc wrapSetInputDevice { w dev } {::audio::setInputDevice $dev 0}
 	
@@ -1799,7 +1978,7 @@ namespace eval ::AVAssistant {
 			}
 		}
 	###
-	# Stop recording
+	# Stop recording from GUI
 	proc stopRecord {w} {
 		variable sound_record
 		catch { $sound_record stop }		
@@ -1846,7 +2025,40 @@ namespace eval ::AVAssistant {
 		::AVAssistant::endPlayRecord $w
 	}
 
-
+	######################################################################################
+	# Finish: Saving settings                                                            #
+	######################################################################################
+	proc finish {assistant contentf} {
+		variable video_configured
+		variable audio_configured
+		#video settings has been configured
+		if {$video_configured} {
+			#currently, only useful for linux users
+			if {[OnLinux]} {
+				variable selecteddevice
+				variable selectedchannel
+				::config::setKey "webcamDevice" "$selecteddevice:$selectedchannel"
+		
+				variable brightness
+				variable contrast
+				variable hue
+				variable color
+				::config::setKey "webcam$selecteddevice:$selectedchannel" "$brightness:$contrast:$hue:$color"
+			}
+		}
+		#audio settings has been configured
+		if {$audio_configured} {
+			variable inputdev
+			variable outputdev
+			variable mixerdev
+			variable volume
+			#saving through the audio API
+			::audio::setInputDevice $inputdev
+			::audio::setOutputDevice $outputdev
+			::audio::setMixerDevice $mixerdev
+			::audio::setVolume $volume
+		}
+	}
 
 #Close the ::AVAssistant namespace
 }
