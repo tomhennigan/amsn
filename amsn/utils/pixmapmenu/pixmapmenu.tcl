@@ -56,7 +56,7 @@ snit::widgetadaptor pixmapmenu {
 	option -ipadx -configuremethod SetPadding -default 0
 	option -ipady -configuremethod SetPadding -default 0
 	option -orient -configuremethod SetOrient -default vertical
-	option -tearoff -default 0 -readonly yes
+	option -tearoff -default 0
 	option -type -default normal
 
 	delegate option * to hull except { -highlightthickness -bd -borderwidth }
@@ -622,7 +622,7 @@ snit::widgetadaptor pixmapmenu {
 		foreach entry $entries {
 			if { [$self type [lsearch $entries $entry]] == "cascade" } {
 				set menu [$self entrycget [lsearch $entries $entry] -menu]
-				if { $menu != "" } {
+				if { $menu != "" && [winfo exists $menu]} {
 					$menu unpost
 				}
 			}
@@ -633,6 +633,11 @@ snit::widgetadaptor pixmapmenu {
 		}
 		set entry [lindex $entries $nindex]
 		set menu [$self entrycget $nindex -menu]
+
+		if { ![winfo exists $menu] } {
+			return
+		}
+
 		# Set coords to post submenu at
 		switch $options(-orient) {
 			horizontal {

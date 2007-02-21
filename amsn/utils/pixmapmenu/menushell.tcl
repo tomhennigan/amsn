@@ -1,4 +1,6 @@
 snit::widgetadaptor menushell {
+	option -postcommand
+
 	delegate option * to menu
 	delegate method * to menu except { post unpost }
 
@@ -11,10 +13,14 @@ snit::widgetadaptor menushell {
 		wm overrideredirect $self 1
 		install menu using pixmapmenu $self.m -type normal
 		pack $menu -expand true -fill both 
-		bindtags $self ". all"
+		bindtags $self "Menu . all"
+		$self configurelist $args
 	}
 
 	method post { x y } {
+
+		eval $options(-postcommand)
+
 		if { [expr {$x + [$self cget -width]}] > [winfo screenwidth $self] } {
 			set x [expr {[winfo screenwidth $self] - [$self cget -width]}]
 		}
@@ -27,6 +33,7 @@ snit::widgetadaptor menushell {
 	}
 
 	method unpost { } {
+		$self postcascade none
 		wm withdraw $self
 	}
 }
@@ -41,7 +48,7 @@ snit::widgetadaptor menubar {
 		installhull using frame -class Menu -borderwidth 0 -highlightthickness 0 -padx 0 -pady 0 -relief flat
 		install menu using pixmapmenu $self.m -orient horizontal -type menubar
 		pack $menu -expand true -fill both
-		bindtags $self ". all"
+		bindtags $self "Menu . all"
 	}
 }
 
