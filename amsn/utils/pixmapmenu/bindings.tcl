@@ -17,3 +17,9 @@ proc setupBindings {} {
 }
 
 setupBindings
+
+bind Pixmapmenu <Configure> {
+	%W Configure %w %h
+}
+
+
