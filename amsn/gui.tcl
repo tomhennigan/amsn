@@ -4869,7 +4869,7 @@ proc configured_main_win {{w ""}} {
 	set h [winfo height .]
 	if { [lindex $wingeom 0] != $w  || [lindex $wingeom 1] != $h} {
 		set wingeom [list $w $h]
-		cmsn_draw_online 1
+		cmsn_draw_online 1 1
 	}
 }
 

@@ -207,7 +207,7 @@ namespace eval ::alarms {
 		::abook::saveToDisk
 		InitMyAlarms $user
 		
-		cmsn_draw_online 0 2
+		::Event::fireEvent contactAlarmChange gui $user
 	}
 
 	#Saves alarm settings for current user on OK press.
@@ -278,7 +278,7 @@ namespace eval ::alarms {
 		::abook::setContactData $user alarms [array get alarms]
 		::abook::saveToDisk
 		
-		cmsn_draw_online 0 2
+		::Event::fireEvent contactAlarmChange gui $user
 		unset my_alarms
 		
 		return 0
@@ -403,15 +403,5 @@ proc switch_alarm { user } {
 	
 	#We set the alarms configuration. We can't store an array, so we convert it to a list
 	::abook::setContactData $user alarms [array get alarms]
-}
-
-# Redraws the alarm icon for current user ONLY without redrawing full list of contacts
-proc redraw_alarm_icon { user tw icon } {
-
-	if { [::alarms::getAlarmItem $user enabled] == 1 } {
-		$tw image configure $icon -image [::skin::loadPixmap bell]
-	} else {
-		$tw image configure $icon -image [::skin::loadPixmap belloff]
-	}
 }
 

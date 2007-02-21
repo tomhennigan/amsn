@@ -1718,7 +1718,7 @@ namespace eval ::abookGui {
 		bind .globalnick.frm.nick <Return> {
 			::config::setKey globalnick "[.globalnick.frm.nick get]";
 			::MSN::contactListChanged;
-			cmsn_draw_online 0 2;
+			::Event::fireEvent changedNickDisplay gui
 			destroy .globalnick
 		}
 		frame .globalnick.btn 
@@ -1726,7 +1726,6 @@ namespace eval ::abookGui {
 			-command {
 			::config::setKey globalnick "[.globalnick.frm.nick get]";
 			::MSN::contactListChanged;
-			cmsn_draw_online 0 2;
 			::Event::fireEvent changedNickDisplay gui
 			destroy .globalnick
 			}
@@ -1774,7 +1773,7 @@ namespace eval ::abookGui {
 		destroy $w
 		::MSN::contactListChanged
 		::Event::fireEvent contactDataChange gui $email
-		cmsn_draw_online
+
 		::abook::saveToDisk
 	}
 	
