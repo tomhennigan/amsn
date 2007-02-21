@@ -3998,14 +3998,19 @@ proc cmsn_draw_offline {} {
 	$clcanvas bind lang_sel <Button1-ButtonRelease> \
 		"::lang::show_languagechoose"
 
+	#display user's display picture in login screen
+	load_my_pic
+        load_my_smaller_pic
+	$clcanvas create image 0 [expr {[image height $globe_image] + 10}] -image displaypicture_not_self -anchor n -tags [list centerx]
+
 	if { ([::config::getKey login] != "") && ([::config::getGlobalKey disableprofiles] != 1)} {
 
 		if { $password != "" } {
 			#They will be centered at the end
-			$clcanvas create text 0 90 \
+			$clcanvas create text 0 [expr {[image height $globe_image] + 70}] \
 				-text "[::config::getKey login]" -font sboldunderf \
 				-fill #000000 -anchor center -tags [list start_login centerx]
-			$clcanvas create text 0 [expr {93 + $textheight}] \
+			$clcanvas create text 0 [expr {[image height $globe_image] + 73 + $textheight}] \
 				-text "[trans clicktologin]" -font sboldunderf \
 				-fill #000000 -anchor center -tags [list start_login centerx]
 			
@@ -4020,20 +4025,20 @@ proc cmsn_draw_offline {} {
 
 		} else {
 			#They will be centered at the end
-			$clcanvas create text 0 90 \
+			$clcanvas create text 0 [expr {[image height $globe_image] + 70}] \
 				-text "[::config::getKey login]" -font sboldunderf \
 				-fill #000000 -anchor center -tags [list start_loginas centerx]
-			$clcanvas create text 0 [expr {93 + $textheight}] \
+			$clcanvas create text 0 [expr {[image height $globe_image] + 73 + $textheight}] \
 				-text "[trans clicktologin]..." -font sboldunderf \
 				-fill #000000 -anchor center -tags [list start_loginas centerx]
 		}
 
-		$clcanvas create text 0 170 \
+		$clcanvas create text 0 [expr {[image height $globe_image] + 150}] \
 			-text "[trans loginas]..." -font sboldunderf \
 			-fill #000000 -anchor center -tags [list start_loginas centerx]
 
 	} else {
-		$clcanvas create text 0 90 \
+		$clcanvas create text 0 [expr {[image height $globe_image] + 70}] \
 			-text "[trans clicktologin]..." -font sboldunderf \
 			-fill #000000 -anchor center -tags [list start_loginas centerx]
 	}
@@ -4049,7 +4054,7 @@ proc cmsn_draw_offline {} {
 
 	::guiContactList::centerItems $clcanvas
 
-	$clcanvas create text 10 350 -text "[trans checkver]..." -font sunderf \
+	$clcanvas create text 10 [expr {[image height $globe_image] + 330}] -text "[trans checkver]..." -font sunderf \
 		-fill #777777 -anchor nw -tags [list check_ver]
 
 	$clcanvas bind check_ver <Enter> \
