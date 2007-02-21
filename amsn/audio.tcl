@@ -193,7 +193,6 @@ namespace eval ::audio {
 	#		Error	 => (string) ""
 	proc setOutputDevice {device {save 1 }} {
 		variable outputDevice
-		puts "lsearch...=[lsearch [snack::audio outputDevices] $device]"
 		if { [lsearch [snack::audio outputDevices] $device] != -1  } {
 			# The device is avaliable.
 			snack::audio selectOutput $device

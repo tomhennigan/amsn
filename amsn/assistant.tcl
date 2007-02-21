@@ -194,7 +194,12 @@ snit::widget assistant {
 		#add the buttons
 		button $buttonf.back -text [trans back] -command "$self back"\
 			-state disabled ;#first step of assistant, back button is disabled
-		button $buttonf.next -text [trans next] -command "$self next" -state disabled
+		if {[string length [trans finish]] > [string length [trans next]] } {
+			set width [string length [trans finish]]
+		} else {
+			set width [string length [trans next]]
+		}
+		button $buttonf.next -text [trans next] -command "$self next" -state disabled -width $width
 		button $buttonf.cancel -text [trans cancel] -command "$self cancel"
 #TODO : maybe a button Help, and/or Defaults
 		#pack 'em
@@ -964,23 +969,6 @@ namespace eval ::AVAssistant {
 
 
 	######################################################################################
-	# Last Step (closing-page)                                                           #
-	######################################################################################	
-	proc LastStep {assistant contentf} {
-
-#TODO: translation
-		#add the Content
-		label $contentf.text -justify left -font bplainf -text "Your audio and video settings has been configured.\n\nThank you for running that assistant."
-		#pack it
-		pack $contentf.text -padx 20 -pady 20 -side left -fill both -expand 1
-		#to get a nice wrapping
-		bind $contentf.text <Configure> [list %W configure -wraplength %w]
-
-		$assistant setFinishProc ::AVAssistant::finish
-	}
-
-
-	######################################################################################
 	# Step 0 Video: check for extensions for Webcam setup                                #
 	######################################################################################	
 	proc Step0W {assistant contentf} {
@@ -1125,6 +1113,7 @@ namespace eval ::AVAssistant {
 		variable selectedchannel	
 		variable channels
 		variable previmg
+		variable lowrescam
 
 		##Here comes the content:##
 
@@ -1144,9 +1133,17 @@ namespace eval ::AVAssistant {
 
 #TODO: translation
 		label $contentf.desc -justify left -text "Select your webcam in the list"
-		pack $contentf.desc -pady [list 20 0]
+		pack $contentf.desc -pady 20 
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
+
+		if { [OnLinux] } {
+			if {![info exists lowrescam]} {
+				set lowrescam [::config::getKey lowrescam]
+			}
+			checkbutton $contentf.lowrescam -text "[trans lowrescam] ++ add more explanations(better for low connection ...)\n ask you can see, changing the state of that button doesn't change the preview.\n Just code it :)" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 -state active 
+			pack $contentf.lowrescam -pady 10
+		}
 
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
@@ -1156,7 +1153,7 @@ namespace eval ::AVAssistant {
 		#create the 'rightframe' canvas where the preview-image will be shown
 		set rightframe $contentf.right
 
-		if { [::config::getKey lowrescam] == 1 } {
+		if { $lowrescam == 1 } {
 			set camwidth 160
 			set camheight 120
 		} else {
@@ -1190,7 +1187,11 @@ namespace eval ::AVAssistant {
 			$leftframe.devs list delete 0 end
 			
 			#get the already set device from the config (if there is one set)
-			set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
+			if {![info exists selecteddevice]} {
+				set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
+			} else { 
+				set setdev $selecteddevice
+			}
 			#set the count to see which nr this device has in the list on -1 to begin,
 			# so it becomes 0 if it's the first element in the list ([lindex $foo 0])
 			set count -1
@@ -1258,6 +1259,7 @@ namespace eval ::AVAssistant {
 	proc FillChannelsLinux {devswidget value} {
 		variable chanswidget
 		variable selecteddevice
+		variable selecteddevicename
 		variable channels
 		
 		if { $value == "" } {
@@ -1268,6 +1270,8 @@ namespace eval ::AVAssistant {
 			set devnr [lsearch [$devswidget list get 0 end] $value]
 			#get that device out of the list and the first element is the device itself ([list /dev/foo "name"])
 			set selecteddevice [lindex [lindex [::Capture::ListDevices] $devnr] 0]
+			#name is used at the end of the assistant to tell the user what he choosed
+			set selecteddevicename $value
 
 			if { [catch {set channels [::Capture::ListChannels $selecteddevice]} errormsg] } {
 				status_log "Webcam-Assistant: Couldn't list chans for device $selecteddevice: $errormsg"
@@ -1278,8 +1282,12 @@ namespace eval ::AVAssistant {
 			$chanswidget list delete 0 end
 
 
-			#search the already set channel (cfr devices)
-			set setchan [lindex [split [::config::getKey "webcamDevice"] ":"] 1]
+			#search the already set channel (cfr devices)	
+			if {![info exists selectedchannel]} {		
+				set setchan [lindex [split [::config::getKey "webcamDevice"] ":"] 1]
+			} else {
+				set setchan $selectedchannel
+			}
 			set count -1
 			set setchannr -1
 
@@ -1305,6 +1313,7 @@ namespace eval ::AVAssistant {
 	proc StartPreviewLinux {chanswidget value} {
 		variable selecteddevice
 		variable selectedchannel
+		variable selectedchannelname
 		variable channels
 		variable previmc
 		variable previmg
@@ -1318,6 +1327,8 @@ namespace eval ::AVAssistant {
 			set channr [lsearch [$chanswidget list get 0 end] $value]
 			#get that channel out of the list and the first element is the chan itself ([list 0 "television"])
 			set selectedchannel [lindex [lindex $channels $channr] 0]
+			#name is used at the end of the assistant to tell the user what he choosed
+			set selectedchannelname $value
 			status_log "Will preview: $selecteddevice on channel $selectedchannel"
 			
 			#close the device if open
@@ -1447,10 +1458,6 @@ namespace eval ::AVAssistant {
 		pack $contentf.desc -pady 10
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
-
-		set shareCam [::config::getVar wanttosharecam] 
-		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable $shareCam -onvalue 1 -offvalue 0 -state active
-		pack $contentf.wanttosharecam
 
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
@@ -1705,7 +1712,9 @@ namespace eval ::AVAssistant {
 			foreach output [::audio::getOutputDevices] {
 				$leftframe.out list insert end $output
 			}
-			set outputdev [::audio::getOutputDevice]
+			if {![info exists outputdev]} {
+				set outputdev [::audio::getOutputDevice]
+			}
 			#select the already set mix if possible
 			set devnr [lsearch [$leftframe.out list get 0 end] $outputdev]
 			catch {$leftframe.out select $devnr}
@@ -1727,7 +1736,9 @@ namespace eval ::AVAssistant {
 			foreach mixer [::audio::getMixerDevices] {
 				$leftframe.mix list insert end $mixer
 			}
-			set mixerdev [::audio::getMixerDevice]
+			if {![info exists mixerdev]} {
+				set mixerdev [::audio::getMixerDevice]
+			}
 			#select the already set mix if possible
 			set devnr [lsearch [$leftframe.mix list get 0 end] $mixerdev]
 			catch {$leftframe.mix select $devnr}
@@ -1899,6 +1910,9 @@ namespace eval ::AVAssistant {
 	proc Step2A {assistant contentf} {
 		variable outputdev
 		variable inputdev
+		variable haveMic
+
+		set haveMic 1
 
 #TODO: translation
 		label $contentf.desc -justify left -text "Choose your input device ........."
@@ -1922,7 +1936,9 @@ namespace eval ::AVAssistant {
 		foreach input [::audio::getInputDevices] {
 			$leftframe.in list insert end $input
 		}
-		set inputdev [::audio::getInputDevice]
+		if {![info exists inputdev]} {
+			set inputdev [::audio::getInputDevice]
+		}
 		#select the already set mix if possible
 		set devnr [lsearch [$leftframe.in list get 0 end] $inputdev]
 		catch {$leftframe.in select $devnr}
@@ -1930,7 +1946,7 @@ namespace eval ::AVAssistant {
 			 $leftframe.in -side top
 
 #TODO: translation
-		button $leftframe.nomic -text [trans nomic] -command "$assistant next"
+		button $leftframe.nomic -text [trans nomic] -command "set haveMic 0; $assistant next"
 		pack $leftframe.nomic -pady 20
 
 		set rightframe $contentf.right
@@ -2046,6 +2062,72 @@ namespace eval ::AVAssistant {
 		::AVAssistant::endPlayRecord $w
 	}
 
+
+	######################################################################################
+	# Last Step (closing-page)                                                           #
+	######################################################################################	
+	proc LastStep {assistant contentf} {
+		variable audio_configured
+		variable video_configured
+		variable shareCam
+		variable selecteddevicename
+		variable selectedchannelname
+		variable outputdev
+		variable inputdev
+		variable haveMic
+
+#TODO: translations
+		if {$video_configured} {
+			if {[OnMac]} {
+				set text "You're webcam settigns have been configured"
+			} elseif {[OnWin]} {
+				set text "You have chosen the webcam device $selecteddevicename with the channel $selectedchannelname."
+			} elseif {[OnLinux]} {
+				set text "You have chosen the webcam device $selecteddevicename with the channel $selectedchannelname."
+			} else {
+				set text "hum, i don't know how you reached that step :), but i hope you have configured your webcam."
+			}
+
+			#add the Content
+			label $contentf.textvideo -justify left -font bplainf -text $text
+			#pack it
+			pack $contentf.textvideo -padx 20 -pady 10 -fill both -expand 1
+			#to get a nice wrapping
+			bind $contentf.textvideo <Configure> [list %W configure -wraplength %w]
+		}
+
+		if {$audio_configured} {
+			#snack should work for everyone
+			if {$haveMic} {
+				set text "You have chose as Output device: $outputdev and as Input device: $inputdev."
+			} else {
+				set text "You have chose as Output device: $outputdev."
+			}
+			#add the Content
+			label $contentf.textaudio -justify left -font bplainf -text $text
+			#pack it
+			pack $contentf.textaudio -padx 20 -pady 10 -fill both -expand 1
+			#to get a nice wrapping
+			bind $contentf.textaudio <Configure> [list %W configure -wraplength %w]
+		}
+
+		#click on the finish button to save settings.
+		label $contentf.textfinish -justify left -font bplainf -text "Press \"Finish\" to apply those settings"
+		#pack it
+		pack $contentf.textfinish -padx 20 -pady 10 -fill both -expand 1
+		#to get a nice wrapping
+		bind $contentf.textfinish <Configure> [list %W configure -wraplength %w]
+
+		if {![info exists shareCam]} {
+			set shareCam [::config::getKey wanttosharecam]
+		}
+		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable $shareCam -onvalue 1 -offvalue 0 -state active
+		pack $contentf.wanttosharecam -pady 10
+
+		$assistant setFinishProc ::AVAssistant::finish
+	}
+
+
 	######################################################################################
 	# Finish: Saving settings                                                            #
 	######################################################################################
@@ -2056,16 +2138,23 @@ namespace eval ::AVAssistant {
 		if {$video_configured} {
 			#currently, only useful for linux users
 			if {[OnLinux]} {
+				#saving device + channel
 				variable selecteddevice
 				variable selectedchannel
 				::config::setKey "webcamDevice" "$selecteddevice:$selectedchannel"
-		
+
+				#saving finetune settings
 				variable brightness
 				variable contrast
 				variable hue
 				variable color
 				::config::setKey "webcam$selecteddevice:$selectedchannel" "$brightness:$contrast:$hue:$color"
+
+				#saving lowrescam setting
+				variable lowrescam
+				::config::setKey lowrescam $lowrescam
 			}
+			#saving shareCam setting
 			variable shareCam
 			if { $shareCam } {
 				::config::setKey wanttosharecam 1
@@ -2085,8 +2174,12 @@ namespace eval ::AVAssistant {
 			variable outputdev
 			variable mixerdev
 			variable volume
+			variable haveMic
 			#saving through the audio API
-			::audio::setInputDevice $inputdev
+			if {$haveMic} {
+				#this setting has a reason to be saved only if the user has a mic
+				::audio::setInputDevice $inputdev
+			}
 			::audio::setOutputDevice $outputdev
 			::audio::setMixerDevice $mixerdev
 			::audio::setVolume $volume
