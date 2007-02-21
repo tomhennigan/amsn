@@ -190,20 +190,22 @@ namespace eval ::whatis {
 		# Strip HTML before translated text 
 		if { $transLangs == "en_el" || $transLangs == "el_en" } {
 			set substring "td class=\"tx2\" colspan=\""
-			set start [string first $substring $html]
-			set start [expr { $start + [string length $substring] + 3}]
 		} else {
 			set substring "name=\"translation\""
-			set start [expr [string first $substring $html] + 94]
+			
 		}
+		set start [string first $substring $html]
+		set start [string first ">" $html $start]
+		set start [expr { $start + 1 }]
 		
 		# Stript HTML after translated text
 		set htmlPart [string range $html $start end]
-		if { $transLangs == "en_el" || $transLangs == "el_en" } {
-			set end [expr [string first "</td>" $htmlPart] - 1]
-		} else {
-			set end	[expr [string first "</textarea>" $htmlPart] - 1]
-		}
+		set end [expr { [string first "</" $htmlPart] - 1}]
+		#if { $transLangs == "en_el" || $transLangs == "el_en" } {
+		#	set end [expr [string first "</td>" $htmlPart] - 1]
+		#} else {
+		#	set end	[expr [string first "</textarea>" $htmlPart] - 1]
+		#}
 		set translation [string range $htmlPart 0 $end]
 		set translation [encoding convertfrom utf-8 $translation]
 				
