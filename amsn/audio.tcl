@@ -1,6 +1,10 @@
 catch {require_snack}
 
 namespace eval ::audio {
+	variable inputDevice
+	variable outputDevice
+	variable mixerDevice
+
 	################################################################
 	#	::audio::init()
 	#	This procedure initialises aMSN's audio settings.
@@ -13,61 +17,78 @@ namespace eval ::audio {
 	#		- outputGain => (bool) [NOT REQUIRED] Initialise the outputGain.
 	#	Return:
 	#		Normal => (bool) True.
-	proc init { {inputDevice "1"} {outputDevice "1"} {mixerDevice "1"} {volume "1"} {inputGain "1"} {outputGain "1"} } {
-		if { $inputDevice } {
+	proc init { {inputDevice_b "1"} {outputDevice_b "1"} {mixerDevice_b "1"} {volume_b "1"} {inputGain_b "1"} {outputGain_b "1"} } {
+		variable inputDevice
+		variable outputDevice
+		variable mixerDevice
+
+		if { $inputDevice_b } {
 			if { [::config::getKey snackInputDevice ""] == "" } {
 				::config::setKey snackInputDevice [lindex [snack::audio inputDevices] 0]
 			}
+			set inputDevice [::config::getKey snackInputDevice]
 		}
-		if { $outputDevice } {
+	
+		if { $outputDevice_b } {
 			if { [::config::getKey snackOutputDevice ""] == "" } {
 				::config::setKey snackOutputDevice [lindex [snack::audio outputDevices] 0]
 			}
+			set outputDevice [::config::getKey snackOutputDevice]
 		}
-		if { $mixerDevice } {
+		
+		if { $mixerDevice_b } {
 			if { [::config::getKey snackMixerDevice ""] == "" } {
 				::config::setKey snackMixerDevice [lindex [snack::mixer devices] 0]
 			}
+			set mixerDevice [::config::getKey snackMixerDevice]
 		}
-		if { $volume } {
+	
+		if { $volume_b } {
 			if { [::config::getKey snackMixerVolume ""] == "" } {
-				getVolume
+				::config::setKey snackMixerVolume [getVolume]
 			}
 		}
-		if { $inputGain } {
+
+		if { $inputGain_b } {
 			if { [::config::getKey snackInputGain ""] == ""} {
-				inputGain
+				::config::setKey snackInputGain [inputGain]
 			}
 		}
-		if { $outputGain } {
+
+		if { $outputGain_b } {
 			if { [::config::getKey snackOutputGain ""] == ""} {
-				outputGain
+				::config::setKey snackOutputGain [outputGain]
 			}
 		}
+
 		return
 	}
 	
 	################################################################
-	#	::audio::inputDevices()
+	#	::audio::getInputDevices()
 	# 	Return:
 	#		Normal => (list) Avaliable input devices.
-	proc inputDevices { } {
+	proc getInputDevices { } {
 		return [snack::audio inputDevices]
 	}
 	
 	################################################################
-	#	::audio::inputDevice([fallback ""])
+	#	::audio::getInputDevice([fallback ""])
 	#	This procedure returns the name of the current input device that is in use.
 	#	Arguments:
 	#		- fallback => (string) [NOT REQUIRED] The fallback value to return if there is no device set.	
 	#	Return:
 	#		Normal => (string) Input device name.
-	proc inputDevice {{fallback ""}} {
+	proc getInputDevice {{fallback ""}} {
+		variable inputDevice
 		if { $fallback == "" } {
 			set fallback [lindex [snack::audio inputDevices] 0]
 		}
-		
-		return $fallback
+		if {[info exists inputDevice]} {
+			return $inputDevice
+		} else {
+			return [setInputDevice [config::getKey snackInputDevice $fallback]]
+		}
 	}
 
 	################################################################
@@ -80,12 +101,15 @@ namespace eval ::audio {
 	#		Normal => (sting) Input device name.
 	#		Error	 => (string) ""
 	proc setInputDevice {device {save 1}} {
-		if { [lsearch [snack::audio inputDevices] $device] != "-1"  } {
+		variable inputDevice
+		if { [lsearch [snack::audio inputDevices] $device] != -1  } {
 			# The device is avaliable.
 			snack::audio selectInput $device
+			set inputDevice $device
 			if {$save} {
-				return [::config::setKey snackInputDevice $device]
-			} else { return "" }
+				::config::setKey snackInputDevice $device
+			}
+			return $device
 		} else {
 			# The selected device is not avaliable.
 			if {[llength [snack::audio inputDevices]] > 0} {
@@ -102,11 +126,11 @@ namespace eval ::audio {
 	}
 	
 	################################################################
-	#	::audio::inputGain()
+	#	::audio::getInputGain()
 	#	This procedure returns the gain on the input device.
 	#	Return:
 	#		Normal => (int) The gain on the input device. (Range 0-100).
-	proc inputGain { } {
+	proc getInputGain { } {
 		return [snack::audio record_gain]
 	}
 	
@@ -128,14 +152,14 @@ namespace eval ::audio {
 		
 		if {$save} {
 			return [::config::setKey snackInputGain [snack::audio record_gain]]
-		} else { return "" }
+		} else { return $gain }
 	}
 	
 	################################################################
-	#	::audio::outputDevices()
+	#	::audio::getOutputDevices()
 	# 	Return:
 	#		Normal => (list) Avaliable output devices.
-	proc outputDevices { } {
+	proc getOutputDevices { } {
 		return [snack::audio outputDevices]
 	}
 	
@@ -146,12 +170,16 @@ namespace eval ::audio {
 	#		- fallback => (string) [NOT REQUIRED] The fallback value to return if there is no device set.	
 	#	Return:
 	#		Normal => (string) Output device name.
-	proc outputDevice {{fallback ""}} {
+	proc getOutputDevice {{fallback ""}} {
+		variable outputDevice
 		if { $fallback == "" } {
 			set fallback [lindex [snack::audio outputDevices] 0]
 		}
-		
-		return $fallback
+		if {[info exists outputDevice]} {
+			return $outputDevice
+		} else {
+			return [setOutputDevice [config::getKey snackOutputDevice $fallback]]
+		}
 	}
 	
 	################################################################
@@ -164,12 +192,16 @@ namespace eval ::audio {
 	#		Normal => (sting) Output device name.
 	#		Error	 => (string) ""
 	proc setOutputDevice {device {save 1 }} {
-		if { [lsearch [snack::audio outputDevices] $device] != "-1"  } {
+		variable outputDevice
+		puts "lsearch...=[lsearch [snack::audio outputDevices] $device]"
+		if { [lsearch [snack::audio outputDevices] $device] != -1  } {
 			# The device is avaliable.
 			snack::audio selectOutput $device
+			set outputDevice $device
 			if {$save} {
-				return [::config::setKey snackOutputDevice $device]
-			} else { return "" }
+				::config::setKey snackOutputDevice $device
+			} 
+			return $device
 		} else {
 			# The selected device is not avaliable.
 			if {[llength [snack::audio outputDevices]] > 0} {
@@ -190,7 +222,7 @@ namespace eval ::audio {
 	#	This procedure returns the gain set on the output device.
 	#	Return:
 	#		Normal => (int) The gain on the output device. (Range 0-100).
-	proc outputGain { } {
+	proc getOutputGain { } {
 		return [snack::audio play_gain]
 	}
 	
@@ -216,28 +248,32 @@ namespace eval ::audio {
 	}
 	
 	################################################################
-	#	::audio::mixerDevices()
+	#	::audio::getMixerDevices()
 	#	This proc lists all the mixer devcices avaliable to snack.
 	# 	Return:
 	#		Normal => (list) Avaliable mixers.
-	proc mixerDevices { } {
+	proc getMixerDevices { } {
 		return [snack::mixer devices]
 	}
 	
 	################################################################
-	#	::audio::mixerDevice([fallback ""])
+	#	::audio::getMixerDevice([fallback ""])
 	#	This procedure returns the name of the current mixer that is in use.
 	#	If no mixer is set it sets the mixer to $fallback.
 	#	Arguments:
 	#		- fallback => (string) [NOT REQUIRED] The fallback value to return if there is no device set.	
 	#	Return:
 	#		Normal => (string) Mixer name.
-	proc mixerDevice {{fallback ""}} {
+	proc getMixerDevice {{fallback ""}} {
+		variable mixerDevice
 		if { $fallback == "" } {
 			set fallback [lindex [snack::mixer devices] 0]
 		}
-		
-		return $fallback
+		if {[info exists mixerDevice]} {
+			return $mixerDevice
+		} else {
+			return [setMixerDevice [config::getKey snackMixerDevice $fallback]]
+		}
 	}
 	
 	################################################################
@@ -250,12 +286,15 @@ namespace eval ::audio {
 	#		Normal => (sting) Mixer name.
 	#		Error	 => (string) ""
 	proc setMixerDevice { device {save 1} } {
+		variable mixerDevice
 		if { [lsearch [snack::mixer devices] $device] != "-1"  } {
 			# The mixer is avaliable.
 			snack::mixer select $device
+			set mixerDevice $device
 			if {$save} {
-				return [::config::setKey snackMixerDevice $device]
-			} else { return "" }
+				::config::setKey snackMixerDevice $device
+			}
+			return $device
 		} else {
 			# The selected mixer is not avaliable.
 			if {[llength [snack::mixer devices]] > 0} {
@@ -280,7 +319,7 @@ namespace eval ::audio {
 	#	Return:
 	#		Normal	=> (int) Volume.
 	proc getVolume {{line ""}} {
-		set mixDev [::audio::mixerDevice]
+		set mixDev [::audio::getMixerDevice]
 		if {$line == "" } {
 			set line [lindex [snack::mixer lines] 0]
 		}

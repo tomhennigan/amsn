@@ -213,7 +213,6 @@ proc reload_files { } {
 	source proxy.tcl
 	source msnp2p.tcl
 	source msncam.tcl
-#	source ctadverts.tcl
 	source preferences.tcl
 	source hotmail.tcl
 	source groups.tcl	;# Handle buddy groups
@@ -235,6 +234,7 @@ proc reload_files { } {
 	source guicontactlist.tcl ;# New contact list (uses canvas)
 	source bugs.tcl 	  ;# bug reporting
 	source spaces.tcl         ;# MSN Space handling functions
+	source audio.tcl;	#audio API
     }
 }
 
@@ -337,3 +337,8 @@ if { [::config::getKey autocheckver] == 1 } {
 }
 
 vwait events
+
+#starting audio
+if {[package require snack]} {
+	::audio::init
+}

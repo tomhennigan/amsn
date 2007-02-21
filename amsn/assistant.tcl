@@ -1,5 +1,3 @@
-#TODO: remove
-source audio.tcl
 ######################################################################################
 ######################################################################################
 #####                                                                            #####
@@ -173,7 +171,6 @@ snit::widget assistant {
 		set titlebg [::skin::getKey assistanttitlebg]
 		set titleheight [::skin::getKey assistanttitleheight]
 		set titlefg [::skin::getKey assistanttitlefg]
-		set background [::skin::getKey assistantbackground]
 
 		frame $bodyf -bd 1 -background $titlebg
 		
@@ -189,7 +186,7 @@ snit::widget assistant {
 		pack $titlec -fill x
 		pack $titlef -side top -fill x
 		pack $bodyf -side top -fill both -padx 4 -pady 4 -expand 1
-		frame $contentf -padx 1 -pady 1 -background $background;#these pads make a 1 pixel border
+		frame $contentf -padx 1 -pady 1;#these pads make a 1 pixel border
 		pack $contentf -side top -fill both -expand 1 
 		
 		frame $buttonf  -bd 0 
@@ -309,7 +306,7 @@ snit::widget assistant {
 	#    Returns the path of the ContentFrame once cleared
 	method clearContentFrame {} {
 		if {[winfo exists $contentf]} { destroy $contentf }
-		frame $contentf -padx 1 -pady 1 -background [::skin::getKey assistantbackground];#these pads make a 1 pixel border
+		frame $contentf -padx 1 -pady 1;#these pads make a 1 pixel border
 		pack $contentf -side top -fill both -expand 1
 		return $contentf
 	}
@@ -1011,7 +1008,7 @@ namespace eval ::AVAssistant {
 		
 		set camPresent [::CAMGUI::camPresent]
 
-		if {$camPresent} {
+		if {$::AVAssistant::infoarray(capextloaded) && $::AVAssistant::infoarray(wcextloaded) && $camPresent == 1} {
 			#ok, we can add steps to configure video settings
 			$assistant modifyStep "Step0W" state 1
 			$assistant modifyStep "Step0W" displayNumber 1
@@ -1287,7 +1284,7 @@ namespace eval ::AVAssistant {
 			set setchannr -1
 
 			foreach channel $channels {
-				set chan [lindex $channel 0] ;#this is a nr
+				set chan [lindex $channel 0];#this is a nr
 				set channame [lindex $channel 1]
 				incr count
 
@@ -1621,8 +1618,8 @@ namespace eval ::AVAssistant {
 	######################################################################################
 	proc Step1A {assistant contentf} {
 
-		variable inputdev
 		variable outputdev
+		variable mixerdev
 		variable volume
 
 		variable sound_record
@@ -1701,14 +1698,17 @@ namespace eval ::AVAssistant {
 			label $leftframe.outtxt -text "\n\nChoose output device:"
 
 			#create and pack the output-combobox
-#TODO: fix that combobox so that it takes the default value
 			combobox::combobox $leftframe.out -highlightthickness 0 -width 22 -font splainf \
 				-exportselection true -command "::AVAssistant::wrapSetOutputDevice" \
-				-editable false -bg #FFFFFF -listvar outputdev
+				-editable false -bg #FFFFFF
 			$leftframe.out list delete 0 end
-			foreach output [::audio::outputDevices] {
+			foreach output [::audio::getOutputDevices] {
 				$leftframe.out list insert end $output
 			}
+			set outputdev [::audio::getOutputDevice]
+			#select the already set mix if possible
+			set devnr [lsearch [$leftframe.out list get 0 end] $outputdev]
+			catch {$leftframe.out select $devnr}
 			pack $leftframe.outtxt \
 			     $leftframe.out -side top
 
@@ -1721,13 +1721,17 @@ namespace eval ::AVAssistant {
 			label $leftframe.mixtxt -text "Choose mixer device:"
 		
 			#create and pack the input-combobox
-#TODO: fix that combobox so that it takes the default value
 			combobox::combobox $leftframe.mix -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf \
-				-exportselection true -editable false -command "::AVAssistant::wrapSetMixerDevice" -listvar mixerdev
+				-exportselection true -editable false -command "::AVAssistant::wrapSetMixerDevice"
 			$leftframe.mix list delete 0 end
-			foreach mixer [::audio::mixerDevices] {
+			foreach mixer [::audio::getMixerDevices] {
 				$leftframe.mix list insert end $mixer
 			}
+			set mixerdev [::audio::getMixerDevice]
+			#select the already set mix if possible
+			set devnr [lsearch [$leftframe.mix list get 0 end] $mixerdev]
+			catch {$leftframe.mix select $devnr}
+
 			pack $leftframe.mixtxt \
 			     $leftframe.mix -side top
 
@@ -1789,9 +1793,9 @@ namespace eval ::AVAssistant {
 		variable mixerdev
 		variable volume
 		
-		set inputdev [::audio::inputDevices] 
-		set outputdev [::audio::outputDevice]
-		set mixerdev [::audio::mixerDevice]
+		set inputdev [::audio::getInputDevices] 
+		set outputdev [::audio::getOutputDevice]
+		set mixerdev [::audio::getMixerDevice]
 		set volume [::audio::getVolume]
 
 		set audioDefaults [list $inputdev $outputdev $mixerdev $volume]
@@ -1830,9 +1834,21 @@ namespace eval ::AVAssistant {
 
 	###
 	# some proc to wrap
-	proc wrapSetVolume { volume } {::audio::setVolume $volume 0}
-	proc wrapSetOutputDevice { w dev } {::audio::setOutputDevice $dev 0}
-	proc wrapSetMixerDevice { w dev } {::audio::setMixerDevice $dev 0}
+	proc wrapSetVolume { vol } {
+		variable volume
+		::audio::setVolume $vol 0
+		set volume $vol
+	}
+	proc wrapSetOutputDevice { w dev } {
+		variable outputdev
+		::audio::setOutputDevice $dev 0
+		set outputdev $dev
+	}
+	proc wrapSetMixerDevice { w dev } {
+		variable mixerdev
+		::audio::setMixerDevice $dev 0
+		set mixerdev $dev
+	}
 
 	###
 	# Play the test file
@@ -1881,6 +1897,8 @@ namespace eval ::AVAssistant {
 	#Step 2 Audio: Configuring input settings                                            #
 	######################################################################################
 	proc Step2A {assistant contentf} {
+		variable outputdev
+		variable inputdev
 
 #TODO: translation
 		label $contentf.desc -justify left -text "Choose your input device ........."
@@ -1898,14 +1916,16 @@ namespace eval ::AVAssistant {
 		label $leftframe.intxt -text "Choose input device:"
 	
 		#create and pack the input-combobox
-#TODO: fix that combobox so that it takes the default value
 		combobox::combobox $leftframe.in -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf \
-			-exportselection true -editable false -command "::AVAssistant::wrapSetInputDevice" -listvar inputdev
+			-exportselection true -editable false -command "::AVAssistant::wrapSetInputDevice"
 		$leftframe.in list delete 0 end
-		foreach input [::audio::inputDevices] {
+		foreach input [::audio::getInputDevices] {
 			$leftframe.in list insert end $input
 		}
-		set inputdev [::audio::inputDevice]
+		set inputdev [::audio::getInputDevice]
+		#select the already set mix if possible
+		set devnr [lsearch [$leftframe.in list get 0 end] $inputdev]
+		catch {$leftframe.in select $devnr}
 		pack $leftframe.intxt \
 			 $leftframe.in -side top
 
@@ -1931,7 +1951,6 @@ namespace eval ::AVAssistant {
 		label $recf.stoprecorded -image [::skin::loadPixmap stopbut]
 		
 		bind $recf.record <ButtonPress-1> "::AVAssistant::record $rightframe"
-		bind $recf.record <Button1-ButtonRelease> "::AVAssistant::stopRecord $rightframe"
 		bind $recf.record <Enter> "%W configure -image [::skin::loadPixmap recordbuth]"
 		bind $recf.record <Leave> "%W configure -image [::skin::loadPixmap recordbut]"
 		
@@ -1970,8 +1989,8 @@ namespace eval ::AVAssistant {
 		if { [catch {$sound_record record} res]} {
 #TODO: fill a widget where we display the error
 		} else {
-			bind $w.recf.playrecorded <ButtonPress-1> "::AVAssistant::playRecord $w"
-			bind $w.recf.stoprecorded <ButtonPress-1> "::AVAssistant::stopPlayRecord $w"
+			bind $w.recf.playrecorded <ButtonPress-1> ""
+			bind $w.recf.stoprecorded <ButtonPress-1> "::AVAssistant::stopRecord $w"
 
 			$w.wavef.wave delete waveform
 			$w.wavef.wave create waveform 0 0 -sound $sound_record -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform] 
@@ -1981,7 +2000,9 @@ namespace eval ::AVAssistant {
 	# Stop recording from GUI
 	proc stopRecord {w} {
 		variable sound_record
-		catch { $sound_record stop }		
+		catch { $sound_record stop }
+		bind $w.recf.playrecorded <ButtonPress-1> "::AVAssistant::playRecord $w"
+		bind $w.recf.stoprecorded <ButtonPress-1> "::AVAssistant::stopPlayRecord $w"
 	}
 	###
 	# Play the record
