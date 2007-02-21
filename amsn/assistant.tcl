@@ -2066,6 +2066,18 @@ namespace eval ::AVAssistant {
 				variable color
 				::config::setKey "webcam$selecteddevice:$selectedchannel" "$brightness:$contrast:$hue:$color"
 			}
+			variable shareCam
+			if { $shareCam } {
+				::config::setKey wanttosharecam 1
+				::MSN::setClientCap webcam
+			} else {
+				::config::setKey wanttosharecam 0
+				::MSN::setClientCap webcam 0
+			}
+			#Refresh clientid if connected
+			if { [::MSN::myStatusIs] != "FLN" } {
+				::MSN::changeStatus [set ::MSN::myStatus]
+			}
 		}
 		#audio settings has been configured
 		if {$audio_configured} {
