@@ -24,15 +24,15 @@
 			<balloontext>#000000</balloontext>
 		</Colors>
 		<Geometry>
-	        <notifwidth>202</notifwidth>
-			<notifheight>134</notifheight>
+	        <notifwidth>200</notifwidth>
+			<notifheight>120</notifheight>
 			<x_notifyclose>184</x_notifyclose>
 			<y_notifyclose>3</y_notifyclose>
-			<x_notifydp>13</x_notifydp>
-			<y_notifydp>45</y_notifydp>
-			<x_notifytext>75</x_notifytext>
-			<y_notifytext>47</y_notifytext>
-			<width_notifytext>121</width_notifytext>
+			<x_notifydp>20</x_notifydp>
+			<y_notifydp>35</y_notifydp>
+			<x_notifytext>82</x_notifytext>
+			<y_notifytext>35</y_notifytext>
+			<width_notifytext>115</width_notifytext>
 			<notify_font>sboldf</notify_font>
 			<notify_dp_border>1</notify_dp_border>
 		</Geometry>
@@ -116,10 +116,10 @@
 			<topbarofflinebg_sel>#FFFFFF</topbarofflinebg_sel>
 			<topbarofflinetext>#000000</topbarofflinetext>
 			<topbarofflineborder>#F6F6F6</topbarofflineborder>
-			<statusbarbg>#B4FDFF</statusbarbg>
+			<statusbarbg>#FFFFFF</statusbarbg>
 			<statusbarbg_sel>#5f80b1</statusbarbg_sel>
 			<statusbartext>#000000</statusbartext>
-			<chat_status_border_color>#6b5600</chat_status_border_color>
+			<chat_status_border_color>#666666</chat_status_border_color>
                 </Colors>
                 
 		<Geometry>
@@ -141,7 +141,7 @@
 			<chat_leftframe_pady>0</chat_leftframe_pady>
 			<chat_sendbutton_padx>4</chat_sendbutton_padx>
 			<chat_sendbutton_pady>0</chat_sendbutton_pady>
-			<chat_status_padx>0</chat_status_padx>
+			<chat_status_padx>9</chat_status_padx>
 			<chat_status_pady>0</chat_status_pady>
 			<chat_sash_pady>4</chat_sash_pady>
             <tab_text_x>7</tab_text_x>
@@ -158,7 +158,7 @@
 			<chat_buttons_border>1</chat_buttons_border>
 			<chat_input_border>1</chat_input_border>
 			<chat_dp_border>1</chat_dp_border>
-			<chat_status_border>0</chat_status_border>
+			<chat_status_border>1</chat_status_border>
 			<chat_sash_showhandle>1</chat_sash_showhandle>
 		</Options>
 	</ChatWindow>
@@ -446,7 +446,7 @@
       <emoticon>
          <name> Camera </name>
          <text> "(P)" </text>
-         <file> Camera.gif </file>
+         <file> camera.gif </file>
       </emoticon>
    
       <emoticon>
