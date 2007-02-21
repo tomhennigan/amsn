@@ -3140,12 +3140,8 @@ proc create_states_menu {wmenu} {
 	}
 
   	# User status menu
-	if {0 && [package provide pixmapmenu] != "" && \
-		[info commands pixmapmenu_isEnabled] != "" && [pixmapmenu_isEnabled]} {
-		menubar $wmenu
-    } else {
-		menu $wmenu -tearoff 0 -type normal
-	}
+	menu $wmenu -tearoff 0 -type normal
+
 	$wmenu add command -label [trans online] -command "ChCustomState NLN"
 	$wmenu add command -label [trans noactivity] -command "ChCustomState IDL"
 	$wmenu add command -label [trans busy] -command "ChCustomState BSY"
@@ -3164,18 +3160,11 @@ proc create_other_menus {umenu imenu} {
 	if {[winfo exists $imenu]} { destroy $imenu }
 
 	# User menu
-	if {0 && [package provide pixmapmenu] != "" && \
-		[info commands pixmapmenu_isEnabled] != "" && [pixmapmenu_isEnabled]} {
-		menubar $umenu -tearoff 0 -type normal
-		menubar $umenu.move_group_menu -tearoff 0 -type normal
-		menubar $umenu.copy_group_menu -tearoff 0 -type normal
-		menubar $imenu -tearoff 0 -type normal
-	} else {
-		menu $umenu -tearoff 0 -type normal
-		menu $umenu.move_group_menu -tearoff 0 -type normal
-		menu $umenu.copy_group_menu -tearoff 0 -type normal
-		menu $imenu -tearoff 0 -type normal
-	}
+	menu $umenu -tearoff 0 -type normal
+	menu $umenu.move_group_menu -tearoff 0 -type normal
+	menu $umenu.copy_group_menu -tearoff 0 -type normal
+	menu $imenu -tearoff 0 -type normal
+
 }
 proc create_main_menu {wmenu} {
 	global password 
@@ -3224,7 +3213,7 @@ proc create_main_menu {wmenu} {
 	#Account menu
 	###########################
 	set accnt .main_menu.account
-	menu $accnt -tearoff 0 -type normal
+	menu $accnt -tearoff 0 -type normal -postcommand "create_states_menu $accnt.my_menu"
 	
 	#Note: One might think we should always have both entries (login and login_as)
 	#in the menu with "login" (with profile) greyed out if it's not available.
@@ -3247,7 +3236,7 @@ proc create_main_menu {wmenu} {
 	#-------------------
 	$accnt add separator
 	#change status submenu
-	$accnt add cascade -label "[trans changestatus]" -menu .my_menu -state disabled
+	$accnt add cascade -label "[trans changestatus]" -menu $accnt.my_menu -state disabled
 	#change nick
 	$accnt add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
 	#change dp
@@ -3349,9 +3338,9 @@ proc create_main_menu {wmenu} {
 	#Add group
 	$conts add command -label "[trans groupadd]..." -state disabled -command ::groups::dlgAddGroup
 	#remove group
-	$conts add cascade -label "[trans groupdelete]" -state disabled -menu .group_list_delete
+	$conts add cascade -label "[trans groupdelete]" -state disabled -menu $conts.group_list_delete
 	#rename group
-	$conts add cascade -label "[trans grouprename]"  -state disabled -menu .group_list_rename
+	$conts add cascade -label "[trans grouprename]"  -state disabled -menu $conts.group_list_rename
 	::groups::Init $conts
 	#-------------------
 	$conts add separator
@@ -3659,8 +3648,8 @@ proc loggedInGuiConf { event } {
 	################################################################
 	# Create the groups menus
 	################################################################
-	::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-	::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+	::groups::updateMenu menu .main_menu.contacts.group_list_delete ::groups::menuCmdDelete
+	::groups::updateMenu menu .main_menu.contacts.group_list_rename ::groups::menuCmdRename
 }
 
 proc loggedOutGuiConf { event } {

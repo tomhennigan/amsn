@@ -331,8 +331,8 @@ namespace eval ::groups {
 	
 		::abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu $p.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $p.group_list_rename ::groups::menuCmdRename
 		::Event::fireEvent groupRenamed groups $gid $gname
 	}
 
@@ -357,8 +357,8 @@ namespace eval ::groups {
 		# a new list
 		abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu $p.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $p.group_list_rename ::groups::menuCmdRename
 		::Event::fireEvent groupRemoved groups $gid
 	}
 
@@ -386,8 +386,8 @@ namespace eval ::groups {
 		::config::setKey expanded_group_$gid [set bShowing($gid)]
 
 		abook::setContactData contactlist groups [array get groups]	
-		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu $p.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $p.group_list_rename ::groups::menuCmdRename
 		::Event::fireEvent groupAdded groups $gid $gname
 	}
    
@@ -480,33 +480,14 @@ namespace eval ::groups {
 		variable parent
 		variable entryid
 	
+		set parent $p		;# parent menu where we attach
 		# Destroy if they already exist
-		if {[winfo exists .group_list_delete]} { destroy .group_list_delete }
-		if {[winfo exists .group_list_rename]} { destroy .group_list_rename }
+		if {[winfo exists $p.group_list_delete]} { destroy $p.group_list_delete }
+		if {[winfo exists $p.group_list_rename]} { destroy $p.group_list_rename }
 
 		# The submenu with the list of defined groups (to be filled)
-		menu .group_list_delete -tearoff 0 -type normal
-		menu .group_list_rename -tearoff 0 -type normal
-	
-		# The submenu of standard group actions
-#		menu .group_menu -tearoff 0 -type normal
-#		.group_menu add command -label "[trans groupadd]..." \
-#			-command ::groups::dlgAddGroup
-#		.group_menu add cascade -label "[trans grouprename]" \
-#			-menu .group_list_rename
-#		.group_menu add cascade -label "[trans groupdelete]" \
-#			-menu .group_list_delete
-#
-	
-		# Attach the Group Administration entry to the parent menu
-#		$p add cascade -label "[trans admingroups]" -state disabled \
-#			-menu .group_menu
-	
-#		set parent $p		;# parent menu where we attach
-		# We need the next to dynamically enable/disable the menu widget
-#		set entryid [$p index "[trans admingroups]"]
-	
-	
+		menu $p.group_list_delete -tearoff 0 -type normal
+		menu $p.group_list_rename -tearoff 0 -type normal
 	}
 
 	proc Reset {} {
@@ -543,8 +524,8 @@ namespace eval ::groups {
 		variable parent
 		variable entryid
 	
-		::groups::updateMenu menu .group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu .group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu $p.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $p.group_list_rename ::groups::menuCmdRename
 		# The entryid of the parent is 0
 #		$parent entryconfigure $entryid -state normal
 #		$parent entryconfigure 6 -state normal
