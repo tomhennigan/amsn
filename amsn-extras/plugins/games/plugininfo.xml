@@ -1,18 +1,77 @@
 <?xml version="1.0"?>
 <plugin>
-  <name>Games</name>
-  <author>Jonne Zutt</author>
-  <description> Play games with aMSN.
+	<name>Games</name>
+	<author>Jonne Zutt</author>
+	<description> Play games with aMSN.
 
 With this plugin you can play any number of (possibly different) games versus any number of (possibly different) people on your contact list.
 
 Notice this plugin is *not* compatible with MSN Zone Games, aMSN only!  However, one day someone might implement the same protocol for other MSN clients (e.g. by developing an MSN Plus! plugin that uses the same protocol as this plugin). You could be that hero!
-  </description>
-  <amsn_version>0.95</amsn_version>
-  <plugin_version>0.19</plugin_version>
-  <plugin_file>Games.tcl</plugin_file>
-  <plugin_namespace>Games</plugin_namespace>
-  <init_procedure>Init</init_procedure>
-  <deinit_procedure>DeInit</deinit_procedure>
+	</description>
+	<amsn_version>0.95</amsn_version>
+	<plugin_version>0.19</plugin_version>
+	<plugin_file>Games.tcl</plugin_file>
+	<plugin_namespace>Games</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>8034</cvs_version>
+
+	<lang>
+		<langcode>en</langcode>
+		<version>6268</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>6118</version>
+	</lang>
+	<lang>
+		<langcode>nl</langcode>
+		<version>6112</version>
+	</lang>
+	
+	<file>
+		<path>Sketch.tcl</path>
+		<version>6268</version>
+	</file>
+	<file>
+		<path>Hangman.tcl</path>
+		<version>6268</version>
+	</file>
+	<file>
+		<path>Dots_and_Boxes.tcl</path>
+		<version>7183</version>
+	</file>
+	<file>
+		<path>Chess.tcl</path>
+		<version>7684</version>
+	</file>
+	<file>
+		<path>readme</path>
+		<version>6112</version>
+	</file>
+	<file>
+		<path>developers.readme</path>
+		<version>6112</version>
+	</file>
+	<file>
+		<path>changelog</path>
+		<version>7684</version>
+	</file>
+
+	<file>
+		<path>images/Hangman.gif</path>
+		<version>6112</version>
+	</file>
+	<file>
+		<path>images/Hangman_small.gif</path>
+		<version>6112</version>
+	</file>
+
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/games/Games.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/games/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/games/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/lang/$file</file>
+	</URL>
 </plugin>
 

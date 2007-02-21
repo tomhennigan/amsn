@@ -120,21 +120,21 @@ namespace eval ::Games {
     set window_name $newvar(window_name)
     set menu_name $newvar(menu_name)
 
-	# Add games menu
-	menu ${menu_name}.gmenu -tearoff 0
-    menu ${menu_name}.gmenu_two -tearoff 0
-    menu ${menu_name}.gmenu_multi -tearoff 0
-	${menu_name} add cascade -label "[trans Games]" -menu ${menu_name}.gmenu
-    ${menu_name}.gmenu add cascade -label "[trans TwoPlayerGames]" -menu ${menu_name}.gmenu_two
-    ${menu_name}.gmenu add cascade -label "[trans MultiPlayerGames]" -menu ${menu_name}.gmenu_multi
+    # Add games menu
+    menu ${menu_name}.gmenu -tearoff 0
+    menu ${menu_name}.gmenu.gmenu_two -tearoff 0
+    menu ${menu_name}.gmenu.gmenu_multi -tearoff 0
+    ${menu_name} add cascade -label "[trans Games]" -menu ${menu_name}.gmenu
+    ${menu_name}.gmenu add cascade -label "[trans TwoPlayerGames]" -menu ${menu_name}.gmenu.gmenu_two
+    ${menu_name}.gmenu add cascade -label "[trans MultiPlayerGames]" -menu ${menu_name}.gmenu.gmenu_multi
     # Add two-player games
     foreach game $::Games::TwoPlayerGames {
-      ${menu_name}.gmenu_two add command -label "[trans $game]" \
+      ${menu_name}.gmenu.gmenu_two add command -label "[trans $game]" \
         -command "::Games::StartGame \[::ChatWindow::getCurrentTab $window_name\] $game p2"
     }
     # Add multi-player games
     foreach game $::Games::MultiPlayerGames {
-      ${menu_name}.gmenu_multi add command -label "[trans $game]" \
+      ${menu_name}.gmenu.gmenu_multi add command -label "[trans $game]" \
         -command "::Games::StartGame \[::ChatWindow::getCurrentTab $window_name\] $game pn"
     }
 	# 0 or 1 disables TwoPlayerGames or MultiPlayerGames respectively
