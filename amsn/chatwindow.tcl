@@ -416,8 +416,8 @@ namespace eval ::ChatWindow {
 		set chatid [::ChatWindow::Name $window]
 
 		if { $chatid != 0 } {
-			after cancel "::ChatWindow::TopUpdate $chatid"
-			after 200 "::ChatWindow::TopUpdate $chatid"
+			after cancel "::ChatWindow::TopUpdate [list $chatid]"
+			after 200 "::ChatWindow::TopUpdate [list $chatid]"
 		}
 
 		if { [::config::getKey savechatwinsize] } {
@@ -438,8 +438,8 @@ namespace eval ::ChatWindow {
 		set chatid [::ChatWindow::Name $window]
 
 		if { $chatid != 0 } {
-			after cancel "::ChatWindow::TopUpdate $chatid"
-			after 200 "::ChatWindow::TopUpdate $chatid"
+			after cancel "::ChatWindow::TopUpdate [list $chatid]"
+			after 200 "::ChatWindow::TopUpdate [list $chatid]"
 		}
 
 		set geometry [wm geometry $window]
@@ -2955,7 +2955,7 @@ namespace eval ::ChatWindow {
 			}
 		}
 
-		bind $top <Configure> "::ChatWindow::TopUpdate $chatid"
+		bind $top <Configure> "::ChatWindow::TopUpdate [list $chatid]"
 
 		#Change color of top background by the status of the contact
 		ChangeColorState $user_list $user_state $state_code ${win_name}
@@ -2993,7 +2993,7 @@ namespace eval ::ChatWindow {
 
 		update idletasks
 
-		after cancel "::ChatWindow::TopUpdate $chatid"
+		after cancel "::ChatWindow::TopUpdate [list $chatid]"
 
 	}
 

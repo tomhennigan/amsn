@@ -285,7 +285,7 @@ namespace eval ::groups {
 		set glist [list]
 		foreach gdata $sortlist {
 			lappend glist [lindex $gdata 1]
-		}              
+		}
 
 
 		set gcnt [llength $glist]
@@ -313,6 +313,7 @@ namespace eval ::groups {
 	#
 	# ----------------- Callbacks -------------------
 	proc RenameCB {pdu} {  # REG 25 12066 15 New%20Name 0
+		variable parent
 		#variable groups
 		array set groups [::abook::getContactData contactlist groups]
 	
@@ -331,12 +332,13 @@ namespace eval ::groups {
 	
 		::abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu menu $p.group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu $p.group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
 		::Event::fireEvent groupRenamed groups $gid $gname
 	}
 
 	proc DeleteCB {pdu} {	# RMG 24 12065 15
+		variable parent
 		variable bShowing
 		array set groups [abook::getContactData contactlist groups]
 		
@@ -357,13 +359,13 @@ namespace eval ::groups {
 		# a new list
 		abook::setContactData contactlist groups [array get groups]
 		# Update the Delete Group... menu
-		::groups::updateMenu menu $p.group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu $p.group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
 		::Event::fireEvent groupRemoved groups $gid
 	}
 
 	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?�-CC
-		#variable groups
+		variable parent
 		variable bShowing
 		array set groups [abook::getContactData contactlist groups]
 
@@ -386,8 +388,8 @@ namespace eval ::groups {
 		::config::setKey expanded_group_$gid [set bShowing($gid)]
 
 		abook::setContactData contactlist groups [array get groups]	
-		::groups::updateMenu menu $p.group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu $p.group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
 		::Event::fireEvent groupAdded groups $gid $gname
 	}
    
@@ -524,8 +526,8 @@ namespace eval ::groups {
 		variable parent
 		variable entryid
 	
-		::groups::updateMenu menu $p.group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu $p.group_list_rename ::groups::menuCmdRename
+		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
 		# The entryid of the parent is 0
 #		$parent entryconfigure $entryid -state normal
 #		$parent entryconfigure 6 -state normal
@@ -672,7 +674,7 @@ namespace eval ::groups {
 		# AddCB() should be called when we receive the ADG
 		# packet from the server
 
-		after 2000 ::groups::AddContactsToGroup \"$gname\"
+		after 2000 [list ::groups::AddContactsToGroup "$gname"]
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
@@ -693,7 +695,7 @@ namespace eval ::groups {
 				if { [::config::getKey tempcontact_$passport3] == 1 } {
 					
 					set timer [expr {$timer + 250}]
-					after $timer ::MSN::copyUser $contact $gid
+					after $timer [list ::MSN::copyUser "$contact" "$gid"]
 				}
 				::config::unsetKey tempcontact_$passport3
 			}
@@ -829,7 +831,7 @@ namespace eval ::groups {
 		#First add the contact to the new groups
 		foreach gid $gidlistyes {
 			if {[lsearch [::abook::getGroups $email] $gid] == -1} {
-				after $timer ::MSN::copyUser $email $gid
+				after $timer [list ::MSN::copyUser "$email" "$gid"]
 				set timer [expr {$timer + 1000}]
 			}
 		}
@@ -837,7 +839,7 @@ namespace eval ::groups {
 		#Then remove their from the former groups
 		foreach gid $gidlistno {
 			if {[lsearch [::abook::getGroups $email] $gid] != -1} {
-				after $timer ::MSN::deleteUser $email $gid
+				after $timer [list ::MSN::deleteUser "$email" "$gid"]
 				set timer [expr {$timer + 1000}]
 			}
 		}

@@ -1369,7 +1369,7 @@ namespace eval ::MSN {
 			::MSN::WriteSB ns ADD "BL $userlogin $username"
 		}
 		#an event to let the GUI know a user is blocked
-		after 500 ::Event::fireEvent contactBlocked protocol $userlogin
+		after 500 [list ::Event::fireEvent contactBlocked protocol $userlogin]
 	}
 
 	proc unblockUser { userlogin username} {
@@ -1380,7 +1380,7 @@ namespace eval ::MSN {
 			::MSN::WriteSB ns ADD "AL $userlogin $username"
 		}
 		#an event to let the GUI know a user is unblocked
-		after 500 ::Event::fireEvent contactUnblocked protocol $userlogin
+		after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
 	}
 
 	# Move user from one group to another group
@@ -2231,7 +2231,7 @@ namespace eval ::MSN {
 				}
 			}
 
-			after 60000 "::MSN::KillSB ${sb}"
+			after 60000 [list ::MSN::KillSB ${sb}]
 		}
 
 		::amsn::chatDisabled $chatid
@@ -2498,7 +2498,7 @@ namespace eval ::MSN {
 		} else {
 			#Chat is not ready! Try to reconnect, and try again later
 			chatTo $chatid
-			after 3000 "::MSN::ProcessQueue $chatid [expr {$count + 1}]"
+			after 3000 [list ::MSN::ProcessQueue $chatid [expr {$count + 1}]]
 
 		}
 
@@ -4781,7 +4781,7 @@ proc cmsn_change_state {recv} {
 	# we shouldn't add ChangeState PostEvent if ILN
 	if { $state_changed } {
 		#an event used by guicontactlist to know when a contact changed state
-		after 500 ::Event::fireEvent contactStateChange protocol $user
+		after 500 [list ::Event::fireEvent contactStateChange protocol $user]
 		
 		::plugins::PostEvent ChangeState evpar
 	}

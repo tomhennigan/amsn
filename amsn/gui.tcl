@@ -2305,7 +2305,7 @@ namespace eval ::amsn {
 			while { [expr {$first + 400}] <= [string length $msg] } {
 				set msgchunk [string range $msg $first [expr {$first + 399}]]
 			    if {[::MSNMobile::IsMobile $chatid] == 0 && [::OIM_GUI::IsOIM $chatid] == 0} {
-					set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+					set ackid [after 60000 ::amsn::DeliveryFailed [list $chatid] [list $msgchunk]]
 			    } else {
 					set ackid 0
 			    }
@@ -2316,7 +2316,7 @@ namespace eval ::amsn {
 			set msgchunk [string range $msg $first end]
 	
 			if {[::MSNMobile::IsMobile $chatid] == 0 && [::OIM_GUI::IsOIM $chatid] == 0} {
-				set ackid [after 60000 ::amsn::DeliveryFailed $chatid [list $msgchunk]]
+				set ackid [after 60000 ::amsn::DeliveryFailed [list $chatid] [list $msgchunk]]
 			} else {
 				set ackid 0
 			}
