@@ -1091,6 +1091,7 @@ proc ConfigChange { window email } {
 
 					config::setKey login $email
 					load_config
+					load_my_pic
 
 					LoginList add 0 $email
 					set log_dir "[file join ${HOME} logs]"
