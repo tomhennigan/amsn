@@ -476,7 +476,7 @@ namespace eval ::guiContactList {
 	#Contacts (re)drawing #
 	#######################
 
-			if { $eventused == "contactNickChange" || $eventused == "contactAdded" || $eventused == "contactPSMChange" } {
+			if { $eventused == "contactNickChange" || $eventused == "contactAdded" || $eventused == "contactPSMChange" || $eventused == "contactDataChange"} {
 				if {[lsearch $NickReparseQueue $email] == -1} {
 					lappend NickReparseQueue $email
 				}
