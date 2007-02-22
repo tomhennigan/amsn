@@ -1054,7 +1054,12 @@ namespace eval ::MSN {
 		::abook::setConsistent
 		::abook::saveToDisk
 
-		if { $curr_list == "FL" } {
+		if { $curr_list != "FL" } {
+			#there isn't any group for other lists than FL
+			set groups ""
+		}
+
+		if { $curr_list == "FL" || $curr_list == "RL" } {
 			#Don't send the event for an addition to any other list
 			::Event::fireEvent contactAdded protocol $username $groups
 		}
