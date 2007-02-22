@@ -416,7 +416,7 @@ lazypicretrieval Recupero pigro delle immagini personali
 lclosedwin $1 ha chiuso la finestra il $2
 lconftopriv La conversazione è divenuta chat privata con $1
 lconvstarted La conversazione è cominciata il $1
-lconvstartedOIM Conversazione "non in linea" avviata il
+lconvstartedOIM Conversazione "non in linea" avviata il $1
 leaveblankforhotmail Lascia in bianco per l'uso di hotmail
 leavejoinsinchat Visualizza la notifica di "entrata/uscita" dalla conversazione all'interno della finestra di chat
 leaves $1 abbandona la conversazione
