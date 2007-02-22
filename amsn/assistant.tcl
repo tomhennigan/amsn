@@ -1141,7 +1141,7 @@ namespace eval ::AVAssistant {
 			if {![info exists lowrescam]} {
 				set lowrescam [::config::getKey lowrescam]
 			}
-			checkbutton $contentf.lowrescam -text "[trans lowrescam] ++ add more explanations(better for low connection ...)\n ask you can see, changing the state of that button doesn't change the preview.\n Just code it :)" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 -state active 
+			checkbutton $contentf.lowrescam -text "[trans lowrescam] ++ add more explanations(better for low connection ...)\n ask you can see, changing the state of that button doesn't change the preview.\n Just code it :)" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 
 			pack $contentf.lowrescam -pady 10
 		}
 
@@ -2121,7 +2121,7 @@ namespace eval ::AVAssistant {
 		if {![info exists shareCam]} {
 			set shareCam [::config::getKey wanttosharecam]
 		}
-		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable $shareCam -onvalue 1 -offvalue 0 -state active
+		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable $shareCam -onvalue 1 -offvalue 0
 		pack $contentf.wanttosharecam -pady 10
 
 		$assistant setFinishProc ::AVAssistant::finish
