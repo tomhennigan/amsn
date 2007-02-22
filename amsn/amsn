@@ -339,6 +339,6 @@ if { [::config::getKey autocheckver] == 1 } {
 vwait events
 
 #starting audio
-if {[package require snack]} {
+if { [catch {require_snack} ]} {
 	::audio::init
 }
