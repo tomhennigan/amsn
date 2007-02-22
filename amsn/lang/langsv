@@ -189,7 +189,7 @@ connectionlost Ej ansluten: kunde inte kommunicera med servern
 contact Kontakt
 contactadded Har nu lagt till kontakten i kontaktlistan
 contactdoesnotexist Kunde inte finna kontakten, försök igen.
-contactlist Kontaktlista:
+contactlist Kontaktlista (FL):
 contacts Kontakter
 continuously Kontinuerligt
 contrast Kontrast
@@ -416,6 +416,7 @@ lazypicretrieval Ladda visningsbilder först när en konversation öppnas
 lclosedwin $1 stängde $2 's fönster
 lconftopriv Konferensen blev privatkonversation med $1
 lconvstarted Konversation startad $1
+lconvstartedOIM Startade en offlinekonversation på $1
 leaveblankforhotmail Lämnas tom för hotmail
 leavejoinsinchat Visa "anslutit/lämnat konversation" meddelande inuti konversationsfönstret
 leaves $1 lämnar konversationen
@@ -500,6 +501,7 @@ newmailfolder Du har fått $1 nytt/nya brev i annan hotmailmapp
 newmailfrom Nytt brev från $1 ($2)
 newmailfromother Nytt brev från $1 ($2) i annan mapp
 newmsg Nytt meddelande
+newoim Nya offlinemeddelanden
 newstate Lägg till personlig status
 newtabbedfeature aMSN har ett nytt att hantera konversationer på. Du kan nu ha alla kontaketer från samma grupp eller hela kontaktlistan i ett flikat fönster. Välj hur aMSN ska hantera dina konversationer
 newveravailable Den nya versionen $1 finns att ladda ner
@@ -639,6 +641,7 @@ readonlymsgbox Du kan inte ta emot filen för att mappen som den ska sparas i är 
 readonlywarn VARNING: Filen kommer INTE bli sparad eftersom mappen "Mottagna filer" verkar vara icke-skrivbar. Ge mappen ($1) rätt rättigheter för din användare och försök igen.
 receivedbytes $1 av $2 mottagna
 receiveddir Mottagna filer-mappen
+receivedoimread Du har $1 nya offlinemeddelanden. Vill du läsa dessa?
 receivedvoice Tog emot ljudklipp
 receivefile Ta emot fil
 recentmsg Förhindra stängning av ett konversationsfönster när ett meddelande just har blivit mottaget.
@@ -829,7 +832,7 @@ view Alternativ
 viewcontactsby Namnvisningsläge
 viewprofile Visa profil
 wanttosharecam Jag vill dela ut min webbkamera
-web Nät
+web Webb
 webcam Webbkamera
 webcamcanceled Webbkamerakoversationen med $1 har blivit avbruten
 webcamclosebefcancel Du måste avbryta alla webbkamerakonversationer innan du stänger fönstret
@@ -867,6 +870,3 @@ youblocked Du har blivit blockerad av
 yousay Du säger
 youwant Du vill
 zoom Zooma
-lconvstartedOIM Startade en Offline konversation på $1
-newoim Nya Offline-meddelande
-receivedoimread Du har $1 nya offline-meddelanden. Vill du läsa dessa?	
