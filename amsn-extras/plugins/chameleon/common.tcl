@@ -12,7 +12,7 @@ namespace eval ::chameleon {
 	variable ttk_widget_type
 	variable ${widget_type}_widgetOptions
 
-	#puts "Creating widget $widget_type : $w $args"
+	#DebugPrint "Creating widget $widget_type : $w $args"
 	#::chameleon::printStackTrace
 	
 	set evalargs [list ::chameleon::${widget_type}::${widget_type}_proc_$w]
@@ -70,7 +70,7 @@ namespace eval ::chameleon {
 	    if {[string match $pattern $name] &&
 		[string length $command] >= $min} {
 		    set w ::chameleon::${widget_type}::${widget_type}_proc_${w_name}
-		    #puts "Executing $execute -- $args"
+		    #DebugPrint "Executing $execute -- $args"
 		    #::chameleon::printStackTrace
 
 		    if { [string range $execute 0 0] != "\$" &&
@@ -78,7 +78,7 @@ namespace eval ::chameleon {
 			    set execute ::chameleon::${widget_type}::$execute
 		    }
 		    
-		    #puts "Executing2 [subst $execute] $args"
+		    #DebugPrint "Executing2 [subst $execute] $args"
 		# We need to subst using espaced list so that the elements inside $execute are substituted each in a list element.
 		set evalargs [subst "\[list $execute\]"]
 		eval lappend evalargs $args
@@ -106,7 +106,7 @@ namespace eval ::chameleon {
 	    set options([set ${widget_type}_widgetOptions($name)]) $value
 	} 
 
-	#plugins_log "Chameleon" "Got configure options : [array get options]"
+	#DebugPrint "Chameleon" "Got configure options : [array get options]"
 	
 	array unset options -toImplement
 	array unset options -ignore
@@ -153,7 +153,7 @@ namespace eval ::chameleon {
 	    }
 	}
 
-	#plugins_log "Chameleon" "Returning style options [array get options]"
+	#DebugPrint "Chameleon" "Returning style options [array get options]"
 
 	return [array get options]
     }
@@ -275,7 +275,7 @@ namespace eval ::chameleon {
     proc ::chameleon::${widget_type}::${widget_type}_launchCommand { w_name command args } {
 	variable widget_type
 
-	    #puts "Accessing widget $widget_type : $w_name $command $args"
+	    #DebugPrint "Accessing widget $widget_type : $w_name $command $args"
 	    #::chameleon::printStackTrace
 
 	if {![winfo exists ${w_name}] } {
