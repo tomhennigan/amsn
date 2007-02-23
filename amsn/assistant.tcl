@@ -1010,20 +1010,23 @@ namespace eval ::AVAssistant {
 #TODO: translation
 				button $contentf.button -text "Open camsettings window" -command "::CAMGUI::ChooseDeviceMac"
 				pack $contentf.button
-			} else {
-				#OnLinux, or OnWindows
+			} elseif {[OnLinux]} {
+				#OnLinux,
 				#webcam device + channel
 				
 				#Finetune picture
-				set Step [list "Step2W" 1 ::AVAssistant::Step2W ::AVAssistant::stopPreviewGrabbing "" "" "" "Finetune picture settings" assistant_webcam 1 1]
+				set Step [list "Step2W" 1 ::AVAssistant::Step2WLinux ::AVAssistant::stopPreviewGrabbing "" "" "" "Finetune picture settings" assistant_webcam 1 1]
 				$assistant insertStepAfter $Step "Step0W"
 
 				variable video_configured
 				set video_configured 1
 
-				::AVAssistant::Step1W $assistant $contentf
+				::AVAssistant::Step1WLinux $assistant $contentf
+			} elseif {[OnWin]} {
+#TODO: win support
+			} else {
+				
 			}
-
 		} else {
 			#we won't be able to configure the video settings
 
@@ -1101,9 +1104,9 @@ namespace eval ::AVAssistant {
 
 
 	######################################################################################
-	# Step 1 Video:  Set device/channel                                                  #
+	# Step 1 Video for Linux:  Set device/channel                                        #
 	######################################################################################	
-	proc Step1W {assistant contentf} {
+	proc Step1WLinux {assistant contentf} {
 		#extensions are present, we can change some settings	
 		$assistant modifyStep "Step0W" titleText "Set up webcam device and channel"
 		$assistant modifyStep "Step0W" leavingProc ::AVAssistant::stopPreviewGrabbing 
@@ -1139,13 +1142,11 @@ namespace eval ::AVAssistant {
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
 
-		if { [OnLinux] } {
-			if {![info exists lowrescam]} {
-				set lowrescam [::config::getKey lowrescam]
-			}
-			checkbutton $contentf.lowrescam -text "[trans lowrescam] ++ add more explanations(better for low connection ...)\n ask you can see, changing the state of that button doesn't change the preview.\n Just code it :)" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 
-			pack $contentf.lowrescam -pady 10
+		if {![info exists lowrescam]} {
+			set lowrescam [::config::getKey lowrescam]
 		}
+		checkbutton $contentf.lowrescam -text "[trans lowrescam] ++ add more explanations(better for low connection ...)\n ask you can see, changing the state of that button doesn't change the preview.\n Just code it :)" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 
+		pack $contentf.lowrescam -pady 10
 
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
@@ -1172,89 +1173,76 @@ namespace eval ::AVAssistant {
 		#give the canvas a clear name
 		set previmc $rightframe
 
-		##First "if on unix" (linux -> v4l), then for windows##
-		if {[OnLinux]} {
+		#first clear the grabber var
+		set ::CAMGUI::webcam_preview ""
 
-			#first clear the grabber var
-			set ::CAMGUI::webcam_preview ""
+		#First line, device-chooser title
+		label $leftframe.devstxt -text "Choose device:"
+		pack $leftframe.devstxt -side top
 	
-			#First line, device-chooser title
-			label $leftframe.devstxt -text "Choose device:"
-			pack $leftframe.devstxt -side top
-		
-			#create and pack the devices-combobox
-			combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command "::AVAssistant::FillChannelsLinux" 
+		#create and pack the devices-combobox
+		combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command "::AVAssistant::FillChannelsLinux" 
 
-			#make sure the devs-combobox is empty first
-			$leftframe.devs list delete 0 end
+		#make sure the devs-combobox is empty first
+		$leftframe.devs list delete 0 end
+		
+		#get the already set device from the config (if there is one set)
+		if {![info exists selecteddevice]} {
+			set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
+		} else { 
+			set setdev $selecteddevice
+		}
+		#set the count to see which nr this device has in the list on -1 to begin,
+		# so it becomes 0 if it's the first element in the list ([lindex $foo 0])
+		set count -1
+		#set a start-value for the device's nr
+		set setdevnr -1
 			
-			#get the already set device from the config (if there is one set)
-			if {![info exists selecteddevice]} {
-				set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
-			} else { 
-				set setdev $selecteddevice
+		#insert the device-names in the widget
+		foreach device [::Capture::ListDevices] {
+			set dev [lindex $device 0]
+			set name [lindex $device 1]
+
+			#it will allways set the last one, which is a bit weird to the
+			# user though if he has like /dev/video0 that come both as V4L 
+			# and V4L2 device
+			incr count
+			#store which nr the setdev has in the combobox
+			if { $dev == $setdev} {
+				set setdevnr $count
 			}
-			#set the count to see which nr this device has in the list on -1 to begin,
-			# so it becomes 0 if it's the first element in the list ([lindex $foo 0])
-			set count -1
-			#set a start-value for the device's nr
-			set setdevnr -1
-				
-			#insert the device-names in the widget
-			foreach device [::Capture::ListDevices] {
-				set dev [lindex $device 0]
-				set name [lindex $device 1]
 
-				#it will allways set the last one, which is a bit weird to the
-				# user though if he has like /dev/video0 that come both as V4L 
-				# and V4L2 device
-				incr count
-				#store which nr the setdev has in the combobox
-				if { $dev == $setdev} {
-					set setdevnr $count
-				}
-
-				#if we can't get the name, show it the user
-				if {$name == "" } {
+			#if we can't get the name, show it the user
+			if {$name == "" } {
 #TODO: is this the right cause ?
-					set name "$dev (Err: busy?)"
-					status_log "Webcam-Assistant: No name found for $dev ... busy ?"
-				}
-				#put the name of the device in the widget
-				$leftframe.devs list insert end $name
+				set name "$dev (Err: busy?)"
+				status_log "Webcam-Assistant: No name found for $dev ... busy ?"
 			}
-			#pack the dev's combobox
-			pack $leftframe.devs -side top
+			#put the name of the device in the widget
+			$leftframe.devs list insert end $name
+		}
+		#pack the dev's combobox
+		pack $leftframe.devs -side top
 
-			#create and pack the chans-txt
-			label $leftframe.chanstxt -text "\n\nChoose channel:"
-			pack $leftframe.chanstxt -side top
+		#create and pack the chans-txt
+		label $leftframe.chanstxt -text "\n\nChoose channel:"
+		pack $leftframe.chanstxt -side top
 
-			#create and pack the chans-combobox
-			set chanswidget $leftframe.chans
-			combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true \
-				-command "after 1 ::AVAssistant::StartPreviewLinux" -editable false -bg #FFFFFF
-			pack $leftframe.chans -side top 
+		#create and pack the chans-combobox
+		set chanswidget $leftframe.chans
+		combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true \
+			-command "after 1 ::AVAssistant::StartPreviewLinux" -editable false -bg #FFFFFF
+		pack $leftframe.chans -side top 
 
-			#Select the device if in the combobox (won't select anything if -1)
-			catch {$leftframe.devs select $setdevnr}
-		} else {
-		#If on windows
-
-#TODO ... (to be continued ... :))
-			status_log "we are on windows, in developpement"
-								
-		
-		#End the platform checks
-		# we're sure it's win, lin or mac.  maybe a check for unsupported platform on the 1st page ?
-		} 
-
-	#end the Step1W proc
+		#Select the device if in the combobox (won't select anything if -1)
+		catch {$leftframe.devs select $setdevnr}
+		}
+	#end the Step1WLinux proc
 	}
 
 
 	######################################################################################
-	# Step 1 Video - Auxilary procs                                                      #
+	# Step 1 Video Linux - Auxilary procs                                                #
 	######################################################################################	
 	###
 	# Fills the Channels on Linux
@@ -1437,9 +1425,9 @@ namespace eval ::AVAssistant {
 
 
 	######################################################################################
-	# Step 2 Video:  Finetune picture settings                                           #
+	# Step 2 Video Linux:  Finetune picture settings                                     #
 	######################################################################################	
-	proc Step2W {assistant contentf} {
+	proc Step2WLinux {assistant contentf} {
 #TODO: add support for windows (if necessary)
 		#Only linux for now ...
 		variable selecteddevice
@@ -1466,7 +1454,7 @@ namespace eval ::AVAssistant {
 		#frame $leftframe -bd 0
 		#pack $leftframe -side left -padx 10
 
-		if { [::config::getKey lowrescam] == 1 } {
+		if { $cam_res } {
 			set camwidth 160
 			set camheight 120
 		} else {
@@ -2083,7 +2071,8 @@ namespace eval ::AVAssistant {
 			if {[OnMac]} {
 				set text "You're webcam settigns have been configured"
 			} elseif {[OnWin]} {
-				set text "You have chosen the webcam device $selecteddevicename with the channel $selectedchannelname."
+#TODO: win support
+				set text "You have chosen the webcam device selecteddevicename with the channel selectedchannelname."
 			} elseif {[OnLinux]} {
 				set text "You have chosen the webcam device $selecteddevicename with the channel $selectedchannelname."
 			} else {
