@@ -13,7 +13,7 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	<init_procedure>InitFromAmsn</init_procedure>
 	<deinit_procedure>DeInitChameleon</deinit_procedure>
 
-	<cvs_version>8065</cvs_version>
+	<cvs_version>8066</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>

@@ -146,6 +146,14 @@ namespace eval ::chameleon {
 		
 	}
 
+	proc translate { msg } {
+		if { [info exists trans] } {
+			return [trans $msg]
+		} else {
+			return $msg
+		}
+	}
+
 	proc InitChameleon { dir } {
 		variable chameleon_dir
 		variable THEMELIST
@@ -368,9 +376,9 @@ namespace eval ::chameleon {
 	proc PopulateMenuFrame { win } {
 		set pmenu $win.pmenu
 
-		::ttk::labelframe $pmenu -text [trans experimental]
+		::ttk::labelframe $pmenu -text [translate experimental]
 		set b [::ttk::checkbutton $pmenu.enablepixmapmenu \
-			   -text [trans enable_pixmapmenu] \
+			   -text [translate enable_pixmapmenu] \
 			   -variable ::chameleon::config(enable_pixmapmenu)]
 		pack $b -side top -expand false -fill x
 
@@ -382,7 +390,7 @@ namespace eval ::chameleon {
 
 		set widgs $win.widgs
 
-		::ttk::labelframe $widgs -text [trans widgets_to_wrap]
+		::ttk::labelframe $widgs -text [translate widgets_to_wrap]
 		DebugPrint "$widgs"
 		foreach w_name [array names WR_WIDGETS] {
 			set b [::ttk::checkbutton $widgs.wrap$w_name -text $w_name \
@@ -399,7 +407,7 @@ namespace eval ::chameleon {
 
 		set themes $win.themes
 
-		::ttk::labelframe $themes -text [trans theme]
+		::ttk::labelframe $themes -text [translate theme]
 		DebugPrint "$themes"
 		foreach {theme name} $THEMELIST {
 			set b [::ttk::radiobutton $themes.s$theme -text $name \
