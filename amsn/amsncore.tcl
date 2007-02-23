@@ -293,9 +293,10 @@ proc ::tk::TextKeySelect {w new} {
 }
 
 #///////////////////////////////////////////////////////////////////////////////
-# if a button has a -image, -relief flat but not -overrelief, it will actually be created as a label
-# TODO: I don't want this, I just want a button so maybe make it conditional to mac and tile users?
+# if a button has a -image, -relief flat but not -overrelief, it will actually be created as a label on Mac
+# because there seem to be problems with buttons there
 # TODO: add a bind that works as -command on a button (mousebutton press, move away, release does not trigger)
+if [OnMac] {
 if { [info commands ::tk::button] == "" } { rename button ::tk::button }
 proc button { pathName args } {
 	array set options $args
@@ -314,7 +315,7 @@ proc button { pathName args } {
 		eval ::tk::button $pathName $args
 	}
 }
-
+}
 
 #///////////////////////////////////////////////////////////////////////////////
 # highlight_selected_tags (text, tags)
