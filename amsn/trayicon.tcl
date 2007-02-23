@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 if { $initialize_amsn == 1 } {
     global statusicon mailicon systemtray_exist iconmenu ishidden defaultbackground
 

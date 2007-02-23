@@ -1,5 +1,8 @@
 #	Microsoft Messenger Protocol Implementation
 #=======================================================================
+
+::Version::setSubversionId {$Id$}
+
 if { $initialize_amsn == 1 } {
 	global list_BLP list_cmdhnd sb_list contactlist_loaded
 

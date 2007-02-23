@@ -1,6 +1,8 @@
 #From Donald K. Fellows's Megawidget and Dialog Stuff
 #http://www.cs.man.ac.uk/~fellowsd/tcl/mwidx.html
 
+::Version::setSubversionId {$Id$}
+
 if { $initialize_amsn == 1 } {
 
     option add *Progress.undoneForeground black  widgetDefault

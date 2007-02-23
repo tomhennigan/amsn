@@ -11,6 +11,7 @@
 # *
 # * ... cfr. "TODO:" msgs in code
 
+::Version::setSubversionId {$Id$}
 
 namespace eval ::guiContactList {
 	namespace export drawCL

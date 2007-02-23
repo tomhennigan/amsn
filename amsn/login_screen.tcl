@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 namespace eval ::loginScreen {
 
 	proc createLoginScreen { } {

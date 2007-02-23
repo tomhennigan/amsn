@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 proc setObjOption { obj option value } {
 	global objects
 

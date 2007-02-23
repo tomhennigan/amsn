@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 catch {require_snack}
 
 namespace eval ::audio {

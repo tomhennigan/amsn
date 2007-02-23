@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 namespace eval ::hotmail {
 	if { $initialize_amsn == 1 } {
 		variable unread 0

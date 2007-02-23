@@ -5,7 +5,8 @@
 #	converted to namespace and improved by D. Emilio Grimaldo T.
 #	SOCKS5 support (integration) is experimental!!!
 #
-# RCS: @(#) $Id$
+
+::Version::setSubversionId {$Id$}
 
 package provide Proxy 0.1
 package require http

@@ -14,6 +14,8 @@
 # - http://www.amsn-project.net/forums/viewtopic.php?t=1980
 # and several others
 
+::Version::setSubversionId {$Id$}
+
 proc Widget::create { class path {rename 1} } {
     if {$rename && [llength [info procs ::$path:cmd]] == 0} { 
 		rename $path ::$path:cmd 

@@ -1,6 +1,6 @@
 #///////////////////////////////////////////////////////////////////////////////
 # Procedures concerning new personalised States with Auto Messaging features
-# 27/12/2003 - Major rewrite by Alberto Díaz: Now the system has options to store
+# 27/12/2003 - Major rewrite by Alberto Dï¿½z: Now the system has options to store
 #		the states in states.xml or keep it temporal. Also created a cascading
 #		menu-system to manage states. Removed non-xml status file.
 #		Added options to switch or not to created state, option to have custom
@@ -22,6 +22,9 @@
 #///////////////////////////////////////////////////////////////////////////////
 # LoadStateList ()
 # Loads the list of states from the file in the HOME dir
+
+::Version::setSubversionId {$Id$}
+
 proc LoadStateList {} {
 	global HOME
 

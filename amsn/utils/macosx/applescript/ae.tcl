@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 #Here we add the code to make aMSN accept AppleEvent from "Do Script" command in AppleScript
 #Thanks to Jon Guyer	
 package require tclAE

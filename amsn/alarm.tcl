@@ -2,6 +2,7 @@
 # alarm.tcl v 1.0	2002/07/21   BurgerMan
 #########################################################
 
+::Version::setSubversionId {$Id$}
 
 #::Alarms namespace. Everything related to alarms (alerts)
 namespace eval ::alarms {

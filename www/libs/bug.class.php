@@ -340,7 +340,7 @@ if(!defined('_BUG_CLASS_')) {
       echo '</td></tr>';
       echo '<tr class="bug_row"><td class="bug_info" colspan="2">';
       echo '<b>Stack RegExp:</b><br/>';
-      echo '<textarea name="stack_regexp">';
+      echo '<textarea name="stack_regexp">'."\n";
       echo $this->stack_regexp;
       echo '</textarea>';
       echo '</td></tr>';

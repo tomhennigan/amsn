@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 proc bgerror { args } {
     ::bugs::bgerror $args
 }
@@ -83,11 +86,8 @@ namespace eval ::bugs {
 	set ::bugs::bug(loadedplugins) $::plugins::loadedplugins
 	set ::bugs::bug(vendor) $vendor
 
-	if {[file exists cvs_date]==1} {
-	    set fd [open cvs_date]
-	    set date [gets $fd]
-	    close $fd
-	    set date [::bugs::cvstostamp $date]
+	if {$::Version::amsn_revision > 0} {
+	    set date $::Version::date
 	} else {
 	    set date  [clock scan "$::date 00:00:00"]
 	}
@@ -98,7 +98,7 @@ namespace eval ::bugs {
 	status_log "-----------------------------------------\n" error
 	status_log ">>> GOT TCL/TK ERROR : $args\n>>> Stack:\n$::bugs::bug(info)\n>>> Code: $::bugs::bug(code)\n" error
 	status_log "-----------------------------------------\n" error
-	catch { status_log ">>> AMSN version: $::version - AMSN date: $::date\n" error }
+	catch { status_log ">>> AMSN version: $::version - AMSN date: $date\n" error }
 	catch { status_log ">>> TCL version : $tcl_patchLevel - TK version : $tk_patchLevel\n" error }
 	catch { status_log ">>> tcl_platform array content : [array get tcl_platform]\n" error }
 	status_log "-----------------------------------------\n\n" error
@@ -127,6 +127,7 @@ namespace eval ::bugs {
 	puts $fd "\t</error>"
 	puts $fd "\t<system>"
 	puts $fd "\t\t<amsn>$::version</amsn>"
+	puts $fd "\t\t<revision>$::Version::amsn_revision</revision>"
 	puts $fd "\t\t<date>$bug(date)</date>"
 	puts $fd "\t\t<tcl>$tcl_patchLevel</tcl>\n\t\t<tk>$tk_patchLevel</tk>"
 	foreach {key value} [array get tcl_platform] {

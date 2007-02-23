@@ -3,6 +3,8 @@
 #
 ################################################################################
 
+::Version::setSubversionId {$Id$}
+
 # TODO Implement some sort of log file size limit or date limit (remove any log entries older than date)
 # TODO Save to LOG (if logging disabled, allows to log certain conversations only)
 # TODO "Clear all logs" button

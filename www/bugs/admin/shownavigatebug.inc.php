@@ -1,7 +1,7 @@
 <?php
   $id=$_GET['id'];
 
-$table=new Tabler(TBUGREPORTS,array('ID'=>'bug_id','Text'=>'bug_text','Submitted'=>'bug_date','CVS Date'=>'bug_cvsdate','Version'=>'bug_amsn','Tcl/TK'=>'bug_tcl','OS'=>'bug_os','MSN Protocol'=>'bug_msnprotocol'),array('bug_parent='.$id));
+$table=new Tabler(TBUGREPORTS,array('ID'=>'bug_id','Text'=>'bug_text','Submitted'=>'bug_date','Revision'=>'bug_revision','CVS Date'=>'bug_cvsdate','Version'=>'bug_amsn','Tcl/TK'=>'bug_tcl','OS'=>'bug_os','MSN Protocol'=>'bug_msnprotocol'),array('bug_parent='.$id));
 $table->col_option('bug_id','css','width:50px;text-align:center');
 $table->col_option('bug_text','filter','search');
 $table->col_option('bug_text','rename','translucate(html_entity_decode(\'$arg\'),45)');

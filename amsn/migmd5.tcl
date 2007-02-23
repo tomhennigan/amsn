@@ -23,6 +23,8 @@
 # Modified by Alvaro J. Iradier Muro to avoid using package Trf
 ##################################################
 
+::Version::setSubversionId {$Id$}
+
 namespace eval ::md5 {
 }
 

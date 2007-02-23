@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 namespace eval ::pluginslog {
     #counter: keeps the count
     variable idx -1

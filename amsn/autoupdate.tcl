@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 package require BWidget
 
 namespace eval ::autoupdate {

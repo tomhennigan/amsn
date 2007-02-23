@@ -118,6 +118,8 @@
 #    simon.edwards@proprius.co.uk                                             #
 ###############################################################################
 
+::Version::setSubversionId {$Id$}
+
 namespace eval sxml {
 
     namespace export init end register_routine parse set_attr puts

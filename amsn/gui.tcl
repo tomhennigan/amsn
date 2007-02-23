@@ -1,4 +1,6 @@
 
+::Version::setSubversionId {$Id$}
+
 if { $initialize_amsn == 1 } {
 
 	if {![::picture::Loaded]} {

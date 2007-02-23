@@ -114,7 +114,6 @@ unset program
 
 source amsncore.tcl
 
-
 ############################################################
 ### Setup other important directory paths
 ### depending on the platform
@@ -194,7 +193,6 @@ proc reload_files { } {
 	source migmd5.tcl
 	source des.tcl		;# DES encryption
 	source sxml.tcl   	;# Simple XML parser
-#	source combobox.tcl	;# The all mighty combobox is here! (B. Oakley)
 	package require combobox 2.3
 	source mutex.tcl
 	source lang.tcl
@@ -236,6 +234,8 @@ proc reload_files { } {
 	source spaces.tcl         ;# MSN Space handling functions
 	source audio.tcl;	#audio API
     }
+    #As we reloaded amsncore, the version has been resetted and maybe amsn is the newest file
+    ::Version::setSubversionId {$Id$}
 }
 
 proc after_info { } {

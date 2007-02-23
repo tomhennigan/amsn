@@ -1,6 +1,5 @@
-#
-# $Id$
-#
+
+::Version::setSubversionId {$Id$}
 
 if { $initialize_amsn == 1 } {
 	global smileys_drawn

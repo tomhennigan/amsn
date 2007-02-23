@@ -3,6 +3,8 @@
 #           By Alberto D�z            #
 #########################################
 
+::Version::setSubversionId {$Id$}
+
 package require framec
 package require scalable-bg
 

@@ -1,4 +1,5 @@
 
+::Version::setSubversionId {$Id$}
 
 namespace eval ::MSNCCARD {
 	variable storageAuthCache ""

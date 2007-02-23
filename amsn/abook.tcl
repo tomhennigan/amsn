@@ -1,8 +1,9 @@
 #	User Administration (Address Book data)
 #	by: Alvaro Jose Iradier Muro
 #	D�imo Emilio Grimaldo Tu�n
-# $Id$
 #=======================================================================
+
+::Version::setSubversionId {$Id$}
 
 ::snit::type Group {
 

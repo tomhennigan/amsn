@@ -1,6 +1,5 @@
 #	Group Administration
 #	by: D�imo Emilio Grimaldo Tu�n
-# $Id$
 #=======================================================================
 # TODO LIST
 #  - Keep track of transactions pending completion
@@ -10,6 +9,8 @@
 #    the address book (::abook) contains the group IDs received
 #    in the Forward List.
 #	* group id is left unused until a new group is added.
+
+::Version::setSubversionId {$Id$}
 
 namespace eval ::groups {
 	namespace export Init Enable Disable Set Rename Delete Add \

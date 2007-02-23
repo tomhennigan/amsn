@@ -6,6 +6,8 @@
 ##      section of settings.xml, so the system remains coherent       ##
 ########################################################################
 
+::Version::setSubversionId {$Id$}
+
 namespace eval ::skin {
 
 	variable preview_skin_change 0

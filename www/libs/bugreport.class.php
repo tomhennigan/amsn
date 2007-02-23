@@ -21,6 +21,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
     
 #system info
     var $amsn;
+    var $revision;
     var $cvs_date;
     var $tcl;
     var $tk;
@@ -58,6 +59,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
       $this->code=html_entity_decode($xml->get_content('/bug[1]/error[1]/code[1]'));
       //set system stuff
       $this->amsn=html_entity_decode($xml->get_content('/bug[1]/system[1]/amsn[1]'));
+      $this->revision=html_entity_decode($xml->get_content('/bug[1]/system[1]/revision[1]'));
       $this->cvs_date=html_entity_decode($xml->get_content('/bug[1]/system[1]/date[1]'));
       $this->tcl=html_entity_decode($xml->get_content('/bug[1]/system[1]/tcl[1]'));
       $this->tk=html_entity_decode($xml->get_content('/bug[1]/system[1]/tk[1]'));
@@ -132,6 +134,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
 		    'bug_stack'=>$this->stack,
 		    'bug_code'=>$this->code,
 		    'bug_amsn'=>$this->amsn,
+		    'bug_revision'=>$this->revision,
 		    'bug_cvsdate'=>$this->cvs_date,
 		    'bug_tcl'=>$this->tcl,
 		    'bug_tk'=>$this->tk,
@@ -206,6 +209,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
       $this->code=$row['bug_code'];
       #set system stuff
       $this->amsn=$row['bug_amsn'];
+      $this->revision=$row['bug_revision'];
       $this->cvs_date=$row['bug_cvsdate'];
       $this->tcl=$row['bug_tcl'];
       $this->tk=$row['bug_tk'];
@@ -365,7 +369,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
       echo '<tr class="bug_row"><td class="bug_info">';
       echo '<b>aMSN Version: </b>'.$this->amsn.' (MSNP'.$this->msnprotocol.')';
       echo '</td><td class="bug_info">';
-      echo '<b>CVS Date: </b>'.strftime('%c',$this->cvs_date);
+      echo '<b>CVS Date: </b>'.strftime('%c',$this->cvs_date)." r".$this->revision;
       echo '</td></tr>';
 
       echo '<tr class="bug_row"><td class="bug_info">';

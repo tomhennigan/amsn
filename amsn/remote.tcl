@@ -2,6 +2,8 @@
 ### remote.tcl v 1.0	2003/05/22   KaKaRoTo
 #########################################################
 
+::Version::setSubversionId {$Id$}
+
 if { $initialize_amsn == 1 } {
 	global remote_port remote_auth remote_sock_lock remote_sock
    

@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 if { $initialize_amsn == 1 } {
 	global lang_list langenc langlong
 	set lang_list [list]

@@ -1,6 +1,8 @@
 #This is the TKCximage implementation inside aMSN
 #By Jerome Gagnon-Voyer gagnonje5000 at mac.com
 
+::Version::setSubversionId {$Id$}
+
 namespace eval ::picture {
 	catch {package require TkCximage}
 	

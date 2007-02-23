@@ -46,7 +46,10 @@
 # 252.227-7013 (c) (1) of DFARs.  Notwithstanding the foregoing, the
 # authors grant the U.S. Government and others acting in its behalf
 # permission to use and distribute the software in accordance with the
-# terms specified in this license. 
+# terms specified in this license.
+
+::Version::setSubversionId {$Id$}
+
 namespace eval des {
     # Procedure: encrypt - Encryption front-end for the des procedure
     # Inputs:

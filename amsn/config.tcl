@@ -1,6 +1,5 @@
-#
-# $Id$
-#
+
+::Version::setSubversionId {$Id$}
 
 # This needs to be done this way because it seems Mac shows an error about conflicting versions if you have 2.2 and 2.2.10 installed...
 # but on linux (and windows) it takes the latest version (2.2.10) without complaining...

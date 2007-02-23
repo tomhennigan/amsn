@@ -5,6 +5,9 @@
 #  -searchin w - specifies text widget to search
 #  -title str - specifies window title for dialog
 # o-----------------------------------------------------
+
+::Version::setSubversionId {$Id$}
+
 snit::widget searchdialog {
 
 	option -searchin -configuremethod SetSearchIn ;# The text widget to search

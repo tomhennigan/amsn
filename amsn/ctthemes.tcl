@@ -1,11 +1,12 @@
 #	Simple Application Themes for Tcl/Tk
-#	Copyright (c)2002 D. Emilio Grimaldo Tuñón 
+#	Copyright (c)2002 D. Emilio Grimaldo Tuï¿½n 
 #	Copyright (c)2002 Coralys Technologies,Inc.
 #	All Rights Reserved
 #	http://home.iae.nl/users/grimaldo/
 #-----------------------------------------------------------------
-# $Id$
-#-----------------------------------------------------------------
+
+::Version::setSubversionId {$Id$}
+
 namespace eval ::themes {
     namespace export Init RegisterWidget Apply ApplyDeep AddClass \
     		LoadXDefaults

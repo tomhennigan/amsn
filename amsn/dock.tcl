@@ -1,5 +1,7 @@
 # Docking Protocol
 
+::Version::setSubversionId {$Id$}
+
 if { $initialize_amsn == 1 } { 
     global docksock 
     

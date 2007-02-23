@@ -1,4 +1,5 @@
 
+::Version::setSubversionId {$Id$}
 
 #Init the ticket variable. Resources is the amount of processes
 #that can run the given command at same time

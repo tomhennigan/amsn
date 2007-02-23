@@ -1,4 +1,6 @@
 
+::Version::setSubversionId {$Id$}
+
 package require BWidget
 
 #TODO:

@@ -4,6 +4,7 @@
   #         Started on May 1st 2004           #
   #===========================================#
 
+::Version::setSubversionId {$Id$}
 
 # The ::notes namespace contains all the notes
 # related functions

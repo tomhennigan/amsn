@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 ::snit::type P2PMessage {
 
 	option -sessionid
