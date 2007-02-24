@@ -46,6 +46,10 @@
 
 
 		Author : Arieh Schneier ( lio_lion - lio_lion@user.sourceforge.net)
+
+		In order to be able to use UNICODE functions with Win9x we must use the unicows system
+		http://libunicows.sourceforge.net/ provides a free implementation of the lib that is compatible with opencow and unicows
+
 */
 
 //HWND hWnd = Tk_GetHWND(Tk_WindowId((Tk_Window) clientData));
@@ -59,10 +63,8 @@ static int Tk_WinLoadFile (ClientData clientData,
 								 Tcl_Obj *CONST objv[]) {
 
 	WCHAR *file = NULL;
-	CHAR *fileA = NULL;
 	Tcl_Obj *argsObj = NULL;
 	WCHAR* argsStr = NULL;
-	CHAR *argsStrA = NULL;
 	int res;
 
 	// We verify the arguments, we must have one arg, not more
@@ -73,9 +75,6 @@ static int Tk_WinLoadFile (ClientData clientData,
 
 	// Get the first argument string (file)
 	file = Tcl_GetUnicode(objv[1]);
-	res = WideCharToMultiByte(CP_ACP,0,file,-1,NULL,0,NULL,NULL);
-	fileA = (CHAR *) HeapAlloc(GetProcessHeap(),0,res);
-	WideCharToMultiByte(CP_ACP,0,file,-1,fileA,res,NULL,NULL);
 
 	if (objc >= 3) {
 		argsObj = Tcl_NewStringObj("", 0);
@@ -86,31 +85,22 @@ static int Tk_WinLoadFile (ClientData clientData,
 			if (i == objc-1) Tcl_AppendToObj(argsObj," ",-1);
 		}
 		argsStr = Tcl_GetUnicode(argsObj);
-		res = WideCharToMultiByte(CP_ACP,0,argsStr,-1,NULL,0,NULL,NULL);
-		argsStrA = (CHAR *) HeapAlloc(GetProcessHeap(),0,res);
-		WideCharToMultiByte(CP_ACP,0,argsStr,-1,argsStrA,res,NULL,NULL);
 	}
 
-	res = (int) ShellExecute(NULL, "open", fileA, argsStrA, NULL, SW_SHOWNORMAL);
+	res = (int) ShellExecute(NULL, L"open", file, argsStr, NULL, SW_SHOWNORMAL);
 	if (res <= 32) {
-		Tcl_Obj *result = Tcl_NewStringObj("Unable to open file : ", -1);
-		Tcl_AppendUnicodeToObj(result, file, -1);
-		Tcl_AppendToObj(result, " " , -1);
-		Tcl_AppendUnicodeToObj(result, argsStr, -1);
-		Tcl_AppendToObj(result, " : " , -1);
+		Tcl_Obj *result = Tcl_NewStringObj("Unable to open file : ", strlen("Unable to open file : "));
+		Tcl_AppendUnicodeToObj(result, file, lstrlen(file));
+		Tcl_AppendToObj(result, " " , strlen(" "));
+		Tcl_AppendUnicodeToObj(result, argsStr, lstrlen(argsStr));
+		Tcl_AppendToObj(result, " : " , strlen(" : "));
 		Tcl_AppendObjToObj(result, Tcl_NewIntObj(res));
 
 		Tcl_SetObjResult(interp, result);
-		res = TCL_ERROR;
+		return TCL_ERROR;
 	}
-	else
-		res = TCL_OK;
 
-	HeapFree(GetProcessHeap(),0,fileA);
-	if (argsStrA)
-		HeapFree(GetProcessHeap(),0,argsStrA);
-
-	return res;
+	return TCL_OK;
 }
 
 static int Tk_WinPlaySound (ClientData clientData,
@@ -119,8 +109,6 @@ static int Tk_WinPlaySound (ClientData clientData,
 								 Tcl_Obj *CONST objv[]) {
 
 	WCHAR *file = NULL;
-	CHAR *fileA = NULL;
-	int szBuf = 0;
 
 
 	// We verify the arguments, we must have one arg, not more
@@ -131,13 +119,9 @@ static int Tk_WinPlaySound (ClientData clientData,
 
 	// Get the first argument string (file)
 	file = Tcl_GetUnicode(objv[1]);
-	szBuf = WideCharToMultiByte(CP_ACP,0,file,-1,NULL,0,NULL,NULL);
-	fileA = (CHAR *) HeapAlloc(GetProcessHeap(),0,szBuf);
-	WideCharToMultiByte(CP_ACP,0,file,-1,fileA,szBuf,NULL,NULL);
 
-	PlaySound(fileA, NULL, SND_ASYNC | SND_NODEFAULT);
+	PlaySound(file, NULL, SND_ASYNC | SND_NODEFAULT);
 
-	HeapFree(GetProcessHeap(),0,fileA);
 
 	return TCL_OK;
 }
@@ -197,7 +181,7 @@ static int Tk_WinRemoveTitle (ClientData clientData,
 	win=Tcl_GetStringFromObj(objv[1], NULL);
 	// We check if the pathname is valid, this means it must beguin with a "." 
 	// the strncmp(win, ".", 1) is used to compare the first char of the pathname
-	if (win[0] != '.') {
+	if (strncmp(win,".",1)) {
 		Tcl_AppendResult (interp, "Bad window path name : ",
 			Tcl_GetStringFromObj(objv[1], NULL) , (char *) NULL);
 		return TCL_ERROR;
@@ -316,7 +300,7 @@ static int Tk_WinReplaceTitle (ClientData clientData,
 	win=Tcl_GetStringFromObj(objv[1], NULL);
 	// We check if the pathname is valid, this means it must beguin with a "." 
 	// the strncmp(win, ".", 1) is used to compare the first char of the pathname
-	if (win[0] != '.') {
+	if (strncmp(win,".",1)) {
 		Tcl_AppendResult (interp, "Bad window path name : ",
 			Tcl_GetStringFromObj(objv[1], NULL) , (char *) NULL);
 		return TCL_ERROR;
