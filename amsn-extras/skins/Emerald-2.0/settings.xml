@@ -37,7 +37,7 @@
 	<ContactList>
     		<Colors>
 			<mainwindowbg>#efefef</mainwindowbg>
-			<topcontactlistbg>#efefef</topcontactlistbg>	<!-- color for the top of the contact list, the status part -->
+			<topcontactlistbg>#ffffff</topcontactlistbg>	<!-- color for the top of the contact list, the status part -->
 			<contactlistbg>#ffffff</contactlistbg>	<!-- color of the contact list, where the contacts appear -->
 			<bannerbg>#ffffff</bannerbg>
 			<mystatus>#666666</mystatus>
