@@ -187,6 +187,7 @@ proc reload_files { } {
 
 	# amsncore.tcl is already loaded but we'll re-source it here in case we manually do reload_files
 	source amsncore.tcl
+	source audio.tcl;	#audio API
 
 	source ctthemes.tcl
 	source progressbar.tcl	;# Progressbar Megawidget
@@ -232,7 +233,6 @@ proc reload_files { } {
 	source guicontactlist.tcl ;# New contact list (uses canvas)
 	source bugs.tcl 	  ;# bug reporting
 	source spaces.tcl         ;# MSN Space handling functions
-	source audio.tcl;	#audio API
     }
     #As we reloaded amsncore, the version has been resetted and maybe amsn is the newest file
     ::Version::setSubversionId {$Id$}

@@ -1,31 +1,7 @@
 
 ::Version::setSubversionId {$Id$}
 
-# This needs to be done this way because it seems Mac shows an error about conflicting versions if you have 2.2 and 2.2.10 installed...
-# but on linux (and windows) it takes the latest version (2.2.10) without complaining...
-# Since Mac and Windows have the snack 2.2.10 binaries shipped with amsn,we can require the exact version safely.. linux is trickier because
-# the user can install whatever version he wants (and all 2.2.x versions have a 'package provide 2.2')
-proc require_snack { } {
-	if {[package provide snack] != ""} {
-		return
-	} elseif {[OnLinux] } {
-		package require snack
-	} elseif {[OnWin] } {
-		if { [catch {
-			load [file join utils windows snack2.2 libsnack.dll]
-			source [file join utils windows snack2.2 snack.tcl]
-		} ] } {
-			package require snack 
-		}
-	} elseif {[OnMac] } {
-		if { [catch {
-			load [file join utils macosx snack2.2 libsnack.dylib]
-			source [file join utils macosx snack2.2 snack.tcl]
-		} ] } {
-			package require snack 
-		}
-	}
-}
+
 
 namespace eval ::config {
 
@@ -287,6 +263,9 @@ namespace eval ::config {
 		::config::setKey use_new_cl 0                		;# whether we should use the new CL as the default one or not...
 		::config::setKey spacesinfo "inline"				;# how to draw MSN Spaces info
 
+		::config::setKey snackInputDevice ""				;# The audio Input Device to use with Snack
+		::config::setKey snackOutputDevice ""				;# The audio Output Device to use with Snack
+		::config::setKey snackMixerDevice ""				;# The audio Mixer Device to use with Snack
 
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
@@ -742,9 +721,9 @@ proc load_config {} {
 	# We now want to force the NAT Keep alive to enabled
 	::config::setKey keepalive 1
 
-	
-	# This is a TEMPORARY HACK... 
-	::config::setKey use_new_cl 1
+	# We loaded the config, we will now load the DP pictures.. 
+	load_my_pic
+	load_my_smaller_pic
 }
 
 
@@ -1090,7 +1069,6 @@ proc ConfigChange { window email } {
 
 					config::setKey login $email
 					load_config
-					load_my_pic
 
 					LoginList add 0 $email
 					set log_dir "[file join ${HOME} logs]"

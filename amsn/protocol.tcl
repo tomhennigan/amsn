@@ -5626,8 +5626,6 @@ proc cmsn_auth {{recv ""}} {
 			#      send_dock "NLN"
 			send_dock "MAIL" 0
 
-#TODO: This should be moved.  Should be done before the GUI gets build, by the amsn-core
-			load_my_pic
 
 			#Send "loggedIn" core event
 			::Event::fireEvent loggedIn protocol

@@ -4001,8 +4001,6 @@ proc cmsn_draw_offline {} {
 		"::lang::show_languagechoose"
 
 	#display user's display picture in login screen
-	load_my_pic
-        load_my_smaller_pic
 	$clcanvas create image 0 [expr {[image height $globe_image] + 10}] -image displaypicture_not_self -anchor n -tags [list centerx]
 
 	if { ([::config::getKey login] != "") && ([::config::getGlobalKey disableprofiles] != 1)} {

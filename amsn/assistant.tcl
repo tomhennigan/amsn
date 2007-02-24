@@ -1025,7 +1025,7 @@ namespace eval ::AVAssistant {
 			} elseif {[OnWin]} {
 #TODO: win support
 			} else {
-				
+
 			}
 		} else {
 			#we won't be able to configure the video settings
@@ -1147,7 +1147,7 @@ namespace eval ::AVAssistant {
 		}
 		checkbutton $contentf.lowrescam -text "[trans lowrescam] ++ add more explanations(better for low connection ...)\n ask you can see, changing the state of that button doesn't change the preview.\n Just code it :)" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 
 		pack $contentf.lowrescam -pady 10
-
+		
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
 		frame $leftframe -bd 0
@@ -1175,14 +1175,14 @@ namespace eval ::AVAssistant {
 
 		#first clear the grabber var
 		set ::CAMGUI::webcam_preview ""
-
+		
 		#First line, device-chooser title
 		label $leftframe.devstxt -text "Choose device:"
 		pack $leftframe.devstxt -side top
-	
+		
 		#create and pack the devices-combobox
 		combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command "::AVAssistant::FillChannelsLinux" 
-
+		
 		#make sure the devs-combobox is empty first
 		$leftframe.devs list delete 0 end
 		
@@ -1197,12 +1197,12 @@ namespace eval ::AVAssistant {
 		set count -1
 		#set a start-value for the device's nr
 		set setdevnr -1
-			
+		
 		#insert the device-names in the widget
 		foreach device [::Capture::ListDevices] {
 			set dev [lindex $device 0]
 			set name [lindex $device 1]
-
+			
 			#it will allways set the last one, which is a bit weird to the
 			# user though if he has like /dev/video0 that come both as V4L 
 			# and V4L2 device
@@ -1211,34 +1211,33 @@ namespace eval ::AVAssistant {
 			if { $dev == $setdev} {
 				set setdevnr $count
 			}
-
+			
 			#if we can't get the name, show it the user
 			if {$name == "" } {
-#TODO: is this the right cause ?
+				#TODO: is this the right cause ?
 				set name "$dev (Err: busy?)"
 				status_log "Webcam-Assistant: No name found for $dev ... busy ?"
 			}
 			#put the name of the device in the widget
 			$leftframe.devs list insert end $name
-		}
+			}
 		#pack the dev's combobox
 		pack $leftframe.devs -side top
-
+		
 		#create and pack the chans-txt
 		label $leftframe.chanstxt -text "\n\nChoose channel:"
 		pack $leftframe.chanstxt -side top
-
+		
 		#create and pack the chans-combobox
 		set chanswidget $leftframe.chans
 		combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true \
-			-command "after 1 ::AVAssistant::StartPreviewLinux" -editable false -bg #FFFFFF
+		    -command "after 1 ::AVAssistant::StartPreviewLinux" -editable false -bg #FFFFFF
 		pack $leftframe.chans -side top 
-
+		
 		#Select the device if in the combobox (won't select anything if -1)
 		catch {$leftframe.devs select $setdevnr}
-		}
-	#end the Step1WLinux proc
 	}
+	#end the Step1WLinux proc
 
 
 	######################################################################################
@@ -1307,7 +1306,7 @@ namespace eval ::AVAssistant {
 		variable channels
 		variable previmc
 		variable previmg
-		variable cam_res
+		variable lowrescam
 
 		if { $value == "" } {
 			status_log "No channel selected; IS THIS POSSIBLE ?"
@@ -1326,7 +1325,7 @@ namespace eval ::AVAssistant {
 				::Capture::Close $::CAMGUI::webcam_preview
 			}
 	
-			if { [::config::getKey lowrescam] == 1 } {
+			if { $lowrescam } {
 				set cam_res "QSIF"
 			} else {
 				set cam_res "SIF"
@@ -1432,13 +1431,12 @@ namespace eval ::AVAssistant {
 		#Only linux for now ...
 		variable selecteddevice
 		variable selectedchannel
-		variable cam_res
 
 		variable brightness
 		variable contrast
 		variable hue
 		variable color
-		
+		variable lowrescam
 		variable shareCam
 
 		$contentf configure -padx 10 -pady 10
@@ -1454,12 +1452,14 @@ namespace eval ::AVAssistant {
 		#frame $leftframe -bd 0
 		#pack $leftframe -side left -padx 10
 
-		if { $cam_res } {
+		if { $lowrescam } {
 			set camwidth 160
 			set camheight 120
+			set cam_res "QSIF"
 		} else {
 			set camwidth 320
 			set camheight 240
+			set cam_res "SIF"
 		}
 
 		#create the 'rightframe' canvas where the preview-image will be shown
@@ -1614,11 +1614,6 @@ namespace eval ::AVAssistant {
 	# Step 1 Audio:  Configuring output settings                                         #
 	######################################################################################
 	proc Step1A {assistant contentf} {
-
-		variable outputdev
-		variable mixerdev
-		variable volume
-
 		variable sound_record
 		variable sound_test
 
@@ -1629,7 +1624,7 @@ namespace eval ::AVAssistant {
 		##Here comes the content:##
 		#build the GUI framework 
 
-		if {[catch {package require snack}]} {
+		if {[catch {require_snack}]} {
 			#can't load the package, warn the user
 			label $contentf.audiolabel -justify left -anchor nw -font bboldf \
 				-text "Check if audio extension (Snack) is loaded ..."\
@@ -1661,11 +1656,8 @@ namespace eval ::AVAssistant {
 			set step [list "Step2A" 1 ::AVAssistant::Step2A ::AVAssistant::stopSound "" "" "" "Configuring the mic" assistant_audio 1 1]
 			$assistant insertStepAfter $step "Step1A"
 
-
 			#when we leave, but not for saving, set mixers and all as default
-			::AVAssistant::storeAudioDefaults
 			$assistant addCancelProc resetAudio ::AVAssistant::resetAudio
-
 
 #       leftframe                                             rightframe
 #+------|-----------------------------------------------------|--------+
@@ -1702,11 +1694,9 @@ namespace eval ::AVAssistant {
 			foreach output [::audio::getOutputDevices] {
 				$leftframe.out list insert end $output
 			}
-			if {![info exists outputdev]} {
-				set outputdev [::audio::getOutputDevice]
-			}
+
 			#select the already set mix if possible
-			set devnr [lsearch [$leftframe.out list get 0 end] $outputdev]
+			set devnr [lsearch [$leftframe.out list get 0 end] [::audio::getOutputDevice]]
 			catch {$leftframe.out select $devnr}
 			pack $leftframe.outtxt \
 			     $leftframe.out -side top
@@ -1715,38 +1705,40 @@ namespace eval ::AVAssistant {
 			frame $rightframe -bd 0
 			pack $rightframe -side right -fill x -padx 10
 
+
+			#Volume
+#TODO: translation
+			# we must create the volume scale BEFORE the mixer combobox because it depends on it, but we'll pack it afterwards...
+			set volf $rightframe.volumef
+			frame $volf
+			label $volf.voltxt -text "Volume :" -padx 10
+
+			scale $volf.volscale -from 0 -to 100 -resolution 1 -showvalue 1 \
+				-orient horizontal -command "::AVAssistant::wrapSetVolume" 
+			$volf.volscale set [::audio::getVolume]
+
+
 			#Mixer devices
 #TODO: translation
 			label $leftframe.mixtxt -text "Choose mixer device:"
 		
 			#create and pack the input-combobox
 			combobox::combobox $leftframe.mix -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf \
-				-exportselection true -editable false -command "::AVAssistant::wrapSetMixerDevice"
+			    -exportselection true -editable false -command [list ::AVAssistant::wrapSetMixerDevice $volf.volscale]
 			$leftframe.mix list delete 0 end
 			foreach mixer [::audio::getMixerDevices] {
 				$leftframe.mix list insert end $mixer
 			}
-			if {![info exists mixerdev]} {
-				set mixerdev [::audio::getMixerDevice]
-			}
+
 			#select the already set mix if possible
-			set devnr [lsearch [$leftframe.mix list get 0 end] $mixerdev]
+			set devnr [lsearch [$leftframe.mix list get 0 end] [::audio::getMixerDevice]]
 			catch {$leftframe.mix select $devnr}
 
-			pack $leftframe.mixtxt \
-			     $leftframe.mix -side top
+			pack $leftframe.mixtxt $leftframe.mix -side top
 
-			#Volume
-#TODO: translation
-			frame $rightframe.volumef
-			set volf $rightframe.volumef
+			# We pack the volume widgets after the mixer widgets
 			pack $volf -side top -pady 5
-			label $volf.voltxt -text "Volume :" -padx 10
-#TODO: make it working: changing volume!
-			scale $volf.volscale -from 0 -to 100 -resolution 1 -showvalue 1 \
-				-orient horizontal -command "::AVAssistant::wrapSetVolume" -variable volume
-			pack $volf.voltxt \
-			     $volf.volscale -side left
+			pack $volf.voltxt $volf.volscale -side left
 			
 			#Test file area
 #TODO: translation
@@ -1786,38 +1778,11 @@ namespace eval ::AVAssistant {
 	#Step 1 Audio - Auxilary procs                                                       #
 	######################################################################################
 	###
-	# save in a variable some audio settings as defaults one
-	proc storeAudioDefaults {} {
-		variable audioDefaults
-		variable inputdev
-		variable outputdev
-		variable mixerdev
-		variable volume
-		
-		set inputdev [::audio::getInputDevices] 
-		set outputdev [::audio::getOutputDevice]
-		set mixerdev [::audio::getMixerDevice]
-		set volume [::audio::getVolume]
-
-		set audioDefaults [list $inputdev $outputdev $mixerdev $volume]
-	}
-	###
 	# change all audio settings to their defaults ones without saving them
 	proc resetAudio {assistant contentf} {
-		variable audioDefaults
-		variable inputdev
-		variable outputdev
-		variable mixerdev
-		variable volume
-
-		set inputdev [lindex $audioDefaults 0]
-		set outputdev [lindex $audioDefaults 2]
-		set mixerdev [lindex $audioDefaults 2]
-		set volume [lindex $audioDefaults 3]
-		::audio::setInputDevice $inputdev 0
-		::audio::setOutputDevice $outputdev 0
-		::audio::setMixerDevice $mixerdev 0
-		::audio::setVolume $volume 0
+		::audio::setInputDevice [::config::getKey snackInputDevice]
+		::audio::setOutputDevice [::config::getKey snackOutputDevice]
+		::audio::setMixerDevice [::config::getKey snackMixerDevice]
 	}
 
 	###
@@ -1836,19 +1801,14 @@ namespace eval ::AVAssistant {
 	###
 	# some proc to wrap
 	proc wrapSetVolume { vol } {
-		variable volume
-		::audio::setVolume $vol 0
-		set volume $vol
+		::audio::setVolume $vol
 	}
 	proc wrapSetOutputDevice { w dev } {
-		variable outputdev
 		::audio::setOutputDevice $dev 0
-		set outputdev $dev
 	}
-	proc wrapSetMixerDevice { w dev } {
-		variable mixerdev
+	proc wrapSetMixerDevice { scale w dev } {
 		::audio::setMixerDevice $dev 0
-		set mixerdev $dev
+		$scale set [::audio::getVolume]
 	}
 
 	###
@@ -1898,8 +1858,6 @@ namespace eval ::AVAssistant {
 	#Step 2 Audio: Configuring input settings                                            #
 	######################################################################################
 	proc Step2A {assistant contentf} {
-		variable outputdev
-		variable inputdev
 		variable haveMic
 
 		set haveMic 1
@@ -1926,17 +1884,14 @@ namespace eval ::AVAssistant {
 		foreach input [::audio::getInputDevices] {
 			$leftframe.in list insert end $input
 		}
-		if {![info exists inputdev]} {
-			set inputdev [::audio::getInputDevice]
-		}
+
 		#select the already set mix if possible
-		set devnr [lsearch [$leftframe.in list get 0 end] $inputdev]
+		set devnr [lsearch [$leftframe.in list get 0 end] [::audio::getInputDevice]]
 		catch {$leftframe.in select $devnr}
-		pack $leftframe.intxt \
-			 $leftframe.in -side top
+		pack $leftframe.intxt $leftframe.in -side top
 
 #TODO: translation
-		button $leftframe.nomic -text [trans nomic] -command "set haveMic 0; $assistant next"
+		button $leftframe.nomic -text [trans nomic] -command "::AVAssistant::disableMicrophone $assistant" 
 		pack $leftframe.nomic -pady 20
 
 		set rightframe $contentf.right
@@ -1980,8 +1935,17 @@ namespace eval ::AVAssistant {
 		#use the alarm as test file for the moment
 		set sound_test [::snack::sound -file [::skin::GetSkinFile sounds alarm.wav] ]
 	}
+
+	proc disableMicrophone { assistant } {
+		variable haveMic 
+		set haveMic 0
+		$assistant next
+	}
+
 	
-	proc wrapSetInputDevice { w dev } {::audio::setInputDevice $dev 0}
+	proc wrapSetInputDevice { w dev } {
+		::audio::setInputDevice $dev 0
+	}
 	
 	###
 	# Record
@@ -2062,8 +2026,6 @@ namespace eval ::AVAssistant {
 		variable shareCam
 		variable selecteddevicename
 		variable selectedchannelname
-		variable outputdev
-		variable inputdev
 		variable haveMic
 
 #TODO: translations
@@ -2090,9 +2052,9 @@ namespace eval ::AVAssistant {
 		if {$audio_configured} {
 			#snack should work for everyone
 			if {$haveMic} {
-				set text "You have chose as Output device: $outputdev and as Input device: $inputdev."
+				set text "You chose the following Audio settings :\nOutput device: [::audio::getOutputDevice]\nInput device: [::audio::getInputDevice]"
 			} else {
-				set text "You have chose as Output device: $outputdev."
+				set text "You chose the following Audio settings :\nOutput device: [::audio::getOutputDevice]\nInput device : No Microphone"
 			}
 			#add the Content
 			label $contentf.textaudio -justify left -font bplainf -text $text
@@ -2161,19 +2123,13 @@ namespace eval ::AVAssistant {
 		}
 		#audio settings has been configured
 		if {$audio_configured} {
-			variable inputdev
-			variable outputdev
-			variable mixerdev
-			variable volume
 			variable haveMic
 			#saving through the audio API
-			if {$haveMic} {
-				#this setting has a reason to be saved only if the user has a mic
-				::audio::setInputDevice $inputdev
-			}
-			::audio::setOutputDevice $outputdev
-			::audio::setMixerDevice $mixerdev
-			::audio::setVolume $volume
+
+			::config::setKey userHasMicrophone $haveMic
+			::audio::setInputDevice [::audio::getInputDevice]
+			::audio::setOutputDevice [::audio::getOutputDevice]
+			::audio::setMixerDevice [::audio::getMixerDevice]
 		}
 	}
 
