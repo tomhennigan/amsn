@@ -1633,6 +1633,7 @@ namespace eval ::CAMGUI {
                                 set campresent 1
                         }
 		} elseif { [OnWin] } {
+			destroy .webcam_preview
 			tkvideo .webcam_preview
 			set devices [.webcam_preview devices]
 			if { [llength $devices] > 0 } {

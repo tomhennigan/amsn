@@ -194,20 +194,20 @@ snit::widget assistant {
 		frame $buttonf  -bd 0 
 		pack $buttonf  -side top  -fill x -padx 4 -pady 4;#pads keep the stuff a bit away from windowborder
 		#add the buttons
-		button $buttonf.back -text [trans back] -command "$self back"\
-			-state disabled ;#first step of assistant, back button is disabled
+		button $buttonf.back -text [trans back] -command [list $self back] \
+			-state disabled ; #first step of assistant, back button is disabled
 		if {[string length [trans finish]] > [string length [trans next]] } {
 			set width [string length [trans finish]]
 		} else {
 			set width [string length [trans next]]
 		}
-		button $buttonf.next -text [trans next] -command "$self next" -state disabled -width $width
-		button $buttonf.cancel -text [trans cancel] -command "$self cancel"
+		button $buttonf.next -text [trans next] -command [list $self next] -state disabled -width $width
+		button $buttonf.cancel -text [trans cancel] -command [list $self cancel]
 #TODO : maybe a button Help, and/or Defaults
 		#pack 'em
 		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
 		
-		bind $win <Configure> "$self windowResized"
+		bind $win <Configure> [list $self windowResized]
 
 	}
 
@@ -487,7 +487,7 @@ snit::widget assistant {
 		}
 		$buttonf.next configure -state normal
 		#remove the finish button
-		$buttonf.next configure -text [trans next] -command "$self next"
+		$buttonf.next configure -text [trans next] -command [list $self next]
 
 
 		#calling mainProc
@@ -522,12 +522,12 @@ snit::widget assistant {
 			# going to last step
 			$buttonf.next configure -state normal
 			#add the finish button
-			$buttonf.next configure -text [trans finish] -command "$self finish"
+			$buttonf.next configure -text [trans finish] -command [list $self finish]
 			#we have seen all steps
 			set allStepsSeen 1
 		} else {
 			$buttonf.next configure -state normal
-			$buttonf.next configure -text [trans next] -command "$self next"
+			$buttonf.next configure -text [trans next] -command [list $self next]
 		}
 		$buttonf.back configure -state normal
 		
@@ -553,7 +553,7 @@ snit::widget assistant {
 	#    Make the Next Button active
 	method enableNextButton {} {
 		$buttonf.next configure -state normal
-		$buttonf.next configure -text [trans next] -command "$self next"
+		$buttonf.next configure -text [trans next] -command [list $self next]
 	}
 
 	###########################################################################
@@ -561,7 +561,7 @@ snit::widget assistant {
 	#    Make the Next Button disabled
 	method disableNextButton {} {
 		$buttonf.next configure -state disabled
-		$buttonf.next configure -text [trans next] -command "$self next"
+		$buttonf.next configure -text [trans next] -command [list $self next]
 
 	}
 
@@ -588,13 +588,13 @@ snit::widget assistant {
 				# going to last step
 				$buttonf.next configure -state normal
 				#add the finish button
-				$buttonf.next configure -text [trans finish] -command "$self finish"
+				$buttonf.next configure -text [trans finish] -command [list $self finish]
 				#we have seen all steps
 				set allStepsSeen 1
 			} else {
 				$buttonf.next configure -state normal
 				#remove the finish button
-				$buttonf.next configure -text [trans next] -command "$self next"
+				$buttonf.next configure -text [trans next] -command [list $self next]
 			}
 			#calling leavingProc
 			set leavingProc [lindex [lindex $steps_l $steps_l_i] 3]
@@ -1023,7 +1023,9 @@ namespace eval ::AVAssistant {
 
 				::AVAssistant::Step1WLinux $assistant $contentf
 			} elseif {[OnWin]} {
-#TODO: win support
+				variable video_configured
+				set video_configured 1
+				::AVAssistant::Step1WWin $assistant $contentf
 			} else {
 
 			}
@@ -1047,9 +1049,9 @@ namespace eval ::AVAssistant {
 				pack $contentf.wcextwarn 
 				pack $contentf.wcextwarnurl
 
-				bind $contentf.wcextwarnurl <Enter> "%W configure -font sunderf"
-				bind $contentf.wcextwarnurl <Leave> "%W configure -font splainf"
-				bind $contentf.wcextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+				bind $contentf.wcextwarnurl <Enter> [list %W configure -font sunderf]
+				bind $contentf.wcextwarnurl <Leave> [list %W configure -font splainf]
+				bind $contentf.wcextwarnurl <ButtonRelease> [list launch_browser "$::weburl/userwiki"]
 				#to get a nice wrapping
 				bind $contentf.wcextwarn <Configure> [list %W configure -wraplength %w]
 			}
@@ -1069,9 +1071,9 @@ namespace eval ::AVAssistant {
 
 				pack $contentf.capextwarn
 				pack $contentf.capextwarnurl
-				bind $contentf.capextwarnurl <Enter> "%W configure -font sunderf"
-				bind $contentf.capextwarnurl <Leave> "%W configure -font splainf"
-				bind $contentf.capextwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+				bind $contentf.capextwarnurl <Enter> [list %W configure -font sunderf]
+				bind $contentf.capextwarnurl <Leave> [list %W configure -font splainf]
+				bind $contentf.capextwarnurl <ButtonRelease> [list launch_browser "$::weburl/userwiki"]
 				#to get a nice wrapping
 				bind $contentf.capextwarn <Configure> [list %W configure -wraplength %w]
 			}
@@ -1091,9 +1093,9 @@ namespace eval ::AVAssistant {
 
 				pack $contentf.nocamwarn
 				pack $contentf.nocamwarnurl
-				bind $contentf.nocamwarnurl <Enter> "%W configure -font sunderf"
-				bind $contentf.nocamwarnurl <Leave> "%W configure -font splainf"
-				bind $contentf.nocamwarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+				bind $contentf.nocamwarnurl <Enter> [list %W configure -font sunderf]
+				bind $contentf.nocamwarnurl <Leave> [list %W configure -font splainf]
+				bind $contentf.nocamwarnurl <ButtonRelease> [list launch_browser "$::weburl/userwiki"]
 				#to get a nice wrapping
 				bind $contentf.nocamwarn <Configure> [list %W configure -wraplength %w]
 			}
@@ -1181,7 +1183,7 @@ namespace eval ::AVAssistant {
 		pack $leftframe.devstxt -side top
 		
 		#create and pack the devices-combobox
-		combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command "::AVAssistant::FillChannelsLinux" 
+		combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command [list ::AVAssistant::FillChannelsLinux]
 		
 		#make sure the devs-combobox is empty first
 		$leftframe.devs list delete 0 end
@@ -1231,13 +1233,13 @@ namespace eval ::AVAssistant {
 		#create and pack the chans-combobox
 		set chanswidget $leftframe.chans
 		combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true \
-		    -command "after 1 ::AVAssistant::StartPreviewLinux" -editable false -bg #FFFFFF
+		    -command [list after 1 ::AVAssistant::StartPreviewLinux] -editable false -bg #FFFFFF
 		pack $leftframe.chans -side top 
 		
 		#Select the device if in the combobox (won't select anything if -1)
 		catch {$leftframe.devs select $setdevnr}
-	}
 	#end the Step1WLinux proc
+	}
 
 
 	######################################################################################
@@ -1337,12 +1339,11 @@ namespace eval ::AVAssistant {
 
 			set previmg [image create photo [TmpImgName]]
 
-					
 			$previmc create image 0 0 -image $previmg -anchor nw 
 
 			$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
 
-			after 2 "catch { $previmc delete device }"
+			after 3000 "catch { $previmc delete device }"
 
 			#put the border-pic on top
 			$previmc raise border
@@ -1353,11 +1354,11 @@ namespace eval ::AVAssistant {
 			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [ImageExists $previmg] } {
 				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
-					$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
-				after 2000 "catch { $previmc delete errmsg }"
+					$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+				after 3000 "catch { $previmc delete errmsg }"
 					
 				}
-				after 100 "incr $semaphore"
+				after 100 [list incr $semaphore]
 				tkwait variable $semaphore
 			}
 		}
@@ -1488,7 +1489,7 @@ namespace eval ::AVAssistant {
 		$previmc create image 0 0 -image $previmg -anchor nw 
 		$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
 
-		after 2000 "catch { $previmc delete device }"
+		after 3000 "catch { $previmc delete device }"
 
 		#put the border-pic on top
 		$previmc raise border
@@ -1524,16 +1525,16 @@ namespace eval ::AVAssistant {
 
 		scale $slides.b -from [::Capture::GetBrightness $::CAMGUI::webcam_preview MIN] -to [::Capture::GetBrightness $::CAMGUI::webcam_preview MAX] \
 			-resolution 1 -showvalue 1 -label "[trans brightness]" -orient horizontal \
-			-command "::AVAssistant::Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview"
+			-command [list ::AVAssistant::Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview]
 		scale $slides.c -from [::Capture::GetContrast $::CAMGUI::webcam_preview MIN] -to [::Capture::GetContrast $::CAMGUI::webcam_preview MAX] \
 			-resolution 1 -showvalue 1 -label "[trans contrast]" -orient horizontal\
-			-command "::AVAssistant::Properties_SetLinux $slides.c c $::CAMGUI::webcam_preview"
+			-command [list ::AVAssistant::Properties_SetLinux $slides.c c $::CAMGUI::webcam_preview]
 		scale $slides.h -from [::Capture::GetHue $::CAMGUI::webcam_preview MIN] -to [::Capture::GetHue $::CAMGUI::webcam_preview MAX] \
 			-resolution 1 -showvalue 1 -label "[trans hue]" -orient horizontal \
-			-command "::AVAssistant::Properties_SetLinux $slides.h h $::CAMGUI::webcam_preview"
+			-command [list ::AVAssistant::Properties_SetLinux $slides.h h $::CAMGUI::webcam_preview]
 		scale $slides.co -from [::Capture::GetColour $::CAMGUI::webcam_preview MIN] -to [::Capture::GetColour $::CAMGUI::webcam_preview MAX] \
 			-resolution 1 -showvalue 1 -label "[trans color]" -orient horizontal \
-			-command "::AVAssistant::Properties_SetLinux $slides.co co $::CAMGUI::webcam_preview"
+			-command [list ::AVAssistant::Properties_SetLinux $slides.co co $::CAMGUI::webcam_preview]
 
 		pack $slides.b $slides.c $slides.h $slides.co -expand true -fill x
 		pack $leftframe -side left -padx 10 -expand true -fill x
@@ -1549,8 +1550,8 @@ namespace eval ::AVAssistant {
 		while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [ImageExists $previmg] } {
 			if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg } res ]} {
 				status_log "Problem grabbing from the device:\n\t \"$res\""
-				$previmc create text 10 215 -anchor nw -font bboldf -text "ERROR: $res" -fill #FFFFFF -anchor nw -tag errmsg
-				after 2000 "catch { $previmc delete errmsg }"				
+				$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+				after 3000 "catch { $previmc delete errmsg }"
 			}
 			after 100 "incr $semaphore"
 			tkwait variable $semaphore
@@ -1561,7 +1562,7 @@ namespace eval ::AVAssistant {
 	}
 
 	######################################################################################
-	#Step 2 Video - Auxilary procs                                                       #
+	#Step 2 Video Linux - Auxilary procs                                                 #
 	######################################################################################	
 	###
 	# Set properties on Linux
@@ -1608,16 +1609,152 @@ namespace eval ::AVAssistant {
 		}
 	}
 
+	######################################################################################
+	# Step 1 Video for Windows:  Set device/channel                                      #
+	######################################################################################	
+	proc Step1WWin {assistant contentf} {
+		#we should be able to alter this vars in other procs
+		variable chanswidget
+		variable previmc
+		variable selecteddevice
+		variable selecteddevicename
+		variable previmg
+
+		#extensions are present, we can change some settings	
+		$assistant modifyStep "Step0W" titleText "Set up webcam device"
+		$assistant modifyStep "Step0W" leavingProc ::AVAssistant::stopPreviewWindows 
+
+		##Here comes the content:##
+
+		#build the GUI framework (same for windows/linux)
+			
+# +-------------------------+
+# |       descrition        |
+# |+----------+ +---------+ |--innerframe ($contenf)
+# ||          | |         | |
+# ||          | |         | |
+# ||          | |         |----rightframe (a canvas $rightframe))
+# ||          | |         | |
+# ||          | |         | |
+# ||          |-|---------|----leftframe
+# |+----------+ +---------+ |
+# +-------------------------+
+
+#TODO: translation
+		label $contentf.desc -justify left -text "Select your webcam in the list"
+		pack $contentf.desc -pady 20 
+		#to get a nice wrapping
+		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
+		
+		#create the left frame (for the comboboxes)
+		set leftframe $contentf.left
+		frame $leftframe -bd 0
+		pack $leftframe -side left -padx 10
+
+		#create the 'rightframe' canvas where the preview-image will be shown
+		set rightframe $contentf.right
+
+
+		#this is a canvas so we can have a border and put some OSD-like text on it too
+		canvas $rightframe -background #000000 -width 320 -height 240 -bd 0
+		pack $rightframe -side right -padx 10
+
+		#draw the border image that will be layed ON the preview-img
+		$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
+		#give the canvas a clear name
+		set previmc $rightframe
+
+		#First line, device-chooser title
+		label $leftframe.devstxt -text "Choose device:"
+		pack $leftframe.devstxt -side top
+		
+		#create and pack the devices-combobox
+		combobox::combobox $leftframe.devs -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection true -editable false -command [list ::AVAssistant::startPreviewWindows]
+		
+		#make sure the devs-combobox is empty first
+		$leftframe.devs list delete 0 end
+
+		destroy .webcam_preview
+		tkvideo .webcam_preview
+		set devices [.webcam_preview devices]
+
+		#insert the device-names in the widget
+		foreach device $devices {
+			$leftframe.devs list insert end $device
+		}
+		#pack the dev's combobox
+		pack $leftframe.devs -side top
+		
+		#get the already set device from the config (if there is one set)
+		if {![info exists selecteddevice]} {
+			if {[::config::getKey webcamDevice]} {
+				set selecteddevice [::config::getKey webcamDevice]
+			} else {
+				set selecteddevice 0
+			}
+		}
+		#select the device set if possible
+		catch {$leftframe.devs select $selecteddevice}
+		
+		button $leftframe.settings -text "[trans changevideosettings]" -command [list .webcam_preview propertypage filter]
+		pack $leftframe.settings -pady 10
+	#end the Step1WWin proc
+	}
 	
+	proc stopPreviewWindows {assistant contentf} {
+		variable previmg
+		destroy .webcam_preview
+
+		if {[info exists previmg]} {
+			catch {image delete $previmg}
+		}
+	}
+
+	proc startPreviewWindows { dev_widget value } {
+		variable selecteddevice
+		variable selecteddevicename
+		variable previmc
+		variable previmg
+		
+		if { $value == "" } {
+			status_log "No channel selected; IS THIS POSSIBLE ?"
+		} else {
+			set selecteddevicename $value
+			#get the nr of the selected device
+			set selecteddevice [lsearch [$dev_widget list get 0 end] $value]
+
+			#stop previewing if needed
+			::AVAssistant::stopPreviewWindows 0 0
+			#launching tkvideo again
+			tkvideo .webcam_preview
+
+			if { [catch { .webcam_preview configure -source $selecteddevice } res] } {
+				$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+				after 3000 "catch { $previmc delete errmsg }"
+				return
+			}
+			if { [catch { .webcam_preview start } res] } {
+				$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+				after 3000 "catch { $previmc delete errmsg }"
+				return
+			}
+			
+			set previmg [image create photo [TmpImgName]]
+
+			$previmc create image 0 0 -image $previmg -anchor nw 
+
+			$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevicename" -fill #FFFFFF -anchor nw -tag device
+
+			after 3000 "catch { $previmc delete device }"
+
+			after 1 [list ::CAMGUI::PreviewWindows .webcam_preview $previmg]
+		}
+	}
 
 	######################################################################################
 	# Step 1 Audio:  Configuring output settings                                         #
 	######################################################################################
 	proc Step1A {assistant contentf} {
-		variable sound_record
-		variable sound_test
-
-		variable waveid
 
 		$contentf configure -padx 10 -pady 10
 
@@ -1638,9 +1775,9 @@ namespace eval ::AVAssistant {
 			pack $contentf.audiowarn 
 			pack $contentf.audiowarnurl
 
-			bind $contentf.audiowarnurl <Enter> "%W configure -font sunderf"
-			bind $contentf.audiowarnurl <Leave> "%W configure -font splainf"
-			bind $contentf.audiowarnurl <ButtonRelease> "launch_browser $::weburl/userwiki"
+			bind $contentf.audiowarnurl <Enter> [list %W configure -font sunderf]
+			bind $contentf.audiowarnurl <Leave> [list %W configure -font splainf]
+			bind $contentf.audiowarnurl <ButtonRelease> [list launch_browser "$::weburl/userwiki"]
 			#to get a nice wrapping
  			bind $contentf.audiowarn <Configure> [list %W configure -wraplength %w]
 
@@ -1650,6 +1787,9 @@ namespace eval ::AVAssistant {
 		} else {
 		#succeed in loading snack
 			variable audio_configured
+			variable sound
+
+			variable waveid
 			set audio_configured 1
 
 			#add the second step of the audio assistant
@@ -1688,7 +1828,7 @@ namespace eval ::AVAssistant {
 
 			#create and pack the output-combobox
 			combobox::combobox $leftframe.out -highlightthickness 0 -width 22 -font splainf \
-				-exportselection true -command "::AVAssistant::wrapSetOutputDevice" \
+				-exportselection true -command [list ::AVAssistant::wrapSetOutputDevice] \
 				-editable false -bg #FFFFFF
 			$leftframe.out list delete 0 end
 			foreach output [::audio::getOutputDevices] {
@@ -1714,7 +1854,7 @@ namespace eval ::AVAssistant {
 			label $volf.voltxt -text "Volume :" -padx 10
 
 			scale $volf.volscale -from 0 -to 100 -resolution 1 -showvalue 1 \
-				-orient horizontal -command "::AVAssistant::wrapSetVolume" 
+				-orient horizontal -command [list ::AVAssistant::wrapSetVolume]
 			$volf.volscale set [::audio::getVolume]
 
 
@@ -1749,13 +1889,13 @@ namespace eval ::AVAssistant {
 			label $testf.playtest -image [::skin::loadPixmap playbut]
 			label $testf.stoptest -image [::skin::loadPixmap stopbut]
 			
-			bind $testf.playtest <ButtonPress-1> "::AVAssistant::playTest $rightframe"
-			bind $testf.playtest <Enter> "%W configure -image [::skin::loadPixmap playbuth]"
-			bind $testf.playtest <Leave> "%W configure -image [::skin::loadPixmap playbut]"
+			bind $testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $rightframe]
+			bind $testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+			bind $testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 			
-			bind $testf.stoptest <ButtonPress-1> "::AVAssistant::stopTest $rightframe"
-			bind $testf.stoptest <Enter> "%W configure -image [::skin::loadPixmap stopbuth]"
-			bind $testf.stoptest <Leave> "%W configure -image [::skin::loadPixmap stopbut]"
+			bind $testf.stoptest <ButtonPress-1> [list ::AVAssistant::stopTest $rightframe]
+			bind $testf.stoptest <Enter> [list %W configure -image [::skin::loadPixmap stopbuth]]
+			bind $testf.stoptest <Leave> [list %W configure -image [::skin::loadPixmap stopbut]]
 
 			pack $testf.testtxt \
 			     $testf.playtest \
@@ -1768,7 +1908,7 @@ namespace eval ::AVAssistant {
 			pack $wavef.wave -side left
 			
 			#use the alarm as test file
-			set sound_test [::snack::sound -file [::skin::GetSkinFile sounds alarm.wav] ]
+			set sound [::snack::sound -file [::skin::GetSkinFile sounds alarm.wav] ]
 		
 		}
 	#end the Step1A proc
@@ -1788,13 +1928,10 @@ namespace eval ::AVAssistant {
 	###
 	# Stop playing sound from Assistant
 	proc stopSound {assistant contentf} {
-		variable sound_test
-		if {[info exists sound_test] } {
-			catch { $sound_test stop }
-		}
-		variable sound_record
-		if {[info exists sound_record] } {
-			catch { $sound_record stop }
+		variable sound
+		if {[info exists sound] } {
+			catch { $sound stop }
+			catch { $sound destroy }
 		}
 	}
 
@@ -1814,42 +1951,42 @@ namespace eval ::AVAssistant {
 	###
 	# Play the test file
 	proc playTest {w} {
-		variable sound_test
+		variable sound
 		variable waveid
 		$w.wavef.wave delete waveform
 #TODO: have a progression on the waveform while listening
-		$w.wavef.wave create waveform 0 0 -sound $sound_test -width 250 -height 75 -tags [list waveform]
+		$w.wavef.wave create waveform 0 0 -sound $sound -width 250 -height 75 -tags [list waveform]
 
 		
-		catch { $sound_test play -command "::AVAssistant::endPlayTest $w"}
+		catch { $sound play -command [list ::AVAssistant::endPlayTest $w]}
 
-		bind $w.testf.playtest <ButtonPress-1> "::AVAssistant::pauseTest $w"
-		bind $w.testf.playtest <Enter> "%W configure -image [::skin::loadPixmap pausebuth]"
-		bind $w.testf.playtest <Leave> "%W configure -image [::skin::loadPixmap pausebut]"
+		bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::pauseTest $w]
+		bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap pausebuth]]
+		bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap pausebut]]
 	}
 	###
 	# called when reached the end when playing the test file or stopped
 	proc endPlayTest {w} {
-		bind $w.testf.playtest <ButtonPress-1> "::AVAssistant::playTest $w"
-		bind $w.testf.playtest <Enter> "%W configure -image [::skin::loadPixmap playbuth]"
-		bind $w.testf.playtest <Leave> "%W configure -image [::skin::loadPixmap playbut]"
+		bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
+		bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+		bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 		$w.testf.playtest configure -image [::skin::loadPixmap playbut]
 	}
 	###
 	# Pause the test file
 	proc pauseTest {w} {
-		variable sound_test
-		catch { $sound_test pause }
-		
-		bind $w.testf.playtest <ButtonPress-1> "::AVAssistant::playTest $w"
-		bind $w.testf.playtest <Enter> "%W configure -image [::skin::loadPixmap playbuth]"
-		bind $w.testf.playtest <Leave> "%W configure -image [::skin::loadPixmap playbut]"
+		variable sound
+		catch { $sound pause }
+
+		bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
+		bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+		bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 	}
 	###
 	# Stop playing the test file
 	proc stopTest {w} {
-		variable sound_test
-		catch { $sound_test stop }
+		variable sound
+		catch { $sound stop }
 		::AVAssistant::endPlayTest $w
 	}
 
@@ -1859,6 +1996,7 @@ namespace eval ::AVAssistant {
 	######################################################################################
 	proc Step2A {assistant contentf} {
 		variable haveMic
+		variable sound
 
 		set haveMic 1
 
@@ -1872,14 +2010,14 @@ namespace eval ::AVAssistant {
 		set leftframe $contentf.left
 		frame $leftframe -bd 0
 		pack $leftframe -side left -padx 10 -fill x
-			
+
 		#First line, select input devices
 #TODO: translation
 		label $leftframe.intxt -text "Choose input device:"
-	
+
 		#create and pack the input-combobox
 		combobox::combobox $leftframe.in -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf \
-			-exportselection true -editable false -command "::AVAssistant::wrapSetInputDevice"
+			-exportselection true -editable false -command [list ::AVAssistant::wrapSetInputDevice]
 		$leftframe.in list delete 0 end
 		foreach input [::audio::getInputDevices] {
 			$leftframe.in list insert end $input
@@ -1891,7 +2029,7 @@ namespace eval ::AVAssistant {
 		pack $leftframe.intxt $leftframe.in -side top
 
 #TODO: translation
-		button $leftframe.nomic -text [trans nomic] -command "::AVAssistant::disableMicrophone $assistant" 
+		button $leftframe.nomic -text "I've got no mic" -command [list ::AVAssistant::disableMicrophone $assistant]
 		pack $leftframe.nomic -pady 20
 
 		set rightframe $contentf.right
@@ -1904,36 +2042,36 @@ namespace eval ::AVAssistant {
 		set recf $rightframe.recf
 		pack $recf -side top -pady 5
 #TODO: translation
-#TODO: IMHO, pressing the record button should start recording
-# pressing again on the record button, or on stop, should stop recording
 		label $recf.recordtxt -text "Record :" -padx 10
 		label $recf.record -image [::skin::loadPixmap recordbut]
 		label $recf.playrecorded -image [::skin::loadPixmap playbut]
 		label $recf.stoprecorded -image [::skin::loadPixmap stopbut]
-		
-		bind $recf.record <ButtonPress-1> "::AVAssistant::record $rightframe"
-		bind $recf.record <Enter> "%W configure -image [::skin::loadPixmap recordbuth]"
-		bind $recf.record <Leave> "%W configure -image [::skin::loadPixmap recordbut]"
-		
-		bind $recf.playrecorded <Enter> "%W configure -image [::skin::loadPixmap playbuth]"
-		bind $recf.playrecorded <Leave> "%W configure -image [::skin::loadPixmap playbut]"
-		
-		bind $recf.stoprecorded <Enter> "%W configure -image [::skin::loadPixmap stopbuth]"
-		bind $recf.stoprecorded <Leave> "%W configure -image [::skin::loadPixmap stopbut]"
-		
+
+		bind $recf.record <ButtonPress-1> [list ::AVAssistant::record $rightframe]
+		bind $recf.record <Enter> [list %W configure -image [::skin::loadPixmap recordbuth]]
+		bind $recf.record <Leave> [list %W configure -image [::skin::loadPixmap recordbut]]
+
+		bind $recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+		bind $recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
+
+		bind $recf.stoprecorded <ButtonPress-1> [list ::AVAssistant::stopPlayRecord $rightframe]
+		bind $recf.stoprecorded <Enter> [list %W configure -image [::skin::loadPixmap stopbuth]]
+		bind $recf.stoprecorded <Leave> [list %W configure -image [::skin::loadPixmap stopbut]]
+
 		pack $recf.recordtxt \
-			 $recf.record \
-			 $recf.playrecorded \
-			 $recf.stoprecorded -fill both -side left -padx 5
+		     $recf.record \
+		     $recf.playrecorded \
+		     $recf.stoprecorded -fill both -side left -padx 5
 
 		frame $rightframe.wavef
 		set wavef $rightframe.wavef
 		pack $wavef -side top -pady 5
 		canvas $wavef.wave -borderwidth 0 -relief solid -width 250 -height 75
 		pack $wavef.wave -side left
-		
+
 		#use the alarm as test file for the moment
-		set sound_test [::snack::sound -file [::skin::GetSkinFile sounds alarm.wav] ]
+		::AVAssistant::stopSound 0 0
+		set sound [::snack::sound]
 	}
 
 	proc disableMicrophone { assistant } {
@@ -1942,7 +2080,7 @@ namespace eval ::AVAssistant {
 		$assistant next
 	}
 
-	
+
 	proc wrapSetInputDevice { w dev } {
 		::audio::setInputDevice $dev 0
 	}
@@ -1950,70 +2088,66 @@ namespace eval ::AVAssistant {
 	###
 	# Record
 	proc record { w } {
-		variable sound_record
+		variable sound
 		variable waveid
 
-		catch { $sound_record destroy }
+		catch { $sound destroy }
 
-		set sound_record [::snack::sound]
-		if { [catch {$sound_record record} res]} {
+		set sound [::snack::sound]
+		if { [catch {$sound record} res]} {
 #TODO: fill a widget where we display the error
 		} else {
+			#don't press on the play button while recording
 			bind $w.recf.playrecorded <ButtonPress-1> ""
-			bind $w.recf.stoprecorded <ButtonPress-1> "::AVAssistant::stopRecord $w"
-
+			#and don't try to record while recording :)
+			bind $w.recf.record <ButtonPress-1> ""
 			$w.wavef.wave delete waveform
-			$w.wavef.wave create waveform 0 0 -sound $sound_record -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform] 
+			$w.wavef.wave create waveform 0 0 -sound $sound -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform] 
 			}
 		}
 	###
-	# Stop recording from GUI
+	# Stop recording/playing from GUI
 	proc stopRecord {w} {
-		variable sound_record
-		catch { $sound_record stop }
-		bind $w.recf.playrecorded <ButtonPress-1> "::AVAssistant::playRecord $w"
-		bind $w.recf.stoprecorded <ButtonPress-1> "::AVAssistant::stopPlayRecord $w"
+		variable sound
+		catch { $sound stop }
+		#now, we can play the recording file
+		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
+		#we can record again
+		bind $w.recf.record <ButtonPress-1> [list ::AVAssistant::record $rightframe]
 	}
 	###
 	# Play the record
 	proc playRecord {w} {
-		variable sound_record
+		variable sound
 		variable waveid
 		
 		$w.wavef.wave delete waveform
-		$w.wavef.wave create waveform 0 0 -sound $sound_record -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform]
+		$w.wavef.wave create waveform 0 0 -sound $sound -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform]
 		
-		catch { $sound_record play -command "::AVAssistant::endPlayRecord $w"}
-
-		bind $w.recf.playrecorded <Enter> "%W configure -image [::skin::loadPixmap pausebuth]"
-		bind $w.recf.playrecorded <Leave> "%W configure -image [::skin::loadPixmap pausebut]"
-		bind $w.recf.playrecorded <ButtonPress-1> "::AVAssistant::pauseRecord $w"
-
+		catch { $sound play -command [list ::AVAssistant::endPlayRecord $w]}
+		#while playing, turn the play button into a pause one
+		bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap pausebuth]]
+		bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap pausebut]]
+		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::pauseRecord $w]
 	}
 	###
 	# Pause recording
 	proc pauseRecord {w} {
-		variable sound_record
-		catch { $sound_record pause }
-		
-		bind $w.recf.playrecorded <Enter> "%W configure -image [::skin::loadPixmap playbuth]"
-		bind $w.recf.playrecorded <Leave> "%W configure -image [::skin::loadPixmap playbut]"
-		bind $w.recf.playrecorded <ButtonPress-1> "::AVAssistant::playRecord $w"
+		variable sound
+		catch { $sound pause }
+		#get back to the play button
+		bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+		bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
+		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
 	}
 	###
 	# called when reached the end when playing the record or stopped
 	proc endPlayRecord {w} {
-		bind $w.recf.playrecorded <Enter> "%W configure -image [::skin::loadPixmap playbuth]"
-		bind $w.recf.playrecorded <Leave> "%W configure -image [::skin::loadPixmap playbut]"
+		#get back to the play button
+		bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+		bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 		$w.recf.playrecorded configure -image [::skin::loadPixmap playbut]
-		bind $w.recf.playrecorded <ButtonPress-1> "::AVAssistant::playRecord $w"
-	}
-	###
-	# Stop playing the record
-	proc stopPlayRecord {w} {
-		variable sound_test
-		catch { $sound_test stop }
-		::AVAssistant::endPlayRecord $w
+		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
 	}
 
 
@@ -2033,8 +2167,7 @@ namespace eval ::AVAssistant {
 			if {[OnMac]} {
 				set text "You're webcam settigns have been configured"
 			} elseif {[OnWin]} {
-#TODO: win support
-				set text "You have chosen the webcam device selecteddevicename with the channel selectedchannelname."
+				set text "You have chosen the webcam device $selecteddevicename."
 			} elseif {[OnLinux]} {
 				set text "You have chosen the webcam device $selecteddevicename with the channel $selectedchannelname."
 			} else {
@@ -2054,7 +2187,7 @@ namespace eval ::AVAssistant {
 			if {$haveMic} {
 				set text "You chose the following Audio settings :\nOutput device: [::audio::getOutputDevice]\nInput device: [::audio::getInputDevice]"
 			} else {
-				set text "You chose the following Audio settings :\nOutput device: [::audio::getOutputDevice]\nInput device : No Microphone"
+				set text "You chose the following Audio settings :\nOutput device: [::audio::getOutputDevice]\nInput device: No Microphone"
 			}
 			#add the Content
 			label $contentf.textaudio -justify left -font bplainf -text $text
@@ -2106,6 +2239,9 @@ namespace eval ::AVAssistant {
 				#saving lowrescam setting
 				variable lowrescam
 				::config::setKey lowrescam $lowrescam
+			} elseif {[OnWin]} {
+				variable selecteddevice
+				::config::setKey "webcamDevice" "$selecteddevice"
 			}
 			#saving shareCam setting
 			variable shareCam
