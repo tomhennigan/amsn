@@ -2054,7 +2054,7 @@ namespace eval ::AVAssistant {
 		bind $recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
 		bind $recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 
-		bind $recf.stoprecorded <ButtonPress-1> [list ::AVAssistant::stopPlayRecord $rightframe]
+		bind $recf.stoprecorded <ButtonPress-1> [list ::AVAssistant::stopRecord $rightframe]
 		bind $recf.stoprecorded <Enter> [list %W configure -image [::skin::loadPixmap stopbuth]]
 		bind $recf.stoprecorded <Leave> [list %W configure -image [::skin::loadPixmap stopbut]]
 

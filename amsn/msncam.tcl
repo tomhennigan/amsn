@@ -1766,9 +1766,14 @@ namespace eval ::CAMGUI {
 				set grabber .grabber_$sid
 				set grabber [tkvideo $grabber]
 				set source [getObjOption $sid source]
-				$grabber configure -source $source
-				$grabber start
-
+				if { [catch { $grabber configure -source $source } res] } {
+					msg_box "[trans badwebcam]\n$res"
+					return
+				}	
+				if { [catch { $grabber start } res] } {
+					msg_box "[trans badwebcam]\n$res"
+					return
+				}
 				setObjOption $sid grab_proc "Grab_Windows"
 
 			} elseif { [OnDarwin] } {
