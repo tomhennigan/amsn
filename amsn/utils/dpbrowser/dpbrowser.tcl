@@ -20,7 +20,7 @@ snit::widget dpbrowser {
 
 	# When using selector mode, it's important to pass the name of a procedure through this option.
 	# Otherwise, the parent window will not react to the change of selection.
-	option -command
+	option -command -default ""
 
 	option -showcurrent -default 1
 	option -padding -default 5 -readonly 1
@@ -31,24 +31,19 @@ snit::widget dpbrowser {
 	variable tempimg ""
 	variable pic_in_use ""
 	variable custom_pic_in_use ""
+	variable entry_in_use ""
 	variable dps ""
-	variable enable_draw 0
 
 	constructor { args } {
 		#frame hull is created automatically
 
 		#apply all options
-		set enable_draw 0
 		$self configurelist $args
-		# We are delaying drawing the content to make sure that
-		# all options have been correctly stored
-		set enable_draw 1
-		$self drawPics
-
-#		$self fillWidgetForUser $options(-user)
+		
 		bind $self <Destroy> [list $self cleanUp]
 	}
 
+	# Remove the selected dp's temp image (if any)
 	method cleanUp { } {
 		if {$options(-createtempimg)} {
 			#remove tempimg
@@ -56,6 +51,7 @@ snit::widget dpbrowser {
 		}
 	}
 
+	# Generate the dps list for the specified user and redraw the widget
 	method fillWidget { email } {
 		global HOME
 
@@ -116,15 +112,15 @@ snit::widget dpbrowser {
 				set dps [linsert $dps 0 [list "" "nopic" "[trans nopic]"]]
 			}
 		}
-		if {$enable_draw} {
-			$self drawPics
-		}
+		$self drawPics
 	}
 
+	# Redraw the widget
 	method drawPics { } {
 		global HOME
 
 		#create the scroll-frame
+		catch { destroy $self.nodps }
 		catch { destroy $self.sw }
 		ScrolledWindow $self.sw -bg $options(-bg)
 		ScrollableFrame $self.sw.sf -bg $options(-bg)
@@ -132,9 +128,9 @@ snit::widget dpbrowser {
 		pack $self.sw -expand true -fill both
 		set frame [$self.sw.sf getframe]
 
-		if {$options(-autoresize)} {
+		# if width is not consistent, calculate it
+		if { $options(-width) < 1 } {
 			$self autoWidth
-			bind $self <Configure> [list $self handleResize]
 		}
 
 		set email $options(-user)
@@ -153,8 +149,9 @@ snit::widget dpbrowser {
 		}
 
 		if {$email == ""} {
-			label $frame.nodps -text "\t[trans nouserspecified]" -bg $options(-bg)
-			pack $frame.nodps
+			catch { destroy $self.sw }
+			label $self.nodps -text "[trans nouserspecified]" -anchor center -pady 10
+			pack $self.nodps -fill both -expand 1
 		} else {
 			foreach dp $dps {
 				#exclude the image the user is currently using
@@ -182,6 +179,10 @@ snit::widget dpbrowser {
 						-bgcolor $options(-bg) -onpress [list $self onClick $entry $file] \
 						-disableselect $isSelectDisabled -padding 4
 					
+					if {$file == $custom_pic_in_use} {
+						$self setSelected $entry $file
+					}
+					
 					if {[regexp ^$HOME $file] && $file != $pic_in_use && $file != $custom_pic_in_use} {
 						bind $entry <ButtonRelease-3> \
 							[list $self popupMenu %X %Y $file $entry 1]
@@ -198,67 +199,107 @@ snit::widget dpbrowser {
 				}
 			}
 			if {$i == 0} {
-				label $frame.nodps -text "\t[trans nocacheddps]" -bg $options(-bg)
-				pack $frame.nodps
+				catch { destroy $self.sw }
+				label $self.nodps -text "[trans nocacheddps]" -anchor center -pady 10
+				pack $self.nodps -fill both -expand 1
 			}
+		}
+
+		if {$i != 0} {
+			bind $self.sw.sf <Expose> [list $self postDraw]
+		}
+	}
+	
+	# Execute operations after the widget has been drawn
+	method postDraw {} {
+		bind $self.sw.sf <Expose> ""
+		catch { set pixelwidth [winfo width $self.sw.sf] }
+		if {$options(-autoresize)} {
+			bind $self.sw.sf <Configure> [list $self handleResize]
+		}
+		if { $selected != "" } {
+			[lindex $selected 0] setSelect
 		}
 	}
 
+	# Calculate the widget width (n of dps) from its pixel width
 	method autoWidth { } {
 		if {$options(-autoresize)} {
-			set pixelwidth [winfo width $self.sw.sf]
+			if {[catch { set pixelwidth [winfo width $self.sw.sf] }]} {
+				return 0
+			}
 			set padding $options(-padding)
 			set new_width [ expr { int(floor($pixelwidth/(100+2*$padding))) } ]
 			if { $new_width != $options(-width)} {
 				if {$new_width > 0} {
 					set options(-width) $new_width
+					return 1
+				} else {
+					# Fix width if it's in inconsinstent state
+					if {$options(-width) < 1} {
+						set options(-width) 1
+						return 1
+					}
 				}
 			}
 		}
+		return 0
 	}
 
+	# Rearrange dps in the widget when it's resized
 	method handleResize { } {
-		set old_width $options(-width)
-		$self autoWidth
-		if {$old_width != $options(-width)} {
+		if {[$self autoWidth]} {
 			$self drawPics
 		}
 	}
 
-	method onClick { entry filepath} {
+	# Select the dp and eventually update the parent's preview
+	method onClick { entry filepath } {
 		if { $options(-mode) != "both" && $options(-mode) != "selector" } {
 			return
 		}
 		# Backups old selected (deSelect erases it)
 		set oldentry [lindex $selected 0]
 		$self deSelect
-		if {$options(-createtempimg)} {
-			#remove former tempimg
-			catch {image delete $tempimg}
-		}
 		if {$entry != $oldentry } {
-			#create tempimg if asked for
-			if {$options(-createtempimg)} {
-				set tempimg [image create photo [TmpImgName] -file $filepath]
-				set selected [list $entry $filepath $tempimg]
-			} else {
-				set selected [list $entry $filepath]
-			}
+			$self setSelected $entry $filepath
 		}
 		eval $options(-command)
 	}
 
+	# Deselect all dps in the widget
 	method deSelect {} {
+		if {$options(-createtempimg)} {
+			#remove former tempimg
+			catch {image delete $tempimg}
+		}
 		if {$selected != ""} {
 			[lindex $selected 0] deSelect
 		}
 		set selected ""
 	}
 
+	# Return the currently selected dp in the form of a list:
+	# 0: Name of the entry that shows the selected dp
+	# 1: Path of the file
+	# 2: Temp image to use for previews (optional)
 	method getSelected {} {
 		return $selected
 	}
 
+	# Set the specified entry and file as selected
+	method setSelected { entry filepath } {
+		#create tempimg if asked for
+		if {$options(-createtempimg)} {
+			catch {image delete $tempimg}
+			set tempimg [image create photo [TmpImgName] -file $filepath]
+			set selected [list $entry $filepath $tempimg]
+		} else {
+			set selected [list $entry $filepath]
+		}
+	}
+
+	# Return the list of the dps for an user
 	method getDpsList { dat_list email {isShipped 0} } {
 		set dps_list ""
 		foreach dat $dat_list {
@@ -280,7 +321,7 @@ snit::widget dpbrowser {
 		return $dps_list
 	}
 
-#FIXME: there seems to be an encoding issue with the shipped dps	
+	# Parse informations contained in dps' descriptor files
 	method grep { chan id } {
 		#first line is date or name (for shipped dps)
 		#second line is id of the user or filename for shipped dps
@@ -302,16 +343,13 @@ snit::widget dpbrowser {
 		}
 	}
 
-	method showtooltip {X Y imgfile} {
-#to show the full size image	
-
-	}
-
+	# Copy a dp in the clipboard
 	method copyDpToClipboard { file } {
 		clipboard clear
 		clipboard append $file
 	}
 
+	# Show a popup menu to interact with a dp
 	method popupMenu { X Y filename widget enable_delete} {
 		if { $options(-mode) != "both" && $options(-mode) != "properties" } {
 			return
@@ -332,6 +370,7 @@ snit::widget dpbrowser {
 		tk_popup $the_menu $X $Y
 	}
 
+	# Delete a dp from the hard disk
 	method deleteEntry {filename widget} {
 		if {[lindex $selected 0] != $widget} {
 			$self deSelect
@@ -352,6 +391,7 @@ snit::widget dpbrowser {
 		$self drawPics
 	}
 
+	# Configure the widget according to the options
 	method setConfig {option value} {
 		set options($option) $value
 #		puts "Altering $option to $value"
@@ -359,20 +399,18 @@ snit::widget dpbrowser {
 		#actions after change or initial setting of options
 		#the space was added so the option isn't passed to the switch command
 		switch " $option" {
-			" -bgcolor" {
-				$hull configure -bg $value
-			}
-			" -width" {
-				$hull configure -width $value
-			}
-			" -height" {
-				$hull configure -height $value
-			}
 			" -user" {
 				#empty the widget and refill it for other user
 				$self fillWidget $value
 #				puts "changed to user $value"
 			}
+			" -autowidth" {
+				if {$value} {
+					# discard the fixed width value
+					set options(-width) 0
+				}
+			}
+
 		}
 	}
 
