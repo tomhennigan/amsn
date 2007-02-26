@@ -3979,10 +3979,6 @@ proc cmsn_draw_offline {} {
 
 	pack forget $pgBuddyTop
 
-	# USE NEW LOGIN SCREEN
-	pack forget .main
-	pack [loginscreen .l] -e 1 -f both
-
 	#Send postevent "OnDisconnect" to plugin when we disconnect
 	::plugins::PostEvent OnDisconnect evPar
 
@@ -4081,6 +4077,13 @@ proc cmsn_draw_offline {} {
 		InitPref
 	}
 	::Preferences::Configure
+
+	# USE NEW LOGIN SCREEN
+	pack forget .main
+	if { ![winfo exists .loginscreen] } {
+		loginscreen .loginscreen
+	}
+	pack .loginscreen -e 1 -f both
 }
 #///////////////////////////////////////////////////////////////////////
 

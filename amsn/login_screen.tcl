@@ -44,15 +44,15 @@ snit::widgetadaptor loginscreen {
 
 		# Create framework for elements
 		contentmanager add group main			-orient vertical	-widget $self
-		contentmanager add group main lang		-orient horizontal	-widget $self
+		contentmanager add group main lang		-orient horizontal	-widget $self	-pady 16
 		contentmanager add group main dp		-orient horizontal	-widget $self	-align center
-		contentmanager add group main user		-orient vertical	-widget $self
-		contentmanager add group main pass		-orient vertical	-widget $self
-		contentmanager add group main status		-orient vertical	-widget $self
-		contentmanager add group main rem_me		-orient horizontal	-widget $self
-		contentmanager add group main rem_pass		-orient horizontal	-widget $self
-		contentmanager add group main auto_login	-orient horizontal	-widget $self
-		contentmanager add group main login		-orient horizontal	-widget $self	-align center
+		contentmanager add group main user		-orient vertical	-widget $self	-pady 4
+		contentmanager add group main pass		-orient vertical	-widget $self	-pady 4
+		contentmanager add group main status		-orient vertical	-widget $self	-pady 4
+		contentmanager add group main rem_me		-orient horizontal	-widget $self	-pady 2
+		contentmanager add group main rem_pass		-orient horizontal	-widget $self	-pady 2
+		contentmanager add group main auto_login	-orient horizontal	-widget $self	-pady 2
+		contentmanager add group main login		-orient horizontal	-widget $self	-align center	-pady 8
 		contentmanager add group main links		-orient vertical	-pady 25	-widget $self	-align center
 
 		# Create widgets
@@ -64,6 +64,7 @@ snit::widgetadaptor loginscreen {
 		set user_field [combobox::combobox $self.user -editable true -bg white -relief solid -width 25 -command "$self UserSelected"]
 		set user_field_tag [$self create window 0 0 -anchor nw -window $user_field]
 		# Populate user list
+		#LoadLoginList 1
 		set tmp_list ""
 		$user_field list delete 0 end
 		set idx 0
@@ -149,6 +150,15 @@ snit::widgetadaptor loginscreen {
 		bind $user_field <KeyRelease> "+after cancel [list $self UsernameEdited]; after 1 [list $self UsernameEdited]"
 		bind $self <Map> "$self Resized"
 		bind $self <Configure> "$self Resized"
+
+		# If profiles are disabled, disable 'remember me' checkbutton#
+		if { [::config::getGlobalKey disableprofiles] != 1 } {
+			$rem_me_field configure -state disabled
+		}
+	}
+
+	destructor {
+		catch { contentmanager delete main }
 	}
 
 	# Called when canvas is resized
@@ -229,8 +239,46 @@ snit::widgetadaptor loginscreen {
 			$self UserSelected $user_field $username
 		} else {
 			$rem_me_field deselect
-			$rem_me_field configure -state normal
-			$dp_label configure -image [::skin::getDisplayPicture $username]
+			if { [::config::getGlobalKey disableprofiles] != 1 } {
+				$rem_me_field configure -state normal
+			}
+			# THIS SHOULDN'T BE HERE, BUT PROC IN CONFIG.TCL MAKES REFERENCES TO OLD LOGIN SCREEN GUI ELEMENTS, SO WE CAN'T USE THAT!
+			# WHEN THIS LOGIN SCREEN IS FINALISED, WE'LL CHANGE THE ORIGINAL PROC TO CONTAIN NO GUI-RELATED CODE, I GUESS..
+			# Switching to default profile, remove lock on previous profiles if needed
+			global lockSock HOME HOME2 log_dir webcam_dir loginmode
+			# Make sure we delete old lock
+			if { [info exists lockSock] } {
+				if { $lockSock != 0 } {
+					close $lockSock
+					unset lockSock
+				}
+			}
+			if { [::config::getKey login] != "" } {
+				LoginList changelock 0 [::config::getKey login] 0
+				SaveLoginList
+			}
+	
+			# Load default config
+			set HOME $HOME2
+	
+			config::setKey login ""
+			#that key is lost when changing profile
+			set connectas [::config::getKey connectas]
+			load_config
+			set log_dir ""
+			set webcam_dir ""
+	
+			# Set variables for default profile
+			::config::setKey save_password 0
+			::config::setKey connectas $connectas
+			::config::setKey keep_logs 0
+			::config::setKey log_event_connect 0
+			::config::setKey log_event_disconnect 0
+			::config::setKey log_event_email 0
+			::config::setKey log_event_state 0
+			# -------------------------------------------------------
+			# Change DP
+			$dp_label configure -image [::skin::getNoDisplayPicture]
 		}
 	}
 
@@ -266,15 +314,15 @@ snit::widgetadaptor loginscreen {
 		# Get user and pass
 		set user [$user_field get]
 		set pass [$pass_field get]
-	
+
 		# Check we actually have a username and password entered!
 		if { $user == "" || $pass == "" } { return }
-	
+
 		# If remember me checkbutton is selected and a profile doesn't already exists for this user, create a profile for them.
 		if { $remember_me && ![LoginList exists 0 $user] } {
 			CreateProfile $user
 		}
-	
+
 		# Login with them
 		$self login $user $pass
 	}
@@ -282,9 +330,11 @@ snit::widgetadaptor loginscreen {
 	method login { user pass } {
 		global password
 
-		# Set username and password key and global repsectively
+		# Set username and password key and global respectively
 		set password $pass
-		::config::setKey login $user
+		if { !$remember_me } {
+			::config::setKey login [string tolower $user]
+		}
 
 		# Connect
 		::MSN::connect $password
