@@ -6655,7 +6655,7 @@ namespace eval ::MSN6FT {
 				status_log $res
 			}
 			
-			if {$image != "displaypicture_std_none"} {
+			if {$image != [::skin::getNoDisplayPicture]} {
 				image delete $image
 			}
 			

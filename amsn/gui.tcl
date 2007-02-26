@@ -1771,7 +1771,7 @@ namespace eval ::amsn {
 		}
 
 		set user [$win.f.bottom.pic.image cget -image]
-		if { $user != "displaypicture_std_none" && $user != "displaypicture_std_self" } {
+		if { $user != "[::skin::getNoDisplayPicture]" && $user != "displaypicture_std_self" } {
 			#made easy for if we would change the image names
 			set user [string range $user [string length "displaypicture_std_"] end]
 			$win.picmenu add separator
@@ -1805,7 +1805,7 @@ namespace eval ::amsn {
 			#change_balloon $win.f.bottom.pic.image $balloontext
 		}
 		if { [catch {$win.f.bottom.pic.image configure -image $picture}] } {
-			status_log "Failed to set picture, using displaypicture_std_none\n" red
+			status_log "Failed to set picture, using [::skin::getNoDisplayPicture]\n" red
 			$win.f.bottom.pic.image configure -image [::skin::getNoDisplayPicture]
 			#change_balloon $win.f.bottom.pic.image [trans nopic]
 			change_balloon $pictureinner [trans nopic]
@@ -6537,7 +6537,7 @@ proc dpBrowser { {target_user "self" } } {
 	#preview
 	label $w.dppreviewtxt -text "[trans preview]:"
 	if { $selected_path == "" || [catch {image create photo displaypicture_pre_$target_user -file $selected_path -format cximage}] } {
-		image create photo displaypicture_pre_$target_user -file [displaypicture_std_none cget -file] -format cximage
+		image create photo displaypicture_pre_$target_user -file [[::skin::getNoDisplayPicture] cget -file] -format cximage
 	}
 	label $w.dppreview -image displaypicture_pre_$target_user
 
@@ -6609,7 +6609,7 @@ proc updateDpBrowserSelection { browser target } {
 	$w.dppreview configure -image ""
 	catch {image delete $old_image}
 	if {$file == ""} {
-		set file [displaypicture_std_none cget -file]
+		set file [[::skin::getNoDisplayPicture] cget -file]
 	}
 	$w.dppreview configure -image [image create photo displaypicture_pre_$target -file $file -format cximage]
 	if{$browser == $w.mydps} {
@@ -6763,7 +6763,7 @@ proc set_displaypic { file { email "self" } } {
 			::MSN::changeStatus [set ::MSN::myStatus]
 			save_config
 		} else {
-			status_log "set_displaypic: Setting displaypic to displaypicture_std_none\n" blue
+			status_log "set_displaypic: Setting displaypic to [::skin::getNoDisplayPicture]\n" blue
 			clear_disp
 			::MSN::changeStatus [set ::MSN::myStatus]
 		}

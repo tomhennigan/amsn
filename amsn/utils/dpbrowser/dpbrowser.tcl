@@ -162,7 +162,7 @@ snit::widget dpbrowser {
 						if { [catch { set tempimage [image create photo [TmpImgName] -file $file -format cximage] }] } { continue }
 					} else {
 						set file ""
-						set tempimage [image create photo [TmpImgName] -file [displaypicture_std_none cget -file] -format cximage]
+						set tempimage [image create photo [TmpImgName] -file [[::skin::getNoDisplayPicture] cget -file] -format cximage]
 					}
 
 					::picture::ResizeWithRatio $tempimage 96 96
