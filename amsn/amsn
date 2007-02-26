@@ -204,6 +204,7 @@ proc reload_files { } {
 	source chatwindow.tcl	;# Abstracted Chat Window code (::ChatWindow namespace)
 	source picture.tcl ; #Tkcximage procs
 	source gui.tcl		;#gui.tcl must be at the beginning to make msg_box procedure available for errors
+	source login_screen.tcl ;# WLM style login screen
 	source abook.tcl	;# Handle buddy address book    
 	source protocol.tcl
 	source plugins.tcl	;# Plugins system must be loaded before config
