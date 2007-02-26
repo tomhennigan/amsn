@@ -184,15 +184,15 @@ namespace eval ::chameleon::checkbutton {
    
    proc checkbutton_deselect {w} {
        upvar #0 [$w cget -variable] var
-       set var [$w cget -offline]
+       set var [$w cget -offvalue]
    }
    
    proc checkbutton_toggle {w} {
        upvar #0 [$w cget -variable] var
        
        set on [w cget -onvalue]
-       set off [$w cget -offline]
-       set var [expr $var==$onvalue?$offvalue:$onvalue]
+       set off [$w cget -offvalue]
+       set var [expr $var==$on?$off:$on]
    }
 
 }

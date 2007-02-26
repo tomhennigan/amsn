@@ -13,7 +13,7 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	<init_procedure>InitFromAmsn</init_procedure>
 	<deinit_procedure>DeInitChameleon</deinit_procedure>
 
-	<cvs_version>8066</cvs_version>
+	<cvs_version>8088</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
@@ -34,7 +34,7 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	</file>
 	<file>
 		<path>checkbutton.tcl</path>
-		<version>7840</version>
+		<version>8088</version>
 	</file>
 	<file>
 		<path>common.tcl</path>
@@ -66,7 +66,7 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	</file>
 	<file>
 		<path>radiobutton.tcl</path>
-		<version>6199</version>
+		<version>8088</version>
 	</file>
 	<file>
 		<path>scrollbar.tcl</path>

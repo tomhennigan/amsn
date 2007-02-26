@@ -175,13 +175,13 @@ namespace eval ::chameleon::radiobutton {
 
      proc radiobutton_deselect {w} {
 	 upvar #0 [$w cget -variable] var
-	 set var [$w cget -offline]
+	 set var [$w cget -offvalue]
      }
 
      proc radiobutton_toggle {w} {
 	  set on [w cget -onvalue]
-	  set off [$w cget -offline]
-	  set var [expr $var==$onvalue?$offvalue:$onvalue]
+	  set off [$w cget -offvalue]
+	  set var [expr $var==$on?$off:$on]
      }
 
 }
