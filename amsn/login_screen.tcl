@@ -274,6 +274,7 @@ snit::widgetadaptor loginscreen {
 
 		# TEMPORARY CODE TO SWITCH BACK TO WIDGET WITH LOGIN PROGRESS IN
 		pack forget $self
+		destroy .l
 		pack .main -e 1 -f both
 	}
 }
