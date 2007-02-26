@@ -296,5 +296,3 @@ snit::widgetadaptor loginscreen {
 	}
 }
 
-pack forget .main
-pack [loginscreen .l] -e 1 -f both
