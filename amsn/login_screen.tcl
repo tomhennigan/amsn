@@ -133,9 +133,9 @@ snit::widgetadaptor loginscreen {
 		contentmanager add element main links service_status -widget $self -tag $service_status_link -pady 2
 		contentmanager add element main links new_account -widget $self -tag $new_account_link -pady 2
 		# Make the text items into links
-		$self CanvasTextToLink main links forgot_pass [list launch_browser "http://www.google.com"]
+		$self CanvasTextToLink main links forgot_pass [list launch_browser "https://accountservices.passport.net/uiresetpw.srf?lc=1033"]
 		$self CanvasTextToLink main links service_status [list launch_browser "http://messenger.msn.com/Status.aspx"]
-		$self CanvasTextToLink main links new_account [list launch_browser "http://www.google.com"]
+		$self CanvasTextToLink main links new_account [list launch_browser "https://accountservices.passport.net/reg.srf?sl=1&lc=1033"]
 
 		# Set font for canvas all text items
 		set all_tags [$self find all]
