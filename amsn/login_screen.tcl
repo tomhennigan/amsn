@@ -86,15 +86,15 @@ snit::widgetadaptor loginscreen {
 		# Options
 		# Remember me
 		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans remember_me]]
-		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me]]
+		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me] -bg white]
 		set rem_me_field_tag [$self create window 0 0 -anchor nw -window $rem_me_field]
 		# Remember password
 		set rem_pass_label_tag [$self create text 0 0 -anchor nw -text [trans rememberpass]]
-		set rem_pass_field [checkbutton $self.rem_pass -variable [::config::getVar save_password]]
+		set rem_pass_field [checkbutton $self.rem_pass -variable [::config::getVar save_password] -bg white]
 		set rem_pass_field_tag [$self create window 0 0 -anchor nw -window $rem_pass_field]
 		# Log in automatically
 		set auto_login_label_tag [$self create text 0 0 -anchor nw -text [trans autoconnect2]]
-		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect]]
+		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect] -bg white]
 		set auto_login_field_tag [$self create window 0 0 -anchor nw -window $auto_login_field]
 		# Login button
 		set login_button [button $self.login -text [trans login] -command "$self LoginButtonPressed"]
@@ -299,7 +299,6 @@ namespace eval ::loginScreen {
 
 		# ------------------------------------------------
 		# Create display picture
-		load_my_pic
 		set dp [label $win.dp -bg white -image displaypicture_std_self -highlightthickness 0 -relief solid -borderwidth 1]
 		pack $dp -anchor n
 

@@ -723,7 +723,6 @@ proc load_config {} {
 
 	# We loaded the config, we will now load the DP pictures.. 
 	load_my_pic
-	load_my_smaller_pic
 }
 
 

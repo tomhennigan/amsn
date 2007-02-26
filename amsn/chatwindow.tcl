@@ -2658,9 +2658,6 @@ namespace eval ::ChatWindow {
 			bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
 		}
 
-		# This proc is called to load the Display Picture if exists and is readable
-		#load_my_pic
-
 		return $frame
 
 	}

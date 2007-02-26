@@ -4490,8 +4490,6 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 
 #Clickable display picture in the contact list
 proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
-	#Load the smaller display picture
-	load_my_smaller_pic
 
 	#Create the clickable display picture
 	canvas $tw.$name -width [image width [::skin::loadPixmap mystatus_bg]] \
@@ -4517,17 +4515,6 @@ proc dpImageDropHandler {window data} {
 
 
 
-#Create a smaller display picture from the bigger one
-proc load_my_smaller_pic {} {
-	#if it doesn't exist yet, create it
-	if {![ImageExists displaypicture_not_self] } {
-		image create photo displaypicture_not_self -format cximage
-		if { [catch {displaypicture_not_self copy displaypicture_std_self}] } {
-			displaypicture_not_self copy [::skin::getNoDisplayPicture]
-		}
-		::picture::ResizeWithRatio displaypicture_not_self 50 50
-	}
-}
 
 proc getpicturefornotification {email} {
 	#we'll only create it if it's not yet there
@@ -6417,33 +6404,43 @@ proc convert_image_plus { filename type size } {
 
 
 
-proc load_my_pic { {nopic 0} } {
+proc load_my_pic { } {
 	global pgBuddyTop
-	if { $nopic || [::config::getKey displaypic] == "" } {
+	if { [::config::getKey displaypic] == "" } {
 		::config::setKey displaypic nopic.gif
 	}
 	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
 	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
-		#We made sure the proc is only called when we need to CHANGE dp
-		#if {[lsearch [image names] displaypicture_std_self] != -1 && $force} {
-		#	image delete displaypicture_std_self
-		#	catch {image delete displaypicture_not_self}
-		#}
-		catch {image delete displaypicture_std_self}
-		catch {image delete displaypicture_not_self}
 		image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]" -format cximage
-		if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
-			#Recreate the status image
-			destroy $pgBuddyTop.bigstate
-			set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {destroy .balloon; tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
-			pack $disppic -before $pgBuddyTop.mystatus -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
-			bind $pgBuddyTop.bigstate <<Button3>> {destroy .balloon; tk_popup .my_menu %X %Y}
-		}
+		load_my_smaller_pic
 	} else {
 		status_log "load_my_pic: Picture not found!!\n" red
 		clear_disp
 	}
 }
+#Create a smaller display picture from the bigger one
+proc load_my_smaller_pic {} {
+	if { [ImageExists displaypicture_not_self]} {
+		displaypicture_not_self blank
+	}
+	image create photo displaypicture_not_self -format cximage
+	if { [catch {displaypicture_not_self copy displaypicture_std_self}] } {
+		displaypicture_not_self copy [::skin::getNoDisplayPicture]
+	}
+	::picture::ResizeWithRatio displaypicture_not_self 50 50
+}
+
+proc clear_disp { } {
+	global pgBuddyTop
+
+	::config::setKey displaypic nopic.gif
+
+	if { [catch {image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic nopic.gif]" -format cximage}] } {
+		image create photo displaypicture_std_self
+	}
+	load_my_smaller_pic
+}
+
 
 proc pictureBrowser {} {
 	dpBrowser
@@ -6454,8 +6451,6 @@ proc dpBrowser { {target_user "self" } } {
 
 	package require dpbrowser
 	
-#TODO: remove this line:
-	load_my_pic
 
 	set w .dpbrowser
 	#if it already exists, create the window, otherwise, raise it
@@ -6761,41 +6756,20 @@ proc applyDP { { email "self" } } {
 
 proc set_displaypic { file { email "self" } } {
 	if { $email == "self" } {
-		catch {image delete displaypicture_std_self}
-		catch {image delete displaypicture_not_self}
 		if { $file != "" } {
 			::config::setKey displaypic $file
 			status_log "set_displaypic: File set to $file\n" blue
 			load_my_pic
-			load_my_smaller_pic
 			::MSN::changeStatus [set ::MSN::myStatus]
 			save_config
 		} else {
 			status_log "set_displaypic: Setting displaypic to displaypicture_std_none\n" blue
 			clear_disp
-			load_my_pic 1
-			load_my_smaller_pic
 			::MSN::changeStatus [set ::MSN::myStatus]
 		}
 	} else {
 		global customdp_$email
 		set customdp_$email $file
-	}
-}
-
-proc clear_disp { } {
-	global pgBuddyTop
-
-	::config::setKey displaypic nopic.gif
-
-	catch {image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic nopic.gif]" -format cximage}
-	
-	if { [::skin::getKey showdisplaycontactlist] && [winfo exists $pgBuddyTop.bigstate] } {
-		#Recreate the status image
-		destroy $pgBuddyTop.bigstate
-		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {destroy .balloon; tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
-		pack $disppic -before $pgBuddyTop.mystatus -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
-		bind $pgBuddyTop.bigstate <<Button3>> {destroy .balloon; tk_popup .my_menu %X %Y}
 	}
 }
 

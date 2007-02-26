@@ -185,7 +185,7 @@ proc OnX11 {} {
 # 'Missing' image commands                     #
 ################################################
 proc ImageExists {img} {
-	return [expr {([catch {image type $img}]* -1) + 1}]
+	return [expr ![catch {image type $img}]]
 }
 
 #Use this function to get a not-in-use temporary image name
