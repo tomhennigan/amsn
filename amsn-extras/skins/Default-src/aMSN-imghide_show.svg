@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50"
+   height="96"
+   id="svg1872"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docbase="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG"
+   sodipodi:docname="aMSN-imghide_show.svg"
+   inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/aMSN-select.png"
+   inkscape:export-xdpi="48.75"
+   inkscape:export-ydpi="48.75"
+   version="1.0">
+  <defs
+     id="defs1874">
+    <linearGradient
+       id="linearGradient8253">
+      <stop
+         style="stop-color:#436484;stop-opacity:1;"
+         offset="0"
+         id="stop8255" />
+      <stop
+         style="stop-color:#b6c9da;stop-opacity:1;"
+         offset="1"
+         id="stop8257" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient6338">
+      <stop
+         id="stop6340"
+         offset="0"
+         style="stop-color:white;stop-opacity:1;" />
+      <stop
+         id="stop6342"
+         offset="1"
+         style="stop-color:white;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient5443">
+      <stop
+         style="stop-color:#ccc;stop-opacity:1;"
+         offset="0"
+         id="stop5445" />
+      <stop
+         style="stop-color:white;stop-opacity:1;"
+         offset="1"
+         id="stop5447" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5443"
+       id="linearGradient5449"
+       x1="21.170773"
+       y1="19.673386"
+       x2="21.170773"
+       y2="7.5322723"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,-2.019734,0.192774,0,0.439916,96.53186)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient6344"
+       gradientUnits="userSpaceOnUse"
+       x1="24"
+       y1="1.5714285"
+       x2="24"
+       y2="46.42857" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient7391"
+       x1="8.0861864"
+       y1="48.05463"
+       x2="2.3970559"
+       y2="48.05463"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,3.683576e-3)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient35192"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,3.683576e-3)"
+       x1="8.0861864"
+       y1="48.05463"
+       x2="2.3970559"
+       y2="48.05463" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5443"
+       id="linearGradient35196"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,-2.019734,0.192774,0,0.439916,96.53186)"
+       x1="21.170773"
+       y1="19.673386"
+       x2="21.170773"
+       y2="4.3882198" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5443"
+       id="linearGradient36095"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,-2.019734,0.192774,0,0.439916,96.53186)"
+       x1="21.170773"
+       y1="19.673386"
+       x2="21.170773"
+       y2="4.3882198" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient36097"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,3.683576e-3)"
+       x1="8.0861864"
+       y1="48.05463"
+       x2="2.3970559"
+       y2="48.05463" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5443"
+       id="linearGradient3720"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,-2.019734,0.192774,0,0.439916,96.53186)"
+       x1="21.170773"
+       y1="19.673386"
+       x2="21.170773"
+       y2="4.3882198" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient3722"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,3.683576e-3)"
+       x1="8.0861864"
+       y1="48.05463"
+       x2="2.3970559"
+       y2="48.05463" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5443"
+       id="linearGradient7337"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,-2.019734,0.192774,0,0.439916,96.53186)"
+       x1="21.170773"
+       y1="19.673386"
+       x2="21.170773"
+       y2="4.3882198" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient7339"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,3.683576e-3)"
+       x1="8.0861864"
+       y1="48.05463"
+       x2="2.3970559"
+       y2="48.05463" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8253"
+       id="linearGradient8259"
+       x1="3.3571429"
+       y1="48"
+       x2="8"
+       y2="48"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5443"
+       id="linearGradient8280"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,-2.019734,0.192774,0,0.439916,96.53186)"
+       x1="21.170773"
+       y1="19.673386"
+       x2="21.170773"
+       y2="4.3882198" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient8282"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,3.683576e-3)"
+       x1="8.0861864"
+       y1="48.05463"
+       x2="2.3970559"
+       y2="48.05463" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8253"
+       id="linearGradient8284"
+       gradientUnits="userSpaceOnUse"
+       x1="3.3571429"
+       y1="48"
+       x2="8"
+       y2="48" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8253"
+       id="linearGradient8287"
+       gradientUnits="userSpaceOnUse"
+       x1="5"
+       y1="48"
+       x2="2"
+       y2="48"
+       gradientTransform="matrix(-1,0,0,1,49.96836,7.000002e-8)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.9497474"
+     inkscape:cx="14.206938"
+     inkscape:cy="43.401972"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="false"
+     inkscape:document-units="px"
+     inkscape:window-width="1280"
+     inkscape:window-height="961"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     width="50px"
+     height="96px"
+     inkscape:object-paths="false"
+     inkscape:guide-bbox="false" />
+  <metadata
+     id="metadata1877">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <g
+       id="g8261"
+       inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imghide.png"
+       inkscape:export-xdpi="90.038765"
+       inkscape:export-ydpi="90.038765">
+      <g
+         id="g36083">
+        <path
+           style="fill:url(#linearGradient7337);fill-opacity:1;fill-rule:evenodd;stroke:#666;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 0.53479937,93.537633 C 0.53479937,69.961314 0.53479937,7.5857462 0.53479937,2.5284888 C 0.53479937,1.1057326 1.0858051,0.57897686 2.50831,0.57897686 C 3.8714562,0.57897686 5.9087294,0.57897686 7.4812126,0.57897686 C 8.9831527,0.57897686 9.5980944,0.97277562 9.5980944,2.5760248 C 9.5980944,12.105196 9.5980944,84.750743 9.5980944,93.537632 C 9.5980944,95.007543 9.0552906,95.537653 7.4142563,95.537653 C 6.5842533,95.537653 3.5885968,95.537653 2.5341588,95.537653 C 1.0326559,95.537653 0.53479937,95.014422 0.53479937,93.537633 z "
+           id="rect1880"
+           sodipodi:nodetypes="ccccccccc"
+           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
+           inkscape:export-xdpi="90.038765"
+           inkscape:export-ydpi="90.038765" />
+        <path
+           style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:white;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 1.4285331,92.648115 C 1.4285331,69.532046 1.4285331,8.374148 1.4285331,3.4156174 C 1.4285331,1.4462897 1.2993818,1.5041631 3.0139482,1.5041631 C 4.1090284,1.5041631 5.7456667,1.5041631 7.0089179,1.5041631 C 8.8226407,1.5041631 8.7095091,1.387505 8.7095091,3.4622255 C 8.7095091,12.805372 8.7095091,84.032761 8.7095091,92.648114 C 8.7095091,94.803929 8.8452095,94.609093 6.9551282,94.609093 C 6.2883473,94.609093 3.8817942,94.609093 3.034714,94.609093 C 1.2199362,94.609093 1.4285331,94.739238 1.4285331,92.648115 z "
+           id="path2954"
+           sodipodi:nodetypes="ccccccccc"
+           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
+           inkscape:export-xdpi="90.038765"
+           inkscape:export-ydpi="90.038765" />
+        <path
+           style="fill:url(#linearGradient7339);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 6.972802,1.5041631 C 8.7865248,1.5041631 8.6733932,1.387505 8.6733932,3.4622255 C 8.6733932,12.805372 8.6733932,84.032761 8.6733932,92.648114 C 8.6733932,94.803929 8.8090936,94.609093 6.9190123,94.609093 C 4.9776696,94.609093 4.9961503,1.5041631 6.972802,1.5041631 z "
+           id="path6498"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
+           inkscape:export-xdpi="90.038765"
+           inkscape:export-ydpi="90.038765" />
+      </g>
+      <path
+         sodipodi:nodetypes="cccc"
+         id="path11543"
+         d="M 2,45 C 4.1473483,46.239783 8,48.000006 8,48.000006 C 8,48.000006 4.0106993,49.839119 2,51 C 2.865573,49.500795 2.863156,46.495029 2,45 z "
+         style="color:black;fill:url(#linearGradient8259);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.76194316;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
+    </g>
+    <g
+       id="g8293"
+       inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
+       inkscape:export-xdpi="90.038757"
+       inkscape:export-ydpi="90.038757">
+      <g
+         transform="translate(39.90191,-5.831493e-2)"
+         id="g8270">
+        <path
+           style="fill:url(#linearGradient8280);fill-opacity:1;fill-rule:evenodd;stroke:#666;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 0.53479937,93.537633 C 0.53479937,69.961314 0.53479937,7.5857462 0.53479937,2.5284888 C 0.53479937,1.1057326 1.0858051,0.57897686 2.50831,0.57897686 C 3.8714562,0.57897686 5.9087294,0.57897686 7.4812126,0.57897686 C 8.9831527,0.57897686 9.5980944,0.97277562 9.5980944,2.5760248 C 9.5980944,12.105196 9.5980944,84.750743 9.5980944,93.537632 C 9.5980944,95.007543 9.0552906,95.537653 7.4142563,95.537653 C 6.5842533,95.537653 3.5885968,95.537653 2.5341588,95.537653 C 1.0326559,95.537653 0.53479937,95.014422 0.53479937,93.537633 z "
+           id="path8272"
+           sodipodi:nodetypes="ccccccccc"
+           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
+           inkscape:export-xdpi="90.038765"
+           inkscape:export-ydpi="90.038765" />
+        <path
+           style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:white;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 1.4285331,92.648115 C 1.4285331,69.532046 1.4285331,8.374148 1.4285331,3.4156174 C 1.4285331,1.4462897 1.2993818,1.5041631 3.0139482,1.5041631 C 4.1090284,1.5041631 5.7456667,1.5041631 7.0089179,1.5041631 C 8.8226407,1.5041631 8.7095091,1.387505 8.7095091,3.4622255 C 8.7095091,12.805372 8.7095091,84.032761 8.7095091,92.648114 C 8.7095091,94.803929 8.8452095,94.609093 6.9551282,94.609093 C 6.2883473,94.609093 3.8817942,94.609093 3.034714,94.609093 C 1.2199362,94.609093 1.4285331,94.739238 1.4285331,92.648115 z "
+           id="path8274"
+           sodipodi:nodetypes="ccccccccc"
+           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
+           inkscape:export-xdpi="90.038765"
+           inkscape:export-ydpi="90.038765" />
+        <path
+           style="fill:url(#linearGradient8282);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 6.972802,1.5041631 C 8.7865248,1.5041631 8.6733932,1.387505 8.6733932,3.4622255 C 8.6733932,12.805372 8.6733932,84.032761 8.6733932,92.648114 C 8.6733932,94.803929 8.8090936,94.609093 6.9190123,94.609093 C 4.9776696,94.609093 4.9961503,1.5041631 6.972802,1.5041631 z "
+           id="path8276"
+           sodipodi:nodetypes="ccccc"
+           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
+           inkscape:export-xdpi="90.038765"
+           inkscape:export-ydpi="90.038765" />
+      </g>
+      <path
+         sodipodi:nodetypes="cccc"
+         id="path8278"
+         d="M 47.968357,45 C 45.821009,46.239783 41.968357,48.000006 41.968357,48.000006 C 41.968357,48.000006 45.957658,49.839119 47.968357,51 C 47.102784,49.500795 47.105201,46.495029 47.968357,45 z "
+         style="color:black;fill:url(#linearGradient8287);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.76194316;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
+    </g>
+  </g>
+</svg>
