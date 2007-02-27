@@ -6509,7 +6509,7 @@ proc dpBrowser { {target_user "self" } } {
 	set combo $w.moredpstitle.combo
 	combobox::combobox $combo -highlightthickness 0 -width 22  -font splainf -exportselection true -command "configureDpBrowser $target_user" -editable false -bg #FFFFFF
 	$combo list delete 0 end
-	$combo list insert end "[trans selectcontact]:"
+	$combo list insert end "[trans selectcontact]"
 	
 	set i 1
 	foreach contact $contactlist {
@@ -6520,6 +6520,7 @@ proc dpBrowser { {target_user "self" } } {
 		}
 		incr i
 	}
+	$combo list insert end "[trans otherdps]"
 	
 	# If we are choosing a custom DP for a contact, show his cache in the lower pane
 	if {$target_user == "self"} {
@@ -6533,9 +6534,9 @@ proc dpBrowser { {target_user "self" } } {
 	pack $w.moredpstitle.text -side left
 	pack $w.moredpstitle.combo -side right
 
-	::dpbrowser $w.mydps -width 3 -user self -command [list updateDpBrowserSelection $w.mydps $target_user] -mode "both"
+	::dpbrowser $w.mydps -width 4  -mode "both" -invertmatch 0 -user self -command [list updateDpBrowserSelection $w.mydps $target_user]
 
-	::dpbrowser $w.moredps -width 3 -user $selected_user -command [list updateDpBrowserSelection $w.moredps $target_user] -mode "both"
+	::dpbrowser $w.moredps -width 4 -mode "both" -invertmatch 0 -user $selected_user -command [list updateDpBrowserSelection $w.moredps $target_user]
 	
 	#################
 	# second column #
@@ -6583,7 +6584,7 @@ proc dpBrowser { {target_user "self" } } {
 	
 	# weight = 1 -> it will resize
 	# weight = 0 -> it will not resize
-	grid columnconfigure $w 0 -weight 1
+	grid columnconfigure $w 0 -weight 1 -minsize 480
 	grid columnconfigure $w 1 -weight 0
 	grid rowconfigure $w 0 -weight 0
 	grid rowconfigure $w 1 -weight 0
@@ -6598,13 +6599,22 @@ proc dpBrowser { {target_user "self" } } {
 }
 
 proc configureDpBrowser {target combowidget selection} {
-	#puts "$combowidget $selection"
-	if {$selection == "[trans selectcontact]:"} {set selection ""}
-	if {$selection == $target} {
-		[winfo toplevel $combowidget].moredps configure -user $selection -showcurrent 0
-	} else {
-		[winfo toplevel $combowidget].moredps configure -user $selection -showcurrent 1
+	set invert_match 0
+	if {$selection == "[trans selectcontact]"} {
+		set selection ""
 	}
+	if {$selection == "[trans otherdps]"} {
+		#Get all the contacts
+		foreach contact [::abook::getAllContacts] {
+			#Selects the contacts who are in our list and adds them to the contact_list
+			if {[string last "FL" [::abook::getContactData $contact lists]] != -1} {
+				lappend contact_list $contact
+			}
+		}
+		set invert_match 1
+		set selection $contact_list
+	}
+	[winfo toplevel $combowidget].moredps configure -invertmatch $invert_match -user $selection
 }
 
 # This procedure is called back from the dpbrowser pane when a picture is selected
@@ -6619,7 +6629,7 @@ proc updateDpBrowserSelection { browser target } {
 		set file [[::skin::getNoDisplayPicture] cget -file]
 	}
 	$w.dppreview configure -image [image create photo displaypicture_pre_$target -file $file -format cximage]
-	if{$browser == $w.mydps} {
+	if {$browser == $w.mydps} {
 		$w.moredps deSelect
 	} else {
 		$w.mydps deSelect
@@ -6758,6 +6768,13 @@ proc AskDPSize { cursize } {
 proc applyDP { { email "self" } } {
 	set file ""
 	catch {set file [displaypicture_pre_$email cget -file]}
+	if { $file == [[::skin::getNoDisplayPicture] cget -file] } {
+		# Some skin add a dat file for nopic.gif too, so it's selectable
+		# Check this is not the case
+		if {[lindex [.dpbrowser.mydps getSelected] 1] == ""} {
+			set file ""
+		}
+	}
 	set_displaypic $file $email
 }
 

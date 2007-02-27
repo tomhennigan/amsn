@@ -9,7 +9,6 @@ snit::widget dpbrowser {
 	option -width -default 5
 
 	option -bg -default white -readonly 1
-	option -bg_hl -default DarkBlue -readonly 1
 	option -mode -default "viewonly" -readonly 1
 	# Available modes:
 	# "viewonly" - no interaction with images
@@ -26,19 +25,23 @@ snit::widget dpbrowser {
 	option -padding -default 5 -readonly 1
 	option -createtempimg -default 0
 	option -autoresize -default 1 -configuremethod setConfig
+	option -invertmatch -default 0
 
 	variable selected ""
 	variable tempimg ""
-	variable pic_in_use ""
-	variable custom_pic_in_use ""
+	variable pics_in_use ""
 	variable entry_in_use ""
 	variable dps ""
+	variable enable_draw 0
 
 	constructor { args } {
 		#frame hull is created automatically
 
 		#apply all options
+		set enable_draw 0
 		$self configurelist $args
+		set enable_draw 1
+		$self drawPics
 		
 		bind $self <Destroy> [list $self cleanUp]
 	}
@@ -51,21 +54,30 @@ snit::widget dpbrowser {
 		}
 	}
 
-	# Generate the dps list for the specified user and redraw the widget
-	method fillWidget { email } {
+	# Generate the dps list for the specified users and redraw the widget
+	method fillWidget { email_list } {
 		global HOME
 
 		set selected ""
-#puts "filling for user $email"
 
-		if {$email != ""} {
+		set n_email [llength $email_list]
+
+		if {$email_list != ""} {
 		#if no user is specified
-			if {$email == "all"} {
-				set email ""
+			if {$email_list == "all"} {
+				set email_list ""
 			}
 
-			set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins default displaypic] *.dat] $email 1]]
-			if {$email == "self"} {
+			set shipped_dps ""
+			set user_dps ""
+			set cached_dps ""
+			
+			set self_index [lsearch $email_list "self"]
+			
+			if {$self_index != -1 && !($options(-invertmatch))} {
+				set email_list [lreplace $email_list $self_index $self_index]
+				set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins default displaypic] *.dat] "self" 1]]
+				set shipped_dps [linsert $shipped_dps 0 [list "" "nopic" "[trans nopic]"]]
 				# Delete dat files for non-existing png files
 				set dat_files [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
 				set png_files [glob -nocomplain -directory [file join $HOME displaypic] *.png]
@@ -87,29 +99,36 @@ snit::widget dpbrowser {
 						close $fd
 					}
 				}
-				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] $email]]
-			} else {
-				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat] $email]]
+				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] "self"]]
 			}
-			set dps [concat $shipped_dps $user_dps]
-
-			if { $email != "self" } {
+			puts "--- Email list ---"
+			puts "$email_list"
+			if {$email_list != ""} {
+				set cached_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat] $email_list]]
+			}
+						
+			set dps [concat $shipped_dps $user_dps $cached_dps]
+			
+			set pics_in_use ""
+			if {$self_index != -1} {
+				set image_name [::config::getKey displaypic]
+				if {$image_name != "nopic.gif"} {
+					lappend pics_in_use [file join $HOME displaypic [filenoext $image_name].png]
+				}
+			}
+			foreach email $email_list {
 				set image_name [::abook::getContactData $email displaypicfile ""]
 				set custom_image_name [::abook::getContactData $email customdp ""]
 				if {$image_name != ""} {
-					set pic_in_use [file join $HOME displaypic cache [filenoext $image_name].png]
-				} else {
-					set pic_in_use ""
+					lappend pics_in_use [file join $HOME displaypic cache [filenoext $image_name].png]
 				}
-				if { $custom_image_name != "" } {
-					set custom_pic_in_use [file join $HOME displaypic cache [filenoext $custom_image_name].png]
-				} else {
-					set custom_pic_in_use $pic_in_use
+				if { $custom_image_name != "" && $custom_image_name != $image_name } {
+					lappend pics_in_use [file join $HOME displaypic cache [filenoext $custom_image_name].png]
 				}
-			} else {
-				set pic_in_use [displaypicture_std_self cget -file]
-				set custom_pic_in_use $pic_in_use
-				set dps [linsert $dps 0 [list "" "nopic" "[trans nopic]"]]
+			}
+			
+			if {$n_email > 1} {
+				set pics_in_use [lsort -unique $pics_in_use]
 			}
 		}
 		$self drawPics
@@ -133,7 +152,8 @@ snit::widget dpbrowser {
 			$self autoWidth
 		}
 
-		set email $options(-user)
+		set email_list $options(-user)
+		set n_email [llength $email_list]
 		set dps_per_row $options(-width)
 		
 		if { $dps_per_row < 1} {
@@ -148,23 +168,26 @@ snit::widget dpbrowser {
 			set isSelectDisabled 0
 		}
 
-		if {$email == ""} {
+		if {$email_list == ""} {
 			catch { destroy $self.sw }
 			label $self.nodps -text "[trans nouserspecified]" -anchor center -pady 10
 			pack $self.nodps -fill both -expand 1
 		} else {
 			foreach dp $dps {
-				#exclude the image the user is currently using
-				if { $options(-showcurrent) != 0 || [string first $pic_in_use [lindex $dp 0]] == -1 } {
-					if {[lindex $dp 0] != ""} {
-						set file [filenoext [lindex $dp 0]].png
+				if {[lindex $dp 0] != ""} {
+					set file [filenoext [lindex $dp 0]].png
+				} else {
+					set file ""
+				}
+
+				#exclude the image the users are currently using
+				if { $options(-showcurrent) != 0 || [lsearch $pics_in_use $file] == -1 } {
+					if { $file != "" } {
 						#if a problem loading the image arises, go to next
 						if { [catch { set tempimage [image create photo [TmpImgName] -file $file -format cximage] }] } { continue }
 					} else {
-						set file ""
 						set tempimage [image create photo [TmpImgName] -file [[::skin::getNoDisplayPicture] cget -file] -format cximage]
 					}
-
 					::picture::ResizeWithRatio $tempimage 96 96
 
 					set entry $frame.${i}_tile
@@ -179,11 +202,11 @@ snit::widget dpbrowser {
 						-bgcolor $options(-bg) -onpress [list $self onClick $entry $file] \
 						-disableselect $isSelectDisabled -padding 4
 					
-					if {$file == $custom_pic_in_use} {
+					if {$n_email == 1 && $file == [lindex $pics_in_use end]} {
 						$self setSelected $entry $file
 					}
 					
-					if {[regexp ^$HOME $file] && $file != $pic_in_use && $file != $custom_pic_in_use} {
+					if {[regexp ^$HOME $file] && [lsearch $pics_in_use $file] == -1} {
 						bind $entry <ButtonRelease-3> \
 							[list $self popupMenu %X %Y $file $entry 1]
 					} else {
@@ -299,8 +322,8 @@ snit::widget dpbrowser {
 		}
 	}
 
-	# Return the list of the dps for an user
-	method getDpsList { dat_list email {isShipped 0} } {
+	# Return the list of the dps for a list of users
+	method getDpsList { dat_list email_list {isShipped 0} } {
 		set dps_list ""
 		foreach dat $dat_list {
 			if {$isShipped} {
@@ -308,37 +331,44 @@ snit::widget dpbrowser {
 			} else {
 				set file $dat
 			}
+			
 			set fd [open $file]
-			set greps [$self grep $fd $email]
+			#first line is date or name (for shipped dps)
+			#second line is id of the user or filename for shipped dps
+			set date [gets $fd]
+			set id [gets $fd]
 			close $fd
-			if {[lindex $greps 0]} {
-				set date [lindex $greps 1]
-				set readable_date ""
-				catch {set readable_date [clock format $date -format %x]}
+			
+			if {$email_list == "self" || ([lsearch $email_list $id] != -1)} {
+				set found_match 1
+			} else {
+				set found_match 0
+			}
+			if {$found_match != $options(-invertmatch)} {
+				set readable_date [$self convertdate $date]
 				lappend dps_list [list $file $date $readable_date]
 			}
 		}
 		return $dps_list
 	}
 
-	# Parse informations contained in dps' descriptor files
-	method grep { chan id } {
-		#first line is date or name (for shipped dps)
-		#second line is id of the user or filename for shipped dps
-		set dateorname [gets $chan]
-
-		#if it's the user his dp's we want to show
-		if { $id == "self"} {
-			return [list 1 $dateorname]
-
-		#otherwise, check if it's the right user
-		} else {
-			if {[regexp $id [gets $chan]]} {
-				#ifso, return the date
-				return [list 1 $dateorname]
-			} else {
-				#else, return 0
-				return 0
+	# Convert a date in the format the user has specified in the preferences
+	method convertdate { date } {
+		if {[catch {clock format $date -format %D}]} {
+			return ""
+		}
+		set day [clock format $date -format %d]
+		set month [clock format $date -format %m]
+		set year [clock format $date -format %Y]
+		switch "[::config::getKey dateformat]" {
+			"MDY" {
+				return "$month/$day/$year"
+			}
+			"DMY" {
+				return "$day/$month/$year"
+			}
+			"YMD" {
+				return "$year/$month/$day"
 			}
 		}
 	}
@@ -387,8 +417,10 @@ snit::widget dpbrowser {
 			}
 			incr i
 		}
-		# refill the widget
-		$self drawPics
+		if { $enable_draw } {
+			# refill the widget
+			$self drawPics
+		}
 	}
 
 	# Configure the widget according to the options
@@ -400,6 +432,7 @@ snit::widget dpbrowser {
 		#the space was added so the option isn't passed to the switch command
 		switch " $option" {
 			" -user" {
+				set options($option) [lsort -unique $value]
 				#empty the widget and refill it for other user
 				$self fillWidget $value
 #				puts "changed to user $value"
@@ -408,6 +441,7 @@ snit::widget dpbrowser {
 				if {$value} {
 					# discard the fixed width value
 					set options(-width) 0
+					$self autoWidth
 				}
 			}
 
