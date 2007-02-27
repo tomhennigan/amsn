@@ -89,6 +89,7 @@ namespace eval ::guiContactList {
 		variable NickReparseQueue
 		variable contactAfterId
 		variable resizeAfterId
+		variable scrollAfterId
 		variable external_lock
 
 
@@ -102,6 +103,7 @@ namespace eval ::guiContactList {
 		
 		set contactAfterId 0
 		set resizeAfterId 0
+		set scrollAfterId 0
 
 		#This means that the CL hasn't been locked by external code
 		set external_lock 0
@@ -126,10 +128,11 @@ namespace eval ::guiContactList {
 
 		frame $w.cl -background [::skin::getKey contactlistbg] -borderwidth 0
 
-		scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
+		scrollbar $clscrollbar -command [list ::guiContactList::scrollCLsb $clcanvas] \
+			-background [::skin::getKey contactlistbg]
 		# Create a blank canvas
 		canvas $clcanvas -background [::skin::getKey contactlistbg] \
-			-yscrollcommand "::guiContactList::setScroll $clscrollbar" -borderwidth 0
+			-yscrollcommand [list ::guiContactList::setScroll $clscrollbar] -borderwidth 0
 
 		if { $::contactlist_loaded } {
 			# Parse the nicknames for smiley/newline substitution
@@ -165,16 +168,8 @@ namespace eval ::guiContactList {
 		::Event::registerEvent changedPreferences all ::guiContactList::changedPreferences
 		::Event::registerEvent changedSkin all ::guiContactList::changedSkin
 
-		# TODO: * create the bindings for scrolling (using procs "IsMac" etc)
-
-		# TODO: scrollbindings: make 'm work for every platform!
-		#	scrolledwindow should be feeded a command that moves the background 
-		#	so it's also at the right place when the bar is dragged
-
 		# MacOS Classic/OSX and Windows
 		if {[OnMac]} {
-			#TODO: fix mac bindings -> Jerome's job ;)
-
 			bind $clcanvas <MouseWheel> {
 				%W yview scroll [expr {- (%D)}] units;
 
@@ -201,15 +196,11 @@ namespace eval ::guiContactList {
 			}
 		} else {
 			# We're on X11! (I suppose ;))
-			bind $clcanvas <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"
-			bind $clcanvas <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
-			#bind [winfo parent $clcanvas].vscroll <ButtonPress-5> "::guiContactList::scrollCL $clcanvas down"
-			#bind [winfo parent $clcanvas].vscroll <ButtonPress-4> "::guiContactList::scrollCL $clcanvas up"
+			bind $clcanvas <ButtonPress-5> [list ::guiContactList::scrollCL $clcanvas down]
+			bind $clcanvas <ButtonPress-4> [list ::guiContactList::scrollCL $clcanvas up]
 		}
 
 
-#TODO: only update when the window is resized, not during resizing
-		#update the 
 		bind $clcanvas <Configure> "::guiContactList::clResized $clcanvas"
 
 		pack $clscrollbar -side right -fill y
@@ -534,7 +525,7 @@ namespace eval ::guiContactList {
 		}; #end of foreach
 
 		#If, within 500 ms, another event for redrawing comes in, we redraw 'm together
-		catch {after cancel $contactAfterId}		
+		catch {after cancel $contactAfterId}
 
 		# If toggleSpaceShown or contactAlarmChange is called, then free the drawing queue because we need user interaction to be spontanuous.
 		if {$eventused == "toggleSpaceShown" || $eventused == "contactAlarmChange" } {
@@ -920,25 +911,25 @@ namespace eval ::guiContactList {
 		# Create mouse event bindings
 
 		# First, remove previous bindings
-		$canvas bind $gid <Enter> ""
-		$canvas bind $gid <Motion> ""
-		$canvas bind $gid <Leave> ""
-		$canvas bind $gid <<Button1>> ""
-		$canvas bind $gid <<Button3>> ""
+		$canvas bind $gid <Enter> [list ]
+		$canvas bind $gid <Motion> [list ]
+		$canvas bind $gid <Leave> [list ]
+		$canvas bind $gid <<Button1>> [list ]
+		$canvas bind $gid <<Button3>> [list ]
 
-		$canvas bind $gid <<Button1>> "+::guiContactList::toggleGroup [list $element] $canvas"
-		$canvas bind $gid <<Button3>> "+::groups::GroupMenu [lindex $element 0] %X %Y"
+		$canvas bind $gid <<Button1>> +[list ::guiContactList::toggleGroup $element $canvas]
+		$canvas bind $gid <<Button3>> +[list ::groups::GroupMenu [lindex $element 0] %X %Y]
 
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_group]} {
-			$canvas bind $gid <Enter> "+::guiContactList::underlineList $canvas [list $underlinst] $gid"
-			$canvas bind $gid <Leave> "+$canvas delete uline_$gid"
+			$canvas bind $gid <Enter> +[list ::guiContactList::underlineList $canvas $underlinst $gid]
+			$canvas bind $gid <Leave> +[list $canvas delete uline_$gid]
 		}
 
 		#cursor change bindings
 		if { [::skin::getKey changecursor_group] } {
-			$canvas bind $gid <Enter> "+$canvas configure -cursor hand2"
-			$canvas bind $gid <Leave> "+$canvas configure -cursor left_ptr"
+			$canvas bind $gid <Enter> +[list $canvas configure -cursor hand2]
+			$canvas bind $gid <Leave> +[list $canvas configure -cursor left_ptr]
 		}
 	}
 
@@ -1138,8 +1129,9 @@ namespace eval ::guiContactList {
 				$icon -anchor nw -tags [list contact icon alarm_$email $tag $main_part]
 
 			# Binding for right click		 
-			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog $email; break;"
-			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm $email; ::guiContactList::switch_alarm $email $canvas alarm_$email; break;"
+			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog \"$email\"; break;"
+			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm \"$email\"; \
+				::guiContactList::switch_alarm \"$email\" \"$canvas\" \"alarm_$email\"; break"
 
 			#Update xnickpos
 			set xnickpos [expr {$xnickpos + [image width $icon]}]
@@ -1561,40 +1553,41 @@ namespace eval ::guiContactList {
 		#-----------#
 
 		# First, remove previous bindings
-		$canvas bind $tag <Enter> ""
-		$canvas bind $tag <Motion> ""
-		$canvas bind $tag <Leave> ""
-		$canvas bind $main_part <Enter> ""
-		$canvas bind $main_part <Motion> ""
-		$canvas bind $main_part <Leave> ""
-		$canvas bind $space_icon <Enter> ""
-		$canvas bind $space_icon <Motion> ""
-		$canvas bind $space_icon <Leave> ""
+		$canvas bind $tag <Enter> [list ]
+		$canvas bind $tag <Motion> [list ]
+		$canvas bind $tag <Leave> [list ]
+		$canvas bind $main_part <Enter> [list ]
+		$canvas bind $main_part <Motion> [list ]
+		$canvas bind $main_part <Leave> [list ]
+		$canvas bind $space_icon <Enter> [list ]
+		$canvas bind $space_icon <Motion> [list ]
+		$canvas bind $space_icon <Leave> [list ]
 
 		#Click binding for the "star" image for spaces
-		$canvas bind $space_icon <Button-1> "::guiContactList::toggleSpaceShown $canvas $email $space_shown $space_update"
+		$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown "$canvas" "$email" \
+			"$space_shown" "$space_update"]
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
 			$canvas bind $space_icon <Enter> +[list balloon_enter %W %X %Y "View space items" ]
 			$canvas bind $space_icon <Motion> +[list balloon_motion %W %X %Y "View space items"]
-			$canvas bind $space_icon <Leave> "+set Bulle(first) 0; kill_balloon"
+			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
 			$canvas bind $main_part <Enter> \
-				"+::guiContactList::underlineList $canvas [list $underlinst] $tag"
-			$canvas bind $main_part <Leave> "+$canvas delete uline_$tag"
+				+[list ::guiContactList::underlineList $canvas $underlinst "$tag"]
+			$canvas bind $main_part <Leave> +[list $canvas delete "uline_$tag"]
 		}
 		
 		# Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $main_part <Enter> +[list balloon_enter %W %X %Y [getBalloonMessage \
-				$email $element] [::skin::getDisplayPicture $email]]
-			$canvas bind $main_part <Motion> +[list balloon_motion %W %X %Y [getBalloonMessage \
-				$email $element] [::skin::getDisplayPicture $email]]
-			$canvas bind $main_part <Leave> "+set Bulle(first) 0; kill_balloon"
+			$canvas bind $main_part <Enter> +[list balloon_enter %W %X %Y "[getBalloonMessage \
+				$email $element]" "[::skin::getDisplayPicture $email]"]
+			$canvas bind $main_part <Motion> +[list balloon_motion %W %X %Y "[getBalloonMessage \
+				$email $element]" "[::skin::getDisplayPicture $email]"]
+			$canvas bind $main_part <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
 		# Add binding for click / right click (remembering to get config key for single/dbl
@@ -1608,23 +1601,24 @@ namespace eval ::guiContactList {
 		# Binding for left (double)click
 		if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1"} {
 			# If the user is offline and support mobile (SMS)
-			$canvas bind $main_part $singordblclick "::MSNMobile::OpenMobileWindow ${email}"
+			$canvas bind $main_part $singordblclick [list ::MSNMobile::OpenMobileWindow "$email"]
 		} else {
-			$canvas bind $main_part $singordblclick "::amsn::chatUser $email"
+			$canvas bind $main_part $singordblclick [list ::amsn::chatUser "$email"]
 		}
 
 		# Binding for right click		 
-		$canvas bind $main_part <<Button3>> "show_umenu $email $grId %X %Y"
+		$canvas bind $main_part <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
 
 		# Bindings for dragging : applies to all elements even the star
-		$canvas bind $tag <<Button2-Press>> "::guiContactList::contactPress $tag $canvas"
-		$canvas bind $tag <<Button2-Motion>> "::guiContactList::contactMove $tag $canvas"
-		$canvas bind $tag <<Button2>> "::guiContactList::contactReleased $tag $canvas"
+		$canvas bind $tag <<Button2-Press>> [list ::guiContactList::contactPress $tag $canvas]
+		$canvas bind $tag <<Button2-Motion>> [list ::guiContactList::contactMove $tag $canvas]
+		$canvas bind $tag <<Button2>> [list ::guiContactList::contactReleased $tag $canvas 0]
+		$canvas bind $tag <<ControlButton2>> [list ::guiContactList::contactReleased $tag $canvas 1]
 
 		#cursor change bindings
 		if { [::skin::getKey changecursor_contact] } {
-			$canvas bind $tag <Enter> "+$canvas configure -cursor hand2"
-			$canvas bind $tag <Leave> "+$canvas configure -cursor left_ptr"
+			$canvas bind $tag <Enter> +[list $canvas configure -cursor hand2]
+			$canvas bind $tag <Leave> +[list $canvas configure -cursor left_ptr]
 		}
 
 		# Now store the nickname [and] height in the nickarray
@@ -1757,9 +1751,10 @@ puts "going to download $thumbnailurl"
 				set count 0
 				foreach i $blogposts {
 					set itemtag [lindex $taglist 0]_bpost_${count}
-					$canvas create text [expr $xcoord + 10] [expr $ycoord + $height] -font sitalf -text "[lindex $i 1]" \
+					$canvas create text [expr $xcoord + 10] [expr $ycoord + $height] \
+						-font sitalf -text "[lindex $i 1]" 
 						-tags [linsert $taglist end $itemtag]  -anchor nw -fill grey
-					$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
+					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
 
 					#update ychange
 					set height [expr {$height + $lineheight}]
@@ -1784,7 +1779,8 @@ puts "going to download $thumbnailurl"
 
 						$canvas create text [expr {$xcoord + 10}] [expr $ycoord + $height] -font sitalf -text "[lindex $i 1]" \
 							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
-						$canvas bind $itemtag <Button-1> "::hotmail::gotURL [lindex $i 2]"
+						$canvas bind $itemtag <Button-1> \
+							[list ::hotmail::gotURL "[lindex $i 2]"]
 						#update ychange
 						set height [expr {$height + $lineheight } ]
 						incr count
@@ -2045,6 +2041,19 @@ puts "going to download $thumbnailurl"
 		}
 	}
 
+	proc getEmailFromTag { tag } {
+		set pos [string last _ $tag]
+		set email [string range $tag 0 [expr {$pos -1}]]
+		return $email
+	}
+
+
+	proc getGrIdFromTag { tag } {
+		set pos [string last _ $tag]
+		set grId [string range $tag [expr {$pos + 1}] end]
+		return $grId
+	}
+
 	###############################################	
 	# Here we create the balloon message
 	# and we add the binding to the canvas item.
@@ -2242,6 +2251,7 @@ puts "going to download $thumbnailurl"
 	proc contactMove {tag canvas} {
 		variable OldDragX
 		variable OldDragY
+		variable scrollAfterId
 
 		#Move the contact, (New_X_Mouse_coord - Old_X_Mouse_coord) on the X-axis, same for Y
 		$canvas move $tag [expr {[winfo pointerx .] - $OldDragX}] [expr {[winfo pointery .] - $OldDragY}]
@@ -2249,28 +2259,31 @@ puts "going to download $thumbnailurl"
 		set OldDragX [winfo pointerx .]
 		set OldDragY [winfo pointery .]
 
-		# TODO: * Make the canvas scroll if we hover the vertical edges of the canvas
-		# 	* Make the dragged contact stay under the cursor
-		# 	* Make it keep scrolling as long as we are in the area also if we don't move (extra proc)
+		if { ([winfo pointery .] > [winfo rooty $canvas] + [winfo height $canvas] - 50) || \
+			([winfo pointery .] < [winfo rooty $canvas] + 50) } {
+			#We are in the scrolling zone
+			if { [catch {after info $scrollAfterId}] } {
+				#No after exists yet : we create one
+				set scrollAfterId [after 2000 [list ::guiContactList::draggingScroll $canvas $tag]]
+			}
+		} else {
+			catch {after cancel $scrollAfterId}
+		}
 
-#		set canvaslength [lindex [$canvas cget -scrollregion] 3]
-
-		# if {[lindex [$canvas coords $email] 1] >= [expr [winfo height $canvas] - 20] } {
-		# 	after 300 
-		# 	::guiContactList::scrollCL down $canvaslength
-		# }
-		# !!! Won't work this way
 		$canvas delete uline_$tag
 		
 	}
 
 
-	proc contactReleased {tag canvas} {
+	proc contactReleased {tag canvas copy} {
 		variable OnTheMove
 		variable OldDragX
 		variable OldDragY
 		variable DragStartX
 		variable DragStartY
+		variable scrollAfterId
+
+		catch {after cancel $scrollAfterId}
 
 		set oldgrId [::guiContactList::getGrIdFromTag $tag]
 
@@ -2333,7 +2346,7 @@ puts "going to download $thumbnailurl"
 				::guiContactList::organiseList $canvas				
 			} else {
 # TODO: copying instead of moving when CTRL is pressed
-
+				status_log "Should copy : $copy"
 				# Move the contact between the groups
 				::groups::menuCmdMove $newgrId $oldgrId [::guiContactList::getEmailFromTag $tag]
 				# Note: redraw is done by the protocol event
@@ -2348,18 +2361,27 @@ puts "going to download $thumbnailurl"
 		unset OldDragY
 	}
 
+	proc draggingScroll { canvas tag } {
+		variable scrollAfterId
 
-	proc getEmailFromTag { tag } {
-		set pos [string last _ $tag]
-		set email [string range $tag 0 [expr {$pos -1}]]
-		return $email
-	}
+		if { [$canvas cget -yscrollincrement] > 0 } {
+			set increment [$canvas cget -yscrollincrement]
+		} else {
+			set increment [expr { [winfo height $canvas] / 10 }]
+		}
 
+		if { ([winfo pointery .] > [winfo rooty $canvas] + [winfo height $canvas] - 50) } {
+			#We are here since some moves : do a scroll to the bottom
+			set scrollAfterId [after 500 [list ::guiContactList::draggingScroll $canvas $tag]]
+			::guiContactList::scrollCL $canvas -1
+			$canvas move $tag 0 [expr { $increment } ]
 
-	proc getGrIdFromTag { tag } {
-		set pos [string last _ $tag]
-		set grId [string range $tag [expr {$pos + 1}] end]
-		return $grId
+		} elseif { ([winfo pointery .] < [winfo rooty $canvas] + 50) } {
+			#We are here since some moves : do a scroll to the bottom
+			set scrollAfterId [after 500 [list ::guiContactList::draggingScroll $canvas $tag]]
+			::guiContactList::scrollCL $canvas +1
+			$canvas move $tag 0 [expr { (-1) * $increment } ]
+		}
 	}
 }
 
