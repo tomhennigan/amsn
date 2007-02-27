@@ -1733,7 +1733,8 @@ puts "going to download $thumbnailurl"
 			
 			#First show the spaces title:
 			if {$SpaceTitle != ""} {
-				$canvas create text $xcoord [expr $ycoord + $height] -font bitalf -text "$SpaceTitle" -tags $taglist -anchor nw -fill black
+				$canvas create text $xcoord [expr $ycoord + $height] -font bitalf -text "$SpaceTitle" \
+					-tags $taglist -anchor nw -fill black
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight + 4 }]
 				#set everything after this title a bit to the right
@@ -1745,7 +1746,8 @@ puts "going to download $thumbnailurl"
 				# seems like a blog without title doesn't exist, so we don't have to check if there are any posts
 				set blogposts [::MSNCCARD::getAllBlogPosts $ccard]
 				#add a title
-				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Blog" -tags $taglist -anchor nw -fill blue
+				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Blog" \
+					-tags $taglist -anchor nw -fill blue
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight}]
 
@@ -1753,7 +1755,7 @@ puts "going to download $thumbnailurl"
 				foreach i $blogposts {
 					set itemtag [lindex $taglist 0]_bpost_${count}
 					$canvas create text [expr $xcoord + 10] [expr $ycoord + $height] \
-						-font sitalf -text "[lindex $i 1]" 
+						-font sitalf -text "[lindex $i 1]" \
 						-tags [linsert $taglist end $itemtag]  -anchor nw -fill grey
 					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
 
@@ -1768,7 +1770,8 @@ puts "going to download $thumbnailurl"
 			if {$Album != ""} {
 				set photos [::MSNCCARD::getAllPhotos $ccard]
 				#add a title
-				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Album" -tags $taglist -anchor nw -fill blue
+				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Album" \
+					-tags $taglist -anchor nw -fill blue
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight}]
 
@@ -1778,7 +1781,8 @@ puts "going to download $thumbnailurl"
 #puts "Photo: $i"
 					if { [lindex $i 0] != "" } {
 
-						$canvas create text [expr {$xcoord + 10}] [expr $ycoord + $height] -font sitalf -text "[lindex $i 1]" \
+						$canvas create text [expr {$xcoord + 10}] [expr $ycoord + $height] \
+							-font sitalf -text "[lindex $i 1]" \
 							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
 						$canvas bind $itemtag <Button-1> \
 							[list ::hotmail::gotURL "[lindex $i 2]"]
@@ -1790,7 +1794,8 @@ puts "going to download $thumbnailurl"
 			}
 			#for now show a message if no blogs or photos, for debugging purposes
 			if {$Blog == "" && $Album == ""} {
-				$canvas create text $xcoord [expr $ycoord + $height] -font sitalf -text "Nothing to see here" -tags $taglist -anchor nw -fill grey
+				$canvas create text $xcoord [expr $ycoord + $height] -font sitalf \
+					-text "Nothing to see here" -tags $taglist -anchor nw -fill grey
 
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight } ]
@@ -1980,8 +1985,9 @@ puts "going to download $thumbnailurl"
 			}
 
 			# Now we have to add the "individuals" group, translated and as first
-
-			set groupList "\{0 \{[trans nogroup]\}\} $groupList"
+			if { !$realgroups } {
+				set groupList "\{0 \{[trans nogroup]\}\} $groupList"
+			}
 		}
 		
 		# Hybrid Mode, we add mobile and offline group
@@ -2387,7 +2393,7 @@ puts "going to download $thumbnailurl"
 		}
 	}
 
-	proc balloon_enter_CL { w x y msg img } {
+	proc balloon_enter_CL { w x y msg {img ""} } {
 		variable OnTheMove
 		#When dragging don't show the tooltips
 		if { !$OnTheMove } {
@@ -2395,7 +2401,7 @@ puts "going to download $thumbnailurl"
 		}
 	}
 
-	proc balloon_motion_CL { w x y msg img } {
+	proc balloon_motion_CL { w x y msg {img ""} } {
 		variable OnTheMove
 		#When dragging don't show the tooltips
 		if { !$OnTheMove } {
