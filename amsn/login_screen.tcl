@@ -218,9 +218,9 @@ snit::widgetadaptor loginscreen {
 	}
 
 	method AutoPositionBackground {} {
-		set bg_x [expr {[winfo width $self] - 5}]
-		set bg_y [expr {[winfo height $self] - 5}]
-		$self coords $background_tag [$self canvasx $bg_x] [$self canvasy $bg_y]
+		set bg_x [expr {round([expr {[winfo width $self] - 5}])}]
+		set bg_y [expr {round([expr {[winfo height $self] - 5}])}]
+		$self coords $background_tag $bg_x $bg_y
 	}
 
 	method CanvasTextToLink { args } {
