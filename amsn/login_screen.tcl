@@ -265,6 +265,8 @@ snit::widgetadaptor loginscreen {
 	method UsernameEdited {} {
 		# Get username
 		set username [$user_field get]
+		# Don't let us check numbers, it'll try and load that number profile (e.g. 0 would load the first profile, 1 the second etc)
+		if { [string is integer $username] } { set username "" }
 		after cancel $after_id(checkuser)
 		set after_id(checkuser) [after 100 "$self CheckUsername $username"]
 	}
@@ -280,6 +282,7 @@ snit::widgetadaptor loginscreen {
 			if { [::config::getGlobalKey disableprofiles] != 1 } {
 				$rem_me_field configure -state normal
 			}
+			# If we've got a profile loaded, switch to default generic one
 			if { [::config::getKey login] != "" } {
 				# THIS SHOULDN'T BE HERE, BUT PROC IN CONFIG.TCL MAKES REFERENCES TO OLD LOGIN SCREEN GUI ELEMENTS, SO WE CAN'T USE THAT!
 				# WHEN THIS LOGIN SCREEN IS FINALISED, WE'LL CHANGE THE ORIGINAL PROC TO CONTAIN NO GUI-RELATED CODE, I GUESS..
@@ -323,6 +326,8 @@ snit::widgetadaptor loginscreen {
 	}
 
 	method UserSelected { combo user } {
+		# Don't let us use integers as username (see UsernameEdited)
+		if { [string is integer $user] } { set user "" }
 		# We have to check whether this profile exists because sometimes userSelected gets called when it shouldn't,
 		# e.g when tab is pressed in the username combobox
 		if { [LoginList exists 0 $user] } {
