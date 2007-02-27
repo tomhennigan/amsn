@@ -1612,8 +1612,7 @@ namespace eval ::guiContactList {
 		# Bindings for dragging : applies to all elements even the star
 		$canvas bind $tag <<Button2-Press>> [list ::guiContactList::contactPress $tag $canvas]
 		$canvas bind $tag <<Button2-Motion>> [list ::guiContactList::contactMove $tag $canvas]
-		$canvas bind $tag <<Button2>> [list ::guiContactList::contactReleased $tag $canvas 0]
-		$canvas bind $tag <<ControlButton2>> [list ::guiContactList::contactReleased $tag $canvas 1]
+		$canvas bind $tag <<Button2>> [list ::guiContactList::contactReleased $tag $canvas %s]
 
 		#cursor change bindings
 		if { [::skin::getKey changecursor_contact] } {
@@ -1980,8 +1979,6 @@ puts "going to download $thumbnailurl"
 
 			# Now we have to add the "individuals" group, translated and as first
 
-			# TODO: Maybe someone should do this a better way, but I had problems
-			#	 with the 'linsert' command
 			set groupList "\{0 \{[trans nogroup]\}\} $groupList"
 		}
 		
@@ -2211,7 +2208,6 @@ puts "going to download $thumbnailurl"
 			set nicknameArray($user) [::smiley::parseMessageToList $usernick 1]
 		}
 
-		# TODO: Review this event, maybe it would fit better in other place
 		set evpar(array) nicknameArray
 		set evpar(login) ""
 		::plugins::PostEvent NickArray evpar
@@ -2275,7 +2271,7 @@ puts "going to download $thumbnailurl"
 	}
 
 
-	proc contactReleased {tag canvas copy} {
+	proc contactReleased {tag canvas state} {
 		variable OnTheMove
 		variable OldDragX
 		variable OldDragY
@@ -2297,10 +2293,6 @@ puts "going to download $thumbnailurl"
 		set ChangeX [expr {$DragStartX - [winfo pointerx .]}]
 		set ChangeY [expr {$DragStartY - [winfo pointery .]}]
 
-
-		# TODO: If we drag off the list; now it's only on the left, make 
-		# 	it also "if bigger then viewable area of canvas and on top
-		#       and down sides
 		# Check if we're not dragging off the CL
 		if {$iconXCoord < 0 } { 
 			# TODO: Here we should trigger an event that can be used
@@ -2320,7 +2312,6 @@ puts "going to download $thumbnailurl"
 
 			# Cycle to the list of groups and select the group where
 			# the user drags to
-#TODO: remove the group of origin, the mobile and the offline group from this list ?
 			foreach group [getGroupList 1] {
 				# Get the group ID
 				set grId [lindex $group 0]
@@ -2345,10 +2336,16 @@ puts "going to download $thumbnailurl"
 				#  stay under the cursor
 				::guiContactList::organiseList $canvas				
 			} else {
-# TODO: copying instead of moving when CTRL is pressed
-				status_log "Should copy : $copy"
-				# Move the contact between the groups
-				::groups::menuCmdMove $newgrId $oldgrId [::guiContactList::getEmailFromTag $tag]
+				# 4 is the ControlMask for the state field
+				if { $state & 4 } {
+					# Copy the contact between the groups if Ctrl key is pressed
+					::groups::menuCmdCopy $newgrId \
+						[::guiContactList::getEmailFromTag $tag]
+				} else {
+					# Move the contact between the groups
+					::groups::menuCmdMove $newgrId $oldgrId \
+						[::guiContactList::getEmailFromTag $tag]
+				}
 				# Note: redraw is done by the protocol event
 
 			} 
