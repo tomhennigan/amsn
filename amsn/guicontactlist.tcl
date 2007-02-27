@@ -2255,12 +2255,12 @@ puts "going to download $thumbnailurl"
 		set OldDragX [winfo pointerx .]
 		set OldDragY [winfo pointery .]
 
-		if { ([winfo pointery .] > [winfo rooty $canvas] + [winfo height $canvas] - 50) || \
-			([winfo pointery .] < [winfo rooty $canvas] + 50) } {
+		if { ([winfo pointery .] > [winfo rooty $canvas] + [winfo height $canvas] - 75) || \
+			([winfo pointery .] < [winfo rooty $canvas] + 75) } {
 			#We are in the scrolling zone
 			if { [catch {after info $scrollAfterId}] } {
 				#No after exists yet : we create one
-				set scrollAfterId [after 2000 [list ::guiContactList::draggingScroll $canvas $tag]]
+				set scrollAfterId [after 1000 [list ::guiContactList::draggingScroll $canvas $tag]]
 			}
 		} else {
 			catch {after cancel $scrollAfterId}
@@ -2367,16 +2367,16 @@ puts "going to download $thumbnailurl"
 			set increment [expr { [winfo height $canvas] / 10 }]
 		}
 
-		if { ([winfo pointery .] > [winfo rooty $canvas] + [winfo height $canvas] - 50) } {
+		if { ([winfo pointery .] > [winfo rooty $canvas] + [winfo height $canvas] - 75) } {
 			#We are here since some moves : do a scroll to the bottom
 			set scrollAfterId [after 500 [list ::guiContactList::draggingScroll $canvas $tag]]
-			::guiContactList::scrollCL $canvas -1
+			::guiContactList::scrollCL $canvas down
 			$canvas move $tag 0 [expr { $increment } ]
 
-		} elseif { ([winfo pointery .] < [winfo rooty $canvas] + 50) } {
+		} elseif { ([winfo pointery .] < [winfo rooty $canvas] + 75) } {
 			#We are here since some moves : do a scroll to the bottom
 			set scrollAfterId [after 500 [list ::guiContactList::draggingScroll $canvas $tag]]
-			::guiContactList::scrollCL $canvas +1
+			::guiContactList::scrollCL $canvas up
 			$canvas move $tag 0 [expr { (-1) * $increment } ]
 		}
 	}
