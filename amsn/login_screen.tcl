@@ -5,6 +5,8 @@ package require contentmanager
 
 snit::widgetadaptor loginscreen {
 
+	variable after_id
+
 	variable background_tag
 
 	variable lang_button_icon
@@ -41,6 +43,7 @@ snit::widgetadaptor loginscreen {
 	delegate method * to hull except {SortElements PopulateStateList LoginButtonPressed CanvasTextToLink LinkClicked}
 
 	constructor { args } {
+		array set after_id {checkuser {}}
 		set remember_me 0
 
 		installhull using canvas -bg white -highlightthickness 0 -xscrollcommand "$self CanvasScrolled" -yscrollcommand "$self CanvasScrolled"
@@ -167,7 +170,7 @@ snit::widgetadaptor loginscreen {
 		contentmanager bind lang <Enter> "$self configure -cursor hand2"
 		contentmanager bind lang <Leave> "$self configure -cursor left_ptr"
 		# Catch hand-editing of username field
-		bind $user_field <KeyRelease> "+after cancel [list $self UsernameEdited]; after 1 [list $self UsernameEdited]"
+		bind $user_field <KeyRelease> "$self UsernameEdited"
 		# Bind <Return> on password field to submit login form
 		bind $pass_field <Return> "$self LoginFormSubmitted"
 		# Make checkbutton labels clickable
@@ -262,6 +265,11 @@ snit::widgetadaptor loginscreen {
 	method UsernameEdited {} {
 		# Get username
 		set username [$user_field get]
+		after cancel $after_id(checkuser)
+		set after_id(checkuser) [after 100 "$self CheckUsername $username"]
+	}
+
+	method CheckUsername { {username ""} } {
 		# Check if the username has a profile.
 		# If it does, switch to it, select the remember me box and set the DP.
 		# If it doesn't, deselect the remember me box and set the DP to generic 'nopic' DP
@@ -272,43 +280,45 @@ snit::widgetadaptor loginscreen {
 			if { [::config::getGlobalKey disableprofiles] != 1 } {
 				$rem_me_field configure -state normal
 			}
-			# THIS SHOULDN'T BE HERE, BUT PROC IN CONFIG.TCL MAKES REFERENCES TO OLD LOGIN SCREEN GUI ELEMENTS, SO WE CAN'T USE THAT!
-			# WHEN THIS LOGIN SCREEN IS FINALISED, WE'LL CHANGE THE ORIGINAL PROC TO CONTAIN NO GUI-RELATED CODE, I GUESS..
-			# Switching to default profile, remove lock on previous profiles if needed
-			global lockSock HOME HOME2 log_dir webcam_dir loginmode
-			# Make sure we delete old lock
-			if { [info exists lockSock] } {
-				if { $lockSock != 0 } {
-					close $lockSock
-					unset lockSock
-				}
-			}
 			if { [::config::getKey login] != "" } {
-				LoginList changelock 0 [::config::getKey login] 0
-				SaveLoginList
+				# THIS SHOULDN'T BE HERE, BUT PROC IN CONFIG.TCL MAKES REFERENCES TO OLD LOGIN SCREEN GUI ELEMENTS, SO WE CAN'T USE THAT!
+				# WHEN THIS LOGIN SCREEN IS FINALISED, WE'LL CHANGE THE ORIGINAL PROC TO CONTAIN NO GUI-RELATED CODE, I GUESS..
+				# Switching to default profile, remove lock on previous profiles if needed
+				global lockSock HOME HOME2 log_dir webcam_dir loginmode
+				# Make sure we delete old lock
+				if { [info exists lockSock] } {
+					if { $lockSock != 0 } {
+						close $lockSock
+						unset lockSock
+					}
+				}
+				if { [::config::getKey login] != "" } {
+					LoginList changelock 0 [::config::getKey login] 0
+					SaveLoginList
+				}
+		
+				# Load default config
+				set HOME $HOME2
+		
+				config::setKey login ""
+				#that key is lost when changing profile
+				set connectas [::config::getKey connectas]
+				load_config
+				set log_dir ""
+				set webcam_dir ""
+		
+				# Set variables for default profile
+				::config::setKey save_password 0
+				::config::setKey connectas $connectas
+				::config::setKey keep_logs 0
+				::config::setKey log_event_connect 0
+				::config::setKey log_event_disconnect 0
+				::config::setKey log_event_email 0
+				::config::setKey log_event_state 0
+				# -------------------------------------------------------
+				# Change DP
+				$dp_label configure -image [::skin::getNoDisplayPicture]
 			}
-	
-			# Load default config
-			set HOME $HOME2
-	
-			config::setKey login ""
-			#that key is lost when changing profile
-			set connectas [::config::getKey connectas]
-			load_config
-			set log_dir ""
-			set webcam_dir ""
-	
-			# Set variables for default profile
-			::config::setKey save_password 0
-			::config::setKey connectas $connectas
-			::config::setKey keep_logs 0
-			::config::setKey log_event_connect 0
-			::config::setKey log_event_disconnect 0
-			::config::setKey log_event_email 0
-			::config::setKey log_event_state 0
-			# -------------------------------------------------------
-			# Change DP
-			$dp_label configure -image [::skin::getNoDisplayPicture]
 		}
 	}
 
