@@ -4,8 +4,6 @@
 #
 # Things to be done (TODO):
 #
-# * set right mousewheel bindings (windows/mac) using [IsMac] etc procs
-# * scroll the canvas while dragging if you come near to the border (hard one :|)
 # * change cursor while dragging (should we ?)
 # *
 # *
@@ -51,10 +49,6 @@ namespace eval ::guiContactList {
 		# Set up the 'ScrolledWindow' container for the canvas
 		#ScrolledWindow $clcontainer -auto vertical -scrollbar vertical -bg white -bd 0 -ipad 0
 		frame $clcontainer
-		# TODO: * ScrolledWindow should be feeded a command run on scroll (reset the image)
-		#	* bgcolor should be skinnable
-
-		#scrollbar $clscrollbar -command "::guiContactList::scrollCLsb $clcanvas"
 
 		set clcanvas [createCLWindowEmbeded $clcontainer]
 
@@ -90,6 +84,7 @@ namespace eval ::guiContactList {
 		variable contactAfterId
 		variable resizeAfterId
 		variable scrollAfterId
+		variable displayCWAfterId
 		variable external_lock
 		variable OnTheMove
 
@@ -104,6 +99,7 @@ namespace eval ::guiContactList {
 		set contactAfterId 0
 		set resizeAfterId 0
 		set scrollAfterId 0
+		set displayCWAfterId 0
 
 		#This means that the CL hasn't been locked by external code
 		set external_lock 0
@@ -147,7 +143,6 @@ namespace eval ::guiContactList {
 		after 0 ::guiContactList::drawList $clcanvas
 
 		# Register events
-		# TODO: * here we should register all needed events
 		::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
@@ -503,7 +498,7 @@ namespace eval ::guiContactList {
 				if {[lsearch $GroupsRedrawQueue $grId] == -1 || [lsearch $GroupsRedrawQueue all] == -1} {
 					lappend GroupsRedrawQueue $grId
 				}
-#FIXME:				#remove the contact from the list			
+#FIXME:				#remove the contact from the list
 			}
 
 			if { $eventused == "contactAdded" } {
@@ -515,13 +510,11 @@ namespace eval ::guiContactList {
 			}
 
 			if {$eventused == "contactStateChange" } {
-#TODO: only redraw groups if from/to offline/mobile
 				set GroupsRedrawQueue [list all]
 			}
 
 			#listchange/datachange: redraw everything as I don't really know what it's all for
 			if {$eventused == "contactDataChange" || $eventused == "contactListChange"} {
-#TODO: maybe we don't have to redraw anything here ?
 				set GroupsRedrawQueue [list all]
 			}
 		
@@ -628,9 +621,6 @@ namespace eval ::guiContactList {
 
 		# Let's draw each element of this list
 		set curPos [list $Xbegin $Ybegin]
-
-		# TODO: an option for a X-padding for buddies .. should be set here and for teh truncation 
-		# 	in the nickdraw proc
 
 
 		################################
@@ -928,8 +918,8 @@ namespace eval ::guiContactList {
 
 		#cursor change bindings
 		if { [::skin::getKey changecursor_group] } {
-			$canvas bind $gid <Enter> +[list $canvas configure -cursor hand2]
-			$canvas bind $gid <Leave> +[list $canvas configure -cursor left_ptr]
+			$canvas bind $gid <Enter> +[list ::guiContactList::configureCursor $canvas hand2]
+			$canvas bind $gid <Leave> +[list ::guiContactList::configureCursor $canvas left_ptr]
 		}
 	}
 
@@ -1028,7 +1018,6 @@ namespace eval ::guiContactList {
 		set parsednick $nicknameArray($email)
 		#the padding between nickname and state
 		set nickstatespacing 5
-		# TODO: skinsetting for the spacing between nicknames and the status
 
 		if { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } { 
 			set statetext "\([trans web]\/[trans [::MSN::stateToDescription $state_code]]\)"
@@ -1153,9 +1142,6 @@ namespace eval ::guiContactList {
 		
 
 		# Now we're gonna draw the nickname itself
-#TODO: From TK 8.5 up, underlined text should be possible on the canvas without this trick though in my
-#	alpha release this doesn't work
-
 
 		#-----------------#
 		###Draw Nickname###
@@ -1178,8 +1164,6 @@ namespace eval ::guiContactList {
 			# of border and - the beginningborder
 			set maxwidth [expr {[winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]}]
 		}
-
-		# TODO: An option for a X-padding for buddies .. should be set here and in the organising proc
 
 		# We can draw as long as the line isn't full, reset var 
 		set linefull 0
@@ -1260,11 +1244,6 @@ namespace eval ::guiContactList {
 				$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
 					-tags [list contact $tag smiley $main_part]
 
-				# TODO: smileys should be resized to fit in text-height
-				# if {[image height $smileyname] >= $ychange} {
-				# 	set ychange [image height $smileyname]
-				# }
-
 				# Change the coords
 				set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
 			} elseif {[lindex $unit 0] == "newline"} {
@@ -1327,8 +1306,6 @@ namespace eval ::guiContactList {
 				$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
 					-fill $statecolour -font splainf -tags [list contact $tag statetext $main_part]
 			}
-
-			# TODO: Maybe a skin-option to have the spacing underlined
 
 			if { $statewidth > 0 } {
 				# Append underline coords
@@ -1414,11 +1391,6 @@ namespace eval ::guiContactList {
 						# Draw the smiley
 						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
 							-tags [list contact $tag psmsmiley $main_part]
-		
-						# TODO: smileys should be resized to fit in text-height
-						# if {[image height $smileyname] >= $ychange} {
-						# 	set ychange [image height $smileyname]
-						# }
 		
 						# Change the coords
 						set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
@@ -1507,11 +1479,6 @@ namespace eval ::guiContactList {
 						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
 							-tags [list contact $tag psmsmiley $main_part]
 		
-						# TODO: smileys should be resized to fit in text-height
-						# if {[image height $smileyname] >= $ychange} {
-						# 	set ychange [image height $smileyname]
-						# }
-		
 						# Change the coords
 						set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
 					} elseif {[lindex $unit 0] == "newline"} {
@@ -1559,6 +1526,8 @@ namespace eval ::guiContactList {
 		$canvas bind $main_part <Enter> [list ]
 		$canvas bind $main_part <Motion> [list ]
 		$canvas bind $main_part <Leave> [list ]
+		$canvas bind $main_part <ButtonRelease-1> [list ]
+		$canvas bind $main_part <Double-ButtonRelease-1> [list ]
 		$canvas bind $space_icon <Enter> [list ]
 		$canvas bind $space_icon <Motion> [list ]
 		$canvas bind $space_icon <Leave> [list ]
@@ -1595,31 +1564,33 @@ namespace eval ::guiContactList {
 		# Add binding for click / right click (remembering to get config key for single/dbl
 		# click on contacts to open chat)
 		if { [::config::getKey sngdblclick] } {
-			set singordblclick <Button-1>
+			set singordblclick <ButtonRelease-1>
 		} else {
-			set singordblclick <Double-Button-1>
+			set singordblclick <Double-ButtonRelease-1>
 		}
 
 		# Binding for left (double)click
 		if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1"} {
 			# If the user is offline and support mobile (SMS)
-			$canvas bind $main_part $singordblclick [list ::MSNMobile::OpenMobileWindow "$email"]
+			$canvas bind $main_part $singordblclick \
+				"set ::guiContactList::displayCWAfterId \
+				\[after 0 [list ::MSNMobile::OpenMobileWindow \"$email\"]\]"
 		} else {
-			$canvas bind $main_part $singordblclick [list ::amsn::chatUser "$email"]
+			$canvas bind $main_part $singordblclick \
+				"set ::guiContactList::displayCWAfterId \
+				\[after 0 [list ::amsn::chatUser \"$email\"]\]"
 		}
 
 		# Binding for right click		 
 		$canvas bind $main_part <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
 
 		# Bindings for dragging : applies to all elements even the star
-		$canvas bind $tag <<Button2-Press>> [list ::guiContactList::contactPress $tag $canvas %x %y]
-		$canvas bind $tag <<Button2-Motion>> [list ::guiContactList::contactMove $tag $canvas %x %y]
-		$canvas bind $tag <<Button2>> [list ::guiContactList::contactReleased $tag $canvas %s %x %y]
+		$canvas bind $tag <ButtonPress-1> [list ::guiContactList::contactPress $tag $canvas %s %x %y]
 
 		#cursor change bindings
 		if { [::skin::getKey changecursor_contact] } {
-			$canvas bind $tag <Enter> +[list $canvas configure -cursor hand2]
-			$canvas bind $tag <Leave> +[list $canvas configure -cursor left_ptr]
+			$canvas bind $tag <Enter> +[list ::guiContactList::configureCursor $canvas hand2]
+			$canvas bind $tag <Leave> +[list ::guiContactList::configureCursor $canvas left_ptr]
 		}
 
 		# Now store the nickname [and] height in the nickarray
@@ -2233,7 +2204,7 @@ puts "going to download $thumbnailurl"
 	#####################################
 	#    Contact dragging procedures    #
 	#####################################
-	proc contactPress {tag canvas x y} {
+	proc contactPress {tag canvas state x y} {
 		variable DragDeltaX
 		variable DragDeltaY
 		variable OnTheMove
@@ -2248,6 +2219,40 @@ puts "going to download $thumbnailurl"
 
 		set OnTheMove 1
 		grab -global $canvas
+		focus $canvas
+
+		bind $canvas <Button1-Motion> [list ::guiContactList::contactMove $tag $canvas %x %y]
+		bind $canvas <<Button1>> [list ::guiContactList::contactReleased "$tag" "$canvas" %x %y]
+
+		# 4 is the ControlMask for the state field
+		# 16 is the Mod2Mask aka Option modifier for MacOS
+		if { [OnMac] } {
+			bind $canvas <KeyPress-Meta_L> "[list set ::guiContactList::modeCopy 1]; \
+				[list ::guiContactList::contactMove $tag $canvas %x %y]"
+			bind $canvas <KeyRelease-Meta_L> "set ::guiContactList::modeCopy 0; \
+				[list ::guiContactList::contactMove $tag $canvas %x %y]"
+			set mask 16
+		} else {
+			bind $canvas <KeyPress-Control_L> "[list set ::guiContactList::modeCopy 1]; \
+				[list ::guiContactList::contactMove $tag $canvas %x %y]"
+			bind $canvas <KeyRelease-Control_L> "[list set ::guiContactList::modeCopy 0]; \
+				[list ::guiContactList::contactMove $tag $canvas %x %y]"
+			bind $canvas <KeyPress-Control_R> "[list set ::guiContactList::modeCopy 1]; \
+				[list ::guiContactList::contactMove $tag $canvas %x %y]"
+			bind $canvas <KeyRelease-Control_R> "[list set ::guiContactList::modeCopy 0]; \
+				[list ::guiContactList::contactMove $tag $canvas %x %y]"
+			set mask 4
+		}
+
+		if { $state & $mask } {
+			# Copy the contact between the groups if Ctrl key is pressed
+			set ::guiContactList::modeCopy 1
+			$canvas configure -cursor plus
+		} else {
+			# Move the contact between the groups
+			set ::guiContactList::modeCopy 0
+			$canvas configure -cursor left_ptr
+		}
 
 		set ::Bulle(first) 0; kill_balloon
 		$canvas delete uline_$tag
@@ -2267,6 +2272,12 @@ puts "going to download $thumbnailurl"
 		set coordX [expr {[$canvas canvasx $x] - $DragDeltaX}]
 		set coordY [expr {[$canvas canvasy $y] - $DragDeltaY}]
 
+		if { $::guiContactList::modeCopy } {
+			$canvas configure -cursor plus
+		} else {
+			$canvas configure -cursor left_ptr
+		}
+
 		#We use move to affect all elements of tag
 		$canvas move $tag [expr {$coordX - [lindex $oldCoords 0]}] [expr {$coordY - [lindex $oldCoords 1]}]
 
@@ -2285,7 +2296,7 @@ puts "going to download $thumbnailurl"
 	}
 
 
-	proc contactReleased {tag canvas state x y} {
+	proc contactReleased {tag canvas x y} {
 		variable OnTheMove
 		variable DragDeltaX
 		variable DragDeltaY
@@ -2305,12 +2316,12 @@ puts "going to download $thumbnailurl"
 		set ChangeY [expr {[lindex $DragStartCoords 1] - $iconYCoord}]
 
 		# Check if we're not dragging off the CL
-		if {$iconXCoord < 0 } { 
+		if { $iconXCoord < 0 || ( abs($ChangeX) <= 5 && abs($ChangeY) <= 5 ) } { 
 			# TODO: Here we should trigger an event that can be used
 			# 	by plugins. For example, the contact tray plugin
 			# 	could create trays like this
 
-			status_log "guiContactList: contact dragged off the CL\n\t\tTODO: add event"
+			status_log "$iconXCoord $ChangeX $ChangeY"
 
 			$canvas move $tag $ChangeX $ChangeY
 		} else {
@@ -2341,14 +2352,9 @@ puts "going to download $thumbnailurl"
 	
 			if { $newgrId == $oldgrId } {
 				#if the contact was dragged to the group of origin, just move it back
-#				$canvas move $tag $ChangeX $ChangeY	
-				
-				#To be sure everything is right, reorganise, because the contact doesn't always
-				#  stay under the cursor
-				::guiContactList::organiseList $canvas				
+				::guiContactList::organiseList $canvas
 			} else {
-				# 4 is the ControlMask for the state field
-				if { $state & 4 } {
+				if { $::guiContactList::modeCopy } {
 					# Copy the contact between the groups if Ctrl key is pressed
 					::groups::menuCmdCopy $newgrId \
 						[::guiContactList::getEmailFromTag $tag]
@@ -2358,15 +2364,31 @@ puts "going to download $thumbnailurl"
 						[::guiContactList::getEmailFromTag $tag]
 				}
 				# Note: redraw is done by the protocol event
-
 			} 
 		}
 
-		set OnTheMove 0
+		bind $canvas <Button1-Motion> ""
+		bind $canvas <<Button1>> ""
+
+		if { [OnMac] } {
+			bind $canvas <KeyPress-Meta_L> ""
+			bind $canvas <KeyRelease-Meta_L> ""
+		} else {
+			bind $canvas <KeyPress-Control_L> ""
+			bind $canvas <KeyRelease-Control_L> ""
+			bind $canvas <KeyPress-Control_R> ""
+			bind $canvas <KeyRelease-Control_R> ""
+		}
+
 		grab release $canvas
+		set OnTheMove 0
 		# Remove those vars as they're not in use anymore
 		unset DragDeltaX
 		unset DragDeltaY
+
+		if { abs($ChangeX) > 5 || abs($ChangeY) > 5 } {
+			catch { after cancel $::guiContactList::displayCWAfterId }
+		}
 	}
 
 	proc draggingScroll { tag canvas } {
@@ -2406,6 +2428,14 @@ puts "going to download $thumbnailurl"
 		#When dragging don't show the tooltips
 		if { !$OnTheMove } {
 			balloon_motion $w $x $y $msg $img
+		}
+	}
+
+	proc configureCursor { canvas cursor } {
+		variable OnTheMove
+		#When dragging don't show the tooltips
+		if { !$OnTheMove } {
+			$canvas configure -cursor $cursor
 		}
 	}
 }
