@@ -808,6 +808,9 @@ namespace eval ::skin {
 		::skin::setPixmap button_pressed button_pressed.gif
 		::skin::setPixmap button_disabled button_disabled.gif
 		::skin::setPixmap button_focus button_focus.gif
+
+		::skin::setPixmap checkbox checkbox.gif
+		::skin::setPixmap checkbox_on checkbox_on.gif
 	
 		::skin::setPixmap typingimg typing.gif
 		::skin::setPixmap miniinfo miniinfo.gif

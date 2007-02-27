@@ -52,7 +52,7 @@ snit::widgetadaptor loginscreen {
 		set background_tag [$self create image 0 0 -anchor se -image [::skin::loadPixmap back]]
 
 		# Create framework for elements
-		contentmanager add group lang			-orient horizontal	-widget $self	-ipadx 5		-ipady 5
+		contentmanager add group lang			-orient horizontal	-widget $self	-ipadx 4		-ipady 4
 		contentmanager add group main			-orient vertical	-widget $self
 		contentmanager add group main dp		-orient horizontal	-widget $self	-align center
 		contentmanager add group main user		-orient vertical	-widget $self	-pady 4
@@ -62,7 +62,7 @@ snit::widgetadaptor loginscreen {
 		contentmanager add group main rem_pass		-orient horizontal	-widget $self	-pady 2
 		contentmanager add group main auto_login	-orient horizontal	-widget $self	-pady 2
 		contentmanager add group main login		-orient horizontal	-widget $self	-align center	-pady 8
-		contentmanager add group main links		-orient vertical	-pady 25	-widget $self	-align center
+		contentmanager add group main links		-orient vertical	-pady 32	-widget $self	-align center
 
 		# Create widgets
 		# Language button
@@ -87,7 +87,7 @@ snit::widgetadaptor loginscreen {
 		eval $user_field list insert end $tmp_list
 		# Password
 		set pass_label_tag [$self create text 0 0 -anchor nw -text [trans pass]]
-		set pass_field [entry $self.pass -show "*" -bg white -relief solid -width 25]
+		set pass_field [entry $self.pass -show "*" -bg white -relief solid -width 25 -vcmd {expr {[string length %P] <= 16} } -validate key]
 		set pass_field_tag [$self create window 0 0 -anchor nw -window $pass_field]
 		# Status
 		set status_label_tag [$self create text 0 0 -anchor nw -text [trans signinstatus]]
@@ -98,7 +98,7 @@ snit::widgetadaptor loginscreen {
 		# Options
 		# Remember me
 		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans remember_me]]
-		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me] -bg white]
+		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me]]
 		set rem_me_field_tag [$self create window 0 0 -anchor nw -window $rem_me_field]
 		# Remember password
 		set rem_pass_label_tag [$self create text 0 0 -anchor nw -text [trans rememberpass]]
@@ -122,7 +122,7 @@ snit::widgetadaptor loginscreen {
 
 		# Place widgets in framework
 		# Language button
-		contentmanager add element lang icon -widget $self -tag $lang_button_icon -valign middle
+		contentmanager add element lang icon -widget $self -tag $lang_button_icon -valign middle -padx 8
 		contentmanager add element lang text -widget $self -tag $lang_button_text -valign middle
 		# Display picture
 		contentmanager add element main dp label -widget $self -tag $dp_label_tag
@@ -136,12 +136,12 @@ snit::widgetadaptor loginscreen {
 		contentmanager add element main status label -widget $self -tag $status_label_tag
 		contentmanager add element main status field -widget $self -tag $status_field_tag
 		# Options
-		contentmanager add element main rem_me field -widget $self -tag $rem_me_field_tag
-		contentmanager add element main rem_me label -widget $self -tag $rem_me_label_tag
-		contentmanager add element main rem_pass field -widget $self -tag $rem_pass_field_tag
-		contentmanager add element main rem_pass label -widget $self -tag $rem_pass_label_tag
-		contentmanager add element main auto_login field -widget $self -tag $auto_login_field_tag
-		contentmanager add element main auto_login label -widget $self -tag $auto_login_label_tag
+		contentmanager add element main rem_me field -widget $self -tag $rem_me_field_tag -padx 2 -valign middle
+		contentmanager add element main rem_me label -widget $self -tag $rem_me_label_tag -padx 4 -valign middle
+		contentmanager add element main rem_pass field -widget $self -tag $rem_pass_field_tag -padx 2 -valign middle
+		contentmanager add element main rem_pass label -widget $self -tag $rem_pass_label_tag -padx 2 -valign middle
+		contentmanager add element main auto_login field -widget $self -tag $auto_login_field_tag -padx 2 -valign middle
+		contentmanager add element main auto_login label -widget $self -tag $auto_login_label_tag -padx 2 -valign middle
 		# Login button
 		contentmanager add element main login login_button -widget $self -tag $login_button_tag
 		# Links
@@ -161,13 +161,24 @@ snit::widgetadaptor loginscreen {
 			}
 		}
 
+		# Make all text input fields equal widths
+		set field_width [font measure splainf -displayof $self "__________________________"]
+		$self itemconfigure $user_field_tag -width $field_width
+		$self itemconfigure $pass_field_tag -width $field_width
+		$self itemconfigure $status_field_tag -width $field_width
+
+		# Make checkbuttons look nice
+		foreach checkbutton [list $rem_me_field $rem_pass_field $auto_login_field] {
+			$checkbutton configure -relief flat -highlightthickness 0 -bd 0 -bg white -selectcolor white -image [::skin::loadPixmap checkbox] -selectimage [::skin::loadPixmap checkbox_on] -indicatoron 0
+		}
+
 		# Bindings
 		# Geometry events
 		bind $self <Map> "$self Resized"
 		bind $self <Configure> "$self Resized"
 		# Bind language button
 		contentmanager bind lang <ButtonRelease-1> "::lang::show_languagechoose"
-		contentmanager bind lang <Enter> "$self configure -cursor hand2"
+		contentmanager bind lang <Enter> "$self configure -cursor hand2;$self itemconfigure $lang_button_text -fill #0000A0"
 		contentmanager bind lang <Leave> "$self configure -cursor left_ptr"
 		# Catch hand-editing of username field
 		bind $user_field <KeyRelease> "$self UsernameEdited"
