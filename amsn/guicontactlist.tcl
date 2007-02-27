@@ -91,7 +91,7 @@ namespace eval ::guiContactList {
 		variable resizeAfterId
 		variable scrollAfterId
 		variable external_lock
-
+		variable OnTheMove
 
 		set clframe $w.cl
 		set clcanvas $w.cl.cvs
@@ -107,6 +107,9 @@ namespace eval ::guiContactList {
 
 		#This means that the CL hasn't been locked by external code
 		set external_lock 0
+
+		#This means that we aren't currently dragging
+		set OnTheMove 0
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
@@ -622,9 +625,6 @@ namespace eval ::guiContactList {
 
 		# Now let's get an exact contact list
 		set contactList [getContactList]
-
-		# Before drawing we set the "we are draggin, sir" variable on 0
-		set OnTheMove 0
 
 		# Let's draw each element of this list
 		set curPos [list $Xbegin $Ybegin]
@@ -1569,8 +1569,10 @@ namespace eval ::guiContactList {
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $space_icon <Enter> +[list balloon_enter %W %X %Y "View space items" ]
-			$canvas bind $space_icon <Motion> +[list balloon_motion %W %X %Y "View space items"]
+			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL \
+				%W %X %Y "View space items" ]
+			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL \
+				%W %X %Y "View space items"]
 			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
@@ -1583,10 +1585,10 @@ namespace eval ::guiContactList {
 		
 		# Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $main_part <Enter> +[list balloon_enter %W %X %Y "[getBalloonMessage \
-				$email $element]" "[::skin::getDisplayPicture $email]"]
-			$canvas bind $main_part <Motion> +[list balloon_motion %W %X %Y "[getBalloonMessage \
-				$email $element]" "[::skin::getDisplayPicture $email]"]
+			$canvas bind $main_part <Enter> +[list ::guiContactList::balloon_enter_CL \
+				%W %X %Y "[getBalloonMessage $email $element]" "[::skin::getDisplayPicture $email]"]
+			$canvas bind $main_part <Motion> +[list ::guiContactList::balloon_motion_CL \
+				%W %X %Y "[getBalloonMessage $email $element]" "[::skin::getDisplayPicture $email]"]
 			$canvas bind $main_part <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
@@ -1610,9 +1612,9 @@ namespace eval ::guiContactList {
 		$canvas bind $main_part <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
 
 		# Bindings for dragging : applies to all elements even the star
-		$canvas bind $tag <<Button2-Press>> [list ::guiContactList::contactPress $tag $canvas]
-		$canvas bind $tag <<Button2-Motion>> [list ::guiContactList::contactMove $tag $canvas]
-		$canvas bind $tag <<Button2>> [list ::guiContactList::contactReleased $tag $canvas %s]
+		$canvas bind $tag <<Button2-Press>> [list ::guiContactList::contactPress $tag $canvas %x %y]
+		$canvas bind $tag <<Button2-Motion>> [list ::guiContactList::contactMove $tag $canvas %x %y]
+		$canvas bind $tag <<Button2>> [list ::guiContactList::contactReleased $tag $canvas %s %x %y]
 
 		#cursor change bindings
 		if { [::skin::getKey changecursor_contact] } {
@@ -2124,7 +2126,7 @@ puts "going to download $thumbnailurl"
 		# status_log "poslist: $lines"
 		variable OnTheMove
 
-		# if {!$OnTheMove} {
+		if {!$OnTheMove} {
 			foreach line $lines {
 				$canvas create line\
 					[expr { [lindex $line 0] + $xpos } ] \
@@ -2134,7 +2136,7 @@ puts "going to download $thumbnailurl"
 					-fill [lindex $line 3]\
 					-tags [list uline_$nicktag $nicktag uline]
 			}
-		# }
+		}
 		$canvas lower uline_$nicktag $nicktag
 	}
 
@@ -2225,42 +2227,48 @@ puts "going to download $thumbnailurl"
 	#####################################
 	#    Contact dragging procedures    #
 	#####################################
-	proc contactPress {tag canvas} {
-		variable OldDragX
-		variable OldDragY
+	proc contactPress {tag canvas x y} {
+		variable DragDeltaX
+		variable DragDeltaY
 		variable OnTheMove
-		variable DragStartX
-		variable DragStartY
+		variable DragStartCoords
 
-		# Store old coordinates
-		set DragStartX [winfo pointerx .]
-		set DragStartY [winfo pointery .]
-		set OldDragX $DragStartX
-		set OldDragY $DragStartY
+		if {$OnTheMove} { return }
+
+		set DragStartCoords [$canvas coords $tag]
+
+		set DragDeltaX [expr {[$canvas canvasx $x] - [lindex $DragStartCoords 0]}]
+		set DragDeltaY [expr {[$canvas canvasy $y] - [lindex $DragStartCoords 1]}]
 
 		set OnTheMove 1
+		grab -global $canvas
 
+		set ::Bulle(first) 0; kill_balloon
 		$canvas delete uline_$tag
 	}
 
 
-	proc contactMove {tag canvas} {
-		variable OldDragX
-		variable OldDragY
+	proc contactMove {tag canvas x y} {
+		variable DragDeltaX
+		variable DragDeltaY
 		variable scrollAfterId
+		variable OnTheMove
+
+		if {!$OnTheMove} { return }
 
 		#Move the contact, (New_X_Mouse_coord - Old_X_Mouse_coord) on the X-axis, same for Y
-		$canvas move $tag [expr {[winfo pointerx .] - $OldDragX}] [expr {[winfo pointery .] - $OldDragY}]
+		set oldCoords [$canvas coords $tag]
+		set coordX [expr {[$canvas canvasx $x] - $DragDeltaX}]
+		set coordY [expr {[$canvas canvasy $y] - $DragDeltaY}]
 
-		set OldDragX [winfo pointerx .]
-		set OldDragY [winfo pointery .]
+		#We use move to affect all elements of tag
+		$canvas move $tag [expr {$coordX - [lindex $oldCoords 0]}] [expr {$coordY - [lindex $oldCoords 1]}]
 
-		if { ([winfo pointery .] > [winfo rooty $canvas] + [winfo height $canvas] - 75) || \
-			([winfo pointery .] < [winfo rooty $canvas] + 75) } {
+		if { ($y > [winfo height $canvas] - 75) || ($y < 75) } {
 			#We are in the scrolling zone
 			if { [catch {after info $scrollAfterId}] } {
 				#No after exists yet : we create one
-				set scrollAfterId [after 1000 [list ::guiContactList::draggingScroll $canvas $tag]]
+				set scrollAfterId [after 1000 [list ::guiContactList::draggingScroll $tag $canvas]]
 			}
 		} else {
 			catch {after cancel $scrollAfterId}
@@ -2271,27 +2279,24 @@ puts "going to download $thumbnailurl"
 	}
 
 
-	proc contactReleased {tag canvas state} {
+	proc contactReleased {tag canvas state x y} {
 		variable OnTheMove
-		variable OldDragX
-		variable OldDragY
-		variable DragStartX
-		variable DragStartY
+		variable DragDeltaX
+		variable DragDeltaY
+		variable DragStartCoords
 		variable scrollAfterId
+
+		if {!$OnTheMove} { return }
 
 		catch {after cancel $scrollAfterId}
 
 		set oldgrId [::guiContactList::getGrIdFromTag $tag]
 
-		# Kill the balloon if it came up, otherwise it just stays there
-		set Bulle(first) 0; kill_balloon
-
-
 		set iconXCoord [lindex [$canvas coords $tag] 0]
 		set iconYCoord [lindex [$canvas coords $tag] 1]
 
-		set ChangeX [expr {$DragStartX - [winfo pointerx .]}]
-		set ChangeY [expr {$DragStartY - [winfo pointery .]}]
+		set ChangeX [expr {[lindex $DragStartCoords 0] - $iconXCoord}]
+		set ChangeY [expr {[lindex $DragStartCoords 1] - $iconYCoord}]
 
 		# Check if we're not dragging off the CL
 		if {$iconXCoord < 0 } { 
@@ -2352,32 +2357,49 @@ puts "going to download $thumbnailurl"
 		}
 
 		set OnTheMove 0
-
+		grab release $canvas
 		# Remove those vars as they're not in use anymore
-		unset OldDragX
-		unset OldDragY
+		unset DragDeltaX
+		unset DragDeltaY
 	}
 
-	proc draggingScroll { canvas tag } {
+	proc draggingScroll { tag canvas } {
 		variable scrollAfterId
 
-		if { [$canvas cget -yscrollincrement] > 0 } {
-			set increment [$canvas cget -yscrollincrement]
-		} else {
-			set increment [expr { [winfo height $canvas] / 10 }]
+		set pointerX [winfo pointerx .]
+		set pointerY [winfo pointery .]
+
+		if { ($pointerY > [winfo rooty $canvas] + [winfo height $canvas] - 75) } {
+			#We are here since some moves : do a scroll to the bottom
+			set scrollAfterId [after 500 [list ::guiContactList::draggingScroll $tag $canvas]]
+			scrollCL $canvas down
+			#We force the moving of the tag to the right place
+			contactMove $tag $canvas [expr {$pointerX - [winfo rootx $canvas]}] \
+				[expr {$pointerY - [winfo rooty $canvas]}]
+
+		} elseif { ($pointerY < [winfo rooty $canvas] + 75) } {
+			#We are here since some moves : do a scroll to the bottom
+			set scrollAfterId [after 500 [list ::guiContactList::draggingScroll $tag $canvas]]
+			scrollCL $canvas up
+			#We force the moving of the tag to the right place
+			contactMove $tag $canvas [expr {$pointerX - [winfo rootx $canvas]}] \
+				[expr {$pointerY - [winfo rooty $canvas]}]
 		}
+	}
 
-		if { ([winfo pointery .] > [winfo rooty $canvas] + [winfo height $canvas] - 75) } {
-			#We are here since some moves : do a scroll to the bottom
-			set scrollAfterId [after 500 [list ::guiContactList::draggingScroll $canvas $tag]]
-			::guiContactList::scrollCL $canvas down
-			$canvas move $tag 0 [expr { $increment } ]
+	proc balloon_enter_CL { w x y msg img } {
+		variable OnTheMove
+		#When dragging don't show the tooltips
+		if { !$OnTheMove } {
+			balloon_enter $w $x $y $msg $img
+		}
+	}
 
-		} elseif { ([winfo pointery .] < [winfo rooty $canvas] + 75) } {
-			#We are here since some moves : do a scroll to the bottom
-			set scrollAfterId [after 500 [list ::guiContactList::draggingScroll $canvas $tag]]
-			::guiContactList::scrollCL $canvas up
-			$canvas move $tag 0 [expr { (-1) * $increment } ]
+	proc balloon_motion_CL { w x y msg img } {
+		variable OnTheMove
+		#When dragging don't show the tooltips
+		if { !$OnTheMove } {
+			balloon_motion $w $x $y $msg $img
 		}
 	}
 }
