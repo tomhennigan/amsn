@@ -4,6 +4,9 @@ snit::widgetadaptor loginscreen {
 
 	variable background_tag
 
+	variable lang_button_icon
+	variable lang_button_text
+
 	component dp_label
 	variable dp_label_tag
 
@@ -43,8 +46,8 @@ snit::widgetadaptor loginscreen {
 		set background_tag [$self create image 0 0 -anchor se -image [::skin::loadPixmap back]]
 
 		# Create framework for elements
+		contentmanager add group lang			-orient horizontal	-widget $self	-ipadx 5		-ipady 5
 		contentmanager add group main			-orient vertical	-widget $self
-		contentmanager add group main lang		-orient horizontal	-widget $self	-pady 16
 		contentmanager add group main dp		-orient horizontal	-widget $self	-align center
 		contentmanager add group main user		-orient vertical	-widget $self	-pady 4
 		contentmanager add group main pass		-orient vertical	-widget $self	-pady 4
@@ -56,6 +59,9 @@ snit::widgetadaptor loginscreen {
 		contentmanager add group main links		-orient vertical	-pady 25	-widget $self	-align center
 
 		# Create widgets
+		# Language button
+		set lang_button_icon [$self create image 0 0 -anchor nw -image [::skin::loadPixmap globe]]
+		set lang_button_text [$self create text 0 0 -anchor nw -text [trans language] -fill #666666]
 		# Display picture
 		set dp_label [label $self.dp -image [::skin::getDisplayPicture ""] -borderwidth 1 -highlightthickness 0 -relief solid]
 		set dp_label_tag [$self create window 0 0 -anchor nw -window $dp_label]
@@ -79,7 +85,7 @@ snit::widgetadaptor loginscreen {
 		set pass_field_tag [$self create window 0 0 -anchor nw -window $pass_field]
 		# Status
 		set status_label_tag [$self create text 0 0 -anchor nw -text [trans signinstatus]]
-		set status_field [combobox::combobox $self.status -editable true -bg white -relief solid -width 25]
+		set status_field [combobox::combobox $self.status -editable true -bg white -relief solid -width 25 -command remember_state_list]
 		set status_field_tag [$self create window 0 0 -anchor nw -window $status_field]
 		# Populate status list
 		$self PopulateStateList
@@ -98,7 +104,7 @@ snit::widgetadaptor loginscreen {
 
 		set auto_login_field_tag [$self create window 0 0 -anchor nw -window $auto_login_field]
 		# Login button
-		set login_button [button $self.login -text [trans login] -command "$self LoginButtonPressed"]
+		set login_button [button $self.login -text [trans login] -command "$self LoginFormSubmitted" -cursor hand2]
 		set login_button_tag [$self create window 0 0 -anchor nw -window $login_button]
 		# Useful links
 		# Forgot password
@@ -109,6 +115,9 @@ snit::widgetadaptor loginscreen {
 		set new_account_link [$self create text 0 0 -anchor nw -text [trans new_account]]
 
 		# Place widgets in framework
+		# Language button
+		contentmanager add element lang icon -widget $self -tag $lang_button_icon -valign middle
+		contentmanager add element lang text -widget $self -tag $lang_button_text -valign middle
 		# Display picture
 		contentmanager add element main dp label -widget $self -tag $dp_label_tag
 		# Username
@@ -147,9 +156,26 @@ snit::widgetadaptor loginscreen {
 		}
 
 		# Bindings
-		bind $user_field <KeyRelease> "+after cancel [list $self UsernameEdited]; after 1 [list $self UsernameEdited]"
+		# Geometry events
 		bind $self <Map> "$self Resized"
 		bind $self <Configure> "$self Resized"
+		# Bind language button
+		contentmanager bind lang <ButtonRelease-1> "::lang::show_languagechoose"
+		contentmanager bind lang <Enter> "$self configure -cursor hand2"
+		contentmanager bind lang <Leave> "$self configure -cursor left_ptr"
+		# Catch hand-editing of username field
+		bind $user_field <KeyRelease> "+after cancel [list $self UsernameEdited]; after 1 [list $self UsernameEdited]"
+		# Bind <Return> on password field to submit login form
+		bind $pass_field <Return> "$self LoginFormSubmitted"
+		# Make checkbutton labels clickable
+		contentmanager bind main rem_me label <ButtonPress-1> "$rem_me_field invoke"
+		contentmanager bind main rem_pass label <ButtonPress-1> "$rem_pass_field invoke"
+		contentmanager bind main auto_login label <ButtonPress-1> "$auto_login_field invoke"
+
+		# Fill in last username used
+		$user_field delete 0 end
+		$user_field insert end [::config::getKey login]
+		$self UserSelected $user_field [$user_field get]
 
 		# If profiles are disabled, disable 'remember me' checkbutton#
 		if { [::config::getGlobalKey disableprofiles] != 1 } {
@@ -223,9 +249,10 @@ snit::widgetadaptor loginscreen {
 	}
 
 	method SortElements {} {
+		contentmanager sort lang -level r
 		contentmanager sort main -level r
 		set main_x [expr {([winfo width $self] / 2) - ([contentmanager width main] / 2)}]
-		set main_y 25
+		set main_y [expr {[contentmanager height lang] + 16}]
 		contentmanager coords main $main_x $main_y
 	}
 
@@ -310,7 +337,7 @@ snit::widgetadaptor loginscreen {
 		}
 	}
 
-	method LoginButtonPressed { } {
+	method LoginFormSubmitted { } {
 		# Get user and pass
 		set user [$user_field get]
 		set pass [$pass_field get]
@@ -341,8 +368,7 @@ snit::widgetadaptor loginscreen {
 
 		# TEMPORARY CODE TO SWITCH BACK TO WIDGET WITH LOGIN PROGRESS IN
 		pack forget $self
-		destroy .l
-		pack .main -e 1 -f both
+		pack .main.f -e 1 -f both
 	}
 }
 

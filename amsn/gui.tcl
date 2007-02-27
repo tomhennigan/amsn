@@ -4078,12 +4078,12 @@ proc cmsn_draw_offline {} {
 	}
 	::Preferences::Configure
 
-	# USE NEW LOGIN SCREEN
-	pack forget .main
-	if { ![winfo exists .loginscreen] } {
-		loginscreen .loginscreen
+	# USE NEW LOGIN SCREEN - temporary code, needs working out properly
+	pack forget .main.f
+	if { ![winfo exists .main.loginscreen] } {
+		loginscreen .main.loginscreen
 	}
-	pack .loginscreen -e 1 -f both
+	pack .main.loginscreen -e 1 -f both
 }
 #///////////////////////////////////////////////////////////////////////
 
