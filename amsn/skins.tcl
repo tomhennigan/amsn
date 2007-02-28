@@ -793,7 +793,7 @@ namespace eval ::skin {
 		::skin::setPixmap mystatus_bg mystatus_bg.gif
 	
 		::skin::setPixmap mailbox mailbox.gif
-		::skin::setPixmap mailbox mailbox_unread.gif
+		::skin::setPixmap mailbox_new mailbox_unread.gif
 	
 		::skin::setPixmap contract contract.gif
 		::skin::setPixmap contract_hover contract_hover.gif
