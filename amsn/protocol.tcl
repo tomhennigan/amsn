@@ -4812,7 +4812,13 @@ proc cmsn_change_state {recv} {
 
 		if {[::config::getKey protocol] == 11} {
 			if {$::msnp13 != 1} {
-				::MSN::WriteSB ns "SBP" "[::abook::getContactData $user contactguid] MFN [urlencode $user_name]"
+				# This check below is because today I received a NLN for a user 
+				# who doesn't appear in ANY of my 5 MSN lists (RL,AL,BL,FL,PL)
+				# so amsn just sent the SBP with an empty string for the contactguid, 
+				# which resulted in a wrongly formed SBP, which resulted in the msn server disconnecting me... :@
+				if { [::abook::getContactData $user contactguid] != "" } {
+					::MSN::WriteSB ns "SBP" "[::abook::getContactData $user contactguid] MFN [urlencode $user_name]"
+				}
 			}
 		}
 	} else {
