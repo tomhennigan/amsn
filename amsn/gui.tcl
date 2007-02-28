@@ -6540,9 +6540,11 @@ proc dpBrowser { {target_user "self" } } {
 	pack $w.moredpstitle.text -side left
 	pack $w.moredpstitle.combo -side right
 
-	::dpbrowser $w.mydps -width 4  -mode "both" -invertmatch 0 -user self -command [list updateDpBrowserSelection $w.mydps $target_user]
+	::dpbrowser $w.mydps -width 4 -mode "both" -invertmatch 0 -firstselect $selected_path \
+		-command [list updateDpBrowserSelection $w.mydps $target_user] -user self
 
-	::dpbrowser $w.moredps -width 4 -mode "both" -invertmatch 0 -user $selected_user -command [list updateDpBrowserSelection $w.moredps $target_user]
+	::dpbrowser $w.moredps -width 4 -mode "both" -invertmatch 0 -firstselect $selected_path \
+		-command [list updateDpBrowserSelection $w.moredps $target_user] -user $selected_user 
 	
 	#################
 	# second column #

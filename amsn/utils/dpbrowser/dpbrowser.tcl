@@ -26,22 +26,22 @@ snit::widget dpbrowser {
 	option -createtempimg -default 0
 	option -autoresize -default 1 -configuremethod setConfig
 	option -invertmatch -default 0
+	option -firstselect -default "" -readonly 1
 
 	variable selected ""
 	variable tempimg ""
 	variable pics_in_use ""
 	variable entry_in_use ""
 	variable dps ""
-	variable enable_draw 0
+	variable first_draw 1
 
 	constructor { args } {
 		#frame hull is created automatically
 
 		#apply all options
-		set enable_draw 0
 		$self configurelist $args
-		set enable_draw 1
 		$self drawPics
+		set first_draw 0
 		
 		bind $self <Destroy> [list $self cleanUp]
 	}
@@ -54,7 +54,7 @@ snit::widget dpbrowser {
 		}
 	}
 
-	# Generate the dps list for the specified users and redraw the widget
+	# Generate the dps list for the specified users
 	method fillWidget { email_list } {
 		global HOME
 
@@ -72,23 +72,23 @@ snit::widget dpbrowser {
 			set user_dps ""
 			set cached_dps ""
 			
-			set self_index [lsearch $email_list "self"]
+			set self_index [lsearch -sorted $email_list "self"]
 			
 			if {$self_index != -1 && !($options(-invertmatch))} {
 				set email_list [lreplace $email_list $self_index $self_index]
 				set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins default displaypic] *.dat] "self" 1]]
 				set shipped_dps [linsert $shipped_dps 0 [list "" "nopic" "[trans nopic]"]]
 				# Delete dat files for non-existing png files
-				set dat_files [glob -nocomplain -directory [file join $HOME displaypic] *.dat]
-				set png_files [glob -nocomplain -directory [file join $HOME displaypic] *.png]
+				set dat_files [lsort [glob -nocomplain -directory [file join $HOME displaypic] *.dat]]
+				set png_files [lsort [glob -nocomplain -directory [file join $HOME displaypic] *.png]]
 				foreach file $dat_files {
-					if {[lsearch $png_files "[filenoext $file].png"] == -1} {
+					if {[lsearch -sorted $png_files "[filenoext $file].png"] == -1} {
 						file delete $file
 					}
 				}
 				# Create dat files for new png files
 				foreach file $png_files {
-					if {[lsearch $dat_files "[filenoext $file].dat"] == -1} {
+					if {[lsearch -sorted $dat_files "[filenoext $file].dat"] == -1} {
 						set desc_file "[filenoext $file].dat"
 						set fd [open $desc_file w]
 						status_log "Writing description to $desc_file\n"
@@ -124,12 +124,8 @@ snit::widget dpbrowser {
 					lappend pics_in_use [file join $HOME displaypic cache [filenoext $custom_image_name].png]
 				}
 			}
-			
-			if {$n_email > 1} {
-				set pics_in_use [lsort -unique $pics_in_use]
-			}
+			set pics_in_use [lsort -unique $pics_in_use]
 		}
-		$self drawPics
 	}
 
 	# Redraw the widget
@@ -179,7 +175,13 @@ snit::widget dpbrowser {
 				}
 
 				#exclude the image the users are currently using
-				if { $options(-showcurrent) != 0 || [lsearch $pics_in_use $file] == -1 } {
+				set isinuse [lsearch -sorted $pics_in_use $file]
+				
+				if { $options(-showcurrent) != 0 || $isinuse == -1 } {
+					set first_select 0
+					if {$first_draw && $n_email == 1 && $file == $options(-firstselect)} {
+						set first_select 1
+					}
 					if { $file != "" } {
 						#if a problem loading the image arises, go to next
 						if { [catch { set tempimage [image create photo [TmpImgName] -file $file -format cximage] }] } { continue }
@@ -200,11 +202,11 @@ snit::widget dpbrowser {
 						-bgcolor $options(-bg) -onpress [list $self onClick $entry $file] \
 						-disableselect $isSelectDisabled -padding 4
 					
-					if {$n_email == 1 && $file == [lindex $pics_in_use end]} {
+					if {!($isSelectDisabled) && $first_select} {
 						$self setSelected $entry $file
 					}
-					
-					if {[regexp ^$HOME $file] && [lsearch $pics_in_use $file] == -1} {
+
+					if {[regexp ^$HOME $file] && $isinuse == -1} {
 						bind $entry <ButtonRelease-3> \
 							[list $self popupMenu %X %Y $file $entry 1]
 					} else {
@@ -337,7 +339,7 @@ snit::widget dpbrowser {
 			set id [gets $fd]
 			close $fd
 			
-			if {$email_list == "self" || ([lsearch $email_list $id] != -1)} {
+			if {$email_list == "self" || ([lsearch -sorted $email_list $id] != -1)} {
 				set found_match 1
 			} else {
 				set found_match 0
@@ -424,7 +426,6 @@ snit::widget dpbrowser {
 	# Configure the widget according to the options
 	method setConfig {option value} {
 		set options($option) $value
-#		puts "Altering $option to $value"
 
 		#actions after change or initial setting of options
 		#the space was added so the option isn't passed to the switch command
@@ -433,7 +434,9 @@ snit::widget dpbrowser {
 				set options($option) [lsort -unique $value]
 				#empty the widget and refill it for other user
 				$self fillWidget $value
-#				puts "changed to user $value"
+				if {!($first_draw)} {
+					$self drawPics
+				}
 			}
 			" -autowidth" {
 				if {$value} {
