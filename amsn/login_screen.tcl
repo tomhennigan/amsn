@@ -279,7 +279,7 @@ snit::widgetadaptor loginscreen {
 		# Don't let us check numbers, it'll try and load that number profile (e.g. 0 would load the first profile, 1 the second etc)
 		if { [string is integer $username] } { set username "" }
 		after cancel $after_id(checkuser)
-		set after_id(checkuser) [after 100 "$self CheckUsername $username"]
+		set after_id(checkuser) [after 100 [list $self CheckUsername "$username"]]
 	}
 
 	method CheckUsername { {username ""} } {
@@ -376,7 +376,7 @@ snit::widgetadaptor loginscreen {
 
 		# If remember me checkbutton is selected and a profile doesn't already exists for this user, create a profile for them.
 		if { $remember_me && ![LoginList exists 0 $user] } {
-			CreateProfile $user
+			#CreateProfile $user
 		}
 
 		# Login with them
@@ -388,12 +388,15 @@ snit::widgetadaptor loginscreen {
 
 		# Set username and password key and global respectively
 		set password $pass
-		if { !$remember_me } {
+		if { !$remember_me || ![LoginList exists $user] } {
 			::config::setKey login [string tolower $user]
 		}
 
 		# Connect
-		::MSN::connect $password
+		set connect [::MSN::connect $password]
+		if { !$connect || $connect == -1 } {
+			return
+		}
 
 		# TEMPORARY CODE TO SWITCH BACK TO WIDGET WITH LOGIN PROGRESS IN
 		pack forget $self

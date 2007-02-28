@@ -1120,12 +1120,12 @@ proc SwitchProfileMode { value } {
 				set loginmode 0
 				# Going back to default profile
 				set loginmode 0
-				RefreshLogin .login.main 1
+				#RefreshLogin .login.main 1
 			} elseif { $idx > [LoginList size 0] } {
 				msg_box [trans allprofilesinuse]
 				# Going back to default profile
 				set loginmode 0
-				RefreshLogin .login.main 1
+				#RefreshLogin .login.main 1
 			}
 		# Else we are already in a profile, select that profile in combobox
 		} else {
@@ -1229,7 +1229,7 @@ proc CreateProfile { email } {
 	# Redraw combobox with new profile
 	if { [winfo exists .login] } {
 		set loginmode 1
-		RefreshLogin .login.main 1
+		#RefreshLogin .login.main 1
 		.login.main.box list delete 0 end
 		set idx 0
 		set tmp_list ""

@@ -5951,7 +5951,7 @@ proc cmsn_ns_connected {sock} {
 #TODO: ::abook system
 proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	if { ($username == "") || ($password == "")} {
-		cmsn_draw_login
+		#cmsn_draw_login
 		return -1
 	}
 
