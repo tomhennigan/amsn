@@ -101,8 +101,6 @@ snit::widget dpbrowser {
 				}
 				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] "self"]]
 			}
-			puts "--- Email list ---"
-			puts "$email_list"
 			if {$email_list != ""} {
 				set cached_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat] $email_list]]
 			}
@@ -402,7 +400,7 @@ snit::widget dpbrowser {
 
 	# Delete a dp from the hard disk
 	method deleteEntry {filename widget} {
-		if {[lindex $selected 0] != $widget} {
+		if {[lindex $selected 0] == $widget} {
 			$self deSelect
 			eval $options(-command)
 		}

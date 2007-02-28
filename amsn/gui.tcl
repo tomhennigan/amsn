@@ -6629,7 +6629,7 @@ proc updateDpBrowserSelection { browser target } {
 		set file [[::skin::getNoDisplayPicture] cget -file]
 	}
 	$w.dppreview configure -image [image create photo displaypicture_pre_$target -file $file -format cximage]
-	if {$browser == $w.mydps} {
+	if {"$browser" == "$w.mydps"} {
 		$w.moredps deSelect
 	} else {
 		$w.mydps deSelect
