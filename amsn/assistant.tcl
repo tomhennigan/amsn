@@ -408,7 +408,7 @@ snit::widget assistant {
 			}
 		}
 		if {$err == 1} {
-			set cancelProcs [lappend $cancelProcs [list $name $proc]]
+			lappend cancelProcs [list $name $proc]]
 		} else {
 			status_log "Assistant: while calling addCancelProc, a proc identified by $name is already registered"
 		}
@@ -1436,7 +1436,6 @@ namespace eval ::AVAssistant {
 		variable hue
 		variable color
 		variable lowrescam
-		variable shareCam
 
 		$contentf configure -padx 10 -pady 10
 
@@ -2156,7 +2155,6 @@ namespace eval ::AVAssistant {
 	proc LastStep {assistant contentf} {
 		variable audio_configured
 		variable video_configured
-		variable shareCam
 		variable selecteddevicename
 		variable selectedchannelname
 		variable haveMic
@@ -2208,15 +2206,17 @@ namespace eval ::AVAssistant {
 		#to get a nice wrapping
 		bind $contentf.textfinish <Configure> [list %W configure -wraplength %w]
 
-		if {![info exists shareCam]} {
-			set shareCam [::config::getKey wanttosharecam]
-		}
-		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable $shareCam -onvalue 1 -offvalue 0 -state $sharecamState
+		$assistant addCancelProc resetSharecam [list ::AVAssistant::resetSharecam [::config::getKey wanttosharecam] ]
+
+		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state $sharecamState
 		pack $contentf.wanttosharecam -pady 10
 
 		$assistant setFinishProc ::AVAssistant::finish
 	}
 
+	proc resetSharecam { old_value } {
+		::config::setKey wanttosharecam $old_value
+	}
 
 	######################################################################################
 	# Finish: Saving settings                                                            #
@@ -2247,13 +2247,10 @@ namespace eval ::AVAssistant {
 				variable selecteddevice
 				::config::setKey "webcamDevice" "$selecteddevice"
 			}
-			#saving shareCam setting
-			variable shareCam
-			if { $shareCam } {
-				::config::setKey wanttosharecam 1
+
+			if { [::config::getKey wanttosharecam] } {
 				::MSN::setClientCap webcam
 			} else {
-				::config::setKey wanttosharecam 0
 				::MSN::setClientCap webcam 0
 			}
 			#Refresh clientid if connected
