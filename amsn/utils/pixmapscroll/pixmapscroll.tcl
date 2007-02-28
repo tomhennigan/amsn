@@ -388,30 +388,48 @@ snit::widgetadaptor pixmapscrollbar {
 			
 			if { $slidersize < $minsize } {
 				set slidersize $minsize
-			}			
+			}
+
+			set gripPos [expr {($slidersize/2) - ([image height $slidergripimage]/2)}]
+			if {$gripPos < 0} {set gripPos 1}
 
 
 			$sliderimage blank
 			$sliderimage copy $slidertopimage
 			$sliderimage copy $sliderbodyimage -to [image width $slidertopimage] 0 [expr {$slidersize - [image width $sliderbottomimage]}] [image height $sliderbodyimage]
 			$sliderimage copy $sliderbottomimage -to [expr {$slidersize - [image width $sliderbottomimage]}] 0 -shrink
+			if  {[expr {$slidersize - [image width $sliderbottomimage] }] >= [image width $slidergripimage]} {
+				$sliderimage copy $slidergripimage -to $gripPos 0
+			}
 
 			$sliderimage_hover blank
 			$sliderimage_hover copy $slidertopimage_hover
 			$sliderimage_hover copy $sliderbodyimage_hover -to [image width $slidertopimage_hover] 0 [expr {$slidersize - [image width $sliderbottomimage_hover]}] [image height $sliderbodyimage_hover]
 			$sliderimage_hover copy $sliderbottomimage_hover -to [expr {$slidersize - [image width $sliderbottomimage_hover]}] 0 -shrink
+			if  {[expr {$slidersize - [image width $sliderbottomimage_hover] }] >= [image width $slidergripimage_hover]} {
+				$sliderimage_hover copy $slidergripimage_hover -to $gripPos 0
+			}
 
 			$sliderimage_pressed blank
 			$sliderimage_pressed copy $slidertopimage_pressed
 			$sliderimage_pressed copy $sliderbodyimage_pressed -to [image width $slidertopimage_pressed] 0 [expr {$slidersize - [image width $sliderbottomimage_pressed]}] [image height $sliderbodyimage_pressed]
 			$sliderimage_pressed copy $sliderbottomimage_pressed -to [expr {$slidersize - [image width $sliderbottomimage_pressed]}] 0 -shrink
+			if  {[expr {$slidersize - [image width $sliderbottomimage_pressed] }] >= [image width $slidergripimage_pressed]} {
+				$sliderimage_pressed copy $slidergripimage_pressed -to $gripPos 0
+			}
 
 			$sliderimage_disabled blank
 			$sliderimage_disabled copy $slidertopimage_disabled
 			$sliderimage_disabled copy $sliderbodyimage_disabled -to [image width $slidertopimage_disabled] 0 [expr {$slidersize - [image width $sliderbottomimage_disabled]}] [image height $sliderbodyimage_disabled]
 			$sliderimage_disabled copy $sliderbottomimage_disabled -to [expr {$slidersize - [image width $sliderbottomimage_disabled]}] 0 -shrink
+			if  {[expr {$slidersize - [image width $sliderbottomimage_disabled] }] >= [image width $slidergripimage_disabled]} {
+				$sliderimage_disabled copy $slidergripimage_disabled -to $gripPos 0
+			}
 
 			set sliderpos [expr {($first * ($newsize - ($arrow1width + $arrow2width))) + $arrow1width}]
+			
+			if { [lindex [$self get] 0] == 0 } { set sliderpos $arrow1width }
+			if { [lindex [$self get] 1] == 1 } { set sliderpos [expr $newsize - $arrow2width - $slidersize] }
 
 			if { $sliderpos < $arrow1width } { set sliderpos $arrow1width }
 			if { $sliderpos > [expr {$newsize - $arrow1width - $slidersize}] } { set sliderpos [expr {$newsize - $arrow1width - $slidersize}] }
@@ -477,8 +495,8 @@ snit::widgetadaptor pixmapscrollbar {
 
 			if { $y >= [lindex $sliderpos 1] && $y <= [expr {[lindex $sliderpos 1] + $slidersize}] } { return "slider" }
 
-			if { $y >= [lindex trough1coords 1] && $y <= [lindex $trough1coords 3] } { return "trough1" }
-			if { $y >= [lindex trough2coords 1] && $y <= [lindex $trough2coords 3] } { return "trough2" }
+			if { $y >= [lindex $trough1coords 1] && $y <= [lindex $trough1coords 3] } { return "trough1" }
+			if { $y >= [lindex $trough2coords 1] && $y <= [lindex $trough2coords 3] } { return "trough2" }
 
 		} else {
 			set slidersize [image width $sliderimage]
