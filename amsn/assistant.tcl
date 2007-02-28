@@ -1428,8 +1428,6 @@ namespace eval ::AVAssistant {
 	# Step 2 Video Linux:  Finetune picture settings                                     #
 	######################################################################################	
 	proc Step2WLinux {assistant contentf} {
-#TODO: add support for windows (if necessary)
-		#Only linux for now ...
 		variable selecteddevice
 		variable selectedchannel
 
@@ -2095,7 +2093,8 @@ namespace eval ::AVAssistant {
 
 		set sound [::snack::sound]
 		if { [catch {$sound record} res]} {
-#TODO: fill a widget where we display the error
+			$w.wavef create text 5 5 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+			after 3000 "catch { $w.wavef delete errmsg }"
 		} else {
 			#don't press on the play button while recording
 			bind $w.recf.playrecorded <ButtonPress-1> ""
