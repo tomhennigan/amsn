@@ -1044,14 +1044,14 @@ namespace eval ::AVAssistant {
 #TODO: translation
 				label $contentf.wcextwarn -justify left -text "You won't be able to view your contacts' webcams. You may find answers on how to install that extension on our Wiki : "
 #TODO: fill the url
-				label $contentf.wcextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+				label $contentf.wcextwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 				pack $contentf.wcextlabel
 				pack $contentf.wcextwarn 
 				pack $contentf.wcextwarnurl
 
 				bind $contentf.wcextwarnurl <Enter> [list %W configure -font sunderf]
 				bind $contentf.wcextwarnurl <Leave> [list %W configure -font splainf]
-				bind $contentf.wcextwarnurl <ButtonRelease> [list launch_browser "$::weburl/userwiki"]
+				bind $contentf.wcextwarnurl <ButtonRelease> [list launch_browser "$::weburl/webcamfaq.php"]
 				#to get a nice wrapping
 				bind $contentf.wcextwarn <Configure> [list %W configure -wraplength %w]
 			}
@@ -1065,7 +1065,7 @@ namespace eval ::AVAssistant {
 #TODO: translation
 				label $contentf.capextwarn -justify left -text "You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install that extension on our Wiki : "
 #TODO: fill the url
-				label $contentf.capextwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+				label $contentf.capextwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 
 				pack $contentf.capextlabel -pady [list 20 0]
 
@@ -1073,7 +1073,7 @@ namespace eval ::AVAssistant {
 				pack $contentf.capextwarnurl
 				bind $contentf.capextwarnurl <Enter> [list %W configure -font sunderf]
 				bind $contentf.capextwarnurl <Leave> [list %W configure -font splainf]
-				bind $contentf.capextwarnurl <ButtonRelease> [list launch_browser "$::weburl/userwiki"]
+				bind $contentf.capextwarnurl <ButtonRelease> [list launch_browser "$::weburl/webcamfaq.php"]
 				#to get a nice wrapping
 				bind $contentf.capextwarn <Configure> [list %W configure -wraplength %w]
 			}
@@ -1087,7 +1087,7 @@ namespace eval ::AVAssistant {
 #TODO: translation
 				label $contentf.nocamwarn -justify left -text "No webcam were found or your webcam is already in use. You will find help on how to solve that issue on our Wiki : "
 #TODO: fill the url
-				label $contentf.nocamwarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+				label $contentf.nocamwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 
 				pack $contentf.nocamlabel -pady [list 20 0]
 
@@ -1095,7 +1095,7 @@ namespace eval ::AVAssistant {
 				pack $contentf.nocamwarnurl
 				bind $contentf.nocamwarnurl <Enter> [list %W configure -font sunderf]
 				bind $contentf.nocamwarnurl <Leave> [list %W configure -font splainf]
-				bind $contentf.nocamwarnurl <ButtonRelease> [list launch_browser "$::weburl/userwiki"]
+				bind $contentf.nocamwarnurl <ButtonRelease> [list launch_browser "$::weburl/webcamfaq.php"]
 				#to get a nice wrapping
 				bind $contentf.nocamwarn <Configure> [list %W configure -wraplength %w]
 			}
@@ -1769,7 +1769,7 @@ namespace eval ::AVAssistant {
 #TODO: translation
 			label $contentf.audiowarn -justify left -text "You won't be able to record yourself, or speak (with voice) to friends. You may find answers on how to install that extension on our Wiki : "
 #TODO: fill the url
-			label $contentf.audiowarnurl -justify left -text "$::weburl/userwiki/" -fg blue
+			label $contentf.audiowarnurl -justify left -text "$::weburl/wiki/" -fg blue
 
 			pack $contentf.audiolabel
 			pack $contentf.audiowarn 
@@ -1777,7 +1777,7 @@ namespace eval ::AVAssistant {
 
 			bind $contentf.audiowarnurl <Enter> [list %W configure -font sunderf]
 			bind $contentf.audiowarnurl <Leave> [list %W configure -font splainf]
-			bind $contentf.audiowarnurl <ButtonRelease> [list launch_browser "$::weburl/userwiki"]
+			bind $contentf.audiowarnurl <ButtonRelease> [list launch_browser "$::weburl/wiki"]
 			#to get a nice wrapping
  			bind $contentf.audiowarn <Configure> [list %W configure -wraplength %w]
 
@@ -2162,14 +2162,19 @@ namespace eval ::AVAssistant {
 		variable selectedchannelname
 		variable haveMic
 
+		set sharecamState "disabled"
+
 #TODO: translations
 		if {$video_configured} {
 			if {[OnMac]} {
-				set text "You're webcam settigns have been configured"
+				set text "You're webcam settings have been configured"
+				set sharecamState "normal"
 			} elseif {[OnWin]} {
-				set text "You have chosen the webcam device $selecteddevicename."
+				set text "You chose the following webcam Settings :\nWebcam Device : $selecteddevicename"
+				set sharecamState "normal"
 			} elseif {[OnLinux]} {
-				set text "You have chosen the webcam device $selecteddevicename with the channel $selectedchannelname."
+				set text "You chose the following the webcam Settings :\nWebcam Device : $selecteddevicename\nWebcam Channel : $selectedchannelname"
+				set sharecamState "normal"
 			} else {
 				set text "hum, i don't know how you reached that step :), but i hope you have configured your webcam."
 			}
@@ -2185,9 +2190,9 @@ namespace eval ::AVAssistant {
 		if {$audio_configured} {
 			#snack should work for everyone
 			if {$haveMic} {
-				set text "You chose the following Audio settings :\nOutput device: [::audio::getOutputDevice]\nInput device: [::audio::getInputDevice]"
+				set text "You chose the following Audio settings :\nOutput Device: [::audio::getOutputDevice]\nInput Device: [::audio::getInputDevice]"
 			} else {
-				set text "You chose the following Audio settings :\nOutput device: [::audio::getOutputDevice]\nInput device: No Microphone"
+				set text "You chose the following Audio settings :\nOutput Device: [::audio::getOutputDevice]\nInput Device: No Microphone"
 			}
 			#add the Content
 			label $contentf.textaudio -justify left -font bplainf -text $text
@@ -2207,7 +2212,7 @@ namespace eval ::AVAssistant {
 		if {![info exists shareCam]} {
 			set shareCam [::config::getKey wanttosharecam]
 		}
-		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable $shareCam -onvalue 1 -offvalue 0
+		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable $shareCam -onvalue 1 -offvalue 0 -state $sharecamState
 		pack $contentf.wanttosharecam -pady 10
 
 		$assistant setFinishProc ::AVAssistant::finish
