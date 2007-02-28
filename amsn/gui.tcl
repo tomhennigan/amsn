@@ -4714,17 +4714,6 @@ proc cmsn_draw_buildtop_wrapped {} {
 		$pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under false;$pgBuddyTop.mail conf -cursor hand2"
 		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
 	
-		clickableImage $pgBuddyTop.mail mailbox mailbox "::hotmail::hotmail_login" [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
-		set mailheight [expr {[image height [::skin::loadPixmap mailbox]]+(2*[::skin::getKey mailbox_ypad])}]
-		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
-		if { [OnWin] || [OnMac] } {
-			incr mailheight -2
-		}
-		set textheight [font metrics splainf -linespace]
-		if { $mailheight < $textheight } {
-			set mailheight $textheight
-		}
-		$pgBuddyTop.mail configure -font "{} -$mailheight"
 	
 		set unread [::hotmail::unreadMessages]
 		set froms [::hotmail::getFroms]
@@ -4736,16 +4725,33 @@ proc cmsn_draw_buildtop_wrapped {} {
 		if {$unread == 0} {
 			set mailmsg "[trans nonewmail]"
 			set balloon_message "[trans nonewmail]"
+			set mail_img mailbox
 		} elseif {$unread == 1} {
 			set mailmsg "[trans onenewmail]"
 			set balloon_message "[trans onenewmail]\n$fromsText"
+			set mail_img mailbox_new
 		} elseif {$unread == 2} {
 			set mailmsg "[trans twonewmail 2]"
 			set balloon_message "[trans twonewmail 2]\n$fromsText"
+			set mail_img mailbox_new
 		} else {
 			set mailmsg "[trans newmail $unread]"
 			set balloon_message "[trans newmail $unread]\n$fromsText"
+			set mail_img mailbox_new
 		}
+
+		clickableImage $pgBuddyTop.mail mailbox $mail_img "::hotmail::hotmail_login" [::skin::getKey mailbox_xpad] [::skin::getKey mailbox_ypad]
+		set mailheight [expr {[image height [::skin::loadPixmap mailbox]]+(2*[::skin::getKey mailbox_ypad])}]
+		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
+		if { [OnWin] || [OnMac] } {
+			incr mailheight -2
+		}
+		set textheight [font metrics splainf -linespace]
+		if { $mailheight < $textheight } {
+			set mailheight $textheight
+		}
+		$pgBuddyTop.mail configure -font "{} -$mailheight"
+
 		$pgBuddyTop.mail tag bind mail <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 		$pgBuddyTop.mail tag bind mail <Leave> "+set ::Bulle(first) 0; kill_balloon;"
 		$pgBuddyTop.mail tag bind mail <Motion> +[list balloon_motion %W %X %Y $balloon_message]
@@ -4754,7 +4760,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 		set evpar(msg) mailmsg
 		::plugins::PostEvent ContactListEmailsDraw evpar
 	
-		set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[image width [::skin::loadPixmap mailbox]]-(2*[::skin::getKey mailbox_xpad])}]
+		set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[image width [::skin::loadPixmap $mail_img]]-(2*[::skin::getKey mailbox_xpad])}]
 		set short_mailmsg [trunc $mailmsg $pgBuddyTop.mail $maxw splainf]
 		$pgBuddyTop.mail insert end "$short_mailmsg" {mail dont_replace_smileys}
 	
