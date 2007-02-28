@@ -2262,6 +2262,7 @@ puts "going to download $thumbnailurl"
 	proc contactMove {tag canvas x y} {
 		variable DragDeltaX
 		variable DragDeltaY
+		variable DragStartCoords
 		variable scrollAfterId
 		variable OnTheMove
 
@@ -2271,6 +2272,14 @@ puts "going to download $thumbnailurl"
 		set oldCoords [$canvas coords $tag]
 		set coordX [expr {[$canvas canvasx $x] - $DragDeltaX}]
 		set coordY [expr {[$canvas canvasy $y] - $DragDeltaY}]
+
+		set ChangeX [expr {[lindex $DragStartCoords 0] - $coordX}]
+		set ChangeY [expr {[lindex $DragStartCoords 1] - $coordY}]
+
+		if { abs($ChangeX) <= 5 && abs($ChangeY) <= 5 } {
+			set coordX [lindex $DragStartCoords 0]
+			set coordY [lindex $DragStartCoords 1]
+		}
 
 		if { $::guiContactList::modeCopy } {
 			$canvas configure -cursor plus
@@ -2320,8 +2329,6 @@ puts "going to download $thumbnailurl"
 			# TODO: Here we should trigger an event that can be used
 			# 	by plugins. For example, the contact tray plugin
 			# 	could create trays like this
-
-			status_log "$iconXCoord $ChangeX $ChangeY"
 
 			$canvas move $tag $ChangeX $ChangeY
 		} else {
