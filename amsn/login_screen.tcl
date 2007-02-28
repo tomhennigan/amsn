@@ -198,6 +198,10 @@ snit::widgetadaptor loginscreen {
 		if { [::config::getGlobalKey disableprofiles] != 1 } {
 			$rem_me_field configure -state disabled
 		}
+
+		# Register for events
+		::Event::registerEvent loggingIn all $self
+		::Event::registerEvent loggedOut all $self
 	}
 
 	destructor {
@@ -393,14 +397,17 @@ snit::widgetadaptor loginscreen {
 		}
 
 		# Connect
-		set connect [::MSN::connect $password]
-		if { !$connect || $connect == -1 } {
-			return
-		}
+		::MSN::connect $password
+	}
 
-		# TEMPORARY CODE TO SWITCH BACK TO WIDGET WITH LOGIN PROGRESS IN
+	method loggingIn {} {
 		pack forget $self
-		pack .main.f -e 1 -f both
+		pack .main.f -expand true -fill both
+	}
+
+	method loggedOut {} {
+		pack forget .main.f
+		pack $self -expand true -fill both
 	}
 }
 

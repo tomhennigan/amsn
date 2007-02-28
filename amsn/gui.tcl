@@ -4100,8 +4100,8 @@ proc cmsn_draw_reconnect { error_msg } {
 	if { $clcanvas == "" } { return }
 
 	pack forget $pgBuddyTop
-	pack forget .main.loginscreen
-	pack .main.f -expand true -fill both
+	#pack forget .main.loginscreen
+	#pack .main.f -expand true -fill both
 
 	set loganim [::skin::loadPixmap loganim]
 
@@ -4153,8 +4153,8 @@ proc cmsn_draw_signin {} {
 	if { $clcanvas == "" } { return }
 
 	pack forget $pgBuddyTop
-	pack forget .main.loginscreen
-	pack .main.f -expand true -fill both
+	#pack forget .main.loginscreen
+	#pack .main.f -expand true -fill both
 
 	set loganim [::skin::loadPixmap loganim]
 

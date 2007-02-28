@@ -897,6 +897,7 @@ namespace eval ::MSN {
 
 		cmsn_ns_connect $username $passwd
 
+		::Event::fireEvent loggingIn protocol
   	 }
 
 
@@ -952,7 +953,7 @@ namespace eval ::MSN {
 		#an event to let the GUI know we are actually logged out now
 		::Event::fireEvent loggedOut protocol
 
-		cmsn_draw_offline
+		#cmsn_draw_offline
 
 		#Set all CW users as offline
 		foreach user_name [::abook::getAllContacts] {
