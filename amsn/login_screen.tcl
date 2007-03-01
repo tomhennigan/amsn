@@ -43,7 +43,7 @@ snit::widgetadaptor loginscreen {
 	delegate method * to hull except {SortElements PopulateStateList LoginButtonPressed CanvasTextToLink LinkClicked}
 
 	constructor { args } {
-		array set after_id {checkuser {}}
+		array set after_id {checkUser {} PosBg {} Sort {}}
 		set remember_me 0
 
 		installhull using canvas -bg white -highlightthickness 0 -xscrollcommand "$self CanvasScrolled" -yscrollcommand "$self CanvasScrolled"
@@ -211,14 +211,16 @@ snit::widgetadaptor loginscreen {
 	# Called when canvas is resized
 	method Resized {} {
 		# Keep background in bottom right corner
-		$self AutoPositionBackground
+		after cancel $after_id(PosBg)
+		set after_id(PosBg) [after 10 [list $self AutoPositionBackground]]
 		# Arrange items on the canvas
-		$self SortElements
+		after cancel $after_id(Sort)
+		set after_id(Sort) [after 10 [list $self SortElements]]
 	}
 
 	method CanvasScrolled { args } {
 		# Keep background in bottom right corner
-		$self AutoPositionBackground
+		#$self AutoPositionBackground
 	}
 
 	method AutoPositionBackground {} {
@@ -282,8 +284,8 @@ snit::widgetadaptor loginscreen {
 		set username [$user_field get]
 		# Don't let us check numbers, it'll try and load that number profile (e.g. 0 would load the first profile, 1 the second etc)
 		if { [string is integer $username] } { set username "" }
-		after cancel $after_id(checkuser)
-		set after_id(checkuser) [after 100 [list $self CheckUsername "$username"]]
+		after cancel $after_id(checkUser)
+		set after_id(checkUser) [after 100 [list $self CheckUsername "$username"]]
 	}
 
 	method CheckUsername { {username ""} } {
