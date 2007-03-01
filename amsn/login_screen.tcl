@@ -38,6 +38,9 @@ snit::widgetadaptor loginscreen {
 	component service_status_link
 	component new_account_link
 
+	component check_ver_icon
+	component check_ver_text
+
 	variable remember_me
 
 	delegate method * to hull except {SortElements PopulateStateList LoginButtonPressed CanvasTextToLink LinkClicked}
@@ -55,14 +58,15 @@ snit::widgetadaptor loginscreen {
 		contentmanager add group lang			-orient horizontal	-widget $self	-ipadx 4		-ipady 4
 		contentmanager add group main			-orient vertical	-widget $self
 		contentmanager add group main dp		-orient horizontal	-widget $self	-align center
-		contentmanager add group main user		-orient vertical	-widget $self	-pady 4
-		contentmanager add group main pass		-orient vertical	-widget $self	-pady 4
-		contentmanager add group main status		-orient vertical	-widget $self	-pady 4
+		contentmanager add group main user		-orient vertical	-widget $self	-pady 4		-align center
+		contentmanager add group main pass		-orient vertical	-widget $self	-pady 4		-align center
+		contentmanager add group main status		-orient vertical	-widget $self	-pady 4		-align center
 		contentmanager add group main rem_me		-orient horizontal	-widget $self	-pady 2
 		contentmanager add group main rem_pass		-orient horizontal	-widget $self	-pady 2
 		contentmanager add group main auto_login	-orient horizontal	-widget $self	-pady 2
 		contentmanager add group main login		-orient horizontal	-widget $self	-align center	-pady 8
 		contentmanager add group main links		-orient vertical	-pady 32	-widget $self	-align center
+		contentmanager add group main check_ver		-orient horizontal	-pady 8		-widget $self	-align center
 
 		# Create widgets
 		# Language button
@@ -119,6 +123,9 @@ snit::widgetadaptor loginscreen {
 		set service_status_link [$self create text 0 0 -anchor nw -text [trans msnstatus]]
 		# New account
 		set new_account_link [$self create text 0 0 -anchor nw -text [trans new_account]]
+		# Check for newer amsn version
+		set check_version_icon [$self create image 0 0 -anchor nw -image [::skin::loadPixmap download]]
+		set check_version_text [$self create text 0 0 -anchor nw -text [trans checkver]]
 
 		# Place widgets in framework
 		# Language button
@@ -148,10 +155,8 @@ snit::widgetadaptor loginscreen {
 		contentmanager add element main links forgot_pass -widget $self -tag $forgot_pass_link -pady 2
 		contentmanager add element main links service_status -widget $self -tag $service_status_link -pady 2
 		contentmanager add element main links new_account -widget $self -tag $new_account_link -pady 2
-		# Make the text items into links
-		$self CanvasTextToLink main links forgot_pass [list launch_browser "https://accountservices.passport.net/uiresetpw.srf?lc=1033"]
-		$self CanvasTextToLink main links service_status [list launch_browser "http://messenger.msn.com/Status.aspx"]
-		$self CanvasTextToLink main links new_account [list launch_browser "https://accountservices.passport.net/reg.srf?sl=1&lc=1033"]
+		contentmanager add element main check_ver icon -widget $self -tag $check_version_icon -padx 4 -valign middle
+		contentmanager add element main check_ver text -widget $self -tag $check_version_text -padx 4 -valign middle
 
 		# Set font for canvas all text items
 		set all_tags [$self find all]
@@ -188,6 +193,11 @@ snit::widgetadaptor loginscreen {
 		contentmanager bind main rem_me label <ButtonPress-1> "$rem_me_field invoke"
 		contentmanager bind main rem_pass label <ButtonPress-1> "$rem_pass_field invoke"
 		contentmanager bind main auto_login label <ButtonPress-1> "$auto_login_field invoke"
+		# Make the text items into links
+		$self CanvasTextToLink main links forgot_pass [list launch_browser "https://accountservices.passport.net/uiresetpw.srf?lc=1033"]
+		$self CanvasTextToLink main links service_status [list launch_browser "http://messenger.msn.com/Status.aspx"]
+		$self CanvasTextToLink main links new_account [list launch_browser "https://accountservices.passport.net/reg.srf?sl=1&lc=1033"]
+		$self CanvasTextToLink main check_ver text "::autoupdate::check_version"
 
 		# Fill in last username used
 		$user_field delete 0 end
