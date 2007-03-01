@@ -3228,8 +3228,7 @@ proc create_main_menu {wmenu} {
 	
 	#Log in with default profile
 	if { [string length [::config::getKey login]] > 0 && $password != ""} {
-		$accnt add command -label "[trans login] ([::config::getKey login])"\
-			-command ::MSN::connect -state normal
+		#$accnt add command -label "[trans login] ([::config::getKey login])" -command ::MSN::connect -state normal
 	}
 	#log in with another profile
 	#$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
