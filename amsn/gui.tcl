@@ -3232,7 +3232,7 @@ proc create_main_menu {wmenu} {
 			-command ::MSN::connect -state normal
 	}
 	#log in with another profile
-	$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
+	#$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
 	#log out
 	$accnt add command -label "[trans logout]" -command "::MSN::logout" -state disabled
 	#-------------------

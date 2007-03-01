@@ -282,7 +282,7 @@ snit::widgetadaptor loginscreen {
 	method UsernameEdited {} {
 		# Get username
 		set username [$user_field get]
-		# Don't let us check numbers, it'll try and load that number profile (e.g. 0 would load the first profile, 1 the second etc)
+		# Don't let it check numbers, it'll try and load that number profile (e.g. 0 would load the first profile, 1 the second etc)
 		if { [string is integer $username] } { set username "" }
 		after cancel $after_id(checkUser)
 		set after_id(checkUser) [after 100 [list $self CheckUsername "$username"]]
@@ -338,6 +338,8 @@ snit::widgetadaptor loginscreen {
 				# -------------------------------------------------------
 				# Change DP
 				$dp_label configure -image [::skin::getNoDisplayPicture]
+				# Blank password field
+				$pass_field delete 0 end
 			}
 		}
 	}
