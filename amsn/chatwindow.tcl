@@ -1364,7 +1364,7 @@ namespace eval ::ChatWindow {
 			$editmenu add command -label "[trans findprev]" -command "$w.search findprev" -accelerator "Command+Shift+G"
 			$editmenu add separator
 			$editmenu add command -label "[trans editavsettings]" \
-				 -command "::CAMGUI::WebcamWizard" ;#Accelerator?
+				 -command "::AVassistant::AVassistant" ;#Accelerator?
 		} else {
 			$editmenu add command -label "[trans cut]" \
 				-command "tk_textCut \[::ChatWindow::getCurrentTab $w\]" -accelerator "Ctrl+X"
@@ -1379,7 +1379,7 @@ namespace eval ::ChatWindow {
 			$editmenu add command -label "[trans findprev]" -command "$w.search findprev" -accelerator "Shift+F3"
 			$editmenu add separator
 			$editmenu add command -label "[trans editavsettings]" \
-				-command "::CAMGUI::WebcamWizard"  -accelerator "Ctrl+N"
+				-command "::AVAssistant::AVAssistant"  -accelerator "Ctrl+N"
 		}
 
 		return $editmenu

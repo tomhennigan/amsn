@@ -50,6 +50,14 @@ askeachtime Ask each time
 asksendingyourwebcam to ask for sending your own webcam
 asksendoim Do you want to send this message as an offline message ?
 askwebcam Ask this user to send his/her webcam
+assistantainput Choose your input device and try recording with it.
+assistantaoutput Choose your output device, and try playing this file to test it.
+assistantawarn You won't be able to record yourself, or speak to your friends. You may find answers on how to install this extension on our Wiki:
+assistantfinetunepic Change the following settings to adjust the image quality of your webcam
+assistantselectcam Select your webcam from the list
+assistantstarting Starting the Assistant
+assistantwelcome This assistant will guide you through the setup of your audio and video settings for aMSN.\n\nIt will check if the required extensions are present and loaded and you'll be able to choose the device and channel, set the picture settings and resolution.
+audioconfigured You chose the following Audio settings:\n Output Device: $1\nInput Device:$2
 author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
@@ -73,6 +81,7 @@ avoidseen Prevent this person from seeing when I'm online and contacting me
 away Away
 awaymsg1 Ask for away message each time I change my status to Away/BRB/Busy
 awaymsg2 Never ask and always use the message below
+back Back
 baduserpass Wrong user name or password
 badwebcam Cannot display the webcam's image. Make sure your webcam is well plugged and installed.
 bgcolor Change aMSN's background color 
@@ -110,6 +119,7 @@ cantremoveothers The "Others" group cannot be removed
 captureextloaded Capture extension -$1- is loaded
 captureextnotloaded Capture extension -$1- is not loaded, you have to compile it first
 captureproperties Webcam image properties
+capturewarn You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install this extension on our Wiki:
 casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Add/Remove Global Alarm
 cfgalarm Configure/Add/Remove Alarm
@@ -136,6 +146,10 @@ chatsmileys Show Smileys in Chat
 checkblocking Continuously check if users are blocking you
 checkemail Show mail notification line (inbox) in contact list
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
+checkingaudio Checking if audio extension (Snack) is loaded ...
+checkingcam Checking if a webcam is connected ...
+checkingcapext Checking if '$1' extension is loaded ...
+checkingextensions Checking for required video extensions
 checkingver Checking for new versions
 checkonfln Check if a user blocked you when he gets offline
 checkopenfilecommand Please check the open file command in preferences window
@@ -143,10 +157,13 @@ checkver Check for new version
 choosearq Choose your system architecture
 choosebasefont Choose font type
 choosebgcolor Choose background color
-choosechannel Please choose a channel
-choosecontact Please choose a contact from the list
-choosedevice Please choose a device
+choosechannel Choose a channel
+choosecontact Choose a contact from the list
+choosedevice Choose your device
 choosefontcolor Choose font color
+chooseinputdev Choose your input device
+choosemixerdev Choose your mixer
+chooseoutputdev Choose your output device
 chooseskin Please select the skin you would like to use
 ch_to_state Switch to new state
 clear Clear
@@ -171,6 +188,8 @@ color Color
 command Command
 commandstatus Execute command
 configure Configure
+configuremic Configuring your microphone
+configuringaudio Configuring audio settings
 confirm Are you sure?
 confirmbl Are you sure you want to block this contact?
 confirmdelete Are you sure you want to delete $1?
@@ -179,6 +198,7 @@ confirmdu Are you sure you want to delete this user?
 confirmeg Are you sure you want to empty this group?
 confirmpurge All stored display pictures from other contacts will be erased (those of your own will be kept). Are you sure?
 confirmrfl Are you sure you want to delete this user from this group?
+congrats Congratulations
 connectedwith Connected with $1
 connected You are now connected
 connecterror Error connecting to server
@@ -273,6 +293,7 @@ downloadingtls Downloading TLS module from:\n $1
 editcontent Edit the content of the subject field and the note field
 editcustomstate Edit custom state
 edit Edit
+editavsettings Edit audio and video settings
 editmyprofile Edit my MSN Profile
 editnewstate New Personal Automessage State
 editprofile Edit Profile
@@ -320,8 +341,12 @@ findasyoutype Find as you type
 find Find
 findnext Find Next
 findprev Find Previous
+finetunesettings Finetune picture settings
+finish Finish
+finish2apply Press Finish to apply those settings.
 firewalled You are firewalled or behind a router
 followtext Scroll down when new text is entered
+forgot_pass I forgot my password
 friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
@@ -361,6 +386,7 @@ grouprename Rename Group
 groups Groups
 groupunknown Unknown group
 handle Handle
+havenomic I have no microphone
 helpcontents Help Contents
 help Help
 hidedisplaypic Hide Display Picture
@@ -493,6 +519,7 @@ natkeepalive If you are getting disconnected regularly, enable this KeepAlive
 needonline You still are/appear offline!
 needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
 never Never
+new_account Create account
 newchat New Chat
 new_ft_protocol Use new File Transfer protocol (some bugs remain)
 newline Newline
@@ -509,12 +536,14 @@ next Next
 nick Nick
 noactivity Idle
 nocacheddps No Display Pictures in cache for this user
+nocamwarn No webcam were found, or your webcam is already in use by another program (which means it cannot be used by aMSN). You will find help on how to solve this issue on our Wiki:
 nodataavailable No data available for $1
 nodevices Currently, no devices are installed
 noftpreview Disable sending a preview of images in file transfers
 nogap No space between groups
 nogroup No group
 nologfile No Log file for $1
+nomic No microphone
 noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
@@ -579,6 +608,7 @@ playbackposition Playback position
 playbackspeed Playback speed (milliseconds between each frame)
 playing Playing: $1
 play Play
+playtest Play the test file
 playwebcamsend Resume sending webcam
 pluginselector Select Plugins
 port Port
@@ -648,9 +678,11 @@ recentmsg Prevent closing a chat window when a message has just arrived
 reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
+record Record
 recorderror An error occured when trying to record the sound : $1
 recvwebcamaccepted $1 accepted your invitation to view his/her webcam. Connecting...
 reject Reject
+rememberaccount Remember my account
 rememberpass Remember password
 remembersetting Remember my choice
 removeempty Remove empty groups from the contact list
@@ -696,6 +728,8 @@ server Server
 serverunavailable Server is unavailable
 session Session
 setasmydp Set as my display picture
+setupcam Setting up your webcam device
+setupcamfinetune Setting up webcam device, and finetuning picture
 shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
@@ -757,6 +791,7 @@ statenick Custom nick (leave blank for no change)
 statepsm Custom Personal Message (leave blank for no change)
 stats Statistics
 status Status
+step Step
 stopalarm Stop Alarm
 stop Stop
 stopwebcamreceive Stop receiving Webcam
@@ -831,13 +866,20 @@ videoconversationrequest You just received a video conversation (bidirectional a
 viewcontactsby View contacts by
 viewprofile View Profile
 view View
+volume Volume
 wanttosharecam I want to make my webcam available to others
 web Web
+webcam Webcam
 webcamcanceled The webcam session with $1 has been canceled
 webcamclosebefcancel You have to cancel all webcam sessions before closing the window
 webcamconfigure Configure Webcam
+webcamconfiguredMac Your webcam settings have been configured
+webcamconfiguredWin You chose the following webcam device : $1
+webcamconfiguredLinux You chose the following webcam settings:\nWebcam device: $1\nWebcam channel: $2
+webcamextchecking Checking if webcam extension is loaded ...
 webcamextloaded Webcamsn extension is loaded
 webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
+webcamextwarn You won't be able to view your contacts' webcams. You may find answers on how to install some extensions on our Wiki:
 webcamfaq FAQ/Help for Webcam
 webcamhistory View Webcam Sessions
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
@@ -848,7 +890,6 @@ webcamrejected $1 rejected invitation for webcam session
 webcamrequestreceive Sent request to receive webcam
 webcamrequestsend Sent request to send webcam
 webcamsending List of people you are currently sending webcam\nClick to cancel
-webcam Webcam
 whatisamsn aMSN is a platform-independent MSN Messenger clone
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting for $1 to join conversation

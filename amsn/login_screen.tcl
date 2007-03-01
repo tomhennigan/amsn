@@ -101,8 +101,8 @@ snit::widgetadaptor loginscreen {
 		$self PopulateStateList
 		# Options
 		# Remember me
-		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans remember_me]]
-		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me]]
+		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans rememberaccount]]
+		set rem_me_field [checkbutton $self.rem_me -variable [myvar rememberaccount]]
 		set rem_me_field_tag [$self create window 0 0 -anchor nw -window $rem_me_field]
 		# Remember password
 		set rem_pass_label_tag [$self create text 0 0 -anchor nw -text [trans rememberpass]]

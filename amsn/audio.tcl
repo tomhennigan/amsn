@@ -344,7 +344,12 @@ namespace eval ::audio {
 			set line [lindex [snack::mixer lines] 0]
 		}
 		
-		return [snack::mixer volume $line]
+		set ret [snack::mixer volume $line]
+		#snack returns sometimes weird results
+		if {![string is integer -strict $ret]} {
+			set ret 0
+		}
+		return $ret
 	}
 	
 	################################################################

@@ -393,26 +393,26 @@ snit::widget assistant {
 	#    Add a proc called when the assistant is canceled
 	# Arguments:
 	#    - name => name used to refer to that proc if we want to remove it
-	#    - proc => the proc called when the assistant is canceld
+	#    - procedure => the proc called when the assistant is canceld
 	#        this proc should have 2 arguments : assistant and contentFrame
 	# Returns
 	#    1 if proc is added
 	#    0 if not
-	method addCancelProc {name proc} {
-		set err 1
+	method addCancelProc {name procedure} {
+		set done 1
 		#search if the name is not already registered
-		foreach proc $cancelProcs {
-			if {[string equal $name [lindex $proc 0]]} {
-				set err 0
+		foreach proced $cancelProcs {
+			if {[string equal $name [lindex $proced 0]]} {
+				set done 0
 				break
 			}
 		}
-		if {$err == 1} {
-			lappend cancelProcs [list $name $proc]]
+		if {$done == 1} {
+			lappend cancelProcs [list $name $procedure]
 		} else {
 			status_log "Assistant: while calling addCancelProc, a proc identified by $name is already registered"
 		}
-		return $err
+		return $done
 	}
 	
 	###########################################################################
@@ -448,8 +448,8 @@ snit::widget assistant {
 	#    Called when the cancel button is pressed
 	# Returns nothing
 	method cancel {} {
-		foreach proc $cancelProcs {
-			eval [lindex $proc 1] $self $contentf
+		foreach procedure $cancelProcs {
+			eval [lindex $procedure 1] $self $contentf
 		}
 		#calling leaving proc and cancelProc is done through the destructor
 		destroy $self
@@ -926,23 +926,22 @@ namespace eval ::AVAssistant {
 
 		#set the name of the window
 		set assistant [assistant create .%AUTO% -winname "Audio and Video assistant"]
-#TODO: translations
 		#introduction
-		set Step [list "Step0" 0 ::AVAssistant::Step0 "" "" "" "" "Starting the Assistant" "" 0 0]
+		set Step [list "Step0" 0 ::AVAssistant::Step0 "" "" "" "" [trans assistantstarting] "" 0 0]
 		$assistant addStepEnd $Step
 
 		#check extensions for video
-		set Step [list "Step0W" 0 ::AVAssistant::Step0W "" "" "" "" "Check for required video extensions" assistant_webcam 0 0]
+		set Step [list "Step0W" 0 ::AVAssistant::Step0W "" "" "" "" [trans checkingextensions] assistant_webcam 0 0]
 		$assistant addStepEnd $Step
 
 		#here, we'll insert some steps
 
 		#check for audio extensions, and configure it
-		set Step [list "Step1A" 1 ::AVAssistant::Step1A ::AVAssistant::stopSound "" "" "" "Configuring Audio settings" assistant_audio 1 1]
+		set Step [list "Step1A" 1 ::AVAssistant::Step1A ::AVAssistant::stopSound "" "" ""  [trans configuringaudio] assistant_audio 1 1]
 		$assistant addStepEnd $Step
 
 		#Finishing, greetings
-		set Step [list "LastStep" 0 ::AVAssistant::LastStep "" "" "" "" "Congratulations" "" 0 0]
+		set Step [list "LastStep" 0 ::AVAssistant::LastStep "" "" "" "" [trans congrats] "" 0 0]
 		$assistant addStepEnd $Step
 
 	}
@@ -961,8 +960,7 @@ namespace eval ::AVAssistant {
 	proc Step0 {assistant contentf} {
 		
 		#add the Content
-#TODO: translation
-		label $contentf.text -justify left -font bplainf -text "This assistant will guide you through the setup of your audio and video settings for aMSN.\n\nIt will check if the required extensions are present and loaded and you'll be able to choose the device and channel, set the picture settings and resolution."
+		label $contentf.text -justify left -font bplainf -text [trans assistantwelcome]
 		#pack it
 		pack $contentf.text -padx 20 -pady 20 -side left -fill both -expand 1
 		#to get a nice wrapping
@@ -1005,17 +1003,16 @@ namespace eval ::AVAssistant {
 			$assistant modifyStep "Step0W" displayFullNumber 1
 			if {[OnDarwin]} {
 				#webcam device + finetune picture
-				$assistant modifyStep "Step0W" titleText "Set up webcam device and channel and finetune picture"
+				$assistant modifyStep "Step0W" titleText [trans setupcamfinetune] 
 				$contentf configure -padx 10 -pady 10
-#TODO: translation
-				button $contentf.button -text "Open camsettings window" -command "::CAMGUI::ChooseDeviceMac"
+				button $contentf.button -text [trans changevideosettings] -command "::CAMGUI::ChooseDeviceMac"
 				pack $contentf.button
 			} elseif {[OnLinux]} {
 				#OnLinux,
 				#webcam device + channel
 				
 				#Finetune picture
-				set Step [list "Step2W" 1 ::AVAssistant::Step2WLinux ::AVAssistant::stopPreviewGrabbing "" "" "" "Finetune picture settings" assistant_webcam 1 1]
+				set Step [list "Step2W" 1 ::AVAssistant::Step2WLinux ::AVAssistant::stopPreviewGrabbing "" "" "" [trans finetunesettings] assistant_webcam 1 1]
 				$assistant insertStepAfter $Step "Step0W"
 
 				variable video_configured
@@ -1036,13 +1033,11 @@ namespace eval ::AVAssistant {
 		
 			#First part: the webcam extension
 			if {!$::AVAssistant::infoarray(wcextloaded)} {
-#TODO: translation
 				label $contentf.wcextlabel -justify left -anchor nw -font bboldf \
-					-text "Check if webcam extension is loaded ..."\
+					-text [trans webcamextcheckin]\
 					-image [::skin::loadPixmap no-emblem] -compound right
 
-#TODO: translation
-				label $contentf.wcextwarn -justify left -text "You won't be able to view your contacts' webcams. You may find answers on how to install that extension on our Wiki : "
+				label $contentf.wcextwarn -justify left -text [trans webcamextwarn]
 #TODO: fill the url
 				label $contentf.wcextwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 				pack $contentf.wcextlabel
@@ -1058,12 +1053,10 @@ namespace eval ::AVAssistant {
 
 			#Second part: the capture extension
 			if {!$::AVAssistant::infoarray(capextloaded)} {
-#TODO: translation
 				label $contentf.capextlabel -justify left -anchor nw -font bboldf \
-					-text "Check if '$capextname' extension is loaded ..."\
+					-text [trans checkingcapext $capextname]\
 					-image [::skin::loadPixmap no-emblem] -compound right
-#TODO: translation
-				label $contentf.capextwarn -justify left -text "You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install that extension on our Wiki : "
+				label $contentf.capextwarn -justify left -text [trans capturewarn]
 #TODO: fill the url
 				label $contentf.capextwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 
@@ -1080,12 +1073,10 @@ namespace eval ::AVAssistant {
 
 			#Third part: we can't find a cam
 			if {$::AVAssistant::infoarray(capextloaded) && $::AVAssistant::infoarray(wcextloaded) && !$camPresent } {
-#TODO: translation
 				label $contentf.nocamlabel -justify left -anchor nw -font bboldf \
-					-text "Check if a webcam is connected ..."\
+					-text [trans checkingcam]\
 					-image [::skin::loadPixmap no-emblem] -compound right
-#TODO: translation
-				label $contentf.nocamwarn -justify left -text "No webcam were found or your webcam is already in use. You will find help on how to solve that issue on our Wiki : "
+				label $contentf.nocamwarn -justify left -text [trans nocamwarn]
 #TODO: fill the url
 				label $contentf.nocamwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 
@@ -1110,7 +1101,7 @@ namespace eval ::AVAssistant {
 	######################################################################################	
 	proc Step1WLinux {assistant contentf} {
 		#extensions are present, we can change some settings	
-		$assistant modifyStep "Step0W" titleText "Set up webcam device and channel"
+		$assistant modifyStep "Step0W" titleText [trans setupcam]
 		$assistant modifyStep "Step0W" leavingProc ::AVAssistant::stopPreviewGrabbing 
 
 		#we should be able to alter this vars in other procs
@@ -1138,8 +1129,7 @@ namespace eval ::AVAssistant {
 # |+----------+ +---------+ |
 # +-------------------------+
 
-#TODO: translation
-		label $contentf.desc -justify left -text "Select your webcam in the list"
+		label $contentf.desc -justify left -text [assistantselectcam]
 		pack $contentf.desc -pady 20 
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
@@ -1147,8 +1137,9 @@ namespace eval ::AVAssistant {
 		if {![info exists lowrescam]} {
 			set lowrescam [::config::getKey lowrescam]
 		}
-		checkbutton $contentf.lowrescam -text "[trans lowrescam] ++ add more explanations(better for low connection ...)\n ask you can see, changing the state of that button doesn't change the preview.\n Just code it :)" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 
+		checkbutton $contentf.lowrescam -text "[trans lowrescam]" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 
 		pack $contentf.lowrescam -pady 10
+#TODO: changing the state of that button doesn't change the preview.
 		
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
@@ -1179,7 +1170,7 @@ namespace eval ::AVAssistant {
 		set ::CAMGUI::webcam_preview ""
 		
 		#First line, device-chooser title
-		label $leftframe.devstxt -text "Choose device:"
+		label $leftframe.devstxt -text [trans choosedevice]
 		pack $leftframe.devstxt -side top
 		
 		#create and pack the devices-combobox
@@ -1227,7 +1218,7 @@ namespace eval ::AVAssistant {
 		pack $leftframe.devs -side top
 		
 		#create and pack the chans-txt
-		label $leftframe.chanstxt -text "\n\nChoose channel:"
+		label $leftframe.chanstxt -text "\n\n[trans choosechannel]:"
 		pack $leftframe.chanstxt -side top
 		
 		#create and pack the chans-combobox
@@ -1341,7 +1332,7 @@ namespace eval ::AVAssistant {
 
 			$previmc create image 0 0 -image $previmg -anchor nw 
 
-			$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
+			$previmc create text 10 10 -anchor nw -font bboldf -text "[trans preview]: $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
 
 			after 3000 "catch { $previmc delete device }"
 
@@ -1403,16 +1394,16 @@ namespace eval ::AVAssistant {
 		set set_h [lindex $colorsettings 2]
 		set set_co [lindex $colorsettings 3]
 		
-		if {[string is integer -strict $set_b]} {
+		if {![info exists brightness] && [string is integer -strict $set_b]} {
 				set brightness $set_b
 		}
-		if {[string is integer -strict $set_c]} {
+		if {![info exists contrast] && [string is integer -strict $set_c]} {
 				set contrast $set_c
 		}
-		if {[string is integer -strict $set_h]} {
+		if {![info exists hue] && [string is integer -strict $set_h]} {
 				set hue $set_h
 		}
-		if {[string is integer -strict $set_co]} {
+		if {![info exists color] &&[string is integer -strict $set_co]} {
 				set color $set_co
 		}
 		
@@ -1439,8 +1430,7 @@ namespace eval ::AVAssistant {
 
 		$contentf configure -padx 10 -pady 10
 
-#TODO: translation
-		label $contentf.desc -justify left -text "Change the following settings to adjust the quality of the image from your webcam"
+		label $contentf.desc -justify left -text [trans assistantfinetunepic] 
 		pack $contentf.desc -pady 10
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
@@ -1484,7 +1474,7 @@ namespace eval ::AVAssistant {
 		set previmg [image create photo [TmpImgName]]
 					
 		$previmc create image 0 0 -image $previmg -anchor nw 
-		$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
+		$previmc create text 10 10 -anchor nw -font bboldf -text "[trans preview]: $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
 
 		after 3000 "catch { $previmc delete device }"
 
@@ -1504,16 +1494,16 @@ namespace eval ::AVAssistant {
 		set set_h [lindex $colorsettings 2]
 		set set_co [lindex $colorsettings 3]
 		
-		if {[string is integer -strict $set_b]} {
+		if {![info exists brightness] && [string is integer -strict $set_b]} {
 				set brightness $set_b
 		}
-		if {[string is integer -strict $set_c]} {
+		if {![info exists contrast] && [string is integer -strict $set_c]} {
 				set contrast $set_c
 		}
-		if {[string is integer -strict $set_h]} {
+		if {![info exists hue] && [string is integer -strict $set_h]} {
 				set hue $set_h
 		}
-		if {[string is integer -strict $set_co]} {
+		if {![info exists color] &&[string is integer -strict $set_co]} {
 				set color $set_co
 		}
 
@@ -1618,7 +1608,7 @@ namespace eval ::AVAssistant {
 		variable previmg
 
 		#extensions are present, we can change some settings	
-		$assistant modifyStep "Step0W" titleText "Set up webcam device"
+		$assistant modifyStep "Step0W" titleText [trans setupcam]
 		$assistant modifyStep "Step0W" leavingProc ::AVAssistant::stopPreviewWindows 
 
 		##Here comes the content:##
@@ -1637,8 +1627,7 @@ namespace eval ::AVAssistant {
 # |+----------+ +---------+ |
 # +-------------------------+
 
-#TODO: translation
-		label $contentf.desc -justify left -text "Select your webcam in the list"
+		label $contentf.desc -justify left -text [trans assistantselectcam]
 		pack $contentf.desc -pady 20 
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
@@ -1662,7 +1651,7 @@ namespace eval ::AVAssistant {
 		set previmc $rightframe
 
 		#First line, device-chooser title
-		label $leftframe.devstxt -text "Choose device:"
+		label $leftframe.devstxt -text [trans choosedevice]
 		pack $leftframe.devstxt -side top
 		
 		#create and pack the devices-combobox
@@ -1740,7 +1729,7 @@ namespace eval ::AVAssistant {
 
 			$previmc create image 0 0 -image $previmg -anchor nw 
 
-			$previmc create text 10 10 -anchor nw -font bboldf -text "Preview $selecteddevicename" -fill #FFFFFF -anchor nw -tag device
+			$previmc create text 10 10 -anchor nw -font bboldf -text "[trans preview] $selecteddevicename" -fill #FFFFFF -anchor nw -tag device
 
 			after 3000 "catch { $previmc delete device }"
 
@@ -1761,10 +1750,9 @@ namespace eval ::AVAssistant {
 		if {[catch {require_snack}]} {
 			#can't load the package, warn the user
 			label $contentf.audiolabel -justify left -anchor nw -font bboldf \
-				-text "Check if audio extension (Snack) is loaded ..."\
+				-text [trans checkingaudio]
 				-image [::skin::loadPixmap no-emblem] -compound right
-#TODO: translation
-			label $contentf.audiowarn -justify left -text "You won't be able to record yourself, or speak (with voice) to friends. You may find answers on how to install that extension on our Wiki : "
+			label $contentf.audiowarn -justify left -text [trans assistantawarn]
 #TODO: fill the url
 			label $contentf.audiowarnurl -justify left -text "$::weburl/wiki/" -fg blue
 
@@ -1790,7 +1778,7 @@ namespace eval ::AVAssistant {
 			set audio_configured 1
 
 			#add the second step of the audio assistant
-			set step [list "Step2A" 1 ::AVAssistant::Step2A ::AVAssistant::stopSound "" "" "" "Configuring the mic" assistant_audio 1 1]
+			set step [list "Step2A" 1 ::AVAssistant::Step2A ::AVAssistant::stopSound "" "" "" [trans configuremic] assistant_audio 1 1]
 			$assistant insertStepAfter $step "Step1A"
 
 			#when we leave, but not for saving, set mixers and all as default
@@ -1807,9 +1795,7 @@ namespace eval ::AVAssistant {
 #|+---------------------------++--------------------------------------+|
 #+---------------------------------------------------------------------+
 
-
-#TODO: translation
-			label $contentf.desc -justify left -text "Choose your output device ........."
+			label $contentf.desc -justify left -text [trans assistantaoutput]
 			pack $contentf.desc -pady [list 20 0]
 			#to get a nice wrapping
 			bind $contentf.desc <Configure> [list %W configure -wraplength %w]
@@ -1820,8 +1806,7 @@ namespace eval ::AVAssistant {
 			pack $leftframe -side left -padx 10 -fill x
 				
 			#Output devices
-#TODO: translation
-			label $leftframe.outtxt -text "\n\nChoose output device:"
+			label $leftframe.outtxt -text "\n\n[trans chooseoutputdev]"
 
 			#create and pack the output-combobox
 			combobox::combobox $leftframe.out -highlightthickness 0 -width 22 -font splainf \
@@ -1844,11 +1829,10 @@ namespace eval ::AVAssistant {
 
 
 			#Volume
-#TODO: translation
 			# we must create the volume scale BEFORE the mixer combobox because it depends on it, but we'll pack it afterwards...
 			set volf $rightframe.volumef
 			frame $volf
-			label $volf.voltxt -text "Volume :" -padx 10
+			label $volf.voltxt -text "[trans volume]:" -padx 10
 
 			scale $volf.volscale -from 0 -to 100 -resolution 1 -showvalue 1 \
 				-orient horizontal -command [list ::AVAssistant::wrapSetVolume]
@@ -1856,8 +1840,7 @@ namespace eval ::AVAssistant {
 
 
 			#Mixer devices
-#TODO: translation
-			label $leftframe.mixtxt -text "Choose mixer device:"
+			label $leftframe.mixtxt -text [trans choosemixerdev]
 		
 			#create and pack the input-combobox
 			combobox::combobox $leftframe.mix -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf \
@@ -1878,11 +1861,10 @@ namespace eval ::AVAssistant {
 			pack $volf.voltxt $volf.volscale -side left
 			
 			#Test file area
-#TODO: translation
 			frame $rightframe.testf
 			set testf $rightframe.testf
 			pack $testf -side top -pady 5
-			label $testf.testtxt -text "Test file" -padx 10
+			label $testf.testtxt -text [trans playtest] -padx 10
 			label $testf.playtest -image [::skin::loadPixmap playbut]
 			label $testf.stoptest -image [::skin::loadPixmap stopbut]
 			
@@ -1997,8 +1979,7 @@ namespace eval ::AVAssistant {
 
 		set haveMic 1
 
-#TODO: translation
-		label $contentf.desc -justify left -text "Choose your input device ........."
+		label $contentf.desc -justify left -text [trans assistantainput]
 		pack $contentf.desc -pady [list 20 0]
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
@@ -2009,8 +1990,7 @@ namespace eval ::AVAssistant {
 		pack $leftframe -side left -padx 10 -fill x
 
 		#First line, select input devices
-#TODO: translation
-		label $leftframe.intxt -text "Choose input device:"
+		label $leftframe.intxt -text [trans chooseinputdev]
 
 		#create and pack the input-combobox
 		combobox::combobox $leftframe.in -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf \
@@ -2025,8 +2005,7 @@ namespace eval ::AVAssistant {
 		catch {$leftframe.in select $devnr}
 		pack $leftframe.intxt $leftframe.in -side top
 
-#TODO: translation
-		button $leftframe.nomic -text "I've got no mic" -command [list ::AVAssistant::disableMicrophone $assistant]
+		button $leftframe.nomic -text [trans havenomic] -command [list ::AVAssistant::disableMicrophone $assistant]
 		pack $leftframe.nomic -pady 20
 
 		set rightframe $contentf.right
@@ -2038,8 +2017,7 @@ namespace eval ::AVAssistant {
 		frame $rightframe.recf
 		set recf $rightframe.recf
 		pack $recf -side top -pady 5
-#TODO: translation
-		label $recf.recordtxt -text "Record :" -padx 10
+		label $recf.recordtxt -text "[trans record]:" -padx 10
 		label $recf.record -image [::skin::loadPixmap recordbut]
 		label $recf.playrecorded -image [::skin::loadPixmap playbut]
 		label $recf.stoprecorded -image [::skin::loadPixmap stopbut]
@@ -2161,18 +2139,18 @@ namespace eval ::AVAssistant {
 
 		set sharecamState "disabled"
 
-#TODO: translations
 		if {$video_configured} {
 			if {[OnMac]} {
-				set text "You're webcam settings have been configured"
+				set text [trans webcamconfiguredMac]
 				set sharecamState "normal"
 			} elseif {[OnWin]} {
-				set text "You chose the following webcam Settings :\nWebcam Device : $selecteddevicename"
+				set text [trans webcamconfiguredWin $selecteddevicename]
 				set sharecamState "normal"
 			} elseif {[OnLinux]} {
-				set text "You chose the following the webcam Settings :\nWebcam Device : $selecteddevicename\nWebcam Channel : $selectedchannelname"
+				set text [trans webcamconfiguredLinux $selecteddevicename $selectedchannelname]
 				set sharecamState "normal"
 			} else {
+#TODO: translation ??? (for freebsd users)
 				set text "hum, i don't know how you reached that step :), but i hope you have configured your webcam."
 			}
 
@@ -2187,9 +2165,9 @@ namespace eval ::AVAssistant {
 		if {$audio_configured} {
 			#snack should work for everyone
 			if {$haveMic} {
-				set text "You chose the following Audio settings :\nOutput Device: [::audio::getOutputDevice]\nInput Device: [::audio::getInputDevice]"
+				set text [trans audioconfigured [::audio::getOutputDevice] [::audio::getInputDevice]]
 			} else {
-				set text "You chose the following Audio settings :\nOutput Device: [::audio::getOutputDevice]\nInput Device: No Microphone"
+				set text [trans audioconfigured [::audio::getOutputDevice] [trans nomic]]
 			}
 			#add the Content
 			label $contentf.textaudio -justify left -font bplainf -text $text
@@ -2200,7 +2178,7 @@ namespace eval ::AVAssistant {
 		}
 
 		#click on the finish button to save settings.
-		label $contentf.textfinish -justify left -font bplainf -text "Press \"Finish\" to apply those settings"
+		label $contentf.textfinish -justify left -font bplainf -text [trans finish2apply]
 		#pack it
 		pack $contentf.textfinish -padx 20 -pady 10 -fill both -expand 1
 		#to get a nice wrapping
@@ -2272,7 +2250,3 @@ namespace eval ::AVAssistant {
 
 #Close the ::AVAssistant namespace
 }
-
-#TODO: remove:
-#in order to test
-::AVAssistant::AVAssistant
