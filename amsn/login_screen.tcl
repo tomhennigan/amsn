@@ -72,7 +72,7 @@ snit::widgetadaptor loginscreen {
 		set dp_label [label $self.dp -image [::skin::getDisplayPicture ""] -borderwidth 1 -highlightthickness 0 -relief solid]
 		set dp_label_tag [$self create window 0 0 -anchor nw -window $dp_label]
 		# Username
-		set user_label_tag [$self create text 0 0 -anchor nw -text [trans user]]
+		set user_label_tag [$self create text 0 0 -anchor nw -text "[trans user]:"]
 		set user_field [combobox::combobox $self.user -editable true -bg white -relief solid -width 25 -command "$self UserSelected"]
 		set user_field_tag [$self create window 0 0 -anchor nw -window $user_field]
 		# Populate user list
@@ -86,11 +86,11 @@ snit::widgetadaptor loginscreen {
 		}
 		eval $user_field list insert end $tmp_list
 		# Password
-		set pass_label_tag [$self create text 0 0 -anchor nw -text [trans pass]]
+		set pass_label_tag [$self create text 0 0 -anchor nw -text "[trans pass]:"]
 		set pass_field [entry $self.pass -show "*" -bg white -relief solid -width 25 -vcmd {expr {[string length %P] <= 16} } -validate key]
 		set pass_field_tag [$self create window 0 0 -anchor nw -window $pass_field]
 		# Status
-		set status_label_tag [$self create text 0 0 -anchor nw -text [trans signinstatus]]
+		set status_label_tag [$self create text 0 0 -anchor nw -text "[trans signinstatus]:"]
 		set status_field [combobox::combobox $self.status -editable true -bg white -relief solid -width 25 -command remember_state_list]
 		set status_field_tag [$self create window 0 0 -anchor nw -window $status_field]
 		# Populate status list
