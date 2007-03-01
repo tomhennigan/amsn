@@ -3239,9 +3239,9 @@ proc create_main_menu {wmenu} {
 	#change status submenu
 	$accnt add cascade -label "[trans changestatus]" -menu $accnt.my_menu -state disabled
 	#change nick
-	$accnt add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
+	$accnt add command -label "[trans changenick]" -command cmsn_change_name -state disabled
 	#change dp
-	$accnt add command -label "[trans changedisplaypic]..." -command dpBrowser -state disabled
+	$accnt add command -label "[trans changedisplaypic]" -command dpBrowser -state disabled
 	#-------------------
 	$accnt add separator
 	#go to inbox
@@ -3351,9 +3351,9 @@ proc create_main_menu {wmenu} {
 	$conts add command -label "[trans webcamhistory]" -command ::log::OpenCamLogWin	-state disabled
 	#-------------------
 	$conts add separator
-	$conts add command -label "[trans savecontacts]..." \
+	$conts add command -label "[trans savecontacts]" \
 		-command "saveContacts" -state disabled
-	$conts add command -label "[trans loadcontacts]..." \
+	$conts add command -label "[trans loadcontacts]" \
 		 -command "::abook::importContact" -state disabled	
 
 	###########################
@@ -3627,20 +3627,48 @@ proc loggedInGuiConf { event } {
 	enable $menu 0 0
 	set lo 1
 
-	#entries to enable in the Account menu, beginning with the logout entry
-	enableEntries $menu [list $lo [incr lo 2] [incr lo 1]  [incr lo 1]  [incr lo 2] [incr lo 1] [incr lo 3]]
+	# Entries to enable in the Account menu
+	set logout_idx [$menu index "[trans logout]"]
+	set status_idx [$menu index "[trans changestatus]"]
+	set nick_idx [$menu index "[trans changenick]"]
+	set dp_idx [$menu index "[trans changedisplaypic]"]
+	set event_hist_idx [$menu index "[trans eventhistory]"]
+	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $event_hist_idx]
 
-	#view menu
+	# View menu
 	set menu .main_menu.view
-	enableEntries $menu [list 0 1 2 4 5 9 10]
+	set by_group_idx [$menu index "[trans sortcontactgroup]"]
+	set by_status_idx [$menu index "[trans sortcontactstatus]"]
+	set hybrid_idx [$menu index "[trans sortcontacthybrid]"]
+	set email_idx [$menu index "[trans showcontactemail]"]
+	set nick_idx [$menu index "[trans showcontactnick]"]
+	set asc_idx [$menu index "[trans sortgroupsasc]"]
+	set desc_idx [$menu index "[trans sortgroupsdesc]"]
+	enableEntries $menu [list $by_group_idx $by_status_idx $hybrid_idx $email_idx $nick_idx $asc_idx $desc_idx]
 	
-	#actions menu
+	# Actions menu
 	set menu .main_menu.actions
-	enableEntries $menu [list 0 1 2 4 5 6]
+	set msg_idx [$menu index "[trans sendmsg]..."]
+	set mobile_idx [$menu index "[trans sendmobmsg]..."]
+	set email_idx [$menu index "[trans sendmail]..."]
+	set file_idx [$menu index "[trans sendfile]..."]
+	set send_cam_idx [$menu index "[trans sendcam]..."]
+	set ask_cam_idx [$menu index "[trans askcam]..."]
+	enableEntries $menu [list $msg_idx $mobile_idx $email_idx $file_idx $send_cam_idx $ask_cam_idx]
 	
-	#contacts menu
+	# Contacts menu
 	set menu .main_menu.contacts
-	enableEntries $menu [list 0 1 2 4 5 6 8 9 11 12]
+	set add_idx [$menu index "[trans addacontact]..."]
+	set del_idx [$menu index "[trans delete]..."]
+	set prop_idx [$menu index "[trans properties]..."]
+	set grp_add_idx [$menu index "[trans groupadd]..."]
+	set grp_del_idx [$menu index "[trans grouprename]"]
+	set grp_ren_idx [$menu index "[trans groupdelete]"]
+	set hist_idx [$menu index "[trans history]"]
+	set cam_idx [$menu index "[trans webcamhistory]"]
+	set save_idx [$menu index "[trans savecontacts]"]
+	set load_idx [$menu index "[trans loadcontacts]"]
+	enableEntries $menu [list $add_idx $del_idx $prop_idx $grp_add_idx $grp_del_idx $grp_ren_idx $hist_idx $cam_idx $save_idx $load_idx]
 
 	################################################################
 	# Create the groups menus
@@ -3672,20 +3700,48 @@ proc loggedOutGuiConf { event } {
 	
 	enable $menu 0 1
 	set lo 1
-	#entries to enable in the Account menu, beginning with the logout entry
-	enableEntries $menu [list $lo [incr lo 2] [incr lo 1]  [incr lo 1]  [incr lo 2] [incr lo 1] [incr lo 3]] 0
+	# Entries to disable in the Account menu
+	set logout_idx [$menu index "[trans logout]"]
+	set status_idx [$menu index "[trans changestatus]"]
+	set nick_idx [$menu index "[trans changenick]"]
+	set dp_idx [$menu index "[trans changedisplaypic]"]
+	set event_hist_idx [$menu index "[trans eventhistory]"]
+	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $event_hist_idx] 0
 
-	#view menu
+	# View menu
 	set menu .main_menu.view
-	enableEntries $menu [list 0 1 2 4 5 9 10] 0
+	set by_group_idx [$menu index "[trans sortcontactgroup]"]
+	set by_status_idx [$menu index "[trans sortcontactstatus]"]
+	set hybrid_idx [$menu index "[trans sortcontacthybrid]"]
+	set email_idx [$menu index "[trans showcontactemail]"]
+	set nick_idx [$menu index "[trans showcontactnick]"]
+	set asc_idx [$menu index "[trans sortgroupsasc]"]
+	set desc_idx [$menu index "[trans sortgroupsdesc]"]
+	enableEntries $menu [list $by_group_idx $by_status_idx $hybrid_idx $email_idx $nick_idx $asc_idx $desc_idx] 0
 	
-	#actions menu
+	# Actions menu
 	set menu .main_menu.actions
-	enableEntries $menu [list 0 1 2 4 5 6] 0
+	set msg_idx [$menu index "[trans sendmsg]..."]
+	set mobile_idx [$menu index "[trans sendmobmsg]..."]
+	set email_idx [$menu index "[trans sendmail]..."]
+	set file_idx [$menu index "[trans sendfile]..."]
+	set send_cam_idx [$menu index "[trans sendcam]..."]
+	set ask_cam_idx [$menu index "[trans askcam]..."]
+	enableEntries $menu [list $msg_idx $mobile_idx $email_idx $file_idx $send_cam_idx $ask_cam_idx] 0
 	
-	#contacts menu
+	# Contacts menu
 	set menu .main_menu.contacts
-	enableEntries $menu [list 0 1 2 4 5 6 8 9 11 12] 0
+	set add_idx [$menu index "[trans addacontact]..."]
+	set del_idx [$menu index "[trans delete]..."]
+	set prop_idx [$menu index "[trans properties]..."]
+	set grp_add_idx [$menu index "[trans groupadd]..."]
+	set grp_del_idx [$menu index "[trans grouprename]"]
+	set grp_ren_idx [$menu index "[trans groupdelete]"]
+	set hist_idx [$menu index "[trans history]"]
+	set cam_idx [$menu index "[trans webcamhistory]"]
+	set save_idx [$menu index "[trans savecontacts]"]
+	set load_idx [$menu index "[trans loadcontacts]"]
+	enableEntries $menu [list $add_idx $del_idx $prop_idx $grp_add_idx $grp_del_idx $grp_ren_idx $hist_idx $cam_idx $save_idx $load_idx] 0
 }
 
 proc ShowFirstTimeMenuHidingFeature { parent } {
