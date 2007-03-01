@@ -3626,12 +3626,8 @@ proc loggedInGuiConf { event } {
 	set menu .main_menu.account
 	
 	enable $menu 0 0
-	if {[$menu index "[trans loginas]..."] == 1} {
-		enable $menu 1 0
-		set lo 2
-	} else {
-		set lo 1
-	}
+	set lo 1
+
 	#entries to enable in the Account menu, beginning with the logout entry
 	enableEntries $menu [list $lo [incr lo 2] [incr lo 1]  [incr lo 1]  [incr lo 2] [incr lo 1] [incr lo 3]]
 
@@ -3676,12 +3672,7 @@ proc loggedOutGuiConf { event } {
 	set menu .main_menu.account
 	
 	enable $menu 0 1
-	if {[$menu index "[trans loginas]..."] == 1} {
-		enable $menu 1 1
-		set lo 2
-	} else {
-		set lo 1
-	}
+	set lo 1
 	#entries to enable in the Account menu, beginning with the logout entry
 	enableEntries $menu [list $lo [incr lo 2] [incr lo 1]  [incr lo 1]  [incr lo 2] [incr lo 1] [incr lo 3]] 0
 
