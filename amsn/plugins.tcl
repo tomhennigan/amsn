@@ -494,7 +494,7 @@ namespace eval ::plugins {
 		# TODO make the -wraplength fit the label's width
 		label $mF.desc -wraplength 280 -justify left -anchor w
 		# holds the 'command center' buttons
-		label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF
+		label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF -cursor hand2
 
 		button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
 		button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled

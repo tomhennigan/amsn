@@ -982,7 +982,7 @@ namespace eval ::skinsGUI {
 		set select -1
 		set idx 0
 
-		label $w.getmore -text "[trans getmoreskins]" -fg #0000FF
+		label $w.getmore -text "[trans getmoreskins]" -fg #0000FF -cursor hand2
 
 		button $w.ok -text "[trans ok]" -command "::skinsGUI::SelectSkinOk $w" 
 		button $w.cancel -text "[trans cancel]" -command "::skinsGUI::SelectSkinCancel $w" 
