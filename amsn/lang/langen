@@ -64,7 +64,7 @@ autoacceptft Automatically accept File Transfer requests
 autoaway Change state to "Away" when inactive for
 autocheckver Automatically check for newer versions on startup
 autoconnect2 Sign In automatically when aMSN is launched
-autoconnect Connect on aMSN start
+autoconnect Auto-connect when aMSN starts
 autodetectip Detect IP address automatically
 autohotmaillog Automatically login to Hotmail
 autoidle Auto NoActivity
