@@ -1812,6 +1812,12 @@ namespace eval ::plugins {
 			}
 
 			set filename [file join [getInfo $plugin plugin_dir] "lang" lang$langcode]
+			set dir [file join [getInfo $plugin plugin_dir] "lang"]
+
+			if { ![file isdirectory $dir] } {
+				file mkdir $dir
+				status_log "Auto-update ($plugin) : create dir $dir\n" red
+			}
 
 			set fid [open $filename w]
 			fconfigure $fid -encoding binary
@@ -1886,7 +1892,7 @@ namespace eval ::plugins {
 			if { ![file isdirectory $dir] } {
 				file mkdir $dir
 				status_log "Auto-update ($plugin) : create dir $dir\n" red
-			}	
+			}
 
 			set fid [open $filename w]
 			fconfigure $fid -encoding binary
