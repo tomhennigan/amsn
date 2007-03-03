@@ -2192,7 +2192,7 @@ namespace eval ::AVAssistant {
 		$assistant setFinishProc ::AVAssistant::finish
 	}
 
-	proc resetSharecam { old_value } {
+	proc resetSharecam { old_value assistant contentf} {
 		::config::setKey wanttosharecam $old_value
 	}
 

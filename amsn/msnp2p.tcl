@@ -871,7 +871,7 @@ namespace eval ::MSNP2P {
 				    set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 				    set content_type [string range $data $idx $idx2]
 				    if { $content_type != "null" } {
-					::CAMGUI::InvitationDeclined $chatid
+					::CAMGUI::InvitationDeclined $chatid $sid
 				    } else {
 					::MSNCAM::SendSyn $sid $chatid
 				    }

@@ -94,7 +94,7 @@ namespace eval ::MSNCAM {
 		set window [getObjOption $sid window]
 
 		#draw a notification in the window (gui)
-		::CAMGUI::CamCanceled $chatid
+		::CAMGUI::CamCanceled $chatid $sid
 
 		if { [OnDarwin] } {
 			set grabber .grabber.seq
@@ -418,11 +418,11 @@ namespace eval ::MSNCAM {
 		if { $guid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
 			setObjOption $sid producer 1
 
-		    setObjOption $sid source [::config::getKey "webcamDevice" "0"]
-		    ::CAMGUI::InvitationToSendSent $chatid
+			setObjOption $sid source [::config::getKey "webcamDevice" "0"]
+			::CAMGUI::InvitationToSendSent $chatid $sid
 		} else {
 			setObjOption $sid producer 0
-			::CAMGUI::InvitationToReceiveSent $chatid
+			::CAMGUI::InvitationToReceiveSent $chatid $sid
 		}
 
 		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
@@ -2321,10 +2321,21 @@ namespace eval ::CAMGUI {
 	}
 	
 	#Executed when you invite someone to a webcam session and he refuses the request
-	proc InvitationDeclined {chatid} {
-		SendMessageFIFO [list ::CAMGUI::InvitationDeclinedWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	proc InvitationDeclined {chatid sid} {
+		SendMessageFIFO [list ::CAMGUI::InvitationDeclinedWrapped $chatid $sid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
-	proc InvitationDeclinedWrapped {chatid} {
+	proc InvitationDeclinedWrapped {chatid sid} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0 } {
+			return 0
+		}
+
+		[::ChatWindow::GetOutText ${win_name}] tag configure cancelwebcam$sid \
+		    -foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Button1-ButtonRelease> ""
+
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
@@ -2333,10 +2344,21 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when your contact stops the webcam session
-	proc CamCanceled {chatid} {
-		SendMessageFIFO [list ::CAMGUI::CamCanceledWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	proc CamCanceled {chatid sid} {
+		SendMessageFIFO [list ::CAMGUI::CamCanceledWrapped $chatid $sid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
-	proc CamCanceledWrapped {chatid} {
+	proc CamCanceledWrapped {chatid sid} {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0 } {
+			return 0
+		}
+		
+		[::ChatWindow::GetOutText ${win_name}] tag configure cancelwebcam$sid \
+		    -foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Button1-ButtonRelease> ""
+
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
@@ -2345,27 +2367,33 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when you invite someone to send your webcam
-	proc InvitationToSendSent {chatid} {
-		SendMessageFIFO [list ::CAMGUI::InvitationToSendSentWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	proc InvitationToSendSent {chatid sid} {
+		SendMessageFIFO [list ::CAMGUI::InvitationToSendSentWrapped $chatid $sid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
-	proc InvitationToSendSentWrapped {chatid} {
+	proc InvitationToSendSentWrapped {chatid sid} {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
-		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestsend]\n" green
+		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestsend]" green
+		::amsn::WinWrite $chatid " - (" green
+		::amsn::WinWriteClickable $chatid "[trans cancel]" [list ::MSNCAM::CancelCam $chatid $sid] cancelwebcam$sid
+		::amsn::WinWrite $chatid ")\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when you invite someone to receive his webcam
-	proc InvitationToReceiveSent {chatid} {
-		SendMessageFIFO [list ::CAMGUI::InvitationToReceiveSentWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	proc InvitationToReceiveSent {chatid sid} {
+		SendMessageFIFO [list ::CAMGUI::InvitationToReceiveSentWrapped $chatid $sid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
-	proc InvitationToReceiveSentWrapped {chatid} {
+	proc InvitationToReceiveSentWrapped {chatid sid} {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
-		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestreceive]\n" green
+		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestreceive]" green
+		::amsn::WinWrite $chatid " - (" green
+		::amsn::WinWriteClickable $chatid "[trans cancel]" [list ::MSNCAM::CancelCam $chatid $sid] cancelwebcam$sid
+		::amsn::WinWrite $chatid ")\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	
