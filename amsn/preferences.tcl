@@ -1978,6 +1978,11 @@ proc Preferences { { settings "personal"} } {
 
 	#set frm [Rnotebook:frame $nb $Preftabs(loging)]
 	set frm [$nb.nn getframe loging]
+	ScrolledWindow $frm.sw
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	$frm.sw setwidget $frm.sw.sf
+	pack $frm.sw -anchor n -side top -expand true -fill both
+	set frm [$frm.sw.sf getframe]	
 
 	## Loging Options Frame ##
 	set lfname [labelframe $frm.lfname -text [trans preflog1]]
@@ -2378,6 +2383,11 @@ proc Preferences { { settings "personal"} } {
 	# _| Privacy |________________________________________________
 	#set frm [Rnotebook:frame $nb $Preftabs(privacy)]
 	set frm [$nb.nn getframe privacy]
+	ScrolledWindow $frm.sw
+	ScrollableFrame $frm.sw.sf -constrainedwidth 1
+	$frm.sw setwidget $frm.sw.sf
+	pack $frm.sw -anchor n -side top -expand true -fill both
+	set frm [$frm.sw.sf getframe]	
 
          # Allow/Block lists
 	set lfname [labelframe $frm.lfname -text [trans prefprivacy]]
@@ -2880,6 +2890,7 @@ proc InitPref { {fullinit 0} } {
         # Fill the user's lists
         #set lfname [Rnotebook:frame $nb $Preftabs(privacy)]
 	set lfname [$nb.nn getframe privacy]
+	set lfname [$lfname.sw.sf getframe]
         Fill_users_list "$lfname.lfname" "$lfname.lfname2"
 
 }
