@@ -90,7 +90,7 @@ Projekt zu erfahren.
 	"${RPM_BUILD_ROOT}%{_desk_applnk}"
 #manually copy the icon file
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_desk_icons}"
-%{__ln_s} -f %{_datadir}/desktop-icons/48x48/amsn.png \
+%{__ln_s} -f %{_datadir}/desktop-icons/48x48/apps/amsn.png \
 	${RPM_BUILD_ROOT}%{_desk_icons}/amsn.png
 
 %clean
