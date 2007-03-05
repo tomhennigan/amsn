@@ -124,10 +124,10 @@ true
 - added BuildArch, set to noarch
 - added french and german translations for summary and description
 - added myself as the packager ;-)
-- added patch to .desktop file to use full path to .png file out of amsn %_datadir
+- added patch to .desktop file to use full path to .png file out of amsn _datadir
 - many other changes and enhancements
 - added define's at top of file for easier maintaining
-- cleaned up %files section
+- cleaned up files section
 - made more portable: SuSE autodetected and sets paths accordingly (KDE and GNOME)
 - added _-macros
 - revamped spec-file
