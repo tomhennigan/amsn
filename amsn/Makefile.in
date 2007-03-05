@@ -168,7 +168,7 @@ install:: $(FILES_TO_INSTALL)
 	mkdir -p $(dstdir)/applications
 	cp $(srcdir)/amsn.desktop $(dstdir)/applications
 
-	ln -sf $(dstdir)/$(PACKAGE)/icons/32x32/msn.png $(dstdir)/pixmaps/
+	ln -sf $(dstdir)/$(PACKAGE)/desktop-icons/32x32/apps/amsn.png $(dstdir)/pixmaps/
 
 uninstall::
 	rm -Rf $(dstdir)/$(PACKAGE)
