@@ -90,8 +90,8 @@ Projekt zu erfahren.
 	"${RPM_BUILD_ROOT}%{_desk_applnk}"
 #manually copy the icon file
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_desk_icons}"
-%{__ln_s} -f %{_datadir}/icons/48x48/msn.png \
-	${RPM_BUILD_ROOT}%{_desk_icons}/msn.png
+%{__ln_s} -f %{_datadir}/desktop-icons/48x48/amsn.png \
+	${RPM_BUILD_ROOT}%{_desk_icons}/amsn.png
 
 %clean
 %{__rm} -rf "${RPM_BUILD_ROOT}"
@@ -109,7 +109,7 @@ true
 %files
 %doc %{_doc_files}
 %{_bindir}
-%{_desk_icons}/msn.png
+%{_desk_icons}/amsn.png
 %{_datadir}
 %{_desk_applnk}/*.desktop
 
