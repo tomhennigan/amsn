@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=aMSN
 Exec=amsn
-Icon=msn.png
+Icon=amsn.png
 Info=AMSN
 Categories=Application;Network;InstantMessaging
 Comment=MSN Messenger for Linux
