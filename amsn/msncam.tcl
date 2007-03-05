@@ -2353,11 +2353,26 @@ namespace eval ::CAMGUI {
 			return 0
 		}
 		
+		# Disabling Cancel Button
 		[::ChatWindow::GetOutText ${win_name}] tag configure cancelwebcam$sid \
 		    -foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Leave> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Button1-ButtonRelease> ""
+
+		# Disabling Accept Button
+		[::ChatWindow::GetOutText ${win_name}] tag configure acceptwebcam$sid \
+		    -foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Button1-ButtonRelease> ""
+
+		# Disabling Decline Button
+		[::ChatWindow::GetOutText ${win_name}] tag configure nowebcam$sid \
+		    -foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Button1-ButtonRelease> ""
 
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
