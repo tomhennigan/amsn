@@ -2801,12 +2801,15 @@ namespace eval ::ChatWindow {
 				#Get number of lines
 				set n [llength [split $text "\n"]]
 				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
-				return [expr {$n * [font configure $font -size] + (($n - 1) * 7)}]
+				return [expr {$n * [font metrics $font -displayof $widget -linespace]}]
 			} else {
 				#Get number of lines
 				set n [llength [split $text "\n"]]
+				set f [font create -family helvetica -size 12 -weight normal]
 				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
-				return [expr {($n * 12) + (($n - 1) * 7)}]
+				set ret [expr {$n * [font metrics $f -displayof $widget -linespace]}]
+				font delete $f
+				return $ret
 			}
 		}
 	}
@@ -2936,10 +2939,17 @@ namespace eval ::ChatWindow {
 				#the image aligned-right to the text
 				set Xcoord [expr {[winfo width $top] - [image width $camicon]}]
 
-				set Ycoord [expr {[lindex [$top coords text] 1] + ([font configure splainf -size]/2) + ([font configure splainf -size]*($nroflines-1))}]
-
+				set font [$top itemcget text -font]
+				if { $font != "" } {
+					set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $font -displayof $top -linespace] * ($nroflines-1))}]
+				} else {
+					set f [font create -family helvetica -size 12 -weight normal]
+					set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $f -displayof $top -linespace] * ($nroflines-1))}]
+					font delete $f
+					
+				}
 	
-				$top create image $Xcoord $Ycoord -anchor w -image $camicon -tags [list camicon camicon_$user_login] -state normal
+				$top create image $Xcoord $Ycoord -anchor nw -image $camicon -tags [list camicon camicon_$user_login] -state normal
 
 				#If clicked, invite the user to send webcam
 				$top bind camicon_$user_login <Button-1> "::MSNCAM::AskWebcamQueue $user_login" 
@@ -2963,11 +2973,12 @@ namespace eval ::ChatWindow {
 
 		#Calculate number of lines, and set top text size
 
-		set size [$top index text end]
-
 		set ::ChatWindow::titles(${win_name}) ${title}
 		
-		$top dchars text [expr {$size - 1}] end
+		# delete the last newline...
+		set last_char [$top index text end]
+		incr last_char -1
+		$top dchars text $last_char end
 		
 		$top configure -height [expr {[MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]}]
 
