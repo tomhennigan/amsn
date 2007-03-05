@@ -1,4 +1,5 @@
 <?php
+include 'common.php';
 /**************************************/
 /* Shows and rescales an image        */
 /**************************************/
@@ -8,19 +9,22 @@
 /* width=new width/unset if default   */
 /**************************************/
 
-if(!isset($_GET['file'])) {
+if(!isset($_GET['id'])) {
 	die('ERROR! No file specified!');
 }
-$file=$_GET['file'];
+$file=getFileSysName($_GET['id']);
+
+if($file == '') {
+	die('ERROR! Bad file specified!');
+}
+
 $info=getimagesize($file);
 
-$width=(isset($_GET['width']))?$_GET['width']:0;
-$height=(isset($_GET['height']))?$_GET['height']:0;
 
-if($width>$height) {
-        $scale=$width/$info[0];
+if($info[0] > $info[1]) {
+        $scale=320/$info[0];
 } else {
-        $scale=$height/$info[1];
+        $scale=240/$info[1];
 }
 
 $width=$info[0]*$scale;
@@ -48,6 +52,6 @@ imagecopyresampled($new,$im,0,0,0,0,$width,$height,$info[0],$info[1]);
 header("Content-type: image/png");
 imagepng($new);
 
-#imagedestroy($im);
-#imagedestroy($newim);
+imagedestroy($im);
+imagedestroy($newim);
 ?>

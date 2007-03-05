@@ -1,6 +1,6 @@
 <?php
 
-if (!mysql_num_rows(($q = mysql_query("SELECT `id`, `name`, `desc`, `screen` FROM `amsn_screenshots` ORDER BY `name`")))) {
+if (!mysql_num_rows(($q = mysql_query("SELECT `id`, `name`, `desc`, `screen_id` FROM `amsn_screenshots` ORDER BY `name`")))) {
     echo "<p>There are no screenshots available.</p>\n";
     return;
 }
@@ -24,7 +24,7 @@ if (!isset($actual)) {
     echo "<p>The selected screenshot does not exist. It may have been removed.</p>\n";
 } else {
     echo '<p id="desc">' . $actual['desc'] . '</p>';
-    echo '<a href="'.$actual['screen'].'"><img src="'.$actual['screen'] .'&amp;thumb=1" alt="' . htmlentities(stripslashes($actual['name'])) . '" class="screenshot" /></a>';
+    echo '<a href="getURL.php?id='.$actual['screen_id'].'"><img src="thumb.php?id='.$actual['screen_id'] .'" alt="' . htmlentities(stripslashes($actual['name'])) . '" class="screenshot" /></a>';
 #	echo '<img src="screenshots/screen_' . basename($actual['screen']) . '" id="screenshot_img" alt="' . htmlentities(stripslashes($actual['name'])) . '" class="screenshot"/>';
 }
 

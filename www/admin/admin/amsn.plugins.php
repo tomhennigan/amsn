@@ -6,13 +6,15 @@ if (!defined('CPanel') || !isset($_SESSION['user'], $_SESSION['level'], $_GET['l
     exit;
 }
 
-function form($name = '', $desc = '', $author = '', $version = '', $platform = '', $requires = '', $screen = 0, $url = '', $idn = 0) {
+function form($name = '', $desc = '', $author = '', $version = '', $platform = '', $requires = '', $screen = -1, $file = -1, $idn = -1) {
 ?>
+<script type="text/javascript" src="admin/files.js"> </script>
+
 <form action="<?php echo htmlentities($_SERVER['REQUEST_URI']) ?>" method="post" id="form">
     <label for="plugin_name">Name:</label>
-    <input type="text" maxlength="100" name="plugin_name" id="plugin_name"<?php echo !empty($name) ? " value=\"$name\"" : '' ?> /><br />
+    <input type="text" maxlength="100" size=70 name="plugin_name" id="plugin_name"<?php echo !empty($name) ? " value=\"$name\"" : '' ?> /><br />
     <label for="plugin_desc">Description:</label>
-    <input type="text" maxlength="255" name="plugin_desc" id="plugin_desc"<?php echo !empty($desc) ? " value=\"$desc\"" : '' ?> /><br />
+    <input type="text" maxlength="255" size=100 name="plugin_desc" id="plugin_desc"<?php echo !empty($desc) ? " value=\"$desc\"" : '' ?> /><br />
     <label for="plugin_author">Author:</label>
     <input type="text" maxlength="100" name="plugin_author" id="plugin_author"<?php echo !empty($author) ? " value=\"$author\"" : '' ?> /><br />
     <label for="plugin_version">Version:</label>
@@ -21,10 +23,22 @@ function form($name = '', $desc = '', $author = '', $version = '', $platform = '
     <input type="text" maxlength="50" name="plugin_platform" id="plugin_platform"<?php echo !empty($platform) ? " value=\"$platform\"" : '' ?> /><br />
     <label for="plugin_requires">Requires:</label>
     <input type="text" maxlength="50" name="plugin_requires" id="plugin_requires"<?php echo !empty($requires) ? " value=\"$requires\"" : '' ?> /><br />
-    <label for="plugin_screen">Screenshot number:</label>
-    <input type="text" maxlength="10" name="plugin_screen" id="plugin_screen"<?php echo " value=\"$screen\"" ?> /><br />
-    <label for="url"><acronym title="Uniform Resource Locator">URL</acronym>:</label>
-    <input type="text" maxlength="255" name="url" id="url"<?php echo !empty($url) ? " value=\"$url\"" : '' ?> /><br />
+
+    <label for="plugin_screen_disp">Screenshot:</label>
+    <input type="text" name="plugin_screen_disp" readonly=true size=60 id="plugin_screen_disp" value="<?php echo htmlentities(stripslashes(getFileName($screen))) ; ?>" />
+    <input type="hidden" name="plugin_screen" id="plugin_screen" value="<?php echo getFileID($screen) ; ?>" /><br />
+    <input type="button" onclick="javascript:switchVisibility('plugin_screen',-1)" value='Pick a file' /><br />
+    <div id="plugin_screen_div" style="display: none;">
+    <iframe src="" id="plugin_screen_frame" width=600 ></iframe>
+    </div><br />
+
+    <label for="plugin_file_disp">File:</label>
+    <input type="text" name="plugin_file_disp" readonly=true size=60 id="plugin_file_disp" value="<?php echo htmlentities(stripslashes(getFileName($file))) ; ?>" />
+    <input type="hidden" name="plugin_file" id="plugin_file" value="<?php echo getFileID($file) ; ?>" /><br />
+    <input type="button" onclick="javascript:switchVisibility('plugin_file',-1)" value='Pick a file' /><br />
+    <div id="plugin_file_div" style="display: none;">
+    <iframe src="" id="plugin_file_frame" width=600 ></iframe>
+    </div><br />
 <?php
     if ($idn != 0) {
 ?>
@@ -39,15 +53,15 @@ function form($name = '', $desc = '', $author = '', $version = '', $platform = '
 
 
 if ($_GET['action'] == 'add') {
-    if (isset($_POST['plugin_name'], $_POST['plugin_desc'], $_POST['plugin_author'], $_POST['plugin_version'], $_POST['plugin_platform'], $_POST['plugin_requires'], $_POST['plugin_screen'], $_POST['url']) && ereg('^[0-9]+$', $_POST['plugin_screen'])) {
+    if (isset($_POST['plugin_name'], $_POST['plugin_desc'], $_POST['plugin_author'], $_POST['plugin_version'], $_POST['plugin_platform'], $_POST['plugin_requires'], $_POST['plugin_screen'], $_POST['plugin_file']) && ereg('^[0-9-]+$', $_POST['plugin_screen']) && ereg('^[0-9-]+$', $_POST['plugin_file'])) {
         $_POST = clean4sql($_POST);
-        if (mysql_query("INSERT INTO `amsn_plugins` (name, `desc`, author, version, platform, requires, url, screen) VALUES ('{$_POST['plugin_name']}', '{$_POST['plugin_desc']}', '{$_POST['plugin_author']}', '{$_POST['plugin_version']}', '{$_POST['plugin_platform']}', '{$_POST['plugin_requires']}', '{$_POST['url']}', '" . (int)$_POST['plugin_screen'] . "')")) {
+        if (mysql_query("INSERT INTO `amsn_plugins` (name, `desc`, author, version, platform, requires, file_id, screen_id) VALUES ('{$_POST['plugin_name']}', '{$_POST['plugin_desc']}', '{$_POST['plugin_author']}', '{$_POST['plugin_version']}', '{$_POST['plugin_platform']}', '{$_POST['plugin_requires']}', " . (int)$_POST['plugin_file'] . ", " . (int)$_POST['plugin_screen'] . "')")) {
             echo "<p>Plugin successfully added</p>\n";
             return;
         } else {
             echo "<p>An error ocurred while trying to add the plugin to the database</p>\n";
             #echo mysql_error();
-            form(htmlentities($_POST['plugin_name']), htmlentities($_POST['plugin_desc']), htmlentities($_POST['plugin_author']), htmlentities($_POST['plugin_version']), htmlentities($_POST['plugin_platform']), htmlentities($_POST['plugin_requires']), $_POST['plugin_screen'], htmlentities($_POST['url']));
+            form(htmlentities($_POST['plugin_name']), htmlentities($_POST['plugin_desc']), htmlentities($_POST['plugin_author']), htmlentities($_POST['plugin_version']), htmlentities($_POST['plugin_platform']), htmlentities($_POST['plugin_requires']), $_POST['plugin_screen'], htmlentities($_POST['plugin_file']));
             return;
         }
     } else
@@ -74,9 +88,9 @@ if ($_GET['action'] == 'add') {
     }
 
     if ($_GET['action'] == 'edit' && isset($_POST['id'])) {
-        if (isset($_POST['plugin_name'], $_POST['plugin_desc'], $_POST['plugin_author'], $_POST['plugin_version'], $_POST['plugin_platform'], $_POST['plugin_requires'], $_POST['plugin_screen'], $_POST['url']) && ereg('^[0-9]+$', $_POST['plugin_screen'])) {
+        if (isset($_POST['plugin_name'], $_POST['plugin_desc'], $_POST['plugin_author'], $_POST['plugin_version'], $_POST['plugin_platform'], $_POST['plugin_requires'], $_POST['plugin_screen'], $_POST['plugin_file']) && ereg('^[0-9-]+$', $_POST['plugin_screen']) && ereg('^[0-9-]+$', $_POST['plugin_file'])) {
             $_POST = clean4sql($_POST);
-            if (mysql_query("UPDATE `amsn_plugins` SET name = '{$_POST['plugin_name']}', `desc` = '{$_POST['plugin_desc']}', author = '{$_POST['plugin_author']}', version = '{$_POST['plugin_version']}', platform = '{$_POST['plugin_platform']}', requires = '{$_POST['plugin_requires']}', screen = '". (int)$_POST['plugin_screen'] ."', url = '{$_POST['url']}' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
+            if (mysql_query("UPDATE `amsn_plugins` SET name = '{$_POST['plugin_name']}', `desc` = '{$_POST['plugin_desc']}', author = '{$_POST['plugin_author']}', version = '{$_POST['plugin_version']}', platform = '{$_POST['plugin_platform']}', requires = '{$_POST['plugin_requires']}', screen_id = '". (int)$_POST['plugin_screen'] ."', file_id = '".(int)$_POST['plugin_file']."' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
                 echo "<p>Plugin successfully modified</p>\n";
                 return;
             } else {
@@ -86,7 +100,7 @@ if ($_GET['action'] == 'add') {
         }
 
         $row = mysql_fetch_assoc($q);
-        form(htmlentities(stripslashes($row['name'])), htmlentities(stripslashes($row['desc'])), htmlentities(stripslashes($row['author'])), htmlentities(stripslashes($row['version'])), htmlentities(stripslashes($row['platform'])), htmlentities(stripslashes($row['requires'])), (int)$row['screen'], htmlentities(stripslashes($row['url'])), $row['id']);
+        form(htmlentities(stripslashes($row['name'])), htmlentities(stripslashes($row['desc'])), htmlentities(stripslashes($row['author'])), htmlentities(stripslashes($row['version'])), htmlentities(stripslashes($row['platform'])), htmlentities(stripslashes($row['requires'])), (int)$row['screen_id'], (int)$row['file_id'], $row['id']);
         return;
     }
 ?>

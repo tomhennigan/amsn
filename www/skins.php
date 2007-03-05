@@ -22,6 +22,9 @@
 	<br />
 </a>
 
+<script type="text/javascript" src="libs/addEvent.js"></script>
+<script type="text/javascript" src="libs/sweetTitles.js"></script>
+
 <?php
 
 if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_skins` ORDER BY `name`")))) {
@@ -50,9 +53,9 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_skins` ORDER BY `nam
     <li class="lg"><?php echo $skin['desc'] ?></li>
     <li class="dg">Created by: <?php echo $skin['author'] ?></li>
 <?php 
-		if ($skin['screen']>0) {
+		if (getFileURL($skin['screen_id']) != '') {
 ?>
-    <li class="lg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id=<?php echo $skin['screen']?>"><strong>Screenshot</strong></a></li>
+    <li class="lg"><a href="getURL.php?id=<?php echo $skin['screen_id'] ?>" title="&lt;img src='thumb.php?id=<?php echo $skin['screen_id'] ?>' /&gt;"><strong>Screenshot</strong></a></li>
 <?php 
 		}
 		else {
@@ -61,9 +64,9 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_skins` ORDER BY `nam
 <?php
 		}
 
-		if ($skin['url']!='') {
+		if (getFileURL($skin['file_id']) != '') {
 ?>
-    <li class="dg"><a href="http://prdownloads.sourceforge.net/amsn/<?php echo $skin['url']?>"><strong>Download this skin</strong></a></li>
+    <li class="dg"><a href="getURL.php?id=<?php echo $skin['file_id'] ?>"><strong>Download this skin</strong></a></li>
 <?php
 		}
 		else {

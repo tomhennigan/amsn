@@ -23,22 +23,22 @@
     <div id="nav" class="center">
 <?php
     
-	if (source == 'index') define(nav_index, 'nav_on');
-	else define(nav_index, 'nav');
-        if (source == 'download') define(nav_download, 'nav_on');
-        else define(nav_download, 'nav');
-        if (source == 'features') define(nav_features, 'nav_on');
-        else define(nav_features, 'nav');
-        if (source == 'skins') define(nav_skins, 'nav_on');
-        else define(nav_skins, 'nav');
-        if (source == 'plugins') define(nav_plugins, 'nav_on');
-        else define(nav_plugins, 'nav');
-        if (source == 'screenshots') define(nav_screenshots, 'nav_on');
-        else define(nav_screenshots, 'nav');
-        if (source == 'docs') define(nav_docs, 'nav_on');
-        else define(nav_docs, 'nav');
-        if (source == 'developer') define(nav_developer, 'nav_on');
-        else define(nav_developer, 'nav');
+	if (source == 'index') define('nav_index', 'nav_on');
+	else define('nav_index', 'nav');
+        if (source == 'download') define('nav_download', 'nav_on');
+        else define('nav_download', 'nav');
+        if (source == 'features') define('nav_features', 'nav_on');
+        else define('nav_features', 'nav');
+        if (source == 'skins') define('nav_skins', 'nav_on');
+        else define('nav_skins', 'nav');
+        if (source == 'plugins') define('nav_plugins', 'nav_on');
+        else define('nav_plugins', 'nav');
+        if (source == 'screenshots') define('nav_screenshots', 'nav_on');
+        else define('nav_screenshots', 'nav');
+        if (source == 'docs') define('nav_docs', 'nav_on');
+        else define('nav_docs', 'nav');
+        if (source == 'developer') define('nav_developer', 'nav_on');
+        else define('nav_developer', 'nav');
 
         echo '<a class="'.nav_index.'" href="index.php">'.trans('home').'</a>';
         echo '<a class="'.nav_download.'" href="download.php">'.trans('download').'</a>';

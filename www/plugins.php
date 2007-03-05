@@ -19,6 +19,10 @@
 <a name="top">
 	<br />
 </a>
+
+<script type="text/javascript" src="libs/addEvent.js"></script>
+<script type="text/javascript" src="libs/sweetTitles.js"></script>
+
 <?php
 
 if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_plugins` ORDER BY `name`")))) {
@@ -50,9 +54,9 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_plugins` ORDER BY `n
     <li class="dg">Platform/OS: <?php echo $plugin['platform'] ?></li>
     <li class="lg">Requires: <?php echo $plugin['requires'] ?></li>
 <?php 
-		if ($plugin['screen']>0) {
+		if (getFileURL($plugin['screen_id']) != '') {
 ?>
-    <li class="dg"><a href="http://amsn.sourceforge.net/wiki/show_image.php?id=<?php echo $plugin['screen']?>"><strong>Screenshot</strong></a></li>
+    <li class="dg"><a href="getURL.php?id=<?php echo $plugin['screen_id']?>" title="&lt;img src='thumb.php?id=<?php echo $plugin['screen_id'] ?>' /&gt;"><strong>Screenshot</strong></a></li>
 <?php 
 		}
 		else {
@@ -61,9 +65,9 @@ if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_plugins` ORDER BY `n
 <?php
 		}
 
-		if ($plugin['url']!='') {
+		if (getFileURL($plugin['file_id']) != '') {
 ?>
-    <li class="lg"><a href="http://prdownloads.sourceforge.net/amsn/<?php echo $plugin['url']?>"><strong>Download this plugin</strong></a></li>
+    <li class="lg"><a href="getURL.php?id=<?php echo $plugin['file_id']?>"><strong>Download this plugin</strong></a></li>
 <?php
 		}
 		else {

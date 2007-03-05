@@ -68,6 +68,18 @@ if (!user_level()) {
 <?php } if (user_level(3)) { ?>
     <li>Screenshots<ul>
         <li><a href="index.php?load=screenshots&amp;action=add">New screenshot</a></li>
+<?php if (user_level(4)) { ?>
+        <li><a href="index.php?load=screenshots&amp;action=edit">Edit screenshot</a></li>
+        <li><a href="index.php?load=screenshots&amp;action=remove">Remove screenshot</a></li>
+<?php } ?>
+    </ul></li>
+<?php } if (user_level(3)) { ?>
+    <li>Files<ul>
+        <li><a href="index.php?load=files&amp;action=stats">Files statistics</a></li>
+        <li><a href="index.php?load=files&amp;action=clean">Clean files</a></li>
+<?php if (user_level(4)) { ?>
+        <li><a href="index.php?load=files&amp;action=edit">Edit file</a></li>
+<?php } ?>
     </ul></li>
 <?php } ?>
     <li><a href="logout.php">Logout</a></li>

@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('UTC');
 
 $query = @mysql_query("SELECT title, text, time FROM `amsn_news` ORDER BY id DESC LIMIT 3") or print(mysql_error());
 
