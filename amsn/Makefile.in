@@ -176,7 +176,7 @@ uninstall::
 	rm -f $(slnkdir)/amsn-remote
 	rm -f $(slnkdir)/amsn-remote-CLI
 	rm -f $(dstdir)/applications/amsn.desktop
-	rm -f $(dstdir)/pixmaps/msn.png
+	rm -f $(dstdir)/pixmaps/amsn.png
 
 rpm-install:: $(FILES_TO_INSTALL)
 	rm -Rf $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)
