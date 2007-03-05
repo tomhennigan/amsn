@@ -51,7 +51,7 @@ function getFileURL($id)
 	} else {
 		$row = mysql_fetch_assoc($result);
 		if ($row['filename'] !== '') {
-			return dirname($_SERVER['PHP_SELF']) . '/files/' . $row['filename'];
+			return 'http://' . $_SERVER['SERVER_NAME'] . '/files/' . $row['filename'];
 		} else {
 			return $row['url'];
 		}
