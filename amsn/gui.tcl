@@ -7030,7 +7030,6 @@ namespace eval ::OIM_GUI {
 
     namespace export IsOIM MessageSend MessagesReceived OpenOIMWindow
 
-	variable oimlist
 	
 	#TODO:when we write a message to a CW, it should do the same as WLM, try to open an SB, if the CAL answer is 207 (user is offline, cannot join chat), then send the OIM
 	#use a list of such users ......
@@ -7082,44 +7081,38 @@ namespace eval ::OIM_GUI {
 		}
 	}
 
-	proc MessagesReceivedCallback { oim_messages email nick MsgId oim_message } {
-		variable oimlist
+	proc MessagesReceivedCallback { oim_messages email nick MsgId oimlist oim_message } {
 		if { $oim_message == "" } { 
 			status_log "\[OIM\]Unable to fetch message from $nick <$email>; MsgId is $MsgId"
-			if { ![info exists oimlist] } {
-				set oimlist [list]
-			}
 		} else {
 			lappend oimlist $oim_message
 		}
 
 		if { [llength $oim_messages] > 0} {
 			foreach {email nick MsgId} [lindex $oim_messages 0] break
-			::MSNOIM::getOIMMessage [list ::OIM_GUI::MessagesReceivedCallback [lrange $oim_messages 1 end] $email $nick $MsgId] $MsgId
+			::MSNOIM::getOIMMessage [list ::OIM_GUI::MessagesReceivedCallback [lrange $oim_messages 1 end] $email $nick $MsgId $oimlist] $MsgId
 		} else {
 			#No more messages to grab
 			#oldest are first
-			lsort -command SortOIMs $oimlist
-			foreach oim_message $oimlist {
-				DisplayOIM $oim_message
+			set sorted_oims [lsort -command SortOIMs $oimlist]
+			set to_delete [list]
+			foreach oim_message $sorted_oims {
+				if { [DisplayOIM $oim_message] } {
+					lappend to_delete $oim_message
+				}
 			}
 
-			if {[llength oimlist] > 0 } {
-				foreach {sequence email nick body MsgId runId} [lindex $oimlist 0] break
-			 	::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $oimlist 1 end] $nick $email $MsgId] $MsgId
+			if {[llength $to_delete] > 0 } {
+				foreach {sequence email nick body MsgId runId} [lindex $to_delete 0] break
+			 	::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $to_delete 1 end] $nick $email $MsgId] $MsgId
 			}
 		}
 	}
 
     proc MessagesReceived { oim_messages } {
-		variable oimlist
-
-		if {[info exists oimlist] } {
-			unset oimlist
-		}
 		if { [llength $oim_messages] > 0} {
 			foreach {email nick MsgId} [lindex $oim_messages 0] break
-			::MSNOIM::getOIMMessage [list ::OIM_GUI::MessagesReceivedCallback [lrange $oim_messages 1 end] $email $nick $MsgId] $MsgId
+			::MSNOIM::getOIMMessage [list ::OIM_GUI::MessagesReceivedCallback [lrange $oim_messages 1 end] $email $nick $MsgId [list]]  $MsgId
 		}
 
     }
@@ -7160,11 +7153,15 @@ namespace eval ::OIM_GUI {
 		set chatid [GetChatId $user]
 
 		if { $chatid == 0 } {
+			if {$user == "" } {
+				return 0
+			}
 			::amsn::chatUser $user
 			#TODO: use the normal way to get the chatid
 			set chatid [GetChatId $user]
 		}
 		status_log "Writing offline msg \"$msg\" on : $chatid\n" red
+
 		set customchatstyle [::config::getKey customchatstyle]
 		switch [::config::getKey chatstyle] {
 			msn {
@@ -7201,6 +7198,7 @@ namespace eval ::OIM_GUI {
 		if {[::config::getKey keep_logs]} {
 			::log::PutLog $chatid $nick $msg "" 0 $tstamp
 		}
+		return 1
 	}
 
     proc OpenOIMWindow { user } {
