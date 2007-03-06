@@ -1129,7 +1129,7 @@ namespace eval ::AVAssistant {
 # |+----------+ +---------+ |
 # +-------------------------+
 
-		label $contentf.desc -justify left -text [assistantselectcam]
+		label $contentf.desc -justify left -text [trans assistantselectcam]
 		pack $contentf.desc -pady 20 
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
