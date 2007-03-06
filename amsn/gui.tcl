@@ -6099,7 +6099,7 @@ proc show_umenu {user_login grId x y} {
 		set pos [lindex $url_indices $i ]
 		set urltext [string range $nickpsm $pos_start $pos]
 		.user_menu add command -label "[trans goto ${urltext} ] " \
-		-command "launch_browser [string map {% %%} [list $urltext]]"
+		-command "launch_browser [list $urltext]"
 		.user_menu add command -label "[trans copytoclipboard \"${urltext}\"]" \
 		-command "clipboard clear;clipboard append \"${urltext}\""
 		#end with a separator:
