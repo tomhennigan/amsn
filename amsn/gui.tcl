@@ -7071,14 +7071,13 @@ namespace eval ::OIM_GUI {
 		return $answer
     }
 
-	proc deleteOIMCallback {oim_messages nick email MsgId success} {
+	proc deleteOIMCallback {oim_messages success} {
 		if { $success == 0 } {
-			status_log "\[OIM\]Unable to delete message from $nick <$email>; MsgId is $MsgId"
+			status_log "\[OIM\]Unable to delete messages for OIMs : $oim_messages" white
+		} else {
+			status_log "\[OIM\]Successfully deleted OIMs : $oim_messages" green
 		}
-		if { [llength $oim_messages] > 0} {
-			foreach {sequence email nick body MsgId runId} [lindex $oim_messages 0] break
-			::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $oim_messages 1 end] $nick $email $MsgId] $MsgId
-		}
+	
 	}
 
 	proc MessagesReceivedCallback { oim_messages email nick MsgId oimlist oim_message } {
@@ -7098,13 +7097,12 @@ namespace eval ::OIM_GUI {
 			set to_delete [list]
 			foreach oim_message $sorted_oims {
 				if { [DisplayOIM $oim_message] } {
-					lappend to_delete $oim_message
+					lappend to_delete [lindex $oim_message 4]
 				}
 			}
 
 			if {[llength $to_delete] > 0 } {
-				foreach {sequence email nick body MsgId runId} [lindex $to_delete 0] break
-			 	::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback [lrange $to_delete 1 end] $nick $email $MsgId] $MsgId
+				::MSNOIM::deleteOIMMessage [list ::OIM_GUI::deleteOIMCallback $to_delete] $to_delete
 			}
 		}
 	}

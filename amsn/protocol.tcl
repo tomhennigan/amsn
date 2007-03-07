@@ -3093,6 +3093,7 @@ namespace eval ::MSNOIM {
 		if { $fault != "" } {
 			return -code error -errorinfo [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
 		}
+		return $xml
 	}
 	
 	proc CreateLockKey { challenge } {
@@ -3135,12 +3136,15 @@ namespace eval ::MSNOIM {
 	}
 
 	proc deleteOIMMessageCallback { callbk success data } {
+		if { $success == 0 } {
+			status_log "error deleting OIMS : $data" red
+		}
 		if {[catch {eval $callbk [list $success]} result]} {
 			bgerror $result
 		}
 	}
 
-        proc deleteOIMMessage { callbk mid } {
+        proc deleteOIMMessage { callbk mids } {
 		if { [catch {package require dom 3.0}] == 0 && 
 		     [catch {package require SOAP}] == 0 && 
 		     [catch {package require SOAP::https}] == 0 &&
@@ -3152,14 +3156,14 @@ namespace eval ::MSNOIM {
 				set ticket_[lindex $c 0] [lindex $c 1]
 			}
 			
+			status_log "deleting oims : $mids"
 			if { [info exists ticket_t] && [info exists ticket_p] } {
-				# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
-				# how to make sure our 'tkwait var' works even in the case of errors ?
-				set soap_req [SOAP::create DeleteOIMMessage_$mid \
+				set id [::md5::hmac $callbk $mids]
+				set soap_req [SOAP::create DeleteOIMMessage_$id \
 						  -uri "https://rsi.hotmail.com/rsi/rsi.asmx" \
 						  -proxy "https://rsi.hotmail.com/rsi/rsi.asmx" \
 						  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/DeleteMessages" \
-						  -wrapProc [list deleteOIMMessageXml $mid $ticket_t $ticket_p] \
+						  -wrapProc [list deleteOIMMessageXml $mids $ticket_t $ticket_p] \
 						  -parseProc [list parseOIMXml] \
 						  -command [list deleteOIMMessageCallback $callbk 1] \
 						  -errorCommand [list deleteOIMMessageCallback $callbk 0]]
@@ -3168,14 +3172,18 @@ namespace eval ::MSNOIM {
 		}
 	}
 
-        proc deleteOIMMessageXml { mid ticket_t ticket_p procVarName args} {
+        proc deleteOIMMessageXml { mids ticket_t ticket_p procVarName args} {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><t>}
 		append xml $ticket_t
 		append xml {</t><p>}
 		append xml $ticket_p
-		append xml {</p></PassportCookie></soap:Header><soap:Body><DeleteMessages xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><messageIds><messageId>}
-		append xml $mid
-		append xml {</messageId></messageIds></DeleteMessages></soap:Body></soap:Envelope>}
+		append xml {</p></PassportCookie></soap:Header><soap:Body><DeleteMessages xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><messageIds>}
+		foreach mid $mids {
+			append xml {<messageId>}
+			append xml $mid
+			append xml {</messageId>}
+		}
+		append xml {</messageIds></DeleteMessages></soap:Body></soap:Envelope>}
 		return $xml
 	}
 	
