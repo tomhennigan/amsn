@@ -2868,9 +2868,11 @@ proc InitPref { {fullinit 0} } {
 	if { [LoginList exists 0 [::config::getKey login]] == 0 } {
 		#set lfname [Rnotebook:frame $nb $Preftabs(loging)]
 		set lfname [$nb.nn getframe loging]
+		set lfname [$lfname.sw.sf getframe]
 		set lfname "$lfname.lfname"
 		$lfname.log configure -state disabled
 		set lfname [$nb.nn getframe loging]
+		set lfname [$lfname.sw.sf getframe]
 		set lfname "$lfname.lfname3"
 		$lfname.logconnect configure -state disabled
 		$lfname.logdisconnect configure -state disabled
