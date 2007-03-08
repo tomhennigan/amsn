@@ -403,10 +403,10 @@ namespace eval ::smiley {
 		set x [expr {$x - 15}]
 		set y [expr {$y + 15 - [winfo reqheight $w]}]
 		wm geometry $w +$x+$y
+
 		#It won't work on Windows without this
 		update idletasks
-		
-		
+				
 		#It won't work on Windows without this
 		raise $w
 		
@@ -453,6 +453,8 @@ namespace eval ::smiley {
 			
 			incr temp
 		}
+
+		moveinscreen $w 5
 		
 		event generate $w <Enter>
 	
@@ -666,7 +668,7 @@ namespace eval ::smiley {
 		
 		
 		canvas $w.c -background white -borderwidth 0 -relief flat \
-			-selectbackground white -selectborderwidth 0 
+			-selectbackground white -selectborderwidth 0
 		pack $w.c -expand true -fill both
 		
 		#Add standard smileys
@@ -725,14 +727,14 @@ namespace eval ::smiley {
 		set pointer_x [winfo pointerx $w]
 		set pointer_y [winfo pointery $w]
 		set window_x [winfo rootx $w]
-		set window_y [winfo rootx $w]
+		set window_y [winfo rooty $w]
 		# Calculate pointer coordinates relative to the menu
 		set x [expr {$pointer_x-$window_x}]
 		set y [expr {$pointer_y-$window_y}]
 		# Check if the pointer is outside the menu
 		# The first two conditions refers to the case in which the pointe is no
 		# more on the same screen of the menu (and is therefore outside of it)
-		if { $pointer_x == -1 || $pointer_y==-1 || $x < 0 || $x > $x_geo || $x < 0 || $x > $x_geo } {
+		if { $pointer_x == -1 || $pointer_y==-1 || $x < 0 || $x > $x_geo || $y < 0 || $y > $y_geo } {
 			wm state $w withdrawn
 		}
 	}
