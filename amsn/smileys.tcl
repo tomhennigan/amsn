@@ -668,7 +668,7 @@ namespace eval ::smiley {
 		
 		
 		canvas $w.c -background white -borderwidth 0 -relief flat \
-			-selectbackground white -selectborderwidth 0
+			-selectbackground white -selectborderwidth 0 -width $x_geo -height $y_geo
 		pack $w.c -expand true -fill both
 		
 		#Add standard smileys
