@@ -936,6 +936,11 @@ namespace eval ::AVAssistant {
 
 		#here, we'll insert some steps
 
+#TODO
+		#check for audio extensions, and configure it
+#		set Step [list "Step1N" 1 ::AVAssistant::Step1N "" "" "" ""  [trans configuringaudio] "" 1 1]
+#		$assistant addStepEnd $Step
+
 		#check for audio extensions, and configure it
 		set Step [list "Step1A" 1 ::AVAssistant::Step1A ::AVAssistant::stopSound "" "" ""  [trans configuringaudio] assistant_audio 1 1]
 		$assistant addStepEnd $Step
@@ -1038,7 +1043,6 @@ namespace eval ::AVAssistant {
 					-image [::skin::loadPixmap no-emblem] -compound right
 
 				label $contentf.wcextwarn -justify left -text [trans webcamextwarn]
-#TODO: fill the url
 				label $contentf.wcextwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 				pack $contentf.wcextlabel
 				pack $contentf.wcextwarn 
@@ -1057,7 +1061,6 @@ namespace eval ::AVAssistant {
 					-text [trans checkingcapext $capextname]\
 					-image [::skin::loadPixmap no-emblem] -compound right
 				label $contentf.capextwarn -justify left -text [trans capturewarn]
-#TODO: fill the url
 				label $contentf.capextwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 
 				pack $contentf.capextlabel -pady [list 20 0]
@@ -1077,7 +1080,6 @@ namespace eval ::AVAssistant {
 					-text [trans checkingcam]\
 					-image [::skin::loadPixmap no-emblem] -compound right
 				label $contentf.nocamwarn -justify left -text [trans nocamwarn]
-#TODO: fill the url
 				label $contentf.nocamwarnurl -justify left -text "$::weburl/webcamfaq.php" -fg blue
 
 				pack $contentf.nocamlabel -pady [list 20 0]
@@ -1137,9 +1139,9 @@ namespace eval ::AVAssistant {
 		if {![info exists lowrescam]} {
 			set lowrescam [::config::getKey lowrescam]
 		}
-		checkbutton $contentf.lowrescam -text "[trans lowrescam]" -font sboldf -variable lowrescam -onvalue 1 -offvalue 0 
+		checkbutton $contentf.lowrescam -text "[trans lowrescam]" -font sboldf -variable lowrescam \
+			-onvalue 1 -offvalue 0
 		pack $contentf.lowrescam -pady 10
-#TODO: changing the state of that button doesn't change the preview.
 		
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
@@ -1229,6 +1231,9 @@ namespace eval ::AVAssistant {
 		
 		#Select the device if in the combobox (won't select anything if -1)
 		catch {$leftframe.devs select $setdevnr}
+
+		#now, configure the checkbutton in order to change the size of the preview when needed
+		$contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $leftframe.chans [$leftframe.chans get]]
 	#end the Step1WLinux proc
 	}
 
@@ -1262,7 +1267,6 @@ namespace eval ::AVAssistant {
 
 			#make sure the chanswidget is empty before filling it
 			$chanswidget list delete 0 end
-
 
 			#search the already set channel (cfr devices)	
 			if {![info exists selectedchannel]} {		
@@ -1738,10 +1742,18 @@ namespace eval ::AVAssistant {
 	}
 
 	######################################################################################
+	# Step 1 Network:  Configuring Network settings                                      #
+	######################################################################################
+	proc Step1N {assistant contentf} {
+		
+#TODO: what should be there ?
+
+	}
+
+	######################################################################################
 	# Step 1 Audio:  Configuring output settings                                         #
 	######################################################################################
 	proc Step1A {assistant contentf} {
-
 		$contentf configure -padx 10 -pady 10
 
 		##Here comes the content:##
