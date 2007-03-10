@@ -2,7 +2,7 @@
 <plugin>
 	<name>Address Book</name>
 	<author>Tom Hennigan</author>
-	<description>Integrates aMSN with the Mac OS X address book.</description>
+	<description>Integrates aMSN with the Mac OS X address book. It requires Tclx (which is installed by default on os x). The addressbook extension was written by Bernard Desgraupes, and is released under the same license as Tcl/Tk (http://www.tcl.tk/software/tcltk/license.html).</description>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>1.0</plugin_version>
 	<plugin_file>addressbook.tcl</plugin_file>
@@ -10,11 +10,13 @@
 	<init_procedure>init</init_procedure>
 	<deinit_procedure>deinit</deinit_procedure>
 </plugin>
-<cvs_version>7304</cvs_version>
+<cvs_version>8184</cvs_version>
 
 <file>
-		<path>addressbook.applescript</path>
-		<version>7293</version>
+		<path>utils/addressbook/pkgIndex.tcl</path>
+		<version>8184</version>
+		<path>utils/addressbook/pkgIndex.tcl</path>
+		<version>8184</version>
 </file>
 	
 <URL>
