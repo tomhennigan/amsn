@@ -2,9 +2,9 @@
 <plugin>
 	<name>Address Book</name>
 	<author>Tom Hennigan</author>
-	<description>Integrates aMSN with the Mac OS X address book. You can switch between having Address Book names, and nick names in the contact list by pressing Apple-Shift-A.</description>
+	<description>Integrates aMSN with the Mac OS X address book.</description>
 	<amsn_version>0.95</amsn_version>
-	<plugin_version>0.1</plugin_version>
+	<plugin_version>1.0</plugin_version>
 	<plugin_file>addressbook.tcl</plugin_file>
 	<plugin_namespace>macabook</plugin_namespace>
 	<init_procedure>init</init_procedure>

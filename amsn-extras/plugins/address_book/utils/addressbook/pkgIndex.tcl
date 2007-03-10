@@ -1,0 +1,1 @@
+if {[catch {package require Tcl 8.2}]} returnpackage ifneeded addressbook 1.1 [list load [file join $dir addressbook1.1.dylib] addressbook]
