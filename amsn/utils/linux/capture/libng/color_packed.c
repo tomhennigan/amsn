@@ -256,7 +256,7 @@ static const int nconv = sizeof(conv_list)/sizeof(struct ng_video_conv);
 
 /* ------------------------------------------------------------------- */
 
-void __init packed_init(void)
+void __init packed_init (void)
 {
     ng_conv_register(NG_PLUGIN_MAGIC,__FILE__,conv_list,nconv);
 }

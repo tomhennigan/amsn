@@ -1,10 +1,10 @@
-
 # targets to build
 TARGETS-plugins := $(capture_dir)/libng/plugins/conv-mjpeg.so
 ifeq ($(FOUND_OS),linux)
 TARGETS-plugins += \
 	$(capture_dir)/libng/plugins/drv0-v4l2.so \
-	$(capture_dir)/libng/plugins/drv1-v4l.so
+	$(capture_dir)/libng/plugins/drv1-v4l.so \
+	$(capture_dir)/libng/plugins/sn9c10x.so
 endif
 ifeq ($(FOUND_OS),bsd)
 TARGETS-plugins += \
@@ -18,6 +18,8 @@ clean:: clean-plugins
 
 clean-plugins:
 	rm -f $(TARGETS-plugins)
+
+$(capture_dir)/libng/plugins/sn9c10x.so: $(capture_dir)/libng/plugins/sn9c10x.o
 
 $(capture_dir)/libng/plugins/conv-mjpeg.so: $(capture_dir)/libng/plugins/conv-mjpeg.o
 

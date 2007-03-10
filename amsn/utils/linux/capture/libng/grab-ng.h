@@ -78,7 +78,9 @@ extern int  ng_mpeg_apid;
 #define VIDEO_JPEG	    17  /* JPEG (JFIF) */
 #define VIDEO_UYVY	    18  /* 4:2:2 */
 #define VIDEO_MPEG	    19  /* MPEG1/2 */
-#define VIDEO_FMT_COUNT	    20
+#define VIDEO_BAYER			20
+#define VIDEO_S910			21
+#define VIDEO_FMT_COUNT	    22
 
 #define AUDIO_NONE           0
 #define AUDIO_U8_MONO        1
@@ -649,7 +651,6 @@ void ng_yuv422p_to_lut4(void *h, struct ng_video_buf *out,
 
 void __init yuv2rgb_init(void);
 void __init packed_init(void);
-
 
 /* color_common.c stuff */
 void* ng_packed_init(struct ng_video_fmt *out, void *priv);

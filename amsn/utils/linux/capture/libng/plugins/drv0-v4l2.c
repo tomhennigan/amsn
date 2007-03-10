@@ -173,6 +173,8 @@ static __u32 xawtv_pixelformat[VIDEO_FMT_COUNT] = {
     [ VIDEO_JPEG ]     = V4L2_PIX_FMT_JPEG,
     [ VIDEO_MJPEG ]    = V4L2_PIX_FMT_MJPEG,
 //    [ VIDEO_MPEG ]     = V4L2_PIX_FMT_MPEG, // MPEG is supported in a different way
+	[ VIDEO_BAYER ]		= V4L2_PIX_FMT_BA81,
+	[ VIDEO_S910 ]		= V4L2_PIX_FMT_S910,
 };
 
 static struct STRTAB stereo[] = {

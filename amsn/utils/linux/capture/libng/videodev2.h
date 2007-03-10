@@ -204,6 +204,12 @@ struct v4l2_pix_format
 /*  Vendor-specific formats   */
 #define V4L2_PIX_FMT_WNVA    v4l2_fourcc('W','N','V','A') /* Winnov hw compres */
 
+#define V4L2_PIX_FMT_BA81	v4l2_fourcc('B','A','8','1') /* Bayer */
+
+#define V4L2_PIX_FMT_S910	v4l2_fourcc('S','9','1','0') /* SN9C102 Driver Compressed Format */
+
+
+
 /*
  *	F O R M A T   E N U M E R A T I O N
  */

@@ -64,6 +64,8 @@ const unsigned int ng_vfmt_to_depth[VIDEO_FMT_COUNT] = {
     0,		     /* JPEG     */
     16,		     /* UYVY     */
     0,		     /* MPEG     */
+    24,		     /* BAYER	*/
+    24,		     /* S910	*/
 };
 
 const char* ng_vfmt_to_desc[VIDEO_FMT_COUNT] = {
@@ -87,6 +89,8 @@ const char* ng_vfmt_to_desc[VIDEO_FMT_COUNT] = {
     "JPEG (JFIF)",
     "16 bit YUV 4:2:2 (packed, UYVY)",
     "MPEG video",
+    "Sequential Bayer (BA81)",
+    "SN9C102 Driver Compressed Format (S910)",  
 };
 
 /* --------------------------------------------------------------------- */
