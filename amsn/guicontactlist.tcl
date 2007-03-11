@@ -1633,7 +1633,6 @@ namespace eval ::guiContactList {
 		#fetch the ccard info
 		set ccard [::MSNCCARD::getContactCardList $email]
 		::abook::setContactData $email ccardlist $ccard
-puts "fetching data ..."
 #TODO: download photo thumbnails
 		set photos [::MSNCCARD::getAllPhotos $ccard]
 		set cachedir "[file join $HOME spaces $email]"
@@ -1644,7 +1643,6 @@ puts "fetching data ..."
 		foreach photolist $photos {
 			#download the thumbnail
 			set thumbnailurl [lindex $photolist 3]
-puts "going to download $thumbnailurl"
 			set data [::guiContactList::getPage  $thumbnailurl]
 			set filename "[file join $cachedir $count.jpg]"
 			set fid [open $filename w]
@@ -1783,8 +1781,7 @@ puts "going to download $thumbnailurl"
 		variable token
 		#download was succesfull
 	#TODO: what if something other then an image is here ?
-		set content [::http::data $token]
-	puts "dl succesfull: $content"			
+		set content [::http::data $token]	
 		set filename "[file join $cachedir $count.jpg]"
 		set fid [open $filename w]
 		fconfigure $fid -encoding binary

@@ -41,13 +41,12 @@ snit::widgetadaptor loginscreen {
 	component check_ver_icon
 	component check_ver_text
 
-	variable remember_me
+	variable remember_me 0
 
 	delegate method * to hull except {SortElements PopulateStateList LoginButtonPressed CanvasTextToLink LinkClicked}
 
 	constructor { args } {
 		array set after_id {checkUser {} PosBg {} Sort {}}
-		set remember_me 0
 
 		installhull using canvas -bg white -highlightthickness 0 -xscrollcommand "$self CanvasScrolled" -yscrollcommand "$self CanvasScrolled"
 
@@ -102,7 +101,7 @@ snit::widgetadaptor loginscreen {
 		# Options
 		# Remember me
 		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans rememberaccount]]
-		set rem_me_field [checkbutton $self.rem_me -variable [myvar rememberaccount]]
+		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me]]
 		set rem_me_field_tag [$self create window 0 0 -anchor nw -window $rem_me_field]
 		# Remember password
 		set rem_pass_label_tag [$self create text 0 0 -anchor nw -text [trans rememberpass]]
@@ -392,9 +391,10 @@ snit::widgetadaptor loginscreen {
 		# Check we actually have a username and password entered!
 		if { $user == "" || $pass == "" } { return }
 
+		
 		# If remember me checkbutton is selected and a profile doesn't already exists for this user, create a profile for them.
 		if { $remember_me && ![LoginList exists 0 $user] } {
-			#CreateProfile $user
+			CreateProfile $user
 		}
 
 		# Login with them
@@ -420,6 +420,17 @@ snit::widgetadaptor loginscreen {
 	}
 
 	method loggedOut {} {
+		$user_field list delete 0 end
+		set idx 0
+		while { [LoginList get $idx] != 0 } {
+			lappend tmp_list [LoginList get $idx]
+			incr idx
+		}
+		eval $user_field list insert end $tmp_list
+		$user_field delete 0 end
+		$user_field insert end [::config::getKey login]
+		$self UserSelected $user_field [$user_field get]
+
 		pack forget .main.f
 		pack $self -expand true -fill both
 	}

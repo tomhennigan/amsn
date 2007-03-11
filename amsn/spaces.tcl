@@ -19,7 +19,6 @@ namespace eval ::MSNCCARD {
 			}
 		}
 
-		puts $users_with_space
 		if { [llength $users_with_space] > 0 } {
 			if { [catch {package require dom 3.0}] == 0 && 
 			     [catch {package require SOAP}] == 0 && 

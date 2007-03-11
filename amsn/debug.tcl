@@ -93,6 +93,14 @@ namespace eval ::debug {
 		::debug::output ""
 	}
 
+	proc printStackTrace2 { } {
+		for { set i [info level] } { $i > 0 } { incr i -1} { 
+			puts "Level $i : [info level $i]"
+			puts "Called from within : "
+		}
+		puts ""
+	}
+
 
 
 
