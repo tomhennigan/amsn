@@ -50,6 +50,14 @@ askeachtime Perguntar toda vez
 asksendingyourwebcam pedir para que seja enviada a imagem da sua webcam
 asksendoim Você quer enviar essa mensagem como uma mensagem offline?
 askwebcam Pedir ao usuário para enviar imagem de webcam
+assistantainput Escolha o seu dispositivo de entrada e tente gravar com ele.
+assistantaoutput Escolha seu dispositivo de saida, e tente tocar este arquivo com ele para testar.
+assistantawarn Você não poderá gravar, ou falar com seus amigos. Você poderá encontrar respostas de como instalar esta extensão no nosso Wiki:
+assistantfinetunepic Mude as seguintes opções para ajustar a qualidade da imagem da sua webcam
+assistantselectcam Selecia a sua webcam na lista
+assistantstarting Inicar o Assistente
+assistantwelcome Este assistente irá guiá-lo atrás da configuração do seu áudio e vídeo para o seu aMSN.\n\nIrá checar se as extensões necessárias estão presentes e carregá-las, você poderá escolher o dispositivo e canal, setar a imagem e a resolução.
+audioconfigured Você escolheu as seguintes opções: \n Dispositivo de saída: $1\n Dispositivo de entrada:$2
 author Autor
 autoaccepted Transferência de arquivo aceita automaticamente
 autoacceptft Aceitar automaticamente pedidos de transferência de arquivo
@@ -73,6 +81,7 @@ avoidseen Evitar que esta pessoa veja quando eu estou on-line e não permitir que
 away Ausente
 awaymsg1 Solicitar mensagem quando eu mudar meu estado para Ausente/Volto Logo/Ocupado
 awaymsg2 Nunca pergunte e sempre use a mensagem abaixo
+back Voltar
 baduserpass Usuário ou senha inválido
 badwebcam Não é possível mostrar a imagem da webcam. Certifique-se que sua webcam está bem conectada e configurada.
 bgcolor Alterar a cor de fundo do aMSN
@@ -110,6 +119,7 @@ cantremoveothers Não é possível remover o grupo "Outros"
 captureextloaded Extensão de captura -$1- foi carregada
 captureextnotloaded Extensão de captura -$1- não foi carregada, você deve compilá-la primeiro
 captureproperties Propriedades da imagem da Webcam
+capturewarn Você não poderá enviar sua webcam se tiver uma. Senão, é normal. Você pode encontrar respostar de como instalar a extensão no nosso Wiki:
 casesensitive Diferenciar maísculas/minúsculas
 cfgalarmall Configurar/Adicionar/Remover alarme global
 cfgalarm Configurar/Adicionar/Remover Alarme
@@ -136,6 +146,10 @@ chatsmileys Emoticons de conversa
 checkblocking Verificar continuamente se os usuários estão bloqueando você
 checkemail Mostrar status da caixa de entrada de e-mails na janela da lista de contatos
 checkfilman Os arquivos recebidos serão armazenados em $1. Por favor verifique as configurações do gerenciador de arquivos em "Preferências".
+checkingaudio Checando se a extensão de áudio (Snack) foi carregada...
+checkingcam Checando se a webcam está conectada...
+checkingcapext Checando se a extensão '$1' está carregada...
+checkingextensions Checando a extensão de vídeo necessária
 checkingver Procurando novas versões
 checkonfln Verificar se um usuário bloqueou você quando ficar offline
 checkopenfilecommand Por favor verifique o comando "abrir arquivo" na janela de preferências
@@ -147,6 +161,9 @@ choosechannel Por favor escolha um canal
 choosecontact Por favor escolha um contato da lista
 choosedevice Por favor escolha um dispositivo
 choosefontcolor Escolher cor da fonte
+chooseinputdev Escolha seu dispositivo de entrada
+choosemixerdev Escolha seu mixer
+chooseoutputdev Escolha seu dispositivo de saída
 chooseskin Por favor escolha a skin que deseja usar
 ch_to_state Mudar para novo estado
 clear Limpar
@@ -171,6 +188,8 @@ color Cor
 command Comando
 commandstatus Executar comando
 configure Configurar
+configuremic Configurando seu microfone
+configuringaudio Configurando opções de áudio
 confirmbl Você tem certeza de que quer bloquear esse contato?
 confirmdelete Você tem certeza de que quer apagar $1?
 confirmdg Você tem certeza de que quer apagar este grupo?
@@ -179,6 +198,7 @@ confirmeg Você tem certeza de que quer esvaziar este grupo?
 confirmpurge Todas as imagens de exibição armazenados dos outros contatos (não as suas) serão apagadas. Tem Certeza?
 confirmrfl Você tem certeza que de que quer apagar este usuário deste grupo?
 confirm Você tem certeza?
+congrats Parabéns!
 connected Você está conectado
 connectedwith Conectado a $1
 connecterror Erro ao conectar-se ao servidor
@@ -270,6 +290,7 @@ dontdownload Não efetuar download do TLS, eu mesmo o farei
 dontshow Não exibir
 download Download
 downloadingtls Efetuando download do módulo TLS de:\n $1
+editavsettings Editar opções de áudio e vídeo
 editcontent Altere o contéudo do campo de assunto e do campo de nota
 editcustomstate Editar estado personalizado
 edit Editar
@@ -320,8 +341,12 @@ findasyoutype Encontrar ao digitar
 find Encontrar
 findnext Encontrar Próximo
 findprev Encontrar Anterior
+finetunesettings Ajuste fino de imagem
+finish2apply Pressione Terminar para aplicar as mudanças.
+finish Terminar
 firewalled Você está atrás de um firewall ou de um roteador
 followtext Deslocar para baixo quando texto novo for inserido
+forgot_pass Eu esqueci minha senha
 friendlyname Nome pelo qual prefere ser chamado
 ftacceptedby $1 aceitou pedido de transferência do arquivo "$2".
 ftaccepted Transferência de arquivo aceita
@@ -361,6 +386,7 @@ grouprename Renomear um grupo
 groups Grupos
 groupunknown Grupo desconhecido
 handle Manipular
+havenomic Eu não tenho microfone
 help Ajuda
 helpcontents Conteúdo da ajuda
 hidedisplaypic Esconder Imagem de Exibição
@@ -493,6 +519,7 @@ natkeepalive Estou sendo desconectado com freqüência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
 needwinico2 Preciso do arquivo winico05.dll na pasta utils/windows para que o ícone de inicialização rápida possa funcionar na barra de tarefas do windows
 never Nunca
+new_account Criar uma conta
 newchat Novo chat
 new_ft_protocol Novo protocolo de transferência de arquivos (ainda possui alguns bugs)
 newline Nova Linha
@@ -509,12 +536,14 @@ next Próximo
 nick Apelido
 noactivity Sem atividade
 nocacheddps Não mostrar figuras em cache para esse usuário
+nocamwarn Nenhuma webcam foi encontrada, ou sua webcam já está em uso por outro programa (o que significa que não pode ser usado pelo aMSN). Você pode encontrar ajuda de como resolver esse problema no nosso Wiki:
 nodataavailable Sem dados disponíveis para $1
 nodevices No momento, não há devices instalados
 noftpreview Desabilitar o envio de preview da imagem na transferência de arquivos
 nogap Nenhum espaço entre grupos
 nogroup Nenhum grupo
 nologfile Sem histórico para $1
+nomic Sem microfone
 no Não
 noneavailable Nada Disponível
 nonewmail Sem novas mensagens na Caixa de Entrada
@@ -578,6 +607,7 @@ picstatus Alarme com imagem
 playbackposition Posição do playback
 playbackspeed Velocidade do playback (milissegundos entre cada quadro)
 playing Tocando: $1
+playtest Tocar arquivo teste
 play Tocar
 playwebcamsend Enviar resumo da webcam
 pluginselector Selecionar plugins
@@ -649,8 +679,10 @@ reconnect2 Reconectar ao perder a conexão
 reconnect Esperando por $1 para reconectar
 reconnecting Reconectando ao servidor
 recorderror Um erro ocorreu na tentativa de gravar o som: $1
+record Gravar
 recvwebcamaccepted $1 aceitou seu convite para ver a webcam dele/dela. Conectando...
 reject Recusar
+rememberaccount Lembrar conta
 rememberpass Lembrar senha
 remembersetting Lembrar os ajustes
 removeempty Ocultar grupos vazios na lista de contatos
@@ -696,6 +728,8 @@ server Servidor
 serverunavailable Servidor não disponível
 session Sessão
 setasmydp Setar como minha imagem de exibição
+setupcamfinetune Setar as opções da sua webcam, e sintonia fina de imagem
+setupcam Setar opções do dispositivo da sua webcam
 shareswebcam Compartilhar webcam
 showbanner Mostrar banner do aMSN
 showblockedlist Mostra a lista de usuários que bloquearam você
@@ -757,6 +791,7 @@ statepsm Mensagem pessoal (deixar em branco para não alterar)
 state Quero aparecer como
 stats Estatísticas
 status Estado
+step Passo
 stopalarm Desligar avisos
 stop Parar
 stopwebcamreceive Parar o envio da Webcam
@@ -831,12 +866,18 @@ videoconversationrequest Você recebeu um pedido de videoconferência (áudio e víd
 viewcontactsby Visualizar contatos por
 viewprofile Ver Perfil
 view Visualizar
+volume Volume
 wanttosharecam Eu quero fazer minha câmera disponível para os outros
 webcamcanceled A sessão de webcam com $1 foi cancelada
 webcamclosebefcancel Você deve fechar todas as sessões de webcam antes de fechar a janela
 webcamconfigure Configurar webcam
+webcamconfiguredLinux Você escolheu as seguintes opções:\nDispositivo webcam: $1\nCanal da webcam: $2
+webcamconfiguredMac As opções da sua webcam já foram feitas
+webcamconfiguredWin Você escolheu o seguinte dispositivo da webcam: $1
+webcamextchecking Checadno se a extensão da webcam foi carregado...
 webcamextloaded Extensão Webcamsn foi carregada
 webcamextnotloaded A extensão Webcam não foi carregada. Você deve compilá-la.
+webcamextwarn Você não poderá ver a webcam do seu contato. Você poderá encontrar respostar de como instalar extensões no nosso Wiki:
 webcamfaq FAQ/Ajuda para Webcam
 webcamhistory Ver conversas antigas com a webcam
 webcaminvite $1 convidou você a iniciar uma sessão com webcam, mas o aMSN não suporta este recurso
