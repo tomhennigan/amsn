@@ -226,7 +226,6 @@ default Alapértelmezett beállítás
 defaultloginradio Alapbeállítással való bejelentkezés
 defchatwinsize Beszélgetõ ablakok alap mérete (X*Y)
 deleteall mindet töröl
-deleteandblock Törlés és blokkolás
 deleteblock Törlés és blokkolás
 deletecustomstate Saját állapot törlése
 delete Törlés
@@ -776,7 +775,6 @@ update frissítés
 updateonlycurrentlanguage Csak a jelenlegi nyelv frissítése
 updating Frissítés
 useasdp Kijelzõ kép használata
-usemsnp11 Személyes üzenetek támogatása (HALADÓ funkció) -- profilt és újraindítást igényel
 useother más program használata
 useralreadyonlist A felhasználó már szerepel a listádban
 userblocked A felhasználó bejelentkezett, de leblokkolt téged.
@@ -805,8 +803,8 @@ webcamhistory Webkamerás kapcsolatok megtekintése
 webcaminvite $1 Webkamerás csatlakozásra hív de az aMSN ezt nem támogatja.
 webcaminvitereceived $1 felkért téged webkamerás kapcsolatra. Elfogadod?
 webcamrejected $1 elutasította a takwebkamerás kapcsolatot
-webcamrequestreceive Felkérés küldése webkamerakép fogadására
-webcamrequestsend Felkérés küldése webkamerakép küldésére
+webcamrequestreceive Felkérés: mutasd a webkamerád
+webcamrequestsend Felkérés: nézd meg a webkamerám
 webcamsending Azon partnerek listája akik jelenleg látják webkamerád képét\nClick visszaváshoz
 webcam Webkamera
 whatisamsn Az aMSN egy plattformfüggetlen MSN Messenger klón
@@ -830,3 +828,42 @@ youblocked Letiltott
 yousay Te mondtad
 youwant Te akartad
 zoom nagyítás
+asksendoim Akarod, hogy ezt az üzenetet offline üzenetként küldjem?
+autolisten_voiceclips A beérkezõ hangklippek automatikus lejátszása
+blocknotifications Értesítõ ablak letiltása
+blocksounds Hangok letiltása
+cancelled Clutasítva
+closeordock Ha bezárod a kapcsolatok ablakot az aMSN ki fog lépni. Ha bezárod az ablakot akkor az aMSN a tálcán még futni fog.\n\nBiztos ki szeretnél lépni az aMSN-bõl?
+connectfirst Kérlek elõbb kapcsolódj
+customdp Egyedi fénykép
+error Hiba
+findasyoutype Keresés a szövegben
+ftporttest Port teszt
+gotoinbox Ugrás a beérkezettekbe
+hidemenumessage Elekerod rejteni a menüt?\nBármikor vissza tudod állítani a mutasd/rejtsd menü gyorsbillentyûvel 'Ctrl-M'.
+logschats Belépett a csevegésbe
+noftpreview A képek mejelenítésének tiltása fájl átvitelkor.
+nosound Nem érzékeltem hangot, biztos jól be van dugva a mikrofon?
+nosound_or_hold Nincs hang. A hang klip küldéséhez nyomva kell tartani a gombot.
+nouserspecified Nincsenek felhasználó részletek
+receivedvoice Hang Klippet kaptál
+recorderror Hiba lépett fel a hang felvétele közben: $1
+recvwebcamaccepted $1 elfogadták a meghívást a webkamera megmutatására. Kapcsolódás...
+sendoim Egy Offline üzenet küldése
+sendvoice Küldj egy hang klippet
+sendwebcamaccepted $1 elfogadták a meghívást a webkamerád megtakintésére. Kapcsolódás...
+sentvoice Hang klip elküldve
+setasmydp Beállítva megjelenítési képemnek
+showcontactemail Kapcsolatok mutatása E-mail-el
+showcontactnick Kapcsolatok mutatása becenévvel
+snackneeded A Snack (falat)könyvárra szükség van ehhez.. A minimal version of 2.2.9 is necessary.
+sortcontactgroup Kapcsolatok Rendezése Csoport szerint
+sortcontacthybrid Kapcsolatok Rendezése Vegyesen
+sortcontactstatus Kapcsolatok Rendezése Állapot szerint
+sortgroupsasc Kapcsolatok Rendezése Növekvõ sorrendben
+sortgroupsdesc Kapcsolatok Rendezése Csökkenõ sorrendben
+soundnoavail Nem található hangeszköz. Kapcsold ki azt a programot ami használja a hangkártyát.
+useasregexp Regurális kifejezésként használd (regexp)
+web Web
+webcaminvitereceiving Megkérted $1 , hogy mutassa a kameráját. Biztos vagy benne?
+webcaminvitesending $1 szeretné látni a kamerádat. Engedélyezed??
