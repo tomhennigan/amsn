@@ -1,0 +1,31 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu Mostra \"Aggiungi nuova animoticon\" nel relativo menù.
+winks_close_menu_on_mouse_leave Chiudi il menù quando il mouse lascia l'area.
+winks_cabextract_command Comando estrazione Cab:
+winks_use_extrac32 Usare extrac32 (per WinXp) per l'estrazione cab.
+winks_swf_player_command Comando riproduttore Swf:
+winks_swf_player_arguments Argomenti del riproduttore Swf:
+winks_add_new_wink Aggiungi nuova animoticon...
+winks_introduce_new_wink_name Nuovo nome animoticon:
+winks_cant_open Impossibile aprire
+winks_received_wink Animoticon ricevuta:
+winks_unknown_wink_waiting_for_it Animoticon sconosciuta, attendere...
+winks_wink_transfer_complete Trasferimento animoticon completato:
+winks_play_animation Riproduci animazione...
+winks_add_to_winks_menu Aggiungi al menù delle animoticon
+winks_sending_wink Animoticon in trasmissione...
+winks_sent_wink Animoticon trasmessa:
+winks_wink_added Animoticon aggiunta!
+winks_the_wink_is_already_in_winks_menu Animoticon già presente!
+winks_play_wink_immediatly_when_recived Riproduci immediatamente l'animoticon al suo ricevimento.
+winks_wink_deleted L'animoticon è stata cancellata.
+winks_wink_renamed L'animoticon è stata rinominata.
+winks_cant_add_now_wait_thumbnail Attendere finchè non si visualizza l'immagine da aggiungere.
+winks_cant_play_now_wait_thumbnail Attendere finchè non si visualizza l'immagine per la riproduzione.
+winks_yourcontact_winks animoticon:
+winks_yourcontact_amsn_client_doesnt_supports_winks sta usando un client msn che non supporta le animoticon.
+winks_play_embed Riproduci animoticon dentro la finestra di chat (solo per gnash).
+winks_notify_in_one_line Notifica la ricezione dell'animoticon in una linea.
+winks_play Riproduci
+winks_use_queque_out Usa una coda di riproduzione quando le animoticon sono riprodotte fuori dalla finestra di chat.
+winks_use_queque_in Usa una coda di riproduzione quando le animoticon sono riprodotte dentro la finestra di chat.

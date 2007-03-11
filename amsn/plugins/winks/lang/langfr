@@ -1,0 +1,29 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu Afficher \"Ajouter un wink\" dans le menu.
+winks_close_menu_on_mouse_leave Fermer le menu lorsque la souris ne s'y trouve plus.
+winks_cabextract_command Commande de CabExtract:
+winks_use_extrac32 Utiliser Extrac32 (pour WinXP) à la place de CabExtract.
+winks_swf_player_command Commande du lecteur SWF:
+winks_swf_player_arguments Arguments du lecteur SWF:
+winks_add_new_wink Ajouter un wink
+winks_introduce_new_wink_name Renommer le wink:
+winks_cant_open Ouverture impossible!
+winks_received_wink Wink reçu:
+winks_unknown_wink_waiting_for_it Transfert en cours...
+winks_wink_transfer_complete Transfert terminé:
+winks_play_animation Jouer l'animation...
+winks_add_to_winks_menu Ajouter au menu
+winks_sending_wink Envoi du wink...
+winks_sent_wink Wink envoyé:
+winks_wink_added Wink ajouté!
+winks_the_wink_is_already_in_winks_menu Le Wink est déjà disponible dans le menu!
+winks_play_wink_inmediatly_when_recived Jouer le wink immédiatement à la réception.
+winks_wink_deleted Wink supprimé.
+winks_wink_renamed Wink renommé.
+winks_cant_add_now_wait_thumbnail Patientez jusqu'au moment où vous voyez l'aperçu du wink pour l'ajouter.
+winks_cant_play_now_wait_thumbnail Patientez jusqu'au moment où vous voyez l'aperçu du wink pour le jouer.
+winks_yourcontact_winks vous envoie le wink:
+winks_yourcontact_amsn_client_doesnt_supports_winks utilise un client ne disposant pas de cette fonctionnalité.
+winks_play_embed Jouer le wink dans la fenêtre de conversation (seulement pour gnash).
+winks_notify_in_one_line Afficher l'avertissement de réception d'un wink en une seule ligne
+winks_play Jouer

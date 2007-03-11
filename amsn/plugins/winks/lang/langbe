@@ -1,0 +1,29 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu Toon \"Nieuwe wink toevoegen\" in winks menu.
+winks_close_menu_on_mouse_leave Sluit winks-menu bij muis verlaten.
+winks_cabextract_command CabExtract command:
+winks_use_extrac32 Gebruik extrac32 (voor WinXP) in plaats van cabextract.
+winks_swf_player_command Swf speler commando:
+winks_swf_player_arguments Swf speler argumenten:
+winks_add_new_wink Wink toevoegen...
+winks_introduce_new_wink_name Nieuwe Wink naam:
+winks_cant_open_content_xml Kan niet openen
+winks_received_wink Ontvangen wink:
+winks_unknown_wink_waiting_for_it Onbekende wink, wacht even...
+winks_wink_transfer_complete Wink transfer compleet:
+winks_play_animation Speel animatie...
+winks_add_to_winks_menu Voeg toe aan winks menu
+winks_sending_wink Wink aan 't versturen...
+winks_sent_wink Wink verstuurd:
+winks_wink_added Wink toegevoegd!
+winks_the_wink_is_already_in_winks_menu Wink staat al in winks menu!
+winks_play_wink_immediatly_when_recived Speel de wink onmiddellijk af na ontvangen.
+winks_wink_deleted Wink verwijderd.
+winks_wink_renamed Wink is hernoemd.
+winks_cant_add_now_wait_thumbnail Wacht tot je de wink-thumbnail ziet om deze toe te voegen.
+winks_cant_play_now_wait_thumbnail Wacht tot je de wink-thumbnail ziet om deze af te spelen.
+winks_yourcontact_winks winkt:
+winks_yourcontact_amsn_client_doesnt_supports_winks gebruikt een messengerclient die geen Winks ondersteunt.
+winks_play_embed Speel de wink in het chatvenster (enkel voor gnash).
+winks_notify_in_one_line Geef ontvangen winks in 1 lijn weer.
+winks_play Speel

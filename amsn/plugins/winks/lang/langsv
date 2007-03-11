@@ -1,0 +1,29 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu Visa \"Lägg till ny Blinkning\" I blink-menyn.
+winks_close_menu_on_mouse_leave Stäng blink-menyn då musen lämnar.
+winks_cabextract_command CabExtract kommando:
+winks_use_extrac32 Använd extrac32 (använd för WinXP) istället för cabExtract.
+winks_swf_player_command Swf-spelar kommandon:
+winks_swf_player_arguments Swf-spelar argument:
+winks_add_new_wink Lägg till ny blinkning...
+winks_introduce_new_wink_name Nytt namn på blinkning:
+winks_cant_open Kan inte öppna
+winks_received_wink Tog emot Blinkning
+winks_unknown_wink_waiting_for_it Okänd blinkning, väntar på den...
+winks_wink_transfer_complete Överföring av blinkning klar:
+winks_play_animation Spela animation...
+winks_add_to_winks_menu Lägg till i blink-menyn
+winks_sending_wink Skickar blinkning...
+winks_sent_wink Skickad blinkning:
+winks_wink_added Blinkning tillagd
+winks_the_wink_is_already_in_winks_menu Blinkningen finns redan!
+winks_play_wink_inmediatly_when_recived Spela blinkning direkt efter nedladdning.
+winks_wink_deleted Blinkningen borttagen.
+winks_wink_renamed Blinkningen omdöpt.
+winks_cant_add_now_wait_thumbnail Vänligen vänta på minityrbilden av blinkningen innan du lägger till den.
+winks_cant_play_now_wait_thumbnail Vänligen vänta på minityrbilden av blinkningen innan du spelar den.
+winks_yourcontact_winks Blinkningar:
+winks_yourcontact_amsn_client_doesnt_supports_winks använder en klient som inte stödjer blinkningar.
+winks_play_embed Spela upp blinkning i konversationsfönstret(Endast för gnash).
+winks_notify_in_one_line Meddela mottagen blinkning på en rad.
+winks_play Spela upp

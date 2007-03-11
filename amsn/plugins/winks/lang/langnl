@@ -1,0 +1,20 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu Toon \"Nieuwe wink toevoegen\" in winks menu.
+winks_close_menu_on_mouse_leave Sluit winks-menu bij muis verlaten.
+winks_cabextract_command CabExtract command:
+winks_use_extrac32 Gebruik extrac32 (voor WinXP) in plaats van cabextract.
+winks_swf_player_command Swf speler commando:
+winks_swf_player_arguments Swf speler argumenten:
+winks_add_new_wink Wink toevoegen...
+winks_introduce_new_wink_name Nieuwe Wink Naam:
+winks_cant_open Kan niet openen
+winks_received_wink Ontvangen wink:
+winks_unknown_wink_waiting_for_it Onbekende wink, wacht even...
+winks_wink_transfer_complete Wink Transfer compleet:
+winks_play_animation Speel animatie...
+winks_add_to_winks_menu Voeg toe aan winks menu
+winks_sending_wink Wink aan 't versturen...
+winks_sent_wink Wink gestuurd:
+winks_wink_added Wink toegevoegd!
+winks_the_wink_is_already_in_winks_menu Wink staat al in winks menu!
+winks_play_wink_immediatly_when_recived Speel de wink onmiddellijk af na ontvangen.

@@ -1,0 +1,31 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu Show \"Add new wink\" in winks menu.
+winks_close_menu_on_mouse_leave Close winks menu on mouse leave.
+winks_cabextract_command CabExtract command:
+winks_use_extrac32 Use extrac32 (set for WinXP) instead of cabextract.
+winks_swf_player_command Swf player command:
+winks_swf_player_arguments Swf player arguments:
+winks_add_new_wink Add new wink...
+winks_introduce_new_wink_name New Wink Name:
+winks_cant_open Can't open
+winks_received_wink Received wink:
+winks_unknown_wink_waiting_for_it Unknown wink, waiting for it...
+winks_wink_transfer_complete Wink transfer complete:
+winks_play_animation Play animation...
+winks_add_to_winks_menu Add to winks menu
+winks_sending_wink Sending wink...
+winks_sent_wink Sent wink:
+winks_wink_added Wink added!
+winks_the_wink_is_already_in_winks_menu The wink is already in winks menu!
+winks_play_wink_immediatly_when_recived Play wink immediatly when received.
+winks_wink_deleted The wink was deleted.
+winks_wink_renamed The wink was renamed.
+winks_cant_add_now_wait_thumbnail Please wait until you see the wink thumbnail to add it.
+winks_cant_play_now_wait_thumbnail Please wait until you see the wink thumbnail to play it.
+winks_yourcontact_winks winks:
+winks_yourcontact_amsn_client_doesnt_supports_winks is running a messenger client that doesn't support winks.
+winks_play_embed Play the wink inside the chat window (only for gnash). 
+winks_notify_in_one_line Notify received winks in one line.
+winks_play Play
+winks_use_queque_out Use a playing queque when playing winks outside the chat window.
+winks_use_queque_in Use a playing queque when playing winks inside the chat window.

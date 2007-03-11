@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>Winks</name>
+	<author>Pablo Novara and others (some code taken from Nudge plugin, some from amsn source code, some from voice clips, ...)</author>
+	<description>Winks!!!!!. Please read README.txt.</description>
+	<amsn_version>0.97</amsn_version>
+	<plugin_version>20070310</plugin_version>
+	<plugin_file>winks.tcl</plugin_file>
+	<plugin_namespace>winks</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+</plugin>
