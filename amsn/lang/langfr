@@ -50,6 +50,14 @@ askeachtime Demander à chaque fois
 asksendingyourwebcam pour inviter votre contact à voir votre webcam
 asksendoim Voulez-vous envoyer ce message en tant que message différé ?
 askwebcam Demander à ce contact de voir sa webcam
+assistantainput Choisissez le périphérique de capture et essayez d'enregistrer quelque chose avec.
+assistantaoutput Choisissez le périphérique de lecture, et essayez de lire ce fichier son pour l'essayer.
+assistantawarn Vous ne pourrez pas vous enregistrer, ni parler avec vos amis. Vous trouverez peut-être le moyen d'installer cette extension sur le wiki :
+assistantfinetunepic Modifiez les paramètres suivants pour ajuster la qualité de l'image de votre webcam
+assistantselectcam Choisissez votre webcam dans la liste
+assistantstarting Démarrage de l'assistant
+assistantwelcome Cet assistant vous guidera pour la configuration des paramètres audio et vidéo de aMSN.\n\nIl vérifiera que les extensions requises sont bien présentes et chargées, puis vous pourrez choisir les périphériques, canaux, régler les paramètres d'image et la résolution.
+audioconfigured Choisissez les paramètres audio suivants :\n Périphérique de lecture : $1\nPériphérique de capture : $2
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
@@ -73,6 +81,7 @@ avoidseen Interdire à cette personne de me voir ou de me contacter quand je suis
 away Absent[e]
 awaymsg1 Demander un message d'absence chaque fois que je change de statut pour Absent[e]/Bientôt de retour/Occupé[e]
 awaymsg2 Ne jamais demander et toujours utiliser le message ci-dessous
+back Retour
 baduserpass Mauvais nom d'utilisateur ou mot de passe
 badwebcam Impossible d'afficher l'image de la webcam. Veuillez vous assurer que la webcam est bien branchée et installée.
 bgcolor Changer la couleur de fond de aMSN
@@ -136,6 +145,10 @@ chatsmileys Afficher les émoticônes/smileys
 checkblocking Vérifier continuellement si des contacts vous ont bloqué
 checkemail Afficher une ligne d'annonce d'email (Boîte aux lettres) dans la liste des contacts
 checkfilman Les fichiers reçus seront sauvegardés dans $1. Veuillez vérifier les propriétés du gestionnaire de fichier dans la fenêtre de préférences.
+checkingaudio Vérifie si l'extension audio (Snack) est lancée...
+checkingcam Vérifie si une webcam est branchée...
+checkingcapext Vérifie si l'extension '$1' est lancée...
+checkingextensions Vérifie la présence des extensions vidéo nécéssaires
 checkingver Recherche d'une nouvelle version
 checkonfln Verifier si un contact vous a bloqué lorsqu'il se déconnecte
 checkopenfilecommand Merci de vérifier que la commande d'ouverture des fichiers dans la fenêtre des préférences
@@ -147,6 +160,7 @@ choosechannel Veuillez choisir un canal
 choosecontact Veuillez choisir un contact dans la liste
 choosedevice Veuillez choisir un périphérique
 choosefontcolor Choisir la couleur de police
+choosemixerdev Choisissez le périphérique de mixage
 chooseskin Sélectionnez l'apparence que vous souhaitez utiliser dans la liste
 ch_to_state Changer vers ce nouveau statut immédiatement
 clear Effacer
@@ -179,6 +193,7 @@ confirmeg Etes-vous sûr de vouloir vider ce groupe ?
 confirmpurge Toutes les avatars de vos contacts vont être supprimés. Etes-vous sur de vouloir le faire ?
 confirmrfl Etes-vous sûr de vouloir effacer ce contact de ce groupe ?
 confirm Êtes-vous sûr ?
+congrats Félicitations
 connected Vous êtes maintenant connecté[e]
 connectedwith Connecté[e] avec $1
 connecterror Erreur de connexion
@@ -270,6 +285,7 @@ dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas la montrer
 downloadingtls Téléchargement du module TLS à partir de :\n $1
 download Télécharger
+editavsettings Modifier les paramètres audio et vidéo
 editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregistrer
 editcustomstate Editer le statut personnel
 edit Edition
@@ -320,8 +336,12 @@ findasyoutype Chercher en même temps que vous tapez la requête
 findnext Résultat suivant
 findprev Résultat précédent
 find Rechercher
+finetunesettings Réglages avancés de l'image
+finish Terminé
+finish2apply Appuyez sur Terminé pour utiliser les nouveaux paramètres.
 firewalled Vous êtes derrière un pare-feu ou un routeur
 followtext Faire défiler lorsque du texte est entré
+forgot_pass Mot de passe oublié
 friendlyname Pseudo de conversation
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
 ftaccepted Transfert de fichier accepté
@@ -361,6 +381,7 @@ grouprename Renommer un groupe
 groups Groupes
 groupunknown Groupe inconnu
 handle Pseudonyme
+havenomic Je n'ai pas de microphone
 help Aide
 helpcontents Contenu de l'aide
 hidedisplaypic Masquer l'avatar
@@ -493,6 +514,7 @@ natkeepalive Si vous êtes souvent déconnecté involontairement, activez cet optio
 needonline Vous êtes toujours déconnecté[e]!
 needwinico2 Winico05.dll doit figurer dans le dossier utilitaires/windows pour que l'intégration dans le dock fonctionne
 never Jamais
+new_account Créer un compte
 newchat Nouvelle conversation
 new_ft_protocol Utiliser le nouveau protocole de téléchargement de fichiers (certains bogues peuvent subsister)
 newline Nouvelle ligne
@@ -509,12 +531,14 @@ next Suivant
 nick Pseudonyme
 noactivity Inactif
 nocacheddps Il n'y a pas d'avatars enregistrés pour cet utilisateur
+nocamwarn Aucune webcam n'a été trouvée, ou bien votre webcam est utilisée par un autre programme (elle ne peut dans ce cas pas être utilisée par aMSN). Vous trouverez de l'aide pour résoubre ce problème sur le Wiki:
 nodataavailable Pas de données disponibles pour $1
 nodevices Vous n'avez pas de périphériques installés
 noftpreview Ne pas envoyer d'aperçus d'images avant le transfert de fichiers
 nogap Aucun espace entre les groupes
 nogroup Aucun groupe
 nologfile Pas d'historique pour $1
+nomic Pas de microphone
 noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
@@ -523,7 +547,7 @@ nopic Pas d'avatar
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenêtre pour en créer un nouveau.
 normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
-nosound Pas de son détecté, assurez-vous que votre micro est bien branché
+nosound Pas de son détecté, assurez-vous que votre microphone est bien branché
 nosound_or_hold Pas de son détécté. Pour envoyer un message vocal, vous devez maintenir le bouton appuyé pendant que vous parlez, puis relacher le bouton pour envoyer le message.
 nosystemtray La boîte à miniatures n'est pas accessible
 note Note
@@ -579,6 +603,7 @@ playbackposition Position de la lecture
 playbackspeed Vitesse de lecture (nombre de millisecondes entre chaque image)
 playing Joue: $1
 play Jouer
+playtest Lire le fichier de test
 playwebcamsend Continuer l'envoi de la webcam
 pluginselector Sélection d'un plug-in
 port Port
@@ -645,12 +670,14 @@ receivedoimread Vous avez reçu $1 nouveau(x) message(s) différé(s). Voulez-vous 
 receivedvoice Message vocal reçu
 receivefile Fichier reçu
 recentmsg Empêcher la fermeture d'une fenêtre de conversation lorsqu'un nouveau message est arrivé.
+record Enregistrer
 recvwebcamaccepted $1 a accepté votre invitation pour voir sa webcam. Connexion en cours.
 reconnect2 Se reconnecter en cas de déconnexion
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
 recorderror Une erreur s'est produite lors de l'enregistrement du son
 reject Refuser
+rememberaccount Enregistrer le nom de compte
 rememberpass Enregistrer le mot de passe
 remembersetting Enregistrer ce paramètre
 removeempty Retirer les groupes vides de la liste des contacts
@@ -831,13 +858,20 @@ videoconversationrequest Vous venez de recevoir une invitation pour une conversa
 view Affichage
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
+volume Volume
 wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
 web Web
+webcam Webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
 webcamclosebefcancel Vous devez annuler toutes les conversations par webcam avant de fermer la fenêtre
 webcamconfigure Configurer la webcam
+webcamconfiguredLinux: Vous avez choisi les paramètres suivants pour la webcam :\nPériphérique : $1\nCanal : $2
+webcamconfiguredMac Les paramètres de la webcam ont été réglés
+webcamconfiguredWin: Vous avez choisi la webcam suivante : $1
+webcamextchecking Vérifie si l'extension requise pour la webcam est chargée...
 webcamextloaded L'extension Webcamsn est chargée
 webcamextnotloaded L'extension Webcamsn n'est pas chargée. Vous devez la compiler.
+webcamextwarn Vous ne pourrez pas voir la webcam de vos contacts. Vous trouverez des aides pour installer les extensions sur le Wiki:
 webcamfaq FAQ/Aide à propos de la webcam
 webcamhistory Voir les sessions webcam
 webcaminvite $1 vous invite à démarrer une conversation par Webcam, mais aMSN ne supporte pas cette option.
@@ -848,7 +882,6 @@ webcamrejected $1 a refusé l'invitation de la conversation par webcam.
 webcamrequestreceive Vous avez invité votre contact à afficher sa webcam
 webcamrequestsend Vous avez invité votre contact à visionner votre webcam
 webcamsending Liste des personnes qui sont en train de voir votre webcam\nCliquez sur un nom pour annuler
-webcam Webcam
 whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses platformes telles que Linux, Windows, Mac OS X, *BSD ...
 whatsize L'image qui doit être affichée n'est pas à la taille normale : 96x96 \nDans quelle taille voulez-vous que l'image soit affichée ?
 willjoin Dans l'attente que $1 rejoigne la conversation
