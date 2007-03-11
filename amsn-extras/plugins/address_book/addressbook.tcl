@@ -11,8 +11,10 @@ namespace eval ::macabook {
 		# Register the plugin.
 		::plugins::RegisterPlugin "Address Book"
 
-		global array set ::macabook {element value}
+		# This cache is used to speed things up.
+		global array set ::macabook::cache {element value}
 		
+		# Tclx
 		if {[catch {package require Tclx} res]} {
 			tk_messageBox -parent .main -title "Warning" -icon warning -type ok -message "The Tclx extension couldn't be loaded. Please make sure that tcl/tx has been installed correctly. Reason: $res"
 			return
@@ -30,25 +32,30 @@ namespace eval ::macabook {
 
 	# The abook deinit proc.
 	proc deinit { } {
-		;
+		unset ::macabook::cache
 	}
 
 	# This is called when the post event occurs.
 	proc parse_nick {event epvar} {
 		upvar 2 user_login user_login customnick customnick
 		
-		set user_id [addressbook search -persons -ids MSNInstant == [list {} $user_login]]
-		if {$user_id == [list]} {
-			set user_id [addressbook search -persons -ids Email == [list {} $user_login]]
+		if {[info exists ::macabook::cache($user_login)]} {
+			set customnick $::macabook::cache($user_login)
+		} else {
+			set user_id [addressbook search -persons -ids MSNInstant == [list {} $user_login]]
+			if {$user_id == [list]} {
+				set user_id [addressbook search -persons -ids Email == [list {} $user_login]]
+			}
+			
+			if {$user_id == [list]} { return; }
+			
+			set record [addressbook record [lindex $user_id 0]]
+			set first ""
+			set last ""
+			catch { set first [keylget record First] }
+			catch { set last [keylget record Last] }
+			set customnick "$first $last"
+			set ::macabook::cache($user_login) "$first $last"
 		}
-		
-		if {$user_id == [list]} { return; }
-		
-		set record [addressbook record [lindex $user_id 0]]
-		set first ""
-		set last ""
-		catch { set first [keylget record First] }
-		catch { set last [keylget record Last] }
-		set customnick "$first $last"
 	}
 }
