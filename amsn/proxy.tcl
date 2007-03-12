@@ -42,7 +42,7 @@ proc globalWrite { proxy name {msg ""} } {
 #The only way to get HTTP proxy + SSL to work...
 #http://wiki.tcl.tk/2627
 #helped by patthoyts autoproxy!
-proc secureSocket { args } {
+proc HTTPsecureSocket { args } {
 	set phost [::http::config -proxyhost]
 	set pport [::http::config -proxyport]
 	upvar host thost
@@ -88,6 +88,35 @@ proc secureSocket { args } {
 		# now add tls to the socket and return it
 		fconfigure $socket -blocking 0 -buffering none -translation binary
 		return [::tls::import $socket]
+	}
+
+	# if not proxifying, just create a tls socket directly
+	return [::tls::socket $thost $tport]
+}
+
+proc SOCKSsecureSocket { args } {
+	set phost [::http::config -proxyhost]
+	set pport [::http::config -proxyport]
+	upvar host thost
+	upvar port tport
+	# if a proxy has been configured
+	if {[string length $phost] && [string length $pport]} {
+		#TODO: make async: set socket [socket -async $phost $pport]
+		# create the socket to the proxy
+		set socket [socket -async $phost $pport]
+
+		set proxy_authenticate [expr [::config::getKey proxyauthenticate] == 1 ? 1 : 0]
+		set proxy_user [::config::getKey proxyuser]
+		set proxy_pass [::config::getKey proxypass]
+		set res [::Socks5::Init $socket $thost $tport $proxy_authenticate $proxy_user $proxy_pass]
+		if { $res != "OK" } {
+			return -code error $res
+		}
+
+		# now add tls to the socket and return it
+		fconfigure $socket -blocking 0 -buffering none -translation binary
+		return [::tls::import $socket]
+
 	}
 
 	# if not proxifying, just create a tls socket directly
@@ -185,7 +214,7 @@ proc secureSocket { args } {
 
 		$sb configure -sock $sock
 		if { [$sb cget -proxy_host] != ""} {
-			set res [::Socks5::Init $sb $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
+			set res [::Socks5::Init $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
 			if { $res != "OK" } {
 				$sb configure -error_msg $res
 				return -1
@@ -209,15 +238,23 @@ proc secureSocket { args } {
 			return -1
 		}
 
-		#If SSL is used, register https:// protocol
-#		if { [::config::getKey nossl] == 0 } {
-			http::register https 443 ::tls::socket
-#		} else  {
-#			catch {http::unregister https}
-#		}
+		set proxy_host [ns cget -proxy_host]
+		set proxy_port [ns cget -proxy_port]
+		if {$proxy_host == "" } {
+			::http::config -proxyhost ""
+		} else {
+			if { $proxy_port == "" } {
+				set proxy_port 1080
+			}
+			::http::config -proxyhost $proxy_host -proxyport $proxy_port
+		}
 
-		#No proxy is used
-		::http::config -proxyhost ""
+		# http://wiki.tcl.tk/2627 :(
+		if { [catch {http::register https 443 SOCKSsecureSocket} res]} {
+			MSN::logout
+			MSN::reconnect "Proxy returned error: $res"
+			return -1
+		}
 
 #		if { [::config::getKey nossl] == 1 } {
 #			#If we can't use ssl, avoid getting url from nexus
@@ -437,7 +474,7 @@ proc secureSocket { args } {
 		}
 
 		# http://wiki.tcl.tk/2627 :(
-		if { [catch {http::register https 443 secureSocket} res]} {
+		if { [catch {http::register https 443 HTTPsecureSocket} res]} {
 			MSN::logout
 			MSN::reconnect "Proxy returned error: $res"
 			return -1
@@ -858,454 +895,5 @@ proc secureSocket { args } {
 		}
 	}
 
-
-}
-
-
-
-snit::type ProxyProxy {
-
-	option -name
-
-#	if { $initialize_amsn == 1 } {
-#		variable proxy_host "";
-#		variable proxy_port "";
-#		variable proxy_type "http";
-#		variable proxy_username "";
-#		variable proxy_password "";
-#		variable proxy_with_authentication 0;
-#		variable proxy_header "";
-#		variable proxy_dropped_cb "";
-#	}
-
-	method OnCallback {event callback} {
-		variable proxy_dropped_cb
-
-		switch $event {
-			dropped { set proxy_dropped_cb $callback; }
-		}
-	}
-
-
-	method Init { proxy ptype } {
-		variable proxy_host
-		variable proxy_port
-		variable proxy_type
-
-		# TODO Test with Proxy
-		# for the moment, just configure the http to use proxy or not
-		set proxy_type $ptype
-		if {($proxy != ":") && ($proxy != "") } {
-			set lproxy [split $proxy ":"]
-			set proxy_host [lindex $lproxy 0]
-			set proxy_port [lindex $lproxy 1]
-		} else {
-			set proxy_host ""
-			set proxy_port ""
-		}
-	};# Proxy::Init
-
-
-	method LoginData { authenticate user passwd} {
-		variable proxy_with_authentication
-		variable proxy_username
-		variable proxy_password
-
-		set proxy_with_authentication $authenticate
-		set proxy_username $user
-		set proxy_password $passwd
-	};# Proxy::LoginData
-
-    # ::Proxy::Setup next readable_handler $socket_name
-	method Setup {next_handler readable_handler name} {
-		variable proxy_type
-		upvar $next_handler next
-		upvar $readable_handler read
-
-		switch $proxy_type {
-			http {
-				status_log "Proxy is POST. Next handler is ::Proxy::Connect $name\n" white
-				set next "::Proxy::Connect $name"
-				set read "::Proxy::ConnectedPOST $name"
-			}
-			ssl {
-				status_log "proxy is CONNECT. Next handler is ::Proxy::Connect $name\n" white
-				set next "::Proxy::Connect $name"
-				set read "::Proxy::Read $name"
-			}
-			socks5 {
-				set next "::Proxy::Connect $name"
-				set read "::Socks5::Readable $name"
-			}
-		}
-		status_log "Proxy::Setup $proxy_type $name\n" white
-    };# Proxy::Setup
-
-	method Connect {name} {
-		variable proxy_type
-		variable proxy_username
-		variable proxy_password
-		variable proxy_with_authentication
-		variable proxy_dropped_cb
-		variable proxy_host
-		variable proxy_port
-
-		status_log "Calliinnnggggg Connect !!\n" white
-
-		fileevent [$name cget -sock] writable {}
-
-		$name configure -stat "pc"
-		set remote_server [lindex [$name cget -server] 0]
-		set remote_port 1863
-
-		switch $proxy_type {
-			http {
-
-				set error_msg [fconfigure [$name cget -sock] -error]
-
-				if { $error_msg != "" } {
-					$name configure -error_msg $error_msg
-					ClosePOST $name
-					return
-				}
-
-				set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=[string toupper [string range $name 0 1]]&IP=$remote_server HTTP/1.1"
-				set tmp_data "$tmp_data\r\nAccept: */*"
-				set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
-				set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
-				set tmp_data "$tmp_data\r\nHost: gateway.messenger.hotmail.com"
-				set tmp_data "$tmp_data\r\nProxy-Connection: Keep-Alive"
-				set tmp_data "$tmp_data\r\nConnection: Keep-Alive"
-				set tmp_data "$tmp_data\r\nPragma: no-cache"
-				set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
-				set tmp_data "$tmp_data\r\nContent-Length: 0"
-				if {$proxy_with_authentication == 1 } {
-					set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
-				}
-				set tmp_data "$tmp_data\r\n\r\n"
-				status_log "PROXY SEND ($name)\n$tmp_data\n" blue
-				if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res]} {
-					#TODO: Error connecting, logout and show error message
-					#$name configure -error_msg "[fconfigure [$name cget -sock] -error]"
-					ClosePOST $name
-				}
-			}
-			ssl {
-				set tmp_data "CONNECT [join [list $remote_server $remote_port] ":"] HTTP/1.0"
-				status_log "PROXY SEND: $tmp_data\n"
-				puts -nonewline [$name cget -sock] "$tmp_data\r\n\r\n"
-			}
-			socks5 {
-				set remote_server $proxy_host
-				set remote_port $proxy_port
-				set pusername $proxy_username
-				set ppassword $proxy_password
-				if {$proxy_with_authentication == 0} {
-					set pusername ""
-					set ppassword ""
-				}
-		#		status_log "Connecting using socks5 to $remote_server ($proxy_host) at port $remote_port ($proxy_port) with user $pusername and password $ppassword\n\n"
-				set pstat [::Socks5::Init $name $remote_server $remote_port $proxy_with_authentication $pusername $ppassword]
-				if {$pstat != "OK"} {
-					status_log "SOCKS5: $pstat"
-					# DEGT Use a callback mechanism to keep code pure
-					if {$proxy_dropped_cb != ""} {
-					set cbret [eval $proxy_dropped_cb "dropped" "$name"]
-					}
-				}
-			}
-		}; #proxy type
-	};# Proxy::Connect
-
-	method ClosePOST { name } {
-		variable proxy_session_id
-#		variable proxy_gateway_ip
-		variable proxy_queued_data
-
-
-		if {[info exists options(-proxy_session_id)]} {
-			unset options(-proxy_session_id)
-		}
-
-		if {[info exists options(-proxy_gateway_ip)]} {
-			unset options(-proxy_gateway_ip)
-		}
-
-		if {[info exists options(-proxy_queued_data)]} {
-			unset options(-proxy_queued_data)
-		}
-
-		catch {
-			fileevent [$name cget -sock] readable ""
-			fileevent [$name cget -sock] writable ""
-		}
-		::MSN::CloseSB $name
-	}
-
-
-
-	method ConnectedPOST { name } {
-		ReadPOST $name
-		#$name configure -write_proc [list ::Proxy::WritePOST $name]
-		#$name configure -read_proc [list ::Proxy::ReadPOST $name"]
-		$name configure -connection_wrapper "ProxyPOST"
-		#catch { fileevent [$name cget -sock] readable [$name cget -readable] } res
-		catch { fileevent [$name cget -sock] readable "::Proxy::ReadPOST $name" } res
-		status_log "Evaluating: [$name cget -connected]\n" white
-		eval [$name cget -connected]
-	}
-
-	method PollPOST { name } {
-		variable proxy_session_id
-		variable proxy_gateway_ip
-		variable proxy_queued_data
-		variable proxy_username
-		variable proxy_password
-		variable proxy_with_authentication
-
-		if { ![info exists options(-proxy_session_id)]} {
-			return
-		}
-
-		#TODO: Race condition!! A write can happen here
-		set old_proxy_session_id $options(-proxy_session_id)
-		set options(-proxy_session_id) ""
-
-
-		if { $old_proxy_session_id == ""} {
-			status_log "ERROR, RACE CONDITION, THIS SHOULD'T HAPPEN IN ::proxy::PollPOST!!!!\n" white
-		} else {
-			if { $old_proxy_session_id != ""} {
-
-				set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"
-				set tmp_data "$tmp_data\r\nAccept: */*"
-				set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
-				set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
-				set tmp_data "$tmp_data\r\nHost: $proxy_gateway_ip($name)"
-				set tmp_data "$tmp_data\r\nProxy-Connection: Keep-Alive"
-				set tmp_data "$tmp_data\r\nConnection: Keep-Alive"
-				set tmp_data "$tmp_data\r\nPragma: no-cache"
-				set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
-				set tmp_data "$tmp_data\r\nContent-Length: 0"
-				if {$proxy_with_authentication == 1 } {
-					set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
-				}
-				set tmp_data "$tmp_data\r\n\r\n"
-
-				#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue
-				if { [catch {puts -nonewline [$name cget -sock] "$tmp_data" } res]} {
-					$name configure -error_msg $res
-					ClosePOST $name
-				}
-
-			}
-
-		}
-	}
-
-
-	method WritePOST { name {msg ""} } {
-		variable proxy_queued_data
-		variable proxy_session_id
-		variable proxy_gateway_ip
-		variable proxy_username
-		variable proxy_password
-		variable proxy_with_authentication
-
-
-		after cancel "::Proxy::PollPOST $name"
-		after cancel "::Proxy::WritePOST $name"
-
-		if {![info exists options(-proxy_queued_data)]} {
-			set options(-proxy_queued_data) ""
-		}
-
-		if { ![info exists options(-proxy_session_id)]} {
-			return
-		}
-
-		set old_proxy_session_id $options(-proxy_session_id)
-		set options(-proxy_session_id) ""
-
-		if { $msg != "" } {
-
-			set options(-proxy_queued_data) "$options(-proxy_queued_data)$msg"
-
-			if {$name != "ns" } {
-				degt_protocol "->Proxy($name) $msg" sbsend
-			} else {
-				degt_protocol "->Proxy($name) $msg" nssend
-			}
-		}
-
-
-		if { $old_proxy_session_id != "" } {
-
-
-			set size [string length $options(-proxy_queued_data)]
-			set strend [expr {$size -1 }]
-
-			set tmp_data "POST http://$proxy_gateway_ip($name)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"
-			set tmp_data "$tmp_data\r\nAccept: */*"
-			set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
-			set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
-			set tmp_data "$tmp_data\r\nHost: $proxy_gateway_ip($name)"
-			set tmp_data "$tmp_data\r\nProxy-Connection: Keep-Alive"
-			set tmp_data "$tmp_data\r\nConnection: Keep-Alive"
-			set tmp_data "$tmp_data\r\nPragma: no-cache"
-			set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
-			set tmp_data "$tmp_data\r\nContent-Length: $size"
-
-			if {$proxy_with_authentication == 1 } {
-				set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode ${proxy_username}:${proxy_password}]"
-			}
-
-			set tmp_data "$tmp_data\r\n\r\n[string range $options(-proxy_queued_data) 0 $strend]"
-
-			#status_log "PROXY POST Sending: ($name)\n$tmp_data\n" blue
-			set options(-proxy_queued_data) [string replace $options(-proxy_queued_data) 0 $strend]
-			if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res] } {
-				$name configure -error_msg $res
-				ClosePOST $name
-			}
-
-
-		} else {
-			set options(-proxy_session_id) $old_proxy_session_id
-			after 500 "::Proxy::WritePOST $name"
-
-		}
-
-	}
-
-
-	method ReadPOST { name } {
-
-		variable proxy_session_id
-		variable proxy_gateway_ip
-		variable proxy_data
-
-		after cancel "::Proxy::PollPOST $name"
-
-		set sock [$name cget -sock]
-		if {[catch {eof $sock} res]} {
-			status_log "Proxy::ReadPOST: Error, closing\n" red
-			ClosePOST $name
-		} elseif {[eof $sock]} {
-			status_log "Proxy::ReadPOST: EOF, closing\n" red
-			ClosePOST $name
-		} else {
-			set tmp_data "ERROR READING POST PROXY !!\n"
-
-			catch {gets $sock tmp_data} res
-
-			if { $tmp_data == "" } {
-				return
-			}
-
-			if { ([string range $tmp_data 9 11] != "200") && ([string range $tmp_data 9 11] != "100")} {
-				#if { ($tmp_data != "HTTP/1.0 200 OK") && ($tmp_data != "HTTP/1.1 100 Continue") } {}
-				status_log "Proxy POST connection closed for $name:\n$tmp_data\n" red
-				ClosePOST $name
-			} else {
-
-				set headers $tmp_data
-				while { $tmp_data != "\r"  } {
-					catch {gets $sock tmp_data} res
-					set headers "$headers\n$tmp_data"
-				}
-				set info "[::MSN::GetHeaderValue $headers X-MSN-Messenger]\n"
-
-				set start [expr {[string first "SessionID=" $info] + 10}]
-				set end [expr {[string first ";" $info $start]-1}]
-				if { $end < 0 } { set end [expr {[string first "\n" $info $start]-1}] }
-				set session_id "[string range $info $start $end]"
-
-				set start [expr {[string first "GW-IP=" $info] + 6}]
-				set end [expr {[string first ";" $info $start]-1}]
-				if { $end < 0 } { set end [expr {[string first "\n" $info $start]-1}] }
-				set gateway_ip "[string range $info $start $end]"
-
-				set content_length "[::MSN::GetHeaderValue $headers Content-Length]\n"
-				set content_data ""
-				if { $content_length > 0 } {
-					fconfigure $sock -blocking 1
-					set content_data [read $sock $content_length]
-					fconfigure $sock -blocking 0
-				}
-
-				#set log [string map {\r ""} $content_data]
-				set log $content_data
-
-				#status_log "Proxy POST Received ($name):\n$headers\n " green
-				while { $log != "" } {
-					set endofline [string first "\n" $log]
-					set command [string range $log 0 [expr {$endofline-1}]]
-					set log [string range $log [expr {$endofline +1}] end]
-					sb append $name data $command
-
-					degt_protocol "<-Proxy($name) $command" nsrecv
-
-					if {[string range $command 0 2] == "MSG"} {
-						set recv [split $command]
-						set msg_data [string range $log 0 [expr {[lindex $recv 3]-1}]]
-						set log [string range $log [expr {[lindex $recv 3]}] end]
-
-						degt_protocol " Message contents:\n$msg_data" msgcontents
-
-						sb append $name data $msg_data
-					}
-
-				}
-
-				if { $session_id != ""} {
-					after 5000 "::Proxy::PollPOST $name"
-				}
-
-				set proxy_gateway_ip($name) $gateway_ip
-				set options(-proxy_session_id) $session_id
-
-			}
-		}
-	}
-
-	method Read { name } {
-		variable proxy_header
-		variable proxy_dropped_cb
-
-		set sock [$name cget -sock]
-
-		if {[eof $sock]} {
-
-			close $sock
-			$name configure -stat "d"
-			status_log "PROXY: $name CLOSED\n" red
-		} elseif {[gets $sock tmp_data] != -1} {
-
-			variable proxy_header
-			set tmp_data [string map {\r ""} $tmp_data]
-			lappend proxy_header $tmp_data
-			status_log "PROXY RECV: $tmp_data\n"
-			if {$tmp_data == ""} {
-				set proxy_status [split [lindex $proxy_header 0]]
-
-				if {[lindex $proxy_status 1] != "200"} {
-					#close $sock
-					#$name configure -stat "d"
-					status_log "CLOSING PROXY: [lindex $proxy_header 0]\n"
-
-					# DEGT Use a callback mechanism to keep code pure
-					if {$proxy_dropped_cb != ""} {
-						set cbret [eval $proxy_dropped_cb "dropped" "$name"]
-					}
-					return 1
-				}
-				status_log "PROXY ESTABLISHED: running [$name cget -connected]\n"
-				fileevent [$name cget -sock] readable [$name cget -readable]
-				eval [$name cget -connected]
-			}
-		}
-		return 0
-	};# Proxy::Read
 
 }

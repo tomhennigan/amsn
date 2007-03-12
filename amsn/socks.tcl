@@ -38,14 +38,12 @@
 namespace eval ::Socks5 {
 namespace export Init Readable
 
-proc Init {name addr port auth user pass} {
+proc Init {sck addr port auth user pass} {
 global socks_freeid socks_idlist
 
 #  if { [catch {fconfigure $sck}] != 0 } {return "ERROR:Connection closed with Socks Server!"}    ;# Socket doesn't exist
 
   set ver "\x05"               ;#Socks version
-  
-  set sck [$name cget -sock]  ;# Put socket name of socks5 server into sck
   
   status_log "$sck    $addr\n"
   set addr [split $addr " "]   ;# Remove port from address
