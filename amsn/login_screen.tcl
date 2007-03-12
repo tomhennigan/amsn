@@ -5,6 +5,8 @@ package require contentmanager
 
 snit::widgetadaptor loginscreen {
 
+	option	-font	-default splainf
+
 	variable after_id
 
 	variable background_tag
@@ -45,11 +47,17 @@ snit::widgetadaptor loginscreen {
 	variable remember_me 0
 
 	delegate method * to hull except {SortElements PopulateStateList LoginButtonPressed CanvasTextToLink LinkClicked}
+	delegate option * to hull except -font
 
 	constructor { args } {
+		# Set up after_id array entries
 		array set after_id {checkUser {} PosBg {} Sort {}}
 
+		# Create canvas
 		installhull using canvas -bg white -highlightthickness 0 -xscrollcommand "$self CanvasScrolled" -yscrollcommand "$self CanvasScrolled"
+
+		# Parse and apply creation-time options
+		$self configurelist $args
 
 		# Create background image
 		set background_tag [$self create image 0 0 -anchor se -image [::skin::loadPixmap back]]
@@ -177,8 +185,8 @@ snit::widgetadaptor loginscreen {
 
 		# Bindings
 		# Geometry events
-		bind $self <Map> "$self Resized"
-		bind $self <Configure> "$self Resized"
+		bind $self <Map> "$self WidgetResized"
+		bind $self <Configure> "$self WidgetResized"
 		# Bind language button
 		contentmanager bind lang <ButtonRelease-1> "::lang::show_languagechoose"
 		contentmanager bind lang <Enter> "$self configure -cursor hand2"
@@ -217,57 +225,98 @@ snit::widgetadaptor loginscreen {
 		catch { contentmanager delete main }
 	}
 
-	# Called when canvas is resized
-	method Resized {} {
-		set width [winfo width $self]
-		set height [winfo height $self]
+	# ------------------------------------------------------------------------------------------------------------
+	# WidgetResized
+	# Called when canvas is resized. Calls methods to do things dependent on size of window
+	# Called by: Binding
+	method WidgetResized {} {
 		# Keep background in bottom right corner
 		after cancel $after_id(PosBg)
 		set after_id(PosBg) [after 10 [list $self AutoPositionBackground]]
 		# Resize input fields
-		set field_width [expr {round($width * 0.5)}]
-status_log $field_width
-		foreach tag [list $user_field_tag $pass_field_tag $status_field_tag] {
-			$self itemconfigure $tag -width $field_width
-		}
+		$self AutoResizeInputFields
 		# Arrange items on the canvas
 		after cancel $after_id(Sort)
 		set after_id(Sort) [after 10 [list $self SortElements]]
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# 
 	method CanvasScrolled { args } {
 		# Keep background in bottom right corner
 		#$self AutoPositionBackground
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# AutoPositionBackground
+	# Places the background in its correct place on the canvas
+	# Called by: WidgetResized
 	method AutoPositionBackground {} {
 		set bg_x [expr {round([expr {[winfo width $self] - 5}])}]
 		set bg_y [expr {round([expr {[winfo height $self] - 5}])}]
 		$self coords $background_tag $bg_x $bg_y
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# AutoResizeInputFields
+	# Resizes input fields (username, password and status) based on the canvas's size
+	# Called by: WidgetResized
+	method AutoResizeInputFields {} {
+		# Get window's width
+		set win_width [winfo width $self]
+		# Set field width to 3/4 of window's width
+		set field_width [expr {round($win_width * 0.75)}]
+		# Get the maximum width we want the fields (approx. 35 characters wide)
+		set max_field_width [expr {[font measure $options(-font) -displayof $user_field "_"] * 35}]
+		# Enforce maximum width
+		if { $field_width > $max_field_width } {
+			set field_width $max_field_width
+		}
+		# Resize fields
+		foreach tag [list $user_field_tag $pass_field_tag $status_field_tag] {
+			$self itemconfigure $tag -width $field_width
+		}
+	}
+
+	# ------------------------------------------------------------------------------------------------------------
+	# CanvasTextToLink
+	# Makes a canvas text into a blue link with a command binding
+	# Called by: constructor
 	method CanvasTextToLink { args } {
+		# Get path for contentmanager item
 		set tree [lrange $args 0 end-1]
+		# Get "link"'s command
 		set cmd [list [lindex $args end]]
+		# Get the canvas tag
 		set canvas_tag [eval contentmanager cget $tree -tag]
+		# Bind the tag
 		eval contentmanager bind $tree <Enter> [list "$self configure -cursor hand2"]
 		eval contentmanager bind $tree <Leave> [list "$self configure -cursor left_ptr"]
 		eval contentmanager bind $tree <ButtonRelease-1> [list "$self LinkClicked $canvas_tag %x %y $cmd"]
+		# Make it blue :)
 		$self itemconfigure $canvas_tag -fill blue
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# LinkClicked
+	# Checks that the ButtonRelease event happened inside the bounding box of the link and execute's its command if it does.
+	# Called by: Various bindings
 	method LinkClicked { tag x y cmd } {
 		# Convert x and y to actual canvas coords, in case we've scrolled.
 		set x [$self canvasx $x]
 		set y [$self canvasy $y]
-
+		# Get item's coords
 		set item_coords [$self bbox $tag]
-
+		# Check the ButtonRelease was within the link's bbox. If it was, execute the link's command
 		if { $x > [lindex $item_coords 0] && $x < [lindex $item_coords 2] && $y > [lindex $item_coords 1] && $y < [lindex $item_coords 3] } {
 			eval $cmd
 		}
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# PopulateStateList
+	# Add normal and custom states to list of available sign-in states
+	# Called by: constructor, UserSelected
 	method PopulateStateList {} {
 		# Make the list editable
 		$status_field configure -editable true
@@ -288,6 +337,10 @@ status_log $field_width
 		$status_field select [get_state_list_idx [::config::getKey connectas]]
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# SortElements
+	# Arrange elements on the canvas
+	# Called by: Binding
 	method SortElements {} {
 		contentmanager sort lang -level r
 		contentmanager sort main -level r
@@ -296,6 +349,10 @@ status_log $field_width
 		contentmanager coords main $main_x $main_y
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# UsernameEdited
+	# Called when the username field is edited
+	# Called by: Binding
 	method UsernameEdited {} {
 		# Get username
 		set username [$user_field get]
@@ -305,6 +362,10 @@ status_log $field_width
 		set after_id(checkUser) [after 100 [list $self CheckUsername "$username"]]
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# CheckUsername
+	# Check whether $username exists as an amsn profile. If so, switch to it and set up DP etc
+	# Called by: UsernameEdited
 	method CheckUsername { {username ""} } {
 		# Check if the username has a profile.
 		# If it does, switch to it, select the remember me box and set the DP.
@@ -364,6 +425,10 @@ status_log $field_width
 		}
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# UserSelected
+	# Various changes to login screen after changing user, e.g display picture, password (if stored) etc
+	# Called by: CheckUsername, loggedOut
 	method UserSelected { combo user } {
 		# Don't let us use integers as username (see UsernameEdited)
 		if { [string is integer $user] } { set user "" }
@@ -396,6 +461,10 @@ status_log $field_width
 		}
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# ForgetMe
+	# Deletes current profile. (Asks for user confirmation)
+	# Called by: Binding
 	method ForgetMe {} {
 		set user [$user_field get]
 		set answer [::amsn::messageBox "[trans confirmdelete ${user}]" yesno question]
@@ -405,6 +474,10 @@ status_log $field_width
 		}
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# LoginFormSubmitted
+	# Validates login data and logs in if all is fine. Creates profile if 'remember me' is selected and the profile doesn't already exist.
+	# Called by: Various bindings
 	method LoginFormSubmitted { } {
 		# Get user and pass
 		set user [$user_field get]
@@ -423,12 +496,16 @@ status_log $field_width
 		$self login $user $pass
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# login
+	# Logs in with the current details
+	# Called by: LoginFormSubmitted
 	method login { user pass } {
 		global password
 
 		# Set username and password key and global respectively
 		set password $pass
-		if { !$remember_me || ![LoginList exists $user] } {
+		if { !$remember_me || ![LoginList exists 0 $user] } {
 			::config::setKey login [string tolower $user]
 		}
 
@@ -436,22 +513,31 @@ status_log $field_width
 		::MSN::connect $password
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# logginIn
+	# Receives the event fired by protocol. Unpacks this widget and packs the sign-in progress widget.
 	method loggingIn {} {
 		pack forget $self
 		pack .main.f -expand true -fill both
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# loggedOut
+	# Receives the event fired by protocol. Empties pass field. Packs this widget and unpacks contact list.
+	# If 'remember me' is selected,call UserSelected.
 	method loggedOut {} {
 		$user_field list delete 0 end
+		$pass_field delete 0 end
 		set idx 0
 		while { [LoginList get $idx] != 0 } {
 			lappend tmp_list [LoginList get $idx]
 			incr idx
 		}
 		eval $user_field list insert end $tmp_list
-		$user_field delete 0 end
-		$user_field insert end [::config::getKey login]
-		$self UserSelected $user_field [$user_field get]
+		set cur_user [::config::getKey login]
+		if { [LoginList exists 0 $cur_user] } {
+			$self UserSelected $user_field $cur_user
+		}
 
 		pack forget .main.f
 		pack $self -expand true -fill both
