@@ -170,12 +170,6 @@ snit::widgetadaptor loginscreen {
 			}
 		}
 
-		# Make all text input fields equal widths
-		set field_width [font measure splainf -displayof $self "__________________________"]
-		$self itemconfigure $user_field_tag -width $field_width
-		$self itemconfigure $pass_field_tag -width $field_width
-		$self itemconfigure $status_field_tag -width $field_width
-
 		# Make checkbuttons look nice
 		foreach checkbutton [list $rem_me_field $rem_pass_field $auto_login_field] {
 			$checkbutton configure -relief flat -highlightthickness 0 -bd 0 -bg white -selectcolor white -image [::skin::loadPixmap checkbox] -selectimage [::skin::loadPixmap checkbox_on] -indicatoron 0
