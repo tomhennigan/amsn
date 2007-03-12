@@ -28,6 +28,7 @@ snit::widgetadaptor loginscreen {
 	variable status_field_tag
 
 	component rem_me_field
+	variable forget_me_label
 	component rem_pass_field
 	component auto_login_field
 
@@ -61,6 +62,7 @@ snit::widgetadaptor loginscreen {
 		contentmanager add group main pass		-orient vertical	-widget $self	-pady 4		-align center
 		contentmanager add group main status		-orient vertical	-widget $self	-pady 4		-align center
 		contentmanager add group main rem_me		-orient horizontal	-widget $self	-pady 2
+		contentmanager add group main forget_me		-orient horizontal	-widget $self	-pady 2		-padx 32
 		contentmanager add group main rem_pass		-orient horizontal	-widget $self	-pady 2
 		contentmanager add group main auto_login	-orient horizontal	-widget $self	-pady 2
 		contentmanager add group main login		-orient horizontal	-widget $self	-align center	-pady 8
@@ -70,7 +72,7 @@ snit::widgetadaptor loginscreen {
 		# Create widgets
 		# Language button
 		set lang_button_icon [$self create image 0 0 -anchor nw -image [::skin::loadPixmap globe]]
-		set lang_button_text [$self create text 0 0 -anchor nw -text [trans language] -fill #666666]
+		set lang_button_text [$self create text 0 0 -anchor nw -text [trans language] -fill blue]
 		# Display picture
 		set dp_label [label $self.dp -image [::skin::getDisplayPicture ""] -borderwidth 1 -highlightthickness 0 -relief solid]
 		set dp_label_tag [$self create window 0 0 -anchor nw -window $dp_label]
@@ -79,7 +81,7 @@ snit::widgetadaptor loginscreen {
 		set user_field [combobox::combobox $self.user -editable true -bg white -relief solid -width 25 -command "$self UserSelected"]
 		set user_field_tag [$self create window 0 0 -anchor nw -window $user_field]
 		# Populate user list
-		#LoadLoginList 1
+		LoadLoginList 1
 		set tmp_list ""
 		$user_field list delete 0 end
 		set idx 0
@@ -103,6 +105,8 @@ snit::widgetadaptor loginscreen {
 		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans rememberaccount]]
 		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me]]
 		set rem_me_field_tag [$self create window 0 0 -anchor nw -window $rem_me_field]
+		# Forget me
+		set forget_me_label [$self create text 0 0 -anchor nw -text [trans forget_me]]
 		# Remember password
 		set rem_pass_label_tag [$self create text 0 0 -anchor nw -text [trans rememberpass]]
 		set rem_pass_field [checkbutton $self.rem_pass -variable [::config::getVar save_password] -bg white]
@@ -145,6 +149,7 @@ snit::widgetadaptor loginscreen {
 		contentmanager add element main rem_me field -widget $self -tag $rem_me_field_tag -padx 2 -valign middle
 		contentmanager add element main rem_me label -widget $self -tag $rem_me_label_tag -padx 4 -valign middle
 		contentmanager add element main rem_pass field -widget $self -tag $rem_pass_field_tag -padx 2 -valign middle
+		contentmanager add element main forget_me	label	-widget $self	-tag $forget_me_label
 		contentmanager add element main rem_pass label -widget $self -tag $rem_pass_label_tag -padx 2 -valign middle
 		contentmanager add element main auto_login field -widget $self -tag $auto_login_field_tag -padx 2 -valign middle
 		contentmanager add element main auto_login label -widget $self -tag $auto_login_label_tag -padx 2 -valign middle
@@ -182,7 +187,7 @@ snit::widgetadaptor loginscreen {
 		bind $self <Configure> "$self Resized"
 		# Bind language button
 		contentmanager bind lang <ButtonRelease-1> "::lang::show_languagechoose"
-		contentmanager bind lang <Enter> "$self configure -cursor hand2;$self itemconfigure $lang_button_text -fill #0000A0"
+		contentmanager bind lang <Enter> "$self configure -cursor hand2"
 		contentmanager bind lang <Leave> "$self configure -cursor left_ptr"
 		# Catch hand-editing of username field
 		bind $user_field <KeyRelease> "$self UsernameEdited"
@@ -192,7 +197,8 @@ snit::widgetadaptor loginscreen {
 		contentmanager bind main rem_me label <ButtonPress-1> "$rem_me_field invoke"
 		contentmanager bind main rem_pass label <ButtonPress-1> "$rem_pass_field invoke"
 		contentmanager bind main auto_login label <ButtonPress-1> "$auto_login_field invoke"
-		# Make the text items into links
+		# Make text items into links
+		$self CanvasTextToLink main forget_me label "$self ForgetMe"
 		$self CanvasTextToLink main links forgot_pass [list launch_browser "https://accountservices.passport.net/uiresetpw.srf?lc=1033"]
 		$self CanvasTextToLink main links service_status [list launch_browser "http://messenger.msn.com/Status.aspx"]
 		$self CanvasTextToLink main links new_account [list launch_browser "https://accountservices.passport.net/reg.srf?sl=1&lc=1033"]
@@ -219,9 +225,17 @@ snit::widgetadaptor loginscreen {
 
 	# Called when canvas is resized
 	method Resized {} {
+		set width [winfo width $self]
+		set height [winfo height $self]
 		# Keep background in bottom right corner
 		after cancel $after_id(PosBg)
 		set after_id(PosBg) [after 10 [list $self AutoPositionBackground]]
+		# Resize input fields
+		set field_width [expr {round($width * 0.5)}]
+status_log $field_width
+		foreach tag [list $user_field_tag $pass_field_tag $status_field_tag] {
+			$self itemconfigure $tag -width $field_width
+		}
 		# Arrange items on the canvas
 		after cancel $after_id(Sort)
 		set after_id(Sort) [after 10 [list $self SortElements]]
@@ -304,7 +318,10 @@ snit::widgetadaptor loginscreen {
 		if { [LoginList exists 0 $username] } {
 			$self UserSelected $user_field $username
 		} else {
+			# De-select 'remember me' field
 			$rem_me_field deselect
+			# Disable 'forget me' button
+			$self itemconfigure $forget_me_label -fill #666666 -state disabled
 			if { [::config::getGlobalKey disableprofiles] != 1 } {
 				$rem_me_field configure -state normal
 			}
@@ -362,6 +379,8 @@ snit::widgetadaptor loginscreen {
 			# Select and disable 'remember me' checkbutton
 			$rem_me_field select
 			$rem_me_field configure -state disabled
+			# Enable 'forget me' buttton
+			$self itemconfigure $forget_me_label -fill blue -state normal
 			# Switch to this profile
 			ConfigChange $combo $user
 			# Get states
@@ -380,6 +399,15 @@ snit::widgetadaptor loginscreen {
 			# The 'after 100' is because the status combobox doesn't seem to regain it's height immediately for some
 			# reason, so if we sort straight away, the checkbox below the status combo overlaps it.
 			after 100 "$self SortElements"
+		}
+	}
+
+	method ForgetMe {} {
+		set user [$user_field get]
+		set answer [::amsn::messageBox "[trans confirmdelete ${user}]" yesno question]
+		if { $answer } {
+			::config::setKey login ""
+			DeleteProfile $user $user_field
 		}
 	}
 
