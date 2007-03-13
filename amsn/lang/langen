@@ -58,6 +58,7 @@ assistantselectcam Select your webcam from the list
 assistantstarting Starting the Assistant
 assistantwelcome This assistant will guide you through the setup of your audio and video settings for aMSN.\n\nIt will check if the required extensions are present and loaded and you'll be able to choose the device and channel, set the picture settings and resolution.
 audioconfigured You chose the following Audio settings:\n Output Device: $1\nInput Device:$2
+audiovideo Audio and Video settings
 author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
@@ -345,6 +346,7 @@ finetunesettings Finetune picture settings
 finish Finish
 finish2apply Press Finish to apply those settings.
 firewalled You are firewalled or behind a router
+firewalled2 You are firewalled, please check your Connection settings in the preferences window
 followtext Scroll down when new text is entered
 forgot_pass I forgot my password
 friendlyname Friendly Name
@@ -357,6 +359,7 @@ ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
 ftportpref Starting port for file transfers
+ftportpref2 starting port for direct connections (needed for file transfers and webcam)
 ftporttest Test port
 ftrejectedby $1 rejected the transfer request for file '$2'.
 ftrejected File transfer rejected

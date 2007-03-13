@@ -1463,8 +1463,10 @@ proc connection_check { lfname } {
 	::abook::getIPConfig
 	if { [::abook::getDemographicField listening] == "true"} {
 		$lfname.1.ftport.test configure -text "[trans ok]"
+		$lfname.1.listening configure -text "[trans portswellconfigured]"
 	} else {
 		$lfname.1.ftport.test configure -text "[trans firewalled]"
+		$lfname.1.listening configure -text "[trans firewalled]"
 	}
 }
 
@@ -2137,35 +2139,50 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
-    
-	checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoaccept]
+
+	abook::getIPConfig
+	if { [::abook::getDemographicField conntype] == "" } {
+		label $lfname.1.connwarn -text "[trans connectfirst]" -font sboldf
+		pack $lfname.1.connwarn -anchor w -side top -padx 10
+	} else {
+		label $lfname.1.conntype -padx 5 -font splainf -text "[trans type]: [::abook::getDemographicField conntype]"
+		if { [::abook::getDemographicField listening] == "false"} {
+			label $lfname.1.listening -padx 5 -font splainf -text "[trans firewalled]"
+		} else {
+			label $lfname.1.listening -padx 5 -font splainf -text "[trans portswellconfigured]"
+		}
+		pack $lfname.1.conntype $lfname.1.listening -anchor w -side top -padx 10
+	}
+
 	frame $lfname.1.ftport -class Deft
-	label $lfname.1.ftport.text -text "[trans ftportpref] :" -padx 5 -font splainf
+	label $lfname.1.ftport.text -text "[trans ftportpref2] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -bg #FFFFFF  -font splainf  -width 5 -textvariable [::config::getVar initialftport]
 	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command "connection_check $lfname"
 	label $lfname.1.ftport.test -text "" -padx 5 -font splainf
-	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0
-	grid $lfname.1.ftport.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
-	grid $lfname.1.ftport.bttest -row 1 -column 3 -sticky w -pady 5 -padx 3
-	grid $lfname.1.ftport.test -row 1 -column 4 -sticky w -pady 5 -padx 3
+	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0 -columnspan 3
+	grid $lfname.1.ftport.entry -row 2 -column 1 -sticky w -pady 5 -padx [list 20 3]
+	grid $lfname.1.ftport.bttest -row 2 -column 2 -sticky w -pady 5 -padx 3
+	grid $lfname.1.ftport.test -row 2 -column 3 -sticky w -pady 5 -padx 3
 
-        checkbutton $lfname.1.autoip -text "[trans autodetectip]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoftip] -command UpdatePreferences
+	checkbutton $lfname.1.autoip -text "[trans autodetectip]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoftip] -command UpdatePreferences
 	frame $lfname.1.ipaddr -class Deft
 	label $lfname.1.ipaddr.text -text "[trans ipaddress] :" -padx 5 -font splainf
 	entry $lfname.1.ipaddr.entry -bg #FFFFFF -font splainf  -width 15 -textvariable [::config::getVar manualip]
 	grid $lfname.1.ipaddr.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ipaddr.entry -row 1 -column 2 -sticky w -pady 5 -padx 3	
 		
-	pack $lfname.1.autoaccept $lfname.1.ftport $lfname.1.autoip $lfname.1.ipaddr -anchor w -side top -padx 10
+	checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoaccept]
+
+	pack $lfname.1.ftport $lfname.1.autoip $lfname.1.ipaddr $lfname.1.autoaccept -anchor w -side top -padx 10
 	
 	    
-        ## Remote Control Frame ##
-        set lfname [labelframe $frm.lfname3 -text [trans prefremote]]
-        pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
+	## Remote Control Frame ##
+	set lfname [labelframe $frm.lfname3 -text [trans prefremote]]
+	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefremote]
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1 -class Degt
-        frame $lfname.2 -class Degt
+	frame $lfname.2 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 	checkbutton $lfname.1.eremote -text "[trans enableremote]" -onvalue 1 -offvalue 0 -variable [::config::getVar enableremote] -command UpdatePreferences
 	pack $lfname.1.eremote  -anchor w -side top -padx 10
@@ -2294,14 +2311,14 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.receiveddir -row 1 -column 2 -sticky w
 	grid $lfname.1.browse -row 1 -column 3 -sticky w
 	
-	set lfname [labelframe $frm.lfname5 -text "[trans webcam]"]
+	set lfname [labelframe $frm.lfname5 -text [trans audiovideo]]
 	pack $frm.lfname5 -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap webcam]
 	pack $lfname.pshared -side left -anchor nw
 	
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
-	button $lfname.1.webcam -text [trans webcamconfigure] -command "::CAMGUI::WebcamWizard" -padx 20
+	button $lfname.1.webcam -text [trans editavsettings] -command [list ::AVAssistant::AVAssistant] -padx 20
 	grid $lfname.1.webcam -row 1 -column 3 -sticky w -padx 20
 
 	$nb.nn compute_size

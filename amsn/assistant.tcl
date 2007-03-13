@@ -936,11 +936,6 @@ namespace eval ::AVAssistant {
 
 		#here, we'll insert some steps
 
-#TODO
-		#check for audio extensions, and configure it
-#		set Step [list "Step1N" 1 ::AVAssistant::Step1N "" "" "" ""  [trans configuringaudio] "" 1 1]
-#		$assistant addStepEnd $Step
-
 		#check for audio extensions, and configure it
 		set Step [list "Step1A" 1 ::AVAssistant::Step1A ::AVAssistant::stopSound "" "" ""  [trans configuringaudio] assistant_audio 1 1]
 		$assistant addStepEnd $Step
@@ -1742,15 +1737,6 @@ namespace eval ::AVAssistant {
 	}
 
 	######################################################################################
-	# Step 1 Network:  Configuring Network settings                                      #
-	######################################################################################
-	proc Step1N {assistant contentf} {
-		
-#TODO: what should be there ?
-
-	}
-
-	######################################################################################
 	# Step 1 Audio:  Configuring output settings                                         #
 	######################################################################################
 	proc Step1A {assistant contentf} {
@@ -2172,6 +2158,16 @@ namespace eval ::AVAssistant {
 			pack $contentf.textvideo -padx 20 -pady 10 -fill both -expand 1
 			#to get a nice wrapping
 			bind $contentf.textvideo <Configure> [list %W configure -wraplength %w]
+
+			#add connection entry only if with have a webcam
+			abook::getIPConfig
+			if { [::abook::getDemographicField listening] == "false"} {
+				label $contentf.connection -justify left -font bplainf -text [trans firewalled2]
+				#pack it
+				pack $contentf.connection -padx 20 -pady 10 -fill both -expand 1
+				#to get a nice wrapping
+				bind $contentf.connection <Configure> [list %W configure -wraplength %w]
+			}
 		}
 
 		if {$audio_configured} {
