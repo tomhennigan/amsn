@@ -64,7 +64,8 @@ proc HTTPsecureSocket { args } {
 		if { [::config::getKey proxyauthenticate] } {
 			set proxy_user [::config::getKey proxyuser]
 			set proxy_pass [::config::getKey proxypass]
-			puts $socket "Proxy-Authorization: Basic [base64::encode ${proxy_user}:${proxy_pass}]"
+			set auth [string map {"\n" "" } [base64::encode ${proxy_user}:${proxy_pass}]]
+			puts $socket "Proxy-Authorization: Basic $auth"
 		}
 		puts $socket ""
 		#flush $socket
@@ -466,10 +467,6 @@ proc SOCKSsecureSocket { args } {
 				set proxy_port 8080
 			}
 
-                	if { [::config::getKey proxyauthenticate] } {
-	                        set proxy_user [::config::getKey proxyuser]
-	                        set proxy_pass [::config::getKey proxypass]
-	                } 
 			::http::config -proxyhost $proxy_host -proxyport $proxy_port
 		}
 

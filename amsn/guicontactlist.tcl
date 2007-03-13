@@ -1631,7 +1631,7 @@ namespace eval ::guiContactList {
 		variable token
 		
 		#fetch the ccard info
-		set ccard [::MSNCCARD::getContactCardList $email]
+		set ccard [::MSNCCARD::getContactCard $email]
 		::abook::setContactData $email ccardlist $ccard
 #TODO: download photo thumbnails
 		set photos [::MSNCCARD::getAllPhotos $ccard]

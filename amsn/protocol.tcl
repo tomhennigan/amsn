@@ -26,7 +26,6 @@ if { $initialize_amsn == 1 } {
 	} else {
 		source utils/snit/snit.tcl
 	}
-	package require SOAP
 }
 
 
@@ -2830,15 +2829,18 @@ namespace eval ::MSN {
 	}
 
 	proc getClientConfig {} {
-		SOAP::create GetClientConfig \
-			-uri "http://www.msn.com/webservices/Messenger/Client" \
-			-proxy "http://config.messenger.msn.com/Config/MsgrConfig.asmx" \
-			-action "http://www.msn.com/webservices/Messenger/Client/GetClientConfig" \
-			-wrapProc getClientConfigXml
-		return [GetClientConfig]
+		set soap [SOAPRequest create %AUTO% -url "http://config.messenger.msn.com/Config/MsgrConfig.asmx" -action "http://www.msn.com/webservices/Messenger/Client/GetClientConfig" -xml [::MSN::getClientConfigXml]]
+		$soap SendSOAPRequest
+		if {[$soap GetStatus] == "success" } {
+			set ret [$soap GetResponse]
+		} else {
+			set ret [$soap GetLastError]
+		}
+		$soap destroy
+		return $ret
 	}
 
-	proc getClientConfigXml {procVarName args} {
+	proc getClientConfigXml {} {
 		#TODO: make it choose the right Country, CLCID, PLCID, GeoID
 		return {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetClientConfig xmlns='http://www.msn.com/webservices/Messenger/Client'> <clientinfo> <Country>HT</Country> <CLCID>0409</CLCID> <PLCID>0409</PLCID> <GeoID>244</GeoID> </clientinfo> </GetClientConfig></soap:Body></soap:Envelope>}
 	}
@@ -2910,66 +2912,44 @@ namespace eval ::MSNOIM {
 		set msg [getOIMMail "::MSNOIM::getOIMMessageCallback [list $callbk] $mid" $mid]
 	}
 
-	proc getOIMMailCallback { callbk soap_req resp } {
-		set xml [SOAP::dump $soap_req]
-		set list [xml2list $xml]
-		set msg [GetXmlEntry $list "soap:Envelope:soap:Body:GetMessageResponse:GetMessageResult"]
-		set msg [string map {"\r\n" "\n" } $msg]
-		set msg [string map {"\n" "\r\n" } $msg]
-		set message [Message create %AUTO%]
-		$message createFromPayload $msg
-		if {[catch {eval $callbk [list $message]} result]} {
-			bgerror $result
+	proc getOIMMailCallback { callbk soap } {
+		if { [$soap GetStatus] == "success" } {
+			set xml [$soap GetResponse]
+			$soap destroy
+
+			set msg [GetXmlEntry $xml "soap:Envelope:soap:Body:GetMessageResponse:GetMessageResult"]
+			set msg [string map {"\r\n" "\n" } $msg]
+			set msg [string map {"\n" "\r\n" } $msg]
+			set message [Message create %AUTO%]
+			$message createFromPayload $msg
+			if {[catch {eval $callbk [list $message]} result]} {
+				bgerror $result
+			}
+		} else {
+			$soap destroy
+			if {[catch {eval $callbk [list]} result]} {
+				bgerror $result
+			}
 		}
 	}
 
-	proc getOIMMailError { callbk msg } {
-		status_log "error in getOIMMailError : $msg" red
-		if {[catch {eval $callbk [list ""]} result]} {
-			bgerror $result
-		}
-	}
-	
 	proc getOIMMail { callbk mid } {
-		if { [catch {package require dom 3.0}] == 0 && 
-		     [catch {package require SOAP}] == 0 && 
-		     [catch {package require SOAP::https}] == 0 &&
-		     [catch {package require SOAP::xpath 0.2.1}] == 0 &&
-		     [info exists ::authentication_ticket] } {
+		if { [info exists ::authentication_ticket] } {
 			set cookies [split $::authentication_ticket &]
 			foreach cookie $cookies {
 				set c [split $cookie =]
 				set ticket_[lindex $c 0] [lindex $c 1]
 			}
-			if {[::config::getKey connectiontype] == "http" } {
-		        	set phost [::http::config -proxyhost]
-			        set pport [::http::config -proxyport]
-				if { [::config::getKey proxytype] == "http" && $phost != "" } {
-					set phost $phost:$pport
-		                	if { [::config::getKey proxyauthenticate] } {
-       		        	        	set proxy_user [::config::getKey proxyuser]
-	        		                set proxy_pass [::config::getKey proxypass]
-						SOAP::configure -transport http \
-							-headers [list "Proxy-Authorization" \
-							"Basic [lindex [base64::encode $proxy_user:$proxy_pass] 0]" ]
-					} else {
-						SOAP::configure -transport http -proxy $phost
-					}
-				}
-			}
+		
 			if { [info exists ticket_t] && [info exists ticket_p] } {
-				# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
-				# how to make sure our 'tkwait var' works even in the case of errors ?
-				set soap_req [SOAP::create GetOIMMessage_$mid \
-						  -uri "https://rsi.hotmail.com/rsi/rsi.asmx" \
-						  -proxy "https://rsi.hotmail.com/rsi/rsi.asmx" \
+				set soap_req [SOAPRequest create %AUTO% \
+						  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
 						  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMessage" \
-						  -wrapProc [list getOIMMailXml $mid $ticket_t $ticket_p] \
-						  -parseProc [list parseOIMXml] \
-						  -errorCommand  [list getOIMMailError $callbk]]
+						  -xml [::MSNOIM::getOIMMailXml $mid $ticket_t $ticket_p] \
+						  -callback  [list ::MSNOIM::getOIMMailCallback $callbk]]
 
-				SOAP::configure GetOIMMessage_$mid -command [list getOIMMailCallback $callbk $soap_req]
-				$soap_req
+
+				$soap_req SendSOAPRequest
 				return
 			}
 		}
@@ -2979,7 +2959,7 @@ namespace eval ::MSNOIM {
 	}
 	
 	
-	proc getOIMMailXml {mid ticket_t ticket_p procVarName args} {
+	proc getOIMMailXml {mid ticket_t ticket_p } {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><t>}
 		append xml $ticket_t
 		append xml {</t><p>}
@@ -2990,47 +2970,49 @@ namespace eval ::MSNOIM {
 		return $xml
 	}
 
-	proc sendOIMMessageCallback { callbk soap_req to data} {
-		status_log "OIM sent to $to successfully : [SOAP::dump $soap_req]" green
-		if {[catch {eval $callbk [list "success"]} result]} {
-			bgerror $result
-		}
-	}
-
-	proc sendOIMMessageError { callbk soap_req to msg retry seq_nbr error_msg } {
-		set xml [SOAP::dump $soap_req]
-		status_log "Error in OIM:" white
-		status_log $xml white
-		set list [xml2list $xml]
-		set faultcode [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
-		if { $faultcode == "q0:AuthenticationFailed" } {
-			set tweener [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
-			set lock_challenge [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
-			if { $lock_challenge != "" } {
-				CreateLockKey $lock_challenge
-			} 
-			if {$tweener != "" && $retry > 0} {
-				AuthenticatePassport3 [list ::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr] $tweener
-			} else {
-				if { $retry > 0 } {
-					::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr
-				} else {
-					if {[catch {eval $callbk [list "authentication failed"]} result]} {
-						bgerror $result
-					}
-				}
-			}
-		} elseif { $faultcode == "q0:SystemUnavailable" } {
-			if {[catch {eval $callbk [list "invaliduser"]} result]} {
-				bgerror $result
-			}
-		} elseif { $faultcode == "q0:SenderThrottleLimitExceeded" } {
-			if {[catch {eval $callbk [list "Flood Protection Activated"]} result]} {
+	proc sendOIMMessageCallback { callbk to msg retry seq_nbr soap} {
+		if { [$soap GetStatus] == "success" } {
+			status_log "OIM sent to $to successfully : [$soap GetResponse]" green
+			$soap destroy
+			if {[catch {eval $callbk [list "success"]} result]} {
 				bgerror $result
 			}
 		} else {
-			if {[catch {eval $callbk [list "Unexpected error"]} result]} {
-				bgerror $result
+			set xml [$soap GetResponse]
+			status_log "Error in OIM:" white
+			status_log $xml white
+			set faultcode [$soap GetStatus]
+			$soap destroy
+
+			if { $faultcode == "q0:AuthenticationFailed" } {
+				set tweener [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
+				set lock_challenge [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
+				if { $lock_challenge != "" } {
+					CreateLockKey $lock_challenge
+				} 
+				if {$tweener != "" && $retry > 0} {
+					AuthenticatePassport3 [list ::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr] $tweener
+				} else {
+					if { $retry > 0 } {
+						::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr
+					} else {
+						if {[catch {eval $callbk [list "authentication failed"]} result]} {
+							bgerror $result
+						}
+					}
+				}
+			} elseif { $faultcode == "q0:SystemUnavailable" } {
+				if {[catch {eval $callbk [list "invaliduser"]} result]} {
+					bgerror $result
+				}
+			} elseif { $faultcode == "q0:SenderThrottleLimitExceeded" } {
+				if {[catch {eval $callbk [list "Flood Protection Activated"]} result]} {
+					bgerror $result
+				}
+			} else {
+				if {[catch {eval $callbk [list "Unexpected error"]} result]} {
+					bgerror $result
+				}
 			}
 		}
 	}
@@ -3050,14 +3032,8 @@ namespace eval ::MSNOIM {
 		if { $hasError } {
 			if {[catch {eval $callbk [list "Authentication Error"]} result]} {
 				bgerror $result
-			}	
-		} elseif { [catch {package require dom 3.0}] == 0 && 
-		     [catch {package require SOAP}] == 0 && 
-		     [catch {package require SOAP::https}] == 0 &&
-		     [catch {package require SOAP::xpath 0.2.1}] == 0 &&
-		     [info exists ::authentication_ticket]} {
-			# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
-			# how to make sure our 'tkwait var' works even in the case of errors ?
+			}
+		} elseif { [info exists ::authentication_ticket]} {
 			set id [::md5::hmac $to $msg]
 
 			if { $seq_nbr == 0 } {
@@ -3069,31 +3045,18 @@ namespace eval ::MSNOIM {
 				set seq_nbr [set seq_number($to)]
 			}
 
-			set soap_req [SOAP::create SendOIMMessage_$id \
-					  -uri "https://ows.messenger.msn.com/OimWS/oim.asmx" \
-					  -proxy "https://ows.messenger.msn.com/OimWS/oim.asmx" \
+			set soap_req [SOAPRequest create %AUTO% \
+					  -url "https://ows.messenger.msn.com/OimWS/oim.asmx" \
 					  -action "http://messenger.msn.com/ws/2004/09/oim/Store" \
-					  -wrapProc [list sendOIMMessageXml $::authentication_ticket $to $msg $seq_nbr] \
-					  -parseProc [list parseOIMXml]]
+					  -xml [::MSNOIM::sendOIMMessageXml $::authentication_ticket $to $msg $seq_nbr] \
+					  -callback [list ::MSNOIM::sendOIMMessageCallback $callbk $to $msg $retry $seq_nbr]]
 
-			SOAP::configure SendOIMMessage_$id -command [list sendOIMMessageCallback $callbk $soap_req $to]
-			SOAP::configure SendOIMMessage_$id -errorCommand [list sendOIMMessageError $callbk $soap_req $to $msg $retry $seq_nbr]
-
-			$soap_req
+			$soap_req SendSOAPRequest
 		} else {
 			if {[catch {eval $callbk [list "failed"]} result]} {
 				bgerror $result
 			}
 		}
-	}
-	proc parseOIMXml { soap_req xml } {
-		set list [xml2list $xml]
-		set fault [GetXmlNode $list "soap:Envelope:soap:Body:soap:Fault"]
-		
-		if { $fault != "" } {
-			return -code error -errorinfo [GetXmlEntry $list "soap:Envelope:soap:Body:soap:Fault:faultcode"]
-		}
-		return $xml
 	}
 	
 	proc CreateLockKey { challenge } {
@@ -3102,7 +3065,7 @@ namespace eval ::MSNOIM {
 		#puts "new lockkey : $lockkey"
 	}
 
-	proc sendOIMMessageXml {ticket to msg seq_number procVarName args} {
+	proc sendOIMMessageXml {ticket to msg seq_number} {
 		variable lockkey 
 		variable runid
 
@@ -3135,21 +3098,20 @@ namespace eval ::MSNOIM {
 		return $xml
 	}
 
-	proc deleteOIMMessageCallback { callbk success data } {
-		if { $success == 0 } {
-			status_log "error deleting OIMS : $data" red
-		}
-		if {[catch {eval $callbk [list $success]} result]} {
-			bgerror $result
+	proc deleteOIMMessageCallback { callbk soap } {
+		if { [$soap GetStatus] == "success" } {
+			$soap destroy
+			if {[catch {eval $callbk [list 1]} result]} {
+				bgerror $result
+			}
+		} else {
+			$soap destroy
+			status_log "error deleting OIMS : [$soap GetResponse]" red
 		}
 	}
 
         proc deleteOIMMessage { callbk mids } {
-		if { [catch {package require dom 3.0}] == 0 && 
-		     [catch {package require SOAP}] == 0 && 
-		     [catch {package require SOAP::https}] == 0 &&
-		     [catch {package require SOAP::xpath 0.2.1}] == 0 &&
-		     [info exists ::authentication_ticket] } {
+		if {[info exists ::authentication_ticket] } {
 			set cookies [split $::authentication_ticket &]
 			foreach cookie $cookies {
 				set c [split $cookie =]
@@ -3159,20 +3121,17 @@ namespace eval ::MSNOIM {
 			status_log "deleting oims : $mids"
 			if { [info exists ticket_t] && [info exists ticket_p] } {
 				set id [::md5::hmac $callbk $mids]
-				set soap_req [SOAP::create DeleteOIMMessage_$id \
-						  -uri "https://rsi.hotmail.com/rsi/rsi.asmx" \
-						  -proxy "https://rsi.hotmail.com/rsi/rsi.asmx" \
+				set soap_req [SOAPRequest create %AUTO% \
+						  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
 						  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/DeleteMessages" \
-						  -wrapProc [list deleteOIMMessageXml $mids $ticket_t $ticket_p] \
-						  -parseProc [list parseOIMXml] \
-						  -command [list deleteOIMMessageCallback $callbk 1] \
-						  -errorCommand [list deleteOIMMessageCallback $callbk 0]]
-				$soap_req
+						  -xml [::MSNOIM::deleteOIMMessageXml $mids $ticket_t $ticket_p] \
+						  -callback [list ::MSNOIM::deleteOIMMessageCallback $callbk] ]
+				$soap_req SendSOAPRequest
 			}
 		}
 	}
 
-        proc deleteOIMMessageXml { mids ticket_t ticket_p procVarName args} {
+        proc deleteOIMMessageXml { mids ticket_t ticket_p} {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><t>}
 		append xml $ticket_t
 		append xml {</t><p>}
@@ -3187,10 +3146,37 @@ namespace eval ::MSNOIM {
 		return $xml
 	}
 	
-	proc getMailDataCallback { callbk soap_req data } {
-		if { [catch {list2xml [lindex [lindex [GetXmlNode [xml2list [::SOAP::dump $soap_req]] "soap:Envelope:soap:Body:GetMetadataResponse"] 2] 0]} MailData] == 0 } {
+	proc getMailDataCallback { callbk soap } {
+		if { [$soap GetStatus] == "success" && 
+		     [catch {list2xml [lindex [lindex [GetXmlNode [$soap GetResponse] "soap:Envelope:soap:Body:GetMetadataResponse"] 2] 0]} MailData] == 0 } {
+			$soap destroy
 			if {[catch {eval $callbk [list $MailData]} result]} {
 				bgerror $result
+			}
+		} else {
+			$soap destroy
+			if {[catch {eval $callbk [list ""]} result]} {
+				bgerror $result
+			}
+		}
+	}
+	
+
+        proc getMailData { callbk } {
+		if { [info exists ::authentication_ticket] } {
+			set cookies [split $::authentication_ticket &]
+			foreach cookie $cookies {
+				set c [split $cookie =]
+				set ticket_[lindex $c 0] [lindex $c 1]
+			}
+			
+			if { [info exists ticket_t] && [info exists ticket_p] } {
+				set soap_req [SOAPRequest create %AUTO% \
+						  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
+						  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
+						  -xml [::MSNOIM::getMailDataXml $ticket_t $ticket_p] \
+						  -callback [list ::MSNOIM::getMailDataCallback $callbk]]
+				$soap_req SendSOAPRequest
 			}
 		} else {
 			if {[catch {eval $callbk [list ""]} result]} {
@@ -3199,44 +3185,7 @@ namespace eval ::MSNOIM {
 		}
 	}
 	
-	proc getMailDataError { callbk msg } {
-		if {[catch {eval $callbk [list ""]} result]} {
-			bgerror $result
-		}
-	}
-
-        proc getMailData { callbk } {
-			if { [catch {package require dom 3.0}] == 0 && 
-				[catch {package require SOAP}] == 0 && 
-				[catch {package require SOAP::https}] == 0 &&
-				[catch {package require SOAP::xpath 0.2.1}] == 0 &&
-				[info exists ::authentication_ticket] } {
-				set cookies [split $::authentication_ticket &]
-				foreach cookie $cookies {
-					set c [split $cookie =]
-					set ticket_[lindex $c 0] [lindex $c 1]
-				}
-				
-				if { [info exists ticket_t] && [info exists ticket_p] } {
-					# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
-					# how to make sure our 'tkwait var' works even in the case of errors ?
-					set soap_req [SOAP::create GetMailData \
-							  -uri "https://rsi.hotmail.com/rsi/rsi.asmx" \
-							  -proxy "https://rsi.hotmail.com/rsi/rsi.asmx" \
-							  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
-							  -parseProc [list parseOIMXml] \
-							  -wrapProc [list getMailDataXml $ticket_t $ticket_p] \
-							  -errorCommand [list getMailDataError $callbk]]
-					SOAP::configure GetMailData -command [list getMailDataCallback $callbk $soap_req]
-					$soap_req
-				}
-			}
-			if {[catch {eval $callbk [list ""]} result]} {
-				bgerror $result
-			}
-		}
-	
-        proc getMailDataXml { ticket_t ticket_p procVarName args} {
+        proc getMailDataXml { ticket_t ticket_p } {
 			set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"> <t>}
 			append xml $ticket_t
 			append xml {</t><p>}
@@ -3245,43 +3194,33 @@ namespace eval ::MSNOIM {
 			return $xml
 		}
 
-		proc AuthenticatePassport3Error { callbk msg } {
-			if {[catch {eval $callbk [list 0]} result]} {
-				bgerror $result
+	proc AuthenticatePassport3Callback { callbk soap } {
+			if { [$soap GetStatus] == "success" } {
+				set xml [$soap GetResponse]
+				set ticket [GetXmlEntry $xml "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
+				if {$ticket != "" } {
+					set ::authentication_ticket $ticket
+				}
+				if {[catch {eval $callbk [list 0]} result]} {
+					bgerror $result
+				}
+			} else {
+				$soap destroy
+				if {[catch {eval $callbk [list 0]} result]} {
+					bgerror $result
+				}
 			}
 		}
 
-		proc AuthenticatePassport3Callback { callbk soap_req data } {
-			set xml [SOAP::dump $soap_req]
-			set list [xml2list $xml]
-			set ticket [GetXmlEntry $list "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
-			if {$ticket != "" } {
-				set ::authentication_ticket $ticket
-			}
-			if {[catch {eval $callbk [list 0]} result]} {
-				bgerror $result
-			}
-		}
-
-		proc AuthenticatePassport3 { callbk url } {
-			if { [catch {package require dom 3.0}] == 0 && 
-				[catch {package require SOAP}] == 0 && 
-				[catch {package require SOAP::https}] == 0 &&
-				[catch {package require SOAP::xpath 0.2.1}] == 0} {
-				# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
-				# how to make sure our 'tkwait var' works even in the case of errors ?
-				set soap_req [SOAP::create AuthenticatePassport3 \
-						  -uri "https://loginnet.passport.com/RST.srf" \
-						  -proxy "https://loginnet.passport.com/RST.srf" \
-						  -wrapProc [list getPassport3Xml $url] \
-						  -parseProc [list parseOIMXml] \
-						  -errorCommand [list AuthenticatePassport3Error $callbk]]
-				SOAP::configure AuthenticatePassport3 -command [list AuthenticatePassport3Callback $callbk $soap_req]
-				$soap_req
-			}
-		}
-
-		proc getPassport3Xml { url args } {
+	proc AuthenticatePassport3 { callbk url } {
+		set soap_req [SOAPRequest create %AUTO% \
+				  -url "https://loginnet.passport.com/RST.srf" \
+				  -xml [::MSNOIM::getPassport3Xml $url] \
+				  -callback [list ::MSNOIM::AuthenticatePassport3Callback $callbk]]
+		$soap_req SendSOAPRequest
+	}
+	
+	proc getPassport3Xml { url } {
 			set xml {<?xml version="1.0" encoding="UTF-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wssc="http://schemas.xmlsoap.org/ws/2004/04/sc" xmlns:wst="http://schemas.xmlsoap.org/ws/2004/04/trust"><Header><ps:AuthInfo xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="PPAuthInfo"><ps:HostingApp>{7108E71A-9926-4FCB-BCC9-9A9D3F32E423}</ps:HostingApp><ps:BinaryVersion>4</ps:BinaryVersion><ps:UIVersion>1</ps:UIVersion><ps:Cookies></ps:Cookies><ps:RequestParams>AQAAAAIAAABsYwQAAAAzMDg0</ps:RequestParams></ps:AuthInfo><wsse:Security><wsse:UsernameToken Id="user"><wsse:Username>}
 			append xml [config::getKey login]
 			append xml {</wsse:Username><wsse:Password>}

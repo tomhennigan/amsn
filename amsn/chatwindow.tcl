@@ -1762,17 +1762,22 @@ namespace eval ::ChatWindow {
 	proc SetSashPos { paned input output } {
 		update idletasks
 
+		#puts "SetSashPos - [winfo height $paned] - [winfo height $input] - [winfo height $output] - [$paned sash coord 0]"
+
 		set bottomsize [winfo height $input]
 		if { $bottomsize < [$paned panecget $input -minsize] } {
 			set bottomsize [$paned panecget $input -minsize]
 		}
 		set sashheight [::ChatWindow::GetSashHeight $paned]
 		$paned sash place 0 0 [expr {[winfo height $paned] - ($bottomsize + $sashheight)}]
+		#puts "SetSashPos - [winfo height $paned] - [winfo height $input] - [winfo height $output] - [$paned sash coord 0] - $bottomsize"
 	}
 
 	proc InputPaneConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $input $W]} { return }
+
+		#puts "InputPaneConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 
 		set win [string first "msg" $paned]
 		set win [string first "." $paned $win]
@@ -1789,6 +1794,7 @@ namespace eval ::ChatWindow {
 			::ChatWindow::SetSashPos $paned $input $output
 		}
 
+		#puts "InputPaneConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 		if { $scrolling } { after 100 "catch {::ChatWindow::Scroll [::ChatWindow::GetOutText $win]}" }
 
 		if { [::config::getKey savechatwinsize] } {
@@ -1802,6 +1808,7 @@ namespace eval ::ChatWindow {
 		#only run this if the window is the outer frame
 		if { ![string equal $output $W]} { return }
 
+		#puts "OutputPaneConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 		#only run if input frame not visible
 		if { [winfo height $paned] <= [lindex [$paned sash coord 0] 1] + [::ChatWindow::GetSashHeight $paned] } {
 		
@@ -1809,15 +1816,18 @@ namespace eval ::ChatWindow {
 			if { ( [winfo height $input] < [$paned panecget $input -minsize] ) \
 					&& ( [winfo height $output] > [$paned panecget $output -minsize] ) \
 					&& ( [winfo height $paned] > [$paned panecget $output -minsize] ) } {
-
+				
 				::ChatWindow::SetSashPos $paned $input $output
 			}
 		}
+		#puts "OutputPaneConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 	}
 	
 	proc PanedWindowConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $paned $W]} { return }
+
+		#puts "\nPaneWindowConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 
 		#keep the input pane the same size, only change the output		
 		#dont call the first time it is created
@@ -1825,6 +1835,8 @@ namespace eval ::ChatWindow {
 		if {([winfo height $input] != 1) || ([winfo height $output] != 1) } {
 			::ChatWindow::SetSashPos $paned $input $output
 		}
+		#puts "PaneWindowConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
+
 	}
 
 	proc CreateOutputWindow { w paned } {

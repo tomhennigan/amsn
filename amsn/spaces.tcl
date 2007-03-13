@@ -4,13 +4,76 @@
 namespace eval ::MSNCCARD {
 	variable storageAuthCache ""
 
-	proc InitCCard { } {
+	proc InitCCardCallback { soap } {
 		variable storageAuthCache
 		variable resources
 		variable space_info
 
+		if { [$soap GetStatus] == "success"  } {
+			set list [$soap GetResponse]
+			$soap destroy
+
+			set storageAuthCache [GetXmlEntry $list "soap:Envelope:soap:Header:StorageUserHeader:UserAuthCache"]
+			set i 0
+			set users_with_update [list]
+			while {1 } {
+				set subxml [GetXmlNode $list "soap:Envelope:soap:Body:GetItemVersionResponse:GetItemVersionResult:SpaceVersion" $i]
+
+				if {$subxml == "" } {
+					break
+				}
+				set has_new [GetXmlEntry $subxml "SpaceVersion:HasNewItem"]
+				set last_modif [GetXmlEntry $subxml "SpaceVersion:LastModifiedDate"]
+				set resourceID [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:ResourceID"]
+				set email [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:Alias:Name"]
+				set resources($email) $resourceID
+				set space_info($email) [list $has_new $last_modif $resourceID]
+				incr i
+				
+				# Set the fact that they've got new data as volatile abook data
+				
+				if {$has_new == "true" } {
+					::abook::setVolatileData $email space_updated 1
+					lappend users_with_update $email
+				} else {
+					#Check, if we have a ccard for this user and if all it's modifdate's are older then $last_modif, we have to refetch the ccard the update
+					set ccard [::abook::getContactData $email ccardlist [list]]
+					if {$ccard != [list]} {
+						#search for the latest date, if it's older then $last_modif, refetch the ccard
+						#this happens if the user fetched the ccard with another client.  the update
+						#flag will be unset but we don't have the latest data yet
+						#TODO: CODE ME!	
+						
+						#PSEUDO-CODE
+						#	set dates [::MSNCCARD::getCcardDates $ccard]
+						
+						#set latest_date ...
+						
+						#	set latest_unixtime ...
+						#	set modif_unixtime ...
+						
+						#	if {$modif_unixtime > $latest_unixtime } {
+						#		::abook::setContactData $email [::MSNCCARD::getContactCard $email]
+						#	}	
+						
+					}
+					
+					
+					::abook::setVolatileData $email space_updated 0
+				}
+				
+			}
+
+			#fire event to redraw contacts with changed space
+			::Event::fireEvent contactSpaceChange protocol $users_with_update
+		} else {
+			status_log "InitCCard: ERROR: [$soap GetLastError]"
+			$soap destroy
+		}
+	}
+
+	proc InitCCard { } {
 		set users_with_space [list]
-		set users_with_update [list] 
 		set all_contacts [::abook::getAllContacts]
 		foreach contact $all_contacts {
 			set has_space [::abook::getVolatileData $contact HSB]
@@ -20,11 +83,7 @@ namespace eval ::MSNCCARD {
 		}
 
 		if { [llength $users_with_space] > 0 } {
-			if { [catch {package require dom 3.0}] == 0 && 
-			     [catch {package require SOAP}] == 0 && 
-			     [catch {package require SOAP::https}] == 0 &&
-			     [catch {package require SOAP::xpath 0.2.1}] == 0  &&
-			     [info exists ::authentication_ticket] } {
+			if { [info exists ::authentication_ticket] } {
 				set cookies [split $::authentication_ticket &]
 				foreach cookie $cookies {
 					set c [split $cookie =]
@@ -32,83 +91,22 @@ namespace eval ::MSNCCARD {
 				}
 				
 				if { [info exists ticket_t] && [info exists ticket_p] } {
-					# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
-					# how to make sure our 'tkwait var' works even in the case of errors ?
-					SOAP::configure -transport http -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"]
-					set soap_req [SOAP::create GetSchematizedStore \
-							  -uri "http://storage.msn.com/storageservice/schematizedstore.asmx" \
-							  -proxy "http://storage.msn.com/storageservice/schematizedstore.asmx" \
+					set soap_req [SOAPRequest create %AUTO% \
+							  -url "http://storage.msn.com/storageservice/schematizedstore.asmx" \
 							  -action "http://www.msn.com/webservices/storage/w10/GetItemVersion" \
-							  -wrapProc [list getSchematizedStoreXml $users_with_space]]
-					if { [catch {$soap_req} resp] == 0 } {
-						SOAP::configure -transport http -headers [list]
-						set xml [SOAP::dump $soap_req]
-						set list [xml2list $xml]
-						set storageAuthCache [GetXmlEntry $list "soap:Envelope:soap:Header:StorageUserHeader:UserAuthCache"]
-						set i 0
-						while {1 } {
-							set subxml [GetXmlNode $list "soap:Envelope:soap:Body:GetItemVersionResponse:GetItemVersionResult:SpaceVersion" $i]
-							if {$subxml == "" } {
-								break
-							}
-							set has_new [GetXmlEntry $subxml "SpaceVersion:HasNewItem"]
-							set last_modif [GetXmlEntry $subxml "SpaceVersion:LastModifiedDate"]
-							set resourceID [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:ResourceID"]
-							set email [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:Alias:Name"]
-							set resources($email) $resourceID
-							set space_info($email) [list $has_new $last_modif $resourceID]
-							incr i
-
-							# Set the fact that they've got new data as volatile abook data
-
-							if {$has_new == "true" } {
-								::abook::setVolatileData $email space_updated 1
-#We don't fire this event but fire one event for all contacts
-#								::Event::fireEvent contactSpaceChange protocol $email
-								lappend users_with_update $email
-							} else {
-#Check, if we have a ccard for this user and if all it's modifdate's are older then $last_modif, we have to refetch the ccard the update
-set ccard [::abook::getContactData $email ccardlist [list]]
-if {$ccard != [list]} {
-	#search for the latest date, if it's older then $last_modif, refetch the ccard
-	#this happens if the user fetched the ccard with another client.  the update
-	#flag will be unset but we don't have the latest data yet
-#TODO: CODE ME!	
-
-	#PSEUDO-CODE
-#	set dates [::MSNCCARD::getCcardDates $ccard]
-	
-	#set latest_date ...
-	
-#	set latest_unixtime ...
-#	set modif_unixtime ...
-		
-#	if {$modif_unixtime > $latest_unixtime } {
-#		::abook::setContactData $email [::MSNCCARD::getContactCardList $email]
-#	}	
-	
-}
-
-
-								::abook::setVolatileData $email space_updated 0
-							}
-
-						}
-							
-					} else {
-						status_log "InitCCard: ERROR: $resp"
-					}
-					SOAP::configure -transport http -headers [list]
+							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] \
+							  -xml [::MSNCCARD::getSchematizedStoreXml $users_with_space] \
+							  -callback [list ::MSNCCARD::InitCCardCallback]]
+					$soap_req SendSOAPRequest
+					
 				}
 			}
 
-		#fire event to redraw contacts with changed space
-		::Event::fireEvent contactSpaceChange protocol $users_with_update
 		}
 	}
 
 
-	proc getSchematizedStoreXml {contacts procVarName args} {
+	proc getSchematizedStoreXml {contacts} {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><StorageApplicationHeader xmlns="http://www.msn.com/webservices/storage/w10"><ApplicationID>Messenger Client 7.0</ApplicationID></StorageApplicationHeader><StorageUserHeader xmlns="http://www.msn.com/webservices/storage/w10"><Puid>0</Puid><UserAuthCache></UserAuthCache><IPAddress/></StorageUserHeader></soap:Header><soap:Body><GetItemVersion xmlns="http://www.msn.com/webservices/storage/w10"><spaceVersionRequests>}
 		foreach contact $contacts {
 			append xml {<SpaceVersionRequest><SpaceHandle><RelationshipName>MySpace</RelationshipName><Alias><NameSpace>MyStuff</NameSpace><Name>}
@@ -117,16 +115,6 @@ if {$ccard != [list]} {
 		}
 		append xml {</spaceVersionRequests><spaceRequestFilter><SpaceFilterAttributes>Annotation</SpaceFilterAttributes><FilterValue>1</FilterValue></spaceRequestFilter></GetItemVersion></soap:Body></soap:Envelope>}
 		return $xml
-	}
-
-	proc getContactCardList { email } {
-		set xml [getContactCard $email]
-		if { $xml != "" } {
-			set list [xml2list $xml]
-			return $list
-		} else {
-			return ""
-		}
 	}
 
 	proc getIndexFor { ccard type } {
@@ -145,7 +133,6 @@ if {$ccard != [list]} {
 	}
 
 	proc getUrlFor { ccard type } {
-		#set ccard [getContactCardList $email]
 		if { $ccard != "" } {
 			set index [getIndexFor $ccard $type]
 			if { $index >= 0 } {
@@ -157,7 +144,6 @@ if {$ccard != [list]} {
 	}
 
 	proc getTitleFor { ccard type } {
-                #set ccard [getContactCardList $email]
                 if { $ccard != "" } {
                         set index [getIndexFor $ccard $type]
                         if { $index >= 0 } {
@@ -169,7 +155,6 @@ if {$ccard != [list]} {
 	}
 
 	proc getUnreadFor { ccard type } {
-                #set ccard [getContactCardList $email]
                 if { $ccard != "" } {
                         set index [getIndexFor $ccard $type]
                         if { $index >= 0 } {
@@ -233,18 +218,15 @@ if {$ccard != [list]} {
 		variable resources
 		variable contactcards
 
-		#if {[::abook::getVolatileData $email HSB] == 1 } {
+		# TODO Is this check useful ? in theory, with MSNP12, the servers sends no HSB for *some* users who have a space...
+		if {[::abook::getVolatileData $email HSB] == 1 } {
 			if { ![info exists resources($email)] } {
 				InitCCard
 				if  { ![info exists resources($email)] } {
 					return ""
 				}
 			}
-			if { [catch {package require dom 3.0}] == 0 && 
-			     [catch {package require SOAP}] == 0 && 
-			     [catch {package require SOAP::https}] == 0 &&
-			     [catch {package require SOAP::xpath 0.2.1}] == 0  &&
-			     [info exists ::authentication_ticket] } {
+			if { [info exists ::authentication_ticket] } {
 				set cookies [split $::authentication_ticket &]
 				foreach cookie $cookies {
 					set c [split $cookie =]
@@ -252,26 +234,28 @@ if {$ccard != [list]} {
 				}
 				
 				if { [info exists ticket_t] && [info exists ticket_p] && [info exists resources($email)] } {
-					# TODO: make it asynchronous with the -command argument.. but how to parse the returned data and 
-					# how to make sure our 'tkwait var' works even in the case of errors ?
-					SOAP::configure -transport http -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"]
-					set soap_req [SOAP::create GetContactCard_$email \
-							  -uri "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
-							  -proxy "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
+					set soap_req [SOAPRequest create %AUTO% \
+							  -url "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
 							  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
-							  -wrapProc [list getContactCardXml [set resources($email)]]]
-					if { [catch {$soap_req} resp] == 0 } {
-						SOAP::configure -transport http -headers [list]
-						return [SOAP::dump $soap_req]
-					} 
-					SOAP::configure -transport http -headers [list]
+							  -xml [::MSNCCARD::getContactCardXml [set resources($email)]] \
+							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"]]
+					$soap_req SendSOAPRequest
+					if { [$soap_req  GetStatus ] == "success" } {
+						set xml [$soap_req GetResponse]
+						$soap_req destroy
+						return $xml
+					}  else {
+						status_log "ERROR getting CCARD of $email - $resources($email): [$soap_req  GetLastError]"
+						$soap_req destroy
+					}
 				}
-				status_log "ERROR getting CCARD of $email - $resources($email): $resp"
-			}
-		#} 
+			} 
+			
+		}
+		return ""
 	}
 
-	proc getContactCardXml { resourceID wrapProc args } {
+	proc getContactCardXml { resourceID } {
 		variable storageAuthCache
 		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/"><refreshInformation><spaceResourceId xmlns="http://www.msn.com/webservices/spaces/v1/">}
 		append xml $resourceID

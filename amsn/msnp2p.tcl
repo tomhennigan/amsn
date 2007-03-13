@@ -611,7 +611,7 @@ namespace eval ::MSNP2P {
 						if { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
 							set producer 0
 						} else {
-								set producer 1
+							set producer 1
 						}
 
 						status_log "we got an webcam invitation" red
