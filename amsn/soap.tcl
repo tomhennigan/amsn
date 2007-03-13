@@ -28,7 +28,8 @@ snit::type SOAPRequest {
 			::http::config -proxyhost "" -proxyport ""
 			http::register https 443 ::tls::socket
 		} elseif {[::config::getKey connectiontype] == "http" } {
-			error "NOT SUPPORTED"
+			# fed up with people complaining about this 'error'... it's the FUCKING SVN!!!!!
+			#error "NOT SUPPORTED"
 			http::register https 443 HTTPsecureSocket
 		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" } {
 			if {$proxy_host == "" } {
