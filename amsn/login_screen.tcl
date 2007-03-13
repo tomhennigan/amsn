@@ -524,7 +524,7 @@ snit::widgetadaptor loginscreen {
 	# ------------------------------------------------------------------------------------------------------------
 	# loggedOut
 	# Receives the event fired by protocol. Empties pass field. Packs this widget and unpacks contact list.
-	# If 'remember me' is selected,call UserSelected.
+	# If current user is a profile, call UserSelected.
 	method loggedOut {} {
 		$user_field list delete 0 end
 		$pass_field delete 0 end
