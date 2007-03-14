@@ -83,7 +83,8 @@ snit::type SOAPRequest {
 		#puts "Received HTTP answer : [::http::code $token]  [::http::status $token]\n[::http::data $token]"
 	
 		set last_error [::http::error $token]
-		if { [::http::status $token] == "ok" && [::http::ncode $token] >= 200 && [::http::ncode $token] < 300} {
+		#shouldn't work if ncode == 500, MS servers ...
+		if { [::http::status $token] == "ok" && [::http::ncode $token] >= 200 && [::http::ncode $token] < 300 || [::http::ncode $token] == 500} {
 			set status "success"
 			if {[catch {set xml [xml2list [::http::data $token]] } res ] } {
 				set status "InvalidXML"
