@@ -15,9 +15,10 @@
    sodipodi:version="0.32"
    inkscape:version="0.45"
    version="1.0"
-   sodipodi:docbase="/home/beast/Documents/icons/amsn/renamed"
-   sodipodi:docname="imghide.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   sodipodi:docbase="/home/beast/Documents/icons/amsn/Default-src/pixmaps"
+   sodipodi:docname="imgshow_hover.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:modified="true">
   <defs
      id="defs2196">
     <linearGradient
@@ -32,16 +33,6 @@
          id="stop8257" />
     </linearGradient>
     <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient8253"
-       id="linearGradient8287"
-       gradientUnits="userSpaceOnUse"
-       x1="5"
-       y1="48"
-       x2="2"
-       y2="48"
-       gradientTransform="matrix(-1,0,0,1,49.96836,7.000002e-8)" />
-    <linearGradient
        id="linearGradient6338">
       <stop
          id="stop6340"
@@ -52,16 +43,6 @@
          offset="1"
          style="stop-color:white;stop-opacity:0;" />
     </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient6338"
-       id="linearGradient8282"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0,3.683576e-3)"
-       x1="8.0861864"
-       y1="48.05463"
-       x2="2.3970559"
-       y2="48.05463" />
     <linearGradient
        id="linearGradient5443">
       <stop
@@ -74,15 +55,48 @@
          id="stop5447" />
     </linearGradient>
     <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient5443"
-       id="linearGradient8280"
+       y2="17.363958"
+       x2="-14.962014"
+       y1="-4.5859342"
+       x1="-14.962014"
+       gradientTransform="matrix(-1.1646742,0,0,1.1634904,5.3295954,6.6568885)"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0,-2.019734,0.192774,0,0.439916,96.53186)"
-       x1="21.170773"
-       y1="19.673386"
-       x2="21.170773"
-       y2="4.3882198" />
+       id="linearGradient3440"
+       xlink:href="#linearGradient27330"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient5735">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop5737" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop5739" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient30034">
+      <stop
+         style="stop-color:white;stop-opacity:1;"
+         offset="0"
+         id="stop30036" />
+      <stop
+         style="stop-color:#bbbbbb;stop-opacity:1;"
+         offset="1"
+         id="stop30038" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient27330">
+      <stop
+         id="stop27332"
+         offset="0"
+         style="stop-color:white;stop-opacity:1;" />
+      <stop
+         id="stop27334"
+         offset="1"
+         style="stop-color:white;stop-opacity:0;" />
+    </linearGradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -94,15 +108,15 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="129.33776"
-     inkscape:cy="35.126778"
+     inkscape:zoom="2.8"
+     inkscape:cx="28.074478"
+     inkscape:cy="39.723423"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="750"
-     inkscape:window-height="574"
-     inkscape:window-x="918"
-     inkscape:window-y="46" />
+     inkscape:window-height="576"
+     inkscape:window-x="247"
+     inkscape:window-y="234" />
   <metadata
      id="metadata2199">
     <rdf:RDF>
@@ -119,45 +133,20 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-357.8255,-184.38284)">
-    <g
-       id="g8293"
-       inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
-       inkscape:export-xdpi="90.038757"
-       inkscape:export-ydpi="90.038757"
-       transform="translate(317.88879,184.36218)">
-      <g
-         transform="translate(39.90191,-5.831493e-2)"
-         id="g8270">
-        <path
-           style="fill:url(#linearGradient8280);fill-opacity:1;fill-rule:evenodd;stroke:#666666;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           d="M 0.53479937,93.537633 C 0.53479937,69.961314 0.53479937,7.5857462 0.53479937,2.5284888 C 0.53479937,1.1057326 1.0858051,0.57897686 2.50831,0.57897686 C 3.8714562,0.57897686 5.9087294,0.57897686 7.4812126,0.57897686 C 8.9831527,0.57897686 9.5980944,0.97277562 9.5980944,2.5760248 C 9.5980944,12.105196 9.5980944,84.750743 9.5980944,93.537632 C 9.5980944,95.007543 9.0552906,95.537653 7.4142563,95.537653 C 6.5842533,95.537653 3.5885968,95.537653 2.5341588,95.537653 C 1.0326559,95.537653 0.53479937,95.014422 0.53479937,93.537633 z "
-           id="path8272"
-           sodipodi:nodetypes="ccccccccc"
-           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
-           inkscape:export-xdpi="90.038765"
-           inkscape:export-ydpi="90.038765" />
-        <path
-           style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           d="M 1.4285331,92.648115 C 1.4285331,69.532046 1.4285331,8.374148 1.4285331,3.4156174 C 1.4285331,1.4462897 1.2993818,1.5041631 3.0139482,1.5041631 C 4.1090284,1.5041631 5.7456667,1.5041631 7.0089179,1.5041631 C 8.8226407,1.5041631 8.7095091,1.387505 8.7095091,3.4622255 C 8.7095091,12.805372 8.7095091,84.032761 8.7095091,92.648114 C 8.7095091,94.803929 8.8452095,94.609093 6.9551282,94.609093 C 6.2883473,94.609093 3.8817942,94.609093 3.034714,94.609093 C 1.2199362,94.609093 1.4285331,94.739238 1.4285331,92.648115 z "
-           id="path8274"
-           sodipodi:nodetypes="ccccccccc"
-           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
-           inkscape:export-xdpi="90.038765"
-           inkscape:export-ydpi="90.038765" />
-        <path
-           style="fill:url(#linearGradient8282);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           d="M 6.972802,1.5041631 C 8.7865248,1.5041631 8.6733932,1.387505 8.6733932,3.4622255 C 8.6733932,12.805372 8.6733932,84.032761 8.6733932,92.648114 C 8.6733932,94.803929 8.8090936,94.609093 6.9190123,94.609093 C 4.9776696,94.609093 4.9961503,1.5041631 6.972802,1.5041631 z "
-           id="path8276"
-           sodipodi:nodetypes="ccccc"
-           inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/imgshow.png"
-           inkscape:export-xdpi="90.038765"
-           inkscape:export-ydpi="90.038765" />
-      </g>
-      <path
-         sodipodi:nodetypes="cccc"
-         id="path8278"
-         d="M 47.968357,45 C 45.821009,46.239783 41.968357,48.000006 41.968357,48.000006 C 41.968357,48.000006 45.957658,49.839119 47.968357,51 C 47.102784,49.500795 47.105201,46.495029 47.968357,45 z "
-         style="color:#000000;fill:url(#linearGradient8287);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.76194316;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
-    </g>
+    <rect
+       style="fill:#75511a;fill-opacity:0;stroke:none;stroke-opacity:1"
+       id="rect2194"
+       width="10.063"
+       height="96.071426"
+       x="357.8255"
+       y="183.91295" />
+    <path
+       id="path23826"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/beast/Work/aMSN/cl-cw-mockup.png"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-ydpi="90"
+       d="M 365.50742,229.67058 L 365.50742,234.80498 L 360.37334,232.21819 L 365.50742,229.67058 z "
+       style="fill:#cecece;fill-opacity:1;stroke:#cecece;stroke-width:0.86587286;stroke-opacity:1" />
   </g>
 </svg>
