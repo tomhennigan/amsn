@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="84.045052"
+   height="26.04505"
+   id="svg1872"
+   sodipodi:version="0.32"
+   inkscape:version="0.45"
+   sodipodi:docbase="/home/beast/Documents/icons/amsn/renamed"
+   sodipodi:docname="sendbut.svg"
+   inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/aMSN-select.png"
+   inkscape:export-xdpi="48.75"
+   inkscape:export-ydpi="48.75"
+   version="1.0"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:modified="true">
+  <defs
+     id="defs1874">
+    <linearGradient
+       id="linearGradient7329">
+      <stop
+         id="stop7331"
+         offset="0"
+         style="stop-color:#002f50;stop-opacity:0.49803922;" />
+      <stop
+         id="stop7333"
+         offset="1"
+         style="stop-color:#a9d7e8;stop-opacity:0.49803922;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient6338">
+      <stop
+         id="stop6340"
+         offset="0"
+         style="stop-color:white;stop-opacity:1;" />
+      <stop
+         id="stop6342"
+         offset="1"
+         style="stop-color:white;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient5443">
+      <stop
+         style="stop-color:#aaa;stop-opacity:1;"
+         offset="0"
+         id="stop5445" />
+      <stop
+         style="stop-color:white;stop-opacity:1;"
+         offset="1"
+         id="stop5447" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient6344"
+       gradientUnits="userSpaceOnUse"
+       x1="24"
+       y1="1.5714285"
+       x2="24"
+       y2="46.42857" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient2844"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,33.97748)"
+       x1="38.797428"
+       y1="1.1756668"
+       x2="38.797428"
+       y2="24.586538" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7329"
+       id="linearGradient2848"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.766334,0,0,0.532697,-0.39198,34.19274)"
+       x1="24"
+       y1="20.414446"
+       x2="24"
+       y2="48" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient6409"
+       gradientUnits="userSpaceOnUse"
+       x1="38.797428"
+       y1="1.1756668"
+       x2="38.797428"
+       y2="24.586538" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5443"
+       id="linearGradient6413"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.766334,0,0,0.532697,-0.391979,0.215267)"
+       x1="24"
+       y1="20.414446"
+       x2="24"
+       y2="48" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.9497475"
+     inkscape:cx="54.944622"
+     inkscape:cy="26.09999"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="false"
+     inkscape:document-units="px"
+     inkscape:window-width="951"
+     inkscape:window-height="641"
+     inkscape:window-x="105"
+     inkscape:window-y="147"
+     width="84px"
+     height="60px"
+     inkscape:object-paths="false"
+     inkscape:guide-bbox="false" />
+  <metadata
+     id="metadata1877">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(2.252451e-2,2.252516e-2)">
+    <g
+       id="g7300"
+       inkscape:export-filename="/home/gustavo/Temporal/emerald2.0/sendbut.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="89.951759"
+         inkscape:export-xdpi="89.951759"
+         inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/sendbut.png"
+         sodipodi:nodetypes="ccccccccc"
+         id="rect1880"
+         d="M 2.9774755,0.47747484 C 23.595882,0.47747484 76.599759,0.47747484 81.022527,0.47747484 C 83.017687,0.47747484 83.522527,1.0231059 83.522527,2.9999999 C 83.522527,9.4083257 83.522527,18.677205 83.522527,23.022525 C 83.522527,24.939785 83.000755,25.522525 81.025126,25.522525 C 72.691497,25.522525 10.661952,25.522525 2.9774755,25.522525 C 1.0773888,25.522525 0.47747549,24.997409 0.47747549,22.977071 C 0.47747549,20.683484 0.47747549,3.333373 0.47747549,3.0714285 C 0.47747549,1.0181523 1.0675745,0.47747484 2.9774755,0.47747484 z "
+         style="fill:url(#linearGradient6413);fill-opacity:1;fill-rule:evenodd;stroke:#444444;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="89.951759"
+         inkscape:export-xdpi="89.951759"
+         inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/sendbut.png"
+         sodipodi:nodetypes="ccccccccc"
+         id="path3670"
+         d="M 3.8707647,1.4744837 C 24.005278,1.4744837 75.765218,1.4744837 80.084188,1.4744837 C 82.752259,1.4744837 82.525516,1.2325429 82.525516,3.8007097 C 82.525516,9.7103483 82.525516,18.257939 82.525516,22.265112 C 82.525516,24.753709 82.723097,24.570566 80.086727,24.570566 C 71.948678,24.570566 11.374891,24.570566 3.8707647,24.570566 C 1.29541,24.570566 1.4294367,24.705032 1.4294367,22.223196 C 1.4294367,20.108092 1.4294367,4.1081401 1.4294367,3.8665793 C 1.4294367,1.3206954 1.2760865,1.4744837 3.8707647,1.4744837 z "
+         style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.94896734;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="89.951759"
+         inkscape:export-xdpi="89.951759"
+         inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/sendbut.png"
+         sodipodi:nodetypes="ccccccc"
+         id="path2803"
+         d="M 3.8707647,1.4744837 C 24.005278,1.4744837 75.765218,1.4744837 80.084188,1.4744837 C 82.752259,1.4744837 82.525516,1.2325429 82.525516,3.8007097 C 82.525516,3.8007097 82.525516,9.9793978 82.525516,9.9793978 C 82.525516,9.9793978 1.4294367,9.9374818 1.4294367,9.9374818 C 1.4294367,9.9374818 1.4294367,3.8665793 1.4294367,3.8665793 C 1.4294367,1.3206954 1.2760865,1.4744837 3.8707647,1.4744837 z "
+         style="fill:url(#linearGradient6409);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.94896734;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>

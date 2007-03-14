@@ -1,0 +1,37 @@
+Lee:
+
+3-5-07:
+modified: aMSN-appearance
+		aMSN-nudge
+		aMSN-smile1
+		aMSN-space_Noupdate
+		aMSN-space_update
+		aMSN-warning
+added: 	aMSN-buddy_alt2
+		this changelog file
+
+3-6-07:
+modified: 	aMSN-webcam_audio_wizard1
+		aMSN-webcam_audio_wizard3
+		aMSN-speaker
+		aMSN-music
+		
+3-7-07: 
+modified:	aMSN-download
+
+3-9-07: 
+modified:	aMSN-smile2
+		aMSN-smile3
+		aMSN-email
+		aMSN-Gmail_mail
+		aMSN-Gmail_mail_none
+		aMSN-back-tile
+
+3-12-07
+added: cl-cw-mockup
+
+modified: aMSN-box_image-Top_Right_Up_Left_borders
+
+started renaming svg to match default skin names
+
+Gus:

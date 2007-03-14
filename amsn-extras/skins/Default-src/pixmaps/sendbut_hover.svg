@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="84.045052"
+   height="26.045052"
+   id="svg2179"
+   sodipodi:version="0.32"
+   inkscape:version="0.45"
+   sodipodi:modified="true"
+   version="1.0">
+  <defs
+     id="defs2181">
+    <linearGradient
+       id="linearGradient6338">
+      <stop
+         id="stop6340"
+         offset="0"
+         style="stop-color:white;stop-opacity:1;" />
+      <stop
+         id="stop6342"
+         offset="1"
+         style="stop-color:white;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6338"
+       id="linearGradient2844"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,33.97748)"
+       x1="38.797428"
+       y1="1.1756668"
+       x2="38.797428"
+       y2="24.586538" />
+    <linearGradient
+       id="linearGradient7329">
+      <stop
+         id="stop7331"
+         offset="0"
+         style="stop-color:#002f50;stop-opacity:0.49803922;" />
+      <stop
+         id="stop7333"
+         offset="1"
+         style="stop-color:#a9d7e8;stop-opacity:0.49803922;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient7329"
+       id="linearGradient2848"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.766334,0,0,0.532697,-0.39198,34.19274)"
+       x1="24"
+       y1="20.414446"
+       x2="24"
+       y2="48" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="375"
+     inkscape:cy="-51.428571"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="750"
+     inkscape:window-height="574"
+     inkscape:window-x="918"
+     inkscape:window-y="46" />
+  <metadata
+     id="metadata2184">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-415.12033,49.231771)">
+    <g
+       id="g7305"
+       inkscape:export-filename="/home/gustavo/Temporal/emerald2.0/sendbut_hover.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="translate(415.14286,-83.18672)">
+      <path
+         inkscape:export-ydpi="89.951759"
+         inkscape:export-xdpi="89.951759"
+         inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/sendbut.png"
+         sodipodi:nodetypes="ccccccccc"
+         id="path4583"
+         d="M 2.9774741,34.454949 C 23.595881,34.454949 76.599758,34.454949 81.022526,34.454949 C 83.017686,34.454949 83.522526,35.00058 83.522526,36.977474 C 83.522526,43.3858 83.522526,52.65468 83.522526,57 C 83.522526,58.91726 83.000754,59.5 81.025125,59.5 C 72.691496,59.5 10.661951,59.5 2.9774741,59.5 C 1.0773881,59.5 0.4774741,58.974884 0.4774741,56.954546 C 0.4774741,54.660959 0.4774741,37.310847 0.4774741,37.048903 C 0.4774741,34.995626 1.0675731,34.454949 2.9774741,34.454949 z "
+         style="fill:url(#linearGradient2848);fill-opacity:1;fill-rule:evenodd;stroke:#444444;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="89.951759"
+         inkscape:export-xdpi="89.951759"
+         inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/sendbut.png"
+         sodipodi:nodetypes="ccccccccc"
+         id="path4585"
+         d="M 3.8707641,35.451958 C 24.005277,35.451958 75.765217,35.451958 80.084187,35.451958 C 82.752258,35.451958 82.525515,35.210017 82.525515,37.778184 C 82.525515,43.687823 82.525515,52.235414 82.525515,56.242587 C 82.525515,58.731184 82.723096,58.548041 80.086726,58.548041 C 71.948677,58.548041 11.37489,58.548041 3.8707641,58.548041 C 1.2954091,58.548041 1.4294361,58.682507 1.4294361,56.200671 C 1.4294361,54.085567 1.4294361,38.085614 1.4294361,37.844053 C 1.4294361,35.29817 1.2760851,35.451958 3.8707641,35.451958 z "
+         style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.94896734;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="89.951759"
+         inkscape:export-xdpi="89.951759"
+         inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/aMSN-Icons-Set/SVG/sendbut.png"
+         sodipodi:nodetypes="ccccccc"
+         id="path4587"
+         d="M 3.8707641,35.451958 C 24.005277,35.451958 75.765217,35.451958 80.084187,35.451958 C 82.752258,35.451958 82.525515,35.210017 82.525515,37.778184 C 82.525515,37.778184 82.525515,43.956872 82.525515,43.956872 C 82.525515,43.956872 1.4294361,43.914956 1.4294361,43.914956 C 1.4294361,43.914956 1.4294361,37.844053 1.4294361,37.844053 C 1.4294361,35.29817 1.2760851,35.451958 3.8707641,35.451958 z "
+         style="fill:url(#linearGradient2844);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.94896734;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>
