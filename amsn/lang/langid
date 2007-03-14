@@ -3,13 +3,14 @@ about Perihal
 aboutamsn Tentang Messenger Alvaro
 accept Terima
 acceptfile Terima berkas $1, sebesar $2? Simpan di $3
+account Akun
 actions Perintah
 activeautoupdate aktifasi otomatis update
 add tambah
 addacontact Tambahkan nama kenalan (kontak) baru
 addedyou $1 ($2) telah menambahkan anda dalam daftar namanya
 addprofile Tambahkan Profil Baru
-addprofiledesc Masukkan Daftar-Masuk untuk yang mana anda ingin menciptakan profil baru. \nDaftar-Masuk dengan profil memungkinkan anda memiliki pengaturan yang berbeda untuk setiap Daftar-Masuk. \nTanpa profile anda tidak dapat menggunakan Sejarah, Alarm dan mengingat kata sandi.
+addprofiledesc Masukkan Daftar-Masuk untuk yang mana anda ingin menciptakan profil baru. \nDaftar-Masuk dengan profil memungkinkan anda memiliki pengaturan yang berbeda untuk setiap Daftar-Masuk. \nTanpa profile anda tidak dapat menggunakan Sejarah, Alarm
 addstate Tambahkan Keadaan Baru
 addto Tambahkan Kepada $1
 addtocontacts Masukkan dalam daftar nama kenalan (kontak)
@@ -43,7 +44,11 @@ appearance Tampilan
 appearoff Sembunyi
 areacode Kode Area
 aretyping $1 sedang mengetik pesan
+askcam Minta untuk menerima Webcam
+askcontactwebcam untuk menanyakan webcam kontak anda, atau
 askeachtime Tanya setiap kali
+asksendingyourwebcam untuk menanyakan untuk mengirim webcam anda sendiri
+asksendoim Apakah anda ingin mengirim pesan ini sebagai pesan offline ?
 askwebcam Minta pengguna ini untuk mengirim webcamnya
 author Pencipta
 autoaccepted Transmisi Berkas diterima secara otomatis
@@ -56,8 +61,10 @@ autodetectip Deteksi alamat IP secara otomatis
 autohotmaillog Otomatis terhubung ke Hotmail
 autoidle Otomatis ganti status ke 'Tidak Ada Aktivitas'
 autoip IP otomatis
+autolisten_voiceclips Mainkan klipsuara secara otomatis saat diterima
 automessage PesanOtomatis
 autonoact Tunjukkan sebagai 'Tidak Aktif' setelah tidak aktif selama
+autoresizedp Ubah ukuran gambar secara otomatis ke ukuran standar
 avaccepted obrolan telfon video diterima
 avcanceled obrolan telfon video di batalkan
 avgotinvitation undangan untuk menerima obrolan lewat video dari $1 = Rp.9.000,00,-
@@ -80,6 +87,8 @@ blockinter3 setiap
 blockinter4 detik.
 blocklist Daftar Blokir :
 blockmessage Orang-orang ini sedang tersambung dan memblokir anda
+blocknotifications Nonaktifkan menampilkan jendela pemberitahuan
+blocksounds Nonaktifkan suara
 blockusers Nomer pengguna agar diperiksa saat ini juga
 bouncedock Pantulkan ikon aMSN dalam labuhan (dock) ketika pesan diterima
 brightness Terang/Gelap
@@ -88,10 +97,12 @@ browse Mengamati
 browser Browser
 browserexample (\$url akan digantikan dengan URL). Contoh: mozilla \$url
 bugerror Maaf, tetapi terdapat masalah dalam sambungan ke database bug. Silahkan periksa sambungan internet anda.
+bugnocomment Kirim tanpa komentar? Memberikan kompentar atas bug membantu kami untuk menemukan letak kesalahannya dan memperbaikinya dengan mudah.
 busy Sibuk
 cachedpics $1 gambar yang di-cache
 cagreement Perjanjian Kerahasiaan
 cancel Batalkan
+cancelled Dibatalkan
 cannotdeleteprofile Tidak bisa menghapus profil karena tampaknya masih digunakan
 cantexec Aplikasi tidak bisa dijalankan: $1. Periksa pilihan
 cantloadonlineversion Tidak bisa menutupi perbaharuan online untuk bahasa di internet
@@ -104,6 +115,8 @@ cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
 cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
 ch_to_state Alihkan ke kondisi baru
 change Rubah
+change_account_info Rubah Informasi Akun
+change_mobile Rubah Pengaturan Mobile
 changecustomstate Alihkan ke
 changedisplaypic Rubah Gambar Tampilan
 changefont Rubah Huruf
@@ -111,6 +124,7 @@ changeglobnick Ganti Nama Panggilan (alias) Global
 changenick Ganti nama panggilan (alias)
 changesize Rubah ukuran
 changestate $1 merubah keadaan menjadi $2
+changestatus Rubah Status
 changevideosettings Rubah pengaturan video
 channels Saluran-saluran
 charscounter Karakter yang diketik beradu dalam jendela percakapan
@@ -140,6 +154,7 @@ clearlog Bersihkan Register
 clearlog2 Bersihkan sejarah untuk semua kontak
 clearlog3 Bersihkan semua register
 clearwebcamlogs Bersihkan semua catatan Webcam
+clickhere Klik di Sini
 clicktoadd Klik di ADD Button untuk menulis baru
 clicktologin Klik disini untuk Daftar-Masuk
 clientcaps Kirim paket x-clientcaps kepada klient yang lain
@@ -150,6 +165,7 @@ closealltabs Tutup semua tab
 closed Percakapan dengan $1 ditutup karena tidak aktif
 closelabel Ketika anda mengklik tombol tutup dalam jendela percakapan ber-tab
 closeonly Tutup hanya tab yang bersangkutan
+closeordock Menutup jendela daftar kontak akan menutup aMSN. Mungkin anda bermaksud menutup jendela dan mempertahankan aMSN aktif di dalam baki.\n\nApakah anda yakin ingin menutupaMSN?
 closingdocks Tombol Tutup mengecilkan window
 color Warna
 command Perintah
@@ -166,6 +182,7 @@ confirmrfl Apakah anda yakin ingin menghapus pengguna tersebut dari kelompok (gr
 connected Sekarang anda tersambung
 connectedwith Tersambung dengan $1
 connecterror Ada masalah saat menghubungi server
+connectfirst Mohon tersambung terlebih dahulu
 connecting Sedang menyambung
 connection Sambungan
 connectionlost Terputus: Sambungan dengan server tertutup
@@ -173,18 +190,22 @@ contact kontak
 contactadded Nama kenalan (kontak) baru telah dimasukkan
 contactdoesnotexist Detail kontak tidak dapat ditemukan!
 contactlist Daftar Nama Kenalan (kontak) :
+contacts Kontak-kontak
 continuously Berkesinambungan (Bersambung)
 contrast Kontras
 conversationwith $1 pemakai untuk obrolan
 convertexplain Jalur untuk MERUBAH file yang dapat dijalankan, dari ImageMagick (diperlukan untuk Menampilkan Gambar).\n Kosongkan bila MERUBAH terdapat dalam jalur
 copy Salin
+copytoclipboard Salin $1 ke clipboard
 copytogroup Salin ke kelompok
 corruptconfig Susunan berkas rusak. Menciptakan yang baru. Berkas lama akan disimpan ke $1. Mohon kirim berkas tersebut kepada kami untuk kami periksa apa yang terjadi.
 corruptstates Susunan kondisi tertentu rusak. Menciptakan yang baru. Berkas yang lama akan disimpan ke $1. Mohon kirim berkas tersebut kepada kami untuk kami periksa apa yang terjadi.
+couldnotrename Tidak dapat mengubah nama file $1
 countrycode Kode negara/daerah
 cprofile Ciptakan Profil
 created Pembuatan
 credits Kredit
+curdisplaypic Tampilan Gambar Sekarang
 currentdate Tanggal Sekarang
 currentlanguage Ini adalah bahasa yang kamu gunakan
 currentnotes notes saat ini
@@ -195,8 +216,11 @@ custnotifystatus Tampilkan jendela pemberitahuan ketika kenalan (kontak) ini mer
 custom_edit Rubah smiley sesuai kehendak
 custom_new Tambahkan smiley baru sesuai kehendak
 customcolor Warna Pilihan
+customdp Tampilan Gambar Kustom
 customnick Nama Panggilan (alias) Pilihan
+customsmileys Tampilkan Emotikon Kustom Pengguna Lain
 customstyle Gaya terkostumisasi
+custshowcustomsmileys Tampilkan Emotikon Kustom Pengguna Show user's Custom Emoticons
 cut Potong
 cutimagebox  Pilih bagian dari gambar yang ingin anda gunakan, mengubah ukuran dan memindahkan kotak-pilihan
 cutimageboxreset Set ulang kotak pilihan \nukuran ke:
@@ -211,6 +235,7 @@ defaultloginradio Daftar-Masuk aturan pengaturan dasar
 defchatwinsize Ukuran standard untuk jendela percakapan (XUKURANxYUKURAN)
 delete Hapus
 deleteall Hapus semua
+deleteblock Hapus dan Blokir
 deletecustomstate Hapus kondisi tertentu
 delimiters Pemisah penanda waktu:
 deliverfail Ada masalah dalam pengiriman pesan berikut
@@ -246,7 +271,9 @@ dontshow Jangan Ditampilkan
 download Transfer data dari komputer
 downloadingtls Sedang mendownload modul TLS dari:\n $1
 edit Ubah
+editcontent Rubah isi bagian perihal (subject) dan bagian catatan (note)
 editcustomstate Ubah kondisi tertentu
+editmyprofile Rubah Profil MSN Saya
 editnewstate Kondisi untuk Pesan-otomatis Pribadi Baru
 editprofile Ubah Profil
 editstate Rubah Keadaan Pesan-otomatis yang sudah ada
@@ -266,6 +293,8 @@ enterbugdesc Masukan uraian tentang yang anda lakukan untuk membantu kami dalam 
 entercontactemail Masukkan alamat e-mail kenalan (kontak)
 enterfilename Masukkan nama berkas
 enternick Masukkan nama panggilan/alias yang anda inginkan
+enterpsm Pesan Pribadi ANda
+error Kesalahan
 errortls Masalah dalam menginstal modul TLS:
 eventhistory Lihat sejarah (historis) kejadian
 examples Contoh
@@ -287,6 +316,10 @@ filetransfercomplete Transmisi berkas telah usai
 filters Saringan-saringan
 filtersselect Pilih saringan yang ingin anda lihat\n(Catatan bila tidak ada yang diplih artinya tunjukkan semua)
 filtersx Pilihan Saringan
+find Temukan
+findasyoutype Temukan sembari mengetik
+findnext Temukan Berikutnya
+findprev Temukan Sebelumnya
 firewalled Anda berada di belakang router atau firewall
 followtext Gulung ke bawah saat tekst baru dimasukkan
 friendlyname Nama Akrab
@@ -299,19 +332,25 @@ ftconnecting Menyambung ke $1 port $2
 ftconnectionlost Sambungan ke peer jarak jauh terputus
 ftgotinvitation $1 ingin mengirim berkas ?$2? ($3 bytes). Berkas akan tersimpan dalam direktori $4. Apakah anda ingin menerima berkas ini?
 ftportpref Memulai port untuk pengalihan berkas
+ftporttest Uji Port
 ftrejected Transmisi berkas ditolak
 ftrejectedby $1 menolak undangan pengalihan berkas untuk berkas ?$2?.
 ftsendinvitation Undangan pengalihan berkas untuk berkas ?$2? ($3 bytes) telah dikirim kepada $1.
 fullcontactlist Maaf, daftar nama kenalan (kontak) anda penuh.. Anda harus menghapus sebagian kontak untuk dapat menambahkan yang baru.
 getdisppic Mungkinkan penerimaan Gambar Tampilan dari pengguna yang lain
+getmoreplugins Dapatkan lebih banyak plugin!
+getmoreskins Dapatkan skin lebih banyak!
 globalcontainer kontainer global
-globalnick Masukkan pola untuk membentuk nama panggilan (alias) dari seluruh kenalan (kontak) anda. Anda dapat menggunakan variabel berikut: \$user_login untuk alamat kenalan (kontak) anda, \$nick untuk nama panggilan (alias) dari kenalan (kontak) anda dan \$customnick untuk nama panggilan (alias) pilihan dari kenalan (kontak) anda. Sebagai contoh: '\$user_login is \$nick' akan menjadi 'contact@msn.com is Contact'
+globalnick Masukkan pola untuk membentuk nama panggilan (alias) dari seluruh kenalan (kontak) anda. Anda dapat menggunakan variabel berikut: \$user_login untuk alamat kenalan (kontak) anda, \$nick untuk nama panggilan (alias) dari kenalan (kontak) anda da
 globalnicktitle Nama Panggilan (alias) Global
 globaloverride Pola Nama Panggilan (alias) harus melangkahi nama panggilan (alias) pilihan
 gonelunch Sedang makan siang
 gotink $1 mengirimkan anda tinta.
+goto Pergi ke $1
+gotoinbox Pergi ke Kotak-Masuk
 group Kelompok
 groupadd Tambah kelompok
+groupcontacts Kontak Kelompok
 groupdelete Hapus kelompok
 groupexists Nama kelompok sudah ada
 groupmissing Kelompok tidak dapat ditemukan
@@ -325,6 +364,8 @@ handle Pegangan
 help Bantuan
 helpcontents Isi manual
 hidedisplaypic Sembunyikan Gambar Tampilan
+hidemenu Menu Tampilkan/Sembunyikan
+hidemenumessage Apakah anda yakin anda ingin menyembunyikan menu ?\nAnda dapat mengembalikannya kapan saja menggunakan kunci menu Tampilkan/Sembunyikan 'Ctrl-M'.
 hiden Sembunyikan emoticon dari menu smiley
 hidewindow Sembunyikan Window
 history Lihat Sejarah
@@ -336,12 +377,13 @@ hybrid Modus hybrid
 ident Sedang mengidentifikasi
 identity Identitas
 ignore Acuhkan
+ignorecontact Acuhkan percakapan dari kontak ini
 ignoreerrors Acuhkan secara diam-diam error AMSN yang lain sampai akhir sesi
 imagefiles Berkas-berkas Gambar
 inbox Kotak-Masuk
 insertsmiley Masukkan emotikon
 inserttextnote Masukkan tulisan di tempat subject dan nota tulisan dan klik untuk menyimpan
-installconvert Anda harus menginstalasi ImageMagick (program konversi) untuk dapat merubah gambar ke dalam format yang diperlukan oleh server MSN. Anda bisa men-download binari untuk Sistem Operasi anda di ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Apabila anda sudah memilikinya, maka itu adalah gangguan (bug) dan mohon dilaporkan.
+installconvert Anda harus menginstalasi ImageMagick (program konversi) untuk dapat merubah gambar ke dalam format yang diperlukan oleh server MSN. Anda bisa men-download binari untuk Sistem Operasi anda di ftp://ftp.imagemagick.net/pub/ImageMagick/binarie
 internalerror Kesalahan Server Internal
 invalidfile Berkas $2 yang dimasukkan dalam bidang "$1" tidak ada atau tidak dapat dibaca
 invalidfile2 Nama berkas $1 tidak dapat diciptakan, pastikan anda memiliki ijin yang tepat untuk sasaran tersebut.
@@ -388,6 +430,7 @@ ljoinedconf $1 bergabung dalam konferensi
 lleftconf $1 meninggalkan konferensi
 load Memuat (Load)
 loadcontacts Baca daftar nama kenalan (kontak)
+loadotherdisplaypic Memuat DPs dari $1, mohon tunggu...
 logbigger Ukuran register berkas untuk setiap kontak tidak pernah melewati batas
 logeventconnect Arsipkan (Log) semua sambungan
 logeventdisconnect Arsipkan (Log) semua sambungan-putus
@@ -402,12 +445,15 @@ loging Mendaftar
 logolder Hanya register percakapan yang mengambil tempat dalam terakhir
 logout Daftar-Keluar
 logsbydate Urut register (log) berdasarkan tanggal (Lihat sejarah dimuat jauh lebih cepat)
+logschats Meregister (log) percakapan
 logsin baru saja register
 logsmileys Tampilkan Emoticon dan Smiley dalam sejarah a'MSN
 logsout baru saja daftar-keluar
 logwebcam Simpan semua sesi webcam ke dalam Sejarah aMSN untuk dilihat di masa mendatang
 longnick Nama panggilan (alias) anda lebih panjang dari 130 huruf. Hal tersebut tidak didukung secara resmi oleh protokol MSN. Apakah anda yakin anda ingin memasangnya?
 longp4c Nama Akrab Anda lebih panjang dari 130 karakter. Nama Akrab yang akan tampil pada klient MSN resmi adalah $1. Apakah anda yakin ingin melihatnya?
+longpsm Pesan pribadi anda terlalu panjang. Ini tidak resmi didukung oleh protokol MSN. Apakah anda yakin ingin melihatnya?
+lowrescam Gunakan webcam resolusi rendah
 lprivtoconf Percakapan pribadi berubah menjadi konferensi dengan $1
 luclosedwin Anda telah menutup jendal pada $1
 mailer Aplikasi email
@@ -415,6 +461,7 @@ mailerexample (\$penerima = Penerima) Biarkan kosong untuk menggunakan Hotmail
 maintenance Server akan dimatikan untuk pemeliharaan dalam $1 menit
 maximised Dimaksimalkan
 minimised Diminimalkan/Di-ikon-kan
+minimize Minimalkan ke Baki
 mins menit
 mobile Bergerak
 mobilegrp1 Grup telfon genggam
@@ -429,6 +476,7 @@ msgflicker Kedipkan window percakapan saat pesan baru diterima pada window yang 
 msgmaxmin Saat pesan baru tiba saya menginginkannya untuk:
 msgmode Pilih bagaimana menangani banyak window percakapan
 msn a'MSN
+msnstatus Status Jaringan MSN
 msnstyle Percakapan Bergaya MSN
 mustrestart Program ini harus dijalankan ulang supaya perubahannya kelihatan
 myfriendlyname Nama bersahabat saya
@@ -445,12 +493,14 @@ needonline Anda masih tidak tersambung atau sedang sembunyi!
 needwinico2 Memerlukan winico05.dll dalam direktori utils/windows supaya labuhanbaki (traydoking) jendela dapat bekerja
 never Tidak Pernah
 new_ft_protocol Gunakan protokol Pemindahan Berkas yang baru (masih ada beberapa bug)
+newchat Percakapan Baru
 newline Baris baru
 newmail $1 email baru dalam Kotak-Masuk
 newmailfolder Anda memiliki $1 pesan baru di dalam map (folder) Hotmail yang lain
 newmailfrom Email baru dari $1 ($2)
 newmailfromother Email baru dalam map (folder) lain dari $1 ($2)
 newmsg Pesan baru
+newoim Pesan Offline Baru
 newstate Tambahkan kondisi tertentu
 newtabbedfeature aMSN mempunyai fitur baru untuk pengaturan obrolan, kamu bisa membuka jendela dari grup yang sama atau dari semua daftar kontak kamu dari satu jendela. Tolong pilih satu cara untuk mengatur obrolan kamu di aMSN.
 newveravailable Telah ada versi baru $1
@@ -458,8 +508,10 @@ next Berikutnya
 nick Panggilan (alias)
 no Tidak
 noactivity Tidak ada aktivitas
+nocacheddps Tanpa Tampilan Gambar dalam cache untuk pengguna ini
 nodataavailable Tidak ada data yang tersedia untuk $1
 nodevices Anda belum menginstall alat (device)
+noftpreview Nonaktifkan pengiriman tinjauan gambar dalam transfer file
 nogap Tanpa jarak antara kelompok (group)
 nogroup Tidak ada Kelompok (group)
 nologfile Tidak ada register untuk $1
@@ -488,6 +540,7 @@ notinlist Anda tidak berada dalam daftar kontak miliknya
 notls Protokol MSN 9 memerlukan paket tls. Paket ini tampaknya tidak terinstal pada mesin ini. Apabila terinstalasi, cantumkan letak direktori kepustakaan dalam window Anjuran (contoh: /opt/tls/lib). \n \n Tls bisa didownload dari http://tls.sf.net.
 nottabbed normal jendela tanpa tabs
 nousersinsession Tidak ada orang lain
+nouserspecified Tidak ada pengguna ditetapkan No user specified
 nudge $1 meminta perhatian anda
 offline Tidak Tersambung
 ok Ok
@@ -504,12 +557,15 @@ ordercontactsby Urutkan daftar kenalan (kontak) berdasarkan
 ordergroupsby Atur kelompok berdasarkan
 original Asli
 other Lain-lain
+otherdisplaypic Gambar tampilan yang lain untuk pengguna ini (kilk kanan untuk lebih banyak pilihan)
 others Lain-lain
 p4contextprefix Awalan (Prefix) P4-Context terkirim dengan string ini
 pager Penyeranta
 pass Kata sandi
 paste Tempelkan
 pause Jeda
+pausedwebcamreceive Webcam di-'pause' oleh pengguna lain
+pausewebcamsend Mem-'pause' pengiriman webcam
 personal Pribadi
 phone Telepon
 phones Nomor-nomor telpon
@@ -517,7 +573,10 @@ picbrowser Tampilkan Browser Gambar
 picfile Berkas gambar (GIF < 500 x 500)
 picstatus Alarm bergambar
 play Mainkan
+playbackposition Posisi 'Playback'
+playbackspeed Kecepatan 'Playback' (milidetik antar setiap frame)
 playing Memainkan: $1
+playwebcamsend Teruskan pengiriman webcam
 pluginselector Pilih Tambahan-tambahan (plugins)
 port Pintu
 portswellconfigured Port-port anda terkonfigurasi dengan baik
@@ -533,6 +592,7 @@ preferences Pilihan
 preffont Tekst Pesan Saya
 preffont2 Rubah cara orang lain melihat tekst saya dalam percakapan
 preffont3 Rubah huruf dan ukuran tampilan muka a'MSN
+preffont4 Rubah cara saya melihat teks orang lain dalam sesi percakapan
 prefft Aturan transfer berkas, peer-to-peer dan NAT
 preflibs Direktori kepustakaan
 preflog1 Pilihan Registrasi dan Sejarah Saya
@@ -564,19 +624,29 @@ proxy Saya berada di belakang Server Proxy (HTTP atau SOCKS5)
 proxyconf Pengaturan proxy
 proxyconfhttp Pengaturan proxy HTTP
 proxyconnection Saya menyambung ke internet menggunakan server proxy:
+psm Pesan Pribadi
+psmatend Tampilkan Pesan Pribadi di samping nama panggilan
+psmdontshow Jangan tampilkan Pesan Pribadi, kecuali didefinisikan berbeda dalam nama panggilan global/kustom
+psmnewline Tampilkan Pesan Pribadi di bawah nama panggilan
+psmplace Di mana Pesan Pribadi sebaiknya ditempatkan ?
 publishphones Publikasikan telepon saya
 purge Bersihkan
 pwcdriver Anda menggunakan driver pcw
+quit Keluar
 raised Diangkat/Ikon dihilangkan
 readonlymsgbox Transmisi berkas dibatalkan karena daftar tujuan berstatus baca-saja. Mohon rubah status di daftar tujuan tersebut.
 readonlywarn PERINGATAN: Berkas kemungkinan TIDAK akan tersimpan dengan benar karena daftar "Berkas yang Diterima" tampaknya dilindungi terhadap penulisan. Mohon pastikan ijin pada daftar sasaran ($1) telah diatur dengan benar sebelum memindahkan berkas.
 receivedbytes Telah diterima $1 dari $2 byte
 receiveddir Map Berkas yang Diterima
+receivedoimread Anda memiliki $1 Pesan Instan Offline baru. Apakah anda ingin membacanya ?
+receivedvoice Menerima Klik Suara
 receivefile Terima berkas
 recentmsg Mencegah menutup jendela percakapan saat pesan tiba
 reconnect Menunggu $1 untuk bergabung kembali
 reconnect2 Sambung kembali ketika hilang
 reconnecting Memulihkan sambungan ke server
+recorderror Kesalahan terjadi saat mencoba merekam suara : $1
+recvwebcamaccepted $1 menerima undangan anda untuk melihat webcam-nya. Menyambung...
 reject Tolak
 rememberpass Simpan kata sandi
 remembersetting Ingat pengaturan ini
@@ -586,6 +656,8 @@ rename Ganti Nama
 report Laporan
 reporting Melaporkan
 required_version Tidak dapat memuat plugin ini. Dibutuhkan aMSN minimal versi $1
+resetincomingfont Rubah huruf (gunakan huruf pesan pilihan pengirim)
+restartforskin Catatan: Anda perlu menyalakan ulang aMSN untuk melihat 'skin' ini dengan benar!
 reversed Dibalik
 reverselist Daftar Terbalik:
 rightback Segera kembali
@@ -596,28 +668,40 @@ savecontacts Simpan daftar nama kenalan (kontak)
 savetofile Simpan ke dalam Berkas
 says $1 bilang
 sbcon Mencoba mengontak Papan Pengendali
+searchdown Cari ke bawah
+searchup Cari ke atas
 selectall Pilih semua
 selectplugins Silahkan pilih tambahan-tambahan yang ingin anda mungkinkan.
 selectskin Silahkan pilih kulit dari daftar
 send Kirim
 sendemail Kirim alamat email saya untuk memberitahu saya akan perubahan-perubahan
+sendfeedback Kirim Masukan
 sendfile Kirim berkas
 sendmail Kirim e-mail
 sendmobmsg Kirim ke telfon genggam
 sendmsg Kirim pesan
+sendoim Kirim Pesan Offline
+sendvoice Kirim Klip Suara
+sendwebcamaccepted $1 menerima undangan anda untuk mengirimi anda webcam. Menyambung...
 sendwebcaminvite Undang pengguna untuk melihat webcam anda
 sentbytes $1 dari $2 byte telah dikirim
+sentvoice Mengirim Klik Suara
 server Server
 serverbusy Server sedang Sibuk
 servergoingdown Terputus: Server sedang bermasalah
 serverunavailable Server sedang tidak tersedia
 session Bagian
+setasmydp Atur sebagai gambar tampilan saya
 shareswebcam Membagi webcam
+show_contactdps_in_cl Tampilkan 'thumbnail' dari Tampilan Gambar kontak dalam Daftar Kontak
 showbanner Tampilkan spanduk (banner) aMSN's
 showblockedlist Tunjukkan daftar orang-orang yang memblokir anda
 showcachedpics Tampilkan gambar tampilan yang di-cache
+showcontactemail Tampilkan Kontak dengan Email
+showcontactnick Tampilkan Kontak dengan Nama Panggilan
 showdisplaypic Tunjukkan Gambar Tampilan
 showdisplaypic2 Tunjukkan Gambar Tampilan sebagai default pada saat window chat terbuka
+showmailicon Tampilkan ikon surat pada bakilabuhan ketika email baru tiba
 showmypic Gambar Tampilan Saya
 shownotify Tampilkan jendela pemberitahuan saat kejadian tersjadi
 showpicnotify Perlihatkan gambar user di jendela
@@ -632,7 +716,14 @@ smileintro Tolong isi bidang yang diperlukan untuk menciptakan smiley baru sesua
 smileintro2 Tolong isi bidang yang diperlukan untuk merubah smiley sesuai kehendak (lihat PSD untuk bantuan)
 smiletoobig Smiley yang anda pilih adalah lebih besar dari ukuran normal. Apakah and ingin merubah ukurannya kembail ?
 snackfailed Snack gagal termuat (load), merubah ke standard
+snackneeded Pustaka 'Snack' diperlukan untuk menggunakan fitur ini. Minimal diperlukan 2.2.9.
+snapshot Jepret Gambar
 sngdblclick Klik tunggal untuk membuka jendela pesan baru
+sortcontactgroup Urut Kontak berdasarkan Kelompok
+sortcontacthybrid Urut Kontak dalam Mode Hybrid
+sortcontactstatus Urut Kontak berdasarkan Status
+sortgroupsasc Urut Kelompok dari Kecil ke Besar
+sortgroupsdesc Urut Kelompok Dari Besar ke Kecil
 sound Suara Perisitwa
 sound2 Mainkan Bunyi saat kontak meregister masuk atau mengirim pesan
 soundactive Mainkan bunyi ketika menerima pesan masuk juga dalam jendela aktif
@@ -641,6 +732,7 @@ soundexample (\$bunyi = Berkas bunyi yang dimainkan) Ex: esdplay \$bunyi
 soundfile Berkas suara
 soundfiles Berkas-berkas Suara
 soundloop Putar suara berulang-ulang
+soundnoavail Piranti Suara tidak tersedia. Mohon hentikan aplikasi yang menggunakan piranti suara.
 soundserver Server Bunyi
 soundstatus Bunyikan alarm
 sourcecode Kode Sumber (perlu kompilasi dan instalasi)
@@ -648,6 +740,7 @@ splashstart Start (Mulai)
 sslwarning PERINGATAN!! Mematikan SSL akan mematikan enkripsi, sehingga kata sandi anda akan terlihat sebagai tekst biasa pada jaringan. Gunakan hanya untuk pengaturan proxy dan jaringan yang rumit.
 startoffline Daftar-Masuk dengan status Offline
 startoffline2 Register Masuk secara diam-diam sebagai 'Tampak Tidak Tersambung'
+startonboot Mulai aMSN pada boot Windows
 startontray Jalankan AMSN pada baki ikon saja
 state Saya ingin tampil sebagai
 stateautomsg Pesan-otomatis untuk Kirim
@@ -657,6 +750,7 @@ stateinfo Aturan Keadaan Pribadi
 statename Nama dari Keadaan Pribadi
 statenewtext Mohon masukkan informasi yang diwajibkan untuk menciptakan Kondisi Pribadi baru anda dan tekan Simpan
 statenick Nama panggilan (alias) pilihan (tinggalkan kosong bila tidak diganti)
+statepsm Pesan Pribadi Kustom (biarkan kosong jika tidak ada perubahan)
 stats Statistik
 status Status
 stop Stop
@@ -686,11 +780,11 @@ timestamp Penanda waktu
 timestamps Mungkinkan penanda waktu pada jendela percakapan
 title Al's Messenger
 tkerror TK membawa error, terdapat bug dalam amsn, mohon dilaporkan. Kirim berkas $1 ke amsn-bugs@lists.sf.net
-tkerror1 TK membawa kesalahan (error), terdapat bug di dalam amsn, silahkan melapokrannya dengan mengklik tombol Laporan. Anda dapat klik pada Rincian-rincian untuk melihat informasi lebih banyak tentang bug atau klik Ok untuk melanjutkan percakapan dengan aMSN
+tkerror1 TK membawa kesalahan (error), terdapat bug di dalam amsn, silahkan melapokrannya dengan mengklik tombol Laporan. Anda dapat klik pada Rincian-rincian untuk melihat informasi lebih banyak tentang bug atau klik Ok untuk melanjutkan percakapan denga
 tlsdowncompleted Berkas $1 didownload ke direktori $2. Anda harus mengurainya, membangunnya (apabila anda mendownload kode sumber) dan menginstalasinya dalam $3.
 tlsexplain Direktori dimana modul tcl TLS berlokasi. Apabila AMSN tidak dapat menemukannya, tolong dijelaskan.\n(Diperlukan untuk autentikasi SSL).
 tlsinstall Penyulap instalasi Modul TLS
-tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini akan membantu anda dalam mendownload dan\nmenginstalasi TLS. Mohon pilih jenis sistem anda sehingga kami bisa secara otomatis mendownload\n berkas-berkas TLS yang diperlukan.
+tlsinstallexp AMSN sekarang menggunakan MSNP9, yang memerlukan penggunaan \nsambungan aman menggunakan SSL. Untuk dapat menggunakan SSL, AMSN memerlukan untuk menginstalasi modul yang dinamakan TLS,\nyang tidak terdapat dalam sistem anda. Penyulap ini aka
 tlsinstcompleted Instalasi modul TLS telah berhasil, sekarang anda seharusnya dapat menggunakan MSNP9. Apabila tidak bekerja dengan baik, maka kemungkinan anda tidak memilih modul yang tepat, atau modul yang terkompilasi tidak tersedia untuk sistem anda.
 to Kepada
 today Hari ini
@@ -716,6 +810,7 @@ update Memperbaharui
 updateonlycurrentlanguage Perbaharui hanya bahasa yang terkini
 updating Memperbaharui
 useasdp gunakan untuk gambar display
+useasregexp Gunakana Ekspresi Regular (regexp)
 useother Gunakan program yang berbeda (lain)
 user Pengguna
 useralreadyonlist Nama sudah ada dalam daftar nama
@@ -723,13 +818,17 @@ userblocked Pengguna sedang tersambung tetapi memblokir anda
 userdata Data Pengguna
 usernotonline Pengguna sedang tidak tersambung
 userproperties Anjuran-anjuran pengguna dari $1
+usersettings Pengaturan
 useryourself Anda tidak bisa bercakap-cakap dengan anda sendiri
 usesnack Gunakana pustaka Snack (Tcl internal)
 verifyblocked Periksa untuk orang-orang yang memblokir anda
 version Versi
+videoconversationrequest Anda baru saja menerima permohonan percakapan video (bidireksional audio dan video). Fitur ini belum didukung oleh aMSN dan dibatalkan. Namun, anda masih dapat menggunakan percakapan webcam standar.
 view Tampilan
 viewcontactsby Lihat kenalan (kontak) berdasarkan
 viewprofile Lihat Profil Pemakai
+wanttosharecam Saya ingin membuat webcam saya tersedia untuk orang lain
+web Web
 webcam WebCam
 webcamcanceled Sesi webcam dengan $1 telah dibatalkan
 webcamclosebefcancel Anda harus membatalkan semua sesi webcam sebelum menutup jendela (window)
@@ -740,6 +839,8 @@ webcamfaq PSD/Pertolongan untuk Webcam
 webcamhistory Lihat sesi Webcam
 webcaminvite $1 mengundang anda untuk memulai sesi webcam, tetapi aMSN tidak mendukung fasilitas ini.
 webcaminvitereceived $1 mengundang anda untuk memulai sesi webcam. Apakah anda mau menerima sesi ini ?
+webcaminvitereceiving Anda diundang untuk mulai melihat webcam $1. Apakah anda ingin menerima sesi ini?
+webcaminvitesending $1 ingin melihat webcam anda. Apakah anda ingin menerima sesi ini?
 webcamrejected $1 menolak undangan untuk sesi webcam
 webcamrequestreceive Telah mengirim permohonan untuk menerima webcam
 webcamrequestsend Telah mengirim permohonan untuk mengirim webcam
