@@ -9,18 +9,19 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48px"
-   height="48px"
+   width="18"
+   height="18"
    id="svg1872"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/home/beast/Documents/icons/amsn/Default-src"
-   sodipodi:docname="aMSN-space_update.svg"
+   sodipodi:docbase="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png"
+   sodipodi:docname="space_update.svg"
    inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/Emerald-Dev/PNG/aMSN-space_update.png"
    inkscape:export-xdpi="30"
    inkscape:export-ydpi="30"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   sodipodi:modified="true"
+   version="1.0">
   <defs
      id="defs1874">
     <linearGradient
@@ -114,10 +115,11 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(-1.8571426,-28.857143)">
     <g
        id="g2208"
-       transform="matrix(0.359375,0,0,0.359375,1.8571426,0.8571427)">
+       transform="matrix(0.140625,0,0,0.140625,1.8571426,28.857143)">
       <g
          transform="translate(-4.2714191,90.326776)"
          inkscape:label="star"

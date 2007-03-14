@@ -9,18 +9,19 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48px"
-   height="48px"
+   width="18.000002"
+   height="18"
    id="svg1872"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/home/beast/Documents/icons/amsn/Default-src"
-   sodipodi:docname="aMSN-space_update.svg"
+   sodipodi:docbase="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png"
+   sodipodi:docname="space_noupdate.svg"
    inkscape:export-filename="/home/gdnet/MisDocs/GDNet/Desarrollo/aMSN-Skins/Emerald-Dev/PNG/aMSN-space_update.png"
    inkscape:export-xdpi="30"
    inkscape:export-ydpi="30"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   version="1.0"
+   sodipodi:modified="TRUE">
   <defs
      id="defs1874">
     <linearGradient
@@ -183,7 +184,8 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(-1.8571413,-28.857142)">
     <g
        id="g2210"
        inkscape:label="star"
@@ -192,11 +194,14 @@
        id="g2243"
        transform="matrix(0,0.359375,-0.3821205,0,21.929546,30.133005)" />
     <g
-       inkscape:transform-center-y="-0.56638532"
-       inkscape:transform-center-x="3.0938247"
-       transform="matrix(1.5563966,0,0,1.3308444,52.981988,18.615447)"
+       inkscape:transform-center-y="-0.22162865"
+       inkscape:transform-center-x="1.2106276"
+       transform="matrix(0.6090248,0,0,0.5207652,21.862517,35.806044)"
        style="fill:#888a85;fill-opacity:1;filter:url(#filter3360)"
-       id="g2356">
+       id="g2356"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <g
          style="fill:#888a85;fill-opacity:1"
          id="g2317"
@@ -265,7 +270,10 @@
     </g>
     <g
        id="g2189"
-       transform="matrix(1.5091959,0,0,1.3332003,-9.1642151,-1.290791)">
+       transform="matrix(0.5905549,0,0,0.5216871,-2.4555626,28.016646)"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <path
          sodipodi:nodetypes="cccc"
          id="rect2171"
@@ -280,16 +288,25 @@
     <path
        sodipodi:nodetypes="cccc"
        id="path2181"
-       d="M 40.509165,45.273865 L 35.365792,27.73965 L 23.88983,25.333464 L 40.509165,45.273865 z "
-       style="fill:#d3d7cf;fill-opacity:1" />
+       d="M 16.981847,46.237599 L 14.969223,39.376384 L 10.478629,38.434833 L 16.981847,46.237599 z "
+       style="fill:#d3d7cf;fill-opacity:1"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#888a85;fill-opacity:1"
-       d="M 40.494846,45.192825 L 23.924211,35.960287 L 23.917432,25.324946 L 40.494846,45.192825 z "
+       d="M 16.976244,46.205887 L 10.492082,42.593155 L 10.48943,38.4315 L 16.976244,46.205887 z "
        id="path2183"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
-       transform="matrix(-1.5522377,0,0,1.3189596,58.525941,-1.2646531)"
-       id="g2193">
+       transform="matrix(-0.6073974,0,0,0.5161146,24.03189,28.026874)"
+       id="g2193"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <path
          sodipodi:nodetypes="cccc"
          id="path2195"
@@ -304,22 +321,34 @@
     <path
        sodipodi:nodetypes="cccc"
        id="path2251"
-       d="M 46.671059,17.903911 L 35.264757,27.793391 L 23.849978,25.346451 L 46.671059,17.903911 z "
-       style="fill:#888a85;fill-opacity:1" />
+       d="M 19.393023,35.527616 L 14.929687,39.397413 L 10.463035,38.439915 L 19.393023,35.527616 z "
+       style="fill:#888a85;fill-opacity:1"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#d3d7cf;fill-opacity:1"
-       d="M 46.739287,17.911383 L 31.440195,17.795028 L 23.983147,25.357893 L 46.739287,17.911383 z "
+       d="M 19.419721,35.53054 L 13.433119,35.48501 L 10.515144,38.444392 L 19.419721,35.53054 z "
        id="path2253"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#d3d7cf;fill-opacity:1"
-       d="M 2.1991794,18.05014 L 12.328754,28.119742 L 24.059426,25.319827 L 2.1991794,18.05014 z "
+       d="M 1.990983,35.584836 L 5.9547296,39.525116 L 10.544993,38.429497 L 1.990983,35.584836 z "
        id="path2279"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:nodetypes="cccc"
        id="path2281"
-       d="M 2.1343243,18.021432 L 16.676862,17.90381 L 23.911881,25.331395 L 2.1343243,18.021432 z "
-       style="fill:#888a85;fill-opacity:1" />
+       d="M 1.965605,35.573603 L 7.6561631,35.527577 L 10.487258,38.434023 L 1.965605,35.573603 z "
+       style="fill:#888a85;fill-opacity:1"
+       inkscape:export-filename="/home/beast/Documents/icons/amsn/Default-src/pixmaps/png/space_noupdate.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>
