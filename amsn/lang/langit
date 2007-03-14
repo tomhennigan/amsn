@@ -58,13 +58,14 @@ asksendingyourwebcam per chiedere di inviare immagini dalla tua webcam
 asksendoim Vuoi inviare questo messaggio come un messaggio "non in linea"?
 askwebcam Visualizza la webcam del contatto
 audioconfigured Hai scelto i seguenti settaggi Audio:\n Periferica di output: $1\nPeriferica di input:$2
+audiovideo Settaggi Audio e Video
 author Autore
 autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
 autoaway Mostrami come "Non al computer" quando sono inattivo per
 autocheckver Controlla automaticamente all'avvio se ci sono nuove versioni
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
-autoconnect Connetti automaticamente all'esecuzione di aMSN
+autoconnect Connetti in automatico all'avvio di aMSN
 autodetectip Ottieni indirizzo IP automaticamente
 autohotmaillog Accedi automaticamente a Hotmail
 autoidle Nessuna attività automatica
@@ -236,7 +237,7 @@ custnotifystatus Visualizza la finestra di notifica al cambio di stato personale
 customcolor Colore Personalizzato
 customdp Immagine personalizzata
 custom_edit Crea un'emoticon personalizzata
-custom_new Aggiungi una nuova emoticon personalizzata
+custom_new Aggiungi una nuova emoticon
 customnick Soprannome Personalizzato
 customsmileys Mostra le emoticon personalizzate degli altri utenti
 customstyle Stile personalizzato
@@ -345,6 +346,7 @@ findprev Trova precedente
 finish Fine
 finish2apply Premi Fine per applicare questi settaggi.
 firewalled Sei dietro un firewall o un router
+firewalled2 Sei dietro un firewall, per favore controlla i settaggi di Connessione nella finestra delle preferenze
 followtext Scorri la finestra quando nuovo testo viene inserito
 forgot_pass Ho dimenticato la password
 friendlyname Nome comune
@@ -357,6 +359,7 @@ ftconnecting Connessione a $1 sulla porta $2
 ftconnectionlost La connessione con l'utente remoto è caduta.
 ftgotinvitation $1 vuole mandarti il file '$2' ($3 bytes). Sarà salvato nella directory $4. Vuoi ricevere questo file?
 ftportpref Porta iniziale per il trasferimento file
+ftportpref2 Porta iniziale per le connessioni dirette (necessaria per il trasferimento file e la webcam)
 ftporttest Test
 ftrejectedby $1 ha rifiutato l'invito al trasferimento del file '$2'.
 ftrejected Trasferimento del file respinto
@@ -687,7 +690,7 @@ rememberpass Ricorda password
 remembersetting Ricorda questa impostazione
 removeempty Eliminare gruppi vuoti dalla lista contatti
 removefromlist Rimuovi da questa lista
-rename rinomina
+rename Rinomina
 reporting Invio del rapporto in corso
 report Rapporto
 required_version Impossibile caricare il plugin. Richiede almeno la versione $1 di aMSN
