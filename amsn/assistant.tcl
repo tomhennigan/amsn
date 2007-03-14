@@ -1134,8 +1134,8 @@ namespace eval ::AVAssistant {
 		if {![info exists lowrescam]} {
 			set lowrescam [::config::getKey lowrescam]
 		}
-		checkbutton $contentf.lowrescam -text "[trans lowrescam]" -font sboldf -variable lowrescam \
-			-onvalue 1 -offvalue 0
+		checkbutton $contentf.lowrescam -text "[trans lowrescam]" -font sboldf -variable \
+			::AVAssistant::lowrescam -onvalue 1 -offvalue 0
 		pack $contentf.lowrescam -pady 10
 		
 		#create the left frame (for the comboboxes)
@@ -1221,7 +1221,8 @@ namespace eval ::AVAssistant {
 		#create and pack the chans-combobox
 		set chanswidget $leftframe.chans
 		combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true \
-		    -command [list ::AVAssistant::StartPreviewLinux] -editable false -bg #FFFFFF
+		    -command [list ::AVAssistant::StartPreviewLinuxDelayed] -editable false -bg #FFFFFF
+
 		pack $leftframe.chans -side top 
 		
 		#Select the device if in the combobox (won't select anything if -1)
@@ -1289,6 +1290,10 @@ namespace eval ::AVAssistant {
 		}
 	}
 
+	proc StartPreviewLinuxDelayed {chanswidget value} {
+		after 0 [list ::AVAssistant::StartPreviewLinux $chanswidget $value]
+	}
+
 	###
 	# Start the Preview on Linux
 	proc StartPreviewLinux {chanswidget value} {
@@ -1319,9 +1324,17 @@ namespace eval ::AVAssistant {
 	
 			if { $lowrescam } {
 				set cam_res "QSIF"
+				set camwidth 160
+				set camheight 120
 			} else {
 				set cam_res "SIF"
+				set camwidth 320
+				set camheight 240
 			}
+
+			$previmc configure -width $camwidth -height $camheight
+			#pack $previmc -side right -padx 10
+
 			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel $cam_res]} errormsg] } {
 				status_log "problem opening device: $errormsg"
 				return
