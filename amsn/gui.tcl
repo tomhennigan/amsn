@@ -7063,10 +7063,6 @@ namespace eval ::OIM_GUI {
 		if { $answer == "yes"} {
 			set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 0
 			::MSNOIM::sendOIMMessage [list ::OIM_GUI::MessageSendCallback $chatid] $email $txt
-			#loging
-			if {[::config::getKey keep_logs]} {
-				::log::PutLog $chatid $email $txt
-			}
 		}
 		return $answer
     }

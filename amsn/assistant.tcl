@@ -1221,7 +1221,7 @@ namespace eval ::AVAssistant {
 		#create and pack the chans-combobox
 		set chanswidget $leftframe.chans
 		combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true \
-		    -command [list after 1 ::AVAssistant::StartPreviewLinux] -editable false -bg #FFFFFF
+		    -command [list ::AVAssistant::StartPreviewLinux] -editable false -bg #FFFFFF
 		pack $leftframe.chans -side top 
 		
 		#Select the device if in the combobox (won't select anything if -1)
