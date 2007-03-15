@@ -58,6 +58,7 @@ assistantselectcam Selecia a sua webcam na lista
 assistantstarting Inicar o Assistente
 assistantwelcome Este assistente irá guiá-lo atrás da configuração do seu áudio e vídeo para o seu aMSN.\n\nIrá checar se as extensões necessárias estão presentes e carregá-las, você poderá escolher o dispositivo e canal, setar a imagem e a resolução.
 audioconfigured Você escolheu as seguintes opções: \n Dispositivo de saída: $1\n Dispositivo de entrada:$2
+audiovideo Configuração de Audio e Video
 author Autor
 autoaccepted Transferência de arquivo aceita automaticamente
 autoacceptft Aceitar automaticamente pedidos de transferência de arquivo
@@ -344,6 +345,7 @@ findprev Encontrar Anterior
 finetunesettings Ajuste fino de imagem
 finish2apply Pressione Terminar para aplicar as mudanças.
 finish Terminar
+firewalled2 Se estiver atrás de um firewall, por favor cheque as configurações da sua coneção na janela de preferências
 firewalled Você está atrás de um firewall ou de um roteador
 followtext Deslocar para baixo quando texto novo for inserido
 forgot_pass Eu esqueci minha senha
@@ -356,6 +358,7 @@ ftconnecterror Erro na conexão remota
 ftconnecting Conectando a $1 porta $2
 ftconnectionlost Conexão remota perdida
 ftgotinvitation $1 quer enviar-lhe o arquivo "$2" ($3 bytes). Ele será gravado na pasta $4. Quer receber este arquivo?
+ftportpref2 iniciando porta para conexão direta (necessário para transferência e webcam)
 ftportpref Porta inicial para transferências de arquivo
 ftporttest Testar porta
 ftrejectedby $1 cancelou o pedido de transferência do arquivo "$2".
