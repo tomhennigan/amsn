@@ -1761,7 +1761,7 @@ namespace eval ::AVAssistant {
 		if {[catch {require_snack}]} {
 			#can't load the package, warn the user
 			label $contentf.audiolabel -justify left -anchor nw -font bboldf \
-				-text [trans checkingaudio]
+				-text [trans checkingaudio]\
 				-image [::skin::loadPixmap no-emblem] -compound right
 			label $contentf.audiowarn -justify left -text [trans assistantawarn]
 #TODO: fill the url
