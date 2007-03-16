@@ -2100,7 +2100,7 @@ namespace eval ::AVAssistant {
 		#now, we can play the recording file
 		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
 		#we can record again
-		bind $w.recf.record <ButtonPress-1> [list ::AVAssistant::record $rightframe]
+		bind $w.recf.record <ButtonPress-1> [list ::AVAssistant::record $w]
 	}
 	###
 	# Play the record
