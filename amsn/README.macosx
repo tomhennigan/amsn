@@ -1,25 +1,3 @@
--Weird Things About aMSN On Mac OS X-
-=====================================
-Profile data is stored in: "~/Library/Application Support/amsn/"
-
-The aMSN binary is provided as a bundle called aMSN.app. The contents of amsn is in "aMSN.app/Contents/Resources/Scripts/". Tcl/Tk is installed as a framework in "aMSN.app/Contents/Frameworks/Tcl.framework" & "aMSN.app/Contents/Frameworks/Tk.framework" respectively.
-
-The wish shell used to wrap aMSN as an executable file is installed into "aMSN.app/Contents/MacOS/aMSN".
-
-The aMSN bundle (also referred to as aMSN.app) is stored in the directory "/Applications/" by default. Please note that some people may not install aMSN into the correct location, and so you shouldn't refer to the absolute path in "/Applications/". To find the definitive path, please use this shell command (NB. aMSN will open):
-	osascript -e "return POSIX path of (path to application \"aMSN\")"
-
-When the aMSN.app bundle is launched, the wish shell sources the file "aMSN.app/Contents/Resources/Scripts/AppMain.tcl", which in turn sources the file amsn.
-
--Firewalls & Proxy Settings-
-============================
-Proxy settings are set in aMSN. Global proxy settings set in OS X are _not_ used.
-Currently the reflector doesn't work with the Mac version of aMSN.
-
--Universal Binaries-
-====================
-As of version 0.96, aMSN on OS X has been distributed as a universal binary. This means that it will run natively on both Intel & PPC macs. To have this gcc links two compiled versions of each compiled object as a single file (ppc & i386). This is done automatically by adding "-arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk" to the CFLAGS and LDFLAGS. If these flags are set, and you try to link against a library that doesn't contain the required architecture it will cause the build to fail.
-
 -Dependancies-
 ==============
 NB. These will all need to be universal if you are building aMSN to be universal.
@@ -37,12 +15,34 @@ There are two ways to build aMSN on os x:
 1. Via the command line (recommended):
 	i.		Make sure you have all the dependancies installed (via fink {NB. it will only compile for the native architecture of your Mac, so you can't create a universal binary from these libraries} or by installation into /usr/local).
 	ii.		Run: cd path/to/aMSN.app/Contents/Resources/Scripts/
-	iii.	Run: ./configure
+	iii.		Run: ./configure
 	iv.		Run: make
 	v.		Run: sh ./utils/macosx/finishbuild.sh
 2. Via XCode:
 	i.		Open the .xcodeproj file thats in path/to/aMSN.app/Contents/Resources/Scripts/utils/macosx/aMSN.xcodeproj
 	ii.		Choose amsn as the active target, and then click build.
+	
+-Universal Binaries-
+====================
+As of version 0.96, aMSN on OS X has been distributed as a universal binary. This means that it will run natively on both Intel & PPC macs. To have this gcc links two compiled versions of each compiled object as a single file (ppc & i386). This is done automatically by adding "-arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk" to the CFLAGS and LDFLAGS. If these flags are set, and you try to link against a library that doesn't contain the required architecture it will cause the build to fail.
+
+-Firewalls & Proxy Settings-
+============================
+Proxy settings are set in aMSN. Global proxy settings set in OS X are _not_ used.
+Currently the reflector doesn't work with the Mac version of aMSN.
+
+-Weird Things About aMSN On Mac OS X-
+=====================================
+Profile data is stored in: "~/Library/Application Support/amsn/"
+
+The aMSN binary is provided as a bundle called aMSN.app. The contents of amsn is in "aMSN.app/Contents/Resources/Scripts/". Tcl/Tk is installed as a framework in "aMSN.app/Contents/Frameworks/Tcl.framework" & "aMSN.app/Contents/Frameworks/Tk.framework" respectively.
+
+The wish shell used to wrap aMSN as an executable file is installed into "aMSN.app/Contents/MacOS/aMSN".
+
+The aMSN bundle (also referred to as aMSN.app) is stored in the directory "/Applications/" by default. Please note that some people may not install aMSN into the correct location, and so you shouldn't refer to the absolute path in "/Applications/". To find the definitive path, please use this shell command (NB. aMSN will open):
+	osascript -e "return POSIX path of (path to application \"aMSN\")"
+
+When the aMSN.app bundle is launched, the wish shell sources the file "aMSN.app/Contents/Resources/Scripts/AppMain.tcl", which in turn sources the file amsn.
 
 -Errors-
 ========
