@@ -37,6 +37,10 @@ Themes can be added and should be placed either in the themes/ directory of tile
 		<version>8088</version>
 	</file>
 	<file>
+		<path>combobox.tcl</path>
+		<version>8247</version>
+	</file>
+	<file>
 		<path>common.tcl</path>
 		<version>8065</version>
 	</file>
@@ -63,6 +67,10 @@ Themes can be added and should be placed either in the themes/ directory of tile
 	<file>
 		<path>notebook.tcl</path>
 		<version>7252</version>
+	</file>
+	<file>
+		<path>pkgIndex.tcl</path>
+		<version>8247</version>
 	</file>
 	<file>
 		<path>radiobutton.tcl</path>
