@@ -217,7 +217,8 @@ namespace eval ::chameleon::combobox {
 		if {[llength $args] == 1} {
 			if {[string is integer $args] && \
 			    $args < [llength $values]} {
-				$w current $args		 
+				$w current $args
+				combobox_selected $w
 			}
 		} else {
 			error "Usage [::chameleon::getWidgetPath $w] select index"
