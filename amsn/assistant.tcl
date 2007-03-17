@@ -1105,7 +1105,6 @@ namespace eval ::AVAssistant {
 		variable chanswidget
 		variable previmc
 		variable selecteddevice
-		variable selectedchannel	
 		variable channels
 		variable previmg
 		variable lowrescam
@@ -1184,9 +1183,9 @@ namespace eval ::AVAssistant {
 		}
 		#set the count to see which nr this device has in the list on -1 to begin,
 		# so it becomes 0 if it's the first element in the list ([lindex $foo 0])
-		set count -1
+		set count 0
 		#set a start-value for the device's nr
-		set setdevnr -1
+		set setdevnr 0
 		
 		#insert the device-names in the widget
 		foreach device [::Capture::ListDevices] {
@@ -1196,11 +1195,11 @@ namespace eval ::AVAssistant {
 			#it will allways set the last one, which is a bit weird to the
 			# user though if he has like /dev/video0 that come both as V4L 
 			# and V4L2 device
-			incr count
 			#store which nr the setdev has in the combobox
 			if { $dev == $setdev} {
 				set setdevnr $count
 			}
+			incr count
 			
 			#if we can't get the name, show it the user
 			if {$name == "" } {
@@ -1229,7 +1228,7 @@ namespace eval ::AVAssistant {
 		catch {$leftframe.devs select $setdevnr}
 
 		#now, configure the checkbutton in order to change the size of the preview when needed
-		$contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $leftframe.chans [$leftframe.chans get]]
+$contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $leftframe.chans [$leftframe.chans get]]
 	#end the Step1WLinux proc
 	}
 
@@ -1243,7 +1242,9 @@ namespace eval ::AVAssistant {
 		variable chanswidget
 		variable selecteddevice
 		variable selecteddevicename
+		variable selectedchannel
 		variable channels
+		tk_messageBox -message "FillChannelsLinux called"
 		
 		if { $value == "" } {
 			status_log "No device selected; CAN'T BE POSSIBLE ?!?"
@@ -1270,21 +1271,22 @@ namespace eval ::AVAssistant {
 			} else {
 				set setchan $selectedchannel
 			}
-			set count -1
-			set setchannr -1
+			
+
+			set count 0
+			set setchannr 0
 
 			foreach channel $channels {
 				set chan [lindex $channel 0];#this is a nr
 				set channame [lindex $channel 1]
-				incr count
 
 				if { $chan == $setchan} {
 					set setchannr $count
 				}
 
+				incr count
 				$chanswidget list insert end $channame
 			}
-	
 			#select the already set chan if possible
 			catch {$chanswidget select $setchannr}
 		}
