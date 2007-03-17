@@ -38,4 +38,34 @@ created new directories in svn
 moved all renamed svg into pixmaps/ on svn
 
 
+added: cw
+	    cl
+
+
+modified: imgshow_hover
+		imgshow
+		imghide_hover
+		imghide
+
+need to commit:
+		space_noupdate
+		space_update
+		star
+		amsnicon
+		arrowmac
+		arrow
+		assistant_audio
+		assistant
+		assistant_webcam
+		away
+		baway
+		expand
+		expand_hover
+		contract
+		contract_hover
+		box_body
+
+extracted a few pngs from svg in pixmaps/png/
+
+
 Gus:
