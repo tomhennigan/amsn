@@ -1244,7 +1244,6 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 		variable selecteddevicename
 		variable selectedchannel
 		variable channels
-		tk_messageBox -message "FillChannelsLinux called"
 		
 		if { $value == "" } {
 			status_log "No device selected; CAN'T BE POSSIBLE ?!?"
