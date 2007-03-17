@@ -126,103 +126,63 @@ proc ShowLastSentences { chatid email } {
 
 	# Allow something to be written into the chat window
 	if { $version == "0.94" } {
-		${win_name}.f.out.text configure -state normal -font bplainf -foreground black
+		set textw ${win_name}.f.out.text 
+		$textw configure -state normal -font bplainf -foreground black
 	} else {
-		[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
+		set textw [::ChatWindow::GetOutText ${win_name}]
+		$textw configure -state normal -font bplainf -foreground black
 	}
 
-	::remind::WinWrite "$chatid" "$::remind::language(lastsentence) :" blue
+	# Set up formatting tags
+	$textw tag configure red -foreground red
+	$textw tag configure RED -foreground red
+	$textw tag configure gray -foreground gray
+	$textw tag configure GRA -foreground gray
+	$textw tag configure normal -foreground black
+	$textw tag configure NOR -foreground black
+	$textw tag configure italic -foreground blue
+	$textw tag configure ITA -foreground blue
+	$textw tag configure GRE -foreground darkgreen
 
+	::remind::WinWrite "$chatid" "$::remind::language(lastsentence) :\n" blue
+
+	set nbline 0
 	foreach line $loglines {
-
-		# If the line doesn't begin with |"L
-		if { [string range $line 0 2] != "\|\"L" & $line != ""} {
-			::remind::WinWrite $chatid "\n$line" $tagname $fontformat
-		} else {
-
-			set color [string range $line 3 5]
-
-			switch $color {
-
-				GRA { # If the line is a message...
-
-					set aidx [string first "\|\"L" $line 16]
-
-					set color2 [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
-
-					switch $color2 {
-
-					    ITA {
-
-						# Check if the time must be displayed or not
-						if { [::config::getKey showtimestamps] } {
-							set tstamp [string range $line 6 15]
-						} else {
-							set tstamp ""
-						}
-
-						set aidx [string first "\|\"L" $line 19]
-						set nick [string range $line 23 [expr {$aidx - 2}]]
-
-						# Look at the style used in chatwindows
-						switch [::config::getKey chatstyle] {
-						    msn {::config::setKey customchatstyle "\$tstamp [trans says \$nick]:\n"}
-						    irc {::config::setKey customchatstyle "\$tstamp <\$nick> "}
-						    - { }
-						}
-
-						set customchat [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } [::config::getKey customchatstyle]]
-						set customchat [string map { "\\\$nick" "\${nick}" "\\\$tstamp" "\${tstamp}" } $customchat]
-						set customchat [string map {"\\\$newline" "\n" } $customchat]
-						set customchat [subst -nocommands $customchat]
-
-						# Look if there is a color information in the message
-						if {[string index $line [expr {$aidx + 3}]] == "C"} {
-							set color [string range $line [expr {$aidx + 4}] [expr {$aidx + 9}]]
-							set fontformat [list "$font" "" "$color"]
-							set tagname "user"
-							set string [string range $line [expr {$aidx + 11}] end]
-						} else {
-							set fontformat [list "$font" "" ""]
-							set tagname black
-							set string [string range $line [expr {$aidx + 8}] end]
-						}
-
-						::remind::WinWrite $chatid "\n$customchat" gray
-						::remind::WinWrite $chatid "$string" $tagname $fontformat
-				
-					    }
-
-					    GRE { #... or a filetransfert
-
-						if { $::remind::config(filetransfert) == 1 } {
-							set string "\n[string range $line [expr {$aidx + 6}] end]"
-							set tagname green
-							::remind::WinWrite $chatid "$string" green
-						}
-
-					    }
-
-					    - { }
-
+			incr nbline
+			set aidx 0
+			while {$aidx != -1} {
+				# Checks if the line begins by |"L (it happens when we go to the line in the chat window).
+				# If not, use the tags of the previous line
+				if { $aidx == 0 & [string range $line 0 2] != "\|\"L" } {
+					set bidx -1
+				} else {
+					# If the portion of the line begins by |"LC, there is a color information.
+					# The color is indicated by the 6 fingers after it
+					if {[string index $line [expr {$aidx + 3}]] == "C"} {
+						set color [string range $line [expr {$aidx + 4}] [expr {$aidx + 9}]]
+						$textw tag configure C_$nbline -foreground "#$color"
+						set color "C_$nbline"
+						incr aidx 10
+						# Else, it is the system with LNOR, LGRA...
+					} else {
+						set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
+						incr aidx 6
 					}
-
+					set bidx [string first "\|\"L" $line $aidx]
 				}
-
-				RED { #If the line is an information (e.g. conversation closed)
-
-					if { $::remind::config(beginend) == 1 } {
-						set string "\n[string range $line 6 end]"
-						set tagname red
-						::remind::WinWrite $chatid "$string" red
-					}
+				if { [string first "\|\"L" $line] == -1 } {
+					set string [string range $line 0 end]
+				} elseif { $bidx != -1 } {
+					set string [string range $line $aidx [expr {$bidx - 1}]]
+				} else {
+					set string [string range $line $aidx end]
 				}
-
-				- { }
+				::remind::WinWrite $chatid "$string" $color
+				set aidx $bidx
 			}
-
-		}
-
+			if {$string != ""} {
+				::remind::WinWrite $chatid "$string\n" $color
+			}
 	}
 
 	::remind::WinWrite $chatid "\n" black
