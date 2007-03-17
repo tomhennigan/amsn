@@ -1144,7 +1144,9 @@ namespace eval ::amsn {
 				
 		append title "$file - [trans filetransfer]"
 
-		wm title $w "$title"
+		if { [string compare [wm title $w] "$title" ] } {
+			wm title $w "$title"
+		}
 
 #		 if { [::MSNFT::getTransferType $cookie] == "received" } {
 # 			wm title $w "$filename - [trans receivefile]"
