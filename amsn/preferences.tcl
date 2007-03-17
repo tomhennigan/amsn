@@ -2140,7 +2140,6 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 
-	abook::getIPConfig
 	if { [::abook::getDemographicField conntype] == "" } {
 		label $lfname.1.connwarn -text "[trans connectfirst]" -font sboldf
 		pack $lfname.1.connwarn -anchor w -side top -padx 10
