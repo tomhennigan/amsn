@@ -9,18 +9,19 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48px"
-   height="48px"
+   width="48"
+   height="48"
    id="svg6637"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/media/disk/Kubuntu/Emerald2.0/svg"
-   sodipodi:docname="aMSN-webcam_audio_wizard2.svg"
+   sodipodi:docbase="/home/beast/Documents/icons/amsn/Default-src/pixmaps"
+   sodipodi:docname="assistant_webcam.svg"
    inkscape:export-filename="/media/disk/Kubuntu/Emerald2.0/png/webcam_audio_wizard2.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="TRUE">
+   sodipodi:modified="true"
+   version="1.0">
   <defs
      id="defs6639">
     <linearGradient
@@ -351,9 +352,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.217939,0,0,3.898835e-2,39.78173,43.38668)"
        x1="38.357395"
-       y1="86.916698"
-       x2="48.092775"
-       y2="86.916698" />
+       y1="86.916695"
+       x2="48.092773"
+       y2="86.916695" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient2301"
@@ -935,14 +936,6 @@
        r="4.9484534" />
     <filter
        inkscape:collect="always"
-       id="filter4361">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.80587114"
-         id="feGaussianBlur4363" />
-    </filter>
-    <filter
-       inkscape:collect="always"
        id="filter3462">
       <feGaussianBlur
          inkscape:collect="always"
@@ -968,7 +961,7 @@
      inkscape:window-width="1280"
      inkscape:window-height="738"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="46"
      inkscape:object-paths="false"
      inkscape:guide-bbox="false" />
   <metadata
@@ -985,10 +978,11 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(-0.3070532,0.4164952)">
     <g
        id="g3372"
-       transform="matrix(1.0848773,0,0,1.0848773,-2.037055,-2.0370555)"
+       transform="matrix(1.1991147,0,0,1.1835025,-4.4716991,-4.8205561)"
        style="fill:#000000;fill-opacity:1;filter:url(#filter3462)">
       <g
          id="g3374"
@@ -1135,7 +1129,7 @@
     </g>
     <g
        id="g13890"
-       transform="matrix(1.0848773,0,0,1.0848773,-2.037055,-2.0370555)">
+       transform="matrix(1.1991147,0,0,1.1835025,-4.4716991,-4.8205561)">
       <g
          id="g13878">
         <g

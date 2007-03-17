@@ -9,18 +9,19 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48px"
-   height="48px"
+   width="72.000259"
+   height="72"
    id="svg1872"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/media/usbdisk/Kubuntu/Emerald2.0/SVG"
-   sodipodi:docname="aMSN-Buddies.svg"
+   sodipodi:docbase="/home/beast/Documents/icons/amsn/Default-src/pixmaps"
+   sodipodi:docname="amsnicon.svg"
    inkscape:export-filename="/media/disk/Kubuntu/Emerald2.0/png/prefpers.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   sodipodi:modified="true"
+   version="1.0">
   <defs
      id="defs1874">
     <linearGradient
@@ -515,7 +516,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="7"
      inkscape:cx="22.507074"
-     inkscape:cy="22.932202"
+     inkscape:cy="34.360773"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="false"
@@ -525,7 +526,7 @@
      inkscape:window-width="1278"
      inkscape:window-height="738"
      inkscape:window-x="0"
-     inkscape:window-y="0" />
+     inkscape:window-y="46" />
   <metadata
      id="metadata1877">
     <rdf:RDF>
@@ -540,12 +541,13 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(-1.9730994,29.714888)">
     <path
        style="opacity:0.8;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter28382)"
        d="M 13.703125,5.0525731 C 9.8638902,5.0525731 6.7343752,8.1820881 6.7343752,12.021323 C 6.7343772,14.270811 7.7949882,16.280992 9.4531252,17.552573 C 2.3156062,20.318175 1.2031252,29.63971 1.2031252,34.271323 C 2.4480542,35.653919 4.6459322,36.019095 6.7031252,35.521323 C 6.9166262,34.909563 7.0072332,34.633629 7.1718752,34.146323 C 7.8918382,35.199961 8.5224702,35.688112 9.7968752,36.115073 C 9.7998422,36.128272 9.7938932,36.133071 9.7968752,36.146323 C 12.581875,36.304029 15.574973,36.070928 18.515625,35.240073 C 18.475776,35.697912 18.453125,36.149463 18.453125,36.583823 C 18.468888,36.67164 18.511083,36.785708 18.546875,36.896323 C 18.660093,37.381283 18.867874,37.839357 19.328125,38.146323 C 19.344633,38.159683 19.373658,38.164881 19.390625,38.177573 C 19.468307,38.2251 19.548981,38.264114 19.640625,38.302573 C 19.654074,38.308948 19.658198,38.327894 19.671875,38.333823 C 19.777039,38.375723 19.890874,38.398877 20.015625,38.427573 C 20.020174,38.414968 20.011098,38.408871 20.015625,38.396323 L 21.390625,38.083823 C 21.354587,38.552234 21.335411,38.805319 21.296875,39.365073 C 26.361245,42.303308 31.996664,43.182297 37.046875,42.896323 C 37.049853,42.883093 37.043911,42.878257 37.046875,42.865073 C 38.505227,42.376485 39.189596,41.802104 40.015625,40.583823 C 40.207582,41.152185 40.326543,41.487945 40.578125,42.208823 C 42.909646,42.772973 45.385935,42.33829 46.796875,40.771323 C 46.796875,36.114674 45.789782,27.273031 39.921875,23.146323 L 39.890625,23.115073 C 39.153204,22.600577 38.351938,22.182089 37.453125,21.833823 C 39.326635,20.392303 40.515626,18.097475 40.515625,15.552573 C 40.515625,11.201372 36.991824,7.6775731 32.640625,7.6775731 C 28.289424,7.6775731 24.765624,11.201372 24.765625,15.552573 C 24.765625,18.046843 25.893054,20.295349 27.703125,21.740073 C 26.507324,22.1891 25.437402,22.808236 24.484375,23.552573 C 23.36757,21.330778 21.686302,19.333082 19.390625,18.083823 L 19.234375,18.021323 C 18.847273,17.818408 18.437218,17.6476 18.015625,17.490073 C 19.621996,16.215701 20.640625,14.229549 20.640625,12.021323 C 20.640627,8.1820881 17.54236,5.0525731 13.703125,5.0525731 z "
        id="path2395"
-       transform="matrix(0.9650446,0,0,0.9650446,0.8389295,0.8389296)" />
+       transform="matrix(1.5779117,0,0,1.8999941,0.1015524,-39.314747)" />
     <g
        style="display:inline"
        id="g3367"
@@ -592,7 +594,8 @@
        id="g3359"
        transform="matrix(0.6497517,0,0,0.6497517,-28.114492,36.881733)" />
     <g
-       id="g26374">
+       id="g26374"
+       transform="matrix(1.6350662,0,0,1.9688149,-1.2701529,-40.966444)">
       <path
          id="path3822"
          sodipodi:nodetypes="cccc"

@@ -9,18 +9,18 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48px"
-   height="48px"
+   width="16"
+   height="16"
    id="svg1316"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/home/beast/Documents/icons/amsn/renamed"
+   sodipodi:docbase="/home/beast/Documents/icons/amsn/Default-src/pixmaps"
    sodipodi:docname="arrowmac.svg"
    inkscape:export-filename="/media/usbdisk/Kubuntu/Emerald2.0/PNG/arrow.png"
    inkscape:export-xdpi="32.727215"
    inkscape:export-ydpi="32.727215"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   version="1.0">
   <defs
      id="defs1318">
     <linearGradient
@@ -74,20 +74,22 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="9.8994949"
+     inkscape:zoom="19.79899"
      inkscape:cx="14.24917"
-     inkscape:cy="32.906697"
+     inkscape:cy="4.6224256"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="false"
      inkscape:document-units="px"
      inkscape:window-width="1280"
      inkscape:window-height="945"
-     inkscape:window-x="388"
-     inkscape:window-y="46"
+     inkscape:window-x="278"
+     inkscape:window-y="62"
      inkscape:object-paths="false"
      inkscape:guide-bbox="true"
-     showguides="true" />
+     showguides="true"
+     width="652.5px"
+     height="945px" />
   <metadata
      id="metadata1321">
     <rdf:RDF>
@@ -102,14 +104,22 @@
   <g
      id="layer1"
      inkscape:label="Layer 1"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     transform="translate(-0.1010143,-7.9179272e-2)">
+    <rect
+       style="opacity:1;fill:#75511a;fill-opacity:0;stroke:none;stroke-opacity:1"
+       id="rect2178"
+       width="16"
+       height="16"
+       x="0.10101434"
+       y="0.079179272" />
     <path
        id="path23826"
        inkscape:export-xdpi="90"
        inkscape:export-filename="/home/beast/Work/aMSN/cl-cw-mockup.png"
        sodipodi:nodetypes="cccc"
        inkscape:export-ydpi="90"
-       d="M 11.689621,15.64258 L 38.536918,15.64258 L 25.010873,34.130879 L 11.689621,15.64258 z "
-       style="fill:#e5e6e9;fill-opacity:0.61849712;stroke:#cecece;stroke-width:3.75730896;stroke-opacity:1" />
+       d="M 4.6808421,4.6461567 L 11.526367,4.6461567 L 8.0774961,11.491681 L 4.6808421,4.6461567 z "
+       style="fill:#e5e6e9;fill-opacity:0.61849712;stroke:#cecece;stroke-width:1.15447581;stroke-opacity:1" />
   </g>
 </svg>
