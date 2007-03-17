@@ -2083,8 +2083,8 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 
 		set sound [::snack::sound]
 		if { [catch {$sound record} res]} {
-			$w.wavef create text 5 5 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
-			after 3000 "catch { $w.wavef delete errmsg }"
+			$w.wavef.wave create text 5 5 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+			after 3000 "catch { $w.wavef.wave delete errmsg }"
 		} else {
 			#don't press on the play button while recording
 			bind $w.recf.playrecorded <ButtonPress-1> ""
