@@ -1,0 +1,1012 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E215602B0B680F7800A2B04A /* amsn-clean */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E21560310B680F8F00A2B04A /* Build configuration list for PBXAggregateTarget "amsn-clean" */;
+			buildPhases = (
+				E215602C0B680F7C00A2B04A /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "amsn-clean";
+			productName = "amsn-clean";
+		};
+		E27012DF0B67802B00EE2699 /* amsn */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E27012E70B67806800EE2699 /* Build configuration list for PBXAggregateTarget "amsn" */;
+			buildPhases = (
+				E27012E20B67803D00EE2699 /* Build */,
+			);
+			dependencies = (
+			);
+			name = amsn;
+			productName = amsn;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXGroup section */
+		E2700DC70B67644600EE2699 = {
+			isa = PBXGroup;
+			children = (
+				E2700DD30B67645800EE2699 /* amsn */,
+				E27012D60B6766CB00EE2699 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E2700DD30B67645800EE2699 /* amsn */ = {
+			isa = PBXGroup;
+			children = (
+				E2700DE50B67645800EE2699 /* autopackage */,
+				E2700DEF0B67645900EE2699 /* build */,
+				E2700E0C0B67645900EE2699 /* debian */,
+				E2700E180B67645900EE2699 /* docs */,
+				E2700E620B67645A00EE2699 /* icons */,
+				E2700E790B67645A00EE2699 /* lang */,
+				E2700EB80B67645B00EE2699 /* plugins */,
+				E2700F040B67645B00EE2699 /* skins */,
+				E270103C0B67645D00EE2699 /* utils */,
+			);
+			name = amsn;
+			sourceTree = "<group>";
+		};
+		E2700DE50B67645800EE2699 /* autopackage */ = {
+			isa = PBXGroup;
+			children = (
+				E2700DE60B67645800EE2699 /* @tcl.sourceforge.net */,
+			);
+			path = autopackage;
+			sourceTree = "<group>";
+		};
+		E2700DE60B67645800EE2699 /* @tcl.sourceforge.net */ = {
+			isa = PBXGroup;
+			children = (
+				E2700DE70B67645800EE2699 /* tcl */,
+				E2700DE90B67645800EE2699 /* tk */,
+			);
+			path = "@tcl.sourceforge.net";
+			sourceTree = "<group>";
+		};
+		E2700DE70B67645800EE2699 /* tcl */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = tcl;
+			sourceTree = "<group>";
+		};
+		E2700DE90B67645800EE2699 /* tk */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = tk;
+			sourceTree = "<group>";
+		};
+		E2700DEF0B67645900EE2699 /* build */ = {
+			isa = PBXGroup;
+			children = (
+				E2700DF00B67645900EE2699 /* aMSN.build */,
+			);
+			path = build;
+			sourceTree = "<group>";
+		};
+		E2700DF00B67645900EE2699 /* aMSN.build */ = {
+			isa = PBXGroup;
+			children = (
+				E2700DF10B67645900EE2699 /* aMSN.pbxindex */,
+			);
+			path = aMSN.build;
+			sourceTree = "<group>";
+		};
+		E2700DF10B67645900EE2699 /* aMSN.pbxindex */ = {
+			isa = PBXGroup;
+			children = (
+				E2700DFA0B67645900EE2699 /* strings.pbxstrings */,
+			);
+			path = aMSN.pbxindex;
+			sourceTree = "<group>";
+		};
+		E2700DFA0B67645900EE2699 /* strings.pbxstrings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = strings.pbxstrings;
+			sourceTree = "<group>";
+		};
+		E2700E0C0B67645900EE2699 /* debian */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = debian;
+			sourceTree = "<group>";
+		};
+		E2700E180B67645900EE2699 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
+		E2700E620B67645A00EE2699 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				E2700E630B67645A00EE2699 /* 128x128 */,
+				E2700E660B67645A00EE2699 /* 32x32 */,
+				E2700E6C0B67645A00EE2699 /* 48x48 */,
+				E2700E710B67645A00EE2699 /* 64x64 */,
+				E2700E750B67645A00EE2699 /* 96x96 */,
+			);
+			path = icons;
+			sourceTree = "<group>";
+		};
+		E2700E630B67645A00EE2699 /* 128x128 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = 128x128;
+			sourceTree = "<group>";
+		};
+		E2700E660B67645A00EE2699 /* 32x32 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = 32x32;
+			sourceTree = "<group>";
+		};
+		E2700E6C0B67645A00EE2699 /* 48x48 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = 48x48;
+			sourceTree = "<group>";
+		};
+		E2700E710B67645A00EE2699 /* 64x64 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = 64x64;
+			sourceTree = "<group>";
+		};
+		E2700E750B67645A00EE2699 /* 96x96 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = 96x96;
+			sourceTree = "<group>";
+		};
+		E2700E790B67645A00EE2699 /* lang */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = lang;
+			sourceTree = "<group>";
+		};
+		E2700EB80B67645B00EE2699 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				E2700EB90B67645B00EE2699 /* inkdraw */,
+				E2700ECB0B67645B00EE2699 /* Nudge */,
+				E2700EDE0B67645B00EE2699 /* PowerTool */,
+				E2700EE10B67645B00EE2699 /* remind */,
+				E2700EF00B67645B00EE2699 /* WebcamShooter */,
+			);
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		E2700EB90B67645B00EE2699 /* inkdraw */ = {
+			isa = PBXGroup;
+			children = (
+				E2700EBB0B67645B00EE2699 /* pencils */,
+				E2700EBE0B67645B00EE2699 /* pixmaps */,
+			);
+			path = inkdraw;
+			sourceTree = "<group>";
+		};
+		E2700EBB0B67645B00EE2699 /* pencils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = pencils;
+			sourceTree = "<group>";
+		};
+		E2700EBE0B67645B00EE2699 /* pixmaps */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = pixmaps;
+			sourceTree = "<group>";
+		};
+		E2700ECB0B67645B00EE2699 /* Nudge */ = {
+			isa = PBXGroup;
+			children = (
+				E2700ECC0B67645B00EE2699 /* lang */,
+			);
+			path = Nudge;
+			sourceTree = "<group>";
+		};
+		E2700ECC0B67645B00EE2699 /* lang */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = lang;
+			sourceTree = "<group>";
+		};
+		E2700EDE0B67645B00EE2699 /* PowerTool */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PowerTool;
+			sourceTree = "<group>";
+		};
+		E2700EE10B67645B00EE2699 /* remind */ = {
+			isa = PBXGroup;
+			children = (
+				E2700EE20B67645B00EE2699 /* lang */,
+			);
+			path = remind;
+			sourceTree = "<group>";
+		};
+		E2700EE20B67645B00EE2699 /* lang */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = lang;
+			sourceTree = "<group>";
+		};
+		E2700EF00B67645B00EE2699 /* WebcamShooter */ = {
+			isa = PBXGroup;
+			children = (
+				E2700EF20B67645B00EE2699 /* lang */,
+			);
+			path = WebcamShooter;
+			sourceTree = "<group>";
+		};
+		E2700EF20B67645B00EE2699 /* lang */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = lang;
+			sourceTree = "<group>";
+		};
+		E2700F040B67645B00EE2699 /* skins */ = {
+			isa = PBXGroup;
+			children = (
+				E2700F050B67645B00EE2699 /* default */,
+			);
+			path = skins;
+			sourceTree = "<group>";
+		};
+		E2700F050B67645B00EE2699 /* default */ = {
+			isa = PBXGroup;
+			children = (
+				E2700F070B67645B00EE2699 /* displaypic */,
+				E2700F210B67645C00EE2699 /* pixmaps */,
+				E2700FCF0B67645C00EE2699 /* smileys */,
+				E27010210B67645D00EE2699 /* sounds */,
+				E27010280B67645D00EE2699 /* winicons */,
+			);
+			path = default;
+			sourceTree = "<group>";
+		};
+		E2700F070B67645B00EE2699 /* displaypic */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = displaypic;
+			sourceTree = "<group>";
+		};
+		E2700F210B67645C00EE2699 /* pixmaps */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = pixmaps;
+			sourceTree = "<group>";
+		};
+		E2700FCF0B67645C00EE2699 /* smileys */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = smileys;
+			sourceTree = "<group>";
+		};
+		E27010210B67645D00EE2699 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = sounds;
+			sourceTree = "<group>";
+		};
+		E27010280B67645D00EE2699 /* winicons */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = winicons;
+			sourceTree = "<group>";
+		};
+		E270103C0B67645D00EE2699 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				E270103F0B67645D00EE2699 /* base64 */,
+				E27010440B67645D00EE2699 /* bwidget1.8.0 */,
+				E27010920B67645E00EE2699 /* combobox */,
+				E27010950B67645E00EE2699 /* contentmanager */,
+				E27010980B67645E00EE2699 /* dpbrowser */,
+				E270109B0B67645E00EE2699 /* drawboard */,
+				E270109F0B67645E00EE2699 /* framec */,
+				E27010A20B67645E00EE2699 /* http2.4 */,
+				E27010A50B67645E00EE2699 /* linux */,
+				E27010E40B67645F00EE2699 /* log */,
+				E27010EC0B67645F00EE2699 /* macosx */,
+				E27011270B67645F00EE2699 /* pixmapbutton */,
+				E27011400B67646000EE2699 /* pixmapmenu */,
+				E27011470B67646000EE2699 /* pixmapoption */,
+				E27011510B67646000EE2699 /* pixmapprogbar */,
+				E27011560B67646000EE2699 /* pixmapscroll */,
+				E270118E0B67646000EE2699 /* scalable-bg */,
+				E27011920B67646000EE2699 /* sexytile */,
+				E27011970B67646000EE2699 /* sha1 */,
+				E270119A0B67646000EE2699 /* snit */,
+				E27011A00B67646100EE2699 /* tcl_siren */,
+				E27011BE0B67646100EE2699 /* tcldom */,
+				E27011C30B67646100EE2699 /* tclsoap1.6.7 */,
+				E27011D70B67646100EE2699 /* Tclxml */,
+				E27011E30B67646100EE2699 /* TkCximage */,
+				E27012340B67646200EE2699 /* toolbar */,
+				E27012370B67646200EE2699 /* uri */,
+				E270123B0B67646200EE2699 /* webcamsn */,
+				E27012700B67646300EE2699 /* windows */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		E270103F0B67645D00EE2699 /* base64 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = base64;
+			sourceTree = "<group>";
+		};
+		E27010440B67645D00EE2699 /* bwidget1.8.0 */ = {
+			isa = PBXGroup;
+			children = (
+				E27010510B67645D00EE2699 /* images */,
+				E27010750B67645E00EE2699 /* lang */,
+			);
+			path = bwidget1.8.0;
+			sourceTree = "<group>";
+		};
+		E27010510B67645D00EE2699 /* images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		E27010750B67645E00EE2699 /* lang */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = lang;
+			sourceTree = "<group>";
+		};
+		E27010920B67645E00EE2699 /* combobox */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = combobox;
+			sourceTree = "<group>";
+		};
+		E27010950B67645E00EE2699 /* contentmanager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = contentmanager;
+			sourceTree = "<group>";
+		};
+		E27010980B67645E00EE2699 /* dpbrowser */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = dpbrowser;
+			sourceTree = "<group>";
+		};
+		E270109B0B67645E00EE2699 /* drawboard */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = drawboard;
+			sourceTree = "<group>";
+		};
+		E270109F0B67645E00EE2699 /* framec */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = framec;
+			sourceTree = "<group>";
+		};
+		E27010A20B67645E00EE2699 /* http2.4 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = http2.4;
+			sourceTree = "<group>";
+		};
+		E27010A50B67645E00EE2699 /* linux */ = {
+			isa = PBXGroup;
+			children = (
+				E27010A60B67645E00EE2699 /* capture */,
+				E27010DA0B67645F00EE2699 /* linflash */,
+				E27010DF0B67645F00EE2699 /* traydock */,
+			);
+			path = linux;
+			sourceTree = "<group>";
+		};
+		E27010A60B67645E00EE2699 /* capture */ = {
+			isa = PBXGroup;
+			children = (
+				E27010AB0B67645E00EE2699 /* libng */,
+				E27010D00B67645F00EE2699 /* structs */,
+			);
+			path = capture;
+			sourceTree = "<group>";
+		};
+		E27010AB0B67645E00EE2699 /* libng */ = {
+			isa = PBXGroup;
+			children = (
+				E27010BF0B67645E00EE2699 /* plugins */,
+			);
+			path = libng;
+			sourceTree = "<group>";
+		};
+		E27010BF0B67645E00EE2699 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		E27010D00B67645F00EE2699 /* structs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = structs;
+			sourceTree = "<group>";
+		};
+		E27010DA0B67645F00EE2699 /* linflash */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = linflash;
+			sourceTree = "<group>";
+		};
+		E27010DF0B67645F00EE2699 /* traydock */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = traydock;
+			sourceTree = "<group>";
+		};
+		E27010E40B67645F00EE2699 /* log */ = {
+			isa = PBXGroup;
+			children = (
+				E27010E90B67645F00EE2699 /* msgs */,
+			);
+			path = log;
+			sourceTree = "<group>";
+		};
+		E27010E90B67645F00EE2699 /* msgs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = msgs;
+			sourceTree = "<group>";
+		};
+		E27010EC0B67645F00EE2699 /* macosx */ = {
+			isa = PBXGroup;
+			children = (
+				E27010ED0B67645F00EE2699 /* applescript */,
+				E27010EF0B67645F00EE2699 /* Ffidl0.6 */,
+				E27010F40B67645F00EE2699 /* growl1.0 */,
+				E27010F90B67645F00EE2699 /* snack2.2 */,
+				E27010FF0B67645F00EE2699 /* tclAE2.0 */,
+				E270110F0B67645F00EE2699 /* tclCarbonHICommand */,
+				E27011150B67645F00EE2699 /* tclCarbonNotification */,
+				E270111B0B67645F00EE2699 /* TkCximage */,
+				E270111E0B67645F00EE2699 /* tkUnsupported */,
+				E27011200B67645F00EE2699 /* tls1.50 */,
+				E27011240B67645F00EE2699 /* webcamsn */,
+			);
+			path = macosx;
+			sourceTree = "<group>";
+		};
+		E27010ED0B67645F00EE2699 /* applescript */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = applescript;
+			sourceTree = "<group>";
+		};
+		E27010EF0B67645F00EE2699 /* Ffidl0.6 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Ffidl0.6;
+			sourceTree = "<group>";
+		};
+		E27010F40B67645F00EE2699 /* growl1.0 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = growl1.0;
+			sourceTree = "<group>";
+		};
+		E27010F90B67645F00EE2699 /* snack2.2 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = snack2.2;
+			sourceTree = "<group>";
+		};
+		E27010FF0B67645F00EE2699 /* tclAE2.0 */ = {
+			isa = PBXGroup;
+			children = (
+				E27011000B67645F00EE2699 /* Contents */,
+			);
+			path = tclAE2.0;
+			sourceTree = "<group>";
+		};
+		E27011000B67645F00EE2699 /* Contents */ = {
+			isa = PBXGroup;
+			children = (
+				E27011020B67645F00EE2699 /* MacOS */,
+				E27011040B67645F00EE2699 /* MacOSClassic */,
+				E27011060B67645F00EE2699 /* Resources */,
+			);
+			path = Contents;
+			sourceTree = "<group>";
+		};
+		E27011020B67645F00EE2699 /* MacOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MacOS;
+			sourceTree = "<group>";
+		};
+		E27011040B67645F00EE2699 /* MacOSClassic */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MacOSClassic;
+			sourceTree = "<group>";
+		};
+		E27011060B67645F00EE2699 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E270110F0B67645F00EE2699 /* tclCarbonHICommand */ = {
+			isa = PBXGroup;
+			children = (
+				E27011110B67645F00EE2699 /* src */,
+			);
+			path = tclCarbonHICommand;
+			sourceTree = "<group>";
+		};
+		E27011110B67645F00EE2699 /* src */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E27011150B67645F00EE2699 /* tclCarbonNotification */ = {
+			isa = PBXGroup;
+			children = (
+				E27011170B67645F00EE2699 /* src */,
+			);
+			path = tclCarbonNotification;
+			sourceTree = "<group>";
+		};
+		E27011170B67645F00EE2699 /* src */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E270111B0B67645F00EE2699 /* TkCximage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TkCximage;
+			sourceTree = "<group>";
+		};
+		E270111E0B67645F00EE2699 /* tkUnsupported */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = tkUnsupported;
+			sourceTree = "<group>";
+		};
+		E27011200B67645F00EE2699 /* tls1.50 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = tls1.50;
+			sourceTree = "<group>";
+		};
+		E27011240B67645F00EE2699 /* webcamsn */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = webcamsn;
+			sourceTree = "<group>";
+		};
+		E27011270B67645F00EE2699 /* pixmapbutton */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = pixmapbutton;
+			sourceTree = "<group>";
+		};
+		E27011400B67646000EE2699 /* pixmapmenu */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = pixmapmenu;
+			sourceTree = "<group>";
+		};
+		E27011470B67646000EE2699 /* pixmapoption */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = pixmapoption;
+			sourceTree = "<group>";
+		};
+		E27011510B67646000EE2699 /* pixmapprogbar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = pixmapprogbar;
+			sourceTree = "<group>";
+		};
+		E27011560B67646000EE2699 /* pixmapscroll */ = {
+			isa = PBXGroup;
+			children = (
+				E27011570B67646000EE2699 /* horizontal */,
+				E27011740B67646000EE2699 /* vertical */,
+			);
+			path = pixmapscroll;
+			sourceTree = "<group>";
+		};
+		E27011570B67646000EE2699 /* horizontal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = horizontal;
+			sourceTree = "<group>";
+		};
+		E27011740B67646000EE2699 /* vertical */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = vertical;
+			sourceTree = "<group>";
+		};
+		E270118E0B67646000EE2699 /* scalable-bg */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "scalable-bg";
+			sourceTree = "<group>";
+		};
+		E27011920B67646000EE2699 /* sexytile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = sexytile;
+			sourceTree = "<group>";
+		};
+		E27011970B67646000EE2699 /* sha1 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = sha1;
+			sourceTree = "<group>";
+		};
+		E270119A0B67646000EE2699 /* snit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = snit;
+			sourceTree = "<group>";
+		};
+		E27011A00B67646100EE2699 /* tcl_siren */ = {
+			isa = PBXGroup;
+			children = (
+				E27011A30B67646100EE2699 /* src */,
+			);
+			path = tcl_siren;
+			sourceTree = "<group>";
+		};
+		E27011A30B67646100EE2699 /* src */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E27011BE0B67646100EE2699 /* tcldom */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = tcldom;
+			sourceTree = "<group>";
+		};
+		E27011C30B67646100EE2699 /* tclsoap1.6.7 */ = {
+			isa = PBXGroup;
+			children = (
+				E27011C80B67646100EE2699 /* interop */,
+			);
+			path = tclsoap1.6.7;
+			sourceTree = "<group>";
+		};
+		E27011C80B67646100EE2699 /* interop */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = interop;
+			sourceTree = "<group>";
+		};
+		E27011D70B67646100EE2699 /* Tclxml */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tclxml;
+			sourceTree = "<group>";
+		};
+		E27011E30B67646100EE2699 /* TkCximage */ = {
+			isa = PBXGroup;
+			children = (
+				E27011E40B67646100EE2699 /* demos */,
+				E27011EE0B67646100EE2699 /* src */,
+			);
+			path = TkCximage;
+			sourceTree = "<group>";
+		};
+		E27011E40B67646100EE2699 /* demos */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = demos;
+			sourceTree = "<group>";
+		};
+		E27011EE0B67646100EE2699 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E27011EF0B67646100EE2699 /* CxImage */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E27011EF0B67646100EE2699 /* CxImage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CxImage;
+			sourceTree = "<group>";
+		};
+		E27012340B67646200EE2699 /* toolbar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = toolbar;
+			sourceTree = "<group>";
+		};
+		E27012370B67646200EE2699 /* uri */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = uri;
+			sourceTree = "<group>";
+		};
+		E270123B0B67646200EE2699 /* webcamsn */ = {
+			isa = PBXGroup;
+			children = (
+				E270123F0B67646200EE2699 /* doc */,
+				E27012480B67646200EE2699 /* src */,
+			);
+			path = webcamsn;
+			sourceTree = "<group>";
+		};
+		E270123F0B67646200EE2699 /* doc */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = doc;
+			sourceTree = "<group>";
+		};
+		E27012480B67646200EE2699 /* src */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E27012700B67646300EE2699 /* windows */ = {
+			isa = PBXGroup;
+			children = (
+				E27012710B67646300EE2699 /* launcher */,
+				E27012790B67646300EE2699 /* NSIS */,
+				E27012800B67646300EE2699 /* snack2.2 */,
+				E27012860B67646300EE2699 /* winflash */,
+				E270128E0B67646300EE2699 /* winico0.6 */,
+				E27012920B67646300EE2699 /* winutils */,
+			);
+			path = windows;
+			sourceTree = "<group>";
+		};
+		E27012710B67646300EE2699 /* launcher */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = launcher;
+			sourceTree = "<group>";
+		};
+		E27012790B67646300EE2699 /* NSIS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NSIS;
+			sourceTree = "<group>";
+		};
+		E27012800B67646300EE2699 /* snack2.2 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = snack2.2;
+			sourceTree = "<group>";
+		};
+		E27012860B67646300EE2699 /* winflash */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = winflash;
+			sourceTree = "<group>";
+		};
+		E270128E0B67646300EE2699 /* winico0.6 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = winico0.6;
+			sourceTree = "<group>";
+		};
+		E27012920B67646300EE2699 /* winutils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = winutils;
+			sourceTree = "<group>";
+		};
+		E27012D60B6766CB00EE2699 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		E2700DC90B67644600EE2699 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = E2700DCA0B67644600EE2699 /* Build configuration list for PBXProject "aMSN" */;
+			hasScannedForEncodings = 0;
+			mainGroup = E2700DC70B67644600EE2699;
+			productRefGroup = E27012D60B6766CB00EE2699 /* Products */;
+			projectDirPath = "";
+			targets = (
+				E27012DF0B67802B00EE2699 /* amsn */,
+				E215602B0B680F7800A2B04A /* amsn-clean */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E215602C0B680F7C00A2B04A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make clean\n\nrm config.status config.log Makefile utils/tcl_siren/tcl_siren.so\nrm utils/TkCximage/TkCximage.so utils/webcamsn/webcamsn.so utils/linux/capture/config.h";
+		};
+		E27012E20B67803D00EE2699 /* Build */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Build;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd $PROJECT_DIR\n\n# Clear up from previous builds.\nrm -rf build/\n\nif [ -f Makefile ]; then\n\techo \"Already configured.\"\nelse\n\t./configure\nfi\n\nmake\n\nutils/macosx/finishbuild.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E21560320B680F8F00A2B04A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = "amsn-clean";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		E2700DCC0B67644600EE2699 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+		E27012E80B67806800EE2699 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = amsn;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E21560310B680F8F00A2B04A /* Build configuration list for PBXAggregateTarget "amsn-clean" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E21560320B680F8F00A2B04A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2700DCA0B67644600EE2699 /* Build configuration list for PBXProject "aMSN" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2700DCC0B67644600EE2699 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E27012E70B67806800EE2699 /* Build configuration list for PBXAggregateTarget "amsn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E27012E80B67806800EE2699 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E2700DC90B67644600EE2699 /* Project object */;
+}
