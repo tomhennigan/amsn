@@ -181,11 +181,10 @@ proc ShowLastSentences { chatid email } {
 				set aidx $bidx
 			}
 			if {$string != ""} {
-				::remind::WinWrite $chatid "$string\n" $color
+				::remind::WinWrite $chatid "\n" black
 			}
 	}
 
-	::remind::WinWrite $chatid "\n" black
 	::amsn::WinWriteIcon $chatid greyline 3	
 
 	if { $version == "0.94" } {
