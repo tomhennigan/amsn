@@ -63,8 +63,8 @@ autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
 autoaway Me marquer "Absent[e]" quand inactif plus de
 autocheckver Vérification automatique de l'existence d'une nouvelle version d'aMSN lors du lancement
-autoconnect2 Me connecter automatiquement quand aMSN est lancé
-autoconnect Connexion automatique au lancement
+autoconnect2 Me connecter automatiquement lorsque aMSN est lancé
+autoconnect Connexion automatique
 autodetectip Détecter l'adresse IP automatiquement
 autohotmaillog Identification automatique à Hotmail
 autoidle Absence automatique après une période d'inactivité
@@ -163,7 +163,7 @@ choosedevice Veuillez choisir un périphérique
 choosefontcolor Choisir la couleur de police
 chooseinputdev Sélectionnez le micro
 choosemixerdev Choisissez le périphérique de mixage
-chooseoutputdev Sélectionnez les enceintes
+chooseoutputdev Sélectionnez le périphérique de sortie
 chooseskin Sélectionnez l'apparence que vous souhaitez utiliser dans la liste
 ch_to_state Changer vers ce nouveau statut immédiatement
 clear Effacer
@@ -233,10 +233,10 @@ custnotifymsg Annoncer quand vous recevez un message d'un de vos contacts
 custnotifyoffline Annoncer quand un de vos contact se déconnecte.
 custnotifyonline Annoncer quand un de vos contact se connecte
 custnotifystatus Annoncer quand un de vos contact change de statut
-customcolor Couleur personnalisée
-customdp Avatar personnalisé
 custom_edit Editer une émoticône personnalisée
 custom_new Créer une émoticône personnalisée
+customcolor Couleur personnalisée
+customdp Avatar personnalisé
 customnick Pseudo personnalisé
 customsmileys Afficher les émoticônes des contacts
 customstyle Style personnalisé
@@ -342,8 +342,8 @@ findnext Résultat suivant
 findprev Résultat précédent
 find Rechercher
 finetunesettings Réglages avancés de l'image
-finish2apply Appuyez sur Terminé pour utiliser les nouveaux paramètres.
 finish Terminé
+finish2apply Appuyez sur Terminé pour utiliser les nouveaux paramètres.
 firewalled Vous êtes derrière un pare-feu ou un routeur
 followtext Faire défiler lorsque du texte est entré
 forgot_pass Mot de passe oublié
@@ -552,8 +552,8 @@ nopic Pas d'avatar
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenêtre pour en créer un nouveau.
 normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
-nosound_or_hold Pas de son détécté. Pour envoyer un message vocal, vous devez maintenir le bouton appuyé pendant que vous parlez, puis relacher le bouton pour envoyer le message.
 nosound Pas de son détecté, assurez-vous que votre microphone est bien branché
+nosound_or_hold Pas de son détécté. Pour envoyer un message vocal, vous devez maintenir le bouton appuyé pendant que vous parlez, puis relacher le bouton pour envoyer le message.
 nosystemtray La boîte à miniatures n'est pas accessible
 note Note
 notificationserver Annonce initiale du Serveur MSN (Serveur MSN Messenger)
@@ -575,7 +575,8 @@ nousersinsession Pas de contacts dans cette session
 nouserspecified Aucun utilisateur spécifié
 nudge $1 vous a envoyé un nudge.
 offline Déconnecté[e]
-ok Accepter
+ok Ok
+oim Messagerie différée
 onenewmail Un nouveau message
 online Connecté[e]
 onlinehelp Aide en ligne
@@ -708,9 +709,9 @@ searchup Rechercher vers le haut
 selectall Tout sélectionner
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
+send Envoyer
 sendcam Envoyer la webcam 
 sendemail Envoyer mon adresse email pour m'avertir des changements
-send Envoyer
 sendfeedback Envoyer ses impressions sur aMSN
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
@@ -733,12 +734,12 @@ setupcamfinetune Configuration de la webcam et réglages avancés de l'image
 shareswebcam Possède une webcam
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
-showcachedpics Afficher/Masquer les avatars cachés
 show_contactdps_in_cl Montrer les avatars dans la liste des contacts
+showcachedpics Afficher/Masquer les avatars cachés
 showcontactemail Voir les contacts par leur email
 showcontactnick Voir les contacts par leur pseudonyme
-showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
 showdisplaypic Afficher l'avatar
+showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
 showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 showmypic Mon avatar
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
@@ -868,6 +869,8 @@ viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 volume Volume
 wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
+web Web
+webcam Webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
 webcamclosebefcancel Vous devez annuler toutes les conversations par webcam avant de fermer la fenêtre
 webcamconfigure Configurer la webcam
@@ -888,8 +891,6 @@ webcamrejected $1 a refusé l'invitation de la conversation par webcam.
 webcamrequestreceive Vous avez invité votre contact à afficher sa webcam
 webcamrequestsend Vous avez invité votre contact à visionner votre webcam
 webcamsending Liste des personnes qui sont en train de voir votre webcam\nCliquez sur un nom pour annuler
-webcam Webcam
-web Web
 whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses platformes telles que Linux, Windows, Mac OS X, *BSD ...
 whatsize L'image qui doit être affichée n'est pas à la taille normale : 96x96 \nDans quelle taille voulez-vous que l'image soit affichée ?
 willjoin Dans l'attente que $1 rejoigne la conversation
