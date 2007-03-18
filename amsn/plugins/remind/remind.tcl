@@ -148,41 +148,43 @@ proc ShowLastSentences { chatid email } {
 
 	set nbline 0
 	foreach line $loglines {
-			incr nbline
-			set aidx 0
-			while {$aidx != -1} {
-				# Checks if the line begins by |"L (it happens when we go to the line in the chat window).
-				# If not, use the tags of the previous line
-				if { $aidx == 0 & [string range $line 0 2] != "\|\"L" } {
-					set bidx -1
+		incr nbline
+		set aidx 0
+		while {$aidx != -1} {
+			# Checks if the line begins by |"L (it happens when we go to the line in the chat window).
+			# If not, use the tags of the previous line
+			if { $aidx == 0 & [string range $line 0 2] != "\|\"L" } {
+				set bidx -1
+			} else {
+				# If the portion of the line begins by |"LC, there is a color information.
+				# The color is indicated by the 6 fingers after it
+				if {[string index $line [expr {$aidx + 3}]] == "C"} {
+					set color [string range $line [expr {$aidx + 4}] [expr {$aidx + 9}]]
+					$textw tag configure C_$nbline -foreground "#$color"
+					set color "C_$nbline"
+					incr aidx 10
+					# Else, it is the system with LNOR, LGRA...
 				} else {
-					# If the portion of the line begins by |"LC, there is a color information.
-					# The color is indicated by the 6 fingers after it
-					if {[string index $line [expr {$aidx + 3}]] == "C"} {
-						set color [string range $line [expr {$aidx + 4}] [expr {$aidx + 9}]]
-						$textw tag configure C_$nbline -foreground "#$color"
-						set color "C_$nbline"
-						incr aidx 10
-						# Else, it is the system with LNOR, LGRA...
-					} else {
-						set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
-						incr aidx 6
-					}
-					set bidx [string first "\|\"L" $line $aidx]
+					set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
+					incr aidx 6
 				}
-				if { [string first "\|\"L" $line] == -1 } {
-					set string [string range $line 0 end]
-				} elseif { $bidx != -1 } {
-					set string [string range $line $aidx [expr {$bidx - 1}]]
-				} else {
-					set string [string range $line $aidx end]
-				}
-				::remind::WinWrite $chatid "$string" $color
-				set aidx $bidx
+				set bidx [string first "\|\"L" $line $aidx]
+			}
+			if { [string first "\|\"L" $line] == -1 } {
+				set string [string range $line 0 end]
+			} elseif { $bidx != -1 } {
+				set string [string range $line $aidx [expr {$bidx - 1}]]
+			} else {
+				set string [string range $line $aidx end]
 			}
 			if {$string != ""} {
-				::remind::WinWrite $chatid "\n" black
+				::remind::WinWrite $chatid "$string" $color
 			}
+			set aidx $bidx
+		}
+		if {$string != ""} {
+			::remind::WinWrite $chatid "\n" black
+		}
 	}
 
 	::amsn::WinWriteIcon $chatid greyline 3	
