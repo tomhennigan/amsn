@@ -1319,9 +1319,7 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 			status_log "Will preview: $selecteddevice on channel $selectedchannel"
 			
 			#close the device if open
-			if { [::Capture::IsValid $::CAMGUI::webcam_preview] } {
-				::Capture::Close $::CAMGUI::webcam_preview
-			}
+			::AVAssistant::stopPreviewGrabbing 0 0
 	
 			if { $lowrescam } {
 				set cam_res "QSIF"
@@ -1334,7 +1332,6 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 			}
 
 			$previmc configure -width $camwidth -height $camheight
-			#pack $previmc -side right -padx 10
 
 			if { [catch {set ::CAMGUI::webcam_preview [::Capture::Open $selecteddevice $selectedchannel $cam_res]} errormsg] } {
 				status_log "problem opening device: $errormsg"
@@ -1358,9 +1355,9 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 			while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [ImageExists $previmg] } {
 				if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg} res ]} {
 					status_log "Problem grabbing from the device:\n\t \"$res\""
-					$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
-				after 3000 "catch { $previmc delete errmsg }"
-					
+					set errorheight [expr {$camheight-25}]
+					$previmc create text 5 $errorheight -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+					after 3000 "catch { $previmc delete errmsg }"
 				}
 				after 100 [list incr $semaphore]
 				tkwait variable $semaphore
@@ -1550,7 +1547,8 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 		while { [::Capture::IsValid $::CAMGUI::webcam_preview] && [ImageExists $previmg] } {
 			if {[catch {::Capture::Grab $::CAMGUI::webcam_preview $previmg } res ]} {
 				status_log "Problem grabbing from the device:\n\t \"$res\""
-				$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+				set errorheight [expr {$camheight-25}]
+				$previmc create text 5 $errorheight -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
 				after 3000 "catch { $previmc delete errmsg }"
 			}
 			after 100 "incr $semaphore"
