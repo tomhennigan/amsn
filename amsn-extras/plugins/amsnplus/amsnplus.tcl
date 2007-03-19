@@ -23,21 +23,20 @@ namespace eval ::amsnplus {
 		#set the amsnplus dir in config
 		::config::setKey amsnpluspluginpath $dir
 		#loading lang - if version is 0.95b (keep compatibility with 0.94)
-		if {![::amsnplus::version_094]} {
+		if {[::amsnplus::amsn_version] > 94} {
 			set langdir [file join $dir "lang"]
 			set lang [::config::getGlobalKey language]
 			load_lang en $langdir
 			load_lang $lang $langdir
 		}
 		#plugin config
-		if {[::amsnplus::version_094]} {
+		if {[::amsnplus::amsn_version] <= 94} {
 			array set ::amsnplus::config {
 				parse_nicks 1
 				colour_nicks 0
 				allow_commands 1
 				allow_quicktext 1
 				quick_text [list]
-				#resource "aMSN"
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "Do you want to parse nicks?" parse_nicks] \
@@ -54,7 +53,6 @@ namespace eval ::amsnplus {
 				allow_colours 1
 				allow_quicktext 1
 				quick_text [list]
-				#resource "aMSN"
 			}
 			set ::amsnplus::configlist [ list \
 				[list bool "[trans parsenicks]" parse_nicks] \
@@ -75,18 +73,11 @@ namespace eval ::amsnplus {
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours_and_sounds
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
+		::plugins::RegisterEvent "aMSN Plus" NickArray parse_nick_for_array
 
-		if {![::amsnplus::version_094]} {
+		if {[::amsnplus::amsn_version] > 94} {
 			::amsnplus::setPixmap
 		}
-
-		#init
-		#after 100 {
-		#	if { $::amsnplus::config(resource) != "" } {
-		#		set nick [::abook::getPersonal nick]
-		#		::MSN::changeName [::abook::getPersonal login] "$nick \{$::amsnplus::config(resource)\}"
-		#	}
-		#}
 	}
 
 	####################################################
@@ -95,15 +86,6 @@ namespace eval ::amsnplus {
 		#removing the plus menu and chat window pixmap
 		.main_menu delete last
 		::amsnplus::remove_from_chatwindow
-		#restoring the normal nick
-		#set nick [::abook::getPersonal MFN]
-		#set lnick [string length $nick]
-		#set lres [string length $::amsnplus::config(resource)]
-		#set restar [expr $lres + 3]
-		#set restar [expr $lnick - $restar]
-		#if { $lres != 0 } {
-		#	::MSN::changeName [::abook::getPersonal login] [string replace $nick $restar end]
-		#}
 	}
 
 
@@ -138,7 +120,6 @@ namespace eval ::amsnplus {
 
 			#entries for the plus menu
 			$plusmenu add command -label "[trans quicktext]" -command "::amsnplus::qtconfig"
-			#$plusmenu add command -label "[trans preferences]" -command "::amsnplus::preferences"
 		}
 		.main_menu add cascade -label "Plus!" -menu .main_menu.plusmenu
 	}
@@ -253,53 +234,6 @@ namespace eval ::amsnplus {
 		}
 	}
 
-	###############################################
-	# this proc creates the preferences window
-	proc preferences { } {
-		if { [winfo exists .amsnplusprefs] } {
-			raise .amsnplusprefs
-			catch {focus -force .amsnplusprefs}
-			return
-		}
-
-		PreferencesWindow .amsnplusprefs -title "aMSN Plus! - [trans preferences]" -savecommand ::amsnplus::save_prefs
-
-		### Section General ###
-		set section [PreferencesSection .amsnplusprefs.general -text [trans general] ]
-		set frame [ItemsFrame .amsnplusprefs.general.local -text [trans localization] ]
-		$frame addItem [Label .amsnplusprefs.general.local.rusage -text "[trans rusage]"]
-		$frame addItem [TextEntry .amsnplusprefs.general.local.resource -width 40 -text "[trans resource] :" \
-			-storecommand ::amsnplus::save_resource -retrievecommand ::amsnplus::load_resource]
-		$section addItem $frame
-		.amsnplusprefs addSection $section
-
-		.amsnplusprefs show .amsnplusprefs_window
-	}
-
-	proc save_prefs { } {
-	}
-
-	proc save_resource { resource } {
-		set oldres $::amsnplus::config(resource)
-		set loldres [string length $oldres]
-		set nick [::abook::getPersonal nick]
-		set lnick [string length $nick]
-		set nick [string replace $nick [expr $lnick - [expr $loldres + 3] ] end]
-		set ::amsnplus::config(resource) $resource
-		set login [::abook::getPersonal login]
-		::abook::setPersonal nick "$nick \{$resource\}"
-		if { $resource != "" } {
-			::MSN::changeName $login "$nick \{$resource\}"
-		} else {
-			::MSN::changeName $login $nick
-		}
-		::plugins::save_config
-	}
-
-	proc load_resource { } {
-		return $::amsnplus::config(resource)
-	}
-
 
 
 	#//////////////////////////////////////////////////////////////////////////
@@ -315,19 +249,15 @@ namespace eval ::amsnplus {
 	}
 
 	############################################
-	# ::amsnplus::version_094                  #
+	# ::amsnplus::amsn_version                 #
 	# -----------------------------------------#
 	# Verify if the version of aMSN is 0.94    #
 	# Useful if we want to keep compatibility  #
 	############################################
-	proc version_094 {} {
+	proc amsn_version {} {
 		global version
-		scan $version "%d.%d" y1 y2;
-		if { $y2 == "94" } {
-			return 1
-		} else {
-			return 0
-		}
+		scan $version "%u.%u" y1 y2
+		return [expr {$y1 * 100 + $y2}]
 	}
 
 	####################################################
@@ -415,7 +345,7 @@ namespace eval ::amsnplus {
 
 		#Text explanation, in frame top.help
 		frame $w.top
-		if {[::amsnplus::version_094]} {
+		if {[::amsnplus::amsn_version] <= 94} {
 			label $w.top.help -text "Here you should configure your quick text, the keyword and the text. \n Then in the chat window, if you do /keyword, \
 				you'll see the text" -height 2
 		} else {
@@ -569,20 +499,17 @@ namespace eval ::amsnplus {
 		upvar 2 data data user_login user_login user_data user_data
 		set strlen [string length $data]
 		set i 0
+		set color [::abook::getContactData $user_login customcolor]
 
 		while {$i < $strlen} {
 			set str [string range $data $i [expr $i + 1]]
 			if {[string equal $str "\u00B7\$"]} {
-#				if {$::amsnplus::config(colour_nicks)} {
 				#RRGGBB
 				if {[string equal [string index $data [expr $i + 2]] "#"]} {
 					#The color is in RGB
 					set last [expr $i + 8]
 
 					set color [string tolower [string range $data [expr $i + 2] $last]]
-					if {$::amsnplus::config(colour_nicks)} {
-						set user_data(customcolor) $color
-					}
 				#$(rrr,ggg,bbb) format
 				} else {
 					if { [::amsnplus::is_a_number [string range $data [expr $i + 3] [expr $i + 5]] ] } {
@@ -592,9 +519,6 @@ namespace eval ::amsnplus {
 								set rgb [string range $data [expr $i + 2] [expr $i + 14]]
 								set last [expr $i + 14]
 								set color "#[::amsnplus::RGBToHex $rgb]"
-								if {$::amsnplus::config(colour_nicks)} {
-									set user_data(customcolor) $color
-								}
 							}
 						}
 					#$XX
@@ -608,26 +532,13 @@ namespace eval ::amsnplus {
 						#obtain rbg color
 
 						set num [string range $data [expr $i + 2] $last]
-						set color "[::amsnplus::getColor $num [::abook::getContactData $user_login customcolor]]"
+						set color "[::amsnplus::getColor $num $color]"
 						if { [string range $color 0 0] != "#" } {
 							set color "#$color"
-						}
-						if {$::amsnplus::config(colour_nicks)} {
-							set user_data(customcolor) $color
 						}
 					}
 				}
 				set data [string replace $data $i $last ""]
-#				} else {
-#
-#					set last [expr $i + 3]
-#					set char [string index $data [expr $i + 3]]
-#					if {![::amsnplus::is_a_number $char]} {
-#						set last [expr $i + 2]
-#					}
-#
-#					set data [string replace $data $i $last ""]
-#				}
 			} elseif {[string equal $str "\u00B7\#"]} {
 				#Bold text : as we can't render, we only remove
 				set data [string replace $data $i [expr $i + 1] ""]
@@ -638,90 +549,178 @@ namespace eval ::amsnplus {
 				incr i
 			}
 		}
+
+		#For newCL introduced in 0.97b the colouring is done with another proc and this one only filters out the color codes : maybe that should be changed
+		if {$::amsnplus::config(colour_nicks) && [::amsnplus::amsn_version] < 97 && [info exists color]} {
+			set user_data(customcolor) $color
+		}
+	}
+
+	################################################
+	# this proc deletes $<num> codification
+	# and colours nick if enabled
+	# should parse ALSO MULTIPLE COLORS $(num,num,num)
+	proc parse_nick_for_array {event epvar} {
+		if {!$::amsnplus::config(parse_nicks)} {return}
+		upvar 2 $epvar evpar
+		upvar 2 $evpar(array) nickArray
+		set userLogin $evpar(login)
+		if { $userLogin != "" } {
+			set loginList [list $userLogin]
+		} else {
+			set loginList [array names nickArray]
+		}
+
+		foreach login $loginList {
+			set listIn $nickArray($login)
+			set listOut [list ]
+			foreach unit $listIn {
+				if { [lindex $unit 0] != "text" } {
+					lappend listOut $unit
+				} else {
+					set data [lindex $unit 1]
+					set strlen [string length $data]
+					set i 0
+					set lastOcc 0
+					while {$i < $strlen} {
+						set str [string range $data $i [expr $i + 1]]
+						if {[string equal $str "\u00B7\$"]} {
+							lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
+							#RRGGBB
+							if {[string equal [string index $data [expr $i + 2]] "#"]} {
+								#The color is in RGB
+								set lastOcc [expr $i + 9]
+			
+								set color [string tolower [string range $data [expr $i + 2] [expr $lastOcc - 1]]]
+								lappend listOut [list "colour" $color]
+							#$(rrr,ggg,bbb) format
+							} else {
+								if { [::amsnplus::is_a_number [string range $data [expr $i + 3] [expr $i + 5]] ] } {
+									set last $i
+									if {[::amsnplus::is_a_number [string range $data [expr $i + 7] [expr $i + 9]]]} {
+										if {[::amsnplus::is_a_number [string range $data [expr $i + 11] [expr $i + 13]]]} {
+											set rgb [string range $data [expr $i + 2] [expr $i + 14]]
+											set lastOcc [expr $i + 15]
+											set color "#[::amsnplus::RGBToHex $rgb]"
+											lappend listOut [list "colour" $color]
+										}
+									}
+								#$XX
+								} else {
+									#know if the number has 1 or 2 digits
+									set lastOcc [expr $i + 4]
+									set char [string index $data [expr $i + 3]]
+									if {![::amsnplus::is_a_number $char]} {
+										set lastOcc [expr $i + 3]
+									}
+									#obtain rbg color
+			
+									set num [string range $data [expr $i + 2] [expr $lastOcc - 1]]
+									set color [::amsnplus::getColor $num ""]
+									if { $color == "" } {
+										set color "reset"
+									} else {
+										set color "#$color"
+									}
+									lappend listOut [list "colour" $color]
+								}
+							}
+							set i $lastOcc
+						} elseif {[string equal $str "\u00B7\#"]} {
+							#Bold text : as we can't render, we only remove
+							set data [string replace $data $i [expr $i + 1] ""]
+						} elseif {[string equal $str "\u00B70"]} {
+							lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
+							lappend listOut [list "colour" "reset"]
+							set lastOcc [expr $i + 2]
+							set i $lastOcc
+						} else {
+							incr i
+						}
+					}
+					lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
+				}
+			}
+			set nickArray($login) $listOut
+		}
 	}
 
 	####################################################
 	# returns an rbg color with <num> code
 	proc getColor { num default } {
-		if {[string equal $num "0"]} {return "FFFFFF"}
-		if {[string equal $num "1"]} {return "000000"}
-		if {[string equal $num "2"]} {return "00007F"}
-		if {[string equal $num "3"]} {return "009300"}
-		if {[string equal $num "4"]} {return "FF0000"}
-		if {[string equal $num "5"]} {return "7F0000"}
-		if {[string equal $num "6"]} {return "9C009C"}
-		if {[string equal $num "7"]} {return "FC7F00"}
-		if {[string equal $num "8"]} {return "FFFF00"}
-		if {[string equal $num "9"]} {return "00FC00"}
-		if {[string equal $num "00"]} {return "FFFFFF"}
-		if {[string equal $num "01"]} {return "000000"}
-		if {[string equal $num "02"]} {return "00007F"}
-		if {[string equal $num "03"]} {return "009300"}
-		if {[string equal $num "04"]} {return "FF0000"}
-		if {[string equal $num "05"]} {return "7F0000"}
-		if {[string equal $num "06"]} {return "9C009C"}
-		if {[string equal $num "07"]} {return "FC7F00"}
-		if {[string equal $num "08"]} {return "FFFF00"}
-		if {[string equal $num "09"]} {return "00FC00"}
-		if {[string equal $num "10"]} {return "009393"}
-		if {[string equal $num "11"]} {return "00FFFF"}
-		if {[string equal $num "12"]} {return "2020FC"}
-		if {[string equal $num "13"]} {return "FF00FF"}
-		if {[string equal $num "14"]} {return "7F7F7F"}
-		if {[string equal $num "15"]} {return "D2D2D2"}
-		if {[string equal $num "16"]} {return "E7E6E4"}
-		if {[string equal $num "17"]} {return "CFCDD0"}
-		if {[string equal $num "18"]} {return "FFDEA4"}
-		if {[string equal $num "19"]} {return "FFAEB9"}
-		if {[string equal $num "20"]} {return "FFA8FF"}
-		if {[string equal $num "21"]} {return "B4B4FC"}
-		if {[string equal $num "22"]} {return "BAFBE5"}
-		if {[string equal $num "23"]} {return "C1FFA3"}
-		if {[string equal $num "24"]} {return "FAFDA2"}
-		if {[string equal $num "25"]} {return "B6B4D7"}
-		if {[string equal $num "26"]} {return "A2A0A1"}
-		if {[string equal $num "27"]} {return "F9C152"}
-		if {[string equal $num "28"]} {return "FF6D66"}
-		if {[string equal $num "29"]} {return "FF62FF"}
-		if {[string equal $num "30"]} {return "6C6CFF"}
-		if {[string equal $num "31"]} {return "68FFC3"}
-		if {[string equal $num "32"]} {return "8EFF67"}
-		if {[string equal $num "33"]} {return "F9FF57"}
-		if {[string equal $num "34"]} {return "858482"}
-		if {[string equal $num "35"]} {return "6E6B7D"}
-		if {[string equal $num "36"]} {return "FFA01E"}
-		if {[string equal $num "37"]} {return "F92611"}
-		if {[string equal $num "38"]} {return "FF20FF"}
-		if {[string equal $num "39"]} {return "202BFF"}
-		if {[string equal $num "40"]} {return "1EFFA5"}
-		if {[string equal $num "41"]} {return "60F913"}
-		if {[string equal $num "42"]} {return "FFF813"}
-		if {[string equal $num "43"]} {return "5E6464"}
-		if {[string equal $num "44"]} {return "4B494C"}
-		if {[string equal $num "45"]} {return "D98812"}
-		if {[string equal $num "46"]} {return "EB0505"}
-		if {[string equal $num "47"]} {return "DE00DE"}
-		if {[string equal $num "48"]} {return "0000D3"}
-		if {[string equal $num "49"]} {return "03CC88"}
-		if {[string equal $num "50"]} {return "59D80D"}
-		if {[string equal $num "51"]} {return "D4C804"}
-		if {[string equal $num "52"]} {return "000268"}
-		if {[string equal $num "53"]} {return "18171C"}
-		if {[string equal $num "54"]} {return "944E00"}
-		if {[string equal $num "55"]} {return "9B0008"}
-		if {[string equal $num "56"]} {return "980299"}
-		if {[string equal $num "57"]} {return "01038C"}
-		if {[string equal $num "58"]} {return "01885F"}
-		if {[string equal $num "59"]} {return "389600"}
-		if {[string equal $num "60"]} {return "9A9E15"}
-		if {[string equal $num "61"]} {return "473400"}
-		if {[string equal $num "62"]} {return "4D0000"}
-		if {[string equal $num "63"]} {return "5F0162"}
-		if {[string equal $num "64"]} {return "000047"}
-		if {[string equal $num "65"]} {return "06502F"}
-		if {[string equal $num "66"]} {return "1C5300"}
-		if {[string equal $num "67"]} {return "544D05"}
-		return $default
+		array set colors [list  0  "FFFFFF" \
+					1  "000000" \
+					2  "00007F" \
+					3  "009300" \
+					4  "FF0000" \
+					5  "7F0000" \
+					6  "9C009C" \
+					7  "FC7F00" \
+					8  "FFFF00" \
+					9  "00FC00" \
+					10 "009393" \
+					11 "00FFFF" \
+					12 "2020FC" \
+					13 "FF00FF" \
+					14 "7F7F7F" \
+					15 "D2D2D2" \
+					16 "E7E6E4" \
+					17 "CFCDD0" \
+					18 "FFDEA4" \
+					19 "FFAEB9" \
+					20 "FFA8FF" \
+					21 "B4B4FC" \
+					22 "BAFBE5" \
+					23 "C1FFA3" \
+					24 "FAFDA2" \
+					25 "B6B4D7" \
+					26 "A2A0A1" \
+					27 "F9C152" \
+					28 "FF6D66" \
+					29 "FF62FF" \
+					30 "6C6CFF" \
+					31 "68FFC3" \
+					32 "8EFF67" \
+					33 "F9FF57" \
+					34 "858482" \
+					35 "6E6B7D" \
+					36 "FFA01E" \
+					37 "F92611" \
+					38 "FF20FF" \
+					39 "202BFF" \
+					40 "1EFFA5" \
+					41 "60F913" \
+					42 "FFF813" \
+					43 "5E6464" \
+					44 "4B494C" \
+					45 "D98812" \
+					46 "EB0505" \
+					47 "DE00DE" \
+					48 "0000D3" \
+					49 "03CC88" \
+					50 "59D80D" \
+					51 "D4C804" \
+					52 "000268" \
+					53 "18171C" \
+					54 "944E00" \
+					55 "9B0008" \
+					56 "980299" \
+					57 "01038C" \
+					58 "01885F" \
+					59 "389600" \
+					60 "9A9E15" \
+					61 "473400" \
+					62 "4D0000" \
+					63 "5F0162" \
+					64 "000047" \
+					65 "06502F" \
+					66 "1C5300" \
+					67 "544D05" ]
+		if { [info exists colors($num)] } {
+			return [set colors($num)]
+		} else {
+			return $default
+		}
 	}
 
 
@@ -734,7 +733,7 @@ namespace eval ::amsnplus {
 	#This is the proc to be compatible with the new way
 	#in 0.95 to get path of input text (::ChatWindow::GetInputText)
 	proc insert_text {win character {input ""} } {
-		if {[::amsnplus::version_094]} {
+		if {[::amsnplus::amsn_version] <= 94} {
 			$win.f.bottom.left.in.text insert end $character
 		} else {
 			#if we use tabs then...
@@ -792,7 +791,7 @@ namespace eval ::amsnplus {
 	proc choose_color { win {input ""} } {
 		set color [tk_chooseColor -parent $win];
 		if {[string equal $color ""]} { return }
-		set color [::amsnplus::hexToRGB [string replace $color 0 0 ""]];
+		set color [::amsnplus::hexToRGB [string range $color 1 end]];
 		set code "[binary format c 3]$color"
 		if { [string equal $input ""] } {
 			::amsnplus::insert_text $win $code
@@ -810,7 +809,7 @@ namespace eval ::amsnplus {
 		if { !$::amsnplus::config(allow_colours) } { return }
 		upvar 2 message msg
 		upvar 2 chatid chatid
-		if {[::amsnplus::version_094]} {
+		if {[::amsnplus::amsn_version] <= 94} {
 			set fontformat [::config::getKey mychatfont]
 		} else {
 			upvar 2 evPar newvar
@@ -988,7 +987,7 @@ namespace eval ::amsnplus {
 			}
 			incr i
 		}
-		if {[::amsnplus::version_094]} {
+		if {[::amsnplus::amsn_version] <= 94} {
 			set customfont [list $font $style $color]
 			::amsn::WinWrite $chatid $msg "user" $customfont
 			set msg ""
@@ -998,143 +997,19 @@ namespace eval ::amsnplus {
 	}
 
 	###############################################
-	# converts decimal digit into hex
-	proc digitToHex { digit } {
-		if {[string equal $digit "10"]} {
-			return "a"
-		} elseif {[string equal $digit "11"]} {
-			return "b"
-		} elseif {[string equal $digit "12"]} {
-			return "c"
-		} elseif {[string equal $digit "13"]} {
-			return "d"
-		} elseif {[string equal $digit "14"]} {
-			return "e"
-		} elseif {[string equal $digit "15"]} {
-			return "f"
-		} else { return $digit }
-	}
-
-	###############################################
-	# converts decimal number into hex
-	proc decToHex { number } {
-		set hex ""
-		while { $number > 16 } {
-			set rest [expr $number % 16]
-			set number [expr $number / 16]
-			set rest [::amsnplus::digitToHex $rest]
-			set hex "$hex$rest"
-		}
-		set number [::amsnplus::digitToHex $number]
-		set hex "$hex$number"
-		set hlen [expr [string length $hex] -1]
-		set reversed_hex ""
-		while {$hlen >= 0} {
-			set reversed_hex "$reversed_hex[string index $hex $hlen]"
-			set hlen [expr $hlen - 1]
-		}
-		if {[string length $reversed_hex] > 2} {
-			set reversed_hex [string range $reversed_hex 1 2]
-		}
-		return $reversed_hex
-	}
-
-	###############################################
 	# this proc converts rgb colours into hex colours
 	proc RGBToHex { colour } {
-		set red [::amsnplus::decToHex [string range $colour 1 3]]
-		set green [::amsnplus::decToHex [string range $colour 5 7]]
-		set blue [::amsnplus::decToHex [string range $colour 9 11]]
-		set dec_colour "$red$green$blue"
-		return $dec_colour
-	}
-
-	################################################
-	# converts hex digit into decimal
-	proc hexToDigit { digit } {
-		if {[string equal $digit "a"]} {
-			return "10"
-		} elseif {[string equal $digit "b"]} {
-			return "11"
-		} elseif {[string equal $digit "c"]} {
-			return "12"
-		} elseif {[string equal $digit "d"]} {
-			return "13"
-		} elseif {[string equal $digit "e"]} {
-			return "14"
-		} elseif {[string equal $digit "f"]} {
-			return "15"
-		} else { return $digit }
-	}
-
-	################################################
-	# converts hex number into decimal
-	proc hexToDec { number } {
-		set low [::amsnplus::hexToDigit [string index $number 1]]
-		set high [::amsnplus::hexToDigit [string index $number 0]]
-		set number [expr $high * 16]
-		set number [expr $number + $low]
-		if {[string length $number] == 1} {
-			set number "0$number"
-		}
-		if {[string length $number] == 2} {
-			set number "0$number"
-		}
-		return $number
+		scan $colour "(%3u,%3u,%3u)" red green blue
+		return [format "%02X%02X%02X" \
+			$red $green $blue]
 	}
 
 	################################################
 	# this roc converts hex colours into rgb colours
 	proc hexToRGB { colour } {
-		set red [::amsnplus::hexToDec [string range $colour 0 1]]
-		set green [::amsnplus::hexToDec [string range $colour 2 3]]
-		set blue [::amsnplus::hexToDec [string range $colour 4 5]]
-		set colour "($red,$green,$blue)"
-		return $colour
+		scan $colour "%2x%2x%2x" red green blue
+		return "($red,$green,$blue)"
 	}
-
-	################################################
-	# this proc converts msn plus predef. colours
-	# into rgb colours
-	proc colourToRGB { colour } {
-		if {[string equal $colour "0"]} {
-			return "(255,255,255)"
-		} elseif {[string equal $colour "1"]} {
-			return "(000,000,000)"
-		} elseif {[string equal $colour "2"]} {
-			return "(000,000,255)"
-		} elseif {[string equal $colour "3"]} {
-			return "(000,255,000)"
-		} elseif {[string equal $colour "4"]} {
-			return "(255,000,000)"
-		} elseif {[string equal $colour "5"]} {
-			return "(127,000,000)"
-		} elseif {[string equal $colour "6"]} {
-			return "(156,000,156)"
-		} elseif {[string equal $colour "7"]} {
-			return "(252,127,000)"
-		} elseif {[string equal $colour "8"]} {
-			return "(255,255,000)"
-		} elseif {[string equal $colour "9"]} {
-			return "(000,252,000)"
-		} elseif {[string equal $colour "10"]} {
-			return "(000,147,147)"
-		} elseif {[string equal $colour "11"]} {
-			return "(000,255,255)"
-		} elseif {[string equal $colour "12"]} {
-			return "(000,000,252)"
-		} elseif {[string equal $colour "13"]} {
-			return "(255,000,255)"
-		} elseif {[string equal $colour "14"]} {
-			return "(127,127,127)"
-		} elseif {[string equal $colour "15"]} {
-			return "(210,210,210)"
-		} else {
-			return "(000,000,000)"
-		}
-	}
-
-
 
 	#//////////////////////////////////////////////////////////////////////////
 	#                            SENDING COMMANDS
@@ -1205,7 +1080,8 @@ namespace eval ::amsnplus {
 							$proc $chatid
 						} else {
 							$proc
-						}					}
+						}
+					}
 				} else {
 					if {[lindex $kwdlist 2]} {
 						if {[lindex $kwdlist 3]} {
@@ -1319,7 +1195,7 @@ namespace eval ::amsnplus {
 				set groupname $msg
 				set msg ""
 				::groups::Add $groupname
-				if {[::amsnplus::version_094]} {
+				if {[::amsnplus::amsn_version] <= 94} {
 					::amsnplus::write_window $chatid "\nAdded group $groupname" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans groupadded $groupname]" 0
@@ -1344,10 +1220,6 @@ namespace eval ::amsnplus {
 					set chat_win $::ChatWindow::msg_windows($chatid)
 				}
 				::ChatWindow::Clear $chat_win
-			} elseif {[string equal $char "/config"]} {
-				set msg [string replace $msg $i [expr $i + 7] ""]
-				set strlen [string length $msg]
-				#Preferences
 			} elseif {[string equal $char "/delete"]} {
 				set msg [string replace $msg $i [expr $i + 7] ""]
 				set strlen [string length $msg]
@@ -1356,7 +1228,7 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $ulen] ""]
 				set strlen [string length $msg]
 				::MSN::deleteUser $user_login
-				if {[::amsnplus::version_094]} {
+				if {[::amsnplus::amsn_version] <= 94} {
 					::amsnplus::write_window $chatid "\nDeleted contact $user_login" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans groupdeleted $user_login]" 0
@@ -1367,7 +1239,7 @@ namespace eval ::amsnplus {
 				set groupname $msg
 				set msg ""
 				::groups::Delete [::groups::GetId $groupname]
-				if {[::amsnplus::version_094]} {
+				if {[::amsnplus::amsn_version] <= 94} {
 					::amsnplus::write_window $chatid "\nDeleted group $groupname" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans groupdeleted $groupname]" 0
@@ -1385,20 +1257,20 @@ namespace eval ::amsnplus {
 				set msg [string replace $msg $i [expr $i + $lfield] ""]
 				set strlen [string length $msg]
 				if {[string equal $field "color"]} {
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nYour color is: $fontcolor" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans ccolor $fontcolor]" 0
 					}
 				} elseif {[string equal $field "font"]} {
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nYour font is: $fontfamily" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cfont $fontfamily]" 0
 					}
 				} elseif {[string equal $field "nick"]} {
 					set nick [::abook::getPersonal nick]
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nYour nick is: $nick" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnick $nick]" 0
@@ -1406,13 +1278,13 @@ namespace eval ::amsnplus {
 				} elseif {[string equal $field "state"]} {
 					set status [::MSN::myStatusIs]
 					set status [::MSN::stateToDescription $status]
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nYour status is: $status" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cstatus $status]" 0
 					}
 				} elseif {[string equal $field "style"]} {
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nYour style is: $fontstyle" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cstyle $fontstyle]" 0
@@ -1431,7 +1303,7 @@ namespace eval ::amsnplus {
 			} elseif {[string equal $char "/leave"]} {
 				set msg ""
 				::MSN::leaveChat $chatid
-				if {[::amsnplus::version_094]} {
+				if {[::amsnplus::amsn_version] <= 94} {
 					::amsnplus::write_window $chatid "\nYou've left this conversation" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans cleave]" 0
@@ -1473,20 +1345,20 @@ namespace eval ::amsnplus {
 			} elseif {[string equal $char "/shell"]} {
 				set command [string replace $msg $i [expr $i + 6] ""]
 				set msg ""
-				if {[::amsnplus::version_094]} {
+				if {[::amsnplus::amsn_version] <= 94} {
 					::amsnplus::write_window $chatid "\nExecuting: $command" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans cshell $command]" 0
 				}
 				set command [linsert [split $command " "] 0 "exec" "--"]
 				if {[catch { eval $command } result]} {
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nYour command is not valid\n$result" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnotvalid]\n$result" 0
 					}
 				} else {
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nThis is the result of the command:\n$result" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cresult $result]" 0
@@ -1495,14 +1367,14 @@ namespace eval ::amsnplus {
 			} elseif {[string equal $char "/shells"]} {
 				set command [string replace $msg $i [expr $i + 7] ""]
 				set msg ""
-				if {[::amsnplus::version_094]} {
+				if {[::amsnplus::amsn_version] <= 94} {
 					::amsnplus::write_window $chatid "\nExecuting: $command" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans cshell $command]" 0
 				}
 				set command [linsert [split $command " "] 0 "exec" "--"]
 				if {[catch { eval $command } result]} {
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nYour command is not valid\n$result" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnotvalid]\n$result" 0
@@ -1528,13 +1400,13 @@ namespace eval ::amsnplus {
 				if {[::amsnplus::stateIsValid $nstate]} {
 					set cstate [::amsnplus::descriptionToState $nstate]
 					::MSN::changeStatus $cstate
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\nNew state is: $nstate" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnewstate $nstate]" 0
 					}
 				} else {
-					if {[::amsnplus::version_094]} {
+					if {[::amsnplus::amsn_version] <= 94} {
 						::amsnplus::write_window $chatid "\n$nstate is not valid" 0
 					} else {
 						::amsnplus::write_window $chatid "[trans cnewstatenotvalid $nstate]" 0
@@ -1563,7 +1435,7 @@ namespace eval ::amsnplus {
 				set nick [::abook::getContactData $user_login nick]
 				set client [::abook::getContactData $user_login clientname]
 				set os [::abook::getContactData $user_login operatingsystem]
-				if {[::amsnplus::version_094]} {
+				if {[::amsnplus::amsn_version] <= 94} {
 					::amsnplus::write_window $chatid "\n$user_login info: $nick $group $client $os" 0
 				} else {
 					::amsnplus::write_window $chatid "[trans cinfo $user_login $nick $group $client $os]" 0
