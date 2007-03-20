@@ -44,10 +44,10 @@ namespace eval ::Socks5 {
 		
 		set ver "\x05"               ;#Socks version
 		
-		status_log "$sck    $addr\n"
+		status_log "SOCKS : $sck    $addr\n"
 		set addr [split $addr " "]   ;# Remove port from address
 		set addr [lindex $addr 0]
-		status_log "$addr\n"
+		status_log "SOCKS : $addr\n"
 		
 		if {$auth==0} {
 			set method "\x00"
@@ -56,6 +56,7 @@ namespace eval ::Socks5 {
 			set method "\x00\x02"
 			set nmethods "\x02"
 		} else {
+			status_log "ERROR: $auth"
 			return "ERROR:"
 		}
 		set nomatchingmethod "\xFF"  ;#No matching methods
@@ -89,6 +90,7 @@ namespace eval ::Socks5 {
 		set a $socks_idlist(data,$sck)
 		if {[eof $sck]} {
 			catch {close $sck}
+			status_log "ERROR:Connection closed with Socks Server!"
 			return "ERROR:Connection closed with Socks Server!"
 		}
 		
@@ -99,6 +101,7 @@ namespace eval ::Socks5 {
 		
 		if {$serv_ver!=5} {
 			catch {close $sck}
+			status_log "ERROR:Socks Server isn't version 5!"
 			return "ERROR:Socks Server isn't version 5!"
 		}
 		
@@ -106,6 +109,7 @@ namespace eval ::Socks5 {
 		} elseif {$smethod==2} {  ;#User/Pass authorization required
 			if {$auth==0} {
 				catch {close $sck}
+				status_log "ERROR:Method not supported by Socks Server!"
 				return "ERROR:Method not supported by Socks Server!"
 			}
 			    
@@ -116,6 +120,7 @@ namespace eval ::Socks5 {
 			set a $socks_idlist(data,$sck)
 			if {[eof $sck]} {
 				catch {close $sck}
+				status_log "ERROR:Connection closed with Socks Server!"
 				return "ERROR:Connection closed with Socks Server!"
 			}
 			
@@ -125,10 +130,12 @@ namespace eval ::Socks5 {
 			
 			if {$auth_ver!=1} {
 				catch {close $sck} 
+				status_log "ERROR:Socks Server's authentication isn't supported!"
 				return "ERROR:Socks Server's authentication isn't supported!"
 			}
 			if {$status!=0} {
 				catch {close $sck}
+				status_log "ERROR:Wrong username or password!"
 				return "ERROR:Wrong username or password!"
 			}
 			
@@ -137,6 +144,7 @@ namespace eval ::Socks5 {
 			unset socks_idlist(stat,$sck)
 			unset socks_idlist(data,$sck)
 			catch {close $sck}
+			status_log "ERROR:Method not supported by Socks Server!"
 			return "ERROR:Method not supported by Socks Server!"
 		}
 		
@@ -152,6 +160,7 @@ namespace eval ::Socks5 {
 		set a $socks_idlist(data,$sck)
 		if {[eof $sck]} {
 			catch {close $sck}
+			status_log "ERROR:Connection closed with Socks Server!"
 			return "ERROR:Connection closed with Socks Server!"
 		}
 		
@@ -164,38 +173,49 @@ namespace eval ::Socks5 {
 		binary scan $a cc serv_ver rep
 		if {$serv_ver!=5} {
 			catch {close $sck}
+			status_log "ERROR:Socks Server isn't version 5!"
 			return "ERROR:Socks Server isn't version 5!"
 		}
 
 		if {$rep==0} {
 			fconfigure $sck -translation {auto auto}
+			status_log "SOCKS: OK"
 			return "OK"
 		} elseif {$rep==1} {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nGeneral SOCKS server failure"
 			return "ERROR:Socks server responded:\nGeneral SOCKS server failure"
 		} elseif {$rep==2} {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nConnection not allowed by ruleset"
 			return "ERROR:Socks server responded:\nConnection not allowed by ruleset"
 		} elseif {$rep==3} {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nNetwork unreachable"
 			return "ERROR:Socks server responded:\nNetwork unreachable"
 		} elseif {$rep==4} {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nHost unreachable"
 			return "ERROR:Socks server responded:\nHost unreachable"
 		} elseif {$rep==5} {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nConnection refused"
 			return "ERROR:Socks server responded:\nConnection refused"
 		} elseif {$rep==6} {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nTTL expired"
 			return "ERROR:Socks server responded:\nTTL expired"
 		} elseif {$rep==7} {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nCommand not supported"
 			return "ERROR:Socks server responded:\nCommand not supported"
 		} elseif {$rep==8} {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nAddress type not supported"
 			return "ERROR:Socks server responded:\nAddress type not supported"
 		} else {
 			catch {close $sck}
+			status_log "ERROR:Socks server responded:\nUnknown Error"
 			return "ERROR:Socks server responded:\nUnknown Error"
 		}
 
