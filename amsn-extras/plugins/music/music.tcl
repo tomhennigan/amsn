@@ -190,6 +190,7 @@ namespace eval ::music {
 			mpd_ip {127.0.0.1} \
 			mpd_port {6600} \
 			mpd_music_directory {} \
+			mpd_password {} \
 		]
 		
 	}
@@ -707,7 +708,19 @@ namespace eval ::music {
 		bind $mylabel <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 		bind $mylabel <Leave> "+set ::Bulle(first) 0; kill_balloon;"
 		bind $mylabel <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+	}	
+	
+	proc encrypt { password } {
+		binary scan [::des::encrypt pasencky "${password}\n"] h* encpass
+		return $encpass
 	}
+
+	proc decrypt { key } {
+		set password [::des::decrypt pasencky [binary format h* $key]]
+		set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
+		return $password
+	}
+
 
 	###############################################
 	# ::music::FillFrameComplete                  #
@@ -811,6 +824,19 @@ namespace eval ::music {
 		entry $mainFrame.port.entry -textvariable ::music::config(mpd_port) -bg white -width 10
 		pack $mainFrame.port -anchor w
 		pack $mainFrame.port.label $mainFrame.port.entry -anchor w
+
+		#password
+		frame $mainFrame.password
+		label $mainFrame.password.label -text "[trans music_mpd_password]"
+		entry $mainFrame.password.entry -show "*" -bg white -width 15 -validate all \
+			-validatecommand {
+				set ::music::config(mpd_password) [::music::encrypt %P]
+				return 1
+			}
+		$mainFrame.password.entry insert end [::music::decrypt $::music::config(mpd_password)]
+		pack $mainFrame.password -anchor w
+		pack $mainFrame.password.label $mainFrame.password.entry -anchor w
+
 	}
 
 	###############################################
@@ -1058,6 +1084,23 @@ namespace eval ::music {
 			close $chan
 			return 0
 		}
+
+		if { [string length [::music::decrypt $::music::config(mpd_password)]] > 0 } {
+			puts $chan "password [::music::decrypt $::music::config(mpd_password)]"
+			flush $chan
+			
+			if { [catch {gets $chan line} err] } {
+				plugins_log Music "error : $err"
+				close $chan
+				return 0
+			}
+			if { [string range $line 0 1] != "OK" } {
+				plugins_log Music "error: $line"
+				close $chan
+				return 0
+			}
+		}
+
 		puts $chan "status"
 		flush $chan
 		if { [catch {gets $chan line} err] } {
@@ -1065,6 +1108,12 @@ namespace eval ::music {
 			close $chan
 			return 0
 		}
+		if { [string range $line 0 2] == "ACK"} {
+		    plugins_log Music "error: $line"
+		    close $chan
+		    return 0
+		}
+
 		while {[string range $line 0 1] != "OK" } {
 			if { [string range $line 0 4] == "state" } {
 				set state [string range $line 7 end]

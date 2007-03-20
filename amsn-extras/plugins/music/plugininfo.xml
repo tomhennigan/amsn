@@ -10,7 +10,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>7668</cvs_version>
+	<cvs_version>8265</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -22,15 +22,15 @@
 	</lang>
 	<lang>
 		<langcode>en</langcode>
-		<version>6846</version>
+		<version>8265</version>
 	</lang>
 	<lang>
 		<langcode>es</langcode>
-		<version>7908</version>
+		<version>8265</version>
 	</lang>
 	<lang>
 		<langcode>fr</langcode>
-		<version>6846</version>
+		<version>8265</version>
 	</lang>
 	<lang>
 		<langcode>fr_CA</langcode>

@@ -22,3 +22,4 @@ musicballontext Cliquez ici pour montrer ou cacher ce que vous écoutez
 changepic Changer l'avatar en prenant la pochette de l'album si disponible
 music_mpd_ip adresse IP de votre serveur MPD
 music_mpd_port Port de votre serveur MPD
+music_mpd_password Mot de passe de votre serveur MPD (si nécessaire)

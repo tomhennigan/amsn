@@ -3,8 +3,9 @@ artistsong Artista-Canción
 artsend Enviar la portada del álbum actual
 changepic Cambiar la imagen mostrada a la portada del álbum, si es posible
 choose_order Elige orden para el nombre de la canción y artista
-music_mpd_ip Dirección IP address de tu servidor MPD
+music_mpd_ip Dirección IP de tu servidor MPD
 music_mpd_port Puerto de tu servidor MPD
+music_mpd_password Contraseña de tu servidor MPD
 musicaddsongtonick Añadir nombre de canción al apodo
 musicaddsongtopsm Añadir nombre de canción al Mensaje Personal
 musicballontext Clic aquí para mostrar/ocultar la canción en tu apodo
