@@ -17,7 +17,7 @@
 #
 #
 # Notes:
-#   - This library enters vwait loop (see Tcl man pages), and returns only
+#   - This library enters tkwait ::Socks5::loop (see Tk man pages), and returns only
 #     when SOCKS initialization is complete.
 #   - This library uses a global array: socks_idlist. Make sure your program
 #     doesn't use that.
@@ -85,8 +85,8 @@ namespace eval ::Socks5 {
 		puts -nonewline $sck "$ver$nmethods$method"
 		flush $sck
 		
-		status_log "going into vwait\n"
-		vwait socks_idlist(stat,$sck)
+		status_log "going into tkwait\n"
+		tkwait variable ::Socks5::socks_idlist(stat,$sck)
 		set a $socks_idlist(data,$sck)
 		if {[eof $sck]} {
 			catch {close $sck}
@@ -116,7 +116,7 @@ namespace eval ::Socks5 {
 			puts -nonewline $sck "$authver$ulen$user$plen$pass"
 			flush $sck
 			
-			vwait socks_idlist(stat,$sck)
+			tkwait variable ::Socks5::socks_idlist(stat,$sck)
 			set a $socks_idlist(data,$sck)
 			if {[eof $sck]} {
 				catch {close $sck}
@@ -156,7 +156,7 @@ namespace eval ::Socks5 {
 		puts -nonewline $sck "$ver$cmd_connect$rsv$atyp$dlen$addr$port"
 		flush $sck
 		
-		vwait socks_idlist(stat,$sck)
+		tkwait variable ::Socks5::socks_idlist(stat,$sck)
 		set a $socks_idlist(data,$sck)
 		if {[eof $sck]} {
 			catch {close $sck}
@@ -224,7 +224,7 @@ namespace eval ::Socks5 {
 	}
 
 	#
-	# Change the variable value, so 'vwait' loop will end in socks:init procedure.
+	# Change the variable value, so 'tkwait' loop will end in socks:init procedure.
 	#
 	proc Readable {sck} {
 		variable socks_idlist
