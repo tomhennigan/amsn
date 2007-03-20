@@ -41,26 +41,29 @@
 			<contactlistbg>#ffffff</contactlistbg>	<!-- color of the contact list, where the contacts appear -->
 			<bannerbg>#ffffff</bannerbg>
 			<mystatus>#666666</mystatus>
-			<contact_online>#333333</contact_online>
-			<contact_away>#333333</contact_away>
-			<contact_noactivity>#333333</contact_noactivity>
-			<contact_rightback>#333333</contact_rightback>
-			<contact_onphone>#333333</contact_onphone>
-			<contact_busy>#333333</contact_busy>
-			<contact_gonelunch>#333333</contact_gonelunch>
-			<contact_offline>#666666</contact_offline>
+			<contact_online>#638000</contact_online>
+			<contact_away>#ac4311</contact_away>
+			<contact_noactivity>#555753</contact_noactivity>
+			<contact_rightback>#00438a</contact_rightback>
+			<contact_onphone>#ffaa00</contact_onphone>
+			<contact_busy>#cf4913</contact_busy>
+			<contact_gonelunch>#8c0000</contact_gonelunch>
+			<contact_offline>#555753</contact_offline>
 			<groupcolorextend>#333333</groupcolorextend>
 			<groupcolorcontract>#666666</groupcolorcontract>
-		</Colors>0
+		</Colors>
 		 <Options>
+			 <mainwindowrelief>sunken</mainwindowrelief> <!-- Available options are:  flat/raised/sunken/ridge/groove -->
 			<emailabovecolorbar>1</emailabovecolorbar>
 			<underline_contact>0</underline_contact>
 			<underline_group>0</underline_group>
 			<changecursor_contact>1</changecursor_contact>
 			<changecursor_group>1</changecursor_group>
 			<showdisplaycontactlist>1</showdisplaycontactlist>
+			<contactlistbgtile>0</contactlistbgtile>
 		 </Options>
 		<Geometry>
+			<mainwindowbd>1</mainwindowbd>
 			<buddylistpad>0</buddylistpad>
 			<bigstate_xpad>3</bigstate_xpad>
 			<bigstate_ypad>3</bigstate_ypad>
@@ -74,9 +77,10 @@
 			<expand_ypad>12</expand_ypad>
 			<x_dp_top>10</x_dp_top>
 			<y_dp_top>10</y_dp_top>
-			<buddy_xpad>25</buddy_xpad>
-			<buddy_ypad>0</buddy_ypad>
-
+			<buddy_xpad>10</buddy_xpad>
+			<buddy_ypad>2</buddy_ypad>
+			<contactlist_xpad>2</contactlist_xpad>
+			<contactlist_ypad>0</contactlist_ypad>
 		</Geometry>
 	</ContactList>
 
