@@ -5561,11 +5561,11 @@ proc Remove_from_list { list user } {
 	if { [::config::getKey protocol] == 11 && $list == "contact" } {
 		set user [::abook::getContactData $user contactguid]
 	}
-	if { "$list" == "contact" } {
+	if { "$list" == "contact" && [lsearch [::abook::getLists $user] FL] != -1} {
 		::MSN::WriteSB ns "REM" "FL $user"
-	} elseif { "$list" == "allow" } {
+	} elseif { "$list" == "allow" && [lsearch [::abook::getLists $user] AL] != -1} {
 		::MSN::WriteSB ns "REM" "AL $user"
-	} elseif { "$list" == "block" } {
+	} elseif { "$list" == "block" && [lsearch [::abook::getLists $user] BL] != -1} {
 		::MSN::WriteSB ns "REM" "BL $user"
 	}
 }

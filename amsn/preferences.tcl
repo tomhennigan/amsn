@@ -2194,7 +2194,7 @@ proc Preferences { { settings "personal"} } {
 	$nb.nn compute_size
 	[$nb.nn getframe connection].sw.sf compute_size
 
-	#  .--------------.
+	#  .--------.
 	# _| Others |________________________________________________
 	::skin::setPixmap prefapps prefpers.gif
 
@@ -2414,21 +2414,21 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.allowlist -relief sunken -borderwidth 3
         label $lfname.allowlist.label -text "[trans allowlist]" -foreground #008000 -background #FFFFFF
 	listbox $lfname.allowlist.box -yscrollcommand "$lfname.allowlist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0  -height 5
+		white -relief flat -highlightthickness 0  -height 5
 	scrollbar $lfname.allowlist.ys -command "$lfname.allowlist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
-        pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand false -fill x
+	pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand false -fill x
 	pack $lfname.allowlist.box -side left -expand true -fill both
 	pack $lfname.allowlist.ys -side right -fill y -expand false
 
 
-        frame $lfname.blocklist -relief sunken -borderwidth 3
-        label $lfname.blocklist.label -text "[trans blocklist]" -foreground #A00000 -background #FFFFFF
+	frame $lfname.blocklist -relief sunken -borderwidth 3
+	label $lfname.blocklist.label -text "[trans blocklist]" -foreground #A00000 -background #FFFFFF
 	listbox $lfname.blocklist.box -yscrollcommand "$lfname.blocklist.ys set" -font splainf -background \
 	white -relief flat -highlightthickness 0  -height 5
 	scrollbar $lfname.blocklist.ys -command "$lfname.blocklist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
-        pack $lfname.blocklist.label $lfname.blocklist.box -side top -expand false -fill x
+	pack $lfname.blocklist.label $lfname.blocklist.box -side top -expand false -fill x
 	pack $lfname.blocklist.box -side left -expand true -fill both
 	pack $lfname.blocklist.ys -side right -fill y -expand false
 
@@ -2438,59 +2438,61 @@ proc Preferences { { settings "personal"} } {
 	button $lfname.buttons.left -text "<-- [trans move]"  -command "Block_to_Allow $lfname" -width 10
 	pack $lfname.buttons.right $lfname.buttons.left  -side top
 
-        label $lfname.status -text ""
+	label $lfname.status -text ""
 	frame $lfname.allowframe
-        radiobutton $lfname.allowframe.allowallbutbl -text "[trans allowallbutbl]" -value 1 -variable temp_BLP
+	radiobutton $lfname.allowframe.allowallbutbl -text "[trans allowallbutbl]" -value 1 -variable temp_BLP
 	radiobutton $lfname.allowframe.allowonlyinal -text "[trans allowonlyinal]" -value 0 -variable temp_BLP
 	grid $lfname.allowframe.allowallbutbl -row 1 -column 1 -sticky w
 	grid $lfname.allowframe.allowonlyinal -row 2 -column 1 -sticky w
-        pack $lfname.status $lfname.allowframe -side bottom -anchor w -fill x
+	pack $lfname.status $lfname.allowframe -side bottom -anchor w -fill x
 	pack $lfname.allowlist $lfname.buttons $lfname.blocklist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
 
-        bind $lfname.allowlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"allow\" %X %Y"
-        bind $lfname.blocklist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"block\" %X %Y"
+	bind $lfname.allowlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"allow\" %X %Y"
+	bind $lfname.blocklist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"block\" %X %Y"
 
 
-        # Contact/Reverse lists
+	# Contact/Reverse lists
 	set lfname [labelframe $frm.lfname2 -text [trans prefprivacy2]]
+	set framePrivacyReverseList $lfname.reverselist
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill both
 	label $lfname.pprivacy -image [::skin::loadPixmap prefapps]
 	pack $lfname.pprivacy -anchor nw -side left
 
 	frame $lfname.contactlist -relief sunken -borderwidth 3
-        label $lfname.contactlist.label -text "[trans contactlist]" -background #FF6060
+	label $lfname.contactlist.label -text "[trans contactlist]" -background #FF6060
 	listbox $lfname.contactlist.box -yscrollcommand "$lfname.contactlist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 5
+		white -relief flat -highlightthickness 0 -height 5
 	scrollbar $lfname.contactlist.ys -command "$lfname.contactlist.box yview" -highlightthickness 0 \
-         -borderwidth 1 -elementborderwidth 2
-        pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand false -fill x
+		-borderwidth 1 -elementborderwidth 2
+	pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand false -fill x
 	pack $lfname.contactlist.ys -side right -fill y -expand false
 	pack $lfname.contactlist.box -side left -expand true -fill both
   
 	frame $lfname.reverselist -relief sunken -borderwidth 3
-        label $lfname.reverselist.label -text "[trans reverselist]" -background #FFFF80
+	label $lfname.reverselist.label -text "[trans reverselist]" -background #FFFF80
 	listbox $lfname.reverselist.box -yscrollcommand "$lfname.reverselist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0  -height 5
+		white -relief flat -highlightthickness 0  -height 5
 	scrollbar $lfname.reverselist.ys -command "$lfname.reverselist.box yview" -highlightthickness 0 \
-         -borderwidth 1 -elementborderwidth 2
-        pack $lfname.reverselist.label $lfname.reverselist.box -side top -expand false -fill x
+		-borderwidth 1 -elementborderwidth 2
+	pack $lfname.reverselist.label $lfname.reverselist.box -side top -expand false -fill x
 	pack $lfname.reverselist.ys -side right -fill y -expand false
 	pack $lfname.reverselist.box -side left -expand true -fill both
 
-        frame $lfname.adding
-        entry $lfname.adding.enter -bg white
-        button $lfname.adding.addal -text "[trans addto AL]" -command "Add_To_List $lfname AL"
-        button $lfname.adding.addbl -text "[trans addto BL]" -command "Add_To_List $lfname BL"
-        button $lfname.adding.addfl -text "[trans addto FL]" -command "Add_To_List $lfname FL" 
-        pack $lfname.adding.addal $lfname.adding.addbl $lfname.adding.addfl -side left
-        pack $lfname.adding.enter -side top
+	frame $lfname.adding
+	entry $lfname.adding.enter -bg white
+	button $lfname.adding.addal -text "[trans addto AL]" -command "Add_To_List $lfname AL"
+	button $lfname.adding.addbl -text "[trans addto BL]" -command "Add_To_List $lfname BL"
+	button $lfname.adding.addfl -text "[trans addto FL]" -command "Add_To_List $lfname FL" 
+	pack $lfname.adding.addal $lfname.adding.addbl $lfname.adding.addfl -side left
+	pack $lfname.adding.enter -side top
 
 
 	frame $lfname.buttons -borderwidth 0
 	button $lfname.buttons.right -text "[trans delete] -->"  -command "Remove_Contact $lfname" -width 10
 	button $lfname.buttons.left -text "<-- [trans copy]"  -command "Reverse_to_Contact $lfname" -width 10
 	pack $lfname.adding  $lfname.buttons.right $lfname.buttons.left -side top
-
+	
+	::Event::registerEvent contactRemoved protocol ::preferences::contactRemoved
 
  #       pack $lfname.addal $lfname.addbl $lfname.addfl -side left
 
@@ -2499,13 +2501,13 @@ proc Preferences { { settings "personal"} } {
  #	grid $lfname.addbl -row 4 -column 2 -sticky w 
  #	grid $lfname.addfl -row 4 -column 3 -sticky w 
 
-        label $lfname.status -text ""
+	label $lfname.status -text ""
 
-        pack $lfname.status -side bottom  -anchor w  -fill x
+	pack $lfname.status -side bottom  -anchor w  -fill x
 	pack $lfname.contactlist $lfname.buttons $lfname.reverselist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
 
-        bind $lfname.contactlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"contact\" %X %Y"
-        bind $lfname.reverselist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"reverse\" %X %Y"
+	bind $lfname.contactlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"contact\" %X %Y"
+	bind $lfname.reverselist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"reverse\" %X %Y"
 	
   
 
@@ -2601,6 +2603,31 @@ proc Preferences { { settings "personal"} } {
     
     moveinscreen .cfg 30
     
+}
+
+proc contactRemoved { email { gidlist ""}} {
+	set nb .cfg.notebook
+	set lfname [$nb.nn getframe privacy]
+	set lfname [$lfname.sw.sf getframe]
+	$lfname.lfname2.reverselist.box delete 0 end
+	foreach user [lsort [::MSN::getList RL]] {
+		$lfname.lfname2.reverselist.box insert end $user
+
+		set foreground #000000
+
+		if {[lsearch [::MSN::getList AL] $user] != -1} {
+			set foreground #008000
+		} elseif {[lsearch [::MSN::getList BL] $user] != -1} {
+			set foreground #A00000
+		}
+
+		if {[lsearch [::MSN::getList FL] $user] == -1} {
+			set colour #FFFF80
+		} else {
+			set colour #FFFFFF
+		}
+		$lfname.lfname2.reverselist.box itemconfigure end -background $colour -foreground $foreground
+	}
 }
 
 proc getTaskbarHeight {{w .taskBarSize}} {
