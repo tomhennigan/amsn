@@ -2492,7 +2492,6 @@ proc Preferences { { settings "personal"} } {
 	button $lfname.buttons.left -text "<-- [trans copy]"  -command "Reverse_to_Contact $lfname" -width 10
 	pack $lfname.adding  $lfname.buttons.right $lfname.buttons.left -side top
 	
-	::Event::registerEvent contactRemoved protocol ::preferences::contactRemoved
 
  #       pack $lfname.addal $lfname.addbl $lfname.addfl -side left
 
@@ -2510,6 +2509,14 @@ proc Preferences { { settings "personal"} } {
 	bind $lfname.reverselist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"reverse\" %X %Y"
 	
   
+	::Event::registerEvent contactRemoved protocol [list Fill_users_list_event $frm.lfname $frm.lfname2]
+	::Event::registerEvent contactListChange all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+	::Event::registerEvent contactBlocked all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+	::Event::registerEvent contactUnblocked all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+	::Event::registerEvent contactMoved all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+	::Event::registerEvent contactAdded all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+	::Event::registerEvent contactRemoved all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+	::Event::registerEvent contactlistLoaded all [list Fill_users_list_event $frm.lfname $frm.lfname2]
 
 	#  .----------.
 	# _| Blocking |________________________________________________
@@ -2605,29 +2612,8 @@ proc Preferences { { settings "personal"} } {
     
 }
 
-proc contactRemoved { email { gidlist ""}} {
-	set nb .cfg.notebook
-	set lfname [$nb.nn getframe privacy]
-	set lfname [$lfname.sw.sf getframe]
-	$lfname.lfname2.reverselist.box delete 0 end
-	foreach user [lsort [::MSN::getList RL]] {
-		$lfname.lfname2.reverselist.box insert end $user
-
-		set foreground #000000
-
-		if {[lsearch [::MSN::getList AL] $user] != -1} {
-			set foreground #008000
-		} elseif {[lsearch [::MSN::getList BL] $user] != -1} {
-			set foreground #A00000
-		}
-
-		if {[lsearch [::MSN::getList FL] $user] == -1} {
-			set colour #FFFF80
-		} else {
-			set colour #FFFFFF
-		}
-		$lfname.lfname2.reverselist.box itemconfigure end -background $colour -foreground $foreground
-	}
+proc Fill_users_list_event { path1 path2 args} {
+        Fill_users_list $path1 $path2
 }
 
 proc getTaskbarHeight {{w .taskBarSize}} {

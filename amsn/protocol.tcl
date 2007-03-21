@@ -3243,6 +3243,9 @@ namespace eval ::Event {
 	#            notify all listeners for all events with that name
 	proc fireEvent { eventName caller args } {
 		variable eventsArray
+
+		status_log "Event --$eventName-- fired with caller -$caller-- and args : $args"
+
 		#fire events registered for both the current caller and 'all'
 		foreach call [list $caller "all"] {
 			#first check there were some events registered to caller or it will fail

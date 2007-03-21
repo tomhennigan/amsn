@@ -359,7 +359,7 @@ ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
 ftportpref Starting port for file transfers
-ftportpref2 starting port for direct connections (needed for file transfers and webcam)
+ftportpref2 Starting port for direct connections (needed for file transfers and webcam)
 ftporttest Test port
 ftrejectedby $1 rejected the transfer request for file '$2'.
 ftrejected File transfer rejected

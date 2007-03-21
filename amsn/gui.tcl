@@ -5561,7 +5561,7 @@ proc Remove_from_list { list user } {
 	if { [::config::getKey protocol] == 11 && $list == "contact" } {
 		set user [::abook::getContactData $user contactguid]
 	}
-	if { "$list" == "contact" && [lsearch [::abook::getLists $user] FL] != -1} {
+	if { "$list" == "contact" && $user != ""} {
 		::MSN::WriteSB ns "REM" "FL $user"
 	} elseif { "$list" == "allow" && [lsearch [::abook::getLists $user] AL] != -1} {
 		::MSN::WriteSB ns "REM" "AL $user"
