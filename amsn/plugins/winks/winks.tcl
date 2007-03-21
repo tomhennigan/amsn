@@ -58,8 +58,8 @@ namespace eval ::winks {
 
 		# set plugin configuration
 		array set ::winks::config {
-				show_add_wink 1
-				close_on_leave 1
+#				show_add_wink 1
+#				close_on_leave 1
 				use_extrac32 0
 				cabextractor "cabextract"
 				flashplayer "gnash"
@@ -71,8 +71,8 @@ namespace eval ::winks {
 				#use_queque_out 1
 		}
 		set ::winks::configlist [ list \
-				[list bool "[trans winks_show_add_new_wink_in_menu]" show_add_wink] \
-				[list bool "[trans winks_close_menu_on_mouse_leave]" close_on_leave] \
+#				[list bool "[trans winks_show_add_new_wink_in_menu]" show_add_wink] \
+#				[list bool "[trans winks_close_menu_on_mouse_leave]" close_on_leave] \
 				[list str "[trans winks_cabextract_command]" cabextractor] \
 				[list bool "[trans winks_use_extrac32]" use_extrac32] \
 				[list str "[trans winks_swf_player_command]" flashplayer] \
@@ -92,25 +92,57 @@ namespace eval ::winks {
 		}
 
 		status_log "Winks Loaded OK.\n" green
+		
+		if { ! CheckCabextractVersion } {
+			if {[file exists [file join $dir "cabextract"]} {
+				set ::config(cabextractor) [file join $dir "cabextract"]
+			}
+		}
+		
+		
+		# find out what cab extractor should we use
 
-		# check cabextract version for correct use of -F arguments
-		set cabextract_version "undef"
+		# if we don't use windows XP cab extractor...
 		if {!$::winks::config(use_extrac32)} {
-			catch { catch { exec "[FixBars $::winks::config(cabextractor)]" "-v" } ver } works
-			if { "$works" == "0" } {
-				if { "$ver" == "cabextract version 0.1" || "$ver" == "cabextract version 0.2" 
-				  || "$ver" == "cabextract version 0.3" || "$ver" == "cabextract version 0.4" 
-				  || "$ver" == "cabextract version 0.5" || "$ver" == "cabextract version 0.6" 
-				  || "$ver" == "cabextract version 1.0" || "$ver" == "cabextract version 1.1" } {
-					set cabextract_version "old"
+			# ... and cab extract isn't installed or the path isn't working
+			if { ! CheckCabextractVersion } { // 
+				# ... see if we can use windows one
+				catch { catch { exec "extrac32" } ver } works
+				if { "$works" == "0" } {
+					set ::config(use_extrac32) 1
 				} else {
-					set cabextract_version "new"
+					# ... see if there's one in the plugin directory
+					if {[file exists [file join $dir "cabextract"]} {
+						set ::config(cabextractor) [file join $dir "cabextract"]
+						CheckCabextractVersion
 				}
 			}
-		}	
-		
+		}
+
 	}
 
+	#----------------------------------------------------------------------------------
+	# CheckCabextractVersion: finds out what cabextract version do we have
+	#                         for correct use of -F arguments
+	#----------------------------------------------------------------------------------
+	proc CheckCabextractVersion { } {
+		global cabextract_version
+		catch { catch { exec "[FixBars $::winks::config(cabextractor)]" "-v" } ver } works
+		if { "$works" == "0" } {
+			if { "$ver" == "cabextract version 0.1" || "$ver" == "cabextract version 0.2" 
+			  || "$ver" == "cabextract version 0.3" || "$ver" == "cabextract version 0.4" 
+			  || "$ver" == "cabextract version 0.5" || "$ver" == "cabextract version 0.6" 
+			  || "$ver" == "cabextract version 1.0" || "$ver" == "cabextract version 1.1" } {
+				set cabextract_version "old"
+			} else {
+				set cabextract_version "new"
+			}
+			return 1
+		} else {
+			return 0
+		}
+	}
+	
 	#----------------------------------------------------------------------------------
 	# ShowReadme: Shows a help window with the content of README.txt
 	#----------------------------------------------------------------------------------
@@ -469,20 +501,7 @@ namespace eval ::winks {
 		set rows [expr {int($rows)}]
 		
 		set x_geo [expr {$smiw*$cols + 2} ]
-		
-		if {$::winks::config(close_on_leave)} {
-			if {$::winks::config(show_add_wink)} {
-				set y_geo [expr {$smih*$rows + 2} + 26 ]
-			} else {
-				set y_geo [expr {$smih*$rows + 2}]
-			}
-		} else {
-			if {$::winks::config(show_add_wink)} {
-				set y_geo [expr {$smih*$rows + 2} + 52 ]
-			} else {
-				set y_geo [expr {$smih*$rows + 2} + 26 ]
-			}
-		}
+		set y_geo [expr {$smih*$rows + 2} + 26 ]
 		
 		wm state $w withdrawn
 		wm geometry $w ${x_geo}x${y_geo}
@@ -514,30 +533,15 @@ namespace eval ::winks {
 		}
 
 		# show the "add new wink button"
-		if {$::winks::config(show_add_wink)} {
-			label $w.c.new_but -text "[trans winks_add_new_wink]"  -background [$w.c cget -background] -font sboldf
-			bind $w.c.new_but <Enter> [list $w.c.new_but configure -relief raised]
-			bind $w.c.new_but <Leave> [list $w.c.new_but configure -relief flat]
-			set ypos [expr {($rows)*$smih +13}]
-			$w.c create window  0 $ypos -window $w.c.new_but -width [expr {$x_geo - 2}] -height 26 -anchor w
-		}
+		label $w.c.new_but -text "[trans winks_add_new_wink]"  -background [$w.c cget -background] -font sboldf
+		bind $w.c.new_but <Enter> [list $w.c.new_but configure -relief raised]
+		bind $w.c.new_but <Leave> [list $w.c.new_but configure -relief flat]
+		set ypos [expr {($rows)*$smih +13}]
+		$w.c create window  0 $ypos -window $w.c.new_but -width [expr {$x_geo - 2}] -height 26 -anchor w
 
 		# define how to close the menu (that's for compiz/baryl focus trouble)
-		if {$::winks::config(close_on_leave)} {
-			bind $w <Leave> "::smiley::handleLeaveEvent $w $x_geo $y_geo"
-			#bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
-		} else {
-			label $w.c.close_but -text "[trans close]"  -background [$w.c cget -background] -font sboldf
-			bind $w.c.close_but <Enter> [list $w.c.close_but configure -relief raised]
-			bind $w.c.close_but <Leave> [list $w.c.close_but configure -relief flat]
-			bind $w.c.close_but <Button1-ButtonRelease> "wm state $w withdrawn"
-			if {$::winks::config(show_add_wink)} {
-				set ypos [expr {($rows)*$smih +39}] 
-			} else {
-				set ypos [expr {($rows)*$smih +13}]
-			}
-			$w.c create window  0 $ypos -window $w.c.close_but -width [expr {$x_geo - 2}] -height 26 -anchor w
-		}
+		bind $w <Leave> "::smiley::handleLeaveEvent $w $x_geo $y_geo"
+		#bind $w <Enter> "bind $w <Leave> \"bind $w <Leave> \\\"wm state $w withdrawn\\\"\""
 
 	}
 	
@@ -618,9 +622,7 @@ namespace eval ::winks {
 				incr temp
 			}
 		}
-		if {$::winks::config(show_add_wink)} {
-			bind $w.c.new_but <Button1-ButtonRelease> "wm state $w withdrawn; ::winks::AddWinkDialog $window_name"
-		}		
+		bind $w.c.new_but <Button1-ButtonRelease> "wm state $w withdrawn; ::winks::AddWinkDialog $window_name"
 		moveinscreen $w 5
 		event generate $w <Enter>
 	
@@ -645,7 +647,7 @@ namespace eval ::winks {
 			frame $w.fb
 			button $w.fb.del -text [trans "delete"] -command "::winks::DeleteWink $chatid \"$sha1d\""
 			button $w.fb.ok -text [trans "rename"] -command "::winks::RenameWink $chatid \"$sha1d\""
-			button $w.fb.play -text [trans "winks_play"] -command "::winks::PlayWink $wink(swf)" 
+			button $w.fb.play -text [trans "winks_play"] -command [list ::winks::PlayWink $wink(swf)]
 			button $w.fb.cancel -text [trans cancel] -command "destroy $w"
 			bind $w <<Escape>> "destroy $w"
 		
@@ -735,6 +737,7 @@ namespace eval ::winks {
 			if { [file exists "$filename"] == 0 } { 
 				return 
 			}
+			
 			set w .addNewWink
 			if { [winfo exists .addNewWink]} {destroy .addNewWink}
 			toplevel $w
@@ -1019,17 +1022,7 @@ namespace eval ::winks {
 			# check cabextract version for correct use of -F arguments
 			global cabextract_version
 			if { "$cabextract_version" == "undef" } {
-				catch { catch { exec "[FixBars $::winks::config(cabextractor)]" "-v" } ver } works 
-				if { "$works" == "0" } {
-					if { "$ver" == "cabextract version 0.1" || "$ver" == "cabextract version 0.2" 
-					  || "$ver" == "cabextract version 0.3" || "$ver" == "cabextract version 0.4" 
-					  || "$ver" == "cabextract version 0.5" || "$ver" == "cabextract version 0.6" 
-					  || "$ver" == "cabextract version 1.0" || "$ver" == "cabextract version 1.1" } {
-						set cabextract_version "old"
-					} else {
-						set cabextract_version "new"
-					}
-				}
+				CheckCabextractVersion
 			}	
 		
 			if { "$pattern" == "*" } {
@@ -1211,7 +1204,7 @@ namespace eval ::winks {
 		set wink(sizey) [GetAttrib $lista "wink:sizey"]
 
 		# fix missing information
-		if { "$wink(name)" == "" } {
+		if { "$wink(name)" == "" || "$wink(name)" == "Unused" } {
 			set wink(name) [GetAttrib $lista "wink:name"]
 			if { "$wink(name)" == "" } {
 				set wink(name) [file rootname [file tail "$wink(swf)"]]
