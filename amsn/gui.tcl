@@ -5563,9 +5563,9 @@ proc Remove_from_list { list user } {
 	}
 	if { "$list" == "contact" && $user != ""} {
 		::MSN::WriteSB ns "REM" "FL $user"
-	} elseif { "$list" == "allow" && [lsearch [::abook::getLists $user] AL] != -1} {
+	} elseif { "$list" == "allow" && $user != ""} {
 		::MSN::WriteSB ns "REM" "AL $user"
-	} elseif { "$list" == "block" && [lsearch [::abook::getLists $user] BL] != -1} {
+	} elseif { "$list" == "block" && $user != ""} {
 		::MSN::WriteSB ns "REM" "BL $user"
 	}
 }
