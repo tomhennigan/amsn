@@ -417,10 +417,10 @@ snit::widget dpbrowser {
 			}
 			incr i
 		}
-		if { $enable_draw } {
-			# refill the widget
-			$self drawPics
-		}
+
+		# refill the widget
+		$self drawPics
+		
 	}
 
 	# Configure the widget according to the options
