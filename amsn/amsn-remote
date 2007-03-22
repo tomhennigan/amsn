@@ -3,6 +3,8 @@
 ### Remote controller program
 ###
 
+source amsncore.tcl
+
 set initialize_amsn 1
 
 proc readsocket { } {
