@@ -58,6 +58,7 @@ assistantselectcam Choisissez votre webcam dans la liste
 assistantstarting Démarrage de l'assistant
 assistantwelcome Cet assistant vous guidera pour la configuration des paramètres audio et vidéo de aMSN.\n\nIl vérifiera que les extensions requises sont bien présentes et chargées, puis vous pourrez choisir les périphériques, canaux, régler les paramètres d'image et la résolution.
 audioconfigured Choisissez les paramètres audio suivants :\n Périphérique de lecture : $1\nPériphérique de capture : $2
+audiovideo Paramètres audio et vidéo
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
@@ -345,6 +346,7 @@ finetunesettings Réglages avancés de l'image
 finish Terminé
 finish2apply Appuyez sur Terminé pour utiliser les nouveaux paramètres.
 firewalled Vous êtes derrière un pare-feu ou un routeur
+firewalled2 Vous êtes derrière un pare-feu ou un routeur. Veuillez vérifier les paramètres dans la fenêtre des Préférences.
 followtext Faire défiler lorsque du texte est entré
 forgot_pass Mot de passe oublié
 friendlyname Pseudo de conversation
@@ -357,6 +359,7 @@ ftconnecting Connexion à $1 port $2
 ftconnectionlost Connexion avec l'hôte distant perdue
 ftgotinvitation $1 veut vous envoyer le fichier '$2' ($3 bytes). Il sera sauvegardé dans le répertoire $4. Voulez-vous recevoir ce fichier ?
 ftportpref Premier port pour le transfert de fichiers
+ftportpref2 Premier port pour les connections directes (nécessaires pour les transferts de fichier et la webcam)
 ftporttest Tester le port
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
 ftrejected Transfert de fichier refusé
@@ -438,7 +441,7 @@ lastlogout Dernière déconnexion
 lastmsgedme Dernier message
 lastmsgtime Dernier message reçu à $1
 lastseen Vu pour la dernière fois
-lazypicretrieval Récupération des avatars des contacts lors d'une conversation
+lazypicretrieval Récupération des avatars des contacts uniquement lorsque vous le demandez
 lclosedwin $1 a fermé la fenêtre sur $2
 lconftopriv Conférence changée en conversation privée avec $1
 lconvstarted Conversation commencée le $1
