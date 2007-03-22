@@ -5913,7 +5913,15 @@ proc exit {} {
 
 	close_dock    ;# Close down the dock socket
 	catch {file delete [file join $HOME hotlog.htm]} res
-	::tk::exit
+	# As suggested by Joe English, letting the idler do the exit is better since it lets the C stack unwind
+	# into a safer state.. would resolve possible segfaults on exit.. 
+	# other alternative is to use 'destroy .' instead of 'exit'.. especially when it's called from a -command option of a menu entry
+
+	# ok.. more info.. we shouldn't rename 'exit' at all.. argh :s and we should never call exit, 
+	# we should call 'destroy .' whenever we want to exit the program...
+	# and we should bind this cleanup procedure to the <Destroy> even of the '.' window... 
+	# for now, I'll leave it like that.. 
+	after idle ::tk::exit
 }
 #///////////////////////////////////////////////////////////////////////
 
