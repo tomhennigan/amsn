@@ -4,6 +4,9 @@
 ###
 
 set initialize_amsn 1
+
+source amsncore.tcl
+
 proc readsocket { } {
 	global sock
 
