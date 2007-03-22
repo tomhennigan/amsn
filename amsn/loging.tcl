@@ -413,13 +413,17 @@ namespace eval ::log {
 
 		global log_dir langenc logvar
 
-		#Get all the contacts
-		foreach contact [::abook::getAllContacts] {
-			#Selects the contacts who are in our list and adds them to the contact_list
-			if {[string last "FL" [::abook::getContactData $contact lists]] != -1} {
-				lappend contact_list $contact
+		# Get all the contacts with logs
+		set lDirs [concat ${log_dir} [glob -nocomplain -types d "${log_dir}/*"]]
+
+		foreach sDir $lDirs {
+			foreach sLogFile [glob -tails -nocomplain -types f -directory ${sDir} "*.log"] {
+				set sLogFile [ string range $sLogFile 0 [ expr { [string length $sLogFile] - 5 } ] ]
+				set hNames($sLogFile) 1
 			}
 		}
+		
+		set contact_list [ array names hNames ]
 
 		#Sorts contacts
 		set sortedcontact_list [lsort -dictionary $contact_list]
@@ -427,7 +431,7 @@ namespace eval ::log {
 		#Add the eventlog
 		lappend sortedcontact_list eventlog
 
-		#If there is no email defined, we remplace it by the first email in the dictionary order
+		#If there is no email defined, we replace it by the first email in the dictionary order
 		if {$email == ""} {
 			set email [lindex $sortedcontact_list 0]
 		}
@@ -549,17 +553,17 @@ namespace eval ::log {
 
 		global webcam_dir langenc logvar
 
-		#Get all the contacts
-		foreach contact [::abook::getAllContacts] {
-			#Selects the contacts who are in our list and adds them to the contact_list
-			if {[string last "FL" [::abook::getContactData $contact lists]] != -1} {
-				lappend contact_list $contact
-			}
+		# Get all the contacts with saved webcam sessions
+		foreach sLogFile [glob -tails -nocomplain -types f -directory ${webcam_dir} "*.cam"] {
+			set sLogFile [ string range $sLogFile 0 [ expr { [string length $sLogFile] - 5 } ] ]
+			set hNames($sLogFile) 1
 		}
-		#Sorts contacts
+		
+		set contact_list [ array names hNames ]
+		
 		set sortedcontact_list [lsort -dictionary $contact_list]
 
-		#If there is no email defined, we remplace it by the first email in the dictionary order
+		#If there is no email defined, we replace it by the first email in the dictionary order
 		if {$email == ""} {
 			set email [lindex $sortedcontact_list 0]
 		}
