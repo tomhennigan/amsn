@@ -280,7 +280,7 @@ namespace eval ::guiContactList {
 	proc moveBGimage { canvas } {
 		set canvaslength [lindex [$canvas cget -scrollregion] 3]
 		if {$canvaslength == ""} { set canvaslength 0}
-		$canvas coords backgroundimage 0 [expr int([expr [lindex [$canvas yview] 0] * $canvaslength])]
+		$canvas coords backgroundimage 0 [expr {int([expr {[lindex [$canvas yview] 0] * $canvaslength}])}]
 		$canvas lower backgroundimage
 	}
 
@@ -1364,7 +1364,7 @@ namespace eval ::guiContactList {
 							$textwidth $relnickcolour]
 		
 						# Change the coords
-						set relxnickpos [expr $relxnickpos + $textwidth]
+						set relxnickpos [expr {$relxnickpos + $textwidth}]
 					} elseif { [lindex $unit 0] == "smiley" } {
 						# Check if we are still allowed to draw smileys
 						if { $linefull } {
@@ -1702,7 +1702,7 @@ namespace eval ::guiContactList {
 			
 			#First show the spaces title:
 			if {$SpaceTitle != ""} {
-				$canvas create text $xcoord [expr $ycoord + $height] -font bitalf -text "$SpaceTitle" \
+				$canvas create text $xcoord [expr {$ycoord + $height}] -font bitalf -text "$SpaceTitle" \
 					-tags $taglist -anchor nw -fill black
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight + 4 }]
@@ -1715,7 +1715,7 @@ namespace eval ::guiContactList {
 				# seems like a blog without title doesn't exist, so we don't have to check if there are any posts
 				set blogposts [::MSNCCARD::getAllBlogPosts $ccard]
 				#add a title
-				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Blog" \
+				$canvas create text $xcoord [expr {$ycoord + $height}] -font sboldf -text "$Blog" \
 					-tags $taglist -anchor nw -fill blue
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight}]
@@ -1723,7 +1723,7 @@ namespace eval ::guiContactList {
 				set count 0
 				foreach i $blogposts {
 					set itemtag [lindex $taglist 0]_bpost_${count}
-					$canvas create text [expr $xcoord + 10] [expr $ycoord + $height] \
+					$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
 						-font sitalf -text "[lindex $i 1]" \
 						-tags [linsert $taglist end $itemtag]  -anchor nw -fill grey
 					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
@@ -1739,7 +1739,7 @@ namespace eval ::guiContactList {
 			if {$Album != ""} {
 				set photos [::MSNCCARD::getAllPhotos $ccard]
 				#add a title
-				$canvas create text $xcoord [expr $ycoord + $height] -font sboldf -text "$Album" \
+				$canvas create text $xcoord [expr {$ycoord + $height}] -font sboldf -text "$Album" \
 					-tags $taglist -anchor nw -fill blue
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight}]
@@ -1750,7 +1750,7 @@ namespace eval ::guiContactList {
 #puts "Photo: $i"
 					if { [lindex $i 0] != "" } {
 
-						$canvas create text [expr {$xcoord + 10}] [expr $ycoord + $height] \
+						$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height}] \
 							-font sitalf -text "[lindex $i 1]" \
 							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
 						$canvas bind $itemtag <Button-1> \
@@ -2115,8 +2115,8 @@ namespace eval ::guiContactList {
 	}
 
 	proc centerItems { canvas } {
-		set newX [expr [winfo width $canvas]/2]
-		set newY [expr [winfo height $canvas]/2]
+		set newX [expr {[winfo width $canvas]/2}]
+		set newY [expr {[winfo height $canvas]/2}]
 		
 		set items [$canvas find withtag centerx]
 		foreach item $items {

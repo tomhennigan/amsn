@@ -5423,6 +5423,9 @@ proc change_name_ok {} {
 proc Fill_users_list { path path2} {
 	global emailBList
 
+	if {![winfo exists $path] || ![winfo exists $path2]} { 
+		return
+	}
 	# clearing the list boxes from there content
 	$path.allowlist.box delete 0 end
 	$path.blocklist.box delete 0 end

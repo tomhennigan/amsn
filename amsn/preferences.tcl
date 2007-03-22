@@ -2395,7 +2395,7 @@ proc Preferences { { settings "personal"} } {
 	$lfname.sw.sf compute_width
 	
 	
-	#  .----------.
+	#  .---------.
 	# _| Privacy |________________________________________________
 	#set frm [Rnotebook:frame $nb $Preftabs(privacy)]
 	set frm [$nb.nn getframe privacy]
@@ -2603,13 +2603,28 @@ proc Preferences { { settings "personal"} } {
     #catch { Rnotebook:raise $nb $Preftabs($settings) }
 
     
-    bind .cfg <Destroy> "RestorePreferences %W; array unset myconfig"
+    bind .cfg <Destroy> "UnregisterPrivacyEvents; RestorePreferences %W; array unset myconfig"
 
     wm state .cfg normal
 
     
     moveinscreen .cfg 30
-    
+}
+
+proc UnregisterPrivacyEvents {} {
+	set nb .cfg.notebook
+	if {[winfo exists $nb]} {
+		set lfname [$nb.nn getframe privacy]
+		set frm [$lfname.sw.sf getframe]
+		::Event::unregisterEvent contactRemoved protocol [list Fill_users_list_event $frm.lfname $frm.lfname2]
+		::Event::unregisterEvent contactListChange all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+		::Event::unregisterEvent contactBlocked all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+		::Event::unregisterEvent contactUnblocked all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+		::Event::unregisterEvent contactMoved all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+		::Event::unregisterEvent contactAdded all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+		::Event::unregisterEvent contactRemoved all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+		::Event::unregisterEvent contactlistLoaded all [list Fill_users_list_event $frm.lfname $frm.lfname2]
+	}
 }
 
 proc Fill_users_list_event { path1 path2 args} {
@@ -3228,10 +3243,6 @@ proc RestorePreferences { {win ".cfg"} } {
 
 	global myconfig proxy_server proxy_port
 	
-
-	set nb .cfg.notebook.nn
-
-
 	::config::setAll [array get myconfig]
 
 	# Save configuration.
