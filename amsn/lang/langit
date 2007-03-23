@@ -531,7 +531,7 @@ newmailfolder Hai $1 nuovi messaggi Hotmail in cartelle varie
 newmailfrom Nuova e-mail da $1 ($2)
 newmailfromother Nuova posta in cartelle varie da $1 ($2)
 newmsg Nuovo messaggio
-newoim Nuovi messaggi Offline
+newoim Nuovi messaggi "non in linea"
 newstate Aggiungi uno Stato personale
 newtabbedfeature Su aMSN è ora possibile gestire le varie conversazioni anche riunendo tutte le finestre, di uno stesso gruppo o dell'intera lista contatti, in un'unica finestra a linguette. Scegli come vuoi che aMSN si comporti
 newveravailable La nuova versione $1 è disponibile per il download
@@ -578,6 +578,7 @@ nousersinsession Nessun utente nella sessione
 nouserspecified Nessun utente specificato
 nudge $1 chiede la tua attenzione
 offline Sconnesso
+oim Messaggistica "non in linea"
 ok Ok
 onenewmail 1 nuovo messaggio di posta
 onlinehelp Aiuto in linea
@@ -674,7 +675,7 @@ readonlymsgbox Il trasferimento del file è stato annullato perché la directory d
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la directory "File Ricevuti" sembra essere protetta in scrittura.\nPer favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
 receivedbytes Ricevuti $1 byte su $2
 receiveddir Cartella file ricevuti
-receivedoimread Hai $1 nuovi messaggi Offline. Desideri leggerli?
+receivedoimread Hai $1 nuovi messaggi "non in linea". Desideri leggerli?
 receivedvoice Messaggio vocale ricevuto
 receivefile Ricezione file in corso
 recentmsg Previeni la chiusura di una finestra di chat quando è appena arrivato un messaggio
@@ -780,7 +781,7 @@ sourcecode Codice sorgente (necessita compilazione e installazione)
 splashstart Splash screen
 sslwarning ATTENZIONE!! Disabilitando la crittografia SSL, la password verrà inviata in chiaro sulla rete. Questa operazione deve essere compiuta solo se si ha a che fare con proxies particolarmente problematici.
 startoffline2 Entra silenziosamente come "Invisibile"
-startoffline Inizio Offline
+startoffline Inizio "non in linea"
 startonboot Avvia aMSN all'avvio di Windows
 startontray Avvia aMSN direttamente nella traybar
 stateautomsg Messaggio automatico da inviare
