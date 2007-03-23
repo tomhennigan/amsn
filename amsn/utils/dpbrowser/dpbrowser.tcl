@@ -55,11 +55,12 @@ snit::widget dpbrowser {
 	}
 
 	# Generate the dps list for the specified users
-	method fillWidget { email_list } {
+	method fillWidget { } {
 		global HOME
 
 		set selected ""
 
+		set email_list $options(-user)
 		set n_email [llength $email_list]
 
 		if {$email_list != ""} {
@@ -428,17 +429,16 @@ snit::widget dpbrowser {
 		set options($option) $value
 
 		#actions after change or initial setting of options
-		#the space was added so the option isn't passed to the switch command
-		switch " $option" {
-			" -user" {
-				set options($option) [lsort -unique $value]
+		switch -- $option {
+			-user {
+				set options(-user) [lsort -unique $value]
 				#empty the widget and refill it for other user
-				$self fillWidget $value
+				$self fillWidget
 				if {!($first_draw)} {
 					$self drawPics
 				}
 			}
-			" -autowidth" {
+			-autowidth {
 				if {$value} {
 					# discard the fixed width value
 					set options(-width) 0

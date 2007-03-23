@@ -6538,6 +6538,7 @@ proc dpBrowser { {target_user "self" } } {
 	wm title $w "[trans picbrowser]"
 		
 	#Get all the contacts
+	set contact_list [list]
 	foreach contact [::abook::getAllContacts] {
 		#Selects the contacts who are in our list and adds them to the contact_list
 		if {[string last "FL" [::abook::getContactData $contact lists]] != -1} {
@@ -6676,6 +6677,7 @@ proc configureDpBrowser {target combowidget selection} {
 	}
 	if {$selection == "[trans otherdps]"} {
 		#Get all the contacts
+		set contact_list [list]
 		foreach contact [::abook::getAllContacts] {
 			#Selects the contacts who are in our list and adds them to the contact_list
 			if {[string last "FL" [::abook::getContactData $contact lists]] != -1} {
