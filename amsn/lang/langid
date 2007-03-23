@@ -50,6 +50,15 @@ askeachtime Tanya setiap kali
 asksendingyourwebcam untuk menanyakan untuk mengirim webcam anda sendiri
 asksendoim Apakah anda ingin mengirim pesan ini sebagai pesan offline ?
 askwebcam Minta pengguna ini untuk mengirim webcamnya
+assistantainput Pilih piranti input anda dan coba merekam dengannya.
+assistantaoutput Pilih piranti output anda dan coba coba mainkan berkas (putar) ini untuk mengujinya.
+assistantawarn Anda tidak dapat merekam diri anda sendrii, atau bicara pada teman anda. Anda dapat menemukan jawaban mengenai bagaimana menginstal ekstensi ini pada Wiki kami:
+assistantfinetunepic Ubah pengaturan berikut untuk menyesuaikan kulitas gambar dari webcam anda
+assistantselectcam Pilih webcam anda dari daftar
+assistantstarting Memulai Asisten
+assistantwelcome Asisten ini akan memandu anda melalui proses pengaturan audio dan video anda untuk aMSN.\n\nlt akan memeriksa apakah ekstensi yang diperlukan telah ada dan termuat dan anda akan dapat memilih piranti dan saluran, mengatur pengaturan gambar dan resolusi.
+audioconfigured Anda memilih pengaturan Audaio sebagai berikut:\n Piranti Output: $1\nPiranti Input:$2
+audiovideo Pengaturan Audio dan Video
 author Pencipta
 autoaccepted Transmisi Berkas diterima secara otomatis
 autoacceptft Terima permintaan Transmisi Berkas secara otomatis
@@ -110,6 +119,7 @@ cantremoveothers Tidak dapat mengilangkan group "Lain-lain"
 captureextloaded Ekstensi tangkapan -$1- sudah termuat
 captureextnotloaded Ekstensi tangkapan -$1- tidak termuat, anda harus mengkompilasinya terlebih dahulu
 captureproperties Anjuran-anjuran gambar WebCam
+capturewarn Anda tidak dapat mengirim webcam anda apabila anda memilikinya. Jika tidak, itu normal. Anda dapat menemukan jawaban tentang bagaimana menginstal ekstensi ini pada Wiki kami :
 casesensitive Gunakan pemicu yang sensitif terhadap bentuk huruf (besar/kecil)
 cfgalarm Rubah Pengaturan/Tambah/Hapus alarm
 cfgalarmall Atur/Tambahkan/Hilangkan Alarm Global
@@ -137,6 +147,10 @@ chatsmileys2 Tampilkan Emoticon dan Smiley dalam window percakapan
 checkblocking Periksa secara berkelanjutan apakah para pengguna memblokir anda
 checkemail Tampilkan baris pemberitahuan email (inbox) dalam daftar kontak
 checkfilman Berkas yang diterima akan disimpan dalam $1. Mohon periksa aturan pengelolaan berkas dalam window anjuran.
+checkingaudio Memeriksa apakah ekstensi audio (Snack) termuat ...
+checkingcam Memeriksa apakah webcam tersambung ...
+checkingcapext Memeriksa apakah ekstensi '$1' termuat ...
+checkingextensions Memeriksa akan ekstensi video yang diperlukan
 checkingver Sedang memeriksa versi terbaru
 checkonfln Periksa apakah pengguna tersebut memblokir anda saat dia pergi offline
 checkopenfilecommand Tolong cek komander dari OPEN FILE
@@ -148,6 +162,9 @@ choosechannel Silahkan pilih sebuah saluran
 choosecontact Mohon pilih sebuah kontak dari daftar
 choosedevice Silahkan pilih sebuah alat (device)
 choosefontcolor Pilih warna tekst
+chooseinputdev Pilih piranti input anda
+choosemixerdev Pilih mixer anda
+chooseoutputdev Pilih piranti output anda
 chooseskin Silahkan pilih Kulit yang ingin anda gunakan
 clear Jelas/Bebas
 clearlog Bersihkan Register
@@ -171,6 +188,8 @@ color Warna
 command Perintah
 commandstatus Jalankan Perintah
 configure Memasang
+configuremic Menkonfigurasi mikrofon anda
+configuringaudio Mengkonfigurasi pengaturan audio
 confirm Apakah anda yakin?
 confirmbl Apakah anda yakin ingin memblokir kontak (kenalan) ini ?
 confirmdelete Apakah anda yakin untuk menghapus $1?
@@ -179,6 +198,7 @@ confirmdu Apakah anda yakin ingin menghapus pengguna ini?
 confirmeg Apakah anda yakin inigin mengosongkan kelompok (grup) ini?
 confirmpurge Semua gambar tampilan tersimpan dari kontak lain (bukan gambar tampilan anda) akan dihapus. Apakah anda yakin?
 confirmrfl Apakah anda yakin ingin menghapus pengguna tersebut dari kelompok (grup) ini?
+congrats Selamat
 connected Sekarang anda tersambung
 connectedwith Tersambung dengan $1
 connecterror Ada masalah saat menghubungi server
@@ -271,6 +291,7 @@ dontshow Jangan Ditampilkan
 download Transfer data dari komputer
 downloadingtls Sedang mendownload modul TLS dari:\n $1
 edit Ubah
+editavsettings Rubah pengaturan audio dan video
 editcontent Rubah isi bagian perihal (subject) dan bagian catatan (note)
 editcustomstate Ubah kondisi tertentu
 editmyprofile Rubah Profil MSN Saya
@@ -320,8 +341,13 @@ find Temukan
 findasyoutype Temukan sembari mengetik
 findnext Temukan Berikutnya
 findprev Temukan Sebelumnya
+finetunesettings Pertajam pengaturan gambar
+finish Selesai
+finish2apply Tekan Selesai untuk menerapkan pengaturan tersebut.
 firewalled Anda berada di belakang router atau firewall
+firewalled2 Anda berada di belakang "firewall", mohon periksa pengaturan Sambungan anda pada jendela pilihan (preferensi)
 followtext Gulung ke bawah saat tekst baru dimasukkan
+forgot_pass Saya lupa kata sandi saya
 friendlyname Nama Akrab
 ftaccepted Transmisi berkas diterima
 ftacceptedby $1 menerima undangan pengalihan berkas untuk berkas ?$2?.
@@ -332,6 +358,7 @@ ftconnecting Menyambung ke $1 port $2
 ftconnectionlost Sambungan ke peer jarak jauh terputus
 ftgotinvitation $1 ingin mengirim berkas ?$2? ($3 bytes). Berkas akan tersimpan dalam direktori $4. Apakah anda ingin menerima berkas ini?
 ftportpref Memulai port untuk pengalihan berkas
+ftportpref2 memulai port untuk sambungan langsung (diperlukan untuk transfer berkas dan webcam)
 ftporttest Uji Port
 ftrejected Transmisi berkas ditolak
 ftrejectedby $1 menolak undangan pengalihan berkas untuk berkas ?$2?.
@@ -361,6 +388,7 @@ grouprename Ganti nama kelompok
 groups Kelompok-kelompok (Grup)
 groupunknown Kelompok lain
 handle Pegangan
+havenomic Saya tidak memiliki mikrofon
 help Bantuan
 helpcontents Isi manual
 hidedisplaypic Sembunyikan Gambar Tampilan
@@ -416,6 +444,7 @@ lazypicretrieval Pengambilan kembali Tampilan Gambar Malas
 lclosedwin $1 telah menutup window atas $2
 lconftopriv Konferensi berubah menjadi percakapan pribadi dengan $1
 lconvstarted Percakapan dimulai pada $1
+lconvstartedOIM Memulai percakapan Pesan Instan Offline pada $1
 leaveblankforhotmail Kosongkan untuk menggunakan Hotmail lewat web
 leavejoinsinchat Tampilkan pemberitahuan "bergabung/meninggalkan percakapan" di dalam jendela percakapan
 leaves $1 telah meninggalkan percakapan ini
@@ -492,6 +521,7 @@ natkeepalive Apabila sambungan anda sering terputus, mungkinkan Biarkan Menyala
 needonline Anda masih tidak tersambung atau sedang sembunyi!
 needwinico2 Memerlukan winico05.dll dalam direktori utils/windows supaya labuhanbaki (traydoking) jendela dapat bekerja
 never Tidak Pernah
+new_account Buat Akun
 new_ft_protocol Gunakan protokol Pemindahan Berkas yang baru (masih ada beberapa bug)
 newchat Percakapan Baru
 newline Baris baru
@@ -509,12 +539,14 @@ nick Panggilan (alias)
 no Tidak
 noactivity Tidak ada aktivitas
 nocacheddps Tanpa Tampilan Gambar dalam cache untuk pengguna ini
+nocamwarn Webcam tidak ditemukan, atau webcam anda sedang digunakan oleh program lain (yang artinya tidak dapat digunakan oleh aMSN). Anda dapat menemukan bantuan bagaimana menyelesaikan masalah ini pada Wiki kami:
 nodataavailable Tidak ada data yang tersedia untuk $1
 nodevices Anda belum menginstall alat (device)
 noftpreview Nonaktifkan pengiriman tinjauan gambar dalam transfer file
 nogap Tanpa jarak antara kelompok (group)
 nogroup Tidak ada Kelompok (group)
 nologfile Tidak ada register untuk $1
+nomic Tidak ada mikrofon
 noneavailable Tidak Tersedia
 nonewmail Tidak ada email baru di Kotak-Masuk anda
 nonewver Belum ada versi baru
@@ -522,6 +554,8 @@ nopic Gambar Tidak Ada
 noprofileexists Tidak ada profil aktif, \n anda harus menciptakan satu apabila anda ingin daftar-masuk berprofil. \nGunakan tombol Tambahkan Profil Baru dalam window ini untuk menambahkan profil baru.
 normal Normal
 noskins Tidak dapat menemukan kulit mendasar dalam direktori kulit. Tidak bisa menyalakan AMSN.
+nosound Suara tidak terdeteksi, pastikan mikrofon anda tertancap (terpasang) dengan benar
+nosound_or_hold Suara tidak dideteksi. Untuk mengirim Klip Suara anda perlu menekan dan menahan tombol sementara anda berbicara kemudian lepas untuk mengirim pesan.
 nosystemtray Baki Sistem tidak tersedia
 note Nota
 notificationserver Server Pemberitahuan MSN Permulaan (Server Pesan MSN)
@@ -543,6 +577,7 @@ nousersinsession Tidak ada orang lain
 nouserspecified Tidak ada pengguna ditetapkan No user specified
 nudge $1 meminta perhatian anda
 offline Tidak Tersambung
+oim Pengiriman Pesan Offline
 ok Ok
 onenewmail Ada email baru di Kotak-Masuk
 online Tersambung
@@ -576,6 +611,7 @@ play Mainkan
 playbackposition Posisi 'Playback'
 playbackspeed Kecepatan 'Playback' (milidetik antar setiap frame)
 playing Memainkan: $1
+playtest Mainkan berkas pengujian
 playwebcamsend Teruskan pengiriman webcam
 pluginselector Pilih Tambahan-tambahan (plugins)
 port Pintu
@@ -645,9 +681,11 @@ recentmsg Mencegah menutup jendela percakapan saat pesan tiba
 reconnect Menunggu $1 untuk bergabung kembali
 reconnect2 Sambung kembali ketika hilang
 reconnecting Memulihkan sambungan ke server
+record Rekam
 recorderror Kesalahan terjadi saat mencoba merekam suara : $1
 recvwebcamaccepted $1 menerima undangan anda untuk melihat webcam-nya. Menyambung...
 reject Tolak
+rememberaccount Ingat akun saya
 rememberpass Simpan kata sandi
 remembersetting Ingat pengaturan ini
 removeempty Hilangkan kelompok-kelompok kosong dari daftar kontak
@@ -674,6 +712,7 @@ selectall Pilih semua
 selectplugins Silahkan pilih tambahan-tambahan yang ingin anda mungkinkan.
 selectskin Silahkan pilih kulit dari daftar
 send Kirim
+sendcam Kirim Webcam
 sendemail Kirim alamat email saya untuk memberitahu saya akan perubahan-perubahan
 sendfeedback Kirim Masukan
 sendfile Kirim berkas
@@ -692,6 +731,8 @@ servergoingdown Terputus: Server sedang bermasalah
 serverunavailable Server sedang tidak tersedia
 session Bagian
 setasmydp Atur sebagai gambar tampilan saya
+setupcam Mengatur piranti webcam anda
+setupcamfinetune Mengatur piranti webcam, dan mempertajam gambar
 shareswebcam Membagi webcam
 show_contactdps_in_cl Tampilkan 'thumbnail' dari Tampilan Gambar kontak dalam Daftar Kontak
 showbanner Tampilkan spanduk (banner) aMSN's
@@ -753,6 +794,7 @@ statenick Nama panggilan (alias) pilihan (tinggalkan kosong bila tidak diganti)
 statepsm Pesan Pribadi Kustom (biarkan kosong jika tidak ada perubahan)
 stats Statistik
 status Status
+step Langkah
 stop Stop
 stopalarm Stop alarm
 stopwebcamreceive Stop menerima Webcam
@@ -770,7 +812,6 @@ tabbed Window yang ditandai
 tabbedglobal jendela tabbed untuk semua user di daftar
 tabbedgroups jendela tabbed untuk semua user yang grupnya sama
 tabtitlenick Tunjukkan nama kecil daripada e-mailnya
-takesnapshot Ambil shot ycepat
 temp_state Jangan disimpan (Kondisi sementara, akan terlewatkan saat menutup AMSN)
 textsize Besar huruf
 thismonth bulan ini
@@ -816,6 +857,7 @@ user Pengguna
 useralreadyonlist Nama sudah ada dalam daftar nama
 userblocked Pengguna sedang tersambung tetapi memblokir anda
 userdata Data Pengguna
+userdps Gambar tampilan pengguna
 usernotonline Pengguna sedang tidak tersambung
 userproperties Anjuran-anjuran pengguna dari $1
 usersettings Pengaturan
@@ -827,14 +869,20 @@ videoconversationrequest Anda baru saja menerima permohonan percakapan video (bi
 view Tampilan
 viewcontactsby Lihat kenalan (kontak) berdasarkan
 viewprofile Lihat Profil Pemakai
+volume Volume
 wanttosharecam Saya ingin membuat webcam saya tersedia untuk orang lain
 web Web
 webcam WebCam
 webcamcanceled Sesi webcam dengan $1 telah dibatalkan
 webcamclosebefcancel Anda harus membatalkan semua sesi webcam sebelum menutup jendela (window)
 webcamconfigure Pemasangan WebCam
+webcamconfiguredLinux Anda memilih pengaturan webcam berikut: $1\nSaluran Webcam: $2
+webcamconfiguredMac Pengaturan webcam anda telah dikonfigurasi
+webcamconfiguredWin Anda memilih piranti webcam sebagai berikut : $1
+webcamextchecking Memeriksa apakah ekstensi webcam termuat …
 webcamextloaded Ekstensi Webcamsn telah termuat
 webcamextnotloaded Ekstensi Webcamsn tidak termuat. Anda harus mengkompilasinya.
+webcamextwarn Anda tidak dapat melihat webcam knotak anda. Anda mungkin dapat menemukan jawaban tentang bagaimana menginstal beberapa ekstensi pada Wiki kami :
 webcamfaq PSD/Pertolongan untuk Webcam
 webcamhistory Lihat sesi Webcam
 webcaminvite $1 mengundang anda untuk memulai sesi webcam, tetapi aMSN tidak mendukung fasilitas ini.
@@ -845,7 +893,6 @@ webcamrejected $1 menolak undangan untuk sesi webcam
 webcamrequestreceive Telah mengirim permohonan untuk menerima webcam
 webcamrequestsend Telah mengirim permohonan untuk mengirim webcam
 webcamsending Daftar orang kepada siapa anda sedang mengrim webcam\nKlik untuk membatalkan
-webcamshot shut web kamera
 whatisamsn aMSN adalah clone MSN Messenger yang bebas-platoform
 whatsize gambar yang kamu minta tidak gambar yang normal ukuran berapa yang kamu minta untuk tampilan gambar
 willjoin Menunggu $1 untuk bergabung
