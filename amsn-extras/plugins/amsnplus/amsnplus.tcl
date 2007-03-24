@@ -627,11 +627,14 @@ namespace eval ::amsnplus {
 							}
 							set i $lastOcc
 						} elseif {[string equal $str "\u00B7\#"]} {
-							#Bold text : as we can't render, we only remove
+							#Bold text
+							lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
+							lappend listOut [list "font" [list -weight "bold"]]
 							set data [string replace $data $i [expr $i + 1] ""]
 						} elseif {[string equal $str "\u00B70"]} {
 							lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
 							lappend listOut [list "colour" "reset"]
+							lappend listOut [list "font" [list -weight "reset"]]
 							set lastOcc [expr $i + 2]
 							set i $lastOcc
 						} else {

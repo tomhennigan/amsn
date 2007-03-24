@@ -1172,13 +1172,13 @@ namespace eval ::guiContactList {
 		# This is the var for the y-change (beginning with the height of 1 line)
 		set ychange [image height $img]
 		set relnickcolour $nickcolour
+		set font_attr [font configure splainf]
 		set relxnickpos $xnickpos
 		set relynickpos $ypos
 
 		foreach unit $parsednick {
 			if {[lindex $unit 0] == "text"} {
-				# Check if we are still allowed to write text,\
-				  a newline character resets this
+				# Check if we are still allowed to write text, a newline character resets this
 				if { $linefull } {
 					continue
 				}
@@ -1193,9 +1193,9 @@ namespace eval ::guiContactList {
 
 				# Check if text is not too long and should be truncated, then
 				# first truncate it and restore it in $textpart and set the linefull
-				if {[expr {$relxnickpos + [font measure splainf $textpart]}] > $maxwidth} {
+				if {[expr {$relxnickpos + [font measure $font_attr $textpart]}] > $maxwidth} {
 					set textpart [::guiContactList::truncateText $textpart \
-						[expr {$maxwidth - $relxnickpos}] splainf]
+						[expr {$maxwidth - $relxnickpos}] $font_attr]
 
 					#If we don't truncate we don't put ellipsis
 					#!$maxwidth already left space for the ellipsis
@@ -1207,8 +1207,8 @@ namespace eval ::guiContactList {
 
 				# Draw the text
 				$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-					$relnickcolour -font splainf -tags [list contact $tag nicktext $main_part]
-				set textwidth [font measure splainf $textpart]
+					$relnickcolour -font $font_attr  -tags [list contact $tag nicktext $main_part]
+				set textwidth [font measure $font_attr $textpart]
 
 				# Append underline coords
 				set yunderline [expr {$ynickpos + $textheight + 1}]
@@ -1230,8 +1230,8 @@ namespace eval ::guiContactList {
 					set linefull 1
 
 					$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-						-fill $relnickcolour -font splainf -tags [list contact $tag nicktext $main_part]
-					set textwidth [font measure splainf $ellips]
+						-fill $relnickcolour -font $font_attr -tags [list contact $tag nicktext $main_part]
+					set textwidth [font measure $font_attr $ellips]
 
 					# Append underline coords
 					set yunderline [expr {$ynickpos + $textheight + 1}]
@@ -1260,6 +1260,16 @@ namespace eval ::guiContactList {
 				if {$relnickcolour == "reset"} {
 					set relnickcolour $nickcolour
 				}
+			} elseif {[lindex $unit 0] == "font"} {
+				array set current_format $font_attr
+				array set modifications [lindex $unit 1]
+				foreach key [array names modifications] {
+					set current_format($key) [set modifications($key)]
+					if { [set current_format($key)] == "reset" } {
+						set current_format($key) [font configure splainf $key]
+					}
+				}
+				set font_attr [array get current_format]
 			} else {
 				status_log "Unknown item in parsed nickname: $unit"
 			}
@@ -1324,6 +1334,7 @@ namespace eval ::guiContactList {
 		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
 
 			set relnickcolour $nickcolour
+			set font_attr [font configure sitalf]
 
 			if {[::config::getKey psmplace] == 1 } {
 				set parsedpsm [::smiley::parseMessageToList " - $psm" 1]
@@ -1344,9 +1355,9 @@ namespace eval ::guiContactList {
 		
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[expr {$relxnickpos + [font measure sitalf $textpart]}] > $maxwidth} {
+						if {[expr {$relxnickpos + [font measure $font_attr $textpart]}] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
-								[expr {$maxwidth - $relxnickpos}] sitalf]
+								[expr {$maxwidth - $relxnickpos}] $font_attr]
 							set textpart "$textpart$ellips"
 		
 							# This line is full, don't draw anything anymore before we start a new line
@@ -1355,8 +1366,8 @@ namespace eval ::guiContactList {
 		
 						# Draw the text
 						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font sitalf -tags [list contact $tag psmtext $main_part]
-						set textwidth [font measure sitalf $textpart]
+							$relnickcolour -font $font_attr -tags [list contact $tag psmtext $main_part]
+						set textwidth [font measure $font_attr $textpart]
 		
 						# Append underline coords
 						set yunderline [expr {$ynickpos + $textheight + 1}]
@@ -1378,8 +1389,8 @@ namespace eval ::guiContactList {
 							set linefull 1
 		
 							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext $main_part]
-							set textwidth [font measure sitalf $ellips]
+								-fill $relnickcolour -font $font_attr -tags [list contact $tag psmtext $main_part]
+							set textwidth [font measure $font_attr $ellips]
 		
 							# Append underline coords
 							set yunderline [expr {$ynickpos + $textheight + 1}]
@@ -1408,6 +1419,16 @@ namespace eval ::guiContactList {
 						if {$relnickcolour == "reset"} {
 							set relnickcolour $nickcolour
 						}
+					} elseif {[lindex $unit 0] == "font"} {
+						array set current_format $font_attr
+						array set modifications [lindex $unit 1]
+						foreach key [array names modifications] {
+							set current_format($key) [set modifications($key)]
+							if { [set current_format($key)] == "reset" } {
+								set current_format($key) [font configure sitalf $key]
+							}
+						}
+						set font_attr [array get current_format]
 					}
 					# END the foreach loop
 				}
@@ -1431,9 +1452,9 @@ namespace eval ::guiContactList {
 		
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[expr {$relxnickpos + [font measure sitalf $textpart]}] > $maxwidth} {
+						if {[expr {$relxnickpos + [font measure $font_attr $textpart]}] > $maxwidth} {
 							set textpart [::guiContactList::truncateText $textpart \
-								[expr {$maxwidth - $relxnickpos}] sitalf]
+								[expr {$maxwidth - $relxnickpos}] $font_attr]
 							set textpart "$textpart$ellips"
 		
 							# This line is full, don't draw anything anymore before we start a new line
@@ -1442,8 +1463,8 @@ namespace eval ::guiContactList {
 		
 						# Draw the text
 						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font sitalf -tags [list contact $tag psmtext $main_part]
-						set textwidth [font measure sitalf $textpart]
+							$relnickcolour -font $font_attr -tags [list contact $tag psmtext $main_part]
+						set textwidth [font measure $font_attr $textpart]
 		
 						# Append underline coords
 						set yunderline [expr {$ynickpos + $textheight + 1}]
@@ -1465,8 +1486,8 @@ namespace eval ::guiContactList {
 							set linefull 1
 		
 							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font sitalf -tags [list contact $tag psmtext $main_part]
-							set textwidth [font measure sitalf $ellips]
+								-fill $relnickcolour -font $font_attr -tags [list contact $tag psmtext $main_part]
+							set textwidth [font measure $font_attr $ellips]
 		
 							# Append underline coords
 							set yunderline [expr {$ynickpos + $textheight + 1}]
@@ -1495,6 +1516,16 @@ namespace eval ::guiContactList {
 						if {$relnickcolour == "reset"} {
 							set relnickcolour $nickcolour
 						}
+					} elseif {[lindex $unit 0] == "font"} {
+						array set current_format $font_attr
+						array set modifications [lindex $unit 1]
+						foreach key [array names modifications] {
+							set current_format($key) [set modifications($key)]
+							if { [set current_format($key)] == "reset" } {
+								set current_format($key) [font configure sitalf $key]
+							}
+						}
+						set font_attr [array get current_format]
 					}
 					# END the foreach loop
 				}
