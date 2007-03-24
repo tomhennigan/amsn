@@ -61,6 +61,7 @@
 			<changecursor_group>1</changecursor_group>
 			<showdisplaycontactlist>1</showdisplaycontactlist>
 			<contactlistbgtile>0</contactlistbgtile>
+			<contactlistbgnontiled>1</contactlistbgnontiled>
 		 </Options>
 		<Geometry>
 			<mainwindowbd>1</mainwindowbd>

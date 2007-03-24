@@ -326,16 +326,27 @@ namespace eval ::guiContactList {
 			image create photo contactlist_background
 		}
 
-		set skin_image [::skin::loadPixmap back]
-
 		if { [::skin::getKey contactlistbgtile 0] != 0 } {
 			contactlist_background configure -width [winfo width $canvas] -height [winfo height $canvas]
-			contactlist_background copy $skin_image \
-				-to 0 0 [winfo width $canvas] [winfo height $canvas]
 		} else {
-			contactlist_background configure -width [image width $skin_image] \
-				-height [image height $skin_image]
-			contactlist_background copy $skin_image
+			if { [::skin::getKey contactlistbgnontiled 1] != 0 } {
+				set skin_image [::skin::loadPixmap back]
+				contactlist_background configure -width [image width $skin_image] \
+					-height [image height $skin_image]
+			} else {
+				contactlist_background configure -width 0 -height 0
+			}
+		}
+
+		if { [::skin::getKey contactlistbgtile 0] != 0 } {
+			set skin_image_tile [::skin::loadPixmap back2]
+			contactlist_background copy $skin_image_tile \
+				-to 0 0 [winfo width $canvas] [winfo height $canvas]
+		}
+		if { [::skin::getKey contactlistbgnontiled 1] != 0 } {
+			set skin_image [::skin::loadPixmap back]
+			contactlist_background copy $skin_image -to 0 0 \
+				[image width $skin_image] [image height $skin_image]
 		}
 
 		if { $bg_exists == 0 } {
