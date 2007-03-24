@@ -324,6 +324,7 @@ findnext Buscar Siguiente
 findprev Buscar Anterior
 firewalled Te encuentras detrás de un cortafuegos o de un enrutador
 followtext Desplazar hacia abajo cuando aparezca nuevo texto
+forget_me Eliminar este perfil
 friendlyname Apodo en conversación
 ftacceptedby $1 ha aceptado la invitación a la transferencia del archivo '$2'.
 ftaccepted Transferencia de archivo aceptada
@@ -654,6 +655,7 @@ reconnecting Reconectando al servidor
 recorderror Ocurrió un error al grabar el sonido: $1
 recvwebcamaccepted $1 aceptó tu invitación para ver su cámara web. Conectando...
 reject Rechazar
+rememberaccount Recordar mi cuenta
 rememberpass Recordar contraseña
 remembersetting Recordar esta selección
 removecustom Eliminar imagen personalizada
