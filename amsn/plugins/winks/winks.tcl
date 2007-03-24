@@ -100,7 +100,7 @@ namespace eval ::winks {
 	
 		# find out what cab extractor should we use
 		if { "$::winks::config(cabextractor)" == "" && ! $::winks::config(use_extrac32) } {
-			GuessCabextractor
+			GuessCabextractor $dir
 			set ::plugins::config(Winks) [array get ::winks::config]
 		} elseif { ! $::winks::config(use_extrac32) } {
 			CheckCabextractVersion
@@ -108,7 +108,7 @@ namespace eval ::winks {
 		
 		# if there's no flash player configured yet
 		if { "$::winks::config(flashplayer)" == "" } {
-			GuessFlashplayer
+			GuessFlashplayer $dir
 			set ::plugins::config(Winks) [array get ::winks::config]
 		}
 		
@@ -121,11 +121,11 @@ namespace eval ::winks {
 	#----------------------------------------------------------------------------------
 	# GuessFlashplayer: finds out what flashplayer command should we use.
 	#----------------------------------------------------------------------------------
-	proc GuessFlashplayer {} {
+	proc GuessFlashplayer { dir } {
 		status_log "Guessing flashplayer..."
 		# see if there's any gnash over there in the system
-		catch { catch { exec "gnash" "--version" } ver } works
-		if { "$works" == "0" } {
+		
+		if { ! [catch { exec "gnash" "--version" } ver]  } {
 			status_log "gnash found in system path." green
 			set ::winks::config(flashplayer) "gnash"
 			set ::winks::config(flashplayerargs) "-1"
@@ -169,11 +169,11 @@ namespace eval ::winks {
 	#----------------------------------------------------------------------------------
 	# GuessCabextractor: finds out what cabextract command should we use.
 	#----------------------------------------------------------------------------------
-	proc GuessCabextractor {} {
+	proc GuessCabextractor { dir } {
 		status_log "Guessing cabextractor..."
 		# try first with extrac32 (for windows systems)
-		catch { catch { exec "extrac32" } ver } works
-		if { "$works" == "0" } {
+		
+		if { ![catch {exec "extrac32" } ] } {
 			status_log "extrac32 found." green
 			set ::winks::config(use_extrac32) 1
 		} else {
@@ -201,8 +201,8 @@ namespace eval ::winks {
 	#----------------------------------------------------------------------------------
 	proc CheckCabextractVersion { } {
 		global cabextract_version
-		catch { catch { exec "[FixBars $::winks::config(cabextractor)]" "-v" } ver } works
-		if { "$works" == "0" } {
+		
+		if { ![catch { exec "[FixBars $::winks::config(cabextractor)]" "-v" } ver] } {
 			if { "$ver" == "cabextract version 0.1" || "$ver" == "cabextract version 0.2" 
 			  || "$ver" == "cabextract version 0.3" || "$ver" == "cabextract version 0.4" 
 			  || "$ver" == "cabextract version 0.5" || "$ver" == "cabextract version 0.6" 
