@@ -370,6 +370,8 @@ namespace eval ::guiContactList {
 	proc changedSkin { eventused } {
 		variable clcanvas
 		if { [winfo exists $clcanvas] } {
+			catch { contactlist_background blank }
+			drawBG $clcanvas 0
 			::guiContactList::drawList $clcanvas
 		}
 	}
