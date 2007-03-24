@@ -61,9 +61,9 @@ namespace eval ::winks {
 #				show_add_wink 1
 #				close_on_leave 1
 				use_extrac32 0
-				cabextractor "cabextract"
-				flashplayer "gnash"
-				flashplayerargs "-1"
+				cabextractor ""
+				flashplayer ""
+				flashplayerargs ""
 				play_inmediatly 1
 				play_embed 0
 				notify_in_one_line 0
@@ -91,36 +91,110 @@ namespace eval ::winks {
 			::MSN::changeStatus [::MSN::myStatusIs] 
 		}
 
-		status_log "Winks Loaded OK.\n" green
-		
-		if { ! CheckCabextractVersion } {
-			if {[file exists [file join $dir "cabextract"]} {
-				set ::config(cabextractor) [file join $dir "cabextract"]
+		# load plugin configuration NOW
+		if {[array names ::plugins::config Winks] != ""} {
+			if {$::plugins::config(Winks) != ""} {
+				array set ::winks::config $::plugins::config(Winks)
 			}
+		}	
+	
+		# find out what cab extractor should we use
+		if { "$::winks::config(cabextractor)" == "" && ! $::winks::config(use_extrac32) } {
+			GuessCabextractor
+			set ::plugins::config(Winks) [array get ::winks::config]
+		} elseif { ! $::winks::config(use_extrac32) } {
+			CheckCabextractVersion
 		}
 		
+		# if there's no flash player configured yet
+		if { "$::winks::config(flashplayer)" == "" } {
+			GuessFlashplayer
+			set ::plugins::config(Winks) [array get ::winks::config]
+		}
 		
-		# find out what cab extractor should we use
+		::plugins::save_config
+		status_log $::winks::config(flashplayer) 
+		status_log "Winks Loaded OK.\n" green
+	}
 
-		# if we don't use windows XP cab extractor...
-		if {!$::winks::config(use_extrac32)} {
-			# ... and cab extract isn't installed or the path isn't working
-			if { ! CheckCabextractVersion } { // 
-				# ... see if we can use windows one
-				catch { catch { exec "extrac32" } ver } works
-				if { "$works" == "0" } {
-					set ::config(use_extrac32) 1
+
+	#----------------------------------------------------------------------------------
+	# GuessFlashplayer: finds out what flashplayer command should we use.
+	#----------------------------------------------------------------------------------
+	proc GuessFlashplayer {} {
+		status_log "Guessing flashplayer..."
+		# see if there's any gnash over there in the system
+		catch { catch { exec "gnash" "--version" } ver } works
+		if { "$works" == "0" } {
+			status_log "gnash found in system path." green
+			set ::winks::config(flashplayer) "gnash"
+			set ::winks::config(flashplayerargs) "-1"
+			# see if there's any gnash over there in the system
+			status_log [string range "$ver" 0 11]
+			if { [string range "$ver" 0 11] != "Gnash 0.7.2" } {
+				set ::winks::config(play_embed) 1
+			} else {
+				set ::winks::config(play_embed) 0
+			}
+		} else {
+			# see if there's any flash player in the plugin directory
+			if { [OnWin] } {
+				if {[file exists [file join $dir "gnash.exe"]]} {
+					status_log "gnash found in plugin path." green
+					set ::winks::config(flashplayer) [file join $dir "gnash.exe"]
+					set ::winks::config(flashplayerargs) "-1"
+				} elseif {[file exists [file join $dir "flashplayer.exe"]]} {
+					status_log "flashplayer in plugin path." green
+					set ::winks::config(flashplayer) [file join $dir "flashplayer.exe"]
+					set ::winks::config(flashplayerargs) ""
 				} else {
-					# ... see if there's one in the plugin directory
-					if {[file exists [file join $dir "cabextract"]} {
-						set ::config(cabextractor) [file join $dir "cabextract"]
-						CheckCabextractVersion
+					status_log "No player found." red
+				}
+			} else {
+				if {[file exists [file join $dir "gnash"]]} {
+					status_log "gnash found in plugin path." green
+					set ::winks::config(flashplayer) [file join $dir "gnash"]
+					set ::winks::config(flashplayerargs) "-1"
+				} elseif {[file exists [file join $dir "flashplayer"]]} {
+					status_log "flashplayer found in plugin path." green
+					set ::winks::config(flashplayer) [file join $dir "flashplayer"]
+					set ::winks::config(flashplayerargs) ""
+				} else {
+					status_log "No player found." red
 				}
 			}
 		}
-
 	}
-
+	
+	#----------------------------------------------------------------------------------
+	# GuessCabextractor: finds out what cabextract command should we use.
+	#----------------------------------------------------------------------------------
+	proc GuessCabextractor {} {
+		status_log "Guessing cabextractor..."
+		# try first with extrac32 (for windows systems)
+		catch { catch { exec "extrac32" } ver } works
+		if { "$works" == "0" } {
+			status_log "extrac32 found." green
+			set ::winks::config(use_extrac32) 1
+		} else {
+			# see if cabextract is present in the system
+			set ::winks::config(cabextractor) "cabextract"
+			if { ! [CheckCabextractVersion] } {
+				# ... see if there's one in the plugin directory
+				if {[file exists [file join $dir "cabextract"]]} {
+					set ::winks::config(cabextractor) [file join $dir "cabextract"]
+					CheckCabextractVersion
+					status_log "cabextract found in plugin path." green
+				} else {
+					set ::winks::config(cabextractor) ""
+					status_log "No cabextractor found." red
+				}
+			} else {
+				status_log "cabextract found in system path." green
+			}
+		}
+	}
+	
 	#----------------------------------------------------------------------------------
 	# CheckCabextractVersion: finds out what cabextract version do we have
 	#                         for correct use of -F arguments
