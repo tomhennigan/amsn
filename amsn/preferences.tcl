@@ -1484,6 +1484,10 @@ proc Preferences { { settings "personal"} } {
     set pager "N"
     if {[ winfo exists .cfg ]} {
     	raise .cfg
+
+	# This should raise the settings tab depending on the arg..
+	catch {.cfg.notebook.nn raise $settings}
+
         return
     }
 
@@ -2607,7 +2611,9 @@ proc Preferences { { settings "personal"} } {
     #wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
 
     #catch { Rnotebook:raise $nb $Preftabs($settings) }
-
+	
+	# This should raise the settings tab depending on the arg..
+	catch {$nb.nn raise $settings}
     
     bind .cfg <Destroy> "UnregisterPrivacyEvents; RestorePreferences %W; array unset myconfig"
 
