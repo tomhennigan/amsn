@@ -4014,124 +4014,8 @@ proc status_save_file { filename } {
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_offline {} {
-	bind . <Configure> ""
 
-	global password pgBuddyTop
-
-	# Now we get a lock on the contact list
-	set clcanvas [::guiContactList::lockContactList]
-
-	if { $clcanvas == "" } { return }
-
-	wm title . "[trans title] - [trans offline]"
-
-	pack forget $pgBuddyTop
-
-	#Send postevent "OnDisconnect" to plugin when we disconnect
-	::plugins::PostEvent OnDisconnect evPar
-
-	set textheight [font configure splainf -size]
-
-	set globe_image [::skin::loadPixmap globe]
-
-	$clcanvas create image 5 5 -image $globe_image -anchor nw
-	$clcanvas create text [expr [image width $globe_image] + 10] [expr {[image height $globe_image]/2} + 5] \
-		-text "[trans language]" -font sunderf \
-		-fill #777777 -anchor w -tags [list lang_sel]
-
-	$clcanvas bind lang_sel <Enter> \
-		"$clcanvas itemconfigure lang_sel -fill #0000A0 -font splainf; \
-		$clcanvas configure -cursor hand2"
-	$clcanvas bind lang_sel <Leave> \
-		"$clcanvas itemconfigure lang_sel -fill #777777 -font sunderf; \
-		$clcanvas configure -cursor left_ptr"
-	$clcanvas bind lang_sel <Button1-ButtonRelease> \
-		"::lang::show_languagechoose"
-
-	#display user's display picture in login screen
-	$clcanvas create image 0 [expr {[image height $globe_image] + 10}] -image displaypicture_not_self -anchor n -tags [list centerx]
-
-	if { ([::config::getKey login] != "") && ([::config::getGlobalKey disableprofiles] != 1)} {
-
-		if { $password != "" } {
-			#They will be centered at the end
-			$clcanvas create text 0 [expr {[image height $globe_image] + 70}] \
-				-text "[::config::getKey login]" -font sboldunderf \
-				-fill #000000 -anchor center -tags [list start_login centerx]
-			$clcanvas create text 0 [expr {[image height $globe_image] + 73 + $textheight}] \
-				-text "[trans clicktologin]" -font sboldunderf \
-				-fill #000000 -anchor center -tags [list start_login centerx]
-			
-			$clcanvas bind start_login <Enter> \
-				"$clcanvas itemconfigure start_login -fill #0000A0 -font sboldf; \
-				$clcanvas configure -cursor hand2;"
-			$clcanvas bind start_login <Leave> \
-				"$clcanvas itemconfigure start_login -fill #000000 -font sboldunderf; \
-				$clcanvas configure -cursor left_ptr;"
-
-			$clcanvas bind start_login <Button1-ButtonRelease> "::MSN::connect"
-
-		} else {
-			#They will be centered at the end
-			$clcanvas create text 0 [expr {[image height $globe_image] + 70}] \
-				-text "[::config::getKey login]" -font sboldunderf \
-				-fill #000000 -anchor center -tags [list start_loginas centerx]
-			$clcanvas create text 0 [expr {[image height $globe_image] + 73 + $textheight}] \
-				-text "[trans clicktologin]..." -font sboldunderf \
-				-fill #000000 -anchor center -tags [list start_loginas centerx]
-		}
-
-		$clcanvas create text 0 [expr {[image height $globe_image] + 150}] \
-			-text "[trans loginas]..." -font sboldunderf \
-			-fill #000000 -anchor center -tags [list start_loginas centerx]
-
-	} else {
-		$clcanvas create text 0 [expr {[image height $globe_image] + 70}] \
-			-text "[trans clicktologin]..." -font sboldunderf \
-			-fill #000000 -anchor center -tags [list start_loginas centerx]
-	}
-
-	$clcanvas bind start_loginas <Enter> \
-		"+$clcanvas itemconfigure start_loginas -fill #0000A0 -font sboldf; \
-		$clcanvas configure -cursor hand2;"
-	$clcanvas bind start_loginas <Leave> \
-		"+$clcanvas itemconfigure start_loginas -fill #000000 -font sboldunderf; \
-		$clcanvas configure -cursor left_ptr;"
-
-	$clcanvas bind start_loginas <Button1-ButtonRelease> "cmsn_draw_login"
-
-	::guiContactList::centerItems $clcanvas
-
-	$clcanvas create text 10 [expr {[image height $globe_image] + 330}] -text "[trans checkver]..." -font sunderf \
-		-fill #777777 -anchor nw -tags [list check_ver]
-
-	$clcanvas bind check_ver <Enter> \
-		"$clcanvas itemconfigure check_ver -fill #0000A0 -font splainf; \
-		$clcanvas configure -cursor hand2"
-	$clcanvas bind check_ver <Leave> \
-		"$clcanvas itemconfigure check_ver -fill #777777 -font sunderf; \
-		$clcanvas configure -cursor left_ptr"
-	$clcanvas bind check_ver <Button1-ButtonRelease> \
-		"::autoupdate::check_version"
-
-	set bbox [$clcanvas bbox check_ver lang_sel start_login start_loginas]
-	$clcanvas configure -scrollregion [list 0 0 [lindex $bbox 2] [lindex $bbox 3]]
-
-	::guiContactList::semiUnlockContactList
-
-	#Initialize Preferences if window is open
-	#TODO. Better than this, trigger an event, and listen in prefrences for that event
-	if { [winfo exists .cfg] } {
-		InitPref
-	}
-	::Preferences::Configure
-
-	# USE NEW LOGIN SCREEN - temporary code, needs working out properly
-	pack forget .main.f
-	if { ![winfo exists .main.loginscreen] } {
-		loginscreen .main.loginscreen
-	}
-	pack .main.loginscreen -e 1 -f both
+	::Event::fireEvent show_login_screen gui
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -4141,6 +4025,9 @@ proc cmsn_draw_reconnect { error_msg } {
 	bind . <Configure> ""
 
 	global pgBuddyTop
+
+	# TODO : this is a hack to allow the login screen to get unpacked when we reconnect...
+	::Event::fireEvent reconnecting gui
 
 	# Now we get a lock on the contact list
 	set clcanvas [::guiContactList::lockContactList]

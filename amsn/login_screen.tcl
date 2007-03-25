@@ -44,10 +44,18 @@ snit::widgetadaptor loginscreen {
 	component check_ver_icon
 	component check_ver_text
 
+	variable more_label
+
 	variable remember_me 0
 
-	delegate method * to hull except {SortElements PopulateStateList LoginButtonPressed CanvasTextToLink LinkClicked}
+	delegate method * to hull except {SortElements PopulateStateList LoginButtonPressed CanvasTextToLink LinkClicked LoggingIn ShowMore}
 	delegate option * to hull except -font
+
+
+	typeconstructor {
+		::Event::registerEvent loggedOut all [list ::loginscreen LoggingOut]
+		::Event::registerEvent show_login_screen all [list ::loginscreen LoggingOut]
+	}
 
 	constructor { args } {
 		# Set up after_id array entries
@@ -63,19 +71,23 @@ snit::widgetadaptor loginscreen {
 		set background_tag [$self create image 0 0 -anchor se -image [::skin::loadPixmap back]]
 
 		# Create framework for elements
-		contentmanager add group lang			-orient horizontal	-widget $self	-ipadx 4		-ipady 4
-		contentmanager add group main			-orient vertical	-widget $self
-		contentmanager add group main dp		-orient horizontal	-widget $self	-align center
-		contentmanager add group main user		-orient vertical	-widget $self	-pady 4		-align center
-		contentmanager add group main pass		-orient vertical	-widget $self	-pady 4		-align center
-		contentmanager add group main status		-orient vertical	-widget $self	-pady 4		-align center
-		contentmanager add group main rem_me		-orient horizontal	-widget $self	-pady 2
-		contentmanager add group main forget_me		-orient horizontal	-widget $self	-pady 2		-padx 32
-		contentmanager add group main rem_pass		-orient horizontal	-widget $self	-pady 2
-		contentmanager add group main auto_login	-orient horizontal	-widget $self	-pady 2
-		contentmanager add group main login		-orient horizontal	-widget $self	-align center	-pady 8
-		contentmanager add group main links		-orient vertical	-pady 32	-widget $self	-align center
-		contentmanager add group main check_ver		-orient horizontal	-pady 8		-widget $self	-align center
+		contentmanager add group login_screen				-orient vertical	-widget $self
+		contentmanager add group login_screen lang			-orient horizontal	-widget $self	-ipadx 4	-ipady 4
+		contentmanager add group login_screen main			-orient vertical	-widget $self	-align center 	-pady 16
+		contentmanager add group login_screen main dp			-orient horizontal	-widget $self	-align center
+		contentmanager add group login_screen main fields 		-orient vertical	-widget $self	-pady 4		-align center
+		contentmanager add group login_screen main fields user		-orient vertical	-widget $self	-pady 4		-align center
+		contentmanager add group login_screen main fields pass		-orient vertical	-widget $self	-pady 4		-align center
+		contentmanager add group login_screen main fields status	-orient vertical	-widget $self	-pady 4		-align center
+		contentmanager add group login_screen main checkboxes 		-orient vertical	-widget $self
+		contentmanager add group login_screen main checkboxes rem_me	-orient horizontal	-widget $self	-pady 2
+		contentmanager add group login_screen main checkboxes forget_me	-orient horizontal	-widget $self	-pady 2		-padx 32
+		contentmanager add group login_screen main checkboxes rem_pass	-orient horizontal	-widget $self	-pady 2
+		contentmanager add group login_screen main checkboxes auto_login -orient horizontal	-widget $self	-pady 2
+		contentmanager add group login_screen main login		-orient horizontal	-widget $self	-align center	-pady 8
+		contentmanager add group login_screen main links		-orient vertical	-pady 32	-widget $self	-align left
+		contentmanager add group login_screen main check_ver		-orient horizontal	-pady 8		-widget $self	-align center
+		contentmanager add group login_screen main more			-orient horizontal	-pady 8		-widget $self	-align right
 
 		# Create widgets
 		# Language button
@@ -138,37 +150,40 @@ snit::widgetadaptor loginscreen {
 		set check_version_icon [$self create image 0 0 -anchor nw -image [::skin::loadPixmap download]]
 		set check_version_text [$self create text 0 0 -anchor nw -text [trans checkver]]
 
+		set more_label [$self create text 0 0 -anchor nw -text [trans more]]
+
 		# Place widgets in framework
 		# Language button
-		contentmanager add element lang icon -widget $self -tag $lang_button_icon -valign middle -padx 8
-		contentmanager add element lang text -widget $self -tag $lang_button_text -valign middle
+		contentmanager add element login_screen lang icon -widget $self -tag $lang_button_icon -valign middle -padx 8
+		contentmanager add element login_screen lang text -widget $self -tag $lang_button_text -valign middle
 		# Display picture
-		contentmanager add element main dp label -widget $self -tag $dp_label_tag
+		contentmanager add element login_screen main dp label -widget $self -tag $dp_label_tag
 		# Username
-		contentmanager add element main user label -widget $self -tag $user_label_tag
-		contentmanager add element main user field -widget $self -tag $user_field_tag
+		contentmanager add element login_screen main fields user label -widget $self -tag $user_label_tag
+		contentmanager add element login_screen main fields user field -widget $self -tag $user_field_tag
 		# Password
-		contentmanager add element main pass label -widget $self -tag $pass_label_tag
-		contentmanager add element main pass field -widget $self -tag $pass_field_tag
+		contentmanager add element login_screen main fields pass label -widget $self -tag $pass_label_tag
+		contentmanager add element login_screen main fields pass field -widget $self -tag $pass_field_tag
 		# Status
-		contentmanager add element main status label -widget $self -tag $status_label_tag
-		contentmanager add element main status field -widget $self -tag $status_field_tag
+		contentmanager add element login_screen main fields status label -widget $self -tag $status_label_tag
+		contentmanager add element login_screen main fields status field -widget $self -tag $status_field_tag
 		# Options
-		contentmanager add element main rem_me field -widget $self -tag $rem_me_field_tag -padx 2 -valign middle
-		contentmanager add element main rem_me label -widget $self -tag $rem_me_label_tag -padx 4 -valign middle
-		contentmanager add element main rem_pass field -widget $self -tag $rem_pass_field_tag -padx 2 -valign middle
-		contentmanager add element main forget_me	label	-widget $self	-tag $forget_me_label
-		contentmanager add element main rem_pass label -widget $self -tag $rem_pass_label_tag -padx 2 -valign middle
-		contentmanager add element main auto_login field -widget $self -tag $auto_login_field_tag -padx 2 -valign middle
-		contentmanager add element main auto_login label -widget $self -tag $auto_login_label_tag -padx 2 -valign middle
+		contentmanager add element login_screen main checkboxes rem_me field -widget $self -tag $rem_me_field_tag -padx 2 -valign middle
+		contentmanager add element login_screen main checkboxes rem_me label -widget $self -tag $rem_me_label_tag -padx 4 -valign middle
+		contentmanager add element login_screen main checkboxes forget_me	label	-widget $self	-tag $forget_me_label
+		contentmanager add element login_screen main checkboxes rem_pass field -widget $self -tag $rem_pass_field_tag -padx 2 -valign middle
+		contentmanager add element login_screen main checkboxes rem_pass label -widget $self -tag $rem_pass_label_tag -padx 2 -valign middle
+		contentmanager add element login_screen main checkboxes auto_login field -widget $self -tag $auto_login_field_tag -padx 2 -valign middle
+		contentmanager add element login_screen main checkboxes auto_login label -widget $self -tag $auto_login_label_tag -padx 2 -valign middle
 		# Login button
-		contentmanager add element main login login_button -widget $self -tag $login_button_tag
+		contentmanager add element login_screen main login login_button -widget $self -tag $login_button_tag
 		# Links
-		contentmanager add element main links forgot_pass -widget $self -tag $forgot_pass_link -pady 2
-		contentmanager add element main links service_status -widget $self -tag $service_status_link -pady 2
-		contentmanager add element main links new_account -widget $self -tag $new_account_link -pady 2
-		contentmanager add element main check_ver icon -widget $self -tag $check_version_icon -padx 4 -valign middle
-		contentmanager add element main check_ver text -widget $self -tag $check_version_text -padx 4 -valign middle
+		contentmanager add element login_screen main links forgot_pass -widget $self -tag $forgot_pass_link -pady 2
+		contentmanager add element login_screen main links service_status -widget $self -tag $service_status_link -pady 2
+		contentmanager add element login_screen main links new_account -widget $self -tag $new_account_link -pady 2
+		contentmanager add element login_screen main check_ver icon -widget $self -tag $check_version_icon -padx 4 -valign middle
+		contentmanager add element login_screen main check_ver text -widget $self -tag $check_version_text -padx 4 -valign middle
+		contentmanager add element login_screen main more label	-widget $self	-tag $more_label
 
 		# Set font for canvas all text items
 		set all_tags [$self find all]
@@ -188,23 +203,24 @@ snit::widgetadaptor loginscreen {
 		bind $self <Map> "$self WidgetResized"
 		bind $self <Configure> "$self WidgetResized"
 		# Bind language button
-		contentmanager bind lang <ButtonRelease-1> "::lang::show_languagechoose"
-		contentmanager bind lang <Enter> "$self configure -cursor hand2"
-		contentmanager bind lang <Leave> "$self configure -cursor left_ptr"
+		contentmanager bind login_screen lang <ButtonRelease-1> "::lang::show_languagechoose"
+		contentmanager bind login_screen lang <Enter> "$self configure -cursor hand2"
+		contentmanager bind login_screen lang <Leave> "$self configure -cursor left_ptr"
 		# Catch hand-editing of username field
 		bind $user_field <KeyRelease> "$self UsernameEdited"
 		# Bind <Return> on password field to submit login form
 		bind $pass_field <Return> "$self LoginFormSubmitted"
 		# Make checkbutton labels clickable
-		contentmanager bind main rem_me label <ButtonPress-1> "$rem_me_field invoke"
-		contentmanager bind main rem_pass label <ButtonPress-1> "$rem_pass_field invoke"
-		contentmanager bind main auto_login label <ButtonPress-1> "$auto_login_field invoke"
+		contentmanager bind login_screen main checkboxes rem_me label <ButtonPress-1> "$rem_me_field invoke"
+		contentmanager bind login_screen main checkboxes rem_pass label <ButtonPress-1> "$rem_pass_field invoke"
+		contentmanager bind login_screen main checkboxes auto_login label <ButtonPress-1> "$auto_login_field invoke"
 		# Make text items into links
-		$self CanvasTextToLink main forget_me label "$self ForgetMe"
-		$self CanvasTextToLink main links forgot_pass [list launch_browser "https://accountservices.passport.net/uiresetpw.srf?lc=1033"]
-		$self CanvasTextToLink main links service_status [list launch_browser "http://messenger.msn.com/Status.aspx"]
-		$self CanvasTextToLink main links new_account [list launch_browser "https://accountservices.passport.net/reg.srf?sl=1&lc=1033"]
-		$self CanvasTextToLink main check_ver text "::autoupdate::check_version"
+		$self CanvasTextToLink login_screen main checkboxes forget_me label "$self ForgetMe"
+		$self CanvasTextToLink login_screen main more label "$self ShowMore"
+		$self CanvasTextToLink login_screen main links forgot_pass [list launch_browser "https://accountservices.passport.net/uiresetpw.srf?lc=1033"]
+		$self CanvasTextToLink login_screen main links service_status [list launch_browser "http://messenger.msn.com/Status.aspx"]
+		$self CanvasTextToLink login_screen main links new_account [list launch_browser "https://accountservices.passport.net/reg.srf?sl=1&lc=1033"]
+		$self CanvasTextToLink login_screen main check_ver text "::autoupdate::check_version"
 
 		# Fill in last username used
 		$user_field delete 0 end
@@ -217,12 +233,18 @@ snit::widgetadaptor loginscreen {
 		}
 
 		# Register for events
-		::Event::registerEvent loggingIn all $self
-		::Event::registerEvent loggedOut all $self
+		::Event::registerEvent loggingIn all [list $self LoggingIn]
+		::Event::registerEvent reconnecting all [list $self LoggingIn]
 	}
 
 	destructor {
-		catch { contentmanager delete main }
+		catch { contentmanager delete login_screen }
+		foreach {name id} [array get after_id] {
+			after cancel $id
+		}
+		# Unregister for events
+		::Event::unregisterEvent loggingIn all [list $self LoggingIn]
+		::Event::unregisterEvent reconnecting all [list $self LoggingIn]
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -342,11 +364,149 @@ snit::widgetadaptor loginscreen {
 	# Arrange elements on the canvas
 	# Called by: Binding
 	method SortElements {} {
-		contentmanager sort lang -level r
-		contentmanager sort main -level r
-		set main_x [expr {([winfo width $self] / 2) - ([contentmanager width main] / 2)}]
-		set main_y [expr {[contentmanager height lang] + 16}]
-		contentmanager coords main $main_x $main_y
+
+		# We need to show everything so that it calculates their sizes when it sorts them
+ 		contentmanager show login_screen lang
+ 		contentmanager show login_screen main
+ 		contentmanager show login_screen main dp
+ 		contentmanager show login_screen main fields
+ 		contentmanager show login_screen main checkboxes
+ 		contentmanager show login_screen main login
+ 		contentmanager show login_screen main links
+ 		contentmanager show login_screen main check_ver
+ 		contentmanager show login_screen main more
+
+		# We sort to get the sizes of each element..
+		contentmanager sort login_screen  -level r
+
+
+		# Then we hide everything apart from the fields and the 'show' button
+ 		contentmanager hide login_screen lang
+ 		contentmanager show login_screen main
+ 		contentmanager hide login_screen main dp
+ 		contentmanager show login_screen main fields
+ 		contentmanager hide login_screen main checkboxes
+ 		contentmanager hide login_screen main login
+ 		contentmanager hide login_screen main links
+ 		contentmanager hide login_screen main check_ver
+ 		contentmanager show login_screen main more
+
+ 		set max [winfo height $self]
+
+
+ 		set current 0
+
+		incr current [contentmanager height login_screen main fields]
+		incr current [contentmanager cget login_screen main fields -pady]
+		incr current [contentmanager cget login_screen main fields -pady]
+		incr current [contentmanager height login_screen main login]
+		incr current [contentmanager cget login_screen main login -pady]
+		incr current [contentmanager cget login_screen main login -pady]
+		incr current [contentmanager height login_screen main more]
+		incr current [contentmanager cget login_screen main more -pady]
+		incr current [contentmanager cget login_screen main more -pady]
+
+
+		if { $current < $max } {
+			contentmanager show login_screen main login
+			incr current [contentmanager height login_screen main checkboxes]
+			incr current [contentmanager cget login_screen main checkboxes -pady]
+			incr current [contentmanager cget login_screen main checkboxes -pady]
+			
+			if { $current < $max } {
+				contentmanager show login_screen main checkboxes
+				
+				incr current [contentmanager height login_screen main dp]
+				incr current [contentmanager cget login_screen main dp -pady]
+				incr current [contentmanager cget login_screen main dp -pady]
+			
+				if { $current < $max } {
+					contentmanager show login_screen main dp
+					
+					incr current [contentmanager height login_screen lang]
+					incr current [contentmanager cget login_screen lang -pady]
+					incr current [contentmanager cget login_screen lang -pady]
+			
+					if { $current < $max } {
+						contentmanager show login_screen lang
+
+						incr current [contentmanager height login_screen main check_ver]
+						incr current [contentmanager cget login_screen main check_ver -pady]
+						incr current [contentmanager cget login_screen main check_ver -pady]
+						
+						if { $current < $max } {
+							contentmanager show login_screen main check_ver
+
+							if { [::config::getKey show_login_screen_links 1] } {
+								incr current [contentmanager height login_screen main links]
+								incr current [contentmanager cget login_screen main links -pady]
+								incr current [contentmanager cget login_screen main links -pady]
+
+								if { $current < $max } {
+									contentmanager show login_screen main links
+									contentmanager hide login_screen main more
+								}
+							} else {
+								contentmanager hide login_screen main links
+								contentmanager hide login_screen main more
+							}
+						}
+					}
+				}
+			}
+		} 
+
+		set padx [expr {[winfo width $self] - [contentmanager width login_screen main]}]
+		if { $padx < 0 } {
+			set padx 0
+		}
+		contentmanager configure login_screen main -padx $padx
+		contentmanager sort login_screen  -level r
+
+		# TODO : this should be done by simply specifying a -padx or -ipadx to login_screen main.. I can't get it to work, I don't understand the damn contentmanager!
+		#set main_x [expr {([winfo width $self] / 2) - ([contentmanager width login_screen main] / 2)}]
+		#set main_y [expr {[contentmanager height login_screen lang] + 16}]
+	 	#contentmanager coords login_screen main $main_x $main_y
+		
+	}
+
+	method ShowMore { } {
+		# We need to show everything so that it calculates their sizes when it sorts them
+ 		contentmanager show login_screen lang
+ 		contentmanager show login_screen main
+ 		contentmanager show login_screen main dp
+ 		contentmanager show login_screen main fields
+ 		contentmanager show login_screen main checkboxes
+ 		contentmanager show login_screen main login
+ 		contentmanager show login_screen main links
+ 		contentmanager show login_screen main check_ver
+ 		contentmanager show login_screen main more
+
+		# We sort to get the sizes of each element..
+		contentmanager sort login_screen  -level r
+
+		set h [contentmanager height login_screen]
+		set w [contentmanager width login_screen]
+		incr h [contentmanager cget login_screen -pady]
+		incr h [contentmanager cget login_screen -pady]
+		incr w [contentmanager cget login_screen -padx]
+		incr w [contentmanager cget login_screen -padx]
+	      
+		set current_w [winfo width $self]
+		set current_h [winfo height $self]
+
+		set adjustment_w [expr {$w - $current_w}]
+		set adjustment_h [expr {$h - $current_h}]
+		
+		set geometry [winfo geometry [winfo toplevel $self]]
+
+		regexp {=?(\d+)x(\d+)[+\-](-?\d+)[+\-](-?\d+)} $geometry -> width height x y
+		
+		incr width $adjustment_w
+		incr height $adjustment_h
+
+		wm geometry [winfo toplevel $self] ${width}x${height}
+	
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -457,7 +617,8 @@ snit::widgetadaptor loginscreen {
 			# Re-sort stuff on canvas (in case, for example, we now have a larger/smaller DP)
 			# The 'after 100' is because the status combobox doesn't seem to regain it's height immediately for some
 			# reason, so if we sort straight away, the checkbox below the status combo overlaps it.
-			after 100 "$self SortElements"
+			after cancel $after_id(Sort)
+			set after_id(Sort) [after 100 [list $self SortElements]]
 		}
 	}
 
@@ -516,31 +677,25 @@ snit::widgetadaptor loginscreen {
 	# ------------------------------------------------------------------------------------------------------------
 	# logginIn
 	# Receives the event fired by protocol. Unpacks this widget and packs the sign-in progress widget.
-	method loggingIn {} {
+	method LoggingIn { event } {
+		status_log "logging in, destroying loginscreen : $event "
 		pack forget $self
 		pack .main.f -expand true -fill both
+		destroy $self
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
 	# loggedOut
-	# Receives the event fired by protocol. Empties pass field. Packs this widget and unpacks contact list.
-	# If current user is a profile, call UserSelected.
-	method loggedOut {} {
-		$user_field list delete 0 end
-		$pass_field delete 0 end
-		set idx 0
-		while { [LoginList get $idx] != 0 } {
-			lappend tmp_list [LoginList get $idx]
-			incr idx
-		}
-		eval $user_field list insert end $tmp_list
-		set cur_user [::config::getKey login]
-		if { [LoginList exists 0 $cur_user] } {
-			$self UserSelected $user_field $cur_user
-		}
-
+	typemethod LoggingOut { event } {
+		status_log "logging out, creating loginscreen : $event "
+		# TODO : this is very ugly code... damn!
 		pack forget .main.f
-		pack $self -expand true -fill both
+		if { [winfo exists .main.loginscreen] } {
+			destroy .main.loginscreen
+		}
+		loginscreen .main.loginscreen
+		pack forget .main.f
+		pack .main.loginscreen -e 1 -f both
 	}
 }
 
