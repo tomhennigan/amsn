@@ -878,3 +878,46 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
+assistantainput Elige tu dispositivo de entrada e intenta grabar con él.
+assistantaoutput Elige tu dispositivo de salida, e intenta reproducir este archivo para probarlo.
+assistantawarn No podrás grabarte o hablar con tus amigos. Puedes encontrar información sobre cómo instalar esta extensión en nuestro Wiki:
+assistantfinetunepic Cambia las siguientes opciones para ajustar la calidad de imágen de tu cámara web
+assistantselectcam Selecciona tu cámara web de la lista
+assistantstarting Iniciando el Asistente
+assistantwelcome Este asistente te guiará en el proceso de configuración de audio y video en aMSN.\n\nComprobará que las extensiones requeridas estén presentes y cargadas, y podrás elegir el dispositivo y canal, ajustar la configuración de imágen y la resolución.
+audioconfigured Se eligieron las siguientes configuraciones de audio:\nDispositivo de salida: $1\nDispositivo de entrada:$2
+audiovideo Configuración de Audio y Video
+back Volver
+capturewarn No podrás enviar imágenes de cámara web si tienes una. Si no, esto es normal. Puedes encontrar instrucciones sobre cómo instalar esta extensión en nuestro Wiki:
+checkingaudio Comprobando si la extensión de audio (Snack) está cargada...
+checkingcam Comprobando si hay una cámara web conectada...
+checkingcapext Comprobando si la extensión '$1' está cargada...
+checkingextensions Comprobando extensiones de video requeridas...
+chooseinputdev Selecciona tu dispositivo de entrada
+choosemixerdev Selecciona tu dispositivo mezclador
+chooseoutputdev Selecciona tu dispositivo de salida
+configuremic Configurando tu micrófono
+configuringaudio Configurando los ajustes de audio
+congrats Felicitaciones
+finetunesettings Ajuste fino de imagen
+finish Finalizar
+finish2apply Presione Finalizar para aplicar los cambios.
+firewalled2 Firewall detectado, por favor compruebe la configuración de su Conexión en la ventana de Preferencias
+forgot_pass Olvidé mi contraseña
+ftportpref2 Abriendo puerto para conexiones directas (necesario para tranferencia de archivos y cámara web)
+havenomic No tengo micrófono
+new_account Crear una cuenta nueva
+nocamwarn No se detectó ninguna cámara web, o la misma está en uso por otro programa (lo que significa que no puede ser usada por aMSN). Encontrará ayuda para resolver este problema en nuestro Wiki:
+nomic Sin micrófono
+playtest Reproducir sonido de prueba
+record Grabar
+rememberaccount Recordar mi cuenta
+setupcam Configurando tu cámara web
+setupcamfinetune Configurando tu cámara web, y aplicando ajuste fino de imágen
+step Paso
+volume Volumen
+webcamconfiguredMac Tu cámara web ha sido configurada
+webcamconfiguredWin Has elegido la siguiente cámara web: $1
+webcamconfiguredLinux Has elegido la siguiente configuración:\nDispositivo de cámara web: $1\nCanal de cámara web: $2
+webcamextchecking Comprobando si la extensión de cámara web está cargada...
+webcamextwarn No podrás ver imágenes de cámara web de tus contactos. Puedes encontrar ayuda sobre cómo instalar algunas extensiones en nuestro Wiki:
