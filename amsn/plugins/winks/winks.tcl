@@ -100,7 +100,7 @@ namespace eval ::winks {
 	
 		# find out what cab extractor should we use
 		if { "$::winks::config(cabextractor)" == "" && ! $::winks::config(use_extrac32) } {
-			GuessCabextractor $dir
+			GuessCabextractor "$dir"
 			set ::plugins::config(Winks) [array get ::winks::config]
 		} elseif { ! $::winks::config(use_extrac32) } {
 			CheckCabextractVersion
@@ -108,7 +108,7 @@ namespace eval ::winks {
 		
 		# if there's no flash player configured yet
 		if { "$::winks::config(flashplayer)" == "" } {
-			GuessFlashplayer $dir
+			GuessFlashplayer "$dir"
 			set ::plugins::config(Winks) [array get ::winks::config]
 		}
 		
@@ -124,7 +124,7 @@ namespace eval ::winks {
 	proc GuessFlashplayer { dir } {
 		status_log "Guessing flashplayer..."
 		# see if there's any gnash over there in the system
-		
+
 		if { ! [catch { exec "gnash" "--version" } ver]  } {
 			status_log "gnash found in system path." green
 			set ::winks::config(flashplayer) "gnash"
@@ -172,8 +172,7 @@ namespace eval ::winks {
 	proc GuessCabextractor { dir } {
 		status_log "Guessing cabextractor..."
 		# try first with extrac32 (for windows systems)
-		
-		if { ![catch {exec "extrac32" } ] } {
+		if { ! [catch { exec "extrac32" } ver]  } {
 			status_log "extrac32 found." green
 			set ::winks::config(use_extrac32) 1
 		} else {
@@ -201,8 +200,7 @@ namespace eval ::winks {
 	#----------------------------------------------------------------------------------
 	proc CheckCabextractVersion { } {
 		global cabextract_version
-		
-		if { ![catch { exec "[FixBars $::winks::config(cabextractor)]" "-v" } ver] } {
+		if { ! [catch { exec "[FixBars $::winks::config(cabextractor)]" "-v" } ver]  } {
 			if { "$ver" == "cabextract version 0.1" || "$ver" == "cabextract version 0.2" 
 			  || "$ver" == "cabextract version 0.3" || "$ver" == "cabextract version 0.4" 
 			  || "$ver" == "cabextract version 0.5" || "$ver" == "cabextract version 0.6" 
@@ -311,7 +309,7 @@ namespace eval ::winks {
 		if { $id == -1 } {
 			return ""
 		}
-		set temp [string range "$text_data" $id  end]
+		set temp [string range "$text_data" $id end]
 		set $id [string first ">" "$temp"]
 		if { $id != -1 } {
 			set temp [string range "$temp" 0 $id]
@@ -404,8 +402,11 @@ namespace eval ::winks {
 					set wink(name) [FixMissingAttrib "[file join [file dirname $wink(swf)] content.xml]" "wink:name" "[file rootname \"[file tail \"$wink(swf)\"]\"]"]
 				}
 				# add the wink to the list
-				set winks_list($sha1d) [array get wink]
-
+				if { [file exists $wink(cab)] } {
+					set winks_list($sha1d) [array get wink]
+				} else {
+					status_log "Winks Menu: Missing files: Dropped one wink: \"$wink(name)\"." red
+				}
 			}
 		}
 		
@@ -462,8 +463,12 @@ namespace eval ::winks {
 					set wink(name) [FixMissingAttrib "[file join [file dirname $wink(swf)] content.xml]" "wink:name" "[file tail \"$wink(swf)\"]"]
 				}
 				# add the wink to the list
-				set winks_cache($sha1d) [array get wink]
-
+				if { [file exists $wink(cab)] } {
+					set winks_cache($sha1d) [array get wink]
+				} else {
+					status_log "Winks Cache: Missing files: Dropped one wink: \"$wink(name)\"." red
+				}
+				
 			}
 		}
 		
@@ -525,7 +530,7 @@ namespace eval ::winks {
 		set winks_f_playing_in($chatid) 0
 		
 		bind $winksbut <<Button2>> "::winks::WinksMenuDestroy"
-		bind $winksbut  <<Button3>> "::winks::AddWinkDialog $window"
+		bind $winksbut  <<Button3>> "::winks::AddWinkFromMCO $window"
 		bind $winksbut  <Enter> "$winksbut configure -image [::skin::loadPixmap butwinks_hover]"
 		bind $winksbut  <Leave> "$winksbut configure -image [::skin::loadPixmap butwinks]"	
 		bind $winksbut  <<Button1>> "::winks::WinksMenu $window \[winfo pointerx $window\] \[winfo pointery $window\] [::ChatWindow::GetInputText $window] \"\" 0"
@@ -696,7 +701,7 @@ namespace eval ::winks {
 				incr temp
 			}
 		}
-		bind $w.c.new_but <Button1-ButtonRelease> "wm state $w withdrawn; ::winks::AddWinkDialog $window_name"
+		bind $w.c.new_but <Button1-ButtonRelease> "wm state $w withdrawn; ::winks::AddWinkFromMCO $window_name"
 		moveinscreen $w 5
 		event generate $w <Enter>
 	
@@ -725,6 +730,9 @@ namespace eval ::winks {
 			button $w.fb.cancel -text [trans cancel] -command "destroy $w"
 			bind $w <<Escape>> "destroy $w"
 		
+			label $w.fn.icon -image [image create photo .addNewWinkImg -file $wink(img) -format cximage] 
+	
+			pack $w.fn.icon -side left -fill x -expand true
 			pack $w.fn.label $w.fn.name -side left -fill x -expand true
 			pack $w.fb.ok $w.fb.cancel -side right -padx 5
 			pack $w.fb.play $w.fb.cancel -side right -padx 5
@@ -773,18 +781,20 @@ namespace eval ::winks {
 		array set wink $winks_list($sha1d)
 
 		# relocate files in cache again
-		catch {
+#		catch {
 			set cab_folder [::md5::md5 $sha1d]
-			file rename -force $wink(cab) [file join "$HOME" winks cache [file tail $wink(cab)]]
+			if  { [file exists [file join "$HOME" winks cache $cab_folder]] } {
+				file delete -force [file exists "$HOME" winks cache $cab_folder]
+			}
 			file rename -force [file dirname $wink(swf)] [file join "$HOME" winks cache $cab_folder]
-			set wink(cab) [file join "$HOME" winks cache [file tail $wink(cab)]]
+			set wink(cab) [file join "$HOME" winks cache $cab_folder [file tail $wink(cab)]]
 			set wink(swf) [file join "$HOME" winks cache $cab_folder [file tail $wink(swf)]]
 			set wink(img) [file join "$HOME" winks cache $cab_folder [file tail $wink(img)]]
 			status_log "Wink Moved to Cache." green
-		} errs
-		if { "$errs" != "" } {
-			status_log "While deleting wink: $errs" red
-		} 
+#		} errs
+#		if { "$errs" != "" } {
+#			status_log "While deleting wink: $errs" red
+#		} 
 
 		# update arrays
 		set winks_cache($sha1d) [array get wink] 
@@ -802,145 +812,184 @@ namespace eval ::winks {
 	}
 
 	#----------------------------------------------------------------------------------
-	# AddWinkDialog: let you choose an .mco file and ask for a wink name for a new wink
+	# AddWinkFromMCO: lets you choos an MCO file. if its corrects adds this wink to 
+	#                 cache and shows the dialog to preview it and to add it and add it 
+	#                 to the winks menu
 	#----------------------------------------------------------------------------------
-	proc AddWinkDialog { window_name } {
+	proc AddWinkFromMCO { window_name } {
+		global HOME
 		set chatid [::ChatWindow::Name $window_name]
-		set filename [chooseFileDialog "" "" "" "" "open" [list [list "Messenger Content Objets" [list *.mco *.MCO]] ] ]
-		if { "$filename" != "" } {
-			if { [file exists "$filename"] == 0 } { 
+		set mco_file [chooseFileDialog "" "" "" "" "open" [list [list "Messenger Content Objets" [list *.mco *.MCO]] ] ]
+		if { "$mco_file" != "" } {
+			if { [file exists "$mco_file"] == 0 } {
+				tk_messageBox -message "[trans winks_cant_open] $mco_file" -parent [::ChatWindow::For $chatid]
 				return 
 			}
 			
-			set w .addNewWink
-			if { [winfo exists .addNewWink]} {destroy .addNewWink}
-			toplevel $w
-			wm group $w .
-			wm title $w "[trans winks_add_new_wink]"
-		
-			frame $w.fn
-			label $w.fn.label -font sboldf -text "[trans winks_introduce_new_wink_name]"
-			entry $w.fn.name -width 40 -bg #FFFFFF -font splainf
-		
-			frame $w.fb
-			button $w.fb.ok -text [trans ok] -command "::winks::AddWinkOk \"$filename\" $chatid"
-			button $w.fb.cancel -text [trans cancel] -command "destroy $w"
-			bind $w <<Escape>> "destroy $w"
-		
-			pack $w.fn.label $w.fn.name -side left -fill x -expand true
-			pack $w.fb.ok $w.fb.cancel -side right -padx 5
-		
-			bind $w.fn.name <Return> "::winks::AddWinkOk \"$filename\" $chatid"
-			pack $w.fn $w.fb -side top -fill x -expand true -padx 5
 			
-			$w.fn.name insert 0 [filenoext [getfilename "$filename"]]
-		
-			catch {
-				raise $w
-				focus -force $w.fn.name
+			# extract fisrt content.xml
+			ExtractCab "$mco_file" "content.xml" [file join $HOME winks cache tmp]
+			set filename [file join  "$HOME" winks cache tmp content.xml]
+			if { [file exists "$filename"] == 0 } { 
+				tk_messageBox -message $chatid "\n[trans winks_cant_open] content.xml(1)." red 
+				return 
 			}
-			moveinscreen $w 50
-		}	
-
-	}
-
-	#----------------------------------------------------------------------------------
-	# AddWinkOk: read the .mco, extract its content.xml in $HOME/winks/cache/tmp, read that
-	#            file and copy and extract the cab in a folder inside $HOME/winks/cache
-	#            called as the cab's sha1d.
-	#----------------------------------------------------------------------------------
-	proc AddWinkOk { mco_file chatid } {
-
-		global winks_list HOME
-
-		set wink_name [.addNewWink.fn.name get]
-		set wink(name) "$wink_name"
-
-		destroy .addNewWink
-		# read mco's content.xml file
-		ExtractCab "$mco_file" "content.xml" [file join $HOME winks cache tmp]
-		set filename [file join  "$HOME" winks cache tmp content.xml]
-		if { [file exists "$filename"] == 0 } { 
-			amsn::WinWrite $chatid "\n[trans winks_cant_open] \"content.xml\"." red 
-			return 
-		}
-		set fd1 [open "$filename" r]
-		fconfigure $fd1 -encoding utf-8
-		set lista [split [read $fd1] " "]
-		close $fd1
-
-		# get mco information
-		set cab_file [GetAttrib $lista "file"]
-		set wink(stamp) [GetAttrib $lista "stamp"]
-
-		# get the cab's sha1d and its md5
-		set temp_folder [file join "$HOME" winks cache tmp]
-		ExtractCab "$mco_file" "$cab_file" $temp_folder
+			
+			# read first content.xml information
+			set fd1 [open "$filename" r]
+			fconfigure $fd1 -encoding utf-8
+			set data [read $fd1]
+			set lista [split $data " "]
+			close $fd1
+			file delete $filename
+			
+			# verify that the object is a wink
+			if { [string first "type=\"wink\"" "$data"] == "-1" } {
+				tk_messageBox -message "\n[trans winks_file_is_not_a_wink]" -parent "$window_name"
+				return 
+			}
+			
+			# get mco information
+			set wink(cab) [GetAttrib $lista "file"]
+			set wink(stamp) [GetAttrib $lista "stamp"]
 		
-		# get the sha1d 
-		set filename [file join $temp_folder $cab_file]
-		if { [file exists "$filename"] == 0 } { 
-			amsn::WinWrite $chatid "\n[trans winks_cant_open] \"$cab_file\"." red 
-			return 
-		}
-		set fd2 [open $filename r]
-		fconfigure $fd2 -translation binary
-		set data [read $fd2]
-		close $fd2
-		set sha1d [::base64::encode [binary format H* [::sha1::sha1 $data]]]
-		set wink(sha1d) $sha1d
-
-		# move the cab file to the right place
-		set cab_folder [::md5::md5 $sha1d]
-		create_dir [file join "$HOME" winks $cab_folder]
-		if { [file exists [file join "$HOME" winks $cab_folder $cab_file]] != 0 } {
-			file delete [file join "$HOME" winks $cab_folder $cab_file]
-		}
-		file rename $filename [file join "$HOME" winks $cab_folder $cab_file]
-
-		# extract the cab's content file
-		ExtractCab [file join "$HOME" winks $cab_folder "$cab_file"] "*" [file join "$HOME" winks $cab_folder] 
-		set wink(cab) [file join "$HOME" winks $cab_folder "$cab_file"]
-
-		# read cabs's content.xml file
-		set filename [file join "$HOME" winks $cab_folder content.xml]
-		if { [file exists $filename] == 0 } { 
-			amsn::WinWrite $chatid "\n[trans winks_cant_open] \"$cab_folder/content.xml\"." red 
-			return 
-		}
-		set fd2 [open $filename r]
-		fconfigure $fd2 -encoding utf-8
-		set data [read $fd2]
-		set listb [split $data " "]
-		close $fd2
-		
-		# get wink information
-		set wink(img) [FindFileName [file join "$HOME" winks $cab_folder] [GetFirstAfterInNode $data "thumbnail" "file"]]
-		set wink(swf) [FindFileName [file join "$HOME" winks $cab_folder] [GetFirstAfterInNode $data "animation" "file"]]
-		set wink(sizex) [GetAttrib $listb "wink:sizex"]
-		set wink(sizey) [GetAttrib $listb "wink:sizey"]
-		# fix missing information
-		if { "$wink(sizex)" == "0" } {
-			set wink(sizex) 0
-			set wink(sizey) 0
-		}
-		if { "$wink(name)" == "" } {
+			# extract the cab file in temp folder
+			set temp_folder [file join "$HOME" winks cache tmp]
+			ExtractCab "$mco_file" "$wink(cab)" $temp_folder
+			
+			# get the sha1d 
+			set filename [file join $temp_folder $wink(cab)]
+			if { [file exists "$filename"] == 0 } { 
+				amsn::WinWrite $chatid "\n[trans winks_cant_open] \"$filename\"." red 
+				return 
+			}
+			set fd2 [open $filename r]
+			fconfigure $fd2 -translation binary
+			set data [read $fd2]
+			close $fd2
+			set wink(sha1d) [::base64::encode [binary format H* [::sha1::sha1 $data]]]
+			
+			# see if the wink is already in the winks menu
+			global winks_list
+			foreach wsha1d [array names winks_list] {
+				if { "$wink(sha1d)" == "$wsha1d" } {
+					status_log "The wink is already in winks menu!" red
+					tk_messageBox -message "[trans winks_the_wink_is_already_in_winks_menu]" -parent [::ChatWindow::For $chatid]
+					file delete "$filename"
+					return
+				}
+			}
+			
+			# get md5 and create dir in cache folder 
+			set cab_folder [::md5::md5 $wink(sha1d)]
+			create_dir [file join "$HOME" winks cache $cab_folder]
+			
+			# extract and read the cab content
+			ExtractCab "$filename" "*" [file join "$HOME" winks cache $cab_folder]
+			# move cab file to the correct location 
+			set wink(cab) [file join "$HOME" winks cache $cab_folder $wink(cab)]
+			file rename -force "$filename" "$wink(cab)"
+			
+			# read cabs's content.xml file
+			set filename [file join "$HOME" winks cache $cab_folder content.xml]
+			if { [file exists $filename] == 0 } { 
+				amsn::WinWrite $chatid "\n[trans winks_cant_open] content.xml(2)." red 
+				return 
+			}
+			set fd3 [open $filename r]
+			fconfigure $fd3 -encoding utf-8
+			set data [read $fd3]
+			set listb [split $data " "]
+			close $fd3
+			
+			# get wink information
+			set wink(img) [FindFileName [file join "$HOME" winks cache $cab_folder] [GetFirstAfterInNode $data "thumbnail" "file"]]
+			set wink(swf) [FindFileName [file join "$HOME" winks cache $cab_folder] [GetFirstAfterInNode $data "animation" "file"]]
+			set wink(sizex) [GetAttrib $listb "wink:sizex"]
+			set wink(sizey) [GetAttrib $listb "wink:sizey"]
+			# fix missing information
+			if { "$wink(sizex)" == "0" } {
+				set wink(sizex) 0
+				set wink(sizey) 0
+			}
 			set wink(name) [GetAttrib $listb "wink:name"]
 			if { "$wink(name)" == "" } {
 				set wink(name) [file rootname [file tail "$wink(swf)"]]
 			}
+			
+			# copy information to cache
+			global winks_cache
+			set winks_cache($wink(sha1d)) [array get wink]
+			SaveCache
+			
+			# show confirmation and name editing dialog
+			AddWinkDialog $chatid $wink(sha1d) "$wink(img)" "$wink(swf)" "$wink(name)"
+			
 		}
+		
+	}
 
-		set winks_list($sha1d) [array get wink]
 
-		# hide dialog, write index, and force menu reload
-		::winks::WinksMenuDestroy
-		SaveWinks
+	#----------------------------------------------------------------------------------
+	# AddWinkDialog: let you choose an .mco file and ask for a wink name for a new wink
+	#----------------------------------------------------------------------------------
+	proc AddWinkDialog { chatid sha1d img swf wname } {
+
+		set w .addNewWink
+		if { [winfo exists .addNewWink]} {destroy .addNewWink}
+		toplevel $w
+		wm group $w .
+		wm title $w "[trans winks_add_new_wink]"
 	
-		# notify
-		status_log "Wink Added!" green
-		tk_messageBox -message "[trans winks_wink_added]" -parent [::ChatWindow::For $chatid]
+		frame $w.fn
+		label $w.fn.label -font sboldf -text "[trans winks_introduce_new_wink_name]"
+		entry $w.fn.name -width 40 -bg #FFFFFF -font splainf
+	
+		frame $w.fb
+		button $w.fb.ok -text [trans ok] -command "::winks::AddWinkDialoOK $chatid $sha1d"
+		button $w.fb.cancel -text [trans cancel] -command "destroy $w"
+		button $w.fb.play -text [trans "winks_play"] -command [list ::winks::PlayWink $swf]
+		bind $w <<Escape>> "destroy $w"
 
+		label $w.fn.icon -image [image create photo .addNewWinkImg -file $img -format cximage] 
+	
+		pack $w.fn.icon -side left -fill x -expand true
+		pack $w.fn.label $w.fn.name -side left -fill x -expand true
+		pack $w.fb.ok $w.fb.cancel -side right -padx 5
+		pack $w.fb.play -side left -padx 5
+	
+		bind $w.fn.name <Return> "::winks::AddWinkDialoOK $chatid $sha1d"
+		pack $w.fn $w.fb -side top -fill x -expand true -padx 5
+
+		$w.fn.name insert 0 "$wname"
+	
+		catch {
+			raise $w
+			focus -force $w.fn.name
+		}
+		moveinscreen $w 50
+	}
+
+	#----------------------------------------------------------------------------------
+	# AddWinkDialoOK: change the wink name and moves it to winks menu 
+	#----------------------------------------------------------------------------------
+	proc AddWinkDialoOK { chatid sha1d } {
+status_log "BOOGA"
+		global winks_cache
+status_log "BOOGA"
+		array set wink $winks_cache($sha1d)
+status_log "BOOGA"
+
+		set wink_name [.addNewWink.fn.name get]
+		if { "$wink_name" != "" } {
+			set wink(name) "$wink_name"
+			set winks_cache($sha1d) [array get wink]
+		}
+status_log "BOOGA"
+		destroy .addNewWink
+status_log "BOOGA"
+		::winks::AddWinkFromCache $chatid $sha1d
+status_log "BOOGA"
 	}
 
 	#----------------------------------------------------------------------------------
@@ -983,7 +1032,7 @@ namespace eval ::winks {
 				return
 			}
 		}
-
+		status_log "Wink not found: $sha1d" red
 	}
 	
 	proc FixBars { path } {
@@ -992,17 +1041,21 @@ namespace eval ::winks {
 	
 	
 	#----------------------------------------------------------------------------------
-	# PlayWink: call an external swf player to show the wink animation 
+	# PlayWink: call an external swf player to show the wink animation.
+	#           this is never played inside the chat window.
 	#----------------------------------------------------------------------------------
 	proc PlayWink { wfile } {
-        	# play the animation
+
+		# old play wink code
 		status_log "Playing wink $wfile\n" green
 		set command [concat "exec" "\"[FixBars $::winks::config(flashplayer)]\"" [split "$::winks::config(flashplayerargs)" " "] "\"$wfile\"" "&"]
-        	catch { eval $command } errs
+		catch { eval $command } errs
 		if { "$errs" != "" } {
 			status_log "\nEval: $command\n" red
 			status_log "\nOutput: $errs\n" red
 		}
+		
+		return
 	}
 
 	#----------------------------------------------------------------------------------
@@ -1254,9 +1307,11 @@ namespace eval ::winks {
 		array set wink $winks_cache($sha1d)
 
 		# get the cab content
-		set wink(cab) $filename
 		set cab_folder [::md5::md5 $sha1d]
-		ExtractCab "$filename" "*" [file join "$HOME" winks cache $cab_folder]
+		create_dir [file join "$HOME" winks cache "$cab_folder"] 
+		set wink(cab) [file join "$HOME" winks cache $cab_folder $wink(cab)]
+		file rename -force "$filename" "$wink(cab)"
+		ExtractCab "$wink(cab)" "*" [file join "$HOME" winks cache $cab_folder]
 
 		# read cabs's content.xml file
 		set filename [file join "$HOME" winks cache $cab_folder content.xml]
@@ -1492,8 +1547,10 @@ namespace eval ::winks {
 				# relocate files out of cache
 				catch {
 					set cab_folder [::md5::md5 $sha1d]
-					file rename [file dirname $wink(swf)] [file join "$HOME" winks $cab_folder]
-					file rename $wink(cab) [file join "$HOME" winks $cab_folder [file tail $wink(cab)]]
+					file rename -force [file dirname $wink(swf)] [file join "$HOME" winks $cab_folder]
+					if { [file exists $wink(cab)] } {
+						file rename -force $wink(cab) [file join "$HOME" winks $cab_folder [file tail $wink(cab)]]
+					}
 					set wink(cab) [file join "$HOME" winks $cab_folder [file tail $wink(cab)]]
 					set wink(swf) [file join "$HOME" winks $cab_folder [file tail $wink(swf)]]
 					set wink(img) [file join "$HOME" winks $cab_folder [file tail $wink(img)]]

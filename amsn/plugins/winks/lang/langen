@@ -29,3 +29,4 @@ winks_notify_in_one_line Notify received winks in one line.
 winks_play Play
 winks_use_queque_out Use a playing queque when playing winks outside the chat window.
 winks_use_queque_in Use a playing queque when playing winks inside the chat window.
+winks_file_is_not_a_wink The file doesn't contain a wink.

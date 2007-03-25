@@ -29,3 +29,4 @@ winks_notify_in_one_line Notificar los guiños recibidos en una linea.
 winks_play Reproducir
 winks_use_queque_out Usar cola de reproduccion al reproducir las guiños fuera de la ventana de chat.
 winks_use_queque_in Usar cola de reproduccion al reproducir las guiños dentro de la ventana de chat. 
+winks_file_is_not_a_wink El archivo no contiene un guiño.
