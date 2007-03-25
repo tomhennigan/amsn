@@ -109,6 +109,7 @@ namespace eval ::guiContactList {
 
 		#here we load images used in this code:
 		::skin::setPixmap back back.gif
+		::skin::setPixmap back2 back2.gif
 		::skin::setPixmap upleft box_upleft.gif
 		::skin::setPixmap up box_up.gif
 		::skin::setPixmap upright box_upright.gif
