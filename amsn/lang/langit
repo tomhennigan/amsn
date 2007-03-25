@@ -498,6 +498,7 @@ mobilegrp2 Inserisci utenti nel gruppo "Mobile" quando sono sconnessi (ordinati 
 mobile Mobile
 modified Modificato
 month Mese
+more Ulteriore
 morepersonal Più stati personali ->
 move Muovi
 movetogroup Sposta al gruppo
@@ -743,6 +744,7 @@ showcontactemail Mostra i contatti con l'e-mail
 showcontactnick Mostra i contatti con il nick
 showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
 showdisplaypic Mostra l'immagine personale
+showlinksinlogin Mostra i collegamenti nella schermata di login
 showmailicon Mostra icona e-mail nella Taskbar quando arrivano nuove e-mail
 showmypic Immagine personale
 shownotify Attiva finestre di notifica
