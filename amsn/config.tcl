@@ -267,6 +267,8 @@ namespace eval ::config {
 		::config::setKey snackOutputDevice ""				;# The audio Output Device to use with Snack
 		::config::setKey snackMixerDevice ""				;# The audio Mixer Device to use with Snack
 
+		::config::setKey show_login_screen_links 1			;# Show the links in the login screen
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
@@ -295,12 +297,12 @@ namespace eval ::config {
 			[list local strictfonts bool strictfonts] \
 			[list local disableuserfonts bool disableuserfonts] \
 			[list local sngdblclick bool sngdblclick] \
-			[list local nogap bool nogap] \
 			[list local removeempty bool removeempty] \
 			[list local tabtitlenick bool tabtitlenick] \
 			[list local showpicnotify bool showpicnotify] \
 			[list local showmailicon bool showmailicon] \
 			[list local autoresizedp bool autoresizedp] \
+			[list local show_login_screen_links bool showlinksinlogin] \
 			[list title notifyoffset] \
 			[list local notifyXoffset int xoffset] \
 			[list local notifyYoffset int yoffset] \

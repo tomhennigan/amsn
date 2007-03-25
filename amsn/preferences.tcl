@@ -1461,13 +1461,19 @@ proc dlgDelUser { lfcontact } {
 proc connection_check { lfname } {
 	$lfname.1.ftport.test configure -text [trans connecting]
 	::abook::getIPConfig
-	if { [::abook::getDemographicField listening] == "true"} {
-		$lfname.1.ftport.test configure -text "[trans ok]"
-		$lfname.1.listening configure -text "[trans portswellconfigured]"
+	if { [::abook::getDemographicField conntype] == "" } {
+		$lfname.1.listening configure -text "[trans connectfirst]" -fg red
+		$lfname.1.ftport.test configure -text "[trans connectfirst]" -fg red
 	} else {
-		$lfname.1.ftport.test configure -text "[trans firewalled]"
-		$lfname.1.listening configure -text "[trans firewalled]"
+		if { [::abook::getDemographicField listening] == "false"} {
+			$lfname.1.listening configure -text "[trans firewalled]" -fg red
+		$lfname.1.ftport.test configure -text "[trans firewalled]" -fg red
+		} else {
+			$lfname.1.listening configure -text "[trans portswellconfigured]" -fg black
+			$lfname.1.ftport.test configure -text "[trans ok]" -fg black
+		}
 	}
+
 }
 
 proc Preferences { { settings "personal"} } {
@@ -2140,18 +2146,18 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1 -class Degt
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 
+	label $lfname.1.conntype -padx 5 -font splainf -text "[trans type]: [::abook::getDemographicField conntype]"
+	label $lfname.1.listening -padx 5 -font splainf
 	if { [::abook::getDemographicField conntype] == "" } {
-		label $lfname.1.connwarn -text "[trans connectfirst]" -font sboldf
-		pack $lfname.1.connwarn -anchor w -side top -padx 10
+		$lfname.1.listening configure -text  "[trans connectfirst]" -fg red
 	} else {
-		label $lfname.1.conntype -padx 5 -font splainf -text "[trans type]: [::abook::getDemographicField conntype]"
 		if { [::abook::getDemographicField listening] == "false"} {
-			label $lfname.1.listening -padx 5 -font splainf -text "[trans firewalled]"
+			$lfname.1.listening configure -text "[trans firewalled]" -fg red
 		} else {
-			label $lfname.1.listening -padx 5 -font splainf -text "[trans portswellconfigured]"
+			$lfname.1.listening configure -text "[trans portswellconfigured]" -fg black
 		}
-		pack $lfname.1.conntype $lfname.1.listening -anchor w -side top -padx 10
 	}
+	pack $lfname.1.conntype $lfname.1.listening -anchor w -side top -padx 10
 
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref2] :" -padx 5 -font splainf
