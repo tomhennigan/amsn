@@ -542,8 +542,6 @@ snit::widgetadaptor loginscreen {
 			}
 			# If we've got a profile loaded, switch to default generic one
 			if { [::config::getKey login] != "" } {
-				# THIS SHOULDN'T BE HERE, BUT PROC IN CONFIG.TCL MAKES REFERENCES TO OLD LOGIN SCREEN GUI ELEMENTS, SO WE CAN'T USE THAT!
-				# WHEN THIS LOGIN SCREEN IS FINALISED, WE'LL CHANGE THE ORIGINAL PROC TO CONTAIN NO GUI-RELATED CODE, I GUESS..
 				# Switching to default profile, remove lock on previous profiles if needed
 				SwitchToDefaultProfile
 				# -------------------------------------------------------
