@@ -613,6 +613,7 @@ snit::widgetadaptor loginscreen {
 		grid $ok_button -row 2 -column 0 -sticky sew
 		grid columnconfigure $w 0 -weight 1
 		grid rowconfigure $w 2 -weight 1
+		wm transient $w $self
 		raise $w
 		grab set $w
 	}
