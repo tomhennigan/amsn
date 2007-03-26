@@ -32,6 +32,11 @@ namespace eval ::colorize {
 		set g [expr $g+$darken]
 		set b [expr $b+$darken]
 	    }
+
+	    if {$r < 0 } { set r 0 }
+	    if {$g < 0 } { set g 0 }
+	    if {$b < 0 } { set b 0 }
+
 	    set color [format "%02x%02x%02x" $r $g $b]
 	    plugins_log "Colorize" "new color: $color"
 	} else {
