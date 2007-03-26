@@ -11,11 +11,13 @@ namespace eval ::movewin {
 			x {0}
 			y {0}
 			state {}
+			make_normal 0
 		}
 
 		set ::movewin::configlist [list \
 			[list str "x position" x] \
 			[list str "y position" y] \
+			[list bool "Deiconify window when messages are received" make_normal] \
 			[list str "only in states (blank for any)" state] \
 		]
 	}
@@ -39,9 +41,13 @@ namespace eval ::movewin {
 	proc ::movewin::move { event epvar } {
 		upvar 2 $epvar vars
 
+		set w [winfo toplevel $vars(win)]
+
 		if { [::movewin::on] } {
-			wm geometry $vars(win) +$::movewin::config(x)+$::movewin::config(y)
-			wm state $vars(win) normal
+			wm geometry $w +$::movewin::config(x)+$::movewin::config(y)
+			if { $::movewin::config(make_normal) } {
+				wm state $w normal
+			}
 		}
 	}
 
@@ -49,8 +55,9 @@ namespace eval ::movewin {
 		upvar 2 $epvar vars
 		upvar 2 $vars(chatid) chatid
 
-		if { [::movewin::on] } {
-			wm state [::ChatWindow::For $chatid] normal
+		set w [winfo toplevel [::ChatWindow::For $chatid]]
+		if { [::movewin::on] && $::movewin::config(make_normal)} {
+			wm state $w normal
 		}
 	}
 }
