@@ -545,37 +545,7 @@ snit::widgetadaptor loginscreen {
 				# THIS SHOULDN'T BE HERE, BUT PROC IN CONFIG.TCL MAKES REFERENCES TO OLD LOGIN SCREEN GUI ELEMENTS, SO WE CAN'T USE THAT!
 				# WHEN THIS LOGIN SCREEN IS FINALISED, WE'LL CHANGE THE ORIGINAL PROC TO CONTAIN NO GUI-RELATED CODE, I GUESS..
 				# Switching to default profile, remove lock on previous profiles if needed
-				global lockSock HOME HOME2 log_dir webcam_dir loginmode
-				# Make sure we delete old lock
-				if { [info exists lockSock] } {
-					if { $lockSock != 0 } {
-						close $lockSock
-						unset lockSock
-					}
-				}
-				if { [::config::getKey login] != "" } {
-					LoginList changelock 0 [::config::getKey login] 0
-					SaveLoginList
-				}
-		
-				# Load default config
-				set HOME $HOME2
-		
-				config::setKey login ""
-				#that key is lost when changing profile
-				set connectas [::config::getKey connectas]
-				load_config
-				set log_dir ""
-				set webcam_dir ""
-		
-				# Set variables for default profile
-				::config::setKey save_password 0
-				::config::setKey connectas $connectas
-				::config::setKey keep_logs 0
-				::config::setKey log_event_connect 0
-				::config::setKey log_event_disconnect 0
-				::config::setKey log_event_email 0
-				::config::setKey log_event_state 0
+				SwitchToDefaultProfile
 				# -------------------------------------------------------
 				# Change DP
 				$dp_label configure -image [::skin::getNoDisplayPicture]
@@ -627,12 +597,26 @@ snit::widgetadaptor loginscreen {
 	# Deletes current profile. (Asks for user confirmation)
 	# Called by: Binding
 	method ForgetMe {} {
-		set user [$user_field get]
-		set answer [::amsn::messageBox "[trans confirmdelete ${user}]" yesno question]
-		if { $answer } {
-			::config::setKey login ""
-			DeleteProfile $user $user_field
-		}
+		set w [toplevel .forgetme_dialog]
+		set message [label $w.msg -text [trans howto_remove_profile]]
+		set link [button $w.link	-text			[trans goto_prefs_removeprofile] \
+						-border			0 \
+						-highlightthickness	0 \
+						-relief			flat \
+						-background		[$w cget -bg] \
+						-activebackground	[$w cget -bg] \
+						-fg			blue \
+						-font			splainf \
+						-cursor			hand2 \
+						-command		"SwitchToDefaultProfile;Preferences others;grab release $w; destroy $w"]
+		set ok_button [button $w.ok -text [trans Ok] -command "destroy $w"]
+		grid $message -row 0 -column 0 -sticky new
+		grid $link -row 1 -column 0 -sticky new
+		grid $ok_button -row 2 -column 0 -sticky sew
+		grid columnconfigure $w 0 -weight 1
+		grid rowconfigure $w 2 -weight 1
+		raise $w
+		grab set $w
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
