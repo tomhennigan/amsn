@@ -1172,37 +1172,7 @@ proc SwitchProfileMode { value } {
 		}
 	} else {
 		# Switching to default profile, remove lock on previous profiles if needed
-
-		# Make sure we delete old lock
-		if { [info exists lockSock] } {
-			if { $lockSock != 0 } {
-				close $lockSock
-				unset lockSock
-			}
-		}
-		if { [::config::getKey login] != "" } {
-			LoginList changelock 0 [::config::getKey login] 0
-			SaveLoginList
-		}
-
-		# Load default config
-		set HOME $HOME2
-
-		config::setKey login ""
-		#that key is lost when changing profile
-		set connectas [::config::getKey connectas]
-		load_config
-		set log_dir ""
-		set webcam_dir ""
-
-		# Set variables for default profile
-		::config::setKey save_password 0
-		::config::setKey connectas $connectas
-		::config::setKey keep_logs 0
-		::config::setKey log_event_connect 0
-		::config::setKey log_event_disconnect 0
-		::config::setKey log_event_email 0
-		::config::setKey log_event_state 0
+		SwitchToDefaultProfile
 	}
 }
 

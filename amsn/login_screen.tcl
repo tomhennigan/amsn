@@ -594,7 +594,7 @@ snit::widgetadaptor loginscreen {
 
 	# ------------------------------------------------------------------------------------------------------------
 	# ForgetMe
-	# Deletes current profile. (Asks for user confirmation)
+	# Dialog confirming user wants to delete current profile. Provides link to relevant section of preferences window.
 	# Called by: Binding
 	method ForgetMe {} {
 		set w [toplevel .forgetme_dialog]
@@ -608,7 +608,7 @@ snit::widgetadaptor loginscreen {
 						-fg			blue \
 						-font			splainf \
 						-cursor			hand2 \
-						-command		"SwitchToDefaultProfile;Preferences others;grab release $w; destroy $w"]
+						-command		"$self ForgetMeLinkClicked $w"]
 		set ok_button [button $w.ok -text [trans Ok] -command "destroy $w"]
 		grid $message -row 0 -column 0 -sticky new
 		grid $link -row 1 -column 0 -sticky new
@@ -617,6 +617,23 @@ snit::widgetadaptor loginscreen {
 		grid rowconfigure $w 2 -weight 1
 		raise $w
 		grab set $w
+	}
+
+	# ------------------------------------------------------------------------------------------------------------
+	# ForgetMeLinkClicked
+	# Switches to default profile, clears login screen and opens preferences window at "Others" page so user can delete profile. Closes forget me dialog too.
+	# Called by: Binding
+	method ForgetMeLinkClicked { w } {
+		# Switch to default profile so user can delete the current one
+		SwitchToDefaultProfile
+		# Open preferences window at "Others" page
+		Preferences others
+		# Empty login fields
+		$self clear
+
+		# Remove grab on dialog and destroy it
+		grab release $w
+		destroy $w
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -678,6 +695,18 @@ snit::widgetadaptor loginscreen {
 		}
 		pack forget .main.f
 		pack .main.loginscreen -e 1 -f both
+	}
+
+	# ------------------------------------------------------------------------------------------------------------
+	# clear
+	# Clears/deselects all fields on the login screen
+	# Called by: ForgetMeLinkClicked
+	method clear { } {
+		$user_field delete 0 end
+		$pass_field delete 0 end
+		$rem_me_field deselect
+		$rem_pass_field deselect
+		$auto_login_field deselect
 	}
 }
 
