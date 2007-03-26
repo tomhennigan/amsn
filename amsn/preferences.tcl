@@ -2621,6 +2621,9 @@ proc Preferences { { settings "personal"} } {
 
     
     moveinscreen .cfg 30
+
+    # Show requested page
+    $nb.nn raise $settings
 }
 
 proc UnregisterPrivacyEvents {} {
