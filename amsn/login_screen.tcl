@@ -689,11 +689,9 @@ snit::widgetadaptor loginscreen {
 	typemethod LoggingOut { event } {
 		status_log "logging out, creating loginscreen : $event "
 		# TODO : this is very ugly code... damn!
-		pack forget .main.f
-		if { [winfo exists .main.loginscreen] } {
-			destroy .main.loginscreen
+		if {! [winfo exists .main.loginscreen] } {
+			loginscreen .main.loginscreen						
 		}
-		loginscreen .main.loginscreen
 		pack forget .main.f
 		pack .main.loginscreen -e 1 -f both
 	}
