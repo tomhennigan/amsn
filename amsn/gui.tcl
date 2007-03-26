@@ -3281,12 +3281,25 @@ proc create_main_menu {wmenu} {
 	menu $view -tearoff 0 -type normal
 
 	#Add the "view by" radio buttons
-	$view add radio -label "[trans sortcontactstatus]" -value 0 \
-	-variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui" -state disabled
-	$view add radio -label "[trans sortcontactgroup]" -value 1 \
-	-variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui" -state disabled
-	$view add radio -label "[trans sortcontacthybrid]" -value 2 \
-	-variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui" -state disabled
+	$view add cascade -label "[trans sortcontactsby]" -menu $view.sortcontacts -state disabled
+
+	menu $view.sortcontacts -tearoff 0 -type normal
+
+	$view.sortcontacts add radio -label "[trans sortcontactstatus]" -value 0 \
+	    -variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add radio -label "[trans sortcontactgroup]" -value 1 \
+	    -variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add radio -label "[trans sortcontacthybrid]" -value 2 \
+	    -variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add separator
+	$view.sortcontacts add radio -label "[trans sortcontactsasc]" -value 1 \
+	    -variable [::config::getVar orderusersincreasing] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add radio -label "[trans sortcontactsdesc]" -value 0 \
+	    -variable [::config::getVar orderusersincreasing] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add separator
+	$view.sortcontacts add checkbutton -label "[trans groupcontactsbystatus]" -onvalue 1 -offvalue 0 \
+	    -variable [::config::getVar orderusersbystatus] -command "::Event::fireEvent changedSorting gui"
+
 	#-------------------
 	$view add separator	
 	$view add radio -label "[trans showcontactnick]" -value 0 \
@@ -3639,14 +3652,12 @@ proc loggedInGuiConf { event } {
 
 	# View menu
 	set menu .main_menu.view
-	set by_group_idx [$menu index "[trans sortcontactgroup]"]
-	set by_status_idx [$menu index "[trans sortcontactstatus]"]
-	set hybrid_idx [$menu index "[trans sortcontacthybrid]"]
+	set contact_sorting_idx [$menu index "[trans sortcontactsby]"]
 	set email_idx [$menu index "[trans showcontactemail]"]
 	set nick_idx [$menu index "[trans showcontactnick]"]
 	set asc_idx [$menu index "[trans sortgroupsasc]"]
 	set desc_idx [$menu index "[trans sortgroupsdesc]"]
-	enableEntries $menu [list $by_group_idx $by_status_idx $hybrid_idx $email_idx $nick_idx $asc_idx $desc_idx]
+	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx]
 	
 	# Actions menu
 	set menu .main_menu.actions
@@ -3712,14 +3723,12 @@ proc loggedOutGuiConf { event } {
 
 	# View menu
 	set menu .main_menu.view
-	set by_group_idx [$menu index "[trans sortcontactgroup]"]
-	set by_status_idx [$menu index "[trans sortcontactstatus]"]
-	set hybrid_idx [$menu index "[trans sortcontacthybrid]"]
+	set contact_sorting_idx [$menu index "[trans sortcontactsby]"]
 	set email_idx [$menu index "[trans showcontactemail]"]
 	set nick_idx [$menu index "[trans showcontactnick]"]
 	set asc_idx [$menu index "[trans sortgroupsasc]"]
 	set desc_idx [$menu index "[trans sortgroupsdesc]"]
-	enableEntries $menu [list $by_group_idx $by_status_idx $hybrid_idx $email_idx $nick_idx $asc_idx $desc_idx] 0
+	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx] 0
 	
 	# Actions menu
 	set menu .main_menu.actions

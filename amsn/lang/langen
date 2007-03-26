@@ -378,6 +378,7 @@ goto Go to $1
 gotoinbox Go to Inbox
 groupadd Add Group
 groupcontacts Group contacts
+groupcontactsbystatus Group Contacts by Status
 groupdelete Delete Group
 groupexists Group already exists
 group Group
@@ -763,6 +764,9 @@ snackfailed Snack failed to load, reverting to default
 snackneeded The Snack library is needed in order to use this feature. A minimal version of 2.2.9 is necessary.
 snapshot Snapshot
 sngdblclick Single click to open a new message window
+sortcontactsasc Sort Contacts Ascending
+sortcontactsdesc Sort Contacts Descending
+sortcontactsby Sort Contacts by
 sortcontactgroup Sort Contacts by Group
 sortcontacthybrid Sort Contacts in Hybrid Mode
 sortcontactstatus Sort Contacts by Status
