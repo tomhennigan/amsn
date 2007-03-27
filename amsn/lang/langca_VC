@@ -50,6 +50,15 @@ askeachtime Preguntar cada volta
 asksendingyourwebcam per a demanar enviar la teua càmera web
 asksendoim Vols enviar este missatge com un missatge sense connexió?
 askwebcam Preguntar a este usuari per a vore la seua càmera web
+assistantainput Tria el dispositiu d'entrada i fes una prova d'enregistrament
+assistantaoutput Tria el teu dispositiu d'eixida, i prova reproduint este arxiu per provar-lo
+assistantawarn No pots enregistrar o parlar als teus amics tu mateix. Trobaràs respostes sobre com instal·lar esta extensió al nostre Wiki:
+assistantfinetunepic Canvia les següents opcions per ajustar la qualitat d'imatge de la teua càmera web
+assistantselectcam Tria la teua càmera web de la llista
+assistantstarting Engegant l'assistent
+assistantwelcome Este assistent et guiarà a través de la configuració de les teues opcions de vídeo i àudio de aMSN.\n\nL'assistent comprovarà si les extensions requerides estan presents i carregades, i podràs triar el dispositiu i el canal, fixar les opcions de imatge i resolució.
+audioconfigured Tria les següents opcions de so:\n Dispositiu d'eixida: $1\nDispositiu d'entrada:$2
+audiovideo Opcions de Vídeo i Àudio
 author Autor
 autoaccepted Transferència d'arxius acceptada automàticament
 autoacceptft Acceptar transferències d'arxius automàticament
@@ -75,6 +84,7 @@ awaymsg1 Preguntar quan canvie l'estat a Absent/Torne enseguida/Ocupat
 awaymsg2 No preguntar mai i utilitzar el missatge a continuació
 baduserpass Nom d'usuari o contrasenya incorrectes
 badwebcam No es pot mostrar la imatge de la càmera web. Comprova que la teua càmera web està correctament connectada i instal·lada.
+back Enrere
 bgcolor Canvia el color de fons d'aMSN
 blankdirect Deixar en blanc per a la connexió directa
 block Bloquejar
@@ -110,6 +120,7 @@ cantremoveothers No es pot esborrar el grup "Altres"
 captureextloaded L'extensió de captura -$1- s'ha carregat
 captureextnotloaded L'extensió de captura -$1- no s'ha carregat, l'has de compilar
 captureproperties Propietats de la imatge de la càmera web
+capturewarn No podràs enviar la teua càmera web si ja tens una. Si no en tens, és normal. Trobaràs respostes sobre com instal·lar esta extensió al nostre Wiki:
 casesensitive Diferenciar majúscules/minúscules en disparadors
 cfgalarmall Canviar/afegir/llevar avís global
 cfgalarm Configurar/afegir/esborrar avís
@@ -136,6 +147,10 @@ chatsmileys Emoticons en la conversa
 checkblocking Comprovar contínuament si els usuaris t'estan bloquejant
 checkemail Mostrar la llínia de notificació de correu nou en la llista de contactes
 checkfilman Els arxius rebuts es guardaràn en $1. Comprova l'opció d'administrador d'arxius en la finestra de preferències.
+checkingaudio Comprovant si la extensiò d'àudio (Snack) està carregada...
+checkingcam Comprovant si la càmera web està connectada...
+checkingcapext Comprovant si la extensió '$1' està carregada...
+checkingextensions Comprovant les extensions de vídeo requerides
 checkingver Buscant si hi ha una nova versió
 checkonfln Comprovar si un usuari et bloqueja quan aparentment es desconnecta
 checkopenfilecommand Per favor, comprova el commandament d'obertura d'arxius a la finestra de preferències
@@ -147,6 +162,9 @@ choosechannel Per favor, selecciona un canal
 choosecontact Per favor, selecciona un contacte de la llista
 choosedevice Per favor, selecciona un dispositiu
 choosefontcolor Tria color de la lletra
+chooseinputdev Tria el teu dispositiu d'entrada
+choosemixerdev Tria el teu dispositiu mesclador
+chooseoutputdev Tria el teu dispositiu d'eixida
 chooseskin Per favor, selecciona el tema (skin) que vols usar
 ch_to_state Canviar al nou estat
 clearlog2 Netejar l'historial per a tots els contactes
@@ -171,6 +189,8 @@ color Color
 command Ordre
 commandstatus Executar ordre
 configure Configurar
+configuremic Configurant el teu micròfon
+configuringaudio Configurant les opcions d'`àudio
 confirmbl Segur que vols bloquejar este contacte?
 confirmdelete Segur que vols esborrar a $1?
 confirmdg Segur que vols eliminar este grup?
@@ -179,6 +199,7 @@ confirmeg Segur que vols buidar este grup?
 confirm Estàs segur?
 confirmpurge Totes les imatges de mostra d'altres contactes (no les teues) seran esborrades. Estàs segur?
 confirmrfl Segur que vols eliminar este usuari d'este grup?
+congrats Felicitats
 connected Ara estàs connectat
 connectedwith Connectat amb $1
 connecterror Error connectant-se al servidor
@@ -270,9 +291,10 @@ dontdownload No descarregar TLS, l'instal·laré jo mateix
 dontshow No mostrar
 download Descarregar
 downloadingtls Descarregant el mòdul TLS des de: \n $1
+edit Editar
+editavsettings Modifica les opcions de àudio i vídeo
 editcontent Edita el contingut del camp assumpte i del camp nota
 editcustomstate Editar estat personalitzat
-edit Editar
 editmyprofile Editar el meu perfil del MSN
 editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
@@ -320,8 +342,13 @@ findasyoutype Busca mentre escrius
 find Busca
 findnext Busca el següent
 findprev Busca l'anterior
+finetunesettings Opcions de imatge per a ajustament fi
+finish Acaba
+finish2apply Prem el botó Acaba per aplicar aquestes opcions.
 firewalled Estàs utilitzant un tallafoc (fiewall) o estàs darrere d'un router
+firewalled2 Estàs utilitzant un tallafoc o estàs darrere un router, per favor comprova les teues opcions de connexió a la finestra de preferències.
 followtext Avançar quan s'introduixca nou text
+forgot_pass He oblidat la meua contrasenya
 friendlyname Sobrenom en conversa
 ftacceptedby $1 ha acceptat la invitació de transferència de l'arxiu '$2'
 ftaccepted Transferència d'arxius acceptada
@@ -332,6 +359,7 @@ ftconnecting Connectant a $1 per el port $2
 ftconnectionlost S'ha perdut la connexió amb l'usuari remot
 ftgotinvitation $1 vol enviar-te l'arxiu '$2' ($3 bytes). Es guardarà en el directori ($4). Vols rebre este arxiu?
 ftportpref Utilitza este port, o els següents, per a les transferències d'arxius
+ftportpref2 Port de començament per les connexions directes (necessari per transferències d'arxius i càmera web)
 ftporttest Port de prova
 ftrejectedby $1 ha rebutjat la invitació per a transferir l'arxiu '$2'.
 ftrejected Transferència d'arxiu cancel·lada
@@ -350,6 +378,7 @@ goto Anar a $1
 gotoinbox Anar a llegir el correu
 groupadd Afegir un grup
 groupcontacts Contactes del grup
+groupcontactsbystatus Agrupa contactes per l'estat
 groupdelete Esborrar un grup
 groupexists El grup ya existix
 group Grup
@@ -361,6 +390,7 @@ grouprename Canviar nom a grup
 groups Grups
 groupunknown Grup desconegut
 handle Sobrenom
+havenomic No tinc micròfon
 help Ajuda
 helpcontents Temes d'ajuda
 hidedisplaypic Ocultar la imatge de mostra
@@ -469,6 +499,7 @@ mobilegrp2 Introduix usuaris al grup "mòvil" quan estan desconnectats (i ordenat
 mobile Mòvil
 modified Modificat
 month Mes
+more Més
 morepersonal Més estats ->
 move Moure
 movetogroup Moure al grup
@@ -493,6 +524,7 @@ natkeepalive Si patixes desconnexions contínuament, activa esta opció
 needonline Encara estàs/aparentes desconnectat!
 needwinico2 Necessites winico05.dll en el directori utils/windows per a minimitzar a l'àrea de notificació
 never Mai
+new_account Crea un compte
 newchat Nova conversa
 new_ft_protocol Utilitzar el nou protocol de transferència d'arxius (encara té alguns errors menors)
 newline Nova llínia
@@ -507,18 +539,20 @@ newtabbedfeature aMSN té una nova característica en conversa, ara pots tindre to
 newveravailable Nova versió $1 disponible per a descàrrega
 next Següent
 nick Sobrenom
+no No
 noactivity Inactivitat
 nocacheddps Cap imatge per a mostrar en caché per a este usuari
+nocamwarn No s'ha trobat cap càmera web, el problema pot ser també perquè la teua càmera web ja està sent utilitzada per un altre programa (la qual cosa significa que no pot ser utilitzada per aMSN). Trobaràs ajuda per solucionar este obstacle al nostre Wiki:
 nodataavailable Informació no disponible per a $1
 nodevices No hi ha dispositius instal·lats
 noftpreview Desactiva l'enviament de la previsualització en les transferències de fixers.
 nogap Sense espai entre els grups
 nogroup Sense grup
 nologfile No hi ha arxiu de registre per a $1
+nomic No hi ha micròfon
 noneavailable Cap disponible
 nonewmail No hi ha nous correus
 nonewver No hi ha una nova versió disponible per a descarregar
-no No
 nopic No hi ha imatge
 noprofileexists No hi han perfils actualment, \n has de crear un de nou si vols utilitzar els perfils d'entrada. \nUtilitza el botó Afegir Nou Perfil en esta finestra per a afegir un nou perfil.
 normal Normal
@@ -546,6 +580,7 @@ nousersinsession No hi han usuaris en la sessió
 nouserspecified No s'ha especificat usuari
 nudge $1 reclama la teua atenció
 offline Desconnectat
+oim Missatges en desconnexió
 ok Acceptar
 onenewmail 1 correu nou
 online Connectat
@@ -579,6 +614,7 @@ playbackposition Moment de reproducció
 playbackspeed Velocitat de reproducció (mil·lisegons entre cada fotograma)
 playing Reproduint: $1
 play Reproduïr
+playtest Reproduix l'arxiu de prova
 playwebcamsend Continua enviant per càmera web
 pluginselector Seleccionar plug-in
 port Port
@@ -648,9 +684,11 @@ recentmsg Previndre el tancament de la finestra de conversa quan un missatge aca
 reconnect2 Reconnectar en perdre la connexió
 reconnect Esperant que $1 es reconnecte
 reconnecting Reconnectant al servidor
+record Enregistra
 recorderror S'ha produït un error quan s'intentava gravar el so : $1
 recvwebcamaccepted $1 ha acceptat la teua invitació a vore la seua càmera web. Connectant...
 reject Denegar
+rememberaccount Recorda el meu compte
 rememberpass Recordar contrasenya
 remembersetting Recordar este ajustament
 removeempty Eliminar els grups buits de la llista de contactes
@@ -696,6 +734,8 @@ server Servidor
 serverunavailable El servidor no es troba disponible
 session Sessió
 setasmydp Establir com la meua imatge per a mostrar
+setupcam Engegant el teu dispositiu de càmera web
+setupcamfinetune Engegant el teu dispositiu de càmera web i imatge per a ajustament fi
 shareswebcam Compartix la càmera web
 showbanner Mostrar l'anunci d'aMSN
 showblockedlist Mostrar la llista de persones que t'han bloquejat
@@ -705,6 +745,7 @@ showcontactemail Mostra el correu dels contactes
 showcontactnick Mostra el sobrenom dels contactes
 showdisplaypic2 Vore la imatge predeterminada per a mostrar quan s'obri una finestra de conversa
 showdisplaypic Vore Imatge per a Mostrar
+showlinksinlogin Mostra enllaços en la finestra de connexió
 showmailicon Mostrar un icon en l'àrea de notificació en arribar correu nou
 showmypic La meua imatge de mostra
 shownotify Mostrar finestra d'avís al produïr-se diferents events
@@ -726,6 +767,9 @@ sngdblclick Només un click per obrir una nova finestra de conversa
 sortcontactgroup Ordena contactes per grup
 sortcontacthybrid Ordena contactes en mode mixt
 sortcontactstatus Ordena contactes per estat
+sortcontactsasc Ordena els contactes ascendentment
+sortcontactsdesc Ordena els contactes descendentment
+sortcontactsby Ordena els contactes per
 sortgroupsasc Ordena ascendentment els grups
 sortgroupsdesc Ordena descendentment els grups
 sound2 Reproduix sons quan els contactes es connecten o envien missatges
@@ -757,6 +801,7 @@ statepsm Missatge personal personalitzat (deixa en blanc per a no canviar res)
 state Vull apareixer com
 stats Estadístiques
 status Estat
+step Pas
 stopalarm Parar el so de l'avís
 stop Parar
 stopwebcamreceive Parar de rebre imatges de la càmera web
@@ -831,13 +876,19 @@ videoconversationrequest Acabes de rebre una invitació de video-conversa (audio 
 viewcontactsby Mostra els contactes per
 viewprofile Vore perfil
 view Vore
+volume Volum
 wanttosharecam Vull fer disponible la meua càmera web als altres
 webcamcanceled La sessió de càmera web amb $1 ha estat cancel·lada
 webcamclosebefcancel Has de cancel·lar totes les sessions de càmera web abans de tancar la finestra
 webcam Càmera web
 webcamconfigure Configurar la càmera web
+webcamconfiguredMac Les teues opcions de càmera web han estat configurades
+webcamconfiguredWin Tria el següent dispositiu de càmera web: $1
+webcamconfiguredLinux Tria les següents opcions de càmera web:\nDispositiu de càmera web: $1\nCanal de càmera web: $2
+webcamextchecking Comprovant si la extensió de càmera web està carregada...
 webcamextloaded S'ha carregat l'extensió Webcamsn
 webcamextnotloaded No s'ha carregat l'extensió Webcamsn. L'has de compilar
+webcamextwarn No podràs vore la càmera web dels teus contactes. Trobaràs respostes sobre com instal·lar algunes extensions al nostre Wiki:
 webcamfaq PMF-FAQ/Ajuda per a la càmera web
 webcamhistory Vore les sessions de càmera web
 webcaminvite $1 t'ha convidat a iniciar una conversa amb càmera web però aMSN encara no ho suporta.

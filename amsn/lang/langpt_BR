@@ -377,6 +377,7 @@ gotink $1 te enviou um ink.
 gotoinbox Ir para a caixa de entrada de e-mails
 goto Ir para $1
 groupadd Adicionar um grupo
+groupcontactsbystatus Agrupar contatos pelo status
 groupcontacts Grupo de contatos
 groupdelete Apagar um grupo
 groupexists Grupo já existente
@@ -498,6 +499,7 @@ mobilegrp1 Grupo Celular
 mobilegrp2 Colocar contatos no grupo "Celular" quando estiverem desconectados\n(e ordenados pelo status)
 modified Modificado
 month Mês
+more Mais
 morepersonal Mais estados ->
 move Mover
 movetogroup Mover para o grupo
@@ -743,6 +745,7 @@ showcontactemail Exibir contatos pelo endereço de e-mail
 showcontactnick Exibir contatos pelo apelido
 showdisplaypic2 Mostrar imagem de exibição automaticamente quando uma janela de conversa é aberta
 showdisplaypic Mostrar imagem de exibição
+showlinksinlogin Mostrar Links na tela de login
 showmailicon Mostrar ícone de e-mail na bandeja do sistema quando novos e-mails chegarem
 showmypic Minha imagem de exibição
 shownotify Exibir janela de notificação quando alguns eventos acontecerem
@@ -763,6 +766,9 @@ snapshot Snapshot
 sngdblclick Um clique para abrir uma nova janela de mensagem
 sortcontactgroup Ordenar contatos por grupo
 sortcontacthybrid Ordenar contatos num modo híbrido
+sortcontactsasc Ordernar contatos ascendente
+sortcontactsby Ordernar contatos por
+sortcontactsdesc Ordernar contatos descendente
 sortcontactstatus Ordenar contatos por status
 sortgroupsasc Exibir grupos em ordem ascendente
 sortgroupsdesc Exibir grupos em ordem descendente
