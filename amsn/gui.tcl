@@ -2577,13 +2577,14 @@ namespace eval ::amsn {
 
 
 	#///////////////////////////////////////////////////////////////////////////////
-	# chatUser (user)
+	# chatUser (user, [oim])
 	# Opens a chat for user 'user'. If a window for that user already exists, it will
 	# use it and reconnect if necessary (will call to the protocol function chatUser),
 	# and raise and focus that window. If the window doesn't exist it will open a new
 	# one. 'user' is the mail address of the user to chat with.
+	# oim is 1 when we're opening this CW in order to put an OIM
 	#returns the name of the window
-	proc chatUser { user } {
+	proc chatUser { user {oim 0}} {
 #		set lowuser [string tolower $user]
 		set lowuser $user		
 		set win_name [::ChatWindow::For $lowuser]
@@ -2665,8 +2666,11 @@ namespace eval ::amsn {
 
 		set container [::ChatWindow::GetContainerFromWindow $win_name]
 		if { $container != "" } { ::ChatWindow::SwitchToTab $container $win_name }
-		focus [::ChatWindow::GetInputText ${win_name}]
-		return	$win_name
+		#from a weird reason, 
+		if {!$oim && [::config getKey tabbedchat] != 0 } {
+			focus [::ChatWindow::GetInputText ${win_name}]
+		}
+		return $win_name
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -2696,28 +2700,28 @@ namespace eval ::amsn {
 		if {![winfo exists $win_name]} {
 			return
 		}
-
-		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText ${win_name}]]
+		set textw [::ChatWindow::GetOutText ${win_name}]
+		set scrolling [::ChatWindow::getScrolling $textw]
 
 		set fontname [lindex $fontformat 0]
 		set fontstyle [lindex $fontformat 1]
 		set fontcolor [lindex $fontformat 2]
 
-		[::ChatWindow::GetOutText ${win_name}] configure -font bplainf -foreground black
+		$textw configure -font bplainf -foreground black
 
 		#Store position for later smiley and URL replacement
 		# use end-1c because text widgets always have \n at the end, and it's better than getting the
 		# previous line as we did before (creates bug when we use a custom chat style that fits in one line).
-		set text_start [[::ChatWindow::GetOutText ${win_name}] index end-1c]
+		set text_start [$textw index end-1c]
 
 		#Ugly hack for elided search, but at least it works!...
 		if { [info tclversion] == 8.4 && $tagname == "user" } {
-			if { [[::ChatWindow::GetOutText ${win_name}] get end-2c]!= "\n" } {
+			if { [$textw get end-2c]!= "\n" } {
 				set all_chars 0
-				[::ChatWindow::GetOutText ${win_name}] search -elide -regexp -count all_chars .* end-1l end-1c
+				$textw search -elide -regexp -count all_chars .* end-1l end-1c
 				#Remove line below and aMSN Plus causes bug report
 				set visible_chars $all_chars
-				[::ChatWindow::GetOutText ${win_name}] search -regexp -count visible_chars .* end-1l end-1c
+				$textw search -regexp -count visible_chars .* end-1l end-1c
 				set elided_chars [expr {$all_chars - $visible_chars + 1}]
 				set text_start $text_start-${elided_chars}c
 			}
@@ -2725,7 +2729,7 @@ namespace eval ::amsn {
 
 		#Check if this is first line in the text, then ignore the \n
 		#at the beginning of the line
-		if { [[::ChatWindow::GetOutText ${win_name}] get 1.0 2.0] == "\n" } {
+		if { [$textw get 1.0 2.0] == "\n" } {
 			if {[string index $txt 0] == "\n"} {
 				set txt [string range $txt 1 end]
 			}
@@ -2760,9 +2764,9 @@ namespace eval ::amsn {
 			set tagid [::md5::md5 "$font$fontcolor"]
 
 			if { ([string length $fontname] < 3 )
-					|| ([catch {[::ChatWindow::GetOutText ${win_name}] tag configure $tagid -foreground #$fontcolor -font $font} res])} {
+					|| ([catch {$textw tag configure $tagid -foreground #$fontcolor -font $font} res])} {
 				status_log "Font $font or color $fontcolor wrong. Using default\n" red
-				[::ChatWindow::GetOutText ${win_name}] tag configure $tagid -foreground black -font bplainf
+				$textw tag configure $tagid -foreground black -font bplainf
 			}
 		}
 
@@ -2771,19 +2775,20 @@ namespace eval ::amsn {
 		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
 		
-		[::ChatWindow::GetOutText ${win_name}] roinsert end "$txt" $tagid
+		set textw [::ChatWindow::GetOutText ${win_name}]
+		
+		$textw roinsert end "$txt" $tagid
 		
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
 		variable urlcount
 		variable urlstarts
 
 		set endpos $text_start
-
 		foreach url $urlstarts {
-			while { $endpos != [[::ChatWindow::GetOutText ${win_name}] index end] && [set pos [[::ChatWindow::GetOutText ${win_name}] search -forward -exact -nocase \
+			while { $endpos != [$textw index end] && [set pos [$textw search -forward -exact -nocase \
 				$url $endpos end]] != "" } {
 
-				set urltext [[::ChatWindow::GetOutText ${win_name}] get $pos end]
+				set urltext [$textw get $pos end]
 
 				set final 0
 				set caracter [string range $urltext $final $final]
@@ -2801,22 +2806,22 @@ namespace eval ::amsn {
 				set urlcount "[expr {$urlcount+1}]"
 				set urlname "url_$urlcount"
 
-				[::ChatWindow::GetOutText ${win_name}] tag configure $urlname \
+				$textw tag configure $urlname \
 				-foreground #000080 -font splainf -underline true
-				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Enter> \
-				"[::ChatWindow::GetOutText ${win_name}] tag conf $urlname -underline false;\
-				[::ChatWindow::GetOutText ${win_name}] conf -cursor hand2"
-				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Leave> \
-				"[::ChatWindow::GetOutText ${win_name}] tag conf $urlname -underline true;\
-				[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm"
-				[::ChatWindow::GetOutText ${win_name}] tag bind $urlname <Button1-ButtonRelease> \
-				"[::ChatWindow::GetOutText ${win_name}] conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
+				$textw tag bind $urlname <Enter> \
+				"$textw tag conf $urlname -underline false;\
+				$textw conf -cursor hand2"
+				$textw tag bind $urlname <Leave> \
+				"$textw tag conf $urlname -underline true;\
+				$textw conf -cursor xterm"
+				$textw tag bind $urlname <Button1-ButtonRelease> \
+				"$textw conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
 
-				[::ChatWindow::GetOutText ${win_name}] rodelete $pos $endpos
-				[::ChatWindow::GetOutText ${win_name}] roinsert $pos "$urltext" $urlname
+				$textw rodelete $pos $endpos
+				$textw roinsert $pos "$urltext" $urlname
 
 				#Don't replace smileys in URLs
-				[::ChatWindow::GetOutText ${win_name}] tag add dont_replace_smileys ${urlname}.first ${urlname}.last
+				$textw tag add dont_replace_smileys ${urlname}.first ${urlname}.last
 			}
 		}
 
@@ -2825,19 +2830,19 @@ namespace eval ::amsn {
 
 		if {[::config::getKey chatsmileys]} {
 			if {([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
-				custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] $text_start end
+				custom_smile_subst $chatid $textw $text_start end
 			}
 			#Replace smileys... if you're sending custom ones, replace them too (last parameter)
 			if { $user == [::config::getKey login] } {
-				::smiley::substSmileys  [::ChatWindow::GetOutText ${win_name}] $text_start end 0 1
+				::smiley::substSmileys $textw $text_start end 0 1
 				#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
 			} else {
-				::smiley::substSmileys  [::ChatWindow::GetOutText ${win_name}] $text_start end 0 0
+				::smiley::substSmileys $textw $text_start end 0 0
 
 			}
 		}
 
-		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
+		if { $scrolling } { ::ChatWindow::Scroll $textw }
 		
 		if { $flicker } {
 			::ChatWindow::Flicker $chatid
@@ -6936,7 +6941,6 @@ namespace eval ::OIM_GUI {
 	#Most of this code is from the MSNMobile namespace from protocol.tcl
 
 	#TODO:
-	# * add lang key oim : Offline Messaging ?
 	# * fix all pending bugs !
 
     namespace export IsOIM MessageSend MessagesReceived OpenOIMWindow
@@ -7061,7 +7065,8 @@ namespace eval ::OIM_GUI {
 			if {$user == "" } {
 				return 0
 			}
-			::amsn::chatUser $user
+			# 1 means we want to display an OIM
+			::amsn::chatUser $user 1
 			#TODO: use the normal way to get the chatid
 			set chatid [GetChatId $user]
 		}
