@@ -225,7 +225,7 @@ snit::widgetadaptor loginscreen {
 		# Fill in last username used
 		$user_field delete 0 end
 		$user_field insert end [::config::getKey login]
-		$self UserSelected $user_field [$user_field get]
+		$self UsernameEdited
 
 		# If profiles are disabled, disable 'remember me' checkbutton#
 		if { [::config::getGlobalKey disableprofiles] != 1 } {
@@ -235,6 +235,8 @@ snit::widgetadaptor loginscreen {
 		# Register for events
 		::Event::registerEvent loggingIn all [list $self LoggingIn]
 		::Event::registerEvent reconnecting all [list $self LoggingIn]
+		::Event::registerEvent profileCreated all [list $self profileCreated]
+		::Event::registerEvent profileDeleted all [list $self profileDeleted]
 	}
 
 	destructor {
@@ -245,6 +247,8 @@ snit::widgetadaptor loginscreen {
 		# Unregister for events
 		::Event::unregisterEvent loggingIn all [list $self LoggingIn]
 		::Event::unregisterEvent reconnecting all [list $self LoggingIn]
+		::Event::unregisterEvent profileCreated all [list $self profileCreated]
+		::Event::unregisterEvent profileDeleted all [list $self profileDeleted]
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -470,6 +474,10 @@ snit::widgetadaptor loginscreen {
 		
 	}
 
+	# ------------------------------------------------------------------------------------------------------------
+	# ShowMore
+	# Show all elements on login screen and enlarge login window accordingly
+	# Called by: Binding
 	method ShowMore { } {
 		# We need to show everything so that it calculates their sizes when it sorts them
  		contentmanager show login_screen lang
@@ -640,8 +648,6 @@ snit::widgetadaptor loginscreen {
 		SwitchToDefaultProfile
 		# Open preferences window at "Others" page
 		Preferences others
-		# Empty login fields
-		$self clear
 
 		# Remove grab on dialog and destroy it
 		grab release $w
@@ -668,6 +674,29 @@ snit::widgetadaptor loginscreen {
 
 		# Login with them
 		$self login $user $pass
+	}
+
+	# ------------------------------------------------------------------------------------------------------------
+	# profileDeleted
+	# Receives event when a profile is deleted and removes that profile from user list
+	method profileDeleted { event email } {
+		# Remove profile from user list
+		for { set i 0 } { $i < [$user_field list size] } { incr i 1 } {
+			if { [$user_field list get $i] == $email } {
+				$user_field list delete $i
+			}
+		}
+		# If this profile was showing in user field, clear it.
+		if { $email == [$user_field get] } {
+			$self clear
+		}
+	}
+
+	# ------------------------------------------------------------------------------------------------------------
+	# Receives event when a profile is created and adds that profile to user list
+	method profileCreated { event email } {
+		# Add profile to user list
+		$user_field list insert end $email
 	}
 
 	# ------------------------------------------------------------------------------------------------------------

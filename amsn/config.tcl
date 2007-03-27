@@ -1231,6 +1231,9 @@ proc CreateProfile { email } {
 	LoginList add 0 $email 0
 	SaveLoginList
 
+	# Fire event
+	::Event::fireEvent profileCreated {} $email
+
 	# Redraw combobox with new profile
 	if { [winfo exists .login] } {
 		set loginmode 1
@@ -1302,6 +1305,9 @@ proc DeleteProfile { email entrypath } {
 	$entrypath list delete $entryidx
 	$entrypath select 0
 	LoginList unset 0 $email
+
+	# Fire event
+	::Event::fireEvent profileDeleted {} $email
 
 	# Lets save it into the file
 	SaveLoginList
