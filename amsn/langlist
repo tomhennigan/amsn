@@ -188,10 +188,10 @@
 		<encoding>euc-kr</encoding>
 	</lang>
 	<lang>
-	        <langcode>lt</langcode>
-	        <name>Lithuanian (lietuviškai)</name>
-	        <version> 1.0</version>
-	        <encoding>utf-8</encoding>
+		<langcode>lt</langcode>
+		<name>Lithuanian (lietuviškai)</name>
+		<version> 1.0</version>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>mk</langcode>
