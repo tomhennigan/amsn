@@ -783,6 +783,8 @@ namespace eval ::skin {
 		::skin::setPixmap busy busy.gif
 		::skin::setPixmap mobile mobile.gif
 
+		::skin::setPixmap info info.gif
+
 		::skin::setPixmap space_update space_update.gif
 		::skin::setPixmap space_noupdate space_noupdate.gif
 	

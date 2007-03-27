@@ -376,6 +376,7 @@ gonelunch Out To Lunch
 gotink $1 sent you an ink.
 goto Go to $1
 gotoinbox Go to Inbox
+goto_prefs_removeprofile Click here to go to preferences and delete your profile
 groupadd Add Group
 groupcontacts Group contacts
 groupcontactsbystatus Group Contacts by Status
@@ -400,6 +401,7 @@ hiden Hide the emoticon from the smileys menu
 hidewindow Hide Window
 history View History
 home Home
+howto_remove_profile To delete your profile (forget $1) you need to do so from the preferences window. \n\nFor security reasons, profile deletion from the login screen is not allowed.
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
 hue Hue
 huge Huge

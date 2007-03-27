@@ -595,8 +595,13 @@ snit::widgetadaptor loginscreen {
 	# Dialog confirming user wants to delete current profile. Provides link to relevant section of preferences window.
 	# Called by: Binding
 	method ForgetMe {} {
-		set w [toplevel .forgetme_dialog]
-		set message [label $w.msg -text [trans howto_remove_profile]]
+		# Create dialog
+		set w [toplevel .forgetme_dialog -width 400]
+		# Icon
+		set icon [label $w.icon -image [::skin::loadPixmap info]]
+		# Message
+		set message [label $w.msg -text [trans howto_remove_profile [::config::getKey login]] -justify left]
+		# Link to prefs "Others" page
 		set link [button $w.link	-text			[trans goto_prefs_removeprofile] \
 						-border			0 \
 						-highlightthickness	0 \
@@ -607,13 +612,21 @@ snit::widgetadaptor loginscreen {
 						-font			splainf \
 						-cursor			hand2 \
 						-command		"$self ForgetMeLinkClicked $w"]
+		# OK button
 		set ok_button [button $w.ok -text [trans Ok] -command "destroy $w"]
-		grid $message -row 0 -column 0 -sticky new
-		grid $link -row 1 -column 0 -sticky new
-		grid $ok_button -row 2 -column 0 -sticky sew
-		grid columnconfigure $w 0 -weight 1
-		grid rowconfigure $w 2 -weight 1
+
+		# Set widgets out using grid
+		grid $icon	-row 0	-column	0	-sticky nw	-columnspan 1	-padx 4	-pady 4
+		grid $message	-row 0	-column 1	-sticky new	-columnspan 1	-padx 4	-pady 4
+		grid $link	-row 1	-column 1	-sticky new	-columnspan 2	-padx 4	-pady 4
+		grid $ok_button	-row 2	-column 0	-sticky sew	-columnspan 2	-padx 0	-pady 0
+
+		grid columnconfigure	$w	1	-weight 1
+		grid rowconfigure	$w	2	-weight 1
+
+		# Make dialog transient
 		wm transient $w $self
+		# Raise dialog and put local grab on it
 		raise $w
 		grab set $w
 	}
