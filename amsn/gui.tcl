@@ -2667,7 +2667,7 @@ namespace eval ::amsn {
 		set container [::ChatWindow::GetContainerFromWindow $win_name]
 		if { $container != "" } { ::ChatWindow::SwitchToTab $container $win_name }
 		#from a weird reason, 
-		if {!$oim && [::config getKey tabbedchat] != 0 } {
+		if {!$oim && [::config::getKey tabbedchat] != 0 } {
 			focus [::ChatWindow::GetInputText ${win_name}]
 		}
 		return $win_name
