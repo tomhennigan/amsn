@@ -133,8 +133,12 @@ proc SOCKSsecureSocket { args } {
 			install proxy using ProxyDirect %AUTO% -name $self
 		} elseif {[::config::getKey connectiontype] == "http" } {
 			install proxy using ProxyHTTP %AUTO% -name $self
-		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" } {
+		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" && 
+			   [::config::getKey http_proxy_use_gateway 1]} {
 			install proxy using ProxyHTTP %AUTO% -name $self
+		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" && 
+			   ![::config::getKey http_proxy_use_gateway 1]} {
+			install proxy using ProxyDirect %AUTO% -name $self
 		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "socks5" } {
 			install proxy using ProxyDirect %AUTO% -name $self
 		} else {
@@ -153,6 +157,7 @@ proc SOCKSsecureSocket { args } {
 ::snit::type ProxyDirect {
 
 	option -name
+	variable http_idlist
 
 	#Called to write some data to the connection
 	method write { sb data } {
@@ -187,7 +192,7 @@ proc SOCKSsecureSocket { args } {
 	#Called to stablish the given connection.
 	#The "server" field in the sb data must be set to server:port
 	method connect {sb} {
-
+	
 		if { [$sb cget -proxy_host] != ""} {
 			#We connect through SOCKS socket
 			set tmp_serv [$sb cget -proxy_host]
@@ -215,11 +220,19 @@ proc SOCKSsecureSocket { args } {
 
 		$sb configure -sock $sock
 		if { [$sb cget -proxy_host] != ""} {
-			set res [::Socks5::Init $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
-			if { $res != "OK" } {
-				$sb configure -error_msg $res
-				return -1
-			}
+			if { [::config::getKey proxytype] == "http"} {
+				set res [$self ConnectHTTP $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
+				if { $res != "OK" } {
+					$sb configure -error_msg $res
+					return -1
+				}
+			} else {
+				set res [::Socks5::Init $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
+				if { $res != "OK" } {
+					$sb configure -error_msg $res
+					return -1
+				}
+			} 
 		}
 		fconfigure $sock -buffering none -translation binary -blocking 0
 		fileevent $sock readable [list $sb receivedData]
@@ -228,6 +241,60 @@ proc SOCKSsecureSocket { args } {
 		fileevent $sock writable $connected_command
 		return 0
 
+	}
+
+	method ConnectHTTP {sck addr port auth user pass} {
+
+		set http_idlist(stat,$sck) 0
+		set http_idlist(data,$sck) ""
+
+		
+		set msg "CONNECT ${addr}:${port} HTTP/1.1\r\n"
+		append msg "Host: ${addr}:${port}\r\n"
+		append msg "Proxy-Connection: Keep-Alive\r\n"
+		if {$auth} {
+			set basic [base64::encode "${$user}:${pass}"]
+			append msg "Proxy-Authorization: Basic $basic\r\n"
+		}
+		append msg "\r\n"
+		
+		status_log "sending $msg" blue
+		fconfigure $sck -translation {binary binary} -blocking 0
+		fileevent $sck readable [list $self ReceivedHTTPResponse $sck]
+
+		puts -nonewline $sck "$msg"
+		flush $sck
+
+
+		status_log "HTTP going into tkwait\n"
+		tkwait variable [myvar http_idlist(stat,$sck)]
+
+		fileevent $sck readable {}
+		set data [set http_idlist(data,$sck)]
+		unset http_idlist(stat,$sck)
+		unset http_idlist(data,$sck)
+		if {[eof $sck]} {
+			catch {close $sck}
+			status_log "ERROR:Connection closed with HTTP Server!"
+			return "ERROR:Connection closed with HTTP Server!"
+		}
+
+		if { ([string range $data 9 11] != "200") && ([string range $data 9 11] != "100")} {
+			catch {close $sck}
+			status_log "HTTP Proxy answered non 200 : $data" red
+			return "ERROR: Proxy answered non 200"
+		} else {
+			fconfigure $sck -translation {auto auto}
+			status_log "HTTP: OK"
+			return "OK"
+		}
+	}
+	method ReceivedHTTPResponse { sck } {
+		if { [catch {set http_idlist(data,$sck) [read $sck]} res] } {
+			status_log "Error when reading from http server : $res"
+		}
+
+		incr http_idlist(stat,$sck)
 	}
 
 	method authInit {} {
@@ -250,11 +317,20 @@ proc SOCKSsecureSocket { args } {
 			::http::config -proxyhost $proxy_host -proxyport $proxy_port
 		}
 
-		# http://wiki.tcl.tk/2627 :(
-		if { [catch {http::register https 443 SOCKSsecureSocket} res]} {
-			MSN::logout
-			MSN::reconnect "Proxy returned error: $res"
-			return -1
+		if { [::config::getKey proxytype] == "http"} {
+			status_log "registering http secure socket "
+			if { [catch {http::register https 443 HTTPsecureSocket} res]} {
+				MSN::logout
+				MSN::reconnect "Proxy returned error: $res"
+				return -1
+			}
+		} else {
+			# http://wiki.tcl.tk/2627 :(
+			if { [catch {http::register https 443 SOCKSsecureSocket} res]} {
+				MSN::logout
+				MSN::reconnect "Proxy returned error: $res"
+				return -1
+			}
 		}
 
 #		if { [::config::getKey nossl] == 1 } {

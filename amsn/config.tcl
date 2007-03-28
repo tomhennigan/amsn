@@ -41,7 +41,6 @@ namespace eval ::config {
 
 		::config::setKey dock 1				;#Docking type
 								;#Changed later for windows to 4
-
 		::config::setKey showmailicon 1
 		::config::setKey show_contactdps_in_cl 0		
 
@@ -268,6 +267,8 @@ namespace eval ::config {
 		::config::setKey snackMixerDevice ""				;# The audio Mixer Device to use with Snack
 
 		::config::setKey show_login_screen_links 1			;# Show the links in the login screen
+
+		::config::setKey http_proxy_use_gateway 1			;# Wether the http proxy should use the MSN gateway or do a CONNECT instead on the proxy... 
 
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
