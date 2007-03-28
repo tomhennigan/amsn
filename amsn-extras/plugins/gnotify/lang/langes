@@ -1,0 +1,22 @@
+amsn_lang_version 2 
+check_minutes Comprobar si hay mensajes nuevos cada ? minutos 
+num_accounts Número de cuentas de correo que tienes: 
+account_settings Configuración para la cuenta número: 
+username Nombre de usuario: 
+password Contraseña: 
+show_notify Mostrar ventana de aviso 
+open_browser Abrir navegador al hacer click izquierdo 
+click_to_check Haz click para comprobar el número de mensajes nuevos 
+not_checked Sin comprobar 
+checking Comprobando correo 
+error_checking Error al recibir la información de tu cuenta de Gmail 
+wrong_pass Nombre de usuario o contraseña incorrectos 
+account_locked Acceso denegado a tu cuenta de Gmail 
+view_inbox Ver bandeja de entrada ($1) 
+check_now Comprobar ahora 
+tell_me Mostrar mensajes 
+options Opciones 
+receivedmail Correo nuevo de: $1 
+mail_info Información de correo para la cuenta: $1 
+gotmail Tienes $1 mensajes nuevos en tu bandeja de entrada
+
