@@ -471,8 +471,8 @@ namespace eval ::smiley {
 		#This is a poor place for sort smileys should be done only when adding new smileys to the list?
 		#SortSmileys
 
-		set l [list [ list "text" "$name" ]]
-		set llength 1
+		set llength [llength $name]
+		set l $name
 
 		#Search for all possible emotions, after they are sorted by symbol length
 		set foreachlist [list ]
@@ -566,7 +566,7 @@ namespace eval ::smiley {
 
 #TODO: #need to change for an 'in-place' lreplace (here and below)
 					if { $p2 == "__newline__" } {
-						set l [lreplace $l $listpos $listpos [list text $p1] [list "newline"] [list text $p3] ]
+						set l [lreplace $l $listpos $listpos [list text $p1] [list "newline" "\n"] [list text $p3] ]
 					} else {
 						set l [lreplace $l $listpos $listpos [list text $p1] [list smiley $p2 $symbol] [list text $p3] ]
 					}
@@ -584,8 +584,7 @@ namespace eval ::smiley {
 						incr listpos -1
 					}
 				}
-				#text can never be followed by another set of text
-				incr listpos 2
+				incr listpos 1
 			}
 		}
 

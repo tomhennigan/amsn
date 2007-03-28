@@ -75,30 +75,6 @@ namespace eval ::abook {
 		set data(available) "Y"
 	}
 
-	# Get PSM and currentMedia
-	proc getpsmmedia { { user_login "" } } {
-		if { [::config::getKey protocol] < 11 } { return }
-		set psmmedia ""
-		if { $user_login == "" } {
-	                set psm [::abook::getPersonal PSM]
-        	        set currentMedia [parseCurrentMedia [::abook::getPersonal currentMedia]]
-		} else {
-                	set psm [::abook::getVolatileData $user_login PSM]
-                	set currentMedia [parseCurrentMedia [::abook::getVolatileData $user_login currentMedia]]
-		}
-                if {$psm != ""} {
-                        append psmmedia "$psm"
-                }
-                if {$currentMedia != ""} {
-                        if { $psm != ""} {
-                                append psmmedia " "
-                        }
-                        append psmmedia "$currentMedia"
-                }
-		return $psmmedia
-	}
-
-      
 	# Sends a message to the notification server with the
 	# new set of phone numbers. Notice this can only be done
 	# for the user and not for the buddies!
@@ -416,28 +392,18 @@ namespace eval ::abook {
 		#}
 
 		if { $data == "" } {
-			if { $field == "nick" } {
-				if { [info exists user_data(nick)] } {
-					unset user_data(nick)
-					unset user_data(raw_nick)
-				}
-			} else {
-				if { [info exists user_data($field)] } {
-					unset user_data($field)
-				}
+			if { [info exists user_data($field)] } {
+				unset user_data($field)
 			}
 		} else {
+			set user_data($field) $data
 			if { $field == "nick" } {
-				set user_data(raw_nick) $data
-				#post event for amsnplus
-				set evPar(data) data
-				::plugins::PostEvent parse_nick evPar
+				set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
+				set evpar(variable) data
+				set evpar(login) $user_login
+				::plugins::PostEvent parse_contact evpar
 
-				set user_data(nick) $data
-
-			} else {
-
-				set user_data($field) $data
+				::abook::setVolatileData $user_login parsed_nick $data
 			}
 		}
 		
@@ -502,11 +468,6 @@ namespace eval ::abook {
 				if { [info exists user_data($field)] } {
 					unset user_data($field)
 				}
-			} else {
-				#post event for amsnplus
-				set evPar(data) data
-				::plugins::PostEvent parse_nick evPar
-				set user_data($field) $data
 			}
 		}
 
@@ -533,7 +494,13 @@ namespace eval ::abook {
 			if { [info exists volatile_data($field)] } {
 				unset volatile_data($field)
 			}
-		} else { 
+		} else {
+			if { $field == "psm" } {
+				set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
+				set evpar(variable) data
+				set evpar(login) $user_login
+				::plugins::PostEvent parse_contact evpar
+			}
 			set volatile_data($field) $data
 		}
 		
@@ -591,19 +558,6 @@ namespace eval ::abook {
 	###########################################################################
 	# Auxiliary functions, macros, or shortcuts
 	###########################################################################
-
-	#Returns the user nickname
-	proc getNick { user_login {use_raw_nick 0}} {
-		if { $use_raw_nick } {
-			set nick [::abook::getContactData $user_login raw_nick]
-		} else {
-			set nick [::abook::getContactData $user_login nick]
-		}
-		if { $nick == "" } {
-			return $user_login
-		}
-		return $nick
-	}
 
 	proc getPassportfromContactguid { contactguid } {
 		foreach contact [::abook::getAllContacts] {
@@ -689,6 +643,73 @@ namespace eval ::abook {
 		}
 	}
 
+	proc parseCurrentMedia {currentMedia} {
+		if {$currentMedia == ""} { return "" }
+	
+		set currentMedia [string map {"\\0" "\0"} $currentMedia]
+		set infos [split $currentMedia "\0"]
+	
+		if {[lindex $infos 2] == "0"} { return "" }
+	
+		if {[lindex $infos 1] == "Music"} {
+			set out [list [list "smiley" [::skin::loadPixmap note] "-"] [list "text" " "]]
+		} else {
+			set out [list [list "text" "- "]]
+		}
+	
+		set pattern [lindex $infos 3]
+	
+		set nrParams [expr {[llength $infos] - 4}]
+		set lstMap [list]
+		for {set idx 0} {$idx < $nrParams} {incr idx} {
+			lappend lstMap "\{$idx\}"
+			lappend lstMap [lindex $infos [expr {$idx + 4}]]
+		}
+	
+		lappend out [list "text" "[string map $lstMap $pattern]"]
+	
+		return $out
+	}
+
+	# Get PSM and currentMedia
+	proc getpsmmedia { { user_login "" } { use_styled_psm 0}} {
+		if { [::config::getKey protocol] < 11 } { return }
+		set psmmedia [list ]
+		if { $user_login == "" } {
+			#We don't parse (yet) the PSM for us because we have a bad pgbuddytop
+			set psm [list [list "text" "[::abook::getPersonal PSM]"]]
+        	        set currentMedia [::abook::parseCurrentMedia [::abook::getPersonal currentMedia]]
+		} else {
+                	set psm [::abook::getVolatileData $user_login PSM]
+                	set currentMedia [::abook::parseCurrentMedia [::abook::getVolatileData $user_login currentMedia]]
+		}
+		if {$psm != ""} {
+			set psmmedia [concat $psmmedia $psm]
+		}
+		if {$currentMedia != ""} {
+			if { $psm != ""} {
+				lappend psmmedia [list "text" " "]
+			}
+			set psmmedia [concat $psmmedia $currentMedia]
+		}
+		if { !$use_styled_psm } {
+			set psmmedia [::abook::removeStyles $psmmedia]
+		}
+
+		return $psmmedia
+	}
+
+	#Returns the user nickname
+	proc getNick { user_login {use_styled_nick 0}} {
+		set nick [::abook::getVolatileData $user_login parsed_nick]
+		if { $nick == "" } {
+			return [list [list "text" $user_login]]
+		}
+		if { !$use_styled_nick } {
+			set nick [::abook::removeStyles $nick]
+		}
+		return $nick
+	}
 
 	#Parser to replace special characters and variables in the right way
 	proc parseCustomNick { input nick user_login customnick {psm ""} } {
@@ -701,52 +722,139 @@ namespace eval ::abook {
 			}
 		}
 		#By default, quote backslashes, angle brackets and variables
-		set input [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\("} $input]
+		set input [string map { "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $input]
 		#Now, let's unquote the variables we want to replace
-		set input [string map {"\\\$nick" "\${nick}" "\\\$user_login" "\${user_login}" "\\\$customnick" "\${customnick}" "\\\$psm" "\${psm}"} $input]
+		set input [string map { "\\\$nick" "\${nick}" "\\\$user_login" "\${user_login}" "\\\$customnick" "\${customnick}" "\\\$psm" "\${psm}" } $input]
 		#Return the custom nick, replacing backslashses and variables
 		return [subst -nocommands $input]
+	}
+
+	#Parser to replace special characters and variables in the right way
+	proc parseCustomNickStyled { input nick user_login customnick psm } {
+		#If there's no customnick set, default to user_login
+		if { $customnick == "" } {
+			if { [::config::getKey protocol] >= 11 && $psm != "" } {
+				set customnick [list [list "text" "$user_login\n"]]
+				lappend customnick $psm
+			} else {
+				set customnick [list [list "text" "$user_login"]]
+			}
+		} else {
+			set customnick [list [list "text" "$customnick"]]
+		}
+		set user_login [list [list "text" "$user_login"]]
+
+		set l [list [ list "text" "$input" ]]
+		set llength 1
+
+		foreach substitute { "\$nick" "\$user_login" "\$customnick" "\$psm" } {
+			set content [set [string range $substitute 1 end]]
+			set listpos 0
+
+			#Keep searching until no matches
+
+			while { $listpos < $llength } {
+				if { ([lindex $l $listpos 0] != "text") } {
+					incr listpos
+					continue
+				}
+				if {[set pos [string first $substitute [lindex $l $listpos 1]]] != -1 } {
+					set p1 [string range [lindex $l $listpos 1] 0 [expr {$pos - 1}]]
+					set p3 [string range [lindex $l $listpos 1] [expr {$pos + [string length $substitute]}] end]
+
+					set l [lreplace $l $listpos $listpos]
+					incr llength -1
+
+					if { $p1 != "" } {
+						set l [linsert $l $listpos [list text $p1]]
+						incr llength 1
+						incr listpos 1
+					}
+
+					foreach unit $content {
+						set l [linsert $l $listpos $unit]
+						incr listpos 1
+						incr llength 1
+					}
+					
+					if { $p3 != "" } {
+						set l [linsert $l $listpos [list text $p3]]
+						incr llength 1
+						#We must parse p3
+					}
+
+				} else {
+					incr listpos 1
+				}
+
+			}
+		}
+		#Return the custom nick, replacing backslashses and variables
+		return $l
 	}
 	
 	#Returns the user nickname, or just email, or custom nick,
 	#depending on configuration
-	proc getDisplayNick { user_login {use_raw_nick 0}} {
+	proc getDisplayNick { user_login {use_styled_nick 0}} {
 		if { [::config::getKey emailsincontactlist] } {
 			return $user_login
 		} else {
-			set nick [::abook::getNick $user_login $use_raw_nick]
+			set nick [::abook::getNick $user_login 1]
 			set customnick [::abook::getContactData $user_login customnick]
 			set globalnick [::config::getKey globalnick]
-			set psm [::abook::getpsmmedia $user_login]
-			
-			#post event for plugins
-			set evPar(nick) nick
-			set evPar(customnick) customnick
-			set evPar(globalnick) globalnick
-			set evPar(psm) psm
-			set evPar(user_login) user_login
-			::plugins::PostEvent getDisplayNick evPar
-			
+			set psm [::abook::getpsmmedia $user_login 1]
+
 			if { [::config::getKey globaloverride] == 0 } {
 				if { $customnick != "" } {
-					return [parseCustomNick $customnick $nick $user_login $customnick $psm]
+					set out [parseCustomNickStyled $customnick $nick $user_login $customnick $psm]
 				} elseif { $globalnick != "" && $customnick == "" } {
-					return [parseCustomNick $globalnick $nick $user_login $customnick $psm]
+					set out [parseCustomNickStyled $globalnick $nick $user_login $customnick $psm]
 				} else {
-					return $nick
+					set out $nick
 				}
 			} elseif { [::config::getKey globaloverride] == 1 } {
 				if { $customnick != "" && $globalnick == "" } {
-					return [parseCustomNick $customnick $nick $user_login $customnick $psm]
+					set out [parseCustomNickStyled $customnick $nick $user_login $customnick $psm]
 				} elseif { $globalnick != "" } {
-					return [parseCustomNick $globalnick $nick $user_login $customnick $psm]
+					set out [parseCustomNickStyled $globalnick $nick $user_login $customnick $psm]
 				} else {
-					return $nick
+					set out $nick
 				}
 			}
+			if { !$use_styled_nick } {
+				set out [::abook::removeStyles $out]
+			}
+			return $out
 		}
 	}
 	
+	#Used to remove styles from the nickname/psm and returns full text
+	proc removeStyles {list_styles} {
+		set output ""
+		foreach unit $list_styles {
+			if {[lindex $unit 0] == "text"} {
+				# Store the text as a string
+				append output [lindex $unit 1]
+
+			} elseif { [lindex $unit 0] == "smiley" } {
+
+				append output [lindex $unit 2]
+
+			} elseif {[lindex $unit 0] == "newline"} {
+
+				append output "\n"
+
+			} elseif {[lindex $unit 0] == "colour" } {
+
+			} elseif {[lindex $unit 0] == "font"} {
+
+			} else {
+				status_log "Unknown item in parsed nickname: $unit"
+			}
+		}
+		return $output
+	}
+
 	# Used to fetch the groups ID so that the caller can order by
 	# group if needed. Returns -1 on error.
 	# ::abook::getGroups my@passport.com    : returns group ids
@@ -760,7 +868,7 @@ namespace eval ::abook {
                 foreach gid [::abook::getGroups $passport] {
                         set groups "$groups[::groups::GetName $gid], "
                 }
-                
+
                 set groups [string range $groups 0 end-2]
 		return $groups
 	}
@@ -871,7 +979,7 @@ namespace eval ::abook {
 				foreach field [array names temp_array] {
 					puts -nonewline $file_id "\t<$field>"
 					puts -nonewline $file_id "[::sxml::xmlreplace $temp_array($field)]"	
-					puts $file_id "</$field>"				
+					puts $file_id "</$field>"
 				}
 				puts $file_id "</contact>"
 				array unset temp_array

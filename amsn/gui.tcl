@@ -4780,33 +4780,6 @@ proc cmsn_draw_online_wrapped {} {
 
 }
 
-proc parseCurrentMedia {currentMedia} {
-	if {$currentMedia == ""} { return "" }
-
-	set currentMedia [string map {"\\0" "\0"} $currentMedia]
-	set infos [split $currentMedia "\0"]
-
-	if {[lindex $infos 2] == "0"} { return "" }
-
-	if {[lindex $infos 1] == "Music"} {
-		set out "(8) "
-	} else {
-		set out "- "
-	}
-
-	set pattern [lindex $infos 3]
-
-	set nrParams [expr {[llength $infos] - 4}]
-	set lstMap [list]
-	for {set idx 0} {$idx < $nrParams} {incr idx} {
-		lappend lstMap "\{$idx\}"
-		lappend lstMap [lindex $infos [expr {$idx + 4}]]
-	}
-
-	append out [string map $lstMap $pattern]
-
-	return $out
-}
 #///////////////////////////////////////////////////////////////////////
 
 proc configured_main_win {{w ""}} {

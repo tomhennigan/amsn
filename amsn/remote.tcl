@@ -168,7 +168,7 @@ namespace eval ::remote {
 		set found 0
 
 		foreach username [::MSN::getList FL] {
-			if { "[::abook::getContactData $username nick]" == "$user" } {
+			if { "[::abook::getNick $username]" == "$user" } {
 				write_remote "$user is : $username" 
 				set found 1
 				break

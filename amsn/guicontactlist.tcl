@@ -77,7 +77,6 @@ namespace eval ::guiContactList {
 		#define global variables
 		variable clcanvas
 		global tcl_platform
-		variable nicknameArray
 		variable GroupsRedrawQueue
 		variable ContactsRedrawQueue
 		variable NickReparseQueue
@@ -133,11 +132,6 @@ namespace eval ::guiContactList {
 		# Create a blank canvas
 		canvas $clcanvas -background [::skin::getKey contactlistbg] \
 			-yscrollcommand [list ::guiContactList::setScroll $clscrollbar] -borderwidth 0
-
-		if { $::contactlist_loaded } {
-			# Parse the nicknames for smiley/newline substitution
-			createNicknameArray
-		}
 
 		drawBG $clcanvas 1
 		
@@ -365,8 +359,7 @@ namespace eval ::guiContactList {
 
 	proc changedPreferences { eventused } {
 		variable clcanvas
-		if { [winfo exists $clcanvas] } {
-			::guiContactList::createNicknameArray
+		if { [winfo exists $clcanvas] } {	
 			::guiContactList::drawList $clcanvas
 		}
 	}
@@ -374,7 +367,6 @@ namespace eval ::guiContactList {
 	proc changedNickDisplay { eventused } {
 		variable clcanvas
 		if { [winfo exists $clcanvas] } {
-			::guiContactList::createNicknameArray
 			::guiContactList::drawList $clcanvas
 		}
 	}
@@ -406,7 +398,6 @@ namespace eval ::guiContactList {
 		variable clcanvas
 
 		if { [winfo exists $clcanvas] } {
-			::guiContactList::createNicknameArray
 			::guiContactList::drawList $clcanvas
 		}
 
@@ -551,7 +542,6 @@ namespace eval ::guiContactList {
 	proc redrawFromQueue {} {
 		variable clcanvas
 		variable external_lock
-		variable nicknameArray
 		
 		variable GroupsRedrawQueue
 		variable ContactsRedrawQueue
@@ -560,22 +550,11 @@ namespace eval ::guiContactList {
 		#copy queues and reset 'm so they can be filled again while the 
 		#  redrawing is still busy : that's safer
 
-		set nicks $NickReparseQueue
 		set contacts $ContactsRedrawQueue
 		set groups $GroupsRedrawQueue
 
-		set NickReparseQueue [list]
 		set ContactsRedrawQueue [list]
 		set GroupsRedrawQueue [list]
-		
-		foreach contact $nicks {
-			#We must update the nick array
-			set usernick [::abook::getDisplayNick $contact 1]
-			set nicknameArray($contact) [::smiley::parseMessageToList $usernick 1]
-			set evpar(array) nicknameArray
-			set evpar(login) $contact
-			::plugins::PostEvent NickArray evpar
-		}
 
 		if { $external_lock } { return }
 
@@ -945,8 +924,6 @@ namespace eval ::guiContactList {
 	
 		# We are gonna store the height of the nicknames
 		variable nickheightArray
-		#nicknameArray is an array with parsed nicknames for drawing 'm on a canvas
-		variable nicknameArray
 
 		#Xbegin is the padding between the beginning of the contact and the left edge of the CL
 		variable Xbegin
@@ -1005,7 +982,7 @@ namespace eval ::guiContactList {
 			set force_colour 1
 		}
 
-		set psm [::abook::getpsmmedia $email]
+		set psm [::abook::getpsmmedia $email 1]
 
 		#@@@@@@@@@ Show webMSN buddy icon
 		if { [::MSN::userIsBlocked $email] } {
@@ -1029,7 +1006,7 @@ namespace eval ::guiContactList {
 		# TODO: hovers for the status-icons
 		# 	skinsetting to have buddypictures in their place (this is default in MSN7!)
 		# 	with a pixmap border and also status-emblem overlay in bottom right corner		
-		set parsednick $nicknameArray($email)
+		set parsednick [::abook::getDisplayNick $email 1]
 		#the padding between nickname and state
 		set nickstatespacing 5
 
@@ -1346,12 +1323,11 @@ namespace eval ::guiContactList {
 		#------------#
 
 		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
-
 			set relnickcolour $nickcolour
 			set font_attr [font configure sitalf]
 
 			if {[::config::getKey psmplace] == 1 } {
-				set parsedpsm [::smiley::parseMessageToList " - $psm" 1]
+				set parsedpsm [linsert $psm 0 [list "text" " - "]]
 				foreach unit $parsedpsm {
 					if {[lindex $unit 0] == "text"} {
 						# Check if we are still allowed to write text
@@ -1447,8 +1423,7 @@ namespace eval ::guiContactList {
 					# END the foreach loop
 				}
 			} elseif {[::config::getKey psmplace] == 2 } {
-				set parsedpsm [::smiley::parseMessageToList "\n$psm" 1]
-
+				set parsedpsm [linsert $psm 0 [list "newline" "\n"]]
 				foreach unit $parsedpsm {
 					if {[lindex $unit 0] == "text"} {
 						# Check if we are still allowed to write text
@@ -2215,23 +2190,6 @@ namespace eval ::guiContactList {
 			# works when dragging the scrollbar
 			moveBGimage $canvas
 
-	}
-
-
-	proc createNicknameArray {} {
-		variable nicknameArray
-		array set nicknameArray {}
-
-		set userList [::MSN::sortedContactList]
-
-		foreach user $userList {
-			set usernick [::abook::getDisplayNick $user 1]
-			set nicknameArray($user) [::smiley::parseMessageToList $usernick 1]
-		}
-
-		set evpar(array) nicknameArray
-		set evpar(login) ""
-		::plugins::PostEvent NickArray evpar
 	}
 
 	proc switch_alarm { email canvas alarm_image } {

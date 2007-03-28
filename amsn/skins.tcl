@@ -895,6 +895,7 @@ namespace eval ::skin {
 		::skin::setPixmap belloff belloff.gif
 	
 		::skin::setPixmap notinlist notinlist.gif
+		::skin::setPixmap note note.gif
 		::skin::setPixmap smile smile.gif
 	
 		::skin::setPixmap loganim loganim.gif
