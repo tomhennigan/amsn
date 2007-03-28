@@ -249,9 +249,13 @@ proc SOCKSsecureSocket { args } {
 		set http_idlist(data,$sck) ""
 
 		
-		set msg "CONNECT ${addr}:${port} HTTP/1.1\r\n"
+		set msg "CONNECT ${addr}:${port} HTTP/1.0\r\n"
 		append msg "Host: ${addr}:${port}\r\n"
+		append msg "User-Agent: [http::config -useragent]\r\n"
+		append msg "Content-Length: 0\r\n"
 		append msg "Proxy-Connection: Keep-Alive\r\n"
+		append msg "Connection: Keep-Alive\r\n"
+		append msg "Pragma: no-cache\r\n"
 		if {$auth} {
 			set basic [base64::encode "${$user}:${pass}"]
 			append msg "Proxy-Authorization: Basic $basic\r\n"
