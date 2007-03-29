@@ -53,7 +53,7 @@
 			<groupcolorcontract>#666666</groupcolorcontract>
 		</Colors>
 		 <Options>
-			 <mainwindowrelief>sunken</mainwindowrelief> <!-- Available options are:  flat/raised/sunken/ridge/groove -->
+			 <mainwindowrelief>flat</mainwindowrelief> <!-- Available options are:  flat/raised/sunken/ridge/groove -->
 			<emailabovecolorbar>1</emailabovecolorbar>
 			<underline_contact>0</underline_contact>
 			<underline_group>0</underline_group>
