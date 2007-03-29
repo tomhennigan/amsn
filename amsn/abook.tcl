@@ -797,7 +797,7 @@ namespace eval ::abook {
 	#depending on configuration
 	proc getDisplayNick { user_login {use_styled_nick 0}} {
 		if { [::config::getKey emailsincontactlist] } {
-			return $user_login
+			set out [list [list "text" $user_login]]
 		} else {
 			set nick [::abook::getNick $user_login 1]
 			set customnick [::abook::getContactData $user_login customnick]
@@ -821,11 +821,11 @@ namespace eval ::abook {
 					set out $nick
 				}
 			}
-			if { !$use_styled_nick } {
-				set out [::abook::removeStyles $out]
-			}
-			return $out
 		}
+		if { !$use_styled_nick } {
+			set out [::abook::removeStyles $out]
+		}
+		return $out
 	}
 	
 	#Used to remove styles from the nickname/psm and returns full text
