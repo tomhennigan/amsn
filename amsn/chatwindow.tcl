@@ -363,9 +363,6 @@ namespace eval ::ChatWindow {
 
 
 		set chatid [::ChatWindow::Name $window]
-		if { [::OIM_GUI::IsOIM $chatid] == 1} {
-			::log::StopLog $chatid
-		}
 
 		#Only run when the parent window close event comes
 		if { "$window" != "$path" } {
@@ -379,10 +376,18 @@ namespace eval ::ChatWindow {
 		}
 		if {[::config::getKey keep_logs]} {
 			set user_list [::MSN::usersInChat $chatid]
-			foreach user_login $user_list {
-				::log::StopLog $user_login
+			if { [::OIM_GUI::IsOIM $chatid] == 1} {
+				::log::StopLog $chatid
+			} else {
+				set user_list [::MSN::usersInChat $chatid]
+				foreach user_login $user_list {
+					::log::StopLog $user_login
+				}
 			}
 		}
+
+		set evPar(chatid) chatid
+		::plugins::PostEvent chatwindow_closed evPar
 
 		::ChatWindow::UnsetFor $chatid $window
 		unset ::ChatWindow::titles(${window})
@@ -391,7 +396,6 @@ namespace eval ::ChatWindow {
 
 		#Delete images if not in use
 		catch {destroy $window.bottom.pic}
-		set user_list [::MSN::usersInChat $chatid]
 		
 		#Could be cleaner, but this works, destroying unused vars, saving mem		
 		catch {

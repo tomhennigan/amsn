@@ -896,7 +896,7 @@ namespace eval ::amsn {
 
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
-		WinWrite $chatid "\n" green
+		WinWrite $chatid " \n" green
 		WinWriteIcon $chatid ftreject 3 2
 		WinWrite $chatid " $txt\n" green
 		WinWriteIcon $chatid greyline 3
@@ -920,7 +920,7 @@ namespace eval ::amsn {
 		set win_name [::ChatWindow::MakeFor $chatid $txt $dest]
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
-		WinWrite $chatid "\n" green
+		WinWrite $chatid " \n" green
 
 		if { [::skin::loadPixmap "FT_preview_${sid}"] != "" } {
 			WinWriteIcon $chatid FT_preview_${sid} 5 5
@@ -1367,7 +1367,7 @@ namespace eval ::amsn {
 
 
 		# Close the window if the filetransfer is finished
-		if {($mode == "fr" | $mode == "fs") & [::config::getKey ftautoclose]} {
+		if {($mode == "fr" | $mode == "fs") && [::config::getKey ftautoclose]} {
 			destroy $w
 		}
 
@@ -5256,7 +5256,7 @@ proc cmsn_change_name {} {
 #///////////////////////////////////////////////////////////////////////
 proc change_name_ok {} {
 	set new_name [.change_name.f.nick_entry get]
-	if {$new_name != ""} {
+	if {$new_name != "" && [::abook::getContactData myself MFN] != $new_name} {
 		if { [string length $new_name] > 130} {
 			set answer [::amsn::messageBox [trans longnick] yesno question [trans confirm]]
 			if { $answer == "no" } {

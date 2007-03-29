@@ -549,7 +549,7 @@ namespace eval ::Nudge {
 	proc winwriteWrapped {chatid text iconname {color "green"} } {
 		amsn::WinWrite $chatid "\n" $color
 		amsn::WinWriteIcon $chatid greyline 3
-		amsn::WinWrite $chatid "\n" $color
+		amsn::WinWrite $chatid " \n" $color
 		amsn::WinWriteIcon $chatid $iconname 3 2
 		amsn::WinWrite $chatid "[timestamp] $text\n" $color
 		amsn::WinWriteIcon $chatid greyline 3

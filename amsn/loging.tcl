@@ -265,6 +265,9 @@ namespace eval ::log {
 	# msg : msg
 
 	proc PutLog { chatid user msg {fontformat ""} {failed 0} {OIMStamp 0}} {
+		if {$msg == ""} {
+			return
+		}
 		if {$fontformat == ""} {
 			set color "NOR"
 		} else {
