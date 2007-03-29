@@ -100,16 +100,6 @@ snit::widgetadaptor loginscreen {
 		set user_label_tag [$self create text 0 0 -anchor nw -text "[trans user]:"]
 		set user_field [combobox::combobox $self.user -editable true -bg white -relief solid -width 25 -command "$self UserSelected"]
 		set user_field_tag [$self create window 0 0 -anchor nw -window $user_field]
-		# Populate user list
-		LoadLoginList 1
-		set tmp_list ""
-		$user_field list delete 0 end
-		set idx 0
-		while { [LoginList get $idx] != 0 } {
-			lappend tmp_list [LoginList get $idx]
-			incr idx
-		}
-		eval $user_field list insert end $tmp_list
 		# Password
 		set pass_label_tag [$self create text 0 0 -anchor nw -text "[trans pass]:"]
 		set pass_field [entry $self.pass -show "*" -bg white -relief solid -width 25 -vcmd {expr {[string length %P] <= 16} } -validate key]
@@ -118,8 +108,6 @@ snit::widgetadaptor loginscreen {
 		set status_label_tag [$self create text 0 0 -anchor nw -text "[trans signinstatus]:"]
 		set status_field [combobox::combobox $self.status -editable true -bg white -relief solid -width 25 -command remember_state_list]
 		set status_field_tag [$self create window 0 0 -anchor nw -window $status_field]
-		# Populate status list
-		$self PopulateStateList
 		# Options
 		# Remember me
 		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans rememberaccount]]
@@ -134,7 +122,6 @@ snit::widgetadaptor loginscreen {
 		# Log in automatically
 		set auto_login_label_tag [$self create text 0 0 -anchor nw -text [trans autoconnect]]
 		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect] -bg white]
-
 		set auto_login_field_tag [$self create window 0 0 -anchor nw -window $auto_login_field]
 		# Login button
 		set login_button [button $self.login -text [trans login] -command "$self LoginFormSubmitted" -cursor hand2]
@@ -222,15 +209,7 @@ snit::widgetadaptor loginscreen {
 		$self CanvasTextToLink login_screen main links new_account [list launch_browser "https://accountservices.passport.net/reg.srf?sl=1&lc=1033"]
 		$self CanvasTextToLink login_screen main check_ver text "::autoupdate::check_version"
 
-		# Fill in last username used
-		$user_field delete 0 end
-		$user_field insert end [::config::getKey login]
-		$self UsernameEdited
-
-		# If profiles are disabled, disable 'remember me' checkbutton#
-		if { [::config::getGlobalKey disableprofiles] != 1 } {
-			$rem_me_field configure -state disabled
-		}
+		$self FillLoginFields
 
 		# Register for events
 		::Event::registerEvent loggingIn all [list $self LoggingIn]
@@ -305,6 +284,61 @@ snit::widgetadaptor loginscreen {
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
+	# FillLoginFields
+	# Fills in login fields
+	# Called by: constructor, profileDeleted
+	method FillLoginFields { } {
+		# Fill in usernames and states
+		$user_field list delete 0 end
+		$self PopulateUserList
+		$user_field delete 0 end
+		$user_field insert end [::config::getKey login]
+		$self UsernameEdited
+		$self PopulateStateList
+	}
+
+	# ------------------------------------------------------------------------------------------------------------
+	# PopulateUserList
+	# Add profiles to user combobox
+	# Called by: FillLoginFields
+	method PopulateUserList { } {
+		# Populate user list
+		LoadLoginList 1
+		set tmp_list ""
+		$user_field list delete 0 end
+		set idx 0
+		while { [LoginList get $idx] != 0 } {
+			lappend tmp_list [LoginList get $idx]
+			incr idx
+		}
+		eval $user_field list insert end $tmp_list
+	}
+
+	# ------------------------------------------------------------------------------------------------------------
+	# PopulateStateList
+	# Add normal and custom states to list of available sign-in states
+	# Called by: constructor, UserSelected
+	method PopulateStateList {} {
+		# Make the list editable
+		$status_field configure -editable true
+		# Standard states
+		$status_field list delete 0 end
+		set i 0
+		while { $i < 8 } {
+			set statecode "[::MSN::numberToState $i]"
+			set description "[trans [::MSN::stateToDescription $statecode]]"
+			$status_field list insert end $description
+			incr i
+		}
+		# Custom states
+		AddStatesToList $status_field
+		# Make it non-editable
+		$status_field configure -editable false
+		# Select remembered state
+		$status_field select [get_state_list_idx [::config::getKey connectas]]
+	}
+
+	# ------------------------------------------------------------------------------------------------------------
 	# CanvasTextToLink
 	# Makes a canvas text into a blue link with a command binding
 	# Called by: constructor
@@ -337,30 +371,6 @@ snit::widgetadaptor loginscreen {
 		if { $x > [lindex $item_coords 0] && $x < [lindex $item_coords 2] && $y > [lindex $item_coords 1] && $y < [lindex $item_coords 3] } {
 			eval $cmd
 		}
-	}
-
-	# ------------------------------------------------------------------------------------------------------------
-	# PopulateStateList
-	# Add normal and custom states to list of available sign-in states
-	# Called by: constructor, UserSelected
-	method PopulateStateList {} {
-		# Make the list editable
-		$status_field configure -editable true
-		# Standard states
-		$status_field list delete 0 end
-		set i 0
-		while { $i < 8 } {
-			set statecode "[::MSN::numberToState $i]"
-			set description "[trans [::MSN::stateToDescription $statecode]]"
-			$status_field list insert end $description
-			incr i
-		}
-		# Custom states
-		AddStatesToList $status_field
-		# Make it non-editable
-		$status_field configure -editable false
-		# Select remembered state
-		$status_field select [get_state_list_idx [::config::getKey connectas]]
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -555,9 +565,9 @@ snit::widgetadaptor loginscreen {
 				# -------------------------------------------------------
 				# Change DP
 				$dp_label configure -image [::skin::getNoDisplayPicture]
-				# Blank password field
-				$pass_field delete 0 end
 			}
+			# Blank password field
+			$pass_field delete 0 end
 		}
 	}
 
@@ -590,12 +600,15 @@ snit::widgetadaptor loginscreen {
 			} else {
 				$pass_field delete 0 end
 			}
-			# Re-sort stuff on canvas (in case, for example, we now have a larger/smaller DP)
-			# The 'after 100' is because the status combobox doesn't seem to regain it's height immediately for some
-			# reason, so if we sort straight away, the checkbox below the status combo overlaps it.
-			after cancel $after_id(Sort)
-			set after_id(Sort) [after 100 [list $self SortElements]]
+		} else {
+			$pass_field delete 0 end
 		}
+
+		# Re-sort stuff on canvas (in case, for example, we now have a larger/smaller DP)
+		# The 'after 100' is because the status combobox doesn't seem to regain it's height immediately for some
+		# reason, so if we sort straight away, the checkbox below the status combo overlaps it.
+		after cancel $after_id(Sort)
+		set after_id(Sort) [after 100 [list $self SortElements]]
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -686,10 +699,9 @@ snit::widgetadaptor loginscreen {
 				$user_field list delete $i
 			}
 		}
-		# If this profile was showing in user field, clear it.
-		if { $email == [$user_field get] } {
-			$self clear
-		}
+
+		# Fill login fields
+		$self FillLoginFields
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -741,13 +753,11 @@ snit::widgetadaptor loginscreen {
 	# ------------------------------------------------------------------------------------------------------------
 	# clear
 	# Clears/deselects all fields on the login screen
-	# Called by: ForgetMeLinkClicked
+	# Called by: 
 	method clear { } {
 		$user_field delete 0 end
-		$pass_field delete 0 end
-		$rem_me_field deselect
-		$rem_pass_field deselect
-		$auto_login_field deselect
+
+		$self UsernameEdited
 	}
 }
 
