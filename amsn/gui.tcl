@@ -4859,7 +4859,7 @@ proc trunc_with_smileys {str {window ""} {maxw 0 } {font ""}} {
 	}
 
 	#first check if whole message fits (increase speed)
-	set str_list [::smiley::parseMessageToList $str 1 0]
+	set str_list [::smiley::parseMessageToList [list [list "text" "$str"]] 1 0]
 	if { [string equal [lindex [lindex $str_list 0 ] 1]  $str ]  &&\
 		[font measure $font -displayof $window $str] < $maxw } {
 		return $str
