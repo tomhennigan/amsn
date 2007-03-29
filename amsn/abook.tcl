@@ -1289,7 +1289,7 @@ namespace eval ::abookGui {
 		bind $nbIdent.fBasicInfo.h1 <Button3-ButtonRelease> "tk_popup $h1copymenu %X %Y"
 		
 		if { [::config::getKey protocol] >= 11 } {
-			set psm [::abook::getVolatileData $email PSM]
+			set psm [::abook::getpsmmedia $email]
 			set h [expr {[string length $psm]/50 +1}]
 			text $nbIdent.fBasicInfo.psm1 -font sitalf -fg blue -height $h -wrap word -bd 0
 			$nbIdent.fBasicInfo.psm1 delete 0.0 end

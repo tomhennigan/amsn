@@ -5976,7 +5976,7 @@ proc show_umenu {user_login grId x y} {
 
 	#The url-actions
 	set the_nick [::abook::getNick ${user_login}]
-	set the_psm [::abook::getVolatileData $user_login PSM]
+	set the_psm [::abook::getpsmmedia $user_login]
 	#parse nick and PSM in the same time.
 	set nickpsm "${the_nick} ${the_psm}"
 	set url_indices [urlParserString "$nickpsm"]
