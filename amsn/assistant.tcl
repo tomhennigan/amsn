@@ -1228,8 +1228,8 @@ namespace eval ::AVAssistant {
 		catch {$leftframe.devs select $setdevnr}
 
 		#now, configure the checkbutton in order to change the size of the preview when needed
-$contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $leftframe.chans [$leftframe.chans get]]
-	#end the Step1WLinux proc
+		$contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $leftframe.chans [$leftframe.chans get]]
+		#end the Step1WLinux proc
 	}
 
 
@@ -1555,7 +1555,7 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 			tkwait variable $semaphore
 		}
 
-#TODO: Add a key-combo to reread the device settings and set these and go to next step (to adjust to settings of other programs)
+		#TODO: Add a key-combo to reread the device settings and set these and go to next step (to adjust to settings of other programs)
 
 	}
 
@@ -1784,7 +1784,6 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 			variable audio_configured
 			variable sound
 
-			variable waveid
 			set audio_configured 1
 
 			#add the second step of the audio assistant
@@ -1876,13 +1875,13 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 			pack $testf -side top -pady 5
 			label $testf.testtxt -text [trans playtest] -padx 10
 			label $testf.playtest -image [::skin::loadPixmap playbut]
-			label $testf.stoptest -image [::skin::loadPixmap stopbut]
+			label $testf.stoptest -image [::skin::loadPixmap stopbut] -state disabled
 			
 			bind $testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $rightframe]
 			bind $testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
 			bind $testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 			
-			bind $testf.stoptest <ButtonPress-1> [list ::AVAssistant::stopTest $rightframe]
+			bind $testf.stoptest <ButtonPress-1> ""
 			bind $testf.stoptest <Enter> [list %W configure -image [::skin::loadPixmap stopbuth]]
 			bind $testf.stoptest <Leave> [list %W configure -image [::skin::loadPixmap stopbut]]
 
@@ -1895,9 +1894,7 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 			pack $wavef -side top -pady 5
 			canvas $wavef.wave -borderwidth 0 -relief solid -width 250 -height 75
 			pack $wavef.wave -side left
-			
-			#use the alarm as test file
-			set sound [::snack::sound -file [::skin::GetSkinFile sounds alarm.wav] ]
+
 		
 		}
 	#end the Step1A proc
@@ -1921,6 +1918,7 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 		if {[info exists sound] } {
 			catch { $sound stop }
 			catch { $sound destroy }
+			unset sound
 		}
 	}
 
@@ -1941,41 +1939,66 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 	# Play the test file
 	proc playTest {w} {
 		variable sound
-		variable waveid
-		$w.wavef.wave delete waveform
-#TODO: have a progression on the waveform while listening
-		$w.wavef.wave create waveform 0 0 -sound $sound -width 250 -height 75 -tags [list waveform]
 
+		# We need to destroy the sound and recreate it otherwise the sound will not play from the start if we press 'play' more than once
+		::AVAssistant::stopSound "" ""
 		
-		catch { $sound play -command [list ::AVAssistant::endPlayTest $w]}
-
+		#use the alarm as test file
+		set sound [::snack::sound -file [::skin::GetSkinFile sounds alarm.wav] ]
+		
+		$w.wavef.wave delete waveform
+		#TODO: have a progression on the waveform while listening
+		$w.wavef.wave create waveform 0 0 -sound $sound -width 250 -height 75 -tags [list waveform]
+		
+		
+		$sound play -command [list ::AVAssistant::endPlayTestDelayed $w]
+		
+		bind $w.testf.stoptest <ButtonPress-1> [list ::AVAssistant::stopTest $w]
 		bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::pauseTest $w]
 		bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap pausebuth]]
 		bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap pausebut]]
+			
+		$w.testf.playtest configure -image [::skin::loadPixmap pausebut]
+		$w.testf.stoptest configure -state normal
+	
 	}
 	###
 	# called when reached the end when playing the test file or stopped
+	proc endPlayTestDelayed {w} {
+		# We need this little hack because it looks like snack (at least on my PC) calls our callback 1 second before the audio
+		# really finished playing.
+		after 1200 [list ::AVAssistant::endPlayTest $w]
+	}
+
 	proc endPlayTest {w} {
+		bind $w.testf.stoptest <ButtonPress-1> ""
 		bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
 		bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
 		bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 		$w.testf.playtest configure -image [::skin::loadPixmap playbut]
+		$w.testf.stoptest configure -state disabled
 	}
+
 	###
 	# Pause the test file
 	proc pauseTest {w} {
 		variable sound
-		catch { $sound pause }
+		if { [info exists sound] } {
+			$sound pause 
 
-		bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
-		bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
-		bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
+			bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
+			bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+			bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
+			$w.testf.playtest configure -image [::skin::loadPixmap playbut]
+		}
 	}
 	###
 	# Stop playing the test file
 	proc stopTest {w} {
 		variable sound
-		catch { $sound stop }
+		if { [info exists sound] } {
+			$sound stop
+		}
 		::AVAssistant::endPlayTest $w
 	}
 
@@ -2029,8 +2052,8 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 		pack $recf -side top -pady 5
 		label $recf.recordtxt -text "[trans record]:" -padx 10
 		label $recf.record -image [::skin::loadPixmap recordbut]
-		label $recf.playrecorded -image [::skin::loadPixmap playbut]
-		label $recf.stoprecorded -image [::skin::loadPixmap stopbut]
+		label $recf.playrecorded -image [::skin::loadPixmap playbut] -state disabled
+		label $recf.stoprecorded -image [::skin::loadPixmap stopbut] -state disabled
 
 		bind $recf.record <ButtonPress-1> [list ::AVAssistant::record $rightframe]
 		bind $recf.record <Enter> [list %W configure -image [::skin::loadPixmap recordbuth]]
@@ -2039,7 +2062,7 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 		bind $recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
 		bind $recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 
-		bind $recf.stoprecorded <ButtonPress-1> [list ::AVAssistant::stopRecord $rightframe]
+		bind $recf.stoprecorded <ButtonPress-1> ""
 		bind $recf.stoprecorded <Enter> [list %W configure -image [::skin::loadPixmap stopbuth]]
 		bind $recf.stoprecorded <Leave> [list %W configure -image [::skin::loadPixmap stopbut]]
 
@@ -2074,57 +2097,95 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 	# Record
 	proc record { w } {
 		variable sound
-		variable waveid
 
-		catch { $sound destroy }
+		if { [info exists sound] } {
+			$sound destroy
+		}
 
 		set sound [::snack::sound]
-		if { [catch {$sound record} res]} {
-			$w.wavef.wave create text 5 5 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
-			after 3000 "catch { $w.wavef.wave delete errmsg }"
-		} else {
-			#don't press on the play button while recording
-			bind $w.recf.playrecorded <ButtonPress-1> ""
-			#and don't try to record while recording :)
-			bind $w.recf.record <ButtonPress-1> ""
-			$w.wavef.wave delete waveform
-			$w.wavef.wave create waveform 0 0 -sound $sound -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform] 
+		set sound_available 1
+		if {[OnLinux] } {
+			# on unix, libsnack segfaults (on the next record)
+			# if it can't record because the device is used, so we
+			# detect that by trying to open /dev/dsp
+			if {[catch {open /dev/dsp "RDONLY NONBLOCK"} f]} {
+				set sound_available 0
+			} else {
+				close $f
 			}
 		}
+
+		if { $sound_available == 0 } {
+			$w.wavef.wave create text 5 5 -anchor nw -font bboldf -text "[trans soundnoavail]" -fill #FF0000 -anchor nw -tag errmsg
+			after 3000 "catch { $w.wavef.wave delete errmsg }"
+		} else {
+			if { [catch {$sound record} res]} {
+				$w.wavef.wave create text 5 5 -anchor nw -font bboldf -text "[trans recorderror $res]" -fill #FF0000 -anchor nw -tag errmsg
+				after 3000 "catch { $w.wavef.wave delete errmsg }"
+			} else {
+				#don't press on the play button while recording
+				bind $w.recf.playrecorded <ButtonPress-1> ""
+				#and don't try to record while recording :)
+				bind $w.recf.record <ButtonPress-1> ""
+				$w.recf.playrecorded configure -state disabled
+				$w.recf.record configure -state disabled
+
+				bind $w.recf.stoprecorded <ButtonPress-1> [list ::AVAssistant::stopRecordPlay $w]
+				$w.recf.stoprecorded configure -state normal
+
+				$w.wavef.wave delete waveform
+				$w.wavef.wave create waveform 0 0 -sound $sound -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform] 
+			}
+		}
+	}
 	###
 	# Stop recording/playing from GUI
-	proc stopRecord {w} {
+	proc stopRecordPlay {w} {
 		variable sound
-		catch { $sound stop }
-		#now, we can play the recording file
-		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
-		#we can record again
-		bind $w.recf.record <ButtonPress-1> [list ::AVAssistant::record $w]
+		if { [info exists sound] } {
+			$sound stop 
+		}
+		::AVAssistant::endPlayRecord $w
 	}
 	###
 	# Play the record
 	proc playRecord {w} {
 		variable sound
-		variable waveid
 		
 		$w.wavef.wave delete waveform
 		$w.wavef.wave create waveform 0 0 -sound $sound -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform]
 		
-		catch { $sound play -command [list ::AVAssistant::endPlayRecord $w]}
-		#while playing, turn the play button into a pause one
-		bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap pausebuth]]
-		bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap pausebut]]
-		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::pauseRecord $w]
+		if { [info exists sound] } {
+			$sound play -command [list ::AVAssistant::endPlayRecordDelayed $w]
+			#while playing, turn the play button into a pause one
+			bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap pausebuth]]
+			bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap pausebut]]
+			bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::pauseRecord $w]
+			bind $w.recf.stoprecorded <ButtonPress-1> [list ::AVAssistant::stopRecordPlay $w]
+			$w.recf.playrecorded configure -image [::skin::loadPixmap pausebut] -state normal
+			$w.recf.record configure -state disabled
+			$w.recf.stoprecorded configure -state normal
+		}
 	}
 	###
 	# Pause recording
 	proc pauseRecord {w} {
 		variable sound
-		catch { $sound pause }
+		if { [info exists sound] } {
+			$sound pause 
+		}
 		#get back to the play button
 		bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
 		bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
 		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
+		$w.recf.playrecorded configure -image [::skin::loadPixmap playbut]
+	}
+	###
+	# called when reached the end when playing the record or stopped
+	proc endPlayRecordDelayed {w} {
+		# We need this little hack because it looks like snack (at least on my PC) calls our callback 1 second before the audio
+		# really finished playing.
+		after 1200 [list ::AVAssistant::endPlayRecord $w]
 	}
 	###
 	# called when reached the end when playing the record or stopped
@@ -2132,8 +2193,16 @@ $contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $l
 		#get back to the play button
 		bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
 		bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
-		$w.recf.playrecorded configure -image [::skin::loadPixmap playbut]
+		$w.recf.playrecorded configure -image [::skin::loadPixmap playbut] -state normal
 		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
+
+		#we can record again
+		bind $w.recf.record <ButtonPress-1> [list ::AVAssistant::record $w]
+		bind $w.recf.stoprecorded <ButtonPress-1> ""
+
+		$w.recf.playrecorded configure -state normal
+		$w.recf.record configure -state normal
+		$w.recf.stoprecorded configure -state disabled
 	}
 
 
