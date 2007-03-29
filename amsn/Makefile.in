@@ -80,6 +80,9 @@ CFLAGS   += -O2
 else
 CFLAGS   += -g3 -DDEBUG
 endif
+ifeq (@PWC@,yes)
+CFLAGS   += -DPWC_WORKAROUND
+endif
 CFLAGS   += $(WARN_FLAGS)
 CFLAGS   += $(LFS_FLAGS)
 CFLAGS	 += ${TCL_INC_SPEC}

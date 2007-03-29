@@ -588,7 +588,9 @@ int Capture_Open _ANSI_ARGS_((ClientData clientData,
     captureItem->rgb_buffer = ng_malloc_video_buf(&captureItem->dev, &captureItem->fmt);
   }
   
+#ifndef PWC_WORKAROUND
   captureItem->dev.v->startvideo(captureItem->dev.handle, 25, 1);
+#endif
   
   Tcl_SetResult(interp, captureItem->captureName, TCL_VOLATILE);
   
@@ -616,8 +618,10 @@ int Capture_Close _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
   
+#ifndef PWC_WORKAROUND
   capItem->dev.v->stopvideo(capItem->dev.handle);
-  
+#endif
+
   // If a converter was used, close it and release the rgb_buffer
   if (capItem->handle) {
     ng_process_fini(capItem->handle);
@@ -672,7 +676,9 @@ int Capture_ChangeResolution _ANSI_ARGS_((ClientData clientData,
     return TCL_OK;
   }
 
+#ifndef PWC_WORKAROUND
   capItem->dev.v->stopvideo(capItem->dev.handle);
+#endif
 
   // If a converter was used, close it and release the rgb_buffer
   if (capItem->handle) {
@@ -704,8 +710,10 @@ int Capture_ChangeResolution _ANSI_ARGS_((ClientData clientData,
     capItem->rgb_buffer = ng_malloc_video_buf(&capItem->dev, &capItem->fmt);
   }
   
+#ifndef PWC_WORKAROUND
   capItem->dev.v->startvideo(capItem->dev.handle, 25, 1);
-  
+#endif
+
   return retVal;
 }
 
@@ -743,7 +751,12 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
     return TCL_ERROR;
   }
   
+
+#ifndef PWC_WORKAROUND
   if ((capItem->image_data = capItem->dev.v->nextframe(capItem->dev.handle)) == NULL) {
+#else
+  if ((capItem->image_data = capItem->dev.v->getimage(capItem->dev.handle)) == NULL) {
+#endif
 # ifdef DEBUG
     fprintf(stderr,"Capturing image failed at %dx%d\n", capItem->fmt.width, capItem->fmt.height);
 # endif
