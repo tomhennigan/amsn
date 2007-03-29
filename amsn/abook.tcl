@@ -468,6 +468,8 @@ namespace eval ::abook {
 				if { [info exists user_data($field)] } {
 					unset user_data($field)
 				}
+			} else {
+				set user_data($field) $data
 			}
 		}
 
