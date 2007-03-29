@@ -7,6 +7,9 @@
 
 #Create our namespace
 namespace eval ::draw {
+
+	variable ink_text_pack [list]
+
 	proc Init { dir } {
 		
 		#Register the plugin to the plugins-system
@@ -92,29 +95,39 @@ namespace eval ::draw {
 
 
 	proc AddDrawboard { window buttonbar} {
+		variable ink_text_pack
 
 		set smileybut $buttonbar.smileys
 		set fontbut $buttonbar.fontsel
 		set voice $buttonbar.voice
 		
 		#remove the text/smiley controls		
-		pack forget $smileybut
-		pack forget $fontbut
-		if { [winfo exists $voice] } { pack forget $voice }
+		$smileybut configure -state disabled
+		$fontbut configure -state disabled
+		# if { [winfo exists $voice] } { pack forget $voice }
 
 		set w $window	
-		set inputframe $w.f.bottom.left.in.inner
-		set textinput $inputframe.text
+		set inputtext [::ChatWindow::GetInputText $w]
+		set inputframe [winfo parent $inputtext]
 		
-		pack forget $textinput
+		# Algorithm copied from chatwindow.tcl used for placing the voiceclip widget...
+		set slaves [pack slaves $inputframe]
+		set ink_text_pack [list]
+		foreach slave $slaves {
+			if {$slave != "$inputframe.sbframe" } {
+				lappend ink_text_pack [list $slave [pack info $slave]]
+				pack forget $slave
+			}
+		}
+		
 
 		set drawwidget $inputframe.draw
 
 		if {[winfo exists $drawwidget]} {
-status_log "drawwidget already exists"
+			status_log "drawwidget already exists"
 			pack $drawwidget -side left -padx 0 -pady 0 -expand true -fill both			
 		} else {
-status_log "creating drawwidget"
+			status_log "creating drawwidget"
 			drawboard $drawwidget -pencil pencil1 -color black -drawmode free -grid 0;#-gridimg [::skin::loadPixmap grid]
 			pack $drawwidget -side left -padx 0 -pady 0 -expand true -fill both
 		}		
@@ -155,8 +168,8 @@ status_log "creating drawwidget"
 		}					
 
 		bind $sendbutton <Return> "::draw::PressedSendDraw $window"
-		bind $textinput <Return> "::draw::PressedSendDraw $window"
-		bind $textinput <Key-KP_Enter> "::draw::PressedSendDraw $window; break"		
+		bind $inputtext <Return> "::draw::PressedSendDraw $window"
+		bind $inputtext <Key-KP_Enter> "::draw::PressedSendDraw $window; break"		
 
 
 		#SWITCHBUTTON
@@ -165,10 +178,6 @@ status_log "creating drawwidget"
 		bind $inkswitch  <<Button1>> "::draw::ResetTextInput $window $buttonbar"
 		bind $inkswitch  <Enter> "$inkswitch configure -image [::skin::loadPixmap buttext_hover]"
 		bind $inkswitch  <Leave> "$inkswitch configure -image [::skin::loadPixmap buttext]"	
-		#needs to be repacked at last
-		pack forget $inkswitch
-
-		pack $inkswitch -side left -padx 0 -pady 0
 
 		
 	
@@ -188,7 +197,7 @@ status_log "creating drawwidget"
 		$gridbut configure -image [::skin::loadPixmap $butimg]
 
 		#bind $gridbut  <<Button1>> "::draw::SwitchGrid $gridbut $drawwidget"
-status_log "reconfigure gridbut with $butimg"
+		status_log "reconfigure gridbut with $butimg"
 		bind $gridbut  <Enter> "$gridbut configure -image [::skin::loadPixmap ${butimg}_hover]"
 		bind $gridbut  <Leave> "$gridbut configure -image [::skin::loadPixmap $butimg]"		
 
@@ -200,7 +209,8 @@ status_log "reconfigure gridbut with $butimg"
 
 
 	proc ResetTextInput { window buttonbar } {
-status_log "reset to text mode"
+		variable ink_text_pack
+		status_log "reset to text mode"
 
 		set smileybut $buttonbar.smileys
 		set fontbut $buttonbar.fontsel
@@ -222,14 +232,11 @@ status_log "reset to text mode"
 		bind $inkswitch  <<Button1>> "::draw::AddDrawboard $window $buttonbar"
 		bind $inkswitch  <Enter> "$inkswitch configure -image [::skin::loadPixmap butdraw_hover]"
 		bind $inkswitch  <Leave> "$inkswitch configure -image [::skin::loadPixmap butdraw]"	
-		#needs to be repacked at last
-		pack forget $inkswitch
+	
 
 		#repack the text/smiley controls		
-		pack $fontbut -side left -padx 0 -pady 0
-		pack $smileybut -side left -padx 0 -pady 0
-		if { [winfo exists $voice] } { pack $voice -side left -padx 0 -pady 0 }
-		pack $inkswitch -side left -padx 0 -pady 0
+		$fontbut configure -state normal
+		$smileybut configure -state normal
 		
 		
 		set inputframe $window.f.bottom.left.in.inner
@@ -238,7 +245,10 @@ status_log "reset to text mode"
 
 		pack forget $drawboardwidget
 		
-		pack $textinput -side left -expand true -fill both -padx 1 -pady 1
+		foreach slave $ink_text_pack {
+			eval pack [lindex $slave 0] [lindex $slave 1]
+		}
+		unset ink_text_pack
 		
 		
 		

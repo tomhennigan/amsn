@@ -1042,8 +1042,7 @@ namespace eval ::ChatWindow {
 		# Different shortcuts for MacOS
 		if { [OnMac] } {
 			bind $w <Command-,> "Preferences"
-			bind $w <Command-Option-h> \
-				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
+			bind $w <Command-Option-h> [list ::amsn::ShowChatList [trans history] \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin]
 			# Control-w for closing current tab not implemented on Mac (germinator)
                         bind $w <Command-Right> "::ChatWindow::GoToNextTab $w"
                         bind $w <Command-Left> "::ChatWindow::GoToPrevTab $w"
@@ -1762,22 +1761,17 @@ namespace eval ::ChatWindow {
 	proc SetSashPos { paned input output } {
 		update idletasks
 
-		#puts "SetSashPos - [winfo height $paned] - [winfo height $input] - [winfo height $output] - [$paned sash coord 0]"
-
 		set bottomsize [winfo height $input]
 		if { $bottomsize < [$paned panecget $input -minsize] } {
 			set bottomsize [$paned panecget $input -minsize]
 		}
 		set sashheight [::ChatWindow::GetSashHeight $paned]
 		$paned sash place 0 0 [expr {[winfo height $paned] - ($bottomsize + $sashheight)}]
-		#puts "SetSashPos - [winfo height $paned] - [winfo height $input] - [winfo height $output] - [$paned sash coord 0] - $bottomsize"
 	}
 
 	proc InputPaneConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $input $W]} { return }
-
-		#puts "InputPaneConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 
 		set win [string first "msg" $paned]
 		set win [string first "." $paned $win]
@@ -1794,7 +1788,6 @@ namespace eval ::ChatWindow {
 			::ChatWindow::SetSashPos $paned $input $output
 		}
 
-		#puts "InputPaneConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 		if { $scrolling } { after 100 "catch {::ChatWindow::Scroll [::ChatWindow::GetOutText $win]}" }
 
 		if { [::config::getKey savechatwinsize] } {
@@ -1808,7 +1801,6 @@ namespace eval ::ChatWindow {
 		#only run this if the window is the outer frame
 		if { ![string equal $output $W]} { return }
 
-		#puts "OutputPaneConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 		#only run if input frame not visible
 		if { [winfo height $paned] <= [lindex [$paned sash coord 0] 1] + [::ChatWindow::GetSashHeight $paned] } {
 		
@@ -1816,18 +1808,15 @@ namespace eval ::ChatWindow {
 			if { ( [winfo height $input] < [$paned panecget $input -minsize] ) \
 					&& ( [winfo height $output] > [$paned panecget $output -minsize] ) \
 					&& ( [winfo height $paned] > [$paned panecget $output -minsize] ) } {
-				
+
 				::ChatWindow::SetSashPos $paned $input $output
 			}
 		}
-		#puts "OutputPaneConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 	}
 	
 	proc PanedWindowConfigured { paned input output W newh } {
 		#only run this if the window is the outer frame
 		if { ![string equal $paned $W]} { return }
-
-		#puts "\nPaneWindowConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
 
 		#keep the input pane the same size, only change the output		
 		#dont call the first time it is created
@@ -1835,8 +1824,6 @@ namespace eval ::ChatWindow {
 		if {([winfo height $input] != 1) || ([winfo height $output] != 1) } {
 			::ChatWindow::SetSashPos $paned $input $output
 		}
-		#puts "PaneWindowConfigured - [winfo height $paned] - [winfo height $input] - [winfo height $output] - $newh - [$paned sash coord 0]"
-
 	}
 
 	proc CreateOutputWindow { w paned } {
@@ -2312,10 +2299,21 @@ namespace eval ::ChatWindow {
 			} else {
 				set inputtext [GetInputText $w]
 				set inputframe [winfo parent $inputtext]
-				set voice_text_pack [pack info $inputtext]
-				pack forget $inputtext
+
+				# Here, we'll build a list of the packes children of the inputframe, excluding the send button.. this will allow us to remove anything packed inside
+				# the inputframe and replace it with the voice clip widget... we'll also save the pack info for each one of them... 
+				# This is useful if we want to keep the capability of sending voice clips when the inkdraw plugin is activated and the text widget is unpacked
+				# and the drawboard is packed instead... 
+				set slaves [pack slaves $inputframe]
+				set voice_text_pack [list]
+				foreach slave $slaves {
+					if {$slave != "$inputframe.sbframe" } {
+						lappend voice_text_pack [list $slave [pack info $slave]]
+						pack forget $slave
+					}
+				}
 				canvas $inputframe.wave -background [::skin::getKey chat_input_back_color] -borderwidth 0 -relief solid
-				eval pack $inputframe.wave $voice_text_pack
+				eval pack $inputframe.wave -side left -padx 0 -pady 0 -expand true -fill both
 
 				# This update here is necessary because it seems if we don't update, the waveform won't appear...
 				# this is because we depend on the [winfo width] and [winfo height] for the waveform size
@@ -2442,7 +2440,9 @@ namespace eval ::ChatWindow {
 			update idletasks
 			
 			destroy $inputframe.wave
-			eval pack $inputtext $voice_text_pack
+			foreach slave $voice_text_pack {
+				eval pack [lindex $slave 0] [lindex $slave 1]
+			}
 			unset voice_text_pack
 		}
 
