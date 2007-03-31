@@ -49,6 +49,15 @@
 			<contact_busy>#cf4913</contact_busy>
 			<contact_gonelunch>#8c0000</contact_gonelunch>
 			<contact_offline>#555753</contact_offline>
+			<state_online>#33333</state_online>
+			<state_away>#333333</state_away>
+			<state_noactivity>#333333</state_noactivity>
+			<state_rightback>#333333</state_rightback>
+			<state_onphone>#333333</state_onphone>
+			<state_busy>#333333</state_busy>
+			<state_mobile>#333333</state_mobile>
+			<state_gonelunch>#333333</state_gonelunch>
+			<state_offline>#333333</state_offline>
 			<groupcolorextend>#333333</groupcolorextend>
 			<groupcolorcontract>#666666</groupcolorcontract>
 		</Colors>
