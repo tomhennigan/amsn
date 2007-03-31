@@ -183,7 +183,7 @@ namespace eval ::gnotify {
 			set ::gnotify::checkingnow 1
 			
 			for {set acnt 0} {$acnt < $::gnotify::config(accounts)} {incr acnt} {
-				if { [catch { ::gnotify::check_gmail $::gnotify::config(user_$acnt) [::gnotify::decrypt $::gnotify::config(passe_$acnt)] $acnt } res ] } {
+				if { [catch { ::gnotify::check_gmail $acnt } res ] } {
 					plugins_log gnotify "Error checking account $acnt : $res\n$::errorInfo"
 
 					variable status_$acnt
@@ -263,7 +263,7 @@ namespace eval ::gnotify {
 				default { set mailmsg "[trans newmail $info(nb_mails)]" }
 			}
 			
-			::amsn::notifyAdd "[set ::gnotify::config(user_$acnt)]\n$mailmsg" "launch_browser {http://mail.google.com}" newemail plugins
+			::amsn::notifyAdd "[set ::gnotify::config(user_$acnt)]\n$mailmsg" [list ::gnotify::open_gmail_account $acnt] newemail plugins
 			
 			
 			#If Growl plugin is loaded, show the notification, Mac OS X only
@@ -397,7 +397,7 @@ namespace eval ::gnotify {
 		$textb tag bind gnotifymail_$acnt <Enter> "$textb tag conf gnotifymail_$acnt -under false;$textb conf -cursor hand2"
 		$textb tag bind gnotifymail_$acnt <Leave> "$textb tag conf gnotifymail_$acnt -under true;$textb conf -cursor left_ptr"
 		
-		$textb tag bind gnotifymail_$acnt <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list launch_browser {http://mail.google.com}]"
+		$textb tag bind gnotifymail_$acnt <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list ::gnotify::open_gmail_account $acnt]"
 		
 		$textb tag bind gnotifymail_$acnt <Button3-ButtonRelease> "after 1 [list ::gnotify::rightclick %X %Y $acnt]"
 		
@@ -430,7 +430,7 @@ namespace eval ::gnotify {
 				array set mail $mail_l
 				if {[lsearch [set ::gnotify::config(known_mids_$acnt)] $mail(mid)] == -1} {
 					::amsn::notifyAdd "[trans receivedmail [buildFromField $mail(authors)]]" \
-					    [list launch_browser {http://mail.google.com}] newemail
+					    [list ::gnotify::open_gmail_account $acnt] newemail
 					lappend ::gnotify::config(known_mids_$acnt) $mail(mid)
 				}
 			}
@@ -618,7 +618,7 @@ namespace eval ::gnotify {
 			set new "?"
 		}
 		
-		$rmenu add command -label [trans view_inbox $new] -command {after 1 [list launch_browser {http://mail.google.com}]}
+		$rmenu add command -label [trans view_inbox $new] -command {after 1 [list ::gnotify::open_gmail_account $acnt]}
 		$rmenu add separator
 		$rmenu add command -label [trans check_now] -command ::gnotify::check
 		$rmenu add command -label [trans tell_me] -command [list ::gnotify::tell_no $acnt]
@@ -648,27 +648,65 @@ namespace eval ::gnotify {
 		}
 	}
 
-	proc check_gmail { username password acnt {url "http://mail.google.com/mail/?ui=pb"}} {
+	proc open_gmail_account {acnt} {
+		global HOME 
+
+		set page_data {<html><head><noscript><meta http-equiv=Refresh content="0; url=http://wws.gmail.com"></noscript></head>}
+		append page_data {<body onload="document.pform.submit(); "><form name="pform" action="https://www.google.com/accounts/ServiceLoginAuth" method="POST">}
+		append page_data {<input type="hidden" name="continue" value="http://mail.google.com/mail/">}
+		append page_data {<input type="hidden" name="service" value="mail">}
+		append page_data {<input type="hidden" name="rm" value="false">}  
+		append page_data {<input type="hidden" name="Email" value=}
+		append page_data "\"$::gnotify::config(user_$acnt)\""
+		append page_data {><input type="hidden" name="Passwd" value=}
+		append page_data "\"[::gnotify::decrypt $::gnotify::config(passe_$acnt)]\""
+		append page_data {><input type="hidden" name="PersistentCookie" value="no">}
+		append page_data {<input type="hidden" name="rmShown" value="1"> }
+		append page_data {</form></body></html>}
+
+		if { [OnUnix] } {
+			set file_id [open "[file join ${HOME} gnotify.html]" w 00600]
+		} else {
+			set file_id [open "[file join ${HOME} gnotify.html]" w]
+		}
+		
+		puts $file_id $page_data
+		
+		close $file_id
+		
+		if { [OnDarwin] } {
+			launch_browser [file join ${HOME} gnotify.html] 1
+		} else {
+			launch_browser "file://${HOME}/gnotify.html" 1
+		}
+		after 5000 [list catch [list file delete -force [file join ${HOME} gnotify.html]]]
+
+	}
+
+	proc check_gmail { acnt {url "http://mail.google.com/mail/?ui=pb"}} {
 		variable user_cookies
 		variable status_$acnt
 
 		set status_$acnt 1
-		cmsn_draw_online
+		cmsn_draw_online 1 2
 		
+		set username $::gnotify::config(user_$acnt)
+		set password [::gnotify::decrypt $::gnotify::config(passe_$acnt)]
+
 		if { [info exists user_cookies($username,$password,SID)]} {
 			set cookie [buildCookie $username $password]
 
 			set headers [list Cookie $cookie]
-			set token [http::geturl $url -headers $headers -timeout 10000 -command [list ::gnotify::check_gmail_callback $username $password $acnt]]
+			set token [http::geturl $url -headers $headers -timeout 10000 -command [list ::gnotify::check_gmail_callback $acnt]]
 		} else {
-			set token [authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt]]
+			set token [authenticate_gmail $acnt [list ::gnotify::check_gmail $acnt]]
 		}
 
 		plugins_log gnotify "Checking mail, http token is : $token"
 		return 
 	}
 
-	proc check_gmail_callback { username password acnt token } {
+	proc check_gmail_callback { acnt token } {
 		variable user_cookies
 		upvar #0 $token state
 		variable status_$acnt
@@ -676,6 +714,9 @@ namespace eval ::gnotify {
 
 		set meta $state(meta)
 		#plugins_log gnotify "check $meta - [::http::ncode $token]"
+
+		set username $::gnotify::config(user_$acnt)
+		set password [::gnotify::decrypt $::gnotify::config(passe_$acnt)]
 
 		ParseSetCookie $meta $username $password
 
@@ -697,7 +738,7 @@ namespace eval ::gnotify {
 				array set meta_array $meta 
 				if {[info exists meta_array(WWW-Authenticate)] && [lindex $meta_array(WWW-Authenticate) 0] == "basic"} {
 					plugins_log gnotify "Need to authenticate for account $username"
-					after 0 [list ::gnotify::authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt] $url]
+					after 0 [list ::gnotify::authenticate_gmail $acnt [list ::gnotify::check_gmail $acnt] $url]
 				} else {
 					plugins_log gnotify "Unknown authentication realm for account $username"
 					set status_$acnt -1
@@ -715,7 +756,7 @@ namespace eval ::gnotify {
 				}
 				
 				if { $url != "" } {
-					after 0 [list ::gnotify::authenticate_gmail $username $password $acnt [list ::gnotify::check_gmail $username $password $acnt] $url]
+					after 0 [list ::gnotify::authenticate_gmail $acnt [list ::gnotify::check_gmail $acnt] $url]
 				} else {
 					plugins_log gnotify "Unable to find Location in meta from redirect: $meta - [::http::data $token]"
 					set status_$acnt -3
@@ -738,13 +779,16 @@ namespace eval ::gnotify {
 		::http::cleanup $token
 	}
 	
-	proc authenticate_gmail { username password acnt callback {url "https://www.google.com/accounts/ServiceClientLogin?service=mail"}} {
+	proc authenticate_gmail { acnt callback {url "https://www.google.com/accounts/ServiceClientLogin?service=mail"}} {
 		package require http
 		package require tls
 		package require base64
 		#bind the https in order to use tls
 		http::register https 443 ::tls::socket
 		
+		set username $::gnotify::config(user_$acnt)
+		set password [::gnotify::decrypt $::gnotify::config(passe_$acnt)]
+
 		set cookie [buildCookie $username $password]
 		if {$cookie != "" } {
 			set headers [list Cookie $cookie Authorization "Basic [base64::encode $username:$password]"]
@@ -753,7 +797,7 @@ namespace eval ::gnotify {
 		}
 		plugins_log gnotify "authenticating at $url"
 		return [http::geturl $url -headers $headers -timeout 10000 \
-			    -command [list ::gnotify::authenticate_gmail_callback $username $password $acnt $callback]]
+			    -command [list ::gnotify::authenticate_gmail_callback $acnt $callback]]
 	}
 
 	proc ParseSetCookie { meta username password } {
@@ -791,7 +835,7 @@ namespace eval ::gnotify {
 		return $cookie
 	}
 
-	proc authenticate_gmail_callback { username password acnt callback token } {
+	proc authenticate_gmail_callback {acnt callback token } {
 		upvar #0 $token state
 		variable status_$acnt
 		variable info_$acnt
@@ -800,6 +844,9 @@ namespace eval ::gnotify {
 		set meta $state(meta)
 		#plugins_log gnotify "auth $meta - [::http::ncode $token] "
 		
+		set username $::gnotify::config(user_$acnt)
+		set password [::gnotify::decrypt $::gnotify::config(passe_$acnt)]
+
 		ParseSetCookie $meta $username $password
 		
 		switch [::http::ncode $token] {
@@ -834,7 +881,7 @@ namespace eval ::gnotify {
 				
 				if { $url != "" } {
 					#
-					after 0 [list ::gnotify::authenticate_gmail $username $password $acnt $callback $url]
+					after 0 [list ::gnotify::authenticate_gmail $acnt $callback $url]
 				} else {
 					plugins_log gnotify "Unable to find Location in meta from redirect: $meta - [::http::data $token]"
 					set status_$acnt -3
