@@ -3803,7 +3803,7 @@ proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 		return
 	}
 
-	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont -initialcolor $initialcolor -nosizes 1]
+	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont -initialcolor $initialcolor]
 	return $selected_font
 }
 
@@ -3833,6 +3833,7 @@ proc change_font {win_name key} {
 	}
 
 	set sel_fontfamily [lindex $selfont 0]
+	set sel_fontsize [lindex $selfont 1]
 	set sel_fontstyle [lrange $selfont 2 end]
 
 
@@ -3844,7 +3845,7 @@ proc change_font {win_name key} {
 
 	::config::setKey $key [list $sel_fontfamily $sel_fontstyle $selcolor]
 
-	change_myfontsize [::config::getKey textsize]
+	change_myfontsize [expr {$sel_fontsize - $basesize}]
 }
 #///////////////////////////////////////////////////////////////////////
 

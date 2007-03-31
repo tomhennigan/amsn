@@ -440,6 +440,7 @@ keeplog Keep Logs of Chats
 language Language
 language_manager Language manager
 large Large
+largest Largest
 lastlogin Last Log In
 lastlogout Last Log Out
 lastmsgedme Last Message
@@ -494,6 +495,7 @@ mailerexample ( \$recipient = Recipient ) Leave blank to use Hotmail
 mailer Mailer
 maintenance The server is going down for maintenance in $1 minutes
 maximised Maximised
+medium Medium
 minimised Minimised/Iconified
 minimize Minimize to Tray
 mins minutes
@@ -758,6 +760,7 @@ signinstatus Sign-in status
 skinselector Select Skin
 skin Skin
 small Small
+smallest Smallest
 smileconfig Custom emoticon configuration
 smilefile Smiley filename
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)

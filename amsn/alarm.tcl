@@ -307,9 +307,9 @@ proc run_alarm {config_user user nick msg} {
 
 	if { [::alarms::getAlarmItem ${config_user} pic_st] == 1 || [::alarms::getAlarmItem ${config_user} sound_st] == 1 } {
 		toplevel .${wind_name}
-		set myDate [ clock format [clock seconds] -format " - %d/%m/%y at %H:%M" ]
-		wm title .${wind_name} "[trans alarm] $user $myDate"	
-		label .${wind_name}.txt -text "$msg"
+		set myDate [ clock format [clock seconds] -format "%d %b %Y %T" ]
+		wm title .${wind_name} "[trans alarm] - $nick"
+		label .${wind_name}.txt -text "$nick ($user)\n[trans on] $myDate\n\n$msg\n"
 		pack .${wind_name}.txt
 	}
 	

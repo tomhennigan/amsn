@@ -1417,6 +1417,10 @@ namespace eval ::ChatWindow {
 		#textstyle
 		$viewmenu add cascade -label "[trans textsize]" -menu [CreateTextSizeMenu $viewmenu]
 
+		#changefont
+		$viewmenu add command -label "[trans changefont]" -command "after 1 change_font [string range $w 1 end] mychatfont"
+
+
 		#----------------------
 		$viewmenu add separator
 
@@ -1442,14 +1446,12 @@ namespace eval ::ChatWindow {
 		set textsizemenu $menu.textsize
 		menu $textsizemenu -tearoff 0 -type normal
 
-		foreach size {" 8" " 6" " 4" " 2" " 1" "   0" " -2" " -4" } { 
-			if {$size > 0 } {
-				$textsizemenu add command -label "+$size" -command "change_myfontsize $size"
-			} else {
-				$textsizemenu add command -label "$size" -command "change_myfontsize $size"
-			}
-		}
-		
+		$textsizemenu add radiobutton -label "[trans smallest]" -value -2 -variable [::config::getVar textsize] -command "change_myfontsize -2"
+		$textsizemenu add radiobutton -label "[trans small]" -value -1 -variable [::config::getVar textsize] -command "change_myfontsize -1"
+		$textsizemenu add radiobutton -label "[trans medium]" -value 0 -variable [::config::getVar textsize] -command "change_myfontsize 0"
+		$textsizemenu add radiobutton -label "[trans large]" -value 2 -variable [::config::getVar textsize] -command "change_myfontsize 2"
+		$textsizemenu add radiobutton -label "[trans largest]" -value 4 -variable [::config::getVar textsize] -command "change_myfontsize 4"
+	
 		return $textsizemenu
 	}
 
