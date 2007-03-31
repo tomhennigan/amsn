@@ -974,11 +974,18 @@ namespace eval ::guiContactList {
 		if { $nickcolour == "" || $nickcolour == "#" } {
 			if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1" } {
 				set nickcolour [::skin::getKey "contact_mobile"]
+				set statecolour [::skin::getKey "state_mobile" $nickcolour]
 			} else {
-				set nickcolour [::MSN::stateToColor $state_code]
+				set nickcolour [::MSN::stateToColor "contact" $state_code]
+				set statecolour [::MSN::stateToColor "state" $state_code]
 			}
 			set force_colour 0
 		} else {
+			if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1" } {
+				set statecolour [::skin::getKey "state_mobile" [::skin::getKey "contact_mobile"]]
+			} else {
+				set statecolour [::MSN::stateToColor "state" $state_code]
+			}
 			set force_colour 1
 		}
 
@@ -988,7 +995,7 @@ namespace eval ::guiContactList {
 		if { [::MSN::userIsBlocked $email] } {
 			if { $state_code == "FLN" } { 
 				set img [::skin::loadPixmap blocked_off] 
-			} else {    
+			} else {
 				set img [::skin::loadPixmap blocked] 
 			}
 		} elseif { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } {
@@ -1004,7 +1011,6 @@ namespace eval ::guiContactList {
 		
 
 		# TODO: hovers for the status-icons
-		# 	skinsetting to have buddypictures in their place (this is default in MSN7!)
 		# 	with a pixmap border and also status-emblem overlay in bottom right corner		
 		set parsednick [::abook::getDisplayNick $email 1]
 		#the padding between nickname and state
@@ -1023,9 +1029,6 @@ namespace eval ::guiContactList {
 				set statetext "\([trans mobile]\)"
 			}
 		}
-
-		# TODO: skinsetting for state-colour
-		set statecolour grey
 
 		set statewidth [font measure splainf $statetext]
 

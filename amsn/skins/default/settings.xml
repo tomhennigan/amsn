@@ -41,14 +41,24 @@
 			<contactlistbg>#ffffff</contactlistbg>	<!-- color of the contact list, where the contacts appear -->
 			<bannerbg>#ffffff</bannerbg>
 			<mystatus>#666666</mystatus>
-			<contact_online>#333333</contact_online>
-			<contact_away>#333333</contact_away>
-			<contact_noactivity>#333333</contact_noactivity>
-			<contact_rightback>#333333</contact_rightback>
-			<contact_onphone>#333333</contact_onphone>
-			<contact_busy>#333333</contact_busy>
-			<contact_gonelunch>#333333</contact_gonelunch>
-			<contact_offline>#666666</contact_offline>
+			<contact_online>#00476D</contact_online>
+			<contact_away>#375F09</contact_away>
+			<contact_noactivity>#375F09</contact_noactivity>
+			<contact_rightback>#375F09</contact_rightback>
+			<contact_onphone>#375F09</contact_onphone>
+			<contact_busy>#C43C1D</contact_busy>
+			<contact_mobile>#CF7B36</contact_mobile>
+			<contact_gonelunch>#375F09</contact_gonelunch>
+			<contact_offline>#B0B1B0</contact_offline>
+			<state_online>#747474</state_online>
+			<state_away>#747474</state_away>
+			<state_noactivity>#747474</state_noactivity>
+			<state_rightback>#747474</state_rightback>
+			<state_onphone>#747474</state_onphone>
+			<state_busy>#747474</state_busy>
+			<state_mobile>#747474</state_mobile>
+			<state_gonelunch>#747474</state_gonelunch>
+			<state_offline>#747474</state_offline>
 			<groupcolorextend>#333333</groupcolorextend>
 			<groupcolorcontract>#666666</groupcolorcontract>
 		</Colors>
