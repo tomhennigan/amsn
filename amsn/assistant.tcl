@@ -1971,12 +1971,14 @@ namespace eval ::AVAssistant {
 	}
 
 	proc endPlayTest {w} {
-		bind $w.testf.stoptest <ButtonPress-1> ""
-		bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
-		bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
-		bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
-		$w.testf.playtest configure -image [::skin::loadPixmap playbut]
-		$w.testf.stoptest configure -state disabled
+		if {[winfo exists $w]} {
+			bind $w.testf.stoptest <ButtonPress-1> ""
+			bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
+			bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+			bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
+			$w.testf.playtest configure -image [::skin::loadPixmap playbut]
+			$w.testf.stoptest configure -state disabled
+		}
 	}
 
 	###
@@ -2190,19 +2192,21 @@ namespace eval ::AVAssistant {
 	###
 	# called when reached the end when playing the record or stopped
 	proc endPlayRecord {w} {
-		#get back to the play button
-		bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
-		bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
-		$w.recf.playrecorded configure -image [::skin::loadPixmap playbut] -state normal
-		bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
+		if {[winfo exists $w]} {
+			#get back to the play button
+			bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+			bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
+			$w.recf.playrecorded configure -image [::skin::loadPixmap playbut] -state normal
+			bind $w.recf.playrecorded <ButtonPress-1> [list ::AVAssistant::playRecord $w]
 
-		#we can record again
-		bind $w.recf.record <ButtonPress-1> [list ::AVAssistant::record $w]
-		bind $w.recf.stoprecorded <ButtonPress-1> ""
+			#we can record again
+			bind $w.recf.record <ButtonPress-1> [list ::AVAssistant::record $w]
+			bind $w.recf.stoprecorded <ButtonPress-1> ""
 
-		$w.recf.playrecorded configure -state normal
-		$w.recf.record configure -state normal
-		$w.recf.stoprecorded configure -state disabled
+			$w.recf.playrecorded configure -state normal
+			$w.recf.record configure -state normal
+			$w.recf.stoprecorded configure -state disabled
+		}
 	}
 
 
@@ -2334,6 +2338,11 @@ namespace eval ::AVAssistant {
 			::audio::setInputDevice [::audio::getInputDevice]
 			::audio::setOutputDevice [::audio::getOutputDevice]
 			::audio::setMixerDevice [::audio::getMixerDevice]
+		}
+
+		#save the configs
+		if {$audio_configured || $video_configured} {
+			save_config
 		}
 	}
 
