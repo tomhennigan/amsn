@@ -5219,7 +5219,7 @@ proc cmsn_change_name {} {
 
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok
-	button $w.fb.cancel -text [trans cancel] -command "destroy $w"
+	button $w.fb.cancel -text [trans cancel] -command "destroy .smile_selector; destroy $w"
 	pack $w.fb.cancel -side right -padx [list 5 0 ]
 	pack $w.fb.ok -side right
 
@@ -6060,8 +6060,12 @@ proc show_umenu {user_login grId x y} {
 		#3 or more actions are defines, add the submenu
 		.user_menu insert $start cascade -label "[trans moreactions]" -menu $actions
 	}
-
-	tk_popup .user_menu $x $y
+    
+	#Sometimes right-click on CL popup was shown out of screen
+	if {[expr {$y + 300}] > [winfo screenheight .]} {
+		set y [expr {$y - 300}]
+	}
+	tk_popup .user_menu $x $y                
 }
 
 #///////////////////////////////////////////////////////////////////////

@@ -2044,7 +2044,7 @@ namespace eval ::MSN {
 
    }
 
-	# Return a list of users in chat, or last user in chat is chat is closed
+	# Return a list of users in chat, or last user in chat if chat is closed
 	proc usersInChat { chatid } {
 		set sb [SBFor $chatid]
 		if { $sb == 0 || [catch {$sb cget -name}] } {

@@ -196,7 +196,7 @@ namespace eval ::groups {
 			
 		pack .dlgthis.data .dlgthis.buttons -side top
 		moveinscreen .dlgthis 30
-	
+		focus.dlgthis.data.ent
 	}
    
 	# New group menu, for contact list only, no for management in toolbar
@@ -208,7 +208,7 @@ namespace eval ::groups {
 		# The submenu of standard group actions
 		menu .group_handler -tearoff 0 -type normal
 		.group_handler add command -label "[trans groupadd]..." -command ::groups::dlgAddGroup
-		if {$gid != "online" & $gid != "offline"} {
+		if {$gid != "online" && $gid != "offline" && $gid != "mobile" && $gid != "0"} {
 			.group_handler add separator
 			.group_handler add command -label "[trans delete]" -command "::groups::Delete $gid dlgMsg"
 			.group_handler add command -label "[trans rename]..." -command "::groups::dlgRenameThis $gid"

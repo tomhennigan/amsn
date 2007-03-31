@@ -323,8 +323,11 @@ find Buscar
 findnext Buscar Siguiente
 findprev Buscar Anterior
 firewalled Te encuentras detrás de un cortafuegos o de un enrutador
+forgot_pass He olvidado mi contraseña
 followtext Desplazar hacia abajo cuando aparezca nuevo texto
 forget_me Eliminar este perfil
+formatcsv En formato CSV
+formatctt En formato Ctt
 friendlyname Apodo en conversación
 ftacceptedby $1 ha aceptado la invitación a la transferencia del archivo '$2'.
 ftaccepted Transferencia de archivo aceptada
