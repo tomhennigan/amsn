@@ -50,6 +50,11 @@
 		<version>7815</version>
 	</lang>
 
+	<lang>
+		<langcode>es</langcode>
+		<version>8322</version>
+	</lang>
+
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/gnotify/gnotify.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/gnotify/plugininfo.xml</plugininfo>
