@@ -50,6 +50,15 @@ askeachtime Preguntar siempre
 asksendingyourwebcam Preguntar para enviar tu cámara web
 asksendoim ¿Quieres enviar el mensaje como un mensaje sin conexión?
 askwebcam Solicitar al usuario ver su cámara web
+assistantainput Elige tu dispositivo de entrada e intenta grabar con él.
+assistantaoutput Elige tu dispositivo de salida, e intenta reproducir este archivo para probarlo.
+assistantawarn No podrás grabarte o hablar con tus amigos. Puedes encontrar información sobre cómo instalar esta extensión en nuestro Wiki:
+assistantfinetunepic Cambia las siguientes opciones para ajustar la calidad de imágen de tu cámara web
+assistantselectcam Selecciona tu cámara web de la lista
+assistantstarting Iniciando el Asistente
+assistantwelcome Este asistente te guiará en el proceso de configuración de audio y video en aMSN.\n\nComprobará que las extensiones requeridas estén presentes y cargadas, y podrás elegir el dispositivo y canal, ajustar la configuración de imágen y la resolución.
+audioconfigured Se eligieron las siguientes configuraciones de audio:\nDispositivo de salida: $1\nDispositivo de entrada:$2
+audiovideo Configuración de Audio y Video
 author Autor
 autoaccepted Transferencia de archivo aceptada automáticamente
 autoacceptft Aceptar archivos automáticamente en transferencias
@@ -73,6 +82,7 @@ avoidseen Evitar que esta persona vea tu conexión y te contacte
 away Ausente
 awaymsg1 Preguntar cuando cambie el estado a Ausente/Vuelvo Enseguida/Ocupado
 awaymsg2 No preguntar nunca y usar el mensaje a continuación
+back Volver
 baduserpass Nombre de usuario o contraseña incorrectos
 badwebcam No se puede visualizar la imagen de la cámara web. Asegúrate de que la cámara web esté instalada y conectada
 bgcolor Cambia el color de fondo de aMSN
@@ -111,6 +121,7 @@ cantremoveothers No se puede borrar el grupo "Otros"
 captureextloaded La extensión de captura -$1- ha sido cargada
 captureextnotloaded La extensión de captura -$1- no ha sido cargada. Tendrás que compilarla
 captureproperties Propiedades de la cámara web
+capturewarn No podrás enviar imágenes de cámara web si tienes una. Si no, esto es normal. Puedes encontrar instrucciones sobre cómo instalar esta extensión en nuestro Wiki:
 casesensitive Diferenciar mayúsculas/minusculas en disparador
 cfgalarmall Cambiar/Añadir/Quitar alarma global
 cfgalarm Cambiar/Quitar alarma
@@ -137,6 +148,10 @@ chatsmileys Emoticonos en chat
 checkblocking Comprobar continuamente si te están bloqueando
 checkemail Mostrar línea de notificación de email (Bandeja de entrada) en lista de contactos
 checkfilman Los archivos recibidos se guardarán en $1. Comprueba la opción de Administrador de Archivos en la ventana de preferencias.
+checkingaudio Comprobando si la extensión de audio (Snack) está cargada...
+checkingcam Comprobando si hay una cámara web conectada...
+checkingcapext Comprobando si la extensión '$1' está cargada...
+checkingextensions Comprobando extensiones de video requeridas...
 checkingver Buscando si hay disponible una nueva versión
 checkonfln Comprobar si un usuario te bloquea cuando aparentemente se desconecta
 checkopenfilecommand Por favor, comprueba el comando de Abrir Archivo en la ventana de preferencias
@@ -148,6 +163,9 @@ choosechannel Por favor elige un canal
 choosecontact Por favor selecciona un contacto de la lista
 choosedevice Por favor elige un dispositivo
 choosefontcolor Elegir color de la letra
+chooseinputdev Selecciona tu dispositivo de entrada
+choosemixerdev Selecciona tu dispositivo mezclador
+chooseoutputdev Selecciona tu dispositivo de salida
 chooseskin Por favor, elige el Tema que deseas usar
 ch_to_state Cambiar al nuevo estado
 clear Limpiar
@@ -172,6 +190,8 @@ color Color
 command Comando
 commandstatus Ejecutar comando
 configure Configurar
+configuremic Configurando tu micrófono
+configuringaudio Configurando los ajustes de audio
 confirmbl ¿Estás seguro que deseas bloquear a este contacto?
 confirmdelete ¿Seguro que deseas borrar a $1?
 confirmdg ¿Estás seguro que deseas borrar este grupo?
@@ -180,6 +200,7 @@ confirmeg ¿Estás seguro que deseas vaciar este grupo?
 confirm ¿ Estás seguro ?
 confirmpurge Todas las imágenes para mostrar del resto de los contactos (no las tuyas) serán eliminadas. ¿ Estás seguro ?
 confirmrfl ¿Estás seguro que deseas borrar este usuario de este grupo?
+congrats Felicitaciones
 connected Ahora estás conectado
 connectedwith Conectado como $1
 connecterror Error conectándose al servidor
@@ -322,12 +343,14 @@ findasyoutype Buscar al teclear
 find Buscar
 findnext Buscar Siguiente
 findprev Buscar Anterior
+finetunesettings Ajuste fino de imagen
+finish2apply Presione Finalizar para aplicar los cambios.
+finish Finalizar
+firewalled2 Firewall detectado, por favor compruebe la configuración de su Conexión en la ventana de Preferencias
 firewalled Te encuentras detrás de un cortafuegos o de un enrutador
-forgot_pass He olvidado mi contraseña
 followtext Desplazar hacia abajo cuando aparezca nuevo texto
 forget_me Eliminar este perfil
-formatcsv En formato CSV
-formatctt En formato Ctt
+forgot_pass Olvidé mi contraseña
 friendlyname Apodo en conversación
 ftacceptedby $1 ha aceptado la invitación a la transferencia del archivo '$2'.
 ftaccepted Transferencia de archivo aceptada
@@ -337,6 +360,7 @@ ftconnecterror Error conectando con el usuario remoto
 ftconnecting Conectándose a $1 puerto $2
 ftconnectionlost Conexión perdida con el usuario remoto
 ftgotinvitation $1 desea enviarte el archivo '$2' ($3 bytes). Será guardado en el directorio $4. ¿Deseas aceptar este archivo?
+ftportpref2 Abriendo puerto para conexiones directas (necesario para tranferencia de archivos y cámara web)
 ftportpref Usar este puerto y los sucesivos para transferencias de archivos
 ftporttest Verificar puerto
 ftrejectedby $1 ha rechazado la invitación a la transferencia del archivo '$2'.
@@ -355,6 +379,7 @@ gotink $1 te envió una ink
 gotoinbox Ir a Bandeja de entrada
 goto Ir a $1
 groupadd Añadir un grupo
+groupcontactsbystatus Agrupar contactos por estado
 groupcontacts Contactos del grupo
 groupdelete Borrar un grupo
 groupexists El grupo ya existe
@@ -367,6 +392,7 @@ grouprename Cambiar nombre a grupo
 groups Grupos
 groupunknown Grupo desconocido
 handle Apodo
+havenomic No tengo micrófono
 help Ayuda
 helpcontents Temas de ayuda
 hidedisplaypic Ocultar imagen para mostrar
@@ -475,6 +501,7 @@ mobilegrp2 Poner usuarios en el grupo "Móviles" cuando están desconectados (y 
 mobile Teléfono móvil
 modified Modificado
 month Mes
+more Más
 morepersonal Más estados ->
 move Mover
 movetogroup Mover al grupo
@@ -500,6 +527,7 @@ natkeepalive Si sufres desconexiones continuamente, activa esta opción
 needonline Todavía estás/apareces desconectado
 needwinico2 Se requiere el archivo winico05.dll en la carpeta utils/windows para que funcione el icono en la bandeja del sistema
 never Nunca
+new_account Crear una cuenta nueva
 newchat Nueva conversación
 new_ft_protocol Usar el nuevo protocolo de transferencias de ficheros (INESTABLE)
 newline Salto de línea
@@ -516,12 +544,14 @@ next Siguiente
 nick Apodo
 noactivity Sin actividad
 nocacheddps No hay imágenes para mostrar almacenadas para este usuario
+nocamwarn No se detectó ninguna cámara web, o la misma está en uso por otro programa (lo que significa que no puede ser usada por aMSN). Encontrará ayuda para resolver este problema en nuestro Wiki:
 nodataavailable No hay datos disponibles para $1
 nodevices No tienes dispositivos instalados
 noftpreview Desactivar el envío de previsualización en las transferencias de archivos.
 nogap No dejar espacio entre los grupos en lista de contactos
 nogroup Sin grupo
 nologfile No existe archivo de historial para $1
+nomic Sin micrófono
 noneavailable No hay ninguno disponible
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
@@ -553,6 +583,7 @@ nousersinsession No hay usuarios en la sesión
 nouserspecified Usuario no especificado
 nudge $1 reclama tu atención
 offline Desconectado
+oim Mensajes sin conexión
 ok Aceptar
 onenewmail Un mensaje nuevo en bandeja de entrada
 online Conectado
@@ -586,6 +617,7 @@ playbackposition Posición de playback
 playbackspeed Velocidad de playback (milisegundos entre cada fotograma)
 playing Reproduciendo: $1
 play Reproducir
+playtest Reproducir sonido de prueba
 playwebcamsend Reanudación del envío de cámara web
 pluginselector Selector de plug-ins
 port Puerto
@@ -656,8 +688,10 @@ reconnect2 Reconectar al perder la conexión
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
 recorderror Ocurrió un error al grabar el sonido: $1
+record Grabar
 recvwebcamaccepted $1 aceptó tu invitación para ver su cámara web. Conectando...
 reject Rechazar
+rememberaccount Recordar mi cuenta
 rememberaccount Recordar mi cuenta
 rememberpass Recordar contraseña
 remembersetting Recordar esta selección
@@ -707,6 +741,8 @@ serverunavailable El servidor no está disponible
 session Sesión
 setascustom Establecer como imagen personalizada
 setasmydp Establecer como mi Imagen para Mostrar
+setupcam Configurando tu cámara web
+setupcamfinetune Configurando tu cámara web, y aplicando ajuste fino de imágen
 shareswebcam Usuario con cámara web
 showbanner Mostrar el cartel de aMSN en la lista de contactos
 showblockedlist Mostrar contactos que te bloquean
@@ -716,6 +752,7 @@ showcontactemail Mostrar el email de los contactos
 showcontactnick Mostrar el apodo de los contactos
 showdisplaypic2 Por defecto, ver la imagen para mostrar al abrir una ventana de conversación.
 showdisplaypic Ver imagen para mostrar
+showlinksinlogin Mostrar los enlaces en la pantalla de inicio de sesión
 showmailicon Mostar el icono de correo en la bandeja del sistema cuando llegue un nuevo correo electrónico
 showmypic Mostrar mi imagen
 shownotify Mostrar ventana de avisos al producirse diversos eventos
@@ -736,6 +773,9 @@ snapshot Captura de pantalla
 sngdblclick Un sólo clic para abrir una ventana de conversación
 sortcontactgroup Ordenar contactos por grupo
 sortcontacthybrid Ordenar contactos en modo mixto
+sortcontactsasc Orden ascendente para los contactos
+sortcontactsby Ordenar los contactos por
+sortcontactsdesc Orden descendente para los contactos
 sortcontactstatus Ordenar contactos por estado
 sortgroupsasc Orden ascendente para grupos
 sortgroupsdesc Orden descendente para grupos
@@ -768,6 +808,7 @@ statepsm Mensaje Personal (dejar en blanco para mantener el actual)
 state Quiero aparecer como
 stats Estadísticas
 status Estado
+step Paso
 stopalarm Detener alarma
 stop Parar
 stopwebcamreceive Detener la recepción de imágenes de cámara web
@@ -842,13 +883,19 @@ videoconversationrequest Acabas de recibir una petición de conversación de ví
 viewcontactsby Ver contactos como
 viewprofile Ver perfil
 view Ver
+volume Volumen
 wanttosharecam Quiero que mi cámara web esté disponible para otros
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
 webcam Cámara web
 webcamconfigure Configurar cámara web
+webcamconfiguredLinux Has elegido la siguiente configuración:\nDispositivo de cámara web: $1\nCanal de cámara web: $2
+webcamconfiguredMac Tu cámara web ha sido configurada
+webcamconfiguredWin Has elegido la siguiente cámara web: $1
+webcamextchecking Comprobando si la extensión de cámara web está cargada...
 webcamextloaded Extensión de cámara web cargada
 webcamextnotloaded La extensión de cámara web no ha sido cargada. Tendrás que compilarla.
+webcamextwarn No podrás ver imágenes de cámara web de tus contactos. Puedes encontrar ayuda sobre cómo instalar algunas extensiones en nuestro Wiki:
 webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para cámara web
 webcamhistory Ver sesiones de cámara web
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero aMSN todavía no soporta esta característica.
@@ -881,46 +928,3 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
-assistantainput Elige tu dispositivo de entrada e intenta grabar con él.
-assistantaoutput Elige tu dispositivo de salida, e intenta reproducir este archivo para probarlo.
-assistantawarn No podrás grabarte o hablar con tus amigos. Puedes encontrar información sobre cómo instalar esta extensión en nuestro Wiki:
-assistantfinetunepic Cambia las siguientes opciones para ajustar la calidad de imágen de tu cámara web
-assistantselectcam Selecciona tu cámara web de la lista
-assistantstarting Iniciando el Asistente
-assistantwelcome Este asistente te guiará en el proceso de configuración de audio y video en aMSN.\n\nComprobará que las extensiones requeridas estén presentes y cargadas, y podrás elegir el dispositivo y canal, ajustar la configuración de imágen y la resolución.
-audioconfigured Se eligieron las siguientes configuraciones de audio:\nDispositivo de salida: $1\nDispositivo de entrada:$2
-audiovideo Configuración de Audio y Video
-back Volver
-capturewarn No podrás enviar imágenes de cámara web si tienes una. Si no, esto es normal. Puedes encontrar instrucciones sobre cómo instalar esta extensión en nuestro Wiki:
-checkingaudio Comprobando si la extensión de audio (Snack) está cargada...
-checkingcam Comprobando si hay una cámara web conectada...
-checkingcapext Comprobando si la extensión '$1' está cargada...
-checkingextensions Comprobando extensiones de video requeridas...
-chooseinputdev Selecciona tu dispositivo de entrada
-choosemixerdev Selecciona tu dispositivo mezclador
-chooseoutputdev Selecciona tu dispositivo de salida
-configuremic Configurando tu micrófono
-configuringaudio Configurando los ajustes de audio
-congrats Felicitaciones
-finetunesettings Ajuste fino de imagen
-finish Finalizar
-finish2apply Presione Finalizar para aplicar los cambios.
-firewalled2 Firewall detectado, por favor compruebe la configuración de su Conexión en la ventana de Preferencias
-forgot_pass Olvidé mi contraseña
-ftportpref2 Abriendo puerto para conexiones directas (necesario para tranferencia de archivos y cámara web)
-havenomic No tengo micrófono
-new_account Crear una cuenta nueva
-nocamwarn No se detectó ninguna cámara web, o la misma está en uso por otro programa (lo que significa que no puede ser usada por aMSN). Encontrará ayuda para resolver este problema en nuestro Wiki:
-nomic Sin micrófono
-playtest Reproducir sonido de prueba
-record Grabar
-rememberaccount Recordar mi cuenta
-setupcam Configurando tu cámara web
-setupcamfinetune Configurando tu cámara web, y aplicando ajuste fino de imágen
-step Paso
-volume Volumen
-webcamconfiguredMac Tu cámara web ha sido configurada
-webcamconfiguredWin Has elegido la siguiente cámara web: $1
-webcamconfiguredLinux Has elegido la siguiente configuración:\nDispositivo de cámara web: $1\nCanal de cámara web: $2
-webcamextchecking Comprobando si la extensión de cámara web está cargada...
-webcamextwarn No podrás ver imágenes de cámara web de tus contactos. Puedes encontrar ayuda sobre cómo instalar algunas extensiones en nuestro Wiki:
