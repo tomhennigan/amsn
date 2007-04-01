@@ -1,5 +1,4 @@
 amsn_lang_version 2
-=======
 about Acerca de
 aboutamsn Acerca de Alvaro's Messenger
 accept Aceptar
@@ -501,7 +500,6 @@ mailerexample ( \$recipient = Destinatario ) Dejar en blanco para usar Hotmail
 maintenance El servidor quedará fuera de servicio en $1 minuto/s para su mantenimiento
 maximised Maximizada
 medium Medio
-<<<<<<< .mine
 minimised Minimizada/Iconificada
 minimize Minimizar a la bandeja
 mins minutos
@@ -684,7 +682,6 @@ publishphones Publicar mis números de teléfono
 purge Purgar
 pwcdriver Estás usando el controlador 'PWC'
 quit Salir
->>>>>>> .r8346
 raised Elevada/Desiconificada
 readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio de recepción es de sólo lectura. Comprueba los permisos de este directorio.
 readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el directorio de archivos recibidos parece estar protegido contra escritura. Comprueba que los permisos en el directorio ($1) son correctos antes de la transferencia
