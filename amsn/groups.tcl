@@ -196,7 +196,7 @@ namespace eval ::groups {
 			
 		pack .dlgthis.data .dlgthis.buttons -side top
 		moveinscreen .dlgthis 30
-		focus.dlgthis.data.ent
+		focus .dlgthis.data.ent
 	}
    
 	# New group menu, for contact list only, no for management in toolbar
