@@ -921,3 +921,5 @@ youblocked Has sigut bloquejat per
 yousay Tu dius
 youwant Vols
 zoom Ampliació
+goto_prefs_removeprofile Polsa ací per a anar a les preferències i esborrar el teu perfil
+howto_remove_profile Necessites anar a la finestra de preferències per a esborrar el teu perfil (oblida $1). \n\nPer raons de seguretat, no està permés l'esborrat de perfils des de la finestra de connexió.
