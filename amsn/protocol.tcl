@@ -2798,7 +2798,7 @@ namespace eval ::MSN {
 	}
 
 
-	proc stateToColor { prefix state_code } {
+	proc stateToColor { state_code {prefix "contact"}} {
 		variable list_states
 		set state [lindex $list_states [lsearch $list_states "$state_code *"]]
 		set skincolor [::skin::getKey "${prefix}_[lindex $state 1]" [lindex $state 2]]

@@ -4536,7 +4536,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 	set my_name [::abook::getPersonal MFN]
 	set my_state_no [::MSN::stateToNumber [::MSN::myStatusIs]]
 	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
-	set my_colour [::MSN::stateToColor "contact" [::MSN::myStatusIs]]
+	set my_colour [::MSN::stateToColor [::MSN::myStatusIs] "contact"]
 	set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
 	set my_mobilegroup [::config::getKey showMobileGroup]
 	

@@ -976,22 +976,22 @@ namespace eval ::guiContactList {
 				set nickcolour [::skin::getKey "contact_mobile"]
 				set statecolour [::skin::getKey "state_mobile" $nickcolour]
 			} else {
-				set nickcolour [::MSN::stateToColor "contact" $state_code]
-				set statecolour [::MSN::stateToColor "state" $state_code]
+				set nickcolour [::MSN::stateToColor $state_code "contact"]
+				set statecolour [::MSN::stateToColor $state_code "state"]
 			}
 			set force_colour 0
 		} else {
 			if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1" } {
 				set statecolour [::skin::getKey "state_mobile" [::skin::getKey "contact_mobile"]]
 			} else {
-				set statecolour [::MSN::stateToColor "state" $state_code]
+				set statecolour [::MSN::stateToColor $state_code "state"]
 			}
 			set force_colour 1
 		}
 
 		set psm [::abook::getpsmmedia $email 1]
 
-		#@@@@@@@@@ Show webMSN buddy icon
+		#Show webMSN buddy icon
 		if { [::MSN::userIsBlocked $email] } {
 			if { $state_code == "FLN" } { 
 				set img [::skin::loadPixmap blocked_off] 
