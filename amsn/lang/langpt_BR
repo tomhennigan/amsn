@@ -376,6 +376,7 @@ gonelunch Em horário de almoço
 gotink $1 te enviou um ink.
 gotoinbox Ir para a caixa de entrada de e-mails
 goto Ir para $1
+goto_prefs_removeprofile Clique aqui para ir para preferências e deletar seu perfil
 groupadd Adicionar um grupo
 groupcontactsbystatus Agrupar contatos pelo status
 groupcontacts Grupo de contatos
@@ -400,6 +401,7 @@ hiden Esconde os emoticons do menu de Smileys
 hidewindow Esconder a Janela
 history Ver histórico
 home Casa
+howto_remove_profile Para deletar seu profile (esqueça $1) você precisa fazer através da janela de preferências. \n\nPor razões de segurança, apagar o perfil da tela de login não é permitido.
 httpconnection Conectar usando método HTTP (usa o protocolo HTTP na porta 80)
 hue tonalidade
 huge Muito grande
