@@ -1,4 +1,5 @@
 amsn_lang_version 2
+=======
 about Acerca de
 aboutamsn Acerca de Alvaro's Messenger
 accept Aceptar
@@ -350,7 +351,10 @@ firewalled2 Firewall detectado, por favor compruebe la configuración de su Cone
 firewalled Te encuentras detrás de un cortafuegos o de un enrutador
 followtext Desplazar hacia abajo cuando aparezca nuevo texto
 forget_me Eliminar este perfil
+forgot_pass He olvidado mi contraseña
 forgot_pass Olvidé mi contraseña
+formatcsv En formato CSV
+formatctt En formato Ctt
 friendlyname Apodo en conversación
 ftacceptedby $1 ha aceptado la invitación a la transferencia del archivo '$2'.
 ftaccepted Transferencia de archivo aceptada
@@ -378,6 +382,7 @@ gonelunch Salí a comer
 gotink $1 te envió una ink
 gotoinbox Ir a Bandeja de entrada
 goto Ir a $1
+goto_prefs_removeprofile Pincha aquí para ir a las preferencias y eliminar tu perfil
 groupadd Añadir un grupo
 groupcontactsbystatus Agrupar contactos por estado
 groupcontacts Contactos del grupo
@@ -402,6 +407,7 @@ hiden No mostrar en el menú de emoticonos
 hidewindow Ocultar ventana
 history Ver historial
 home Inicio
+howto_remove_profile Para eliminar tu perfil (olvidar $1) necesitas hacerlo desde la ventana de prefencias. \n\nPor razones de seguridad, la eliminación del perfil desde la pantalla de inicio de sesión no está permitido.
 httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 80)
 hue Tonalidad
 huge enorme
@@ -438,7 +444,8 @@ keeplog2 Registrar las conversaciones en el historial para verlas más tarde
 keeplog Guardar historial de las conversaciones
 language Idioma
 language_manager Administrador de idiomas
-large grande
+large Grande
+largest El más grande
 lastlogin Última conexión
 lastlogout Última desconexión
 lastmsgedme Último mensaje
@@ -493,6 +500,8 @@ mailer Comando de correo electrónico
 mailerexample ( \$recipient = Destinatario ) Dejar en blanco para usar Hotmail
 maintenance El servidor quedará fuera de servicio en $1 minuto/s para su mantenimiento
 maximised Maximizada
+medium Medio
+<<<<<<< .mine
 minimised Minimizada/Iconificada
 minimize Minimizar a la bandeja
 mins minutos
@@ -675,6 +684,7 @@ publishphones Publicar mis números de teléfono
 purge Purgar
 pwcdriver Estás usando el controlador 'PWC'
 quit Salir
+>>>>>>> .r8346
 raised Elevada/Desiconificada
 readonlymsgbox La transferencia de archivos se ha cancelado porque el directorio de recepción es de sólo lectura. Comprueba los permisos de este directorio.
 readonlywarn AVISO: El archivo puede NO ser guardado correctamente porque el directorio de archivos recibidos parece estar protegido contra escritura. Comprueba que los permisos en el directorio ($1) son correctos antes de la transferencia
@@ -761,7 +771,8 @@ showuserpic Imagen de $1
 signinstatus Estado inicial
 skinselector Elegir tema (skin)
 skin Tema (skin)
-small pequeño
+smallest El más pequeño
+small Pequeño
 smileconfig Configuración de emoticono personalizado
 smilefile Nombre del archivo
 smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ para más información)
