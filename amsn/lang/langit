@@ -348,6 +348,7 @@ finish2apply Premi Fine per applicare questi settaggi.
 firewalled Sei dietro un firewall o un router
 firewalled2 Sei dietro un firewall, per favore controlla i settaggi di Connessione nella finestra delle preferenze
 followtext Scorri la finestra quando nuovo testo viene inserito
+forget_me Dimenticami
 forgot_pass Ho dimenticato la password
 friendlyname Nome comune
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
@@ -357,7 +358,7 @@ ftautoclose Chiudi la finestra quando finisce il trasferimento
 ftconnecterror Errore connettendosi all'utente remoto
 ftconnecting Connessione a $1 sulla porta $2
 ftconnectionlost La connessione con l'utente remoto è caduta.
-ftgotinvitation $1 vuole mandarti il file '$2' ($3 bytes). Sarà salvato nella directory $4. Vuoi ricevere questo file?
+ftgotinvitation $1 vuole inviarti il file '$2' ($3 bytes). Sarà salvato nella directory $4. Vuoi ricevere questo file?
 ftportpref Porta iniziale per il trasferimento file
 ftportpref2 Porta iniziale per le connessioni dirette (necessaria per il trasferimento file e la webcam)
 ftporttest Test
@@ -728,7 +729,7 @@ send Invia
 sendvoice Invia un messaggio vocale
 sendwebcamaccepted $1 ha accettato il tuo invito a visualizzare le immagini dalla tua webcam. Connessione in corso.
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
-sentbytes Mandati $1 byte su $2
+sentbytes Inviati $1 byte su $2
 sentvoice Inviato un messaggio vocale
 serverbusy Il server è occupato
 servergoingdown Sei stato disconnesso poiché il server si sta fermando
