@@ -618,35 +618,44 @@ snit::widgetadaptor loginscreen {
 	method ForgetMe {} {
 		# Create dialog
 		set w [toplevel .forgetme_dialog -width 400]
+		wm title $w [trans delprofile]
+		
 		# Icon
 		set icon [label $w.icon -image [::skin::loadPixmap info]]
+
 		# Message
 		set message [label $w.msg -text [trans howto_remove_profile [::config::getKey login]] -justify left]
+
 		# Link to prefs "Others" page
-		set link [button $w.link	-text			[trans goto_prefs_removeprofile] \
-						-border			0 \
-						-highlightthickness	0 \
-						-relief			flat \
-						-background		[$w cget -bg] \
-						-activebackground	[$w cget -bg] \
+		set link [label $w.link		-text			[trans goto_prefs_removeprofile] \
 						-fg			blue \
 						-font			splainf \
-						-cursor			hand2 \
-						-command		"$self ForgetMeLinkClicked $w"]
+						-cursor			hand2 ]
+
+		# Bind the clickable label 
+		bind $w.link <Enter> "$w.link configure -font sunderf"
+		bind $w.link <Leave> "$w.link configure -font splainf"
+		bind $w.link <ButtonRelease> [list $self ForgetMeLinkClicked $w]
+
 		# OK button
 		set ok_button [button $w.ok -text [trans Ok] -command "destroy $w"]
+
 
 		# Set widgets out using grid
 		grid $icon	-row 0	-column	0	-sticky nw	-columnspan 1	-padx 4	-pady 4
 		grid $message	-row 0	-column 1	-sticky new	-columnspan 1	-padx 4	-pady 4
 		grid $link	-row 1	-column 1	-sticky new	-columnspan 2	-padx 4	-pady 4
-		grid $ok_button	-row 2	-column 0	-sticky sew	-columnspan 2	-padx 0	-pady 0
+		grid $ok_button	-row 2	-column 0	-sticky s	-columnspan 2	-padx 4	-pady 4 -ipadx 20
 
 		grid columnconfigure	$w	1	-weight 1
 		grid rowconfigure	$w	2	-weight 1
 
 		# Make dialog transient
 		wm transient $w $self
+
+		# Make the dialog non-resizable
+		wm resizable .forgetme_dialog 0 0
+
 		# Raise dialog and put local grab on it
 		raise $w
 		grab set $w
