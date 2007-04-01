@@ -618,7 +618,7 @@ namespace eval ::gnotify {
 			set new "?"
 		}
 		
-		$rmenu add command -label [trans view_inbox $new] -command {after 1 [list ::gnotify::open_gmail_account $acnt]}
+		$rmenu add command -label [trans view_inbox $new] -command [list after 1 [list ::gnotify::open_gmail_account $acnt]]
 		$rmenu add separator
 		$rmenu add command -label [trans check_now] -command ::gnotify::check
 		$rmenu add command -label [trans tell_me] -command [list ::gnotify::tell_no $acnt]
