@@ -440,6 +440,7 @@ keeplog Mantiene un registro delle chat
 language Lingua
 language_manager Gestore lingue
 large Grande
+largest Più grande
 lastlogin Ultimo accesso
 lastlogout Ultima uscita
 lastmsgedme Ultimo messaggio
@@ -494,6 +495,7 @@ mailerexample ( \$recipient = Destinatario ) Lasciare in bianco se si usa hotmai
 mailer Client di posta
 maintenance Il server chiuderà la connessione tra $1 minuti per manutenzione
 maximised Massimizzato
+medium Medio
 minimised Ridotto ad icona
 minimize Riduci ad icona
 mins minuti
@@ -758,6 +760,7 @@ signinstatus Accedi sempre come:
 skinselector Seleziona le skin
 skin Skin
 small Piccolo
+smallest Più piccolo
 smileconfig Configurazione delle emoticon personalizzate
 smilefile Nome del file dell'emoticon
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa emoticon (guarda le FAQ per un aiuto)
