@@ -2171,7 +2171,7 @@ namespace eval ::CAMGUI {
 		#Grey line
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
-		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWrite $chatid " \n" green
 		
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		#Show invitation
@@ -2207,7 +2207,7 @@ namespace eval ::CAMGUI {
 		#Grey line
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
-		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWrite $chatid " \n" green
 		#WebcamIcon
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		#Description of the problem
@@ -2338,7 +2338,7 @@ namespace eval ::CAMGUI {
 
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
-		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWrite $chatid " \n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamrejected [::abook::getDisplayNick $chatid]]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
@@ -2376,7 +2376,7 @@ namespace eval ::CAMGUI {
 
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
-		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWrite $chatid " \n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamcanceled [::abook::getDisplayNick $chatid]]\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
@@ -2388,7 +2388,7 @@ namespace eval ::CAMGUI {
 	proc InvitationToSendSentWrapped {chatid sid} {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
-		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWrite $chatid " \n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestsend]" green
 		::amsn::WinWrite $chatid " - (" green
@@ -2403,7 +2403,7 @@ namespace eval ::CAMGUI {
 	proc InvitationToReceiveSentWrapped {chatid sid} {
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
-		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWrite $chatid " \n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestreceive]" green
 		::amsn::WinWrite $chatid " - (" green

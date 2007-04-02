@@ -1367,7 +1367,7 @@ namespace eval ::amsn {
 
 
 		# Close the window if the filetransfer is finished
-		if {($mode == "fr" | $mode == "fs") && [::config::getKey ftautoclose]} {
+		if {($mode == "fr" || $mode == "fs") && [::config::getKey ftautoclose]} {
 			destroy $w
 		}
 
