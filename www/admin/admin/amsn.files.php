@@ -186,7 +186,7 @@ if ($_GET['action'] == 'stats') {
         }
     }
 } elseif ($_GET['action'] == 'edit') {
-    if (!mysql_num_rows(($q = @mysql_query("SELECT * FROM `amsn_files` ORDER BY `filename`, `url`")))) {
+    if (!mysql_num_rows(($q = mysql_query("SELECT * FROM `amsn_files` ORDER BY `filename`, `url`")))) {
         echo "<p>There are no files yet</p>\n";
         return;
     }

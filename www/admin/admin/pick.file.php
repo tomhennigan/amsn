@@ -80,7 +80,7 @@ function treatUploadForm($prefix)
 					return array( 'error' => mysql_error() );
 				}
 			} else {
-				$row = mysql_fetch_assoc($result);
+				$row = mysql_fetch_assoc($q);
 				return array( 'id' => $row['id'], 'name' => $_FILES[$field_name]['name'] );
 			}
 		} else {
@@ -101,7 +101,7 @@ function treatURLForm($prefix)
 				return array( 'error' => mysql_error() );
 			}
 		} else {
-			$row = mysql_fetch_assoc($result);
+			$row = mysql_fetch_assoc($q);
 			return array( 'id' => $row['id'], 'name' => $_POST[$field_name] );
 		}
 	}
