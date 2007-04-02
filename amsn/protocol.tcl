@@ -6765,6 +6765,9 @@ namespace eval ::MSN6FT {
 		while { [catch {set sock [socket -server "::MSN6FT::handleMsnFT $nonce $sid $sending" $port] } ] } {
 			incr port
 		}
+		# TODO the server socket should be closed as soon as the user authenticated or whatever... 
+		after 300000 "catch {close $sock}"
+
 		::amsn::FTProgress w $sid "" $port
 		status_log "Opening server on port $port\n" red
 		return $port

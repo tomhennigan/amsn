@@ -257,7 +257,7 @@ proc SOCKSsecureSocket { args } {
 		append msg "Connection: Keep-Alive\r\n"
 		append msg "Pragma: no-cache\r\n"
 		if {$auth} {
-			set basic [base64::encode "${$user}:${pass}"]
+			set basic [base64::encode "${user}:${pass}"]
 			append msg "Proxy-Authorization: Basic $basic\r\n"
 		}
 		append msg "\r\n"
