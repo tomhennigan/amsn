@@ -321,7 +321,6 @@ namespace eval ::config {
 			[list title connection] \
 			[list local getdisppic bool getdisppic] \
 			[list local checkemail bool checkemail] \
-			[list local autoconnect bool autoconnect autoconnect2] \
 			[list local default_ns_server str notificationserver]\
 			[list local lazypicretrieval bool lazypicretrieval]\
 			[list local noftpreview bool noftpreview]\
