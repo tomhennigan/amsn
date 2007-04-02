@@ -348,6 +348,7 @@ finish Terminar
 firewalled2 Se estiver atrás de um firewall, por favor cheque as configurações da sua coneção na janela de preferências
 firewalled Você está atrás de um firewall ou de um roteador
 followtext Deslocar para baixo quando texto novo for inserido
+forget_me Esqueça-me
 forgot_pass Eu esqueci minha senha
 friendlyname Nome pelo qual prefere ser chamado
 ftacceptedby $1 aceitou pedido de transferência do arquivo "$2".
@@ -439,6 +440,7 @@ keeplog Manter histórico da conversa
 language Idioma
 language_manager Gerenciador de idiomas
 large Grande
+largest Maior
 lastlogin Último login
 lastlogout Último logout
 lastmsgedme Última mensagem
@@ -493,6 +495,7 @@ mailer Cliente de e-mail
 mailerexample ( \$recipient = Receptor ) Deixe em branco ao usar o hotmail
 maintenance O servidor sairá do ar para manutenção em $1 minutos.
 maximised Maximizado
+medium Médio
 minimised Minimizado
 minimize Minimizar na bandeja do sistema
 mins minutos
@@ -756,6 +759,7 @@ showuserpic Figura do usuário $1
 signinstatus Status da conexão
 skinselector Skin selecionada
 skin Skin
+smallest Menor
 small Pequeno
 smileconfig Configuração de emoticon personalizado
 smilefile Arquivo do smiley
