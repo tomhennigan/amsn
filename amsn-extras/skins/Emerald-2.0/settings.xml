@@ -49,7 +49,7 @@
 			<contact_busy>#cf4913</contact_busy>
 			<contact_gonelunch>#8c0000</contact_gonelunch>
 			<contact_offline>#555753</contact_offline>
-			<state_online>#33333</state_online>
+			<state_online>#333333</state_online>
 			<state_away>#333333</state_away>
 			<state_noactivity>#333333</state_noactivity>
 			<state_rightback>#333333</state_rightback>
