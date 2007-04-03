@@ -628,7 +628,7 @@ proc load_config {} {
 			}
 			#Force the change of new window to be raised, not iconified (not supported on TkAqua)
 			::config::setKey newmsgwinstate 0
-			#Force the change to not start amsn on tray if someone choosed that in advanced preferences
+			#Force the change to not start amsn on tray if someone chose that in advanced preferences
 			::config::setKey startontray 0
 			# Force the change of the default sound command
 			# For Mac OS X users who used aMSN 0.95 at the beggining
@@ -643,7 +643,7 @@ proc load_config {} {
 			::config::setKey soundcommand "utils/windows/plwav.exe \$sound"
 		}
 	}
-	#Sometimes, if there is a bugreport when opening a new window, the size of the window savez will be 1x1
+	#Sometimes, if there is a bugreport when opening a new window, the size of the window saved will be 1x1
 	if {[::config::getKey winchatsize]=="1x1"} {
 		::config::setKey winchatsize "350x320"
 	}
@@ -651,7 +651,7 @@ proc load_config {} {
 		::config::setKey wincontainersize "350x320"
 	}
 
-	#Get the encripted password
+	#Get the encrypted password
 	if {[::config::getKey encpassword]!=""} {
 		set key [string range "[::config::getKey login]dummykey" 0 7]
 		set password [::config::getKey encpassword]
@@ -704,14 +704,14 @@ proc load_config {} {
 	    ::ChatWindow::ShowHideChatWindowMenus . 0
 	}
 
-	#load Snack when being used
-	if { [::config::getKey usesnack] } {
-		if {![catch {require_snack} res]} {
-			snack::audio playLatency 750
-		} else {
+	#load Snack
+	if {![catch {require_snack} res]} {
+		# TODO this is bad because it already gets called by require_snack once... 
+		::audio::init
+	} else {
+		if { [::config::getKey usesnack] } {
 			::config::setKey usesnack 0
 			save_config
-			#msg_box [trans snackfailed]
 		}
 	}
 

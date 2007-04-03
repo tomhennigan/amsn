@@ -54,6 +54,12 @@ namespace eval ::audio {
 		variable outputDevice
 		variable mixerDevice
 
+		# just to make sure snack is loaded.. if it was already loaded then the first check of require_snack will return immediatly 
+		# (avoiding a recursive loop). If snack is not loaded, we return.
+		if { [catch {require_snack}] } {
+			return
+		}
+
 		if { $inputDevice_b } {
 			if { [::config::getKey snackInputDevice ""] == "" } {
 				::config::setKey snackInputDevice [lindex [getInputDevices] 0]
@@ -75,6 +81,8 @@ namespace eval ::audio {
 			setMixerDevice [::config::getKey snackMixerDevice]
 		}
 	
+		# legacy, it seems like it's needed to avoid gaps in the sound... 
+		::snack::audio playLatency 750
 
 		return
 	}

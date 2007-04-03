@@ -339,9 +339,6 @@ if { [::config::getKey autocheckver] == 1 } {
     set new [::autoupdate::check_version_silent]
 }
 
-#starting audio
-catch {require_snack} 
-
 
 # This is a temporary proc to test amsn2 code while still being able to use the amsn1 code base... 
 # keep it until amsn2 is stable enough to stand on its own feet...
