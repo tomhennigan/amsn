@@ -2898,7 +2898,7 @@ namespace eval ::MSNOIM {
 				bgerror $result
 			}
 		} else {
-			if {[catch {eval $callbk [list ""]} result]} {
+			if {[catch {eval $callbk [list [list]]} result]} {
 				bgerror $result
 			}
 		}
@@ -2923,7 +2923,7 @@ namespace eval ::MSNOIM {
 			}
 		} else {
 			$soap destroy
-			if {[catch {eval $callbk [list]} result]} {
+			if {[catch {eval $callbk [list [list]]} result]} {
 				bgerror $result
 			}
 		}
@@ -2949,7 +2949,7 @@ namespace eval ::MSNOIM {
 				return
 			}
 		}
-		if {[catch {eval $callbk [list ""]} result]} {
+		if {[catch {eval $callbk [list [list]]} result]} {
 			bgerror $result
 		}
 	}
@@ -3151,7 +3151,7 @@ namespace eval ::MSNOIM {
 			}
 		} else {
 			$soap destroy
-			if {[catch {eval $callbk [list ""]} result]} {
+			if {[catch {eval $callbk [list [list]]} result]} {
 				bgerror $result
 			}
 		}
@@ -3175,7 +3175,7 @@ namespace eval ::MSNOIM {
 				$soap_req SendSOAPRequest
 			}
 		} else {
-			if {[catch {eval $callbk [list ""]} result]} {
+			if {[catch {eval $callbk [list [list]]} result]} {
 				bgerror $result
 			}
 		}
