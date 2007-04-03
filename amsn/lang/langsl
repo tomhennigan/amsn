@@ -50,14 +50,15 @@ askeachtime Vpra¹aj vsakiè
 asksendingyourwebcam èe ¾eli¹ pokazati sliko s svoje spletne kamere
 asksendoim Bi rad to poslal stiku v naèinu brez povezave?
 askwebcam Ogled preko spletne kamere stika
-assistantainput Izberi tvojo vhodno napravo in poskusi snemati.
-assistantaoutput Izberi tvojo izhodno napravo, in poskusi igrati to datoteko kot poskus.
+assistantainput Izberi vhodno zvoèno napravo in poskusi z snemanjem zvoka. Snemanje PREKINEMO ROÈNO S TIPKO (STOP) in nato pritisnemo tipko (PREDVAJAJ).V primeru, da nimate mikrofona ali ga ne ¾elite uporabljati boste z tipko (Nimam Mikrofona) zakljuèili èarovnik.
+assistantaoutput Izberi zvoèno izhodno napravo, in poskusi predvajati pripravljeno datoteko za preizkus.Nastavitve spreminjaj dolker pri pritisku na gumb (PREDVAJAJ) ne zasli¹i¹ zvoka.  
 assistantawarn Ni mogoèe snemanje ali pogovor z prijatelji.Odgovore kako namestiti to raz¹iritev najde¹ na Wiki straneh
-assistantfinetunepic Spremeni spodnje nastavitve, èe hoèe¹ spremeniti kvaliteto slike spletne kamere
-assistantselectcam Izberi kamero iz seznama
+assistantfinetunepic Spremeni spodnje nastavitve, èe hoèe¹ spremeniti parametre slike spletne kamere
+assistantselectcam Izberi kamero iz seznama.V primeru, da uporablja¹ za vhodno napravo TV kartico z video vhodom ali kak¹no drugo napravo z veè kanali izberi tudi kanal iz katerega bo¹ zajemal video signal.Dobro je, da se naprava priklopi sedaj saj v nadaljevanju sledijo nastavitve slike.
 assistantstarting Zaganjam pomoènika
-assistantwelcome Ta pomoènik vas bo vodil skozi avdio in video nastavitve za aMSN.\n\nPregledal bo èe so doloèene raz¹iritve prisotne in name¹èene.Lahko bo¹ nastavljal napravo in kanal,nastavljal nastavitve slike in resolucijo.
+assistantwelcome Ta pomoènik vas bo vodil skozi zvoène in video nastavitve za aMSN.\n\nPregledal bo èe so doloèene raz¹iritve prisotne in name¹èene.Nastavlja se zvoèno vhodno in izhodno napravo,video napravo in kanal(video naprave),podrobno nastavitev slike in resolucijo.Pred nastavljanjem preveri èe so vse za¾eljene naprave priklopljene.(kamera,mikrofon,zvoèniki)
 audioconfigured Izbral si naslednje Avdio nastavitve:\n Izhodna Naprava: $1\nVhodna Naprava:$2
+audiovideo Avdio in Video nastavitve
 author Avtor
 autoaccepted Prenos datoteke avtomatièno sprejet
 autoacceptft Avtomatièno sprejmi prihajajoèe datoteke
@@ -76,7 +77,7 @@ autoresizedp Samodejno spremeni velikost prikaznim slikam na privzeto velikost
 avaccepted Video konferenca sprejeta
 avcanceled Video konferenca preklicana
 avgotinvitation $1 te vabi na video konferenco
-avinitfailed Zagon avdio/video plugina ni uspel. Klic preklican
+avinitfailed Zagon avdio/video vstavka ni uspel. Klic preklican
 avoidseen Ne dovoli tej osebi, da vidi moj status, ko sem prijavljen
 awaymsg1 Vpra¹am za away sporoèilo vsakiè, ko zamenjam stanje na Odsoten/Zaposlen?
 awaymsg2 Vedno uporabi to sporoèilo
@@ -105,7 +106,7 @@ broughtby Naredili naslednji programerji
 browse Prebrskaj
 browser Brskalnik
 browserexample ( \$url bo zamenjan z URL-jem). Npr.: mozilla \$url
-bugerror Napaka pri povezovanju na bazo hro²èev. Preveri internetno povezavo.
+bugerror Napaka pri povezovanju na bazo hro¹èev. Preveri internetno povezavo.
 bugnocomment Naj po¹ljem brez komentarja? Komentarji k hro¹èem nam pomagajo ugotoviti, kaj je ¹lo narobe in jih odpraviti.
 busy Zaposlen
 cachedpics $1 shranjenih slik
@@ -119,7 +120,7 @@ cantremoveothers Ni mogoèe izbrisati skupine "Ostali"
 captureextloaded Dodatek za zajemanje -$1- je nalo¾en
 captureextnotloaded Dodatek za zajemanje -$1- ni nalo¾en, najprej ga mora¹ prevesti
 captureproperties Lastnosti slike s spletne kamere
-capturewarn Ne bo¹ mogel po¹iljati svoje spletne kamere èe jo ima¹. Èe ne more¹,je normalno. Odgovore kako se instalira to raz¹iritev najde¹ na Wiki strani:
+capturewarn Ne bo¹ mogel po¹iljati svoje spletne kamere èe jo ima¹. Èe ne mora¹,je normalno. Odgovore kako se instalira to raz¹iritev najde¹ na Wiki strani:
 casesensitive Obèutljiv na velikost èrk
 cfgalarmall Nastavi globalni alarm
 cfgalarm Nastavi zvoèni/slikovni alarm
@@ -149,7 +150,7 @@ checkfilman Prejete datoteke bodo shranjene v $1. Preveri nastavitve upravljalca
 checkingaudio Preverjam èe je avdio raz¹iritev (Snack) nalo¾ena ...
 checkingcam Preverjam èe je spletna kamera priklopljena ...
 checkingcapext Preverjam èe je '$1' raz¹iritev nalo¾ena...
-checkingextensions Preverjam za potrebne video raz¹iritve
+checkingextensions Preverjam in nastavljam video naprave
 checkingver Preverjam za novo razlièico
 checkonfln Preveri, èe te je uporabnik blokiral, ko se odjavi
 checkopenfilecommand Preveri ukaz za odpiranje datotek v oknu z nastavitvami
@@ -157,14 +158,14 @@ checkver Preveri za novo razlièico
 choosearq Izberi arhitekturo sistema
 choosebasefont Izberi vrsto pisave
 choosebgcolor Izberi barvo ozadja
-choosechannel Prosim izberi kanal
+choosechannel Izberi kanal
 choosecontact Prosim izberi stik s seznama
-choosedevice Prosim izberi napravo
+choosedevice Izberi napravo
 choosefontcolor Izberi barvo pisave
 chooseinputdev Izberi vhodno napravo
 choosemixerdev Izberi mikser
 chooseoutputdev Izberi izhodno napravo
-chooseskin Prosim izberi skin, ki bi ga rad uporabil
+chooseskin Izberi preobleko/grafièno podobo, ki bi jo rad uporabil
 ch_to_state Preklopi v novo stanje
 clearlog2 Poèisti zgodovino za vse stike
 clearlog3 Poèisti vse dnevnike
@@ -183,13 +184,13 @@ closelabel Ko klikne¹ na gumb za zaprtje v oknu z zavihki
 closeonly Zapri samo trenutni zavihek
 closeordock Zapiranje okna kontaktne liste bo zaprlo aMSN.Mogoèe si hotel samo zapreti okno in pustiti aMSN odprt na pultu.\n\nSi preprièan da hoèe¹ zapreti aMSN?
 close Zapri
-closingdocks Gumb za zaprtje minimira okno
+closingdocks Gumb za zaprtje pomanj¹a okno
 color Barva
 commandstatus Izvedi ukaz
 command Ukaz
-configuremic Konfiguriram mikrofon
+configuremic Nastavi vhodno zvoèno napravo
 configure Nastavi
-configuringaudio Konfiguriram avdio nastavitve
+configuringaudio Nastavi izhodno zvoèno napravo 
 confirm Ali si preprièan?
 confirmbl Ali si preprièan, da ¾eli¹ blokirati ta stik?
 confirmdelete Ali si preprièan, da ¾eli¹ zbrisati $1?
@@ -275,7 +276,7 @@ disconnect $1 se je odjavil/a.
 disconnectedfrom Povezava z $1 prekinjena
 displaychat Prika¾i nastavitve besedila
 displayeventconnect Prikazuj prijave stikov
-displayeventdisconnect Prikazuj odijave stikov
+displayeventdisconnect Prikazuj odjave stikov
 displayeventemail Prikazuj prejetja e-mailov
 displayeventstate Prikazuj spremembe stanja stikov
 displayp4context Prika¾i kontekst P4
@@ -290,7 +291,7 @@ dontdownload Ne poberi TLS-ja, namestil ga bom sam
 dontshow Ne prika¾i
 downloadingtls Pobiram modul TLS iz:\n $1
 download Poberi
-editavsettings Uredi avdio in video nastavitve
+editavsettings Uredi zvoène in video nastavitve
 editcontent Uredi vsebino polj za naslov in opombo
 editcustomstate Uredi
 editmyprofile Uredi svoj MSN profil
@@ -342,10 +343,12 @@ find Najdi
 findnext Najdi naprej
 findprev Najdi nazaj
 finetunesettings Podrobno nastavi sliko
-finish2apply Pritisni Konèaj za uporabo nastavitev.
+finish2apply Pritisni Konèaj, èe se strinja¹ z zgornjimi nastavitvami.
 finish Konèaj
-firewalled Si za po¾arnim zidom ali routerjem
+firewalled2 Si za po¾arnim zidom, prostim preveri nastavitve Povezave v Nastavitvah
+firewalled Si za po¾arnim zidom ali usmerjevalnikom/routerjem
 followtext Sledi novemu besedilu
+forget_me Pozabi moj profil
 forgot_pass Pozabil/a sem svoje geslo
 friendlyname Prijazno ime
 ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
@@ -356,6 +359,7 @@ ftconnecterror Napaka pri povezovanju z drugo stranjo
 ftconnecting Povezujem se na $1, vrata $2
 ftconnectionlost Povezava z drugo stranjo prekinjena
 ftgotinvitation $1 ti ¾eli poslati datoteko '$2' ($3 bajtov). Shranjena bo v $4. Jo ¾eli¹ sprejeti?
+ftportpref2 Zaganjam vrata za direktno povezavo (za spletno kamero in prenos datotek
 ftportpref Uporabi ta in vi¹ja vrata za prenos datotek
 ftporttest Testiraj vrata
 ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
@@ -363,8 +367,8 @@ ftrejected Prenos datoteke je bil zavrnjen.
 ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
 fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, mora¹ izbrisati katerega od trenutnih stikov.
 getdisppic Omogoèi prejemanje osebne slike od drugih uporabnikov
-getmoreplugins Dobi veè pluginov!
-getmoreskins Dobi veè skinov!
+getmoreplugins Dobi veè vstavkov!
+getmoreskins Dobi veè preoblek za aMSN!
 globalcontainer Globalni vsebovalec
 globalnicktitle Globalni vzdevek
 globalnick Vnesi vzorec za tvorbo vzdevkov vseh tvojih stikov. Lahko uporablja¹ te spremenljivke: \$user_login za naslov stika, \$nick za njegov vzdevek in \$customnick za njegov prikazni vzdevek. Primer: '\$user_login je \$nick' bo prikazano kot 'stik@msn.com je Stik'
@@ -373,7 +377,9 @@ gonelunch Na kosilu
 gotink $1 ti je poslal/a èrnilo.
 gotoinbox Pojdi v Inbox
 goto Pojdi na $1
+goto_prefs_removeprofile Klikni tu da gre¹ v nastavitve in zbri¹e¹ tvoj profil
 groupadd Dodaj skupino
+groupcontactsbystatus Razvrsti kontakte po statusu
 groupcontacts Kontakti v skupini
 groupdelete Izbri¹i skupino
 groupexists Skupina ¾e obstaja
@@ -396,6 +402,7 @@ hiden Ne poka¾i emotikona v meniju sme¹kov
 hidewindow Skrij okno
 history Prika¾i zgodovino
 home Doma
+howto_remove_profile Da zbri¹e¹ profil (forget $1) mora¹ to storiti iz Nastavitev. \n\n Zaradi varnostnih vidikov brisanje iz prijavnega okna ni dovoljeno.
 httpconnection HTTP povezava (vrata 80)
 hue Odtenek
 huge Ogromna
@@ -432,6 +439,7 @@ keeplog2 Bele¾i vse pogovore v aMSN dnevnik za kasnej¹i pregled
 keeplog Hrani dnevnik pogovorov
 language Jezik
 language_manager Upravljalnik jezikov
+largest Najveèji
 large Velika
 lastlogin Zadnja prijava
 lastlogout Zadnja odjava
@@ -480,13 +488,14 @@ logwebcam Shrani vse aktivnosti spletne kamere v zgodovino
 longnick Tvoj vzdevek je dalj¹i od 130 zankov. To ni uradno podprto v MSNjevem protokolu. Si preprièan, da hoèe¹ imeti tak vzdevek?
 longp4c Tvoje prijazno ime je dalj¹e od 130 znakov. Prijazno ime, ki bo prikazano na uradnem MSNjevem odjemalcu, bo $1. Si preprièan, da hoèe¹ imeti tako prijazno ime?
 longpsm Tvoje osebno sporoèilo je predolgo. To uradno ni podprto z MSN protokolom. Si preprièan da ga hoèe¹ videti?
-lowrescam Uporabljaj ni¾jo resolucijo
+lowrescam Uporabljaj ni¾jo resolucijo (manj¹a pasovna ¹irina)
 lprivtoconf Zasebni pogovor spremenjen v konferenco ($1)
 luclosedwin Zaprli ste okno ($1)
 mailer e-po¹tni program
 mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
 maintenance Stre¾nik èez $1 minut ne changestatus Change Statusbo veè dostopen zaradi vzdr¾evanja
 maximised Maksimiran
+medium  Srednji
 minimised V pomanj¹anem oknu
 minimize Pomanj¹aj okno v ikono na pultu
 mins minut
@@ -496,6 +505,7 @@ mobile Mobilni
 modified Popravljeno
 month Mesec
 morepersonal Veè stanj ->
+more Veè
 move Premakni
 movetogroup Premakni v skupino
 msgflicker Naslov okna s pogovorom naj utripa, èe prejme sporoèilo, ko ni aktivno
@@ -575,6 +585,7 @@ nousersinsession Ni uporabnikov v seji
 nouserspecified Uporabnika ni doloèenega
 nudge $1 zahteva pozornost
 offline Neprijavljen
+oim Sporoèilo v naèinu brez povezave
 ok V redu
 onenewmail 1 novo sporoèilo v Inboxu
 onlinehelp Pomoè na spletu
@@ -588,7 +599,7 @@ options Nastavitve
 ordercontactsby Uredi stike
 ordergroupsby Uredi skupine
 original Izvirnik
-otherdisplaypic Ostale prikazne slike za ta stik (desni klik za veè mo¾nosti)
+otherdisplaypic Ostale shranjene prikazne slike za ta stik (desni klik nad sliko za veè mo¾nosti)
 other Ostalo
 others Ostalo
 p4contextprefix Predpona konteksta P4
@@ -605,7 +616,7 @@ picbrowser Brskalnik slik
 picfile Slikovna datoteka
 picstatus Slika omogoèena
 playbackposition Pozicija predvajanja
-playbackspeed Hitrost predvajanja (millisekunde med vsako sliko videa)
+playbackspeed Hitrost predvajanja (milisekunde med vsako sliko videa)
 playing Igram: $1
 play Predvajaj
 playtest Predvajaj preizkusno datoteko
@@ -656,7 +667,7 @@ properties Lastnosti
 proxyconfhttp Podpora HTTP proxyju
 proxyconf Nastavitve proxyja
 proxyconnection Proxy povezava:
-proxy Sem za proxy streznikom (HTTP ali SOCKS5)
+proxy Sem za proxy stre¾nikom (HTTP ali SOCKS5)
 psmatend Prika¾i osebno sporoèilo ob vzdevku
 psmdontshow Ne prika¾i osebnega sporoèila, èe ni del globalnega/prikaznega vzdevka
 psmnewline Prika¾i osebno sporoèilo pod vzdevkom
@@ -718,7 +729,7 @@ sendmsg Po¹lji sporoèilo
 sendoim Po¹lji sporoèilo v naèinu brez povezave
 send Po¹lji
 sendvoice Po¹lji Zvoèno sporoèilo
-sendwebcamaccepted $1 je sprejel tvoje povabilo za po¹iljanje spletne kamere.Povezujem...
+sendwebcamaccepted $1 je sprejel/a tvoje povabilo za po¹iljanje spletne kamere.Povezujem...
 sendwebcaminvite Poka¾i sliko tvoje spletne kamere stiku
 sentbytes Poslano $1 od $2 bajtov
 sentvoice Zvoèno sporoèilo poslano
@@ -729,7 +740,7 @@ serverunavailable Stre¾nik ni dosegljiv
 session Seja
 setasmydp Nastavi za mojo prikazno sliko
 setupcamfinetune Nastavljam kamero in popravljam sliko
-setupcam Nastavljam spletno kamero
+setupcam Nastavljam video napravo kot spletno kamero
 shareswebcam Ima spletno kamero
 showbanner Prika¾i aMSNjevo pasico
 showblockedlist Poka¾i seznam ljudi, ki so te blokirali
@@ -739,6 +750,7 @@ showcontactemail Prika¾i kontakte z E-mail naslovi
 showcontactnick Prika¾i kontakte z vzdevkom
 showdisplaypic2 Prika¾i osebno sliko, ko se odpre pogovor
 showdisplaypic Prika¾i osebno sliko
+showlinksinlogin Prika¾i povezave v prijavnem oknu
 showmailicon Prika¾i ikono v opravilni vrstici, ko prejme¹ po¹to
 showmypic Moja osebna slika
 shownotify Poka¾i obvestilo ob nekaterih dogodkih
@@ -747,6 +759,7 @@ showuserpic Osebna slika uporabnika $1
 signinstatus Status ob vpisu
 skin Preobleka
 skinselector Izberi skin
+smallest Najmanj¹i
 small Majhna
 smileconfig Nastavitve tvojih emotikonov
 smilefile Datoteka
@@ -759,6 +772,9 @@ snapshot Posnetek/Snapshot
 sngdblclick Enojni klik odpre okno s pogovorom
 sortcontactgroup Razporedi kontakte po Skupini
 sortcontacthybrid Razporedi kontakte Hibridno
+sortcontactsasc Razvrsti kontakte nara¹èajoèe
+sortcontactsby  Razvrsti kontakte po
+sortcontactsdesc Razvrsti kontakte padajoèe
 sortcontactstatus Razporedi kontakte po Statusu
 sortgroupsasc Razporedi kontakte Nara¹èajoèe
 sortgroupsdesc Razporedi kontakte Padajoèe
@@ -867,7 +883,7 @@ viewcontactsby Prikaz stikov
 view Pogled
 viewprofile Poglej profil
 volume Glasnost
-wanttosharecam Prika¾i stiku razpolo¾ljivost moje spletne kamere
+wanttosharecam Obkljukaj èe hoèe¹ da stik vidi da ima¹ spletno kamero
 webcamcanceled Povezava spletne kamere z $1 je bila preklicana
 webcamclosebefcancel Mora¹ zapreti vse povezave spletne kamere pred zaprtjem tega okna
 webcamconfiguredLinux Uporabil si naslednje nastavitve spletne kamere:\nNaprava: $1\nKanal: $2
