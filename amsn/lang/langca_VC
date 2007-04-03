@@ -74,17 +74,17 @@ autolisten_voiceclips Automàticament reproduir missatges de veu quan es reben
 automessage Missatge automàtic
 autonoact Mostrar-me com "inactiu" després d'estar inactiu durant
 autoresizedp Redimensionar automàticament les imatges per a mostrar a la mida predeterminada
-avaccepted Quidrada de videoconferència acceptada
-avcanceled Quidrada de videoconferència cancel·lada
+avaccepted Trucada de videoconferència acceptada
+avcanceled Trucada de videoconferència cancel·lada
 avgotinvitation Has rebut una invitació de videoconferència de $1
-avinitfailed L'inicialització del plug-in d'audio/video ha fallat. Quidrada cancel·lada
+avinitfailed L'inicialització del plug-in d'audio/video ha fallat. Trucada cancel·lada
 avoidseen Evitar que esta persona veja la teua connexió i et contacte
 away Ausent
 awaymsg1 Preguntar quan canvie l'estat a Absent/Torne enseguida/Ocupat
 awaymsg2 No preguntar mai i utilitzar el missatge a continuació
+back Enrere
 baduserpass Nom d'usuari o contrasenya incorrectes
 badwebcam No es pot mostrar la imatge de la càmera web. Comprova que la teua càmera web està correctament connectada i instal·lada.
-back Enrere
 bgcolor Canvia el color de fons d'aMSN
 blankdirect Deixar en blanc per a la connexió directa
 block Bloquejar
@@ -291,10 +291,10 @@ dontdownload No descarregar TLS, l'instal·laré jo mateix
 dontshow No mostrar
 download Descarregar
 downloadingtls Descarregant el mòdul TLS des de: \n $1
-edit Editar
 editavsettings Modifica les opcions de àudio i vídeo
 editcontent Edita el contingut del camp assumpte i del camp nota
 editcustomstate Editar estat personalitzat
+edit Editar
 editmyprofile Editar el meu perfil del MSN
 editnewstate Nou missatge automàtic per a un estat personalitzat
 editprofile Editar perfil
@@ -343,11 +343,12 @@ find Busca
 findnext Busca el següent
 findprev Busca l'anterior
 finetunesettings Opcions de imatge per a ajustament fi
-finish Acaba
 finish2apply Prem el botó Acaba per aplicar aquestes opcions.
-firewalled Estàs utilitzant un tallafoc (fiewall) o estàs darrere d'un router
+finish Acaba
 firewalled2 Estàs utilitzant un tallafoc o estàs darrere un router, per favor comprova les teues opcions de connexió a la finestra de preferències.
+firewalled Estàs utilitzant un tallafoc (fiewall) o estàs darrere d'un router
 followtext Avançar quan s'introduixca nou text
+forget_me Eliminar este perfil
 forgot_pass He oblidat la meua contrasenya
 friendlyname Sobrenom en conversa
 ftacceptedby $1 ha acceptat la invitació de transferència de l'arxiu '$2'
@@ -358,8 +359,8 @@ ftconnecterror Error connectant amb l'usuari remot
 ftconnecting Connectant a $1 per el port $2
 ftconnectionlost S'ha perdut la connexió amb l'usuari remot
 ftgotinvitation $1 vol enviar-te l'arxiu '$2' ($3 bytes). Es guardarà en el directori ($4). Vols rebre este arxiu?
-ftportpref Utilitza este port, o els següents, per a les transferències d'arxius
 ftportpref2 Port de començament per les connexions directes (necessari per transferències d'arxius i càmera web)
+ftportpref Utilitza este port, o els següents, per a les transferències d'arxius
 ftporttest Port de prova
 ftrejectedby $1 ha rebutjat la invitació per a transferir l'arxiu '$2'.
 ftrejected Transferència d'arxiu cancel·lada
@@ -376,9 +377,10 @@ gonelunch He anat a menjar
 gotink $1 t'ha enviat una marca.
 goto Anar a $1
 gotoinbox Anar a llegir el correu
+goto_prefs_removeprofile Polsa ací per a anar a les preferències i esborrar el teu perfil
 groupadd Afegir un grup
-groupcontacts Contactes del grup
 groupcontactsbystatus Agrupa contactes per l'estat
+groupcontacts Contactes del grup
 groupdelete Esborrar un grup
 groupexists El grup ya existix
 group Grup
@@ -400,6 +402,7 @@ hiden Ocultar l'emoticon del menú d'emoticons
 hidewindow Ocultar finestra
 history Vore historial
 home Inici
+howto_remove_profile Necessites anar a la finestra de preferències per a esborrar el teu perfil (oblida $1). \n\nPer raons de seguretat, no està permés l'esborrat de perfils des de la finestra de connexió.
 httpconnection Connectar usant el mètode HTTP (utilitza el protocol HTTP sobre el port 80)
 hue Matís
 huge Enorme
@@ -437,6 +440,7 @@ keeplog Guardar historal de les converses
 language Idioma
 language_manager Administrador d'idiomes
 large Gran
+largest El més gran
 lastlogin Última connexió
 lastlogout Última desconnexió
 lastmsgedme Últim missatge
@@ -491,6 +495,7 @@ mailerexample (\$recipient indica l'adreça del contacte) Deixar en blanc per a u
 mailer Programa de correu
 maintenance El servidor estarà fora de servici en $1 minuts per treballs de manteniment
 maximised Maximitzada
+medium Mitjà
 minimised Minimitzada/Iconificada
 minimize Minimitza a l'àrea de notificació
 mins minuts
@@ -539,7 +544,6 @@ newtabbedfeature aMSN té una nova característica en conversa, ara pots tindre to
 newveravailable Nova versió $1 disponible per a descàrrega
 next Següent
 nick Sobrenom
-no No
 noactivity Inactivitat
 nocacheddps Cap imatge per a mostrar en caché per a este usuari
 nocamwarn No s'ha trobat cap càmera web, el problema pot ser també perquè la teua càmera web ja està sent utilitzada per un altre programa (la qual cosa significa que no pot ser utilitzada per aMSN). Trobaràs ajuda per solucionar este obstacle al nostre Wiki:
@@ -553,6 +557,7 @@ nomic No hi ha micròfon
 noneavailable Cap disponible
 nonewmail No hi ha nous correus
 nonewver No hi ha una nova versió disponible per a descarregar
+no No
 nopic No hi ha imatge
 noprofileexists No hi han perfils actualment, \n has de crear un de nou si vols utilitzar els perfils d'entrada. \nUtilitza el botó Afegir Nou Perfil en esta finestra per a afegir un nou perfil.
 normal Normal
@@ -754,6 +759,7 @@ showuserpic La imatge de mostra de $1
 signinstatus Estat inicial
 skinselector Triar tema
 skin Tema
+smallest El més menut
 small Xicotet
 smileconfig Configuració personalitzada d'emoticons
 smilefile Nom de l'arxiu d'emoticon
@@ -766,10 +772,10 @@ snapshot Captura de pantalla
 sngdblclick Només un click per obrir una nova finestra de conversa
 sortcontactgroup Ordena contactes per grup
 sortcontacthybrid Ordena contactes en mode mixt
-sortcontactstatus Ordena contactes per estat
 sortcontactsasc Ordena els contactes ascendentment
-sortcontactsdesc Ordena els contactes descendentment
 sortcontactsby Ordena els contactes per
+sortcontactsdesc Ordena els contactes descendentment
+sortcontactstatus Ordena contactes per estat
 sortgroupsasc Ordena ascendentment els grups
 sortgroupsdesc Ordena descendentment els grups
 sound2 Reproduix sons quan els contactes es connecten o envien missatges
@@ -882,9 +888,9 @@ webcamcanceled La sessió de càmera web amb $1 ha estat cancel·lada
 webcamclosebefcancel Has de cancel·lar totes les sessions de càmera web abans de tancar la finestra
 webcam Càmera web
 webcamconfigure Configurar la càmera web
+webcamconfiguredLinux Tria les següents opcions de càmera web:\nDispositiu de càmera web: $1\nCanal de càmera web: $2
 webcamconfiguredMac Les teues opcions de càmera web han estat configurades
 webcamconfiguredWin Tria el següent dispositiu de càmera web: $1
-webcamconfiguredLinux Tria les següents opcions de càmera web:\nDispositiu de càmera web: $1\nCanal de càmera web: $2
 webcamextchecking Comprovant si la extensió de càmera web està carregada...
 webcamextloaded S'ha carregat l'extensió Webcamsn
 webcamextnotloaded No s'ha carregat l'extensió Webcamsn. L'has de compilar
@@ -921,5 +927,3 @@ youblocked Has sigut bloquejat per
 yousay Tu dius
 youwant Vols
 zoom Ampliació
-goto_prefs_removeprofile Polsa ací per a anar a les preferències i esborrar el teu perfil
-howto_remove_profile Necessites anar a la finestra de preferències per a esborrar el teu perfil (oblida $1). \n\nPer raons de seguretat, no està permés l'esborrat de perfils des de la finestra de connexió.
