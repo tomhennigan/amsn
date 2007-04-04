@@ -124,6 +124,33 @@ proc SOCKSsecureSocket { args } {
 	return [::tls::socket $thost $tport]
 }
 
+proc SOCKSocket { args } {
+	set phost [::http::config -proxyhost]
+	set pport [::http::config -proxyport]
+	upvar host thost
+	upvar port tport
+	# if a proxy has been configured
+	if {[string length $phost] && [string length $pport]} {
+		#TODO: make async: set socket [socket -async $phost $pport]
+		# create the socket to the proxy
+		set socket [socket -async $phost $pport]
+
+		set proxy_authenticate [expr [::config::getKey proxyauthenticate] == 1 ? 1 : 0]
+		set proxy_user [::config::getKey proxyuser]
+		set proxy_pass [::config::getKey proxypass]
+		set res [::Socks5::Init $socket $thost $tport $proxy_authenticate $proxy_user $proxy_pass]
+		if { $res != "OK" } {
+			return -code error $res
+		}
+
+		return $socket
+
+	}
+
+	# if not proxifying, just create a socket directly
+	return [socket $thost $tport]
+}
+
 ::snit::type Proxy {
 
 	delegate method * to proxy
