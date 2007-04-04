@@ -5220,7 +5220,7 @@ proc cmsn_change_name {} {
 
 	frame $w.fb
 	button $w.fb.ok -text [trans ok] -command change_name_ok
-	button $w.fb.cancel -text [trans cancel] -command "wm state .smile_selector withdrawn; destroy $w"
+	button $w.fb.cancel -text [trans cancel] -command [list destroy $w]
 	pack $w.fb.cancel -side right -padx [list 5 0 ]
 	pack $w.fb.ok -side right
 
@@ -5239,6 +5239,9 @@ proc cmsn_change_name {} {
 	bind $w.f.nick_entry <Tab> "focus $w.f.psm_entry; break"
 	bind $w.f.psm_entry <Tab> "focus $w.f.p4c_entry; break"
 	bind $w.f.p4c_entry <Tab> "focus $w.f.nick_entry; break"
+
+	# Make sure the smiley selector disappears with the window 
+	bind $w <Destroy> { if {[winfo exists .smile_selector] } { wm state .smile_selector withdrawn }}
 
 	$w.f.nick_entry insert 0 [::abook::getPersonal MFN]
 	$w.f.psm_entry insert 0 [::abook::getPersonal PSM]
