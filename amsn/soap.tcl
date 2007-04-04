@@ -13,12 +13,17 @@ snit::type SOAPRequest {
 	variable last_error ""
 	variable xml ""
 		
-	# TODO this doesn't handle proxy for SOAP requests going through HTTP (not HTTPS)... like for spaces... :s
 	method SendSOAPRequest { } {
 		if { $options(-url) == "" || $options(-xml) == "" } {
 			error "SOAPRequest incomplete"
 		}
 		status_log "Sending SOAP request to $options(-url) with action $options(-action)" green
+
+		if { $options(-action) != "" } {
+			set headers [linsert $options(-headers) 0 SOAPAction $options(-action)]
+		} else {
+			set headers $options(-headers)
+		}
 
 		set proxy [::config::getKey proxy]
 		set proxy_host [lindex $proxy 0]
@@ -27,10 +32,12 @@ snit::type SOAPRequest {
 		if {[::config::getKey connectiontype] == "direct" } {
 			::http::config -proxyhost "" -proxyport ""
 			http::register https 443 ::tls::socket
+			http::register http 80 ::socket
 		} elseif {[::config::getKey connectiontype] == "http" } {
-			# fed up with people complaining about this 'error'... it's the FUCKING SVN!!!!!
-			#error "NOT SUPPORTED"
-			http::register https 443 HTTPsecureSocket
+			# haha, ok, this is easy, http connection means the http gateway, which means no need to set up a proxy! :D
+			::http::config -proxyhost "" -proxyport ""
+			http::register https 443 ::tls::socket
+			http::register http 80 ::socket
 		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" } {
 			if {$proxy_host == "" } {
 				::http::config -proxyhost "" -proxyport ""
@@ -42,7 +49,14 @@ snit::type SOAPRequest {
 				::http::config -proxyhost $proxy_host -proxyport $proxy_port
 			}
 			
+			if { [::config::getKey proxyauthenticate] } {
+				set proxy_user [::config::getKey proxyuser]
+				set proxy_pass [::config::getKey proxypass]
+				set auth [string map {"\n" "" } [base64::encode ${proxy_user}:${proxy_pass}]]
+				set headers [linsert $headers 0 "Proxy-Authorization" "Basic $auth"]
+			}
 			http::register https 443 HTTPsecureSocket
+			http::register http 80 ::socket
 		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "socks5" } {
 			if {$proxy_host == "" } {
 				::http::config -proxyhost "" -proxyport ""
@@ -54,20 +68,17 @@ snit::type SOAPRequest {
 			}
 			
 			http::register https 443 SOCKSsecureSocket
+			http::register http 80 SOCKSSocket
 		} else {
 			::config::setKey connectiontype "direct"
 			
 			::http::config -proxyhost "" -proxyport ""
 			http::register https 443 ::tls::socket
+			http::register http 80 ::socket
 		}
 		
-		::http::config -accept "*/*"   -useragent "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; Windows Live Messenger 8.1.0178)"
+		::http::config -accept "*/*"  -useragent "MSMSGS"
 
-		if { $options(-action) != "" } {
-			set headers [linsert $options(-headers) 0 SOAPAction $options(-action)]
-		} else {
-			set headers $options(-headers)
-		}
 		http::geturl $options(-url) -command [list $self GotSoapReply] -query $options(-xml) -type "text/xml; charset=utf-8" -headers $headers
 
 		#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$options(-xml)"
