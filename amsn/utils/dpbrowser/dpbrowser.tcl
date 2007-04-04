@@ -210,9 +210,21 @@ snit::widget dpbrowser {
 					if {[regexp ^$HOME $file] && $isinuse == -1} {
 						bind $entry <ButtonRelease-3> \
 							[list $self popupMenu %X %Y $file $entry 1]
+						if {[OnMac]} {
+							bind $entry <Command-ButtonRelease> \
+								[list $self popupMenu %X %Y $file $entry 1]
+							bind $entry <Control-ButtonRelease> \
+								[list $self popupMenu %X %Y $file $entry 1]
+						}
 					} else {
 						bind $entry <ButtonRelease-3> \
 							[list $self popupMenu %X %Y $file $entry 0]
+						if {[OnMac]} {
+							bind $entry <Control-ButtonRelease> \
+								[list $self popupMenu %X %Y $file $entry 0]
+							bind $entry <Command-ButtonRelease> \
+								[list $self popupMenu %X %Y $file $entry 1]
+						}
 					}
 
 					bind $entry <Destroy> "catch { image delete $tempimage }"

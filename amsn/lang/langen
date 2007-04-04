@@ -110,6 +110,7 @@ bugerror Sorry, but there was a problem connecting to the bug database. Please c
 bugnocomment Send without a comment? Commenting on a bug helps us figure out what went wrong and fix it easier.
 busy Busy
 cachedpics $1 cached pics
+cachedpicsfor Cached display pictures for user
 cagreement Confidentiality Agreement
 cancel Cancel
 cancelled Cancelled
@@ -521,6 +522,7 @@ myhomephone My Home Phone
 mymobilephone My Mobile Phone
 mynick My Nickname
 mypic My Display Picture
+mypics My display pictures
 mystatus My Status
 myworkphone My Work Phone
 name Name
@@ -601,6 +603,7 @@ ordergroupsby Order groups by
 original Original
 otherdisplaypic Other display pictures of this user (right-click for more options)
 other Other
+otherdps Other display pictures
 others Others
 p4contextprefix Prefix P4-Context senders with this string
 pager Pager
@@ -612,7 +615,7 @@ pausewebcamsend Pause sending of webcam
 personal Personal
 phone Phone
 phones Phone numbers
-picbrowser Display Pictures browser
+picbrowser Display Pictures Browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
 playbackposition Playback position
@@ -717,6 +720,7 @@ sbcon Connecting to Switch Board
 searchdown Search down
 searchup Search up
 selectall Select all
+selectcontact Select a contact
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
 sendcam Send Webcam
