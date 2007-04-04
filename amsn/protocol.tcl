@@ -2949,6 +2949,7 @@ namespace eval ::MSNOIM {
 				return
 			}
 		}
+		# This gets executed if the SOAP request is not sent.. serves as error handler
 		if {[catch {eval $callbk [list [list]]} result]} {
 			bgerror $result
 		}
@@ -3596,7 +3597,7 @@ namespace eval ::Event {
 		::abook::saveToDisk
 
 		after 0 { 
-			::MSNCCARD::InitCCard
+			::MSNSPACES::InitSpaces
 			cmsn_draw_online 1
 
 			#Update Preferences window if it's open

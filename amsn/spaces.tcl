@@ -1,10 +1,10 @@
 
 ::Version::setSubversionId {$Id$}
 
-namespace eval ::MSNCCARD {
+namespace eval ::MSNSPACES {
 	variable storageAuthCache ""
 
-	proc InitCCardCallback { soap } {
+	proc InitSpacesCallback { callbk soap } {
 		variable storageAuthCache
 		variable resources
 		variable space_info
@@ -29,37 +29,39 @@ namespace eval ::MSNCCARD {
 				set resources($email) $resourceID
 				set space_info($email) [list $has_new $last_modif $resourceID]
 				incr i
+			       
+				# Transform the last modification date to an acceptable date format... "2006-02-19T01:49:59-08:00" is not accepted, but "2006-02-19T01:49:59" is accepted
+				if { [catch { 
+					set idx [string last "+" $last_modif]
+					if {$idx != -1 } {
+						incr idx -1
+						set last_modif [clock scan [string range $last_modif 0 $idx]]
+					} else {
+						set idx [string last "-" $last_modif]
+						incr idx -1
+						set last_modif [clock scan [string range $last_modif 0 $idx]]
+					}
+				}] } {
+					if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})([-+]\d{2}:\d{2})} $last_modif -> y m d h min s z] } {
+						set last_modif [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
+					}
+				}
 				
 				# Set the fact that they've got new data as volatile abook data
-				
 				if {$has_new == "true" } {
 					::abook::setVolatileData $email space_updated 1
+					::abook::setContactData $email spaces_info_xml [list]
+					::abook::setContactData $email spaces_last_modif $last_modif
 					lappend users_with_update $email
 				} else {
-					#Check, if we have a ccard for this user and if all it's modifdate's are older then $last_modif, we have to refetch the ccard the update
-					set ccard [::abook::getContactData $email ccardlist [list]]
-					if {$ccard != [list]} {
-						#search for the latest date, if it's older then $last_modif, refetch the ccard
-						#this happens if the user fetched the ccard with another client.  the update
-						#flag will be unset but we don't have the latest data yet
-						#TODO: CODE ME!	
-						
-						#PSEUDO-CODE
-						#	set dates [::MSNCCARD::getCcardDates $ccard]
-						
-						#set latest_date ...
-						
-						#	set latest_unixtime ...
-						#	set modif_unixtime ...
-						
-						#	if {$modif_unixtime > $latest_unixtime } {
-						#		::abook::setContactData $email [::MSNCCARD::getContactCard $email]
-						#	}	
-						
-					}
-					
-					
 					::abook::setVolatileData $email space_updated 0
+
+					# Reset the known info if the last modified date has changed, this means that the user fetched the spaces info from another client
+					set old_date [::abook::getContactData $email spaces_last_modif 0]
+					if { $last_modif > $old_date } {
+						::abook::setContactData $email spaces_info_xml [list]
+						::abook::setContactData $email spaces_last_modif $last_modif						
+					}
 				}
 				
 			}
@@ -67,12 +69,16 @@ namespace eval ::MSNCCARD {
 			#fire event to redraw contacts with changed space
 			::Event::fireEvent contactSpaceChange protocol $users_with_update
 		} else {
-			status_log "InitCCard: ERROR: [$soap GetLastError]"
+			status_log "InitSpaces: ERROR: [$soap GetLastError]"
 			$soap destroy
+		}
+		
+		if {$callbk != "" } {
+			eval $callbk
 		}
 	}
 
-	proc InitCCard { } {
+	proc InitSpaces { {callbk ""} } {
 		set users_with_space [list]
 		set all_contacts [::abook::getAllContacts]
 		foreach contact $all_contacts {
@@ -95,8 +101,8 @@ namespace eval ::MSNCCARD {
 							  -url "http://storage.msn.com/storageservice/schematizedstore.asmx" \
 							  -action "http://www.msn.com/webservices/storage/w10/GetItemVersion" \
 							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] \
-							  -xml [::MSNCCARD::getSchematizedStoreXml $users_with_space] \
-							  -callback [list ::MSNCCARD::InitCCardCallback]]
+							  -xml [::MSNSPACES::getSchematizedStoreXml $users_with_space] \
+							  -callback [list ::MSNSPACES::InitSpacesCallback $callbk]]
 					$soap_req SendSOAPRequest
 					
 				}
@@ -116,6 +122,71 @@ namespace eval ::MSNCCARD {
 		append xml {</spaceVersionRequests><spaceRequestFilter><SpaceFilterAttributes>Annotation</SpaceFilterAttributes><FilterValue>1</FilterValue></spaceRequestFilter></GetItemVersion></soap:Body></soap:Envelope>}
 		return $xml
 	}
+
+	proc getContactCardCallback { email callback soap } {
+		if { [$soap GetStatus ] == "success" } {
+			set xml [$soap GetResponse]
+			$soap destroy
+			::abook::setContactData $email spaces_info_xml $xml
+
+			if {[catch {eval $callback [list $xml]} result]} {
+				bgerror $result
+			}
+		}  else {
+			variable resources
+			status_log "ERROR getting CCARD of $email - $resources($email) : [$soap GetLastError]"
+			$soap destroy
+			if {[catch {eval $callback [list [list]]} result]} {
+				bgerror $result
+			}
+		}
+	}
+	proc getContactCard { email callback } {
+		variable resources
+		variable contactcards
+		
+		status_log "fetching ContactCard for user $email"
+
+		# TODO Is this check useful ? in theory, with MSNP12, the servers sends no HSB for *some* users who have a space...
+		if {[::abook::getVolatileData $email HSB] == 1 && [info exists resources($email)] } {
+			if  { [info exists resources($email)] && [info exists ::authentication_ticket] } {
+				set cookies [split $::authentication_ticket &]
+				foreach cookie $cookies {
+					set c [split $cookie =]
+					set ticket_[lindex $c 0] [lindex $c 1]
+				}
+				
+				if { [info exists ticket_t] && [info exists ticket_p] && [info exists resources($email)] } {
+					set soap_req [SOAPRequest create %AUTO% \
+							  -url "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
+							  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
+							  -xml [::MSNSPACES::getContactCardXml [set resources($email)]] \
+							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] \
+							  -callback [list ::MSNSPACES::getContactCardCallback $email $callback]]
+					$soap_req SendSOAPRequest
+					return
+				}
+			} 
+		}
+		
+		status_log "Error fetching ContactCard for user $email" red
+		# This gets executed if the SOAP request is not sent.. serves as error handler
+		if {[catch {eval $callback [list [list]]} result]} {
+			bgerror $result
+		}
+	}
+
+	proc getContactCardXml { resourceID } {
+		variable storageAuthCache
+		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/"><refreshInformation><spaceResourceId xmlns="http://www.msn.com/webservices/spaces/v1/">}
+		append xml $resourceID
+		append xml {</spaceResourceId><storageAuthCache>}
+		append xml $storageAuthCache
+		append xml {</storageAuthCache><market xmlns="http://www.msn.com/webservices/spaces/v1/">en-US</market><brand></brand><maxElementCount xmlns="http://www.msn.com/webservices/spaces/v1/">5</maxElementCount><maxCharacterCount xmlns="http://www.msn.com/webservices/spaces/v1/">200</maxCharacterCount><maxImageCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxImageCount></refreshInformation></GetXmlFeed></soap:Body></soap:Envelope>}
+
+		return $xml
+	}
+
 
 	proc getIndexFor { ccard type } {
 		# Type can be : SpaceTitle Blog Album Music
@@ -191,7 +262,23 @@ namespace eval ::MSNCCARD {
 			return $photos
                 }
 	}
-
+	proc getAlbumImage { url } {
+		set data ""
+		if { [info exists ::authentication_ticket] } {
+			set cookies [split $::authentication_ticket &]
+			foreach cookie $cookies {
+				set c [split $cookie =]
+				set ticket_[lindex $c 0] [lindex $c 1]
+			}
+			
+			if { [info exists ticket_t] && [info exists ticket_p] } {
+				set token [http::geturl $url -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] ]
+				set data [::http::data $token]
+				::http::cleanup $token
+			}
+		}
+		return $data
+	}
 	proc getAllBlogPosts { ccard } {
 		# Should return a list :
 		# { { description title url} {description title url} ... }
@@ -214,58 +301,53 @@ namespace eval ::MSNCCARD {
 		return $posts
 	}
 
-	proc getContactCard { email } {
-		variable resources
-		variable contactcards
-
-		# TODO Is this check useful ? in theory, with MSNP12, the servers sends no HSB for *some* users who have a space...
-		if {[::abook::getVolatileData $email HSB] == 1 } {
-			if { ![info exists resources($email)] } {
-				InitCCard
-				if  { ![info exists resources($email)] } {
-					return ""
-				}
-			}
-			if { [info exists ::authentication_ticket] } {
-				set cookies [split $::authentication_ticket &]
-				foreach cookie $cookies {
-					set c [split $cookie =]
-					set ticket_[lindex $c 0] [lindex $c 1]
-				}
-				
-				if { [info exists ticket_t] && [info exists ticket_p] && [info exists resources($email)] } {
-					set soap_req [SOAPRequest create %AUTO% \
-							  -url "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
-							  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
-							  -xml [::MSNCCARD::getContactCardXml [set resources($email)]] \
-							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"]]
-					$soap_req SendSOAPRequest
-					if { [$soap_req  GetStatus ] == "success" } {
-						set xml [$soap_req GetResponse]
-						$soap_req destroy
-						return $xml
-					}  else {
-						status_log "ERROR getting CCARD of $email - $resources($email): [$soap_req  GetLastError]"
-						$soap_req destroy
-					}
-				}
-			} 
-			
-		}
-		return ""
-	}
-
-	proc getContactCardXml { resourceID } {
-		variable storageAuthCache
-		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/"><refreshInformation><spaceResourceId xmlns="http://www.msn.com/webservices/spaces/v1/">}
-		append xml $resourceID
-		append xml {</spaceResourceId><storageAuthCache>}
-		append xml $storageAuthCache
-		append xml {</storageAuthCache><market xmlns="http://www.msn.com/webservices/spaces/v1/">en-US</market><brand></brand><maxElementCount xmlns="http://www.msn.com/webservices/spaces/v1/">5</maxElementCount><maxCharacterCount xmlns="http://www.msn.com/webservices/spaces/v1/">200</maxCharacterCount><maxImageCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxImageCount></refreshInformation></GetXmlFeed></soap:Body></soap:Envelope>}
-
-		return $xml
-	}
 		
+	proc fetchSpace {email} {
+		#if an update is available, we'll have to fetch it
+		if {[::abook::getContactData $email spaces_info_xml [list]] == [list] } {
+			::abook::setVolatileData $email fetching_space 1
+			# fetch the ccard info and check if the user 
+			::MSNSPACES::getContactCard $email [list ::MSNSPACES::fetchedSpace $email]
+		}
+	}
+	
+	proc fetchedSpace { email xml} {
+		global HOME
+		variable token
+
+		if { $xml != [list] } {
+			set photos [::MSNSPACES::getAllPhotos $xml]
+			set cachedir "[file join $HOME spaces $email]"
+			create_dir $cachedir
+			set count 0
+
+			# TODO : use an http "Last-Modified" header and check if the server returns an "30X Not Modified" then use the cached file...
+			foreach photolist $photos {
+				#download the thumbnail
+				set thumbnailurl [lindex $photolist 3]
+				set data [getAlbumImage $thumbnailurl]
+				set filename "[file join $cachedir $count.jpg]"
+				set fid [open $filename w]
+				fconfigure $fid -translation binary
+				puts -nonewline $fid "$data"
+				close $fid
+				
+				incr count
+			}		
+		
+			#now we'll set the space as "read"
+			::abook::setVolatileData $email space_updated 0
+		}
+
+		::abook::setVolatileData $email fetching_space 0
+		
+		if { [::config::getKey spacesinfo "inline"] == "inline"} {
+			::Event::fireEvent contactSpaceFetched protocol $email
+		} elseif { [::config::getKey spacesinfo "inline"] == "ccard" } {
+			::ccard::drawwindow $email 1
+		}
+
+	}
 
 }
 
@@ -308,7 +390,7 @@ namespace eval ::ccard {
         #                set has_space [::abook::getVolatileData $contact HSB]
         #                if {$has_space == 1 } {
         #                        #lappend users_with_space $contact
-#				set ccard [::MSNCCARD::getContactCard $contact]
+#				set ccard [::MSNSPACES::getContactCard $contact]
 #				set ccard_list [xml2list $ccard]
 #				::abook::setVolatileData $contact ccard $ccard_list
 #                        }
@@ -529,7 +611,7 @@ namespace eval ::ccard {
 			$canvas create image $bp_x $bp_y -anchor nw -image [::skin::getDisplayPicture $email] -tags $email
 			$canvas create image [expr $bp_x -1 ]  [expr $bp_y -1 ] -anchor nw -image [::skin::loadPixmap ccard_bpborder] -tags [list tt $email]
 			$canvas create text 114 22 -text [::abook::getNick $email] -font bigfont -width 170 -justify left -anchor nw -fill black -tags [list dp $email]
-			::guiContactList::drawSpacesInfo $canvas 114 50 $email [list $email space_info contact]
+			drawSpacesInfo $canvas 114 50 $email [list $email space_info contact]
 			tooltip $canvas tt "$email\n[trans status] : [trans [::MSN::stateToDescription [::abook::getVolatileData $email state]]]\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
 
 			
@@ -613,5 +695,122 @@ namespace eval ::ccard {
 			wm geometry $w "${width}x${height}+[expr {$dx + $x}]+[expr {$dy + $y}]"
 		}
 	}
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	#Draws info of MSN Spaces on chosen coordinate on a choosen canvas
+	proc drawSpacesInfo { canvas xcoord ycoord email taglist } {
+
+
+		#todo: use bbox or something to calculate height
+		set height 0
+		#todo: calculate height of a line the right way
+		set lineheight 12
+
+		if { [::abook::getVolatileData $email fetching_space 0] } {
+			#draw a "please wait .." message, will be replaced when fetching is done
+			$canvas create text $xcoord $ycoord -font sitalf -text "Fetching data ..." -tags $taglist -anchor nw -fill grey
+
+			#adjust $height, adding 1 line
+			set height [expr {$height + $lineheight + 4}]
+
+		} else {
+			#show the data we have in abook
+
+			set ccard [::abook::getContactData $email spaces_info_xml [list]]
+
+			# Store the titles in a var
+			foreach i [list SpaceTitle Blog Album Music] {
+				set $i [::MSNSPACES::getTitleFor $ccard $i]
+#				puts "$i = [set $i]"
+			}
+			
+			#First show the spaces title:
+			if {$SpaceTitle != ""} {
+				$canvas create text $xcoord [expr {$ycoord + $height}] -font bitalf -text "$SpaceTitle" \
+					-tags $taglist -anchor nw -fill black
+				#adjust $ychange, adding 1 line
+				set height [expr {$height + $lineheight + 4 }]
+				#set everything after this title a bit to the right
+				set xcoord [expr {$xcoord + 10}]
+			}
+
+			#blogposts
+			if {$Blog != ""} {
+				# seems like a blog without title doesn't exist, so we don't have to check if there are any posts
+				set blogposts [::MSNSPACES::getAllBlogPosts $ccard]
+				#add a title
+				$canvas create text $xcoord [expr {$ycoord + $height}] -font sboldf -text "$Blog" \
+					-tags $taglist -anchor nw -fill blue
+				#adjust $ychange, adding 1 line
+				set height [expr {$height + $lineheight}]
+
+				set count 0
+				foreach i $blogposts {
+					set itemtag [lindex $taglist 0]_bpost_${count}
+					$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
+						-font sitalf -text "[lindex $i 1]" \
+						-tags [linsert $taglist end $itemtag]  -anchor nw -fill grey
+					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
+
+					#update ychange
+					set height [expr {$height + $lineheight}]
+					incr count
+				}
+			}
+
+			
+			#photos
+			if {$Album != ""} {
+				set photos [::MSNSPACES::getAllPhotos $ccard]
+				#add a title
+				$canvas create text $xcoord [expr {$ycoord + $height}] -font sboldf -text "$Album" \
+					-tags $taglist -anchor nw -fill blue
+				#adjust $ychange, adding 1 line
+				set height [expr {$height + $lineheight}]
+
+				set count 0
+				foreach i $photos {
+					set itemtag [lindex $taglist 0]_bpost_${count}
+#puts "Photo: $i"
+					if { [lindex $i 0] != "" } {
+						$canvas create text [expr {$xcoord + 50}] [expr {$ycoord + $height}] \
+							-font sitalf -text "[lindex $i 1]" \
+							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
+
+						if {[lindex $i 3] != "" } {
+							set imageData [::MSNSPACES::getAlbumImage [lindex $i 3]]
+							if {$imageData != "" } {
+								set img [image create photo -data $imageData]
+								::picture::ResizeWithRatio $img 30 30
+								$canvas create image [expr {$xcoord + 10}] [expr {$ycoord + $height}] \
+								    -image $img \
+								    -tags [linsert $taglist end $itemtag] -anchor nw
+							}
+						}
+						$canvas bind $itemtag <Button-1> \
+							[list ::hotmail::gotURL "[lindex $i 2]"]
+						#update ychange
+						set height [expr {$height + $lineheight } ]
+						incr count
+					}
+				}
+			}
+			#for now show a message if no blogs or photos, for debugging purposes
+			if {$Blog == "" && $Album == ""} {
+				$canvas create text $xcoord [expr $ycoord + $height] -font sitalf \
+					-text "Nothing to see here" -tags $taglist -anchor nw -fill grey
+
+				#adjust $ychange, adding 1 line
+				set height [expr {$height + $lineheight } ]
+			}
+		}
+		
+		
+		
+			
+		return $height	
+	}
+	
 
 }
