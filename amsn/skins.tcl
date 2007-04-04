@@ -906,6 +906,8 @@ namespace eval ::skin {
 		::skin::setPixmap assistant_audio assistant_audio.gif
 		::skin::setPixmap assistant_webcam assistant_webcam.gif
 		
+		::skin::setPixmap voice_icon voice.gif
+
 		::skin::setPixmap nullimage null
 		#set the nullimage transparent
 		[::skin::loadPixmap nullimage] blank

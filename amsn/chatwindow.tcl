@@ -2262,7 +2262,7 @@ namespace eval ::ChatWindow {
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				amsn::WinWrite $chatid "\n" red
-				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWriteIcon $chatid voice_icon 3 2
 				amsn::WinWrite $chatid "[timestamp] [trans snackneeded]\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				return
@@ -2286,7 +2286,7 @@ namespace eval ::ChatWindow {
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				amsn::WinWrite $chatid "\n" red
-				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWriteIcon $chatid voice_icon 3 2
 				amsn::WinWrite $chatid "[timestamp] [trans soundnoavail]\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				return
@@ -2298,7 +2298,7 @@ namespace eval ::ChatWindow {
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				amsn::WinWrite $chatid "\n" red
-				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWriteIcon $chatid voice_icon 3 2
 				amsn::WinWrite $chatid "[timestamp] [trans recorderror $res]\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				$voice_sound destroy
@@ -2467,7 +2467,7 @@ namespace eval ::ChatWindow {
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				amsn::WinWrite $chatid "\n" red
-				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWriteIcon $chatid voice_icon 3 2
 				if { [$voice_sound length -unit seconds] < 2 } {
 					amsn::WinWrite $chatid "[timestamp] [trans nosound_or_hold]\n" red					
 				} else {
@@ -2495,7 +2495,7 @@ namespace eval ::ChatWindow {
 				amsn::WinWrite $chatid "\n" red
 				amsn::WinWriteIcon $chatid greyline 3
 				amsn::WinWrite $chatid "\n" red
-				amsn::WinWriteIcon $chatid butvoice 3 2
+				amsn::WinWriteIcon $chatid voice_icon 3 2
 				amsn::WinWrite $chatid "[timestamp] [trans sentvoice]\n  " green
 				amsn::WinWriteClickable $chatid "[trans play]" [list ::ChatWindow::playVoiceClip $w $filename $uid] play_voice_clip_$uid
 				amsn::WinWriteClickable $chatid "[trans stop]" [list ::ChatWindow::stopVoiceClip $w $filename $uid] stop_voice_clip_$uid
@@ -2565,7 +2565,7 @@ namespace eval ::ChatWindow {
 			amsn::WinWrite $chatid "\n" red
 			amsn::WinWriteIcon $chatid greyline 3
 			amsn::WinWrite $chatid "\n" red
-			amsn::WinWriteIcon $chatid butvoice 3 2
+			amsn::WinWriteIcon $chatid voice_icon 3 2
 			amsn::WinWrite $chatid "[timestamp] [trans snackneeded]\n" red
 			amsn::WinWriteIcon $chatid greyline 3
 			return
@@ -2576,7 +2576,7 @@ namespace eval ::ChatWindow {
 			amsn::WinWrite $chatid "\n" red
 			amsn::WinWriteIcon $chatid greyline 3
 			amsn::WinWrite $chatid "\n" red
-			amsn::WinWriteIcon $chatid butvoice 3 2
+			amsn::WinWriteIcon $chatid voice_icon 3 2
 			amsn::WinWrite $chatid "[timestamp] [trans receivedvoice]\n  " green
 			amsn::WinWriteClickable $chatid "[trans play]" [list ::ChatWindow::playVoiceClip $w $filename_decoded $uid] play_voice_clip_$uid
 			amsn::WinWriteClickable $chatid "[trans stop]" [list ::ChatWindow::stopVoiceClip $w $filename_decoded $uid] stop_voice_clip_$uid
