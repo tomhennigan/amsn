@@ -6417,6 +6417,7 @@ proc dpBrowser { {target_user "self" } } {
 		return
 	}
 	toplevel $w
+	wm geometry $w 480x360
 	wm title $w "[trans picbrowser]"
 		
 	#Get all the contacts
@@ -6487,10 +6488,10 @@ proc dpBrowser { {target_user "self" } } {
 	pack $w.leftpane.moredpstitle.text -side left
 	pack $w.leftpane.moredpstitle.combo -side right
 
-	::dpbrowser $w.leftpane.mydps -width 4 -mode "both" -invertmatch 0 -firstselect $selected_path \
+	::dpbrowser $w.leftpane.mydps -width 3 -mode "both" -invertmatch 0 -firstselect $selected_path \
 		-command [list updateDpBrowserSelection $w.leftpane.mydps $target_user] -user self
 
-	::dpbrowser $w.leftpane.moredps -width 4 -mode "both" -invertmatch 0 -firstselect $selected_path \
+	::dpbrowser $w.leftpane.moredps -width 3 -mode "both" -invertmatch 0 -firstselect $selected_path \
 		-command [list updateDpBrowserSelection $w.leftpane.moredps $target_user] -user $selected_user
 	
 	#################

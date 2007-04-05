@@ -175,6 +175,7 @@ snit::widget dpbrowser {
 			catch { destroy $self.sw }
 			label $self.nodps -text "[trans nouserspecified]" -anchor center -pady 10
 			pack $self.nodps -fill both -expand 1
+			pack configure $self -expand 0
 		} else {
 			foreach dp $dps {
 				if {($i % $dps_per_row) == 0} {
@@ -257,12 +258,11 @@ snit::widget dpbrowser {
 				catch { destroy $self.sw }
 				label $self.nodps -text "[trans nocacheddps]" -anchor center -pady 10
 				pack $self.nodps -fill both -expand 1
+				pack configure $self -expand 0
 			}
 		}
 		if {$i != 0} {
-			if {$options(-autoresize)} {
-				bind $self.sw.sf <Configure> [list $self handleResize]
-			}
+			pack configure $self -expand 1
 			bind $self.sw.sf <Expose> [list $self postDraw]
 		}
 		# delete the lock
@@ -276,6 +276,9 @@ snit::widget dpbrowser {
 			vwait $drawlock
 		}
 		bind $self.sw.sf <Expose> ""
+		if {$options(-autoresize)} {
+			bind $self.sw.sf <Configure> [list $self handleResize]
+		}
 		if {$first_draw} {
 			set first_draw 0
 		}
