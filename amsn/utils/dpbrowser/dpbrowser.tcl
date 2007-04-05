@@ -176,6 +176,9 @@ snit::widget dpbrowser {
 			label $self.nodps -text "[trans nouserspecified]" -anchor center -pady 10
 			pack $self.nodps -fill both -expand 1
 			pack configure $self -expand 0
+			if {$first_draw} {
+				set first_draw 0
+			}
 		} else {
 			foreach dp $dps {
 				if {($i % $dps_per_row) == 0} {
@@ -259,6 +262,9 @@ snit::widget dpbrowser {
 				label $self.nodps -text "[trans nocacheddps]" -anchor center -pady 10
 				pack $self.nodps -fill both -expand 1
 				pack configure $self -expand 0
+				if {$first_draw} {
+					set first_draw 0
+				}
 			}
 		}
 		if {$i != 0} {
@@ -348,7 +354,7 @@ snit::widget dpbrowser {
 			catch {image delete $tempimg}
 		}
 		if {$selected != ""} {
-			[lindex $selected 0] deSelect
+			[$self getEntryFromIndex [lindex $selected 0]] deSelect
 		}
 		set selected ""
 	}
@@ -453,7 +459,7 @@ snit::widget dpbrowser {
 
 	# Delete a dp from the hard disk
 	method deleteEntry {filename widget} {
-		if {[lindex $selected 0] == $widget} {
+		if {[$self getEntryFromIndex [lindex $selected 0]] == $widget} {
 			$self deSelect
 			eval $options(-command)
 		}

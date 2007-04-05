@@ -6417,7 +6417,7 @@ proc dpBrowser { {target_user "self" } } {
 		return
 	}
 	toplevel $w
-	wm geometry $w 480x360
+	wm minsize $w 480 10
 	wm title $w "[trans picbrowser]"
 		
 	#Get all the contacts
