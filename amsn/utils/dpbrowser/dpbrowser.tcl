@@ -34,6 +34,7 @@ snit::widget dpbrowser {
 	variable entry_in_use ""
 	variable dps ""
 	variable first_draw 1
+	variable drawlock ""
 
 	constructor { args } {
 		#frame hull is created automatically
@@ -41,7 +42,6 @@ snit::widget dpbrowser {
 		#apply all options
 		$self configurelist $args
 		$self drawPics
-		set first_draw 0
 		
 		bind $self <Destroy> [list $self cleanUp]
 	}
@@ -129,8 +129,16 @@ snit::widget dpbrowser {
 		}
 	}
 
-	# Redraw the widget
+	# Redraw the widget - wrapper method for concurrent drawing implementation
 	method drawPics { } {
+		if {$drawlock != ""} {
+			after cancel $drawlock
+		}
+		set drawlock [after 0 [list $self drawPics_core]]
+	}
+
+	# Redraw the widget - the true method
+	method drawPics_core { } {
 		global HOME
 
 		#create the scroll-frame
@@ -169,6 +177,16 @@ snit::widget dpbrowser {
 			pack $self.nodps -fill both -expand 1
 		} else {
 			foreach dp $dps {
+				if {($i % $dps_per_row) == 0} {
+					if {!([info exists j])} {
+						set j 0
+					} else {
+						pack $row -side top -fill x
+						incr j
+					}
+					set row $frame.${j}_row
+					frame $row -background $options(-bg)
+				}
 				if {[lindex $dp 0] != ""} {
 					set file [filenoext [lindex $dp 0]].png
 				} else {
@@ -191,48 +209,49 @@ snit::widget dpbrowser {
 					}
 					::picture::ResizeWithRatio $tempimage 96 96
 
-					set entry $frame.${i}_tile
+					set entry $row.${i}_tile
 
 					if {[lindex $dp 2] == ""} {
 						set label [lindex $dp 1]
 					} else {
 						set label [lindex $dp 2]
 					}
-
+					
 					sexytile $entry -type filewidget -text $label -icon $tempimage \
-						-bgcolor $options(-bg) -onpress [list $self onClick $entry $file] \
+						-bgcolor $options(-bg) -onpress [list $self onClick $i $file] \
 						-disableselect $isSelectDisabled -padding 4
 					
 					if {!($isSelectDisabled) && $first_select} {
-						$self setSelected $entry $file
+						$self setSelected $i $file
 					}
-
+					
 					if {[regexp ^$HOME $file] && $isinuse == -1} {
 						bind $entry <ButtonRelease-3> \
-							[list $self popupMenu %X %Y $file $entry 1]
+							[list $self popupMenu %X %Y $file $i 1]
 						if {[OnMac]} {
 							bind $entry <Command-ButtonRelease> \
-								[list $self popupMenu %X %Y $file $entry 1]
+								[list $self popupMenu %X %Y $file $i 1]
 							bind $entry <Control-ButtonRelease> \
-								[list $self popupMenu %X %Y $file $entry 1]
+								[list $self popupMenu %X %Y $file $i 1]
 						}
 					} else {
 						bind $entry <ButtonRelease-3> \
-							[list $self popupMenu %X %Y $file $entry 0]
+							[list $self popupMenu %X %Y $file $i 0]
 						if {[OnMac]} {
 							bind $entry <Control-ButtonRelease> \
-								[list $self popupMenu %X %Y $file $entry 0]
+								[list $self popupMenu %X %Y $file $i 0]
 							bind $entry <Command-ButtonRelease> \
-								[list $self popupMenu %X %Y $file $entry 1]
+								[list $self popupMenu %X %Y $file $i 1]
 						}
 					}
-
+					
 					bind $entry <Destroy> "catch { image delete $tempimage }"
-					grid $entry \
-						-row [expr {$i / $dps_per_row}] -column [expr {$i % $dps_per_row}] \
-						-pady $options(-padding) -padx $options(-padding)
+					pack $entry -padx $options(-padding) -pady $options(-padding) -side left -anchor nw
 					incr i
 				}
+			}
+			if {[info exists row]} {
+				pack $row -side top -fill x
 			}
 			if {$i == 0} {
 				catch { destroy $self.sw }
@@ -240,21 +259,29 @@ snit::widget dpbrowser {
 				pack $self.nodps -fill both -expand 1
 			}
 		}
-
 		if {$i != 0} {
+			if {$options(-autoresize)} {
+				bind $self.sw.sf <Configure> [list $self handleResize]
+			}
 			bind $self.sw.sf <Expose> [list $self postDraw]
 		}
+		# delete the lock
+		set drawlock ""
 	}
 	
 	# Execute operations after the widget has been drawn
 	method postDraw {} {
-		bind $self.sw.sf <Expose> ""
-		catch { set pixelwidth [winfo width $self.sw.sf] }
-		if {$options(-autoresize)} {
-			bind $self.sw.sf <Configure> [list $self handleResize]
+		# wait if we are still drawing
+		while {$drawlock != ""} {
+			vwait $drawlock
 		}
+		bind $self.sw.sf <Expose> ""
+		if {$first_draw} {
+			set first_draw 0
+		}
+		catch { set pixelwidth [winfo width $self.sw.sf] }
 		if { $selected != "" } {
-			[lindex $selected 0] setSelect
+			[$self getEntryFromIndex [lindex $selected 0]] setSelect
 		}
 	}
 
@@ -289,16 +316,24 @@ snit::widget dpbrowser {
 		}
 	}
 
+	# Return the entry path name from the index
+	method getEntryFromIndex { i } {
+		set frame [$self.sw.sf getframe]
+		set dps_per_row $options(-width)
+		set j [expr {int($i / $dps_per_row)}]
+		return $frame.${j}_row.${i}_tile
+	}
+
 	# Select the dp and eventually update the parent's preview
-	method onClick { entry filepath } {
+	method onClick { i filepath } {
 		if { $options(-mode) != "both" && $options(-mode) != "selector" } {
 			return
 		}
 		# Backups old selected (deSelect erases it)
-		set oldentry [lindex $selected 0]
+		set old_i [lindex $selected 0]
 		$self deSelect
-		if {$entry != $oldentry } {
-			$self setSelected $entry $filepath
+		if {$i != $old_i} {
+			$self setSelected $i $filepath
 		}
 		eval $options(-command)
 	}
@@ -324,14 +359,14 @@ snit::widget dpbrowser {
 	}
 
 	# Set the specified entry and file as selected
-	method setSelected { entry filepath } {
+	method setSelected { i filepath } {
 		#create tempimg if asked for
 		if {$options(-createtempimg)} {
 			catch {image delete $tempimg}
 			set tempimg [image create photo [TmpImgName] -file $filepath]
-			set selected [list $entry $filepath $tempimg]
+			set selected [list $i $filepath $tempimg]
 		} else {
-			set selected [list $entry $filepath]
+			set selected [list $i $filepath]
 		}
 	}
 
@@ -430,10 +465,8 @@ snit::widget dpbrowser {
 			}
 			incr i
 		}
-
 		# refill the widget
 		$self drawPics
-		
 	}
 
 	# Configure the widget according to the options

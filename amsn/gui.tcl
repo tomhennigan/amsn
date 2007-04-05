@@ -6449,16 +6449,17 @@ proc dpBrowser { {target_user "self" } } {
 	################
 	# First column #
 	################
-	frame $w.mydpstitle -bd 0
-	label $w.mydpstitle.text -text "[trans mypics]:" -font bboldf
+	frame $w.leftpane
+	frame $w.leftpane.mydpstitle -bd 0
+	label $w.leftpane.mydpstitle.text -text "[trans mypics]:" -font bboldf
 	#clear cache button ?
-	pack $w.mydpstitle.text -side left
+	pack $w.leftpane.mydpstitle.text -side left
 
-	frame $w.moredpstitle -bd 0
-	label $w.moredpstitle.text -text "[trans cachedpicsfor]:" -font bboldf
+	frame $w.leftpane.moredpstitle -bd 0
+	label $w.leftpane.moredpstitle.text -text "[trans cachedpicsfor]:" -font bboldf
 	#combobox to choose user which configures the widget with -user $user
 
-	set combo $w.moredpstitle.combo
+	set combo $w.leftpane.moredpstitle.combo
 	combobox::combobox $combo -highlightthickness 0 -width 22  -font splainf -exportselection true -command "configureDpBrowser $target_user" -editable false -bg #FFFFFF
 	$combo list delete 0 end
 	$combo list insert end "[trans selectcontact]"
@@ -6483,73 +6484,60 @@ proc dpBrowser { {target_user "self" } } {
 		set selected_user $target_user
 	}
 
-	pack $w.moredpstitle.text -side left
-	pack $w.moredpstitle.combo -side right
+	pack $w.leftpane.moredpstitle.text -side left
+	pack $w.leftpane.moredpstitle.combo -side right
 
-	::dpbrowser $w.mydps -width 4 -mode "both" -invertmatch 0 -firstselect $selected_path \
-		-command [list updateDpBrowserSelection $w.mydps $target_user] -user self
+	::dpbrowser $w.leftpane.mydps -width 4 -mode "both" -invertmatch 0 -firstselect $selected_path \
+		-command [list updateDpBrowserSelection $w.leftpane.mydps $target_user] -user self
 
-	::dpbrowser $w.moredps -width 4 -mode "both" -invertmatch 0 -firstselect $selected_path \
-		-command [list updateDpBrowserSelection $w.moredps $target_user] -user $selected_user 
+	::dpbrowser $w.leftpane.moredps -width 4 -mode "both" -invertmatch 0 -firstselect $selected_path \
+		-command [list updateDpBrowserSelection $w.leftpane.moredps $target_user] -user $selected_user
 	
 	#################
 	# second column #
 	#################
-
+	frame $w.rightpane
 	#preview
-	label $w.dppreviewtxt -text "[trans preview]:"
+	label $w.rightpane.dppreviewtxt -text "[trans preview]:"
 	if { $selected_path == "" || [catch {image create photo displaypicture_pre_$target_user -file $selected_path -format cximage}] } {
 		image create photo displaypicture_pre_$target_user -file [[::skin::getNoDisplayPicture] cget -file] -format cximage
 	}
-	label $w.dppreview -image displaypicture_pre_$target_user
+	label $w.rightpane.dppreview -image displaypicture_pre_$target_user
 
 	
 	#browse button
-	button $w.browsebutton -command "pictureChooseFile $target_user" -text "[trans browse]..."
+	button $w.rightpane.browsebutton -command "pictureChooseFile $target_user" -text "[trans browse]..."
 	
 	#under this button is space for more buttons we'll make a frame for so plugins can pack stuff in this frame
-	frame $w.pluginsframe -bd 0
+	frame $w.rightpane.pluginsframe -bd 0
 
 
 
 	#################
 	# lower pane    #
-	#################	
+	#################
 	frame $w.lowerpane -bd 0
 	button $w.lowerpane.ok -text "[trans ok]" -command "applyDP $target_user;destroy $w"
 	button $w.lowerpane.cancel -text "[trans cancel]" -command "destroy .dpbrowser"
+
+
+	#################
+	# packing       #
+	#################
+
 	pack $w.lowerpane.ok $w.lowerpane.cancel -side right -padx 5
+	pack $w.lowerpane -side bottom -fill x
 
+	pack $w.rightpane.dppreviewtxt $w.rightpane.dppreview $w.rightpane.browsebutton $w.rightpane.pluginsframe -fill x
+	pack $w.rightpane -side right -fill y
 
-	#first column
-	grid $w.mydpstitle -row 0 -column 0 -sticky nw
-	grid $w.mydps -row 1 -column 0 -rowspan 4 -sticky nsew
-	grid $w.moredpstitle -row 5 -column 0 -sticky ew
-	grid $w.moredps -row 6 -column 0 -sticky nsew
-	
-	#second column
-	grid $w.dppreviewtxt -row 0 -column 1 -padx 3 -pady 3 -sticky nw
-	grid $w.dppreview -row 1 -column 1 -padx 3 -pady 3 -sticky ne
-	grid $w.browsebutton -row 2 -column 1 -padx 3 -pady 3 -sticky n
-	grid $w.pluginsframe -row 3 -rowspan 4 -column 1 -sticky nesw
-	
-	#lower pane
-	grid $w.lowerpane -row 7 -column 0 -columnspan 2 -sticky e -padx 2 -pady 2
-	
-	# weight = 1 -> it will resize
-	# weight = 0 -> it will not resize
-	grid columnconfigure $w 0 -weight 1 -minsize 480
-	grid columnconfigure $w 1 -weight 0
-	grid rowconfigure $w 0 -weight 0
-	grid rowconfigure $w 1 -weight 0
-	grid rowconfigure $w 2 -weight 0
-	grid rowconfigure $w 3 -weight 0
-	grid rowconfigure $w 4 -weight 1
-	grid rowconfigure $w 5 -weight 0
-	grid rowconfigure $w 6 -weight 1
-	grid rowconfigure $w 7 -weight 0
+	pack $w.leftpane.mydpstitle -fill x
+	pack $w.leftpane.mydps -expand true -fill both
+	pack $w.leftpane.moredpstitle -fill x
+	pack $w.leftpane.moredps -expand true -fill both
+	pack $w.leftpane -side left -fill both -expand true
 
-	bind $w.dppreview <Destroy> "catch { image delete displaypicture_pre_$target_user }"
+	bind $w.rightpane.dppreview <Destroy> "catch { image delete displaypicture_pre_$target_user }"
 }
 
 proc configureDpBrowser {target combowidget selection} {
@@ -6569,7 +6557,7 @@ proc configureDpBrowser {target combowidget selection} {
 		set invert_match 1
 		set selection $contact_list
 	}
-	[winfo toplevel $combowidget].moredps configure -invertmatch $invert_match -user $selection
+	[winfo toplevel $combowidget].leftpane.moredps configure -invertmatch $invert_match -user $selection
 }
 
 # This procedure is called back from the dpbrowser pane when a picture is selected
@@ -6577,17 +6565,17 @@ proc updateDpBrowserSelection { browser target } {
 	set w [winfo toplevel $browser]
 	set file [lindex [$browser getSelected] 1]
 
-	set old_image [$w.dppreview cget -image]
-	$w.dppreview configure -image ""
+	set old_image [$w.rightpane.dppreview cget -image]
+	$w.rightpane.dppreview configure -image ""
 	catch {image delete $old_image}
 	if {$file == ""} {
 		set file [[::skin::getNoDisplayPicture] cget -file]
 	}
-	$w.dppreview configure -image [image create photo displaypicture_pre_$target -file $file -format cximage]
-	if {"$browser" == "$w.mydps"} {
-		$w.moredps deSelect
+	$w.rightpane.dppreview configure -image [image create photo displaypicture_pre_$target -file $file -format cximage]
+	if {"$browser" == "$w.leftpane.mydps"} {
+		$w.leftpane.moredps deSelect
 	} else {
-		$w.mydps deSelect
+		$w.leftpane.mydps deSelect
 	}
 }
 
@@ -6656,7 +6644,7 @@ proc pictureChooseFile { target } {
 			}
 
 			image create photo displaypicture_pre_$target -file [::skin::GetSkinFile "displaypic" "[filenoext [file tail $file]].png"] -format cximage
-			.dpbrowser.dppreview configure -image displaypicture_pre_$target
+			.dpbrowser.rightpane.dppreview configure -image displaypicture_pre_$target
 			set desc_file "[filenoext [file tail $file]].dat"
 			set fd [open [file join $HOME displaypic $desc_file] w]
 			status_log "Writing description to $desc_file\n"
@@ -6665,7 +6653,7 @@ proc pictureChooseFile { target } {
 			close $fd
 			
 			# Redraw dpBrowser's upper pane
-			.dpbrowser.mydps configure -user self
+			.dpbrowser.leftpane.mydps configure -user self
 			
 			return "[filenoext [file tail $file]].png"
 		} else {
@@ -6726,7 +6714,7 @@ proc applyDP { { email "self" } } {
 	if { $file == [[::skin::getNoDisplayPicture] cget -file] } {
 		# Some skin add a dat file for nopic.gif too, so it's selectable
 		# Check this is not the case
-		if {[lindex [.dpbrowser.mydps getSelected] 1] == ""} {
+		if {[lindex [.dpbrowser.leftpane.mydps getSelected] 1] == ""} {
 			set file ""
 		}
 	}
