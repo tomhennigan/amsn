@@ -350,7 +350,6 @@ firewalled2 Firewall detectado, por favor compruebe la configuración de su Cone
 firewalled Te encuentras detrás de un cortafuegos o de un enrutador
 followtext Desplazar hacia abajo cuando aparezca nuevo texto
 forget_me Eliminar este perfil
-forgot_pass He olvidado mi contraseña
 forgot_pass Olvidé mi contraseña
 formatcsv En formato CSV
 formatctt En formato Ctt
@@ -605,6 +604,7 @@ ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar grupos por
 original Original
 otherdisplaypic Otras imágenes para mostrar de este usuario (clic para más opciones)
+otherdps Otras imágenes para mostrar
 other Otro
 others Otras
 p4contextprefix Prefijar remitentes en P4-Context con esta cadena de caracteres
@@ -698,7 +698,6 @@ recorderror Ocurrió un error al grabar el sonido: $1
 record Grabar
 recvwebcamaccepted $1 aceptó tu invitación para ver su cámara web. Conectando...
 reject Rechazar
-rememberaccount Recordar mi cuenta
 rememberaccount Recordar mi cuenta
 rememberpass Recordar contraseña
 remembersetting Recordar esta selección
