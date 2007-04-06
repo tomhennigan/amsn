@@ -742,7 +742,7 @@ namespace eval ::ccard {
 				set blogposts [::MSNSPACES::getAllBlogPosts $ccard]
 				#add a title
 				$canvas create text $xcoord [expr {$ycoord + $height}] -font sboldf -text "$Blog" \
-					-tags $taglist -anchor nw -fill blue
+					-tags $taglist -anchor nw -fill #78797e
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight}]
 
@@ -751,7 +751,7 @@ namespace eval ::ccard {
 					set itemtag [lindex $taglist 0]_bpost_${count}
 					$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
 						-font sitalf -text "[lindex $i 1]" \
-						-tags [linsert $taglist end $itemtag]  -anchor nw -fill grey
+						-tags [linsert $taglist end $itemtag]  -anchor nw -fill black
 					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
 
 					#update ychange
@@ -766,9 +766,9 @@ namespace eval ::ccard {
 				set photos [::MSNSPACES::getAllPhotos $ccard]
 				#add a title
 				$canvas create text $xcoord [expr {$ycoord + $height}] -font sboldf -text "$Album" \
-					-tags $taglist -anchor nw -fill blue
+					-tags $taglist -anchor nw -fill #78797e
 				#adjust $ychange, adding 1 line
-				set height [expr {$height + $lineheight}]
+				set height [expr {$height + 4}]
 
 				set count 0
 				foreach i $photos {
@@ -776,21 +776,20 @@ namespace eval ::ccard {
 #puts "Photo: $i"
 					if { [lindex $i 0] != "" } {
 #						$canvas create text [expr {$xcoord + 50}] [expr {$ycoord + $height}] \
-							-font sitalf -text "[lindex $i 1]" \
-							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
+#							-font sitalf -text "[lindex $i 1]" \
+#							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
 
 						if {[lindex $i 3] != "" } {
 							set imageData [::MSNSPACES::getAlbumImage [lindex $i 3]]
 							if {$imageData != "" } {
 								set img [image create photo -data $imageData]
 								::picture::ResizeWithRatio $img 22 22
-								$canvas create image [expr {$xcoord + 10 + $photooffset}] [expr {$ycoord + $height + $lineheight}] \
-								    -image $img \
+								set imgx [expr {$xcoord + 10 + $photooffset}]
+								set imgy [expr {$ycoord + $height + $lineheight}]
+								$canvas create image $imgx $imgy -image $img \
 								    -tags [linsert $taglist end $itemtag] -anchor nw
+								$canvas create rectangle $imgx $imgy  [expr {$imgx + 22}] [expr {$imgy + 22}] -outline #576373
 								set photooffset [expr {$photooffset + 26}]
-#								$canvas create image [expr {$xcoord + 10}] [expr {$ycoord + $height}] \
-#								    -image $img \
-#								    -tags [linsert $taglist end $itemtag] -anchor nw
 							}
 						}
 						$canvas bind $itemtag <Button-1> \
