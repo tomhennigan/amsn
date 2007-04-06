@@ -706,6 +706,7 @@ namespace eval ::ccard {
 		set height 0
 		#todo: calculate height of a line the right way
 		set lineheight 12
+		set photooffset 0
 
 		if { [::abook::getVolatileData $email fetching_space 0] } {
 			#draw a "please wait .." message, will be replaced when fetching is done
@@ -774,7 +775,7 @@ namespace eval ::ccard {
 					set itemtag [lindex $taglist 0]_bpost_${count}
 #puts "Photo: $i"
 					if { [lindex $i 0] != "" } {
-						$canvas create text [expr {$xcoord + 50}] [expr {$ycoord + $height}] \
+#						$canvas create text [expr {$xcoord + 50}] [expr {$ycoord + $height}] \
 							-font sitalf -text "[lindex $i 1]" \
 							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
 
@@ -782,16 +783,20 @@ namespace eval ::ccard {
 							set imageData [::MSNSPACES::getAlbumImage [lindex $i 3]]
 							if {$imageData != "" } {
 								set img [image create photo -data $imageData]
-								::picture::ResizeWithRatio $img 30 30
-								$canvas create image [expr {$xcoord + 10}] [expr {$ycoord + $height}] \
+								::picture::ResizeWithRatio $img 22 22
+								$canvas create image [expr {$xcoord + 10 + $photooffset}] [expr {$ycoord + $height + $lineheight}] \
 								    -image $img \
 								    -tags [linsert $taglist end $itemtag] -anchor nw
+								set photooffset [expr {$photooffset + 26}]
+#								$canvas create image [expr {$xcoord + 10}] [expr {$ycoord + $height}] \
+#								    -image $img \
+#								    -tags [linsert $taglist end $itemtag] -anchor nw
 							}
 						}
 						$canvas bind $itemtag <Button-1> \
 							[list ::hotmail::gotURL "[lindex $i 2]"]
 						#update ychange
-						set height [expr {$height + $lineheight } ]
+#						set height [expr {$height + $lineheight } ]
 						incr count
 					}
 				}
