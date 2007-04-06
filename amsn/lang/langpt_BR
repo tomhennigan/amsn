@@ -110,6 +110,7 @@ bugerror Desculpe, mas não foi possível conectar ao banco de dados de bugs. Por 
 bugnocomment Enviar sem comentar? Comentar o bug nos ajuda a descobrir o que houve de errado e como corrigir o erro mais facilmente.
 busy Ocupado
 cachedpics $1 figuras em cache
+cachedpicsfor Imagens arquivadas para o usuário
 cagreement Aceitação de Privacidade
 cancel Cancelar
 cancelled Cancelado 
@@ -521,6 +522,7 @@ myhomephone Meu telefone residencial
 mymobilephone Meu telefone celular
 mynick Meu apelido
 mypic Minha imagem de exibição
+mypics Minhas imagens
 mystatus Meu estado
 myworkphone Meu telefone comercial
 name Nome
@@ -600,6 +602,7 @@ ordercontactsby Ordenar contatos por
 ordergroupsby Ordenar grupos por
 original Original
 otherdisplaypic Outras imagens de exibição desse usuário\n(clique com o botão direito para mais opções)
+otherdps Outras imagens
 other Outro
 others Outros
 p4contextprefix Adicionar este prefixo ao campo de Contexto-P4 do remetente
@@ -717,6 +720,7 @@ sbcon Conectando ao "Switch Board"
 searchdown Procurar para cima
 searchup Procurar para baixo
 selectall Selecionar tudo
+selectcontact Selecionar contato
 selectplugins Por favor escolha o plugin que quer ativar
 selectskin Por favor escolha uma skin da lista
 sendcam Enviar imagem da webcam
