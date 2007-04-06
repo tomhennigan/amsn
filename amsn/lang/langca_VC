@@ -109,7 +109,8 @@ browser Navegador
 bugerror Ho sentim, però hi ha hagut un problema connectant a la base de dades d'errors. Per favor, comprova la teua connexió a internet.
 bugnocomment Enviar sense cap comentari? Comentar un error ens ajuda a fer-nos una idea de què ha anat malament i d'esta manera poder arreglar-ho més fàcilment.
 busy No disponible
-cachedpics $1 imatges guardades per a mostrar 
+cachedpics $1 imatges guardades per a mostrar
+cachedpicsfor Imatges per a mostrar guardades per
 cagreement Acord de confidencialitat
 cancel Cancel·lar
 cancelled Cancel·lat
@@ -521,6 +522,7 @@ myhomephone El telèfon de ma casa
 mymobilephone El meu telèfon mòvil
 mynick El meu sobrenom (nick/renom)
 mypic La meua imatge de mostra:
+mypics Les meues imatges per a mostrar:
 mystatus El meu estat
 myworkphone El telèfon del meu treball
 name Nom
@@ -601,6 +603,7 @@ ordergroupsby Ordenar grups per
 original Original
 other Altre
 otherdisplaypic Altres avatars d'este usuari (clic per a més opcions)
+otherdps Altres imatges per a mostrar
 others Altres
 p4contextprefix Prefixar remitents en P4-Context en esta cadena de caràcters
 pager Paginador
@@ -717,6 +720,7 @@ sbcon Connectant a centraleta
 searchdown Busca baix
 searchup Busca dalt
 selectall Seleccionar tots
+selectcontact Seleccionar un contacte
 selectplugins Per favor, selecciona els plug-ins que vols activar
 selectskin Per favor, selecciona un tema (skin) de la llista
 sendcam Enviar càmera web
