@@ -57,7 +57,7 @@ assistantfinetunepic Modifiez les paramètres suivants pour ajuster la qualité de
 assistantselectcam Choisissez votre webcam dans la liste
 assistantstarting Démarrage de l'assistant
 assistantwelcome Cet assistant vous guidera pour la configuration des paramètres audio et vidéo de aMSN.\n\nIl vérifiera que les extensions requises sont bien présentes et chargées, puis vous pourrez choisir les périphériques, canaux, régler les paramètres d'image et la résolution.
-audioconfigured Choisissez les paramètres audio suivants :\n Périphérique de lecture : $1\nPériphérique de capture : $2
+audioconfigured Vous avez choisi les paramètres audio suivants :\nPériphérique de lecture : $1\nPériphérique de capture : $2
 audiovideo Paramètres audio et vidéo
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
@@ -110,6 +110,7 @@ bugerror Nous sommes désolés, mais il y a eu un problème lors de la connexion à 
 bugnocomment Envoyer sans commentaire ? Mettre des commentaires nous aide à mieux comprendre ce qui c'est passé et donc à résoudre le problème plus facilement.
 busy Occupé[e]
 cachedpics $1 avatars masqués
+cachedpicsfor Avatars en mémoire pour :
 cagreement Déclaration de confidentialité
 cancel Annuler
 cancelled Annulé
@@ -234,10 +235,10 @@ custnotifymsg Annoncer quand vous recevez un message d'un de vos contacts
 custnotifyoffline Annoncer quand un de vos contact se déconnecte.
 custnotifyonline Annoncer quand un de vos contact se connecte
 custnotifystatus Annoncer quand un de vos contact change de statut
-custom_edit Editer une émoticône personnalisée
-custom_new Créer une émoticône personnalisée
 customcolor Couleur personnalisée
 customdp Avatar personnalisé
+custom_edit Editer une émoticône personnalisée
+custom_new Créer une émoticône personnalisée
 customnick Pseudo personnalisé
 customsmileys Afficher les émoticônes des contacts
 customstyle Style personnalisé
@@ -343,10 +344,10 @@ findnext Résultat suivant
 findprev Résultat précédent
 find Rechercher
 finetunesettings Réglages avancés de l'image
-finish Terminé
 finish2apply Appuyez sur Terminé pour utiliser les nouveaux paramètres.
-firewalled Vous êtes derrière un pare-feu ou un routeur
+finish Terminé
 firewalled2 Vous êtes derrière un pare-feu ou un routeur. Veuillez vérifier les paramètres dans la fenêtre des Préférences.
+firewalled Vous êtes derrière un pare-feu ou un routeur
 followtext Faire défiler lorsque du texte est entré
 forget_me Oublier ce compte
 forgot_pass Mot de passe oublié
@@ -359,8 +360,8 @@ ftconnecterror Erreur de connexion à l'hôte distant
 ftconnecting Connexion à $1 port $2
 ftconnectionlost Connexion avec l'hôte distant perdue
 ftgotinvitation $1 veut vous envoyer le fichier '$2' ($3 bytes). Il sera sauvegardé dans le répertoire $4. Voulez-vous recevoir ce fichier ?
-ftportpref Premier port pour le transfert de fichiers
 ftportpref2 Premier port pour les connections directes (nécessaires pour les transferts de fichier et la webcam)
+ftportpref Premier port pour le transfert de fichiers
 ftporttest Tester le port
 ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$2'.
 ftrejected Transfert de fichier refusé
@@ -376,11 +377,11 @@ globaloverride Modèles de pseudonymes devant remplacer les pseudonymes personnal
 gonelunch Parti[e] manger
 gotink $1 vous a envoyé un message manuscrit
 goto Aller sur $1
-goto_prefs_removeprofile Cliquez ici pour voir les préférences et supprimer ce profil
 gotoinbox Aller à la boîte de réception
+goto_prefs_removeprofile Cliquez ici pour voir les préférences et supprimer ce profil
 groupadd Ajouter un groupe
-groupcontacts Contacts de ce groupe
 groupcontactsbystatus Regrouper les contacts par statut
+groupcontacts Contacts de ce groupe
 groupdelete Supprimer un groupe
 groupexists Le groupe existe déjà
 group Groupe
@@ -504,8 +505,8 @@ mobilegrp2 Mettre les contacts dans le groupe "Mobile" quand vous êtes hors conn
 mobile Mobile
 modified modifié[e]
 month Mois
-more Plus
 morepersonal Autres statuts ->
+more Plus
 move Déplacer
 movetogroup Déplacer vers groupe
 msgflicker Faire clignoter la barre de titre d'une fenêtre inactive quand un message est reçu
@@ -521,6 +522,7 @@ myhomephone Téléphone domicile
 mymobilephone Téléphone mobile/portable
 mynick Mon pseudonyme
 mypic Mon avatar
+mypics Mes avatars
 mystatus Mon statut
 myworkphone Téléphone bureau/profesionnel
 name Nom
@@ -562,8 +564,8 @@ nopic Pas d'avatar
 noprofileexists Utiliser les profils... \nUtiliser le boutton Ajouter nouveau profil dans cette fenêtre pour en créer un nouveau.
 normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
-nosound Pas de son détecté, assurez-vous que votre microphone est bien branché
 nosound_or_hold Pas de son détécté. Pour envoyer un message vocal, vous devez maintenir le bouton appuyé pendant que vous parlez, puis relacher le bouton pour envoyer le message.
+nosound Pas de son détecté, assurez-vous que votre microphone est bien branché
 nosystemtray La boîte à miniatures n'est pas accessible
 note Note
 notificationserver Annonce initiale du Serveur MSN (Serveur MSN Messenger)
@@ -585,8 +587,8 @@ nousersinsession Pas de contacts dans cette session
 nouserspecified Aucun utilisateur spécifié
 nudge $1 vous a envoyé un nudge.
 offline Déconnecté[e]
-ok Ok
 oim Messagerie différée
+ok Ok
 onenewmail Un nouveau message
 online Connecté[e]
 onlinehelp Aide en ligne
@@ -601,6 +603,7 @@ ordergroupsby Trier les groupes par
 original Originale
 other Autre
 otherdisplaypic Autres avatars de ce contact (cliquer sur l'avatar pour plus d'options)
+otherdps Autres avatars
 others Autres
 p4contextprefix Préfixe du champ P4-Context
 pager Pager
@@ -717,11 +720,12 @@ sbcon Connexion au "Switch Board"
 searchdown Rechercher vers le bas
 searchup Rechercher vers le haut
 selectall Tout sélectionner
+selectcontact Choisissez un contact
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
-send Envoyer
 sendcam Envoyer la webcam 
 sendemail Envoyer mon adresse email pour m'avertir des changements
+send Envoyer
 sendfeedback Envoyer ses impressions sur aMSN
 sendfile Envoyer un fichier
 sendmail Envoyer un courrier
@@ -744,12 +748,12 @@ setupcamfinetune Configuration de la webcam et réglages avancés de l'image
 shareswebcam Possède une webcam
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
-show_contactdps_in_cl Montrer les avatars dans la liste des contacts
 showcachedpics Afficher/Masquer les avatars cachés
+show_contactdps_in_cl Montrer les avatars dans la liste des contacts
 showcontactemail Voir les contacts par leur email
 showcontactnick Voir les contacts par leur pseudonyme
-showdisplaypic Afficher l'avatar
 showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
+showdisplaypic Afficher l'avatar
 showlinksinlogin Afficher les liens dans la fenêtre de connexion
 showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 showmypic Mon avatar
@@ -759,8 +763,8 @@ showuserpic Icône de $1
 signinstatus Statut lors de la connexion
 skin apparence
 skinselector Changer l'apparence
-small Petit
 smallest Plus petit
+small Petit
 smileconfig Configuration des émoticônes/smileys personnalisées
 smilefile Nom du fichier de l'émoticône/smiley
 smileintro2 Veuillez éditer les champs obligatoires pour personnaliser cette émoticône/smiley (voir la FAQ pour l'aide)
@@ -884,8 +888,6 @@ viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 volume Volume
 wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
-web Web
-webcam Webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
 webcamclosebefcancel Vous devez annuler toutes les conversations par webcam avant de fermer la fenêtre
 webcamconfigure Configurer la webcam
@@ -906,6 +908,8 @@ webcamrejected $1 a refusé l'invitation de la conversation par webcam.
 webcamrequestreceive Vous avez invité votre contact à afficher sa webcam
 webcamrequestsend Vous avez invité votre contact à visionner votre webcam
 webcamsending Liste des personnes qui sont en train de voir votre webcam\nCliquez sur un nom pour annuler
+webcam Webcam
+web Web
 whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses platformes telles que Linux, Windows, Mac OS X, *BSD ...
 whatsize L'image qui doit être affichée n'est pas à la taille normale : 96x96 \nDans quelle taille voulez-vous que l'image soit affichée ?
 willjoin Dans l'attente que $1 rejoigne la conversation
