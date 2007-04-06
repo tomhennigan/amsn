@@ -51,7 +51,7 @@ asksendingyourwebcam èe ¾eli¹ pokazati sliko s svoje spletne kamere
 asksendoim Bi rad to poslal stiku v naèinu brez povezave?
 askwebcam Ogled preko spletne kamere stika
 assistantainput Izberi vhodno zvoèno napravo in poskusi z snemanjem zvoka. Snemanje PREKINEMO ROÈNO S TIPKO (STOP) in nato pritisnemo tipko (PREDVAJAJ).V primeru, da nimate mikrofona ali ga ne ¾elite uporabljati boste z tipko (Nimam Mikrofona) zakljuèili èarovnik.
-assistantaoutput Izberi zvoèno izhodno napravo, in poskusi predvajati pripravljeno datoteko za preizkus.Nastavitve spreminjaj dolker pri pritisku na gumb (PREDVAJAJ) ne zasli¹i¹ zvoka.  
+assistantaoutput Izberi zvoèno izhodno napravo, in poskusi predvajati pripravljeno datoteko za preizkus.Nastavitve spreminjaj dolker pri pritisku na gumb (PREDVAJAJ) ne zasli¹i¹ zvoka.
 assistantawarn Ni mogoèe snemanje ali pogovor z prijatelji.Odgovore kako namestiti to raz¹iritev najde¹ na Wiki straneh
 assistantfinetunepic Spremeni spodnje nastavitve, èe hoèe¹ spremeniti parametre slike spletne kamere
 assistantselectcam Izberi kamero iz seznama.V primeru, da uporablja¹ za vhodno napravo TV kartico z video vhodom ali kak¹no drugo napravo z veè kanali izberi tudi kanal iz katerega bo¹ zajemal video signal.Dobro je, da se naprava priklopi sedaj saj v nadaljevanju sledijo nastavitve slike.
@@ -110,10 +110,11 @@ bugerror Napaka pri povezovanju na bazo hro¹èev. Preveri internetno povezavo.
 bugnocomment Naj po¹ljem brez komentarja? Komentarji k hro¹èem nam pomagajo ugotoviti, kaj je ¹lo narobe in jih odpraviti.
 busy Zaposlen
 cachedpics $1 shranjenih slik
+cachedpicsfor Shranjene prikazne slike za uporabnika
 cagreement Izjava o zaupnosti
 cancelled Preklicano
 cancel Preklièi
-cannotdeleteprofile Ne morem izbrisati profila, ker je v Amsn seji
+cannotdeleteprofile Ne morem izbrisati raèuna, ker je v Amsn seji
 cantexec Ne morem izvesti programa $1. Preveri nastavitve.
 cantloadonlineversion Ne morem dobiti nazadnje posodobljenega seznama jezikov z interneta
 cantremoveothers Ni mogoèe izbrisati skupine "Ostali"
@@ -190,7 +191,7 @@ commandstatus Izvedi ukaz
 command Ukaz
 configuremic Nastavi vhodno zvoèno napravo
 configure Nastavi
-configuringaudio Nastavi izhodno zvoèno napravo 
+configuringaudio Nastavi izhodno zvoèno napravo
 confirm Ali si preprièan?
 confirmbl Ali si preprièan, da ¾eli¹ blokirati ta stik?
 confirmdelete Ali si preprièan, da ¾eli¹ zbrisati $1?
@@ -223,7 +224,7 @@ corruptconfig Nastavitvena datoteka je pokvarjena. Ustvarjam novo. Stara datotek
 corruptstates Datoteka z osebnimi stanji je pokvarjena. Ustvarjam novo. Stara datoteka bo shranjena v $1. Prosim, po¹lji jo, da preverimo, kaj se je zgodilo.
 couldnotrename Ni bilo mogoèe preimenovati datoteke $1
 countrycode Oznaka moje dr¾ave
-cprofile Ustvari profil
+cprofile Ustvari raèun
 created Ustvarjeno
 credits Zasluge
 curdisplaypic Trenutna prikazna slika
@@ -249,7 +250,7 @@ date Datum
 dateformat Spremeni obliko datuma
 day Dan
 days Dni
-dcprofile Ne ustvari profila
+dcprofile Ne ustvari raèuna
 default2 Privzeta
 defaultloginradio Prijavi se s privzetimi nastavitvami
 default Privzete nastavitve
@@ -260,8 +261,8 @@ deletecustomstate Izbri¹i osebno stanje
 delete Izbri¹i
 delimiters Kraji¹èi prikaza èasa
 deliverfail Tega sporoèila ni bilo mogoèe dostaviti
-delprofile2 Izberi profil, ki bi ga rad izbrisal
-delprofile Izbri¹i profil
+delprofile2 Izberi raèun, ki bi ga rad izbrisal
+delprofile Izbri¹i raèun
 description Opis
 detach Odklopi
 details Podrobnosti
@@ -269,7 +270,7 @@ devicebusy Naprava $1 je zasedena
 devices Naprave
 directconnection Neposredna povezava (vrata 1863)
 disabled Izkljuèeno
-disableprofiles Izkljuèi profile (Uporabno v kiberkavarnah in skupinskem okolju)
+disableprofiles Izkljuèi shranjevanje raèunov (Uporabno v kiberkavarnah in skupinskem okolju)
 disablessl Onemogoèi SSL
 disableuserfonts Prezri sogovornikove nastavitve pisave
 disconnect $1 se je odjavil/a.
@@ -282,10 +283,10 @@ displayeventstate Prikazuj spremembe stanja stikov
 displayp4context Prika¾i kontekst P4
 displaypic Prikazna slika
 dockfreedesktop Prikleni na pult (KDE3/Gnome2)
-dockgtk gtk gtk gtk pomol
+dockgtk gtk gtk gtk gtk pomol
 dockingoff Pristaja prekinjena
 docking Pristaja
-dockkde kde kde kde pomol
+dockkde kde kde kde kde pomol
 done Narejeno
 dontdownload Ne poberi TLS-ja, namestil ga bom sam
 dontshow Ne prika¾i
@@ -294,9 +295,9 @@ download Poberi
 editavsettings Uredi zvoène in video nastavitve
 editcontent Uredi vsebino polj za naslov in opombo
 editcustomstate Uredi
-editmyprofile Uredi svoj MSN profil
+editmyprofile Uredi svoj MSN raèun
 editnewstate Novo osebno stanje za avtomatsko sporoèilo
-editprofile Uredi profil
+editprofile Uredi raèun
 editstate Uredi obstojeèe stanje za avtomatsko sporoèilo
 edit Uredi
 editvalue Uredi vrednost
@@ -323,7 +324,7 @@ examples Primeri
 exitamsn Ali si preprièan, da ¾eli¹ zapustiti program?
 extras Dodatne storitve
 faileddelete Izbris ni uspel
-faileddeleteperso Te slike ni mogoèe izbrisati, ker ne pripada tvojemu profilu. Samo slike, ki pripadajo tvojemu osebnemu profilu, lahko tako izbri¹e¹.
+faileddeleteperso Te slike ni mogoèe izbrisati, ker ne pripada tvojemu raèunu. Samo slike, ki pripadajo tvojemu osebnemu raèunu, lahko tako izbri¹e¹.
 failed Neuspe¹no
 faq FAQ (Pogosta vpra¹anja)
 file Datoteka
@@ -348,7 +349,7 @@ finish Konèaj
 firewalled2 Si za po¾arnim zidom, prostim preveri nastavitve Povezave v Nastavitvah
 firewalled Si za po¾arnim zidom ali usmerjevalnikom/routerjem
 followtext Sledi novemu besedilu
-forget_me Pozabi moj profil
+forget_me Pozabi moj raèun
 forgot_pass Pozabil/a sem svoje geslo
 friendlyname Prijazno ime
 ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
@@ -377,7 +378,7 @@ gonelunch Na kosilu
 gotink $1 ti je poslal/a èrnilo.
 gotoinbox Pojdi v Inbox
 goto Pojdi na $1
-goto_prefs_removeprofile Klikni tu da gre¹ v nastavitve in zbri¹e¹ tvoj profil
+goto_prefs_removeprofile Klikni tu da gre¹ v nastavitve in zbri¹e¹ svoj raèun
 groupadd Dodaj skupino
 groupcontactsbystatus Razvrsti kontakte po statusu
 groupcontacts Kontakti v skupini
@@ -402,7 +403,7 @@ hiden Ne poka¾i emotikona v meniju sme¹kov
 hidewindow Skrij okno
 history Prika¾i zgodovino
 home Doma
-howto_remove_profile Da zbri¹e¹ profil (forget $1) mora¹ to storiti iz Nastavitev. \n\n Zaradi varnostnih vidikov brisanje iz prijavnega okna ni dovoljeno.
+howto_remove_profile Da zbri¹e¹ raèun (forget $1) mora¹ to storiti iz Nastavitev. \n\n Zaradi varnostnih vidikov brisanje iz prijavnega okna ni dovoljeno.
 httpconnection HTTP povezava (vrata 80)
 hue Odtenek
 huge Ogromna
@@ -495,7 +496,7 @@ mailer e-po¹tni program
 mailerexample ( \$recipient = prejemnik ) Pusti prazno za uporabo Hotmaila
 maintenance Stre¾nik èez $1 minut ne changestatus Change Statusbo veè dostopen zaradi vzdr¾evanja
 maximised Maksimiran
-medium  Srednji
+medium Srednji
 minimised V pomanj¹anem oknu
 minimize Pomanj¹aj okno v ikono na pultu
 mins minut
@@ -521,6 +522,7 @@ myhomephone Domaèi telefon
 mymobilephone Mobilni telefon
 mynick Moj vzdevek
 mypic Moja osebna slika:
+mypics Moje prikazne slike
 mystatus Moje stanje
 myworkphone Slu¾beni telefon
 name Ime
@@ -559,7 +561,7 @@ noneavailable Noben ni na voljo
 nonewmail Ni novih sporoèil v Inboxu
 nonewver Ni novih razlièic na voljo za prenos
 nopic Brez slike
-noprofileexists Trenutno ni profilov.\nDa jih uporablja¹, ustvari novega\nz gumbom dodaj profil.
+noprofileexists Trenutno ni raèunov.\nUstvari nov raèun\nz gumbom dodaj raèun.
 normal Normalno
 noskins Privzetega skina ni v imeniku skins/ . AMSNja ni mogoèe zagnati.
 nosound_or_hold Zvoka nisem zaznal.Za po¹iljanje glasovnega sporoèila mora¹ dr¾ati gumb PRITISNJEN ko govori¹ in ga spustiti da zvoèno sporoèilo po¹lje¹.
@@ -600,6 +602,7 @@ ordercontactsby Uredi stike
 ordergroupsby Uredi skupine
 original Izvirnik
 otherdisplaypic Ostale shranjene prikazne slike za ta stik (desni klik nad sliko za veè mo¾nosti)
+otherdps Ostale prikazne slike
 other Ostalo
 others Ostalo
 p4contextprefix Predpona konteksta P4
@@ -717,6 +720,7 @@ sbcon Povezujem se na Switch Board
 searchdown I¹èi dol
 searchup I¹èi gor
 selectall Izberi vse
+selectcontact Izberi kontakt
 selectplugins Izberi plugin, ki ga ¾eli¹ omogoèiti
 selectskin Izberi skin s seznama
 sendcam Ponudi svojo spletno kamero
@@ -773,7 +777,7 @@ sngdblclick Enojni klik odpre okno s pogovorom
 sortcontactgroup Razporedi kontakte po Skupini
 sortcontacthybrid Razporedi kontakte Hibridno
 sortcontactsasc Razvrsti kontakte nara¹èajoèe
-sortcontactsby  Razvrsti kontakte po
+sortcontactsby Razvrsti kontakte po
 sortcontactsdesc Razvrsti kontakte padajoèe
 sortcontactstatus Razporedi kontakte po Statusu
 sortgroupsasc Razporedi kontakte Nara¹èajoèe
