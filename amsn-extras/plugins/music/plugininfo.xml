@@ -10,7 +10,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>8265</cvs_version>
+	<cvs_version>8393</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -27,6 +27,10 @@
 	<lang>
 		<langcode>es</langcode>
 		<version>8265</version>
+	</lang>
+	<lang>
+		<langcode>fi</langcode>
+		<version>8393</version>
 	</lang>
 	<lang>
 		<langcode>fr</langcode>
@@ -59,7 +63,7 @@
 	</file>
 	<file>
 		<path>infobanshee</path>
-		<version>7508</version>
+		<version>8393</version>
 	</file>
 	<file>
 		<path>infoexaile</path>
