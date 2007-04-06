@@ -41,29 +41,28 @@
 			<contactlistbg>#ffffff</contactlistbg>	<!-- color of the contact list, where the contacts appear -->
 			<bannerbg>#ffffff</bannerbg>
 			<mystatus>#666666</mystatus>
-			<contact_online>#00476D</contact_online>
-			<contact_away>#375F09</contact_away>
-			<contact_noactivity>#375F09</contact_noactivity>
-			<contact_rightback>#375F09</contact_rightback>
-			<contact_onphone>#375F09</contact_onphone>
-			<contact_busy>#C43C1D</contact_busy>
-			<contact_mobile>#CF7B36</contact_mobile>
-			<contact_gonelunch>#375F09</contact_gonelunch>
-			<contact_offline>#B0B1B0</contact_offline>
-			<state_online>#747474</state_online>
-			<state_away>#747474</state_away>
-			<state_noactivity>#747474</state_noactivity>
-			<state_rightback>#747474</state_rightback>
-			<state_onphone>#747474</state_onphone>
-			<state_busy>#747474</state_busy>
-			<state_mobile>#747474</state_mobile>
-			<state_gonelunch>#747474</state_gonelunch>
-			<state_offline>#747474</state_offline>
+			<contact_online>#638000</contact_online>
+			<contact_away>#ac4311</contact_away>
+			<contact_noactivity>#555753</contact_noactivity>
+			<contact_rightback>#00438a</contact_rightback>
+			<contact_onphone>#ffaa00</contact_onphone>
+			<contact_busy>#cf4913</contact_busy>
+			<contact_gonelunch>#8c0000</contact_gonelunch>
+			<contact_offline>#555753</contact_offline>
+			<state_online>#333333</state_online>
+			<state_away>#333333</state_away>
+			<state_noactivity>#333333</state_noactivity>
+			<state_rightback>#333333</state_rightback>
+			<state_onphone>#333333</state_onphone>
+			<state_busy>#333333</state_busy>
+			<state_mobile>#333333</state_mobile>
+			<state_gonelunch>#333333</state_gonelunch>
+			<state_offline>#333333</state_offline>
 			<groupcolorextend>#333333</groupcolorextend>
 			<groupcolorcontract>#666666</groupcolorcontract>
 		</Colors>
 		 <Options>
-			<mainwindowrelief>flat</mainwindowrelief>
+			 <mainwindowrelief>flat</mainwindowrelief> <!-- Available options are:  flat/raised/sunken/ridge/groove -->
 			<emailabovecolorbar>1</emailabovecolorbar>
 			<underline_contact>0</underline_contact>
 			<underline_group>0</underline_group>
@@ -163,10 +162,10 @@
 			<chat_tabbar_padx>7</chat_tabbar_padx>
 			<chat_tabbar_pady>0</chat_tabbar_pady>
                         <tab_text_x>4</tab_text_x>
-                        <tab_text_y>8</tab_text_y>
+                        <tab_text_y>13</tab_text_y>
                         <tab_text_width>100</tab_text_width>
-                        <tab_close_x>104</tab_close_x>
-                        <tab_close_y>2</tab_close_y>
+                        <tab_close_x>105</tab_close_x>
+                        <tab_close_y>7</tab_close_y>
 		</Geometry>
 	</ChatWindow>
 
