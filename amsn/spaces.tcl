@@ -751,7 +751,7 @@ namespace eval ::ccard {
 					set itemtag [lindex $taglist 0]_bpost_${count}
 					$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
 						-font sitalf -text "[lindex $i 1]" \
-						-tags [linsert $taglist end $itemtag]  -anchor nw -fill black
+						-tags [linsert $taglist end $itemtag clickable]  -anchor nw -fill black
 					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
 
 					#update ychange
@@ -775,9 +775,6 @@ namespace eval ::ccard {
 					set itemtag [lindex $taglist 0]_bpost_${count}
 #puts "Photo: $i"
 					if { [lindex $i 0] != "" } {
-#						$canvas create text [expr {$xcoord + 50}] [expr {$ycoord + $height}] \
-#							-font sitalf -text "[lindex $i 1]" \
-#							-tags [linsert $taglist end $itemtag] -anchor nw -fill grey
 
 						if {[lindex $i 3] != "" } {
 							set imageData [::MSNSPACES::getAlbumImage [lindex $i 3]]
@@ -787,8 +784,8 @@ namespace eval ::ccard {
 								set imgx [expr {$xcoord + 10 + $photooffset}]
 								set imgy [expr {$ycoord + $height + $lineheight}]
 								$canvas create image $imgx $imgy -image $img \
-								    -tags [linsert $taglist end $itemtag] -anchor nw
-								$canvas create rectangle $imgx $imgy  [expr {$imgx + 22}] [expr {$imgy + 22}] -outline #576373
+								    -tags [linsert $taglist end $itemtag clickable] -anchor nw
+								$canvas create rectangle $imgx $imgy  [expr {$imgx + 22}] [expr {$imgy + 22}] -outline #576373 -tags [linsert $taglist end $itemtag]
 								set photooffset [expr {$photooffset + 26}]
 							}
 						}
@@ -799,6 +796,7 @@ namespace eval ::ccard {
 						incr count
 					}
 				}
+				set height [expr {$height + $lineheight } ]
 			}
 			#for now show a message if no blogs or photos, for debugging purposes
 			if {$Blog == "" && $Album == ""} {
@@ -809,7 +807,8 @@ namespace eval ::ccard {
 				set height [expr {$height + $lineheight } ]
 			}
 		}
-		
+		$canvas bind clickable <Enter> +[list $canvas configure -cursor hand2]
+		$canvas bind clickable <Leave> +[list $canvas configure -cursor left_ptr]
 		
 		
 			
