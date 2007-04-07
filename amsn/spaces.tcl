@@ -814,7 +814,7 @@ namespace eval ::ccard {
 						if {[lindex $i 3] != "" } {
 							set imageData [::MSNSPACES::getAlbumImage [lindex $i 3]]
 							if {$imageData != "" } {
-								set img [image create photo -data $imageData]
+								set img [image create photo tempspacethumb$count -data $imageData]
 								::picture::ResizeWithRatio $img 22 22
 								set imgx [expr {$xcoord + 10 + $photooffset}]
 								set imgy [expr {$ycoord + $height + $lineheight}]
@@ -822,6 +822,7 @@ namespace eval ::ccard {
 								    -tags [linsert $taglist end $itemtag clickable] -anchor nw
 								$canvas create rectangle $imgx $imgy  [expr {$imgx + 22}] [expr {$imgy + 22}] -outline #576373 -tags [linsert $taglist end $itemtag clickable]
 								set photooffset [expr {$photooffset + 25}]
+								bind $canvas <Destroy> +[list image delete tempspacethumb$count]
 							}
 						}
 						$canvas bind $itemtag <Button-1> \
