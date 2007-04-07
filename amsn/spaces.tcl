@@ -1,3 +1,6 @@
+# Now relies on guicontactlist's truncateText proc
+
+
 
 ::Version::setSubversionId {$Id$}
 
@@ -610,10 +613,25 @@ namespace eval ::ccard {
 			set bp_y 26
 			$canvas create image $bp_x $bp_y -anchor nw -image [::skin::getDisplayPicture $email] -tags $email
 			$canvas create image [expr $bp_x -1 ]  [expr $bp_y -1 ] -anchor nw -image [::skin::loadPixmap ccard_bpborder] -tags [list tt $email]
-			$canvas create text 114 22 -text [::abook::getNick $email] -font bigfont -width 170 -justify left -anchor nw -fill black -tags [list dp $email]
-			drawSpacesInfo $canvas 114 50 $email [list $email space_info contact]
+
+			set nick [::abook::getNick $email]
+			if {[font measure bboldf $nick] > 180} {
+				set nick [::guiContactList::truncateText $nick 180 bboldf "..."]
+			}
+			$canvas create text 114 24 -text $nick -font bboldf -justify left -anchor nw -fill black\
+					-tags [list $email nickname] 
+
+			set psm [::abook::getpsmmedia $email]
+			if {[font measure bitalf $psm] > 180} {
+				set psm [::guiContactList::truncateText $psm 180 bitalf "..."]
+			}
+			$canvas create text 114 40 -text $psm -font bitalf -justify left -anchor nw -fill black\
+					-tags [list $email psm]
+
+						
+			drawSpacesInfo $canvas 114 70 $email [list $email space_info contact]
 			tooltip $canvas tt "$email\n[trans status] : [trans [::MSN::stateToDescription [::abook::getVolatileData $email state]]]\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
-			$canvas create text 5 1 -text "$email" -fill white -anchor nw
+			$canvas create text 5 1 -text "$email" -fill white -anchor nw -font splainf
 
 			
 			
@@ -729,8 +747,12 @@ namespace eval ::ccard {
 			
 			#First show the spaces title:
 			if {$SpaceTitle != ""} {
-				$canvas create text $xcoord [expr {$ycoord + $height}] -font bitalf -text "$SpaceTitle" \
+				if {[font measure bboldf $SpaceTitle] > 175} {
+					set SpaceTitle [::guiContactList::truncateText $SpaceTitle 175 bboldf "..."]
+				}
+				$canvas create text $xcoord [expr {$ycoord + $height}] -font bboldf -text $SpaceTitle\
 					-tags $taglist -anchor nw -fill black
+				
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight + 4 }]
 				#set everything after this title a bit to the right
@@ -750,9 +772,21 @@ namespace eval ::ccard {
 				set count 0
 				foreach i $blogposts {
 					set itemtag [lindex $taglist 0]_bpost_${count}
-					$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
-						-font sitalf -text "[lindex $i 1]" \
-						-tags [linsert $taglist end $itemtag clickable]  -anchor nw -fill black
+					#check if there's a title
+					set title [lindex $i 1]
+					if {$title != ""} {
+						if {[font measure sitalf $title] > 155} {
+							set SpaceTitle [::guiContactList::truncateText $title 155 sitalf "..."]
+						}
+						$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
+							-font sitalf -text $title -tags [linsert $taglist end $itemtag clickable]\
+							-anchor nw -fill black
+					} else {
+						$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
+							-font sitalf -text "[trans untitled]"\
+							-tags [linsert $taglist end $itemtag clickable]  -anchor nw -fill black
+					}
+					
 					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
 
 					#update ychange
@@ -787,7 +821,7 @@ namespace eval ::ccard {
 								$canvas create image $imgx $imgy -image $img \
 								    -tags [linsert $taglist end $itemtag clickable] -anchor nw
 								$canvas create rectangle $imgx $imgy  [expr {$imgx + 22}] [expr {$imgy + 22}] -outline #576373 -tags [linsert $taglist end $itemtag clickable]
-								set photooffset [expr {$photooffset + 26}]
+								set photooffset [expr {$photooffset + 25}]
 							}
 						}
 						$canvas bind $itemtag <Button-1> \

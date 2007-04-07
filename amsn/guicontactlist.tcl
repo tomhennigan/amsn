@@ -1913,9 +1913,13 @@ namespace eval ::guiContactList {
 	}
 
 
-	proc truncateText { text maxwidth font } {
+	proc truncateText { text maxwidth font {ellipsis ""}} {
+
 		set shortened ""
 		set stringlength [string length $text]
+		set ellipsislenght [font measure $font $ellipsis]
+
+		set maxwidth [expr {$maxwidth - $ellipsislenght}]
 
 		# Store stringlength
 		for {set x 0} {$x < $stringlength} {incr x} {
@@ -1926,7 +1930,8 @@ namespace eval ::guiContactList {
 			}
 			set shortened "$nextstring"
 		}
-		return $shortened
+		return "$shortened$ellipsis"
+	
 	}
 
 
