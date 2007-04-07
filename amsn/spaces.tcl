@@ -613,6 +613,7 @@ namespace eval ::ccard {
 			$canvas create text 114 22 -text [::abook::getNick $email] -font bigfont -width 170 -justify left -anchor nw -fill black -tags [list dp $email]
 			drawSpacesInfo $canvas 114 50 $email [list $email space_info contact]
 			tooltip $canvas tt "$email\n[trans status] : [trans [::MSN::stateToDescription [::abook::getVolatileData $email state]]]\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
+			$canvas create text 5 1 -text "$email" -fill white -anchor nw
 
 			
 			
