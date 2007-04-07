@@ -785,7 +785,7 @@ namespace eval ::ccard {
 								set imgy [expr {$ycoord + $height + $lineheight}]
 								$canvas create image $imgx $imgy -image $img \
 								    -tags [linsert $taglist end $itemtag clickable] -anchor nw
-								$canvas create rectangle $imgx $imgy  [expr {$imgx + 22}] [expr {$imgy + 22}] -outline #576373 -tags [linsert $taglist end $itemtag]
+								$canvas create rectangle $imgx $imgy  [expr {$imgx + 22}] [expr {$imgy + 22}] -outline #576373 -tags [linsert $taglist end $itemtag clickable]
 								set photooffset [expr {$photooffset + 26}]
 							}
 						}
