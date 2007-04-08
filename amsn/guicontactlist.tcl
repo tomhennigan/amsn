@@ -346,6 +346,7 @@ namespace eval ::guiContactList {
 
 		if { $bg_exists == 0 } {
 			$canvas create image 0 0 -image contactlist_background -anchor nw -tag backgroundimage
+			$canvas lower backgroundimage
 			if {[$canvas bbox backgroundimage] != ""} {
 				$canvas configure -scrollregion [list 0 0 2000 [lindex [$canvas bbox backgroundimage] 3]]
 			}
