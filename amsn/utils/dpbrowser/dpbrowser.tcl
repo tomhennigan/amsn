@@ -437,7 +437,7 @@ snit::widget dpbrowser {
 	}
 
 	# Show a popup menu to interact with a dp
-	method popupMenu { X Y filename widget enable_delete} {
+	method popupMenu { X Y filename i enable_delete} {
 		if { $options(-mode) != "both" && $options(-mode) != "properties" } {
 			return
 		}
@@ -450,7 +450,7 @@ snit::widget dpbrowser {
 			-command [list $self copyDpToClipboard $filename]
 		if { $enable_delete } {
 			$the_menu add command -label "[trans delete]" \
-				-command [list $self deleteEntry $filename $widget]
+				-command [list $self deleteEntry $filename $i]
 		}
 		$the_menu add command -label "[trans setasmydp]" \
 			-command [list set_displaypic $filename]
@@ -458,8 +458,8 @@ snit::widget dpbrowser {
 	}
 
 	# Delete a dp from the hard disk
-	method deleteEntry {filename widget} {
-		if {[$self getEntryFromIndex [lindex $selected 0]] == $widget} {
+	method deleteEntry {filename i} {
+		if {[lindex $selected 0] == $i} {
 			$self deSelect
 			eval $options(-command)
 		}
