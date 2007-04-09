@@ -333,6 +333,8 @@ namespace eval ::guiContactList {
 			}
 		}
 
+		contactlist_background blank
+
 		if { [::skin::getKey contactlistbgtile 0] != 0 } {
 			set skin_image_tile [::skin::loadPixmap back2]
 			contactlist_background copy $skin_image_tile \
