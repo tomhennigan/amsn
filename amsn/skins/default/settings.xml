@@ -69,7 +69,7 @@
 			<changecursor_contact>1</changecursor_contact>
 			<changecursor_group>1</changecursor_group>
 			<showdisplaycontactlist>1</showdisplaycontactlist>
-			<contactlistbgtile>0</contactlistbgtile>
+			<contactlistbgtile>1</contactlistbgtile>
 			<contactlistbgnontiled>1</contactlistbgnontiled>
 		 </Options>
 		<Geometry>
