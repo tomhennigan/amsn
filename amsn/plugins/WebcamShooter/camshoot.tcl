@@ -36,16 +36,15 @@ namespace eval ::camshoot {
 	proc CreateShootButton { event evpar } {
 		upvar 2 $evpar newvar
 
-		button $newvar(win).webcam -command "::camshoot::webcampicture" -text "[trans webcamshot]"
-		grid $newvar(win).webcam -row 4 -column 3 -padx 3 -pady 3 -stick new
-	
-	
+		button $newvar(win).webcam -command "::camshoot::webcampicture $newvar(target)" -text "[trans webcamshot]"
+		pack $newvar(win).webcam -fill x
+
 	}
 	
 	#Create .webcampicture window
 	#With that window we can get a picture from our webcam and use it as a display picture
 	#Actually only compatible with QuickTimeTcl, but support for TkVideo could be added
-	proc webcampicture {} {
+	proc webcampicture {target} {
 		if { ! [info exists ::capture_loaded] } { ::CAMGUI::CaptureLoaded }
 		if { ! $::capture_loaded } { return }
 
@@ -75,7 +74,7 @@ namespace eval ::camshoot {
 			pack $window.l
 			button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
 			pack $window.settings -expand true -fill x
-			button $window.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $window"
+			button $window.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $target $window"
 			pack $window.shot -expand true -fill x
 			bind $window <Destroy> "destroy $grabber"
 			after 0 "::CAMGUI::PreviewWindows $grabber $img"
@@ -89,7 +88,7 @@ namespace eval ::camshoot {
 
 			#Action button to take the picture
 			if {![winfo exists $w.shot]} {
-				button $w.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $w"
+				button $w.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $target $w"
 				pack $w.shot
 			}
 
@@ -147,7 +146,7 @@ namespace eval ::camshoot {
 			pack $window.l
 			button $window.settings -command "::CAMGUI::ShowPropertiesPage $grabber $img" -text "[trans changevideosettings]"
 			pack $window.settings -expand true -fill x
-			button $window.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $window"
+			button $window.shot -text "[trans takesnapshot]" -command "::camshoot::webcampicture_shot $target $window"
 			pack $window.shot -expand true -fill x
 			bind $window <Destroy> "::CAMGUI::CloseGrabber $grabber $window"
 
@@ -166,7 +165,7 @@ namespace eval ::camshoot {
 	}
 
 	#Create the window to accept or refuse the photo
-	proc webcampicture_shot {window} {
+	proc webcampicture_shot {target window} {
 
 		set w .webcampicturedoyoulikeit
 
@@ -174,7 +173,6 @@ namespace eval ::camshoot {
 			destroy $w
 		}
 		toplevel $w
-		::gui::stdbind $w
 
 		set preview [image create photo]
 		if { [set ::tcl_platform(platform)] == "windows" } {
@@ -200,7 +198,7 @@ namespace eval ::camshoot {
 
 
 		#create picture (middle-left)
-		canvas $mid.stillpreview -width 320 -height 240
+		canvas $mid.stillpreview -width [image width $preview] -height [image height $preview]
 		$mid.stillpreview create image 0 0 -anchor nw -image $preview
 		::PrintBox::Create $mid.stillpreview
 
@@ -221,7 +219,7 @@ namespace eval ::camshoot {
 		#create lower frame
 		set low $w.lowerframe
 		frame $low 
-		button $low.use -text "[trans useasdp]" -command "::camshoot::webcampicture_save $w $preview"
+		button $low.use -text "[trans useasdp]" -command "::camshoot::webcampicture_save $target $w $preview"
 		button $low.saveas -text "[trans saveas]" -command "::camshoot::webcampicture_saveas $w $preview"
 		button $low.cancel -text "[trans cancel]" -command "destroy $w"
 		pack $low.use $low.saveas $low.cancel -side right -padx 5
@@ -241,8 +239,8 @@ namespace eval ::camshoot {
 
 	}
 	#Use the picture as a display picture
-	proc webcampicture_save {w image} {
-		global HOME selected_image
+	proc webcampicture_save {target w image} {
+		global HOME
 
 		set preview [image create photo]
 		foreach {x0 y0 x1 y1} [::PrintBox::Done $w.mid.stillpreview] break
@@ -262,17 +260,12 @@ namespace eval ::camshoot {
 		destroy $w
 
 		#Open pictureBrowser if user closed it
-		if {![winfo exists .picbrowser]} {
+		if {![winfo exists .dpbrowser]} {
 			pictureBrowser
 		}
-		
-		#Set image_name
-		set image_name [image create photo -file [::skin::GetSkinFile displaypic $file] -format cximage]
-		#Change picture in .mypic frame of .picbrowser
-		.picbrowser.mypic configure -image $image_name
 
-		#Set selected_image global variable
-		set selected_image "[filenoext [file tail $file]].png"
+		image create photo displaypicture_pre_$target -file [::skin::GetSkinFile displaypic $file] -format cximage
+		.dpbrowser.rightpane.dppreview configure -image displaypicture_pre_$target
 
 		#Write inside .dat file
 		set desc_file "[filenoext [file tail $file]].dat"
@@ -281,13 +274,12 @@ namespace eval ::camshoot {
 		puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
 		close $fd
 
+		# Redraw dpBrowser's upper pane
+		.dpbrowser.leftpane.mydps configure -user self
 
-		lappend image_names $image_name
 		#status_log "Created $image_name\n"
 		destroy .webcampicturedoyoulikeit
-		raise .picbrowser
-
-#		reloadAvailablePics
+		raise .dpbrowser
 	}
 
 	#Save the display picture somewhere on the hard disk

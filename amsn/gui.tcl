@@ -6512,7 +6512,9 @@ proc dpBrowser { {target_user "self" } } {
 	#under this button is space for more buttons we'll make a frame for so plugins can pack stuff in this frame
 	frame $w.rightpane.pluginsframe -bd 0
 
-
+	set evPar(target) $target_user
+	set evPar(win) $w.rightpane.pluginsframe
+	::plugins::PostEvent xtra_choosepic_buttons evPar
 
 	#################
 	# lower pane    #
@@ -6579,8 +6581,6 @@ proc updateDpBrowserSelection { browser target } {
 		$w.leftpane.mydps deSelect
 	}
 }
-
-
 
 #proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
 proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {operation "open"} {types {{ "All Files" {*} }} }} {

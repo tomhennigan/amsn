@@ -3,17 +3,17 @@
 	<name>Cam Shooter</name>
 	<author>Jerome Gagnon-Voyer (mac code), Le Philousophe (lin/win code) and Karel Demeyer (plugin maintainer)</author>
 	<description>With this plugin you can take shoots of your webcam to use as display picture.</description>
-	<amsn_version>0.94</amsn_version>
-	<plugin_version>0.1</plugin_version>
+	<amsn_version>0.97</amsn_version>
+	<plugin_version>0.2</plugin_version>
 	<plugin_file>camshoot.tcl</plugin_file>
 	<plugin_namespace>camshoot</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 
-	<cvs_version>1.11</cvs_version>
+	<cvs_version>8418</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
-		<version>1.1</version>
+		<version>5378</version>
 	</lang>
 	<lang>
 		<langcode>es</langcode>
@@ -21,7 +21,7 @@
 	</lang>
 	<lang>
 		<langcode>fi</langcode>
-		<version>1.1</version>
+		<version>6945</version>
 	</lang>
 	<lang>
 		<langcode>fr</langcode>
@@ -29,19 +29,19 @@
 	</lang>
 	<lang>
 		<langcode>it</langcode>
-		<version>1.1</version>
+		<version>7652</version>
 	</lang>
 	<lang>
 		<langcode>nl</langcode>
-		<version>1.1</version>
+		<version>5519</version>
 	</lang>
 	<lang>
 		<langcode>pt_BR</langcode>
-		<version>1.1</version>
+		<version>7285</version>
 	</lang>
 	<lang>
 		<langcode>sv</langcode>
-		<version>1.1</version>
+		<version>7016</version>
 	</lang>
 
 	<URL>
