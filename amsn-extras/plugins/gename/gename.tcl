@@ -68,8 +68,8 @@ namespace eval ::gename {
 	plugins_log gename "$config(program) returned $ret\n"
 
 	# Because I seem to get kicked off the network when there are ^H's in name
-	# used for setting psm, let's throw out control characters.
-	regsub -nocase -all {[[:cntrl:]]} $name {} name
+    # used for setting psm, let's replace control characters.
+	regsub -nocase -all {[[:cntrl:]]} $name { } name
 
 	if {[string length "$name"] > 129 } {
 	    plugins_log gename "Damn! The new name is too long, regenerating...\n"
