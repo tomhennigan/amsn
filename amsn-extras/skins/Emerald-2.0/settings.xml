@@ -62,7 +62,7 @@
 			<groupcolorcontract>#666666</groupcolorcontract>
 		</Colors>
 		 <Options>
-			 <mainwindowrelief>flat</mainwindowrelief> <!-- Available options are:  flat/raised/sunken/ridge/groove -->
+			<mainwindowrelief>flat</mainwindowrelief> <!-- Available options are:  flat/raised/sunken/ridge/groove -->
 			<emailabovecolorbar>1</emailabovecolorbar>
 			<underline_contact>0</underline_contact>
 			<underline_group>0</underline_group>
@@ -81,9 +81,9 @@
 			<mystatus_ypad>0</mystatus_ypad>
 			<mailbox_xpad>7</mailbox_xpad>
 			<mailbox_ypad>0</mailbox_ypad>
-			<contract_xpad>5</contract_xpad>
+			<contract_xpad>3</contract_xpad>
 			<contract_ypad>12</contract_ypad>
-			<expand_xpad>5</expand_xpad>
+			<expand_xpad>3</expand_xpad>
 			<expand_ypad>12</expand_ypad>
 			<x_dp_top>10</x_dp_top>
 			<y_dp_top>10</y_dp_top>
