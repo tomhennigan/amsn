@@ -108,7 +108,7 @@
 			<topbarbg>#f7f7f7</topbarbg>
 			<topbarbg_sel>#c6cdd7</topbarbg_sel>
 			<topbartext>#000000</topbartext>
-			<topbarborder>#002f50</topbarborder>
+			<topbarborder>#7da0af</topbarborder>
 			<topbarawaybg>#dfe7f0</topbarawaybg>
 			<topbarawaybg_sel>#c6cdd7</topbarawaybg_sel>
 			<topbarawaytext>#000000</topbarawaytext>
@@ -124,7 +124,7 @@
 			<statusbarbg>#f7f7f7</statusbarbg>
 			<statusbarbg_sel>#c6cdd7</statusbarbg_sel>
 			<statusbartext>#666666</statusbartext>
-			<chat_status_border_color>#002f50</chat_status_border_color>
+			<chat_status_border_color>#7da0af</chat_status_border_color>
 		</Colors>
 		<Options>
 			<chat_top_pixmap>1</chat_top_pixmap>
@@ -401,13 +401,13 @@
       </emoticon>
    
       <emoticon>
-         <name> Left_Hug </name>
+         <name> Left hug </name>
          <text> "({)" </text>
          <file> Left_hug.png </file>
       </emoticon>
       
       <emoticon>
-         <name> Right_hug </name>
+         <name> Right hug </name>
          <text> "(})" </text>
          <file> Right_hug.png </file>
       </emoticon>
@@ -645,12 +645,6 @@
         <file> Vampire_bat.png </file>
 	    <animated> yes </animated>
       </emoticon> 
-	  
-	  <emoticon>
-        <name> Left hug </name>
-        <text> "({)" </text>
-        <file> Left_hug.png </file>
-      </emoticon>
 	  
 	  <emoticon>
         <name> Fingerscrossed </name>
