@@ -5827,6 +5827,7 @@ proc setup_connection {name} {
 	#$name configure -error_handler [list ::MSN::CloseSB $name]
 	if {![catch {[$name cget -proxy] cget -name}]} {
 		#The connection already has a Proxy defined so we clean it
+		[$name cget -proxy] finish $name
 		[$name cget -proxy] destroy
 	}
 	$name configure -proxy [Proxy create %AUTO%]

@@ -474,7 +474,18 @@ proc SOCKSocket { args } {
 	option -proxy_session_id
 	option -proxy_gateway_ip
 	option -proxy_writing
+	variable poll_afterids
 
+	constructor {args } {
+		array set poll_afterids [list]
+		$self configurelist $args
+	}
+
+	destructor {
+		foreach name [array names poll_afterids]  {
+			after cancel [set poll_afterids($name)]
+		}
+	}
 
 	method write { name {msg ""} } {
 #		variable proxy_queued_data
@@ -484,6 +495,8 @@ proc SOCKSocket { args } {
 
 		#Cancel any previous attemp to write or POLL
 		after cancel "$self PollPOST $name"
+		array unset poll_afterids $name
+
 		after cancel "globalWrite $self $name"
 
 		if {![info exists options(-proxy_queued_data)]} {
@@ -703,6 +716,7 @@ proc SOCKSocket { args } {
 
 		#status_log "Canceling \"$self HTTPPoll $name\""
 		after cancel "$self HTTPPoll $name"
+		array unset poll_afterids $name
 		
 		if {[info exists options(-proxy_session_id)]} {
 			unset options(-proxy_session_id)
@@ -854,6 +868,7 @@ proc SOCKSocket { args } {
 		variable options
 
 		after cancel "$self HTTPPoll $name"
+		array unset poll_afterids $name
 
 		set sock [$name cget -sock]
 		if {[catch {eof $sock} res]} {
@@ -868,7 +883,7 @@ proc SOCKSocket { args } {
 				$self connect $name [list $self RetryWrite $name]
 				return 0
 			} else {
-				after 5000 "$self HTTPPoll $name"
+				set poll_afterids($name) [after 5000 [list $self HTTPPoll $name]]
 			}
 		} else {
 			set tmp_data "ERROR READING POST PROXY !!\n"
@@ -943,7 +958,7 @@ proc SOCKSocket { args } {
 
 				if { $session_id != ""} {
 					#status_log "Scheduling HTTPPoll\n" white
-					after 5000 "$self HTTPPoll $name"
+					set poll_afterids($name) [after 5000 [list $self HTTPPoll $name]]
 				}
 
 				set options(-proxy_gateway_ip) $gateway_ip
@@ -959,6 +974,7 @@ proc SOCKSocket { args } {
 #		variable proxy_queued_data
 #		variable options(-proxy_writing)
 
+		array unset poll_afterids $name
 		if { ![info exists options(-proxy_session_id)]} {
 			return
 		}
