@@ -555,21 +555,18 @@
          <name> Thumbs up </name>
          <text> "(y)" </text>
          <file> Thumbs_up.png </file>
-		 <hiden> yes </hiden>
       </emoticon>
 	  
 	   <emoticon>
          <name> Thumbs down </name>
          <text> "(n)" </text>
          <file> Thumbs_down.png </file>
-		 <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
          <name> I dont know </name>
          <text> ":^)" </text>
          <file> i_dont_know.png </file>
-		 <hiden> yes </hiden>
 		 <animated> yes </animated>
       </emoticon>
 	  
@@ -577,49 +574,42 @@
          <name> Devil </name>
          <text> "(6)" </text>
          <file> Devil.png </file>
-		 <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Beer mug </name>
         <text> "(b)" </text>
         <file> Beer.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Dry martini </name>
         <text> "(D)" </text>
         <file> Dry_martini.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
       
 	  <emoticon>
         <name> Dinner plate </name>
         <text> "(pl)" </text>
         <file> Plate.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Handcuffs </name>
         <text> "(%)" </text>
         <file> Handcuffs.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Bowl </name>
         <text> "(||)" </text>
         <file> Bowl.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Cigarette </name>
         <text> "(ci)" </text>
         <file> Cigarette.png </file>
-	    <hiden> yes </hiden>
 	    <animated> yes </animated>
       </emoticon> 
 	  
@@ -627,14 +617,12 @@
         <name> Rain </name>
         <text> "(st)" </text>
         <file> Rain.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Lightning </name>
         <text> "(li)" </text>
         <file> Lightning.png </file>
-	    <hiden> yes </hiden>
 	    <animated> yes </animated>
       </emoticon> 
 	  
@@ -642,14 +630,12 @@
         <name> Turtle </name>
         <text> "(tu)" </text>
         <file> Turtle.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Asl </name>
         <text> "(?)" </text>
         <file> Asl.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
@@ -657,7 +643,6 @@
         <text> ":-[" </text>
 	    <text> ":[" </text>
         <file> Vampire_bat.png </file>
-	    <hiden> yes </hiden>
 	    <animated> yes </animated>
       </emoticon> 
 	  
@@ -665,42 +650,36 @@
         <name> Left hug </name>
         <text> "({)" </text>
         <file> Left_hug.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Fingerscrossed </name>
         <text> "(yn)" </text>
         <file> Fingerscrossed.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
    
      <emoticon>
         <name> Hi five </name>
         <text> "(h5)" </text>
         <file> Hi_five.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> What The Fuck </name>
         <text> ":`(" </text>
         <file> What_The_Fuck.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
 	  <emoticon>
         <name> Be Right Back </name>
         <text> "(brb)" </text>
         <file> Be_Right_Back.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	 
 	  <emoticon>
         <name> Xbox </name>
         <text> "(xx)" </text>
         <file> Xbox.png </file>
-	    <hiden> yes </hiden>
       </emoticon>
 	  
       <emoticon>
