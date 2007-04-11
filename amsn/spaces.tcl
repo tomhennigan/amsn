@@ -18,10 +18,11 @@ namespace eval ::MSNSPACES {
 
 			set storageAuthCache [GetXmlEntry $list "soap:Envelope:soap:Header:StorageUserHeader:UserAuthCache"]
 			set i 0
-			set users_with_update [list]
+			set users_with_space [list]
 			while {1 } {
 				set subxml [GetXmlNode $list "soap:Envelope:soap:Body:GetItemVersionResponse:GetItemVersionResult:SpaceVersion" $i]
 
+				incr i
 				if {$subxml == "" } {
 					break
 				}
@@ -29,48 +30,54 @@ namespace eval ::MSNSPACES {
 				set last_modif [GetXmlEntry $subxml "SpaceVersion:LastModifiedDate"]
 				set resourceID [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:ResourceID"]
 				set email [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:Alias:Name"]
-				set resources($email) $resourceID
-				set space_info($email) [list $has_new $last_modif $resourceID]
-				incr i
-			       
-				# Transform the last modification date to an acceptable date format... "2006-02-19T01:49:59-08:00" is not accepted, but "2006-02-19T01:49:59" is accepted
-				if { [catch { 
-					set idx [string last "+" $last_modif]
-					if {$idx != -1 } {
-						incr idx -1
-						set last_modif [clock scan [string range $last_modif 0 $idx]]
-					} else {
-						set idx [string last "-" $last_modif]
-						incr idx -1
-						set last_modif [clock scan [string range $last_modif 0 $idx]]
-					}
-				}] } {
-					if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})([-+]\d{2}:\d{2})} $last_modif -> y m d h min s z] } {
-						set last_modif [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
-					}
-				}
 				
-				# Set the fact that they've got new data as volatile abook data
-				if {$has_new == "true" } {
-					::abook::setVolatileData $email space_updated 1
-					::abook::setContactData $email spaces_info_xml [list]
-					::abook::setContactData $email spaces_last_modif $last_modif
-					lappend users_with_update $email
-				} else {
-					::abook::setVolatileData $email space_updated 0
-
-					# Reset the known info if the last modified date has changed, this means that the user fetched the spaces info from another client
-					set old_date [::abook::getContactData $email spaces_last_modif 0]
-					if { $last_modif > $old_date } {
-						::abook::setContactData $email spaces_info_xml [list]
-						::abook::setContactData $email spaces_last_modif $last_modif						
+				if { [string length $resourceID] > 0} {
+					lappend users_with_space $email
+					set resources($email) $resourceID
+					set space_info($email) [list $has_new $last_modif $resourceID]
+					
+					# Transform the last modification date to an acceptable date format... 
+					# "2006-02-19T01:49:59-08:00" is not accepted, but "2006-02-19T01:49:59" is accepted
+					if { [catch { 
+						set idx [string last "+" $last_modif]
+						if {$idx != -1 } {
+							incr idx -1
+							set last_modif [clock scan [string range $last_modif 0 $idx]]
+						} else {
+							set idx [string last "-" $last_modif]
+							incr idx -1
+							set last_modif [clock scan [string range $last_modif 0 $idx]]
+						}
+					}] } {
+						if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})([-+]\d{2}:\d{2})} $last_modif -> y m d h min s z] } {
+							set last_modif [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
+						}
 					}
+					
+					# Set the fact that they've got new data as volatile abook data
+					if {$has_new == "true" } {
+						::abook::setVolatileData $email space_updated 1
+						::abook::setContactData $email spaces_info_xml [list]
+						::abook::setContactData $email spaces_last_modif $last_modif
+					} else {
+						::abook::setVolatileData $email space_updated 0
+						
+						# Reset the known info if the last modified date has changed,
+						# this means that the user fetched the spaces info from another client
+						set old_date [::abook::getContactData $email spaces_last_modif 0]
+						if { $last_modif > $old_date } {
+							::abook::setContactData $email spaces_info_xml [list]
+							::abook::setContactData $email spaces_last_modif $last_modif						
+						}
+					}
+				} else {
+					status_log "User $email has a space but no resource ID : $subxml" red
 				}
 				
 			}
 
 			#fire event to redraw contacts with changed space
-			::Event::fireEvent contactSpaceChange protocol $users_with_update
+			::Event::fireEvent contactSpaceChange protocol $users_with_space
 		} else {
 			status_log "InitSpaces: ERROR: [$soap GetLastError]"
 			$soap destroy
@@ -83,15 +90,9 @@ namespace eval ::MSNSPACES {
 
 	proc InitSpaces { {callbk ""} } {
 		set users_with_space [list]
-		set all_contacts [::abook::getAllContacts]
-		foreach contact $all_contacts {
-			set has_space [::abook::getVolatileData $contact HSB]
-			if {$has_space == 1 } {
-				lappend users_with_space $contact
-			}
-		}
+		set all_contacts [::MSN::sortedContactList]
 
-		if { [llength $users_with_space] > 0 } {
+		if { [llength $all_contacts] > 0 } {
 			if { [info exists ::authentication_ticket] } {
 				set cookies [split $::authentication_ticket &]
 				foreach cookie $cookies {
@@ -104,7 +105,7 @@ namespace eval ::MSNSPACES {
 							  -url "http://storage.msn.com/storageservice/schematizedstore.asmx" \
 							  -action "http://www.msn.com/webservices/storage/w10/GetItemVersion" \
 							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] \
-							  -xml [::MSNSPACES::getSchematizedStoreXml $users_with_space] \
+							  -xml [::MSNSPACES::getSchematizedStoreXml $all_contacts] \
 							  -callback [list ::MSNSPACES::InitSpacesCallback $callbk]]
 					$soap_req SendSOAPRequest
 					
@@ -124,6 +125,11 @@ namespace eval ::MSNSPACES {
 		}
 		append xml {</spaceVersionRequests><spaceRequestFilter><SpaceFilterAttributes>Annotation</SpaceFilterAttributes><FilterValue>1</FilterValue></spaceRequestFilter></GetItemVersion></soap:Body></soap:Envelope>}
 		return $xml
+	}
+
+	proc hasSpace { email } {
+		variable resources
+		return [info exists resources($email)]
 	}
 
 	proc getContactCardCallback { email callback soap } {
@@ -150,16 +156,15 @@ namespace eval ::MSNSPACES {
 		
 		status_log "fetching ContactCard for user $email"
 
-		# TODO Is this check useful ? in theory, with MSNP12, the servers sends no HSB for *some* users who have a space...
-		if {[::abook::getVolatileData $email HSB] == 1 && [info exists resources($email)] } {
-			if  { [info exists resources($email)] && [info exists ::authentication_ticket] } {
+		if {[::MSNSPACES::hasSpace $email] } {
+			if  {[info exists ::authentication_ticket] } {
 				set cookies [split $::authentication_ticket &]
 				foreach cookie $cookies {
 					set c [split $cookie =]
 					set ticket_[lindex $c 0] [lindex $c 1]
 				}
 				
-				if { [info exists ticket_t] && [info exists ticket_p] && [info exists resources($email)] } {
+				if { [info exists ticket_t] && [info exists ticket_p] } {
 					set soap_req [SOAPRequest create %AUTO% \
 							  -url "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
 							  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
@@ -340,6 +345,7 @@ namespace eval ::MSNSPACES {
 		
 			#now we'll set the space as "read"
 			::abook::setVolatileData $email space_updated 0
+			::Event::fireEvent contactSpaceChange protocol $email
 		}
 
 		::abook::setVolatileData $email fetching_space 0
@@ -390,7 +396,7 @@ namespace eval ::ccard {
 
 	#proc clLoaded { event evpar } {
         #        foreach contact [::abook::getAllContacts] {
-        #                set has_space [::abook::getVolatileData $contact HSB]
+        #                set has_space [::MSNSPACES::hasSpace $contact]
         #                if {$has_space == 1 } {
         #                        #lappend users_with_space $contact
 #				set ccard [::MSNSPACES::getContactCard $contact]

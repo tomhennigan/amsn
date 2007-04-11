@@ -1071,7 +1071,7 @@ namespace eval ::guiContactList {
 		# it's surely due to anchor parameter
 		$canvas create image $xnickpos $ypos -anchor nw \
 			 -image $noupdate_img -tags [list contact icon $tag $space_icon]
-		if { [::abook::getVolatileData $email HSB 0] } {
+		if { [::MSNSPACES::hasSpace $email] } {
 			if {$space_update} {
 				$canvas itemconfigure $space_icon -image $update_img
 			}
