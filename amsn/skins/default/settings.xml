@@ -401,13 +401,13 @@
       </emoticon>
    
       <emoticon>
-         <name> Left_Hug </name>
+         <name> Left hug </name>
          <text> "({)" </text>
          <file> Left_hug.png </file>
       </emoticon>
       
       <emoticon>
-         <name> Right_hug </name>
+         <name> Right hug </name>
          <text> "(})" </text>
          <file> Right_hug.png </file>
       </emoticon>
@@ -645,12 +645,6 @@
         <file> Vampire_bat.png </file>
 	    <animated> yes </animated>
       </emoticon> 
-	  
-	  <emoticon>
-        <name> Left hug </name>
-        <text> "({)" </text>
-        <file> Left_hug.png </file>
-      </emoticon>
 	  
 	  <emoticon>
         <name> Fingerscrossed </name>
