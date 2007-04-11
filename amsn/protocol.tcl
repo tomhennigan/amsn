@@ -4213,6 +4213,10 @@ namespace eval ::Event {
 				set body [$message getBody]
 				set lines [split $body "\r\n"]
 				
+				# We set these because some clients (www.imhaha.com/webmsg/) can send datacast messages without anything in them...
+				set key ""
+				set value ""
+
 				foreach line $lines {
 					foreach {key value} [split $line ":"] break
 					if {$key == "ID"} {
@@ -4221,28 +4225,31 @@ namespace eval ::Event {
 						set data $value
 					}
 				}
-				set evpar(chatid) chatid
-				set evpar(typer) typer
-				set evpar(nick) nick
-				set evpar(msg) message
-				set evpar(id) id
-				set evpar(date) data
-				::plugins::PostEvent DataCastPacketReceived evpar
 
-				if { [info exists id] && [info exists data] } {
-					if {$id == "3" } {
-						::MSNP2P::RequestObjectEx $chatid $typer $data "voice"
-					} elseif {$id == "4" } {
-						# Action messages... 
-						# TODO : find a better way to write the messages ?
-						::amsn::WinWrite $chatid "\n" gray
-						::amsn::WinWriteIcon $chatid greyline 3
-						::amsn::WinWrite $chatid $data gray
-						::amsn::WinWriteIcon $chatid greyline 3
-						::amsn::WinWrite $chatid "\n" gray
+				# Make sure it was a valid datacast packet...
+				if { [info exists id] } {
+					set evpar(chatid) chatid
+					set evpar(typer) typer
+					set evpar(nick) nick
+					set evpar(msg) message
+					set evpar(id) id
+					set evpar(data) data
+					::plugins::PostEvent DataCastPacketReceived evpar
+					
+					if { [info exists id] && [info exists data] } {
+						if {$id == "3" } {
+							::MSNP2P::RequestObjectEx $chatid $typer $data "voice"
+						} elseif {$id == "4" } {
+							# Action messages... 
+							# TODO : find a better way to write the messages ?
+							::amsn::WinWrite $chatid "\n" gray
+							::amsn::WinWriteIcon $chatid greyline 3
+							::amsn::WinWrite $chatid $data gray
+							::amsn::WinWriteIcon $chatid greyline 3
+							::amsn::WinWrite $chatid "\n" gray
+						}
 					}
 				}
-				
 			}
 
 
