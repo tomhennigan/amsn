@@ -4626,7 +4626,8 @@ proc cmsn_draw_buildtop_wrapped {} {
 		+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
 	#Called when the window is resized
-	bind $pgBuddyTop.mystatus <Configure> "RedrawNick"
+	# -> Refreshes the colorbar depending on the width of the window, and redraw the nickname, truncating as necessary
+	bind $pgBuddyTop.mystatus <Configure> "::skin::getColorBar ; RedrawNick"
 
 	bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
 	bind $pgBuddyTop.bigstate <Leave> "+set Bulle(first) 0; kill_balloon;"
