@@ -138,6 +138,10 @@ namespace eval ::MSNSPACES {
 			$soap destroy
 			::abook::setContactData $email spaces_info_xml $xml
 
+			#now we'll set the space as "read"
+			::abook::setVolatileData $email space_updated 0
+			::Event::fireEvent contactSpaceChange protocol $email
+
 			if {[catch {eval $callback [list $xml]} result]} {
 				bgerror $result
 			}
@@ -343,9 +347,6 @@ namespace eval ::MSNSPACES {
 				incr count
 			}		
 		
-			#now we'll set the space as "read"
-			::abook::setVolatileData $email space_updated 0
-			::Event::fireEvent contactSpaceChange protocol $email
 		}
 
 		::abook::setVolatileData $email fetching_space 0
