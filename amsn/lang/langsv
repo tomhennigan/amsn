@@ -110,6 +110,7 @@ bugerror Tyvärr, men det dök upp ett problem vid anslutandet till feldatabasen. 
 bugnocomment Skicka utan en kommentar? Om du kommenterar felet hjälper du oss hitta felet och enklare åtgärda det.
 busy Upptagen
 cachedpics $1 lagrade bilder
+cachedpicsfor Lagrade visningsbilder för användaren
 cagreement Konfidentialitetsöverenskommelse
 cancel Avbryt
 cancelled Avbruten
@@ -348,6 +349,7 @@ finish2apply Tryck på Avsluta för att använda dessa inställningar.
 firewalled Du är bakom en brandvägg eller en router
 firewalled2 Du är bakom en brandvägg. Kontrollera dina anslutningsintällningar.
 followtext Bläddra nedåt när nytt meddelande kommer
+forget_me Glöm bort mig
 forgot_pass Jag har glömt mitt lösenord
 friendlyname Konversationsnamn
 ftaccepted Filöverföring accepterad
@@ -439,6 +441,7 @@ keeplog2 Spara alla konversationer i aMSNs historik
 language Språk
 language_manager Språkhanterare
 large Stor
+largest Störst
 lastlogin Senast ansluten
 lastlogout Senaste utloggning
 lastmsgedme Senaste meddelandet
@@ -493,6 +496,7 @@ mailer Avsändare
 mailerexample ( \$recipient = Mottagare) Lämna blank om du använder Hotmail
 maintenance Servern går ner för underhåll om $1 minuter 
 maximised Maximerad
+medium Mellan
 minimised Minimerad
 minimize Minimera till systemfältet
 mins minuter
@@ -518,6 +522,7 @@ myhomephone Hemtelefonnummer
 mymobilephone Mobiltelefonnummer
 mynick Smeknamn
 mypic Visningsbild:
+mypics Mina visningsbilder
 mystatus Min status
 myworkphone Mitt arbetstelefonnummer
 name Namn
@@ -598,6 +603,7 @@ ordergroupsby Gruppordning
 original Original
 other Annan
 otherdisplaypic Andra visningsbilder för denna kontakt (klicka för fler val)
+otherdps Andra visningsbilder
 others Sökvägar
 p4contextprefix Sätt den här texten som prefix för P4-Kontext-sändare
 pager Personsökare
@@ -714,6 +720,7 @@ sbcon Ansluter till uppslagsserver
 searchdown Sök nedåt
 searchup Sök uppåt
 selectall Markera alla
+selectcontact Välj en kontakt
 selectplugins Välj de plugins du vill använda
 selectskin Välj ett tema från listan
 send Skicka
@@ -757,6 +764,7 @@ signinstatus Status vid inloggning
 skin Tema
 skinselector Temaväljare
 small Liten
+smallest Minst
 smileconfig Specialgjorda emoticonkonfiguration
 smilefile Smileyns filnamn
 smileintro Fyll i de nödvändiga fälten för att skapa en ny smiley (läs FAQ för hjälp)
