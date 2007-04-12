@@ -377,7 +377,7 @@ globaloverride Il modello dei nick globali dovrebbe avere precedenza sui nick pe
 gonelunch A pranzo
 gotink $1 ti ha inviato un ink.
 goto Vai a $1
-gotoinbox Vai all'Inbox
+gotoinbox Cartella posta in arrivo
 goto_prefs_removeprofile Clicca qui per aprire la finestra delle preferenze e cancellare il tuo profilo
 group Gruppo
 groupadd Aggiungi un gruppo
