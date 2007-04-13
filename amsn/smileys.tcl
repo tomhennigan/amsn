@@ -1006,6 +1006,10 @@ namespace eval ::smiley {
 				::picture::Convert [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] "${destfile}.png"
 				set file "${destfile}.png"
 			}
+
+		    	# Don't forget to delete the temp image...!
+		    	image delete tmp
+
 			if { ![file exists $file] } { set file "" }
 		} else {
 			#We convert animated smiley to animated gif even if we can just load animated gif and save to animated gif
