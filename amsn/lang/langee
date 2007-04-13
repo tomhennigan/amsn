@@ -11,20 +11,20 @@ addacontact Lisa sõber
 addedyou $1 ($2) on lisanud sind enda sõbralisti
 addprofile Lisa uus profiil
 addprofiledesc Sisesta kasutaja, kellele tahad profiili luua. \nKasutaja profiilid võimaldavad iga kasutaja jaoks erinevaid seadeid. \nIlma profiilita sa ei saa kasutada funktsioone Ajalugu, Alarmid ja "Salvesta parool".
-addstate Lisa uus staatus
+addstate Lisa uus olek 
 addto Lisa $1-te
 addtocontacts Lisa sõbralisti
 addtoo Lisa see inimene oma sõbralisti
 admincontacts Halda sõpru
 admingroups Halda gruppe
-advanced Edasijõudnud
+advanced Lisaseadistused 
 advancedprefs Konfiguratsioonivalikud edasijõudnutele
 adverts Reklaamid
 agotinvitation $1 saatis sulle helivestluse kutse
 alarmonconnect Käivita alarm kui kasutaja tuleb online
 alarmondisconnect Käivita alarm kui kasutaja lahkub/varjub
 alarmonmsg Käivita alarm kui kasutaja saadab sulle sõnumi
-alarmonstatus Käivita alarm kui kasutaja muudab staatust
+alarmonstatus Käivita alarm kui kasutaja muudab olekut 
 alarmpref Alarmi seaded kasutajale
 alarms Alarmid
 alarmstatus Alarm selle kasutaja puhul Sees/Väljas
@@ -39,7 +39,7 @@ allowseen Luba sellel inimesel ennast ühendatuna näha
 allprofilesinuse Kõik olemasolevad profiilid on hetkel kasutuses
 animatedemoticon See emotikon on animeeritud
 animatedsmileys Luba animeeritud emotikonid
-animatenotify Animeeri teadvustusaken
+animatenotify Animeeritud teadvustusaken
 appearance Välimus
 appearoff Ilmu lahtiühendatuna
 areacode Piirkonnakood
@@ -50,13 +50,22 @@ askeachtime Küsi iga kord
 asksendingyourwebcam et näidata enda kaamera pilti
 asksendoim Soovid selle teate saata ühenduseta teatena ?
 askwebcam Küsi kasutajalt veebikaamera näitamist
+assistantainput Vali oma sisendseade ja ürita sellega salvestada.
+assistantaoutput Vali väljundseade ja ürita prooviks seda faili mängida.
+assistantawarn Sa ei saa heli salvestada ega sõpradega rääkida. Sa võid leida lahenduse oma probleemile meie Vikist:
+assistantfinetunepic Oma veebikaamera pidikvaliteedi muutmiseks muuda järgmisi seadeid
+assistantselectcam Vali nimekirjast oma kaamera
+assistantstarting Abistaja käivitamine
+assistantwelcome See abimees aitab sul seadistada heli ja video seadmeid AMSNi jaoks.\n\nKontrollitakse kas vajalikud moodulid on olemas ja laetud, ning antakse võimalus seadistada seadme kanalit, ning pildi omadusi.
+audioconfigured Valisid järgnevad heliseaded:\n Väljundseade: $1\nSisendseade: $2
+audiovideo Heli ja pildi seaded
 author Autor
 autoaccepted Faili laadimine automaatselt lubatud
 autoacceptft Automaatselt nõustu faili laadimisega
 autoaway Näita mind "Eemal", kui pole tegevust
 autocheckver Käivitamisel kontrolli kas saadaval on uuem versioon
 autoconnect Ühenda aMSN'i käivitumisel
-autoconnect2 Logi automaatselt sisse, kui aMSN käivitub
+autoconnect2 AMSN käivitamisel automaatne sisenemine
 autodetectip Leia IP aadress automaatselt
 autohotmaillog Automaatne Hotmaili sisselogimine
 autoidle Automaatne "Pole tegevust"
@@ -64,15 +73,16 @@ autoip Automaatne IP
 autolisten_voiceclips Peale vastuvõtmist mängi heliklippe automaatselt
 automessage AutoTeade
 autonoact Näita mind "Pole tegevust", kui pole tegevust
-autoresizedp Aotomaatselt muuda kuvapildi suurus vaikeväärtusele vastavaks
+autoresizedp Kuvapildi suurus muudetakse automaatselt vaikeväärtusele vastavaks
 avaccepted Videokonverentsi kutse vastu võetud
 avcanceled Videokonverents tühistatud
 avgotinvitation $1 saatis sulle videokonverentsi kutse
-avinitfailed Audio/video plugini käivitamine ebaõnnestus. Kõne tühistatud
+avinitfailed Audio/video mooduli käivitamine ebaõnnestus. Kõne tühistatud
 avoidseen Väldi seda inimest mind ühendatuna nägemast
 away Eemal
-awaymsg1 Küsi Eemal-teadet iga kord, kui sean oma staatuseks Eemal/Kohe tagasi/Kiire
-awaymsg2 Ära kunagi küsi ja alati kasuta järgnevat Eemal-teadet
+awaymsg1 Küsi eemaloleku teadet iga kord, kui sean oma olekuks Eemal/Kohe tagasi/Kiire
+awaymsg2 Ära kunagi küsi ja alati kasuta järgnevat eemaloleku teadet
+back Tagasi
 baduserpass Vale kasutajanimi või parool
 badwebcam Ei suuda veebikaamera pilti kuvada. Kontrolli, et su kaamera oleks korralikult ühendatud ja installitud
 bgcolor Muuda aMSN'i taustavärvi
@@ -87,6 +97,8 @@ blockinter3 iga
 blockinter4 sekundi jooksul.
 blocklist Blokeeritute nimekiri (BL):
 blockmessage Need kasutajad on liinil ja on sind blokeerinud
+blocknotifications Keela teadvustusakende näitamine
+blocksounds Keela helid
 blockusers Mitut kasutajat korraga kontrollida
 bouncedock Põrgata dokis aMSN'i ikooni kui tuleb uus sõnum
 brightness heledus
@@ -98,16 +110,18 @@ bugerror Ilmnes viga bugide andmebaasiga suhtlemisel. Palun kontrolli oma intern
 bugnocomment Saadan ilma kommentarita ? Kommentarid aitavad meil teada saada kus viga on ja seda kiiremini parandada.
 busy Kiire
 cachedpics $1 varutud pilti
+cachedpicsfor Kasutaja eelmised pildid
 cagreement Konfidentsiaalsuslepe
 cancel Tühista
 cancelled Tühistatud
 cannotdeleteprofile Ei saa profiili kustutada, sest see on aMSNi poolt kasutuses
-cantexec Ei saa käivitada programmi: $1. Kontrolli seadeid
+cantexec Ei saa käivitada programmi: $1. Kontrolli eelistusi 
 cantloadonlineversion Ei saa internetist laadida keelefailide uuendusi
 cantremoveothers Ei saa eemaldada gruppi Muud
 captureextloaded Salvestamise laiendus -$1- on laetud
 captureextnotloaded Salvestamise laiendus -$1- ei ole laetud, sa pead selle kompileerima
 captureproperties Kaamera pildi omadused
+capturewarn Videopilti pole võimalik edastada. See on normaalne kui sul pole kaamerat. Kui sul on kaamera, võid leida lahenduse vajalike moodulite paigaldamise kohta meie Vikist:
 casesensitive Kasuta tõusutundlikke päästikuid
 cfgalarm Seadista/Lisa/Eemalda alarm
 cfgalarmall Seadista/Lisa/Eemalda üldine alarm
@@ -125,19 +139,23 @@ changestate $1 muutis oma saatuse $2
 changestatus Muuda olekut
 changevideosettings Muuda video seadeid
 channels kanalid
-charscounter Trükitud tähtede loendur jutuaknas
+charscounter Vestluse aknas on trükitud tähtede loendur
 chat Vestlus
 chatack Nõustun vestlusega
 chatmaxmin Kui kontakt alustab vestlust ma tahan, et see oleks
 chatreq Palun vestlust
 chatsmileys Vestluse emotsioonid
-chatsmileys2 Näita emotsioone vestlusakendes
+chatsmileys2 Näita vestlusakendes emotsioone
 checkblocking Kontrolli pidevalt, kas kasutajad blokeerivad sind
 checkemail Näita e-kirjast teavitavat rida kontaktide nimekirjas
-checkfilman Saadud failid salvestatakse $1. Palun kontrollige failihalduri seadeid Sätted-aknas
-checkingver Kontrollin uuendusi
+checkfilman Saadud failid salvestatakse $1. Palun kontrollige failihalduri seadeid Eelistuste aknas
+checkingaudio Helimooduli Snack olemasolu kontroll ...
+checkingcam Veebikaameraga ühenduse olemasolu kontrollimine...
+checkingcapext Mooduli '$1' olemasolu kontroll ...
+checkingextensions Vajalike video laienduste olemasolu kontrollimine
+checkingver Uuenduste kontrollimine 
 checkonfln Kontrolli kas kasutaja blokeeris sind kui ta läheb välja
-checkopenfilecommand Palun kontrolli Sätete aknas faili avamis käsku
+checkopenfilecommand Palun kontrolli Eelistuste aknas faili avamis käsku
 checkver Kontrolli uuendusi
 choosearq Vali oma süsteemi arhitektuur
 choosebasefont Vali fondi tüüp
@@ -146,7 +164,10 @@ choosechannel Palun vali kanal
 choosecontact Palun vali kontakt listist
 choosedevice Palun vali seade
 choosefontcolor Vali fondi värv
-chooseskin Palun vali skin
+chooseinputdev Vali sisendseade
+choosemixerdev Vali mikser
+chooseoutputdev Vali väljundseade
+chooseskin Palun vali välimus 
 clear Puhasta
 clearlog Tühjenda logi
 clearlog2 Tühjenda kõikide kontaktide Ajalugu
@@ -154,21 +175,23 @@ clearlog3 Tühjenda kõik logid
 clearwebcamlogs Kustuta kõik veebikaamera logid
 clickhere Vajuta siia
 clicktoadd Uue märkme lisamiseks vajuta Lisa nuppu
-clicktologin Sisselogimiseks vajuta siia
+clicktologin Sisenemiseks vajuta siia
 clientcaps Saada vestluskaaslase kliendile x-clientcap pakett
 clientname Kliendi nimi
 close Sulge
-closeall Sulged kõik aknas olevad tabid ?
-closealltabs Sulge kõik tabid
+closeall Sulged kõik aknas olevad kaardid ?
+closealltabs Sulge kõik kaardid 
 closed Vestlus $1'ga suleti passiivsuse pärast
-closelabel Kui sa vajutad tabidega aknas sulgemisnupule
-closeonly Sulge ainult aktiivne tab
+closelabel Kui sa vajutad kaartidega aknas sulgemisnupule
+closeonly Sulge ainult aktiivne kaart 
 closeordock Selle akna sulgemine lõpetab aMSN töö. Võibolla soovid sa selle akna lihtsalt süsteemisalve vähendada ? \n\n Soovid kindlasti aMSNist väljuda ?
 closingdocks Sulgemisnupp minimeerib akna
 color värvid
 command Käsk
 commandstatus Käivita käsk
 configure Seadista
+configuremic Häälesta mikrofoni
+configuringaudio Heli seadete häälestamine
 confirm Oled kindel?
 confirmbl Oled kindel, et soovid selle kontakti blokeerida ?
 confirmdelete Oled sa kindel et tahad seda kustutada $1?
@@ -177,11 +200,12 @@ confirmdu Oled kindel, et soovid selle kasutaja kustutada ?
 confirmeg Oled kindel, et soovid selle grupi tühjendada ?
 confirmpurge Kõik teiste kasutajate kuvapildid kustutatakse (sinu enda pildid säilivad). Soovid jätkata ?
 confirmrfl Oled kindel, et soovid kasutaja sellest grupist kustutada ?
+congrats Õnnitlused
 connected Sa oled nüüd ühendatud
 connectedwith Ühendus saavutatud $1
 connecterror Viga serveriga ühendamisel
 connectfirst Palun ühenda enne
-connecting Ühendan
+connecting Ühendamine
 connection Ühendus
 connectionlost Ühendus katkestatud: Ühendus serveriga suletud
 contact Kontakt
@@ -208,12 +232,13 @@ currentdate Jooksev kuupäev
 currentlanguage Hetkel kasutusel olev keel
 currentnotes Praegused märkmed
 custnotifymsg Näita märguande akent kui tuleb uus sõnum
-custnotifyoffline Näita märguande akent kui see kasutaja läheb offline
-custnotifyonline Näita märguande akent kui see kasutaja tuleb online
-custnotifystatus Näita märguande akent kui see kasutaja muudab staatust
-custom_edit Muuda emotikoni
-custom_new Lisa uus emotikon
+custnotifyoffline Näita märguande akent kui see kasutaja väljub 
+custnotifyonline Näita märguande akent kui see kasutaja siseneb 
+custnotifystatus Näita märguande akent kui see kasutaja muudab olekut 
+custom_edit Muuda emotsiooni
+custom_new Lisa uus emotsiooni
 customcolor Kohandatud värv
+customdp Kohandatud pilt
 customnick Kohandatud nimi
 customsmileys Näita teise kasutaja kohandatud ikoone
 customstyle Muudetud stiil
@@ -228,8 +253,8 @@ days päeval
 dcprofile Ära loo profiili
 default Vaikeseadistus
 default2 Vaikeseade
-defaultloginradio Logi vaikeseadistusega
-defchatwinsize Jutu akna standardsuurus (XsuurusxYsuurus)
+defaultloginradio Sisene vaikeseadistusega
+defchatwinsize Vestluse akna standardsuurus (X&Y)
 delete Kustuta
 deleteall Kustuta kõik
 deleteblock Kustuta ja blokeeri
@@ -237,7 +262,7 @@ deletecustomstate Kustuta muudetud olek
 delimiters Ajatempli piirajad:
 deliverfail Järgneva sõnumi edastamisega tekkis probleem
 delprofile Kustuta profiil
-delprofile2 Vali profiil, mida soovid eemaldada
+delprofile2 Vali profiil, mida soovid kustutada 
 description Kirjeldus
 detach Ühenda lahti
 details detailid
@@ -265,18 +290,19 @@ dockkde KDE dokkimine
 done valmis
 dontdownload Ära salvesta TLSi, ma paigaldan selle ise
 dontshow Ära näita
-download Lae alla
+download Laadi alla
 downloadingtls Salvesta TLS moodul saidist:\n $1
-edit Toimeta
+edit Redigeerimine 
+editavsettings Redigeeri heli ja video seadeid
 editcontent Muuda teema ja märkuse välju
 editcustomstate Muuda kohandatud olekut
 editmyprofile Muuda mu MSNi profiili
-editnewstate Uus personaalse automaatvastuse staatus
+editnewstate Uus personaalse automaatvastuse olek
 editprofile Muuda profiili
-editstate Muuda eksisteerivad automaatvastuse staatust
+editstate Muuda olemasoleva automaatvastuse olekut
 editvalue Muuda väärtust
 email E-mail
-emailsinlist Näita kontaktide nimekirjas nimede asemel e-maili aadresse
+emailsinlist Näita kontaktide nimekirjas nimede asemel e-posti aadresse
 emoticon_steal Lisa oma ikoonide hulka
 emotisounds Mängi heli kindla emotikoniga
 emptygroup Tühjenda grupp
@@ -287,7 +313,7 @@ enablesound Mängi heli
 encoding Vali kodeering
 encoding2 Muuda oma märkide kodeeringut
 enterbugdesc Aitamaks meil selgusele jõuda mis juhtus, kirjelda mida sa parasjagu tegid kui viga ilmnes (inglise keeles):
-entercontactemail Sisesta sõbra e-maili aadress
+entercontactemail Sisesta sõbra e-posti aadress
 enterfilename Sisesta failinimi
 enternick Sisesta oma hüüdnimi
 enterpsm Isikupärane teade
@@ -317,8 +343,14 @@ find Otsi
 findasyoutype Leia trükkides
 findnext Otsi järgmine
 findprev Otsi eelmine
+finetunesettings Pildi seadete peenhäälestamine
+finish Lõpetamine
+finish2apply Nende seadete salvestamiseks vajuta Lõpetamine
 firewalled Sinu arvuti on tulemüüri või ruuteri taga
+firewalled2 Sa oled tulemüüri taga. Palun kontrolli Eelistuste aknas oma ühenduse seadeid
 followtext Keri alla kui sisestatakse uus tekst
+forget_me Unusta mind
+forgot_pass Unustasin oma parooli
 friendlyname Sõbralik nimi
 ftaccepted Faili edastamisega nõustutud
 ftacceptedby $1 aktsepteeris faili '$2' laadimise
@@ -329,13 +361,14 @@ ftconnecting Ühendan $1 pordil $2
 ftconnectionlost Ühendus teise arvutiga katkes
 ftgotinvitation $1 soovib sulle saata faili '$2' ($3 baiti). See salvestatakse kataloogi $4. Kas sa soovid saada seda faili?
 ftportpref Käivitan pordi faili laadimiseks
+ftportpref2 Algusport otseühenduseks (vajalik failiülekandeks ja veebikaamera seansiks)
 ftporttest Kontrolli porti
 ftrejected Faili edastamisest keeldutud
 ftrejectedby $1 keeldus faili '$2' laadimisest.
 ftsendinvitation Faili '$2' ($3 baiti) saatmise teade saadetud kasutajale $1.
 fullcontactlist Kahjuks on sinu kontaktide nimekiri täis. Uute kontaktide lisamiseks pead eemaldama mõned vanemad.
 getdisppic Luba teiste kasutajate piltide vastuvõtt
-getmoreplugins Tõmba plugineid!
+getmoreplugins Tõmba mooduleid!
 getmoreskins Tõmba välimusi!
 globalcontainer Üldine konteiner
 globalnick Sisesta mall kirjeldamaks kontaktide hüüdnimesid. Sa võid kasutada muutujaid \$user_login kontakti aadressina, \$nick kontakti hüüdnimena ja \$customnick kontakti kohandatud hüüdnimena. Näiteks: '\$user_login on \$nick' annaks 'kasutaja@msn.com on Kasutaja'
@@ -344,10 +377,12 @@ globaloverride Globaalsed hüüdnimed peaks tühistama kohandatud nime
 gonelunch Lõunale läinud
 gotink $1 joonistas sulle midagi
 goto Mine $1
+goto_prefs_removeprofile Eelistuste lehe kaudu oma profiili kustutamiseks kliki siia
 gotoinbox Mine postkasti
 group Grupp
 groupadd Lisa grupp
 groupcontacts Grupeeri kontaktid
+groupcontactsbystatus Grupeeri kontaktid oleku järgi
 groupdelete Kustuta grupp
 groupexists Grupp juba eksisteerib
 groupmissing Ei suuda gruppi leida
@@ -358,6 +393,7 @@ grouprename Nimeta grupp ümber
 groups Grupid
 groupunknown Tundmatu grupp
 handle Nimi
+havenomic Mul ei ole mikrofoni
 help Abi
 helpcontents Abi sisu
 hidedisplaypic Peida pilt
@@ -367,6 +403,7 @@ hiden Peida emotikonid menüüst
 hidewindow Peida aken
 history Vaata Ajalugu
 home Kodu
+howto_remove_profile Oma profiili kustutamiseks (unusta $1) pead minema Eelistuste lehele.\n\nTurvakaalutlustel ei saa profiili esilehelt kustutada.
 httpconnection Ühenda kasutades HTTP-d (kasutatakse HTTP protokolli pordil 80)
 hue värvitoon
 huge Väga suur
@@ -380,7 +417,7 @@ imagefiles Pildifailid
 inbox Postkast
 insertsmiley Sisesta emotikoon
 inserttextnote Lisa tekst teema ja märkme väljale ning vajuta Salvesta
-installconvert Sa pead installeerima ImageMagicku (konverteerimis programm), et kasutada ikoone ja emotikone. Sa saad laadida failid oma operatsiooni süsteemile aadressilt ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Kui sul on see juba installeeritud, siis on see programmi viga ja palun teavita sellest. Need võimalused deaktiviseeritakse hetkel. Kui sa installeerid ImageMagiku hiljem siis saad taas aktiviseerida Seadete valikust.
+installconvert Sa pead installeerima ImageMagicku (konverteerimis programm), et kasutada ikoone ja emotikone. Sa saad laadida failid oma operatsiooni süsteemile aadressilt ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Kui sul on see juba installeeritud, siis on see programmi viga ja palun teavita sellest. Need võimalused deaktiviseeritakse hetkel. Kui sa installeerid ImageMagiku hiljem siis saad taas aktiviseerida Eelistuste valikust.
 internalerror Sisemine serveri viga
 invalidfile Fail $2 sisestatud väljale "$1" ei eksisteeri või ei ole loetav
 invalidfile2 Ei saa luua faili $1. Kontrolli, et sul oleks vastavad õigused.
@@ -404,6 +441,7 @@ keeplog2 Logi kõik vestlused aMSN'i Ajalukku, et neid tulevikus vaadata
 language Keel
 language_manager Keelte haldur
 large Suur
+largest Suurim
 lastlogin Viimati logis sisse
 lastlogout Viimati logis välja
 lastmsgedme Viimane sõnum
@@ -413,8 +451,9 @@ lazypicretrieval Laisk piltide tõmbamine
 lclosedwin $1 sulges akna $2
 lconftopriv Konverents muudetud privaatvestluseks isikuga $1
 lconvstarted Vestlust alustatud $1
+lconvstartedOIM Alustasid ühenduseta teadete vestlust $1
 leaveblankforhotmail Jäta tühjaks, et kasutada Hotmaili veebi
-leavejoinsinchat Näita "liitus vestlusega/lahkus vestluselt" teateid jutu aknas
+leavejoinsinchat Näita vestluse aknas "liitus vestlusega/lahkus vestluselt" teateid
 leaves $1 lahkub vestluselt
 lenteredconf $1 liitus konverentsiga $2
 lineflushlog Joonda logi failid peale iga rida
@@ -422,7 +461,7 @@ linprivate PRIVAATNE
 listening kuulan
 listeningon Kuulan porti $1
 listsmileys Emotsioonide nimekiri
-listsmileys2 Näita emotsioone aMSN'i peamises sõbranimekirjas
+listsmileys2 Näita AMSN'i peamises sõbranimekirjas emotsioone
 ljoinedconf $1 liitus konverentsiga
 lleftconf $1 lahkus konverentsist
 load Lae
@@ -435,8 +474,8 @@ logeventemail Logi uue kirja saabumine
 logeventstate Logi muudatused olekutes
 logfandexp Logifailide suurus ja Ajaloo kestvus
 loggedotherlocation Lahtiühendatud. Sisse logitud mujal
-loggingin Sisselogimine
-login Logi sisse
+loggingin Sisenemine
+login Sisene
 loginas Logi sisse kui
 loging Logimine
 logolder Logi ainult vestlusi, mis toimunud viimasel
@@ -444,7 +483,7 @@ logout Logi välja
 logsbydate Sorteeri logid kuupäeva järgi (Ajaloo näitamine laeb palju kiiremini)
 logschats Logib vestlusi
 logsin logis sisse
-logsmileys Näitab emotsioone aMSN'i Ajaloo akendes
+logsmileys Näitab AMSN'i Ajaloo akendes emotsioone
 logsout logis välja
 logwebcam Salvesta kõik veebikaamera vestlused pärastiseks vaatamiseks aMSN ajalukku
 longnick Sinu nimi on pikem kui 130 märki. Ametlik MSN protokoll ei toeta nii pikki nimesid. Kindel, et tahad nime selliseks muuta ?
@@ -456,22 +495,24 @@ luclosedwin Sa sulgesid akna $1
 mailer E-posti klient
 mailerexample (\$recipient = Adressaat) Jäta tühjaks kui soovid kasutada Hotmaili
 maintenance Server läheb hoolduseks maha $1 minuti pärast.
-maximised Maksimeeritud
-minimised Minimeeritud/Ikoniseeritud
+maximised Suurendatud 
+medium Keskmine
+minimised Vähendatud/Ikoniseeritud
 minimize Vähenda süsteemisalve
 mins minutit
 mobile Mobiil
 mobilegrp1 Mobiili grupp
-mobilegrp2 Mitte kätesaadavad kasutajad pane Mobiili gruppi (oleku järgi järjestatud)
+mobilegrp2 Pane ühenduseta kasutajad Mobiili gruppi (oleku järgi järjestatud)
 modified Muudetud
 month Kuu
-morepersonal Veel staatuseid ->
+more Rohkem
+morepersonal Veel olekuid ->
 move Tõsta
 movetogroup Liiguta gruppi
 msg Sõnum
-msgflicker Vilguta akna tiitlid kui uus sõnum saabub ja aken ei ole aktiivne
-msgmaxmin Kui uus sõnum saabub, peab see olema:
-msgmode Vali, kuidas käsitleda mitut sõnumiakent:
+msgflicker Uue sõnumi saabumisel passiivsesse aknasse vilguta akna tiitlit
+msgmaxmin Uue sõnumi saabumisel peab see olema:
+msgmode Vali mitme sõnumiakna käsitlus:
 msn AMSN
 msnstatus MSN võrgu olek
 msnstyle MSNi stiilis vestlus
@@ -481,6 +522,7 @@ myhomephone Minu kodune telefon
 mymobilephone Minu mobiiltelefon
 mynick Minu hüüdnimi
 mypic Minu kuvapilt:
+mypics Minu kuvapildid
 mystatus Minu olek
 myworkphone Minu töötelefon
 name Nimi
@@ -489,6 +531,7 @@ natkeepalive Kui su ühendus pidevalt katkeb võimalda see ühenduse ülalhoidmist
 needonline Sa oled/ilmud ikka lahtiühendatuna
 needwinico2 Selleks, et Windowsi süsteemisalvestamine(tray) töötaks, peab utils/windows kataloog sisaldama faili winico05.dll
 never Mitte kunagi
+new_account Loo konto
 new_ft_protocol Kasuta failivahetuseks uut protokolli (võib esineda üksikuid vigu)
 newchat Uus vestlus
 newline Uus rida
@@ -497,49 +540,54 @@ newmailfolder Sul on Hotmaili kirjakastis $1 uut kirja
 newmailfrom Uus kiri saatjalt $1 ($2)
 newmailfromother Uus kiri teises kaustas aadressilt $1 ($2)
 newmsg Uus sõnum
+newoim Uued ühenduseta teated
 newstate Lisa oma olek
-newtabbedfeature aMSNis on uus võimalus vestluste haldamiseks: sa saad valida, et mõne grupi, või terve nimekirja, vestlusaknad on ühes aknas erinevates tabides. Palun vali kuidas aMSN haldab su vestlusi.
+newtabbedfeature aMSNis on uus võimalus vestluste haldamiseks: sa saad valida, et mõne grupi, või terve nimekirja, vestlusaknad on ühes aknas erinevatel kaartidel. Palun vali kuidas aMSN haldab su vestlusi.
 newveravailable Uuem versioon $1 allalaadimiseks saadaval
 next Edasi
 nick Hüüdnimi
 no Ei
 noactivity Pole tegevust
 nocacheddps Selle kasutaja kohta pole puhvris ühtegi pilti
+nocamwarn Veebikaamerat ei leitud või seda kasutab mõni muu programm (mis tähendab, et AMSNil pole võimalik seda kasutada). Probleemi lahendamiseks leiad abi meie Vikist:
 nodataavailable $1 jaoks andmed puuduvad
 nodevices Sul pole ühtegi seadet installeeritud
 noftpreview Pilti saates ära saada selle eelvaadet
 nogap Gruppide vahele ei jäeta ruumi
 nogroup Grupp puudub
 nologfile $1 jaoks logifail puudub
+nomic Mikrofon puudub
 noneavailable Pole saadaval
 nonewmail Postkastis pole uusi sõnumeid
 nonewver Pole uuemaid versioone allalaadimiseks saadaval.
 nopic Pilt puudub
 noprofileexists Hetkel ei ole ühtegi profiili, \nsa pead tegema ühe, kui tahad kasutada profiilidega logimist. \nKasuta Lisa uus profiil nuppu, et luua uus profiil
 normal Normaalne
-noskins Ei leidnud algse kesta kestade kataloogist. Ei saa AMSN käivitada
+noskins Ei leidnud välimuste kataloogist vaikevälimust. Ei saa AMSN käivitada
 nosound Ei tuvastatud ühtegi heli, tee kindlaks kas su mikrofon on õieti ühendatud
 nosound_or_hold Heli ei tuvastatud. Heliklipi saatmiseks pead sa rääkimise ajal nuppu all hoidma ja saatmiseks selle vabastama
 nosystemtray Süsteemisalv puudub
 note Märge
 notificationserver Algne MSN teadvustus server (MSN Messengeri Server)
 notify Teata
-notify1 Näita teateakent kui sõbrad tulevad online
-notify1_5 Näita märguande akent kui kontakt logib välja
-notify1_75 Näita märguande akent kui kontakt muudab oma staatust
-notify2 Näita teateakent kui saabuvad uued sõnumid
-notify3 Näita teateakent kui postkasti saabuvad uued kirjad
-notify4 Näita teadvustavat akent kui kiri saabub teise kausta
+notify1 Sõbra sisenemisel näidatakse teateakent
+notify1_5 Kontakti väljumisel näidatakse teateakent
+notify1_75 Kontakti oleku muutmisel näidatakse teateakent 
+notify2 Uute sõnumite saabumisel näidatakse teateakent
+notify3 Uute kirjade postkasti saabumisel näidatakse teateakent
+notify4 Kirja teise kausta saabumisel näidatakse teateakent
 notifyoffset Määra teateakna asukoht, andes ette asukoha nihked
-notifytimeout Mitu millisekundit teate akent kuvatakse
+notifytimeout Akna kuvamise aeg millisekundites
 notifytyping Näita teisele kasutajale, et ma trükin teadet
 notifywin Teateaken
 notinlist Sa ei ole tema kontaktide nimekirjas
 notls MSN protokoll 9 vajab TLS paketti. Tundub, et see pakett ei ole installeeritud. Kui see on installeeritud, siis tuleb kontrollida Seadete alt kas kataloog on määratud (näiteks: /opt/tls/lib). \n\nTLS on võimalik laadida aadressilt http://tls.sf.net
-nottabbed Normaalsed, ilma tabideta, aknad
+nottabbed Normaalsed, ilma kaartideta, aknad
 nousersinsession Ühtegi kasutajat sessioonis
+nouserspecified Kasutajat pole määratud
 nudge $1 soovib sinu tähelepanu
 offline Pole sees
+oim Ühenduseta teadete saatmine
 ok Olgu
 onenewmail 1 uus sõnum postkastis
 online Sees
@@ -555,6 +603,7 @@ ordergroupsby Sorteeri gruppe
 original Esmane
 other Muu
 otherdisplaypic Selle kasutaja teised pildid (kliki ja saad rohkem valikuid)
+otherdps Muud kuvapildid
 others Muud
 p4contextprefix Liida P4-Context sõnumi saatjale see eesliide
 pager Piipar
@@ -573,8 +622,9 @@ play Mängi
 playbackposition Tagasimängimise positsioon
 playbackspeed Tagasimängimise kiirus (millisekundit iga kaadri vahel)
 playing Hetkel mängib: $1
+playtest Mängi proovifaili
 playwebcamsend Jätka pildi näitamist
-pluginselector Vali plugin
+pluginselector Vali moodul 
 port Port
 portswellconfigured Sinu pordid on hästi konfigureeritud
 prefalerts Minu sündmuste hoiatused ja helid
@@ -585,10 +635,10 @@ prefblock2 Kontrolli pidevalt
 prefblock3 "Sa oled blokeeritud kasutajate poolt" grupp
 prefconnection Ühenduse seaded
 prefemotic Emotsioonid
-preferences Sätted
+preferences Eelistused 
 preffont Minu sõnumi tekst
 preffont2 Muuda, kuidas teised vestlustes minu teksti näevad
-preffont3 Muuda aMSN'i keskkonna fonti ja suurust
+preffont3 Muuda AMSN'i keskkonna fonti ja suurust
 preffont4 Muuda viisi kuidas ma näen teiste poolt kirjutatud teksti
 prefft Failiedastus, peer-to-peer ja NAT seaded
 preflibs Library kataloogid
@@ -602,11 +652,11 @@ prefphone2 Sisesta telefoninumbrid, mida sa lubad inimestel \n oma lubatud-nimek
 prefprivacy Kasutaja lubamise/Blokeerimise nimekiri
 prefprivacy2 Kasutaja kontaktid/Vastupidine nimekiri
 prefprofile Minu avalik profiil
-prefprofile2 Loo või Muuda oma avalik profiil (enda \n kirjeldus, mida teised saavad näha)
-prefprofile3 aMSN'i kasutajaseadete profiilid
+prefprofile2 Loo või Muuda oma avalikku profiili (teistele nähtav kirjeldus)
+prefprofile3 AMSN'i kasutajaseadete profiilid
 prefproxy Minu proxy seaded
-prefremote Kaug-ühenduse seaded
-prefsession Minu sisselogimine ja olek
+prefremote Kaugühenduse seaded
+prefsession Minu sisenemine ja olek
 prefshared Jagatud ühendused (ainult NAT)
 prefsound Helid
 preview Eelvaade
@@ -614,14 +664,14 @@ privacy Privaatsus
 profiledconfig Profiilide seaded
 profileexists Sa ei saa selle kasutajaga profiili luua, \nselline kasutaja juba eksisteerib. Vali teine kasutajatunnus
 profileinuse See profiil on kasutuses teise aMSNi sessiooni poolt, palun vali teine profiil.
-profileloginradio Logi kasutades eksisteerivat profiili
+profileloginradio Sisene kasutades olemasolevat profiili
 profiles Profiilid
 properties Omadused
 proxy Olen proxy serveri taga (HTTP või SOCKS5)
 proxyconf Proxy seadistamine
 proxyconfhttp HTTP proxy toetuse seadistamine
-proxyconnection Ma kasutan interneti läbi proksi serveri:
-psm Personaalne teade
+proxyconnection Ma kasutan interneti läbi puhverserveri:
+psm Isikupärane teade
 psmatend Näita isikupärast teadet nime kõrval
 psmdontshow Ära näita isikupäraseid teateid, välja arvatud juhul kui üldises konfiguratsioonis pole teisiti määratud
 psmnewline Näita isikupärast teadet nime all
@@ -630,19 +680,23 @@ publishphones Avalda mu telefoni numbrid
 purge Puhasta
 pwcdriver Sa kasutad pwc driverit
 quit Välju
-raised tõstetud
+raised Tõstetud
 readonlymsgbox Faili laadimine katkestatud, sest kataloog on ainult loetav. Palun kontrolli kataloogi õigusi.
 readonlywarn TÄHELEPANU: Tõenäoliselt ei suudeta salvestada faili, sest kataloog "Vastuvõetud Failid" tundub olevat ainult loetav. Palun kontrolli enne faili laadimist, kas kataloogi $1 õigused on korras.
 receivedbytes Kätte saanud $1/$2 baiti
 receiveddir Vastuvõetud Failide kataloog
+receivedoimread Sul on $1 uut ühenduseta teadet. Soovid neid lugeda ?
 receivedvoice Heliklipp vastu võetud
 receivefile Võta vastu fail
 recentmsg Väldi akna sulgemist siis kui sõnum on just saabunud
 reconnect Ootan $1 uuesti ühendumist
 reconnect2 Taasühenda kui ühendus katkeb
 reconnecting Uuesti ühendan serveriga
+record Salvesta
 recorderror Heli salvestamisel ilmnes viga: $1
+recvwebcamaccepted $1 oli nõus sulle enda kaamera pilti näitama. Ühendumine...
 reject Keeldu
+rememberaccount Mäleta mu kontot
 rememberpass Mäleta parooli
 remembersetting Mäleta seda seadet
 removeempty Eemalda kontaktide nimekirjast tühjad grupid
@@ -658,19 +712,20 @@ reverselist Vastupidine nimekiri (RL):
 rightback Kohe tagasi
 save Salvesta
 saveas Salvesta kui
-savechatwinsize Jutu akna suurust muutes salvesta selle suurus vaikeväärtusena
+savechatwinsize Vestluse akna suurust muutes salvesta selle suurus vaikeväärtusena
 savecontacts Salvesta sõbranimekiri
 savetofile Salvesta faili
 says $1 ütleb
-sbcon Ühendan "Switchboardiga"...
+sbcon Kommutaatoriga ühendumine...
 searchdown Otsi ülevaltpoolt
 searchup Otsi altpoolt
 selectall Vali kõik
-selectplugins Palun vali plugin, mida soovin sisse lülitada
-selectskin Palun vali skin listist
+selectcontact Vali kontakt
+selectplugins Palun vali moodul, mida soovin sisse lülitada
+selectskin Palun vali nimekirjast välimus
 send Saada
 sendcam Näita kaamerat
-sendemail Saada minu e-maili aadress ja teavita mind muudatustest
+sendemail Saada minu e-posti aadress ja teavita mind muudatustest
 sendfeedback Saada tagasisidet
 sendfile Saada fail
 sendmail Saada kiri
@@ -678,6 +733,7 @@ sendmobmsg saada mobiilile
 sendmsg Saada sõnum
 sendoim Saada ühenduseta teade
 sendvoice Saada heliklipp
+sendwebcamaccepted $1 oli nõus sinu kaamera pilti vaatama. Ühendumine...
 sendwebcaminvite Kutsu kasutaja oma veebikaamerat vaatama
 sentbytes Saadetud $1/$2 baiti
 sentvoice Heliklipp saadetud
@@ -687,24 +743,28 @@ servergoingdown Lahtiühendatud: server sulgub
 serverunavailable Server pole saadavalis
 session Sessioon
 setasmydp Sea minu pildiks
+setupcam Veebikaamera seadistamine
+setupcamfinetune Veebikaamera seadistamine ja pildi peenhäälestus
 shareswebcam Omab veebikaamerat
 show_contactdps_in_cl Näita kontaktide nimekirjas nende piltidest väikeseid versioone
 showbanner Näita aMSN'i bannerit
 showblockedlist Näita listi kasutajatest, kes on sind blokeerinud
 showcachedpics Näita varutud kuvapilte
-showcontactemail Näita kontaktide e-maile
+showcontactemail Näita kontaktide e-posti aadresse 
 showcontactnick Näita kontaktide nimesid
 showdisplaypic Näita pilti
-showdisplaypic2 Näida pilti vaikimisi kui aken avatakse
-showmailicon Kui uus kiri tuleb näita süsteemisalves ümbriku ikooni
+showdisplaypic2 Akna avamisel näidatakse kuvapilti
+showlinksinlogin Sisselogimislehel näidatakse viiteid
+showmailicon Uue kirja saabumisel näita süsteemisalves ümbriku ikooni
 showmypic Minu pilt
 shownotify Mõndade sündmuste korral näita teadvustavat akent
-showpicnotify Näita teavitusaknas kasutaja pilti
+showpicnotify Teavitusaknas näidatakse kasutaja pilti
 showuserpic $1'e pilt
 signinstatus Olek sisselogimisel
 skin Välimus
 skinselector Vali välimus
 small Väike
+smallest Väikseim
 smileconfig Emotikonide konfigureerimine
 smilefile Emotikoni faili nimi
 smileintro Enda emotikooni loomiseks täida palun vajalikud väljad (abi jaoks vaata KKK)
@@ -716,6 +776,9 @@ snapshot Kaader
 sngdblclick Kasuta uue sõnumi akna avamiseks ühte klikki
 sortcontactgroup Järjesta kontaktid grupi järgi
 sortcontacthybrid Järjesta kontaktid hübriidselt
+sortcontactsasc Järjesta kontaktid kasvavalt
+sortcontactsby Kontaktide järjestamine
+sortcontactsdesc Järjesta kontaktid kahanevalt
 sortcontactstatus Järjesta kontaktid oleku järgi
 sortgroupsasc Järjesta grupid kasvavalt
 sortgroupsdesc Järjesta grupid kahanevalt
@@ -739,15 +802,16 @@ startonboot Käivita aMSN windowsi käivitumisel
 startontray Käivita AMSN ainult süsteemisalves
 state Ma soovin ilmuda kui
 stateautomsg Automaatvastus mida saata
-statechange staatus muudetud:
+statechange olek muudetud:
 stateedittext Palun muuda soovitud välju ja vajuta Salvesta
 stateinfo Isikliku oleku konfiguratsioon
-statename Personaalse staatuse nimi
+statename Personaalse oleku nimi
 statenewtext Palun sisesta vajalik informatsioon,\net teha uus Personaalne Staatus\nLõpetuseks vajuta Salvesta
 statenick Kohandatud nimi (kui ei soovi muuta siis jäta tühjaks)
 statepsm Muuda isikupärast nime (kui muuta ei soovi siis jäta tühjaks)
 stats Statistika
 status Olek
+step Samm
 stop Peata
 stopalarm Peata alarm
 stopwebcamreceive Lõpeta pildi saamine
@@ -762,16 +826,16 @@ subject Teema
 subjectrequired Teema väli peab olema täidetud
 syntaxerror Süntaksi viga
 tabbed Kaartidena
-tabbedglobal Kõik inimesed on ühes tabidega aknas
-tabbedgroups Samas grupis olevad inimesed ühes tabidega aknas
-tabtitlenick Soovid e-maili asemel tabides hüüdnime näidata ?
+tabbedglobal Kõik inimesed on ühes kaartidega aknas
+tabbedgroups Samas grupis olevad inimesed ühes kaartidega aknas
+tabtitlenick Kaartidel näidatakse e-posti aadressi asemel hüüdnime
 temp_state Ära salvesta (Ajutine seisund mida ei salvestata AMSNi sulgemisel)
 textsize Teksti suurus
 thismonth Käesoleval kuul
 throughserver Läbi serveri
 timeremaining Aega on jäänud
 timestamp kellaaeg
-timestamps Luba ajatemplid vestluse aknas
+timestamps Näita vestluse aknas ajatempleid
 title Al's Messenger
 tkerror TK töös ilmnes viga mis tähendab, et AMSN koodis on bug. Palun teata sellest saates aadressile amsn-bugs@lists.sf.net fail $1
 tkerror1 TK töös ilmnes viga mis tähendab, et AMSN koodis on bug. Palun teata sellest vajutades Teata nupule. Sa võid vajutada Detailid nupule, et vaadata täpsemat infot või Olgu nupule, et AMSN edasi kasutada.
@@ -787,7 +851,7 @@ tools Tööriistad
 tooltips Luba abistavad vihjed
 transnotexists Vajalikku faili pole veel eesti keelde tõlgitud.
 trayicon Näita teadvustusalas oleku ikooni
-traynotcompiled Süsteemisalvikooni plugin ei ole kompileeritud. Kontrolli pluginaid/süsteemisalvedokki
+traynotcompiled Süsteemisalvikooni moodul ei ole kompileeritud. Kontrolli mooduleid/süsteemisalvedokki
 triggers Teksti päästikud
 truncatenames1 Lühenda nimed mis on laiemad kui pealkirja ja kontaktide nimekirja aknad
 truncatenames2 Lühenda nimed mis on laiemad kui vestlusaken
@@ -822,16 +886,20 @@ videoconversationrequest Sulle saadeti just video konverentsi kutse (kahesuunali
 view Vaade
 viewcontactsby Vaata kontakte sorteerides
 viewprofile Vaata profiili
-voice_notimplemented Heliklippide vastuvõtmise võimaldamine ei ole veel valmis. Varu veidi kannatust
-voice_windows Windowsi kasutajana saad ehk heliklippi kuulata avades selle oma meediaplayeris.
-voice_windows_click Selle tegemiseks kliki siia
+volume Helitugevus
 wanttosharecam Soovin oma veebikaamera teistele kättesaadavaks teha
+web Veeb
 webcam Kaamera
 webcamcanceled Veebikaamera sessioon kasutajaga $1 on katkestatud
 webcamclosebefcancel Enne akna sulgemist pead sa katkestama kõik veebikaamera sessioonid
 webcamconfigure Seadista kaamerat
+webcamconfiguredLinux Valisid järgmised veebikaamera seaded:\nSeade: $1\nKanal: $2
+webcamconfiguredMac Veebikaamera seaded on häälestatud
+webcamconfiguredWin Valisid veebikaamera: $1
+webcamextchecking Veebikaamera laienduse laetuse kontroll ...
 webcamextloaded Veebikaamera laiendus on laetud
 webcamextnotloaded Veebikaamera laiendus pole laetud. Sa pead selle kompileerima.
+webcamextwarn Sa ei näe oma kontaktide veebikaamerate pilti. Sa võid leida võimaluse, kuidas paigaldada vajalikud laiendused, meie Vikist:
 webcamfaq KKK/Abi veebikaamera kohta
 webcamhistory Vaata veebikaamera vestlusi
 webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta seda võimalust
@@ -844,9 +912,9 @@ webcamrequestsend Küsi luba veebikaamera näitamiseks
 webcamsending Nimekiri inimestest kes su veebikaamerat vaatavad\nKatkestamiseks vajuta
 whatisamsn aMSN on platvormist sõltumatu MSN Messengeri kloon
 whatsize Pilt mida sa küsid ei ole tavasuuruses (96x96).\n Mis suuruses sa seda näidata soovid ?
-willjoin Ootan, et $1 liituks vestlusega
+willjoin $1 liitumise ootamine
 winkreceived $1 saatis sulle Winki kuid aMSN ei toeta seda hetkel.
-wintitlenick Soovid e-maili asemel tabidega aknas hüüdnime näidata ?
+wintitlenick Kaartidega aknas näita e-posti asemel hüüdnime
 work Töö
 wrongfields Väljad "$1", "$2" ja/või "$3" on vigased
 wrongprofileversion Profiili konfiguratsiooni faili versioon on vale. Parandamiseks kustuta kataloog $1 või uuenda aMSN.
