@@ -1671,7 +1671,7 @@ namespace eval ::CAMGUI {
 
 		if { $window == "" } {
 			set window .webcam_$sid
-			toplevel $window
+			toplevel $window -class AmsnWebcam
 			set chatid [getObjOption $sid chatid]
 			wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 			wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
@@ -1868,7 +1868,7 @@ namespace eval ::CAMGUI {
 
 			} else {
 				set img [image create photo [TmpImgName]]
-				toplevel $window
+				toplevel $window -class AmsnWebcam
 				wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
 				canvas $window.canvas -width 320 -height 240
 				set canv $window.canvas
