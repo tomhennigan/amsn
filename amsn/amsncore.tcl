@@ -298,22 +298,22 @@ proc ::tk::TextKeySelect {w new} {
 # not honouring "-relief flat" (tileqt) or not supporting alpha transparancy(macos))
 # TODO: add a bind that works as -command on a button (mousebutton press, move away, release does not trigger)
 proc buttons2labels { } {
-	if { [info commands ::tk::button] == "" } { rename button ::tk::button }
+	if { [info commands ::tk::button2] == "" } { rename button ::tk::button2 }
 	proc button { pathName args } {
 		array set options $args
-		if { [info exists options(-image)] && [info exists options(-relief)] && $options(-relief) == "flat" &! [info exists options(-overrelief)] } {
-
+		if { [info exists options(-image)] && [info exists options(-relief)] && $options(-relief) == "flat" } {
 			if { [info exists options(-command)] } {
 				set command $options(-command)
 				unset options(-command)
 			}
+			if { [info exists options(-overrelief)] } { unset options(-overrelief) }
 			eval label $pathName [array get options]
 			if { [info exists command] } {
 				puts $command
 				bind $pathName <<Button1>> "$command"
 			}
 		} else {
-			eval ::tk::button $pathName $args
+			eval ::tk::button2 $pathName $args
 		}
 	}
 }
