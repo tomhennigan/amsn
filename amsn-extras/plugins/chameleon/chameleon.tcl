@@ -283,12 +283,6 @@ namespace eval ::chameleon {
 		variable defaultBgColor 
 		variable lastSetBgColor 
 
-                if { $::chameleon::config(theme) == "tileqt" } {
-                        # tileqt doesn't honor -relief flat so we run the workaround
-                        catch { ::buttons2labels } 
-                }
-
-
 		DebugPrint "Setting theme to $theme"
 		if { ![info exists defaultBgColor] || $reset_defaultBg} {
 			set defaultBgColor [option get . background Toplevel]
@@ -487,6 +481,7 @@ namespace eval ::chameleon {
 			}
 
 			catch { destroy .chameleon_events_messages }
+			if { [info commands ::tk::button2] != "" } { rename ::tk::button2 button }
 			set wrapped 0
 
 		} else {
@@ -535,6 +530,10 @@ namespace eval ::chameleon {
 				}
 			}
 
+			if { $::chameleon::config(theme) == "tileqt" } {
+				# tileqt doesn't honor -relief flat so we run the workaround
+				catch { ::buttons2labels }
+			}
 			set wrapped 1
 		}
 
