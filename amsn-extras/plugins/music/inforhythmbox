@@ -9,7 +9,10 @@ then
 	then
 		rhythmbox --print-playing --print-playing-artist --print-playing-path --print-song-length --no-focus
 	else
-		rhythmbox-client --print-playing
+		rhythmbox-client --print-playing-format "%tt"
+		rhythmbox-client --print-playing-format "%aa"
+		echo ""
+		rhythmbox-client --print-playing-format "%td"
 	fi
 else
 	echo ""

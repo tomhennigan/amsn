@@ -4,11 +4,11 @@
 BANSHEE=`ps aux | grep banshee | grep -v grep | grep -v info`
 if [ -n "$BANSHEE" ]
 then
-   banshee --query-status |sed  s/^﻿//|cut -c9-
-   banshee --query-title |sed  s/^﻿//|cut -c8-
-   banshee --query-artist |sed  s/^﻿//|cut -c9-
-   banshee --query-uri|sed  s/^﻿//|cut -c6-
-   banshee --query-cover-uri |sed  s/^﻿//|cut -c11- 
+   banshee --query-status |sed  s/^//|cut -c9-
+   banshee --query-title |sed  s/^//|cut -c8-
+   banshee --query-artist |sed  s/^//|cut -c9-
+   banshee --query-uri|sed  s/^//|cut -c6-
+   banshee --query-cover-uri |sed  s/^//|cut -c11- 
 else 
 	echo 0
 fi
