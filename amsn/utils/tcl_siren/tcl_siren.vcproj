@@ -144,56 +144,56 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath=".\common.c">
+				RelativePath=".\src\common.c">
 			</File>
 			<File
-				RelativePath=".\dct4.c">
+				RelativePath=".\src\dct4.c">
 			</File>
 			<File
-				RelativePath=".\decoder.c">
+				RelativePath=".\src\decoder.c">
 			</File>
 			<File
-				RelativePath=".\encoder.c">
+				RelativePath=".\src\encoder.c">
 			</File>
 			<File
-				RelativePath=".\huffman.c">
+				RelativePath=".\src\huffman.c">
 			</File>
 			<File
-				RelativePath=".\rmlt.c">
+				RelativePath=".\src\rmlt.c">
 			</File>
 			<File
-				RelativePath=".\tcl_siren.c">
+				RelativePath=".\src\tcl_siren.c">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath=".\common.h">
+				RelativePath=".\src\common.h">
 			</File>
 			<File
-				RelativePath=".\dct4.h">
+				RelativePath=".\src\dct4.h">
 			</File>
 			<File
-				RelativePath=".\decoder.h">
+				RelativePath=".\src\decoder.h">
 			</File>
 			<File
-				RelativePath=".\encoder.h">
+				RelativePath=".\src\encoder.h">
 			</File>
 			<File
-				RelativePath=".\huffman.h">
+				RelativePath=".\src\huffman.h">
 			</File>
 			<File
-				RelativePath=".\huffman_consts.h">
+				RelativePath=".\src\huffman_consts.h">
 			</File>
 			<File
-				RelativePath=".\rmlt.h">
+				RelativePath=".\src\rmlt.h">
 			</File>
 			<File
-				RelativePath=".\siren7.h">
+				RelativePath=".\src\siren7.h">
 			</File>
 			<File
-				RelativePath=".\tcl_siren.h">
+				RelativePath=".\src\tcl_siren.h">
 			</File>
 		</Filter>
 		<Filter

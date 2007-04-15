@@ -337,7 +337,7 @@ int Siren_WriteWav _ANSI_ARGS_((ClientData clientData,
 	char * name = NULL;
 	char *data = NULL;
 	FILE * f = NULL;
-	int dataSize;
+	unsigned int dataSize;
 	SirenCodecObject * codec;
 
 	// We verify the arguments
