@@ -38,11 +38,12 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "Tcl_siren___Win32_Release"
-# PROP Intermediate_Dir "Tcl_siren___Win32_Release"
+# PROP Output_Dir "Release"
+# PROP Intermediate_Dir "Release"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCL_SIREN_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCL_SIREN_EXPORTS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "USE_TCL_STUBS" /D "USE_TK_STUBS" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCL_SIREN_EXPORTS" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x40c /d "NDEBUG"
@@ -52,7 +53,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
+# ADD LINK32 tclstub84.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+PostBuild_Cmds=copy Release\Tcl_siren.dll .
+# End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Tcl_siren - Win32 Debug"
 
@@ -63,11 +68,12 @@ LINK32=link.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "Tcl_siren___Win32_Debug"
-# PROP Intermediate_Dir "Tcl_siren___Win32_Debug"
+# PROP Output_Dir "Debug"
+# PROP Intermediate_Dir "Debug"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCL_SIREN_EXPORTS" /YX /FD /GZ  /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCL_SIREN_EXPORTS" /YX /FD /GZ  /c
+# ADD CPP /nologo /MD /W3 /Gm /GX /ZI /Od /D "USE_TCL_STUBS" /D "USE_TK_STUBS" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCL_SIREN_EXPORTS" /YX /FD /GZ  /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x40c /d "_DEBUG"
@@ -77,7 +83,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 tclstub84.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -88,10 +94,74 @@ LINK32=link.exe
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Source File
+
+SOURCE=.\src\common.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dct4.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\decoder.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\encoder.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\huffman.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\rmlt.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\tcl_siren.c
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\src\common.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dct4.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\decoder.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\encoder.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\huffman.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\huffman_consts.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\rmlt.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\siren7.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\tcl_siren.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 
