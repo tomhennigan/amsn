@@ -82,16 +82,7 @@ Projekt zu erfahren.
 %install
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_datadir}"
 %{__mkdir_p} "${RPM_BUILD_ROOT}%{_bindir}"
-%{__make} rpm-install INSTALL_PREFIX=${RPM_BUILD_ROOT}
-
-# copy the .desktop file
-%{__mkdir_p} "${RPM_BUILD_ROOT}%{_desk_applnk}"
-%{__cp} "${RPM_BUILD_ROOT}%{_datadir}"/*.desktop \
-	"${RPM_BUILD_ROOT}%{_desk_applnk}"
-#manually copy the icon file
-%{__mkdir_p} "${RPM_BUILD_ROOT}%{_desk_icons}"
-%{__ln_s} -f %{_datadir}/desktop-icons/48x48/apps/amsn.png \
-	${RPM_BUILD_ROOT}%{_desk_icons}/amsn.png
+%{__make} install DESTDIR=${RPM_BUILD_ROOT}
 
 %clean
 %{__rm} -rf "${RPM_BUILD_ROOT}"
@@ -114,6 +105,8 @@ true
 %{_desk_applnk}/*.desktop
 
 %changelog
+* Mon Apr 16 2007 Le Philousophe <lephilousophe AT users.sourceforge.net>
+- Some changes to install API
 * Sun Nov 6 2005 Le Philousophe <lephilousophe AT users.sourceforge.net>
 - redone all the spec using system taken from Tcl/Tk and integrated to makefile system
 - changed the packager to amsn team

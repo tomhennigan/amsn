@@ -63,14 +63,7 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/amsn.
-	$(MAKE) rpm-install INSTALL_PREFIX=$(CURDIR)/debian/amsn
-	# manually copy the .desktop file for KDE, it's broken in the Makefile
-	cp -f "$(CURDIR)/debian/amsn/usr/share/amsn/"*.desktop \
-		"$(CURDIR)/debian/amsn/usr/share/applications"
-	#manually copy the icon file
-	ln -sf /usr/share/amsn/desktop-icons/48x48/apps/amsn.png \
-		$(CURDIR)/debian/amsn/usr/share/pixmaps/amsn.png
-
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/amsn
 
 # Build architecture-independent files here.
 binary-indep: build install

@@ -152,27 +152,30 @@ distclean:: clean
 
 
 install:: $(FILES_TO_INSTALL)
-	rm -Rf $(dstdir)/$(PACKAGE)
-	mkdir --parents $(dstdir)/$(PACKAGE)
-	mkdir -p $(slnkdir)
+	rm -Rf $(DESTDIR)$(dstdir)/$(PACKAGE)
+
+	mkdir --parents $(DESTDIR)$(dstdir)/$(PACKAGE)
+	mkdir --parents $(DESTDIR)$(slnkdir)
+	mkdir --parents $(DESTDIR)$(dstdir)/applications/
+	mkdir --parents $(DESTDIR)$(dstdir)/pixmaps/
+
 	@for p in $?; do \
-			cp -Rf --parents $(srcdir)/$$p $(dstdir)/$(PACKAGE); \
+			cp -Rf --parents $(srcdir)/$$p $(DESTDIR)$(dstdir)/$(PACKAGE); \
 		done
-	find $(dstdir)/$(PACKAGE) -name '.svn' -print | xargs rm -Rf
+	find $(DESTDIR)$(dstdir)/$(PACKAGE) -name '.svn' -print | xargs rm -Rf
 	@for p in $(FILES_TO_EXCLUDE); do \
-			rm -Rf $(dstdir)/$(PACKAGE)/$$p; \
+			rm -Rf $(DESTDIR)$(dstdir)/$(PACKAGE)/$$p; \
 		done
 
-	ln -sf $(dstdir)/$(PACKAGE)/amsn $(slnkdir)/amsn
-	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote $(slnkdir)/amsn-remote
-	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote-CLI $(slnkdir)/amsn-remote-CLI
+	chmod -R +rx $(DESTDIR)$(dstdir)/$(PACKAGE)
 
-	chmod -R +rx $(dstdir)/$(PACKAGE)
+	ln -sf $(dstdir)/$(PACKAGE)/amsn $(DESTDIR)$(slnkdir)/amsn
+	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote $(DESTDIR)$(slnkdir)/amsn-remote
+	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote-CLI $(DESTDIR)$(slnkdir)/amsn-remote-CLI
 
-	mkdir -p $(dstdir)/applications
-	cp $(srcdir)/amsn.desktop $(dstdir)/applications
+	cp $(srcdir)/amsn.desktop $(DESTDIR)$(dstdir)/applications/
 
-	ln -sf $(dstdir)/$(PACKAGE)/desktop-icons/32x32/apps/amsn.png $(dstdir)/pixmaps/
+	ln -sf $(dstdir)/$(PACKAGE)/desktop-icons/32x32/apps/amsn.png $(DESTDIR)$(dstdir)/pixmaps/
 
 uninstall::
 	rm -Rf $(dstdir)/$(PACKAGE)
@@ -181,22 +184,6 @@ uninstall::
 	rm -f $(slnkdir)/amsn-remote-CLI
 	rm -f $(dstdir)/applications/amsn.desktop
 	rm -f $(dstdir)/pixmaps/amsn.png
-
-rpm-install:: $(FILES_TO_INSTALL)
-	rm -Rf $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)
-	mkdir --parents $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)
-	@for p in $?; do \
-			cp -Rf --parents $(srcdir)/$$p $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE); \
-		done
-	find $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE) -name '.svn' -print | xargs rm -Rf
-	@for p in $(FILES_TO_EXCLUDE); do \
-			rm -Rf $(INSTALL_PREFIX)/$(dstdir)/$(PACKAGE)/$$p; \
-		done
-	mkdir --parents $(INSTALL_PREFIX)/$(slnkdir)
-
-	ln -sf $(dstdir)/$(PACKAGE)/amsn $(INSTALL_PREFIX)/$(slnkdir)/amsn
-	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote $(INSTALL_PREFIX)/$(slnkdir)/amsn-remote
-	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote-CLI $(INSTALL_PREFIX)/$(slnkdir)/amsn-remote-CLI
 
 rpm: all
 	mkdir -p ./distrib
