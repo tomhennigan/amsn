@@ -124,7 +124,7 @@ proc SOCKSsecureSocket { args } {
 	return [::tls::socket $thost $tport]
 }
 
-proc SOCKSocket { args } {
+proc SOCKSSocket { args } {
 	set phost [::http::config -proxyhost]
 	set pport [::http::config -proxyport]
 	upvar host thost
