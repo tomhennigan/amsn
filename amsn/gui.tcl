@@ -590,6 +590,104 @@ namespace eval ::amsn {
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	proc customMessageBox { message type {icon ""} {title ""} {parent ""} {askRememberAnswer 0}} {
+		# This tracker is so we can TkWait. It needs to be global so that the buttons can modify it.
+		global customMessageBoxAnswerTracker
+		# This is the tracker for the checkbox. It needs to be an array because we may have more than one message box open (hence the array with a unique index). 
+		global customMessageBoxRememberTracker
+
+		set unique [clock seconds]
+		set w ".messagebox_$unique"
+
+		if { [winfo exists $w] } {
+			raise $w
+			return
+		}
+
+		set w [toplevel $w]
+
+		if {$title == ""} {
+			set title [trans title]
+		}
+		wm title $w $title
+		wm group $w .
+		wm resizable $w 0 0
+
+		#Create the 2 frames
+		frame $w.top
+		frame $w.buttons
+
+		if {$icon == ""} {
+			label $w.top.bitmap -image [::skin::loadPixmap warning]
+		} else {
+			label $w.top.bitmap -bitmap $icon
+		}
+		pack $w.top.bitmap -side left -pady 0 -padx [list 0 12 ]
+
+		label $w.top.message -text $message -wraplength 400 -justify left
+		pack $w.top.message -pady 0 -padx 0 -side top
+		if {$askRememberAnswer} {
+			checkbutton $w.top.remember -variable customMessageBoxRememberTracker($unique) -text [trans remembersetting] -anchor w -state normal
+			pack $w.top.remember -pady 5 -padx 10 -side bottom -fill x
+		}
+
+		switch $type {
+			abortretryignore {
+				set options [list "Abort" "Retry" "Ignore"]
+			}
+			ok {
+				set options [list "Ok"]
+			}
+			okcancel {
+				set options [list "Ok" "Cancel"]
+			}
+			retrycancel {
+				set options [list "Retry" "Cancel"]
+			}
+			yesno {
+				set options [list "Yes" "No"]
+			}
+			yesnocancel {
+				set options [list "Yes" "No" "Cancel"]
+			}
+			default {
+				set options [list "Ok"]
+			}
+		}
+
+		set customMessageBoxAnswerTracker($unique) ""
+
+		#Create the buttons
+		foreach button $options {
+			button $w.buttons.[string tolower $button] -text $button -command [list set customMessageBoxAnswerTracker($unique) $button]
+			pack $w.buttons.[string tolower $button] -pady 0 -padx 0 -side right
+		}
+
+		#Pack frames
+		pack $w.top -pady 12 -padx 12 -side top
+		pack $w.buttons -pady 12 -padx 12 -fill x
+
+		moveinscreen $w 30
+		bind $w <<Escape>> "destroy $w"
+		wm protocol $w WM_DELETE_WINDOW [list set customMessageBoxAnswerTracker($unique) ""]
+
+		tkwait variable customMessageBoxAnswerTracker($unique)
+
+		catch { destroy $w }
+		if {$askRememberAnswer} {
+			set answer [list $customMessageBoxAnswerTracker($unique) $customMessageBoxRememberTracker($unique)]
+			unset customMessageBoxAnswerTracker($unique)
+			unset customMessageBoxRememberTracker($unique)
+		} else {
+			set answer $customMessageBoxAnswerTracker($unique)
+			unset customMessageBoxAnswerTracker($unique)
+		}
+
+		return $answer
+	}
+	#///////////////////////////////////////////////////////////////////////////////
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# Shows the error message specified by "msg"
