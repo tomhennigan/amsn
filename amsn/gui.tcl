@@ -3160,6 +3160,17 @@ proc create_states_menu {wmenu} {
 	$wmenu add command -label [trans gonelunch] -command "ChCustomState LUN"
 	$wmenu add command -label [trans appearoff] -command "ChCustomState HDN"
 
+	set modifier [GetPlatformModifier]
+	bind all <$modifier-Key-0> {catch {ChCustomState HDN}}
+	bind all <$modifier-Key-1> {catch {ChCustomState NLN}}
+	bind all <$modifier-Key-2> {catch {ChCustomState IDL}}
+	bind all <$modifier-Key-3> {catch {ChCustomState BSY}}
+	bind all <$modifier-Key-4> {catch {ChCustomState BRB}}
+	bind all <$modifier-Key-5> {catch {ChCustomState AWY}}
+	bind all <$modifier-Key-6> {catch {ChCustomState PHN}}
+	bind all <$modifier-Key-7> {catch {ChCustomState LUN}}
+	bind all <$modifier-Key-8> {catch {ChCustomState HDN}}
+	
 	# Add the personal states to this menu
 	CreateStatesMenu $wmenu
 }
@@ -3509,7 +3520,8 @@ proc cmsn_draw_main {} {
 		bind all <Command-q> "exit"
 		bind all <Command-Q> "exit"
 		#Raise cl window
-		bind all <Command-Key-1> "raise ."
+		#tomhennigan: This is now used by CreateStatesMenu. Windows can be cycled using Command-asciitilde & Command-quoteleft.
+		#bind all <Command-Key-1> "raise ."
 		#Online Help
 		bind all <Command-/> "launch_browser $::weburl/wiki/Main_Page"
 		bind all <Command-?> "launch_browser $::weburl/wiki/Main_Page"

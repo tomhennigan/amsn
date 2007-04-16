@@ -181,6 +181,14 @@ proc OnX11 {} {
 	}
 }
 
+proc GetPlatformModifier {} {
+	if {[OnMac]} {
+		return "Command"
+	} else {
+		return "Control"
+	}
+}
+
 ################################################
 # 'Missing' image commands                     #
 ################################################
