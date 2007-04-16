@@ -68,7 +68,7 @@ snit::type SOAPRequest {
 			}
 			
 			http::register https 443 SOCKSsecureSocket
-			http::register http 80 SOCKSSocket
+			http::register http 80 SOCKSocket
 		} else {
 			::config::setKey connectiontype "direct"
 			
