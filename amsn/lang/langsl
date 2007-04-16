@@ -110,7 +110,7 @@ bugerror Napaka pri povezovanju na bazo hro¹èev. Preveri internetno povezavo.
 bugnocomment Naj po¹ljem brez komentarja? Komentarji k hro¹èem nam pomagajo ugotoviti, kaj je ¹lo narobe in jih odpraviti.
 busy Zaposlen
 cachedpics $1 shranjenih slik
-cachedpicsfor Shranjene prikazne slike za uporabnika
+cachedpicsfor Shranjene osebne slike uporabnika
 cagreement Izjava o zaupnosti
 cancelled Preklicano
 cancel Preklièi
@@ -227,7 +227,7 @@ countrycode Oznaka moje dr¾ave
 cprofile Ustvari raèun
 created Ustvarjeno
 credits Zasluge
-curdisplaypic Trenutna prikazna slika
+curdisplaypic Trenutna osebna slika
 currentdate Trenutni datum
 currentlanguage Jezik, ki ga trenutno uporablja¹
 currentnotes Trenutne opombe
@@ -236,7 +236,7 @@ custnotifyoffline Prika¾i obvestilo, ko se ta stik odjavi
 custnotifyonline Prika¾i obvestilo, ko se ta stik prijavi
 custnotifystatus Prika¾i obvestilo, ko ta stik spremeni stanje
 customcolor Barva
-customdp Prikazna slika po meri
+customdp Osebna slika po meri
 custom_edit Uredi svoje sme¹ke
 custom_new Dodaj svojega sme¹ka
 customnick Prikazni vzdevek
@@ -281,7 +281,7 @@ displayeventdisconnect Prikazuj odjave stikov
 displayeventemail Prikazuj prejetja e-mailov
 displayeventstate Prikazuj spremembe stanja stikov
 displayp4context Prika¾i kontekst P4
-displaypic Prikazna slika
+displaypic Osebna slika
 dockfreedesktop Prikleni na pult (KDE3/Gnome2)
 dockgtk gtk gtk gtk gtk pomol
 dockingoff Pristaja prekinjena
@@ -466,7 +466,7 @@ ljoinedconf $1 se je pridru¾il/a konferenci
 lleftconf $1 je zapustil/a konferenco
 loadcontacts Nalo¾i seznam stikov
 load Nalo¾i
-loadotherdisplaypic Nalagam prikazne slike za $1, prosim poèakaj...
+loadotherdisplaypic Nalagam osebne slike od $1, prosim poèakaj...
 logbigger Dnevni¹ka datoteka za vsak stik je lahko velika najveè
 logeventconnect Bele¾i prijave
 logeventdisconnect Bele¾i odjave
@@ -522,7 +522,7 @@ myhomephone Domaèi telefon
 mymobilephone Mobilni telefon
 mynick Moj vzdevek
 mypic Moja osebna slika:
-mypics Moje prikazne slike
+mypics Osebne slike
 mystatus Moje stanje
 myworkphone Slu¾beni telefon
 name Ime
@@ -601,8 +601,8 @@ options Nastavitve
 ordercontactsby Uredi stike
 ordergroupsby Uredi skupine
 original Izvirnik
-otherdisplaypic Ostale shranjene prikazne slike za ta stik (desni klik nad sliko za veè mo¾nosti)
-otherdps Ostale prikazne slike
+otherdisplaypic Ostale shranjene osebne slike za ta stik (desni klik nad sliko za veè mo¾nosti)
+otherdps Ostale osebne slike
 other Ostalo
 others Ostalo
 p4contextprefix Predpona konteksta P4
@@ -742,7 +742,7 @@ servergoingdown Povezava prekinjena
 server Stre¾nik
 serverunavailable Stre¾nik ni dosegljiv
 session Seja
-setasmydp Nastavi za mojo prikazno sliko
+setasmydp Nastavi za mojo osebno sliko
 setupcamfinetune Nastavljam kamero in popravljam sliko
 setupcam Nastavljam video napravo kot spletno kamero
 shareswebcam Ima spletno kamero
@@ -762,7 +762,7 @@ showpicnotify Prika¾i osebno sliko v obvestilnem oknu
 showuserpic Osebna slika uporabnika $1
 signinstatus Status ob vpisu
 skin Preobleka
-skinselector Izberi skin
+skinselector Izberi videz
 smallest Najmanj¹i
 small Majhna
 smileconfig Nastavitve tvojih emotikonov
@@ -867,13 +867,13 @@ uonline Prijavljeni
 updateonlycurrentlanguage Posodabljaj samo trenutni jezik
 update Posodobi
 updating Posodabljam
-useasdp Uporabi kot prikazno sliko
+useasdp Uporabi kot osebno sliko
 useasregexp Uporabi regularni izraz (regexp)
 useother Uporabi drugi program
 useralreadyonlist Uporabnik je ¾e na seznamu stikov
 userblocked Uporabnik je prijavljen, a te je blokiral
 userdata Podatki o uporabniku
-userdps Prikazne slike
+userdps Osebne slike
 usernotonline Uporabnik ni prijavljen
 userproperties Lastnosti uporabnika $1
 usersettings Nastavitve
@@ -911,7 +911,7 @@ webcamsending Seznam ljudi, ki vidijo preko tvoje spletne kamere\nKlikni za prek
 webcam Spletna kamera
 web Splet
 whatisamsn aMSN od platforme neodvisen klon MSN Messengerja
-whatsize Zahtevana slika ni navadne velikosti prikazne\nslike (96x96). Kak¹ne velikosti naj bo?
+whatsize Zahtevana slika ni obièajne velikosti osebne\nslike (96x96). Kak¹ne velikosti naj bo?
 willjoin Èakam, da se $1 pridru¾i pogovoru
 winkreceived $1 ti je pome¾iknil/a. aMSN trenutno tega ne podpira.
 wintitlenick Vzdevki namesto e-po¹tnih naslovov v oknih z zavihki
@@ -924,7 +924,7 @@ xmmssend Po¹lji trenutno pesem
 xoffset X odstopanje
 year Leto
 yesblock Ja in blokiraj
-yes Ja
+yes Da
 yesterday Vèeraj
 yoffset Y odstopanje
 youblocked Blokirajo te
