@@ -1989,7 +1989,7 @@ namespace eval ::ChatWindow {
 			bind $text <Command-Shift-space> BossMode
 			bind $text <Command-a> {%W tag add sel 1.0 {end - 1 chars};break}
 			bind $text <Command-A> {%W tag add sel 1.0 {end - 1 chars};break}
-		    	bind $text <Command-Key-BackSpace> [bind Text <Meta-Key-BackSpace>]
+			bind $text <Control-Key-BackSpace> [bind Text <Meta-Key-BackSpace>]
 		} else {
 			bind $text <Control-Return> {%W insert insert "\n"; %W see insert; break}
 			bind $text <Control-Alt-space> BossMode
