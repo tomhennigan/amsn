@@ -126,28 +126,30 @@ namespace eval ::audio {
 	#		Error	 => (string) ""
 	proc setInputDevice {device {save 1}} {
 		variable inputDevice
+
 		if { [lsearch -exact [getInputDevices] $device] != -1  } {
 			# The device is avaliable.
-			snack::audio selectInput $device
-			set inputDevice $device
-			if {$save} {
-				::config::setKey snackInputDevice $device
-			}
-			return $device
-		} else {
-			# The selected device is not avaliable.
-			if {[llength [getInputDevices]] > 0} {
-				# If we have devices avaliable default to the first one.
-				snack::audio selectInput [lindex [getInputDevices] 0]
+			if { ![catch {snack::audio selectInput $device} ] } {
+				set inputDevice $device
 				if {$save} {
-					return [::config::setKey snackInputDevice [lindex [getInputDevices] 0]]
-				} else { 
-					return "" 
+					::config::setKey snackInputDevice $device
 				}
-			} else {
-				# We have no devices avaliable, return an empty string.
-				return ""
+				return $device
 			}
+		} 
+
+		# The selected device is not avaliable.
+		if {[llength [getInputDevices]] > 0} {
+			# If we have devices avaliable default to the first one.
+			snack::audio selectInput [lindex [getInputDevices] 0]
+			if {$save} {
+				return [::config::setKey snackInputDevice [lindex [getInputDevices] 0]]
+			} else { 
+				return "" 
+			}
+		} else {
+			# We have no devices avaliable, return an empty string.
+			return ""
 		}
 	}
 	
@@ -217,28 +219,30 @@ namespace eval ::audio {
 	#		Error	 => (string) ""
 	proc setOutputDevice {device {save 1 }} {
 		variable outputDevice
+
 		if { [lsearch -exact [getOutputDevices] $device] != -1  } {
 			# The device is avaliable.
-			snack::audio selectOutput $device
-			set outputDevice $device
-			if {$save} {
-				::config::setKey snackOutputDevice $device
-			} 
-			return $device
-		} else {
-			# The selected device is not avaliable.
-			if {[llength [getOutputDevices]] > 0} {
-				# If we have devices avaliable default to the first one.
-				snack::audio selectOutput [lindex [getOutputDevices] 0]
+			if { ![catch {snack::audio selectOutput $device} ] } {
+				set outputDevice $device
 				if {$save} {
-					return [::config::setKey snackOutputDevice [lindex [getOutputDevices] 0]]
-				} else { 
-					return "" 
-				}
-			} else {
-				# Otherwise return an empty string.
-				return ""
+					::config::setKey snackOutputDevice $device
+				} 
+				return $device
 			}
+		} 
+
+		# The selected device is not avaliable.
+		if {[llength [getOutputDevices]] > 0} {
+			# If we have devices avaliable default to the first one.
+			snack::audio selectOutput [lindex [getOutputDevices] 0]
+			if {$save} {
+				return [::config::setKey snackOutputDevice [lindex [getOutputDevices] 0]]
+			} else { 
+				return "" 
+			}
+		} else {
+			# Otherwise return an empty string.
+			return ""
 		}
 	}
 	
@@ -311,28 +315,30 @@ namespace eval ::audio {
 	#		Error	 => (string) ""
 	proc setMixerDevice { device {save 1} } {
 		variable mixerDevice
+
 		if { [lsearch -exact [getMixerDevices] $device] != "-1"  } {
 			# The mixer is avaliable.
-			snack::mixer select $device
-			set mixerDevice $device
-			if {$save} {
-				::config::setKey snackMixerDevice $device
-			}
-			return $device
-		} else {
-			# The selected mixer is not avaliable.
-			if {[llength [getMixerDevices]] > 0} {
-				# If we have mixers avaliable default to the first one.
-				snack::mixer select [lindex [getMixerDevices] 0]
+			if { ![catch { snack::mixer select $device } ] } {
+				set mixerDevice $device
 				if {$save} {
-					return [::config::setKey snackMixerDevice [lindex [getMixerDevices] 0]]
-				} else { 
-					return "" 
+					::config::setKey snackMixerDevice $device
 				}
-			} else {
-				# Otherwise return an empty string.
-				return ""
+				return $device
 			}
+		} 
+
+		# The selected mixer is not avaliable.
+		if {[llength [getMixerDevices]] > 0} {
+			# If we have mixers avaliable default to the first one.
+			snack::mixer select [lindex [getMixerDevices] 0]
+			if {$save} {
+				return [::config::setKey snackMixerDevice [lindex [getMixerDevices] 0]]
+			} else { 
+				return "" 
+			}
+		} else {
+			# Otherwise return an empty string.
+			return ""
 		}
 	}
 	
