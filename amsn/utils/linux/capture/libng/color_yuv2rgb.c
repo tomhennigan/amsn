@@ -76,6 +76,28 @@ yuv422_to_gray(uint8_t* restrict dest, uint8_t* restrict s,
 }
 
 static void
+uyvy_to_rgb24(uint8_t* restrict dest, uint8_t* restrict s,
+		int p)
+{
+    uint8_t* restrict d = dest;
+    int gray;
+
+    while (p) {
+	gray = GRAY(s[1]);
+	d[0] = RED(gray,s[2]);
+	d[1] = GREEN(gray,s[2],s[0]);
+	d[2] = BLUE(gray,s[0]);
+	gray = GRAY(s[3]);
+	d[3] = RED(gray,s[2]);
+	d[4] = GREEN(gray,s[2],s[0]);
+	d[5] = BLUE(gray,s[0]);
+	d += 6;
+	s += 4;
+	p -= 2;
+    }
+}
+
+static void
 yuv422_to_rgb24(uint8_t* restrict dest, uint8_t* restrict s,
 		int p)
 {
@@ -422,6 +444,11 @@ yuv422p_to_yuv422(void *h, struct ng_video_buf *out, struct ng_video_buf *in)
 
 static struct ng_video_conv conv_list[] = {
     {
+	NG_GENERIC_PACKED,
+	.fmtid_in	= VIDEO_UYVY,
+	.fmtid_out	= VIDEO_RGB24,
+	.priv		= uyvy_to_rgb24,
+    },{
 	NG_GENERIC_PACKED,
 	.fmtid_in	= VIDEO_YUYV,
 	.fmtid_out	= VIDEO_RGB24,
