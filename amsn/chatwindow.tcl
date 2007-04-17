@@ -3264,6 +3264,24 @@ namespace eval ::ChatWindow {
 		
 	}
 
+	proc CloseOtherTabs { tokeep } {
+		variable containerwindows
+		variable win2tab
+
+		set w [winfo toplevel $tokeep]
+
+		if {![info exists containerwindows($w)] || [winfo toplevel $w] != $w} {
+			return
+		}
+
+		foreach window [set containerwindows($w)] {
+			set tab [set win2tab($window)]
+			if {$tab != $tokeep} {
+				CloseTab $tab
+			}
+		}
+		
+	}
 	proc CloseTab { tab {detach 0}} {
 		variable win_history
 		variable containercurrent
@@ -3713,6 +3731,7 @@ namespace eval ::ChatWindow {
 		if { [winfo exists .tabmenu] } { destroy .tabmenu }
 		menu .tabmenu -tearoff 0 -type normal
 		.tabmenu insert end command -command "::ChatWindow::CloseTab $tab; destroy .tabmenu" -label "[trans close]"
+		.tabmenu insert end command -command "::ChatWindow::CloseOtherTabs $tab; destroy .tabmenu" -label "[trans closeothers]"
 		.tabmenu insert end command -command "::ChatWindow::DetachTab $tab; destroy .tabmenu" -label "[trans detach]"
 		tk_popup .tabmenu $x $y
 		#return .tabmenu
