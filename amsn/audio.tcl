@@ -126,7 +126,7 @@ namespace eval ::audio {
 	#		Error	 => (string) ""
 	proc setInputDevice {device {save 1}} {
 		variable inputDevice
-		if { [lsearch [getInputDevices] $device] != -1  } {
+		if { [lsearch -exact [getInputDevices] $device] != -1  } {
 			# The device is avaliable.
 			snack::audio selectInput $device
 			set inputDevice $device
@@ -217,7 +217,7 @@ namespace eval ::audio {
 	#		Error	 => (string) ""
 	proc setOutputDevice {device {save 1 }} {
 		variable outputDevice
-		if { [lsearch [getOutputDevices] $device] != -1  } {
+		if { [lsearch -exact [getOutputDevices] $device] != -1  } {
 			# The device is avaliable.
 			snack::audio selectOutput $device
 			set outputDevice $device
@@ -311,7 +311,7 @@ namespace eval ::audio {
 	#		Error	 => (string) ""
 	proc setMixerDevice { device {save 1} } {
 		variable mixerDevice
-		if { [lsearch [getMixerDevices] $device] != "-1"  } {
+		if { [lsearch -exact [getMixerDevices] $device] != "-1"  } {
 			# The mixer is avaliable.
 			snack::mixer select $device
 			set mixerDevice $device
@@ -380,7 +380,7 @@ namespace eval ::audio {
 			return ""
 		}
 		
-		if { $line == "" || [lsearch [snack::mixer lines] $line] == "-1" } {
+		if { $line == "" || [lsearch -exact [snack::mixer lines] $line] == "-1" } {
 			# The line chosen doesn't exist, so use the first one avaliable.
 			set line [lindex [snack::mixer lines] 0]
 		}
