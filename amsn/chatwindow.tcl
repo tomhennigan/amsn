@@ -222,25 +222,20 @@ namespace eval ::ChatWindow {
 			set result [::amsn::customMessageBox [trans closeall] yesnocancel question [trans title] $window 1]
 			set answer [lindex $result 0]
 			set rememberAnswer [lindex $result 1]
-			if {$rememberAnswer} {
-				switch $answer {
-					Yes {
-						::config::setKey closeChatWindowWithTabs 1
-					}
-					No {
-						::config::setKey closeChatWindowWithTabs 1
-					}
-					default {
-						;
-					}
+			
+			if {$rememberAnswer == 1} {
+				if {$answer == [trans yes]} {
+					::config::setKey closeChatWindowWithTabs 1
+				} elseif {$answer == [trans no]} {
+					::config::setKey closeChatWindowWithTabs 0
 				}
 			}
 			
-			if { $answer == "Yes" } {
+			if { $answer == [trans yes] } {
 		    	::ChatWindow::CloseAll $window
 		    	destroy $window
 			}
-			if { $answer == "No" } {
+			if { $answer == [trans no] } {
 		    	::ChatWindow::CloseTab $currenttab
 			}
 		}

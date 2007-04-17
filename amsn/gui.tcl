@@ -638,22 +638,28 @@ namespace eval ::amsn {
 				set options [list "Abort" "Retry" "Ignore"]
 			}
 			ok {
-				set options [list "Ok"]
+				set options [list [trans ok]]
 			}
 			okcancel {
-				set options [list "Ok" "Cancel"]
+				set options [list [trans ok] [trans cancel]]
 			}
 			retrycancel {
-				set options [list "Retry" "Cancel"]
+				set options [list "Retry" [trans cancel]]
 			}
 			yesno {
-				set options [list "Yes" "No"]
+				set options [list [trans yes] [trans no]]
 			}
 			yesnocancel {
-				set options [list "Yes" "No" "Cancel"]
+				set options [list [trans yes] [trans no] [trans cancel]]
+			}
+			deletecancel {
+				set options [list [trans delete] [trans cancel]]
+			}
+			deleteblockcancel {
+				set options [list [trans delete] [trans deleteblock] [trans cancel]]
 			}
 			default {
-				set options [list "Ok"]
+				set options [list [trans ok]]
 			}
 		}
 
@@ -661,8 +667,9 @@ namespace eval ::amsn {
 
 		#Create the buttons
 		foreach button $options {
-			button $w.buttons.[string tolower $button] -text $button -command [list set customMessageBoxAnswerTracker($unique) $button]
-			pack $w.buttons.[string tolower $button] -pady 0 -padx 0 -side right
+			set buttonName [regsub -all " " [string tolower $button] ""]
+			button $w.buttons.$buttonName -text $button -command [list set customMessageBoxAnswerTracker($unique) $button]
+			pack $w.buttons.$buttonName -pady 0 -padx 0 -side right
 		}
 
 		#Pack frames
@@ -737,77 +744,39 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	#Delete user window, user can choose to delete user, cancel the action or block and delete the user
 	proc deleteUser {user_login { grId ""} } {
-		global variableblock
-
-		set variableblock 0
-
-		set w .deleteUserWindow
-
-		#If the window was there before, destroy it and create the newone
-		if {[winfo exists $w]} {
-			destroy $w
-		}
-
-		#Create the window
-		toplevel $w
-		wm title $w "[trans delete] - $user_login"
-
-		#Create the 2 frames
-		frame $w.top
-		frame $w.buttons
-
-		#Create the picture of warning (at left)
-		label $w.top.bitmap -image [::skin::loadPixmap warning]
-		pack $w.top.bitmap -side left -pady 0 -padx [list 0 12 ]
-			
-		#Text to show to delete the user
-		label $w.top.question -text "[trans confirmdu]" -wraplength 400 -justify left
-		pack $w.top.question -pady 0 -padx 0 -side top
-
-		#Create the three buttons, Yes and block / Yes / No
-		button $w.buttons.block -text "[trans deleteblock]" -command \
-			"set variableblock 1; ::amsn::deleteUserAction $w $user_login $grId"
-		button $w.buttons.cancel -text "[trans cancel]" -command "destroy $w"
-		button $w.buttons.delete -text "[trans delete]" -command \
-			"::amsn::deleteUserAction $w $user_login $grId"
-
-		#Pack buttons
-		pack $w.buttons.delete -pady 0 -padx 0 -side right
-		pack $w.buttons.cancel -pady 0 -padx [list 0 6 ] -side right
-				
-		# If already blocked don't show 'Delete and Block' button
 		if {[lsearch [::abook::getLists $user_login] BL] == -1} {
-			pack $w.buttons.block -pady 0 -padx [list 0 6 ] -side right
+			# User is not blocked.
+			set answer [customMessageBox [trans confirmdu] deleteblockcancel "" "[trans delete] - $user_login" "." 0]
+		} else {
+			# User is already blocked.
+			set answer [customMessageBox [trans confirmdu] deletecancel "" "[trans delete] - $user_login" "." 0]
 		}
-
-		#Pack frames
-		pack $w.top -pady 12 -padx 12 -side top
-		pack $w.buttons -pady 12 -padx 12 -fill x
-
-		moveinscreen $w 30
-		bind $w <<Escape>> "destroy $w"
+		
+		if {$answer == [trans deleteblock]} {
+			# Delete the user and block.
+			::amsn::deleteUserAction $user_login $grId 1
+		} elseif {$answer == [trans delete]} {
+			# Only delete the user.
+			::amsn::deleteUserAction $user_login $grId 0
+		}
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
-	# deleteUserAction {w user_login answer grId}
+	# deleteUserAction {user_login answer grId block}
 	# Action to do when someone click delete a user
-	proc deleteUserAction {w user_login {grId ""} } {
-		global variableblock
-		
-		#Destroy the window first
-		destroy $w
-		
+	proc deleteUserAction {user_login {grId ""} {block 0}} {
 		#If the user wants to delete AND block a user
-		if { $variableblock == "1"} {
+		if { $block == "1" } {
 			set name [::abook::getNick ${user_login}]
 			::MSN::blockUser ${user_login} [urlencode $name]
 		}
-		
+
 		::MSN::deleteUser ${user_login} $grId
 		::abook::setContactData $user_login alarms ""
-		
+
 		return
 	}
+	
 
 	proc InkSend { win_name filename {friendlyname ""}} {
 		set chatid [::ChatWindow::Name $win_name]
