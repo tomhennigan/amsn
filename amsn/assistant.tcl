@@ -1684,7 +1684,7 @@ namespace eval ::AVAssistant {
 		
 		#get the already set device from the config (if there is one set)
 		if {![info exists selecteddevice]} {
-			if {[::config::getKey webcamDevice]} {
+			if {[::config::getKey webcamDevice] != ""} {
 				set selecteddevice [::config::getKey webcamDevice]
 			} else {
 				set selecteddevice 0
