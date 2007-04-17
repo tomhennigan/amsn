@@ -825,7 +825,6 @@ v4l2_overlay(void *handle, struct ng_video_fmt *fmt, int x, int y,
 static int
 v4l2_queue_buffer(struct v4l2_handle *h)
 {
-    struct v4l2_buffer buf;
     int frame = h->queue % h->reqbufs.count;
     int rc;
 
@@ -836,12 +835,7 @@ v4l2_queue_buffer(struct v4l2_handle *h)
 	ng_waiton_video_buf(h->buf_me+frame);
     }
 
-    memset(&buf,0,sizeof(buf));
-    buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    buf.memory = V4L2_MEMORY_MMAP;
-    buf.index = h->buf_v4l2[frame].index;
-
-    rc = xioctl(h->fd,VIDIOC_QBUF,&buf, 0);
+    rc = xioctl(h->fd,VIDIOC_QBUF,&h->buf_v4l2[frame], 0);
     if (0 == rc)
 	h->queue++;
     return rc;
@@ -889,6 +883,7 @@ v4l2_waiton(struct v4l2_handle *h)
     if (-1 == xioctl(h->fd,VIDIOC_DQBUF,&buf, 0))
 	return -1;
     h->waiton++;
+    h->buf_v4l2[buf.index] = buf;
 
 #if 0
     if (1) {
