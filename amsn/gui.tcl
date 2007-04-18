@@ -595,7 +595,8 @@ namespace eval ::amsn {
 	proc customMessageBox { message type {icon ""} {title ""} {parent ""} {askRememberAnswer 0}} {
 		# This tracker is so we can TkWait. It needs to be global so that the buttons can modify it.
 		global customMessageBoxAnswerTracker
-		# This is the tracker for the checkbox. It needs to be an array because we may have more than one message box open (hence the array with a unique index). 
+		# This is the tracker for the checkbox.
+		# It needs to be an array because we may have more than one message box open (hence the unique index). 
 		global customMessageBoxRememberTracker
 
 		set unique [clock seconds]
@@ -635,7 +636,7 @@ namespace eval ::amsn {
 
 		switch $type {
 			abortretryignore {
-				set options [list "Abort" "Retry" "Ignore"]
+				set options [list [trans abort] [trans retry] [trans ignore]]
 			}
 			ok {
 				set options [list [trans ok]]
@@ -644,7 +645,7 @@ namespace eval ::amsn {
 				set options [list [trans ok] [trans cancel]]
 			}
 			retrycancel {
-				set options [list "Retry" [trans cancel]]
+				set options [list [trans retry] [trans cancel]]
 			}
 			yesno {
 				set options [list [trans yes] [trans no]]
@@ -4019,48 +4020,52 @@ proc set_encoding {enc} {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_status {} {
 	global followtext_status queued_status
-
-	if { [winfo exists .status] } {return}
-	toplevel .status
-	wm group .status .
-	wm state .status withdrawn
-	wm title .status "Status Log - [trans title]"
+	set w .status
+	
+	if { [winfo exists $w] } {return}
+	toplevel $w
+	wm group $w .
+	wm state $w withdrawn
+	wm title $w "Status Log - [trans title]"
 
 	set followtext_status 1
 
-	text .status.info -background white -width 60 -height 30 -wrap word \
-		-yscrollcommand ".status.ys set" -font splainf
-	scrollbar .status.ys -command ".status.info yview"
-	entry .status.enter -background white
-	checkbutton .status.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status -font sboldf
+	text $w.info -background white -width 60 -height 30 -wrap word \
+		-yscrollcommand "$w.ys set" -font splainf
+	scrollbar $w.ys -command "$w.info yview"
+	entry $w.enter -background white
+	checkbutton $w.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status -font sboldf
 
-	frame .status.bot -relief sunken -borderwidth 1
-	button .status.bot.save -text "[trans savetofile]" -command status_save
-	button .status.bot.clear  -text "Clear" \
-		-command ".status.info delete 0.0 end"
-	button .status.bot.close -text [trans close] -command toggle_status
-	pack .status.bot.save .status.bot.close .status.bot.clear -side left
+	frame $w.bot -relief sunken -borderwidth 1
+	button $w.bot.save -text "[trans savetofile]" -command status_save
+	button $w.bot.clear  -text "Clear" \
+		-command "$w.info delete 0.0 end"
+	button $w.bot.close -text [trans close] -command toggle_status
+	pack $w.bot.save $w.bot.close $w.bot.clear -side left
 
-	pack .status.bot .status.enter .status.follow -side bottom
-	pack .status.enter  -fill x
-	pack .status.ys -side right -fill y
-	pack .status.info -expand true -fill both
+	pack $w.bot $w.enter $w.follow -side bottom
+	pack $w.enter  -fill x
+	pack $w.ys -side right -fill y
+	pack $w.info -expand true -fill both
 
-	.status.info tag configure green -foreground darkgreen
-	.status.info tag configure red -foreground red
-	.status.info tag configure white -foreground white -background black
-	.status.info tag configure white_highl -foreground white -background [.status.info tag cget sel -background]
-	.status.info tag configure blue -foreground blue
-	.status.info tag configure error -foreground white -background black
-	.status.info tag configure error_highl -foreground white -background [.status.info tag cget sel -background]
+	$w.info tag configure green -foreground darkgreen
+	$w.info tag configure red -foreground red
+	$w.info tag configure white -foreground white -background black
+	$w.info tag configure white_highl -foreground white -background [$w.info tag cget sel -background]
+	$w.info tag configure blue -foreground blue
+	$w.info tag configure error -foreground white -background black
+	$w.info tag configure error_highl -foreground white -background [$w.info tag cget sel -background]
 
-	bind .status.info <<Selection>> "highlight_selected_tags %W \{white white_highl error error_highl\}"
+	bind $w.info <<Selection>> "highlight_selected_tags %W \{white white_highl error error_highl\}"
 
-	bind .status.enter <Return> "window_history add %W; ns_enter"
-	bind .status.enter <Key-Up> "window_history previous %W"
-	bind .status.enter <Key-Down> "window_history next %W"
-	wm protocol .status WM_DELETE_WINDOW { toggle_status }
-
+	bind $w.enter <Return> "window_history add %W; ns_enter"
+	bind $w.enter <Key-Up> "window_history previous %W"
+	bind $w.enter <Key-Down> "window_history next %W"
+	wm protocol $w WM_DELETE_WINDOW { toggle_status }
+	
+	set modifier [GetPlatformModifier]
+	bind $w <$modifier-w> toggle_status
+	
 	if { [info exists queued_status] && [llength $queued_status] > 0 } {
 		foreach item $queued_status {
 			status_log [lindex $item 0] [lindex $item 1]
@@ -5790,15 +5795,15 @@ proc launch_mailer {recipient} {
 # toggle_status()
 # Enabled/disables status window (for debugging purposes)
 proc toggle_status {} {
-
-	if {"[wm state .status]" == "normal"} {
-		wm state .status withdrawn
+	set w .status
+	if {"[wm state $w]" == "normal"} {
+		wm state $w withdrawn
 		set status_show 0
 	} else {
-		wm state .status normal
+		wm state $w normal
 		set status_show 1
-		raise .status
-		focus .status.enter
+		raise $w
+		focus $w.enter
 	}
 }
 #///////////////////////////////////////////////////////////////////////

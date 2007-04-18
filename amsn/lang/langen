@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abort Abort
 about About
 aboutamsn About Alvaro's Messenger
 accept Accept
@@ -706,6 +707,7 @@ rename Rename
 reporting Reporting
 report Report
 required_version Unable to load this plugin. It requires, at least, aMSN version $1
+retry Retry
 resetincomingfont Reset font (use font message sender chooses)
 restartforskin Note: You may need to restart aMSN to view the skin properly!
 reversed Reversed order
