@@ -224,18 +224,18 @@ namespace eval ::ChatWindow {
 			set rememberAnswer [lindex $result 1]
 			
 			if {$rememberAnswer == 1} {
-				if {$answer == [trans yes]} {
+				if {$answer == "yes"} {
 					::config::setKey closeChatWindowWithTabs 1
-				} elseif {$answer == [trans no]} {
+				} elseif {$answer == "no"} {
 					::config::setKey closeChatWindowWithTabs 0
 				}
 			}
 			
-			if { $answer == [trans yes] } {
+			if { $answer == "yes" } {
 		    	::ChatWindow::CloseAll $window
 		    	destroy $window
 			}
-			if { $answer == [trans no] } {
+			if { $answer == "no" } {
 		    	::ChatWindow::CloseTab $currenttab
 			}
 		}

@@ -636,40 +636,41 @@ namespace eval ::amsn {
 
 		switch $type {
 			abortretryignore {
-				set options [list [trans abort] [trans retry] [trans ignore]]
+				set buttons [list [list "abort" [trans abort]] [list "retry" [trans retry]] [list "ignore" [trans ignore]]]
 			}
 			ok {
-				set options [list [trans ok]]
+				set buttons [list [list "ok" [trans ok]]]
 			}
 			okcancel {
-				set options [list [trans ok] [trans cancel]]
+				set buttons [list [list "ok" [trans ok]] [list "cancel" [trans cancel]]]
 			}
 			retrycancel {
-				set options [list [trans retry] [trans cancel]]
+				set buttons [list [list "retry" [trans retry]] [list "cancel" [trans cancel]]]
 			}
 			yesno {
-				set options [list [trans yes] [trans no]]
+				set buttons [list [list "yes" [trans yes]] [list "no" [trans no]]]
 			}
 			yesnocancel {
-				set options [list [trans yes] [trans no] [trans cancel]]
+				set buttons [list [list "yes" [trans yes]] [list "no" [trans no]] [list "cancel" [trans cancel]]]
 			}
 			deletecancel {
-				set options [list [trans delete] [trans cancel]]
+				set buttons [list [list "delete" [trans delete]] [list "cancel" [trans cancel]]]
 			}
 			deleteblockcancel {
-				set options [list [trans delete] [trans deleteblock] [trans cancel]]
+				set buttons [list [list "delete" [trans delete]] [list "deleteblock" [trans deleteblock]] [list "cancel" [trans cancel]]]
 			}
 			default {
-				set options [list [trans ok]]
+				set buttons [list [list "ok" [trans ok]]]
 			}
 		}
 
 		set customMessageBoxAnswerTracker($unique) ""
 
 		#Create the buttons
-		foreach button $options {
-			set buttonName [regsub -all " " [string tolower $button] ""]
-			button $w.buttons.$buttonName -text $button -command [list set customMessageBoxAnswerTracker($unique) $button]
+		foreach button $buttons {
+			set buttonName [lindex $button 0]
+			set buttonLabel [lindex $button 1]
+			button $w.buttons.$buttonName -text $buttonLabel -command [list set customMessageBoxAnswerTracker($unique) $buttonName]
 			pack $w.buttons.$buttonName -pady 0 -padx 0 -side right
 		}
 
@@ -753,10 +754,10 @@ namespace eval ::amsn {
 			set answer [customMessageBox [trans confirmdu] deletecancel "" "[trans delete] - $user_login" "." 0]
 		}
 		
-		if {$answer == [trans deleteblock]} {
+		if {$answer == "deleteblock"} {
 			# Delete the user and block.
 			::amsn::deleteUserAction $user_login $grId 1
-		} elseif {$answer == [trans delete]} {
+		} elseif {$answer == "delete"} {
 			# Only delete the user.
 			::amsn::deleteUserAction $user_login $grId 0
 		}
