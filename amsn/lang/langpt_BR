@@ -185,6 +185,7 @@ close Fechar
 closelabel Quando você clicar no botão de fechar em uma janela de conversa com abas
 closeonly Fechar somente a aba atual
 closeordock Fechar a janela da lista de contatos irá fechar o aMSN.\nTalvez você deseje apenas fechar a janela e manter o aMSN ligado na bandeja do sistema.\n\nVocê tem certeza de que deseja fechar o aMSN?
+closeothers Fechar todas as outras tabs
 closingdocks Botão de fechar minimiza janela
 color Cor
 command Comando
