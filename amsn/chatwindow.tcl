@@ -1983,20 +1983,21 @@ namespace eval ::ChatWindow {
 		bind $text <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 
+		# Add a binding for Ctrl-Backspace that seems to be default in Tk to Meta-Backspace (Meta == Alt) but isn't the right thing..
+		bind $text <Control-Key-BackSpace> [bind Text <Meta-Key-BackSpace>]
+
 		# Change shortcuts on Mac OS X (TKAqua). ALT=Option Control=Command on Mac
 		if { [OnMac] } {
 			bind $text <Command-Return> {%W insert insert "\n"; %W see insert; break}
 			bind $text <Command-Shift-space> BossMode
 			bind $text <Command-a> {%W tag add sel 1.0 {end - 1 chars};break}
 			bind $text <Command-A> {%W tag add sel 1.0 {end - 1 chars};break}
-			bind $text <Control-Key-BackSpace> [bind Text <Meta-Key-BackSpace>]
 		} else {
 			bind $text <Control-Return> {%W insert insert "\n"; %W see insert; break}
 			bind $text <Control-Alt-space> BossMode
 			bind $text <Control-a> {%W tag add sel 1.0 {end - 1 chars};break}
 			bind $text <Control-A> {%W tag add sel 1.0 {end - 1 chars};break}
 			bind $text <Tab> "focus $sendbutton; break"
-		    	bind $text <Control-Key-BackSpace> [bind Text <Meta-Key-BackSpace>]
 		}
 
 		bind $text <<Button3>> "tk_popup $w.copypaste %X %Y"
