@@ -3630,8 +3630,14 @@ proc cmsn_draw_main {} {
 	cmsn_draw_offline
 
 	if { [version_vcompare [info patchlevel] 8.4.8] >= 0} {
-		wm iconphoto . -default [::skin::loadPixmap amsnicon]
+		set use_old_method 0
+		if { [catch {wm iconphoto . -default [::skin::loadPixmap amsnicon]}] } {
+			set use_old_method 1
+		}
 	} else {
+		set use_old_method 1
+	}
+	if { use_old_method == 1 } {
 		# above doesn't exist on 8.4.7 and older, so we try the old way
 		if { [OnWin] } {
 			catch {wm iconbitmap . [::skin::GetSkinFile winicons msn.ico]}
