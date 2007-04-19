@@ -3637,7 +3637,7 @@ proc cmsn_draw_main {} {
 	} else {
 		set use_old_method 1
 	}
-	if { use_old_method == 1 } {
+	if { $use_old_method == 1 } {
 		# above doesn't exist on 8.4.7 and older, so we try the old way
 		if { [OnWin] } {
 			catch {wm iconbitmap . [::skin::GetSkinFile winicons msn.ico]}
