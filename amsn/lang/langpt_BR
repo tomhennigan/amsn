@@ -914,7 +914,7 @@ web Web
 whatisamsn aMSN, clone do MSN Messenger independente de plataforma
 whatsize A imagem que você pediu não possui o tamanho correto (96x96) para ser mostrada.\nCom que tamanho você gostaria que a imagem ficasse?
 willjoin Aguardando $1 entrar na conversa
-winkreceived $1 piscou pra você. (As piscadelas ainda não estão completamente implementadas no aMSN)
+winkreceived $1 piscou pra você (as piscadelas ainda não estão completamente implementadas no aMSN)
 wintitlenick Exibir apelidos nas abas ao invés dos endereços de e-mail
 work Trabalho
 wrongfields O "$1", "$2" e/ou "$3" campos não estão válidos
@@ -932,3 +932,5 @@ youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
 zoom Zoom
+abort Abortar
+retry Repetir
