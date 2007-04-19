@@ -1667,7 +1667,7 @@ proc Preferences { { settings "personal"} } {
 #	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	frame $lfname.4 -class Degt
-#	frame $lfname.5 -class Degt
+	frame $lfname.5 -class Degt
 	frame $lfname.6 -class Degt
 
 #	button $lfname.0.skinbutton -text [trans skinselector]  -command ::skinsGUI::SelectSkin
@@ -1697,10 +1697,10 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.4.ymd -text "[trans year]/[trans month]/[trans day]" -value YMD -variable [::config::getVar dateformat]
 	pack $lfname.4.mdy $lfname.4.dmy $lfname.4.ymd -side left -padx 10
 
-#	checkbutton $lfname.5.dock -text "[trans trayicon]" -onvalue 1 -offvalue 0 -variable [::config::getVar dock]
+	checkbutton $lfname.5.dock -text "[trans trayicon]" -onvalue 1 -offvalue 0 -variable [::config::getVar dock]
 
-#	pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
-#	pack $lfname.5 -side top -padx 0 -pady 0 -expand 1 -fill both
+	pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
+	pack $lfname.5 -side top -padx 0 -pady 0 -expand 1 -fill both
 
 	label $lfname.6.llook -text "[trans psmplace]" -padx 10
 	pack $lfname.6 -side top -padx 0 -pady 0 -expand 1 -fill both
