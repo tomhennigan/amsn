@@ -648,7 +648,7 @@ namespace eval ::autoupdate {
 
 		toplevel $w
 		wm title $w "[trans update]"
-		wm geometry $w 320x400
+		#wm geometry $w 320x400
 		wm protocol $w WM_DELETE_WINDOW "::autoupdate::UpdateLangPlugin_close"
 		
 		bind $w <<Escape>> "::autoupdate::UpdateLangPlugin_close"
