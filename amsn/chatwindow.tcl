@@ -1955,21 +1955,12 @@ namespace eval ::ChatWindow {
 		frame $sendbuttonframe -borderwidth 0 -bg [::skin::getKey sendbuttonbg]
 		
 		# Send button in conversation window, specifications and command.
-		if { ![OnMac] } {
-			button $sendbutton -image [::skin::loadPixmap sendbutton] \
-				-command "::amsn::MessageSend $w $text" \
-				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
-				-text [trans send] -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
-				-overrelief flat -compound center
-		} else {
-			label $sendbutton -image [::skin::loadPixmap sendbutton] \
-				-fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-				-activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
-				-text [trans send] -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
-				-relief flat -compound center
-			bind $sendbutton <<Button1>> "::amsn::MessageSend $w $text"
-		}
+		button $sendbutton -image [::skin::loadPixmap sendbutton] \
+		    -command "::amsn::MessageSend $w $text" \
+		    -fg black -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
+		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground black \
+		    -text [trans send] -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
+		    -overrelief flat -compound center
 
 		# Configure my widgets
 		$sendbutton configure -state normal

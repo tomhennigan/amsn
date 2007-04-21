@@ -123,8 +123,20 @@ snit::widgetadaptor loginscreen {
 		set auto_login_label_tag [$self create text 0 0 -anchor nw -text [trans autoconnect]]
 		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect] -bg white]
 		set auto_login_field_tag [$self create window 0 0 -anchor nw -window $auto_login_field]
+
 		# Login button
-		set login_button [button $self.login -text [trans login] -command "$self LoginFormSubmitted" -cursor hand2]
+		set login_button [button $self.login \
+				      -text [trans login] \
+				      -command "$self LoginFormSubmitted" -cursor hand2 \
+				      -image [::skin::loadPixmap loginbutton] \
+				      -fg black -bg [::skin::getKey loginbuttonbg] -bd 0 -relief flat \
+				      -activebackground [::skin::getKey loginbuttonbg] -activeforeground black \
+				      -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
+				      -overrelief flat -compound center]
+
+		bind $login_button <Enter> "$login_button configure -image [::skin::loadPixmap loginbutton_hover]"
+		bind $login_button <Leave> "$login_button configure -image [::skin::loadPixmap loginbutton]"
+
 		set login_button_tag [$self create window 0 0 -anchor nw -window $login_button]
 		# Useful links
 		# Forgot password

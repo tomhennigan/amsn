@@ -52,6 +52,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey chat_tabbar_padx 0
 	::skin::setKey chat_tabbar_pady 0
 	::skin::setKey buttonbarbg #eeeeff
+	::skin::setKey loginbuttonbg #c3c2d2
 	::skin::setKey sendbuttonbg #c3c2d2
 	::skin::setKey topbarbg #5050e5
 	::skin::setKey topbarbg_sel #d3d0ce
