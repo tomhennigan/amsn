@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abort Interrompre
 aboutamsn A propos de Alvaro's Messenger
 about À propos de...
 accept Accepter
@@ -185,6 +186,7 @@ close Fermer
 closelabel Lorsque vous cliquez sur le bouton Fermer dans une fenêtre de conversation à onglets
 closeonly Ne fermer que l'onglet courant
 closeordock Fermer la fenêtre de la liste de contacts va quitter aMSN. Peut-être que vous souhaitez seulement fermer la fenêtre et avoir aMSN dans la boîte à miniatures (systray ou traydock).\n\nEtes-vous sûr de vouloir quitter aMSN?
+closeothers Fermer tous les autres onglets
 closingdocks Le bouton Fermer ancre l'application
 color Couleur
 command Commande
@@ -707,6 +709,7 @@ reporting Envoi du bug....
 required_version Impossible de charger ce plugin. Il nécessite au moins la version $1 d'aMSN
 resetincomingfont Mettre à zéro : Utiliser la police que le contact a choisi.
 restartforskin Note : Il se peut que vous ayez à redémarrer aMSN pour que l'apparence fonctionne au mieux.
+retry Recommencer
 reversed Ordre inversé
 reverselist Liste inversée :
 rightback Bientôt de retour
