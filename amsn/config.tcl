@@ -1401,7 +1401,7 @@ proc LockProfile { email } {
 	while { $tries < 5 } {
 		set Port [GetRandomProfilePort]
 		status_log "LockProfile: Got random port $Port\n" blue
-		if { ![::config::getKey enableremote]} {
+		if { [::config::getKey enableremote] == 1 } {
 			set cmd "socket -server lockSvrNew $Port"
 		} else {
 			set cmd "socket -myaddr 127.0.0.1 -server lockSvrNew $Port"
