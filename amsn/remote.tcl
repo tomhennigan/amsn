@@ -274,6 +274,10 @@ proc write_remote { dataout {colour "normal"} } {
 proc read_remote { command sock } {
 	global remote_auth remote_sock
 
+	if { ![::config::getKey enableremote]} { 
+		close $sock
+	} 	
+
 	if { "$remote_sock" != "$sock" } {
 		set remote_temp_sock $remote_sock
 		init_remote $sock
@@ -286,6 +290,9 @@ proc read_remote { command sock } {
 
 
 	if {$command != ""} {
+		#AIM-FIX: Make command a real quoted list, or it will raise
+		#errors when containing braces
+		set command [split $command]
 		if { $remote_auth == 0 } {
 			authenticate "$command" "$sock"
 		} elseif { [catch {eval "::remote::$command" } res] } {
