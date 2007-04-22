@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abort Annulla
 about Informazioni
 aboutamsn Informazioni su Alvaro's Messenger
 accept Accetta
@@ -10,8 +11,8 @@ addacontact Aggiungi un contatto
 add Aggiungi
 addedyou $1 ($2) ti ha aggiunto alla sua lista dei contatti
 addprofile Aggiungi un nuovo profilo
-addprofiledesc Inserisci il login per il quale vorresti creare un nuovo profilo. \nI login con un profilo ti permettono di avere differenti configurazioni per ogni login.\nSenza profili non puoi usare l'History, gli Allarmi o ricordare le password.
-addstate Aggiungi stato personale
+addprofiledesc Inserisci il login per il quale vorresti creare un nuovo profilo. \nI login con un profilo ti permettono di avere differenti configurazioni per ogni login.\nSenza profili non puoi usare la cronologia, gli Allarmi o ricordare le password.
+addstate Nuovo stato personalizzato
 addto Aggiungi a $1
 addtocontacts Aggiungi questo contatto alla Lista Contatti
 addtoo Aggiungi questa persona alla mia Lista Contatti
@@ -24,7 +25,7 @@ agotinvitation Ricevuto invito audio da $1
 alarmonconnect Attiva l'allarme quando l'utente si connette
 alarmondisconnect Attiva l'allarme quando l'utente si sconnette o diventa invisibile
 alarmonmsg Attiva l'allarme quando l'utente ti manda un messaggio
-alarmonstatus Attiva l'allarme quando l'utente cambia il suo stato personale
+alarmonstatus Attiva l'allarme quando l'utente cambia il suo stato
 alarmpref Impostazioni dell'allarme dell'utente
 alarms Allarmi
 alarmstatus Abilita l'allarme per questo utente
@@ -65,7 +66,7 @@ autoacceptft Accetta automaticamente le richieste di trasferimento file
 autoaway Mostrami come "Non al computer" quando sono inattivo per
 autocheckver Controlla automaticamente all'avvio se ci sono nuove versioni
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
-autoconnect Connetti in automatico all'avvio di aMSN
+autoconnect Esegui l'accesso automaticamente
 autodetectip Ottieni indirizzo IP automaticamente
 autohotmaillog Accedi automaticamente a Hotmail
 autoidle Nessuna attività automatica
@@ -73,13 +74,13 @@ autoip IP automatico
 autolisten_voiceclips Riproduci automaticamente i messaggi vocali appena ricevuti
 automessage Messaggio Automatico
 autonoact Mostrami come "Nessuna attività" quando non attivo per
-autoresizedp Ridimensiona automaticamente le immagini alla dimesione di Default
+autoresizedp Ridimensiona automaticamente le immagini alla dimesione predefinita
 avaccepted Chiamata di videoconferenza accettata
 avcanceled Chiamata di videoconferenza annullata
 avgotinvitation Ricevuto invito di videoconferenza da $1
 avinitfailed Inizializzazione del plugin audio/video fallita. Chiamata annullata
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
-awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato personale in "Non al computer/Torno Subito/Occupato"
+awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato in "Non al computer/Torno Subito/Occupato"
 awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
 away Non al computer
 baduserpass Username o password sbagliate
@@ -91,7 +92,7 @@ block Blocca
 blocked Bloccato
 blockedyougroup Mostra un gruppo separato per le persone che ti hanno bloccato
 blocking in blocco
-blockinter1 Quando il tuo stato personale è "In linea" controlla ogni
+blockinter1 Quando il tuo stato è "In linea" controlla ogni
 blockinter2 secondi, altrimenti controlla ogni:
 blockinter3 ogni
 blockinter4 secondi.
@@ -134,8 +135,8 @@ changeglobnick Cambia nick globale
 change_mobile Impostazioni Mobile
 changenick Cambia nick
 changesize Cambia dimensione
-changestate $1 stato personale: $2
-changestatus Stato personale
+changestate $1 stato: $2
+changestatus Stato
 changevideosettings Cambia le impostazioni video
 channels Canali
 charscounter Contatore dei caratteri digitati nella finestra di chat
@@ -167,7 +168,7 @@ choosecontact Per favore scegli un contatto dalla lista
 choosedevice Scegli un dispositivo
 choosefontcolor Scegli il colore del font
 chooseskin Scegli la Skin che preferisci usare
-ch_to_state Passa a nuovo stato personale
+ch_to_state Passa a nuovo stato personalizzato
 clear Cancella
 clearlog2 Cancella il diario per tutti i tuoi contatti
 clearlog3 Cancella tutti i Log
@@ -179,12 +180,13 @@ clicktologin Clicca qui per accedere
 clientcaps Invia pacchetto "x-clientcaps" a clients altrui
 clientname Nome client
 closeall Chiudere tutte le schede nella finestra?
-closealltabs Chiudi tutti i tab
+closealltabs Chiudi tutte le schede
 close Chiudi
 closed La conversazione con $1 è chiusa per inattività
-closelabel Quando clicchi sul pulsante di chiusura di una finestra con i tab:
-closeonly Chiudi solo il tab corrente
+closelabel Quando clicchi sul pulsante di chiusura di una finestra con più schede:
+closeonly Chiudi solo la scheda corrente
 closeordock La chiusura della finestra della lista dei contatti chiuderà aMSN. Forse vuoi solo chiudere la finestra e vuoi avere aMSN aperto nella barra delle applicazioni.\n\nSei sicuro/a di voler chiudere aMSN?
+closeothers Chiudi le altre schede
 closingdocks Pulsante chiudi riduce a icona
 color Colore
 command Comando
@@ -234,12 +236,12 @@ currentnotes Note attuali
 custnotifymsg Visualizza la finestra di notifica alla ricezione di un nuovo messaggio
 custnotifyoffline Visualizza la finestra di notifica alla disconnessione di questo contatto
 custnotifyonline Visualizza la finestra di notifica alla connessione di questo contatto
-custnotifystatus Visualizza la finestra di notifica al cambio di stato personale di questo contatto
+custnotifystatus Visualizza la finestra di notifica al cambio di stato di questo contatto
 customcolor Colore Personalizzato
 customdp Immagine personalizzata
 custom_edit Crea un'emoticon personalizzata
 custom_new Aggiungi una nuova emoticon
-customnick Soprannome Personalizzato
+customnick Nick Personalizzato
 customsmileys Mostra le emoticon personalizzate degli altri utenti
 customstyle Stile personalizzato
 custshowcustomsmileys Mostra le emoticon personalizzate dell'utente
@@ -251,14 +253,14 @@ dateformat Cambia il formato della data
 day Giorno
 days Giorni
 dcprofile Non creare un profilo
-default2 Default
-default Configurazione di default
-defaultloginradio Entra con la configurazione di default
+default2 Predefinito
+default Configurazione predefinita
+defaultloginradio Entra con la configurazione predefinita
 defchatwinsize Dimensione predefinita delle finestre di chat (XSIZExYSIZE)
 deleteall Cancella tutto
 deleteblock Cancella e Blocca
 delete Cancella
-deletecustomstate Elimina Stato personale
+deletecustomstate Elimina stato personalizzato
 delimiters Delimitatori del campo Ora:
 deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
 delprofile2 Seleziona il profilo che desideri rimuovere
@@ -279,7 +281,7 @@ displaychat Mostra le opzioni del testo
 displayeventconnect Mostra quando i contatti si connettono
 displayeventdisconnect Mostra quando i contatti si sconnettono
 displayeventemail Mostra quando si riceve Posta
-displayeventstate Mostra quando i contatti cambiano stato personale
+displayeventstate Mostra quando i contatti cambiano stato
 displayp4context Visualizza il contenuto del campo P4-Context come mittente del messaggio
 displaypic Immagine Utente
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -293,7 +295,7 @@ dontshow Non mostrare
 download Scarica
 downloadingtls Scaricamento del modulo TLS in corso da:\n$1
 editcontent Modifica il contenuto del campo soggetto e del campo note
-editcustomstate Modifica Stato personale
+editcustomstate Modifica Stato
 edit Modifica
 editmyprofile Modifica il mio Profilo MSN
 editnewstate Nuove impostazioni personali di risposta automatica
@@ -349,8 +351,8 @@ finish2apply Premi Fine per applicare questi settaggi.
 firewalled Sei dietro un firewall o un router
 firewalled2 Sei dietro un firewall, per favore controlla i settaggi di Connessione nella finestra delle preferenze
 followtext Scorri la finestra quando nuovo testo viene inserito
-forget_me Cancella il mio profilo
-forgot_pass Ho dimenticato la password
+forget_me (Annulla memorizzazione del profilo utente)
+forgot_pass Password dimenticata?
 friendlyname Nome comune
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
 ftaccepted Trasferimento del file accettato
@@ -382,7 +384,7 @@ goto_prefs_removeprofile Clicca qui per aprire la finestra delle preferenze e ca
 group Gruppo
 groupadd Aggiungi un gruppo
 groupcontacts Raggruppa i contatti
-groupcontactsbystatus Raggruppa i contatti per stato personale
+groupcontactsbystatus Raggruppa i contatti per stato
 groupdelete Cancella un gruppo
 groupexists Il gruppo esiste già
 groupmissing Non riesco a trovare il gruppo
@@ -401,7 +403,7 @@ hidemenumessage Sei sicuro di voler nascondere i menù?\nPuoi ripristinarli ogni 
 hidemenu Mostra/Nascondi i menù
 hiden Nascondi le emoticon dal menu delle faccine
 hidewindow Nascondi Finestra
-history Mostra l'History
+history Mostra la cronologia messaggi
 home Casa
 howto_remove_profile Devi cancellare il tuo profilo (cancella $1) dalla finestra delle preferenze. \n\nPer ragioni di sicurezza, non è permessa la rimozione dei profili dalla schermata di login.
 httpconnection Connessione usando il metodo HTTP (usa il protocollo HTTP sulla porta 80)
@@ -471,8 +473,8 @@ logbigger I file delle registrazioni per ogni contatto non hanno alcun limite di
 logeventconnect Registra le connessioni
 logeventdisconnect Registra le disconnessioni
 logeventemail Registra quando si riceve posta
-logeventstate Registra i cambi di stato personale
-logfandexp Termine prefissato della history e dimensione dei registri
+logeventstate Registra i cambi di stato
+logfandexp Termine prefissato della cronologia e dimensione dei registri
 loggedotherlocation Disconnesso. E' stato effettuato l'accesso a Messenger da un altro computer
 loggingin Connessione in corso...
 login Accedi
@@ -483,11 +485,11 @@ logout Disconnetti
 logsbydate Ordina log per data (l'apertura della cronologia è velocizzata)
 logschats Sta loggando le chat
 logsin si è appena connesso/a
-logsmileys Mostra le emoticon nella finestra dell'history di aMSN
+logsmileys Mostra le emoticon nella finestra della cronologia di aMSN
 logsout si è appena sconnesso/a
 logwebcam Salva tutte le sessioni della webcam nel diario di aMSN per una visione futura
 longnick Il tuo nick è lungo più di 130 caratteri. Il protocollo ufficiale di MSN non lo consente. Vuoi impostarlo ugualmente?
-longp4c Il tuo soprannome è più lungo di 130 caratteri. Il Soprannome che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
+longp4c Il tuo nick è più lungo di 130 caratteri. Il nick che apprarirà nella versione ufficiale di MSN sarà $1. Sei sicuro di salvare le impostazioni?
 longpsm Il tuo messaggio personale è troppo lungo. Non è ufficialmente supportato dal protocollo di MSN. Sei sicuro di volerlo usare?
 lowrescam Video a bassa risoluzione
 lprivtoconf Chat privata divenuta conversazione con $1
@@ -501,7 +503,7 @@ minimised Ridotto ad icona
 minimize Riduci ad icona
 mins minuti
 mobilegrp1 Gruppo utenti "Mobile"
-mobilegrp2 Inserisci utenti nel gruppo "Mobile" quando sono sconnessi (ordinati per stato personale)
+mobilegrp2 Inserisci utenti nel gruppo "Mobile" quando sono sconnessi (ordinati per stato)
 mobile Mobile
 modified Modificato
 month Mese
@@ -514,7 +516,7 @@ msgmaxmin Quando arriva un nuovo messaggio voglio che sia:
 msg Messaggio
 msgmode Seleziona come gestire le finestre dei messaggi multipli:
 msn aMSN
-msnstatus Status del Network MSN
+msnstatus Stato del servizio
 msnstyle Chat in stile MSN
 mustrestart Devi riavviare il programma per applicare le modifiche
 myfriendlyname Il mio nome comune
@@ -523,7 +525,7 @@ mymobilephone Il mio numero di cellulare
 mynick Mio nick
 mypic La mia immagine personale:
 mypics Le mie immagini personali
-mystatus Il mio stato personale
+mystatus Il mio stato
 myworkphone Il mio numero d'ufficio
 name Nome
 natip La rilevazione dell'IP dalla pagina web
@@ -531,7 +533,7 @@ natkeepalive Se la connessione cade continuamente abilita questa opzione
 needonline Sei invisibile o disconnesso!
 needwinico2 Affinché l'icona nella traybar funzioni è necessario che nella cartella utils/windows di aMSN ci sia winico05.dll
 never Mai
-new_account Crea un account
+new_account Registra un Windows Live ID
 newchat Nuova chat
 new_ft_protocol Usa il nuovo protocollo di trasferimento files (ancora sotto test)
 newline A capo
@@ -541,11 +543,11 @@ newmailfrom Nuova e-mail da $1 ($2)
 newmailfromother Nuova posta in cartelle varie da $1 ($2)
 newmsg Nuovo messaggio
 newoim Nuovi messaggi "non in linea"
-newstate Aggiungi uno Stato personale
-newtabbedfeature Su aMSN è ora possibile gestire le varie conversazioni anche riunendo tutte le finestre, di uno stesso gruppo o dell'intera lista contatti, in un'unica finestra a linguette. Scegli come vuoi che aMSN si comporti
+newstate Aggiungi uno stato personalizzato
+newtabbedfeature Su aMSN è ora possibile gestire le varie conversazioni anche riunendo tutte le finestre, di uno stesso gruppo o dell'intera lista contatti, in un'unica finestra a schede. Scegli come vuoi che aMSN si comporti
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
-nick Soprannome
+nick nick
 noactivity Nessuna attività
 nocacheddps Nessuna immagine in cache per questo utente
 nocamwarn Nessuna webcam trovata o la tua webcam è già utilizzata da un altro programma (significa che non può essere usata da aMSN). Puoi trovare delle indicazioni su come risolvere questo problema nella nostra Wiki:
@@ -570,7 +572,7 @@ nosystemtray System tray non disponibile
 note Nota
 notificationserver Server di notifica iniziale di MSN (Server di MSN Messenger)
 notify1_5 Mostra una finestra di notifica quando i contatti vanno fuori linea
-notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato personale
+notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato
 notify1 Mostra una finestra di notifica quando i contatti vengono in linea
 notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
 notify3 Mostra una finestra di notifica quando una e-mail raggiunge la tua casella di posta
@@ -582,7 +584,7 @@ notifytyping Invia agli altri utenti una notifica mentre digito
 notifywin Finestra di Notifica
 notinlist Non sei presente nella sua lista contatti
 notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile trovarlo. Se è installato, è necessario specificare il percorso delle librerie nella finestra Preferenze (es: /opt/tls/lib). \n\nIl pacchetto tls può essere scaricato da http://tls.sf.net.
-nottabbed Finestre normali senza linguette
+nottabbed Finestre normali senza schede
 nousersinsession Nessun utente nella sessione
 nouserspecified Nessun utente specificato
 nudge $1 chiede la tua attenzione
@@ -624,7 +626,7 @@ playing Sto ascoltando: $1
 play Play
 playtest Riproduci il file di test
 playwebcamsend Riprendi invio webcam
-pluginselector Seleziona i Plugins
+pluginselector Seleziona i plugin
 port Porta
 portswellconfigured Le tue porte sono ben configurate
 prefalerts Suoni e Allarmi dei miei eventi
@@ -646,7 +648,7 @@ preflog1 Opzioni di cronologia e diario
 preflogevent Cronologia degli Eventi
 preflook L'aspetto del mio aMSN
 prefmsging L'interfaccia dei miei messaggi
-prefname Il nome/soprannome del mio MSN Messenger
+prefname Il nome/nick del mio MSN Messenger
 prefphone2 Inserisci il numero di telefono che vorresti fosse visto dalle persone \nsulla tua lista permessi \n
 prefphone Il mio numero di telefono
 prefprivacy2 Lista Contatti/Rifiutati dell'utente
@@ -656,7 +658,7 @@ prefprofile3 I Profili di configurazione dell'utente di aMSN
 prefprofile Il mio Profilo Pubblico
 prefproxy Le mie Impostazioni Proxy
 prefremote Preferenze della connessione remota
-prefsession Accesso e Stato personale
+prefsession Accesso e Stato
 prefshared Connessioni condivise (solo per NAT)
 prefsound Suono
 preview Anteprima
@@ -696,8 +698,8 @@ record Registra
 recorderror Sì è verificato un errore durante la registrazione del suono: $1
 recvwebcamaccepted $1 ha accettato il tuo invito a farti visualizzare le immagini dalla sua webcam. Connessione in corso
 reject Respingi
-rememberaccount Memorizza il mio account
-rememberpass Ricorda password
+rememberaccount Memorizza profilo utente
+rememberpass Memorizza la password
 remembersetting Ricorda questa impostazione
 removeempty Eliminare gruppi vuoti dalla lista contatti
 removefromlist Rimuovi da questa lista
@@ -707,6 +709,7 @@ report Rapporto
 required_version Impossibile caricare il plugin. Richiede almeno la versione $1 di aMSN
 resetincomingfont Ripristina il font (usa il font scelto dal mittente del messaggio)
 restartforskin Nota: potresti aver bisogno di riavviare aMSN per vedere la skin in maniera opportuna!
+retry Riprova
 reversed Invertito
 reverselist Invertire la lista (RL)
 rightback Torno subito
@@ -721,7 +724,7 @@ searchdown Cerca in avanti
 searchup Cerca indietro
 selectall Seleziona tutto
 selectcontact Seleziona un contatto
-selectplugins Seleziona i plugins che desideri attivare
+selectplugins Seleziona i plugin che desideri attivare
 selectskin Seleziona una skin dalla lista
 sendcam Invia immagine della webcam
 sendemail Invia il mio indirizzo e-mail per avvisarmi riguardo cambiamenti
@@ -760,7 +763,7 @@ showmypic Immagine personale
 shownotify Attiva finestre di notifica
 showpicnotify Mostra l'immagine degli utenti nella finestra di notifica
 showuserpic Immagine di $1
-signinstatus Accedi sempre come
+signinstatus Stato
 skinselector Seleziona le skin
 skin Skin
 small Piccolo
@@ -779,7 +782,7 @@ sortcontactsby Ordina i contatti per
 sortcontactsdesc Ordina i contatti in ordine discendente
 sortcontactgroup Ordina i contatti per gruppo
 sortcontacthybrid Ordina i contatti in modo ibrido
-sortcontactstatus Ordina i contatti per stato personale
+sortcontactstatus Ordina i contatti per stato
 sortgroupsasc Ordina i gruppi in ordine ascendente
 sortgroupsdesc Ordina i gruppi in ordine discendente
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
@@ -801,16 +804,16 @@ startoffline Inizio "non in linea"
 startonboot Avvia aMSN all'avvio di Windows
 startontray Avvia aMSN direttamente nella traybar
 stateautomsg Messaggio automatico da inviare
-statechange stato personale:
+statechange stato:
 stateedittext Per favore modifica i campi che vorresti \nche fossero modificati e premi Salva
 state Voglio apparire come
-stateinfo Configurazione dello stato personale
-statename Nome dello stato personale
-statenewtext Per favore inserisci le informazioni richieste per creare \nil tuo nuovo Stato Personale e premi Salva
+stateinfo Configurazione dello stato personalizzato
+statename Nome dello stato personalizzato
+statenewtext Per favore inserisci le informazioni richieste per creare \nil tuo nuovo stato personalizzato e premi Ok
 statenick Personalizza nick (lasciare vuoto per non modificarlo)
 statepsm Personalizza messaggio personale (lasciare vuoto per non modificarlo)
 stats Statistiche
-status Stato personale
+status Stato
 step Passo
 stopalarm Ferma l'allarme
 stop Stop
@@ -819,17 +822,17 @@ stopwebcamsend Interrompi l'invio delle immagini della webcam
 storenickname Ripristina il nick originale dopo una sessione personalizzata con nick diverso
 strictfonts Imposta tutti i fonts (barra di stato e altri) alla dimensione che ho scelto
 stylechat Stesso aspetto delle chat
-stylehist Aspetto dell'history di aMSN
-stylelog Seleziona il formato nel quale vorresti vedere la tua history
+stylehist Aspetto della cronologia di aMSN
+stylelog Seleziona il formato nel quale vorresti vedere la tua cronologia
 style Stile
 subjectrequired Soggetto richiesto
 subject Soggetto
 syntaxerror Errore di sintassi
-tabbed Finestre con linguette
-tabbedglobal Una finestra singola con linguette per tutti gli utenti della lista contatti
-tabbedgroups Una finestra singola con linguette per tutti gli utenti di uno stesso gruppo
-tabtitlenick Mostra nick nelle linguette anziché l'e-mail
-temp_state Non salvare (Stato temporaneo, si perderà alla chiusura di aMSN)
+tabbed Finestre con schede
+tabbedglobal Una finestra singola con schede per tutti gli utenti della lista contatti
+tabbedgroups Una finestra singola con schede per tutti gli utenti di uno stesso gruppo
+tabtitlenick Mostra nick nelle schede anziché l'e-mail
+temp_state Non salvare (stato personalizzato temporaneo, si perderà alla chiusura di aMSN)
 textsize Dimensione del testo
 thismonth Questo mese
 throughserver Tramite il server
@@ -877,7 +880,7 @@ userdps Immagini dell'utente
 usernotonline Questo utente non è in linea
 userproperties Proprietà dell'utente $1
 usersettings Settaggi
-user Utente
+user Indirizzo di posta elettronica
 useryourself Non puoi chattare con te stesso
 usesnack Utilizza la libreria Snack (Tcl)
 verifyblocked Controlla le persone che ti stanno bloccando
@@ -914,7 +917,7 @@ whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma
 whatsize L'immagine che hai richiesto non è nel normale formato di visualizzazione immagini (96x96) In che formato vuoi che l'immagine venga visualizzata?
 willjoin Sto aspettando che $1 si unisca alla conversazione
 winkreceived Hai ricevuto un Wink da $1. Questa opzione non è però al momento supportata da aMSN
-wintitlenick Mostra i nick nella finestra con linguette anziché l'e-mail
+wintitlenick Mostra i nick nella finestra con schede anziché l'e-mail
 work Lavoro
 wrongfields I campi "$1", "$2" e/o "$3" non erano validi
 wrongprofileversion Versione del file di configurazione del profilo errata, per risolvere prego rimuovere la directory $1, o aggiornare aMSN
