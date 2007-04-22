@@ -6741,7 +6741,11 @@ namespace eval ::MSN6FT {
 		set listening [abook::getDemographicField listening]
 		#set listening "false"
 
-		set fd [open [lindex $session 8] "r"]
+		if { [catch {set fd [open [lindex $session 8] "r"]}] } {
+			::MSN6FT::CancelFT $chatid $sid
+			::amsn::WinWriteRejectFT $chatid [trans filedoesnotexist]
+			return 0
+		}
 		fconfigure $fd -translation {binary binary}
 
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 $fd -1 -1 -1]
