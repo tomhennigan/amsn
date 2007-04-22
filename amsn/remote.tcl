@@ -11,6 +11,7 @@ if { $initialize_amsn == 1 } {
 	set remote_auth 0
 	set remote_sock_lock 0
 	set remote_sock 0
+	set remote_authtimer 0
 }
 
 proc remote_check_online { } {
@@ -20,6 +21,11 @@ proc remote_check_online { } {
 	} else {
 		after 1000 "remote_check_online"
 	}
+}
+
+proc remote_touchauthtimer {} {
+	global remote_authtimer
+	set remote_authtimer 0
 }
 
 namespace eval ::remote {
@@ -276,6 +282,7 @@ proc read_remote { command sock } {
 
 	if { ![::config::getKey enableremote]} { 
 		close $sock
+		return
 	} 	
 
 	if { "$remote_sock" != "$sock" } {
@@ -310,28 +317,28 @@ proc md5keygen { } {
 }
 
 proc authenticate { command sock } {
-	global remotemd5key remote_auth remote_sock_lock
+	global remotemd5key remote_auth remote_sock_lock remote_authtimer
 	global userchatto
+
+	if {$remote_authtimer} {
+		close $sock
+		return
+	}
 
 	if { $command == "auth" } {
 		set remotemd5key "[md5keygen]"
 		write_remote "auth $remotemd5key"
 	} elseif { [lindex $command 0] == "auth2" && [info exists remotemd5key] } {
 		if { "[lindex $command 1]" ==  "[::md5::hmac $remotemd5key [list [::config::getKey remotepassword]]]" } {
-			if { [::config::getKey enableremote] == 1 } { 
-				set remote_auth 1
-				set remote_sock_lock $sock
-				catch { unset userchatto }
-				write_remote "Authentication successfull"
-			} else {
-				write_remote "User disabled remote control"
-			} 
+			set remote_auth 1
+			set remote_sock_lock $sock
+			catch { unset userchatto }
+			write_remote "Authentication successfull"
 		} else {
-			if { [::config::getKey enableremote] == 1 } { 
-				write_remote "Authentication failed"
-			} else { 
-				write_remote "User disabled remote control"
-			}	
+			set remote_authtimer 1
+			after 3000 [list remote_touchauthtimer]
+			vwait remote_authtimer
+			write_remote "Authentication failed"
 		}	
 		unset remotemd5key
 	} else {
