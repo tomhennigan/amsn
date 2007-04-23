@@ -570,8 +570,14 @@ namespace eval ::MSNP2P {
 					# Make new data structure for this session id
 					if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" } {
 						# Buddyicon or emoticon
-						if { [GetFilenameFromContext $context] != "" } {
-							SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "bicon" [GetFilenameFromContext $context] ""]
+						set filenameFromContext [GetFilenameFromContext $context]
+						if { $filenameFromContext != "" } {
+							#status_log "dest = $dest , uid = $uid , sid = $sid"
+							if { ! ( $filenameFromContext == [::config::getKey displaypic] && [::abook::getContactData $dest dontshowdp] == 1 ) } {
+								SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "bicon" $filenameFromContext ""]
+							} else {
+								return ""
+							}
 						} else {
 							status_log "MSNP2P | $sid -> This is not an invitation for us, don't reply.\n" red
 							# Now we tell this procedure to ignore all packets with this sid
