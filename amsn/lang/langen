@@ -292,6 +292,7 @@ dockkde KDE Dock
 done Done
 dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
+dontshowdp Don't let the user download your new Display Pictures
 download Download
 downloadingtls Downloading TLS module from:\n $1
 editcontent Edit the content of the subject field and the note field
