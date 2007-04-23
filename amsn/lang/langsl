@@ -127,7 +127,7 @@ cfgalarmall Nastavi globalni alarm
 cfgalarm Nastavi zvoèni/slikovni alarm
 change_account_info Spremeni podatke raèuna
 changecustomstate Preklopi v
-changedisplaypic Spremeni osebno sliko
+changedisplaypic Spremeni prikazno sliko
 changefont Zamenjaj pisavo
 changeglobnick Spremeni globalni vzdevek
 change_mobile Spremeni nastavitve mobilnih naprav
@@ -227,7 +227,7 @@ countrycode Oznaka moje dr¾ave
 cprofile Ustvari raèun
 created Ustvarjeno
 credits Zasluge
-curdisplaypic Trenutna osebna slika
+curdisplaypic Trenutna prikazna slika
 currentdate Trenutni datum
 currentlanguage Jezik, ki ga trenutno uporablja¹
 currentnotes Trenutne opombe
@@ -236,7 +236,7 @@ custnotifyoffline Prika¾i obvestilo, ko se ta stik odjavi
 custnotifyonline Prika¾i obvestilo, ko se ta stik prijavi
 custnotifystatus Prika¾i obvestilo, ko ta stik spremeni stanje
 customcolor Barva
-customdp Osebna slika po meri
+customdp Prikazna slika po meri
 custom_edit Uredi svoje sme¹ke
 custom_new Dodaj svojega sme¹ka
 customnick Prikazni vzdevek
@@ -281,7 +281,7 @@ displayeventdisconnect Prikazuj odjave stikov
 displayeventemail Prikazuj prejetja e-mailov
 displayeventstate Prikazuj spremembe stanja stikov
 displayp4context Prika¾i kontekst P4
-displaypic Osebna slika
+displaypic Prikazna slika
 dockfreedesktop Prikleni na pult (KDE3/Gnome2)
 dockgtk gtk gtk gtk gtk pomol
 dockingoff Pristaja prekinjena
@@ -396,7 +396,7 @@ handle Ime
 havenomic Nimam mikrofona
 helpcontents Vsebina pomoèi
 help Pomoè
-hidedisplaypic Skrij osebno sliko
+hidedisplaypic Skrij prikazno sliko
 hidemenumessage Si preprièan da hoèe¹ skriti menuje?\nNazaj jih lahko poka¾e¹ z Skrij/Prika¾i tipkovnièno blji¾nico 'Ctrl-M'.
 hidemenu Skrij/Prika¾i menije
 hiden Ne poka¾i emotikona v meniju sme¹kov
@@ -521,7 +521,7 @@ myfriendlyname Moje prijazno ime
 myhomephone Domaèi telefon
 mymobilephone Mobilni telefon
 mynick Moj vzdevek
-mypic Moja osebna slika:
+mypic Moja prikazna slika:
 mypics Osebne slike
 mystatus Moje stanje
 myworkphone Slu¾beni telefon
@@ -686,7 +686,7 @@ readonlywarn OPOZORILO: Datoteka verjetno NE bo shranjena pravilno, ker je mapa 
 receivedbytes Prejeto $1 od $2 bajtov
 receiveddir Mapa s prejetimi datotekami
 receivedoimread Ima¹ $1 novih sporoèil oddanih v naèinu brez povezave. Bi jih rad prebral?
-receivedvoice Posnemi glasovno sporoèilo
+receivedvoice Prejel/a si glasovno sporoèilo
 receivefile Sprejmi datoteko
 recentmsg Prepreèi zapiranje okna s pogovorom takoj po prejemu sporoèila
 reconnect2 Ponovna prijava ob prekinitvi povezave
@@ -742,7 +742,7 @@ servergoingdown Povezava prekinjena
 server Stre¾nik
 serverunavailable Stre¾nik ni dosegljiv
 session Seja
-setasmydp Nastavi za mojo osebno sliko
+setasmydp Nastavi za mojo prikazno sliko
 setupcamfinetune Nastavljam kamero in popravljam sliko
 setupcam Nastavljam video napravo kot spletno kamero
 shareswebcam Ima spletno kamero
@@ -752,14 +752,14 @@ showcachedpics Poka¾i shranjene osebne slike
 show_contactdps_in_cl Prika¾i pomanj¹ane osebne slike v seznamu stikov
 showcontactemail Prika¾i kontakte z E-mail naslovi
 showcontactnick Prika¾i kontakte z vzdevkom
-showdisplaypic2 Prika¾i osebno sliko, ko se odpre pogovor
-showdisplaypic Prika¾i osebno sliko
+showdisplaypic2 Prika¾i prikazno sliko, ko se odpre pogovor
+showdisplaypic Prika¾i prikazno sliko
 showlinksinlogin Prika¾i povezave v prijavnem oknu
 showmailicon Prika¾i ikono v opravilni vrstici, ko prejme¹ po¹to
-showmypic Moja osebna slika
+showmypic Moja prikazna slika
 shownotify Poka¾i obvestilo ob nekaterih dogodkih
-showpicnotify Prika¾i osebno sliko v obvestilnem oknu
-showuserpic Osebna slika uporabnika $1
+showpicnotify Prika¾i prikazno sliko v obvestilnem oknu
+showuserpic Prikazna slika uporabnika $1
 signinstatus Status ob vpisu
 skin Preobleka
 skinselector Izberi videz
@@ -867,7 +867,7 @@ uonline Prijavljeni
 updateonlycurrentlanguage Posodabljaj samo trenutni jezik
 update Posodobi
 updating Posodabljam
-useasdp Uporabi kot osebno sliko
+useasdp Uporabi kot prikazno sliko
 useasregexp Uporabi regularni izraz (regexp)
 useother Uporabi drugi program
 useralreadyonlist Uporabnik je ¾e na seznamu stikov
@@ -882,7 +882,7 @@ useryourself Ne more¹ govoriti sam s seboj
 usesnack Uporabi knji¾nico Snack (vgrajena v Tcl)
 verifyblocked Preveri, kdo te blokira
 version Razlièica
-videoconversationrequest Prejel si povabilo na video pogovor (dvosmerna zvok in slika). Tega aMSN ¹e ne podpira, zato ga je zavrnil. Lahko pa vseeno uporablja¹ standarden pogovor preko spletne kamere.
+videoconversationrequest Prejel/a si povabilo na video pogovor (dvosmerna zvok in slika). Tega aMSN ¹e ne podpira, zato ga je zavrnil. Lahko pa vseeno uporablja¹ standarden pogovor preko spletne kamere.
 viewcontactsby Prikaz stikov
 view Pogled
 viewprofile Poglej profil
