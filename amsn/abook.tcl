@@ -1248,7 +1248,7 @@ namespace eval ::abookGui {
 	}
 
 	proc showUserProperties { email } {
-		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email HOME customdp_img_$email
+		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email HOME customdp_img_$email dontshowdp_$email
 		set w ".user_[::md5::md5 $email]_prop"
 		if { [winfo exists $w] } {
 			raise $w
@@ -1466,6 +1466,7 @@ namespace eval ::abookGui {
 		set colorval_$email [::abook::getContactData $email customcolor] 
 		set showcustomsmileys_$email [::abook::getContactData $email showcustomsmileys]
 		set ignorecontact_$email [::abook::getContactData $email ignored]
+		set dontshowdp_$email [::abook::getContactData $email dontshowdp]
 
 		frame $nbSettings.fNick.fColor.col -width 40 -bd 0 -relief flat -highlightbackground black -highlightcolor black
 		if { [set colorval_$email] != "" } {
@@ -1517,8 +1518,10 @@ namespace eval ::abookGui {
 		labelframe $nbSettings.fChat -relief groove -text [trans chat]
 		checkbutton $nbSettings.fChat.showcustomsmileys -variable showcustomsmileys_$email -text "[trans custshowcustomsmileys]" -anchor w
 		checkbutton $nbSettings.fChat.ignoreuser -variable ignorecontact_$email -text "[trans ignorecontact]" -anchor w
+		checkbutton $nbSettings.fChat.dontshowdp -variable dontshowdp_$email -text "[trans dontshowdp]" -anchor w
 		pack $nbSettings.fChat.showcustomsmileys -side top -fill x
 		pack $nbSettings.fChat.ignoreuser -side top -fill x
+		pack $nbSettings.fChat.dontshowdp -side top -fill x
 		
 		labelframe $nbSettings.fGroup -relief groove -text [trans groups]
 		::groups::Groupmanager $email $nbSettings.fGroup
@@ -1705,7 +1708,7 @@ namespace eval ::abookGui {
 	}
 	
 	proc PropDestroyed { email w win } {
-		global colorval_$email showcustomsmileys_$email ignorecontact_$email
+		global colorval_$email showcustomsmileys_$email ignorecontact_$email dontshowdp_$email
 
 		if { $w == $win } {
 			#Clean temporal variables
@@ -1716,6 +1719,7 @@ namespace eval ::abookGui {
 			catch {unset colorval_$email}
 			catch {unset showcustomsmileys_$email}
 			catch {unset ignorecontact_$email}
+			catch {unset dontshowdp_$email}
 		}
 	}
 	
@@ -1851,7 +1855,7 @@ namespace eval ::abookGui {
 	}
 
 	proc PropOk { email w } {
-		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email
+		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email dontshowdp_$email
 		
 		if {[::alarms::SaveAlarm $email] != 0 } {
 			return
@@ -1864,8 +1868,8 @@ namespace eval ::abookGui {
 		set old_customdp [::abook::getContactData $email customdp ""]
 
 		# Store custom display information options
-		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor customdp showcustomsmileys ignored] \
-			[list [$nbSettings.fNick.customnick.ent get] [$nbSettings.fNick.customfnick.ent get] [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set ignorecontact_$email]]
+		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor customdp showcustomsmileys ignored dontshowdp] \
+			[list [$nbSettings.fNick.customnick.ent get] [$nbSettings.fNick.customfnick.ent get] [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set ignorecontact_$email] [set dontshowdp_$email]]
 		
 		# Update display picture
 		if {[set customdp_$email] != $old_customdp} {
