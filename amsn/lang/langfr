@@ -292,6 +292,7 @@ dockkde Ancrage dans KDE
 done Terminé
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas la montrer
+dontshowdp Empêcher ce contact de voir votre avatar
 downloadingtls Téléchargement du module TLS à partir de :\n $1
 download Télécharger
 editavsettings Modifier les paramètres audio et vidéo
