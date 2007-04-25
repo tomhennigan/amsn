@@ -651,7 +651,7 @@ namespace eval ::gnotify {
 	proc open_gmail_account {acnt} {
 		global HOME 
 
-		set page_data {<html><head><noscript><meta http-equiv=Refresh content="0; url=http://wws.gmail.com"></noscript></head>}
+		set page_data {<html><head><noscript><meta http-equiv=Refresh content="0; url=http://www.gmail.com"></noscript></head>}
 		append page_data {<body onload="document.pform.submit(); "><form name="pform" action="https://www.google.com/accounts/ServiceLoginAuth" method="POST">}
 		append page_data {<input type="hidden" name="continue" value="http://mail.google.com/mail/">}
 		append page_data {<input type="hidden" name="service" value="mail">}
