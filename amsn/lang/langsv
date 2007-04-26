@@ -291,6 +291,7 @@ dockingoff Stängningsknappen minimerar/stänger fönstret
 dockkde Ikon i systemfältet för KDE
 done Klar
 dontdownload Ladda inte ner TLS, jag installerar det själv.
+dontshowdp Låt inte andra användare ladda ner din visningsbild
 dontshow Visa inte
 downloadingtls Laddar ner TLS från:\n $1
 download Ladda ner
