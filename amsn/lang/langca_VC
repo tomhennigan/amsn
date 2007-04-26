@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abort Cancel·la
 aboutamsn Sobre Alvaro's Messenger
 about Sobre
 accept Acceptar
@@ -74,10 +75,10 @@ autolisten_voiceclips Automàticament reproduir missatges de veu quan es reben
 automessage Missatge automàtic
 autonoact Mostrar-me com "inactiu" després d'estar inactiu durant
 autoresizedp Redimensionar automàticament les imatges per a mostrar a la mida predeterminada
-avaccepted Trucada de videoconferència acceptada
-avcanceled Trucada de videoconferència cancel·lada
+avaccepted Crida de videoconferència acceptada
+avcanceled Crida de videoconferència cancel·lada
 avgotinvitation Has rebut una invitació de videoconferència de $1
-avinitfailed L'inicialització del plug-in d'audio/video ha fallat. Trucada cancel·lada
+avinitfailed L'inicialització del plug-in d'audio/video ha fallat. Crida cancel·lada
 avoidseen Evitar que esta persona veja la teua connexió i et contacte
 away Ausent
 awaymsg1 Preguntar quan canvie l'estat a Absent/Torne enseguida/Ocupat
@@ -178,13 +179,14 @@ clicktoadd Fes clic en Afegir per a crear una nova nota
 clicktologin Fes click ací per a iniciar la sessió
 clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
+close Tancar
 closealltabs Tancar totes les pestanyes
 closeall Vols tancar totes les pestanyes de la finestra?
 closed Conversa amb $1 tancada per inactivitat
 closelabel Quan fas clic al botó de tancar en una finestra de conversa amb pestanyes
 closeonly Tancar només la pestanya actual
 closeordock El tancar la llista de contactes tancará aMSN. Potser només vols tancar la finestra i que aMSN continue a l'àrea de notificació.\n\nEstàs segur que vols eixir d'aMSN?
-close Tancar
+closeothers Tancar les altres pestanyes
 closingdocks Botó de tancar minimitza la finestra
 color Color
 command Ordre
@@ -290,6 +292,7 @@ dockkde Icon KDE
 done Fet
 dontdownload No descarregar TLS, l'instal·laré jo mateix
 dontshow No mostrar
+dontshowdp No deixar que este usuari es descarregue les teues noves imatges per a mostrar
 download Descarregar
 downloadingtls Descarregant el mòdul TLS des de: \n $1
 editavsettings Modifica les opcions de àudio i vídeo
@@ -707,6 +710,7 @@ reporting Informant
 required_version No és possible carregar este plugin. Necessita com a mínim aMSN versió $1
 resetincomingfont Reestablir la font (usa la que ha triat qui envia el missatge)
 restartforskin Nota: podries necessitar reiniciar aMSN per a vore el tema correctament!
+retry Reintentar
 reversed Invertit
 reverselist Llista inversa (LI):
 rightback Ara torne
