@@ -321,6 +321,9 @@ proc authenticate { command sock } {
 	global userchatto
 
 	if {$remote_authtimer} {
+		after cancel [list remote_touchauthtimer]
+		after 3000 [list remote_touchauthtimer]
+		write_remote "wait"
 		close $sock
 		return
 	}
@@ -337,7 +340,6 @@ proc authenticate { command sock } {
 		} else {
 			set remote_authtimer 1
 			after 3000 [list remote_touchauthtimer]
-			vwait remote_authtimer
 			write_remote "Authentication failed"
 		}	
 		unset remotemd5key

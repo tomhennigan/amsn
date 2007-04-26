@@ -69,8 +69,12 @@ proc authenticate { password } {
     gets $sock response
     set response [lindex $response 0]
 
-    if { "[lindex $response 0]" != "auth" } { 
-	return "fail"
+   if { [lindex $response 0] != "auth" } {
+	    if { [lindex $response 0] == "wait" } {
+		    return "wait"
+	    } else {
+		    return "fail"
+	    }
     } else {
 	set hash [::md5::hmac "[lindex $response 1]" "$password"]
 	puts $sock "auth2 $hash"
@@ -189,6 +193,9 @@ proc retreive_port { ip } {
 	    return 0
 	} elseif { $auth_response == "disabled" } {
 	    connect "This account doesn't have remote controlling enabled"
+	    return 0
+	} elseif { $auth_response == "wait" } {
+	    connect "Please wait 3 seconds before retrying."
 	    return 0
 	} else {
 	    
