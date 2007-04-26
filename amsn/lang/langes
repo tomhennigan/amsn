@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abort Abortar
 about Acerca de
 aboutamsn Acerca de Alvaro's Messenger
 accept Aceptar
@@ -185,6 +186,7 @@ closed Conversación con $1 cerrada por inactividad
 closelabel Al cerrar una ventana de chat que contiene varias pestañas
 closeonly Cerrar sólo la pestaña actual
 closeordock Al cerrar la lista de contactos se saldrá de aMSN. Quizás sólo quieras cerrar la ventana y que aMSN permanezca en la bandeja del sistema.\n\n¿Estás seguro de que deseas salir de aMSN?
+closeothers Cerrar las demás pestañas
 closingdocks Botón de cerrar iconifica la ventana
 color Color
 command Comando
@@ -289,6 +291,7 @@ dockingoff Desactivado
 dockkde Icono KDE
 done Hecho
 dontdownload No descargar TLS, lo instalaré yo mismo
+dontshowdp No permitir a este usuario descargar tus nuevas imágenes para mostrar
 dontshow No mostrar
 download Descargar
 downloadingtls Descargando el módulo TLS desde:\n $1
@@ -710,6 +713,7 @@ reporting Generando informe
 required_version Imposible cargar este plugin. Este plugin requiere como mínimo aMSN $1 para funcionar
 resetincomingfont Reiniciar la fuente (usar la fuente que elige el que envía)
 restartforskin Nota: ¡Necesitarás reiniciar aMSN para ver el skin bien!
+retry Reintentar
 reversed Invertido
 reverselist Lista Inversa(RL):
 rightback Vuelvo enseguida
