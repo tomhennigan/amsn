@@ -68,7 +68,7 @@ namespace eval ::config {
 
 		#Some Autodetected options
 		if { [OnDarwin] } {
-			::config::setKey soundcommand "./utils/macosx/sndplay \$sound";#Soundplayer for Mac OS 10.3-10.4	
+			::config::setKey soundcommand "./utils/macosx/sndplay/sndplay \$sound";#Soundplayer for Mac OS 10.3-10.4	
 			::config::setKey browser "open \$url"
 			::config::setKey notifyXoffset 100
 			::config::setKey notifyYoffset 75
@@ -634,7 +634,7 @@ proc load_config {} {
 			# Force the change of the default sound command
 			# For Mac OS X users who used aMSN 0.95 at the beggining
 			if {[::config::getKey soundcommand] == "./sndplay" } {
-				::config::setKey soundcommand "./utils/macosx/sndplay \$sound"
+				::config::setKey soundcommand "./utils/macosx/sndplay/sndplay \$sound"
 			}
 		}
 	}
