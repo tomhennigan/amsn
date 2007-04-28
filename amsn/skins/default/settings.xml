@@ -16,6 +16,7 @@
 			<menuforeground>#666666</menuforeground>
 			<menuactivebackground>#dddddd</menuactivebackground>
 			<menuactiveforeground>#666666</menuactiveforeground>
+			<loginbuttonbg>#ffffff</loginbuttonbg>
 		</Colors>
 		<Options>
 			<balloonfont>splainf</balloonfont>
@@ -106,19 +107,15 @@
 			<chat_dp_border_color>#8f8f8f</chat_dp_border_color>
 			<sendbuttonbg>#ffffff</sendbuttonbg>
 			<topbarbg>#f7f7f7</topbarbg>
-			<topbarbg_sel>#c6cdd7</topbarbg_sel>
 			<topbartext>#000000</topbartext>
 			<topbarborder>#7da0af</topbarborder>
 			<topbarawaybg>#dfe7f0</topbarawaybg>
-			<topbarawaybg_sel>#c6cdd7</topbarawaybg_sel>
 			<topbarawaytext>#000000</topbarawaytext>
 			<topbarawayborder>#002f50</topbarawayborder>
 			<topbarbusybg>#dfe7f0</topbarbusybg>
-			<topbarbusybg_sel>#c6cdd7</topbarbusybg_sel>
 			<topbarbusytext>#000000</topbarbusytext>
 			<topbarbusyborder>#002f50</topbarbusyborder>
 			<topbarofflinebg>#dfe7f0</topbarofflinebg>
-			<topbarofflinebg_sel>#c6cdd7</topbarofflinebg_sel>
 			<topbarofflinetext>#666666</topbarofflinetext>
 			<topbarofflineborder>#002f50</topbarofflineborder>
 			<statusbarbg>#f7f7f7</statusbarbg>
