@@ -399,7 +399,6 @@ namespace eval ::music {
 	proc GetSong {} {
 		variable config
 		variable playersarray
-		puts "CONFIG=$config(player)"
 		if {![info exists playersarray($config(player))] } {
 			::music::log "Player not supported by Music plugin"
 			return 0
