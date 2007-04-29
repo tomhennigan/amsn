@@ -238,11 +238,13 @@ namespace eval ::music {
 				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
 			] \
 			"windows nt" [list \
-				"WinAmp" [list GetSongWinamp TreatSongWinamp FillFrameLess] \
+				"WinAmp" [list GetSongWinamp return FillFrameLess] \
+				"Windows Media Player" [list GetSongWMP return FillFrameLess] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			] \
 			"windows 95" [list \
-				"WinAmp" [list GetSongWinamp TreatSongWinamp FillFrameLess] \
+				"WinAmp" [list GetSongWinamp return FillFrameLess] \
+				"Windows Media Player" [list GetSongWMP return FillFrameLess] \
 				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
 			] \
 		]
@@ -1006,6 +1008,60 @@ namespace eval ::music {
 	}
 
 	###############################################
+	# ::music::TreatSongExaile                    #
+	# ------------------------------------------- #
+	# Gets the current playing song in Exaile     #
+	###############################################
+	proc TreatSongExaile {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoexaile"]] }
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongExaile                      #
+	# ------------------------------------------- #
+	# Gets the current playing song in Exaile     #
+	###############################################
+	proc GetSongExaile {} {
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 6 first lines
+		set path "none"
+		set status [lindex $tmplst 0]
+		set song [lindex $tmplst 1]
+		set art [lindex $tmplst 2]
+		set album [lindex $tmplst 3]
+		set songlength [lindex $tmplst 4]
+		set position [lindex $tmplst 5]
+
+		# Path not available in exile
+		#append newPath "file://" $path
+		
+		if {$status != "playing"} {
+			return 0
+		} else {
+			#Define in which  order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
+			}
+			lappend return $songart
+			lappend return [urldecode [string range $path 5 end]]
+
+			return $return
+		}
+	}
+
+	###############################################
 	# ::music::TreatSongListen                    #
 	# ------------------------------------------- #
 	# Gets the current playing song in Listen     #
@@ -1445,16 +1501,6 @@ namespace eval ::music {
 
 	}
 	
-	###############################################
-	# ::music::TreatSongWinamp                    #
-	# ------------------------------------------- #
-	# Gets the current playing song in WinAmp     #
-	###############################################
-	proc TreatSongWinamp {} {
-		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list [file join $::music::musicpluginpath "MusicWA.exe"]]}
-		return 0
-	}
 
 	###############################################
 	# ::music::GetSongWinamp                      #
@@ -1462,13 +1508,10 @@ namespace eval ::music {
 	# Gets the current playing song in WinAmp     #
 	###############################################
 	proc GetSongWinamp {} {
+		variable musicpluginpath
+		load [file join $musicpluginpath MusicWin.dll]
+		set tmplst [::music::TreatSongWinamp]
 
-		#actualsong is filled asynchronously in TreatSongWinamp
-		#Split the lines into a list and set the variables as appropriate
-		if { [catch {split $::music::actualsong "\n"} tmplst] } {
-			#actualsong isn't yet defined by asynchronous exec
-			return 0
-		}
 		set status [lindex $tmplst 0]
 		set song [lindex $tmplst 1]
 		set art [lindex $tmplst 2]
@@ -1493,41 +1536,21 @@ namespace eval ::music {
 	}
 
 	###############################################
-	# ::music::TreatSongExaile                    #
+	# ::music::GetSongWMP                         #
 	# ------------------------------------------- #
-	# Gets the current playing song in Exaile     #
+	# Gets the current playing song in WinAmp     #
 	###############################################
-	proc TreatSongExaile {} {
-		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoexaile"]] }
-		return 0
-	}
+	proc GetSongWMP {} {
+		variable musicpluginpath
+		load [file join $musicpluginpath MusicWin.dll]
+		set tmplst [string map {"\\0" "\0"} [::music::TreatSongWMP]]
+		set tmplst [split $tmplst "\0"]
 
-	###############################################
-	# ::music::GetSongExaile                      #
-	# ------------------------------------------- #
-	# Gets the current playing song in Exaile     #
-	###############################################
-	proc GetSongExaile {} {
-		#Split the lines into a list and set the variables as appropriate
-		if { [catch {split $::music::actualsong "\n"} tmplst] } {
-			#actualsong isn't yet defined by asynchronous exec
-			return 0
-		}
+		set type [lindex $tmplst 1]
+		set song [lindex $tmplst 4]
+		set art [lindex $tmplst 5]
 
-		#Get the 6 first lines
-		set path "none"
-		set status [lindex $tmplst 0]
-		set song [lindex $tmplst 1]
-		set art [lindex $tmplst 2]
-		set album [lindex $tmplst 3]
-		set songlength [lindex $tmplst 4]
-		set position [lindex $tmplst 5]
-
-		# Path not available in exile
-		#append newPath "file://" $path
-		
-		if {$status != "playing"} {
+		if {[string compare -nocase $type "Music"]} {
 			return 0
 		} else {
 			#Define in which  order we want to show the song (from the config)
@@ -1540,11 +1563,7 @@ namespace eval ::music {
 				append songart $song
 			}
 			lappend return $songart
-			lappend return [urldecode [string range $path 5 end]]
-
 			return $return
 		}
 	}
-
-
 }

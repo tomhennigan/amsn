@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <plugin>
 	<name>Music</name>
 	<author>Jerome Gagnon-Voyer, Boris Faure (billiob) and Le Philousophe</author>
@@ -10,7 +10,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>8393</cvs_version>
+	<cvs_version>8521</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -86,12 +86,12 @@
 		<version>7508</version>
 	</file>
 	<file>
-		<path>MusicWA.exe</path>
-		<version>6846</version>
+		<path>MusicWin.dll</path>
+		<version>8521</version>
 	</file>
 	<file>
 		<path>readme.txt</path>
-		<version>6846</version>
+		<version>8521</version>
 	</file>
 	<file>
 		<path>pixmaps/notesdispic.gif</path>
