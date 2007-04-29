@@ -399,12 +399,12 @@ namespace eval ::music {
 	proc GetSong {} {
 		variable config
 		variable playersarray
-
-		if {![info exists playersarray([lindex $config(player) 0])] } {
+		puts "CONFIG=$config(player)"
+		if {![info exists playersarray($config(player))] } {
 			::music::log "Player not supported by Music plugin"
 			return 0
 		}
-		set songfunc $playersarray([lindex $config(player) 0])
+		set songfunc $playersarray($config(player))
 		set retval 0
 		catch {::music::[lindex $songfunc 0]} retval
 		::music::log "Get song: $retval"
@@ -414,10 +414,10 @@ namespace eval ::music {
 	proc TreatSong {} {
 		variable config
 		variable playersarray
-		if {![info exists playersarray([lindex $config(player) 0])] } {
+		if {![info exists playersarray($config(player))] } {
 			return 0
 		}
-		set songfunc $playersarray([lindex $config(player) 0])
+		set songfunc $playersarray($config(player))
 		set retval 0
 		catch {::music::[lindex $songfunc 1]} retval
 		return $retval
@@ -426,10 +426,10 @@ namespace eval ::music {
 	proc FillFrame { mainFrame } {
 		variable config
 		variable playersarray
-		if {![info exists playersarray([lindex $config(player) 0])] } {
+		if {![info exists playersarray($config(player))] } {
 			return 0
 		}
-		set songfunc $playersarray([lindex $config(player) 0])
+		set songfunc $playersarray($config(player))
 		set retval 0
 		catch {::music::[lindex $songfunc 2] $mainFrame} retval
 		return $retval
