@@ -2220,7 +2220,7 @@ namespace eval ::ChatWindow {
 				::amsn::ShowChatList \"[trans sendwebcaminvite]\" $w ::MSNCAM::SendInviteQueue
 			}
 		} else {
-			::CAMGUI::WebcamWizard
+			::AVAssistant::AVAssistant
 		}
 	}
 
