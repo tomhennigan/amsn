@@ -3310,21 +3310,25 @@ namespace eval ::Event {
 	#creates a message object from a received payload
 	method createFromPayload { payload } {
 		set idx [string first "\r\n\r\n" $payload]
-		set head [string range $payload 0 [expr {$idx -1}]]
-		set body [string range $payload [expr {$idx +4}] end]
-		set head [string map {"\r\n" "\n"} $head]
-		set heads [split $head "\n"]
-		foreach header $heads {
-			set idx [string first ": " $header]
-			array set headers [list [string range $header 0 [expr {$idx -1}]] \
-					  [string range $header [expr {$idx +2}] end]]
-		}
-
-		set bsplit [split [string map {"\r\n" "\n"} $body] "\n"]
-		foreach field $bsplit {
-			set idx [string first ": " $field]
-			array set fields [list [string range $field  0  [expr {$idx -1}]] \
-			                       [string range $field [expr {$idx +2}] end]]
+		if {$idx == -1 } { 
+			$self setRaw $payload 
+		} else {
+			set head [string range $payload 0 [expr {$idx -1}]]
+			set body [string range $payload [expr {$idx +4}] end]
+			set head [string map {"\r\n" "\n"} $head]
+			set heads [split $head "\n"]
+			foreach header $heads {
+				set idx [string first ": " $header]
+				array set headers [list [string range $header 0 [expr {$idx -1}]] \
+						       [string range $header [expr {$idx +2}] end]]
+			}
+			
+			set bsplit [split [string map {"\r\n" "\n"} $body] "\n"]
+			foreach field $bsplit {
+				set idx [string first ": " $field]
+				array set fields [list [string range $field  0  [expr {$idx -1}]] \
+						      [string range $field [expr {$idx +2}] end]]
+			}
 		}
 	}
 
@@ -5300,6 +5304,21 @@ proc cmsn_ns_handler {item {message ""}} {
 				variable ::MSN::pollstatus 0
 				return 0
 			}
+		    	GCF {
+				catch {
+					set xml [xml2list [$message getBody]]
+					set i 0
+					while {1} {
+						set subxml [GetXmlNode $xml "config:block:regexp:imtext" $i]
+						incr i
+						if {$subxml == "" } {
+							break
+						}
+						status_log "Found new censored regexp : [base64::decode [GetXmlAttribute $subxml imtext value]]"
+					}
+				}
+				return 0
+			}
 			200 {
 				status_log "Error: Syntax error\n" red
 				msg_box "[trans syntaxerror]"
@@ -6301,6 +6320,10 @@ proc new_contact_list { version } {
 	#	set contactlist_loaded 1
 	#}
 
+}
+
+proc getCensoredWords { } {
+	catch {::MSN::WriteSB ns GCF Shields.xml}
 }
 
 
