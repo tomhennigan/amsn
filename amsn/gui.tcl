@@ -3616,7 +3616,7 @@ proc cmsn_draw_main {} {
 		bind . <Control-Alt-space> BossMode
 		# Show/hide menu binding with toggle == 1
 		bind . <Control-m> "Showhidemenu 1"
-		bind . <Control-n> "::CAMGUI::WebcamWizard"
+		bind . <Control-n> "::AVAssistant::AVAssistant"
 	}
 
 	#Set the wm close button action

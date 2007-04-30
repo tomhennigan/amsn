@@ -1040,8 +1040,8 @@ namespace eval ::ChatWindow {
 			bind $w <Control-W> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
 			bind $w <Control-Next> "::ChatWindow::GoToNextTab $w"
 			bind $w <Control-Prior> "::ChatWindow::GoToPrevTab $w"
-			bind $w <Control-n> "::CAMGUI::WebcamWizard"
-			bind $w <Control-N> "::CAMGUI::WebcamWizard"
+			bind $w <Control-n> "::AVAssistant::AVAssistant"
+			bind $w <Control-N> "::AVAssistant::AVAssistant"
 		}
 
 		searchdialog $w.search

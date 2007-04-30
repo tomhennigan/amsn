@@ -1,7 +1,5 @@
 # Now relies on guicontactlist's truncateText proc
 
-
-
 ::Version::setSubversionId {$Id$}
 
 namespace eval ::MSNSPACES {
@@ -440,7 +438,7 @@ namespace eval ::ccard {
 			#if we draw the window for the first time, draw it at an intelligent position, with the right size (300x210)
 			set winw 300
 			set winh 210			
-			set mouse_x [winfo pointerx $w]			
+			set mouse_x [winfo pointerx $w]
 			set mouse_y [winfo pointery $w]
 			set xpos [expr $mouse_x - [expr $winw/2]]
 			set ypos [expr $mouse_y - [expr $winh/2]]
@@ -492,7 +490,7 @@ namespace eval ::ccard {
 		drawbody $canvas $email $side 
 
 		#The bottom buttons
-		#---------------		
+		#------------------
 		CreateBottomButtons $w $canvas $email $side
 
 		#pack the canvas into the window
@@ -535,7 +533,7 @@ namespace eval ::ccard {
 
 	#create the buttons on top of the window
 	proc CreateTopButtons {w canvas email side} {
-		#Set the coordinate on the right where the buttons should be drawn form (to the left)
+		#Set the coordinate on the right where the buttons should be drawn from (to the left)
 		variable xbegin 270
 
 		CreateButton $canvas closebutton [::skin::loadPixmap ccard_close] \
@@ -606,9 +604,9 @@ namespace eval ::ccard {
 	proc drawbody { canvas email side } {
 
 		if {$side == 1} {
-		#======================
-		#This is the front side
-		#======================
+		#==========================
+		#This is the front side (1)
+		#==========================
 			set filename [::abook::getContactData $email displaypicfile ""]
 			global HOME
 			if { [file readable "[file join $HOME displaypic cache ${filename}].gif"] } {
@@ -638,14 +636,11 @@ namespace eval ::ccard {
 						
 			drawSpacesInfo $canvas 114 70 $email [list $email space_info contact]
 			tooltip $canvas tt "$email\n[trans status] : [trans [::MSN::stateToDescription [::abook::getVolatileData $email state]]]\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
-			$canvas create text 5 1 -text "$email" -fill white -anchor nw -font splainf
 
-			
-			
 		} else {
-		#=====================
-		#This is the back side
-		#=====================
+		#=========================
+		#This is the back side (0)
+		#=========================
 			set backtextcolor #616060
 			set xcoord 12
 
@@ -658,6 +653,8 @@ namespace eval ::ccard {
 			$canvas create text $xcoord 120 -text "[trans mobile]:\t[::abook::getContactData $email phm]" -font bplainf -width 280 -justify left -anchor nw -fill $backtextcolor -tags $email
 
 		}
+		#draw the email on each side of the card
+		$canvas create text 5 1 -text "$email" -fill white -anchor nw -font splainf -tags $email
 	}
 
 	##################################################
@@ -665,11 +662,7 @@ namespace eval ::ccard {
 	#  redraws the window with the other side        #
 	##################################################
 	proc changeside {email side} {
-		if {$side == 1} {
-			drawwindow $email 2
-		} else {
-			drawwindow $email 1
-		}
+		drawwindow $email [expr {1-$side}]
 	}
 
 

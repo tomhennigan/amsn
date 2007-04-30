@@ -1537,7 +1537,16 @@ namespace eval ::guiContactList {
 
 		#This is a technology demo, the default is not unchangeable
 		# values for this variable can be "inline", "ccard" or "disabled"
-		if {$space_shown && [::config::getKey spacesinfo "inline"] == "inline"} {
+		if {$space_shown &&
+			([::config::getKey spacesinfo "inline"] == "inline" || [::config::getKey spacesinfo "inline"] == "both") } {
+			if {[::config::getKey spacesinfo "inline"] == "both" } {
+				#TODO# fix -tags;fix xpostmp
+				#image to show the ccard
+				set xpostmp [expr {$xpos + 15}]
+				$canvas create image $xpostmp $ychange -anchor nw \
+					 -image $noupdate_img -tags [list contact icon $tag undock_space]
+			}
+
 			#!$tag should be $tag for inline spaces
 			incr ychange [::ccard::drawSpacesInfo $canvas $xlinestart $ychange $email [list $tag $space_info contact space_info]]
 		}
@@ -1562,6 +1571,9 @@ namespace eval ::guiContactList {
 
 		#Click binding for the "star" image for spaces
 		$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown $email]
+		$canvas bind undock_space <Button-1> [list ::ccard::drawwindow $email 1]
+		#TODO# not sure about this one:
+		$canvas bind undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email] 
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
@@ -1629,7 +1641,7 @@ namespace eval ::guiContactList {
 
 	
 	proc toggleSpaceShown {email} {
-		if { [::config::getKey spacesinfo "inline"] == "inline"} {
+		if { [::config::getKey spacesinfo "inline"] == "inline" || [::config::getKey spacesinfo "inline"] == "both" } {
 			if {[::abook::getVolatileData $email SpaceShowed 0]} {		
 				::abook::setVolatileData $email SpaceShowed 0
 			} else {
