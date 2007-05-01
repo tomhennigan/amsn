@@ -1144,9 +1144,9 @@ namespace eval ::abook {
 		foreach contact $ImportedContact {
 			status_log "Importation of contacts : $contact\n" red
 			if { [::config::getKey protocol] >= 11 } {
-				::MSN::WriteSB ns "ADC" "FL N=$contact F=$contact"
+				::MSN::WriteSB ns "ADC" "FL N=$contact F=$contact" "::MSN::ADCHandler 0"
 			} else {
-				::MSN::WriteSB ns "ADD" "FL $contact $contact 0"
+				::MSN::WriteSB ns "ADD" "FL $contact $contact 0" "::MSN::ADDHandler"
 			}
 		}
 				
