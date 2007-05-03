@@ -5871,6 +5871,10 @@ proc exit {} {
 	# Temporary until the new CL is good and working...
 	::config::setKey use_new_cl 0
 
+	#tell plugins amsn is closing
+	set evpar ""
+	::plugins::PostEvent OnQuit evpar
+
 	save_config
 	::config::saveGlobal
 
