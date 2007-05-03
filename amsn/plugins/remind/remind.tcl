@@ -116,7 +116,6 @@ proc ShowLastSentences { chatid email } {
 
 	# Get the last sentences of the contact
 	set loglines [::remind::GetLastSentences $email]
-
 	set tagname "black"
 	set font [lindex [::config::getGlobalKey basefont] 0]
 	if { $font == "" } { set font "Helvetica" }		
@@ -244,6 +243,9 @@ proc GetLastSentences { email } {
 	set loglines [split $logvar "\n"]
 	set nbline [expr {int($::remind::config(nbline))}]
 	set begin [expr {[llength $loglines] - $nbline}]
+	while {[string range [lindex $loglines $begin] 0 2] != "\|\"L" && $begin >= 0 } {
+		incr begin -1;
+	}
 	set loglines [lrange $loglines $begin end]
 
 	return $loglines

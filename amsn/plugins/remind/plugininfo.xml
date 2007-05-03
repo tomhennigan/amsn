@@ -8,7 +8,7 @@
 	<plugin_file>remind.tcl</plugin_file>
 	<plugin_namespace>remind</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
-	<cvs_version>1.16</cvs_version>
+	<cvs_version>8537</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
