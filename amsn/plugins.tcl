@@ -927,11 +927,16 @@ namespace eval ::plugins {
 	# Return
 	# none
 	#
-	proc UnLoadPlugins { {save 1} } {
+	proc UnLoadPlugins { {saveBefore 1} } {
 		variable loadedplugins
+
+		if {$saveBefore} {
+			::plugins::save_config
+		}
+
 		foreach {plugin} "$loadedplugins" {
 			# the "0" is to tell UnLoadPlugin not to save the config
-			::plugins::UnLoadPlugin $plugin $save
+			::plugins::UnLoadPlugin $plugin 0
 		}
 	}
 
@@ -995,8 +1000,7 @@ namespace eval ::plugins {
 	proc LoadPlugins {} {
 
 	    variable loadedplugins
-		# the "0" is to tell UnLoadPlugins not to save the config
-		# the config should not be saved now, but when disconnecting or closing aMSN
+		# the "0" is to tell UnLoadPlugins not to save the config before unloading plugins
 	    ::plugins::UnLoadPlugins 0
 	    
 	    #resets the loadedplugins list to plugins that were loaded before

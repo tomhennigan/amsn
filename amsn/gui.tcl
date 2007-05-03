@@ -5871,12 +5871,14 @@ proc exit {} {
 	# Temporary until the new CL is good and working...
 	::config::setKey use_new_cl 0
 
-	#tell plugins amsn is closing
-	set evpar ""
-	::plugins::PostEvent OnQuit evpar
-
 	save_config
 	::config::saveGlobal
+
+	#before quitting, unload plugins, so that they run their DeInit proc
+	#we unload plugins at that moment and not before, since save_config
+	#would have saved wrong plugins config because no plugin would have been
+	#loaded at that moment
+	::plugins::UnLoadPlugins
 
 	LoadLoginList 1
 	# Unlock current profile
