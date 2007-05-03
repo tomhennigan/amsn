@@ -28,7 +28,10 @@ namespace eval ::MSNSPACES {
 				set last_modif [GetXmlEntry $subxml "SpaceVersion:LastModifiedDate"]
 				set resourceID [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:ResourceID"]
 				set email [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:Alias:Name"]
-				
+
+				## TODO this is just a hack to disable spaces from the core until M$ fixes it and next release...
+				set resourceID ""
+
 				if { [string length $resourceID] > 0} {
 					lappend users_with_space $email
 					set resources($email) $resourceID
@@ -145,7 +148,7 @@ namespace eval ::MSNSPACES {
 			}
 		}  else {
 			variable resources
-			status_log "ERROR getting CCARD of $email - $resources($email) : [$soap GetLastError]"
+			status_log "ERROR getting CCARD of $email - $resources($email) - [$soap GetStatus ]: [$soap GetLastError]"
 			$soap destroy
 			if {[catch {eval $callback [list [list]]} result]} {
 				bgerror $result
@@ -188,7 +191,18 @@ namespace eval ::MSNSPACES {
 
 	proc getContactCardXml { resourceID } {
 		variable storageAuthCache
-		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/"><refreshInformation><spaceResourceId xmlns="http://www.msn.com/webservices/spaces/v1/">}
+
+		foreach cookie [split $::authentication_ticket &] {
+			set c [split $cookie =]
+			set ticket_[lindex $c 0] [lindex $c 1]
+		}
+		
+
+		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">}
+#		append xml {<soap:Header><AuthTokenHeader xmlns="http://www.msn.com/webservices/spaces/v1/"><Token>t=}
+#		append xml $ticket_t
+#		append xml {&amp;p=</Token></AuthTokenHeader></soap:Header>}
+		append xml {<soap:Body><GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/"><refreshInformation><spaceResourceId xmlns="http://www.msn.com/webservices/spaces/v1/">}
 		append xml $resourceID
 		append xml {</spaceResourceId><storageAuthCache>}
 		append xml $storageAuthCache

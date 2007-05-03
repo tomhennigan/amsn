@@ -12,7 +12,8 @@ snit::type SOAPRequest {
 	variable status ""
 	variable last_error ""
 	variable xml ""
-		
+	variable redirected 0
+
 	method SendSOAPRequest { } {
 		if { $options(-url) == "" || $options(-xml) == "" } {
 			error "SOAPRequest incomplete"
@@ -83,7 +84,7 @@ snit::type SOAPRequest {
 
 		#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$options(-xml)"
 
-		if { $options(-callback) == "" } {
+		if { $options(-callback) == "" && $redirected } {
 			tkwait variable [myvar wait]
 		}
 
@@ -109,8 +110,22 @@ snit::type SOAPRequest {
 				}
 			}
 		} elseif { [::http::status $token] == "ok" } {
-			set last_error [::http::code $token]
-			set status [::http::ncode $token]
+			upvar #0 $token state
+			set meta $state(meta)
+
+			array set meta_array $meta 
+			if {[info exists meta_array(Location)]} {
+				set options(-url) $meta_array(Location)
+				::http::cleanup $token
+
+				set redirected 1
+				$self SendSOAPRequest
+				::http::cleanup $token
+				return
+			} else {
+				set last_error [::http::code $token]
+				set status [::http::ncode $token]
+			}
 		} else {
 			set status [::http::code $token]
 		}
