@@ -2530,24 +2530,29 @@ namespace eval ::ChatWindow {
 	}
 
 	proc ReceivedVoiceClip {chatid filename } {
+
 		set filename_decoded "[filenoext $filename]_decoded.wav"
 		
 		# This proc should be uncommented once tcl_siren implements the decoder
 		if { [DecodeWave $filename $filename_decoded] == -1 } {
 			amsn::WinWrite $chatid "\n" red
 			amsn::WinWriteIcon $chatid greyline 3
-			amsn::WinWrite $chatid "\n" red
+			amsn::WinWrite $chatid " \n" red
 			amsn::WinWriteIcon $chatid voice_icon 3 2
 			amsn::WinWrite $chatid "[timestamp] [trans snackneeded]\n" red
 			amsn::WinWriteIcon $chatid greyline 3
 			return
 		} else {
 			set uid [getUniqueValue]
-			set w [::ChatWindow::For $chatid]
 			
+			if {![info exists ::ChatWindow::msg_windows($chatid)]} {
+				::ChatWindow::MakeFor $chatid
+			}
+			set w [::ChatWindow::For $chatid]
+
 			amsn::WinWrite $chatid "\n" red
 			amsn::WinWriteIcon $chatid greyline 3
-			amsn::WinWrite $chatid "\n" red
+			amsn::WinWrite $chatid " \n" red
 			amsn::WinWriteIcon $chatid voice_icon 3 2
 			amsn::WinWrite $chatid "[timestamp] [trans receivedvoice]\n  " green
 			amsn::WinWriteClickable $chatid "[trans play]" [list ::ChatWindow::playVoiceClip $w $filename_decoded $uid] play_voice_clip_$uid
