@@ -777,3 +777,164 @@ youblocked Du er blevet blokeret
 yousay Du siger
 youwant Du vil have
 zoom Zoom
+abort Afbryd
+account Konto
+askcam Bed om at modtage webcam
+asksendoim Vil du sende denne besked som en offline besked?
+assistantainput Vælg din input enhed og forsøg at optage med det.
+assistantaoutput Vælg din output enhed og forsøg at afspille denne fil for at teste enheden.
+assistantawarn Du vil ikke have mulighed for at optage dig selv eller tale med dine venner. Du kan finde svar på hvordan du installerer denne udvidelse på vores Wiki:
+assistantfinetunepic Ændrer de følgende indstillinger for at justere billedkvaliteten på dit webcam
+assistantselectcam Vælg dit webcam fra listen
+assistantstarting Starter guiden
+assistantwelcome Denne guide vil hjælpe dig gennem opsætningen af din lyd- og videoindstilinger for aMSN. \n\nDen vil checke om de nødvendige udvidelser eksisterer og er loadet, og du vil have mulighed for at vælge enheden og kanalen, ændre billedindstillinger og opløsning.
+audioconfigured Du valgte de følgelde lydindstillinger:\n Output enhed: $1\nInput enhed:$2
+audiovideo Lyd og Video indstillinger
+autolisten_voiceclips Automatisk afspil lydklip ved modtagelse
+autoresizedp Automatisk ændre display billede til standard størrelse
+back Tilbage
+blocknotifications Slå visning af besked vinduer fra
+blocksounds Slå lyde fra
+bugnocomment Send uden kommentar? Kommentarer på bugs hjælper us med at finde ud af, hvad der gik galt, så fejlen kan blive rettet hurtigere.
+cachedpicsfor Gemte display billeder for brugeren
+cancelled Afbrudt
+capturewarn Du vil ikke have mulighed for at sende fra dit webcam, hvis du har et. Hvis ikke er dette normalt. Du kan finde svar på hvordan du installerer denne udvidelse på vores Wiki:
+change_account_info Ændre konto informationer
+change_mobile Ændre mobilindstillinger
+changestatus Ændre status
+checkingaudio Checker om lyd udvidelse (Snack) er loadet ...
+checkingcam Checker om webcam er tilsluttet ...
+checkingcapext Checker om '$1' udvidelse er loadet ...
+checkingextensions Checker for påkrævede video udvidelser
+chooseinputdev Vælg din input enhed
+choosemixerdev Vælg din mixer
+chooseoutputdev Vælg din output enhed
+closeordock At lukke kontaktlisten vil afslutte aMSN. Måske mente du bare at du ville lukke kontaktlisten og lade aMSN være åbent i docken.\n\nEr du sikker på at du vil afslutte aMSN?
+closeothers Luk alle andre tabs
+configuremic Configurer din mikrofon
+configuringaudio Configurer lydindstillinger
+congrats Tillykke
+connectfirst Venligst tilslut først
+contacts Kontakter
+copytoclipboard Kopier $1 til udklipsholderen
+couldnotrename Kunne ikke omdøbe filen $1
+curdisplaypic Nuværende display billede
+customdp Custom Display billede
+customsmileys Vis andre brugeres custom emoticons
+custshowcustomsmileys Vis brugers custom emoticons
+deleteblock Slet og blokér
+dontshowdp Lad ikke denne bruger downloade dine nye display billeder
+editavsettings Rediger lyd- og videoindstillinger
+editmyprofile Rediger min MSN-profil
+error Fejl
+findasyoutype Find mens du skriver
+find Find
+findnext Find næste
+findprev Find forrige
+finetunesettings Finjuster billedindstililnger
+finish Afslut
+finish2apply Tryk afslut for at bruge disse indstilinger.
+firewalled2 Du er bag en firewall. Check venligst dine forbindelsesindstillinger i indstillinger vinduet
+forget_me Glem mig
+forgot_pass Jeg har glemt mit password
+ftportpref2 Starter port for direkte forbindelser (nødvendigt for filoverførsler og webcam)
+ftporttest Test port
+goto Gå til $1
+gotoinbox Gå til Inbox
+goto_prefs_removeprofile Click her for at gå til indstillinger og slette din profil
+groupcontacts Gruppér kontakter
+groupcontactsbystatus Gruppér kontakter efter status
+havenomic Jeg har ingen mikrofon
+hidemenumessage Er du sikker på at du vil skjule menuerne?\nDu kan til enhver tid gendanne dem ved at bruge skjul/vis menu genvejen 'Ctrl-M'.
+hidemenu Vis/skjul menuer
+howto_remove_profile For at slette din profil (glemme $1) skal du gøre dette fra indstillinger vinduet.\n\nAf sikkerhedshensyn er det ikke tilladt at slette profiler fra login skærmen.
+ignorecontact Ignorér samtaler fra kontakten
+largest Størst
+lconvstartedOIM Startede en offline Instant Messaging samtale på $1
+loadotherdisplaypic Loader DB'er fra $1, vent venligst...
+logschats Gemmer chats
+longpsm Din personlige meddelelse er for lang. Dette er ikke officielt understøttet af MSN protokollen. Er du sikker på, du vil bruge den?
+lowrescam Brug et webcam med lav opløsning
+medium Medium
+minimize Minimér til dock
+more Mere
+msnstatus MSN Network Status
+mypics Mine display billeder
+new_account Opret konto
+newchat Ny Chat
+newoim Nye Offline beskeder
+nocacheddps Ingen display billeder i cachen for denne bruger
+nocamwarn Intet webcam blev fundet eller dit webcam er allerede i brug af et andet program (hvilket betyder at det ikke kan bruges af aMSN). Du kan finde hjælp til at løse dette problem på vores Wiki:
+noftpreview Slå preview af afsendte billeder fra ved filoverførsel
+nomic Ingen mikrofon
+nosound Der blev ikke opdaget nogen lyd. Vær sikker på at din mikrofon er korrekt sat til
+nosound_or_hold Der blev ikke opdaget nogen lyd. For at sende et Voice Clip skal du trykke på knappen og holde den nede mens du taler og slippe knappen for at sende beskeden.
+nouserspecified Ingen bruger specifiseret
+oim Offline Messaging
+otherdisplaypic Andre display billeder af denne bruger (højre-click for flere muligheder)
+otherdps Andre display billeder
+pausedwebcamreceive Webcammet er blevet pauset af den anden bruger
+pausewebcamsend Paus webcammet
+playbackposition Afspilningsposition
+playbackspeed Afspilningshastighed (millisekunder mellem hver frame)
+playtest Afspil testfilen
+playwebcamsend Genoptag webcammet
+preffont4 Ændrer måden jeg ser andre folks tekst i chat sessions
+psmatend Vis personlig besked ved siden af kaldenavn
+psmdontshow Vi ikke personlige beskeder medmindre andet er specifiseret i global/custom kaldenavn
+psmnewline Vis personlig besked under kaldenavn
+psm Personlig besked
+psmplace Hvor skal den personlige besked vises ?
+quit Afslut
+receivedoimread Du har $1 nye Offline Instant Messages. Vil du læse dem nu ?
+receivedvoice Modtaget Voice Clip
+record Optag
+recorderror En fejl opstod ved forsøg på at optage lyden : $1
+recvwebcamaccepted $1 accepterede din invitation til at se hans/hendes webcam. Tilslutter...
+rememberaccount Husk min konto
+retry Forsøg igen
+resetincomingfont Reset skrifttype (brug skrifttype afsender vælger)
+searchdown Søg nedad
+searchup Søg opad
+selectcontact Vælg en kontakt
+sendcam Send Webcam
+sendfeedback Send Feedback
+sendoim Send en offline besked
+sendvoice Send et Voice Clip
+sendwebcamaccepted $1 accepterede din invitation til at sende dit webcam. Tilslutter...
+sentvoice Sendte Voice Clip
+setasmydp Indstil som mit display billede
+setupcam Opsætter din webcam enhed
+setupcamfinetune Opsætter webcam enhed og fintuner billede
+show_contactdps_in_cl Vis thumbnails af kontakters display billeder i kontaktlisten
+showcontactemail Vis kontakter med email
+showcontactnick Vis kontakter med kaldenavn
+showlinksinlogin Vis links på login skærmen
+showmailicon Vis mail ikon docken når nye emails ankommer.
+smallest Mindst
+snackneeded Snack biblioteket er nødvendigt for at bruge denne feature. En minimal version af 2.2.9 er nødvendig.
+snapshot Snapshot
+sortcontactsasc Sortér kontakter stigende
+sortcontactsdesc Sortér kontakter aftagende
+sortcontactsby Sortér kontakter efter
+sortcontactgroup Sortér kontakter efter gruppe
+sortcontacthybrid Sortér kontakter i hybrid mode
+sortcontactstatus Sortér kontakter efter status
+sortgroupsasc Sortér grupper stigende
+sortgroupsdesc Sortér grupper aftagende
+soundnoavail Lydenheden er ikke tilgængelig. Stop venligst ethvert program, der bruger lydenheden.
+statepsm Custom personlig besked (efterlad blank hvis ingen ændring)
+step Skridt
+useasregexp Brug et regulært udtryk (regexp)
+userdps Brug display billeder
+usersettings Indstillinger
+volume Volume
+wanttosharecam I vil gøre mit webcam tilgængligt for andre
+web Web
+webcamconfiguredMac Dine webcamindstillinger er blevet indstillet
+webcamconfiguredWin Du valgte den følgende webcam enhed: $1
+webcamconfiguredLinux Du valgte de følgende webcamindstillinger:\nWebcam enhed: $1\nWebcam kanal: $2
+webcamextchecking Checker om webcam udvidelser er loadet ...
+webcamextwarn Du vil ikke kunne se dine kontakters webcams. Du kan finde svar på hvordan man installerer udvidelser på vores Wiki:
+webcaminvitereceiving Du er blevet inviteret til at se $1 's webcam. Vil du acceptere denne session?
+webcaminvitesending $1 vil gerne se dit webcam. Vil du acceptere denne session?
