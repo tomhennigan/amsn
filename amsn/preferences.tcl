@@ -1697,7 +1697,7 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.4.ymd -text "[trans year]/[trans month]/[trans day]" -value YMD -variable [::config::getVar dateformat]
 	pack $lfname.4.mdy $lfname.4.dmy $lfname.4.ymd -side left -padx 10
 
-	checkbutton $lfname.5.dock -text "[trans trayicon]" -onvalue 1 -offvalue 0 -variable [::config::getVar dock]
+	checkbutton $lfname.5.dock -text "[trans trayicon]" -onvalue 1 -offvalue 0 -variable [::config::getVar use_tray]
 
 	pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
 	pack $lfname.5 -side top -padx 0 -pady 0 -expand 1 -fill both

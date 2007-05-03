@@ -206,7 +206,7 @@ proc statusicon_proc {status} {
 	global systemtray_exist statusicon list_states iconmenu wintrayicon defaultbackground
 	set cmdline ""
 
-	if { [::config::getKey dock] == 0 } { return }
+	if { [::config::getKey use_tray] == 0 } { return }
 
 	if { ![WinDock] } {
 
