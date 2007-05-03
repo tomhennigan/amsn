@@ -9,7 +9,7 @@ namespace eval ::ustat {
 	
 	}
 
-	proc writestat { chatid status } {
+	proc writestat { chatid user status } {
 		set cur_status [::MSN::stateToDescription $status]
 		set statuscolor [::skin::getKey contact_$cur_status]
 		set statuscolor [string replace $statuscolor 0 0 ""]
@@ -18,7 +18,7 @@ namespace eval ::ustat {
 		set fontformat [list $family bold $statuscolor]
 		::amsn::WinWrite $chatid "\n" says $fontformat 0
 		::amsn::WinWriteIcon $chatid miniinfo 5 0
-		set msg "[timestamp] [::abook::getDisplayNick $chatid] is now [trans $cur_status]\n"
+		set msg "[timestamp] [::abook::getDisplayNick $user] is now [trans $cur_status]\n"
 	
 		#status_log $msg
 		::amsn::WinWrite $chatid $msg says $fontformat 0
@@ -32,11 +32,17 @@ namespace eval ::ustat {
 		upvar 2 substate substate
 		set newstate $substate
 		set email $user
-	
-
-		if { [ lsearch [::ChatWindow::getAllChatIds] $email ] >= 0 } {
-			writestat $email $newstate
+		set allchatids [::ChatWindow::getAllChatIds]
+		foreach chatid $allchatids {
+			if {[string first ::MSN::SB $chatid] != -1} {
+				set user_list [::MSN::usersInChat $chatid]
+				if {[lsearch $user_list $email] != -1 } {
+						writestat $chatid $email $newstate
+				}
+			} elseif {$chatid == $email} {
+				writestat $chatid $email $newstate
+			}
 		}
-
+	return 1
 	}
 }
