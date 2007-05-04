@@ -125,7 +125,7 @@ proc accept_dock { sock addr cport } {
 proc init_dock {} {
 	global systemtray_exist
 	#If the traydock is not disabled
-	if { [::config::getKey use_dock] != 0} {
+	if { [::config::getKey use_tray] != 0} {
 
 		if {[OnWin]} {
 			trayicon_init
@@ -147,14 +147,14 @@ proc init_dock {} {
 }
 
 proc UnixDock { } {
-	if {[::config::getKey use_dock] && [OnLinux] } {
+	if {[::config::getKey use_tray] && [OnLinux] } {
 		return 1
 	} else {
 		return 0
 	}
 }
 proc WinDock { } {
-	if {[::config::getKey use_dock] && [OnWin] } {
+	if {[::config::getKey use_tray] && [OnWin] } {
 		return 1
 	} else {
 		return 0

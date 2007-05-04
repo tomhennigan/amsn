@@ -257,7 +257,7 @@ namespace eval ::config {
 		::config::setKey displaypic "amsn.png"                   ;# Display picture
 		::config::setKey getdisppic 1
 		::config::setKey webcamlogs 0
-		::config::setKey use_dock 1				;#enable/disable docking
+		#::config::setKey use_dock 1				;#enable/disable docking
 
 		::config::setKey autolisten_voiceclips 1                ;# whether voiceclips should be automatically played once received
 		::config::setKey use_new_cl 0                		;# whether we should use the new CL as the default one or not...

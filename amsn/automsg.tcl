@@ -229,10 +229,10 @@ proc CreateStatesMenu { path } {
 	$path add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
 	#	statusicon_proc [MSN::myStatusIs]
 		
-	if { [::config::getKey use_dock] && [winfo exists $iconmenu.imstatus] && $path != "$iconmenu.imstatus" } {
+	if { [::config::getKey use_tray] && [winfo exists $iconmenu.imstatus] && $path != "$iconmenu.imstatus" } {
 		CreateStatesMenu $iconmenu.imstatus
 	}
-	if { [::config::getKey use_dock] && [winfo exists $iconmenu.imstatus] && $path == "$iconmenu.imstatus" } {
+	if { [::config::getKey use_tray] && [winfo exists $iconmenu.imstatus] && $path == "$iconmenu.imstatus" } {
 		$path delete [expr {[$path index end] - 3}] end
 	}
 }
