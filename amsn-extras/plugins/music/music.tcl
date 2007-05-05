@@ -17,6 +17,7 @@ namespace eval ::music {
 		variable playersarray
 		variable oldinfo
 		variable lastafter
+		variable lasterror
 
 		set musicpluginpath $dir
 		set smallcoverfilename [file join $musicpluginpath albumart.jpg]
@@ -43,7 +44,9 @@ namespace eval ::music {
 		::music::ConfigArray
 		#Add items to configure window
 		set ::music::configlist [list [list frame ::music::populateFrame_1st ""] ]
-		
+
+		set lasterror ""
+
 		#Start changing the nickname on loading
 		after 1000 ::music::load_newname 0 0
 		#Register /showsong and /sendsong to 
@@ -58,12 +61,12 @@ namespace eval ::music {
 		label $win_name.players.question -text "[trans musicplayer]" -padx 5 -font sboldf
 		pack $win_name.players $win_name.players.question
 		if { [llength [array names playersarray] ] > 1} {	
-			ComboBox $win_name.players.selection -editable false -highlightthickness 0 -width 15 -font splainf \
-				-textvariable ::music::config(player) -values [array names playersarray] \
-				-modifycmd "::music::populateFrame_2nd ${win_name} "
+			ComboBox $win_name.players.selection -editable false -highlightthickness 0 \
+				-width 15 -font splainf -textvariable ::music::config(player) \
+				-values [array names playersarray] -modifycmd "::music::populateFrame_2nd ${win_name}"
 			pack $win_name.players.selection -anchor w -expand true -fill both
 		}
-		
+
 		populateFrame_2nd $win_name
 
 	}
@@ -79,6 +82,14 @@ namespace eval ::music {
 		$win_name.sw setwidget $win_name.sw.sf
 		set mainFrame [$win_name.sw.sf getframe]	
 		pack $win_name.sw -anchor n -side top -expand true -fill both
+
+		#error
+		frame $mainFrame.lasterror -class degt
+		label $mainFrame.lasterror.label -text "[trans lasterror] :" -padx 5 -font sboldf
+		label $mainFrame.lasterror.errorval -textvariable ::music::lasterror -font splainf
+		pack $mainFrame.lasterror.label -anchor w -side left
+		pack $mainFrame.lasterror.errorval -anchor w -side left -fill x
+		pack $mainFrame.lasterror -anchor w -expand true -fill x
 
 		#second
 		frame $mainFrame.second -class degt
@@ -128,7 +139,7 @@ namespace eval ::music {
 		
 		FillFrame $mainFrame
 
-		pack $win_name 
+		pack $win_name
 	}
 
 	#####################################################
@@ -218,11 +229,11 @@ namespace eval ::music {
 				"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
-				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
+				"MPD" [list GetSongMPD return FillFrameMPD] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
 				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Totem" [list GetSongTotem TreatSongTotem FillFrameEmpty] \
-				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
+				"XMMS" [list GetSongXMMS return FillFrameEmpty] \
 			]\
 			"freebsd" [list \
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
@@ -231,21 +242,21 @@ namespace eval ::music {
 				"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
-				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
+				"MPD" [list GetSongMPD return FillFrameMPD] \
 				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
 				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 				"Totem" [list GetSongTotem TreatSongTotem FillFrameEmpty] \
-				"XMMS" [list GetSongXMMS TreatSongXMMS FillFrameEmpty] \
+				"XMMS" [list GetSongXMMS return FillFrameEmpty] \
 			] \
 			"windows nt" [list \
 				"WinAmp" [list GetSongWinamp return FillFrameLess] \
 				"Windows Media Player" [list GetSongWMP return FillFrameLess] \
-				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
+				"MPD" [list GetSongMPD return FillFrameMPD] \
 			] \
 			"windows 95" [list \
 				"WinAmp" [list GetSongWinamp return FillFrameLess] \
 				"Windows Media Player" [list GetSongWMP return FillFrameLess] \
-				"MPD" [list GetSongMPD TreatSongMPD FillFrameMPD] \
+				"MPD" [list GetSongMPD return FillFrameMPD] \
 			] \
 		]
 		#Get current OS platform
@@ -341,7 +352,8 @@ namespace eval ::music {
 
 				}
 			}
-			if {!$config(changepic) && [string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
+			if {!$config(changepic) && \
+				[string compare [::config::getKey displaypic] $smallcoverfilename] == 0} {
 				#Config disabled : change the dp to the good one...
 				::music::set_dp $dppath
 			}
@@ -399,15 +411,21 @@ namespace eval ::music {
 	proc GetSong {} {
 		variable config
 		variable playersarray
+		variable lasterror
 		if {![info exists playersarray($config(player))] } {
 			::music::log "Player not supported by Music plugin"
 			return 0
 		}
 		set songfunc $playersarray($config(player))
-		set retval 0
-		catch {::music::[lindex $songfunc 0]} retval
+		set error [catch {::music::[lindex $songfunc 0]} retval]
 		::music::log "Get song: $retval"
-		return $retval
+		if { $error } {
+			set lasterror $retval
+			return 0
+		} else {
+			set lasterror [trans noerror]
+			return $retval
+		}
 	}
 
 	proc TreatSong {} {
@@ -418,8 +436,7 @@ namespace eval ::music {
 		}
 		set songfunc $playersarray($config(player))
 		set retval 0
-		catch {::music::[lindex $songfunc 1]} retval
-		return $retval
+		catch {::music::[lindex $songfunc 1]}
 	}
 
 	proc FillFrame { mainFrame } {
@@ -453,8 +470,8 @@ namespace eval ::music {
 	#####################################################
 	# ::music::exec_async_mac                           #
 	# ------------------------------------------------- #
-	# Execute the specified path with osascript			#
-	# and store the result  in actualsong.				#
+	# Execute the specified path with osascript         #
+	# and store the result  in actualsong.              #
 	# Use with after to make it asynchronous            #
 	#####################################################
 	proc exec_async_mac {path} {
@@ -848,7 +865,6 @@ namespace eval ::music {
 	proc TreatSongAmarok {} {
 		#Grab the information asynchronously : thanks to Tjikkun
 		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoamarok"]] }
-		return 0
 	}
 
 	###############################################
@@ -918,7 +934,6 @@ namespace eval ::music {
 	proc TreatSongBanshee {} {
 		#Grab the information asynchronously : thanks to Tjikkun
 		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infobanshee"]] }
-		return 0
 	}
 
 	###############################################
@@ -972,7 +987,6 @@ namespace eval ::music {
 	 proc TreatSongJuk {} {
 		#Grab the information asynchronously : thanks to copyleft
 		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infojuk"]] }
-		return 0
 	}
 
 	###########################################################
@@ -1014,7 +1028,6 @@ namespace eval ::music {
 	proc TreatSongExaile {} {
 		#Grab the information asynchronously : thanks to Tjikkun
 		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoexaile"]] }
-		return 0
 	}
 
 	###############################################
@@ -1068,7 +1081,6 @@ namespace eval ::music {
 	proc TreatSongListen {} {
 		#Grab the information asynchronously : thanks to Tjikkun
 		after 0 {::music::exec_async [file join $::music::musicpluginpath "infolisten"]}
-		return 0
 	}
 
 	###############################################
@@ -1079,7 +1091,7 @@ namespace eval ::music {
 	proc GetSongListen {} {
 		#check if actualsong is already defined by asynchronous exec
 		if {![info exists ::music::actualsong]} {
-			return
+			return 0
 		}
 
 		plugins_log music "Actual song is :$::music::actualsong"
@@ -1087,12 +1099,10 @@ namespace eval ::music {
 		set Title ""
 		set Artist ""
 		if {[regexp {(.*) \- \(.* \- (.*)\)} $::music::actualsong -> Title Artist]} {
-			plugins_log music "Title is $Title"
-			plugins_log music "Artist is $Artist"
 			#Define in which order we want to show the song (from the config)
 			#Use the separator(from the conf) between song and artist
 			if {$::music::config(songart) == 1} {
-			append songart $Title " " $::music::config(separator) " " $Artist
+				append songart $Title " " $::music::config(separator) " " $Artist
 			} elseif {$::music::config(songart) == 2} {
 				append songart $Artist " " $::music::config(separator) " " $Title
 			} elseif {$::music::config(songart) == 3} {
@@ -1102,15 +1112,6 @@ namespace eval ::music {
 			lappend return $songart
 			return $return
 		}
-		return 0
-	}
-
-	##################################################
-	# ::music::TreatSongMPD                          #
-	# ---------------------------------------------- #
-	# Not useful to MPD because no script to execute #
-	##################################################
-	proc TreatSongMPD {} {
 		return 0
 	}
 
@@ -1245,7 +1246,6 @@ namespace eval ::music {
 	proc TreatSongQL {} {
 		#Grab the information asynchronously : thanks to Tjikkun
 		after 0 {::music::exec_async [list "quodlibet" "--status"]}
-		return 0
 	}
 
 	###############################################
@@ -1254,6 +1254,10 @@ namespace eval ::music {
 	# Gets the current playing song in QL         #
 	###############################################
 	proc GetSongQL {} {
+		if {![info exists ::music::actualsong]} {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
 		if { [string compare "playing " [string range $::music::actualsong 0 8]]} {
 			if { [catch {open ~/.quodlibet/current "r"} file_]} {
 				plugins_log music "\nerror: $file_\n"
@@ -1267,7 +1271,7 @@ namespace eval ::music {
 			while {[eof $file_] != 1} {
 				regexp {title=(.*)} $textline -> Title
 				regexp {artist=(.*)} $textline -> Artist
-				regexp {~filename=(.*)} $textline -> File		
+				regexp {~filename=(.*)} $textline -> File
 				gets $file_ textline
 			}
 			close $file_
@@ -1291,7 +1295,7 @@ namespace eval ::music {
 			#lappend return $CoverUri
 			
 			return $return
-		} else { 
+		} else {
 			return 0
 		}
 	}
@@ -1304,7 +1308,6 @@ namespace eval ::music {
 	proc TreatSongRhythmbox {} {
 		#Grab the information asynchronously : thanks to Tjikkun
 		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "inforhythmbox"]] }
-		return 0
 	}
 
 	###############################################
@@ -1363,7 +1366,6 @@ namespace eval ::music {
 	proc TreatSongTotem {} {
 		#Grab the information asynchronously : thanks to Tjikkun
 		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infototem"]]}
-		return 0
 	}
 
 	###############################################
@@ -1380,22 +1382,11 @@ namespace eval ::music {
 			return 0
 		}
 
-
-
 		if {$song == "0"} {
 			return 0
 		} else {
 			return $song
 		}
-	}
-
-	#####################################################
-	# ::music::TreatSongXMMS                            #
-	# ------------------------------------------------- #
-	# Not useful to XMMS because no script to execute   #
-	#####################################################
-	proc TreatSongXMMS {} {
-		return 0
 	}
 
 	###############################################
@@ -1457,7 +1448,6 @@ namespace eval ::music {
 	################################################
 	proc TreatSongITunes {} {
 		after 0 {::music::exec_async_mac [file join $::music::musicpluginpath display_and_send.scpt]}
-		return 0
 	}
 
 	###############################################
