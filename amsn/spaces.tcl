@@ -732,6 +732,138 @@ namespace eval ::ccard {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	#Draws info of MSN Spaces on chosen coordinate on a choosen canvas
+	proc drawSpacesCL { canvas email base_tag marginx marginy } {
+
+		set stylestring [list ]
+
+		if { [::abook::getVolatileData $email fetching_space 0] } {
+			#draw a "please wait .." message, will be replaced when fetching is done
+			lappend stylestring [list "colour" "grey"]
+			lappend stylestring [list "font" "sitalf"]
+			#Fetching data ...
+			lappend stylestring [list "text" [trans fetching]]
+
+		} else {
+			#show the data we have in abook
+
+			set ccard [::abook::getContactData $email spaces_info_xml [list]]
+
+			# Store the titles in a var
+			foreach i [list SpaceTitle Blog Album Music] {
+				set $i [::MSNSPACES::getTitleFor $ccard $i]
+			}
+
+			lappend stylestring [list "trunc" 1 "..."]
+
+			#First show the spaces title:
+			if {$SpaceTitle != ""} {
+				lappend stylestring [list "colour" "black"]
+				lappend stylestring [list "font" "bboldf"]
+				lappend stylestring [list "text" $SpaceTitle]
+				lappend stylestring [list "margin" [expr {$marginx+10}] $marginy]
+			}
+
+			#blogposts
+			if {$Blog != ""} {
+				# seems like a blog without title doesn't exist, so we don't have to check if there are any posts
+				set blogposts [::MSNSPACES::getAllBlogPosts $ccard]
+				lappend stylestring [list "newline" "\n"]
+				#add a title
+				lappend stylestring [list "colour" "#78797e"]
+				lappend stylestring [list "font" "sboldf"]
+				lappend stylestring [list "text" $Blog]
+
+				lappend stylestring [list "colour" "black"]
+				lappend stylestring [list "font" "sitalf"]
+				lappend stylestring [list "tag" "clickable"]
+
+				set count 0
+				foreach i $blogposts {
+					set itemtag ${base_tag}_bpost_${count}
+
+					#check if there's a title
+					set title [lindex $i 1]
+
+					if {$title == ""} {
+						set title [trans untitled]
+					}
+
+					lappend stylestring [list "newline" "\n"]
+
+					lappend stylestring [list "space" 10]
+					lappend stylestring [list "tag" "$itemtag"]
+					lappend stylestring [list "text" $title]
+					lappend stylestring [list "tag" "-$itemtag"]
+
+					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
+
+					incr count
+				}
+
+				lappend stylestring [list "tag" "-clickable"]
+			}
+
+			
+			#photos
+			if {$Album != ""} {
+				set photos [::MSNSPACES::getAllPhotos $ccard]
+				lappend stylestring [list "newline" "\n"]
+				#add a title
+				lappend stylestring [list "colour" "#78797e"]
+				lappend stylestring [list "font" "sboldf"]
+				lappend stylestring [list "text" $Album]
+				lappend stylestring [list "newline" "\n"]
+				lappend stylestring [list "space" 10]
+
+				lappend stylestring [list "tag" "clickable"]
+
+				set count 0
+				foreach i $photos {
+					set itemtag ${base_tag}_bpost_${count}
+					if { [lindex $i 0] != "" } {
+
+						if {[lindex $i 3] != "" } {
+							set imageData [::MSNSPACES::getAlbumImage [lindex $i 3]]
+							if {$imageData != "" } {
+								set img [image create photo tempspacethumb$count -data $imageData]
+								::picture::ResizeWithRatio $img 22 22
+
+								lappend stylestring [list "tag" "$itemtag"]
+								lappend stylestring [list "image" $img "w"]
+								lappend stylestring [list "tag" "-$itemtag"]
+
+								lappend stylestring [list "space" 3]
+
+								bind $canvas <Destroy> +[list image delete tempspacethumb$count]
+							}
+						}
+						$canvas bind $itemtag <Button-1> \
+							[list ::hotmail::gotURL "[lindex $i 2]"]
+
+						incr count
+					}
+				}
+				lappend stylestring [list "tag" "-clickable"]
+			}
+			#for now show a message if no blogs or photos, for debugging purposes
+			if {$Blog == "" && $Album == ""} {
+				lappend stylestring [list "newline" "\n"]
+				lappend stylestring [list "colour" "grey"]
+				lappend stylestring [list "font" "sitalf"]
+				#Nothing to see here
+				lappend stylestring [list "text" [trans nospace]]
+			}
+
+			lappend stylestring [list "margin" $marginx $marginy]
+			lappend stylestring [list "trunc" 0]
+			lappend stylestring [list "newline" "\n"]
+		}
+
+		return $stylestring
+	}
+
+	#///////////////////////////////////////////////////////////////////////////////
+	#Draws info of MSN Spaces on chosen coordinate on a choosen canvas
 	proc drawSpacesInfo { canvas xcoord ycoord email taglist } {
 
 

@@ -921,6 +921,432 @@ namespace eval ::guiContactList {
 		}
 	}
 
+	#/////////////////////////////////////////////////////////////////////////
+	# Function that renders a contact according to its style string
+	#/////////////////////////////////////////////////////////////////////////
+	proc adaptSizes {linewidth truncable tofill maxwidth} {
+		set size 0
+		set ellipsissize 0
+
+		foreach sz $linewidth {
+			incr size $sz
+		}
+		set delta [expr {$size-$maxwidth}]
+		if {$delta > 0} {
+			#Too bad we need to trunc
+			#Tricky part here
+			while {[llength $truncable] > 0 && $delta > 0} {
+				set truncitem [lindex $truncable end]
+				if { [lindex $truncitem 0] == "size" } {
+					set ellipsissize [lindex $truncitem 1]
+				} elseif { [lindex $truncitem 0] == "id" } {
+					set sz [lindex $linewidth [lindex $truncitem 1]]
+					if {$sz-$delta-$ellipsissize < 0} {
+						lset linewidth [lindex $truncitem 1] 0
+						incr delta [expr {-$sz}]
+					} else {
+						#We don't substract ellipsis as the renderer will draw them in the current block
+						lset linewidth [lindex $truncitem 1] [expr $sz-$delta]
+						set delta 0
+					}
+				}
+				set truncable [lreplace $truncable end end]
+			}
+			set i [expr {[llength $linewidth] - 1 }]
+			while {$delta > 0 && $i > 0} {
+				#Still not enough place : we now remove from the end
+				set sz [lindex $linewidth $i]
+				if {$sz-$delta-$ellipsissize < 0} {
+					lset linewidth $i 0
+					incr delta [expr {-$sz}]
+				} else {
+					lset linewidth $i [expr $sz-$delta]
+					set delta 0
+				}
+				incr i -1
+			}
+		} elseif {$delta < 0 && [llength $tofill] > 0} {
+			#We have space : we can fill remaining spaces
+			set delta [expr {-$delta/[llength $tofill]}]
+			foreach id $tofill {
+				lset linewidth $id $delta
+			}
+		}
+		return $linewidth
+	}
+
+	proc renderContact { canvas main_tag maxwidth text } {
+
+		# We are gonna store the height of the nicknames
+		variable nickheightArray
+		
+
+		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
+
+		set defaultcolour #000000
+		set defaultfont splainf
+		set defaultellips ""
+
+		#Delete elements of the contact if they still exist
+		$canvas delete $main_tag
+
+		set font_attr [font configure $defaultfont]
+		set ellips $defaultellips
+
+		set lineswidth [list ]
+		set linesheight [list ]
+
+		set marginx 0
+		set marginy 0
+		set truncflag 0
+		set linewidth [list $marginx]
+		set truncable [list [list "size" [font measure $font_attr $ellips]]]
+		set tofill [list ]
+		#We must convert points of size to pixels : tk scaling provides us the coef
+		array set current_format $font_attr
+		set max_height [expr {int($current_format(-size)*[tk scaling -displayof $canvas]+$marginy)}]
+
+		lappend text [list "newline" "\n"]
+		foreach unit $text {
+			switch -exact [lindex $unit 0] {
+				"text" {
+					if {$truncflag} {
+						lappend truncable [list "id" [llength $linewidth]]
+					}
+					lappend linewidth [font measure $font_attr [lindex $unit 1]]
+					set height [expr {int($current_format(-size) * \
+						[tk scaling -displayof $canvas] + $marginy)}]
+					if {$height > $max_height} {
+						set max_height $height
+					}
+				}
+				"smiley" -
+				"image" {
+					if {$truncflag} {
+						lappend truncable [list "id" [llength $linewidth]]
+					}
+					lappend linewidth [image width [lindex $unit 1]]
+					set height [expr {[image height [lindex $unit 1]] + $marginy}]
+					if { $height > $max_height} {
+						set max_height [image height [lindex $unit 1]]
+					}
+				}
+				"space" {
+					if {$truncflag} {
+						lappend truncable [list "id" [llength $linewidth]]
+					}
+					lappend linewidth [lindex $unit 1]
+				}
+				"fill" {
+					lappend tofill [llength $linewidth]
+					#We will modify it at the end
+					lappend linewidth 0
+				}
+				"tag" {
+				}
+				"colour" {
+				}
+				"font" {
+					#We add to the list the size of ellipsis for last format
+					lappend truncable [list "size" [font measure $font_attr $ellips]]
+					#We must take in account fonts as they modifies the width of text
+					if { [llength [lindex $unit 1]] == 1 } {
+						if { [lindex $unit 1] == "reset" } {
+							set font_attr [font configure $defaultfont]
+						} else {
+							set font_attr [font configure [lindex $unit 1]]
+						}
+						array set current_format $font_attr
+					} else {
+						array set current_format $font_attr
+						array set modifications [lindex $unit 1]
+						foreach key [array names modifications] {
+							set current_format($key) [set modifications($key)]
+							if { [set current_format($key)] == "reset" } {
+								set current_format($key) \
+									[font configure $defaultfont $key]
+							}
+						}
+						set font_attr [array get current_format]
+					}
+				}
+				"default" {
+					set defaultcolour [lindex $unit 1]
+					set defaultfont [lindex $unit 2]
+				}
+				"trunc" {
+					set truncflag [expr {[lindex $unit 1]?1:0}]
+					if {$truncflag && [llength $unit] > 2} {
+						set ellips [lindex $unit 2]
+					} else {
+						set ellips $defaultellips
+					}
+				}
+				"margin" {
+					set marginx [lindex $unit 1]
+					set marginy [lindex $unit 2]
+				}
+				"newline" {
+					lappend linesheight $max_height
+					array set current_format $font_attr
+					set max_height [expr {int($current_format(-size) * \
+						[tk scaling -displayof $canvas]+$marginy)}]
+					lappend truncable [list "size" [font measure $font_attr $ellips]]
+					lappend lines [adaptSizes $linewidth $truncable $tofill $maxwidth]
+					set linewidth [list $marginx]
+					set truncable [list [list "size" [font measure $font_attr $ellips]]]
+					set tofill [list ]
+				}
+				default {
+					status_log "Unknown item in parsed nickname: $unit"
+				}
+			}
+		}
+
+		set defaultcolour #000000
+		set defaultfont splainf
+
+		# Reset the underlining's list
+		set underlinst [list]
+
+		# Set the place for drawing it (should be invisible); these vars won't be changed
+		set xpos 0
+		set ypos 0
+		set marginx 0
+		set marginy 0
+		set colour $defaultcolour
+		set colourignore 0
+		set font_attr [font configure $defaultfont]
+		array set current_format $font_attr
+		set textheight [expr {int($current_format(-size) * [tk scaling -displayof $canvas])}]
+
+		set ellips $defaultellips
+
+		set tags [list $main_tag]
+		
+		set i 0
+		#0 is marginx
+		set j 1
+
+		set linewidth [lindex $lines $i]
+
+		foreach unit $text {
+			set size [lindex $linewidth $j]
+			set nosize 0
+			switch -exact [lindex $unit 0] {
+				"text" {
+					# Store the text as a string
+					set textpart [lindex $unit 1]
+	
+					# Check if it's really containing text or has a good size, if not, do nothing
+					if {$textpart != "" && $size != 0} {
+	
+						# Check if text is not too long and should be truncated, then
+						# first truncate it and restore it in $textpart and set the linefull
+						if {[font measure $font_attr $textpart] > $size} {
+							set textpart [::guiContactList::truncateText $textpart \
+								[expr {$size-[font measure $font_attr $ellips]}] \
+								$font_attr]
+
+							set textpart "$textpart$ellips"
+						}
+	
+						# Draw the text
+						$canvas create text $xpos [expr {$ypos+$marginy}] -text $textpart \
+							-anchor w -fill $colour -font $font_attr -tags $tags
+						set textwidth [font measure $font_attr $textpart]
+	
+						# Append underline coords
+						set yunderline [expr {$textheight + 1}]
+						lappend underlinst [list $xpos $yunderline $textwidth $colour]
+
+						# Change the coords
+						incr xpos $textwidth
+					}
+				}
+				"smiley" {
+					set imagename [lindex $unit 1]
+	
+					if { [image width $imagename] <= $size } {
+						# Draw the image
+						$canvas create image $xpos [expr {$ypos+$marginy}] \
+							-image $imagename -anchor w -tags $tags
+						# Change the coords
+						incr xpos [image width $imagename]
+					} elseif { $size > 0 } {
+						$canvas create text $xpos [expr {$ypos+$marginy}] -text $ellips \
+							-anchor w -fill $colour -font $font_attr -tags $tags
+						set textwidth [font measure $font_attr $ellips]
+	
+						# Append underline coords
+						set yunderline [expr {$textheight + 1}]
+						lappend underlinst [list $xpos $yunderline $textwidth $colour]
+						# Change the coords
+						incr xpos $textwidth
+					}
+				}
+				"image" {
+					set imagename [lindex $unit 1]
+					set anchor [lindex $unit 2]
+	
+					if { [image width $imagename] <= $size } {
+						# Draw the image
+						$canvas create image $xpos [expr {$ypos+$marginy}] \
+							-image $imagename -anchor $anchor -tags $tags
+						# Change the coords
+						incr xpos [image width $imagename]
+					} elseif { $size > 0 } {
+						$canvas create text $xpos [expr {$ypos+$marginy}] -text $ellips \
+							-anchor w -fill $colour -font $font_attr -tags $tags
+						set textwidth [font measure $font_attr $ellips]
+	
+						# Append underline coords
+						set yunderline [expr {$textheight + 1}]
+						lappend underlinst [list $xpos $yunderline $textwidth $colour]
+						# Change the coords
+						incr xpos $textwidth
+					}
+				}
+				"space" {
+					incr xpos $size
+				}
+				"fill" {
+					incr xpos $size
+				}
+				"tag" {
+					set nosize 1
+					if {[string index [lindex $unit 1] 0] == "-" } {
+						#Remove tag
+						set tag [string range [lindex $unit 1] 1 end]
+						set id [lsearch -exact $tags $tag]
+						if {$id > 0} {
+							#We don't want to remove the first tag
+							set tags [lreplace $tags $id $id]
+						}
+					} else {
+						if {[lsearch -exact $tags [lindex $unit 1]] == -1} {
+							lappend tags [lindex $unit 1]
+						}
+					}
+				}
+				"colour" {
+					set nosize 1
+					# A plugin like aMSN Plus! could make the text lists
+					# contain an extra variable for colourchanges
+					switch -exact [lindex $unit 1] {
+						"reset" {
+							if {!$colourignore} {
+								set colour $defaultcolour
+							}
+						}
+						"ignore" {
+							set colourignore 1
+						}
+						"unignore" {
+							set colourignore 0
+						}
+						default {
+							if {!$colourignore} {
+								set colour [lindex $unit 1]
+							}
+						}
+					}
+				}
+				"font" {
+					set nosize 1
+					if { [llength [lindex $unit 1]] == 1 } {
+						if { [lindex $unit 1] == "reset" } {
+							set font_attr [font configure $defaultfont]
+						} else {
+							set font_attr [font configure [lindex $unit 1]]
+						}
+						array set current_format $font_attr
+					} else {
+						array set current_format $font_attr
+						array set modifications [lindex $unit 1]
+						foreach key [array names modifications] {
+							set current_format($key) [set modifications($key)]
+							if { [set current_format($key)] == "reset" } {
+								set current_format($key) \
+									[font configure $defaultfont $key]
+							}
+						}
+						set font_attr [array get current_format]
+					}
+					set textheight [expr {int($current_format(-size) * \
+						[tk scaling -displayof $canvas])}]
+				}
+				"default" {
+					set nosize 1
+					set defaultcolour [lindex $unit 1]
+					set defaultfont [lindex $unit 2]
+				}
+				"trunc" {
+					set nosize 1
+					set truncflag [expr {[lindex $unit 1]?1:0}]
+					if {$truncflag && [llength $unit] > 2} {
+						set ellips [lindex $unit 2]
+					} else {
+						set ellips $defaultellips
+					}
+					#We already took care of this flag
+				}
+				"margin" {
+					set nosize 1
+					set marginx [lindex $unit 1]
+					set marginy [lindex $unit 2]
+				}
+				"newline" {
+					set nosize 1
+					set xpos $marginx
+					set ypos [expr {$ypos + [lindex $linesheight $i]}]
+
+					incr i
+					set linewidth [lindex $lines $i]
+					set j 1
+				}
+				default {
+					set nosize 1
+				}
+			}
+			if {!$nosize} {
+				incr j
+			}
+		#END the foreach loop
+		}
+
+		return [list $ypos $underlinst]
+	}
+
+	proc trimInfo { varName } {
+		upvar 1 $varName text
+		while {1} {
+			set unit [lindex $text end]
+			set nosize 0
+			switch -exact [lindex $unit 0] {
+				"text" {
+					set unit [lreplace $unit 1 1 [string trimright [lindex $unit 1]]]
+					lset text end $unit
+				}
+				"smiley" {
+				}
+				"image" {
+				}
+				"space" {
+				}
+				"fill" {
+				}
+				default {
+					set nosize 1
+				}
+			}
+			if {$nosize} {
+				set text [lreplace $text end end]
+			} else {
+				break
+			}
+		}
+	}
 
 	#/////////////////////////////////////////////////////////////////////////
 	# Function that draws a contact 
@@ -936,10 +1362,8 @@ namespace eval ::guiContactList {
 
 		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
 
-		# Set the place for drawing it (should be invisible); these vars won't be changed
-		set xpos 0
-		set ypos 0
-		
+		set stylestring [list ]
+
 		set email [lindex $element 1]
 		set grId $groupID
 
@@ -955,12 +1379,8 @@ namespace eval ::guiContactList {
 		set main_part "${tag}_click"
 		#space_icon is a tag for the icon showing if the contact's MSN Space is updated
 		set space_icon "${tag}_space_icon"
+		set undock_space "${tag}_undock_space"
 		set space_info "${tag}_space_info"
-		
-		#Delete elements of the contact if they still exist
-		$canvas delete $tag
-
-
 
 		################################################################
 		# Set up some vars with info we'll use
@@ -1035,20 +1455,8 @@ namespace eval ::guiContactList {
 			}
 		}
 
-		set statewidth [font measure splainf $statetext]
-
-		# Set the beginning coords for the drawings, these vars will change\
-		 after every drawing so we know where to draw the next element
-		set xnickpos $xpos
-		#the first line will be drawn around the middle of the status icon
-		set ynickpos [expr {$ypos + [image height $img]/2}]
-
 		set update_img [::skin::loadPixmap space_update]
 		set noupdate_img [::skin::loadPixmap space_noupdate]
-		
-		
-		# Reset the underlining's list
-		set underlinst [list]
 		
 		#this is when there is an update and we should show a star
 		set space_update [::abook::getVolatileData $email space_updated 0]
@@ -1056,11 +1464,20 @@ namespace eval ::guiContactList {
 		#is the space shown or not ?
 		set space_shown [::abook::getVolatileData $email SpaceShowed 0]
 		
-
+		set maxwidth [expr {[winfo width $canvas] - 2*$Xbegin - [::skin::getKey buddy_xpad] - 5}]
 
 		################################################################
 		# Beginning of the drawing
 		################################################################
+
+		set marginx 0
+
+		lappend stylestring [list "default" $nickcolour splainf]
+		lappend stylestring [list "colour" "reset"]
+		lappend stylestring [list "font" "reset"]
+
+		lappend stylestring [list "tag" "contact"]
+		lappend stylestring [list "tag" "icon"]
 
 		#--------------#
 		###Space icon###
@@ -1069,28 +1486,22 @@ namespace eval ::guiContactList {
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
 		# We must create the icon and hide after else, the status icon will stick the border \
 		# it's surely due to anchor parameter
-		$canvas create image $xnickpos $ypos -anchor nw \
-			 -image $noupdate_img -tags [list contact icon $tag $space_icon]
-		if { [::MSNSPACES::hasSpace $email] } {
-			if {$space_update} {
-				$canvas itemconfigure $space_icon -image $update_img
-			}
-		} else {
-			$canvas itemconfigure  $space_icon -state hidden
-		}
-
-		#Update xnickpos
-		set xnickpos [expr {$xnickpos + [image width $update_img]}]
+		lappend stylestring [list "tag" "$space_icon"]
+		lappend stylestring [list "image" "$noupdate_img" "nw"]
+		lappend stylestring [list "tag" "-$space_icon"]
+		incr marginx [image width $noupdate_img]
 		
 		#---------------#
 		###Status icon###
 		#---------------#
 
 		# Draw status-icon
-		$canvas create image $xnickpos $ynickpos -image $img -anchor w -tags [list contact icon $tag $main_part]
-
-		#Update xnickpos (5 pixels hardcoded padding between statusicon and nickname)
-		set xnickpos [expr {$xnickpos + [image width $img] + 5}]
+		lappend stylestring [list "tag" "$main_part"]
+		lappend stylestring [list "margin" 0 [expr {[image height $img]/2}]]
+		lappend stylestring [list "image" "$img" "w"]
+		lappend stylestring [list "margin" 0 0]
+		lappend stylestring [list "space" 2]
+		incr marginx [expr {2+[image width $img]}]
 
 # TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
 # 	like:	draw icon or small buddypicture overlay it with the status-emblem
@@ -1101,11 +1512,6 @@ namespace eval ::guiContactList {
 
 		#Draw alarm icon if alarm is set
 		if { [::alarms::isEnabled $email] != ""} {
-			#set imagee [string range [string tolower $user_login] 0 end-8]
-			#trying to make it non repetitive without the . in it
-			#Patch from kobasoft
-			#set imagee "alrmimg_[getUniqueValue]"
-			#regsub -all "\[^\[:alnum:\]\]" [string tolower $user_login] "_" imagee
 	
 			if { [::alarms::isEnabled $email] } {
 				set icon [::skin::loadPixmap bell]
@@ -1113,18 +1519,19 @@ namespace eval ::guiContactList {
 				set icon [::skin::loadPixmap belloff]
 			}
 			
-			$canvas create image [expr {$xnickpos -3}] $ypos -image \
-				$icon -anchor nw -tags [list contact icon alarm_$email $tag $main_part]
+			lappend stylestring [list "tag" "alarm_$email"]
+			lappend stylestring [list "image" "$icon" "nw"]
+			lappend stylestring [list "tag" "-alarm_$email"]
+
+			incr marginx [image width $icon]
 
 			# Binding for right click		 
 			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog \"$email\"; break;"
 			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm \"$email\"; \
 				::guiContactList::switch_alarm \"$email\" \"$canvas\" \"alarm_$email\"; break"
 
-			#Update xnickpos
-			set xnickpos [expr {$xnickpos + [image width $icon]}]
 		}
-		
+
 		#----------------------------#
 		###Not-on-reverse-list icon###
 		#----------------------------#	
@@ -1132,198 +1539,61 @@ namespace eval ::guiContactList {
 		# If you are not on this contact's list, show the notification icon
 		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 			set icon [::skin::loadPixmap notinlist]
-			$canvas create image [expr {$xnickpos -3}] $ypos -image \
-				[::skin::loadPixmap notinlist] -anchor nw -tags \
-				[list contact icon $tag $main_part]
-			#Update xnickpos
-			set xnickpos [expr {$xnickpos + [image width $icon]}]
+			lappend stylestring [list "image" "$icon" "nw"]
+			incr marginx [image width $icon]
 		}
-		
+
+		lappend stylestring [list "space" 3]
+		incr marginx 3
 
 		# Now we're gonna draw the nickname itself
-
+		lappend stylestring [list "tag" "-icon"]
 		#-----------------#
 		###Draw Nickname###
 		#-----------------#
+		lappend stylestring [list "margin" $marginx [expr {[image height $img]/2}]]
 
-		#store the x-coord of the beginning of a line
-		set xlinestart $xnickpos
+		if {$force_colour} {
+			lappend stylestring [list "colour" "ignore"]
+		}
 
-		#set up the maximum width to use according to trancution setting
+		lappend stylestring [list "tag" "nick"]
+
 		if { [::config::getKey truncatenames] } {
-			set ellips "..."
-			# Leave some place for the statustext, the elipsis (...) and the spacing + spacing
-			# of border and - the beginningborder
-			set maxwidth [expr {[winfo width $canvas] - $statewidth - [font measure splainf $ellips] - \
-				$nickstatespacing - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]}]
-		} else {
-			#No ellipses when we don't truncates nicknames : ask to Vivia for that :p
-			set ellips ""
-			# Leave some place for the elipsis (...) and the spacing + spacing
-			# of border and - the beginningborder
-			set maxwidth [expr {[winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]}]
+			lappend stylestring [list "trunc" 1 "..."]
 		}
 
-		# We can draw as long as the line isn't full, reset var 
-		set linefull 0
-		set textheight [expr {[font configure splainf -size]/2} ]
+		#Here we place nickname !!
+		set stylestring [concat $stylestring $parsednick]
 
-		# This is the var for the y-change (beginning with the height of 1 line)
-		set ychange [image height $img]
-		set relnickcolour $nickcolour
-		set font_attr [font configure splainf]
-		set relxnickpos $xnickpos
-		set relynickpos $ypos
-
-		foreach unit $parsednick {
-			if {[lindex $unit 0] == "text"} {
-				# Check if we are still allowed to write text, a newline character resets this
-				if { $linefull } {
-					continue
-				}
-
-				# Store the text as a string
-				set textpart [lindex $unit 1]
-
-				# Check if it's really containing text, if not, do nothing
-				if {$textpart == ""} {
-					continue
-				}
-
-				# Check if text is not too long and should be truncated, then
-				# first truncate it and restore it in $textpart and set the linefull
-				if {[expr {$relxnickpos + [font measure $font_attr $textpart]}] > $maxwidth} {
-					set textpart [::guiContactList::truncateText $textpart \
-						[expr {$maxwidth - $relxnickpos}] $font_attr]
-
-					#If we don't truncate we don't put ellipsis
-					#!$maxwidth already left space for the ellipsis
-					set textpart "$textpart$ellips"
-
-					# This line is full, don't draw anything anymore before we start a new line
-					set linefull 1
-				}
-
-				# Draw the text
-				$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-					$relnickcolour -font $font_attr  -tags [list contact $tag nicktext $main_part]
-				set textwidth [font measure $font_attr $textpart]
-
-				# Append underline coords
-				set yunderline [expr {$ynickpos + $textheight + 1}]
-				lappend underlinst [list [expr {$relxnickpos - $xpos}] [expr {$yunderline - $ypos}] \
-					$textwidth $relnickcolour]
-
-				# Change the coords
-				set relxnickpos [expr {$relxnickpos + $textwidth}]
-			} elseif { [lindex $unit 0] == "smiley" } {
-				# Check if we are still allowed to draw smileys
-				if { $linefull } {
-					continue
-				}
-
-				set smileyname [lindex $unit 1]
-
-				if { [expr {$relxnickpos + [image width $smileyname]}] > $maxwidth } {
-					# This line is full, don't draw anything anymore before we start a new line
-					set linefull 1
-
-					$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-						-fill $relnickcolour -font $font_attr -tags [list contact $tag nicktext $main_part]
-					set textwidth [font measure $font_attr $ellips]
-
-					# Append underline coords
-					set yunderline [expr {$ynickpos + $textheight + 1}]
-					lappend underlinst [list [expr {$relxnickpos - $xpos}]  \
-						[expr {$yunderline - $ypos}] $textwidth $relnickcolour]
-					continue
-				}
-
-				# Draw the smiley
-				$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
-					-tags [list contact $tag smiley $main_part]
-
-				# Change the coords
-				set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
-			} elseif {[lindex $unit 0] == "newline"} {
-				set relxnickpos $xnickpos
-				set ynickpos [expr {$ynickpos + [image height $img]}]
-				set ychange [expr {$ychange + [image height $img]}]
-
-				# New line, we can draw again !
-				set linefull 0
-			} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
-				# A plugin like aMSN Plus! could make the text lists
-				# contain an extra variable for colourchanges
-				set relnickcolour [lindex $unit 1]
-				if {$relnickcolour == "reset"} {
-					set relnickcolour $nickcolour
-				}
-			} elseif {[lindex $unit 0] == "font"} {
-				array set current_format $font_attr
-				array set modifications [lindex $unit 1]
-				foreach key [array names modifications] {
-					set current_format($key) [set modifications($key)]
-					if { [set current_format($key)] == "reset" } {
-						set current_format($key) [font configure splainf $key]
-					}
-				}
-				set font_attr [array get current_format]
-			} else {
-				status_log "Unknown item in parsed nickname: $unit"
-			}
-		#END the foreach loop
+		if { [::config::getKey truncatenames] } {
+			lappend stylestring [list "trunc" 0]
 		}
 
-
+		lappend stylestring [list "tag" "-nick"]
 		#--------------------#
 		###Draw Status-name###
 		#--------------------#
 
-		#We shouldn't take the status in account as we will draw it
-		set maxwidth [expr {[winfo width $canvas] - [font measure splainf $ellips] - 5 - 2*$Xbegin - [::skin::getKey buddy_xpad]}]
-
 		if { $statetext != "" } {
-			# Set the spacing (if this needs to be underlined, we'll draw the state as
-			# "  $statetext" and remove the spacing
-			set relxnickpos [expr {$relxnickpos + $nickstatespacing}]
 
-			if { ![::config::getKey truncatenames] } {
+			lappend stylestring [list "space" $nickstatespacing]
 
-				if { $linefull } {
-					set statewidth 0
-				} else {
-					# Check if text is not too long and should be truncated, then
-					# first truncate it and restore it in $textpart and set the linefull
-					if {[expr {$relxnickpos + [font measure splainf "$statetext"]}] > $maxwidth} {
-						set statetext [::guiContactList::truncateText "$statetext" \
-							[expr {$maxwidth - $relxnickpos}] splainf]
-	
-							#If we don't truncate we don't put ellipsis
-							set statetext "$statetext$ellips"
-							set statewidth [font measure splainf $statetext]
-	
-						# This line is full, don't draw anything anymore before we start a new line
-						set linefull 1
-					}
-	
-					$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
-						-fill $statecolour -font splainf -tags [list contact $tag statetext $main_part]
-				}
-			} else {
-
-				$canvas create text $relxnickpos $ynickpos -text "$statetext" -anchor w\
-					-fill $statecolour -font splainf -tags [list contact $tag statetext $main_part]
+			if {$force_colour} {
+				lappend stylestring [list "colour" "unignore"]
 			}
 
-			if { $statewidth > 0 } {
-				# Append underline coords
-				set yunderline [expr {$ynickpos + $textheight + 1}]
-				lappend underlinst [list [expr {$relxnickpos - $xpos}] [expr {$yunderline - $ypos}] \
-					$statewidth $statecolour]
+			lappend stylestring [list "colour" $statecolour]
+			lappend stylestring [list "font" "reset"]
 
-				set relxnickpos [expr {$relxnickpos + $statewidth}]
+			lappend stylestring [list "tag" "state"]
+			lappend stylestring [list "text" $statetext]
+			lappend stylestring [list "tag" "-state"]
+
+			if {$force_colour} {
+				lappend stylestring [list "colour" "ignore"]
 			}
+
 		}
 		
 		#------------#
@@ -1331,205 +1601,39 @@ namespace eval ::guiContactList {
 		#------------#
 
 		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
-			set relnickcolour $nickcolour
-			set font_attr [font configure sitalf]
+
+			lappend stylestring [list "default" $nickcolour sitalf]
+
+			lappend stylestring [list "colour" "reset"]
+			lappend stylestring [list "font" "reset"]
 
 			if {[::config::getKey psmplace] == 1 } {
 				set parsedpsm [linsert $psm 0 [list "text" " - "]]
-				foreach unit $parsedpsm {
-					if {[lindex $unit 0] == "text"} {
-						# Check if we are still allowed to write text
-						if { $linefull } {
-							continue
-						}
-		
-						# Store the text as a string
-						set textpart [lindex $unit 1]
-		
-						# Check if it's really containing text
-						if {$textpart == ""} {
-							continue
-						}
-		
-						# Check if text is not too long and should be truncated, then
-						# first truncate it and restore it in $textpart and set the linefull
-						if {[expr {$relxnickpos + [font measure $font_attr $textpart]}] > $maxwidth} {
-							set textpart [::guiContactList::truncateText $textpart \
-								[expr {$maxwidth - $relxnickpos}] $font_attr]
-							set textpart "$textpart$ellips"
-		
-							# This line is full, don't draw anything anymore before we start a new line
-							set linefull 1
-						}
-		
-						# Draw the text
-						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font $font_attr -tags [list contact $tag psmtext $main_part]
-						set textwidth [font measure $font_attr $textpart]
-		
-						# Append underline coords
-						set yunderline [expr {$ynickpos + $textheight + 1}]
-						lappend underlinst [list [expr {$relxnickpos - $xpos}] [expr {$yunderline - $ypos}] \
-							$textwidth $relnickcolour]
-		
-						# Change the coords
-						set relxnickpos [expr {$relxnickpos + $textwidth}]
-					} elseif { [lindex $unit 0] == "smiley" } {
-						# Check if we are still allowed to draw smileys
-						if { $linefull } {
-							continue
-						}
-		
-						set smileyname [lindex $unit 1]
-		
-						if { [expr {$relxnickpos + [image width $smileyname]}] > $maxwidth } {
-							# This line is full, don't draw anything anymore before we start a new line
-							set linefull 1
-		
-							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font $font_attr -tags [list contact $tag psmtext $main_part]
-							set textwidth [font measure $font_attr $ellips]
-		
-							# Append underline coords
-							set yunderline [expr {$ynickpos + $textheight + 1}]
-							lappend underlinst [list [expr {$relxnickpos - $xpos}]  \
-								[expr {$yunderline - $ypos}] $textwidth $relnickcolour]
-							continue
-						}
-		
-						# Draw the smiley
-						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
-							-tags [list contact $tag psmsmiley $main_part]
-		
-						# Change the coords
-						set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
-					} elseif {[lindex $unit 0] == "newline"} {
-						set relxnickpos $xnickpos
-						set ynickpos [expr {$ynickpos + [image height $img]}]
-						set ychange [expr {$ychange + [image height $img]}]
-		
-						# New line, we can draw again !
-						set linefull 0
-					} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
-						# A plugin like aMSN Plus! could make the text lists
-						# contain an extra variable for colourchanges
-						set relnickcolour [lindex $unit 1]
-						if {$relnickcolour == "reset"} {
-							set relnickcolour $nickcolour
-						}
-					} elseif {[lindex $unit 0] == "font"} {
-						array set current_format $font_attr
-						array set modifications [lindex $unit 1]
-						foreach key [array names modifications] {
-							set current_format($key) [set modifications($key)]
-							if { [set current_format($key)] == "reset" } {
-								set current_format($key) [font configure sitalf $key]
-							}
-						}
-						set font_attr [array get current_format]
-					}
-					# END the foreach loop
-				}
 			} elseif {[::config::getKey psmplace] == 2 } {
 				set parsedpsm [linsert $psm 0 [list "newline" "\n"]]
-				foreach unit $parsedpsm {
-					if {[lindex $unit 0] == "text"} {
-						# Check if we are still allowed to write text
-						if { $linefull } {
-							continue
-						}
-		
-						# Store the text as a string
-						set textpart [lindex $unit 1]
-		
-						# Check if it's really containing text
-						if {$textpart == ""} {
-							continue
-						}
-		
-						# Check if text is not too long and should be truncated, then
-						# first truncate it and restore it in $textpart and set the linefull
-						if {[expr {$relxnickpos + [font measure $font_attr $textpart]}] > $maxwidth} {
-							set textpart [::guiContactList::truncateText $textpart \
-								[expr {$maxwidth - $relxnickpos}] $font_attr]
-							set textpart "$textpart$ellips"
-		
-							# This line is full, don't draw anything anymore before we start a new line
-							set linefull 1
-						}
-		
-						# Draw the text
-						$canvas create text $relxnickpos $ynickpos -text $textpart -anchor w -fill \
-							$relnickcolour -font $font_attr -tags [list contact $tag psmtext $main_part]
-						set textwidth [font measure $font_attr $textpart]
-		
-						# Append underline coords
-						set yunderline [expr {$ynickpos + $textheight + 1}]
-						lappend underlinst [list [expr {$relxnickpos - $xpos}] [expr {$yunderline - $ypos}] \
-							$textwidth $relnickcolour]
-		
-						# Change the coords
-						set relxnickpos [expr {$relxnickpos + $textwidth}]
-					} elseif { [lindex $unit 0] == "smiley" } {
-						# Check if we are still allowed to draw smileys
-						if { $linefull } {
-							continue
-						}
-		
-						set smileyname [lindex $unit 1]
-		
-						if { [expr {$relxnickpos + [image width $smileyname]}] > $maxwidth } {
-							# This line is full, don't draw anything anymore before we start a new line
-							set linefull 1
-		
-							$canvas create text $relxnickpos $ynickpos -text $ellips -anchor w \
-								-fill $relnickcolour -font $font_attr -tags [list contact $tag psmtext $main_part]
-							set textwidth [font measure $font_attr $ellips]
-		
-							# Append underline coords
-							set yunderline [expr {$ynickpos + $textheight + 1}]
-							lappend underlinst [list [expr {$relxnickpos - $xpos}]  \
-								[expr {$yunderline - $ypos}] $textwidth $relnickcolour]
-							continue
-						}
-		
-						# Draw the smiley
-						$canvas create image $relxnickpos $ynickpos -image $smileyname -anchor w \
-							-tags [list contact $tag psmsmiley $main_part]
-		
-						# Change the coords
-						set relxnickpos [expr {$relxnickpos + [image width $smileyname]}]
-					} elseif {[lindex $unit 0] == "newline"} {
-						set relxnickpos $xnickpos
-						set ynickpos [expr {$ynickpos + [image height $img]}]
-						set ychange [expr {$ychange + [image height $img]}]
-		
-						# New line, we can draw again !
-						set linefull 0
-					} elseif {[lindex $unit 0] == "colour" && !$force_colour} {
-						# A plugin like aMSN Plus! could make the text lists
-						# contain an extra variable for colourchanges
-						set relnickcolour [lindex $unit 1]
-						if {$relnickcolour == "reset"} {
-							set relnickcolour $nickcolour
-						}
-					} elseif {[lindex $unit 0] == "font"} {
-						array set current_format $font_attr
-						array set modifications [lindex $unit 1]
-						foreach key [array names modifications] {
-							set current_format($key) [set modifications($key)]
-							if { [set current_format($key)] == "reset" } {
-								set current_format($key) [font configure sitalf $key]
-							}
-						}
-						set font_attr [array get current_format]
-					}
-					# END the foreach loop
-				}
 			}
-		} ; #end psm drawing
 
+			#Here we place the PSM !!
+			lappend stylestring [list "tag" "psm"]
 
+			if { [::config::getKey truncatenames] } {
+				lappend stylestring [list "trunc" 1 "..."]
+			}
+
+			set stylestring [concat $stylestring $parsedpsm]
+
+			if { [::config::getKey truncatenames] } {
+				lappend stylestring [list "trunc" 0]
+			}
+			lappend stylestring [list "tag" "-psm"]
+
+		}
+
+		lappend stylestring [list "tag" "-$main_part"]
+
+		if {$force_colour} {
+			lappend stylestring [list "colour" "unignore"]
+		}
 
 		#----------------------------------#
 		##Controversial inline spaces info##
@@ -1539,19 +1643,48 @@ namespace eval ::guiContactList {
 		# values for this variable can be "inline", "ccard" or "disabled"
 		if {$space_shown &&
 			([::config::getKey spacesinfo "inline"] == "inline" || [::config::getKey spacesinfo "inline"] == "both") } {
+			lappend stylestring [list "newline" "\n"]
 			if {[::config::getKey spacesinfo "inline"] == "both" } {
-				#TODO# fix -tags;fix xpostmp
 				#image to show the ccard
-				set xpostmp [expr {$xpos + 15}]
-				$canvas create image $xpostmp $ychange -anchor nw \
-					 -image $noupdate_img -tags [list contact icon $tag undock_space]
+				lappend stylestring [list "space" 15]
+				lappend stylestring [list "tag" "icon"]
+				lappend stylestring [list "tag" "$undock_space"]
+				lappend stylestring [list "image" "$noupdate_img" "w"]
+				lappend stylestring [list "tag" "-$undock_space"]
+				lappend stylestring [list "tag" "-icon"]
 			}
 
-			#!$tag should be $tag for inline spaces
-			incr ychange [::ccard::drawSpacesInfo $canvas $xlinestart $ychange $email [list $tag $space_info contact space_info]]
+			lappend stylestring [list "tag" "$space_info"]
+			lappend stylestring [list "tag" "space_info"]
+
+			set stylestring [concat $stylestring [::ccard::drawSpacesCL $canvas $email $tag \
+				$marginx [expr {[image height $img]/2}]]]
+
+			lappend stylestring [list "tag" "-space_info"]
+			lappend stylestring [list "tag" "-$space_info"]
+		#}
+
+		#---------------#
+		##Rendering !! ##
+		#---------------#
+
+		lappend stylestring [list "tag" "-contact"]
+
+		trimInfo stylestring
+		set renderInfo [renderContact $canvas $tag $maxwidth $stylestring]
+
+		#-------------------------#
+		##Some more about spaces ##
+		#------------------------ #
+		if { [::MSNSPACES::hasSpace $email] } {
+			if {$space_update} {
+				$canvas itemconfigure $space_icon -image $update_img
+			}
+		} else {
+			$canvas itemconfigure $space_icon -state hidden
 		}
 
-		
+
 		#-----------#
 		##Bindings###
 		#-----------#
@@ -1571,9 +1704,10 @@ namespace eval ::guiContactList {
 
 		#Click binding for the "star" image for spaces
 		$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown $email]
-		$canvas bind undock_space <Button-1> [list ::ccard::drawwindow $email 1]
+
+		$canvas bind $undock_space <Button-1> [list ::ccard::drawwindow $email 1]
 		#TODO# not sure about this one:
-		$canvas bind undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email] 
+		$canvas bind $undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email]
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
@@ -1587,7 +1721,7 @@ namespace eval ::guiContactList {
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
 			$canvas bind $main_part <Enter> \
-				+[list ::guiContactList::underlineList $canvas $underlinst "$tag"]
+				+[list ::guiContactList::underlineList $canvas [lindex $renderInfo 1] "$tag"]
 			$canvas bind $main_part <Leave> +[list $canvas delete "uline_$tag"]
 		}
 		
@@ -1632,10 +1766,8 @@ namespace eval ::guiContactList {
 			$canvas bind $tag <Leave> +[list ::guiContactList::configureCursor $canvas left_ptr]
 		}
 
-		# Now store the nickname [and] height in the nickarray
-		# set nickheight [expr $ychange + [::skin::getKey buddy_ypad] ]
-		set nickheightArray($email) $ychange
-		# status_log "nickheight $email: $nickheight"
+               # Now store the nickname [and] height in the nickarray
+               set nickheightArray($email) [lindex $renderInfo 0]
 	}
 
 
