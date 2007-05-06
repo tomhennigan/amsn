@@ -1590,6 +1590,8 @@ namespace eval ::guiContactList {
 			lappend stylestring [list "text" $statetext]
 			lappend stylestring [list "tag" "-state"]
 
+			lappend stylestring [list "colour" "reset"]
+
 			if {$force_colour} {
 				lappend stylestring [list "colour" "ignore"]
 			}
