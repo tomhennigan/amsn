@@ -165,6 +165,8 @@ namespace eval ::pluginslog {
 	$window.info tag configure blue -foreground blue
 	$window.info tag configure error -foreground white -background black
 	
+	set modifier [GetPlatformModifier]
+	bind $window <$modifier-w> ::pluginslog::toggle
 	wm protocol $window WM_DELETE_WINDOW { ::pluginslog::toggle }
     }
     

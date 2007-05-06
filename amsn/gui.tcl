@@ -3472,6 +3472,9 @@ proc create_main_menu {wmenu} {
 		$help add command -label "[trans onlinehelp]" \
 			-command "launch_browser $::weburl/wiki/Main_Page" \
 	}
+	
+	$help add command -label "[trans configureaudiovideo]" \
+		-command [list ::AVAssistant::AVAssistant]
 
 	set lang [::config::getGlobalKey language]
 	$help add command -label "[trans faq]" \
@@ -3565,58 +3568,46 @@ proc cmsn_draw_main {} {
 
 	#delete F10 binding that crashes amsn
 	bind all <F10> ""
-
-	#Set key bindings. They are different on Mac. (e.g. Command key instead of Control)
+	
+	set modifier [GetPlatformModifier]
+	#Status log
+	bind . <$modifier-s> toggle_status
+	#Console
+	bind . <$modifier-c> "load_console; console show"
+	#Quit
+	bind all <$modifier-q> "exit"
+	bind all <$modifier-Q> "exit"
+	
+	#Set key bindings which are different on Mac.
 	if { [OnMac] } {
-		#Status log
-		bind . <Command-s> toggle_status
-		# Command-Shift-s is now used by the skin menuitem in appmenu.
-		#bind . <Command-S> toggle_status
-		#Console
-		bind . <Command-c> "load_console; console show"
-		bind . <Command-C> "load_console; console show"
 		#Skin selector
-		bind . <Command-S> ::skinsGUI::SelectSkin
+		bind . <$modifier-S> ::skinsGUI::SelectSkin
 		#Plugin selector
-		bind . <Command-P> ::plugins::PluginGui
+		bind . <$modifier-P> ::plugins::PluginGui
 		#Preferences
-		bind . <Command-,> Preferences
+		bind . <$modifier-,> Preferences
 		#BossMode (Command Alt space is used as a global key combo since Mac OS X 10.4.)
-		bind . <Command-Shift-space> BossMode
+		bind . <$modifier-Shift-space> BossMode
 		#Plugins log
-		bind . <Option-p> ::pluginslog::toggle
-		bind . <Option-P> ::pluginslog::toggle
-		#Quit
-		bind all <Command-q> "exit"
-		bind all <Command-Q> "exit"
-		#Raise cl window
-		#tomhennigan: This is now used by CreateStatesMenu. Windows can be cycled using Command-asciitilde & Command-quoteleft.
-		#bind all <Command-Key-1> "raise ."
-		#Online Help
-		bind all <Command-/> "launch_browser $::weburl/wiki/Main_Page"
-		bind all <Command-?> "launch_browser $::weburl/wiki/Main_Page"
+		bind . <$modifier-p> ::pluginslog::toggle
 
-		bind all <Command-m> "catch {wm state %W normal; carbon::processHICommand mini %W}"
-		bind all <Command-M> "catch {wm state %W normal; carbon::processHICommand mini %W}"
-		bind all <Command-quoteleft> "catch {carbon::processHICommand rotw %W}"
-		bind all <Command-asciitilde> "catch {carbon::processHICommand rotb %W}"
+		#Online Help
+		bind all <$modifier-/> "launch_browser $::weburl/wiki/Main_Page"
+		bind all <$modifier-?> "launch_browser $::weburl/wiki/Main_Page"
+
+		bind all <$modifier-m> "catch {wm state %W normal; carbon::processHICommand mini %W}"
+		bind all <$modifier-M> "catch {wm state %W normal; carbon::processHICommand mini %W}"
+		bind all <$modifier-quoteleft> "catch {carbon::processHICommand rotw %W}"
+		bind all <$modifier-asciitilde> "catch {carbon::processHICommand rotb %W}"
 		# Webcam bindings
 	} else {
-		#Status log
-		bind . <Control-s> toggle_status
-		#Console
-		bind . <Control-c> "load_console; console show"
 		#Plugins log
 		bind . <Alt-p> ::pluginslog::toggle
-		#Preferences
-		bind . <Control-p> Preferences
-		#Quit
-		bind . <Control-q> exit
 		#Boss mode
-		bind . <Control-Alt-space> BossMode
+		bind . <$modifier-Alt-space> BossMode
 		# Show/hide menu binding with toggle == 1
-		bind . <Control-m> "Showhidemenu 1"
-		bind . <Control-n> "::AVAssistant::AVAssistant"
+		bind . <$modifier-m> "Showhidemenu 1"
+		bind . <$modifier-n> "::AVAssistant::AVAssistant"
 	}
 
 	#Set the wm close button action
