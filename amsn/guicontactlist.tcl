@@ -1604,13 +1604,15 @@ namespace eval ::guiContactList {
 
 			lappend stylestring [list "default" $nickcolour sitalf]
 
-			lappend stylestring [list "colour" "reset"]
-			lappend stylestring [list "font" "reset"]
-
+			lappend stylestring [list "colour" [::skin::getKey buddypsmcolor "reset"]]
+			lappend stylestring [list "font" [::skin::getFont buddypsmfont "reset"]]
+			
 			if {[::config::getKey psmplace] == 1 } {
 				set parsedpsm [linsert $psm 0 [list "text" " - "]]
 			} elseif {[::config::getKey psmplace] == 2 } {
 				set parsedpsm [linsert $psm 0 [list "newline" "\n"]]
+			} else {
+				set parsedpsm ""
 			}
 
 			#Here we place the PSM !!
@@ -1621,7 +1623,10 @@ namespace eval ::guiContactList {
 			}
 
 			set stylestring [concat $stylestring $parsedpsm]
-
+			
+			lappend stylestring [list "font" "reset"]
+			lappend stylestring [list "colour" "reset"]
+			
 			if { [::config::getKey truncatenames] } {
 				lappend stylestring [list "trunc" 0]
 			}

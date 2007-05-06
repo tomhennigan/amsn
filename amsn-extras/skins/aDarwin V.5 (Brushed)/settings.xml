@@ -9,39 +9,43 @@
 	</Information>
 
 	 <Fonts>
-                <Font>
-                        <name>mystatuslabel</name>
-                        <family>Lucida Grande</family>
-                        <size>10</size>
-                        <weight>normal</weight>
-                        <slant>roman</slant>
-                        <underline>false</underline>
-                </Font>
 		<Font>
-                        <name>mystatuslabel2</name>
-                        <family>Lucida Grande</family>
-                        <size>10</size>
-                        <weight>normal</weight>
-                        <slant>roman</slant>
-                        <underline>false</underline>
-                </Font>
+			<name>mystatuslabel</name>
+        	<family>Lucida Grande</family>
+        	<size>10</size>
+        	<weight>normal</weight>
+        	<slant>roman</slant>
+        	<underline>false</underline>
+		</Font>
 		<Font>
-                        <name>mystatus</name>
-                        <family>Lucida Grande</family>
-                        <size>12</size>
-                        <weight>bold</weight>
-                        <slant>roman</slant>
-                        <underline>false</underline>
-                </Font>
+			<name>mystatuslabel2</name>
+			<family>Lucida Grande</family>
+			<size>10</size>
+			<weight>normal</weight>
+			<slant>roman</slant>
+			<underline>false</underline>
+		</Font>
 		<Font>
-                        <name>psmfont</name>
-                        <family>Lucida Grande</family>
-                        <size>10</size>
-                        <weight>normal</weight>
-                        <slant>roman</slant>
-                        <underline>false</underline>
-                </Font>
-        </Fonts>
+			<name>mystatus</name>
+			<family>Lucida Grande</family>
+			<size>12</size>
+			<weight>bold</weight>
+			<slant>roman</slant>
+			<underline>false</underline>
+		</Font>
+		<Font>
+			<name>psmfont</name>
+			<family>Lucida Grande</family>
+			<size>10</size>
+			<weight>normal</weight>
+			<slant>roman</slant>
+			<underline>false</underline>
+		</Font>
+		<Font>
+			<name>buddypsmfont</name>
+			<size>10</size>
+		</Font>
+	</Fonts>
 
 	<General>
 		<Colors>
@@ -88,6 +92,7 @@
 			<groupcolorextend>black</groupcolorextend>
 			<groupcolorcontract>#808284</groupcolorcontract>
 			<bannerbg>#a3a3a3</bannerbg>
+			<buddypsmcolor>#555555</buddypsmcolor>
    		 </Colors>
 		 <Options>
 			<emailabovecolorbar>1</emailabovecolorbar>
@@ -95,6 +100,9 @@
 			<showdisplaycontactlist>1</showdisplaycontactlist>
 			<mainwindowrelief>flat</mainwindowrelief>
 			<mainwindowbd>0</mainwindowbd>
+			<changecursor_contact>0</changecursor_contact>
+			<changecursor_group>0</changecursor_group>
+			<contactlistbgtile>0</contactlistbgtile>
 		 </Options>
 		<Geometry>
 			<buddylistpad>0</buddylistpad>
@@ -121,7 +129,7 @@
 			<buttonbarbg>#a3a3a3</buttonbarbg>
 			<tabbarbg>#868686</tabbarbg>
 			<tabfg>#000000</tabfg>
-			<chat_buttons_border_color>#b5b5b5</chat_buttons_border_color>                        					<chat_input_back_color>#ffffff</chat_input_back_color>
+			<chat_buttons_border_color>#b5b5b5</chat_buttons_border_color>                        			<chat_input_back_color>#ffffff</chat_input_back_color>
 			<chat_input_border_color>#999999</chat_input_border_color>
 			<chat_output_back_color>#ffffff</chat_output_back_color>
 			<chat_output_border_color>#999999</chat_output_border_color>
