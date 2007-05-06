@@ -935,7 +935,7 @@ proc xml2list xml {
 	regsub -all {<\?xml.*?\?>} $xml "" xml
 	regsub -all {<!--.*?-->} $xml "" xml
 	# Avoid unmatched braces in list, in case we have a left or right accolade in the xml data
-	set xml [string map {"\{" "\&right_accolade;" "\}" "&left_accolade;"}  $xml]
+	set xml [string map {"\{" "&right_accolade;" "\}" "&left_accolade;" "\\" "&escape_char;"}  $xml]
 
 	regsub -all {>\s*<} [string trim $xml " \r\n\t<>"] "\} \{" xml
 	set xml [string map {> "\} \{#text \{" < "\}\} \{"}  $xml]
@@ -972,7 +972,7 @@ proc xml2list xml {
 	if [llength $stack] {error "unresolved: $stack"}
 
 	# Unescape chars and accolades
-	string map {"\} \}" "\}\}" "&amp;" "&" "&lt;" "<" "&gt;" ">" "&apos;" "\'" "&quot;" "\"" "&right_accolade;" "\\\{" "&left_accolade;" "\\\}"} [lindex $res 0]
+	string map {"\} \}" "\}\}" "&amp;" "&" "&lt;" "<" "&gt;" ">" "&apos;" "\'" "&quot;" "\"" "&right_accolade;" "\\\{" "&left_accolade;" "\\\}" "&escape_char;" "\\\\"} [lindex $res 0]
 }
 
 proc list2xml list {
@@ -1012,7 +1012,7 @@ proc GetXmlEntry {list find {no 0} {stack ""}} {
 		if {$key == "#text" } { 
 		    if { $no == $xmlEntry_occurences } {
 			#status_log "Found value : $value for index $xmlEntry_occurences " blue
-			return [string map {"\\\{" "\{" "\\\}" "\}" } $value ]
+			return [string map {"\\\\" "\\" "\\\{" "\{" "\\\}" "\}" } $value ]
 		    } else {
 			#status_log "Found value : $value for index $xmlEntry_occurences... looking for index $no"
 			incr xmlEntry_occurences

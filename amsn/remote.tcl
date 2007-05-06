@@ -151,12 +151,15 @@ namespace eval ::remote {
 	} 
 	
 
-       proc setpsm { {psm ""} } { 
-                       ::MSN::changePSM "$psm" 
-                       write_remote "PSM set to : $psm" 
+       proc setpsm { args } { 
+	       set psm [string map { \\\; \; \\\" \" \\\[ \[ \\\] \] \\\: \: \\\\ \\ \\\* \* \\\? \?} [join $args]]
+
+	       ::MSN::changePSM "$psm" 
+	       write_remote "PSM set to : $psm" 
        } 
 
-	proc setnick { nickname } {
+	proc setnick { args } {
+	       set nickname [string map { \\\; \; \\\" \" \\\[ \[ \\\] \] \\\: \: \\\\ \\ \\\* \* \\\? \?} [join $args]]
 		if {$nickname != ""} {
 			::MSN::changeName [::config::getKey login] "$nickname"
 			write_remote "New nick set to : $nickname"
@@ -215,10 +218,17 @@ namespace eval ::remote {
 
 		if { [info exists userchatto] } {
 			set user "$userchatto"
-			set message "$args"
+			set message [string map { \\\; \; \\\" \" \\\[ \[ \\\] \] \\\: \: \\\\ \\ \\\* \* \\\? \?} [join $args]]
 		} else {
-			set user [lindex $args 0]
-			set message "[lrange $args 1 end]"
+			# This is to skip all the spaces that could be put before the user, like for example "msg       user1  my msg".
+			# with the [split] we would get {msg {} {} {} {} {} {} user1 my msg}
+			set idx 0
+			set user {}
+			while { [string length $user] <= 0 } {
+				set user [lindex $args $idx]
+				incr idx
+			}
+			set message [string map { \\\; \; \\\" \" \\\[ \[ \\\] \] \\\: \: \\\\ \\ \\\* \* \\\? \?} [join [lrange $args $idx end]]]
 		}
 
 		set message [string map { \{ "" \} ""} $message]
