@@ -1602,10 +1602,11 @@ namespace eval ::guiContactList {
 
 		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
 
-			lappend stylestring [list "default" $nickcolour sitalf]
+			lappend stylestring [list "default" [::skin::getKey buddypsmcolor $nickcolour] \
+				[::skin::getFont buddypsmfont "sitalf"]]
 
-			lappend stylestring [list "colour" [::skin::getKey buddypsmcolor "reset"]]
-			lappend stylestring [list "font" [::skin::getFont buddypsmfont "reset"]]
+			lappend stylestring [list "colour" "reset"]
+			lappend stylestring [list "font" "reset"]
 			
 			if {[::config::getKey psmplace] == 1 } {
 				set parsedpsm [linsert $psm 0 [list "text" " - "]]
