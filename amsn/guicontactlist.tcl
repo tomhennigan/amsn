@@ -986,7 +986,6 @@ namespace eval ::guiContactList {
 		set defaultcolour #000000
 		set defaultfont splainf
 		set defaultellips ""
-
 		#Delete elements of the contact if they still exist
 		$canvas delete $main_tag
 
@@ -1003,8 +1002,7 @@ namespace eval ::guiContactList {
 		set truncable [list [list "size" [font measure $font_attr $ellips]]]
 		set tofill [list ]
 		#We must convert points of size to pixels : tk scaling provides us the coef
-		array set current_format $font_attr
-		set max_height [expr {int($current_format(-size)*[tk scaling -displayof $canvas]+$marginy)}]
+		set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
 
 		lappend text [list "newline" "\n"]
 		foreach unit $text {
@@ -1014,8 +1012,7 @@ namespace eval ::guiContactList {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
 					lappend linewidth [font measure $font_attr [lindex $unit 1]]
-					set height [expr {int($current_format(-size) * \
-						[tk scaling -displayof $canvas] + $marginy)}]
+					set height [expr {[font metrics $font_attr -linespace] + $marginy}]
 					if {$height > $max_height} {
 						set max_height $height
 					}
@@ -1089,8 +1086,7 @@ namespace eval ::guiContactList {
 				"newline" {
 					lappend linesheight $max_height
 					array set current_format $font_attr
-					set max_height [expr {int($current_format(-size) * \
-						[tk scaling -displayof $canvas]+$marginy)}]
+					set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
 					lappend truncable [list "size" [font measure $font_attr $ellips]]
 					lappend lines [adaptSizes $linewidth $truncable $tofill $maxwidth]
 					set linewidth [list $marginx]
@@ -1118,7 +1114,8 @@ namespace eval ::guiContactList {
 		set colourignore 0
 		set font_attr [font configure $defaultfont]
 		array set current_format $font_attr
-		set textheight [expr {int($current_format(-size) * [tk scaling -displayof $canvas])}]
+		#The text is placed at the middle of coords because anchor is w so we use only the half of the size
+		set textheight [expr {[font metrics $font_attr -displayof $canvas -linespace]/2}]
 
 		set ellips $defaultellips
 
@@ -1152,12 +1149,13 @@ namespace eval ::guiContactList {
 						}
 	
 						# Draw the text
-						$canvas create text $xpos [expr {$ypos+$marginy}] -text $textpart \
+						$canvas create text $xpos [expr {$ypos + $marginy}] -text $textpart \
 							-anchor w -fill $colour -font $font_attr -tags $tags
+
 						set textwidth [font measure $font_attr $textpart]
-	
+
 						# Append underline coords
-						set yunderline [expr {$textheight + 1}]
+						set yunderline [expr {$ypos + $marginy + $textheight + 1}]
 						lappend underlinst [list $xpos $yunderline $textwidth $colour]
 
 						# Change the coords
@@ -1169,17 +1167,17 @@ namespace eval ::guiContactList {
 	
 					if { [image width $imagename] <= $size } {
 						# Draw the image
-						$canvas create image $xpos [expr {$ypos+$marginy}] \
+						$canvas create image $xpos [expr {$ypos + $marginy}] \
 							-image $imagename -anchor w -tags $tags
 						# Change the coords
 						incr xpos [image width $imagename]
 					} elseif { $size > 0 } {
-						$canvas create text $xpos [expr {$ypos+$marginy}] -text $ellips \
+						$canvas create text $xpos [expr {$ypos + $marginy}] -text $ellips \
 							-anchor w -fill $colour -font $font_attr -tags $tags
 						set textwidth [font measure $font_attr $ellips]
 	
 						# Append underline coords
-						set yunderline [expr {$textheight + 1}]
+						set yunderline [expr {$ypos + $textheight + $marginy + 1}]
 						lappend underlinst [list $xpos $yunderline $textwidth $colour]
 						# Change the coords
 						incr xpos $textwidth
@@ -1191,17 +1189,17 @@ namespace eval ::guiContactList {
 	
 					if { [image width $imagename] <= $size } {
 						# Draw the image
-						$canvas create image $xpos [expr {$ypos+$marginy}] \
+						$canvas create image $xpos [expr {$ypos + $marginy}] \
 							-image $imagename -anchor $anchor -tags $tags
 						# Change the coords
 						incr xpos [image width $imagename]
 					} elseif { $size > 0 } {
-						$canvas create text $xpos [expr {$ypos+$marginy}] -text $ellips \
+						$canvas create text $xpos [expr {$ypos + $marginy}] -text $ellips \
 							-anchor w -fill $colour -font $font_attr -tags $tags
 						set textwidth [font measure $font_attr $ellips]
 	
 						# Append underline coords
-						set yunderline [expr {$textheight + 1}]
+						set yunderline [expr {$ypos + $textheight + $marginy + 1}]
 						lappend underlinst [list $xpos $yunderline $textwidth $colour]
 						# Change the coords
 						incr xpos $textwidth
@@ -1273,8 +1271,8 @@ namespace eval ::guiContactList {
 						}
 						set font_attr [array get current_format]
 					}
-					set textheight [expr {int($current_format(-size) * \
-						[tk scaling -displayof $canvas])}]
+					#The text is placed at the middle of coords because anchor is w so we use only the half of the size
+					set textheight [expr {[font metrics $font_attr -displayof $canvas -linespace]/2}]
 				}
 				"default" {
 					set nosize 1
