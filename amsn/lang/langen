@@ -194,7 +194,6 @@ commandstatus Execute command
 configure Configure
 configuremic Configuring your microphone
 configuringaudio Configuring audio settings
-configureaudiovideo Configure Audio and Video Settings
 confirm Are you sure?
 confirmbl Are you sure you want to block this contact?
 confirmdelete Are you sure you want to delete $1?

@@ -3472,9 +3472,6 @@ proc create_main_menu {wmenu} {
 		$help add command -label "[trans onlinehelp]" \
 			-command "launch_browser $::weburl/wiki/Main_Page" \
 	}
-	
-	$help add command -label "[trans configureaudiovideo]" \
-		-command [list ::AVAssistant::AVAssistant]
 
 	set lang [::config::getGlobalKey language]
 	$help add command -label "[trans faq]" \
