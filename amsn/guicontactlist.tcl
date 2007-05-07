@@ -977,10 +977,6 @@ namespace eval ::guiContactList {
 
 	proc renderContact { canvas main_tag maxwidth text } {
 
-		# We are gonna store the height of the nicknames
-		variable nickheightArray
-		
-
 		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
 
 		set defaultcolour #000000
@@ -993,16 +989,12 @@ namespace eval ::guiContactList {
 		set ellips $defaultellips
 
 		set lineswidth [list ]
-		set linesheight [list ]
 
 		set marginx 0
-		set marginy 0
 		set truncflag 0
 		set linewidth [list $marginx]
 		set truncable [list [list "size" [font measure $font_attr $ellips]]]
 		set tofill [list ]
-		#We must convert points of size to pixels : tk scaling provides us the coef
-		set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
 
 		lappend text [list "newline" "\n"]
 		foreach unit $text {
@@ -1012,10 +1004,6 @@ namespace eval ::guiContactList {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
 					lappend linewidth [font measure $font_attr [lindex $unit 1]]
-					set height [expr {[font metrics $font_attr -linespace] + $marginy}]
-					if {$height > $max_height} {
-						set max_height $height
-					}
 				}
 				"smiley" -
 				"image" {
@@ -1023,10 +1011,6 @@ namespace eval ::guiContactList {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
 					lappend linewidth [image width [lindex $unit 1]]
-					set height [expr {[image height [lindex $unit 1]] + $marginy}]
-					if { $height > $max_height} {
-						set max_height [image height [lindex $unit 1]]
-					}
 				}
 				"space" {
 					if {$truncflag} {
@@ -1081,12 +1065,9 @@ namespace eval ::guiContactList {
 				}
 				"margin" {
 					set marginx [lindex $unit 1]
-					set marginy [lindex $unit 2]
 				}
 				"newline" {
-					lappend linesheight $max_height
 					array set current_format $font_attr
-					set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
 					lappend truncable [list "size" [font measure $font_attr $ellips]]
 					lappend lines [adaptSizes $linewidth $truncable $tofill $maxwidth]
 					set linewidth [list $marginx]
@@ -1105,7 +1086,6 @@ namespace eval ::guiContactList {
 		# Reset the underlining's list
 		set underlinst [list]
 
-		# Set the place for drawing it (should be invisible); these vars won't be changed
 		set xpos 0
 		set ypos 0
 		set marginx 0
@@ -1297,7 +1277,7 @@ namespace eval ::guiContactList {
 				"newline" {
 					set nosize 1
 					set xpos $marginx
-					set ypos [expr {$ypos + [lindex $linesheight $i]}]
+					set ypos [lindex [$canvas bbox $main_tag] 3]
 
 					incr i
 					set linewidth [lindex $lines $i]
@@ -1312,8 +1292,9 @@ namespace eval ::guiContactList {
 			}
 		#END the foreach loop
 		}
-
-		return [list $ypos $underlinst]
+		set tmp 0
+		
+		return $underlinst
 	}
 
 	proc trimInfo { varName } {
@@ -1727,7 +1708,7 @@ namespace eval ::guiContactList {
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
 			$canvas bind $main_part <Enter> \
-				+[list ::guiContactList::underlineList $canvas [lindex $renderInfo 1] "$tag"]
+				+[list ::guiContactList::underlineList $canvas $renderInfo "$tag"]
 			$canvas bind $main_part <Leave> +[list $canvas delete "uline_$tag"]
 		}
 		
@@ -1772,8 +1753,9 @@ namespace eval ::guiContactList {
 			$canvas bind $tag <Leave> +[list ::guiContactList::configureCursor $canvas left_ptr]
 		}
 
-               # Now store the nickname [and] height in the nickarray
-               set nickheightArray($email) [lindex $renderInfo 0]
+		# Now store the nickname [and] height in the nickarray
+		set bbox [$canvas bbox $tag]
+		set nickheightArray($email) [expr {[lindex $bbox 3]-[lindex $bbox 1]}]
 	}
 
 
