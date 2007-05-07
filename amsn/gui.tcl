@@ -4612,11 +4612,7 @@ proc cmsn_draw_online { {delay 0} {topbottom 3} } {
 
 proc cmsn_draw_buildtop_wrapped {} {
 	global login password pgBuddy pgBuddyTop automessage emailBList
-	
-	set my_name [::abook::getPersonal MFN]
-	set my_state_no [::MSN::stateToNumber [::MSN::myStatusIs]]
-	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
-	set my_colour [::MSN::stateToColor [::MSN::myStatusIs] "contact"]
+
 	set my_image_type [::MSN::stateToBigImage [::MSN::myStatusIs]]
 	set my_mobilegroup [::config::getKey showMobileGroup]
 	
@@ -4645,87 +4641,26 @@ proc cmsn_draw_buildtop_wrapped {} {
 	set pic_name displaypicture_std_self
 	bind $pgBuddyTop.bigstate <<Button3>> {destroy .balloon; tk_popup .my_menu %X %Y} 
 	pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
-	
-	text $pgBuddyTop.mystatus -font bboldf -height 2 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -cursor left_ptr \
-		-width [expr {[winfo width $pgBuddy]/[font measure bboldf -displayof $pgBuddyTop "0"]}] \
-		-relief flat -highlightthickness 0 -selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 \
-		-exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-	pack $pgBuddyTop.mystatus -expand true -fill x -side left -padx 0 -pady 0
-	
-	$pgBuddyTop.mystatus configure -state normal
-	$pgBuddyTop.mystatus tag conf mystatuslabel -fore [::skin::getKey mystatus] \
-		-font [::skin::getFont "mystatuslabel" "splainf"]
-	$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore [::skin::getKey mystatus] \
-		-font [::skin::getFont "mystatuslabel2" "bboldf"]
-	$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour \
-		-font [::skin::getFont "mystatus" "bboldf"]
-	$pgBuddyTop.mystatus tag conf mypsmmedia -fore $my_colour \
-		-font [::skin::getFont "psmfont" "sbolditalf"]
-	$pgBuddyTop.mystatus tag bind mystatus <Enter> \
-		"$pgBuddyTop.mystatus tag conf mystatus -under true;$pgBuddyTop.mystatus conf -cursor hand2"
-	$pgBuddyTop.mystatus tag bind mystatus <Leave> \
-		"$pgBuddyTop.mystatus tag conf mystatus -under false;$pgBuddyTop.mystatus conf -cursor left_ptr"
-	$pgBuddyTop.mystatus tag bind mystatus <Button1-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
-	
-	#Change mouse button on Mac OS X
-	if { [OnMac] } {
-		$pgBuddyTop.mystatus tag bind mystatus <Button2-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
-		$pgBuddyTop.mystatus tag bind mystatus <Control-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
-	} else {
-		$pgBuddyTop.mystatus tag bind mystatus <Button3-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
-	}
-	$pgBuddyTop.mystatus insert end "[trans mystatus]: " mystatuslabel
-	
-	if { [info exists automessage] && $automessage != -1} {
-		$pgBuddyTop.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
-	} else {
-		$pgBuddyTop.mystatus insert end "\n" mystatuslabel
-	}
-	
+
+	canvas $pgBuddyTop.mystatus -background [::skin::getKey topcontactlistbg] -borderwidth 0 \
+		-cursor left_ptr -relief flat
+	pack $pgBuddyTop.mystatus -expand true -fill both -side left -padx 10 -pady 10
+
 	drawNick
-	set psmmedia ""
-	if {[::config::getKey protocol] == 11} {
-		set psmmedia [::abook::getpsmmedia]	
-		$pgBuddyTop.mystatus configure -state normal
-		$pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
-		#substitute smileys in psm
-		if {[::config::getKey listsmileys]} {
-			set pos [lindex [$pgBuddyTop.mystatus tag nextrange mypsmmedia 0.0] 0]
-			::smiley::substSmileys $pgBuddyTop.mystatus $pos
-		}
-		$pgBuddyTop.mystatus configure -state disabled
-	}
-	
-	set balloon_message [list "[string map {"%" "%%"} $my_name]" "[string map {"%" "%%"} $psmmedia]" "[::config::getKey login]" "[trans status]: $my_state_desc"]
+
+	set balloon_message [list "[string map {"%" "%%"} [::abook::removeStyles [::abook::getVolatileData myself parsed_MFN]]]" \
+		"[string map {"%" "%%"} [::abook::getpsmmedia]]" \
+		"[::config::getKey login]" "[trans status]: [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]"]
 	set fonts [list "sboldf" "sitalf" "splainf" "splainf"]
-	
-	$pgBuddyTop.mystatus tag bind mystatus <Enter> \
-		+[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
-	$pgBuddyTop.mystatus tag bind mystatus <Leave> "+set Bulle(first) 0; kill_balloon"
-	$pgBuddyTop.mystatus tag bind mystatus <Motion> \
-		+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
-	
-	#Called when the window is resized
-	# -> Refreshes the colorbar depending on the width of the window, and redraw the nickname, truncating as necessary
-	bind $pgBuddyTop.mystatus <Configure> "::skin::getColorBar ; RedrawNick"
 
 	bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
 	bind $pgBuddyTop.bigstate <Leave> "+set Bulle(first) 0; kill_balloon;"
 	bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
-	#Calculate number of lines, and set my status size (for multiline nicks)
-	set size [$pgBuddyTop.mystatus index end]
-	set posyx [split $size "."]
-	set lines [expr {[lindex $posyx 0] - 1}]
-	if { [expr {[llength [$pgBuddyTop.mystatus image names]] + [llength [$pgBuddyTop.mystatus window names]]} ] } { incr lines }
-	
-	$pgBuddyTop.mystatus configure -state normal -height $lines -wrap none
-	$pgBuddyTop.mystatus configure -state disabled
-	
 	set colorbar $pgBuddyTop.colorbar
 	label $colorbar -image [::skin::getColorBar] -background [::skin::getKey topcontactlistbg] -borderwidth 0
 	pack $colorbar -before $disppic -side bottom
-	
+
 	set evpar(colorbar) $colorbar
 	set evpar(text) $pgBuddyTop
 	::plugins::PostEvent ContactListColourBarDrawn evpar
@@ -4821,29 +4756,111 @@ proc RedrawNick {} {
 proc drawNick { } {
 	global pgBuddy pgBuddyTop
 
-	#get the new 
+	$pgBuddyTop.mystatus delete all
+
 	set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])}]
+	set pic_name displaypicture_std_self
+	
+	#$pgBuddyTop.mystatus tag conf mystatuslabel -fore [::skin::getKey mystatus] \
+	#	-font [::skin::getFont "mystatuslabel" "splainf"]
+	#$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore [::skin::getKey mystatus] \
+	#	-font [::skin::getFont "mystatuslabel2" "bboldf"]
+	#$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour \
+	#	-font [::skin::getFont "mystatus" "bboldf"]
+	#$pgBuddyTop.mystatus tag conf mypsmmedia -fore $my_colour \
+	#	-font [::skin::getFont "psmfont" "sbolditalf"]
+	
+
+	set stylestring [list ]
+	lappend stylestring [list "tag" "mystatuslabel"]
+	lappend stylestring [list "colour" [::skin::getKey mystatus]]
+	lappend stylestring [list "font" [::skin::getFont "mystatuslabel" "splainf"]]
+	lappend stylestring [list "text" "[trans mystatus]: "]
+	lappend stylestring [list "tag" "-mystatuslabel"]
+	#$pgBuddyTop.mystatus insert end "[trans mystatus]: " mystatuslabel
+	
+	if { [info exists automessage] && $automessage != -1} {
+		lappend stylestring [list "tag" "mystatuslabel2"]
+		lappend stylestring [list "font" [::skin::getFont "mystatuslabel2" "bboldf"]]
+		lappend stylestring [list "text" "[lindex $automessage 0]"]
+		lappend stylestring [list "tag" "-mystatuslabel2"]
+		#$pgBuddyTop.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
+	#} else {
+	#	$pgBuddyTop.mystatus insert end "\n" mystatuslabel
+	}
+
+	lappend stylestring [list "newline" "\n"]
+	lappend stylestring [list "underline" "ul"]
+	lappend stylestring [list "trunc" 1 "..."]
+
+	#get the new 
 	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
-	incr maxw [expr {0-[font measure bboldf -displayof $pgBuddyTop.mystatus " ($my_state_desc)" ]}]
-	set my_name [::abook::getPersonal MFN]
-	set my_short_name [trunc_with_smileys $my_name $pgBuddyTop.mystatus $maxw bboldf]
+	set my_name [::abook::getVolatileData myself parsed_mfn]
+	set my_colour [::MSN::stateToColor [::MSN::myStatusIs] "contact"]
 	#position of the string in the widget
 
-	$pgBuddyTop.mystatus configure -state normal
-	set pos [$pgBuddyTop.mystatus tag ranges mystatus]
-	if { $pos != "" } {
-		set pos1 [lindex $pos 0]
-		set pos2 [lindex $pos 1]
-		$pgBuddyTop.mystatus delete $pos1 $pos2
+	lappend stylestring [list "tag" "mystatus"]
+	lappend stylestring [list "default" $my_colour [::skin::getFont "mystatus" "bboldf"]]
+	lappend stylestring [list "colour" "reset"]
+	lappend stylestring [list "font" "reset"]
+	set stylestring [concat $stylestring $my_name]
+	lappend stylestring [list "colour" "reset"]
+	lappend stylestring [list "font" "reset"]
+	lappend stylestring [list "text" " ($my_state_desc)"]
+	lappend stylestring [list "tag" "-mystatus"]
+	#$pgBuddyTop.mystatus insert $pos1 "$my_name ($my_state_desc)" mystatus
+
+	set psmmedia ""
+	if {[::config::getKey protocol] == 11} {
+		set psmmedia [::abook::getpsmmedia "" 1]
+
+		lappend stylestring [list "newline" "\n"]
+		lappend stylestring [list "tag" "mypsmmedia"]
+		lappend stylestring [list "default" $my_colour [::skin::getFont "psmfont" "sbolditalf"]]
+		lappend stylestring [list "colour" "reset"]
+		lappend stylestring [list "font" "reset"]
+		set stylestring [concat $stylestring $psmmedia]
+		#$pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
+	}
+
+	::guiContactList::trimInfo stylestring
+	set renderInfo [::guiContactList::renderContact $pgBuddyTop.mystatus "all" $maxw $stylestring]
+	array set underlinst $renderInfo
+	
+	set balloon_message [list "[string map {"%" "%%"} [::abook::removeStyles $my_name]]" \
+		"[string map {"%" "%%"} [::abook::removeStyles $psmmedia]]" \
+		"[::config::getKey login]" "[trans status]: $my_state_desc"]
+	set fonts [list "sboldf" "sitalf" "splainf" "splainf"]
+
+	#Change mouse button on Mac OS X
+	if { [OnMac] } {
+		$pgBuddyTop.mystatus bind mystatus <Button2-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus bind mystatus <Control-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
 	} else {
-		set pos1 end
+		$pgBuddyTop.mystatus bind mystatus <Button3-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
 	}
-	$pgBuddyTop.mystatus insert $pos1 "$my_short_name ($my_state_desc)" mystatus
-	if {[::config::getKey listsmileys]} {
-		set pos2 [lindex [$pgBuddyTop.mystatus tag nextrange mystatus 0.0] 1]
-		::smiley::substSmileys $pgBuddyTop.mystatus $pos1 $pos2
-	}
-	$pgBuddyTop.mystatus configure -state disabled
+
+	$pgBuddyTop.mystatus bind mystatus <Enter> \
+		[list ::guiContactList::underlineList $pgBuddyTop.mystatus [set underlinst(ul)] "all"]
+	$pgBuddyTop.mystatus bind mystatus <Leave> [list $pgBuddyTop.mystatus delete "uline_all"]
+	$pgBuddyTop.mystatus bind mystatus <Enter> \
+		+[list $pgBuddyTop.mystatus configure -cursor hand2]
+	$pgBuddyTop.mystatus bind mystatus <Leave> +[list $pgBuddyTop.mystatus configure -cursor left_ptr]
+
+	$pgBuddyTop.mystatus bind mystatus <Button1-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
+	$pgBuddyTop.mystatus bind mystatus <Enter> \
+		+[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
+	$pgBuddyTop.mystatus bind mystatus <Leave> "+set Bulle(first) 0; kill_balloon"
+	$pgBuddyTop.mystatus bind mystatus <Motion> \
+		+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
+	
+	#Called when the window is resized
+	# -> Refreshes the colorbar depending on the width of the window, and redraw the nickname, truncating as necessary
+	bind $pgBuddyTop.mystatus <Configure> "::skin::getColorBar ; RedrawNick"
+	
+	set bbox [$pgBuddyTop.mystatus bbox all]
+
+	$pgBuddyTop.mystatus configure -width [lindex $bbox 2] -height [lindex $bbox 3]
 }
 
 proc cmsn_draw_online_wrapped {} {

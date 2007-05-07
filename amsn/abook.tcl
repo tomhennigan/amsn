@@ -397,13 +397,13 @@ namespace eval ::abook {
 			}
 		} else {
 			set user_data($field) $data
-			if { $field == "nick" } {
+			if { $field == "nick" || $field == "mfn" || $field == "psm" } {
 				set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
 				set evpar(variable) data
 				set evpar(login) $user_login
 				::plugins::PostEvent parse_contact evpar
 
-				::abook::setVolatileData $user_login parsed_nick $data
+				::abook::setVolatileData $user_login "parsed_$field" $data
 			}
 		}
 		
@@ -678,8 +678,7 @@ namespace eval ::abook {
 		if { [::config::getKey protocol] < 11 } { return }
 		set psmmedia [list ]
 		if { $user_login == "" } {
-			#We don't parse (yet) the PSM for us because we have a bad pgbuddytop
-			set psm [list [list "text" "[::abook::getPersonal PSM]"]]
+			set psm [::abook::getVolatileData myself parsed_psm]
         	        set currentMedia [::abook::parseCurrentMedia [::abook::getPersonal currentMedia]]
 		} else {
                 	set psm [::abook::getVolatileData $user_login PSM]

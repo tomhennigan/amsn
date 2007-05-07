@@ -989,12 +989,15 @@ namespace eval ::guiContactList {
 		set ellips $defaultellips
 
 		set lineswidth [list ]
+		set linesheight [list ]
 
 		set marginx 0
+		set marginy 0
 		set truncflag 0
 		set linewidth [list $marginx]
 		set truncable [list [list "size" [font measure $font_attr $ellips]]]
 		set tofill [list ]
+		set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
 
 		lappend text [list "newline" "\n"]
 		foreach unit $text {
@@ -1004,6 +1007,10 @@ namespace eval ::guiContactList {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
 					lappend linewidth [font measure $font_attr [lindex $unit 1]]
+					set height [expr {[font metrics $font_attr -linespace] + $marginy}]
+					if {$height > $max_height} {
+						set max_height $height
+					}
 				}
 				"smiley" -
 				"image" {
@@ -1011,6 +1018,10 @@ namespace eval ::guiContactList {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
 					lappend linewidth [image width [lindex $unit 1]]
+					set height [expr {[image height [lindex $unit 1]] + $marginy}]
+					if { $height > $max_height} {
+						set max_height $height
+					}
 				}
 				"space" {
 					if {$truncflag} {
@@ -1063,11 +1074,14 @@ namespace eval ::guiContactList {
 						set ellips $defaultellips
 					}
 				}
+				"underline" {
+				}
 				"margin" {
 					set marginx [lindex $unit 1]
 				}
 				"newline" {
-					array set current_format $font_attr
+					lappend linesheight $max_height
+					set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
 					lappend truncable [list "size" [font measure $font_attr $ellips]]
 					lappend lines [adaptSizes $linewidth $truncable $tofill $maxwidth]
 					set linewidth [list $marginx]
@@ -1080,20 +1094,22 @@ namespace eval ::guiContactList {
 			}
 		}
 
+		lappend linesheight 0
+
 		set defaultcolour #000000
 		set defaultfont splainf
 
-		# Reset the underlining's list
-		set underlinst [list]
+		set underlinename ""
 
 		set xpos 0
-		set ypos 0
+		#Because anchor is w
+		set yori [expr {[lindex $linesheight 0]/2}]
+		set ypos $yori
 		set marginx 0
 		set marginy 0
 		set colour $defaultcolour
 		set colourignore 0
 		set font_attr [font configure $defaultfont]
-		array set current_format $font_attr
 		#The text is placed at the middle of coords because anchor is w so we use only the half of the size
 		set textheight [expr {[font metrics $font_attr -displayof $canvas -linespace]/2}]
 
@@ -1134,9 +1150,12 @@ namespace eval ::guiContactList {
 
 						set textwidth [font measure $font_attr $textpart]
 
-						# Append underline coords
-						set yunderline [expr {$ypos + $marginy + $textheight + 1}]
-						lappend underlinst [list $xpos $yunderline $textwidth $colour]
+						if {$underlinename != ""} {
+							# Append underline coords
+							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							lappend underlinearr($underlinename) \
+								[list $xpos $yunderline $textwidth $colour]
+						}
 
 						# Change the coords
 						incr xpos $textwidth
@@ -1155,10 +1174,13 @@ namespace eval ::guiContactList {
 						$canvas create text $xpos [expr {$ypos + $marginy}] -text $ellips \
 							-anchor w -fill $colour -font $font_attr -tags $tags
 						set textwidth [font measure $font_attr $ellips]
-	
-						# Append underline coords
-						set yunderline [expr {$ypos + $textheight + $marginy + 1}]
-						lappend underlinst [list $xpos $yunderline $textwidth $colour]
+
+						if {$underlinename != ""} {
+							# Append underline coords
+							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							lappend underlinearr($underlinename) \
+								[list $xpos $yunderline $textwidth $colour]
+						}
 						# Change the coords
 						incr xpos $textwidth
 					}
@@ -1177,10 +1199,13 @@ namespace eval ::guiContactList {
 						$canvas create text $xpos [expr {$ypos + $marginy}] -text $ellips \
 							-anchor w -fill $colour -font $font_attr -tags $tags
 						set textwidth [font measure $font_attr $ellips]
-	
-						# Append underline coords
-						set yunderline [expr {$ypos + $textheight + $marginy + 1}]
-						lappend underlinst [list $xpos $yunderline $textwidth $colour]
+
+						if {$underlinename != ""} {
+							# Append underline coords
+							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							lappend underlinearr($underlinename) \
+								[list $xpos $yunderline $textwidth $colour]
+						}
 						# Change the coords
 						incr xpos $textwidth
 					}
@@ -1238,7 +1263,6 @@ namespace eval ::guiContactList {
 						} else {
 							set font_attr [font configure [lindex $unit 1]]
 						}
-						array set current_format $font_attr
 					} else {
 						array set current_format $font_attr
 						array set modifications [lindex $unit 1]
@@ -1269,6 +1293,10 @@ namespace eval ::guiContactList {
 					}
 					#We already took care of this flag
 				}
+				"underline" {
+					set nosize 1
+					set underlinename [lindex $unit 1]
+				}
 				"margin" {
 					set nosize 1
 					set marginx [lindex $unit 1]
@@ -1277,7 +1305,9 @@ namespace eval ::guiContactList {
 				"newline" {
 					set nosize 1
 					set xpos $marginx
-					set ypos [lindex [$canvas bbox $main_tag] 3]
+					#As coords are relative to middle we need to put a half of finished line and half of new one
+					set ypos [expr {$ypos + [lindex $linesheight $i]/2 + \
+						[lindex $linesheight [expr {$i+1}]]/2}]
 
 					incr i
 					set linewidth [lindex $lines $i]
@@ -1294,7 +1324,7 @@ namespace eval ::guiContactList {
 		}
 		set tmp 0
 		
-		return $underlinst
+		return [array get underlinearr]
 	}
 
 	proc trimInfo { varName } {
@@ -1451,6 +1481,7 @@ namespace eval ::guiContactList {
 
 		set marginx 0
 
+		lappend stylestring [list "underline" "ul"]
 		lappend stylestring [list "default" $nickcolour splainf]
 		lappend stylestring [list "colour" "reset"]
 		lappend stylestring [list "font" "reset"]
@@ -1659,6 +1690,7 @@ namespace eval ::guiContactList {
 
 		trimInfo stylestring
 		set renderInfo [renderContact $canvas $tag $maxwidth $stylestring]
+		array set underlinst $renderInfo
 
 		#-------------------------#
 		##Some more about spaces ##
@@ -1708,7 +1740,7 @@ namespace eval ::guiContactList {
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
 			$canvas bind $main_part <Enter> \
-				+[list ::guiContactList::underlineList $canvas $renderInfo "$tag"]
+				+[list ::guiContactList::underlineList $canvas [set underlinst(ul)] "$tag"]
 			$canvas bind $main_part <Leave> +[list $canvas delete "uline_$tag"]
 		}
 		
@@ -2090,8 +2122,8 @@ namespace eval ::guiContactList {
 					-fill [lindex $line 3]\
 					-tags [list uline_$nicktag $nicktag uline]
 			}
+			$canvas lower uline_$nicktag $nicktag
 		}
-		$canvas lower uline_$nicktag $nicktag
 	}
 
 	proc centerItems { canvas } {
