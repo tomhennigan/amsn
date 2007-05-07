@@ -857,3 +857,84 @@ youblocked Je bent geblokkeerd
 yousay Jij zegt
 youwant Jij wilt
 zoom Zoom
+abort Afbreken
+assistantainput Kies je invoer-apparaat en probeer er geluid mee op te nemen.
+assistantaoutput Kies je uitvoer-apparaat en probeer dit geluidsbestand af te spelen om het te testen.
+assistantawarn Je zult geen geluid kunnen opnemen en niet met je vrienden kunnen praten. Informatie vinden over het installeren van deze extensie kun je wellicht vinden op onze Wiki:
+assistantfinetunepic Pas de volgende instellingen aan om de beeldkwaliteit van je webcam te verbeteren
+assistantselectcam Kies je webcam uit de lijst
+assistantstarting De Assistent wordt gestart
+assistantwelcome Deze Assistent zal je begeleiden bij het instellen van beel en geluid voor aMSN.\n\nDe Assistent controleert of de vereiste extensies op het systeem aanwezig en in het geheugen geladen zijn. Tenslotte kun je het video-apparaat en -kanaal kiezen en de beeld- en resolutie-instellingen aanpassen.
+audioconfigured Je hebt de volgende instellingen gekozen voor Geluid:\n Uitvoerapparaat: $1\nInvoerapparaat: $2
+audiovideo Instellingen voor Beeld en Geluid
+back Vorige
+blocknotifications Geef geen meldingsvensters weer
+blocksounds Speel geen geluid af
+cachedpicsfor Opgeslagen schermafbeeldingen van contact
+cancelled Geannuleerd
+capturewarn Je zult geen webcam kunnen zenden. Als je geen webcam hebt, is dat normaal, anders kun je informatie vinden over het installeren van deze extensie op onze Wiki:
+checkingaudio Bezig met controleren of de extensie voor geluid (Snack) geladen is...
+checkingcam Bezig met controleren of er een webcam is aangesloten...
+checkingcapext Bezig met controleren of extensie '$1' geladen is...
+checkingextensions Controleren of de vereiste extensies voor video aanwezig zijn
+chooseinputdev Kies je invoerapparaat
+choosemixerdev Kies je mixer
+chooseoutputdev Kies je uitvoerapparaat
+closeothers Alle andere tabbladen sluiten
+configuremic Microfoon wordt geconfigureerd
+configuringaudio Geluid wordt geconfigureerd
+congrats Gefeliciteerd
+connectfirst Maak alsjeblieft eerst verbinding
+customdp Aangepaste schermafbeelding
+dontshowdp Sta dit contact niet toe om mijn nieuwe schermafbeeldingen te downloaden
+editavsettings Bewerk instellingen voor Beeld en Geluid
+error Fout
+finetunesettings Beeldinstellingen finetunen
+finish Voltooien
+finish2apply Klik op Voltooien om deze instellingen toe te passen.
+firewalled2 Je zit achter een filewall, controleer je verbindingsinstellingen in het voorkeuren venster
+forget_me Vergeet mij
+forgot_pass Ik ben mijn wachtwoord vergeten
+ftportpref2 Eerste poort voor directe verbindingen (nodig voor bestandsoverdracht en webcam)
+ftporttest Test poort
+goto_prefs_removeprofile Klik hier om naar het voorkeuren venster te gaan en je profiel te verwijderen
+groupcontactsbystatus Groepeer contacten op status
+havenomic Ik heb geen microfoon
+howto_remove_profile Om je profiel te verwijderen (oftewel: $1 vergeten) moet je in het voorkeurenvenster zijn.\n\nHet verwijderen van profielen via het aanmeldscherm is om veiligheidsredenen niet toegestaan.
+largest Grootste
+lconvstartedOIM Offline-berichten uitwisseling gestart op $1
+medium Gemiddeld
+more Meer
+mypics Mijn schermafbeeldingen
+new_account Account aanmaken
+newoim Nieuwe Offline berichten
+nocamwarn Er is geen webcam gevonden, of de webcam wordt door een ander programma gebruikt (en kan dus niet door aMSN gebruikt worden). Als je hulp nodig hebt om het probleem op te lossen, kijk dan eens op onze Wiki:
+nomic Geen microfoon
+nouserspecified Geen contact geselecteerd
+oim Offline berichten
+otherdps Overige schermafbeeldingen
+playtest Speel het testgeluid af
+receivedoimread Je hebt $1 nieuwe Offline berichten. Wil je ze lezen?
+record Opnemen
+recvwebcamaccepted $1 heeft jouw verzoek om zijn/haar webcam te mogen zien geaccepteerd. Bezig met verbinden...
+rememberaccount Onthoud mijn account
+retry Opnieuw proberen
+selectcontact Kies een contact
+sendwebcamaccepted $1 heeft je uitnodiging om je webcam te bekijken geaccepteerd. Bezig met verbinden...
+setupcam Bezig met instellen van je webcam...
+setupcamfinetune Bezig met instellin van je webcam en finetunen van het beeld
+showlinksinlogin Geef links weer in het aanmeldscherm
+smallest Kleinste
+sortcontactsasc Sorteer contacten oplopend
+sortcontactsby Sorteer contacten op
+sortcontactsdesc Sorteer contacten aflopend
+step Stap
+volume Volume
+web Web
+webcamconfiguredLinux Je hebt de webcam als volgt ingesteld:\nApparaat: $1\nKanaal: $2
+webcamconfiguredMac Je webcam is ingesteld
+webcamconfiguredWin Je hebt de volgende webcam gekozen: $1
+webcamextchecking Bezig met controleren of de webcam extensie is geladen...
+webcamextwarn Je zult geen webcam kunnen ontvangen van je contacten. Voor hulp om de extensie te installeren, kun je terecht op onze Wiki:
+webcaminvitereceiving $1 nodigt je uit om zijn/haar webcambeeld te bekijken. Wil je deze uitnodiging accepteren?
+webcaminvitesending $1 zou graag jouw webcambeeld willen zien. Wil je dat toestaan?
