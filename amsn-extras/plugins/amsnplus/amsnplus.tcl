@@ -32,31 +32,23 @@ namespace eval ::amsnplus {
 		#plugin config
 		if {[::amsnplus::amsn_version] <= 94} {
 			array set ::amsnplus::config {
-				parse_nicks 1
-				colour_nicks 0
 				allow_commands 1
 				allow_quicktext 1
 				quick_text [list]
 			}
 			set ::amsnplus::configlist [ list \
-				[list bool "Do you want to parse nicks?" parse_nicks] \
-				[list bool "Do you want to colour nicks? (not fully feature)" colour_nicks] \
 				[list bool "Do you want to allow commands in the chat window?" allow_commands] \
 				[list bool "Do you want to use the quick text feature?" allow_quicktext] \
 
 			]
 		} else {
 			array set ::amsnplus::config {
-				parse_nicks 1
-				colour_nicks 0
 				allow_commands 1
 				allow_colours 1
 				allow_quicktext 1
 				quick_text [list]
 			}
 			set ::amsnplus::configlist [ list \
-				[list bool "[trans parsenicks]" parse_nicks] \
-				[list bool "[trans colournicks]" colour_nicks] \
 				[list bool "[trans allowcommands]" allow_commands] \
 				[list bool "[trans allowcolours]" allow_colours] \
 				[list bool "[trans allowquicktext]" allow_quicktext] \
@@ -68,12 +60,10 @@ namespace eval ::amsnplus {
 		catch { after 100 ::amsnplus::add_chat_menu }
 
 		#register events
-		::plugins::RegisterEvent "aMSN Plus" parse_nick parse_nick
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_send parseCommand
 		::plugins::RegisterEvent "aMSN Plus" chat_msg_receive parse_colours_and_sounds
 		::plugins::RegisterEvent "aMSN Plus" chatwindowbutton chat_color_button
 		::plugins::RegisterEvent "aMSN Plus" chatmenu edit_menu
-		::plugins::RegisterEvent "aMSN Plus" NickArray parse_nick_for_array
 
 		if {[::amsnplus::amsn_version] > 94} {
 			::amsnplus::setPixmap
@@ -483,169 +473,6 @@ namespace eval ::amsnplus {
 			::plugins::save_config
 		}
 
-	}
-
-
-	#//////////////////////////////////////////////////////////////////////////
-	#                       PARSING AND COLORING NICKS
-	#//////////////////////////////////////////////////////////////////////////
-
-	################################################
-	# this proc deletes $<num> codification
-	# and colours nick if enabled
-	# should parse ALSO MULTIPLE COLORS $(num,num,num)
-	proc parse_nick {event epvar} {
-		if {!$::amsnplus::config(parse_nicks)} {return}
-		upvar 2 data data user_login user_login user_data user_data
-		set strlen [string length $data]
-		set i 0
-		set color [::abook::getContactData $user_login customcolor]
-
-		while {$i < $strlen} {
-			set str [string range $data $i [expr $i + 1]]
-			if {[string equal $str "\u00B7\$"]} {
-				#RRGGBB
-				if {[string equal [string index $data [expr $i + 2]] "#"]} {
-					#The color is in RGB
-					set last [expr $i + 8]
-
-					set color [string tolower [string range $data [expr $i + 2] $last]]
-				#$(rrr,ggg,bbb) format
-				} else {
-					if { [::amsnplus::is_a_number [string range $data [expr $i + 3] [expr $i + 5]] ] } {
-						set last $i
-						if {[::amsnplus::is_a_number [string range $data [expr $i + 7] [expr $i + 9]]]} {
-							if {[::amsnplus::is_a_number [string range $data [expr $i + 11] [expr $i + 13]]]} {
-								set rgb [string range $data [expr $i + 2] [expr $i + 14]]
-								set last [expr $i + 14]
-								set color "#[::amsnplus::RGBToHex $rgb]"
-							}
-						}
-					#$XX
-					} else {
-						#know if the number has 1 or 2 digits
-						set last [expr $i + 3]
-						set char [string index $data [expr $i + 3]]
-						if {![::amsnplus::is_a_number $char]} {
-							set last [expr $i + 2]
-						}
-						#obtain rbg color
-
-						set num [string range $data [expr $i + 2] $last]
-						set color "[::amsnplus::getColor $num $color]"
-						if { [string range $color 0 0] != "#" } {
-							set color "#$color"
-						}
-					}
-				}
-				set data [string replace $data $i $last ""]
-			} elseif {[string equal $str "\u00B7\#"]} {
-				#Bold text : as we can't render, we only remove
-				set data [string replace $data $i [expr $i + 1] ""]
-			} elseif {[string equal $str "\u00B70"]} {
-				#End of styles : as we render color for all the line and not bold, we only remove
-				set data [string replace $data $i [expr $i + 1] ""]
-			} else {
-				incr i
-			}
-		}
-
-		#For newCL introduced in 0.97b the colouring is done with another proc and this one only filters out the color codes : maybe that should be changed
-		if {$::amsnplus::config(colour_nicks) && [::amsnplus::amsn_version] < 97 && [info exists color]} {
-			set user_data(customcolor) $color
-		}
-	}
-
-	################################################
-	# this proc deletes $<num> codification
-	# and colours nick if enabled
-	# should parse ALSO MULTIPLE COLORS $(num,num,num)
-	proc parse_nick_for_array {event epvar} {
-		if {!$::amsnplus::config(parse_nicks)} {return}
-		upvar 2 $epvar evpar
-		upvar 2 $evpar(array) nickArray
-		set userLogin $evpar(login)
-		if { $userLogin != "" } {
-			set loginList [list $userLogin]
-		} else {
-			set loginList [array names nickArray]
-		}
-
-		foreach login $loginList {
-			set listIn $nickArray($login)
-			set listOut [list ]
-			foreach unit $listIn {
-				if { [lindex $unit 0] != "text" } {
-					lappend listOut $unit
-				} else {
-					set data [lindex $unit 1]
-					set strlen [string length $data]
-					set i 0
-					set lastOcc 0
-					while {$i < $strlen} {
-						set str [string range $data $i [expr $i + 1]]
-						if {[string equal $str "\u00B7\$"]} {
-							lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
-							#RRGGBB
-							if {[string equal [string index $data [expr $i + 2]] "#"]} {
-								#The color is in RGB
-								set lastOcc [expr $i + 9]
-			
-								set color [string tolower [string range $data [expr $i + 2] [expr $lastOcc - 1]]]
-								lappend listOut [list "colour" $color]
-							#$(rrr,ggg,bbb) format
-							} else {
-								if { [::amsnplus::is_a_number [string range $data [expr $i + 3] [expr $i + 5]] ] } {
-									set last $i
-									if {[::amsnplus::is_a_number [string range $data [expr $i + 7] [expr $i + 9]]]} {
-										if {[::amsnplus::is_a_number [string range $data [expr $i + 11] [expr $i + 13]]]} {
-											set rgb [string range $data [expr $i + 2] [expr $i + 14]]
-											set lastOcc [expr $i + 15]
-											set color "#[::amsnplus::RGBToHex $rgb]"
-											lappend listOut [list "colour" $color]
-										}
-									}
-								#$XX
-								} else {
-									#know if the number has 1 or 2 digits
-									set lastOcc [expr $i + 4]
-									set char [string index $data [expr $i + 3]]
-									if {![::amsnplus::is_a_number $char]} {
-										set lastOcc [expr $i + 3]
-									}
-									#obtain rbg color
-			
-									set num [string range $data [expr $i + 2] [expr $lastOcc - 1]]
-									set color [::amsnplus::getColor $num ""]
-									if { $color == "" } {
-										set color "reset"
-									} else {
-										set color "#$color"
-									}
-									lappend listOut [list "colour" $color]
-								}
-							}
-							set i $lastOcc
-						} elseif {[string equal $str "\u00B7\#"]} {
-							#Bold text
-							lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
-							lappend listOut [list "font" [list -weight "bold"]]
-							set data [string replace $data $i [expr $i + 1] ""]
-						} elseif {[string equal $str "\u00B70"]} {
-							lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
-							lappend listOut [list "colour" "reset"]
-							lappend listOut [list "font" [list -weight "reset"]]
-							set lastOcc [expr $i + 2]
-							set i $lastOcc
-						} else {
-							incr i
-						}
-					}
-					lappend listOut [list "text" [string range $data $lastOcc [expr $i - 1]]]
-				}
-			}
-			set nickArray($login) $listOut
-		}
 	}
 
 	####################################################

@@ -497,13 +497,14 @@ namespace eval ::abook {
 				unset volatile_data($field)
 			}
 		} else {
+			set volatile_data($field) $data
 			if { $field == "psm" } {
 				set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
 				set evpar(variable) data
 				set evpar(login) $user_login
 				::plugins::PostEvent parse_contact evpar
+				set volatile_data(parsed_$field) $data
 			}
-			set volatile_data($field) $data
 		}
 		
 		set users_volatile_data($user_login) [array get volatile_data]
@@ -681,7 +682,7 @@ namespace eval ::abook {
 			set psm [::abook::getVolatileData myself parsed_psm]
         	        set currentMedia [::abook::parseCurrentMedia [::abook::getPersonal currentMedia]]
 		} else {
-                	set psm [::abook::getVolatileData $user_login PSM]
+                	set psm [::abook::getVolatileData $user_login parsed_psm]
                 	set currentMedia [::abook::parseCurrentMedia [::abook::getVolatileData $user_login currentMedia]]
 		}
 		if {$psm != ""} {
