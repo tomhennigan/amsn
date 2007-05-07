@@ -1659,8 +1659,10 @@ namespace eval ::guiContactList {
 
 		#This is a technology demo, the default is not unchangeable
 		# values for this variable can be "inline", "ccard" or "disabled"
-		if {$space_shown &&
-			([::config::getKey spacesinfo "inline"] == "inline" || [::config::getKey spacesinfo "inline"] == "both") } {
+		if {$space_shown && \
+			([::config::getKey spacesinfo "inline"] == "inline" || \
+			[::config::getKey spacesinfo "inline"] == "both") } {
+
 			lappend stylestring [list "newline" "\n"]
 			if {[::config::getKey spacesinfo "inline"] == "both" } {
 				#image to show the ccard
@@ -1680,7 +1682,7 @@ namespace eval ::guiContactList {
 
 			lappend stylestring [list "tag" "-space_info"]
 			lappend stylestring [list "tag" "-$space_info"]
-		#}
+		}
 
 		#---------------#
 		##Rendering !! ##
@@ -1696,7 +1698,7 @@ namespace eval ::guiContactList {
 		##Some more about spaces ##
 		#------------------------ #
 		if { [::MSNSPACES::hasSpace $email] } {
-			if {$space_update} {
+			if { $space_update } {
 				$canvas itemconfigure $space_icon -image $update_img
 			}
 		} else {
