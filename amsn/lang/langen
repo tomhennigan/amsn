@@ -400,6 +400,7 @@ havenomic I have no microphone
 helpcontents Help Contents
 help Help
 hidedisplaypic Hide Display Picture
+hidebuttonbar Hide Button Bar
 hidemenumessage Are you sure you want to hide the menus ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
 hidemenu Show/Hide menus
 hiden Hide the emoticon from the smileys menu

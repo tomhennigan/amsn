@@ -48,7 +48,7 @@ DONE	We sometimes get double pasting, just bind our paste procedure to the <<Pas
 	************************************************
 
 	** General issues **
--	Option to display or not the chat button bar
+DONE	Option to display or not the chat button bar
 -	Add option to modify keepalive interval (in seconds)
 DONE	Make a Pure PNG Reader (will be used for buddy icons + filetransfer previews, and maybe other stuff)
 DONE	In the Privacy tab, if 2 users have exactly the same nickname in a listbox, we can control only the first user 

@@ -1384,6 +1384,10 @@ namespace eval ::ChatWindow {
 		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
 			-command "::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]"\
 			-onvalue 1 -offvalue 0 -variable "${w}_show_picture"
+		# Show the button bar check
+		$viewmenu add checkbutton -label "[trans hidebuttonbar]" \
+		    -command [list ::ChatWindow::ShowOrHideButtonBar]  \
+		    -onvalue 0 -offvalue 1 -variable [::config::getVar ShowButtonBar]
 		
 		#----------------------
 		$viewmenu add separator			
@@ -1920,6 +1924,10 @@ namespace eval ::ChatWindow {
 				-padx [::skin::getKey chat_dp_padx] \
 				-pady [::skin::getKey chat_dp_pady]
 
+		if {![::config::getKey ShowButtonBar] == 1 } {
+			pack forget $buttons
+		}
+
 		# Bind the focus
 		bind $bottom <FocusIn> "focus $input"
 
@@ -1933,6 +1941,66 @@ namespace eval ::ChatWindow {
 
 		return $bottom
 
+	}
+
+	proc ShowButtonBarRightClick { win x y } {
+		catch {menu $win.buttonbarmenu -tearoff 0}
+		$win.buttonbarmenu delete 0 end
+		# Setup the menu
+		if {[::config::getKey ShowButtonBar] == 1 } {
+			$win.buttonbarmenu add command -label "[trans hidebuttonbar]" -command [list ::ChatWindow::HideButtonBar]
+			# Show the menu
+			tk_popup $win.buttonbarmenu $x $y
+		}
+	}
+
+	proc ShowOrHideButtonBar { } {
+		if {[::config::getKey ShowButtonBar 1] == 0 } {
+			status_log "Hiding Button Bar"
+			::ChatWindow::HideButtonBar
+		} else {
+			status_log "Showing Button Bar"
+			::ChatWindow::ShowButtonBar 
+		}
+	}
+
+	proc HideButtonBar { } {
+		# Hide the button bar
+		set chatids [::ChatWindow::getAllChatIds]
+		# Loop through all chats
+		foreach chat $chatids {
+			set win [::ChatWindow::For $chat]
+			# Un pack the Bar
+			pack forget [::ChatWindow::GetButtonBarForWin $win]
+		}
+		
+		::config::setKey ShowButtonBar 0
+		
+	}
+
+	proc ShowButtonBar { } {
+		# Show the button bar
+		set chatids [::ChatWindow::getAllChatIds]
+		# Loop through the chats
+		foreach chat $chatids {
+			set win [::ChatWindow::For $chat]
+			set buttons [::ChatWindow::GetButtonBarForWin $win]
+			# Repack the bar
+			pack [::ChatWindow::GetButtonBarForWin $win] -anchor n \
+			    -side top -in $win.f.bottom.left  \
+			    -anchor n -expand 0 -fill x -ipadx 0 -ipady 0 \
+			    -padx 3 -pady 4 -side top
+			pack $win.f.bottom.left.in -side top -expand true \
+			    -fill both -anchor n -in $win.f.bottom.left \
+			    -padx [::skin::getKey chat_input_padx] \
+			    -pady [::skin::getKey chat_input_pady] 
+		}
+
+		::config::setKey ShowButtonBar 1
+	}
+
+	proc GetButtonBarForWin { win } {
+		return $win.f.bottom.left.buttons
 	}
 
 	proc CreateInputFrame { w bottom} { 
@@ -2110,6 +2178,10 @@ namespace eval ::ChatWindow {
 				-borderwidth [::skin::getKey chat_buttons_border] \
 				-bordercolor [::skin::getKey chat_buttons_border_color] \
 				-background [::skin::getKey buttonbarbg]	
+
+		# Bind to show the buttonbar right click menu to hide it
+		set buttonsinner [$buttons getinnerframe]
+		bind $buttonsinner <<Button3>> [list ::ChatWindow::ShowButtonBarRightClick $w %X %Y]
 
 		# Name our widgets
 		set buttonsinner [$buttons getinnerframe]
