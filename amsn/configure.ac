@@ -18,16 +18,6 @@ AC_SUBST(APPSTABLE)
 dnl ---------------------------------------------------------------------
 dnl compile time options
 
-AC_ARG_ENABLE(pwc,
-  [  --enable-pwc            disable webcam frame streaming (fixes a bug in the pwc driver)],[enable_pwc=yes])
-
-AC_SUBST(PWC)
-if test "$enable_pwc" == "yes" ; then
-    PWC="yes"
-else
-    PWC="no"
-fi
-
 AC_ARG_ENABLE(debug,
   [  --enable-debug          enable some debuging informations],[enable_debug=yes])
 

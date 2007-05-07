@@ -864,6 +864,8 @@ v4l2_waiton(struct v4l2_handle *h)
     struct v4l2_buffer buf;
     struct timeval tv;
     fd_set rdset;
+    /* PWC doesn't respect V4L2 standard and modifies length field we must keep it */
+    __u32 length;
     
     /* wait for the next frame */
  again:
@@ -889,6 +891,10 @@ v4l2_waiton(struct v4l2_handle *h)
     if (-1 == xioctl(h->fd,VIDIOC_DQBUF,&buf, 0))
 	return -1;
     h->waiton++;
+    //Shitty PWC that is confused between size of payload and size of buffer
+    length = h->buf_v4l2[buf.index].length;
+    h->buf_v4l2[buf.index] = buf;
+    h->buf_v4l2[buf.index].length = length;
 
 #if 0
     if (1) {
