@@ -65,7 +65,7 @@ autoacceptft Aceitar automaticamente pedidos de transferência de arquivo
 autoaway Mudar estado para "Ausente" quando inativo por
 autocheckver Verificar automaticamente por novas versões ao iniciar
 autoconnect2 Logar-me automaticamente quando o aMSN iniciar
-autoconnect Conectar automaticamente quando o aMSN iniciar
+autoconnect Entrar automaticamente
 autodetectip Detectar o endereço IP automaticamente
 autohotmaillog Logar-se automaticamente no Hotmail
 autoidle Detectar inatividade
@@ -155,7 +155,7 @@ checkingextensions Checando a extensão de vídeo necessária
 checkingver Procurando novas versões
 checkonfln Verificar se um usuário bloqueou você quando ficar offline
 checkopenfilecommand Por favor verifique o comando "abrir arquivo" na janela de preferências
-checkver Verificar se existe uma versão mais nova do aMSN
+checkver Procurar por atualizações
 choosearq Escolha a arquitetura do seu sistema
 choosebasefont Escolher tipo de fonte
 choosebgcolor Escolher cor de fundo
