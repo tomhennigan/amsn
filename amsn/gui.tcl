@@ -4820,7 +4820,7 @@ proc drawNick { } {
 		lappend stylestring [list "colour" "reset"]
 		lappend stylestring [list "font" "reset"]
 		set stylestring [concat $stylestring $psmmedia]
-		#$pgBuddyTop.mystatus insert end "\n$psmmedia" mypsmmedia
+		lappend stylestring [list "tag" "-mypsmmedia"]
 	}
 
 	::guiContactList::trimInfo stylestring

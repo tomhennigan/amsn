@@ -690,6 +690,8 @@ namespace eval ::abook {
 		}
 		if {$currentMedia != ""} {
 			if { $psm != ""} {
+				lappend psmmedia [list "colour" "reset"]
+				lappend psmmedia [list "font" "reset"]
 				lappend psmmedia [list "text" " "]
 			}
 			set psmmedia [concat $psmmedia $currentMedia]
@@ -834,24 +836,23 @@ namespace eval ::abook {
 	proc removeStyles {list_styles} {
 		set output ""
 		foreach unit $list_styles {
-			if {[lindex $unit 0] == "text"} {
-				# Store the text as a string
-				append output [lindex $unit 1]
-
-			} elseif { [lindex $unit 0] == "smiley" } {
-
-				append output [lindex $unit 2]
-
-			} elseif {[lindex $unit 0] == "newline"} {
-
-				append output "\n"
-
-			} elseif {[lindex $unit 0] == "colour" } {
-
-			} elseif {[lindex $unit 0] == "font"} {
-
-			} else {
-				status_log "Unknown item in parsed nickname: $unit"
+			switch [lindex $unit 0] {
+				"text" {
+					# Store the text as a string
+					append output [lindex $unit 1]
+				}
+				"smiley" {
+					append output [lindex $unit 2]
+				}
+				"newline" {
+					append output "\n"
+				}
+				"colour" -
+				"font" {
+				}
+				default {
+					status_log "Unknown item in parsed nickname: $unit"
+				}
 			}
 		}
 		return $output
