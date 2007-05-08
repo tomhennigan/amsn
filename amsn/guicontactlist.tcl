@@ -1296,6 +1296,7 @@ namespace eval ::guiContactList {
 				"underline" {
 					set nosize 1
 					set underlinename [lindex $unit 1]
+					set underlinearr($underlinename) [list ]
 				}
 				"margin" {
 					set nosize 1
