@@ -1733,10 +1733,8 @@ namespace eval ::guiContactList {
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL \
-				%W %X %Y "View space items" ]
-			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL \
-				%W %X %Y "View space items"]
+			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y "View space items" ]
+			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y "View space items" ]
 			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
@@ -1749,10 +1747,11 @@ namespace eval ::guiContactList {
 		
 		# Add binding for balloon
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $main_part <Enter> +[list ::guiContactList::balloon_enter_CL \
-				%W %X %Y "[getBalloonMessage $email $element]" "[::skin::getDisplayPicture $email]"]
-			$canvas bind $main_part <Motion> +[list ::guiContactList::balloon_motion_CL \
-				%W %X %Y "[getBalloonMessage $email $element]" "[::skin::getDisplayPicture $email]"]
+			set b_content [getBalloonMessage $email $element]
+			set b_fonts [list "sboldf" "sitalf" "splainf" "splainf"]
+			set b_pic [::skin::getDisplayPicture $email]
+			$canvas bind $main_part <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y $b_content $b_pic $b_fonts complex]
+			$canvas bind $main_part <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y $b_content $b_pic $b_fonts complex]
 			$canvas bind $main_part <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
@@ -2042,43 +2041,14 @@ namespace eval ::guiContactList {
 	# and we add the binding to the canvas item.
 	proc getBalloonMessage {email element} {
 		# Get variables
-		set not_in_reverse [expr {[lsearch [::abook::getLists $email] RL] == -1}]
 		set state_code [::abook::getVolatileData $email state FLN]
-
-		# If user is not in list, add it to the balloon
-		if { $not_in_reverse } {
-			set balloon_message2 "\n[trans notinlist]"
-		} else {
-			set balloon_message2 ""
-		}
-
-		# If order in status mode, show the group of the contact in the balloon
-		if { [::config::getKey orderbygroup] == 0 } {
-			set groupname [::abook::getGroupsname $email]
-			set balloon_message3 "\n[trans group] : $groupname"
-		} else {
-			set balloon_message3 ""
-		}
-
-		# If the status is offline, get the last time he was online
-		if { $state_code == "FLN" } {
-			set balloon_message4 "\n[trans lastseen] : [::abook::dateconvert \
-				[::abook::getContactData $email last_seen]]"
-		} else {
-			set balloon_message4 ""
-		}
-
 		set psmmedia [::abook::getpsmmedia $email]
 
 		# Define the final balloon message
-		set ballon_message [::abook::getNick $email]
-		append ballon_message "\n$psmmedia"
-		append ballon_message "\n$email\n"
-		append ballon_message "[trans status] : "
-		append ballon_message [trans [::MSN::stateToDescription $state_code]]
-		append ballon_message "$balloon_message2 $balloon_message3 $balloon_message4\n[trans lastmsgedme] : "
-		append ballon_message [::abook::dateconvert [::abook::getContactData $email last_msgedme]]
-		set balloon_message [string map {"%" "%%"} $ballon_message]
+		set balloon_message [list [string map {"%" "%%"} [::abook::getNick $email]]]
+		lappend balloon_message [string map {"%" "%%"} $psmmedia]
+		lappend balloon_message "$email"
+		lappend balloon_message "[trans status] : [trans [::MSN::stateToDescription $state_code]]"
 		return $balloon_message	
 	}
 
@@ -2417,19 +2387,19 @@ namespace eval ::guiContactList {
 		}
 	}
 
-	proc balloon_enter_CL { w x y msg {img ""} } {
+	proc balloon_enter_CL { w x y msg {img ""} {fonts ""} {mode "simple"} } {
 		variable OnTheMove
 		#When dragging don't show the tooltips
 		if { !$OnTheMove } {
-			balloon_enter $w $x $y $msg $img
+			balloon_enter $w $x $y $msg $img $fonts $mode
 		}
 	}
 
-	proc balloon_motion_CL { w x y msg {img ""} } {
+	proc balloon_motion_CL { w x y msg {img ""} {fonts ""} {mode "simple"} } {
 		variable OnTheMove
 		#When dragging don't show the tooltips
 		if { !$OnTheMove } {
-			balloon_motion $w $x $y $msg $img
+			balloon_motion $w $x $y $msg $img $fonts $mode
 		}
 	}
 
