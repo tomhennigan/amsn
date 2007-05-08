@@ -85,8 +85,8 @@
 			<contract_ypad>12</contract_ypad>
 			<expand_xpad>3</expand_xpad>
 			<expand_ypad>12</expand_ypad>
-			<x_dp_top>10</x_dp_top>
-			<y_dp_top>10</y_dp_top>
+			<x_dp_top>11</x_dp_top>
+			<y_dp_top>11</y_dp_top>
 			<buddy_xpad>10</buddy_xpad>
 			<buddy_ypad>2</buddy_ypad>
 			<contactlist_xpad>2</contactlist_xpad>
