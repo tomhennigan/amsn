@@ -648,8 +648,6 @@ namespace eval ::abook {
 
 	proc parseCurrentMedia {currentMedia} {
 		if {$currentMedia == ""} { return "" }
-
-puts $currentMedia
 	
 		set currentMedia [string map {"\\0" "\0"} $currentMedia]
 		set infos [split $currentMedia "\0"]

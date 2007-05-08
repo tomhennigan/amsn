@@ -4860,9 +4860,7 @@ proc drawNick { } {
 	
 	set bbox [$pgBuddyTop.mystatus bbox all]
 
-	if {[lindex $bbox 2] != "" } {
-		$pgBuddyTop.mystatus configure -width [lindex $bbox 2] -height [lindex $bbox 3]
-	}
+	$pgBuddyTop.mystatus configure -width [lindex $bbox 2] -height [lindex $bbox 3]
 }
 
 proc cmsn_draw_online_wrapped {} {

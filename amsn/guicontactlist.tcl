@@ -977,8 +977,6 @@ namespace eval ::guiContactList {
 
 	proc renderContact { canvas main_tag maxwidth text } {
 
-		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return {ul ""}}
-
 		set defaultcolour #000000
 		set defaultfont splainf
 		set defaultellips ""
