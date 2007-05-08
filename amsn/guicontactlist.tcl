@@ -977,7 +977,7 @@ namespace eval ::guiContactList {
 
 	proc renderContact { canvas main_tag maxwidth text } {
 
-		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
+		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return {ul ""}}
 
 		set defaultcolour #000000
 		set defaultfont splainf
@@ -1324,7 +1324,7 @@ namespace eval ::guiContactList {
 		#END the foreach loop
 		}
 		set tmp 0
-		
+
 		return [array get underlinearr]
 	}
 
