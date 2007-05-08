@@ -980,8 +980,6 @@ namespace eval ::guiContactList {
 		set defaultcolour #000000
 		set defaultfont splainf
 		set defaultellips ""
-		#Delete elements of the contact if they still exist
-		$canvas delete $main_tag
 
 		set font_attr [font configure $defaultfont]
 		set ellips $defaultellips
@@ -1116,7 +1114,6 @@ namespace eval ::guiContactList {
 		set tags [list $main_tag]
 		
 		set i 0
-		#0 is marginx
 		set j 1
 
 		set linewidth [lindex $lines $i]
@@ -1321,7 +1318,6 @@ namespace eval ::guiContactList {
 			}
 		#END the foreach loop
 		}
-		set tmp 0
 
 		return [array get underlinearr]
 	}
@@ -1479,6 +1475,9 @@ namespace eval ::guiContactList {
 		################################################################
 
 		set marginx 0
+
+		#Delete elements of the contact if they still exist
+		$canvas delete $tag
 
 		lappend stylestring [list "underline" "ul"]
 		lappend stylestring [list "default" $nickcolour splainf]
@@ -2043,8 +2042,8 @@ namespace eval ::guiContactList {
 		set psmmedia [::abook::getpsmmedia $email]
 
 		# Define the final balloon message
-		set balloon_message [list [string map {"%" "%%"} [::abook::getNick $email]]]
-		lappend balloon_message [string map {"%" "%%"} $psmmedia]
+		set balloon_message [list [string map { "%" "%%" } [::abook::getNick $email]]]
+		lappend balloon_message [string map { "%" "%%" } $psmmedia]
 		lappend balloon_message "$email"
 		lappend balloon_message "[trans status] : [trans [::MSN::stateToDescription $state_code]]"
 		return $balloon_message	

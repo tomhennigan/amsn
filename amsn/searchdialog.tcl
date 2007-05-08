@@ -117,7 +117,7 @@ snit::widget searchdialog {
 		# Shift-F* bindings are weird on some XFree86 versions, and instead of Shift-F(n), we get XF86_Switch_VT_(n)
 		# We allow for this here
 		if { [OnX11] } {
-			bind $w <XF86_Switch_VT_3> "$self findprev"
+			catch {bind $w <XF86_Switch_VT_3> "$self findprev"}
 		}
 	}
 
