@@ -1471,7 +1471,7 @@ namespace eval ::abookGui {
 		set ignorecontact_$email [::abook::getContactData $email ignored]
 		set dontshowdp_$email [::abook::getContactData $email dontshowdp]
 
-		frame $nbSettings.fNick.fColor.col -width 40 -bd 0 -relief flat -highlightbackground black -highlightcolor black
+		frame $nbSettings.fNick.fColor.col -width 96 -bd 1 -relief flat -highlightbackground black -highlightcolor black
 		if { [set colorval_$email] != "" } {
 			if { [string index [set colorval_$email] 0] == "#" } {
 				set colorval_$email [string range [set colorval_$email] 1 end]
@@ -1495,14 +1495,14 @@ namespace eval ::abookGui {
 		set customdp_$email [::abook::getContactData $email customdp ""] 
 		if {[set customdp_$email] != ""} {
 			image create photo customdp_img_$email -file [set customdp_$email]
-			label $nbSettings.fNick.fDispl.dp -image customdp_img_$email -borderwidth 0 -relief flat
+			label $nbSettings.fNick.fDispl.dp -height 96 -width 96 -image customdp_img_$email -borderwidth 0 -relief flat
 		} else {
-			label $nbSettings.fNick.fDispl.dp -image "" -borderwidth 0 -relief flat
+			label $nbSettings.fNick.fDispl.dp -height 96 -width 96 -image [::skin::loadPixmap nullimage] -borderwidth 0 -relief flat
 		}
 		
 		button $nbSettings.fNick.fDispl.bset -text "[trans change]" -command "::abookGui::ChangeCustomDp $email $nbSettings" 
 		button $nbSettings.fNick.fDispl.brem -text "[trans delete]" -command "::abookGui::RemoveCustomDp $email $nbSettings" 
-		pack $nbSettings.fNick.fDispl.dp -side left -expand true -fill y -pady 5 -padx 8
+		pack $nbSettings.fNick.fDispl.dp -side left -pady 5 -padx 8
 		pack $nbSettings.fNick.fDispl.bset -side left -padx 3 -pady 2
 		pack $nbSettings.fNick.fDispl.brem -side left -padx 3 -pady 2
 		
@@ -1800,14 +1800,14 @@ namespace eval ::abookGui {
 		tkwait window .dpbrowser
 		catch {image delete customdp_img_$email}
 		image create photo customdp_img_$email -file [set customdp_$email]
-		$w.fNick.fDispl.dp configure -image customdp_img_$email -borderwidth 0 -relief flat
+		$w.fNick.fDispl.dp configure -image customdp_img_$email
 	}
 
 
 	proc RemoveCustomDp { email w } {
 	   	global customdp_$email
 		set customdp_$email ""
-		$w.fNick.fDispl.dp configure -image [set customdp_$email] -borderwidth 0 -relief flat
+		$w.fNick.fDispl.dp configure -image [::skin::loadPixmap nullimage]
 	}
 
 	proc SetGlobalNick { } {
