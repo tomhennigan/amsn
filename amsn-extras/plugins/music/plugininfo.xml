@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <plugin>
 	<name>Music</name>
 	<author>Jerome Gagnon-Voyer, Boris Faure (billiob) and Le Philousophe</author>
@@ -10,7 +10,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>8547</cvs_version>
+	<cvs_version>8585</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>

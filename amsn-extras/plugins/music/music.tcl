@@ -30,6 +30,8 @@ namespace eval ::music {
 		
 		::music::LoadPixmaps $dir
 
+		::music::PrepareDLL $dir
+
 		#Verify the OS is supported before loading the plugin
 		#And configure default players for each OS
 		if {![::music::OsVerification]} { return }
@@ -150,6 +152,14 @@ namespace eval ::music {
 	proc LoadPixmaps {dir} {
 		::skin::setPixmap musicshown_pic notespic.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap musichidden_pic notesdispic.gif pixmaps [file join $dir pixmaps]
+	}
+
+	proc PrepareDLL {dir} {
+		global tcl_platform
+		set os [string tolower $tcl_platform(os)]
+		if { $os == "windows 95" || $os == "windows nt" } {
+			catch {file copy -force [file join $dir "MusicWin.dll"] [file join $dir "MusicWin.tmp"]}
+		}
 	}
 
 	#####################################
@@ -1498,7 +1508,7 @@ namespace eval ::music {
 	###############################################
 	proc GetSongWinamp {} {
 		variable musicpluginpath
-		load [file join $musicpluginpath MusicWin.dll]
+		load [file join $musicpluginpath MusicWin.tmp]
 		set tmplst [::music::TreatSongWinamp]
 
 		set status [lindex $tmplst 0]
@@ -1531,7 +1541,7 @@ namespace eval ::music {
 	###############################################
 	proc GetSongWMP {} {
 		variable musicpluginpath
-		load [file join $musicpluginpath MusicWin.dll]
+		load [file join $musicpluginpath MusicWin.tmp]
 		set tmplst [string map {"\\0" "\0"} [::music::TreatSongWMP]]
 		set tmplst [split $tmplst "\0"]
 
