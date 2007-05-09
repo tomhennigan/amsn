@@ -397,16 +397,17 @@ namespace eval ::abook {
 			}
 		} else {
 			set user_data($field) $data
-			if { $field == "nick" || $field == "mfn" || $field == "psm" } {
-				set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
-				set evpar(variable) data
-				set evpar(login) $user_login
-				::plugins::PostEvent parse_contact evpar
-
-				::abook::setVolatileData $user_login "parsed_$field" $data
-			}
 		}
 		
+		if { $field == "nick" || $field == "mfn" || $field == "psm" } {
+			set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
+			set evpar(variable) data
+			set evpar(login) $user_login
+			::plugins::PostEvent parse_contact evpar
+
+			::abook::setVolatileData $user_login "parsed_$field" $data
+		}
+
 		set users_data($user_login) [array get user_data]
 		
 		#We make this to notify preferences > groups to be refreshed
@@ -498,13 +499,14 @@ namespace eval ::abook {
 			}
 		} else {
 			set volatile_data($field) $data
-			if { $field == "psm" } {
-				set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
-				set evpar(variable) data
-				set evpar(login) $user_login
-				::plugins::PostEvent parse_contact evpar
-				set volatile_data(parsed_$field) $data
-			}
+		}
+
+		if { $field == "psm" } {
+			set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
+			set evpar(variable) data
+			set evpar(login) $user_login
+			::plugins::PostEvent parse_contact evpar
+			set volatile_data(parsed_$field) $data
 		}
 		
 		set users_volatile_data($user_login) [array get volatile_data]
@@ -676,7 +678,7 @@ namespace eval ::abook {
 
 	# Get PSM and currentMedia
 	proc getpsmmedia { { user_login "" } { use_styled_psm 0}} {
-		if { [::config::getKey protocol] < 11 } { return }
+		if { [::config::getKey protocol] < 11 } { return [list ]}
 		set psmmedia [list ]
 		if { $user_login == "" } {
 			set psm [::abook::getVolatileData myself parsed_psm]
