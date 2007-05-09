@@ -232,7 +232,7 @@ namespace eval ::hotmail {
 						cmsn_draw_online 0 1
 						if { [::config::getKey notifyemail] == 1} {
 							::amsn::notifyAdd "[trans newmail $inboxUnread\($inbox\)]" \
-							    [list ::hotmail::gotURL $msgurl] newemail
+							    [list ::hotmail::gotURL $msgurl] newemail email
 						}
 					}
 					
@@ -250,7 +250,7 @@ namespace eval ::hotmail {
 					#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
 					if { [::config::getKey notifyemailother] == 1 && [string length $folderUnread] > 0 && $folderUnread != 0 } {
 						::amsn::notifyAdd "[trans newmailfolder $folderUnread\($folder\)]" \
-						    [list ::hotmail::gotURL $msgurl] newemail
+						    [list ::hotmail::gotURL $msgurl] newemail email
 					}
 				}
 				
@@ -275,12 +275,12 @@ namespace eval ::hotmail {
 						cmsn_draw_online 0 1
 						if { [::config::getKey notifyemail] == 1 } {
 							::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
-							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail
+							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail email
 						}
 					} else {
 						if { [::config::getKey notifyemailother] == 1 } {
 							::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
-							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail
+							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail email
 						}
 					}
 				}
@@ -302,7 +302,7 @@ namespace eval ::hotmail {
 					cmsn_draw_online 0 1
 					if { [::config::getKey notifyemail] == 1} {
 						::amsn::notifyAdd "[trans newmail $noleidos]" \
-							"::hotmail::hotmail_login" newemail
+							"::hotmail::hotmail_login" newemail email
 					}
 				}
 	
@@ -315,7 +315,7 @@ namespace eval ::hotmail {
 				#If the pref notifyemail is active and more than 0 email unread, show a notify on connect
 				if { [::config::getKey notifyemailother] == 1 && [string length $folderunread] > 0 && $folderunread != 0 } {
 					::amsn::notifyAdd "[trans newmailfolder $folderunread]" \
-					    [list ::hotmail::gotURL $msgurl] newemail
+					    [list ::hotmail::gotURL $msgurl] newemail email
 				}
 			}
 		

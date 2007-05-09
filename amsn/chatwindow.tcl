@@ -704,7 +704,7 @@ namespace eval ::ChatWindow {
 			if { [string first ${win_name} [focus]] != 0} {
 				if { ([::config::getKey notifymsg] == 1 && [::abook::getContactData $chatid notifymsg -1] != 0) ||
 				[::abook::getContactData $chatid notifymsg -1] == 1 } {
-					::amsn::notifyAdd "$msg" "::amsn::chatUser $chatid"
+					::amsn::notifyAdd "$msg" "::amsn::chatUser $chatid" "" message
 					#Regive focus on Mac OS X / TkAqua
 					if { [OnMac] } {
 						after 1000 "catch {focus -force $lastfocus}"

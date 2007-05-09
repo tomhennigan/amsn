@@ -888,6 +888,8 @@ namespace eval ::skin {
 		::skin::setPixmap notifyoffline notifyoffline.gif
 		::skin::setPixmap notifyplugins notifyplugins.gif
 		::skin::setPixmap notifystate notifystate.gif
+		::skin::setPixmap notifymsg notifymsg.gif
+		::skin::setPixmap notifyemail notifyemail.gif
 	
 		::skin::setPixmap blocked blocked.gif
 		::skin::setPixmap blocked_off blocked_off.gif
