@@ -6,7 +6,6 @@
 #
 
 namespace eval ::macabook {
-	
 	proc init { dir } {
 		# Register the plugin.
 		::plugins::RegisterPlugin "Address Book"
@@ -27,7 +26,7 @@ namespace eval ::macabook {
 		}
 		
 		# Register for our post event.
-		::plugins::RegisterEvent "Address Book" getDisplayNick parse_nick
+		::plugins::RegisterEvent "Address Book" parse_contact parse_nick
 	}
 
 	# The abook deinit proc.
@@ -35,27 +34,37 @@ namespace eval ::macabook {
 		unset ::macabook::cache
 	}
 
-	# This is called when the post event occurs.
 	proc parse_nick {event epvar} {
-		upvar 2 user_login user_login customnick customnick
+		upvar 2 $epvar evpar
+		upvar 2 $evpar(variable) nickArray
+		upvar 2 field field
+		variable user_login $evpar(login)
 		
-		if {[info exists ::macabook::cache($user_login)]} {
-			set customnick $::macabook::cache($user_login)
-		} else {
-			set user_id [addressbook search -persons -ids MSNInstant == [list {} $user_login]]
-			if {$user_id == [list]} {
-				set user_id [addressbook search -persons -ids Email == [list {} $user_login]]
-			}
-			
-			if {$user_id == [list]} { return; }
-			
-			set record [addressbook record [lindex $user_id 0]]
-			set first ""
-			set last ""
-			catch { set first [keylget record First] }
-			catch { set last [keylget record Last] }
-			set customnick "$first $last"
-			set ::macabook::cache($user_login) "$first $last"
+		if {$field != "nick"} { return }
+		
+		if {![info exists ::macabook::cache($user_login)]} {
+			set name [getNickFromMSNHandle $user_login]
+			set ::macabook::cache($user_login) "[lindex $name 0] [lindex $name 1]"
 		}
+		
+		if {$::macabook::cache($user_login) != "" && $::macabook::cache($user_login) != " "} {
+			set nickArray [list [list "text" $::macabook::cache($user_login)]]
+		}
+	}
+
+	proc getNickFromMSNHandle {email} {
+		set user_id [addressbook search -persons -ids MSNInstant == [list {} $email]]
+		if {$user_id == [list]} {
+			set user_id [addressbook search -persons -ids Email == [list {} $email]]
+		}
+		
+		if {$user_id == [list]} { return ""; }
+			
+		set record [addressbook record [lindex $user_id 0]]
+		set first ""
+		set last ""
+		catch { set first [keylget record First] }
+		catch { set last [keylget record Last] }
+		return [list $first $last]
 	}
 }
