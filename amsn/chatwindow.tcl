@@ -1746,9 +1746,12 @@ namespace eval ::ChatWindow {
 	}
 
 	proc SetSashPos { paned input output } {
+		# We need to get the 'old' bottom size BEFORE doing the [update idletasks]
+		# We need to do the [update idletasks] for 'some' reason, probably because placing the sash inside of an event handler 
+		# of a sash change will scew up everything... and I think Tk8.5 crashes if we don't...
+		set bottomsize [winfo height $input]
 		update idletasks
 
-		set bottomsize [winfo height $input]
 		if { $bottomsize < [$paned panecget $input -minsize] } {
 			set bottomsize [$paned panecget $input -minsize]
 		}
