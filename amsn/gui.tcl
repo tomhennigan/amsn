@@ -3600,6 +3600,8 @@ proc cmsn_draw_main {} {
 	} else {
 		#Plugins log
 		bind . <Alt-p> ::pluginslog::toggle
+		#Preferences
+		bind . <$modifier-p> Preferences
 		#Boss mode
 		bind . <$modifier-Alt-space> BossMode
 		# Show/hide menu binding with toggle == 1
