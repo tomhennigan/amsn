@@ -3,14 +3,15 @@ artistsong Artista-Canción
 artsend Enviar la portada del álbum actual
 changepic Cambiar la imagen mostrada a la portada del álbum, si es posible
 choose_order Elige orden para el nombre de la canción y artista
-music_mpd_ip Dirección IP de tu servidor MPD
-music_mpd_port Puerto de tu servidor MPD
-music_mpd_password Contraseña de tu servidor MPD
+lasterror Último error
 musicaddsongtonick Añadir nombre de canción al apodo
 musicaddsongtopsm Añadir nombre de canción al Mensaje Personal
 musicballontext Clic aquí para mostrar/ocultar la canción en tu apodo
 musiccurrent Mostrar la canción actual
 musicerr No se esta reproduciendo nada, o el plugin no puede obtener la música reproducida.
+music_mpd_ip Dirección IP de tu servidor MPD
+music_mpd_password Contraseña de tu servidor MPD
+music_mpd_port Puerto de tu servidor MPD
 musicnickname Apodo
 musicoserr Su sistema operativo ($1) an no es soportado por el plugin Music
 musicplayer Elige tu reproductor preferido
@@ -19,6 +20,7 @@ musicseparator Símbolo entre el apodo y la canción
 musicstopdefault Reproductor parado
 musicstopmsg Mensaje cuando el reproductor está parado
 musictimeverify Comprobar nueva canción cada ? segundos
+noerror Sin error
 playing Reproduciendo : $1
 separator Separador
 songartist Canción-Artista
