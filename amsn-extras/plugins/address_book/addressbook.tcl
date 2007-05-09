@@ -37,6 +37,7 @@ namespace eval ::macabook {
 	proc parse_nick {event epvar} {
 		upvar 2 $epvar evpar
 		upvar 2 $evpar(variable) nickArray
+		
 		upvar 2 field field
 		variable user_login $evpar(login)
 		
@@ -48,7 +49,12 @@ namespace eval ::macabook {
 		}
 		
 		if {$::macabook::cache($user_login) != "" && $::macabook::cache($user_login) != " "} {
-			set nickArray [list [list "text" $::macabook::cache($user_login)]]
+			# Put this on first so we get:		" ($NICK"
+			set nickArray [linsert $nickArray 0 [list "text" " ("]]
+			# Now the name so we get:			"FIRST LAST ($NICK"
+			set nickArray [linsert $nickArray 0 [list "text" $::macabook::cache($user_login)]]
+			# Now the close brace so we get:	"FIRST LAST ($NICK)"
+			set nickArray [linsert $nickArray end [list "text" ")"]]
 		}
 	}
 
