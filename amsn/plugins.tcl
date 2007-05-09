@@ -1899,7 +1899,7 @@ namespace eval ::plugins {
 			}
 
 			set fid [open $filename w]
-			fconfigure $fid -encoding binary
+			fconfigure $fid -encoding binary -translation {binary binary}
 			puts -nonewline $fid "$content"
 			close $fid
 			::http::cleanup $token
