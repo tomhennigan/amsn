@@ -191,6 +191,7 @@ closingdocks Botón de cerrar iconifica la ventana
 color Color
 command Comando
 commandstatus Ejecutar comando
+configureaudiovideo Configurar ajustes de audio y vídeo
 configure Configurar
 configuremic Configurando tu micrófono
 configuringaudio Configurando los ajustes de audio
@@ -401,6 +402,7 @@ handle Apodo
 havenomic No tengo micrófono
 help Ayuda
 helpcontents Temas de ayuda
+hidebuttonbar Ocultar la barra de botones
 hidedisplaypic Ocultar imagen para mostrar
 hidemenumessage ¿Seguro que deseas ocultar los menús?\nPuedes recuperarlos en cualquier momento usando la combinación de mostrar/ocultar menús Ctrl+M.
 hidemenu Mostrar/Ocultar menús
