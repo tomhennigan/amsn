@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abort Katkesta
 about Info
 aboutamsn Alvaro messengerist
 accept Nõustu
@@ -56,7 +57,7 @@ assistantawarn Sa ei saa heli salvestada ega sõpradega rääkida. Sa võid leida la
 assistantfinetunepic Oma veebikaamera pidikvaliteedi muutmiseks muuda järgmisi seadeid
 assistantselectcam Vali nimekirjast oma kaamera
 assistantstarting Abistaja käivitamine
-assistantwelcome See abimees aitab sul seadistada heli ja video seadmeid AMSNi jaoks.\n\nKontrollitakse kas vajalikud moodulid on olemas ja laetud, ning antakse võimalus seadistada seadme kanalit, ning pildi omadusi.
+assistantwelcome See abimees aitab sul seadistada heli ja video seadmeid aMSNi jaoks.\n\nKontrollitakse kas vajalikud moodulid on olemas ja laetud, ning antakse võimalus seadistada seadme kanalit, ning pildi omadusi.
 audioconfigured Valisid järgnevad heliseaded:\n Väljundseade: $1\nSisendseade: $2
 audiovideo Heli ja pildi seaded
 author Autor
@@ -65,7 +66,7 @@ autoacceptft Automaatselt nõustu faili laadimisega
 autoaway Näita mind "Eemal", kui pole tegevust
 autocheckver Käivitamisel kontrolli kas saadaval on uuem versioon
 autoconnect Ühenda aMSN'i käivitumisel
-autoconnect2 AMSN käivitamisel automaatne sisenemine
+autoconnect2 aMSN käivitamisel automaatne sisenemine
 autodetectip Leia IP aadress automaatselt
 autohotmaillog Automaatne Hotmaili sisselogimine
 autoidle Automaatne "Pole tegevust"
@@ -185,6 +186,7 @@ closed Vestlus $1'ga suleti passiivsuse pärast
 closelabel Kui sa vajutad kaartidega aknas sulgemisnupule
 closeonly Sulge ainult aktiivne kaart 
 closeordock Selle akna sulgemine lõpetab aMSN töö. Võibolla soovid sa selle akna lihtsalt süsteemisalve vähendada ? \n\n Soovid kindlasti aMSNist väljuda ?
+closeothers Sulge kõik teised kaardid
 closingdocks Sulgemisnupp minimeerib akna
 color värvid
 command Käsk
@@ -290,6 +292,7 @@ dockkde KDE dokkimine
 done valmis
 dontdownload Ära salvesta TLSi, ma paigaldan selle ise
 dontshow Ära näita
+dontshowdp Ära luba sellel kasutajal oma kuvapilti alla laadida
 download Laadi alla
 downloadingtls Salvesta TLS moodul saidist:\n $1
 edit Redigeerimine 
@@ -412,7 +415,7 @@ ident Tuvastan
 identity Isiksus
 ignore Ignoreeri
 ignorecontact Ignoreeri selle kontakti juttu
-ignoreerrors Ignoreeri AMSNi veateateid kuni sessiooni lõpuni
+ignoreerrors Ignoreeri aMSNi veateateid kuni sessiooni lõpuni
 imagefiles Pildifailid
 inbox Postkast
 insertsmiley Sisesta emotikoon
@@ -461,7 +464,7 @@ linprivate PRIVAATNE
 listening kuulan
 listeningon Kuulan porti $1
 listsmileys Emotsioonide nimekiri
-listsmileys2 Näita AMSN'i peamises sõbranimekirjas emotsioone
+listsmileys2 Näita aMSN'i peamises sõbranimekirjas emotsioone
 ljoinedconf $1 liitus konverentsiga
 lleftconf $1 lahkus konverentsist
 load Lae
@@ -483,7 +486,7 @@ logout Logi välja
 logsbydate Sorteeri logid kuupäeva järgi (Ajaloo näitamine laeb palju kiiremini)
 logschats Logib vestlusi
 logsin logis sisse
-logsmileys Näitab AMSN'i Ajaloo akendes emotsioone
+logsmileys Näitab aMSN'i Ajaloo akendes emotsioone
 logsout logis välja
 logwebcam Salvesta kõik veebikaamera vestlused pärastiseks vaatamiseks aMSN ajalukku
 longnick Sinu nimi on pikem kui 130 märki. Ametlik MSN protokoll ei toeta nii pikki nimesid. Kindel, et tahad nime selliseks muuta ?
@@ -513,7 +516,7 @@ msg Sõnum
 msgflicker Uue sõnumi saabumisel passiivsesse aknasse vilguta akna tiitlit
 msgmaxmin Uue sõnumi saabumisel peab see olema:
 msgmode Vali mitme sõnumiakna käsitlus:
-msn AMSN
+msn aMSN
 msnstatus MSN võrgu olek
 msnstyle MSNi stiilis vestlus
 mustrestart Muudatuste rakendamiseks pead programmi uuesti käivitama.
@@ -549,7 +552,7 @@ nick Hüüdnimi
 no Ei
 noactivity Pole tegevust
 nocacheddps Selle kasutaja kohta pole puhvris ühtegi pilti
-nocamwarn Veebikaamerat ei leitud või seda kasutab mõni muu programm (mis tähendab, et AMSNil pole võimalik seda kasutada). Probleemi lahendamiseks leiad abi meie Vikist:
+nocamwarn Veebikaamerat ei leitud või seda kasutab mõni muu programm (mis tähendab, et aMSNil pole võimalik seda kasutada). Probleemi lahendamiseks leiad abi meie Vikist:
 nodataavailable $1 jaoks andmed puuduvad
 nodevices Sul pole ühtegi seadet installeeritud
 noftpreview Pilti saates ära saada selle eelvaadet
@@ -563,7 +566,7 @@ nonewver Pole uuemaid versioone allalaadimiseks saadaval.
 nopic Pilt puudub
 noprofileexists Hetkel ei ole ühtegi profiili, \nsa pead tegema ühe, kui tahad kasutada profiilidega logimist. \nKasuta Lisa uus profiil nuppu, et luua uus profiil
 normal Normaalne
-noskins Ei leidnud välimuste kataloogist vaikevälimust. Ei saa AMSN käivitada
+noskins Ei leidnud välimuste kataloogist vaikevälimust. Ei saa aMSN käivitada
 nosound Ei tuvastatud ühtegi heli, tee kindlaks kas su mikrofon on õieti ühendatud
 nosound_or_hold Heli ei tuvastatud. Heliklipi saatmiseks pead sa rääkimise ajal nuppu all hoidma ja saatmiseks selle vabastama
 nosystemtray Süsteemisalv puudub
@@ -638,7 +641,7 @@ prefemotic Emotsioonid
 preferences Eelistused 
 preffont Minu sõnumi tekst
 preffont2 Muuda, kuidas teised vestlustes minu teksti näevad
-preffont3 Muuda AMSN'i keskkonna fonti ja suurust
+preffont3 Muuda aMSN'i keskkonna fonti ja suurust
 preffont4 Muuda viisi kuidas ma näen teiste poolt kirjutatud teksti
 prefft Failiedastus, peer-to-peer ja NAT seaded
 preflibs Library kataloogid
@@ -653,7 +656,7 @@ prefprivacy Kasutaja lubamise/Blokeerimise nimekiri
 prefprivacy2 Kasutaja kontaktid/Vastupidine nimekiri
 prefprofile Minu avalik profiil
 prefprofile2 Loo või Muuda oma avalikku profiili (teistele nähtav kirjeldus)
-prefprofile3 AMSN'i kasutajaseadete profiilid
+prefprofile3 aMSN'i kasutajaseadete profiilid
 prefproxy Minu proxy seaded
 prefremote Kaugühenduse seaded
 prefsession Minu sisenemine ja olek
@@ -707,6 +710,7 @@ reporting teatan
 required_version Plugini mahalaadimine ebaõnnestus. Vajab vähemalt aMSN versiooni $1
 resetincomingfont Lähtesta font (kasuta teate saatja fonti)
 restartforskin Märkus: Selle välimuse korralikuks nägemiseks pead sa aMSN taaskäivitama.
+retry Proovi uuesti
 reversed Vastupidine
 reverselist Vastupidine nimekiri (RL):
 rightback Kohe tagasi
@@ -799,7 +803,7 @@ sslwarning HOIATUS!! SSLi blokeerides ei krüpteerita enam teie paroole ja need s
 startoffline Stardi lahtiühendatuna
 startoffline2 Logi sisse vaikselt olekuga Offline
 startonboot Käivita aMSN windowsi käivitumisel
-startontray Käivita AMSN ainult süsteemisalves
+startontray Käivita aMSN ainult süsteemisalves
 state Ma soovin ilmuda kui
 stateautomsg Automaatvastus mida saata
 statechange olek muudetud:
@@ -829,7 +833,7 @@ tabbed Kaartidena
 tabbedglobal Kõik inimesed on ühes kaartidega aknas
 tabbedgroups Samas grupis olevad inimesed ühes kaartidega aknas
 tabtitlenick Kaartidel näidatakse e-posti aadressi asemel hüüdnime
-temp_state Ära salvesta (Ajutine seisund mida ei salvestata AMSNi sulgemisel)
+temp_state Ära salvesta (Ajutine seisund mida ei salvestata aMSNi sulgemisel)
 textsize Teksti suurus
 thismonth Käesoleval kuul
 throughserver Läbi serveri
@@ -837,10 +841,10 @@ timeremaining Aega on jäänud
 timestamp kellaaeg
 timestamps Näita vestluse aknas ajatempleid
 title Al's Messenger
-tkerror TK töös ilmnes viga mis tähendab, et AMSN koodis on bug. Palun teata sellest saates aadressile amsn-bugs@lists.sf.net fail $1
-tkerror1 TK töös ilmnes viga mis tähendab, et AMSN koodis on bug. Palun teata sellest vajutades Teata nupule. Sa võid vajutada Detailid nupule, et vaadata täpsemat infot või Olgu nupule, et AMSN edasi kasutada.
+tkerror TK töös ilmnes viga mis tähendab, et aMSN koodis on bug. Palun teata sellest saates aadressile amsn-bugs@lists.sf.net fail $1
+tkerror1 TK töös ilmnes viga mis tähendab, et aMSN koodis on bug. Palun teata sellest vajutades Teata nupule. Sa võid vajutada Detailid nupule, et vaadata täpsemat infot või Olgu nupule, et aMSN edasi kasutada.
 tlsdowncompleted Fail nimega $1 salvestati kataloogi $2. Sa pead selle lahti pakkima, kompileerima (juhul kui tõmbasid lähtekoodi) ja paigaldama $3 kataloogi.
-tlsexplain Otsitakse tcl TLS mooduli kataloogi. Kui AMSN ei suuda seda leida siis palun määra see käsitsi.\n(Vajalik SSLi kaudu autentimiseks).
+tlsexplain Otsitakse tcl TLS mooduli kataloogi. Kui aMSN ei suuda seda leida siis palun määra see käsitsi.\n(Vajalik SSLi kaudu autentimiseks).
 tlsinstall TLS mooduli installeerimise abiline
 tlsinstallexp aMSN kasutab nüüd MSNP9-t, mis vajab tööks krüptitud\nühendust kasutades SSL-i. Et kasutada SSL-i peab aMSN installeerima mooduli TLS,\nmis on sinu süsteemist puudu. See võlur aitab sul alla laadida ja installeerida TLS-i.\nPalun vali oma süsteemi tüüp, et me saaks automaatselt alla laadida vajalikud TLS failid.
 tlsinstcompleted TLS mooduli installeerimine õnnestus - sa peaksid nüüd saama kasutada MSNP9-t. Kui see ei tööta, siis tõenäoliselt valisid sa vale mooduli või sinu süsteemi jaoks ei ole kompileeritud moodulit.
