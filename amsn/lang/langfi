@@ -1,7 +1,6 @@
 amsn_lang_version 2
 abort Keskeytä
-aboutamsn Tietoja Alvaro's Messengeristä
-about Tietoja
+about Tietoja Alvaro's Messengeristä
 acceptfile Hyväksy tiedosto $1, koko $2? Tallennettu $3
 accept Hyväksy
 account Tunnus
@@ -19,7 +18,7 @@ addtoo Lisää henkilö yhteystietoluettelooni
 admincontacts Hallitse yhteystietoja
 admingroups Hallitse ryhmiä
 advanced Erikois
-advancedprefs Erikoisoptioiden asetukset
+advancedprefs Erikoisvalintojen asetukset
 adverts Mainokset
 agotinvitation Äänikutsu käyttäjältä $1
 alarmonconnect Hälytä, kun käyttäjä kirjautuu sisään
@@ -154,7 +153,7 @@ choosebgcolor Valitse taustaväri
 choosechannel Ole hyvä ja valitse kanava
 choosecontact Valitse käyttäjä:
 choosedevice Ole hyvä ja valitse laite
-choosefontcolor Valitse fontin väri
+choosefontcolor Valitse kirjaimisen väri
 chooseinputdev Valitse sisääntulo laite
 choosemixerdev Valitse mikserisi
 chooseoutputdev Valitse ulostulo laite
@@ -162,16 +161,16 @@ chooseskin Valitse käytettävä olemus
 ch_to_state Vaihda uuteen tilaan
 clearlog Tyhjennä loki
 clearlog2 Tyhjennä historia kaikista kontakteista
-clearlog3 Tyhjennä kaikki logit
+clearlog3 Tyhjennä kaikki lokit
 clear Tyhjennä
-clearwebcamlogs Tyhjennä kaikki webcamin logit
+clearwebcamlogs Tyhjennä kaikki webcamin lokit
 clickhere Napsauta tästä
 clicktoadd Napsauta 'Lisää'-nappia lisätäksesi uuden tiedon
 clicktologin Napsauta tästä kirjautuaksesi
 clientcaps Lähetä x-clientcaps paketti muille clienteille
 clientname Clientin nimi
-closeall Sulje kaikki tabit tässä ikkunassa?
-closealltabs Sulje kaikki tabit
+closeall Sulje kaikki välilehdet tässä ikkunassa?
+closealltabs Sulje kaikki välilehdet
 closed Keskustelu $1n kanssa suljettiin, koska mitään keskustelua ei oltu käyty moneen minuuttiin.
 closelabel Kun painat sulje-nappia välilehdellisessä keskuteluikkunassa
 closeonly Sulje vain nykyinen välilehti
@@ -209,7 +208,7 @@ contact Yhteystieto
 continuously Jatkuvasti
 contrast Kontrasti
 conversationwith $1 henkilöä keskustelussa
-convertexplain Polku CONVERT-tiedostoon, ImageMagick-ohjelmasta (tarvitaan Kuvien Näyttämiseen).\n Jätä tyhjäksi jos CONVERT on polussa
+convertexplain Polku CONVERT-tiedostoon, ImageMagick-ohjelmasta (tarvitaan Kuvien näyttämiseen).\n Jätä tyhjäksi jos CONVERT on polussa
 copy Kopioi
 copytoclipboard Kopioi $1 leikepöydälle
 copytogroup Kopio ryhmään
@@ -281,7 +280,7 @@ docking Docking
 dockingoff Docking pois
 dockkde KDE Dock
 done Valmis
-dontdownload Älä lataa TLS:ää, installoin sen itse
+dontdownload Älä lataa TLS:ää, asennan sen itse
 dontshow Älä näytä
 downloadingtls Ladataan TLS-moduuli paikasta:\n $1
 download Lataa
@@ -321,7 +320,7 @@ faileddelete Poistaminen epäonnistui
 failed Epäonnistui
 faq UKK (Usein Kysytyt Kysymykset)
 filedoesnotexist Tiedostoa ei ole
-filemanexample ( \$location tarkoittaa hakemistoa ) Esim: konqueror (KDE), nautilus (GNOME) \$location
+filemanexample ( \$location tarkoittaa hakemistoa ) (KDE: konqueror \$location GNOME: nautilus \$location)
 fileman Tiedostonhallintaohjelma
 filename Tiedoston nimi
 filenotwritable Tätä tiedostoa ei voida poistaa
@@ -445,7 +444,7 @@ leaveblankforhotmail Jätä tyhjäksi Hotmail web-palvelua varten
 leavejoinsinchat Näytä "poistumiset/liittymiset keskusteluun" ilmoitukset keskustelun sisällä
 leaves $1 poistui keskustelusta
 lenteredconf $1 on liittynyt keskusteluun $2
-lineflushlog Puhdista logi-tiedoston jokaisen rivin jälkeen
+lineflushlog Puhdista loki-tiedoston jokaisen rivin jälkeen
 linprivate Yksityinen keskustelu
 listening Kuunnellaan
 listeningon Kuuntelee porttia $1
@@ -469,7 +468,7 @@ loging Ylöskirjaaminen
 login Kirjaudu sisälle
 logolder Kirjaa ylös vain keskustelut jotka tapahtuimat lähi
 logout Kirjaudu ulos
-logsbydate Lajittele logit päivämäärän mukaan (Historian näyttö latautuu paljon nopeammin)
+logsbydate Lajittele lokit päivämäärän mukaan (Historian näyttö latautuu paljon nopeammin)
 logschats Kirjaa ylös keskustelut
 logsin on juuri kirjautunut sisään
 logsmileys Näytä Emootioikonit ja Hymiöt aMSN:n historiassa
@@ -558,7 +557,7 @@ nosystemtray Järjestelmäpalkki ei saatavilla
 note Huomautus
 notificationserver MSN Viestintä Palvelin
 notify muistuta
-notifyoffset Ilmoitus popuppien tasapainotettu paikka
+notifyoffset Ilmoitus ponnahdusikkunoiden tasapainotettu paikka
 notifytimeout Millisekuntien määrä ennen kuin ilmoitus häviää
 notifytyping Lähetä käyttäjille ilmoituksia kun kirjoitetaan
 notifywin Muistutus-ikkuna
@@ -569,7 +568,7 @@ notify2 Näytä ilmoitus kun uusi viesti saapuu
 notify3 Näytä ilmoitus kun uusi sähköposti saapuu
 notify4 Näytä ilmoitus kun uusi sähköposti saapuu muihin kansioihin
 notinlist Et ole hänen käyttäjälistassa
-notls MSN-protkollo 9 vaatuu TLS-paketin. Tämä paketti ei ole näytä olevan asennettuna. Jos kuitenkin on asennettuna, polku tähän kirjastoon pitää määritellä Asetukset-ikkunassa. (esim: /opt/tls/lib). \n \n Se on myös mahdollista ladata osoitteesta http://tls.sf.net.
+notls MSN-protkolla 9 vaatii TLS-paketin. Tämä paketti ei ole näytä olevan asennettuna. Jos kuitenkin on asennettuna, polku tähän kirjastoon pitää määritellä Asetukset-ikkunassa. (esim: /opt/tls/lib). \n \n Se on myös mahdollista ladata osoitteesta http://tls.sf.net.
 nottabbed Tavallinen ikkuna ilman välilehtiä
 nousersinsession Ei käyttäjiä
 nouserspecified Käyttäjää ei ole määritelty
@@ -633,7 +632,7 @@ preflogevent Tapahtumahistoriani
 preflog1 Historiani ja ylöskirjaamis valinnat
 preflook aMSN Messengerini Ulkonäkö
 prefmsging Keskustelemisen Rajapinta
-prefname MSN Messenger Nimi/LempiNimi
+prefname Nimi/Lempinimi
 prefphone Puhelinnumeroni
 prefphone2 Kirjoita puhelinnumerot joiden haluat muiden ihmisten \n Sallitutlistassasi näkevän
 prefprivacy Käyttäjän Salli/Estä listat
@@ -673,8 +672,8 @@ readonlymsgbox Tiedostonsiirto on peruttu, koska vastaanottohakemisto on pelkäst
 readonlywarn VAROITUS: Tiedosto ei luultavasti tallennu oikein, koska "Tallennetut tiedostot" hakemisto näyttää olevan kirjoitussuojattu. Ole hyvä ja varmista oikeudet kohdehakemistossa ($1) ennenkuin tiedostonsiirtoa.
 receivedbytes Vastaanotettu $1 / $2 tavusta
 receiveddir Vastaanotettujen tiedostojen kansio
-receivedoimread Sinulla on $1 uusi/uutta Offline viestiä. Haluatko lukea sen/ne?
-receivedvoice Äänileike Vastaanotettu
+receivedoimread Sinulle on yksi tai useampi uusi Offline viesti. Haluato lukea ne?
+receivedvoice Äänileike vastaanotettu
 receivefile Vastaanota tiedosto
 recentmsg Estä keskusteluikkunan sulkeminen jos viesti on juuri saapunut
 reconnecting Yhdistetään uudelleen palvelimeen
@@ -761,11 +760,13 @@ smileintro2 Ole hyvä ja muuta kenttiä kustoimoidaksesi hymiön (lue FAQ)
 smiletoobig Hymiö jonka valitsit on suurempi kuin normaali koko. Haluatko muuttaa sen koon ?
 snackfailed Snack:n lataaminen epäonnistui, palataan oletukseen
 snackneeded Snack kirjasto tarvitaan tämän toiminnon käyttämiseen. Vähintään versio 2.2.9 tarvitaan.
-snapshot Otakuva
+snapshot Nappaa kuva
 sngdblclick Paina kerran avataksesi uuden kesksuteluikkunan
 sortcontactgroup Lajittele Yhteystiedot Ryhmän mukaan
 sortcontacthybrid Lajittele Yhteystiedot Hybrid-tilassa
+sortcontactsasc Lajittele Yhteystiedot Nousevasti
 sortcontactsby Lajittele yhteystiedot
+sortcontactsdesc Lajittele Yhteystiedot Laskevasti
 sortcontactstatus Lajittele Yhteystiedot Tilan mukaan
 sortgroupsasc Lajittele Ryhmät Laskevasti
 sortgroupsdesc Lajittele Ryhmät Nousevasti
