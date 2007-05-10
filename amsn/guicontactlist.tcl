@@ -1610,7 +1610,7 @@ namespace eval ::guiContactList {
 		###Draw PSM###
 		#------------#
 
-		if {$psm != "" && [::config::getKey emailsincontactlist] == 0 } {
+		if {[::abook::removeStyles $psm] != "" && [::config::getKey emailsincontactlist] == 0 } {
 
 			lappend stylestring [list "default" [::skin::getKey buddypsmcolor $nickcolour] \
 				[::skin::getFont buddypsmfont "sitalf"]]
