@@ -1,20 +1,21 @@
 amsn_lang_version 2
-aboutamsn Over Alvaro's Messenger
+abort Afbreken
 about Over aMSN
+aboutamsn Over Alvaro's Messenger
 accept Accepteren
 acceptfile Wil je het bestand $1 (omvang: $2) accepteren? Het bestand zal worden opgeslagen in $3
 account Account
 actions Acties
 activeautoupdate Automatisch bijwerken inschakelen
+add Toevoegen
 addacontact Contact toevoegen
 addedyou Je bent toegevoegd aan de contactenlijst van $1 ($2)
-addprofiledesc Geef de aanmeldingsnaam waarvoor je een nieuw profiel wilt aanmaken\nProfielen maken het mogelijk om verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kun je geen wachtwoorden onthouden, geen gesprekken opslaan in logboeken en geen alarmen instellen
 addprofile Een profiel toevoegen
+addprofiledesc Geef de aanmeldingsnaam waarvoor je een nieuw profiel wilt aanmaken\nProfielen maken het mogelijk om verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kun je geen wachtwoorden onthouden, geen gesprekken opslaan in logboeken en geen alarmen instellen
 addstate Een status toevoegen
-addtocontacts Toevoegen aan contactenlijst
-add Toevoegen
-addtoo Voeg deze persoon toe als nieuw contact
 addto Toevoegen aan $1
+addtocontacts Toevoegen aan contactenlijst
+addtoo Voeg deze persoon toe als nieuw contact
 admincontacts Contacten beheren
 admingroups Groepen beheren
 advanced Geavanceerd
@@ -50,13 +51,22 @@ askeachtime Altijd vragen wat er moet gebeuren
 asksendingyourwebcam om hem/haar uit te nodigen om jou webcambeeld te bekijken
 asksendoim Wil je dit bericht verzenden als offline bericht?
 askwebcam Vraag deze gebruiker of je zijn/haar webcam mag bekijken
+assistantainput Kies je invoer-apparaat en probeer er geluid mee op te nemen.
+assistantaoutput Kies je uitvoer-apparaat en probeer dit geluidsbestand af te spelen om het te testen.
+assistantawarn Je zult geen geluid kunnen opnemen en niet met je vrienden kunnen praten. Informatie vinden over het installeren van deze extensie kun je wellicht vinden op onze Wiki:
+assistantfinetunepic Pas de volgende instellingen aan om de beeldkwaliteit van je webcam te verbeteren
+assistantselectcam Kies je webcam uit de lijst
+assistantstarting De Assistent wordt gestart
+assistantwelcome Deze Assistent zal je begeleiden bij het instellen van beel en geluid voor aMSN.\n\nDe Assistent controleert of de vereiste extensies op het systeem aanwezig en in het geheugen geladen zijn. Tenslotte kun je het video-apparaat en -kanaal kiezen en de beeld- en resolutie-instellingen aanpassen.
+audioconfigured Je hebt de volgende instellingen gekozen voor Geluid:\n Uitvoerapparaat: $1\nInvoerapparaat: $2
+audiovideo Instellingen voor Beeld en Geluid
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
 autoacceptft Automatisch bestandsoverdrachten accepteren
 autoaway Status op "Afwezig" zetten als ik niet actief ben gedurende
 autocheckver Controleer automatisch op nieuwere versies bij het opstarten
-autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
 autoconnect Automatisch aanmelden
+autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
 autodetectip Detecteer het IP adres automatisch
 autohotmaillog Automatisch aanmelden bij Hotmail
 autoidle Automatisch "Geen Activiteit"
@@ -73,6 +83,7 @@ avoidseen Voorkom dat deze persoon kan zien dat ik online ben en contact met mij
 away Afwezig
 awaymsg1 Altijd om een afwezigheidsbericht vragen als ik mijn status verander in Afwezig/Ben zo terug/Bezet
 awaymsg2 Vraag niets, maar gebruik altijd het onderstaande afwezigheidsbericht
+back Vorige
 baduserpass Gebruikersnaam of wachtwoord onjuist
 badwebcam Kan het webcambeeld niet weergeven. Controleer of je webcam juist is aangesloten en geïnstalleerd.
 bgcolor Verander de achtergrondkleur van aMSN
@@ -87,19 +98,23 @@ blockinter3 gebruikers gedurende
 blockinter4 seconden
 blocklist [BL] Geblokkeerd
 blockmessage Deze mensen zijn online en hebben je geblokkeerd
+blocknotifications Geef geen meldingsvensters weer
+blocksounds Speel geen geluid af
 blockusers Controleer gelijktijdig
-bouncedock Laat aMSN's icoontje in het systeemvak op en neer gaan wanneer er een bericht is ontvangen
+bouncedock Laat aMSN's pictogram in het dock stuiteren wanneer er een bericht is ontvangen
 brightness Helderheid
 broughtby Aangeboden door de volgende ontwikkelaars
-browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
-browser Webbrowser
 browse Verkennen
+browser Webbrowser
+browserexample ( \$url wordt vervangen door de URL ). Vb: mozilla \$url
 bugerror Er is een fout opgetreden bij het verbinden met de gegevensbank voor bugrapportages. Controleer alsjeblieft je internet verbinding.
 bugnocomment Wilt u dit foutrapport echt verzenden zonder commentaar? Houd er rekening mee dat het voor ons makkelijker is om de fout te reproduceren en te repareren wanneer we een beschrijving hebben van de situatie waarin deze optrad.
 busy Bezig
 cachedpics $1 opgeslagen plaatjes
+cachedpicsfor Opgeslagen schermafbeeldingen van contact
 cagreement Vertrouwelijkheids verklaring
 cancel Annuleren
+cancelled Geannuleerd
 cannotdeleteprofile Het profiel kan niet verwijderd worden. Het wordt mogelijk gebruikt door een andere aMSN sessie
 cantexec Kan het programma $1 niet starten, controleer je instellingen
 cantloadonlineversion Kan de bijgewerkte talen-lijst niet ophalen van het Internet
@@ -107,9 +122,11 @@ cantremoveothers De groep "Overige contacten" kan niet verwijderd worden
 captureextloaded Programmauitbreiding voor webcam ($1) is geladen.
 captureextnotloaded Programmauitbreiding voor webcam ($1) is niet geladen omdat deze nog niet is gecompileerd.
 captureproperties Webcaminstellingen
+capturewarn Je zult geen webcam kunnen zenden. Als je geen webcam hebt, is dat normaal, anders kun je informatie vinden over het installeren van deze extensie op onze Wiki:
 casesensitive Gebruik hoofdlettergevoelige triggers
 cfgalarm Alarminstellingen
 cfgalarmall Algemene alarminstellingen
+change Wijzigen
 change_account_info Accountinformatie wijzigen
 changecustomstate Verander status in
 changedisplaypic Schermafbeelding wijzigen
@@ -121,18 +138,21 @@ changesize Grootte wijzigen
 changestate $1 heeft de status veranderd in $2
 changestatus Status wijzigen
 changevideosettings Webcaminstellingen aanpassen
-change Wijzigen
 channels Kanalen
 charscounter Getypte tekens-teller in gespreksvenster
-chatack Gesprek aanvaarden van
 chat Gesprek
+chatack Gesprek aanvaarden van
 chatmaxmin Weergave gespreksvenster wanneer ik word aangesproken
 chatreq Indienen van verzoek voor gesprek
-chatsmileys2 Emoticons in berichten weergeven
 chatsmileys Emoticons weergeven
+chatsmileys2 Emoticons in berichten weergeven
 checkblocking Blijven controleren of gebruikers je blokkeren
 checkemail Het aantal berichten in je Postvak IN weergeven in de contactenlijst
 checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Voorkeuren > Geavanceerd om dit te wijzigen.
+checkingaudio Bezig met controleren of de extensie voor geluid (Snack) geladen is...
+checkingcam Bezig met controleren of er een webcam is aangesloten...
+checkingcapext Bezig met controleren of extensie '$1' geladen is...
+checkingextensions Controleren of de vereiste extensies voor video aanwezig zijn
 checkingver Bezig te zoeken naar een nieuwere versie van aMSN
 checkonfln Controleer of een contact je heeft geblokkeerd wanneer hij offline gaat
 checkopenfilecommand Controleer het 'commando voor bestand openen' in het venster 'Voorkeuren'
@@ -144,30 +164,37 @@ choosechannel Kies een kanaal
 choosecontact Kies een contact uit de lijst
 choosedevice Kies een apparaat
 choosefontcolor Tekstkleur
+chooseinputdev Kies je invoerapparaat
+choosemixerdev Kies je mixer
+chooseoutputdev Kies je uitvoerapparaat
 chooseskin Kies de skin die je wilt gebruiken
 ch_to_state Activeer nieuwe status
+clear Wissen
+clearlog Logboek legen
 clearlog2 Verwijder de geschiedenis voor al je contacten
 clearlog3 Logboeken wissen
-clearlog Logboek legen
 clearwebcamlogs Webcamsessies wissen
-clear Wissen
 clickhere Klik hier
 clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
 clientcaps Stuur x-clientcaps pakketje naar andere clients
 clientname Client naam
+close Sluiten
 closeall Alle tabbladen in dit venster sluiten?
 closealltabs altijd alle tabbladen sluiten
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closelabel Bij het klikken op de sluitknop van een venster met tabbladen
 closeonly alleen het zichtbare tabblad sluiten
 closeordock Als je de contactenlijst sluit, wordt aMSN afgesloten. Wellicht wilde je enkel het venster sluiten en aMSN actief houden in het systeemvak.\n\nWil je aMSN werkelijk afsluiten?
-close Sluiten
+closeothers Alle andere tabbladen sluiten
 closingdocks Minimaliseren i.p.v. sluiten
 color Kleur
 command Commando
 commandstatus Commandoregel uitvoeren
 configure Configureren
+configuremic Microfoon wordt geconfigureerd
+configuringaudio Geluid wordt geconfigureerd
+confirm Weet je het zeker?
 confirmbl Weet je zeker dat je deze contact wilt blokkeren?
 confirmdelete Weet je zeker dat je $1 wilt verwijderen?
 confirmdg Weet je zeker dat je deze groep wilt verwijderen?
@@ -175,15 +202,16 @@ confirmdu Weet je zeker dat je deze gebruiker wilt verwijderen?
 confirmeg Weet je zeker dat je deze groep leeg wilt maken?
 confirmpurge Alle opgeslagen schermafbeeldingen van je contacten zullen verwijderd worden. Wil je dit echt?
 confirmrfl weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
-confirm Weet je het zeker?
+congrats Gefeliciteerd
 connected Je bent nu verbonden
 connectedwith Aangemeld als $1
 connecterror Fout bij verbinden met server
+connectfirst Maak alsjeblieft eerst verbinding
 connecting Bezig met verbinden
-connectionlost De verbinding met de server is gesloten
 connection Verbinding
-contactadded Aan je contactenlijst is toegevoegd
+connectionlost De verbinding met de server is gesloten
 contact Contact
+contactadded Aan je contactenlijst is toegevoegd
 contactdoesnotexist Contact bestaat niet!
 contactlist [FL] Contactenlijst
 contacts Contacten
@@ -210,32 +238,33 @@ custnotifyoffline Meldingsvenster weergeven wanneer dit contact offline gaat
 custnotifyonline Meldingsvenster weergeven wanneer dit contact online komt
 custnotifystatus Meldingsvenster weergeven wanneer dit contact van status verandert
 customcolor Aangepaste kleur
+customdp Aangepaste schermafbeelding
 custom_edit Bewerk zelfgemaakte emoticon
 custom_new Maak een nieuwe emoticon
 customnick Aangepaste Schermnaam
 customsmileys Aangepaste smileys van contacten weergeven
 customstyle Aangepaste stijl
 custshowcustomsmileys Aangepaste emoticons van dit contact weergeven
-cutimageboxreset Maak de selectie-rechthoek:
-cutimagebox Selecteer het deel van de foto dat je gebruiken wilt, door de selectie-rechthoek van grootte te veranderen en deze te verplaatsen.
 cut Knippen
+cutimagebox Selecteer het deel van de foto dat je gebruiken wilt, door de selectie-rechthoek van grootte te veranderen en deze te verplaatsen.
+cutimageboxreset Maak de selectie-rechthoek:
 date Datum
 dateformat Datumnotatie wijzigen
 day Dag
 days Dagen
 dcprofile Geen profiel aanmaken
+default Standaard configuratie
 default2 Standaard
 defaultloginradio Inloggen met de standaardconfiguratie
-default Standaard configuratie
 defchatwinsize Standaard grootte voor chatvensters (Horizontaal x Vertikaal)
+delete Verwijderen
 deleteall Alles verwijderen
 deleteblock Verwijderen en blokkeren
 deletecustomstate Verwijder aangepaste status
-delete Verwijderen
 delimiters Haakjes om tijden heen:
 deliverfail Er was een probleem bij het bezorgen van de volgende boodschap
-delprofile2 Selecteer het profiel waarvan je de locale configuratiebestanden wilt verwijderen
 delprofile Verwijder profiel
+delprofile2 Selecteer het profiel waarvan je de locale configuratiebestanden wilt verwijderen
 description Omschrijving
 detach Loskoppelen
 details Details
@@ -257,15 +286,17 @@ displayp4context Toon in een gespreksvenster de 'Schermnaam tijdens gesprek' van
 displaypic Schermafbeelding
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome systeemvak
-dockingoff Geen systeemvak gebruiken
 docking Systeemvak
+dockingoff Geen systeemvak gebruiken
 dockkde KDE Systeemvak
 done Klaar
 dontdownload Download TLS niet. Ik installeer het zelf.
 dontshow Niet weergeven
+dontshowdp Sta dit contact niet toe om mijn nieuwe schermafbeeldingen te downloaden
 download Downloaden
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 edit Bewerken
+editavsettings Bewerk instellingen voor Beeld en Geluid
 editcontent Bewerk de inhoud van de velden 'Titel' en 'Notitie'
 editcustomstate Wijzig aangepaste status
 editmyprofile MSN-profiel bewerken
@@ -282,21 +313,22 @@ enabled Actief
 enableproxy Gebruik proxy
 enableremote Beheer op afstand toestaan
 enablesound Geluid afspelen
-encoding2 Tekencodering
 encoding Codering instellen
+encoding2 Tekencodering
 enterbugdesc Geef een omschrijving van wat je deed toen de fout optrad, zodat wij de fout gemakkelijker kunnen reproduceren.
 entercontactemail Voer het e-mailadres van de contact in
 enterfilename Voer een bestandsnaam in
 enternick Voer je nieuwe schermnaam in
 enterpsm Persoonlijk bericht
+error Fout
 errortls Er is een fout opgetreden bij het installeren van de module TLS:
 eventhistory Gebeurtenissen geschiedenis weergeven
 examples Voorbeelden
 exitamsn Weet je zeker dat je aMSN wilt afsluiten?
 extras Extra diensten
-faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het bestand niet in je persoonlijk profiel staat. Alleen plaatjes die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
-faileddelete Verwijderen mislukt
 failed Mislukt
+faileddelete Verwijderen mislukt
+faileddeleteperso Dit plaatje kan niet verwijderd worden omdat het bestand niet in je persoonlijk profiel staat. Alleen plaatjes die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
 faq FAQ (Veel gestelde vragen)
 file Bestand
 filedoesnotexist Bestand bestaat niet
@@ -310,12 +342,18 @@ filetransfercomplete Bestandsoverdracht voltooid
 filters Filters
 filtersselect Kies de filters die je wilt toepassen\n(NB: Indien geen filter is gekozen, wordt alles weegegeven)
 filtersx Filter keuze
+find Zoeken
 findasyoutype Zoek terwijl ik typ.
 findnext Volgende zoeken
 findprev Vorige zoeken
-find Zoeken
+finetunesettings Beeldinstellingen finetunen
+finish Voltooien
+finish2apply Klik op Voltooien om deze instellingen toe te passen.
 firewalled Je bevindt je achter een firewall of router
+firewalled2 Je zit achter een filewall, controleer je verbindingsinstellingen in het voorkeuren venster
 followtext Scroll naar beneden als er nieuwe tekst is ingevoerd
+forget_me Vergeet mij
+forgot_pass Ik ben mijn wachtwoord vergeten
 friendlyname Schermnaam tijdens gesprek
 ftaccepted Bestandsoverdracht geaccepteerd
 ftacceptedby $1 accepteert de overdracht van het bestand '$2'
@@ -326,6 +364,8 @@ ftconnecting Bezig met verbinden met $1 via poort $2
 ftconnectionlost De verbinding met de andere gebruiker is verbroken
 ftgotinvitation $1 wil jou het bestand '$2' ($3 bytes) toesturen. Het zal worden opgeslagen in de map $4. Wil je dit bestand ontvangen?
 ftportpref Start bestandsoverdracht op poort
+ftportpref2 Eerste poort voor directe verbindingen (nodig voor bestandsoverdracht en webcam)
+ftporttest Test poort
 ftrejected Bestandsoverdracht geweigerd
 ftrejectedby $1 weigerde de overdracht van '$2'.
 ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 bytes) is verstuurd naar $1
@@ -334,18 +374,20 @@ getdisppic De schermafbeelding van anderen weergeven tijdens gesprekken
 getmoreplugins Klik hier voor meer plugins!
 getmoreskins Klik hier voor meer skins!
 globalcontainer Meerdere gesprekken
-globalnicktitle Algemene schermnaam
 globalnick Voer een patroon in dat gebruikt wordt om een schermnaam te vormen voor al je contacten. Je kunt de volgende variabelen opnemen: \$user_login voor het e-mail adres van de contact, \$nick voor zijn schermnaam en \$customnick voor zijn aangepaste schermnaam.
+globalnicktitle Algemene schermnaam
 globaloverride Het algemene schermnaam-patroon heeft voorrang op aangepaste schermnamen
 gonelunch Lunchpauze
 gotink $1 heeft je een handgeschreven bericht gestuurd
 goto Ga naar $1
 gotoinbox Ga naar Postvak IN
+goto_prefs_removeprofile Klik hier om naar het voorkeuren venster te gaan en je profiel te verwijderen
+group Groep
 groupadd Nieuwe groep maken
 groupcontacts Contacten groeperen
+groupcontactsbystatus Groepeer contacten op status
 groupdelete Groep verwijderen
 groupexists Groep bestaat al
-group Groep
 groupmissing Kan de groep niet vinden
 groupnewname Nieuwe naam
 groupnotempty Deze groep is niet leeg!
@@ -354,8 +396,10 @@ grouprename Groepsnaam wijzigen
 groups Groepen
 groupunknown Onbekende groep
 handle Schermnaam
-helpcontents Help-onderwerpen
+havenomic Ik heb geen microfoon
 help Help
+helpcontents Help-onderwerpen
+hidebuttonbar Verberg knoppenbalk
 hidedisplaypic Schermafbeelding verbergen
 hidemenu Menu's weergeven/verbergen
 hidemenumessage Weet je zeker dat je de menu's wilt verbergen?\nJe kunt ze op elk moment weer in beeld brengen met de toetscombinatie 'Ctrl-M'.
@@ -363,23 +407,24 @@ hiden Deze emoticon niet in het menu weergeven
 hidewindow Venster verbergen
 history Geschiedenis tonen
 home Thuis
+howto_remove_profile Om je profiel te verwijderen (oftewel: $1 vergeten) moet je in het voorkeurenvenster zijn.\n\nHet verwijderen van profielen via het aanmeldscherm is om veiligheidsredenen niet toegestaan.
 httpconnection Verbinding maken via het HTTP-protocol
 hue Kleurtoon
 huge Extra groot
 hybrid Hybride modus
 ident Bezig met identificeren
 identity Identiteit
+ignore Negeren
 ignorecontact Inkomende berichten van dit contact negeren
 ignoreerrors Negeer de overige AMSN-foutberichten tot het einde van de sessie
-ignore Negeren
 imagefiles Beeldbestanden
 inbox Postvak IN
 insertsmiley Voeg emoticon in
 inserttextnote Vul de velden 'Onderwerp' en 'Notitie' in, en klik vervolgens op 'Opslaan'
 installconvert Je moet het conversieprogramma "ImageMagick" installeren om afbeeldingen te converteren naar de indeling die door de MSN-servers wordt gebruikt. Je kunt een versie van ImageMagick voor jouw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl je het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alstublieft.
 internalerror Interne Serverfout
-invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heb je wel de juiste toegangsrechten?
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
+invalidfile2 Het bestand $1 kan niet aangemaakt worden. Heb je wel de juiste toegangsrechten?
 invalidgroup Ongeldige groep
 invalidparameter Fout bij het verbinden met de server: ongeldige parameter
 invalidpic Het opgegeven afbeeldingsbestand bestaat niet.
@@ -395,11 +440,12 @@ istyping $1 is aan het typen
 joins $1 neemt deel aan het gesprek
 justonce Maar één keer
 keepalive Verbinding in stand houden (NAT)
-keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 keeplog Gesprekken opslaan in een logboek
-language_manager Taalbeheer
+keeplog2 In een logboek automatisch een geschiedenis bijhouden van de gesprekken
 language Taal
+language_manager Taalbeheer
 large Groot
+largest Grootste
 lastlogin Vorige login
 lastlogout Vorige logout
 lastmsgedme Laatste bericht
@@ -409,16 +455,17 @@ lazypicretrieval Ophalen van schermafbeeldingen beperken
 lclosedwin $1 heeft het venster gesloten op $2
 lconftopriv Vergadering veranderde in privé-gesprek met $1
 lconvstarted Gesprek gestart op $1
+lconvstartedOIM Offline-berichten uitwisseling gestart op $1
 leaveblankforhotmail Laat leeg om Hotmail te gebruiken
 leavejoinsinchat In het gespreksvenster weergeven dat iemand het gesprek binnenkomt of verlaat
 leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
 lineflushlog Werk logfiles bij na elke regel
 linprivate PRIVÉ
-listeningon Wacht op inkomende verbinding op poort $1
 listening Wacht op verbinding
-listsmileys2 Emoticons weergeven in de contactenlijst
+listeningon Wacht op inkomende verbinding op poort $1
 listsmileys Toon emoticons in lijst
+listsmileys2 Emoticons weergeven in de contactenlijst
 ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 load Activeren
@@ -453,17 +500,19 @@ mailer E-mailprogramma
 mailerexample ( \$recipient = Geadresseerde ) Laat dit veld leeg als je Hotmail wilt gebruiken
 maintenance De server zal wegens onderhoudswerkzaamheden over $1 minuten enige tijd niet beschikbaar zijn
 maximised Gemaximaliseerd
+medium Gemiddeld
 minimised Gespreksvenster niet activeren
 minimize Minimaliseren naar systeemvak
 mins minuten
+mobile Mobiel
 mobilegrp1 Mobiel groep
 mobilegrp2 Plaats contacten in de groep 'Mobiel' wanneer ze offline zijn (bij sortering op status)
-mobile Mobiel
 modified Gewijzigd
 month Maand
+more Meer
 morepersonal Meer persoonlijke statussen ->
-movetogroup Verplaatsen naar groep
 move Verplaats
+movetogroup Verplaatsen naar groep
 msg Bericht
 msgflicker Laat de titel van het gespreksvenster knipperen als een bericht aankomt in een inactief venster
 msgmaxmin Weergave van binnenkomende berichten in een bestaand gesprek
@@ -477,6 +526,7 @@ myhomephone Mijn telefoonnummer (thuis)
 mymobilephone Mijn mobiele nummer
 mynick Mijn schermnaam
 mypic Mijn schermafbeelding
+mypics Mijn schermafbeeldingen
 mystatus Mijn status
 myworkphone Mijn telefoonnummer (werk)
 name Naam
@@ -485,29 +535,33 @@ natkeepalive Verbinding in stand houden (Selecteren als de verbinding regelmatig
 needonline Je bent niet online
 needwinico2 Het bestand winico05.dll moet in de map utils/windows om het Windows systeemvak te kunnen gebruiken.
 never Nooit
+new_account Account aanmaken
 newchat Nieuw gesprek
 new_ft_protocol Gebruik het nieuwe protocol voor bestandsoverdracht (er zijn nog enkele bugs)
 newline Nieuwe regel
+newmail Je hebt $1 nieuwe berichten in Postvak IN
 newmailfolder Je hebt $1 nieuwe berichten in andere Hotmail-mappen
 newmailfrom Nieuwe e-mail van $1 ($2)
 newmailfromother Nieuwe e-mail in een andere map van $1 ($2)
-newmail Je hebt $1 nieuwe berichten in Postvak IN
 newmsg Nieuw bericht
+newoim Nieuwe Offline berichten
 newstate Voeg nieuwe aangepaste status toe
 newtabbedfeature aMSN heeft een nieuwe functie, waarmee het mogelijk is om m.b.v. tabbladen meerdere gesprekken in een venster weer te geven. Hier kun je instellen hoe je deze functie wilt gebruiken.
 newveravailable Versie $1 is beschikbaar voor downloaden.
 next Volgende
 nick Schermnaam
+no Nee
 noactivity Geen activiteit
 nocacheddps Er zijn geen opgeslagen schermafbeeldingen voor dit contact
+nocamwarn Er is geen webcam gevonden, of de webcam wordt door een ander programma gebruikt (en kan dus niet door aMSN gebruikt worden). Als je hulp nodig hebt om het probleem op te lossen, kijk dan eens op onze Wiki:
 nodataavailable Geen gegevens beschikbaar voor $1
 nodevices Er zijn geen apparaten geïnstalleerd
 noftpreview Geen voorbeeld weergeven van afbeeldingen bij een uitnodiging voor een bestandsoverdracht.
 nogap Geen ruimte openlaten tussen groepen
 nogroup Geen groep
 nologfile Geen logboek voor $1
+nomic Geen microfoon
 noneavailable Geen beschikbaar.
-no Nee
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
 nopic Geen afbeelding
@@ -519,13 +573,13 @@ nosound_or_hold Er is geen geluid gedetecteerd. Om een Voice Clip te verzenden m
 nosystemtray Het systeemvak is niet beschikbaar
 note Notities bewerken
 notificationserver Initiële MSN Notificatie Server (MSN Messenger server)
+notify Licht in
+notify1 Melding weergeven wanneer een contact online komt
 notify1_5 Melding weergeven wanneer een contact offline gaat
 notify1_75 Melding weergeven wanneer een contact van status verandert
-notify1 Melding weergeven wanneer een contact online komt
 notify2 Melding weergeven wanneer er een bericht binnenkomt
 notify3 Melding weergeven wanneer er een e-mail binnenkomt in Postvak IN
 notify4 Melding weergeven wanneer er een e-mail binnenkomt in een andere map
-notify Licht in
 notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
 notifytimeout Het aantal milliseconden voordat het meldingsvenster verdwijnt
 notifytyping Laat anderen in een gesprek zien of je aan het typen bent
@@ -534,16 +588,18 @@ notinlist Je staat niet in zijn/haar contactenlijst
 notls Versie 9 van het MSN protocol vereist het pakket tls. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel geïnstalleerd is, moet het pad naar de map, waarin de tls-library is geïnstalleerd, worden opgegeven in het instellingen venster. (bijv. /opt/tls/lib). \n \n Tls is te downloaden van http://tls.sf.net
 nottabbed Geen tabbladen gebruiken
 nousersinsession Geen gebruiker in sessie
+nouserspecified Geen contact geselecteerd
 nudge $1 vraagt je aandacht
 offline Offline
+oim Offline berichten
 ok Ok
 onenewmail Je hebt 1 nieuw bericht in Postvak IN
-onlinehelp Online help
 online Online
+onlinehelp Online help
 onphone Aan de telefoon
 opendir Map openen
-openfilecommand Commando voor bestand openen
 openfile Openen
+openfilecommand Commando voor bestand openen
 openreceived Ontvangen bestanden openen
 options Opties
 ordercontactsby Contacten sorteren op
@@ -551,13 +607,14 @@ ordergroupsby Sortering groepen
 original Origineel
 other Andere
 otherdisplaypic Overige schermafbeeldingen van dit contact (klik voor meer opties)
+otherdps Overige schermafbeeldingen
 others Overigen
 p4contextprefix Voorvoegsel voor de alternatieve schermnaam
 pager Semafoon
 pass Wachtwoord
 paste Plakken
-pausedwebcamreceive De webcam is op pauze gezet door de zender
 pause Pauze
+pausedwebcamreceive De webcam is op pauze gezet door de zender
 pausewebcamsend Webcam pauze
 personal Persoonlijk
 phone Abonneenummer
@@ -569,6 +626,7 @@ play Afspelen
 playbackposition Afspeelpositie
 playbackspeed Afspeelsnelheid (in ms per frame)
 playing $1 wordt afgespeeld
+playtest Speel het testgeluid af
 playwebcamsend Webcam hervatten
 pluginselector Plugins
 port Poort
@@ -582,10 +640,10 @@ prefblock3 "Je bent geblokkeerd door" groep
 prefconnection Verbindingsinstellingen
 prefemotic Emoticons
 preferences Voorkeuren
+preffont Mijn berichttekst
 preffont2 Het lettertype voor berichten wijzigen
 preffont3 Lettertype en -grootte van aMSN wijzigen
 preffont4 De weergave van berichten van mijn contacten aanpassen
-preffont Mijn berichttekst
 prefft Bestandsoverdracht, peer-to-peer en NAT instellingen
 preflibs Zoekpad voor libraries
 preflog1 Logboeken en geschiedenis
@@ -593,13 +651,13 @@ preflogevent Mijn gebeurtenissen geschiedenis
 preflook Weergave
 prefmsging Inkomende berichten
 prefname Schermnaam
-prefphone2 De telefoonnummers die zichtbaar moeten zijn voor geaccepteerde contacten
 prefphone Telefoonnummers
-prefprivacy2 Contacten
+prefphone2 De telefoonnummers die zichtbaar moeten zijn voor geaccepteerde contacten
 prefprivacy Zichtbaarheid en aanspreekbaarheid
+prefprivacy2 Contacten
+prefprofile Openbaar profiel
 prefprofile2 Maak of wijzig je profiel
 prefprofile3 Configuratieprofielen
-prefprofile Openbaar profiel
 prefproxy Mijn Proxy-instellingen
 prefremote Beheer op afstand
 prefsession Aanmelden en Status
@@ -613,14 +671,14 @@ profileinuse Dit profiel wordt momenteel gebruik door een andere aMSN sessie, ki
 profileloginradio Aanmelden d.m.v. een bestaand profiel.
 profiles Profielen
 properties Eigenschappen
-proxyconfhttp Configuratie voor HTTP proxy ondersteuning
-proxyconf Proxy configuratie
-proxyconnection Gebruik de onderstaande proxyserver
 proxy Gebruik een Proxy Server (HTTP of SOCKS5)
+proxyconf Proxy configuratie
+proxyconfhttp Configuratie voor HTTP proxy ondersteuning
+proxyconnection Gebruik de onderstaande proxyserver
+psm Persoonlijk bericht
 psmatend Geef persoonlijk bericht weer naast de schermnaam
 psmdontshow Geef geen persoonlijk bericht weer, tenzij anders aangegeven in de algemene/aangepaste schermnaam.
 psmnewline Geef persoonlijk bericht weer onder de schermnaam
-psm Persoonlijk bericht
 psmplace Hoe wil je persoonlijke berichten gepositioneerd hebben?
 publishphones Mijn telefoonnummers publiceren
 purge Legen
@@ -631,14 +689,18 @@ readonlymsgbox De bestandsoverdracht is geannuleerd vanwege alleen-lezen toegang
 readonlywarn WAARSCHUWING: Het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
 receivedbytes $1 van de $2 bytes ontvangen
 receiveddir Map voor ontvangen bestanden
+receivedoimread Je hebt $1 nieuwe Offline berichten. Wil je ze lezen?
 receivedvoice Voice Clip ontvangen
 receivefile Ontvang bestand
 recentmsg Voorkom sluiten van een gespreksvenster wanneer er net een bericht aankomt
+reconnect Wachten tot $1 opnieuw verbindt
 reconnect2 Opnieuw verbinden als de verbinding wegvalt
 reconnecting Bezig met opnieuw verbinden met de server
-reconnect Wachten tot $1 opnieuw verbindt
+record Opnemen
 recorderror Tijdens een poging om geluid op te nemen is er een fout opgetreden: $1
+recvwebcamaccepted $1 heeft jouw verzoek om zijn/haar webcam te mogen zien geaccepteerd. Bezig met verbinden...
 reject Afwijzen
+rememberaccount Onthoud mijn account
 rememberpass Wachtwoord onthouden
 remembersetting Onthoud mijn keuze
 removeempty Lege groepen verwijderen uit de contactenlijst
@@ -649,21 +711,24 @@ reporting Foutrapport wordt verstuurd
 required_version Kan de plugin niet laden, omdat die minimaal aMSN $1 nodig heeft om te werken.
 resetincomingfont Herstellen (gebruik de lettertype-instellingen van de zender)
 restartforskin Let op: Het kan zo zijn dat je aMSN eerst moet herstarten voordat de skin correct wordt weergegeven.
+retry Opnieuw proberen
 reversed Aflopend
 reverselist [RL] Omgekeerde lijst
 rightback Ben zo terug
+save Opslaan
 saveas Opslaan als
 savechatwinsize Chatvenster grootte opslaan na het aanpassen van de grootte
 savecontacts Contactenlijst exporteren
-save Opslaan
 savetofile Opslaan in bestand
 says $1 zegt
 sbcon Bezig met verbinden met schakelbord
 searchdown Neerwaarts zoeken
 searchup Opwaarts zoeken
 selectall Alles selecteren
+selectcontact Kies een contact
 selectplugins Selecteer de plugins die je wilt activeren
 selectskin Kies een skin uit de lijst
+send Zend
 sendcam Webcam verzenden
 sendemail Stuur mijn e-mailadres mee, en houdt mij op de hoogte van wijzigingen (zie Vertrouwelijkheids verklaring)
 sendfeedback Verzend feedback
@@ -673,16 +738,18 @@ sendmobmsg Een bericht verzenden naar mobiel
 sendmsg Een bericht verzenden
 sendoim Offline bericht versturen
 sendvoice Voice Clip versturen
+sendwebcamaccepted $1 heeft je uitnodiging om je webcam te bekijken geaccepteerd. Bezig met verbinden...
 sendwebcaminvite Nodig dit contact uit om je webcam te bekijken
-send Zend
 sentbytes $1 van de $2 bytes verzonden
 sentvoice Voice Clip verzonden
+server Server
 serverbusy Server is bezet
 servergoingdown Verbinding verbroken: De server wordt uitgeschakeld
-server Server
 serverunavailable Server is niet beschikbaar
 session Sessie
 setasmydp Instellen als mijn schermafbeelding
+setupcam Bezig met instellen van je webcam...
+setupcamfinetune Bezig met instellin van je webcam en finetunen van het beeld
 shareswebcam Heeft een webcam
 showbanner aMSN banner weergeven
 showblockedlist Toon de lijst van mensen die je geblokkeerd hebben
@@ -690,21 +757,23 @@ showcachedpics Opgeslagen schermafbeeldingen van contacten weergeven.
 show_contactdps_in_cl Verkleinde schermafbeeldingen weergeven in de contactenlijst
 showcontactemail Contacten weergeven met e-mail adres
 showcontactnick Contacten weergeven met schermnaam
-showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showdisplaypic Toon schermafbeelding
+showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
+showlinksinlogin Geef links weer in het aanmeldscherm
 showmailicon E-mail pictogram weergeven in het systeemvak als er nieuwe e-mails binnenkomen
 showmypic Mijn afbeelding
 shownotify Geef meldingsvenster weer bij bepaalde gebeurtenissen
 showpicnotify Geef schermafbeelding weer op meldingsvensters
 showuserpic Afbeelding van $1
 signinstatus Status na aanmelden
-skinselector Skin
 skin Skin
+skinselector Skin
 small Klein
+smallest Kleinste
 smileconfig Configuratie voor zelfgemaakte emoticons
 smilefile Bestandsnaam van de emoticon
-smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 smileintro Vul de nodige velden in om een nieuwe emoticon te maken
+smileintro2 Pas de nodige velden aan om deze emoticon te bewerken
 smiletoobig De gekozen emoticon is groter dan gewoonlijk. Wil je de grootte aanpassen?
 snackfailed Het is niet gelukt om Snack te laden. Teruggevallen op de standaardfuncties.
 snackneeded Om deze functionaliteit te gebruiken heb je de Snack programmabibliotheek (versie 2.2.9 of nieuwer) nodig.
@@ -712,16 +781,19 @@ snapshot Foto
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sortcontactgroup Contacten sorteren op groep
 sortcontacthybrid Contacten sorteren in hybride modus
+sortcontactsasc Sorteer contacten oplopend
+sortcontactsby Sorteer contacten op
+sortcontactsdesc Sorteer contacten aflopend
 sortcontactstatus Contacten sorteren op Status
 sortgroupsasc Groepen oplopend sorteren
 sortgroupsdesc Groepen aflopend sorteren
+sound Geluid inschakelen
 sound2 Geluid afspelen wanneer contacten zich aanmelden of een bericht verzenden
 soundactive Speel ook geluid af als een bericht aankomt in een actief venster
 soundcommand Dit moet het afspeelcommando zijn (vb: esdplay)
 soundexample  ( \$sound = te spelen geluidsbestand) Vb: esdplay \$sound
 soundfile Alarmgeluid
 soundfiles Geluidsbestanden
-sound Geluid inschakelen
 soundloop Geluid in een lus herhalen
 soundnoavail Het geluidsapparaat is niet beschikbaar. Beëindig alsjeblieft het programma wat het momenteel gebruikt.
 soundserver Geluidsserver
@@ -729,10 +801,11 @@ soundstatus Alarmgeluid gebruiken
 sourcecode Broncode (moet gecompileerd en geïnstalleerd worden)
 splashstart Start
 sslwarning WAARSCHUWING!! Als SSL wordt uitgeschakeld, wordt je wachtwoord bij het verzenden niet versleuteld. Schakel SSL dus alleen uit als dit noodzakelijk blijkt te zijn om verbinding te kunnen maken.
-startoffline2 Stil aanmelden met "Offline weergeven"
 startoffline Stil aanmelden
+startoffline2 Stil aanmelden met "Offline weergeven"
 startonboot Start aMSN automatisch als Windows wordt opgestart
 startontray Start aMSN alleen als icoon in het systeemvak
+state Weer te geven status
 stateautomsg Automatisch bericht
 statechange status is veranderd in:
 stateedittext Pas de velden aan die je wilt \n veranderen en druk op Opslaan
@@ -741,40 +814,40 @@ statename Naam voor de persoonlijke status
 statenewtext Vul de benodigde informatie in om je persoonlijke status\nte creëren en klik op Opslaan
 statenick Aangepaste schermnaam (laat het leeg voor geen verandering)
 statepsm Aangepast persoonlijk bericht (leeg laten voor ongewijzigd)
-state Weer te geven status
 stats Statistieken
 status Status
-stopalarm Stop het alarm
+step Stap
 stop Stop
+stopalarm Stop het alarm
 stopwebcamreceive Stop webcamontvangst
 stopwebcamsend Stop verzending van webcambeeld
 storenickname Herstel de oorspronkelijke schermnaam na een aangepaste status met aangepaste schermnaam.
 strictfonts Beperk de lettergrootte overal tot wat ik heb ingesteld, ook in de statusbalk e.d.
+style Stijl
 stylechat Dezelfde stijl als gesprekken
 stylehist aMSN geschiedenis stijl
 stylelog Kies de opmaak van de geschiedenislogboeken
-style Stijl
 subject Onderwerp
 subjectrequired Er moet een onderwerp worden opgegeven
 syntaxerror Syntaxisfout
+tabbed Vensters met tabbladen
 tabbedglobal Alle gesprekken met contacten in één venster
 tabbedgroups Gesprekken per groep van contacten in een venster plaatsen
-tabbed Vensters met tabbladen
 tabtitlenick Schermnamen weegeven op tabbladen
 temp_state Niet opslaan (gaat verloren als aMSN wordt afgesloten)
 textsize Tekstgrootte
 thismonth Deze maand
 throughserver Via server
 timeremaining Resterende tijd
-timestamps Tijd weergeven in gespreksvensters
 timestamp Tijdstempel
+timestamps Tijd weergeven in gespreksvensters
 title Al's Messenger
-tkerror1 Er is een fout gemeld door TK, de oorzaak hiervan is een bug in aMSN. Klik alsjeblieft op 'Foutrapport versturen' om deze fout te melden aan de makers van aMSN. Klik op 'Details' voor meer informatie over de opgetreden fout, of klik op OK om de fout te negeren en door te gaan.
 tkerror TK heeft een fout gegeven, er zit een bug in aMSN, rapporteer het alsjeblieft. Stuur het bestand $1 naar amsn-bugs@lists.sf.net
+tkerror1 Er is een fout gemeld door TK, de oorzaak hiervan is een bug in aMSN. Klik alsjeblieft op 'Foutrapport versturen' om deze fout te melden aan de makers van aMSN. Klik op 'Details' voor meer informatie over de opgetreden fout, of klik op OK om de fout te negeren en door te gaan.
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als je broncode hebt gedownload), en installeer het in $3.
 tlsexplain De map waar de tcl TLS module staat. Vul dit in als aMSN het zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL)
-tlsinstallexp aMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. aMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op je systeem. Deze wizard helpt je bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
 tlsinstall TLS Module installatie wizard
+tlsinstallexp aMSN gebruikt nu versie 9 van het MSN protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. aMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op je systeem. Deze wizard helpt je bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch gedownload kunnen worden.
 tlsinstcompleted De TLS module is geïnstalleerd. Je zult versie 9 van het MSN protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb je vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor jouw systeem.
 to Aan
 today Vandaag
@@ -802,11 +875,11 @@ updating Bezig met bijwerken
 useasdp Gebruiken als schermafbeelding
 useasregexp Gebruiken als Reguliere Expressie (regexp)
 useother Gebruik een ander programma
+user Gebruiker
 useralreadyonlist Deze gebruiker staat al in je lijst
 userblocked Dit contact is online maar heeft je geblokkeerd
 userdata Contactgegevens
 userdps Schermafbeeldingen
-user Gebruiker
 usernotonline Dit contact is offline
 userproperties Eigenschappen van $1
 usersettings Instellingen
@@ -821,21 +894,30 @@ viewprofile Profiel weergeven
 voice_notimplemented Het ontvangen van Voice Clips is nog niet geïmplementeerd. Nog even geduld a.u.b.
 voice_windows Als Windows-gebruiker kunt u de Voice Clip mogelijk beluisteren door die te openen in Media Player.
 voice_windows_click Klik hier om dat te proberen.
+volume Volume
 wanttosharecam Ik wil mijn webcam beschikbaar maken voor anderen
+web Web
+webcam Webcam
 webcamcanceled De webcamsessie met $1 is beëindigd
 webcamclosebefcancel Je moet alle webcamsessies beëindigen alvorens het venster te sluiten
 webcamconfigure Webcam instellen
+webcamconfiguredLinux Je hebt de webcam als volgt ingesteld:\nApparaat: $1\nKanaal: $2
+webcamconfiguredMac Je webcam is ingesteld
+webcamconfiguredWin Je hebt de volgende webcam gekozen: $1
+webcamextchecking Bezig met controleren of de webcam extensie is geladen...
 webcamextloaded Programmauitbreiding 'Webcamsn' is geladen
 webcamextnotloaded Programmauitbreiding 'Webcamsn' is niet geladen omdat deze nog niet gecompileerd is.
+webcamextwarn Je zult geen webcam kunnen ontvangen van je contacten. Voor hulp om de extensie te installeren, kun je terecht op onze Wiki:
 webcamfaq FAQ/Help voor Webcam
 webcamhistory Webcamsessies weergeven
 webcaminvite $1 wil een webcamsessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 webcaminvitereceived $1 wil een webcamsessie starten. Wil je deze sessie accepteren?
+webcaminvitereceiving $1 nodigt je uit om zijn/haar webcambeeld te bekijken. Wil je deze uitnodiging accepteren?
+webcaminvitesending $1 zou graag jouw webcambeeld willen zien. Wil je dat toestaan?
 webcamrejected $1 heeft je verzoek voor een webcamsessie afgewezen
 webcamrequestreceive Je verzoek om webcambeeld te mogen zien is verstuurd
 webcamrequestsend Je aanbod van webcambeeld is verstuurd
 webcamsending Contacten die op dit moment jou webcambeeld kunnen zien:\n(Klik om te beëindigen)
-webcam Webcam
 whatisamsn aMSN is een platformonafhankelijke MSN Messenger kloon
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
 willjoin Wacht tot $1 de conversatie zal bijwonen
@@ -849,92 +931,11 @@ xmmserr Er wordt niks afgespeeld of "xmms-infopipe" is niet geïnstalleerd
 xmmssend Verzend het huidige nummer
 xoffset horizontaal
 year Jaar
-yesblock Ja, en blokkeren
 yes Ja
+yesblock Ja, en blokkeren
 yesterday Gisteren
 yoffset verticaal
 youblocked Je bent geblokkeerd
 yousay Jij zegt
 youwant Jij wilt
 zoom Zoom
-abort Afbreken
-assistantainput Kies je invoer-apparaat en probeer er geluid mee op te nemen.
-assistantaoutput Kies je uitvoer-apparaat en probeer dit geluidsbestand af te spelen om het te testen.
-assistantawarn Je zult geen geluid kunnen opnemen en niet met je vrienden kunnen praten. Informatie vinden over het installeren van deze extensie kun je wellicht vinden op onze Wiki:
-assistantfinetunepic Pas de volgende instellingen aan om de beeldkwaliteit van je webcam te verbeteren
-assistantselectcam Kies je webcam uit de lijst
-assistantstarting De Assistent wordt gestart
-assistantwelcome Deze Assistent zal je begeleiden bij het instellen van beel en geluid voor aMSN.\n\nDe Assistent controleert of de vereiste extensies op het systeem aanwezig en in het geheugen geladen zijn. Tenslotte kun je het video-apparaat en -kanaal kiezen en de beeld- en resolutie-instellingen aanpassen.
-audioconfigured Je hebt de volgende instellingen gekozen voor Geluid:\n Uitvoerapparaat: $1\nInvoerapparaat: $2
-audiovideo Instellingen voor Beeld en Geluid
-back Vorige
-blocknotifications Geef geen meldingsvensters weer
-blocksounds Speel geen geluid af
-cachedpicsfor Opgeslagen schermafbeeldingen van contact
-cancelled Geannuleerd
-capturewarn Je zult geen webcam kunnen zenden. Als je geen webcam hebt, is dat normaal, anders kun je informatie vinden over het installeren van deze extensie op onze Wiki:
-checkingaudio Bezig met controleren of de extensie voor geluid (Snack) geladen is...
-checkingcam Bezig met controleren of er een webcam is aangesloten...
-checkingcapext Bezig met controleren of extensie '$1' geladen is...
-checkingextensions Controleren of de vereiste extensies voor video aanwezig zijn
-chooseinputdev Kies je invoerapparaat
-choosemixerdev Kies je mixer
-chooseoutputdev Kies je uitvoerapparaat
-closeothers Alle andere tabbladen sluiten
-configuremic Microfoon wordt geconfigureerd
-configuringaudio Geluid wordt geconfigureerd
-congrats Gefeliciteerd
-connectfirst Maak alsjeblieft eerst verbinding
-customdp Aangepaste schermafbeelding
-dontshowdp Sta dit contact niet toe om mijn nieuwe schermafbeeldingen te downloaden
-editavsettings Bewerk instellingen voor Beeld en Geluid
-error Fout
-finetunesettings Beeldinstellingen finetunen
-finish Voltooien
-finish2apply Klik op Voltooien om deze instellingen toe te passen.
-firewalled2 Je zit achter een filewall, controleer je verbindingsinstellingen in het voorkeuren venster
-forget_me Vergeet mij
-forgot_pass Ik ben mijn wachtwoord vergeten
-ftportpref2 Eerste poort voor directe verbindingen (nodig voor bestandsoverdracht en webcam)
-ftporttest Test poort
-goto_prefs_removeprofile Klik hier om naar het voorkeuren venster te gaan en je profiel te verwijderen
-groupcontactsbystatus Groepeer contacten op status
-havenomic Ik heb geen microfoon
-howto_remove_profile Om je profiel te verwijderen (oftewel: $1 vergeten) moet je in het voorkeurenvenster zijn.\n\nHet verwijderen van profielen via het aanmeldscherm is om veiligheidsredenen niet toegestaan.
-largest Grootste
-lconvstartedOIM Offline-berichten uitwisseling gestart op $1
-medium Gemiddeld
-more Meer
-mypics Mijn schermafbeeldingen
-new_account Account aanmaken
-newoim Nieuwe Offline berichten
-nocamwarn Er is geen webcam gevonden, of de webcam wordt door een ander programma gebruikt (en kan dus niet door aMSN gebruikt worden). Als je hulp nodig hebt om het probleem op te lossen, kijk dan eens op onze Wiki:
-nomic Geen microfoon
-nouserspecified Geen contact geselecteerd
-oim Offline berichten
-otherdps Overige schermafbeeldingen
-playtest Speel het testgeluid af
-receivedoimread Je hebt $1 nieuwe Offline berichten. Wil je ze lezen?
-record Opnemen
-recvwebcamaccepted $1 heeft jouw verzoek om zijn/haar webcam te mogen zien geaccepteerd. Bezig met verbinden...
-rememberaccount Onthoud mijn account
-retry Opnieuw proberen
-selectcontact Kies een contact
-sendwebcamaccepted $1 heeft je uitnodiging om je webcam te bekijken geaccepteerd. Bezig met verbinden...
-setupcam Bezig met instellen van je webcam...
-setupcamfinetune Bezig met instellin van je webcam en finetunen van het beeld
-showlinksinlogin Geef links weer in het aanmeldscherm
-smallest Kleinste
-sortcontactsasc Sorteer contacten oplopend
-sortcontactsby Sorteer contacten op
-sortcontactsdesc Sorteer contacten aflopend
-step Stap
-volume Volume
-web Web
-webcamconfiguredLinux Je hebt de webcam als volgt ingesteld:\nApparaat: $1\nKanaal: $2
-webcamconfiguredMac Je webcam is ingesteld
-webcamconfiguredWin Je hebt de volgende webcam gekozen: $1
-webcamextchecking Bezig met controleren of de webcam extensie is geladen...
-webcamextwarn Je zult geen webcam kunnen ontvangen van je contacten. Voor hulp om de extensie te installeren, kun je terecht op onze Wiki:
-webcaminvitereceiving $1 nodigt je uit om zijn/haar webcambeeld te bekijken. Wil je deze uitnodiging accepteren?
-webcaminvitesending $1 zou graag jouw webcambeeld willen zien. Wil je dat toestaan?
