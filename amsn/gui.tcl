@@ -1242,6 +1242,8 @@ namespace eval ::amsn {
 		}
 
 		set w .ft$cookie
+
+		set lastfocus [focus]
 		toplevel $w
 		wm group $w .
 		#wm geometry $w 360x170
@@ -1279,6 +1281,8 @@ namespace eval ::amsn {
 		moveinscreen $w 30
 
 		::dkfprogress::SetProgress $w.prbar 0
+		update idletasks
+		catch {focus $lastfocus}
 	}
 
 
