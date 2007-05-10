@@ -1697,10 +1697,16 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.4.ymd -text "[trans year]/[trans month]/[trans day]" -value YMD -variable [::config::getVar dateformat]
 	pack $lfname.4.mdy $lfname.4.dmy $lfname.4.ymd -side left -padx 10
 
-	checkbutton $lfname.5.dock -text "[trans trayicon]" -onvalue 1 -offvalue 0 -variable [::config::getVar use_tray]
+	# Systray doesn't exist on Mac
+	if { ![OnMac] } {
+		checkbutton $lfname.5.dock -text "[trans trayicon]" -onvalue 1 -offvalue 0 -variable [::config::getVar use_tray]
+		pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
+	}
 
-	pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
-	pack $lfname.5 -side top -padx 0 -pady 0 -expand 1 -fill both
+	checkbutton $lfname.5.show_contactdps_in_cl -text "[trans show_contactdps_in_cl]" -onvalue 1 -offvalue 0 -variable [::config::getVar show_contactdps_in_cl]
+	pack $lfname.5.show_contactdps_in_cl -anchor w -side top -padx 10 -pady 0
+
+	pack $lfname.5 -side top -padx 0 -pady 10 -expand 1 -fill both
 
 	label $lfname.6.llook -text "[trans psmplace]" -padx 10
 	pack $lfname.6 -side top -padx 0 -pady 0 -expand 1 -fill both
@@ -1723,10 +1729,9 @@ proc Preferences { { settings "personal"} } {
         checkbutton $lfname.1.sound -text "[trans emotisounds]" -onvalue 1 -offvalue 0 -variable [::config::getVar emotisounds]
         checkbutton $lfname.1.animated -text "[trans animatedsmileys]" -onvalue 1 -offvalue 0 -variable [::config::getVar animatedsmileys] -command [list destroy .smile_selector]
 	checkbutton $lfname.1.customsmileys -text "[trans customsmileys]" -onvalue 1 -offvalue 0 -variable [::config::getVar customsmileys]
-	checkbutton $lfname.1.show_contactdps_in_cl -text "[trans show_contactdps_in_cl]" -onvalue 1 -offvalue 0 -variable [::config::getVar show_contactdps_in_cl]
 	#checkbutton $lfname.1.log -text "[trans logsmileys]" -onvalue 1 -offvalue 0 -variable [::config::getVar logsmileys] -state disabled
 	#pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.log -anchor w -side top -padx 10
-	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.customsmileys $lfname.1.show_contactdps_in_cl -anchor w -side top -padx 10 -pady 0
+	pack $lfname.1.chat $lfname.1.list $lfname.1.sound  $lfname.1.animated $lfname.1.customsmileys -anchor w -side top -padx 10 -pady 0
 
 	## Alerts and Sounds Frame ##
 	set lfname [labelframe $frm.lfname3 -text [trans prefalerts]]
@@ -1738,6 +1743,7 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
+	
 	#Bounce icon in the dock preference for Mac OS X
 	if { [OnMac] } {
 		label $lfname.1.bouncedock -text "[trans bouncedock]" -padx 10
