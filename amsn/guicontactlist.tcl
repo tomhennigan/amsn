@@ -1900,14 +1900,6 @@ namespace eval ::guiContactList {
 		return $groupcount
 	}
 
-	##################################################
-	# Get the group count
-	# Depend if user in status/group/hybrid mode
-	proc isGroupEmpty {element} {
-
-	}
-
-
 	# Function that returns a list of the groups, depending on the selected view mode (Status, Group, Hybrid)
 	#
 	# List looks something like this :
@@ -2307,7 +2299,7 @@ namespace eval ::guiContactList {
 
 			# Cycle to the list of groups and select the group where
 			# the user drags to
-			foreach group [getGroupList 1] {
+			foreach group [getGroupList 0] {
 				# Get the group ID
 				set grId [lindex $group 0]
 				set grCoords [$canvas coords gid_$grId]
@@ -2322,9 +2314,23 @@ namespace eval ::guiContactList {
 					}
 				}
 			}
+
+			set newgrIdV 0
+			set oldgrIdV 0
+			#Now, we check if groups selected are real
+			foreach group [getGroupList 1] {
+				# Get the group ID
+				set grId [lindex $group 0]
+				if { $grId == $newgrId } {
+					set newgrIdV 1
+				}
+				if { $grId == $oldgrId } {
+					set oldgrIdV 1
+				}
+			}
 	
-			if { $newgrId == $oldgrId } {
-				#if the contact was dragged to the group of origin, just move it back
+			if { $newgrId == $oldgrId || !$newgrIdV || !$oldgrIdV } {
+				#if the contact was dragged to the group of origin or is from/to an fake group, just move it back
 				::guiContactList::organiseList $canvas
 			} else {
 				if { $::guiContactList::modeCopy } {
