@@ -484,7 +484,7 @@ login Accedi
 logolder Registra soltanto le chat che hanno dell'ultimo
 logout Disconnetti
 logsbydate Ordina log per data (l'apertura della cronologia è velocizzata)
-logschats Sta loggando le chat
+logschats Sta salvando la cronologia dei messaggi
 logsin si è appena connesso/a
 logsmileys Mostra le emoticon nella finestra della cronologia di aMSN
 logsout si è appena sconnesso/a
