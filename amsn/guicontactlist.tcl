@@ -1785,8 +1785,12 @@ namespace eval ::guiContactList {
 		}
 
 		# Now store the nickname [and] height in the nickarray
-		set bbox [$canvas bbox $tag]
-		set nickheightArray($email) [expr {[lindex $bbox 3]-[lindex $bbox 1]}]
+		if {[llength [$canvas find withtag $tag]] > 0 } {
+			set bbox [$canvas bbox $tag]
+			set nickheightArray($email) [expr {[lindex $bbox 3]-[lindex $bbox 1]}]
+		} else {
+			set nickheightArray($email) 0
+		}
 	}
 
 
