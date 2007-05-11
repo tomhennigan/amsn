@@ -18,7 +18,7 @@ namespace eval ::ustat {
 		set fontformat [list $family bold $statuscolor]
 		::amsn::WinWrite $chatid "\n" says $fontformat 0
 		::amsn::WinWriteIcon $chatid miniinfo 5 0
-		set msg "[timestamp] [::abook::getDisplayNick $user] is now [trans $cur_status]\n"
+		set msg "[timestamp] [trans changestate [::abook::getDisplayNick $user] [trans $cur_status]]"
 	
 		#status_log $msg
 		::amsn::WinWrite $chatid $msg says $fontformat 0
