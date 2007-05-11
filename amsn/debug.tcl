@@ -1,8 +1,13 @@
 
 ::Version::setSubversionId {$Id$}
+	
+global wchannel
+if {![info exists wchannel]} {
+	set wchannel stdout
+}
+
 
 namespace eval ::debug {
-
 
 	proc help {} {
 		foreach proc [info commands ::debug::*] {
@@ -123,11 +128,6 @@ namespace eval ::debug {
 			catch {flush $wchannel}
 		} }
 	}
-
-
-
-
-
 }
 
 
