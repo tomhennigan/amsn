@@ -315,13 +315,13 @@ proc buttons2labels { } {
 				unset options(-command)
 			}
 			if { [info exists options(-overrelief)] } { unset options(-overrelief) }
-			eval label $pathName [array get options]
+			eval label "$pathName" [array get options]
 			if { [info exists command] } {
 				puts $command
 				bind $pathName <<Button1>> "$command"
 			}
 		} else {
-			eval ::tk::button2 $pathName $args
+			eval ::tk::button2 "$pathName" $args
 		}
 	}
 }
