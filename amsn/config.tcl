@@ -128,7 +128,7 @@ namespace eval ::config {
 
 		#Specific configs for Mac OS X (Aqua) first, and for others systems after
 		if { [OnMac] } {
-			::config::setKey wingeometry 275x400-200+200		;#Main window geometry on Mac OS X
+			::config::setKey wingeometry 300x650+2+25		;#Main window geometry on Mac OS X
 			::config::setKey backgroundcolor  #ECECEC		;#AMSN Mac OS X background color
 			::config::setKey dockbounce once					;#Dock bouncing on Mac OS X
 		} else {
@@ -243,7 +243,14 @@ namespace eval ::config {
 		::config::setKey p4contextprefix "" ; #Prefix for P4-Context messages
 		::config::setKey notifytimeout 8000 ; #Number of milisecs before the notify will go away
 		::config::setKey globalnick ""		;#The global custom nickname (pattern), disabled by default
-		::config::setKey psmplace 1		;#The place where must be shown the PSM (0: not shown, 1: At the end, 2: In a new line)
+		
+		#The place where must be shown the PSM (0: not shown, 1: At the end, 2: In a new line)
+		if {[OnMac]} {
+			::config::setKey psmplace 2
+		} else {
+			::config::setKey psmplace 1
+		}
+		
 		::config::setKey globaloverride 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
 
 		if { [info exists custom_emotions] } {
