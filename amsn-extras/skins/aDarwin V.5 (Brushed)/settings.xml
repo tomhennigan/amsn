@@ -9,46 +9,51 @@
 	</Information>
 
 	 <Fonts>
+                <Font>
+                        <name>mystatuslabel</name>
+                        <family>Lucida Grande</family>
+                        <size>10</size>
+                        <weight>normal</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
 		<Font>
-			<name>mystatuslabel</name>
-        	<family>Lucida Grande</family>
-        	<size>10</size>
-        	<weight>normal</weight>
-        	<slant>roman</slant>
-        	<underline>false</underline>
-		</Font>
+                        <name>mystatuslabel2</name>
+                        <family>Lucida Grande</family>
+                        <size>10</size>
+                        <weight>normal</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
 		<Font>
-			<name>mystatuslabel2</name>
-			<family>Lucida Grande</family>
-			<size>10</size>
-			<weight>normal</weight>
-			<slant>roman</slant>
-			<underline>false</underline>
-		</Font>
+                        <name>mystatus</name>
+                        <family>Lucida Grande</family>
+                        <size>12</size>
+                        <weight>bold</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
 		<Font>
-			<name>mystatus</name>
-			<family>Lucida Grande</family>
-			<size>12</size>
-			<weight>bold</weight>
-			<slant>roman</slant>
-			<underline>false</underline>
-		</Font>
+                        <name>psmfont</name>
+                        <family>Lucida Grande</family>
+                        <size>12</size>
+                        <weight>normal</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
 		<Font>
-			<name>psmfont</name>
-			<family>Lucida Grande</family>
-			<size>10</size>
-			<weight>normal</weight>
-			<slant>roman</slant>
-			<underline>false</underline>
-		</Font>
-		<Font>
-			<name>buddypsmfont</name>
-			<size>10</size>
-		</Font>
-	</Fonts>
+                        <name>buddypsmfont</name>
+                        <family>Lucida Grande</family>
+                        <size>10</size>
+                        <weight>normal</weight>
+                        <slant>roman</slant>
+                        <underline>false</underline>
+                </Font>
+        </Fonts>
 
 	<General>
 		<Colors>
+			<loginbuttonbg>#f6f6f6</loginbuttonbg>
 			<balloonbackground>#f6f6f6</balloonbackground>
 			<balloonborder>black</balloonborder>
 			<balloontext>#000000</balloontext>
@@ -92,7 +97,6 @@
 			<groupcolorextend>black</groupcolorextend>
 			<groupcolorcontract>#808284</groupcolorcontract>
 			<bannerbg>#a3a3a3</bannerbg>
-			<buddypsmcolor>#555555</buddypsmcolor>
    		 </Colors>
 		 <Options>
 			<emailabovecolorbar>1</emailabovecolorbar>
@@ -112,14 +116,14 @@
 			<mystatus_ypad>0</mystatus_ypad>
 			<mailbox_xpad>5</mailbox_xpad>
 			<mailbox_ypad>0</mailbox_ypad>
-			<contract_xpad>10</contract_xpad>
-			<contract_ypad>20</contract_ypad>
-			<expand_xpad>10</expand_xpad>
-			<expand_ypad>20</expand_ypad>
+			<contract_xpad>2</contract_xpad>
+			<contract_ypad>7</contract_ypad>
+			<expand_xpad>2</expand_xpad>
+			<expand_ypad>7</expand_ypad>
 			<x_dp_top>6</x_dp_top>
 			<y_dp_top>5</y_dp_top>
-			<buddy_xpad>8</buddy_xpad>
-			<buddy_ypad>2</buddy_ypad>			
+			<buddy_xpad>0</buddy_xpad>
+			<buddy_ypad>1</buddy_ypad>		
 		</Geometry>
 	</ContactList>
 
