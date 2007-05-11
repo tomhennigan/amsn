@@ -537,6 +537,9 @@ namespace eval ::skin {
 		sxml::register_routine $skin_id "skin:General:Colors" ::skin::SetConfigKeys
 		sxml::register_routine $skin_id "skin:General:Geometry" ::skin::SetConfigKeys
 		sxml::register_routine $skin_id "skin:General:Options" ::skin::SetConfigKeys
+		sxml::register_routine $skin_id "skin:Login:Colors" ::skin::SetConfigKeys
+		sxml::register_routine $skin_id "skin:Login:Geometry" ::skin::SetConfigKeys
+		sxml::register_routine $skin_id "skin:Login:Options" ::skin::SetConfigKeys
 		sxml::register_routine $skin_id "skin:ContactList:Colors" ::skin::SetConfigKeys
 		sxml::register_routine $skin_id "skin:ContactList:Geometry" ::skin::SetConfigKeys
 		sxml::register_routine $skin_id "skin:ContactList:Options" ::skin::SetConfigKeys

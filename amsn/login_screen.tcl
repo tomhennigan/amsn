@@ -2,6 +2,7 @@
 ::Version::setSubversionId {$Id$}
 
 package require contentmanager
+package require scalable-bg
 
 snit::widgetadaptor loginscreen {
 
@@ -35,6 +36,7 @@ snit::widgetadaptor loginscreen {
 	component auto_login_field
 
 	component login_button
+	component login_button_background
 	variable login_button_tag
 
 	component forgot_pass_link
@@ -124,30 +126,44 @@ snit::widgetadaptor loginscreen {
 		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect] -bg white]
 		set auto_login_field_tag [$self create window 0 0 -anchor nw -window $auto_login_field]
 
+		set login_button_background [scalable-bg ::$self.login.bg -source [::skin::loadPixmap loginbutton] \
+			-n [::skin::getKey loginbuttony 1] -e [::skin::getKey loginbuttonx 1] \
+			-s [::skin::getKey loginbuttony 1] -w [::skin::getKey loginbuttonx 1] \
+			-resizemethod [::skin::getKey loginbuttonresize "tile"]]
+
 		# Login button
 		if {[OnMac]} {
 			# tomhennigan: This [OnMac] is here, because even though buttons2labels is called the button won't show..
 			set login_button [label $self.login \
 					-text [trans login] \
 					-cursor hand2 \
-					-image [::skin::loadPixmap loginbutton] \
-					-fg black -bg [::skin::getKey loginbuttonbg] -bd 0 -relief flat \
-					-activebackground [::skin::getKey loginbuttonbg] -activeforeground black \
-					-font sboldf -highlightthickness 0 -pady 0 -padx 0 -compound center]
+					-image [::skin::loadPixmap nullimage] \
+					-background [::skin::getKey loginbuttonbg "white"] \
+					-activebackground [::skin::getKey loginbuttonbg "white"] \
+					-foreground [::skin::getKey loginbuttonfg "black"] \
+					-activeforeground [::skin::getKey loginbuttonfg "black"] \
+					-bd 0 -relief flat -font sboldf \
+					-highlightthickness 0 -pady 0 -padx 0 -compound center]
 			bind $login_button <<Button1>> [list $self LoginFormSubmitted]
 		} else {
 			set login_button [button $self.login \
 					-text [trans login] \
+					-image [::skin::loadPixmap nullimage] \
+					-background [::skin::getKey loginbuttonbg "white"] \
+					-activebackground [::skin::getKey loginbuttonbg "white"] \
+					-foreground [::skin::getKey loginbuttonfg "black"] \
+					-activeforeground [::skin::getKey loginbuttonfg "black"] \
 					-command [list $self LoginFormSubmitted] -cursor hand2 \
-					-image [::skin::loadPixmap loginbutton] \
-					-fg black -bg [::skin::getKey loginbuttonbg] -bd 0 -relief flat \
-					-activebackground [::skin::getKey loginbuttonbg] -activeforeground black \
-					-font sboldf -highlightthickness 0 -pady 0 -padx 0 \
-					-overrelief flat -compound center]
+					-bd 0 -relief flat -font sboldf -highlightthickness 0 \
+					-pady 0 -padx 0 -overrelief flat -compound center]
 		}
 
-		bind $login_button <Enter> [list $login_button configure -image [::skin::loadPixmap loginbutton_hover]]
-		bind $login_button <Leave> [list $login_button configure -image [::skin::loadPixmap loginbutton]]
+		bind $login_button <Configure> [list $self ResizeLoginButton %w %h]
+		bind $login_button <Destroy> [list $login_button_background destroy]
+		bind $login_button <Enter> \
+			[list $login_button_background configure -source [::skin::loadPixmap loginbutton_hover]]
+		bind $login_button <Leave> \
+			[list $login_button_background configure -source [::skin::loadPixmap loginbutton]]
 
 		set login_button_tag [$self create window 0 0 -anchor nw -window $login_button]
 		# Useful links
@@ -258,6 +274,14 @@ snit::widgetadaptor loginscreen {
 		::Event::unregisterEvent reconnecting all [list $self LoggingIn]
 		::Event::unregisterEvent profileCreated all [list $self profileCreated]
 		::Event::unregisterEvent profileDeleted all [list $self profileDeleted]
+	}
+
+	method ResizeLoginButton {width height} {
+		#Don't put {} here for expr as we need to substitute in the current context
+		$login_button_background configure -width [expr $width+2*[::skin::getKey loginbuttonx 1]] \
+			-height [expr $height+2*[::skin::getKey loginbuttony 1]]
+		bind $login_button <Configure> ""
+		$login_button configure -image [$login_button_background name]
 	}
 
 	# ------------------------------------------------------------------------------------------------------------

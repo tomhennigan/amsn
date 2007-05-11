@@ -53,7 +53,9 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey chat_tabbar_pady 0
 	::skin::setKey buttonbarbg #eeeeff
 	::skin::setKey loginbuttonbg #c3c2d2
+	::skin::setKey loginbuttonfg black
 	::skin::setKey sendbuttonbg #c3c2d2
+	::skin::setKey sendbuttonfg black
 	::skin::setKey topbarbg #5050e5
 	::skin::setKey topbarbg_sel #d3d0ce
 	::skin::setKey topbartext #ffffff
@@ -72,6 +74,8 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey topbarofflineborder #000000
 	::skin::setKey topbarpadx 6
 	::skin::setKey topbarpady 6
+	::skin::setKey loginbuttonx 6
+	::skin::setKey loginbuttony 6
 	::skin::setKey chat_top_pixmap 0
 	
 	::skin::setKey statusbarbg #eeeeee
@@ -79,16 +83,6 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey statusbartext #000000
 	::skin::setKey groupcolorextend #000080
 	::skin::setKey groupcolorcontract #000080
-
-	::skin::setKey button_border_left 6
-	::skin::setKey button_border_right 6
-	::skin::setKey button_border_top 6
-	::skin::setKey button_border_bottom 6
-
-	::skin::setKey button_ring_border_left 2
-	::skin::setKey button_ring_border_right 2
-	::skin::setKey button_ring_border_top 2
-	::skin::setKey button_ring_border_bottom 2
 
 	::skin::setKey chat_top_padx 0
 	::skin::setKey chat_top_pady 0
@@ -3553,7 +3547,7 @@ proc cmsn_draw_main {} {
 
 	set pgBuddyTop $pgBuddy.top
 	frame $pgBuddyTop -background [::skin::getKey topcontactlistbg] -width 30 -height 30 -cursor left_ptr \
-		-borderwidth 0 -relief flat -bd 0
+		-borderwidth 0 -relief flat
 	
 	$pgBuddyTop configure -padx 0 -pady 0
 
@@ -3565,7 +3559,7 @@ proc cmsn_draw_main {} {
 	combobox::combobox .main.eventmenu.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false
 
 	#Display the amsn banner if it is enabled
-	label .main.banner -bd 0 -relief flat -background [::skin::getKey bannerbg]
+	label .main.banner -borderwidth 0 -relief flat -background [::skin::getKey bannerbg]
 	pack .main.banner -side bottom -fill x
 	resetBanner
 
@@ -4768,16 +4762,6 @@ proc drawNick { } {
 
 	set maxw [expr {[winfo width [winfo parent $pgBuddyTop]]-[$pgBuddyTop.bigstate cget -width]-(2*[::skin::getKey bigstate_xpad])}]
 	set pic_name displaypicture_std_self
-	
-	#$pgBuddyTop.mystatus tag conf mystatuslabel -fore [::skin::getKey mystatus] \
-	#	-font [::skin::getFont "mystatuslabel" "splainf"]
-	#$pgBuddyTop.mystatus tag conf mystatuslabel2 -fore [::skin::getKey mystatus] \
-	#	-font [::skin::getFont "mystatuslabel2" "bboldf"]
-	#$pgBuddyTop.mystatus tag conf mystatus -fore $my_colour \
-	#	-font [::skin::getFont "mystatus" "bboldf"]
-	#$pgBuddyTop.mystatus tag conf mypsmmedia -fore $my_colour \
-	#	-font [::skin::getFont "psmfont" "sbolditalf"]
-	
 
 	set stylestring [list ]
 	lappend stylestring [list "tag" "mystatuslabel"]
@@ -4792,9 +4776,6 @@ proc drawNick { } {
 		lappend stylestring [list "font" [::skin::getFont "mystatuslabel2" "bboldf"]]
 		lappend stylestring [list "text" "[lindex $automessage 0]"]
 		lappend stylestring [list "tag" "-mystatuslabel2"]
-		#$pgBuddyTop.mystatus insert end "[lindex $automessage 0]\n" mystatuslabel2
-	#} else {
-	#	$pgBuddyTop.mystatus insert end "\n" mystatuslabel
 	}
 
 	lappend stylestring [list "newline" "\n"]
@@ -4805,7 +4786,6 @@ proc drawNick { } {
 	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
 	set my_name [::abook::getVolatileData myself parsed_mfn]
 	set my_colour [::MSN::stateToColor [::MSN::myStatusIs] "contact"]
-	#position of the string in the widget
 
 	lappend stylestring [list "tag" "mystatus"]
 	lappend stylestring [list "default" $my_colour [::skin::getFont "mystatus" "bboldf"]]
@@ -4816,7 +4796,6 @@ proc drawNick { } {
 	lappend stylestring [list "font" "reset"]
 	lappend stylestring [list "text" " ($my_state_desc)"]
 	lappend stylestring [list "tag" "-mystatus"]
-	#$pgBuddyTop.mystatus insert $pos1 "$my_name ($my_state_desc)" mystatus
 
 	set psmmedia ""
 	if {[::config::getKey protocol] == 11} {
