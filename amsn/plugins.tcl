@@ -697,11 +697,7 @@ namespace eval ::plugins {
 	    }
 
 	    #name of the configuration window
-	    #it's better not to have spaces in a window path
-	    set confw $selection
-	    set confw [regsub -all "_" $confw "__"]
-	    set confw [regsub -all " " $confw "_"]
-	    set confw ${w}.winconf_$confw
+	    set confw ${w}.winconf_$selection
 
 	    #If the window is already here, just raise it to the front
 	    if { [winfo exists $confw] } {
