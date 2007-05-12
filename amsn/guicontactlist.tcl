@@ -1079,7 +1079,7 @@ namespace eval ::guiContactList {
 					lappend linesheight $max_height
 					set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
 					lappend truncable [list "size" [font measure $font_attr $ellips]]
-					lappend lines [adaptSizes $linewidth $truncable $tofill $maxwidth]
+					lappend lineswidth [adaptSizes $linewidth $truncable $tofill $maxwidth]
 					set linewidth [list $marginx]
 					set truncable [list [list "size" [font measure $font_attr $ellips]]]
 					set tofill [list ]
@@ -1116,7 +1116,7 @@ namespace eval ::guiContactList {
 		set i 0
 		set j 1
 
-		set linewidth [lindex $lines $i]
+		set linewidth [lindex $lineswidth $i]
 
 		foreach unit $text {
 			set size [lindex $linewidth $j]
@@ -1306,7 +1306,7 @@ namespace eval ::guiContactList {
 						[lindex $linesheight [expr {$i+1}]]/2}]
 
 					incr i
-					set linewidth [lindex $lines $i]
+					set linewidth [lindex $lineswidth $i]
 					set j 1
 				}
 				default {
