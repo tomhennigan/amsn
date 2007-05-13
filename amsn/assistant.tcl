@@ -1892,7 +1892,7 @@ namespace eval ::AVAssistant {
 			frame $rightframe.wavef
 			set wavef $rightframe.wavef
 			pack $wavef -side top -pady 5
-			canvas $wavef.wave -borderwidth 0 -relief solid -width 250 -height 75
+			canvas $wavef.wave -borderwidth 0 -relief solid -width 250 -height 150
 			pack $wavef.wave -side left
 
 		
@@ -2076,7 +2076,7 @@ namespace eval ::AVAssistant {
 		frame $rightframe.wavef
 		set wavef $rightframe.wavef
 		pack $wavef -side top -pady 5
-		canvas $wavef.wave -borderwidth 0 -relief solid -width 250 -height 75
+		canvas $wavef.wave -borderwidth 0 -relief solid -width 250 -height 150
 		pack $wavef.wave -side left
 
 		#use the alarm as test file for the moment
