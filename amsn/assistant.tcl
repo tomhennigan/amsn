@@ -2122,7 +2122,7 @@ namespace eval ::AVAssistant {
 			after 3000 "catch { $w.wavef.wave delete errmsg }"
 		} else {
 			if { [catch {$sound record} res]} {
-				$w.wavef.wave create text 5 5 -anchor nw -font bboldf -text "[trans recorderror $res]" -fill #FF0000 -anchor nw -tag errmsg
+				$w.wavef.wave create text 5 5 -anchor nw -font bboldf -width [winfo width $w.wavef.wave] -text "[trans recorderror $res]" -fill #FF0000 -anchor nw -tag errmsg
 				after 3000 "catch { $w.wavef.wave delete errmsg }"
 			} else {
 				#don't press on the play button while recording
