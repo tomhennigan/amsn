@@ -696,7 +696,7 @@ reconnect2 Se reconnecter en cas de déconnexion
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
 record Enregistrer
-recorderror Une erreur s'est produite lors de l'enregistrement du son
+recorderror Une erreur s'est produite lors de l'enregistrement du son : $1
 recvwebcamaccepted $1 a accepté votre invitation pour voir sa webcam. Connexion en cours.
 reject Refuser
 rememberaccount Enregistrer le nom de compte
