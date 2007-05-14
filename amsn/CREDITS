@@ -334,6 +334,7 @@ Steels (Benjamin Grosse): aMac and Tux skins
 Bluetit (Tom Jenkins): Crystola and Stylistic(default) skins
 Luis Quesada: Cubic skin
 Gustavo A. Diaz: Kubuntu, Ubuntu, Live and Emerald skins
+Boesch Clément  (aka Lord Zak (aka ubitux)) for his great contribution of the new 0.97 smiley set.
 
 ========================================================
 === More special thanks and credits ====================
@@ -381,6 +382,5 @@ XawTV Team (providing the libng library for accessing webcam devices easily)
 GrdScarabe for his great documentation/FAQ/translation work and contributions
 Edoardo Vacchi (aka NoWhereMan) for his plugins and contributions to the code, forums and wiki
 Gabriel Gambetta for his patch to libng that adds support for SN9C10x based webcams.
-Boesch Clément  (aka Lord Zak (aka ubitux)) for his great contribution of the new 0.97 smiley set.
 Giuseppe Bottiglieri (Square87) for his numerous patches and plugin development.
 

@@ -687,5 +687,27 @@
          <file> Umbrella.png </file>
       </emoticon>
       
+      <emoticon>
+         <name> I'm Initiative </name>
+         <text> "*red+u" </text>
+         <text> "*sierra" </text>
+         <text> "*bgca" </text>
+         <text> "*9mil" </text>
+         <text> "*hsus" </text>
+         <text> "*komen" </text>
+         <text> "*one" </text>
+         <text> "*mssoc" </text>
+         <text> "*care" </text>
+         <text> "*acs" </text>
+         <text> "*oxfam" </text>
+         <text> "*mod" </text>
+         <text> "*help" </text>
+         <text> "*unicef" </text>
+         <text> "*wwf" </text>
+         <text> "*naf" </text>
+         <file> IM.png </file>
+	 <hiden> true </hiden>
+      </emoticon>
+      
    </smileys>
 </skin>
