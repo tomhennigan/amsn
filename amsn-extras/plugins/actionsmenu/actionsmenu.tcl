@@ -4,12 +4,13 @@
 # 								                 #
 # 	Originally written by  Karel Demeyer, 2005	 #
 #   Fixed by Takeshi, 2007						 #
-#	Search Contact function by Takeshi			 #
+#	Search Contact function by Takeshi, Square87 #
 #  ============================================  #
 ##################################################
 
-#TODO On click collapse 
-#
+#TODO Translation 
+#TODO Right click behavior
+#TODO plugin update 
 
 namespace eval ::actionmenu {
 
@@ -24,7 +25,7 @@ namespace eval ::actionmenu {
 		::skin::setPixmap img_addcontact actions_addcontact.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap img_find actions_find.gif pixmaps [file join $dir pixmaps]
 		::skin::setPixmap img_collapsecol actions_collapsecol.gif pixmaps [file join $dir pixmaps]
-		after 1000 "catch { ::actionmenu::draw 0 0 }"
+		after 2000 "catch { ::actionmenu::draw 0 0 }"
 			}
 	
 	proc RegisterEvent {} {
@@ -133,8 +134,37 @@ namespace eval ::actionmenu {
 	label .searchwindow.l -font sboldf -text "Search"
 	entry .searchwindow.chars -width 50 -bg #FFFFFF -bd 0 -font splainf
 	focus .searchwindow.chars
-	set email [.searchwindow.chars get]
 	listbox .searchwindow.userbox -relief flat -borderwidth 0 -height 8 -width 55 -bg white
+
+	frame .searchwindow.search
+	label .searchwindow.search.label -text "[trans Search]: " -anchor w
+	
+	combobox::combobox .searchwindow.search.combo -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf 
+	#foreach i { All Nick Email } { 
+	#	.searchwindow.search.combo list insert end $i 
+	#	}
+	
+	#radiobutton .searchwindow.search.r1 -highlightthickness 0 -width 5 -bg #FFFFFF -font splainf -text All 
+	#radiobutton .searchwindow.search.r2 -highlightthickness 0 -width 10 -font splainf -text Nick
+	#radiobutton .searchwindow.search.r3 -highlightthickness 0 -width 15 -font splainf -text Email
+	
+	#grid .r1 -row0 -column 2 
+	#grid .r2 -row0 -column 1
+	#grid .r3 -row0 -column 0
+	
+	foreach i {All Nick Email} {
+		.searchwindow.search.combo list insert end $i
+	}
+	.searchwindow.search.combo select 0
+
+
+	frame .searchwindow.show
+	label .searchwindow.show.label -text "[trans Show]: " -anchor w
+	combobox::combobox .searchwindow.show.combo -editable false -highlightthickness 0 -width 16 -bg #FFFFFF -font splainf
+	foreach i { Nick Email} {
+		.searchwindow.show.combo list insert end $i
+	}
+	.searchwindow.show.combo select 1
 
 	pack .searchwindow.userbox -side bottom
 	frame .searchwindow.b
@@ -143,9 +173,18 @@ namespace eval ::actionmenu {
 
 	pack .searchwindow.b.ok .searchwindow.b.cancel -side right -padx 5		
 	pack .searchwindow.l -side top -anchor sw -padx 10 -pady 3
+	
+	pack .searchwindow.search.combo -side right -anchor w
+	#grid rowconfigure . { 0 } -weight 1
+	#grid columnconfigure . { 0 1 2 } -weight 1
+	
+	pack .searchwindow.search.label -side left -anchor sw -padx 10 -pady 3
+	pack .searchwindow.search -anchor w -padx 10
+	pack .searchwindow.show.combo -side right -anchor w
+	pack .searchwindow.show.label -side left -anchor sw -padx 10 -pady 3
+	pack .searchwindow.show -anchor w -padx 10
 	pack .searchwindow.chars -side top -expand true -fill x -padx 10 -pady 3
 	pack .searchwindow.b -side top -pady 3 -expand true -anchor se
-	
 
 	
 	bind .searchwindow.chars <Return> "::actionmenu::searchuser \"$[.searchwindow.chars get]\" "
@@ -157,36 +196,56 @@ namespace eval ::actionmenu {
 proc searchuser { charstyped } {
 	global result		
 				
-	trysearch result									
+	trysearch result
 	#set result [expr $result +1]
 	#trysearch result	
 	
 	#	update 
-		}
-				proc trysearch { result } {
-					set charstyped [string tolower [.searchwindow.chars get] ]
-					set contact [::abook::getAllContacts]
-				foreach n $charstyped { if { [set result [string last "$charstyped" [::abook::getAllContacts] ] ] != -1} {
-					
-					
-					set rawres [string range "$contact" [expr $result -10] [expr $result +50] ]
+}
 
-					set purgeres [expr [string first "\ " $rawres]+1]
-					
-					set purgeresbef [string range "$rawres" $purgeres 35 ]
-					set aftindex [expr [string last "." $purgeresbef]+3]	
-					set res [string range $purgeresbef 0 $aftindex]
-					set completeres [::abook::getNick $res]
-					#set rawtemp [list]
-					.searchwindow.userbox delete "0" "10"
-					#.searchwindow.userbox insert end $rawres
-					#.searchwindow.userbox insert end $result
-					.searchwindow.userbox insert end $res
-					
-					#searchuser($charstyped)
-					.searchwindow.userbox insert end $completeres
-					} else { [ .searchwindow.userbox delete "0" "10" ].searchwindow.userbox insert end "No Contact Found" }
+proc trysearch { result } {
+	.searchwindow.userbox delete 0 end
+	set charstyped [string tolower [.searchwindow.chars get] ]
+	set search [.searchwindow.search.combo get]
+	set show [.searchwindow.show.combo get]
+	set s 0
+	set y 0
+	set contacts_FL [list]
+
+	foreach contact [::abook::getAllContacts] {
+		if { [string last "FL" [::abook::getContactData $contact lists]] != -1 } {
+			lappend contacts_FL $contact
+		}
+	}
+
+	foreach contact [lindex $contacts_FL] {
+		if {$search == "Email" || $search == "All"} {
+			if { [set result [string last "$charstyped" $contact ] ] != -1} {
+	
+				if {$show == "Email"} {
+					.searchwindow.userbox insert end $contact
+				} else {
+					.searchwindow.userbox insert end [::abook::getNick $contact]
 				}
+				set s 1
+				set y 1
 			}
+		}
+		if {$search == "Nick" || ($search == "All" && $y == 0)} {
+			if {[string last "$charstyped" [string tolower [::abook::getNick $contact]]] != -1} {
+				if {$show == "Email"} {
+					.searchwindow.userbox insert end $contact
+				} else {
+					.searchwindow.userbox insert end [::abook::getNick $contact]
+				}
+				set s 1
+			}
+		}
+		set y 0
+	}
+	if {$s == 0} {
+		 .searchwindow.userbox insert end "No Contact Found"
+	}
+}
 
 }

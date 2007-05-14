@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>ActionsMenu</name>
-	<author>Originally written by Karel Demeyer 2005 fixed and improved by Takeshi 2007</author>
+	<author>Originally written by Karel Demeyer 2005 fixed and improved by Takeshi and Square87 2007</author>
 	<description>This plugin implements a "actions" menu on the bottom of the contactlist with Add Contact and Search Contact function</description>
 	<amsn_version>0.97</amsn_version>
-	<plugin_version>0.2b</plugin_version>
+	<plugin_version>0.3b</plugin_version>
 	<plugin_file>actionsmenu.tcl</plugin_file>
 	<plugin_namespace>actionmenu</plugin_namespace>
 	<init_procedure>Init</init_procedure>
