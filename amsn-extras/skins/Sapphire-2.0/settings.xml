@@ -19,13 +19,14 @@
 		</Colors>
 		<Options>
 			<balloonfont>splainf</balloonfont>
-			<balloonborderwidth>0</balloonborderwidth>	<!--Note: On linux, balloonborderwidth 0 gives a border of 1px due to tk platform differences. To have no balloon border, set balloonborderwidth to 0 and have the balloonborder the same colour as the balloonbackground-->
+			<balloonborderwidth>0</balloonborderwidth>
+			<!--Note: On linux, balloonborderwidth 0 gives a border of 1px due to tk platform differences. To have no balloon border, set balloonborderwidth to 0 and have the balloonborder the same colour as the balloonbackground-->
 		</Options>
 		<Geometry>
 			<notifwidth>210</notifwidth>
 			<notifheight>118</notifheight>
 			<x_notifyclose>188</x_notifyclose>
-			<y_notifyclose>4</y_notifyclose>
+			<y_notifyclose>0</y_notifyclose>
 			<x_notifydp>9</x_notifydp>
 			<y_notifydp>21</y_notifydp>
 			<x_notifytext>62</x_notifytext>
@@ -33,6 +34,20 @@
 			<width_notifytext>133</width_notifytext>
 		</Geometry>
 	</General>
+	
+	<Login>
+		<Colors>
+			<loginbuttonbg>#ffffff</loginbuttonbg>
+			<loginbuttonfg>#000000</loginbuttonfg>
+		</Colors>
+		<Options>
+			<loginbuttonresize>tile</loginbuttonresize>
+		</Options>
+		<Geometry>
+			<loginbuttonx>4</loginbuttonx>
+			<loginbuttony>4</loginbuttony>
+		</Geometry>
+	</Login>
 
 	<ContactList>
     		<Colors>
@@ -106,21 +121,17 @@
 			<chat_dp_border_color>#8f8f8f</chat_dp_border_color>
 			<sendbuttonbg>#ffffff</sendbuttonbg>
 			<topbarbg>#f7f7f7</topbarbg>
-			<topbarbg_sel>#c6cdd7</topbarbg_sel>
 			<topbartext>#000000</topbartext>
 			<topbarborder>#7da0af</topbarborder>
 			<topbarawaybg>#dfe7f0</topbarawaybg>
-			<topbarawaybg_sel>#c6cdd7</topbarawaybg_sel>
 			<topbarawaytext>#000000</topbarawaytext>
-			<topbarawayborder>#002f50</topbarawayborder>
+			<topbarawayborder>#7da0af</topbarawayborder>
 			<topbarbusybg>#dfe7f0</topbarbusybg>
-			<topbarbusybg_sel>#c6cdd7</topbarbusybg_sel>
 			<topbarbusytext>#000000</topbarbusytext>
-			<topbarbusyborder>#002f50</topbarbusyborder>
+			<topbarbusyborder>#7da0af</topbarbusyborder>
 			<topbarofflinebg>#dfe7f0</topbarofflinebg>
-			<topbarofflinebg_sel>#c6cdd7</topbarofflinebg_sel>
 			<topbarofflinetext>#666666</topbarofflinetext>
-			<topbarofflineborder>#002f50</topbarofflineborder>
+			<topbarofflineborder>#7da0af</topbarofflineborder>
 			<statusbarbg>#f7f7f7</statusbarbg>
 			<statusbarbg_sel>#c6cdd7</statusbarbg_sel>
 			<statusbartext>#666666</statusbartext>
@@ -128,6 +139,7 @@
 		</Colors>
 		<Options>
 			<chat_top_pixmap>1</chat_top_pixmap>
+			<chat_top_resize>scale</chat_top_resize>
 			<chat_top_border>1</chat_top_border>
 			<chat_output_border>1</chat_output_border>
 			<chat_buttons_border>1</chat_buttons_border>
