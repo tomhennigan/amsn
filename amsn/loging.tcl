@@ -1530,7 +1530,7 @@ namespace eval ::log {
 			if { [::log::checkeventlog] } {
 				::log::OpenLogEvent
 				set fileid [LogArray eventlog get]
-				catch {puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans connectedwith [::config::getKey login]]\n"}
+				catch {puts -nonewline $fileid "\|\"LRED[timestamp] [trans connectedwith [::config::getKey login]]\n"}
 				::log::CloseLogEvent
 			}
 		}
@@ -1542,13 +1542,13 @@ namespace eval ::log {
 		global eventdisconnected
 
 		if { [::log::checkeventdisplay] } {
-			.main.eventmenu.list list insert 0 "[clock format [clock seconds] -format "%H:%M:%S"] : [trans disconnectedfrom [::config::getKey login]]"
+			.main.eventmenu.list list insert 0 "[timestamp] : [trans disconnectedfrom [::config::getKey login]]"
 			.main.eventmenu.list select 0
 		}
 		if { [::log::checkeventlog] } {
 			::log::OpenLogEvent
 			set fileid [LogArray eventlog get]
-			puts -nonewline $fileid "\|\"LRED\[[clock format [clock seconds] -format "%d %b %Y %T"]\] [trans disconnectedfrom [::config::getKey login]]\n\n"
+			puts -nonewline $fileid "\|\"LRED[timestamp] [trans disconnectedfrom [::config::getKey login]]\n\n"
 			::log::CloseLogEvent
 		}
 	}
