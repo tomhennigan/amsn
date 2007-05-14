@@ -2752,9 +2752,12 @@ namespace eval ::amsn {
 
 	proc  SelectUrl {textw urlname } {
 		if { [focus] != "${textw}.inner" || [llength [$textw tag ranges sel]] == 0} {
+			# If we were focusing on the text widget (user didn't explicitely just selected text with his mouse)
+			# We need to free up the selection to avoid having multiple ranges selected
 			if { [llength [$textw tag ranges sel]] > 0 } {
 				eval [list $textw] tag remove sel [$textw tag ranges sel]
 			}
+			# We force the focus on the inner frame, this way the selection will appear, otherwise, we won't see anything..
 			catch {focus -force ${textw}.inner}
 			eval [list $textw] tag add sel [$textw tag ranges $urlname] 
 		}
