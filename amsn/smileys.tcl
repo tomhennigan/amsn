@@ -142,6 +142,17 @@ namespace eval ::smiley {
 	}
 	
 		
+	# This function will resize those huge custom emoticons to the standard maximum size of 50x50 accepted by WLM.
+	proc resizeCustomSmiley { image } {
+		if {[catch {image width $image}] } {
+			status_log "asked to resize custom emoticon $image that doesn't exist" red
+			return
+		}
+		if { [image width $image] > 50 || [image height $image] > 50 } {
+			::picture::ResizeWithRatio $image 50 50
+		}
+	}
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# proc newCustomEmoticonXML {cstack cdata saved_data cattr saved_attr args}
 	#
@@ -176,6 +187,9 @@ namespace eval ::smiley {
 			status_log "Error when creating image for emoticon $emotion(name) : $emotion(image_name)"
 			#Error when creating smiley's image so we don't add it
 			return 0
+		} else {
+			# Make sure the smiley is max 50x50
+			::smiley::resizeCustomSmiley emoticonCustom_std_$emotion(text)
 		}
 		
 		#Store the emoticon data in the custom_emoticons array
@@ -1220,6 +1234,10 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 		    }
 			
 			set smileyIdx [$tw image create $endpos -image "emoticonCustom_std_$file" -padx 0 -pady 0]
+
+			# Make sure the smiley is max 50x50
+			::smiley::resizeCustomSmiley emoticonCustom_std_$file
+
 			$tw tag add $twTag $smileyIdx
 			$tw tag remove smiley $endpos
 		    

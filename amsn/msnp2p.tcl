@@ -213,6 +213,9 @@ namespace eval ::MSNP2P {
 			create_dir [file join $HOME smileys]
 			create_dir [file join $HOME smileys cache]
 			::MSNP2P::RequestObject $chatid $user $msnobj
+		} else {
+			# Make sure the smiley is max 50x50
+			::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
 		}
 	}
 
@@ -959,6 +962,9 @@ namespace eval ::MSNP2P {
 								#set file [filenoext $file].gif
 								set scrolling [::ChatWindow::getScrolling $tw]
 								catch {image create photo emoticonCustom_std_${filename} -file "[file join $HOME smileys cache ${filename}.png]" -format cximage}
+								
+								# Make sure the smiley is max 50x50
+								::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
 								if { $scrolling } { ::ChatWindow::Scroll $tw }
 							}
 						}
