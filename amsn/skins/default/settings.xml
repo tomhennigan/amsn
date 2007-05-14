@@ -371,7 +371,7 @@
    
       <emoticon>
          <name> Dog face </name>
-         <text> "(&)" </text>
+         <text> "(&amp;)" </text>
          <file> Dog_face.png </file>
       </emoticon>
    
