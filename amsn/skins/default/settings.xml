@@ -183,8 +183,8 @@
    <smileys>
 
       <size>
-         <smilew>19 </smilew>
-         <smileh>19 </smileh>
+         <smilew>22 </smilew>
+         <smileh>22 </smileh>
       </size>
 
       <emoticon>
@@ -379,6 +379,12 @@
          <name> Snail </name>
          <text> "(sn)" </text>
          <file> Snail.png </file>
+      </emoticon>
+   
+      <emoticon>
+         <name> Goat </name>
+         <text> "(nah)" </text>
+         <file> Goat.png </file>
       </emoticon>
    
       <emoticon>
@@ -644,12 +650,6 @@
       </emoticon>
 	  
 	  <emoticon>
-        <name> Asl </name>
-        <text> "(?)" </text>
-        <file> Asl.png </file>
-      </emoticon>
-	  
-	  <emoticon>
         <name> Vampire bat </name>
         <text> ":-[" </text>
 	    <text> ":[" </text>
@@ -667,12 +667,6 @@
         <name> Hi five </name>
         <text> "(h5)" </text>
         <file> Hi_five.png </file>
-      </emoticon>
-	  
-	  <emoticon>
-        <name> What The Fuck </name>
-        <text> ":`(" </text>
-        <file> What_The_Fuck.png </file>
       </emoticon>
 	  
 	  <emoticon>
