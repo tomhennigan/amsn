@@ -2750,6 +2750,16 @@ namespace eval ::amsn {
 		set urlstarts { "http://" "https://" "ftp://" "www." }
 	}
 
+	proc  SelectUrl {textw urlname } {
+		if { [focus] != "${textw}.inner" || [llength [$textw tag ranges sel]] == 0} {
+			if { [llength [$textw tag ranges sel]] > 0 } {
+				eval [list $textw] tag remove sel [$textw tag ranges sel]
+			}
+			catch {focus -force ${textw}.inner}
+			eval [list $textw] tag add sel [$textw tag ranges $urlname] 
+		}
+	}
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# WinWrite (chatid,txt,tagid,[format])
 	# Writes 'txt' into the window related to 'chatid'
@@ -2884,6 +2894,7 @@ namespace eval ::amsn {
 				$textw conf -cursor xterm"
 				$textw tag bind $urlname <Button1-ButtonRelease> \
 				"$textw conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
+				$textw tag bind $urlname <Button3-ButtonRelease> [list ::amsn::SelectUrl $textw $urlname]
 
 				$textw rodelete $pos $endpos
 				$textw roinsert $pos "$urltext" $urlname
