@@ -1,10 +1,10 @@
 ##################################################
 #  This plugin implements the actions menu on    #
 #  the bottom of the contactlist, as seen in MSN #
-# 								                 #
-# 	Originally written by  Karel Demeyer, 2005	 #
-#   Fixed by Takeshi, 2007						 #
-#	Search Contact function by Takeshi, Square87 #
+# 								 #
+# 	Originally written by  Karel Demeyer, 2005 #
+#   Fixed by Takeshi, 2007				 #
+#   Search Contact function by Takeshi, Square87 #
 #  ============================================  #
 ##################################################
 
@@ -13,22 +13,52 @@
 #TODO plugin update 
 
 namespace eval ::actionmenu {
-
+	variable dir
 
 	
 	proc Init { dir } {
+
+		global HOME HOME2
+		#set ::actionmenu::dir $dir
+		set langdir [append dir "/lang"]
+		load_lang en $langdir
+		load_lang [::config::getGlobalKey language] $langdir
+
 		
 		::plugins::RegisterPlugin "actionmenu"
+
 		::actionmenu::RegisterEvent
-		::skin::setPixmap actionsbg actionsbg.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap img_expcol actions_expcol.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap img_addcontact actions_addcontact.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap img_find actions_find.gif pixmaps [file join $dir pixmaps]
-		::skin::setPixmap img_collapsecol actions_collapsecol.gif pixmaps [file join $dir pixmaps]
-		after 2000 "catch { ::actionmenu::draw 0 0 }"
+		
+
+		#if {[string equal $::version "0.94"]} {
+
+		#::skin::setPixmap actionsbg [file join $dir pixmaps actionsbg.png]
+		
+		#::skin::setPixmap img_expcol [file join $dir pixmaps actions_expcol.gif]
+
+		#::skin::setPixmap img_addcontact [file join $dir pixmaps actions_addcontact.gif]
+
+		#::skin::setPixmap img_find [file join $dir pixmaps actions_find.gif]
+
+		#::skin::setPixmap img_collapsecol [file join $dir pixmaps actions_collapsecol.gif]
+		#} else {
+		::skin::setPixmap actionsbg actionsbg.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+
+		::skin::setPixmap img_expcol actions_expcol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+
+		::skin::setPixmap img_addcontact actions_addcontact.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+
+		::skin::setPixmap img_find actions_find.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+
+		::skin::setPixmap img_collapsecol actions_collapsecol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+
+		#}
+		
+		after 2000 "catch { ::actionmenu::redraw 0 }"
 			}
 	
 	proc RegisterEvent {} {
+
 		::plugins::RegisterEvent actionmenu ContactListColourBarDrawn draw		
 	}
 		
@@ -39,7 +69,7 @@ namespace eval ::actionmenu {
 			destroy $actions
 		}
 	}	
-	
+
 	proc draw { event evpar } {
 		
 		if { $event !=00 } { upvar 2 $evPar vars } {
@@ -56,7 +86,7 @@ namespace eval ::actionmenu {
 
 		$acanvas create image 0 0 -image [::skin::loadPixmap actionsbg] -anchor nw -tag expand
 		$acanvas create image 0 0 -image [::skin::loadPixmap img_expcol] -anchor nw -tag expand
-		$acanvas create text 30 3 -text "I want to..." -anchor nw -tag expand -font sboldf -fill #000075
+		$acanvas create text 30 3 -text "[trans iwantto]..." -anchor nw -tag expand -font sboldf -fill #000075
 
 		$acanvas bind expand <ButtonPress-1> "::actionmenu::redraw $actions"
 
@@ -68,7 +98,7 @@ namespace eval ::actionmenu {
 
 		AddActionButton $acanvas 15 27 [::skin::loadPixmap img_addcontact] "[trans addacontact]..." "cmsn_draw_addcontact" addcontact
 
-		AddSearchButton $acanvas 15 43 [::skin::loadPixmap img_find] "Search a contact..." "::actionmenu::createsearchwindow" searchcontact
+		AddSearchButton $acanvas 15 43 [::skin::loadPixmap img_find] "[trans searchcontact]..." "::actionmenu::createsearchwindow" searchcontact
 
 	
 
@@ -114,7 +144,7 @@ namespace eval ::actionmenu {
 		set font splainf
 	
 		$acanvas create image $xcoord $ycoord -image $img -anchor nw
-		$acanvas create text [expr $xcoord + 15] [expr $ycoord -0] -text "Search a contact..." -anchor nw -tag $tag -font $font -fill #000075
+		$acanvas create text [expr $xcoord + 15] [expr $ycoord -0] -text "[trans searchcontact]..." -anchor nw -tag $tag -font $font -fill #000075
 		$acanvas bind $tag <ButtonPress-1> "$command"
 		$acanvas bind $tag <Enter> " $acanvas configure -cursor hand2; $acanvas lower ${tag}_line $tag ; "
 		$acanvas bind $tag <Enter> "+$acanvas create line [expr $xcoord + 15] [expr $ycoord + 14] [expr $xcoord + [expr [font measure $font $text] + 15]]  [expr $ycoord + 14] -tag ${tag}_line; $acanvas configure -cursor hand2; $acanvas lower ${tag}_line $tag "
@@ -129,18 +159,18 @@ namespace eval ::actionmenu {
 	
 	toplevel .searchwindow
 	wm group .searchwindow .
-	wm title .searchwindow "Search"
+	wm title .searchwindow "[trans search]"
 	
-	label .searchwindow.l -font sboldf -text "Search"
+	label .searchwindow.l -font sboldf -text "[trans search]"
 	entry .searchwindow.chars -width 50 -bg #FFFFFF -bd 0 -font splainf
-	focus .searchwindow.chars
+	focus .searchwindow.chars 
 	listbox .searchwindow.userbox -relief flat -borderwidth 0 -height 8 -width 55 -bg white
 
 	frame .searchwindow.search
-	label .searchwindow.search.label -text "[trans Search]: " -anchor w
+	label .searchwindow.search.label -text "[trans search]: " -anchor w
 	
-	combobox::combobox .searchwindow.search.combo -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf 
-	#foreach i { All Nick Email } { 
+	combobox::combobox .searchwindow.search.combo -editable false -highlightthickness 0 -width 16 -bg #FFFFFF -font splainf 
+	#foreach i { All Nick Email }ï¿½{ 
 	#	.searchwindow.search.combo list insert end $i 
 	#	}
 	
@@ -152,14 +182,14 @@ namespace eval ::actionmenu {
 	#grid .r2 -row0 -column 1
 	#grid .r3 -row0 -column 0
 	
-	foreach i {All Nick Email} {
-		.searchwindow.search.combo list insert end $i
+	foreach i {all nick email} {
+		.searchwindow.search.combo list insert end "[trans $i]"
 	}
 	.searchwindow.search.combo select 0
 
 
 	frame .searchwindow.show
-	label .searchwindow.show.label -text "[trans Show]: " -anchor w
+	label .searchwindow.show.label -text "[trans show]: " -anchor w
 	combobox::combobox .searchwindow.show.combo -editable false -highlightthickness 0 -width 16 -bg #FFFFFF -font splainf
 	foreach i { Nick Email} {
 		.searchwindow.show.combo list insert end $i
@@ -179,7 +209,7 @@ namespace eval ::actionmenu {
 	#grid columnconfigure . { 0 1 2 } -weight 1
 	
 	pack .searchwindow.search.label -side left -anchor sw -padx 10 -pady 3
-	pack .searchwindow.search -anchor w -padx 10
+	pack .searchwindow.search -anchor w -padx 16
 	pack .searchwindow.show.combo -side right -anchor w
 	pack .searchwindow.show.label -side left -anchor sw -padx 10 -pady 3
 	pack .searchwindow.show -anchor w -padx 10
@@ -219,10 +249,10 @@ proc trysearch { result } {
 	}
 
 	foreach contact [lindex $contacts_FL] {
-		if {$search == "Email" || $search == "All"} {
+		if {$search == "[trans email]" || $search == "[trans all]"} {
 			if { [set result [string last "$charstyped" $contact ] ] != -1} {
 	
-				if {$show == "Email"} {
+				if {$show == "[trans email]"} {
 					.searchwindow.userbox insert end $contact
 				} else {
 					.searchwindow.userbox insert end [::abook::getNick $contact]
@@ -231,9 +261,9 @@ proc trysearch { result } {
 				set y 1
 			}
 		}
-		if {$search == "Nick" || ($search == "All" && $y == 0)} {
+		if {$search == "[trans nick]" || ($search == "[trans all]" && $y == 0)} {
 			if {[string last "$charstyped" [string tolower [::abook::getNick $contact]]] != -1} {
-				if {$show == "Email"} {
+				if {$show == "[trans email]"} {
 					.searchwindow.userbox insert end $contact
 				} else {
 					.searchwindow.userbox insert end [::abook::getNick $contact]
@@ -244,7 +274,7 @@ proc trysearch { result } {
 		set y 0
 	}
 	if {$s == 0} {
-		 .searchwindow.userbox insert end "No Contact Found"
+		 .searchwindow.userbox insert end "[trans nocontact]"
 	}
 }
 
