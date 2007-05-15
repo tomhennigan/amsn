@@ -8113,7 +8113,7 @@ namespace eval ::MSNMobile {
 
 	$top dchars text [expr {$size - 1}] end
 
-	$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]}]
+	$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "text" "h"] + 2*[::skin::getKey topbarpady]}]
 
 	if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
 	    wm title ${win_name} "*${title}"

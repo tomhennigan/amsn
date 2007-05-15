@@ -1654,7 +1654,7 @@ namespace eval ::ChatWindow {
 		$top create text $usrsX $txtY -fill [::skin::getKey topbartext] -state disabled -font sboldf -anchor nw -tag text
 		
 		#As the contact list isn't filled we set the height to fit with the To field
-		$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "to" [$top itemcget to -text] "h"] + 2*[::skin::getKey topbarpady]}]
+		$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "to" "h"] + 2*[::skin::getKey topbarpady]}]
 
 		return $top
 	}
@@ -2851,39 +2851,15 @@ namespace eval ::ChatWindow {
 	#///////////////////////////////////////////////////////////////////////////////
 
 	
-	proc MeasureTextCanvas { widget id text dimension } {
-		set font [$widget itemcget $id -font]
+	proc MeasureTextCanvas { widget id dimension } {
+		set bbox [$widget bbox $id]
+		if {[llength $bbox] < 4} {
+			set bbox [list 0 0 0 0]
+		}
 		if { $dimension == "w" } {
-			if { $font != "" } {
-				set idx [expr {[string first "\n" $text] - 1}] 
-				if { $idx < 0 } { set idx end }
-				set m [font measure $font -displayof $widget [string range $text \
-					0 $idx]]
-				return $m
-			} else {
-				set idx [expr {[string first "\n" $text] - 1}] 
-				if { $idx < 0 } { set idx end }
-				set f [font create -family helvetica -size 12 -weight normal]
-				set m [font measure $f -displayof $widget [string range $text \
-					0 $idx]]
-				font delete $f
-				return $m
-			}
-		} elseif { $dimension == "h" } {
-			if { $font != "" } {
-				#Get number of lines
-				set n [llength [split $text "\n"]]
-				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
-				return [expr {$n * [font metrics $font -displayof $widget -linespace]}]
-			} else {
-				#Get number of lines
-				set n [llength [split $text "\n"]]
-				set f [font create -family helvetica -size 12 -weight normal]
-				#Multiply font size by no. lines and add gap between lines * (no. lines - 1).
-				set ret [expr {$n * [font metrics $f -displayof $widget -linespace]}]
-				font delete $f
-				return $ret
-			}
+			return [expr {[lindex $bbox 2]-[lindex $bbox 0]}]
+		} else {
+			return [expr {[lindex $bbox 3]-[lindex $bbox 1]}]
 		}
 	}
 
@@ -3053,7 +3029,7 @@ namespace eval ::ChatWindow {
 		incr last_char -1
 		$top dchars text $last_char end
 		
-		$top configure -height [expr {[MeasureTextCanvas $top "text" [$top itemcget text -text] "h"] + 2*[::skin::getKey topbarpady]}]
+		$top configure -height [expr {[MeasureTextCanvas $top "text" "h"] + 2*[::skin::getKey topbarpady]}]
 
 		if { [GetContainerFromWindow $win_name] == "" } {
 			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == "asterisk" } {
