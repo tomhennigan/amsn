@@ -152,8 +152,8 @@
 			<chat_show_topframe>1</chat_show_topframe>
 		</Options>
 		<Geometry>
-			<chat_top_padx>7</chat_top_padx>
-			<chat_top_pady>5</chat_top_pady>
+			<chat_top_padx>1</chat_top_padx>
+			<chat_top_pady>1</chat_top_pady>
 			<chat_paned_padx>4</chat_paned_padx>
 			<chat_paned_pady>0</chat_paned_pady>
 			<chat_output_padx>3</chat_output_padx>
