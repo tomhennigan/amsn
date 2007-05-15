@@ -1641,8 +1641,8 @@ namespace eval ::ChatWindow {
 				-s [::skin::getKey topbarpady] -w [::skin::getKey topbarpadx] \
 				-width 0 -height 0 -resizemethod [::skin::getKey chat_top_resize "tile"]
 			$top create image 0 0 -image [$bg name] -anchor nw -tag backgnd
-			bind $w <Configure> "$bg configure -width %w -height %h"
-			bind $top <Destroy> "$bg destroy; image delete $topimg"
+			bind [$top getinnerframe] <Configure> "$bg configure -width %w -height %h"
+			bind [$top getinnerframe] <Destroy> "$bg destroy; image delete $topimg"
 		}
 		
 		set toX [::skin::getKey topbarpadx]

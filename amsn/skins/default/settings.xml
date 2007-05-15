@@ -139,7 +139,7 @@
 		</Colors>
 		<Options>
 			<chat_top_pixmap>1</chat_top_pixmap>
-			<chat_top_resize>tile</chat_top_resize>
+			<chat_top_resize>scale</chat_top_resize>
 			<chat_top_border>1</chat_top_border>
 			<chat_output_border>1</chat_output_border>
 			<chat_buttons_border>1</chat_buttons_border>
