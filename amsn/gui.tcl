@@ -3363,7 +3363,8 @@ proc create_main_menu {wmenu} {
 	$accnt add command -label "[trans editmyprofile]" -command "::hotmail::hotmail_profile" -state disabled
 	#-------------------
 	$accnt add separator
-	$accnt add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
+	#edit global alarm settings
+	$accnt add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all" -state disabled
 	#-------------------
 	$accnt add separator
 	#received files
@@ -3758,8 +3759,11 @@ proc loggedInGuiConf { event } {
 	set status_idx [$menu index "[trans changestatus]"]
 	set nick_idx [$menu index "[trans changenick]..."]
 	set dp_idx [$menu index "[trans changedisplaypic]..."]
+	set inbox_idx [$menu index "[trans gotoinbox]"]
+	set msn_profile_idx [$menu index "[trans editmyprofile]"]
+	set global_alarm_idx [$menu index "[trans cfgalarmall]..."]
 	set event_hist_idx [$menu index "[trans eventhistory]"]
-	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $event_hist_idx]
+	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $inbox_idx $msn_profile_idx $global_alarm_idx $event_hist_idx]
 
 	# View menu
 	set menu .main_menu.view
@@ -3829,8 +3833,11 @@ proc loggedOutGuiConf { event } {
 	set status_idx [$menu index "[trans changestatus]"]
 	set nick_idx [$menu index "[trans changenick]..."]
 	set dp_idx [$menu index "[trans changedisplaypic]..."]
+	set inbox_idx [$menu index "[trans gotoinbox]"]
+	set msn_profile_idx [$menu index "[trans editmyprofile]"]
+	set global_alarm_idx [$menu index "[trans cfgalarmall]..."]
 	set event_hist_idx [$menu index "[trans eventhistory]"]
-	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $event_hist_idx] 0
+	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $inbox_idx $msn_profile_idx $global_alarm_idx $event_hist_idx] 0
 
 	# View menu
 	set menu .main_menu.view
