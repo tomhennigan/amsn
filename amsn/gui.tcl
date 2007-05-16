@@ -3226,7 +3226,7 @@ namespace eval ::amsn {
 	}
 }
 
-proc create_states_menu {wmenu} {
+proc create_states_menu { wmenu } {
 	# Destroy if already existing
 	if {[winfo exists $wmenu]} {
 		destroy $wmenu
@@ -3256,7 +3256,7 @@ proc create_states_menu {wmenu} {
 	bind all <$modifier-Key-8> {catch {ChCustomState HDN}}
 	
 	# Add the personal states to this menu
-	CreateStatesMenu $wmenu
+	CreateStatesMenu $wmenu states_only
 }
 proc create_other_menus {umenu imenu} {
 	# Destroy if already existing
@@ -3317,7 +3317,18 @@ proc create_main_menu {wmenu} {
 	#Account menu
 	###########################
 	set accnt .main_menu.account
-	menu $accnt -tearoff 0 -type normal -postcommand "create_states_menu $accnt.my_menu"
+	
+	#Temporary fix for (probably Mac-only) bug where states menu refuses to appear
+	if { [OnMac] } {
+		#I think this might create another bug, that's why I keep it Mac-only for now
+		#This way things stay good on other platforms, and on Mac we get a smaller bug.
+		#(menu does not update if new custom status is added, instead of not posting at all)
+		#TODO: Of course, this needs a real fix sometime.
+		menu $accnt -tearoff 0 -type normal
+		create_states_menu $accnt.my_menu
+	} else {
+		menu $accnt -tearoff 0 -type normal -postcommand "create_states_menu $accnt.my_menu"
+	}
 	
 	#Note: One might think we should always have both entries (login and login_as)
 	#in the menu with "login" (with profile) greyed out if it's not available.
@@ -3341,15 +3352,18 @@ proc create_main_menu {wmenu} {
 	#change status submenu
 	$accnt add cascade -label "[trans changestatus]" -menu $accnt.my_menu -state disabled
 	#change nick
-	$accnt add command -label "[trans changenick]" -command cmsn_change_name -state disabled
+	$accnt add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
 	#change dp
-	$accnt add command -label "[trans changedisplaypic]" -command dpBrowser -state disabled
+	$accnt add command -label "[trans changedisplaypic]..." -command dpBrowser -state disabled
 	#-------------------
 	$accnt add separator
 	#go to inbox
 	$accnt add command -label "[trans gotoinbox]" -command "::hotmail::hotmail_login" -state disabled
 	#go to my profile
-	$accnt add command -label "[trans editprofile]" -command "::hotmail::hotmail_profile" -state disabled
+	$accnt add command -label "[trans editmyprofile]" -command "::hotmail::hotmail_profile" -state disabled
+	#-------------------
+	$accnt add separator
+	$accnt add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
 	#-------------------
 	$accnt add separator
 	#received files
@@ -3742,8 +3756,8 @@ proc loggedInGuiConf { event } {
 	# Entries to enable in the Account menu
 	set logout_idx [$menu index "[trans logout]"]
 	set status_idx [$menu index "[trans changestatus]"]
-	set nick_idx [$menu index "[trans changenick]"]
-	set dp_idx [$menu index "[trans changedisplaypic]"]
+	set nick_idx [$menu index "[trans changenick]..."]
+	set dp_idx [$menu index "[trans changedisplaypic]..."]
 	set event_hist_idx [$menu index "[trans eventhistory]"]
 	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $event_hist_idx]
 
@@ -3813,8 +3827,8 @@ proc loggedOutGuiConf { event } {
 	# Entries to disable in the Account menu
 	set logout_idx [$menu index "[trans logout]"]
 	set status_idx [$menu index "[trans changestatus]"]
-	set nick_idx [$menu index "[trans changenick]"]
-	set dp_idx [$menu index "[trans changedisplaypic]"]
+	set nick_idx [$menu index "[trans changenick]..."]
+	set dp_idx [$menu index "[trans changedisplaypic]..."]
 	set event_hist_idx [$menu index "[trans eventhistory]"]
 	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $event_hist_idx] 0
 

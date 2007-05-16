@@ -146,8 +146,14 @@ proc AddStatesToList { path } {
 # CreateStatesMenu (path)
 # Creates the menu that will be added under the default states
 # path points to the path of the menu where to add
-proc CreateStatesMenu { path } {
+proc CreateStatesMenu { path { mode "complete" } } {
 	global automessage iconmenu
+	
+	# check mode parameter for valdity
+	if { !($mode == "complete" || $mode == "states_only") } {
+		error "mode parameter must be either \"complete\" or \"states_only\""
+	}
+	
 	# Delete old menu to create new one
 	if { [$path index end] != 7 } {
 		$path delete 8 end
@@ -219,16 +225,18 @@ proc CreateStatesMenu { path } {
 	#			$iconmenu add command -label "[trans close]" -command "exit"
 	#		}
 	
-	$path add separator
-	$path add command -label "[trans changenick]..." -command cmsn_change_name
+	if { $mode == "complete" } {
+		$path add separator
+		$path add command -label "[trans changenick]..." -command cmsn_change_name
 	
-	$path add command -label "[trans changedisplaypic]..." -command dpBrowser 
+		$path add command -label "[trans changedisplaypic]..." -command dpBrowser 
 	
-	$path add command -label "[trans editmyprofile]..." -command "::hotmail::hotmail_profile"
+		$path add command -label "[trans editmyprofile]..." -command "::hotmail::hotmail_profile"
 	
-	$path add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
+		$path add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all"
 	#	statusicon_proc [MSN::myStatusIs]
-		
+	}
+	
 	if { [::config::getKey use_tray] && [winfo exists $iconmenu.imstatus] && $path != "$iconmenu.imstatus" } {
 		CreateStatesMenu $iconmenu.imstatus
 	}
