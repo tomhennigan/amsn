@@ -149,7 +149,22 @@ namespace eval ::smiley {
 			return
 		}
 		if { [image width $image] > 50 || [image height $image] > 50 } {
-			::picture::ResizeWithRatio $image 50 50
+			set width [image width $image]
+			set height [image height $image]
+			if {$width > 50} {
+				set height [expr {int(((1.0*$height)/$width) * 50)}]
+				set width 50
+				if {$height < 19} {
+					set height 19
+				}
+			} else {
+				set width [expr {int(((1.0*$width)/$height) * 50)}]
+				set height 50
+				if {$width < 19} {
+					set width 19
+				}
+			}
+			::picture::Resize $image $width $height
 		}
 	}
 
