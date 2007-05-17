@@ -622,10 +622,11 @@ phones Phone numbers
 picbrowser Display Pictures Browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
+play Play
 playbackposition Playback position
 playbackspeed Playback speed (milliseconds between each frame)
+playerror An error occured when trying to play the sound : $1
 playing Playing: $1
-play Play
 playtest Play the test file
 playwebcamsend Resume sending webcam
 pluginselector Select Plugins
