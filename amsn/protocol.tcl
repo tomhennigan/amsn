@@ -966,6 +966,9 @@ namespace eval ::MSN {
 		#Alert dock of status change
 		#      send_dock "FLN"
 		send_dock "STATUS" "FLN"
+		
+		# Remove mail icon once offline.
+		send_dock "MAIL" 0
 	}
 
 	#TODO: delete when MSNP11 is used, REA is not used anymore
