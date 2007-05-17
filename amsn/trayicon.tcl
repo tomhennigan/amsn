@@ -332,6 +332,7 @@ proc statusicon_proc {status} {
 			  }
 			  default {
 				set pixmap "null"
+				set tooltip ""
 				if { [WinDock] } {
 					set trayicon [winico create [::skin::GetSkinFile winicons msn.ico]]
 				}

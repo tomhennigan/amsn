@@ -857,7 +857,34 @@ namespace eval ::MSN {
 		after 5000 ::MSN::connect
 
 	}
+	
+	proc saveOldStatus { {status "" } {amessage ""} } {
+		global oldstatus
+		global automessage
 
+		puts "$status -  [::MSN::myStatusIs] - $amessage - $automessage"
+
+		if {$status != "" } {
+			set oldstatus $status
+		} else {
+			set oldstatus [::MSN::myStatusIs]
+		}
+
+		if { $amessage == "" } {
+			set automsg $automessage
+		} else {
+			set automsg $amessage			
+		}
+
+		if {$automsg != -1 } {
+			for {set idx 0} {$idx < [StateList size] } { incr idx } {
+				if { [StateList get $idx] == $automsg} {
+					set oldstatus $idx
+				}
+			}
+		}
+		puts "$oldstatus"
+	}
 	proc cancelReconnect { } {
 
 		after cancel ::MSN::connect
@@ -1554,7 +1581,7 @@ namespace eval ::MSN {
 			
 			#Reconnect if necessary
 			if { $pollstatus > 1 && [::config::getKey reconnect] == 1 } {
-				set ::oldstatus [::MSN::myStatusIs]
+				::MSN::saveOldStatus
 				::MSN::logout
 				::MSN::reconnect "[trans connectionlost]"
 			} elseif { $pollstatus > 10 } {
@@ -1772,6 +1799,7 @@ namespace eval ::MSN {
 
 			$sb configure -sock ""
 			set mystatus [::MSN::myStatusIs]
+			set old_automessage $::automessage
 
 			#If we were not disconnected or authenticating, logout
 			if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
@@ -1785,7 +1813,7 @@ namespace eval ::MSN {
 				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
-					set ::oldstatus $mystatus
+					::MSN::saveOldStatus $mystatus $old_automessage
 					if { $error_msg != "" } {
 						::MSN::reconnect "[trans connecterror]: [ns cget -error_msg]"
 					} else {
@@ -1807,7 +1835,7 @@ namespace eval ::MSN {
 				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
-					set ::oldstatus $mystatus
+					::MSN::saveOldStatus $mystatus $old_automessage
 					if { $error_msg != "" } {
 						::MSN::reconnect "[trans connectionlost]: [ns cget -error_msg]"
 					} else {
@@ -3796,7 +3824,7 @@ namespace eval ::Event {
 		#Don't use oldstatus if it was "FLN" (disconnectd) or we will get a 201 error
 		if {[info exists ::oldstatus] && $::oldstatus != "FLN" } {
 			ChCustomState $::oldstatus
-			send_dock "STATUS" $::oldstatus
+			send_dock "STATUS" [::MSN::myStatusIs]
 			unset ::oldstatus
 		} elseif {![is_connectas_custom_state [::config::getKey connectas]]} {
 			#Protocol code to choose our state on connect
@@ -5286,7 +5314,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				} else {
 					::config::setKey start_ns_server [::config::getKey default_ns_server]
 					if { [::config::getKey reconnect] == 1 } {
-						set ::oldstatus [::MSN::myStatusIs]
+						::MSN::saveOldStatus
 						::MSN::logout
 						::MSN::reconnect "[trans servergoingdown]"
 					} else {
@@ -5368,7 +5396,7 @@ proc cmsn_ns_handler {item {message ""}} {
 			600 {
 				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				if { [::config::getKey reconnect] == 1 } {
-					set ::oldstatus [::MSN::myStatusIs]
+					::MSN::saveOldStatus
 					::MSN::logout
 					::MSN::reconnect "[trans serverbusy]"
 				} else {
@@ -5381,7 +5409,7 @@ proc cmsn_ns_handler {item {message ""}} {
 			601 {
 				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				if { [::config::getKey reconnect] == 1 } {
-					set ::oldstatus [::MSN::myStatusIs]
+					::MSN::saveOldStatus
 					::MSN::logout
 					::MSN::reconnect "[trans serverunavailable]"
 				} else {
@@ -5394,7 +5422,7 @@ proc cmsn_ns_handler {item {message ""}} {
 			500 {
 				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				if { [::config::getKey reconnect] == 1 } {
-					set ::oldstatus [::MSN::myStatusIs]
+					::MSN::saveOldStatus
 					::MSN::logout
 					::MSN::reconnect "[trans internalerror]"
 				} else {
@@ -5415,7 +5443,7 @@ proc cmsn_ns_handler {item {message ""}} {
 			931 {  ;#this server doesn't know about that account
 				status_log "Account was moved to a different server, changing cached server to default"
 				::config::setKey start_ns_server [::config::getKey default_ns_server]
-				set ::oldstatus [::MSN::myStatusIs]
+				::MSN::saveOldStatus
 				::MSN::logout
 				::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable
 				return 0
