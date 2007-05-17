@@ -26,7 +26,7 @@ if { $initialize_amsn == 1 } {
 	#package require pixmapbutton
 	if { [OnMac] } {
 		# Use brushed metal style windows on Mac OS X.
-		catch {source utils/macosx/tkUnsupported/macWindowStyle.tcl}
+		catch {package require tkUnsupported}
 		#Use tclCarbonHICommand for window utilities
 		catch {package require tclCarbonHICommand}
 		catch {package require QuickTimeTcl}
