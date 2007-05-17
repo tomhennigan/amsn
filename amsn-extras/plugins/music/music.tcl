@@ -234,7 +234,7 @@ namespace eval ::music {
 			] \
 			"linux" [list \
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
-				"Audacious" [list GetSongAudacious return FillFrameEmpty] \
+				"Audacious" [list GetSongAudacious TreatSongAudacious FillFrameLess] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 				"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
@@ -247,7 +247,7 @@ namespace eval ::music {
 			]\
 			"freebsd" [list \
 				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
-				"Audacious" [list GetSongAudacious return FillFrameEmpty] \
+				"Audacious" [list GetSongAudacious TreatSongAudacious FillFrameLess] \
 				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 				"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
@@ -914,10 +914,24 @@ namespace eval ::music {
 				append songart $song
 			}
 			lappend return $songart
-			lappend return [urldecode [string range $path 5 end]]
+			if { ![string compare -nocase [string range $path 0 4] "file:"] } {
+				lappend return [urldecode [string range $path 7 end]]
+			} else {
+				lappend return ""
+			}
 			lappend return $artpath
 		}
 		return $return
+	}
+
+	###############################################
+	# ::music::TreatSongAudacious                 #
+	# ------------------------------------------- #
+	# Gets the current playing song in Audacious  #
+	###############################################
+	proc TreatSongAudacious {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoaudacious"]] }
 	}
 
 	###############################################
@@ -926,20 +940,43 @@ namespace eval ::music {
 	# Gets the current playing song in Audacious  #
 	###############################################
 	proc GetSongAudacious {} {
-		if {[catch {exec audtool playback-status} res]} {
-			return 0
-		} elseif {
-			$res == "playing" } {
-				return [list [exec audtool current-song] [exec audtool current-song-filename]]
-		} else {
+		#actualsong is filled asynchronously in TreatSongAudacious
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
 			return 0
 		}
+
+		#Get the 4 first lines
+		set status [lindex $tmplst 0]
+		set song [lindex $tmplst 1]
+		set art [lindex $tmplst 2]
+		set path [lindex $tmplst 3]
+
+		if {$status == "0" || $status == "stopped"} {
+			return 0
+		} else {
+			#Define in which  order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
+			}
+			lappend return $songart
+			if { [file exists $path] } {
+				lappend return $path
+			}
+		}
+		return $return
 	}
 
 	###############################################
-	# ::music::TreatSongBanshee                    #
+	# ::music::TreatSongBanshee                   #
 	# ------------------------------------------- #
-	# Gets the current playing song in Banshee     #
+	# Gets the current playing song in Banshee    #
 	###############################################
 	proc TreatSongBanshee {} {
 		#Grab the information asynchronously : thanks to Tjikkun
@@ -947,9 +984,9 @@ namespace eval ::music {
 	}
 
 	###############################################
-	# ::music::GetSongBanshee                      #
+	# ::music::GetSongBanshee                     #
 	# ------------------------------------------- #
-	# Gets the current playing song in Banshee     #
+	# Gets the current playing song in Banshee    #
 	###############################################
 	proc GetSongBanshee {} {
 		#actualsong is filled asynchronously in TreatSongBanshee

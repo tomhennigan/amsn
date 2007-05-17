@@ -1,3 +1,4 @@
+#! /bin/sh
 #Thanks to Dennis "dweazle" Krul for the bash-magic
 #Modified a little for listen patux@patux.net
 LISTEN=`ps aux | grep python | grep listen | grep -v grep | grep -v info`

@@ -1,0 +1,17 @@
+#! /bin/sh
+# Shell script to get informations about the current song playing in Audacious
+
+#Audacious is launched ?
+STATUS=$(audtool playback-status)
+if [ $? == 0 ]
+then
+	echo $STATUS
+	#To force \n when there isn't any information
+	echo $(audtool current-song-tuple-data track_name)
+	echo $(audtool current-song-tuple-data performer)
+	audtool current-song-filename
+else
+	echo 0
+fi
+
+exit 0

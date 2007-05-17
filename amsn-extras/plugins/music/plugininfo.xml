@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <plugin>
 	<name>Music</name>
 	<author>Jerome Gagnon-Voyer, Boris Faure (billiob) and Le Philousophe</author>
@@ -10,7 +10,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>8585</cvs_version>
+	<cvs_version>8669</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -62,6 +62,10 @@
 		<version>7506</version>
 	</file>
 	<file>
+		<path>infoaudacious</path>
+		<version>8669</version>
+	</file>
+	<file>
 		<path>infobanshee</path>
 		<version>8454</version>
 	</file>
@@ -75,7 +79,7 @@
 	</file>
 	<file>
 		<path>infolisten</path>
-		<version>7506</version>
+		<version>8669</version>
 	</file>
 	<file>
 		<path>inforhythmbox</path>
