@@ -3172,12 +3172,12 @@ namespace eval ::amsn {
 				set msg "[string range $msg 0 100]..."
 			}
 
-			set after_id [after [::config::getKey notifytimeout] "::amsn::KillNotify $w $ypos"]
+			set after_id [after [::config::getKey notifytimeout] [list ::amsn::KillNotify $w $ypos]]
 
 			$w.c bind bg <Enter> "$w.c configure -cursor hand2"
 			$w.c bind bg <Leave> "$w.c configure -cursor left_ptr"
-			$w.c bind bg <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos; $command"
-			$w.c bind bg <ButtonRelease-3> "after cancel $after_id; ::amsn::KillNotify $w $ypos"
+			$w.c bind bg <ButtonRelease-1> "after cancel $after_id; [list ::amsn::KillNotify $w $ypos $command]"
+			$w.c bind bg <ButtonRelease-3> "after cancel $after_id; [list ::amsn::KillNotify $w $ypos]"
 			$w.c bind close <Enter> "$w.c configure -cursor hand2"
 			$w.c bind close <Leave> "$w.c configure -cursor left_ptr"
 			$w.c bind close <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos"		
@@ -3211,15 +3211,20 @@ namespace eval ::amsn {
 			return 0
 		}
 		wm geometry $w -$xpos-$currenty
-		after 50 "::amsn::growNotify $w $xpos [expr {$currenty+15}] $finaly"
+		after 75 "::amsn::growNotify $w $xpos [expr {$currenty+15}] $finaly"
 	}
 
-	proc KillNotify { w ypos} {
+	proc KillNotify { w ypos {command ""}} {
 		variable NotifPos
 
-		wm state $w withdrawn
-		#Delay the destroying, to avoid a bug in tk 8.3
-		after 5000 destroy $w
+		
+		eval $command
+
+		# We need to wait before making this disappear because we need the window to be created
+		# BEFORE the notify disappears, otherwise in windows, the focus is lost from amsn and returns to the
+		# previous application who had the focus, so we don't get the chat window focus.
+		after 500 [list destroy $w]
+
 		#remove this position from the list
 		set lpos [lsearch -exact $NotifPos $ypos]
 		set NotifPos [lreplace $NotifPos $lpos $lpos]
