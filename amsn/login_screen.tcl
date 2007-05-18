@@ -132,31 +132,16 @@ snit::widgetadaptor loginscreen {
 			-resizemethod [::skin::getKey loginbuttonresize "tile"]]
 
 		# Login button
-		if {[OnMac]} {
-			# tomhennigan: This [OnMac] is here, because even though buttons2labels is called the button won't show..
-			set login_button [label $self.login \
-					-text [trans login] \
-					-cursor hand2 \
-					-image [::skin::loadPixmap nullimage] \
-					-background [::skin::getKey loginbuttonbg "white"] \
-					-activebackground [::skin::getKey loginbuttonbg "white"] \
-					-foreground [::skin::getKey loginbuttonfg "black"] \
-					-activeforeground [::skin::getKey loginbuttonfg "black"] \
-					-bd 0 -relief flat -font sboldf \
-					-highlightthickness 0 -pady 0 -padx 0 -compound center]
-			bind $login_button <<Button1>> [list $self LoginFormSubmitted]
-		} else {
-			set login_button [button $self.login \
-					-text [trans login] \
-					-image [::skin::loadPixmap nullimage] \
-					-background [::skin::getKey loginbuttonbg "white"] \
-					-activebackground [::skin::getKey loginbuttonbg "white"] \
-					-foreground [::skin::getKey loginbuttonfg "black"] \
-					-activeforeground [::skin::getKey loginbuttonfg "black"] \
-					-command [list $self LoginFormSubmitted] -cursor hand2 \
-					-bd 0 -relief flat -font sboldf -highlightthickness 0 \
-					-pady 0 -padx 0 -overrelief flat -compound center]
-		}
+		set login_button [button $self.login \
+				-text [trans login] \
+				-image [::skin::loadPixmap nullimage] \
+				-background [::skin::getKey loginbuttonbg "white"] \
+				-activebackground [::skin::getKey loginbuttonbg "white"] \
+				-foreground [::skin::getKey loginbuttonfg "black"] \
+				-activeforeground [::skin::getKey loginbuttonfg "black"] \
+				-command [list $self LoginFormSubmitted] -cursor hand2 \
+				-bd 0 -relief flat -font sboldf -highlightthickness 0 \
+				-pady 0 -padx 0 -overrelief flat -compound center]
 
 		bind $login_button <Configure> [list $self ResizeLoginButton %w %h]
 		bind $login_button <Destroy> [list $login_button_background destroy]

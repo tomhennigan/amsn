@@ -315,14 +315,15 @@ proc buttons2labels { } {
 				unset options(-command)
 			}
 			if { [info exists options(-overrelief)] } { unset options(-overrelief) }
-			eval label [list $pathName] [array get options]
+			set ret [eval label [list $pathName] [array get options]]
 			if { [info exists command] } {
 				puts $command
 				bind $pathName <<Button1>> "$command"
 			}
 		} else {
-			eval ::tk::button2 [list $pathName] $args
+			set ret [eval ::tk::button2 [list $pathName] $args]
 		}
+		return $ret
 	}
 }
 # apply buttons2labels on Mac, because there seem to be problems with buttons there
