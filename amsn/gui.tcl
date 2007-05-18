@@ -3220,12 +3220,17 @@ namespace eval ::amsn {
 		variable NotifPos
 
 		
-		eval $command
+		if { $command != "" } {
+			catch {eval $command}
+			set timer 500
+		} else {
+			set timer 0
+		}
 
 		# We need to wait before making this disappear because we need the window to be created
 		# BEFORE the notify disappears, otherwise in windows, the focus is lost from amsn and returns to the
 		# previous application who had the focus, so we don't get the chat window focus.
-		after 500 [list destroy $w]
+		after $timer [list destroy $w]
 
 		#remove this position from the list
 		set lpos [lsearch -exact $NotifPos $ypos]
