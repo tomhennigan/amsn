@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abort Abortar
 aboutamsn Sobre Alvaro's Messenger
 about Sobre
 accept Aceitar
@@ -290,6 +291,7 @@ dockingoff Ícone na bandeja do sistema desativado
 dockkde Minimizar na bandeja do KDE
 done Feito
 dontdownload Não efetuar download do TLS, eu mesmo o farei
+dontshowdp Não deixe este usuário baixar suas novas imagens
 dontshow Não exibir
 download Download
 downloadingtls Efetuando download do módulo TLS de:\n $1
@@ -397,6 +399,7 @@ handle Manipular
 havenomic Eu não tenho microfone
 help Ajuda
 helpcontents Conteúdo da ajuda
+hidebuttonbar Esconder barra de botões
 hidedisplaypic Esconder Imagem de Exibição
 hidemenumessage Você tem certeza que quer esconder os menus?\nVocê pode restaurá-los a qualquer momento usando a teclado de atalho para mostrar/esconder 'Ctrl-M'.
 hidemenu Mostrar/Econder menu
@@ -708,6 +711,7 @@ report Reportar
 required_version Impossível carregar plugin. Necessário aMSN versão $1 ou superior.
 resetincomingfont Restaurar fonte do contato (usar a fonte escolhida pelos outros usuários)
 restartforskin Nota: Você não precisa reiniciar o aMSN para ver a skin propriamente
+retry Repetir
 reversed Inverso
 reverselist Contatos que me adicionaram (RL):
 rightback Volto logo
@@ -932,5 +936,3 @@ youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
 zoom Zoom
-abort Abortar
-retry Repetir
