@@ -862,8 +862,6 @@ namespace eval ::MSN {
 		global oldstatus
 		global automessage
 
-		puts "$status -  [::MSN::myStatusIs] - $amessage - $automessage"
-
 		if {$status != "" } {
 			set oldstatus $status
 		} else {
@@ -883,7 +881,6 @@ namespace eval ::MSN {
 				}
 			}
 		}
-		puts "$oldstatus"
 	}
 	proc cancelReconnect { } {
 
