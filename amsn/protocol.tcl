@@ -869,7 +869,11 @@ namespace eval ::MSN {
 		}
 
 		if { $amessage == "" } {
-			set automsg $automessage
+			if { [info exists automessage] } {
+				set automsg $automessage
+			} else {
+				set automsg -1
+			}
 		} else {
 			set automsg $amessage			
 		}
