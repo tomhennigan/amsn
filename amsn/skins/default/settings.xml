@@ -39,7 +39,7 @@
 		<Colors>
 			<loginbuttonbg>#ffffff</loginbuttonbg>
 			<loginbuttonfg>#000000</loginbuttonfg>
-			<loginbuttonfghoover>#000000</loginbuttonfghoover>
+			<loginbuttonfghover>#000000</loginbuttonfghover>
 		</Colors>
 		<Options>
 			<loginbuttonresize>tile</loginbuttonresize>
@@ -122,7 +122,7 @@
 			<chat_dp_border_color>#8f8f8f</chat_dp_border_color>
 			<sendbuttonbg>#ffffff</sendbuttonbg>
 			<sendbuttonfg>#000000</sendbuttonfg>
-			<sendbuttonfghoover>#000000</sendbuttonfghoover>
+			<sendbuttonfghover>#000000</sendbuttonfghover>
 			<topbarbg>#f7f7f7</topbarbg>
 			<topbartext>#000000</topbartext>
 			<topbarborder>#7da0af</topbarborder>

@@ -54,10 +54,10 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey buttonbarbg #eeeeff
 	::skin::setKey loginbuttonbg #c3c2d2
 	::skin::setKey loginbuttonfg black
-	::skin::setKey loginbuttonfghoover black
+	::skin::setKey loginbuttonfghover black
 	::skin::setKey sendbuttonbg #c3c2d2
 	::skin::setKey sendbuttonfg black
-	::skin::setKey sendbuttonfghoover black
+	::skin::setKey sendbuttonfghover black
 	::skin::setKey topbarbg #5050e5
 	::skin::setKey topbarbg_sel #d3d0ce
 	::skin::setKey topbartext #ffffff

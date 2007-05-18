@@ -138,7 +138,7 @@ snit::widgetadaptor loginscreen {
 				-background [::skin::getKey loginbuttonbg "white"] \
 				-activebackground [::skin::getKey loginbuttonbg "white"] \
 				-foreground [::skin::getKey loginbuttonfg "black"] \
-				-activeforeground [::skin::getKey loginbuttonfghoover "black"] \
+				-activeforeground [::skin::getKey loginbuttonfghover "black"] \
 				-command [list $self LoginFormSubmitted] -cursor hand2 \
 				-bd 0 -relief flat -font sboldf -highlightthickness 0 \
 				-pady 0 -padx 0 -overrelief flat -compound center]

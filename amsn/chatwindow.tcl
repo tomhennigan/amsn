@@ -2032,7 +2032,7 @@ namespace eval ::ChatWindow {
 		button $sendbutton -image [::skin::loadPixmap sendbutton] \
 		    -command "::amsn::MessageSend $w $text" \
 		    -fg [::skin::getKey sendbuttonfg] -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground [::skin::getKey sendbuttonfghoover] \
+		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground [::skin::getKey sendbuttonfghover] \
 		    -text [trans send] -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
 		    -overrelief flat -compound center
 
