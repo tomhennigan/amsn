@@ -1796,7 +1796,11 @@ namespace eval ::MSN {
 
 			$sb configure -sock ""
 			set mystatus [::MSN::myStatusIs]
-			set old_automessage $::automessage
+			if { [info exists ::automessage] } {
+				set old_automessage $::automessage
+			} else {
+				set old_automessage ""
+			}
 
 			#If we were not disconnected or authenticating, logout
 			if { ("$oldstat" != "d") && ("$oldstat" != "u") } {
