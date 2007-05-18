@@ -627,6 +627,7 @@ picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
 playbackposition Posición de playback
 playbackspeed Velocidad de playback (milisegundos entre cada fotograma)
+playerror Ocurrió un error al intentar reproducir el sonido : $1
 playing Reproduciendo: $1
 play Reproducir
 playtest Reproducir sonido de prueba
