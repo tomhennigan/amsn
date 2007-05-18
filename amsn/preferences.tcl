@@ -1582,18 +1582,17 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pfont -image [::skin::loadPixmap preffont]
 	label $lfname.lfontout -text [trans preffont2]
-	label $lfname.lfontin -text [trans preffont4]
 	button $lfname.bfontout -text [trans changefont] -command "change_font cfg mychatfont"
-	button $lfname.bfontin -text [trans changefont] -command "change_font cfg theirchatfont"
-	button $lfname.bfontinreset -text [trans resetincomingfont] -command "::config::setKey theirchatfont {}; \
-		$lfname.bfontinreset configure -state disabled -text [trans done] -text [list [trans done]]"
-	if { [::config::getKey theirchatfont] == "" } {
-		$lfname.bfontinreset configure -state disabled -text [trans resetincomingfont]
-	} else {
-		$lfname.bfontinreset configure -state normal -text [trans resetincomingfont]
-	}
+	checkbutton $lfname.disableuserfonts -text "[trans disableuserfonts]" \
+		-onvalue 1 -offvalue 0 -variable [::config::getVar disableuserfonts] -command UpdatePreferences
+	label $lfname.lfontin -text [trans preffont4]
+	button $lfname.bfontin -text [trans changefont] -command "change_font cfg theirchatfont; UpdatePreferences"
+	button $lfname.bfontinreset -text [trans resetincomingfont] \
+		-command "::config::setKey theirchatfont {}; UpdatePreferences"
+
 	pack $lfname.pfont -side left
-	pack $lfname.lfontout $lfname.bfontout $lfname.lfontin $lfname.bfontin $lfname.bfontinreset -anchor w -pady 3 -padx 15 -side top
+	pack $lfname.lfontout $lfname.bfontout $lfname.disableuserfonts \
+		$lfname.lfontin $lfname.bfontin $lfname.bfontinreset -anchor w -pady 3 -padx 15 -side top
 
 	## Phone Numbers Frame ##
 	set lfname [labelframe $frm.lfname4 -text [trans prefphone]]
@@ -2968,6 +2967,22 @@ proc UpdatePreferences {} {
 	global Preftabs
 
 	set nb .cfg.notebook
+
+	#fonts
+	set lfname [$nb.nn getframe personal]
+	set lfname [$lfname.sw.sf getframe]
+	set lfname "${lfname}.lfname3"
+	if { [::config::getKey disableuserfonts] } {
+			$lfname.bfontin configure -state disabled
+			$lfname.bfontinreset configure -state disabled
+	} else {
+		$lfname.bfontin configure -state normal
+		if { [::config::getKey theirchatfont] == "" } {
+			$lfname.bfontinreset configure -state disabled
+		} else {
+			$lfname.bfontinreset configure -state normal
+		}
+	}
 	
 	# autoaway checkbuttons and entries
 	#set lfname [Rnotebook:frame $nb $Preftabs(session)]
