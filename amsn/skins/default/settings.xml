@@ -120,6 +120,7 @@
 			<chat_output_back_color>#ffffff</chat_output_back_color>
 			<chat_dp_border_color>#8f8f8f</chat_dp_border_color>
 			<sendbuttonbg>#ffffff</sendbuttonbg>
+			<sendbuttonfg>#000000</sendbuttonfg>
 			<topbarbg>#f7f7f7</topbarbg>
 			<topbartext>#000000</topbartext>
 			<topbarborder>#7da0af</topbarborder>
