@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abort Prekini
 aboutamsn O Alvarovem Messengerju
 about O programu
 acceptfile Ali sprejme¹ datoteko $1, njena velikost je $2? Shranjena bo v $3
@@ -184,6 +185,7 @@ closed Povezava z $1 zaprta zaradi neaktivnosti
 closelabel Ko klikne¹ na gumb za zaprtje v oknu z zavihki
 closeonly Zapri samo trenutni zavihek
 closeordock Zapiranje okna kontaktne liste bo zaprlo aMSN.Mogoèe si hotel samo zapreti okno in pustiti aMSN odprt na pultu.\n\nSi preprièan da hoèe¹ zapreti aMSN?
+closeothers Zapri vse ostale zavihke
 close Zapri
 closingdocks Gumb za zaprtje pomanj¹a okno
 color Barva
@@ -289,6 +291,7 @@ docking Pristaja
 dockkde kde kde kde kde pomol
 done Narejeno
 dontdownload Ne poberi TLS-ja, namestil ga bom sam
+dontshowdp Uporabniku ne dovoli prena¹anja tvojih novih prikaznih slik
 dontshow Ne prika¾i
 downloadingtls Pobiram modul TLS iz:\n $1
 download Poberi
@@ -396,6 +399,7 @@ handle Ime
 havenomic Nimam mikrofona
 helpcontents Vsebina pomoèi
 help Pomoè
+hidebuttonbar Skrij pasico z gumbi
 hidedisplaypic Skrij prikazno sliko
 hidemenumessage Si preprièan da hoèe¹ skriti menuje?\nNazaj jih lahko poka¾e¹ z Skrij/Prika¾i tipkovnièno blji¾nico 'Ctrl-M'.
 hidemenu Skrij/Prika¾i menije
@@ -707,6 +711,7 @@ report Javi napako
 required_version Ne morem nalo¾iti plugina, ker za delovanje potrebuje vsaj aMSN $1.
 resetincomingfont Ponastavi font (uporabljaj font ki ga uporablja po¹iljatelj)
 restartforskin Opomba: Morda bo potrebno aMSN ponovno zagnati za pravilen izgled skina!
+retry Ponovno poskusi
 reversed Zamenjano
 reverselist Ljudje, ki si jim stik
 rightback Takoj bom nazaj
