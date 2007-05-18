@@ -2032,7 +2032,7 @@ namespace eval ::ChatWindow {
 		button $sendbutton -image [::skin::loadPixmap sendbutton] \
 		    -command "::amsn::MessageSend $w $text" \
 		    -fg [::skin::getKey sendbuttonfg] -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
-		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground [::skin::getKey sendbuttonbg] \
+		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground [::skin::getKey sendbuttonfghoover] \
 		    -text [trans send] -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
 		    -overrelief flat -compound center
 
@@ -3618,18 +3618,14 @@ namespace eval ::ChatWindow {
 			#-image [::skin::loadPixmap lesstabs] 
 			#[image width [::skin::loadPixmap lesstabs]] 
 			label $less -image [::skin::loadPixmap lesstabs] \
-			    -width $less_w \
-			    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-			    -activebackground [::skin::getKey tabbarbg] -activeforeground black \
-			    -highlightthickness 0 -pady 0 -padx 0
+			    -width $less_w -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+			    -activebackground [::skin::getKey tabbarbg] -highlightthickness 0 -pady 0 -padx 0
 			bind $less <<Button1>> "::ChatWindow::LessTabs $container $less $more"
 			#-image [::skin::loadPixmap moretabs] 
 			#[image width [::skin::loadPixmap lesstabs]] 
 			label $more -image [::skin::loadPixmap moretabs] \
-			    -width $more_w \
-			    -fg black -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-			    -activebackground [::skin::getKey tabbarbg] -activeforeground black \
-			    -highlightthickness 0 -pady 0 -padx 0
+			    -width $more_w -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+			    -activebackground [::skin::getKey tabbarbg] -highlightthickness 0 -pady 0 -padx 0
 			bind $more <<Button1>> "::ChatWindow::MoreTabs $container $less $more"
 			if { $::tcl_version >= 8.4 } {
 				$less configure -compound center
