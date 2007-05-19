@@ -1921,7 +1921,7 @@ namespace eval ::ChatWindow {
 	variable test 0
 	proc DisplayPicturesFrameConfigured {win w width height} {
 		variable test 
-		puts "configured $win $w"
+		#puts "configured $win $w"
 		
 		incr test
 		if {$test > 10 } {return }
@@ -2452,11 +2452,11 @@ namespace eval ::ChatWindow {
 		
 		binary scan $input @0a4ia4 riff size wave
 		set offset 12
-		puts "found size $size"
+		#puts "found size $size"
 		while { $offset < $size } {
 			binary scan $input @${offset}a4i id chunk_size
 			incr offset 8
-			puts "found chunk $id $chunk_size"
+			#puts "found chunk $id $chunk_size"
 			if {$id == "data" } {
 				set data [string range $input $offset [expr {$offset + $chunk_size - 1}]]
 			} 
@@ -2466,13 +2466,13 @@ namespace eval ::ChatWindow {
 		
 		if { [info exists data] } {
 			set enc [::Siren::NewEncoder]
-			puts "encoding"
+
 			if { [catch {set out [::Siren::Encode $enc $data] } res] } {
 				::Siren::Close $enc    		
 				status_log "Error Encoding : $res"
 				return 0
 			}
-			puts "res"
+
 			::Siren::WriteWav $enc $filename $out 
 			::Siren::Close $enc
 		}
