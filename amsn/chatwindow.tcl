@@ -2772,7 +2772,7 @@ namespace eval ::ChatWindow {
 
 		# Pack them 
 		#pack $picture -side left -padx 0 -pady [::skin::getKey chatpady] -anchor w
-		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
+		pack $showpic -side right -padx 0 -pady 0 -anchor ne
 
 		# Create our bindings
 		bind $showpic <<Button1>> "::amsn::ToggleShowPicture"
