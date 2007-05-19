@@ -68,7 +68,7 @@ wm state . withdrawn
 # rcversion major.minor.patch, patch is 91,92 for RC's and after a release we put .svn
 # behind the version (after 0.95.90 comes 0.95.90.svn, after 0.96 comes 0.96.90.svn)
 set version "0.97b"
-set rcversion "0.96.90.svn"
+set rcversion "0.96.99.svn"
 set date "06/16/2006"
 set weburl "http://www.amsn-project.net"
 set program_dir "."
