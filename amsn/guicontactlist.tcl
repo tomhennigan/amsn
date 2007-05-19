@@ -1775,8 +1775,10 @@ namespace eval ::guiContactList {
 		# Binding for right click		 
 		$canvas bind $main_part <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
 
-		# Bindings for dragging : applies to all elements even the star
-		$canvas bind $tag <ButtonPress-1> [list ::guiContactList::contactPress $tag $canvas %s %x %y]
+		# Bindings for dragging : applies to all elements even the star (not on MacOSX for now : buggy)
+		if { ![OnMac] } {
+			$canvas bind $tag <ButtonPress-1> [list ::guiContactList::contactPress $tag $canvas %s %x %y]
+		}
 
 		#cursor change bindings
 		if { [::skin::getKey changecursor_contact] } {
