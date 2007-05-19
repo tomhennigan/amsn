@@ -3610,7 +3610,7 @@ proc cmsn_draw_main {} {
 	set modifier [GetPlatformModifier]
 	#Status log
 	bind . <$modifier-s> toggle_status
-	#Console
+	# Console
 	bind . <$modifier-Shift-C> "load_console; console show"
 	#Quit
 	bind all <$modifier-q> "exit"
