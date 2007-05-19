@@ -1391,12 +1391,6 @@ namespace eval ::AVAssistant {
 		variable hue
 		variable color
 
-		#First set the values to the one the cam is on when we start preview
-		set brightness [::Capture::GetBrightness $grabber]
-		set contrast [::Capture::GetContrast $grabber]	
-		set hue [::Capture::GetHue $grabber]	
-		set color [::Capture::GetColour $grabber]	
-
 		#Then, if there are valid settings in our config, overwrite the values with these
 		set colorsettings [split [::config::getKey "webcam$selecteddevice:$selectedchannel"] ":"]
 		set set_b [lindex $colorsettings 0]
@@ -1421,7 +1415,7 @@ namespace eval ::AVAssistant {
 		::Capture::SetBrightness $grabber $brightness
 		::Capture::SetContrast $grabber $contrast
 		::Capture::SetHue $grabber $hue
-		::Capture::SetColour $grabber $color		
+		::Capture::SetColour $grabber $color
 	}
 
 

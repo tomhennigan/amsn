@@ -1802,23 +1802,23 @@ namespace eval ::CAMGUI {
 				}
 				
 				if { ![info exists ::webcam_settings_bug] || $::webcam_settings_bug == 0} {
-					set settings [::config::getKey "webcam$dev:$channel" "0:0:0:0"]
+					set settings [::config::getKey "webcam$dev:$channel" "-1:-1:-1:-1"]
 					set settings [split $settings ":"]
 					set set_b [lindex $settings 0]
 					set set_c [lindex $settings 1]
 					set set_h [lindex $settings 2]
 					set set_co [lindex $settings 3]
 
-					if {[string is integer -strict $set_b] && $set_b > 0 && $set_b < 65535 } {
+					if {[string is integer -strict $set_b] && $set_b >= 0 && $set_b <= 65535 } {
 						::Capture::SetBrightness $grabber $set_b
 					}
-					if {[string is integer -strict $set_c] && $set_c > 0 && $set_c < 65535 } {
+					if {[string is integer -strict $set_c] && $set_c >= 0 && $set_c <= 65535 } {
 						::Capture::SetContrast $grabber $set_c
 					}
-					if {[string is integer -strict $set_h] && $set_h > 0 && $set_h < 65535 } {
+					if {[string is integer -strict $set_h] && $set_h >= 0 && $set_h <= 65535 } {
 						::Capture::SetHue $grabber $set_h
 					}
-					if {[string is integer -strict $set_co] && $set_co > 0 && $set_co < 65535 } {
+					if {[string is integer -strict $set_co] && $set_co >= 0 && $set_co <= 65535 } {
 						::Capture::SetColour $grabber $set_co
 					}
 				}
