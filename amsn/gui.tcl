@@ -3611,7 +3611,7 @@ proc cmsn_draw_main {} {
 	#Status log
 	bind . <$modifier-s> toggle_status
 	#Console
-	bind . <$modifier-c> "load_console; console show"
+	bind . <$modifier-Shift-C> "load_console; console show"
 	#Quit
 	bind all <$modifier-q> "exit"
 	bind all <$modifier-Q> "exit"
