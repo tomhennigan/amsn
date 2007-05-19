@@ -50,7 +50,7 @@
 
 ::Version::setSubversionId {$Id$}
 
-namespace eval amsn_des {
+namespace eval des {
     # Procedure: encrypt - Encryption front-end for the des procedure
     # Inputs:
     #   key     : The 64-bit DES key or the 192-bit 3DES key
