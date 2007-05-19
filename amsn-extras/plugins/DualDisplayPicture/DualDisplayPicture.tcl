@@ -21,6 +21,28 @@ namespace eval ::DualDisplayPicture {
 	array set myinfo {}
 
 	proc Init { dir } {
+		global version rcversion 
+		if { ![info exists rcversion] } { set rcversion $version }
+		
+		set lastver [split $rcversion "."]
+		set yourver [split "0.96.90" "."]
+		
+		set newer 0
+		for {set x 0} {$x < [llength "$lastver"]} {incr x} {
+			if {[lindex $lastver $x] > [lindex $yourver $x]} {
+				set newer 1
+				break
+			} elseif {[lindex $lastver $x] < [lindex $yourver $x]} {
+				break
+			}
+		}
+		if {$newer} {
+			msg_box "Plugin has been disabled for aMSN versions > 0.97"
+			::plugins::GUI_Unload
+			return 0
+		}
+
+
 		::plugins::RegisterPlugin DualDisplayPicture
 		::plugins::RegisterEvent DualDisplayPicture new_chatwindow hookCW
 		::plugins::RegisterEvent DualDisplayPicture user_joins_chat user_leaves_join_chat
