@@ -1583,8 +1583,8 @@ namespace eval ::music {
 		set tmplst [split $tmplst "\0"]
 
 		set type [lindex $tmplst 1]
-		set song [lindex $tmplst 4]
-		set art [lindex $tmplst 5]
+		set art [lindex $tmplst 4]
+		set song [lindex $tmplst 5]
 
 		if {[string compare -nocase $type "Music"]} {
 			return 0
