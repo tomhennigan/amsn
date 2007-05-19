@@ -12,6 +12,7 @@
 			<balloonbackground>#ffffff</balloonbackground>
 			<balloonborder>#666666</balloonborder>
 			<balloontext>#666666</balloontext>
+			<notifyfg>#000000</notifyfg>
 			<menubackground>#efefef</menubackground>
 			<menuforeground>#666666</menuforeground>
 			<menuactivebackground>#dddddd</menuactivebackground>
