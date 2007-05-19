@@ -1,0 +1,11 @@
+amsn_lang_version 2
+always Immer
+beginendconversation Zeige Anfang und Ende des Gesprächs
+checknote Zeige Notizen
+daysnumber Anzahl der Tage
+filetransfert Zeige Dateiübertragungen
+lastsentence Letzte Sätze des letzten Gesprächs
+nbdisplay Anzahl der angezeigten Zeilen
+noteswritten Sie haben sich notizen zu diesem Kontakt gemacht
+talklast Wenn wir in den letzten x Tagen Kontakt hatten
+talkwithin Wenn wir in den letzten x Tagen keinen Kontakt hatten

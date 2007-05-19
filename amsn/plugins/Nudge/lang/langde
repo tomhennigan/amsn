@@ -1,0 +1,18 @@
+amsn_lang_version 2
+add_blockbutton 'Rrring!'-Blockieren-Knopf in der Symbolleiste des Chatfensters anzeigen
+add_button 'Rrring!'-Knopf in der Symbolleiste des Chatfensters anzeigen
+add_clmenuitem 'Rrring!'-Menüeintrag hinzufügen
+block_nudge 'Rrring!' blockieren
+delay Mindestwartezeit zwischen zwei 'Rrring!' des selben Kontakts (in Sekunden)
+limit 'Rrring!'-Empfang begrenzen
+no_nudge_support Sie können an diesen Kontakt keinen 'Rrring!' senden, da der Client dieses Benutzern diese Funktion nicht unterstützt.
+notify_receive Empfangene 'Rrring!' im Chatfenster protokollieren
+notify_send Gesendete 'Rrring!' im Chatfenster protokollieren
+nudge_sent Sie haben gerade erst einen 'Rrring!' gesendet
+popup_nudge Popup-Fenster öffnen, wenn ein 'Rrring!' eintrifft
+send_nudge Sende 'Rrring!'
+shake_nudge Schütteldauer
+shake_receive Schüttel das Fenster wenn Sie ein 'Rrring!' erhalten
+shake_send Schüttel das Fenster wenn Sei ein 'Rrring!' senden
+sound_receive Sound beim Empfangen eines 'Rrring!' abspielen
+sound_send Sound beim Senden eines 'Rrring!' abspielen
