@@ -142,10 +142,22 @@ namespace eval ::draw {
 		set wipebut $buttonbar.wipebutton
 		CreateToolButton $wipebut butwipe [list $drawwidget ClearDrawboard]
 
-		#SENDBUTTON (if sendbutton in inputfield is not present
+		#INPUT TEXT
+		bind $inputtext <Return> "::draw::PressedSendDraw $window"
+		bind $inputtext <Key-KP_Enter> "::draw::PressedSendDraw $window; break"		
+
+
+		#SWITCHBUTTON
+		set inkswitch $buttonbar.inkswitchbut
+		$inkswitch configure -image [::skin::loadPixmap buttext]
+		bind $inkswitch  <<Button1>> "::draw::ResetTextInput $window $buttonbar"
+		bind $inkswitch  <Enter> "$inkswitch configure -image [::skin::loadPixmap buttext_hover]"
+		bind $inkswitch  <Leave> "$inkswitch configure -image [::skin::loadPixmap buttext]"	
+
+		#SENDBUTTON (if sendbutton in inputfield is not present)
 		set sendbuttonframe $w.f.bottom.left.in.inner.sbframe
 		set sendbutton $sendbuttonframe.send
-
+		bind $sendbutton <Return> "::draw::PressedSendDraw $window"
 
 		if {![::skin::getKey chat_show_sendbuttonframe]} {
 			#if no sendbutton, put a button in the buttonbar to send the drawing
@@ -158,7 +170,7 @@ namespace eval ::draw {
 			#bind the sendbutton
 		
 			if { ($::tcl_version >= 8.4) && ![OnMac] } {
-				$sendbutton configure -command "::draw::PressedSendDraw $window"
+				catch { $sendbutton configure -command "::draw::PressedSendDraw $window" }
 			} elseif { [OnMac] } {
 				bind $sendbutton <<Button1>> "::draw::PressedSendDraw $window"
 			} else {
@@ -166,20 +178,6 @@ namespace eval ::draw {
 			}
 		}					
 
-		bind $sendbutton <Return> "::draw::PressedSendDraw $window"
-		bind $inputtext <Return> "::draw::PressedSendDraw $window"
-		bind $inputtext <Key-KP_Enter> "::draw::PressedSendDraw $window; break"		
-
-
-		#SWITCHBUTTON
-		set inkswitch $buttonbar.inkswitchbut
-		$inkswitch configure -image [::skin::loadPixmap buttext]
-		bind $inkswitch  <<Button1>> "::draw::ResetTextInput $window $buttonbar"
-		bind $inkswitch  <Enter> "$inkswitch configure -image [::skin::loadPixmap buttext_hover]"
-		bind $inkswitch  <Leave> "$inkswitch configure -image [::skin::loadPixmap buttext]"	
-
-		
-	
 	}
 
 
@@ -249,7 +247,8 @@ namespace eval ::draw {
 		}
 		unset ink_text_pack
 		
-		
+		bind $textinput <Return> "window_history add %W; ::amsn::MessageSend $window %W; break"
+		bind $textinput <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend $window %W; break"
 		
 		#rebind the sendbutton
 		set inputframe $window.f.bottom.left.in
@@ -257,19 +256,16 @@ namespace eval ::draw {
 		set sendbutton $sendbuttonframe.send	
 		if {[winfo exists $sendbutton]} {
 status_log "reset sendbutton binding"
+			bind $sendbutton <Return> "::amsn::MessageSend $window $textinput; break"
 			if { ($::tcl_version >= 8.4) && ![OnMac] } {
-				$sendbutton configure -command "::amsn::MessageSend $window $textinput"
+				catch { $sendbutton configure -command "::amsn::MessageSend $window $textinput" }
 			} elseif { [OnMac] } {
 				bind $sendbutton <<Button1>> "::amsn::MessageSend $window $textinput"
 			} else {
 				$sendbutton configure -command "::amsn::MessageSend $window $textinput"
 			}
-			bind $sendbutton <Return> "::amsn::MessageSend $window $textinput; break"
 		}
 		
-		bind $textinput <Return> "window_history add %W; ::amsn::MessageSend $window %W; break"
-		bind $textinput <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend $window %W; break"		
-
 	}
 	
 
