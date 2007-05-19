@@ -160,6 +160,7 @@ if { $initialize_amsn == 1 } {
 
 	::skin::setKey notifwidth 150
 	::skin::setKey notifheight 100
+	::skin::setKey notifyfg black
 	::skin::setKey x_notifyclose 140
 	::skin::setKey y_notifyclose 2
 	::skin::setKey x_notifydp 1
@@ -3344,13 +3345,13 @@ namespace eval ::amsn {
 				set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
 					-font [::skin::getKey notify_font] -justify left\
 					-width [::skin::getKey width_notifytext] -anchor nw\
-					-text "$msg" -tag bg]
+					-text "$msg" -tag bg -fill [::skin::getKey notifyfg]]
 			#else, just show the text, using all the space
 			} else {
 				set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] [expr {[::skin::getKey notifheight]/2}] \
 					-font [::skin::getKey notify_font] -justify left\
 					-width [expr {[::skin::getKey notifwidth]-20}] -anchor center\
-					-text "$msg" -tag bg]
+					-text "$msg" -tag bg -fill [::skin::getKey notifyfg]]
 			}
 
 			#add the close button
