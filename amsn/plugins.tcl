@@ -1006,15 +1006,6 @@ namespace eval ::plugins {
 	    #resets the loadedplugins list to plugins that were loaded before
 	    load_config
 
-	    #"HACK" to load 'core' plugins for the 0.95 release
-	    #HERE WE HAVE A LIST OF PLUGINS THAT ARE SHIPPED WITH AMSN AND SHOULD BE LOADED IF THE USER SEES 'M FOR THE FIRST TIME
-	    #logic: if this is the first time the user logged in, then 
-	    #the configuration list is empty which means load_config
-	    #makes loadedplugins empty
-	    if {[llength $loadedplugins] == 0} {
-		    set loadedplugins [list "Nudge" "Cam Shooter" "remind"]
-	    }
-
 	    #update the list of installed plugins because this proc is usually 
 	    #called when a new user logs in, so he migh have diff plugins in
 	    # his ~/.amsn/{user}/plugins
@@ -1176,11 +1167,18 @@ namespace eval ::plugins {
 	# none
 	#
 	proc save_config { } {
-		global HOME
+		global HOME HOME2
 		variable loadedplugins
 
-		plugins_log core "save_config: saving plugin config for user [::config::getKey login] in $HOME]\n"
+		plugins_log core "save_config: saving plugin config for user [::config::getKey login] in $HOME\n"
 	
+		# check if this is the default profile
+		if { $HOME == $HOME2 } { 
+			plugins_log core "save_config: Default profile, no plugin configuration saved!\n"
+			catch {file delete -force [file join ${HOME} plugins.xml]}
+			return 0
+		}
+
 		if { [catch {
 			if { [OnUnix] } {
 				set file_id [open "[file join ${HOME} plugins.xml]" w 00600]
@@ -1190,6 +1188,7 @@ namespace eval ::plugins {
 		} res]} {
 			return 0
 		}
+
 
 		plugins_log core "save_config: saving plugin config_file. Opening of file returned : $res\n"
 
@@ -1275,6 +1274,14 @@ namespace eval ::plugins {
 				file copy [file join ${HOME} "plugins.xml"] [file join ${HOME} "plugins.xml.old"]
 			}
 		} else {
+
+			#"HACK" to load 'core' plugins for the 0.95 release
+			#HERE WE HAVE A LIST OF PLUGINS THAT ARE SHIPPED WITH AMSN AND SHOULD BE LOADED IF THE USER SEES 'M FOR THE FIRST TIME
+			#logic: if this is the first time the user logged in, then 
+			#the configuration list is empty which means load_config
+			#makes loadedplugins empty
+			set loadedplugins [list "Nudge" "Winks" "Cam Shooter" "remind"]
+
 			status_log "Plugins System: load_config: No plugins.xml]\n" red
 		}
 	}
