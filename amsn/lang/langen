@@ -760,6 +760,7 @@ showcontactemail Show Contacts with E-mail
 showcontactnick Show Contacts with Nickname
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
+showonedpframe Show only one DisplayPicture frame in chat windows
 showlinksinlogin Show Links in the Login Screen
 showmailicon Show mail icon on traydock when new emails arrive
 showmypic My Display Picture

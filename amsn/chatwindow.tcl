@@ -376,8 +376,7 @@ namespace eval ::ChatWindow {
 		
 		#Could be cleaner, but this works, destroying unused vars, saving mem		
 		catch {
-			global ${window}_show_picture ${window}.f.bottom.left.in.inner.text
-			unset ${window}_show_picture
+			global ${window}.f.bottom.left.in.inner.text
 			unset ${window}.f.bottom.left.in.inner.text
 		}
 		
@@ -649,13 +648,16 @@ namespace eval ::ChatWindow {
 
 			::ChatWindow::TopUpdate $chatid
 
-			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
-		
-				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
-				
+			if { [winfo exists $win_name.f.out.dps] } {
+				::amsn::ShowOrHidePicture
+				::amsn::ShowOrHideTopPicture
+				::amsn::UpdatePictures $win_name
 			} else {
-				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
-				
+				if { [::config::getKey showdisplaypic] && $usr_name != ""} {
+					::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
+				} else {
+					::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
+				}
 			}
 		}
 
@@ -1049,7 +1051,7 @@ namespace eval ::ChatWindow {
 		$w.search bindwindow $w
 
 		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
-		bind $w <Destroy> "::ChatWindow::DetachAll %W; global ${w}_show_picture; catch {unset ${w}_show_picture}"
+		bind $w <Destroy> "::ChatWindow::DetachAll %W"
 
 		# These bindings are handlers for closing the window (Leave the SB, store settings...)
 		wm protocol $w WM_DELETE_WINDOW "::ChatWindow::ContainerClose $w"
@@ -1066,11 +1068,7 @@ namespace eval ::ChatWindow {
 
 		status_log "tabbed window is : $w\n" red
 
-		frame $w -background [::skin::getKey chatwindowbg] -relief solid -bd 0
-    
-    if { $::tcl_version >= 8.4 } {
-        $w configure -padx 0 -pady 0
-    }
+		frame $w -background [::skin::getKey chatwindowbg] -relief solid -bd 0 -padx 0 -pady 0
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
 		if { ![OnWin] && [version_vcompare [info patchlevel] 8.4.8] >= 0 } {
@@ -1371,7 +1369,6 @@ namespace eval ::ChatWindow {
 	# This proc should create the View submenu of the chat window
 	#
 	proc CreateViewMenu { w menu } {
-		global ${w}_show_picture
 
 		set viewmenu $menu.view
 		menu $viewmenu -tearoff 0 -type normal
@@ -1382,8 +1379,8 @@ namespace eval ::ChatWindow {
 
 		#show dp check
 		$viewmenu add checkbutton -label "[trans showdisplaypic]" \
-			-command "::amsn::ShowOrHidePicture \[::ChatWindow::getCurrentTab $w\]"\
-			-onvalue 1 -offvalue 0 -variable "${w}_show_picture"
+		    -command "::amsn::ShowOrHidePicture"\
+		    -onvalue 1 -offvalue 0 -variable [::config::getVar showdisplaypic]
 		# Show the button bar check
 		$viewmenu add checkbutton -label "[trans hidebuttonbar]" \
 		    -command [list ::ChatWindow::ShowOrHideButtonBar]  \
@@ -1409,12 +1406,6 @@ namespace eval ::ChatWindow {
 		$viewmenu add command -label "[trans clear]" -command [list ::ChatWindow::Clear $w]
 
 
-
-		set ${w}_show_picture 0
-	
-		
-
-		
 		return $viewmenu
 	}
 
@@ -1822,12 +1813,34 @@ namespace eval ::ChatWindow {
 	proc CreateOutputWindow { w paned } {
 		# Name our widgets
 		set fr $paned.out
-		set out $fr.scroll
-		set text $out.text
 
 		# Create the widgets
 		frame $fr -class Amsn -borderwidth 0 -relief solid \
 			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
+
+		set out [CreateOutputFrame $w $fr]
+		
+		pack $out -side left -expand true -fill both \
+		    -padx [::skin::getKey chat_output_padx] \
+		    -pady [::skin::getKey chat_output_pady]
+		
+		if { [::config::getKey old_dpframe 0] == 0 } {
+			set picture [CreateDisplayPicturesFrame $w $fr]
+			
+			pack $picture -side right -expand false -fill y -anchor ne \
+			    -padx [::skin::getKey chat_dp_padx] \
+			    -pady [::skin::getKey chat_dp_pady]
+		} 
+	
+		
+
+		return $fr
+	}
+
+	proc CreateOutputFrame { w fr } {
+		set out $fr.scroll
+		set text $out.text
+
 		ScrolledWindow $out -auto vertical -scrollbar vertical -ipad 0
 		framec $text -type ::ChatWindow::rotext -relief solid -foreground white \
 			-background [::skin::getKey chat_output_back_color] -width 45 -height 3 \
@@ -1838,12 +1851,7 @@ namespace eval ::ChatWindow {
 
 		$out setwidget $text
 
-
-		pack $out -expand true -fill both \
-			-padx [::skin::getKey chat_output_padx] \
-			-pady [::skin::getKey chat_output_pady]
 		
-
 		# Configure our widgets
 		$text configure -state normal
 		$text tag configure green -foreground darkgreen -font sboldf
@@ -1873,9 +1881,54 @@ namespace eval ::ChatWindow {
 		#If you can find why it is freezing and can stop it remove this line
 		bind $textinner <Control-Up> "break"
 
-		return $fr
+		return $out
 	}
 	
+	proc CreateDisplayPicturesFrame { w fr } {
+		# Name our widgets
+		set frame $fr.dps
+		set showpic $frame.showpic
+
+		# Create them
+		frame $frame -class Amsn -borderwidth 0 \
+			-relief solid -background [::skin::getKey chatwindowbg]
+		
+		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical
+		ScrollableFrame $frame.sw.sf -constrainedwidth 1 -width 0 -bg [::skin::getKey chatwindowbg] 
+		$frame.sw setwidget $frame.sw.sf
+
+		#bind [$frame.sw.sf getframe] <Configure> +[list ::ChatWindow::DisplayPicturesFrameConfigured $frame.sw.sf %W %w %h]
+
+		label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
+			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
+			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
+		bind $showpic <Enter> "$showpic configure -image [::skin::loadPixmap imgshow_hover]"
+		bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
+		set_balloon $showpic [trans showdisplaypic]
+
+		# Pack them 
+		pack $frame.sw -side left -fill y -expand false -anchor ne
+		pack $showpic -side right -anchor ne
+
+
+		# Create our bindings
+		bind $showpic <<Button1>> [list ::amsn::ToggleShowTopPicture]
+			
+		::amsn::ShowOrHideTopPicture
+		return $frame	
+	}
+
+	variable test 0
+	proc DisplayPicturesFrameConfigured {win w width height} {
+		variable test 
+		puts "configured $win $w"
+		
+		incr test
+		if {$test > 10 } {return }
+		$win configure -width $width -height $height
+
+	}
+
 	#pasteToInput -- text pasted in output window goes to input window
 	#This is processed before the paste occurs, so this is sufficient.
 	proc pasteToInput {w} {
@@ -2722,15 +2775,20 @@ namespace eval ::ChatWindow {
 		pack $showpic -side right -expand true -fill y -padx 0 -pady 0 -anchor e
 
 		# Create our bindings
-		bind $showpic <<Button1>> "::amsn::ToggleShowPicture $w; ::amsn::ShowOrHidePicture $w"
-		bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
-		bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
-			
+		bind $showpic <<Button1>> "::amsn::ToggleShowPicture"
+		if { [::config::getKey old_dpframe 0] == 0 } {
+			bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
+			bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
+		} else {
+			bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowOldPicMenu $w %X %Y\n"
+			bind $pictureinner <<Button3>> "::amsn::ShowOldPicMenu $w %X %Y\n"
+		}
+
 		#For TkAqua: Disable temporary, crash issue with that line
 		if { ![OnMac] } {
 			bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
 		}
-
+		::amsn::ShowOrHidePicture
 		return $frame
 
 	}
@@ -3491,8 +3549,6 @@ namespace eval ::ChatWindow {
 			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_current]
 		}
 
-		$container.menu.view entryconfigure [trans showdisplaypic] -variable "${win}_show_picture"
-
 		::ChatWindow::UpdateContainerTitle $container
 
 		bind $win <Map> [list focus [::ChatWindow::GetInputText $win] ]
@@ -3949,13 +4005,16 @@ namespace eval ::ChatWindow {
 		::ChatWindow::TopUpdate $chatid
 
 		set usr_name [lindex [::MSN::usersInChat $chatid] 0]
-		if { [::config::getKey showdisplaypic] && $usr_name != ""} {
-	
-			::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
-			
+		if { [winfo exists $win_name.f.out.dps]} {
+			::amsn::ShowOrHidePicture
+			::amsn::ShowOrHideTopPicture
+			::amsn::UpdatePictures $win_name
 		} else {
-			::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
-			
+			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
+			} else {
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
+			}
 		}
 		
 		#We have a window for that chatid, raise it

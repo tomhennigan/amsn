@@ -165,6 +165,8 @@ namespace eval ::config {
 
 		::config::setKey flicker 1				;#Flicker window on new message
 		::config::setKey showdisplaypic 1		;#Show display picture as default
+		::config::setKey ShowTopPicture 1		;#Show display picture in the top frame
+		::config::setKey old_dpframe 0			;# Use the old DP framing system (only one in the bottom)
 		::config::setKey lazypicretrieval 0		;#Retrieve display pics in a lazy way, only when chatting to that user
 
 		::config::setKey autochangenick 1		;# automaticly change nick to custom state
@@ -312,6 +314,7 @@ namespace eval ::config {
 			[list local showmailicon bool showmailicon] \
 			[list local autoresizedp bool autoresizedp] \
 			[list local show_login_screen_links bool showlinksinlogin] \
+			[list local old_dpframe bool showonedpframe] \
 			[list title notifyoffset] \
 			[list local notifyXoffset int xoffset] \
 			[list local notifyYoffset int yoffset] \

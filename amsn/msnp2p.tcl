@@ -945,6 +945,7 @@ namespace eval ::MSNP2P {
 							status_log "MSNP2P | $sid -> Closed file $filename.. finished writing\n" red
 							
 							::skin::getDisplayPicture $user_login 1
+							::amsn::UpdateAllPictures
 
 							set desc_file "[file join $HOME displaypic cache ${filename}.dat]"
 							create_dir [file join $HOME displaypic]

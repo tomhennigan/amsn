@@ -1665,10 +1665,16 @@ namespace eval ::amsn {
 			::ChatWindow::Status [ ::ChatWindow::For $chatid ] $statusmsg minijoins
 			::ChatWindow::TopUpdate $chatid
 
-			if { [::config::getKey showdisplaypic] && $usr_name != ""} {
-				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
+			if { [winfo exists $win_name.f.out.dps] } {
+				::amsn::ShowOrHidePicture
+				::amsn::ShowOrHideTopPicture
+				::amsn::UpdatePictures $win_name
 			} else {
-				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
+				if { [::config::getKey showdisplaypic] && $usr_name != ""} {
+					::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name]
+				} else {
+					::amsn::ChangePicture $win_name [::skin::getDisplayPicture $usr_name] [trans showuserpic $usr_name] nopack
+				}
 			}
 
 			if { [::config::getKey leavejoinsinchat] == 1 } {
@@ -1725,15 +1731,19 @@ namespace eval ::amsn {
 			set icon minileaves
 		}
 
-		#Check if the image that is currently showing is
-		#from the user that left. Then, change it
-		set current_image ""
-		#Catch it, because the window might be closed
-		catch {set current_image [$win_name.f.bottom.pic.image cget -image]}
-		if { [string compare $current_image [::skin::getDisplayPicture $usr_name]]==0} {
-			set users_in_chat [::MSN::usersInChat $chatid]
-			set new_user [lindex $users_in_chat 0]
-			::amsn::ChangePicture $win_name [::skin::getDisplayPicture $new_user] [trans showuserpic $new_user] nopack
+		if { [winfo exists $win_name.f.out.dps] } {
+			::amsn::UpdatePictures $win_name
+		} else {
+			#Check if the image that is currently showing is
+			#from the user that left. Then, change it
+			set current_image ""
+			#Catch it, because the window might be closed
+			catch {set current_image [$win_name.f.bottom.pic.image cget -image]}
+			if { [string compare $current_image [::skin::getDisplayPicture $usr_name]]==0} {
+				set users_in_chat [::MSN::usersInChat $chatid]
+				set new_user [lindex $users_in_chat 0]
+				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $new_user] [trans showuserpic $new_user] nopack
+			}
 		}
 
 		::ChatWindow::Status $win_name $statusmsg $icon
@@ -1811,17 +1821,59 @@ namespace eval ::amsn {
 		variable clipboard ""
 	}
 
-	proc ToggleShowPicture { win_name } {
-		upvar #0 ${win_name}_show_picture show_pic
-
-		if { [info exists show_pic] && $show_pic } {
-			set show_pic 0
+	proc ToggleShowPicture { } {
+		if { [::config::getKey showdisplaypic 0] == 1 } {
+			::config::setKey showdisplaypic 0
 		} else {
-			set show_pic 1
+			::config::setKey showdisplaypic 1
 		}
+		::amsn::ShowOrHidePicture
 	}
 
+	proc ShowTopPicMenu { win user x y } {
+		catch {menu $win.picmenu -tearoff 0}
+		$win.picmenu delete 0 end
+
+		#Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
+		if { [OnMac] } {
+			#Cursor at the top right hand corner (NE) of the popup.
+			incr x -123
+			incr y +2
+		}
+
+		set chatid [::ChatWindow::Name $win]
+		set pic [::skin::getDisplayPicture $user]
+		if { $pic != "displaypicture_std_none" && $user != ""} {
+			$win.picmenu add command -label "[trans changesize]" -command [list ::amsn::ShowTopPicMenu $win $user $x $y]
+			#4 possible size (someone can add something to let the user choose his size)
+			$win.picmenu add command -label " -> [trans small]" -command "::skin::ConvertDPSize $user 64 64; ::amsn::UpdateAllPictures"
+			$win.picmenu add command -label " -> [trans default2]" -command "::skin::ConvertDPSize $user 96 96; ::amsn::UpdateAllPictures"
+			$win.picmenu add command -label " -> [trans large]" -command "::skin::ConvertDPSize $user 128 128; ::amsn::UpdateAllPictures"
+			$win.picmenu add command -label " -> [trans huge]" -command "::skin::ConvertDPSize $user 192 192; ::amsn::UpdateAllPictures"
+			#Get back to original picture
+			$win.picmenu add command -label " -> [trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
+			tk_popup $win.picmenu $x $y
+		}
+	}
 	proc ShowPicMenu { win x y } {
+		status_log "Show menu in window $win, position $x $y\n" blue
+		catch {menu $win.picmenu -tearoff 0}
+		$win.picmenu delete 0 end
+
+		#Make the picture menu appear on the conversation window instead of having it in the bottom of screen (and sometime lost it if the conversation window is in the bottom of the window)
+		if { [OnMac] } {
+			#Cursor in the bottom right hand corner (SE) of the popup.
+			incr x -212
+			incr y -25
+		}
+	
+		#Load Change Display Picture window
+		$win.picmenu add command -label "[trans changedisplaypic]..." -command pictureBrowser
+
+		tk_popup $win.picmenu $x $y
+	}
+
+	proc ShowOldPicMenu { win x y } {
 		status_log "Show menu in window $win, position $x $y\n" blue
 		catch {menu $win.picmenu -tearoff 0}
 		$win.picmenu delete 0 end
@@ -1852,10 +1904,10 @@ namespace eval ::amsn {
 			catch {menu $win.picmenu.size -tearoff 0 -type normal}
 			$win.picmenu.size delete 0 end
 			#4 possible size (someone can add something to let the user choose his size)
-			$win.picmenu.size add command -label "[trans small]" -command "::skin::ConvertDPSize $user 64 64"
-			$win.picmenu.size add command -label "[trans default2]" -command "::skin::ConvertDPSize $user 96 96"
-			$win.picmenu.size add command -label "[trans large]" -command "::skin::ConvertDPSize $user 128 128"
-			$win.picmenu.size add command -label "[trans huge]" -command "::skin::ConvertDPSize $user 192 192"
+			$win.picmenu.size add command -label "[trans small]" -command "::skin::ConvertDPSize $user 64 64; ::amsn::UpdateAllPictures"
+			$win.picmenu.size add command -label "[trans default2]" -command "::skin::ConvertDPSize $user 96 96; ::amsn::UpdateAllPictures"
+			$win.picmenu.size add command -label "[trans large]" -command "::skin::ConvertDPSize $user 128 128; ::amsn::UpdateAllPictures"
+			$win.picmenu.size add command -label "[trans huge]" -command "::skin::ConvertDPSize $user 192 192; ::amsn::UpdateAllPictures"
 			#Get back to original picture
 			$win.picmenu.size add command -label "[trans original]" -command "::MSNP2P::loadUserPic $chatid $user 1"
 		}
@@ -1864,7 +1916,6 @@ namespace eval ::amsn {
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
 		#pack $win.bottom.pic.image -side left -padx 2 -pady 2
-		upvar #0 ${win}_show_picture show_pic
 
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
 
@@ -1887,7 +1938,7 @@ namespace eval ::amsn {
 			bind $win.f.bottom.pic.showpic <Enter> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide_hover]"
 			bind $win.f.bottom.pic.showpic <Leave> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]"
 			change_balloon $win.f.bottom.pic.showpic [trans hidedisplaypic]
-			set show_pic 1
+			::config::setKey showdisplaypic 1
 		}
 
 		if { $scrolling } {
@@ -1896,8 +1947,72 @@ namespace eval ::amsn {
 		}
 	}
 
+	proc UpdateAllPictures { } {
+		set chatids [::ChatWindow::getAllChatIds]
+		# Loop through the chats
+		foreach chat $chatids {
+			set win [::ChatWindow::For $chat]
+			
+			if { [winfo exists $win.f.out.dps]} {
+				::amsn::UpdatePictures $win 
+			}
+		}	
+	}
+
+	proc UpdatePictures { win } {	
+		set frame $win.f.out.dps
+		set images [$frame.sw.sf getframe]
+		set chatid [::ChatWindow::Name $win]
+		set users [::MSN::usersInChat $chatid]
+
+		foreach child [winfo children $images] {
+			destroy $child
+		}
+
+		# don't show user labels if there's only one user
+		set show_user_labels 0
+		if {[llength $users] > 1} {
+			set show_user_labels 1
+		}
+
+		# Calculate the max width of the DPs shown, so we can know how much pixels to truncate all the labels
+		set max_width 0
+		foreach user $users {
+			set new_width [image width [::skin::getDisplayPicture $user]]
+			if {$new_width > $max_width } {
+				set max_width $new_width
+			}
+		}
+
+		set idx 0
+		foreach user $users {
+			if {$show_user_labels == 1} {
+				set truncated [trunc [::abook::getDisplayNick $user] $images [expr {${max_width}-10}] sitalf]
+	
+				label $images.user_name$idx \
+				    -background [::skin::getKey chatwindowbg] \
+				    -relief flat -font sitalf -text $truncated
+
+				pack $images.user_name$idx -side top -padx 0 -pady 0 -anchor n
+			}
+	
+			framec $images.user_dp$idx -type label -relief solid -image [::skin::getDisplayPicture $user] \
+			    -borderwidth [::skin::getKey chat_dp_border] \
+			    -bordercolor [::skin::getKey chat_dp_border_color] \
+			    -background [::skin::getKey chatwindowbg]
+			set pictureinner [$images.user_dp$idx getinnerframe]
+			bind $pictureinner <Button1-ButtonRelease> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
+			bind $pictureinner <<Button3>> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
+			pack $images.user_dp$idx -side top -padx 0 -pady 0 -anchor n
+
+			set_balloon $pictureinner [trans showuserpic $user]
+
+			incr idx
+		}
+		$frame.sw.sf configure -width [expr {$max_width + 10}]
+	}
+
 	proc HidePicture { win } {
-		global ${win}_show_picture
 		pack forget $win.f.bottom.pic.image
 
 		#grid $win.f.bottom.pic.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
@@ -1908,20 +2023,84 @@ namespace eval ::amsn {
 
 		change_balloon $win.f.bottom.pic.showpic [trans showdisplaypic]
 
-		set ${win}_show_picture 0
+	}
+
+	proc ShowOrHidePicture { } {
+		set chatids [::ChatWindow::getAllChatIds]
+		# Loop through the chats
+		foreach chat $chatids {
+			set win [::ChatWindow::For $chat]
+			
+			if { [::config::getKey showdisplaypic 1] == 1} {
+				if {[winfo exists $win.f.out.dps] } {
+					::amsn::ChangePicture $win displaypicture_std_self [trans mypic]
+				} else {
+					::amsn::ChangePicture $win [$win.f.bottom.pic.image cget -image] ""
+				}
+			} else {
+				::amsn::HidePicture $win
+			}
+		}
 
 	}
 
-	proc ShowOrHidePicture { win } {
-		upvar #0 ${win}_show_picture value
-		if { $value == 1} {
-			::amsn::ChangePicture $win [$win.f.bottom.pic.image cget -image] ""
+	proc ToggleShowTopPicture { } {
+		if {[::config::getKey ShowTopPicture 0] == 1 } {
+			::config::setKey ShowTopPicture 0
 		} else {
-			::amsn::HidePicture $win
+			::config::setKey ShowTopPicture 1
+		}
+		ShowOrHideTopPicture
+	}
+
+	proc ShowOrHideTopPicture { } {
+		set chatids [::ChatWindow::getAllChatIds]
+		# Loop through the chats
+		foreach chat $chatids {
+			set win [::ChatWindow::For $chat]
+		
+			if { [winfo exists $win.f.out.dps] } {
+				if { [::config::getKey ShowTopPicture 1] == 1} {
+					ShowTopPicture $win
+				} else {
+					HideTopPicture $win
+				}
+			}
 		}
 	}
 
 
+
+	proc ShowTopPicture {win } {
+		set frame $win.f.out.dps
+		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
+
+		pack $frame.sw -side left -fill y -expand false -anchor ne
+
+		$frame.showpic configure -image [::skin::loadPixmap imghide]
+		bind $frame.showpic <Enter> [list $frame.showpic configure -image [::skin::loadPixmap imghide_hover]]
+		bind $frame.showpic <Leave> [list $frame.showpic configure -image [::skin::loadPixmap imghide]]
+		change_balloon $frame.showpic [trans hidedisplaypic]
+		
+		if { $scrolling } {
+			update idletasks
+			::ChatWindow::Scroll [::ChatWindow::GetOutText $win]
+		}
+	}
+
+	proc HideTopPicture { win } {
+		set frame $win.f.out.dps
+
+		pack forget $frame.sw
+
+		#Change here to change the icon, instead of text
+		$frame.showpic configure -image [::skin::loadPixmap imgshow]
+		bind $frame.showpic <Enter> [list $frame.showpic configure -image [::skin::loadPixmap imgshow_hover]]
+		bind $frame.showpic <Leave> [list $frame.showpic configure -image [::skin::loadPixmap imgshow]]
+
+		change_balloon $frame.showpic [trans showdisplaypic]
+
+	}
 	#///////////////////////////////////////////////////////////////////////////////
 
 	proc ShowUserList {title command {show_offlines 0}} {
@@ -2689,11 +2868,18 @@ namespace eval ::amsn {
 			set evPar(usr_name) $user
 			::plugins::PostEvent new_conversation evPar
 
-			if { [::config::getKey showdisplaypic] && $user != ""} {
-				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $user] [trans showuserpic $user]
+			if { [winfo exists $win_name.f.out.dps] } {
+				::amsn::ShowOrHidePicture
+				::amsn::ShowOrHideTopPicture
+				::amsn::UpdatePictures $win_name
 			} else {
-				::amsn::ChangePicture $win_name [::skin::getDisplayPicture $user] [trans showuserpic $user] nopack
+				if { [::config::getKey showdisplaypic] && $user != ""} {
+					::amsn::ChangePicture $win_name [::skin::getDisplayPicture $user] [trans showuserpic $user]
+				} else {
+					::amsn::ChangePicture $win_name [::skin::getDisplayPicture $user] [trans showuserpic $user] nopack
+				}
 			}
+
 		}
 
 		#TODO: This check shouldn't be there
@@ -3610,7 +3796,7 @@ proc cmsn_draw_main {} {
 	set modifier [GetPlatformModifier]
 	#Status log
 	bind . <$modifier-s> toggle_status
-	# Console
+	#Console
 	bind . <$modifier-Shift-C> "load_console; console show"
 	#Quit
 	bind all <$modifier-q> "exit"
