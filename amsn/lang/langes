@@ -57,6 +57,7 @@ assistantawarn No podrás grabarte o hablar con tus amigos. Puedes encontrar inf
 assistantfinetunepic Cambia las siguientes opciones para ajustar la calidad de imágen de tu cámara web
 assistantselectcam Selecciona tu cámara web de la lista
 assistantstarting Iniciando el Asistente
+assistanttitle Asistente de audio y vídeo
 assistantwelcome Este asistente te guiará en el proceso de configuración de audio y video en aMSN.\n\nComprobará que las extensiones requeridas estén presentes y cargadas, y podrás elegir el dispositivo y canal, ajustar la configuración de imágen y la resolución.
 audioconfigured Se eligieron las siguientes configuraciones de audio:\nDispositivo de salida: $1\nDispositivo de entrada:$2
 audiovideo Configuración de Audio y Video
@@ -769,6 +770,7 @@ showlinksinlogin Mostrar los enlaces en la pantalla de inicio de sesión
 showmailicon Mostar el icono de correo en la bandeja del sistema cuando llegue un nuevo correo electrónico
 showmypic Mostrar mi imagen
 shownotify Mostrar ventana de avisos al producirse diversos eventos
+showonedpframe Mostrar un único marco con la imagen para mostrar en las ventanas de conversación
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
 showuserpic Imagen de $1
 signinstatus Estado inicial
