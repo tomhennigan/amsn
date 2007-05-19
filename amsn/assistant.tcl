@@ -925,7 +925,7 @@ namespace eval ::AVAssistant {
 	proc AVAssistant {} {
 
 		#set the name of the window
-		set assistant [assistant create .%AUTO% -winname "Audio and Video assistant"]
+		set assistant [assistant create .%AUTO% -winname [trans assistanttitle]]
 		#introduction
 		set Step [list "Step0" 0 ::AVAssistant::Step0 "" "" "" "" [trans assistantstarting] "" 0 0]
 		$assistant addStepEnd $Step
@@ -1034,7 +1034,7 @@ namespace eval ::AVAssistant {
 			#First part: the webcam extension
 			if {!$::AVAssistant::infoarray(wcextloaded)} {
 				label $contentf.wcextlabel -justify left -anchor nw -font bboldf \
-					-text [trans webcamextcheckin]\
+					-text [trans webcamextchecking]\
 					-image [::skin::loadPixmap no-emblem] -compound right
 
 				label $contentf.wcextwarn -justify left -text [trans webcamextwarn]

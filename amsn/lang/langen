@@ -57,6 +57,7 @@ assistantawarn You won't be able to record yourself, or speak to your friends. Y
 assistantfinetunepic Change the following settings to adjust the image quality of your webcam
 assistantselectcam Select your webcam from the list
 assistantstarting Starting the Assistant
+assistanttitle Audio and Video assistant
 assistantwelcome This assistant will guide you through the setup of your audio and video settings for aMSN.\n\nIt will check if the required extensions are present and loaded and you'll be able to choose the device and channel, set the picture settings and resolution.
 audioconfigured You chose the following Audio settings:\n Output Device: $1\nInput Device:$2
 audiovideo Audio and Video settings
