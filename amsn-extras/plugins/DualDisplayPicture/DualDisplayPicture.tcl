@@ -37,7 +37,7 @@ namespace eval ::DualDisplayPicture {
 			}
 		}
 		if {$newer} {
-			msg_box "Plugin has been disabled for aMSN versions > 0.97"
+			msg_box "The DualDisplaypicture plugin has been disabled for aMSN versions > 0.97 as this functionality can now be found in the core of aMSN"
 			::plugins::GUI_Unload
 			return 0
 		}
