@@ -398,7 +398,7 @@ proc SOCKSSocket { args } {
 		global login_passport_url
 		if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
 			#Nexus connection failed, so let's just set login URL manually
-			set loginurl "https://login.passport.com/login2.srf"
+			set loginurl "https://login.live.com/login2.srf"
 			status_log "gotNexusReply: error in nexus reply, getting url manually\n" red
 		} else {
 			#We got reply from nexus. Extract login URL
@@ -643,7 +643,7 @@ proc SOCKSSocket { args } {
                 global login_passport_url
                 if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
                         #Nexus connection failed, so let's just set login URL manually
-                        set loginurl "https://login.passport.com/login2.srf"
+                        set loginurl "https://login.live.com/login2.srf"
                         status_log "gotNexusReply: error in nexus reply, getting url manually\n" red
                 } else {
                         #We got reply from nexus. Extract login URL
