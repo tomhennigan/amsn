@@ -624,6 +624,7 @@ picfile Bild för informationsmeddelanden (GIF-format, mindre än 500x500)
 picstatus Visa/dölj bild vid informationsmeddelanden.
 playbackposition Uppspelningsposition
 playbackspeed Uppspelningshastighet (millisekunder mellan varje bild)
+playerror Ett fel uppstod när ljudet skulle spelas upp: $1 
 playing Lyssnar på: $1
 play Spela upp
 playtest Spela testfilen
