@@ -1776,9 +1776,7 @@ namespace eval ::guiContactList {
 		$canvas bind $main_part <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
 
 		# Bindings for dragging : applies to all elements even the star (not on MacOSX for now : buggy)
-		if { ![OnMac] } {
-			$canvas bind $tag <ButtonPress-1> [list ::guiContactList::contactPress $tag $canvas %s %x %y]
-		}
+		$canvas bind $tag <ButtonPress-1> [list ::guiContactList::contactPress $tag $canvas %s %x %y]
 
 		#cursor change bindings
 		if { [::skin::getKey changecursor_contact] } {
@@ -2176,7 +2174,6 @@ namespace eval ::guiContactList {
 		set DragDeltaY [expr {[$canvas canvasy $y] - [lindex $DragStartCoords 1]}]
 
 		set OnTheMove 1
-		grab -global $canvas
 		focus $canvas
 
 		bind $canvas <Button1-Motion> [list ::guiContactList::contactMove $tag $canvas %x %y]
@@ -2359,7 +2356,6 @@ namespace eval ::guiContactList {
 			bind $canvas <KeyRelease-Control_R> ""
 		}
 
-		grab release $canvas
 		set OnTheMove 0
 		# Remove those vars as they're not in use anymore
 		unset DragDeltaX
