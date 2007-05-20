@@ -57,6 +57,7 @@ assistantawarn Vous ne pourrez pas vous enregistrer, ni parler avec vos amis. Vo
 assistantfinetunepic Modifiez les paramètres suivants pour ajuster la qualité de l'image de votre webcam
 assistantselectcam Choisissez votre webcam dans la liste
 assistantstarting Démarrage de l'assistant
+assistanttitle Assistant Audio et Vidéo
 assistantwelcome Cet assistant vous guidera pour la configuration des paramètres audio et vidéo de aMSN.\n\nIl vérifiera que les extensions requises sont bien présentes et chargées, puis vous pourrez choisir les périphériques, canaux, régler les paramètres d'image et la résolution.
 audioconfigured Vous avez choisi les paramètres audio suivants :\nPériphérique de lecture : $1\nPériphérique de capture : $2
 audiovideo Paramètres audio et vidéo
@@ -399,6 +400,7 @@ handle Pseudonyme
 havenomic Je n'ai pas de microphone
 help Aide
 helpcontents Contenu de l'aide
+hidebuttonbar Cacher la barre de boutons
 hidedisplaypic Masquer l'avatar
 hidemenu Afficher/Masquer les menus
 hidemenumessage Etes-vous sûrs de vouloir masquer les menus ?\n Vous pouvez les afficher de nouveau à n'importe quel moment en utilisant la séquence d'affichage/masquage : Ctrl+M.
@@ -623,6 +625,7 @@ picfile Image associée à l'alarme (GIF < 500x500)
 picstatus Activer/Désactiver l'image associée à l'alarme
 playbackposition Position de la lecture
 playbackspeed Vitesse de lecture (nombre de millisecondes entre chaque image)
+playerror Une erreur s'est produite lors de la lecture du son : $1
 playing Joue: $1
 play Jouer
 playtest Lire le fichier de test
@@ -750,10 +753,10 @@ setasmydp Utiliser comme avatar
 setupcam Configuration de la webcam
 setupcamfinetune Configuration de la webcam et réglages avancés de l'image
 shareswebcam Possède une webcam
+show_contactdps_in_cl Montrer les avatars dans la liste des contacts
 showbanner Affiche la bannière d'aMSN
 showblockedlist Voir la liste des personnes que vous avez bloqué
 showcachedpics Afficher/Masquer les avatars cachés
-show_contactdps_in_cl Montrer les avatars dans la liste des contacts
 showcontactemail Voir les contacts par leur email
 showcontactnick Voir les contacts par leur pseudonyme
 showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
@@ -762,6 +765,7 @@ showlinksinlogin Afficher les liens dans la fenêtre de connexion
 showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 showmypic Mon avatar
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
+showonedpframe N'afficher qu'un avatar dans la fenêtre de conversation
 showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
 showuserpic Icône de $1
 signinstatus Statut lors de la connexion
