@@ -1553,7 +1553,7 @@ namespace eval ::music {
 		set art [lindex $tmplst 4]
 		set song [lindex $tmplst 5]
 
-		if {[string compare -nocase $type "Music"]} {
+		if { [string compare -nocase $type "Music"] || ($art == "" && $song == "") } {
 			return 0
 		} else {
 			#Define in which  order we want to show the song (from the config)
