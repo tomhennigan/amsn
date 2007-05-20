@@ -2206,7 +2206,7 @@ namespace eval ::guiContactList {
 		$canvas delete uline_$tag
 	}
 
-	#It seems there is a bug with MacOSX that doesn't detect well Double-Clicks because of DnD
+	#For some Mac, Tk's default interval for Double Click is too weak, I increase it here to 550 in place of 500
 	proc contactCheckDoubleClick { callback tag x y t } {
 		variable lastClickCoords
 		if { [::config::getKey sngdblclick] } {
@@ -2216,7 +2216,7 @@ namespace eval ::guiContactList {
 		}
 		if { [info exists lastClickCoords] } {
 			if { abs([lindex $lastClickCoords 0]-$x) <= 5 && abs([lindex $lastClickCoords 1]-$y) <= 5 && \
-				abs($t-[lindex $lastClickCoords 2]) <= 500 && [lindex $lastClickCoords 3] == $tag } {
+				abs($t-[lindex $lastClickCoords 2]) <= 550 && [lindex $lastClickCoords 3] == $tag } {
 				eval $callback
 				unset lastClickCoords
 				return
