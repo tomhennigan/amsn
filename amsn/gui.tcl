@@ -3104,7 +3104,7 @@ namespace eval ::amsn {
 				custom_smile_subst $chatid $textw $text_start end
 			}
 			#Replace smileys... if you're sending custom ones, replace them too (last parameter)
-			if { $user == [::config::getKey login] } {
+			if { $user == [string tolower [::config::getKey login]] } {
 				::smiley::substSmileys $textw $text_start end 0 1
 				#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
 			} else {
