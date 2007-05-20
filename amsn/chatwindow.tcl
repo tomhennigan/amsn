@@ -1897,8 +1897,6 @@ namespace eval ::ChatWindow {
 		ScrollableFrame $frame.sw.sf -width 0 -bg [::skin::getKey chatwindowbg] 
 		$frame.sw setwidget $frame.sw.sf
 
-		#bind [$frame.sw.sf getframe] <Configure> +[list ::ChatWindow::DisplayPicturesFrameConfigured $frame.sw.sf %W %w %h]
-
 		label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
 			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
 			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
@@ -1916,17 +1914,6 @@ namespace eval ::ChatWindow {
 			
 		::amsn::ShowOrHideTopPicture
 		return $frame	
-	}
-
-	variable test 0
-	proc DisplayPicturesFrameConfigured {win w width height} {
-		variable test 
-		#puts "configured $win $w"
-		
-		incr test
-		if {$test > 10 } {return }
-		$win configure -width $width -height $height
-
 	}
 
 	#pasteToInput -- text pasted in output window goes to input window
