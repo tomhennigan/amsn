@@ -48,12 +48,14 @@ function form($name = '', $desc = '', $author = '', $screen = -1, $file = -1, $i
 if ($_GET['action'] == 'add') {
     if (isset($_POST['skin_name'], $_POST['skin_desc'], $_POST['skin_author'], $_POST['skin_screen'], $_POST['skin_file']) && ereg('^[0-9-]+$', $_POST['skin_screen']) && ereg('^[0-9-]+$', $_POST['skin_file'])) {
         $_POST = clean4sql($_POST);
-        if (mysql_query("INSERT INTO `amsn_skins` (name, `desc`, author, file_id, screen_id) VALUES ('{$_POST['skin_name']}', '{$_POST['skin_desc']}', '{$_POST['skin_author']}', '" . (int)$_POST['skin_file']. "', '" . (int)$_POST['skin_screen'] . "')")) {
+	$request = "INSERT INTO `amsn_skins` (name, `desc`, author, file_id, screen_id) VALUES ('{$_POST['skin_name']}', '{$_POST['skin_desc']}', '{$_POST['skin_author']}', '" . (int)$_POST['skin_file']. "', '" . (int)$_POST['skin_screen'] . "')";
+        if (mysql_query($request)) {
             echo "<p>Skin successfully added</p>\n";
             return;
         } else {
             echo "<p>An error ocurred while trying to add the skin to the database</p>\n";
-            #echo mysql_error();
+            echo $request . "\n";
+            echo mysql_error();
             form(htmlentities($_POST['skin_name']), htmlentities($_POST['skin_desc']), htmlentities($_POST['skin_author']), $_POST['skin_screen'], $_POST['skin_file']);
             return;
         }
@@ -71,24 +73,28 @@ if ($_GET['action'] == 'add') {
     }
 
     if ($_GET['action'] == 'remove' && isset($_POST['id']) && ereg('^[1-9][0-9]*$', $_POST['id'])) {
-        if (mysql_query("DELETE FROM `amsn_skins` WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
+        $request = "DELETE FROM `amsn_skins` WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1";
+        if (mysql_query($request)) {
             echo "<p>Skin successfully deleted</p>\n";
             return;
         } else {
-            #echo mysql_error();
             echo "<p>There was an error where trying to remove the skin from the database</p>\n";
+            echo $request . "\n";
+            echo mysql_error();
         }
     }
 
     if ($_GET['action'] == 'edit' && isset($_POST['id'])) {
         if (isset($_POST['id'], $_POST['skin_name'], $_POST['skin_desc'], $_POST['skin_author'], $_POST['skin_screen'], $_POST['skin_file']) && ereg('^[0-9]+$', $_POST['id']) && ereg('^[0-9-]+$', $_POST['skin_screen']) && ereg('^[0-9-]+$', $_POST['skin_file'])) {
             $_POST = clean4sql($_POST);
-            if (mysql_query("UPDATE `amsn_skins` SET name = '{$_POST['skin_name']}', `desc` = '{$_POST['skin_desc']}', author = '{$_POST['skin_author']}', screen_id = '". (int)$_POST['skin_screen'] ."', file_id = '".(int)$_POST['skin_file']."' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
+            $request = "UPDATE `amsn_skins` SET name = '{$_POST['skin_name']}', `desc` = '{$_POST['skin_desc']}', author = '{$_POST['skin_author']}', screen_id = '". (int)$_POST['skin_screen'] ."', file_id = '".(int)$_POST['skin_file']."' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1";
+            if (mysql_query($request)) {
                 echo "<p>Skin successfully modified</p>\n";
                 return;
             } else {
-                #echo mysql_error();
                 echo "<p>There was an error where trying to update the database registry</p>\n";
+                echo $request . "\n";
+                echo mysql_error();
             }
         }
 

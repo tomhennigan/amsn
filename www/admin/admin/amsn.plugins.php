@@ -55,12 +55,14 @@ function form($name = '', $desc = '', $author = '', $version = '', $platform = '
 if ($_GET['action'] == 'add') {
     if (isset($_POST['plugin_name'], $_POST['plugin_desc'], $_POST['plugin_author'], $_POST['plugin_version'], $_POST['plugin_platform'], $_POST['plugin_requires'], $_POST['plugin_screen'], $_POST['plugin_file']) && ereg('^[0-9-]+$', $_POST['plugin_screen']) && ereg('^[0-9-]+$', $_POST['plugin_file'])) {
         $_POST = clean4sql($_POST);
-        if (mysql_query("INSERT INTO `amsn_plugins` (name, `desc`, author, version, platform, requires, file_id, screen_id) VALUES ('{$_POST['plugin_name']}', '{$_POST['plugin_desc']}', '{$_POST['plugin_author']}', '{$_POST['plugin_version']}', '{$_POST['plugin_platform']}', '{$_POST['plugin_requires']}', " . (int)$_POST['plugin_file'] . ", " . (int)$_POST['plugin_screen'] . "')")) {
+	$request = "INSERT INTO `amsn_plugins` (name, `desc`, author, version, platform, requires, file_id, screen_id) VALUES ('{$_POST['plugin_name']}', '{$_POST['plugin_desc']}', '{$_POST['plugin_author']}', '{$_POST['plugin_version']}', '{$_POST['plugin_platform']}', '{$_POST['plugin_requires']}', '" . (int)$_POST['plugin_file'] . "', '" . (int)$_POST['plugin_screen'] . "')";
+        if (mysql_query($request)) {
             echo "<p>Plugin successfully added</p>\n";
             return;
         } else {
             echo "<p>An error ocurred while trying to add the plugin to the database</p>\n";
-            #echo mysql_error();
+            echo $request . "\n";
+            echo mysql_error();
             form(htmlentities($_POST['plugin_name']), htmlentities($_POST['plugin_desc']), htmlentities($_POST['plugin_author']), htmlentities($_POST['plugin_version']), htmlentities($_POST['plugin_platform']), htmlentities($_POST['plugin_requires']), $_POST['plugin_screen'], htmlentities($_POST['plugin_file']));
             return;
         }
@@ -78,24 +80,28 @@ if ($_GET['action'] == 'add') {
     }
 
     if ($_GET['action'] == 'remove' && isset($_POST['id']) && ereg('^[1-9][0-9]*$', $_POST['id'])) {
-        if (mysql_query("DELETE FROM `amsn_plugins` WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
+        $request = "DELETE FROM `amsn_plugins` WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1"
+        if (mysql_query($request)) {
             echo "<p>Plugin successfully deleted</p>\n";
             return;
         } else {
-            #echo mysql_error();
             echo "<p>There was an error where trying to remove the plugin from the database</p>\n";
+            echo $request . "\n";
+            echo mysql_error();
         }
     }
 
     if ($_GET['action'] == 'edit' && isset($_POST['id'])) {
         if (isset($_POST['plugin_name'], $_POST['plugin_desc'], $_POST['plugin_author'], $_POST['plugin_version'], $_POST['plugin_platform'], $_POST['plugin_requires'], $_POST['plugin_screen'], $_POST['plugin_file']) && ereg('^[0-9-]+$', $_POST['plugin_screen']) && ereg('^[0-9-]+$', $_POST['plugin_file'])) {
             $_POST = clean4sql($_POST);
-            if (mysql_query("UPDATE `amsn_plugins` SET name = '{$_POST['plugin_name']}', `desc` = '{$_POST['plugin_desc']}', author = '{$_POST['plugin_author']}', version = '{$_POST['plugin_version']}', platform = '{$_POST['plugin_platform']}', requires = '{$_POST['plugin_requires']}', screen_id = '". (int)$_POST['plugin_screen'] ."', file_id = '".(int)$_POST['plugin_file']."' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
+            $request = "UPDATE `amsn_plugins` SET name = '{$_POST['plugin_name']}', `desc` = '{$_POST['plugin_desc']}', author = '{$_POST['plugin_author']}', version = '{$_POST['plugin_version']}', platform = '{$_POST['plugin_platform']}', requires = '{$_POST['plugin_requires']}', screen_id = '". (int)$_POST['plugin_screen'] ."', file_id = '".(int)$_POST['plugin_file']."' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1";
+            if (mysql_query($request)) {
                 echo "<p>Plugin successfully modified</p>\n";
                 return;
             } else {
-                #echo mysql_error();
                 echo "<p>There was an error where trying to update the database registry</p>\n";
+                echo $request . "\n";
+                echo mysql_error();
             }
         }
 
