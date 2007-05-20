@@ -1,9 +1,0 @@
-#! /bin/sh
-TOTEM=`ps aux | grep totem | grep -v grep | grep -v info`
-if [ -n "$TOTEM" ]
-then
-	totem --print-playing
-else 
-	echo 0
-fi
-exit 0

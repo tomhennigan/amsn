@@ -1406,37 +1406,6 @@ namespace eval ::music {
 	}
 
 	###############################################
-	# ::music::TreatSongTotem                     #
-	# ------------------------------------------- #
-	# Gets the current playing song in Totem      #
-	###############################################
-	proc TreatSongTotem {} {
-		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infototem"]]}
-	}
-
-	###############################################
-	# ::music::GetSongTotem                       #
-	# ------------------------------------------- #
-	# Gets the current playing song in Totem      #
-	###############################################
-	proc GetSongTotem {} {
-
-		#actualsong is filled asynchronously in TreatSongTotem
-		#Split the lines into a list and set the variables as appropriate
-		if { [catch {split $::music::actualsong "\n"} song] } {
-			#actualsong isn't yet defined by asynchronous exec
-			return 0
-		}
-
-		if {$song == "0"} {
-			return 0
-		} else {
-			return $song
-		}
-	}
-
-	###############################################
 	# ::music::GetSongXMMS                        #
 	# ------------------------------------------- #
 	# Gets the current playing song in XMMS       #
