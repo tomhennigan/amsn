@@ -2010,7 +2010,7 @@ namespace eval ::amsn {
 
 			incr idx
 		}
-		$frame.sw.sf configure -width [expr {$max_width + 10}]
+		$frame.sw.sf configure -width [expr {$max_width + (2 * [::skin::getKey chat_dp_border])}]
 	}
 
 	proc HidePicture { win } {

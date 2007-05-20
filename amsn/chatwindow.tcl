@@ -1890,11 +1890,11 @@ namespace eval ::ChatWindow {
 		set showpic $frame.showpic
 
 		# Create them
-		frame $frame -class Amsn -borderwidth 0 \
+		frame $frame -class Amsn -borderwidth 0 -padx 0 -pady 0 \
 			-relief solid -background [::skin::getKey chatwindowbg]
 		
-		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical
-		ScrollableFrame $frame.sw.sf -constrainedwidth 1 -width 0 -bg [::skin::getKey chatwindowbg] 
+		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical -borderwidth 0
+		ScrollableFrame $frame.sw.sf -width 0 -bg [::skin::getKey chatwindowbg] 
 		$frame.sw setwidget $frame.sw.sf
 
 		#bind [$frame.sw.sf getframe] <Configure> +[list ::ChatWindow::DisplayPicturesFrameConfigured $frame.sw.sf %W %w %h]
