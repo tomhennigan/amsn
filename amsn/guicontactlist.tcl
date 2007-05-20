@@ -1957,9 +1957,7 @@ namespace eval ::guiContactList {
 			}
 
 			# Now we have to add the "individuals" group, translated and as first
-			if { !$realgroups } {
-				set groupList "\{0 \{[trans nogroup]\}\} $groupList"
-			}
+			set groupList [linsert $groupList 0 [list 0 [trans nogroup]]]
 		}
 		
 		# Hybrid Mode, we add mobile and offline group
