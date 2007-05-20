@@ -1752,30 +1752,23 @@ namespace eval ::guiContactList {
 			$canvas bind $main_part <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
-		# Add binding for click / right click (remembering to get config key for single/dbl
-		# click on contacts to open chat)
-		if { [::config::getKey sngdblclick] } {
-			set singordblclick <ButtonRelease-1>
-		} else {
-			set singordblclick <Double-ButtonRelease-1>
-		}
 
 		# Binding for left (double)click
 		if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1"} {
 			# If the user is offline and support mobile (SMS)
-			$canvas bind $main_part $singordblclick \
+			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
 				"set ::guiContactList::displayCWAfterId \
-				\[after 0 [list ::MSNMobile::OpenMobileWindow \"$email\"]\]"
+				\[after 0 [list ::MSNMobile::OpenMobileWindow \"$email\"]\]" $main_part %X %Y %t]
 		} else {
-			$canvas bind $main_part $singordblclick \
+			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
 				"set ::guiContactList::displayCWAfterId \
-				\[after 0 [list ::amsn::chatUser \"$email\"]\]"
+				\[after 0 [list ::amsn::chatUser \"$email\"]\]" $main_part %X %Y %t]
 		}
 
 		# Binding for right click		 
 		$canvas bind $main_part <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
 
-		# Bindings for dragging : applies to all elements even the star (not on MacOSX for now : buggy)
+		# Bindings for dragging : applies to all elements even the star
 		$canvas bind $tag <ButtonPress-1> [list ::guiContactList::contactPress $tag $canvas %s %x %y]
 
 		#cursor change bindings
@@ -2213,6 +2206,24 @@ namespace eval ::guiContactList {
 		$canvas delete uline_$tag
 	}
 
+	#It seems there is a bug with MacOSX that doesn't detect well Double-Clicks because of DnD
+	proc contactCheckDoubleClick { callback tag x y t } {
+		variable lastClickCoords
+		if { [::config::getKey sngdblclick] } {
+			#No need to check as a single click is enough
+			eval $callback
+			return
+		}
+		if { [info exists lastClickCoords] } {
+			if { abs([lindex $lastClickCoords 0]-$x) <= 5 && abs([lindex $lastClickCoords 1]-$y) <= 5 && \
+				abs($t-[lindex $lastClickCoords 2]) <= 500 && [lindex $lastClickCoords 3] == $tag } {
+				eval $callback
+				unset lastClickCoords
+				return
+			}
+		}
+		set lastClickCoords [list $x $y $t $tag]
+	}
 
 	proc contactMove {tag canvas x y} {
 		variable DragDeltaX
@@ -2413,5 +2424,6 @@ namespace eval ::guiContactList {
 			$canvas configure -cursor $cursor
 		}
 	}
+
 }
 
