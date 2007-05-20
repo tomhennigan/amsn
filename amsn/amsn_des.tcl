@@ -444,5 +444,3 @@ namespace eval des {
 	return $keys;
     }; # End of createKeys
 }; # End of des namespace eval
-
-package provide tclDES 0.5

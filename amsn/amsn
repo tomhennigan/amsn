@@ -192,7 +192,7 @@ proc reload_files { } {
 	source ctthemes.tcl
 	source progressbar.tcl	;# Progressbar Megawidget
 	source migmd5.tcl
-	source des.tcl		;# DES encryption
+	source amsn_des.tcl		;# DES encryption
 	source sxml.tcl   	;# Simple XML parser
 	package require combobox 2.3
 	source mutex.tcl
