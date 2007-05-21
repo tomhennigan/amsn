@@ -14,7 +14,7 @@ FILES_TO_INSTALL += $(doc_files)
 FILES_TO_INSTALL += desktop-icons lang skins utils/base64 utils/drawboard utils/framec utils/http2.4
 FILES_TO_INSTALL += utils/pixmapscroll utils/pixmapmenu utils/contentmanager
 FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit utils/bwidget1.8.0 utils/dpbrowser
-FILES_TO_INSTALL += plugins utils/tcl_siren utils/sexytile
+FILES_TO_INSTALL += plugins utils/sexytile
 FILES_TO_INSTALL += utils/log utils/uri utils/combobox
 
 FILES_TO_EXCLUDE := lang/genpage.c lang/addkey.tcl lang/lang1.tmpl lang/lang2.tmpl lang/lang3.tmpl lang/langchk.sh lang/complete.pl lang/genlangfiles.c utils/webcamsn/webcamsn.tcl
@@ -119,7 +119,7 @@ LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
 
 ifeq ($(FOUND_OS),linux)
-FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/webcamsn/webcamsn.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/capture/test.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/drv1-v4l.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so
+FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/webcamsn/webcamsn.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/capture/test.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/drv1-v4l.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so /utils/tcl_siren/tcl_siren.so /utils/tcl_siren/pkgIndex.tcl
 
 FILES_TO_EXCLUDE += AppMain.tcl utils/linux/capture/test.tcl
 endif
