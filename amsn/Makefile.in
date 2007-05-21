@@ -165,8 +165,6 @@ install:: $(FILES_TO_INSTALL)
 			rm -Rf $(DESTDIR)$(dstdir)/$(PACKAGE)/$$p; \
 		done
 
-	chmod -R +rx $(DESTDIR)$(dstdir)/$(PACKAGE)
-
 	ln -sf $(dstdir)/$(PACKAGE)/amsn $(DESTDIR)$(slnkdir)/amsn
 	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote $(DESTDIR)$(slnkdir)/amsn-remote
 	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote-CLI $(DESTDIR)$(slnkdir)/amsn-remote-CLI
