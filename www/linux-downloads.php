@@ -13,8 +13,8 @@
 	<a name="AP"></a>
 	<h3>Generic Installer</h3>
 	<dl class="toc"><dt>
-            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96-2.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
-	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96-2.tcl84.x86.package"><span class="toc_title">aMSN Installer</span></a>
+            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97RC1-1.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
+	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97RC1-1.tcl84.x86.package"><span class="toc_title">aMSN Installer</span></a>
 	</dt><dd>
 		Distribution independent installer
     </dd></dl><br />
@@ -33,7 +33,7 @@
       You can install aMSN directly with your package manager, without having to download it here.
     </p>
     <p>
-      However, some distributions may not supply version 0.96 yet.
+      However, some distributions may not supply the last version yet.
       In that case it's recommended to use <a href="#AP">the aMSN Installer.</a>
 	</p>
 	<p>
@@ -63,8 +63,8 @@
     <a name="tarball"></a>
     <h3>Source downloads</h3>
         <dl class="toc"><dt>
-        <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
-	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.96.tar.bz2"><span class="toc_title">aMSN Source</span></a>
+        <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97RC1.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
+	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97RC1.tar.bz2"><span class="toc_title">aMSN Source</span></a>
         </dt><dd>
           Source package to build a binary for your own distribution.
         </dd></dl>
