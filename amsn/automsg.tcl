@@ -494,6 +494,9 @@ proc EditNewState { mode { idx "" } } {
 		$lfname.statebox select [lindex [StateList get $idx] 2]
 		$lfname.emsg insert end [lindex [StateList get $idx] 4]
 		$lfname.epsm insert end [lindex [StateList get $idx] 5]
+		set state_mute [lindex [StateList get $idx] 6]
+		set state_blind  [lindex [StateList get $idx] 7]
+
 	}
 	#else {
 	#	$lfname.enick insert end [::abook::getPersonal MFN]
