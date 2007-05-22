@@ -1,245 +1,228 @@
 ##################################################
 #  This plugin implements the actions menu on    #
 #  the bottom of the contactlist, as seen in MSN #
-# 								 #
-# 	Originally written by  Karel Demeyer, 2005 #
-#   Fixed by Takeshi, 2007				 #
+#   ===========================================  #
+#   Originally written by  Karel Demeyer, 2005   #
+#   Fixed by Takeshi, 2007                       #
 #   Search Contact function by Takeshi, Square87 #
 #  ============================================  #
 ##################################################
 
-#TODO Translation 
-#TODO Right click behavior
-#TODO plugin update 
+#TODO Translation (almost done)
+#TODO Right click behavior <- seem to work
+#TODO plugin update <-- thinkin'about
+#TODO bind to esc button <- done
+#TODO scrollbar in listbox <- done
+
 
 namespace eval ::actionmenu {
 	variable dir
 
-	
-	proc Init { dir } {
 
-		global HOME HOME2
-		#set ::actionmenu::dir $dir
-		set langdir [append dir "/lang"]
-		load_lang en $langdir
-		load_lang [::config::getGlobalKey language] $langdir
+proc Init { dir } {
+	global HOME HOME2
 
-		
-		::plugins::RegisterPlugin "actionmenu"
+	set langdir [append dir "/lang"]
+	load_lang en $langdir
+	load_lang [::config::getGlobalKey language] $langdir
 
-		::actionmenu::RegisterEvent
-		
+	::plugins::RegisterPlugin "actionmenu"
 
-		#if {[string equal $::version "0.94"]} {
+	::plugins::RegisterEvent actionmenu ContactListColourBarDrawn draw
 
-		#::skin::setPixmap actionsbg [file join $dir pixmaps actionsbg.png]
-		
-		#::skin::setPixmap img_expcol [file join $dir pixmaps actions_expcol.gif]
+	::skin::setPixmap actionsbg actionsbg.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_expcol actions_expcol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_addcontact actions_addcontact.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_find actions_find.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_collapsecol actions_collapsecol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
 
-		#::skin::setPixmap img_addcontact [file join $dir pixmaps actions_addcontact.gif]
+	after 2000 "catch { ::actionmenu::redraw 0 }"
 
-		#::skin::setPixmap img_find [file join $dir pixmaps actions_find.gif]
+}
 
-		#::skin::setPixmap img_collapsecol [file join $dir pixmaps actions_collapsecol.gif]
-		#} else {
-		::skin::setPixmap actionsbg actionsbg.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
 
-		::skin::setPixmap img_expcol actions_expcol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
-
-		::skin::setPixmap img_addcontact actions_addcontact.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
-
-		::skin::setPixmap img_find actions_find.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
-
-		::skin::setPixmap img_collapsecol actions_collapsecol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
-
-		#}
-		
-		after 2000 "catch { ::actionmenu::redraw 0 }"
-			}
-	
-	proc RegisterEvent {} {
-
-		::plugins::RegisterEvent actionmenu ContactListColourBarDrawn draw		
+proc DeInit { } {
+#When the plugin gets unloaded, remove the actions button if existing
+	set actions .main.actions
+	if { [winfo exists $actions]} {
+		destroy $actions
 	}
-		
-			proc DeInit { } {
-		#When the plugin gets unloaded, remove the actions button if existing
-		set actions .main.actions
-		if { [winfo exists $actions]} {
-			destroy $actions
-		}
-	}	
+	destroy .searchwindow
+}
 
-	proc draw { event evpar } {
-		
-		if { $event !=00 } { upvar 2 $evPar vars } {
-	
+
+proc draw { event evpar } {
+	if { $event !=00 } { upvar 2 $evPar vars } {
+
 		set bgcolor [::skin::getKey mainwindowbg]
 		set actions .main.actions
 		if { [winfo exists $actions]} {
 			destroy $actions
 		}
+
 		frame $actions -relief flat -borderwidth 0
 
 		set acanvas .main.actions.canvas
+		
+		
 		canvas $acanvas -bg $bgcolor -height 60 -highlightthickness 0 -relief flat -borderwidth 0
-
 		$acanvas create image 0 0 -image [::skin::loadPixmap actionsbg] -anchor nw -tag expand
 		$acanvas create image 0 0 -image [::skin::loadPixmap img_expcol] -anchor nw -tag expand
-		$acanvas create text 30 3 -text "[trans iwantto]..." -anchor nw -tag expand -font sboldf -fill #000075
-
+		$acanvas create text 30 3 -text "[trans iwantto]..." -anchor nw -tag expand -font sboldf -fill #102040
 		$acanvas bind expand <ButtonPress-1> "::actionmenu::redraw $actions"
 
 		#$acanvas bind expand <Enter> "+$acanvas create line 30 18 100 18 -tag exp_line; $acanvas configure -cursor hand2; $acanvas lower exp_line expand"
 		#$acanvas bind expand <Leave> "+$acanvas delete exp_line; $acanvas configure -cursor left_ptr"
 
-
-
-
 		AddActionButton $acanvas 15 27 [::skin::loadPixmap img_addcontact] "[trans addacontact]..." "cmsn_draw_addcontact" addcontact
-
 		AddSearchButton $acanvas 15 43 [::skin::loadPixmap img_find] "[trans searchcontact]..." "::actionmenu::createsearchwindow" searchcontact
-
-	
-
 
 
 		pack configure $acanvas -side top -fill both -expand true
 		pack configure $actions -side bottom -fill x 
+
 		update idletasks
+
 	}
 }
 
-	proc redraw { actions } {
-			destroy $actions
-			
-			set actions .main.actions
-			#if { [winfo exists $actions]} {
-			#destroy $actions
-			#}
-			frame $actions -relief flat -borderwidth 0
-			set acanvas .main.actions.canvas
-			set bgcolor [::skin::getKey mainwindowbg]
-			canvas $acanvas -bg $bgcolor -height 20 -highlightthickness 0 -relief flat -borderwidth 0
-			$acanvas  create image 0 0 -image [::skin::loadPixmap actionsbg] -anchor nw -tag expand
-			$acanvas create image 0 0 -image [::skin::loadPixmap img_collapsecol] -anchor nw -tag expand
-			$acanvas bind expand <ButtonPress-1> "::actionmenu::draw 0 0"
-			pack configure $acanvas -side top -fill both -expand true
-			pack configure $actions -side bottom -fill x
+
+proc redraw { actions } {
+
+	if { [winfo exists $actions]} {
+		destroy $actions
 	}
 
+	set actions .main.actions
 
-	proc AddActionButton {acanvas xcoord ycoord img text command tag} {
+	frame $actions -relief flat -borderwidth 0
 
-		set font splainf
-		$acanvas create image $xcoord $ycoord -image $img -anchor nw -tag $tag
-		$acanvas create text [expr $xcoord + 15] [expr $ycoord -3] -text $text -anchor nw -tag $tag -font $font -fill #000075
+	set acanvas .main.actions.canvas
+	set bgcolor [::skin::getKey mainwindowbg]
 
-		$acanvas bind $tag <ButtonPress-1> "$command"
-		$acanvas bind $tag <Enter> "+$acanvas create line [expr $xcoord + 15] [expr $ycoord + 12] [expr $xcoord + [expr [font measure $font $text] + 15]]  [expr $ycoord + 12] -tag ${tag}_line; $acanvas configure -cursor hand2; $acanvas lower ${tag}_line $tag "
-		$acanvas bind $tag <Leave> "+$acanvas delete ${tag}_line; $acanvas configure -cursor left_ptr"
+	canvas $acanvas -bg $bgcolor -height 20 -highlightthickness 0 -relief flat -borderwidth 0
+	$acanvas  create image 0 0 -image [::skin::loadPixmap actionsbg] -anchor nw -tag expand
+	$acanvas create image 0 0 -image [::skin::loadPixmap img_collapsecol] -anchor nw -tag expand
+	$acanvas bind expand <ButtonPress-1> "::actionmenu::draw 0 0"
+
+	pack configure $acanvas -side top -fill both -expand true
+	pack configure $actions -side bottom -fill x
+}
+
+
+proc AddActionButton {acanvas xcoord ycoord img text command tag} {
+	set font splainf
+	
+	$acanvas create image $xcoord $ycoord -image $img -anchor nw -tag $tag
+	$acanvas create text [expr $xcoord + 15] [expr $ycoord -3] -text $text -anchor nw -tag $tag -font $font -fill #102040
+	$acanvas bind $tag <ButtonPress-1> "$command"
+	$acanvas bind $tag <Enter> "+$acanvas create line [expr $xcoord + 15] [expr $ycoord + 12] [expr $xcoord + [expr [font measure $font $text] + 15]]  [expr $ycoord + 12] -tag ${tag}_line; $acanvas configure -cursor hand2; $acanvas lower ${tag}_line $tag "
+	$acanvas bind $tag <Leave> "+$acanvas delete ${tag}_line; $acanvas configure -cursor left_ptr"
+}
+
+
+proc AddSearchButton { acanvas xcoord ycoord img text command tag } {
+	set font splainf
+	
+	$acanvas create image $xcoord $ycoord -image $img -anchor nw
+	$acanvas create text [expr $xcoord + 15] [expr $ycoord -0] -text "[trans searchcontact]..." -anchor nw -tag $tag -font $font -fill #102040
+	$acanvas bind $tag <ButtonPress-1> "$command"
+	$acanvas bind $tag <Enter> " $acanvas configure -cursor hand2; $acanvas lower ${tag}_line $tag ; "
+	$acanvas bind $tag <Enter> "+$acanvas create line [expr $xcoord + 15] [expr $ycoord + 14] [expr $xcoord + [expr [font measure $font $text] + 15]]  [expr $ycoord + 14] -tag ${tag}_line; $acanvas configure -cursor hand2; $acanvas lower ${tag}_line $tag "
+	$acanvas bind $tag <Leave> "+$acanvas delete ${tag}_line; $acanvas configure -cursor left_ptr"
+}
+proc OnMac {} {
+	if {![catch {tk windowingsystem} wsystem] && $wsystem == "aqua"} {
+		return 1
+	} else {
+		return 0
 	}
+}
+
+proc createsearchwindow { } {
+	variable output [list]
 	
-	proc AddSearchButton { acanvas xcoord ycoord img text command tag } {
-		set font splainf
-	
-		$acanvas create image $xcoord $ycoord -image $img -anchor nw
-		$acanvas create text [expr $xcoord + 15] [expr $ycoord -0] -text "[trans searchcontact]..." -anchor nw -tag $tag -font $font -fill #000075
-		$acanvas bind $tag <ButtonPress-1> "$command"
-		$acanvas bind $tag <Enter> " $acanvas configure -cursor hand2; $acanvas lower ${tag}_line $tag ; "
-		$acanvas bind $tag <Enter> "+$acanvas create line [expr $xcoord + 15] [expr $ycoord + 14] [expr $xcoord + [expr [font measure $font $text] + 15]]  [expr $ycoord + 14] -tag ${tag}_line; $acanvas configure -cursor hand2; $acanvas lower ${tag}_line $tag "
-		$acanvas bind $tag <Leave> "+$acanvas delete ${tag}_line; $acanvas configure -cursor left_ptr"
-		
-			}
-			
-	proc createsearchwindow { } {
-		
-		if { [winfo exists .searchwindow] } { destroy .searchwindow }
-	
-	
+	if { [winfo exists .searchwindow] } { destroy .searchwindow }
+
 	toplevel .searchwindow
 	wm group .searchwindow .
+	 
+	
+	if { [OnMac] } {
+		wm resizable .searchwindow 0 0
+		wm geometry .searchwindow 525x300
+	} else {
+		wm resizable .searchwindow 1 1
+	}
 	wm title .searchwindow "[trans search]"
-	
-	label .searchwindow.l -font sboldf -text "[trans search]"
-	entry .searchwindow.chars -width 50 -bg #FFFFFF -bd 0 -font splainf
-	focus .searchwindow.chars 
-	listbox .searchwindow.userbox -relief flat -borderwidth 0 -height 8 -width 55 -bg white
 
-	frame .searchwindow.search
-	label .searchwindow.search.label -text "[trans search]: " -anchor w
+#	label .searchwindow.l -font sboldf -text "[trans search]"
+	entry .searchwindow.chars -width 50 -bg #FFFFFF -font splainf 
 	
-	combobox::combobox .searchwindow.search.combo -editable false -highlightthickness 0 -width 16 -bg #FFFFFF -font splainf 
-	#foreach i { All Nick Email }�{ 
-	#	.searchwindow.search.combo list insert end $i 
-	#	}
 	
-	#radiobutton .searchwindow.search.r1 -highlightthickness 0 -width 5 -bg #FFFFFF -font splainf -text All 
-	#radiobutton .searchwindow.search.r2 -highlightthickness 0 -width 10 -font splainf -text Nick
-	#radiobutton .searchwindow.search.r3 -highlightthickness 0 -width 15 -font splainf -text Email
+	listbox .searchwindow.userbox -borderwidth 0 -takefocus 1 -bg white -highlightthickness 1 -yscrollcommand ".searchwindow.userbox.ys set"
 	
-	#grid .r1 -row0 -column 2 
-	#grid .r2 -row0 -column 1
-	#grid .r3 -row0 -column 0
+	scrollbar .searchwindow.userbox.ys -command ".searchwindow.userbox yview" -highlightthickness 0 -borderwidth 0 -elementborderwidth 0
 	
+	frame .searchwindow.selector
+	label .searchwindow.selector.search_label -text "[trans search]: " -anchor w
+	combobox::combobox .searchwindow.selector.search_combo -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf 
+
 	foreach i {all nick email} {
-		.searchwindow.search.combo list insert end "[trans $i]"
+		.searchwindow.selector.search_combo list insert end "[trans $i]"
 	}
-	.searchwindow.search.combo select 0
+	.searchwindow.selector.search_combo select 0
 
-
-	frame .searchwindow.show
-	label .searchwindow.show.label -text "[trans show]: " -anchor w
-	combobox::combobox .searchwindow.show.combo -editable false -highlightthickness 0 -width 16 -bg #FFFFFF -font splainf
+	label .searchwindow.selector.show_label -text "[trans show]: " -anchor w
+	combobox::combobox .searchwindow.selector.show_combo -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf
 	foreach i { Nick Email} {
-		.searchwindow.show.combo list insert end $i
+		.searchwindow.selector.show_combo list insert end $i
 	}
-	.searchwindow.show.combo select 1
+	.searchwindow.selector.show_combo select 0
+	
 
-	pack .searchwindow.userbox -side bottom
+	
 	frame .searchwindow.b
-	button .searchwindow.b.ok -text "[trans ok]" 
-	button .searchwindow.b.cancel -text [trans cancel]  -command "grab release .searchwindow;destroy .searchwindow"
-
-	pack .searchwindow.b.ok .searchwindow.b.cancel -side right -padx 5		
-	pack .searchwindow.l -side top -anchor sw -padx 10 -pady 3
-	
-	pack .searchwindow.search.combo -side right -anchor w
-	#grid rowconfigure . { 0 } -weight 1
-	#grid columnconfigure . { 0 1 2 } -weight 1
-	
-	pack .searchwindow.search.label -side left -anchor sw -padx 10 -pady 3
-	pack .searchwindow.search -anchor w -padx 16
-	pack .searchwindow.show.combo -side right -anchor w
-	pack .searchwindow.show.label -side left -anchor sw -padx 10 -pady 3
-	pack .searchwindow.show -anchor w -padx 10
-	pack .searchwindow.chars -side top -expand true -fill x -padx 10 -pady 3
-	pack .searchwindow.b -side top -pady 3 -expand true -anchor se
+	button .searchwindow.b.search -text "[trans search]"
+	button .searchwindow.b.close -text [trans close]  -command "::actionmenu::closewindow"
+	button .searchwindow.b.copycontact -text [trans copycontact] -command "::actionmenu::copycontact"
+	button .searchwindow.b.sendmsg -text [trans sendmsg] -command "::actionmenu::openwindow"
 
 	
-	bind .searchwindow.chars <Return> "::actionmenu::searchuser \"$[.searchwindow.chars get]\" "
-	bind .searchwindow.b.ok <ButtonPress-1> "::actionmenu::searchuser \"$[.searchwindow.chars get]\" "
-	
 
+	pack .searchwindow.userbox.ys -side right -fill both
+	pack .searchwindow.b.search .searchwindow.b.close -side right -padx 5		
+#	pack .searchwindow.l -side top -anchor sw -padx 10 -pady 3
+	pack .searchwindow.selector.search_label -side left -anchor sw -padx 10 -pady 3
+	pack .searchwindow.selector.search_combo -side left -anchor w
+	pack .searchwindow.selector.show_label -side left -anchor sw -padx 10 -pady 3
+	pack .searchwindow.selector.show_combo -side left -anchor w
+	pack .searchwindow.selector -side top -anchor center -padx 10
+	pack .searchwindow.chars -side top -expand false -fill x -padx 10 -pady 3
+	pack .searchwindow.userbox -expand true -fill both -padx 10 -pady 10
+	pack .searchwindow.b.copycontact -side right -padx 5
+	pack .searchwindow.b.sendmsg -side right -padx 5
+	pack .searchwindow.b -side bottom -pady 3 -expand false -anchor se
+	
+	
+	bind .searchwindow.userbox <<Button3>> "::actionmenu::resolve %X %Y"
+#	bind .searchwindow.b.close <Escape> "grab release .searchwindow;destroy .searchwindow"
+	bind .searchwindow.chars <Return> "::actionmenu::searchuser"
+	bind .searchwindow.b.search <ButtonPress-1> "::actionmenu::searchuser"
+	bind .searchwindow <Escape> "::actionmenu::closewindow"
+	catch {
+		raise .searchwindow
+		focus .searchwindow.chars
+	}
 }
 
-proc searchuser { charstyped } {
-	global result		
-				
-	trysearch result
-	#set result [expr $result +1]
-	#trysearch result	
-	
-	#	update 
-}
+proc searchuser { } {
+	variable output [list]
 
-proc trysearch { result } {
 	.searchwindow.userbox delete 0 end
 	set charstyped [string tolower [.searchwindow.chars get] ]
-	set search [.searchwindow.search.combo get]
-	set show [.searchwindow.show.combo get]
-	set s 0
-	set y 0
+	set search [.searchwindow.selector.search_combo get]
+	set show [.searchwindow.selector.show_combo get]
 	set contacts_FL [list]
 
 	foreach contact [::abook::getAllContacts] {
@@ -248,34 +231,73 @@ proc trysearch { result } {
 		}
 	}
 
-	foreach contact [lindex $contacts_FL] {
+	foreach contact $contacts_FL {
+		set y 0
 		if {$search == "[trans email]" || $search == "[trans all]"} {
 			if { [set result [string last "$charstyped" $contact ] ] != -1} {
-	
-				if {$show == "[trans email]"} {
-					.searchwindow.userbox insert end $contact
-				} else {
-					.searchwindow.userbox insert end [::abook::getNick $contact]
-				}
-				set s 1
+				lappend output $contact
 				set y 1
 			}
 		}
 		if {$search == "[trans nick]" || ($search == "[trans all]" && $y == 0)} {
 			if {[string last "$charstyped" [string tolower [::abook::getNick $contact]]] != -1} {
-				if {$show == "[trans email]"} {
-					.searchwindow.userbox insert end $contact
-				} else {
-					.searchwindow.userbox insert end [::abook::getNick $contact]
-				}
-				set s 1
+				lappend output $contact
 			}
 		}
-		set y 0
 	}
-	if {$s == 0} {
+	if {[llength $output] == 0} {
 		 .searchwindow.userbox insert end "[trans nocontact]"
+	} else {
+		foreach contact $output {
+			if {$show == "[trans email]"} {
+				.searchwindow.userbox insert end $contact
+			} else {
+				.searchwindow.userbox insert end [::abook::getNick $contact]
+			}
+		}
 	}
 }
+
+
+proc openwindow {} {
+	variable output
+	set num [.searchwindow.userbox curselection]
+	if { [llength $output] != 0 } {
+		::amsn::chatUser "[lindex $output $num]"
+	}
+}
+
+
+proc resolve { X Y } {
+	variable output
+	
+	set num [.searchwindow.userbox curselection]
+	set groupid [ ::guiContactList::getGroupId "[lindex $output $num]" ]
+	 
+	if { ([llength $output] != 0) && ($num != "")} {
+		
+		show_umenu [lindex $output $num] $groupid $X $Y
+	}
+}
+
+
+proc copycontact {} {
+	variable output
+	set num [.searchwindow.userbox curselection]
+	if { [llength $output] != 0 } {
+		clipboard clear
+		clipboard append "[lindex $output $num]"
+	}
+}
+
+
+proc closewindow {} {
+	variable output
+
+	unset output
+	grab release .searchwindow
+	destroy .searchwindow
+}
+
 
 }
