@@ -3,7 +3,7 @@
 
 #Audacious is launched ?
 STATUS=$(audtool playback-status)
-if [ $? == 0 ]
+if [ $? = 0 ]
 then
 	echo $STATUS
 	#To force \n when there isn't any information
