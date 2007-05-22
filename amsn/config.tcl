@@ -132,7 +132,7 @@ namespace eval ::config {
 			::config::setKey backgroundcolor  #ECECEC		;#AMSN Mac OS X background color
 			::config::setKey dockbounce once					;#Dock bouncing on Mac OS X
 		} else {
-			::config::setKey wingeometry 275x400-0+0			;#Main window geometry
+			::config::setKey wingeometry 350x600-0+0			;#Main window geometry
 			::config::setKey backgroundcolor  #D8D8E0		;#AMSN background color
 		}
 
