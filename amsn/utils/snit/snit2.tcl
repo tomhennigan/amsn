@@ -3026,7 +3026,7 @@ proc ::snit::RT.CacheCgetCommand {type selfns win self option} {
                 # WHD: Snit 2.0 code -- simpler, no slower.
                 set command [list \
                                  $self \
-                                 {expand}$Snit_optionInfo(cget-$option) \
+                                 {*}$Snit_optionInfo(cget-$option) \
                                  $option]
             }
 
@@ -3129,7 +3129,7 @@ proc ::snit::RT.CacheConfigureCommand {type selfns win self option} {
                 # WHD: Snit 2.0 code -- simpler, no slower.
                 set command [list \
                                  $self \
-                                 {expand}$Snit_optionInfo(validate-$option) \
+                                 {*}$Snit_optionInfo(validate-$option) \
                                  $option]
 
                 set Snit_validateCache($option) $command
@@ -3145,7 +3145,7 @@ proc ::snit::RT.CacheConfigureCommand {type selfns win self option} {
                 # WHD: Snit 2.0 code -- simpler, no slower.
                 set command [list \
                                  $self \
-                                 {expand}$Snit_optionInfo(configure-$option) \
+                                 {*}$Snit_optionInfo(configure-$option) \
                                  $option]
             }
 
