@@ -1767,7 +1767,11 @@ namespace eval ::guiContactList {
 
 		# Binding for right click		 
 		$canvas bind $main_part <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
-
+		if {[OnMac]} {
+			# Control click also acts as a right click.
+			$canvas bind $main_part <Control-ButtonPress-1> [list show_umenu "$email" "$grId" %X %Y]
+		}
+		
 		# Bindings for dragging : applies to all elements even the star
 		$canvas bind $tag <ButtonPress-1> [list ::guiContactList::contactPress $tag $canvas %s %x %y]
 
@@ -2206,8 +2210,14 @@ namespace eval ::guiContactList {
 		$canvas delete uline_$tag
 	}
 
-	#For some Mac, Tk's default interval for Double Click is too weak, I increase it here to 700 in place of 500
 	proc contactCheckDoubleClick { callback tag x y t } {
+		if {[OnMac]} {
+			# With TkAqua,the default double click interval is too weak, so we increase it here to 800ms.
+			set doubleClickInterval 800
+		} else {
+			# Tk default (500ms).
+			set doubleClickInterval 500
+		}
 		variable lastClickCoords
 		if { [::config::getKey sngdblclick] } {
 			#No need to check as a single click is enough
@@ -2216,7 +2226,7 @@ namespace eval ::guiContactList {
 		}
 		if { [info exists lastClickCoords] } {
 			if { abs([lindex $lastClickCoords 0]-$x) <= 5 && abs([lindex $lastClickCoords 1]-$y) <= 5 && \
-				abs($t-[lindex $lastClickCoords 2]) <= 700 && [lindex $lastClickCoords 3] == $tag } {
+				abs($t-[lindex $lastClickCoords 2]) <= $doubleClickInterval && [lindex $lastClickCoords 3] == $tag } {
 				eval $callback
 				unset lastClickCoords
 				return
