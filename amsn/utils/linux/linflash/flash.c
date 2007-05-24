@@ -96,6 +96,7 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, int flash) {
   static Atom wmState;
   static Atom wmSupported;
 
+  XWMHints *hints;
   Atom type_return;
   Atom *curr_atom = NULL;
   int format_return;
@@ -127,6 +128,8 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, int flash) {
   // We then get the windowId (the X token) of the window, from it's long pathname
   window = Tk_WindowId(tkwin);
 
+
+
   // Error check
   if ( window == NULL ) {
     Tcl_AppendResult (interp, "error while processing WindowId : Window probably not viewable", (char *) NULL);
@@ -136,13 +139,27 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, int flash) {
 
   xdisplay = Tk_Display(tkwin);
 
+  /* We get the window id of the root toplevel window */
+  XQueryTree(xdisplay, window, &root, &parent, &children, &n);
+  XFree(children);
+
+  /* We first set the Urgency flag on the window in case WM doesn't support DEMANDS_ATTENTION state */
+  hints = XGetWMHints(xdisplay, parent);
+  if (hints != NULL) {
+    if (flash)
+      hints->flags |= XUrgencyHint;
+    else
+      hints->flags &= ~XUrgencyHint;
+    XSetWMHints(xdisplay, parent, hints);
+    XFree(hints);
+  }
+
+
   // We need Atom-s created only once, they don't change during runtime
   demandsAttention = XInternAtom(xdisplay, "_NET_WM_STATE_DEMANDS_ATTENTION", True);
   wmState = XInternAtom(xdisplay, "_NET_WM_STATE", True);
   wmSupported = XInternAtom(xdisplay, "_NET_SUPPORTED", True);
 
-  XQueryTree(xdisplay, window, &root, &parent, &children, &n);
-  XFree(children);
 
   if( XGetWindowProperty( xdisplay, root, wmSupported, 0, 4096, False, XA_ATOM,
                             &type_return, &format_return,
@@ -156,8 +173,6 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, int flash) {
     }
     XFree( prop_return );
   }
-  if (!hasFlag)
-    return TCL_ERROR;
 
   e.xclient.type = ClientMessage;
   e.xclient.message_type = wmState;
@@ -172,7 +187,11 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, int flash) {
   e.xclient.data.l[4] = 0l;
   
   
-  if (XSendEvent(xdisplay, root, False, (SubstructureRedirectMask | SubstructureNotifyMask), &e) == 0) 
+  /* If the WM doesn't support the DEMANDE_ATTENTION, then we still send the event because some 
+   * WMs (like xfce) support it but they tell us they don't. And we return TCL_ERROR just to make sure
+   * in case it *really* didn't support it, that the calling application does the fallback action.
+   */
+  if (XSendEvent(xdisplay, root, False, (SubstructureRedirectMask | SubstructureNotifyMask), &e) == 0 || hasFlag) 
     return TCL_ERROR;
   
   return TCL_OK;
