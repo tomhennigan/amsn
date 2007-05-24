@@ -80,7 +80,7 @@ namespace eval ::Games {
 	if {[catch {::plugins::pluginVersion} version]} {
 	  # Setting version number manually for aMSN 0.95
 	  # Make sure this value matches the one used in plugininfo.xml
-	  set version "0.19"
+	  set version "0.20"
 	}
 
     ::plugins::RegisterPlugin "Games"

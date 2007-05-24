@@ -3,13 +3,13 @@
 # Original url: http://wiki.tcl.tk/4070
 # Plugin author: JeeBee <jonne_z REM0VEatTH1S users.sourceforge.net>
 #
-# todo * Support for castling (and castling state as part of game state).
-# todo * Support for en passent move (also added to game state).
-# todo * Support for check and game endings (checkmate, stalemate).
-# todo * Support for promotion of pieces
-# todo * Movelist.
-# * Running as an aMSN plugin
-# todo * Tested with Tcl/Tk 8.4 and 8.5.
+# * Support for castling (and castling state as part of game state).
+# * Support for en passent move (also added to game state).
+# * Support for check and game endings (checkmate, stalemate).
+# * Support for promotion of pieces.
+# * Movelist.
+# * Highlight last move.
+# * Running as an aMSN plugin.
 
 namespace eval ::Games::Chess {
 
@@ -25,13 +25,6 @@ namespace eval ::Games::Chess {
   # Return variables with default values that we want to store              #
   ###########################################################################
   proc config_array {} {
-	variable Squares
-    foreach r {8 7 6 5 4 3 2 1} {
-      foreach c {A B C D E F G H} {
-		lappend Squares $c$r
-	  }
-	}
-
 	set lst [list \
 		::Games::Chess::square_color_white {} \
 		::Games::Chess::square_color_black {} ]
@@ -126,6 +119,8 @@ namespace eval ::Games::Chess {
   # game_init looks like "your_color=random,board_size=6"
   proc set_init_game { gameID game_init mychat oppchat } {
     variable GameState
+	variable Squares
+
     set win_name [string map {"." "" ":" ""} $gameID]
     set myname   [::Games::getNick $mychat]
     set oppname  [::Games::getNick $oppchat]
@@ -169,11 +164,17 @@ namespace eval ::Games::Chess {
       }
     }
 
-    array set GameState [list                   \
-      "$gameID,movelist"        {}              \
-      "$gameID,curmove"         {}              \
-      "$gameID,my_color"        "$my_color"     \
-      "$gameID,opponent_color"  "$opponent_color" ]
+	reset $gameID
+    array set GameState [list                     	\
+      "$gameID,my_color"        "$my_color"       	\
+      "$gameID,opponent_color"  "$opponent_color"]
+
+	set Squares {}
+    foreach r {8 7 6 5 4 3 2 1} {
+      foreach c {A B C D E F G H} {
+		lappend Squares $c$r
+	  }
+	}
 
     return "your_color=${opponent_color}"
   }
@@ -192,23 +193,29 @@ namespace eval ::Games::Chess {
     set my_color        $GameState($gameID,my_color)
     set my_name         $GameState($gameID,my_name)
     set opponent_name   $GameState($gameID,opponent_name)
+	set GameState($gameID,side) $my_color
 
     toplevel .$win_name
     wm protocol .$win_name WM_DELETE_WINDOW "::Games::Chess::quit $gameID"
 	wm title .$win_name "[::Games::trans Chess] - $GameState($gameID,opponent_name)"
 
-	reset $gameID
     frame .$win_name.f
     set GameState($gameID,info) [label .$win_name.f.e -width 30 -anchor w -relief sunken]
+    set GameState($gameID,ml) [text .$win_name.f.ml -width 20 -relief sunken]
     #button .$win_name.f.u -text Undo  \
-		-command "::Games::Chess::undo $gameID; ::Games::Chess::drawSetup $gameID .$win_name.c"
+		-command "::Games::Chess::undo $gameID; ::Games::Chess::drawSetup $gameID .$win_name.f.c"
     #button .$win_name.f.r -text Reset \
-		-command "::Games::Chess::reset $gameID; ::Games::Chess::drawSetup $gameID .$win_name.c"
-    #button .$win_name.f.f -text Flip -command "::Games::Chess::flipSides $gameID .$win_name.c"
-    eval pack [winfo children .$win_name.f] -side left -fill both
-    pack .$win_name.f -fill x -side bottom
-	set GameState($gameID,side) $GameState($gameID,my_color)
-    pack [drawBoard $gameID .$win_name.c] -fill both -expand 1
+		-command "::Games::Chess::reset $gameID; ::Games::Chess::drawSetup $gameID .$win_name.f.c"
+    #button .$win_name.f.f -text Flip -command "::Games::Chess::flipSides $gameID .$win_name.f.c"
+
+	grid [drawBoard $gameID .$win_name.f.c] .$win_name.f.ml  -sticky news
+	grid .$win_name.f.e - -sticky news
+	grid .$win_name.f -sticky news
+	grid rowconfigure .$win_name.f {0 1} -weight 1
+	grid columnconfigure .$win_name.f {0 1} -weight 1
+	grid rowconfigure .$win_name 0 -weight 1
+	grid columnconfigure .$win_name 0 -weight 1
+
     $GameState($gameID,info) configure -text "white to move"
     bind .$win_name <3> "::Games::Chess::usefont_toggle $gameID"
   }
@@ -216,16 +223,21 @@ namespace eval ::Games::Chess {
   proc usefont_toggle {gameID} {
 	variable GameState
 	set GameState($gameID,usefont) [expr {1-$GameState($gameID,usefont)}]
-	event generate .$GameState($gameID,win_name).c <Configure>
+	event generate .$GameState($gameID,win_name).f.c <Configure>
   }
 
   proc opponent_moves { gameID sender the_move } {
-	move $gameID $the_move 0
+	variable GameState
+	set gamestate [move $gameID $the_move 0]
+	if {$gamestate!=""} {
+	  $GameState($gameID,info) configure -text "$gamestate"
+	}
   }
 
   proc opponent_quits { gameID chatid } {
     variable GameState
     set win_name $GameState($gameID,win_name)
+	set opponent_name $GameState($gameID,opponent_name)
 
     # Check whether our toplevel is gone already
     if {![winfo exists .$win_name]} {
@@ -234,7 +246,7 @@ namespace eval ::Games::Chess {
 
 	$GameState($gameID,info) configure \
 		-text "[::Games::trans quits $opponent_name]"
-	event generate .$GameState($gameID,win_name).c <Configure>
+	event generate .$GameState($gameID,win_name).f.c <Configure>
   }
 
   ###########################################################################
@@ -242,12 +254,20 @@ namespace eval ::Games::Chess {
   # ======================================================================= #
   ###########################################################################
 
-  proc moveinfo {gameID} {
+  proc moveinfo {gameID move} {
 	variable GameState
 	if {[info exists GameState($gameID,info)]} {
 	  $GameState($gameID,info) configure \
 		-text "$GameState($gameID,toMove) to move - [values $gameID]"
 	}
+    if {[info exists GameState($gameID,ml)]} {
+	  if {$GameState($gameID,toMove) == "white"} {
+	    $GameState($gameID,ml) insert end "  $move\n"
+	  } else {
+		set i [expr {[llength $GameState($gameID,history)] / 2 + 1}]
+		$GameState($gameID,ml) insert end "$i: $move"
+	  }
+    }
   }
 
   proc reset {gameID {setup ""}} {
@@ -267,8 +287,19 @@ namespace eval ::Games::Chess {
             set GameState($gameID,$x$y) $word
         }
     }
-    set GameState($gameID,toMove) white
-	moveinfo $gameID
+
+    array set GameState [list                     	\
+      "$gameID,movelist"        {}                	\
+      "$gameID,curmove"         {}                	\
+	  "$gameID,toMove"			white             	\
+	  "$gameID,hl_square"		{}					\
+	  "$gameID,ep"				0					\
+	  "$gameID,K00"				1					\
+	  "$gameID,K000"			1					\
+	  "$gameID,k00"				1					\
+	  "$gameID,k000"			1]
+
+	moveinfo $gameID {}
     set GameState($gameID,history) {} ;# start a new history...
   }
 
@@ -286,40 +317,102 @@ namespace eval ::Games::Chess {
 
   proc move {gameID move {send_to_opp 1}} {
 	variable GameState
+	variable Squares
     foreach {from to} [split $move -] break
+
     set fromMan $GameState($gameID,$from)
     if {$fromMan == "."} {error "no man to move at $from"}
     set toMan   $GameState($gameID,$to)
-    if ![valid? $gameID $move] {error "invalid move for a [manName $fromMan]"}
+    if {![valid? $gameID $move]} {error "invalid move for a [manName $fromMan]"}
+	foreach {x0 y0} [coords $from] {x1 y1} [coords $to] break
+
+	# Testing for en-passant move
+	if {[expr {[string toupper $fromMan] == "P" && $x0 != $x1 && $toMan == "."}]} {
+	  set toMan $GameState($gameID,[square $x1 $y0])
+	  set GameState($gameID,[square $x1 $y0]) "."
+	}
+	# Executing move
     set GameState($gameID,$from) .
     set GameState($gameID,$to) $fromMan
+
+	# Promotion of a pawn
+	if {[string toupper $fromMan] == "P" && ($y1 == 1 || $y1 == 8)} {
+	  # Todo: Implement underpromotion (present dialog here)
+	  set GameState($gameID,$to) [expr {$fromMan == "P"? "Q": "q"}]
+	}
+
+	# Also move rook when castling
+	if {$fromMan == "K" && $x0 == 5 && $x1 == 7} {
+	  set GameState($gameID,F1) $GameState($gameID,H1)
+      set GameState($gameID,H1) .
+    } elseif {$fromMan == "K" && $x0 == 5 && $x1 == 3} {
+	  set GameState($gameID,D1) $GameState($gameID,A1)
+      set GameState($gameID,A1) .
+    } elseif {$fromMan == "k" && $x0 == 5 && $x1 == 7} {
+	  set GameState($gameID,F8) $GameState($gameID,H8)
+      set GameState($gameID,H8) .
+    } elseif {$fromMan == "k" && $x0 == 5 && $x1 == 3} {
+	  set GameState($gameID,D8) $GameState($gameID,A8)
+      set GameState($gameID,A8) .
+    }
+
+	# Several moves affect castling state
+	set GameState($gameID,K00) [expr {$GameState($gameID,K00) && $fromMan != "K" && $from != "H1"}]
+	set GameState($gameID,K000) [expr {$GameState($gameID,K000) && $fromMan != "K" && $from != "A1"}]
+	set GameState($gameID,k00) [expr {$GameState($gameID,k00) && $fromMan != "k" && $from != "H8"}]
+	set GameState($gameID,k000) [expr {$GameState($gameID,k000) && $fromMan != "k" && $from != "A8"}]
+
+	# Pawn move might affect en-passant state
+	if {[expr {[string toupper $fromMan] == "P" && abs($y1-$y0) == 2}]} {
+		set GameState($gameID,ep) $x0
+	} else {
+		set GameState($gameID,ep) 0
+	}
+
     if {$toMan != "."} {append move -$toMan} ;# taken one
+
     lappend GameState($gameID,history) $move
     set GameState($gameID,toMove) [expr {$GameState($gameID,toMove) == "white"? "black": "white"}]
-	moveinfo $gameID
+	moveinfo $gameID [movestr $gameID $move]
+
+	set GameState($gameID,hl_square) $to
 	if {$send_to_opp == 1} {
-		::Games::SendMove $gameID $move
+		::Games::SendMove $gameID $from-$to
 	} else {
-      event generate .$GameState($gameID,win_name).c <Configure>
+      event generate .$GameState($gameID,win_name).f.c <Configure>
 	}
-    set toMan ;# report possible victim
+
+	# Return whether new player to move still has legal moves
+    foreach from $Squares {
+	  foreach to $Squares {
+		if {[valid? $gameID $from-$to]} {
+		  return ""
+		}
+	  }
+	}
+	# TODO: should return state: checkmate, stalemate, draw, etc
+    return "End of game"
   }
  
   proc color man {expr {[string is upper $man]? "white" : "black"}}
 
-  proc valid? {gameID move} {
+  proc valid? {gameID move {check_attacks 1}} {
 	variable GameState
     foreach {from to} [split $move -] break
     if {$to==""} {return 0}
     set fromMan $GameState($gameID,$from)
-    if {[color $fromMan] != $GameState($gameID,toMove)} {return 0}
-    set toMan   $GameState($gameID,$to)
-    if [sameSide $fromMan $toMan] {return 0}
+	if {$fromMan=="."} {return 0}
+	# It's not your turn
+    if {$check_attacks == 1 && [color $fromMan] != $GameState($gameID,toMove)} {return 0}
+    set toMan $GameState($gameID,$to)
+	# Cannot hit own piece
+    if {$check_attacks == 1 && [sameSide $fromMan $toMan]} {return 0}
     foreach {x0 y0} [coords $from] {x1 y1} [coords $to] break
     set dx  [expr {$x1-$x0}]
     set adx [expr {abs($dx)}]
     set dy  [expr {$y1-$y0}]
     set ady [expr {abs($dy)}]
+	# If not a knight, then no pieces can be along the route
     if {[string tolower $fromMan] != "n" && (!$adx || !$ady || $adx==$ady)} {
         for {set x $x0; set y $y0} {($x!=$x1 || $y!=$y1)} \
           {incr x [sgn $dx]; incr y [sgn $dy]} {
@@ -328,26 +421,117 @@ namespace eval ::Games::Chess {
             } ;# planned path is blocked
         }
     }
+    # Verifying castling conditions
+    if {$check_attacks == 1 && [string tolower $fromMan] == "k"} {
+	  # Kings and rooks have not yet moved
+      set K00 $GameState($gameID,K00)
+      set K000 $GameState($gameID,K000)
+      set k00 $GameState($gameID,k00)
+      set k000 $GameState($gameID,k000)
+	  # Castling cannot capture a piece
+	  if {$GameState($gameID,$to) != "."} {
+        set K00 0 ; set K000 0 ; set k00 0 ; set k000 0
+	  }
+	  # White short castle, e1, f1 must not be attacked
+	  if {[attacks? $gameID $check_attacks black [list E1 F1]]} { set K00 0 }
+	  # White long castle, e1, d1, c1 must not be attacked
+	  if {[attacks? $gameID $check_attacks black [list E1 D1 C1]]} { set K000 0 }
+	  # Black short castle, e8, f8 must not be attacked
+	  if {[attacks? $gameID $check_attacks white [list E8 F8]]} { set k00 0 }
+	  # Black long castle, e8, d8, c8 must not be attacked
+	  if {[attacks? $gameID $check_attacks white [list E8 D8 C8]]} { set k000 0 }
+    } else {
+	  set K00 0 ; set K000 0 ; set k00 0 ; set k000 0
+	}
+
+	# Let $eq contain the piece specific constraints
     switch -- $fromMan {
-        K - k {expr $adx<2 && $ady<2}
-        Q - q {expr $adx==0 || $ady==0 || $adx==$ady}
-        B - b {expr $adx==$ady}
-        N - n {expr ($adx==1 && $ady==2)||($adx==2 && $ady==1)}
-        R - r {expr $adx==0 || $ady==0}
+		K {
+			set eq [expr {($adx<2 && $ady<2) ||
+                  ($x0==5 && $y0==1 && $x1==7 && $y1==1 && $K00) ||
+                  ($x0==5 && $y0==1 && $x1==3 && $y1==1 && $K000)}]
+		  }
+        k {
+			set eq [expr {($adx<2 && $ady<2) ||
+                  ($x0==5 && $y0==8 && $x1==7 && $y1==8 && $k00) ||
+                  ($x0==5 && $y0==8 && $x1==3 && $y1==8 && $k000)}]
+		  }
+        Q - q {set eq [expr {$adx==0 || $ady==0 || $adx==$ady}]}
+        B - b {set eq [expr {$adx==$ady}]}
+        N - n {set eq [expr {($adx==1 && $ady==2)||($adx==2 && $ady==1)}]}
+        R - r {set eq [expr {$adx==0 || $ady==0}]}
         P {
-            expr {(($y0==2 && $dy==2) || $dy==1)
+            set eq [expr {(($y0==2 && $dy==2) || $dy==1)
               && (($dx==0 && $toMan==".") ||
-                ($adx==1 && $ady==1 && [sameSide p $toMan]))
-            }
+                  ($adx==1 && $ady==1 && [sameSide p $toMan]) ||
+                  ($y0 == 5 && $adx==1 && $ady==1 && $GameState($gameID,ep) == $x1))
+            }]
         }
         p {
-            expr {(($y0==7 && $dy==-2) || $dy==-1)
+            set eq [expr {(($y0==7 && $dy==-2) || $dy==-1)
               && (($dx==0 && $toMan==".") ||
-                ($adx==1 && $ady==1 && [sameSide P $toMan]))
-            }
+                  ($adx==1 && $ady==1 && [sameSide P $toMan]) ||
+                  ($y0 == 4 && $adx==1 && $ady==1 && $GameState($gameID,ep) == $x1))
+            }]
         }
-        default {return 0}
+        default {set eq 0}
     }
+	# Finally, king cannot be under attack after this move
+	if {$check_attacks == 1} {
+	  set GameState($gameID,$from) .
+	  set undoMan $GameState($gameID,$to)
+	  set GameState($gameID,$to) $fromMan
+	  set attacked [attacks? $gameID $check_attacks \
+		  [expr {[color $fromMan] == "white"? "black": "white"}] \
+		  [findPiece $gameID [expr {[color $fromMan] == "white"? "K": "k"}]]]
+	  set GameState($gameID,$from) $fromMan
+	  set GameState($gameID,$to) $undoMan
+	} else {
+	  set attacked 0
+	}
+
+	return [expr {$eq && ! $attacked}]
+  }
+
+  # Return (first encountered) square that contains piece
+  proc findPiece {gameID piece} {
+	variable GameState
+	variable Squares
+
+    foreach sq $Squares {
+	  if {$GameState($gameID,$sq) == $piece} {
+		return $sq
+	  }
+	}
+	error "Cannot find specified piece on the board."
+  }
+
+  # Return string representation of move
+  proc movestr {gameID move} {
+	variable GameState
+    foreach {from to hit} [split $move -] break
+    set fromMan $GameState($gameID,$to)
+
+	if {[expr {[string toupper $fromMan] == "P" && $hit != ""}]} {
+	  set str "[string tolower [string index $from 0]]x"
+	} elseif {[expr {[string toupper $fromMan] == "P" && $hit == ""}]} {
+	  set str ""
+	} elseif {$hit != ""} {
+	  set str "[string toupper $fromMan]x"
+	} else {
+	  set str "[string toupper $fromMan]"
+	}
+	append str [string tolower $to]
+
+	# Todo: sometimes two pieces of the same time can move to destination square,
+	# e.g. Rad1 or R1d1
+	# Todo: check[mates] in move strings
+
+	# Align with spaces
+	while {[string length $str] < 5} {
+	  set str " $str"
+	}
+	return $str
   }
 
   proc validMoves {gameID from} {
@@ -356,12 +540,35 @@ namespace eval ::Games::Chess {
     set res {}
     foreach to $Squares {
         set move $from-$to
-        if [valid? $gameID $move] {
+        if {[valid? $gameID $move]} {
+			# Todo: en-passant moves are highlighted green instead of red
             if {$GameState($gameID,$to) != "."} {append move -$GameState($gameID,$to)}
             lappend res $move
         }
     }
     lsort $res
+  }
+
+  # Check whether side $color attacks any of the squares
+  proc attacks? {gameID check_attacks color squares} {
+	variable GameState
+	variable Squares
+
+	# This var prevents infinite loops
+	if {$check_attacks == 0} { return 0 }
+
+	foreach from $Squares {
+	  set fromMan $GameState($gameID,$from)
+	  if {[color $fromMan] == $color} {
+		foreach to $squares {
+		  set move $from-$to
+		  if {[valid? $gameID $move 0]} {
+			return 1
+		  }
+		}
+	  }
+	}
+	return 0
   }
  
   proc coords square {
@@ -375,29 +582,11 @@ namespace eval ::Games::Chess {
     return [string map {1 A 2 B 3 C 4 D 5 E 6 F 7 G 8 H} $x]$y
   }
 
-  proc undo gameID {
-	variable GameState
-    if ![llength $GameState($gameID,history)] {error "Nothing to undo"}
-    set move [lindex $GameState($gameID,history) end]
-    foreach {from to hit} [split $move -]  break
-    set GameState($gameID,history) [lrange $GameState($gameID,history) 0 end-1]
-    set GameState($gameID,$from)   $GameState($gameID,$to)
-    if {$hit==""} {set hit .}
-    set GameState($gameID,$to) $hit
-    set GameState($gameID,toMove) [expr {$GameState($gameID,toMove) == "white"? "black": "white"}]
-	moveinfo $gameID
-  }
- 
-  proc sameSide {a b} {regexp {[a-z][a-z]|[A-Z][A-Z]} $a$b]}
-
-  proc history gameID {
-	variable GameState
-	set $GameState($gameID,history)
-  }
+  proc sameSide {a b} {regexp {[a-z][a-z]|[A-Z][A-Z]} $a$b}
 
   proc manName man {
     set table {- k king q queen b bishop n knight r rook p pawn}
-    set i [l search $table [string tolower $man]]
+    set i [lsearch $table [string tolower $man]]
     lindex $table [incr i]
   }
 
@@ -407,13 +596,11 @@ namespace eval ::Games::Chess {
 	variable Squares
     set white 0; set black 0
     foreach square $Squares {
-		if {[string length $square] == 2} {
-        	set man $GameState($gameID,$square)
-        	switch -regexp -- $man {
-        	    [A-Z] {set white [expr {$white + [manValue $man]}]}
-        	    [a-z] {set black [expr {$black + [manValue $man]}]}
-        	}
-		}
+		  set man $GameState($gameID,$square)
+		  switch -regexp -- $man {
+			  [A-Z] {set white [expr {$white + [manValue $man]}]}
+			  [a-z] {set black [expr {$black + [manValue $man]}]}
+		  }
     }
     list $white $black
   }
@@ -480,7 +667,7 @@ namespace eval ::Games::Chess {
     foreach row $rows {
         $w create text 5 [expr {$y+$sqw/2}] -text $row
         foreach col $cols {
-            $w create rect $x $y [incr x $sqw] [expr $y+$sqw] \
+            $w create rect $x $y [incr x $sqw] [expr {$y+$sqw}] \
                 -fill [lindex $opt(-colors) $colorIndex] \
                 -tag [list square $col$row]
             set colorIndex [expr {1-$colorIndex}]
@@ -525,11 +712,11 @@ namespace eval ::Games::Chess {
         }
     }
 
-    if [valid? $gameID $from-$to] {
-        set victim [move $gameID $from-$to]
+    if {[valid? $gameID $from-$to]} {
+        set gamestate [move $gameID $from-$to]
 		set generate_configure 1
-        if {[string tolower $victim]=="k"} {
-			$GameState($gameID,info) configure -text "Checkmate."
+        if {$gamestate!=""} {
+			$GameState($gameID,info) configure -text "$gamestate"
 		}
         $w delete @$to
         set target $to
@@ -543,7 +730,7 @@ namespace eval ::Games::Chess {
     set dy [expr {($y0+$y1-$ym0-$ym1)/2}]
     $w move current $dx $dy
 	if {$generate_configure == 1} {
-      event generate .$GameState($gameID,win_name).c <Configure>
+      event generate .$GameState($gameID,win_name).f.c <Configure>
 	}
   }
 
@@ -552,25 +739,31 @@ namespace eval ::Games::Chess {
 	variable Squares
     $w delete mv
     foreach square $Squares {
-        drawMan $gameID $w $square $GameState($gameID,$square)
+		set hl [expr {$GameState($gameID,hl_square) == $square}]
+        drawMan $gameID $w $square $GameState($gameID,$square) $hl
     }
   }
 
-  proc drawMan {gameID w where what} {
+  proc drawMan {gameID w where what hl} {
 	variable GameState
     if {$what=="."} return
     set fill [expr {[regexp {[A-Z]} $what]? "white": "black"}]
-    if $GameState($gameID,usefont) {
+
+    if {$GameState($gameID,usefont)} {
         set unicode [string map {
             k \u265a q \u265b r \u265c b \u265d n \u265e p \u265f
           k K q Q r R b B n N p P
         } [string tolower $what]]
         set font [list Helvetica [expr {$GameState($gameID,sqw)/2}] bold]
+		if {$hl} {
+			set fill [expr {$fill == "white"? {light grey}: {dark blue}}]
+		}
         $w create text 0 0 -text $unicode -font $font \
             -tag [list mv @$where] -fill $fill
     } else {
+		set hl [expr {$hl ? "red": "gray"}]
         $w create poly [manPolygon $what] -fill $fill \
-            -tag [list mv @$where] -outline gray
+            -tag [list mv @$where] -outline $hl
         set f [expr {$GameState($gameID,sqw)*0.035}]
         $w scale @$where 0 0 $f $f
     }
@@ -613,5 +806,5 @@ namespace eval ::Games::Chess {
   proc min args {lindex [lsort -real $args] 0}
   proc sgn x {expr {$x>0? 1: $x<0? -1: 0}}
 
-}
+} ;# end of namespace ::Games::Chess
 
