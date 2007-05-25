@@ -344,26 +344,26 @@ namespace eval ::smiley {
 				set start [$tw index ${pos}+1c]
 				set endpos [$tw index $pos+[string length $symbol]c]
 
-				#set skip 0
+				set skip 0
 				# used to avoid invalid search caused by elided text, such as in ::op
 				if { [string equal -nocase [$tw get $pos $endpos]  $symbol] == 0} {
 					continue
-				#} else {
-				#	for { set i $pos } {$i <= $endpos && !$skip} {set i [$tw index $i+1c]} {
-				#		set tags [$tw tag names $i]
-				#		foreach tag_name $tags {
-				#			set elided [$tw tag cget $tag_name -elide]
-				#			if {$elided != "" && $elided} {
-				#				set skip 1
-				#				break;
-				#			}
-				#		}
-				#	}
+				} else {
+					for { set i $pos } {$i < $endpos && !$skip} {set i [$tw index $i+1c]} {
+						set tags [$tw tag names $i]
+						foreach tag_name $tags {
+							set elided [$tw tag cget $tag_name -elide]
+							if {$elided != "" && $elided} {
+								set skip 1
+								break;
+							}
+						}
+					}
 				}
 				
-				#if { $skip } {
-				#	continue
-				#}
+				if { $skip } {
+					continue
+				}
 
 				set start [::smiley::SubstSmiley $tw $pos $symbol $image_name $image_file $animated $sound]
 				#If SubstSmiley returns -1, start from beggining.
@@ -1215,7 +1215,7 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 			if { [string compare [$tw get $pos $endpos]  $symbol] != 0} {
 				continue
 			} else {
-				for { set i $pos } {$i <= $endpos && !$skip } {set i [$tw index $i+1c]} {
+				for { set i $pos } {$i < $endpos && !$skip } {set i [$tw index $i+1c]} {
 					set tags [$tw tag names $i]
 					foreach tag_name $tags {
 						set elided [$tw tag cget $tag_name -elide]
