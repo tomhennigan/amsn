@@ -1214,29 +1214,30 @@ proc CreateProfile { email } {
 
 	#set dirname [split $email "@ ."]
 	#set dirname [join $dirname "_"]
-	set newHOMEdir "[file join $HOME2 $dirname]"
-	create_dir $newHOMEdir
-	set log_dir "[file join ${newHOMEdir} logs]"
+	set HOME "[file join $HOME2 $dirname]"
+	create_dir $HOME
+	set log_dir "[file join ${HOME} logs]"
 	create_dir $log_dir
-	set webcam_dir "[file join ${newHOMEdir} webcam]"
+	set webcam_dir "[file join ${HOME} webcam]"
 	create_dir $webcam_dir
 
 	# Load default config initially
 	# file copy -force [file join $HOME2 config.xml] $newHOMEdir
 
-	set oldhome $HOME
-	set HOME $newHOMEdir
+	set oldpassword $password
+	set oldsavepwd [::config::getKey save_password]
 
-	::config::setKey login $email
-	#load_config
+	# set all config keys to default
 	::config::configDefaults
+
+	# re-set login, password an remember password value before saving
+	::config::setKey login $email
+	set password $oldpassword
+	::config::setKey save_password $oldsavepwd
 	save_config
 
-	::config::setKey login $oldlogin
-	set HOME $oldhome
-	load_config
-	unset oldhome
-	unset newHOMEdir
+	unset oldpassword
+	unset oldsavepwd
 
 	# Add to login list
 	LoginList add 0 $email 0
@@ -1317,11 +1318,11 @@ proc DeleteProfile { email entrypath } {
 	$entrypath select 0
 	LoginList unset 0 $email
 
-	# Fire event
-	::Event::fireEvent profileDeleted {} $email
-
 	# Lets save it into the file
 	SaveLoginList
+
+	# Fire event
+	::Event::fireEvent profileDeleted {} $email
 
 }
 
