@@ -4,12 +4,14 @@
 # Plugin author: JeeBee <jonne_z REM0VEatTH1S users.sourceforge.net>
 #
 # * Support for castling (and castling state as part of game state).
-# * Support for en passent move (also added to game state).
+# * Support for en-passant move (also added to game state).
 # * Support for check and game endings (checkmate, stalemate).
 # * Support for promotion of pieces.
 # * Movelist.
 # * Highlight last move.
 # * Running as an aMSN plugin.
+# * todo: Add rematch, resign, offer draw button
+# * todo: Display number of games (won/draw/lost) played
 
 namespace eval ::Games::Chess {
 
@@ -211,7 +213,7 @@ namespace eval ::Games::Chess {
 	grid [drawBoard $gameID .$win_name.f.c] .$win_name.f.ml  -sticky news
 	grid .$win_name.f.e - -sticky news
 	grid .$win_name.f -sticky news
-	grid rowconfigure .$win_name.f {0 1} -weight 1
+	grid rowconfigure .$win_name.f 0 -weight 1
 	grid columnconfigure .$win_name.f {0 1} -weight 1
 	grid rowconfigure .$win_name 0 -weight 1
 	grid columnconfigure .$win_name 0 -weight 1
