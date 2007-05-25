@@ -3261,7 +3261,7 @@ namespace eval ::amsn {
 
 		destroy .closeordock
 		unset rememberdock
-		exit		
+		exit
 	}
 	
 
@@ -6093,10 +6093,23 @@ if { [info command ::tk::exit] == "" && [info command exit] == "exit" } {
 proc exit {} {
 	global HOME lockSock
 	catch { ::MSN::logout}
-	::config::setKey wingeometry [wm geometry .]
 
-	# Temporary until the new CL is good and working...
-	::config::setKey use_new_cl 0
+	# if there is a container
+	if { [info exists ::ChatWindow::containers] } {
+		foreach { key value } [array get ::ChatWindow::containers] {
+			::ChatWindow::CloseAll $value
+		}
+	}
+	if { [info exists ::ChatWindow::windows] } {
+		foreach { value } [array get ::ChatWindow::windows] {
+			#cycle in every window and destroy it
+			#force the destroy
+			set ::ChatWindow::recent_message($value) 0
+			::ChatWindow::Close $value
+		}
+	}
+
+	::config::setKey wingeometry [wm geometry .]
 
 	save_config
 	::config::saveGlobal
