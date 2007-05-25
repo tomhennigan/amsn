@@ -42,6 +42,15 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey contact_mobile #404040
 	::skin::setKey chatwindowbg #EAEAEA
 
+	::skin::setKey loginbg #ffffff
+	::skin::setKey loginwidgetbg #ffffff
+	::skin::setKey loginfg #000000
+	::skin::setKey loginurlfg #0000ff
+	::skin::setKey logincheckfg #ffffff
+	::skin::setKey loginbuttonbg #c3c2d2
+	::skin::setKey loginbuttonfg black
+	::skin::setKey loginbuttonfghover black
+
 	::skin::setKey tabbarbg "[::skin::getKey chatwindowbg]"
 	::skin::setKey tabfg #000000
 	::skin::setKey tab_text_x 5
@@ -52,9 +61,6 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey chat_tabbar_padx 0
 	::skin::setKey chat_tabbar_pady 0
 	::skin::setKey buttonbarbg #eeeeff
-	::skin::setKey loginbuttonbg #c3c2d2
-	::skin::setKey loginbuttonfg black
-	::skin::setKey loginbuttonfghover black
 	::skin::setKey sendbuttonbg #c3c2d2
 	::skin::setKey sendbuttonfg black
 	::skin::setKey sendbuttonfghover black

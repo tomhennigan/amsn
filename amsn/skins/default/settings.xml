@@ -38,6 +38,11 @@
 	
 	<Login>
 		<Colors>
+			<loginbg>#ffffff</loginbg>
+			<loginwidgetbg>#ffffff</loginwidgetbg>
+			<loginfg>#000000</loginfg>
+			<loginurlfg>#0000ff</loginurlfg>
+			<logincheckfg>#ffffff</logincheckfg>
 			<loginbuttonbg>#ffffff</loginbuttonbg>
 			<loginbuttonfg>#000000</loginbuttonfg>
 			<loginbuttonfghover>#000000</loginbuttonfghover>

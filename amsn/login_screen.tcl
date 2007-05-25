@@ -64,7 +64,7 @@ snit::widgetadaptor loginscreen {
 		array set after_id {checkUser {} PosBg {} Sort {}}
 
 		# Create canvas
-		installhull using canvas -bg white -highlightthickness 0 -xscrollcommand "$self CanvasScrolled" -yscrollcommand "$self CanvasScrolled"
+		installhull using canvas -background [::skin::getKey loginbg] -highlightthickness 0 -xscrollcommand "$self CanvasScrolled" -yscrollcommand "$self CanvasScrolled"
 
 		# Parse and apply creation-time options
 		$self configurelist $args
@@ -94,36 +94,36 @@ snit::widgetadaptor loginscreen {
 		# Create widgets
 		# Language button
 		set lang_button_icon [$self create image 0 0 -anchor nw -image [::skin::loadPixmap globe]]
-		set lang_button_text [$self create text 0 0 -anchor nw -text [trans language] -fill blue]
+		set lang_button_text [$self create text 0 0 -anchor nw -text [trans language] -fill [::skin::getKey loginurlfg]]
 		# Display picture
 		set dp_label [label $self.dp -image [::skin::getDisplayPicture ""] -borderwidth 1 -highlightthickness 0 -relief solid]
 		set dp_label_tag [$self create window 0 0 -anchor nw -window $dp_label]
 		# Username
-		set user_label_tag [$self create text 0 0 -anchor nw -text "[trans user]:"]
-		set user_field [combobox::combobox $self.user -editable true -bg white -relief solid -width 25 -command "$self UserSelected"]
+		set user_label_tag [$self create text 0 0 -anchor nw -text "[trans user]:" -fill [::skin::getKey loginfg]]
+		set user_field [combobox::combobox $self.user -editable true -relief solid -width 25 -command "$self UserSelected" -background [::skin::getKey loginwidgetbg]]
 		set user_field_tag [$self create window 0 0 -anchor nw -window $user_field]
 		# Password
-		set pass_label_tag [$self create text 0 0 -anchor nw -text "[trans pass]:"]
-		set pass_field [entry $self.pass -show "*" -bg white -relief solid -width 25 -vcmd {expr {[string length %P] <= 16} } -validate key]
+		set pass_label_tag [$self create text 0 0 -anchor nw -text "[trans pass]:" -fill [::skin::getKey loginfg]]
+		set pass_field [entry $self.pass -show "*" -relief solid -width 25 -vcmd {expr {[string length %P] <= 16} } -validate key -background [::skin::getKey loginwidgetbg]]
 		set pass_field_tag [$self create window 0 0 -anchor nw -window $pass_field]
 		# Status
-		set status_label_tag [$self create text 0 0 -anchor nw -text "[trans signinstatus]:"]
-		set status_field [combobox::combobox $self.status -editable true -bg white -relief solid -width 25 -command remember_state_list]
+		set status_label_tag [$self create text 0 0 -anchor nw -text "[trans signinstatus]:" -fill [::skin::getKey loginfg]]
+		set status_field [combobox::combobox $self.status -editable true -relief solid -width 25 -command remember_state_list -background [::skin::getKey loginwidgetbg]]
 		set status_field_tag [$self create window 0 0 -anchor nw -window $status_field]
 		# Options
 		# Remember me
-		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans rememberaccount]]
-		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me]]
+		set rem_me_label_tag [$self create text 0 0 -anchor nw -text [trans rememberaccount] -fill [::skin::getKey loginfg]]
+		set rem_me_field [checkbutton $self.rem_me -variable [myvar remember_me] -background [::skin::getKey loginbg]]
 		set rem_me_field_tag [$self create window 0 0 -anchor nw -window $rem_me_field]
 		# Forget me
-		set forget_me_label [$self create text 0 0 -anchor nw -text [trans forget_me]]
+		set forget_me_label [$self create text 0 0 -anchor nw -text [trans forget_me] -fill [::skin::getKey loginfg]]
 		# Remember password
-		set rem_pass_label_tag [$self create text 0 0 -anchor nw -text [trans rememberpass]]
-		set rem_pass_field [checkbutton $self.rem_pass -variable [::config::getVar save_password] -bg white]
+		set rem_pass_label_tag [$self create text 0 0 -anchor nw -text [trans rememberpass] -fill [::skin::getKey loginfg]]
+		set rem_pass_field [checkbutton $self.rem_pass -variable [::config::getVar save_password] -background [::skin::getKey loginbg]]
 		set rem_pass_field_tag [$self create window 0 0 -anchor nw -window $rem_pass_field]
 		# Log in automatically
-		set auto_login_label_tag [$self create text 0 0 -anchor nw -text [trans autoconnect]]
-		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect] -bg white]
+		set auto_login_label_tag [$self create text 0 0 -anchor nw -text [trans autoconnect] -fill [::skin::getKey loginfg]]
+		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect] -background [::skin::getKey loginbg]]
 		set auto_login_field_tag [$self create window 0 0 -anchor nw -window $auto_login_field]
 
 		set login_button_background [scalable-bg ::$self.login.bg -source [::skin::loadPixmap loginbutton] \
@@ -135,10 +135,10 @@ snit::widgetadaptor loginscreen {
 		set login_button [button $self.login \
 				-text [trans login] \
 				-image [::skin::loadPixmap nullimage] \
-				-background [::skin::getKey loginbuttonbg "white"] \
-				-activebackground [::skin::getKey loginbuttonbg "white"] \
-				-foreground [::skin::getKey loginbuttonfg "black"] \
-				-activeforeground [::skin::getKey loginbuttonfghover "black"] \
+				-background [::skin::getKey loginbuttonbg] \
+				-activebackground [::skin::getKey loginbuttonbg] \
+				-foreground [::skin::getKey loginbuttonfg] \
+				-activeforeground [::skin::getKey loginbuttonfghover] \
 				-command [list $self LoginFormSubmitted] -cursor hand2 \
 				-bd 0 -relief flat -font sboldf -highlightthickness 0 \
 				-pady 0 -padx 0 -overrelief flat -compound center]
@@ -160,7 +160,7 @@ snit::widgetadaptor loginscreen {
 		set new_account_link [$self create text 0 0 -anchor nw -text [trans new_account]]
 		# Check for newer amsn version
 		set check_version_icon [$self create image 0 0 -anchor nw -image [::skin::loadPixmap download]]
-		set check_version_text [$self create text 0 0 -anchor nw -text [trans checkver]]
+		set check_version_text [$self create text 0 0 -anchor nw -text [trans checkver] -fill [::skin::getKey loginurlfg]]
 
 		set more_label [$self create text 0 0 -anchor nw -text [trans more]]
 
@@ -209,9 +209,10 @@ snit::widgetadaptor loginscreen {
 		foreach checkbutton [list $rem_me_field $rem_pass_field $auto_login_field] {
 			if {[OnMac]} {
 				# Checkbuttons already look nice for us.
-				$checkbutton configure -relief flat -highlightthickness 0 -bd 0 -bg white -selectcolor white
+				$checkbutton configure -relief flat -highlightthickness 0 -bd 0 -bg [::skin::getKey loginbg] -selectcolor [::skin::getKey logincheckfg]
 			} else {
-				$checkbutton configure -relief flat -highlightthickness 0 -bd 0 -bg white -selectcolor white \
+				$checkbutton configure -relief flat -highlightthickness 0 -bd 0 \
+					-bg [::skin::getKey loginbg] -selectcolor [::skin::getKey logincheckfg] \
 					-image [::skin::loadPixmap checkbox] -selectimage [::skin::loadPixmap checkbox_on] -indicatoron 0
 			}
 		}
@@ -393,7 +394,7 @@ snit::widgetadaptor loginscreen {
 		eval contentmanager bind $tree <Leave> [list "$self configure -cursor left_ptr"]
 		eval contentmanager bind $tree <ButtonRelease-1> [list "$self LinkClicked $canvas_tag %x %y $cmd"]
 		# Make it blue :)
-		$self itemconfigure $canvas_tag -fill blue
+		$self itemconfigure $canvas_tag -fill [::skin::getKey loginurlfg]
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -593,7 +594,7 @@ snit::widgetadaptor loginscreen {
 			# De-select 'remember me' field
 			$rem_me_field deselect
 			# Disable 'forget me' button
-			$self itemconfigure $forget_me_label -fill #666666 -state disabled
+			$self itemconfigure $forget_me_label -fill [::skin::getKey disabledfg] -state disabled
 			if { [::config::getGlobalKey disableprofiles] != 1 } {
 				$rem_me_field configure -state normal
 			}
@@ -624,7 +625,7 @@ snit::widgetadaptor loginscreen {
 			$rem_me_field select
 			$rem_me_field configure -state disabled
 			# Enable 'forget me' buttton
-			$self itemconfigure $forget_me_label -fill blue -state normal
+			$self itemconfigure $forget_me_label -fill [::skin::getKey loginurlfg] -state normal
 			# Switch to this profile
 			ConfigChange $combo $user
 			# Get states
