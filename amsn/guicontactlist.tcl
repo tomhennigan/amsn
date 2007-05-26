@@ -2208,6 +2208,7 @@ namespace eval ::guiContactList {
 
 		set ::Bulle(first) 0; kill_balloon
 		$canvas delete uline_$tag
+		$canvas raise $tag
 	}
 
 	proc contactCheckDoubleClick { callback tag x y t } {
