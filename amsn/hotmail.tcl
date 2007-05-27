@@ -180,8 +180,11 @@ namespace eval ::hotmail {
 				incr oim_count
 				set from [GetXmlEntry $mailList ":MD:M:E" $oim_count]
 				set nick [GetXmlEntry $mailList ":MD:M:N" $oim_count]
+
+				# When we receive the notification while being signed in (appear offline for example) the base64
+				# has a space in the end (probably a bug in the server) so we remove it here ot make it 'normal'
 				if { [string range $nick end-2 end] == " ?=" } {
-					set nick [string range $nick end-2 end]
+					set nick [string range $nick 0 end-3]
 					append nick "?="
 				}
 				set oim [list $from $nick $oim_message]
