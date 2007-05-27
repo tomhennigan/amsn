@@ -2920,12 +2920,13 @@ namespace eval ::MSNOIM {
 			set ctype [$msg getHeader Content-type]
 			set cencoding [$msg getHeader Content-Transfer-Encoding]
 			set arrivalTime [$msg getHeader X-OriginalArrivalTime]
-			set parts [split $from " "]
-			set nick [lindex $parts 0]
-			set email [lindex $parts 1]
-			if {$email != "" } {
-				set email [string trim $email " <>"]
+			if { ![regexp {([^\<]*)\s?\<([^\>]+)\>} $from -> nick email] } {
+				set email $from
+				set nick $from
+			} elseif { $nick == ""} {
+				set nick $email
 			}
+			set email [string trim $email " <>"]
 			set nick [parseFieldEncoding $nick]
 			if { $cencoding == "base64" } {
 				set body [encoding convertfrom identity [string map {"\r\n" "\n"} [base64::decode [string trim $body]]]]
