@@ -6,22 +6,22 @@ amsn_lang_version 2
 #
 load_game_failed Falló la carga del juego
 invite_sent Eviada invitación para comenzar
-accepted_invitation Invitación aceptada
-declined_invitation Invitación rechazada
-wants_to_play Quieres jugar
+accepted_invitation $1 aceptó la invitación
+declined_invitation $1 rechazó la invitación
+wants_to_play $1 quiere jugar
 Games Juegos
 TwoPlayerGames Juegos de dos jugadores
 MultiPlayerGames Juegos de Multi-Jugadores (Conferencia)
-Dots_and_Boxes Dots and Boxes
+Dots_and_Boxes Puntos y Cuadrados
+Hangman Ahorcado
 Sketch Sketch
-Accept Aceptado
-Reject Rechazado
-incompatible_version Atención, No estás usando la misma versión del plugin!
-uses_version Versión de uso
+Accept Aceptar
+Reject Rechazar
+incompatible_version Atención, ¡no estáis usando la misma versión del plugin! Tú tienes la versión $1, mientras que $2 tiene la versión $3.
 missing_plugin Probablemente no tengas este plugin cargado o instalado
-timeout time-out set to
-seconds Segundos
-wrong_game_type Comenzar juegos de dos jugadores en ventanas privadas y juegos de multi-jugadores en ventanas de conferencia
+timeout time de espera ajustado a $1 segundos
+wrong_game_type Comenzar juegos de dos jugadores en ventanas privadas y juegos de multi-jugadores en ventanas de conferencia.
+advertise $1 solicitó un juego de aMSN contigo. Parece que $2 no tiene aMSN or o no tiene el plugin de Juegos cargado. Para poder jugar con tus amigos, descarga aMSN desde $3 e instala el plugin Juegos disponible en $4.
 #
 # ================================================
 # Claves de idioma usadas en Dots and Boxes
@@ -35,19 +35,53 @@ yellow Amarillo
 random Aletorio
 challenge Retar
 cancel Cancelar
-wins Gandor(es)
+wins Ganador(es)
 draws Dibujo(s)
-your_turn Tu turno, haz tu jugada
-not_your_turn Esperando a qué juegue el oponente.
-movelist Mover Lista
+your_turn Tu turno, haz tu jugada.
+not_your_turn Esperando a que juegue tu oponente.
+movelist Mover la lista
 players Jugadores
-status Status
+status Estado
 initializing Inicializando...
-game_over_win Fin del Juego. Felicitaciones, Haz ganado!
+game_over_win Fin del Juego. ¡Enhorabuena, has ganado!
 game_over_lose Perdiste, suerte para la próxima.
-game_over_draw Fin del juego, game is drawn.
-click_rematch Click para contra retar
-quits Has salido del juego.
+game_over_draw Fin del juego, se dibujó el juego.
+click_rematch Pincha para la revancha
+quits $1 ha dejado el juego.
+margin_width Anchura del margen
+margin_height Altura del margen
+width_of_box Anchura del cuadrado
+height_of_box Altura del cuadrado
+dot_size Tamaño del punto
+space_around_dot Espacio alrededor del punto
+#
+# ================================================
+# Claves de idioma usadas en Hangman
+# ================================================
+#
+alphabet {a á â à ä ã å Å Á Ã Ä À Â} b {c ç Ç} d {e é ê ë è É E Ê È} f g h {i í ì î ï Í Î Ï Ì} j k l m {n ñ Ñ} {o ó ô ö ò õ Ô Ò Ö Õ Ó} p q r s t {u ù ú ü û Ú Û Ü Ù} v w x y z
+send_word_to_guess Enviar la palabra que tiene que adivinar tu oponente.
+wait_for_word Esperar a que el oponente envíe la palabra que tienes que adivinar.
+click_sends_guess Pincha para enviar tu adivinanza
+Scores Puntuaciones
+round ronda
+Word Palabra
+invalid_word La palabra debe contener más letras para adivinarla y nunca por debajo de las puntuaciones; prueba con otra palabra.
+game_started Juego iniciado, pincha los botones de las letras o escribe las letras para hacer las adivinanzas.
+you_hang ¡Ahorcado! (El oponente continúa)
+word_found ¡Palabra encontrada! (El oponente continúa)
+game_over_02 Has perdido, el oponente encontró la solución: 0-2.
+game_over_20 Has ganado, el oponente se ahorcó: 2-0.
+game_over_00 El juego se dibujó, ambos jugadores ahorcados: 0-0.
+game_over_21 Has ganado, hiciste menos errores: 2-1.
+game_over_12 Has perdido, el oponente hizo menos errores: 1-2.
+game_over_11 El juego se dibujó, mismo número de errores: 1-1.
+fl_method Selecciona el método para las letras libres
+fl_none Sin niguna letra libre
+fl_first Dar la primera letra
+fl_random Dar letras aleatorias
+guesses_remaining quedan $1 adivinanzas
+rematch_quick Tu oponente está esperándote, pincha revancha para iniciar una nueva ronda.
 #
 # ================================================
 # Claves de idioma usadas en Sketch
@@ -56,28 +90,27 @@ quits Has salido del juego.
 select_language Seleciona el idioma para el juego
 Time Tiempo
 wrong_guesses No adivinaste
-sketch_tools Herramientas Sketch 
+sketch_tools Herramientas de Sketch 
 Color Color
 Eraser Borrador
 Clear Limpiar
 Skip Saltar
-Save Salvar
+Save Guardar
 make_guesses Adivinar
 Send Enviar
 Violation Violación
-wait_for_host Esperando por el anfitrión para empezar el juego
-wait_for_players Espere que todos ingresen y haga click en Comenzar
-button ->
+wait_for_host Esperando al anfitrión para comenzar el juego.
+wait_for_players Espera hasta que se unan todos y a continuación pincha en el botón Comenzar
 Start Comenzar
-save_drawing Salvar dibujo
+save_drawing Guardar dibujo
 Round Ronda
-you_draw Tienes que dibujar
-you_guess Debes adivinar la palabra que es dibujada; recall lanuage is set to
-correct_guess ¡Adivinaste! La solución es:
+you_draw tienes que dibujar $1.
+you_guess tienes que adivinar la palabra que se está dibujando; la rellamada del idioma se ajustó a $1.
+correct_guess ¡Adivinaste! La solución es: $1.
 points Puntos
-choose_bkgcol Escoje el color de fondo
-empty_dictionary Este diccionario no contiene palabras que pueden ser usadas en el juego Sketch, selecione otro lenguaje para el juego, ó acomode su el archivo del lenguaje de forma correcta
-hourglass_courtesy Reloj de arena cortecía de Bernd Breitenbach.
+choose_bkgcol Elige el color de fondo
+empty_dictionary Este diccionario no contiene ninguna palabra que se pueda usar en el juego Sketch, selecciona otro idioma para este juego, o rellena tu archivo de idioma acomode correctamente.
+hourglass_courtesy Reloj de arena cortesía de Bernd Breitenbach.
 #
 # ================================================
 # Sketch diccionario de palabras
@@ -87,24 +120,24 @@ hourglass_courtesy Reloj de arena cortecía de Bernd Breitenbach.
 # -> "email" and "mail" son palabras permitidas para adivinar
 # ================================================
 #
-word_0 computador
-word_1 avión, avion
-word_2 e-mail, email, mail
+word_0 ordenador
+word_1 avión, aeroplano
+word_2 e-mail, email, mail, correo
 word_3 televisión, tv
 word_4 microondas
 word_5 pollo, pollito
-word_6 ajedréz, ajedrez
+word_6 ajedrez
 word_7 sobre, envoltorio
-word_8 pastel
+word_8 tarta, pastel
 word_9 vela
-word_10 perro
+word_10 perro, can
 word_11 gato
-word_12 carro
-word_13 árbol, arbol
-word_14 ratón, raton
-word_15 lentes
-word_16 celular
-word_17 abrigo
+word_12 coche
+word_13 árbol
+word_14 ratón, rata
+word_15 gafas, lentes
+word_16 móvil, celular
+word_17 suéter, jersey
 word_18 zapatos
-word_19 camara
+word_19 cámara
 word_20 manzana

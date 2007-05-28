@@ -1,0 +1,112 @@
+amsn_lang_version 2
+#
+# ================================================
+# Chaves de idioma para o plugin de jogos do amsn
+# ================================================
+#
+load_game_failed Falha no carregamento do Jogo
+invite_sent Enviada requisição para començar
+accepted_invitation Requisição aceitada
+declined_invitation Requisição rejeitada
+wants_to_play Quer jogar
+Games Jogos
+TwoPlayerGames Jogos de dois jogadores
+MultiPlayerGames Jogos de Multi-Jogadores (Conferência)
+Dots_and_Boxes Dots and Boxes
+Sketch Sketch
+Accept Aceitar
+Reject Rejeitar
+incompatible_version Atenção, Não esta usando a mesma versão do plugin!
+uses_version Versão de uso
+missing_plugin Provavelmente não tenha este plugin carregado ou instalado
+timeout Tempo esgotado
+seconds Segundos
+wrong_game_type Começar jogos de dois jogadores em conversas privadas e jogos de multi-jogadores em conversas de conferência
+#
+# ================================================
+# Chaves de idioma usadas no Dots and Boxes
+# ================================================
+#
+specify_configuration Configuração específica do jogo
+select_color Com qual cor quer jogar?
+select_size Diga qual tamanho quer a tábua do jogo?
+black Preto
+white Branco
+red Vermelho
+yellow Amarelo
+random Aleatório
+challenge Desafiar
+cancel Cancelar
+wins Vitória(s)
+draws Desenho(s)
+your_turn Tua vez, faça tua jogada
+not_your_turn Esperando que jogue seu oponente.
+movelist Mover Lista
+players Jogadores
+status Status
+initializing Inicializando...
+game_over_win Fim do Jogo. Parabéns, Você Ganhou!
+game_over_lose Você Perdeu, sorte na próxima.
+game_over_draw Fim do jogo, jogo é drawn.
+click_rematch Click para contra-atacar
+quits Saindo do jogo.
+#
+# ================================================
+# Chaves de idioma usadas no Sketch
+# ================================================
+#
+select_language Selecione o idioma para o jogo
+Time Tempo
+wrong_guesses Não adivinhaste
+sketch_tools Ferramentas Sketch
+Color Cor
+Eraser Apador
+Clear Limpar
+Skip Saltar
+Save Salvar
+make_guesses Adivinhar
+Send Enviar
+Violation Violação
+wait_for_host Esperando pelo anfitrião para iniciar o jogo
+wait_for_players Espere que todos ingressem e então click em Começar
+button Botão
+Start Começar
+save_drawing Salvar desenho
+Round Round
+you_draw Tem que desenhar
+you_guess Deve adivinhar a palavra que é desenhada; recall language is set to
+correct_guess Adivinhaste! A solução:
+points Pontos
+choose_bkgcol Escolha a cor do fundo
+empty_dictionary Este dicionário não contém palavras que podem ser usadas no jogo Sketch, selecione outro idioma para o jogo, ou um idioma de forma correta.
+hourglass_courtesy Hourglass cortesia de Bernd Breitenbach.
+#
+# ================================================
+# Sketch dicionário de palavras
+# -> Exemplo:
+# word_2 e-mail, email, mail
+# -> "e-mail" é a palavra que deve ser mostrada
+# -> "email" e "mail" são palavras permitidas para adivinhar
+# ================================================
+#
+word_0 computador
+word_1 avião
+word_2 e-mail, email, mail
+word_3 televisão, tv
+word_4 microondas
+word_5 galinha
+word_6 chess
+word_7 sobre
+word_8 pastel
+word_9 vela
+word_10 cachorro
+word_11 gato
+word_12 carro
+word_13 Árvore
+word_14 rato
+word_15 lentes
+word_16 celular
+word_17 abrigo
+word_18 sapatos
+word_19 camara
+word_20 maçã
