@@ -9,7 +9,7 @@
 	<plugin_namespace>camshoot</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 
-	<cvs_version>8418</cvs_version>
+	<cvs_version>8773</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>

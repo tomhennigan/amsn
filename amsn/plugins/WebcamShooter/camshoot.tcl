@@ -68,7 +68,6 @@ namespace eval ::camshoot {
 
 			set img [image create photo]
 			toplevel $window
-			::gui::stdbind $window
 			wm title $window "[trans webcamshot]"
 			label $window.l -image $img
 			pack $window.l
