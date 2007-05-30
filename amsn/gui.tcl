@@ -5088,7 +5088,10 @@ proc drawNick { } {
 	
 	set bbox [$pgBuddyTop.mystatus bbox all]
 
-	$pgBuddyTop.mystatus configure -width [lindex $bbox 2] -height [lindex $bbox 3]
+	#make sure we didn't get an empty string (because the status isn't visible anymore)
+	if {$bbox != ""} {
+		$pgBuddyTop.mystatus configure -width [lindex $bbox 2] -height [lindex $bbox 3]
+	}
 }
 
 proc cmsn_draw_online_wrapped {} {
