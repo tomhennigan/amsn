@@ -5089,7 +5089,7 @@ proc drawNick { } {
 	set bbox [$pgBuddyTop.mystatus bbox all]
 
 	#make sure we didn't get an empty string (because the status isn't visible anymore)
-	if {$bbox != ""} {
+	if {[llength $bbox] == 4} {
 		$pgBuddyTop.mystatus configure -width [lindex $bbox 2] -height [lindex $bbox 3]
 	}
 }
