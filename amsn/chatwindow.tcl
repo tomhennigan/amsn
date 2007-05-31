@@ -2071,21 +2071,30 @@ namespace eval ::ChatWindow {
 		frame $sendbuttonframe -borderwidth 0 -bg [::skin::getKey sendbuttonbg]
 		
 		# Send button in conversation window, specifications and command.
-		button $sendbutton -image [::skin::loadPixmap sendbutton] \
+		button $sendbutton -image [::skin::loadPixmap nullimage] \
 		    -command "::amsn::MessageSend $w $text" \
 		    -fg [::skin::getKey sendbuttonfg] -bg [::skin::getKey sendbuttonbg] -bd 0 -relief flat \
 		    -activebackground [::skin::getKey sendbuttonbg] -activeforeground [::skin::getKey sendbuttonfghover] \
 		    -text [trans send] -font sboldf -highlightthickness 0 -pady 0 -padx 0 \
 		    -overrelief flat -compound center
 
+		set send_button_bg [scalable-bg $sendbutton.bg -source [::skin::loadPixmap sendbutton] \
+					-n [::skin::getKey sendbuttony 1] -e [::skin::getKey sendbuttonx 1] \
+					-s [::skin::getKey sendbuttony 1] -w [::skin::getKey sendbuttonx 1] \
+					-resizemethod [::skin::getKey sendbuttonresize "tile"]]
+		
 		# Configure my widgets
 		$sendbutton configure -state normal
 		$text configure -state normal
 
 		# Create my bindings
 		bind $sendbutton <Return> "::amsn::MessageSend $w $text; break"
-		bind $sendbutton <Enter> "$sendbutton configure -image [::skin::loadPixmap sendbutton_hover]"
-		bind $sendbutton <Leave> "$sendbutton configure -image [::skin::loadPixmap sendbutton]"
+
+		bind $sendbutton <Enter> [list $send_button_bg configure -source [::skin::loadPixmap sendbutton_hover]]
+		bind $sendbutton <Leave> [list $send_button_bg configure -source [::skin::loadPixmap sendbutton]]
+		bind $sendbutton <Configure> [list ::ChatWindow::SendButtonResized $sendbutton $send_button_bg %w %h]
+		bind $sendbutton <Destroy> [list $send_button_bg destroy]
+
 		bind $text <Shift-Return> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Control-KP_Enter> {%W insert insert "\n"; %W see insert; break}
 		bind $text <Shift-KP_Enter> {%W insert insert "\n"; %W see insert; break}
@@ -2174,6 +2183,14 @@ namespace eval ::ChatWindow {
 		::dnd bindtarget [::ChatWindow::GetInputText $w] Text <Drop> {%W insert end %D}
 
 		return $input
+	}
+
+	proc SendButtonResized {sendbutton sendbutton_bg width height} {
+		#Don't put {} here for expr as we need to substitute in the current context
+		$sendbutton_bg configure -width [expr $width+2*[::skin::getKey sendbuttonx 1]] \
+		    -height [expr $height+2*[::skin::getKey sendbuttony 1]]
+		bind $sendbutton <Configure> ""
+		$sendbutton configure -image [$sendbutton_bg name]
 	}
 
 	proc OpenPasteMenu { w x y } {

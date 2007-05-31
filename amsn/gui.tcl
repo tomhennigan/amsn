@@ -84,6 +84,8 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey topbarpady 6
 	::skin::setKey loginbuttonx 6
 	::skin::setKey loginbuttony 6
+	::skin::setKey sendbuttonx 6
+	::skin::setKey sendbuttony 6
 	::skin::setKey chat_top_pixmap 0
 	
 	::skin::setKey statusbarbg #eeeeee
