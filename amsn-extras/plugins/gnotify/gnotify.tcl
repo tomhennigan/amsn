@@ -651,7 +651,10 @@ namespace eval ::gnotify {
 	proc open_gmail_account {acnt} {
 		global HOME 
 
-		set page_data {<html><head><noscript><meta http-equiv=Refresh content="0; url=http://www.gmail.com"></noscript></head>}
+		# I have to split the < html > tag into to lines (or in this comment with a space) to avoid the autoupdater to recognize it as being an html page being downloaded
+		# which makes it think that the server returned an error (404 error or whatever) which had a 200 ncode but still was an error.
+		set page_data {<}
+		append page_data {html><head><noscript><meta http-equiv=Refresh content="0; url=http://www.gmail.com"></noscript></head>}
 		append page_data {<body onload="document.pform.submit(); "><form name="pform" action="https://www.google.com/accounts/ServiceLoginAuth" method="POST">}
 		append page_data {<input type="hidden" name="continue" value="http://mail.google.com/mail/">}
 		append page_data {<input type="hidden" name="service" value="mail">}
@@ -901,7 +904,7 @@ namespace eval ::gnotify {
 	}
 
 	proc GetByte { var } {
-		upvar 1 $var data
+		upvar $var data
 
 		binary scan $data(bin) @$data(offset)H2 byte
 		incr data(offset)
@@ -909,7 +912,7 @@ namespace eval ::gnotify {
 	}
 
 	proc GetBytes { var size } {
-		upvar 1 $var data
+		upvar $var data
 		set offset $data(offset)
 		set bytes [string range $data(bin) $offset [expr {$offset + $size - 1}]]
 		incr data(offset) $size
@@ -931,7 +934,7 @@ namespace eval ::gnotify {
 	}
 
 	proc GetMultiByte { var } {
-		upvar 1 $var $var
+		upvar $var $var
 
 		set byte [GetByte $var]
 		set multi [expr {$byte & ~0x80}]
@@ -945,12 +948,12 @@ namespace eval ::gnotify {
 	}
 
 	proc ReadKey { var } {
-		upvar 1 $var $var
+		upvar $var $var
 		return [GetMultiByte $var]
 	}
 
 	proc ReadSize { var } {
-		upvar 1 $var $var
+		upvar $var $var
 		return [GetMultiByte $var]
 	}
 
@@ -966,8 +969,8 @@ namespace eval ::gnotify {
 	}
 
 	proc GetMailAuthor {var size } {
-		upvar 1 $var $var
-		upvar 1 $var data
+		upvar $var $var
+		upvar $var data
 
 		set start $data(offset)
 		set end [expr {$start + $size}]
@@ -1013,8 +1016,8 @@ namespace eval ::gnotify {
 	}
 
 	proc GetMailAuthor2 {var size } {
-		upvar 1 $var $var
-		upvar 1 $var data
+		upvar $var $var
+		upvar $var data
 
 		set start $data(offset)
 		set end [expr {$start + $size}]
@@ -1048,8 +1051,8 @@ namespace eval ::gnotify {
 	}
 
 	proc GetNewMail { var size } {
-		upvar 1 $var $var
-		upvar 1 $var data
+		upvar $var $var
+		upvar $var data
 
 		set start $data(offset)
 		set end [expr {$start + $size}]
