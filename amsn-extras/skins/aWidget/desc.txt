@@ -1,3 +1,4 @@
-Unified by Daniel Buenfil
+aWidget by Daniel Buenfil
 Thnx to: Lee Olson & BigBadBen
+License: GNU/GPL
 danbuenfil@diametro69.com 
