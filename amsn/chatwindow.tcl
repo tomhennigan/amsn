@@ -810,7 +810,8 @@ namespace eval ::ChatWindow {
 	# Creates a new chat window and returns its name (.msg_n - Where n is winid)
 	proc Open { {container ""} } {
 
-		if { [UseContainer] == 0 || $container == "" } {
+		#calling procs check for [UseContainer] as they have to give the container's path]
+		if { $container == "" } {
 			set w [CreateTopLevelWindow]
 	
 			set mainmenu [CreateMainMenu $w]
@@ -883,7 +884,7 @@ namespace eval ::ChatWindow {
 		set evPar(win) "$w"
 		::plugins::PostEvent new_chatwindow evPar
 
-		if { !([UseContainer] == 0 || $container == "" )} {
+		if { $container != "" } {
 			AddWindowToContainer $container $w
 		} else {
 			searchdialog $w.search 
@@ -1128,7 +1129,7 @@ namespace eval ::ChatWindow {
 			wm state $w iconic
 		}
 
-		wm title $w "[trans chat]"
+#		wm title $w "[trans chat]"
 		wm group $w .
 
 		# If the platform is NOT windows, set the windows' icon to our xbm
@@ -3559,8 +3560,11 @@ namespace eval ::ChatWindow {
 			#$usersinchat is "" if user is offline
 			#if more than one user in chat, keep amsn's icon, otherwise use user's DP
 			if { [llength $usersinchat] <= 1 } {
-				#as there are a lot of issues, it's in a catch
-				catch { wm iconphoto $container -default displaypicture_std_$chatid }
+				#the image is corrupted on windows and this method doesn't exist on older Tk's
+				if { ![OnWin] && [version_vcompare [info patchlevel] 8.4.8] >= 0 } {
+					#as there are a lot of issues, it's in a catch
+					catch { wm iconphoto $container -default displaypicture_std_$chatid }
+				}
 			}
 
 			#append all nicknames in the chat first to the title	
