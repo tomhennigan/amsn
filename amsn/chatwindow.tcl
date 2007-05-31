@@ -3495,8 +3495,6 @@ namespace eval ::ChatWindow {
 		variable win2tab
 		variable containerprevious
 		variable containerwindows
-
-		set title ""
 		
 		if { [info exists containerwindows($container)] &&
 		     [lsearch [set containerwindows($container)] $win] == -1 } { 
@@ -3543,19 +3541,30 @@ namespace eval ::ChatWindow {
 
 	}
 
+	#updates the title and the icon of the container window
 	proc UpdateContainerTitle { container } {
 		#get the name of the "window" which is hte name of the tab in fact
 		set win [GetCurrentWindow $container]
 		#get the ID of the chat (email if only one user)
 		set chatid [::ChatWindow::Name $win]
+		set usersinchat [::MSN::usersInChat $chatid]
 
 		#we'll set a title for the container-window, beginning from scratch
 		set title ""
 
+
 #TODO: have the titled made up with a template with vars like $nicknames, $groupname and [trans chat] etc
 		if { $chatid != 0 } {
+
+			#$usersinchat is "" if user is offline
+			#if more than one user in chat, keep amsn's icon, otherwise use user's DP
+			if { [llength $usersinchat] <= 1 } {
+				#as there are a lot of issues, it's in a catch
+				catch { wm iconphoto $container -default displaypicture_std_$chatid }
+			}
+
 			#append all nicknames in the chat first to the title	
-			foreach user [::MSN::usersInChat $chatid] { 
+			foreach user $usersinchat { 
 				#strip out newlines and tabs
 				set nick [string map {"\n" " " "\t" " "} [::abook::getDisplayNick $user]]
 				set title "${title}${nick}, "
