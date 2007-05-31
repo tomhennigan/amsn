@@ -80,7 +80,7 @@ if ($_GET['action'] == 'add') {
     }
 
     if ($_GET['action'] == 'remove' && isset($_POST['id']) && ereg('^[1-9][0-9]*$', $_POST['id'])) {
-        $request = "DELETE FROM `amsn_plugins` WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1"
+        $request = "DELETE FROM `amsn_plugins` WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1";
         if (mysql_query($request)) {
             echo "<p>Plugin successfully deleted</p>\n";
             return;
