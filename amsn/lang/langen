@@ -118,6 +118,7 @@ cancel Cancel
 cancelled Cancelled
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
 cantexec Can't execute application: $1. Check preferences
+cantget Couldn't get $1
 cantloadonlineversion Can't recover the On-Line updated list of languages from the Internet
 cantremoveothers The "Others" group cannot be removed
 captureextloaded Capture extension -$1- is loaded
