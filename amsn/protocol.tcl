@@ -2725,7 +2725,7 @@ namespace eval ::MSN {
 			set last_ordering_options ""
 		}
 
-		set new_ordering_options [list [::config::getKey orderusersincreasing 1] [config::getKey orderusersbystatus 1]]
+		set new_ordering_options [list [::config::getKey orderusersincreasing 1] [config::getKey orderusersbystatus 1] [config::getKey emailsincontactlist 0]]
 
 		#Don't sort list again if it's already sorted
 		if { $list_users == "" || $last_ordering_options != $new_ordering_options} {

@@ -3623,9 +3623,9 @@ proc create_main_menu {wmenu} {
 	#-------------------
 	$view add separator	
 	$view add radio -label "[trans showcontactnick]" -value 0 \
-		-variable [::config::getVar emailsincontactlist] -command "::Event::fireEvent changedNickDisplay gui" -state disabled
+	    -variable [::config::getVar emailsincontactlist] -command "::Event::fireEvent changedNickDisplay gui; ::Event::fireEvent changedSorting gui" -state disabled
 	$view add radio -label "[trans showcontactemail]" -value 1 \
-		-variable [::config::getVar emailsincontactlist] -command "::Event::fireEvent changedNickDisplay gui" -state disabled
+		-variable [::config::getVar emailsincontactlist] -command "::Event::fireEvent changedNickDisplay gui; ::Event::fireEvent changedSorting gui" -state disabled
 	#-------------------
 	$view add separator
 	$view add command -label "[trans changeglobnick]..." -command "::abookGui::SetGlobalNick"
