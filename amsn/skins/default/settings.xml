@@ -20,7 +20,7 @@
 		</Colors>
 		<Options>
 			<balloonfont>splainf</balloonfont>
-			<balloonborderwidth>0</balloonborderwidth>
+			<balloonborderwidth>1</balloonborderwidth>
 			<!--Note: On linux, balloonborderwidth 0 gives a border of 1px due to tk platform differences. To have no balloon border, set balloonborderwidth to 0 and have the balloonborder the same colour as the balloonbackground-->
 		</Options>
 		<Geometry>
