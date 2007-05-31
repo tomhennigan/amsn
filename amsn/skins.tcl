@@ -710,7 +710,10 @@ namespace eval ::skin {
 		set skins_in_home [glob -nocomplain -directory [file join $HOME skins] */settings.xml]
 		set skins_in_home2 [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
 		set skins_in_extras [glob -nocomplain -directory [file join $HOME2 amsn-extras skins] */settings.xml]
-		set skins [concat $skins $skins_in_home $skins_in_home2 $skins_in_extras]
+		set skins [concat $skins $skins_in_home2 $skins_in_extras]
+		if { $HOME != $HOME2 } {
+			set skins [concat $skins $skins_in_home]
+		}
 		set skinlist [list]
 
 		foreach skin $skins {
