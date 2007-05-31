@@ -1741,20 +1741,20 @@ namespace eval ::plugins {
 			set URL "[subst $URL]"
 			set token [::http::geturl "$URL" -timeout 120000 -binary 1]
 		} else {
-			return 0
+			return -1
 		}
 
 		set status [::http::status $token]
 		if { $status != "ok" } {
 			::http::cleanup $token
-			return 0
+			return -2
 		}
 
 		set content [::http::data $token]
 		
 		if { [string first "<html>" "$content"] != -1 } {
 			::http::cleanup $token
-			return 0
+			return -3
 		}
 
 		set filename [file join [getInfo $plugin plugin_dir] [getInfo $plugin plugin_file]]

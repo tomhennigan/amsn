@@ -1591,6 +1591,7 @@ namespace eval ::ChatWindow {
 			-command "status_log copy\n;tk_textCopy $w"
 		$menu add command -label [trans paste] \
 			-command "status_log paste\n;tk_textPaste $w"
+		$menu add command -label [trans insertsmiley] -command ""
 
 		return $menu
 	}
@@ -2107,7 +2108,7 @@ namespace eval ::ChatWindow {
 			bind $text <Tab> "focus $sendbutton; break"
 		}
 
-		bind $text <<Button3>> "tk_popup $w.copypaste %X %Y"
+		bind $text <<Button3>> [list ::ChatWindow::OpenPasteMenu $w %X %Y] 
 		bind $text <<Button2>> "paste $w 1"
 
 		#Better binding, works for Tk 8.4 only (see proc tification too)
@@ -2175,6 +2176,11 @@ namespace eval ::ChatWindow {
 		return $input
 	}
 
+	proc OpenPasteMenu { w x y } {
+		$w.copypaste entryconfigure [$w.copypaste index [trans insertsmiley]] \
+		    -command "::smiley::smileyMenu \[winfo pointerx $w\] \[winfo pointery $w\] [::ChatWindow::GetInputText $w]"
+		tk_popup $w.copypaste $x $y
+	}
 
 	###############################################################
 	# HandleFileDrop window data                          	      #
