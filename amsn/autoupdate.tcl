@@ -103,7 +103,7 @@ namespace eval ::autoupdate {
 
 
 		if {[ catch {set tok [::http::geturl $downloadurl -command "::autoupdate::downloadTLS2 $downloadurl"]} res ]} {
-			::autoupdate::errorDownloadingTLS $res
+			::autoupdate::errorDownloadingTLS "" $res
 			catch {::http::cleanup $tok}
 		}
 	}
@@ -111,12 +111,11 @@ namespace eval ::autoupdate {
 	proc downloadTLS2 { downloadurl token } {
 		status_log "status: [http::status $token]\n"
 		if { [::http::ncode $token] == 302} {
-
-
 			upvar #0 $token state
 			array set meta $state(meta)
 			set downloadurl $meta(Location)
 			status_log "got referal to $downloadurl"
+			catch {::http::cleanup $token}
 
 			set w .tlsprogress
 
@@ -138,23 +137,27 @@ namespace eval ::autoupdate {
 
 			wm title $w "[trans tlsinstall]"
 
-			::dkfprogress::SetProgress $w.prbar 0
+			::autoupdate::downloadTLSRedirect $w $downloadurl 
 
-			if {[ catch {set tok [::http::geturl $downloadurl -progress "::autoupdate::downloadTLSProgress $downloadurl" -command "::autoupdate::downloadTLSCompleted $downloadurl"]} res ]} {
-				::autoupdate::errorDownloadingTLS $res
-				catch {::http::cleanup $tok}
-			} else {
-				$w.close configure -command "::http::reset $tok"
-				wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
-			}
 		} else {
-			::autoupdate::errorDownloadingTLS "No redirect from $downloadurl"
+			::autoupdate::errorDownloadingTLS "" [trans cantget $downloadurl]
 			catch {::http::cleanup $token}
 		}
 	}
+	proc downloadTLSRedirect { w downloadurl } {
+		$w.l configure -text "[trans downloadingtls $downloadurl]" 
+		$w.progress configure -text "[trans receivedbytes 0 ?]" 
+		::dkfprogress::SetProgress $w.prbar 0
 		
-
-	proc downloadTLSCompleted { downloadurl token } {
+		if {[ catch {set tok [::http::geturl $downloadurl -progress "::autoupdate::downloadTLSProgress $w $downloadurl" -command "::autoupdate::downloadTLSCompleted $w $downloadurl"]} res ]} {
+			::autoupdate::errorDownloadingTLS $w $res
+			catch {::http::cleanup $tok}
+		} else {
+			$w.close configure -command "::http::reset $tok"
+			wm protocol $w WM_DELETE_WINDOW "::http::reset $tok"
+		}
+	}
+	proc downloadTLSCompleted { w downloadurl token } {
 		global HOME2 tlsplatform
 		status_log "status: [http::status $token]\n"
 		if { [::http::status $token] == "reset" } {
@@ -164,14 +167,32 @@ namespace eval ::autoupdate {
 			return
 		}
 
-		if { [::http::status $token] != "ok" || [::http::ncode $token] != 200} {
-			::autoupdate::errorDownloadingTLS "Couldn't get $downloadurl"
+		if { [::http::status $token] == "ok" && ([::http::ncode $token] == 301 || [::http::ncode $token] == 302)} {
+			upvar #0 $token state
+			
+			array set meta $state(meta)
+			if {[info exists meta(Location)] } {
+				after 100 [list ::autoupdate::downloadTLSRedirect $w $meta(Location)]
+			} else {
+				::autoupdate::errorDownloadingTLS $w [trans cantget $downloadurl]
+			}
+
+			::http::cleanup $token
+			return
+		} elseif { [::http::status $token] != "ok" || [::http::ncode $token] != 200} {
+			::autoupdate::errorDownloadingTLS $w  [trans cantget $downloadurl]
+			::http::cleanup $token
 			return
 		}
 
 		set lastslash [expr {[string last "/" $downloadurl]+1}]
 		set fname [string range $downloadurl $lastslash end]
 
+
+		if { [string length [::http::data $token]] == 0 } {
+			::autoupdate::errorDownloadingTLS $w [trans cantget $downloadurl]
+			return
+		}
 
 		switch $tlsplatform {
 			"solaris26" -
@@ -185,13 +206,13 @@ namespace eval ::autoupdate {
 			"freebsdx86" -
 			"mac" -
 			"win32" {
+				set olddir [pwd]
 				if { [catch {
 					set file_id [open [file join [::config::getKey receiveddir] $fname] w]
 					fconfigure $file_id -translation {binary binary} -encoding binary
 					puts -nonewline $file_id [::http::data $token]
 					close $file_id
 
-					set olddir [pwd]
 					cd [file join $HOME2 plugins]
 
 					if { $tlsplatform == "win32" } {
@@ -202,8 +223,9 @@ namespace eval ::autoupdate {
 					cd $olddir
 					::amsn::infoMsg "[trans tlsinstcompleted]"
 				} res ] } {
+					cd $olddir
 
-					::autoupdate::errorDownloadingTLS $res
+					::autoupdate::errorDownloadingTLS $w $res
 				}
 			}
 			"src" {
@@ -214,7 +236,7 @@ namespace eval ::autoupdate {
 					close $file_id
 					::amsn::infoMsg "[trans tlsdowncompleted $fname [::config::getKey receiveddir] [file join $HOME2 plugins]]"
 				} res ] } {
-					::autoupdate::errorDownloadingTLS $res
+					::autoupdate::errorDownloadingTLS $w $res
 				}
 			}
 			default {
@@ -222,24 +244,23 @@ namespace eval ::autoupdate {
 			}
 		}
 
-		destroy .tlsprogress
+		destroy $w
 		::http::cleanup $token
 	}
 
-	proc downloadTLSProgress {url token {total 0} {current 0} } {
-
-		if { $total == 0 } {
-			::autoupdate::errorDownloadingTLS "Couldn't get $url"
-			return
+	proc downloadTLSProgress {w url token {total 0} {current 0} } {
+		if {$total > 0 } {
+			::dkfprogress::SetProgress $w.prbar [expr {$current*100/$total}]
+			$w.progress configure -text "[trans receivedbytes [::amsn::sizeconvert $current] [::amsn::sizeconvert $total]]"
 		}
-		::dkfprogress::SetProgress .tlsprogress.prbar [expr {$current*100/$total}]
-		.tlsprogress.progress configure -text "[trans receivedbytes [::amsn::sizeconvert $current] [::amsn::sizeconvert $total]]"
 
 	}
 
-	proc errorDownloadingTLS { errormsg } {
+	proc errorDownloadingTLS { w errormsg } {
 		::amsn::errorMsg "[trans errortls]: $errormsg"
-		catch { destroy .tlsprogress }
+		if {$w != "" } {
+			catch { destroy $w }
+		}
 	}
 
 	#///////////////////////////////////////////////////////////////////////
