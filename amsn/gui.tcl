@@ -6371,9 +6371,20 @@ proc show_umenu {user_login grId x y} {
 	::groups::updateMenu menu .user_menu.move_group_menu ::groups::menuCmdMove [list $grId $user_login]
 	::groups::updateMenu menu .user_menu.copy_group_menu ::groups::menuCmdCopy $user_login
 
-	if {[::config::getKey orderbygroup]} {
+	#check if user is in a virtual group 
+	set grIdV 0
+	if { $grId == "offline" || $grId == "mobile" } {
+		set grIdV 1
+	}
+
+	if {[::config::getKey orderbygroup] && !$grIdV} {
 		.user_menu add cascade -label "[trans movetogroup]" -menu .user_menu.move_group_menu
-		.user_menu add cascade -label "[trans copytogroup]" -menu .user_menu.copy_group_menu
+		#you may not copy a contact from "no group" to a normal group
+		if { $grId == "0" } {
+			.user_menu add cascade -label "[trans copytogroup]"  -state disabled
+		} else {
+			.user_menu add cascade -label "[trans copytogroup]" -menu .user_menu.copy_group_menu
+		}	
 	} else {
 		.user_menu add cascade -label "[trans movetogroup]"  -state disabled
 		.user_menu add cascade -label "[trans copytogroup]"  -state disabled
