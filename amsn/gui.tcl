@@ -4899,7 +4899,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 	set fonts [list "sboldf" "sitalf" "splainf" "splainf"]
 
 	bind $pgBuddyTop.bigstate <Enter> +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
-	bind $pgBuddyTop.bigstate <Leave> "+set Bulle(first) 0; kill_balloon;"
+	bind $pgBuddyTop.bigstate <Leave> "+set Bulle(first) 0; kill_balloon 1;"
 	bind $pgBuddyTop.bigstate <Motion> +[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
 	set colorbar $pgBuddyTop.colorbar
@@ -4968,7 +4968,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 		$pgBuddyTop.mail configure -font "{} -$mailheight"
 
 		$pgBuddyTop.mail tag bind mail <Enter> +[list balloon_enter %W %X %Y $balloon_message]
-		$pgBuddyTop.mail tag bind mail <Leave> "+set ::Bulle(first) 0; kill_balloon;"
+		$pgBuddyTop.mail tag bind mail <Leave> "+set ::Bulle(first) 0; kill_balloon 1;"
 		$pgBuddyTop.mail tag bind mail <Motion> +[list balloon_motion %W %X %Y $balloon_message]
 	
 		set evpar(text) pgBuddyTop.mail
@@ -5080,7 +5080,7 @@ proc drawNick { } {
 	$pgBuddyTop.mystatus bind mystatus <Button1-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
 	$pgBuddyTop.mystatus bind mystatus <Enter> \
 		+[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
-	$pgBuddyTop.mystatus bind mystatus <Leave> "+set Bulle(first) 0; kill_balloon"
+	$pgBuddyTop.mystatus bind mystatus <Leave> "+set Bulle(first) 0; kill_balloon 1"
 	$pgBuddyTop.mystatus bind mystatus <Motion> \
 		+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
