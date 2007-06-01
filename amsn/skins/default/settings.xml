@@ -11,12 +11,12 @@
 		<Colors>
 			<balloonbackground>#ffffff</balloonbackground>
 			<balloonborder>#666666</balloonborder>
-			<balloontext>#666666</balloontext>
+			<balloontext>#444444</balloontext>
 			<notifyfg>#000000</notifyfg>
 			<menubackground>#efefef</menubackground>
-			<menuforeground>#666666</menuforeground>
+			<menuforeground>#444444</menuforeground>
 			<menuactivebackground>#dddddd</menuactivebackground>
-			<menuactiveforeground>#666666</menuactiveforeground>
+			<menuactiveforeground>#000000</menuactiveforeground>
 		</Colors>
 		<Options>
 			<balloonfont>splainf</balloonfont>
