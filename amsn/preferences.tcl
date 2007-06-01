@@ -2652,14 +2652,19 @@ proc Fill_users_list_event { path1 path2 args} {
 }
 
 proc getTaskbarHeight {{w .taskBarSize}} {
-    catch {destroy $w}
-    toplevel $w
-    wm state $w zoomed
-    update
-    set val [expr {[winfo screenheight $w]-[winfo height $w]}]
-    destroy $w
-    return $val;
+	global taskbarHeight 
+		
+	catch {destroy $w}
+	# the -bg {} is used as a trick, it's some kind of bug with tk, where 
+	toplevel $w -bg {}
+	wm state $w zoomed
+	update
+	set taskbarHeight [expr {[winfo screenheight $w]-[winfo height $w]}]
+	destroy $w
+	
+	return $taskbarHeight
 }
+
 
 #check if a window is outside the screen and move it in
 proc moveinscreen {window {mindist 0}} {
@@ -2676,6 +2681,10 @@ proc moveinscreen {window {mindist 0}} {
 
 	set scrx [winfo screenwidth .]
 	set scry [winfo screenheight .]
+
+	if {[OnWin] } {
+		incr scry -[getTaskbarHeight]
+	}
 
 	#set wi_geometry [winfo geometry $window]
 	#scan $wi_geometry "%dx%d+%d+%d" winx winy winpx winpy
