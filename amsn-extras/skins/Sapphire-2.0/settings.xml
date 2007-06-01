@@ -11,16 +11,16 @@
 		<Colors>
 			<balloonbackground>#ffffff</balloonbackground>
 			<balloonborder>#666666</balloonborder>
-			<balloontext>#666666</balloontext>
+			<balloontext>#444444</balloontext>
 			<notifyfg>#000000</notifyfg>
 			<menubackground>#efefef</menubackground>
-			<menuforeground>#666666</menuforeground>
+			<menuforeground>#444444</menuforeground>
 			<menuactivebackground>#dddddd</menuactivebackground>
-			<menuactiveforeground>#666666</menuactiveforeground>
+			<menuactiveforeground>#000000</menuactiveforeground>
 		</Colors>
 		<Options>
 			<balloonfont>splainf</balloonfont>
-			<balloonborderwidth>0</balloonborderwidth>
+			<balloonborderwidth>1</balloonborderwidth>
 			<!--Note: On linux, balloonborderwidth 0 gives a border of 1px due to tk platform differences. To have no balloon border, set balloonborderwidth to 0 and have the balloonborder the same colour as the balloonbackground-->
 		</Options>
 		<Geometry>
@@ -38,6 +38,11 @@
 	
 	<Login>
 		<Colors>
+			<loginbg>#ffffff</loginbg>
+			<loginwidgetbg>#ffffff</loginwidgetbg>
+			<loginfg>#000000</loginfg>
+			<loginurlfg>#0000ff</loginurlfg>
+			<logincheckfg>#ffffff</logincheckfg>
 			<loginbuttonbg>#ffffff</loginbuttonbg>
 			<loginbuttonfg>#000000</loginbuttonfg>
 			<loginbuttonfghover>#000000</loginbuttonfghover>
