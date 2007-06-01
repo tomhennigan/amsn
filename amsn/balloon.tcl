@@ -68,12 +68,12 @@ proc change_balloon {target message {pic ""}} {
     set BullePic(${target}) ${pic}
 }
 
-proc kill_balloon {{allow_fade 0}} {
+proc kill_balloon { } {
     global Bulle
     catch {
 	after cancel $Bulle(id)
 	if {[winfo exists .balloon] == 1} {
-		if { [OnMac] && $allow_fade == 1 } {
+		if { [OnMac] } {
 			fade_balloon .balloon
 		} else {
 			destroy .balloon
@@ -83,7 +83,7 @@ proc kill_balloon {{allow_fade 0}} {
     }
 }
 
-proc fade_balloon { w } {
+proc fade_balloon {{w ".balloon"}} {
 	if {![winfo exists $w]} { return; }
 
 	set prev_alpha [wm attributes $w -alpha]
@@ -92,7 +92,7 @@ proc fade_balloon { w } {
 	
 	# Non-compositing wm's will return the previous alpha if the window hasn't faded, so we check for that.
 	# CF. http://www.tcl.tk/man/tcl8.4/TkCmd/wm.htm#M12
-	if {$current_alpha != 0.0 && $current_alpha != $prev_alpha} {
+	if {$current_alpha > 0.0 && $current_alpha != $prev_alpha} {
 		after 50 [list fade_balloon $w]
 	} else {
 		destroy $w

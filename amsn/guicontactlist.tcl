@@ -1732,7 +1732,7 @@ namespace eval ::guiContactList {
 		if { [::config::getKey tooltips] == 1 } {
 			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y "View space items" ]
 			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y "View space items" ]
-			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon 1"
+			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
 		# Add binding for underline if the skinner use it
@@ -1749,7 +1749,7 @@ namespace eval ::guiContactList {
 			set b_pic [::skin::getDisplayPicture $email]
 			$canvas bind $main_part <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y $b_content $b_pic $b_fonts complex]
 			$canvas bind $main_part <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y $b_content $b_pic $b_fonts complex]
-			$canvas bind $main_part <Leave> "+set ::Bulle(first) 0; kill_balloon 1"
+			$canvas bind $main_part <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
 
