@@ -3580,16 +3580,6 @@ namespace eval ::ChatWindow {
 #TODO: have the titled made up with a template with vars like $nicknames, $groupname and [trans chat] etc
 		if { $chatid != 0 } {
 
-			#$usersinchat is "" if user is offline
-			#if more than one user in chat, keep amsn's icon, otherwise use user's DP
-			if { [llength $usersinchat] <= 1 } {
-				#the image is corrupted on windows and this method doesn't exist on older Tk's
-				if { ![OnWin] && [version_vcompare [info patchlevel] 8.4.8] >= 0 } {
-					#as there are a lot of issues, it's in a catch
-					catch { wm iconphoto $container -default displaypicture_std_$chatid }
-				}
-			}
-
 			#append all nicknames in the chat first to the title	
 			foreach user $usersinchat { 
 				#strip out newlines and tabs
@@ -3616,6 +3606,11 @@ namespace eval ::ChatWindow {
 			wm title $container "$title"
 		}
 		
+		#Post event for plugins to know the window title was changed
+		set evPar(title) $title
+		set evPar(win) $win
+		set evPar(chatid) $chatid
+		::plugins::PostEvent chatwin_title_changed evPar
 	}
 
 	#this proc is to get the name of the containerwindow, like groupname for groupchats
