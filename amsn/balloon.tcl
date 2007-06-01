@@ -114,7 +114,8 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
 		toplevel .balloon -relief flat -bg #C3C3C3 \
 		-class Balloonhelp; ::tk::unsupported::MacWindowStyle\
 		style .balloon help none
-		#wm attributes .balloon
+		#Many other apps on OS X have semi tranparent ballons.
+		wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9]
 	} else {
 		wm overrideredirect .balloon 1
 	}
