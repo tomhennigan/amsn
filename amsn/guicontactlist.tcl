@@ -2337,17 +2337,20 @@ namespace eval ::guiContactList {
 			set newgrIdV 0
 			set oldgrIdV 0
 			#Now, we check if groups selected are real
-			foreach group [getGroupList 1] {
-				# Get the group ID
-				set grId [lindex $group 0]
-				if { $grId == $newgrId } {
-					set newgrIdV 1
-				}
-				if { $grId == $oldgrId } {
-					set oldgrIdV 1
+			#We mustn't drag to nogroup but we can drag from it
+			if { $newgrId != 0 } {
+				foreach group [getGroupList 1] {
+					# Get the group ID
+					set grId [lindex $group 0]
+					if { $grId == $newgrId } {
+						set newgrIdV 1
+					}
+					if { $grId == $oldgrId } {
+						set oldgrIdV 1
+					}
 				}
 			}
-	
+
 			if { $newgrId == $oldgrId || !$newgrIdV || !$oldgrIdV } {
 				#if the contact was dragged to the group of origin or is from/to an fake group, just move it back
 				::guiContactList::organiseList $canvas
