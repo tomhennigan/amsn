@@ -197,7 +197,7 @@
 			<chat_output_padx>0</chat_output_padx>
 			<chat_output_pady>2</chat_output_pady>
 			<chat_buttons_padx>0</chat_buttons_padx>
-			<chat_buttons_pady>2</chat_buttons_pady>
+			<chat_buttons_pady>1</chat_buttons_pady>
 			<chat_input_padx>5</chat_input_padx>
 			<chat_input_pady>2</chat_input_pady>
 			<chat_dp_padx>2</chat_dp_padx>
@@ -216,6 +216,8 @@
                         <tab_text_width>80</tab_text_width>
                         <tab_close_x>83</tab_close_x>
                         <tab_close_y>6</tab_close_y>
+			<topbarpady>6</topbarpady>
+			<topbarpadx>6</topbarpadx>
 		</Geometry>
 	</ChatWindow>
 
