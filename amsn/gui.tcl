@@ -242,7 +242,7 @@ if { $initialize_amsn == 1 } {
 namespace eval ::amsn {
 
 	namespace export initLook aboutWindow showHelpFile errorMsg infoMsg \
-		blockUnblockUser blockUser unblockUser deleteUser \
+		blockUnblockUser blockUser unblockUser deleteUser removeUserFromGroup \
 		fileTransferRecv fileTransferProgress \
 		errorMsg notifyAdd initLook messageFrom userJoins userLeaves \
 		updateTypers ackMessage nackMessage chatUser
@@ -745,6 +745,13 @@ namespace eval ::amsn {
 	proc unblockUser {user_login} {
 		set name [::abook::getNick ${user_login}]
 		::MSN::unblockUser ${user_login} [urlencode $name]
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	proc removeUserFromGroup {user_login grId} {
+		::MSN::removeUserFromGroup $user_login $grId
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -6382,16 +6389,23 @@ proc show_umenu {user_login grId x y} {
 		#you may not copy a contact from "no group" to a normal group
 		if { $grId == "0" } {
 			.user_menu add cascade -label "[trans copytogroup]"  -state disabled
+			.user_menu add command -label "[trans removefromgroup]"  -state disabled
 		} else {
 			.user_menu add cascade -label "[trans copytogroup]" -menu .user_menu.copy_group_menu
+			.user_menu add command -label "[trans removefromgroup]" -command "::amsn::removeUserFromGroup ${user_login} $grId"
 		}	
 	} else {
 		.user_menu add cascade -label "[trans movetogroup]"  -state disabled
 		.user_menu add cascade -label "[trans copytogroup]"  -state disabled
+		.user_menu add command -label "[trans removefromgroup]"  -state disabled
 	}
 
-	#delete
-	.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
+	#delete, if in a normal group, only from current group, otherwise from all groups and FL
+	if { $grIdV || $grId == "0" } {
+		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"
+	} else {
+		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
+	}
 
 	#-----------------------
 	.user_menu add separator

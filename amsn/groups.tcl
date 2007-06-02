@@ -821,18 +821,17 @@ namespace eval ::groups {
 			::config::unsetKey tempgroup_[::md5::md5 $email]($gid)
 		}
 
-		#If the contact doesn't belong to any groups, put it in the "Nogroup" group
-		if {$gidlistyes == ""} {
-			lappend gidlistyes 0
-			set gidlistno [lrange $gidlistno 1 end]
-		}
-
 		set timer 0
 
 		#First add the contact to the new groups
 		foreach gid $gidlistyes {
 			if {[lsearch [::abook::getGroups $email] $gid] == -1} {
-				after $timer [list ::MSN::copyUser $email $gid]
+				#If user was in "no group" before, he has to be moved to make him disappear in "no group"
+				if {[::abook::getGroups $email] == "0" && $timer == 0} {
+					after $timer [list ::MSN::moveUser $email "0" $gid]
+				} else {
+					after $timer [list ::MSN::copyUser $email $gid]
+				}
 				set timer [expr {$timer + 1000}]
 			}
 		}
@@ -840,7 +839,7 @@ namespace eval ::groups {
 		#Then remove their from the former groups
 		foreach gid $gidlistno {
 			if {[lsearch [::abook::getGroups $email] $gid] != -1} {
-				after $timer [list ::MSN::deleteUser $email $gid]
+				after $timer [list ::MSN::removeUserFromGroup $email $gid]
 				set timer [expr {$timer + 1000}]
 			}
 		}

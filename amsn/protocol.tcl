@@ -818,7 +818,7 @@ namespace eval ::MSN {
 
    #TODO: Export missing procedures (the one whose starts with lowercase)
    namespace export changeName logout changeStatus connect blockUser \
-   unblockUser addUser deleteUser login myStatusIs \
+   unblockUser addUser removeUserFromGroup deleteUser login myStatusIs \
    cancelReceiving cancelSending moveUser
 
 	if { $initialize_amsn == 1 } {
@@ -1526,13 +1526,32 @@ namespace eval ::MSN {
 	}
 
 
+	#Remove user from a groups
+	proc removeUserFromGroup { userlogin grId } {
+		if {[::abook::getGroups $userlogin] == "0"} {
+			return
+		}
+	
+		if { [::config::getKey protocol] == 11 } {
+			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $grId"
+		} else {
+			::MSN::WriteSB ns REM "FL $userlogin $grId"
+		}
+
+		#If if's the last group, add contact to "no group"
+		if { [llength [::abook::getGroups $userlogin]] == 1 } {
+			::abook::addContactToGroup $userlogin "0"
+		}
+	}
+
+
 	#Delete user (from a given group $grID, or from all groups)
 	proc deleteUser { userlogin {grId ""}} {
 		if { [::config::getKey protocol] == 11 } {
-			if { $grId == "0" } {
+			if { $grId == "" } {
 				#We remove from every where
 				foreach groupID [::abook::getGroups $userlogin] {
-					::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid $groupID]"
+					::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $groupID"
 				}
 				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
 			} else {
