@@ -6962,9 +6962,11 @@ proc updateDpBrowserSelection { browser target } {
 
 #proc chooseFileDialog {basename {initialfile ""} {types {{"All files"         *}} }} {}
 proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {operation "open"} {types {{ "All Files" {*} }} }} {
-	if { $parent == "" } {
-		set parent "."
+	if { $parent == "" || ![winfo exists $parent] } {
 		catch {set parent [focus]}
+		if { $parent == "" } {
+			set parent "."
+		}
 	}
 
 	global  starting_dir
