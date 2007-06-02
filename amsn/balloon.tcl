@@ -73,11 +73,7 @@ proc kill_balloon { } {
     catch {
 	after cancel $Bulle(id)
 	if {[winfo exists .balloon] == 1} {
-		if { [OnMac] } {
-			fade_balloon .balloon
-		} else {
-			destroy .balloon
-		}
+		fade_balloon .balloon
 	}
 	set Bulle(set) 0
     }
@@ -85,8 +81,13 @@ proc kill_balloon { } {
 
 proc fade_balloon {{w ".balloon"}} {
 	if {![winfo exists $w]} { return; }
-
-	set prev_alpha [wm attributes $w -alpha]
+	
+	catch {set prev_alpha [wm attributes $w -alpha]} res
+	if { $res == 1 } {
+		# Then the wm doesn't support the -alpha attribute.
+		destroy $w
+		return
+	}
 	set new_alpha [expr $prev_alpha - 0.05]
 	set current_alpha [wm attributes $w -alpha $new_alpha]
 	
