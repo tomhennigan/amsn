@@ -221,6 +221,12 @@ namespace eval ::growl {
 		upvar 2 evpar newvar
 		upvar 2 user user
 		upvar 2 substate substate
+		
+		if { ![info exists newvar(user)] } {
+			# We aren't logged in (or we are logging in).
+			return;
+		}
+		
 		#Define the 3 variables
 		set newstate $substate
 		set email $user
