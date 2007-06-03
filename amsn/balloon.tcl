@@ -82,8 +82,7 @@ proc kill_balloon { } {
 proc fade_balloon {{w ".balloon"}} {
 	if {![winfo exists $w]} { return; }
 	
-	catch {set prev_alpha [wm attributes $w -alpha]} res
-	if { $res == 1 } {
+	if { [catch {set prev_alpha [wm attributes $w -alpha]} ] } {
 		# Then the wm doesn't support the -alpha attribute.
 		destroy $w
 		return
@@ -93,7 +92,7 @@ proc fade_balloon {{w ".balloon"}} {
 	
 	# Non-compositing wm's will return the previous alpha if the window hasn't faded, so we check for that.
 	# CF. http://www.tcl.tk/man/tcl8.4/TkCmd/wm.htm#M12
-	if {$current_alpha > 0.0 && $current_alpha != $prev_alpha} {
+	if {$new_alpha > 0.0 && $new_alpha != $prev_alpha} {
 		after 50 [list fade_balloon $w]
 	} else {
 		destroy $w
@@ -141,6 +140,7 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
 		wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9]
 	} else {
 		wm overrideredirect .balloon 1
+		catch {wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9]}
 	}
 
 	frame .balloon.f -bg [::skin::getKey balloonbackground]
