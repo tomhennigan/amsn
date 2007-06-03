@@ -1527,9 +1527,11 @@ namespace eval ::guiContactList {
 				set icon [::skin::loadPixmap belloff]
 			}
 			
+			lappend stylestring [list "tag" "-$main_part"]
 			lappend stylestring [list "tag" "alarm_$email"]
 			lappend stylestring [list "image" "$icon" "nw"]
 			lappend stylestring [list "tag" "-alarm_$email"]
+			lappend stylestring [list "tag" "$main_part"]
 
 			incr marginx [image width $icon]
 
