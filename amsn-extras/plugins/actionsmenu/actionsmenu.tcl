@@ -13,11 +13,12 @@
 #TODO plugin update <-- thinkin'about
 #TODO bind to esc button <- done
 #TODO scrollbar in listbox <- done
-
+#TODO Configuration window <- done
 
 namespace eval ::actionmenu {
-	variable dir
-
+	package require framec
+	variable config
+	variable configlist
 
 proc Init { dir } {
 	global HOME HOME2
@@ -36,11 +37,45 @@ proc Init { dir } {
 	::skin::setPixmap img_find actions_find.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
 	::skin::setPixmap img_collapsecol actions_collapsecol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
 
+	array set ::actionmenu::config {
+		search 0
+		show 0
+	}
+	
+	set ::actionmenu::configlist [list \
+						[list frame ::actionmenu::populatesearchframe ""] \
+						[list frame ::actionmenu::populateshowframe ""] \
+						]
 	after 2000 "catch { ::actionmenu::redraw 0 }"
-
+	
+	status_log "Actionmenu loaded"
+	
 }
 
+proc populatesearchframe { win_name } {
+	variable config
+	variable search
+	frame $win_name.search -class Degt
+	label $win_name.search.text1 -text "[trans search] default" -padx 5 -font splainf
+	pack $win_name.search $win_name.search.text1
+	
+	radiobutton $win_name.search.1 -text "[trans all]" -variable ::actionmenu::config(search) -value 0
+	radiobutton $win_name.search.2 -text "[trans nick]" -variable ::actionmenu::config(search) -value 1
+	radiobutton $win_name.search.3 -text "[trans email]" -variable ::actionmenu::config(search) -value 2
+	pack $win_name.search.1 $win_name.search.2 $win_name.search.3 -anchor w -side top
+}
 
+proc populateshowframe { win_name } {
+	variable config
+	variable show
+	frame $win_name.show -class Degt
+	label $win_name.show.text1 -text "[trans show] default" -padx 5 -font splainf
+	pack $win_name.show $win_name.show.text1
+	
+	radiobutton $win_name.show.1 -text "[trans nick]" -variable ::actionmenu::config(show) -value 0
+	radiobutton $win_name.show.2 -text "[trans email]" -variable ::actionmenu::config(show) -value 1
+	pack $win_name.show.1 $win_name.show.2 -anchor w -side top
+}
 proc DeInit { } {
 #When the plugin gets unloaded, remove the actions button if existing
 	set actions .main.actions
@@ -50,7 +85,12 @@ proc DeInit { } {
 	destroy .searchwindow
 }
 
-
+proc ConfigList {} {
+	
+set ::actionmenu::configlist [list \
+			  [list bool "[trans notify1]" ] 
+	
+}
 proc draw { event evpar } {
 	if { $event !=00 } { upvar 2 $evPar vars } {
 
@@ -141,7 +181,7 @@ proc OnMac {} {
 
 proc createsearchwindow { } {
 	variable output [list]
-	
+	variable config
 	if { [winfo exists .searchwindow] } { destroy .searchwindow }
 
 	toplevel .searchwindow
@@ -155,10 +195,11 @@ proc createsearchwindow { } {
 		wm resizable .searchwindow 1 1
 	}
 	wm title .searchwindow "[trans search]"
-
-#	label .searchwindow.l -font sboldf -text "[trans search]"
-	entry .searchwindow.chars -width 50 -bg #FFFFFF -font splainf 
 	
+#	label .searchwindow.l -font sboldf -text "[trans search]"
+	
+	
+	entry .searchwindow.chars -width 50 -bg #FFFFFF -font splainf	
 	
 	listbox .searchwindow.userbox -borderwidth 0 -takefocus 1 -bg white -highlightthickness 1 -yscrollcommand ".searchwindow.userbox.ys set"
 	
@@ -171,15 +212,25 @@ proc createsearchwindow { } {
 	foreach i {all nick email} {
 		.searchwindow.selector.search_combo list insert end "[trans $i]"
 	}
+	
+	
+	if { $config(search) == 0 } {
 	.searchwindow.selector.search_combo select 0
-
+	} elseif { $config(search) == 1 } {
+		.searchwindow.selector.search_combo select 1
+		} elseif { $config(search) == 2 } {
+			.searchwindow.selector.search_combo select 2
+		}
 	label .searchwindow.selector.show_label -text "[trans show]: " -anchor w
 	combobox::combobox .searchwindow.selector.show_combo -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf
 	foreach i { Nick Email} {
 		.searchwindow.selector.show_combo list insert end $i
 	}
+	if { $config(show) == 0 } {
 	.searchwindow.selector.show_combo select 0
-	
+	} elseif { $config(show) == 1 } {
+		.searchwindow.selector.show_combo select 1
+	}
 
 	
 	frame .searchwindow.b
@@ -187,9 +238,34 @@ proc createsearchwindow { } {
 	button .searchwindow.b.close -text [trans close]  -command "::actionmenu::closewindow"
 	button .searchwindow.b.copycontact -text [trans copycontact] -command "::actionmenu::copycontact"
 	button .searchwindow.b.sendmsg -text [trans sendmsg] -command "::actionmenu::openwindow"
-
+	
+	#############################################################
+	# Automatic search by char input			    #
+	#############################################################
 	
 
+	#set charsentry [.searchwindow.chars]
+
+		     
+	#set charstyped [.searchwindow.chars getinnerframe].charstyped
+	
+	#catch {
+	#bind $charsentry <<KeyRelease>> ""
+	
+	#$charsentry edit modified false
+	
+	#bind $charsentry <<KeyRelease>> "::actionmenu::autosearch"
+	#}
+
+	#foreach chars $charstyped {
+	
+	#while { $charstyped != "" } {
+	#	after 300 "catch { ::actionmenu::searchuser } "
+	#	continue
+	#	}
+	#}
+	#############################################################
+	
 	pack .searchwindow.userbox.ys -side right -fill both
 	pack .searchwindow.b.search .searchwindow.b.close -side right -padx 5		
 #	pack .searchwindow.l -side top -anchor sw -padx 10 -pady 3
@@ -214,6 +290,10 @@ proc createsearchwindow { } {
 		raise .searchwindow
 		focus .searchwindow.chars
 	}
+}
+
+proc autosearch { } {
+	after 100 "catch { ::actionmenu::searchuser } "
 }
 
 proc searchuser { } {
@@ -250,13 +330,16 @@ proc searchuser { } {
 	} else {
 		foreach contact $output {
 			if {$show == "[trans email]"} {
-				.searchwindow.userbox insert end $contact
+#				.searchwindow.userbox insert end $contact
+				.searchwindow.userbox insert end "$contact ([trans [::MSN::stateToDescription [::abook::getVolatileData $contact State]]])"
 			} else {
-				.searchwindow.userbox insert end [::abook::getNick $contact]
+#				.searchwindow.userbox insert end [::abook::getNick $contact]
+				.searchwindow.userbox insert end "[::abook::getNick $contact] ([trans [::MSN::stateToDescription [::abook::getVolatileData $contact State]]])"
 			}
 		}
 	}
 }
+
 
 
 proc openwindow {} {
