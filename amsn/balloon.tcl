@@ -93,7 +93,7 @@ proc fade_balloon {{w ".balloon"}} {
 	# Non-compositing wm's will return the previous alpha if the window hasn't faded, so we check for that.
 	# CF. http://www.tcl.tk/man/tcl8.4/TkCmd/wm.htm#M12
 	if {$new_alpha > 0.0 && $new_alpha != $prev_alpha} {
-		after 50 [list fade_balloon $w]
+		after 25 [list fade_balloon $w]
 	} else {
 		destroy $w
 	}
