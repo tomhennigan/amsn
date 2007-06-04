@@ -1395,69 +1395,6 @@ proc dlgCopyUser {} {
 	pack .dlgcu.b  -side top -anchor e -pady 3
 }
 
-## This is used to move all the contacts from a group to nogroup ##
-proc BuidarGrup { lfcontact } {
-	global rbsel
-	if {![info exists rbsel]} {return;}
-	set answer [::amsn::messageBox "[trans confirmeg]" yesno question "[trans confirm]" .cfg]
-	if { $answer == "no" } { return; }
-	if { $rbsel == 0 } { return; }
-	set contacts [::MSN::getList FL]
-	set i 0
-	while { $i < [llength $contacts] } {
-		set contact [lindex $contacts $i]
-		foreach gp [::abook::getContactData $contact group] {
-			if { $gp == $rbsel } {
-				::MSN::deleteUser $contact $rbsel
-				RefreshContactList $lfcontact
-			}
-		}
-		incr i
-	}
-}
-
-## This is used to delete a group in preferences ##
-proc dlgDelGroup { lfgroup lfcontact } {
-	global rbsel
-	if {![info exists rbsel]} {return;}
-	set answer [::amsn::messageBox  "[trans confirmdg]" yesno question "[trans confirm]" .cfg]
-	if { $answer == "no" } { return; }
-	::groups::Delete $rbsel dlgMsg
-	RefreshGroupList $lfgroup $lfcontact
-}
-
-## This is used to rename a group in preferences ##
-proc dlgRenGroup { lfgroup lfcontact } {
-	global rbsel
-	if {![info exists rbsel]} {return;}
-	::groups::dlgRenameThis $rbsel
-	tkwait window .dlgthis
-	RefreshGroupList $lfgroup $lfcontact
-}
-
-## This is used when we remove contact from list in preferences ##
-proc dlgRFL { lfcontact } {
-	global rbsel rbcon
-	if {![info exists rbcon]} {return;}
-	if {![info exists rbsel]} {return;}
-	set answer [::amsn::messageBox "[trans confirmrfl]" yesno question "[trans confirm]" .cfg]
-	if { $answer == "no" } { return; }
-	if { $rbsel != -1 } {
-		::MSN::deleteUser $rbcon $rbsel
-		RefreshContactList $lfcontact
-	}
-}
-
-## This is used to delete a user in preferences ##
-proc dlgDelUser { lfcontact } {
-	global rbcon
-	if {![info exists rbcon]} {return;}
-	set answer [::amsn::messageBox "[trans confirmdu]" yesno question "[trans confirm]" .cfg]
-	if { $answer == "no" } { return; }
-	::MSN::deleteUser $rbcon
-	RefreshContactList $lfcontact
-}
-
 proc connection_check { lfname } {
 	$lfname.1.ftport.test configure -text [trans connecting]
 	::abook::getIPConfig
@@ -1910,68 +1847,6 @@ proc Preferences { { settings "personal"} } {
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
 	set frm [$frm.sw.sf getframe]
-
-	## frames ##
-#	set lfgroup [labelframe $frm.lfgroup -text [trans groups] -font splainf]
-#	pack $frm.lfgroup -anchor n -side top -expand 1 -fill x
-#	set lfcontact [labelframe $frm.lfcontact -text [trans contactlist] -font splainf]
-#	pack $frm.lfcontact -anchor n -side top -expand 1 -fill x
-
-#	## Group Selection Frame ##
-#	label $lfgroup.group -image [::skin::loadPixmap prefpersc]
-#	pack $lfgroup.group -side left
-#	frame $lfgroup.lbgroup
-#	pack $lfgroup.lbgroup -side left -anchor n -expand true -fill both -padx 10
-#	MakeGroupList $lfgroup $lfcontact
-#	frame $lfgroup.lbgroup.b
-#	pack $lfgroup.lbgroup.b -side right -anchor n -expand false
-#	label $lfgroup.lbgroup.b.op -text "[trans options]" -font sboldf
-#	pack $lfgroup.lbgroup.b.op -side top -pady 3
-#	
-#	button $lfgroup.lbgroup.b.bdel -text [trans groupdelete] -width 25 -justify right \
-#		-command "dlgDelGroup $lfgroup $lfcontact;"
-#	button $lfgroup.lbgroup.b.bren -text [trans grouprename] -width 25 -justify right \
-#		-command "dlgRenGroup $lfgroup $lfcontact;"
-#	button $lfgroup.lbgroup.b.badd -text [trans groupadd] -width 25 -justify right \
-#		-command "::groups::dlgAddGroup; tkwait window .dlgag; RefreshGroupList $lfgroup $lfcontact;"
-#	pack $lfgroup.lbgroup.b.badd -side top -pady 2 -anchor w
-#	pack $lfgroup.lbgroup.b.bren -side top -pady 2 -anchor w
-#	pack $lfgroup.lbgroup.b.bdel -side top -pady 2 -anchor w
-#
-#	## Contact Selection Frame ##
-#	label $lfcontact.contact -image [::skin::loadPixmap prefprofilec]
-#	pack $lfcontact.contact -side left
-#	frame $lfcontact.lbcontact 
-#	pack $lfcontact.lbcontact -side left -anchor n -expand 1 -fill x -padx 10
-#	frame $lfcontact.lbcontact.fix
-#	pack $lfcontact.lbcontact.fix -side left -anchor n -expand 1 -fill x
-#	
-#	frame $lfcontact.lbcontact.b
-#	pack $lfcontact.lbcontact.b -side right -anchor n -expand 0
-#	label $lfcontact.lbcontact.b.op -text "[trans options]" -font sboldf
-#	pack $lfcontact.lbcontact.b.op -side top -pady 3
-#	
-#	button $lfcontact.lbcontact.b.badd -text [trans addacontact] -width 25 -justify right \
-#		-command "cmsn_draw_addcontact; tkwait window .addcontact; RefreshContactList $lfcontact;"
-#	button $lfcontact.lbcontact.b.bmov -text [trans movetogroup] -width 25 -justify right \
-#		-command "dlgMoveUser; \
-#			if {[winfo exists .dlgmu]} {tkwait window .dlgmu;}; \
-#			RefreshContactList $lfcontact;"
-#	button $lfcontact.lbcontact.b.bcopy -text [trans copytogroup] -width 25 -justify right \
-#		-command "dlgCopyUser; \
-#			if {[winfo exists .dlgmu]} {tkwait window .dlgmu;};"
-#	button $lfcontact.lbcontact.b.brfg -text [trans removefromlist] -width 25 -justify right \
-#		-command "dlgRFL $lfcontact;"
-#	button $lfcontact.lbcontact.b.bdel -text [trans delete] -width 25 -justify right \
-#		-command "dlgDelUser $lfcontact;"
-#	button $lfcontact.lbcontact.b.bdal -text [trans emptygroup] -width 25 -justify right \
-#		-command "BuidarGrup $lfcontact;"
-#	pack $lfcontact.lbcontact.b.badd -side top -pady 2 -anchor w
-#	pack $lfcontact.lbcontact.b.bmov -side top -pady 2 -anchor w
-#	pack $lfcontact.lbcontact.b.bcopy -side top -pady 2 -anchor w
-#	pack $lfcontact.lbcontact.b.brfg -side top -pady 2 -anchor w
-#	pack $lfcontact.lbcontact.b.bdal -side top -pady 2 -anchor w
-#	pack $lfcontact.lbcontact.b.bdel -side top -pady 2 -anchor w
 
 	## Mobile group ##
 	set lfmobile [labelframe $frm.lfmobile -text [trans mobilegrp1]]

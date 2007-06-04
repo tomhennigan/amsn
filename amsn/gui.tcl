@@ -758,7 +758,7 @@ namespace eval ::amsn {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	#Delete user window, user can choose to delete user, cancel the action or block and delete the user
-	proc deleteUser {user_login { grId ""} } {
+	proc deleteUser { user_login } {
 		if {[lsearch [::abook::getLists $user_login] BL] == -1} {
 			# User is not blocked.
 			set answer [customMessageBox [trans confirmdu] deleteblockcancel "" "[trans delete] - $user_login" "." 0]
@@ -769,24 +769,24 @@ namespace eval ::amsn {
 		
 		if {$answer == "deleteblock"} {
 			# Delete the user and block.
-			::amsn::deleteUserAction $user_login $grId 1
+			::amsn::deleteUserAction $user_login 1
 		} elseif {$answer == "delete"} {
 			# Only delete the user.
-			::amsn::deleteUserAction $user_login $grId 0
+			::amsn::deleteUserAction $user_login 0
 		}
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# deleteUserAction {user_login answer grId block}
 	# Action to do when someone click delete a user
-	proc deleteUserAction {user_login {grId ""} {block 0}} {
+	proc deleteUserAction {user_login {block 0}} {
 		#If the user wants to delete AND block a user
-		if { $block == "1" } {
+		if { $block == 1 } {
 			set name [::abook::getNick ${user_login}]
 			::MSN::blockUser ${user_login} [urlencode $name]
 		}
 
-		::MSN::deleteUser ${user_login} $grId
+		::MSN::deleteUser ${user_login}
 		::abook::setContactData $user_login alarms ""
 
 		return
@@ -6378,34 +6378,33 @@ proc show_umenu {user_login grId x y} {
 	::groups::updateMenu menu .user_menu.move_group_menu ::groups::menuCmdMove [list $grId $user_login]
 	::groups::updateMenu menu .user_menu.copy_group_menu ::groups::menuCmdCopy $user_login
 
-	#check if user is in a virtual group 
-	set grIdV 0
-	if { $grId == "offline" || $grId == "mobile" } {
-		set grIdV 1
+	#check if user is in a virtual group
+	set grIdV 1
+	foreach group [::guiContactList::getGroupList 1] {
+		if { [lindex $group 0] == $grId } {
+			set grIdV 0
+			break
+		}
 	}
 
-	if {[::config::getKey orderbygroup] && !$grIdV} {
+	if {$grIdV} {
+		.user_menu add cascade -label "[trans movetogroup]"  -state disabled
+		.user_menu add cascade -label "[trans copytogroup]"  -state disabled
+		.user_menu add command -label "[trans removefromgroup]"  -state disabled
+	} else {
 		.user_menu add cascade -label "[trans movetogroup]" -menu .user_menu.move_group_menu
 		#you may not copy a contact from "no group" to a normal group
-		if { $grId == "0" } {
+		if { $grId == 0 } {
 			.user_menu add cascade -label "[trans copytogroup]"  -state disabled
 			.user_menu add command -label "[trans removefromgroup]"  -state disabled
 		} else {
 			.user_menu add cascade -label "[trans copytogroup]" -menu .user_menu.copy_group_menu
-			.user_menu add command -label "[trans removefromgroup]" -command "::amsn::removeUserFromGroup ${user_login} $grId"
+			.user_menu add command -label "[trans removefromgroup]" -command [list ::amsn::removeUserFromGroup $user_login $grId]
 		}	
-	} else {
-		.user_menu add cascade -label "[trans movetogroup]"  -state disabled
-		.user_menu add cascade -label "[trans copytogroup]"  -state disabled
-		.user_menu add command -label "[trans removefromgroup]"  -state disabled
 	}
 
 	#delete, if in a normal group, only from current group, otherwise from all groups and FL
-	if { $grIdV || $grId == "0" } {
-		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login}"
-	} else {
-		.user_menu add command -label "[trans delete]" -command "::amsn::deleteUser ${user_login} $grId"
-	}
+	.user_menu add command -label "[trans delete]" -command [list ::amsn::deleteUser $user_login]
 
 	#-----------------------
 	.user_menu add separator

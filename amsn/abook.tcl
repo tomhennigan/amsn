@@ -893,6 +893,14 @@ namespace eval ::abook {
 		set pcc 1
 	}
 
+	proc emptyUserGroups { email } {
+		global pcc
+
+		setContactData $email group [list ]
+
+		set pcc 1
+	}
+
 	proc removeContactFromGroup { email grId } {
 		global pcc
 		
@@ -900,8 +908,14 @@ namespace eval ::abook {
 		set idx [lsearch $groups $grId]
 		
 		if { $idx != -1 } {
-			setContactData $email group [lreplace $groups $idx $idx]
+			#The last group -> we move to nogroup
+			if { [llength $groups] == 1 } {
+				setContactData $email group [lreplace $groups $idx $idx 0]
+			} else {
+				setContactData $email group [lreplace $groups $idx $idx]
+			}
 		}
+
 		set pcc 1
 	}	
 

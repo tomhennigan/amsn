@@ -1108,26 +1108,28 @@ namespace eval ::MSN {
 			if { [lindex $recv 4] == "" } {
 				#Remove from all groups!!
 				set affected_groups [::abook::getGroups $user]
-				foreach group $affected_groups {
-					::abook::removeContactFromGroup $user $group
-				}
-			} else {
-				#Remove fromonly one group
-				set affected_groups [list [lindex $recv 4]]
-				::abook::removeContactFromGroup $user [lindex $recv 4]
-			}
-	
-			if { [llength [::abook::getGroups $user]] == 0 } {
-				status_log "cmsn_listdel: Contact [lindex $recv 4] is in no groups, removing!!\n" blue
+				::abook::emptyUserGroups $user
+
+				status_log "cmsn_listdel: Contact $user isn't in any group, removing!!\n" blue
 				::MSN::deleteFromList FL $user
 				::abook::removeContactFromList $user FL
 				#The GUID is invalid if the contact is removed from the FL list
 				::abook::setContactForGuid $userguid ""
 				::abook::setContactData $user contactguid ""
+			} else {
+				#Remove fromonly one group
+				set affected_groups [list [lindex $recv 4]]
+				::abook::removeContactFromGroup $user [lindex $recv 4]
 			}
 
-			#an event to let the GUI know a user is removed from a group / the list
-			::Event::fireEvent contactRemoved protocol $user $affected_groups
+			if { [::abook::getGroups $user] == [list 0] } {
+				#User is now on nogroup
+				::Event::fireEvent contactMoved protocol $user [linsert $affected_groups end 0]
+				::Event::fireEvent contactAdded protocol $user 0
+			} else {
+				#an event to let the GUI know a user is removed from a group / the list
+				::Event::fireEvent contactRemoved protocol $user $affected_groups
+			}
 		} else {
 			set user [lindex $recv 3]
 			::MSN::deleteFromList $list_sort $user
@@ -1528,7 +1530,7 @@ namespace eval ::MSN {
 
 	#Remove user from a groups
 	proc removeUserFromGroup { userlogin grId } {
-		if {[::abook::getGroups $userlogin] == "0"} {
+		if {[::abook::getGroups $userlogin] == 0} {
 			return
 		}
 	
@@ -1537,36 +1539,19 @@ namespace eval ::MSN {
 		} else {
 			::MSN::WriteSB ns REM "FL $userlogin $grId"
 		}
-
-		#If if's the last group, add contact to "no group"
-		if { [llength [::abook::getGroups $userlogin]] == 1 } {
-			::abook::addContactToGroup $userlogin "0"
-		}
 	}
 
 
-	#Delete user (from a given group $grID, or from all groups)
-	proc deleteUser { userlogin {grId ""}} {
+	#Delete user totally
+	proc deleteUser { userlogin } {
 		if { [::config::getKey protocol] == 11 } {
-			if { $grId == "" } {
-				#We remove from every where
-				foreach groupID [::abook::getGroups $userlogin] {
-					::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $groupID"
-				}
-				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
-			} else {
-				#If it is the last group then delete it from the FL too
-				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $grId"
-				if { [llength [::abook::getGroups $userlogin]] == 1 } {
-					::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
-				}
+			#We remove from everywhere
+			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
+			foreach groupID [::abook::getGroups $userlogin] {
+				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $groupID"
 			}
 		} else {
-			if { $grId == "" } {
-				::MSN::WriteSB ns REM "FL $userlogin"
-			} else {
-				::MSN::WriteSB ns REM "FL $userlogin $grId"
-			}
+			::MSN::WriteSB ns REM "FL $userlogin"
 		}
 	}
 
