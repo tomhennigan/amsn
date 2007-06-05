@@ -1399,23 +1399,31 @@ namespace eval ::AVAssistant {
 		set set_co [lindex $colorsettings 3]
 		
 		if {![info exists brightness] && [string is integer -strict $set_b]} {
-				set brightness $set_b
+			set brightness $set_b
 		}
 		if {![info exists contrast] && [string is integer -strict $set_c]} {
-				set contrast $set_c
+			set contrast $set_c
 		}
 		if {![info exists hue] && [string is integer -strict $set_h]} {
-				set hue $set_h
+			set hue $set_h
 		}
-		if {![info exists color] &&[string is integer -strict $set_co]} {
-				set color $set_co
+		if {![info exists color] && [string is integer -strict $set_co]} {
+			set color $set_co
 		}
 		
-		#Set them	
-		::Capture::SetBrightness $grabber $brightness
-		::Capture::SetContrast $grabber $contrast
-		::Capture::SetHue $grabber $hue
-		::Capture::SetColour $grabber $color
+		#Set them
+		if {[info exists brightness]} {
+			::Capture::SetBrightness $grabber $brightness
+		}
+		if {[info exists contrast]} {
+			::Capture::SetContrast $grabber $contrast
+		}
+		if {[info exists hue]} {
+			::Capture::SetHue $grabber $hue
+		}
+		if {[info exists color]} {
+			::Capture::SetColour $grabber $color
+		}
 	}
 
 
@@ -1489,7 +1497,7 @@ namespace eval ::AVAssistant {
 		set brightness [::Capture::GetBrightness $::CAMGUI::webcam_preview]
 		set contrast [::Capture::GetContrast $::CAMGUI::webcam_preview]	
 		set hue [::Capture::GetHue $::CAMGUI::webcam_preview]	
-		set color [::Capture::GetColour $::CAMGUI::webcam_preview]	
+		set color [::Capture::GetColour $::CAMGUI::webcam_preview]
 
 		#Then, if there are valid settings in our config, overwrite the values with these
 		set colorsettings [split [::config::getKey "webcam$selecteddevice:$selectedchannel"] ":"]
