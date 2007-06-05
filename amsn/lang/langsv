@@ -57,6 +57,7 @@ assistantawarn Du kommer inte kunna spela in dig själv eller prata med dina vänn
 assistantfinetunepic Ändra följande inställningar för att ställa in bildkvalitén för din webbkamera
 assistantselectcam Välj din webbkamera från listan
 assistantstarting Startar assistenten
+assistanttitle Ljud och bildassistenten
 assistantwelcome Denna assistent kommer leda dig igenom konfigurationen av dina ljud- och videoinställningar för aMSN.\n\nDen kommer att kontrollera om de nödvändiga tilläggen finns tillgängliga och inlästa, och du kommer kunna välja enhet och kanal samt ange bildinställningar och upplösning.
 audioconfigured Du valde följande ljudinställningar:\n Utenhet: $1\nInenhet: $2
 audiovideo Ljud- och bildinställningar
@@ -319,7 +320,7 @@ enterbugdesc Skriv en beskrivning om vad du gjorde för att hjälpa oss återskapa 
 entercontactemail Skriv in kontaktens e-postadress
 enterfilename Ange ett filnamn
 enternick Skriv in ditt smeknamn
-enterpsm Ditt Personliga meddelande
+enterpsm Personligt meddelande
 error Fel
 errortls Fel när TLS installerades:
 eventhistory Visa händelsehistorik
@@ -764,6 +765,7 @@ showlinksinlogin Visa länkar på inloggningsskärmen
 showmailicon Visa brevikonen i aktivitetsfältet när ett nytt brev har tagits emot
 showmypic Min visningsbild
 shownotify Visa ett meddelande när något händer
+showonedpframe Visa endast en ruta för visningsbilder i konversationsfönster
 showpicnotify Visa användarnas bilder i meddelandefönstren
 showuserpic $1:s visningsbild
 signinstatus Status vid inloggning
@@ -937,3 +939,5 @@ youblocked Du har blivit blockerad av
 yousay Du säger
 youwant Du vill
 zoom Zooma
+cantget Kunde inte hämta $1
+removefromgroup Ta bort från grupp
