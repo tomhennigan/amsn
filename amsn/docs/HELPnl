@@ -1,15 +1,15 @@
 Help-bestand voor aMSN
 
 Systeemeisen:
-Amsn is geschreven in tcl/tk, dus je hebt slechts een werkende tcl/tk interpreter
-nodig, versie 8.3 of nieuwer. Deze is te downloaden van http://tcl.sourceforge.net.
-Deze interpreter is beschikbaar voor linux, windows en macintosh. Enkele aanvullende
-functies, zoals het systeemvak-pictogram, de Schermafbeeldingen, en de door middel
-van SSL beveiligde verbinding voor MSN Protocol 9, kunnen extra programma's of
+Amsn is geschreven in tcl/tk, dus je hebt slechts een werkende tcl/tk-interpreter
+nodig, versie 8.4 of nieuwer. Deze is te downloaden van http://tcl.sourceforge.net.
+Deze interpreter is beschikbaar voor Linux, Windows en Macintosh. Enkele aanvullende
+functies, zoals het systeemvakpictogram, de schermafbeeldingen en de door middel
+van SSL beveiligde verbinding voor MSN Protocol 9 kunnen extra programma's of
 bibliotheken nodig hebben.
 
-Installatie handleiding:
-Download het amsn-x_xx.tar.gz bestand. Pak het uit met de opdracht:
+Installatiehandleiding:
+Download het amsn-x_xx.tar.gz-bestand. Pak het uit met de opdracht:
   gzip -d amsn-x_xx.tar.gz
   tar xvf amsn-x_xx.tar
 Er wordt een map gemaakt met de naam msn/, en aMSN is geïnstalleerd en gebruiksklaar.
@@ -18,9 +18,9 @@ Doe het volgende om aMSN te starten:
   ./amsn
 of als dat niet werkt, probeer
   wish amsn
-Als het commando 'wish' niet bestaat, dan is tcl/tk niet geïnstalleerd. Wanneer
-"wish amsn" wel werkt, maar "./amsn" niet, pas dan het bestand 'amsn' aan, en
-corrigeer het pad naar 'wish' op de eerste regel. De standaard-instelling is:
+Als het commando 'wish' niet bestaat, is tcl/tk niet juist geïnstalleerd. Als
+"wish amsn" wel werkt maar "./amsn" niet, pas dan het bestand 'amsn' aan en
+corrigeer het pad naar 'wish' op de eerste regel. De standaardinstelling is:
 /usr/bin/wish
 
-Als je dan nog steeds problemen hebt, gebruik dan de FAQ.
+Als je hierna nog steeds problemen hebt, gebruik dan de FAQ.
