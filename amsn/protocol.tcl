@@ -5403,6 +5403,19 @@ proc cmsn_ns_handler {item {message ""}} {
 # # # 				status_log "Warning: Invalid group" red
 				msg_box "[trans invalidgroup]"
 			}
+			500 {
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
+				if { [::config::getKey reconnect] == 1 } {
+					::MSN::saveOldStatus
+					::MSN::logout
+					::MSN::reconnect "[trans internalerror]"
+				} else {
+					::MSN::logout
+					::amsn::errorMsg "[trans internalerror]"
+				}
+				status_log "Error: Internal server error\n" red
+				return 0
+			}
 			600 {
 				::config::setKey start_ns_server [::config::getKey default_ns_server]
 				if { [::config::getKey reconnect] == 1 } {
@@ -5429,18 +5442,12 @@ proc cmsn_ns_handler {item {message ""}} {
 				status_log "Error: Server is unavailable\n" red
 				return 0
 			}
-			500 {
-				::config::setKey start_ns_server [::config::getKey default_ns_server]
-				if { [::config::getKey reconnect] == 1 } {
-					::MSN::saveOldStatus
-					::MSN::logout
-					::MSN::reconnect "[trans internalerror]"
-				} else {
-					::MSN::logout
-					::amsn::errorMsg "[trans internalerror]"
-				}
-				status_log "Error: Internal server error\n" red
-				return 0
+			715 {
+				#we get a weird character in PSM, need to reset it
+				status_log "Error: Weird PSM\n" red
+				::abook::setPersonal PSM ""
+				::MSN::logout
+				::MSN::reconnect 
 			}
 			911 {
 				#set password ""
