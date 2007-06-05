@@ -57,6 +57,7 @@ assistantawarn Non potrai registrare la tua voce o parlare con i tuoi amici. Puo
 assistantfinetunepic Modifica i seguenti settaggi per calibrare la qualità dell'immagine della tua webcam
 assistantselectcam Seleziona la tua webcam dalla lista
 assistantstarting Apertura assistente
+assistanttitle Configurazione audio e video
 assistantwelcome Questo assistente ti guiderà nel setup dei parametri audio e video per aMSN.\n\nControllerà che le estensioni richieste siano presenti e caricate, e quindi potrai scegliere la periferica ed il canale, e impostare i settaggi dell'immagine e la risoluzione.
 audioconfigured Hai scelto i seguenti settaggi Audio:\n Periferica di output: $1\nPeriferica di input:$2
 audiovideo Settaggi Audio e Video
@@ -117,6 +118,7 @@ cancel Annulla
 cancelled Cancellato
 cannotdeleteprofile Non posso cancellare il profilo perché sembra essere usato da una sessione di aMSN
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
+cantget Impossibile scaricare $1
 cantloadonlineversion Non è stato possibile recuperare la lista delle lingue da Internet
 cantremoveothers Il gruppo "Altri" non può essere rimosso
 captureextloaded L'estensione Capture -$1- è stata caricata
@@ -705,6 +707,7 @@ rememberaccount Memorizza profilo utente
 rememberpass Memorizza la password
 remembersetting Ricorda questa impostazione
 removeempty Eliminare gruppi vuoti dalla lista contatti
+removefromgroup Cancella dal gruppo
 removefromlist Rimuovi da questa lista
 rename Rinomina
 reporting Invio del rapporto in corso
@@ -760,6 +763,7 @@ showcontactemail Mostra i contatti con l'e-mail
 showcontactnick Mostra i contatti con il nick
 showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
 showdisplaypic Mostra l'immagine personale
+showonedpframe Mostra una sola immagine personale nella finestra della chat
 showlinksinlogin Mostra i collegamenti nella schermata di login
 showmailicon Mostra icona e-mail nella Taskbar quando arrivano nuove e-mail
 showmypic Immagine personale
