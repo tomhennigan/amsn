@@ -57,6 +57,7 @@ assistantawarn Você não poderá gravar, ou falar com seus amigos. Você poderá enc
 assistantfinetunepic Mude as seguintes opções para ajustar a qualidade da imagem da sua webcam
 assistantselectcam Selecia a sua webcam na lista
 assistantstarting Inicar o Assistente
+assistanttitle Assistente de áudio e vídeo
 assistantwelcome Este assistente irá guiá-lo atrás da configuração do seu áudio e vídeo para o seu aMSN.\n\nIrá checar se as extensões necessárias estão presentes e carregá-las, você poderá escolher o dispositivo e canal, setar a imagem e a resolução.
 audioconfigured Você escolheu as seguintes opções: \n Dispositivo de saída: $1\n Dispositivo de entrada:$2
 audiovideo Configuração de Audio e Video
@@ -624,6 +625,7 @@ picfile Arquivo de imagem (GIF < 500 x 500)
 picstatus Alarme com imagem
 playbackposition Posição do playback
 playbackspeed Velocidade do playback (milissegundos entre cada quadro)
+playerror Um erro ocorreu ao tentar tocar o som : $1
 playing Tocando: $1
 playtest Tocar arquivo teste
 play Tocar
@@ -763,6 +765,7 @@ showlinksinlogin Mostrar Links na tela de login
 showmailicon Mostrar ícone de e-mail na bandeja do sistema quando novos e-mails chegarem
 showmypic Minha imagem de exibição
 shownotify Exibir janela de notificação quando alguns eventos acontecerem
+showonedpframe Mostrar apenas 1 imagem de exibição na janela de chat
 showpicnotify Mostrar figuras do usuário na janela de notificação
 showuserpic Figura do usuário $1
 signinstatus Status da conexão
