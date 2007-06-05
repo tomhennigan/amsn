@@ -118,6 +118,7 @@ cancel Annuler
 cancelled Annulé
 cannotdeleteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
 cantexec Impossible d'exécuter l'application : $1. Vérifiez les préférences et/ou les droits sur cette application.
+cantget N'arrive pas à télécharger $1
 cantloadonlineversion N'arrive pas à récupérer la nouvelle liste des langues depuis l'Internet.
 cantremoveothers Impossible de supprimer le groupe "Autres".
 captureextloaded L'extension de capture -$1- est chargée
@@ -706,6 +707,7 @@ rememberaccount Enregistrer le nom de compte
 rememberpass Enregistrer le mot de passe
 remembersetting Enregistrer ce paramètre
 removeempty Retirer les groupes vides de la liste des contacts
+removefromgroup Enlever de ce groupe
 removefromlist Supprimer de cette liste
 rename Renommer
 report Envoyer
