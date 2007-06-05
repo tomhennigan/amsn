@@ -25,7 +25,7 @@
 
 <?php
 
-if (!mysql_num_rows(($q = mysql_query("SELECT *  FROM `amsn_plugins` ORDER BY `name`")))) {
+if (!mysql_num_rows(($q = mysql_query("SELECT `amsn_plugins`.*, (UNIX_TIMESTAMP(`amsn_files`.`lastmod`)-UNIX_TIMESTAMP(20070101))/86400+`amsn_files`.`count`/15 AS `score` FROM `amsn_plugins` INNER JOIN `amsn_files` ON `amsn_files`.`id` = `amsn_plugins`.`file_id` ORDER BY `score` DESC")))) {
     echo "<p>There are no plugins available.</p>\n";
 } else {
 	$elements_per_line=5;

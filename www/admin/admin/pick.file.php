@@ -72,7 +72,7 @@ function treatUploadForm($prefix)
 		$_POST = clean4sql($_POST);
 		if (move_uploaded_file($_FILES[$field_name]['tmp_name'], getFilePath($_FILES[$field_name]['name']))) {
 			if (!mysql_num_rows($q = mysql_query("SELECT id FROM `amsn_files` WHERE `filename` = '".$_FILES[$field_name]['name']."';"))) {
-				if (mysql_query("INSERT INTO `amsn_files` (filename) VALUES ('".$_FILES[$field_name]['name']."');"))
+				if (mysql_query("INSERT INTO `amsn_files` (filename,lastmod) VALUES ('".$_FILES[$field_name]['name']."',NOW());"))
 				{
 					return array( 'id' => mysql_insert_id(), 'name' => $_FILES[$field_name]['name'] );
 				} else {
@@ -95,7 +95,7 @@ function treatURLForm($prefix)
 	if (isset($_POST[$field_name])) {
 		$_POST = clean4sql($_POST);
 		if (!mysql_num_rows($q = mysql_query("SELECT id  FROM `amsn_files` WHERE LOWER(`url`) = LOWER('".$_POST[$field_name]."');"))) {
-			if (mysql_query("INSERT INTO `amsn_files` (url) VALUES ('".$_POST[$field_name]."');")) {
+			if (mysql_query("INSERT INTO `amsn_files` (url,lastmod) VALUES ('".$_POST[$field_name]."', NOW());")) {
 				return array( 'id' => mysql_insert_id(), 'name' => $_POST[$field_name] );
 			} else {
 				return array( 'error' => mysql_error() );
@@ -140,7 +140,7 @@ function treatURLUploadForm($prefix)
 		$filename = basename($filename);
 		if (copy($_POST[$field_name], getFilePath($filename))) {
 			if (!mysql_num_rows($q = mysql_query("SELECT id FROM `amsn_files` WHERE `filename` = '".$filename."';"))) {
-				if (mysql_query("INSERT INTO `amsn_files` (filename) VALUES ('".$filename."');"))
+				if (mysql_query("INSERT INTO `amsn_files` (filename,lastmod) VALUES ('".$filename."',NOW());"))
 				{
 					return array( 'id' => mysql_insert_id(), 'name' => $filename );
 				} else {

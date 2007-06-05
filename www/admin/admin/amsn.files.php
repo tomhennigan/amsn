@@ -15,7 +15,7 @@ function treatUploadForm()
 			if ($row['filename'] != '' ) {
 				unlink(getFilePath($row['filename']));
 			}
-			if (mysql_query("UPDATE `amsn_files` SET filename = '".$_FILES['file']['name']."', `url` = '' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
+			if (mysql_query("UPDATE `amsn_files` SET filename = '".$_FILES['file']['name']."', `url` = '', `lastmod` = NOW() WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
 				return array('success' => "File successfully modified");
 			} else {
 				#echo mysql_error();
@@ -36,7 +36,7 @@ function treatURLForm()
 		if ($row['filename'] != '' ) {
 			unlink(getFilePath($row['filename']));
 		}
-		if (mysql_query("UPDATE `amsn_files` SET filename = '', `url` = '{$_POST['url']}' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
+		if (mysql_query("UPDATE `amsn_files` SET filename = '', `url` = '{$_POST['url']}', `lastmod` = NOW() WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
 			return array('success' => "File successfully modified");
 		} else {
 			#echo mysql_error();
@@ -81,7 +81,7 @@ function treatURLUploadForm()
 			if ($row['filename'] != '' ) {
 				unlink(getFilePath($row['filename']));
 			}
-			if (mysql_query("UPDATE `amsn_files` SET filename = '".$filename."', `url` = '' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
+			if (mysql_query("UPDATE `amsn_files` SET filename = '".$filename."', `url` = '', `lastmod` = NOW() WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1")) {
 				return array('success' => "File {$filename} successfully modified");
 			} else {
 				#echo mysql_error();
