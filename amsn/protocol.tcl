@@ -2890,7 +2890,7 @@ namespace eval ::MSNOIM {
 	proc parseFieldEncoding { encoded } {
 		set parts [split $encoded ?]
 		if { [lindex $parts 0] == "=" &&
-		     [lindex $parts 4] == "="} {
+		     ( [lindex $parts 4] == "=" || [lindex $parts 4] == "= ")} {
 			foreach {c1 charset type data c2} $parts break
 			set encoding_exists 0
 			foreach enc [encoding names] {
