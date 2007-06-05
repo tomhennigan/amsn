@@ -57,6 +57,7 @@ assistantawarn Ni mogoèe snemanje ali pogovor z prijatelji.Odgovore kako namesti
 assistantfinetunepic Spremeni spodnje nastavitve, èe hoèe¹ spremeniti parametre slike spletne kamere
 assistantselectcam Izberi kamero iz seznama.V primeru, da uporablja¹ za vhodno napravo TV kartico z video vhodom ali kak¹no drugo napravo z veè kanali izberi tudi kanal iz katerega bo¹ zajemal video signal.Dobro je, da se naprava priklopi sedaj saj v nadaljevanju sledijo nastavitve slike.
 assistantstarting Zaganjam pomoènika
+assistanttitle Avdio in Video pomoènik
 assistantwelcome Ta pomoènik vas bo vodil skozi zvoène in video nastavitve za aMSN.\n\nPregledal bo èe so doloèene raz¹iritve prisotne in name¹èene.Nastavlja se zvoèno vhodno in izhodno napravo,video napravo in kanal(video naprave),podrobno nastavitev slike in resolucijo.Pred nastavljanjem preveri èe so vse za¾eljene naprave priklopljene.(kamera,mikrofon,zvoèniki)
 audioconfigured Izbral si naslednje Avdio nastavitve:\n Izhodna Naprava: $1\nVhodna Naprava:$2
 audiovideo Avdio in Video nastavitve
@@ -117,6 +118,7 @@ cancelled Preklicano
 cancel Preklièi
 cannotdeleteprofile Ne morem izbrisati raèuna, ker je v Amsn seji
 cantexec Ne morem izvesti programa $1. Preveri nastavitve.
+cantget Ne morem dobiti $1
 cantloadonlineversion Ne morem dobiti nazadnje posodobljenega seznama jezikov z interneta
 cantremoveothers Ni mogoèe izbrisati skupine "Ostali"
 captureextloaded Dodatek za zajemanje -$1- je nalo¾en
@@ -624,6 +626,7 @@ picfile Slikovna datoteka
 picstatus Slika omogoèena
 playbackposition Pozicija predvajanja
 playbackspeed Hitrost predvajanja (milisekunde med vsako sliko videa)
+playerror Pri¹lo je do napake pri igranju zvoka : $1
 playing Igram: $1
 play Predvajaj
 playtest Predvajaj preizkusno datoteko
@@ -704,6 +707,7 @@ rememberaccount Zapomni si moj raèun
 rememberpass Shrani geslo
 remembersetting Zapomni si to nastavitev
 removeempty Odstrani prazne skupine iz seznama stikov
+removefromgroup Odstrani iz skupine
 removefromlist Zbri¹i s tega seznama
 rename Preimenuj
 reporting Poroèam
@@ -763,6 +767,7 @@ showlinksinlogin Prika¾i povezave v prijavnem oknu
 showmailicon Prika¾i ikono v opravilni vrstici, ko prejme¹ po¹to
 showmypic Moja prikazna slika
 shownotify Poka¾i obvestilo ob nekaterih dogodkih
+showonedpframe Prika¾i samo en okvir za prikazne slike v pogovornih oknih
 showpicnotify Prika¾i prikazno sliko v obvestilnem oknu
 showuserpic Prikazna slika uporabnika $1
 signinstatus Status ob vpisu
