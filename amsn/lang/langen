@@ -474,7 +474,7 @@ ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
 loadcontacts Load Contact List
 load Load
-loadotherdisplaypic Loading DPs of $1, please wait...
+loadotherdisplaypic Loading display pictures of $1, please wait...
 logbigger Log file sizes for each contact never exceeds 
 logeventconnect Log the connections
 logeventdisconnect Log the disconnections
@@ -493,12 +493,12 @@ logout Log Out
 logsbydate Sort logs by date (View history loads a lot faster)
 logschats Is logging chats
 logsin has just logged in
-logsmileys Displays Emoticons and Smileys in aMSN's history windows
+logsmileys Display Emoticons and Smileys in aMSN's history windows
 logsout has just logged out
 logwebcam Save all webcam sessions to aMSN's History for future viewing
 longnick Your nickname is longer than 130 characters. This is not officially supported by the MSN protocol. Are you sure you want to set it?
 longp4c Your Friendly Name is longer than 130 characters. The Friendly Name that will appear on the official MSN client will be $1. Are you sure you want to set it?
-longpsm Your personal message is too long. This is not officially supported by the MSN protocol. Are you sure you want to set it?
+longpsm Your Personal Message is too long. This is not officially supported by the MSN protocol. Are you sure you want to set it?
 lowrescam Use a low-resolution webcam
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
@@ -574,8 +574,8 @@ no No
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 normal Normal
-noskins Couldn't found default skin in skins/ folder. Can't start AMSN
-nosound No sound was detected, make sure your microphone is correctly plugged in
+noskins Couldn't find default skin in skins/ folder. Can't start AMSN
+nosound No sound was detected, make sure your microphone has been connected to your computer properly
 nosound_or_hold No sound was detected. To send a Voice Clip you need to press and hold down the button while speaking then release it to send the message.
 nosystemtray System tray not available
 note Note
@@ -748,7 +748,7 @@ sendmsg Send Message
 sendoim Send an Offline Message
 send Send
 sendvoice Send a Voice Clip
-sendwebcamaccepted $1 accepted your invitation to send your webcam. Connecting...
+sendwebcamaccepted $1 accepted your invitation to view your webcam. Connecting...
 sendwebcaminvite Invite a user to see your webcam
 sentbytes Sent $1 of $2 bytes
 sentvoice Sent Voice Clip
@@ -806,7 +806,7 @@ soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Sound File
 soundfiles Sound Files
 soundloop Loop Sound
-soundnoavail The Sound Device is not available. Please stop any application using the sound device.
+soundnoavail The audio device is not available. Please stop any application using the sound device.
 soundserver Sound Server
 soundstatus Sound Alarm
 sourcecode Source Code (needs compiling and installing)

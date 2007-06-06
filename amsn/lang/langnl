@@ -45,8 +45,8 @@ appearance Weergave
 appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
-askcam Webcamontvangst vragen
-askcontactwebcam om je contact te vragen of je zijn/haar webcambeeld mag zien, of
+askcam Webcambeeld vragen
+askcontactwebcam om je contact te vragen of je zijn/haar webcambeeld mag zien. 
 askeachtime Altijd vragen wat er moet gebeuren
 asksendingyourwebcam om hem/haar uit te nodigen om jouw webcambeeld te bekijken
 asksendoim Wil je dit bericht verzenden als offlinebericht?
@@ -57,7 +57,7 @@ assistantawarn Je zult geen geluid kunnen opnemen en niet met je vrienden kunnen
 assistantfinetunepic Pas de volgende instellingen aan om de beeldkwaliteit van je webcam te verbeteren
 assistantselectcam Kies je webcam uit de lijst
 assistantstarting De assistent wordt gestart
-assistanttitle Audio- en video-assistent
+assistanttitle Assistent voor beeld en geluid
 assistantwelcome Deze assistent zal je begeleiden bij het instellen van beeld en geluid voor aMSN.\n\nDe assistent controleert of de vereiste extensies op het systeem aanwezig en in het geheugen geladen zijn. Ten slotte kun je het video-apparaat en -kanaal kiezen en de beeld- en resolutie-instellingen aanpassen.
 audioconfigured Je hebt de volgende instellingen gekozen voor geluid:\n Uitvoerapparaat: $1\nInvoerapparaat: $2
 audiovideo Instellingen voor beeld en geluid
@@ -80,7 +80,7 @@ avaccepted Videoconferentie-uitnodiging geaccepteerd
 avcanceled Videoconferentie-uitnodiging geannuleerd
 avgotinvitation $1 nodigt je uit voor een videoconferentie
 avinitfailed Initialisatie van de audio-/videoplug-in mislukt. Uitnodiging geannuleerd
-avoidseen Voorkomen dat deze persoon kan zien dat ik online ben en contact met mij opneemt
+avoidseen Deze persoon niet toestaan om te zien of ik online ben en contact met mij op te nemen
 away Afwezig
 awaymsg1 Altijd om een afwezigheidsbericht vragen als ik mijn status verander in Afwezig/Ben zo terug/Bezet
 awaymsg2 Nooit vragen en altijd het onderstaande afwezigheidsbericht gebruiken
@@ -102,7 +102,7 @@ blockmessage Deze mensen zijn online en hebben je geblokkeerd
 blocknotifications Geen meldingsvensters weergeven
 blocksounds Geen geluid afspelen
 blockusers Gelijktijdig controleren
-bouncedock aMSN's pictogram in het systeemvak laten stuiteren wanneer een bericht is ontvangen
+bouncedock aMSN's pictogram in het dock laten stuiteren wanneer een bericht is ontvangen
 brightness Helderheid
 broughtby Aangeboden door de volgende ontwikkelaars
 browse Verkennen
@@ -211,7 +211,7 @@ connecterror Fout bij verbinden met server
 connectfirst Maak eerst verbinding
 connecting Bezig met verbinden
 connection Verbinding
-connectionlost De verbinding met de server is gesloten
+connectionlost De verbinding met de server is verbroken
 contact Contact
 contactadded Contact toegevoegd
 contactdoesnotexist Contact bestaat niet!
@@ -228,7 +228,7 @@ corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand 
 corruptstates Het aangepaste-statussenbestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 couldnotrename Het bestand $1 kon niet worden hernoemd
 countrycode Landnummer
-cprofile Maak profiel
+cprofile Profiel aanmaken
 created Gemaakt
 credits De makers
 curdisplaypic Huidige schermafbeelding
@@ -244,7 +244,7 @@ customdp Aangepaste schermafbeelding
 custom_edit Zelfgemaakte emoticon bewerken
 custom_new Nieuwe emoticon maken
 customnick Aangepaste schermnaam
-customsmileys Aangepaste smileys van contacten weergeven
+customsmileys Aangepaste emoticons van contacten weergeven
 customstyle Aangepaste stijl
 custshowcustomsmileys Aangepaste emoticons van dit contact weergeven
 cut Knippen
@@ -258,9 +258,9 @@ dcprofile Geen profiel aanmaken
 default Standaardconfiguratie
 default2 Standaard
 defaultloginradio Inloggen met de standaardconfiguratie
-defchatwinsize Standaardgrootte voor chatvensters (horizontaal x verticaal)
+defchatwinsize Standaardgrootte voor gespreksvensters (horizontaal x verticaal)
 delete Verwijderen
-deleteall Alle verwijderen
+deleteall Alles verwijderen
 deleteblock Verwijderen en blokkeren
 deletecustomstate Aangepaste status verwijderen
 delimiters Haakjes om tijden heen:
@@ -291,7 +291,7 @@ dockgtk Gnome-systeemvak
 docking Systeemvak
 dockingoff Geen systeemvak gebruiken
 dockkde KDE-systeemvak
-done Klaar
+done Voltooid
 dontdownload TLS niet downloaden, ik installeer het zelf.
 dontshow Niet weergeven
 dontshowdp Dit contact niet toestaan om mijn nieuwe schermafbeeldingen te downloaden
@@ -423,7 +423,7 @@ imagefiles Afbeeldingsbestanden
 inbox Postvak IN
 insertsmiley Emoticon invoegen
 inserttextnote Vul de velden 'Onderwerp' en 'Notitie' in en klik vervolgens op 'Opslaan'
-installconvert Je moet het conversieprogramma "ImageMagick" installeren om afbeeldingen te converteren naar de indeling die door de MSN-servers wordt gebruikt. Je kunt een versie van ImageMagick voor jouw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl je het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan s.v.p.
+installconvert Je moet het conversieprogramma "ImageMagick" installeren om afbeeldingen te converteren naar de indeling die door de MSN-servers wordt gebruikt. Je kunt een versie van ImageMagick voor jouw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl je het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alsjeblieft.
 internalerror Interne serverfout
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidfile2 Het bestand $1 kan niet worden aangemaakt. Heb je wel de juiste toegangsrechten?
@@ -494,7 +494,7 @@ logsout heeft zich afgemeld
 logwebcam Alle webcamsessies opslaan om ze later nog eens te kunnen bekijken
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
 longp4c Je hebt voor 'Schermnaam tijdens gesprek' meer dan 130 tekens opgegeven. Dit wordt niet ondersteund door de originele MSN-client, die zal de naam daarom weergeven als $1. Wil je de opgegeven naam toch gebruiken?
-longpsm Je persoonlijke bericht is langer dan het MSN-protocol officieel toestaat. Wil je het toch proberen in te stellen?
+longpsm Je persoonlijk bericht is langer dan het MSN-protocol officieel toestaat. Wil je het toch proberen in te stellen?
 lowrescam Alleen de lage resolutie voor mijn webcam gebruiken
 lprivtoconf Privégesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
@@ -567,7 +567,7 @@ noneavailable Geen beschikbaar
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
 nopic Geen afbeelding
-noprofileexists Er zijn momenteel geen profielen,\nje moet er een aanmaken als je aanmeldingsnamen met een profiel wilt gebruiken.\nGebruik de knop 'Nieuw profiel aanmaken' in dit venster om een nieuw profiel toe te voegen.
+noprofileexists Er zijn momenteel geen profielen,\nje moet er een aanmaken als je aanmeldingsnamen met een profiel wilt gebruiken.\nGebruik de knop 'Nieuw profiel toevoegen' in dit venster om een nieuw profiel toe te voegen.
 normal Standaard
 noskins aMSN kan niet worden gestart omdat er geen skins zijn geïnstalleerd in de map skins/
 nosound Er is geen geluid gedetecteerd. Is je microfoon wel goed aangesloten?
@@ -627,7 +627,7 @@ picstatus Alarmafbeelding gebruiken
 play Afspelen
 playbackposition Afspeelpositie
 playbackspeed Afspeelsnelheid (milliseconden tussen elk frame)
-playerror Er is een fout opgetreden tijdens het afspelen van het geluid : $1
+playerror Er is een fout opgetreden tijdens het afspelen van het geluid: $1
 playing $1 wordt afgespeeld
 playtest Het testgeluid afspelen
 playwebcamsend Webcam hervatten
@@ -707,6 +707,7 @@ rememberaccount Mijn account onthouden
 rememberpass Wachtwoord onthouden
 remembersetting Mijn keuze onthouden
 removeempty Lege groepen verwijderen uit de contactenlijst
+removefromgroup Verwijderen uit groep
 removefromlist Verwijderen uit deze lijst
 rename Hernoemen
 report Foutrapport versturen
@@ -720,7 +721,7 @@ reverselist [RL] Omgekeerde lijst
 rightback Ben zo terug
 save Opslaan
 saveas Opslaan als
-savechatwinsize Chatvenstergrootte opslaan na het aanpassen van de grootte
+savechatwinsize Afmetingen van gespreksvenster opslaan wanneer deze zijn gewijzigd
 savecontacts Contactenlijst exporteren
 savetofile Opslaan in bestand
 says $1 zegt
@@ -846,7 +847,7 @@ timeremaining Resterende tijd
 timestamp Tijdstempel
 timestamps Tijd weergeven in gespreksvensters
 title Al's Messenger
-tkerror TK heeft een fout gemeld, er zit een bug in aMSN, rapporteer het s.v.p. Stuur het bestand $1 naar amsn-bugs@lists.sf.net
+tkerror TK heeft een fout gemeld, er zit een bug in aMSN, rapporteer het alsjeblieft. Stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tkerror1 Er is een fout gemeld door TK, de oorzaak hiervan is een bug in aMSN. Klik op Foutrapport versturen om deze fout te melden aan de makers van aMSN. Klik op Details voor meer informatie over de opgetreden fout, of klik op Negeren om de fout te negeren en door te gaan.
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als je broncode hebt gedownload) en installeer het in $3.
 tlsexplain De map waarin de tcl TLS-module staat. Vul dit in als aMSN het zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL).
@@ -941,5 +942,5 @@ yesterday Gisteren
 yoffset Verticaal
 youblocked Je bent geblokkeerd
 yousay Jij zegt
-youwant Jij wilt
+youwant Kies wat je wilt
 zoom Zoom
