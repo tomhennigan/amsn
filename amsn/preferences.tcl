@@ -2528,7 +2528,9 @@ proc Fill_users_list_event { path1 path2 args} {
 
 proc getTaskbarHeight {{w .taskBarSize}} {
 	global taskbarHeight 
-		
+
+	return 30
+
 	catch {destroy $w}
 	# the -bg {} is used as a trick, it's some kind of bug with tk, where 
 	toplevel $w -bg {}
