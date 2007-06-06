@@ -283,6 +283,8 @@ displaychat Options d'affichage du texte
 displayeventconnect Afficher les connexions
 displayeventdisconnect Afficher les déconnexions
 displayeventemail Afficher les E-Mails
+displayeventnick Afficher les changements de pseudonyme
+displayeventpsm Afficher les changements de message personnel
 displayeventstate Afficher les changements de statut
 displayp4context Afficher le contenu du champ P4-Context en tant qu'envoyeur du message
 displaypic Icône
@@ -477,6 +479,8 @@ logbigger Taille du fichier Log pour chaque contact ne dépasse jamais
 logeventconnect Enregistrer les connexions
 logeventdisconnect Enregistrer les déconnexions
 logeventemail Enregistrer les E-Mails
+logeventnick Enregister les changements de pseudonyme
+logeventpsm Enregistrer les changements de message personnel
 logeventstate Enregistrer les changements de statut
 logfandexp Taille fichiers Log et expiration Historique
 loggedotherlocation Déconnecté. Connecté depuis un autre endroit.
@@ -552,6 +556,7 @@ newtabbedfeature aMSN a une nouvelle caractéristique pour gérer les conversation
 newveravailable Une nouvelle version est disponible ($1)
 next Suivant
 nick Pseudonyme
+nickchanged $1 a son pseudonyme en "$2"
 noactivity Inactif
 nocacheddps Il n'y a pas d'avatars enregistrés pour cet utilisateur
 nocamwarn Aucune webcam n'a été trouvée, ou bien votre webcam est utilisée par un autre programme (elle ne peut dans ce cas pas être utilisée par aMSN). Vous trouverez de l'aide pour résoubre ce problème sur le Wiki:
@@ -681,6 +686,7 @@ proxy Je suis derrière un serveur proxy (HTTP ou SOCKS5)
 psmatend Afficher le Message Personnel à côté du pseudonyme
 psmdontshow Ne pas montrer le Message Personnel, sauf si défini dans un pseudonyme général ou personnalisé
 psm Message Personnel
+psmchanged $1 a changé son message personnel en "$2"
 psmnewline Afficher le Message Personnel en dessous du pseudonyme
 psmplace Où doit être placé le Message Personnel ?
 publishphones Publier mes numéros de téléphone
