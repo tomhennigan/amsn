@@ -245,6 +245,7 @@
 			<name> Sad smiley </name>
 			<text> ":(" </text>
 			<text> ":-(" </text>
+			<text> ":<" </text>
 			<file> Sad_smiley.png </file>
 		</emoticon> 
 		
@@ -325,7 +326,7 @@
 		
 		<emoticon>
 			<name> Party Smiley </name>
-			<text> ""&lt;:o)" </text>
+			<text> "&lt;:o)" </text>
 			<file> Party_smiley.png </file>
 			<animated> yes </animated>
 		</emoticon>
@@ -507,6 +508,13 @@
 			<text> "*help" </text>
 			<text> "*komen" </text>
 			<text> "*unicef" </text>
+			<text> "*hsus" </text>
+			<text> "*one" </text>
+			<text> "*care" </text>
+			<text> "*acs" </text>
+			<text> "*oxfam" </text>
+			<text> "*mod" </text>
+			<text> "*wwf" </text>
 			<file> IM.png </file>
 		</emoticon>  
 		
