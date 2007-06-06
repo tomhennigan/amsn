@@ -1041,6 +1041,8 @@ namespace eval ::ChatWindow {
 				"::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin"
 			bind $w <Control-w> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
 			bind $w <Control-W> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $w\])\]"
+			bind $w <Control-Tab> "::ChatWindow::GoToNextTab $w"
+			bind $w <Control-Shift-Tab> "::ChatWindow::GoToPrevTab $w"
 			bind $w <Control-Next> "::ChatWindow::GoToNextTab $w"
 			bind $w <Control-Prior> "::ChatWindow::GoToPrevTab $w"
 			bind $w <Control-n> "::AVAssistant::AVAssistant"
@@ -2114,7 +2116,7 @@ namespace eval ::ChatWindow {
 			bind $text <Control-Alt-space> BossMode
 			bind $text <Control-a> {%W tag add sel 1.0 {end - 1 chars};break}
 			bind $text <Control-A> {%W tag add sel 1.0 {end - 1 chars};break}
-			bind $text <Tab> "focus $sendbutton; break"
+			#bind $text <Tab> "focus $sendbutton; break"
 		}
 
 		bind $text <<Button3>> [list ::ChatWindow::OpenPasteMenu $w %X %Y] 
