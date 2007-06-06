@@ -5010,7 +5010,7 @@ proc RedrawNick {} {
 }
 
 proc drawNick { } {
-	global pgBuddy pgBuddyTop
+	global pgBuddy pgBuddyTop automessage
 
 	$pgBuddyTop.mystatus delete all
 
