@@ -9,6 +9,7 @@ snit::widgetadaptor loginscreen {
 	option	-font	-default splainf
 
 	variable after_id
+	variable accept_userSelected 1
 
 	variable background_tag
 
@@ -119,11 +120,11 @@ snit::widgetadaptor loginscreen {
 		set forget_me_label [$self create text 0 0 -anchor nw -text [trans forget_me] -fill [::skin::getKey loginfg]]
 		# Remember password
 		set rem_pass_label_tag [$self create text 0 0 -anchor nw -text [trans rememberpass] -fill [::skin::getKey loginfg]]
-		set rem_pass_field [checkbutton $self.rem_pass -variable [::config::getVar save_password] -background [::skin::getKey loginbg]]
+		set rem_pass_field [checkbutton $self.rem_pass -variable [::config::getVar save_password] -background [::skin::getKey loginbg] -command [list $self ValidateCheckbuttonsSP]]
 		set rem_pass_field_tag [$self create window 0 0 -anchor nw -window $rem_pass_field]
 		# Log in automatically
 		set auto_login_label_tag [$self create text 0 0 -anchor nw -text [trans autoconnect] -fill [::skin::getKey loginfg]]
-		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect] -background [::skin::getKey loginbg]]
+		set auto_login_field [checkbutton $self.auto_login -variable [::config::getVar autoconnect] -background [::skin::getKey loginbg] -command [list $self ValidateCheckbuttonsAC]]
 		set auto_login_field_tag [$self create window 0 0 -anchor nw -window $auto_login_field]
 
 		set login_button_background [scalable-bg ::$self.login.bg -source [::skin::loadPixmap loginbutton] \
@@ -248,6 +249,13 @@ snit::widgetadaptor loginscreen {
 		::Event::registerEvent reconnecting all [list $self LoggingIn]
 		::Event::registerEvent profileCreated all [list $self profileCreated]
 		::Event::registerEvent profileDeleted all [list $self profileDeleted]
+
+		if { [$user_field get] == "" } {
+			catch {focus -force $user_field}
+		} else {
+			catch {focus -force $pass_field}
+			
+		}
 	}
 
 	destructor {
@@ -395,6 +403,23 @@ snit::widgetadaptor loginscreen {
 		eval contentmanager bind $tree <ButtonRelease-1> [list "$self LinkClicked $canvas_tag %x %y $cmd"]
 		# Make it blue :)
 		$self itemconfigure $canvas_tag -fill [::skin::getKey loginurlfg]
+	}
+	
+	method ValidateCheckbuttonsAC { } {
+		if { [::config::getKey autoconnect] == 1} {
+			::config::setKey save_password 1
+		} 
+		if { [::config::getKey save_password] != 1} {
+			::config::setKey autoconnect 0
+		}
+	}
+	method ValidateCheckbuttonsSP { } {
+		if { [::config::getKey save_password] != 1} {
+			::config::setKey autoconnect 0
+		}
+		if { [::config::getKey autoconnect] == 1} {
+			::config::setKey save_password 1
+		} 
 	}
 
 	# ------------------------------------------------------------------------------------------------------------
@@ -616,6 +641,16 @@ snit::widgetadaptor loginscreen {
 	# Various changes to login screen after changing user, e.g display picture, password (if stored) etc
 	# Called by: CheckUsername, loggedOut
 	method UserSelected { combo user } {
+		# This is needed here to make sure we change user only once per 100 ms, the reason behind it is that the combobox calls the -command (which is UserSelected)
+		# on <FocusOut> so if we enter a profile in use by typing the address, then we'll get a 'profile in use' popup which generates a <FocusOut> which causes a second
+		# popup to appear at the same time..
+		if { $accept_userSelected == 0 } {
+			return
+		} else {
+			set accept_userSelected 0
+			after 100 "if \[info exists [myvar accept_userSelected]\] [list [list set [myvar accept_userSelected] 1]]"
+		}
+
 		# Don't let us use integers as username (see UsernameEdited)
 		if { [string is integer $user] } { set user "" }
 		# We have to check whether this profile exists because sometimes userSelected gets called when it shouldn't,

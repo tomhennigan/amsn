@@ -910,6 +910,9 @@ namespace eval ::MSN {
 			global password
 			set passwd [set password]
 		}
+		if {$passwd == "" } {
+			return
+		}
 
 		ns configure -stat "d" -sock "" \
 			-server [split [::config::getKey start_ns_server] ":"]

@@ -331,7 +331,7 @@ if {[::config::getKey startontray]} {
 	wm state . normal
 }
 
-if { [::config::getKey autoconnect] == 1 } {
+if { [::config::getKey autoconnect] == 1 && [::config::getKey save_password] == 1} {
   ::MSN::connect
 }
 
