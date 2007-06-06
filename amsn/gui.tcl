@@ -598,7 +598,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	
 	#///////////////////////////////////////////////////////////////////////////////
-	proc customMessageBox { message type {icon ""} {title ""} {parent ""} {askRememberAnswer 0}} {
+	proc customMessageBox { message type {icon ""} {title ""} {parent ""} {askRememberAnswer 0} {modal 0}} {
 		# This tracker is so we can TkWait. It needs to be global so that the buttons can modify it.
 		global customMessageBoxAnswerTracker
 		# This is the tracker for the checkbox.
@@ -687,6 +687,10 @@ namespace eval ::amsn {
 		moveinscreen $w 30
 		bind $w <<Escape>> "destroy $w"
 		wm protocol $w WM_DELETE_WINDOW [list set customMessageBoxAnswerTracker($unique) ""]
+
+		if { $modal } {
+			grab set $w
+		}
 
 		tkwait variable customMessageBoxAnswerTracker($unique)
 

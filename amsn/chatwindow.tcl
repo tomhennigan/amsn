@@ -219,7 +219,7 @@ namespace eval ::ChatWindow {
 		} elseif {[::config::isSet closeChatWindowWithTabs]} {
 			::ChatWindow::CloseTab $currenttab
 		} else {
-			set result [::amsn::customMessageBox [trans closeall] yesnocancel question [trans title] $window 1]
+			set result [::amsn::customMessageBox [trans closeall] yesnocancel question [trans title] $window 1 1]
 			set answer [lindex $result 0]
 			set rememberAnswer [lindex $result 1]
 			
@@ -232,11 +232,11 @@ namespace eval ::ChatWindow {
 			}
 			
 			if { $answer == "yes" } {
-		    	::ChatWindow::CloseAll $window
-		    	destroy $window
+				::ChatWindow::CloseAll $window
+				destroy $window
 			}
 			if { $answer == "no" } {
-		    	::ChatWindow::CloseTab $currenttab
+				::ChatWindow::CloseTab $currenttab
 			}
 		}
 	}
