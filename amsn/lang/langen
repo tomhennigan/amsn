@@ -284,6 +284,8 @@ displayeventconnect Display when contacts go online
 displayeventdisconnect Display when contacts go offline
 displayeventemail Display when an E-Mail is received
 displayeventstate Display when contacts change status
+displayeventnick Display when contacts change nickname
+displayeventpsm Display when contacts change Personal Message
 displayp4context Display P4-Context field content as message sender
 displaypic Display Picture
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -478,6 +480,8 @@ logeventconnect Log the connections
 logeventdisconnect Log the disconnections
 logeventemail Log when an email is received
 logeventstate Log the status changes
+logeventnick Log the nickname changes
+logeventpsm Log the Personal Message changes
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
@@ -552,6 +556,7 @@ newtabbedfeature aMSN has a new feature for managing conversation, you can now h
 newveravailable Newer version $1 available for download
 next Next
 nick Nick
+nickchanged $1 Changed his nickname to '$2'
 noactivity Idle
 nocacheddps No Display Pictures in cache for this user
 nocamwarn No webcam were found, or your webcam is already in use by another program (which means it cannot be used by aMSN). You will find help on how to solve this issue on our Wiki:
@@ -679,6 +684,7 @@ proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
 psmatend Show Personal Message beside the nickname
+psmchanged $1 Changed his PSM to '$2'
 psmdontshow Don't show Personal Message, unless otherwise defined in global/custom nicks
 psmnewline Show Personal Message below the nickname
 psm Personal Message

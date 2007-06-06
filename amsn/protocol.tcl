@@ -3809,6 +3809,12 @@ namespace eval ::Event {
 		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
 		::abook::setVolatileData $contact currentMedia [::sxml::replacexml [encoding convertfrom utf-8 $currentMedia]]
 
+		if {$currentMedia != "" } {
+			::log::eventpsm $contact $currentMedia
+		} else {
+			::log::eventpsm $contact $psm
+		}
+
 		foreach chat_id [::ChatWindow::getAllChatIds] {
 			if { $chat_id == $contact } {
 				::ChatWindow::TopUpdate $chat_id
@@ -4863,6 +4869,7 @@ proc cmsn_change_state {recv} {
 				}
 			}
 		}
+		::log::eventnick $user $user_name
 	} else {
 		set nick_changed 0
 	}

@@ -1939,18 +1939,26 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.displaydisconnect -text "[trans displayeventdisconnect]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_disconnect]
 	checkbutton $lfname.displayemail -text "[trans displayeventemail]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_email]
 	checkbutton $lfname.displaystate -text "[trans displayeventstate]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_state]
+	checkbutton $lfname.displaynick -text "[trans displayeventnick]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_nick]
+	checkbutton $lfname.displaypsm -text "[trans displayeventpsm]" -onvalue 1 -offvalue 0 -variable [::config::getVar display_event_psm]
 	checkbutton $lfname.logconnect -text "[trans logeventconnect]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_connect]
 	checkbutton $lfname.logdisconnect -text "[trans logeventdisconnect]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_disconnect]
 	checkbutton $lfname.logemail -text "[trans logeventemail]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_email]
 	checkbutton $lfname.logstate -text "[trans logeventstate]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_state]
+	checkbutton $lfname.lognick -text "[trans logeventnick]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_nick]
+	checkbutton $lfname.logpsm -text "[trans logeventpsm]" -onvalue 1 -offvalue 0 -variable [::config::getVar log_event_psm]
 	grid $lfname.displayconnect -row 0 -column 0 -sticky w
 	grid $lfname.displaydisconnect -row 1 -column 0 -sticky w
 	grid $lfname.displayemail -row 2 -column 0 -sticky w
 	grid $lfname.displaystate -row 3 -column 0 -sticky w
+	grid $lfname.displaynick -row 4 -column 0 -sticky w
+	grid $lfname.displaypsm -row 5 -column 0 -sticky w
 	grid $lfname.logconnect -row 0 -column 1 -sticky w
 	grid $lfname.logdisconnect -row 1 -column 1 -sticky w
 	grid $lfname.logemail -row 2 -column 1 -sticky w
 	grid $lfname.logstate -row 3 -column 1 -sticky w
+	grid $lfname.lognick -row 4 -column 1 -sticky w
+	grid $lfname.logpsm -row 5 -column 1 -sticky w
 
 
 	#  .------------.

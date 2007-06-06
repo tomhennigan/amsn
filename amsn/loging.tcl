@@ -1554,6 +1554,30 @@ namespace eval ::log {
 	}
 
 
+	# Display/log when a user changes nick if we display/log an event
+	proc eventnick {email nick} {
+
+		if {  [::config::getKey display_event_nick] } {
+			.main.eventmenu.list list insert 0 "[timestamp] : [trans nickchanged $email $nick]"
+			.main.eventmenu.list select 0
+		}
+		if { [::config::getKey log_event_nick] } {
+			::log::EventLog "[trans nickchanged $email $nick]"
+		}
+	}
+
+	# Display/log when a user changes psm if we display/log an event
+	proc eventpsm {email psm} {
+
+		if {  [::config::getKey display_event_psm] } {
+			.main.eventmenu.list list insert 0 "[timestamp] : [trans psmchanged $email $psm]"
+			.main.eventmenu.list select 0
+		}
+		if { [::config::getKey log_event_psm] } {
+			::log::EventLog "[trans psmchanged $email $psm]"
+		}
+	}
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# Log what concerns filetransferts
 
