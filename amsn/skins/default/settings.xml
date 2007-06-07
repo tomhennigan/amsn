@@ -208,8 +208,8 @@
 			<name> Very happy smiley </name>
 			<text> ":D" </text>
 			<text> ":-D" </text>
-			<text> ":>" </text>
-			<text> ":->" </text>
+			<text> ":&gt;" </text>
+			<text> ":-&gt;" </text>
 			<file> Very_happy_smiley.png </file>
 		</emoticon>
 		
@@ -245,7 +245,7 @@
 			<name> Sad smiley </name>
 			<text> ":(" </text>
 			<text> ":-(" </text>
-			<text> ":<" </text>
+			<text> ":&lt;" </text>
 			<file> Sad_smiley.png </file>
 		</emoticon> 
 		
