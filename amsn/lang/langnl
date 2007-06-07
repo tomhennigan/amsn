@@ -283,6 +283,8 @@ displaychat Discussies
 displayeventconnect Weergeven wanneer een contact online komt
 displayeventdisconnect Weergeven wanneer een contact offline gaat
 displayeventemail Weergeven wanneer een e-mail binnenkomt
+displayeventnick Weergeven wanneer een contact zijn schermnaam wijzigt
+displayeventpsm Weergeven wanneer een contact zijn persoonlijk bericht wijzigt
 displayeventstate Weergeven wanneer een contact van status verandert
 displayp4context In een gespreksvenster de 'Schermnaam tijdens gesprek' van de berichtverzender weergeven
 displaypic Schermafbeelding
@@ -473,10 +475,12 @@ lleftconf $1 heeft de vergadering verlaten
 load Activeren
 loadcontacts Contactenlijst importeren
 loadotherdisplaypic Even geduld a.u.b., de schermafbeeldingen van $1 worden geladen...
-logbigger Het logboek mag per contact niet groter zijn dan
+logbigger Het logboek mag per contact niet groter zijn dan 
 logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
 logeventemail In logboek vastleggen wanneer een e-mail wordt ontvangen
+logeventnick De schermnaamwijzigingen in logboek vastleggen
+logeventpsm De persoonlijk-berichtwijzigingen in logboek vastleggen
 logeventstate In logboek vastleggen wanneer een contact van status verandert
 logfandexp Omvang van logboeken en verlopen van logs
 loggedotherlocation De verbinding is verbroken omdat je elders bent aangemeld
@@ -552,6 +556,7 @@ newtabbedfeature aMSN heeft een nieuwe functie, waarmee het mogelijk is om m.b.v
 newveravailable Versie $1 is beschikbaar voor downloaden
 next Volgende
 nick Schermnaam
+nickchanged $1 heeft zijn schermnaam gewijzigd in '$2'
 no Nee
 noactivity Geen activiteit
 nocacheddps Er zijn geen opgeslagen schermafbeeldingen voor dit contact
@@ -680,6 +685,7 @@ proxyconfhttp Configuratie voor HTTP-proxyondersteuning
 proxyconnection De onderstaande proxyserver gebruiken:
 psm Persoonlijk bericht
 psmatend Persoonlijk bericht weergeven naast de schermnaam
+psmchanged $1 heeft zijn persoonlijk bericht gewijzigd in '$2'
 psmdontshow Geen persoonlijk bericht weergeven, tenzij anders aangegeven in de algemene/aangepaste schermnaam
 psmnewline Persoonlijk bericht weergeven onder de schermnaam
 psmplace Hoe wil je persoonlijke berichten gepositioneerd hebben?
