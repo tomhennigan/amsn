@@ -222,5 +222,5 @@ proc ScrollableFrame::_frameConfigure {canvas frame width height} {
     if {[winfo width $frame] < [winfo width $canvas]} {
 	set width [winfo width $canvas]
     }
-    $canvas:cmd configure -scrollregion [$canvas:cmd bbox all]
+    $canvas:cmd configure -scrollregion [list 0 0 $width $height]
 }

@@ -44,3 +44,6 @@ proc ::ScrollableFrame::compute_size { path } {
 }
 
 
+proc ::ScrollableFrame::_frameConfigure {canvas frame width height} {
+    $canvas:cmd configure -scrollregion [$canvas:cmd bbox all]
+}
