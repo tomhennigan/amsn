@@ -2942,10 +2942,14 @@ namespace eval ::amsn {
 
 		set container [::ChatWindow::GetContainerFromWindow $win_name]
 		if { $container != "" } { ::ChatWindow::SwitchToTab $container $win_name }
-		#from a weird reason, 
-		if {!$oim && [::config::getKey tabbedchat] != 0 } {
+
+		# while receiving oims, with no tabbed chatting,
+		# since many windows could open at the same time, and each of them were asking for the focus
+		# here is an ugly workaround
+		if {!$oim || [::config::getKey tabbedchat] != 0 } {
 			focus [::ChatWindow::GetInputText ${win_name}]
 		}
+
 		return $win_name
 	}
 	#///////////////////////////////////////////////////////////////////////////////
