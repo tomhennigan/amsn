@@ -56,7 +56,8 @@ assistantaoutput Ses çýkýþ aygýtýný seçip deneme kaydýný çalmayý deneyin
 assistantawarn Kendi sesinizi kaydedemez ya da baðlantýlarýnýzla sesli konuþamazsýnýz. Bu eklentiyi nasýl kuracaðýnýz hakkýnda bilgiyi Wiki sayfamýzda bulabilirsiniz:
 assistantfinetunepic Aþaðýdaki ayarlarla görüntü kalitesini ayarlayýnýz
 assistantselectcam Kameranýzý listeden seçiniz
-assistantstarting Yardýmcý baþlatýlýyor
+assistantstarting Ayarlayýcý baþlatýlýyor
+assistanttitle Ses Ve Görüntü Ayarlayýcýsý
 assistantwelcome Bu yardýmcý program aMSN ses ve görüntü ayarlarýný yapmak için size yol gösterecek.\n\nGerekli eklentilerin kurulu olup olmadýðýný denetleyip ses ve görüntü aygýtlarýný seçtikten sonra görüntü kalitesi ve çözünürlük gibi ayarlarý yapabileceksiniz.
 audioconfigured Aþaðýdaki ayarlarý seçtiniz:\nSes çýkýþ aygýtý: $1\nSes kayýt aygýtý: $2
 audiovideo Ses ve görüntü ayarlarý
@@ -117,6 +118,7 @@ cancel Ýptal Et
 cancelled Ýptal edildi
 cannotdeleteprofile Kimlik kullanýmda olduðu için silinemiyor
 cantexec $1 uygulamasi çalýþtýrýlamýyor. Seçenekleri kontrol edin.
+cantget $1 alýnamadý
 cantloadonlineversion Güncellenmiþ diller listesi internetten alýnamadý
 cantremoveothers "Diðer" öbeði silinemiyor
 captureextloaded Kamera eklentisi -$1- yüklendi
@@ -399,6 +401,7 @@ handle Ýsim
 havenomic Mikrofonum yok
 help Yardým
 helpcontents Yardým içeriði
+hidebuttonbar Düðmeleri gizle
 hidedisplaypic Kullanýcý resmini gösterme
 hidemenu Menüyü göster/gizle
 hidemenumessage Menüleri gizlemek istediðinizden emin misiniz?\nMenüleri tekrar görmek için Ctrl+M kýsayolunu kullanabilirsiniz.
@@ -624,6 +627,7 @@ picstatus Resimli alarmý aç/kapa
 play Oynat
 playbackposition Oynatýcý konumu
 playbackspeed Oynatma hýzý (iki kare arasýnda milisaniye cinsinden süre)
+playerror Sesi çalarken bir sorun oluþtu: $1
 playing $1 çalýnýyor
 playtest Deneme dosyasýný çal
 playwebcamsend Kamera görüntüsü göndermeye devam et
@@ -703,6 +707,7 @@ rememberaccount Hesabýmý hatýrla
 rememberpass Þifreyi hatýrla
 remembersetting Bu ayarlarý hatýrla
 removeempty Boþ öbekleri baðlantý listesinden çýkar
+removefromgroup Öbekten çýkar
 removefromlist Bu listeden çýkar
 rename Yeniden adlandýr
 report Bildir
@@ -762,6 +767,7 @@ showlinksinlogin Giriþ ekranýnda internet baðlantýlarýný göster
 showmailicon Yeni e-posta varsa panelde e-posta imgesi gözüksün
 showmypic Kullanýcý Resmim
 shownotify Belli olaylarda uyarý penceresi göster
+showonedpframe Sohbet pencerelerinde bir tek kullanýcý resmi çerçevesi olsun
 showpicnotify Uyarý pencerelerinde kullanýcý resimleri gözüksün
 showuserpic $1 kullanýcýsýnýn resmi
 signinstatus Baðlanma þekli:
