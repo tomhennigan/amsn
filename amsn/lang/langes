@@ -118,6 +118,7 @@ cancel Cancelar
 cancelled Cancelado
 cannotdeleteprofile No se puede borrar este perfil porque parece que está siendo usado por otra sesión de aMSN
 cantexec No se puede ejecutar la aplicación: $1. Comprueba las preferencias
+cantget No se pudo obtener $1
 cantloadonlineversion No se pudo descargar de Internet la lista actualizada de idiomas
 cantremoveothers No se puede borrar el grupo "Otros"
 captureextloaded La extensión de captura -$1- ha sido cargada
@@ -283,6 +284,8 @@ displaychat Configuración de mensajes
 displayeventconnect Mostrar cuándo se conectan los contactos
 displayeventdisconnect Mostrar cuándo se desconectan los contactos
 displayeventemail Mostrar cuándo se recibe un email
+displayeventnick Mostrar cuándo los contactos cambian su apodo
+displayeventpsm Mostrar cuándo los contactos cambian su mensaje personal
 displayeventstate Mostrar cuándo los contactos cambian de estado
 displayp4context Mostrar contenido del campo P4-Context como remitente del mensaje
 displaypic Imagen para mostrar
@@ -479,6 +482,8 @@ logbigger Archivos de registro de un contacto no superan los
 logeventconnect Registrar las conexiones
 logeventdisconnect Registrar las desconexiones
 logeventemail Registrar cuándo se recibe un correo electrónico
+logeventnick Registrar los cambios de apodo
+logeventpsm Registrar los cambios de mensajes personales
 logeventstate Registrar los cambios de estado
 logfandexp Tamaño de archivos de registro y expiración de historial
 loggedotherlocation Desconectado: Se inició la sesión en otra ubicación
@@ -554,6 +559,7 @@ newtabbedfeature aMSN tiene una nueva función para gestionar las conversaciones
 newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 nick Apodo
+nickchanged $1 ha cambiado su apodo a '$2'
 noactivity Sin actividad
 nocacheddps No hay imágenes para mostrar almacenadas para este usuario
 nocamwarn No se detectó ninguna cámara web, o la misma está en uso por otro programa (lo que significa que no puede ser usada por aMSN). Encontrará ayuda para resolver este problema en nuestro Wiki:
@@ -681,6 +687,7 @@ proxyconfhttp Configurar soporte de proxy HTTP
 proxyconnection Me conecto a Internet usando un servidor proxy:
 proxy Estoy detrás de un servidor proxy (HTTP o SOCKS5)
 psmatend Mostrar Mensaje Personal junto al apodo
+psmchanged $1 ha cambiado su mensaje personal a '$2'
 psmdontshow No mostrar el mensaje personal a no ser que se defina en Apodo Global/Personalizado
 psmnewline Mostrar Mensaje Personal debajo del apodo
 psmplace ¿Dónde debería mostrarse el Mensaje Personal?
@@ -710,6 +717,7 @@ rememberpass Recordar contraseña
 remembersetting Recordar esta selección
 removecustom Eliminar imagen personalizada
 removeempty Eliminar grupos vacíos de la lista de contactos
+removefromgroup Eliminar del grupo
 removefromlist Borrar de esta lista
 rename Cambiar nombre
 report Informe
