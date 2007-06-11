@@ -118,6 +118,7 @@ cancel Cancelar
 cancelled Cancelado 
 cannotdeleteprofile Impossível apagar este perfil pois ele está sendo usado por uma sessão do aMSN.
 cantexec Impossível executar a aplicação: $1. Verifique suas preferências
+cantget Não foi possível pegar $1
 cantloadonlineversion Não foi possível obter na Internet a lista atualizada de idiomas
 cantremoveothers Não é possível remover o grupo "Outros"
 captureextloaded Extensão de captura -$1- foi carregada
@@ -282,6 +283,8 @@ displaychat Exibir opções de texto
 displayeventconnect Exibir quando contatos ficarem online
 displayeventdisconnect Exibir quando contatos ficarem offline
 displayeventemail Exibir ao receber e-mail
+displayeventnick Mostrar quando contatos mudarem de nickname 
+displayeventpsm Mostrar quando contatos mudarem mensagem pessoal
 displayeventstate Exibir quando um contato altera seu estado
 displayp4context Exibir campo de Contexto-P4 como remetente da mensagem
 displaypic Imagem de Exibição
@@ -476,6 +479,8 @@ logbigger Tamanho dos arquivos para cada contato nunca deve exceder
 logeventconnect Registrar conexões
 logeventdisconnect Registrar desconexões
 logeventemail Registrar quando um e-mail é recebido
+logeventnick Logar as mudanças do nickname
+logeventpsm Logar as mudanças de mensagem pessoal
 logeventstate Registrar alterações de status
 logfandexp Tamanho dos arquivos e tempo de vida do Histórico
 loggedotherlocation Você foi desconectado pois se conectou em outro local
@@ -551,6 +556,7 @@ newtabbedfeature O aMSN tem uma nova ferramenta para gerenciar conversas: agora 
 newveravailable Nova versão $1 disponível para download
 next Próximo
 nick Apelido
+nickchanged $1 Mudou o nick para '$2'
 noactivity Sem atividade
 nocacheddps Não mostrar figuras em cache para esse usuário
 nocamwarn Nenhuma webcam foi encontrada, ou sua webcam já está em uso por outro programa (o que significa que não pode ser usado pelo aMSN). Você pode encontrar ajuda de como resolver esse problema no nosso Wiki:
@@ -678,6 +684,7 @@ proxyconfhttp Suporte a configuração de proxy HTTP
 proxyconnection Eu me conecto à Internet usando um servidor proxy:
 proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
 psmatend Mostrar mensagem pessoal ao lado do apelido
+psmchanged $1 Mudou a mesagem para '$2'
 psmdontshow Não mostrar mensagem pessoal, invés disso mostre apelido global/customizado
 psm Mensagem Pessoal
 psmnewline Mostrar mensagem pessoal embaixo do apelido
@@ -706,6 +713,7 @@ rememberaccount Lembrar conta
 rememberpass Lembrar senha
 remembersetting Lembrar os ajustes
 removeempty Ocultar grupos vazios na lista de contatos
+removefromgroup Remover do grupo
 removefromlist Remover desta lista
 rename Renomear
 reporting Reportando
