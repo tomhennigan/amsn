@@ -1,3 +1,4 @@
+amsn_lang_version 2
 shake_receive Titreþim alýnýnca pencereyi titret
 shake_send Titreþim gönderirken pencereyi titret
 shake_nudge Pencere titreþim sayýsý
@@ -7,12 +8,13 @@ notify_receive Titreþim alýnýnca sohbet penceresinde belirt
 sound_send Titreþim gönderirken ses çýkar
 sound_receive Titreþim alýnýnca ses çýkar
 add_button Sohbet penceresine titreþim gönderme düðmesi ekle
+add_blockbutton Sohbet penceresine titreþim alýnmasýný engelleyen bir düðme ekle
 send_nudge Titreþim gönder!
 no_nudge_support Baðlantýnýzýn istemcisi desteklemediði için titreþim gönderilemedi.
 nudge_sent Titreþim gönderdiniz.
-limit Activate Nudge receive limitation
-delay Minimum time between 2 nudge from the same contact (in seconds)
-send_nudge Send nudge
-no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
-block_nudge Block/Unblock nudges
+limit Titreþim almayý sýnýrlandýr
+delay Ayný baðlantýdan alýnacak 2 titreþim arasýndaki minimum süre (saniye olarak)
+send_nudge Titreþim gönder
+no_nudge_support Baðlantýnýz titreþimleri destekleyen bir istemci kullanmadýðý için kendisine titreþim gönderemezsiniz
+block_nudge Titreþimleri engelle/Engeli kaldýr
 

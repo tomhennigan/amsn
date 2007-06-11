@@ -1,0 +1,32 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu Göz kýrpmalarý menüsünde \"Yeni göz kýrpmasý ekle\" olsun.
+winks_close_menu_on_mouse_leave Göz kýrpmalarý menüsü fare çekilince kapansýn.
+winks_cabextract_command CabExtract komutu:
+winks_use_extrac32 cabextract yerine extrac32 kullan (Windows XP)
+winks_swf_player_command Swf oynatýcý komutu:
+winks_swf_player_arguments Swf oynatýcý parametreleri:
+winks_add_new_wink Yeni göz kýrpmasý ekle...
+winks_introduce_new_wink_name Göz kýrpmasýnýn yeni ismi:
+winks_cant_open Açýlamýyor:
+winks_received_wink Göz kýrpmasý alýndý:
+winks_unknown_wink_waiting_for_it Bilinmeyen göz kýrpmasý, bekleniyor...
+winks_wink_transfer_complete Göz kýrpmasý aktarýmý tamamlandý:
+winks_play_animation Animasyonu göster...
+winks_add_to_winks_menu Göz kýrpmalarý menüsüne ekle
+winks_sending_wink Göz kýrpmasýný gönderiyor...
+winks_sent_wink Göz kýrpmasý gönderildi:
+winks_wink_added Göz kýrpmasý eklendi!
+winks_the_wink_is_already_in_winks_menu Bu göz kýrpmasý zaten menüde var!
+winks_play_wink_immediatly_when_recived Göz kýrpmalarý alýnýnca hemen gösterilsin.
+winks_wink_deleted Göz kýrpmasý silindi.
+winks_wink_renamed Göz kýrpmasýnýn ismi deðiþtirildi.
+winks_cant_add_now_wait_thumbnail Göz kýrpmasýný eklemek için küçük resmin gözükmesini bekleyiniz.
+winks_cant_play_now_wait_thumbnail Göz kýrpmasýný izlemek için küçük resmin gözükmesini bekleyiniz.
+winks_yourcontact_winks göz kýrpmalarý:
+winks_yourcontact_amsn_client_doesnt_supports_winks göz kýrpmalarýný desteklemeyen bir istemci kullanýyor.
+winks_play_embed Göz kýrpmasýný sohbet penceresinde göster (sadece gnash için). 
+winks_notify_in_one_line Alýnan göz kýrpmalarýný tek satýrda belirt.
+winks_play Göster
+winks_use_queque_out Göz kýrpmalarýný sohbet penceresi dýþýnda gösterirken sýrayla göster.
+winks_use_queque_in Göz kýrpmalarýný sohbet penceresinde gösterirken sýrayla göster.
+winks_file_is_not_a_wink Dosya göz kýrpmasý içermiyor.
