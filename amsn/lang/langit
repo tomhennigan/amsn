@@ -284,6 +284,8 @@ displayeventconnect Mostra quando i contatti si connettono
 displayeventdisconnect Mostra quando i contatti si sconnettono
 displayeventemail Mostra quando si riceve Posta
 displayeventstate Mostra quando i contatti cambiano stato
+displayeventnick Mostra quando i contatti cambiano nick
+displayeventpsm Mostra quando i contatti cambiano messaggio personale
 displayp4context Visualizza il contenuto del campo P4-Context come mittente del messaggio
 displaypic Immagine personale
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -478,6 +480,8 @@ logeventconnect Registra le connessioni
 logeventdisconnect Registra le disconnessioni
 logeventemail Registra quando si riceve posta
 logeventstate Registra i cambi di stato
+logeventnick Registra i cambi di nick
+logeventpsm Registra i cambi di messaggio personale
 logfandexp Termine prefissato della cronologia e dimensione dei registri
 loggedotherlocation Disconnesso. E' stato effettuato l'accesso a Messenger da un altro computer
 loggingin Connessione in corso...
@@ -552,6 +556,7 @@ newtabbedfeature Su aMSN è ora possibile gestire le varie conversazioni anche ri
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
 nick nick
+nickchanged $1 ha cambiato il nick in '$2'
 noactivity Nessuna attività
 nocacheddps Nessuna immagine in cache per questo utente
 nocamwarn Nessuna webcam trovata o la tua webcam è già utilizzata da un altro programma (significa che non può essere usata da aMSN). Puoi trovare delle indicazioni su come risolvere questo problema nella nostra Wiki:
@@ -679,6 +684,7 @@ proxyconf Configurazione proxy
 proxyconnection Mi connetto ad internet usando un server proxy:
 proxy Sono dietro un server proxy (HTTP o SOCKS5)
 psmatend Mostra il messaggio personale a fianco al nick
+psmchanged $1 ha cambiato il messaggio personale in '$2'
 psmdontshow Non mostrare il messaggio personale, a meno che sia impostato nei nick globali/personalizzati
 psmnewline Mostra il messaggio personale sotto il nick
 psm Messaggio personale
