@@ -980,6 +980,8 @@ namespace eval ::MSN {
 
 		set automessage "-1"
 
+		::plugins::PostEvent OnDisconnect evPar
+
 		#an event to let the GUI know we are actually logged out now
 		::Event::fireEvent loggedOut protocol
 

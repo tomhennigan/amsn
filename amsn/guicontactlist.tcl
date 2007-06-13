@@ -255,7 +255,7 @@ namespace eval ::guiContactList {
 		catch {after cancel $resizeAfterId}		
 		set resizeAfterId [after 500 "::guiContactList::drawBG $clcanvas 0; \
 			::guiContactList::drawContacts $clcanvas; \
-			::guiContactList::organiseList $clcanvas;"]
+			::guiContactList::organiseList $clcanvas \[::guiContactList::getContactList\];"]
 		::guiContactList::centerItems $clcanvas
 	}
 
@@ -267,7 +267,7 @@ namespace eval ::guiContactList {
 
 		::guiContactList::drawGroups $canvas
 		::guiContactList::drawContacts $canvas
-		::guiContactList::organiseList $canvas
+		::guiContactList::organiseList $canvas [getContactList]
 	}
 	
 
@@ -423,7 +423,7 @@ namespace eval ::guiContactList {
 	proc groupRemoved { eventused gid } {
 		variable clcanvas
 		if { [winfo exists $clcanvas] } {
-			::guiContactList::organiseList $clcanvas
+			::guiContactList::organiseList $clcanvas [getContactList]
 		}
 	}
 
@@ -583,7 +583,7 @@ namespace eval ::guiContactList {
 		}
 		
 		#reorganise list
-		::guiContactList::organiseList $clcanvas
+		::guiContactList::organiseList $clcanvas [getContactList]
 #		status_log "contactChanged :: List redrawn for contacts $contacts, groups $groups, $nicks reparsed" green
 					
 	}
@@ -592,12 +592,12 @@ namespace eval ::guiContactList {
 		::groups::ToggleStatus [lindex $element 0]
 		# Redraw group as it's state changed
 		::guiContactList::drawGroup $canvas $element 
-		::guiContactList::organiseList $canvas
+		::guiContactList::organiseList $canvas [getContactList]
 	}
 
 
 	# Move 'm to the right place
-	proc organiseList { canvas } {
+	proc organiseList { canvas contactList } {
 		variable Xbegin
 		variable Ybegin
 		variable nickheightArray
@@ -615,7 +615,7 @@ namespace eval ::guiContactList {
 		$canvas delete box
 
 		# Now let's get an exact contact list
-		set contactList [getContactList]
+		set contactList 
 
 		# Let's draw each element of this list
 		set curPos [list $Xbegin $Ybegin]
@@ -2355,7 +2355,7 @@ namespace eval ::guiContactList {
 
 			if { $newgrId == $oldgrId || !$newgrIdV || !$oldgrIdV } {
 				#if the contact was dragged to the group of origin or is from/to an fake group, just move it back
-				::guiContactList::organiseList $canvas
+				::guiContactList::organiseList $canvas [getContactList]
 			} else {
 				if { $::guiContactList::modeCopy } {
 					# Copy the contact between the groups if Ctrl key is pressed
