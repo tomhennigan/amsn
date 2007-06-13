@@ -1,6 +1,6 @@
 <?php
 
-if (!mysql_num_rows(($q = mysql_query("SELECT `id`, `name`, `desc`, `screen_id` FROM `amsn_screenshots` ORDER BY `name`")))) {
+if (!mysql_num_rows(($q = mysql_query("SELECT `id`, `name`, `desc`, `screen_id` FROM `amsn_screenshots` ORDER BY `order` DESC, `name` ASC")))) {
     echo "<p>There are no screenshots available.</p>\n";
     return;
 }

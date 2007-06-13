@@ -49,9 +49,44 @@ if ($_GET['action'] == 'add') {
         }
     } else
         form();
-} else if ($_GET['action'] == 'remove' || $_GET['action'] == 'edit') {
-    if (!mysql_num_rows(($q = @mysql_query("SELECT * FROM `amsn_screenshots` ORDER BY `name` ASC")))) {
+} else if ($_GET['action'] == 'remove' || $_GET['action'] == 'edit' || $_GET['action'] == 'sort') {
+    if (!mysql_num_rows(($all = @mysql_query("SELECT * FROM `amsn_screenshots` ORDER BY `order` DESC, `name` ASC")))) {
         echo "<p>There are no screenshots yet, you can <a href=\"index.php?load=screenshots&amp;action=add\">add one</a></p>\n";
+        return;
+    }
+
+    if ($_GET['action'] == 'sort') {
+?>
+
+<div id="sort_list_div">
+<iframe src="" id="sort_list_frame" name="sort_list_frame" style="width: 0px; height: 0px; border: 0px;"></iframe>
+</div>
+<script language="javascript"><!--
+    function setid()
+    {
+        var field = document.getElementById("sort_id");
+        var list = document.getElementById("list_ids");
+        field.value = list.selectedIndex;
+        return true;
+    }
+    //-->
+</script>
+<form action="admin/sort.screenshots.php" onsubmit="setid();" method="post" id="form" target="sort_list_frame">
+<select size="20" id="list_ids">
+<?php
+        while ($row = mysql_fetch_assoc($all)) {
+?>
+        <option><?php echo htmlentities(stripslashes($row['name'])) ?></option>
+<?php
+        }
+?>
+</select>
+<br />
+<button name="sort" value="up" type="submit">Up</button>
+<button name="sort" value="down" type="submit">Down</button>
+<input type="hidden" name="sort_id" id="sort_id" value="" />
+</form>
+<?php
         return;
     }
 
@@ -90,7 +125,7 @@ if ($_GET['action'] == 'add') {
 <form action="<?php echo htmlentities($_SERVER['REQUEST_URI']) ?>" method="post" id="form">
     <label for="id">Name:</label><select name="id" id="id">
 <?php
-while ($row = mysql_fetch_assoc($q)) {
+while ($row = mysql_fetch_assoc($all)) {
 ?>
         <option value="<?php echo $row['id'] ?>"><?php echo htmlentities(stripslashes($row['name'])) ?></option>
 <?php

@@ -159,7 +159,7 @@ function user_level($level = null)
     if (isset($level))
         return (ereg('[1-5]', $level) && $_SESSION['level'] >= $level);
 
-    if ($_SESSION['user'] < 6 && $_SESSION['level'] > 0)
+    if ($_SESSION['level'] < 6 && $_SESSION['level'] > 0)
 	    return true;
 
 	return false;

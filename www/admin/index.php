@@ -72,6 +72,7 @@ if (!user_level()) {
         <li><a href="index.php?load=screenshots&amp;action=edit">Edit screenshot</a></li>
         <li><a href="index.php?load=screenshots&amp;action=remove">Remove screenshot</a></li>
 <?php } ?>
+        <li><a href="index.php?load=screenshots&amp;action=sort">Sort screenshots</a></li>
     </ul></li>
 <?php } if (user_level(3)) { ?>
     <li>Files<ul>
