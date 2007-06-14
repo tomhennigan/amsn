@@ -557,11 +557,15 @@ namespace eval ::log {
 		global webcam_dir langenc logvar
 
 		# Get all the contacts with saved webcam sessions
-		foreach sLogFile [glob -tails -nocomplain -types f -directory ${webcam_dir} "*.cam"] {
-			set sLogFile [ string range $sLogFile 0 [ expr { [string length $sLogFile] - 5 } ] ]
-			set hNames($sLogFile) 1
+		set lDirs [concat ${webcam_dir} [glob -nocomplain -types d "${webcam_dir}/*"]]
+
+		foreach sDir $lDirs {
+			foreach sLogFile [glob -tails -nocomplain -types f -directory ${sDir} "*.cam"] {
+				set sLogFile [ string range $sLogFile 0 [ expr { [string length $sLogFile] - 5 } ] ]
+				set hNames($sLogFile) 1
+			}
 		}
-		
+
 		set contact_list [ array names hNames ]
 		
 		set sortedcontact_list [lsort -dictionary $contact_list]
@@ -1063,12 +1067,14 @@ namespace eval ::log {
 	}
 
 
-	proc ChangeCamLogToDate { w email widget date } {
+	proc ChangeCamLogToDate { w email {widget ""} {date ""} } {
 
 		global webcam_dir
 
 		status_log "Changing log for $email to $date\n\n"
-
+		if { $date == "" } {
+			return
+		}
 		if { $date == "[trans currentdate]" } {
 			set date "."
 		}
@@ -1147,9 +1153,13 @@ namespace eval ::log {
 
 	}	
 
-	proc ChangeCamLogWin {w contact widget email} {
+	proc ChangeCamLogWin {w contact {widget ""} {email ""}} {
 
 		global webcam_dir
+
+		if { $email == "" } {
+			return
+		}
 
 		status_log "(CamLoging)Switch to $email" blue
 
