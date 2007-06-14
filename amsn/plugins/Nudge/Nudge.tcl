@@ -566,26 +566,15 @@ namespace eval ::Nudge {
 	proc check_clientid {email} {
 		::Nudge::log "Verify if contact is using MSN 7.0 protocol"
 
-		set supportedclients [list 1073741824 1342177280]
-
 		set clientid [::abook::getContactData $email clientid]
 
-		status_log "Clientid is $clientid"
-	
-		if { $clientid == "" } {
-			return 0
-		}
-	
-		foreach bit $supportedclients {
-			status_log "Bitmask is $bit"
-			if {($clientid & $bit) == $bit} {
-				::Nudge::log "He uses MSN 7.0 or greater protocol"
-				return 1
-			}
-		}
+		::Nudge::log "Clientid is $clientid"
 
-		::Nudge::log "He doesn't use MSN 7.0 or greater protocol"
-		return 0
+		if { ($clientid & 0xF0000000) < 0x40000000 } {
+			return 0
+		} else {
+			return 1
+		}
 	}
 	
 	############################################
