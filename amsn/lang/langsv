@@ -118,6 +118,7 @@ cancel Avbryt
 cancelled Avbruten
 cannotdeleteprofile Kan inte radera profilen eftersom den verkar användas av en aMSN-session
 cantexec Kan inte köra $1. Vänligen kontrollera att inställningarna är korrekta
+cantget Kunde inte hämta $1
 cantloadonlineversion Kan inte ladda ner den uppdaterade språklistan
 cantremoveothers Kan inte ta Radera gruppen "Övriga"
 captureextloaded Tagningsutbyggnad -$1- laddad
@@ -282,6 +283,8 @@ displaychat Visa textalternativ
 displayeventconnect Visa när en kontakt ansluter
 displayeventdisconnect Visa när en kontakt lämnar eller blir osynlig
 displayeventemail Visa när ett e-postmeddelande har mottagits
+displayeventnick Visa när kontakter byter smeknamn.
+displayeventpsm Visa när kontakter byter personligt meddelande
 displayeventstate Visa när en kontakt byter status
 displayp4context Visa P4-kontext-fältets innehåll som avsändare
 displaypic Visningsbild
@@ -476,14 +479,16 @@ logbigger Enskilda historikfiler får inte bli större än
 logeventconnect Spara historik för anslutningar
 logeventdisconnect Spara historik för utloggningar
 logeventemail Spara historik för när e-postmeddelanden mottages
+logeventnick Spara smeknamnsbyten i historiken 
+logeventpsm Spara byten av personligt meddelande i hostoriken
 logeventstate Spara historik för statusändringar
 logfandexp Historikfilsstorlek och utgångstid för historikfiler
 loggedotherlocation Utloggad! Du är inloggad på en annan plats!
 loggingin Ansluter till tjänsten
 login Anslut
 loginas Anslut som annan användare
-loging Loggar
-logolder Spara bara chat-loggar som är äldre än
+loging Historik
+logolder Spara bara chathistorik för konversationer som skett de senaste 
 logout Logga ut
 logsbydate Ordna historiken efter datum (visa historik-funktionen blir märkbart snabbare av detta)
 logschats Sparar historik
@@ -550,6 +555,7 @@ newstate Lägg till personlig status
 newtabbedfeature aMSN har ett nytt att hantera konversationer på. Du kan nu ha alla kontaketer från samma grupp eller hela kontaktlistan i ett flikat fönster. Välj hur aMSN ska hantera dina konversationer
 newveravailable Den nya versionen $1 finns att ladda ner
 next Nästa
+nickchanged $1 bytte smeknamn till '$2'
 nick Smeknamn
 noactivity Inaktiv
 nocacheddps Inga lagrade visningsbilder för denna kontakt
@@ -678,6 +684,7 @@ proxyconf Proxy-konfiguration
 proxyconnection Proxyserver:
 proxy Jag använder en proxyserver (HTTP eller SOCKS5)
 psmatend Bredvid smeknamnet
+psmchanged $1 har ändrat sitt personliga meddelande till '$2'
 psmdontshow Visa inte det personliga meddelandet, om inte detta ställts in i globala/anpassade smeknamn
 psmnewline Under smeknamnet
 psm Personligt meddelande
@@ -706,6 +713,7 @@ rememberaccount Kom ihåg mitt konto
 rememberpass Kom ihåg lösenordet
 remembersetting Kom ihåg denna inställning
 removeempty Ta bort tomma grupper från kontaktlistan
+removefromgroup Ta bort från grupp
 removefromlist Ta bort från denna lista
 rename Byt namn
 reporting Rapporterar
@@ -939,5 +947,3 @@ youblocked Du har blivit blockerad av
 yousay Du säger
 youwant Du vill
 zoom Zooma
-cantget Kunde inte hämta $1
-removefromgroup Ta bort från grupp
