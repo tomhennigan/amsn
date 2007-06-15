@@ -6446,15 +6446,10 @@ proc show_umenu {user_login grId x y} {
 		#3 or more actions are defines, add the submenu
 		.user_menu insert $start cascade -label "[trans moreactions]" -menu $actions
 	}
-    
-	#Sometimes right-click on CL popup was shown out of screen
-	if {[expr {$y + 300}] > [winfo screenheight .]} {
-		set y [expr {$y - 300}]
-	}
-	
+
 	destroy .balloon
 	
-	tk_popup .user_menu $x $y             
+	tk_popup .user_menu $x $y
 }
 
 #///////////////////////////////////////////////////////////////////////
