@@ -614,12 +614,8 @@ namespace eval ::guiContactList {
 		$canvas move items 100000 100000
 		$canvas delete box
 
-		# Now let's get an exact contact list
-		set contactList 
-
 		# Let's draw each element of this list
 		set curPos [list $Xbegin $Ybegin]
-
 
 		################################
 		#  First line for the "boxes"  #
