@@ -2386,28 +2386,6 @@ namespace eval ::ChatWindow {
 
 			catch { $voice_sound destroy }
 
-			set sound_available 1
-			if {[OnLinux] } {
-				# on unix, libsnack segfaults (on the next record)
-				# if it can't record because the device is used, so we
-				# detect that by trying to open /dev/dsp
-				if {[catch {open /dev/dsp "RDONLY NONBLOCK"} f]} {
-					set sound_available 0
-				} else {
-					close $f
-				}
-			}
-
-			if { $sound_available == 0 } {
-				amsn::WinWrite $chatid "\n" red
-				amsn::WinWriteIcon $chatid greyline 3
-				amsn::WinWrite $chatid "\n" red
-				amsn::WinWriteIcon $chatid voice_icon 3 2
-				amsn::WinWrite $chatid "[timestamp] [trans soundnoavail]\n" red
-				amsn::WinWriteIcon $chatid greyline 3
-				return
-			}
-
 			set voice_sound [::snack::sound]
 			if { [catch {$voice_sound record} res]} {
 				
@@ -2629,19 +2607,7 @@ namespace eval ::ChatWindow {
 	proc playVoiceClip { w filename uid} {
 		variable play_snd_$uid
 
-		set sound_available 1
-		if {[OnLinux] } {
-			# on unix, libsnack segfaults (on the next record)
-			# if it can't record because the device is used, so we
-			# detect that by trying to open /dev/dsp
-			if {[catch {open /dev/dsp "WRONLY NONBLOCK"} f]} {
-				set sound_available 0
-			} else {
-				close $f
-			}
-		}
-
-		if { $sound_available && [file exists $filename]} {
+		if { [file exists $filename] } {
 			set snd [snack::sound]
 			set play_snd_$uid $snd
 			$snd read $filename

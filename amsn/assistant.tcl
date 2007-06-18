@@ -2110,39 +2110,23 @@ namespace eval ::AVAssistant {
 		}
 
 		set sound [::snack::sound]
-		set sound_available 1
-		if {[OnLinux] } {
-			# on unix, libsnack segfaults (on the next record)
-			# if it can't record because the device is used, so we
-			# detect that by trying to open /dev/dsp
-			if {[catch {open /dev/dsp "RDONLY NONBLOCK"} f]} {
-				set sound_available 0
-			} else {
-				close $f
-			}
-		}
 
-		if { $sound_available == 0 } {
-			$w.wavef.wave create text 5 5 -anchor nw -font bboldf -text "[trans soundnoavail]" -fill #FF0000 -anchor nw -tag errmsg
+		if { [catch {$sound record} res]} {
+			$w.wavef.wave create text 5 5 -anchor nw -font bboldf -width [winfo width $w.wavef.wave] -text "[trans recorderror $res]" -fill #FF0000 -anchor nw -tag errmsg
 			after 3000 "catch { $w.wavef.wave delete errmsg }"
 		} else {
-			if { [catch {$sound record} res]} {
-				$w.wavef.wave create text 5 5 -anchor nw -font bboldf -width [winfo width $w.wavef.wave] -text "[trans recorderror $res]" -fill #FF0000 -anchor nw -tag errmsg
-				after 3000 "catch { $w.wavef.wave delete errmsg }"
-			} else {
-				#don't press on the play button while recording
-				bind $w.recf.playrecorded <ButtonPress-1> ""
-				#and don't try to record while recording :)
-				bind $w.recf.record <ButtonPress-1> ""
-				$w.recf.playrecorded configure -state disabled
-				$w.recf.record configure -state disabled
+			#don't press on the play button while recording
+			bind $w.recf.playrecorded <ButtonPress-1> ""
+			#and don't try to record while recording :)
+			bind $w.recf.record <ButtonPress-1> ""
+			$w.recf.playrecorded configure -state disabled
+			$w.recf.record configure -state disabled
 
-				bind $w.recf.stoprecorded <ButtonPress-1> [list ::AVAssistant::stopRecordPlay $w]
-				$w.recf.stoprecorded configure -state normal
+			bind $w.recf.stoprecorded <ButtonPress-1> [list ::AVAssistant::stopRecordPlay $w]
+			$w.recf.stoprecorded configure -state normal
 
-				$w.wavef.wave delete waveform
-				$w.wavef.wave create waveform 0 0 -sound $sound -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform] 
-			}
+			$w.wavef.wave delete waveform
+			$w.wavef.wave create waveform 0 0 -sound $sound -zerolevel 0 -width 250 -height 75 -pixelspersecond 15 -tags [list waveform] 
 		}
 	}
 	###
