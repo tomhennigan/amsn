@@ -1398,16 +1398,18 @@ proc dlgCopyUser {} {
 proc connection_check { lfname } {
 	$lfname.1.ftport.test configure -text [trans connecting]
 	::abook::getIPConfig
-	if { [::abook::getDemographicField conntype] == "" } {
-		$lfname.1.listening configure -text "[trans connectfirst]" -fg red
-		$lfname.1.ftport.test configure -text "[trans connectfirst]" -fg red
-	} else {
-		if { [::abook::getDemographicField listening] == "false"} {
-			$lfname.1.listening configure -text "[trans firewalled]" -fg red
-		$lfname.1.ftport.test configure -text "[trans firewalled]" -fg red
+	if {[winfo exists $lfname]} {
+		if { [::abook::getDemographicField conntype] == "" } {
+			$lfname.1.listening configure -text "[trans connectfirst]" -fg red
+			$lfname.1.ftport.test configure -text "[trans connectfirst]" -fg red
 		} else {
-			$lfname.1.listening configure -text "[trans portswellconfigured]" -fg black
-			$lfname.1.ftport.test configure -text "[trans ok]" -fg black
+			if { [::abook::getDemographicField listening] == "false"} {
+				$lfname.1.listening configure -text "[trans firewalled]" -fg red
+			$lfname.1.ftport.test configure -text "[trans firewalled]" -fg red
+			} else {
+				$lfname.1.listening configure -text "[trans portswellconfigured]" -fg black
+				$lfname.1.ftport.test configure -text "[trans ok]" -fg black
+			}
 		}
 	}
 
@@ -2054,7 +2056,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1.ftport -class Deft
 	label $lfname.1.ftport.text -text "[trans ftportpref2] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -bg #FFFFFF  -font splainf  -width 5 -textvariable [::config::getVar initialftport]
-	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command "connection_check $lfname"
+	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command [list after 0 connection_check $lfname]
 	label $lfname.1.ftport.test -text "" -padx 5 -font splainf
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0 -columnspan 3
 	grid $lfname.1.ftport.entry -row 2 -column 1 -sticky w -pady 5 -padx [list 20 3]
