@@ -35,8 +35,8 @@ Als "wish amsn" wel werkt maar "./amsn" niet, pas dan het bestand
 De standaardinstelling is: '/usr/bin/wish'
 
 V: Hoe schakel ik de 'Schermafbeeldingen' in?
-A: Ga, nadat je ImageMagick hebt geïstalleerd, in aMSN naar het venster
-'Voorkeuren'.  Ga naar het tabblad 'Overigen'.  Ga naar het invoerveld
+A: Ga, nadat je ImageMagick hebt geïnstalleerd, in aMSN naar het venster
+'Voorkeuren'.  Ga naar het tabblad 'Overig'.  Ga naar het invoerveld
 'CONVERT' en klik op 'Verkennen'. Ga dan naar de map waar je ImageMagick
 hebt geïnstalleerd en selecteer het uitvoerbare bestand 'convert' (onder
 Windows: 'CONVERT.EXE'). Klik op 'Openen', sla de aanpassingen op en start
@@ -46,7 +46,7 @@ schermafbeelding van anderen weergeven tijdens gesprekken' (op het tabblad
 'Geavanceerd') is ingeschakeld. Deze zou automatisch uitgeschakeld kunnen
 zijn aangezien het programma ImageMagick niet beschikbaar was.
 
-V: Wanneer ik vanuit een grafische browser zoals konqueror of nautilus
+V: Wanneer ik vanuit een grafische browser zoals Konqueror of Nautilus
 dubbelklik op het bestand 'amsn' opent dit het bestand in een teksteditor
 i.p.v. dat aMSN wordt gestart!
 A: aMSN is geschreven in tcl/tk, een geïnterpreteerde taal, dus het bestand
@@ -59,14 +59,14 @@ commando niet bestaat, is tcl/tk niet (goed) geïnstalleerd.
 
 V: Hoe maak ik een snelkoppeling naar aMSN op mijn bureaublad?
 A: Dit kan op de volgende manieren:
-	1) Maak een snelkoppeling op je bureaublad naar:
-		/waar/amsn/geinstalleerd/is/amsn
-			(bv. /home/jouwnaam/msn/amsn)
-	2) Maak als 'root' een link aan in /usr/bin naar het amsn-bestand:
-		ln -s /waar/amsn/geinstalleerd/is/amsn /usr/bin/amsn
-	  Zo kun je amsn uitvoeren door gewoon "amsn" als commando op te geven,
-	  ongeacht in welke map je je op dat moment bevindt.
-	  Maak dan een pictogram aan op je bureaublad voor het commando 'amsn'.
+  1) Maak een snelkoppeling op je bureaublad naar:
+    /waar/amsn/is/geïnstalleerd/amsn
+    (bv. /home/jouwnaam/msn/amsn)
+  2) Maak als 'root' een link aan in /usr/bin naar het amsn-bestand:
+    ln -s /waar/amsn/is/geïnstalleerd/amsn /usr/bin/amsn
+  Zo kun je amsn uitvoeren door gewoon "amsn" als commando op te geven,
+  ongeacht in welke map je je op dat moment bevindt.
+  Maak dan een pictogram aan op je bureaublad voor het commando 'amsn'.
 
 
 V: Hoe krijg ik zo'n pictogram in het systeemvak van Gnome/KDE ?
@@ -117,7 +117,7 @@ A: Er is een knop in het emoticons-menu waarmee je dit kunt doen. Klik op "Nieuw
 emoticon maken" en er verschijnt een venster waarin je de gegevens voor jouw
 emoticon kunt invullen.
 
-Omschrijving : een omschrijving van de emoticon als tooltiptekst.
+Omschrijving: een omschrijving van de emoticon als tooltiptekst.
 
 Teksttriggers: tekens die je kunt typen om deze emoticon te laten verschijnen
  (zoals bv. ;-) voor een knipoogje). Om meerdere "triggers" te gebruiken moet
@@ -171,7 +171,7 @@ en wacht het afspeelprogramma dat je gebruikt tot dit weer vrij is. Probeer
 eens het geluid uit te schakelen of je geluidsconfiguratie aan te passen.
 
 V: Ik probeer aMSN te starten maar krijg deze foutmelding:
-	bash: ./amsn: bad interpreter: No such file or directory
+bash: ./amsn: bad interpreter: No such file or directory
 A: Je moet de tcl/tk-pakketten geïnstalleerd hebben omdat aMSN de interpreter
 'wish' nodig heeft. Als je denkt dat die wel op je systeem aanwezig is,
 probeer dan eens 'wish amsn' i.p.v. './amsn'. Werkt dit? Pas dan de eerste
@@ -191,7 +191,6 @@ invoked from within
 "namespace eval ::md5 { ... etc
 A: Dit betekent dat je een te oude versie van tcl/tk gebruikt.
 Installeer versie 8.3 of nieuwer.
-
 
 V: Nadat ik een nieuwe versie van aMSN installeerde kreeg ik volgende foutmelding:
 Error in startup script: expected integer but got ""
@@ -280,7 +279,7 @@ Ga naar Extra -> Voorkeuren -> Overigen, en vul daar 'plwav' in bij het invoerve
 'geluidsserver'.
 
 
-DIVERS
+OVERIG
 ======
 
 V: Ik heb ontdekt dat aMSN enkele poorten boven de 60000 opent. Is dit normaal?
