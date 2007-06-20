@@ -8,7 +8,7 @@
    include inc . 'header.php';
 ?>
 
-
+<div>
         <strong>aMSN is full of features</strong>, but you can extend its functionality even more now, getting extra features by installing plugins. Plugins are simply that - they "plug in" to aMSN and give it extra features. Here you can download plugins developed by us and by contributors. Make sure you have the right version of aMSN for the plugin (check "requirements") and the right OS (check "platform")
         <br /><br />
         You can find instructions on how to install plugins in our <a href="http://amsn.sourceforge.net/devwiki/tiki-index.php?page=Installing+Plugins+and+Skins">skin and plugin installation guide</a>.
@@ -86,5 +86,5 @@ if (!mysql_num_rows(($q = mysql_query("SELECT `amsn_plugins`.*, (UNIX_TIMESTAMP(
 <br/><br/>
 <div style="text-align:center"><strong><a href="#top">Back to top</a></strong></div>
 
-
+</div>
 <?php include inc . 'footer.php'; ?>

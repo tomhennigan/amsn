@@ -8,7 +8,7 @@
    include inc . 'header.php';
 ?>
 
-
+<div>
         <strong>aMSN loves customization!</strong>,
 	and one way to customise it is to change its "skin". A skin changes the
 	look of aMSN. Here you can download skins developed by aMSN and by
@@ -85,5 +85,6 @@ if (!mysql_num_rows(($q = mysql_query("SELECT `amsn_skins`.*, (UNIX_TIMESTAMP(`a
 <br/><br/>
 <div style="text-align:center"><strong><a href="#top">Back to top</a></strong></div>
 
+</div>
 
 <?php include inc . 'footer.php';?>
