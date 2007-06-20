@@ -124,6 +124,25 @@ namespace eval ::ChatWindow {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetOutFrame (window)
+	# Returns the path to the output frame in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetOutFrame { window } {
+		return $window.f.out
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetInFrame (window)
+	# Returns the path to the input frame in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetInFrame { window } {
+		return $window.f.bottom
+	}
+	#///////////////////////////////////////////////////////////////////////////////
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::GetOutText (window)
@@ -131,10 +150,30 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetOutText { window } {
-		return $window.f.out.scroll.text
+		return [GetOutFrame $window].scroll.text
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetDisplayPicturesFrame (window)
+	# Returns the path to the output DP frame in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetOutDisplayPicturesFrame { window } {
+		return [GetOutFrame $window].dps
+	}
+	#///////////////////////////////////////////////////////////////////////////////
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ::ChatWindow::GetInputDP (window)
+	# Returns the path to the input DP in a given window 
+	# Arguments:
+	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
+	proc GetInDisplayPictureFrame { window } {
+		return [GetInFrame $window].pic
+	}
+	#///////////////////////////////////////////////////////////////////////////////
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::GetInputText (window)
@@ -142,10 +181,17 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetInputText { window } {
-		return [$window.f.bottom.left.in getinnerframe].text
+		return [[GetLeftFrame $window].in getinnerframe].text
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	proc GetLeftFrame { window } {
+		return [GetInFrame $window].left
+	}
+
+	proc GetButtonBarForWin { window } {
+		return [GetLeftFrame $window].buttons
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::GetStatusText (window)
@@ -372,12 +418,12 @@ namespace eval ::ChatWindow {
 		unset ::ChatWindow::recent_message(${window})
 
 		#Delete images if not in use
-		catch {destroy $window.bottom.pic}
+		catch {destroy [GetInDisplayPictureFrame $window]}
 		
-		#Could be cleaner, but this works, destroying unused vars, saving mem		
+		#Could be cleaner, but this works, destroying unused vars, saving mem
 		catch {
-			global ${window}.f.bottom.left.in.inner.text
-			unset ${window}.f.bottom.left.in.inner.text
+			global [GetInputText ${window}]
+			unset [GetInputText ${window}]
 		}
 		
 		
@@ -1707,9 +1753,15 @@ namespace eval ::ChatWindow {
 			-borderwidth 0 \
 			-relief flat \
 			-orient vertical
-		
-		set output [CreateOutputWindow $w $paned]
-		set input [CreateInputWindow $w $paned]
+
+		set output [GetOutFrame $w]
+		set input [GetInFrame $w]
+
+		frame $output -class Amsn -borderwidth 0 -relief solid \
+			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
+
+		frame $input -class Amsn -borderwidth 0 -relief solid \
+			-background [::skin::getKey chatwindowbg]
 
 		$paned add $output $input
 		$paned paneconfigure $output -minsize 50 -height 200
@@ -1719,6 +1771,9 @@ namespace eval ::ChatWindow {
 			-sashpad [::skin::getKey chat_sash_pady] \
 			-sashwidth [::skin::getKey chat_sash_width] \
 			-sashrelief [::skin::getKey chat_sash_relief]
+
+		CreateOutputWindow $w $output
+		CreateInputWindow $w $input
 
 		# Bind on focus, so we always put the focus on the input window
 		bind $paned <FocusIn> "focus $input"
@@ -1815,30 +1870,19 @@ namespace eval ::ChatWindow {
 	}
 
 	proc CreateOutputWindow { w paned } {
-		# Name our widgets
-		set fr $paned.out
-
-		# Create the widgets
-		frame $fr -class Amsn -borderwidth 0 -relief solid \
-			-background [::skin::getKey chatwindowbg] -height [::config::getKey winchatoutheight]
-
-		set out [CreateOutputFrame $w $fr]
+		set out [CreateOutputFrame $w $paned]
 		
 		pack $out -side left -expand true -fill both \
 		    -padx [::skin::getKey chat_output_padx] \
 		    -pady [::skin::getKey chat_output_pady]
 		
 		if { [::config::getKey old_dpframe 0] == 0 } {
-			set picture [CreateDisplayPicturesFrame $w $fr]
+			set picture [CreateDisplayPicturesFrame $w $paned]
 			
 			pack $picture -side right -expand false -fill y -anchor ne \
 			    -padx [::skin::getKey chat_dp_padx] \
 			    -pady [::skin::getKey chat_dp_pady]
-		} 
-	
-		
-
-		return $fr
+		}
 	}
 
 	proc CreateOutputFrame { w fr } {
@@ -1945,13 +1989,7 @@ namespace eval ::ChatWindow {
 
 		status_log "Creating input frame\n"
 		# Name our widgets
-		set bottom $paned.bottom
-		set leftframe $bottom.left
-
-		# Create the bottom frame widget
-		frame $bottom -class Amsn -borderwidth 0 -relief solid \
-			-background [::skin::getKey chatwindowbg]
-		
+		set leftframe $paned.left
 
 		# Create The left frame
 		frame $leftframe -class Amsn -background [::skin::getKey chatwindowbg] -relief solid -borderwidth 0
@@ -1959,7 +1997,7 @@ namespace eval ::ChatWindow {
 		# Create the other widgets for the bottom frame
 		set input [CreateInputFrame $w $leftframe]
 		set buttons [CreateButtonBar $w $leftframe]
-		set picture [CreatePictureFrame $w $bottom]
+		set picture [CreatePictureFrame $w $paned]
 
 		pack $buttons -side top -expand false -fill x -anchor n \
 				-padx [::skin::getKey chat_buttons_padx] \
@@ -1979,7 +2017,7 @@ namespace eval ::ChatWindow {
 		}
 
 		# Bind the focus
-		bind $bottom <FocusIn> "focus $input"
+		bind $paned <FocusIn> "focus $input"
 
 		#send chatwininput postevent
 		set evPar(input) $input
@@ -1987,10 +2025,7 @@ namespace eval ::ChatWindow {
 		set evPar(picture) $picture
 		set evPar(window) "$w"
 
-		::plugins::PostEvent chatwininput evPar		
-
-		return $bottom
-
+		::plugins::PostEvent chatwininput evPar
 	}
 
 	proc ShowButtonBarRightClick { win x y } {
@@ -2037,20 +2072,16 @@ namespace eval ::ChatWindow {
 			set buttons [::ChatWindow::GetButtonBarForWin $win]
 			# Repack the bar
 			pack [::ChatWindow::GetButtonBarForWin $win] -anchor n \
-			    -side top -in $win.f.bottom.left  \
+			    -side top -in [GetLeftFrame $win]  \
 			    -anchor n -expand 0 -fill x -ipadx 0 -ipady 0 \
 			    -padx 3 -pady 4 -side top
 			pack $win.f.bottom.left.in -side top -expand true \
-			    -fill both -anchor n -in $win.f.bottom.left \
+			    -fill both -anchor n -in [GetLeftFrame $win] \
 			    -padx [::skin::getKey chat_input_padx] \
-			    -pady [::skin::getKey chat_input_pady] 
+			    -pady [::skin::getKey chat_input_pady]
 		}
 
 		::config::setKey ShowButtonBar 1
-	}
-
-	proc GetButtonBarForWin { win } {
-		return $win.f.bottom.left.buttons
 	}
 
 	proc CreateInputFrame { w bottom} { 
@@ -2829,7 +2860,7 @@ namespace eval ::ChatWindow {
 	#  - padding => Is the padding around the image
 	proc ImageResized { win height padding} {
 		#TODO: need to remove hard coding here
-		set picheight [image height [$win.f.bottom.pic.image cget -image]]
+		set picheight [image height [[GetInDisplayPictureFrame $win].image cget -image]]
 		if { $height < $picheight } {
 			set height $picheight
 		}
@@ -2840,7 +2871,7 @@ namespace eval ::ChatWindow {
 		}
 		
 		status_log "setting bottom pane misize for $win to $h\n"
-		$win.f paneconfigure $win.f.bottom -minsize $h	
+		$win.f paneconfigure [GetInFrame $win] -minsize $h
 	}
 
 
@@ -3874,7 +3905,7 @@ namespace eval ::ChatWindow {
 		unset ::ChatWindow::recent_message(${win})
 
 		#Delete images if not in use
-		catch {destroy $win.bottom.pic}
+		catch {destroy [GetInDisplayPictureFrame $win]}
 
 		CloseTab $tab 1
 

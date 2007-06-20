@@ -1685,7 +1685,7 @@ namespace eval ::amsn {
 			::ChatWindow::Status [ ::ChatWindow::For $chatid ] $statusmsg minijoins
 			::ChatWindow::TopUpdate $chatid
 
-			if { [winfo exists $win_name.f.out.dps] } {
+			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name]] } {
 				::amsn::ShowOrHidePicture
 				::amsn::ShowOrHideTopPicture
 				::amsn::UpdatePictures $win_name
@@ -1751,14 +1751,14 @@ namespace eval ::amsn {
 			set icon minileaves
 		}
 
-		if { [winfo exists $win_name.f.out.dps] } {
+		if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name]] } {
 			::amsn::UpdatePictures $win_name
 		} else {
 			#Check if the image that is currently showing is
 			#from the user that left. Then, change it
 			set current_image ""
 			#Catch it, because the window might be closed
-			catch {set current_image [$win_name.f.bottom.pic.image cget -image]}
+			catch {set current_image [[::ChatWindow::GetInDisplayPictureFrame $win_name].image cget -image]}
 			if { [string compare $current_image [::skin::getDisplayPicture $usr_name]]==0} {
 				set users_in_chat [::MSN::usersInChat $chatid]
 				set new_user [lindex $users_in_chat 0]
@@ -1914,7 +1914,7 @@ namespace eval ::amsn {
 				-command "::amsn::ChangePicture $win \[::skin::getDisplayPicture $user\] \[trans showuserpic $user\]"
 		}
 
-		set user [$win.f.bottom.pic.image cget -image]
+		set user [[::ChatWindow::GetInDisplayPictureFrame $win].image cget -image]
 		if { $user != "[::skin::getNoDisplayPicture]" && $user != "displaypicture_std_self" } {
 			#made easy for if we would change the image names
 			set user [string range $user [string length "displaypicture_std_"] end]
@@ -1935,29 +1935,29 @@ namespace eval ::amsn {
 	}
 
 	proc ChangePicture {win picture balloontext {nopack ""}} {
-		#pack $win.bottom.pic.image -side left -padx 2 -pady 2
+		#pack [::ChatWindow::GetInDisplayPictureFrame $win].image -side left -padx 2 -pady 2
 
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
 
 
 		#Get the path to the image
-		set pictureinner [$win.f.bottom.pic.image getinnerframe]
+		set pictureinner [[::ChatWindow::GetInDisplayPictureFrame $win].image getinnerframe]
 		if { $balloontext != "" } {
 			#TODO: Improve this!!! Use some kind of abstraction!
 			change_balloon $pictureinner $balloontext
-			#change_balloon $win.f.bottom.pic.image $balloontext
+			#change_balloon [::ChatWindow::GetInDisplayPictureFrame $win].image $balloontext
 		}
-		if { [catch {$win.f.bottom.pic.image configure -image $picture}] } {
+		if { [catch {[::ChatWindow::GetInDisplayPictureFrame $win].image configure -image $picture}] } {
 			status_log "Failed to set picture, using [::skin::getNoDisplayPicture]\n" red
-			$win.f.bottom.pic.image configure -image [::skin::getNoDisplayPicture]
-			#change_balloon $win.f.bottom.pic.image [trans nopic]
+			[::ChatWindow::GetInDisplayPictureFrame $win].image configure -image [::skin::getNoDisplayPicture]
+			#change_balloon [::ChatWindow::GetInDisplayPictureFrame $win].image [trans nopic]
 			change_balloon $pictureinner [trans nopic]
 		} elseif { $nopack == "" } {
-			pack $win.f.bottom.pic.image -side left -padx 0 -pady 0 -anchor w
-			$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]
-			bind $win.f.bottom.pic.showpic <Enter> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide_hover]"
-			bind $win.f.bottom.pic.showpic <Leave> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imghide]"
-			change_balloon $win.f.bottom.pic.showpic [trans hidedisplaypic]
+			pack [::ChatWindow::GetInDisplayPictureFrame $win].image -side left -padx 0 -pady 0 -anchor w
+			[::ChatWindow::GetInDisplayPictureFrame $win].showpic configure -image [::skin::loadPixmap imghide]
+			bind [::ChatWindow::GetInDisplayPictureFrame $win].showpic <Enter> "[::ChatWindow::GetInDisplayPictureFrame $win].showpic configure -image [::skin::loadPixmap imghide_hover]"
+			bind [::ChatWindow::GetInDisplayPictureFrame $win].showpic <Leave> "[::ChatWindow::GetInDisplayPictureFrame $win].showpic configure -image [::skin::loadPixmap imghide]"
+			change_balloon [::ChatWindow::GetInDisplayPictureFrame $win].showpic [trans hidedisplaypic]
 			::config::setKey showdisplaypic 1
 		}
 
@@ -1973,14 +1973,14 @@ namespace eval ::amsn {
 		foreach chat $chatids {
 			set win [::ChatWindow::For $chat]
 			
-			if { [winfo exists $win.f.out.dps]} {
+			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]]} {
 				::amsn::UpdatePictures $win 
 			}
 		}	
 	}
 
 	proc UpdatePictures { win } {	
-		set frame $win.f.out.dps
+		set frame [::ChatWindow::GetOutDisplayPicturesFrame $win]
 		set images [$frame.sw.sf getframe]
 		set chatid [::ChatWindow::Name $win]
 		set users [::MSN::usersInChat $chatid]
@@ -2033,15 +2033,16 @@ namespace eval ::amsn {
 	}
 
 	proc HidePicture { win } {
-		pack forget $win.f.bottom.pic.image
+		set dpframe [::ChatWindow::GetInDisplayPictureFrame $win]
+		pack forget $dpframe.image
 
-		#grid $win.f.bottom.pic.showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
+		#grid [::ChatWindow::GetInDisplayPictureFrame $win].showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
 		#Change here to change the icon, instead of text
-		$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imgshow]
-		bind $win.f.bottom.pic.showpic <Enter> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imgshow_hover]"
-		bind $win.f.bottom.pic.showpic <Leave> "$win.f.bottom.pic.showpic configure -image [::skin::loadPixmap imgshow]"
+		$dpframe.showpic configure -image [::skin::loadPixmap imgshow]
+		bind $dpframe.showpic <Enter> "$dpframe.showpic configure -image [::skin::loadPixmap imgshow_hover]"
+		bind $dpframe.showpic <Leave> "$dpframe.showpic configure -image [::skin::loadPixmap imgshow]"
 
-		change_balloon $win.f.bottom.pic.showpic [trans showdisplaypic]
+		change_balloon $dpframe.showpic [trans showdisplaypic]
 
 	}
 
@@ -2052,10 +2053,10 @@ namespace eval ::amsn {
 			set win [::ChatWindow::For $chat]
 			
 			if { [::config::getKey showdisplaypic 1] == 1} {
-				if {[winfo exists $win.f.out.dps] } {
+				if {[winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]] } {
 					::amsn::ChangePicture $win displaypicture_std_self [trans mypic]
 				} else {
-					::amsn::ChangePicture $win [$win.f.bottom.pic.image cget -image] ""
+					::amsn::ChangePicture $win [[::ChatWindow::GetInDisplayPictureFrame $win].image cget -image] ""
 				}
 			} else {
 				::amsn::HidePicture $win
@@ -2079,7 +2080,7 @@ namespace eval ::amsn {
 		foreach chat $chatids {
 			set win [::ChatWindow::For $chat]
 		
-			if { [winfo exists $win.f.out.dps] } {
+			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]] } {
 				if { [::config::getKey ShowTopPicture 1] == 1} {
 					ShowTopPicture $win
 				} else {
@@ -2092,7 +2093,7 @@ namespace eval ::amsn {
 
 
 	proc ShowTopPicture {win } {
-		set frame $win.f.out.dps
+		set frame [::ChatWindow::GetOutDisplayPicturesFrame $win]
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
 
 		pack $frame.sw -side left -fill y -expand false -anchor ne
@@ -2109,7 +2110,7 @@ namespace eval ::amsn {
 	}
 
 	proc HideTopPicture { win } {
-		set frame $win.f.out.dps
+		set frame [::ChatWindow::GetOutDisplayPicturesFrame $win]
 
 		pack forget $frame.sw
 
@@ -2888,7 +2889,7 @@ namespace eval ::amsn {
 			set evPar(usr_name) $user
 			::plugins::PostEvent new_conversation evPar
 
-			if { [winfo exists $win_name.f.out.dps] } {
+			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name]] } {
 				::amsn::ShowOrHidePicture
 				::amsn::ShowOrHideTopPicture
 				::amsn::UpdatePictures $win_name
