@@ -321,7 +321,7 @@ update idletasks
 init_dock
 
 if {[::config::getKey startontray]} {
-	if { ![catch {package require libtray}] && $::systemtray_exist == 1 } {
+	if { $::systemtray_exist == 1 } {
 		wm state . withdrawn
 		set ishidden 1
 	} else {
