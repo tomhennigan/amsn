@@ -58,8 +58,8 @@ assistantfinetunepic Pas de volgende instellingen aan om de beeldkwaliteit van j
 assistantselectcam Kies je webcam uit de lijst
 assistantstarting De assistent wordt gestart
 assistanttitle Assistent voor beeld en geluid
-assistantwelcome Deze assistent zal je begeleiden bij het instellen van beeld en geluid voor aMSN.\n\nDe assistent controleert of de vereiste extensies op het systeem aanwezig en in het geheugen geladen zijn. Ten slotte kun je het video-apparaat en -kanaal kiezen en de beeld- en resolutie-instellingen aanpassen.
-audioconfigured Je hebt de volgende instellingen gekozen voor geluid:\n Uitvoerapparaat: $1\nInvoerapparaat: $2
+assistantwelcome Deze assistent zal je begeleiden bij het instellen van beeld en geluid voor aMSN.\n\nDe assistent controleert of de vereiste extensies op het systeem aanwezig en in het geheugen geladen zijn. Vervolgens kun je het video-apparaat en -kanaal kiezen en de beeld- en resolutie-instellingen aanpassen.
+audioconfigured Je hebt de volgende instellingen gekozen voor geluid:\n\nUitvoerapparaat: $1\nInvoerapparaat: $2
 audiovideo Instellingen voor beeld en geluid
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
@@ -260,7 +260,7 @@ default2 Standaard
 defaultloginradio Inloggen met de standaardconfiguratie
 defchatwinsize Standaardgrootte voor gespreksvensters (horizontaal x verticaal)
 delete Verwijderen
-deleteall Alles verwijderen
+deleteall Alle verwijderen
 deleteblock Verwijderen en blokkeren
 deletecustomstate Aangepaste status verwijderen
 delimiters Haakjes om tijden heen:
@@ -372,7 +372,7 @@ ftportpref2 Eerste poort voor directe verbindingen (nodig voor bestandsoverdrach
 ftporttest Poort testen
 ftrejected Bestandsoverdracht geweigerd
 ftrejectedby $1 heeft de overdracht van het bestand '$2' geweigerd.
-ftsendinvitation De uitnodiging voor de overdracht van het bestand '$2' ($3 bytes) is verstuurd naar $1
+ftsendinvitation De uitnodiging voor de overdracht van bestand '$2' ($3 bytes) is verstuurd naar $1
 fullcontactlist Sorry, je contactenlijst is vol. Je moet eerst iemand verwijderen voordat je weer iemand kunt toevoegen.
 getdisppic De schermafbeelding van anderen weergeven tijdens gesprekken
 getmoreplugins Klik hier voor meer plug-ins!
@@ -497,7 +497,7 @@ logsmileys Emoticons in aMSN's geschiedenisvensters tonen
 logsout heeft zich afgemeld 
 logwebcam Alle webcamsessies opslaan om ze later nog eens te kunnen bekijken
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
-longp4c Je hebt voor 'Schermnaam tijdens gesprek' meer dan 130 tekens opgegeven. Dit wordt niet ondersteund door de originele MSN-client, die zal de naam daarom weergeven als $1. Wil je de opgegeven naam toch gebruiken?
+longp4c Je hebt voor 'Schermnaam tijdens gesprek' meer dan 130 tekens opgegeven. Dit wordt niet ondersteund door de originele MSN-client, die de naam daarom zal weergeven als $1. Wil je de opgegeven naam toch gebruiken?
 longpsm Je persoonlijk bericht is langer dan het MSN-protocol officieel toestaat. Wil je het toch proberen in te stellen?
 lowrescam Alleen de lage resolutie voor mijn webcam gebruiken
 lprivtoconf Privégesprek veranderde in vergadering met $1
@@ -521,8 +521,8 @@ move Verplaatsen
 movetogroup Verplaatsen naar groep
 msg Bericht
 msgflicker Titel van gespreksvenster laten knipperen als een bericht aankomt in een inactief venster
-msgmaxmin Weergave van binnenkomende berichten in een bestaand gesprek
-msgmode Kies hoe meerdere gespreksvensters worden weergegeven
+msgmaxmin Weergave van binnenkomende berichten in een bestaand gesprek:
+msgmode Kies hoe meerdere gespreksvensters worden weergegeven:
 msn AMSN
 msnstatus MSN Messenger-netwerkstatus
 msnstyle MSN-stijl
@@ -819,10 +819,10 @@ startontray aMSN alleen starten als pictogram in het systeemvak
 state Weer te geven status
 stateautomsg Automatisch bericht
 statechange status is veranderd in:
-stateedittext Pas de velden aan die je wilt \n veranderen en druk op Opslaan
+stateedittext Wijzig de velden die je wilt aanpassen en klik op Ok
 stateinfo Configuratie persoonlijke status
 statename Naam voor de persoonlijke status
-statenewtext Vul de benodigde informatie in om je persoonlijke status\nte creëren en klik op Opslaan
+statenewtext Vul de benodigde informatie in om je persoonlijke status te creëren en klik op Ok
 statenick Aangepaste schermnaam (laat leeg voor ongewijzigd)
 statepsm Aangepast persoonlijk bericht (laat leeg voor ongewijzigd)
 stats Statistieken

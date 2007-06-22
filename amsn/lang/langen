@@ -59,7 +59,7 @@ assistantselectcam Select your webcam from the list
 assistantstarting Starting the Assistant
 assistanttitle Audio and Video assistant
 assistantwelcome This assistant will guide you through the setup of your audio and video settings for aMSN.\n\nIt will check if the required extensions are present and loaded and you'll be able to choose the device and channel, set the picture settings and resolution.
-audioconfigured You chose the following Audio settings:\n Output Device: $1\nInput Device:$2
+audioconfigured You chose the following Audio settings:\n\nOutput Device: $1\nInput Device: $2
 audiovideo Audio and Video settings
 author Author
 autoaccepted File transfer accepted automatically
@@ -818,11 +818,11 @@ startonboot Start aMSN on Windows boot
 startontray Start aMSN on tray icon only
 stateautomsg AutoMessage to Send
 statechange status changed to: 
-stateedittext Please edit the fields you would like \n to modify and press Save
+stateedittext Please edit the fields you would like to modify and press Ok
 stateinfo Personal State Configuration
 state I want to appear as
 statename Name of Personal State
-statenewtext Please fill the required information to create \n your new Personal State and press Save
+statenewtext Please fill the required information to create your new Personal State and press Ok
 statenick Custom nick (leave blank for no change)
 statepsm Custom Personal Message (leave blank for no change)
 stats Statistics
