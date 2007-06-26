@@ -763,6 +763,11 @@ snit::widgetadaptor loginscreen {
 		# Check we actually have a username and password entered!
 		if { $user == "" || $pass == "" } { return }
 
+		# Check if username has a valid form
+		if { ![regexp {^[[:alnum:]]+[[:alnum:]\._\-]*@[[:alnum:]]+[[:alnum:]\.\-]*\.[[:alnum:]]{2,4}$} $user] } { 
+			msg_box "[trans invalidusername]"
+			return 
+		}
 		
 		# If remember me checkbutton is selected and a profile doesn't already exists for this user, create a profile for them.
 		if { $remember_me && ![LoginList exists 0 $user] } {
