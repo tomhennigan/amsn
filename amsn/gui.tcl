@@ -915,15 +915,16 @@ namespace eval ::amsn {
 	proc DisableCancelText { cookie chatid } {
 
 		set win_name [::ChatWindow::For $chatid]
+		if { [winfo exists $win_name] }
+		{
+			[::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
+				-foreground #808080 -font bplainf -underline false
+			[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
+			[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
+			[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
 
-                [::ChatWindow::GetOutText ${win_name}] tag configure ftno$cookie \
-                        -foreground #808080 -font bplainf -underline false
-                [::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
-                [::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
-                [::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
-
-                [::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
-
+			[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
+		}
 
 	}
 
