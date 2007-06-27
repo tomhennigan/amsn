@@ -764,7 +764,7 @@ snit::widgetadaptor loginscreen {
 		if { $user == "" || $pass == "" } { return }
 
 		# Check if username has a valid form
-		if { ![regexp {^[[:alnum:]]+[[:alnum:]\._\-]*@[[:alnum:]]+[[:alnum:]\.\-]*\.[[:alnum:]]{2,4}$} $user] } { 
+		if { ![regexp {^[[:alnum:]\._\-]+@[[:alnum:]]+[[:alnum:]\.\-]*\.[[:alnum:]]{2,4}$} $user] } { 
 			msg_box "[trans invalidusername]"
 			return 
 		}
