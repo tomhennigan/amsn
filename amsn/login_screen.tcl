@@ -760,6 +760,9 @@ snit::widgetadaptor loginscreen {
 		set user [$user_field get]
 		set pass [$pass_field get]
 
+		# remove spaces from username
+		set user [string trim $user]
+
 		# Check we actually have a username and password entered!
 		if { $user == "" || $pass == "" } { return }
 
