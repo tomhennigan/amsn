@@ -103,11 +103,12 @@ proc fade_balloon {{w ".balloon"}} {
 
 proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
     global Bulle
+	
     #check that the mouse is over the target (fix a tk bug - in windows)
     if {[OnWin] && [eval winfo containing  [winfo pointerxy .]]!=$target} {
     	set Bulle(first) 0
     	kill_balloon
-   	return
+		return
     }
     
     #Last focus variable for "Mac OS X focus bug" with balloon
@@ -116,119 +117,119 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
     after cancel "kill_balloon"
     if {$Bulle(first) == 1 } {
         set Bulle(first) 2
-	
-	if { $cx == 0 && $cy == 0 } {
-	    set x [expr {[winfo rootx ${target}] + ([winfo width ${target}]/2)}]
-	    set y [expr {[winfo rooty ${target}] + [winfo height ${target}] + 2}]
-	} else {
-	    set x [expr {$cx + 12}]
-	    set y [expr {$cy + 2}]
-	}
-	
-	if { [catch { toplevel .balloon -bg [::skin::getKey balloonborder]}] != 0 } {
-		destroy .balloon
-		toplevel .balloon -bg [::skin::getKey balloonborder]
-	}
-	
-	#Standard way to show balloon on Mac OS X (aqua), show balloon in white for Mac OS X and skinnable balloons for others platforms
-	if { [OnMac] } {
-		destroy .balloon
-		toplevel .balloon -relief flat -bg #C3C3C3 \
-		-class Balloonhelp; ::tk::unsupported::MacWindowStyle\
-		style .balloon help none
-		#Many other apps on OS X have semi tranparent ballons.
-		wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9]
-	} else {
-		wm overrideredirect .balloon 1
-		catch {wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9]}
-	}
-
-	frame .balloon.f -bg [::skin::getKey balloonbackground]
-	
-	if { [OnWin] } {
-		set bw [::skin::getKey balloonborderwidth]
-	} else {
-		set bw [expr {[::skin::getKey balloonborderwidth] - 1 }]
-		if {$bw < 0} {
-			set bw 0
+			
+		if { $cx == 0 && $cy == 0 } {
+			set x [expr {[winfo rootx ${target}] + ([winfo width ${target}]/2)}]
+			set y [expr {[winfo rooty ${target}] + [winfo height ${target}] + 2}]
+		} else {
+			set x [expr {$cx + 12}]
+			set y [expr {$cy + 2}]
 		}
-	}
-	pack .balloon.f -padx $bw -pady $bw
-	
-	if { [string equal -length 11 $pic "--command--"] } {
-		set command [string range $pic 11 end]
-		set pic [eval $command]
-	}
-	
-	if { $pic != "" && ![catch {$pic cget -file}]} {
-		label .balloon.f.pic -image $pic -bg [::skin::getKey balloonbackground]
-		set iwidth [image width $pic]
-		pack .balloon.f.pic -side left
-	} else {
-		set iwidth 0
-	}
+		
+		if { [catch { toplevel .balloon -bg [::skin::getKey balloonborder]}] != 0 } {
+			destroy .balloon
+			toplevel .balloon -bg [::skin::getKey balloonborder]
+		}
+		
+		#Standard way to show balloon on Mac OS X (aqua), show balloon in white for Mac OS X and skinnable balloons for others platforms
+		if { [OnMac] } {
+			destroy .balloon
+			toplevel .balloon -relief flat -bg #C3C3C3 -class Balloonhelp
+			::tk::unsupported::MacWindowStyle style .balloon help none
+		} else {
+			wm overrideredirect .balloon 1
+			if { [OnWin] } { wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9] }
+		}
 
-	
-	set wlength [expr {[winfo screenwidth .] - $x - 15 - $iwidth }]
-	#If available width is less than 200 pixels, make the balloon
-	#200 pixels width, and move it to the left so it's inside the screen
-	if { $wlength < 200 } {
-	    #set offset [expr {$wlength - 200 - [image width $pic] - 10}]
-	    #incr x $offset
-		set x [expr { [winfo screenwidth . ] - 200 - 15 - $iwidth } ]
-		set wlength 200
-	}
+		frame .balloon.f -bg [::skin::getKey balloonbackground]
+		
+		if { [OnWin] } {
+			set bw [::skin::getKey balloonborderwidth]
+		} else {
+			set bw [expr {[::skin::getKey balloonborderwidth] - 1 }]
+			if {$bw < 0} {
+				set bw 0
+			}
+		}
+		pack .balloon.f -padx $bw -pady $bw
+		
+		if { [string equal -length 11 $pic "--command--"] } {
+			set command [string range $pic 11 end]
+			set pic [eval $command]
+		}
+		
+		if { $pic != "" && ![catch {$pic cget -file}]} {
+			label .balloon.f.pic -image $pic -bg [::skin::getKey balloonbackground]
+			set iwidth [image width $pic]
+			pack .balloon.f.pic -side left
+		} else {
+			set iwidth 0
+		}
 
-	if { $mode == "complex" } {
-		set i 1;
-		foreach msg_part $message font_part $fonts {
-			if { [string equal -length 11 $msg_part "--command--"] } {
+		set wlength [expr {[winfo screenwidth .] - $x - 15 - $iwidth }]
+		#If available width is less than 200 pixels, make the balloon
+		#200 pixels width, and move it to the left so it's inside the screen
+		if { $wlength < 200 } {
+			set x [expr { [winfo screenwidth . ] - 200 - 15 - $iwidth } ]
+			set wlength 200
+		}
+
+		if { $mode == "complex" } {
+			set i 1;
+			foreach msg_part $message font_part $fonts {
+				if { [string equal -length 11 $msg_part "--command--"] } {
+					set command [string range $message 11 end]
+					set message [eval $command]
+				}
+				if { $font_part == "" } {
+					set font_part [::skin::getKey balloonfont]
+				}
+				
+				label ".balloon.f.l$i" \
+				-text ${msg_part} -relief flat \
+				-bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 \
+				-anchor w -font $font_part -justify left -wraplength $wlength
+				pack ".balloon.f.l$i" -side top -fill x
+				incr i
+			}
+		} elseif { $mode == "simple" } {
+			if { [string equal -length 11 $message "--command--"] } {
 				set command [string range $message 11 end]
 				set message [eval $command]
 			}
-			if { $font_part == "" } {
-				set font_part [::skin::getKey balloonfont]
-			}
-			
-			label ".balloon.f.l$i" \
-			-text ${msg_part} -relief flat \
-			-bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 \
-			-anchor w -font $font_part -justify left -wraplength $wlength
-			pack ".balloon.f.l$i" -side top -fill x
-			incr i
+				label .balloon.f.l \
+				-text ${message} -relief flat \
+				-bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w \
+				-font [::skin::getKey balloonfont] -justify left -wraplength $wlength
+			pack .balloon.f.l -side left
+		} else {
+			error "Optional parameter mode must be either \"simple\" or \"complex\"."
 		}
-	} elseif { $mode == "simple" } {
-		if { [string equal -length 11 $message "--command--"] } {
-			set command [string range $message 11 end]
-			set message [eval $command]
-		}
-	        label .balloon.f.l \
-		    -text ${message} -relief flat \
-		    -bg [::skin::getKey balloonbackground] -fg [::skin::getKey balloontext] -padx 2 -pady 0 -anchor w \
-		    -font [::skin::getKey balloonfont] -justify left -wraplength $wlength
-		pack .balloon.f.l -side left
-	} else {
-		error "Optional parameter mode must be either \"simple\" or \"complex\"."
-	}
 
-	if { [OnWin] } {
-		set bw [::skin::getKey balloonborderwidth]
-	} else {
-		set bw [expr {[::skin::getKey balloonborderwidth] - 1 }]
-		if {$bw < 0} {
-			set bw 0
+		if { [OnWin] } {
+			set bw [::skin::getKey balloonborderwidth]
+		} else {
+			set bw [expr {[::skin::getKey balloonborderwidth] - 1 }]
+			if {$bw < 0} {
+				set bw 0
+			}
 		}
-	}
-	
-        wm geometry .balloon +${x}+${y}
-        
-	#Focus last windows in AquaTK (to fix "Mac OS X focus bug")
-	if { [OnMac] && $lastfocus!="" } {
-		after 50 "catch {focus -force $lastfocus}"
-	}
 		
-	set Bulle(set) 1
-	after 10000 "kill_balloon"
+		wm geometry .balloon +${x}+${y}
+		
+		if { [OnMac] } {
+			#Set alpha value of balloon. This is done after setting the geometry to
+			#avoid the balloon to be placed at a random position on screen.
+			wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9]
+
+			#Focus last windows in AquaTK (to fix "Mac OS X focus bug")
+			if { $lastfocus!="" } {
+				after 50 "catch {focus -force $lastfocus}"
+			}
+		}
+			
+		set Bulle(set) 1
+		after 10000 "kill_balloon"
     }
 }
 
