@@ -1071,14 +1071,14 @@ namespace eval ::ChatWindow {
 
 		# Different shortcuts for MacOS
 		if { [OnMac] } {
-			bind $w <Command-,> "Preferences"
 			bind $w <Command-Option-h> [list ::amsn::ShowChatList [trans history] \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin]
+
 			# Control-w for closing current tab not implemented on Mac (germinator)
-                        bind $w <Command-Right> "::ChatWindow::GoToNextTab $w"
-                        bind $w <Command-Left> "::ChatWindow::GoToPrevTab $w"
+			bind $w <Command-Right> "::ChatWindow::GoToNextTab $w"
+			bind $w <Command-Left> "::ChatWindow::GoToPrevTab $w"
                         
-                        bind $w <Control-Tab> "::ChatWindow::GoToNextTab $w"
-                        bind $w <Control-Shift-Tab> "::ChatWindow::GoToPrevTab $w"
+			bind $w <Control-Tab> "::ChatWindow::GoToNextTab $w"
+			bind $w <Control-Shift-Tab> "::ChatWindow::GoToPrevTab $w"
 			#Implement bindings for webcam, see below?
 		} else {
 			bind $w <Control-h> \
@@ -1272,10 +1272,7 @@ namespace eval ::ChatWindow {
 		}
 
 		# App menu, only on Mac OS X (see Mac Interface Guidelines)
-		if { [OnMac] } {
-			set applemenu [CreateAppleMenu $mainmenu]
-			$mainmenu add cascade -label "aMSN" -menu $applemenu
-		}
+		if { [OnMac] } { create_apple_menu $mainmenu }
 
 		set chatmenu [CreateChatMenu $w $mainmenu]
 		set editmenu [CreateEditMenu $w $mainmenu]
@@ -1296,27 +1293,9 @@ namespace eval ::ChatWindow {
 		return $mainmenu
 	}
 
-
 	#############################################
-	# CreateAppleMenu $menu
-	# This proc should create the Apple submenu of the chat window
-	#
-	proc CreateAppleMenu { menu } {
-		set applemenu $menu.apple
-		menu $applemenu -tearoff 0 -type normal
-		$applemenu add command -label "[trans about] aMSN" \
-			-command ::amsn::aboutWindow
-		$applemenu add separator
-		$applemenu add command -label "[trans preferences]..." \
-			-command Preferences -accelerator "Command-,"
-		$applemenu add separator
-
-		return $applemenu
-	}
-
-	#############################################
-	# CreateMsnMenu $menu
-	# This proc should create the Amsn submenu of the chat window
+	# CreateChatMenu $menu
+	# This proc should create the Chat submenu of the chat window
 	#
 	proc CreateChatMenu { w menu } {
 		set chatmenu $menu.msn
@@ -1345,14 +1324,12 @@ namespace eval ::ChatWindow {
 		$chatmenu add command -label "[trans invite]..." \
 			-command "::amsn::ShowInviteList \"[trans invite]\" \[::ChatWindow::getCurrentTab $w\]"
 
-			
 
 #TODO:		#powertool should add the "hide window" thing here	
 #		if { ![OnMac] } {
 #			$chatmenu add command -label "[trans hidewindow]" \
 #				-command "wm state \[winfo toplevel \[::ChatWindow::getCurrentTab $w\]\] withdraw"
 #		}
-
 
 		if { ![OnMac] } {
 			#----------------------

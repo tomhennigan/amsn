@@ -3493,6 +3493,22 @@ proc create_other_menus {umenu imenu} {
 	menu $imenu -tearoff 0 -type normal
 
 }
+proc create_apple_menu { wmenu } {
+	set appmenu $wmenu.apple
+	$wmenu add cascade -label "aMSN" -menu $appmenu
+	menu $appmenu -tearoff 0 -type normal
+	$appmenu add command -label "[trans about] aMSN" \
+		-command ::amsn::aboutWindow
+	$appmenu add separator
+	$appmenu add command -label "[trans skinselector]" \
+	  -command ::skinsGUI::SelectSkin -accelerator "Command-Shift-S"
+	$appmenu add command -label "[trans pluginselector]" \
+	  -command ::plugins::PluginGui -accelerator "Command-Shift-P"
+	$appmenu add separator
+	$appmenu add command -label "[trans preferences]..." \
+		-command Preferences -accelerator "Command-,"
+	$appmenu add separator	
+}
 proc create_main_menu {wmenu} {
 	global password 
 
@@ -3512,22 +3528,7 @@ proc create_main_menu {wmenu} {
 	######################################################
 
 	#For apple, the first menu is the "App menu"
-	if { [OnMac] } {
-		.main_menu add cascade -label "aMSN" -menu .main_menu.apple
-		set appmenu .main_menu.apple
-		menu $appmenu -tearoff 0 -type normal
-		$appmenu add command -label "[trans about] aMSN" \
-			-command ::amsn::aboutWindow
-		$appmenu add separator
-		$appmenu add command -label "[trans skinselector]" \
-		  -command ::skinsGUI::SelectSkin -accelerator "Command-Shift-S"
-		$appmenu add command -label "[trans pluginselector]" \
-		  -command ::plugins::PluginGui -accelerator "Command-Shift-P"
-		$appmenu add separator
-		$appmenu add command -label "[trans preferences]..." \
-			-command Preferences -accelerator "Command-,"
-		$appmenu add separator
-	}
+	if { [OnMac] } { create_apple_menu .main_menu }
 	
 	.main_menu add cascade -label "[trans account]" -menu .main_menu.account
 	.main_menu add cascade -label "[trans view]" -menu .main_menu.view
@@ -3830,11 +3831,11 @@ proc cmsn_draw_main {} {
 	#Set key bindings which are different on Mac.
 	if { [OnMac] } {
 		#Skin selector
-		bind . <$modifier-S> ::skinsGUI::SelectSkin
+		bind all <$modifier-S> ::skinsGUI::SelectSkin
 		#Plugin selector
-		bind . <$modifier-P> ::plugins::PluginGui
+		bind all <$modifier-P> ::plugins::PluginGui
 		#Preferences
-		bind . <$modifier-,> Preferences
+		bind all <$modifier-,> Preferences
 		#BossMode (Command Alt space is used as a global key combo since Mac OS X 10.4.)
 		bind . <$modifier-Shift-space> BossMode
 		#Plugins log
