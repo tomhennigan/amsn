@@ -1121,6 +1121,7 @@ namespace eval ::MSN {
 				#The GUID is invalid if the contact is removed from the FL list
 				::abook::setContactForGuid $userguid ""
 				::abook::setContactData $user contactguid ""
+				::abook::clearVolatileData $user
 			} else {
 				#Remove fromonly one group
 				set affected_groups [list [lindex $recv 4]]

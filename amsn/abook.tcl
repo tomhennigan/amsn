@@ -511,6 +511,13 @@ namespace eval ::abook {
 		
 		set users_volatile_data($user_login) [array get volatile_data]
 	}
+
+	#clears all volatile date of a user
+	proc clearVolatileData { user_login } {
+		variable users_volatile_data
+
+		unset users_volatile_data($user_login)
+	}
 	
 		
 	#Returns some previously stored data from a user
