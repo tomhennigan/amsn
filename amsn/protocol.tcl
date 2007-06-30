@@ -1073,7 +1073,9 @@ namespace eval ::MSN {
 				#It's a new contact so we save its guid and its nick
 				::abook::setContactData $username contactguid $contactguid
 				::abook::setContactForGuid $contactguid $username
-				::abook::setContactData $username nick $nickname
+				if {[::abook::getContactData $username nick ""] == ""} {
+					::abook::setContactData $username nick $nickname
+				}
 			}
 			status_log "$username was in groups [::abook::getGroups $username]"
 			if {[::abook::getGroups $username] != "" && $groups == 0} {
