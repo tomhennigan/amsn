@@ -256,7 +256,8 @@ namespace eval ::Games::Sketch {
 	  ::Games::load_lang $langKey $langDir
 
 	  foreach {name value} [array get ::Games::lang] {
-		if {[string first "word_" $name] == 0} {
+		if {[string first "word_" $name] == 0 &&
+            [string is digit [string range $name 5 end]]} {
 		  lappend Dict($langKey) $value
 		}
 	  }
