@@ -15,6 +15,7 @@ MultiPlayerGames Jeux Multi-joueurs
 Dots_and_Boxes Points et Boites(Dots and Boxes)
 Hangman Pendu
 Sketch Sketch
+#Sketch Je dessine, tu devines!
 Accept Accepter
 Reject Refuser
 incompatible_version Warning, you do not use the same version of this plugin! You have version $1, while $2 uses version $3.
@@ -97,29 +98,29 @@ white Blanc
 # Language keys used in Sketch
 # ================================================
 #
-select_language Select language for this game
-Time Time
-wrong_guesses Wrong guesses
-sketch_tools Sketch tools
-Color Color
-Eraser Eraser
-Clear Clear
-Skip Skip
-Save Save
-make_guesses Make guesses
-Send Send
+select_language Choisissez la langue pour ce jeu
+Time Temps
+wrong_guesses Mauvaises réponses
+sketch_tools Outils
+Color Couleur
+Eraser Effaceur
+Clear Effacer tout
+Skip Passer
+Save Sauvegarder
+make_guesses Faire une proposition
+Send Envoyer
 Violation Violation
-wait_for_host Waiting for the host to start the game.
-wait_for_players Wait until everyone arrived and then click the start button ->
-Start Start
-save_drawing Save drawing
+wait_for_host En attente de l'hôte pour commencer le jeu.
+wait_for_players Attendre que tout le monde soit arrivé avant de cliquer sur ce bouton ->
+Start Commencer
+save_drawing Sauvegarder ce dessin
 Round Round
-you_draw you have to draw $1.
-you_guess you have to guess the word being drawn; recall lanuage is set to $1.
-correct_guess You guessed correctly! Solution is $1.
+you_draw Vous devez dessiner $1.
+you_guess Vous devez donner le nom de ce qui est dessiné ; en $1.
+correct_guess Vous avez répondu juste ! c'était: $1.
 points $1 points
-choose_bkgcol Choose a background color
-empty_dictionary This dictionary does not contain any words that can be used for Sketch, either select another language for this game, or fill your language file appropriately.
+choose_bkgcol Choisissez la couleur de fond
+empty_dictionary Ce dictionnaire ne contient aucun mot de cette langue; choisissez-en une autre.
 hourglass_courtesy Hourglass courtesy of Bernd Breitenbach.
 #
 # ================================================
@@ -130,24 +131,29 @@ hourglass_courtesy Hourglass courtesy of Bernd Breitenbach.
 # -> "email" and "mail" are also full credits to the guessers
 # ================================================
 #
-word_0 computer
-word_1 airplane
-word_2 e-mail, email, mail
-word_3 television, tv
-word_4 micro-wave, microwave
-word_5 chicken, Tjikkun
-word_6 chess
-word_7 envelop, enveloppe
-word_8 cake
-word_9 candle
-word_10 dog
-word_11 cat
-word_12 car
-word_13 tree
-word_14 mouse
-word_15 glasses
-word_16 cellular, mobile
-word_17 sweater
-word_18 shoes
-word_19 camera
-word_20 apple
+word_0 ordinateur, computer, ordi
+word_1 avion
+word_2 e-mail, email, mail, courriel, mèl, courrier
+word_3 télévision, tv, television
+word_4 micro-ondes, microondes, micro-wave, microwave, micro-onde, microonde
+word_5 poulet, coq, poule
+word_6 echecs, echec
+word_7 enveloppe
+word_8 gâteau, cake
+word_9 cloche
+word_10 chien
+word_11 chat
+word_12 voiture
+word_13 arbre
+word_14 souris
+word_15 lunettes
+word_16 téléphone, mobile, telephone, portable, télèphone
+word_17 veste, chemise, pull
+word_18 chaussures, chaussure
+word_19 camera, camescope
+word_20 pomme, apple
+word_21 bateau, navire, titanic
+word_22 cheval
+word_23 fleur, fleurs
+word_24 table
+word_25 vélo, VTT, velo, bicyclette
