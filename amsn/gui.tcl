@@ -237,6 +237,18 @@ if { $initialize_amsn == 1 } {
 	proc ::tk::panedwindow::Cursor { args } {
 		catch { eval ::tk::panedwindow::Original_Cursor $args }
 	}
+
+	#For proc WinWrite
+	namespace eval ::amsn {
+		variable urlcount 0
+		set urlstarts { "http://" "https://" "ftp://" "www." }
+	}
+
+	#For idle checking
+	global idletime oldmousepos autostatuschange
+	set idletime 0
+	set oldmousepos [list]
+	set autostatuschange 0
 }
 
 namespace eval ::amsn {
@@ -2955,14 +2967,6 @@ namespace eval ::amsn {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
-	#TODO:
-	#WTF is this???????????
-	#And why is it HERE?????
-	if { $initialize_amsn == 1 } {
-		variable urlcount 0
-		set urlstarts { "http://" "https://" "ftp://" "www." }
-	}
-
 	proc  SelectUrl {textw urlname } {
 		if { [focus] != "${textw}.inner" || [llength [$textw tag ranges sel]] == 0} {
 			# If we were focusing on the text widget (user didn't explicitely just selected text with his mouse)
@@ -3086,7 +3090,6 @@ namespace eval ::amsn {
 
 				set final 0
 				set caracter [string range $urltext $final $final]
-				# Removed this: && $caracter != ")" && $caracter != "("
 				while { $caracter != " " && $caracter != "\n" } {
 					set final [expr {$final+1}]
 					set caracter [string range $urltext $final $final]
@@ -3493,6 +3496,7 @@ proc create_other_menus {umenu imenu} {
 	menu $imenu -tearoff 0 -type normal
 
 }
+
 proc create_apple_menu { wmenu } {
 	set appmenu $wmenu.apple
 	$wmenu add cascade -label "aMSN" -menu $appmenu
@@ -3509,6 +3513,7 @@ proc create_apple_menu { wmenu } {
 		-command Preferences -accelerator "Command-,"
 	$appmenu add separator	
 }
+
 proc create_main_menu {wmenu} {
 	global password 
 
@@ -6174,14 +6179,6 @@ proc exit {} {
 #///////////////////////////////////////////////////////////////////////
 
 
-# TODO: This should really not be here
-if { $initialize_amsn == 1 } {
-	global idletime oldmousepos autostatuschange
-
-	set idletime 0
-	set oldmousepos [list]
-	set autostatuschange 0
-}
 
 #///////////////////////////////////////////////////////////////////////
 # idleCheck()
