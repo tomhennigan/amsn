@@ -8,12 +8,6 @@
 #  ============================================  #
 ##################################################
 
-#TODO Translation (almost done)
-#TODO Right click behavior <- seem to work
-#TODO plugin update <-- thinkin'about
-#TODO bind to esc button <- done
-#TODO scrollbar in listbox <- done
-#TODO Configuration window <- done
 
 namespace eval ::actionmenu {
 	package require framec
@@ -21,21 +15,17 @@ namespace eval ::actionmenu {
 	variable configlist
 
 proc Init { dir } {
-	global HOME HOME2
-
+	
+	::plugins::RegisterPlugin actionmenu
+	::plugins::RegisterEvent actionmenu OnConnect redraw
+	
 	set langdir [append dir "/lang"]
 	load_lang en $langdir
 	load_lang [::config::getGlobalKey language] $langdir
 
-	::plugins::RegisterPlugin "actionmenu"
+	
 
-	::plugins::RegisterEvent actionmenu ContactListColourBarDrawn draw
 
-	::skin::setPixmap actionsbg actionsbg.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
-	::skin::setPixmap img_expcol actions_expcol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
-	::skin::setPixmap img_addcontact actions_addcontact.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
-	::skin::setPixmap img_find actions_find.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
-	::skin::setPixmap img_collapsecol actions_collapsecol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
 
 	array set ::actionmenu::config {
 		search 0
@@ -46,8 +36,8 @@ proc Init { dir } {
 						[list frame ::actionmenu::populatesearchframe ""] \
 						[list frame ::actionmenu::populateshowframe ""] \
 						]
-	after 2000 "catch { ::actionmenu::redraw 0 }"
 	
+	after 5000 catch "::actionmenu::redraw"
 	status_log "Actionmenu loaded"
 	
 }
@@ -91,9 +81,14 @@ set ::actionmenu::configlist [list \
 			  [list bool "[trans notify1]" ] 
 	
 }
-proc draw { event evpar } {
-	if { $event !=00 } { upvar 2 $evPar vars } {
-
+proc draw { } {
+		global HOME HOME2
+		::skin::setPixmap actionsbg actionsbg.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_expcol actions_expcol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_addcontact actions_addcontact.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_find actions_find.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_collapsecol actions_collapsecol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	
 		set bgcolor [::skin::getKey mainwindowbg]
 		set actions .main.actions
 		if { [winfo exists $actions]} {
@@ -109,7 +104,7 @@ proc draw { event evpar } {
 		$acanvas create image 0 0 -image [::skin::loadPixmap actionsbg] -anchor nw -tag expand
 		$acanvas create image 0 0 -image [::skin::loadPixmap img_expcol] -anchor nw -tag expand
 		$acanvas create text 30 3 -text "[trans iwantto]..." -anchor nw -tag expand -font sboldf -fill #102040
-		$acanvas bind expand <ButtonPress-1> "::actionmenu::redraw $actions"
+		$acanvas bind expand <ButtonPress-1> "::actionmenu::redraw"
 
 		#$acanvas bind expand <Enter> "+$acanvas create line 30 18 100 18 -tag exp_line; $acanvas configure -cursor hand2; $acanvas lower exp_line expand"
 		#$acanvas bind expand <Leave> "+$acanvas delete exp_line; $acanvas configure -cursor left_ptr"
@@ -124,16 +119,19 @@ proc draw { event evpar } {
 		update idletasks
 
 	}
-}
 
 
-proc redraw { actions } {
 
-	if { [winfo exists $actions]} {
-		destroy $actions
-	}
-
+proc redraw { } {
+	global HOME HOME2
 	set actions .main.actions
+	if { [winfo exists $actions]} {
+			destroy $actions
+		}
+		
+	::skin::setPixmap actionsbg actionsbg.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	::skin::setPixmap img_collapsecol actions_collapsecol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
+	
 
 	frame $actions -relief flat -borderwidth 0
 
@@ -143,10 +141,11 @@ proc redraw { actions } {
 	canvas $acanvas -bg $bgcolor -height 20 -highlightthickness 0 -relief flat -borderwidth 0
 	$acanvas  create image 0 0 -image [::skin::loadPixmap actionsbg] -anchor nw -tag expand
 	$acanvas create image 0 0 -image [::skin::loadPixmap img_collapsecol] -anchor nw -tag expand
-	$acanvas bind expand <ButtonPress-1> "::actionmenu::draw 0 0"
+	$acanvas bind expand <ButtonPress-1> "::actionmenu::draw"
 
 	pack configure $acanvas -side top -fill both -expand true
 	pack configure $actions -side bottom -fill x
+
 }
 
 
@@ -242,28 +241,9 @@ proc createsearchwindow { } {
 	#############################################################
 	# Automatic search by char input			    #
 	#############################################################
+	bind .searchwindow.chars <Any-Key> "after cancel ::actionmenu::searchuser;after 200 ::actionmenu::searchuser"
 	
 
-	#set charsentry [.searchwindow.chars]
-
-		     
-	#set charstyped [.searchwindow.chars getinnerframe].charstyped
-	
-	#catch {
-	#bind $charsentry <<KeyRelease>> ""
-	
-	#$charsentry edit modified false
-	
-	#bind $charsentry <<KeyRelease>> "::actionmenu::autosearch"
-	#}
-
-	#foreach chars $charstyped {
-	
-	#while { $charstyped != "" } {
-	#	after 300 "catch { ::actionmenu::searchuser } "
-	#	continue
-	#	}
-	#}
 	#############################################################
 	
 	pack .searchwindow.userbox.ys -side right -fill both
