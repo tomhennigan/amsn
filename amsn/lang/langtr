@@ -144,7 +144,7 @@ channels Kanallar
 charscounter Sohbet penceresinde girilen harf sayacý
 chat Sohbet
 chatack Sohbet istemi kabul edilen kiþi
-chatmaxmin Bir arkadaþým benimle sohbet penceresi açtýðýnda pencerenin þöyle olmasýný istiyorum:
+chatmaxmin Bir baðlantým benimle sohbet penceresi açtýðýnda pencerenin þöyle olmasýný istiyorum:
 chatreq Sohbet istemi
 chatsmileys Gülen adamlar
 chatsmileys2 Sohbet penceresinde gülen adamlar görünsün
@@ -280,10 +280,12 @@ disableuserfonts Sohbetlerde karþý tarafýn yazýtipini dikkate alma ve kendi yazý
 disconnect $1 ayrýldý
 disconnectedfrom $1 ile baðlantý kesildi
 displaychat Metin seçeneklerini göster
-displayeventconnect Arkadaþlar baðlanýnca göster
-displayeventdisconnect Arkadaþlar çýkýnca göster
+displayeventconnect Baðlantýlar çevrimiçi olunca göster
+displayeventdisconnect Baðlantýlar çevrimdýþý olunca göster
 displayeventemail Bir e-posta gelince göster
-displayeventstate Arkadaþlar durum deðiþtirince göster
+displayeventnick Baðlantýlar rumuz deðiþtirince göster
+displayeventpsm Baðlantýlar kiþisel iletilerini deðiþtirince göster
+displayeventstate Baðlantýlar durum deðiþtirince göster
 displayp4context Ýletiyi gönderen olarak P4-Ýçeriði alanýný göster
 displaypic Kullanýcý Resmi
 dockfreedesktop AçýkMasaüstü (KDE3/Gnome2)
@@ -477,6 +479,8 @@ logbigger Her baðlantý için kayýt dosyasý boyutu üst sýnýrý
 logeventconnect Baðlantýlarý kayda geçir
 logeventdisconnect Baðlantýdan çýkýþlarý kayda geçir
 logeventemail Gelen e-postalarý kayda geçir
+logeventnick Rumuz deðiþimlerini kayda geçir
+logeventpsm Kiþisel ileti deðiþimlerini kayda geçir
 logeventstate Durum deðiþimlerini kayda geçir
 logfandexp Kayýt dosya boyutlarý ve Geçmiþ kayýtlarýnýn silinme zamaný 
 loggedotherlocation Baþka bir yerden baðlandýðýnýz için baðlantý kesildi
@@ -552,6 +556,7 @@ newtabbedfeature aMSN'de sohbet pencereleri düzeniyle ilgili bir yenilik var:\n 
 newveravailable Yeni $1 sürümü indirilmeye hazýr
 next Sonraki
 nick Rumuz
+nickchanged $1 rumuzunu '$2' olarak deðiþtirdi
 no Hayýr
 noactivity Etkinlik yok
 nocacheddps Bu kullanýcýya ait saklanmýþ resim yok
@@ -680,6 +685,7 @@ proxyconfhttp HTTP proxy desteði ayarlarý
 proxyconnection Ýnternete proxy sunucu ile baðlanýyorum
 psm Kiþisel Ýleti
 psmatend Kiþisel iletiyi rumuzun yanýnda göster
+psmchanged $1 Kiþisel iletisini '$2' olarak deðiþtirdi
 psmdontshow Rumuz þablonu ya da özel rumuz ayarlarýnda aksi belirtilmedikçe kiþisel iletileri gösterme
 psmnewline Kiþisel iletiyi rumuzun altýnda göster
 psmplace Kiþisel iletiler nerede gözüksün?
