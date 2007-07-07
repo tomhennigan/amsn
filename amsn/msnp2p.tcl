@@ -212,7 +212,7 @@ namespace eval ::MSNP2P {
 
 			create_dir [file join $HOME smileys]
 			create_dir [file join $HOME smileys cache]
-			::MSNP2P::RequestObject $chatid $user $msnobj
+			if { [::abook::getContactData $user showcustomsmileys] != 0 } { ::MSNP2P::RequestObject $chatid $user $msnobj }
 		} else {
 			# Make sure the smiley is max 50x50
 			::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
