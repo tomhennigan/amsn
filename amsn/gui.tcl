@@ -6478,7 +6478,7 @@ proc BossMode { } {
 			wm title .bossmode "[trans pass]"
 
 			label .bossmode.passl -text "[trans pass]"
-			entry .bossmode.pass -show "*"
+			entry .bossmode.pass -show "*" -validate key -vcmd {expr {[string length %P]<=16} }
 			pack .bossmode.passl .bossmode.pass -side left
 
 			#updatebossmodetime
