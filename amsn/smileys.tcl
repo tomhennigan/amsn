@@ -1104,6 +1104,7 @@ namespace eval ::smiley {
 			raise .new_custom
 			return
 		}
+		set new_custom_cfg(name) $text
 		set new_custom_cfg(text) $text
 		set new_custom_cfg(file) [::skin::GetSkinFile smileys "cache/${file}.png"]
 		newCustomEmoticonGUI
