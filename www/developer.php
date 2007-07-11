@@ -54,7 +54,7 @@ contains new bug fixes from the previous releases. On the other hand, it might n
 
 <ul>
 <li>
-<a href="http://svn.sourceforge.net/viewcvs.cgi/amsn/trunk/amsn/">Browse SVN Repository</a>
+<a href="http://amsn.svn.sourceforge.net/viewcvs.cgi/amsn/trunk/amsn/">Browse SVN Repository</a>
 <br />
 </li>
 </ul>

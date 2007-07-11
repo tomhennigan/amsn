@@ -21,8 +21,8 @@
 </table>
 <br/>
 Instructions :<br/>
-1. : Read the <a href="https://svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/LANG-HOWTO"><b>LANG-HOWTO</b></a> file with instructions for translators<br/>
-2. : Download the old language file here : <a href="https://svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/lang<?php echo $langcode?>"><b>lang<?php echo $langcode?></b></a><br/>
+1. : Read the <a href="https://amsn.svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/LANG-HOWTO"><b>LANG-HOWTO</b></a> file with instructions for translators<br/>
+2. : Download the old language file here : <a href="https://amsn.svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/lang<?php echo $langcode?>"><b>lang<?php echo $langcode?></b></a><br/>
 3. : Copy the keywords from the list below and add them to the language file.<br/>
 4. : Translate the english explanations<br/>
 5. : Send the updated file to <a href="mailto:amsn-translations@lists.sourceforge.net">amsn-translations@lists.sourceforge.net</a><br/>
