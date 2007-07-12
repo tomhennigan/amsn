@@ -613,35 +613,34 @@ namespace eval ::groups {
 
 	proc Rename { old new {ghandler ""}} {
 		global pgc
-		
 		set old [string trim $old]
 		set new [string trim $new]
-	
-		if {$old == $new || $new == ""} { return 0 }
+		#avoid renaming no group, or renaming to an empty string
+		if {$old == $new || $new == "" || $old == ""} { return 0 }
 	
 		if {![::groups::Exists $old]} {
-		if {$ghandler != ""} {
-			set retval [eval "$ghandler \"$old : [trans groupunknown]\""]
-		}
-		set pgc 0
-		return 0
+			if {$ghandler != ""} {
+				set retval [eval "$ghandler \"$old : [trans groupunknown]\""]
+			}
+			set pgc 0
+			return 0
 		}
 	
 		if {[::groups::Exists $new]} {
-		if {$ghandler != ""} {
-			set retval [eval "$ghandler \"$new : [trans groupexists]\""]
-		}
-		set pgc 0
-		return 0
+			if {$ghandler != ""} {
+				set retval [eval "$ghandler \"$new : [trans groupexists]\""]
+			}
+			set pgc 0
+			return 0
 		}
 	
 		set currentGid [::groups::GetId $old]
 		if {$currentGid == -1} {
-		if {$ghandler != ""} {
-			set retval [eval "$ghandler \"[trans groupmissing]: $old\""]
-		}
-		set pgc 0
-		return 0
+			if {$ghandler != ""} {
+				set retval [eval "$ghandler \"[trans groupmissing]: $old\""]
+			}
+			set pgc 0
+			return 0
 		}
 	
 		#TODO Keep track of transaction number
