@@ -617,7 +617,7 @@ namespace eval ::groups {
 		set old [string trim $old]
 		set new [string trim $new]
 	
-		if {$old == $new || $old == ""} { return 0 }
+		if {$old == $new || $new == ""} { return 0 }
 	
 		if {![::groups::Exists $old]} {
 		if {$ghandler != ""} {
