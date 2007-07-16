@@ -1493,7 +1493,7 @@ namespace eval ::guiContactList {
 		lappend stylestring [list "tag" "$space_icon"]
 		lappend stylestring [list "image" "$noupdate_img" "nw"]
 		lappend stylestring [list "tag" "-$space_icon"]
-		incr marginx [image width $noupdate_img]
+		#incr marginx [image width $noupdate_img]
 		
 		#---------------#
 		###Status icon###
