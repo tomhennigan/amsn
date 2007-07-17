@@ -283,6 +283,8 @@ displaychat Textoptionen anzeigen
 displayeventconnect Anzeige wenn sich Kontakte anmelden
 displayeventdisconnect Anzeige wenn sich Kontakte abmelden
 displayeventemail Anzeige wenn eine E-Mail eingeht
+displayeventnick Anzeige wenn Kontakte ihren Spitznamen ändern
+displayeventpsm Anzeige wenn Kontakte ihre persönliche Nachricht ändern
 displayeventstate Anzeige wenn Kontakte ihren Status ändern
 displayp4context P4-Kontextfeld als Absender der Nachricht anzeigen
 displaypic Bild anzeigen
@@ -477,6 +479,8 @@ logbigger Maximale Größe der Protokolldatei für einen Kontakt
 logeventconnect Verbindungen protokollieren
 logeventdisconnect Abmeldungen protokollieren
 logeventemail Eingehende E-Mails protokollieren
+logeventnick Änderungen des Spitznamens protokollieren
+logeventpsm Änderungen der persönlichen Nachricht protokollieren
 logeventstate Statusänderungen protokollieren
 logfandexp Begrenzungen für Protokolldateien und Verlauf
 loggedotherlocation Verbindung getrennt
@@ -552,6 +556,7 @@ newtabbedfeature aMSN hat ein neues Feature zum Verwalten von Unterhaltungen: Es
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 nick Spitzname
+nickchanged $1 hat seinen Spitznamen in '$2' geändert
 noactivity Inaktiv
 nocacheddps Keine Anzeigebilder dieses Kontaktes im Speicher
 nocamwarn Es wurde keine Webcam gefunden, oder die Webcam wird bereits von einem anderen Programm verwendet (weswegen sie nicht von aMSN verwendet werden kann). Eine Lösung zu dem Problem finden Sie in unserem Wiki (auf Englisch)
@@ -679,6 +684,7 @@ proxyconf Proxy-Konfiguration
 proxyconnection Ich verbinde mit dem Internet über einen Proxy-Server:
 proxy Ich bin hinter einem Proxy Server (HTTP oder SOCKS5)
 psmatend Persönliche Nachricht neben Spitznamen anzeigen
+psmchanged $1 hat seine persönliche Nachricht in '$2' geändert
 psmdontshow Persönliche Nachricht nicht zeigen, außer wenn in globalen / benutzerdefinierten Spitznamen definiert
 psmnewline Persönliche Nachricht unterhalb des Spitznamen anzeigen
 psm Persönliche Nachricht
