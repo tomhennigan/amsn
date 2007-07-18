@@ -262,6 +262,7 @@ namespace eval ::config {
 		if { [info exists custom_emotions] } {
 			unset custom_emotions
 		}
+		::smiley::cleanup
 
 		#System options, not intended to be edited (unless you know what you're doing)
 		set password ""

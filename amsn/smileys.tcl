@@ -209,14 +209,20 @@ namespace eval ::smiley {
 		
 		#Store the emoticon data in the custom_emoticons array
 		set custom_emotions($emotion(name)) [array get emotion]
-
-		variable sortedemotions
-		if {[info exists sortedemotions]} { unset sortedemotions }
-		
 		
 		return 0
 	}
 	
+
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	# proc cleanup
+	#
+	# Cleans up the smiley storage
+	proc cleanup {} {
+		variable sortedemotions
+		if {[info exists sortedemotions]} { unset sortedemotions }
+	}
 
 	
 	#///////////////////////////////////////////////////////////////////////////////
