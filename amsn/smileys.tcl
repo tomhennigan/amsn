@@ -1258,7 +1258,9 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 			set smileyIdx [$tw image create $endpos -image "emoticonCustom_std_$file" -padx 0 -pady 0]
 
 			# Make sure the smiley is max 50x50
-			::smiley::resizeCustomSmiley emoticonCustom_std_$file
+		    	if {[::config::getKey big_incoming_smileys 0] == 1} {
+			    ::smiley::resizeCustomSmiley emoticonCustom_std_$file
+			}
 
 			$tw tag add $twTag $smileyIdx
 			$tw tag remove smiley $endpos

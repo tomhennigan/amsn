@@ -286,6 +286,8 @@ namespace eval ::config {
 
 		::config::setKey http_proxy_use_gateway 1			;# Wether the http proxy should use the MSN gateway or do a CONNECT instead on the proxy... 
 
+	    	::config::setKey big_incoming_smileys 0				;# Whether to resize or not the incoming smileys to the standard 50x50 size.
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
@@ -319,6 +321,7 @@ namespace eval ::config {
 			[list local showmailicon bool showmailicon] \
 			[list local autoresizedp bool autoresizedp] \
 			[list local show_login_screen_links bool showlinksinlogin] \
+			[list local big_incoming_smileys bool noresizesmileys] \
 			[list local old_dpframe bool showonedpframe] \
 			[list title notifyoffset] \
 			[list local notifyXoffset int xoffset] \

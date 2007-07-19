@@ -573,6 +573,7 @@ nonewver There are no new versions available to download
 no No
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
+noresizesmileys Do not scale down incoming custom emoticons
 normal Normal
 noskins Couldn't find default skin in skins/ folder. Can't start AMSN
 nosound No sound was detected, make sure your microphone has been connected to your computer properly
