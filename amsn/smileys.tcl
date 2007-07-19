@@ -489,8 +489,19 @@ namespace eval ::smiley {
 			incr temp
 		}
 
+	   	# Here, I disable the "Leave" event so that in case the window 
+	    	# is in the upper left corner and really small, when we click, 
+	    	# and the mouse is already inside the window, we don't want the
+	    	# 'moveinscreen' to generate a <Leave> event and thus making it
+	    	# impossible to show the smiley window
+
+	    	set binding [bind $w <Leave>]
+	    	bind $w <Leave> ""
+
 		moveinscreen $w 5
 		
+		bind $w <Leave> $binding
+
 		event generate $w <Enter>
 	
 	}
