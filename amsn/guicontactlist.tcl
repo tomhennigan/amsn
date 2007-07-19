@@ -630,7 +630,7 @@ namespace eval ::guiContactList {
 				set email [lindex $element 1]
 				set gid $groupDrawn
 				set tag "_$gid"; set tag $email$tag
-				set currentPos [$canvas coords $tag]
+				set currentPos [$canvas bbox $tag]
 				#status_log "MOVING CONTACT WITH TAG: $tag ;  currentpos: $currentPos  ; curPos: $curPos"
 
 				if { $currentPos == "" } {
@@ -1378,9 +1378,9 @@ namespace eval ::guiContactList {
 		# if they are clicked
 		set main_part "${tag}_click"
 		#space_icon is a tag for the icon showing if the contact's MSN Space is updated
-		set space_icon "${tag}_space_icon"
-		set undock_space "${tag}_undock_space"
-		set space_info "${tag}_space_info"
+		#set space_icon "${tag}_space_icon"
+		#set undock_space "${tag}_undock_space"
+		#set space_info "${tag}_space_info"
 
 		################################################################
 		# Set up some vars with info we'll use
@@ -1397,7 +1397,7 @@ namespace eval ::guiContactList {
 		}
 
 		if { $nickcolour == "" || $nickcolour == "#" } {
-			if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1" } {
+			if { $state_code == "FLN" && [::abook::getVolatileData $email MOB] == "Y" } {
 				set nickcolour [::skin::getKey "contact_mobile"]
 				set statecolour [::skin::getKey "state_mobile" $nickcolour]
 			} else {
@@ -1406,7 +1406,7 @@ namespace eval ::guiContactList {
 			}
 			set force_colour 0
 		} else {
-			if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1" } {
+			if { $state_code == "FLN" && [::abook::getVolatileData $email MOB] == "Y" } {
 				set statecolour [::skin::getKey "state_mobile" [::skin::getKey "contact_mobile"]]
 			} else {
 				set statecolour [::MSN::stateToColor $state_code "state"]
@@ -1427,7 +1427,7 @@ namespace eval ::guiContactList {
 			set img [::skin::loadPixmap webmsn]
 		} elseif {[::config::getKey show_contactdps_in_cl] == "1" } {
 			set img [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]
-		} elseif { [::abook::getContactData $email msn_mobile] == "1" && $state_code == "FLN"} {
+		} elseif { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
 			set img [::skin::loadPixmap mobile]
 		} else {
 			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
@@ -1455,14 +1455,14 @@ namespace eval ::guiContactList {
 			}
 		}
 
-		set update_img [::skin::loadPixmap space_update]
-		set noupdate_img [::skin::loadPixmap space_noupdate]
+		#set update_img [::skin::loadPixmap space_update]
+		#set noupdate_img [::skin::loadPixmap space_noupdate]
 		
 		#this is when there is an update and we should show a star
-		set space_update [::abook::getVolatileData $email space_updated 0]
+		#set space_update [::abook::getVolatileData $email space_updated 0]
 		
 		#is the space shown or not ?
-		set space_shown [::abook::getVolatileData $email SpaceShowed 0]
+		#set space_shown [::abook::getVolatileData $email SpaceShowed 0]
 		
 		set maxwidth [expr {[winfo width $canvas] - 2*$Xbegin - [::skin::getKey buddy_xpad] - 5}]
 
@@ -1471,6 +1471,7 @@ namespace eval ::guiContactList {
 		################################################################
 
 		set marginx 0
+		set marginy 0
 
 		#Delete elements of the contact if they still exist
 		$canvas delete $tag
@@ -1490,9 +1491,9 @@ namespace eval ::guiContactList {
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
 		# We must create the icon and hide after else, the status icon will stick the border \
 		# it's surely due to anchor parameter
-		lappend stylestring [list "tag" "$space_icon"]
-		lappend stylestring [list "image" "$noupdate_img" "nw"]
-		lappend stylestring [list "tag" "-$space_icon"]
+		#lappend stylestring [list "tag" "$space_icon"]
+		#lappend stylestring [list "image" "$noupdate_img" "nw"]
+		#lappend stylestring [list "tag" "-$space_icon"]
 		#incr marginx [image width $noupdate_img]
 		
 		#---------------#
@@ -1501,7 +1502,7 @@ namespace eval ::guiContactList {
 
 		# Draw status-icon
 		lappend stylestring [list "tag" "$main_part"]
-		lappend stylestring [list "margin" 0 [expr {[image height $img]/2}]]
+		lappend stylestring [list "margin" $marginx $marginy]
 		lappend stylestring [list "image" "$img" "w"]
 		lappend stylestring [list "margin" 0 0]
 		lappend stylestring [list "space" 2]
@@ -1525,7 +1526,7 @@ namespace eval ::guiContactList {
 			
 			lappend stylestring [list "tag" "-$main_part"]
 			lappend stylestring [list "tag" "alarm_$email"]
-			lappend stylestring [list "image" "$icon" "nw"]
+			lappend stylestring [list "image" "$icon" "w"]
 			lappend stylestring [list "tag" "-alarm_$email"]
 			lappend stylestring [list "tag" "$main_part"]
 
@@ -1545,7 +1546,7 @@ namespace eval ::guiContactList {
 		# If you are not on this contact's list, show the notification icon
 		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 			set icon [::skin::loadPixmap notinlist]
-			lappend stylestring [list "image" "$icon" "nw"]
+			lappend stylestring [list "image" "$icon" "w"]
 			incr marginx [image width $icon]
 		}
 
@@ -1557,7 +1558,7 @@ namespace eval ::guiContactList {
 		#-----------------#
 		###Draw Nickname###
 		#-----------------#
-		lappend stylestring [list "margin" $marginx [expr {[image height $img]/2}]]
+		lappend stylestring [list "margin" $marginx $marginy]
 
 		if {$force_colour} {
 			lappend stylestring [list "colour" "ignore"]
@@ -1655,30 +1656,30 @@ namespace eval ::guiContactList {
 
 		#This is a technology demo, the default is not unchangeable
 		# values for this variable can be "inline", "ccard" or "disabled"
-		if {$space_shown && \
-			([::config::getKey spacesinfo "inline"] == "inline" || \
-			[::config::getKey spacesinfo "inline"] == "both") } {
+		#if {$space_shown && \
+		#	([::config::getKey spacesinfo "inline"] == "inline" || \
+		#	[::config::getKey spacesinfo "inline"] == "both") } {
 
-			lappend stylestring [list "newline" "\n"]
-			if {[::config::getKey spacesinfo "inline"] == "both" } {
-				#image to show the ccard
-				lappend stylestring [list "space" 15]
-				lappend stylestring [list "tag" "icon"]
-				lappend stylestring [list "tag" "$undock_space"]
-				lappend stylestring [list "image" "$noupdate_img" "w"]
-				lappend stylestring [list "tag" "-$undock_space"]
-				lappend stylestring [list "tag" "-icon"]
-			}
+		#	lappend stylestring [list "newline" "\n"]
+		#	if {[::config::getKey spacesinfo "inline"] == "both" } {
+		#		#image to show the ccard
+		#		lappend stylestring [list "space" 15]
+		#		lappend stylestring [list "tag" "icon"]
+		#		lappend stylestring [list "tag" "$undock_space"]
+		#		lappend stylestring [list "image" "$noupdate_img" "w"]
+		#		lappend stylestring [list "tag" "-$undock_space"]
+		#		lappend stylestring [list "tag" "-icon"]
+		#	}
 
-			lappend stylestring [list "tag" "$space_info"]
-			lappend stylestring [list "tag" "space_info"]
+		#	lappend stylestring [list "tag" "$space_info"]
+		#	lappend stylestring [list "tag" "space_info"]
 
-			set stylestring [concat $stylestring [::ccard::drawSpacesCL $canvas $email $tag \
-				$marginx [expr {[image height $img]/2}]]]
+		#	set stylestring [concat $stylestring [::ccard::drawSpacesCL $canvas $email $tag \
+		#		$marginx $marginy]]
 
-			lappend stylestring [list "tag" "-space_info"]
-			lappend stylestring [list "tag" "-$space_info"]
-		}
+		#	lappend stylestring [list "tag" "-space_info"]
+		#	lappend stylestring [list "tag" "-$space_info"]
+		#}
 
 		#---------------#
 		##Rendering !! ##
@@ -1693,13 +1694,13 @@ namespace eval ::guiContactList {
 		#-------------------------#
 		##Some more about spaces ##
 		#------------------------ #
-		if { [::MSNSPACES::hasSpace $email] } {
-			if { $space_update } {
-				$canvas itemconfigure $space_icon -image $update_img
-			}
-		} else {
-			$canvas itemconfigure $space_icon -state hidden
-		}
+		#if { [::MSNSPACES::hasSpace $email] } {
+		#	if { $space_update } {
+		#		$canvas itemconfigure $space_icon -image $update_img
+		#	}
+		#} else {
+		#	$canvas itemconfigure $space_icon -state hidden
+		#}
 
 
 		#-----------#
@@ -1709,21 +1710,21 @@ namespace eval ::guiContactList {
 		# First, remove previous bindings
 		cleanBindings $canvas $tag
 		cleanBindings $canvas $main_part
-		cleanBindings $canvas $space_icon
+		#cleanBindings $canvas $space_icon
 
 		#Click binding for the "star" image for spaces
-		$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown $email]
+		#$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown $email]
 
-		$canvas bind $undock_space <Button-1> [list ::ccard::drawwindow $email 1]
-		#TODO# not sure about this one:
-		$canvas bind $undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email]
+		#$canvas bind $undock_space <Button-1> [list ::ccard::drawwindow $email 1]
+		##TODO# not sure about this one:
+		#$canvas bind $undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email]
 
 		# balloon bindings
-		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y "View space items" ]
-			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y "View space items" ]
-			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
-		}
+		#if { [::config::getKey tooltips] == 1 } {
+		#	$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y "View space items" ]
+		#	$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y "View space items" ]
+		#	$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
+		#}
 
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
@@ -1744,7 +1745,7 @@ namespace eval ::guiContactList {
 
 
 		# Binding for left (double)click
-		if { $state_code == "FLN" && [::abook::getContactData $email msn_mobile] == "1"} {
+		if { $state_code == "FLN" && [::abook::getVolatileData $email MOB] == "Y"} {
 			# If the user is offline and support mobile (SMS)
 			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
 				"set ::guiContactList::displayCWAfterId \
@@ -1976,7 +1977,7 @@ namespace eval ::guiContactList {
 		# Online/Offline mode
 		if { $mode == 0 } {
 			if { $status == "FLN" } {
-				if { [::abook::getContactData $email msn_mobile] == "1" \
+				if { [::abook::getVolatileData $email MOB] == "Y" \
 					&& [::config::getKey showMobileGroup] == 1} {
 					return [list "mobile"]
 				} else {
@@ -1994,7 +1995,7 @@ namespace eval ::guiContactList {
 		# Hybrid Mode, we add offline group
 		if { $mode == 2 } {
 			if { $status == "FLN" } {
-				if { [::abook::getContactData $email msn_mobile] == "1" && [::config::getKey showMobileGroup] == 1} {
+				if { [::abook::getVolatileData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
 					return [list "mobile"]
 				} else {
 					return [list "offline"]

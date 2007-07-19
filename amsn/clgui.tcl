@@ -831,7 +831,7 @@ snit::widgetadaptor clwidget {
 		# Online/Offline mode
 		if { !$options(-orderbygroup) } {
 			if { $status == "FLN" } {
-				if { [::abook::getContactData $contact msn_mobile] == "1" \
+				if { [::abook::getVolatileData $contact MOB] == "Y" \
 					&& $options(-groupmobile)} {
 					return "mobile"
 				} else {
@@ -848,7 +848,7 @@ snit::widgetadaptor clwidget {
 		# Group mode
 		} else {
 			if { $status == "FLN" && $options(-groupoffline)} {
-				if { [::abook::getContactData $contact msn_mobile] == "1" && $options(-groupmobile)} {
+				if { [::abook::getVolatileData $contact MOB] == "Y" && $options(-groupmobile)} {
 					return "mobile"
 				} else {
 					return "offline"
@@ -936,7 +936,7 @@ snit::widgetadaptor clwidget {
 					foreach contact_email [::MSN::sortedContactList] { 
 						set contact [$self emailToContact $contact_email]
 						#if it's a mobile contact
-						if { [::abook::getContactData $contact_email msn_mobile] == "1" && [::abook::getVolatileData $contact_email state FLN] == "FLN" } {
+						if { [::abook::getVolatileData $contact_email MOB] == "Y" && [::abook::getVolatileData $contact_email state FLN] == "FLN" } {
 							
 							set contactgroups [::abook::getGroups $contact_email]
 							#see in what groups the contact is now

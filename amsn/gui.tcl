@@ -6294,7 +6294,7 @@ proc show_umenu {user_login grId x y} {
 	.user_menu delete 0 end
 
 	set statecode [::abook::getVolatileData $user_login state FLN]
-	set mobile [::abook::getContactData $user_login msn_mobile]
+	set mobile [expr {[::abook::getVolatileData $user_login MOB] == "Y"}]
 
 	#Add the first item, depending on what's possible
 	if {$statecode != "FLN"} {
