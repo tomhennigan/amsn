@@ -246,7 +246,7 @@ namespace eval ::smiley {
 			
 			#Add our custom smileys. For custom smileys we also add
 			#the smiley name associated to that symbol
-			foreach name [array names custom_emotions] {
+		    	foreach name [array names custom_emotions] {
 			
 				if { ![info exists custom_emotions($name)] } {
 					status_log "substYourSmileys: Custom smiley $name doesn't exist in custom_emotions array!!\n" red
@@ -466,7 +466,7 @@ namespace eval ::smiley {
 		
 		#Now add custom emotions bindings
 		global custom_emotions
-		foreach name [array names custom_emotions] {
+	    	foreach name [lsort [array names custom_emotions]] {
 			array set emotion $custom_emotions($name)
 			set symbol [string map { % %% } [lindex $emotion(text) 0]]
 			
