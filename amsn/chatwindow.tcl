@@ -541,7 +541,7 @@ namespace eval ::ChatWindow {
 			# calling winflash. If this one or the first one were successful, we add a bind
 			# on FocusIn to call the winflash with the -state 0 option to disable it and we return.
 			if { [OnWin] } {
-				if { [catch {linflash $window -count -1} ] } {
+				if { [catch {winflash $window -count -1} ] } {
 					if { ![catch { 
 						package require winflash
 						winflash $window -count -1
@@ -553,8 +553,8 @@ namespace eval ::ChatWindow {
 					bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
 					return
 				}
-			#if on the X window system
 			} elseif { [OnLinux] } {
+				#if on the X window system
 				if { [catch {linflash $window}] } {
 					if { ![catch { 
 						package require linflash
@@ -562,14 +562,18 @@ namespace eval ::ChatWindow {
 					} ] } {
 						bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""
 						return
+					} else {
+						
+						# in case it didn't work, but we were able to set the 'urgency'
+						# hint, we must unset it even if it failed, 
+						# but still fallback to the flickering of the title.
+						bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""	
 					}
 				} else {
 					bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""
 					return
 				}
 			}
-				
-				
 
 			set count  [expr {( $count +1 ) % 2}]
 
