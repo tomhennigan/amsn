@@ -147,7 +147,7 @@ chatack Gesprek aanvaarden van
 chatmaxmin Weergave van gespreksvenster wanneer ik word aangesproken:
 chatreq Indienen van verzoek voor gesprek
 chatsmileys Emoticons weergeven
-chatsmileys2 Emoticons in berichten weergeven
+chatsmileys2 Emoticons weergeven in berichten
 checkblocking Blijven controleren of gebruikers je blokkeren
 checkemail Het aantal berichten in je Postvak IN weergeven in de contactenlijst
 checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Voorkeuren > Geavanceerd om dit te wijzigen.
@@ -493,7 +493,7 @@ logout Afmelden
 logsbydate Logs sorteren op datum (Geschiedenis laadt een stuk sneller)
 logschats Slaat gesprekken op
 logsin heeft zich aangemeld
-logsmileys Emoticons in aMSN's geschiedenisvensters tonen
+logsmileys Emoticons weergeven in aMSN's geschiedenisvensters
 logsout heeft zich afgemeld 
 logwebcam Alle webcamsessies opslaan om ze later nog eens te kunnen bekijken
 longnick De naam die je hebt ingesteld is langer dan 130 tekens, dit is eigenlijk te lang. Wil je het toch proberen?
@@ -573,6 +573,7 @@ nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
 nopic Geen afbeelding
 noprofileexists Er zijn momenteel geen profielen,\nje moet er een aanmaken als je aanmeldingsnamen met een profiel wilt gebruiken.\nGebruik de knop 'Nieuw profiel toevoegen' in dit venster om een nieuw profiel toe te voegen.
+noresizesmileys Inkomende aangepaste emoticons niet schalen
 normal Standaard
 noskins aMSN kan niet worden gestart omdat er geen skins zijn geïnstalleerd in de map skins/
 nosound Er is geen geluid gedetecteerd. Is je microfoon wel goed aangesloten?
