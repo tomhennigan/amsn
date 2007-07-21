@@ -735,7 +735,7 @@ namespace eval ::smiley {
 		
 		#Now add custom emotions
 		global custom_emotions
-		foreach name [array names custom_emotions] {
+		foreach name [lsort [array names custom_emotions]] {
 		
 			array set emotion $custom_emotions($name)
 			if {![info exists emotion(animated)]} { set emotion(animated) 0 }
