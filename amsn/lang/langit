@@ -573,6 +573,7 @@ nonewver Non ci sono nuove versioni da scaricare
 no No
 nopic Nessuna immagine
 noprofileexists Non ci sono profili correnti, \ndevi crearne uno se vuoi usare i login con il profilo. \nUsa il pulsante Aggiungi nuovo profilo su questa finestra per aggiungerne uno.
+noresizesmileys Non ridimensionare le emoticon ricevute
 normal Normale
 noskins Non sono riuscito a trovare la skin predefinita nella cartella skins/. Non posso avviare aMSN.
 nosound Nessun suono rilevato, controlla che il microfono sia collegato correttamente
@@ -598,7 +599,7 @@ nousersinsession Nessun utente nella sessione
 nouserspecified Nessun utente specificato
 nudge $1 chiede la tua attenzione
 offline Sconnesso
-oim Messaggistica "non in linea"
+oim Conversazione "non in linea"
 ok Ok
 onenewmail 1 nuovo messaggio di posta
 onlinehelp Aiuto in linea
