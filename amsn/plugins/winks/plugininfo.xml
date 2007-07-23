@@ -9,4 +9,77 @@
 	<plugin_namespace>winks</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>8921</cvs_version>
+
+	<lang>
+		<langcode>be</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>de</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>en</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>fr</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>it</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>nl</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>sv</langcode>
+		<version>8921</version>
+	</lang>
+	<lang>
+		<langcode>tr</langcode>
+		<version>8921</version>
+	</lang>
+	<file>
+		<path>README.txt</path>
+		<version>8921</version>
+	</file>
+	<file>
+		<path>pixmaps/unknown_wink.png</path>
+		<version>8921</version>
+	</file>
+	<file>
+		<path>pixmaps/winksbut_hover_old.png</path>
+		<version>8921</version>
+	</file>
+	<file>
+		<path>pixmaps/winksbut_hover.png</path>
+		<version>8921</version>
+	</file>
+	<file>
+		<path>pixmaps/winksbut_old.png</path>
+		<version>8921</version>
+	</file>
+	<file>
+		<path>pixmaps/winksbut.png</path>
+		<version>8921</version>
+	</file>
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins2/winks/winks.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/winks/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins2/winks/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins2/winks/$file</file>
+	</URL>
+
 </plugin>

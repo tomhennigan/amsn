@@ -525,6 +525,10 @@ namespace eval ::amsn {
 				return
 			}
 		}
+
+		if {$file == "CREDITS"} {
+			set encoding "utf-8"
+		}
 			
 		if {$langcode == "en"} {
 			set w help${filename}en

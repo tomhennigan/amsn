@@ -1,7 +1,7 @@
 /*
-		File : flash.h
+		File : TkCximage.h
 
-		Description : Header file for the flash window extension for tk
+		Description : Header file for the TkCximage extension for tk
 
 		Author : Youness El Alaoui ( KaKaRoTo - kakaroto@user.sourceforge.net)
 

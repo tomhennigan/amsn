@@ -155,7 +155,7 @@
 		<langcode>hu</langcode>
 		<name>Hungarian (magyar)</name>
 		<version>1.23</version>
-		<encoding>iso8859-2</encoding>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>id</langcode>
