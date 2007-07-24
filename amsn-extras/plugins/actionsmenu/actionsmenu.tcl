@@ -9,15 +9,14 @@
 ##################################################
 
 
-namespace eval ::actionmenu {
-	package require framec
+namespace eval ::actionsmenu {
 	variable config
-	variable configlist
 
 proc Init { dir } {
 	
-	::plugins::RegisterPlugin actionmenu
-	::plugins::RegisterEvent actionmenu OnConnect redraw
+	::plugins::RegisterPlugin "ActionsMenu"
+	::plugins::RegisterEvent "ActionsMenu" OnConnect draw
+	::plugins::RegisterEvent "ActionsMenu" OnDisconnect hideframe
 	
 	set langdir [append dir "/lang"]
 	load_lang en $langdir
@@ -27,21 +26,45 @@ proc Init { dir } {
 
 
 
-	array set ::actionmenu::config {
+	array set ::actionsmenu::config {
 		search 0
 		show 0
+		hide 0
 	}
 	
-	set ::actionmenu::configlist [list \
-						[list frame ::actionmenu::populatesearchframe ""] \
-						[list frame ::actionmenu::populateshowframe ""] \
+	set ::actionsmenu::configlist [list \
+						[list frame ::actionsmenu::populatesearchframe ""] \
+						[list frame ::actionsmenu::populateshowframe ""] \
+						[list frame ::actionsmenu::populatehideframe ""] \
 						]
+	bind . <Control-g> "::actionsmenu::createsearchwindow"
 	
-	after 5000 catch "::actionmenu::redraw"
-	status_log "Actionmenu loaded"
+	
+	status_log "ActionsMenu loaded"
 	
 }
 
+proc hideframe {event evPar} {
+	destroy .main.actions
+	destroy .searchwindow
+}
+
+proc draw {event evPar} {
+	if {$::actionsmenu::config(hide) == 0 } {
+	after 1000 ::actionsmenu::redraw
+	} else { after 1000 ::actionsmenu::draw2 }
+}
+proc populatehideframe { win_name } {
+	variable config
+	variable hide
+	frame $win_name.hide -class Degt
+	label $win_name.hide.text1 -text "[trans startconf]" -padx 5 -font splainf
+	pack $win_name.hide $win_name.hide.text1
+	
+	radiobutton $win_name.hide.1 -text "[trans minimized]" -variable ::actionsmenu::config(hide) -value 0
+	radiobutton $win_name.hide.2 -text "[trans maximized]" -variable ::actionsmenu::config(hide) -value 1 
+	pack $win_name.hide.1 $win_name.hide.2 -anchor w -side top
+}
 proc populatesearchframe { win_name } {
 	variable config
 	variable search
@@ -49,9 +72,9 @@ proc populatesearchframe { win_name } {
 	label $win_name.search.text1 -text "[trans search] default" -padx 5 -font splainf
 	pack $win_name.search $win_name.search.text1
 	
-	radiobutton $win_name.search.1 -text "[trans all]" -variable ::actionmenu::config(search) -value 0
-	radiobutton $win_name.search.2 -text "[trans nick]" -variable ::actionmenu::config(search) -value 1
-	radiobutton $win_name.search.3 -text "[trans email]" -variable ::actionmenu::config(search) -value 2
+	radiobutton $win_name.search.1 -text "[trans all]" -variable ::actionsmenu::config(search) -value 0
+	radiobutton $win_name.search.2 -text "[trans nick]" -variable ::actionsmenu::config(search) -value 1
+	radiobutton $win_name.search.3 -text "[trans email]" -variable ::actionsmenu::config(search) -value 2
 	pack $win_name.search.1 $win_name.search.2 $win_name.search.3 -anchor w -side top
 }
 
@@ -62,8 +85,8 @@ proc populateshowframe { win_name } {
 	label $win_name.show.text1 -text "[trans show] default" -padx 5 -font splainf
 	pack $win_name.show $win_name.show.text1
 	
-	radiobutton $win_name.show.1 -text "[trans nick]" -variable ::actionmenu::config(show) -value 0
-	radiobutton $win_name.show.2 -text "[trans email]" -variable ::actionmenu::config(show) -value 1
+	radiobutton $win_name.show.1 -text "[trans nick]" -variable ::actionsmenu::config(show) -value 0
+	radiobutton $win_name.show.2 -text "[trans email]" -variable ::actionsmenu::config(show) -value 1
 	pack $win_name.show.1 $win_name.show.2 -anchor w -side top
 }
 proc DeInit { } {
@@ -77,11 +100,11 @@ proc DeInit { } {
 
 proc ConfigList {} {
 	
-set ::actionmenu::configlist [list \
+set ::actionsmenu::configlist [list \
 			  [list bool "[trans notify1]" ] 
 	
 }
-proc draw { } {
+proc draw2 { } {
 		global HOME HOME2
 		::skin::setPixmap actionsbg actionsbg.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
 	::skin::setPixmap img_expcol actions_expcol.png pixmaps [file join "$HOME2/plugins/actionsmenu" pixmaps]
@@ -104,13 +127,13 @@ proc draw { } {
 		$acanvas create image 0 0 -image [::skin::loadPixmap actionsbg] -anchor nw -tag expand
 		$acanvas create image 0 0 -image [::skin::loadPixmap img_expcol] -anchor nw -tag expand
 		$acanvas create text 30 3 -text "[trans iwantto]..." -anchor nw -tag expand -font sboldf -fill #102040
-		$acanvas bind expand <ButtonPress-1> "::actionmenu::redraw"
+		$acanvas bind expand <ButtonPress-1> "::actionsmenu::redraw"
 
 		#$acanvas bind expand <Enter> "+$acanvas create line 30 18 100 18 -tag exp_line; $acanvas configure -cursor hand2; $acanvas lower exp_line expand"
 		#$acanvas bind expand <Leave> "+$acanvas delete exp_line; $acanvas configure -cursor left_ptr"
 
-		AddActionButton $acanvas 15 27 [::skin::loadPixmap img_addcontact] "[trans addacontact]..." "cmsn_draw_addcontact" addcontact
-		AddSearchButton $acanvas 15 43 [::skin::loadPixmap img_find] "[trans searchcontact]..." "::actionmenu::createsearchwindow" searchcontact
+		AddActionButton $acanvas 15 27 [::skin::loadPixmap img_addcontact] "[trans addacontact] ..." "cmsn_draw_addcontact" addcontact
+		AddSearchButton $acanvas 15 43 [::skin::loadPixmap img_find] "[trans searchcontact] ..." "::actionsmenu::createsearchwindow" searchcontact
 
 
 		pack configure $acanvas -side top -fill both -expand true
@@ -141,7 +164,7 @@ proc redraw { } {
 	canvas $acanvas -bg $bgcolor -height 20 -highlightthickness 0 -relief flat -borderwidth 0
 	$acanvas  create image 0 0 -image [::skin::loadPixmap actionsbg] -anchor nw -tag expand
 	$acanvas create image 0 0 -image [::skin::loadPixmap img_collapsecol] -anchor nw -tag expand
-	$acanvas bind expand <ButtonPress-1> "::actionmenu::draw"
+	$acanvas bind expand <ButtonPress-1> "::actionsmenu::draw2"
 
 	pack configure $acanvas -side top -fill both -expand true
 	pack configure $actions -side bottom -fill x
@@ -184,21 +207,42 @@ proc createsearchwindow { } {
 	if { [winfo exists .searchwindow] } { destroy .searchwindow }
 
 	toplevel .searchwindow
+	
 	wm group .searchwindow .
-	 
+	wm transient .searchwindow .
+	#wm withdraw .searchwindow
+	update
+	set x [winfo rootx .main]
+	set y [expr {([winfo rooty .main]+100)}]
+	
+	
+	
+	set max_x [expr {[winfo screenwidth .] - 525 }]
+	set max_y [expr {[winfo screenheight .] - 300 }]
+	if { $x > $max_x } {
+		set x $max_x
+	}
+	if { $y > $max_y } {
+		set y $max_y
+	}
+
+	 	
+
 	
 	if { [OnMac] } {
 		wm resizable .searchwindow 0 0
-		wm geometry .searchwindow 525x300
+		wm geometry .searchwindow 525x300+$x+$y
+		
 	} else {
 		wm resizable .searchwindow 1 1
+		wm geometry  .searchwindow +$x+$y
 	}
 	wm title .searchwindow "[trans search]"
-	
+	wm deiconify .searchwindow 
 #	label .searchwindow.l -font sboldf -text "[trans search]"
 	
 	
-	entry .searchwindow.chars -width 50 -bg #FFFFFF -font splainf	
+	entry .searchwindow.chars -width 50 -bg #FFFFFF -font splainf -selectbackground #b7d1ff
 	
 	listbox .searchwindow.userbox -borderwidth 0 -takefocus 1 -bg white -highlightthickness 1 -yscrollcommand ".searchwindow.userbox.ys set"
 	
@@ -234,14 +278,14 @@ proc createsearchwindow { } {
 	
 	frame .searchwindow.b
 	button .searchwindow.b.search -text "[trans search]"
-	button .searchwindow.b.close -text [trans close]  -command "::actionmenu::closewindow"
-	button .searchwindow.b.copycontact -text [trans copycontact] -command "::actionmenu::copycontact"
-	button .searchwindow.b.sendmsg -text [trans sendmsg] -command "::actionmenu::openwindow"
+	button .searchwindow.b.close -text [trans close]  -command "::actionsmenu::closewindow"
+	button .searchwindow.b.copycontact -text [trans copycontact] -command "::actionsmenu::copycontact"
+	button .searchwindow.b.sendmsg -text [trans sendmsg] -command "::actionsmenu::openwindow"
 	
 	#############################################################
 	# Automatic search by char input			    #
 	#############################################################
-	bind .searchwindow.chars <Any-Key> "after cancel ::actionmenu::searchuser;after 200 ::actionmenu::searchuser"
+	bind .searchwindow.chars <Any-Key> "after cancel ::actionsmenu::searchuser;after 200 ::actionsmenu::searchuser"
 	
 
 	#############################################################
@@ -261,11 +305,11 @@ proc createsearchwindow { } {
 	pack .searchwindow.b -side bottom -pady 3 -expand false -anchor se
 	
 	
-	bind .searchwindow.userbox <<Button3>> "::actionmenu::resolve %X %Y"
+	bind .searchwindow.userbox <<Button3>> "::actionsmenu::resolve %X %Y"
 #	bind .searchwindow.b.close <Escape> "grab release .searchwindow;destroy .searchwindow"
-	bind .searchwindow.chars <Return> "::actionmenu::searchuser"
-	bind .searchwindow.b.search <ButtonPress-1> "::actionmenu::searchuser"
-	bind .searchwindow <Escape> "::actionmenu::closewindow"
+	bind .searchwindow.chars <Return> "::actionsmenu::searchuser"
+	bind .searchwindow.b.search <ButtonPress-1> "::actionsmenu::searchuser"
+	bind .searchwindow <Escape> "::actionsmenu::closewindow"
 	catch {
 		raise .searchwindow
 		focus .searchwindow.chars
@@ -273,7 +317,7 @@ proc createsearchwindow { } {
 }
 
 proc autosearch { } {
-	after 100 "catch { ::actionmenu::searchuser } "
+	after 100 "catch { ::actionsmenu::searchuser } "
 }
 
 proc searchuser { } {
