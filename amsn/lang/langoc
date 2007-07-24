@@ -1,0 +1,950 @@
+amsn_lang_version 2
+abort Abandonar
+about A prepaus de
+aboutamsn A prepaus de Alvaro's Messenger
+accept Acceptar
+acceptfile Volètz acceptar lo fichièr $1 (talha $2 octets) ? Serà enregistrat dins $3
+account Compte
+actions Accions
+activeautoupdate Activar la mesa un jorn automatica
+addacontact Apondre un contacte
+add Apondre
+addedyou $1 ($2) vos un apondu dins sa tièra de contactes
+addprofile Apondre un perfil novèl
+addprofiledesc Enter the login which you would like to create un new profile for. \nProfiles allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" functions.
+addstate Apondre un estat novèl
+addto Apondre un $1
+addtocontacts Apondre un la tièra de contactes
+addtoo Apondre aquesta persona un ma tièra de contactes
+admincontacts Gerir los contactes
+admingroups Gerir los grops
+advanced Avançat
+advancedprefs Configuracion de las opcions avançadas
+adverts Avertiments
+agotinvitation Invitacions audiò recebudas de $1
+alarmonconnect Activar l'alarma quand aqueste aqueste utilizaire se connecta
+alarmondisconnect Activar l'alarma quand aqueste utilizaire se desconnecta/passa coma invisible 
+alarmonmsg Activar l'alarma quand aqueste utilizaire vos envía un messatge
+alarmonstatus Activar l'alarma quand aqueste utilizaire cambia d'estat
+alarmpref Paramètres d'alarma especifics a cada utilizaire
+alarms Alarmas
+alarmstatus Activar l'alarma per aqueste utilizaire
+allfiles Totes los fichièrs
+allmonths Totes los meses
+allowallbutbl Autorizar totes los utilizaires a me contactar, se son pas blocats
+allowbadwords Disable censorship on nicknames
+allowlist Accepted utilizaires list (AL):
+allowonlyinal Only utilizaires I accepted are allowed to contact me
+allowseen Autorizar aqueste person to see quand I'm online and contact me
+allow_sms Autorizar utilizaires to contact me on my MSN mobile device
+allprofilesinuse All existing profiles are currently in use
+animatedemoticon This emoticon is animated
+animatedsmileys Enable animated emoticons
+animatenotify Animated Notify Window
+appearance Aparéncia
+appearoff Appear Offline
+areacode Area Code
+aretyping $1 are typing un messatge
+askcam Ask to Receive Webcam
+askcontactwebcam to ask for your contact's webcam, or 
+askeachtime Demandar cada còp
+asksendingyourwebcam to ask for sending your own webcam
+asksendoim Volètz to send aqueste messatge as an offline messatge  ?
+askwebcam Ask aqueste utilizaire to send his/her webcam
+assistantainput Choose your input device and try recording amb it.
+assistantaoutput Choose your output device, and try playing aqueste file to test it.
+assistantawarn You won't be able to record yourself, or speak to your friends. You may find answers on how to install aqueste extension on our Wiki:
+assistantfinetunepic Change the following settings to adjust the image quality of your webcam
+assistantselectcam Select your webcam from the list
+assistantstarting Starting the Assistant
+assistanttitle Audio and Video assistant
+assistantwelcome This assistant will guide you through the setup of your audio and video settings for aMSN.\n\nIt will check if the required extensions are present and loaded and you'll be able to choose the device and channel, set the picture settings and resolution.
+audioconfigured You chose the following Audio settings:\n\nOutput Device: $1\nInput Device: $2
+audiovideo Audio and Video settings
+author Autor
+autoaccepted File transfer accepted automatically
+autoacceptft Automatically accept File Transfer requests
+autoaway Change state to "Away" quand inactive for
+autocheckver Automatically check for newer versions on startup
+autoconnect2 Sign In automatically quand aMSN is launched
+autoconnect Auto-connect quand aMSN starts
+autodetectip Detect IP address automatically
+autohotmaillog Automatically login to Hotmail
+autoidle Auto NoActivity
+autoip IP automatica
+autolisten_voiceclips Automatically play voiceclips once received
+automessage AutoMessage
+autonoact Change state to "Idle" quand inactive for
+autoresizedp Automatically resize display pictures to default talha
+avaccepted Video Conference call accepted
+avcanceled Video Conference call canceled
+avgotinvitation Received Video Conference invitation from $1
+avinitfailed Initialization of the Audio/Video Plugin failed. Call Canceled
+avoidseen Prevent aqueste person from seeing quand I'm online and contacting me
+away Absent
+awaymsg1 Ask for away messatge each time I change my status to Away/BRB/Busy
+awaymsg2 Never ask and always use the messatge below
+back Tornat
+baduserpass Wrong utilizaire name or password
+badwebcam Cannot display the webcam's image. Make sure your webcam is well plugged and installed.
+bgcolor Change aMSN's background color 
+blankdirect Leave blank for direct connection
+block Blocar
+blocked Blocat
+blockedyougroup Show un separate grop for people who have blocked you
+blocking Blocking
+blockinter1 When your status is online check every 
+blockinter2 segondas, si que non, verificar cada :
+blockinter3 cada 
+blockinter4 segondas.
+blocklist Block list (BL):
+blockmessage These people are online and blocked you
+blocknotifications Disable showing notification windows
+blocksounds Disable sounds
+blockusers Number of utilizaires to check at once 
+bouncedock Bounce aMSN's icon in the dock quand un messatge is received
+brightness Brightness
+broughtby Brought to you by the following developers
+browse Navegar
+browser Navegaire
+browserexample ( \$url will be replaced amb the URL). Ex: mozilla \$url
+bugerror Sorry, but there was un problem connecting to the bug database. Please check your internet connection.
+bugnocomment Enviar sens comentari ? Commenting on un bug helps us figure out what went wrong and fix it easier.
+busy Busy
+cachedpics $1 cached pics
+cachedpicsfor Cached display pictures for utilizaire
+cagreement Confidentiality Agreement
+cancel Anullar
+cancelled Anullat
+cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
+cantexec Can't execute application: $1. Check preferences
+cantget Impossible d'obténer $1
+cantloadonlineversion Can't recover the On-Line updated list of languages from the Internet
+cantremoveothers The "Others" grop cannot be removed
+captureextloaded Capture extension -$1- is loaded
+captureextnotloaded Capture extension -$1- is not loaded, you have to compile it first
+captureproperties Webcam image properties
+capturewarn You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install aqueste extension on our Wiki:
+casesensitive Use case-sensitive triggers
+cfgalarmall Configure/Apondre/Remove Global Alarm
+cfgalarm Configure/Apondre/Remove Alarm
+change_account_info Change Compte Information
+change Modificar
+changecustomstate Switch to
+changedisplaypic Change Display picture
+changefont Modificar la poliça
+changeglobnick Change Global Nick
+change_mobile Change Mobile settings
+changenick Modificar l'escais
+changesize Modificar la talha
+changestate $1 changes state to $2
+changestatus Change Status
+changevideosettings Change video settings
+channels Channels
+charscounter Typed characters counter in chat window
+chatack Accepting chat from
+chat Chat
+chatmaxmin When un contact opens un chat amb me I want it to be:
+chatreq Requesting chat
+chatsmileys2 Display Emoticons and Smileys in chat windows
+chatsmileys Show Smileys in Chat
+checkblocking Continuously check if utilizaires are blocking you
+checkemail Show mail notification line (inbox) in contact list
+checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
+checkingaudio Checking if audio extension (Snack) is loaded ...
+checkingcam Checking if un webcam is connected ...
+checkingcapext Checking if '$1' extension is loaded ...
+checkingextensions Checking for required video extensions
+checkingver Checking for new versions
+checkonfln Check if un utilizaire blocked you quand he gets offline
+checkopenfilecommand Please check the open file comanda in preferences window
+checkver Check for new version
+choosearq Choose your system architecture
+choosebasefont Choose font type
+choosebgcolor Choose background color
+choosechannel Choose un channel
+choosecontact Choose un contact from the list
+choosedevice Choose your device
+choosefontcolor Choose font color
+chooseinputdev Choose your input device
+choosemixerdev Choose your mixer
+chooseoutputdev Choose your output device
+chooseskin Please select the skin you would like to use
+ch_to_state Switch to new state
+clear Netejar
+clearlog2 Clear the history for all your contactes
+clearlog3 Clear All Logs
+clearlog Clear Log
+clearwebcamlogs Clear All Webcam logs
+clickhere Clicatz aicí
+clicktoadd Click the 'Apondre' button to add un new note
+clicktologin Click here to log in
+clientcaps Enviar x-clientcaps packet to others clients
+clientname Nom del client
+closeall Tampar all tabs in aqueste window ?
+closealltabs Tampar all tabs
+close Tampar
+closed Conversation amb $1 has been closed due to inactivity
+closelabel When you click the close button in un tabbed chat window
+closeonly Tampar only the current tab
+closeordock Closing the contact list window will quit aMSN. Maybe you meant to just close the window and have aMSN stay alive in the tray.\n\nAre you sure you want to quit aMSN ?
+closeothers Tampar All Other Tabs
+closingdocks Tampar button minimizes
+color Color
+comanda Comanda
+commandstatus Executar la comanda
+configure Configurar
+configuremic Configuring your microphone
+configuringaudio Configuring audio settings
+confirm Sètz segur ?
+confirmbl Sètz segur que volètz blocar aqueste contacte ?
+confirmdelete Sètz segur que volètz suprimir $1 ?
+confirmdg Sètz segur que volètz suprimir aqueste grop ?
+confirmdu Sètz segur que volètz suprimir aqueste utilizaire ?
+confirmeg Sètz segur que volètz voidar aqueste grop ?
+confirmpurge All stored display pictures from other contactes will be erased (those of your own will be kept). Sètz segur ?
+confirmrfl Sètz segur que volètz suprimir aqueste utilizaire from aqueste grop ?
+congrats Òsca
+connectedwith Connectat amb $1
+connected Sètz connectat
+connecterror Error connecting to server
+connectfirst Please connect first
+connecting Connecting
+connection Connexion
+connectionlost Disconnected: Lost connection amb the server
+contactadded Contacte apondut
+contact Contacte
+contactdoesnotexist Contacte does not exist!
+contactlist Contacte list (FL):
+contactes Contactes
+continuously Continuously
+contrast Contraste
+conversationwith $1 utilizaires in conversation
+convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blank if CONVERT is in the path
+copy Copiar
+copytoclipboard Copy $1 to the clipboard
+copytogroup Copiar dins lo grop
+corruptconfig Configuration file is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
+corruptstates Custom states config is corrupt. Creating new one. Old file will be saved to $1. Please send it to us to check what happened.
+couldnotrename Could not rename file $1
+countrycode My Country/Region code
+cprofile Crear un perfil
+created Creat
+credits Credits
+curdisplaypic Current display picture
+currentdate Data activa
+currentlanguage This is the language currently in use
+currentnotes Current notes
+custnotifymsg Display notify window quand un messatge from aqueste utilizaire arrives
+custnotifyoffline Display notify window quand aqueste contact goes offline
+custnotifyonline Display notify window quand aqueste contact comes online
+custnotifystatus Display notify window quand aqueste contact changes status
+customcolor Custom color
+customdp Custom Display Picture
+custom_edit Edit custom smiley
+custom_new Apondre new custom smiley
+customnick Escais personalizat
+customsmileys Display other utilizaires' Custom Emoticons
+customstyle Estil personalizat
+custshowcustomsmileys Show utilizaire's Custom Emoticons
+cut Copar
+cutimageboxreset Reset the selection box\nsize to:
+cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
+date Data
+dateformat Change date format 
+day Day
+days Days
+dcprofile Don't Create Profile
+default2 Default
+default Default Config
+defaultloginradio Login amb default configuration
+defchatwinsize Default talha for chat windows (XSIZExYSIZE)
+deleteall Delete all
+deleteblock Delete and Block
+deletecustomstate Delete custom state
+delete Delete
+delimiters Timestamp delimiters:
+deliverfail The following messatge could not be delivered
+delprofile2 Select the profile that you would like to remove 
+delprofile Delete Profile
+description Description
+detach Detach
+details Details
+devicebusy Device $1 is busy
+devices Periferics
+directconnection I have un direct connection to the internet (uses port 1863)
+disabled Desactivat
+disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
+disablessl Desactivar SSL
+disableuserfonts Ignore remote utilizaire font in chats, and use your own font type
+disconnect $1 has disconnected.
+disconnectedfrom Disconnected from $1
+displaychat Display text options
+displayeventconnect Display quand contactes go online
+displayeventdisconnect Display quand contactes go offline
+displayeventemail Display quand an E-Mail is received
+displayeventstate Display quand contactes change status
+displayeventnick Display quand contactes change nickname
+displayeventpsm Display quand contactes change Personal Message
+displayp4context Display P4-Context field content as messatge sender
+displaypic Display Picture
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockgtk Gnome Dock
+docking Docking
+dockingoff Docking Off
+dockkde KDE Dock
+done Terminat
+dontdownload Don't download TLS, I'll install it myself
+dontshow Don't show
+dontshowdp Don't let aqueste utilizaire download your new Display Pictures
+download Download
+downloadingtls Downloading TLS module from:\n $1
+editcontent Edit the content of the subject field and the note field
+editcustomstate Edit custom state
+edit Edit
+editavsettings Edit audio and video settings
+editmyprofile Edit my MSN Profile
+editnewstate New Personal Automessage State
+editprofile Edit Profile
+editstate Edit Existing Automessage State
+editvalue Edit value
+email Email
+emailsinlist Show emails instead of nicknames in the contact list
+emoticon_steal Apondre to emoticons
+emotisounds Play sounds for certain emoticons
+emptygroup Empty grop
+enabled Enabled
+enableproxy Enable proxy
+enableremote Enable remote controlling
+enablesound Play sound
+encoding2 Change the way your characters are encoded
+encoding Choose encoding
+enterbugdesc Enter un description of what you were doing to help us reproduce the bug:
+entercontactemail Enter contact e-mail
+enterfilename Please enter un filename
+enternick Enter your nick
+enterpsm Your Personal Message
+error Error
+errortls Error installing TLS module:
+eventhistory View Events History
+examples Examples
+exitamsn Sètz segur que volètz to quit ?
+extras Extra Services
+faileddelete Failed suprimir
+faileddeleteperso This picture cannot be deleted because it does not belong to your profile. Only pictures that belong to your personal profile can be removed aqueste way.
+failed Failed
+faq FAQ (Frequently Asked Questions)
+filedoesnotexist File does not exist
+file Fichièr
+filemanexample ( \$location will be replaced amb the directory ) Ex: nautilus \$location
+fileman File Manager
+filename Filename
+filenotwritable Cannot delete aqueste file
+filetransfercancelled File transfer cancelled
+filetransfercomplete File transfer complete
+filetransfer File Transfer
+filters Filters
+filtersselect Select the filters you want to use\n(Note: none selected means 'show all')
+filtersx Filter Selection
+findasyoutype Find as you type
+find Recercar
+findnext Recercar lo seguent
+findprev Recercar lo precedent
+finetunesettings Finetune picture settings
+finish Terminar
+finish2apply Press Finish to apply those settings.
+firewalled You are firewalled or behind un router
+firewalled2 You are firewalled, please check your Connection settings in the preferences window
+followtext Scroll down quand new text is entered
+forget_me Forget me
+forgot_pass I forgot my password
+friendlyname Friendly Name
+ftacceptedby $1 accepted file transfer invitation for file '$2'.
+ftaccepted File transfer accepted
+ftaccepting Accepting file transfer request
+ftautoclose Tampar aqueste window after completing lo fichièr transfer
+ftconnecterror Error connecting to remote peer
+ftconnecting Connecting to $1 port $2
+ftconnectionlost Connection amb remote peer lost
+ftgotinvitation $1 wants to send you lo fichièr '$2' ($3 octets). Serà enregistrat dins directory $4. Volètz to receive aqueste file ?
+ftportpref Starting port for file transfers
+ftportpref2 Starting port for direct connections (needed for file transfers and webcam)
+ftporttest Test port
+ftrejectedby $1 rejected the transfer request for file '$2'.
+ftrejected File transfer rejected
+ftsendinvitation File transfer invitation for file '$2' ($3 octets) has been sent to $1.
+fullcontactlist Sorry, your contact list is full. You'll need to remove some contactes in order to add new ones.
+getdisppic Enable receiving Display Pictures from other utilizaires
+getmoreplugins Get more Plugins!
+getmoreskins Get more skins!
+globalcontainer Global container
+globalnick Insert un pattern to form all your contactes' nicknames. You can use these variables: \$user_login for you contactes' address, \$nick for your contactes' nickname and \$customnick for your contactes' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contacte'
+globalnicktitle Global Nickname
+globaloverride Global nickname pattern should override custom nicknames
+gonelunch Out To Lunch
+gotink $1 sent you an ink.
+goto Anar a $1
+gotoinbox Go to Inbox
+goto_prefs_removeprofile Click here to go to preferences and delete your profile
+groupadd Apondre Group
+groupcontacts Group contactes
+groupcontactsbystatus Group Contacts by Status
+groupdelete Delete Group
+groupexists Group already exists
+grop Grop
+groupmissing Cannot find grop
+groupnewname New name
+groupnotempty Group is not empty!
+groupoldname Old name
+grouprename Rename Group
+groups Grops
+groupunknown Unknown grop
+handle Handle
+havenomic I have no microphone
+helpcontents Ajuda Contents
+help Ajuda
+hidedisplaypic Hide Display Picture
+hidebuttonbar Hide Button Bar
+hidemenumessage Sètz segur que volètz to hide the menus  ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
+hidemenu Show/Hide menus
+hiden Hide the emoticon from the smileys menu
+hidewindow Hide Window
+history Visualizar l'istoric
+home Home
+howto_remove_profile To delete your profile (forget $1) you need to do so from the preferences window. \n\nFor security reasons, profile deletion from the login screen is not allowed.
+httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
+hue Hue
+huge Huge
+hybrid Hybrid mode
+ident Identifying
+identity Identity
+ignorecontact Ignore the conversations from the contact
+ignoreerrors Silently ignore other AMSN errors until the end of session
+ignore Ignorar
+imagefiles Image Files
+inbox Inbox
+insertsmiley Insert emoticon
+inserttextnote Insert text into the subject field and the note field, then click 'Save'
+installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is un bug, please report it. These features will now be disabled, if you install ImageMagick later on reenable these options from the Preferences. 
+internalerror Internal Server Error
+invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
+invalidfile File $2 entered in field "$1" does not exist or is not readable
+invalidgroup Invalid grop
+invalidparameter Error connecting to server: invalid parameter
+invalidpicsize The given picture is too big, please choose un smaller one
+invalidpic The given picture file doesn't exist
+invalidsound The given sound file doesn't exist
+invalidusername Invalid utilizaire name
+invitationcancelled The invitation was cancelled
+invite Invite
+ipaddress IP Address
+ipdetect Detect correct IP for File Transfers using HTTP
+ircstyle IRC Style
+istyping $1 is typing un messatge
+joins $1 joins conversation
+justonce Just once
+keepalive Keepalive (NAT)
+keeplog2 Log all conversations to aMSN's History for future viewing
+keeplog Keep Logs of Chats
+language Lenga
+language_manager Language manager
+large Large
+largest Largest
+lastlogin Last Log In
+lastlogout Last Log Out
+lastmsgedme Last Message
+lastmsgtime Last messatge received at $1
+lastseen Last time online
+lazypicretrieval Lazy Display Pictures retrieval
+lclosedwin $1 has closed the window on $2
+lconftopriv Conference turned into Private chat amb $1
+lconvstarted Conversation started on $1
+lconvstartedOIM Started an Offline Instant Messaging conversation on $1
+leaveblankforhotmail Leave blank to use Hotmail
+leavejoinsinchat Show "leaves/joins conversation" notifications inside the chat window
+leaves $1 leaves conversation
+lenteredconf $1 has entered into un conference on $2
+lineflushlog Flush log files after each line
+linprivate IN PRIVATE
+listening Listening
+listeningon Listening on port $1
+listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
+listsmileys List smileys
+ljoinedconf $1 has joined conference
+lleftconf $1 has left conference
+loadcontacts Load Tièra de contactes
+load Cargar
+loadotherdisplaypic Loading display pictures of $1, please wait...
+logbigger Log file sizes for each contact never exceeds 
+logeventconnect Log the connections
+logeventdisconnect Log the disconnections
+logeventemail Log quand an email is received
+logeventstate Log the status changes
+logeventnick Log the nickname changes
+logeventpsm Log the Personal Message changes
+logfandexp Log File Sizes and History Expiry
+loggedotherlocation Disconnected. Logged in other location
+loggingin Logging In
+loginas Login as
+loging Logging
+login Log In
+logolder Only log chats that have taken place in the last
+logout Log Out
+logsbydate Sort logs by date (View history loads un lot faster)
+logschats Is logging chats
+logsin has just logged in
+logsmileys Display Emoticons and Smileys in aMSN's history windows
+logsout has just logged out
+logwebcam Save all webcam sessions to aMSN's History for future viewing
+longnick Your nickname is longer than 130 characters. This is not officially supported by the MSN protocol. Sètz segur que volètz to set it ?
+longp4c Your Friendly Name is longer than 130 characters. The Friendly Name that will appear on the official MSN client will be $1. Sètz segur que volètz to set it ?
+longpsm Your Personal Message is too long. This is not officially supported by the MSN protocol. Sètz segur que volètz to set it ?
+lowrescam Use un low-resolution webcam
+lprivtoconf Private chat turned into Conference amb $1
+luclosedwin You have closed the window on $1
+mailerexample ( \$recipient = Recipient ) Leave blank to use Hotmail
+mailer Mailer
+maintenance The server is going down for maintenance in $1 minutes
+maximised Maximised
+medium Medium
+minimised Minimised/Iconified
+minimize Minimize to Tray
+mins minutes
+mobilegrp1 Mobile grop
+mobilegrp2 Put utilizaires in "Mobile" grop quand offline (and sorted by status)
+mobile Mobile
+modified Modified
+month Mes
+more More
+morepersonal More States ->
+move Move
+movetogroup Move to Group
+msgflicker Flicker chat window title quand new messatge is received on unfocused window.
+msgmaxmin When un new messatge arrives I want it to be:
+msg Message
+msgmode Select how to handle multiple messatge windows:
+msn aMSN
+msnstatus MSN Network Status
+msnstyle MSN Style
+mustrestart You must restart the program to apply changes
+myfriendlyname My friendly name
+myhomephone My Home Phone
+mymobilephone My Mobile Phone
+mynick My Nickname
+mypic My Display Picture
+mypics My display pictures
+mystatus My Status
+myworkphone My Work Phone
+name Nom
+natip IP detection by web page 
+natkeepalive If you are getting disconnected regularly, enable aqueste KeepAlive
+needonline You still are/appear offline!
+needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
+never Jamai
+new_account Create account
+newchat New Chat
+new_ft_protocol Use new File Transfer protocol (some bugs remain)
+newline Newline
+newmail $1 new messatge(s) in Inbox
+newmailfolder You have $1 new messatge(s) in other Hotmail folders
+newmailfrom New mail from $1 ($2)
+newmailfromother New mail in other folder from $1 ($2)
+newmsg New messatge
+newoim New Offline Messages
+newstate Apondre custom state
+newtabbedfeature aMSN has un new feature for managing conversation, you can now have all of your windows from the same grop or from your whole contact list in one tabbed window. Please choose the way aMSN should manage your conversations
+newveravailable Newer version $1 available for download
+next Seguent
+nick Escais
+nickchanged $1 Changed his nickname to '$2'
+noactivity Inactiu
+nocacheddps No Display Pictures in cache for aqueste utilizaire
+nocamwarn No webcam were found, or your webcam is already in use by another program (which means it cannot be used by aMSN). You will find help on how to solve aqueste issue on our Wiki:
+nodataavailable No data available for $1
+nodevices Currently, no devices are installed
+noftpreview Disable sending un preview of images in file transfers
+nogap No space between groups
+nogroup No grop
+nologfile No Log file for $1
+nomic No microphone
+noneavailable None Available
+nonewmail No new messages in Inbox
+nonewver There are no new versions available to download
+no Non
+nopic No picture
+noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Apondre New Profile button in aqueste window to add un new profile.
+noresizesmileys Do not scale down incoming custom emoticons
+normal Normal
+noskins Couldn't find default skin in skins/ folder. Can't start AMSN
+nosound No sound was detected, make sure your microphone has been connected to your computer properly
+nosound_or_hold No sound was detected. To send un Voice Clip you need to press and hold down the button while speaking then release it to send the messatge.
+nosystemtray System tray not available
+note Nòta
+notificationserver Initial MSN Notification Server (MSN Messenger Server)
+notify1_5 Display notify window quand contactes go offline
+notify1_75 Display notify window quand contactes change status
+notify1 Display notify window quand contactes come online
+notify2 Display notify window quand new messages are received
+notify3 Display notify window quand new emails arrive
+notify4 Display notify window quand new emails arrive in other folders
+notify notify
+notifyoffset Offset the position of the notification pop-up
+notifytimeout Number of milliseconds before notify window disappears
+notifytyping Enviar other utilizaires notifications quand typing
+notifywin Notify Window
+notinlist You aren't on his/her contact list
+notls The MSN Protocol 9 requires the TLS package. This package does not seem to be installed on aqueste machine. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download TLS from http://tls.sf.net.
+nottabbed Normal windows sens tabs
+nousersinsession No utilizaires in session
+nouserspecified No utilizaire specified
+nudge $1 requests your attention
+offline Offline
+oim Offline Messaging
+ok Validar
+onenewmail 1 messatge novèl dins la brústia de recepcion
+onlinehelp Ajuda en linha
+online En linha
+onphone In un Call
+opendir Open directory
+openfilecommand Open file comanda
+openfile Open
+openreceived Open Received Files
+options Options
+ordercontactsby Order contactes by
+ordergroupsby Order groups by
+original Original
+otherdisplaypic Other display pictures of aqueste utilizaire (right-click for more options)
+other Autre
+otherdps Other display pictures
+others Autres
+p4contextprefix Prefix P4-Context senders amb aqueste string
+pager Pager
+pass Mot de pas
+paste Pegar
+pausedwebcamreceive The webcam has been paused by the other utilizaire
+pause Pausa
+pausewebcamsend Pause sending of webcam
+personal Personal
+phone Telefòn
+phones Phone numbers
+picbrowser Display Pictures Browser
+picfile Picture File (GIF < 500 x 500)
+picstatus Picture Alarm
+play Legir
+playbackposition Playback position
+playbackspeed Playback speed (milliseconds between each frame)
+playerror An error occured quand trying to play the sound : $1
+playing Playing: $1
+playtest Play the test file
+playwebcamsend Resume sending webcam
+pluginselector Select Plugins
+port Port
+portswellconfigured Your ports are well configured
+prefalerts My Event Alerts and Sounds
+prefapps Applications
+prefawaymsg My Away Message
+prefblock1 Check on disconnect
+prefblock2 Continuously check
+prefblock3 "You have been blocked by" grop
+prefconnection Connection settings
+prefemotic Emotions Icons and Smileys 
+preferences Preferéncias
+preffont2 Change the way others see my text in chat sessions
+preffont3 Change aMSN's interface font and talha
+preffont4 Change the way I see other people's text in chat sessions
+preffont My Message Text
+prefft File transfer, peer-to-peer and NAT settings
+preflibs Libraries directories
+preflog1 My History and Logging Options
+preflogevent My Events History
+preflook My aMSN Messenger Look
+prefmsging My Messaging Interface
+prefname My MSN Messenger Name/NickName
+prefphone2 Type the phone numbers that you would like people \n on your Autorizar List to see \n
+prefphone My Phone Numbers
+prefprivacy2 Utilizaire's Contacte/Reverse lists
+prefprivacy Utilizaire's Autorizar/Block lists
+prefprofile2 Create or modify your public profile (the \n description of yourself that others can see)
+prefprofile3 aMSN's Utilizaire Configuration Profiles
+prefprofile My Public Profile
+prefproxy My Proxy Settings
+prefremote Remote Connection Preferences
+prefsession My Sign In and Status
+prefshared Shared Connections (only for NAT)
+prefsound Sounds
+preview Preview
+privacy Privacy
+profiledconfig Profiled Config
+profileexists You cannot create un profile amb aqueste login \n because one already exists. Please chose another login.
+profileinuse This Profile is being used by another aMSN session, please choose another one
+profileloginradio Login using an existing Profile
+profiles Profiles
+properties Properties
+proxyconfhttp HTTP proxy support configuration
+proxyconf Proxy configuration
+proxyconnection I connect to the internet using un proxy server:
+proxy I am behind un proxy server (HTTP or SOCKS5)
+psmatend Show Personal Message beside the nickname
+psmchanged $1 Changed his PSM to '$2'
+psmdontshow Don't show Personal Message, unless otherwise defined in global/custom nicks
+psmnewline Show Personal Message below the nickname
+psm Personal Message
+psmplace Where should the Personal Message be placed  ?
+publishphones Publish my phone numbers
+purge Purge
+pwcdriver You are using the pwc driver
+quit Quit
+raised Raised/Deiconified
+readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on aqueste directory.
+readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering lo fichièr.
+receivedbytes Received $1 of $2 octets
+receiveddir Received Files folder
+receivedoimread You have $1 new Offline Instant Messages. Volètz to read them  ?
+receivedvoice Received Voice Clip
+receivefile Receive file
+recentmsg Prevent closing un chat window quand un messatge has just arrived
+reconnect2 Reconnect on loss
+reconnecting Reconnecting to server
+reconnect Waiting for $1 to reconnect
+record Record
+recorderror An error occured quand trying to record the sound : $1
+recvwebcamaccepted $1 accepted your invitation to view his/her webcam. Connecting...
+reject Reject
+rememberaccount Remember my account
+rememberpass Remember password
+remembersetting Remember my choice
+removeempty Remove empty groups from the contact list
+removefromgroup Remove from grop
+removefromlist Remove from aqueste list
+rename Rename
+reporting Reporting
+report Report
+required_version Unable to load aqueste plugin. It requires, at least, aMSN version $1
+retry Retry
+resetincomingfont Reset font (use font messatge sender chooses)
+restartforskin Note: You may need to restart aMSN to view the skin properly!
+reversed Reversed order
+reverselist Reverse list (RL):
+rightback Be Right Back
+saveas Save as
+savechatwinsize Save chat window talha as default quand resizing it
+savecontacts Save Tièra de contactes
+save Enregistrar
+savetofile Save to File
+says $1 ditz
+sbcon Connecting to Switch Board
+searchdown Search down
+searchup Search up
+selectall Select all
+selectcontact Select un contact
+selectplugins Please select the plugins you want enabled
+selectskin Please choose un skin from the list
+sendcam Enviar Webcam
+sendemail Enviar my email address to notify me of changes
+sendfeedback Enviar Feedback
+sendfile Enviar File
+sendmail Enviar E-mail
+sendmobmsg Enviar to Mobile Device
+sendmsg Enviar Message
+sendoim Enviar an Offline Message
+send Enviar
+sendvoice Enviar un Voice Clip
+sendwebcamaccepted $1 accepted your invitation to view your webcam. Connecting...
+sendwebcaminvite Invite un utilizaire to see your webcam
+sentbytes Sent $1 of $2 octets
+sentvoice Sent Voice Clip
+serverbusy Server is busy
+servergoingdown Disconnected: Server is going down
+server Servidor
+serverunavailable Server is unavailable
+session Sesilha
+setasmydp Set as my display picture
+setupcam Setting up your webcam device
+setupcamfinetune Setting up webcam device, and finetuning picture
+shareswebcam Shares webcam
+showbanner Show aMSN's banner
+showblockedlist Show list of people who blocked you
+showcachedpics Show cached display pictures
+show_contactdps_in_cl Show thumbnails of contactes Display Pictures in Tièra de contactes
+showcontactemail Show Contacts amb E-mail
+showcontactnick Show Contacts amb Nickname
+showdisplaypic2 Show Display Picture by default quand un chat window is opened
+showdisplaypic Show Display Picture
+showonedpframe Show only one DisplayPicture frame in chat windows
+showlinksinlogin Show Links in the Login Screen
+showmailicon Show mail icon on traydock quand new emails arrive
+showmypic My Display Picture
+shownotify Show notify window quand some events happen
+showpicnotify Show utilizaires' pictures on notify windows
+showuserpic $1's Display Picture
+signinstatus Sign-in status
+skinselector Select Skin
+skin Skin
+small Small
+smallest Smallest
+smileconfig Custom emoticon configuration
+smilefile Smiley filename
+smileintro2 Please edit the required fields to customize aqueste smiley (see the FAQ for help)
+smileintro Please complete the required fields to create un new custom smiley (see the FAQ for help)
+smiletoobig The smiley you choose is bigger than normal talha. Volètz to resize it  ?
+snackfailed Snack failed to load, reverting to default
+snackneeded The Snack library is needed in order to use aqueste feature. A minimal version of 2.2.9 is necessary.
+snapshot Snapshot
+sngdblclick Single click to open un new messatge window
+sortcontactsasc Sort Contacts Ascending
+sortcontactsdesc Sort Contacts Descending
+sortcontactsby Sort Contacts by
+sortcontactgroup Sort Contacts by Group
+sortcontacthybrid Sort Contacts in Hybrid Mode
+sortcontactstatus Sort Contacts by Status
+sortgroupsasc Sort Groups Ascending
+sortgroupsdesc Sort Groups Descending
+sound2 Play sounds quand contactes sign in or send un messatge
+soundactive Play sounds quand receiving incoming messages also in active windows
+soundcommand This has to be the play comanda (ex: esdplay)
+sound Event Sounds
+soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
+soundfile Sound File
+soundfiles Sound Files
+soundloop Loop Sound
+soundnoavail The audio device is not available. Please stop any application using the sound device.
+soundserver Sound Server
+soundstatus Sound Alarm
+sourcecode Source Code (needs compiling and installing)
+splashstart Start
+sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
+startoffline2 Sign in silently as "Appear Offline"
+startoffline Start Offline
+startonboot Start aMSN on Windows boot
+startontray Start aMSN on tray icon only
+stateautomsg AutoMessage to Enviar
+statechange status changed to: 
+stateedittext Please edit the fields you would like to modify and press Ok
+stateinfo Personal State Configuration
+state I want to appear as
+statename Name of Personal State
+statenewtext Please fill the required information to create your new Personal State and press Ok
+statenick Custom nick (leave blank for no change)
+statepsm Custom Personal Message (leave blank for no change)
+stats Statistics
+status Status
+step Step
+stopalarm Stop Alarm
+stop Stop
+stopwebcamreceive Stop receiving Webcam
+stopwebcamsend Stop sending Webcam
+storenickname Return to original nickname after un custom state amb custom nickname
+strictfonts Restrict all fonts' talha to the one I selected (Status bar and others)
+stylechat Same look as chats
+stylehist aMSN's history look
+stylelog Select the format in which you would like to view your History
+style Estil
+subjectrequired Subject required
+subject Subject
+syntaxerror Syntax Error
+tabbedglobal A tabbed window for all utilizaires in the contact list
+tabbedgroups A tabbed window for utilizaires from the same grop
+tabbed Tabbed Windows
+tabtitlenick Display nicks in the tabs instead of email
+temp_state Temporary state (will not be saved)
+textsize Text Size
+thismonth This month
+throughserver Through server
+timeremaining Time remaining
+timestamps Enable timestamps on chat windows
+timestamp Timestamp
+title aMSN
+tkerror1 TK has brought an error, there is un bug in amsn, please report it clicking the Report button. You can click on Details to see more informations about the bug or click on Ok to continue chatting amb AMsn
+tkerror TK has brought an error, there is un bug in amsn, please report it. Enviar lo fichièr $1 to amsn-bugs@lists.sf.net
+tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
+tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).
+tlsinstallexp aMSN now uses MSNP9, which requires the use of un secure\nconnection using SSL. In order to use SSL, aMSN needs to install un module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
+tlsinstall TLS Module installation wizard
+tlsinstcompleted TLS module installation was successful - you should now be able to use MSNP9. If aqueste doesn't work, then you probably didn't select the right module, or un compiled module is not available for your system.
+today Uèi
+tomobile To Mobile
+tools Espleches
+tooltips Enable tooltips
+to To
+transnotexists The requested file has not been translated into the current language yet.
+trayicon Show un status icon in the notification area
+traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
+triggers Text triggers
+truncatenames1 Truncate nicknames longer than window width in window titles and contact list
+truncatenames2 Truncate nicknames longer than window width inside conversations
+truncatenicks Truncate nicknames longer than window width
+twonewmail $1 new messages in Inbox
+type Type
+unblock Unblock
+unknown Desconegut
+unload Unload
+unselectall Unselect all
+uoffline Desconnectat
+uonline En linha
+updateonlycurrentlanguage Metre a jorn pas que la lenga activa
+update Metre a jorn
+updating Mesa a jorn
+useasdp Use as Display Picture
+useasregexp Use as un Regular Expression (regexp)
+useother Use un different program
+useralreadyonlist Utilizaire is already on contact list
+userblocked The utilizaire is online but blocked you
+userdata Donadas de l'utilizaire
+userdps User display pictures
+usernotonline The utilizaire is not online
+userproperties Utilizaire properties of $1
+usersettings Paramètres
+utilizaire Utilizaire
+useryourself You can't chat amb yourself
+usesnack Use the Snack library (Tcl internal)
+verifyblocked Check for people blocking you
+version Version
+videoconversationrequest You just received un video conversation (bidirectional audio and video) request. This feature is not yet supported by aMSN and has been canceled. However, you can still use the standard webcam conversation.
+viewcontactsby View contactes by
+viewprofile Visualizar lo perfil
+view Visualizacion
+volume Volum
+wanttosharecam I want to make my webcam available to others
+web Web
+webcam Webcam
+webcamcanceled The webcam session amb $1 has been canceled
+webcamclosebefcancel You have to cancel all webcam sessions before closing the window
+webcamconfigure Configure Webcam
+webcamconfiguredMac Your webcam settings have been configured
+webcamconfiguredWin You chose the following webcam device : $1
+webcamconfiguredLinux You chose the following webcam settings:\nWebcam device: $1\nWebcam channel: $2
+webcamextchecking Checking if webcam extension is loaded ...
+webcamextloaded Webcamsn extension is loaded
+webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
+webcamextwarn You won't be able to view your contactes' webcams. You may find answers on how to install some extensions on our Wiki:
+webcamfaq FAQ/Ajuda for Webcam
+webcamhistory View Webcam Sessions
+webcaminvite $1 invited you to start an webcam session, but aMSN does not support aqueste feature.
+webcaminvitereceived $1 invited you to start un webcam session. Volètz acceptar aqueste session ?
+webcaminvitereceiving You are invited to start viewing $1 's webcam. Volètz acceptar aqueste session ?
+webcaminvitesending $1 would like to view your webcam. Volètz acceptar aqueste session ?
+webcamrejected $1 rejected invitation for webcam session
+webcamrequestreceive Sent request to receive webcam
+webcamrequestsend Sent request to send webcam
+webcamsending List of people you are currently sending webcam\nClick to cancel
+whatisamsn aMSN is un platform-independent MSN Messenger clone
+whatsize The image you have requested is not the normal display picture\nsize (96x96) What talha would you like the image to be displayed as ?
+willjoin Waiting for $1 to join conversation
+winkreceived You have received un Wink from $1. This feature is not currently supported by aMSN.
+wintitlenick Display nicks in un tabbed window instead of email
+work Trabalh
+wrongfields The "$1", "$2" and/or "$3" fields were not valid
+wrongprofileversion Wrong profile configuration file version. In order to fix it, please remove directory $1, or update aMSN
+xmmscurrent Display current song
+xmmserr Nothing is playing, or you don't have xmms-infopipe installed.
+xmmssend Enviar current song
+xoffset X Offset
+year Annada
+yesblock Òc e lo blocar
+yesterday Ièr
+yes Òc
+yoffset Y Offset
+youblocked You have been blocked by
+yousay Disètz
+youwant Volètz
+zoom Zoom

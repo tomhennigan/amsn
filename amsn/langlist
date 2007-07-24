@@ -183,9 +183,9 @@
 	</lang>
 	<lang>
 		<langcode>ko</langcode>
-		<name>Korean (한국어 [韓國語])</name>
-		<version>1.5</version>
-		<encoding>euc-kr</encoding>
+		<name>Korean (한국어)</name>
+		<version>1.0</version>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>lt</langcode>
@@ -210,6 +210,12 @@
 		<name>Norwegian (Norsk)</name>
 		<version>1.52</version>
 		<encoding>iso8859-1</encoding>
+	</lang>
+	<lang>
+		<langcode>oc</langcode>
+		<name>Occitan</name>
+		<version>1.0</version>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>pl</langcode>
