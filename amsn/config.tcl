@@ -208,11 +208,11 @@ namespace eval ::config {
 		::config::setKey showMobileGroup 1
 
 
-	        ::config::setKey noftpreview 0
+		::config::setKey noftpreview 0
 
-	        # Show/hide menu feature
-	        ::config::setKey showmainmenu -1
-	        ::config::setKey showcwmenus -1
+		# Show/hide menu feature
+		::config::setKey showmainmenu -1
+		::config::setKey showcwmenus -1
 
 		::config::setKey tooltips 1				;#Enable/disable tooltips
 		::config::setKey animatenotify 1		;#Animate notify window
@@ -286,7 +286,7 @@ namespace eval ::config {
 
 		::config::setKey http_proxy_use_gateway 1			;# Wether the http proxy should use the MSN gateway or do a CONNECT instead on the proxy... 
 
-	    	::config::setKey big_incoming_smileys 0				;# Whether to resize or not the incoming smileys to the standard 50x50 size.
+		::config::setKey big_incoming_smileys 0				;# Whether to resize or not the incoming smileys to the standard 50x50 size.
 
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
@@ -744,6 +744,13 @@ proc load_config {} {
 
 	# We loaded the config, we will now load the DP pictures.. 
 	load_my_pic
+	
+	#We parse the global nick
+	set data [::smiley::parseMessageToList [list [ list "text" [::config::getKey globalnick] ]] 1]
+	set evpar(variable) data
+	set evpar(login) ""
+	::plugins::PostEvent parse_contact evpar
+	set ::globalnick $data
 }
 
 

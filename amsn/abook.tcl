@@ -399,7 +399,7 @@ namespace eval ::abook {
 			set user_data($field) $data
 		}
 		
-		if { $field == "nick" || $field == "mfn" || $field == "psm" } {
+		if { $field == "nick" || $field == "mfn" || $field == "psm" || $field == "customnick" || $field == "customfnick" } {
 			set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
 			set evpar(variable) data
 			set evpar(login) $user_login
@@ -757,24 +757,24 @@ namespace eval ::abook {
 		}
 		set user_login [list [list "text" "$user_login"]]
 
-		set l [list [ list "text" "$input" ]]
-		set llength 1
-
-		foreach substitute { "\$nick" "\$user_login" "\$customnick" "\$psm" } {
-			set content [set [string range $substitute 1 end]]
-			set listpos 0
-
-			#Keep searching until no matches
-
-			while { $listpos < $llength } {
-				if { ([lindex $l $listpos 0] != "text") } {
-					incr listpos
-					continue
-				}
-				if {[set pos [string first $substitute [lindex $l $listpos 1]]] != -1 } {
-					set p1 [string range [lindex $l $listpos 1] 0 [expr {$pos - 1}]]
-					set p3 [string range [lindex $l $listpos 1] [expr {$pos + [string length $substitute]}] end]
-
+		set l $input
+		set llength [llength $l]
+		set listpos 0
+		#Keep searching until no matches
+		while { $listpos < $llength } {
+			if { ([lindex $l $listpos 0] != "text") } {
+				incr listpos
+				continue
+			}
+			set parsed 0
+			set txt [lindex $l $listpos 1]
+			foreach substitute { "\$nick" "\$user_login" "\$customnick" "\$psm" } {
+				set content [set [string range $substitute 1 end]]
+				if { [set pos [string first $substitute $txt]] != -1 } {
+					incr parsed
+					set p1 [string range $txt 0 [expr {$pos - 1}]]
+					set p3 [string range $txt [expr {$pos + [string length $substitute]}] end]
+	
 					set l [lreplace $l $listpos $listpos]
 					incr llength -1
 
@@ -783,7 +783,7 @@ namespace eval ::abook {
 						incr llength 1
 						incr listpos 1
 					}
-
+	
 					foreach unit $content {
 						set l [linsert $l $listpos $unit]
 						incr listpos 1
@@ -795,11 +795,11 @@ namespace eval ::abook {
 						incr llength 1
 						#We must parse p3
 					}
-
-				} else {
-					incr listpos 1
+	
 				}
-
+			}
+			if {$parsed == 0} {
+				incr listpos
 			}
 		}
 		#Return the custom nick, replacing backslashses and variables
@@ -813,8 +813,8 @@ namespace eval ::abook {
 			set out [list [list "text" $user_login]]
 		} else {
 			set nick [::abook::getNick $user_login 1]
-			set customnick [::abook::getContactData $user_login customnick]
-			set globalnick [::config::getKey globalnick]
+			set customnick [::abook::getVolatileData $user_login parsed_customnick]
+			set globalnick $::globalnick
 			set psm [::abook::getpsmmedia $user_login 1]
 
 			if { [::config::getKey globaloverride] == 0 } {
@@ -1854,23 +1854,26 @@ namespace eval ::abookGui {
 		pack .globalnick.frm.lbl -pady 2 -side top
 		pack .globalnick.frm.nick -pady 2 -side left
 		pack .globalnick.frm.help -side left
-		bind .globalnick.frm.nick <Return> {
-			::config::setKey globalnick "[.globalnick.frm.nick get]";
-			::MSN::contactListChanged;
-			::Event::fireEvent changedNickDisplay gui
-			destroy .globalnick
-		}
+		bind .globalnick.frm.nick <Return> [list .globalnick.btn.ok invoke]
 		frame .globalnick.btn 
 		button .globalnick.btn.ok -text "[trans ok]"  \
 			-command {
-			::config::setKey globalnick "[.globalnick.frm.nick get]";
+			set nick [.globalnick.frm.nick get]
+			set data [::smiley::parseMessageToList [list [ list "text" $nick ]] 1]
+			set evpar(variable) data
+			set evpar(login) ""
+			::plugins::PostEvent parse_contact evpar
+
+			set ::globalnick $data
+		
+			::config::setKey globalnick $nick;
 			::MSN::contactListChanged;
 			::Event::fireEvent changedNickDisplay gui
 			destroy .globalnick
 			}
 		button .globalnick.btn.cancel -text "[trans cancel]"  \
-			-command "destroy .globalnick"
-		bind .globalnick <<Escape>> "destroy .globalnick"
+			-command [list destroy .globalnick]
+		bind .globalnick <<Escape>> [list .globalnick.btn.cancel invoke]
 		pack .globalnick.btn.ok .globalnick.btn.cancel -side right -padx 5
 		pack .globalnick.frm -side top -pady 3 -padx 5
 		pack .globalnick.btn  -side top -anchor e -pady 3
@@ -1892,9 +1895,11 @@ namespace eval ::abookGui {
 		set old_customdp [::abook::getContactData $email customdp ""]
 
 		# Store custom display information options
-		::abook::setAtomicContactData $email [list customnick customfnick cust_p4c_name customcolor customdp showcustomsmileys ignored dontshowdp] \
-			[list [$nbSettings.fNick.customnick.ent get] [$nbSettings.fNick.customfnick.ent get] [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set ignorecontact_$email] [set dontshowdp_$email]]
+		::abook::setAtomicContactData $email [list cust_p4c_name customcolor customdp showcustomsmileys ignored dontshowdp] \
+			[list [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set ignorecontact_$email] [set dontshowdp_$email]]
 		
+		::abook::setContactData $email customnick [$nbSettings.fNick.customnick.ent get]
+		::abook::setContactData $email customfnick [$nbSettings.fNick.customfnick.ent get]
 		# Update display picture
 		if {[set customdp_$email] != $old_customdp} {
 			::skin::getDisplayPicture $email 1

@@ -1555,13 +1555,13 @@ namespace eval ::amsn {
 		}
 
 		#if customfnick exists replace the nick with customfnick
-		set customfnick [::abook::getContactData $user customfnick]
+		set customfnick [::abook::getVolatileData $user parsed_customfnick]
 
 		if { $customfnick != "" } {
-			set nick [::abook::getNick $user]
-			set customnick [::abook::getContactData $user customnick]
-			set psm [::abook::getpsmmedia $user]
-			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick $psm]
+			set nick [::abook::getNick $user 1]
+			set customnick [::abook::getVolatileData $user parsed_customnick]
+			set psm [::abook::getpsmmedia $user 1]
+			set nick [::abook::removeStyles [::abook::parseCustomNickStyled $customfnick $nick $user $customnick $psm]]
 		}
 		
 		set msg [$message getBody]
@@ -1602,13 +1602,13 @@ namespace eval ::amsn {
 		global remote_auth
 
 		#if customfnick exists replace the nick with customfnick
-		set customfnick [::abook::getContactData $user customfnick]
+		set customfnick [::abook::getVolatileData $user parsed_customfnick]
 
 		if { $customfnick != "" } {
-			set nick [::abook::getNick $user]
-			set customnick [::abook::getContactData $user customnick]
-			set psm [::abook::getpsmmedia $user]
-			set nick [::abook::parseCustomNick $customfnick $nick $user $customnick $psm]
+			set nick [::abook::getNick $user 1]
+			set customnick [::abook::getVolatileData $user parsed_customnick]
+			set psm [::abook::getpsmmedia $user 1]
+			set nick [::abook::removeStyles [::abook::parseCustomNickStyled $customfnick $nick $user $customnick $psm]]
 		}
 		
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
