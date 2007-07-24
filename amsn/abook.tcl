@@ -767,8 +767,8 @@ namespace eval ::abook {
 				continue
 			}
 			set parsed 0
-			set txt [lindex $l $listpos 1]
 			foreach substitute { "\$nick" "\$user_login" "\$customnick" "\$psm" } {
+				set txt [lindex $l $listpos 1]
 				set content [set [string range $substitute 1 end]]
 				if { [set pos [string first $substitute $txt]] != -1 } {
 					incr parsed
@@ -783,19 +783,19 @@ namespace eval ::abook {
 						incr llength 1
 						incr listpos 1
 					}
-	
+
 					foreach unit $content {
 						set l [linsert $l $listpos $unit]
 						incr listpos 1
 						incr llength 1
 					}
-					
+
 					if { $p3 != "" } {
 						set l [linsert $l $listpos [list text $p3]]
 						incr llength 1
 						#We must parse p3
 					}
-	
+
 				}
 			}
 			if {$parsed == 0} {
@@ -814,22 +814,24 @@ namespace eval ::abook {
 		} else {
 			set nick [::abook::getNick $user_login 1]
 			set customnick [::abook::getVolatileData $user_login parsed_customnick]
-			set globalnick $::globalnick
 			set psm [::abook::getpsmmedia $user_login 1]
 
+			set customnicktxt [::abook::removeStyles $customnick]
+			set globalnicktxt [::abook::removeStyles $::globalnick]
+
 			if { [::config::getKey globaloverride] == 0 } {
-				if { $customnick != "" } {
+				if { $customnicktxt != "" } {
 					set out [parseCustomNickStyled $customnick $nick $user_login $customnick $psm]
-				} elseif { $globalnick != "" && $customnick == "" } {
-					set out [parseCustomNickStyled $globalnick $nick $user_login $customnick $psm]
+				} elseif { $globalnicktxt != "" && $customnicktxt == "" } {
+					set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick $psm]
 				} else {
 					set out $nick
 				}
 			} elseif { [::config::getKey globaloverride] == 1 } {
-				if { $customnick != "" && $globalnick == "" } {
+				if { $customnicktxt != "" && $globalnicktxt == "" } {
 					set out [parseCustomNickStyled $customnick $nick $user_login $customnick $psm]
-				} elseif { $globalnick != "" } {
-					set out [parseCustomNickStyled $globalnick $nick $user_login $customnick $psm]
+				} elseif { $globalnicktxt != "" } {
+					set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick $psm]
 				} else {
 					set out $nick
 				}
