@@ -118,6 +118,7 @@ cancel 취소
 cancelled 취소됨
 cannotdeleteprofile 프로필을 삭제할 수 없습니다. aMSN에서 사용 중인 것 같습니다.
 cantexec 응용 프로그램을 실행할 수 없습니다: $1. 설정을 확인하십시오.
+cantget $1 을(를) 가져올 수 없습니다.
 cantloadonlineversion 인터넷으로부터 온라인 업데이트된 언어 목록을 복구할 수 없습니다.
 cantremoveothers "기타" 그룹은 삭제할 수 없습니다.
 captureextloaded 캡처 확장 기능 -$1- (이)가 설치되었습니다.
@@ -282,6 +283,8 @@ displaychat 문자 설정 표시
 displayeventconnect 대화 상대가 온라인이 되면 표시
 displayeventdisconnect 대화 상대가 오프라인이 되면 표시
 displayeventemail 이메일을 받으면 표시
+displayeventnick 대화 상대가 대화명을 바꾸면 표시
+displayeventpsm 대화 상대가 개인 메시지를 바꾸면 표시
 displayeventstate 대화 상대의 상태가 변경되면 표시
 displayp4context P4-Context 영역 내용을 메시지 보낸 사람으로 표시
 displaypic 사진 보이기
@@ -441,7 +444,7 @@ istyping $1 님이 메시지를 입력하고 있습니다
 joins $1 님이 대화에 참가했습니다.
 justonce 한번만
 keepalive Keepalive (NAT)
-keeplog2 aMSN 히스토리에 모든 대화 저장
+keeplog2 aMSN 히스토리에 모든 대화 기록
 keeplog 대화 기록 유지
 language 언어
 language_manager 언어 관리자
@@ -473,24 +476,26 @@ loadcontacts 대화 상대 목록 열기
 load 설치
 loadotherdisplaypic $1 공개 사진을 여는 중입니다. 잠시만 기다려 주십시오...
 logbigger 각각의 대화 상대에 대한 기록 파일 크기가 초과하지 않음
-logeventconnect 접속 상태 저장
-logeventdisconnect 비접속 상태 저장
-logeventemail 이메일 수신 저장
-logeventstate 상태 변경 저장
-logfandexp 파일 크기 및 히스토리 만료 저장
+logeventconnect 접속 상태 기록
+logeventdisconnect 비접속 상태 기록
+logeventemail 이메일 수신 기록
+logeventnick 대화명 변경 기록
+logeventpsm 개인 메시지 변경 기록
+logeventstate 상태 변경 기록
+logfandexp 파일 크기 및 히스토리 만료 기록
 loggedotherlocation 연결이 끊어졌습니다. 다른 장소에서 로그인 하였습니다.
 loggingin 로그인 중
 loginas 다음으로 로그인
 loging 기록
 login 로그인
-logolder 마직막 대화만 저장
+logolder 마직막 대화만 기록
 logout 로그아웃
 logsbydate 날짜순으로 기록 정렬 (히스토리 보기가 더 빠름)
-logschats 대화 저장
+logschats 대화 기록
 logsin 님이 지금 로그인 했습니다
 logsmileys aMSN 히스토리창에 이모티콘 보이기
 logsout 님이 지금 로그아웃 했습니다
-logwebcam aMSN 히스토리에 모든 웹캠 세션 저장
+logwebcam aMSN 히스토리에 모든 웹캠 세션 기록
 longnick 대화명이 130자 이상입니다. 이 기능은 공식적으로 MSN 프로토콜에서 지원하지 않는 기능입니다. 정말 이렇게 설정하시겠습니까?
 longp4c 애칭이 130자 이상입니다. 공식적인 MSN 클라이언트에서는 $1 (으)로 표시됩니다. 정말 이렇게 설정하시겠습니까?
 longpsm 개인 메시지가 너무 깁니다. 이 기능은 공식적으로 MSN 프로토콜에서 지원하지 않는 기능입니다. 정말 이렇게 설정하시겠습니까?
@@ -551,6 +556,7 @@ newtabbedfeature aMSN에 대화를 관리하는 새 기능이 추가되었습니
 newveravailable $1 의 새 버전을 다운로드 할 수 있습니다.
 next 다음
 nick 대화명
+nickchanged $1 님이 대화명을 $2 (으)로 변경했습니다.
 noactivity 대기 상태
 nocacheddps 현재 사용자에 대한 공개 사진이 캐시에 없습니다.
 nocamwarn 웹캠을 찾을 수 없거나 이미 다른 응용 프로그램에서 사용 중인 것 같습니다. aMSN에서 사용할 수 없습니다. 위키에서 이 문제의 해결에 관한 내용을 찾을 수 있습니다:
@@ -567,6 +573,7 @@ nonewver 새 버전이 없습니다.
 no 아니오
 nopic 사진 없음
 noprofileexists 현재 프로필이 없습니다.\n신원이 확인된 로긴을 사용하려면 하나의 프로필을 만들어야 합니다.\n이 창의 새 프로필 추가 버튼을 눌러 새 프로필을 추가하십시오.
+noresizesmileys 사용자 이모티콘을 축소하지 않음
 normal 보통
 noskins skins/ 폴더에서 기본 스킨을 찾을 수 없습니다. aMSN을 시작할 수 없습니다.
 nosound 음성이 없습니다. 마이크가 올바르게 설치되어 있는지 확인해 보십시오.
@@ -681,6 +688,7 @@ psmatend 대화명 옆에 개인 메시지 보이기
 psmdontshow 전역/사용자 대화명이 지정되지 않으면 개인 메시지 보이지 않기
 psmnewline 대화명 아래에 개인 메시지 보이기
 psm 개인 메시지
+psmchanged $1 님이 개인 메시지를 $2 (으)로 변경했습니다.
 psmplace 개인 메시지 위치
 publishphones 내 전화번호 공개
 purge 소거
@@ -706,7 +714,8 @@ rememberaccount 내 계정 기억하기
 rememberpass 비밀번호 기억하기
 remembersetting 내 설정 기억하기
 removeempty 대화 상대 목록에서 빈 그룹 제거
-removefromlist 목록으로터 제거
+removefromgroup 그룹에서 제거
+removefromlist 목록에서 제거
 rename 이름 바꾸기
 reporting 보고 중
 report 보고
