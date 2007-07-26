@@ -3579,7 +3579,7 @@ proc create_main_menu {wmenu} {
 	#log in with another profile
 	#$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
 	#log out
-	$accnt add command -label "[trans logout]" -command "::MSN::logout" -state disabled
+	$accnt add command -label "[trans logout]" -command "::MSN::logout; ::ChatWindow::CloseAllWindows" -state disabled
 	#-------------------
 	$accnt add separator
 	#change status submenu
@@ -4114,9 +4114,6 @@ proc loggedOutGuiConf { event } {
 	set save_idx [$menu index "[trans savecontacts]"]
 	set load_idx [$menu index "[trans loadcontacts]"]
 	enableEntries $menu [list $add_idx $del_idx $prop_idx $grp_add_idx $grp_del_idx $grp_ren_idx $hist_idx $cam_idx $save_idx $load_idx] 0
-
-	# close all chatwindows
-	::ChatWindow::CloseAllWindows
 }
 
 proc ShowFirstTimeMenuHidingFeature { parent } {
@@ -4436,7 +4433,7 @@ proc cmsn_draw_reconnect { error_msg } {
 		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
 		$clcanvas configure -cursor left_ptr"
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
-		"::MSN::cancelReconnect"
+		"::MSN::cancelReconnect; ::ChatWindow::CloseAllWindows"
 
 	::guiContactList::centerItems $clcanvas
 
@@ -4486,7 +4483,7 @@ proc cmsn_draw_signin {} {
 		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
 		$clcanvas configure -cursor left_ptr"
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
-		"::MSN::cancelReconnect"
+		"::MSN::cancelReconnect; ::ChatWindow::CloseAllWindows"
 
 	::guiContactList::centerItems $clcanvas
 
