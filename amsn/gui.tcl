@@ -4114,6 +4114,9 @@ proc loggedOutGuiConf { event } {
 	set save_idx [$menu index "[trans savecontacts]"]
 	set load_idx [$menu index "[trans loadcontacts]"]
 	enableEntries $menu [list $add_idx $del_idx $prop_idx $grp_add_idx $grp_del_idx $grp_ren_idx $hist_idx $cam_idx $save_idx $load_idx] 0
+
+	# close all chatwindows
+	::ChatWindow::CloseAllWindows
 }
 
 proc ShowFirstTimeMenuHidingFeature { parent } {

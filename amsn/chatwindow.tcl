@@ -341,6 +341,29 @@ namespace eval ::ChatWindow {
 		return [llength [set ::ChatWindow::containerwindows($w)]]
 	}
 
+	proc CloseAllWindows {} {
+		variable windows
+		variable containerwindows
+
+		foreach win $windows {
+			if {![winfo exists $win]} {
+				continue
+			}
+			set upwin [winfo toplevel $win]
+
+			if {[info exists containerwindows($upwin)]} {
+				# this is a tabbed window, so closing all tabs does the trick
+				CloseAll $upwin
+				destroy $upwin
+			} else {
+				# this seems to be a normal window, so close the usual way
+				Close $upwin
+			}
+		}
+
+		set windows [list]
+	}
+
 	proc CloseAll { w } {
 		variable containerwindows
 		variable containers
