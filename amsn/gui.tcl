@@ -3579,7 +3579,7 @@ proc create_main_menu {wmenu} {
 	#log in with another profile
 	#$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
 	#log out
-	$accnt add command -label "[trans logout]" -command "::MSN::logout; ::ChatWindow::CloseAllWindows" -state disabled
+	$accnt add command -label "[trans logout]" -command "::ChatWindow::CloseAllWindows; ::MSN::logout" -state disabled
 	#-------------------
 	$accnt add separator
 	#change status submenu
@@ -4114,6 +4114,9 @@ proc loggedOutGuiConf { event } {
 	set save_idx [$menu index "[trans savecontacts]"]
 	set load_idx [$menu index "[trans loadcontacts]"]
 	enableEntries $menu [list $add_idx $del_idx $prop_idx $grp_add_idx $grp_del_idx $grp_ren_idx $hist_idx $cam_idx $save_idx $load_idx] 0
+
+	# hide event box
+	pack forget .main.eventmenu
 }
 
 proc ShowFirstTimeMenuHidingFeature { parent } {
@@ -4433,7 +4436,7 @@ proc cmsn_draw_reconnect { error_msg } {
 		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
 		$clcanvas configure -cursor left_ptr"
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
-		"::MSN::cancelReconnect; ::ChatWindow::CloseAllWindows"
+		"::ChatWindow::CloseAllWindows; ::MSN::cancelReconnect"
 
 	::guiContactList::centerItems $clcanvas
 
@@ -4483,7 +4486,7 @@ proc cmsn_draw_signin {} {
 		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
 		$clcanvas configure -cursor left_ptr"
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
-		"::MSN::cancelReconnect; ::ChatWindow::CloseAllWindows"
+		"::ChatWindow::CloseAllWindows; ::MSN::cancelReconnect"
 
 	::guiContactList::centerItems $clcanvas
 
@@ -5132,6 +5135,7 @@ proc drawNick { } {
 }
 
 proc cmsn_draw_online_wrapped {} {
+	variable lastLogin
 
 	::guiContactList::unlockContactList
 	#Pack what is necessary for event menu
@@ -5139,6 +5143,13 @@ proc cmsn_draw_online_wrapped {} {
 		pack configure .main.eventmenu.list -fill x -ipadx 10
 		pack configure .main.eventmenu -side bottom -fill x
 		pack configure .main.eventmenu -padx [list [::skin::getKey eventmenuleftpad "0"] [::skin::getKey eventmenurightpad "0"]]
+		
+		# clear events if login is a different account
+		if {[info exists lastLogin] && $lastLogin!=[::config::getKey login]} {
+			.main.eventmenu.list list delete 0 end
+		}
+		set lastLogin [::config::getKey login]
+		
 		::log::eventlogin
 		.main.eventmenu.list select 0
 	} else {

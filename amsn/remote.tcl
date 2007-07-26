@@ -48,8 +48,8 @@ namespace eval ::remote {
 	#
 	proc logout { } {
 		write_remote "[trans logout]"
-		::MSN::logout
 		::ChatWindow::CloseAllWindows
+		::MSN::logout
 	}
 
 	# help
