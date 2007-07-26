@@ -700,7 +700,7 @@ namespace eval ::ChatWindow {
 
 				set win_name [::ChatWindow::Open]
 
-				::ChatWindow::SetFor $chatid $win_name		
+				::ChatWindow::SetFor $chatid $win_name
 
 			} else {
 
@@ -744,7 +744,7 @@ namespace eval ::ChatWindow {
 		}
 
 		# If this is the first message, and no focus on window, then show notify
-		if { $::ChatWindow::first_message($win_name) == 1  && $msg!="" } {
+		if { $::ChatWindow::first_message($win_name) == 1 && $msg != "" } {
 			set ::ChatWindow::first_message($win_name) 0
 	
 
@@ -890,7 +890,7 @@ namespace eval ::ChatWindow {
 			set mainmenu [CreateMainMenu $w]
 			$w conf -menu $mainmenu
 
-		     	if { ![OnMac] } {
+			if { ![OnMac] } {
 			    # Bind, add new container to list of CWs and restore old setting for the show/hide CW menus
 			    bind $w <Control-m> "::ChatWindow::ShowHideChatWindowMenus $w 1"
 			    NewChatWindowCreated $w $mainmenu
@@ -904,9 +904,6 @@ namespace eval ::ChatWindow {
 
 			#bind on configure for saving the window shape
 			bind $w <Configure> "::ChatWindow::Configured %W"
-
-			wm state $w withdraw
-
 
 		} else {
 			set w [CreateTabbedWindow $container]
@@ -966,7 +963,6 @@ namespace eval ::ChatWindow {
        		 	$w.search configure -searchin [::ChatWindow::GetOutText $w]
 
 			if { ![OnMac] } {
-				lower $w
 				::ChatWindow::MacPosition $w
 			}
 		}
