@@ -3936,18 +3936,27 @@ proc cmsn_draw_main {} {
 	if {[expr {$height}] > [winfo screenheight .]} {
 		set modified 1
 		set height 400
-	}	
+	}
+
+	#To avoid the bug of window behind the menu bar on Mac OS X
+	#The menubar's height is 22.
+	if {[OnMac] && [expr {$y}] < 22} {
+		set modified 1
+		set y 22
+	} elseif {[expr {$y}] < 0} {
+		set modified 1
+		set y 0
+	}
+	if {[expr {$x}] < 0} {
+		set modified 1
+		set x 0
+	}
+
 	if {$modified == 1} {
 		set geometry ${width}x${height}-${x}+${y}
 		::config::setKey wingeometry $geometry
 	}
 	catch {wm geometry . $geometry}
-	
-	#To avoid the bug of window behind the menu bar on Mac OS X
-	#The menubar's height is 22.
-	if { [OnMac] && [winfo y .] < 22 } {
-		moveinscreen . 30
-	}
 	
 	#allow for display updates so window size is correct
 	update idletasks
