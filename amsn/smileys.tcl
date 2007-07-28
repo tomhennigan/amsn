@@ -203,8 +203,10 @@ namespace eval ::smiley {
 			#Error when creating smiley's image so we don't add it
 			return 0
 		} else {
-			# Make sure the smiley is max 50x50
-			::smiley::resizeCustomSmiley emoticonCustom_std_$emotion(text)
+			if {[::config::getKey big_incoming_smileys 0] == 1} {
+				# Make sure the smiley is max 50x50
+				::smiley::resizeCustomSmiley emoticonCustom_std_$emotion(text)
+			}
 		}
 		
 		#Store the emoticon data in the custom_emoticons array
