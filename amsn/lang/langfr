@@ -38,6 +38,7 @@ allowonlyinal N'autoriser que les contacts de ma liste des personnes autorisées 
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
 allprofilesinuse Tous les profils existants sont présentement utilisés
+always Toujours
 animatedemoticon Cette émoticône/smiley est animée
 animatedsmileys Activer les émoticônes/smileys animées
 animatenotify Animer la fenêtre d'annonces
@@ -185,6 +186,7 @@ closeall Fermer tous les onglets de la fenêtre ?
 closealltabs Fermer tous les onglets
 closed Conversation fermée pour inactivité ($1)
 close Fermer
+closechatwindows Fermer toutes les conversations avant de se déconnecter ?
 closelabel Lorsque vous cliquez sur le bouton Fermer dans une fenêtre de conversation à onglets
 closeonly Ne fermer que l'onglet courant
 closeordock Fermer la fenêtre de la liste de contacts va quitter aMSN. Peut-être que vous souhaitez seulement fermer la fenêtre et avoir aMSN dans la boîte à miniatures (systray ou traydock).\n\nEtes-vous sûr de vouloir quitter aMSN?
@@ -490,6 +492,7 @@ loging Historique
 login Se connecter
 logolder Enregistrer seulement les conversations qui ont eu lieu dans les
 logout Se déconnecter
+logoutwincloselabel Lorsque que l'on se déconnecte, fermer toutes les conversations
 logsbydate Trier les historiques par date (affichage de l'historique plus rapide)
 logschats Enregistre les conversations
 logsin vient de se connecter
