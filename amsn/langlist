@@ -95,7 +95,7 @@
 		<langcode>ee</langcode>
 		<name>Estonian (eesti keel)</name>
 		<version>1.41</version>
-		<encoding>iso8859-4</encoding>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>fi</langcode>
