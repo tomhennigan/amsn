@@ -38,6 +38,7 @@ allowonlyinal Only users I accepted are allowed to contact me
 allowseen Allow this person to see when I'm online and contact me
 allow_sms Allow users to contact me on my MSN mobile device
 allprofilesinuse All existing profiles are currently in use
+always Always
 animatedemoticon This emoticon is animated
 animatedsmileys Enable animated emoticons
 animatenotify Animated Notify Window
@@ -184,6 +185,7 @@ clientname Client name
 closeall Close all tabs in this window?
 closealltabs Close all tabs
 close Close
+closechatwindows Close all conversations before Log Out?
 closed Conversation with $1 has been closed due to inactivity
 closelabel When you click the close button in a tabbed chat window
 closeonly Close only the current tab
@@ -490,6 +492,7 @@ loging Logging
 login Log In
 logolder Only log chats that have taken place in the last
 logout Log Out
+logoutwincloselabel When Log Out, close conversations
 logsbydate Sort logs by date (View history loads a lot faster)
 logschats Is logging chats
 logsin has just logged in

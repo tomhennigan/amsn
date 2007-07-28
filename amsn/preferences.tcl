@@ -1774,6 +1774,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.2 -class Degt
 	frame $lfname.3 -class Degt
 	frame $lfname.4 -class Degt
+	frame $lfname.5 -class Degt
 	
 	label $lfname.1.lchatmaxmin -text [trans chatmaxmin]
 	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable [::config::getVar newchatwinstate] -padx 17
@@ -1817,6 +1818,11 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.4.containercloseall -text [trans closealltabs] -value 1 -variable [::config::getVar ContainerCloseAction] -padx 17
 	radiobutton $lfname.4.containerclosetab -text [trans closeonly] -value 2 -variable [::config::getVar ContainerCloseAction] -padx 17
 	
+	label $lfname.5.logoutwinclosemode -text [trans logoutwincloselabel]
+	radiobutton $lfname.5.logoutwincloseask -text [trans askeachtime] -value 0 -variable [::config::getVar closeChatWindowsAfterLogout] -padx 17
+	radiobutton $lfname.5.logoutwinclosealways -text [trans always] -value 1 -variable [::config::getVar closeChatWindowsAfterLogout] -padx 17
+	radiobutton $lfname.5.logoutwinclosenever -text [trans never] -value 2 -variable [::config::getVar closeChatWindowsAfterLogout] -padx 17
+	
 	grid $lfname.3.lmsgmode  -row 1 -column 1 -sticky w
 	grid $lfname.3.nottabbed -row 2 -column 1 -sticky w
 	grid $lfname.3.tabbedglobal -row 3 -column 1 -sticky w
@@ -1827,10 +1833,15 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.4.containercloseall -row 3 -column 1 -sticky w
 	grid $lfname.4.containerclosetab -row 4 -column 1 -sticky w	
 	
+	grid $lfname.5.logoutwinclosemode -row 1 -column 1 -sticky w
+	grid $lfname.5.logoutwincloseask -row 2 -column 1 -sticky w
+	grid $lfname.5.logoutwinclosealways -row 3 -column 1 -sticky w
+	grid $lfname.5.logoutwinclosenever -row 4 -column 1 -sticky w	
+	
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable [::config::getVar flicker]
 	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable [::config::getVar showdisplaypic]
 
-	pack $lfname.1 $lfname.2 $lfname.3 $lfname.4 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
+	pack $lfname.1 $lfname.2 $lfname.3 $lfname.4 $lfname.5 $lfname.winflicker $lfname.showdisplaypic -anchor w -side top
 
 	$nb.nn compute_size
 	[$nb.nn getframe session].sw.sf compute_size

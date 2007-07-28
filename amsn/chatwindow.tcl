@@ -341,9 +341,47 @@ namespace eval ::ChatWindow {
 		return [llength [set ::ChatWindow::containerwindows($w)]]
 	}
 
-	proc CloseAllWindows {} {
+	proc CloseAllWindows {{force 0}} {
 		variable windows
 		variable containerwindows
+
+		# check if there are still conversations open
+		set winopen 0
+		foreach win $windows {
+			if {[winfo exists $win]} {
+				set winopen 1
+				break
+			}
+		}
+		
+		if {$force == 0} {
+			if {$winopen == 1} {
+				# ask whether those windows should be closed or not
+				if {[::config::getKey closeChatWindowsAfterLogout 0] == 2} {
+					return 1
+				} elseif {[::config::getKey closeChatWindowsAfterLogout 0] == 0} {
+					set result [::amsn::customMessageBox [trans closechatwindows] yesnocancel question [trans title] "" 1 1]
+					set answer [lindex $result 0]
+					set rememberAnswer [lindex $result 1]
+
+					if {$rememberAnswer == 1} {
+						if {$answer == "yes"} {
+							::config::setKey closeChatWindowsAfterLogout 1
+						} elseif {$answer == "no"} {
+							::config::setKey closeChatWindowsAfterLogout 2
+						}
+					}
+
+					if {$answer == "no"} {
+						return 1
+					} elseif {$answer == "cancel"} {
+						return 0
+					}
+				}
+			} else {
+				return 1
+			}
+		}
 
 		foreach win $windows {
 			if {![winfo exists $win]} {
@@ -362,6 +400,8 @@ namespace eval ::ChatWindow {
 		}
 
 		set windows [list]
+
+		return 1
 	}
 
 	proc CloseAll { w } {

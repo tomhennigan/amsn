@@ -251,7 +251,7 @@ proc statusicon_proc {status} {
 				$iconmenu entryconfigure 4 -state normal
 				$iconmenu entryconfigure 6 -state normal
 
-				$iconmenu entryconfigure 12 -label "[trans logout]" -command "::ChatWindow::CloseAllWindows; ::MSN::logout"
+				$iconmenu entryconfigure 12 -label "[trans logout]" -command "preLogout \"::MSN::logout\""
 
 				
 			}

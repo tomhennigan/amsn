@@ -206,7 +206,7 @@ namespace eval ::config {
 		::config::setKey tabbedchat 2
 		::config::setKey ContainerCloseAction 0
 		::config::setKey showMobileGroup 1
-
+		::config::setKey chatWindowsCloseAfterLogout 0
 
 		::config::setKey noftpreview 0
 

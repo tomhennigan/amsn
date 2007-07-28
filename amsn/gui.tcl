@@ -3579,7 +3579,7 @@ proc create_main_menu {wmenu} {
 	#log in with another profile
 	#$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
 	#log out
-	$accnt add command -label "[trans logout]" -command "::ChatWindow::CloseAllWindows; ::MSN::logout" -state disabled
+	$accnt add command -label "[trans logout]" -command "preLogout \"::MSN::logout\"" -state disabled
 	#-------------------
 	$accnt add separator
 	#change status submenu
@@ -3755,6 +3755,12 @@ proc create_main_menu {wmenu} {
 
 	# Show the menubar if config allows it (or we're on Mac)
 	if { [OnMac] || [::config::getKey showmainmenu -1] } { . conf -menu .main_menu }	
+}
+
+proc preLogout {postCommand {force 0}} {
+	if {[::ChatWindow::CloseAllWindows $force] == 1} {
+		eval $postCommand
+	}
 }
 
 #///////////////////////////////////////////////////////////////////////
@@ -4436,7 +4442,7 @@ proc cmsn_draw_reconnect { error_msg } {
 		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
 		$clcanvas configure -cursor left_ptr"
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
-		"::ChatWindow::CloseAllWindows; ::MSN::cancelReconnect"
+		"preLogout \"::MSN::cancelReconnect\""
 
 	::guiContactList::centerItems $clcanvas
 
@@ -4486,7 +4492,7 @@ proc cmsn_draw_signin {} {
 		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
 		$clcanvas configure -cursor left_ptr"
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
-		"::ChatWindow::CloseAllWindows; ::MSN::cancelReconnect"
+		"preLogout \"::MSN::cancelReconnect\""
 
 	::guiContactList::centerItems $clcanvas
 
