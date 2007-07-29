@@ -274,11 +274,13 @@ if {![catch {package require Trf 2.0}]} {
     #	The decoded value.
 
     proc ::base64::decode {string} {
-	if {[string length $string] == 0} {return ""}
 
 	set base64 $::base64::base64
 
 	binary scan $string c* X
+	
+	set output ""
+	
 	foreach x $X {
 	    set bits [lindex $base64 $x]
 	    if {$bits >= 0} {
