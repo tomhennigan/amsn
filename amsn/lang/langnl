@@ -38,6 +38,7 @@ allowonlyinal Alleen personen die ik heb geaccepteerd kunnen contact met mij opn
 allowseen Deze persoon toestaan om te zien of ik online ben en contact met mij op te nemen
 allow_sms Anderen toestaan mij een SMS-bericht te sturen
 allprofilesinuse Alle bestaande profielen zijn op dit moment in gebruik
+always Altijd
 animatedemoticon Dit is een bewegende emoticon
 animatedsmileys Bewegende emoticons gebruiken
 animatenotify Bewegend meldingsvenster
@@ -184,6 +185,7 @@ clientname Clientnaam
 close Sluiten
 closeall Alle tabbladen in dit venster sluiten?
 closealltabs Alle tabbladen sluiten
+closechatwindows Alle gesprekken sluiten voor afmelden?
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closelabel Bij het klikken op de sluitknop van een venster met tabbladen
 closeonly Alleen het zichtbare tabblad sluiten
@@ -257,7 +259,7 @@ days Dagen
 dcprofile Geen profiel aanmaken
 default Standaardconfiguratie
 default2 Standaard
-defaultloginradio Inloggen met de standaardconfiguratie
+defaultloginradio Aanmelden met de standaardconfiguratie
 defchatwinsize Standaardgrootte voor gespreksvensters (horizontaal x verticaal)
 delete Verwijderen
 deleteall Alle verwijderen
@@ -484,12 +486,13 @@ logeventpsm De persoonlijk-berichtwijzigingen in logboek vastleggen
 logeventstate In logboek vastleggen wanneer een contact van status verandert
 logfandexp Omvang van logboeken en verlopen van logs
 loggedotherlocation De verbinding is verbroken omdat je elders bent aangemeld
-loggingin Even geduld,\nbezig met aanmelden
+loggingin Bezig met aanmelden
 login Aanmelden
 loginas Aanmelden als
 loging Logboeken
 logolder Alleen gesprekken vastleggen die plaatsvonden in de laatste
 logout Afmelden
+logoutwincloselabel Gesprekken sluiten bij afmelden
 logsbydate Logs sorteren op datum (Geschiedenis laadt een stuk sneller)
 logschats Slaat gesprekken op
 logsin heeft zich aangemeld
@@ -899,7 +902,7 @@ useryourself Je kunt geen gesprek met jezelf starten
 usesnack Snack-functiebibliotheek gebruiken (ingebouwd in Tcl)
 verifyblocked Controleren wie jou blokkeren
 version Versie
-videoconversationrequest Je hebt een uitnodiging ontvangen voor een videoconversatie (wederzijds geluid en beeld). Helaas ondersteunt aMSN deze functie nog niet, de uitnodiging is daarom automatisch geweigerd. Je kunt de standaard webcamfunctie echter gewoon gebruiken.
+videoconversationrequest Je hebt een uitnodiging ontvangen voor een videogesprek (wederzijds geluid en beeld). Helaas ondersteunt aMSN deze functie nog niet, de uitnodiging is daarom automatisch geweigerd. Je kunt de standaard webcamfunctie echter gewoon gebruiken.
 view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel weergeven
@@ -932,7 +935,7 @@ webcamrequestsend Je aanbod van webcambeeld is verstuurd
 webcamsending Contacten die op dit moment jouw webcambeeld kunnen zien:\n(Klik om te beëindigen)
 whatisamsn aMSN is een platformonafhankelijke MSN Messenger-kloon
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
-willjoin Wacht tot $1 de conversatie zal bijwonen
+willjoin Wachten tot $1 het gesprek zal bijwonen
 winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
 wintitlenick Schermnamen weergeven op vensters met tabbladen
 work Werk
