@@ -6720,6 +6720,7 @@ namespace eval ::MSN6FT {
 		    set nopreview 1
 		}
  
+		# TODO filesize is a QWORD not a DWORD followed by a 0 DWORD.
 		set context "[binary format i 574][binary format i 2][binary format i $filesize][binary format i 0][binary format i $nopreview]"
 
 
