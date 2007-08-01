@@ -1099,14 +1099,10 @@ v4l2_nextframe(void *handle)
     } else {
 	buf = ng_malloc_video_buf(NULL, &h->fmt_me);
 	rc = read(h->fd,buf->data,buf->size);
-	if (rc != buf->size) {
-	    if (-1 == rc) {
-		perror("v4l2: read");
-	    } else {
-		fprintf(stderr, "v4l2: read: rc=%d/size=%ld\n",rc,buf->size);
-	    }
-	    ng_release_video_buf(buf);
-	    return NULL;
+	if (rc < 0) {
+	  perror("v4l2: read");
+	  ng_release_video_buf(buf);
+	  return NULL;
 	}
 	memset(&buf->info,0,sizeof(buf->info));
 	buf->info.ts = ng_get_timestamp();
