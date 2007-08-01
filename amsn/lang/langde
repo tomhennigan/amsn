@@ -38,6 +38,7 @@ allowonlyinal Erlaube nur Kontakten aus meiner Akzeptieren-Liste mich zu kontakt
 allowseen Dieser Person ermˆglichen, zu sehen, wenn ich online bin und Kontakt mit mir aufzunehmen
 allow_sms Kontakten erlauben, mich auf meinem MSN Mobilger‰t zu kontaktieren
 allprofilesinuse Alle vorhandenen Profile sind zur Zeit in Benutzung
+always Immer
 animatedemoticon Dieses Emoticon ist animiert
 animatedsmileys Animierte Emoticons aktivieren
 animatenotify Animiertes Hinweisfenster
@@ -183,6 +184,7 @@ clientcaps Sende das Paket "x-clientcaps" an andere Clients
 clientname Name des Clients
 closeall Alle Tabs dieses Fensters schlieﬂen?
 closealltabs Alle Tabs schlieﬂen
+closechatwindows Alle Unterhaltungen vor dem Abmelden schlieﬂen?
 closed Geschlossen
 closelabel Beim Klicken des Schlieﬂen-Knopfs in einem Chatfenster, das Tabs enth‰lt
 closeonly Nur den aktuellen Tab schlieﬂen
@@ -490,6 +492,7 @@ loginas Anmelden als
 loging Protokoll
 logolder Nur Unterhaltungen loggen, der letzten
 logout Abmelden
+logoutwincloselabel Unterhaltungsfenster bei Abmeldung schlieﬂen
 logsbydate Sortiere Protokolleintr‰ge nach Datum (zeigt das Protokoll sehr viel schneller an)
 logschats Protokolliert Unterhaltungen
 logsin hat sich gerade angemeldet
