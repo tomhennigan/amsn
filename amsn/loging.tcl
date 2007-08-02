@@ -1466,7 +1466,10 @@ namespace eval ::log {
 	}
 
 	proc CloseLogEvent { } {
-		close [LogArray eventlog get]
+		set fileid [LogArray eventlog get]
+		if {$fileid != 0 } {
+			catch {close $fileid}
+		}
 		LogArray eventlog unset
 	}
 	
@@ -1475,7 +1478,9 @@ namespace eval ::log {
 	proc EventLog { txt } {
 		::log::OpenLogEvent
 		set fileid [LogArray eventlog get]
-		catch {puts -nonewline $fileid "\|\"LGRA[timestamp] \|\"LNOR: $txt\n" }
+		if {$fileid != 0 } {
+			catch {puts -nonewline $fileid "\|\"LGRA[timestamp] \|\"LNOR: $txt\n" }
+		}
 		::log::CloseLogEvent
 	}
 
@@ -1522,7 +1527,12 @@ namespace eval ::log {
 
 	#Check if an event log is activated
 	proc checkeventlog { } {
-		if { [::config::getKey log_event_connect] || [::config::getKey log_event_disconnect] || [::config::getKey log_event_email] || [::config::getKey log_event_state] } {
+		if { [::config::getKey log_event_connect] ||
+		     [::config::getKey log_event_disconnect] ||
+		     [::config::getKey log_event_email] ||
+		     [::config::getKey log_event_state]|| 
+		     [::config::getKey log_event_nick]|| 
+		     [::config::getKey log_event_psm]} {
 			return 1
 		} else {
 			return 0
@@ -1540,7 +1550,9 @@ namespace eval ::log {
 			if { [::log::checkeventlog] } {
 				::log::OpenLogEvent
 				set fileid [LogArray eventlog get]
-				catch {puts -nonewline $fileid "\|\"LRED[timestamp] [trans connectedwith [::config::getKey login]]\n"}
+				if {$fileid != 0 } {
+					catch {puts -nonewline $fileid "\|\"LRED[timestamp] [trans connectedwith [::config::getKey login]]\n"}
+				}
 				::log::CloseLogEvent
 			}
 		}
@@ -1558,7 +1570,10 @@ namespace eval ::log {
 		if { [::log::checkeventlog] } {
 			::log::OpenLogEvent
 			set fileid [LogArray eventlog get]
-			puts -nonewline $fileid "\|\"LRED[timestamp] [trans disconnectedfrom [::config::getKey login]]\n\n"
+			if { $fileid != 0 } {
+				catch {puts -nonewline $fileid "\|\"LRED[timestamp] [trans disconnectedfrom [::config::getKey login]]\n\n"}
+			}
+
 			::log::CloseLogEvent
 		}
 	}
