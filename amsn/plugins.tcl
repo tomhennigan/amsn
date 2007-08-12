@@ -664,6 +664,12 @@ namespace eval ::plugins {
 		if {$selection==""} {
 		    return;
 		}
+
+		# close configure dialog
+		if {[winfo exists ${w}.winconf_$selection]} {
+			destroy ${w}.winconf_$selection
+		}
+
 		
 		# do the actual unloading
 		UnLoadPlugin $selection

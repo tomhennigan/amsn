@@ -910,8 +910,12 @@ namespace eval ::amsn {
 			::MSN::ChatQueue $chatid [list ::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie]
 			#::MSNFT::sendFTInvitation $chatid $filename $filesize $ipaddr $cookie
 
-		::log::ftlog $chatid $txt
+			::log::ftlog $chatid $txt
 
+			# Postevent when we send a file transfer invitation
+			set evPar(chatid) $chatid
+			set evPar(filename) $filename
+			::plugins::PostEvent sent_ft_invite evPar
 		}
 		return 0
 	}
