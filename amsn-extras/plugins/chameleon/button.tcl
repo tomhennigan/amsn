@@ -31,13 +31,6 @@ namespace eval ::chameleon::button {
       }
     }
 
-    if { [info exists options(-height)] } {
-      if {$options(-height) == 0} {
-	set ttk_options(-height) [list]
-      } else {
-	set ttk_options(-height) $options(-height)
-      }
-    }
 
     return [array get ttk_options]
   }
@@ -65,7 +58,7 @@ namespace eval ::chameleon::button {
       -fg			-styleOption
       -font			-styleOption
       -foreground		-styleOption
-      -height			-toImplement
+      -height			-ignore
       -highlightbackground	-ignore
       -highlightcolor		-styleOption
       -highlightthickness	-styleOption
@@ -123,15 +116,6 @@ namespace eval ::chameleon::button {
       }
     }
 
-    if {$option eq "-height"} {
-      set height [$w cget -height]
-
-      if {![string is digit -strict $height]} {
-	return 0
-      } else {
-	return $height
-      }
-    }
 
     return ""
   }
