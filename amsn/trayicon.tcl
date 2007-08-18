@@ -507,7 +507,7 @@ proc loadTrayLib {} {
 			return 0
 		}
 
-	} elseif { [OnLinux] } {
+	} elseif { [OnLinux] || [OnOpenBSD] } {
 		#if there is a problem loading the lib, print the error on the console and return
 		if { [catch {package require libtray} errormsg] } {
 			status_log "[trans traynotcompiled] : $errormsg"
@@ -555,7 +555,7 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 
 
 		#X11/Freedesktop (linux) specific code
-		} elseif { [OnLinux] && $xiconpath != ""} {
+		} elseif { ([OnLinux] || [OnOpenBSD]) && $xiconpath != ""} {
 			if { [winfo exists .$name] } {
 				status_log "trayicon.tcl: won't add icon $name as it already exists"
 			} else {
@@ -563,12 +563,12 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 					#add the icon     !! name => .name
 					set name [newti .$name -pixmap [image create photo dest_$name] -command "::trayIcon_Configure [image create photo source_$name -file $xiconpath] dest_$name"]
 
-	#TODO: balloon bindings
-	#bind .$name <Motion> [list status_log "motion"]
-	status_log $name
-	bind $name <Enter> +[list balloon_enter %W %X %Y "Test!" [::skin::loadPixmap dbusy]]
-	bind $name <Motion> +[list balloon_motion %W %X %Y "Test!" [::skin::loadPixmap dbusy]]
-	bind $name <Leave> "+set Bulle(first) 0; kill_balloon"
+					#TODO: balloon bindings
+					#bind .$name <Motion> [list status_log "motion"]
+					status_log $name
+					bind $name <Enter> +[list balloon_enter %W %X %Y "Test!" [::skin::loadPixmap dbusy]]
+					bind $name <Motion> +[list balloon_motion %W %X %Y "Test!" [::skin::loadPixmap dbusy]]
+					bind $name <Leave> "+set Bulle(first) 0; kill_balloon"
 				}
 			}
 			return 1
@@ -596,7 +596,7 @@ proc rmTrayIcon {name} {
 		if { [OnWin] } {
 			winico taskbar delete $name
 		#X11/Freedesktop (linux) specific code
-		} elseif { [OnLinux] } {
+		} elseif { [OnLinux] || [OnOpenBSD] } {
 			if { [catch {removeti .$name} errormsg] } {
 				status_log "$errormsg\n"
 			}
@@ -619,7 +619,7 @@ proc confTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "no
 			winico taskbar add $name -text "$tooltip" -callback "$winactionhandler %m %x %y"			
 
 		#X11/Freedesktop (linux) specific code
-		} elseif { [OnLinux] } {
+		} elseif { [OnLinux] || [OnOpenBSD]} {
 			configureti .$name
 			image create photo source_$name -file $xiconpath
 			image create photo dest_$name

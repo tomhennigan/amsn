@@ -152,6 +152,16 @@ proc OnWin {} {
 	}
 }
 
+#Test for OpenBSD
+proc OnOpenBSD {} {
+	global tcl_platform
+	if { $tcl_platform(os) == "OpenBSD" } {
+		return 1
+	} else {
+		return 0
+	}
+}
+
 #Test for Linux
 proc OnLinux {} {
 	global tcl_platform
