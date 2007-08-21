@@ -5327,7 +5327,11 @@ proc copy { cut w } {
 
 	set dump [$window dump -text [lindex $index 0] [lindex $index 1]]
 
-	foreach { text output index } $dump { clipboard append "$output" }
+	if { [OnLinux] } {
+		foreach { text output index } $dump { clipboard append -type UTF8_STRING "$output" }
+	} else {
+		foreach { text output index } $dump { clipboard append "$output" }
+	}
 	if { $cut == "1" } { catch { $window delete sel.first sel.last } }
 }
 #///////////////////////////////////////////////////////////////////////
@@ -5338,13 +5342,21 @@ proc copy { cut w } {
 proc paste { window {middle 0} } {
 	if { [catch {selection get} res] != 0 } {
 		catch {
-			set contents [ selection get -selection CLIPBOARD ]
+			if { [OnLinux] } {
+				set contents [ selection get -type UTF8_STRING -selection CLIPBOARD ]
+			} else {
+				set contents [ selection get -selection CLIPBOARD ]
+			}
 			[::ChatWindow::GetInputText $window] insert insert $contents
 		}
 	} else {
 		if { $middle == 0} {
 			catch {
-				set contents [ selection get -selection CLIPBOARD ]
+				if { [OnLinux] } {
+                                	set contents [ selection get -type UTF8_STRING -selection CLIPBOARD ]
+	                        } else {
+        	                        set contents [ selection get -selection CLIPBOARD ]
+                	        }
 				[::ChatWindow::GetInputText $window] insert insert $contents
 			}
 		}
