@@ -1364,9 +1364,10 @@ case `uname -s` in
 	OpenBSD | FreeBSD | NetBSD)
 		# *BSD has important stuff (from ports)
 		# in /usr/local ...
-		CFLAGS="$CFLAGS -I/usr/local/include -L/usr/local/lib"
+		CFLAGS="$CFLAGS -I/usr/local/include -I/usr/local/include/libpng -L/usr/local/lib"
 		LDFLAGS="$LDFLAGS -L/usr/local/lib"
 		FOUND_OS="bsd"
+		TK_INC_DIR=/usr/local/include/tk8.4/generic/
 		;;
 	Darwin)
 		FOUND_OS="mac"
@@ -3090,7 +3091,7 @@ if test "${ac_cv_lib_stdcpp_main+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lstdc++  $LIBS"
+LIBS="-lstdc++ -lm $LIBS"
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF

@@ -146,6 +146,8 @@ if { [OnDarwin] } {
 	lappend auto_path [file join utils windows]
 } elseif { [OnLinux] } {
 	lappend auto_path [file join utils linux]
+} elseif { [OnOpenBSD] } {
+        lappend auto_path [file join utils linux] 
 }
 lappend auto_path [file join utils]
 
