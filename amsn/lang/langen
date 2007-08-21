@@ -360,6 +360,8 @@ firewalled2 You are firewalled, please check your Connection settings in the pre
 followtext Scroll down when new text is entered
 forget_me Forget me
 forgot_pass I forgot my password
+formatctt CTT format
+formatcsv CSV format
 friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
@@ -869,6 +871,7 @@ tomobile To Mobile
 tools Tools
 tooltips Enable tooltips
 to To
+totalsize Total size
 transnotexists The requested file has not been translated into the current language yet.
 trayicon Show a status icon in the notification area
 traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
