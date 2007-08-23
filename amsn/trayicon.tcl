@@ -507,7 +507,7 @@ proc loadTrayLib {} {
 			return 0
 		}
 
-	} elseif { [OnLinux] || [OnOpenBSD] } {
+	} elseif { [OnLinux] || [OnBSD] } {
 		#if there is a problem loading the lib, print the error on the console and return
 		if { [catch {package require libtray} errormsg] } {
 			status_log "[trans traynotcompiled] : $errormsg"
@@ -555,7 +555,7 @@ proc addTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "noh
 
 
 		#X11/Freedesktop (linux) specific code
-		} elseif { ([OnLinux] || [OnOpenBSD]) && $xiconpath != ""} {
+		} elseif { ([OnLinux] || [OnBSD]) && $xiconpath != ""} {
 			if { [winfo exists .$name] } {
 				status_log "trayicon.tcl: won't add icon $name as it already exists"
 			} else {
@@ -596,7 +596,7 @@ proc rmTrayIcon {name} {
 		if { [OnWin] } {
 			winico taskbar delete $name
 		#X11/Freedesktop (linux) specific code
-		} elseif { [OnLinux] || [OnOpenBSD] } {
+		} elseif { [OnLinux] || [OnBSD] } {
 			if { [catch {removeti .$name} errormsg] } {
 				status_log "$errormsg\n"
 			}
@@ -619,7 +619,7 @@ proc confTrayIcon {name xiconpath winiconpath {tooltip ""} {winactionhandler "no
 			winico taskbar add $name -text "$tooltip" -callback "$winactionhandler %m %x %y"			
 
 		#X11/Freedesktop (linux) specific code
-		} elseif { [OnLinux] || [OnOpenBSD]} {
+		} elseif { [OnLinux] || [OnBSD]} {
 			configureti .$name
 			image create photo source_$name -file $xiconpath
 			image create photo dest_$name

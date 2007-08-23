@@ -129,7 +129,7 @@ proc init_dock {} {
 
 		if {[OnWin]} {
 			trayicon_init
-		} elseif {[OnLinux] || [OnOpenBSD]} {
+		} elseif {[OnLinux] || [OnBSD]} {
 			#We use the freedesktop standard here
 			if { $systemtray_exist == 0 } {
 				trayicon_init
@@ -147,7 +147,7 @@ proc init_dock {} {
 }
 
 proc UnixDock { } {
-	if {[::config::getKey use_tray] && ([OnLinux] || [OnOpenBSD]) } {
+	if {[::config::getKey use_tray] && ([OnLinux] || [OnBSD]) } {
 		return 1
 	} else {
 		return 0
