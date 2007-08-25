@@ -360,6 +360,8 @@ firewalled2 Je bevindt je achter een firewall, controleer je verbindingsinstelli
 followtext Naar beneden scrollen als er nieuwe tekst wordt ingevoerd
 forget_me Mij vergeten
 forgot_pass Ik ben mijn wachtwoord vergeten
+formatctt CTT-formaat
+formatcsv CSV-formaat
 friendlyname Schermnaam tijdens gesprek
 ftaccepted Bestandsoverdracht geaccepteerd
 ftacceptedby $1 heeft de overdracht van het bestand '$2' geaccepteerd.
@@ -452,8 +454,8 @@ language Taal
 language_manager Taalbeheer
 large Groot
 largest Grootste
-lastlogin Vorige login
-lastlogout Vorige logout
+lastlogin Laatst aangemeld
+lastlogout Laatst afgemeld
 lastmsgedme Laatste bericht
 lastmsgtime Laatste bericht ontvangen om $1
 lastseen Laatste keer online
@@ -466,7 +468,7 @@ leaveblankforhotmail Laat leeg om Hotmail te gebruiken
 leavejoinsinchat In het gespreksvenster weergeven dat iemand het gesprek binnenkomt of verlaat
 leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
-lineflushlog Logfiles bijwerken na elke regel
+lineflushlog Logbestanden bijwerken na elke regel
 linprivate PRIVÉ
 listening Wachten op verbinding
 listeningon Wachten op inkomende verbinding op poort $1
@@ -476,7 +478,7 @@ ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 load Activeren
 loadcontacts Contactenlijst importeren
-loadotherdisplaypic Even geduld a.u.b., de schermafbeeldingen van $1 worden geladen...
+loadotherdisplaypic Even geduld, de schermafbeeldingen van $1 worden geladen...
 logbigger Het logboek mag per contact niet groter zijn dan 
 logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
@@ -596,7 +598,7 @@ notifytimeout Aantal milliseconden voordat het meldingsvenster verdwijnt
 notifytyping Anderen in een gesprek laten zien of je aan het typen bent
 notifywin Meldingsvenster
 notinlist Je staat niet in zijn/haar contactenlijst
-notls Versie 9 van het MSN-protocol vereist het pakket TLS. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel is geïnstalleerd, moet het pad naar de map van de TLS-library worden opgegeven in het instellingenvenster (bv. /opt/tls/lib). \n \n TLS is te downloaden van http://tls.sf.net.
+notls Versie 9 van het MSN-protocol vereist het pakket TLS. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel is geïnstalleerd, moet het pad naar de map van de TLS-bibliotheek worden opgegeven in het instellingenvenster (bv. /opt/tls/lib). \n \n TLS is te downloaden van http://tls.sf.net.
 nottabbed Geen tabbladen gebruiken
 nousersinsession Geen gebruiker in sessie
 nouserspecified Geen contact geselecteerd
@@ -657,7 +659,7 @@ preffont2 Het lettertype voor berichten wijzigen
 preffont3 Lettertype en -grootte van aMSN wijzigen
 preffont4 De weergave van berichten van mijn contacten aanpassen
 prefft Bestandsoverdracht-, peer-to-peer- en NAT-instellingen
-preflibs Zoekpad voor library's
+preflibs Zoekpad voor bibliotheken
 preflog1 Logboeken en geschiedenis
 preflogevent Mijn gebeurtenissengeschiedenis
 preflook Weergave
@@ -791,7 +793,7 @@ smileintro Vul de nodige velden in om een nieuwe emoticon te maken (zie de FAQ v
 smileintro2 Pas de nodige velden aan om deze emoticon te bewerken (zie de FAQ voor hulp)
 smiletoobig De gekozen emoticon is groter dan gewoonlijk. Wil je de grootte aanpassen?
 snackfailed Laden van Snack is niet gelukt. Teruggevallen op de standaardfuncties.
-snackneeded Om deze functionaliteit te gebruiken heb je de Snack-programmabibliotheek (versie 2.2.9 of nieuwer) nodig.
+snackneeded Om deze functionaliteit te gebruiken heb je de Snack-bibliotheek (versie 2.2.9 of nieuwer) nodig.
 snapshot Foto
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sortcontactgroup Contacten sorteren op groep
@@ -806,7 +808,7 @@ sound Geluid inschakelen
 sound2 Geluid afspelen wanneer contacten zich aanmelden of een bericht verzenden
 soundactive Geluid ook afspelen als een bericht aankomt in een actief venster
 soundcommand Dit moet het afspeelcommando zijn (vb.: esdplay)
-soundexample  ( \$sound = af te spelen geluidsbestand ) Vb.: esdplay \$sound
+soundexample ( \$sound = af te spelen geluidsbestand ) Vb.: esdplay \$sound
 soundfile Alarmgeluid
 soundfiles Geluidsbestanden
 soundloop Geluid in een lus herhalen
@@ -869,6 +871,7 @@ today Vandaag
 tomobile Naar Mobiel
 tools Extra
 tooltips Tooltips weergeven
+totalsize Totale grootte
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
 trayicon De huidige status weergeven met een pictogram in het systeemvak
 traynotcompiled Systeemvakplug-in is niet gecompileerd. Controleer plug-ins/traydock
@@ -899,15 +902,15 @@ usernotonline Dit contact is offline
 userproperties Eigenschappen van $1
 usersettings Instellingen
 useryourself Je kunt geen gesprek met jezelf starten
-usesnack Snack-functiebibliotheek gebruiken (ingebouwd in Tcl)
+usesnack Snack-bibliotheek gebruiken (ingebouwd in Tcl)
 verifyblocked Controleren wie jou blokkeren
 version Versie
 videoconversationrequest Je hebt een uitnodiging ontvangen voor een videogesprek (wederzijds geluid en beeld). Helaas ondersteunt aMSN deze functie nog niet, de uitnodiging is daarom automatisch geweigerd. Je kunt de standaard webcamfunctie echter gewoon gebruiken.
 view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel weergeven
-voice_notimplemented Het ontvangen van Voice Clips is nog niet geïmplementeerd. Nog even geduld a.u.b.
-voice_windows Als Windows-gebruiker kunt u de Voice Clip mogelijk beluisteren door deze te openen in Media Player.
+voice_notimplemented Het ontvangen van Voice Clips is nog niet geïmplementeerd. Nog even geduld...
+voice_windows Als Windows-gebruiker kun je de Voice Clip mogelijk beluisteren door deze te openen in Media Player.
 voice_windows_click Klik hier om dat te proberen.
 volume Volume
 wanttosharecam Ik wil mijn webcam beschikbaar maken voor anderen
@@ -936,7 +939,7 @@ webcamsending Contacten die op dit moment jouw webcambeeld kunnen zien:\n(Klik o
 whatisamsn aMSN is een platformonafhankelijke MSN Messenger-kloon
 whatsize De door jou gekozen afbeelding heeft niet het gebruikelijke formaat\nvoor schermafbeeldingen (96x96). Hoe groot wil je dat de afbeelding wordt weergegeven?
 willjoin Wachten tot $1 het gesprek zal bijwonen
-winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet ondersteund door aMSN.
+winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet door aMSN ondersteund.
 wintitlenick Schermnamen weergeven op vensters met tabbladen
 work Werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
