@@ -257,14 +257,15 @@ bool CxImagePNG::Decode(CxFile *hFile)
 			y++;
 		} while(y<head.biHeight);
 	}
-	delete[] row_pointers;
-	row_pointers=NULL;
 
 	/* read the rest of the file, getting any additional chunks in info_ptr */
-	png_read_end(png_ptr, info_ptr);
+	//png_read_end(png_ptr, info_ptr);
 
 	/* clean up after the read, and free any memory allocated - REQUIRED */
 	png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
+	
+	delete[] row_pointers;
+	row_pointers=NULL;
 
   } catch (const char *message) {
 	if (strcmp(message,"")) strncpy(info.szLastError,message,255);
