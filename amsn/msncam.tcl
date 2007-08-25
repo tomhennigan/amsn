@@ -1362,14 +1362,14 @@ namespace eval ::MSNCAM {
 
 			status_log "resetting ips and connected_ipss\n red"
 
-			if { $used_socket != "" } {
-				set ips ""
-				if { ![catch {set ip [lindex [fconfigure $used_socket -peer] 0]
-					set port [lindex [fconfigure $used_socket -peer] 2]}] } {
-					lappend ips [list $ip $port $used_socket]
-				}
-
-				setObjOption $sid connected_ips $ips
+			set ips [getObjOption $sid connected_ips]
+			for {set idx 0} { $idx < [llength $ips] } {incr idx } {
+				set connection [lindex $ips $idx]
+				foreach {ip port sock} $connection break
+				if {$sock == $used_socket } break
+			}
+			if {$socket == $used_socket } {
+				setObjOption $sid connected_ips [list $ip $port $socket]
 			}
 		} else {
 			status_log "Closing in $list of length [llength $list]\n" red
