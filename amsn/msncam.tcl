@@ -1369,7 +1369,7 @@ namespace eval ::MSNCAM {
 				if {$sock == $used_socket } break
 			}
 			if {$sock == $used_socket } {
-				setObjOption $sid connected_ips [list $ip $port $socket]
+				setObjOption $sid connected_ips [list $ip $port $sock]
 			}
 		} else {
 			status_log "Closing in $list of length [llength $list]\n" red
