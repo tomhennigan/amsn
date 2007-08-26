@@ -86,7 +86,7 @@ namespace eval ::abook {
 			mobile { ::MSN::WriteSB ns PRP "PHM $value" }
 			pager { 
 				::MSN::WriteSB ns PRP "MOB $value"
-				if { $value == "Y" } {
+				if { $value eq "Y" } {
 					::MSN::setClientCap paging
 				} else {
 					::MSN::setClientCap paging 0
@@ -164,19 +164,19 @@ namespace eval ::abook {
 		set demographics(localip) [getLocalIP]
 		status_log "Finished\n"
 		set demographics(upnpnat) "false"
-		if { [getDemographicField localip] == ""  && [getDemographicField clientip] == "" } {
+		if { [getDemographicField localip] eq ""  && [getDemographicField clientip] eq "" } {
 			#Not connected
 			set demographics(conntype) ""
 			return
 		} else {
 			set demographics(conntype) [getConnectionType [getDemographicField localip] [getDemographicField clientip]]
 		}
-		if { $demographics(conntype) == "Direct-Connect" || $demographics(conntype) == "Firewall" } {
+		if { $demographics(conntype) eq "Direct-Connect" || $demographics(conntype) eq "Firewall" } {
 			set demographics(netid) 0
 			set demographics(upnpnat) "false"
 		} else {
 			set demographics(netid) [GetNetID [getDemographicField clientip]]
-			if { [getFirewalled [::config::getKey initialftport]] == "Firewall" } {
+			if { [getFirewalled [::config::getKey initialftport]] eq "Firewall" } {
 				set demographics(upnpnat) "false"
 			} else {
 				set demographics(upnpnat) "true"	
@@ -190,7 +190,7 @@ namespace eval ::abook {
 	proc getLocalIP { } {
 		set sk [ns cget -sock]
 
-		if { $sk != "" } {
+		if { $sk ne "" } {
 			foreach ip [fconfigure $sk -sockname] {break}
 			return $ip
 		} else {
@@ -201,10 +201,10 @@ namespace eval ::abook {
 	# This will return the connection type : ip-restrict-nat, direct-connect or firewall
 	proc getConnectionType { localip clientip } {
  
-		if { $localip == "" || $clientip == "" } { 
+		if { $localip eq "" || $clientip eq "" } { 
 			return [getFirewalled [::config::getKey initialftport]]
 		} 
-		if { $localip != $clientip } {
+		if { $localip ne $clientip } {
 			return "IP-Restrict-NAT"
 		} else { 
 			return [getFirewalled [::config::getKey initialftport]]
@@ -220,7 +220,7 @@ namespace eval ::abook {
 		set random_id [expr {$random_id * 10000}]
 		set random_id [expr {int($random_id)}]
 
-		if { $port == "" } { set port $::config(initialftport) }
+		if { $port eq "" } { set port $::config(initialftport) }
 
 		while { [catch {set sock [socket -server "abook::dummysocketserver" $port] } ] } {
 			incr port
@@ -261,7 +261,7 @@ namespace eval ::abook {
 
 	proc gotConnectivityReply { token} {
 		global connection_success
-		if { [::http::status $token] != "ok" || [::http::ncode $token ] != 200 } {
+		if { [::http::status $token] ne "ok" || [::http::ncode $token ] != 200 } {
 			set connection_success -1
 			status_log "::abook::gotConnectivityReply error : [http::status $token] - [::http::ncode $token]" green
 		} else {
@@ -286,7 +286,7 @@ namespace eval ::abook {
 		global connection_success
 		after cancel ::abook::connectionTimeout
 		fileevent $sock readable ""
-		if { [fconfigure $sock -error] != ""} {
+		if { [fconfigure $sock -error] ne ""} {
 			status_log "::abook::connectionHandler: connection failed\n" red
 			set connection_success 0
 		} else {
@@ -305,9 +305,9 @@ namespace eval ::abook {
 	}
 
 	proc getListening { conntype } {
-		if {$conntype == "Firewall" } {
+		if {$conntype eq "Firewall" } {
 			return "false"
-		} elseif { $conntype == "Direct-Connect" } {
+		} elseif { $conntype eq "Direct-Connect" } {
 		        return "true"
 		} else { 
 			return [abook::getDemographicField upnpnat]
@@ -382,16 +382,16 @@ namespace eval ::abook {
 
 		# An event used by guicontactlist to know when a user changed his nick (or state)
 		#if { [lsearch -exact $::abook::VisualData $field] > -1 } {
-		#	if { [info exists user_data($field)] && $user_data($field) != $data } {
+		#	if { [info exists user_data($field)] && $user_data($field) ne $data } {
 		#		#puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
 		#		::Event::fireEvent contactDataChange abook $user_login
-		#	} elseif { ![info exists user_data($field)] && $data != ""} {
+		#	} elseif { ![info exists user_data($field)] && $data ne ""} {
 		#		#puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
 		#		::Event::fireEvent contactDataChange abook $user_login
 		#	}
 		#}
 
-		if { $data == "" } {
+		if { $data eq "" } {
 			if { [info exists user_data($field)] } {
 				unset user_data($field)
 			}
@@ -399,7 +399,7 @@ namespace eval ::abook {
 			set user_data($field) $data
 		}
 		
-		if { $field == "nick" || $field == "mfn" || $field == "psm" || $field == "customnick" || $field == "customfnick" } {
+		if { $field eq "nick" || $field eq "mfn" || $field eq "psm" || $field eq "customnick" || $field eq "customfnick" } {
 			set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
 			set evpar(variable) data
 			set evpar(login) $user_login
@@ -416,7 +416,7 @@ namespace eval ::abook {
 
 	proc setContactForGuid { guid user_login } {
 		variable guid_contact
-		if { $user_login == "" } {
+		if { $user_login eq "" } {
 			if { [info exists guid_contact($guid)] } {
 				unset guid_contact($guid)
 			}
@@ -450,11 +450,11 @@ namespace eval ::abook {
 		# the fields has to do with visual information, it throws an event and breaks the loop
 		foreach field $fields_list data $data_list {
 			if { [lsearch -exact $::abook::VisualData $field] > -1 } {
-				if { [info exists user_data($field)] && $user_data($field) != $data } {
+				if { [info exists user_data($field)] && $user_data($field) ne $data } {
 					#puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
 					::Event::fireEvent contactDataChange abook $user_login
 					break
-				} elseif { ![info exists user_data($field)] && $data != ""} {
+				} elseif { ![info exists user_data($field)] && $data ne ""} {
 					#puts stdout "ATTENTION! Visual Data has changed! Redraw CL! $field - $data"
 					::Event::fireEvent contactDataChange abook $user_login
 					break
@@ -465,7 +465,7 @@ namespace eval ::abook {
 		# This other loop iterates over the entire lists, replacing the value in user_data(array)
 		# if needed. There are two different loops because this one cannot be broke.
 		foreach field $fields_list data $data_list {
-			if { $data == "" } {
+			if { $data eq "" } {
 				if { [info exists user_data($field)] } {
 					unset user_data($field)
 				}
@@ -493,7 +493,7 @@ namespace eval ::abook {
 			array set volatile_data [list]
 		}
 		
-		if { $data == "" } {
+		if { $data eq "" } {
 			if { [info exists volatile_data($field)] } {
 				unset volatile_data($field)
 			}
@@ -501,7 +501,7 @@ namespace eval ::abook {
 			set volatile_data($field) $data
 		}
 
-		if { $field == "psm" } {
+		if { $field eq "psm" } {
 			set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
 			set evpar(variable) data
 			set evpar(login) $user_login
@@ -573,7 +573,7 @@ namespace eval ::abook {
 
 	proc getPassportfromContactguid { contactguid } {
 		foreach contact [::abook::getAllContacts] {
-			if { [::abook::getContactData $contact contactguid] == $contactguid } {
+			if { [::abook::getContactData $contact contactguid] eq $contactguid } {
 				return $contact
 			}
 		}
@@ -582,7 +582,7 @@ namespace eval ::abook {
 	proc lastSeen { } {
 		foreach contact [::abook::getAllContacts] {
 			set user_state_code [::abook::getVolatileData $contact state FLN]
-			if {$user_state_code != "FLN"} {
+			if {$user_state_code ne "FLN"} {
 				::abook::setContactData $contact last_seen [clock format [clock seconds] -format "%D - %H:%M:%S"]
 			}
 		}
@@ -615,7 +615,7 @@ namespace eval ::abook {
 
 	proc dateconvert {time} {
 		set date [clock format [clock seconds] -format "%D"]
-		if {$time == ""} {
+		if {$time eq ""} {
 			return ""
 		} else {
 			set delm [string first " " $time]
@@ -625,7 +625,7 @@ namespace eval ::abook {
 				if {[clock scan $date] == [clock scan [string range $time 0 $delm]]} {
 					return "[trans today][string range $time $delm end]"
 					#Checks if the time is yesterday, and in this case puts yesterday instead of the date
-				} elseif { [expr { [clock scan $date] - [clock scan [string range $time 0 $delm]] }] == "86400"} {
+				} elseif { [expr { [clock scan $date] - [clock scan [string range $time 0 $delm]] }] == 86400} {
 					return "[trans yesterday][string range $time $delm end]"
 				} else {
 					#set month [string range $time 0 1]
@@ -639,13 +639,13 @@ namespace eval ::abook {
 					set year [clock format $timeTicks -format %Y]
 					set end [string range $time $delm end]
 					#Month/Day/Year
-					if {[::config::getKey dateformat]=="MDY"} {
+					if {[::config::getKey dateformat] eq "MDY"} {
 						return $time
 					#Day/Month/Year
-					} elseif {[::config::getKey dateformat]=="DMY"} {
+					} elseif {[::config::getKey dateformat] eq "DMY"} {
 						return "$day/$month/$year$end"
 					#Year/Month/Day
-					} elseif {[::config::getKey dateformat]=="YMD"} {
+					} elseif {[::config::getKey dateformat] eq "YMD"} {
 						return "$year/$month/$day$end"
 					}
 				}
@@ -656,14 +656,14 @@ namespace eval ::abook {
 	}
 
 	proc parseCurrentMedia {currentMedia} {
-		if {$currentMedia == ""} { return "" }
+		if {$currentMedia eq ""} { return "" }
 	
 		set currentMedia [string map {"\\0" "\0"} $currentMedia]
 		set infos [split $currentMedia "\0"]
 	
-		if {[lindex $infos 2] == "0"} { return "" }
+		if {[lindex $infos 2] eq "0"} { return "" }
 	
-		if {[lindex $infos 1] == "Music"} {
+		if {[lindex $infos 1] eq "Music"} {
 			set out [list [list "smiley" [::skin::loadPixmap note] "-"] [list "text" " "]]
 		} else {
 			set out [list [list "text" "- "]]
@@ -687,18 +687,18 @@ namespace eval ::abook {
 	proc getpsmmedia { { user_login "" } { use_styled_psm 0}} {
 		if { [::config::getKey protocol] < 11 } { return [list ]}
 		set psmmedia [list ]
-		if { $user_login == "" } {
+		if { $user_login eq "" } {
 			set psm [::abook::getVolatileData myself parsed_psm]
         	        set currentMedia [::abook::parseCurrentMedia [::abook::getPersonal currentMedia]]
 		} else {
                 	set psm [::abook::getVolatileData $user_login parsed_psm]
                 	set currentMedia [::abook::parseCurrentMedia [::abook::getVolatileData $user_login currentMedia]]
 		}
-		if {$psm != ""} {
+		if {$psm ne ""} {
 			set psmmedia [concat $psmmedia $psm]
 		}
-		if {$currentMedia != ""} {
-			if { $psm != ""} {
+		if {$currentMedia ne ""} {
+			if { $psm ne ""} {
 				lappend psmmedia [list "colour" "reset"]
 				lappend psmmedia [list "font" "reset"]
 				lappend psmmedia [list "text" " "]
@@ -715,7 +715,7 @@ namespace eval ::abook {
 	#Returns the user nickname
 	proc getNick { user_login {use_styled_nick 0}} {
 		set nick [::abook::getVolatileData $user_login parsed_nick]
-		if { $nick == "" } {
+		if { $nick eq "" } {
 			return [list [list "text" $user_login]]
 		}
 		if { !$use_styled_nick } {
@@ -727,8 +727,8 @@ namespace eval ::abook {
 	#Parser to replace special characters and variables in the right way
 	proc parseCustomNick { input nick user_login customnick {psm ""} } {
 		#If there's no customnick set, default to user_login
-		if { $customnick == "" } {
-			if { [::config::getKey protocol] >= 11 && $psm != "" } {
+		if { $customnick eq "" } {
+			if { [::config::getKey protocol] >= 11 && $psm ne "" } {
 				set customnick $user_login\n$psm
 			} else {
 				set customnick $user_login
@@ -745,61 +745,65 @@ namespace eval ::abook {
 	#Parser to replace special characters and variables in the right way
 	proc parseCustomNickStyled { input nick user_login customnick psm } {
 		#If there's no customnick set, default to user_login
-		if { $customnick == "" } {
-			if { [::config::getKey protocol] >= 11 && $psm != "" } {
-				set customnick [list [list "text" "$user_login\n"]]
-				lappend customnick $psm
+		if { [::abook::removeStyles $customnick] eq "" } {
+			if { [::config::getKey protocol] >= 11 && $psm ne "" } {
+				set customnick [list [list "text" "$user_login"] [list "newline" "\n"]]
+				set customnick [concat $customnick $psm]
 			} else {
 				set customnick [list [list "text" "$user_login"]]
 			}
-		} else {
-			set customnick [list [list "text" "$customnick"]]
 		}
+
 		set user_login [list [list "text" "$user_login"]]
 
 		set l $input
 		set llength [llength $l]
 		set listpos 0
+		set npos 0
 		#Keep searching until no matches
 		while { $listpos < $llength } {
-			if { ([lindex $l $listpos 0] != "text") } {
+			if { ([lindex $l $listpos 0] ne "text") } {
 				incr listpos
 				continue
 			}
-			set parsed 0
-			foreach substitute { "\$nick" "\$user_login" "\$customnick" "\$psm" } {
-				set txt [lindex $l $listpos 1]
-				set content [set [string range $substitute 1 end]]
-				if { [set pos [string first $substitute $txt]] != -1 } {
-					incr parsed
-					set p1 [string range $txt 0 [expr {$pos - 1}]]
-					set p3 [string range $txt [expr {$pos + [string length $substitute]}] end]
-	
-					set l [lreplace $l $listpos $listpos]
-					incr llength -1
-
-					if { $p1 != "" } {
-						set l [linsert $l $listpos [list text $p1]]
-						incr llength 1
-						incr listpos 1
-					}
-
-					foreach unit $content {
-						set l [linsert $l $listpos $unit]
-						incr listpos 1
-						incr llength 1
-					}
-
-					if { $p3 != "" } {
-						set l [linsert $l $listpos [list text $p3]]
-						incr llength 1
-						#We must parse p3
-					}
-
-				}
-			}
-			if {$parsed == 0} {
+			set txt [lindex $l $listpos 1]
+			if { [set pos [string first "\$" $txt $npos]] == -1 } {
+				set npos 0
 				incr listpos
+			} else {
+				#in case the $ isn't a matching $ we will search for the next in the same list item
+				set npos [expr {$pos + 1}]
+				foreach substitute { "\$nick" "\$user_login" "\$customnick" "\$psm" } {
+					if { [string range $txt $pos [expr {$pos + [string length $substitute] - 1}]] eq $substitute } {
+						set content [set [string range $substitute 1 end]]
+						set p1 [string range $txt 0 [expr {$pos - 1}]]
+						set p3 [string range $txt [expr {$pos + [string length $substitute]}] end]
+		
+						set l [lreplace $l $listpos $listpos]
+						incr llength -1
+		
+						if { $p1 ne "" } {
+							set l [linsert $l $listpos [list text $p1]]
+							incr llength 1
+							incr listpos 1
+						}
+		
+						foreach unit $content {
+							set l [linsert $l $listpos $unit]
+							incr listpos 1
+							incr llength 1
+						}
+		
+						if { $p3 ne "" } {
+							set l [linsert $l $listpos [list text $p3]]
+							incr llength 1
+							#We must parse p3
+						}
+						#We will search from the begining of p3
+						set npos 0
+						break
+					}
+				}
 			}
 		}
 		#Return the custom nick, replacing backslashses and variables
@@ -820,17 +824,19 @@ namespace eval ::abook {
 			set globalnicktxt [::abook::removeStyles $::globalnick]
 
 			if { [::config::getKey globaloverride] == 0 } {
-				if { $customnicktxt != "" } {
+				if { $customnicktxt ne "" } {
 					set out [parseCustomNickStyled $customnick $nick $user_login $customnick $psm]
-				} elseif { $globalnicktxt != "" && $customnicktxt == "" } {
-					set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick $psm]
 				} else {
-					set out $nick
+					if { $globalnicktxt ne "" } {
+						set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick $psm]
+					} else {
+						set out $nick
+					}
 				}
 			} elseif { [::config::getKey globaloverride] == 1 } {
-				if { $customnicktxt != "" && $globalnicktxt == "" } {
+				if { $customnicktxt ne "" && $globalnicktxt eq "" } {
 					set out [parseCustomNickStyled $customnick $nick $user_login $customnick $psm]
-				} elseif { $globalnicktxt != "" } {
+				} elseif { $globalnicktxt ne "" } {
 					set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick $psm]
 				} else {
 					set out $nick
@@ -984,7 +990,7 @@ namespace eval ::abook {
 		global HOME
 		variable users_data
 		
-		if { $filename == "" } {
+		if { $filename eq "" } {
 			set filename [file join $HOME abook.xml]
 		}
 		
@@ -1044,7 +1050,7 @@ namespace eval ::abook {
 	
 		global HOME
 		
-		if { $filename == "" } {
+		if { $filename eq "" } {
 			set filename [file join $HOME abook.xml]
 		}
 		
@@ -1085,12 +1091,12 @@ namespace eval ::abook {
 		
 		set parentlen [string length $cstack]
 		foreach child [array names sattr] {
-			if { $child == "_dummy_" } {
+			if { $child eq "_dummy_" } {
 				continue
 			}
 			set fieldname [string range $child [expr {$parentlen+1}] end]
 			#Remove this. Only leave it for some days to remove old ::abook stored data
-			if { $fieldname == "field" } {
+			if { $fieldname eq "field" } {
 				continue
 			}
 			setContactData $attr(name) $fieldname $sdata($child)
@@ -1105,7 +1111,7 @@ namespace eval ::abook {
 	
 		set filename [chooseFileDialog]
 
-		if { $filename != "" } {
+		if { $filename ne "" } {
 			if { [string match -nocase "*.ctt" "$filename"] } {
 				::abook::importContactctt $filename
 			} elseif { [string match -nocase "*.csv" "$filename"] } {
@@ -1245,7 +1251,7 @@ namespace eval ::abookGui {
 #
 #		set filepath [lindex [$browser getSelected] 1]
 #		#activate the action buttons now an image is selected
-#		if {$filepath != ""} {
+#		if {$filepath ne ""} {
 #			$actions.setasmine configure -state normal -command [list set_displaypic $filepath ]
 #			$actions.setascustom configure -state normal -command [list ::abookGui::setCustomDp $email $filepath $widget ]
 #			$actions.copyfileuri configure -state normal -command [list ::abookGui::copyDpToClipboard $filepath]
@@ -1382,9 +1388,9 @@ namespace eval ::abookGui {
 		label $nbIdent.fStats.lastlogout1 -text [::abook::dateconvert "[::abook::getContactData $email last_logout]"] -font splainf -fg blue 
 
 		label $nbIdent.fStats.lastseen -text "[trans lastseen]:"
-		if { [::abook::getVolatileData $email state] == "FLN" || [lsearch [::abook::getContactData $email lists] "FL"] == -1} {
+		if { [::abook::getVolatileData $email state] eq "FLN" || [lsearch [::abook::getContactData $email lists] "FL"] eq -1} {
 			label $nbIdent.fStats.lastseen1 -text [::abook::dateconvert "[::abook::getContactData $email last_seen]"] -font splainf -fg blue
-		} elseif { [::abook::getContactData $email last_seen] == "" } {		
+		} elseif { [::abook::getContactData $email last_seen] eq "" } {		
 			label $nbIdent.fStats.lastseen1 -text "" -font splainf -fg blue
 		} else {
 			label $nbIdent.fStats.lastseen1 -text [trans online] -font splainf -fg blue
@@ -1495,8 +1501,8 @@ namespace eval ::abookGui {
 		set dontshowdp_$email [::abook::getContactData $email dontshowdp]
 
 		frame $nbSettings.fNick.fColor.col -width 96 -bd 1 -relief flat -highlightbackground black -highlightcolor black
-		if { [set colorval_$email] != "" } {
-			if { [string index [set colorval_$email] 0] == "#" } {
+		if { [set colorval_$email] ne "" } {
+			if { [string index [set colorval_$email] 0] eq "#" } {
 				set colorval_$email [string range [set colorval_$email] 1 end]
 			}
 			set colorval_$email "#[string repeat 0 [expr {6-[string length [set colorval_$email]]}]][set colorval_$email]"
@@ -1516,7 +1522,7 @@ namespace eval ::abookGui {
 		frame $nbSettings.fNick.fDispl -relief flat
 		
 		set customdp_$email [::abook::getContactData $email customdp ""] 
-		if {[set customdp_$email] != ""} {
+		if {[set customdp_$email] ne ""} {
 			image create photo customdp_img_$email -file [set customdp_$email]
 			label $nbSettings.fNick.fDispl.dp -height 96 -width 96 -image customdp_img_$email -borderwidth 0 -relief flat
 		} else {
@@ -1619,7 +1625,7 @@ namespace eval ::abookGui {
 #		
 #		button $actions.setasmine -text "[trans setasmydp]" -state disabled -justify left
 #		button $actions.setascustom -text "[trans setascustom]" -state disabled
-#		if {[::abook::getContactData $email customdp ""] != ""} {
+#		if {[::abook::getContactData $email customdp ""] ne ""} {
 #			button $actions.removecustom -text "[trans removecustom]" -state normal -command [list ::abookGui::unsetCustomDp $email $w]
 #		} else {
 #			button $actions.removecustom -text "[trans removecustom]" -state disabled
@@ -1725,7 +1731,7 @@ namespace eval ::abookGui {
 		#Ask the user yes/no if he wants to save, parent=window to attach the question, title= totally useless on Mac
 		set answer [::amsn::messageBox "[trans save] ?" yesno question "[trans save] ?"]
 		#When the user answer yes, save preferences and close the window
-		if {$answer == "yes"} {
+		if {$answer eq "yes"} {
 			::abookGui::PropOk $email $w
 		#When the user do not answer yes (no), then Restore previous preferences and close the window
 		} else {
@@ -1736,7 +1742,7 @@ namespace eval ::abookGui {
 	proc PropDestroyed { email w win } {
 		global colorval_$email showcustomsmileys_$email ignorecontact_$email dontshowdp_$email
 
-		if { $w == $win } {
+		if { $w eq $win } {
 			#Clean temporal variables
 			unset ::notifyonline($email)
 			unset ::notifyoffline($email)
@@ -1766,7 +1772,7 @@ namespace eval ::abookGui {
 	proc ChangeColor { email w } {
 		global colorval_$email
 		set color  [SelectColor $w.customcolordialog  -type dialog  -title "[trans customcolor]" -parent $w]
-		if { $color == "" } { return }
+		if { $color eq "" } { return }
 
 		set colorval_$email $color
 		$w.fNick.fColor.col configure -background [set colorval_${email}] -highlightthickness 1 
@@ -1784,12 +1790,12 @@ namespace eval ::abookGui {
 #		# Store custom display information options
 #		::abook::setAtomicContactData $email customdp $path
 #		# Update display picture
-#		if {$path != $old_customdp} {
+#		if {$path ne $old_customdp} {
 #			::skin::getDisplayPicture $email 1
 #			::skin::getLittleDisplayPicture $email 1
 #			$widget.actions.displaypic configure -image [::skin::getDisplayPicture $email]
 #		}
-#		if {$old_customdp == ""} {
+#		if {$old_customdp eq ""} {
 #			$widget.actions.removecustom configure -state normal -command [list ::abookGui::unsetCustomDp $email $widget]
 #		}
 #	}
@@ -1800,7 +1806,7 @@ namespace eval ::abookGui {
 #		# Store custom display information options
 #		::abook::setAtomicContactData $email customdp ""
 #		# Update display picture
-#		if {$old_customdp != ""} {
+#		if {$old_customdp ne ""} {
 #			::skin::getDisplayPicture $email 1
 #			::skin::getLittleDisplayPicture $email 1
 #			$widget.actions.displaypic configure -image [::skin::getDisplayPicture $email]
@@ -1903,7 +1909,7 @@ namespace eval ::abookGui {
 		::abook::setContactData $email customnick [$nbSettings.fNick.customnick.ent get]
 		::abook::setContactData $email customfnick [$nbSettings.fNick.customfnick.ent get]
 		# Update display picture
-		if {[set customdp_$email] != $old_customdp} {
+		if {[set customdp_$email] ne $old_customdp} {
 			::skin::getDisplayPicture $email 1
 			::skin::getLittleDisplayPicture $email 1
 		}
