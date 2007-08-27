@@ -1368,7 +1368,7 @@ namespace eval ::MSNCAM {
 				foreach {ip port sock} $connection break
 				if {$sock == $used_socket } break
 			}
-			if {$sock == $used_socket } {
+			if {$used_socket != "" && [info exists sock] && $sock == $used_socket } {
 				setObjOption $sid connected_ips [list $ip $port $sock]
 			}
 		} else {
