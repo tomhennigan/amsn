@@ -49,12 +49,10 @@ namespace eval ::macabook {
 		}
 		
 		if {$::macabook::cache($user_login) != "" && $::macabook::cache($user_login) != " "} {
-			# Put this on first so we get:		" ($NICK"
-			set nickArray [linsert $nickArray 0 [list "text" " ("]]
-			# Now the name so we get:			"FIRST LAST ($NICK"
+			# Put this on first so we get:		": $NICK"
+			set nickArray [linsert $nickArray 0 [list "text" ": "]]
+			# Now the name so we get:			"FIRST LAST: $NICK"
 			set nickArray [linsert $nickArray 0 [list "text" $::macabook::cache($user_login)]]
-			# Now the close brace so we get:	"FIRST LAST ($NICK)"
-			set nickArray [linsert $nickArray end [list "text" ")"]]
 		}
 	}
 
