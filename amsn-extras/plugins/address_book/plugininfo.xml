@@ -10,7 +10,7 @@
 	<init_procedure>init</init_procedure>
 	<deinit_procedure>deinit</deinit_procedure>
 </plugin>
-<cvs_version>8184</cvs_version>
+<cvs_version>8980</cvs_version>
 
 <file>
 		<path>utils/addressbook/pkgIndex.tcl</path>
