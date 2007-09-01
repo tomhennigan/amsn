@@ -3805,14 +3805,14 @@ namespace eval ::Event {
 			if { [catch { set xml [xml2list $payload] } ] } {
 				return
 			}
-			set psm [GetXmlEntry $xml "Data:PSM"]
-			set currentMedia [GetXmlEntry $xml "Data:CurrentMedia"]
+			set psm [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $xml "Data:PSM"]]]
+			set currentMedia [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $xml "Data:CurrentMedia"]]]
 		} else {
 			set psm ""
 			set currentMedia ""
 		}
-		::abook::setVolatileData $contact PSM [::sxml::replacexml [encoding convertfrom utf-8 $psm]]
-		::abook::setVolatileData $contact currentMedia [::sxml::replacexml [encoding convertfrom utf-8 $currentMedia]]
+		::abook::setVolatileData $contact PSM $psm
+		::abook::setVolatileData $contact currentMedia $currentMedia
 
 		if {$currentMedia != "" } {
 			::log::eventpsm $contact $currentMedia
