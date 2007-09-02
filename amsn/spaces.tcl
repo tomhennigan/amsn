@@ -29,8 +29,6 @@ namespace eval ::MSNSPACES {
 				set resourceID [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:ResourceID"]
 				set email [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:Alias:Name"]
 
-				## TODO this is just a hack to disable spaces from the core until M$ fixes it and next release...
-				set resourceID ""
 
 				if { [string length $resourceID] > 0} {
 					lappend users_with_space $email
@@ -171,7 +169,7 @@ namespace eval ::MSNSPACES {
 				
 				if { [info exists ticket_t] && [info exists ticket_p] } {
 					set soap_req [SOAPRequest create %AUTO% \
-							  -url "http://services.spaces.msn.com/contactcard/contactcardservice.asmx" \
+							  -url "http://cc.services.spaces.msn.com/contactcard/contactcardservice.asmx" \
 							  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
 							  -xml [::MSNSPACES::getContactCardXml [set resources($email)]] \
 							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] \
@@ -192,16 +190,10 @@ namespace eval ::MSNSPACES {
 	proc getContactCardXml { resourceID } {
 		variable storageAuthCache
 
-		foreach cookie [split $::authentication_ticket &] {
-			set c [split $cookie =]
-			set ticket_[lindex $c 0] [lindex $c 1]
-		}
-		
-
 		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">}
-#		append xml {<soap:Header><AuthTokenHeader xmlns="http://www.msn.com/webservices/spaces/v1/"><Token>t=}
-#		append xml $ticket_t
-#		append xml {&amp;p=</Token></AuthTokenHeader></soap:Header>}
+		append xml {<soap:Header><AuthTokenHeader xmlns="http://www.msn.com/webservices/spaces/v1/"><Token>}
+		append xml [::sxml::xmlreplace $::authentication_ticket]
+		append xml {</Token></AuthTokenHeader></soap:Header>}
 		append xml {<soap:Body><GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/"><refreshInformation><spaceResourceId xmlns="http://www.msn.com/webservices/spaces/v1/">}
 		append xml $resourceID
 		append xml {</spaceResourceId><storageAuthCache>}
