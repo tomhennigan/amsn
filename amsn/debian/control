@@ -2,7 +2,7 @@ Source: amsn
 Section: x11
 Priority: optional
 Maintainer: Theodore Karkoulis <bilbo@debian.org>
-Build-Depends: debhelper (>> 4.0.0), tcl8.4-dev, tk8.4-dev
+Build-Depends: debhelper (>> 4.0.0), tcl8.4-dev, tk8.4-dev, libpng12-dev, libjpeg62-dev
 Standards-Version: 3.6.1
 
 Package: amsn
