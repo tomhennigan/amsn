@@ -2153,9 +2153,9 @@ namespace eval ::amsn {
 		foreach user_login [::MSN::sortedContactList] {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
 			if { $user_state_code == "NLN" } {
-				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
 			} elseif { $user_state_code != "FLN" || $show_offlines == 1 } {
-				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login) - ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
 			}
 		}
 
@@ -2172,9 +2172,9 @@ namespace eval ::amsn {
 
 			if { [lsearch [::abook::getLists $user_login] FL] == -1 } {
 				if { $user_state_code != "NLN" } {
-					lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+					lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login) - ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
 				} else {
-					lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
+					lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
 				}
 			}
 		}
@@ -2198,9 +2198,9 @@ namespace eval ::amsn {
 
 			if {($user_state_no < 7) && ([lsearch $chatusers $user_login] == -1)} {
 				if { $user_state_code != "NLN" } {
-					lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+					lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login) - ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
 				} else {
-					lappend userlist [list "[::abook::getDisplayNick $user_login]" $user_login]
+					lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
 				}
 			}
 		}
@@ -2274,9 +2274,9 @@ namespace eval ::amsn {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
 
 			if { $user_state_code != "NLN" } {
-				lappend userlist [list "[::abook::getDisplayNick $user_login] ([trans [::MSN::stateToDescription $user_state_code]])" $user_login]
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login) - ([trans [::MSN::stateToDescription $user_state_code]]) " $user_login]
 			} else {
-				lappend userlist [list [::abook::getDisplayNick $user_login] $user_login]
+				lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
 			}
 		}
 
