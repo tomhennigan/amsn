@@ -520,6 +520,7 @@ namespace eval ::log {
 		ParseLog $wname $logvar
 
 		button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
+		button $wname.buttons.find -text "[trans find]" -command "$wname.search show"
 		button $wname.buttons.stats -text "[trans stats]" -command "::log::stats"
 		button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]"
 		button $wname.buttons.clear -text "[trans clearlog]" \
@@ -546,6 +547,7 @@ namespace eval ::log {
 		pack $wname.buttons.stats -padx 0 -side right
 		pack $wname.buttons.save -padx 0 -side right
 		pack $wname.buttons.clear -padx 0 -side right
+		pack $wname.buttons.find -padx 0 -side right
 		pack $wname.buttons -side bottom -fill x -pady 3
 		bind $wname <<Escape>> "destroy $wname"
 		bind ${wname}.blueframe.log.txt <<Button3>> "tk_popup ${wname}.copypaste %X %Y"
