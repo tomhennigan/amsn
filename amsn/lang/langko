@@ -1,6 +1,6 @@
 amsn_lang_version 2
 abort 중지
-about 정보
+about aMSN 정보
 aboutamsn Alvaro's Messenger 정보
 accept 수락
 acceptfile $1 (크기: $2 바이트) 파일을 받으시겠습니까? 이 파일은 $3 (으)로 저장됩니다.
@@ -546,9 +546,9 @@ newchat 새 대화
 new_ft_protocol 새 FTP 사용 (버그가 약간 있습니다)
 newline 새 줄
 newmail 받은 편지함에 $1 개의 새 메시지가 있습니다.
-newmailfolder 다른 Hotmail 폴더에 $1 개의 새 메시지
-newmailfrom $1 (으)로부터의 새 메일 ($2)
-newmailfromother 다른 폴더에 있는 $1 (으)로부터의 새 메일 ($2)
+newmailfolder 다른 Hotmail 폴더에 $1 개의 새 메시지가 있습니다.
+newmailfrom $1 ($2) 님으로부터 새 메일을 받았습니다.
+newmailfromother 다른 폴더에 $1 ($2) 님으로부터 새 메일을 받았습니다.
 newmsg 새 메시지
 newoim 새 오프라인 메시지
 newstate 사용자 상태 추가
@@ -648,7 +648,7 @@ prefblock2 지속적으로 확인
 prefblock3 "나를 차단한 상대" 그룹
 prefconnection 연결 설정
 prefemotic 이모티콘 아이콘
-preferences 설정
+preferences 설정...
 preffont2 대화 세션에서 다른 사람이 내 글을 보는 방식 변경
 preffont3 aMSN 인터페이스 글꼴 및 크기 변경
 preffont4 대화 세션에서 내가 다른 사람의 글을 보는 방식 변경
@@ -818,7 +818,7 @@ startoffline 오프라인 시작
 startonboot 윈도우즈 시작 시 aMSN 시작
 startontray 트레이 아이콘으로 aMSN 시작
 stateautomsg 자동 메시지
-statechange 변경된 상태: 
+statechange 님이 다음 상태로 변경되었습니다: 
 stateedittext 수정하고자 하는 영역을 편집한 후 저장을 누르십시오.
 stateinfo 개인 상태 설정
 state 로그인 시 상태
@@ -856,7 +856,7 @@ timestamp 타임스탬프
 title aMSN
 tkerror1 TK 오류. aMSN의 버그입니다. 보고하기 버튼을 눌러 보고하여 주십시오. 자세히를 누르면 버그에 대한 자세한 정보를 보거나, 확인을 눌러 aMSN 대화를 계속 할 수 있습니다.
 tkerror TK 오류. aMSN에 버그가 있습니다. 보고하여 주십시오. $1 파일을 amsn-bugs@lists.sf.net 으로 보내 주십시오.
-tlsdowncompleted $1 파일이 $2 폴더에 다운로드 되었습니다. 압축을 풀어 빌드(만약 소스 코드를 다운했다면)한 후, $3 에 설치하십시오.
+tlsdowncompleted $1 파일이 $2 폴더에 다운로드 되었습니다. 압축을 풀어 빌드(소스 코드를 다운로드 한 경우)한 후, $3 에 설치하십시오.
 tlsexplain tck TKS 모듈이 위치한 폴더. 만약 aMSN이 이를 인식하지 못하면 수동으로 지정하여 주십시오.\nSSL 인증 시 필요합니다.
 tlsinstallexp aMSN은 현재 SSL 보안 접속이 필요한 MSN 프로토콜 9를 사용합니다.\nSSL을 사용하려면 aMSN에 TLS를 설치해야 합니다.\n이 마법사가 TLS의 다운로드 및 설치를 도와 줍니다. 시스템 형식을 선택하면 자동으로 필요한 TLS 파일을 다운로드 합니다.
 tlsinstall TLS 모듈 설치 마법사
