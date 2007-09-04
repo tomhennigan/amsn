@@ -38,6 +38,7 @@ allowlist Lubatud list (AL):
 allowonlyinal Luba ainult Lubatud Listis olevatel minuga kontakteeruda
 allowseen Luba sellel inimesel ennast ühendatuna näha
 allprofilesinuse Kõik olemasolevad profiilid on hetkel kasutuses
+always Alati
 animatedemoticon See emotikon on animeeritud
 animatedsmileys Luba animeeritud emotikonid
 animatenotify Animeeritud teadvustusaken
@@ -184,6 +185,7 @@ clientname Kliendi nimi
 close Sulge
 closeall Sulged kõik aknas olevad kaardid ?
 closealltabs Sulge kõik kaardid 
+closechatwindows Sulgeda enne väljalogimist kõik vestlused ?
 closed Vestlus $1'ga suleti passiivsuse pärast
 closelabel Kui sa vajutad kaartidega aknas sulgemisnupule
 closeonly Sulge ainult aktiivne kaart 
@@ -490,6 +492,7 @@ loginas Logi sisse kui
 loging Logimine
 logolder Logi ainult vestlusi, mis toimunud viimasel
 logout Logi välja
+logoutwincloselabel Väljalogimisel sulge vestlused
 logsbydate Sorteeri logid kuupäeva järgi (Ajaloo näitamine laeb palju kiiremini)
 logschats Logib vestlusi
 logsin logis sisse
