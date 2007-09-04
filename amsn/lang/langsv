@@ -38,6 +38,7 @@ allowonlyinal Acceptera endast inkommande konversationsförfrågningar från anfört
 allowseen Tillåt denna person att se när jag är ansluten och kontakta mig
 allow_sms Låt användare kontakta mig på min mobila enhet
 allprofilesinuse Alla existerande profiler används för närvarande
+always Alltid
 animatedemoticon Denna smiley är animerad
 animatedsmileys Aktivera animerade smileys
 animatenotify Animerad meddelanderuta
@@ -183,6 +184,7 @@ clientcaps Skicka x-clientcaps-paket till andra
 clientname Klientens namn
 closeall Stänga alla flikar i detta fönster?
 closealltabs Stäng alla flikar
+closechatwindows Vill du stänga alla konversationsfönster innan du loggar ut?
 closed Konversationen med $1 stängdes på grund av inaktivitet.
 closelabel När du klickar på Stäng-knappen i ett flikat konversationsfönster
 closeonly Stäng bara nuvarande flik
@@ -490,6 +492,7 @@ loginas Anslut som annan användare
 loging Historik
 logolder Spara bara chathistorik för konversationer som skett de senaste 
 logout Logga ut
+logoutwincloselabel Stäng alla konversationer vid utloggning
 logsbydate Ordna historiken efter datum (visa historik-funktionen blir märkbart snabbare av detta)
 logschats Sparar historik
 logsin har just loggat in
@@ -574,6 +577,7 @@ nonewver Det finns inga nya versioner att ladda ner
 nopic Ingen visningsbild
 noprofileexists Det finns för tillfället inga profiler. \n Du måste skapa en om du vill kunna använda profiler. \n Lägg till en profil med hjälp av knapparna.
 normal Normal
+noresizesmileys Förminska inte inkommande personliga smileys 
 noskins Kunde inte hitta standardtema i skins-mappen. Kan inte starta aMSN.
 nosound Kunde inte detektera något ljud. Var god kontrollera att din mikrofon är korrekt ikopplad.
 nosound_or_hold Kunde inte detektera något ljud. För att skicka ett ljudklipp måste du hålla nere knappen medan du talar, sedan släppa den för att skicka.
