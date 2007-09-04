@@ -38,6 +38,7 @@ allowonlyinal Somente os contatos na lista de "contatos autorizados" podem me co
 allowseen Permitir que este usuário me veja e possa me contactar quando eu estiver on-line
 allow_sms Permitir que os usuários entrem em contato comigo pelo meu MSN de celular
 allprofilesinuse Todos os perfis existentes estão atualmente em uso
+always Sempre
 animatedemoticon Este emoticon é animado
 animatedsmileys Habilitar smileys animados
 animatenotify Janela de Notificação Animada
@@ -183,6 +184,7 @@ clientcaps Enviar pacote x-clientcaps para outros clientes
 clientname Nome do cliente
 closeall Fechar todas as abas desta janela?
 closealltabs Fechar todas as abas
+closechatwindows Fechar todas as conversas antes de deslogar?
 closed Conversa com $1 foi fechada por inatividade
 close Fechar
 closelabel Quando você clicar no botão de fechar em uma janela de conversa com abas
@@ -358,6 +360,8 @@ firewalled Você está atrás de um firewall ou de um roteador
 followtext Deslocar para baixo quando texto novo for inserido
 forget_me Esqueça-me
 forgot_pass Eu esqueci minha senha
+formatcsv formato CSV
+formatctt formato CTT
 friendlyname Nome pelo qual prefere ser chamado
 ftacceptedby $1 aceitou pedido de transferência do arquivo "$2".
 ftaccepted Transferência de arquivo aceita
@@ -490,6 +494,7 @@ login Entrar
 loging Histórico
 logolder Manter apenas conversas dos últimos
 logout Sair
+logoutwincloselabel Quando deslogar, fechar todas as conversações
 logsbydate Ordenar históricos por data (carrega bem mais rápido)
 logschats Está logando os chats
 logsin acabou de entrar
@@ -573,6 +578,7 @@ nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
 nopic Sem imagem
 noprofileexists Não há nenhum perfil instalado,\nvocê têm de instalar (ou criar) um se quiser usar múltiplos endereços de e-mail.\nUse o botão Adicionar Novo Perfil nesta janela para adicionar um novo perfil
+noresizesmileys Não reduza os emotions customizados recebidos
 normal Normal
 noskins Não foi possível encontrar a skin padrão na pasta skins/. Não é possível iniciar o aMSN
 nosound Nenhum som foi detectado, tenha certeza que seu seu microfone está corretamente conectado.
@@ -865,6 +871,7 @@ tomobile Para o telefone celular
 tools Ferramentas
 tooltips Ativar dicas
 to Para
+totalsize Tamanho total
 transnotexists O arquivo solicitado ainda não foi traduzido para o seu idioma.
 trayicon Mostrar ícone de status na área de notificação
 traynotcompiled O ícone da bandeja do sistema não está compilado. Verifique a pasta plugins/traydoc
