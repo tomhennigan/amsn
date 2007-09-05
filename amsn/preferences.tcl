@@ -2521,7 +2521,7 @@ proc Preferences { { settings "personal"} } {
     wm state .cfg normal
 
     
-    moveinscreen .cfg 30
+    moveinscreen .cfg 60
 
     # Show requested page
     $nb.nn raise $settings
