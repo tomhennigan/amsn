@@ -27,6 +27,10 @@ Themes can be added and should be placed either in the themes/ directory of tile
 		<langcode>fr</langcode>
 		<version>7909</version>
 	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>9001</version>
+	</lang>
 
 	<file>
 		<path>button.tcl</path>

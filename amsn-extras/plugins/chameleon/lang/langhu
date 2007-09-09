@@ -1,0 +1,7 @@
+amsn_lang_version 2
+need_tile_extension A plugin futtatásához szükség van a tile bővítményre
+need_pixmapmenu A plugin futtatásához szükség van a pixmapmenu-re
+widgets_to_wrap Widgets to wrap
+theme Téma
+experimental Kísérleti szolgáltatás! (Igényelhet újraindítást)
+enable_pixmapmenu Ez bekapcsolja a pixmap-témájú menüket. Még kísérleti stádiumban van, saját felelősségedre használd!\nHa neked nem működik, kapcsold ki. Kikapcsolásához és bekapcsolásához az aMSN újraindítása szükséges.
