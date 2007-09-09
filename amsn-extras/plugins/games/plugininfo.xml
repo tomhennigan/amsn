@@ -29,6 +29,10 @@ Notice this plugin is *not* compatible with MSN Zone Games, aMSN only!  However,
 		<version>8529</version>
 	</lang>
 	<lang>
+		<langcode>hu</langcode>
+		<version>9000</version>
+	</lang>
+	<lang>
 		<langcode>nl</langcode>
 		<version>6112</version>
 	</lang>

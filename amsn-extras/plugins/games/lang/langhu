@@ -1,0 +1,143 @@
+amsn_lang_version 2
+#
+# ================================================
+# Language keys for main Games plugin
+# ================================================
+#
+load_game_failed A játék betöltése sikertelen volt
+invite_sent Kihívás elküldve
+accepted_invitation $1 elfogadta a kihívást
+declined_invitation $1 visszautasította a kihívást
+wants_to_play $1 játszani szeretne
+Games Játékok
+TwoPlayerGames Játékok két játékosnak
+MultiPlayerGames Játékok több játékosnak (konferencia)
+Dots_and_Boxes Dots and Boxes
+Hangman Akasztófa
+Sketch Szkeccs
+Accept Elfogad
+Reject Visszautasít
+incompatible_version Figyelem, a különböző verziójú pluginokat használtok! Te a $1, míg $2 a $3 verziót használja.
+missing_plugin $1 valószínűleg nem rendelkezik ezzel a pluginnal, vagy nem töltötte be
+timeout Szünet $1 másodpercre állítva
+wrong_game_type Két játékosnak kétszemélyes-, több játékosnak konferencia-beszélgetésekben indíthatsz játékot.
+advertise $1 aMSN játékot kezdeményezett. Úgy tűnik, hogy $2 nem aMSN-t használ, vagy nem töltötte be a Games plugint. Hogy játszhass a barátaiddal, töltsd le az aMSN-t a $3 oldalról és telepítsd a Games plugint, amit a $4 oldalon érhetsz el.
+#
+# ================================================
+# Language keys used in Dots and Boxes
+# ================================================
+#
+specify_configuration A játék beállításai
+select_color Melyik színnel akarsz játszani?
+select_size Mekkora táblán akarsz játszani?
+red Piros
+yellow Sárga
+random Véletlenszerű
+challenge Kihívás
+cancel Visszavonás
+wins győzelmek
+draws döntetlenek
+your_turn Te jössz, lépj.
+not_your_turn Várakozás az ellenfél lépésére.
+movelist Lépések
+players Játékosok
+status Állapot
+initializing Betöltés...
+game_over_win A játéknak vége. Gratulálok, nyertél!
+game_over_lose A játéknak vége, legközelebb majd jobban megy.
+game_over_draw A játéknak vége, döntetlen lett.
+click_rematch Visszavágó
+quits $1 kilépett a játékból.
+margin_width Vízszintes margó
+margin_height Függőleges margó
+width_of_box A négyzetek szélessége
+height_of_box A négyzetek magassága
+dot_size A pontok mérete
+space_around_dot Hely a pontok körül
+#
+# ================================================
+# Language keys used in Hangman
+# ================================================
+#
+alphabet {a á â ŕ ä ă ĺ Ĺ Á Ă Ä Ŕ Â} b {c ç Ç} d {e é ę ë č É E Ę Č} f g h {i í ě î ď Í Î Ď Ě} j k l m {n ń Ń} {o ó ô ö ň ő Ô Ň Ö Ő Ó} p q r s t {u ů ú ü ű Ú Ű Ü Ů} v w x y z
+send_word_to_guess Küldd el a szót, amit az ellenfélnek ki kell találnia.
+wait_for_word Várakozás a kitalálandó szóra.
+click_sends_guess Tipp elküldése
+Scores Eredmény
+round kör
+Word Szór
+invalid_word A szónak több betűt kell tartalmaznia és nem lehet benne aláhúzás; küldj egy új szót.
+game_started A játék elindult, kattints a gombokra vagy írd be a betűket a tippeléshez.
+you_hang Felakasztottak! (Az ellenfél jön)
+word_found Eltaláltad a szót! (Az ellenfél jön)
+game_over_02 Veszítettél, az ellenfél megoldotta a feladványt: 0-2.
+game_over_20 Nyertél, az ellenfeledet felakasztották: 2-0.
+game_over_00 A játék döntetlen, mindkét játékos lóg: 0-0.
+game_over_21 Nyertél, te kevesebbet hibáztál: 2-1.
+game_over_12 Veszítettél, az ellenfeled kevesebbet hibázott: 1-2.
+game_over_11 A játék döntetlen, ugyanannyit hibáztatok: 1-1.
+fl_method Előre megadott betű
+fl_none Nincsen előre megadott betű
+fl_first Az első betű megadása
+fl_random Véletlen betű megadása
+guesses_remaining $1 tipped maradt
+rematch_quick Az ellenfeled rád vár, kattints a visszavágóra új kör indításához.
+#
+# ================================================
+# Language keys used in Sketch
+# ================================================
+#
+select_language Nyelv választása ehhez a játékhoz
+Time Idő
+wrong_guesses Rossz tippek
+sketch_tools Rajzeszközök
+Color Szín
+Eraser Radír
+Clear Törlés
+Skip Kihagyás
+Save Mentés
+make_guesses Tipp
+Send Küldés
+Violation Violation
+wait_for_host Várakozás a játék indulására.
+wait_for_players Várd meg amíg mindenki megérkezik, aztán kattints a start gombra ->
+Start Start
+save_drawing Rajz elmentése
+Round Kör
+you_draw Amit rajzolnod kell: $1.
+you_guess Ki kell találnod, hogy mi van a rajzon, méghozzá $1 nyelven.
+correct_guess Eltaláltad! A megoldás $1.
+points $1 pont
+choose_bkgcol Háttérszín kiválasztása
+empty_dictionary Ebben a szótárban nincsenek a Skeccs által használható szavak, válassz más nyelvet a játékhoz, vagy töltsd fel a nyelvi fájlt szavakkal.
+hourglass_courtesy A homokóra Bernd Breitenbach alkotása.
+#
+# ================================================
+# Sketch word dictionary
+# -> Example Entry:
+# word_2 e-mail, email, mail
+# -> "e-mail" is the word that has to be drawn
+# -> "email" and "mail" are also full credits to the guessers
+# ================================================
+#
+word_0 számítógép
+word_1 repülőgép
+word_2 e-mail, email, mail
+word_3 televízió, tv
+word_4 mikró, mikro, mikrohullámú sütő
+word_5 tyúk
+word_6 sakk
+word_7 boríték
+word_8 torta
+word_9 gyertya
+word_10 kutya
+word_11 macska, cica
+word_12 autó, kocsi
+word_13 fa
+word_14 egér
+word_15 szemüveg
+word_16 mobil, mobiltelefon
+word_17 pulóver, pullóver
+word_18 cipő
+word_19 kamera
+word_20 alma
