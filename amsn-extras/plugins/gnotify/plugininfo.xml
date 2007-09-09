@@ -54,6 +54,10 @@
 		<langcode>es</langcode>
 		<version>8322</version>
 	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>8999</version>
+	</lang>
 
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/gnotify/gnotify.tcl</main>

@@ -1,0 +1,21 @@
+amsn_lang_version 2
+check_minutes Új üzenetek ellenőrzése ? percenként
+num_accounts Gmail fiókjaid száma : 
+account_settings Fiók beállítása : 
+username Felhasználónév :
+password Jelszó :
+show_notify Értesítőablak megjelenítése
+open_browser Bal egérgombra a böngésző megnyitása
+click_to_check Az üzenetek számának ellenőrzése most
+not_checked Még nem volt ellenőrzés
+checking Levelek ellenőrzése
+error_checking Hiba a Gmail fiók adatainak lekérdezése közben
+wrong_pass Hibás felhasználónév/jelszó
+account_locked Hozzáférés megtagadva a Gmail fiókhoz
+view_inbox Érkezett levelek olvasása ($1)
+check_now Ellenőrzés most
+tell_me Figyelmeztess újra
+options Beállítások
+receivedmail Új levél érkezett a $1 címről
+mail_info A $1 számú fiók leveleinek adatai
+gotmail $1 Új levél érkezett
