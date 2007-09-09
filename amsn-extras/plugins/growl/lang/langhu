@@ -1,0 +1,4 @@
+amsn_lang_version 2
+installstyle $1 stílus telepítése
+growl_lastmessage_outside Az utolsó üzenetről figyelmeztetés csak akkor, ha nem az aMSN az aktív alkalmazás
+removeamsnnotification aMSN figyelmeztetések tiltása a Growl használata közben

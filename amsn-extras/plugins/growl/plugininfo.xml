@@ -45,6 +45,10 @@
 		<langcode>en</langcode>
 		<version>5703</version>
 	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>8997</version>
+	</lang>
 
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/growl/growl.tcl</main>
