@@ -78,13 +78,13 @@ automessage Autosvar
 autonoact Visa som "Inaktiv" efter
 autoresizedp Ändra visningsbildens storlek till standard automatiskt
 avaccepted Videokonferens accepterad
-away Inte vid datorn
-awaymsg1 Fråga om autosvarinställning varje gång jag sätter min status till "inte vid datorn"
-awaymsg2 Fråga aldrig och använd alltid nedanstående autosvarsmeddelande
 avcanceled Videokonferens avbruten
 avgotinvitation Fått inbjudan till videokonferens från $1
 avinitfailed Kunde inte starta ljud/video-plugin, avbryter.
 avoidseen Tillåt inte att denna kontakt att se om jag är ansluten eller kontakta mig.
+away Inte vid datorn
+awaymsg1 Fråga om autosvarinställning varje gång jag sätter min status till "inte vid datorn"
+awaymsg2 Fråga aldrig och använd alltid nedanstående autosvarsmeddelande
 back Föregående
 baduserpass Ogiltigt användarnamn eller lösenord
 badwebcam Kan inte visa webbkamerans bild. Kontrollera att den är installerad och ansluten.
@@ -360,6 +360,8 @@ firewalled Du är bakom en brandvägg eller en router
 followtext Bläddra nedåt när nytt meddelande kommer
 forget_me Glöm bort mig
 forgot_pass Jag har glömt mitt lösenord
+formatcsv CSV-format
+formatctt CTT-format
 friendlyname Konversationsnamn
 ftacceptedby $1 accepterade överföring av '$2'.
 ftaccepted Filöverföring accepterad
@@ -543,9 +545,9 @@ natip NAT IP
 natkeepalive Om du ofta blir ofrivilligt utloggad bör du välja detta alternativ
 needonline Du är utloggad eller osynlig
 needwinico2 Behöver winico05.dll i utils/windows mappen för att windows aktivitetsfältsikon skall fungera 
+never Aldrig
 new_account Skapa nytt konto
 newchat Ny konversation
-never Aldrig
 new_ft_protocol Använd det nya filöverföringsprotokollet (en del fel kan finnas kvar)
 newline Ny rad
 newmail $1 nya brev i inkorgen
@@ -576,8 +578,8 @@ nonewmail Inga nya meddelanden i inkorgen
 nonewver Det finns inga nya versioner att ladda ner
 nopic Ingen visningsbild
 noprofileexists Det finns för tillfället inga profiler. \n Du måste skapa en om du vill kunna använda profiler. \n Lägg till en profil med hjälp av knapparna.
-normal Normal
 noresizesmileys Förminska inte inkommande personliga smileys 
+normal Normal
 noskins Kunde inte hitta standardtema i skins-mappen. Kan inte starta aMSN.
 nosound Kunde inte detektera något ljud. Var god kontrollera att din mikrofon är korrekt ikopplad.
 nosound_or_hold Kunde inte detektera något ljud. För att skicka ett ljudklipp måste du hålla nere knappen medan du talar, sedan släppa den för att skicka.
@@ -751,9 +753,9 @@ sendmobmsg Skicka till den mobila enheten
 sendmsg Skicka meddelande
 sendoim Skicka ett offline-meddelande
 send Skicka
+sendvoice Skicka ett ljudklipp
 sendwebcamaccepted $1 accepterade din inbjudan till webbkamerakonversation
 sendwebcaminvite Bjud in en användare att se din webbkamera
-sendvoice Skicka ett ljudklipp
 sentbytes $1 av $2 skickade
 sentvoice Skickade ett ljudklipp
 serverbusy Servern är upptagen
@@ -868,6 +870,7 @@ today Idag
 tomobile Till mobilen
 tools Verktyg
 tooltips Aktivera verktygstips
+totalsize Total storlek
 to Till
 transnotexists Filen har tyvärr inte blivit översatt till det nuvarande språket än
 trayicon Visa ikon i systemlisten
@@ -900,6 +903,13 @@ userproperties $1s användaregenskaper.
 usersettings Inställningar
 useryourself Du kan inte konversera med dig själv, välj en annan kontakt.
 usesnack Använd Snackbiblioteket (TCLs inbyggda)
+verifyblocked Se efter om du är blockerad
+version Version
+videoconversationrequest Du blev just inbjuden till en videokonversation (både ljud och bild). Denna funktion stödjs inte av aMSN. Du kan dock fortfarande använda den vanliga webbkamerakonversationen.
+view Alternativ
+viewcontactsby Namnvisningsläge
+viewprofile Visa profil
+volume Volym
 wanttosharecam Jag vill dela ut min webbkamera
 webcamcanceled Webbkamerakoversationen med $1 har blivit avbruten
 webcamclosebefcancel Du måste avbryta alla webbkamerakonversationer innan du stänger fönstret
@@ -923,18 +933,11 @@ webcamrequestsend Skickade begäran om att sända från webbkameran
 webcamsending Lista över personer du har webbkamerakonversation med\nKlicka för att avbryta
 webcam Webbkamera
 web Webb
-verifyblocked Se efter om du är blockerad
-version Version
 whatisamsn aMSN är en plattformsoberoende MSN Messenger-klon
 whatsize Bilden du bett om har inte de vanliga måtten (96*96). Vilken storlek vill du att bilden ska visas i?
-videoconversationrequest Du blev just inbjuden till en videokonversation (både ljud och bild). Denna funktion stödjs inte av aMSN. Du kan dock fortfarande använda den vanliga webbkamerakonversationen.
-view Alternativ
-viewcontactsby Namnvisningsläge
-viewprofile Visa profil
 willjoin Väntar på att $1 ska ansluta sig till konversationen
 winkreceived Du har fått en Wink från $1. Den här funktionen stödjs för tillfället inte av aMSN
 wintitlenick Visar smeknamn istället för e-postadresser i ett flikat fönster
-volume Volym
 work Arbete
 wrongfields Fältet "$1", "$2" och/eller "$3" är inte giltigt.
 wrongprofileversion Fel profilversion. För att åtgärda detta, radera $1 eller uppgradera aMSN
