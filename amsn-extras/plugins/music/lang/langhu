@@ -7,6 +7,7 @@ musicseparator Elválasztójel a becenév és infó között
 musicstopmsg Lejátszás megállt üzenet
 musiccurrent Játszott szám megjelenítése
 musicsend Játszott szám küldése
+artsend Lemezborító küldése
 musicerr A lejátszó nem játszik semmit, vagy a plugin nem tudja elérni a tulajdonságait.
 playing Ezt hallgatom : $1
 musicoserr Az operációsrendszered ($1) még nem támogatott a Music plugin által.
@@ -15,5 +16,12 @@ musicstopdefault A lejátszás megállt.
 separator Elválasztó
 songartist Számcím - Elõadó
 artistsong Elõadó - Számcím
+song Számcím
 choose_order Válaszd ki az elõadó és a számcím sorrendjét
 musicballontext Kattints ide hogy megjelenítsd/elrejtsd a zene infót a becenevedben.
+changepic Ha lehetséges, a megjelenített kép váltása a lemezborítóra
+music_mpd_ip MPD szerver IP címe
+music_mpd_port MPD szerver portja
+music_mpd_password MPD szerver jelszava (ha szükséges)
+lasterror Utolsó hiba
+noerror Nincs hiba
