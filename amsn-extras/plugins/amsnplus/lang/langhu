@@ -1,0 +1,41 @@
+amsn_lang_version 2
+allowcommands Parancsok engedélyezése a beszélgetések ablakában
+allowcolours Színek engedélyezése a beszélgetések ablakában
+allowquicktext Előre beállított szövegek használata
+bold Félkövér
+ccolor \nA szövegszín $1
+cfont \nA betűtípus $1
+choosecolor Színválasztás
+cinfo \nPartner adatai:\n$1 \nNév: $2 \nCsoport: $3
+cleave \nElhagytad ezt a beszélgetést
+cnewnick \nAz új neved: $1
+cnewstate \nAz új állapotod: $1
+cnewstatenotvalid \n$1 hibás
+cnick \nA neved $1
+cnotvalid \nA parancs helytelen
+colournicks Nevek színezése (nem teljesen működik)
+cresult \nA parancs eredménye:\n$1
+cshell \nVégrehajtás a parancssorban: $1
+cspecify \nSzükségem van egy kiválasztott partnerre
+cstatus \nAz állapotod $1
+cstyle \nA betűtípus $1
+deleted \n$1 eltávolítva a partnerek listájáról\nÍgy tudod ismét felvenni: /add $1
+general Általános beállítások
+groupadded \n$1 csoport létrehozva.
+groupdeleted \n$1 csoport eltávolítva.\nÍgy tudod ismét létrehozni: /addgroup $1
+italic Dőlt
+keyword Kulcsszó
+localization Nyelv
+multiplecolorsbutton Új szín hozzáadása
+nosuchcommand Nincs ilyen parancs.
+overstrike Áthúzott
+parsenicks MSN Plus színkódok értelmezése a nevekben
+qthelp Itt állíthatsz be előre szöveget és hozzá kulcsszót.\nEzután beszélgetés közben /kulcsszó hatására megjelenik a beállított szöveg.
+quicktext Előre beállított szövegek
+reset Stílusok visszaálltása
+resource Forrás
+rusage Ide írhatsz információt arról, hogy éppen milyen programot használsz, hol vagy, vagy bármi másról. A neved után { és } között fog megjelenni. Ha nem akarod használni ezt a lehetőséget, hagyd üresen a mezőt.
+text Kiírandó szöveg
+underline Aláhúzás
+screenshot Képernyőkép küldése
+screenshoterr Hiba történt a képernyőkép elkészítése közben. Szükség van a lefordított képernyőképet készítő programra az amsnplus mappájában és elég helyre a merevlemezen a képnek.
