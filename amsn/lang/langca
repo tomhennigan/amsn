@@ -771,7 +771,7 @@ timeremaining Temps restant
 timestamp Marques d'hora
 timestamps Mostra l'hora a les converses
 title aMSN
-tkerror1 S'ha produït un error de TK, probablement perquè existeix un error a l&#39;aMSN. Si us plau, informa&#39;ns fent clic al botó Informar. Pots fer clic al botó Detalls per visualitzar més informació sobre l&#39;error, o be fer clic al botó Ok per continuar xatejant amb l&#39;aMSN.
+tkerror1 S'ha produït un error de TK, probablement perquè existeix un error a l&#39;aMSN. Si us plau, informa&#39;ns fent clic al botó Informar. Pots fer clic al botó Detalls per a visualitzar més informació sobre l&#39;error, o bé fer clic al botó Ok per continuar xatejant amb l&#39;aMSN.
 tkerror Hi ha hagut un error de TK, segurament perquè hi ha un error a l'aMSN. Si ens vols ajudar, envia&#39;ns el fitxer $1 a l&#39;adreça <a href="mailto:amsn-bugs@lists.sf.net" target="_blank">amsn-bugs@lists.sf.net</a> 
 tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si és el codi font) i instal·lar-lo a dins de $3.
 tlsexplain Directori del mòdul tcl. Si l'aMSN no pot trobar-lo, especifica&#39;l.\n(es necessita per l&#39;autenticació SSL).
@@ -923,11 +923,11 @@ assistanttitle Ajudant de so i vídeo
 cachedpicsfor Les imatges per a mostrar guardades de l'usuari
 closeothers Tanca totes les altres pestanyes
 dontshowdp No deixis que aquest usuari vegi les teves noves imatges per a mostrar
-forget_me Perdona'm
+forget_me Oblida'm
 goto_prefs_removeprofile Clica aquí per anar a les preferències i esborrar el teu perfil
 groupcontactsbystatus Agrupa els contactes per estat
 hidebuttonbar Amagar la barra de botons
-howto_remove_profile Per a esborrar el teu perfil (forget $1) necessites er-ho des de la finestra de preferències. \n\nPer raons de seguretat, no està permès esborrar perfils des de la pantalla de connexió.
+howto_remove_profile Per a esborrar el teu perfil (forget $1) necessites fer-ho des de la finestra de preferències. \n\nPer raons de seguretat, no està permès esborrar perfils des de la pantalla de connexió.
 largest El més gran
 medium Mitjà
 more Més
@@ -942,3 +942,18 @@ smallest El més petit
 sortcontactsasc Ordena els contactes per ordre alabètic invers
 sortcontactsdesc Ordena els contactes per ordre alfabètic
 sortcontactsby Ordena els contactes per
+always Sempre
+cantget No s'ha pogut obtenir $1
+closechatwindows Tanca totes les conversacions abans de sortir?
+displayeventnick Mostra quan els contactes canvien de nick
+displayeventpsm Mostra quan els contactes canvien el Missatge Personal
+formatctt Format CTT
+formatcsv Format CSV
+logeventnick Guarda a l'històric d'accions els canvis de sobrenom
+logeventpsm Guarda a l'històric d'accions els canvis de Missatge Personal
+logoutwincloselabel Quan surtis, tanca les conversacions
+nickchanged $1 ha canviat el seu sobrenom a '$2'
+noresizesmileys No disminueixis les emoticones personalitzades entrants
+psmchanged $1 Ha canviat el seu PSM a '$2'
+removefromgroup Elimina del grup
+totalsize Mida total
