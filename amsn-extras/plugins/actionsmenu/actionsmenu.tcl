@@ -69,7 +69,7 @@ proc populatesearchframe { win_name } {
 	variable config
 	variable search
 	frame $win_name.search -class Degt
-	label $win_name.search.text1 -text "[trans search] default" -padx 5 -font splainf
+	label $win_name.search.text1 -text "[trans searchdefault]" -padx 5 -font splainf
 	pack $win_name.search $win_name.search.text1
 	
 	radiobutton $win_name.search.1 -text "[trans all]" -variable ::actionsmenu::config(search) -value 0
@@ -82,7 +82,7 @@ proc populateshowframe { win_name } {
 	variable config
 	variable show
 	frame $win_name.show -class Degt
-	label $win_name.show.text1 -text "[trans show] default" -padx 5 -font splainf
+	label $win_name.show.text1 -text "[trans showdefault]" -padx 5 -font splainf
 	pack $win_name.show $win_name.show.text1
 	
 	radiobutton $win_name.show.1 -text "[trans nick]" -variable ::actionsmenu::config(show) -value 0

@@ -9,4 +9,45 @@
 	<plugin_namespace>actionsmenu</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>9002</cvs_version>
+	<lang>
+		<langcode>en</langcode>
+		<version>9002</version>
+	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>9002</version>
+	</lang>
+	
+	<file>
+		<path>pixmaps/actions_addcontact.png</path>
+		<version>9002</version>
+	</file>
+	<file>
+		<path>pixmaps/actionsbg.png</path>
+		<version>9002</version>
+	</file>
+	<file>
+		<path>pixmaps/actions_collapsecol.png</path>
+		<version>9002</version>
+	</file>
+	<file>
+		<path>pixmaps/actions_expcol.png</path>
+		<version>9002</version>
+	</file>
+	<file>
+		<path>pixmaps/actions_find</path>
+		<version>9002</version>
+	</file>
+	<file>
+		<path>pixmaps/notespic.gif</path>
+		<version>9002</version>
+	</file>
+
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/actionsmenu/actionsmenu.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/actionsmenu/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/actionsmenu/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/actionsmenu/$file</file>
+	</URL>
 </plugin>
