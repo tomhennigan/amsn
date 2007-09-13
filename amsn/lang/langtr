@@ -38,6 +38,7 @@ allowonlyinal Yalnýzca izin verilenler listesindekiler bana ulaþabilsin
 allowseen Bu kiþi ben çevrim içiyken beni görebilsin ve bana yazabilsin
 allow_sms Kullanýcýlar benimle MSN taþýnabilir aygýtým üzerinden baðlantý kurabilsin
 allprofilesinuse Var olan tüm kimlikler kullanýmda
+always Her zaman
 animatedemoticon Bu gülen adam hareketlidir
 animatedsmileys Hareketli gülen adamlarý etkinleþtir
 animatenotify Canlandýrmalý uyarý penceresi
@@ -184,6 +185,7 @@ clientname Ýstemci Ýsmi
 close Kapat
 closeall Penceredeki tüm sekmeler kapatýlsýn mý?
 closealltabs Tüm sekmeleri kapat
+closechatwindows Baðlantý kesilmeden önce tüm sohbet pencereleri kapatýlsýn mý?
 closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 closelabel Sekmeli bir sohbet penceresinde kapatma düðmesine basýlýnca
 closeonly Sadece seçili sekmeyi kapat
@@ -334,6 +336,7 @@ failed Baþarýlamadý
 faileddelete Silinemedi
 faileddeleteperso Bu resim silinemiyor çünkü kiþisel resim dosyasý deðil. Yalnzýca sizin kimliðinize ait resimler silinebilir.
 faq SYS (Sýkça Yanýtlanan Sorular)
+fetching Veri alýnýyor...
 file dosya
 filedoesnotexist Dosya bulunamadý
 fileman Dosya yöneticisi
@@ -358,6 +361,8 @@ firewalled2 Güvenlik duvarý ardýndasýnýz; lütfen Seçenekler penceresinde Baðlant
 followtext Yeni metin girilince aþaði kaydýr
 forget_me Beni unut
 forgot_pass Þifremi unuttum
+formatctt CTT biçemi
+formatcsv CSV biçemi
 friendlyname Sohbet içi rumuz
 ftaccepted Dosya aktarýmý kabul edildi
 ftacceptedby $1, '$2' dosyasý için yapýlan aktarým davetini kabul etti
@@ -490,6 +495,7 @@ loginas Kullanýcý ismi seç
 loging Kayda geçirme
 logolder Yalnýz bu süre öncesine kadar yapýlan sohbetlerin kaydýný tut
 logout Baðlantýyý kes
+logoutwincloselabel Baðlantý kesildiðinde tüm pencereleri kapat.
 logsbydate Kayýtlarý tarihe göre sýrala (Geçmiþ böyle çok daha hýzlý yükleniyor)
 logschats Sohbetleri kaydediyor mu?
 logsin baðlandý
@@ -573,10 +579,12 @@ nonewmail Gelen kutusunda yeni ileti yok
 nonewver Daha yeni bir sürüm yok
 nopic Resim yok
 noprofileexists Henüz hiçbir kimlik yok. Eðer kimlikle baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Kimlik Ekle düðmesine týklayarak bunu yapabilirsiniz.
+noresizesmileys Alýnan özel gülen adamlarýn boyutunu küçültme
 normal normal
 noskins Varsayýlan kabuk skins/ dizininde bulunamadý. AMSN baþlatýlamadý.
 nosound Ses alýnamýyor, mikrofonunuzun takýlý olduðundan emin olun.
 nosound_or_hold Ses algýlanamadý. Ses kaydý yollamak için düðmeyi basýlý tutarak konuþup sonra düðmeyi býrakmanýz gerekmektedir.
+nospace Burada birþey yok
 nosystemtray Sistem çubuðu yok
 note Not
 notificationserver Ýlk MSN Uyarý Sunucusu (MSN Messenger Sunucusu)
@@ -865,6 +873,7 @@ today Bugün
 tomobile Cep telefonuna
 tools Araçlar
 tooltips Ýpuçlarýný etkinleþtir
+totalsize Toplam boyut
 transnotexists Bu dosyanýn seçili dile çevirisi henüz yok
 trayicon Sistem çubuðunda bir durum imgesi gösterir
 traynotcompiled Sistem çubuðu desteði derlenmemiþ, plugins/traydock'a bakýn
@@ -947,10 +956,3 @@ youblocked Engellendiniz
 yousay Diyorsunuz ki
 youwant Ýstiyorsunuz ki
 zoom Büyüt
-always Her zaman
-closechatwindows Oturum kapatýlmadan önce tüm konuþmalar kapatýlsýn mý?
-formatctt CTT biçemi
-formatcsv CSV biçemi
-logoutwincloselabel Oturum kapandýðýnda konuþmalarý kapat
-noresizesmileys Gelen özel gülen adamlarý küçültme
-totalsize Toplam boyut
