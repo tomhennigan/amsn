@@ -336,6 +336,7 @@ faileddelete Failed to delete
 faileddeleteperso This picture cannot be deleted because it does not belong to your profile. Only pictures that belong to your personal profile can be removed this way.
 failed Failed
 faq FAQ (Frequently Asked Questions)
+fetching Fetching data...
 filedoesnotexist File does not exist
 file File
 filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
@@ -583,6 +584,7 @@ normal Normal
 noskins Couldn't find default skin in skins/ folder. Can't start AMSN
 nosound No sound was detected, make sure your microphone has been connected to your computer properly
 nosound_or_hold No sound was detected. To send a Voice Clip you need to press and hold down the button while speaking then release it to send the message.
+nospace Nothing to see here
 nosystemtray System tray not available
 note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)

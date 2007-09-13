@@ -633,7 +633,7 @@ namespace eval ::guiContactList {
 				set currentPos [$canvas bbox $tag]
 				#status_log "MOVING CONTACT WITH TAG: $tag ;  currentpos: $currentPos  ; curPos: $curPos"
 
-				if { $currentPos == "" } {
+				if { $currentPos == [list ] } {
 					status_log "WARNING: contact NOT moved: $email"
 					return
 				}
@@ -1071,6 +1071,8 @@ namespace eval ::guiContactList {
 				"margin" {
 					set marginx [lindex $unit 1]
 				}
+				"mark" {
+				}
 				"newline" {
 					lappend linesheight $max_height
 					set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
@@ -1107,7 +1109,7 @@ namespace eval ::guiContactList {
 
 		set ellips $defaultellips
 
-		set tags [list $main_tag]
+		set tags $main_tag
 		
 		set i 0
 		set j 1
@@ -1213,8 +1215,8 @@ namespace eval ::guiContactList {
 						#Remove tag
 						set tag [string range [lindex $unit 1] 1 end]
 						set id [lsearch -exact $tags $tag]
-						if {$id > 0} {
-							#We don't want to remove the first tag
+						if {$id >= [llength $main_tag]} {
+							#We don't want to remove the first tags
 							set tags [lreplace $tags $id $id]
 						}
 					} else {
@@ -1293,6 +1295,10 @@ namespace eval ::guiContactList {
 					set nosize 1
 					set marginx [lindex $unit 1]
 					set marginy [lindex $unit 2]
+				}
+				"mark" {
+					set nosize 1
+					$canvas create text $xpos [expr {$ypos + $marginy}] -anchor w -tags $tags
 				}
 				"newline" {
 					set nosize 1
@@ -1481,9 +1487,10 @@ namespace eval ::guiContactList {
 		lappend stylestring [list "colour" "reset"]
 		lappend stylestring [list "font" "reset"]
 
-		lappend stylestring [list "tag" "contact"]
-		lappend stylestring [list "tag" "icon"]
+		#To mark the begin of the bbox
+		lappend stylestring [list "mark" ""]
 
+		lappend stylestring [list "tag" "icon"]
 		#--------------#
 		###Space icon###
 		#--------------#
@@ -1491,9 +1498,17 @@ namespace eval ::guiContactList {
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
 		# We must create the icon and hide after else, the status icon will stick the border \
 		# it's surely due to anchor parameter
-		lappend stylestring [list "tag" "$space_icon"]
-		lappend stylestring [list "image" "$noupdate_img" "nw"]
-		lappend stylestring [list "tag" "-$space_icon"]
+		if { [::MSNSPACES::hasSpace $email] } {
+			lappend stylestring [list "tag" "$space_icon"]
+			if { $space_update } {
+				lappend stylestring [list "image" "$update_img" "w"]
+			} else {
+				lappend stylestring [list "image" "$noupdate_img" "w"]
+			}
+			lappend stylestring [list "tag" "-$space_icon"]
+		} else {
+			lappend stylestring [list "space" [image width $noupdate_img]]
+		}
 		incr marginx [image width $noupdate_img]
 		
 		#---------------#
@@ -1501,10 +1516,9 @@ namespace eval ::guiContactList {
 		#---------------#
 
 		# Draw status-icon
-		lappend stylestring [list "tag" "$main_part"]
 		lappend stylestring [list "margin" $marginx $marginy]
+		lappend stylestring [list "tag" "$main_part"]
 		lappend stylestring [list "image" "$img" "w"]
-		lappend stylestring [list "margin" 0 0]
 		lappend stylestring [list "space" 2]
 		incr marginx [expr {2+[image width $img]}]
 
@@ -1685,22 +1699,9 @@ namespace eval ::guiContactList {
 		##Rendering !! ##
 		#---------------#
 
-		lappend stylestring [list "tag" "-contact"]
-
 		trimInfo stylestring
-		set renderInfo [renderContact $canvas $tag $maxwidth $stylestring]
+		set renderInfo [renderContact $canvas [list $tag "contact"] $maxwidth $stylestring]
 		array set underlinst $renderInfo
-
-		#-------------------------#
-		##Some more about spaces ##
-		#------------------------ #
-		if { [::MSNSPACES::hasSpace $email] } {
-			if { $space_update } {
-				$canvas itemconfigure $space_icon -image $update_img
-			}
-		} else {
-			$canvas itemconfigure $space_icon -state hidden
-		}
 
 
 		#-----------#
@@ -1713,12 +1714,11 @@ namespace eval ::guiContactList {
 		cleanBindings $canvas $space_icon
 
 		#Click binding for the "star" image for spaces
-		#$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown $email]
-		$canvas bind $space_icon <Button-1> [list ::MSNSPACES::getUrlFor [::abook::getContactData gklzyffe@hotmail.com spaces_info_xml [list]] SpaceTitle]
+		$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown $email]
 
-		#$canvas bind $undock_space <Button-1> [list ::ccard::drawwindow $email 1]
+		$canvas bind $undock_space <Button-1> [list ::ccard::drawwindow $email 1]
 		##TODO# not sure about this one:
-		#$canvas bind $undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email]
+		$canvas bind $undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email]
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
@@ -1790,7 +1790,7 @@ namespace eval ::guiContactList {
 	
 	proc toggleSpaceShown {email} {
 		if { [::config::getKey spacesinfo "inline"] == "inline" || [::config::getKey spacesinfo "inline"] == "both" } {
-			if {[::abook::getVolatileData $email SpaceShowed 0]} {		
+			if {[::abook::getVolatileData $email SpaceShowed 0]} {
 				::abook::setVolatileData $email SpaceShowed 0
 			} else {
 				::MSNSPACES::fetchSpace $email

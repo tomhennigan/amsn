@@ -355,12 +355,18 @@ namespace eval ::MSNSPACES {
 
 		::abook::setVolatileData $email fetching_space 0
 		
-		if { [::config::getKey spacesinfo "inline"] == "inline"} {
+		set display [::config::getKey spacesinfo "inline"]
+		if { $display == "inline" } {
 			::Event::fireEvent contactSpaceFetched protocol $email
-		} elseif { [::config::getKey spacesinfo "inline"] == "ccard" } {
+		} elseif { $display == "ccard" } {
 			::ccard::drawwindow $email 1
+		} elseif { $display == "both" } {
+			if {[::abook::getVolatileData $email SpaceShowed 0]} {
+				::Event::fireEvent contactSpaceFetched protocol $email
+			} elseif { [winfo exists .ccardwin] } {
+				::ccard::drawwindow $email 1
+			}
 		}
-
 	}
 
 }
@@ -867,7 +873,7 @@ namespace eval ::ccard {
 
 		if { [::abook::getVolatileData $email fetching_space 0] } {
 			#draw a "please wait .." message, will be replaced when fetching is done
-			$canvas create text $xcoord $ycoord -font sitalf -text "Fetching data ..." -tags $taglist -anchor nw -fill grey
+			$canvas create text $xcoord $ycoord -font sitalf -text [trans fetching] -tags $taglist -anchor nw -fill grey
 
 			#adjust $height, adding 1 line
 			set height [expr {$height + $lineheight + 4}]
@@ -975,7 +981,7 @@ namespace eval ::ccard {
 			#for now show a message if no blogs or photos, for debugging purposes
 			if {$Blog == "" && $Album == ""} {
 				$canvas create text $xcoord [expr $ycoord + $height] -font sitalf \
-					-text "Nothing to see here" -tags $taglist -anchor nw -fill grey
+					-text [trans nospace] -tags $taglist -anchor nw -fill grey
 
 				#adjust $ychange, adding 1 line
 				set height [expr {$height + $lineheight } ]
