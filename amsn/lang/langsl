@@ -522,7 +522,7 @@ msg Sporoèilo
 msn AMSN
 msnstatus Status MSN omre¾ja
 msnstyle MSN naèin pogovora
-mustrestart Da bi spremembe pri¹le v veljavo, mora¹ program ponovno zagnati
+mustrestart Da bi spremembe pri¹le v veljavo, je potrebno program ponovno zagnati
 myfriendlyname Moje prijazno ime
 myhomephone Domaèi telefon
 mymobilephone Mobilni telefon
@@ -941,3 +941,16 @@ youblocked Blokirajo te
 yousay Pravi¹
 youwant Hoèe¹
 zoom Poveèava
+always Vedno
+closechatwindows Zapri vse pogovore pred izhodom?
+displayeventnick Prika¾i ko kontakti zamenjajo Vzdevek
+displayeventpsm Prika¾i ko kontakti zamenjajo Osebno sporoèilo
+formatcsv CSV format
+formatctt CTT format
+logeventnick Shranjuj spremembe Vzdevkov
+logeventpsm Shranjuj spremembe Osebnih sporoèil
+logoutwincloselabel Zapri pogovore, ko se odjavim
+nickchanged $1 je spremenil/a vzdevek v '$2
+noresizesmileys Ne pomanj¹uj prihajajoèih emotikonov
+psmchanged $1 je spremenil PSM v '$2'
+totalsize Celotna velikost
