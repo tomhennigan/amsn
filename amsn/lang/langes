@@ -38,6 +38,7 @@ allowonlyinal Permitir sólo a los usuarios aceptados contactar conmigo
 allowseen Permitir a esta persona ver cuándo estás conectado y contactar
 allow_sms Permitir que los usuarios contacten conmigo en mi dispositivo móvil MSN
 allprofilesinuse Todos los perfiles que existen están siendo usados actualmente
+always Siempre
 animatedemoticon Emoticono con animación
 animatedsmileys Activar emoticonos animados
 animatenotify Ventana de notificaciones con animación
@@ -184,6 +185,7 @@ clientname Nombre del cliente
 closeall ¿Cerrar todas las pestañas de la ventana?
 closealltabs Cerrar todas las pestañas
 close Cerrar
+closechatwindows ¿Cerrar todas las conversaciones antes de cerrar la sesión?
 closed Conversación con $1 cerrada por inactividad
 closelabel Al cerrar una ventana de chat que contiene varias pestañas
 closeonly Cerrar sólo la pestaña actual
@@ -335,6 +337,7 @@ faileddelete No se pudo borrar
 faileddeleteperso Esta imagen no se puede borrar porque no es una imagen personal para mostrar. Sólo las imágenes que pertenecen a tu perfil personal pueden ser eliminadas así.
 failed Fallo
 faq FAQ (Preguntas frecuentes)
+fetching Obteniendo datos...
 file Archivo
 filedoesnotexist El archivo no existe
 fileman Administrador de Archivos
@@ -493,6 +496,7 @@ loging Historial
 login Iniciar sesión
 logolder Registrar sólamente conversaciones ocurridas en el último
 logout Cerrar sesión
+logoutwincloselabel Al cerrar la sesión, cerrar las conversaciones
 logsbydate Ordenar históricos por fechas (ver historial carga mucho más rápido)
 logschats Guarda historial de conversaciones
 logsin acaba de iniciar sesión
@@ -576,10 +580,12 @@ nonewver No hay versiones más actuales disponibles
 no No
 nopic Sin imagen
 noprofileexists Actualmente no existe ningún perfil. \n Debes crear uno si quieres usar los perfiles de usuario. \nUsa el botón "Añadir un perfil" en esta ventana para crearlo.
+noresizesmileys No redimensionar los emoticonos personalizados
 normal Normal
 noskins No se ha podido encontrar el perfil por defecto (default) en la carpeta skins/. No se puede iniciar aMSN
 nosound No se ha detectado sonido, asegúrate de que el micrófono está correctamente conectado
 nosound_or_hold No se ha detectado sonido. Para enviar un clip de voz tienes que mantener pulsado el botón mientras hablas, y después soltar el botón para enviar el mensaje.
+nospace Nada que ver aquí
 nosystemtray Bandeja del sistema no disponible
 note Nota
 notificationserver Servidor inicial de notificaciones MSN (Servidor MSN Messenger)
@@ -870,6 +876,7 @@ tomobile Al móvil
 tools Herramientas
 tooltips Activar globos de ayuda
 to Para
+totalsize Tamaño total
 transnotexists El archivo solicitado no se encuentra traducido a su idioma.
 trayicon Muestra el icono de estado en el área de notificación
 traynotcompiled Icono de bandeja no compilado. Mira en el directorio plugins/traydock
