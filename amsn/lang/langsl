@@ -38,6 +38,7 @@ allowonlyinal Dovoli kontakt le uporabnikom v Allow seznamu
 allowseen Dovoli tej osebi da vidi moj status, ko sem prijavljen
 allow_sms Dovoli stikom, da me kontaktirajo na mobilni napravi
 allprofilesinuse Vsi obstojeèi profili so v uporabi
+always Vedno
 animatedemoticon Ta emotikon je animiran
 animatedsmileys Omogoèi animirane emotikone
 animatenotify Animirana obvestila
@@ -183,6 +184,7 @@ clientcaps Po¹lji x-clientcaps paketek drugim odjemalcem
 clientname Odjemalec
 closealltabs Zapri vse zavihke
 closeall Zaprem vse zavihke v tem oknu?
+closechatwindows Zapri vsa pogovorna okna pred izhodom?
 closed Povezava z $1 zaprta zaradi neaktivnosti
 closelabel Ko klikne¹ na gumb za zaprtje v oknu z zavihki
 closeonly Zapri samo trenutni zavihek
@@ -283,6 +285,8 @@ displaychat Prika¾i nastavitve besedila
 displayeventconnect Prikazuj prijave stikov
 displayeventdisconnect Prikazuj odjave stikov
 displayeventemail Prikazuj prejetja e-mailov
+displayeventnick Prika¾i ko kontakti zamenjajo Vzdevek
+displayeventpsm Prika¾i ko kontakti zamenjajo Osebno sporoèilo
 displayeventstate Prikazuj spremembe stanja stikov
 displayp4context Prika¾i kontekst P4
 displaypic Prikazna slika
@@ -332,6 +336,7 @@ faileddelete Izbris ni uspel
 faileddeleteperso Te slike ni mogoèe izbrisati, ker ne pripada tvojemu raèunu. Samo slike, ki pripadajo tvojemu osebnemu raèunu, lahko tako izbri¹e¹.
 failed Neuspe¹no
 faq FAQ (Pogosta vpra¹anja)
+fetching Sprejemam podatke...
 file Datoteka
 filedoesnotexist Datoteka ne obstaja
 filemanexample ( \$location bo zamenjan z mapo ) Npr.: nautilus \$location
@@ -356,6 +361,8 @@ firewalled Si za po¾arnim zidom ali usmerjevalnikom/routerjem
 followtext Sledi novemu besedilu
 forget_me Pozabi moj raèun
 forgot_pass Pozabil/a sem svoje geslo
+formatcsv CSV format
+formatctt CTT format
 friendlyname Prijazno ime
 ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
 ftaccepted Prenos datoteke sprejet
@@ -477,6 +484,8 @@ logbigger Dnevni¹ka datoteka za vsak stik je lahko velika najveè
 logeventconnect Bele¾i prijave
 logeventdisconnect Bele¾i odjave
 logeventemail Bele¾i prejetje e-mailov
+logeventnick Shranjuj spremembe Vzdevkov
+logeventpsm Shranjuj spremembe Osebnih sporoèil
 logeventstate Bele¾i spremembe statusov
 logfandexp Velikost dnevni¹kih datotek in izteka zgodovine
 loggedotherlocation Povezava prekinjena. Povezan drugje.
@@ -486,6 +495,7 @@ loging Bele¾enje
 login Prijavi se
 logolder Bele¾i samo pogovore, ki so izpred
 logout Odjavi se
+logoutwincloselabel Zapri pogovore, ko se odjavim
 logsbydate Razvrsti loge po datumu (Hitrej¹e nalaganje zgodovine)
 logschats Shranjuje pogovor
 logsin se je ravnokar prijavil/a
@@ -551,6 +561,7 @@ newstate Dodaj osebno stanje
 newtabbedfeature aMSN ima nov naèin upravljanja pogovorov: sedaj lahko združi vse pogovore s stiki iz iste skupine oziroma pogovore z vsemi stiki v isto okno z zavihki. Izberi naèin, kako naj aMSN dela s pogovori
 newveravailable Nova razlièica $1 je na voljo za prenos
 next Naslednji
+nickchanged $1 je spremenil/a vzdevek v '$2
 nick Vzdevek
 noactivity Neaktiven
 nocacheddps Brez prikaznih slik v hranjenju za tega uporabnika
@@ -568,10 +579,12 @@ nonewmail Ni novih sporoèil v Inboxu
 nonewver Ni novih razlièic na voljo za prenos
 nopic Brez slike
 noprofileexists Trenutno ni raèunov.\nUstvari nov raèun\nz gumbom dodaj raèun.
+noresizesmileys Ne pomanj¹uj prihajajoèih emotikonov
 normal Normalno
 noskins Privzetega skina ni v imeniku skins/ . AMSNja ni mogoèe zagnati.
 nosound_or_hold Zvoka nisem zaznal.Za po¹iljanje glasovnega sporoèila mora¹ dr¾ati gumb PRITISNJEN ko govori¹ in ga spustiti da zvoèno sporoèilo po¹lje¹.
 nosound Zvoka nisem zaznal.Preprièaj se, da je mikrofon pravilno priklopljen.
+nospace Tu ni nièesar veè
 nosystemtray Tray ni na voljo
 note Opomba
 notificationserver Zaèetni MSNjev stre¾nik (MSN Messengerjev stre¾nik)
@@ -679,6 +692,7 @@ proxyconf Nastavitve proxyja
 proxyconnection Proxy povezava:
 proxy Sem za proxy stre¾nikom (HTTP ali SOCKS5)
 psmatend Prika¾i osebno sporoèilo ob vzdevku
+psmchanged $1 je spremenil PSM v '$2'
 psmdontshow Ne prika¾i osebnega sporoèila, èe ni del globalnega/prikaznega vzdevka
 psmnewline Prika¾i osebno sporoèilo pod vzdevkom
 psm Osebno sporoèilo
@@ -858,6 +872,7 @@ today Danes
 tomobile Na prenosno napravo
 tools Orodja
 tooltips Omogoèi tooltipe
+totalsize Celotna velikost
 to Za
 transnotexists Zahtevana datoteka ¹e ni bila prevedena v sloven¹èino.
 trayicon Poka¾i statusno ikono v trayu
@@ -941,16 +956,3 @@ youblocked Blokirajo te
 yousay Pravi¹
 youwant Hoèe¹
 zoom Poveèava
-always Vedno
-closechatwindows Zapri vse pogovore pred izhodom?
-displayeventnick Prika¾i ko kontakti zamenjajo Vzdevek
-displayeventpsm Prika¾i ko kontakti zamenjajo Osebno sporoèilo
-formatcsv CSV format
-formatctt CTT format
-logeventnick Shranjuj spremembe Vzdevkov
-logeventpsm Shranjuj spremembe Osebnih sporoèil
-logoutwincloselabel Zapri pogovore, ko se odjavim
-nickchanged $1 je spremenil/a vzdevek v '$2
-noresizesmileys Ne pomanj¹uj prihajajoèih emotikonov
-psmchanged $1 je spremenil PSM v '$2'
-totalsize Celotna velikost
