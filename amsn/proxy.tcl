@@ -754,7 +754,11 @@ proc SOCKSSocket { args } {
 
 		#On direct http connection, use gateway directly as proxy
 		if { [$sb cget -proxy_host] == ""} {
-			set proxy_host "gateway.messenger.hotmail.com"
+			set proxy_host [$sb cget -force_gateway_server]
+			if {$proxy_host == "" } {
+				set proxy_host "gateway.messenger.hotmail.com"
+			}
+			
 			set proxy_port 80
 		} else {
 			set proxy_host [$sb cget -proxy_host]

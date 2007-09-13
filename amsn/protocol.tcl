@@ -3421,6 +3421,7 @@ namespace eval ::Event {
 	option -proxy ""
 	option -time ""
 	option -error_msg ""
+	option -force_gateway_server ""
 	option -proxy_host
 	option -proxy_port
 	option -proxy_authenticate
@@ -4425,6 +4426,7 @@ proc cmsn_open_sb {sb recv} {
 
 	status_log "cmsn_open_sb: Opening SB $sb\n" green
 
+	$sb configure -force_gateway_server [lindex [split [lindex $recv 3] ":"]]
 	$sb configure -server [split [lindex $recv 3] ":"]
 	$sb configure -connected [list cmsn_conn_sb $sb]
 	$sb configure -auth_cmd "USR"
