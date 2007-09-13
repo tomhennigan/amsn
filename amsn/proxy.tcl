@@ -372,7 +372,7 @@ proc SOCKSSocket { args } {
 			set login_passport_url 0
 			degt_protocol $self
 
-			after 0 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -timeout 10000 -command {globalGotNexusReply $self}}"
+			after 0 "catch {::http::geturl [list https://nexus.passport.com/rdr/pprdr.asp] -queryblocksize 4096 -blocksize 4096 -timeout 5000 -command {globalGotNexusReply $self}}"
 #		}
 	}
 

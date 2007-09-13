@@ -1378,9 +1378,9 @@ namespace eval ::guiContactList {
 		# if they are clicked
 		set main_part "${tag}_click"
 		#space_icon is a tag for the icon showing if the contact's MSN Space is updated
-		#set space_icon "${tag}_space_icon"
-		#set undock_space "${tag}_undock_space"
-		#set space_info "${tag}_space_info"
+		set space_icon "${tag}_space_icon"
+		set undock_space "${tag}_undock_space"
+		set space_info "${tag}_space_info"
 
 		################################################################
 		# Set up some vars with info we'll use
@@ -1455,14 +1455,14 @@ namespace eval ::guiContactList {
 			}
 		}
 
-		#set update_img [::skin::loadPixmap space_update]
-		#set noupdate_img [::skin::loadPixmap space_noupdate]
+		set update_img [::skin::loadPixmap space_update]
+		set noupdate_img [::skin::loadPixmap space_noupdate]
 		
 		#this is when there is an update and we should show a star
-		#set space_update [::abook::getVolatileData $email space_updated 0]
+		set space_update [::abook::getVolatileData $email space_updated 0]
 		
 		#is the space shown or not ?
-		#set space_shown [::abook::getVolatileData $email SpaceShowed 0]
+		set space_shown [::abook::getVolatileData $email SpaceShowed 0]
 		
 		set maxwidth [expr {[winfo width $canvas] - 2*$Xbegin - [::skin::getKey buddy_xpad] - 5}]
 
@@ -1491,10 +1491,10 @@ namespace eval ::guiContactList {
 		# Check if we need an icon to show an updated space/blog, and draw one if we do
 		# We must create the icon and hide after else, the status icon will stick the border \
 		# it's surely due to anchor parameter
-		#lappend stylestring [list "tag" "$space_icon"]
-		#lappend stylestring [list "image" "$noupdate_img" "nw"]
-		#lappend stylestring [list "tag" "-$space_icon"]
-		#incr marginx [image width $noupdate_img]
+		lappend stylestring [list "tag" "$space_icon"]
+		lappend stylestring [list "image" "$noupdate_img" "nw"]
+		lappend stylestring [list "tag" "-$space_icon"]
+		incr marginx [image width $noupdate_img]
 		
 		#---------------#
 		###Status icon###
@@ -1656,30 +1656,30 @@ namespace eval ::guiContactList {
 
 		#This is a technology demo, the default is not unchangeable
 		# values for this variable can be "inline", "ccard" or "disabled"
-		#if {$space_shown && \
-		#	([::config::getKey spacesinfo "inline"] == "inline" || \
-		#	[::config::getKey spacesinfo "inline"] == "both") } {
+		if {$space_shown && \
+			([::config::getKey spacesinfo "inline"] == "inline" || \
+			[::config::getKey spacesinfo "inline"] == "both") } {
 
-		#	lappend stylestring [list "newline" "\n"]
-		#	if {[::config::getKey spacesinfo "inline"] == "both" } {
-		#		#image to show the ccard
-		#		lappend stylestring [list "space" 15]
-		#		lappend stylestring [list "tag" "icon"]
-		#		lappend stylestring [list "tag" "$undock_space"]
-		#		lappend stylestring [list "image" "$noupdate_img" "w"]
-		#		lappend stylestring [list "tag" "-$undock_space"]
-		#		lappend stylestring [list "tag" "-icon"]
-		#	}
+			lappend stylestring [list "newline" "\n"]
+			if {[::config::getKey spacesinfo "inline"] == "both" } {
+				#image to show the ccard
+				lappend stylestring [list "space" 15]
+				lappend stylestring [list "tag" "icon"]
+				lappend stylestring [list "tag" "$undock_space"]
+				lappend stylestring [list "image" "$noupdate_img" "w"]
+				lappend stylestring [list "tag" "-$undock_space"]
+				lappend stylestring [list "tag" "-icon"]
+			}
 
-		#	lappend stylestring [list "tag" "$space_info"]
-		#	lappend stylestring [list "tag" "space_info"]
+			lappend stylestring [list "tag" "$space_info"]
+			lappend stylestring [list "tag" "space_info"]
 
-		#	set stylestring [concat $stylestring [::ccard::drawSpacesCL $canvas $email $tag \
-		#		$marginx $marginy]]
+			set stylestring [concat $stylestring [::ccard::drawSpacesCL $canvas $email $tag \
+				$marginx $marginy]]
 
-		#	lappend stylestring [list "tag" "-space_info"]
-		#	lappend stylestring [list "tag" "-$space_info"]
-		#}
+			lappend stylestring [list "tag" "-space_info"]
+			lappend stylestring [list "tag" "-$space_info"]
+		}
 
 		#---------------#
 		##Rendering !! ##
@@ -1694,13 +1694,13 @@ namespace eval ::guiContactList {
 		#-------------------------#
 		##Some more about spaces ##
 		#------------------------ #
-		#if { [::MSNSPACES::hasSpace $email] } {
-		#	if { $space_update } {
-		#		$canvas itemconfigure $space_icon -image $update_img
-		#	}
-		#} else {
-		#	$canvas itemconfigure $space_icon -state hidden
-		#}
+		if { [::MSNSPACES::hasSpace $email] } {
+			if { $space_update } {
+				$canvas itemconfigure $space_icon -image $update_img
+			}
+		} else {
+			$canvas itemconfigure $space_icon -state hidden
+		}
 
 
 		#-----------#
@@ -1710,21 +1710,22 @@ namespace eval ::guiContactList {
 		# First, remove previous bindings
 		cleanBindings $canvas $tag
 		cleanBindings $canvas $main_part
-		#cleanBindings $canvas $space_icon
+		cleanBindings $canvas $space_icon
 
 		#Click binding for the "star" image for spaces
 		#$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown $email]
+		$canvas bind $space_icon <Button-1> [list ::MSNSPACES::getUrlFor [::abook::getContactData gklzyffe@hotmail.com spaces_info_xml [list]] SpaceTitle]
 
 		#$canvas bind $undock_space <Button-1> [list ::ccard::drawwindow $email 1]
 		##TODO# not sure about this one:
 		#$canvas bind $undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email]
 
 		# balloon bindings
-		#if { [::config::getKey tooltips] == 1 } {
-		#	$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y "View space items" ]
-		#	$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y "View space items" ]
-		#	$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
-		#}
+		if { [::config::getKey tooltips] == 1 } {
+			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y "View space items" ]
+			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y "View space items" ]
+			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
+		}
 
 		# Add binding for underline if the skinner use it
 		if {[::skin::getKey underline_contact]} {
