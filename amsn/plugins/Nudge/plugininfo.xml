@@ -15,44 +15,64 @@
 		<langcode>ca</langcode>
 		<version>1.1</version>
 	</lang>
-
+	<lang>
+		<langcode>da</langcode>
+		<version>1.1</version>
+	</lang>
+	<lang>
+		<langcode>de</langcode>
+		<version>1.1</version>
+	</lang>
+	<lang>
+		<langcode>ee</langcode>
+		<version>1.1</version>
+	</lang>
 	<lang>
 		<langcode>en</langcode>
 		<version>1.1</version>
 	</lang>
-
 	<lang>
 		<langcode>es</langcode>
 		<version>1.1</version>
 	</lang>
-
+	<lang>
+		<langcode>fi</langcode>
+		<version>1.2</version>
+	</lang>
 	<lang>
 		<langcode>fr</langcode>
 		<version>1.2</version>
 	</lang>
-
 	<lang>
 		<langcode>hu</langcode>
 		<version>8921</version>
 	</lang>
-
+	<lang>
+		<langcode>it</langcode>
+		<version>9013</version>
+	</lang>
 	<lang>
 		<langcode>nl</langcode>
 		<version>1.3</version>
 	</lang>
-
 	<lang>
 		<langcode>no</langcode>
 		<version>1.1</version>
 	</lang>
-
-        <lang>
-                <langcode>pt_BR</langcode>
-                <version>1.1</version>
-        </lang>
-
+    <lang>
+        <langcode>pt_BR</langcode>
+        <version>1.1</version>
+    </lang>
+	<lang>
+		<langcode>sv</langcode>
+		<version>1.2</version>
+	</lang>
 	<lang>
 		<langcode>tr</langcode>
+		<version>1.2</version>
+	</lang>
+	<lang>
+		<langcode>zh-TW</langcode>
 		<version>1.2</version>
 	</lang>
 

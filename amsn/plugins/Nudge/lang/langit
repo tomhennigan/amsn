@@ -9,7 +9,9 @@ sound_send Emetti un suono all'invio di un trillo
 sound_receive Emetti un suono al ricevimento di un trillo
 add_button Aggiungi un pulsante nella finestra di chat per inviare i trilli
 add_blockbutton Aggiungi un pulsante nella finestra di chat per bloccare la ricezione dei trilli
-no_nudge_support Non puoi inviare trilli a questo contatto perche' lui/lei usa un client che non li supporta
+add_clmenuitem Aggiungi una voce al menù del contatto
+send_nudge Invia un trillo
+no_nudge_support Non puoi inviare trilli a questo contatto perché lui/lei usa un client che non li supporta
 nudge_sent Hai appena inviato un trillo
 limit Attiva la limitazione del numero di trilli ricevuti
 delay Tempo minimo tra 2 trilli dal medesimo contatto (in secondi)
