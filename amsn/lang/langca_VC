@@ -38,6 +38,7 @@ allowonlyinal Permetre que contacten amb mi només els usuaris de la llista d'aut
 allowseen Permetre a esta persona vore quan estàs connectat i contactar
 allow_sms Permetre als usuaris contactar-me pel meu mòvil amb MSN
 allprofilesinuse Tots els perfils que existixen estan sent usats actualment
+always Sempre
 animatedemoticon Este emoticon és animat
 animatedsmileys Activar emoticons animats
 animatenotify Finestra de notificacions en animació
@@ -184,6 +185,7 @@ clientname Nom del client
 close Tancar
 closealltabs Tancar totes les pestanyes
 closeall Vols tancar totes les pestanyes de la finestra?
+closechatwindows Vols tancar totes les converses abans de tancar sessió?
 closed Conversa amb $1 tancada per inactivitat
 closelabel Quan fas clic al botó de tancar en una finestra de conversa amb pestanyes
 closeonly Tancar només la pestanya actual
@@ -358,6 +360,8 @@ firewalled Estàs utilitzant un tallafoc (fiewall) o estàs darrere d'un router
 followtext Avançar quan s'introduixca nou text
 forget_me Eliminar este perfil
 forgot_pass He oblidat la meua contrasenya
+formatctt En format CTT
+formatcsv En format CSV
 friendlyname Sobrenom en conversa
 ftacceptedby $1 ha acceptat la invitació de transferència de l'arxiu '$2'
 ftaccepted Transferència d'arxius acceptada
@@ -490,6 +494,7 @@ loging Historial
 login Iniciar sessió
 logolder Registrar només converses fetes en l'ultim
 logout Tancar sessió
+logoutwincloselabel Quan es tanque sessió, tancar les converses
 logsbydate Ordenar històrics per data (L'historial es veu molt més ràpidament)
 logschats Està guardant les converses
 logsin acaba d'iniciar sessió
@@ -574,6 +579,7 @@ no No
 nopic No hi ha imatge
 noprofileexists No hi han perfils actualment, \n has de crear un de nou si vols utilitzar els perfils d'entrada. \nUtilitza el botó Afegir Nou Perfil en esta finestra per a afegir un nou perfil.
 normal Normal
+noresizesmileys No reduir tamany d'emoticons personalitzats
 noskins No s'ha pogut trobar el perfil predeterminat (default) en la carpeta skins/. No es pot iniciar aMSN
 nosound No s'ha detectat so. Assegura't de que el teu micròfon està correctament connectat
 nosound_or_hold No s'ha detectat so. Per a enviar un missatge de so, es necessita tindre apretat el botó mentres es parla i soltar-ho per a enviar el missatge.
@@ -865,6 +871,7 @@ tomobile Al mòvil
 tools Ferramentes
 tooltips Activar informació de ferramentes
 to Per a
+totalsize Tamany total
 transnotexists Este arxiu encara no ha estat traduït
 trayicon Mostra un icon d'estat a l'àrea de notificació del sistema
 traynotcompiled El plug-in d'icon de l'àrea de notificació no està compilat. Comprova plugins/traydock
