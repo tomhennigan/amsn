@@ -336,6 +336,7 @@ faileddelete Echec de l'effacement
 faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seules les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
 failed Echec
 faq Questions les plus fréquentes
+fetching Téléchargement des données
 filedoesnotexist Le fichier n'existe pas
 file Fichier
 filemanexample (\$location sera remplacé par le répertoire) Ex: nautilus \$location
@@ -583,6 +584,7 @@ normal Ordre normal
 noskins Ne trouve l'apparence par défaut dans le dossier skins/. Ne peut lancer aMSN.
 nosound_or_hold Pas de son détécté. Pour envoyer un message vocal, vous devez maintenir le bouton appuyé pendant que vous parlez, puis relacher le bouton pour envoyer le message.
 nosound Pas de son détecté, assurez-vous que votre microphone est bien branché
+nospace Rien à voir
 nosystemtray La boîte à miniatures n'est pas accessible
 note Note
 notificationserver Annonce initiale du Serveur MSN (Serveur MSN Messenger)
