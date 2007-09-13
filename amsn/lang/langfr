@@ -360,6 +360,8 @@ firewalled Vous êtes derrière un pare-feu ou un routeur
 followtext Faire défiler lorsque du texte est entré
 forget_me Oublier ce compte
 forgot_pass Mot de passe oublié
+formatcsv format CSV
+formatctt format CTT
 friendlyname Pseudo de conversation
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
 ftaccepted Transfert de fichier accepté
@@ -869,6 +871,7 @@ today Aujourd'hui
 tomobile Au mobile
 tools Outils
 tooltips Activer les info-bulles
+totalsize Taille totale
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 trayicon Afficher l'icone de l'état dans la barre à miniatures
 traynotcompiled Le programme de la barre à miniatures n'est pas compilé. 
