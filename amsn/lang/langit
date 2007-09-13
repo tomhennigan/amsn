@@ -38,6 +38,7 @@ allowonlyinal Permetti soltanto agli utenti nella mia lista dei Permessi di cont
 allowseen Permetti a questa persona di vedermi e di contattarmi quando sono connesso
 allow_sms Permetti agli utenti di contattarmi sul tel. mobile specificato
 allprofilesinuse Tutti i profili esistenti sono attualmente in uso
+always Sempre
 animatedemoticon Questa emoticon è animata
 animatedsmileys Abilita emoticon animate
 animatenotify Finestra di notifica animata
@@ -184,6 +185,7 @@ clientname Nome client
 closeall Chiudere tutte le schede nella finestra?
 closealltabs Chiudi tutte le schede
 close Chiudi
+closechatwindows Chiudere tutte le conversazioni prima di disconnettersi?
 closed La conversazione con $1 è chiusa per inattività
 closelabel Quando clicchi sul pulsante di chiusura di una finestra con più schede:
 closeonly Chiudi solo la scheda corrente
@@ -358,6 +360,8 @@ firewalled2 Sei dietro un firewall, per favore controlla i settaggi di Connessio
 followtext Scorri la finestra quando nuovo testo viene inserito
 forget_me (Annulla memorizzazione del profilo utente)
 forgot_pass Password dimenticata?
+formatcsv Formato CSV
+formatctt Formato CTT
 friendlyname Nome comune
 ftacceptedby $1 ha accettato l'invito a trasferire il file '$2'.
 ftaccepted Trasferimento del file accettato
@@ -490,6 +494,7 @@ loging Diario
 login Accedi
 logolder Registra soltanto le chat che hanno dell'ultimo
 logout Disconnetti
+logoutwincloselabel Quando ti disconnetti, chiudere le conservazioni
 logsbydate Ordina log per data (l'apertura della cronologia è velocizzata)
 logschats Sta salvando la cronologia dei messaggi
 logsin si è appena connesso/a
@@ -866,6 +871,7 @@ tomobile A Mobile
 tools Strumenti
 tooltips Abilita i tooltips
 to A
+totalsize Dimensione totale
 transnotexists Il file richiesto non è ancora stato tradotto nella lingua corrente.
 trayicon Mostra un'icona di stato nell'area di notifica
 traynotcompiled Il plugin per l'icona nella traybar non è compilato. Controllare in utils/linux
