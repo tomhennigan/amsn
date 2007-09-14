@@ -3,6 +3,8 @@
 	<name>remind</name>
 	<author>Frederic Diaz</author>
 	<description>Shows the last sentences of the previous conversations when opening a new chat window</description>
+	<description_fr>Afficher les dernières phrases des précédentes conversations lors de l'ouverture de la fenêtre de conversation</description_fr>
+	<description_hu>A korábbi beszélgetések utolsó mondatainak megjelenítése új chat ablak megnyitásakor.</description_hu>
 	<amsn_version>0.94</amsn_version>
 	<plugin_version>1.2</plugin_version>
 	<plugin_file>remind.tcl</plugin_file>
@@ -37,7 +39,7 @@
 	
 	<lang>
 		<langcode>hu</langcode>
-		<version>8921</version>
+		<version>9031</version>
 	</lang>
 	
 	<URL>

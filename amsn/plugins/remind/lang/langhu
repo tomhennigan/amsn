@@ -4,8 +4,8 @@ beginendconversation A beszélgetés kezdetének és végének megjelenítése
 checknote Megjelenítés megjegyzések esetén
 daysnumber Napok száma
 filetransfert Fájlátvitelek megjelenítése
-lastsentence Utolsó mondatok a korábbi beszélgetésekben
+lastsentence Korábbi beszélgetés utolsó mondatai
 nbdisplay Megjelenített sorok száma
-noteswritten Írtál megjegyzést a partnerhez
+noteswritten A partnerhez megjegyzést írtál
 talklast Ha beszéltünk az elmúlt x napban
 talkwithin Ha nem beszéltünk az elmúlt x napban
