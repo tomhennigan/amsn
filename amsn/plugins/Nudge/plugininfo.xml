@@ -3,6 +3,8 @@
 	<name>Nudge</name>
 	<author>Jerome Gagnon-Voyer, Karel Demeyer and Alberto Diaz, Doki</author>
 	<description>This plugin implements the Nudge feature (From MSN 7.0) into aMSN</description>
+	<description_fr>Ce plugin ajoute la fonctionnalité des Remous (ou Wizz ou Nudge) dans aMSN</description>
+	<description_hu>A rezgő figyelmeztetés implementációja (MSN 7.0-tól).</description_hu>
 	<amsn_version>0.94</amsn_version>
 	<plugin_version>0.6</plugin_version>
 	<plugin_file>Nudge.tcl</plugin_file>
@@ -41,11 +43,11 @@
 	</lang>
 	<lang>
 		<langcode>fr</langcode>
-		<version>1.2</version>
+		<version>9029</version>
 	</lang>
 	<lang>
 		<langcode>hu</langcode>
-		<version>8921</version>
+		<version>9029</version>
 	</lang>
 	<lang>
 		<langcode>it</langcode>

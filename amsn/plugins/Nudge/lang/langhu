@@ -1,17 +1,18 @@
 amsn_lang_version 2
+add_blockbutton Érkező rezgő figyelmeztetést tiltó gomb hozzáadása a chat ablakhoz
+add_button Rezgő figyelmeztetést küldő gomb hozzáadása a chat ablakhoz
+add_clmenuitem Menüpont hozzáadása a partnerlista popup menüjéhez
+block_nudge Rezgő figyelmeztetések tiltása/engedélyezése
+delay Minimális idő 2 rezgő figyelmeztetés között ugyanazon partnertől (másodpercben)
+limit Érkezett rezgő figyelmeztetések korátozásának aktiválása
+no_nudge_support Nem tudsz rezgő figyelmeztetést küldeni a partnerednek, mert az ő kliensprogramja nem támogatja azt
+notify_receive Érkezett rezgő figyelmeztetések jelzése a chat ablakban
+notify_send Küldött rezgő figyelmeztetések jelzése a chat ablakban
+nudge_sent Rezgő figyelmeztetést küldtél
+popup_nudge Rezgő figyelmeztetés jelzése felugró ablakkal
+send_nudge Rezgő figyelmeztetés küldése
+shake_nudge Ablak megrázása minden rezgetésnél
 shake_receive Az ablak megrázása rezgő figyelmeztetés érkezésekor
 shake_send Az ablak megrázása rezgő figyelmeztetés küldésekor
-shake_nudge Ablak megrázása minden rezgetésnél
-popup_nudge Rezgő figyelmeztetés jelzése felugró ablakkal
-notify_send Küldött rezgő figyelmeztetések jelzése a chat ablakban
-notify_receive Érkezett rezgő figyelmeztetések jelzése a chat ablakban
-sound_send Hang lejátszása rezgő figyelmeztetés küldésekor
 sound_receive Hang lejátszása rezgő figyelmeztetés érkezésekor
-add_button Rezgő figyelmeztetést küldő gomb hozzáadása a chat ablakhoz
-add_blockbutton Érkező rezgő figyelmeztetést tiltó gomb hozzáadása a chat ablakhoz
-no_nudge_support Nem tudsz rezgő figyelmeztetést küldeni a partnerednek, mert az ő kliensprogramja nem támogatja azt
-nudge_sent Rezgő figyelmeztetést küldtél
-limit Érkezett rezgő figyelmeztetések korátozásának aktiválása
-delay Minimális idő 2 rezgő figyelmeztetés között ugyanazon partnertől (másodpercben)
-send_nudge Rezgő figyelmeztetés küldése
-block_nudge Rezgő figyelmeztetések tiltása/engedélyezése
+sound_send Hang lejátszása rezgő figyelmeztetés küldésekor

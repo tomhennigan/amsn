@@ -8,11 +8,12 @@ notify_receive Notifier dans la fenêtre de discussion la réception d'un nudge
 sound_send Jouer un son lors de l'envoi d'un nudge
 sound_receive Jouer un son lors de la réception d'un nudge.
 add_button Ajouter un bouton à la fenêtre de discussion pour envoyer directement un nudge
+add_blockbutton Ajouter un bouton pour bloquer les nudges dans la fenêtre de conversation
+add_clmenuitem Ajouter un item dans la liste de contacts
 send_nudge Envoyer un nudge
 no_nudge_support Vous ne pouvez pas envoyer un nudge car votre contact utilise un logiciel qui ne supporte pas les nudges
 nudge_sent Vous avez envoyé un nudge
 limit Activer la limitation de nudge en reception
 delay Temps minimum entre deux Nudges reçu d'un même contact (en secondes)
 send_nudge Envoyer un nudge
-no_nudge_support Vous ne pouvez pas envoyer un nudge car votre contact utilise un logiciel qui ne supporte pas les nudges
 block_nudge Bloquer/Débloquer les nudges
