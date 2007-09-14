@@ -5182,7 +5182,7 @@ proc drawNick { } {
 	lappend stylestring [list "colour" "reset"]
 	lappend stylestring [list "font" "reset"]
 	set stylestring [concat $stylestring $my_name]
-	lappend stylestring [list "default" $my_colour [::skin::getFont "mystatus" "bboldf"]]
+	lappend stylestring [list "default" $my_colour_state [::skin::getFont "mystatus" "bboldf"]]
 	lappend stylestring [list "colour" "reset"]
 	lappend stylestring [list "font" "reset"]
 	lappend stylestring [list "text" " ($my_state_desc)"]
