@@ -226,7 +226,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey extrabuttontxtcoloractive #222222
 	::skin::setKey extralinkcolor #0000FF
 	::skin::setKey extralinkcoloractive #6931CA
-	::skin::setKey extralinkbgcoloractive #dddddd
+	::skin::setKey extralinkbgcoloractive #ffffff
 	::skin::setKey extracheckbuttonselectedcolor #ff0000
 
 	::skin::setKey extraprivacy_old_bg #000000
@@ -239,11 +239,11 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey extraprivacy_intobl_fg #A00000
 
 	::skin::setKey loginurlfghover #6931CA
-	::skin::setKey emailfg #0000FF
-	::skin::setKey emailhover #6931CA
-	::skin::setKey emailhoverbg #dddddd
+	::skin::setKey emailfg #000000
+	::skin::setKey emailhover #000000
+	::skin::setKey emailhoverbg #ffffff
 
-	::skin::setKey tabfg_hover #FFFFFF
+	::skin::setKey tabfg_hover #333333
 	
 	::skin::setKey statusbartext_sel #000000
 	
