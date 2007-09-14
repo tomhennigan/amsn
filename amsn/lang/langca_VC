@@ -336,6 +336,7 @@ faileddelete No s'ha pogut esborrar
 faileddeleteperso Esta imatge no es pot esborrar perquè no és una imatge personal per a mostrar. Només les imatges que pertanyen al teu perfil personal poden ser eliminades aixina.
 failed Fallit
 faq Preguntes més freqüents (FAQ)
+fetching Obtenint dades...
 file Arxiu
 filedoesnotexist L'arxiu no existix
 fileman Administrador d'arxius
@@ -583,6 +584,7 @@ noresizesmileys No reduir tamany d'emoticons personalitzats
 noskins No s'ha pogut trobar el perfil predeterminat (default) en la carpeta skins/. No es pot iniciar aMSN
 nosound No s'ha detectat so. Assegura't de que el teu micròfon està correctament connectat
 nosound_or_hold No s'ha detectat so. Per a enviar un missatge de so, es necessita tindre apretat el botó mentres es parla i soltar-ho per a enviar el missatge.
+nospace Res per vore ací
 nosystemtray Àrea de notificació no disponible
 note Nota
 notificationserver Servidor inicial de notificacions MSN (Servidor MSN Messenger)
