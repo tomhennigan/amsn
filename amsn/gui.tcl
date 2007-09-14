@@ -80,6 +80,19 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey topbarofflinebg_sel #d3d0ce
 	::skin::setKey topbarofflinetext #ffffff
 	::skin::setKey topbarofflineborder #000000
+	::skin::setKey topbaridlebg #dfe7f0
+	::skin::setKey topbaridletext #000000
+	::skin::setKey topbaridleborder #7da0af
+	::skin::setKey topbarbrbbg #dfe7f0
+	::skin::setKey topbarbrbtext #000000
+	::skin::setKey topbarbrbborder #7da0af
+	::skin::setKey topbarphonebg #dfe7f0
+	::skin::setKey topbarphonetext #000000
+	::skin::setKey topbarphoneborder #7da0af
+	::skin::setKey topbarlunchbg #dfe7f0
+	::skin::setKey topbarlunchtext #000000
+	::skin::setKey topbarlunchborder #7da0af
+
 	::skin::setKey topbarpadx 6
 	::skin::setKey topbarpady 6
 	::skin::setKey loginbuttonx 6

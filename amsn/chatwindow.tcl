@@ -3173,11 +3173,27 @@ namespace eval ::ChatWindow {
 		set tcolour [::skin::getKey topbartext]
 		set bcolour [::skin::getKey topbarborder]
 		if { ([llength $user_list] == 1) && ("$user_state" != "" ) } {
-			if { ($state_code == "IDL") || ($state_code == "BRB") || ($state_code == "AWY") || ($state_code == "LUN") } {
+			if { $state_code == "IDL" } {
+				set colour [::skin::getKey topbaridlebg]
+				set tcolour [::skin::getKey topbaridletext]
+				set bcolour [::skin::getKey topbaridleborder]
+			} elseif { $state_code == "BRB" } {
+				set colour [::skin::getKey topbarbrbbg]
+				set tcolour [::skin::getKey topbarbrbtext]
+				set bcolour [::skin::getKey topbarbrbborder]
+			} elseif { $state_code == "AWY" } {
 				set colour [::skin::getKey topbarawaybg]
 				set tcolour [::skin::getKey topbarawaytext]
 				set bcolour [::skin::getKey topbarawayborder]
-			} elseif { ($state_code == "PHN") || ($state_code == "BSY") } {
+			} elseif { $state_code == "LUN" } {
+				set colour [::skin::getKey topbarlunchbg]
+				set tcolour [::skin::getKey topbarlunchtext]
+				set bcolour [::skin::getKey topbarlunchborder]
+			} elseif { $state_code == "PHN" } {
+				set colour [::skin::getKey topbarphonebg]
+				set tcolour [::skin::getKey topbarphonetext]
+				set bcolour [::skin::getKey topbarphoneborder]
+			} elseif { $state_code == "BSY" } {
 				set colour [::skin::getKey topbarbusybg]
 				set tcolour [::skin::getKey topbarbusytext]
 				set bcolour [::skin::getKey topbarbusyborder]
