@@ -3,6 +3,8 @@
 	<name>Cam Shooter</name>
 	<author>Jerome Gagnon-Voyer (mac code), Le Philousophe (lin/win code) and Karel Demeyer (plugin maintainer)</author>
 	<description>With this plugin you can take shoots of your webcam to use as display picture.</description>
+	<description_fr>Prendre des photos avec sa webcam pour les utiliser en tant qu'avatar.</description_fr>
+	<description_hu>A plugin segítségével felvételeket készíthetsz a saját webkamerádról, és e felvételeket megjelenítendő képként használhatod.</description_hu>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.2</plugin_version>
 	<plugin_file>camshoot.tcl</plugin_file>
