@@ -1,6 +1,7 @@
 amsn_lang_version 2
 add_blockbutton Añadir un botón para bloquear los Zumbidos entrantes en la ventana de charla
 add_button Añadir un botón para enviar un zumbido en la ventana de chat.
+add_clmenuitem Añadir al menú de la lista de contactos
 block_nudge Admitir/No Admitir zumbidos
 delay Tiempo mínimo entre dos Zumbidos del mismo contacto (en segundos)
 limit Activar la limitación de la recepción de Zumbidos
