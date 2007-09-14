@@ -193,6 +193,47 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey assistanttitlefg #FFFFFF
 	::skin::setKey assistanttitlebg #565672
 
+	
+	::skin::setKey extrastdwindowcolor #efefef
+	::skin::setKey extrastdbgcolor #ffffff
+	::skin::setKey extrastdtxtcolor #333333
+	::skin::setKey extraselectedtxtcolor #222222
+	::skin::setKey extraselectedbgcolor #dddddd
+	::skin::setKey extradisabledtxtcolor #666666
+	::skin::setKey extradisabledbgcolor #efefef
+	::skin::setKey extrastderrcolor #FF0000
+	::skin::setKey extrastdokcolor #559c2a
+	::skin::setKey extralistboxselected #0000FF
+	::skin::setKey extralistboxselectedbg #ffffff
+	::skin::setKey extralistboxtitlebg #ffffff
+	::skin::setKey extralistboxtitlefg #000000
+	::skin::setKey extrabuttonbgcolor #efefef
+	::skin::setKey extrabuttontxtcolor #333333
+	::skin::setKey extrabuttonbgcoloractive #dddddd
+	::skin::setKey extrabuttontxtcoloractive #222222
+	::skin::setKey extralinkcolor #0000FF
+	::skin::setKey extralinkcoloractive #6931CA
+	::skin::setKey extralinkbgcoloractive #dddddd
+	::skin::setKey extracheckbuttonselectedcolor #ff0000
+
+	::skin::setKey extraprivacy_old_bg #000000
+	::skin::setKey extraprivacy_old_fg #FF8F8F
+	::skin::setKey extraprivacy_notrl_bg #FF6060
+	::skin::setKey extraprivacy_notrl_fg #A00000
+	::skin::setKey extraprivacy_notfl_bg #FFFF80
+	::skin::setKey extraprivacy_notfl_fg #A00000
+	::skin::setKey extraprivacy_intoal_fg #008000
+	::skin::setKey extraprivacy_intobl_fg #A00000
+
+	::skin::setKey loginurlfghover #6931CA
+	::skin::setKey emailfg #0000FF
+	::skin::setKey emailhover #6931CA
+	::skin::setKey emailhoverbg #dddddd
+
+	::skin::setKey tabfg_hover #FFFFFF
+	
+	::skin::setKey statusbartext_sel #000000
+	
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"
 	#On Mac OS X, there's a mistake between button2 and button3
@@ -221,10 +262,6 @@ if { $initialize_amsn == 1 } {
 		event add <<Copy>> <Control-c> <Control-C>
 		event add <<Cut>> <Control-x> <Control-X>
 	}
-
-
-	#Set the default option for canvas -highlightthickness
-	option add *Canvas.highlightThickness 0
 
 	if { [OnLinux] } {
 		#Mappings for Shift-BackSpace
@@ -275,12 +312,14 @@ namespace eval ::amsn {
 			font create bboldf -family $family -size $size -weight bold
 			font create bboldunderf -family $family -size $size -weight bold -underline true
 			font create bplainf -family $family -size $size -weight normal
+			font create bsunderf -family $family -size $size -weight normal -underline yes
 			font create bigfont -family $family -size $size -weight bold
 			font create examplef -family $family -size $size -weight normal
 		} else {
 			font create bboldf -family $family -size [expr {$size+1}] -weight bold
 			font create bboldunderf -family $family -size [expr {$size+1}] -weight bold -underline true
 			font create bplainf -family $family -size [expr {$size+1}] -weight normal
+			font create bsunderf -family $family -size [expr {$size+1}] -weight normal -underline true
 			font create bigfont -family $family -size [expr {$size+2}] -weight bold
 			font create examplef -family $family -size [expr {$size-2}] -weight normal
 		}
@@ -288,36 +327,85 @@ namespace eval ::amsn {
 		catch {tk_setPalette [::skin::getKey menubackground]}
 		option add *Menu.font menufont
 
-		option add *selectColor #DD0000
+		option add *Canvas.highlightThickness 0
 		option add *Photo.format cximage widgetDefault
 
+		option add *Font splainf userDefault
+		option add *background [::skin::getKey extrastdwindowcolor]
+		option add *foreground [::skin::getKey extrastdtxtcolor]
+		option add *activeBackground [::skin::getKey extrabuttonbgcoloractive]
+		option add *activeForeground [::skin::getKey extrabuttontxtcoloractive]
+		option add *selectColor [::skin::getKey extracheckbuttonselectedcolor]
+
+		option add *Combobox.buttonBackground [::skin::getKey extrastdbgcolor]
+		option add *Combobox.background [::skin::getKey extrastdbgcolor]
+
 		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
-			option add *background [::skin::getKey menubackground]
 
 			option add *borderWidth 1 widgetDefault
 			option add *activeBorderWidth 1 widgetDefault
 			option add *selectBorderWidth 1 widgetDefault
+			option add *highlightThickness 0 widgetDefault
+			option add *troughColor #c3c3c3 widgetDefault
 
-			option add *Listbox.background white widgetDefault
-			option add *Listbox.selectBorderWidth 0 widgetDefault
-			option add *Listbox.selectForeground white widgetDefault
-			option add *Listbox.selectBackground #4a6984 widgetDefault
+			option add *Frame.borderWidth 2 widgetDefault
+			option add *Frame.background [::skin::getKey extrastdwindowcolor]
+			option add *Frame.foreground [::skin::getKey extrastdtxtcolor]
 
-			option add *Entry.background white widgetDefault
+			option add *Labelframe.borderWidth 2 widgetDefault
+			option add *Labelframe.padY 8 widgetDefault
+			option add *Labelframe.padX 12 widgetDefault
+			option add *Labelframe.background [::skin::getKey extrastdwindowcolor]
+			option add *Labelframe.foreground [::skin::getKey extrastdtxtcolor]
+
+			option add *Label.foreground [::skin::getKey extrastdtxtcolor]
+
 			option add *Entry.borderWidth 1 widgetDefault
-			option add *Entry.foreground black widgetDefault
 			option add *Entry.selectBorderWidth 0 widgetDefault
-			option add *Entry.selectForeground white widgetDefault
-			option add *Entry.selectBackground #4a6984 widgetDefault
 			option add *Entry.padX 2 widgetDefault
 			option add *Entry.padY 4 widgetDefault
+			option add *Entry.background [::skin::getKey extrastdbgcolor]
+			option add *Entry.foreground [::skin::getKey extrastdtxtcolor]
+			option add *Entry.disabledBackground [::skin::getKey extradisabledbgcolor] 
+			option add *Entry.disabledForeground [::skin::getKey extradisabledtxtcolor]
+			option add *Entry.selectBackground [::skin::getKey extraselectedbgcolor]
+			option add *Entry.selectForeground [::skin::getKey extraselectedtxtcolor]
 
-			option add *Text.background white widgetDefault
 			option add *Text.selectBorderWidth 0 widgetDefault
-			option add *Text.selectForeground white widgetDefault
-			option add *Text.selectBackground #4a6984 widgetDefault
 			option add *Text.padX 2 widgetDefault
 			option add *Text.padY 4 widgetDefault
+
+
+			option add *Text.background [::skin::getKey extrastdbgcolor]
+			option add *Text.foreground [::skin::getKey extrastdtxtcolor]
+			option add *Text.disabledBackground [::skin::getKey extradisabledbgcolor] 
+			option add *Text.disabledForeground [::skin::getKey extradisabledtxtcolor]
+			option add *Text.selectBackground [::skin::getKey extraselectedbgcolor]
+			option add *Text.selectForeground [::skin::getKey extraselectedtxtcolor]
+ 
+			option add *Button.background [::skin::getKey extrabuttonbgcolor]
+			option add *Button.foreground [::skin::getKey extrabuttontxtcolor]
+			option add *Button.activeBackground [::skin::getKey extrabuttonbgcoloractive]
+			option add *Button.activeForeground [::skin::getKey extrabuttontxtcoloractive]
+
+			option add *Checkbutton.background [::skin::getKey extrastdwindowcolor]
+			option add *Checkbutton.foreground [::skin::getKey extrabuttontxtcolor]
+			option add *Checkbutton.activeBackground [::skin::getKey extrabuttonbgcoloractive]
+			option add *Checkbutton.activeForeground [::skin::getKey extrabuttontxtcoloractive]
+			option add *Checkbutton.selectColor [::skin::getKey extracheckbuttonselectedcolor]
+
+			option add *Radiobutton.background [::skin::getKey extrastdwindowcolor]
+			option add *Radiobutton.foreground [::skin::getKey extrabuttontxtcolor]
+			option add *Radiobutton.activeBackground [::skin::getKey extrabuttonbgcoloractive] 
+			option add *Radiobutton.activeForeground [::skin::getKey extrabuttontxtcoloractive]
+			option add *Radiobutton.selectColor [::skin::getKey extracheckbuttonselectedcolor]
+
+			option add *Listbox.selectBorderWidth 0 widgetDefault
+			option add *Listbox.relief sunken
+			option add *Listbox.background [::skin::getKey extrastdbgcolor]
+			option add *Listbox.foreground [::skin::getKey extrastdtxtcolor]
+			option add *Listbox.selectBackground [::skin::getKey extraselectedbgcolor] 
+			option add *Listbox.selectForeground [::skin::getKey extraselectedtxtcolor]
 
 			option add *Menu.activeBorderWidth 0 widgetDefault
 			option add *Menu.highlightThickness 0 widgetDefault
@@ -327,29 +415,25 @@ namespace eval ::amsn {
 			option add *Menu.activeBackground [::skin::getKey menuactivebackground]
 			option add *Menu.activeForeground [::skin::getKey menuactiveforeground]
 
-			option add *Menubutton.activeBackground #4a6984 widgetDefault
-			option add *Menubutton.activeForeground white widgetDefault
-			option add *Menubutton.activeBorderWidth 0 widgetDefault
-			option add *Menubutton.highlightThickness 0 widgetDefault
-			option add *Menubutton.borderWidth 0 widgetDefault
+			option add *Menubutton.background [::skin::getKey extrabuttonbgcolor]
+			option add *Menubutton.foreground [::skin::getKey extrabuttontxtcolor]
+			option add *Menubutton.activeBackground [::skin::getKey extrabuttonbgcoloractive]
+			option add *Menubutton.activeForeground [::skin::getKey extrabuttontxtcoloractive]
+			option add *Menubutton.relief raised
+
 			option add *Menubutton.padX 2 widgetDefault
 			option add *Menubutton.padY 4 widgetDefault
 
-			option add *Labelframe.borderWidth 2 widgetDefault
-			option add *Frame.borderWidth 2 widgetDefault
-			option add *Labelframe.padY 8 widgetDefault
-			option add *Labelframe.padX 12 widgetDefault
-
-			option add *highlightThickness 0 widgetDefault
-			option add *troughColor #c3c3c3 widgetDefault
+			#option add *NoteBook.background [::skin::getKey extrastdwindowcolor]
+			#option add *NoteBook.Canvas.background [::skin::getKey extrastdwindowcolor]
+			#option add *NoteBook.Canvas.ArrowButton.background [::skin::getKey extrastdwindowcolor]
+				# -activebackground [::skin::getKey extrabuttonbgcoloractive] -activeforeground [::skin::getKey extrabuttontxtcoloractive]
 
 			option add *Scrollbar.width		10
 			option add *Scrollbar.borderWidth		1
 			option add *Scrollbar.highlightThickness	0 widgetDefault
 
-			option add *Button.activeForeground #5b76c6 userDefault
 		}
-		option add *Font splainf userDefault
 		#Use different width for scrollbar on Mac OS X
 		#http://wiki.tcl.tk/12987
 		if { [OnMac] } {
@@ -359,24 +443,17 @@ namespace eval ::amsn {
 			option add *Button.Font macfont userDefault
 			option add *Button.highlightBackground #ECECEC userDefault
 		} elseif { [OnWin] } {
-			option add *background [::skin::getKey menubackground]
+			option add *background [::skin::getKey extrastdwindowcolor]
 			option add *Scrollbar.width 14 userDefault
-			option add *Button.Font sboldf userDefault
-		} else {
-			option add *background [::skin::getKey menubackground]
-			option add *Scrollbar.width 12 userDefault
 			option add *Button.Font sboldf userDefault
 		}
 
-
-
-
 		#option add *Scrollbar.borderWidth 1 userDefault
 
-		set Entry {-bg #FFFFFF -foreground #000000}
-		set Label {-bg #FFFFFF -foreground #000000}
-		::themes::AddClass Amsn Entry $Entry 90
-		::themes::AddClass Amsn Label $Label 90
+		#set Entry {-bg #FFFFFF -foreground #000000}
+		#set Label {-bg #FFFFFF -foreground #000000}
+		#::themes::AddClass Amsn Entry $Entry 90
+		#::themes::AddClass Amsn Label $Label 90
 		::abookGui::Init
 
 
@@ -420,10 +497,8 @@ namespace eval ::amsn {
 
 		wm state .about withdrawn
 
-
 		#Top frame (Picture and name of developers)
 		set developers "Didimo Grimaldo\n Alvaro J. Iradier\n Khalaf Philippe\n Alaoui Youness\n Dave Mifsud\n..."
-
 
 		label .about.image -image [::skin::loadPixmap msndroid]
 		label .about.title -text "aMSN $::version ([::abook::dateconvert $date])" -font bboldf
@@ -431,7 +506,7 @@ namespace eval ::amsn {
 		pack .about.image .about.title .about.what -side top
 
 		#names-frame
-		frame .about.names -class Amsn
+		frame .about.names
 		label .about.names.t -font splainf -text "[trans broughtby]:\n$developers"
 		pack .about.names.t -side top
 		pack .about.names -side top
@@ -439,31 +514,36 @@ namespace eval ::amsn {
 
 		#Middle frame (About text)
 		frame .about.middle
-		frame .about.middle.list -class Amsn -borderwidth 0
-		text .about.middle.list.text -background white -width 80 -height 10 -wrap word \
+		frame .about.middle.list -borderwidth 0
+		text .about.middle.list.text -width 80 -height 10 -wrap word \
 			-yscrollcommand ".about.middle.list.ys set" -font splainf
 		scrollbar .about.middle.list.ys -command ".about.middle.list.text yview"
 		pack .about.middle.list.ys -side right -fill y
 		pack .about.middle.list.text -side left -expand true -fill both
 		pack .about.middle.list -side top -expand true -fill both -padx 1 -pady 1
 
-		label .about.middle.url -text $weburl -font bplainf -fg blue
+		label .about.middle.url -text $weburl -font bplainf \
+			-background [::skin::getKey extrastdwindowcolor] -foreground [::skin::getKey extralinkcolor]
+
 		pack .about.middle.url -side top -pady 3
+		bind .about.middle.url <Enter> ".about.middle.url configure \
+			-font bsunderf -cursor hand2 \
+			-background [::skin::getKey extralinkbgcoloractive] -foreground [::skin::getKey extralinkcoloractive]"
+ 
+		bind .about.middle.url <Leave> ".about.middle.url configure  \
+			-font bplainf -cursor left_ptr \
+			-background [::skin::getKey extrastdwindowcolor] -foreground [::skin::getKey extralinkcolor]"
 
-		bind .about.middle.url <Enter> ".about.middle.url configure -font bboldf "
-		bind .about.middle.url <Leave> ".about.middle.url configure -font bplainf"
-
-		bind .about.middle.url <Enter> "+.about.middle.url configure -cursor hand2"
-#		bind .about.middle.url <Leave> ".about.middle.url configure -cursor left_ptr"
+		
 
 		bind .about.middle.url <Button1-ButtonRelease> "launch_browser $weburl"
 
 
 		#Bottom frame (Close button)
-		frame .about.bottom -class Amsn
+		frame .about.bottom
 		button .about.bottom.close -text "[trans close]" -command "destroy .about"
-		bind .about <<Escape>> "destroy .about"
 		button .about.bottom.credits -text "[trans credits]..." -command [list ::amsn::showHelpFileWindow CREDITS [trans credits]]
+		bind .about <<Escape>> "destroy .about"
 
 		pack .about.bottom.close -side right
 		pack .about.bottom.credits -side left
@@ -556,9 +636,10 @@ namespace eval ::amsn {
 
 		#Top frame (Help text area)
 		frame $w.info
-		frame $w.info.list -class Amsn -borderwidth 0
-		text $w.info.list.text -background white -width 80 -height 30 -wrap word \
-			-yscrollcommand "$w.info.list.ys set" -font   splainf
+		frame $w.info.list -borderwidth 0
+		text $w.info.list.text -width 80 -height 30 -wrap word \
+			-yscrollcommand "$w.info.list.ys set" -font splainf
+
 		scrollbar $w.info.list.ys -command "$w.info.list.text yview"
 		pack $w.info.list.ys 	-side right -fill y
 		pack $w.info.list.text -expand true -fill both -padx 1 -pady 1
@@ -645,14 +726,16 @@ namespace eval ::amsn {
 		if {$icon == ""} {
 			label $w.top.bitmap -image [::skin::loadPixmap warning]
 		} else {
-			label $w.top.bitmap -bitmap $icon
+			label $w.top.bitmap -image [::skin::loadPixmap $icon]
 		}
 		pack $w.top.bitmap -side left -pady 0 -padx [list 0 12 ]
 
 		label $w.top.message -text $message -wraplength 400 -justify left
 		pack $w.top.message -pady 0 -padx 0 -side top
 		if {$askRememberAnswer} {
-			checkbutton $w.top.remember -variable customMessageBoxRememberTracker($unique) -text [trans remembersetting] -anchor w -state normal
+			checkbutton $w.top.remember -variable customMessageBoxRememberTracker($unique) \
+				-text [trans remembersetting] -anchor w -state normal
+
 			pack $w.top.remember -pady 5 -padx 10 -side bottom -fill x
 		}
 
@@ -704,11 +787,17 @@ namespace eval ::amsn {
 		bind $w <<Escape>> "destroy $w"
 		wm protocol $w WM_DELETE_WINDOW [list set customMessageBoxAnswerTracker($unique) ""]
 
+		set oldgrab ""
 		if { $modal } {
+			set oldgrab [grab current]
 			grab set $w
 		}
 
 		tkwait variable customMessageBoxAnswerTracker($unique)
+
+		if { $oldgrab != "" } {
+			grab set $oldgrab
+		}
 
 		catch { destroy $w }
 		if {$askRememberAnswer} {
@@ -1646,7 +1735,7 @@ namespace eval ::amsn {
 
 		frame $w.fn
 		label $w.fn.label -font sboldf -text "[trans customstyle]:"
-		entry $w.fn.ent -width 40 -bg #FFFFFF -bd 1 -font splainf
+		entry $w.fn.ent -width 40 -bd 1 -font splainf
 		menubutton $w.fn.help -font sboldf -text "<-" -menu $w.fn.help.menu
 		menu $w.fn.help.menu -tearoff 0
 		$w.fn.help.menu add command -label [trans nick] -command "$w.fn.ent insert insert \\\$nick"
@@ -2323,14 +2412,14 @@ namespace eval ::amsn {
 		if { [OnMac] } {
 			frame $wname.blueframe -background [::skin::getKey topcontactlistbg]
 		} else {
-			frame $wname.blueframe -background [::skin::getKey mainwindowbg]
+			frame $wname.blueframe
 		}
 
-		frame $wname.blueframe.list -class Amsn -borderwidth 0
-		frame $wname.buttons -class Amsn
+		frame $wname.blueframe.list -borderwidth 0
+		frame $wname.buttons
 
 		listbox $wname.blueframe.list.items -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
-			-background white -relief flat -highlightthickness 0 -height 20 -width 60
+			-highlightthickness 0 -height 20 -width 60
 		scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.items yview" -highlightthickness 0 \
 			-borderwidth 1 -elementborderwidth 1
 
@@ -3235,7 +3324,7 @@ namespace eval ::amsn {
 				return
 			}
 
-			toplevel $w
+			toplevel $w -bg [::skin::getKey extrastdwindowcolor]
 			wm title $w "[trans title]"
 			wm group $w .
 			wm resizable $w 0 0
@@ -3788,11 +3877,11 @@ proc cmsn_draw_main {} {
 	}
 
 	#Put the color, size and style of the border around the contact list (from the skin)
-	frame .main -class Amsn -relief [::skin::getKey mainwindowrelief "flat"] \
+	frame .main -relief [::skin::getKey mainwindowrelief "flat"] \
 		-borderwidth [::skin::getKey mainwindowbd "1"] \
 		-background [::skin::getKey mainwindowbg "white"]
 
-	frame .main.f -class Amsn -relief flat -background white -borderwidth 0
+	frame .main.f -relief flat -background [::skin::getKey mainwindowbg "white"] -borderwidth 0
 	pack .main -fill both -expand true
 	pack .main.f -expand true -fill both -padx [::skin::getKey buddylistpad] -pady [::skin::getKey buddylistpad] -side top
 
@@ -3828,7 +3917,7 @@ proc cmsn_draw_main {} {
 
 	# Initialize the event history
 	frame .main.eventmenu
-	combobox::combobox .main.eventmenu.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false
+	combobox::combobox .main.eventmenu.list -editable false -highlightthickness 0 -width 22 -exportselection false
 
 	#Display the amsn banner if it is enabled
 	label .main.banner -borderwidth 0 -relief flat -background [::skin::getKey bannerbg]
@@ -4319,10 +4408,10 @@ proc cmsn_draw_status {} {
 
 	set followtext_status 1
 
-	text $w.info -background white -width 60 -height 30 -wrap word \
+	text $w.info -width 60 -height 30 -wrap word \
 		-yscrollcommand "$w.ys set" -font splainf
 	scrollbar $w.ys -command "$w.info yview"
-	entry $w.enter -background white
+	entry $w.enter
 	checkbutton $w.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status -font sboldf
 
 	frame $w.bot -relief sunken -borderwidth 1
@@ -4371,13 +4460,13 @@ proc status_save { } {
 	label $w.msg -justify center -text "Please give a filename"
 	pack $w.msg -side top
 
-	frame $w.buttons -class Degt
+	frame $w.buttons
 	pack $w.buttons -side bottom -fill x -pady 2m
 	button $w.buttons.dismiss -text Cancel -command "destroy $w"
 	button $w.buttons.save -text Save -command "status_save_file $w.filename.entry; destroy $w"
 	pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
-	frame $w.filename -bd 2 -class Degt
+	frame $w.filename -bd 2
 	entry $w.filename.entry -relief sunken -width 40
 	label $w.filename.label -text "Filename:"
 	pack $w.filename.entry -side right
@@ -4431,19 +4520,19 @@ proc cmsn_draw_reconnect { error_msg } {
 	$clcanvas create image 0 90 -image $loganim -anchor n -tags [list loganim centerx]
 
 	$clcanvas create text 0 [expr 120 + [image height $loganim]] -text "$error_msg" -font splainf \
-		-fill #000000 -justify center -tags [list errormsg centerx]
+		-fill [::skin::getKey loginfg]  -justify center -tags [list errormsg centerx]
 
 	$clcanvas create text 0 [expr 190 + [image height $loganim]] -text "[trans reconnecting]..." -font sboldf \
-		-fill #000000 -tags [list signin centerx]
+		-fill [::skin::getKey loginfg]  -tags [list signin centerx]
 
-	$clcanvas create text 0 [expr 250 + [image height $loganim]] -text "[trans cancel]" -font sunderf \
-		-fill #000000 -tags [list cancel_reconnect centerx]
+	$clcanvas create text 0 [expr 250 + [image height $loganim]] -text "[trans cancel]" -font splainf \
+		-fill [::skin::getKey loginurlfg] -tags [list cancel_reconnect centerx]
 
 	$clcanvas bind cancel_reconnect <Enter> \
-		"$clcanvas itemconfigure cancel_reconnect -fill #0000A0 -font splainf;\
+		"$clcanvas itemconfigure cancel_reconnect -fill [::skin::getKey loginurlfghover] -font sunderf;\
 		$clcanvas configure -cursor hand2"
 	$clcanvas bind cancel_reconnect <Leave> \
-		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
+		"$clcanvas itemconfigure cancel_reconnect -fill [::skin::getKey loginurlfg] -font splainf;\
 		$clcanvas configure -cursor left_ptr"
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
 		"preLogout \"::MSN::cancelReconnect\""
@@ -4484,16 +4573,16 @@ proc cmsn_draw_signin {} {
 	$clcanvas create image 0 90 -image $loganim -anchor n -tags [list loganim centerx]
 
 	$clcanvas create text 0 [expr 120 + [image height $loganim]] -text "[trans loggingin]..." -font sboldf \
-		-fill #000000 -tags [list signin centerx]
+		-fill [::skin::getKey loginfg] -tags [list signin centerx]
 
-	$clcanvas create text 0 [expr 190 + [image height $loganim]] -text "[trans cancel]" -font sunderf \
-		-fill #000000 -tags [list cancel_reconnect centerx]
+	$clcanvas create text 0 [expr 190 + [image height $loganim]] -text "[trans cancel]" -font splainf \
+		-fill [::skin::getKey loginurlfg] -tags [list cancel_reconnect centerx]
 
 	$clcanvas bind cancel_reconnect <Enter> \
-		"$clcanvas itemconfigure cancel_reconnect -fill #0000A0 -font splainf;\
+		"$clcanvas itemconfigure cancel_reconnect -fill [::skin::getKey loginurlfghover] -font sunderf;\
 		$clcanvas configure -cursor hand2"
 	$clcanvas bind cancel_reconnect <Leave> \
-		"$clcanvas itemconfigure cancel_reconnect -fill #000000 -font sunderf;\
+		"$clcanvas itemconfigure cancel_reconnect -fill [::skin::getKey loginurlfg] -font splainf;\
 		$clcanvas configure -cursor left_ptr"
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
 		"preLogout \"::MSN::cancelReconnect\""
@@ -4562,33 +4651,30 @@ proc cmsn_draw_login {} {
 
 	radiobutton $mainframe.button -text [trans defaultloginradio] -value 0 -variable loginmode -command "RefreshLogin $mainframe"
 	label $mainframe.loginlabel -text "[trans user]: " -font sboldf
-	entry $mainframe.loginentry -bg #FFFFFF -font splainf -width 25
-	if { [::config::getGlobalKey disableprofiles]!=1} { grid $mainframe.button -row 1 -column 1 -columnspan 2 -sticky w -padx 10 }
+	entry $mainframe.loginentry -width 25
+	if { [::config::getGlobalKey disableprofiles]!=1} { 
+		grid $mainframe.button -row 1 -column 1 -columnspan 2 -sticky w -padx 10 
+	}
 	grid $mainframe.loginlabel -row 2 -column 1 -sticky e -padx 10
 	grid $mainframe.loginentry -row 2 -column 2 -sticky w -padx 10
 
 	radiobutton $mainframe.button2 -text [trans profileloginradio] -value 1 -variable loginmode -command "RefreshLogin $mainframe"
-	combobox::combobox $mainframe.box \
-		-editable false \
-		-highlightthickness 0 \
-		-width 25 \
-		-bg #FFFFFF \
-		-font splainf \
-		-command ConfigChange
+	combobox::combobox $mainframe.box -editable false -width 25 -command ConfigChange
 	if { [::config::getGlobalKey disableprofiles]!=1} {
 		grid $mainframe.button2 -row 1 -column 3 -sticky w
 		grid $mainframe.box -row 2 -column 3 -sticky w
 	}
 
 	label $mainframe.passlabel -text "[trans pass]: " -font sboldf
-	entry $mainframe.passentry -bg #FFFFFF  -font splainf  -width 25 -show "*" -vcmd {expr {[string length %P]<=16} } -validate key
-	entry $mainframe.passentry2 -bg #FFFFFF  -font splainf  -width 25 -show "*" -vcmd {expr {[string length %P]<=16} } -validate key
+	entry $mainframe.passentry -width 25 -show "*" -vcmd {expr {[string length %P]<=16} } -validate key
+	entry $mainframe.passentry2 -width 25 -show "*" -vcmd {expr {[string length %P]<=16} } -validate key
 	checkbutton $mainframe.remember -variable [::config::getVar save_password] \
-		-text "[trans rememberpass]" -font splainf -highlightthickness 0 -pady 5 -padx 10
+		-text "[trans rememberpass]" -pady 5 -padx 10
 
 	#Combobox to choose our state on connect
 	label $mainframe.statetext -text "[trans signinstatus]" -font splainf
-	combobox::combobox $mainframe.statelist -editable false -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf -command remember_state_list
+	combobox::combobox $mainframe.statelist -editable false -width 15 -command remember_state_list \
+		-bg [::skin::getKey extrastdbgcolor]
 	$mainframe.statelist list delete 0 end
 	set i 0
 	while {$i < 8} {
@@ -4603,7 +4689,7 @@ proc cmsn_draw_login {} {
 	$mainframe.statelist select [get_state_list_idx [::config::getKey connectas]]
 	label $mainframe.example -text "[trans examples] :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com" -font examplef -padx 10
 
-	set buttonframe [frame .login.buttons -class Degt]
+	set buttonframe [frame .login.buttons]
 	button $buttonframe.cancel -text [trans cancel] -command "ButtonCancelLogin .login"
 	button $buttonframe.ok -text [trans ok] -command login_ok -default active
 	button $buttonframe.addprofile -text [trans addprofile] -command AddProfileWin
@@ -4762,13 +4848,13 @@ proc AddProfileWin {} {
 
 	set mainframe [labelframe .add_profile.main -text [trans  addprofile] -font splainf]
 	label $mainframe.desc -text "[trans addprofiledesc]" -font splainf  -justify left
-	entry $mainframe.login -bg #FFFFFF -bd 1 -font splainf  -highlightthickness 0 -width 35
+	entry $mainframe.login -bd 1 -font splainf  -highlightthickness 0 -width 35
 	label $mainframe.example -text "[trans examples]  :\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"  -font examplef -padx 10
 	grid $mainframe.desc -row 1 -column 1 -sticky w -columnspan 2 -padx 5  -pady 5
 	grid $mainframe.login -row 2 -column 1 -padx 5 -pady 5
 	grid $mainframe.example -row 2 -column 2 -sticky e
 
-	set buttonframe [frame .add_profile.buttons -class Degt]
+	set buttonframe [frame .add_profile.buttons]
 	button $buttonframe.cancel -text [trans cancel] -command "grab release  .add_profile; destroy .add_profile"
 	button $buttonframe.ok -text [trans ok] -command "AddProfileOk  $mainframe"
 
@@ -4972,11 +5058,10 @@ proc cmsn_draw_buildtop_wrapped {} {
 		$pgBuddyTop.mail configure -state normal
 	
 		#Set up TAGS for mail notification
-		$pgBuddyTop.mail tag conf mail -fore black -underline true -font splainf
+		$pgBuddyTop.mail tag conf mail -fore [::skin::getKey emailfg] -underline false -font splainf
 		$pgBuddyTop.mail tag bind mail <Button1-ButtonRelease> "$pgBuddyTop.mail conf -cursor watch; ::hotmail::hotmail_login"
-		$pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under false;$pgBuddyTop.mail conf -cursor hand2"
-		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under true;$pgBuddyTop.mail conf -cursor left_ptr"
-	
+		$pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under true -fore [::skin::getKey emailhover] -background [::skin::getKey emailhoverbg];$pgBuddyTop.mail conf -cursor hand2"
+		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under false -fore [::skin::getKey emailfg] -background [::skin::getKey topcontactlistbg];$pgBuddyTop.mail conf -cursor left_ptr"
 	
 		set unread [::hotmail::unreadMessages]
 		set froms [::hotmail::getFroms]
@@ -5077,10 +5162,11 @@ proc drawNick { } {
 	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
 	set my_name [::abook::getVolatileData myself parsed_mfn]
 	set my_colour [::MSN::stateToColor [::MSN::myStatusIs] "contact"]
+	set my_colour_state [::MSN::stateToColor [::MSN::myStatusIs] "state"]
 
 	lappend stylestring [list "tag" "mystatus"]
 	lappend stylestring [list "default" $my_colour [::skin::getFont "mystatus" "bboldf"]]
-	lappend stylestring [list "colour" "reset"]
+	lappend stylestring [list "colour" $my_colour_state]
 	lappend stylestring [list "font" "reset"]
 	set stylestring [concat $stylestring $my_name]
 	lappend stylestring [list "colour" "reset"]
@@ -5386,12 +5472,12 @@ proc cmsn_draw_addcontact {} {
 	wm title .addcontact "[trans addacontact] - [trans title]"
 
 	label .addcontact.l -font sboldf -text "[trans entercontactemail]:"
-	entry .addcontact.email -width 50 -bg #FFFFFF -font splainf
+	entry .addcontact.email -width 50 -font splainf
 	label .addcontact.example -font examplef -justify left \
 		-text "[trans examples]:\ncopypastel@hotmail.com\nelbarney@msn.com\nexample@passport.com"
 
 	frame .addcontact.group
-	combobox::combobox .addcontact.group.list -editable false -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf -exportselection false
+	combobox::combobox .addcontact.group.list -editable false -highlightthickness 0 -width 22 -font splainf -exportselection false
 	set groups [::groups::GetList]
 	foreach gid $groups {
 		.addcontact.group.list list insert end "[::groups::GetName $gid]"
@@ -5458,7 +5544,7 @@ proc cmsn_draw_otherwindow { title command } {
 	wm title .otherwindow "$title"
 
 	label .otherwindow.l -font sboldf -text "[trans entercontactemail]:"
-	entry .otherwindow.email -width 50 -bg #FFFFFF -bd 1 \
+	entry .otherwindow.email -width 50 -bd 1 \
 		-font splainf
 
 	frame .otherwindow.b
@@ -5584,17 +5670,17 @@ proc cmsn_change_name {} {
 
 	frame $w.f
 	label $w.f.nick_label -font sboldf -text "[trans enternick]:"
-	entry $w.f.nick_entry -width 40 -bg #FFFFFF -font splainf
+	entry $w.f.nick_entry -width 40 -font splainf
 	label $w.f.nick_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
 	label $w.f.nick_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
 	label $w.f.psm_label -font sboldf -text "[trans enterpsm]:"
-	entry $w.f.psm_entry -width 40 -bg #FFFFFF -font splainf
+	entry $w.f.psm_entry -width 40 -font splainf
 	label $w.f.psm_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
 	label $w.f.psm_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 
 	label $w.f.p4c_label -font sboldf -text "[trans friendlyname]:"
-	entry $w.f.p4c_entry -width 40 -bg #FFFFFF -font splainf
+	entry $w.f.p4c_entry -width 40 -font splainf
 	label $w.f.p4c_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
 	label $w.f.p4c_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
 	
@@ -5710,38 +5796,41 @@ proc Fill_users_list { path path2} {
 	$path2.reverselist.box delete 0 end
 
 	foreach user [lsort [::MSN::getList AL]] {
-		$path.allowlist.box insert end $user
-
-		set foreground #008000
-
-		if {([lsearch [::abook::getLists $user] RL] == -1) && ([lsearch [::abook::getLists $user] FL] == -1)} {
-			set colour #000000
-			set foreground #8FFF8F
-		} elseif {[lsearch [::abook::getLists $user] RL] == -1} {
-			set colour #FF6060
-		} elseif {[lsearch [::abook::getLists $user] FL] == -1} {
-			set colour #FFFF80
-		} else {
-			set colour #FFFFFF
+		if {[lsearch [::abook::getLists $user] BL] == -1} {
+			$path.allowlist.box insert end $user
+ 
+			if {([lsearch [::abook::getLists $user] RL] == -1) && ([lsearch [::abook::getLists $user] FL] == -1)} {
+				set colour [::skin::getKey extraprivacy_old_bg]
+				set foreground [::skin::getKey extraprivacy_old_fg]
+			} elseif {[lsearch [::abook::getLists $user] RL] == -1} {
+				set colour [::skin::getKey extraprivacy_notrl_bg]
+				set foreground [::skin::getKey extraprivacy_notrl_fg]
+			} elseif {[lsearch [::abook::getLists $user] FL] == -1} {
+				set colour [::skin::getKey extraprivacy_notfl_bg]
+				set foreground [::skin::getKey extraprivacy_notfl_fg]
+			} else {
+				set colour [::skin::getKey extrastdbgcolor]
+				set foreground [::skin::getKey extrastdtxtcolor]
+			}
 		}
-
 		$path.allowlist.box itemconfigure end -background $colour -foreground $foreground
 	}
 
 	foreach user [lsort [::MSN::getList BL]] {
 		$path.blocklist.box insert end $user
 
-		set foreground #A00000
-
 		if {([lsearch [::abook::getLists $user] RL] == -1) && ([lsearch [::abook::getLists $user] FL] == -1)} {
-			set colour #000000
-			set foreground #FF8F8F
+			set colour [::skin::getKey extraprivacy_old_bg]
+			set foreground [::skin::getKey extraprivacy_old_fg]
 		} elseif {[lsearch [::abook::getLists $user] RL] == -1} {
-			set colour #FF6060
+			set colour [::skin::getKey extraprivacy_notrl_bg]
+			set foreground [::skin::getKey extraprivacy_notrl_fg]
 		} elseif {[lsearch [::abook::getLists $user] FL] == -1} {
-			set colour #FFFF80
+			set colour [::skin::getKey extraprivacy_notfl_bg]
+			set foreground [::skin::getKey extraprivacy_notfl_fg]
 		} else {
-			set colour #FFFFFF
+			set colour [::skin::getKey extrastdbgcolor]
+			set foreground [::skin::getKey extrastdtxtcolor]
 		}
 
 		$path.blocklist.box itemconfigure end -background $colour -foreground $foreground
@@ -5750,18 +5839,18 @@ proc Fill_users_list { path path2} {
 	foreach user [lsort [::MSN::getList FL]] {
 		$path2.contactlist.box insert end $user
 
-		set foreground #000000
+		set foreground [::skin::getKey extrastdtxtcolor]
 
 		if {[lsearch [::MSN::getList AL] $user] != -1} {
-			set foreground #008000
+			set foreground [::skin::getKey extraprivacy_intoal_fg]
 		} elseif {[lsearch [::MSN::getList BL] $user] != -1} {
-			set foreground #A00000
+			set foreground [::skin::getKey extraprivacy_intobl_fg]
 		}
 
 		if {[lsearch [::MSN::getList RL] $user] == -1} {
-			set colour #FF6060
+			set colour [::skin::getKey extraprivacy_notrl_bg]
 		} else {
-			set colour #FFFFFF
+			set colour [::skin::getKey extrastdbgcolor]
 		}
 
 		$path2.contactlist.box itemconfigure end -background $colour -foreground $foreground
@@ -5771,18 +5860,18 @@ proc Fill_users_list { path path2} {
 	foreach user [lsort [::MSN::getList RL]] {
 		$path2.reverselist.box insert end $user
 
-		set foreground #000000
+		set foreground [::skin::getKey extrastdtxtcolor]
 
 		if {[lsearch [::MSN::getList AL] $user] != -1} {
-			set foreground #008000
+			set foreground [::skin::getKey extraprivacy_intoal_fg]
 		} elseif {[lsearch [::MSN::getList BL] $user] != -1} {
-			set foreground #A00000
+			set foreground [::skin::getKey extraprivacy_intobl_fg]
 		}
 
 		if {[lsearch [::MSN::getList FL] $user] == -1} {
-			set colour #FFFF80
+			set colour [::skin::getKey extraprivacy_notfl_bg]
 		} else {
-			set colour #FFFFFF
+			set colour [::skin::getKey extrastdbgcolor]
 		}
 		$path2.reverselist.box itemconfigure end -background $colour -foreground $foreground
 	}
@@ -6886,7 +6975,7 @@ proc dpBrowser { {target_user "self" } } {
 	#combobox to choose user which configures the widget with -user $user
 
 	set combo $w.leftpane.moredpstitle.combo
-	combobox::combobox $combo -highlightthickness 0 -width 22  -font splainf -exportselection true -command "configureDpBrowser $target_user" -editable false -bg #FFFFFF
+	combobox::combobox $combo -highlightthickness 0 -width 22  -font splainf -exportselection true -command "configureDpBrowser $target_user" -editable false
 	$combo list delete 0 end
 	$combo list insert end "[trans selectcontact]"
 	
@@ -7106,7 +7195,7 @@ proc AskDPSize { cursize } {
 	set done 0
 
 	label .askdpsize.lwhatsize -text [trans whatsize] -font splainf
-	frame .askdpsize.rb -class Degt
+	frame .askdpsize.rb
 
 	radiobutton .askdpsize.rb.retain -text [trans original] -value $cursize -variable dpsize
 	radiobutton .askdpsize.rb.huge -text [trans huge] -value "192x192" -variable dpsize

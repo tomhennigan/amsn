@@ -472,12 +472,12 @@ namespace eval ::log {
 		} else {
 			frame $wname.blueframe -background [::skin::getKey mainwindowbg]
 		}
-		frame $wname.blueframe.log -class Amsn -borderwidth 0
-		frame $wname.buttons -class Amsn
+		frame $wname.blueframe.log -borderwidth 0
+		frame $wname.buttons
 
 
 		::ChatWindow::rotext $wname.blueframe.log.txt -yscrollcommand "$wname.blueframe.log.ys set" -font splainf \
-		    -background white -relief flat -highlightthickness 0 -height 1 -exportselection 1 -selectborderwidth 1 \
+		    -relief flat -highlightthickness 0 -height 1 -exportselection 1 -selectborderwidth 1 \
 		    -wrap word
 		scrollbar $wname.blueframe.log.ys -command "$wname.blueframe.log.txt yview" -highlightthickness 0 \
 		    -borderwidth 1 -elementborderwidth 2
@@ -496,8 +496,8 @@ namespace eval ::log {
 			set logvar "\|\"LRED[trans nologfile $email]"
 		}
 
-		frame $wname.top.contact  -class Amsn -borderwidth 0
-		combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+		frame $wname.top.contact -borderwidth 0
+		combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22
 		$wname.top.contact.list list delete 0 end
 		foreach contact $sortedcontact_list {
 			$wname.top.contact.list list insert end $contact
@@ -607,14 +607,14 @@ namespace eval ::log {
 		} else {
 			frame $wname.blueframe -background [::skin::getKey mainwindowbg]
 		}
-		frame $wname.blueframe.log -class Amsn -borderwidth 0
-		frame $wname.buttons -class Amsn
+		frame $wname.blueframe.log -borderwidth 0
+		frame $wname.buttons
 
 		set img [image create photo ${wname}_img -w 320 -h 240]
 		label $wname.blueframe.log.l -image $img
 
-		frame $wname.top.contact  -class Amsn -borderwidth 0
-		combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+		frame $wname.top.contact -borderwidth 0
+		combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22
 		$wname.top.contact.list list delete 0 end
 		foreach contact $sortedcontact_list {
 			$wname.top.contact.list list insert end $contact
@@ -654,11 +654,11 @@ namespace eval ::log {
 				                    destroy $wname
 			         	      }" \
 
-		frame $wname.slider -class Amsn -borderwidth 0
+		frame $wname.slider -borderwidth 0
 
 		scale $wname.slider.playbackspeed -from 10 -to 500 -resolution 1 -showvalue 1 -label "[trans playbackspeed]" -variable [::config::getVar playbackspeed] -orient horizontal
 		
-		frame $wname.position -class Amsn -borderwidth 0
+		frame $wname.position -borderwidth 0
 
 		#if { ![info exists ::seek_val($img)] } {
 		#	set ::seek_val($img) 0
@@ -852,8 +852,8 @@ namespace eval ::log {
 		if { [::config::getKey logsbydate] == 1 } {
 			#If this is the first log we view
 			if {$init == 1} {
-				frame $wname.top.date  -class Amsn -borderwidth 0
-				combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+				frame $wname.top.date -borderwidth 0
+				combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22
 			}			
 			set date_list ""
 			set erdate_list ""
@@ -905,10 +905,10 @@ namespace eval ::log {
 
 		# Create the sessions combobox
 		if {$init == 1 } {
-			frame $wname.top.sessions  -class Amsn -borderwidth 0
+			frame $wname.top.sessions -borderwidth 0
 			combobox::combobox $wname.top.sessions.list \
 			    -command "::log::JumpToSession $wname" \
-			    -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+			    -highlightthickness 0 -width 22
 		}
 
 
@@ -916,8 +916,8 @@ namespace eval ::log {
 		if { [::config::getKey logsbydate] == 1 } {
 			#If this is the first log we view
 			if {$init == 1} {
-				frame $wname.top.date  -class Amsn -borderwidth 0
-				combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+				frame $wname.top.date -borderwidth 0
+				combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22
 			}			
 			set date_list ""
 			set erdate_list ""
@@ -1815,7 +1815,7 @@ namespace eval ::log {
 		
 		frame $w.select
 		label $w.select.text -text [trans stats] -font bigfont
-		combobox::combobox $w.select.list -editable true -highlightthickness 0 -width 15 -bg #FFFFFF -font splainf
+		combobox::combobox $w.select.list -editable true -highlightthickness 0 -width 15
 		$w.select.list list delete 0 end
 		$w.select.list list insert end "[trans allmonths]"
 		$w.select.list select "0"

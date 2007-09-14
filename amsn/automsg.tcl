@@ -395,23 +395,23 @@ proc EditNewState { mode { idx "" } } {
 	pack .editstate.1.away -side left -anchor nw
 
 	if { $mode == 0 || $mode == 1 } {
-		label .editstate.1.laway -text [trans statenewtext] -padx 10 -justify left -font splainf
+		label .editstate.1.laway -text [trans statenewtext] -padx 10 -justify left
 	} else { 
-		label .editstate.1.laway -text [trans stateedittext] -padx 10 -justify left -font splainf
+		label .editstate.1.laway -text [trans stateedittext] -padx 10 -justify left
 	}
 	pack .editstate.1.laway -fill both -side left
     
-	label $lfname.ldesc -text "[trans statename] :" -font splainf 
-	entry $lfname.edesc -bg #FFFFFF -font splainf -width 40
-	label $lfname.lnick -text "[trans statenick] :" -font splainf
-	entry $lfname.enick -bg #FFFFFF -font splainf  -width 40
+	label $lfname.ldesc -text "[trans statename] :" 
+	entry $lfname.edesc -font splainf -width 40
+	label $lfname.lnick -text "[trans statenick] :"
+	entry $lfname.enick -font splainf  -width 40
 	menubutton $lfname.nickhelp -font sboldf -text "<-" -menu $lfname.nickhelp.menu
 	menu $lfname.nickhelp.menu -tearoff 0
 	$lfname.nickhelp.menu add command -label [trans nick] -command "$lfname.enick insert insert \\\$nick"
 	$lfname.nickhelp.menu add separator
 	$lfname.nickhelp.menu add command -label [trans delete] -command "$lfname.enick delete 0 end"
 	label $lfname.lpsm -text "[trans statepsm] :" -font splainf
-        entry $lfname.epsm -bg #FFFFFF -font splainf  -width 40
+        entry $lfname.epsm -font splainf  -width 40
         menubutton $lfname.psmhelp -font sboldf -text "<-" -menu $lfname.psmhelp.menu
         menu $lfname.psmhelp.menu -tearoff 0
         $lfname.psmhelp.menu add command -label [trans psm] -command "$lfname.epsm insert insert \\\$psm"
@@ -419,9 +419,9 @@ proc EditNewState { mode { idx "" } } {
         $lfname.psmhelp.menu add command -label [trans delete] -command "$lfname.epsm delete 0 end"
 
 	label $lfname.lstate -text "[trans state] :" -font splainf
-	combobox::combobox $lfname.statebox -editable false -highlightthickness 0 -width 37 -bg #FFFFFF -font splainf -command ""
+	combobox::combobox $lfname.statebox -editable false -highlightthickness 0 -width 37 -command ""
 	label $lfname.lmsg -text "[trans stateautomsg] :" -font splainf
-	text $lfname.emsg -background white -borderwidth 2 -relief ridge -width 40 -height 5 -font splainf
+	text $lfname.emsg -borderwidth 2 -relief ridge -width 40 -height 5 -font splainf
 	checkbutton $lfname.mute -text [trans blocksounds] -onvalue 1 -offvalue 0 -variable state_mute
 	checkbutton $lfname.blind -text [trans blocknotifications] -onvalue 1 -offvalue 0 -variable state_blind
 	set state_mute 0

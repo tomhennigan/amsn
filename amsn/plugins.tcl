@@ -474,7 +474,7 @@ namespace eval ::plugins {
 		wm geometry $w 500x400
 		# create widgets
 		# listbox with all the plugins
-		listbox $w.plugin_list -background "white" -height 15 -yscrollcommand "$w.ys set" -relief flat -highlightthickness 0
+		listbox $w.plugin_list -height 15 -yscrollcommand "$w.ys set" -highlightthickness 0
 		scrollbar $w.ys -command "$w.plugin_list yview"
 
 		#Scrollableframe that will contain pieces of information about a plugin
@@ -494,10 +494,20 @@ namespace eval ::plugins {
 		# TODO make the -wraplength fit the label's width
 		label $mF.desc -wraplength 280 -justify left -anchor w
 		# holds the 'command center' buttons
-		label $w.getmore -text "[trans getmoreplugins]" -fg #0000FF -cursor hand2
+		label $w.getmore -text "[trans getmoreplugins]" -cursor hand2 -font splainf \
+			-background [::skin::getKey extrastdwindowcolor] -foreground [::skin::getKey extralinkcolor]
+ 
+		bind $w.getmore <Enter> "$w.getmore configure -font sunderf -cursor hand2 \
+			-background [::skin::getKey extralinkbgcoloractive] -foreground [::skin::getKey extralinkcoloractive]"
+		bind $w.getmore <Leave> "$w.getmore configure -font splainf -cursor left_ptr \
+			-background [::skin::getKey extrastdwindowcolor] -foreground [::skin::getKey extralinkcolor]"
+
+		set lang [::config::getGlobalKey language]
+		bind $w.getmore <ButtonRelease> "launch_browser $::weburl/plugins.php?lang=$lang"
+
 
 		button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
-		button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" ;#-state disabled
+		button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" -state disabled
 		button $w.close -text [trans close] -command "::plugins::GUI_Close"
  
 		#loop through all the plugins and add them to the list
@@ -506,12 +516,11 @@ namespace eval ::plugins {
 		    # add the plugin name to the list at counterid position
 		    $w.plugin_list insert end $name
 		    # if the plugin is loaded, color it one color. otherwise use other colors
-		    #TODO: Why not use skins?
 		    if {[lsearch "$loadedplugins" $plugins(${name}_name)] != -1} {
-			$w.plugin_list itemconfigure end -background #DDF3FE
-		    } else {
-			$w.plugin_list itemconfigure end -background #FFFFFF
-		    }
+				$w.plugin_list itemconfigure end \
+					-bg [::skin::getKey extralistboxselectedbg] -fg [::skin::getKey extralistboxselected] \
+					-selectforeground [::skin::getKey extralistboxselected]
+			}
 		}
 		if {[$w.plugin_list size] > "15"} {
 			$w.plugin_list configure -height [$w.plugin_list size]
@@ -532,13 +541,7 @@ namespace eval ::plugins {
 		pack $mF.desc -anchor nw -expand true -fill x -padx 5
 		pack $w.sw -anchor w -side top -expand true -fill both
 		pack $w.getmore -side top -anchor e -padx 5
-		bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
-		bind $w.getmore <Leave> "$w.getmore configure -font splainf"
-		set lang [::config::getGlobalKey language]
-		bind $w.getmore <ButtonRelease> "launch_browser $::weburl/plugins.php?lang=$lang"
-
 		pack $w.close $w.config $w.load -padx 5 -pady 5 -side right -anchor se
-
 
 		moveinscreen $w 30
 		return
@@ -592,7 +595,9 @@ namespace eval ::plugins {
 		if {[lsearch "$loadedplugins" $selection] != -1 } {
 			# if the plugin is loaded, enable the Unload button and update the colors
 			$w.load configure -state normal -text [trans unload] -command "::plugins::GUI_Unload"
-			$w.plugin_list itemconfigure [$w.plugin_list curselection] -background #DDF3FE
+			$w.plugin_list itemconfigure [$w.plugin_list curselection] \
+				-bg [::skin::getKey extralistboxselectedbg] -fg [::skin::getKey extralistboxselected] \
+				-selectforeground [::skin::getKey extralistboxselected]
 
 			# if the plugin has a configlist, then enable configuration.
 			# Otherwise disable it
@@ -604,7 +609,10 @@ namespace eval ::plugins {
 		} else { # plugin is not loaded
 			# enable the load button and disable config button and update color
 			$w.load configure -state normal -text "[trans load]" -command "::plugins::GUI_Load"
-			$w.plugin_list itemconfigure [$w.plugin_list curselection] -background #FFFFFF
+			$w.plugin_list itemconfigure [$w.plugin_list curselection] \
+				-bg [::skin::getKey extrastdbgcolor] -fg [::skin::getKey extrastdtxtcolor] \
+				-selectforeground [::skin::getKey extraselectedtxtcolor]
+
 			$w.config configure -state disabled
 		}
 	}
@@ -766,7 +774,7 @@ namespace eval ::plugins {
 				# This configuration item is a text input (Text string variable)
 				set frame [frame $confwin.f$i]
 				entry $frame.${i}e -textvariable \
-				    ::${namespace}::config([lindex $confitem 2]) -bg white
+				    ::${namespace}::config([lindex $confitem 2])
 				label $frame.${i}l -text [lindex $confitem 1]
 				pack $frame.${i}l -anchor w -side left -padx 20
 				pack $frame.${i}e -anchor w -side left -fill x
@@ -785,7 +793,7 @@ namespace eval ::plugins {
 			    lst {
 				# This configuration item is a listbox that stores the selected item.
 				set height [llength [lindex $confitem 1]]
-				listbox $confwin.$i -height $height -width 0 -bg white
+				listbox $confwin.$i -height $height -width 0
 				foreach item [lindex $confitem 1] {
 				    $confwin.$i insert end $item
 				}

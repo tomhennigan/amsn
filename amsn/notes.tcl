@@ -68,7 +68,7 @@ namespace eval ::notes {
 
 		# Create the frame containing the list of the contacts
 		frame $w.contact -relief sunken -borderwidth 3 
-  		listbox $w.contact.box -yscrollcommand "$w.contact.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 10 -width 20 -selectbackground gray
+  		listbox $w.contact.box -yscrollcommand "$w.contact.ys set" -font splainf -relief flat -highlightthickness 0 -height 10 -width 20
   		scrollbar $w.contact.ys -command "$w.contact.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
   		pack $w.contact.ys -side right -fill y
   		pack $w.contact.box -side left -expand true -fill both
@@ -120,10 +120,11 @@ namespace eval ::notes {
 
 		# Create the listbox containing the notes
   		frame $w.right.notes -relief sunken -borderwidth 3
-  		label $w.right.notes.current -text "[trans currentnotes]" -font sboldf
-  		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 5 -width 60
-  		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
-  		pack $w.right.notes.current -expand false -fill x
+		label $w.right.notes.current -text "[trans currentnotes]" -font sboldf \
+			-bg [::skin::getKey extralistboxtitlebg] -fg [::skin::getKey extralistboxtitlefg]
+  		listbox $w.right.notes.box -yscrollcommand "$w.right.notes.ys set" -height 5 -width 60
+  		scrollbar $w.right.notes.ys -command "$w.right.notes.box yview"
+   		pack $w.right.notes.current -expand false -fill x
   		pack $w.right.notes.box -side left -expand true -fill both
 			
 		#We are not using pixmapscroll on Mac OS X
@@ -141,17 +142,18 @@ namespace eval ::notes {
 
 		# Display the subject of the note
 		frame $w.right.subject -relief sunken -borderwidth 3
-		label $w.right.subject.desc -text "[trans subject]" -font sboldf
-		text $w.right.subject.txt -font splainf -background white -relief flat -highlightthickness 0 -height 1 -width 60 -state disabled
-		pack $w.right.subject.desc -expand false -fill both
+		label $w.right.subject.desc -text "[trans subject]" -font sboldf \
+			-bg [::skin::getKey extralistboxtitlebg] -fg [::skin::getKey extralistboxtitlefg]
+		text $w.right.subject.txt -height 1 -width 60 -state disabled
 		pack $w.right.subject.txt -expand false -fill both
 		
 
 		# Display the note
 		frame $w.right.note -relief sunken -borderwidth 3
-		label $w.right.note.desc -text "[trans note]" -font sboldf
-		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -font splainf -background white -relief flat -highlightthickness 0 -height 5 -width 60 -state disabled -wrap word -exportselection 1
-  		scrollbar $w.right.note.ys -command "$w.right.note.txt yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
+		label $w.right.note.desc -text "[trans note]" -font sboldf \
+			-bg [::skin::getKey extralistboxtitlebg] -fg [::skin::getKey extralistboxtitlefg]
+		text $w.right.note.txt -yscrollcommand "$w.right.note.ys set" -height 5 -width 60 -state disabled -wrap word -exportselection 1
+  		scrollbar $w.right.note.ys -command "$w.right.note.txt yview"
   		pack $w.right.note.desc -expand false -fill x
   		pack $w.right.note.ys -side right -fill y
   		pack $w.right.note.txt -side left -expand true -fill both
@@ -352,7 +354,7 @@ namespace eval ::notes {
 		}
 
 
-		$w.contact.box itemconfigure $::notes::selectedcontact -background white
+		$w.contact.box itemconfigure $::notes::selectedcontact
 
 		set selection [$w.contact.box curselection]
 		set ::notes::selectedcontact $selection

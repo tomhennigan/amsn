@@ -1762,11 +1762,11 @@ namespace eval ::ChatWindow {
 		text $status  -width 5 -height 1 -wrap none \
 			-font bplainf -borderwidth 0 -background [::skin::getKey statusbarbg] -foreground [::skin::getKey statusbartext]\
 			-highlightthickness 0 -selectbackground [::skin::getKey statusbarbg_sel] -selectborderwidth 0 \
-			-selectforeground [::skin::getKey statusbartext] -exportselection 1 -pady 4
+			-selectforeground [::skin::getKey statusbartext_sel] -exportselection 1 -pady 4
 		text $charstyped  -width 4 -height 1 -wrap none \
 			-font splainf -borderwidth 0 -background [::skin::getKey statusbarbg] -foreground [::skin::getKey statusbartext]\
 			-highlightthickness 0 -selectbackground [::skin::getKey statusbarbg_sel] -selectborderwidth 0 \
-			-selectforeground [::skin::getKey statusbartext] -exportselection 1 -pady 4
+			-selectforeground [::skin::getKey statusbartext_sel] -exportselection 1 -pady 4
 
 
 		# Configure them
@@ -3486,6 +3486,7 @@ namespace eval ::ChatWindow {
 		after cancel "::ChatWindow::FlickerTab $win"; 
 		set ::ChatWindow::oldpixmap($tab) [$tab itemcget tab_bg -image] 
 		$tab itemconfigure tab_bg -image [::skin::loadPixmap tab_hover]
+		$tab itemconfigure tab_text -fill [::skin::getKey tabfg_hover]
 		
 	}
 	
@@ -3502,6 +3503,7 @@ namespace eval ::ChatWindow {
 		}
 
 		$tab itemconfigure tab_bg -image $image
+		$tab itemconfigure tab_text -fill [::skin::getKey tabfg]
 	 }
 
 	#///////////////////////////////////////////////////////////////////////////////////

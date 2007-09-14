@@ -1315,7 +1315,7 @@ namespace eval ::abookGui {
 		
 		set nick [::abook::getNick $email]
 		set h [expr {[string length $nick]/50 +1}]
-		text $nbIdent.fBasicInfo.h1 -font bigfont -fg blue -height $h -wrap word -bd 0
+		text $nbIdent.fBasicInfo.h1 -font bigfont -bg [::skin::getKey extrastdwindowcolor] -height $h -wrap word -bd 0
 		$nbIdent.fBasicInfo.h1 delete 0.0 end
 		$nbIdent.fBasicInfo.h1 insert 0.0 $nick
 		$nbIdent.fBasicInfo.h1 configure -state disabled
@@ -1325,7 +1325,7 @@ namespace eval ::abookGui {
 		if { [::config::getKey protocol] >= 11 } {
 			set psm [::abook::getpsmmedia $email]
 			set h [expr {[string length $psm]/50 +1}]
-			text $nbIdent.fBasicInfo.psm1 -font sitalf -fg blue -height $h -wrap word -bd 0
+			text $nbIdent.fBasicInfo.psm1 -font sitalf -bg [::skin::getKey extrastdwindowcolor] -height $h -wrap word -bd 0
 			$nbIdent.fBasicInfo.psm1 delete 0.0 end
 			$nbIdent.fBasicInfo.psm1 insert 0.0 $psm
 			$nbIdent.fBasicInfo.psm1 configure -state disabled
@@ -1334,7 +1334,7 @@ namespace eval ::abookGui {
 		}
 
 		set h [expr {[string length $email]/50 +1}]
-		text $nbIdent.fBasicInfo.e1 -font splainf -fg blue -height $h -wrap word -bd 0
+		text $nbIdent.fBasicInfo.e1 -font splainf -bg [::skin::getKey extrastdwindowcolor] -height $h -wrap word -bd 0
 		$nbIdent.fBasicInfo.e1 delete 0.0 end
 		$nbIdent.fBasicInfo.e1 insert 0.0 $email
 		$nbIdent.fBasicInfo.e1 configure -state disabled
@@ -1343,7 +1343,7 @@ namespace eval ::abookGui {
 		
 		frame $nbIdent.fBasicInfo.fGroup
 		label $nbIdent.fBasicInfo.fGroup.g -text "[trans group]:" -font splainf
-		label $nbIdent.fBasicInfo.fGroup.g1 -text "[::abook::getGroupsname $email]" -font splainf -fg blue -justify left -wraplength 300
+		label $nbIdent.fBasicInfo.fGroup.g1 -text "[::abook::getGroupsname $email]" -font splainf -justify left -wraplength 300
 		pack $nbIdent.fBasicInfo.fGroup.g -side left
 		pack $nbIdent.fBasicInfo.fGroup.g1 -side left
 		
@@ -1358,16 +1358,16 @@ namespace eval ::abookGui {
 
 		labelframe $nbIdent.fPhone -text [trans phones]
 		label $nbIdent.fPhone.phh -text "[trans home]:" 
-		label $nbIdent.fPhone.phh1 -font splainf -text [::abook::getVolatileData $email phh] -fg blue \
+		label $nbIdent.fPhone.phh1 -font splainf -text [::abook::getVolatileData $email phh] \
 		-justify left -wraplength 300 
 		label $nbIdent.fPhone.phw -text "[trans work]:"
-		label $nbIdent.fPhone.phw1 -font splainf -text [::abook::getVolatileData $email phw] -fg blue \
+		label $nbIdent.fPhone.phw1 -font splainf -text [::abook::getVolatileData $email phw] \
 			-justify left -wraplength 300 
 		label $nbIdent.fPhone.phm -text "[trans mobile]:" 
-		label $nbIdent.fPhone.phm1 -font splainf -text [::abook::getVolatileData $email phm] -fg blue \
+		label $nbIdent.fPhone.phm1 -font splainf -text [::abook::getVolatileData $email phm] \
 		-justify left -wraplength 300 
 		label $nbIdent.fPhone.php -text "[trans pager]:" 
-		label $nbIdent.fPhone.php1 -font splainf -text [::abook::getVolatileData $email mob] -fg blue \
+		label $nbIdent.fPhone.php1 -font splainf -text [::abook::getVolatileData $email mob] \
 		-justify left -wraplength 300 
 
 		grid $nbIdent.fPhone.phh -row 0 -column 0 -sticky e
@@ -1382,25 +1382,25 @@ namespace eval ::abookGui {
 
 		labelframe $nbIdent.fStats -text [trans others]
 		label $nbIdent.fStats.lastlogin -text "[trans lastlogin]:"
-		label $nbIdent.fStats.lastlogin1 -text [::abook::dateconvert "[::abook::getContactData $email last_login]"] -font splainf -fg blue 
+		label $nbIdent.fStats.lastlogin1 -text [::abook::dateconvert "[::abook::getContactData $email last_login]"] -font splainf
 		
 		label $nbIdent.fStats.lastlogout -text "[trans lastlogout]:"
-		label $nbIdent.fStats.lastlogout1 -text [::abook::dateconvert "[::abook::getContactData $email last_logout]"] -font splainf -fg blue 
+		label $nbIdent.fStats.lastlogout1 -text [::abook::dateconvert "[::abook::getContactData $email last_logout]"] -font splainf
 
 		label $nbIdent.fStats.lastseen -text "[trans lastseen]:"
 		if { [::abook::getVolatileData $email state] eq "FLN" || [lsearch [::abook::getContactData $email lists] "FL"] eq -1} {
-			label $nbIdent.fStats.lastseen1 -text [::abook::dateconvert "[::abook::getContactData $email last_seen]"] -font splainf -fg blue
+			label $nbIdent.fStats.lastseen1 -text [::abook::dateconvert "[::abook::getContactData $email last_seen]"] -font splainf
 		} elseif { [::abook::getContactData $email last_seen] eq "" } {		
-			label $nbIdent.fStats.lastseen1 -text "" -font splainf -fg blue
+			label $nbIdent.fStats.lastseen1 -text "" -font splainf
 		} else {
-			label $nbIdent.fStats.lastseen1 -text [trans online] -font splainf -fg blue
+			label $nbIdent.fStats.lastseen1 -text [trans online] -font splainf
 		}
 		
 		label $nbIdent.fStats.lastmsgedme -text "[trans lastmsgedme]:"
-		label $nbIdent.fStats.lastmsgedme1 -text [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"] -font splainf -fg blue
+		label $nbIdent.fStats.lastmsgedme1 -text [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"] -font splainf
 		#Client-name of the user (from Gaim, dMSN, etc)
 		label $nbIdent.fStats.clientname -text "[trans clientname]:"
-		label $nbIdent.fStats.clientname1 -text "[::abook::getContactData $email clientname] ([::abook::getContactData $email client])" -font splainf -fg blue
+		label $nbIdent.fStats.clientname1 -text "[::abook::getContactData $email clientname] ([::abook::getContactData $email client])" -font splainf
 		
 		#Does the user record the conversation or not
 		if { [::abook::getContactData $email chatlogging] eq "Y" } {
@@ -1412,7 +1412,7 @@ namespace eval ::abookGui {
 		}
 		
 		label $nbIdent.fStats.chatlogging -text "[trans logschats]:"
-		label $nbIdent.fStats.chatlogging1 -text $chatlogging -font splainf -fg blue
+		label $nbIdent.fStats.chatlogging1 -text $chatlogging -font splainf
 		grid $nbIdent.fStats.lastlogin -row 0 -column 0 -sticky e
 		grid $nbIdent.fStats.lastlogin1 -row 0 -column 1 -sticky w
 		grid $nbIdent.fStats.lastlogout -row 1 -column 0 -sticky e
@@ -1447,7 +1447,7 @@ namespace eval ::abookGui {
 		labelframe $nbSettings.fNick -relief groove -text [trans nick]
 		label $nbSettings.fNick.customnickl -text "[trans customnick]:"
 		frame $nbSettings.fNick.customnick
-		entry $nbSettings.fNick.customnick.ent -font splainf -bg white
+		entry $nbSettings.fNick.customnick.ent -font splainf
 		menubutton $nbSettings.fNick.customnick.help -font sboldf -text "<-" -menu $nbSettings.fNick.customnick.help.menu
 		menu $nbSettings.fNick.customnick.help.menu -tearoff 0
 		$nbSettings.fNick.customnick.help.menu add command -label [trans nick] -command "$nbSettings.fNick.customnick.ent insert insert \\\$nick"
@@ -1462,7 +1462,7 @@ namespace eval ::abookGui {
 		pack $nbSettings.fNick.customnick.help -side left
 		label $nbSettings.fNick.customfnickl -text "[trans friendlyname]:"
 		frame $nbSettings.fNick.customfnick
-		entry $nbSettings.fNick.customfnick.ent -font splainf -bg white
+		entry $nbSettings.fNick.customfnick.ent -font splainf
 		menubutton $nbSettings.fNick.customfnick.help -font sboldf -text "<-" -menu $nbSettings.fNick.customfnick.help.menu
 		menu $nbSettings.fNick.customfnick.help.menu -tearoff 0
 		$nbSettings.fNick.customfnick.help.menu add command -label [trans nick] -command "$nbSettings.fNick.customfnick.ent insert insert \\\$nick"
@@ -1478,7 +1478,7 @@ namespace eval ::abookGui {
 	
 		label $nbSettings.fNick.ycustomfnickl -text "[trans myfriendlyname]:"
 		frame $nbSettings.fNick.ycustomfnick
-		entry $nbSettings.fNick.ycustomfnick.ent -font splainf -bg white
+		entry $nbSettings.fNick.ycustomfnick.ent -font splainf
 		menubutton $nbSettings.fNick.ycustomfnick.help -font sboldf -text "<-" -menu $nbSettings.fNick.ycustomfnick.help.menu
 		menu $nbSettings.fNick.ycustomfnick.help.menu -tearoff 0
 		$nbSettings.fNick.ycustomfnick.help.menu add command -label [trans nick] -command "$nbSettings.fNick.ycustomfnick.ent insert insert \\\$nick"
@@ -1695,7 +1695,7 @@ namespace eval ::abookGui {
 	
 		label $w.customnickl -text "[trans customnick]:"
 		frame $w.customnick
-		entry $w.customnick.ent -font splainf -bg white
+		entry $w.customnick.ent -font splainf
 		menubutton $w.customnick.help -font sboldf -text "<-" -menu $w.customnick.help.menu
 		menu $w.customnick.help.menu -tearoff 0
 		$w.customnick.help.menu add command -label [trans nick] -command "$w.customnick.ent insert insert \\\$nick"
@@ -1707,7 +1707,7 @@ namespace eval ::abookGui {
 		pack $w.customnick.help -side left
 		label $w.customfnickl -text "[trans friendlyname]:"
 		frame $w.customfnick
-		entry $w.customfnick.ent -font splainf -bg white
+		entry $w.customfnick.ent -font splainf
 		menubutton $w.customfnick.help -font sboldf -text "<-" -menu $w.customfnick.help.menu
 		menu $w.customfnick.help.menu -tearoff 0
 		$w.customfnick.help.menu add command -label [trans nick] -command "$w.customfnick.ent insert insert \\\$nick"
@@ -1849,8 +1849,8 @@ namespace eval ::abookGui {
 		wm title .globalnick "[trans globalnicktitle]"
 		frame .globalnick.frm -bd 1 
 		label .globalnick.frm.lbl -text "[trans globalnick]" -font sboldf -justify left -wraplength 400
-		entry .globalnick.frm.nick -width 50 -bg #FFFFFF -font splainf
-		menubutton .globalnick.frm.help -font splainf -text "<-" -menu .globalnick.frm.help.menu
+		entry .globalnick.frm.nick -width 50
+		menubutton .globalnick.frm.help -bd 1 -text "<-" -menu .globalnick.frm.help.menu
 		menu .globalnick.frm.help.menu -tearoff 0
 		.globalnick.frm.help.menu add command -label [trans nick] -command ".globalnick.frm.nick insert insert \\\$nick"
 		.globalnick.frm.help.menu add command -label [trans email] -command ".globalnick.frm.nick insert insert \\\$user_login"
@@ -1861,9 +1861,9 @@ namespace eval ::abookGui {
 
 		pack .globalnick.frm.lbl -pady 2 -side top
 		pack .globalnick.frm.nick -pady 2 -side left
-		pack .globalnick.frm.help -side left
+		pack .globalnick.frm.help -padx 5 -side left
 		bind .globalnick.frm.nick <Return> [list .globalnick.btn.ok invoke]
-		frame .globalnick.btn 
+		frame .globalnick.btn -bg [::skin::getKey extrastdwindowcolor]
 		button .globalnick.btn.ok -text "[trans ok]"  \
 			-command {
 			set nick [.globalnick.frm.nick get]
@@ -1880,7 +1880,7 @@ namespace eval ::abookGui {
 			destroy .globalnick
 			}
 		button .globalnick.btn.cancel -text "[trans cancel]"  \
-			-command [list destroy .globalnick]
+			-command {destroy .globalnick}
 		bind .globalnick <<Escape>> [list .globalnick.btn.cancel invoke]
 		pack .globalnick.btn.ok .globalnick.btn.cancel -side right -padx 5
 		pack .globalnick.frm -side top -pady 3 -padx 5

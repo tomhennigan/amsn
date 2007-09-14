@@ -530,12 +530,12 @@ namespace eval Preferences {
 		
 		#...a text entry (can have defined width or not)
 		if { [string is integer -strict $options(-width)] } {
-			entry $path.t -width $options(-width) -background white -state $state -textvariable [$self valueVar] \
+			entry $path.t -width $options(-width) -state $state -textvariable [$self valueVar] \
 				-validate all -validatecommand $validatecommand
 			pack $path.t -side right -expand false -padx 5 -pady 3
 			pack $path.l -side right -expand false -padx 5 -pady 3
 		} else {
-			entry $path.t -background white -state $state -textvariable [$self valueVar] \
+			entry $path.t -state $state -textvariable [$self valueVar] \
 				-validate all -validatecommand $validatecommand
 			pack $path.t -side right -expand true -fill x -padx 5 -pady 3
 			pack $path.l -side right -expand false -padx 5 -pady 3
@@ -948,7 +948,7 @@ namespace eval Preferences {
 		set w [frame $wname.top]
 
 		#Create the sections listbox 
-		listbox $w.sections -bg white -width 15
+		listbox $w.sections -width 15
 		#Create the items frame
 		frame $w.items
 		
@@ -1149,7 +1149,7 @@ proc MakeGroupList { lfgroup lfcontact } {
 	
 	frame $lfgroup.lbgroup.fix.list
 	## create the listbox ##
-	listbox $lfgroup.lbgroup.fix.list.lb -background white -yscrollcommand "$lfgroup.lbgroup.fix.list.sb set"
+	listbox $lfgroup.lbgroup.fix.list.lb -yscrollcommand "$lfgroup.lbgroup.fix.list.sb set"
 	scrollbar $lfgroup.lbgroup.fix.list.sb -command "$lfgroup.lbgroup.fix.list.lb yview" -highlightthickness 0 \
 		-borderwidth 1 -elementborderwidth 2
 
@@ -1206,7 +1206,7 @@ proc MakeContactList { lfcontact } {
 			frame $lfcontact.lbcontact.fix.list
 			
 			## create the listbox ##
-			listbox $lfcontact.lbcontact.fix.list.lb -background white -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
+			listbox $lfcontact.lbcontact.fix.list.lb -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
 			scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontact.fix.list.lb yview" -highlightthickness 0 \
 				-borderwidth 1 -elementborderwidth 2
 			
@@ -1233,7 +1233,7 @@ proc MakeContactList { lfcontact } {
 		frame $lfcontact.lbcontact.fix.list
 		
 		## create the listbox ##
-		listbox $lfcontact.lbcontact.fix.list.lb -background white -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
+		listbox $lfcontact.lbcontact.fix.list.lb -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
 		scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontact.fix.list.lb yview" -highlightthickness 0 \
 			-borderwidth 1 -elementborderwidth 2
 
@@ -1400,15 +1400,15 @@ proc connection_check { lfname } {
 	::abook::getIPConfig
 	if {[winfo exists $lfname]} {
 		if { [::abook::getDemographicField conntype] == "" } {
-			$lfname.1.listening configure -text "[trans connectfirst]" -fg red
-			$lfname.1.ftport.test configure -text "[trans connectfirst]" -fg red
+			$lfname.1.listening configure -text "[trans connectfirst]" -fg [::skin::getKey extrastderrcolor]
+			$lfname.1.ftport.test configure -text "[trans connectfirst]" -fg [::skin::getKey extrastderrcolor]
 		} else {
 			if { [::abook::getDemographicField listening] == "false"} {
-				$lfname.1.listening configure -text "[trans firewalled]" -fg red
-			$lfname.1.ftport.test configure -text "[trans firewalled]" -fg red
+				$lfname.1.listening configure -text "[trans firewalled]" -fg [::skin::getKey extrastderrcolor]
+				$lfname.1.ftport.test configure -text "[trans firewalled]" -fg [::skin::getKey extrastderrcolor]
 			} else {
-				$lfname.1.listening configure -text "[trans portswellconfigured]" -fg black
-				$lfname.1.ftport.test configure -text "[trans ok]" -fg black
+				$lfname.1.listening configure -text "[trans portswellconfigured]" -fg [::skin::getKey extrastdokcolor]
+				$lfname.1.ftport.test configure -text "[trans ok]" -fg [::skin::getKey extrastdokcolor]
 			}
 		}
 	}
@@ -1416,43 +1416,43 @@ proc connection_check { lfname } {
 }
 
 proc Preferences { { settings "personal"} } {
-    global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls proxy_user proxy_pass rbsel rbcon pager
-
-    set temp_BLP $list_BLP
-    ::config::setKey libtls_temp $libtls
-    set pager "N"
-    if {[ winfo exists .cfg ]} {
-    	raise .cfg
-
-	# This should raise the settings tab depending on the arg..
-	catch {.cfg.notebook.nn raise $settings}
-
-        return
-    }
-
-    PreferencesCopyConfig	;# Load current configuration
-
-    toplevel .cfg
-    wm state .cfg withdraw
-
-    if { [LoginList exists 0 [::config::getKey login]] == 1 } {
-	wm title .cfg "[trans preferences] - [trans profiledconfig] - [::config::getKey login]"
-    } else {
-	wm title .cfg "[trans preferences] - [trans defaultconfig] - [::config::getKey login]"
-    }
-
-    wm iconname .cfg [trans preferences]
-
-    # Frame to hold the preferences tabs/notebook
-    frame .cfg.notebook -class Degt
-
-    #set nb .cfg.notebook.nn
-    set nb .cfg.notebook
+	global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls proxy_user proxy_pass rbsel rbcon pager
+	
+	set temp_BLP $list_BLP
+	::config::setKey libtls_temp $libtls
+	set pager "N"
+	if {[ winfo exists .cfg ]} {
+		raise .cfg
+	
+		# This should raise the settings tab depending on the arg..
+		catch {.cfg.notebook.nn raise $settings}
+	
+		return
+	}
+	
+	PreferencesCopyConfig	;# Load current configuration
+	
+	toplevel .cfg
+	wm state .cfg withdraw
+	
+	if { [LoginList exists 0 [::config::getKey login]] == 1 } {
+		wm title .cfg "[trans preferences] - [trans profiledconfig] - [::config::getKey login]"
+	} else {
+		wm title .cfg "[trans preferences] - [trans defaultconfig] - [::config::getKey login]"
+	}
+	
+	wm iconname .cfg [trans preferences]
+	
+	# Frame to hold the preferences tabs/notebook
+	frame .cfg.notebook
+	
+	#set nb .cfg.notebook.nn
+	set nb .cfg.notebook
 
 	# Preferences Notebook
 	# Modified Rnotebook to translate automaticly those keys in -tabs {}
 	#Rnotebook:create $nb -tabs {personal appearance session privacy loging connection others advanced} -borderwidth 2
-        #set Preftabs(personal) 1
+	    #set Preftabs(personal) 1
         #set Preftabs(appearance) 2
         #set Preftabs(session) 3
         #set Preftabs(privacy) 4
@@ -1492,22 +1492,25 @@ proc Preferences { { settings "personal"} } {
 	## Nickname Selection Entry Frame ##
 	set lfname [labelframe $frm.lfname -text [trans prefname] -font splainf]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
-	frame $lfname.1 -class Degt
+
 	label $lfname.pname -image [::skin::loadPixmap prefpers]
-	frame $lfname.1.name -class Degt
-	label $lfname.1.name.label -text "[trans enternick] :" -font sboldf -padx 10
-	entry $lfname.1.name.entry -bg #FFFFFF -font splainf -width 45
-	frame $lfname.1.p4c -class Degt
-	label $lfname.1.p4c.label -text "[trans friendlyname] :" -font sboldf -padx 10
-	entry $lfname.1.p4c.entry -bg #FFFFFF -font splainf -width 45
 	pack $lfname.pname -anchor nw -side left
+
+	frame $lfname.1
+	frame $lfname.1.name
+
+	label $lfname.1.name.label -text "[trans enternick] :" -font sboldf -padx 10
+	entry $lfname.1.name.entry -font splainf -width 45
+	frame $lfname.1.p4c
+	label $lfname.1.p4c.label -text "[trans friendlyname] :" -font sboldf -padx 10
+	entry $lfname.1.p4c.entry -font splainf -width 45
 	pack $lfname.1 -side top -padx 0 -pady 3 -expand 1 -fill both
 	pack $lfname.1.name.label $lfname.1.name.entry -side left
 	pack $lfname.1.p4c.label $lfname.1.p4c.entry -side left
 	pack $lfname.1.name $lfname.1.p4c -side top -anchor nw
 
 	## Public Profile Frame ##
-	set lfname [labelframe $frm.lfname2 -text [trans prefprofile]]
+	set lfname [labelframe $frm.lfname2 -text [trans prefprofile] -font splainf]
 	pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image [::skin::loadPixmap prefprofile]
 	label $lfname.lprofile -text [trans prefprofile2] -padx 10
@@ -1517,7 +1520,7 @@ proc Preferences { { settings "personal"} } {
 
 
 	## Chat Font Frame ##
-	set lfname [labelframe $frm.lfname3 -text [trans preffont]]
+	set lfname [labelframe $frm.lfname3 -text [trans preffont] -font splainf]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pfont -image [::skin::loadPixmap preffont]
 	label $lfname.lfontout -text [trans preffont2]
@@ -1534,30 +1537,30 @@ proc Preferences { { settings "personal"} } {
 		$lfname.lfontin $lfname.bfontin $lfname.bfontinreset -anchor w -pady 3 -padx 15 -side top
 
 	## Phone Numbers Frame ##
-	set lfname [labelframe $frm.lfname4 -text [trans prefphone]]
+	set lfname [labelframe $frm.lfname4 -text [trans prefphone] -font splainf]
 	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x 
-	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
+	frame $lfname.1
+	frame $lfname.2
 	label $lfname.1.pphone -image [::skin::loadPixmap prefphone]
 	pack $lfname.1.pphone -side left -anchor nw
 	label $lfname.1.lphone -text [trans prefphone2] -padx 10
 	pack $lfname.1.lphone -fill both -side left
 	label $lfname.2.lphone1 -text "[trans countrycode] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone1 -bg #FFFFFF -font splainf  -width 5
+	entry $lfname.2.ephone1 -font splainf  -width 5
 	label $lfname.2.lphone21 -text "[trans areacode]" -pady 3
 	label $lfname.2.lphone22 -text "[trans phone]" -pady 3
 	label $lfname.2.lphone3 -text "[trans myhomephone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone31 -bg #FFFFFF -font splainf  -width 5	
-	entry $lfname.2.ephone32 -bg #FFFFFF  -font splainf  -width 20
+	entry $lfname.2.ephone31 -font splainf  -width 5	
+	entry $lfname.2.ephone32 -font splainf  -width 20
 	label $lfname.2.lphone4 -text "[trans myworkphone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone41 -bg #FFFFFF  -font splainf  -width 5	
-	entry $lfname.2.ephone42 -bg #FFFFFF  -font splainf  -width 20
+	entry $lfname.2.ephone41 -font splainf  -width 5	
+	entry $lfname.2.ephone42 -font splainf  -width 20
 	label $lfname.2.lphone5 -text "[trans mymobilephone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone51 -bg #FFFFFF  -font splainf  -width 5	
-	entry $lfname.2.ephone52 -bg #FFFFFF  -font splainf  -width 20
+	entry $lfname.2.ephone51 -font splainf  -width 5	
+	entry $lfname.2.ephone52 -font splainf  -width 20
 	checkbutton $lfname.2.mobphone -text "[trans allow_sms]" -onvalue "Y" -offvalue "N" -variable pager
 	button $lfname.2.person -text "[trans change_account_info]" -command "::hotmail::hotmail_changeAccountInfo"
-        button $lfname.2.chgmob -text "[trans change_mobile]" -command "::hotmail::hotmail_changeMobile"
+    button $lfname.2.chgmob -text "[trans change_mobile]" -command "::hotmail::hotmail_changeMobile"
 
     
 	pack $lfname.1 -expand 1 -fill both -side top
@@ -1575,7 +1578,7 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.2.lphone5 -row 5 -column 1 -sticky w
 	grid $lfname.2.ephone51 -row 5 -column 2 -sticky w
 	grid $lfname.2.ephone52 -row 5 -column 3 -sticky w
-        grid $lfname.2.mobphone	-row 6 -column 1 -sticky w
+    grid $lfname.2.mobphone	-row 6 -column 1 -sticky w
 	grid $lfname.2.chgmob -row 7 -column 1 -sticky w
 	grid $lfname.2.person -row 8 -column 1 -sticky w
 
@@ -1600,13 +1603,13 @@ proc Preferences { { settings "personal"} } {
 	set lfname [labelframe $frm.lfname -text [trans preflook]]
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
 	label $lfname.plook -image [::skin::loadPixmap preflook]
-	frame $lfname.0 -class Degt
-	frame $lfname.1 -class Degt
-#	frame $lfname.2 -class Degt
-	frame $lfname.3 -class Degt
-	frame $lfname.4 -class Degt
-	frame $lfname.5 -class Degt
-	frame $lfname.6 -class Degt
+	frame $lfname.0
+	frame $lfname.1
+#	frame $lfname.2
+	frame $lfname.3
+	frame $lfname.4
+	frame $lfname.5
+	frame $lfname.6
 
 #	button $lfname.0.skinbutton -text [trans skinselector]  -command ::skinsGUI::SelectSkin
 #	pack $lfname.0.skinbutton -side left
@@ -1660,7 +1663,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
 	label $lfname.pemotic -image [::skin::loadPixmap prefemotic]
 	pack $lfname.pemotic -side left -anchor nw
-	frame $lfname.1 -class Degt
+	frame $lfname.1
 	pack $lfname.1 -side left -padx 0 -pady 0 -expand 1 -fill x
 	checkbutton $lfname.1.chat -text "[trans chatsmileys2]" -onvalue 1 -offvalue 0 -variable [::config::getVar chatsmileys]
 	checkbutton $lfname.1.list -text "[trans listsmileys2]" -onvalue 1 -offvalue 0 -variable [::config::getVar listsmileys]
@@ -1676,7 +1679,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname3 -anchor n -side top -expand 0 -fill x
 	label $lfname.palerts -image [::skin::loadPixmap prefalerts]
 	pack $lfname.palerts -side left -anchor nw
-	frame $lfname.1 -class Degt
+	frame $lfname.1
 	checkbutton $lfname.1.alert1 -text "[trans shownotify]" -onvalue 1 -offvalue 0 -variable [::config::getVar shownotify]
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
@@ -1715,16 +1718,16 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.psession -image [::skin::loadPixmap prefstatus]
 	pack $lfname.psession -anchor nw -side left
-	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
-	frame $lfname.3 -class Degt
+	frame $lfname.1
+	frame $lfname.2
+	frame $lfname.3
 	checkbutton $lfname.1.lautonoact -text "[trans autonoact]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoidle] -command UpdatePreferences
-	entry $lfname.1.eautonoact -bg #FFFFFF -font splainf   -width 3 -textvariable [::config::getVar idletime]
+	entry $lfname.1.eautonoact -font splainf -width 3 -textvariable [::config::getVar idletime]
 	label $lfname.1.lmins -text "[trans mins]" -padx 5
 	pack $lfname.1 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.1.lautonoact $lfname.1.eautonoact $lfname.1.lmins -side left
 	checkbutton $lfname.2.lautoaway -text "[trans autoaway]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoaway] -command UpdatePreferences
-	entry $lfname.2.eautoaway -bg #FFFFFF -font splainf   -width 3 -textvariable [::config::getVar awaytime]
+	entry $lfname.2.eautoaway -font splainf -width 3 -textvariable [::config::getVar awaytime]
 	label $lfname.2.lmins -text "[trans mins]" -padx 5
 	pack $lfname.2 -side top -padx 0 -expand 1 -fill both
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
@@ -1749,8 +1752,8 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.psession -image [::skin::loadPixmap prefaway]
 	pack $lfname.psession -anchor nw -side left
 	frame $lfname.statelist -relief sunken -borderwidth 3
-	listbox $lfname.statelist.box -yscrollcommand "$lfname.statelist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0 -height 4
+	listbox $lfname.statelist.box -yscrollcommand "$lfname.statelist.ys set" \
+		-font splainf -highlightthickness 0 -height 4
 	scrollbar $lfname.statelist.ys -command "$lfname.statelist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
 	pack $lfname.statelist.ys -side right -fill y
@@ -1770,11 +1773,11 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pmsging -image [::skin::loadPixmap prefmsg]
 	pack $lfname.pmsging -anchor nw -side left
-	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
-	frame $lfname.3 -class Degt
-	frame $lfname.4 -class Degt
-	frame $lfname.5 -class Degt
+	frame $lfname.1
+	frame $lfname.2
+	frame $lfname.3
+	frame $lfname.4
+	frame $lfname.5
 	
 	label $lfname.1.lchatmaxmin -text [trans chatmaxmin]
 	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable [::config::getVar newchatwinstate] -padx 17
@@ -1915,7 +1918,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
 	label $lfname.plog1 -image [::skin::loadPixmap prefhist2]
 	pack $lfname.plog1 -anchor nw -side left
-	frame $lfname.1 -class Degt
+	frame $lfname.1
 	label $lfname.1.lclear -text "[trans clearlog2]" -padx 10
 	button $lfname.1.bclear -text [trans clearlog3]  -command "::log::ClearAllLogs"
 	button $lfname.1.camclear -text [trans clearwebcamlogs] -command "::log::ClearAllCamLogs"
@@ -1996,11 +1999,11 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.pshared -image [::skin::loadPixmap prefproxy]
 	pack $lfname.pshared -side left -anchor nw	
 	
-	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
-	frame $lfname.3 -class Degt
-	frame $lfname.4 -class Degt
-	frame $lfname.5 -class Degt
+	frame $lfname.1
+	frame $lfname.2
+	frame $lfname.3
+	frame $lfname.4
+	frame $lfname.5
 	radiobutton $lfname.1.direct -text "[trans directconnection]" -value direct -variable [::config::getVar connectiontype] -command UpdatePreferences
 	pack $lfname.1.direct -anchor w -side top -padx 10
 	radiobutton $lfname.2.http -text "[trans httpconnection]" -value http -variable [::config::getVar connectiontype] -command UpdatePreferences
@@ -2027,13 +2030,13 @@ proc Preferences { { settings "personal"} } {
 
 		
 	label $lfname.5.lserver -text "[trans server] :" -padx 5 -font sboldf
-	entry $lfname.5.server -bg #FFFFFF  -font splainf  -width 20 -textvariable proxy_server
+	entry $lfname.5.server -font splainf  -width 20 -textvariable proxy_server
 	label $lfname.5.lport -text "[trans port] :" -padx 5 -font sboldf
-	entry $lfname.5.port -bg #FFFFFF  -font splainf  -width 5 -textvariable proxy_port
+	entry $lfname.5.port -font splainf  -width 5 -textvariable proxy_port
 	label $lfname.5.luser -text "[trans user] :" -padx 5 -font sboldf
-	entry $lfname.5.user -bg #FFFFFF  -font splainf  -width 20 -textvariable proxy_user
+	entry $lfname.5.user -font splainf  -width 20 -textvariable proxy_user
 	label $lfname.5.lpass -text "[trans pass] :" -padx 5 -font sboldf
-	entry $lfname.5.pass -bg #FFFFFF  -font splainf  -width 20 -show "*" -textvariable proxy_pass
+	entry $lfname.5.pass -font splainf  -width 20 -show "*" -textvariable proxy_pass
 	grid $lfname.5.lserver -row 2 -column 1 -sticky e
 	grid $lfname.5.server -row 2 -column 2 -sticky w -pady 5
 	grid $lfname.5.lport -row 2 -column 3 -sticky e
@@ -2048,25 +2051,26 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefnat]
 	pack $lfname.pshared -side left -anchor nw
-	frame $lfname.1 -class Degt
+	frame $lfname.1
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 
 	label $lfname.1.conntype -padx 5 -font splainf -text "[trans type]: [::abook::getDemographicField conntype]"
 	label $lfname.1.listening -padx 5 -font splainf
 	if { [::abook::getDemographicField conntype] == "" } {
-		$lfname.1.listening configure -text  "[trans connectfirst]" -fg red
+		$lfname.1.listening configure -text  "[trans connectfirst]" -fg [::skin::getKey extrastderrcolor]
 	} else {
 		if { [::abook::getDemographicField listening] == "false"} {
-			$lfname.1.listening configure -text "[trans firewalled]" -fg red
+			$lfname.1.listening configure -text "[trans firewalled]" -fg [::skin::getKey extrastderrcolor]
 		} else {
-			$lfname.1.listening configure -text "[trans portswellconfigured]" -fg black
+			$lfname.1.listening configure -text "[trans portswellconfigured]" -fg [::skin::getKey extrastdokcolor]
+
 		}
 	}
 	pack $lfname.1.conntype $lfname.1.listening -anchor w -side top -padx 10
 
-	frame $lfname.1.ftport -class Deft
+	frame $lfname.1.ftport
 	label $lfname.1.ftport.text -text "[trans ftportpref2] :" -padx 5 -font splainf
-	entry $lfname.1.ftport.entry -bg #FFFFFF  -font splainf  -width 5 -textvariable [::config::getVar initialftport]
+	entry $lfname.1.ftport.entry -font splainf  -width 5 -textvariable [::config::getVar initialftport]
 	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command [list after 0 connection_check $lfname]
 	label $lfname.1.ftport.test -text "" -padx 5 -font splainf
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0 -columnspan 3
@@ -2075,9 +2079,9 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.ftport.test -row 2 -column 3 -sticky w -pady 5 -padx 3
 
 	checkbutton $lfname.1.autoip -text "[trans autodetectip]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoftip] -command UpdatePreferences
-	frame $lfname.1.ipaddr -class Deft
+	frame $lfname.1.ipaddr
 	label $lfname.1.ipaddr.text -text "[trans ipaddress] :" -padx 5 -font splainf
-	entry $lfname.1.ipaddr.entry -bg #FFFFFF -font splainf  -width 15 -textvariable [::config::getVar manualip]
+	entry $lfname.1.ipaddr.entry -font splainf  -width 15 -textvariable [::config::getVar manualip]
 	grid $lfname.1.ipaddr.text -row 1 -column 1 -sticky w -pady 5 -padx 0
 	grid $lfname.1.ipaddr.entry -row 1 -column 2 -sticky w -pady 5 -padx 3	
 		
@@ -2091,14 +2095,14 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefremote]
 	pack $lfname.pshared -side left -anchor nw
-	frame $lfname.1 -class Degt
-	frame $lfname.2 -class Degt
+	frame $lfname.1
+	frame $lfname.2
 	pack $lfname.1 -side left -padx 0 -pady 5 -expand 1 -fill both
 	checkbutton $lfname.1.eremote -text "[trans enableremote]" -onvalue 1 -offvalue 0 -variable [::config::getVar enableremote] -command UpdatePreferences
 	pack $lfname.1.eremote  -anchor w -side top -padx 10
 	pack $lfname.1 $lfname.2  -anchor w -side top -padx 0 -pady 0 -expand 1 -fill both
 	label $lfname.2.lpass -text "[trans pass] :" -padx 5 -font sboldf
-	entry $lfname.2.pass -bg #FFFFFF  -font splainf  -width 20 -show "*"
+	entry $lfname.2.pass -font splainf  -width 20 -show "*"
 	grid $lfname.2.lpass -row 2 -column 3 -sticky e
 	grid $lfname.2.pass -row 2 -column 4 -sticky w
 
@@ -2124,9 +2128,9 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	label $lfname.pprofile -image [::skin::loadPixmap prefapps]
 	pack $lfname.pprofile -side left -anchor nw
-	frame $lfname.1 -class Degt
+	frame $lfname.1
 	label $lfname.1.ldelprofile -text "[trans delprofile2]" -font sboldf -padx 5
-	combobox::combobox $lfname.1.profile -editable true -highlightthickness 0 -width 22 -bg #FFFFFF -font splainf
+	combobox::combobox $lfname.1.profile -editable true -width 22 
 	button $lfname.1.bdel -text [trans delprofile] -command "DeleteProfile \[${lfname}.1.profile get\] $lfname.1.profile"
 	grid $lfname.1.ldelprofile -row 1 -column 1 -sticky w
 	grid $lfname.1.profile -row 1 -column 2 -sticky w
@@ -2138,38 +2142,38 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefapps]
 	pack $lfname.pshared -side left -anchor nw
-	frame $lfname.1 -class Degt
+	frame $lfname.1
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 0 -fill both
 	
 	#Don't change filemanager and open file manager on Mac OS X
 	if { ![OnMac] } {
 		label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
-		entry $lfname.1.browser -bg #FFFFFF   -width 40 -textvariable [::config::getVar browser]
+		entry $lfname.1.browser -width 40 -textvariable [::config::getVar browser]
 		label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
 		#file manager
 		label $lfname.1.lfileman -text "[trans fileman] :" -padx 5 -font sboldf
-		entry $lfname.1.fileman -bg #FFFFFF   -width 40 -textvariable [::config::getVar filemanager]
+		entry $lfname.1.fileman -width 40 -textvariable [::config::getVar filemanager]
 		label $lfname.1.lfilemanex -text "[trans filemanexample]" -font examplef
 		#open file command
 		label $lfname.1.lopenfile -text "[trans openfilecommand] :" -padx 5 -font sboldf
-		entry $lfname.1.openfile -bg #FFFFFF   -width 40 -textvariable [::config::getVar openfilecommand]
+		entry $lfname.1.openfile -width 40 -textvariable [::config::getVar openfilecommand]
 		label $lfname.1.lopenfileex -text "(gnome : gnome-open \$file)(kde : kfmclient exec \$file)" -font examplef
 	}
 	
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
-	entry $lfname.1.mailer -bg #FFFFFF  -width 40 -textvariable [::config::getVar mailcommand]
+	entry $lfname.1.mailer -width 40 -textvariable [::config::getVar mailcommand]
 	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
 	
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
 	if { ![OnMac] } {
 		label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
-		frame $lfname.1.sound -class Degt
+		frame $lfname.1.sound
 	
 		radiobutton $lfname.1.sound.snack -text "[trans usesnack]" -value 1 -variable [::config::getVar usesnack] -command UpdatePreferences
 		pack $lfname.1.sound.snack -anchor w -side top -padx 10
 		radiobutton $lfname.1.sound.other -text "[trans useother]" -value 0 -variable [::config::getVar usesnack] -command UpdatePreferences
 		pack $lfname.1.sound.other -anchor w -side top -padx 10
-		entry $lfname.1.sound.sound -bg #FFFFFF  -width 40 -textvariable [::config::getVar soundcommand]
+		entry $lfname.1.sound.sound -width 40 -textvariable [::config::getVar soundcommand]
 		pack $lfname.1.sound.sound -anchor w -side top -padx 10
 		label $lfname.1.sound.lsoundex -text "[trans soundexample]" -font examplef
 		pack $lfname.1.sound.lsoundex -anchor w -side top -padx 10
@@ -2211,10 +2215,10 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.pshared -image [::skin::loadPixmap prefapps]
 	pack $lfname.pshared -side left -anchor nw
 
-	frame $lfname.1 -class Degt
+	frame $lfname.1
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
 	label $lfname.1.receivedpath -text [trans receiveddir] -padx 5 -font sboldf
-	entry $lfname.1.receiveddir -bg #FFFFFF -width 45  -textvariable [::config::getVar receiveddir]
+	entry $lfname.1.receiveddir -width 45  -textvariable [::config::getVar receiveddir]
 	button $lfname.1.browse -text [trans browse] -command "Browse_Dialog_dir [::config::getVar receiveddir]"
 
 	grid $lfname.1.receivedpath -row 1 -column 1 -sticky w
@@ -2226,7 +2230,7 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.pshared -image [::skin::loadPixmap webcam]
 	pack $lfname.pshared -side left -anchor nw
 	
-	frame $lfname.1 -class Degt
+	frame $lfname.1
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
 	button $lfname.1.webcam -text [trans editavsettings] -command [list ::AVAssistant::AVAssistant] -padx 20
 	grid $lfname.1.webcam -row 1 -column 3 -sticky w -padx 20
@@ -2293,12 +2297,11 @@ proc Preferences { { settings "personal"} } {
 	    }
 	}
 
-	frame $path.2 -class Degt
-
+	frame $path.2
 	label $path.2.delimiters -text "[trans delimiters]" -padx 5
-	entry $path.2.ldelimiter -bg #FFFFFF  -font splainf   -width 3 -textvariable [::config::getVar leftdelimiter]
+	entry $path.2.ldelimiter -font splainf -width 3 -textvariable [::config::getVar leftdelimiter]
 	label $path.2.example -text "HH:MM:SS" -padx 5
-	entry $path.2.rdelimiter -bg #FFFFFF -font splainf   -width 3 -textvariable [::config::getVar rightdelimiter]
+	entry $path.2.rdelimiter -font splainf -width 3 -textvariable [::config::getVar rightdelimiter]
 	pack $path.2 -side top -padx 0 -fill x
 	pack $path.2.delimiters $path.2.ldelimiter $path.2.example $path.2.rdelimiter -side left
 
@@ -2323,20 +2326,22 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pprivacy -anchor nw -side left
 
 	frame $lfname.allowlist -relief sunken -borderwidth 3
-        label $lfname.allowlist.label -text "[trans allowlist]" -foreground #008000 -background #FFFFFF
-	listbox $lfname.allowlist.box -yscrollcommand "$lfname.allowlist.ys set" -font splainf -background \
-		white -relief flat -highlightthickness 0  -height 5
+    label $lfname.allowlist.label -text "[trans allowlist]" \
+		-foreground [::skin::getKey extraprivacy_intoal_fg] -font sboldf
+	listbox $lfname.allowlist.box -yscrollcommand "$lfname.allowlist.ys set" \
+		-relief flat -highlightthickness 0 -height 5
 	scrollbar $lfname.allowlist.ys -command "$lfname.allowlist.box yview" -highlightthickness 0 \
-         -borderwidth 1 -elementborderwidth 2
+        -borderwidth 1 -elementborderwidth 2
 	pack $lfname.allowlist.label $lfname.allowlist.box -side top -expand false -fill x
 	pack $lfname.allowlist.box -side left -expand true -fill both
 	pack $lfname.allowlist.ys -side right -fill y -expand false
 
 
 	frame $lfname.blocklist -relief sunken -borderwidth 3
-	label $lfname.blocklist.label -text "[trans blocklist]" -foreground #A00000 -background #FFFFFF
-	listbox $lfname.blocklist.box -yscrollcommand "$lfname.blocklist.ys set" -font splainf -background \
-	white -relief flat -highlightthickness 0  -height 5
+	label $lfname.blocklist.label -text "[trans blocklist]" -foreground [::skin::getKey extraprivacy_intobl_fg] -font sboldf
+	listbox $lfname.blocklist.box -yscrollcommand "$lfname.blocklist.ys set" \
+		-relief flat -highlightthickness 0  -height 5
+
 	scrollbar $lfname.blocklist.ys -command "$lfname.blocklist.box yview" -highlightthickness 0 \
          -borderwidth 1 -elementborderwidth 2
 	pack $lfname.blocklist.label $lfname.blocklist.box -side top -expand false -fill x
@@ -2370,9 +2375,10 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pprivacy -anchor nw -side left
 
 	frame $lfname.contactlist -relief sunken -borderwidth 3
-	label $lfname.contactlist.label -text "[trans contactlist]" -background #FF6060
-	listbox $lfname.contactlist.box -yscrollcommand "$lfname.contactlist.ys set" -font splainf -background \
-		white -relief flat -highlightthickness 0 -height 5
+	label $lfname.contactlist.label -text "[trans contactlist]" -background [::skin::getKey extraprivacy_notfl_bg] -font sboldf
+	listbox $lfname.contactlist.box -yscrollcommand "$lfname.contactlist.ys set" \
+		-relief flat -highlightthickness 0 -height 5
+
 	scrollbar $lfname.contactlist.ys -command "$lfname.contactlist.box yview" -highlightthickness 0 \
 		-borderwidth 1 -elementborderwidth 2
 	pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand false -fill x
@@ -2380,9 +2386,9 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.contactlist.box -side left -expand true -fill both
   
 	frame $lfname.reverselist -relief sunken -borderwidth 3
-	label $lfname.reverselist.label -text "[trans reverselist]" -background #FFFF80
-	listbox $lfname.reverselist.box -yscrollcommand "$lfname.reverselist.ys set" -font splainf -background \
-		white -relief flat -highlightthickness 0  -height 5
+	label $lfname.reverselist.label -text "[trans reverselist]" -background [::skin::getKey extraprivacy_notrl_bg] -font sboldf
+	listbox $lfname.reverselist.box -yscrollcommand "$lfname.reverselist.ys set" \
+		-relief flat -highlightthickness 0  -height 5
 	scrollbar $lfname.reverselist.ys -command "$lfname.reverselist.box yview" -highlightthickness 0 \
 		-borderwidth 1 -elementborderwidth 2
 	pack $lfname.reverselist.label $lfname.reverselist.box -side top -expand false -fill x
@@ -2390,7 +2396,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.reverselist.box -side left -expand true -fill both
 
 	frame $lfname.adding
-	entry $lfname.adding.enter -bg white
+	entry $lfname.adding.enter
 	button $lfname.adding.addal -text "[trans addto AL]" -command "Add_To_List $lfname AL"
 	button $lfname.adding.addbl -text "[trans addto BL]" -command "Add_To_List $lfname BL"
 	button $lfname.adding.addfl -text "[trans addto FL]" -command "Add_To_List $lfname FL" 
@@ -2489,7 +2495,7 @@ proc Preferences { { settings "personal"} } {
 	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
 
     # Frame for common buttons (all preferences)
-    frame .cfg.buttons -class Degt
+    frame .cfg.buttons
     button .cfg.buttons.save -text [trans save] -default active -command "wm withdraw .cfg; SavePreferences; destroy .cfg"
     button .cfg.buttons.cancel -text [trans close] -command "destroy .cfg"
     bind .cfg <<Escape>> "destroy .cfg"
@@ -3222,14 +3228,14 @@ proc ChooseFilename { twn title } {
      label $w.msg -justify center -text [trans enterfilename]
      pack $w.msg -side top
 
-     frame $w.buttons -class Degt
+     frame $w.buttons
      pack $w.buttons -side bottom -fill x -pady 2m
       button $w.buttons.dismiss -text [trans cancel] -command "destroy $w"
       button $w.buttons.save -text [trans save] \
         -command "save_text_file $twn $w.filename.entry; destroy $w"
       pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
-    frame $w.filename -bd 2 -class Degt
+    frame $w.filename -bd 2
      entry $w.filename.entry  -width 40
      label $w.filename.label -text "[trans filename]:"
      pack $w.filename.entry -side right
@@ -3267,11 +3273,11 @@ proc save_text_file { w ent } {
 proc LabelEntry { path lbl variable width } {
     
 
-    frame $path -class Degt
+    frame $path
 	label $path.lbl -text $lbl -justify left \
 	    -font splainf
 	entry $path.ent -textvariable $variable  \
-	    -width $width -font splainf -background #FFFFFF
+	    -width $width -font splainf
 	pack $path.lbl -side left -anchor e
 	pack $path.ent -side left -anchor e -expand 1 -fill x -padx 3
 #	pack $path.ent $path.lbl -side right -anchor e -expand 1 -fill x

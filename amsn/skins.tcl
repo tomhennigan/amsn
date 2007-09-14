@@ -963,17 +963,16 @@ namespace eval ::skinsGUI {
 		label $w.choose -text "[trans chooseskin]" -font bboldf
 		pack $w.choose -side top
 
-		label $w.restart -text "[trans restartforskin]" -fg #FF0000
+		label $w.restart -text "[trans restartforskin]"
                 pack $w.restart -side top
 
-		frame $w.main -relief solid -borderwidth 2
-		frame $w.main.left -relief flat
-		frame $w.main.right -relief flat
-		frame $w.main.left.images -relief flat
-		text $w.main.left.desc -height 6 -width 40 -relief flat -background [::skin::getKey mainwindowbg] \
+		frame $w.main
+		frame $w.main.left
+		frame $w.main.right
+		frame $w.main.left.images
+		text $w.main.left.desc -height 6 -width 40 -relief sunken \
 			-font sboldf -wrap word
-		listbox $w.main.right.box -yscrollcommand "$w.main.right.ys set" -font splainf -background \
-			white -relief flat -highlightthickness 0  -height 8 -width 30
+		listbox $w.main.right.box -yscrollcommand "$w.main.right.ys set" -height 8 -width 30
 		scrollbar $w.main.right.ys -command "$w.main.right.box yview" -highlightthickness 0 \
 			-borderwidth 1 -elementborderwidth 2
 
@@ -999,17 +998,19 @@ namespace eval ::skinsGUI {
 		set select -1
 		set idx 0
 
-		label $w.getmore -text "[trans getmoreskins]" -fg #0000FF -cursor hand2
+		label $w.getmore -text "[trans getmoreskins]"  -font splainf \
+			-bg [::skin::getKey extrastdwindowcolor] -fg [::skin::getKey extralinkcolor]
+		bind $w.getmore <Enter> "$w.getmore configure -font sunderf -cursor hand2 \
+			-bg [::skin::getKey extralinkbgcoloractive] -fg [::skin::getKey extralinkcoloractive]"
+		bind $w.getmore <Leave> "$w.getmore configure -font splainf -cursor left_ptr \
+			-background [::skin::getKey extrastdwindowcolor] -foreground [::skin::getKey extralinkcolor]"
+		bind $w.getmore <ButtonRelease> "launch_browser $::weburl/skins.php"
 
-		button $w.ok -text "[trans ok]" -command "::skinsGUI::SelectSkinOk $w" 
-		button $w.cancel -text "[trans cancel]" -command "::skinsGUI::SelectSkinCancel $w" 
-		checkbutton $w.preview -text "[trans preview]" -variable ::skin::preview_skin_change -onvalue 1 -offvalue 0
-		
-		pack $w.getmore -side left -padx 5
-	        bind $w.getmore <Enter> "$w.getmore configure -font sunderf"
-	        bind $w.getmore <Leave> "$w.getmore configure -font splainf"
-		bind $w.getmore <ButtonRelease> "launch_browser $::weburl/skins.php"			
-		
+		button $w.ok -text "[trans ok]" -command "::skinsGUI::SelectSkinOk $w"
+		button $w.cancel -text "[trans cancel]" -command "::skinsGUI::SelectSkinCancel $w"
+		checkbutton $w.preview -text "[trans preview]" -variable ::skin::preview_skin_change -onvalue 1 -offvalue 0		
+
+		pack $w.getmore -side left -padx 5	
 		pack $w.ok  $w.cancel $w.preview -side right -pady 5 -padx 5
 
 		set the_skins [::skin::FindSkins]
@@ -1026,7 +1027,9 @@ namespace eval ::skinsGUI {
 			status_log "selecy = 0 --- didn't find current skin defaulting to first"
 
 			$w.main.right.box selection set $select
-	 		$w.main.right.box itemconfigure $select -background #AAAAAA
+	 		$w.main.right.box itemconfigure $select \
+				-bg [::skin::getKey extralistboxselectedbg] -fg [::skin::getKey extralistboxselected] \
+				-selectforeground [::skin::getKey extralistboxselected]
 
 			set currentskin [lindex [lindex $the_skins 0] 0]
 			if { $::skin::preview_skin_change == 1 } {
@@ -1037,7 +1040,9 @@ namespace eval ::skinsGUI {
 			status_log "select = $select --- [::config::getGlobalKey skin]\n"
 
 			$w.main.right.box selection set $select
-			$w.main.right.box itemconfigure $select -background #AAAAAA
+			$w.main.right.box itemconfigure $select \
+				-bg [::skin::getKey extralistboxselectedbg] -fg [::skin::getKey extralistboxselected] \
+				-selectforeground [::skin::getKey extralistboxselected]
 		}
 	
 		::skinsGUI::DoPreview 1

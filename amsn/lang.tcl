@@ -237,8 +237,8 @@ namespace eval ::lang {
 
 		set frm [$nb.nn getframe language]
 
-		frame $frm.list -class Amsn -borderwidth 0
-		frame $frm.buttons -class Amsn
+		frame $frm.list -borderwidth 0
+		frame $frm.buttons
 
 		listbox $frm.list.items -yscrollcommand "$frm.list.ys set" -font splainf \
 				-background white -relief flat -highlightthickness 0 -width 60
@@ -258,8 +258,16 @@ namespace eval ::lang {
 		pack $frm.buttons -side bottom -fill both -pady 3
 
 		foreach item $languages {
-			$frm.list.items insert end [lindex $item 0]
-		}
+			set langname [lindex $item 0]
+			set langcode [lindex $item 1]
+ 
+			$frm.list.items insert end "$langname"
+			if { $langcode == [::config::getGlobalKey language]} {
+				$frm.list.items itemconfigure end \
+					-bg [::skin::getKey extralistboxselectedbg] -fg [::skin::getKey extralistboxselected] \
+					-selectforeground [::skin::getKey extralistboxselected]
+			}
+        }
 
 
 		bind $frm.list.items <Double-Button-1> [list ::lang::show_languagechoose_Ok $languages]
@@ -283,8 +291,8 @@ namespace eval ::lang {
 		if { $::lang::LoadOk == 1 && [file writable [file join $HOME2 langlist.xml]]} {		
 
 		# Create a list box where we will put the lang
-		frame $frm.selection -class Amsn -borderwidth 0
-		listbox $frm.selection.box -yscrollcommand "$frm.selection.ys set" -font splainf -background white -relief flat -highlightthickness 0
+		frame $frm.selection -borderwidth 0
+		listbox $frm.selection.box -yscrollcommand "$frm.selection.ys set" 
 		scrollbar $frm.selection.ys -command "$frm.selection.box yview" -highlightthickness 0 -borderwidth 1 -elementborderwidth 2
 		pack $frm.selection.ys -side right -fill y
 		pack $frm.selection.box -side left -expand true -fill both
@@ -310,9 +318,15 @@ namespace eval ::lang {
 			$frm.selection.box insert end "$langname"
 			# Choose the background according to the fact lang is available or not
 			if { [lsearch $::lang::Lang $langcode] != -1 } {
-				$frm.selection.box itemconfigure end -background #DDF3FE
+				if { $langcode == [::config::getGlobalKey language]} {
+					$frm.selection.box itemconfigure end  \
+						-bg [::skin::getKey extralistboxselectedbg] -fg [::skin::getKey extralistboxselected] \
+						-selectforeground [::skin::getKey extralistboxselected]
+				}
 			} else {
-				$frm.selection.box itemconfigure end -background #FFFFFF
+				$frm.selection.box itemconfigure end \
+					-fg [::skin::getKey extrastderrcolor] \
+					-selectforeground [::skin::getKey extrastderrcolor]
 			}
 		}
 
@@ -346,7 +360,7 @@ namespace eval ::lang {
 		} else {
 
 		frame $frm.txt
-		label $frm.txt.text -text "[trans cantloadonlineversion]" -foreground red -wraplength 200
+		label $frm.txt.text -text "[trans cantloadonlineversion]" -wraplength 200
 		pack configure $frm.txt.text
 
 		frame $frm.command
@@ -412,7 +426,9 @@ namespace eval ::lang {
 		# If the lang selected is the current lang
 		if { $langcode == [::config::getGlobalKey language]} {
 			$w.command1.load configure -state disabled -text "[trans delete]"
-			$w.txt.text configure -text "[trans currentlanguage]" -foreground red		
+			$w.txt.text configure -text "[trans currentlanguage]" \
+				-fg [::skin::getKey extrastderrcolor]
+
 		# If the file is not available
 		} elseif {[lsearch $::lang::Lang $langcode] == -1 } {
 			$w.command1.load configure -state normal -text "[trans download]" -command "[list ::lang::downloadlanguage "$langcode" $selection]"
@@ -421,6 +437,8 @@ namespace eval ::lang {
 		} elseif { ![file writable "$dir/$lang"] | $langcode == "en" } {
 			$w.command1.load configure -state disabled -text "[trans delete]"
 			$w.txt.text configure -text "[trans filenotwritable]" -foreground red
+			$w.txt.text configure -text "[trans filenotwritable]" \
+				-fg [::skin::getKey extrastderrcolor]
 		# If the file is available
 		} elseif {[lsearch $::lang::Lang $langcode] != -1 } {
 			$w.command1.load configure -state normal -text "[trans delete]" -command "[list ::lang::deletelanguage "$langcode" $selection]"
@@ -440,10 +458,18 @@ namespace eval ::lang {
 
 
 		foreach item $languages {
+			set langname [lindex $item 0]
+			set langcode [lindex $item 1]
+
+			.langchoose.notebook.nn.flanguage.list.items insert end "$langname"
+			if { $langcode == [::config::getGlobalKey language]} {
+				.langchoose.notebook.nn.flanguage.list.items itemconfigure end  \
+					-bg [::skin::getKey extralistboxselectedbg] -fg [::skin::getKey extralistboxselected] \
+					-selectforeground [::skin::getKey extralistboxselected]
+			}
+
 			.langchoose.notebook.nn.flanguage.list.items insert end [lindex $item 0]
 		}
-
-
 	}
 	
 	
@@ -599,7 +625,10 @@ namespace eval ::lang {
 
 		if { $selection != "" } {
 			catch {
-				.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection -background #DDF3FE
+				.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection \
+					-fg [::skin::getKey extrastdtxtcolor] \
+					-selectforeground [::skin::getKey extraselectedtxtcolor]
+
 				::lang::language_manager_selected
 			}
 		}

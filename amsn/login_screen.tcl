@@ -95,13 +95,13 @@ snit::widgetadaptor loginscreen {
 		# Create widgets
 		# Language button
 		set lang_button_icon [$self create image 0 0 -anchor nw -image [::skin::loadPixmap globe]]
-		set lang_button_text [$self create text 0 0 -anchor nw -text [trans language] -fill [::skin::getKey loginurlfg]]
+		set lang_button_text [$self create text 0 0 -anchor nw -text [trans language] -fill [::skin::getKey loginurlfg] -tags [list lang_button_text]]
 		# Display picture
 		set dp_label [label $self.dp -image [::skin::getDisplayPicture ""] -borderwidth 1 -highlightthickness 0 -relief solid]
 		set dp_label_tag [$self create window 0 0 -anchor nw -window $dp_label]
 		# Username
 		set user_label_tag [$self create text 0 0 -anchor nw -text "[trans user]:" -fill [::skin::getKey loginfg]]
-		set user_field [combobox::combobox $self.user -editable true -relief solid -width 25 -command "$self UserSelected" -background [::skin::getKey loginwidgetbg]]
+		set user_field [combobox::combobox $self.user -editable true -relief solid -width 25 -command "$self UserSelected" -background [::skin::getKey loginwidgetbg] -buttonbackground [::skin::getKey loginwidgetbg]]
 		set user_field_tag [$self create window 0 0 -anchor nw -window $user_field]
 		# Password
 		set pass_label_tag [$self create text 0 0 -anchor nw -text "[trans pass]:" -fill [::skin::getKey loginfg]]
@@ -109,7 +109,7 @@ snit::widgetadaptor loginscreen {
 		set pass_field_tag [$self create window 0 0 -anchor nw -window $pass_field]
 		# Status
 		set status_label_tag [$self create text 0 0 -anchor nw -text "[trans signinstatus]:" -fill [::skin::getKey loginfg]]
-		set status_field [combobox::combobox $self.status -editable true -relief solid -width 25 -command remember_state_list -background [::skin::getKey loginwidgetbg]]
+		set status_field [combobox::combobox $self.status -editable true -relief solid -width 25 -command remember_state_list -background [::skin::getKey loginwidgetbg] -buttonbackground [::skin::getKey loginwidgetbg]]
 		set status_field_tag [$self create window 0 0 -anchor nw -window $status_field]
 		# Options
 		# Remember me
@@ -224,8 +224,8 @@ snit::widgetadaptor loginscreen {
 		bind $self <Configure> "$self WidgetResized"
 		# Bind language button
 		contentmanager bind login_screen lang <ButtonRelease-1> "::lang::show_languagechoose"
-		contentmanager bind login_screen lang <Enter> "$self configure -cursor hand2"
-		contentmanager bind login_screen lang <Leave> "$self configure -cursor left_ptr"
+		contentmanager bind login_screen lang <Enter> "$self configure -cursor hand2;$self itemconfigure lang_button_text -font sunderf -fill [::skin::getKey loginurlfghover]"
+		contentmanager bind login_screen lang <Leave> "$self configure -cursor left_ptr;$self itemconfigure lang_button_text -font splainf -fill [::skin::getKey loginurlfg]"
 		# Catch hand-editing of username field
 		bind $user_field <KeyRelease> "$self UsernameEdited"
 		# Bind <Return> on password field to submit login form
@@ -398,6 +398,8 @@ snit::widgetadaptor loginscreen {
 		# Get the canvas tag
 		set canvas_tag [eval contentmanager cget $tree -tag]
 		# Bind the tag
+		eval contentmanager bind $tree <Enter> [list "$self configure -cursor hand2;$self itemconfigure $canvas_tag -font sunderf -fill [::skin::getKey loginurlfghover]"]
+		eval contentmanager bind $tree <Leave> [list "$self configure -cursor left_ptr;$self itemconfigure $canvas_tag -font splainf -fill [::skin::getKey loginurlfg]"]
 		eval contentmanager bind $tree <Enter> [list "$self configure -cursor hand2"]
 		eval contentmanager bind $tree <Leave> [list "$self configure -cursor left_ptr"]
 		eval contentmanager bind $tree <ButtonRelease-1> [list "$self LinkClicked $canvas_tag %x %y $cmd"]

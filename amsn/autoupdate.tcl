@@ -34,6 +34,7 @@ namespace eval ::autoupdate {
 		}
 
 		toplevel .tlsdown
+		wm group .tlsdown .
 		wm title .tlsdown "[trans tlsinstall]"
 
 		label .tlsdown.caption -text "[trans tlsinstallexp]" -anchor w -font splainf
