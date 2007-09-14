@@ -5175,11 +5175,11 @@ proc drawNick { } {
 	set my_state_desc [trans [::MSN::stateToDescription [::MSN::myStatusIs]]]
 	set my_name [::abook::getVolatileData myself parsed_mfn]
 	set my_colour [::MSN::stateToColor [::MSN::myStatusIs] "contact"]
-	set my_colour_state [::MSN::stateToColor [::MSN::myStatusIs] "state"]
+	#set my_colour_state [::MSN::stateToColor [::MSN::myStatusIs] "contact"]
 
 	lappend stylestring [list "tag" "mystatus"]
 	lappend stylestring [list "default" $my_colour [::skin::getFont "mystatus" "bboldf"]]
-	lappend stylestring [list "colour" $my_colour_state]
+	lappend stylestring [list "colour" "reset"]
 	lappend stylestring [list "font" "reset"]
 	set stylestring [concat $stylestring $my_name]
 	lappend stylestring [list "colour" "reset"]
