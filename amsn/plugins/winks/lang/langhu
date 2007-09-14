@@ -7,7 +7,7 @@ winks_swf_player_command Swf lejátszó parancs:
 winks_swf_player_arguments Swf lejátszó argumentumok:
 winks_add_new_wink Új animáció felvétele...
 winks_introduce_new_wink_name Új animáció neve:
-winks_cant_open Can't open
+winks_cant_open Nem tudom megnyitni
 winks_received_wink Fogadott animáció:
 winks_unknown_wink_waiting_for_it Várakozás az ismeretlen animációra...
 winks_wink_transfer_complete Animáció átvitele kész :
@@ -27,6 +27,6 @@ winks_yourcontact_amsn_client_doesnt_supports_winks olyan messenger klienst hasz
 winks_play_embed Animáció lejátszása a chat ablakban (csak gnash esetén). 
 winks_notify_in_one_line Fogadott animációk jelzése egy sorban.
 winks_play Lejátszás
-winks_use_queque_out Lejátszási sor használata az animációk chat ablakon kívüli lejátszása esetén.
-winks_use_queque_in Lejátszási sor használata az animációk chat ablakon belüli lejátszása esetén.
+winks_use_queque_out Lejátszási sor használata az animációk társalgás ablakon kívüli lejátszása esetén.
+winks_use_queque_in Lejátszási sor használata az animációk társalgás ablakon belüli lejátszása esetén.
 winks_file_is_not_a_wink A fájl nem tartalmaz animációt.

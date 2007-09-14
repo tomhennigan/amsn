@@ -3,6 +3,8 @@
 	<name>Winks</name>
 	<author>Pablo Novara and others (some code taken from Nudge plugin, some from amsn source code, some from voice clips, ...)</author>
 	<description>Winks!!!!!. Please read README.txt.</description>
+	<description_fr>Winks ! Merci de lire README.txt (en anglais).</description_fr>
+	<description_hu>Animációk. Olvasd el a README.txt fájlt.</description_hu>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>20070325</plugin_version>
 	<plugin_file>winks.tcl</plugin_file>
@@ -29,7 +31,7 @@
 	</lang>
 	<lang>
 		<langcode>fr</langcode>
-		<version>8921</version>
+		<version>9030</version>
 	</lang>
 	<lang>
 		<langcode>hu</langcode>

@@ -27,3 +27,6 @@ winks_yourcontact_amsn_client_doesnt_supports_winks utilise un client ne disposa
 winks_play_embed Jouer le wink dans la fenêtre de conversation (seulement pour gnash).
 winks_notify_in_one_line Afficher l'avertissement de réception d'un wink en une seule ligne
 winks_play Jouer
+winks_use_queque_out Utiliser une file d'attente lorsque les winks sont joués en dehors de la fenêtre de conversation.
+winks_use_queque_in Utiliser une file d'attente lorsque les winks sont joués dans la fenêtre de conversation.
+winks_file_is_not_a_wink Ce fichier ne contient pas de wink.
