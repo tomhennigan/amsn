@@ -224,7 +224,7 @@ contrast Contrast
 conversationwith $1 deelnemers aan het gesprek
 convertexplain Pad naar het programma 'convert' van ImageMagick (dit is nodig voor schermafbeeldingen). \nLaat leeg indien 'convert' binnen het zoekpad staat.
 copy Kopiëren
-copytoclipboard Kopiëren naar klembord: $1
+copytoclipboard Kopiëren naar klembord ($1)
 copytogroup Kopiëren naar groep
 corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 corruptstates Het aangepaste-statussenbestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
@@ -336,10 +336,11 @@ failed Mislukt
 faileddelete Verwijderen mislukt
 faileddeleteperso Dit plaatje kan niet worden verwijderd omdat het bestand niet in je persoonlijke profiel staat. Alleen plaatjes die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
 faq FAQ (Veelgestelde vragen)
+fetching Gegevens ophalen...
 file Bestand
 filedoesnotexist Bestand bestaat niet
 fileman Bestandsbeheerder
-filemanexample  ( \$location wordt vervangen door het pad ) Vb.: nautilus \$location
+filemanexample ( \$location wordt vervangen door het pad ) Vb.: nautilus \$location
 filename Bestandsnaam
 filenotwritable Dit bestand kan niet worden verwijderd
 filetransfer Bestandsoverdracht
@@ -583,6 +584,7 @@ normal Standaard
 noskins aMSN kan niet worden gestart omdat er geen skins zijn geïnstalleerd in de map skins/
 nosound Er is geen geluid gedetecteerd. Is je microfoon wel goed aangesloten?
 nosound_or_hold Er is geen geluid gedetecteerd. Om een Voice Clip te verzenden moet je de knop ingedrukt houden terwijl je het bericht inspreekt. Als je de knop weer loslaat wordt het bericht verzonden.
+nospace Hier is niets te zien
 nosystemtray Het systeemvak is niet beschikbaar
 note Notities bewerken
 notificationserver Initiële MSN-notificatieserver (MSN Messenger-server)
@@ -619,7 +621,7 @@ ordercontactsby Contacten sorteren op
 ordergroupsby Groepen sorteren op
 original Origineel
 other Andere
-otherdisplaypic Overige schermafbeeldingen van dit contact (klik voor meer opties)
+otherdisplaypic Overige schermafbeeldingen van dit contact (klik met de rechtermuisknop voor meer opties)
 otherdps Overige schermafbeeldingen
 others Overig
 p4contextprefix Voorvoegsel voor de alternatieve schermnaam
@@ -748,12 +750,12 @@ send Verzenden
 sendcam Uitzenden met de webcam
 sendemail Mijn e-mailadres meesturen en mij op de hoogte houden van wijzigingen
 sendfeedback Feedback verzenden
-sendfile Een bestand verzenden
-sendmail Een e-mail verzenden
-sendmobmsg Een bericht verzenden naar mobiel
-sendmsg Een bericht verzenden
-sendoim Offlinebericht versturen
-sendvoice Voice Clip versturen
+sendfile Bestand verzenden
+sendmail E-mail verzenden
+sendmobmsg Bericht verzenden naar mobiel
+sendmsg Bericht verzenden
+sendoim Offlinebericht verzenden
+sendvoice Voice Clip verzenden
 sendwebcamaccepted $1 heeft je uitnodiging om je webcambeeld te bekijken geaccepteerd. Bezig met verbinden...
 sendwebcaminvite Dit contact uitnodigen om je webcambeeld te bekijken
 sentbytes $1 van $2 bytes verzonden
