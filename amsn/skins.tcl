@@ -793,6 +793,8 @@ namespace eval ::skin {
 
 		::skin::setPixmap space_update space_update.gif
 		::skin::setPixmap space_noupdate space_noupdate.gif
+		::skin::setPixmap spaces_dock spaces_dock.gif
+		::skin::setPixmap spaces_undock spaces_undock.gif
 	
 		::skin::setPixmap bonline bonline.gif
 		::skin::setPixmap boffline boffline.gif

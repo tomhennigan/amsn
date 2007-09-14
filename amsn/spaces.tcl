@@ -535,7 +535,7 @@ namespace eval ::ccard {
 			set ycoord 0
 		} else {
 			set xbegin [expr $xcoord + [image width $image]]
-			set ycoord 185
+			set ycoord [expr {200 - [image height $image]}]
 		}
 		$canvas create image $xcoord $ycoord  -anchor nw -image $image -activeimage $hover_image -tag [list $tagname $email]
 		$canvas bind $tagname <ButtonPress-1> $command
@@ -564,7 +564,7 @@ namespace eval ::ccard {
 
 	#create the buttons on the bottom of the window
 	proc CreateBottomButtons {w canvas email side} {
-		variable xbegin 1
+		variable xbegin 10
 
 		#only show the "send message" button if the contact is online
 		if { [::abook::getVolatileData $email state FLN] != "FLN" } {
@@ -602,6 +602,10 @@ namespace eval ::ccard {
 			}
 		}
 
+		set dock_img [::skin::loadPixmap spaces_dock]
+		set xbegin [expr {290 - [image width $dock_img]}]
+		CreateButton $canvas spaces_dock $dock_img $dock_img $xbegin \
+		    "::ccard::closewindow; [list ::guiContactList::toggleSpaceShown $email]" "[trans spaces_dock]" bottom $email
 
 
 	}

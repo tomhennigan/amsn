@@ -1680,7 +1680,7 @@ namespace eval ::guiContactList {
 				lappend stylestring [list "space" 15]
 				lappend stylestring [list "tag" "icon"]
 				lappend stylestring [list "tag" "$undock_space"]
-				lappend stylestring [list "image" "$noupdate_img" "w"]
+				lappend stylestring [list "image" [::skin::loadPixmap spaces_undock] "w"]
 				lappend stylestring [list "tag" "-$undock_space"]
 				lappend stylestring [list "tag" "-icon"]
 			}
