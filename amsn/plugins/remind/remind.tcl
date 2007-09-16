@@ -236,19 +236,27 @@ proc GetLastSentences { email } {
 	}
 
 	fconfigure $id -encoding utf-8
-	set logvar [read $id]
+	
+	if { $size > 16384 } {
+		#Avoid loading the full log if it's too big
+		seek $id [expr {$size - 16384}]
+		set logvar [read $id 16384]
+	} else {
+		set logvar [read $id $size]
+	}
+
 	close $id
 
 	# Select the $nbline last lines
 	set loglines [split $logvar "\n"]
-status_log "LOG_LINES 1 = $loglines" green
+	#status_log "LOG_LINES 1 = $loglines" green
 	set nbline [expr {int($::remind::config(nbline))}]
 	set begin [expr {[llength $loglines] - $nbline}]
 	while {[string range [lindex $loglines $begin] 0 2] != "\|\"L" && $begin >= 0 } {
 		incr begin -1;
 	}
 	set loglines [lrange $loglines $begin end]
-status_log "LOG_LINES 2 = $loglines" green
+	#status_log "LOG_LINES 2 = $loglines" green
 	return $loglines
 
 }
