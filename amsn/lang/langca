@@ -4,27 +4,27 @@ about Sobre
 accept Acceptar
 acceptfile Acceptes el fitxer $1, de mida $2? Desat a $3
 actions Accions
-activeautoupdate Actualitzaci√≥ autom√†tica activa
+activeautoupdate ActualitzaciÛ autom‡tica activa
 addacontact Afegeix un contacte
 add afegir
-addedyou $1 ($2) t'ha incl√≤s a la seva llista de contactes
+addedyou $1 ($2) t'ha inclÚs a la seva llista de contactes
 addprofile Afegeix un nou perfil
-addprofiledesc Introdueix l'identificador amb qu√® vols crear el nou perfil.\nCada perfil pot tenir una configuraci√≥ diferent.\nSense perfils no pots utilitzar l'hist√≤ric, les alarmes o recordar les contrasenyes.
+addprofiledesc Introdueix l'identificador amb quË vols crear el nou perfil.\nCada perfil pot tenir una configuraciÛ diferent.\nSense perfils no pots utilitzar l'histÚric, les alarmes o recordar les contrasenyes.
 addstate Afegir un nou estat
 addto Afegeix a $1
 addtocontacts Afegir als contactes
 addtoo Afegeix aquesta persona a la llista de contactes
 admincontacts Administrar la llista de contactes
 admingroups Administrar grups
-advanced Avan√ßades
-advancedprefs Configuraci√≥ de les opcions avan√ßades
+advanced AvanÁades
+advancedprefs ConfiguraciÛ de les opcions avanÁades
 adverts Anuncis
-agotinvitation S'ha rebut una invitaci√≥ d&#39;√†udio de $1
-alarmonconnect Activa l'alarma quan l&#39;usuari es connecti
-alarmondisconnect Activa l'alarma quan l&#39;usuari canvi√Ø a l&#39;estat &quot;Desconnectat&quot;
-alarmonmsg Activa l'alarma quan l&#39;usuari t&#39;envi√Ø un missatge
-alarmonstatus Activa l'alarma quan l&#39;usuari canvi√Ø d&#39;estat
-alarmpref Prefer√®ncies de l'alarma per l&#39;usuari
+agotinvitation S'ha rebut una invitaciÛ d'‡udio de $1
+alarmonconnect Activa l'alarma quan l'usuari es connecti
+alarmondisconnect Activa l'alarma quan l'usuari canviÔ a l'estat "Desconnectat"
+alarmonmsg Activa l'alarma quan l'usuari t'enviÔ un missatge
+alarmonstatus Activa l'alarma quan l'usuari canviÔ d'estat
+alarmpref PreferËncies de l'alarma per l'usuari
 alarms Avisos
 alarmstatus Activar l'alarma per aquest usuari
 allfiles Tots els fitxers
@@ -32,62 +32,62 @@ allmonths Tots els mesos
 allowallbutbl Permet que tots els usuaris, llevat dels bloquejats, contractin amb mi
 allowbadwords Desactiva la censura als sobrenoms
 allowlist Llista d'acceptats (AL):
-allowonlyinal Permet que contactin amb mi nom√©s els usuaris acceptats
+allowonlyinal Permet que contactin amb mi nomÈs els usuaris acceptats
 allowseen Deixa que aquesta persona vegi si estic connectat i que contacti amb mi
-allow_sms Permetre als usuaris de contactar amb mi a trav√©s d'un dispositiu m√≤bil
+allow_sms Permetre als usuaris de contactar amb mi a travÈs d'un dispositiu mÚbil
 allprofilesinuse Tots els perfils existents s'estan utilitzant
-animatedemoticon Aquesta emoticona √©s animada
+animatedemoticon Aquesta emoticona Ès animada
 animatedsmileys Activa les emoticones animades
-animatenotify Finestra de notificaci√≥ animada
-appearance Aparen√ßa
-appearoff Simula desconnexi√≥
-areacode Codi d'√†rea
+animatenotify Finestra de notificaciÛ animada
+appearance AparenÁa
+appearoff Simula desconnexiÛ
+areacode Codi d'‡rea
 aretyping $1 estan escrivint un missatge
-askcontactwebcam per demanar c√†mera web al teu contacte o
+askcontactwebcam per demanar c‡mera web al teu contacte o
 askeachtime Preguntar cada vegada
-asksendingyourwebcam per demanar enviar la teva c√†mera web
-askwebcam Preguntar a l'usuari per enviar la c√†mera web
-assistantainput Escull el dispositiu d'entrada i fes una prova d&#39;enregistrament
+asksendingyourwebcam per demanar enviar la teva c‡mera web
+askwebcam Preguntar a l'usuari per enviar la c‡mera web
+assistantainput Escull el dispositiu d'entrada i fes una prova d'enregistrament
 assistantaoutput Escull el teu dispositiu de sortida, i prova reproduint aquest arxiu per testejar-lo
-assistantawarn No pots enregistrar o parlar als teus amics tu mateix. Trobar√†s respostes sobre com instal¬∑lar aquesta extensi√≥ al nostre wiki:
-assistantfinetunepic Canvia les seg√ºents opcions per ajustar la qualitat d'imatge de la teva c√†mera web
-assistantselectcam Escull la teva c√†mera web de la llista
+assistantawarn No pots enregistrar o parlar als teus amics tu mateix. Trobar‡s respostes sobre com instal∑lar aquesta extensiÛ al nostre wiki:
+assistantfinetunepic Canvia les seg¸ents opcions per ajustar la qualitat d'imatge de la teva c‡mera web
+assistantselectcam Escull la teva c‡mera web de la llista
 assistantstarting Engegant l'assistent
-assistantwelcome Aquest assistent et guiar√† a trav√©s de la configuraci√≥ de les teves opcions de v√≠deo i √†udio de aMSN.\n\nL'assistent comprovara si les extensions requerides estan presents i carregades, i podr√†s escollir el dispositiu i el canal, fixa les opcions de imatge i resoluci√≥.
-audioconfigured Escull les seg√ºents opcions de so:\n Dispositiu de Sortida: $1\nDispositiu d'entrada:$2
-audiovideo Opcions de V√≠deo i √Äudio
+assistantwelcome Aquest assistent et guiar‡ a travÈs de la configuraciÛ de les teves opcions de vÌdeo i ‡udio de aMSN.\n\nL'assistent comprovara si les extensions requerides estan presents i carregades, i podr‡s escollir el dispositiu i el canal, fixa les opcions de imatge i resoluciÛ.
+audioconfigured Escull les seg¸ents opcions de so:\n Dispositiu de Sortida: $1\nDispositiu d'entrada:$2
+audiovideo Opcions de VÌdeo i ¿udio
 author Autor
-autoaccepted Transfer√®ncia del fitxer acceptada autom√†ticament
-autoacceptft Accepta autom√†ticament les transfer√®ncies de fitxers
-autoaway Mostra'm en l&#39;estat &quot;Absent&quot; quan no hi hagi activitat en
-autocheckver Busca una nova versi√≥ a l'inici
-autoconnect2 Connectar-se autom√†ticament al iniciar l'aMSN
+autoaccepted TransferËncia del fitxer acceptada autom‡ticament
+autoacceptft Accepta autom‡ticament les transferËncies de fitxers
+autoaway Mostra'm en l'estat "Absent" quan no hi hagi activitat en
+autocheckver Busca una nova versiÛ a l'inici
+autoconnect2 Connectar-se autom‡ticament al iniciar l'aMSN
 autoconnect Connectar-se al iniciar l'aMSN
-autodetectip Detecta l'adre√ßa IP autom√†ticament
-autohotmaillog Connectar-se a Hotmail autom√†ticament
-autoidle Canviar a &quot;Sense activitat&quot; de manera autom√†tica
-autoip IP autom√†tica
-automessage Missatge autom√†tic
-autonoact Mostra'm en l&#39;estat &quot;Sense activitat&quot; quan no hi hagi activitat en
-autoresizedp Canviar de mida autom√†ticament les imatges per mostrar a la mida predeterminada
-avaccepted Videoconfer√®ncia acceptada
-avcanceled Videoconfer√®ncia cancel¬∑lada
-avgotinvitation S'ha rebut una invitaci√≥ de videoconfer√®ncia de $1
-avinitfailed La inicialitzaci√≥ del connector d'√Äudio/V√≠deo ha fallat. Crida cancel¬∑lada
+autodetectip Detecta l'adreÁa IP autom‡ticament
+autohotmaillog Connectar-se a Hotmail autom‡ticament
+autoidle Canviar a "Sense activitat" de manera autom‡tica
+autoip IP autom‡tica
+automessage Missatge autom‡tic
+autonoact Mostra'm en l'estat "Sense activitat" quan no hi hagi activitat en
+autoresizedp Canviar de mida autom‡ticament les imatges per mostrar a la mida predeterminada
+avaccepted VideoconferËncia acceptada
+avcanceled VideoconferËncia cancel∑lada
+avgotinvitation S'ha rebut una invitaciÛ de videoconferËncia de $1
+avinitfailed La inicialitzaciÛ del connector d'¿udio/VÌdeo ha fallat. Crida cancel∑lada
 avoidseen No deixis que aquesta persona vegi si estic connectat i que contacti amb mi
 away Absent
-awaymsg1 Pregunta'm el missatge d&#39;absent quan canvi√Ø a l&#39;estat &quot;Absent&quot;, &quot;Ara torno&quot; o &quot;Ocupat&quot;
-awaymsg2 No m'ho preguntis mai i utilitza el seg√ºent missatge
+awaymsg1 Pregunta'm el missatge d'absent quan canviÔ a l'estat "Absent", "Ara torno" o "Ocupat"
+awaymsg2 No m'ho preguntis mai i utilitza el seg¸ent missatge
 back Enrere
 baduserpass Nom d'usuari o contrasenya incorrecte
-badwebcam No es pot mostrar la imatge de la c√†mera web. Comprova que la teva c√†mera web est√† correctament connectada i instal¬∑lada
+badwebcam No es pot mostrar la imatge de la c‡mera web. Comprova que la teva c‡mera web est‡ correctament connectada i instal∑lada
 bgcolor Canvia el color del fons de l'aMSN
 blankdirect Deixa-ho en blanc per a connectar-te directament
 block Bloquejar
 blocked Bloquejat
 blockedyougroup Mostra un nou grup amb la gent que t'ha bloquejat
 blocking Bloqueig
-blockinter1 Quan el meu estat sigui &quot;connectat&quot;, comprova-ho cada
+blockinter1 Quan el meu estat sigui "connectat", comprova-ho cada
 blockinter2 segons, si no comprova-ho cada
 blockinter3 cada
 blockinter4 segons.
@@ -98,56 +98,56 @@ bouncedock Anima la icona de l'aMSN quan arribi un missatge
 brightness lluminositat
 broughtby Desenvolupat per
 browse Navegar
-browserexample (\$url ser√† substitu√Øda per l'adre√ßa) Ex: mozilla \$url
+browserexample (\$url ser‡ substituÔda per l'adreÁa) Ex: mozilla \$url
 browser Navegador
-bugerror Ho sentim, per√≤ hi ha hagut un problema en connectar a la base de dades d'errors. Sisplau, comprova la teva connexi√≥ a la xarxa
-bugnocomment Enviar-ho sense cap comentari? Comentar els errors ens ajuda a localitzar i resoldre els problemes de forma m√©s r√†pida
+bugerror Ho sentim, perÚ hi ha hagut un problema en connectar a la base de dades d'errors. Sisplau, comprova la teva connexiÛ a la xarxa
+bugnocomment Enviar-ho sense cap comentari? Comentar els errors ens ajuda a localitzar i resoldre els problemes de forma mÈs r‡pida
 busy Ocupat
 cachedpics $1 imatges agafades
 cagreement Acord de privacitat
-cancel Cancel¬∑la
-cancelled Cancel¬∑lat
-cannotdeleteprofile No es pot eliminar el perfil, sembla que s'est√† utilitzant en una altra sessi√≥ aMSN
-cantexec No puc executar l'aplicaci√≥ $1. Comprova les prefer√®ncies.
+cancel Cancel∑la
+cancelled Cancel∑lat
+cannotdeleteprofile No es pot eliminar el perfil, sembla que s'est‡ utilitzant en una altra sessiÛ aMSN
+cantexec No puc executar l'aplicaciÛ $1. Comprova les preferËncies.
 cantloadonlineversion No es pot recuperar la llista d'idiomes actualitzada
-cantremoveothers No puc esborrar el grup &quot;Altres&quot;
-captureextloaded La extensi√≥ de captura -$1- s'ha carregat
-captureextnotloaded La extensi√≥ de captura -$1- no s'ha carregat, l&#39;has de compilar
-captureproperties Propietats de la imatge de la c√†mera web
-capturewarn No podr√†s enviar la teva c√†mera web si ja tens una. Si no en tens, √©s normal. trobar√†s respostes sobre com instal¬∑lar aquesta extensi√≥ al nostre Wiki:
-casesensitive Diferenciar les maj√∫scules i les min√∫scules
+cantremoveothers No puc esborrar el grup "Altres"
+captureextloaded La extensiÛ de captura -$1- s'ha carregat
+captureextnotloaded La extensiÛ de captura -$1- no s'ha carregat, l'has de compilar
+captureproperties Propietats de la imatge de la c‡mera web
+capturewarn No podr‡s enviar la teva c‡mera web si ja tens una. Si no en tens, Ès normal. trobar‡s respostes sobre com instal∑lar aquesta extensiÛ al nostre Wiki:
+casesensitive Diferenciar les maj˙scules i les min˙scules
 cfgalarmall Configura, afegeix o elimina l'alarma global
 cfgalarm Configurar l'alarma per a aquest usuari
-change_account_info Canviar informaci√≥ del compte
+change_account_info Canviar informaciÛ del compte
 change Canviar
 changecustomstate Canvia a
 changedisplaypic Canviar l'avatar 
 changefont Canviar font
 changeglobnick Canviar el sobrenom global
-change_mobile Canviar configuraci√≥ del m√≤bil
+change_mobile Canviar configuraciÛ del mÚbil
 changenick Canviar el meu sobrenom
 changesize Canvia la mida
 changestate $1 canvia l'estat a $2
-changevideosettings Canviar prefer√®ncies de v√≠deo
+changevideosettings Canviar preferËncies de vÌdeo
 channels Canals
-charscounter Comptador de car√†cters teclejats a la finestra de conversa
+charscounter Comptador de car‡cters teclejats a la finestra de conversa
 chatack Acceptant la conversa de
 chat Conversa
 chatmaxmin Quan un contacte obri una conversa, vull que sigui:
 chatreq Demanant conversa
 chatsmileys2 Mostrar emoticones a la finestra de la conversa
 chatsmileys Emoticones a la conversa
-checkblocking Comprovar cont√≠nuament si algun usuari m'ha bloquejat
-checkemail Mostra una entrada per la notificaci√≥ de correu a la llista de contactes
-checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opci√≥ de l&#39;administrador de fitxers a la finestra de prefer√®ncies.
-checkingaudio Comprovant si la extensi√≥ de √†udio (Snack) est√† carregada...
-checkingcam Comprovant si la c√†mera web est√† connectada...
-checkingcapext Comprovant si la extensi√≥ '$1&#39; est√† carregada...
-checkingextensions Comprovant les extensions de v√≠deo requerides
+checkblocking Comprovar contÌnuament si algun usuari m'ha bloquejat
+checkemail Mostra una entrada per la notificaciÛ de correu a la llista de contactes
+checkfilman Els fitxers rebuts es desaran a $1. Comprova l'opciÛ de l'administrador de fitxers a la finestra de preferËncies.
+checkingaudio Comprovant si la extensiÛ de ‡udio (Snack) est‡ carregada...
+checkingcam Comprovant si la c‡mera web est‡ connectada...
+checkingcapext Comprovant si la extensiÛ '$1' est‡ carregada...
+checkingextensions Comprovant les extensions de vÌdeo requerides
 checkingver Buscant versions noves
 checkonfln Comprovar si un usuari m'ha bloquejat quan aparentment es desconnecta
-checkopenfilecommand Si us plau, comprova l'ordre d&#39;obrir arxiu a la finestra de prefer√®ncies
-checkver Busca una versi√≥ nova
+checkopenfilecommand Si us plau, comprova l'ordre d'obrir arxiu a la finestra de preferËncies
+checkver Busca una versiÛ nova
 choosearq Escull l'arquitectura del teu sistema
 choosebasefont Canviar la font
 choosebgcolor Canviar el color de fons
@@ -157,73 +157,73 @@ choosedevice Si us plau, selecciona un dispositiu
 choosefontcolor Escull el color del tipus de lletra
 chooseinputdev Escull el teu dispositiu d'entrada
 choosemixerdev Escull el teu dispositiu mesclador
-chooseskin Selecciona l'aparen√ßa que vols utilitzar
+chooseskin Selecciona l'aparenÁa que vols utilitzar
 chooseoutputdev Escull el teu dispositiu de sortida
 ch_to_state Canvia al nou estat
-clearlog2 Neteja l'hist√≤ric per tots els contactes
+clearlog2 Neteja l'histÚric per tots els contactes
 clearlog3 Netejar tots els registres
-clearlog Neteja de l'hist√≤ric
+clearlog Neteja de l'histÚric
 clear Netejar
-clearwebcamlogs Netejar tots els historials de la c√†mera web
-clickhere Fes clic aqu√≠
-clicktoadd Fes clic al bot√≥ &quot;afegir&quot; per escriure una nota nova
-clicktologin Fes clic aqu√≠ per iniciar la sessi√≥
+clearwebcamlogs Netejar tots els historials de la c‡mera web
+clickhere Fes clic aquÌ
+clicktoadd Fes clic al botÛ "afegir" per escriure una nota nova
+clicktologin Fes clic aquÌ per iniciar la sessiÛ
 clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
 closealltabs Tancar totes les pestanyes
 closeall Tancar totes les pestanyes de la finestra?
 closed Conversa amb $1 tancada per inactivitat
-closelabel Quan fas clic al bot√≥ de tancar en una finestra de conversa amb pestanyes
-closeonly Tancar nom√©s la pestanya actual
+closelabel Quan fas clic al botÛ de tancar en una finestra de conversa amb pestanyes
+closeonly Tancar nomÈs la pestanya actual
 close Tancar
-closingdocks El bot√≥ tancar minimitza la finestra
+closingdocks El botÛ tancar minimitza la finestra
 color Color
 command Reproductor
 commandstatus Executar comanda
 configure Configurar
-configuremic Configurant el teu micr√≤fon
-configuringaudio Configurant les opcions de √†udio
-confirmbl N'est√†s segur de bloquejar aquest contacte?
-confirmdelete Est√†s segur de voler eliminar a $1?
+configuremic Configurant el teu micrÚfon
+configuringaudio Configurant les opcions de ‡udio
+confirmbl N'est‡s segur de bloquejar aquest contacte?
+confirmdelete Est‡s segur de voler eliminar a $1?
 confirmdg Segur que vols eliminar aquest grup?
 confirmdu Segur que vols eliminar aquest usuari?
 confirmeg Segur que vols buidar aquest grup?
-confirm Est√†s segur?
-confirmpurge Totes les imatges mostrades dels teus contactes (per√≤ no la teva) estan a punt de ser esborrades. N'est√†s segur?
+confirm Est‡s segur?
+confirmpurge Totes les imatges mostrades dels teus contactes (perÚ no la teva) estan a punt de ser esborrades. N'est‡s segur?
 confirmrfl Segur que vols eliminar aquest usuari d'aquest grup?
 congrats Felicitats
-connected Ara est√†s connectat
+connected Ara est‡s connectat
 connectedwith Connectat amb $1
 connecterror Error connectant amb el servidor
 connecting Connectant
-connection Connexi√≥
-connectionlost Desconnectat: connexi√≥ amb el servidor tancada
+connection ConnexiÛ
+connectionlost Desconnectat: connexiÛ amb el servidor tancada
 contactadded Contacte afegit
 contact Contacte
-contactdoesnotexist ¬°El contacte que intentes afegir no existeix!
+contactdoesnotexist °El contacte que intentes afegir no existeix!
 contactlist Llista de contactes (FL):
-continuously Cont√≠nuament
+continuously ContÌnuament
 contrast Contrast
 conversationwith $1 usuaris a la conversa
-convertexplain Cam√≠ al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT √©s al PATH.
+convertexplain CamÌ al fitxer executable CONVERT, d'ImageMagick (es necessita per veure les imatges).\nDeixa-ho en blanc si CONVERT Ès al PATH.
 copy Copia
 copytoclipboard Copiar $1 al porta-retalls
 copytogroup Copia al grup
-corruptconfig El fitxer de configuraci√≥ cont√© errors. Ara en crear√© un de nou i desar√© l'antic a $1. Si vols ajudar-nos, envia&#39;ns el fitxer erroni.
-corruptstates El fitxer d'estats personalitzats cont√© errors. Ara en crear√© un de nou i desar√© l&#39;antic a $1. Si vols ajudar-nos, envia&#39;ns el fitxer erroni.
-couldnotrename No s'ha pogut renombrar l&#39;arxiu $1
-countrycode Codi de pa√≠s o regi√≥
+corruptconfig El fitxer de configuraciÛ contÈ errors. Ara en crearÈ un de nou i desarÈ l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
+corruptstates El fitxer d'estats personalitzats contÈ errors. Ara en crearÈ un de nou i desarÈ l'antic a $1. Si vols ajudar-nos, envia'ns el fitxer erroni.
+couldnotrename No s'ha pogut renombrar l'arxiu $1
+countrycode Codi de paÌs o regiÛ
 cprofile Crear perfil
 created Creat
-credits Cr√®dits
+credits CrËdits
 curdisplaypic Avatar actual
 currentdate Data actual
-currentlanguage Aquesta √©s la llengua que utilitzes
+currentlanguage Aquesta Ès la llengua que utilitzes
 currentnotes Notes actuals
-custnotifymsg Mostra una finestra de notificaci√≥ quan es rebi un missatge d'usuari nou
-custnotifyoffline Mostra una finestra de notificaci√≥ quan aquest contacte es desconnecti
-custnotifyonline Mostra una finestra de notificaci√≥ quan aquest contacte es connecti
-custnotifystatus Mostra una finestra de notificaci√≥ quan aquest contacte canvi√Ø d'estat
+custnotifymsg Mostra una finestra de notificaciÛ quan es rebi un missatge d'usuari nou
+custnotifyoffline Mostra una finestra de notificaciÛ quan aquest contacte es desconnecti
+custnotifyonline Mostra una finestra de notificaciÛ quan aquest contacte es connecti
+custnotifystatus Mostra una finestra de notificaciÛ quan aquest contacte canviÔ d'estat
 customcolor Color personalitzat
 custom_edit Editar emoticona personalitzada
 custom_new Afegir emoticona personalitzada
@@ -231,8 +231,8 @@ customnick Sobrenom personalitzat
 customsmileys Mostrar les emoticones personalitzades dels altres
 customstyle Estil personalitzat
 custshowcustomsmileys Mostra les emoticones personalitzades de l'usuari
-cutimageboxreset Modifica la caixa de selecci√≥.\nTamany a:
-cutimagebox Selecciona la part de la imatge que vols utilitzar, redimensionant i movent la caixa de selecci√≥
+cutimageboxreset Modifica la caixa de selecciÛ.\nTamany a:
+cutimagebox Selecciona la part de la imatge que vols utilitzar, redimensionant i movent la caixa de selecciÛ
 cut Talla
 date Data
 dateformat Canvia el format de la data
@@ -240,8 +240,8 @@ day Dia
 days dies
 dcprofile No crear perfil
 default2 Predeterminat
-defaultloginradio Configuraci√≥ per defecte
-default Utilitza la configuraci√≥ predeterminada
+defaultloginradio ConfiguraciÛ per defecte
+default Utilitza la configuraciÛ predeterminada
 defchatwinsize Mida predeterminada per les finestres (MIDAXxMIDAY)
 deleteall Eliminar-ho tot
 deletecustomstate Esborrar estat personalitzat
@@ -250,14 +250,14 @@ delimiters Delimitadors de temps:
 deliverfail Hi ha hagut un problema al enviar el missatge
 delprofile2 Selecciona el perfil a eliminar
 delprofile Esborrar perfil
-description Descripci√≥
+description DescripciÛ
 detach Separar
 details Detalls
-devicebusy El dispositiu $1 est√† ocupat
+devicebusy El dispositiu $1 est‡ ocupat
 devices Dispositius
-directconnection Tinc una connexi√≥ directa a Internet (utilitza el port 1863)
+directconnection Tinc una connexiÛ directa a Internet (utilitza el port 1863)
 disabled Desactivat
-disableprofiles Desactiva els perfils (√∫til en entorn p√∫blics i sistemes compartits)
+disableprofiles Desactiva els perfils (˙til en entorn p˙blics i sistemes compartits)
 disablessl Desactiva l'SSL
 disableuserfonts Ignora el tipus de lletra de l'altre usuari en les converses i utilitza sempre el meu tipus de lletra
 disconnect $1 s'ha desconnectat.
@@ -265,8 +265,8 @@ disconnectedfrom Desconnectat de $1
 displaychat Opcions del text mostrat
 displayeventconnect Avisa'm quan els meus contactes es connectin
 displayeventdisconnect Avisa'm quan els meus contactes es desconnectin
-displayeventemail Avisa'm quan rebi un correu electr√≤nic
-displayeventstate Avisa'm quan un contacte canvi√Ø d&#39;estat
+displayeventemail Avisa'm quan rebi un correu electrÚnic
+displayeventstate Avisa'm quan un contacte canviÔ d'estat
 displayp4context Mostra el contingut del camp P4-Context com l'emissor del missatge
 displaypic Mostra la imatge
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -275,20 +275,20 @@ docking Acoblament
 dockingoff Desactivat
 dockkde Acoblament amb el KDE
 done fet
-dontdownload No obtinguis d'Internet el m√≤dul TLS. L&#39;instal¬∑lar√© jo.
+dontdownload No obtinguis d'Internet el mÚdul TLS. L'instal∑larÈ jo.
 dontshow No mostrar
-download Desc√†rrega
-downloadingtls Obt√© el m√≤dul TLS de:\n$1
-editavsettings Modifica les opcions de √†udio i v√≠deo
+download Desc‡rrega
+downloadingtls ObtÈ el mÚdul TLS de:\n$1
+editavsettings Modifica les opcions de ‡udio i vÌdeo
 editcontent Editar el contingut del camp subjecte i el camp nota
 editcustomstate Edita l'estat personalitzat
 edit Edita
 editmyprofile Editar el meu perfil del MSN
-editnewstate Nou missatge autom√†tic per a un estat personalitzat
+editnewstate Nou missatge autom‡tic per a un estat personalitzat
 editprofile Editar perfil
-editstate Editar missatge autom√†tic per a un estat personalitzat
+editstate Editar missatge autom‡tic per a un estat personalitzat
 editvalue Editar valor
-email Correu electr√≤nic
+email Correu electrÚnic
 emailsinlist Mostra les adreces de correu per comptes dels sobrenoms a la llista de contactes
 emoticon_steal Afegir a les emoticones
 emotisounds Reproduir sons associats a certes emoticones
@@ -297,64 +297,64 @@ enabled Activat
 enableproxy Habilitar el servidor intermediari (proxy)
 enableremote Activar control remot
 enablesound Reproduir sons
-encoding2 Canvia la codificaci√≥ utilitzada pels teus car√†cters
-encoding Canviar la codificaci√≥
-enterbugdesc Entra la descripci√≥ del que estaves fent per ajudar-nos a reproduir l'error:
-entercontactemail Escriu l'adre√ßa de correu del contacte
+encoding2 Canvia la codificaciÛ utilitzada pels teus car‡cters
+encoding Canviar la codificaciÛ
+enterbugdesc Entra la descripciÛ del que estaves fent per ajudar-nos a reproduir l'error:
+entercontactemail Escriu l'adreÁa de correu del contacte
 enterfilename Introdueix el nom del fitxer
 enternick Escriu el teu sobrenom
 enterpsm Missatge personal
-errortls Error instal¬∑lant el m√≤dul TLS:
-eventhistory Mostra l'hist√≤ric d&#39;events
+errortls Error instal∑lant el mÚdul TLS:
+eventhistory Mostra l'histÚric d'events
 examples Exemples
-exitamsn Est√†s segur de voler sortir?
+exitamsn Est‡s segur de voler sortir?
 extras Serveis extra
 faileddelete Esborrat fallit
-faileddeleteperso Aquesta imatge no pot ser esborrada perqu√® no √©s una imatge personal. D'aquesta manera, nom√©s pots eliminar les imatges del teu perfil.
+faileddeleteperso Aquesta imatge no pot ser esborrada perquË no Ès una imatge personal. D'aquesta manera, nomÈs pots eliminar les imatges del teu perfil.
 failed Fallit
-faq Preguntes m√©s freq√ºents (PMF)
+faq Preguntes mÈs freq¸ents (PMF)
 filedoesnotexist El fitxer no existeix
 file Fitxer
-filemanexample (\$location ser√† substitu√Øda pel directori o fitxer) Ex: nautilus \$location
+filemanexample (\$location ser‡ substituÔda pel directori o fitxer) Ex: nautilus \$location
 fileman Gestor de fitxers
 filename Nom del fitxer
 filenotwritable Aquest fitxer no es pot eliminar
-filetransfercancelled S'ha cancel¬∑lat la transfer√®ncia
-filetransfercomplete La transfer√®ncia del fitxer ha finalitzat
-filetransfer Transfer√®ncia de fitxers
+filetransfercancelled S'ha cancel∑lat la transferËncia
+filetransfercomplete La transferËncia del fitxer ha finalitzat
+filetransfer TransferËncia de fitxers
 filters Filtres
 filtersselect Selecciona els filtres que vols veure\n(no seleccionar-ne cap significa mostrar-los tots)
-filtersx Selecci√≥ de filtres
+filtersx SelecciÛ de filtres
 find Cercar
-findnext Cerca el seg√ºent
+findnext Cerca el seg¸ent
 findprev Cerca l'anterior
 finetunesettings Opcions de imatge de Finetune
 finish Acaba
-finish2apply Prem el bot√≥ Acaba per aplicar aquestes opcions.
-firewalled Est√†s utilitzant un talla foc o est√†s darrere un router.
-firewalled2 Est√†s utilitzant un talla foc o est√†s darrere un router, si us plau comprova les teves opcions de connexi√≥ a la finestra de prefer√®ncies.
-followtext V√©s a la part inferior quan s'introdueixi una nova l√≠nia de text
+finish2apply Prem el botÛ Acaba per aplicar aquestes opcions.
+firewalled Est‡s utilitzant un talla foc o est‡s darrere un router.
+firewalled2 Est‡s utilitzant un talla foc o est‡s darrere un router, si us plau comprova les teves opcions de connexiÛ a la finestra de preferËncies.
+followtext VÈs a la part inferior quan s'introdueixi una nova lÌnia de text
 forgot_pass He oblidat la meva contrasenya
 friendlyname Missatge personal
-ftacceptedby $1 ha acceptat la invitaci√≥ per la transfer√®ncia del fitxer '$2&#39;.
-ftaccepted Transfer√®ncia de fitxers acceptada
-ftaccepting Acceptant la invitaci√≥ per a la transfer√®ncia de fitxers
-ftautoclose Tancar la finestra quan la transfer√®ncia del fitxer hagi finalitzat.
+ftacceptedby $1 ha acceptat la invitaciÛ per la transferËncia del fitxer '$2'.
+ftaccepted TransferËncia de fitxers acceptada
+ftaccepting Acceptant la invitaciÛ per a la transferËncia de fitxers
+ftautoclose Tancar la finestra quan la transferËncia del fitxer hagi finalitzat.
 ftconnecterror Error connectant amb l'usuari remot
 ftconnecting Connectant amb $1 pel port $2
-ftconnectionlost S'ha perdut la connexi√≥ amb l&#39;usuari remot
-ftgotinvitation $1 et vol enviar el fitxer '$2&#39; ($3 bytes). Ser√† desat al directori $4. Vols rebre el fitxer?
-ftportpref Utilitza aquest port, o els seg√ºents, per a les transfer√®ncies de fitxers
-ftportpref2 Port de comen√ßament per les connexions directes (necessitat per transfer√®ncies d'arxius i c√†mera web)
-ftrejectedby $1 ha rebutjat la invitaci√≥ per la transfer√®ncia del fitxer '$2&#39;.
-ftrejected Transfer√®ncia de fitxers rebutjada
-ftsendinvitation La invitaci√≥ per la transfer√®ncia del fitxer '$2&#39; ($3 bytes) ha estat enviada a $1.
-fullcontactlist La teva llista de contactes est√† plena. Per poder afegir un nou contacte n'has d&#39;esborrar un altre.
-getdisppic Activa l'opci√≥ de rebre l&#39;avatar d&#39;altres usuaris
-getmoreplugins Aconsegueix m√©s connectors!
-getmoreskins Aconsegueix m√©s temes!
+ftconnectionlost S'ha perdut la connexiÛ amb l'usuari remot
+ftgotinvitation $1 et vol enviar el fitxer '$2' ($3 bytes). Ser‡ desat al directori $4. Vols rebre el fitxer?
+ftportpref Utilitza aquest port, o els seg¸ents, per a les transferËncies de fitxers
+ftportpref2 Port de comenÁament per les connexions directes (necessitat per transferËncies d'arxius i c‡mera web)
+ftrejectedby $1 ha rebutjat la invitaciÛ per la transferËncia del fitxer '$2'.
+ftrejected TransferËncia de fitxers rebutjada
+ftsendinvitation La invitaciÛ per la transferËncia del fitxer '$2' ($3 bytes) ha estat enviada a $1.
+fullcontactlist La teva llista de contactes est‡ plena. Per poder afegir un nou contacte n'has d'esborrar un altre.
+getdisppic Activa l'opciÛ de rebre l'avatar d'altres usuaris
+getmoreplugins Aconsegueix mÈs connectors!
+getmoreskins Aconsegueix mÈs temes!
 globalcontainer Contenidor global
-globalnick Introdueix un patr√≥ per crear els sobrenoms dels teus contactes. Pots utilitzar aquestes variables: \$user_login per l'adre√ßa del teu contacte, \$nick pel sobrenom i \$customnick pel sobrenom personalitzat. Per exemple: &#39;\$user_login √©s \$nick&#39; ser√† &#39;<a href="mailto:contacte@msn.com" target="_blank">contacte@msn.com</a> √©s Contacte&#39;
+globalnick Introdueix un patrÛ per crear els sobrenoms dels teus contactes. Pots utilitzar aquestes variables: \$user_login per l'adreÁa del teu contacte, \$nick pel sobrenom i \$customnick pel sobrenom personalitzat. Per exemple: '\$user_login Ès \$nick' ser‡ '<a href="mailto:contacte@msn.com" target="_blank">contacte@msn.com</a> Ès Contacte'
 globalnicktitle Sobrenom global
 globaloverride Els sobrenoms globals han de substituir els sobrenoms personalitzats
 gonelunch Estic menjant
@@ -366,71 +366,71 @@ groupexists El grup ja existeix
 group Grup
 groupmissing No es pot trobar el grup
 groupnewname Nom nou
-groupnotempty El grup no est√† buit!
+groupnotempty El grup no est‡ buit!
 groupoldname Nom antic
 grouprename Reanomenar un grup
 groups Grups
 groupunknown Grup desconegut
 handle Sobrenom
-havenomic No tinc micr√≤fon
+havenomic No tinc micrÚfon
 help Ajuda
 helpcontents Continguts
 hidedisplaypic Oculta l'avatar
-hiden No mostris aquesta emoticona al men√∫ d'emoticones
+hiden No mostris aquesta emoticona al men˙ d'emoticones
 hidewindow Amaga la finestra
-history Mostrar hist√≤ric
+history Mostrar histÚric
 home Casa
-httpconnection Connectar-se amb el m√®tode HTTP (utilitza el protocol HTTP pel port 80)
-hue Mat√≠s
+httpconnection Connectar-se amb el mËtode HTTP (utilitza el protocol HTTP pel port 80)
+hue MatÌs
 huge enorme
-hybrid Mode h√≠brid
-lconvstartedOIM S'ha comen√ßat una conversa instant√†nia en desconnexi√≥ a$1
+hybrid Mode hÌbrid
+lconvstartedOIM S'ha comenÁat una conversa instant‡nia en desconnexiÛ a$1
 ident Identifica
 identity Identitat
-ignoreerrors Ignora els errors fins que tanqui la sessi√≥
+ignoreerrors Ignora els errors fins que tanqui la sessiÛ
 ignore Ignorar
 imagefiles Fitxers d'imatges
-inbox B√∫stia
+inbox B˙stia
 insertsmiley Insereix emoticona
-inserttextnote Introdueix text als camps &quot;assumpte&quot; i &quot;nota&quot;. Despr√©s fes clic a Desar
-installconvert Instal¬∑lar conversor: Has d'instal¬∑lar ImageMagick (un programa de conversi√≥) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a <a href="ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/" target="_blank">ftp://ftp.imagemagick.net/pub<WBR>/ImageMagick/binaries/</a> Si ja els tens, llavors √©s un error. Si us plau comunica&#39;l.
+inserttextnote Introdueix text als camps "assumpte" i "nota". DesprÈs fes clic a Desar
+installconvert Instal∑lar conversor: Has d'instal∑lar ImageMagick (un programa de conversiÛ) per tal de convertir les imatges al format usat pels servidors de MSN. Pots descarregar els binaris per al teu sistema operatiu a <a href="ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/" target="_blank">ftp://ftp.imagemagick.net/pub<WBR>/ImageMagick/binaries/</a> Si ja els tens, llavors Ès un error. Si us plau comunica'l.
 internalerror Error intern del servidor
 invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
-invalidfile El fitxer $2 introdu√Øt al camp &quot;$1&quot; no existeix o no es pot llegir
-invalidgroup Grup no v√†lid
-invalidparameter Error connectant amb el servidor: par√†metre inv√†lid
+invalidfile El fitxer $2 introduÔt al camp "$1" no existeix o no es pot llegir
+invalidgroup Grup no v‡lid
+invalidparameter Error connectant amb el servidor: par‡metre inv‡lid
 invalidpic El fitxer d'imatge no existeix.
-invalidpicsize La imatge √©s massa gran. Escull-ne una de m√©s petita.
+invalidpicsize La imatge Ès massa gran. Escull-ne una de mÈs petita.
 invalidsound El fitxer de so no existeix.
-invalidusername Nom d'usuari inv√†lid
-invitationcancelled La invitaci√≥ ha estat cancel¬∑lada
+invalidusername Nom d'usuari inv‡lid
+invitationcancelled La invitaciÛ ha estat cancel∑lada
 invite Convida
-ipaddress Adre√ßa IP
-ipdetect Detectar l'adre√ßa IP correcta per transfer√®ncies de fitxers utilitzant HTTP
+ipaddress AdreÁa IP
+ipdetect Detectar l'adreÁa IP correcta per transferËncies de fitxers utilitzant HTTP
 ircstyle Conversa a l'estil IRC
-istyping $1 est√† escrivint un missatge
+istyping $1 est‡ escrivint un missatge
 joins $1 s'uneix a la conversa
-justonce Nom√©s una vegada
-keepalive Mantenir connexi√≥ activa (NAT)
-keeplog2 Registrar totes les converses a l'hist√≤ric de l&#39;aMSN per futures visualitzacions
-keeplog Conservar l'hist√≤ric de les converses
+justonce NomÈs una vegada
+keepalive Mantenir connexiÛ activa (NAT)
+keeplog2 Registrar totes les converses a l'histÚric de l'aMSN per futures visualitzacions
+keeplog Conservar l'histÚric de les converses
 language Idioma
 language_manager Administrador d'idiomes
 large Gran
-lastlogin √öltim inici de sessi√≥
-lastlogout √öltim tancament de sessi√≥
-lastmsgedme √öltim missatge
-lastmsgtime √öltim missatge rebut a les $1
-lastseen √öltima vegada connectat
-lazypicretrieval Recuperaci√≥ &quot;mandrosa&quot; de les imatges per a mostrar
+lastlogin ⁄ltim inici de sessiÛ
+lastlogout ⁄ltim tancament de sessiÛ
+lastmsgedme ⁄ltim missatge
+lastmsgtime ⁄ltim missatge rebut a les $1
+lastseen ⁄ltima vegada connectat
+lazypicretrieval RecuperaciÛ "mandrosa" de les imatges per a mostrar
 lclosedwin $1 ha tancat la finestra a les $2
-lconftopriv La conversa m√∫ltiple canvia a conversa privada amb $1
+lconftopriv La conversa m˙ltiple canvia a conversa privada amb $1
 lconvstarted Conversa iniciada a les $1
 leaveblankforhotmail Deixa-ho buit per utilitzar hotmail
 leavejoinsinchat Mostra, a dins la finestra, quan un usuari s'uneixi o deixi la conversa
 leaves $1 deixa la conversa
 lenteredconf $1 s'uneix a la conversa a les $2
-lineflushlog Escriure els hist√≤rics a disc sense buffer (l√≠nia a l√≠nia)
+lineflushlog Escriure els histÚrics a disc sense buffer (lÌnia a lÌnia)
 linprivate EN PRIVAT
 listening Escoltant
 listeningon Escoltant el port $1
@@ -444,117 +444,117 @@ loadotherdisplaypic Carregant els avatars de $1, si us plau espera...
 logbigger No vull que els fitxers de registre d'un contacte superin les
 logeventconnect Registra les connexions
 logeventdisconnect Registra les desconnexions
-logeventemail Registra l'arribada de correu electr√≤nic
+logeventemail Registra l'arribada de correu electrÚnic
 logeventstate Registra els canvis d'estat
-logfandexp Mida dels fitxers de registre i expiraci√≥ de l'hist√≤ric
-loggedotherlocation Desconnectat. S'ha iniciat la sessi√≥ en un altre lloc
+logfandexp Mida dels fitxers de registre i expiraciÛ de l'histÚric
+loggedotherlocation Desconnectat. S'ha iniciat la sessiÛ en un altre lloc
 loggingin Connectant-se
 loginas Connectar-se com
 login Connectar-se
 loging Connectant-se
-logolder Registrar nom√©s les converses que s'han realitzat en els √∫ltims
+logolder Registrar nomÈs les converses que s'han realitzat en els ˙ltims
 logout Desconnectar-se
-logsbydate Ordena els registres per data (mostra l'hist√≤ric molt m√©s r√†pidament)
+logsbydate Ordena els registres per data (mostra l'histÚric molt mÈs r‡pidament)
 logsin s'acaba de connectar
-logsmileys Mostrar emoticones a la finestra d'hist√≤ric de l&#39;aMSN
+logsmileys Mostrar emoticones a la finestra d'histÚric de l'aMSN
 logsout s'acaba de desconnectar
-logwebcam Desar totes les sessions de la c√†mera web al historial de l'aMSN per futures revisions
-longnick El teu sobrenom cont√© m√©s de 130 car√†cters i el protocol MSN no els accepta. Est√†s segur de voler tenir aquest sobrenom?
-longp4c El teu sobrenom √©s m√©s llarg de 130 car√†cters. El sobrenom que es veur√† des d'un client oficial MSN ser√† $1. Est√†s segur d&#39;utilitzar-lo?
-lowrescam Fes servir c√†mera web a baixa resoluci√≥
-lprivtoconf La conversa privada canvia a conversa m√∫ltiple amb $1
+logwebcam Desar totes les sessions de la c‡mera web al historial de l'aMSN per futures revisions
+longnick El teu sobrenom contÈ mÈs de 130 car‡cters i el protocol MSN no els accepta. Est‡s segur de voler tenir aquest sobrenom?
+longp4c El teu sobrenom Ès mÈs llarg de 130 car‡cters. El sobrenom que es veur‡ des d'un client oficial MSN ser‡ $1. Est‡s segur d'utilitzar-lo?
+lowrescam Fes servir c‡mera web a baixa resoluciÛ
+lprivtoconf La conversa privada canvia a conversa m˙ltiple amb $1
 luclosedwin Has tancat la finestra a les $1
-mailerexample (\$recipient indica l'adre√ßa del contacte) Deixa-ho buit per utilitzar hotmail.
+mailerexample (\$recipient indica l'adreÁa del contacte) Deixa-ho buit per utilitzar hotmail.
 mailer Gestor de correu
-maintenance El servidor s'aturar√† per realitzar manteniment de aqu√≠ a $1 minuts
+maintenance El servidor s'aturar‡ per realitzar manteniment de aquÌ a $1 minuts
 maximised Maximitzada
 minimised Minimitzada/iconificada
 mins minuts
-mobilegrp1 grup del m√≤bil
-mobilegrp2 Afegeix usuaris al grup &quot;M√≤bil&quot; quan estiguin desconnectats (i ordenats segons estat)
-mobile M√≤bil
+mobilegrp1 grup del mÚbil
+mobilegrp2 Afegeix usuaris al grup "MÚbil" quan estiguin desconnectats (i ordenats segons estat)
+mobile MÚbil
 modified Modificat
 month Mes
-morepersonal M√©s estats -&gt;
+morepersonal MÈs estats ->
 move Moure
 movetogroup Moure al grup
-msgflicker Fes pampalluguejar el t√≠tol de la conversa quan arribi un missatge en una finestra no seleccionada
+msgflicker Fes pampalluguejar el tÌtol de la conversa quan arribi un missatge en una finestra no seleccionada
 msgmaxmin Quan arribi un nou missatge, vull que la finestra sigui:
 msg Missatge
-msgmode Escull com gestionar finestres de missatges m√∫ltiples:
+msgmode Escull com gestionar finestres de missatges m˙ltiples:
 msn aMSN
 msnstyle Conversa a l'estil MSN
 mustrestart Has de reiniciar l'aMSN si vols que els canvis tinguin efecte
 myfriendlyname El meu missatge personal de conversa
-myhomephone El meu tel√®fon a casa
-mymobilephone El meu tel√®fon m√≤bil
+myhomephone El meu telËfon a casa
+mymobilephone El meu telËfon mÚbil
 mynick El meu sobrenom
 mypic El meu avatar:
 mystatus El meu estat
-myworkphone El meu tel√®fon de la feina
+myworkphone El meu telËfon de la feina
 name Nom
-natip Detecci√≥ d'IP a trav√©s de p√†gina web
-natkeepalive Si et desconnecten cont√≠nuament, activa aquesta opci√≥
-needonline En l'estat &quot;Simula desconnexi√≥&quot; no pots enviar missatges!
-needwinico2 Necessites winico05.dll al directori utils/windows per a que funcioni la minimitzaci√≥ a la safata del sistema
+natip DetecciÛ d'IP a travÈs de p‡gina web
+natkeepalive Si et desconnecten contÌnuament, activa aquesta opciÛ
+needonline En l'estat "Simula desconnexiÛ" no pots enviar missatges!
+needwinico2 Necessites winico05.dll al directori utils/windows per a que funcioni la minimitzaciÛ a la safata del sistema
 never Mai
 new_account Crea un compte
-new_ft_protocol Utilitza el nou protocol de transfer√®ncia de fitxers (en fase de proves)
-newline Nova l√≠nia
-newmail $1 missatges nous a la b√∫stia
+new_ft_protocol Utilitza el nou protocol de transferËncia de fitxers (en fase de proves)
+newline Nova lÌnia
+newmail $1 missatges nous a la b˙stia
 newmailfolder Tens $1 missatges nous a les carpetes de Hotmail
 newmailfrom Nou missatge de correu de $1 ($2)
 newmailfromother Tens un missatge nou en una altra carpeta de $1 ($2)
 newmsg Nou missatge
-newoim Nous missatges en desconnexi√≥
+newoim Nous missatges en desconnexiÛ
 newstate Afegeix un estat personalitzat
-newtabbedfeature aMSN t√© una nova funci√≥ per administrar conversacions. Ara pots tenir totes les finestres, ja d'un mateix grup o de la teva llista sencera, en una sola finestra solapada. Si us plau, escull la modalitat
-nocamwarn No s'ha trobat cap c√†mera web, el problema pot ser debut tamb√© a que la teva c√†mera web ja est√† sent utilitzada per un altre programa (lo qual significa que no pot ser utilitzada per aMSN). Trobar√†s ajuda per solucionar aquest obstacle al nostre Wiki:
-newveravailable La versi√≥ $1 est√† disponible per baixar
-next Seg√ºent
+newtabbedfeature aMSN tÈ una nova funciÛ per administrar conversacions. Ara pots tenir totes les finestres, ja d'un mateix grup o de la teva llista sencera, en una sola finestra solapada. Si us plau, escull la modalitat
+nocamwarn No s'ha trobat cap c‡mera web, el problema pot ser debut tambÈ a que la teva c‡mera web ja est‡ sent utilitzada per un altre programa (lo qual significa que no pot ser utilitzada per aMSN). Trobar‡s ajuda per solucionar aquest obstacle al nostre Wiki:
+newveravailable La versiÛ $1 est‡ disponible per baixar
+next Seg¸ent
 nick Sobrenom
 noactivity Sense activitat
-nocacheddps Cap avatar en mem√≤ria cau per aquest usuari
+nocacheddps Cap avatar en memÚria cau per aquest usuari
 nodataavailable No hi ha dades disponibles per a $1
-nodevices No hi han dispositius instal¬∑lats
+nodevices No hi han dispositius instal∑lats
 nogap Sense espais entre els grups
 nogroup Sense grup
-nologfile No existeix fitxer d'hist√≤ric per $1
-nomic No hi ha Micr√≤fon
+nologfile No existeix fitxer d'histÚric per $1
+nomic No hi ha MicrÚfon
 noneavailable No disponible
-nonewmail No hi ha missatges nous a la b√∫stia
-nonewver No hi ha cap versi√≥ nova per a baixar-se
+nonewmail No hi ha missatges nous a la b˙stia
+nonewver No hi ha cap versiÛ nova per a baixar-se
 no No
 nopic Sense imatge
-noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessi√≥.\nUtilitza el bot√≥ &quot;Afegeix un nou perfil&quot; per afegir un nou perfil.
+noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessiÛ.\nUtilitza el botÛ "Afegeix un nou perfil" per afegir un nou perfil.
 normal Normal
-noskins No puc trobar l'aparen√ßa per defecte en la carpeta d&#39;aparences. L&#39;aMSN no es podr√† iniciar.
+noskins No puc trobar l'aparenÁa per defecte en la carpeta d'aparences. L'aMSN no es podr‡ iniciar.
 nosystemtray Safata del sistema no disponible
 note Nota
 notificationserver Servidor inicial de notificacions MSN (Servidor MSN Messenger)
-notify1_5 Mostrar una finestra d'av√≠s quan un contacte es desconnecti
-notify1_75 Mostrar una finestra d'av√≠s quan un contacte canvi√Ø d&#39;estat
-notify1 Mostrar una finestra d'av√≠s quan un contacte es connecti
-notify2 Mostrar una finestra d'av√≠s quan arribin nous missatges
-notify3 Mostrar una finestra d'av√≠s quan arribi un nou correu electr√≤nic
+notify1_5 Mostrar una finestra d'avÌs quan un contacte es desconnecti
+notify1_75 Mostrar una finestra d'avÌs quan un contacte canviÔ d'estat
+notify1 Mostrar una finestra d'avÌs quan un contacte es connecti
+notify2 Mostrar una finestra d'avÌs quan arribin nous missatges
+notify3 Mostrar una finestra d'avÌs quan arribi un nou correu electrÚnic
 notify4 Avisa'm quan arribin missatges nous en una altra carpeta
 notify notificar
-notifyoffset Ajusta la posici√≥ de la finestra d'av√≠s mitjan√ßant un despla√ßament
-notifytimeout Nombre de milisegons que la finestra de notificacions restar√† oberta
+notifyoffset Ajusta la posiciÛ de la finestra d'avÌs mitjanÁant un desplaÁament
+notifytimeout Nombre de milisegons que la finestra de notificacions restar‡ oberta
 notifytyping Envia notificacions als altres usuaris al teclejar
-notifywin Finestra d'av√≠s
+notifywin Finestra d'avÌs
 notinlist No ets a la seva llista de contactes
-notls La versi√≥ 9 del protocol MSN necessita el paquet TLS i sembla que no est√† instal¬∑lat en aquest ordinador. Si ho est√†, la seva ruta s'ha d&#39;especificar a la finestra de Prefer√®ncies (ex: /opt/tls/lib).\n\n Pots descarregar-te el TLS des de <a href="http://tls.sf.net" target="_blank">http://tls.sf.net</a>.
+notls La versiÛ 9 del protocol MSN necessita el paquet TLS i sembla que no est‡ instal∑lat en aquest ordinador. Si ho est‡, la seva ruta s'ha d'especificar a la finestra de PreferËncies (ex: /opt/tls/lib).\n\n Pots descarregar-te el TLS des de <a href="http://tls.sf.net" target="_blank">http://tls.sf.net</a>.
 nottabbed Finestres normals sense pestanyes
-nousersinsession No hi ha usuaris a la sessi√≥
-nudge $1 necessita la teva atenci√≥
+nousersinsession No hi ha usuaris a la sessiÛ
+nudge $1 necessita la teva atenciÛ
 offline Desconnectat
-oim Missatges en Desconnexi√≥
+oim Missatges en DesconnexiÛ
 ok D'acord
-onenewmail 1 missatge nou a la b√∫stia
+onenewmail 1 missatge nou a la b˙stia
 online Connectat
 onlinehelp Ajuda on-line
-onphone Al tel√®fon
+onphone Al telËfon
 opendir Obrir carpeta
 openfilecommand Ordre d'obrir arxiu
 openfile Obrir
@@ -563,28 +563,28 @@ options Opcions
 ordercontactsby Ordenar els contactes per
 ordergroupsby Ordenar grups per
 original Original
-otherdisplaypic Altres avatars d'aquest usuari (fes clic per m√©s opcions)
+otherdisplaypic Altres avatars d'aquest usuari (fes clic per mÈs opcions)
 others Altres
 other Un altre
 p4contextprefix Text complementari al P4-Context
 pager Paginador
 pass Contrasenya
 paste Enganxa
-pausedwebcamreceive La c√†mera web ha estat pausada per l'altre usuari
+pausedwebcamreceive La c‡mera web ha estat pausada per l'altre usuari
 pause Pausa
-pausewebcamsend Pausa enviant de la c√†mera web
+pausewebcamsend Pausa enviant de la c‡mera web
 personal Personal
-phones N√∫meros de tel√®fon
-phone Tel√®fon
+phones N˙meros de telËfon
+phone TelËfon
 picbrowser Navegador d'avatars
-picfile Fitxer d'imatge per a l&#39;alarma (GIF &lt; 500 x 500)
+picfile Fitxer d'imatge per a l'alarma (GIF < 500 x 500)
 picstatus Imatge per a l'alarma
-playbackposition Moment de reproducci√≥
-playbackspeed Velocitat de reproducci√≥ (mil¬∑lisegons entre cada fotograma)
+playbackposition Moment de reproducciÛ
+playbackspeed Velocitat de reproducciÛ (mil∑lisegons entre cada fotograma)
 playing Reproduint: $1
 playtest Reprodueix l'arxiu de prova
 play Reproduir
-playwebcamsend Tornar a enviar la c√†mera web
+playwebcamsend Tornar a enviar la c‡mera web
 pluginselector Selecciona el connector
 port Port
 portswellconfigured Els ports estan configurats correctament
@@ -592,76 +592,76 @@ prefalerts Alertes i sons d'events
 prefapps Aplicacions
 prefawaymsg Missatges d'absent
 prefblock1 Comprovar al desconnectar-se
-prefblock2 Comprovar cont√≠nuament
-prefblock3 Grup &quot;Has estat bloquejat per&quot;
-prefconnection Configuraci√≥ de la connexi√≥
+prefblock2 Comprovar contÌnuament
+prefblock3 Grup "Has estat bloquejat per"
+prefconnection ConfiguraciÛ de la connexiÛ
 prefemotic Emoticones
-preferences Prefer√®ncies
+preferences PreferËncies
 preffont2 Canvia com els altres veuen el meu text en una conversa
-preffont3 Canvia el tipus de lletra i la mida de la interf√≠cie de l'aMSN
+preffont3 Canvia el tipus de lletra i la mida de la interfÌcie de l'aMSN
 preffont4 Canvia la manera en que veig el text dels altres en les converses
 preffont Text dels meus missatges
-prefft Ajustaments de la transmissi√≥ de fitxers, P2P i NAT
+prefft Ajustaments de la transmissiÛ de fitxers, P2P i NAT
 preflibs Directori de les biblioteques
-preflog1 Opcions de l'hist√≤ric i dels registres
-preflogevent Hist√≤ric dels meus events
-preflook Aparen√ßa de l'aMSN
-prefmsging Interf√≠cie dels missatges
+preflog1 Opcions de l'histÚric i dels registres
+preflogevent HistÚric dels meus events
+preflook AparenÁa de l'aMSN
+prefmsging InterfÌcie dels missatges
 prefname Sobrenom a l'aMSN
-prefphone2 Escriu els n√∫meros de tel√®fon que vols permetre veure als contactes \n de la teva llista de contactes amb perm√≠s \n
-prefphone N√∫meros de tel√®fon
+prefphone2 Escriu els n˙meros de telËfon que vols permetre veure als contactes \n de la teva llista de contactes amb permÌs \n
+prefphone N˙meros de telËfon
 prefprivacy2 Llista de tots els contactes i dels usuaris que em tenen a la seva llista de contactes
 prefprivacy Llista dels contactes que poden veure el meu estat i dels bloquejats
-prefprofile2 Crea o modifica el teu perfil p√∫blic\n (la teva descripci√≥ que poden veure els altres)
-prefprofile3 Configuraci√≥ dels perfils d'usuari de l&#39;aMSN
-prefprofile Perfil p√∫blic
-prefproxy Par√†metres del servidor intermediari (proxy)
-prefremote Prefer√®ncies de connexi√≥ remota
-prefsession Inici de sessi√≥
-prefshared Connexions compartides (nom√©s per NAT)
+prefprofile2 Crea o modifica el teu perfil p˙blic\n (la teva descripciÛ que poden veure els altres)
+prefprofile3 ConfiguraciÛ dels perfils d'usuari de l'aMSN
+prefprofile Perfil p˙blic
+prefproxy Par‡metres del servidor intermediari (proxy)
+prefremote PreferËncies de connexiÛ remota
+prefsession Inici de sessiÛ
+prefshared Connexions compartides (nomÈs per NAT)
 prefsound So
 preview Vista preliminar
 privacy Privacitat
-profiledconfig Configuraci√≥ de perfil
-profileexists No pots crear perfil amb aquest identificador\n perqu√® ja existeix. Escull un altre identificador.
-profileinuse Aquest perfil est√† sent utilitzat per una altra sessi√≥ aMSN. Escull-ne un altre
+profiledconfig ConfiguraciÛ de perfil
+profileexists No pots crear perfil amb aquest identificador\n perquË ja existeix. Escull un altre identificador.
+profileinuse Aquest perfil est‡ sent utilitzat per una altra sessiÛ aMSN. Escull-ne un altre
 profileloginradio Utilitza un perfil existent
 profiles Perfils
 properties Propietats
-proxyconf Configuraci√≥ del servidor intermediari (proxy)
-proxyconfhttp Configuraci√≥ del suport per al servidor intermediari HTTP
-proxyconnection Em connecto a Internet a trav√©s d'un servidor intermediari (proxy):
+proxyconf ConfiguraciÛ del servidor intermediari (proxy)
+proxyconfhttp ConfiguraciÛ del suport per al servidor intermediari HTTP
+proxyconnection Em connecto a Internet a travÈs d'un servidor intermediari (proxy):
 proxy Estic darrera un servidor intermediari (HTTP o SOCKS5)
 psmatend Mostra missatge personal al costat del sobrenom
-psmdontshow No mostris el missatge personal, excepte si no es defineix aix√≠ en el sobrenom global/personalitzat
+psmdontshow No mostris el missatge personal, excepte si no es defineix aixÌ en el sobrenom global/personalitzat
 psmnewline Mostra el missatge personal sota del sobrenom
 psmplace On hauria de ser situat el missatge personal?
-publishphones Publicar els meus n√∫meros de tel√®fon
+publishphones Publicar els meus n˙meros de telËfon
 purge Purgar
-pwcdriver Est√†s usant el controlador pwc
+pwcdriver Est‡s usant el controlador pwc
 raised Elevada/desiconificada
-readonlymsgbox La transfer√®ncia ha estat cancel¬∑lada perqu√® no tens perm√≠s d'escriptura al directori dest√≠.
-readonlywarn ATENCI√ì: Probablement, el fitxer no ser√† desat correctament. Comprova els permisos que tens al directori dest√≠ ($1)
+readonlymsgbox La transferËncia ha estat cancel∑lada perquË no tens permÌs d'escriptura al directori destÌ.
+readonlywarn ATENCI”: Probablement, el fitxer no ser‡ desat correctament. Comprova els permisos que tens al directori destÌ ($1)
 receivedbytes Rebuts $1 de $2 bytes
 receiveddir Directori de fitxers rebuts
-receivedoimread Tens $1 nous missatges instantanis en desconnexi√≥. Vols llegir-los?
+receivedoimread Tens $1 nous missatges instantanis en desconnexiÛ. Vols llegir-los?
 receivefile Rebent fitxer
 recentmsg Prevenir el tancament de la finestra de conversa quan acabi d'arribar un missatge
-reconnect2 Reconnectar en perdre la connexi√≥
+reconnect2 Reconnectar en perdre la connexiÛ
 reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant amb el servidor
 record Enregistra
-recvwebcamaccepted $1 ha acceptat la teva invitaci√≥ per veure el seu/la seva c√†mera web. Connectant...
+recvwebcamaccepted $1 ha acceptat la teva invitaciÛ per veure el seu/la seva c‡mera web. Connectant...
 reject Rebutjar
 rememberaccount Recorda el meu compte
 rememberpass Recordar contrasenya
-remembersetting Recordar aquesta caracter√≠stica
+remembersetting Recordar aquesta caracterÌstica
 removeempty Elimina els grups buits de la llista de contacte
 removefromlist Suprimeix d'aquesta llista
 rename Renombrar
 report Informe
 reporting Informant
-required_version Impossible carregar aquest connector, necessites com a m√≠nim la versi√≥ $1 de l'aMSN perqu√® funcioni
+required_version Impossible carregar aquest connector, necessites com a mÌnim la versiÛ $1 de l'aMSN perquË funcioni
 resetincomingfont Restableix el tipus de lletra (utilitza la lletra que l'enviant escull)
 restartforskin Nota: Has de reiniciar l'aMSN per veure el tema correctament!
 reversed Invertit
@@ -676,121 +676,121 @@ says $1 diu
 sbcon Connectant amb la Switch Board
 selectall Seleccionar-ho tot
 selectplugins Selecciona els connectors que vols activar
-selectskin Selecciona una aparen√ßa de la llista
-sendemail Envia la meva adre√ßa per notificar-me canvis
+selectskin Selecciona una aparenÁa de la llista
+sendemail Envia la meva adreÁa per notificar-me canvis
 send Enviar
 sendfile Enviar fitxer
-sendmail Enviar correu electr√≤nic
-sendmobmsg Enviar a dispositiu M√≤bil
+sendmail Enviar correu electrÚnic
+sendmobmsg Enviar a dispositiu MÚbil
 sendmsg Enviar missatge
-sendwebcamaccepted $1 ha acceptat la teva invitaci√≥ per veure la teva c√†mera web. Connectant...
-sendwebcaminvite Invitar a un usuari a veure la teva c√†mera web
+sendwebcamaccepted $1 ha acceptat la teva invitaciÛ per veure la teva c‡mera web. Connectant...
+sendwebcaminvite Invitar a un usuari a veure la teva c‡mera web
 sentbytes Enviats $1 de $2 bytes
-serverbusy El servidor est√† ocupat
-servergoingdown Desconnectat: El servidor s'apagar√† per manteniment
+serverbusy El servidor est‡ ocupat
+servergoingdown Desconnectat: El servidor s'apagar‡ per manteniment
 server Servidor
 serverunavailable El servidor no contesta
-session Sessi√≥
-setupcam Engegant el teu dispositiu de c√†mera web
-setupcamfinetune Engegant el teu dispositiu de c√†mera web i imatge de finetune
-shareswebcam Comparteix la c√†mera web
+session SessiÛ
+setupcam Engegant el teu dispositiu de c‡mera web
+setupcamfinetune Engegant el teu dispositiu de c‡mera web i imatge de finetune
+shareswebcam Comparteix la c‡mera web
 showbanner Mostra la pancarta de l'aMSN
-showblockedlist Mostra'm la llista de la gent que em t√© bloquejat a la seva llista de contactes
+showblockedlist Mostra'm la llista de la gent que em tÈ bloquejat a la seva llista de contactes
 showcachedpics Mostra els avatars agafats
 show_contactdps_in_cl Mostrar miniatures dels avatars dels contactes a la llista
-showdisplaypic2 Mostra l'avatar quan s&#39;obri una nova conversa
+showdisplaypic2 Mostra l'avatar quan s'obri una nova conversa
 showdisplaypic Mostra l'avatar
 showmailicon Mostrar una icona a la barra de tasques en arribar correu nou
 showmypic El meu avatar
-shownotify Mostra una finestra de notificaci√≥ quan succeeixin diversos events
+shownotify Mostra una finestra de notificaciÛ quan succeeixin diversos events
 showpicnotify Mostrar les imatges dels usuaris a les finestres d'alerta
 showuserpic Avatar del contacte $1
-signinstatus Estat de l'inici de sessi√≥
-skin Aparen√ßa
+signinstatus Estat de l'inici de sessiÛ
+skin AparenÁa
 skinselector Selector d'aparences
 small Petit
 smileconfig Configura l'emoticona personalitzada
 smilefile Nom del fitxer de l'emoticona
-smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens m√©s ajuda)
-smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens m√©s ajuda)
-smiletoobig L'emoticona que has seleccionat √©s m√©s gran que la mida normal. Vols canviar la mida?
-snackfailed No puc carregar SNACK. Utilitzar√© la configuraci√≥ per defecte.
+smileintro2 Edita els camps per personalitzar aquesta emoticona (a les FAQ tens mÈs ajuda)
+smileintro Emplena els camps per crear una nova emoticona personalitzada (a les FAQ tens mÈs ajuda)
+smiletoobig L'emoticona que has seleccionat Ès mÈs gran que la mida normal. Vols canviar la mida?
+snackfailed No puc carregar SNACK. UtilitzarÈ la configuraciÛ per defecte.
 snapshot Captura
 sngdblclick Obre una nova finestra de conversa amb un sol clic
-sound2 Reprodueix sons quan els contactes es connectin o envi√Øn missatges
-soundactive Reprodueix so quan es rebi un missatge si la finestra est√† activa
+sound2 Reprodueix sons quan els contactes es connectin o enviÔn missatges
+soundactive Reprodueix so quan es rebi un missatge si la finestra est‡ activa
 soundcommand L'ordre per reproduir el so (ex: esdplay)
-soundexample (\$sound √©s el fitxer sonor per ser reprodu√Øt) Ex: esdplay \$sound
+soundexample (\$sound Ès el fitxer sonor per ser reproduÔt) Ex: esdplay \$sound
 soundfile Fitxer de so de l'alarma
 soundfiles Fitxers de so
-soundloop Reproducci√≥ cont√≠nua del so
+soundloop ReproducciÛ contÌnua del so
 soundserver Servidor de so
 sound So en un event
 soundstatus So a l'alarma
-sourcecode Codi font (necessita ser compilat i instal¬∑lat)
+sourcecode Codi font (necessita ser compilat i instal∑lat)
 splashstart Inici
-sslwarning ATENCI√ì!! Desactivant l'SSL, es desactiva el xifrat de la teva contrasenya i ser√† enviada sense cap protecci√≥ per la xarxa.
-startoffline2 Connectar-se silenciosament apareixent en l'estat &quot;Desconnectat&quot;
-startoffline Inicia en l'estat &quot;Simula desconnexi√≥&quot;
-startonboot Iniciar l'aMSN quan s&#39;inici√Ø el Windows
-startontray Inicia l'aMSN nom√©s amb la safata del sistema
-stateautomsg Missatge autom√†tic a enviar
+sslwarning ATENCI”!! Desactivant l'SSL, es desactiva el xifrat de la teva contrasenya i ser‡ enviada sense cap protecciÛ per la xarxa.
+startoffline2 Connectar-se silenciosament apareixent en l'estat "Desconnectat"
+startoffline Inicia en l'estat "Simula desconnexiÛ"
+startonboot Iniciar l'aMSN quan s'iniciÔ el Windows
+startontray Inicia l'aMSN nomÈs amb la safata del sistema
+stateautomsg Missatge autom‡tic a enviar
 statechange estat canviat a:
-stateedittext Edita els camps que vulguis modificar\ni prem &quot;Desar&quot;
-stateinfo Configuraci√≥ dels estats personalitzats
+stateedittext Edita els camps que vulguis modificar\ni prem "Desar"
+stateinfo ConfiguraciÛ dels estats personalitzats
 statename Nom de l'estat personalitzat
-statenewtext Emplena la informaci√≥ necess√†ria per crear\nel nou estat personalitzat i prem &quot;Desar&quot;
+statenewtext Emplena la informaciÛ necess‡ria per crear\nel nou estat personalitzat i prem "Desar"
 statenick Sobrenom personalitzat (deixa'l en blanc per no canviar res)
 statepsm Missatge personal personalitzat (deixa en blanc per no canviar res)
-state Vull apar√®ixer com
-stats Estad√≠stiques
+state Vull aparËixer com
+stats EstadÌstiques
 status Estat
-step Esgla√≥
+step EsglaÛ
 stopalarm Parar l'alarma
 stop Parar
-stopwebcamreceive Parar de rebre imatges de la c√†mera web
-stopwebcamsend Parar d'enviar imatges de la c√†mera web
+stopwebcamreceive Parar de rebre imatges de la c‡mera web
+stopwebcamsend Parar d'enviar imatges de la c‡mera web
 storenickname Retorna al sobrenom original al sortir d'un estat personalitzat
 strictfonts Restringeix la mida de les fonts a la seleccionada
-style Aparen√ßa
-stylechat La mateixa aparen√ßa que a les converses
-stylehist Aparen√ßa de l'hist√≤ric de l&#39;aMSN
-stylelog Escull l'estil en que vols veure l&#39;hist√≤ric
+style AparenÁa
+stylechat La mateixa aparenÁa que a les converses
+stylehist AparenÁa de l'histÚric de l'aMSN
+stylelog Escull l'estil en que vols veure l'histÚric
 subject Assumpte
-subjectrequired √âs necessari l'assumpte
+subjectrequired …s necessari l'assumpte
 syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
 tabbedglobal Una finestra amb pestanyes per a tots els contactes
 tabbedgroups Una finestra amb pestanyes per a usuaris del mateix grup
-tabtitlenick Vols veure els sobrenoms a les pestanyes per comptes de l'adre√ßa de correu?
-temp_state Sense desar (estat temporal que ser√† eliminat quan tanquis l'aMSN)
+tabtitlenick Vols veure els sobrenoms a les pestanyes per comptes de l'adreÁa de correu?
+temp_state Sense desar (estat temporal que ser‡ eliminat quan tanquis l'aMSN)
 textsize Mida del text
 thismonth Aquest mes
-throughserver A trav√©s del servidor
+throughserver A travÈs del servidor
 timeremaining Temps restant
 timestamp Marques d'hora
 timestamps Mostra l'hora a les converses
 title aMSN
-tkerror1 S'ha produ√Øt un error de TK, probablement perqu√® existeix un error a l&#39;aMSN. Si us plau, informa&#39;ns fent clic al bot√≥ Informar. Pots fer clic al bot√≥ Detalls per a visualitzar m√©s informaci√≥ sobre l&#39;error, o b√© fer clic al bot√≥ Ok per continuar xatejant amb l&#39;aMSN.
-tkerror Hi ha hagut un error de TK, segurament perqu√® hi ha un error a l'aMSN. Si ens vols ajudar, envia&#39;ns el fitxer $1 a l&#39;adre√ßa <a href="mailto:amsn-bugs@lists.sf.net" target="_blank">amsn-bugs@lists.sf.net</a> 
-tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si √©s el codi font) i instal¬∑lar-lo a dins de $3.
-tlsexplain Directori del m√≤dul tcl. Si l'aMSN no pot trobar-lo, especifica&#39;l.\n(es necessita per l&#39;autenticaci√≥ SSL).
-tlsinstall Assistent d'instal¬∑laci√≥ del m√≤dul TLS
-tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexi√≥ segura a\ntrav√©s del protocol SSL. Per tal d&#39;utilitzar-lo, necessites tenir instal¬∑lat\nel m√≤dul TLS i no l&#39;he trobat al sistema. Aquest assistent t&#39;ajudar√† a obtenir\ni a instal¬∑lar el m√≤dul. Escull quin tipus de sistema tens per poder obtenir el\nm√≤dul TLS de manera autom√†tica
-tlsinstcompleted La instal¬∑laci√≥ del m√≤dul TLS ha estat satisfact√≤ria, ara hauries de poder utilitzar el protocol MSNP9. Si no et funciona, segurament ser√† perqu√® no has escollir el m√≤dul corresponent al teu sistema.
+tkerror1 S'ha produÔt un error de TK, probablement perquË existeix un error a l'aMSN. Si us plau, informa'ns fent clic al botÛ Informar. Pots fer clic al botÛ Detalls per a visualitzar mÈs informaciÛ sobre l'error, o bÈ fer clic al botÛ Ok per continuar xatejant amb l'aMSN.
+tkerror Hi ha hagut un error de TK, segurament perquË hi ha un error a l'aMSN. Si ens vols ajudar, envia'ns el fitxer $1 a l'adreÁa <a href="mailto:amsn-bugs@lists.sf.net" target="_blank">amsn-bugs@lists.sf.net</a> 
+tlsdowncompleted El fitxer $1 ha estat desat al directori $2. L'has de descomprimir, compilar (si Ès el codi font) i instal∑lar-lo a dins de $3.
+tlsexplain Directori del mÚdul tcl. Si l'aMSN no pot trobar-lo, especifica'l.\n(es necessita per l'autenticaciÛ SSL).
+tlsinstall Assistent d'instal∑laciÛ del mÚdul TLS
+tlsinstallexp Ara l'aMSN utilitza MSNP9, que requereix un connexiÛ segura a\ntravÈs del protocol SSL. Per tal d'utilitzar-lo, necessites tenir instal∑lat\nel mÚdul TLS i no l'he trobat al sistema. Aquest assistent t'ajudar‡ a obtenir\ni a instal∑lar el mÚdul. Escull quin tipus de sistema tens per poder obtenir el\nmÚdul TLS de manera autom‡tica
+tlsinstcompleted La instal∑laciÛ del mÚdul TLS ha estat satisfactÚria, ara hauries de poder utilitzar el protocol MSNP9. Si no et funciona, segurament ser‡ perquË no has escollir el mÚdul corresponent al teu sistema.
 to A
 today Avui
-tomobile Al m√≤bil
+tomobile Al mÚbil
 tools Eines
-tooltips Activa el r√®tol indicador de funcions
-transnotexists Aquest fitxer encara no ha estat tradu√Øt
-trayicon Mostra una icona d'estat a la safata de notificaci√≥ del sistema
-traynotcompiled La icona de la safata de connexi√≥ no s'ha compilat. Comprova el directori plugins/traydock
+tooltips Activa el rËtol indicador de funcions
+transnotexists Aquest fitxer encara no ha estat traduÔt
+trayicon Mostra una icona d'estat a la safata de notificaciÛ del sistema
+traynotcompiled La icona de la safata de connexiÛ no s'ha compilat. Comprova el directori plugins/traydock
 triggers Text disparador
-truncatenames1 Escur√ßa els sobrenoms m√©s llargs que l'amplada de la finestra en el t√≠tol i els contactes
-truncatenames2 Escur√ßa els sobrenoms m√©s llargs que l'amplada de la finestra a les converses
-truncatenicks Escur√ßa els sobrenoms m√©s llargs que l'amplada de la finestra
-twonewmail $1 missatges nous a la b√∫stia
+truncatenames1 EscurÁa els sobrenoms mÈs llargs que l'amplada de la finestra en el tÌtol i els contactes
+truncatenames2 EscurÁa els sobrenoms mÈs llargs que l'amplada de la finestra a les converses
+truncatenicks EscurÁa els sobrenoms mÈs llargs que l'amplada de la finestra
+twonewmail $1 missatges nous a la b˙stia
 type Tipus
 unblock Desbloquejar
 unknown Desconegut
@@ -798,149 +798,149 @@ unload Descarregar
 unselectall Desseleccionar-ho tot
 uoffline Desconnectats
 uonline Connectats
-update Actualitzaci√≥
-updateonlycurrentlanguage Actualitzar nom√©s la llengua actual
+update ActualitzaciÛ
+updateonlycurrentlanguage Actualitzar nomÈs la llengua actual
 updating Actualitzant
 useasdp Fer servir com avatar
 useother Utilitza un altre programa
-useralreadyonlist L'usuari ja √©s a la llista de contactes
-userblocked Aquest usuari est√† connectat per√≤ t'ha bloquejat a la seva llista
+useralreadyonlist L'usuari ja Ès a la llista de contactes
+userblocked Aquest usuari est‡ connectat perÚ t'ha bloquejat a la seva llista
 userdata Dades d'usuari
 userdps Avatars de l'usuari
-usernotonline L'usuari no est√† connectat
+usernotonline L'usuari no est‡ connectat
 userproperties Propietats de l'usuari $1
 user Usuari
 useryourself No pots conversar amb tu mateix
-usesnack Utilitza la llibreria Snack (extensi√≥ del TCL)
-verifyblocked Comprova la gent que em t√© bloquejat a la seva llista
-version Versi√≥
-videoconversationrequest Has rebut una invitaci√≥ per una conversa de v√≠deo (√†udio i v√≠deo bidireccional). Aquesta funcionalitat no est√† suportada per l'aMSN i ha estat cancel¬∑lada. De totes maneres, pots continuar la conversa de c√†mera web habitual.
+usesnack Utilitza la llibreria Snack (extensiÛ del TCL)
+verifyblocked Comprova la gent que em tÈ bloquejat a la seva llista
+version VersiÛ
+videoconversationrequest Has rebut una invitaciÛ per una conversa de vÌdeo (‡udio i vÌdeo bidireccional). Aquesta funcionalitat no est‡ suportada per l'aMSN i ha estat cancel∑lada. De totes maneres, pots continuar la conversa de c‡mera web habitual.
 viewcontactsby Mostra els contactes per
 viewprofile Mostrar perfil
 view Veure
 volume Volum
-wanttosharecam Vull tenir disponible la meva c√†mera web als altres
+wanttosharecam Vull tenir disponible la meva c‡mera web als altres
 web Web
-webcam C√†mera web
-webcamcanceled La sessi√≥ de c√†mera web amb $1 ha estat cancel¬∑lada
-webcamclosebefcancel Has de cancel¬∑lar totes les sessions de la c√†mera web abans de tancar la finestra
-webcamconfiguredMac Les teves opcions de c√†mera web han estat configurades
-webcamconfiguredWin Esculls el seg√ºent dispositiu de c√†mera web : $1
-webcamconfiguredLinux Esculls les seg√ºents opcions de c√†mera web:\nWebcam dispositiu: $1\nWebcam canal: $2
-webcamconfigure Configurar c√†mera web
-webcamextchecking Comprovant si la extensi√≥ de c√†mera web est√† carregada...
-webcamextloaded S'ha carregat la extensi√≥ Webcamsn
-webcamextnotloaded No s'ha carregat la extensi√≥ Webcamsn. L&#39;has de compilar
-webcamextwarn No podr√†s veure la c√†mera web dels teus contactes. Trobar√†s respostes sobre com instal¬∑lar algunes extensions al nostre Wiki:
-webcamfaq PMQ/Ajuda per la c√†mera web
-webcamhistory Veure les sessions de c√†mera web
-webcaminvite $1 t'ha convidat a iniciar una conversa amb c√†mera web per√≤ l&#39;aMSN encara no ho suporta.
-webcaminvitereceived $1 t'ha convidat a iniciar una sessi√≥ de c√†mera web. Vols acceptar aquesta sessi√≥?
-webcamrejected $1 ha rebutjat la invitaci√≥ per iniciar una sessi√≥ de c√†mera web
-webcamrequestreceive Enviar petici√≥ per veure la seva c√†mera web
-webcamrequestsend Enviar invitaci√≥ per veure la teva c√†mera web
-webcamsending Llista de la gent que actualment est√† visionant la teva c√†mera web\nFes clic per cancel¬∑lar
-whatisamsn aMSN √©s un clon multiplataforma del MSN
-whatsize La imatge que has demanat no t√© la mida normal\nd'avatar(96x96) A quina mida vols que es mostri la imatge? 
+webcam C‡mera web
+webcamcanceled La sessiÛ de c‡mera web amb $1 ha estat cancel∑lada
+webcamclosebefcancel Has de cancel∑lar totes les sessions de la c‡mera web abans de tancar la finestra
+webcamconfiguredMac Les teves opcions de c‡mera web han estat configurades
+webcamconfiguredWin Esculls el seg¸ent dispositiu de c‡mera web : $1
+webcamconfiguredLinux Esculls les seg¸ents opcions de c‡mera web:\nWebcam dispositiu: $1\nWebcam canal: $2
+webcamconfigure Configurar c‡mera web
+webcamextchecking Comprovant si la extensiÛ de c‡mera web est‡ carregada...
+webcamextloaded S'ha carregat la extensiÛ Webcamsn
+webcamextnotloaded No s'ha carregat la extensiÛ Webcamsn. L'has de compilar
+webcamextwarn No podr‡s veure la c‡mera web dels teus contactes. Trobar‡s respostes sobre com instal∑lar algunes extensions al nostre Wiki:
+webcamfaq PMQ/Ajuda per la c‡mera web
+webcamhistory Veure les sessions de c‡mera web
+webcaminvite $1 t'ha convidat a iniciar una conversa amb c‡mera web perÚ l'aMSN encara no ho suporta.
+webcaminvitereceived $1 t'ha convidat a iniciar una sessiÛ de c‡mera web. Vols acceptar aquesta sessiÛ?
+webcamrejected $1 ha rebutjat la invitaciÛ per iniciar una sessiÛ de c‡mera web
+webcamrequestreceive Enviar peticiÛ per veure la seva c‡mera web
+webcamrequestsend Enviar invitaciÛ per veure la teva c‡mera web
+webcamsending Llista de la gent que actualment est‡ visionant la teva c‡mera web\nFes clic per cancel∑lar
+whatisamsn aMSN Ès un clon multiplataforma del MSN
+whatsize La imatge que has demanat no tÈ la mida normal\nd'avatar(96x96) A quina mida vols que es mostri la imatge? 
 willjoin Esperant que $1 s'uneixi a la conversa
-winkreceived Has rebut un Wink de $1. Aquesta caracter√≠stica no est√† suportada actualment per l'aMSN.
+winkreceived Has rebut un Wink de $1. Aquesta caracterÌstica no est‡ suportada actualment per l'aMSN.
 wintitlenick Vols veure els sobrenoms a les finestres sobreposades en lloc del correu?
 work Treball
-wrongfields Els camps &quot;$1&quot;, &quot;$2&quot; i/o &quot;$3&quot; no s√≥n v√†lids
-wrongprofileversion Versi√≥ incorrecta del fitxer de configuraci√≥ del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
-xmmscurrent Mostra la can√ß√≥ actual
-xmmserr No s'est√† reproduint res o no tens l&#39;xmms-infopipe instal¬∑lat.
-xmmssend Envia la can√ß√≥ actual
-xoffset Despla√ßament X
+wrongfields Els camps "$1", "$2" i/o "$3" no sÛn v‡lids
+wrongprofileversion VersiÛ incorrecta del fitxer de configuraciÛ del perfil. Per arreglar-ho, esborra el directori $1 o actualitza l'aMSN
+xmmscurrent Mostra la canÁÛ actual
+xmmserr No s'est‡ reproduint res o no tens l'xmms-infopipe instal∑lat.
+xmmssend Envia la canÁÛ actual
+xoffset DesplaÁament X
 year Any
-yesblock S√≠ i bloquejar
-yes S√≠
+yesblock SÌ i bloquejar
+yes SÌ
 yesterday Ahir
-yoffset Despla√ßament Y
+yoffset DesplaÁament Y
 youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
-zoom Ampliaci√≥
+zoom AmpliaciÛ
 account Compte
-askcam Preguntar per rebre c√†mera web
-asksendoim Vols enviar aquest missatge com un missatge fora de l√≠nia?
-autolisten_voiceclips Reprodueix autom√†ticament els videoclips rebuts
+askcam Preguntar per rebre c‡mera web
+asksendoim Vols enviar aquest missatge com un missatge fora de lÌnia?
+autolisten_voiceclips Reprodueix autom‡ticament els videoclips rebuts
 changestatus Canvia l'estat
-closeordock Tancant la llista de contactes, sortireu de l'aMSN. Potser nom√©s voleu tancar la finestra i que l&#39;aMSN continu√Ø a la safata del sistema.\n\nEst√†s segur de voler sortir de l&#39;aMSN?
+closeordock Tancant la llista de contactes, sortireu de l'aMSN. Potser nomÈs voleu tancar la finestra i que l'aMSN continuÔ a la safata del sistema.\n\nEst‡s segur de voler sortir de l'aMSN?
 contacts Contactes
 deleteblock Eliminar i bloquejar
 findasyoutype Cerca mentre escrius
 gotoinbox Anar a la safata d'entrada
 groupcontacts Contactes del grup
-hidemenu Mostra/oculta men√∫s
-hidemenumessage Segur que vols ocultar els men√∫s?\nPots recuperar-los en qualsevol moment amb la combinaci√≥ de mostrar/ocultar 'Ctrl-M&#39;.
+hidemenu Mostra/oculta men˙s
+hidemenumessage Segur que vols ocultar els men˙s?\nPots recuperar-los en qualsevol moment amb la combinaciÛ de mostrar/ocultar 'Ctrl-M'.
 ignorecontact Ignorar les converses del contacte
-logschats Est√† desant les converses
-longpsm El teu missatge personal √©s massa larg. Aix√≤ no est√† suportat oficialment pel protocol MSN. Est√†s segur que vols utilitzar-lo?
+logschats Est‡ desant les converses
+longpsm El teu missatge personal Ès massa larg. AixÚ no est‡ suportat oficialment pel protocol MSN. Est‡s segur que vols utilitzar-lo?
 minimize Minimitza a la safata del sistema
 msnstatus Estat de la xarxa MSN
 newchat Nova conversa
-noftpreview Desactiva l'enviament de la previsualitzaci√≥ en les transfer√®ncies de fixers.
-nosound No s'ha detectat so. Comprova que et teu micr√≤fon est√† connectat correctament
-nosound_or_hold No s'ha detectat so. Per enviar un missatge de veu has de mantenir apretat el bot√≥ metre parles i deixar-lo anar per enviar el missatge.
+noftpreview Desactiva l'enviament de la previsualitzaciÛ en les transferËncies de fixers.
+nosound No s'ha detectat so. Comprova que et teu micrÚfon est‡ connectat correctament
+nosound_or_hold No s'ha detectat so. Per enviar un missatge de veu has de mantenir apretat el botÛ metre parles i deixar-lo anar per enviar el missatge.
 psm Missatge personal
 quit Sortir
 receivedvoice Rebre un missatge de veu
-recorderror S'ha produ√Øt un error quan s&#39;intentava desar el so: $1
+recorderror S'ha produÔt un error quan s'intentava desar el so: $1
 searchdown Cerca endavant
 searchup Cerca endarrera
-sendcam Envia c√†mera web
+sendcam Envia c‡mera web
 sendfeedback Envia comentaris
-sendoim Envia missatge fora de l√≠nia
+sendoim Envia missatge fora de lÌnia
 sendvoice Envia missatge de veu
 sentvoice Enviat missatge de veu
 setasmydp Establir com la meva imatge
-showcontactemail Mostra els contactes amb el seu correu electr√≤nic
+showcontactemail Mostra els contactes amb el seu correu electrÚnic
 showcontactnick Mostra els contactes amb el seu sobrenom
-snackneeded La llibreria Snack √©s necess√†ria per tal d'utilitzar aquesta funcionalitat. Com a m√≠nim es necessita la versi√≥ 2.2.9.
+snackneeded La llibreria Snack Ès necess‡ria per tal d'utilitzar aquesta funcionalitat. Com a mÌnim es necessita la versiÛ 2.2.9.
 sortcontactgroup Ordena els contactes per grup
-sortcontacthybrid Ordena els contactes en mode h√≠brid
+sortcontacthybrid Ordena els contactes en mode hÌbrid
 sortcontactstatus Ordena els contactes per l'estat
 sortgroupsasc Ordena ascendentment els grups
 sortgroupsdesc Ordena descendentment els grups
-soundnoavail El dispositiu de so no est√† disponible. Atura totes les aplicaciones que facin √∫s del dispositiu de so.
-useasregexp Interpretar com a expressi√≥ regular
+soundnoavail El dispositiu de so no est‡ disponible. Atura totes les aplicaciones que facin ˙s del dispositiu de so.
+useasregexp Interpretar com a expressiÛ regular
 usersettings Settings
 voice_notimplemented The Receiving of Voice Clips is not yet implemented. Please be patient.
 voice_windows Being a Windows user, you might be able to listen to the voice clip by opening the voice clip with your media player.
 voice_windows_click Click here to do so.
 connectfirst Sisplau, connecteu primer
 ftporttest Prova el port
-blocknotifications Deshabilita mostrar finestres de notificaci√≥
+blocknotifications Deshabilita mostrar finestres de notificaciÛ
 blocksounds Deshabilita sons
 customdp Imatge personalitzada per a mostrar
 error Error
 nouserspecified Usuari no especificat
-webcaminvitereceiving Est√†s convidat a veure la webcam de $1. Vols acceptar aquesta sessi√≥?
-webcaminvitesending $1 voldria veure la teva c√†mera web. Vols acceptar aquesta sessi√≥?
-abort Anul¬∑lar
-assistanttitle Ajudant de so i v√≠deo
+webcaminvitereceiving Est‡s convidat a veure la webcam de $1. Vols acceptar aquesta sessiÛ?
+webcaminvitesending $1 voldria veure la teva c‡mera web. Vols acceptar aquesta sessiÛ?
+abort Anul∑lar
+assistanttitle Ajudant de so i vÌdeo
 cachedpicsfor Les imatges per a mostrar guardades de l'usuari
 closeothers Tanca totes les altres pestanyes
 dontshowdp No deixis que aquest usuari vegi les teves noves imatges per a mostrar
 forget_me Oblida'm
-goto_prefs_removeprofile Clica aqu√≠ per anar a les prefer√®ncies i esborrar el teu perfil
+goto_prefs_removeprofile Clica aquÌ per anar a les preferËncies i esborrar el teu perfil
 groupcontactsbystatus Agrupa els contactes per estat
 hidebuttonbar Amagar la barra de botons
-howto_remove_profile Per a esborrar el teu perfil (forget $1) necessites fer-ho des de la finestra de prefer√®ncies. \n\nPer raons de seguretat, no est√† perm√®s esborrar perfils des de la pantalla de connexi√≥.
-largest El m√©s gran
-medium Mitj√†
-more M√©s
+howto_remove_profile Per a esborrar el teu perfil (forget $1) necessites fer-ho des de la finestra de preferËncies. \n\nPer raons de seguretat, no est‡ permËs esborrar perfils des de la pantalla de connexiÛ.
+largest El mÈs gran
+medium Mitj‡
+more MÈs
 mypics Les meves imatges per a mostrar
 otherdps Altres imatges per a mostrar
 playerror Hi ha hagut un error intentant reproduir el so: $1
 retry Reintenta
 selectcontact Selecciona un contacte
-showonedpframe Mostra nom√©s un marc d'imatge per a mostrar a les finestres de conversa
-showlinksinlogin Mostra enlla√ßos a la pantalla de connexi√≥
-smallest El m√©s petit
-sortcontactsasc Ordena els contactes per ordre alab√®tic invers
-sortcontactsdesc Ordena els contactes per ordre alfab√®tic
+showonedpframe Mostra nomÈs un marc d'imatge per a mostrar a les finestres de conversa
+showlinksinlogin Mostra enllaÁos a la pantalla de connexiÛ
+smallest El mÈs petit
+sortcontactsasc Ordena els contactes per ordre alabËtic invers
+sortcontactsdesc Ordena els contactes per ordre alfabËtic
 sortcontactsby Ordena els contactes per
 always Sempre
 cantget No s'ha pogut obtenir $1
@@ -949,11 +949,13 @@ displayeventnick Mostra quan els contactes canvien de nick
 displayeventpsm Mostra quan els contactes canvien el Missatge Personal
 formatctt Format CTT
 formatcsv Format CSV
-logeventnick Guarda a l'hist√≤ric d'accions els canvis de sobrenom
-logeventpsm Guarda a l'hist√≤ric d'accions els canvis de Missatge Personal
+logeventnick Guarda a l'histÚric d'accions els canvis de sobrenom
+logeventpsm Guarda a l'histÚric d'accions els canvis de Missatge Personal
 logoutwincloselabel Quan surtis, tanca les conversacions
 nickchanged $1 ha canviat el seu sobrenom a '$2'
 noresizesmileys No disminueixis les emoticones personalitzades entrants
 psmchanged $1 Ha canviat el seu PSM a '$2'
 removefromgroup Elimina del grup
 totalsize Mida total
+fetching Capturant dades...
+nospace Res per veure aquÌ
