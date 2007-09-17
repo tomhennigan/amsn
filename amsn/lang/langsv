@@ -336,6 +336,7 @@ faileddelete Misslyckades med raderingen
 faileddeleteperso Bilden kan inte tas bort. Endast bilder som hör ihop med dina personliga profiler kan tas bort på detta sätt.
 failed Misslyckades
 faq Vanliga frågor (FAQ)
+fetching Hämtar data...
 filedoesnotexist Filen finns inte
 file Fil
 filemanexample (\$location byts ut mot mappen) Ex: nautilus \$location
@@ -583,6 +584,7 @@ normal Normal
 noskins Kunde inte hitta standardtema i skins-mappen. Kan inte starta aMSN.
 nosound Kunde inte detektera något ljud. Var god kontrollera att din mikrofon är korrekt ikopplad.
 nosound_or_hold Kunde inte detektera något ljud. För att skicka ett ljudklipp måste du hålla nere knappen medan du talar, sedan släppa den för att skicka.
+nospace Finns inget att visa
 nosystemtray Systemlisten är inte tillgänglig
 note Anteckning
 notificationserver Anslut till (MSN Messenger Server)
