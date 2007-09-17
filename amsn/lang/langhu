@@ -336,6 +336,7 @@ faileddelete Nem sikerült törölni
 faileddeleteperso Ez a kép nem törölhető, mert nem személyes kép. Csak a saját profilodhoz tartozó képeket lehet így törölni.
 failed Sikertelen
 faq Gyakran Ismételt Kérdések
+fetching Adatok vétele...
 filedoesnotexist A fájl nem jött létre
 file Fájl
 filemanexample ( \$location lesz a hely ) Pl: nautilus \$location
@@ -583,6 +584,7 @@ normal Normál
 noskins Nem találom az alapértelmezett felületet a skins/ könyvtárban. Az aMSN nem tud elindulni.
 nosound Nem érzékeltem hangot, biztos jól be van dugva a mikrofon?
 nosound_or_hold Nincs hang. A hang klip küldéséhez nyomva kell tartani a gombot.
+nospace Nincs itt semmi látnivaló
 nosystemtray A tálca ikon nem elérhető
 note Jegyzet
 notificationserver MSN Notification Server elindítása (MSN Messenger Szerver)
@@ -740,7 +742,7 @@ says $1 üzenete
 sbcon Csatlakozás a kapcsolatkezelő szerverhez
 searchdown Keresés lefelé
 searchup Keresés felfelé
-selectall mindet kijelöl
+selectall Összes kijelölése
 selectcontact Válassz egy partnert
 selectplugins Válaszd ki a bekapcsolandó pluginokat
 selectskin Válassz egy felületet a listából
@@ -754,7 +756,7 @@ sendmobmsg Küldés mobil eszközre
 sendmsg Üzenet küldése
 sendoim Kapcsolat nélküli üzenet küldése
 sendvoice Hangfelvétel küldése
-sendwebcamaccepted $1 elfogadta a meghívást a webkamerád megtakintésére. Kapcsolódás...
+sendwebcamaccepted $1 elfogadta a meghívást a webkamerád megtekintésére. Kapcsolódás...
 sendwebcaminvite Egy partner meghívása a webkamerád megtekintésére
 sentbytes Küldve $1 -ból $2 bájt
 sentvoice Hang klip elküldve
