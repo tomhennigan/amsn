@@ -26,7 +26,7 @@ alarmonconnect Jelzés, amikor egy partner bejelentkezik
 alarmondisconnect Jelzés, amikor egy partner kijelentkezik / láthatatlan módba kapcsol
 alarmonmsg Jelzés, amikor egy partner üzenetet küld
 alarmonstatus Jelzés, amikor egy partner megváltoztatja az állapotát
-alarmpref Figyelmeztető jelzés ennek a partnernek
+alarmpref Figyelmeztető jelzések e partnerhez
 alarms Jelzések
 alarmstatus Figyelmeztető jelzés KI/BE kapcsolása ehhez a partnerhez
 allfiles Minden fájl
@@ -681,7 +681,7 @@ prefshared Megosztott kapcsolatok (csak NAT -ra)
 prefsound Hangok
 preview Előnézet
 privacy Személyes
-profiledconfig Profilos beállítás
+profiledconfig Profilbeállítások
 profileexists Ilyen néven már van egy profil. \n Válassz másik nevet.
 profileinuse Ezt a profilt egy másik aMSN használja, válassz másikat
 profileloginradio Bejelentkezés már létező profil használatával
@@ -853,7 +853,7 @@ tabbed Füles ablakok
 tabbedglobal Egy füles ablak minden beszélgetésnek a listából minden parnerrel
 tabbedgroups Egy füles ablak minden beszélgetésnek a listából minden parnerrel csoportonként
 tabtitlenick Becenevek jelenjenek meg e-mail címek helyett a fülön?
-temp_state Ne mentsd (Ideiglenes állás, elveszik az aMSN bezárásával)
+temp_state Ne mentsd (Ideiglenes beállítás, elveszik az aMSN bezárásával)
 textsize Szöveg méret
 thismonth Ez a hónap
 throughserver Szerveren át
