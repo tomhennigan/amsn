@@ -1,27 +1,27 @@
 amsn_lang_version 2
-musicaddsongtonick Zene infó hozzáadása a becenévhez
-musicaddsongtopsm Zene infó hozzáadása a személyes üzenethez
-musictimeverify Játszott zene ellenõrzése ? másodpercenként
-musicnickname Becenév
-musicseparator Elválasztójel a becenév és infó között
-musicstopmsg Lejátszás megállt üzenet
-musiccurrent Játszott szám megjelenítése
-musicsend Játszott szám küldése
-artsend Lemezborító küldése
-musicerr A lejátszó nem játszik semmit, vagy a plugin nem tudja elérni a tulajdonságait.
+musicaddsongtonick Zene infÃ³ hozzÃ¡adÃ¡sa a becenÃ©vhez
+musicaddsongtopsm Zene infÃ³ hozzÃ¡adÃ¡sa a szemÃ©lyes Ã¼zenethez
+musictimeverify Hallgatott zene ellenÅ‘rzÃ©se ? mÃ¡sodpercenkÃ©nt
+musicnickname BecenÃ©v
+musicseparator ElvÃ¡lasztÃ³jel a becenÃ©v Ã©s infÃ³ kÃ¶zÃ¶tt
+musicstopmsg Nincs zenelejÃ¡tszÃ¡s Ã¼zenete
+musiccurrent Hallgatott szÃ¡m megjelenÃ­tÃ©se
+musicsend Hallgatott szÃ¡m kÃ¼ldÃ©se
+artsend LemezborÃ­tÃ³ kÃ¼ldÃ©se
+musicerr A lejÃ¡tszÃ³ nem jÃ¡tszik semmit, vagy a plugin nem tudja elÃ©rni a tulajdonsÃ¡gait.
 playing Ezt hallgatom : $1
-musicoserr Az operációsrendszered ($1) még nem támogatott a Music plugin által.
-musicplayer Válaszd ki az általad használt lejátszót
-musicstopdefault A lejátszás megállt.
-separator Elválasztó
-songartist Számcím - Elõadó
-artistsong Elõadó - Számcím
-song Számcím
-choose_order Válaszd ki az elõadó és a számcím sorrendjét
-musicballontext Kattints ide hogy megjelenítsd/elrejtsd a zene infót a becenevedben.
-changepic Ha lehetséges, a megjelenített kép váltása a lemezborítóra
-music_mpd_ip MPD szerver IP címe
+musicoserr A Music plugin mÃ©g nem tÃ¡mogatja az operÃ¡ciÃ³s rendszeredet ($1).
+musicplayer VÃ¡laszd ki az Ã¡ltalad hasznÃ¡lt lejÃ¡tszÃ³t
+musicstopdefault Nincs zene.
+separator ElvÃ¡lasztÃ³
+songartist SzÃ¡mcÃ­m - ElÅ‘adÃ³
+artistsong ElÅ‘adÃ³ - SzÃ¡mcÃ­m
+song SzÃ¡m cÃ­me
+choose_order VÃ¡laszd ki az elÅ‘adÃ³ Ã©s a szÃ¡mcÃ­m sorrendjÃ©t
+musicballontext Zene infÃ³ megjelenÃ­tÃ©se/elrejtÃ©se a becenevedben.
+changepic A megjelenÃ­tett kÃ©p vÃ¡ltÃ¡sa a lemezborÃ­tÃ³ra, ha lehetsÃ©ges
+music_mpd_ip MPD szerver IP cÃ­me
 music_mpd_port MPD szerver portja
-music_mpd_password MPD szerver jelszava (ha szükséges)
-lasterror Utolsó hiba
+music_mpd_password MPD szerver jelszava (ha szÃ¼ksÃ©ges)
+lasterror UtolsÃ³ hiba
 noerror Nincs hiba
