@@ -3618,9 +3618,13 @@ proc create_apple_menu { wmenu } {
 	  -command ::skinsGUI::SelectSkin -accelerator "Command-Shift-S"
 	$appmenu add command -label "[trans pluginselector]" \
 	  -command ::plugins::PluginGui -accelerator "Command-Shift-P"
-	$appmenu add separator
-	$appmenu add command -label "[trans preferences]..." \
-		-command Preferences -accelerator "Command-,"
+	# Since Tk 8.4.14 the Preferences AppleMenu item is hardcoded by TkAqua.
+	# When the menu item is pressed, it calls ::tk::mac::ShowPreferences.
+	if { [version_vcompare [info patchlevel] 8.4.14] < 0 } {
+		$appmenu add separator
+		$appmenu add command -label "[trans preferences]..." \
+			-command Preferences -accelerator "Command-,"
+	}
 	$appmenu add separator	
 }
 
