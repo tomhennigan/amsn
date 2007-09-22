@@ -3615,9 +3615,12 @@ namespace eval ::ChatWindow {
 
 		::ChatWindow::UpdateContainerTitle $container
 
+		# Should fix the issue with tab switching and the input not focusing.
+		update idletasks
+
 		bind $win <Map> [list focus [::ChatWindow::GetInputText $win] ]
 
-
+		focus [::ChatWindow::GetInputText $win]
 	}
 
 	#updates the title and the icon of the container window
