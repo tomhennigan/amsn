@@ -126,7 +126,7 @@ proc trans {msg args} {
 }
 
 
-#Lectura del idioma
+#Read language file
 proc load_lang { {langcode "en"} {plugindir ""} } {
 	global lang lang_list langenc langlong
 
@@ -221,7 +221,7 @@ namespace eval ::lang {
 
 		toplevel $wname
 		wm title $wname "[trans language]"
-		wm geometry $wname 300x350
+		wm geometry $wname 300x400
 		wm protocol $wname WM_DELETE_WINDOW "::lang::language_manager_close"
 
 		frame $wname.notebook -borderwidth 3

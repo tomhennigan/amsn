@@ -2071,7 +2071,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1.ftport
 	label $lfname.1.ftport.text -text "[trans ftportpref2] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -font splainf  -width 5 -textvariable [::config::getVar initialftport]
-	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command [list after 0 connection_check $lfname]
+	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command [list after 0 connection_check $lfname] -width 10
 	label $lfname.1.ftport.test -text "" -padx 5 -font splainf
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0 -columnspan 3
 	grid $lfname.1.ftport.entry -row 2 -column 1 -sticky w -pady 5 -padx [list 20 3]
@@ -2350,8 +2350,8 @@ proc Preferences { { settings "personal"} } {
 
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text "[trans move] -->"  -command "Allow_to_Block $lfname" -width 10
-	button $lfname.buttons.left -text "<-- [trans move]"  -command "Block_to_Allow $lfname" -width 10
+	button $lfname.buttons.right -text "[trans move] -->"  -command "Allow_to_Block $lfname" -width 13
+	button $lfname.buttons.left -text "<-- [trans move]"  -command "Block_to_Allow $lfname" -width 13
 	pack $lfname.buttons.right $lfname.buttons.left  -side top
 
 	label $lfname.status -text ""
@@ -2405,8 +2405,8 @@ proc Preferences { { settings "personal"} } {
 
 
 	frame $lfname.buttons -borderwidth 0
-	button $lfname.buttons.right -text "[trans delete] -->"  -command "Remove_Contact $lfname" -width 10
-	button $lfname.buttons.left -text "<-- [trans copy]"  -command "Reverse_to_Contact $lfname" -width 10
+	button $lfname.buttons.right -text "[trans delete] -->"  -command "Remove_Contact $lfname" -width 13
+	button $lfname.buttons.left -text "<-- [trans copy]"  -command "Reverse_to_Contact $lfname" -width 13
 	pack $lfname.adding  $lfname.buttons.right $lfname.buttons.left -side top
 	
 

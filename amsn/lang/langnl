@@ -328,7 +328,7 @@ enternick Voer je nieuwe schermnaam in
 enterpsm Persoonlijk bericht
 error Fout
 errortls Er is een fout opgetreden bij het installeren van de module TLS:
-eventhistory Gebeurtenissengeschiedenis weergeven
+eventhistory Gebeurtenissengeschiedenis bekijken
 examples Voorbeelden
 exitamsn Weet je zeker dat je aMSN wilt afsluiten?
 extras Extra diensten
@@ -411,10 +411,10 @@ helpcontents Help-onderwerpen
 hidebuttonbar Knoppenbalk verbergen
 hidedisplaypic Schermafbeelding verbergen
 hidemenu Menu's weergeven/verbergen
-hidemenumessage Weet je zeker dat je de menu's wilt verbergen?\nJe kunt ze op elk moment weer in beeld brengen met de toetscombinatie 'Ctrl-M'.
+hidemenumessage Weet je zeker dat je de menu's wilt verbergen?\nJe kunt ze op elk moment weer in beeld brengen met de toetsencombinatie 'Ctrl-M'.
 hiden Deze emoticon niet in het menu weergeven
 hidewindow Venster verbergen
-history Geschiedenis tonen
+history Geschiedenis bekijken
 home Thuis
 howto_remove_profile Om je profiel te verwijderen (oftewel: $1 vergeten) moet je in het voorkeurenvenster zijn.\n\nHet verwijderen van profielen via het aanmeldscherm is om veiligheidsredenen niet toegestaan.
 httpconnection Verbinding maken via het HTTP-protocol
@@ -569,7 +569,7 @@ nocacheddps Er zijn geen opgeslagen schermafbeeldingen voor dit contact
 nocamwarn Er is geen webcam gevonden, of de webcam wordt door een ander programma gebruikt (en kan dus niet door aMSN worden gebruikt). Als je hulp nodig hebt om het probleem op te lossen, kijk dan eens op onze Wiki:
 nodataavailable Geen gegevens beschikbaar voor $1
 nodevices Er zijn geen apparaten geïnstalleerd
-noftpreview Geen voorbeeld van afbeeldingen weergeven bij bestandsoverdrachten
+noftpreview Geen voorbeeld van afbeeldingen verzenden bij bestandsoverdrachten
 nogap Geen ruimte openlaten tussen groepen
 nogroup Geen groep
 nologfile Geen logboek voor $1
@@ -657,9 +657,9 @@ prefconnection Verbindingsinstellingen
 prefemotic Emoticons
 preferences Voorkeuren
 preffont Mijn berichttekst
-preffont2 Het lettertype voor berichten wijzigen
-preffont3 Lettertype en -grootte van aMSN wijzigen
-preffont4 De weergave van berichten van mijn contacten aanpassen
+preffont2 De weergave van mijn berichten in gespreksvensters wijzigen
+preffont3 Lettertype en -grootte van aMSN's interface wijzigen
+preffont4 De weergave van berichten van mijn contacten in gespreksvensters wijzigen
 prefft Bestandsoverdracht-, peer-to-peer- en NAT-instellingen
 preflibs Zoekpad voor bibliotheken
 preflog1 Logboeken en geschiedenis
@@ -841,7 +841,7 @@ stopalarm Alarm stoppen
 stopwebcamreceive Webcamontvangst stoppen
 stopwebcamsend Uitzenden van webcambeeld stoppen
 storenickname Oorspronkelijke schermnaam herstellen na een aangepaste status met aangepaste schermnaam
-strictfonts Lettergrootte overal beperken tot wat ik heb ingesteld, ook in de statusbalk e.d.
+strictfonts Grootte van alle lettertypen beperken tot wat ik heb ingesteld (statusbalk e.d.)
 style Stijl
 stylechat Dezelfde stijl als gesprekken
 stylehist aMSN-geschiedenisstijl
@@ -910,7 +910,7 @@ version Versie
 videoconversationrequest Je hebt een uitnodiging ontvangen voor een videogesprek (wederzijds geluid en beeld). Helaas ondersteunt aMSN deze functie nog niet, de uitnodiging is daarom automatisch geweigerd. Je kunt de standaard webcamfunctie echter gewoon gebruiken.
 view Beeld
 viewcontactsby Contacten weergeven met
-viewprofile Profiel weergeven
+viewprofile Profiel bekijken
 voice_notimplemented Het ontvangen van Voice Clips is nog niet geïmplementeerd. Nog even geduld...
 voice_windows Als Windows-gebruiker kun je de Voice Clip mogelijk beluisteren door deze te openen in Media Player.
 voice_windows_click Klik hier om dat te proberen.
@@ -929,7 +929,7 @@ webcamextloaded Extensie 'Webcamsn' is geladen
 webcamextnotloaded Extensie 'Webcamsn' is niet geladen omdat deze nog niet is gecompileerd.
 webcamextwarn Je zult geen webcambeeld van je contacten kunnen ontvangen. Voor hulp om de extensie te installeren kun je terecht op onze Wiki:
 webcamfaq FAQ/Help voor Webcam
-webcamhistory Webcamsessies weergeven
+webcamhistory Webcamsessies bekijken
 webcaminvite $1 wil een webcamsessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 webcaminvitereceived $1 wil een webcamsessie starten. Wil je deze sessie accepteren?
 webcaminvitereceiving $1 nodigt je uit om zijn/haar webcambeeld te bekijken. Wil je deze uitnodiging accepteren?
