@@ -228,56 +228,41 @@ namespace eval ::music {
 		
 		
 		#Define values for supported player on darwin and linux
-		array set OSes [list \
-			"darwin" [list \
+		if {[OnMac]} {
+			array set playersarray [list \
 				"ITunes" [list GetSongITunes TreatSongITunes FillFrameComplete] \
-			] \
-			"linux" [list \
-				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
-				"Audacious" [list GetSongAudacious TreatSongAudacious FillFrameLess] \
-				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
-				"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
-				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
-				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
-				"MPD" [list GetSongMPD return FillFrameMPD] \
-				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
-				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
-				"XMMS" [list GetSongXMMS return FillFrameEmpty] \
-			]\
-			"freebsd" [list \
-				"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
-				"Audacious" [list GetSongAudacious TreatSongAudacious FillFrameLess] \
-				"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
-				"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
-				"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
-				"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
-				"MPD" [list GetSongMPD return FillFrameMPD] \
-				"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
-				"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
-				"XMMS" [list GetSongXMMS return FillFrameEmpty] \
-			] \
-			"windows nt" [list \
-				"WinAmp" [list GetSongWinamp return FillFrameLess] \
-				"Windows Media Player" [list GetSongWMP return FillFrameLess] \
-				"MPD" [list GetSongMPD return FillFrameMPD] \
-			] \
-			"windows 95" [list \
-				"WinAmp" [list GetSongWinamp return FillFrameLess] \
-				"Windows Media Player" [list GetSongWMP return FillFrameLess] \
-				"MPD" [list GetSongMPD return FillFrameMPD] \
-			] \
-		]
-		#Get current OS platform
-		set os [string tolower $tcl_platform(os)]
-		#If the OS is not supported show message box error and unload plugin
-		if { ![info exists OSes($os) ] } {
-			#Show message box error
-			msg_box [trans musicoserr $os]
-			#Unload plugin
-			::plugins::UnLoadPlugin "Music"
-			return 0
+			]
+		} else {
+			if {[OnUnix]} {
+				array set playersarray [list \
+					"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
+					"Audacious" [list GetSongAudacious TreatSongAudacious FillFrameLess] \
+					"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+					"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
+					"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
+					"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
+					"MPD" [list GetSongMPD return FillFrameMPD] \
+					"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
+					"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
+					"XMMS" [list GetSongXMMS return FillFrameEmpty] \
+				]
+			} else {
+				if {[OnWin]} {
+					array set playersarray [list \
+						"WinAmp" [list GetSongWinamp return FillFrameLess] \
+						"Windows Media Player" [list GetSongWMP return FillFrameLess] \
+						"MPD" [list GetSongMPD return FillFrameMPD] \
+					]
+				} else {
+					#Show message box error
+					msg_box [trans musicoserr $os]
+					#Unload plugin
+					::plugins::UnLoadPlugin "Music"
+					return 0
+				}
+			}
 		}
-		array set playersarray $OSes($os)
+
 		return 1
 	}
 
