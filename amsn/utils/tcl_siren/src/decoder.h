@@ -24,6 +24,5 @@ typedef struct stSirenDecoder {
 extern SirenDecoder Siren7_NewDecoder(int sample_rate); /* MUST be 16000 to be compatible with MSN Voice clips (I think) */
 extern void Siren7_CloseDecoder(SirenDecoder encoder);
 extern int Siren7_DecodeFrame(SirenDecoder decoder, unsigned char *DataIn, unsigned char *DataOut);
-extern int next_bit();
 
 #endif /* _SIREN_DECODER_H */

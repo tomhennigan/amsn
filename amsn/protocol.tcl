@@ -4382,6 +4382,7 @@ proc cmsn_rng {recv} {
 	set sb [::MSN::GetNewSB]
 
 	#Init SB properly
+	$sb configure -force_gateway_server [lindex [split [lindex $recv 2] ":"]]
 	$sb configure -stat ""
 	$sb configure -server [split [lindex $recv 2] ":"]
 	$sb configure -connected [list cmsn_conn_ans $sb]
