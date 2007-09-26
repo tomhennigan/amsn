@@ -3405,9 +3405,9 @@ proc choose_basefont { } {
 #///////////////////////////////////////////////////////////////////////
 # Since Tk 8.4.14 the Preferences AppleMenu item is hardcoded by TkAqua.
 # When the menu item is pressed, it calls ::tk::mac::ShowPreferences.
-if {[OnMac]} {
-proc ::tk::mac::ShowPreferences {} {
-	after 0 { [list Preferences] }
-}
+if {[OnMac] && [version_vcompare [info patchlevel] 8.4.14] >= 0 } {
+    proc ::tk::mac::ShowPreferences {} {
+        after 0 { [list Preferences] }
+    }
 }
 #///////////////////////////////////////////////////////////////////////
