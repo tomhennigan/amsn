@@ -1,27 +1,30 @@
-Ez a program teljesen ingyenes.
-A haszn·lat·Èrt a fejlesztık pÈnzt nem kÈrnek,
-…s az esetleges hib·k miatt anyagi felelıssÈggel sem tartoznak.
+A program szabad szoftver; trejesztheted √©s/vagy m√≥dos√≠thatod
+a Free Software Foundation GNU General Public License b√°rmelyik verzi√≥ja alapj√°n.
 
-A program GPL (General Public Licence) alatt ·ll.
-Free Software Foundation, Inc.,
+A programot annak rem√©ny√©ben adjuk k√∂zre, hogy hasznos lesz,
+de B√ÅRMILYEN GARANCIA N√âLK√úL.
+Tov√°bbi r√©szletek√©rt l√°sd  GNU General Public License-t.
+
+A programmal egy√ºtt meg kellett kapnod a GNU General Public License
+m√°solat√°t; ha nem, √≠rj e c√≠mre: 
+Free Software Foundation, Inc., 
 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ========================================================
 === Alvaro's Messenger==================================
-
-Az eredeti fejlesztık:
+A CCMSN nagyszer≈± program volt, de sajnos a fejleszt≈ëje
+abbahagyta a fejleszt√©s√©t. B√°r nagyon kezelhet≈ë volt, m√©gis
+nagy munk√°t jelentett t√∂k√©letes√≠teni a kin√©zet√©t, a protokoll t√°mogat√°s√°t,
+√©s m√°s egy√©b dolgokat. Ekkor mi, akik eredetileg k√ºl√∂n dolgoztunk, 
+√∫gy d√∂nt√∂tt√ºnk, hogy k√∂z√∂sen fejlesztj√ºk, √©s adjuk neked ezt a (rem√©lj√ºk)
+remek programot ;)
 
 Alvaro J. Iradier
 D. Emilio Grimaldo T.
 
-KÈr¸nk, hogy az esetleges hib·kat, ÈszrevÈteleket, megjegyzÈseket
-Ès vÈlemÈnyeket k¸ld el nek¸nk ide:
-
+K√©rj√ºk, hogy a hib√°kat, megjegyz√©seket,visszajelz√©seket vagy javaslatokat a
+Source Forge project oldalon jelezd:
 http://sourceforge.net/projects/amsn
 
-A legfrissebb verziÛ, pluginek, skinek Ès egyÈb letˆltÈsek valamint
-minden inform·ciÛ itt Èrhetı el:
-
-http://amsn.sourceforge.net
-
-
+√öj verzi√≥k √©s weboldal:
+http://amsn-project.net/

@@ -1,14 +1,14 @@
-FAQ 1.3
--------
+FAQ 1.8
+--------
 
-Ha a képernyõn csúnya karakterek (olvashatatlanok) jelennek meg
-az ékezetes betûk helyett, akkor az eszközök / beállítások  / megjelenés / kódolás
-menü alatt állitsd át az értéket iso 8859-2 -kódolásra.
+Ha a kÃ©pernyÅ‘n csÃºnya (olvashatatlan) karakterek jelennek meg az Ã©kezetes betÅ±k helyett, 
+akkor a FiÃ³k / BeÃ¡llÃ­tÃ¡sok / MegjelenÃ©s / KarakterkÃ³dolÃ¡s megvÃ¡ltoztatÃ¡sa opciÃ³ segÃ­tsÃ©gÃ©vel
+Ã¡llÃ­tsd Ã¡t UTF-8 kÃ³dolÃ¡sra.
 
-Ha a chat ablakban nincs ékezet, nézd meg hogy az X beállításai rendben vannak-e és 
-írd be egy virtuális terminálba:
+Unix/Linux alatt az aMSN frissÃ­tÃ©se utÃ¡n, ha nem jÃ³k az Ã©kezetek, tÃ¶rÃ¶ld a ~/.amsn/langlist.xml
+fÃ¡jlt, Ã©s indÃ­tsd Ãºjra a programot.
 
-setxkbmap hu
+Az "Å‘, Å±" problÃ©ma csak bizonyos betÅ±tÃ­pusoknÃ¡l jelentkezik. PrÃ³bÃ¡ld meg azokat Ã¡tÃ¡llÃ­tani.
 
-Az "õ" probléma csak bizonyos betûtípusoknál jelentkezik. Próbáld meg azokat átállítani.
-
+TovÃ¡bbi segÃ­tsÃ©g (angolul):
+http://www.amsn-project.net/wiki/FAQ

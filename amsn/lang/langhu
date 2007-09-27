@@ -197,6 +197,7 @@ command Parancs
 commandstatus Parancs futtatása
 configure Beállítás
 configuremic A mikrofon beállítása
+configureplugin $1 beállítása
 configuringaudio Hangbeállítások
 confirm Biztos vagy benne?
 confirmbl Biztosan tiltani akarod ezt a partnert?
@@ -469,7 +470,7 @@ leaveblankforhotmail Hagyd üresen a hotmail web használatához
 leavejoinsinchat "Beszélgetésben résztvesz/elhagy" figyelmeztetés megjelenítése a beszélgetés ablakban
 leaves $1 elhagyta a beszélgetést
 lenteredconf 1$ belépett a $2 konferenciába
-lineflushlog Minden sor után töröld az előzményeket
+lineflushlog Előzmények törlése minden sor után
 linprivate Privátban
 listening Vétel
 listeningon Vétel e porton: $1
@@ -536,7 +537,7 @@ mustrestart A változtatásokhoz újra kell indítanod a programot
 myfriendlyname Az én Baráti nevem
 myhomephone Otthoni telefonom
 mymobilephone Mobil telefonom
-mynick Az én bece nevem
+mynick Az én becenevem
 mypic Megjelenítendő képem:
 mypics Saját megjelenített képeim
 mystatus Állapotom
@@ -704,7 +705,7 @@ quit Kilépés
 raised Teljes méret
 readonlymsgbox A fájl átvitel megszakadt, mert a célkönyvtár írásvédett. Állítsd át a jogokat ehhez a könyvtárhoz.
 readonlywarn FIGYELEM: A fájl NEM lesz mentve a "Beérkezett fájlok" könyvtárba, mert az írásvédett. Győződj meg arról, hogy a célkönyvtárhoz ($1) jól vannak beállítva az írási jogok.
-receivedbytes Érkezett $1 ból $2 bájt
+receivedbytes Érkezett: $1 / $2 byte
 receiveddir Beérkezett fájlok könyvtára
 receivedoimread $1 új kapcsolat nélküli üzeneted van. Elolvasod?
 receivedvoice Hangklippet kaptál
@@ -850,8 +851,8 @@ subjectrequired A tárgy kitöltése kötelez
 subject Tárgy
 syntaxerror Szintaktikai hiba
 tabbed Füles ablakok
-tabbedglobal Egy füles ablak minden beszélgetésnek a listából minden parnerrel
-tabbedgroups Egy füles ablak minden beszélgetésnek a listából minden parnerrel csoportonként
+tabbedglobal Egy füles ablak minden beszélgetésnek a listából minden partnerrel
+tabbedgroups Egy füles ablak minden beszélgetésnek a listából minden partnerrel csoportonként
 tabtitlenick Becenevek jelenjenek meg e-mail címek helyett a fülön?
 temp_state Ne mentsd (Ideiglenes beállítás, elveszik az aMSN bezárásával)
 textsize Szöveg méret
@@ -877,7 +878,7 @@ totalsize Teljes méret
 transnotexists A megadott fájlt még nem fordították le erre a nyelvre.
 trayicon Állapot ikon megjelenítése a figyelmeztetés területen
 traynotcompiled A "Tálca ikon" plugin nincs lefordítva. Lefordítani a plugins/traydock -ban tudod.
-triggers Szöveg csapdák
+triggers Triggerek
 truncatenames1 Azon nevek rövidítése, amelyek hosszabbak, mint az ablak vagy mint a partner listád
 truncatenames2 Azon nevek rövidítése, amelyek hosszabbak, mint a beszélgetés ablakának szélessége
 truncatenicks Azon nevek rövidítése, amelyek hosszabbak, mint az ablak szélessége
@@ -911,9 +912,10 @@ videoconversationrequest A partnered videobeszélgetésre kért fel. (kétirány
 viewcontactsby Partnerek megjelenítése
 view Nézet
 viewprofile Profil megtekintése
+viewspace MSN Space tartalom megtekintése
 volume Hangerő
 wanttosharecam Webkamerám létezésének közzététele mások számára
-webcamcanceled A webkamerás folyamat $1 partnereddel végetért
+webcamcanceled A webkamerás folyamat $1 partnereddel befejeződött
 webcamclosebefcancel Előbb le kell zárnod a webkamerás kapcsolatokat, mielőtt bezárod ezt az ablakot
 webcamconfiguredLinux A következő webkamera beállításokat választottad:\nWebkamera eszköz: $1\nWebkamera csatorna: $2
 webcamconfiguredMac A webkamera beállítása kész
@@ -921,18 +923,18 @@ webcamconfiguredWin A következő webkamera eszközt választottad : $1
 webcamconfigure Webkamera beállítása
 webcamextchecking Webkamera kiterjesztés betöltésének ellenőrzése ...
 webcamextloaded Webkamera kiterjesztés betöltve
-webcamextnotloaded Webkamera kiterjesztés nincs betöltve. Előbb le kell fordítanod
+webcamextnotloaded Webkamera kiterjesztés nincs betöltve. Előbb le kell fordítanod.
 webcamextwarn Nem fogod látni partnereid webkameráját. A kiterjesztés telepítéséhez az aMSN Wiki oldalán találsz segítséget:
 webcamfaq Webkamerás FAQ/Help
 webcamhistory Webkamerás kapcsolatok megtekintése
 webcaminvite $1 webkamerás csatlakozásra hív de az aMSN ezt nem támogatja.
 webcaminvitereceived $1 felkért téged webkamerás kapcsolatra. Elfogadod?
-webcaminvitereceiving Megkérted $1 -t, hogy mutassa a kameráját. Biztos vagy benne?
-webcaminvitesending $1 szeretné látni a kamerádat. Engedélyezed??
-webcamrejected $1 elutasította a takwebkamerás kapcsolatot
+webcaminvitereceiving $1 felkért a webkamerája képének fogadására. Elfogadod?
+webcaminvitesending $1 szeretné látni a kamerádat. Engedélyezed?
+webcamrejected $1 elutasította a webkamerás kapcsolatot
 webcamrequestreceive Felkérés: mutasd a webkamerád
 webcamrequestsend Felkérés: nézd meg a webkamerám
-webcamsending Azon partnerek listája akik jelenleg látják webkamerád képét\nKattints a visszavonáshoz
+webcamsending Azon partnerek listája, akik jelenleg látják webkamerád képét\nKattints a visszavonáshoz
 webcam Webkamera
 web Web
 whatisamsn Az aMSN egy platformfüggetlen MSN Messenger klón
