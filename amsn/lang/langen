@@ -421,6 +421,7 @@ hidemenu Show/Hide menus
 hiden Hide the emoticon from the smileys menu
 hidewindow Hide Window
 history View History
+history2 History
 home Home
 howto_remove_profile To delete your profile (forget $1) you need to do so from the preferences window. \n\nFor security reasons, profile deletion from the login screen is not allowed.
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
@@ -940,6 +941,7 @@ webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
 webcamextwarn You won't be able to view your contacts' webcams. You may find answers on how to install some extensions on our Wiki:
 webcamfaq FAQ/Help for Webcam
 webcamhistory View Webcam Sessions
+webcamhistory2 Webcam Sessions
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 webcaminvitereceived $1 invited you to start a webcam session. Do you want to accept this session?
 webcaminvitereceiving You are invited to start viewing $1 's webcam. Do you want to accept this session?

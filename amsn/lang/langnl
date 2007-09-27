@@ -415,6 +415,7 @@ hidemenumessage Weet je zeker dat je de menu's wilt verbergen?\nJe kunt ze op el
 hiden Deze emoticon niet in het menu weergeven
 hidewindow Venster verbergen
 history Geschiedenis bekijken
+history2 Geschiedenis
 home Thuis
 howto_remove_profile Om je profiel te verwijderen (oftewel: $1 vergeten) moet je in het voorkeurenvenster zijn.\n\nHet verwijderen van profielen via het aanmeldscherm is om veiligheidsredenen niet toegestaan.
 httpconnection Verbinding maken via het HTTP-protocol
@@ -930,6 +931,7 @@ webcamextnotloaded Extensie 'Webcamsn' is niet geladen omdat deze nog niet is ge
 webcamextwarn Je zult geen webcambeeld van je contacten kunnen ontvangen. Voor hulp om de extensie te installeren kun je terecht op onze Wiki:
 webcamfaq FAQ/Help voor Webcam
 webcamhistory Webcamsessies bekijken
+webcamhistory2 Webcamsessies
 webcaminvite $1 wil een webcamsessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 webcaminvitereceived $1 wil een webcamsessie starten. Wil je deze sessie accepteren?
 webcaminvitereceiving $1 nodigt je uit om zijn/haar webcambeeld te bekijken. Wil je deze uitnodiging accepteren?

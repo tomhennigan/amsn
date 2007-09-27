@@ -416,6 +416,7 @@ hidemenu Mostrar/Ocultar menús
 hiden No mostrar en el menú de emoticonos
 hidewindow Ocultar ventana
 history Ver historial
+history2 Historial
 home Inicio
 howto_remove_profile Para eliminar tu perfil (olvidar $1) necesitas hacerlo desde la ventana de prefencias. \n\nPor razones de seguridad, la eliminación del perfil desde la pantalla de inicio de sesión no está permitido.
 httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 80)
@@ -929,6 +930,7 @@ webcamextnotloaded La extensión de cámara web no ha sido cargada. Tendrás que
 webcamextwarn No podrás ver imágenes de cámara web de tus contactos. Puedes encontrar ayuda sobre cómo instalar algunas extensiones en nuestro Wiki:
 webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para cámara web
 webcamhistory Ver sesiones de cámara web
+webcamhistory2 Sesiones de cámera web
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero aMSN todavía no soporta esta característica.
 webcaminvitereceived $1 Te ha invitado para iniciar una sesión de cámara web. ¿Quieres aceptar esta invitación?
 webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?

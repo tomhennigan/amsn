@@ -458,9 +458,9 @@ namespace eval ::log {
 
 		if { [file exists [file join ${log_dir} ${email}.log]] } {
 			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
-			wm title $wname "[trans history] (${email} - $size)"
+			wm title $wname "[trans history2] (${email} - $size)"
 		} else {
-			wm title $wname "[trans history] (${email})"
+			wm title $wname "[trans history2] (${email})"
 		}
 
 		wm geometry $wname 600x400
@@ -598,7 +598,7 @@ namespace eval ::log {
 			set size "0Ko"
 		}
 
-		wm title $wname "[trans webcamhistory] (${email} - $size)"
+		wm title $wname "[trans webcamhistory2] (${email} - $size)"
 		
 		frame $wname.top
 		#No ugly blue frame on Mac OS X, system already put a border around windows
@@ -1058,9 +1058,9 @@ namespace eval ::log {
 
 		if { [file exists [file join ${log_dir} $date ${email}.log]] } {
 			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} $date ${email}.log]"]]o"
-			wm title $w "[trans history] (${email} - $size)"
+			wm title $w "[trans history2] (${email} - $size)"
 		} else {
-			wm title $w "[trans history] (${email})"
+			wm title $w "[trans history2] (${email})"
 		}
 
 
@@ -1094,7 +1094,7 @@ namespace eval ::log {
 			set exists disabled
 		}
 
-		wm title $w "[trans history] (${email} - $size)"
+		wm title $w "[trans history2] (${email} - $size)"
 
 		set img ${w}_img
 
@@ -1139,9 +1139,9 @@ namespace eval ::log {
 		$w.blueframe.log.txt rodelete 0.0 end
 		if { [file exists [file join ${log_dir} ${email}.log]] } {
 			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
-			wm title $w "[trans history] (${email} - $size)"
+			wm title $w "[trans history2] (${email} - $size)"
 		} else {
-			wm title $w "[trans history] (${email})"
+			wm title $w "[trans history2] (${email})"
 		}
 
 		::log::LogsByDate $w $email "0"	
@@ -1205,7 +1205,7 @@ namespace eval ::log {
 		$w.buttons.stop configure -command "::CAMGUI::Stop $w" -state disabled
 
 		
-		wm title $w "[trans webcamhistory] (${email} - $size)"
+		wm title $w "[trans webcamhistory2] (${email} - $size)"
 
 	}	
 	#///////////////////////////////////////////////////////////////////////////////
