@@ -1722,8 +1722,8 @@ namespace eval ::guiContactList {
 
 		# balloon bindings
 		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y "View space items" ]
-			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y "View space items" ]
+			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y [trans viewspace] ]
+			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y [trans viewspace] ]
 			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 

@@ -826,7 +826,7 @@ namespace eval ::plugins {
 		}
 		
 		# set the name of the winconf
-		wm title $confw "[trans configure] $selection"
+		wm title $confw [trans configureplugin $selection]
 		
 		# Grid the frame
 		pack $confwin -fill x

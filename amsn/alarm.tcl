@@ -81,6 +81,11 @@ namespace eval ::alarms {
 	
 		#Create window if not "embedded" mode
 		if { $window == "" } {
+			if { $user == "all" } {
+				set windowtitle [trans alarmpref2]
+			} else {
+				set windowtitle "[trans alarmpref] $user"
+			}
 			set w ".alarm_cfg_[::md5::md5 $user]"
 			if { [ winfo exists $w ] } {
 				catch { raise $w }
@@ -88,7 +93,7 @@ namespace eval ::alarms {
 				return
 			}
 			toplevel $w
-			wm title $w "[trans alarmpref] $user"
+			wm title $w $windowtitle
 			wm iconname $w [trans alarmpref]
 		} else {
 			set w $window
@@ -98,7 +103,7 @@ namespace eval ::alarms {
 	
 		#If window mode, set a title
 		if { $window == "" } {
-			label $w.title -text "[trans alarmpref]: $user" -font bboldf
+			label $w.title -text $windowtitle -font bboldf
 			pack $w.title -side top -padx 15 -pady 15
 		}
 		

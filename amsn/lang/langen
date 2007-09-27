@@ -27,6 +27,7 @@ alarmondisconnect Activate alarm when this user goes offline/invisible
 alarmonmsg Activate alarm when this user sends you a message
 alarmonstatus Activate alarm when this user changes state
 alarmpref User specific alarm settings
+alarmpref2 Alarm settings for every contact
 alarms Alarms
 alarmstatus Activate the alarm for this user
 allfiles All Files
@@ -168,6 +169,7 @@ choosecontact Choose a contact from the list
 choosedevice Choose your device
 choosefontcolor Choose font color
 chooseinputdev Choose your input device
+chooselocation Choose new file location
 choosemixerdev Choose your mixer
 chooseoutputdev Choose your output device
 chooseskin Please select the skin you would like to use
@@ -198,6 +200,7 @@ commandstatus Execute command
 configure Configure
 configuremic Configuring your microphone
 configuringaudio Configuring audio settings
+configureplugin Configure plugin $1
 confirm Are you sure?
 confirmbl Are you sure you want to block this contact?
 confirmdelete Are you sure you want to delete $1?
@@ -296,11 +299,14 @@ docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
 done Done
+dontaskweek Don't ask update again for one week
 dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
 dontshowdp Don't let this user download your new Display Pictures
 download Download
+downloadcanceled Download canceled.
 downloadingtls Downloading TLS module from:\n $1
+downloadingwait Downloading new amsn version. Please Wait...
 editcontent Edit the content of the subject field and the note field
 editcustomstate Edit custom state
 edit Edit
@@ -559,6 +565,7 @@ newmsg New message
 newoim New Offline Messages
 newstate Add custom state
 newtabbedfeature aMSN has a new feature for managing conversation, you can now have all of your windows from the same group or from your whole contact list in one tabbed window. Please choose the way aMSN should manage your conversations
+newupdate New updates available for aMSN
 newveravailable Newer version $1 available for download
 next Next
 nick Nick
@@ -737,6 +744,10 @@ saveas Save as
 savechatwinsize Save chat window size as default when resizing it
 savecontacts Save Contact List
 save Save
+saveddefaultloc Save in default location
+savelocation Do you want to save file on $1?
+savelocationerror File can't be saved at this place.
+saveotherdirectory Save in another directory
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
@@ -891,6 +902,7 @@ uoffline Offline
 uonline Online
 updateonlycurrentlanguage Update only the current language
 update Update
+updatesaved Done\n Saved $1 in $2.
 updating Updating
 useasdp Use as Display Picture
 useasregexp Use as a Regular Expression (regexp)
@@ -908,9 +920,10 @@ usesnack Use the Snack library (Tcl internal)
 verifyblocked Check for people blocking you
 version Version
 videoconversationrequest You just received a video conversation (bidirectional audio and video) request. This feature is not yet supported by aMSN and has been canceled. However, you can still use the standard webcam conversation.
+view View
 viewcontactsby View contacts by
 viewprofile View Profile
-view View
+viewspace View space items
 volume Volume
 wanttosharecam I want to make my webcam available to others
 web Web

@@ -275,7 +275,7 @@ namespace eval ::autoupdate {
 		}
 		#Create the window .downloadwindow
 		toplevel $w
-		wm title $w "Download"
+		wm title $w [trans download]
 		
 		#Create 2 frames
 		frame $w.top
@@ -283,12 +283,12 @@ namespace eval ::autoupdate {
 		
 		#Add bitmap and text at the top
 		label $w.top.bitmap -image [::skin::loadPixmap download]
-		label $w.top.text -text "Downloading new amsn version. Please Wait..." -font bigfont
+		label $w.top.text -text [trans downloadingwait] -font bigfont
 		#Get the download URL
 		set amsn_url [::autoupdate::get_download_link $new_version]
 		
 		#Add button at the bottom
-		button $w.bottom.cancel -text "Cancel"
+		button $w.bottom.cancel -text [trans cancel]
 		
 		#Pack all the stuff for the top
 		pack $w.top.bitmap -pady 5
@@ -340,7 +340,7 @@ namespace eval ::autoupdate {
 		#button $w.bottom.buttons.cancel -text "Cancel" -command "::autoupdate::dont_ask_before;destroy $w"
 		#label $w.bottom.lastbar -image [::skin::loadPixmap greyline]
 		#Checkbox to verify if the user want to have an alert again or just in one week
-		checkbutton $w.bottom.ignoreoneweek -text "Don't ask update again for one week" -variable "dont_ask_for_one_week" -font sboldf
+		checkbutton $w.bottom.ignoreoneweek -text dontaskweek -variable "dont_ask_for_one_week" -font sboldf
 		
 		#Pack all the stuff for the top
 		pack $w.top.bitmap -side top -padx 3m -pady 3m
@@ -392,8 +392,8 @@ namespace eval ::autoupdate {
 		wm protocol $w WM_DELETE_WINDOW "::http::reset $token"
 		#Check if url is valid
 		if { $total == 0 } {
-			$w.top.text configure -text "Couldn't get $url"
-			$w.bottom.cancel configure -text "Close" -command "destroy $w"
+			$w.top.text configure -text [trans cantget $url]
+			$w.bottom.cancel configure -text [trans close] -command "destroy $w"
 			bind $w <<Escape>> "destroy $w"
 			bind $w <<Destroy>> "destroy $w"
 			wm protocol $w WM_DELETE_WINDOW "destroy $w"
@@ -410,8 +410,8 @@ namespace eval ::autoupdate {
 		#If user cancel the download
 		if { [::http::status $token] == "reset" } {
 			::http::cleanup $token
-			$w.top.text configure -text "Download canceled."
-			$w.bottom.cancel configure -text "Close" -command "destroy $w"
+			$w.top.text configure -text [trans downloadcanceled]
+			$w.bottom.cancel configure -text [trans close] -command "destroy $w"
 			bind $w <<Escape>> "destroy $w"
 			bind $w <<Destroy>> "destroy $w"
 			wm protocol $w WM_DELETE_WINDOW "destroy $w"
@@ -419,8 +419,8 @@ namespace eval ::autoupdate {
 		}
 		#If it's impossible to get the URL
 		if { [::http::status $token] != "ok" || [::http::ncode $token] != 200 } {
-			$w.top.text configure -text "Couldn't get $url"
-			$w.bottom.cancel configure -text "Close" -command "destroy $w"
+			$w.top.text configure -text [trans cantget $url]
+			$w.bottom.cancel configure -text [trans close] -command "destroy $w"
 			bind $w <<Escape>> "destroy $w"
 			bind $w <<Destroy>> "destroy $w"
 			wm protocol $w WM_DELETE_WINDOW "destroy $w"
@@ -435,10 +435,10 @@ namespace eval ::autoupdate {
 		set namelocation [lindex $location 0]
 		set defaultlocation [lindex $location 1]
 		
-		$w.top.text configure -text "Save file on $namelocation?"
+		$w.top.text configure -text [trans savelocation $namelocation]
 		#Create 2 buttons, save and save as
-		button $w.bottom.save -command "::autoupdate::amsn_save $url $token $defaultlocation" -text "Save" -default active
-		button $w.bottom.saveas -command "::autoupdate::amsn_save_as $url $token $defaultlocation" -text "Save in another directory" -default normal
+		button $w.bottom.save -command "::autoupdate::amsn_save $url $token $defaultlocation" -text [trans save] -default active
+		button $w.bottom.saveas -command "::autoupdate::amsn_save_as $url $token $defaultlocation" -text [trans saveotherdirectory] -default normal
 		pack $w.bottom.save
 		pack $w.bottom.saveas -pady 5
 		#If user try to close the window, just save in default directory
@@ -506,18 +506,18 @@ namespace eval ::autoupdate {
 			set namelocation [lindex $location 0]
 			set defaultlocation [lindex $location 1]
 			#Show the button to choose a new file location or use default location
-			$w.top.text configure -text "File can't be saved at this place."
-			$w.bottom.save configure -command "::autoupdate::amsn_save $url $token $defaultlocation" -text "Save in default location" -default active
-			$w.bottom.saveas configure -command "::autoupdate::amsn_save_as $url $token $defaultlocation" -text "Choose new file location" -default normal
+			$w.top.text configure -text [trans savelocationerror]
+			$w.bottom.save configure -command "::autoupdate::amsn_save $url $token $defaultlocation" -text [trans savedefaultloc] -default active
+			$w.bottom.saveas configure -command "::autoupdate::amsn_save_as $url $token $defaultlocation" -text [trans chooselocation] -default normal
 			
 			bind $w <<Escape>> "::autoupdate::amsn_save $url $token $defaultlocation"
 			bind $w <<Destroy>> "::autoupdate::amsn_save $url $token $defaultlocation"
 			wm protocol $w WM_DELETE_WINDOW "::autoupdate::amsn_save $url $token $defaultlocation"
 		} else {
 			#The saving is a sucess, show a button to open directory of the saved file and close button
-			$w.top.text configure -text "Done\n Saved $fname in $savedir."
-			$w.bottom.save configure -command "launch_filemanager \"$savedir\";destroy $w" -text "Open directory" -default normal
-			$w.bottom.saveas configure -command "destroy $w" -text "Close" -default active
+			$w.top.text configure -text [trans updatesaved $fname $savedir]
+			$w.bottom.save configure -command "launch_filemanager \"$savedir\";destroy $w" -text [trans opendir] -default normal
+			$w.bottom.saveas configure -command "destroy $w" -text [trans close] -default active
 			#if { [OnLinux] } {
 			#	button $w.bottom.install -text "Install" -command "amsn_install_linux $savedir $fname"
 			#	pack $w.bottom.install
@@ -677,7 +677,7 @@ namespace eval ::autoupdate {
 
 		frame $w.text
 		label $w.text.img -image [::skin::loadPixmap download]
-		label $w.text.txt -text "New updates available for aMSN" -font sboldf
+		label $w.text.txt -text [trans newupdate] -font sboldf
 		pack configure $w.text.img -side left
 		pack configure $w.text.txt -expand true -side right
 		pack $w.text -side top -fill x
