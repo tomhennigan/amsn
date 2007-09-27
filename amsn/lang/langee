@@ -336,6 +336,7 @@ failed Ebaõnnestus
 faileddelete Ebaõnnestus kustutada
 faileddeleteperso Seda pilti ei saa kustutada, sest see ei ole isiklik pilt. Nii saab kustutada ainult pilte mis kuuluvad sinu isikliku profiili alla.
 faq KKK (Korduma Kippuvad Küsimused)
+fetching Andmete hankimine...
 file Fail
 filedoesnotexist Faili ei eksisteeri
 fileman Failihaldur
@@ -360,6 +361,8 @@ firewalled2 Sa oled tulemüüri taga. Palun kontrolli Eelistuste aknas oma ühen
 followtext Keri alla kui sisestatakse uus tekst
 forget_me Unusta mind
 forgot_pass Unustasin oma parooli
+formatcsv CSV formaadis
+formatctt CTT formaadis
 friendlyname Sõbralik nimi
 ftaccepted Faili edastamisega nõustutud
 ftacceptedby $1 aktsepteeris faili '$2' laadimise
@@ -581,6 +584,7 @@ normal Normaalne
 noskins Ei leidnud välimuste kataloogist vaikevälimust. Ei saa aMSN käivitada
 nosound Ei tuvastatud ühtegi heli, tee kindlaks kas su mikrofon on õieti ühendatud
 nosound_or_hold Heli ei tuvastatud. Heliklipi saatmiseks pead sa rääkimise ajal nuppu all hoidma ja saatmiseks selle vabastama
+nospace Siin pole midagi vaadata
 nosystemtray Süsteemisalv puudub
 note Märge
 notificationserver Algne MSN teadvustus server (MSN Messengeri Server)
@@ -869,6 +873,7 @@ today Täna
 tomobile Mobiilile
 tools Tööriistad
 tooltips Luba abistavad vihjed
+totalsize Kogusuurus
 transnotexists Vajalikku faili pole veel eesti keelde tõlgitud.
 trayicon Näita teadvustusalas oleku ikooni
 traynotcompiled Süsteemisalvikooni moodul ei ole kompileeritud. Kontrolli mooduleid/süsteemisalvedokki
