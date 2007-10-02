@@ -26,6 +26,7 @@ alarmonconnect Activar alarma para este usuario cuando se conecte
 alarmondisconnect Activar alarma para este usuario cuando se desconecte
 alarmonmsg Activar alarma para este usuario cuando le envíe un mensaje
 alarmonstatus Activar alarma para este usuario cuando cambie su estado
+alarmpref2 Ajustes de alarma para cada contacto
 alarmpref Configuración de alarma para el usuario
 alarms Alarmas
 alarmstatus Activar alarma para este usuario
@@ -168,6 +169,7 @@ choosecontact Por favor selecciona un contacto de la lista
 choosedevice Por favor elige un dispositivo
 choosefontcolor Elegir color de la letra
 chooseinputdev Selecciona tu dispositivo de entrada
+chooselocation Elige la ruta del nuevo archivo
 choosemixerdev Selecciona tu dispositivo mezclador
 chooseoutputdev Selecciona tu dispositivo de salida
 chooseskin Por favor, elige el Tema que deseas usar
@@ -198,6 +200,7 @@ commandstatus Ejecutar comando
 configureaudiovideo Configurar ajustes de audio y vídeo
 configure Configurar
 configuremic Configurando tu micrófono
+configureplugin Configurar plug-in $1
 configuringaudio Configurando los ajustes de audio
 confirmbl ¿Estás seguro que deseas bloquear a este contacto?
 confirmdelete ¿Seguro que deseas borrar a $1?
@@ -297,11 +300,14 @@ docking Icono en bandeja del sistema
 dockingoff Desactivado
 dockkde Icono KDE
 done Hecho
+dontaskweek No volver a preguntar la actualización hasta dentro de una semana
 dontdownload No descargar TLS, lo instalaré yo mismo
 dontshowdp No permitir a este usuario descargar tus nuevas imágenes para mostrar
 dontshow No mostrar
+downloadcanceled Descarga cancelada.
 download Descargar
 downloadingtls Descargando el módulo TLS desde:\n $1
+downloadingwait Descargando una nueva versión de aMSN. Por favor, espere...
 editavsettings Configurar cámara web
 editcontent Editar el contenido del campo Asunto y el campo Nota
 editcustomstate Editar estado personalizado
@@ -415,8 +421,8 @@ hidemenumessage ¿Seguro que deseas ocultar los menús?\nPuedes recuperarlos en 
 hidemenu Mostrar/Ocultar menús
 hiden No mostrar en el menú de emoticonos
 hidewindow Ocultar ventana
-history Ver historial
 history2 Historial
+history Ver historial
 home Inicio
 howto_remove_profile Para eliminar tu perfil (olvidar $1) necesitas hacerlo desde la ventana de prefencias. \n\nPor razones de seguridad, la eliminación del perfil desde la pantalla de inicio de sesión no está permitido.
 httpconnection Conectar usando el método HTTP (usa protocolo HTTP por el puerto 80)
@@ -561,6 +567,7 @@ newmsg Nuevo mensaje
 newoim Nuevos mensajes sin conexión
 newstate Añadir estado personalizado
 newtabbedfeature aMSN tiene una nueva función para gestionar las conversaciones. Ahora puedes tener todas las ventanas de un mismo grupo, o de toda la lista de contactos, en una sola ventana con pestañas. Por favor, elige el modo en que aMSN debería gestionar las conversaciones
+newupdate Hay nuevas actualizaciones disponibles para aMSN
 newveravailable Nueva versión $1 disponible para descarga
 next Siguiente
 nick Apodo
@@ -739,7 +746,11 @@ rightback Vuelvo enseguida
 saveas Guardar como
 savechatwinsize Al cambiar el tamaño de las ventanas de chat, guardarlo como tamaño por defecto
 savecontacts Guardar lista de contactos
+saveddefaultloc Guardar en la ruta predeterminada
 save Guardar
+savelocationerror El archivo no se pudo guardar en esta ruta.
+savelocation ¿Quieres guardar el archivo en $1?
+saveotherdirectory Guardar en otro directorio
 savetofile Guardar en archivo
 says $1 dice
 sbcon Conectando a la centralita telefónica
@@ -895,6 +906,7 @@ uoffline Desconectados
 uonline Conectados
 update Actualizar
 updateonlycurrentlanguage Actualización sólo del lenguaje actual
+updatesaved Hecho\n Guardado $1 en $2.
 updating Actualizando
 useasdp Usar como imagen para mostrar
 useasregexp Interpretar como expresión regular
@@ -914,6 +926,7 @@ version Versión
 videoconversationrequest Acabas de recibir una petición de conversación de vídeo (audio y vídeo bidireccional). Esta característica no está soportada todavía por aMSN y ha sido cancelada. Sin embargo, todavía puedes usar la conversación estándar por cámara web.
 viewcontactsby Ver contactos como
 viewprofile Ver perfil
+viewspace Ver elementos del espacio
 view Ver
 volume Volumen
 wanttosharecam Quiero que mi cámara web esté disponible para otros
@@ -929,8 +942,8 @@ webcamextloaded Extensión de cámara web cargada
 webcamextnotloaded La extensión de cámara web no ha sido cargada. Tendrás que compilarla.
 webcamextwarn No podrás ver imágenes de cámara web de tus contactos. Puedes encontrar ayuda sobre cómo instalar algunas extensiones en nuestro Wiki:
 webcamfaq FAQ(Preguntas Frecuentes)/Ayuda para cámara web
-webcamhistory Ver sesiones de cámara web
 webcamhistory2 Sesiones de cámera web
+webcamhistory Ver sesiones de cámara web
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero aMSN todavía no soporta esta característica.
 webcaminvitereceived $1 Te ha invitado para iniciar una sesión de cámara web. ¿Quieres aceptar esta invitación?
 webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?
