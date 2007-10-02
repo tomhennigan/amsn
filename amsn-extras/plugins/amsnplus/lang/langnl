@@ -1,10 +1,12 @@
 amsn_lang_version 2
-allowcommands Gebruik commando's in het gespreksvenster
-allowcolours Gebruik meerdere kleuren in het gespreksvenster
+allowcommands Commando's gebruiken in het gespreksvenster
+allowcolours Meerdere kleuren gebruiken in het gespreksvenster
+allowquicktext Sneltekstfunctie gebruiken
 bold Vet
-ccolor \nJouw tekstkleur is: $1
-cfont \nJouw lettertype is $1
-cinfo \nContact-informatie:\n$1 \nSchermnaam: $2 \nGroep: $3
+ccolor \nJe tekstkleur is $1
+cfont \nJe lettertype is $1
+choosecolor Een kleur kiezen
+cinfo \nContactinformatie:\n$1 \nSchermnaam: $2 \nGroep: $3
 cleave \nJe hebt dit gesprek verlaten
 cnewnick \nJe nieuwe schermnaam is: $1
 cnewstate \nJe nieuwe status is: $1
@@ -16,14 +18,24 @@ cresult \nResultaat van het commando:\n$1
 cshell \nWordt uitgevoerd in een shell: $1
 cspecify \nJe moet een contactpersoon opgeven
 cstatus \nJe status is $1
-cstyle \nJe lettertype-stijl is $1
-deleted \nJe hebt &1 verwijderd van je contactpersonenlijst.\nMet het volgende commando kun je hem of haar opnieuw toevoegen: /add &1
+cstyle \nJe lettertypestijl is $1
+deleted \nJe hebt $1 verwijderd van je contactpersonenlijst.\nMet het volgende commando kun je hem of haar opnieuw toevoegen: /add $1
+general Algemene opties
 groupadded \nDe groep $1 is toegevoegd.
-groupdeleted \nJe hebt de groep &1 verwijderd van je contactenlijst.\nMet het volgende commando kun je deze groep weer toevoegen: /addgroup &1
+groupdeleted \nJe hebt de groep $1 verwijderd van je contactenlijst.\nMet het volgende commando kun je deze groep weer toevoegen: /addgroup $1
 italic Cursief
-multiplecolorsbutton Voeg een nieuwe kleur toe
+keyword Sleutelwoord
+localization Lokalisatie
+multiplecolorsbutton Een nieuwe kleur toevoegen
+nosuchcommand Onbekend commando.
 overstrike Doorhalen
-parsenicks Wil je dat schermnamen met MSN Plus! kleurcodes in kleur worden weergegeven?
+parsenicks Wil je dat schermnamen met MSN Plus!-kleurcodes in kleur worden weergegeven?
+qthelp Hier kun je je sneltekst, de keywork en de tekst configureren.\nAls je vervolgens in het gespreksvenster /keywork typt, zie je de tekst.
+quicktext Snelteksten
 reset Terug naar standaardstijl
+resource Bron
+rusage Hier kun je een identificator van de gebruikte software invoegen, of waar je bent of wat je wilt. Dit zal worden toegevoegd aan het einde van je schermnaam tussen { en }. Het probeert de jabber-feature te emuleren. Laat dit leeg om de feature niet te gebruiken.
+text Te schrijven tekst
 underline Onderstrepen
-
+screenshot Een screenshot verzenden
+screenshoterr Er was een fout bij het maken van de screenshot. Wees er zeker van dat je de screenshot-executable hebt gecompileerd en in de amsnplus-map hebt geplaatst en dat je rechten en ruimte hebt om deze te maken.

@@ -4,29 +4,30 @@ amsn_lang_version 2
 # Language keys for main Games plugin
 # ================================================
 #
-load_game_failed Een spel kan niet geladen worden
+load_game_failed Laden van een spel mislukt
 invite_sent Uitnodiging verstuurd voor
-accepted_invitation accepteert de uitnodiging voor
-declined_invitation heeft de uitnodiging afgewezen voor
-wants_to_play wil het volgende met je spelen:
+accepted_invitation $1 accepteert de uitnodiging voor
+declined_invitation $1 heeft de uitnodiging afgewezen voor
+wants_to_play $1 wil het volgende met je spelen:
 Games Spellen
 TwoPlayerGames Twee spelers
 MultiPlayerGames Meer spelers (conferentie)
 Dots_and_Boxes Kamertjeverhuur
+Hangman Galgje
 Sketch Schets
 Accept Accepteren
 Reject Afwijzen
-incompatible_version Waarschuwing: jullie hebben niet dezelfde versie van deze plugin!
-uses_version gebruikt versie
-missing_plugin heeft waarschijnlijk deze plugin niet geladen of geinstalleerd
-timeout time-out waarde is
-seconds seconden
+incompatible_version Waarschuwing: jullie gebruiken niet dezelfde versie van deze plug-in! Je hebt versie $1, en $2 gebruikt versie $3.
+missing_plugin $1 heeft waarschijnlijk deze plug-in niet geladen of geïnstalleerd
+timeout time-outwaarde is ingesteld op $1 seconden
+wrong_game_type Start spellen voor twee spelers in privévensters en spellen voor meerdere spelers in conferentievensters.
+advertise $1 vraagt een aMSN-spel met je aan. Het lijkt erop dat $2 geen aMSN heeft of de Games-plug-in niet heeft geladen. Om te kunnen spelen met je vrienden, download aMSN op $3 en installeer de Games-plug-in, beschikbaar op $4.
 #
 # ================================================
 # Language keys used in Dots and Boxes
 # ================================================
 #
-specify_configuration Kies spel opties
+specify_configuration Spelopties kiezen
 select_color Met welke kleur wil je spelen?
 select_size Welke bordgrootte wil je?
 red Rood
@@ -46,13 +47,70 @@ game_over_win Spel is af. Gefeliciteerd, je hebt gewonnen!
 game_over_lose Spel is af. Helaas, volgende keer beter.
 game_over_draw Spel is af. Het is remise geworden.
 click_rematch Klik hier voor nog een potje.
-quits heeft het spel verlaten.
+quits $1 heeft het spel verlaten.
+margin_width Margebreedte
+margin_height Margehoogte
+width_of_box Breedte van vak
+height_of_box Hoogte van vak
+dot_size Puntgrootte
+space_around_dot Ruimte om punt
+#
+# ================================================
+# Language keys used in Hangman
+# ================================================
+#
+alphabet {a á â à ä ã å Å Á Ã Ä À Â} b {c ç Ç} d {e é ê ë è É E Ê È} f g h {i í ì î ï Í Î Ï Ì} j k l m {n ñ Ñ} {o ó ô ö ò õ Ô Ò Ö Õ Ó} p q r s t {u ù ú ü û Ú Û Ü Ù} v w x y z
+send_word_to_guess Stuur het woord dat je tegenstander moet raden.
+wait_for_word Wacht tot de tegenstander het woord stuurt dat je moet raden.
+click_sends_guess Klik om je poging te versturen
+Scores Scores
+round ronde
+Word Woord
+invalid_word Woord moet meer te raden letters bevatten en geen laag liggende streepjes; probeer een ander woord.
+game_started Spel begonnen, klik op letterknoppen of typ letters om pogingen te doen.
+you_hang Je hangt! (Tegenstander gaat door)
+word_found Woord gevonden! (Tegenstander gaat door)
+game_over_02 Je hebt verloren, tegenstander vond oplossing: 0-2.
+game_over_20 Je hebt gewonnen, tegenstander hangt: 2-0.
+game_over_00 Spel is onbeslist, beide spelers hangen: 0-0.
+game_over_21 Je hebt gewonnen, je maakte minder fouten: 2-1.
+game_over_12 Je hebt verloren, tegenstander maakte minder fouten: 1-2.
+game_over_11 Spel is onbeslist, gelijk aantal fouten: 1-1.
+fl_method Methode voor vrije letters selecteren
+fl_none Geen vrije letters
+fl_first Eerste letter geven
+fl_random Willekeurige letter geven
+guesses_remaining $1 pogingen resterend
+rematch_quick Je tegenstander wacht op je, klik op rematch om een nieuwe ronde te starten.
 #
 # ================================================
 # Language keys used in Sketch
 # ================================================
 #
 select_language Kies een taal voor dit spel
+Time Tijd
+wrong_guesses Foute pogingen
+sketch_tools Schetstools
+Color Kleur
+Eraser Gum
+Clear Wissen
+Skip Overslaan
+Save Opslaan
+make_guesses Pogingen
+Send Verzenden
+Violation Overtreding
+wait_for_host Wacht op de host tot deze het spel start.
+wait_for_players Wacht tot iedereen er is en klik vervolgens op de startknop ->
+Start Starten
+save_drawing Tekening opslaan
+Round Ronde
+you_draw je moet $1 tekenen.
+you_guess je moet het woord raden dat wordt getekend; geheugentaal is ingesteld op $1.
+correct_guess Je hebt het goed geraden! Oplossing is $1.
+points $1 punten
+choose_bkgcol Kies een achtergrondkleur
+empty_dictionary Dit woordenboek bevat geen woorden die kunnen worden gebruikt voor Sketch. Selecteer een andere taal voor dit spel, of vul je taalbestand juist in.
+hourglass_courtesy Zandloper met dank aan Bernd Breitenbach.
 #
 # ================================================
 # Sketch word dictionary
