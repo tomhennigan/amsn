@@ -3,6 +3,7 @@
 	<name>aMSN Plus</name>
 	<author>Mark & Jerome Gagnon-Voyer & Fred</author>
 	<description>aMSN Extension (commands in chat window, coloring nicks...)</description>
+	<description_hu>aMSN bővítmény (parancsok a társalgás ablakában, nickek színezése...)</description_hu>
 	<amsn_version>0.94</amsn_version>
 	<plugin_version>2.6</plugin_version>
 	<plugin_file>amsnplus.tcl</plugin_file>

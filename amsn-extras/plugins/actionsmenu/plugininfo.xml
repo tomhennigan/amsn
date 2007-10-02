@@ -3,6 +3,7 @@
 	<name>ActionsMenu</name>
 	<author>Originally written by Karel Demeyer 2005 fixed and improved by Aureliano Di Marco (Takeshi) and Giuseppe Bottiglieri (Square87) , 2007</author>
 	<description>This plugin implements a "Actions Menu" on the bottom of the contact list with Add Contact and Search Contact function. Key shortcut are ctrl+g for search window. Configuration allow to choose input/output presets and ability to start minimized or maximized. </description>
+	<description_hu>A plugin egy "Akciómenü"-t ad a partnerlista aljához partner keresés és hozzáadás funkcióval. A keresőablak a ctrl+g billentyűkkel aktiválható. Beállíthatóak a keresési feltételek, és az indítás módja. </description_hu>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.3.1</plugin_version>
 	<plugin_file>actionsmenu.tcl</plugin_file>
@@ -16,7 +17,7 @@
 	</lang>
 	<lang>
 		<langcode>hu</langcode>
-		<version>9002</version>
+		<version>9064</version>
 	</lang>
 	
 	<file>
