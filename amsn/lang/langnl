@@ -27,7 +27,8 @@ alarmondisconnect Alarm laten afgaan wanneer dit contact offline gaat
 alarmonmsg Alarm laten afgaan wanneer een bericht van dit contact binnenkomt
 alarmonstatus Alarm laten afgaan wanneer dit contact van status verandert
 alarmpref Alarminstellingen voor gebruiker
-alarms Alarm
+alarmpref2 Alarminstellingen voor iedere gebruiker
+alarms Alarmen
 alarmstatus Alarm inschakelen voor deze gebruiker
 allfiles Alle bestanden
 allmonths Alle maanden
@@ -73,7 +74,7 @@ autodetectip IP-adres automatisch detecteren
 autohotmaillog Automatisch aanmelden bij Hotmail
 autoidle Automatisch "Geen activiteit"
 autoip Automatisch IP
-autolisten_voiceclips Voice Clips automatisch afspelen zodra ze zijn ontvangen
+autolisten_voiceclips Voiceclips automatisch afspelen zodra ze zijn ontvangen
 automessage Automatisch bericht
 autonoact Status op "Geen activiteit" zetten als ik niet actief ben gedurende
 autoresizedp Schermafbeeldingen automatisch aanpassen aan de standaardafmetingen
@@ -168,6 +169,7 @@ choosecontact Kies een contact uit de lijst
 choosedevice Kies een apparaat
 choosefontcolor Tekstkleur
 chooseinputdev Kies je invoerapparaat
+chooselocation Kies nieuwe bestandslocatie
 choosemixerdev Kies je mixer
 chooseoutputdev Kies je uitvoerapparaat
 chooseskin Kies de skin die je wilt gebruiken
@@ -197,6 +199,7 @@ command Commando
 commandstatus Commandoregel uitvoeren
 configure Configureren
 configuremic Microfoon wordt geconfigureerd
+configureplugin Plug-in $1 configureren
 configuringaudio Geluid wordt geconfigureerd
 confirm Weet je het zeker?
 confirmbl Weet je zeker dat je dit contact wilt blokkeren?
@@ -296,11 +299,14 @@ docking Systeemvak
 dockingoff Geen systeemvak gebruiken
 dockkde KDE-systeemvak
 done Voltooid
-dontdownload TLS niet downloaden, ik installeer het zelf.
+dontaskweek Update gedurende een week niet meer vragen
+dontdownload TLS niet downloaden, ik installeer het zelf
 dontshow Niet weergeven
 dontshowdp Dit contact niet toestaan om mijn nieuwe schermafbeeldingen te downloaden
 download Downloaden
+downloadcanceled Download geannuleerd.
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
+downloadingwait Bezig met downloaden van nieuwe amsn-versie. Even wachten...
 edit Bewerken
 editavsettings Instellingen voor beeld en geluid bewerken
 editcontent Inhoud van de velden 'Titel' en 'Notitie' bewerken
@@ -560,6 +566,7 @@ newmsg Nieuw bericht
 newoim Nieuwe offlineberichten
 newstate Nieuwe aangepaste status toevoegen
 newtabbedfeature aMSN heeft een nieuwe functie, waarmee het mogelijk is om m.b.v. tabbladen meerdere gesprekken in een venster weer te geven. Hier kun je instellen hoe je deze functie wilt gebruiken.
+newupdate Nieuwe updates beschikbaar voor aMSN
 newveravailable Versie $1 is beschikbaar voor downloaden
 next Volgende
 nick Schermnaam
@@ -584,7 +591,7 @@ noresizesmileys Inkomende aangepaste emoticons niet schalen
 normal Standaard
 noskins aMSN kan niet worden gestart omdat er geen skins zijn geïnstalleerd in de map skins/
 nosound Er is geen geluid gedetecteerd. Is je microfoon wel goed aangesloten?
-nosound_or_hold Er is geen geluid gedetecteerd. Om een Voice Clip te verzenden moet je de knop ingedrukt houden terwijl je het bericht inspreekt. Als je de knop weer loslaat wordt het bericht verzonden.
+nosound_or_hold Er is geen geluid gedetecteerd. Om een voiceclip te verzenden moet je de knop ingedrukt houden terwijl je het bericht inspreekt. Als je de knop weer loslaat wordt het bericht verzonden.
 nospace Hier is niets te zien
 nosystemtray Het systeemvak is niet beschikbaar
 note Notities bewerken
@@ -708,7 +715,7 @@ readonlywarn WAARSCHUWING: het bestand zal waarschijnlijk NIET correct worden op
 receivedbytes $1 van $2 bytes ontvangen
 receiveddir Map voor ontvangen bestanden
 receivedoimread Je hebt $1 nieuwe offlineberichten. Wil je ze lezen?
-receivedvoice Voice Clip ontvangen
+receivedvoice Voiceclip ontvangen
 receivefile Bestand ontvangen
 recentmsg Sluiten van een gespreksvenster voorkomen wanneer er net een bericht aankomt
 reconnect Wachten tot $1 opnieuw verbindt
@@ -738,6 +745,10 @@ save Opslaan
 saveas Opslaan als
 savechatwinsize Afmetingen van gespreksvenster opslaan wanneer deze zijn gewijzigd
 savecontacts Contactenlijst exporteren
+saveddefaultloc Opslaan op standaardlocatie
+savelocation Wil je het bestand opslaan op $1?
+savelocationerror Bestand kan niet op deze plaats worden opgeslagen.
+saveotherdirectory Opslaan in een andere map
 savetofile Opslaan in bestand
 says $1 zegt
 sbcon Bezig met verbinden met schakelbord
@@ -756,11 +767,11 @@ sendmail E-mail verzenden
 sendmobmsg Bericht verzenden naar mobiel
 sendmsg Bericht verzenden
 sendoim Offlinebericht verzenden
-sendvoice Voice Clip verzenden
+sendvoice Voiceclip verzenden
 sendwebcamaccepted $1 heeft je uitnodiging om je webcambeeld te bekijken geaccepteerd. Bezig met verbinden...
 sendwebcaminvite Dit contact uitnodigen om je webcambeeld te bekijken
 sentbytes $1 van $2 bytes verzonden
-sentvoice Voice Clip verzonden
+sentvoice Voiceclip verzonden
 server Server
 serverbusy Server is bezet
 servergoingdown Verbinding verbroken: de server wordt uitgeschakeld
@@ -892,6 +903,7 @@ uoffline Offline
 uonline Online
 update Bijwerken
 updateonlycurrentlanguage Alleen de huidige taal bijwerken
+updatesaved Klaar\n $1 opgeslagen in $2.
 updating Bezig met bijwerken
 useasdp Gebruiken als schermafbeelding
 useasregexp Gebruiken als reguliere expressie (regexp)
@@ -912,8 +924,9 @@ videoconversationrequest Je hebt een uitnodiging ontvangen voor een videogesprek
 view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel bekijken
-voice_notimplemented Het ontvangen van Voice Clips is nog niet geïmplementeerd. Nog even geduld...
-voice_windows Als Windows-gebruiker kun je de Voice Clip mogelijk beluisteren door deze te openen in Media Player.
+viewspace Space-items bekijken
+voice_notimplemented Het ontvangen van voiceclips is nog niet geïmplementeerd. Nog even geduld...
+voice_windows Als Windows-gebruiker kun je de voiceclip mogelijk beluisteren door deze te openen in Media Player.
 voice_windows_click Klik hier om dat te proberen.
 volume Volume
 wanttosharecam Ik wil mijn webcam beschikbaar maken voor anderen
