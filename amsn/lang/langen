@@ -109,7 +109,7 @@ brightness Brightness
 broughtby Brought to you by the following developers
 browse Browse
 browser Browser
-browserexample ( \$url will be replaced with the URL). Ex: mozilla \$url
+browserexample (\$url will be replaced with the URL) Ex: mozilla \$url
 bugerror Sorry, but there was a problem connecting to the bug database. Please check your internet connection.
 bugnocomment Send without a comment? Commenting on a bug helps us figure out what went wrong and fix it easier.
 busy Busy
@@ -345,7 +345,7 @@ faq FAQ (Frequently Asked Questions)
 fetching Fetching data...
 filedoesnotexist File does not exist
 file File
-filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \$location
+filemanexample (\$location will be replaced with the directory) Ex: nautilus \$location
 fileman File Manager
 filename Filename
 filenotwritable Cannot delete this file
@@ -515,7 +515,7 @@ longpsm Your Personal Message is too long. This is not officially supported by t
 lowrescam Use a low-resolution webcam
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
-mailerexample ( \$recipient = Recipient ) Leave blank to use Hotmail
+mailerexample (\$recipient = Recipient) Leave blank to use Hotmail
 mailer Mailer
 maintenance The server is going down for maintenance in $1 minutes
 maximised Maximised
@@ -690,7 +690,7 @@ prefsound Sounds
 preview Preview
 privacy Privacy
 profiledconfig Profiled Config
-profileexists You cannot create a profile with this login \n because one already exists. Please chose another login.
+profileexists You cannot create a profile with this login \n because one already exists. Please choose another login.
 profileinuse This Profile is being used by another aMSN session, please choose another one
 profileloginradio Login using an existing Profile
 profiles Profiles
@@ -822,7 +822,7 @@ sound2 Play sounds when contacts sign in or send a message
 soundactive Play sounds when receiving incoming messages also in active windows
 soundcommand This has to be the play command (ex: esdplay)
 sound Event Sounds
-soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
+soundexample (\$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Sound File
 soundfiles Sound Files
 soundloop Loop Sound
