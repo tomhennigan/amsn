@@ -27,6 +27,7 @@ alarmondisconnect Käivita alarm kui kasutaja lahkub/varjub
 alarmonmsg Käivita alarm kui kasutaja saadab sulle sõnumi
 alarmonstatus Käivita alarm kui kasutaja muudab olekut 
 alarmpref Alarmi seaded kasutajale
+alarmpref2 Iga kasutaja alarmi seaded
 alarms Alarmid
 alarmstatus Alarm selle kasutaja puhul Sees/Väljas
 allfiles Kõik failid
@@ -169,6 +170,7 @@ choosecontact Palun vali kontakt listist
 choosedevice Palun vali seade
 choosefontcolor Vali fondi värv
 chooseinputdev Vali sisendseade
+chooselocation Vali failile uus asukoht
 choosemixerdev Vali mikser
 chooseoutputdev Vali väljundseade
 chooseskin Palun vali välimus 
@@ -197,6 +199,7 @@ command Käsk
 commandstatus Käivita käsk
 configure Seadista
 configuremic Häälesta mikrofoni
+configureplugin Seadista moodulit $1
 configuringaudio Heli seadete häälestamine
 confirm Oled kindel?
 confirmbl Oled kindel, et soovid selle kontakti blokeerida ?
@@ -296,11 +299,14 @@ docking Dokkimine
 dockingoff Dokkimine väljas
 dockkde KDE dokkimine
 done valmis
+dontaskweek Ära palu uuendamist nädala jooksul
 dontdownload Ära salvesta TLSi, ma paigaldan selle ise
 dontshow Ära näita
 dontshowdp Ära luba sellel kasutajal oma kuvapilti alla laadida
 download Laadi alla
+downloadcanceled Allalaadimine katkestatud.
 downloadingtls Salvesta TLS moodul saidist:\n $1
+downloadingwait Uue amsn versiooni allalaadimine. Palun oota ...
 edit Redigeerimine 
 editavsettings Redigeeri heli ja video seadeid
 editcontent Muuda teema ja märkuse välju
@@ -415,6 +421,7 @@ hidemenumessage Soovid menüüd kindlasti peita ?\nSa saad need igal ajal taasta
 hiden Peida emotikonid menüüst
 hidewindow Peida aken
 history Vaata Ajalugu
+history2 Ajalugu
 home Kodu
 howto_remove_profile Oma profiili kustutamiseks (unusta $1) pead minema Eelistuste lehele.\n\nTurvakaalutlustel ei saa profiili esilehelt kustutada.
 httpconnection Ühenda kasutades HTTP-d (kasutatakse HTTP protokolli pordil 80)
@@ -559,6 +566,7 @@ newmsg Uus sõnum
 newoim Uued ühenduseta teated
 newstate Lisa oma olek
 newtabbedfeature aMSNis on uus võimalus vestluste haldamiseks: sa saad valida, et mõne grupi, või terve nimekirja, vestlusaknad on ühes aknas erinevatel kaartidel. Palun vali kuidas aMSN haldab su vestlusi.
+newupdate Amsnile on saadaval uuendus
 newveravailable Uuem versioon $1 allalaadimiseks saadaval
 next Edasi
 nick Hüüdnimi
@@ -737,6 +745,10 @@ save Salvesta
 saveas Salvesta kui
 savechatwinsize Vestluse akna suurust muutes salvesta selle suurus vaikeväärtusena
 savecontacts Salvesta sõbranimekiri
+saveddefaultloc Salvesta vaikeasukohta
+savelocation Soovid faili salvestada kohta $1 ?
+savelocationerror Faili ei õnnestu valitud kohta salvestada.
+saveotherdirectory Salvesta teise kataloogi
 savetofile Salvesta faili
 says $1 ütleb
 sbcon Kommutaatoriga ühendumine...
@@ -891,6 +903,7 @@ uoffline Pole sees
 uonline Sees
 update Uuenda
 updateonlycurrentlanguage Uuenda ainult kasutuses olevat keelt
+updatesaved Tehtud\n $1 salvestatud kohta $2.
 updating Uuendan
 useasdp Kasuta pildina
 useasregexp Kasuta reguraalavaldist (regexp)
@@ -911,6 +924,7 @@ videoconversationrequest Sulle saadeti just video konverentsi kutse (kahesuunali
 view Vaade
 viewcontactsby Vaata kontakte sorteerides
 viewprofile Vaata profiili
+viewspace Näita veebi esemeid
 volume Helitugevus
 wanttosharecam Soovin oma veebikaamera teistele kättesaadavaks teha
 web Veeb
@@ -927,6 +941,7 @@ webcamextnotloaded Veebikaamera laiendus pole laetud. Sa pead selle kompileerima
 webcamextwarn Sa ei näe oma kontaktide veebikaamerate pilti. Sa võid leida võimaluse, kuidas paigaldada vajalikud laiendused, meie Vikist:
 webcamfaq KKK/Abi veebikaamera kohta
 webcamhistory Vaata veebikaamera vestlusi
+webcamhistory2 Veebikaamera sessioon
 webcaminvite $1 kutsus sind alustama veebikaamera seanssi kuid aMSN ei toeta seda võimalust
 webcaminvitereceived $1 kutsub sind veebikaamera seansile. Oled nõus ?
 webcaminvitereceiving $1 kutsus sind ennast kaamerast vaatama. Soovid teda näha?
