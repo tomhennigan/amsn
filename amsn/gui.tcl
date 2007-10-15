@@ -2525,9 +2525,12 @@ namespace eval ::amsn {
 			return 0
 		}
 		#no typing notification for OIM
-		if {[::OIM_GUI::IsOIM $chatid] == 1 } {
-			return 0
-		}
+		#AIM: Try to send it, so status is rechecked
+		#TODO: Maybe should try to send it only for users 
+		#not in contact list
+		#if {[::OIM_GUI::IsOIM $chatid] == 1 } {
+		#	return 0
+		#}
 
 
 		#Don't queue unless chat is ready, but try to reconnect

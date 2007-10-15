@@ -2687,21 +2687,15 @@ namespace eval ::MSN {
 		    ::MSNMobile::MessageSend $chatid $txt
 		    return 0
 		} elseif { [::OIM_GUI::IsOIM $chatid] == 1 } {
-			::OIM_GUI::MessageSend $chatid $txt
-			return 0
-		}
-		foreach user [usersInChat $chatid] {
-			set ::OIM_GUI::oim_asksend_[string map {: _} ${user} ] 1
-		}
+			foreach user [usersInChat $chatid] {
+				set ::OIM_GUI::oim_asksend_[string map {: _} ${user} ] 1
+			}
 
-		if {![chatReady $chatid] && [::abook::getVolatileData [lindex [usersInChat $chatid] 0] state] == "FLN" } {
-			if { [::OIM_GUI::MessageSend $chatid $txt] == "no" } {
-				status_log "::MSN::messageTo: chat NOT ready for $chatid\n"
-				::amsn::nackMessage $ackid
-				chatTo $chatid
+			if { [::OIM_GUI::MessageSend $chatid $txt] != "no" } {
 				return 0
 			}
 		}
+
 		ChatQueue $chatid [list ::MSN::SendChatMsg $chatid "$txt" $ackid $friendlyname]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
