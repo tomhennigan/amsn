@@ -332,6 +332,7 @@ entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
 enternick Enter your nick
 enterpsm Your Personal Message
+escapeclosescw Escape key closes chat windows
 error Error
 errortls Error installing TLS module:
 eventhistory View Events History

@@ -1046,7 +1046,9 @@ namespace eval ::ChatWindow {
 		#set current [GetCurrentWindow $container]
 		#set currenttab [set win2tab($current)]
 		#bind $container <<Escape>> "::ChatWindow::CloseTab \[set ::ChatWindow::win2tab(\[::ChatWindow::GetCurrentWindow $container\])\]"
-		bind $container <<Escape>> [list ::ChatWindow::CloseTabInContainer $container]
+		if {[::config::getKey escape_close_cw 1] == 1} {
+			bind $container <<Escape>> [list ::ChatWindow::CloseTabInContainer $container]
+		}
 		
 		#Send a postevent for the creation of menu
 		set evPar(window_name) "$container"
@@ -1162,7 +1164,9 @@ namespace eval ::ChatWindow {
 		$w.search hide
 		$w.search bindwindow $w
 
-		bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
+		if {[::config::getKey escape_close_cw 1] == 1} {
+			bind $w <<Escape>> "::ChatWindow::ContainerClose $w; break"
+		}
 		bind $w <Destroy> "::ChatWindow::DetachAll %W"
 
 		# These bindings are handlers for closing the window (Leave the SB, store settings...)
@@ -1264,7 +1268,9 @@ namespace eval ::ChatWindow {
 				"::amsn::ShowChatList \"[trans history]\" $w ::log::OpenLogWin"
 		}
 
-		bind $w <<Escape>> "::ChatWindow::Close $w; break"
+		if {[::config::getKey escape_close_cw 1] == 1} {
+			bind $w <<Escape>> "::ChatWindow::Close $w; break"
+		}
 		bind $w <Destroy> "window_history clear %W; ::ChatWindow::Closed $w %W"
 
 		#Different shortcuts on Mac OS X

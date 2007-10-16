@@ -288,6 +288,9 @@ namespace eval ::config {
 
 		::config::setKey big_incoming_smileys 0				;# Whether to resize or not the incoming smileys to the standard 50x50 size.
 
+		::config::setKey escape_close_cw 1				;# Whether the escape key closes the chat windows or not
+
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
@@ -355,6 +358,7 @@ namespace eval ::config {
 			[list local autocheckver bool autocheckver] \
 			[list local storename bool storenickname] \
 			[list local globaloverride bool globaloverride ] \
+			[list local escape_close_cw bool escapeclosescw ] \
 			[list global disableprofiles bool disableprofiles] \
 		]
 
