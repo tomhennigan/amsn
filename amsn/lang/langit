@@ -27,6 +27,7 @@ alarmondisconnect Attiva l'allarme quando l'utente si sconnette o diventa invisi
 alarmonmsg Attiva l'allarme quando l'utente ti manda un messaggio
 alarmonstatus Attiva l'allarme quando l'utente cambia il suo stato
 alarmpref Impostazioni dell'allarme dell'utente
+alarmpref2 Impostazioni dell'allarme per tutti i contatti
 alarms Allarmi
 alarmstatus Abilita l'allarme per questo utente
 allfiles Tutti i file
@@ -168,6 +169,7 @@ choosecontact Per favore scegli un contatto dalla lista
 choosedevice Scegli un dispositivo
 choosefontcolor Scegli il colore del font
 chooseinputdev Scegli la periferica di input
+chooselocation Scegli il nuovo file di destinazione
 choosemixerdev Scegli il mixer
 chooseoutputdev Scegli la periferica di output
 chooseskin Scegli la Skin che preferisci usare
@@ -196,6 +198,7 @@ color Colore
 command Comando
 commandstatus Esegui comando
 configure Configura
+configureplugin Configura il plugin $1
 configuremic Sto configuarando il tuo microfono
 configuringaudio Sto configuarando i settaggi audio
 confirm Sei sicuro?
@@ -296,10 +299,13 @@ docking Abilita dock
 dockingoff Disabilita dock
 dockkde Dock KDE
 done Fatto
+dontaskweek Non richiedere ulteriori aggiornameti per una settimana
 dontdownload Non scaricare TLS, lo installerò io
 dontshow Non mostrare
 dontshowdp Impedisci a questo utente di vedere le tue nuove immagini personali
 download Scarica
+downloadcanceled Download cancellato.
+downloadingwait Download in corso di una nuova versione di amsn. Attendere prego...
 downloadingtls Download del modulo TLS in corso da:\n$1
 editcontent Modifica il contenuto del campo soggetto e del campo note
 editcustomstate Modifica Stato Personalizzato
@@ -328,6 +334,7 @@ enternick Inserisci il tuo nick
 enterpsm Messaggio Personale
 error Errore
 errortls Errore durante l'installazione del modulo TLS:
+escapeclosescw Il tasto Escape chiude le finestre di chat
 eventhistory Visualizza cronologia Eventi
 examples Esempi
 exitamsn Sei sicuro di voler uscire?
@@ -336,6 +343,7 @@ faileddelete Eliminazione non riuscita
 faileddeleteperso Questo file non può essere rimosso perché non è un'immagine personale. Solo le immagini appartenenti al proprio profilo possono essere rimosse in questo modo.
 failed Non riuscito
 faq FAQ (Risposte alle domande più frequenti)
+fetching Acquisizione dati...
 filedoesnotexist Il file non esiste
 file Archivio
 filemanexample ( \$location sarà rimpiazzato dalla cartella ) Es: konqueror \$location
@@ -414,6 +422,7 @@ hidemenu Mostra/Nascondi i menù
 hiden Nascondi le emoticon dal menu delle faccine
 hidewindow Nascondi Finestra
 history Mostra la cronologia messaggi
+history2 Cronologia
 home Casa
 howto_remove_profile Devi cancellare il tuo profilo (cancella $1) dalla finestra delle preferenze. \n\nPer ragioni di sicurezza, non è permessa la rimozione dei profili dalla schermata di login.
 httpconnection Connessione usando il metodo HTTP (usa il protocollo HTTP sulla porta 80)
@@ -558,6 +567,7 @@ newmsg Nuovo messaggio
 newoim Nuovi messaggi "non in linea"
 newstate Aggiungi uno stato personalizzato
 newtabbedfeature Su aMSN è ora possibile gestire le varie conversazioni anche riunendo tutte le finestre, di uno stesso gruppo o dell'intera lista contatti, in un'unica finestra a schede. Scegli come vuoi che aMSN si comporti
+newupdate Sono disponibili nuovi aggiornamenti per aMSN
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
 nick nick
@@ -580,6 +590,7 @@ nopic Nessuna immagine
 noprofileexists Non ci sono profili correnti, \ndevi crearne uno se vuoi usare i login con il profilo. \nUsa il pulsante Aggiungi nuovo profilo su questa finestra per aggiungerne uno.
 noresizesmileys Non ridimensionare le emoticon ricevute
 normal Normale
+nospace Qui non c'è niente da vedere
 noskins Non sono riuscito a trovare la skin predefinita nella cartella skins/. Non posso avviare aMSN.
 nosound Nessun suono rilevato, controlla che il microfono sia collegato correttamente
 nosound_or_hold Nessun suono rilevato. Per inviare un messaggio vocale devi premere e tener premuto il pulsante mentre parli, poi rilascialo per inviare il messaggio.
@@ -736,6 +747,10 @@ savechatwinsize Salva la dimensione della finestra di chat come predefinita ad o
 savecontacts Salva la lista contatti
 save Salva
 savetofile Salva nel file
+saveddefaultloc Salva della posizione predefinita
+savelocation Vuoi salvare il file in $1?
+savelocationerror Il file non può essere salvato in questa posizione.
+saveotherdirectory Salva in un'altra cartella
 says $1 dice
 sbcon Connessione a Switch Board
 searchdown Cerca in avanti
@@ -890,6 +905,7 @@ uonline In linea
 updateonlycurrentlanguage Aggiorna soltanto la lingua in uso
 update Aggiornamento
 updating Aggiornamento in corso
+updatesaved Fatto\n $1 salvato in $2.
 useasdp Usa come immagine personale
 useasregexp Usa come un'espressione regolare (regexp)
 useother Usa un altro programma
@@ -909,6 +925,7 @@ videoconversationrequest Hai ricevuto una richiesta di conversazione video (audi
 viewcontactsby Visualizza contatti per
 viewprofile Mostra Profilo
 view Visualizzazione
+viewspace Visualizza gli oggetti space
 volume Volume
 wanttosharecam Consenti a tutti di sapere che ho una webcam
 web Web
@@ -925,6 +942,7 @@ webcamextnotloaded L'estensione webcamsn non è stata caricata. Devi compilarla.
 webcamextwarn Non potrai visualizzare la webcam dei tuoi contatti. Puoi trovare delle indicazioni su come installare alcune estensioni nella nostra Wiki:
 webcamfaq FAQ/Aiuto per la webcam
 webcamhistory Guarda le sessioni webcam salvate
+webcamhistory2 Sessioni webcam
 webcaminvite $1 ti ha invitato/a ad una sessione webcam, ma aMSN non supporta questa funzionalità.
 webcaminvitereceived $1 ti ha invitato/a ad una sessione webcam. Desideri accettare questo invito?
 webcaminvitereceiving Sei stato/a invitato/a da $1 ad avviare visualizzazione immagine della webcam. Desideri accettare questo invito?
