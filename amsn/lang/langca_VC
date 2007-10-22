@@ -27,6 +27,7 @@ alarmondisconnect Activar avís quan este usuari es desconnecte
 alarmonmsg Activar avís quan este usuari t'envie un missatge
 alarmonstatus Activar avís quan este usuari canvie el seu estat
 alarmpref Configurar avisos per a este usuari
+alarmpref2 Configuracions d'avisos per a cada contacte
 alarms Avisos
 alarmstatus Activar avisos per a este usuari
 allfiles Tots els arxius
@@ -168,6 +169,7 @@ choosecontact Per favor, selecciona un contacte de la llista
 choosedevice Per favor, selecciona un dispositiu
 choosefontcolor Tria color de la lletra
 chooseinputdev Tria el teu dispositiu d'entrada
+chooselocation Tria el lloc del nou arxiu
 choosemixerdev Tria el teu dispositiu mesclador
 chooseoutputdev Tria el teu dispositiu d'eixida
 chooseskin Per favor, selecciona el tema (skin) que vols usar
@@ -197,6 +199,7 @@ command Ordre
 commandstatus Executar ordre
 configure Configurar
 configuremic Configurant el teu micròfon
+configureplugin Configurar plug-in $1
 configuringaudio Configurant les opcions d'`àudio
 confirmbl Segur que vols bloquejar este contacte?
 confirmdelete Segur que vols esborrar a $1?
@@ -296,11 +299,14 @@ docking Icon en l'àrea de notificació
 dockingoff Desactivar
 dockkde Icon KDE
 done Fet
+dontaskweek No tornar a preguntar per l'actualització durant una setmana
 dontdownload No descarregar TLS, l'instal·laré jo mateix
 dontshow No mostrar
 dontshowdp No deixar que este usuari es descarregue les teues noves imatges de mostra
 download Descarregar
+downloadcanceled Descàrrega cancel·lada.
 downloadingtls Descarregant el mòdul TLS des de: \n $1
+downloadingwait Descarregant una nova versió d'aMSN. Per favor, espera...
 editavsettings Modifica les opcions d'àudio i vídeo
 editcontent Edita el contingut del camp assumpte i del camp nota
 editcustomstate Editar estat personalitzat
@@ -328,6 +334,7 @@ enternick Introduix el teu sobrenom
 enterpsm Missatge personal
 error Error
 errortls Error instal·lant el mòdul TLS:
+escapeclosescw La tecla Escape tanca la finestra de conversa
 eventhistory Vore l'historial d'events
 examples Exemples
 exitamsn Estàs segur que vols eixir?
@@ -415,6 +422,7 @@ hidemenu Mostra/Amaga menus
 hiden Ocultar l'emoticon del menú d'emoticons
 hidewindow Ocultar finestra
 history Vore historial
+history2 Historial
 home Inici
 howto_remove_profile Necessites anar a la finestra de preferències per a esborrar el teu perfil (oblida $1). \n\nPer raons de seguretat, no està permés l'esborrat de perfils des de la finestra de connexió.
 httpconnection Connectar usant el mètode HTTP (utilitza el protocol HTTP sobre el port 80)
@@ -559,6 +567,7 @@ newmsg Nou missatge
 newoim Nous missatges sense connexió
 newstate Afegir nou estat personalitzat
 newtabbedfeature aMSN té una nova característica en conversa, ara pots tindre totes les finestres d'un mateix grup o de tots els teus contactes en una sola finestra amb pestanyes. Per favor, tria la manera en què vols que aMSN mostre les teues converses.
+newupdate Noves actualitzacions disponibles per a aMSN
 newveravailable Nova versió $1 disponible per a descàrrega
 next Següent
 nick Sobrenom
@@ -733,10 +742,14 @@ retry Reintentar
 reversed Invertit
 reverselist Llista inversa (LI):
 rightback Ara torne
+save Guardar
 saveas Guardar com
 savechatwinsize Al canviar-ho, guardar el tamany de la finestra de conversa com predeterminat 
 savecontacts Guardar llista de contactes
-save Guardar
+saveddefaultloc Guardar en el lloc predeterminat
+savelocation Vols guardar l'arxiu en $1?
+savelocationerror L'arxiu no es pot guardar en este lloc.
+saveotherdirectory Guardar en una altra carpeta
 savetofile Guardar en arxiu
 says $1 diu
 sbcon Connectant a centraleta
@@ -891,6 +904,7 @@ uoffline Desconnectats
 uonline Connectats
 update Actualitzar
 updateonlycurrentlanguage Actualitzar només l'idioma actual
+updatesaved Fet\n Guardat $1 en $2.
 updating Actualitzant
 useasdp Utilitzar com la imatge de mostra
 useasregexp Interpretar com a expresió regular
@@ -910,6 +924,7 @@ version Versió
 videoconversationrequest Acabes de rebre una invitació de videoconferència (àudio i vídeo bidireccionals). Esta funció no està suportada per aMSN i ha estat cancel·lada. De totes formes, encara pots usar la conversa estàndard per càmera web.
 viewcontactsby Mostra els contactes per
 viewprofile Vore perfil
+viewspace Vore elements de l'espai web
 view Vore
 volume Volum
 wanttosharecam Vull fer disponible la meua càmera web als altres
@@ -926,6 +941,7 @@ webcamextnotloaded No s'ha carregat l'extensió Webcamsn. L'has de compilar
 webcamextwarn No podràs vore la càmera web dels teus contactes. Trobaràs respostes sobre com instal·lar algunes extensions al nostre Wiki:
 webcamfaq PMF-FAQ/Ajuda per a la càmera web
 webcamhistory Vore les sessions de càmera web
+webcamhistory2 Sessions de càmera web
 webcaminvite $1 t'ha convidat a iniciar una conversa amb càmera web però aMSN encara no ho suporta.
 webcaminvitereceived $1 t'ha convidat a iniciar una sessió de càmera web. Vols acceptar esta sessió?
 webcaminvitereceiving Estàs convidat a vore la càmera web de $1. Estàs d'acord?
