@@ -27,6 +27,7 @@ alarmondisconnect Activer l'alarme quand le contact se déconnecte ou passe en mo
 alarmonmsg Activer l'alarme quand le contact m'envoie un message
 alarmonstatus Activer l'alarme quand le contact change de statut
 alarmpref Configuration de l'alarme du contact
+alarmpref2 Configuration de l'alarme pour tous les contacts
 alarms Alarmes
 alarmstatus Activer/désactiver l'alarme pour ce contact
 allfiles Tous les fichiers
@@ -47,7 +48,7 @@ appearoff Apparaître déconnecté[e]
 areacode Code régional
 aretyping $1 sont en train de taper un message
 askcam Demande à visionner la webcam
-askcontactwebcam pour demander à voir la webcam de votre contact, ou 
+askcontactwebcam pour demander à voir la webcam de votre contact, ou
 askeachtime Demander à chaque fois
 asksendingyourwebcam pour inviter votre contact à voir votre webcam
 asksendoim Voulez-vous envoyer ce message en tant que message différé ?
@@ -129,7 +130,7 @@ capturewarn Vos contacts ne pourront pas voir votre webcam. Si vous n'avez pas d
 casesensitive Respecter la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
-change_account_info Changer les informations concernant votre compte 
+change_account_info Changer les informations concernant votre compte
 change Changer
 changecustomstate Changer à
 changedisplaypic Changer mon avatar
@@ -168,6 +169,7 @@ choosecontact Veuillez choisir un contact dans la liste
 choosedevice Veuillez choisir un périphérique
 choosefontcolor Choisir la couleur de police
 chooseinputdev Sélectionnez le micro
+chooselocation Choisissez un autre emplacement
 choosemixerdev Choisissez le périphérique de mixage
 chooseoutputdev Sélectionnez le périphérique de sortie
 chooseskin Sélectionnez l'apparence que vous souhaitez utiliser dans la liste
@@ -197,6 +199,7 @@ command Commande
 commandstatus Exécuter la commande
 configure Configurer
 configuremic Configuration du micro
+configureplugin Configurer le plugin $1
 configuringaudio Configuration des paramètres audio
 confirmbl Etes-vous sûr de vouloir bloquer ce contact ?
 confirmdelete Confirmer la suppression
@@ -296,11 +299,14 @@ docking Ancrage actif
 dockingoff Pas d'ancrage
 dockkde Ancrage dans KDE
 done Terminé
+dontaskweek Ne pas demander pendant une semaine de mettre à jour
 dontdownload Ne pas télécharger TLS, je l'installerai moi-même
 dontshow Ne pas la montrer
 dontshowdp Empêcher ce contact de voir votre avatar
 downloadingtls Téléchargement du module TLS à partir de :\n $1
 download Télécharger
+downloadcanceled Téléchargement annulé
+downloadingwait Téléchargement d'une nouvelle version d'aMSN. Veuillez patienter.
 editavsettings Modifier les paramètres audio et vidéo
 editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregistrer
 editcustomstate Editer le statut personnel
@@ -328,6 +334,7 @@ enternick Mon pseudonyme
 enterpsm Mon Message personnel
 error Erreur
 errortls Erreur lors de l'installation du module TLS :
+escapeclosescw La touche Echap ferme la fenêtre de conversations
 eventhistory Voir l'historique des événements
 examples Exemples
 exitamsn Etes-vous sûr de vouloir quitter aMSN ?
@@ -415,6 +422,7 @@ hidemenumessage Etes-vous sûrs de vouloir masquer les menus ?\n Vous pouvez les 
 hiden Cacher cette émoticône/smiley du menu
 hidewindow Masquer la fenêtre
 history Voir l'historique
+history2 Historique
 home Domicile
 howto_remove_profile Pour supprimer un profil (Oublier $1), vous devez le faire à partir de la fenêtre des Préférences. \n\nPour des raisons de sécurité, supprimer un profil depuis la fenêtre de connexion n'est pas possible.
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
@@ -548,8 +556,8 @@ needonline Vous êtes toujours déconnecté[e]!
 needwinico2 Winico05.dll doit figurer dans le dossier utilitaires/windows pour que l'intégration dans le dock fonctionne
 never Jamais
 new_account Créer un compte
-newchat Nouvelle conversation
 new_ft_protocol Utiliser le nouveau protocole de téléchargement de fichiers (certains bogues peuvent subsister)
+newchat Nouvelle conversation
 newline Nouvelle ligne
 newmail $1 nouveaux messages
 newmailfolder $1 nouveaux messages dans les autres dossiers Hotmail
@@ -559,6 +567,7 @@ newmsg Nouveau message
 newoim Nouveau(x) message(s) différé(s)
 newstate Ajouter un statut personnel
 newtabbedfeature aMSN a une nouvelle caractéristique pour gérer les conversations : vous pouvez maintenant avoir toutes vos fenêtres pour le même groupe ou pour la liste complète de vos contacts dans une fenêtre à onglets. Merci de choisir la manière dont vous souhaitez que aMSN gère vos conversations
+newupdate Nouvelle mise-à-jour disponible pour aMSN
 newveravailable Une nouvelle version est disponible ($1)
 next Suivant
 nick Pseudonyme
@@ -737,6 +746,10 @@ saveas Enregistrer sous
 savechatwinsize Sauvegarder en tant que taille par défaut la taille de la fenêtre de conversation quand elle est changée.
 savecontacts Exporter la liste des contacts
 save Enregistrer
+saveddefaultloc Enregistrer dans l'emplacement par défaut
+savelocation Voulez-vous enregistrer le fichier dans $1 ?
+savelocationerror Le fichier ne peut pas être enregistré à cet endroit
+saveotherdirectory Enregistrer dans un autre emplacement
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
@@ -746,7 +759,7 @@ selectall Tout sélectionner
 selectcontact Choisissez un contact
 selectplugins Sélectionnez un plug-in
 selectskin Sélectionnez dans la liste l'apparence que vous souhaitez utiliser
-sendcam Envoyer la webcam 
+sendcam Envoyer la webcam
 sendemail Envoyer mon adresse email pour m'avertir des changements
 send Envoyer
 sendfeedback Envoyer ses impressions sur aMSN
@@ -876,7 +889,7 @@ tooltips Activer les info-bulles
 totalsize Taille totale
 transnotexists Le fichier demandé n'a pas encore été traduit dans votre langue.
 trayicon Afficher l'icone de l'état dans la barre à miniatures
-traynotcompiled Le programme de la barre à miniatures n'est pas compilé. 
+traynotcompiled Le programme de la barre à miniatures n'est pas compilé.
 triggers Textes déclencheurs
 truncatenames1 Tronquer les pseudonymes plus long que la largeur de la fenêtre dans le titre et la liste de contacts
 truncatenames2 Tronquer les pseudonymes plus long que la largeur de la fenêtre dans les conversations
@@ -891,6 +904,7 @@ uoffline Déconnectés
 uonline Connectés
 update Mise à jour
 updateonlycurrentlanguage Ne mettre à jour que la langue utilisée
+updatesaved Effectué\n Fichier $1 enregistré dans $2.
 updating Mise à jour
 useasdp Utiliser en tant qu'avatar
 useasregexp Utiliser en tant qu'expression régulière (regexp)
@@ -911,6 +925,7 @@ videoconversationrequest Vous venez de recevoir une invitation pour une conversa
 view Affichage
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
+viewspace Voir les éléments des pages "space"
 volume Volume
 wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
@@ -925,6 +940,7 @@ webcamextnotloaded L'extension Webcamsn n'est pas chargée. Vous devez la compile
 webcamextwarn Vous ne pourrez pas voir la webcam de vos contacts. Vous trouverez des aides pour installer les extensions sur le Wiki:
 webcamfaq FAQ/Aide à propos de la webcam
 webcamhistory Voir les sessions webcam
+webcamhistory2 Sessions webcam
 webcaminvite $1 vous invite à démarrer une conversation par Webcam, mais aMSN ne supporte pas cette option.
 webcaminvitereceived $1 vous invite à démarrer une conversation par Webcam. Voulez-vous accepter cette conversation ?
 webcaminvitereceiving Vous êtes invités à voir la webcam de $1. Acceptez-vous ?
