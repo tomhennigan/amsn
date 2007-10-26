@@ -113,6 +113,7 @@ browserexample (\$url will be replaced with the URL) Ex: mozilla \$url
 bugerror Sorry, but there was a problem connecting to the bug database. Please check your internet connection.
 bugnocomment Send without a comment? Commenting on a bug helps us figure out what went wrong and fix it easier.
 busy Busy
+bytesymbol b
 cachedpics $1 cached pics
 cachedpicsfor Cached display pictures for user
 cagreement Confidentiality Agreement

@@ -457,7 +457,7 @@ namespace eval ::log {
 		wm group ${wname} .
 
 		if { [file exists [file join ${log_dir} ${email}.log]] } {
-			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
+			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]][trans bytesymbol]"
 			wm title $wname "[trans history2] (${email} - $size)"
 		} else {
 			wm title $wname "[trans history2] (${email})"
@@ -591,11 +591,11 @@ namespace eval ::log {
 		if { [file exists [file join ${webcam_dir} ${email}.cam]] } {
 			set fsize [file size [file join ${webcam_dir} ${email}.cam]]
 
-			set size "[::amsn::sizeconvert ${fsize}]o"
+			set size "[::amsn::sizeconvert ${fsize}][trans bytesymbol]"
 			set exists normal
 		} else {
 			set exists disabled
-			set size "0Ko"
+			set size "0K[trans bytesymbol]"
 		}
 
 		wm title $wname "[trans webcamhistory2] (${email} - $size)"
@@ -788,7 +788,7 @@ namespace eval ::log {
 					set fsize [expr {$fsize2 - $fsize1}]
 				}
 
-				set fsize "[::amsn::sizeconvert $fsize]o"
+				set fsize "[::amsn::sizeconvert $fsize][trans bytesymbol]"
 				$wname.top.sessions.list list insert end "Session [expr {$j+1}], ${session_date}, (${fsize})"
 			}
 		} else {
@@ -1057,7 +1057,7 @@ namespace eval ::log {
 
 
 		if { [file exists [file join ${log_dir} $date ${email}.log]] } {
-			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} $date ${email}.log]"]]o"
+			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} $date ${email}.log]"]][trans bytesymbol]"
 			wm title $w "[trans history2] (${email} - $size)"
 		} else {
 			wm title $w "[trans history2] (${email})"
@@ -1087,10 +1087,10 @@ namespace eval ::log {
 
 
 		if { [file exists [file join ${webcam_dir} $date ${email}.cam]] } {
-			set size "[::amsn::sizeconvert [file size "[file join ${webcam_dir} $date ${email}.cam]"]]o"
+			set size "[::amsn::sizeconvert [file size "[file join ${webcam_dir} $date ${email}.cam]"]][trans bytesymbol]"
 			set exists normal
 		} else {
-			set size "0Ko"
+			set size "0K[trans bytesymbol]"
 			set exists disabled
 		}
 
@@ -1138,7 +1138,7 @@ namespace eval ::log {
 
 		$w.blueframe.log.txt rodelete 0.0 end
 		if { [file exists [file join ${log_dir} ${email}.log]] } {
-			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]]o"
+			set size "[::amsn::sizeconvert [file size "[file join ${log_dir} ${email}.log]"]][trans bytesymbol]"
 			wm title $w "[trans history2] (${email} - $size)"
 		} else {
 			wm title $w "[trans history2] (${email})"
@@ -1166,11 +1166,11 @@ namespace eval ::log {
 		status_log "(CamLoging)Switch to $email" blue
 
 		if { [file exists [file join ${webcam_dir} ${email}.cam]] } {
-			set size "[::amsn::sizeconvert [file size "[file join ${webcam_dir} ${email}.cam]"]]o"
+			set size "[::amsn::sizeconvert [file size "[file join ${webcam_dir} ${email}.cam]"]][trans bytesymbol]"
 			set exists normal
 		} else {
 			set exists disabled
-			set size "0Ko"
+			set size "0K[trans bytesymbol]"
 		}
 
 		::log::CamLogsByDate $w $email "0"	
