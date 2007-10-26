@@ -26,6 +26,7 @@ alarmonconnect Vklopi alarm, ko se ta stik prijavi
 alarmondisconnect Vklopi alarm, ko se ta stik odjavi
 alarmonmsg Vklopi alarm, ko ti ta stik po¹lje sporoèilo
 alarmonstatus Vklopi alarm, ko ta stik zamenja stanje
+alarmpref2 Nastavitve alarma za vsak kontakt
 alarmpref Nastavitve alarma za stike
 alarms Alarmi
 alarmstatus Alarm omogoèen za ta stik
@@ -168,6 +169,7 @@ choosecontact Prosim izberi stik s seznama
 choosedevice Izberi napravo
 choosefontcolor Izberi barvo pisave
 chooseinputdev Izberi vhodno napravo
+chooselocation Izberi novo lokacijo datoteke
 choosemixerdev Izberi mikser
 chooseoutputdev Izberi izhodno napravo
 chooseskin Izberi preobleko/grafièno podobo, ki bi jo rad uporabil
@@ -197,6 +199,7 @@ commandstatus Izvedi ukaz
 command Ukaz
 configuremic Nastavi vhodno zvoèno napravo
 configure Nastavi
+configureplugin Konfiguriraj vstavek $1
 configuringaudio Nastavi izhodno zvoèno napravo
 confirm Ali si preprièan?
 confirmbl Ali si preprièan, da ¾eli¹ blokirati ta stik?
@@ -296,10 +299,13 @@ dockingoff Pristaja prekinjena
 docking Pristaja
 dockkde kde kde kde kde pomol
 done Narejeno
+dontaskweek Ne vpra¹aj po posodobitvi za en teden
 dontdownload Ne poberi TLS-ja, namestil ga bom sam
 dontshowdp Uporabniku ne dovoli prena¹anja tvojih novih prikaznih slik
 dontshow Ne prika¾i
+downloadcanceled Prenos prekinjen.
 downloadingtls Pobiram modul TLS iz:\n $1
+downloadingwait Prena¹a se nova verzija aMSN. Prosimo poèakajte...
 download Poberi
 editavsettings Uredi zvoène in video nastavitve
 editcontent Uredi vsebino polj za naslov in opombo
@@ -328,6 +334,7 @@ enternick Vnesi svoj vzdevek
 enterpsm Osebno sporoèilo
 error Napaka!
 errortls Napaka pri namestitvi modula TLS:
+escapeclosescw Tipka Esc zapira pogovorna okna
 eventhistory Prika¾i zgodovino dogodkov
 examples Primeri
 exitamsn Ali si preprièan, da ¾eli¹ zapustiti program?
@@ -414,6 +421,7 @@ hidemenumessage Si preprièan da hoèe¹ skriti menuje?\nNazaj jih lahko poka¾e¹ z 
 hidemenu Skrij/Prika¾i menije
 hiden Ne poka¾i emotikona v meniju sme¹kov
 hidewindow Skrij okno
+history2 Zgodovina
 history Prika¾i zgodovino
 home Doma
 howto_remove_profile Da zbri¹e¹ raèun (forget $1) mora¹ to storiti iz Nastavitev. \n\n Zaradi varnostnih vidikov brisanje iz prijavnega okna ni dovoljeno.
@@ -559,6 +567,7 @@ newmsg Novo sporoèilo
 newoim Nova sporoèila brez povezave
 newstate Dodaj osebno stanje
 newtabbedfeature aMSN ima nov naèin upravljanja pogovorov: sedaj lahko združi vse pogovore s stiki iz iste skupine oziroma pogovore z vsemi stiki v isto okno z zavihki. Izberi naèin, kako naj aMSN dela s pogovori
+newupdate Nove posodobitve za aMSN so na voljo
 newveravailable Nova razlièica $1 je na voljo za prenos
 next Naslednji
 nickchanged $1 je spremenil/a vzdevek v '$2
@@ -736,6 +745,10 @@ rightback Takoj bom nazaj
 saveas Shrani kot
 savechatwinsize Shrani spremembe velikosti oken s pogovori
 savecontacts Shrani seznam stikov
+saveddefaultloc spravi na splo¹no lokacijo
+savelocation Bi rad shranil datoteko v $1?
+savelocationerror Datoteka ne more biti shranjena tu.
+saveotherdirectory Shrani v drug imenik
 save Shrani
 savetofile Shrani v datoteko
 says $1 pravi
@@ -891,6 +904,7 @@ uoffline Neprijavljeni
 uonline Prijavljeni
 updateonlycurrentlanguage Posodabljaj samo trenutni jezik
 update Posodobi
+updatesaved Narejeno\n Shranjeno $1 v $2.
 updating Posodabljam
 useasdp Uporabi kot prikazno sliko
 useasregexp Uporabi regularni izraz (regexp)
@@ -911,6 +925,7 @@ videoconversationrequest Prejel/a si povabilo na video pogovor (dvosmerna zvok i
 viewcontactsby Prikaz stikov
 view Pogled
 viewprofile Poglej profil
+viewspace Prika¾i predmete iz Live Spaces
 volume Glasnost
 wanttosharecam Obkljukaj èe hoèe¹ da stik vidi da ima¹ spletno kamero
 webcamcanceled Povezava spletne kamere z $1 je bila preklicana
@@ -924,6 +939,7 @@ webcamextloaded Dodatek Webcamsn je nalo¾en
 webcamextnotloaded Dodatek Webcamsn ni nalo¾en. Mora¹ ga prevesti.
 webcamextwarn Ni mogoèe opazovati spletne kamere sogovornika.Veè odgovorov kako nalo¾iti vstavek na strani Wiki:
 webcamfaq FAQ/Pomoè za spletno kamero
+webcamhistory2 Seje spletne kamere
 webcamhistory Predvajaj zgodovino video posnetkov za stik
 webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
 webcaminvitereceived $1 te vabi na ogled preko spletne kamere. Sprejme¹ povabilo?
