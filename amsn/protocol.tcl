@@ -476,6 +476,11 @@ namespace eval ::MSNFT {
 
 	proc supportsNewFT { clientid } {
 
+		if { $clientid == [list] } {
+			status_log "supportsNewFT: Empty clientid for FT (user invisible/offline?)" white
+			return 0
+		}
+
 		set msnc [expr 0xF0000000]
 
 		if { ($clientid & $msnc) !=  0 } {
