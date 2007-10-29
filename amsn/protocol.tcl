@@ -476,9 +476,11 @@ namespace eval ::MSNFT {
 
 	proc supportsNewFT { clientid } {
 
+		# If a user chats with you while being as "Appear offline", his client ID will be empty, and we don't want a crash in that case.
+		# We assume the user supports new FT because only WLM 8.1+ allows you to chat while being as appear offline.
 		if { $clientid == [list] } {
 			status_log "supportsNewFT: Empty clientid for FT (user invisible/offline?)" white
-			return 0
+			return 1
 		}
 
 		set msnc [expr 0xF0000000]
