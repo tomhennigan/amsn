@@ -2033,7 +2033,8 @@ namespace eval ::MSN {
 				# DO NOT cleanchat... it's needed for ::ChatWindow::TopUpdate
 				# ::MSN::CleanChat $chatid
 				::amsn::chatStatus $chatid "$user: [trans usernotonline]\n" miniwarning
-				::abook::setVolatileData $user state "FLN"
+				# If the user goes offline, the servers should tell us so. If we receive a 217 error for a not-offline user, it's most probably a server error - YES it does happen - and it shouldn't make the user go offline on the CL...
+				#::abook::setVolatileData $user state "FLN"
 				::ChatWindow::TopUpdate $chatid
 				#msg_box "[trans usernotonline]"
 				return 0
