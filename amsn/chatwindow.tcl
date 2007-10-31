@@ -4105,7 +4105,8 @@ namespace eval ::ChatWindow {
 		#We have a window for that chatid, raise it
 		raise ${top_win}
 
-		focus [::ChatWindow::GetInputText ${win_name}]
+		#Causes freeze when detaching the last tab...
+		after idle [list after 0 [list focus [::ChatWindow::GetInputText ${win_name}]]]
 
 		return $win_name
 
