@@ -215,7 +215,9 @@ namespace eval ::MSNP2P {
 			if { [::abook::getContactData $user showcustomsmileys] != 0 } { ::MSNP2P::RequestObject $chatid $user $msnobj }
 		} else {
 			# Make sure the smiley is max 50x50
-			::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
+			if {[::config::getKey big_incoming_smileys 0] == 0} {
+				::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
+			}
 		}
 	}
 
@@ -965,7 +967,9 @@ namespace eval ::MSNP2P {
 								catch {image create photo emoticonCustom_std_${filename} -file "[file join $HOME smileys cache ${filename}.png]" -format cximage}
 								
 								# Make sure the smiley is max 50x50
-								::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
+								if {[::config::getKey big_incoming_smileys 0] == 0} {
+									::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
+								}
 								if { $scrolling } { ::ChatWindow::Scroll $tw }
 							}
 						}

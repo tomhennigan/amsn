@@ -206,10 +206,8 @@ namespace eval ::smiley {
 			set emotion(preview) [image create photo emoticonCustom_preview_$emotion(text)]
 			$emotion(preview) copy emoticonCustom_std_$emotion(text)
 
-			if {[::config::getKey big_incoming_smileys 0] == 1} {
-				# Make sure the smiley is max 50x50
-				::smiley::resizeCustomSmiley emoticonCustom_std_$emotion(text)
-			}
+			# Make sure the smiley is max 50x50
+			::smiley::resizeCustomSmiley emoticonCustom_std_$emotion(text)
 		}
 		
 		#Store the emoticon data in the custom_emoticons array
@@ -1290,11 +1288,6 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 		    }
 			
 			set smileyIdx [$tw image create $endpos -image "emoticonCustom_std_$file" -padx 0 -pady 0]
-
-			# Make sure the smiley is max 50x50
-		    	if {[::config::getKey big_incoming_smileys 0] == 1} {
-			    ::smiley::resizeCustomSmiley emoticonCustom_std_$file
-			}
 
 			$tw tag add $twTag $smileyIdx
 			$tw tag remove smiley $endpos
