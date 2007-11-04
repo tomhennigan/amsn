@@ -334,7 +334,7 @@ namespace eval ::amsn {
 			font create bplainf -family $family -size [expr {$size+1}] -weight normal
 			font create bsunderf -family $family -size [expr {$size+1}] -weight normal -underline true
 			font create bigfont -family $family -size [expr {$size+2}] -weight bold
-			font create examplef -family $family -size [expr {$size-2}] -weight normal
+			font create examplef -family $family -size [expr {$size-1}] -weight normal
 		}
 
 		catch {tk_setPalette [::skin::getKey menubackground]}
