@@ -109,11 +109,12 @@ brightness Helderheid
 broughtby Aangeboden door de volgende ontwikkelaars
 browse Verkennen
 browser Webbrowser
-browserexample ( \$url wordt vervangen door de URL ). Vb.: mozilla \$url
+browserexample (\$url wordt vervangen door de URL) Vb.: mozilla \$url
 bugerror Er is een fout opgetreden bij het verbinden met de gegevensbank voor bugrapportages. Controleer je internetverbinding.
 bugnocomment Wil je dit foutrapport echt verzenden zonder commentaar? Hou er rekening mee dat het voor ons makkelijker is om de fout te reproduceren en te repareren als we een beschrijving hebben van de situatie waarin deze optrad.
 busy Bezig
-cachedpics $1 opgeslagen plaatjes
+bytesymbol B
+cachedpics $1 opgeslagen afbeeldingen
 cachedpicsfor Opgeslagen schermafbeeldingen van contact
 cagreement Vertrouwelijkheidsverklaring
 cancel Annuleren
@@ -334,19 +335,20 @@ enternick Voer je nieuwe schermnaam in
 enterpsm Persoonlijk bericht
 error Fout
 errortls Er is een fout opgetreden bij het installeren van de module TLS:
+escapeclosescw Escape-toets sluit gespreksvensters
 eventhistory Gebeurtenissengeschiedenis bekijken
 examples Voorbeelden
 exitamsn Weet je zeker dat je aMSN wilt afsluiten?
 extras Extra diensten
 failed Mislukt
 faileddelete Verwijderen mislukt
-faileddeleteperso Dit plaatje kan niet worden verwijderd omdat het bestand niet in je persoonlijke profiel staat. Alleen plaatjes die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
+faileddeleteperso Deze afbeelding kan niet worden verwijderd omdat het bestand niet in je persoonlijke profiel staat. Alleen afbeeldingen die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
 faq FAQ (Veelgestelde vragen)
 fetching Gegevens ophalen...
 file Bestand
 filedoesnotexist Bestand bestaat niet
 fileman Bestandsbeheerder
-filemanexample ( \$location wordt vervangen door het pad ) Vb.: nautilus \$location
+filemanexample (\$location wordt vervangen door het pad) Vb.: nautilus \$location
 filename Bestandsnaam
 filenotwritable Dit bestand kan niet worden verwijderd
 filetransfer Bestandsoverdracht
@@ -372,7 +374,7 @@ formatcsv CSV-formaat
 friendlyname Schermnaam tijdens gesprek
 ftaccepted Bestandsoverdracht geaccepteerd
 ftacceptedby $1 heeft de overdracht van het bestand '$2' geaccepteerd.
-ftaccepting Bestandsoverdracht accepteren
+ftaccepting Verzoek voor bestandsoverdracht wordt geaccepteerd
 ftautoclose Dit venster sluiten nadat de bestandsoverdracht is voltooid
 ftconnecterror Fout bij het opzetten van de verbinding met dit contact
 ftconnecting Bezig met verbinden met $1 via poort $2
@@ -444,7 +446,7 @@ invalidfile2 Het bestand $1 kan niet worden aangemaakt. Heb je wel de juiste toe
 invalidgroup Ongeldige groep
 invalidparameter Fout bij het verbinden met de server: ongeldige parameter
 invalidpic Het opgegeven afbeeldingsbestand bestaat niet
-invalidpicsize Het opgegeven plaatje is te groot, kies een kleinere
+invalidpicsize De opgegeven afbeelding is te groot, kies een kleinere
 invalidsound Het opgegeven geluidsbestand bestaat niet
 invalidusername Ongeldige gebruikersnaam
 invitationcancelled De uitnodiging is geannuleerd
@@ -516,7 +518,7 @@ lowrescam Alleen de lage resolutie voor mijn webcam gebruiken
 lprivtoconf Privégesprek veranderde in vergadering met $1
 luclosedwin Je hebt het venster gesloten op $1
 mailer E-mailprogramma
-mailerexample ( \$recipient = Geadresseerde ) Laat dit veld leeg als je Hotmail wilt gebruiken
+mailerexample (\$recipient = geadresseerde) Laat dit veld leeg als je Hotmail wilt gebruiken
 maintenance De server zal wegens onderhoudswerkzaamheden over $1 minuten enige tijd niet beschikbaar zijn
 maximised Gemaximaliseerd
 medium Gemiddeld
@@ -822,7 +824,7 @@ sound Geluid inschakelen
 sound2 Geluid afspelen wanneer contacten zich aanmelden of een bericht verzenden
 soundactive Geluid ook afspelen als een bericht aankomt in een actief venster
 soundcommand Dit moet het afspeelcommando zijn (vb.: esdplay)
-soundexample ( \$sound = af te spelen geluidsbestand ) Vb.: esdplay \$sound
+soundexample (\$sound = af te spelen geluidsbestand) Vb.: esdplay \$sound
 soundfile Alarmgeluid
 soundfiles Geluidsbestanden
 soundloop Geluid in een lus herhalen
