@@ -203,6 +203,9 @@ namespace eval ::smiley {
 			#Error when creating smiley's image so we don't add it
 			return 0
 		} else {
+			set emotion(preview) [image create photo emoticonCustom_preview_$emotion(text)]
+			$emotion(preview) copy emoticonCustom_std_$emotion(text)
+
 			if {[::config::getKey big_incoming_smileys 0] == 1} {
 				# Make sure the smiley is max 50x50
 				::smiley::resizeCustomSmiley emoticonCustom_std_$emotion(text)
@@ -744,7 +747,7 @@ namespace eval ::smiley {
 			set animated [expr {$emotion(animated) && [::config::getKey animatedsmileys 0]}]
 			
 			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
-				$emot_num $name [lindex $emotion(text) 0] $emotion(image_name) $emotion(file) $animated
+				$emot_num $name [lindex $emotion(text) 0] $emotion(preview) $emotion(file) $animated
 	
 			incr emot_num
 		}
@@ -892,8 +895,10 @@ namespace eval ::smiley {
 
 	proc NewCustomEmoticonGUI_Delete { name } {
 		global custom_emotions
-		
-		catch {image delete $name}
+	
+		array set emotion $custom_emotions($name)
+		catch {image delete $emotion(image_name)}
+		catch {image delete $emotion(preview)}
 
 		unset custom_emotions($name)
 		if { [winfo exists .smile_selector]} {destroy .smile_selector}
@@ -1101,6 +1106,9 @@ namespace eval ::smiley {
 		
 		
 		set emotion(image_name) [image create photo emoticonCustom_std_$emotion(text) -file $emotion(file) -format cximage]
+		set emotion(preview) [image create photo emoticonCustom_preview_$emotion(text)]
+		$emotion(preview) copy emoticonCustom_std_$emotion(text)
+
 		set custom_emotions($name) [array get emotion]
 
 		#load_smileys
@@ -1183,6 +1191,19 @@ namespace eval ::smiley {
 	return 0
 	
 	}
+
+	proc UnloadEmoticons { } {
+		global custom_emotions
+
+		foreach name [array names custom_emotions] {
+			array set emotion $custom_emotions($name)
+			catch {[image delete $emotion(image_name)]}
+			catch {[image delete $emotion(preview)]}
+		}
+
+		unset custom_emotions
+	}
+
 }
 
 

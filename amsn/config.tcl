@@ -260,7 +260,7 @@ namespace eval ::config {
 		::config::setKey globaloverride 0		;# Sets whether Global nicknames pattern should override custom nicks, disabled by default
 
 		if { [info exists custom_emotions] } {
-			unset custom_emotions
+			::smiley::UnloadEmoticons
 		}
 		::smiley::cleanup
 
