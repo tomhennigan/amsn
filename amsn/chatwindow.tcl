@@ -512,10 +512,18 @@ namespace eval ::ChatWindow {
 		}
 
 		if { [::config::getKey savechatwinsize] } {
-			set geometry [wm geometry $window]
-			set pos_start [string first "+" $geometry]
+			if { [wm state $window] == "zoomed" } {
+				::config::setKey winmaximized 1
+			} else {
+				if { [wm state $window] == "normal" } {
+					::config::setKey winmaximized 0
+				}
 
-			::config::setKey winchatsize  [string range $geometry 0 [expr {$pos_start-1}]]
+				set geometry [wm geometry $window]
+				set pos_start [string first "+" $geometry]
+
+				::config::setKey winchatsize  [string range $geometry 0 [expr {$pos_start-1}]]
+			}
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -545,7 +553,15 @@ namespace eval ::ChatWindow {
 
 		#Save size of current container
 		if { [::config::getKey savechatwinsize] } {
-			::config::setKey wincontainersize  [string range $geometry 0 [expr {$pos_start-1}]]
+			if { [wm state $window] == "zoomed" } {
+				::config::setKey winmaximized 1
+			} else {
+				if { [wm state $window] == "normal" } {
+					::config::setKey winmaximized 0
+				}
+
+				::config::setKey wincontainersize  [string range $geometry 0 [expr {$pos_start-1}]]
+			}
 		}
 	
 		#If the window changed size use checkfortoomanytabs
@@ -794,7 +810,11 @@ namespace eval ::ChatWindow {
 					set ::BossMode(${win_name}) "normal"
 					wm state ${top_win} withdraw
 				} else {
-					wm state ${top_win} normal
+					if { [::config::getKey winmaximized 0] == 1 } {
+						wm state ${top_win} zoomed
+					} else {
+						wm state ${top_win} normal
+					}
 				}
 
 				wm deiconify ${top_win}
@@ -833,7 +853,11 @@ namespace eval ::ChatWindow {
 					set ::BossMode(${top_win}) "normal"
 					wm state ${top_win} withdraw
 				} else {
-					wm state ${top_win} normal
+					if { [::config::getKey winmaximized 0] == 1 } {
+						wm state ${top_win} zoomed
+					} else {
+						wm state ${top_win} normal
+					}
 				}
 
 				wm deiconify ${top_win}
@@ -1106,6 +1130,7 @@ namespace eval ::ChatWindow {
 		if {[catch { wm geometry $w [::config::getKey wincontainersize] } res]} {
 			wm geometry $w 350x390
 			::config::setKey wincontainersize 350x390
+			::config::setKey winmaximized 0
 			status_log "No config(winchatsize). Setting default size for chat window\n" red
 		}
 
@@ -1230,6 +1255,7 @@ namespace eval ::ChatWindow {
 		if {[catch { wm geometry $w [::config::getKey winchatsize] } res]} {
 			wm geometry $w 350x390
 			::config::setKey winchatsize 350x390
+			::config::setKey winmaximized 0
 			status_log "No config(winchatsize). Setting default size for chat window\n" red
 		}
 
@@ -4076,7 +4102,11 @@ namespace eval ::ChatWindow {
 			set ::BossMode(${top_win}) "normal"
 			wm state ${top_win} withdraw
 		} else {
-			wm state ${top_win} normal
+			if { [::config::getKey winmaximized 0] == 1 } {
+				wm state ${top_win} zoomed
+			} else {
+				wm state ${top_win} normal
+			}
 		}
 		
 		wm deiconify ${top_win}

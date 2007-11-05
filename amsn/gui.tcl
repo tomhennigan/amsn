@@ -3053,7 +3053,11 @@ namespace eval ::amsn {
 			set ::BossMode(${top_win}) "normal"
 			wm state ${top_win} withdraw
 		} else {
-			wm state ${top_win} normal
+			if { [::config::getKey winmaximized 0] == 1 } {
+				wm state ${top_win} zoomed
+			} else {
+				wm state ${top_win} normal
+			}
 		}
 
 		wm deiconify ${top_win}
