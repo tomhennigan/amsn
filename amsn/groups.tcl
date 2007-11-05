@@ -110,10 +110,9 @@ namespace eval ::groups {
 		foreach contact $contactlist {
 			set name [lindex $contact 0]
 			set passport [lindex $contact 1]
-			set passport2 [split $passport "@ ."]
-   		        set passport3 [join $passport2 "_"]
-			checkbutton $gpcontactsframe.w$passport3 -onvalue 1 -offvalue 0 -text " $name" -anchor w -variable [::config::getVar tempcontact_$passport3]
-			pack configure $gpcontactsframe.w$passport3 -side top -fill x
+			set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $passport]
+			checkbutton $gpcontactsframe.w$passport2 -onvalue 1 -offvalue 0 -text " $name" -anchor w -variable [::config::getVar tempcontact_$passport2]
+			pack configure $gpcontactsframe.w$passport2 -side top -fill x
 		}
 
 		frame $w.b 
@@ -127,9 +126,8 @@ namespace eval ::groups {
 				set pgc 0;
 				foreach contact [::abook::getAllContacts] {
 					if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
-						set passport2 [split $contact "@ ."]
-					    set passport3 [join $passport2 "_"]
-						::config::unsetKey tempcontact_$passport3
+						set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $passport]
+						::config::unsetKey tempcontact_$passport2
 					}
 				}
 				destroy .dlgag
@@ -149,9 +147,8 @@ namespace eval ::groups {
 			set pgc 0
 			foreach contact [::abook::getAllContacts] {
 				if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
-					set passport2 [split $contact "@ ."]
-				    set passport3 [join $passport2 "_"]
-					::config::unsetKey tempcontact_$passport3
+					set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $passport]
+					::config::unsetKey tempcontact_$passport2
 				}
 			}
 			destroy .dlgag;
@@ -690,14 +687,13 @@ namespace eval ::groups {
 		set gid [::groups::GetId $gname]
 		foreach contact [::abook::getAllContacts] {
 			if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
-				set passport2 [split $contact "@ ."]
-			    set passport3 [join $passport2 "_"]
-				if { [::config::getKey tempcontact_$passport3] == 1 } {
+				set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $contact]
+				if { [::config::getKey tempcontact_$passport2] == 1 } {
 					
 					set timer [expr {$timer + 250}]
 					after $timer [list ::MSN::copyUser $contact $gid]
 				}
-				::config::unsetKey tempcontact_$passport3
+				::config::unsetKey tempcontact_$passport2
 			}
 		}
 
