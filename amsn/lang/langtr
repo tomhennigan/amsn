@@ -27,6 +27,7 @@ alarmondisconnect Kullanýcý çýkýnca alarm çalsýn
 alarmonmsg Kullanýcý ileti gönderince alarm çalsýn
 alarmonstatus Kullanýcý durum deðiþtirince alarm çalsýn 
 alarmpref Kullanýcýnýn alarm ayarlarý
+alarmpref2 Tüm kullanýcýlar için alarm ayarlarý
 alarms Alarmlar
 alarmstatus Bu kullanýcý için alarmý aç/kapa
 allfiles Tüm Dosyalar
@@ -112,6 +113,7 @@ browserexample (\$url URL ile deðiþtirilecek) Örn: mozilla \$url
 bugerror Hatâ veritabanýna baðlanýrken sorun oluþtu. Ýnternet baðlantýnýzýn durumunu denetleyin.
 bugnocomment Hatâyla ilgili bir yorum yapmadýnýz. Bu bölümde yazacaklarýnýz bize neyin ters gittiðini görmemizde ve hatâyý daha kolay düzeltmemizde yardýmcý olur.
 busy Meþgul
+bytesymbol b
 cachedpics $1 saklanmýþ resim
 cachedpicsfor Bu kullanýcý için saklanmýþ resimler:
 cagreement Gizlilik Sözleþmesi
@@ -168,6 +170,7 @@ choosecontact Lütfen listeden bir baðlantý seçiniz
 choosedevice Lütfen bir aygýt seçýnýz
 choosefontcolor Yazi rengini seç
 chooseinputdev Ses kayýt aygýtýný seçiniz
+chooselocation Konum seçiniz
 choosemixerdev Karýþtýrýcý aygýtýný seçiniz
 chooseoutputdev Ses çýkýþ aygýtýný seçiniz
 chooseskin Lütfen kullanacaðýnýz kabuðu seçiniz
@@ -197,6 +200,7 @@ command Komut
 commandstatus Komutu çalýþtýr
 configure Ayarla
 configuremic Mikrofon ayarlanýyor
+configureplugin $1 eklentisini ayarla
 configuringaudio Ses ayarlanýyor
 confirm Emin misiniz?
 confirmbl Bu baðlantýyý engellemek istediðinizden emin misiniz?
@@ -296,11 +300,14 @@ docking Küçültme
 dockingoff Küçültme olsun
 dockkde KDE'de küçültme
 done Tamam
+dontaskweek Bir hafta boyunca güncelleme isteme
 dontdownload TLS'i indirme, kendim kuracaðým
 dontshow Gösterme
 dontshowdp Bu kullanýcý sizin yeni kullanýcý resminizi kaydedemesin
 download Ýndir
+downloadcanceled Ýndirme iptal edildi.
 downloadingtls TLS $1 \n adresinden alýnýyor
+downloadingwait Yeni aMSN sürümü alýnýyor. Lütfen bekleyin...
 edit Düzenle
 editavsettings Ses ve görüntü ayarlarýný deðiþtir
 editcontent Konu ve not alanlarýnýn içeriðini düzenle
@@ -328,6 +335,7 @@ enternick Rumuzunuzu girin
 enterpsm Kiþisel ileti
 error Hatâ
 errortls TLS kurulumunda sorun oluþtu:
+escapeclosescw Escape tuþu sohbet pencerelerini kapatsýn
 eventhistory Geçmiþ olaylara bak
 examples Örnekler
 exitamsn Çýkmak istediðinizden emin misiniz?
@@ -361,8 +369,8 @@ firewalled2 Güvenlik duvarý ardýndasýnýz; lütfen Seçenekler penceresinde Baðlant
 followtext Yeni metin girilince aþaði kaydýr
 forget_me Beni unut
 forgot_pass Þifremi unuttum
-formatctt CTT biçemi
 formatcsv CSV biçemi
+formatctt CTT biçemi
 friendlyname Sohbet içi rumuz
 ftaccepted Dosya aktarýmý kabul edildi
 ftacceptedby $1, '$2' dosyasý için yapýlan aktarým davetini kabul etti
@@ -415,6 +423,7 @@ hidemenumessage Menüleri gizlemek istediðinizden emin misiniz?\nMenüleri tekrar 
 hiden Gülen adamý menüden çýkar
 hidewindow Pencereyi gizle
 history Geçmiþi göster
+history2 Geçmiþ
 home Ev
 howto_remove_profile Kimliðinizi silmek ($1 kimliðini unutmak) için Seçenekler penceresini kullanmalýsýnýz.\n\nGüvenlik nedeniyle giriþ ekranýnda kimlik silme iþlemine izin verilmemektedir.
 httpconnection HTTP yöntemiyle baðlan (80. porttan HTTP protokolü kullanýr)
@@ -559,6 +568,7 @@ newmsg Yeni ileti
 newoim Yeni çevrimdýþý iletiler
 newstate Yeni özel durum ekle
 newtabbedfeature aMSN'de sohbet pencereleri düzeniyle ilgili bir yenilik var:\n Artýk ayný öbekten ya da tüm listeden baðlantýlarýn sohbetleri ayný pencerenin sekmelerinde gösterilebiliyor. \nLütfen aMSN'nin pencere yönetim þeklini seçiniz.
+newupdate aMSN için yeni güncellemeler var
 newveravailable Yeni $1 sürümü indirilmeye hazýr
 next Sonraki
 nick Rumuz
@@ -737,6 +747,10 @@ save Kaydet
 saveas Farklý kaydet
 savechatwinsize Sohbet penceresinin boyutu degiþtiðinde yeni boyutu varsayýlan olarak kaydet. 
 savecontacts Baðlantý listesini kaydet
+saveddefaultloc Öntanýmlý konuma kaydet
+savelocation Dosyayý $1 konumuna kaydetmek istiyor musunuz?
+savelocationerror Dosya bu konuma kaydedilemiyor.
+saveotherdirectory Baþka bir dizine kaydet
 savetofile Dosyaya kaydet
 says $1 diyor ki
 sbcon Switch Board'a baðlanýyor
@@ -891,6 +905,7 @@ uoffline Çevrim dýþý
 uonline Çevrim içi
 update Güncelle
 updateonlycurrentlanguage Yalnýzca þu an kullanýlan dili güncelle
+updatesaved Bitti.\n$1 dosyasý $2 konumuna kaydedildi.
 updating Güncelliyor
 useasdp Kullanýcý resmi olarak kullan
 useasregexp Düzenli ifade (regexp) olarak kullan
@@ -911,6 +926,7 @@ videoconversationrequest Az önce bir video görüþmesi (çift yönlü ses ve görüntü)
 view Görünüm
 viewcontactsby Baðlantý isimleri
 viewprofile Kimliði gör
+viewspace MySpace bilgilerini gör
 volume Ses düzeyi
 wanttosharecam Diðerleri kamera görüntümü alabilsin
 web Að
@@ -927,6 +943,7 @@ webcamextnotloaded Webcamsn eklentisi yüklenemedi. Eklentiyi derlemeniz gerekiyo
 webcamextwarn Baðlantýlarýnýzýn kamera görüntüsünü alamayacaksýnýz. Gerekli bazý eklentileri kurmak için Wiki sayfamýzda bilgi bulabilirsiniz:
 webcamfaq Kamera hakkýnda SSS/Yardým
 webcamhistory Kamera oturumlarýný gör
+webcamhistory2 Kamera oturumlarý
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
 webcaminvitereceived $1 sizi kamera oturumu açmaya davet etti. Kabul ediyor musunuz?
 webcaminvitereceiving $1 size kamera görüntüsünü yollamak istiyor. Kabul ediyor musunuz?
