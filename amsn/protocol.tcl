@@ -5477,6 +5477,17 @@ proc cmsn_ns_handler {item {message ""}} {
 				::amsn::errorMsg "[trans baduserpass]"
 				return 0
 			}
+			928 {
+				# Apparently, the server said invalid passport, so this server was probably cached and your account
+				# was moved to another server (http://www.amsn-project.net/forums/viewtopic.php?p=24823)
+				# We'll ask the default_ns_server for a new NS that accepts our passport.
+			
+				status_log "Account was probably moved to a different server, NS says invalid passport, changing cached server to default"
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
+				::MSN::saveOldStatus
+				::MSN::logout
+				::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable	
+			}
 			931 {  ;#this server doesn't know about that account
 				status_log "Account was moved to a different server, changing cached server to default"
 				::config::setKey start_ns_server [::config::getKey default_ns_server]

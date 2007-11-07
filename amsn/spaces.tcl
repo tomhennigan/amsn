@@ -605,7 +605,7 @@ namespace eval ::ccard {
 		set dock_img [::skin::loadPixmap spaces_dock]
 		set xbegin [expr {290 - [image width $dock_img]}]
 		CreateButton $canvas spaces_dock $dock_img $dock_img $xbegin \
-		    "::ccard::closewindow; [list ::guiContactList::toggleSpaceShown $email]" "[trans spaces_dock]" bottom $email
+		    "[list after 2000 ::ccard::closewindow]; [list ::guiContactList::toggleSpaceShown $email]" "[trans spaces_dock]" bottom $email
 
 
 	}
