@@ -27,6 +27,7 @@ alarmondisconnect Benachrichtigung, wenn der Kontakt sich abmeldet
 alarmonmsg Benachrichtigung, wenn der Kontakt mir eine Nachricht sendet
 alarmonstatus Benachrichtigung, wenn der Kontakt seinen Status ändert
 alarmpref Benachrichtigung für diesen Kontakt konfigurieren
+alarmpref2 Benachrichtigungs einstellung für jeden Kontakt
 alarms Benachrichtigungen
 alarmstatus Benachrichtigung für diesen Kontakt an-/ausschalten
 allfiles Alle Dateien
@@ -112,6 +113,7 @@ browserexample (\$url wird ersetzt durch URL). Bsp.: mozilla \$url
 bugerror Leider gab es ein Problem beim Verbinden mit der Bug-Datenbank. Bitte prüfen Sie Ihre Internetverbindung.
 bugnocomment Ohne Kommentar senden? Das Kommentieren eines Bugs hilft uns, den Fehler ausfindig zu machen und ihn zu beheben.
 busy Beschäftigt
+bytesymbol b
 cachedpicsfor Gespeicherte Anzeigebilder von
 cachedpics Gespeicherte Bilder $1
 cagreement Vertrauensabkommen
@@ -168,6 +170,7 @@ choosecontact Bitte wählen Sie einen Kontakt aus der Liste
 choosedevice Bitte wählen Sie ein Gerät
 choosefontcolor Schriftfarbe auswählen
 chooseinputdev Wählen Sie das Eingabegerät aus
+chooselocation Wähle ein neues Dateien Verzeichniss
 choosemixerdev Wählen Sie den Mixer aus
 chooseoutputdev Wählen Sie das Ausgabegerät aus
 chooseskin Bitte wähle einen Skin aus
@@ -197,6 +200,7 @@ command Befehl
 commandstatus Befehl ausführen
 configure Einstellen
 configuremic Mikrofon einrichten
+configureplugin Einstellung des Plugins Ändern $1
 configuringaudio Audiogeräte einrichten
 confirmbl Wollen Sie den Kontakt wirklich blockieren?
 confirmdelete $1 wirklich löschen?
@@ -296,11 +300,14 @@ docking Festankern eingeschaltet
 dockingoff Festankern ausgeschaltet
 dockkde In KDE verankern
 done Fertig
+dontaskweek Don't Keine Update anfrage für eine Woche
 dontdownload TLS nicht herunterladen, ich installiere es selbst
 dontshowdp Das eigene Anzeigebild für diesen Kontakt sperren
 dontshow Nicht anzeigen
 download Herunterladen
+downloadcanceled Herrunterladen Abbrechen
 downloadingtls Lade TLS Modul herunter:\n $1
+downloadingwait Läd eine neue aMSN version Bitte warten...
 editavsettings Audio- und Video-Assistent starten
 editcontent Bearbeiten Sie den Inhalt des Betreff- und des Notiz-Feldes
 editcustomstate Benutzerdefinierten Status ändern
@@ -328,6 +335,7 @@ enternick Geben Sie Ihren Spitznamen ein
 enterpsm Persönliche Nachricht
 error Fehler
 errortls Fehler bei der Installation des TLS Moduls:
+escapeclosescw Escape Taste schließt das fenster
 eventhistory Ereignisprotokoll anzeigen
 examples Beispiele
 exitamsn Wirklich beenden?
@@ -336,6 +344,7 @@ faileddelete Löschen schlug fehl
 faileddeleteperso Dieses Bild konnte nicht gelöscht werden, da es keine persönliche Bilddatei ist. Auf diese Weise können nur Bilder entfernt werden, die zu Ihrem persönlichen Profil gehören
 failed Fehlgeschlagen
 faq Häufig gestellte Fragen
+fetching Fetching data...
 file Datei
 filedoesnotexist Datei nicht vorhanden
 fileman Dateimanager
@@ -360,6 +369,8 @@ firewalled Sie sind hinter einer Firewall oder einem Router
 followtext Herunterrollen wenn neuer Text eingegeben wird
 forget_me (Anmeldeinformationen löschen)
 forgot_pass Kennwort vergessen?
+formatctt CTT format
+formatcsv CSV format
 friendlyname Spitzname innerhalb von Unterhaltungen
 ftaccepted Übertragung angenommen
 ftacceptedby $1 akzeptiert die Einladung zum Transfer der Datei "$2"
@@ -412,6 +423,7 @@ hidemenumessage Sind Sie sich sicher, dass Sie die Menüs verstecken möchten?\nSi
 hiden Emoticons aus dem Emoticon-Menü verbergen
 hidewindow Fenster verbergen
 history Verlauf ansehen
+history2 Protokoll
 home Start
 howto_remove_profile Das Löschen Ihres Profils (Anmeldeinformationen von $1 löschen) ist nur über die Einstellungen möglich.\n\nAus Sicherheitsgründen können Profile nicht über das Login-Fenster gelöscht werden.
 httpconnection Verbinde mit der HTTP-Methode (verwendet das HTTP Protokoll mit Port 80)
@@ -556,6 +568,7 @@ newmsg Neue Nachricht
 newoim Neue Offline-Nachricht(en)
 newstate Benutzerdefinierten Status hinzufügen
 newtabbedfeature aMSN hat ein neues Feature zum Verwalten von Unterhaltungen: Es ist nun möglich, alle Ihre Fenster derselben Gruppe oder der gesamten Kontaktliste in einem einzigen Fenster mit Tabulatoren zu gruppieren. Bitte wählen Sie die Weise, in der aMSN Ihre Unterhaltungen verwalten soll
+newupdate Neue Updates verfügbar aMSN
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 nick Spitzname
@@ -581,6 +594,7 @@ normal Normal
 noskins Standard-Verzeichnis der Skins konnte nicht im "skins/" Verzeichnis gefunden werden. aMSN kann nicht starten
 nosound Es wurde kein Geräusch festgestellt. Bitte überprüfen Sie, dass Ihr Mikrofon korrekt eingesteckt ist.
 nosound_or_hold Es wurde kein Sound erkannt. Um einen Sprachclip zu senden, müssen Sie den Knopf drücken, während des Sprechens gedrückt halten und dann loslassen, um die Nachricht zu senden.
+nospace Hier ist nichts zu sehen
 nosystemtray Systemablage nicht verfügbar
 note Notiz
 notificationserver Anfänglicher MSN Nachrichten-Server (MSN Messenger Server)
@@ -732,7 +746,11 @@ rightback Bin gleich zurück
 saveas Speichern unter
 savechatwinsize Chat-Fenstergröße speichern wenn die Fenstergröße verändert wird
 savecontacts Kontaktliste speichern
+saveddefaultloc Im Standart Verzeichnis Speichern
 save Speichern
+savelocation Willst du die Datei hier speichern $1?
+savelocationerror Die Datei kann nicht hier gespeichert werden
+saveotherdirectory In einem anderen Verzeichnis speichern
 savetofile Speichern unter
 says $1 sagt
 sbcon Verbinde mit Server
@@ -869,6 +887,7 @@ today Heute
 tomobile An Mobilgerät
 tools Extras
 tooltips Tooltips zulassen
+totalsize Datei größe
 transnotexists Die gewünschte Datei wurde noch nicht in die aktuelle Sprache übersetzt
 trayicon System-Icon aktivieren
 traynotcompiled Ablage Icon Plugin ist nicht compiliert. Überprüfen Sie Plugins/Ablageanker
@@ -886,6 +905,7 @@ uoffline Offline
 uonline Online
 updateonlycurrentlanguage Nur die aktuelle Sprache updaten
 update Updaten
+updatesaved Fertig...Gespeichert $1 im Verzeichniss $2.
 updating Update wird ausgeführt
 useasdp Als Anzeigebild verwenden
 useasregexp Als regulären Ausdruck verwenden (Regexp)
@@ -906,6 +926,7 @@ videoconversationrequest Sie haben soeben eine Anforderung zu einer Videounterha
 view Ansicht
 viewcontactsby Kontakte filtern nach
 viewprofile Profil ansehen
+viewspace View space items
 volume Lautstärke
 wanttosharecam Ich möchte meine Webcam anderen zugänglich machen
 webcamcanceled Die Webcam-Sitzung mit $1 wurde abgebrochen
@@ -920,6 +941,7 @@ webcamextnotloaded Webcamsn-Erweiterung ist nicht geladen. Sie müssen sie kompil
 webcamextwarn Sie werden keine Webcam-Übertragungen Ihrer Kontakte sehen können. Eine Anleitung zum Installieren der benötigten Programmerweiterung könnten Sie in unserem Wiki (auf Englisch) finden:
 webcamfaq FAQ/Hilfe zur Webcam
 webcamhistory Webcam-Sitzungen anzeigen
+webcamhistory2 Webcam Protokoll
 webcaminvite $1 hat Sie zu einer Webcam Sitzung eingeladen. Leider unterstützt aMSN diese Funktion nicht
 webcaminvitereceived $1 hat Sie eingeladen, eine Webcam-Sitzung zu starten. Möchten Sie diese Einladung akzeptieren?
 webcaminvitereceiving Sie wurden eingeladen, das Webcam-Bild von $1 zu empfangen. Möchten Sie diese Sitzung akzeptieren?
