@@ -265,7 +265,7 @@ namespace eval ::ChatWindow {
 		} elseif {[::config::isSet closeChatWindowWithTabs]} {
 			::ChatWindow::CloseTab $currenttab
 		} else {
-			set result [::amsn::customMessageBox [trans closeall] yesnocancel question [trans title] $window 1 1]
+			set result [::amsn::customMessageBox [trans closeall] yesnocancel question [trans title] $window 1 1 "ContainerClose"]
 			set answer [lindex $result 0]
 			set rememberAnswer [lindex $result 1]
 			

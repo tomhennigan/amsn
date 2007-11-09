@@ -708,15 +708,21 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	
 	#///////////////////////////////////////////////////////////////////////////////
-	proc customMessageBox { message type {icon ""} {title ""} {parent ""} {askRememberAnswer 0} {modal 0}} {
+	proc customMessageBox { message type {icon ""} {title ""} {parent ""} {askRememberAnswer 0} {modal 0} {uniqueId ""}} {
 		# This tracker is so we can TkWait. It needs to be global so that the buttons can modify it.
 		global customMessageBoxAnswerTracker
 		# This is the tracker for the checkbox.
 		# It needs to be an array because we may have more than one message box open (hence the unique index). 
 		global customMessageBoxRememberTracker
 
-		set unique [clock seconds]
-		set w ".messagebox_$unique"
+		if {$uniqueId == ""} {
+			set uniqueId [clock seconds]
+		} else {
+			if {[winfo exists ".messagebox_$uniqueId"]} {
+				return "duplicate"
+			}
+		}
+		set w ".messagebox_$uniqueId"
 
 		if { [winfo exists $w] } {
 			raise $w
@@ -746,7 +752,7 @@ namespace eval ::amsn {
 		label $w.top.message -text $message -wraplength 400 -justify left
 		pack $w.top.message -pady 0 -padx 0 -side top
 		if {$askRememberAnswer} {
-			checkbutton $w.top.remember -variable customMessageBoxRememberTracker($unique) \
+			checkbutton $w.top.remember -variable customMessageBoxRememberTracker($uniqueId) \
 				-text [trans remembersetting] -anchor w -state normal
 
 			pack $w.top.remember -pady 5 -padx 10 -side bottom -fill x
@@ -782,13 +788,13 @@ namespace eval ::amsn {
 			}
 		}
 
-		set customMessageBoxAnswerTracker($unique) ""
+		set customMessageBoxAnswerTracker($uniqueId) ""
 
 		#Create the buttons
 		foreach button $buttons {
 			set buttonName [lindex $button 0]
 			set buttonLabel [lindex $button 1]
-			button $w.buttons.$buttonName -text $buttonLabel -command [list set customMessageBoxAnswerTracker($unique) $buttonName]
+			button $w.buttons.$buttonName -text $buttonLabel -command [list set customMessageBoxAnswerTracker($uniqueId) $buttonName]
 			pack $w.buttons.$buttonName -pady 0 -padx 0 -side right
 		}
 
@@ -798,7 +804,7 @@ namespace eval ::amsn {
 
 		moveinscreen $w 30
 		bind $w <<Escape>> "destroy $w"
-		wm protocol $w WM_DELETE_WINDOW [list set customMessageBoxAnswerTracker($unique) ""]
+		wm protocol $w WM_DELETE_WINDOW [list set customMessageBoxAnswerTracker($uniqueId) ""]
 
 		set oldgrab ""
 		if { $modal } {
@@ -806,7 +812,7 @@ namespace eval ::amsn {
 			grab set $w
 		}
 
-		tkwait variable customMessageBoxAnswerTracker($unique)
+		tkwait variable customMessageBoxAnswerTracker($uniqueId)
 
 		if { $oldgrab != "" } {
 			grab set $oldgrab
@@ -814,12 +820,12 @@ namespace eval ::amsn {
 
 		catch { destroy $w }
 		if {$askRememberAnswer} {
-			set answer [list $customMessageBoxAnswerTracker($unique) $customMessageBoxRememberTracker($unique)]
-			unset customMessageBoxAnswerTracker($unique)
-			unset customMessageBoxRememberTracker($unique)
+			set answer [list $customMessageBoxAnswerTracker($uniqueId) $customMessageBoxRememberTracker($uniqueId)]
+			unset customMessageBoxAnswerTracker($uniqueId)
+			unset customMessageBoxRememberTracker($uniqueId)
 		} else {
-			set answer $customMessageBoxAnswerTracker($unique)
-			unset customMessageBoxAnswerTracker($unique)
+			set answer $customMessageBoxAnswerTracker($uniqueId)
+			unset customMessageBoxAnswerTracker($uniqueId)
 		}
 
 		return $answer
