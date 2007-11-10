@@ -159,10 +159,10 @@ proc SOCKSSocket { args } {
 		if {[::config::getKey connectiontype] == "direct" } {
 			install proxy using ProxyDirect %AUTO% -name $self
 		} elseif {[::config::getKey connectiontype] == "http" } {
-			install proxy using ProxyHTTP %AUTO% -name $self
+			install proxy using ProxyHTTP %AUTO% -name $self -direct 1
 		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" && 
 			   [::config::getKey http_proxy_use_gateway 1]} {
-			install proxy using ProxyHTTP %AUTO% -name $self
+			install proxy using ProxyHTTP %AUTO% -name $self -direct 0
 		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" && 
 			   ![::config::getKey http_proxy_use_gateway 1]} {
 			install proxy using ProxyDirect %AUTO% -name $self
@@ -469,6 +469,7 @@ proc SOCKSSocket { args } {
 #Connection wrapper for HTTP connection or http proxy
 ::snit::type ProxyHTTP {
 
+	option -direct
 	option -name
 	option -proxy_queued_data
 	option -proxy_session_id
@@ -524,7 +525,11 @@ proc SOCKSSocket { args } {
 			set strend [expr {$size -1 }]
 			set options(-proxy_queued_data) [string replace $options(-proxy_queued_data) 0 $strend]
 
-			set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"
+			if { $options(-direct) } {
+				set tmp_data "POST /gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"
+			} else {
+				set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"
+			}
 			set tmp_data "$tmp_data\r\nAccept: */*"
 			set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
 			set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -813,7 +818,11 @@ proc SOCKSSocket { args } {
 			set server "SB"
 		}
 
-		set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1"
+		if { $options(-direct) } {
+			set tmp_data "POST /gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1"
+		} else {
+			set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1"
+		}
 		set tmp_data "$tmp_data\r\nAccept: */*"
 		set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
 		set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
@@ -992,7 +1001,12 @@ proc SOCKSSocket { args } {
 		} else {
 			if { $old_proxy_session_id != ""} {
 
-				set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"
+				if { $options(-direct) } {
+					set tmp_data "POST /gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"
+				} else {
+					set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"
+				}
+				
 				set tmp_data "$tmp_data\r\nAccept: */*"
 				set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
 				set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
