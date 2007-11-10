@@ -201,6 +201,7 @@ if { $initialize_amsn == 1 } {
 	}
 	::skin::setKey balloonfont sboldf
 	::skin::setKey balloonborder #000000
+	::skin::setKey balloonalpha 0.9
 
 	::skin::setKey assistanttitleheight 50
 	::skin::setKey assistanttitlefg #FFFFFF
@@ -353,8 +354,7 @@ namespace eval ::amsn {
 		option add *Combobox.buttonBackground [::skin::getKey extrastdbgcolor]
 		option add *Combobox.background [::skin::getKey extrastdbgcolor]
 
-		if { ![catch {tk windowingsystem} wsystem] && $wsystem  == "x11" } {
-
+		if { ![OnMac] } {
 			option add *borderWidth 1 widgetDefault
 			option add *activeBorderWidth 1 widgetDefault
 			option add *selectBorderWidth 1 widgetDefault
@@ -456,7 +456,7 @@ namespace eval ::amsn {
 			option add *Button.Font macfont userDefault
 			option add *Button.highlightBackground #ECECEC userDefault
 		} elseif { [OnWin] } {
-			option add *background [::skin::getKey extrastdwindowcolor]
+			#option add *background [::skin::getKey extrastdwindowcolor]
 			option add *Scrollbar.width 14 userDefault
 			option add *Button.Font sboldf userDefault
 		}
