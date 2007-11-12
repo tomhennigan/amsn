@@ -3746,6 +3746,10 @@ namespace eval ::ChatWindow {
 		variable containerwindows
 		variable visibletabs
 		variable win2tab
+		if { ![info exists containerwindows($container)] } {
+			return
+		}
+
 		set bar_w [winfo width ${container}.bar]
 		set tab_w [image width [::skin::loadPixmap tab]]
 
