@@ -27,6 +27,7 @@ alarmondisconnect Ativar alarme quando este usuário ficar offline/invisível
 alarmonmsg Ativar alarme quando este usuário te enviar uma mensagem
 alarmonstatus Ativar alarme quando este usuário mudar de estado
 alarmpref Configurações de Alarme Para Usuário Específico
+alarmpref2 Configurações de alarme para cada contato
 alarms Alarmes
 alarmstatus Habilitar alarme para este usuário
 allfiles Todos os Arquivos
@@ -112,6 +113,7 @@ browser Navegador web
 bugerror Desculpe, mas não foi possível conectar ao banco de dados de bugs. Por favor verifique sua conexão com a Internet.
 bugnocomment Enviar sem comentar? Comentar o bug nos ajuda a descobrir o que houve de errado e como corrigir o erro mais facilmente.
 busy Ocupado
+bytesymbol b
 cachedpics $1 figuras em cache
 cachedpicsfor Imagens arquivadas para o usuário
 cagreement Aceitação de Privacidade
@@ -168,6 +170,7 @@ choosecontact Por favor escolha um contato da lista
 choosedevice Por favor escolha um dispositivo
 choosefontcolor Escolher cor da fonte
 chooseinputdev Escolha seu dispositivo de entrada
+chooselocation Escolha a localização para o novo arquivo
 choosemixerdev Escolha seu mixer
 chooseoutputdev Escolha seu dispositivo de saída
 chooseskin Por favor escolha a skin que deseja usar
@@ -198,6 +201,7 @@ commandstatus Executar comando
 configure Configurar
 configuremic Configurando seu microfone
 configuringaudio Configurando opções de áudio
+configureplugin Configurar plugin $1
 confirmbl Você tem certeza de que quer bloquear esse contato?
 confirmdelete Você tem certeza de que quer apagar $1?
 confirmdg Você tem certeza de que quer apagar este grupo?
@@ -296,11 +300,14 @@ docking Ícone na bandeja do sistema
 dockingoff Ícone na bandeja do sistema desativado
 dockkde Minimizar na bandeja do KDE
 done Feito
+dontaskweek Não perguntar por atualizações novamente durante uma semana
 dontdownload Não efetuar download do TLS, eu mesmo o farei
 dontshowdp Não deixe este usuário baixar suas novas imagens
 dontshow Não exibir
 download Download
+downloadcanceled Download cancelado.
 downloadingtls Efetuando download do módulo TLS de:\n $1
+downloadingwait Fazendo download da nova versão do amsn. Por favor, aguarde...
 editavsettings Editar opções de áudio e vídeo
 editcontent Altere o contéudo do campo de assunto e do campo de nota
 editcustomstate Editar estado personalizado
@@ -328,6 +335,7 @@ enternick Digite seu apelido
 enterpsm Mensagem pessoal
 error Erro 
 errortls Erro ao instalar módulo TLS:
+escapeclosescw Tecla ESC fecha a janela de chat
 eventhistory Exibir histórico de eventos
 examples Exemplos
 exitamsn Você tem certeza de que deseja sair?
@@ -336,6 +344,7 @@ faileddelete Falha na exclusão
 faileddeleteperso Esta imagem não pôde ser excluída porque ela não pertence ao seu perfil. Apenas imagens que pertençam ao seu perfil pessoal podem ser removidas deste modo.
 failed Falha
 faq FAQ (Perguntas Freqüentes)
+fetching Recebendo dados...
 file Arquivo
 filedoesnotexist O arquivo não existe
 filemanexample (\$local será substituído pelo diretório). Ex: nautilus \$local
@@ -414,6 +423,7 @@ hidemenu Mostrar/Econder menu
 hiden Esconde os emoticons do menu de Smileys
 hidewindow Esconder a Janela
 history Ver histórico
+history2 Histórico
 home Casa
 howto_remove_profile Para deletar seu profile (esqueça $1) você precisa fazer através da janela de preferências. \n\nPor razões de segurança, apagar o perfil da tela de login não é permitido.
 httpconnection Conectar usando método HTTP (usa o protocolo HTTP na porta 80)
@@ -558,6 +568,7 @@ newmsg Nova mensagem
 newoim Novas mensagens offline
 newstate Adicionar estado personalizado
 newtabbedfeature O aMSN tem uma nova ferramenta para gerenciar conversas: agora você pode ter, em uma única janela com abas, todas as janelas do mesmo grupo ou de toda a sua lista de contatos. Por favor, escolha a forma como o aMSN deve gerenciar suas conversas
+newupdate Nova atualização disponível para o aMSN
 newveravailable Nova versão $1 disponível para download
 next Próximo
 nick Apelido
@@ -583,6 +594,7 @@ normal Normal
 noskins Não foi possível encontrar a skin padrão na pasta skins/. Não é possível iniciar o aMSN
 nosound Nenhum som foi detectado, tenha certeza que seu seu microfone está corretamente conectado.
 nosound_or_hold O som não foi detectado. Para enviar um Clip de voz é preciso apertar e segurar o botão enquatno estiver falando e soltar para enviar a mensagem.
+nospace Nada para ver aqui
 nosystemtray A bandeja do sistema não está disponível
 note Comentário
 notificationserver Servidor Inicial de Notificação do MSN (Servidor MSN Messenger)
@@ -735,6 +747,10 @@ saveas Salvar como
 savechatwinsize Salvar o tamanho da janela como padrão quando redimensionada
 savecontacts Salvar lista de contatos
 save Salvar
+saveddefaultloc Salve no local padrão
+savelocation Você quer salvar o arquivo em $1?
+savelocationerror O arquivo não pode ser salvo neste lugar.
+saveotherdirectory Salve em outro diretório
 savetofile Salvar para arquivo
 says $1 diz
 sbcon Conectando ao "Switch Board"
@@ -889,6 +905,7 @@ uoffline Desconectado
 uonline Conectado
 update Atualizar
 updateonlycurrentlanguage Atualize apenas a linguagem corrente
+updatesaved Feito\n Salvo $1 em $2.
 updating Atualizando
 useasdp Usar como sua própria figura
 useasregexp Usar como expressão regular (regexp)
@@ -908,6 +925,7 @@ version Versão
 videoconversationrequest Você recebeu um pedido de videoconferência (áudio e vídeo bidirecional). Isto ainda não é suportado pelo aMSN e por isso foi cancelado. Entretando, você pode continuar usando a conversa padrão pela webcam.
 viewcontactsby Visualizar contatos por
 viewprofile Ver Perfil
+viewspace Visualizar itens de espaço
 view Visualizar
 volume Volume
 wanttosharecam Eu quero fazer minha câmera disponível para os outros
@@ -923,6 +941,7 @@ webcamextnotloaded A extensão Webcam não foi carregada. Você deve compilá-la.
 webcamextwarn Você não poderá ver a webcam do seu contato. Você poderá encontrar respostar de como instalar extensões no nosso Wiki:
 webcamfaq FAQ/Ajuda para Webcam
 webcamhistory Ver conversas antigas com a webcam
+webcamhistory2 Sessões de Webcam
 webcaminvite $1 convidou você a iniciar uma sessão com webcam, mas o aMSN não suporta este recurso
 webcaminvitereceived $1 te convidou para iniciar uma sessão de webcam. Voce quer aceitar a sessão?
 webcaminvitereceiving Você foi convidado pra iniciar uma webcam com $1 . Quer aceitar?
