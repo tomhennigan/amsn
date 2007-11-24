@@ -4137,7 +4137,10 @@ namespace eval ::Event {
 			}
 
 			text/x-msmsgscontrol {
-				::MSN::addSBTyper $self $typer
+				set typer_real [$message getHeader TypingUser]
+				if { ($typer == $typer_real) || ($typer_real == "") } {
+					::MSN::addSBTyper $self $typer
+				}
 			}
 
 			text/x-msmsgsinvite {
