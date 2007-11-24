@@ -297,25 +297,34 @@ namespace eval ::Nudge {
 		set index22 [string first "-" $geometry [expr $index1 + 1]]
 		if {$index21 == -1} {set index2 $index22} {set index2 $index21}
 		#set index2 [string last "+" $geometry]
-		set x [string range $geometry [expr $index1 + 1] [expr $index2 -1]]
-		set y [string range $geometry [expr $index2 + 1] end]
 		
 		#Make the window shake until we have reached the number of times to shake
 		#I added catch to avoid bug if we close the chatwindow before the end of the nudge
+		#If catch is not called in the loop before functions dealing with the window then if
+		#the window is closed while the window is still vibrating an error will be produced 
 		for {set i 0} {$i < $n && [winfo exists $window] } {incr i} {
-			
-			catch {wm geometry $window +[expr $x + 10]+[expr $y + 8]}
+			catch {set geometry [wm geometry $window]}
+			set x [string range $geometry [expr $index1 + 1] [expr $index2 -1]]
+			set y [string range $geometry [expr $index2 + 1] end]
+			catch {wm geometry $window +[expr $x+10]+[expr $y +8]}
 			update
 			after 10
-			catch {wm geometry $window +[expr $x + 15 ]+[expr $y + 1]}
+			catch {set geometry [wm geometry $window]}
+			set x [string range $geometry [expr $index1 + 1] [expr $index2 -1]]
+			set y [string range $geometry [expr $index2 + 1] end]
+			catch {wm geometry $window +[expr $x +5 ]+[expr $y-7]}
 			update
 			after 10
-			catch {wm geometry $window +$x+$y}
+			catch {set geometry [wm geometry $window]}
+			set x [string range $geometry [expr $index1 + 1] [expr $index2 -1]]
+			set y [string range $geometry [expr $index2 + 1] end]
+			catch {wm geometry $window +[expr $x -15]+[expr $y -1]}
 			update
-			after 10	
+			after 10 
 		}
-		::Nudge::log "Window shaked $n times"
+		::Nudge::log "Window shook $n times"
 	}
+
 	################################################
 	# ::Nudge::sendbutton event epvar              #
 	# -------------------------------------------  #
