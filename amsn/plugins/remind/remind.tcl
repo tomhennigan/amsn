@@ -164,8 +164,15 @@ proc ShowLastSentences { chatid email } {
 					incr aidx 10
 					# Else, it is the system with LNOR, LGRA...
 				} else {
-					set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
-					incr aidx 6
+					if {[string range $line $aidx [expr {$aidx + 6}]] == "\|\"LTIME"  } {
+						#it is a time in [clock seconds]
+						incr aidx 7
+						#add formated date/time stamp to the log output
+						 ::remind::WinWrite $chatid "[::log::LogDateConvert [string range $line $aidx [expr {$aidx + 9} ] ] ]" $color
+						incr aidx 10						} else {
+						set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
+						incr aidx 6
+					}
 				}
 				set bidx [string first "\|\"L" $line $aidx]
 			}

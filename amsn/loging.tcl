@@ -245,9 +245,9 @@ namespace eval ::log {
 		status_log "DEBUG: Closing log file for $email\n"
 		if { [LogArray $email get] != 0 } {
 			if { $who == 1 } {
-				puts -nonewline [LogArray $email get] "\|\"LRED\[[trans lclosedwin $email [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n\n"
+				puts -nonewline [LogArray $email get] "\|\"LRED\[[trans lclosedwin $email [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n\n" 
 			} else {
-				puts -nonewline [LogArray $email get] "\|\"LRED\[[trans luclosedwin [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n\n"
+				puts -nonewline [LogArray $email get] "\|\"LRED\[[trans luclosedwin [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n\n" 
 			}
 			close [LogArray $email get]
 		}
@@ -334,7 +334,7 @@ namespace eval ::log {
 				}
 			}
 			if {$OIMStamp == 0 } {
-				puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
+				puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds] $txt"
 			} else {
 				puts -nonewline $fileid "\|\"LGRA$OIMStamp $txt"				
 			}
@@ -343,14 +343,14 @@ namespace eval ::log {
 			set fileid [LogArray $email get]
 			if { $fileid != 0 } {
 				if {[::OIM_GUI::IsOIM $email] || $OIMStamp != 0} {
-					puts -nonewline $fileid "\|\"LRED\[[trans lconvstartedOIM [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
+					puts -nonewline $fileid "\|\"LRED\[[trans lconvstartedOIM \|\"LTIME[clock seconds] ]\]\n"
 				} elseif { $conf == 0 } {
-					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
+					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted \|\"LTIME[clock seconds] ]\]\n"
 				} else {
-					puts -nonewline $fileid "\|\"LRED\[[trans lenteredconf $email [clock format [clock seconds] -format "%d %b %Y %T"]] \(${users}\) \]\n"
+					puts -nonewline $fileid "\|\"LRED\[[trans lenteredconf $email \|\"LTIME[clock seconds] ]\(${users}\) \]\n"
 				}
 				if {$OIMStamp == 0 } {
-					puts -nonewline $fileid "\|\"LGRA[timestamp] $txt"
+					puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds] $txt"
 				} else {
 					puts -nonewline $fileid "\|\"LGRA$OIMStamp $txt"				
 				}
@@ -1207,7 +1207,29 @@ namespace eval ::log {
 		
 		wm title $w "[trans webcamhistory2] (${email} - $size)"
 
-	}	
+	}
+
+
+
+	#///////////////////////////////////////////////////////////////////////////////
+	#LogDateConvert
+	#takes clock seconds and returns the date and time using the user's prefered date format
+	#
+	#
+
+	proc LogDateConvert { time } {
+		if { $time != "" } {
+			set part1 "[string tolower "[string index "[::config::getKey dateformat]]" 0 ]" ]"
+			set part2 "[string tolower "[string index "[::config::getKey dateformat]]" 1 ]" ]"
+			set part3 "[string tolower "[string index "[::config::getKey dateformat]]" 2 ]" ]"
+			return  "[::config::getKey leftdelimiter][ clock format $time -format "%$part1/%$part2/%$part3 %T"][::config::getKey rightdelimiter]"
+		} else {
+		return ""
+		}
+	}
+
+
+	
 	#///////////////////////////////////////////////////////////////////////////////
 	# ParseLog (wname logvar)
 	# Decodes the log file and writes to log window
@@ -1252,8 +1274,16 @@ namespace eval ::log {
 						incr aidx 10
 						# Else, it is the system with LNOR, LGRA...
 					} else {
+						if {[string range $line $aidx [expr {$aidx + 6}]] == "\|\"LTIME"  } {
+							#it is a time in [clock seconds]
+							incr aidx 7
+							#add formated date/time stamp to the log output
+							lappend result "[ LogDateConvert "[string range $line $aidx [ expr { $aidx + 9 } ] ] " ]" [list $color]
+							incr aidx 10
+						} else {
 						set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
 						incr aidx 6
+						}
 					}
 					set bidx [string first "\|\"L" $line $aidx]
 				}
@@ -1481,7 +1511,7 @@ namespace eval ::log {
 		::log::OpenLogEvent
 		set fileid [LogArray eventlog get]
 		if {$fileid != 0 } {
-			catch {puts -nonewline $fileid "\|\"LGRA[timestamp] \|\"LNOR: $txt\n" }
+			catch {puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds] \|\"LNOR: $txt\n" }
 		}
 		::log::CloseLogEvent
 	}
@@ -1553,7 +1583,7 @@ namespace eval ::log {
 				::log::OpenLogEvent
 				set fileid [LogArray eventlog get]
 				if {$fileid != 0 } {
-					catch {puts -nonewline $fileid "\|\"LRED[timestamp] [trans connectedwith [::config::getKey login]]\n"}
+					catch {puts -nonewline $fileid "\|\"LRED \|\"LTIME[clock seconds] [trans connectedwith [::config::getKey login]]\n"}
 				}
 				::log::CloseLogEvent
 			}
@@ -1573,7 +1603,7 @@ namespace eval ::log {
 			::log::OpenLogEvent
 			set fileid [LogArray eventlog get]
 			if { $fileid != 0 } {
-				catch {puts -nonewline $fileid "\|\"LRED[timestamp] [trans disconnectedfrom [::config::getKey login]]\n\n"}
+				catch {puts -nonewline $fileid "\|\"LRED \|\"LTIME[clock seconds] [trans disconnectedfrom [::config::getKey login]]\n\n"}
 			}
 
 			::log::CloseLogEvent
@@ -1616,11 +1646,11 @@ namespace eval ::log {
 				StartLog $email
 				set fileid [LogArray $email get]
 				if { $fileid != 0 } {
-					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted [clock format [clock seconds] -format "%d %b %Y %T"]]\]\n"
-					puts -nonewline $fileid "\|\"LGRA[timestamp]\|\"LGRE $txt\n"
+					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted \|\"LTIME[clock seconds]]\]\n"
+					puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds]\|\"LGRE $txt\n"
 				}
 			} else {
-				puts -nonewline $fileid "\|\"LGRA[timestamp]\|\"LGRE $txt\n"
+				puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds]\|\"LGRE $txt\n"
 			}
 		}
 		
