@@ -5470,7 +5470,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				status_log "Error: Weird PSM\n" red
 				::abook::setPersonal PSM ""
 				::MSN::logout
-				::MSN::reconnect 
+				::MSN::reconnect ""
 			}
 			911 {
 				#set password ""
