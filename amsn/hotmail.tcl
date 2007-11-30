@@ -51,10 +51,14 @@ namespace eval ::hotmail {
 		set email [::config::getKey login]
 		set login [lindex [split $email "@"] 0]
 		
-		if {![string match *@hotmail.* $email ] && ![string match *@msn.* $email ]} {
-			launch_browser $main_url
-			return
-		}
+		# This was to launch the URL directly without auth for hotmail and msn users, 
+		# but there are other accounts now like @live.com that need this
+		# problem is that non hotmail/msn/live users will get the http://cgi-bin/Hotmail page
+		# which will just not work. So now every URL goes through the msn auth server.
+		#if {![string match *@hotmail.* $email ] && ![string match *@msn.* $email ]} {
+		#	launch_browser $main_url
+		#	return
+		#}
 		
 		set kv $d(kv)
 		set sl [expr {[clock seconds] - $d(sessionstart)}]
@@ -87,13 +91,7 @@ namespace eval ::hotmail {
 	}
 
 	proc viewProfile {user_login} {
-		#launch_browser "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
-		set u_login [::config::getKey login]	
-		if {[string match *@hotmail.* $u_login ] || [string match *@msn.* $u_login ] } {
-			gotURL "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
-		} else {
-			launch_browser "http://g.msn.com/5meen_us/106?passport=${user_login}"
-		}
+		gotURL "http://members.msn.com/default.msnw?mem=${user_login}&pgmarket="
 	}
 
 	proc composeMail { toaddr} {
