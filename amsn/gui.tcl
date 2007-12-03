@@ -4963,6 +4963,45 @@ proc dpImageDropHandler {window data} {
 	set data [urldecode $data]
 }
 
+# The same as the previous one, but this proc works on a list.
+proc trunc_list {str {window ""} {maxw 0 } {font ""}} {
+	if { $window == "" || $font == "" || [::config::getKey truncatenames]!=1} {
+		return $str
+	}
+
+	set buffer [list ]
+	foreach elt $str  {
+		switch [lindex $elt 0] {
+		text {
+				set txt [lindex $elt 1] 
+				set slen [string length $txt]
+				for {set idx 0} { $idx <= $slen} {incr idx} {
+					if { [font measure $font -displayof $window "[string range $txt 0 $idx]..."] > $maxw } {
+						set txt "[string range $txt 0 [expr {$idx-1}]]"
+						lappend buffer [list text $txt] [list colour reset] [list font reset] [list text "..."]
+						return $buffer
+					}
+				}
+				set maxw [expr {$maxw - [font measure $font -displayof $window $txt]}]
+				lappend buffer $elt
+		}
+		smiley {
+				set maxw [expr {$maxw - [image width [lindex $elt 1]]}]
+				if {$maxw <= 0 } {
+					lappend buffer [list colour reset] [list font reset] [list text "..."]
+					return $buffer
+				}
+				lappend buffer $elt
+		}
+		#what should we do in that case ??? 	
+		newline {}
+		default {
+				lappend buffer $elt
+		}
+		}
+	}
+	return $str
+}
 
 
 

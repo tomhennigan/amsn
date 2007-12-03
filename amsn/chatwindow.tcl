@@ -3029,51 +3029,46 @@ namespace eval ::ChatWindow {
 			}
 		}
 
-		set win_name [::ChatWindow::For $chatid]
-		
+		set win_name [::ChatWindow::For $chatid]	
 		set top [::ChatWindow::GetTopFrame ${win_name}]
 
 		set scrolling [getScrolling [::ChatWindow::GetOutText ${win_name}]]
 
 		$top dchars text 0 end
-
-		#remove the camicon(s)
-		$top delete camicon
+		$top dchars text2 0 end
+		#remove the camicon(s) and default icons
+		$top delete camicon img2
 		
 		set nroflines 0
 
 		set camicon [::skin::loadPixmap camicon]
 
-		foreach user_login $user_list {
+		set toX [::skin::getKey topbarpadx]
 
+		foreach user_login $user_list {
 			set shares_cam [::abook::getContactData $user_login webcam_shared]
 			
 			if { [::config::getKey emailsincontactlist] == 1 } {
-				set user_name ""
+				set user_name [list text ""]
+				set user_name_str ""
 			} else {
-				set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
+				set user_name [::abook::getDisplayNick $user_login 1]
+				set user_name_str [string map {"\n" " "} [::abook::removeStyles $user_name]]
 			}
-			set state_code [::abook::getVolatileData $user_login state]
-
-			set psmmedia [::abook::getpsmmedia $user_login]
 
 			if { [::config::getKey psmplace] == 0 } {
-				set psmmedia ""
+				set psmmedia [list text ""]
+			} else {
+				set psmmedia [::abook::getpsmmedia $user_login 1]
 			}
 
-			#Space added so it doesn't stick next to the status
-			if { $psmmedia != "" } {
-				append psmmedia " "
-			}
-
+			set state_code [::abook::getVolatileData $user_login state]
 			if { $state_code == "" } {
 				set user_state ""
 				set state_code FLN
 			} else {
 				set user_state [::MSN::stateToDescription $state_code]
 			}
-
-			set user_image [::MSN::stateToImage $state_code]
 
 			if {[::config::getKey truncatenames]} {
 
@@ -3083,58 +3078,129 @@ namespace eval ::ChatWindow {
 					incr maxw [expr { 0 - [image width $camicon] - 10 }]
 				}
 
-				if { "$user_state" != "" && "$user_state" != "online" } {
+				if { "$user_state" != "" && "$user_state" != "online"} {
 					incr maxw [expr { 0 - [font measure sboldf -displayof $top " \([trans $user_state]\)"] } ]
 				}
 
-
 				incr maxw [expr { 0 - [font measure sboldf -displayof $top " <${user_login}>"] } ]
 
-				if { [font measure sboldf -displayof $top "${user_name}"] > $maxw } {
-					set nicktxt "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
-				} else {
-					incr maxw [expr { 0 - [font measure sboldf -displayof $top " ${user_name}"] } ]
-				 	set nicktxt "${user_name} <${user_login}> [trunc ${psmmedia} ${win_name} $maxw sboldf]"
+				set user_name_dim 0
+				foreach elt $user_name  {
+					switch [lindex $elt 0] {
+					text {
+						incr user_name_dim [expr { 0 + [font measure sboldf -displayof $top [lindex $elt 1]]}]
+					}
+					smiley {
+						incr user_name_dim [expr { 0 + [image width [lindex $elt 1]]}]
+					}
+					newline {}
+					}
 				}
-				
-			} else {
 
-				set nicktxt "${user_name} <${user_login}> $psmmedia"
-		
+				if { $user_name_dim > $maxw } {
+					set nicktxt "[trunc_list ${user_name} ${win_name} $maxw sboldf]"
+					lappend nicktxt [list text " <${user_login}>"]
+				} else {
+					incr maxw [expr { 0 - [font measure sboldf -displayof $top " "] } ]
+					incr maxw [expr { 0 - $user_name_dim}]
+				 	set nicktxt "${user_name}"
+					lappend nicktxt [list text " <${user_login}> "]
+					set nicktxt [concat $nicktxt [trunc_list ${psmmedia} ${win_name} $maxw sboldf]]
+				}
+			} else {
+				set nicktxt $user_name 
+				lappend nicktxt [list text " <${user_login}> "]
+				set nicktxt [concat $nicktxt $psmmedia]
 			}
 
-	
-			$top insert text end $nicktxt			
+			if { "$user_state" != "" && "$user_state" != "online" } {
+		#There is a free space before status name so it doesn't stick next to the psm
+				set statetxt " \([trans $user_state]\)"
+				lappend nicktxt [list text $statetxt]
+			}
+			
+			set font [$top itemcget text -font]
+			if { $font != "" } {
+				set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $font -displayof $top -linespace] * $nroflines)}]
+			} else {
+				set f [font create -family helvetica -size 12 -weight normal]
+				set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $f -displayof $top -linespace] * $nroflines)}]
+				font delete $f
+			}
+			set usrsX [expr {$toX + [font measure bplainf "[trans to]:"] + 5}]
 
-			if { $user_name != "" } {
-				set title "${title}${user_name}, "
+			set defaultcolour #000000
+			set defaultfont sboldf
+			set colour $defaultcolour
+			set font_attr [font configure $defaultfont]
+
+			foreach unit $nicktxt {
+				switch [lindex $unit 0] {
+					"text" {
+						set textpart [lindex $unit 1]
+						$top create text $usrsX $Ycoord -text $textpart \
+							-anchor nw -fill $colour -font $font_attr -tags text2
+						set textwidth [font measure $font_attr $textpart]
+						incr usrsX $textwidth
+					}
+					"smiley" {
+						$top create image $usrsX $Ycoord -image [lindex $unit 1] -anchor nw -state normal -tags img2
+						set textwidth [image width [lindex $unit 1]]
+						incr usrsX $textwidth
+					}
+					"colour" {
+						switch -exact [lindex $unit 1] {
+							"reset" {
+								set colour $defaultcolour
+							}
+							default {
+								set colour [lindex $unit 1]
+							}
+						}
+					}
+					"font" {
+						if { [llength [lindex $unit 1]] == 1 } {
+							if { [lindex $unit 1] == "reset" } {
+								set font_attr [font configure $defaultfont]
+							} else {
+								set font_attr [font configure [lindex $unit 1]]
+							}
+							array set current_format $font_attr
+						} else {
+							array set current_format $font_attr
+							array set modifications [lindex $unit 1]
+							foreach key [array names modifications] {
+								set current_format($key) [set modifications($key)]
+								if { [set current_format($key)] == "reset" } {
+									set current_format($key) \
+										[font configure $defaultfont $key]
+								}
+							}
+							set font_attr [array get current_format]
+						}
+					}
+					"newline" {
+					}
+					default {
+						status_log "Unknown item in parsed nickname: $unit"
+					}
+				}
+			}
+
+			if { $user_name_str != "" } {
+				set title "${title}${user_name_str}, "
 			} else {
 				set title "${title}${user_login}, "
-			}
-	
-			if { "$user_state" != "" && "$user_state" != "online" } {
-				set statetxt "\([trans $user_state]\)"
-				$top insert text end $statetxt
 			}
 
 			$top insert text end "\n"
 			
-			incr nroflines			
+			incr nroflines
 			
 			if { $shares_cam == 1 } {
 
 				#the image aligned-right to the text
 				set Xcoord [expr {[winfo width $top] - [image width $camicon]}]
-
-				set font [$top itemcget text -font]
-				if { $font != "" } {
-					set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $font -displayof $top -linespace] * ($nroflines-1))}]
-				} else {
-					set f [font create -family helvetica -size 12 -weight normal]
-					set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $f -displayof $top -linespace] * ($nroflines-1))}]
-					font delete $f
-					
-				}
 	
 				$top create image $Xcoord $Ycoord -anchor nw -image $camicon -tags [list camicon camicon_$user_login] -state normal
 
@@ -3187,11 +3253,9 @@ namespace eval ::ChatWindow {
 		set evPar(user_list) "user_list"
 		::plugins::PostEvent TopUpdate evPar
 		
-
 		update idletasks
 
 		after cancel [list ::ChatWindow::TopUpdate $chatid]
-
 	}
 
 	
