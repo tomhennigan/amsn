@@ -77,7 +77,10 @@ snit::widget dpbrowser {
 			
 			if {$self_index != -1 && !($options(-invertmatch))} {
 				set email_list [lreplace $email_list $self_index $self_index]
-				set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins default displaypic] *.dat] "self" 1]]
+				if { [catch { set skin [::config::getGlobalKey skin] } ] != 0 || $skin == ""} {
+					set skin "default"
+				}
+				set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins $skin displaypic] *.dat] "self" 1]]
 				set shipped_dps [linsert $shipped_dps 0 [list "" "nopic" "[trans nopic]"]]
 				# Delete dat files for non-existing png files
 				set dat_files [lsort [glob -nocomplain -directory [file join $HOME displaypic] *.dat]]
