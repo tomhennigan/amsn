@@ -1,13 +1,11 @@
 [Desktop Entry]
-Encoding=UTF-8
 Name=aMSN
 Exec=amsn
-Icon=amsn.png
-Info=AMSN
-Categories=Application;Network;InstantMessaging
+Icon=amsn
+Categories=Network;InstantMessaging;
 Comment=MSN Messenger for Linux
 Comment[fr]=MSN Messenger pour Linux
-Comment[de]=MSN Messenger fr Linux
+Comment[de]=MSN Messenger für Linux
 Comment[nl]=MSN Messenger voor Linux
 Comment[no]=MSN Messenger for Linux
 Terminal=false
