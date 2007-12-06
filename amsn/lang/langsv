@@ -113,6 +113,7 @@ browserexample ( \$url byts ut mot URLen). Ex: firefox \$url
 bugerror Tyvärr, men det dök upp ett problem vid anslutandet till feldatabasen. Var vänlig och kontrollera din internetuppkoppling.
 bugnocomment Skicka utan en kommentar? Om du kommenterar felet hjälper du oss hitta felet och enklare åtgärda det.
 busy Upptagen
+bytesymbol b
 cachedpics $1 lagrade bilder
 cachedpicsfor Lagrade visningsbilder för användaren
 cagreement Konfidentialitetsöverenskommelse
