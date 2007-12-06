@@ -48,7 +48,7 @@
 		<img src="images/download-fedora-big.png" class="distr" alt="Fedora"/><br />Fedora</a>
 	</div>
 	<div style="float:left;margin:1em;text-align:center;">
-		<a href="http://packages.gentoo.org/packages/net-im/amsn">
+		<a href="http://packages.gentoo.org/package/net-im/amsn">
 		<img src="images/download-gentoo-big.png" class="distr" alt="Gentoo"/><br />Gentoo</a>
 	</div>
 	<div style="float:left;margin:1em;text-align:center;">
