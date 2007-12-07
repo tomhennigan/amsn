@@ -7335,10 +7335,24 @@ if { $initialize_amsn == 1 } {
 	set degt_command_window_visible 0
 }
 
+proc hexify { str } {
+	set out ""
+	for {set i 0} { $i < [string length $str] } { incr i} {
+		set c [string range $str $i $i]
+		if {[string is ascii $c] && (![string is control $c] || $c == "\r" || $c == "\n") } {
+			append out $c
+		} else {
+			binary scan $c H* h
+			append out "\[$h\]"
+		}
+	}
+	set out
+}
+
 proc degt_protocol { str {colour ""}} {
 	global followtext_degt
 #	return
-	.degt.mid.txt insert end "[timestamp] [encoding convertfrom identity $str]\n" $colour
+	.degt.mid.txt insert end "[timestamp] [hexify $str]\n" $colour
 	.degt.mid.txt delete 0.0 end-1000lines
 	if { $followtext_degt == 1} {
 		.degt.mid.txt yview end
