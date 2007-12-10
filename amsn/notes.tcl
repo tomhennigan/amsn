@@ -243,7 +243,14 @@ namespace eval ::notes {
 	proc Paste { } {
 	
 	set w ".notemanager"
-	set text [clipboard get]
+	#set text [clipboard get]
+	set text ""
+	if { [OnLinux] } {
+                catch {set text [selection get -type UTF8_STRING -selection CLIPBOARD]}
+	#clipboard might be empty!
+        } else {
+                catch {set text [ selection get -selection CLIPBOARD ]}
+        }
 	$w.right.note.txt insert insert "$text"
 	
 	}
