@@ -113,6 +113,7 @@ browserexample (\$url asendatakse URLiga). Näiteks: mozilla \$url
 bugerror Ilmnes viga bugide andmebaasiga suhtlemisel. Palun kontrolli oma interneti ühendust.
 bugnocomment Saadan ilma kommentarita ? Kommentarid aitavad meil teada saada kus viga on ja seda kiiremini parandada.
 busy Kiire
+bytesymbol b
 cachedpics $1 varutud pilti
 cachedpicsfor Kasutaja eelmised pildid
 cagreement Konfidentsiaalsuslepe
@@ -334,6 +335,7 @@ enternick Sisesta oma hüüdnimi
 enterpsm Isikupärane teade
 error Viga
 errortls Viga TLS mooduli instaleerimisel:
+escapeclosescw Esc klahv sulgeb jutukaknad
 eventhistory Vaata sündmuste ajalugu
 examples Näited
 exitamsn Oled kindel, et tahad väljuda?
