@@ -55,6 +55,9 @@ extern "C"
 
 #define ENABLE_LOGS 0
 #define ANIMATE_GIFS 1
+#ifndef SMART_RESIZE
+	#define SMART_RESIZE 1
+#endif
 
 
 

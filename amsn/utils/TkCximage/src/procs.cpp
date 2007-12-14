@@ -219,7 +219,24 @@ int Tk_Resize (ClientData clientData,
     if(alpha == 0 ) 
       image.AlphaDelete();
 
-    if(!image.Resample(width, height, 2)) {
+	/* Modes:
+		0 - Bilinear (Slow[er])
+		1 - Nearest Pixel (Fast[er])
+		2 - Bicubic Spline (Accurate) */
+	int resampleMode = 0;
+	#if SMART_RESIZE == 1
+	if(image.GetWidth() <= 800 && image.GetHeight() <= 800) {
+		// Use a higher quality resample for small/medium images.
+		resampleMode = 0;
+	} else if(image.GetWidth() >= 1024 && image.GetHeight() >= 1024) {
+		// Fastest mode for large images.
+		resampleMode = 1;
+	} else {
+		// Fast but accurate for medium images.
+		resampleMode = 2;
+	}
+	#endif
+    if(!image.Resample(width, height, resampleMode)) {
       Tcl_AppendResult(interp, image.GetLastError(), NULL);
       return TCL_ERROR;
     }
