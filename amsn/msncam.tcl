@@ -1875,12 +1875,9 @@ namespace eval ::CAMGUI {
 				$canv create image 0 0 -anchor nw -image $img
 				pack $canv
 				bind $canv <Destroy> "image delete $img"
-				set confbut [$canv create image 318 240 -anchor se -image [::skin::loadPixmap confbut] 
--activeimage [::skin::loadPixmap confbuth] -tags confbut]
-				set stopbut [$canv create image 290 240 -anchor se -image [::skin::loadPixmap stopbut] 
--activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
-				set pausebut [$canv create image 262 240 -anchor se -image [::skin::loadPixmap pausebut] 
--activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
+				set confbut [$canv create image 318 240 -anchor se -image [::skin::loadPixmap confbut] -activeimage [::skin::loadPixmap confbuth] -tags confbut]
+				set stopbut [$canv create image 290 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
+				set pausebut [$canv create image 262 240 -anchor se -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
 				$canv bind stopbut <Button1-ButtonRelease> [list ::MSNCAM::CancelCam $chatid $sid]
 				$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 				$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
