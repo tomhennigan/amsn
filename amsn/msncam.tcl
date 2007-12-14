@@ -1948,6 +1948,7 @@ namespace eval ::CAMGUI {
 
 		if { $encoder == "" } {
 			set encoder [::Webcamsn::NewEncoder HIGH]
+			::Webcamsn::SetQuality $encoder 4500
 			setObjOption $socket codec $encoder
 		}
 
@@ -1971,6 +1972,7 @@ namespace eval ::CAMGUI {
 					set res "LOW"
 				}
 				set encoder [::Webcamsn::NewEncoder $res]
+				::Webcamsn::SetQuality $encoder 4500
 				setObjOption $socket codec $encoder
 			}
 			::MSNCAM::SendFrame $socket $encoder $img
@@ -1984,6 +1986,7 @@ namespace eval ::CAMGUI {
 
 		if { $encoder == "" } {
 			set encoder [::Webcamsn::NewEncoder HIGH]
+			::Webcamsn::SetQuality $encoder 4500
 			setObjOption $socket codec $encoder
 		}
 
