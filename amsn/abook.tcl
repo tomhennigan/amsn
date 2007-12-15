@@ -222,6 +222,11 @@ namespace eval ::abook {
 
 		if { $port eq "" } { set port $::config(initialftport) }
 
+		if { ![string is integer -strict $port] || $port < 0 || $port > 65535 } {
+			status_log "Invalid port" red
+			return "Firewall"
+		}
+
 		while { [catch {set sock [socket -server "abook::dummysocketserver" $port] } ] } {
 			incr port
 		}
