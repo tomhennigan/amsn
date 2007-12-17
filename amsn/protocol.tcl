@@ -5003,7 +5003,9 @@ proc cmsn_change_state {recv} {
 #	set oldmsnobj [::abook::getVolatileData $user msobj]
 	#set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
 
-	::abook::setVolatileData $user state $substate
+	if {$state_changed} {
+		::abook::setVolatileData $user state $substate
+	}
 	::abook::setVolatileData $user msnobj $msnobj
 	set oldPic [::abook::getContactData $user displaypicfile]
 	set newPic [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
