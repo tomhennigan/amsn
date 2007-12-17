@@ -4901,54 +4901,11 @@ proc cmsn_change_state {recv} {
 			}
 
 		} else {
+			set status "[trans [::MSN::stateToDescription $substate]]"
 			if { ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onstatus] == 1) } {
-				switch -exact [lindex $recv 1] {
-					"NLN" {
-						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans online]]"
-					}
-					"IDL" {
-						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
-					}
-					"BSY" {
-						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans busy]]"
-					}
-					"BRB" {
-						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans rightback]]"
-					}
-					"AWY" {
-						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
-					}
-					"PHN" {
-						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans onphone]]"
-					}
-					"LUN" {
-						run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name [trans gonelunch]]"
-					}
-				}
+				run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name $status]"
 			} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
-				switch -exact [lindex $recv 1] {
-					"NLN" {
-						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans online]]"
-					}
-					"IDL" {
-						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
-					}
-					"BSY" {
-						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans busy]]"
-					}
-					"BRB" {
-						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans rightback]]"
-					}
-					"AWY" {
-						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans away]]"
-					}
-					"PHN" {
-						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans onphone]]"
-					}
-					"LUN" {
-						run_alarm all $user $custom_user_name "[trans changestate $custom_user_name [trans gonelunch]]"
-					}
-				}
+				run_alarm all $user $custom_user_name "[trans changestate $custom_user_name $status]"
 			}
 		}
 	}
