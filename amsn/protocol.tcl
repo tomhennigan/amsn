@@ -4856,11 +4856,9 @@ proc cmsn_change_state {recv} {
 	}
 
 	if {$user_name == ""} {
-		set user_name [::abook::getNick $user]
-	}
-
-
-	if {$user_name != [::abook::getNick $user]} {
+		set user_name [::abook::getContactData $user nick]
+		set nick_changed 0
+	} elseif {$user_name != [::abook::getContactData $user nick]} {
 		#Nick differs from the one on our list, so change it
 		#in the server list too
 		::abook::setContactData $user nick $user_name
