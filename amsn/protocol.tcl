@@ -5009,34 +5009,37 @@ proc cmsn_change_state {recv} {
 	::abook::setVolatileData $user msnobj $msnobj
 	set oldPic [::abook::getContactData $user displaypicfile]
 	set newPic [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
-	::abook::setContactData $user displaypicfile $newPic
-	
-	if { ($oldPic != $newPic) && ($newPic == "") } {
-		::skin::getDisplayPicture $user 1
-	} elseif { $oldPic != $newPic} {
-		status_log "picture changed for user $user\n" white
-		if { [::config::getKey lazypicretrieval] || [::MSN::userIsBlocked $user]} {
-			global sb_list
-			foreach sb $sb_list {
-				set users_in_chat [$sb cget -users]
-				if { [lsearch $users_in_chat $user] != -1 } {
-					status_log "User changed image while image in use!! Updating!!\n" white
-					::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
-				}
-			}
+
+	if { $oldPic != $newPic } {
+		::abook::setContactData $user displaypicfile $newPic
+
+		if { $newPic == "" } {
+			::skin::getDisplayPicture $user 1
 		} else {
-			if { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN"} {
-				if { ![file readable "[file join $HOME displaypic cache ${newPic}].png"] } {
-					set chat_id [::MSN::chatTo $user]
-					::MSN::ChatQueue $chat_id [list ::MSNP2P::loadUserPic $chat_id $user]
-				} else {
-					#We already have the image so don't open a convo to get it just load it
-					::MSNP2P::loadUserPic "" $user
-				}
+			status_log "picture changed for user $user\n" white
+
+			if { [file readable "[file join $HOME displaypic cache ${newPic}].png"] } {
+				#it's possible that the user set again a DP that we already have in our cache so just load it again, even if we are HDN, or the user is blocked.
+				::MSNP2P::loadUserPic "" $user
+			} elseif { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN" &&
+				   ![::config::getKey lazypicretrieval] && ![::MSN::userIsBlocked $user]} {
+				set chat_id [::MSN::chatTo $user]
+				::MSN::ChatQueue $chat_id [list ::MSNP2P::loadUserPic $chat_id $user]
+			} else {
+				global sb_list
+
+				foreach sb $sb_list {
+					set users_in_chat [$sb cget -users]
+					if { [lsearch $users_in_chat $user] != -1 } {
+						status_log "User changed image while image in use!! Updating!!\n" white
+						::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
+						break
+					}
+				}	
 			}
 		}
 	}
-
+	
 
 	::MSN::contactListChanged
 	if { $state_changed || $nick_changed } {
