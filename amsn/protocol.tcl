@@ -4911,60 +4911,61 @@ proc cmsn_change_state {recv} {
 	}
 	#end of alarm system
 
+	# Write remote the nick change if the state didn't change
+	if {$remote_auth == 1 && $nick_changed && !$state_changed && 
+	    $substate != "FLN" && [::abook::getVolatileData $user state FLN] != "FLN" && [lindex $recv 0] != "ILN"  } {
+		set nameToWriteRemote "$user_name ($user)"
+		write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]" event
+	}
 
-	set maxw [expr {([::skin::getKey notifwidth]-53)*2} ]
-	set short_name [trunc $custom_user_name . $maxw splainf]
 
-	#User logsout
-	if {$substate == "FLN"} {
+	if {$state_changed } {
+		set maxw [expr {([::skin::getKey notifwidth]-53)*2} ]
+		set short_name [trunc $custom_user_name . $maxw splainf]
 
-		if { $state_changed } {
+		#User logsout
+		if {$substate == "FLN"} {
 			#Register last logout, last seen and notify it in the events
 			::abook::setAtomicContactData $user [list last_logout last_seen] \
 			    [list [clock format [clock seconds] -format "%D - %H:%M:%S"] [clock format [clock seconds] -format "%D - %H:%M:%S"]]
 			::log::event disconnect $custom_user_name
-		}
 
-		# Added by Yoda-BZH
-		if { ($remote_auth == 1) && $state_changed } {
-			set nameToWriteRemote "$user_name ($user)"
-			write_remote "** $nameToWriteRemote [trans logsout]" event
-		}
 
-		if { ($state_changed || $nick_changed) && 
-		     (([::config::getKey notifyoffline] == 1 && 
-		       [::abook::getContactData $user notifyoffline -1] != 0) ||
-		      [::abook::getContactData $user notifyoffline -1] == 1) } {
-			#Show notify window if globally enabled, and not locally disabled, or if just locally enabled
-			::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline $user
-		}
+			# Added by Yoda-BZH
+			if {$remote_auth == 1} {
+				set nameToWriteRemote "$user_name ($user)"
+				write_remote "** $nameToWriteRemote [trans logsout]" event
+			}
 
-	# User was online before, so it's just a status change, and it's not
-	# an initial state notification
-	} elseif {[::abook::getVolatileData $user state FLN] != "FLN" && [lindex $recv 0] != "ILN"  } {
+			if { (([::config::getKey notifyoffline] == 1 && 
+			       [::abook::getContactData $user notifyoffline -1] != 0) ||
+			      [::abook::getContactData $user notifyoffline -1] == 1) } {
+				#Show notify window if globally enabled, and not locally disabled, or if just locally enabled
+				::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline $user
+			}
 
-		if { $state_changed } {
+			# User was online before, so it's just a status change, and it's not
+			# an initial state notification
+		} elseif {[::abook::getVolatileData $user state FLN] != "FLN" && [lindex $recv 0] != "ILN"  } {
+
 			#Notify in the events
 			::log::event state $custom_user_name [::MSN::stateToDescription $substate]
-		}
 
-		# Added by Yoda-BZH
-		if { ($remote_auth == 1) &&  ($state_changed || $nick_changed) } {
-			set nameToWriteRemote "$user_name ($user)"
-			write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]" event
-		}
+			# Added by Yoda-BZH
+			if {$remote_auth == 1} {
+				set nameToWriteRemote "$user_name ($user)"
+				write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]" event
+			}
 
-		if { ($state_changed || $nick_changed) && 
-		     (([::config::getKey notifystate] == 1 && 
-		       [::abook::getContactData $user notifystatus -1] != 0) ||
-		      [::abook::getContactData $user notifystatus -1] == 1) } {
-			::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
-			    "::amsn::chatUser $user" state state $user
-		}
+			if { (([::config::getKey notifystate] == 1 && 
+			       [::abook::getContactData $user notifystatus -1] != 0) ||
+			      [::abook::getContactData $user notifystatus -1] == 1) } {
+				::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
+				    "::amsn::chatUser $user" state state $user
+			}
 
-	} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
+		} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
 
-		if { $state_changed } {
 			#Register last login and notify it in the events
 			::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
 			::log::event connect $custom_user_name
@@ -4976,27 +4977,25 @@ proc cmsn_change_state {recv} {
 			#later on with x-clientcaps
 			::abook::setContactData $user clientname ""
 			::plugins::PostEvent UserConnect evPar
-		}
 
-		# Added by Yoda-BZH
-		if { ($remote_auth == 1) && $state_changed } {
-			set nameToWriteRemote "$user_name ($user)"
-			write_remote "** $nameToWriteRemote [trans logsin]" event
-		}
+			# Added by Yoda-BZH
+			if {$remote_auth == 1} {
+				set nameToWriteRemote "$user_name ($user)"
+				write_remote "** $nameToWriteRemote [trans logsin]" event
+			}
 
-		if { ($state_changed || $nick_changed) && 
-		     (([::config::getKey notifyonline] == 1 && 
-		       [::abook::getContactData $user notifyonline -1] != 0) ||
-		      [::abook::getContactData $user notifyonline -1] == 1) } {
-			::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online online $user
-		}
+			if { (([::config::getKey notifyonline] == 1 && 
+			       [::abook::getContactData $user notifyonline -1] != 0) ||
+			      [::abook::getContactData $user notifyonline -1] == 1) } {
+				::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online online $user
+			}
 
-		if { $state_changed } {
 			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {
 				run_alarm $user $user $custom_user_name "$custom_user_name [trans logsin]"
 			} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
 				run_alarm all $user $custom_user_name "$custom_user_name [trans logsin]"
 			}
+			
 		}
 	}
 
