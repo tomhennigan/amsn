@@ -4887,8 +4887,6 @@ proc cmsn_change_state {recv} {
 
 	set custom_user_name [::abook::getDisplayNick $user]
 
-	set state_no [::MSN::stateToNumber $substate ]
-
 
 	#alarm system (that must replace the one that was before) - KNO
 	if {[lindex $recv 0] !="ILN" && $state_changed} {
