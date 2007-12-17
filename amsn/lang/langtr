@@ -29,7 +29,7 @@ alarmonstatus Kullanýcý durum deðiþtirince alarm çalsýn
 alarmpref Kullanýcýnýn alarm ayarlarý
 alarmpref2 Tüm kullanýcýlar için alarm ayarlarý
 alarms Alarmlar
-alarmstatus Bu kullanýcý için alarmý aç/kapa
+alarmstatus Bu kullanýcý için alarmý aç/kapat
 allfiles Tüm Dosyalar
 allmonths Tüm aylar
 allowallbutbl Engellenenler dýþýnda herkesin bana ulaþmasýna izin ver
@@ -375,7 +375,7 @@ friendlyname Sohbet içi rumuz
 ftaccepted Dosya aktarýmý kabul edildi
 ftacceptedby $1, '$2' dosyasý için yapýlan aktarým davetini kabul etti
 ftaccepting Dosya aktarým davetini kabul ediyor
-ftautoclose Dosya aktarýmý bitince pecereyi kapa
+ftautoclose Dosya aktarýmý bitince pecereyi kapat
 ftconnecterror Karþý tarafa baðlanmada sorun oluþtu
 ftconnecting $1 port $2 e baðlanýlýyor
 ftconnectionlost Karþý tarafla olan baðlantý koptu
@@ -646,7 +646,7 @@ phone Telefon
 phones Telefon numaralarý
 picbrowser Kullanýcý resmi tarayýcýsý
 picfile Alarm resmi dosyasý (GIF < 500 x 500)
-picstatus Resimli alarmý aç/kapa
+picstatus Resimli alarmý aç/kapat
 play Oynat
 playbackposition Oynatýcý konumu
 playbackspeed Oynatma hýzý (iki kare arasýnda milisaniye cinsinden süre)
@@ -830,7 +830,7 @@ soundfiles Ses Dosyalarý
 soundloop Ses tekrarlasýn
 soundnoavail Ses aygýtý kullanýlamýyor. Lütfen ses aygýtýný kullanan diðer uygulamalarý kapatýn.
 soundserver Ses Sunucusu
-soundstatus Sesli alarmý aç/kapa
+soundstatus Sesli alarmý aç/kapat
 sourcecode Kaynak kodu (derlenip kurulmasi gerekir)
 splashstart Baþlangýç
 sslwarning UYARI!!! SSL'yi kapatmak þifrelemeyi engeller, þifreniz düz metin olarak aktarýlýr. Gerçekten kapatmayý gerektiren durumlar olmadýkça kullanmayýnýz.
