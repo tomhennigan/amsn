@@ -952,14 +952,14 @@ webcamrequestsend Vous avez invité votre contact à visionner votre webcam
 webcamsending Liste des personnes qui sont en train de voir votre webcam\nCliquez sur un nom pour annuler
 webcam Webcam
 web Web
-whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses platformes telles que Linux, Windows, Mac OS X, *BSD ...
+whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses plateformes telles que Linux, Windows, Mac OS X, *BSD ...
 whatsize L'image qui doit être affichée n'est pas à la taille normale : 96x96 \nDans quelle taille voulez-vous que l'image soit affichée ?
 willjoin Dans l'attente que $1 rejoigne la conversation
 winkreceived Vous avez reçu un 'clin d'oeil' provenant de $1. Cette fonctionnalité n'est pas encore supporté par aMSN.
 wintitlenick Afficher le pseudonyme dans les fenêtres à onglets au lieu de l'email
 work Travail
 wrongfields Les champs "$1", "$2" et/ou "$3" sont invalides
-wrongprofileversion Mauvaise version du fichier de profil. Afin de la fixer, enlevez le répertoire $1, ou mettez à jour aMSN
+wrongprofileversion Mauvaise version du fichier de profil. Afin de résoudre ce problème, supprimez le répertoire $1, ou mettez à jour aMSN
 xmmscurrent Affiche la chanson que j'écoute
 xmmserr Rien à jouer, ou vous n'avez pas installé xmms-infopipe.
 xmmssend Envoyer la chanson courante
