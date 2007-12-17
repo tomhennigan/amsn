@@ -5041,8 +5041,8 @@ proc cmsn_change_state {recv} {
 	}
 	
 
-	::MSN::contactListChanged
 	if { $state_changed || $nick_changed } {
+		::MSN::contactListChanged
 
 		foreach chat_id [::ChatWindow::getAllChatIds] {
 			if { $chat_id == $user } {
