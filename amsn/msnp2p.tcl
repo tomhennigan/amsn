@@ -1114,12 +1114,16 @@ namespace eval ::MSNP2P {
 					} else {
 						set data $body
 					}
-					set img [image create photo [TmpImgName] -data $data]
 					set user [lindex [::MSN::usersInChat $chatid] 0]
-					set nick [::abook::getDisplayNick $user]
-					set p4c_enabled 0
-					status_log "got ink from $user - $nick with image $img"
-					SendMessageFIFO [list ::amsn::ShowInk $chatid $user $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+					# don't try to display it if the image is considered as invalid
+					if {[catch {set img [image create photo [TmpImgName] -data $data]}]} {
+						status_log "(msnp2p.tcl) receiving an invalid gif from $user" red
+					} else {
+						set nick [::abook::getDisplayNick $user]
+						set p4c_enabled 0
+						status_log "got ink from $user - $nick with image $img"
+						SendMessageFIFO [list ::amsn::ShowInk $chatid $user $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+					}
 				}
 
 			} else {

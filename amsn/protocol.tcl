@@ -4117,9 +4117,12 @@ namespace eval ::Event {
 				} else {
 					set data $body
 				}
-				set img [image create photo [TmpImgName] -data $data]
-
-				SendMessageFIFO [list ::amsn::ShowInk $chatid $typer $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+				# don't try to display it if the image is considered as invalid
+				if { [catch {set img [image create photo [TmpImgName] -data $data]}]} {
+					status_log "(protocol.tcl) receiving an invalid gif from $typer" red
+				} else {
+					SendMessageFIFO [list ::amsn::ShowInk $chatid $typer $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+				}
 
 			}
 			text/x-keepalive {

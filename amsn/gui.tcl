@@ -955,8 +955,12 @@ namespace eval ::amsn {
 
 		#Draw our own message
 		#Does this image ever gets destroyed ? When destroying the chatwindow it's embeddeed in it should I guess ? This is not the leak I'm searching for though as I'm not sending inks...
-		set img [image create photo [TmpImgName] -file $filename]
-		SendMessageFIFO [list ::amsn::ShowInk $chatid [::abook::getPersonal login] $nick $img ink $p4c] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		# don't try to display it if the image is considered as invalid
+		if {[catch {set img [image create photo [TmpImgName] -file $filename]}]} {
+			status_log "(::amsn::InkSend) trying to display an invalid image, but keep sending it." red
+		} else {
+			SendMessageFIFO [list ::amsn::ShowInk $chatid [::abook::getPersonal login] $nick $img ink $p4c] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		}
 		::MSN::ChatQueue $chatid [list ::MSN::SendInk $chatid $filename]
 
 		::plugins::PostEvent chat_ink_sent evPar
