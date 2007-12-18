@@ -113,6 +113,7 @@ browserexample ( \$url bo zamenjan z URL-jem). Npr.: mozilla \$url
 bugerror Napaka pri povezovanju na bazo hro¹èev. Preveri internetno povezavo.
 bugnocomment Naj po¹ljem brez komentarja? Komentarji k hro¹èem nam pomagajo ugotoviti, kaj je ¹lo narobe in jih odpraviti.
 busy Zaposlen
+bytesymbol b
 cachedpics $1 shranjenih slik
 cachedpicsfor Shranjene osebne slike uporabnika
 cagreement Izjava o zaupnosti
