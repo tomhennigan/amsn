@@ -1,4 +1,5 @@
 Sapphire Skin by Gustavo A. Díaz - Version: 2.0 (27.04.2007)
-Dedicated to the great comunity of aMSN. Please give credit to the original skin name and author for any modifications.
+Dedicated to the great comunity of aMSN.
+If you modify this skin, please give credit to the original skin name and author.
 License: GNU/GPL
 Contact: gdiaz@gdnet.com.ar | http://www.gdnet.com.ar - GDNet Projects
