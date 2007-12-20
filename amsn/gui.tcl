@@ -4956,15 +4956,47 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 
 
 	bind $tw.$name <Button1-ButtonRelease> $command
+	# Drag and Drop setting DP
+	::dnd bindtarget $tw.$name Files <Drop> "dpImageDropHandler %D"
 
 	return $tw.$name
 }
 
-proc dpImageDropHandler {window data} {
-	#puts "Drop of image on $window : $data"
-	
+proc dpImageDropHandler { data } {
 	set data [string map {\r "" \n "" \x00 ""} $data]
 	set data [urldecode $data]
+
+	if { [OnWin] } {
+		if { [string index $data 0] == "{" && [string index $data end] == "}" } {
+			set data [string range $data 1 end-1]
+		}
+		status_log "File dropped to change DP: $data"
+		setMyDPFromFile $data
+
+	} else {
+
+#TODO		#(VFS pseudo-)protocol: if we can't acces the file, display an error
+		foreach type [list smb http https ftp sftp floppy cdrom dvd] {
+			if {[string first $type $data] == 0} { 
+				status_log "file can't be accessed: $data"
+			}
+		}
+
+		#If the data begins with "file://", strip this off
+		if { [string range $data 0 6] == "file://" } {
+			set data [string range $data 7 [string length $data]]
+		} 
+		status_log "File dropped to change DP: $data"
+		setMyDPFromFile $data
+	}
+
+}
+
+proc setMyDPFromFile { file } {
+	after 0 dpBrowser
+
+	set target "self"
+	setDPFromFile "self" $file
 }
 
 # The same as the previous one, but this proc works on a list.
@@ -7214,10 +7246,14 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 
 
 proc pictureChooseFile { target } {
-	global HOME
 
 	set file [chooseFileDialog "" "" "" "" open [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
+	setDPFromFile $target $file
 
+}
+
+proc setDPFromFile { target file } {
+	global HOME
 	if { $file != "" } {
 		set convertsize "96x96"
 		if { [catch {::picture::GetPictureSize $file} cursize] } {
