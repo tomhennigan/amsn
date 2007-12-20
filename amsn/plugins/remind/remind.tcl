@@ -168,8 +168,14 @@ proc ShowLastSentences { chatid email } {
 						#it is a time in [clock seconds]
 						incr aidx 7
 						#add formated date/time stamp to the log output
-						 ::remind::WinWrite $chatid "[::log::LogDateConvert [string range $line $aidx [expr {$aidx + 9} ] ] ]" $color
-						incr aidx 10						} else {
+						#search a non digit character since on older version, there wasn't always a space after the timestamp
+						regexp -start $aidx -indices {\D} $line sidx
+						set sidx [lindex $sidx 0]
+						incr sidx -1
+						::remind::WinWrite $chatid [::log::LogDateConvert [string range $line $aidx $sidx]] $color
+						set aidx $sidx
+						incr aidx 1
+					} else {
 						set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
 						incr aidx 6
 					}

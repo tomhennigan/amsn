@@ -334,7 +334,7 @@ namespace eval ::log {
 				}
 			}
 			if {$OIMStamp == 0 } {
-				puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds] $txt"
+				puts -nonewline $fileid "\|\"LGRA[::config::getKey leftdelimiter]\|\"LTIME[clock seconds] [::config::getKey rightdelimiter] $txt"
 			} else {
 				puts -nonewline $fileid "\|\"LGRA$OIMStamp $txt"				
 			}
@@ -350,7 +350,7 @@ namespace eval ::log {
 					puts -nonewline $fileid "\|\"LRED\[[trans lenteredconf $email \|\"LTIME[clock seconds] ]\(${users}\) \]\n"
 				}
 				if {$OIMStamp == 0 } {
-					puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds] $txt"
+					puts -nonewline $fileid "\|\"LGRA[::config::getKey leftdelimiter]\|\"LTIME[clock seconds] [::config::getKey rightdelimiter] $txt"
 				} else {
 					puts -nonewline $fileid "\|\"LGRA$OIMStamp $txt"				
 				}
@@ -1218,14 +1218,16 @@ namespace eval ::log {
 	#
 
 	proc LogDateConvert { time } {
+		set str ""
 		if { $time != "" } {
 			set part1 "[string tolower "[string index "[::config::getKey dateformat]]" 0 ]" ]"
 			set part2 "[string tolower "[string index "[::config::getKey dateformat]]" 1 ]" ]"
 			set part3 "[string tolower "[string index "[::config::getKey dateformat]]" 2 ]" ]"
-			return  "[::config::getKey leftdelimiter][ clock format $time -format "%$part1/%$part2/%$part3 %T"][::config::getKey rightdelimiter]"
-		} else {
-		return ""
+			if { [catch {set str  "[ clock format $time -format "%$part1/%$part2/%$part3 %T"]"} ] } {
+				set str ""
+			}
 		}
+		return $str
 	}
 
 
@@ -1278,8 +1280,13 @@ namespace eval ::log {
 							#it is a time in [clock seconds]
 							incr aidx 7
 							#add formated date/time stamp to the log output
-							lappend result "[ LogDateConvert "[string range $line $aidx [ expr { $aidx + 9 } ] ] " ]" [list $color]
-							incr aidx 10
+							#search a non digit character since on older version, there wasn't always a space after the timestamp
+							regexp -start $aidx -indices {\D} $line sidx
+							set sidx [lindex $sidx 0]
+							incr sidx -1
+							lappend result [ LogDateConvert [string range $line $aidx $sidx  ]  ] [list $color]
+							set aidx $sidx
+							incr aidx 1
 						} else {
 						set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
 						incr aidx 6
@@ -1389,20 +1396,38 @@ namespace eval ::log {
 		fconfigure $fileid -encoding utf-8
 		if { $fileid != 0 } {
 			set aidx 0
+			set str ""
 			while {1} {
 				if {[string index $logvar [expr {$aidx + 3}]] == "C"} {
 					incr aidx 10
 				} else {
+					if {[string range $logvar $aidx [expr {$aidx + 6}]] == "\|\"LTIME"  } {
+						#it is a time in [clock seconds]
+						incr aidx 7
+						#add formated date/time stamp to the log output
+						#search a non digit character since on older version, there wasn't always a space after the timestamp
+						regexp -start $aidx -indices {\D} $logvar sidx
+						set sidx [lindex $sidx 0]
+						incr sidx -1
+						append str [ LogDateConvert [string range $logvar $aidx $sidx] ]
+						set aidx $sidx
+						incr aidx 1
+					} else {
+					set color [string range $logvar [expr {$aidx + 3}] [expr {$aidx + 5}]]
 					incr aidx 6
+					}
 				}
 				set bidx [string first "\|\"L" $logvar $aidx]
 				if { $bidx != -1 } {
-					puts -nonewline $fileid [string range $logvar $aidx [expr {$bidx - 1}]]
+					append str [string range $logvar $aidx [expr {$bidx - 1}]]
+					puts -nonewline $fileid $str
 					set aidx $bidx
 				} else {
-					puts -nonewline $fileid [string range $logvar $aidx end]
+					append str [string range $logvar $aidx end]
+					puts -nonewline $fileid str
 					break
 				}
+				set str ""
 			}
 			close $fileid
 		}
@@ -1646,11 +1671,11 @@ namespace eval ::log {
 				StartLog $email
 				set fileid [LogArray $email get]
 				if { $fileid != 0 } {
-					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted \|\"LTIME[clock seconds]]\]\n"
-					puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds]\|\"LGRE $txt\n"
+					puts -nonewline $fileid "\|\"LRED\[[trans lconvstarted \|\"LTIME[clock seconds] ]\]\n"
+					puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds] \|\"LGRE $txt\n"
 				}
 			} else {
-				puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds]\|\"LGRE $txt\n"
+				puts -nonewline $fileid "\|\"LGRA\|\"LTIME[clock seconds] \|\"LGRE $txt\n"
 			}
 		}
 		
