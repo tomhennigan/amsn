@@ -3,13 +3,25 @@
 
 #Audacious is launched ?
 STATUS=$(audtool playback-status)
+VERSION=$(audtool get-version)
+
 if [ $? = 0 ]
 then
 	echo $STATUS
-	#To force \n when there isn't any information
-	echo $(audtool current-song-tuple-data track_name)
-	echo $(audtool current-song-tuple-data performer)
-	audtool current-song-filename
+	MAJ=`expr substr ${VERSION#A*\ } 1 1`
+	MIN=`expr substr ${VERSION#A*\ } 3 1`
+
+	if [  "$MAJ" -eq "1" -a "$MIN" -ge "4" ] || [ "$MAJ" -gt "1" ] 
+	then
+		#To force \n when there isn't any information
+		echo $(audtool current-song-tuple-data title)
+		echo $(audtool current-song-tuple-data artist) 
+	else
+		#To force \n when there isn't any information
+		echo $(audtool current-song-tuple-data track_name)
+		echo $(audtool current-song-tuple-data performer)
+	fi
+audtool current-song-filename
 else
 	echo 0
 fi
