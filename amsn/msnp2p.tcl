@@ -1317,7 +1317,7 @@ namespace eval ::MSNP2P {
 	#
 	# If OK method is chosen then A to G are used depending on contenttype
 	# for 0 we got : "SessionID"
-	# for 1 we got : "Bridge", "Listening", "Nonce", "IPv4External-Addrs","IPv4External-Port"
+	# for 2 we got : "Bridge", "Listening", "Nonce", "IPv4External-Addrs","IPv4External-Port"
 	#		 "IPv4Internal-Addrs" and "IPv4Internal-Port"
 	# Returns the formated MSNSLP data
 	proc MakeMSNSLP { method to from branchuid cseq uid maxfwds contenttype {A ""} {B ""} {C ""} {D ""} {E ""} {F ""} {G ""} } {
