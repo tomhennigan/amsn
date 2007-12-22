@@ -138,25 +138,30 @@ set HOME2 $HOME
 ### And setup where to find optional packages
 ############################################################
 
-lappend auto_path [file join ${HOME} plugins]
+proc lprepend {varName args} {
+   upvar $varName var
+   set var [eval [list linsert $var 0] $args]
+}
+
+lprepend auto_path [file join ${HOME} plugins]
 #Specific folder to check for package on platforms
 if { [OnDarwin] } {
-	lappend auto_path [file join utils macosx]
+	lprepend auto_path [file join utils macosx]
 } elseif { [OnWin] } {
-	lappend auto_path [file join utils windows]
+	lprepend auto_path [file join utils windows]
 } elseif { [OnLinux] } {
-	lappend auto_path [file join utils linux]
+	lprepend auto_path [file join utils linux]
 } elseif { [OnBSD] } {
-        lappend auto_path [file join utils linux] 
+        lprepend auto_path [file join utils linux] 
 }
-lappend auto_path [file join utils]
+lprepend auto_path [file join utils]
 
 set libtls ""
 
 catch { source [file join $HOME tlsconfig.tcl] }
 
 if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
-    lappend auto_path $libtls
+    lprepend auto_path $libtls
 }
 
 #TODO: Move this from here ??
@@ -340,22 +345,6 @@ if { [::config::getKey autoconnect] == 1 && [::config::getKey save_password] == 
 if { [::config::getKey autocheckver] == 1 } {
     set new [::autoupdate::check_version_silent]
 }
-
-
-# This is a temporary proc to test amsn2 code while still being able to use the amsn1 code base... 
-# keep it until amsn2 is stable enough to stand on its own feet...
-proc reload_amsn2 { } {
-    lappend ::auto_path [file join [pwd] .. amsn2]
-
-    package forget aMSN2_Core
-    package forget aMSN2_Protocols
-    package forget MSNP
-
-    package require aMSN2_Core
-}
-
-
-
 
 
 

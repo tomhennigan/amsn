@@ -3137,7 +3137,7 @@ proc SavePreferences {} {
 	if { [::config::getKey libtls_temp] != $libtls } {
 		set libtls [::config::getKey libtls_temp]
 		if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
-			lappend auto_path $libtls
+			lprepend auto_path $libtls
 		}
 	
 		if { $tlsinstalled == 0 && [catch {package require tls}] } {
