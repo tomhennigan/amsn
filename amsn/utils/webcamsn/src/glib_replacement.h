@@ -1,3 +1,9 @@
+/* No need for this file if glib.h was already included from somewhere else */
+#ifndef __G_TYPES_H__
+
+#ifndef GLIB_REPLACEMENT_H
+#define GLIB_REPLACEMENT_H
+
 #include <stdlib.h>
 
 typedef char   gchar;
@@ -94,3 +100,7 @@ typedef unsigned int guint32;
     ((struct_type *) memset(malloc (sizeof (struct_type) * n_structs), 0, sizeof (struct_type) * n_structs))
 
 #define g_free free 
+
+#endif 
+#endif
+
