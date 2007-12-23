@@ -1383,12 +1383,30 @@ namespace eval ::log {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ParseToFile (logvar filepath)
-	# Decodes the log file and writes to file
+	# Calls ParseToTextFile or ParseToHTMLFile, depending on what file type we want to save.
 	#
-	# wname : Log window
 	# logvar : variable containing the whole log file (sure need to setup log file limits)
+	# filepath : Input box containing file path to save to ??
 
 	proc ParseToFile { logvar filepath } {
+	
+		# Are we writing a HTML file?
+	        set ext [file extension [${filepath} get]]
+		if {$ext == ".htm" ||
+		    $ext == ".html"} {
+			ParseToHTMLFile $logvar $filepath		
+		} else {
+			ParseToTextFile $logvar $filepath
+		}
+	}
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	# ParseToTextFile (logvar filepath)
+	# Decodes the log file and writes to file
+	#
+	# logvar : variable containing the whole log file (sure need to setup log file limits)
+	# filepath : Input box containing file path to save to ??	
+	proc ParseToTextFile { logvar filepath } {
 
 		global langenc
 
@@ -1429,6 +1447,113 @@ namespace eval ::log {
 				}
 				set str ""
 			}
+			close $fileid
+		}
+	}
+	
+	#///////////////////////////////////////////////////////////////////////////////
+	# ParseToHTMLFile (logvar filepath)
+	# Decodes the log file and writes to a HTML file
+	#
+	# logvar : variable containing the whole log file (sure need to setup log file limits)
+	# filepath : Input box containing file path to save to ??	
+	proc ParseToHTMLFile { logvar filepath } {
+	
+		global langenc
+
+		set fileid [open [${filepath} get] w+]
+		fconfigure $fileid -encoding utf-8
+		if { $fileid != 0 } {
+		
+			# Write the HTML header and stuff
+			puts $fileid {<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<title>aMSN Log File</title>
+	<style type="text/css">
+	body
+	{
+		font-family: Verdana, arial, sans-serif;
+	}
+	</style>
+</head>
+
+<body>
+	}
+
+			set nbline 0
+
+			set loglines [split $logvar "\n"]
+			set result [list]
+			foreach line $loglines {
+				incr nbline
+				set aidx 0
+				while {$aidx != -1} {
+					# Checks if the line begins by |"L (it happens when we go to the line in the chat window).
+					# If not, use the tags of the previous line
+					if { $aidx == 0 & [string range $line 0 2] != "\|\"L" } {
+						set bidx -1
+					} else {
+						# If the portion of the line begins by |"LC, there is a color information.
+						# The color is indicated by the 6 fingers after it
+						if {[string index $line [expr {$aidx + 3}]] == "C"} {
+							set color "#[string range $line [expr {$aidx + 4}] [expr {$aidx + 9}]]"
+							incr aidx 10
+							# Else, it is the system with LNOR, LGRA...
+						} else {
+							if {[string range $line $aidx [expr {$aidx + 6}]] == "\|\"LTIME"  } {
+								#it is a time in [clock seconds]
+								incr aidx 7
+								#add formated date/time stamp to the log output
+								#search a non digit character since on older version, there wasn't always a space after the timestamp
+								regexp -start $aidx -indices {\D} $line sidx
+								set sidx [lindex $sidx 0]
+								incr sidx -1
+								puts -nonewline $fileid "<span style=\"color: $color\">[ LogDateConvert [string range $line $aidx $sidx  ]]</span>"
+								set aidx $sidx
+								incr aidx 1
+							} else {
+								switch [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]] {
+									RED {
+										set color "red"
+									}
+									GRA {
+										set color "gray"
+									}
+									NOR {
+										set color "black"
+									}
+									ITA {
+										set color "blue"
+									}
+									GRE {
+										set color "darkgreen"
+									}
+								}
+								incr aidx 6
+							}
+						}
+						set bidx [string first "\|\"L" $line $aidx]
+					}
+					if { [string first "\|\"L" $line] == -1 } {
+						set string [string range $line 0 end]
+					} elseif { $bidx != -1 } {
+						set string [string range $line $aidx [expr {$bidx - 1}]]
+					} else {
+						set string [string range $line $aidx end]
+					}
+					puts -nonewline $fileid "<span style=\"color: $color\">$string</span>"
+					set aidx $bidx
+				}
+				puts -nonewline $fileid "<br />\n\t"
+				
+			}
+			
+			puts $fileid {
+</body>
+</html>}
 			close $fileid
 		}
 	}
