@@ -29,6 +29,9 @@ namespace eval ::MSNSPACES {
 				set resourceID [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:ResourceID"]
 				set email [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:Alias:Name"]
 
+				# TODO this is just a hack to disable spaces from the core since it doesn't seem to work right.
+				set resourceID ""
+
 
 				if { [string length $resourceID] > 0} {
 					lappend users_with_space $email
