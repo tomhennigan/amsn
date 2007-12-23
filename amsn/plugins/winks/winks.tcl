@@ -143,6 +143,10 @@ namespace eval ::winks {
 					status_log "gnash found in plugin path." green
 					set ::winks::config(flashplayer) [file join $dir "gnash.exe"]
 					set ::winks::config(flashplayerargs) "-1"
+				} elseif {[file exists [file join utils windows gnash gnash.exe]] } {
+					status_log "gnash found in utils path." green
+					set ::winks::config(flashplayer) [file join utils windows gnash gnash.exe]
+					set ::winks::config(flashplayerargs) "-1"
 				} elseif {[file exists [file join $dir "flashplayer.exe"]]} {
 					status_log "flashplayer in plugin path." green
 					set ::winks::config(flashplayer) [file join $dir "flashplayer.exe"]

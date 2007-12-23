@@ -1,0 +1,222 @@
+$Id: README,v 1.30 2007/07/01 15:42:43 nihilus Exp $
+
+		    Gnash: the GNU Flash Player
+
+Gnash is a player for animated "movies" in the Macromedia Shockwave Flash
+(.swf) format.  It can be run as a graphical application, as a Web browser
+plugin, or as a library used by other programs.  It is not yet complete;
+it does not correctly handle every .swf file.
+
+This is the README file for the Gnash-0.8XXXXXX release (or CVS snapshot).
+
+Gnash is originally based on the code of GameSWF, by Thatcher Ulrich.
+GameSWF was the most advanced among free flash movie players; it
+implemented a fairly broad set of Flash Format v7 features.  In December
+2005, Rob Savoye (then one of the GameSWF developers) forked GameSWF
+to become Gnash.  New improvements added to Gnash are copyrighted by
+the Free Software Foundation under the GNU General Public License.
+After Rob rearranged the GameSWF code into the GNU project style, he
+began development on the browser plugins.  The Free Software
+Foundation made Gnash a priority project, and many volunteers started
+contributing useful improvements.  We thank Thatcher Ulrich for the
+great start, Rob Savoye and John Gilmore for organizing the project, 
+and the Gnash volunteers for making Gnash what it is today.
+
+
+Flash Support:
+--------------
+
+Many of the Flash movies that I come across play fine in Gnash.  Many
+others do not.  In particular, Flash movies that are used for browser
+navigation may still have a few issues with some URLs left.  Most
+Flash based navigation of a web site should work.
+
+Gnash supports the majority of Flash opcodes up to SWF version 7, and
+a wide sampling of ActionScript classes for SWF version 7.  All the core
+ones are implemented, and many of the newer ones work, but may be missing
+some of their methods.  All unimplemented opcodes and ActionScript classes
+and methods print a warning when using -v with gnash or gprocessor.  Using
+gprocessor -v is a quick way to see why a movie isn't playing correctly.
+
+Currently implemented ActionScript classes are: Array, Boolean, Date,
+Key, Math, Mouse, Number, Object, Sound, String, XML, XMLNode,
+XMLSocket, NetStream, NetConnection, Stage, Button.
+
+Partially implemented classes are: MovieClipLoader, LocalConnection,
+MovieClip, TextField, TextFormat, System, Function, LoadVars, Video.
+
+Unimplemented classes are: Accessibility, Error, Microphone,
+Selection, SharedObject, Camera, Color, ContextMenu,
+CustomActions.
+
+Unimplemented Opcodes are: Throw, Implements, Try,
+MDLength, MDSubstring, MDChr.
+
+Currently streaming video for some video sharing sites like Lulu.tv,
+or YouTube.com, does work. Your mileage with other sites may vary, but
+work continues on improving Gnash.
+
+
+Plugin:	
+-------
+
+The plugin correctly installs itself into Mozilla, Firefox, or Konqueror.
+It can play some Flash files in cooperation with the browser. It
+should work with any browser that supports the of Mozilla's NSPR API and
+plugin SDK. It has been tested with Mozilla 1.7.13 with gtk2 (won't work with
+gtk1 due to the NSAPI used), Firefox 1.0.x, Firefox 1.5.x, and Firefox 2.x.
+
+Some web pages have Internet Explorer-specific Javascript that fail
+in Firefox, which prevents the plugin from being loaded. In these cases
+I "view source" and then use wget to grab the movie for testing.
+
+By default, the configure script looks for the GtkGl extension, and
+if that can't be found, it defaults to using SDL. The plugin works by
+forking and running the standalone player, so whichever graphics library
+Gnash uses will also be used by the plugin. As an alternate to SDL,
+Gnash also now has FLTK2 support.
+
+The GTK version has full event handling, and supports a right-click
+mouse menu to control the movie. The SDL version has no event
+handling, which means mouse clicks and keys pressed get ignored. Also
+the windows don't resize, and occasionally they overrun their
+boundaries. The GTK version requires GtkGlExt, and defaults to SDL if
+GtkGlExt is not installed, or if --disable-glext is passed to configure.
+
+Configure with --with-plugindir= to set the directory that "make
+install" will install the plugin in. By default it will be installed
+in the user's .mozilla/plugins or .firefox/plugins directory.
+
+Platforms Supported:
+--------------------
+
+Gnash has been ported to a wide variety of hardware and operating
+systems. Primary platforms that get the most support are most of
+the GNU/Linux distributions, but Ubuntu, Fedora, and Debian primarily.
+OpenBSD is also adequately maintained, but Gnash is known to run on
+FreeBSD and NetBSD systems as well. There are also ports to Beos,
+Haiku, OS/2, Irix, Solaris, and OpenEmbedded.
+
+There are ports of the standalone player to Darwin and Win32. Both
+require adding the dependent libraries Gnash needs. Work has started
+on a native Darwin (Aqua/Carbon/OpenGL) GUI so most of these packages
+won't be required. The win32 player can be built with VC++, or
+Mingw32. 
+
+Gnash has also been ported to a variety of embedded devices, most
+running variations of OpenEmbedded. These include several custom
+hardware platforms aimed at educational software for children. Better
+known devices are the Sharp Zaurus family of PDAs (reflashed to run Open
+Zaurus), the Nokia 770/800, the OLPC and the Pepper Pad 3, that both
+run a trimmed down Fedora.
+
+64bit systems Gnash has been known to run on are the Itanium,
+UltraSparc, PowerPC, AMD64, MIPS. Embedded systems include several ARM
+variants, MIPS, and the Geode GX.
+
+Building Gnash:
+---------------
+
+See the generic installation instructions in the file called "INSTALL".
+(If you are building from a fresh CVS checkout, first see the file
+"README_CVS" for additional instructions.)
+
+Gnash can be configured and built in three main variations.  They
+differ in the graphics and multimedia libraries used to display
+flash files.  The three variants are configured with the options:
+
+   --enable-renderer=opengl
+   --enable-renderer=cairo
+or --enable-renderer=agg
+
+Only one can be specified.  In addition, Gnash can use different multimedia
+back-ends for sound and/or video:
+
+   --enable-media=GST			Gstreamer
+   --enable-media=ffmpeg		Ffmpeg
+or --enable-media=mad			libmad (MP3 audio decoding only)
+
+The "media" setting is independent of the "renderer" setting.
+
+You will need the following development packages installed to
+build the player with GTK support: glib, atk, pango, cairo, gtk2,
+gtkglext.
+
+You can build the player without GTK support, and these are the
+dependent packages: OpenGL(libMesa), SDL.
+
+The GTK support is more developed and featureful, while the SDL
+support has fewer dependancies on other packages. The AGG backend
+gives better quality results, and works on devices with only a
+framebuffer, but the performance isn't as good as the OpenGL backend
+if you have a binary blob acelerated graphics driver installed.
+
+Other required packages are libxml2, libpng, and libjpeg.
+If gettext support is installed, or is present in the standard C library,
+gnash will support translation of its messages into other
+languages. Boost is also required, as Gnash uses it for portable
+mutexes and threading.
+
+Gstreamer version 0.10 is required because earlier versions wouldn't
+let you insert clips into an existing sound stream, as Gnash needs to
+do. If you use Gstreamer, you still need the ffmeg decoders, and the
+ffmpeg plugin for Gstreamer.
+
+You no longer need the Mozilla or Firefox development packages to
+build Gnash. All the required files are now included in Gnash, so the
+plugin can be built whenever the main gnash program can be built.
+
+To build Klash, the Konqueror plugin, you need to have the KDE
+development packages installed. This now installs a KDE executable
+called "klash" that is used by this plugin.
+
+As of ffmpeg version 51.40.4, the swscale implementation will be used
+instead of img_convert. Note that using when using ffmpeg version
+51.40.4, Gnash won't link.
+
+The Gnash Community:
+--------------------
+
+Gnash has three mailing lists hosted at gnu.org. Archives of these
+lists are stored at http://mail.gnu.org/pipermail/: 
+
+    * gnash-dev@gnu.org is for discussion of gnash development,
+      porting to new platforms, ideas for the future. This is where
+      the nitty-gritty gets discussed about Gnash, and is the best
+      list for technical questions. To subscribe, go the
+      http://mail.gnu.org/mailman/listinfo/gnash-dev 
+    * gnash@gnu.org is for discussion of Gnash. Ideas for the future,
+      general gnash usage or problems, etc... New alpha and stable
+      releases are announced here. To subscribe, go the
+      http://mail.gnu.org/mailman/listinfo/gnash. Volume is typically
+      low.
+    * gnash-commit@gnu.org is where summaries of changes commited to
+      the CVS repository are automatically posted. If you wish to see
+      these changes as they happen,
+      http://mail.gnu.org/mailman/listinfo/gnash-commit Volume is
+      sporadic, but typically low.
+
+IRC:
+    * #gnash on irc.freenode.net The #gnash channel on irc.freenode.net is 
+      where many of the developers hang out.
+
+If you would like a new feature to be included in future versions of
+Gnash, please send a request to <gnash-dev@gnu.org>. You can also
+submit patches at https://savannah.gnu.org/patch/?group=gnash.
+
+Please remember that development of Gnash is a volunteer effort.
+You can contribute to its development. The Gnash project would like to
+find volunteers to focus on win32 and Darwin support, as well as help
+us fill in missing functionality. Offers of help can be sent to
+<gnash-dev@gnu.org>.
+
+For information about contributing to the GNU Project, please read How
+to help GNU at <http://www.gnu.org/help/help.html>.
+
+If you think you have found a bug in Gnash, then
+you should file as complete a report as possible at
+https://savannah.gnu.org/bugs/?group=gnash.  Please include the operating
+system name and version, and which gnash version you are using, in your
+bug reports. Please try to reproduce your bug reports with the most
+recent version of Gnash in CVS, as bugs are fixed there that may be
+broken in a standard release.
