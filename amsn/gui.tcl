@@ -4957,47 +4957,53 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 
 	bind $tw.$name <Button1-ButtonRelease> $command
 	# Drag and Drop setting DP
-	::dnd bindtarget $tw.$name Files <Drop> "dpImageDropHandler %D"
+	::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"
 
 	return $tw.$name
 }
 
-proc dpImageDropHandler { data } {
+proc fileDropHandler { data action {target "self"}} {
 	set data [string map {\r "" \n "" \x00 ""} $data]
 	set data [urldecode $data]
 
-	if { [OnWin] } {
-		if { [string index $data 0] == "{" && [string index $data end] == "}" } {
-			set data [string range $data 1 end-1]
-		}
-		status_log "File dropped to change DP: $data"
-		setMyDPFromFile $data
-
-	} else {
-
-#TODO		#(VFS pseudo-)protocol: if we can't acces the file, display an error
-		foreach type [list smb http https ftp sftp floppy cdrom dvd] {
-			if {[string first $type $data] == 0} { 
-				status_log "file can't be accessed: $data"
-			}
-		}
-
-		#If the data begins with "file://", strip this off
-		if { [string range $data 0 6] == "file://" } {
-			set data [string range $data 7 [string length $data]]
-		} 
-		status_log "File dropped to change DP: $data"
-		setMyDPFromFile $data
+	#this is for windows
+	if { [string index $data 0] == "{" && [string index $data end] == "}" } {
+		set data [string range $data 1 end-1]
 	}
 
+#TODO		#(VFS pseudo-)protocol: if we can't acces the file, display an error
+	foreach type [list smb http https ftp sftp floppy cdrom dvd] {
+		if {[string first $type $data] == 0} { 
+			status_log "file can't be accessed: $data"
+		}
+	}
+
+	#If the data begins with "file://", strip this off
+	if { [string range $data 0 6] == "file://" } {
+		set data [string range $data 7 [string length $data]]
+	} 
+
+	status_log "File dropped: $data"
+		
+	switch $action {
+		setdp {
+			after 0 dpBrowser
+			setDPFromFile "$target" $data
+
+		}
+		sendfile {
+			if {$target == "self"} {
+				status_log "This ain't right ... should I send a file to window 'self'?"
+			} else {
+	        		::amsn::FileTransferSend $target $data
+			}
+		}
+		default {
+			status_log "Dunnow what to do with the file ... what's $action ?"
+		}
+	}
 }
 
-proc setMyDPFromFile { file } {
-	after 0 dpBrowser
-
-	set target "self"
-	setDPFromFile "self" $file
-}
 
 # The same as the previous one, but this proc works on a list.
 proc trunc_list {str {window ""} {maxw 0 } {font ""}} {

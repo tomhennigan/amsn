@@ -2283,7 +2283,7 @@ namespace eval ::ChatWindow {
 		::plugins::PostEvent chatsendbutton evPar
 
 		# Drag and Drop file sending
-		::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "::ChatWindow::HandleFileDrop $w %D"
+		::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "fileDropHandler %D sendfile $w"
 		#::dnd bindtarget [::ChatWindow::GetInputText $w] UniformResourceLocator <Drop> "%W insert end %D"
 		::dnd bindtarget [::ChatWindow::GetInputText $w] Text <Drop> {%W insert end %D}
 
@@ -2303,46 +2303,6 @@ namespace eval ::ChatWindow {
 		    -command "::smiley::smileyMenu \[winfo pointerx $w\] \[winfo pointery $w\] [::ChatWindow::GetInputText $w]"
 		tk_popup $w.copypaste $x $y
 	}
-
-	###############################################################
-	# HandleFileDrop window data                          	      #
-	# ------------------------------------------------------------#
-	# Proc called when a file is dropped to the input text widget #
-	# All Drag and Drop code based on plugin by MeV :             #
-	# chrystalyst@free.fr                                         #
-	###############################################################
-	proc HandleFileDrop {window data} {
-		#Send the name of the file to the ::amsn::FileTransferSend proc (for windows $data is like this "{filename}")
-		status_log "Drag and Drop: Send filename: "
-		set data [string map {\r "" \n "" \x00 ""} $data]
-		set data [urldecode $data]
-		if { [OnWin] } {
-			if { [string index $data 0] == "{" && [string index $data end] == "}" } {
-				set data [string range $data 1 end-1]
-			}
-			status_log $data
-		        ::amsn::FileTransferSend $window $data
-		} else {
-
-#TODO: improve this ???
-			#(VFS pseudo-)protocol: if we can't send it as a file we just paste its URI
-			foreach type [list smb http https ftp sftp floppy cdrom dvd] {
-				if {[string first $type $data] == 0} { 
-					[::ChatWindow::GetInputText $window] insert insert $data
-					return 
-				}
-			}
-
-			#If the data begins with "file://", strip this off
-			if { [string range $data 0 6] == "file://" } {
-				set data [string range $data 7 [string length $data]]
-			} 
-			status_log "We got a filedrop: $data.  Sending FT request ..."
-	        	::amsn::FileTransferSend $window $data
-		}
-	}
-
-
 
 	proc CreateButtonBar { w bottom } {
 
@@ -2861,6 +2821,7 @@ namespace eval ::ChatWindow {
 		if { [::config::getKey old_dpframe 0] == 0 } {
 			bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
 			bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
+			::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"
 		} else {
 			bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowOldPicMenu $w %X %Y\n"
 			bind $pictureinner <<Button3>> "::amsn::ShowOldPicMenu $w %X %Y\n"
