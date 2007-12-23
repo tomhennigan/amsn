@@ -338,9 +338,23 @@ if {[::config::getKey startontray]} {
 	wm state . normal
 }
 
-if { [::config::getKey autoconnect] == 1 && [::config::getKey save_password] == 1} {
-  ::MSN::connect
+proc auto_login_argv { user } { 
+   if { [winfo exists .main.loginscreen] } { 
+    .main.loginscreen.user delete 0 end 
+    .main.loginscreen.user insert 0 $user 
+    .main.loginscreen UsernameEdited 
+    after 1000 "::MSN::connect" 
+  } 
+} 
+  
+if { $argv != "" } {
+   after idle [list auto_login_argv $argv] 
+} else {
+   if { [::config::getKey autoconnect] == 1 && [::config::getKey save_password] == 1} {
+     	::MSN::connect
+   }
 }
+
 
 if { [::config::getKey autocheckver] == 1 } {
     set new [::autoupdate::check_version_silent]
