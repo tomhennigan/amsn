@@ -620,10 +620,10 @@ namespace eval ::ChatWindow {
 			# calling winflash. If this one or the first one were successful, we add a bind
 			# on FocusIn to call the winflash with the -state 0 option to disable it and we return.
 			if { [OnWin] } {
-				if { [catch {winflash $window -count -1} ] } {
+				if { [catch {winflash $window -count 5} ] } {
 					if { ![catch { 
 						package require winflash
-						winflash $window -count -1
+						winflash $window -count 5
 					} ] } {
 						bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
 						return
@@ -3215,6 +3215,20 @@ namespace eval ::ChatWindow {
 		::plugins::PostEvent TopUpdate evPar
 		
 		update idletasks
+
+		# If we had a flickering window, bypass windows bug and reflicker it after the title change..
+		if { [OnWin] } {
+			# Make sure we check the toplevel window, in case we use a container.
+			set window $win_name
+			set container [GetContainerFromWindow $window]
+			if { $container != ""} {
+				set window $container
+			}
+
+			if {[bind $window <FocusIn>] != "" } {
+				catch {winflash $window -count 1}
+			}
+		}
 
 		after cancel [list ::ChatWindow::TopUpdate $chatid]
 	}
