@@ -1759,7 +1759,7 @@ namespace eval ::ChatWindow {
 		}
 		
 		set toX [::skin::getKey topbarpadx]
-		set usrsX [expr {$toX + [font measure bplainf "[trans to]:"] + 5}]
+		set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans to]:"] + 5}]
 		set txtY [::skin::getKey topbarpady]
 		
 		$top create text $toX $txtY -fill [::skin::getKey topbartext] -state disabled -font bplainf -text "[trans to]:" -anchor nw -tag to
@@ -3088,7 +3088,7 @@ namespace eval ::ChatWindow {
 				set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $f -displayof $top -linespace] * $nroflines)}]
 				font delete $f
 			}
-			set usrsX [expr {$toX + [font measure bplainf "[trans to]:"] + 5}]
+			set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans to]:"] + 5}]
 
 			set defaultcolour #000000
 			set defaultfont sboldf
@@ -3101,7 +3101,7 @@ namespace eval ::ChatWindow {
 						set textpart [lindex $unit 1]
 						$top create text $usrsX $Ycoord -text $textpart \
 							-anchor nw -fill $colour -font $font_attr -tags text2
-						set textwidth [font measure $font_attr $textpart]
+						set textwidth [font measure $font_attr -displayof $top $textpart]
 						incr usrsX $textwidth
 					}
 					"smiley" {

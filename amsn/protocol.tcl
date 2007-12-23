@@ -7731,7 +7731,7 @@ namespace eval ::MSNMobile {
 	$top itemconfigure to -text "[trans tomobile]:"
 	
 	set toX [::skin::getKey topbarpadx]
-	set usrsX [expr {$toX + [font measure bplainf "[trans tomobile]:"] + 5}]
+	set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans tomobile]:"] + 5}]
 	set txtY [::skin::getKey topbarpady]
 	
 	$top coords text $usrsX [lindex [$top coords text] 1]

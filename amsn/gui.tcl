@@ -1683,7 +1683,7 @@ namespace eval ::amsn {
 		set msg [$message getBody]
 
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
-		incr maxw [expr {0-[font measure splainf "[trans says [list]]:"]}]
+		incr maxw [expr {0-[font measure splainf -displayof . "[trans says [list]]:"]}]
 		set nickt [trunc $nick $maxw splainf]
 
 		#if { ([::config::getKey notifymsg] == 1) && ([string first ${win_name} [focus]] != 0)} {
@@ -1728,7 +1728,7 @@ namespace eval ::amsn {
 		}
 		
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
-		incr maxw [expr {0-[font measure splainf "[trans says [list]]:"]}]
+		incr maxw [expr {0-[font measure splainf -displayof . "[trans says [list]]:"]}]
 		set nickt [trunc $nick $maxw splainf]
 		set tmsg "[trans gotink $user]"
 		set win_name [::ChatWindow::MakeFor $chatid $tmsg $user]

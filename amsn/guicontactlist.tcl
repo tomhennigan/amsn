@@ -876,7 +876,7 @@ namespace eval ::guiContactList {
 		$canvas create text $textxpos $ypos -text $groupnametext -anchor nw \
 			-fill $groupcolor -font sboldf -tags [list group title name_$gid $gid]
 
-		set text2xpos [expr {$textxpos + [font measure sboldf $groupnametext] + \
+		set text2xpos [expr {$textxpos + [font measure sboldf -displayof $canvas $groupnametext] + \
 			$groupnamecountpad}]
 
 		# Then the group's count
@@ -888,8 +888,8 @@ namespace eval ::guiContactList {
 		#Setup co-ords for underline on hover
 		set yuline [expr {$ypos + [font configure splainf -size] + 3 }]
 
-		set underlinst [list [list $textxpos $yuline [font measure sboldf $groupnametext] \
-			$groupcolor] [list $text2xpos $yuline [font measure splainf $groupcounttext] \
+		set underlinst [list [list $textxpos $yuline [font measure sboldf -displayof $canvas $groupnametext] \
+			$groupcolor] [list $text2xpos $yuline [font measure splainf -displayof $canvas $groupcounttext] \
 			$groupcolor]]
 
 		# Create mouse event bindings
@@ -987,7 +987,7 @@ namespace eval ::guiContactList {
 		set marginy 0
 		set truncflag 0
 		set linewidth [list $marginx]
-		set truncable [list [list "size" [font measure $font_attr $ellips]]]
+		set truncable [list [list "size" [font measure $font_attr -displayof $canvas $ellips]]]
 		set tofill [list ]
 		set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
 
@@ -998,7 +998,7 @@ namespace eval ::guiContactList {
 					if {$truncflag} {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
-					lappend linewidth [font measure $font_attr [lindex $unit 1]]
+					lappend linewidth [font measure $font_attr -displayof $canvas [lindex $unit 1]]
 					set height [expr {[font metrics $font_attr -linespace] + $marginy}]
 					if {$height > $max_height} {
 						set max_height $height
@@ -1032,7 +1032,7 @@ namespace eval ::guiContactList {
 				}
 				"font" {
 					#We add to the list the size of ellipsis for last format
-					lappend truncable [list "size" [font measure $font_attr $ellips]]
+					lappend truncable [list "size" [font measure $font_attr -displayof $canvas $ellips]]
 					#We must take in account fonts as they modifies the width of text
 					if { [llength [lindex $unit 1]] == 1 } {
 						if { [lindex $unit 1] == "reset" } {
@@ -1076,10 +1076,10 @@ namespace eval ::guiContactList {
 				"newline" {
 					lappend linesheight $max_height
 					set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
-					lappend truncable [list "size" [font measure $font_attr $ellips]]
+					lappend truncable [list "size" [font measure $font_attr -displayof $canvas $ellips]]
 					lappend lineswidth [adaptSizes $linewidth $truncable $tofill $maxwidth]
 					set linewidth [list $marginx]
-					set truncable [list [list "size" [font measure $font_attr $ellips]]]
+					set truncable [list [list "size" [font measure $font_attr -displayof $canvas $ellips]]]
 					set tofill [list ]
 				}
 				default {
@@ -1129,9 +1129,9 @@ namespace eval ::guiContactList {
 	
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[font measure $font_attr $textpart] > $size} {
+						if {[font measure $font_attr -displayof $canvas $textpart] > $size} {
 							set textpart [::guiContactList::truncateText $textpart \
-								[expr {$size-[font measure $font_attr $ellips]}] \
+								[expr {$size-[font measure $font_attr -displayof $canvas $ellips]}] \
 								$font_attr]
 
 							set textpart "$textpart$ellips"
@@ -1141,7 +1141,7 @@ namespace eval ::guiContactList {
 						$canvas create text $xpos [expr {$ypos + $marginy}] -text $textpart \
 							-anchor w -fill $colour -font $font_attr -tags $tags
 
-						set textwidth [font measure $font_attr $textpart]
+						set textwidth [font measure $font_attr -displayof $canvas $textpart]
 
 						if {$underlinename != ""} {
 							# Append underline coords
@@ -1166,7 +1166,7 @@ namespace eval ::guiContactList {
 					} elseif { $size > 0 } {
 						$canvas create text $xpos [expr {$ypos + $marginy}] -text $ellips \
 							-anchor w -fill $colour -font $font_attr -tags $tags
-						set textwidth [font measure $font_attr $ellips]
+						set textwidth [font measure $font_attr -displayof $canvas $ellips]
 
 						if {$underlinename != ""} {
 							# Append underline coords
@@ -1191,7 +1191,7 @@ namespace eval ::guiContactList {
 					} elseif { $size > 0 } {
 						$canvas create text $xpos [expr {$ypos + $marginy}] -text $ellips \
 							-anchor w -fill $colour -font $font_attr -tags $tags
-						set textwidth [font measure $font_attr $ellips]
+						set textwidth [font measure $font_attr -displayof $canvas $ellips]
 
 						if {$underlinename != ""} {
 							# Append underline coords
@@ -2041,7 +2041,7 @@ namespace eval ::guiContactList {
 
 		set shortened ""
 		set stringlength [string length $text]
-		set ellipsislenght [font measure $font $ellipsis]
+		set ellipsislenght [font measure $font -displayof . $ellipsis]
 
 		set maxwidth [expr {$maxwidth - $ellipsislenght}]
 
@@ -2049,7 +2049,7 @@ namespace eval ::guiContactList {
 		for {set x 0} {$x < $stringlength} {incr x} {
 			set nextchar [string range $text $x $x]
 			set nextstring "$shortened$nextchar"
-			if {[font measure $font $nextstring] > $maxwidth} {
+			if {[font measure $font -displayof . $nextstring] > $maxwidth} {
 				break
 			}
 			set shortened "$nextstring"

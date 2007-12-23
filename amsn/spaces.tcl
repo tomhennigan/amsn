@@ -636,14 +636,14 @@ namespace eval ::ccard {
 			$canvas create image [expr $bp_x -1 ]  [expr $bp_y -1 ] -anchor nw -image [::skin::loadPixmap ccard_bpborder] -tags [list tt $email]
 
 			set nick [::abook::getNick $email]
-			if {[font measure bboldf $nick] > 180} {
+			if {[font measure bboldf -displayof $canvas $nick] > 180} {
 				set nick [::guiContactList::truncateText $nick 180 bboldf "..."]
 			}
 			$canvas create text 114 24 -text $nick -font bboldf -justify left -anchor nw -fill black\
 					-tags [list $email nickname] 
 
 			set psm [::abook::getpsmmedia $email]
-			if {[font measure bitalf $psm] > 180} {
+			if {[font measure bitalf -displayof $canvas $psm] > 180} {
 				set psm [::guiContactList::truncateText $psm 180 bitalf "..."]
 			}
 			$canvas create text 114 40 -text $psm -font bitalf -justify left -anchor nw -fill black\
@@ -896,7 +896,7 @@ namespace eval ::ccard {
 			
 			#First show the spaces title:
 			if {$SpaceTitle != ""} {
-				if {[font measure bboldf $SpaceTitle] > 175} {
+				if {[font measure bboldf -displayof $canvas $SpaceTitle] > 175} {
 					set SpaceTitle [::guiContactList::truncateText $SpaceTitle 175 bboldf "..."]
 				}
 				$canvas create text $xcoord [expr {$ycoord + $height}] -font bboldf -text $SpaceTitle\
@@ -924,7 +924,7 @@ namespace eval ::ccard {
 					#check if there's a title
 					set title [lindex $i 1]
 					if {$title != ""} {
-						if {[font measure sitalf $title] > 155} {
+						if {[font measure sitalf -displayof $canvas $title] > 155} {
 							set SpaceTitle [::guiContactList::truncateText $title 155 sitalf "..."]
 						}
 						$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
