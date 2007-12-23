@@ -56,7 +56,7 @@ snit::widget dpbrowser {
 
 	# Generate the dps list for the specified users
 	method fillWidget { } {
-		global HOME
+		global HOME HOME2
 
 		set selected ""
 
@@ -80,8 +80,30 @@ snit::widget dpbrowser {
 				if { [catch { set skin [::config::getGlobalKey skin] } ] != 0 || $skin == ""} {
 					set skin "default"
 				}
-				set shipped_dps [lsort -index 1 [$self getDpsList [glob -nocomplain -directory [file join skins $skin displaypic] *.dat] "self" 1]]
+				set default_dps [glob -nocomplain -directory [file join skins default displaypic] *.dat]
+				if { $skin != "default" } {
+					set locations [list [set ::program_dir] $HOME2 $HOME [file join $HOME2 amsn-extras]]
+					set skin_dps [list]
+					foreach dir $locations {
+						if { [file exists [file join $dir skins $skin]] } {
+							set skin_dps [glob -nocomplain -directory [file join $dir skins $skin displaypic] *.dat]
+							break
+						}
+					}
+					set shipped_dp_list [list]
+					foreach file [concat $default_dps $skin_dps] {
+						set fname [file tail $file]
+						if { [lsearch $shipped_dp_list $fname] == -1 } {
+							lappend shipped_dp_list $fname
+						}
+					}					
+				} else {
+					set shipped_dp_list $default_dps
+				}
+
+				set shipped_dps [lsort -index 1 [$self getDpsList $shipped_dp_list "self" 1]]
 				set shipped_dps [linsert $shipped_dps 0 [list "" "nopic" "[trans nopic]"]]
+
 				# Delete dat files for non-existing png files
 				set dat_files [lsort [glob -nocomplain -directory [file join $HOME displaypic] *.dat]]
 				set png_files [lsort [glob -nocomplain -directory [file join $HOME displaypic] *.png]]
