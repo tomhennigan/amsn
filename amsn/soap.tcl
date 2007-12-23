@@ -80,7 +80,9 @@ snit::type SOAPRequest {
 		
 		::http::config -accept "*/*"  -useragent "MSMSGS"
 
-		http::geturl $options(-url) -command [list $self GotSoapReply] -query $options(-xml) -type "text/xml; charset=utf-8" -headers $headers
+		# Catch it in case we have no internet.. 
+		# TODO : maybe fix this somehow since we'll never get the callback...
+		catch { http::geturl $options(-url) -command [list $self GotSoapReply] -query $options(-xml) -type "text/xml; charset=utf-8" -headers $headers }
 
 		#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$options(-xml)"
 
