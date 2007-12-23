@@ -3323,7 +3323,9 @@ namespace eval ::Event {
 		while { $dataRemains } {
 			#put available data in buffer. When buffer is empty dataRemains is set to 0
 			if { [info procs $self] != "" || [info procs Snit_methodreceivedData] != ""} {
-				set dataRemains [$self appendDataToBuffer]
+				if {[catch {set dataRemains [$self appendDataToBuffer]}] } {
+					status_log "$self has been destroyed while being in use.. couldn't test it, but caught it" red
+				}
 			} else {
 				status_log "$self has been destroyed while being used" red
 				break
