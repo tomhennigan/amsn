@@ -2821,7 +2821,7 @@ namespace eval ::ChatWindow {
 		if { [::config::getKey old_dpframe 0] == 0 } {
 			bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
 			bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
-			::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"
+			::dnd bindtarget $pictureinner Files <Drop> "fileDropHandler %D setdp self"
 		} else {
 			bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowOldPicMenu $w %X %Y\n"
 			bind $pictureinner <<Button3>> "::amsn::ShowOldPicMenu $w %X %Y\n"
