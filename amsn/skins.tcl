@@ -601,7 +601,6 @@ namespace eval ::skin {
 		}
 
 		set locations [list]
-		lappend locations 
 		#Get file using global path
 		if { "[string range $filename 0 0]" == "/" } {
 			lappend locations ""
