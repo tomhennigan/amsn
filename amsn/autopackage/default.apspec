@@ -9,7 +9,7 @@ Packager: Taj Morton <tajmorton@gmail.com>
 Summary: AMSN is a multiplatform MSN client
 URL: http://www.amsn-project.net
 License: GNU General Public License, Version 2
-SoftwareVersion: 0.97
+SoftwareVersion: 0.98
 # SoftwareVersion: @VERSION@
 PackageVersion: 1
 AutopackageTarget: 1.2
