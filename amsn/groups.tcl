@@ -126,7 +126,7 @@ namespace eval ::groups {
 				set pgc 0;
 				foreach contact [::abook::getAllContacts] {
 					if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
-						set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $passport]
+						set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $contact]
 						::config::unsetKey tempcontact_$passport2
 					}
 				}
@@ -147,7 +147,7 @@ namespace eval ::groups {
 			set pgc 0
 			foreach contact [::abook::getAllContacts] {
 				if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
-					set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $passport]
+					set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $contact]
 					::config::unsetKey tempcontact_$passport2
 				}
 			}
