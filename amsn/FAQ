@@ -1,314 +1,748 @@
-FAQ 1.8
---------
+Frequently Asked Questions
+The latest version of this FAQ can be found at http://amsn-project.net/faq.php
 
-Q: What is Amsn?
-A: Amsn is a Microsoft Messenger clone. It allows you to keep in touch with
-your friends and exchange instant messages and files.
+FAQ 2.1.0 
 
-INSTALLING AND RUNNING
-=====================
-
-Q: What do I need to run amsn?
-A: Amsn is written in tcl/tk, so you just need a working tcl/tk interpreter
-(version 8.3 or later). You can get it at http://tcl.sourceforge.net. The
-interpreter is available for linux, windows and macintosh.Some additional
-features might require extra programs or libraries, like the docking icon,
-the Display Pictures or the SSL connection for MSN Protocol 9.
-
-Q: How do I install and run amsn on unix/linux?
-A: Just download the amsn-x_xx.tar.gz file. Untar it with the command:
-  gzip -d amsn-x_xx.tar.gz
-  tar xvf amsn-x_xx.tar
-It will create an msn/ directory, and amsn is installed and ready to run.
-To launch it, do:
-  cd msn
-  ./amsn
-or if this doesn't work, try
-  wish amsn
-If wish command doesn't exist, then you don't have tcl/tk correctly installed.
-If "wish amsn" works, but "./amsn" doesn't, edit 'amsn' file and set the
-correct path to 'wish' in the first line. By default it's set to:
-/usr/bin/wish
-
-Q: After downloading imagemagick, How do I enable Display Pictures?
-After you installed imagemagick, go to the AMSN's Preferences dialog. There,
-click on "Others". Go to a field named "CONVERT", and click the browse button.
-Then go to the folder where you installed imagemagick, and select the
-"CONVERT.EXE" file. 
-The, save preferences and restart AMSN. Then go to preferences again, and
-check that the option "Enable receiving Display Pictures from other users"
-is enabled, as it was disabled automatically because CONVERT.EXE couldn't
-be found.
-
-Q: When I double click "amsn" file from a graphical file browser, like
-konqueror or nautilus, it opens a text editor instead of running AMSN!
-A: AMSN is written in tcl/tk, an interpreted language, so the "amsn"
-file is just a text file with the program code. The file manager might
-think it's a text file, so it will launch the text editor. To run AMSN
-you should choose "Open with...", "Launch with..." or similar, and use
-the program "wish" to open the file "amsn". Again, as seen in the
-question above, if the "wish" command doesn't exist, you need to
-install tcl/tk.
-
-Q: How do I create a shortcut to amsn on my desktop?
-A: 1.- Add an icon to your gnome/kde desktop or menu, that
-launches the command:
-/wherever/you/have/amsn/installed/amsn
- for example
- /home/yourusername/msn/amsn
- 2. Other way:
- As root, create a link in /usr/bin to the amsn file
- ln -s /wherever/you/have/amsn/installed/amsn amsn
- This way, you can launch amsn by just typing 'amsn' from
-anywhere.
- Then add an icon that launches the command 'amsn'.
-
-Q: How do I get the Gnome/KDE docking to work?
-A: You have to run 'make' inside the plugins directory, to build
-the OLD GNOME1 plugin. You'll need gnome development libraries. When
-the plugin is built, just run amsn and select Gnome Docking in the
-options menu.
-To build the NEWER freedesktop (Gnome2 and KDE3 compatible)
-docking, read README file in plugins/traydoc.
-
-USING IT
-========
-
-Q: What do the magenta contacts in my contact list mean?
-A: It means that you are not in that person's contact list.
-
-Q: Can I copy a contact address to the clipboard?
-A: Yes, right click on that contact name on the contact list, and
-click its address on the pop-up menu. The contact email address
-will be copied to the clipboard.
-
-Q: How can I access the history of the messages I sent in my chat windows?
-A: If you want to access previous messages you sent in your chat windows
-you only need to use the Control key with the arrows. It works the same way
-as in a shell so Ctrl-Up gives you the previous message sent and Ctrl-Down,
-the next one.
-
-Q: In the preferences' privacy tab, what do those four lists mean?
-A: There are four lists, known as Allow List(AL), Block List(BL), Reverse
-List(RL) and Contact List. The last one is obvious, I'll explain what
-other three lists mean :
-AL : This list contains the emails of people who are allowed to see you when
-you get online and they can also chat with you when you aren't offline
-BL : This is the block list, which means it contains the list of people you
-are blocking. So this means they can't see you when you are online, and they
-can't chat with you.
-RL : This is the reverse list, it contains the email addresses of people who
-added you to their list. People appearing in green in this list are people
-who aren't in your contact list but you are still in theirs.
-
-Q: I want to add my own custom smileys, how can I do it ?
-A: There is a new button in the smileys menu that allows you to do this.
-Click on the "Add new custom smiley" button and a window will appear, you must
-fill the required fields. The "description" field should be set to whatever
-you want, it will only be the description shown by the tooltip. The "text
-triggers" field is what you want typed for the smiley to be shown, for example,
-the regular smiley has triggers like :) :-) .. the big smile smiley has
-triggers like :D :-D :> :-> ... to set multiple triggers, you must type them
-one after the other, separated by a space. if you want a trigger that already
-has a space in it for example "hello there", you should put it between quotes..
-for example :
-"hello there" hi "what's up"
-this will be 3 triggers for the same smiley.
-The "smiley file" field is the filename of the gif file. it must be of size
-19x19 so the smileys menu won't be corrupted. but it can have any size you
-want, but we some weird things might happen... (smileys menu corrupted, if
-you add that smiley to your nickname, the "My status" part of the main amsn
-window might get corrupted too, etc..). You can give a full pathname, use the
-browse button, or just put the name of the file, if it is a file in the
-~/.amsn/<profile>/smileys or msn/skins/<skin>/smileys directory. The file
-will then be copied in your profile directory in case you move or rename the
-original file.
-The same properties may be considered for the "Sound file" field... this is
-used for playing a sound, when the smiley is shown.. for example the LOL
-smiley triggered on LOL makes a laughing sound. The sound must be a .wav file
-or any extension supported by your sound player (set in the application
-preferences tab... play, esdplay, or mpg123 if you want it to be an .mp3
-file...) . For that entry to be available, you must first activate the
-checkbutton that says "play sound"
-The check-button "animated" means that this GIF file is animated, if the GIF
-is animated and you don't set this option, then the smiley will be a still
-image.
-The "Hide from smileys menu" option, means that if you set this option on,
-then the smiley won't appear in the smileys menu, but will still be activated
-on triggers.
-The "case sensitive" option, means that the triggers should be considered
-case sensitive, that means, that a "LOL" trigger would be different from a
-"lol" trigger. if not set, then the lowercases/uppercases won't have any
-importance.
-When you finished your settings, press the OK button, it will prompt errors
-if you forgot to set one of the 3 first option (description, triggers and
-GIF file) or if the files (GIF and/or sound) does not exist or are not
-readable by the user. if no error message is shown, then you can already
-use your new smileys.
-Have fun.
-
-Q: Nicknames are now truncated. Is it possible to revert back to full nicknames?
-A: Yes. To have nicknames be displayed in their full length on the contact
-list, in the alerts and the chat window, go to the advanced preferences section,
-inside the preferences window, and disable it.
-
-Q: Blocking detection is not available anymore, why?
-A: The protocol bug that allowed us to detect blocking people has been fixed.
-It's no longer possible to detect them, so it makes no sense to include this
-option.
+Contents
+1 What is aMSN? 
+1.1 What is aMSN?
+1.2 What do I need to run aMSN?
+2 Where can I get aMSN ?
+3 Troubleshooting 
+3.1 Why are arabic fonts displayed from left to right instead of right to left?
+3.2 I have enabled the traydock icon, but when I minimize aMSN, it is still shown in both the taskbar and the tray. How can I make it display in the tray only?
+3.3 When I close aMSN's window, it quits instead of minimizing to tray
+3.4 I don't see the traydock even if I enabled it, what's the problem?
+3.5 Does aMSN run on 64-bit systems?
+3.6 When notify window pops up, the windows taskbar partially hides it, can I fix this?
+3.7 Can I see who blocked me?
+3.8 My jpeg webcam does not currently work, will my jpeg webcam work in the future (example: D-link dsb-c310)?
+3.9 Why can't I receive acceptable quality images from my contacts using aMSN?
+3.10 I can't read Chinese or Japanese with aMSN, even after changing the text encoding. Where can I find help?
+3.11 How do I capture bug report information from a segmentation fault? (LINUX)
+3.12 I want to report a bug, how do I open the status log and the protocol debugger?
+3.13 When I double click "amsn" file from a graphical file browser, like Konqueror or Nautilus, it opens a text editor instead of running aMSN. What shall I do (Linux)?
+3.14 Sometimes aMSN "hangs", why is this?
+3.15 I try to run amsn but I get this error:
+3.16 Can I use aMSN behind a proxy server?
+3.17 I'm using aMSN behind a firewall, or using IP-Masquerade. Sending files won't work, can I fix it?
+3.18 With version 0.94 I could see when someone opened a conversation window with me, but since version 0.95 this doesn't happen anymore, why?
+3.19 I liked the XXXX skin when using the previous version, but it seems to be incompatible with the latest version... when will it be ?
+3.20 As soon as I try to log on or change aMSN's language, it crashes with the following message: X Error of failed request: BadValue (integer parameter out of range for operation), Major opcode of failed request: 45 (X_OpenFont)
+3.21 I try to run aMSN and it gives this error: Error in startup script: time value too large/small to represent while executing [...] procedure "ConvertLocalToUTC".
+4 Using aMSN 
+4.1 What are the keyboard shortcuts ?
+4.2 What does the special icon on the right of the buddies mean?
+4.3 Can I copy a contact address to the clipboard?
+4.4 Can I copy or open a URL address in a contact's nickname/personal message?
+4.5 How can I set my personal message like in MSN7 ?
+4.6 How can I access the history of the messages I sent in my chat windows?
+4.7 In the preferences' privacy tab, what do those four lists mean?
+4.8 In the preferences' privacy tab, what do the different colors in the contacts mean?
+4.9 I want to add my own custom smileys, how can I do it?
+4.10 Nicknames are now truncated. Is it possible to revert back to full nicknames?
+4.11 How can I browse through my webcam logs and convert the .cam (cam recordings) to a movie file such as .mpeg?
+4.12 How can I make my webcam work?
+4.13 Where are the "stolen" display pictures saved?
+4.14 How can I change the directory where the profiles information are saved ?
+5 Running on Linux 
+5.1 How can I use anti-aliased fonts in aMSN?
+5.2 How do I create a shortcut to aMSN on my desktop on Linux?
+5.3 How do I open file-transfer ports in SUSE Linux?
+5.4 My aMSN sound notifications are not being played until I stop playing my music. How can I fix this so I can hear both at the same time?
+5.5 When I try running aMSN, I get an error "unknown color Black". How can I fix it ?
+5.6 TLS does not seem to work and I have tcl/tk 8.5. How can I fix it ?
+5.7 aMSN does not seem to work correctly with some files, especially files containing the character ` (back quote). How to fix it ?
+6 Running on Windows 
+6.1 How can I prevent/make aMSN from loading on windows start ?
+6.2 Whenever I go to preferences->session, the 'load amsn at windows start' is disabled, even if it does load at windows start !
+7 Running on Mac OS X 
+7.1 I have a question about Mac OS X, where can I go to find answers?
+7.2 Why do some characters in the aMSN contact list appear as squares?
+7.3 Why can't I use the shortcut Command-Space to switch keyboard layouts?
+7.4 How do I sign into more than one account with Mac aMSN?
+7.5 aMSN is incredibly slow on my new Intel Mac, what can I do to speed it up?
+7.6 Webcam doesn't work on my Intel Mac!
+7.7 How do I update aMSN to the latest development version on a Mac?
+7.8 I want to delete aMSN but I cannot empty the Trash!
+7.9 Where are aMSN's preferences files stored on a Mac?
+8 Other Questions 
+8.1 I noticed aMSN is opening some ports over port 60000. Is it normal? Is it a backdoor? Why does this happen?
+8.2 What is the Audio and Video Assistant?
+8.3 How do I remove aMSN completely?
+8.4 The mail traydock icon in the system tray continues to show up, how do I get rid of it?
+8.5 I enabled the logging of conversations on aMSN, but I cannot find the logfiles. Where are they stored?
+8.6 Can I disable custom and/or animated smileys?
+8.7 Why doesn't aMSN support audio / Why did aMSN drop linphone support?
+8.8 I have another question, can you help me?
 
 
-TROUBLESHOOTING
-===============
+=== What is aMSN?  ===
 
-Q: Sometimes amsn "hangs", why?
-A: When amsn hangs it's usually a problem with the sound configuration. Maybe
-you're playing a sound but the sound card is blocked, and the play command
-stops until the sound card is available. Try disabling sound or changing the
-sound command configuration.
+== What is aMSN? == 
 
-Q: I try to run amsn but I get this error:
-bash: ./amsn: bad interpreter: No such file or directory
-A: you need to install the tcl/tk packages, because you need the wish
-interpreter. If you think you have it, try "wish amsn" instead of "./amsn". If
-this works, edit amsn and change the first line:
- #!/usr/bin/wish
- with the location of the wish interpreter.
+aMSN is a Microsoft Messenger clone. It allows you to keep in touch with your friends and exchange instant messages and files. 
 
-Q: When I run amsn I get this error:
-Error in startup script: bad option "map": must be
-compare, first, index, last, length, match, range,
-tolower, toupper, trim, trimleft, trimright, wordend,
-or wordstart
-while executing
-"string map $map $md5body"
-(in namespace eval "::md5" script line 65)
-invoked from within
-"namespace eval ::md5 { ... etc
-A: You're using a version of tcl/tk that is older than 8.3. Update tcl/tk.
+ 
 
-Q: After updating amsn, this is what I get when I run it:
-Error in startup script: expected integer but got ""
-while executing
-"font create menufont -family $family -size $size
--weight normal"
-(procedure "::amsn::initLook" line 5)
-invoked from within
-"::amsn::initLook $family $size $config(backgroundcolor)"
-(file "amsn" line 2184)
-A: There have been some changes in the configuration file. A quick fix to have
-the new version working is to delete the old config file in your home dir.
-Delete /home/yourusername/.amsn/config and it should work now.
+== What do I need to run aMSN? == 
+Windows and Mac OS X. aMSN will run right out of the box if you download the official packages, which can be found at http://amsn.sourceforge.net/download.php. 
+Linux. You will need Tcl 8.4 / Tk 8.4 or above in order to run aMSN. These two packages (Tcl & Tk) are usually installed by default on most distributions. These can also be installed as a dependency if your packaging system supports it (rpm, deb, etc.). If for some reason your distribution does not currently provide you with Tcl 8.4 or Tk 8.4, you may download them and follow the installation instructions at http://tcl.tk. 
 
-Q: Can't type chinese / japanese / other languages in amsn. What can I do?
-A: It looks like xcin or similar programs are not supported in the current
-version of tcl/tk, so amsn doesn't work with them either. You should wait for
-next version of tcl/tk and hope it supports xcin. Meanwhile, you can type the
-text in another editor, and copy-paste it into the chat window .
-New:Internationalization copy and paste. If you have problems pasting characters
-in to AMSN, download and install this version of Tcl/Tk from this site:
-http://jfontain.free.fr/tcl-8.4a3-2.i386.rpm
-http://jfontain.free.fr/tk-8.4a3-2.i386.rpm
-http://jfontain.free.fr/tcl-thread-8.4a3-2.i386.rpm
-Please note that this could be a work around in case
-you can't type your language directly in to AMSN, for
-example Traditional Chinese using xcin.
+ 
 
-Q: Can I use AMSN behind a proxy server?
-A: As of the development version right after 0.61, HTTP proxy support is
-available. This means that you can only connect behind an HTTP proxy (such as
-squid for example). If your proxy server is socks5 then you will not be able
-to connect yet, but socks5 support is on the way.
+== Where can I get aMSN ? == 
 
-Q: Amsn looks connected, but when I try to chat with someone or change my state
-I get disconnected. This happens often, after some minutes of inactivity.
-Probably I'm behind a router or firewall.
-A: Try enabling "Keepalive (NAT)" in the tools->options menu, inside advanced
-preferences. It's a fix for shared internet connections that keeps sending a
-dummy packet to the server every 2 minutes, to keep the connection alive.
+You can download the packages of aMSN at http://amsn.sourceforge.net/download.php. 
 
-Q: The sound event is repeating. For example if XMMS is running and someone
-logged in or you were chatting with someone, after XMMS is closed or the
-file is finished all the sound events that weren`t able to be played
-because of XMMS are now played in an annoying way.
-A: You have many solutions. If you're using KDE, you can configure XMMS
-to play sound through arts, and use artsplay as sound play command for amsn.
-This way sounds will be mixed. If you use gnome, you can use esdplay and
-configure xmms for playing through ESD. Or instead of using the play command,
-you could just make a small script that checks if /dev/dsp is busy, or free,
-before calling "play".
+For Linux users : You can also get aMSN using your distribution's package management system (apt-get install amsn for debian/ubuntu for example). 
 
-Q: I'm using amsn behind a firewall, or using IP-Masquerade. Sending files
-won't work, can I fix it?
-A: Maybe the firewall is blocking incoming connections. File transfers work
-this way: When you want to send someone a file, you send an invitation with
-your IP address and a port number. Then the remote client must connect to
-your IP:port to start the transfer.
-The used port is usually 6891, 6892 and so on (first transfer is on port 6891,
-but if you start a new file transfer while the first one hasn't finished yet,
-then it will use 6892, and so on).
-So, if using a firewall, you must make sure that it allows incoming
-connections to port 6891 (and next ones if you want to be able to make more
-than one transfer at the same time).
-If you're inside a private network with private addresses, like 192.168.0.x,
-then it's more difficult to make file transfers work. You need to send the
-real internet address (you can enter it manually or tell amsn to guess it
-from a web page), instead of the internal address, and tell the gateway (the
-computer with direct connection to the internet) to forward incoming
-connections to port 6891 to your computer inside the private network.
+ 
 
-Q: How to open filetransfer ports in Suse Linux?
-A: Guide thanks to John Hillier
-1. Open Konqueror in Super User mode (KMenu/System/More Programs/File 
-Manager - Super User Mode).
-2. Enter in Konqueror URL field /etc/sysconfig/SuSEfirewall2.
-3. Click on text, right click with mouse, open KWrite to edit firewall 
-script.
-4. Edit section #9 line FW_SERVICES_EXT_TCP="6891" to include port 6891.
-5. Save prior to closing all windows then restart firewall in YaST.
-An easiest way is to open "YaST/Security and 
-Users/Firewall/Firewall Configuration". Click on "Expert" in "Additional 
-Services" and add port 6891. I posted both steps since I learned a lot of 
-useful information is contain
+=== Troubleshooting === 
 
-Running on Windows
-==============
+== Why are arabic fonts displayed from left to right instead of right to left? == 
+Windows: Go to 'Control Panel' ? 'Regional and Language Options' ? Languages tab, and enable the option "Install files for complex scripts and right-to-left languages" 
+Linux: Installing the Arabic locale should solve this issue. 
 
-Q: Can I make the sound work under windows?
-A: Yes, we have a small program called plwav.exe that just plays a wav under
-windows. You can use it as sound command (amsn needs some external program
-to play sounds). Go to the Tools->options->preferences->applications menu and
-enter "plwav" as sound server command.
+ 
 
-Q: When notify window pops up, the windows taskbar partially hides it, can I
-fix this?
-A: Yes, you can move the notify window X pixels to the left and Y pixels to
-the top. You can change this in Tools->Options->Preferences, inside the
-"Advanced" preferences section.
+== I have enabled the traydock icon, but when I minimize aMSN, it is still shown in both the taskbar and the tray. How can I make it display in the tray only? == 
 
-OTHER
-=====
-Q: I noticed AMSN is opening some ports over port 60000. Is it normal? Is it
-a backdoor? Why does this happen?
-A: It is normal. AMSN uses sockets as a locking system to avoid two AMSN
-instances use the same profile at once (which could cause trouble). This is
-the better platform independent locking system we found. If you find a better
-way of doing this, just tell us :)
-If you check ~/.amsn/profiles, you can see what port is used for each profile.
+The first time you will close aMSN with the 'X' button in the main window's border. It should ask you if you want to quit or minimize it to tray. You must choose the 'Minimize to Tray' option if you want it to disappear from the taskbar. 
+
+Alternatively, you can also click the "Minimize to Tray" option from the Account menu. 
 
 
-Q: I have another question, can you help me?
-A: Yes, we can. But first, take a look at the sourceforge project page, located
-at http://sourceforge.net/projects/amsn, and check all the bugs, support
-request and general forums to check if your problem is already answered. Don't
-check only the messages marked as "Open". There's a drop down list where you
-can select "Closed", or "Pending" at the top of the messages list. Already answered
-questions are usually marked as Closed.
-Before submitting a bug or asking for support, get the following information:
-- Amsn version.
-- Tcl and Tk version.
-- Stack trace of the submitted error (if applicable).
-- Last error messages in debug windows (Ctrl+D and Ctrl+S in contact list).
+ 
 
-If you still have a question, please check:
-http://amsn.sourceforge.net/wiki/tiki-index.php?page=HOW+TO+help+and+getting+help
+== When I close aMSN's window, it quits instead of minimizing to tray == 
+
+The first time you will close aMSN with the 'X' button in the main window's border. It should ask you if you want to quit or minimize it to tray. You must choose the 'Minimize to Tray' option if you want it to minimize to the tray. 
+
+If you chose 'Quit' and enabled the "Remember my choice" option, it will always quit and will not ask you again. If you want to change this behavior and want it to ask you again so you can change your choice, you will have to do the following procedure : 
+
+Press Ctrl-Shift-C from aMsn's main window, a new window titled "Console" will appear in which you can type commands. Type the following and press enter : 
+  ::config::setKey closingdocks 0
+
+You can now close this new Console window and the next time you close aMSN's main window, it will ask you again to make a choice. 
+
+
+== I don't see the traydock even if I enabled it, what's the problem? == 
+Linux: Make sure the file msn/utils/linux/traydock/libtray.so exists. If it does not exist, make sure you download an official package of aMSN at: http://amsn-project.net/download.php 
+
+If you compiled aMSN yourself, please make sure you have the X11 development packages installed and follow this page to compile aMSN correctly : http://amsn-project.net/wiki/Compiling_aMSN
+
+NOTE: There is no traydock icon on Mac OS X 
+
+ 
+
+== Does aMSN run on 64-bit systems? == 
+
+Yes, many users have been able to run aMSN on 64-bit architectures. However, you will have to compile tcltls by yourself. There isn't a package for x84_64 on the aMSN site so you need to download it from: [1] 
+
+ 
+== When notify window pops up, the windows taskbar partially hides it, can I fix this? == 
+
+Yes, you can move the notify window X pixels to the left and Y pixels to the top. You can customize this by modifying the "X Offset" and "Y Offset" values in (menu) 'Account' ? 'Preferences' ? 'Advanced' ? “Offset the position of the notification pop-up.” and clicking “Save” to save your modifications. 
+
+ 
+
+== Can I see who blocked me? == 
+
+No, this feature is no longer available because the block detection bug that was happening in the Microsoft servers has now been fixed. 
+
+There is NO safe way to know if someone blocked you 
+
+ 
+
+== My jpeg webcam does not currently work, will my jpeg webcam work in the future (example: D-link dsb-c310)? == 
+
+JPEG webcams support is currently supported since the 0.97 version of aMSN. 
+
+If you are using a version prior to 0.97, please update to the latest version of aMSN. 
+
+ 
+
+== Why can't I receive acceptable quality images from my contacts using aMSN? == 
+
+If the image is of a poor quality, it's probably because the other user's webcam is of poor quality. aMSN's quality of the webcam is the same as the official msn client. 
+
+ 
+
+
+
+== I can't read Chinese or Japanese with aMSN, even after changing the text encoding. Where can I find help? == 
+
+Please read the documentation about getting SCIM to work with aMSN (http://amsn-project.net/wiki/SCIM_Input )
+
+ 
+
+== How do I capture bug report information from a segmentation fault? (LINUX) == 
+
+Make sure amsn was compiled with debugging symbols, if you installed it using a binary package, you should probably download from source and recompile it. To enable debugging symbols, configure it with : ./configure --enable-debug If you're unable to compile it, then you can still send us information without the debugging symbols. Once it is compiled/installed, go to the directory where you have installed aMSN (example: /usr/share/amsn or /home/yourusername/amsn-0.95/) type: 
+ $ gdb --args wish amsn
+ (gdb) run
+ [then when it segfaults, type]
+ (gdb) bt
+ (gdb) bt full
+
+You will then receive the bug report information. Please report this information to the forums: http://amsn-project.net/forums 
+MAKE SURE THAT YOU SEARCH THE FORUMS FIRST TO SEE IF IT WAS ALREADY REPORTED 
+
+ 
+
+== I want to report a bug, how do I open the status log and the protocol debugger? == 
+
+Open your contact list and press the following key combinations : 
+
+status log: ctrl + s (Command-S on Mac OS X) protocol debug: ctrl + d (Command-D on Mac OS X) 
+
+ 
+
+== When I double click "amsn" file from a graphical file browser, like Konqueror or Nautilus, it opens a text editor instead of running aMSN. What shall I do (Linux)? == 
+
+aMSN is written in Tcl/Tk, an interpreted language, so the "amsn" file is just a text file with the program code. The file manager might think it's a text file, so it will launch the text editor. 
+
+In Konqueror (KDE) or Nautilus (Gnome), running aMSN can be done by right-clicking the “amsn” file and choosing "Open with..." Konqueror) or "Launch with..." (Gnome), depending on the file browser. 
+
+Type "wish". This launches the "amsn" script. 
+
+ 
+
+If you are told the the "wish" command doesn't exist, you need to install Tcl/Tk. 
+
+ 
+
+== Sometimes aMSN "hangs", why is this? == 
+
+When aMSN hangs it's usually a problem with the sound configuration. Perhaps you're playing a sound but the sound card is blocked, and the play command stops until the sound card is available. Try disabling sound or changing the sound command configuration. 
+
+If aMSN still hangs, and you are using a 2.6.x kernel, try running aMSN with: 
+  export LD_ASSUME_KERNEL=2.2.5 && amsn
+
+This command will tell the dynamic linker to use the old thread model. For more information on this issue, see: http://people.redhat.com/drepper/assumekernel.html 
+
+If you are on Mac OS X it often happens when you receive a smiley on a chatwindow, it's a known issue. 
+
+ 
+
+== I try to run amsn but I get this error: == 
+  bash: ./amsn: bad interpreter: No such file or directory
+
+You need to install the tcl/tk packages, because you need the wish interpreter. If you think you have it, try typing: 
+  wish /usr/share/amsn/amsn
+
+instead of: 
+  amsn
+
+If this works, edit /usr/share/amsn/amsn and change the first line to : 
+  #!/usr/bin/wish
+
+where /usr/bin/wish would be the location of the wish interpreter. You can find out the location of the 'wish' interpreter by typing : 
+  which wish
+
+ 
+
+== Can I use aMSN behind a proxy server? == 
+
+Yes, we provide support for HTTP and SOCKS5 proxies. 
+
+ 
+
+== I'm using aMSN behind a firewall, or using IP-Masquerade. Sending files won't work, can I fix it? == 
+
+In this case, the firewall may be blocking incoming connections. File transfers work this way: When you want to send someone a file, you send an invitation with your IP address and a port number. Then the remote client must connect to your IP:port to start the transfer. 
+
+The used port is usually 6891, 6892 and so on (first transfer is on port 6891,but if you start a new file transfer while the first one hasn't finished yet, then it will use 6892, and so on). 
+
+If you are using a firewall, you must make sure that it allows incoming connections to port 6891 (and next ones if you want to be able to make more than one transfer at the same time). 
+
+If you are behind a router, enable port forwarding for ports 6891 to 6900 to your PC's internal IP address. 
+
+You can change the port value from the "Connection" tab of the Preferences window. 
+
+ 
+
+
+
+== With version 0.94 I could see when someone opened a conversation window with me, but since version 0.95 this doesn't happen anymore, why? == 
+
+Users with MSN7 and later versions of MSN will automatically "open a conversation window" with you as soon as you (or they) connect. It is done automatically because they try to download your display picture. So, as soon as someone connects, the screen was flooded with windows from people just trying to download the display picture. This was annoying, so the feature was removed. 
+
+Note also that since Windows Live Messenger 8.0, the user would not join the chat until he sends the first message, so this is a second reason why it is not possible anymore. 
+
+ 
+
+== I liked the XXXX skin when using the previous version, but it seems to be incompatible with the latest version... when will it be ? == 
+
+We don't know yet, check on the skin website or email the author of the skin to obtain more information or to ask him to update his skin to work better with the new version. 
+
+ 
+
+== As soon as I try to log on or change aMSN's language, it crashes with the following message: X Error of failed request: BadValue (integer parameter out of range for operation), Major opcode of failed request: 45 (X_OpenFont) == 
+
+First of all, it may be a font problem: try making aMSN run with a different font (under Account -> Preferences -> Appearance). 
+
+Second, you may need to run aMSN using a different encoding (under Account -> Preferences -> Appearance again, utf-8 is a safe choice). 
+
+Third, try clearing your font cache with the command: 
+  fc-cache -fv
+
+Then, make sure your locale (your LC_ALL or LC_CTYPE environment variable) is installed on your system: 
+  set | grep LC_ 
+
+and make sure the corresponding directories (after the = ) exist on /usr/lib/locale . If they don't, install them according to your distribution. 
+
+Finally, if none of the above works, try disabling some FontPath's from /etc/X11/XF86Config or /etc/X11/Xorg.conf until you find out which font path contains problematic fonts, and recreate the fonts.cache , fonts.dir and fonts.scale in that directory. 
+
+ 
+
+== I try to run aMSN and it gives this error: Error in startup script: time value too large/small to represent while executing [...] procedure "ConvertLocalToUTC". == 
+
+Make you sure the file /etc/localtime exists. If it doesn't, link it to /usr/share/zoneinfo/YOUR/TIME/ZONE and retry starting aMSN. To create the file under Linux : ln -s /usr/share/zoneinfo/YOUR/TIME/ZONE /etc/localtime 
+
+ 
+
+=== Using aMSN === 
+
+== What are the keyboard shortcuts ? == 
+
+For and up to date list of keyboard shortcuts, please read the http://amsn-project.net/wiki/Shortcuts page. 
+
+ 
+
+== What does the special icon on the right of the buddies mean? == 
+
+The icon [white X on red round background] in the buddy list means that the corresponding contact do not have you in his list. 
+
+ 
+
+== Can I copy a contact address to the clipboard? == 
+
+Yes, right click on that contact name on the contact list, then choose "Properties". In the new window, you can copy the email/nickname/personal message of the user. 
+
+
+== Can I copy or open a URL address in a contact's nickname/personal message? == 
+
+Yes, right click on that contact name on the contact list, then in the pop-up menu, You will have the choice to copy or open any URL in the contact's nickname or personal message. 
+
+ 
+
+== How can I set my personal message like in MSN7 ? == 
+
+The Personal Message (PSM) is the text appearing under your nick. This feature is now available since aMSN 0.96. 
+
+To set your PSM, you need to click on the "Account" menu then "Change nick ...", there will be a field to change the PSM. 
+
+ 
+
+== How can I access the history of the messages I sent in my chat windows? == 
+
+If you want to access previous messages you sent in your chat windows you only need to use the Control key with the arrows. It works the same way as in a shell so Ctrl-Up(Command-Up on MacOSX) gives you the previous message sent and Ctrl-Down(Command-Down on Mac OS X), the next one. 
+
+See the http://amsn-project.net/wiki/Shortcuts page for a list of all keyboard shortcuts. 
+
+ 
+
+== In the preferences' privacy tab, what do those four lists mean? == 
+
+There are four lists, known as: 
+
+Allow List (AL), Block List (BL), Forward or Contact List (FL) and Reverse List (RL). 
+
+AL : This list contains the emails of people who are allowed to see you when you get online and they can also chat with you. 
+
+BL : This is the block list, which means it contains the list of people you are blocking. So this means they can't see you when you are online, and they can't chat with you. 
+
+FL : This list contains all contacts that are shown on your contact list. 
+
+RL : This is the reverse list, it contains the email addresses of people who have you in their list. 
+
+
+ 
+
+== In the preferences' privacy tab, what do the different colors in the contacts mean? == 
+
+You should notice the colors in the list headers: 
+Allow List: green foreground 
+Block List: red foreground 
+Forward List: red background 
+Reverse List: yellow background 
+
+A contact in any list will take a different color depending the lists that contact is contained on: 
+If it's in Allow list, it will have green foreground. 
+If it's in Block list, it will have red foreground. 
+If it's in Forward and Reverse lists, it will have white background. 
+If it's in Forward list, but not in Reverse list, it will have red background. 
+If it's in Reverse list, but not in Forward list, it will have yellow background. 
+If it's not in Forward or Reverse list, it will have a black background. 
+
+Let's be a bit more specific: 
+Green font: the contact is able to contact you. 
+Red font: the contact is NOT able to contact you (BLOCKED). 
+White background: the contact has you in their contacts list and they are in yours. 
+Yellow background: the contact has you in their contacts list, but you no longer have them in yours. 
+Red background: the contact is in your contacts list, but you are not in theirs. 
+Black background: the contact has deleted you from their contacts list and you have deleted them from yours. 
+
+ 
+
+== I want to add my own custom smileys, how can I do it? == 
+
+You may add custom smileys (also known as emoticons) by following these steps : 
+Open a chat window of any contact 
+Click the “Insert Emoticon” button found on the chat window (Screenshot 5.1) 
+
+ 
+Click the “Add new custom smiley” button (Screenshot 5.2) 
+
+ 
+Type a Description for your emoticon in the “Description” text box (Screenshot 5.3) 
+
+ 
+Type the Text triggers for your emoticon in the “Text triggers” text box. Text triggers are triggers which display an icon when they are typed and Enter is pressed. (Screenshot 5.3) 
+example: (test)
+
+When (test) is typed in the chat window and Enter is pressed, the emoticon associated with the (test) Text trigger will be displayed.
+
+
+Browse for the new emoticon that you would like to use by clicking the Browse button located to the right of the Smiley filename text box and select the image or emoticon that you would like to use. Click “Open”. (Screenshot 5.4) 
+
+ 
+
+If your image is larger than normal emoticons, you will see a message box saying “The smiley you choose is bigger than normal size. Do you want to resize it?” If you want your image or emoticon resized so that you can use it as an emoticon, simply click “Yes” (Screenshot 5.5) 
+
+By clicking “Yes” your image may be scaled down and display incorrectly. 
+Click the “Insert Emoticon” button found on the chat window. You will now see your custom emoticon added to the emoticon chooser. (Screenshot 5.6) 
+
+ 
+
+ 
+
+== Nicknames are now truncated. Is it possible to revert back to full nicknames? == 
+
+Yes. To have nicknames displayed in their full length on the contact list, in the alerts and the chat window, go to 'Tools' ? 'Preferences' ? 'Advanced Tab', and uncheck the selection which reads, Truncate nicknames longer than window width in window titles and contact list.” (Screenshot 5.7) 
+
+ 
+
+The same can be done for nicknames inside the chat window conversations by disabling the option “Truncate nicknames longer than window width inside conversations.”(Screenshot 5.7) 
+
+ 
+
+== How can I browse through my webcam logs and convert the .cam (cam recordings) to a movie file such as .mpeg? == 
+
+The file format of those .cam files are a direct dump of the data received on the socket, which means it's in the MS proprietary format. For this reason, no player can play those files, only amsn. 
+
+Actually there's a tool to do it released by Hyriand (linux only). See http://amsn-project.net/forums/viewtopic.php?t=2954 
+
+ 
+
+
+
+== How can I make my webcam work? == 
+
+If your webcam will not work with aMSN, please make sure your webcam is plugged in, turned on, and ready to be used. 
+
+Other applications that can be used to test if your webcam is working correctly on Linux: 
+
+XawTv 
+
+GnomeMeeting 
+
+V4L 
+
+On Mac you can try the macam project if you do not have an Apple iSight 
+
+
+ 
+
+== Where are the "stolen" display pictures saved? == 
+Windows : C:\Documents andSettings\MyWindowsUsername\amsn\youremail_profile\displaypic\cache 
+Linux : /home/yourusername/.amsn/yourusername@youremail.com/displaypic/cache 
+Mac OS X: Home / Library / Application Support / your_email_profile / displaypic / cache 
+
+You can also access all the previous display pictures of a user from : 
+The contact's properties page 
+The "Change Display picture" window 
+
+ 
+
+== How can I change the directory where the profiles information are saved ? == 
+
+There is no option to do this, you have to modify the code of aMSN, but it is not complicated. In the aMSN folder, look for a amsn (/usr/share/amsn/amsn) file and open it for editing with your favorite text editor. Search for the following code : 
+  } elseif {$tcl_platform(platform) == "windows"} {
+    if {[info exists env(USERPROFILE)]} {
+       set HOME "[file join $env(USERPROFILE) amsn]"
+       set files_dir "[file join $env(USERPROFILE) amsn_received]"
+    } else {
+     set HOME "[file join [pwd] amsn_config]"
+     set files_dir "[file join [pwd] amsn_received]"
+    }
+
+change it to 
+  } elseif {$tcl_platform(platform) == "windows"} {
+     set HOME "[file join [pwd] amsn_config]"
+     set files_dir "[file join [pwd] amsn_received]"</nowiki>
+
+in order to save the files in the directory where aMSN is launched. 
+
+ 
+
+=== Running on Linux === 
+
+== How can I use anti-aliased fonts in aMSN? == 
+
+Use a distro that has tcl/tk 8.5 or higher, or take a look at: http://amsn-project.net/wiki/Enabling_antialiasing
+That page will provide you information on how to re-compile Tk with anti-alias support. 
+
+ 
+
+== How do I create a shortcut to aMSN on my desktop on Linux? == 
+KDE 
+Right-click on the K-menu and a Panel Menu will appear as seen in the screenshot below: 
+
+ 
+Click Add Non-KDE Application 
+A Non-KDE Application Configuration dialog box will be displayed 
+Enter the text as shown below: 
+
+ 
+Click “OK” and an aMSN icon will be added to your kicker menu : 
+If you want to change the icon or other configurations, simply right-click the new aMSN button, and a menu will be displayed. Click “Configure aMSN Button...” and the Non-KDE Application Configuration will be displayed. 
+
+  
+
+== How do I open file-transfer ports in SUSE Linux?== 
+
+(Guide thanks to John Hillier) 
+Open 'YaST' -> 'Security and Users' -> 'Firewall' -> 'Firewall Configuration'. 
+Click on "Expert" in 'Additional Services' and add port 6891. 
+
+ 
+
+
+
+My aMSN sound notifications are not being played until I stop playing my music. How can I fix this so I can hear both at the same time?
+KDE: You can configure XMMS, amaroK, etc. to play sound through arts, and use artsplay as sound play command for aMSN which is able to mix sounds. 
+Gnome: You can use esdplay and configure XMMS for playing through ESD. 
+
+ 
+
+== When I try running aMSN, I get an error "unknown color Black". How can I fix it ?== 
+
+This problem is not coming from aMSN, it's an Xorg faulty installation. You probably have a bad Xorg configuration for the file rgb.txt (especially with some versions of Xgl). 
+
+If you are using xgl, you most probably have the file rgb.txt in /etc/X11 . Xgl in Ubuntu Dapper is usually misconfigured and looks for the file in /usr/share/X11 . Make a symlink to it in /usr/share/X11 and restart your X server. 
+
+If you are not using xgl, open your /etc/X11/xorg.conf and look for a line that says: 
+
+
+  Section "Files"
+       RgbPath      "/etc/X11/rgb"
+
+
+If the RgbPath line does not exist at all, add it under the section "Files". Then make sure the file exists in the directory defined in RgbPath (/etc/X11/ in this case). You may need to copy it from another location in your computer, or you can download it from http://amsn.sourceforge.net/rgb.txt . You must also restart your X server for the changes to take effect. PLEASE NOTE: the line in xorg.conf must NOT contain the extension of the file!!! 
+
+ 
+
+TLS does not seem to work and I have tcl/tk 8.5. How can I fix it ?
+
+TLS 1.5 is broken, in order to fix it, you have to find out where your copy of TLS is with : 
+ locate tls.tcl
+
+or if you do not use locate : 
+ find / -name tls.tcl
+
+Those commands should give you something like /usr/lib/tls1.50/tls.tcl. In the same directory, you should find a file named pkgIndex.tcl. Edit this file with your favorite editor (vi, emacs, nano/pico, etc..) : 
+ vi /usr/lib/tls1.50/pkgIndex.tcl
+
+and change the line : 
+ package ifneeded tls 1.5
+
+by 
+ package ifneeded tls 1.50
+
+TLS should now work well. If it not the case, please let us know on the forums 
+
+ 
+
+== aMSN does not seem to work correctly with some files, especially files containing the character ` (back quote). How to fix it ? == 
+
+aMSN cannot handle files containing the character `(back quote) in their path. A way to resolve this issue is to mount the partition containing the file with this caracter with the 'utf8' option. Refer to the man page of your version of mount to find the right option for your file system. 
+
+ 
+
+=== Running on Windows === 
+
+== How can I prevent/make aMSN from loading on windows start ? == 
+
+You can do that by clicking on the checkbox 'load aMSN at Windows start' in Account -> Preferences -> Session 
+
+ 
+
+== Whenever I go to preferences->session, the 'load amsn at windows start' is disabled, even if it does load at windows start ! == 
+
+We cannot detect if aMSN loads at Windows start so the checkbox is disabled. However, the change is taken in consideration if you modified the value and then press the "Save"' button. 
+
+ 
+
+=== Running on Mac OS X === 
+
+== I have a question about Mac OS X, where can I go to find answers? == 
+
+You can get answers to questions about Mac OS X on the aMSN Mac Forum found at: http://forums.cocoaforge.com/viewforum.php?f=14 
+
+== Why do some characters in the aMSN contact list appear as squares? == 
+
+These are Unicode characters. Unicode support has been added for Mac OS X since version 0.96 of aMSN. 
+
+== Why can't I use the shortcut Command-Space to switch keyboard layouts? == 
+
+This seems to be an issue with the Tcl/Tk frameworks that aMSN depends on. It is currently being looked into. 
+
+== How do I sign into more than one account with Mac aMSN? == 
+
+You need to duplicate the aMSN application, and then run both copies. The easiest way to do this, is to find the application in Finder, and press Command-D to duplicate the application. 
+
+== aMSN is incredibly slow on my new Intel Mac, what can I do to speed it up? == 
+
+aMSN 0.96 is the first Universal binary version of aMSN, please update to at least that version. You can further speed up aMSN by turning off smileys in the contact list (the option is in aMSN's preferences under the Appearence tab), and also by colapsing your offline group. 
+
+== Webcam doesn't work on my Intel Mac! == 
+
+Update to the latest aMSN version (0.97 or higher), and you will then be able to use webcam! 
+
+== How do I update aMSN to the latest development version on a Mac? == 
+
+Up to date instructions on how to do this can be found at the http://amsn-project.net/wiki/SVN wiki page. 
+
+== I want to delete aMSN but I cannot empty the Trash! == 
+
+You may be getting erros like "libtls.dylib is in use". To delete the files, you need to restart your computer, and then you will be able to delete the files. 
+
+== Where are aMSN's preferences files stored on a Mac? == 
+
+They're stored at: Your Home Folder -> Library -> Application Support -> amsn . 
+
+ 
+
+=== Other Questions === 
+
+== I noticed aMSN is opening some ports over port 60000. Is it normal? Is it a backdoor? Why does this happen? == 
+
+This is normal. aMSN uses sockets as a locking system to avoid two aMSN instances use the same profile at once (which could cause trouble). This is the better platform independent locking system we found. 
+
+If you check ~/.amsn/profiles, you can see what port is used for each profile. 
+
+ 
+
+== What is the Audio and Video Assistant? == 
+
+The Audio and Video Assistant is an easy way to configure and fine-tune your webcam as well as your audio input (microphone). The Audio and Video Assistant provides options to maximize the quality of your webcam broadcast. 
+
+The Audio and Video Assistant can be started from within a chat window by clicking 'Edit' ? 'Edit audio and video settings'. The Configure Webcam dialog will then be shown. You may change your video settings by clicking “Change video settings” button. 
+
+You can also start the assistant using the Ctrl-N shortcut from the main window. Refer to the http://amsn-project.net/wiki/Shortcuts page for an up to date list of keyboard shortcuts. 
+
+ 
+
+== How do I remove aMSN completely? == 
+
+After uninstalling aMSN, your profiles (per account settings, log files, etc..) are still stored on your system. You may remove them by following these simple procedures : 
+Linux: 
+ rm -rf ~/.amsn
+Windows: 
+
+Delete C:\Documents and Settings\$USER\amsn where $USER is your username. 
+Mac OS X 
+
+Remove the aMSN application. Remove this folder : Home / Library / Application Support / aMSN 
+
+ 
+
+== The mail traydock icon in the system tray continues to show up, how do I get rid of it? == 
+
+You must read your unread mails to make the traydock icon disappear. 
+
+ 
+
+== I enabled the logging of conversations on aMSN, but I cannot find the logfiles. Where are they stored? == 
+
+In order for logging to be enabled, you must first create a profile. This can be done at the aMSN login-screen by enabling the "Remember me" option. 
+
+
+You will then find the log here here: 
+Linux: ~/.amsn/your_email_profile/logs 
+Windows: %USERPROFILE%\amsn\your_email_profile\logs Where %USERPROFILE% is usually 
+
+C:\Documents and Settings\%user% where %user% is the username of your Windows account. 
+Mac OS X: /Home / Library / Application Support / aMSN / your_email_profile / logs 
+
+ 
+
+== Can I disable custom and/or animated smileys? == 
+
+Choose the Preferences option from the Account menu, then click on the tab that says Appearance. Here you can set the various options regarding Emotions Icons and Smileys. 
+
+ 
+
+Why doesn't aMSN support audio / Why did aMSN drop linphone support? 
+The support of Linphone in aMSN has been dropped some time ago because it was not complete and difficult to maintain. Moreover, the only person able to make it work and to resume its development is no more active in the aMSN's development, so the support has just been dropped. 
+Now aMSN supports webcam session (not videconference), this support is complete and stable and easier to maintain. 
+About Audio support, it is delayed for a next release. Farsight project, developped by Burgerman will give audio support to aMSN, we are just waiting for a stable version. 
+
+ 
+
+== I have another question, can you help me? == 
+
+Yes, we can. But before asking questions, search this wiki for your question. If you couldn't find it, then take a look at the aMSN forums found at: http://amsn-project.net/forums 
+
+Make sure you SEARCH before posting 
+
+Most likely your question has already been answered. You can also view more information at aMSN's sourceforge project page, which is located at: http://sourceforge.net/projects/amsn 
+
+Before submitting a bug report or asking for support, please document the following information: 
+
+
+aMSN version : 
+Tcl and Tk version : 
+Kernel version : 
+Distribution : 
+System architecture (32-bit, PPC, 64-bit, etc.) : 
+Stack trace of the submitted error (if applicable) : 
+Last error messages in debug windows (Ctrl+D and Ctrl+S in contact list) : 
+Possible ways to replicate the bug : 
+
+Here's an example of a user's documentation : 
+aMSN version : 0.96 
+Tcl and Tk version : 8.4.16 
+Kernel version : Linux 2.6.12-8-386 (Found by typing: uname -s -r in an xterm) 
+Distribution : Debian 
+System architecture (32-bit, PPC, 64-bit, etc.) : 32-bit 
+Stack trace of the submitted error (if applicable) : NA (not applicable) 
+Last error messages in debug windows (Ctrl+D and Ctrl+S in contact list) : 
+Possible ways to replicate the bug : Open a chat window and send a custom emoticon which is animated to an msn 7.5 user. 
+
+Send this information with your bug report so that we may further investigate the issue. 
+
+
+If you still have a question that has not been covered in this FAQ, you can visit the aMSN forum at: http://amsn-project.net/forums or contact us on IRC (Internet Relay Chat) at : 
+
+server: irc.freenode.net channel: #amsn 
+
+
+There is a bot on the channel that is able to give you some indications if you use the following commands : 
+amsn install 
+amsn version 
+amsn download 
+amsn tcl/tk version 
+amsn libstd 
+amsn svn 
+
+... and some others 
+
+In case you have some trouble to connect to our IRC channel because of network policies, you can try this http://cgiirc.blitzed.org/ 
+
+ 
+Enjoy using aMSN!
