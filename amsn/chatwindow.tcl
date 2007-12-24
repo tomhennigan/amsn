@@ -1161,7 +1161,7 @@ namespace eval ::ChatWindow {
 
 		# Different shortcuts for MacOS
 		if { [OnMac] } {
-			bind $w <Command-Option-h> [list ::amsn::ShowChatList [trans history] \[::ChatWindow::GetCurrentWindow $w\] ::log::OpenLogWin]
+			bind $w <Command-Option-h> "::amsn::ShowChatList \"[trans history]\" \[::ChatWindow::getCurrentTab $w\] ::log::OpenLogWin"
 
 			# Control-w for closing current tab not implemented on Mac (germinator)
 			bind $w <Command-Right> "::ChatWindow::GoToNextTab $w"
