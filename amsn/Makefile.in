@@ -175,7 +175,6 @@ install:: $(FILES_TO_INSTALL)
 	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote-CLI $(DESTDIR)$(slnkdir)/amsn-remote-CLI
 
 	cp $(srcdir)/amsn.desktop $(DESTDIR)$(dstdir)/applications/
-	cp -R $(srcdir)/utils $(DESTDIR)$(dstdir)/$(PACKAGE) 
 
 	ln -sf $(dstdir)/$(PACKAGE)/desktop-icons/48x48/apps/amsn.png $(DESTDIR)$(dstdir)/pixmaps/
 
