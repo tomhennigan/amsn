@@ -128,7 +128,6 @@ FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils
 
 FILES_TO_EXCLUDE += AppMain.tcl utils/linux/capture/test.tcl
 endif
-endif
 
 CONFIGURE_ARGS := @CONFIGURE_ARGS@
 
@@ -266,8 +265,6 @@ else ifeq ($(FOUND_OS),solaris)
       include $(tray_dir)/Rules.mk
       include $(linflash_dir)/Rules.mk
   endif
-endif
-endif
 endif
 
 #########################################################
