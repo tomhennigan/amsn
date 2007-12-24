@@ -167,12 +167,13 @@ install:: $(FILES_TO_INSTALL)
 	mkdir -p $(DESTDIR)$(dstdir)/pixmaps/
 
 	@for p in $?; do \
-			cp -Rf -p $(srcdir)/$$p $(DESTDIR)$(dstdir)/$(PACKAGE); \
-		done
+		mkdir -p `dirname $(DESTDIR)$(dstdir)/$(PACKAGE)/$$p`;\
+		cp -Rf $(srcdir)/$$p $(DESTDIR)$(dstdir)/$(PACKAGE)/$$p; \
+	done
 	find $(DESTDIR)$(dstdir)/$(PACKAGE) -name '.svn' -print | xargs rm -Rf
 	@for p in $(FILES_TO_EXCLUDE); do \
-			rm -Rf $(DESTDIR)$(dstdir)/$(PACKAGE)/$$p; \
-		done
+		rm -Rf $(DESTDIR)$(dstdir)/$(PACKAGE)/$$p; \
+	done
 
 	ln -sf $(dstdir)/$(PACKAGE)/amsn $(DESTDIR)$(slnkdir)/amsn
 	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote $(DESTDIR)$(slnkdir)/amsn-remote
