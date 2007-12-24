@@ -2155,6 +2155,8 @@ namespace eval ::amsn {
 			set pictureinner [$images.user_dp$idx getinnerframe]
 			bind $pictureinner <Button1-ButtonRelease> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
 			bind $pictureinner <<Button3>> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
+#TODO: support changing cusom dp's in the drophandler
+#			::dnd bindtarget $pictureinner Files <Drop> "fileDropHandler %D setdp $user"
 			pack $images.user_dp$idx -side top -padx 0 -pady 0 -anchor n
 
 			set_balloon $pictureinner [trans showuserpic $user]
@@ -4971,7 +4973,7 @@ proc fileDropHandler { data action {target "self"}} {
 		set data [string range $data 1 end-1]
 	}
 
-#TODO		#(VFS pseudo-)protocol: if we can't acces the file, display an error
+#TODO	#(VFS pseudo-)protocol: if we can't acces the file, display an error
 	foreach type [list smb http https ftp sftp floppy cdrom dvd] {
 		if {[string first $type $data] == 0} { 
 			status_log "file can't be accessed: $data"
@@ -4987,8 +4989,24 @@ proc fileDropHandler { data action {target "self"}} {
 		
 	switch $action {
 		setdp {
-			after 0 dpBrowser
-			setDPFromFile "$target" $data
+#			if { $target != "self" } {
+#				global customdp_$target
+#				set customdp_$target [::abook::getContactData $target customdp ""]
+#			}
+
+			after 0 dpBrowser $target
+			setDPFromFile $target $data
+
+#			if { $target != "self" } {
+#				tkwait window .dpbrowser
+#				catch {image delete customdp_img_$target}
+#				image create photo customdp_img_$target -file [set customdp_$target]
+#				::skin::getDisplayPicture $target 1
+#				::skin::getLittleDisplayPicture $target 1
+#				catch {image delete customdp_img_$target}
+#
+#
+#			}
 
 		}
 		sendfile {
@@ -7773,4 +7791,3 @@ namespace eval ::OIM_GUI {
 
 }
 
-	
