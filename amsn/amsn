@@ -67,9 +67,9 @@ wm state . withdrawn
 # variable rcversion so autoupdate has no problems, version is used to be easier for users
 # rcversion major.minor.patch, patch is 91,92 for RC's and after a release we put .svn
 # behind the version (after 0.95.90 comes 0.95.90.svn, after 0.96 comes 0.96.90.svn)
-set version "0.97b"
-set rcversion "0.96.99.svn"
-set date "06/16/2006"
+set version "0.98b"
+set rcversion "0.97.01.svn"
+set date "12/25/2007"
 set weburl "http://www.amsn-project.net"
 set program_dir "."
 set HOME ""
