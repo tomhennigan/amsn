@@ -389,3 +389,4 @@ Edoardo Vacchi (aka NoWhereMan) for his plugins and contributions to the code, f
 Gabriel Gambetta for his patch to libng that adds support for SN9C10x based webcams.
 Giuseppe Bottiglieri (Square87) for his numerous patches and plugin development.
 Samuele Diella (Nuitari) for his huge improvements on the skin system
+Eric Enright (eenright) for his patch allowing webcam to work on Solaris systems.
