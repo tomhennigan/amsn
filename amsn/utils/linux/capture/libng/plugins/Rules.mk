@@ -10,6 +10,10 @@ ifeq ($(FOUND_OS),bsd)
 TARGETS-plugins += \
 	$(capture_dir)/libng/plugins/drv0-bsd.so 
 endif
+ifeq ($(FOUND_OS),solaris)
+TARGETS-plugins += \
+	$(capture_dir)/libng/plugins/drv0-v4l2.so
+endif
 
 # global targets
 all:: $(TARGETS-plugins)

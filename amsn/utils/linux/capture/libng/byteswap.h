@@ -3,6 +3,18 @@
 
 #include <sys/types.h>
 
+#ifdef __sun
+#include <sys/byteorder.h>
+#define BIG_ENDIAN    4321
+#define LITTLE_ENDIAN 1234
+#ifdef _BIG_ENDIAN
+#define BYTE_ORDER BIG_ENDIAN
+#else
+#define BYTE_ORDER LITTLE_ENDIAN
+#endif
+#endif
+
+
 #ifndef BYTE_ORDER
 # error "Aiee: BYTE_ORDER not defined\n";
 #endif

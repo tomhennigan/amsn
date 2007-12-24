@@ -1,6 +1,7 @@
 prefix  	:= @prefix@
 exec_prefix	:= @exec_prefix@
 srcdir		:= @srcdir@
+datarootdir	:= @datarootdir@
 dstdir  	:= @datadir@
 slnkdir 	:= @bindir@
 VPATH		:= $(srcdir)
@@ -122,6 +123,11 @@ ifeq ($(FOUND_OS),linux)
 FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/webcamsn/webcamsn.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/capture/test.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/drv1-v4l.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl
 
 FILES_TO_EXCLUDE += AppMain.tcl utils/linux/capture/test.tcl
+else ifeq ($(FOUND_OS),solaris)
+FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/webcamsn/webcamsn.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/capture/test.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl
+
+FILES_TO_EXCLUDE += AppMain.tcl utils/linux/capture/test.tcl
+endif
 endif
 
 CONFIGURE_ARGS := @CONFIGURE_ARGS@
@@ -244,14 +250,24 @@ ifeq ($(FOUND_OS),linux)
       include $(tray_dir)/Rules.mk
       include $(linflash_dir)/Rules.mk
   endif
-endif
-
-ifeq ($(FOUND_OS),bsd)
+else ifeq ($(FOUND_OS),bsd)
    ifeq ($(FOUND_X11),yes)
        ADDLIBS    += ${X_LIBS} 
       include $(tray_dir)/Rules.mk
       include $(linflash_dir)/Rules.mk
   endif
+else ifeq ($(FOUND_OS),solaris)
+  include $(capture_dir)/Rules.mk
+  include $(capture_dir)/libng/Rules.mk
+  include $(capture_dir)/libng/plugins/Rules.mk
+
+  ifeq ($(FOUND_X11),yes)
+      ADDLIBS	 += ${X_LIBS}
+      include $(tray_dir)/Rules.mk
+      include $(linflash_dir)/Rules.mk
+  endif
+endif
+endif
 endif
 
 #########################################################

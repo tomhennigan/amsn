@@ -169,6 +169,9 @@ proc OnLinux {} {
 	global tcl_platform
 	if { $tcl_platform(os) == "Linux" } {
 		return 1
+	} elseif { $tcl_platform(os) == "SunOS" } {
+		# Really not correct at all, but closer than BSD.
+		return 1
 	} else {
 		return 0
 	}

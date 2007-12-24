@@ -22,8 +22,14 @@
 #include <sys/mman.h>
 #include <pthread.h>
 
+#ifdef HAVE_SYS_VIDEODEV2_H /* Solaris */
+#include <sys/videodev2.h>
+#define MAJOR_NUM 188
+#else /* Linux */
 #include <asm/types.h>		/* XXX glibc */
 #include "videodev2.h"
+#define MAJOR_NUM 81
+#endif
 
 #include "grab-ng.h"
 
@@ -173,8 +179,12 @@ static __u32 xawtv_pixelformat[VIDEO_FMT_COUNT] = {
     [ VIDEO_JPEG ]     = V4L2_PIX_FMT_JPEG,
     [ VIDEO_MJPEG ]    = V4L2_PIX_FMT_MJPEG,
 //    [ VIDEO_MPEG ]     = V4L2_PIX_FMT_MPEG, // MPEG is supported in a different way
+#ifdef V4L2_PIX_FMT_BA81
 	[ VIDEO_BAYER ]		= V4L2_PIX_FMT_BA81,
+#endif
+#ifdef V4L2_PIX_FMT_S910
 	[ VIDEO_S910 ]		= V4L2_PIX_FMT_S910,
+#endif
 };
 
 static struct STRTAB stereo[] = {
@@ -236,11 +246,14 @@ get_device_capabilities(struct v4l2_handle *h)
 	if (-1 == xioctl(h->fd, VIDIOC_ENUMINPUT, &h->inp[h->ninputs], EINVAL))
 	    break;
     }
+/* This crashes on Solaris for an unknown reason. */
+#ifndef __sun
     for (h->nstds = 0; h->nstds < MAX_NORM; h->nstds++) {
 	h->std[h->nstds].index = h->nstds;
 	if (-1 == xioctl(h->fd, VIDIOC_ENUMSTD, &h->std[h->nstds], EINVAL))
 	    break;
     }
+#endif
     for (h->nfmts = 0; h->nfmts < MAX_FORMAT; h->nfmts++) {
 	h->fmt[h->nfmts].index = h->nfmts;
 	h->fmt[h->nfmts].type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
@@ -481,7 +494,7 @@ v4l2_open(void *handle)
     if (ng_debug)
 	fprintf(stderr, "v4l2: open\n");
     BUG_ON(h->fd != -1,"device is open");
-    h->fd = ng_chardev_open(h->device, O_RDWR, 81, 1);
+    h->fd = ng_chardev_open(h->device, O_RDWR, MAJOR_NUM, 1);
     if (-1 == h->fd)
 	return -1;
     if (-1 == xioctl(h->fd,VIDIOC_QUERYCAP,&h->cap,EINVAL)) {
@@ -609,7 +622,7 @@ static struct ng_devinfo* v4l2_probe(int verbose)
     n = 0;
     for (i = 0; NULL != ng_dev.video_scan[i]; i++) {
 	fd = ng_chardev_open(ng_dev.video_scan[i], O_RDONLY | O_NONBLOCK,
-			     81, verbose);
+			     MAJOR_NUM, verbose);
 	if (-1 == fd)
 	    continue;
 	if (-1 == xioctl(fd,VIDIOC_QUERYCAP,&cap,EINVAL)) {
@@ -867,6 +880,12 @@ v4l2_waiton(struct v4l2_handle *h)
     /* PWC doesn't respect V4L2 standard and modifies length field we must keep it */
     __u32 length;
     
+/*
+ * Do not call select() on Solaris.  This code can likely be removed for
+ * all systems, as the V4L2 specification states that VIDIOC_DQBUF will block
+ * unless O_NONBLOCK was used in open().  We do not use O_NONBLOCK.
+ */
+#ifndef __sun
     /* wait for the next frame */
  again:
     tv.tv_sec  = 5;
@@ -883,6 +902,7 @@ v4l2_waiton(struct v4l2_handle *h)
 	fprintf(stderr,"v4l2: oops: select timeout\n");
 	return -1;
     }
+#endif
 
     /* get it */
     memset(&buf,0,sizeof(buf));

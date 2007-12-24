@@ -47,7 +47,7 @@ struct ng_device_config ng_dev = {
 };
 #endif
 
-#if defined(__linux__)
+#if defined(__linux__) || defined(__sun)
 struct ng_device_config ng_dev = {
     video:  "/dev/video0", /* <rant>thank you redhat breaking
 			    * /dev/video as symbolic link to the

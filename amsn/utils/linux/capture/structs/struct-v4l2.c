@@ -2,8 +2,14 @@
 #include <sys/ioctl.h>
 #include <sys/time.h>
 
+#include "config.h"
+
+#ifdef HAVE_SYS_VIDEODEV2_H
+# include <sys/videodev2.h>
+#else
 #include <asm/types.h>
 #include "videodev2.h"
+#endif
 
 #include "struct-dump.h"
 #include "struct-v4l2.h"

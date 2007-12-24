@@ -53,3 +53,12 @@ int print_struct(FILE *fp, struct struct_desc *desc, void *data,
 		 char *prefix, int tab);
 int print_ioctl(FILE *fp, struct ioctl_desc *ioctls, char *prefix,
 		int cmd, void *ptr);
+
+/* ---------------------------------------------------------------------- */
+
+#ifdef __sun
+# include <sys/ioccom.h>
+# define _IOC_NR(x) \
+	((int)x & IOCPARM_MASK)
+#endif
+

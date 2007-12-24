@@ -55,6 +55,13 @@ extern int  ng_mpeg_apid;
 #define GETELEM(array,index,default) \
 	(index < sizeof(array)/sizeof(array[0]) ? array[index] : default)
 
+#ifdef __sun
+#include <sys/mkdev.h>		/* For major() */
+#define __u32 uint32_t
+#define __u16 uint16_t
+#define __u8  uint8_t
+#endif
+
 /* --------------------------------------------------------------------- */
 /* defines                                                               */
 

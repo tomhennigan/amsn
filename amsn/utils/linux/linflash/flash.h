@@ -11,6 +11,7 @@
 #define _FLASH
 
 // Include files, must include windows.h before tk.h and tcl.h before tk.h
+#include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
 

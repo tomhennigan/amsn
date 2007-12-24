@@ -2,7 +2,7 @@ dnl ---------------------------------------------------------------------
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT(amsn)
-AC_CONFIG_HEADER(${srcdir}/utils/linux/capture/config.h)
+AC_CONFIG_HEADER(utils/linux/capture/config.h)
 
 
 APPNAME=amsn
@@ -67,6 +67,9 @@ case `uname -s` in
 		# Directories in which the Tk core can be found
 		TK_INC_SPEC="-I../../Frameworks/Tk.framework/Headers -DUSE_TK_STUBS"
 		TK_STUB_LIB_SPEC="-L../../Frameworks/Tk.framework -ltkstub8.4\${TK_DBGX}"
+		;;
+	SunOS)
+		FOUND_OS=solaris
 		;;
 	*)
 		AC_MSG_CHECKING(if amsn will build on `uname -s`)
@@ -407,6 +410,12 @@ if test "$no_x" != "yes"; then
   X_LIBS="$X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS"
 else
    AC_MSG_RESULT("Could not find X11 devel package, traydock will not be compiled")
+fi
+
+if test "$FOUND_OS" == "solaris"; then
+	# If possible, build webcam support.  Otherwise, default to
+	# Linux for other goodies.
+	AC_CHECK_HEADERS(sys/videodev2.h,FOUND_OS=solaris,FOUND_OS=linux)
 fi
 
 #---------------------------------------------------------------------------------------------
