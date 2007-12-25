@@ -21,6 +21,11 @@
 #include <math.h>
 #include "mimic-private.h"
 
+#ifndef M_LN10
+//Not defined in VS6
+#define M_LN10 2.30258509299404568402
+#endif
+
 #define LUMINANCE_THRESHOLD   32.0f
 #define CHROMINANCE_THRESHOLD 36.0f
 
