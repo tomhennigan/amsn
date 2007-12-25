@@ -347,7 +347,7 @@ proc auto_login_argv { user } {
   } 
 } 
   
-if { $argv != "" } {
+if { $argv != "" && [LoginList exists 0 $argv] } {
    after idle [list auto_login_argv $argv] 
 } else {
    if { [::config::getKey autoconnect] == 1 && [::config::getKey save_password] == 1} {
