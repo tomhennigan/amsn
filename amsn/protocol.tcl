@@ -2836,7 +2836,7 @@ namespace eval ::MSNOIM {
 	}
 
 	proc getOIMMessage { callbk mid } {
-		set msg [getOIMMail "::MSNOIM::getOIMMessageCallback [list $callbk] $mid" $mid]
+		after 100 [list set msg [getOIMMail "::MSNOIM::getOIMMessageCallback [list $callbk] $mid" $mid]]
 	}
 
 	proc getOIMMailCallback { callbk soap } {
