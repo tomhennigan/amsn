@@ -78,7 +78,7 @@ namespace eval ::bugs {
 
 	set ::bugs::bug(text) $args
 	set ::bugs::bug(code) $errorCode
-	set ::bugs::bug(info) [privacy $errorInfo]
+	set ::bugs::bug(info) [privacy [htmlentities $errorInfo]]
 	set ::bugs::bug(status) [privacy [htmlentities [.status.info get $pos $posend]]]
 	set ::bugs::bug(protocol) [privacy [htmlentities [.degt.mid.txt get $prot_pos $prot_posend]]]
 	set ::bugs::bug(comment) ""
@@ -392,6 +392,7 @@ proc htmlentities {str} {
     regsub -all {\<} $str {\&lt;} str
     regsub -all {\>} $str {\&gt;} str
     regsub -all {\"} $str {\&quot;} str
+    regsub -all {\'} $str {\&apos;} str
     return $str
 }
 
