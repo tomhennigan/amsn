@@ -579,6 +579,11 @@ namespace eval ::Nudge {
 
 		::Nudge::log "Clientid is $clientid"
 
+		if { $clientid == [list] } {
+			::Nudge::log "Attempt to nudge offline user"
+			return 0
+		}
+		
 		if { ($clientid & 0xF0000000) < 0x40000000 } {
 			return 0
 		} else {
