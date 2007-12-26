@@ -579,9 +579,11 @@ namespace eval ::Nudge {
 
 		::Nudge::log "Clientid is $clientid"
 
+		# If a user chats with you while being as "Appear offline", his client ID will be empty, and we don't want a crash in that case.
+		# We assume the user supports new nudge because only WLM 8.1+ allows you to chat while being as appear offline.
 		if { $clientid == [list] } {
 			::Nudge::log "Attempt to nudge offline user"
-			return 0
+			return 1
 		}
 		
 		if { ($clientid & 0xF0000000) < 0x40000000 } {
