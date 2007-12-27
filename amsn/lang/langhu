@@ -9,7 +9,7 @@ actions Műveletek
 activeautoupdate Automatikus frissítés aktiválása
 addacontact Partner felvétele
 addedyou $1 ($2) felvett a partnerlistájára
-add hozzáad
+add Hozzáadás
 addprofiledesc Add meg a létrehozandó profil nevét. \nA Profilok használatával különböző beállításokat alkalmazhatsz minden bejelentkezésnél.\nA Profilok nélkül nem használhatod az Előzményeket, a Figyelmeztető jelzéseket vagy a "Jelszó megjegyzése" funkciót.
 addprofile Új profil hozzáadása
 addstate Saját állapot hozzáadása
@@ -27,6 +27,7 @@ alarmondisconnect Jelzés, amikor egy partner kijelentkezik / láthatatlan módb
 alarmonmsg Jelzés, amikor egy partner üzenetet küld
 alarmonstatus Jelzés, amikor egy partner megváltoztatja az állapotát
 alarmpref Figyelmeztető jelzések e partnerhez
+alarmpref2 Figyelmeztető jelzések minden partnerhez
 alarms Jelzések
 alarmstatus Figyelmeztető jelzés KI/BE kapcsolása ehhez a partnerhez
 allfiles Minden fájl
@@ -43,7 +44,7 @@ animatedemoticon Ez a hangulatjel animált
 animatedsmileys Animált hangulatjelek bekapcsolása
 animatenotify Animált figyelmeztető ablak
 appearance Megjelenés
-appearoff Rejtve kapcsolódik
+appearoff rejtve kapcsolódik
 areacode Területi kód
 aretyping $1 üzenetet ír
 askcam Felkérés webkamera fogadására
@@ -84,13 +85,13 @@ avinitfailed Audio/Video Plugin elindítása sikertelen. Hívás visszavonva
 avoidseen Ez a személy nem láthat ha bejelentkeztem
 awaymsg1 "Nem vagyok itt" üzenet kérése mindig, az állapotom Nem vagyok itt/Elfoglalt -ra állításakor.
 awaymsg2 Mindig a lenti távolléti üzenetet használja, kérdés nélkül
-away Nincs a gépnél
+away nincs a gépnél
 back Vissza
 baduserpass Rossz felhasználónév vagy jelszó
 badwebcam Nem lehet megjeleníteni a webkamera képét. Nézz utána, hogy a webkamerád be van-e dugva és installálva van-e.
 bgcolor Az aMSN háttérszínének megváltoztatása
 blankdirect Hagyd üresen a közvetlen kapcsolathoz
-blocked Letiltva
+blocked letiltva
 blockedyougroup Külön csoport létrehozása azoknak, akik letiltottak téged
 blocking Tiltás
 blockinter1 Amikor az állapotod elérhető, ellenőrizzen minden
@@ -111,7 +112,8 @@ browser Böngésző
 browserexample ( \$url lesz az URL). Pl: mozilla \$url
 bugerror Sajnálom, de hiba történt az hiba-adatbázishoz való kapcsolódás közben. Ellenőrizd az internetkapcsolatodat!
 bugnocomment Megjegyzés nélkül küldöd? Írj hozzá megjegyzést, hogy könnyebben javíthassuk a problémát.
-busy Elfoglalt
+busy elfoglalt
+bytesymbol b
 cachedpics $1 tárolt képei
 cachedpicsfor Partnerek tárolt megjelenített képei
 cagreement Titoktartási nyilatkozat
@@ -168,6 +170,7 @@ choosecontact Válassz valakit a listából
 choosedevice Válassz eszközt
 choosefontcolor Betű szín választása
 chooseinputdev Válaszd ki a bemeneti eszközöd
+chooselocation Másik könyvtár kiválasztása
 choosemixerdev Válaszd ki a mixered
 chooseoutputdev Válaszd ki a kimeneti eszközöd
 chooseskin Válaszd ki a használni kívánt felületet
@@ -178,7 +181,7 @@ clearlog Naplófájl törlése
 clear Törlés
 clearwebcamlogs Webkamera naplók törlése
 clickhere Kattints ide
-clicktoadd Kattints a hozzáad gombra egy új jegyzet hozzáadásához
+clicktoadd Kattints a 'Hozzáadás' gombra egy új jegyzet felvételéhez
 clicktologin Kattints ide a bejelentkezéshez
 clientcaps küldj x-clientcaps csomagot más partnereknek
 clientname Kliens név
@@ -197,7 +200,7 @@ command Parancs
 commandstatus Parancs futtatása
 configure Beállítás
 configuremic A mikrofon beállítása
-configureplugin $1 beállítása
+configureplugin $1 plugin beállítása
 configuringaudio Hangbeállítások
 confirm Biztos vagy benne?
 confirmbl Biztosan tiltani akarod ezt a partnert?
@@ -209,7 +212,7 @@ confirmpurge Minden lementett kép (nem a saját képeid) törlődik. Biztos vag
 confirmrfl Biztosan törölni akarod ezt a partnert ebből a csoportból?
 congrats Kész
 connected Kapcsolat létrejött
-connectedwith Csatlakozva $1 -ra
+connectedwith Csatlakozva: $1
 connecterror Hiba a szerverhez kapcsolódás közben
 connectfirst Kérlek előbb jelentkezz be
 connecting Kapcsolódás
@@ -297,11 +300,14 @@ docking Dokkolás
 dockingoff Dokkolás kikapcsolása
 dockkde Dokkolás a KDE-be
 done Kész
+dontaskweek Frissítés felajánlása egy hét múlva
 dontdownload Ne töltsd le a TLS modult, felteszem magam
 dontshowdp Ez a partnered nem töltheti le az új megjelenítendő képeidet
 dontshow Ne látszódjon
-downloadingtls TLS modul letöltése innen:\n $1
 download Letöltés
+downloadcanceled A letöltés megszakítva.
+downloadingtls TLS modul letöltése innen:\n $1
+downloadingwait Az új amsn verzió letöltése. Türelem...
 editavsettings Hang és kép beállítások módosítása
 editcontent Töltsd ki a tárgy és a megjegyzés mezőket
 editcustomstate Saját állapot beállítása
@@ -322,13 +328,14 @@ enableremote Távoli vezérlés engedélyezése
 enablesound Hang lejátszása
 encoding2 Karakterkódolás megváltoztatása
 encoding Kódolás kiválasztása
-enterbugdesc Írd le pontosan mit csináltál hogy reprodukálni tudjuk a hibát
+enterbugdesc Írd le pontosan mit csináltál, hogy reprodukálni tudjuk a hibát
 entercontactemail Partner e-mail címe
 enterfilename Fájl neve
 enternick Nicknév
 enterpsm Személyes üzenet
 error Hiba
 errortls Hiba lépett fel a TLS modul telepítése közben:
+escapeclosescw Társalgás ablak bezárása az 'Esc' billentyűvel
 eventhistory Előzmények megtekintése
 examples Példák
 exitamsn Biztosan ki akarsz lépni?
@@ -344,8 +351,8 @@ filemanexample ( \$location lesz a hely ) Pl: nautilus \$location
 fileman Fájlkezelő
 filename Fájlnév
 filenotwritable Ezt a fájlt nem lehet törölni
-filetransfercancelled Fájl átvitel megszakítva
-filetransfercomplete Fájl átvitel kész
+filetransfercancelled Fájl átvitele megszakítva
+filetransfercomplete Fájl átvitele kész
 filetransfer Fájlátvitel
 filtersselect Válaszd ki a megjelenítendő szűrőket\n(Megj.: ha nincs kiválaszott az összes megjelenik)
 filters Szűrők
@@ -387,7 +394,7 @@ globalcontainer Általános tároló
 globalnick Írj ide egy mintát a partnereid nevének megformázására. A következő változókat használhatod: \$user_login A partner címe, \$nick A partner beceneve és \$customnick a partner egyéni beceneve. Pl.: '\$user_login neve \$nick' eredménye 'partner@msn.com neve Partner'
 globalnicktitle Általános becenév
 globaloverride Az általános becenév minták felülírják az egyedi beceneveket
-gonelunch Ebédel
+gonelunch ebédel
 gotink $1 kézírásos üzenetet küldött
 gotoinbox Beérkező levelek (csak Hotmail-es címmel működik)
 goto_prefs_removeprofile Kattints ide a beállításokhoz és a profilod törléséhez
@@ -416,6 +423,7 @@ hidemenumessage El akarod rejteni a menüsort?\nBármikor vissza tudod állítan
 hiden Hangulatjel elrejtése a menüből
 hidewindow Ablak elrejtése
 history Előzmények megtekintése
+history2 Előzmények:
 home Otthon
 howto_remove_profile A profilod ($1) törléséhez a beállítások ablakot kell megnyitnod. \n\nBiztonsági okokból a profil törlése nem engedélyezett a bejelentkező képernyőről.
 httpconnection HTTP mód használata kapcsolódáshoz (a HTTP protokollt használja a 80-as porton)
@@ -490,16 +498,16 @@ logeventpsm Személyes üzenet változtatások naplózása
 logeventstate Állapot váltások naplózása
 logfandexp Naplófájlok mérete és előzmények megtartási ideje
 loggedotherlocation A bejelentkezés megszakítva: már bejelentkeztél.
-loggingin Bejelentkezés...
-loginas Bejelentkezés mint
+loggingin Bejelentkezés
+loginas Bejelentkezés, mint
 login Bejelentkezés
 loging Naplózás
 logolder Csak azon beszélgetések naplózása, melyek le lettek folytatva az elmúlt
 logout Kijelentkezés
 logoutwincloselabel Beszélgetések bezárása kilépéskor
 logsbydate A naplók dátum szerinti rendezése (Az előzmények betöltése gyorsabb)
-logschats Belépett a beszélgetésbe
-logsin Bejelentkezett
+logschats csatlakozott a beszélgetéshez
+logsin bejelentkezett
 logsmileys Hangulatjelek megjelenítése a naplófájlokban
 logsout kijelentkezett
 logwebcam Minden webkamera esemény mentése az aMSN naplójába, a későbbi visszatekinthetőség érdekében
@@ -534,7 +542,7 @@ msn aMSN
 msnstatus MSN network állapot
 msnstyle MSN Stílusú beszélgetés
 mustrestart A változtatásokhoz újra kell indítanod a programot
-myfriendlyname Az én Baráti nevem
+myfriendlyname Az én baráti nevem
 myhomephone Otthoni telefonom
 mymobilephone Mobil telefonom
 mynick Az én becenevem
@@ -560,15 +568,16 @@ newmsg Új üzenet
 newoim Új kapcsolat nélküli üzenetek
 newstate Saját állapot hozzáadása
 newtabbedfeature Az összes beszélgetésed csoportonként vagy akár minden partnerrel egy füles ablakra kerülhet. Kérlek válaszd ki az üzemmódot amivel az aMSN kezelje a beszélgetéseket.
+newupdate Új frissítések érhetőek el az aMSN-hez
 newveravailable Újabb verzió ($1) elérhető letöltésre.
 next Következő
 nick Becenév
 nickchanged $1 megváltoztatta becenevét erre: '$2'
-noactivity Nem vagyok itt
+noactivity nem vagyok itt
 nocacheddps Nincs eltárolt kép ettől a felhasználótól
 nocamwarn Nem találtam webkamerát, vagy a webkamerád már használja egy másik program (emiatt az aMSN nem tudja használni). A probléma megoldásához a Wiki oldalunkon találsz segítséget:
 nodataavailable Nincs adat róla ( $1 )
-nodevices Jelenleg nincs eszköz installálva
+nodevices Jelenleg nincs eszköz telepítve
 noftpreview A képek mejelenítésének tiltása fájl átvitelkor.
 nogap Nincs szünet a csoportok közt
 nogroup Nincs csoport
@@ -606,13 +615,13 @@ nottabbed Normál ablakok fülek nélkül
 nousersinsession Nincs felhasználó a folyamatban
 nouserspecified Nincs partner megadva
 nudge $1 a figyelmedet szeretné
-offline Kijelentkezve
+offline kijelentkezve
 oim Kapcsolat nélküli üzenet
 ok Rendben
 onenewmail Egy új üzeneted van
-online Elérhető
+online elérhető
 onlinehelp Online Help
-onphone Telefonál
+onphone telefonál
 opendir Mappa megnyitása
 openfilecommand File megnyitási parancs
 openfile Megnyitás
@@ -621,7 +630,7 @@ options Beállítások
 ordercontactsby Partnerek rendezése
 ordergroupsby Csoportok rendezése
 original Eredeti
-otherdisplaypic A partner másik megjelenítendő képe (kattints rá a többi beállításhoz)
+otherdisplaypic A partner további megjelenítendő képei (jobb klikk az opciókhoz)
 otherdps Egyéb megjelenítendő képek
 other Más
 others Egyéb
@@ -733,11 +742,15 @@ restartforskin Figyelem! Újra kell indítanod az aMSN-t, hogy lásd a változta
 retry Újra
 reversed R-beszélgetés
 reverselist Ellentétes lista (FL):
-rightback Rögtön jövök
+rightback rögtön jövök
 saveas Mentés másként
 savechatwinsize A beszélgetés ablak átméretezésekor legyen az az alap méret
 savecontacts Partnerlista mentése
 save Mentés
+saveddefaultloc Mentés az alapértelmezett könyvtárba
+savelocation Mented a fájlt ide: $1?
+savelocationerror A fájl nem menthető ide.
+saveotherdirectory Mentés másik könyvtárba
 savetofile Mentés fájlba
 says $1 üzenete
 sbcon Csatlakozás a kapcsolatkezelő szerverhez
@@ -759,19 +772,19 @@ sendoim Kapcsolat nélküli üzenet küldése
 sendvoice Hangfelvétel küldése
 sendwebcamaccepted $1 elfogadta a meghívást a webkamerád megtekintésére. Kapcsolódás...
 sendwebcaminvite Egy partner meghívása a webkamerád megtekintésére
-sentbytes Küldve $1 -ból $2 bájt
+sentbytes Átüldve: $1 / $2 bájt
 sentvoice Hang klip elküldve
 serverbusy A szerver foglalt
 servergoingdown Megszakítva: a szerver leállt
 server Szerver
 serverunavailable A szerver nem elérhető
 session Folyamatok
-setasmydp Beállítva megjelenítendő képemnek
+setasmydp Beállítás megjelenítendő képemnek
 setupcamfinetune Webkamera eszköz beállítása, és képének finomhangolása
 setupcam Webkamera eszközöd beállítása
 shareswebcam Van webkamerája
 showbanner Az aMSN csík megjelenítése
-showblockedlist Azon partnerek listája akik letiltottak
+showblockedlist Azon partnerek listája, akik letiltottak
 showcachedpics Tárolt képek megjelenítése
 show_contactdps_in_cl A partnerek megjelenítendő képeinek megjelenítése bélyegképként a partnerlistában
 showcontactemail Partnerek megjelenítése e-mail címmel
@@ -781,7 +794,7 @@ showdisplaypic Saját képek megjelenítése
 showlinksinlogin Linkek megjelenítése a bejelentkező képernyőn
 showmailicon Levél ikon megjelenítése a tálcán, ha új e-mail érkezik
 showmypic Saját képem
-shownotify Figyelmeztető üzenet megjelenítése mikor valami történik
+shownotify Figyelmeztető üzenet megjelenítése eseménynél
 showonedpframe Csak egy képmegjelenítő keret megjelenítése a beszélgetés ablakokban
 showpicnotify Partnerek képeinek megjelenítése a figyelmeztető ablakokban
 showuserpic $1 képe
@@ -808,19 +821,19 @@ sortcontactstatus Partnerek rendezése állapot szerint
 sortgroupsasc Partnerek rendezése növekvő sorrendben
 sortgroupsdesc Partnerek rendezése csökkenő sorrendben
 sound2 Hangok lejátszása mikor valaki bejelentkezik / üzenetet küld
-soundactive Akkor is legyen hang új üzenet esetén ha az ablak épp aktív.
+soundactive Akkor is legyen hang új üzenet esetén, ha az ablak épp aktív.
 soundcommand Ez a lejátszási parancs (pl: esdplay)
 soundexample ( \$sound = a hangfájl ami lejátszásra kerül) Pl: esdplay \$sound
 soundfile Figyelmeztető hang fájl
 soundfiles Hangok
-sound Hang esemény
+sound Eseményhangok
 soundloop Ismétlődő hang
 soundnoavail Nem található hangeszköz. Kapcsold ki azt a programot, ami használja a hangkártyát.
 soundserver Hang szerver
 soundstatus Figyelmeztető hang KI/BE kapcsolása
 sourcecode Forrás (fordítás és telepítés szükséges)
 splashstart Indítás
-sslwarning FIGYELEM!! Az SSL kikapcsolásával megszűnik a kódolás, szóval a jelszavad szövegként lesz átküldve a hálózaton. Csak végszükség esetén kapcsold ki!
+sslwarning FIGYELEM!! Az SSL kikapcsolásával megszűnik a kódolás, azaz a jelszavad szövegként lesz átküldve a hálózaton. Csak végszükség esetén kapcsold ki!
 startoffline2 Csendes bejelentkezés, "Kapcsolat elrejtése"
 startoffline Indítás kapcsolat nélkül
 startonboot aMSN elindítása a Windows indulásakor
@@ -847,7 +860,7 @@ stylechat A beszélgetés ablakokhoz hasonló
 stylehist Előzmények kinézete
 stylelog Válaszd ki az előzmények megtekintési formáját
 style Stílus
-subjectrequired A tárgy kitöltése kötelez
+subjectrequired A tárgy kitöltése kötelező
 subject Tárgy
 syntaxerror Szintaktikai hiba
 tabbed Füles ablakok
@@ -859,7 +872,7 @@ textsize Szöveg méret
 thismonth Ez a hónap
 throughserver Szerveren át
 timeremaining Hátralevő idő
-timestamp Idő bélyeg
+timestamp Időbélyeg
 timestamps Időbélyeg megjelenítése a beszélgetésekben
 title aMSN
 tkerror1 A TK hibát okozott, kérlek jelentsd. A Részletek gombra kattintva további információkat kaphatsz a hibáról, vagy kattints az OK gombra az aMSN használatának folytatásához.
@@ -892,6 +905,7 @@ uoffline Kijelentkezve
 uonline Elérhető
 update Frissítés
 updateonlycurrentlanguage Csak a jelenlegi nyelv frissítése
+updatesaved Kész\n $1 elmentve ide: $2.
 updating Frissítés
 useasdp Kijelző kép használata
 useasregexp Regurális kifejezésként használd (regexp)
@@ -927,7 +941,8 @@ webcamextnotloaded Webkamera kiterjesztés nincs betöltve. Előbb le kell ford�
 webcamextwarn Nem fogod látni partnereid webkameráját. A kiterjesztés telepítéséhez az aMSN Wiki oldalán találsz segítséget:
 webcamfaq Webkamerás FAQ/Help
 webcamhistory Webkamerás kapcsolatok megtekintése
-webcaminvite $1 webkamerás csatlakozásra hív de az aMSN ezt nem támogatja.
+webcamhistory2 Webkamerás kapcsolatok:
+webcaminvite $1 webkamerás csatlakozásra hív, de az aMSN ezt nem támogatja.
 webcaminvitereceived $1 felkért téged webkamerás kapcsolatra. Elfogadod?
 webcaminvitereceiving $1 felkért a webkamerája képének fogadására. Elfogadod?
 webcaminvitesending $1 szeretné látni a kamerádat. Engedélyezed?
@@ -939,14 +954,14 @@ webcam Webkamera
 web Web
 whatisamsn Az aMSN egy platformfüggetlen MSN Messenger klón
 whatsize A kép amit választottál, nem egy normál kijelző kép\nméret (96x96) Milyen méretűben szeretnéd megjeleníteni a képet?
-willjoin Várakozok $1 csatlakozására a beszélgetéshez
+willjoin Várakozás $1 csatlakozására a beszélgetéshez
 winkreceived $1 animációt küldött, de ezt az aMSN nem támogatja teljesen.
 wintitlenick Becenevek jelenjenek meg az e-mail címek helyett egy füles ablakban?
 work Foglalkozás
 wrongfields A "$1", "$2" és/vagy "$3" mezőket rosszul adtad meg
 wrongprofileversion Rossz profil beállítás verzió. Hogy kijavíthasd, töröld a $1 könyvtárat, vagy frissítsd az aMSN-t
 xmmscurrent Aktuális szám kiírása
-xmmserr Nem játszol le semmit, vagy nem tetted fel az xmms-infopipe -t.
+xmmserr Nem játszol le semmit, vagy nem telepítetted az xmms-infopipe -t.
 xmmssend Aktuális szám küldése
 xoffset X eltolás
 year Év
@@ -954,7 +969,7 @@ yesblock Igen és tiltás
 yes Igen
 yesterday Tegnap
 yoffset Y eltolás
-youblocked Letiltott
+youblocked letiltott
 yousay Te mondtad
 youwant Választásod
 zoom Nagyítás
