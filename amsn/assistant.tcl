@@ -1947,23 +1947,24 @@ namespace eval ::AVAssistant {
 		
 		#use the alarm as test file
 		set sound [::snack::sound -file [::skin::GetSkinFile sounds alarm.wav] ]
-		
-		catch { $w.wavef.wave delete waveform }
-		catch { $w.wavef.wave delete errmsg }
-		if { [catch {$sound play -command [list ::AVAssistant::endPlayTestDelayed $w]} res]} {
-			$w.wavef.wave create text 5 5 -anchor nw -font bboldf -width [winfo width $w.wavef.wave] -text "[trans playerror $res]" -fill #FF0000 -anchor nw -tag errmsg
-			after 3000 "catch { $w.wavef.wave delete errmsg }"
-		} else {
-			#TODO: have a progression on the waveform while listening
-			$w.wavef.wave create waveform 0 0 -sound $sound -width 250 -height 75 -tags [list waveform]	
-			
-			bind $w.testf.stoptest <ButtonPress-1> [list ::AVAssistant::stopTest $w]
-			bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::pauseTest $w]
-			bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap pausebuth]]
-			bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap pausebut]]
-			
-			$w.testf.playtest configure -image [::skin::loadPixmap pausebut]
-			$w.testf.stoptest configure -state normal
+		if {[winfo exists $w.wavef] && [winfo exists $w.testf]} {
+			catch { $w.wavef.wave delete waveform }
+			catch { $w.wavef.wave delete errmsg }
+			if { [catch {$sound play -command [list ::AVAssistant::endPlayTestDelayed $w]} res]} {
+				$w.wavef.wave create text 5 5 -anchor nw -font bboldf -width [winfo width $w.wavef.wave] -text "[trans playerror $res]" -fill #FF0000 -anchor nw -tag errmsg
+				after 3000 "catch { $w.wavef.wave delete errmsg }"
+			} else {
+				#TODO: have a progression on the waveform while listening
+				$w.wavef.wave create waveform 0 0 -sound $sound -width 250 -height 75 -tags [list waveform]	
+				
+				bind $w.testf.stoptest <ButtonPress-1> [list ::AVAssistant::stopTest $w]
+				bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::pauseTest $w]
+				bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap pausebuth]]
+				bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap pausebut]]
+				
+				$w.testf.playtest configure -image [::skin::loadPixmap pausebut]
+				$w.testf.stoptest configure -state normal
+			}
 		}
 	
 	}
@@ -1976,7 +1977,7 @@ namespace eval ::AVAssistant {
 	}
 
 	proc endPlayTest {w} {
-		if {[winfo exists $w]} {
+		if {[winfo exists $w.testf]} {
 			bind $w.testf.stoptest <ButtonPress-1> ""
 			bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
 			bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
@@ -1992,11 +1993,12 @@ namespace eval ::AVAssistant {
 		variable sound
 		if { [info exists sound] } {
 			$sound pause 
-
-			bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
-			bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
-			bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
-			$w.testf.playtest configure -image [::skin::loadPixmap playbut]
+			if {[winfo exists $w.testf]} {
+				bind $w.testf.playtest <ButtonPress-1> [list ::AVAssistant::playTest $w]
+				bind $w.testf.playtest <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
+				bind $w.testf.playtest <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
+				$w.testf.playtest configure -image [::skin::loadPixmap playbut]
+			}
 		}
 	}
 	###
@@ -2181,7 +2183,7 @@ namespace eval ::AVAssistant {
 	###
 	# called when reached the end when playing the record or stopped
 	proc endPlayRecord {w} {
-		if {[winfo exists $w]} {
+		if {[winfo exists $w.recf]} {
 			#get back to the play button
 			bind $w.recf.playrecorded <Enter> [list %W configure -image [::skin::loadPixmap playbuth]]
 			bind $w.recf.playrecorded <Leave> [list %W configure -image [::skin::loadPixmap playbut]]
