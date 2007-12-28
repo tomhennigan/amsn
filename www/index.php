@@ -23,6 +23,8 @@ include inc . 'header.php';
   echo trans('amsndescription');
 echo '</p>';
 echo '<ul>';
+echo '<li>'.trans('offlinemessaging').'</li>';
+echo '<li>'.trans('voiceclips').'</li>';
 echo '<li>'.trans('displaypics').'</li>';
 echo '<li>'.trans('customemoticons').'</li>';
 echo '<li>'.trans('multilangsupport').'</li>';
