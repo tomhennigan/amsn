@@ -11,9 +11,9 @@
           <strong>aMSN</strong> is an free open source MSN Messenger clone, featuring:
         </p>
 
-            &#187; Offline Messaging
-            &#187; Voice Clips
-            &#187; A New Login Window &amp; Contact List (As of 0.97)
+            &#187; Offline Messaging<br />
+            &#187; Voice Clips<br />
+            &#187; A New Login Window &amp; Contact List (As of 0.97)<br />
             &#187; Display pictures<br />
             &#187; Custom emoticons<br />
             &#187; Multi-language support (around 40 languages currently supported)<br />
