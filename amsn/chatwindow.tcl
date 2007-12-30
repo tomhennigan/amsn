@@ -3090,7 +3090,26 @@ namespace eval ::ChatWindow {
 			}
 			set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans to]:"] + 5}]
 
-			set defaultcolour #000000
+			#get the default colour for the specific state
+			set defaultcolour [::skin::getKey topbartext]
+			if { ([llength $user_list] == 1) && ( "$user_state" != "" ) } {
+				if { $state_code == "IDL" } {
+					set defaultcolour [::skin::getKey topbaridletext]
+				} elseif { $state_code == "BRB" } {
+					set defaultcolour [::skin::getKey topbarbrbtext]
+				} elseif { $state_code == "AWY" } {
+					set defaultcolour [::skin::getKey topbarawaytext]
+				} elseif { $state_code == "LUN" } {
+					set defaultcolour [::skin::getKey topbarlunchtext]
+				} elseif { $state_code == "PHN" } {
+					set defaultcolour [::skin::getKey topbarphonetext]
+				} elseif { $state_code == "BSY" } {
+					set defaultcolour [::skin::getKey topbarbusytext]
+				} elseif { ($state_code == "FLN") } {
+					set defaultcolour [::skin::getKey topbarofflinetext]
+				}
+			}
+
 			set defaultfont sboldf
 			set colour $defaultcolour
 			set font_attr [font configure $defaultfont]
