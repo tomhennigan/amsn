@@ -11,15 +11,22 @@
 <br />
 <img style="display: block;margin-left: auto;margin-right: auto;" src="images/download-linux.png" alt="Linux Download" /><br />
 	<a name="AP"></a>
-	<h3>Generic Installer</h3>
-	<dl class="toc"><dt>
+	<h3>Generic Installers</h3>
+	<dl><dt>
             <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
-	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl84.x86.package"><span class="toc_title">aMSN Installer</span></a>
+	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl84.x86.package"><span class="toc_title">aMSN Installer for Tcl/Tk&nbsp;8.4</span></a>
 	</dt><dd>
-		Distribution independent installer
-    </dd></dl><br />
+		Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.4
+    </dd></dl>
+	<dl><dt>
+            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl85.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
+	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl85.x86.package"><span class="toc_title">aMSN Installer for Tcl/Tk&nbsp;8.5</span></a>
+	</dt><dd>
+		Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.5 <strong>final version</strong>
+    </dd></dl>
+    <br />
     <p>
-      This generic installer was created with <a href="http://www.autopackage.org/">Autopackage</a>.
+      These generic installers were created with <a href="http://www.autopackage.org/">Autopackage</a>.
       This is a new Linux technology to create distribution independent packages,
       with an installer <a href="http://www.autopackage.org/gallery.html">with a user-friendly look. Check by yourself !</a>.<br />
       <a href="http://www.autopackage.org/docs/howto-install/"><b>Please follow the instructions to install the package.</b></a>
