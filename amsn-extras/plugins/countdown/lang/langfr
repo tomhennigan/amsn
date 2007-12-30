@@ -1,0 +1,11 @@
+amsn_lang_version 2
+date La date/heure pour le décompte
+showdays Afficher les jours restants
+showminutes Afficher les minutes restantes
+showboth Afficher les jours puis les minutes pour le dernier jour
+prefixd Prefix au compteur par jour
+suffixd Suffix au compteur par jour
+prefixm Prefix au compteur par minute
+suffixm Suffix au compteur par minute
+after Message à afficher lorsque le compteur expire
+invaliddate La date/heure entrée est invalide.
