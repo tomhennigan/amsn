@@ -4704,15 +4704,6 @@ proc cmsn_change_state {recv} {
 		set state_changed 0
 	}
 
-	# we shouldn't add ChangeState PostEvent if ILN
-	if { $state_changed } {
-		#an event used by guicontactlist to know when a contact changed state
-		after 500 [list ::Event::fireEvent contactStateChange protocol $user]
-		
-		::plugins::PostEvent ChangeState evpar
-	}
-
-
 	if { $msnobj == "" } {
 		set msnobj -1
 	}
@@ -4749,9 +4740,13 @@ proc cmsn_change_state {recv} {
 	set custom_user_name [::abook::getDisplayNick $user]
 
 
-	#alarm system (that must replace the one that was before) - KNO
 	if {[lindex $recv 0] !="ILN" && $state_changed} {
 
+		#an event used by guicontactlist to know when a contact changed state
+		after 500 [list ::Event::fireEvent contactStateChange protocol $user]
+		::plugins::PostEvent ChangeState evpar
+
+		#alarm system (that must replace the one that was before) - KNO
 		if {[lindex $recv 0] == "FLN"} {
 			#User disconnected
 
@@ -4769,8 +4764,8 @@ proc cmsn_change_state {recv} {
 				run_alarm all $user $custom_user_name "[trans changestate $custom_user_name $status]"
 			}
 		}
+		#end of alarm system
 	}
-	#end of alarm system
 
 	# Write remote the nick change if the state didn't change
 	if {$remote_auth == 1 && $nick_changed && !$state_changed && 
