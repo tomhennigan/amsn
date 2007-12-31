@@ -110,7 +110,7 @@ namespace eval ::countdown {
 				}
 				2 {
 					set msg $config(prefixm)
-					append msg $
+					append msg $minutes
 					append msg $config(suffixm)
 					::MSN::changePSM $msg
 					plugins_log Countdown "Method 2 setting PSM to $msg"

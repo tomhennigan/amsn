@@ -9,7 +9,7 @@
 	<plugin_file>countdown.tcl</plugin_file>
 	<plugin_namespace>countdown</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
-	<cvs_version>9209</cvs_version>
+	<cvs_version>9211</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
