@@ -3088,7 +3088,7 @@ namespace eval ::amsn {
 		# while receiving oims, with no tabbed chatting,
 		# since many windows could open at the same time, and each of them were asking for the focus
 		# here is an ugly workaround
-		if {!$oim || [::config::getKey tabbedchat] != 0 } {
+		if {!$oim } {
 			focus [::ChatWindow::GetInputText ${win_name}]
 		}
 
