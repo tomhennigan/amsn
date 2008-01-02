@@ -5942,8 +5942,8 @@ proc Fill_users_list { path path2} {
 				set colour [::skin::getKey extrastdbgcolor]
 				set foreground [::skin::getKey extrastdtxtcolor]
 			}
+			$path.allowlist.box itemconfigure end -background $colour -foreground $foreground
 		}
-		$path.allowlist.box itemconfigure end -background $colour -foreground $foreground
 	}
 
 	foreach user [lsort [::MSN::getList BL]] {
