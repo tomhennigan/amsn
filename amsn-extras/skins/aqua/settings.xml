@@ -42,6 +42,26 @@
 			<balloonborderwidth>0</balloonborderwidth>
 		</Options>
 	</General>
+        <Login>
+                <Colors>
+                        <loginbg>#ffffff</loginbg>
+                        <loginwidgetbg>#ffffff</loginwidgetbg>
+                        <loginfg>#000000</loginfg>
+                        <loginurlfg>#0000ff</loginurlfg>
+                        <logincheckfg>#ffffff</logincheckfg>
+                        <loginbuttonbg>#ffffff</loginbuttonbg>
+                        <loginbuttonfg>#000000</loginbuttonfg>
+                        <loginbuttonfghover>#000000</loginbuttonfghover>
+                </Colors>
+                <Options>
+                        <loginbuttonresize>tile</loginbuttonresize>
+                </Options>
+                <Geometry>
+                        <loginbuttonx>4</loginbuttonx>
+                        <loginbuttony>4</loginbuttony>
+                </Geometry>
+        </Login>
+
 	<ContactList>
 		    <Colors>
 			<mainwindowbg>#F6F6F6</mainwindowbg>
@@ -58,7 +78,16 @@
 			<contact_gonelunch>#FF9806</contact_gonelunch>
 			<contact_offline>#505050</contact_offline>
 			<contactlistbg>#F6F6F6</contactlistbg>
-			
+			<topcontactlistbg>#F6F6F6</topcontactlistbg>
+                        <state_online>#7478F1</state_online>
+                        <state_away>#c68325</state_away>
+                        <state_noactivity>#B07521</state_noactivity>
+                        <state_rightback>#B07521</state_rightback>
+                        <state_onphone>#B12323</state_onphone>
+                        <state_busy>#B12323</state_busy>
+                        <state_mobile>#B0B0B0</state_mobile>
+                        <state_gonelunch>#B07521</state_gonelunch>
+                        <state_offline>#808080</state_offline>
 		</Colors>
 		<Geometry>
 			<bigstate_xpad>0</bigstate_xpad>
