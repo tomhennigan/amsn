@@ -57,16 +57,18 @@ case `uname -s` in
 		;;
 	Darwin)
 		FOUND_OS="mac"
-		CFLAGS="$CFLAGS -I${prefix}/include -L${prefix}/lib -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-		CXXFLAGS="$CXXFLAGS -I${prefix}/include -L${prefix}/lib -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-		LDFLAGS="$LDFLAGS -I${prefix}/include -L${prefix}/lib -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+		UNIVERSAL="-arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.3"
+		CFLAGS="$CFLAGS -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
+		CXXFLAGS="$CXXFLAGS -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
+		LDFLAGS="$LDFLAGS -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
+		
 		# Directories in which the Tcl core can be found
-		TCL_INC_SPEC="-I../../Frameworks/Tcl.framework/Headers -DUSE_TCL_STUBS"
-		TCL_STUB_LIB_SPEC="-L../../Frameworks/Tcl.framework -ltclstub8.4\${TCL_DBGX}"
+		TCL_INC_SPEC="-I/Library/Frameworks/Tcl.framework/Headers -DUSE_TCL_STUBS"
+		TCL_STUB_LIB_SPEC="-framework Tcl"
 		
 		# Directories in which the Tk core can be found
-		TK_INC_SPEC="-I../../Frameworks/Tk.framework/Headers -DUSE_TK_STUBS"
-		TK_STUB_LIB_SPEC="-L../../Frameworks/Tk.framework -ltkstub8.4\${TK_DBGX}"
+		TK_INC_SPEC="-I/Library/Frameworks/Tk.framework/Headers -DUSE_TK_STUBS"
+		TK_STUB_LIB_SPEC="-framework Tk"
 		;;
 	SunOS)
 		FOUND_OS=solaris
