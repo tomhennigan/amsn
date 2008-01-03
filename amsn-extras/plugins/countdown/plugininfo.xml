@@ -5,11 +5,12 @@
 	<description>Shows a countdown to a specific date</description>
 	<description_fr>Affiche un décompte vers une date spécifique</description_fr>
 	<amsn_version>0.97</amsn_version>
-	<plugin_version>0.1</plugin_version>
+	<plugin_version>0.2</plugin_version>
 	<plugin_file>countdown.tcl</plugin_file>
 	<plugin_namespace>countdown</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
-	<cvs_version>9211</cvs_version>
+	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>9216</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>

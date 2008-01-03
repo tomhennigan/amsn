@@ -13,6 +13,7 @@ namespace eval ::countdown {
 		variable config
 		variable language
 		variable configlist
+		variable old_psm
 
 		::plugins::RegisterPlugin Countdown
 		::plugins::RegisterEvent Countdown PluginConfigured ConfigChanged
@@ -39,9 +40,19 @@ namespace eval ::countdown {
 				    [list str "[trans suffixm]" suffixm] \
 				    [list str "[trans after]" after] \
 				   ]
+
+		set old_psm [::abook::getPersonal PSM]
+
 		ValidateDate
 		AddAfter
 		after idle ::countdown::DoCountdown
+	}
+
+	proc DeInit { } {
+		variable old_psm
+		after cancel ::countdown::DoCountdown
+		
+		::MSN::changePSM $old_psm		
 	}
 
 	proc ConfigChanged { event evpar } {
@@ -71,12 +82,15 @@ namespace eval ::countdown {
 
 	proc DoCountdown { } {
 		variable config
-		
+		variable old_psm
+
 		# Invalid date, don't even bother.
 		if {$config(valid) == 0} {
 			plugins_log Countdown "Invalid date so returning"
 			return
 		}
+
+		set old_psm [::abook::getPersonal PSM]
 
 		set dest [clock scan $config(date)]
 		set seconds [expr $dest - [clock seconds]]
