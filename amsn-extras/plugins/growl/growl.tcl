@@ -22,7 +22,7 @@ namespace eval ::growl {
     	
     	#Command to Growl, register application aMSN with 6 kinds of notification
     	#Use default icon inside the growl folder
-    	catch {growl register aMSN "Online Newstate Offline Newmessage Pop Nudge" $dir/growl.png}
+    	catch {growl register aMSN "Online Newstate Offline Newmessage Newemail Pop Nudge" $dir/growl.png}
     	
     	#Register events for growl plugin
 		::growl::RegisterEvent
@@ -78,8 +78,10 @@ namespace eval ::growl {
 	#####################################	
 	proc RegisterEvent {} {
 	   	::plugins::RegisterEvent growl UserConnect online
-    	::plugins::RegisterEvent growl chat_msg_received newmessage
-    	::plugins::RegisterEvent growl ChangeState changestate
+	   	::plugins::RegisterEvent growl chat_msg_received newmessage
+	   	::plugins::RegisterEvent growl ChangeState changestate
+	   	::plugins::RegisterEvent growl newmail newemail
+	   	::plugins::RegisterEvent growl newmailother newemailother
 	}
 	
 	#####################################################
@@ -110,6 +112,8 @@ namespace eval ::growl {
 			changestate {0}
 			offline {0}
 			removeamsnnotification {1}
+			newemail {1}
+			newemailother {1}
     	}
 	}
 	########################################
@@ -127,6 +131,8 @@ namespace eval ::growl {
 			  [list bool "Remove aMSN notifications while using Growl" removeamsnnotification] \
 			  [list bool "[trans notify1_75]" changestate] \
 			  [list bool "[trans notify1_5]" offline] \
+			  [list bool "[trans notify3]" newemail] \
+			  [list bool "[trans notify4]" newemailother] \
 			 ]
 		} else {
 			set ::growl::configlist [list \
@@ -136,6 +142,8 @@ namespace eval ::growl {
 			  [list bool "[trans removeamsnnotification]" removeamsnnotification] \
 			  [list bool "[trans notify1_75]" changestate] \
 			  [list bool "[trans notify1_5]" offline] \
+			  [list bool "[trans notify3]" newemail] \
+			  [list bool "[trans notify4]" newemailother] \
 			  [list ext "[trans installstyle aMSN]" {installstyle aMSN.growlStyle}]\
 			  [list ext "[trans installstyle {aMSN for Mac}]" {installstyle aMSNMac.growlStyle}]\
 			 ]
@@ -164,6 +172,44 @@ namespace eval ::growl {
     }
     
     ###############################################
+    # ::growl::newemail event evpar               #
+    # ------------------------------------------- #
+    # Show a notification when we receive         #
+    # a new email.                                #
+    ###############################################
+    proc newemail {event evpar} {
+        variable config
+		
+        if { $config(newemail) == 0 } { return; }
+		
+        upvar 2 from from
+        upvar 2 fromaddr fromaddr
+
+        set msg [trans newmailfrom $from $fromaddr]
+
+        catch {growl post Newemail $from $msg [::growl::getpicture $fromaddr]}
+    }
+	
+    ###############################################
+    # ::growl::newemailother event evpar          #
+    # ------------------------------------------- #
+    # Show a notification when we receive         #
+    # a new email outside the inbox.              #
+    ###############################################
+    proc newemailother {event evpar} {
+		variable config
+		
+		if { $config(newemailother) == 0 } { return; }
+		
+		upvar 2 from from
+		upvar 2 fromaddr fromaddr
+		
+		set msg [trans newmailfromother $from $fromaddr]
+		
+		catch {growl post Newemail $from $msg [::growl::getpicture $fromaddr]}
+	}
+
+	###############################################
 	# ::growl::newmessage event evpar             #
 	# ------------------------------------------- #
 	# Show a notification when we receive         #

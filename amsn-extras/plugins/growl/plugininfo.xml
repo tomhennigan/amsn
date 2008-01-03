@@ -10,7 +10,7 @@
 	<plugin_namespace>growl</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInitPlugin</deinit_procedure>
-	<svn_version>8809</svn_version>
+	<svn_version>9219</svn_version>
 	
 	<file>
 		<path>growl.png</path>
