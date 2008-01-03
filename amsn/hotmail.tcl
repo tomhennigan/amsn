@@ -274,11 +274,20 @@ namespace eval ::hotmail {
 						::hotmail::setUnreadMessages [expr { [::hotmail::unreadMessages] + 1}]
 						::hotmail::addFrom $from $fromaddr
 						cmsn_draw_online 0 1
+						
+						set evPar(from) from
+						set evPar(fromaddr) fromaddr
+						::plugins::PostEvent newmail evPar
+						
 						if { [::config::getKey notifyemail] == 1 } {
 							::amsn::notifyAdd "[trans newmailfrom $from $fromaddr]" \
 							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail email
 						}
 					} else {
+						set evPar(from) from
+						set evPar(fromaddr) fromaddr
+						::plugins::PostEvent newmailother evPar
+						
 						if { [::config::getKey notifyemailother] == 1 } {
 							::amsn::notifyAdd "[trans newmailfromother $from $fromaddr]" \
 							    [list ::hotmail::gotURL $msgurl $posturl $id] newemail email
