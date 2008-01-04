@@ -201,7 +201,8 @@ EXTERN int SaveToFile(Tcl_Interp *interp, CxImage * image, char * fileName, int 
 // External functions
 EXTERN int Tkcximage_Init _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int Tkcximage_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
-
+EXTERN int Tkcximage_Unload _ANSI_ARGS_((Tcl_Interp *interp, int flags));
+EXTERN int Tkcximage_SafeUnload _ANSI_ARGS_((Tcl_Interp *interp, int flags));
 
 EXTERN int Tk_Convert _ANSI_ARGS_((ClientData clientData,
 								Tcl_Interp *interp,

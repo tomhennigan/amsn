@@ -327,3 +327,11 @@ int Tkcximage_Init (Tcl_Interp *interp ) {
 int Tkcximage_SafeInit (Tcl_Interp *interp) {
   return Tkcximage_Init(interp);
 }
+
+int Tkcximage_Unload(Tcl_Interp* interp, int flags)  {
+	return 0;
+}
+
+int Tkcximage_SafeUnload(Tcl_Interp* interp, int flags)  {
+	return Tkcximage_Unload(interp, flags);
+}
