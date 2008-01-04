@@ -1658,11 +1658,6 @@ namespace eval ::ChatWindow {
 		$contactmenu add command -label "[trans cfgalarm]" \
 			-command "::amsn::ShowChatList \"[trans cfgalarm]\" \[::ChatWindow::getCurrentTab $w\] ::abookGui::showUserAlarmSettings"
 
-		
-		#notes
-		$contactmenu add command -label "[trans note]..." \
-			-command "::amsn::ShowChatList \"[trans note]\" \[::ChatWindow::getCurrentTab $w\] ::notes::Display_Notes"
-
 
 		#-------------------------
 		$contactmenu add separator

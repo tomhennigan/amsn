@@ -238,7 +238,6 @@ proc reload_files { } {
 
 	source balloon.tcl	;# For the balloons tooltip
 	source autoupdate.tcl   ;# AUTOUPDATE!!!!!!!!!! :@
-	source notes.tcl
 	
 	source guicontactlist.tcl ;# New contact list (uses canvas)
 	source bugs.tcl 	  ;# bug reporting
