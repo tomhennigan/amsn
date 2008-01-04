@@ -1,11 +1,16 @@
 amsn_lang_version 2
 date La date/heure pour le décompte
+howtoshow1 Selectionnez la facon d'afficher le décompte
+howtoshow2 Si vous sélectionnez jours et heures, les heures ne seront affichées que le dernier jour (pareil pour les minutes)
 showdays Afficher les jours restants
+showhours Afficher les heures restantes
 showminutes Afficher les minutes restantes
-showboth Afficher les jours puis les minutes pour le dernier jour
 prefixd Prefix au compteur par jour
 suffixd Suffix au compteur par jour
+prefixh Prefix au compteur par heure
+suffixh Suffix au compteur par heure
 prefixm Prefix au compteur par minute
 suffixm Suffix au compteur par minute
 after Message à afficher lorsque le compteur expire
 invaliddate La date/heure entrée est invalide.
+invalidshow Les options d'affichage sont invalides. Toutes ré-activées

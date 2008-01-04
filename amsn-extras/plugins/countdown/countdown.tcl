@@ -17,12 +17,16 @@ namespace eval ::countdown {
 
 		::plugins::RegisterPlugin Countdown
 		::plugins::RegisterEvent Countdown PluginConfigured ConfigChanged
-		array set config [list date "1/1/2008" \
-				      method {3} \
+		array set config [list date "1/1/2009" \
+				      days {1} \
+				      hours {1} \
+				      minutes {1} \
 				      prefixm {} \
-				      suffixm { minutes remaining to 2008!} \
+				      suffixm { hours remaining to 2009!} \
+				      prefixm {} \
+				      suffixm { minutes remaining to 2009!} \
 				      prefixd {J-} \
-				      suffixd { to 2008!} \
+				      suffixd { days to 2009!} \
 				      after {HAPPY NEW YEAR!!!} \
 				      valid 1]
 	
@@ -33,9 +37,15 @@ namespace eval ::countdown {
 
 		set configlist [list \
 				    [list str "[trans date]" date] \
-				    [list rbt "[trans showdays]" "[trans showminutes]" "[trans showboth]" method] \
+				    [list label "[trans howtoshow1]"] \
+				    [list label "[trans howtoshow2]"] \
+				    [list bool "[trans showdays]" days] \
+				    [list bool "[trans showhours]" hours] \
+				    [list bool "[trans showminutes]" minutes] \
 				    [list str "[trans prefixd]" prefixd] \
 				    [list str "[trans suffixd]" suffixd] \
+				    [list str "[trans prefixh]" prefixh] \
+				    [list str "[trans suffixh]" suffixh] \
 				    [list str "[trans prefixm]" prefixm] \
 				    [list str "[trans suffixm]" suffixm] \
 				    [list str "[trans after]" after] \
@@ -69,6 +79,14 @@ namespace eval ::countdown {
 		} else {
 			set config(valid) 1
 		}
+
+		if { $config(days) == 0 && $config(hours) == 0 && $config(minutes) == 0 } {
+			msg_box [trans invalidshow]
+			set config(days) 1
+			set config(hours) 1
+			set config(minutes) 1
+		}
+
 		plugins_log Countdown "Validated new date \"$config(date)\" : $config(valid)"
 	}
 
@@ -82,15 +100,12 @@ namespace eval ::countdown {
 
 	proc DoCountdown { } {
 		variable config
-		variable old_psm
 
 		# Invalid date, don't even bother.
 		if {$config(valid) == 0} {
 			plugins_log Countdown "Invalid date so returning"
 			return
 		}
-
-		set old_psm [::abook::getPersonal PSM]
 
 		set dest [clock scan $config(date)]
 		set seconds [expr $dest - [clock seconds]]
@@ -114,36 +129,24 @@ namespace eval ::countdown {
 				incr days
 			}
 			plugins_log Countdown "$days days remaining for countdown date"
-			switch -- $config(method) {
-				1 {
-					set msg $config(prefixd)
-					append msg $days
-					append msg $config(suffixd)
-					::MSN::changePSM $msg
-					plugins_log Countdown "Method 1 setting PSM to $msg"
-				}
-				2 {
-					set msg $config(prefixm)
-					append msg $minutes
-					append msg $config(suffixm)
-					::MSN::changePSM $msg
-					plugins_log Countdown "Method 2 setting PSM to $msg"
-				} 
-				3 {
-					if {$days > 1} {
-						set msg $config(prefixd)
-						append msg $days
-						append msg $config(suffixd)
-						::MSN::changePSM $msg
-					} else {
-						set msg $config(prefixm)
-						append msg $minutes
-						append msg $config(suffixm)
-						::MSN::changePSM $msg
-					}
-					plugins_log Countdown "Method 3 setting PSM to $msg"
-				}
+
+			if {$config(days) && ($days > 1 || !$config(hours) && !$config(minutes)) } {
+				set msg $config(prefixd)
+				append msg $days
+				append msg $config(suffixd)
+				::MSN::changePSM $msg
+			} elseif {$config(hours) && ($hours > 1 || !$config(minutes))} {
+				set msg $config(prefixh)
+				append msg $hours
+				append msg $config(suffixh)
+				::MSN::changePSM $msg
+			} elseif { $config(minutes) } {
+				set msg $config(prefixm)
+				append msg $minutes
+				append msg $config(suffixm)
+				::MSN::changePSM $msg
 			}
+			
 		}
 
 		AddAfter

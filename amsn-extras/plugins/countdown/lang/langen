@@ -1,11 +1,16 @@
 amsn_lang_version 2
 date The date/time to countdown to
+howtoshow1 Select how to show the countdown.
+howtoshow2 if days and hours are selected, hours will be shown only on the last day (same for minutes).
 showdays Show days remaining
+showhours Show hours remaining
 showminutes Show minutes remaining
-showboth Show days and minutes on the last day
 prefixd Prefix for counter in days
 suffixd Suffix for counter in days
+prefixh Prefix for counter in hours
+suffixh Suffix for counter in hours
 prefixm Prefix for counter in minutes
 suffixm Suffix for counter in minutes
 after Message once counter expired
 invaliddate The date/time you entered is invalid.
+invalidshow The 'show' options are invalid. Enabling all.
