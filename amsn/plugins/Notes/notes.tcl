@@ -14,7 +14,6 @@ namespace eval ::notesplugin {
 		::plugins::RegisterPlugin "Notes"
 		::plugins::RegisterEvent "Notes" chatmenu addCommandToCWMenu
 		::plugins::RegisterEvent "Notes" right_menu addCommandToCLMenu
-		puts "Notes registered"
 	}
 	
 	proc DeInit { dir } {
@@ -24,10 +23,8 @@ namespace eval ::notesplugin {
 
 	proc addCommandToCWMenu { event evpar } {
 		upvar 2 $evpar newvar
-puts "a"
 		$newvar(menu_name).contact insert [trans cfgalarm] command -label "[trans note]..."\
 			-command "::amsn::ShowChatList \"[trans note]\" \[::ChatWindow::getCurrentTab $newvar(window_name)\] ::notes::Display_Notes"
-puts "b"
 	}
 	
 	proc addCommandToCLMenu { event evpar } {
