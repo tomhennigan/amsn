@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <plugin>
 	<name>Countdown</name>
-	<author>Youness Alaoui (a.k.a KaKaRoTo) </author>
+	<author>Youness Alaoui (a.k.a KaKaRoTo). Unimatrix for the idea </author>
 	<description>Shows a countdown to a specific date</description>
 	<description_fr>Affiche un décompte vers une date spécifique</description_fr>
 	<amsn_version>0.97</amsn_version>
@@ -10,7 +10,7 @@
 	<plugin_namespace>countdown</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>9229</cvs_version>
+	<cvs_version>9230</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
