@@ -1294,7 +1294,7 @@ namespace eval ::plugins {
 			#logic: if this is the first time the user logged in, then 
 			#the configuration list is empty which means load_config
 			#makes loadedplugins empty
-			set loadedplugins [list "Nudge" "Winks" "Cam Shooter" "remind"]
+			set loadedplugins [list "Nudge" "Winks" "Cam Shooter" "remind" "Notes"]
 
 			status_log "Plugins System: load_config: No plugins.xml]\n" red
 		}
