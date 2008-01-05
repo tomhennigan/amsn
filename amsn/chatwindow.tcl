@@ -996,12 +996,8 @@ namespace eval ::ChatWindow {
 		pack $paned -side top -expand true -fill both -padx [::skin::getKey chat_paned_padx]\
 		 -pady [::skin::getKey chat_paned_pady]
 
-		# Tabbed chatwindows have focus by themselves, the focus thing
-		# seems to mess them up
-		if { [::config::getKey tabbedchat] != 0 } { 
-			focus $paned
-		}
-
+		focus [::ChatWindow::GetInputText $w]
+		
 		# Sets the font size to the one stored in our configuration file
 		change_myfontsize [::config::getKey textsize] $w
 
