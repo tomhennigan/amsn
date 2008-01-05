@@ -133,10 +133,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
               return true;
             }
             else {
-              if ($matches[3] == 'b') {
-                return true;
-              }
-              else if (substr($matches[3],0,1) == '.') {
+              if (substr($matches[3],0,1) == '.') {
                 if (strcmp($matches[3], $matches_latest[3]) < 0) {
                   return false;
                 }
@@ -145,7 +142,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
                 }
               }
               else {
-                return true;
+                return false;
               }
             }
           }
