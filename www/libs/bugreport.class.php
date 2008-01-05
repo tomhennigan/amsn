@@ -45,11 +45,27 @@ if(!defined('_BUGREPORT_CLASS_')) {
 
     function load_report($report,$isfile=false) {
       $xml=new XML();
+
       if($isfile) {
-	$xml->load_file($report);
-      } else {
-	$xml->load_text($report);
+        if ( file_exists($report) && is_readable($report) ) {
+          // Read the content of the file.
+          $report = implode("", file($report));
+        }
+        else {
+          $report = "";
+        }
       }
+
+      /*	Temporary fix for a bug in aMSN's error reporting - It does not
+                properly escape the stack trace. So, we kinda fix that here, by
+                using a regular expression to put stack data in <![CDATA[ and ]]> to avoid bad interpretations from the parser
+      */
+      if ($report_fixed = preg_replace('/<text>(.*)<\/text>/is', '<text><![CDATA[$1]]></text>', $report))
+        $report = $report_fixed;
+      if ($report_fixed = preg_replace('/<stack>(.*)<\/stack>/is', '<stack><![CDATA[$1]]></stack>', $report))
+        $report = $report_fixed;
+
+      $xml->load_text($report);
 
       $this->_version=$xml->get_content('/bug[1]/attribute::version');
       //set error stuff
@@ -78,6 +94,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
       //set user info
       $this->email=html_entity_decode($xml->get_content('/bug[1]/user[1]/email[1]'));
       $this->comment=trim(html_entity_decode($xml->get_content('/bug[1]/user[1]/comment[1]')));
+
     }
     
 #checks if this is a valid report
