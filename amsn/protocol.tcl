@@ -1151,7 +1151,7 @@ namespace eval ::MSN {
 			set name [urlencode $newname]
 		}
 
-		::MSN::WriteSB ns "PRP" "MFN $name" "ns handlePRPResponse $name"
+		::MSN::WriteSB ns "PRP" "MFN $name" [list ns handlePRPResponse $name]
 	}
 
 	#Change a users personal message
