@@ -19,56 +19,76 @@ namespace eval ::macabook {
 			return
 		}
 		
-		#package require addressbook
+		# addressbook
 		if {[catch {load [file join $dir "utils" "addressbook" "addressbook1.1.dylib"] addressbook} res]} {
 			tk_messageBox -parent .main -title "Warning" -icon warning -type ok -message "The addressbook extension couldn't be loaded. Please make sure that the plugin has been installed correctly. Reason: $res"
 			return
 		}
 		
+		# Init lang...
+		set langdir [file join $dir "lang"]
+		load_lang en $langdir
+		load_lang [::config::getGlobalKey language] $langdir
+		
+		# Set the config.
+		initConfig
+		
 		# Register for our post event.
-		::plugins::RegisterEvent "Address Book" parse_contact parse_nick
+		::plugins::RegisterEvent "Address Book" parse_contact parseNick
 	}
 
 	# The abook deinit proc.
 	proc deinit { } {
 		unset ::macabook::cache
+		namespace delete ::macabook
 	}
 
-	proc parse_nick {event epvar} {
+	proc initConfig { } {
+		array set ::macabook::config {
+			stylestring {$first $last: }
+    	}
+
+		set ::macabook::configlist [list \
+			[list str "[trans macabookstylestring]"  stylestring] \
+		]
+	}
+
+	proc parseNick {event epvar} {
 		upvar 2 $epvar evpar
 		upvar 2 $evpar(variable) nickArray
 		
 		upvar 2 field field
 		variable user_login $evpar(login)
 		
-		if {$field != "nick"} { return }
+		if {$field != "nick"} { return; }
 		
 		if {![info exists ::macabook::cache($user_login)]} {
-			set name [getNickFromMSNHandle $user_login]
-			set ::macabook::cache($user_login) "[lindex $name 0] [lindex $name 1]"
+			set ::macabook::cache($user_login) [getNickFromMSNHandle $user_login]
 		}
 		
-		if {$::macabook::cache($user_login) != "" && $::macabook::cache($user_login) != " "} {
-			# Put this on first so we get:		": $NICK"
-			set nickArray [linsert $nickArray 0 [list "text" ": "]]
-			# Now the name so we get:			"FIRST LAST: $NICK"
-			set nickArray [linsert $nickArray 0 [list "text" $::macabook::cache($user_login)]]
+		set name $::macabook::cache($user_login)
+		if {$name != [list [list] [list]]} {
+			set stylestring $::macabook::config(stylestring)
+			set stylestring [string map [list "\$first" [lindex $name 0]] $stylestring]
+			set stylestring [string map [list "\$last" [lindex $name 1]] $stylestring]
+			
+			lprepend nickArray [list "text" $stylestring]
 		}
 	}
 
 	proc getNickFromMSNHandle {email} {
-		set user_id [addressbook search -persons -ids MSNInstant == [list {} $email]]
+		set user_id [addressbook search -persons -ids MSNInstant [list ==] [list {} $email]]
 		if {$user_id == [list]} {
-			set user_id [addressbook search -persons -ids Email == [list {} $email]]
+			set user_id [addressbook search -persons -ids Email [list ==] [list {} $email]]
 		}
 		
-		if {$user_id == [list]} { return ""; }
+		if {$user_id == [list]} { return [list [list] [list]]; }
 			
 		set record [addressbook record [lindex $user_id 0]]
-		set first ""
-		set last ""
+		set first [list]
+		set last [list]
 		catch { set first [keylget record First] }
 		catch { set last [keylget record Last] }
-		return [list $first $last]
+		return [list [list $first] [list $last]]
 	}
 }
