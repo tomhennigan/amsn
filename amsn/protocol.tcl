@@ -992,6 +992,8 @@ namespace eval ::MSN {
 		#an event to let the GUI know we are actually logged out now
 		::Event::fireEvent loggedOut protocol
 
+		set ::contactlist_loaded 0
+
 		#cmsn_draw_offline
 
 		#Set all CW users as offline
