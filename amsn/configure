@@ -1283,7 +1283,7 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-debug          enable some debuging informations
+  --enable-debug          enable some debugging information
   --enable-static         enable static link of libstdc++
   --disable-version-check Disable checking that linked tcl/tk version is the same version that bin program tclsh
 
@@ -1746,9 +1746,10 @@ APPSTABLE=no
 
 # Check whether --enable-debug was given.
 if test "${enable_debug+set}" = set; then
-  enableval=$enable_debug; enable_debug=yes
+  enableval=$enable_debug; enable_debug=$enableval
+else
+  enable_debug=no
 fi
-
 
 
 if test "$enable_debug" == "yes" ; then
@@ -1757,11 +1758,13 @@ else
     DEBUG="no"
 fi
 
+
 # Check whether --enable-static was given.
 if test "${enable_static+set}" = set; then
-  enableval=$enable_static; enable_static=yes
+  enableval=$enable_static; enable_static=$enableval
+else
+  enable_static=no
 fi
-
 
 
 if test "$enable_static" == "yes" ; then
@@ -1769,6 +1772,7 @@ if test "$enable_static" == "yes" ; then
 else
     STATIC="no"
 fi
+
 
 
 CONFIGURE_ARGS=`echo $@`
