@@ -33,6 +33,11 @@ if(!$r) {
   die(text("invalid"));
 }
 
+$r=$bugreport->check_amsn_version();
+if(!$r) {
+  die(text("update"));
+}
+
 $r=$bugreport->supported();
 if(!$r) {
   die(text("notsupported"));

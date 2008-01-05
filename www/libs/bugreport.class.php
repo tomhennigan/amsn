@@ -109,6 +109,51 @@ if(!defined('_BUGREPORT_CLASS_')) {
       }
       return true;
     }
+
+#checks version of the client against the latest one
+    function check_amsn_version() {
+	$path = dirname(__FILE__);
+	$path = realpath($path . '/../amsn_latest');
+	if (file_exists($path) && is_readable($path)) {
+          $latest = implode("", file($path));
+          preg_match('/^([0-9]+)\.([0-9]+)(\.[0-9]+)?/', $latest, $matches_latest);
+          preg_match('/^([0-9]+)\.([0-9]+)(.*)/', $this->amsn, $matches);
+
+          if ($matches[1] < $matches_latest[1]) {
+            return false;
+          }
+          elseif ($matches[1] > $matches_latest[1]) {
+            return true;
+          }
+          else {
+            if ($matches[2] < $matches_latest[2]) {
+              return false;
+            }
+            elseif ($matches[2] > $matches_latest[2]) {
+              return true;
+            }
+            else {
+              if ($matches[3] == 'b') {
+                return true;
+              }
+              else if (substr($matches[3],0,1) == '.') {
+                if (strcmp($matches[3], $matches_latest[3]) < 0) {
+                  return false;
+                }
+                else {
+                  return true;
+                }
+              }
+              else {
+                return true;
+              }
+            }
+          }
+        }
+        else {
+          return true;
+        }
+    }
     
     #checks if this bug is potential spam
     # -same bug from the same ip

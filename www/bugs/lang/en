@@ -6,4 +6,5 @@ $trans['ipreported']="Thank you but we have already recieved the same bug from y
 $trans['blocked']="We're sorry but you have been banned. You can contact the amsn-devel mailing list for more information.";
 $trans['notsupported']="We're sorry, but your Tcl/Tk version is not supported. Please upgrade to 8.4 or greater.";
 $trans['fixed']="This has already been fixed for the next release.";
+$trans['update']="We're sorry, but your aMSN version isn't supported anymore. Please upgrade to the last version.";
 ?>
