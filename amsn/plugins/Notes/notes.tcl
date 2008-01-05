@@ -10,15 +10,13 @@
 namespace eval ::notesplugin {
 
 	proc Init { dir } {
-
 		::plugins::RegisterPlugin "Notes"
 		::plugins::RegisterEvent "Notes" chatmenu addCommandToCWMenu
 		::plugins::RegisterEvent "Notes" right_menu addCommandToCLMenu
 	}
 	
-	proc DeInit { dir } {
-
-
+	proc DeInit { } {
+		namespace delete ::notes ::notesplugin
 	}
 
 	proc addCommandToCWMenu { event evpar } {
