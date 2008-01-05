@@ -76,7 +76,7 @@ namespace eval ::bugs {
 	set prot_pos "[expr {[lindex $prot_posend 0]-50}].[lindex $prot_posend 1]"
 	set prot_posend "[lindex $prot_posend 0].[lindex $prot_posend 1]"
 
-	set ::bugs::bug(text) $args
+	set ::bugs::bug(text) [htmlentities $args]
 	set ::bugs::bug(code) $errorCode
 	set ::bugs::bug(info) [privacy [htmlentities $errorInfo]]
 	set ::bugs::bug(status) [privacy [htmlentities [.status.info get $pos $posend]]]
