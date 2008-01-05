@@ -1,0 +1,16 @@
+amsn_lang_version 2 
+date La fecha/hora como objetivo de la cuenta atrás 
+howtoshow1 Selecciona cómo mostrar la cuenta atrás. 
+howtoshow2 si están seleccionados los días y las horas, las horas solo se mostrarán en el último día (al igual que para los minutos). 
+showdays Mostrar los días restantes 
+showhours Mostrar las horas restantes 
+showminutes Mostrar los minutos restantes 
+prefixd Prefijo para el contador de días 
+suffixd Sufijo para el contador de días 
+prefixh Prefijo para el contador en horas 
+suffixh Sufijo para el contador in horas 
+prefixm Prefijo para el contador de minutos 
+suffixm Sufijo para el contador de minutos 
+after Mensaje una vez que el contador finalice 
+invaliddate La fecha/hora que has introducido no es válida. 
+invalidshow Las opciones de 'mostrar' son válidas. Activándolo todo.
