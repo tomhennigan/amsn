@@ -10,12 +10,12 @@
 	<init_procedure>init</init_procedure>
 	<deinit_procedure>deinit</deinit_procedure>
 </plugin>
-<cvs_version>9236</cvs_version>
+<cvs_version>9237</cvs_version>
 
 <file>
 		<path>utils/addressbook/pkgIndex.tcl</path>
 		<version>8184</version>
-		<path>utils/addressbook/pkgIndex.tcl</path>
+		<path>utils/addressbook/addressbook1.1.dylib</path>
 		<version>8184</version>
 </file>
 	
