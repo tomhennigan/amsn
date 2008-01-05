@@ -23,14 +23,13 @@ namespace eval macWindowStyle {
 		set mac_ver_minor [lindex [version_intList $macos_version] 1]
 		
 		if {[::skin::getKey usebrushedmetal "0"] && [::config::getKey allowbrushedmetal "1"]} {
-			if {$mac_ver_major >= 10 && $mac_ver_minor >= 5} {
+			if {$mac_ver_major <= 10 && $mac_ver_minor < 5} {
+				catch {
+		    		::tk::unsupported::MacWindowStyle style $window document {closeBox horizontalZoom verticalZoom collapseBox resizable metal}
+		    	}
+			} else {
 				status_log "::macWindowStyle::setBrushed - style disabled for os version ($macos_version)" white
-				return
 			}
-			
-	    	catch {
-	    		::tk::unsupported::MacWindowStyle style $window document {closeBox horizontalZoom verticalZoom collapseBox resizable metal}
-	    	}
 		}
 	}
 }
