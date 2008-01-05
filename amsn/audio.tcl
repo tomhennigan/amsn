@@ -19,10 +19,14 @@ proc require_snack { } {
 		}
 	} elseif {[OnMac] } {
 		if { [catch {
-			load [file join utils macosx snack2.2 libsnack.dylib]
-			source [file join utils macosx snack2.2 snack.tcl]
-		} ] } {
 			package require snack 
+		} ] } {
+			if {[file exists [file join utils macosx libsnack-[info tclversion].dylib]]} {
+				load [file join utils macosx snack2.2 libsnack-[info tclversion].dylib]
+			} else {
+				load [file join utils macosx snack2.2 libsnack.dylib]
+			}
+			source [file join utils macosx snack2.2 snack.tcl]
 		}
 	}
 	
