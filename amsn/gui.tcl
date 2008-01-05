@@ -6234,13 +6234,12 @@ proc launch_browser { url {local 0}} {
 
 	#status_log "Launching browser for url: $url\n"
 	if { [OnWin] } {
-		#regsub -all -nocase {htm} $url {ht%6D} url
-		#regsub -all -nocase {&} $url {^&} url
-
-		#catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
-
-		package require WinUtils
-		WinLoadFile $url
+		catch {package require WinUtils }
+		if { [catch { WinLoadFile $url }] } {
+			regsub -all -nocase {htm} $url {ht%6D} url
+			regsub -all -nocase {&} $url {^&} url
+			catch { exec rundll32 url.dll,FileProtocolHandler $url & } res
+		}
 	} else {
 		if { [string first "\$url" [::config::getKey browser]] == -1 } {
 			::config::setKey browser "[::config::getKey browser] \$url"
