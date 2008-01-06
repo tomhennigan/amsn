@@ -10,7 +10,8 @@
 
 namespace eval ::searchcontact {
 
-	proc Init { dir } {
+	proc Init { dir } {
+
 		::plugins::RegisterPlugin "Search Contact"
 		::plugins::RegisterEvent "Search Contact" contactlistLoaded drawSearchBar
 		::plugins::RegisterEvent "Search Contact" OnDisconnect removeSearchBar
@@ -38,6 +39,8 @@ namespace eval ::searchcontact {
 			[list bool "[trans enableoperators]" enableoperators] \
 			[list bool "[trans storelastinput]" storelastinput] \
 		]
+
+		set ::searchcontact::plugindir $dir
 
 
 		#load language files
@@ -105,11 +108,11 @@ namespace eval ::searchcontact {
 
 
 	proc drawSearchBar {{event none} {evPar ""} } {
-		global HOME HOME2
+
 		if {![winfo exists .main.searchbar]} {
 			#load the icons
-			::skin::setPixmap search search.png pixmaps [file join "$HOME2/plugins/SearchContact" pixmaps]
-			::skin::setPixmap clear clear.png pixmaps [file join "$HOME2/plugins/SearchContact" pixmaps]
+			::skin::setPixmap search search.png pixmaps [file join "$::searchcontact::plugindir" pixmaps]
+			::skin::setPixmap clear clear.png pixmaps [file join "$::searchcontact::plugindir" pixmaps]
 
 			frame .main.searchbar -bg white -borderwidth 1 -highlightthickness 0
 			label .main.searchbar.label -text "[trans filter]:" -bg white
