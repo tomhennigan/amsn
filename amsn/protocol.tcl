@@ -4416,7 +4416,7 @@ proc cmsn_reconnect { sb } {
 
 		"i" {
 
-			#status_log "cmsn_reconnect: stat = i , SB= $name\n" green
+			#status_log "cmsn_reconnect: stat = i , SB= $sb\n" green
 
 			if { ([clock seconds] - [$sb cget -time]) > 15 } {
 				status_log "cmsn_reconnect: called again while inviting timeouted for sb $sb\n" red
@@ -4430,7 +4430,7 @@ proc cmsn_reconnect { sb } {
 
 		"c" {
 
-			#status_log "cmsn_reconnect: stat = c , SB= $name\n" green
+			#status_log "cmsn_reconnect: stat = c , SB= $sb\n" green
 
 			if { ([clock seconds] - [$sb cget -time]) > 10 } {
 				status_log "cmsn_reconnect: called again while reconnect timeouted for sb $sb\n" red
@@ -4446,7 +4446,7 @@ proc cmsn_reconnect { sb } {
 		"pw" -
 		"a" {
 
-			#status_log "cmsn_reconnect: stat =[$name cget -stat] , SB= $name\n" green
+			#status_log "cmsn_reconnect: stat =[$sb cget -stat] , SB= $sb\n" green
 
 			if { ([clock seconds] - [$sb cget -time]) > 10 } {
 				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
