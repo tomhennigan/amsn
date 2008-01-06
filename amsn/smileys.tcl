@@ -1281,7 +1281,7 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 			set copyMenu "${tw}.emoticonCustom_std_$file"
 			if { ![winfo exists $copyMenu] } {
 				menu $copyMenu -tearoff 0 -type normal
-				$copyMenu add command -label "[trans emoticon_steal]-> $symbol" -command "::smiley::addSmileyFromTW {$file} {[string map {"\\" "\\\\"} $symbol]}"
+				$copyMenu add command -label "[trans emoticon_steal]-> $symbol" -command "::smiley::addSmileyFromTW [list $file] [list $symbol]"
 				$tw tag bind $twTag <Enter> "$tw configure -cursor hand2"
 				$tw tag bind $twTag <Leave> "$tw configure -cursor xterm"
 				$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
