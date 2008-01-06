@@ -1016,7 +1016,7 @@ namespace eval ::AVAssistant {
 				$assistant insertStepAfter $Step "Step0W"
 
 				variable video_configured
-				set video_configured 1
+				set video_configured 0
 
 				::AVAssistant::Step1WLinux $assistant $contentf
 			} elseif {[OnWin]} {
@@ -1612,6 +1612,8 @@ namespace eval ::AVAssistant {
 				$w set $color
 			}
 		}
+		variable video_configured
+		set video_configured 1
 	}
 
 	######################################################################################
