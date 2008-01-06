@@ -321,9 +321,11 @@ namespace eval ::searchcontact {
 
 
 	proc getInput {} {
+		variable cluetextpresent
 		set input .main.searchbar.sunkenframe.input
-		if {[winfo exists $input]} {
-			return [string tolower [$input get] ]
+
+		if {[winfo exists $input] && $cluetextpresent != 1} {                    
+                        return [string tolower [$input get] ]
 		} else {
 			return ""
 		}
@@ -573,6 +575,7 @@ namespace eval ::searchcontact {
 
 
 	proc redoSearch {{event ""} {evPar ""}} {
+		if {!$::contactlist_loaded} { return }
 		variable clblocked
 
 		if { $event == "filterChange" || $event == "historyScroll" } {
