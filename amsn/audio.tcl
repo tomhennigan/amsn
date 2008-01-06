@@ -21,8 +21,8 @@ proc require_snack { } {
 		if { [catch {
 			package require snack 
 		} ] } {
-			if {[file exists [file join utils macosx libsnack-[info tclversion].dylib]]} {
-				load [file join utils macosx snack2.2 libsnack-[info tclversion].dylib]
+			if {[file exists [file join utils macosx snack2.2 [info tclversion] libsnack.dylib]]} {
+				load [file join utils macosx snack2.2 [info tclversion] libsnack.dylib]
 			} else {
 				load [file join utils macosx snack2.2 libsnack.dylib]
 			}
