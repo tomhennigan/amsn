@@ -64,7 +64,10 @@ namespace eval ::camshoot {
 				destroy $grabber
 				return
 			}
-			$grabber start
+			if { [catch { $grabber start } res] } {
+				msg_box "[trans badwebcam]\n$res"
+				return
+			}
 
 			set img [image create photo]
 			toplevel $window
