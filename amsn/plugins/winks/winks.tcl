@@ -23,7 +23,9 @@ namespace eval ::winks {
 		status_log "Loading Winks plugin...\n" green
 
 		global HOME wink_unknown_thumbnail wink_readme_path cabextract_version
-		
+
+		set cabextract_version "undef"
+
 		# this variables helps me to avoid playing two winks at the same time in a chatwindow
 		global winks_f_playing_in
 		array unset winks_f_playing_in
@@ -215,6 +217,7 @@ namespace eval ::winks {
 			}
 			return 1
 		} else {
+			set cabextract_version "undef"
 			return 0
 		}
 	}
