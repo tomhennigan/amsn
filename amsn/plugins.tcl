@@ -2081,7 +2081,11 @@ namespace eval ::plugins {
 						}
 					}
 
-					if { [::plugins::DetectNew $version $version_online] } {
+					# If $version doesn't exist or if the langcode is different, it means it's a new language
+					# that wasn't in the currently installed version. So it needs to be updated.
+					if { ![info exists version] || 
+					     $langcode != $langcode_online ||
+					     [::plugins::DetectNew $version $version_online] } {
 					
 						set file [file join $path "lang" lang$langcode]
 						
@@ -2116,7 +2120,11 @@ namespace eval ::plugins {
 					}
 				}
 
-				if { [::plugins::DetectNew $version $version_online] } {
+				# If $version doesn't exist or if the pathfile is different, it means it's a new file
+				# that wasn't in the currently installed version. So it needs to be updated.
+				if { ![info exists version] || 
+				     $pathfile != $pathfile_online ||
+				     [::plugins::DetectNew $version $version_online] } {
 					set file [file join $path $pathfile_online]
 					if { [file exists $file] && ![file writable $file] } {
 						status_log "File $file is protected"
