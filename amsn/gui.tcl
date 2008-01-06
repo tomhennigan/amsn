@@ -2186,14 +2186,16 @@ namespace eval ::amsn {
 		foreach chat $chatids {
 			set win [::ChatWindow::For $chat]
 			
-			if { [::config::getKey showdisplaypic 1] == 1} {
-				if {[winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]] } {
-					::amsn::ChangePicture $win displaypicture_std_self [trans mypic]
+			if { $win != 0 } {
+				if { [::config::getKey showdisplaypic 1] == 1} {
+					if {[winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]] } {
+						::amsn::ChangePicture $win displaypicture_std_self [trans mypic]
+					} else {
+						::amsn::ChangePicture $win [[::ChatWindow::GetInDisplayPictureFrame $win].image cget -image] ""
+					}
 				} else {
-					::amsn::ChangePicture $win [[::ChatWindow::GetInDisplayPictureFrame $win].image cget -image] ""
+					::amsn::HidePicture $win
 				}
-			} else {
-				::amsn::HidePicture $win
 			}
 		}
 
@@ -2214,11 +2216,13 @@ namespace eval ::amsn {
 		foreach chat $chatids {
 			set win [::ChatWindow::For $chat]
 		
-			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]] } {
-				if { [::config::getKey ShowTopPicture 1] == 1} {
-					ShowTopPicture $win
-				} else {
-					HideTopPicture $win
+			if { $win != 0 } {
+				if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]] } {
+					if { [::config::getKey ShowTopPicture 1] == 1} {
+						ShowTopPicture $win
+					} else {
+						HideTopPicture $win
+					}
 				}
 			}
 		}
