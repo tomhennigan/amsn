@@ -496,6 +496,11 @@ namespace eval ::searchcontact {
 
 	#Do the drawing of the CL.main.searchbar.sunkenframe.input
 	proc drawContacts {} {
+		variable cluetextpresent
+		if {$cluetextpresent == 1} {
+			return
+		}
+
 		variable ::guiContactList::external_lock
 		set input [getInput]
 		set ::searchcontact::firstcontact ""
