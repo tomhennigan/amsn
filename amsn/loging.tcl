@@ -417,7 +417,7 @@ namespace eval ::log {
 		global log_dir langenc logvar
 
 		# Get all the contacts with logs
-		set lDirs [concat ${log_dir} [glob -nocomplain -types d "${log_dir}/*"]]
+		set lDirs [concat [list ${log_dir}] [glob -nocomplain -types d "${log_dir}/*"]]
 
 		foreach sDir $lDirs {
 			foreach sLogFile [glob -tails -nocomplain -types f -directory ${sDir} "*.log"] {
@@ -559,7 +559,7 @@ namespace eval ::log {
 		global webcam_dir langenc logvar
 
 		# Get all the contacts with saved webcam sessions
-		set lDirs [concat ${webcam_dir} [glob -nocomplain -types d "${webcam_dir}/*"]]
+		set lDirs [concat [list ${webcam_dir}] [glob -nocomplain -types d "${webcam_dir}/*"]]
 
 		foreach sDir $lDirs {
 			foreach sLogFile [glob -tails -nocomplain -types f -directory ${sDir} "*.cam"] {
@@ -1094,7 +1094,7 @@ namespace eval ::log {
 			set exists disabled
 		}
 
-		wm title $w "[trans history2] (${email} - $size)"
+		wm title $w "[trans webcamhistory2] (${email} - $size)"
 
 		set img ${w}_img
 
