@@ -242,7 +242,7 @@ namespace eval ::draw {
 		foreach slave $ink_text_pack {
 			eval pack [lindex $slave 0] [lindex $slave 1]
 		}
-		unset ink_text_pack
+		set ink_text_pack [list]
 		
 		bind $textinput <Return> "window_history add %W; ::amsn::MessageSend $window %W; break"
 		bind $textinput <Key-KP_Enter> "window_history add %W; ::amsn::MessageSend $window %W; break"
