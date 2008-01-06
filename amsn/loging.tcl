@@ -1694,7 +1694,7 @@ namespace eval ::log {
 	#Display/log when we connect if we display/log an event
 	proc eventlogin { } {
 		global eventdisconnected
-		if { $eventdisconnected } {
+		if { ![info exists eventdisconnected] || $eventdisconnected } {
 			set eventdisconnected 0
 			if { [::log::checkeventdisplay] } {
 				.main.eventmenu.list list insert 0 "[timestamp] [trans connectedwith [::config::getKey login]]"
@@ -1712,8 +1712,6 @@ namespace eval ::log {
 
 	#Display/log when we disconnect if we display/log an event
 	proc eventlogout { } {
-
-		global eventdisconnected
 
 		if { [::log::checkeventdisplay] } {
 			.main.eventmenu.list list insert 0 "[timestamp] : [trans disconnectedfrom [::config::getKey login]]"
