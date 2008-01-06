@@ -4330,6 +4330,8 @@ proc change_font {win_name key} {
 	set sel_fontsize [lindex $selfont 1]
 	set sel_fontstyle [lrange $selfont 2 end]
 
+	# Fix a weird bug occuring with 8.4.16 on mac.
+	if { ![info exists sel_fontstyle] } { set sel_fontstyle [list] }
 
 	if { $selcolor == "" } {
 		set selcolor $fontcolor
