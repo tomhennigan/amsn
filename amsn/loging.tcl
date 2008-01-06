@@ -522,19 +522,8 @@ namespace eval ::log {
 		button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
 		button $wname.buttons.find -text "[trans find]" -command "$wname.search show"
 		button $wname.buttons.stats -text "[trans stats]" -command "::log::stats"
-		button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]"
-		button $wname.buttons.clear -text "[trans clearlog]" \
-		    -command "if { !\[winfo exists $wname.top.date.list\] } { \
-				                    set date \".\" \
-				              } else {
-				                    set date \[$wname.top.date.list list get \[$wname.top.date.list curselection\]\]\
-					      }
-                                              if { \[::log::ClearLog $email \"\$date\"\] } { 
-				                    destroy $wname
-			         	      }" \
-		    
-
-
+		button $wname.buttons.save -text "[trans savetofile]" -command [list ::log::SaveToFile ${wname} ${email} ${logvar}]
+		button $wname.buttons.clear -text "[trans clearlog]" -command [list ::log::ClearLogClicked $wname $email $date]
 		menu ${wname}.copypaste -tearoff 0 -type normal
 		${wname}.copypaste add command -label [trans copy] -command "tk_textCopy ${wname}.blueframe.log.txt"
 		
@@ -552,6 +541,18 @@ namespace eval ::log {
 		bind $wname <<Escape>> "destroy $wname"
 		bind ${wname}.blueframe.log.txt <<Button3>> "tk_popup ${wname}.copypaste %X %Y"
 		moveinscreen $wname 30
+	}
+
+	proc ClearLogClicked { wname email date } {
+		if {$email 
+		if { ![winfo exists $wname.top.date.list] } {
+			set date "." 
+		} else {
+			set date [$wname.top.date.list list get [$wname.top.date.list curselection]]
+		}
+		if { [::log::ClearLog $email "$date"] } { 
+			destroy $wname
+		}	
 	}
 
 	proc OpenCamLogWin { {email ""} } {

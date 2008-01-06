@@ -1306,6 +1306,11 @@ namespace eval ::AVAssistant {
 		variable previmg
 		variable lowrescam
 
+		if {![winfo exists $chanswidget] } {
+			status_log "StartPreviewLinux : Assistant destroyed, returning"
+			return
+		}
+
 		if { $value == "" } {
 			status_log "No channel selected; IS THIS POSSIBLE ?"
 		} else {
