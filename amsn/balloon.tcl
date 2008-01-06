@@ -138,7 +138,7 @@ proc balloon {target message pic {cx 0} {cy 0} {fonts ""} {mode "simple"} } {
 			::tk::unsupported::MacWindowStyle style .balloon help none
 		} else {
 			wm overrideredirect .balloon 1
-			if { [OnWin] } { wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9] }
+			if { [OnWin] } { catch { wm attributes .balloon -alpha [::skin::getKey balloonalpha 0.9] } }
 		}
 
 		frame .balloon.f -bg [::skin::getKey balloonbackground]
