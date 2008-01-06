@@ -3294,7 +3294,11 @@ proc Browse_Dialog_dir {configitem {initialdir ""}} {
 		set initialdir [pwd]
 	}
 	
-	set browsechoose [tk_chooseDirectory -parent [focus] -initialdir $initialdir]
+	catch { set parent [focus]}
+	if {![info exists parent] || $parent == "" } {
+		set parent .
+	}
+	set browsechoose [tk_chooseDirectory -parent $parent -initialdir $initialdir]
 	if { $browsechoose !="" } {
 		set $configitem $browsechoose
 	}
@@ -3309,7 +3313,12 @@ proc Browse_Dialog_file {configitem {initialfile ""}} {
 	if { ![file exists $initialfile] } {
 		set initialfile ""
 	}
-	set browsechoose [tk_getOpenFile -parent [focus] -initialfile $initialfile]
+
+	catch { set parent [focus]}
+	if {![info exists parent] || $parent == "" } {
+		set parent .
+	}
+	set browsechoose [tk_getOpenFile -parent $parent -initialfile $initialfile]
 	if { $browsechoose !="" } {
 		set $configitem $browsechoose
 	}
