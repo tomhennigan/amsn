@@ -1350,67 +1350,37 @@ namespace eval ::log {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# SaveToFile (wname email logvar)
-	# File name selection menu and calls ParseToFile
+	# File name selection and calls ParseToTextFile or ParseToHTMLFile, depending on what file type we want to save.
 	#
 	# wname : Log window
 	# logvar : variable containing the whole log file (sure need to setup log file limits)
 
 	proc SaveToFile { wname email logvar } {
-		set wname [string range $wname 1 end]
-		set w .form${wname}
-		toplevel $w
-		wm title $w \"[trans savetofile]\"
-		label $w.msg -justify center -text "Please give a filename"
-		pack $w.msg -side top
+		set file [chooseFileDialog "$email.html" "[trans save]" $wname "" save]
 
-		frame $w.buttons -class Degt
-		pack $w.buttons -side bottom -fill x -pady 2m
-		button $w.buttons.dismiss -text Cancel -command "destroy $w"
-		button $w.buttons.save -text Save -command "::log::ParseToFile [list ${logvar}] $w.filename.entry; destroy $w"
-		pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
-
-		frame $w.filename -bd 2 -class Degt
-		entry $w.filename.entry -relief sunken -width 40
-		label $w.filename.label -text "Filename:"
-		pack $w.filename.entry -side right 
-		pack $w.filename.label -side left
-		pack $w.msg $w.filename -side top -fill x
-		focus $w.filename.entry
-
-		chooseFileDialog $wname "" $w $w.filename.entry save
-	}
-
-
-	#///////////////////////////////////////////////////////////////////////////////
-	# ParseToFile (logvar filepath)
-	# Calls ParseToTextFile or ParseToHTMLFile, depending on what file type we want to save.
-	#
-	# logvar : variable containing the whole log file (sure need to setup log file limits)
-	# filepath : Input box containing file path to save to ??
-
-	proc ParseToFile { logvar filepath } {
-	
-		# Are we writing a HTML file?
-	        set ext [file extension [${filepath} get]]
-		if {$ext == ".htm" ||
-		    $ext == ".html"} {
-			ParseToHTMLFile $logvar $filepath		
-		} else {
-			ParseToTextFile $logvar $filepath
+		if { $file != "" } {
+			# Are we writing a HTML file?
+			set ext [file extension $file]
+			if {$ext == ".htm" ||
+			    $ext == ".html"} {
+				ParseToHTMLFile $logvar $file		
+			} else {
+				ParseToTextFile $logvar $file
+			}
 		}
 	}
 	
 	#///////////////////////////////////////////////////////////////////////////////
-	# ParseToTextFile (logvar filepath)
+	# ParseToTextFile (logvar file)
 	# Decodes the log file and writes to file
 	#
 	# logvar : variable containing the whole log file (sure need to setup log file limits)
-	# filepath : Input box containing file path to save to ??	
-	proc ParseToTextFile { logvar filepath } {
+	# file : filaname
+	proc ParseToTextFile { logvar file } {
 
 		global langenc
 
-		set fileid [open [${filepath} get] a+]
+		set fileid [open $file a+]
 		fconfigure $fileid -encoding utf-8
 		if { $fileid != 0 } {
 			set aidx 0
@@ -1452,16 +1422,16 @@ namespace eval ::log {
 	}
 	
 	#///////////////////////////////////////////////////////////////////////////////
-	# ParseToHTMLFile (logvar filepath)
+	# ParseToHTMLFile (logvar file)
 	# Decodes the log file and writes to a HTML file
 	#
 	# logvar : variable containing the whole log file (sure need to setup log file limits)
-	# filepath : Input box containing file path to save to ??	
-	proc ParseToHTMLFile { logvar filepath } {
+	# file : filename
+	proc ParseToHTMLFile { logvar file } {
 	
 		global langenc
 
-		set fileid [open [${filepath} get] w+]
+		set fileid [open $file w+]
 		fconfigure $fileid -encoding utf-8
 		if { $fileid != 0 } {
 		
