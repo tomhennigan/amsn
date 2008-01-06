@@ -14,12 +14,10 @@ namespace eval ::picture {
 		} else {
 			catch {package require TkCximage} err
 			#Fix a strange bug where sometimes package require TkCximage doesn't work
-			if { [OnDarwin] } {
-				catch {load [file join utils macosx TkCximage TkCximage.dylib]} err
-			} elseif { [OnWin] } {
-				catch {load [file join utils TkCximage TkCximage.dll]} err
-			} elseif { [OnUnix] } {
-				catch {load [file join utils TkCximage TkCximage.so]} err
+			if {[info exists [file join utils TkCximage [info tclversion] TkCximage[info shared]]]} {
+				catch {load [file join utils TkCximage [info tclversion] TkCximage[info shared]]} err
+			} else {
+				catch {load [file join utils TkCximage TkCximage[info shared]]} err
 			}
 
 			# We try to create an image of format cximage, if TkCximage was loaded, then it will work, if not, it will fail.
