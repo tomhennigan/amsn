@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>Search Contact</name>
+	<author>Giuseppe Bottiglieri (Square87) and Karel Demeyer (scapor), 2008</author>
+	<description>This plugin adds a search-as-you-type searchbar underneath the contactlist to filter contacts.</description>
+	<amsn_version>0.97</amsn_version>
+	<plugin_version>0.8.6</plugin_version>
+	<plugin_file>searchcontact.tcl</plugin_file>
+	<plugin_namespace>searchcontact</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+</plugin>
