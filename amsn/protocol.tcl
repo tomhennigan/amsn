@@ -4460,7 +4460,8 @@ proc cmsn_reconnect { sb } {
 			status_log "cmsn_reconnect: SB $sb stat is [$sb cget -stat]. This is bad, should delete it and create a new one\n" red
 			catch {
 				set chatid [::MSN::ChatFor $sb]
-                ::MSN::CleanChat $chatid
+                ::MSN::DelSBFor $chatid $sb
+				::MSN::KillSB $sb
 				::MSN::chatTo $chatid
 			}
 
