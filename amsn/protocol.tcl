@@ -1151,7 +1151,7 @@ namespace eval ::MSN {
 			set name [urlencode $newname]
 		}
 
-		::MSN::WriteSB ns "PRP" "MFN $name" [list ns handlePRPResponse $name]
+		::MSN::WriteSB ns "PRP" "MFN $name" [list ns handlePRPResponse "$name"]
 	}
 
 	#Change a users personal message
@@ -3639,16 +3639,15 @@ namespace eval ::Event {
 				if { [lindex $command 2] == "MFN" } {
 					cmsn_draw_online 1 1
 					send_dock STATUS [::MSN::myStatusIs]
-					#an event used by guicontactlist to know when we changed our nick
+					
+                    #an event used by guicontactlist to know when we changed our nick
 					::Event::fireEvent myNickChange protocol
 				}
 				::abook::saveToDisk
 			}
 			209 {
-				#Nickname change illegal. Try again urlencoding any character
-				#set name [urlencode_all $newname]
+				#Nickname change illegal.
 				msg_box [trans invalidusername]
-				#::MSN::WriteSB ns "PRP" "MFN $name" "::ns handlePRPResponse $name"
 				return 0
 			}
 			default {
