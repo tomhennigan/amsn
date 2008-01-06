@@ -340,7 +340,7 @@ namespace eval ::autoupdate {
 		#button $w.bottom.buttons.cancel -text "Cancel" -command "::autoupdate::dont_ask_before;destroy $w"
 		#label $w.bottom.lastbar -image [::skin::loadPixmap greyline]
 		#Checkbox to verify if the user want to have an alert again or just in one week
-		checkbutton $w.bottom.ignoreoneweek -text dontaskweek -variable "dont_ask_for_one_week" -font sboldf
+		checkbutton $w.bottom.ignoreoneweek -text "[trans dontaskweek]" -variable "dont_ask_for_one_week" -font sboldf
 		
 		#Pack all the stuff for the top
 		pack $w.top.bitmap -side top -padx 3m -pady 3m
