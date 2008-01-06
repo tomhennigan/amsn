@@ -2141,14 +2141,6 @@ namespace eval ::MSN {
 			return 0
 		}
 
-#		catch {
-			#fileevent [$name cget -sock] readable ""
-			#fileevent [$name cget -sock] writable ""
-#			set proxy [$sb cget -proxy]
-#			$proxy finish $sb
-#			$proxy destroy
-#		} res
-
 		set sb_list [lreplace $sb_list $idx $idx ]
 		status_log "Destroy the SB $sb in KillSB" red
 		$sb destroy
@@ -2234,7 +2226,7 @@ namespace eval ::MSN {
 
 
 	########################################################################
-	#Given a chatid, retuen the preferred SB to be used for that chat
+	#Given a chatid, return the preferred SB to be used for that chat
 	proc SBFor { chatid } {
 
 		variable sb_chatid
@@ -4194,6 +4186,7 @@ namespace eval ::Event {
 		}
 		$message destroy
 	}
+
 	method search { option index } {
 		return [lsearch $options($option) $index]
 	}
@@ -4355,17 +4348,13 @@ proc cmsn_connected_sb {sb recv} {
 	$sb configure -time [clock seconds]
 	$sb configure -stat "i"
 
-	if {[$sb cget -invite] != ""} {
-
-		cmsn_invite_user $sb [$sb cget -invite]
-
-		::amsn::chatStatus [::MSN::ChatFor $sb] \
-			"[trans willjoin [$sb cget -invite]]...\n" miniinfo ready
-
+    set invite [$sb cget -invite]
+    
+	if {$invite != ""} {
+		cmsn_invite_user $sb $invite
+		::amsn::chatStatus [::MSN::ChatFor $sb] "[trans willjoin $invite]...\n" miniinfo ready
 	} else {
-
 		status_log "cmsn_connected_sb: got SB $sb stat=i but no one to invite!!! CHECK!!\n" white
-
 	}
 
 }
@@ -4431,8 +4420,6 @@ proc cmsn_reconnect { sb } {
 
 			if { ([clock seconds] - [$sb cget -time]) > 15 } {
 				status_log "cmsn_reconnect: called again while inviting timeouted for sb $sb\n" red
-				#catch { fileevent [$name cget -sock] readable "" } res
-				#catch { fileevent [$name cget -sock] writable "" } res
 				set proxy [$sb cget -proxy]
 				$proxy finish $sb
 				$sb configure -stat "d"
@@ -4463,8 +4450,6 @@ proc cmsn_reconnect { sb } {
 
 			if { ([clock seconds] - [$sb cget -time]) > 10 } {
 				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
-				#catch { fileevent [$name cget -sock] readable "" } res
-				#catch { fileevent [$name cget -sock] writable "" } res
 				set proxy [$sb cget -proxy]
 				$proxy finish $sb
 				$sb configure -stat "d"
@@ -4472,11 +4457,10 @@ proc cmsn_reconnect { sb } {
 			}
 		}
 		"" {
-			status_log "cmsn_reconnect: SB $name stat is [$name cget -stat]. This is bad, should delete it and create a new one\n" red
+			status_log "cmsn_reconnect: SB $sb stat is [$sb cget -stat]. This is bad, should delete it and create a new one\n" red
 			catch {
 				set chatid [::MSN::ChatFor $sb]
-				::MSN::DelSBFor $chatid $sb
-				::MSN::KillSB $sb
+                ::MSN::CleanChat $chatid
 				::MSN::chatTo $chatid
 			}
 
