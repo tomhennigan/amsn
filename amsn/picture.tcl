@@ -14,7 +14,7 @@ namespace eval ::picture {
 		} else {
 			catch {package require TkCximage} err
 			#Fix a strange bug where sometimes package require TkCximage doesn't work
-			if {[info exists [file join utils TkCximage [info tclversion] TkCximage[info shared]]]} {
+			if {[file exists [file join utils TkCximage [info tclversion] TkCximage[info shared]]]} {
 				catch {load [file join utils TkCximage [info tclversion] TkCximage[info shared]]} err
 			} else {
 				catch {load [file join utils TkCximage TkCximage[info shared]]} err
