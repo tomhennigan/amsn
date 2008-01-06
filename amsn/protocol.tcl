@@ -1533,7 +1533,7 @@ namespace eval ::MSN {
 
 		if {$handler != ""} {
 			global list_cmdhnd
-			lappend list_cmdhnd [list $trid $handler]
+			lappend list_cmdhnd [list $sbn $trid $handler]
 		}
 
 		return $msgid
@@ -3424,11 +3424,11 @@ namespace eval ::Event {
 
 		global list_cmdhnd password
 		set ret_trid [lindex $command 1]
-		set idx [lsearch $list_cmdhnd "$ret_trid *"]
+		set idx [lsearch $list_cmdhnd "ns $ret_trid *"]
 		if {$idx != -1 && [lindex $command 0] != "LSG"} {		;# Command has a handler associated!
-			status_log "cmsn_ns_handler: evaluating handler for $ret_trid\n"
+			status_log "::NS::handleCommand: evaluating handler for $ret_trid\n"
 
-			set cmd "[lindex [lindex $list_cmdhnd $idx] 1] [list $command]"
+			set cmd "[lindex [lindex $list_cmdhnd $idx] 2] [list $command]"
 			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
 			eval "$cmd"
 
@@ -3788,12 +3788,12 @@ namespace eval ::Event {
 
 		global list_cmdhnd msgacks
 		set ret_trid [lindex $command 1]
-		set idx [lsearch $list_cmdhnd "$ret_trid *"]
+		set idx [lsearch $list_cmdhnd "$self $ret_trid *"]
 
 		if {$idx != -1} {		;# Command has a handler associated!
 			status_log "sb::handleCommand: Evaluating handler for $ret_trid in SB $self\n"
-			set cmd "[lindex [lindex $list_cmdhnd $idx] 1] {$command}"
-			status_log "command is $cmd"
+			set cmd "[lindex [lindex $list_cmdhnd $idx] 2] {$command}"
+			#status_log "command is $cmd"
 			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
 			eval "$cmd"
 		} else {
@@ -4906,341 +4906,327 @@ proc cmsn_change_state {recv} {
 proc cmsn_ns_handler {item {message ""}} {
 	global list_cmdhnd password
 
-	set ret_trid [lindex $item 1]
-	set idx [lsearch $list_cmdhnd "$ret_trid *"]
-	if {$idx != -1} {		;# Command has a handler associated!
-		status_log "cmsn_ns_handler: evaluating handler for $ret_trid\n"
+    switch -- [lindex $item 0] {
+        MSG {
+            cmsn_ns_msg $item $message
+            $message destroy
+            return 0
+        }
+        IPG {
+            ::MSNMobile::MessageReceived "$message"
+            return 0
+            }
+        VER -
+        INF -
+        CVR -
+        USR {
+            return [cmsn_auth $item]
+        }
+        XFR {
+            if {[lindex $item 2] == "NS"} {
+                ::config::setKey start_ns_server [lindex $item 3]
+                set tmp_ns [split [lindex $item 3] ":"]
+                ns configure -server $tmp_ns
+                status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
+                cmsn_ns_connect [::config::getKey login] $password nosigin
+                set recon 1
+                return 0
+            } else {
+                status_log "cmsn_ns_handler: got an unknown transfer!!\n" red
+                return 0
+            }
+        }
+        RNG {
+            return [cmsn_rng $item]
+        }
+        UUX {
+            ::MSN::GotUUXResponse $item
+            return 0
+        }
+        ADC {
+            ::MSN::GotADCResponse $item
+            return 0
+        }
+        REM {
+            ::MSN::GotREMResponse $item
+            return 0
+        }
+        FLN -
+        ILN -
+        NLN {
+            cmsn_change_state $item
+            return 0
+        }
+        CHG {
+            if { [::MSN::myStatusIs] != [lindex $item 2] } {
+                ::abook::setVolatileData myself msnobj [lindex $item 4]
+                ::MSN::setMyStatus [lindex $item 2]
 
-		#TODO: Better use [list ]: test it
-		set command "[lindex [lindex $list_cmdhnd $idx] 1] [list $item]"
-		set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
-		eval "$command"
+                cmsn_draw_online 1 1
 
-		#eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
-		return 0
-	} else {
-		switch -- [lindex $item 0] {
-			MSG {
-				cmsn_ns_msg $item $message
-				$message destroy
-				return 0
-			}
-		    	IPG {
-			    ::MSNMobile::MessageReceived "$message"
-			    return 0
-		    	}
-			VER -
-			INF -
-			CVR -
-			USR {
-				return [cmsn_auth $item]
-			}
-			XFR {
-				if {[lindex $item 2] == "NS"} {
-					::config::setKey start_ns_server [lindex $item 3]
-					set tmp_ns [split [lindex $item 3] ":"]
-					ns configure -server $tmp_ns
-					status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
-					cmsn_ns_connect [::config::getKey login] $password nosigin
-					set recon 1
-					return 0
-				} else {
-					status_log "cmsn_ns_handler: got an unknown transfer!!\n" red
-					return 0
-				}
-			}
-			RNG {
-				return [cmsn_rng $item]
-			}
-			UUX {
-				::MSN::GotUUXResponse $item
-				return 0
-			}
-			ADC {
-				::MSN::GotADCResponse $item
-				return 0
-			}
-			REM {
-				::MSN::GotREMResponse $item
-				return 0
-			}
-			FLN -
-			ILN -
-			NLN {
-				cmsn_change_state $item
-				return 0
-			}
-			CHG {
-				if { [::MSN::myStatusIs] != [lindex $item 2] } {
-					::abook::setVolatileData myself msnobj [lindex $item 4]
-					::MSN::setMyStatus [lindex $item 2]
+                #Alert dock of status change
+                send_dock "STATUS" [lindex $item 2]
+            }
+            return 0
+        }
+        GTC {
+            #TODO: How we store this privacy information??
+            return 0
+        }
+        SYN {
+            new_contact_list "[lindex $item 2]"
+            global loading_list_info
 
-					cmsn_draw_online 1 1
+            if { [llength $item] == 6 } {
+                status_log "Going to receive contact list\n" blue
+                #First contact in list
+                ::MSN::clearList FL
+                ::MSN::clearList BL
+                ::MSN::clearList RL
+                ::MSN::clearList AL
+                ::groups::Reset
+                ::groups::Set 0 [trans nogroup]
 
-					#Alert dock of status change
-					send_dock "STATUS" [lindex $item 2]
-				}
-				return 0
-			}
-			GTC {
-				#TODO: How we store this privacy information??
-				return 0
-			}
-			SYN {
-				new_contact_list "[lindex $item 2]"
-				global loading_list_info
+                set loading_list_info(version) [lindex $item 3]
+                set loading_list_info(total) [lindex $item 4]
+                set loading_list_info(current) 0
+                set loading_list_info(gcurrent) 0
+                set loading_list_info(gtotal) [lindex $item 5]
 
-				if { [llength $item] == 6 } {
-					status_log "Going to receive contact list\n" blue
-					#First contact in list
-					::MSN::clearList FL
-					::MSN::clearList BL
-					::MSN::clearList RL
-					::MSN::clearList AL
-					::groups::Reset
-					::groups::Set 0 [trans nogroup]
+                # Check if there are no users and no groups, then we already finished authentification
+                if {$loading_list_info(gtotal) == 0 && $loading_list_info(total) == 0} {
+                    ns authenticationDone							
+                }
+            }
+            return 0
+        }
+        BLP {
+            #puts "$item == [llength $item]"
+            if { [llength $item] == 2} {
+                change_BLP_settings "[lindex $item 1]"
+            } else {
+                new_contact_list "[lindex $item 2]"
+                change_BLP_settings "[lindex $item 3]"
+            }
+            return 0
+        }
+        CHL {
+            status_log "Challenge received, answering\n" green
+            ::MSN::AnswerChallenge $item
+            return 0
+        }
+        QRY {
+            status_log "Challenge accepted\n" green
+            return 0
+        }
+        BPR {
+            global loading_list_info
 
-					set loading_list_info(version) [lindex $item 3]
-					set loading_list_info(total) [lindex $item 4]
-					set loading_list_info(current) 0
-					set loading_list_info(gcurrent) 0
-					set loading_list_info(gtotal) [lindex $item 5]
+            if { [string length [lindex $item 1]] == 3 } {
+                set var [lindex $item 1]
+                set value [urldecode [lindex $item 2]]
+                if {[string first "tel:" $value] == 0} {
+                    set value [string range $value [string length "tel:"] end]
+                }
+                ::abook::setVolatileData $loading_list_info(last) $var $value
+            } else {
+                #here the first element is the addres of the user, this is when it's not received on login.
+                set var [lindex $item 2]
+                set value [urldecode [lindex $item 3]]
+                ::abook::setVolatileData [lindex $item 1] $var $value
+            }
+            return 0
+        }
+        REG {	# Rename Group
+            new_contact_list "[lindex $item 2]"
+            #status_log "$item\n" blue
+            ::groups::RenameCB [lrange $item 0 5]
 
-					# Check if there are no users and no groups, then we already finished authentification
-					if {$loading_list_info(gtotal) == 0 && $loading_list_info(total) == 0} {
-						ns authenticationDone							
-					}
-				}
-				return 0
-			}
-			BLP {
-				#puts "$item == [llength $item]"
-				if { [llength $item] == 2} {
-					change_BLP_settings "[lindex $item 1]"
-				} else {
-					new_contact_list "[lindex $item 2]"
-					change_BLP_settings "[lindex $item 3]"
-				}
-				return 0
-			}
-			CHL {
-				status_log "Challenge received, answering\n" green
-				::MSN::AnswerChallenge $item
-				return 0
-			}
-			QRY {
-				status_log "Challenge accepted\n" green
-				return 0
-			}
-			BPR {
-				global loading_list_info
+            return 0
+        }
+        ADG {	# Add Group
+            new_contact_list "[lindex $item 2]"
+            #status_log "$item\n" blue
+            ::groups::AddCB [lrange $item 0 5]
 
-				if { [string length [lindex $item 1]] == 3 } {
-					set var [lindex $item 1]
-					set value [urldecode [lindex $item 2]]
-					if {[string first "tel:" $value] == 0} {
-						set value [string range $value [string length "tel:"] end]
-					}
-					::abook::setVolatileData $loading_list_info(last) $var $value
-				} else {
-					#here the first element is the addres of the user, this is when it's not received on login.
-					set var [lindex $item 2]
-					set value [urldecode [lindex $item 3]]
-					::abook::setVolatileData [lindex $item 1] $var $value
-				}
-				return 0
-			}
-			REG {	# Rename Group
-				new_contact_list "[lindex $item 2]"
-				#status_log "$item\n" blue
-				::groups::RenameCB [lrange $item 0 5]
+            return 0
+        }
+        RMG {	# Remove Group
+            new_contact_list "[lindex $item 2]"
+            #status_log "$item\n" blue
+            ::groups::DeleteCB [lrange $item 0 5]
 
-				return 0
-			}
-			ADG {	# Add Group
-				new_contact_list "[lindex $item 2]"
-				#status_log "$item\n" blue
-				::groups::AddCB [lrange $item 0 5]
+            return 0
+        }
+        OUT {
+            if { [lindex $item 1] == "OTH"} {
+                ::MSN::logout
+                msg_box "[trans loggedotherlocation]"
+                status_log "Logged other location\n" red
+                return 0
+            } else {
+                ::config::setKey start_ns_server [::config::getKey default_ns_server]
+                if { [::config::getKey reconnect] == 1 } {
+                    ::MSN::saveOldStatus
+                    ::MSN::logout
+                    ::MSN::reconnect "[trans servergoingdown]"
+                } else {
+                    ::MSN::logout
+                    msg_box "[trans servergoingdown]"
+                }
+                return 0
+            }
+        }
 
-				return 0
-			}
-			RMG {	# Remove Group
-				new_contact_list "[lindex $item 2]"
-				#status_log "$item\n" blue
-				::groups::DeleteCB [lrange $item 0 5]
+        URL {
+            ::hotmail::gotURL [lindex $item 2] [lindex $item 3] [lindex $item 4]
+            return
+        }
 
-				return 0
-			}
-			OUT {
-				if { [lindex $item 1] == "OTH"} {
-					::MSN::logout
-					msg_box "[trans loggedotherlocation]"
-					status_log "Logged other location\n" red
-					return 0
-				} else {
-					::config::setKey start_ns_server [::config::getKey default_ns_server]
-					if { [::config::getKey reconnect] == 1 } {
-						::MSN::saveOldStatus
-						::MSN::logout
-						::MSN::reconnect "[trans servergoingdown]"
-					} else {
-						::MSN::logout
-						msg_box "[trans servergoingdown]"
-					}
-					return 0
-				}
-			}
-
-			URL {
-				::hotmail::gotURL [lindex $item 2] [lindex $item 3] [lindex $item 4]
-				return
-			}
-
-			QNG {
-				#Ping response
-				variable ::MSN::pollstatus 0
-				return 0
-			}
-			GCF {
-				catch {
-					set xml [xml2list [$message getBody]]
-					set i 0
-					while {1} {
-						set subxml [GetXmlNode $xml "config:block:regexp:imtext" $i]
-						incr i
-						if {$subxml == "" } {
-							break
-						}
-						status_log "Found new censored regexp : [base64::decode [GetXmlAttribute $subxml imtext value]]"
-					}
-				}
-				return 0
-			}
-			200 {
-				status_log "Error: Syntax error\n" red
-				msg_box "[trans syntaxerror]"
-				return 0
-			}
-			201 {
-				status_log "Error: Invalid parameter\n" red
-				msg_box "[trans invalidparameter]"
-				return 0
-			}
-			205 {
-				status_log "Warning: Invalid user $item\n" red
-				msg_box "[trans contactdoesnotexist]"
-				return 0
-			}
-			206 {
-				status_log "Warning: Domain name missing $item\n" red
-				msg_box "[trans contactdoesnotexist]"
-				return 0
-			}
-			208 {
-				status_log "Warning: Invalid username $item\n" red
-				msg_box "[trans invalidusername]"
-				return 0
-			}
-			209 {
-				status_log "Warning: Invalid username $item\n" red
-				#msg_box "[trans invalidusername]"
-				return 0
-			}
-			210 {
-				msg_box "[trans fullcontactlist]"
-				status_log "Warning: User list full $item\n" red
-				return 0
-			}
-			216 {
-				#status_log "Keeping connection alive\n" blue
-				return 0
-			}
-			224 {
-				#status_log "Warning: Invalid group" red
-				msg_box "[trans invalidgroup]"
-			}
-			500 {
-				::config::setKey start_ns_server [::config::getKey default_ns_server]
-				if { [::config::getKey reconnect] == 1 } {
-					::MSN::saveOldStatus
-					::MSN::logout
-					::MSN::reconnect "[trans internalerror]"
-				} else {
-					::MSN::logout
-					::amsn::errorMsg "[trans internalerror]"
-				}
-				status_log "Error: Internal server error\n" red
-				return 0
-			}
-			600 {
-				::config::setKey start_ns_server [::config::getKey default_ns_server]
-				if { [::config::getKey reconnect] == 1 } {
-					::MSN::saveOldStatus
-					::MSN::logout
-					::MSN::reconnect "[trans serverbusy]"
-				} else {
-					::MSN::logout
-					::amsn::errorMsg "[trans serverbusy]"
-				}
-				status_log "Error: Server is busy\n" red
-				return 0
-			}
-			601 {
-				::config::setKey start_ns_server [::config::getKey default_ns_server]
-				if { [::config::getKey reconnect] == 1 } {
-					::MSN::saveOldStatus
-					::MSN::logout
-					::MSN::reconnect "[trans serverunavailable]"
-				} else {
-					::MSN::logout
-					::amsn::errorMsg "[trans serverunavailable]"
-				}
-				status_log "Error: Server is unavailable\n" red
-				return 0
-			}
-			715 {
-				#we get a weird character in PSM, need to reset it
-				status_log "Error: Weird PSM\n" red
-				::abook::setPersonal PSM ""
-				::MSN::logout
-				::MSN::reconnect ""
-			}
-			911 {
-				#set password ""
-				ns configure -stat "closed"
-				::MSN::logout
-				status_log "Error: User/Password\n" red
-				::amsn::errorMsg "[trans baduserpass]"
-				return 0
-			}
-			928 {
-				# Apparently, the server said invalid passport, so this server was probably cached and your account
-				# was moved to another server (http://www.amsn-project.net/forums/viewtopic.php?p=24823)
-				# We'll ask the default_ns_server for a new NS that accepts our passport.
-			
-				status_log "Account was probably moved to a different server, NS says invalid passport, changing cached server to default"
-				::config::setKey start_ns_server [::config::getKey default_ns_server]
-				::MSN::saveOldStatus
-				::MSN::logout
-				::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable	
-			}
-			931 {  ;#this server doesn't know about that account
-				status_log "Account was moved to a different server, changing cached server to default"
-				::config::setKey start_ns_server [::config::getKey default_ns_server]
-				::MSN::saveOldStatus
-				::MSN::logout
-				::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable
-				return 0
-			}
-			"" {
-				return 0
-			}
-			default {
-				status_log "Got unknown NS input!! --> [lindex $item 0]\n\t$item" red
-				return 0
-			}
-		}
-	}
+        QNG {
+            #Ping response
+            variable ::MSN::pollstatus 0
+            return 0
+        }
+        GCF {
+            catch {
+                set xml [xml2list [$message getBody]]
+                set i 0
+                while {1} {
+                    set subxml [GetXmlNode $xml "config:block:regexp:imtext" $i]
+                    incr i
+                    if {$subxml == "" } {
+                        break
+                    }
+                    status_log "Found new censored regexp : [base64::decode [GetXmlAttribute $subxml imtext value]]"
+                }
+            }
+            return 0
+        }
+        200 {
+            status_log "Error: Syntax error\n" red
+            msg_box "[trans syntaxerror]"
+            return 0
+        }
+        201 {
+            status_log "Error: Invalid parameter\n" red
+            msg_box "[trans invalidparameter]"
+            return 0
+        }
+        205 {
+            status_log "Warning: Invalid user $item\n" red
+            msg_box "[trans contactdoesnotexist]"
+            return 0
+        }
+        206 {
+            status_log "Warning: Domain name missing $item\n" red
+            msg_box "[trans contactdoesnotexist]"
+            return 0
+        }
+        208 {
+            status_log "Warning: Invalid username $item\n" red
+            msg_box "[trans invalidusername]"
+            return 0
+        }
+        209 {
+            status_log "Warning: Invalid username $item\n" red
+            #msg_box "[trans invalidusername]"
+            return 0
+        }
+        210 {
+            msg_box "[trans fullcontactlist]"
+            status_log "Warning: User list full $item\n" red
+            return 0
+        }
+        216 {
+            #status_log "Keeping connection alive\n" blue
+            return 0
+        }
+        224 {
+            #status_log "Warning: Invalid group" red
+            msg_box "[trans invalidgroup]"
+        }
+        500 {
+            ::config::setKey start_ns_server [::config::getKey default_ns_server]
+            if { [::config::getKey reconnect] == 1 } {
+                ::MSN::saveOldStatus
+                ::MSN::logout
+                ::MSN::reconnect "[trans internalerror]"
+            } else {
+                ::MSN::logout
+                ::amsn::errorMsg "[trans internalerror]"
+            }
+            status_log "Error: Internal server error\n" red
+            return 0
+        }
+        600 {
+            ::config::setKey start_ns_server [::config::getKey default_ns_server]
+            if { [::config::getKey reconnect] == 1 } {
+                ::MSN::saveOldStatus
+                ::MSN::logout
+                ::MSN::reconnect "[trans serverbusy]"
+            } else {
+                ::MSN::logout
+                ::amsn::errorMsg "[trans serverbusy]"
+            }
+            status_log "Error: Server is busy\n" red
+            return 0
+        }
+        601 {
+            ::config::setKey start_ns_server [::config::getKey default_ns_server]
+            if { [::config::getKey reconnect] == 1 } {
+                ::MSN::saveOldStatus
+                ::MSN::logout
+                ::MSN::reconnect "[trans serverunavailable]"
+            } else {
+                ::MSN::logout
+                ::amsn::errorMsg "[trans serverunavailable]"
+            }
+            status_log "Error: Server is unavailable\n" red
+            return 0
+        }
+        715 {
+            #we get a weird character in PSM, need to reset it
+            status_log "Error: Weird PSM\n" red
+            ::abook::setPersonal PSM ""
+            ::MSN::logout
+            ::MSN::reconnect ""
+        }
+        911 {
+            #set password ""
+            ns configure -stat "closed"
+            ::MSN::logout
+            status_log "Error: User/Password\n" red
+            ::amsn::errorMsg "[trans baduserpass]"
+            return 0
+        }
+        928 {
+            # Apparently, the server said invalid passport, so this server was probably cached and your account
+            # was moved to another server (http://www.amsn-project.net/forums/viewtopic.php?p=24823)
+            # We'll ask the default_ns_server for a new NS that accepts our passport.
+        
+            status_log "Account was probably moved to a different server, NS says invalid passport, changing cached server to default"
+            ::config::setKey start_ns_server [::config::getKey default_ns_server]
+            ::MSN::saveOldStatus
+            ::MSN::logout
+            ::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable	
+        }
+        931 {  ;#this server doesn't know about that account
+            status_log "Account was moved to a different server, changing cached server to default"
+            ::config::setKey start_ns_server [::config::getKey default_ns_server]
+            ::MSN::saveOldStatus
+            ::MSN::logout
+            ::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable
+            return 0
+        }
+        "" {
+            return 0
+        }
+        default {
+            status_log "Got unknown NS input!! --> [lindex $item 0]\n\t$item" red
+            return 0
+        }
+    }
 
 }
 
