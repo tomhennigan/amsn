@@ -7,6 +7,7 @@
 #  ============================================  #
 ##################################################
 
+#TODO: so a binding on the main menu for any-key that stores that keypress, focusses the bar and inserts the pressed key ?
 
 namespace eval ::searchcontact {
 
@@ -17,6 +18,7 @@ namespace eval ::searchcontact {
 		::plugins::RegisterEvent "Search Contact" OnDisconnect removeSearchBar
 		::plugins::RegisterEvent "Search Contact" ChangeState redoSearch
 		::plugins::RegisterEvent "Search Contact" parse_contact redoSearch
+		::plugins::RegisterEvent "Search Contact" Load pluginFullyLoaded
 
 
 
@@ -37,6 +39,7 @@ namespace eval ::searchcontact {
 			filter_blocked 0
 			filter_removedme 0
 			input ""
+			historylist ""
 			usewildcards 0
 			enableoperators 0
 			storelastinput 0
@@ -60,9 +63,15 @@ namespace eval ::searchcontact {
 		variable stepsback 0
 		
 
-		if {$::contactlist_loaded} {
+
+	}
+
+	proc pluginFullyLoaded {event evpar} {
+		upvar 2 $evpar newvar
+		if { $newvar(name) == "Search Contact" && $::contactlist_loaded} {
 			::searchcontact::drawSearchBar
 		}
+
 	}
 
 	proc focusInSearchbar {} {
@@ -149,7 +158,7 @@ namespace eval ::searchcontact {
 
 			if { $::searchcontact::config(storelastinput) == 1 } {
 				#set the stored input
-				after 1 ::searchcontact::restoreSavedInput
+				::searchcontact::restoreSavedInput
 			}
 
 		} else {
@@ -244,14 +253,16 @@ namespace eval ::searchcontact {
 
 	proc restoreSavedInput {} {
 		variable clblocked
+		variable history
 
-		set input $::searchcontact::config(input)
+		set input [lindex $::searchcontact::config(historylist) end]
+		set history [lrange $::searchcontact::config(historylist) 0 end-1]
 
 		#if there's some filter applied, block the cl redrawing
 		if {$input != ""} {
 			::searchcontact::focusInSearchbar
 			#set the stored input
-			.main.searchbar.sunkenframe.input insert 0 "$::searchcontact::config(input)"
+			.main.searchbar.sunkenframe.input insert 0 "$input"
 			::searchcontact::updateClearIcon
 			set clblocked 1
 		} elseif { $::searchcontact::config(filter_blocked) || $::searchcontact::config(filter_removedme) } {
@@ -300,11 +311,12 @@ namespace eval ::searchcontact {
 	proc DeInit { } {
 		variable cluetextpresent
 		if { $::searchcontact::config(storelastinput) == 1} {
-			if { $cluetextpresent != 1 } {
-				set ::searchcontact::config(input) "$::searchcontact::input"
-			} else {
-				set ::searchcontact::config(input) ""
-			}
+			variable history
+			set history [lappend history [getInput]]
+puts "$history"
+			set ::searchcontact::config(historylist) [lrange $history end-9 end]
+puts "stored $::searchcontact::config(historylist)"
+#			set ::searchcontact::config(input) [getInput]
 		}
 		bind . <Control-f> ""
 		destroy .main.searchbar
