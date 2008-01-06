@@ -60,8 +60,7 @@ namespace eval ::searchcontact {
 
 		#History begin settings
 		variable history [list ]
-		variable stepsback 0
-		
+		variable stepsback 0		
 
 
 	}
@@ -83,8 +82,8 @@ namespace eval ::searchcontact {
 			$input delete 0 end
 			set cluetextpresent 0
 		}
+		focus $input
 	}
-
 
 	proc focusOutSearchbar {} {
 		variable cluetextpresent
@@ -96,11 +95,16 @@ namespace eval ::searchcontact {
 			$input insert 0 "[trans typeheretofilter]"
 			set cluetextpresent 1
 		}
-
 	}
 
-
 	proc removeSearchBar {event evPar} {
+		set frame .main.searchbar.sunkenframe
+		#remove bindings
+		bind . <Control-f> ""
+		bind .main <FocusIn> ""
+		bind .main <FocusOut> ""
+		
+
 		set ::contactlist_loaded 0 ;# in aMNS 0.97.0 when we log out contactlist_loaded is still 1
 		after cancel ::searchcontact::drawSearchBar
 		destroy .main.searchbar
