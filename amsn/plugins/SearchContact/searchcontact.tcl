@@ -315,6 +315,8 @@ namespace eval ::searchcontact {
 		::guiContactList::organiseList .main.f.cl.cvs [::guiContactList::getContactList]
 		variable clblocked
 		unset clblocked
+		image delete [::skin::loadPixmap search]
+		image delete [::skin::loadPixmap clear]
 	}
 
 
