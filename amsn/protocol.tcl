@@ -319,7 +319,7 @@ namespace eval ::MSNFT {
          return
       }
 
-      switch $state {
+      switch -- $state {
       	0 {
            if {[string range $tmpdata 0 9] == "VER MSNFTP"} {
 
@@ -667,7 +667,7 @@ namespace eval ::MSNFT {
          return
       }
 
-      switch $state {
+      switch -- $state {
       	0 {
            if { [regexp "^VER\ ?\[0-9\]* MSNFTP" $tmpdata] } {
               catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 1 $authcookie"}
@@ -1276,7 +1276,7 @@ namespace eval ::MSN {
 		set clientid [::config::getKey clientid 0]
 
 		if $switch {
-			switch $cap {
+			switch -- $cap {
 				mobile { set clientid [expr {$clientid | 0x000001} ] }
 				inkgif { set clientid [expr {$clientid | 0x000004} ] }
 				inkisf { set clientid [expr {$clientid | 0x000008} ] }
@@ -1305,7 +1305,7 @@ namespace eval ::MSN {
 				msnc7  { set clientid [expr {$clientid | 0x70000000} ] }
 			}
 		} else {
-			switch $cap {
+			switch -- $cap {
 				mobile { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000001)} ] }
 				inkgif { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000004)} ] }
 				inkisf { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000008)} ] }
@@ -1890,7 +1890,7 @@ namespace eval ::MSN {
 
 	proc CALReceived {sb_name user item} {
 
-		switch [lindex $item 0] {
+		switch -- [lindex $item 0] {
 			215 {
 				#if you try to begin a chat session with yourself
 				status_log "trying to chat with yourself"
@@ -3443,7 +3443,7 @@ namespace eval ::Event {
 			return 0
 		} else {
 
-			switch [lindex $command 0] {
+			switch -- [lindex $command 0] {
 				ILN {
 					if {$::msnp13} {
 						$self handleILN $command
@@ -3641,7 +3641,7 @@ namespace eval ::Event {
 
 	#Callback procedure called when a PRP (Personal info like nick and phone change) message is received
 	method handlePRPResponse { newname command } {
-		switch [lindex $command 0] {
+		switch -- [lindex $command 0] {
 			PRP {
 				::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
 				#TODO: put this here to be the same as the old REA response, should it be moved to abook?
@@ -3805,7 +3805,7 @@ namespace eval ::Event {
 			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
 			eval "$cmd"
 		} else {
-			switch [lindex $command 0] {
+			switch -- [lindex $command 0] {
 				MSG {
 					$self handleMSG $command $message
 				}
@@ -3962,7 +3962,7 @@ namespace eval ::Event {
 		}
 		set contentType [lindex [split [$message getHeader Content-Type] ";"] 0]
 
-		switch $contentType {
+		switch -- $contentType {
 			text/plain {
 				::Event::fireEvent messageReceived $self $message
 				$message setBody [encoding convertfrom identity [string map {"\r\n" "\n"} [$message getBody]]]
@@ -4381,7 +4381,7 @@ proc cmsn_connected_sb {sb recv} {
 
 
 proc cmsn_reconnect { sb } {
-	switch [$sb cget -stat] {
+	switch -- [$sb cget -stat] {
 		"n" {
 
 			status_log "cmsn_reconnect: stat = n , SB= $sb, user=[$sb cget -last_user]\n" green
@@ -4495,7 +4495,7 @@ proc cmsn_reconnect { sb } {
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_update_users {sb recv} {
 
-	switch [lindex $recv 0] {
+	switch -- [lindex $recv 0] {
 
 		BYE {
 
@@ -4934,7 +4934,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		#eval "[lindex [lindex $list_cmdhnd $idx] 1] \"$item\""
 		return 0
 	} else {
-		switch [lindex $item 0] {
+		switch -- [lindex $item 0] {
 			MSG {
 				cmsn_ns_msg $item $message
 				$message destroy
@@ -5310,7 +5310,7 @@ proc cmsn_auth {{recv ""}} {
 
 	status_log "cmsn_auth starting, stat=[ns cget -stat]\n" blue
 
-	switch [ns cget -stat] {
+	switch -- [ns cget -stat] {
 		a {
 			#Send three first commands at same time, to be faster
 			if { [::config::getKey protocol] == 13 } {
@@ -6120,7 +6120,7 @@ proc add_Clientid {chatid clientid} {
 	::abook::setContactData $chatid clientid $clientid
 
         ##Find out how the client-program is called
-        switch [expr {$clientid & 0xF0000000}] {
+        switch -- [expr {$clientid & 0xF0000000}] {
                 268435456 {
                         # 0x10000000
                         set clientname "MSN 6.0"
@@ -6728,7 +6728,7 @@ namespace eval ::MSN6FT {
 			}
 	
 	
-			switch $state {
+			switch -- $state {
 				"FOO"
 				{
 					if { $server && $data == "foo\x00" } {
@@ -6802,7 +6802,7 @@ namespace eval ::MSN6FT {
 		set data ""
 
 
-		switch $state {
+		switch -- $state {
 
 			"FOO"			
 			{
@@ -7128,7 +7128,7 @@ namespace eval ::MSNAV {
 		variable Invite
 		variable Type
 
-		switch $action {
+		switch -- $action {
 			get {
 				if { [info exists LocalSID($cookie)] } {
 					# Session found, return values
