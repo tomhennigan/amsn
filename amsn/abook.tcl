@@ -748,7 +748,10 @@ namespace eval ::abook {
 	}
 
 	#Parser to replace special characters and variables in the right way
-	proc parseCustomNickStyled { input nick user_login customnick psm } {
+	proc parseCustomNickStyled { input nick user_login customnick } {
+
+		set psm [::abook::getpsmmedia $user_login 1]
+
 		#If there's no customnick set, default to user_login
 		if { [::abook::removeStyles $customnick] eq "" } {
 			if { [::config::getKey protocol] >= 11 && $psm ne "" } {
@@ -823,26 +826,25 @@ namespace eval ::abook {
 		} else {
 			set nick [::abook::getNick $user_login 1]
 			set customnick [::abook::getVolatileData $user_login parsed_customnick]
-			set psm [::abook::getpsmmedia $user_login 1]
 
 			set customnicktxt [::abook::removeStyles $customnick]
 			set globalnicktxt [::abook::removeStyles $::globalnick]
 
 			if { [::config::getKey globaloverride] == 0 } {
 				if { $customnicktxt ne "" } {
-					set out [parseCustomNickStyled $customnick $nick $user_login $customnick $psm]
+					set out [parseCustomNickStyled $customnick $nick $user_login $customnick]
 				} else {
 					if { $globalnicktxt ne "" } {
-						set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick $psm]
+						set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick]
 					} else {
 						set out $nick
 					}
 				}
 			} elseif { [::config::getKey globaloverride] == 1 } {
 				if { $customnicktxt ne "" && $globalnicktxt eq "" } {
-					set out [parseCustomNickStyled $customnick $nick $user_login $customnick $psm]
+					set out [parseCustomNickStyled $customnick $nick $user_login $customnick]
 				} elseif { $globalnicktxt ne "" } {
-					set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick $psm]
+					set out [parseCustomNickStyled $::globalnick $nick $user_login $customnick]
 				} else {
 					set out $nick
 				}

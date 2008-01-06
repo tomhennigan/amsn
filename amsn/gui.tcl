@@ -1676,8 +1676,7 @@ namespace eval ::amsn {
 		if { $customfnick != "" } {
 			set nick [::abook::getNick $user 1]
 			set customnick [::abook::getVolatileData $user parsed_customnick]
-			set psm [::abook::getpsmmedia $user 1]
-			set nick [::abook::removeStyles [::abook::parseCustomNickStyled $customfnick $nick $user $customnick $psm]]
+			set nick [::abook::removeStyles [::abook::parseCustomNickStyled $customfnick $nick $user $customnick]]
 		}
 		
 		set msg [$message getBody]
@@ -1723,8 +1722,7 @@ namespace eval ::amsn {
 		if { $customfnick != "" } {
 			set nick [::abook::getNick $user 1]
 			set customnick [::abook::getVolatileData $user parsed_customnick]
-			set psm [::abook::getpsmmedia $user 1]
-			set nick [::abook::removeStyles [::abook::parseCustomNickStyled $customfnick $nick $user $customnick $psm]]
+			set nick [::abook::removeStyles [::abook::parseCustomNickStyled $customfnick $nick $user $customnick]]
 		}
 		
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
