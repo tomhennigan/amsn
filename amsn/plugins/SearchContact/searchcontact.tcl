@@ -18,6 +18,13 @@ namespace eval ::searchcontact {
 		::plugins::RegisterEvent "Search Contact" ChangeState redoSearch
 		::plugins::RegisterEvent "Search Contact" parse_contact redoSearch
 
+
+
+		#load language files
+		set langdir [file join $dir "lang"]
+		load_lang en $langdir
+		load_lang [::config::getGlobalKey language] $langdir
+
 		#Setting the default configuration
 	#searchtypes:
 	# 0 Everything
@@ -39,12 +46,6 @@ namespace eval ::searchcontact {
 			[list bool "[trans enableoperators]" enableoperators] \
 			[list bool "[trans storelastinput]" storelastinput] \
 		]
-
-
-		#load language files
-		set langdir [file join $dir "lang"]
-		load_lang en $langdir
-		load_lang [::config::getGlobalKey language] $langdir
 
 		#load the icons
 		::skin::setPixmap search search.png pixmaps [file join "$dir" pixmaps]
