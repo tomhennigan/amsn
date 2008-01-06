@@ -2237,6 +2237,12 @@ namespace eval ::AVAssistant {
 
 			#add connection entry only if with have a webcam
 			abook::getIPConfig
+			
+			# Window can be closed while we do the IPConfig stuff..
+			if {![winfo exists $contentf] } {
+				return
+			}
+
 			if { [::abook::getDemographicField listening] == "false"} {
 				label $contentf.connection -justify left -font bplainf -text [trans firewalled2]
 				#pack it
