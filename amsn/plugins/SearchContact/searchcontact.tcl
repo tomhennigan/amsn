@@ -40,14 +40,15 @@ namespace eval ::searchcontact {
 			[list bool "[trans storelastinput]" storelastinput] \
 		]
 
-		set ::searchcontact::plugindir $dir
-
 
 		#load language files
 		set langdir [file join $dir "lang"]
 		load_lang en $langdir
 		load_lang [::config::getGlobalKey language] $langdir
 
+		#load the icons
+		::skin::setPixmap search search.png pixmaps [file join "$dir" pixmaps]
+		::skin::setPixmap clear clear.png pixmaps [file join "$dir" pixmaps]
 
 		#clearing some vars before use
 		set ::searchcontact::firstcontact ""
@@ -56,8 +57,6 @@ namespace eval ::searchcontact {
 		#History begin settings
 		variable history [list ]
 		variable stepsback 0
-
-
 		
 
 		if {$::contactlist_loaded} {
@@ -110,10 +109,6 @@ namespace eval ::searchcontact {
 	proc drawSearchBar {{event none} {evPar ""} } {
 
 		if {![winfo exists .main.searchbar]} {
-			#load the icons
-			::skin::setPixmap search search.png pixmaps [file join "$::searchcontact::plugindir" pixmaps]
-			::skin::setPixmap clear clear.png pixmaps [file join "$::searchcontact::plugindir" pixmaps]
-
 			frame .main.searchbar -bg white -borderwidth 1 -highlightthickness 0
 			label .main.searchbar.label -text "[trans filter]:" -bg white
 			frame .main.searchbar.sunkenframe -relief sunken -bg white
@@ -318,8 +313,9 @@ namespace eval ::searchcontact {
 		::guiContactList::organiseList .main.f.cl.cvs [::guiContactList::getContactList]
 		variable clblocked
 		unset clblocked
-		image delete [::skin::loadPixmap search]
-		image delete [::skin::loadPixmap clear]
+		#can't delete 'm as the skins system thinks it's still loaded afterwards
+#		image delete [::skin::loadPixmap search]
+#		image delete [::skin::loadPixmap clear]
 	}
 
 
