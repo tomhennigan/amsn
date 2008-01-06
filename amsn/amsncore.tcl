@@ -470,10 +470,12 @@ proc play_loop { sound_file {id ""} } {
 	return $id
 }
 
-proc cancel_loop { id } {
+proc cancel_loop { id {retry 1}} {
 	global looping_sound
 	if { ![info exists looping_sound($id)] } {
-		after 3000 [list unset looping_sound($id)]
+		if {$retry } {
+			after 3000 [list cancel_loop $id 0]
+		}
 	} else {
 		unset looping_sound($id)
 	}
