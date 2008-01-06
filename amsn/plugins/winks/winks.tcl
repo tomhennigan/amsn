@@ -772,7 +772,7 @@ namespace eval ::winks {
 		set winks_list($sha1d) [array get wink]
 		::winks::WinksMenuDestroy
 		SaveWinks
-		tk_messageBox -message "[trans winks_wink_renamed]" -parent [::ChatWindow::For $chatid]
+		msg_box "[trans winks_wink_renamed]"
 		destroy .editWink
 	}
 	
@@ -810,7 +810,7 @@ namespace eval ::winks {
 		status_log "Wink deleted from menu." green
 		destroy .editWink
 
-		tk_messageBox -message "[trans winks_wink_deleted]" -parent [::ChatWindow::For $chatid]
+		msg_box "[trans winks_wink_deleted]"
 		return
 
 	}
@@ -826,7 +826,7 @@ namespace eval ::winks {
 		set mco_file [chooseFileDialog "" "" "" "" "open" [list [list "Messenger Content Objets" [list *.mco *.MCO]] ] ]
 		if { "$mco_file" != "" } {
 			if { [file exists "$mco_file"] == 0 } {
-				tk_messageBox -message "[trans winks_cant_open] $mco_file" -parent [::ChatWindow::For $chatid]
+				msg_box "[trans winks_cant_open] $mco_file" 
 				return 
 			}
 			
@@ -835,7 +835,7 @@ namespace eval ::winks {
 			ExtractCab "$mco_file" "content.xml" [file join $HOME winks cache tmp]
 			set filename [file join  "$HOME" winks cache tmp content.xml]
 			if { [file exists "$filename"] == 0 } { 
-				tk_messageBox -message $chatid "\n[trans winks_cant_open] content.xml(1)." red 
+				msg_box "[trans winks_cant_open] content.xml"
 				return 
 			}
 			
@@ -849,7 +849,7 @@ namespace eval ::winks {
 			
 			# verify that the object is a wink
 			if { [string first "type=\"wink\"" "$data"] == "-1" } {
-				tk_messageBox -message "\n[trans winks_file_is_not_a_wink]" -parent "$window_name"
+				msg_box "\n[trans winks_file_is_not_a_wink]"
 				return 
 			}
 			
@@ -878,7 +878,7 @@ namespace eval ::winks {
 			foreach wsha1d [array names winks_list] {
 				if { "$wink(sha1d)" == "$wsha1d" } {
 					status_log "The wink is already in winks menu!" red
-					tk_messageBox -message "[trans winks_the_wink_is_already_in_winks_menu]" -parent [::ChatWindow::For $chatid]
+					msg_box "[trans winks_the_wink_is_already_in_winks_menu]"
 					file delete "$filename"
 					return
 				}
@@ -1008,7 +1008,7 @@ status_log "BOOGA"
 			if { "$sha1d" == "$wsha1d" } {
 				array set wink $winks_list($sha1d)
 				if { "$wink(img)" == "---unknown-wink---" } {
-					tk_messageBox -message "[trans winks_cant_play_now_wait_thumbnail]" -parent [::ChatWindow::For $chatid]
+					msg_box "[trans winks_cant_play_now_wait_thumbnail]"
 					return
 				}
 				if { $::winks::config(play_embed) } {
@@ -1025,7 +1025,7 @@ status_log "BOOGA"
 			if { "$sha1d" == "$wsha1d" } {
 				array set wink $winks_cache($sha1d)
 				if { "$wink(img)" == "---unknown-wink---" } {
-					tk_messageBox -message "[trans winks_cant_play_now_wait_thumbnail]" -parent [::ChatWindow::For $chatid]
+					msg_box "[trans winks_cant_play_now_wait_thumbnail]"
 					return
 				}
 				if { $::winks::config(play_embed) } {
@@ -1532,7 +1532,7 @@ status_log "BOOGA"
 		foreach wsha1d [array names winks_list] {
 			if { "$sha1d" == "$wsha1d" } {
 				status_log "The wink is already in winks menu!" red
-				tk_messageBox -message "[trans winks_the_wink_is_already_in_winks_menu]" -parent [::ChatWindow::For $chatid]
+				msg_box "[trans winks_the_wink_is_already_in_winks_menu]"
 				return
 			}
 		}
@@ -1544,7 +1544,7 @@ status_log "BOOGA"
 				
 				# check if the wink transfer isn't still in progress
 				if { "$wink(img)" == "---unknown-wink---" } {
-					tk_messageBox -message "[trans winks_cant_add_now_wait_thumbnail]" -parent [::ChatWindow::For $chatid]
+					msg_box "[trans winks_cant_add_now_wait_thumbnail]"
 					return
 				}
 	
@@ -1572,7 +1572,7 @@ status_log "BOOGA"
 				
 				# notify
 				status_log "Wink Added!" green
-				tk_messageBox -message "[trans winks_wink_added]" -parent [::ChatWindow::For $chatid]
+				msg_box "[trans winks_wink_added]"
 				return
 			}
 		}
