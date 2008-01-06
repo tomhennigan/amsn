@@ -2525,7 +2525,7 @@ namespace eval ::ChatWindow {
 	}
 		
 	proc DecodeWave { file_in file_out } {
-		if { [catch {require_snack} ] || [package vcompare [set ::snack::patchLevel] 2.2.9] < 0 || [catch {package require tcl_siren 0.3}] } {
+		if { [catch {package require tcl_siren 0.3}] } {
 			return -1
 		} else {
 			set fd [open $file_in r]
@@ -2662,12 +2662,20 @@ namespace eval ::ChatWindow {
 		variable play_snd_$uid
 
 		if { [file exists $filename] } {
-			set snd [snack::sound]
-			set play_snd_$uid $snd
-			$snd read $filename
-			$snd play -command [list ::ChatWindow::stopVoiceClipDelayed $w $filename $uid]	
-			[::ChatWindow::GetOutText $w] tag configure play_voice_clip_$uid -elide true
-			[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide false	
+			if { [catch {
+				set snd [snack::sound]
+				set play_snd_$uid $snd
+				$snd read $filename
+				$snd play -command [list ::ChatWindow::stopVoiceClipDelayed $w $filename $uid]	
+				[::ChatWindow::GetOutText $w] tag configure play_voice_clip_$uid -elide true
+				[::ChatWindow::GetOutText $w] tag configure stop_voice_clip_$uid -elide false	} ] } {
+				if { [info exists snd] } { 
+					catch { $snd destroy } 
+					catch { unset play_snd_$uid }
+				}
+				# Full back to play_sound which.. hopefully does not have a 'usesnack' setting.
+				play_sound $filename 1
+			}
 		}
 	}
 
