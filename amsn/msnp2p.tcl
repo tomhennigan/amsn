@@ -1030,11 +1030,12 @@ namespace eval ::MSNP2P {
 				} elseif {$type == "wink" }  {
 					set fd [open "[file join $HOME winks cache ${filename}.cab]" w]
 				}
-
-				fconfigure $fd -translation {binary binary}
-				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
-				#status_log "MSNP2P | $sid $user_login -> Sent an ACK for DATA PREP Message\n" red
-				SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd -1 -1 -1]
+				if {$fd != "" } {
+					fconfigure $fd -translation {binary binary}
+					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
+					#status_log "MSNP2P | $sid $user_login -> Sent an ACK for DATA PREP Message\n" red
+					SessionList set $sid [list -1 -1 -1 -1 -1 -1 $fd -1 -1 -1]
+				}
 			} elseif { $type == "webcam" } {
 				# WEBCAM TO COMPLETE
 
