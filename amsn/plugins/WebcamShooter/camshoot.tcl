@@ -266,15 +266,18 @@ namespace eval ::camshoot {
 			pictureBrowser
 		}
 
-		image create photo displaypicture_pre_$target -file [::skin::GetSkinFile displaypic $file] -format cximage
-		.dpbrowser.rightpane.dppreview configure -image displaypicture_pre_$target
+		set $filepath [::skin::GetSkinFile displaypic $file]
+        if { [file exists $filepath] == 1 } {
+            image create photo displaypicture_pre_$target -file "$filepath" -format cximage
+            .dpbrowser.rightpane.dppreview configure -image displaypicture_pre_$target
 
-		#Write inside .dat file
-		set desc_file "[filenoext [file tail $file]].dat"
-		set fd [open [file join $HOME displaypic $desc_file] w]
-		#status_log "Writing description to $desc_file\n"
-		puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
-		close $fd
+            #Write inside .dat file
+            set desc_file "[filenoext [file tail $file]].dat"
+            set fd [open [file join $HOME displaypic $desc_file] w]
+            #status_log "Writing description to $desc_file\n"
+            puts $fd "[clock format [clock seconds] -format %x]\n[filenoext [file tail $file]].png"
+            close $fd
+        }
 
 		# Redraw dpBrowser's upper pane
 		.dpbrowser.leftpane.mydps configure -user self
