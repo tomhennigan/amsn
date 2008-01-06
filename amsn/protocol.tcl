@@ -2131,7 +2131,7 @@ namespace eval ::MSN {
 	########################################################################
 	#Totally remove the given SB
 	proc KillSB { sb } {
-		global sb_list
+		global sb_list list_cmdhnd
 
 		status_log "::MSN::KillSB: Killing SB $sb\n"
 
@@ -2141,9 +2141,15 @@ namespace eval ::MSN {
 			return 0
 		}
 
-		set sb_list [lreplace $sb_list $idx $idx ]
+		#Remove the SB from sb_list
+        set sb_list [lreplace $sb_list $idx $idx ]
+        
+        #Destroy th SB
 		status_log "Destroy the SB $sb in KillSB" red
 		$sb destroy
+        
+        #Remove any handlers of the SB
+        set list_cmdhnd [lsearch -all -not -inline $list_cmdhnd "$sb *"]
 	}
 
 
