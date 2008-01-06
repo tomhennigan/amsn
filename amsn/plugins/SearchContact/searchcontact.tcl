@@ -172,10 +172,8 @@ namespace eval ::searchcontact {
 
 			#now remove the filter
 			::searchcontact::clearSearch
-		} else {
-			#redo the search ?
-
 		}
+
 	}
 
 	proc historyUp {} {
@@ -192,6 +190,7 @@ namespace eval ::searchcontact {
 			$i insert 0 $input
 			#now redo the search
 			::searchcontact::redoSearch historyScroll
+			::searchcontact::updateClearIcon
 		} else { 
 			::searchcontact::flashSearchBar
 		}
@@ -211,6 +210,7 @@ namespace eval ::searchcontact {
 			$i insert 0 $input
 			#now redo the search
 			::searchcontact::redoSearch historyScroll
+			::searchcontact::updateClearIcon
 		} else {
 			::searchcontact::flashSearchBar
 		}
