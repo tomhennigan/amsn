@@ -1406,7 +1406,7 @@ namespace eval ::ChatWindow {
 		
 		#Save
 		$chatmenu add command -label "[trans savetofile]..." \
-			-command " ChooseFilename \[::ChatWindow::GetOutText \[::ChatWindow::getCurrentTab $w\]\] \[::ChatWindow::getCurrentTab $w\]"		
+			-command "::ChatWindow::SaveToFile \[::ChatWindow::getCurrentTab $w\]"		
 
 		#----------------------
 		$chatmenu add separator
@@ -3332,7 +3332,8 @@ namespace eval ::ChatWindow {
 		#if tab is not visible, then we should change the color of the < or > button
 		#to let know there is an invisible tab flickering (an incoming message)
 		if { [info exists visibletabs($container)] } {
-			foreach window containerwindows($container)] {
+		
+			foreach window [set containerwindows($container)] {
 				set visible 0
 				foreach winvisible [set visibletabs($container)] {
 					if { ![string equal $window $winvisible] } {
@@ -3346,6 +3347,8 @@ namespace eval ::ChatWindow {
 					}
 				}
 			}
+	
+	
 			if { [info exists right] } {
 				if { $right == 0 } {
 					#we change the less color
@@ -3397,9 +3400,7 @@ namespace eval ::ChatWindow {
 			
 			after 300 "::ChatWindow::FlickerTab $win 0"
 		}
-
 	}
-
 
 	proc GetContainerFor { user } {
 		variable containers
@@ -4237,6 +4238,31 @@ namespace eval ::ChatWindow {
 
 		after 100 "catch {incr ::ChatWindow::scrolling($tw) -1; if {\$::ChatWindow::scrolling($tw) == 0 } {unset ::ChatWindow::scrolling($tw) }}"
 		
+	}
+
+	proc SaveToFile { w } {
+		set user [::ChatWindow::Name $w]
+		if {$user == 0 } {
+			set user "Untitled"
+		}
+		set txtw [::ChatWindow::GetOutText $w]
+		set file [chooseFileDialog "$user.log" [trans save] $w "" save]
+		
+		if { $file != "" } {
+			if { [catch {set fd [open $file w] }] } {
+				msg_box "[trans invalidfile2 $file]"
+				return
+			}
+		
+			set content ""
+			set dump [$txtw  dump  -text 0.0 end]
+			foreach { text output index } $dump {
+				append content $output
+			}
+		
+			puts $fd $content
+			close $fd
+		}
 	}
 }
 

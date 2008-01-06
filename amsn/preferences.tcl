@@ -3215,59 +3215,6 @@ proc RestorePreferences { {win ".cfg"} } {
 }
 
 ###################### Other Features     ###########################
-proc ChooseFilename { twn title } {
-
-    # TODO File selection box, use nickname as filename (caller)
-    set w .form[string map {"." ""} $title]
-	 if {[winfo exists $w]} {
-	 	raise $w
-		return
-	 }
-    toplevel $w
-    wm title $w [trans savetofile]
-     label $w.msg -justify center -text [trans enterfilename]
-     pack $w.msg -side top
-
-     frame $w.buttons
-     pack $w.buttons -side bottom -fill x -pady 2m
-      button $w.buttons.dismiss -text [trans cancel] -command "destroy $w"
-      button $w.buttons.save -text [trans save] \
-        -command "save_text_file $twn $w.filename.entry; destroy $w"
-      pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
-
-    frame $w.filename -bd 2
-     entry $w.filename.entry  -width 40
-     label $w.filename.label -text "[trans filename]:"
-     pack $w.filename.entry -side right
-     pack $w.filename.label -side left
-    pack $w.msg $w.filename -side top -fill x
-    focus $w.filename.entry
-
-    chooseFileDialog "Untitled" "" $w $w.filename.entry save
-}
-
-proc save_text_file { w ent } {
-
-    set dstfile [ $ent get ]
-
-	 if { [catch { open $dstfile w }] } {
-	 	msg_box "[trans invalidfile2 $dstfile]"
-		return
-	 }
-
-    set content ""
-    set dump [$w  dump  -text 0.0 end]
-    foreach { text output index } $dump {
-	set content "${content}${output}"
-    }
-
-    set f [ open $dstfile w ]
-    puts $f $content
-    close $f
-    #puts "Saved $dstfile"
-    #puts "Content $content"
-}
-
 
 # Usage: LabelEntry .mypath.mailer "Label:" config(mailcommand) 20
 proc LabelEntry { path lbl variable width } {
