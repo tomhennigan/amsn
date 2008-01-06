@@ -313,10 +313,7 @@ namespace eval ::searchcontact {
 		if { $::searchcontact::config(storelastinput) == 1} {
 			variable history
 			set history [lappend history [getInput]]
-puts "$history"
 			set ::searchcontact::config(historylist) [lrange $history end-9 end]
-puts "stored $::searchcontact::config(historylist)"
-#			set ::searchcontact::config(input) [getInput]
 		}
 		bind . <Control-f> ""
 		destroy .main.searchbar
