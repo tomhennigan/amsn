@@ -18,12 +18,10 @@ namespace eval macWindowStyle {
 	
 	proc setBrushed {window} {
 		variable macos_version
-		# Brushed style windows are buggy with 10.5, so we diable them for 10.5+
-		set mac_ver_major [lindex [version_intList $macos_version] 0]
-		set mac_ver_minor [lindex [version_intList $macos_version] 1]
 		
 		if {[::skin::getKey usebrushedmetal "0"] && [::config::getKey allowbrushedmetal "1"]} {
-			if {$mac_ver_major <= 10 && $mac_ver_minor < 5} {
+			# Brushed style windows are buggy with 10.5, so we diable them for 10.5+
+			if {[package vcompare 10.5.0 $macos_version] == 1} {
 				catch {
 		    		::tk::unsupported::MacWindowStyle style $window document {closeBox horizontalZoom verticalZoom collapseBox resizable metal}
 		    	}
