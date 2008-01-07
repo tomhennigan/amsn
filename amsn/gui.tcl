@@ -4039,7 +4039,9 @@ proc cmsn_draw_main {} {
 		}
 	}
 
+	#allow for display updates so window size is correct
 	update
+	#update idletasks
 	
 	#Set the position on the screen and the size for the contact list, from config
 	#Check if the geometry is available :
@@ -4050,58 +4052,48 @@ proc cmsn_draw_main {} {
 	set y 0
 	set modified 0
 	regexp {=?(\d+)x(\d+)[+\-](-?\d+)[+\-](-?\d+)} $geometry -> width height x y
-	if {[expr {$width + $x}] > [winfo screenwidth .]} {
-		set modified 1
-		if { [OnMac] } {
-			set x 200
-		} else {
-			set x 0
-		}
+	
+	# Now make sure that the window will be onscreen. Checking each edge (top, right, bottom, left)
+	# The minimum values are in pixels from each edge.
+	set t_min 0
+	set r_min 0
+	set b_min 0
+	set l_min 0
+	
+	if {[OnMac]} {
+		# There is a menu bar running accross the top of the screen that is 22px high..
+		set t_min 22
 	}
-	if {[expr {$width}] > [winfo screenwidth .]} {
+	
+	# Check the top.
+	if {[expr {$y}] < $t_min} {
 		set modified 1
-		set width 275
+		set y $t_min
 	}
-	if {[expr {$height + $y}] > [winfo screenheight .]} {
+	
+	# Check the right.
+	if {[expr {$x + $width}] > [expr {[winfo screenwidth .] - $r_min}]} {
 		set modified 1
-		if { [OnMac] } {
-			set y 200
-		} else {
-			set y 0
-		}
-	} 
-	if {[expr {$height}] > [winfo screenheight .]} {
-		set modified 1
-		set height 400
+		set x [expr {[winfo screenwidth .] - $width - $r_min}]
 	}
-
-	#To avoid the bug of window behind the menu bar on Mac OS X
-	#The menubar's height is 22.
-	if {[OnMac] && [expr {$y}] < 22} {
+	
+	# Check the bottom.
+	if {[expr {$y + $height}] > [expr {[winfo screenheight .] - $b_min}]} {
 		set modified 1
-		set y 22
-	} elseif {[expr {$y}] < 0} {
-		set modified 1
-		set y 0
+		set y [expr {[winfo screenheight .] - $height - $b_min}]
 	}
-	if {[expr {$x}] < 0} {
+	
+	# Check the left.
+	if {[expr {$x}] < $l_min} {
 		set modified 1
-		set x 0
+		set x $l_min
 	}
 
 	if {$modified == 1} {
-		set geometry ${width}x${height}-${x}+${y}
+		set geometry ${width}x${height}+${x}+${y}
 		::config::setKey wingeometry $geometry
 	}
 	catch {wm geometry . $geometry}
-	
-	#allow for display updates so window size is correct
-	update idletasks
-	
-	# Make sure that visable area of main screen is shown.
-	if {[winfo x .] > [expr [winfo screenwidth .] - [winfo width .]] || [winfo y .] > [expr [winfo screenheight .] - [winfo height .]]} {
-		wm geometry . +20+40
-	}
 	
 	#Unhide main window now that it has finished being created
 	wm state . normal
