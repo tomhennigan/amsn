@@ -30,449 +30,429 @@ if { $initialize_amsn == 1 } {
 
 
 namespace eval ::MSNFT {
-   namespace export inviteFT acceptFT rejectFT
+	namespace export inviteFT acceptFT rejectFT
 
-   #TODO: Instead of using a list, use many variables: ft_name, ft_sockid...
+	#TODO: Instead of using a list, use many variables: ft_name, ft_sockid...
 
-   # If type is = 1 then it's an MSNP2P file send
-   proc invitationReceived { filename filesize cookie chatid fromlogin {type "0"}} {
-      variable filedata
+	# If type is = 1 then it's an MSNP2P file send
+	proc invitationReceived { filename filesize cookie chatid fromlogin {type "0"}} {
+		variable filedata
 
-      if { $type == 0 } {
-      	set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin "receivewait" "ipaddr"]
-      	after 300000 "::MSNFT::DeleteFT $cookie"
-       	SendMessageFIFO [list ::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
-      	#set filetoreceive [list "$filename" $filesize]
-      } elseif { $type == 1 } {
-      	set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin]
-      }
-   }
+		if { $type == 0 } {
+			set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin "receivewait" "ipaddr"]
+			after 300000 "::MSNFT::DeleteFT $cookie"
+			SendMessageFIFO [list ::amsn::fileTransferRecv $filename $filesize $cookie $chatid $fromlogin] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+			#set filetoreceive [list "$filename" $filesize]
+		} elseif { $type == 1 } {
+			set filedata($cookie) [list "$filename" $filesize $chatid $fromlogin]
+		}
+	}
 
-   proc acceptReceived {cookie chatid fromlogin message} {
+	proc acceptReceived {cookie chatid fromlogin message} {
 
-      variable filedata
+		variable filedata
 
-	  #status_log "DATA: $cookie $chatid $fromlogin $message $body\n"
+		#status_log "DATA: $cookie $chatid $fromlogin $message $body\n"
 
-      if {![info exists filedata($cookie)]} {
-         return
-      }
+		if {![info exists filedata($cookie)]} {
+			return
+		}
 
-      #set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
-      set requestdata [$message getField Request-Data]
+		#set requestdata [string range $requestdata 0 [expr {[string length requestdata] -2}]]
+		set requestdata [$message getField Request-Data]
 
-      status_log "Ok, so here we have cookie=$cookie, requestdata=$requestdata\n" red
+		status_log "Ok, so here we have cookie=$cookie, requestdata=$requestdata\n" red
 
-      if { $requestdata != "IP-Address:" } {
-      	status_log "Requested data is not IP-Address!!: $requestdata\n" red
-		return
-	  }
+		if { $requestdata != "IP-Address:" } {
+			status_log "Requested data is not IP-Address!!: $requestdata\n" red
+			return
+		}
 
-      set ipaddr [$message getField $requestdata]
+		set ipaddr [$message getField $requestdata]
 
-      #If IP field is blank, and we are sender, Send the File and requested IP (SendFile)
-	if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
+		#If IP field is blank, and we are sender, Send the File and requested IP (SendFile)
+		if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
+			status_log "Invitation to filetransfer $cookie accepted\n" black
+			SendMessageFIFO [list ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+			set newcookie [::md5::md5 "$cookie$fromlogin"]
+			set filedata($newcookie) $filedata($cookie)
+			SendFile $newcookie $cookie
+			#TODO: Show accept or reject messages from other users? (If transferType=="receive")
+		} elseif {($ipaddr == "") && ([getTransferType $cookie]!="send")} {
+			SendMessageFIFO [list ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		#If message comes from sender, and we are receiver, connect
+		} elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
+			after cancel "::MSNFT::timeoutedFT $cookie"
+			set port [$message getField Port]
+			set authcookie [$message getField AuthCookie]
+			#status_log "Body: $body\n"
+			ConnectMSNFTP $ipaddr $port $authcookie $cookie
+		}
+	}
 
-		status_log "Invitation to filetransfer $cookie accepted\n" black
-		SendMessageFIFO [list ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
-		set newcookie [::md5::md5 "$cookie$fromlogin"]
-		set filedata($newcookie) $filedata($cookie)
-		SendFile $newcookie $cookie
-		#TODO: Show accept or reject messages from other users? (If transferType=="receive")
-	} elseif {($ipaddr == "") && ([getTransferType $cookie]!="send")} {
-		SendMessageFIFO [list ::amsn::acceptedFT $chatid $fromlogin [getFilename $cookie]] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
-	#If message comes from sender, and we are receiver, connect
-	} elseif { ($fromlogin == [lindex $filedata($cookie) 3]) && ([getTransferType $cookie]=="receive")} {
+	proc getUsername { cookie } {
+		variable filedata
+		if {[info exists filedata($cookie)]} {
+			return [lindex $filedata($cookie) 3]
+		}
+		return ""
+	}
+
+	proc getFilename { cookie } {
+		variable filedata
+		if {[info exists filedata($cookie)]} {
+			return [lindex $filedata($cookie) 0]
+		}
+		return ""
+	}
+
+	proc getTransferType { cookie } {
+		variable filedata
+		if {[info exists filedata($cookie)]} {
+			return [lindex $filedata($cookie) 4]
+		}
+		return ""
+	}
+
+
+
+	proc cancelFT { cookie } {
+		variable filedata
+		if {[info exists filedata($cookie)]} {
+			::amsn::FTProgress ca $cookie [lindex $filedata($cookie) 0]
+			set sockid [lindex $filedata($cookie) 6]
+			catch {puts $sockid "CCL\n"}
+			DeleteFT $cookie
+			status_log "File transfer manually canceled\n"
+		}
+	}
+
+	proc timeoutedFT { cookie } {
+		variable filedata
 		after cancel "::MSNFT::timeoutedFT $cookie"
-		set port [$message getField Port]
-		set authcookie [$message getField AuthCookie]
-		#status_log "Body: $body\n"
-		ConnectMSNFTP $ipaddr $port $authcookie $cookie
+		if {[info exists filedata($cookie)]} {
+			::amsn::FTProgress e $cookie [lindex $filedata($cookie) 0]
+			DeleteFT $cookie
+			status_log "File transfer timeouted\n"
+		}
 	}
-   }
 
-   proc getUsername { cookie } {
-      variable filedata
-      if {[info exists filedata($cookie)]} {
-         return [lindex $filedata($cookie) 3]
-      }
-      return ""
-   }
+	proc FinishedFT { cookie } {
+		variable filedata
 
-   proc getFilename { cookie } {
-      variable filedata
-      if {[info exists filedata($cookie)]} {
-         return [lindex $filedata($cookie) 0]
-      }
-      return ""
-   }
+		set filename [file join [::config::getKey receiveddir] [lindex $filedata($cookie) 0] ]
+		set finishedname [filenoext $filename]
+		if { [string range $filename [expr [string length $filename] - 11] [string length $filename]] == ".incomplete" } {
+			if { [catch { file rename $filename $finishedname } ] } {
+				::amsn::infoMsg [trans couldnotrename $filename] warning
+			}
+		}
 
-   proc getTransferType { cookie } {
-      variable filedata
-      if {[info exists filedata($cookie)]} {
-         return [lindex $filedata($cookie) 4]
-      }
-      return ""
-   }
+		DeleteFT $cookie
+		status_log "File transfer finished ok\n"
+	}
 
+	proc DeleteFT { cookie } {
+		variable filedata
+		if {[info exists filedata($cookie)] }  {
+			set sockid [lindex $filedata($cookie) 6]
+			set fileid [lindex $filedata($cookie) 7]
+			status_log "Closing FT socket $sockid\n"
+			catch {fileevent $sockid writable ""}
+			catch {fileevent $sockid readable ""}
+			catch {close $sockid}
+			status_log "Closing FT file $fileid\n"
+			catch {close $fileid}
 
-
-   proc cancelFT { cookie } {
-      variable filedata
-      if {[info exists filedata($cookie)]} {
-         ::amsn::FTProgress ca $cookie [lindex $filedata($cookie) 0]
-	 set sockid [lindex $filedata($cookie) 6]
-	 catch {puts $sockid "CCL\n"}
-         DeleteFT $cookie
-	 status_log "File transfer manually canceled\n"
-      }
-
-   }
-
-   proc timeoutedFT { cookie } {
-      variable filedata
-      after cancel "::MSNFT::timeoutedFT $cookie"
-      if {[info exists filedata($cookie)]} {
-         ::amsn::FTProgress e $cookie [lindex $filedata($cookie) 0]
-         DeleteFT $cookie
-	 status_log "File transfer timeouted\n"
-      }
-
-   }
-
-   proc FinishedFT { cookie } {
-      variable filedata
-
-      set filename [file join [::config::getKey receiveddir] [lindex $filedata($cookie) 0] ]
-      set finishedname [filenoext $filename]
-      if { [string range $filename [expr [string length $filename] - 11] [string length $filename]] == ".incomplete" } {
-            if { [catch { file rename $filename $finishedname } ] } {
-                  ::amsn::infoMsg [trans couldnotrename $filename] warning
-            }      
-      }
-
-      DeleteFT $cookie
-      status_log "File transfer finished ok\n"
-   }
-
-   proc DeleteFT { cookie } {
-      variable filedata
-      if {[info exists filedata($cookie)] }  {
-         set sockid [lindex $filedata($cookie) 6]
-	 set fileid [lindex $filedata($cookie) 7]
-         status_log "Closing FT socket $sockid\n"
-         catch {fileevent $sockid writable ""}
-	 catch {fileevent $sockid readable ""}
-	 catch {close $sockid}
-         status_log "Closing FT file $fileid\n"
-	 catch {close $fileid}
-
-         unset filedata($cookie)
-      }
-   }
+			unset filedata($cookie)
+		}
+	}
 
 
-   #################################
-   #All about receiving files
-   #################################
+	#################################
+	#All about receiving files
+	#################################
 
-   proc acceptFT {chatid cookie} {
-      #Send the acceptation for a file transfer, request IP
-      variable filedata
-
-
-      if { ![info exists filedata($cookie)]} {
-         return -1
-      }
-
-      after cancel "::MSNFT::DeleteFT $cookie"
-      set filedata($cookie) [lreplace $filedata($cookie) 4 4 "receive"]
-
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-      set msg "${msg}Invitation-Command: ACCEPT\r\n"
-      set msg "${msg}Invitation-Cookie: $cookie\r\n"
-      set msg "${msg}Launch-Application: FALSE\r\n"
-      set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
-      set msg [encoding convertto utf-8 $msg]
-      set msg_len [string length $msg]
-
-      set sbn [::MSN::SBFor $chatid]
-      if {$sbn == 0 } {
-         cancelFT $cookie
-         return 0
-      }
-
-      set sock [$sbn cget -sock]
-      ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
-
-      after 20000 "::MSNFT::timeoutedFT $cookie"
-      ::amsn::FTProgress a $cookie [lindex $filedata($cookie) 0]
-
-      return 1
-   }
+	proc acceptFT {chatid cookie} {
+		#Send the acceptation for a file transfer, request IP
+		variable filedata
 
 
-   proc rejectFT {chatid cookie} {
+		if { ![info exists filedata($cookie)]} {
+			return -1
+		}
 
-      set sbn [::MSN::SBFor $chatid]
-      if {$sbn == 0 } {
-         cancelFT $cookie
-         return 0
-      }
+		after cancel "::MSNFT::DeleteFT $cookie"
+		set filedata($cookie) [lreplace $filedata($cookie) 4 4 "receive"]
 
-      #Send the cancellation for a file transfer
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-      set msg "${msg}Invitation-Command: CANCEL\r\n"
-      set msg "${msg}Invitation-Cookie: $cookie\r\n"
-      set msg "${msg}Cancel-Code: REJECT\r\n\r\n"
-      set msg [encoding convertto utf-8 $msg]
-      set msg_len [string length $msg]
-      ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+		set msg "${msg}Invitation-Command: ACCEPT\r\n"
+		set msg "${msg}Invitation-Cookie: $cookie\r\n"
+		set msg "${msg}Launch-Application: FALSE\r\n"
+		set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
+		set msg [encoding convertto utf-8 $msg]
+		set msg_len [string length $msg]
 
-      status_log "Rejecting filetransfer sent\n" red
-      cancelFT $cookie
+		set sbn [::MSN::SBFor $chatid]
+		if {$sbn == 0 } {
+			cancelFT $cookie
+			return 0
+		}
 
-   }
+		set sock [$sbn cget -sock]
+		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
+		after 20000 "::MSNFT::timeoutedFT $cookie"
+		::amsn::FTProgress a $cookie [lindex $filedata($cookie) 0]
 
-   proc ConnectMSNFTP {ipaddr port authcookie cookie} {
-      #I connect to a remote host to retrieve the file
-      variable filedata
-
-      if {![info exists filedata($cookie)]} {
-        status_log "ConnectMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
-        return
-      }
-
-      status_log "Connecting to $ipaddr port $port\n"
-      ::amsn::FTProgress c $cookie [lindex $filedata($cookie) 0] $ipaddr $port
-
-      if { [catch {set sockid [socket -async $ipaddr $port]} res ]} {
-	set filename [lindex $filedata($cookie) 0]
-        cancelFT $cookie
-        ::amsn::FTProgress e $cookie $filename
-        return
-      }
-
-      lappend filedata($cookie) $sockid
-
-      #TODO: What are we cancelling here?
-      after cancel "::MSNFT::cancelFT $cookie"
-      fconfigure $sockid -blocking 0 -translation {binary binary} -buffering line
-      fileevent $sockid writable "::MSNFT::ConnectedMSNFTP $sockid $authcookie $cookie"
+		return 1
+	}
 
 
-   }
+	proc rejectFT {chatid cookie} {
+		set sbn [::MSN::SBFor $chatid]
+		if {$sbn == 0 } {
+			cancelFT $cookie
+			return 0
+		}
 
-   proc ConnectedMSNFTP {sockid authcookie cookie} {
-      variable filedata
+		#Send the cancellation for a file transfer
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+		set msg "${msg}Invitation-Command: CANCEL\r\n"
+		set msg "${msg}Invitation-Cookie: $cookie\r\n"
+		set msg "${msg}Cancel-Code: REJECT\r\n\r\n"
+		set msg [encoding convertto utf-8 $msg]
+		set msg_len [string length $msg]
+		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
-      if {![info exists filedata($cookie)]} {
-        status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
-        return
-      }
-
-      set error_msg [fconfigure $sockid -error]
-
-      if {$error_msg != ""} {
-         status_log "Can't connect to server: $error_msg!!\n" white
-	 set filename [lindex $filedata($cookie) 0]
-	cancelFT $cookie
-	::amsn::FTProgress e $cookie $filename
-	return
-      }
-
-
-      fileevent $sockid writable ""
-      fileevent $sockid readable "::MSNFT::FTNegotiation $sockid $cookie 0 $authcookie"
+		status_log "Rejecting filetransfer sent\n" red
+		cancelFT $cookie
+	}
 
 
-      status_log "Connected, going to give my identity\n"
-      ::amsn::FTProgress i $cookie [lindex $filedata($cookie) 0]
+	proc ConnectMSNFTP {ipaddr port authcookie cookie} {
+		#I connect to a remote host to retrieve the file
+		variable filedata
 
-      status_log "I SEND: VER MSNFTP\r\n"
-      catch {puts $sockid "VER MSNFTP\r"}
+		if {![info exists filedata($cookie)]} {
+			status_log "ConnectMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+			return
+		}
 
-   }
+		status_log "Connecting to $ipaddr port $port\n"
+		::amsn::FTProgress c $cookie [lindex $filedata($cookie) 0] $ipaddr $port
 
-   proc FTNegotiation { sockid cookie state {authcookie ""}} {
-      variable filedata
+		if { [catch {set sockid [socket -async $ipaddr $port]} res ]} {
+			set filename [lindex $filedata($cookie) 0]
+			cancelFT $cookie
+			::amsn::FTProgress e $cookie $filename
+			return
+		}
 
-      if {![info exists filedata($cookie)]} {
-        status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
-        return
-      }
+		lappend filedata($cookie) $sockid
 
-      if { [eof $sockid] } {
-         status_log "FTNegotiation:: EOF\n" white
-	 set filename [lindex $filedata($cookie) 0]
-	 cancelFT $cookie
-	 ::amsn::FTProgress l $cookie $filename
-	 return
-      }
+		#TODO: What are we cancelling here?
+		after cancel "::MSNFT::cancelFT $cookie"
+		fconfigure $sockid -blocking 0 -translation {binary binary} -buffering line
+		fileevent $sockid writable "::MSNFT::ConnectedMSNFTP $sockid $authcookie $cookie"
+	}
 
-      gets $sockid tmpdata
-      status_log "FTNegotiation: I RECEIVE: $tmpdata\n"
+	proc ConnectedMSNFTP {sockid authcookie cookie} {
+		variable filedata
 
-      if { $tmpdata == "" } {
-         update idletasks
-         return
-      }
+		if {![info exists filedata($cookie)]} {
+			status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+			return
+		}
 
-      switch -- $state {
-      	0 {
-           if {[string range $tmpdata 0 9] == "VER MSNFTP"} {
+		set error_msg [fconfigure $sockid -error]
 
-              catch {fileevent $sockid readable "::MSNFT::FTNegotiation $sockid $cookie 1"}
-              catch {puts $sockid "USR [::config::getKey login] $authcookie\r"}
-              status_log "FTNegotiation: I SEND: USR [::config::getKey login] $authcookie\r\n"
+		if {$error_msg != ""} {
+			status_log "Can't connect to server: $error_msg!!\n" white
+			set filename [lindex $filedata($cookie) 0]
+			cancelFT $cookie
+			::amsn::FTProgress e $cookie $filename
+			return
+		}
 
-	   } else {
-	      status_log "FT failed in state 0\n" red
-	      set filename [lindex $filedata($cookie) 0]
-	      cancelFT $cookie
-	      ::amsn::FTProgress l $cookie $filename
-	   }
+		fileevent $sockid writable ""
+		fileevent $sockid readable "::MSNFT::FTNegotiation $sockid $cookie 0 $authcookie"
+
+		status_log "Connected, going to give my identity\n"
+		::amsn::FTProgress i $cookie [lindex $filedata($cookie) 0]
+
+		status_log "I SEND: VER MSNFTP\r\n"
+		catch {puts $sockid "VER MSNFTP\r"}
 
 	}
-      	1 {
-           if {[string range $tmpdata 0 2] == "FIL"} {
-              set filesize [string range $tmpdata 4 [expr {[string length $tmpdata]-2}]]
 
-	      if { "$filesize" != "[lindex $filedata($cookie) 1]" } {
-	         status_log "Filesize is now $filesize and was [lindex $filedata($cookie) 1] before!!\n" white
-		 #cancelFT $cookie
-		 #return
-	      }
+	proc FTNegotiation { sockid cookie state {authcookie ""}} {
+		variable filedata
 
-              status_log "FTNegotiation: They send me file with size $filesize\n"
-              catch {puts $sockid "TFR\r"}
-              status_log "Receiving file...\n"
+		if {![info exists filedata($cookie)]} {
+			status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+			return
+		}
 
-              set filename [file join [::config::getKey receiveddir] [lindex $filedata($cookie) 0]]
-	      set origfile $filename
+		if { [eof $sockid] } {
+			status_log "FTNegotiation:: EOF\n" white
+			set filename [lindex $filedata($cookie) 0]
+			cancelFT $cookie
+			::amsn::FTProgress l $cookie $filename
+			return
+		}
 
-              set num 1
-              while { [file exists $filename] } {
-                 set filename "[filenoext $origfile] $num[fileext $origfile]"
-                 incr num
-              }
+		gets $sockid tmpdata
+		status_log "FTNegotiation: I RECEIVE: $tmpdata\n"
 
-              if {[catch {open $filename w} fileid]} {
-                 # Cannot create this file. Abort.
-                 status_log "Could not saved the file '$filename' (write-protected target directory?)\n" red
-                 cancelFT $cookie
-                 ::amsn::FTProgress l $cookie $filename
-                 ::amsn::infoMsg [trans readonlymsgbox] warning
-                 return
-              }
-	      lappend filedata($cookie) $fileid
-              fconfigure $fileid -blocking 1 -buffering none -translation {binary binary}
+		if { $tmpdata == "" } {
+			update idletasks
+			return
+		}
 
-              #Receive the file
-              fconfigure $sockid -blocking 0 -translation {binary binary} -buffering full -buffersize 16384
-              catch {fileevent $sockid readable "::MSNFT::ReceivePacket $sockid $fileid $filesize $cookie"}
+		switch -- $state {
+			0 {
+				if {[string range $tmpdata 0 9] == "VER MSNFTP"} {
+					catch {fileevent $sockid readable "::MSNFT::FTNegotiation $sockid $cookie 1"}
+					catch {puts $sockid "USR [::config::getKey login] $authcookie\r"}
+					status_log "FTNegotiation: I SEND: USR [::config::getKey login] $authcookie\r\n"
+				} else {
+					status_log "FT failed in state 0\n" red
+					set filename [lindex $filedata($cookie) 0]
+					cancelFT $cookie
+					::amsn::FTProgress l $cookie $filename
+				}
+			}
+			
+			1 {
+				if {[string range $tmpdata 0 2] == "FIL"} {
+					set filesize [string range $tmpdata 4 [expr {[string length $tmpdata]-2}]]
 
-	   } else {
-	      status_log "FT failed in state 1\n" red
-	      set filename [lindex $filedata($cookie) 0]
-	      cancelFT $cookie
-	      ::amsn::FTProgress l $cookie $filename
-	   }
+					if { "$filesize" != "[lindex $filedata($cookie) 1]" } {
+						status_log "Filesize is now $filesize and was [lindex $filedata($cookie) 1] before!!\n" white
+					}
 
+					status_log "FTNegotiation: They send me file with size $filesize\n"
+					catch {puts $sockid "TFR\r"}
+					status_log "Receiving file...\n"
+
+					set filename [file join [::config::getKey receiveddir] [lindex $filedata($cookie) 0]]
+					set origfile $filename
+
+					set num 1
+					while { [file exists $filename] } {
+						set filename "[filenoext $origfile] $num[fileext $origfile]"
+						incr num
+					}
+
+					if {[catch {open $filename w} fileid]} {
+						# Cannot create this file. Abort.
+						status_log "Could not saved the file '$filename' (write-protected target directory?)\n" red
+						cancelFT $cookie
+						::amsn::FTProgress l $cookie $filename
+						::amsn::infoMsg [trans readonlymsgbox] warning
+						return
+					}
+				
+					lappend filedata($cookie) $fileid
+					fconfigure $fileid -blocking 1 -buffering none -translation {binary binary}
+
+					#Receive the file
+					fconfigure $sockid -blocking 0 -translation {binary binary} -buffering full -buffersize 16384
+					catch {fileevent $sockid readable "::MSNFT::ReceivePacket $sockid $fileid $filesize $cookie"}
+				} else {
+					status_log "FT failed in state 1\n" red
+					set filename [lindex $filedata($cookie) 0]
+					cancelFT $cookie
+					::amsn::FTProgress l $cookie $filename
+				}
+
+			}
+			
+			default {
+				status_log "FTNegotiation: Unknown state!!!\n" white
+				cancelFT $cookie
+			}
+		}
 	}
-	default {
-	   status_log "FTNegotiation: Unknown state!!!\n" white
-	   cancelFT $cookie
+
+	proc ReceivePacket { sockid fileid filesize cookie} {
+		#Get a packet from the file transfer
+		variable filedata
+
+		if {![info exists filedata($cookie)]} {
+			status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+			return
+		}
+
+
+		if { [eof $sockid] } {
+			status_log "ReveivePacket EOF\n" white
+			set filename [lindex $filedata($cookie) 0]
+			cancelFT $cookie
+			::amsn::FTProgress l $cookie $filename
+			return
+		}
+
+		fileevent $sockid readable ""
+
+		set recvbytes [tell $fileid]
+		set packetrest [expr {2045 - ($recvbytes % 2045)}]
+
+
+		if {$packetrest == 2045} {
+			#Need a full packet, header included
+
+			::amsn::FTProgress r $cookie [lindex $filedata($cookie) 0] $recvbytes $filesize
+			update idletasks
+
+			fconfigure $sockid -blocking 1
+			set header [read $sockid 3]
+
+			set packet1 1
+			binary scan $header ccc packet1 packet2 packet3
+
+			#If packet1 is 1 -- Transfer canceled by the other
+			if { ($packet1 != 0) } {
+				status_log "File transfer cancelled by remote with packet1=$packet1\n"
+				cancelFT $cookie
+				return
+			}
+
+			#If you want to cancel, send "CCL\n"
+			set packet2 [expr {($packet2 + 0x100) % 0x100}]
+			set packet3 [expr {($packet3 + 0x100) % 0x100}]
+			set packetsize [expr {$packet2 + ($packet3<<8)}]
+
+			set firstbyte [read $sockid 1]
+			catch {puts -nonewline $fileid $firstbyte}
+
+			fconfigure $sockid -blocking 0
+
+			set recvbytes [tell $fileid]
+			#::amsn::fileTransferProgress r $cookie $recvbytes $filesize
+		} else {
+			#A full packet didn't come the previous reading, read the rest
+			set thedata [read $sockid $packetrest]
+			catch {puts -nonewline $fileid $thedata}
+			set recvbytes [tell $fileid]
+		}
+
+		if { $recvbytes >= $filesize} {
+			#::amsn::fileTransferProgress r $cookie $recvbytes $filesize
+			catch {puts $sockid "BYE 16777989\r"}
+			status_log "File received\n"
+			::amsn::FTProgress fr $cookie [lindex $filedata($cookie) 0] $recvbytes $filesize
+			FinishedFT $cookie
+		} else {
+			fileevent $sockid readable "::MSNFT::ReceivePacket $sockid $fileid $filesize $cookie"
+		}
 	}
-      }
-   }
-
-   proc ReceivePacket { sockid fileid filesize cookie} {
-      #Get a packet from the file transfer
-      variable filedata
-
-      if {![info exists filedata($cookie)]} {
-        status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
-        return
-      }
 
 
-      if { [eof $sockid] } {
-         status_log "ReveivePacket EOF\n" white
-          set filename [lindex $filedata($cookie) 0]
-	  cancelFT $cookie
-	  ::amsn::FTProgress l $cookie $filename
-	 return
-      }
-
-     fileevent $sockid readable ""
-
-
-     set recvbytes [tell $fileid]
-     set packetrest [expr {2045 - ($recvbytes % 2045)}]
-
-
-      if {$packetrest == 2045} {
-         #Need a full packet, header included
-
-         ::amsn::FTProgress r $cookie [lindex $filedata($cookie) 0] $recvbytes $filesize
-         update idletasks
-
-         fconfigure $sockid -blocking 1
-         set header [read $sockid 3]
-
-         set packet1 1
-         binary scan $header ccc packet1 packet2 packet3
-
-         #If packet1 is 1 -- Transfer canceled by the other
-         if { ($packet1 != 0) } {
-            status_log "File transfer cancelled by remote with packet1=$packet1\n"
-
-            cancelFT $cookie
-	    return
-
-         }
-
-         #If you want to cancel, send "CCL\n"
-         set packet2 [expr {($packet2 + 0x100) % 0x100}]
-         set packet3 [expr {($packet3 + 0x100) % 0x100}]
-         set packetsize [expr {$packet2 + ($packet3<<8)}]
-
-         set firstbyte [read $sockid 1]
-         catch {puts -nonewline $fileid $firstbyte}
-
-         fconfigure $sockid -blocking 0
-
-         set recvbytes [tell $fileid]
-         #::amsn::fileTransferProgress r $cookie $recvbytes $filesize
-
-
-      } else {
-         #A full packet didn't come the previous reading, read the rest
-         set thedata [read $sockid $packetrest]
-         catch {puts -nonewline $fileid $thedata}
-         set recvbytes [tell $fileid]
-      }
-
-      if { $recvbytes >= $filesize} {
-         #::amsn::fileTransferProgress r $cookie $recvbytes $filesize
-         catch {puts $sockid "BYE 16777989\r"}
-         status_log "File received\n"
-	 ::amsn::FTProgress fr $cookie [lindex $filedata($cookie) 0] $recvbytes $filesize
-         FinishedFT $cookie
-
-      } else {
-         fileevent $sockid readable "::MSNFT::ReceivePacket $sockid $fileid $filesize $cookie"
-
-      }
-
-   }
-
-
-   ###################################
-   #All about sending files
-   ###################################
+	###################################
+	#All about sending files
+	###################################
 
 	proc supportsNewFT { clientid } {
 
@@ -493,331 +473,315 @@ namespace eval ::MSNFT {
 
 	}
 
-   proc sendFTInvitation { chatid filename filesize ipaddr cookie} {
-      #Invitation to filetransfer, initial message
-      variable filedata
+	proc sendFTInvitation { chatid filename filesize ipaddr cookie} {
+		#Invitation to filetransfer, initial message
+		variable filedata
 
-      if {[supportsNewFT [::abook::getContactData $chatid clientid]]} {
-	set sid [::MSN6FT::SendFT $chatid $filename $filesize]
-	setObjOption $cookie msn6ftsid $sid
-	setObjOption $sid theCookie $cookie
-       	return 0
-      }
+		if {[supportsNewFT [::abook::getContactData $chatid clientid]]} {
+			set sid [::MSN6FT::SendFT $chatid $filename $filesize]
+			setObjOption $cookie msn6ftsid $sid
+			setObjOption $sid theCookie $cookie
+			return 0
+		}
 
 
-      set sbn [::MSN::SBFor $chatid]
-      if {$sbn == 0 } {
-         return 0
-      }
+		set sbn [::MSN::SBFor $chatid]
+		if {$sbn == 0 } {
+			return 0
+		}
 
-      status_log "sentFTInvitation: filename (not converted to utf-8) is [file tail $filename]\n" blue
-      status_log "sentFTInvitation: filename (converted to utf-8) is [encoding convertto utf-8 [file tail $filename]]\n" blue
+		status_log "sentFTInvitation: filename (not converted to utf-8) is [file tail $filename]\n" blue
+		status_log "sentFTInvitation: filename (converted to utf-8) is [encoding convertto utf-8 [file tail $filename]]\n" blue
 
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-      set msg "${msg}Application-Name: File Transfer\r\n"
-      set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
-      set msg "${msg}Invitation-Command: INVITE\r\n"
-      set msg "${msg}Invitation-Cookie: $cookie\r\n"
-      set msg "${msg}Application-File: [file tail $filename]\r\n"
-      set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
-      set msg [encoding convertto utf-8 $msg]
-      set msg_len [string length $msg]
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+		set msg "${msg}Application-Name: File Transfer\r\n"
+		set msg "${msg}Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
+		set msg "${msg}Invitation-Command: INVITE\r\n"
+		set msg "${msg}Invitation-Cookie: $cookie\r\n"
+		set msg "${msg}Application-File: [file tail $filename]\r\n"
+		set msg "${msg}Application-FileSize: $filesize\r\n\r\n"
+		set msg [encoding convertto utf-8 $msg]
+		set msg_len [string length $msg]
 
-      ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
-      status_log "sentFTInvitation: Invitation to $filename sent: $msg\n" red
+		status_log "sentFTInvitation: Invitation to $filename sent: $msg\n" red
 
-      #Change to allow multiple filetransfer
-      #set filedata($cookie) [list $sbn "$filename" $filesize $cookie $ipaddr]
-      set filedata($cookie) [list "$filename" $filesize $chatid [::MSN::usersInChat $chatid] "send" $ipaddr]
-      after 300000 "::MSNFT::DeleteFT $cookie"
+		#Change to allow multiple filetransfer
+		#set filedata($cookie) [list $sbn "$filename" $filesize $cookie $ipaddr]
+		set filedata($cookie) [list "$filename" $filesize $chatid [::MSN::usersInChat $chatid] "send" $ipaddr]
+		after 300000 "::MSNFT::DeleteFT $cookie"
 
-   }
-
-    proc cancelFTInvitation { chatid cookie } {
-	set sid [getObjOption $cookie msn6ftsid]
-	if { $sid != "" } {
-		::MSN6FT::CancelFT $chatid $sid
-		DeleteFT $cookie
-	} else {
-	    rejectFT $chatid $cookie
 	}
-    }
 
-   proc rejectedFT {chatid who cookie} {
-      variable filedata
+	proc cancelFTInvitation { chatid cookie } {
+		set sid [getObjOption $cookie msn6ftsid]
+		if { $sid != "" } {
+			::MSN6FT::CancelFT $chatid $sid
+			DeleteFT $cookie
+		} else {
+			rejectFT $chatid $cookie
+		}
+	}
 
-      if {![info exists filedata($cookie)]} {
-         return
-      }
+	proc rejectedFT {chatid who cookie} {
+		variable filedata
 
-      SendMessageFIFO [list ::amsn::rejectedFT $chatid $who [getFilename $cookie] ] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		if {![info exists filedata($cookie)]} {
+			return
+		}
 
-   }
+		SendMessageFIFO [list ::amsn::rejectedFT $chatid $who [getFilename $cookie] ] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+
+	}
 
 
-   proc SendFile { cookie oldcookie} {
-      #File transfer accepted by remote, send final ACK
-      variable filedata
+	proc SendFile { cookie oldcookie} {
+		#File transfer accepted by remote, send final ACK
+		variable filedata
 
-      status_log "Here in sendfile\n" red
-      if {![info exists filedata($cookie)]} {
-        return
-      }
+		status_log "Here in sendfile\n" red
+		if {![info exists filedata($cookie)]} {
+			return
+		}
 
-      status_log "File transfer ok, begin\n"
+		status_log "File transfer ok, begin\n"
 
-      set sbn [::MSN::SBFor [lindex $filedata($cookie) 2]]
+		set sbn [::MSN::SBFor [lindex $filedata($cookie) 2]]
 
-      if { $sbn == 0 } {
-         cancelFT $cookie
-         return
-      }
+		if { $sbn == 0 } {
+			cancelFT $cookie
+			return
+		}
 
-      #Invitation accepted, send IP and Port to connect to
-      #option: possibility to enter IP address (firewalled connections)
-      set ipaddr [lindex $filedata($cookie) 5]
-      #if error ::AMSN::Error ...
+		#Invitation accepted, send IP and Port to connect to
+		#option: possibility to enter IP address (firewalled connections)
+		set ipaddr [lindex $filedata($cookie) 5]
+		#if error ::AMSN::Error ...
 
 		if {![string is digit [::config::getKey initialftport]] || [string length [::config::getKey initialftport]] == 0} {
 			::config::setKey initialftport 6891
 		}
 
-      set port [::config::getKey initialftport]
+		set port [::config::getKey initialftport]
 
 
-      #Random authcookie
-      set authcookie [expr {[clock clicks] % (65536 * 4)}]
+		#Random authcookie
+		set authcookie [expr {[clock clicks] % (65536 * 4)}]
 
-      while {[catch {set sockid [socket -server "::MSNFT::AcceptConnection $cookie $authcookie" $port]} res]} {
-         incr port
-      }
+		while {[catch {set sockid [socket -server "::MSNFT::AcceptConnection $cookie $authcookie" $port]} res]} {
+			incr port
+		}
 
-      #TODO: More than one transfer? Don't create one listening socket for every person, just one for all,
-      # but that makes the authcookie thing difficult...
-      lappend filedata($oldcookie) $sockid
-      after 300000 "catch {close $sockid}"
+		#TODO: More than one transfer? Don't create one listening socket for every person, just one for all,
+		# but that makes the authcookie thing difficult...
+		lappend filedata($oldcookie) $sockid
+		after 300000 "catch {close $sockid}"
 
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
-      set msg "${msg}Invitation-Command: ACCEPT\r\n"
-      set msg "${msg}Invitation-Cookie: $oldcookie\r\n"
-      set msg "${msg}IP-Address: $ipaddr\r\n"
-      set msg "${msg}Port: $port\r\n"
-      set msg "${msg}AuthCookie: $authcookie\r\n"
-      set msg "${msg}Launch-Application: FALSE\r\n"
-      set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
-      set msg [encoding convertto utf-8 $msg]
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
+		set msg "${msg}Invitation-Command: ACCEPT\r\n"
+		set msg "${msg}Invitation-Cookie: $oldcookie\r\n"
+		set msg "${msg}IP-Address: $ipaddr\r\n"
+		set msg "${msg}Port: $port\r\n"
+		set msg "${msg}AuthCookie: $authcookie\r\n"
+		set msg "${msg}Launch-Application: FALSE\r\n"
+		set msg "${msg}Request-Data: IP-Address:\r\n\r\n"
+		set msg [encoding convertto utf-8 $msg]
 
-      set msg_len [string length $msg]
-      ::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+		set msg_len [string length $msg]
+		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
-      ::amsn::FTProgress w $cookie [lindex $filedata($cookie) 0] $port
+		::amsn::FTProgress w $cookie [lindex $filedata($cookie) 0] $port
 
-      status_log "Listening on port $port for incoming connections...\n" red
-
-   }
-
-
-   proc AcceptConnection {cookie authcookie sockid hostaddr hostport} {
-
-
-      variable filedata
-
-      if {![info exists filedata($cookie)]} {
-        status_log "AcceptConnection: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
-        return
-      }
-
-      lappend filedata($cookie) $sockid
-
-      status_log "::MSNFT::AcceptConnection have connection from $hostaddr : $hostport\n" white
-
-      fconfigure $sockid -blocking 0 -buffering none -translation {binary binary}
-      fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 0 $authcookie"
-
-      ::amsn::FTProgress i $cookie [lindex $filedata($cookie) 0]
-
-   }
-
-   proc FTSendNegotiation { sockid cookie state {authcookie ""}} {
-      variable filedata
-
-      #puts "Here2 state=$state cookie=$cookie sockid=$sockid"
-
-      if {![info exists filedata($cookie)]} {
-        status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
-        return
-      }
-
-
-      if { [eof $sockid] } {
-         status_log "FTSendNegotiation:: EOF\n" white
-	 set filename [lindex $filedata($cookie) 0]
-	 cancelFT $cookie
-	 ::amsn::FTProgress l $cookie $filename
-	 return
-      }
-
-      gets $sockid tmpdata
-      status_log "FTNegotiation: I RECEIVE: $tmpdata\n"
-
-      if { $tmpdata == "" } {
-
-         update idletasks
-         return
-      }
-
-      switch -- $state {
-      	0 {
-           if { [regexp "^VER\ ?\[0-9\]* MSNFTP" $tmpdata] } {
-              catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 1 $authcookie"}
-	      catch {puts $sockid "VER MSNFTP\r"}
-
-              status_log "FTSendNegotiation: I SEND: VER MSNFTP\r\n"
-
-	   } else {
-	      status_log "FT failed in state 0\n" red
-	      cancelFT $cookie
-	   }
+		status_log "Listening on port $port for incoming connections...\n" red
 
 	}
-      	1 {
-
-           if {[string range $tmpdata 0 2] == "USR"} {
-              set filename [lindex $filedata($cookie) 0]
-              set filesize [lindex $filedata($cookie) 1]
-
-	      #Comprobar authcookie y nombre de usuario
-
-	      catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 2"}
-	      catch {puts $sockid "FIL $filesize\r"}
-	      status_log "SENT: FIL $filesize\n"
 
 
-	   } else {
-	      status_log "FT failed in state 1\n" red
-	      cancelFT $cookie
-
-	   }
-
-	}
-      	2 {
-
-           if {[string range $tmpdata 0 2] == "TFR"} {
-              set filename [lindex $filedata($cookie) 0]
-              set filesize [lindex $filedata($cookie) 1]
-
-              #Send the file
-              #TODO, what if not exists?
-              if {[catch {set fileid [open $filename r]} res]} {
-	         return 0;
-	      }
-	      lappend filedata($cookie) $fileid
-
-              fconfigure $fileid -translation {binary binary} -blocking 1
-              status_log "Sending file $filename size $filesize\n"
-
-              fconfigure $sockid -blocking 0 -buffering full -buffersize 16384
-	      fileevent $sockid writable "::MSNFT::SendPacket $sockid $fileid $filesize $cookie"
-              fileevent $sockid readable "::MSNFT::MonitorTransfer $sockid $cookie"
+	proc AcceptConnection {cookie authcookie sockid hostaddr hostport} {
 
 
-	   } else {
-	      status_log "FT failed in state 2\n" red
-	      cancelFT $cookie
+		variable filedata
 
-	   }
+		if {![info exists filedata($cookie)]} {
+			status_log "AcceptConnection: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+			return
+		}
+
+		lappend filedata($cookie) $sockid
+
+		status_log "::MSNFT::AcceptConnection have connection from $hostaddr : $hostport\n" white
+
+		fconfigure $sockid -blocking 0 -buffering none -translation {binary binary}
+		fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 0 $authcookie"
+
+		::amsn::FTProgress i $cookie [lindex $filedata($cookie) 0]
 
 	}
-	default {
-	   status_log "FTNegotiation: Unknown state!!!\n" white
-	   cancelFT $cookie
+
+	proc FTSendNegotiation { sockid cookie state {authcookie ""}} {
+		variable filedata
+
+		if {![info exists filedata($cookie)]} {
+			status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+			return
+		}
+
+
+		if { [eof $sockid] } {
+			status_log "FTSendNegotiation:: EOF\n" white
+			set filename [lindex $filedata($cookie) 0]
+			cancelFT $cookie
+			::amsn::FTProgress l $cookie $filename
+			return
+		}
+
+		gets $sockid tmpdata
+		status_log "FTNegotiation: I RECEIVE: $tmpdata\n"
+
+		if { $tmpdata == "" } {
+
+			update idletasks
+			return
+		}
+
+		switch -- $state {
+			0 {
+				if { [regexp "^VER\ ?\[0-9\]* MSNFTP" $tmpdata] } {
+					catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 1 $authcookie"}
+					catch {puts $sockid "VER MSNFTP\r"}
+
+					status_log "FTSendNegotiation: I SEND: VER MSNFTP\r\n"
+				} else {
+					status_log "FT failed in state 0\n" red
+					cancelFT $cookie
+				}
+
+			}
+			1 {
+
+				if {[string range $tmpdata 0 2] == "USR"} {
+					set filename [lindex $filedata($cookie) 0]
+					set filesize [lindex $filedata($cookie) 1]
+
+					catch {fileevent $sockid readable "::MSNFT::FTSendNegotiation $sockid $cookie 2"}
+					catch {puts $sockid "FIL $filesize\r"}
+					status_log "SENT: FIL $filesize\n"
+				} else {
+					status_log "FT failed in state 1\n" red
+					cancelFT $cookie
+				}
+			}
+			
+			2 {
+				if {[string range $tmpdata 0 2] == "TFR"} {
+					set filename [lindex $filedata($cookie) 0]
+					set filesize [lindex $filedata($cookie) 1]
+
+					#Send the file
+					#TODO, what if not exists?
+					if {[catch {set fileid [open $filename r]} res]} {
+						return 0;
+					}
+				
+					lappend filedata($cookie) $fileid
+
+					fconfigure $fileid -translation {binary binary} -blocking 1
+					status_log "Sending file $filename size $filesize\n"
+
+					fconfigure $sockid -blocking 0 -buffering full -buffersize 16384
+					fileevent $sockid writable "::MSNFT::SendPacket $sockid $fileid $filesize $cookie"
+					fileevent $sockid readable "::MSNFT::MonitorTransfer $sockid $cookie"
+				} else {
+					status_log "FT failed in state 2\n" red
+					cancelFT $cookie
+				}
+
+			}
+	
+			default {
+				status_log "FTNegotiation: Unknown state!!!\n" white
+				cancelFT $cookie
+			}
+		}
 	}
-      }
-   }
 
 
-   proc SendPacket { sockid fileid filesize cookie } {
-      variable filedata
+	proc SendPacket { sockid fileid filesize cookie } {
+		variable filedata
 
-#      puts "cookie=$cookie"
-      if {![info exists filedata($cookie)]} {
-        status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
-        return
-      }
+		if {![info exists filedata($cookie)]} {
+			status_log "ConnectedMSNFTP: Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+			return
+		}
 
-      #Send a packet for the file transfer
-      fileevent $sockid writable ""
+		#Send a packet for the file transfer
+		fileevent $sockid writable ""
 
-      set sentbytes [tell $fileid]
+		set sentbytes [tell $fileid]
 
-      set packetsize [expr {$filesize-$sentbytes}]
-      if {$packetsize > 2045} {
-         set packetsize 2045
-      }
-
-
-      if {$packetsize>0} {
-         set data [read $fileid $packetsize]
-
-         set byte1 [expr {$packetsize & 0xFF}]
-         set byte2 [expr {$packetsize >> 8}]
-
-	  catch {puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]$data" ; flush $sockid }
-         set sentbytes [expr {$sentbytes + $packetsize}]
-	 ::amsn::FTProgress s $cookie [lindex $filedata($cookie) 0] $sentbytes $filesize
-         fileevent $sockid writable "::MSNFT::SendPacket $sockid $fileid $filesize $cookie"
-
-      }
+		set packetsize [expr {$filesize-$sentbytes}]
+		if {$packetsize > 2045} {
+			set packetsize 2045
+		}
 
 
-   }
+		if {$packetsize>0} {
+			set data [read $fileid $packetsize]
 
-   proc MonitorTransfer { sockid cookie} {
+			set byte1 [expr {$packetsize & 0xFF}]
+			set byte2 [expr {$packetsize >> 8}]
 
-      #puts "Monitortransfer"
-      variable filedata
+			catch {puts -nonewline $sockid "\0[format %c $byte1][format %c $byte2]$data" ; flush $sockid }
+			set sentbytes [expr {$sentbytes + $packetsize}]
+			::amsn::FTProgress s $cookie [lindex $filedata($cookie) 0] $sentbytes $filesize
+			fileevent $sockid writable "::MSNFT::SendPacket $sockid $fileid $filesize $cookie"
 
-      if {![info exists filedata($cookie)]} {
-        status_log "::MSNFT::MonitorTransfer:  Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
-        return
-      }
+		}
+	}
 
-      if { [eof $sockid] } {
-         status_log "MonitorTransfer EOF\n" white
-	 cancelFT $cookie
-	 return
-      }
+	proc MonitorTransfer { sockid cookie} {
 
-      fileevent $sockid readable ""
+		#puts "Monitortransfer"
+		variable filedata
 
-      #Monitor messages from the receiving host in a file transfer
-      catch {fconfigure $sockid -blocking 1}
-      if {[catch {gets $sockid datos} res]} {
-         status_log "::MSNFT::MonitorTransfer: Transfer failed: $res\n"
-	 cancelFT $cookie
-         return
-      }
+		if {![info exists filedata($cookie)]} {
+			status_log "::MSNFT::MonitorTransfer:  Ignoring file transfer, filedata($cookie) doesn't exists, cancelled\n" red
+			return
+		}
 
-      status_log "Got from remote side: $datos\n"
-      if {[string range $datos 0 2] == "CCL"} {
-         status_log "::MSNFT::MonitorTransfer: Connection cancelled\n"
-	 cancelFT $cookie
-         return
-      }
+		if { [eof $sockid] } {
+			status_log "MonitorTransfer EOF\n" white
+			cancelFT $cookie
+			return
+		}
 
-      if {[string range $datos 0 2] == "BYE"} {
-         status_log "::MSNFT::MonitorTransfer: Connection finished\n"
-         ::amsn::FTProgress fs $cookie [lindex $filedata($cookie) 0]
-	 FinishedFT $cookie
-         return
-      }
+		fileevent $sockid readable ""
 
-      cancelFT $cookie
+		#Monitor messages from the receiving host in a file transfer
+		catch {fconfigure $sockid -blocking 1}
+		if {[catch {gets $sockid datos} res]} {
+			status_log "::MSNFT::MonitorTransfer: Transfer failed: $res\n"
+			cancelFT $cookie
+			return
+		}
 
+		status_log "Got from remote side: $datos\n"
+		if {[string range $datos 0 2] == "CCL"} {
+			status_log "::MSNFT::MonitorTransfer: Connection cancelled\n"
+			cancelFT $cookie
+			return
+		}
 
-   }
+		if {[string range $datos 0 2] == "BYE"} {
+			status_log "::MSNFT::MonitorTransfer: Connection finished\n"
+			::amsn::FTProgress fs $cookie [lindex $filedata($cookie) 0]
+			FinishedFT $cookie
+			return
+		}
 
+		cancelFT $cookie
+	}
 
 }
 
