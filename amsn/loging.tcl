@@ -569,6 +569,11 @@ namespace eval ::log {
 		}
 
 		set contact_list [ array names hNames ]
+
+		if { [llength $contact_list] == 0 } {
+			::amsn::infoMsg "[trans nologfile [::config::getKey login]]"
+			return
+		}
 		
 		set sortedcontact_list [lsort -dictionary $contact_list]
 
