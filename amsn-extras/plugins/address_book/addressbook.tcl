@@ -2,7 +2,7 @@
 #		Address Book
 #		Integrates aMSN with the Mac OS X address book.
 #		Author: Tom Hennigan
-#		Version: 1.0
+#		Version: 1.2
 #
 
 namespace eval ::macabook {
@@ -45,11 +45,13 @@ namespace eval ::macabook {
 
 	proc initConfig { } {
 		array set ::macabook::config {
-			stylestring {$first $last: }
+			abname_prefix {$first $last: }
+			abname_suffix {}
     	}
 
 		set ::macabook::configlist [list \
-			[list str "[trans macabookstylestring]"  stylestring] \
+			[list str [trans abname_prefix]  abname_prefix] \
+			[list str [trans abname_suffix]  abname_suffix] \
 		]
 	}
 
@@ -68,11 +70,26 @@ namespace eval ::macabook {
 		
 		set name $::macabook::cache($user_login)
 		if {$name != [list [list] [list]]} {
-			set stylestring $::macabook::config(stylestring)
-			set stylestring [string map [list "\$first" [lindex $name 0]] $stylestring]
-			set stylestring [string map [list "\$last" [lindex $name 1]] $stylestring]
+			set first [lindex $name 0]
+			set last [lindex $name 1]
 			
-			lprepend nickArray [list "text" $stylestring]
+			# Prepend the suffix to the nick if one is set in config.
+			set prefix $::macabook::config(abname_prefix)
+			if {$prefix != [list]} {
+				set prefix [string map [list {$first} $first] $prefix]
+				set prefix [string map [list {$last} $last] $prefix]
+				
+				lprepend nickArray [list "text" $prefix]
+			}
+			
+			# Append the suffix to the nick if one is set in config.
+			set suffix $::macabook::config(abname_suffix)
+			if {$suffix != [list]} {
+				set suffix [string map [list {$first} $first] $suffix]
+				set suffix [string map [list {$last} $last] $suffix]
+				
+				lappend nickArray [list "text" $suffix]
+			}
 		}
 	}
 
