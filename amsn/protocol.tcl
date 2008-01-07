@@ -958,8 +958,6 @@ namespace eval ::MSN {
 
 		set ::contactlist_loaded 0
 
-		#cmsn_draw_offline
-
 		#Set all CW users as offline
 		foreach user_name [::abook::getAllContacts] {
 			::abook::setVolatileData $user_name state "FLN"
@@ -970,7 +968,6 @@ namespace eval ::MSN {
 		}
 
 		#Alert dock of status change
-		#      send_dock "FLN"
 		send_dock "STATUS" "FLN"
 		
 		# Remove mail icon once offline.
@@ -1133,7 +1130,6 @@ namespace eval ::MSN {
 			::MSN::WriteSBNoNL ns "UUX" "[string length $psm]\r\n$psm"
 			save_config
 			::abook::saveToDisk
-#			::Event::fireEvent myPSMChange protocol $userlogin
 		}
 	}
 
@@ -1163,7 +1159,6 @@ namespace eval ::MSN {
 	proc changeStatus {new_status} {
 		global autostatuschange
 
-#		set clientid 805306412
 		if {[::config::getKey displaypic] == "" } {
 			::config::setKey displaypic nopic.gif
 		}
@@ -1197,7 +1192,7 @@ namespace eval ::MSN {
 	# voice  Client supports Voice Clips
 	# secure Client supports secure channel chatting
 	# sip    Client supports SIP based communiation
-        # shared Client supports Shared Folders
+	# shared Client supports Shared Folders
 	# msnc1  This is the value for MSNC1 (MSN Msgr 6.0)
 	# msnc2  This is the value for MSNC2 (MSN Msgr 6.1)
 	# msnc3  This is the value for MSNC3 (MSN Msgr 6.2)
@@ -1208,7 +1203,7 @@ namespace eval ::MSN {
 	#
 	#switch==1 means turn on, 0 means turn off 
 	#
-        # Reference : http://zoronax.spaces.live.com/?_c11_BlogPart_FullView=1&_c11_BlogPart_blogpart=blogview&_c=BlogPart&partqs=amonth%3d6%26ayear%3d2006
+	# Reference : http://zoronax.spaces.live.com/?_c11_BlogPart_FullView=1&_c11_BlogPart_blogpart=blogview&_c=BlogPart&partqs=amonth%3d6%26ayear%3d2006
 	#
 	# From http://forums.fanatic.net.nz/index.php?showtopic=17639 thanks to Ole Andre 
 	#define CapabilityMobileOnline 0x00000001
@@ -1407,9 +1402,9 @@ namespace eval ::MSN {
 	proc MOVHandler { oldGid contactguid passport item } {
 		::MSN::GotADCResponse $item
 		if { $oldGid != "0" } {
-				set rtrid [::MSN::WriteSB ns "REM" "FL $contactguid $oldGid"]
+			set rtrid [::MSN::WriteSB ns "REM" "FL $contactguid $oldGid"]
 		} else {
-				::abook::removeContactFromGroup $passport "0"
+			::abook::removeContactFromGroup $passport "0"
 		}
 	}
 
@@ -1633,7 +1628,7 @@ namespace eval ::MSN {
 				#It's not the preferred SB,so we can safely delete it from the
 				#chat and Kill it
 				DelSBFor $chatid $sb
-				::MSN::KillSB $sb
+				KillSB $sb
 			}
 		}
 	}
@@ -2836,6 +2831,7 @@ namespace eval ::MSNOIM {
 				return
 			}
 		}
+		
 		# This gets executed if the SOAP request is not sent.. serves as error handler
 		if {[catch {eval $callbk [list [list]]} result]} {
 			bgerror $result
@@ -3005,10 +3001,10 @@ namespace eval ::MSNOIM {
 			if { [info exists ticket_t] && [info exists ticket_p] } {
 				set id [::md5::hmac $callbk $mids]
 				set soap_req [SOAPRequest create %AUTO% \
-						  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
-						  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/DeleteMessages" \
-						  -xml [::MSNOIM::deleteOIMMessageXml $mids $ticket_t $ticket_p] \
-						  -callback [list ::MSNOIM::deleteOIMMessageCallback $callbk] ]
+					  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
+					  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/DeleteMessages" \
+					  -xml [::MSNOIM::deleteOIMMessageXml $mids $ticket_t $ticket_p] \
+					  -callback [list ::MSNOIM::deleteOIMMessageCallback $callbk] ]
 				$soap_req SendSOAPRequest
 			}
 		}
@@ -3055,10 +3051,10 @@ namespace eval ::MSNOIM {
 			
 			if { [info exists ticket_t] && [info exists ticket_p] } {
 				set soap_req [SOAPRequest create %AUTO% \
-						  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
-						  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
-						  -xml [::MSNOIM::getMailDataXml $ticket_t $ticket_p] \
-						  -callback [list ::MSNOIM::getMailDataCallback $callbk]]
+					  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
+					  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
+					  -xml [::MSNOIM::getMailDataXml $ticket_t $ticket_p] \
+					  -callback [list ::MSNOIM::getMailDataCallback $callbk]]
 				$soap_req SendSOAPRequest
 			}
 		} else {
@@ -3097,9 +3093,9 @@ namespace eval ::MSNOIM {
 
 	proc AuthenticatePassport3 { callbk url } {
 		set soap_req [SOAPRequest create %AUTO% \
-				  -url "https://loginnet.passport.com/RST.srf" \
-				  -xml [::MSNOIM::getPassport3Xml $url] \
-				  -callback [list ::MSNOIM::AuthenticatePassport3Callback $callbk]]
+			  -url "https://loginnet.passport.com/RST.srf" \
+			  -xml [::MSNOIM::getPassport3Xml $url] \
+			  -callback [list ::MSNOIM::AuthenticatePassport3Callback $callbk]]
 		$soap_req SendSOAPRequest
 	}
 	
@@ -5347,9 +5343,7 @@ proc cmsn_auth {{recv ""}} {
 			}
 
 			#Alert dock of status change
-			#      send_dock "NLN"
 			send_dock "MAIL" 0
-
 
 			#Send "loggedIn" core event
 			::Event::fireEvent loggedIn protocol
@@ -5367,7 +5361,6 @@ proc cmsn_auth {{recv ""}} {
 }
 
 proc recreate_contact_lists {} {
-
 
 	#There's no need to recreate groups, as ::groups already gets all data
 	#from ::abook
@@ -5661,7 +5654,6 @@ proc cmsn_ns_connected {sock} {
 #TODO: ::abook system
 proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	if { ($username == "") || ($password == "")} {
-		#cmsn_draw_login
 		return -1
 	}
 
