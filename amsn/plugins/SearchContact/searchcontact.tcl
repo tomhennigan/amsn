@@ -16,8 +16,6 @@ namespace eval ::searchcontact {
 		::plugins::RegisterPlugin "Search Contact"
 		::plugins::RegisterEvent "Search Contact" contactlistLoaded drawSearchBar
 		::plugins::RegisterEvent "Search Contact" OnDisconnect removeSearchBar
-		::plugins::RegisterEvent "Search Contact" ChangeState redoSearch
-		::plugins::RegisterEvent "Search Contact" parse_contact redoSearch
 		::plugins::RegisterEvent "Search Contact" Load pluginFullyLoaded
 
 
@@ -102,10 +100,9 @@ namespace eval ::searchcontact {
 		#remove bindings
 		bind . <Control-f> ""
 		bind .main <FocusIn> ""
-		bind .main <FocusOut> ""
-		
+		bind .main <FocusOut> ""		
 
-		set ::contactlist_loaded 0 ;# in aMNS 0.97.0 when we log out contactlist_loaded is still 1
+		if { $event == "OnDisconnect" } { set ::contactlist_loaded 0 } ;# in aMNS 0.97.0 when we log out contactlist_loaded is still 1 
 		after cancel ::searchcontact::drawSearchBar
 		destroy .main.searchbar
 		variable ::guiContactList::external_lock 0
@@ -123,6 +120,10 @@ namespace eval ::searchcontact {
 	proc drawSearchBar {{event none} {evPar ""} } {
 
 		if {![winfo exists .main.searchbar]} {
+			#we only register those now as otherwise it's already called during login while the bar isn't even drawn yet
+			::plugins::RegisterEvent "Search Contact" ChangeState redoSearch
+			::plugins::RegisterEvent "Search Contact" parse_contact redoSearch
+
 			frame .main.searchbar -bg white -borderwidth 1 -highlightthickness 0
 			label .main.searchbar.label -text "[trans filter]:" -bg white
 			frame .main.searchbar.sunkenframe -relief sunken -bg white
@@ -319,10 +320,7 @@ namespace eval ::searchcontact {
 			set history [lappend history [getInput]]
 			set ::searchcontact::config(historylist) [lrange $history end-9 end]
 		}
-		bind . <Control-f> ""
-		destroy .main.searchbar
-		#remove lock from CL
-		variable ::guiContactList::external_lock 0
+		::searchcontact::removeSearchBar deInit ""
 		#redraw CL
 		::guiContactList::organiseList .main.f.cl.cvs [::guiContactList::getContactList]
 		variable clblocked
@@ -330,6 +328,7 @@ namespace eval ::searchcontact {
 		#can't delete 'm as the skins system thinks it's still loaded afterwards
 #		image delete [::skin::loadPixmap search]
 #		image delete [::skin::loadPixmap clear]
+
 	}
 
 
