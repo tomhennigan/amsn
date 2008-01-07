@@ -106,6 +106,6 @@ namespace eval ::macabook {
 		set last [list]
 		catch { set first [keylget record First] }
 		catch { set last [keylget record Last] }
-		return [list [list $first] [list $last]]
+		return [list $first $last]
 	}
 }
