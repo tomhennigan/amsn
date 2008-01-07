@@ -4273,12 +4273,34 @@ proc cmsn_conn_sb {sb sock} {
 	set cmd [$sb cget -auth_cmd]
 	set param [$sb cget -auth_param]
 
-	::MSN::WriteSB $sb $cmd $param "cmsn_connected_sb $sb"
+	::MSN::WriteSB $sb $cmd $param "cmsn_auth_sb $sb"
 
 	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans ident]...\n" miniinfo ready
 
 }
 
+proc cmsn_auth_sb { sb recv } {
+	set cmd [lindex $recv 0]
+	
+	if { $cmd == [$sb cget -auth_cmd] } {
+		#We got a valid response
+		cmsn_connected_sb $sb $recv
+	} else {
+		switch -- $cmd {
+			911 {
+				#Authentication failed, server will disconnect us.
+				status_log "cmsn_auth_sb: SB authentication failed for $sb, reconnecting..." red
+				$sb configure -stat "af"
+				cmsn_reconnect $sb
+			}
+			
+			default {
+				status_log "cmsn_auth_sb: unknown server reply on $sb: $recv" red
+				cmsn_reconnect $sb
+			}
+		}
+	}
+}
 
 proc cmsn_conn_ans {sb sock} {
 
@@ -4320,7 +4342,8 @@ proc cmsn_connected_sb {sb recv} {
 #  "d" - Disconnected, the SB is not connected to the server
 #  "c" - The SB is going to get a socket to connect to the server.
 #  "cw" - "Connect wait" The SB is trying to connect to the server.
-#  "a" - Authenticating. The SB is authenticating to the server
+#  "a" - Authenticating. The SB is authenticating to the server.
+#  "af" - Authentication failed.
 #  "i" - Inviting first person to the chat. Successive invitations will be while in "o" status
 #  "o" - Opened. The SB is connected and ready for chat
 #  "n" - Nobody. The SB is connected but there's nobody at the conversation
@@ -4403,7 +4426,7 @@ proc cmsn_reconnect { sb } {
 		"pw" -
 		"a" {
 
-			#status_log "cmsn_reconnect: stat =[$sb cget -stat] , SB= $sb\n" green
+			#status_log "cmsn_reconnect: stat = \"[$sb cget -stat]\" , SB= $sb\n" green
 
 			if { ([clock seconds] - [$sb cget -time]) > 10 } {
 				status_log "cmsn_reconnect: called again while authentication timeouted for sb $sb\n" red
@@ -4413,8 +4436,17 @@ proc cmsn_reconnect { sb } {
 				cmsn_reconnect $sb
 			}
 		}
+		
+		"af" {
+			#status_log "cmsn_reconnect: stat = af , SB= $sb\n" green
+			set proxy [$sb cget -proxy]
+			$proxy finish $sb
+			$sb configure -stat "d"
+			cmsn_reconnect $sb			
+		}
+		
 		"" {
-			status_log "cmsn_reconnect: SB $sb stat is [$sb cget -stat]. This is bad, should delete it and create a new one\n" red
+			status_log "cmsn_reconnect: SB $sb stat is \"\". This is bad, should delete it and create a new one\n" red
 			catch {
 				set chatid [::MSN::ChatFor $sb]
 				::MSN::DelSBFor $chatid $sb
