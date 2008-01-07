@@ -2524,8 +2524,8 @@ namespace eval ::MSN {
 	# Just queue the message send
 	proc messageTo { chatid txt ackid {friendlyname "" }} {
 		if { [::MSNMobile::IsMobile $chatid] == 1} {
-		    ::MSNMobile::MessageSend $chatid $txt
-		    return 0
+			::MSNMobile::MessageSend $chatid $txt
+			return 0
 		} elseif { [::OIM_GUI::IsOIM $chatid] == 1 } {
 			foreach user [usersInChat $chatid] {
 				set ::OIM_GUI::oim_asksend_[string map {: _} ${user} ] 1
@@ -2722,7 +2722,6 @@ namespace eval ::MSN {
 		return {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetClientConfig xmlns='http://www.msn.com/webservices/Messenger/Client'> <clientinfo> <Country>HT</Country> <CLCID>0409</CLCID> <PLCID>0409</PLCID> <GeoID>244</GeoID> </clientinfo> </GetClientConfig></soap:Body></soap:Envelope>}
 	}
 
-			    
 }
 
 
@@ -4327,8 +4326,8 @@ proc cmsn_connected_sb {sb recv} {
 	$sb configure -time [clock seconds]
 	$sb configure -stat "i"
 
-    set invite [$sb cget -invite]
-    
+set invite [$sb cget -invite]
+
 	if {$invite != ""} {
 		cmsn_invite_user $sb $invite
 		::amsn::chatStatus [::MSN::ChatFor $sb] "[trans willjoin $invite]...\n" miniinfo ready
@@ -5407,15 +5406,14 @@ proc recreate_contact_lists {} {
 	::MSN::clearList RL
 	foreach user [::abook::getAllContacts] {
 		foreach list_name [::abook::getLists $user] {
-		    if { $list_name == "FL" } {
-			::abook::setVolatileData $user state FLN
+			if { $list_name == "FL" } {
+				::abook::setVolatileData $user state FLN
 			} 
-		    if { $list_name == "AL" || $list_name == "BL" || $list_name == "FL" || $list_name == "RL"} {
-			::MSN::addToList $list_name $user
-		    }
+			if { $list_name == "AL" || $list_name == "BL" || $list_name == "FL" || $list_name == "RL"} {
+				::MSN::addToList $list_name $user
+			}
 		}
 	}
-
 }
 
 proc initial_syn_handler {recv} {
@@ -6230,7 +6228,7 @@ namespace eval ::MSN6FT {
 
 		# If the advanced option to not send the preview is enabled, we force it not to send any preview
 		if {[::config::getKey noftpreview]} {
-		    set nopreview 1
+			set nopreview 1
 		}
  
 		# TODO filesize is a QWORD not a DWORD followed by a 0 DWORD.
@@ -6953,7 +6951,7 @@ namespace eval ::MSN6FT {
 
 		set num 1
 		while { [file exists $filename] || [file exists $filename.$incompl] } {
-	                set filename "[filenoext $origfile] $num[fileext $origfile]"
+			set filename "[filenoext $origfile] $num[fileext $origfile]"
 			#set filename "$origfile.$num"
 			incr num
 		}
@@ -6988,8 +6986,8 @@ namespace eval ::MSN6FT {
 		set user_login [lindex $session_data 3]
 
 		status_log "MSNP2P | $sid -> User canceled FT, sending BYE to chatid : $chatid and SB : [::MSN::SBFor $chatid]\n" red
-                # Change sid type to canceledft
-                ::MSNP2P::SessionList set $sid [list -1 0 0 -1 -1 -1 -1 "ftcanceled" -1 -1]
+		# Change sid type to canceledft
+		::MSNP2P::SessionList set $sid [list -1 0 0 -1 -1 -1 -1 "ftcanceled" -1 -1]
 		#Make packet shouldn't get from the sessionlist the fileds so I pass to it a null sid
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 		::amsn::FTProgress ca $sid [lindex [::MSNP2P::SessionList get $sid] 6]
