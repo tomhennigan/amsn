@@ -1397,11 +1397,11 @@ namespace eval ::MSN {
 
 		if { [lindex $item 0] == 500 } {
 			#Instead of disconnection, transform into error 201
-			cmsn_ns_handler [lreplace $item 0 0 201]
+			ns handleCommand [lreplace $item 0 0 201]
 			return
 		}
 
-		cmsn_ns_handler $item
+		ns handleCommand $item
 	}
 
 	proc MOVHandler { oldGid contactguid passport item } {
@@ -5443,7 +5443,7 @@ proc initial_syn_handler {recv} {
 	
 	catch { file delete [file join ${HOME} "psm.cache"] }
 
-	cmsn_ns_handler $recv
+	ns handleCommand $recv
 }
 
 proc msnp9_userpass_error {} {
