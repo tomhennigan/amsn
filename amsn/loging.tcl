@@ -1573,6 +1573,7 @@ namespace eval ::log {
 			global webcam_dir
 			
 			catch { file delete [file join ${webcam_dir} $date ${email}.cam] }
+			catch { file delete [file join ${webcam_dir} $date ${email}.dat] }
 		}
 		return 1
 	}
