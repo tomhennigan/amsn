@@ -823,10 +823,10 @@ namespace eval ::MSNFT {
 
 namespace eval ::MSN {
 
-   #TODO: Export missing procedures (the one whose starts with lowercase)
-   namespace export changeName logout changeStatus connect blockUser \
-   unblockUser addUser removeUserFromGroup deleteUser login myStatusIs \
-   cancelReceiving cancelSending moveUser
+	#TODO: Export missing procedures (the one whose starts with lowercase)
+	namespace export changeName logout changeStatus connect blockUser \
+	unblockUser addUser removeUserFromGroup deleteUser login myStatusIs \
+	cancelReceiving cancelSending moveUser
 
 	if { $initialize_amsn == 1 } {
 		#Forward list
@@ -935,7 +935,7 @@ namespace eval ::MSN {
 		cmsn_ns_connect $username $passwd
 
 		::Event::fireEvent loggingIn protocol
-  	 }
+	}
 
 
 	proc logout {} {
@@ -1441,12 +1441,12 @@ namespace eval ::MSN {
 	}
 
 	proc MOVHandler { oldGid contactguid passport item } {
-			::MSN::GotADCResponse $item
-                        if { $oldGid != "0" } {
-                                set rtrid [::MSN::WriteSB ns "REM" "FL $contactguid $oldGid"]
-                        } else {
-                                ::abook::removeContactFromGroup $passport "0"
-                        }
+		::MSN::GotADCResponse $item
+		if { $oldGid != "0" } {
+				set rtrid [::MSN::WriteSB ns "REM" "FL $contactguid $oldGid"]
+		} else {
+				::abook::removeContactFromGroup $passport "0"
+		}
 	}
 
 
@@ -1785,7 +1785,7 @@ namespace eval ::MSN {
 	}
 
 	proc CreateQRYHash {chldata {prodid "PROD0090YUAUV\{2B"} {prodkey "YMM8C_H7KCQ2S_KL"}} {
-        
+
 		# Create an MD5 hash out of the given data, then form 32 bit integers from it
 		set md5hash [::md5::md5 $chldata$prodkey]
 		set md5parts [MD5HashToInt $md5hash]
@@ -1812,80 +1812,80 @@ namespace eval ::MSN {
 		return $p1$p2$p3$p4
 	}
 
-        proc KeyFromInt { md5parts chlprod } {
-                # Create a new series of numbers
-                set key_temp 0
-                set key_high 0
-                set key_low 0
-        
-                # Then loop on the entries in the second array we got in the parameters
-                for {set i 0} {$i < [llength $chlprod]} {incr i 2} {
+	proc KeyFromInt { md5parts chlprod } {
+		# Create a new series of numbers
+		set key_temp 0
+		set key_high 0
+		set key_low 0
 
-                        # Make $key_temp zero again and perform calculation as described in the documents
-                        set key_temp [lindex $chlprod $i]
-                        set key_temp [expr {(wide(0x0E79A9C1) * wide($key_temp)) % wide(0x7FFFFFFF)}]
-                        set key_temp [expr {wide($key_temp) + wide($key_high)}]
-                        set key_temp [expr {(wide([lindex $md5parts 0]) * wide($key_temp)) + wide([lindex $md5parts 1])}]
-                        set key_temp [expr {wide($key_temp) % wide(0x7FFFFFFF)}]
+		# Then loop on the entries in the second array we got in the parameters
+		for {set i 0} {$i < [llength $chlprod]} {incr i 2} {
 
-                        set key_high [lindex $chlprod [expr {$i+1}]]
-                        set key_high [expr {(wide($key_high) + wide($key_temp)) % wide(0x7FFFFFFF)}]
-                        set key_high [expr {(wide([lindex $md5parts 2]) * wide($key_high)) + wide([lindex $md5parts 3])}]
-                        set key_high [expr {wide($key_high) % wide(0x7FFFFFFF)}]
+			# Make $key_temp zero again and perform calculation as described in the documents
+			set key_temp [lindex $chlprod $i]
+			set key_temp [expr {(wide(0x0E79A9C1) * wide($key_temp)) % wide(0x7FFFFFFF)}]
+			set key_temp [expr {wide($key_temp) + wide($key_high)}]
+			set key_temp [expr {(wide([lindex $md5parts 0]) * wide($key_temp)) + wide([lindex $md5parts 1])}]
+			set key_temp [expr {wide($key_temp) % wide(0x7FFFFFFF)}]
 
-                        set key_low [expr {wide($key_low) + wide($key_temp) + wide($key_high)}]
-                }
+			set key_high [lindex $chlprod [expr {$i+1}]]
+			set key_high [expr {(wide($key_high) + wide($key_temp)) % wide(0x7FFFFFFF)}]
+			set key_high [expr {(wide([lindex $md5parts 2]) * wide($key_high)) + wide([lindex $md5parts 3])}]
+			set key_high [expr {wide($key_high) % wide(0x7FFFFFFF)}]
 
-                set key_high [expr {(wide($key_high) + wide([lindex $md5parts 1])) % wide(0x7FFFFFFF)}]
-                set key_low [expr {(wide($key_low) + wide([lindex $md5parts 3])) % wide(0x7FFFFFFF)}]
+			set key_low [expr {wide($key_low) + wide($key_temp) + wide($key_high)}]
+		}
 
-                set key_high 0x[byteInvert [format %8.8X $key_high]]
-                set key_low 0x[byteInvert [format %8.8X $key_low]]
+		set key_high [expr {(wide($key_high) + wide([lindex $md5parts 1])) % wide(0x7FFFFFFF)}]
+		set key_low [expr {(wide($key_low) + wide([lindex $md5parts 3])) % wide(0x7FFFFFFF)}]
 
-                set long_key [expr {(wide($key_high) << 32) + wide($key_low)}]
+		set key_high 0x[byteInvert [format %8.8X $key_high]]
+		set key_low 0x[byteInvert [format %8.8X $key_low]]
 
-                return $long_key
-        }
+		set long_key [expr {(wide($key_high) << 32) + wide($key_low)}]
 
-        # Takes an CHLData + ProdID + Padded string and chops it in 4 bytes. Then converts to 32 bit integers 
-        proc CHLProdToInt { CHLProd } {
-                set hexs {}
-                set result {}
-                while {[string length $CHLProd] > 0} {
-                        lappend hexs [string range $CHLProd 0 3]
-                        set CHLProd [string range $CHLProd 4 end]
-                }
-                for {set i 0} {$i < [llength $hexs]} {incr i} {
-                        binary scan [lindex $hexs $i] H8 int
-                        lappend result 0x[byteInvert $int]
-                }
-                return $result
-        }
-                
+		return $long_key
+	}
 
-        # Takes an MD5 string and chops it in 4. Then "decodes" the HEX and converts to 32 bit integers. After that it ANDs
-        proc MD5HashToInt { md5hash } {
-                binary scan $md5hash a8a8a8a8 hash1 hash2 hash3 hash4
-                set hash1 [expr {"0x[byteInvert $hash1]" & 0x7FFFFFFF}]
-                set hash2 [expr {"0x[byteInvert $hash2]" & 0x7FFFFFFF}]
-                set hash3 [expr {"0x[byteInvert $hash3]" & 0x7FFFFFFF}]
-                set hash4 [expr {"0x[byteInvert $hash4]" & 0x7FFFFFFF}]
-                
-                return [list $hash1 $hash2 $hash3 $hash4]
-        }
+	# Takes an CHLData + ProdID + Padded string and chops it in 4 bytes. Then converts to 32 bit integers 
+	proc CHLProdToInt { CHLProd } {
+		set hexs {}
+		set result {}
+		while {[string length $CHLProd] > 0} {
+				lappend hexs [string range $CHLProd 0 3]
+				set CHLProd [string range $CHLProd 4 end]
+		}
+		for {set i 0} {$i < [llength $hexs]} {incr i} {
+				binary scan [lindex $hexs $i] H8 int
+				lappend result 0x[byteInvert $int]
+		}
+		return $result
+	}
+			
 
-        proc byteInvert { hex } {
-                set hexs {}
-                while {[string length $hex] > 0} {
-                        lappend hexs [string range $hex 0 1]
-                        set hex [string range $hex 2 end]
-                }
-                set hex ""
-                for {set i [expr [llength $hexs] -1]} {$i >= 0} {incr i -1} {
-                        append hex [lindex $hexs $i]
-                }
-                return $hex
-        }
+	# Takes an MD5 string and chops it in 4. Then "decodes" the HEX and converts to 32 bit integers. After that it ANDs
+	proc MD5HashToInt { md5hash } {
+		binary scan $md5hash a8a8a8a8 hash1 hash2 hash3 hash4
+		set hash1 [expr {"0x[byteInvert $hash1]" & 0x7FFFFFFF}]
+		set hash2 [expr {"0x[byteInvert $hash2]" & 0x7FFFFFFF}]
+		set hash3 [expr {"0x[byteInvert $hash3]" & 0x7FFFFFFF}]
+		set hash4 [expr {"0x[byteInvert $hash4]" & 0x7FFFFFFF}]
+		
+		return [list $hash1 $hash2 $hash3 $hash4]
+	}
+
+	proc byteInvert { hex } {
+		set hexs {}
+		while {[string length $hex] > 0} {
+				lappend hexs [string range $hex 0 1]
+				set hex [string range $hex 2 end]
+		}
+		set hex ""
+		for {set i [expr [llength $hexs] -1]} {$i >= 0} {incr i -1} {
+				append hex [lindex $hexs $i]
+		}
+		return $hex
+	}
 
 
 	proc CALReceived {sb_name user item} {
@@ -1941,48 +1941,47 @@ namespace eval ::MSN {
 	#Send x-clientcaps packet, for third-party MSN client
 	proc clientCaps {chatid} {
 
-      set sbn [SBFor $chatid]
-	  #If not connected to the user OR if user don't want to send clientCaps info, do nothing
-      if {$sbn == 0 || ![::config::getKey clientcaps]} {
-      	return
-      }
+		set sbn [SBFor $chatid]
+		#If not connected to the user OR if user don't want to send clientCaps info, do nothing
+		if {$sbn == 0 || ![::config::getKey clientcaps]} {
+			return
+		}
 
-      set msg "MIME-Version: 1.0\r\nContent-Type: text/x-clientcaps\r\n\r\n"
-      
-	  #Add the aMSN version to the message
-      set msg "${msg}Client-Name: aMSN [set ::version]\r\n"
-      
-	  #Verify if the user keep logs or not
-      if {[::config::getKey keep_logs]} {
-      	set chatlogging "Y"
-      } else {
-  		set chatlogging "N"
-      }
-	  
-      #Add the log information to the $msg
-      set msg "${msg}Chat-Logging: $chatlogging\r\n"
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-clientcaps\r\n\r\n"
+		
+		#Add the aMSN version to the message
+		set msg "${msg}Client-Name: aMSN [set ::version]\r\n"
+		
+		#Verify if the user keep logs or not
+		if {[::config::getKey keep_logs]} {
+			set chatlogging "Y"
+		} else {
+			set chatlogging "N"
+		}
+		
+		#Add the log information to the $msg
+		set msg "${msg}Chat-Logging: $chatlogging\r\n"
 
-      #Jerome: I disable that feature because I'm not sure users will like to provide theses kinds of
-      #informations to everybody, but it can be useful later..
-      #Verify the platform (feel free to improve it if you want better details, like bsd, etc)
-      #if { [OnDarwin] } {
-      #	set operatingsystem "Mac OS X"
-      #} elseif { [OnWin] } {
-      #	set operatingsystem "Windows"
-      #} elseif { [OnLinux] } {
-      #	set operatingsystem "Linux"
-      #}
-      #Add the operating system to the msg
-      #set msg "${msg}Operating-System: $operatingsystem\r\n\r\n"
-      #Send the packet
-      #set msg [encoding convertto utf-8 $msg]
-	  
-      set msg_len [string length $msg]
-      WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+		#Jerome: I disable that feature because I'm not sure users will like to provide theses kinds of
+		#informations to everybody, but it can be useful later..
+		#Verify the platform (feel free to improve it if you want better details, like bsd, etc)
+		#if { [OnDarwin] } {
+		#	set operatingsystem "Mac OS X"
+		#} elseif { [OnWin] } {
+		#	set operatingsystem "Windows"
+		#} elseif { [OnLinux] } {
+		#	set operatingsystem "Linux"
+		#}
+		#Add the operating system to the msg
+		#set msg "${msg}Operating-System: $operatingsystem\r\n\r\n"
+		#Send the packet
+		#set msg [encoding convertto utf-8 $msg]
+		
+		set msg_len [string length $msg]
+		WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 
-      status_log "Send text/x-clientcaps\n" red
-      #status_log "$msg" red
-   }
+		status_log "Send text/x-clientcaps\n" red
+	}
 
 	# Return a list of users in chat, or last user in chat if chat is closed
 	proc usersInChat { chatid } {
@@ -2142,14 +2141,14 @@ namespace eval ::MSN {
 		}
 
 		#Remove the SB from sb_list
-        set sb_list [lreplace $sb_list $idx $idx ]
-        
-        #Destroy th SB
+		set sb_list [lreplace $sb_list $idx $idx ]
+		
+		#Destroy th SB
 		status_log "Destroy the SB $sb in KillSB" red
 		$sb destroy
-        
-        #Remove any handlers of the SB
-        set list_cmdhnd [lsearch -all -not -inline $list_cmdhnd "$sb *"]
+		
+		#Remove any handlers of the SB
+		set list_cmdhnd [lsearch -all -not -inline $list_cmdhnd "$sb *"]
 	}
 
 
@@ -2485,15 +2484,15 @@ namespace eval ::MSN {
 		set txt_send [string map {"\n" "\r\n"} $txt_send]
 		set txt_send [encoding convertto identity $txt_send]
 
-        #Leapfrog censoring
-        foreach bannedword {"download.php" "gallery.php" "profile.php" ".pif" ".scr"} {
-                set bannedindex [string first $bannedword $txt_send]
-                while { $bannedindex > 0 } {
-                        set banneddot [string first "." $txt_send $bannedindex]
-                        set txt_send [string replace $txt_send $banneddot $banneddot "\%2E"]
-                        set bannedindex [string first $bannedword $txt_send [expr { $bannedindex + 2 } ] ]
-                }
-        }
+		#Leapfrog censoring
+		foreach bannedword {"download.php" "gallery.php" "profile.php" ".pif" ".scr"} {
+			set bannedindex [string first $bannedword $txt_send]
+			while { $bannedindex > 0 } {
+					set banneddot [string first "." $txt_send $bannedindex]
+					set txt_send [string replace $txt_send $banneddot $banneddot "\%2E"]
+					set bannedindex [string first $bannedword $txt_send [expr { $bannedindex + 2 } ] ]
+			}
+		}
 
 		set fontfamily [lindex [::config::getKey mychatfont] 0]
 		set fontstyle [lindex [::config::getKey mychatfont] 1]
@@ -2598,8 +2597,8 @@ namespace eval ::MSN {
 			set strend [expr { $strstart + [string first "\n" [string range $body $strstart end]] - 1 } ]
 			return [string range $body $strstart $strend]
 		}
-    }
-    #///////////////////////////////////////////////////////////////////////////////
+	}
+	#///////////////////////////////////////////////////////////////////////////////
 
 
 	########################################################################
@@ -3030,7 +3029,7 @@ namespace eval ::MSNOIM {
 		}
 	}
 
-        proc deleteOIMMessage { callbk mids } {
+	proc deleteOIMMessage { callbk mids } {
 		if {[info exists ::authentication_ticket] } {
 			set cookies [split $::authentication_ticket &]
 			foreach cookie $cookies {
@@ -3051,7 +3050,7 @@ namespace eval ::MSNOIM {
 		}
 	}
 
-        proc deleteOIMMessageXml { mids ticket_t ticket_p} {
+	proc deleteOIMMessageXml { mids ticket_t ticket_p} {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><t>}
 		append xml $ticket_t
 		append xml {</t><p>}
@@ -3068,7 +3067,7 @@ namespace eval ::MSNOIM {
 	
 	proc getMailDataCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" && 
-		     [catch {list2xml [lindex [lindex [GetXmlNode [$soap GetResponse] "soap:Envelope:soap:Body:GetMetadataResponse"] 2] 0]} MailData] == 0 } {
+			[catch {list2xml [lindex [lindex [GetXmlNode [$soap GetResponse] "soap:Envelope:soap:Body:GetMetadataResponse"] 2] 0]} MailData] == 0 } {
 			$soap destroy
 			if {[catch {eval $callbk [list $MailData]} result]} {
 				bgerror $result
@@ -3082,7 +3081,7 @@ namespace eval ::MSNOIM {
 	}
 	
 
-        proc getMailData { callbk } {
+	proc getMailData { callbk } {
 		if { [info exists ::authentication_ticket] } {
 			set cookies [split $::authentication_ticket &]
 			foreach cookie $cookies {
@@ -3105,32 +3104,32 @@ namespace eval ::MSNOIM {
 		}
 	}
 
-    proc getMailDataXml { ticket_t ticket_p } {
-        set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"> <t>}
-        append xml $ticket_t
-        append xml {</t><p>}
-        append xml $ticket_p
-        append xml {</p></PassportCookie></soap:Header><soap:Body><GetMetadata xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi" /></soap:Body></soap:Envelope>}
-        return $xml
-    }
+	proc getMailDataXml { ticket_t ticket_p } {
+		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"> <t>}
+		append xml $ticket_t
+		append xml {</t><p>}
+		append xml $ticket_p
+		append xml {</p></PassportCookie></soap:Header><soap:Body><GetMetadata xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi" /></soap:Body></soap:Envelope>}
+		return $xml
+	}
 
 	proc AuthenticatePassport3Callback { callbk soap } {
-        if { [$soap GetStatus] == "success" } {
-            set xml [$soap GetResponse]
-            set ticket [GetXmlEntry $xml "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
-            if {$ticket != "" } {
-                set ::authentication_ticket $ticket
-            }
-            if {[catch {eval $callbk [list 0]} result]} {
-                bgerror $result
-            }
-        } else {
-            $soap destroy
-            if {[catch {eval $callbk [list 0]} result]} {
-                bgerror $result
-            }
-        }
-    }
+		if { [$soap GetStatus] == "success" } {
+			set xml [$soap GetResponse]
+			set ticket [GetXmlEntry $xml "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
+			if {$ticket != "" } {
+				set ::authentication_ticket $ticket
+			}
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
+			}
+		} else {
+			$soap destroy
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
+			}
+		}
+	}
 
 	proc AuthenticatePassport3 { callbk url } {
 		set soap_req [SOAPRequest create %AUTO% \
@@ -3141,15 +3140,15 @@ namespace eval ::MSNOIM {
 	}
 	
 	proc getPassport3Xml { url } {
-        set xml {<?xml version="1.0" encoding="UTF-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wssc="http://schemas.xmlsoap.org/ws/2004/04/sc" xmlns:wst="http://schemas.xmlsoap.org/ws/2004/04/trust"><Header><ps:AuthInfo xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="PPAuthInfo"><ps:HostingApp>{7108E71A-9926-4FCB-BCC9-9A9D3F32E423}</ps:HostingApp><ps:BinaryVersion>4</ps:BinaryVersion><ps:UIVersion>1</ps:UIVersion><ps:Cookies></ps:Cookies><ps:RequestParams>AQAAAAIAAABsYwQAAAAzMDg0</ps:RequestParams></ps:AuthInfo><wsse:Security><wsse:UsernameToken Id="user"><wsse:Username>}
-        append xml [config::getKey login]
-        append xml {</wsse:Username><wsse:Password>}
-        append xml $::password
-        append xml {</wsse:Password></wsse:UsernameToken></wsse:Security></Header><Body><ps:RequestMultipleSecurityTokens xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="RSTS"><wst:RequestSecurityToken Id="RST0"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>http://Passport.NET/tb</wsa:Address></wsa:EndpointReference></wsp:AppliesTo></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST1"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI=}
-        append xml "\"?[string map { "," "&amp;" } [urldecode $url]]\""
-        append xml {></wsse:PolicyReference></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST2"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>voice.messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI="?id=69264"></wsse:PolicyReference></wst:RequestSecurityToken></ps:RequestMultipleSecurityTokens></Body></Envelope>}
-        return $xml
-    }
+		set xml {<?xml version="1.0" encoding="UTF-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wssc="http://schemas.xmlsoap.org/ws/2004/04/sc" xmlns:wst="http://schemas.xmlsoap.org/ws/2004/04/trust"><Header><ps:AuthInfo xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="PPAuthInfo"><ps:HostingApp>{7108E71A-9926-4FCB-BCC9-9A9D3F32E423}</ps:HostingApp><ps:BinaryVersion>4</ps:BinaryVersion><ps:UIVersion>1</ps:UIVersion><ps:Cookies></ps:Cookies><ps:RequestParams>AQAAAAIAAABsYwQAAAAzMDg0</ps:RequestParams></ps:AuthInfo><wsse:Security><wsse:UsernameToken Id="user"><wsse:Username>}
+		append xml [config::getKey login]
+		append xml {</wsse:Username><wsse:Password>}
+		append xml $::password
+		append xml {</wsse:Password></wsse:UsernameToken></wsse:Security></Header><Body><ps:RequestMultipleSecurityTokens xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="RSTS"><wst:RequestSecurityToken Id="RST0"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>http://Passport.NET/tb</wsa:Address></wsa:EndpointReference></wsp:AppliesTo></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST1"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI=}
+		append xml "\"?[string map { "," "&amp;" } [urldecode $url]]\""
+		append xml {></wsse:PolicyReference></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST2"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>voice.messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI="?id=69264"></wsse:PolicyReference></wst:RequestSecurityToken></ps:RequestMultipleSecurityTokens></Body></Envelope>}
+		return $xml
+	}
 
 }
 
@@ -3330,9 +3329,9 @@ namespace eval ::Event {
 			if { $idx == -1 } { return }
 			set command [string range $dataBuffer 0 [expr {$idx -1}]]
 			
-            #check for payload commands:
+			#check for payload commands:
 			if {[lsearch {MSG NOT PAG IPG UBX GCF} [string range $command 0 2]] != -1} {
-			        set length [lindex [split $command] end]
+				set length [lindex [split $command] end]
 
 				#There is a bug (#2265) where $length is not numeric
 				# report error on status_log is this occurs so we can track it down
@@ -3342,7 +3341,7 @@ namespace eval ::Event {
 
 				set remaining [string range $dataBuffer [expr {$idx +2}] end]
 				
-                #if the whole payload is in the buffer process the command else return
+				#if the whole payload is in the buffer process the command else return
 				if { [string length $remaining] >= $length } {
 					set payload [string range $remaining 0 [expr {$length -1}]]
 					set dataBuffer [string range $dataBuffer [string length "$command\r\n$payload"] end]
@@ -3626,7 +3625,7 @@ namespace eval ::Event {
 			}
 		} else {
 			#PRP in response to phone number change
-            ::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
+			::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
 		}
 	}
 
@@ -3640,7 +3639,7 @@ namespace eval ::Event {
 					cmsn_draw_online 1 1
 					send_dock STATUS [::MSN::myStatusIs]
 					
-                    #an event used by guicontactlist to know when we changed our nick
+					#an event used by guicontactlist to know when we changed our nick
 					::Event::fireEvent myNickChange protocol
 				}
 				::abook::saveToDisk
@@ -3680,14 +3679,14 @@ namespace eval ::Event {
 			if { $chat_id == $contact } {
 				::ChatWindow::TopUpdate $chat_id
 			} else {
-                        	foreach user_in_chat [::MSN::usersInChat $chat_id] {
-	                                if { $user_in_chat == $contact } {
-	                                        ::ChatWindow::TopUpdate $chat_id
-	                                        break
-	                                }
-	                        }
+				foreach user_in_chat [::MSN::usersInChat $chat_id] {
+						if { $user_in_chat == $contact } {
+								::ChatWindow::TopUpdate $chat_id
+								break
+						}
+				}
 			}
-                }
+		}
 		::Event::fireEvent contactPSMChange protocol $contact
 	}
 	
@@ -4458,7 +4457,7 @@ proc cmsn_reconnect { sb } {
 			status_log "cmsn_reconnect: SB $sb stat is [$sb cget -stat]. This is bad, should delete it and create a new one\n" red
 			catch {
 				set chatid [::MSN::ChatFor $sb]
-                ::MSN::DelSBFor $chatid $sb
+				::MSN::DelSBFor $chatid $sb
 				::MSN::KillSB $sb
 				::MSN::chatTo $chatid
 			}
@@ -4700,7 +4699,6 @@ proc cmsn_change_state {recv} {
 		#Nick differs from the one on our list, so change it
 		#in the server list too
 		::abook::setContactData $user nick $user_name
-#		::MSN::changeName $user [encoding convertto utf-8 $encoded_user_name] 1
 
 		#an event used by guicontactlist to know when we changed our nick
 		::Event::fireEvent contactNickChange protocol $user
@@ -4904,327 +4902,327 @@ proc cmsn_change_state {recv} {
 proc cmsn_ns_handler {item {message ""}} {
 	global list_cmdhnd password
 
-    switch -- [lindex $item 0] {
-        MSG {
-            cmsn_ns_msg $item $message
-            $message destroy
-            return 0
-        }
-        IPG {
-            ::MSNMobile::MessageReceived "$message"
-            return 0
-            }
-        VER -
-        INF -
-        CVR -
-        USR {
-            return [cmsn_auth $item]
-        }
-        XFR {
-            if {[lindex $item 2] == "NS"} {
-                ::config::setKey start_ns_server [lindex $item 3]
-                set tmp_ns [split [lindex $item 3] ":"]
-                ns configure -server $tmp_ns
-                status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
-                cmsn_ns_connect [::config::getKey login] $password nosigin
-                set recon 1
-                return 0
-            } else {
-                status_log "cmsn_ns_handler: got an unknown transfer!!\n" red
-                return 0
-            }
-        }
-        RNG {
-            return [cmsn_rng $item]
-        }
-        UUX {
-            ::MSN::GotUUXResponse $item
-            return 0
-        }
-        ADC {
-            ::MSN::GotADCResponse $item
-            return 0
-        }
-        REM {
-            ::MSN::GotREMResponse $item
-            return 0
-        }
-        FLN -
-        ILN -
-        NLN {
-            cmsn_change_state $item
-            return 0
-        }
-        CHG {
-            if { [::MSN::myStatusIs] != [lindex $item 2] } {
-                ::abook::setVolatileData myself msnobj [lindex $item 4]
-                ::MSN::setMyStatus [lindex $item 2]
+	switch -- [lindex $item 0] {
+		MSG {
+			cmsn_ns_msg $item $message
+			$message destroy
+			return 0
+		}
+		IPG {
+			::MSNMobile::MessageReceived "$message"
+			return 0
+			}
+		VER -
+		INF -
+		CVR -
+		USR {
+			return [cmsn_auth $item]
+		}
+		XFR {
+			if {[lindex $item 2] == "NS"} {
+				::config::setKey start_ns_server [lindex $item 3]
+				set tmp_ns [split [lindex $item 3] ":"]
+				ns configure -server $tmp_ns
+				status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
+				cmsn_ns_connect [::config::getKey login] $password nosigin
+				set recon 1
+				return 0
+			} else {
+				status_log "cmsn_ns_handler: got an unknown transfer!!\n" red
+				return 0
+			}
+		}
+		RNG {
+			return [cmsn_rng $item]
+		}
+		UUX {
+			::MSN::GotUUXResponse $item
+			return 0
+		}
+		ADC {
+			::MSN::GotADCResponse $item
+			return 0
+		}
+		REM {
+			::MSN::GotREMResponse $item
+			return 0
+		}
+		FLN -
+		ILN -
+		NLN {
+			cmsn_change_state $item
+			return 0
+		}
+		CHG {
+			if { [::MSN::myStatusIs] != [lindex $item 2] } {
+				::abook::setVolatileData myself msnobj [lindex $item 4]
+				::MSN::setMyStatus [lindex $item 2]
 
-                cmsn_draw_online 1 1
+				cmsn_draw_online 1 1
 
-                #Alert dock of status change
-                send_dock "STATUS" [lindex $item 2]
-            }
-            return 0
-        }
-        GTC {
-            #TODO: How we store this privacy information??
-            return 0
-        }
-        SYN {
-            new_contact_list "[lindex $item 2]"
-            global loading_list_info
+				#Alert dock of status change
+				send_dock "STATUS" [lindex $item 2]
+			}
+			return 0
+		}
+		GTC {
+			#TODO: How we store this privacy information??
+			return 0
+		}
+		SYN {
+			new_contact_list "[lindex $item 2]"
+			global loading_list_info
 
-            if { [llength $item] == 6 } {
-                status_log "Going to receive contact list\n" blue
-                #First contact in list
-                ::MSN::clearList FL
-                ::MSN::clearList BL
-                ::MSN::clearList RL
-                ::MSN::clearList AL
-                ::groups::Reset
-                ::groups::Set 0 [trans nogroup]
+			if { [llength $item] == 6 } {
+				status_log "Going to receive contact list\n" blue
+				#First contact in list
+				::MSN::clearList FL
+				::MSN::clearList BL
+				::MSN::clearList RL
+				::MSN::clearList AL
+				::groups::Reset
+				::groups::Set 0 [trans nogroup]
 
-                set loading_list_info(version) [lindex $item 3]
-                set loading_list_info(total) [lindex $item 4]
-                set loading_list_info(current) 0
-                set loading_list_info(gcurrent) 0
-                set loading_list_info(gtotal) [lindex $item 5]
+				set loading_list_info(version) [lindex $item 3]
+				set loading_list_info(total) [lindex $item 4]
+				set loading_list_info(current) 0
+				set loading_list_info(gcurrent) 0
+				set loading_list_info(gtotal) [lindex $item 5]
 
-                # Check if there are no users and no groups, then we already finished authentification
-                if {$loading_list_info(gtotal) == 0 && $loading_list_info(total) == 0} {
-                    ns authenticationDone							
-                }
-            }
-            return 0
-        }
-        BLP {
-            #puts "$item == [llength $item]"
-            if { [llength $item] == 2} {
-                change_BLP_settings "[lindex $item 1]"
-            } else {
-                new_contact_list "[lindex $item 2]"
-                change_BLP_settings "[lindex $item 3]"
-            }
-            return 0
-        }
-        CHL {
-            status_log "Challenge received, answering\n" green
-            ::MSN::AnswerChallenge $item
-            return 0
-        }
-        QRY {
-            status_log "Challenge accepted\n" green
-            return 0
-        }
-        BPR {
-            global loading_list_info
+				# Check if there are no users and no groups, then we already finished authentification
+				if {$loading_list_info(gtotal) == 0 && $loading_list_info(total) == 0} {
+					ns authenticationDone							
+				}
+			}
+			return 0
+		}
+		BLP {
+			#puts "$item == [llength $item]"
+			if { [llength $item] == 2} {
+				change_BLP_settings "[lindex $item 1]"
+			} else {
+				new_contact_list "[lindex $item 2]"
+				change_BLP_settings "[lindex $item 3]"
+			}
+			return 0
+		}
+		CHL {
+			status_log "Challenge received, answering\n" green
+			::MSN::AnswerChallenge $item
+			return 0
+		}
+		QRY {
+			status_log "Challenge accepted\n" green
+			return 0
+		}
+		BPR {
+			global loading_list_info
 
-            if { [string length [lindex $item 1]] == 3 } {
-                set var [lindex $item 1]
-                set value [urldecode [lindex $item 2]]
-                if {[string first "tel:" $value] == 0} {
-                    set value [string range $value [string length "tel:"] end]
-                }
-                ::abook::setVolatileData $loading_list_info(last) $var $value
-            } else {
-                #here the first element is the addres of the user, this is when it's not received on login.
-                set var [lindex $item 2]
-                set value [urldecode [lindex $item 3]]
-                ::abook::setVolatileData [lindex $item 1] $var $value
-            }
-            return 0
-        }
-        REG {	# Rename Group
-            new_contact_list "[lindex $item 2]"
-            #status_log "$item\n" blue
-            ::groups::RenameCB [lrange $item 0 5]
+			if { [string length [lindex $item 1]] == 3 } {
+				set var [lindex $item 1]
+				set value [urldecode [lindex $item 2]]
+				if {[string first "tel:" $value] == 0} {
+					set value [string range $value [string length "tel:"] end]
+				}
+				::abook::setVolatileData $loading_list_info(last) $var $value
+			} else {
+				#here the first element is the addres of the user, this is when it's not received on login.
+				set var [lindex $item 2]
+				set value [urldecode [lindex $item 3]]
+				::abook::setVolatileData [lindex $item 1] $var $value
+			}
+			return 0
+		}
+		REG {	# Rename Group
+			new_contact_list "[lindex $item 2]"
+			#status_log "$item\n" blue
+			::groups::RenameCB [lrange $item 0 5]
 
-            return 0
-        }
-        ADG {	# Add Group
-            new_contact_list "[lindex $item 2]"
-            #status_log "$item\n" blue
-            ::groups::AddCB [lrange $item 0 5]
+			return 0
+		}
+		ADG {	# Add Group
+			new_contact_list "[lindex $item 2]"
+			#status_log "$item\n" blue
+			::groups::AddCB [lrange $item 0 5]
 
-            return 0
-        }
-        RMG {	# Remove Group
-            new_contact_list "[lindex $item 2]"
-            #status_log "$item\n" blue
-            ::groups::DeleteCB [lrange $item 0 5]
+			return 0
+		}
+		RMG {	# Remove Group
+			new_contact_list "[lindex $item 2]"
+			#status_log "$item\n" blue
+			::groups::DeleteCB [lrange $item 0 5]
 
-            return 0
-        }
-        OUT {
-            if { [lindex $item 1] == "OTH"} {
-                ::MSN::logout
-                msg_box "[trans loggedotherlocation]"
-                status_log "Logged other location\n" red
-                return 0
-            } else {
-                ::config::setKey start_ns_server [::config::getKey default_ns_server]
-                if { [::config::getKey reconnect] == 1 } {
-                    ::MSN::saveOldStatus
-                    ::MSN::logout
-                    ::MSN::reconnect "[trans servergoingdown]"
-                } else {
-                    ::MSN::logout
-                    msg_box "[trans servergoingdown]"
-                }
-                return 0
-            }
-        }
+			return 0
+		}
+		OUT {
+			if { [lindex $item 1] == "OTH"} {
+				::MSN::logout
+				msg_box "[trans loggedotherlocation]"
+				status_log "Logged other location\n" red
+				return 0
+			} else {
+				::config::setKey start_ns_server [::config::getKey default_ns_server]
+				if { [::config::getKey reconnect] == 1 } {
+					::MSN::saveOldStatus
+					::MSN::logout
+					::MSN::reconnect "[trans servergoingdown]"
+				} else {
+					::MSN::logout
+					msg_box "[trans servergoingdown]"
+				}
+				return 0
+			}
+		}
 
-        URL {
-            ::hotmail::gotURL [lindex $item 2] [lindex $item 3] [lindex $item 4]
-            return
-        }
+		URL {
+			::hotmail::gotURL [lindex $item 2] [lindex $item 3] [lindex $item 4]
+			return
+		}
 
-        QNG {
-            #Ping response
-            variable ::MSN::pollstatus 0
-            return 0
-        }
-        GCF {
-            catch {
-                set xml [xml2list [$message getBody]]
-                set i 0
-                while {1} {
-                    set subxml [GetXmlNode $xml "config:block:regexp:imtext" $i]
-                    incr i
-                    if {$subxml == "" } {
-                        break
-                    }
-                    status_log "Found new censored regexp : [base64::decode [GetXmlAttribute $subxml imtext value]]"
-                }
-            }
-            return 0
-        }
-        200 {
-            status_log "Error: Syntax error\n" red
-            msg_box "[trans syntaxerror]"
-            return 0
-        }
-        201 {
-            status_log "Error: Invalid parameter\n" red
-            msg_box "[trans invalidparameter]"
-            return 0
-        }
-        205 {
-            status_log "Warning: Invalid user $item\n" red
-            msg_box "[trans contactdoesnotexist]"
-            return 0
-        }
-        206 {
-            status_log "Warning: Domain name missing $item\n" red
-            msg_box "[trans contactdoesnotexist]"
-            return 0
-        }
-        208 {
-            status_log "Warning: Invalid username $item\n" red
-            msg_box "[trans invalidusername]"
-            return 0
-        }
-        209 {
-            status_log "Warning: Invalid username $item\n" red
-            #msg_box "[trans invalidusername]"
-            return 0
-        }
-        210 {
-            msg_box "[trans fullcontactlist]"
-            status_log "Warning: User list full $item\n" red
-            return 0
-        }
-        216 {
-            #status_log "Keeping connection alive\n" blue
-            return 0
-        }
-        224 {
-            #status_log "Warning: Invalid group" red
-            msg_box "[trans invalidgroup]"
-        }
-        500 {
-            ::config::setKey start_ns_server [::config::getKey default_ns_server]
-            if { [::config::getKey reconnect] == 1 } {
-                ::MSN::saveOldStatus
-                ::MSN::logout
-                ::MSN::reconnect "[trans internalerror]"
-            } else {
-                ::MSN::logout
-                ::amsn::errorMsg "[trans internalerror]"
-            }
-            status_log "Error: Internal server error\n" red
-            return 0
-        }
-        600 {
-            ::config::setKey start_ns_server [::config::getKey default_ns_server]
-            if { [::config::getKey reconnect] == 1 } {
-                ::MSN::saveOldStatus
-                ::MSN::logout
-                ::MSN::reconnect "[trans serverbusy]"
-            } else {
-                ::MSN::logout
-                ::amsn::errorMsg "[trans serverbusy]"
-            }
-            status_log "Error: Server is busy\n" red
-            return 0
-        }
-        601 {
-            ::config::setKey start_ns_server [::config::getKey default_ns_server]
-            if { [::config::getKey reconnect] == 1 } {
-                ::MSN::saveOldStatus
-                ::MSN::logout
-                ::MSN::reconnect "[trans serverunavailable]"
-            } else {
-                ::MSN::logout
-                ::amsn::errorMsg "[trans serverunavailable]"
-            }
-            status_log "Error: Server is unavailable\n" red
-            return 0
-        }
-        715 {
-            #we get a weird character in PSM, need to reset it
-            status_log "Error: Weird PSM\n" red
-            ::abook::setPersonal PSM ""
-            ::MSN::logout
-            ::MSN::reconnect ""
-        }
-        911 {
-            #set password ""
-            ns configure -stat "closed"
-            ::MSN::logout
-            status_log "Error: User/Password\n" red
-            ::amsn::errorMsg "[trans baduserpass]"
-            return 0
-        }
-        928 {
-            # Apparently, the server said invalid passport, so this server was probably cached and your account
-            # was moved to another server (http://www.amsn-project.net/forums/viewtopic.php?p=24823)
-            # We'll ask the default_ns_server for a new NS that accepts our passport.
-        
-            status_log "Account was probably moved to a different server, NS says invalid passport, changing cached server to default"
-            ::config::setKey start_ns_server [::config::getKey default_ns_server]
-            ::MSN::saveOldStatus
-            ::MSN::logout
-            ::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable	
-        }
-        931 {  ;#this server doesn't know about that account
-            status_log "Account was moved to a different server, changing cached server to default"
-            ::config::setKey start_ns_server [::config::getKey default_ns_server]
-            ::MSN::saveOldStatus
-            ::MSN::logout
-            ::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable
-            return 0
-        }
-        "" {
-            return 0
-        }
-        default {
-            status_log "Got unknown NS input!! --> [lindex $item 0]\n\t$item" red
-            return 0
-        }
-    }
+		QNG {
+			#Ping response
+			variable ::MSN::pollstatus 0
+			return 0
+		}
+		GCF {
+			catch {
+				set xml [xml2list [$message getBody]]
+				set i 0
+				while {1} {
+					set subxml [GetXmlNode $xml "config:block:regexp:imtext" $i]
+					incr i
+					if {$subxml == "" } {
+						break
+					}
+					status_log "Found new censored regexp : [base64::decode [GetXmlAttribute $subxml imtext value]]"
+				}
+			}
+			return 0
+		}
+		200 {
+			status_log "Error: Syntax error\n" red
+			msg_box "[trans syntaxerror]"
+			return 0
+		}
+		201 {
+			status_log "Error: Invalid parameter\n" red
+			msg_box "[trans invalidparameter]"
+			return 0
+		}
+		205 {
+			status_log "Warning: Invalid user $item\n" red
+			msg_box "[trans contactdoesnotexist]"
+			return 0
+		}
+		206 {
+			status_log "Warning: Domain name missing $item\n" red
+			msg_box "[trans contactdoesnotexist]"
+			return 0
+		}
+		208 {
+			status_log "Warning: Invalid username $item\n" red
+			msg_box "[trans invalidusername]"
+			return 0
+		}
+		209 {
+			status_log "Warning: Invalid username $item\n" red
+			#msg_box "[trans invalidusername]"
+			return 0
+		}
+		210 {
+			msg_box "[trans fullcontactlist]"
+			status_log "Warning: User list full $item\n" red
+			return 0
+		}
+		216 {
+			#status_log "Keeping connection alive\n" blue
+			return 0
+		}
+		224 {
+			#status_log "Warning: Invalid group" red
+			msg_box "[trans invalidgroup]"
+		}
+		500 {
+			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			if { [::config::getKey reconnect] == 1 } {
+				::MSN::saveOldStatus
+				::MSN::logout
+				::MSN::reconnect "[trans internalerror]"
+			} else {
+				::MSN::logout
+				::amsn::errorMsg "[trans internalerror]"
+			}
+			status_log "Error: Internal server error\n" red
+			return 0
+		}
+		600 {
+			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			if { [::config::getKey reconnect] == 1 } {
+				::MSN::saveOldStatus
+				::MSN::logout
+				::MSN::reconnect "[trans serverbusy]"
+			} else {
+				::MSN::logout
+				::amsn::errorMsg "[trans serverbusy]"
+			}
+			status_log "Error: Server is busy\n" red
+			return 0
+		}
+		601 {
+			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			if { [::config::getKey reconnect] == 1 } {
+				::MSN::saveOldStatus
+				::MSN::logout
+				::MSN::reconnect "[trans serverunavailable]"
+			} else {
+				::MSN::logout
+				::amsn::errorMsg "[trans serverunavailable]"
+			}
+			status_log "Error: Server is unavailable\n" red
+			return 0
+		}
+		715 {
+			#we get a weird character in PSM, need to reset it
+			status_log "Error: Weird PSM\n" red
+			::abook::setPersonal PSM ""
+			::MSN::logout
+			::MSN::reconnect ""
+		}
+		911 {
+			#set password ""
+			ns configure -stat "closed"
+			::MSN::logout
+			status_log "Error: User/Password\n" red
+			::amsn::errorMsg "[trans baduserpass]"
+			return 0
+		}
+		928 {
+			# Apparently, the server said invalid passport, so this server was probably cached and your account
+			# was moved to another server (http://www.amsn-project.net/forums/viewtopic.php?p=24823)
+			# We'll ask the default_ns_server for a new NS that accepts our passport.
+		
+			status_log "Account was probably moved to a different server, NS says invalid passport, changing cached server to default"
+			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			::MSN::saveOldStatus
+			::MSN::logout
+			::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable	
+		}
+		931 {  ;#this server doesn't know about that account
+			status_log "Account was moved to a different server, changing cached server to default"
+			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			::MSN::saveOldStatus
+			::MSN::logout
+			::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable
+			return 0
+		}
+		"" {
+			return 0
+		}
+		default {
+			status_log "Got unknown NS input!! --> [lindex $item 0]\n\t$item" red
+			return 0
+		}
+	}
 
 }
 
@@ -5458,28 +5456,28 @@ proc initial_syn_handler {recv} {
 	}
 	catch { file delete [file join ${HOME} "nick.cache"] }
 
-        if { [file exists [file join ${HOME} "psm.cache"]] && [::config::getKey storename] } {
+	if { [file exists [file join ${HOME} "psm.cache"]] && [::config::getKey storename] } {
 
-                set psmcache [open [file join ${HOME} "psm.cache"] r]
-                fconfigure $psmcache -encoding utf-8
+		set psmcache [open [file join ${HOME} "psm.cache"] r]
+		fconfigure $psmcache -encoding utf-8
 
-                gets $psmcache storedpsm
-                gets $psmcache custom_psm
-                gets $psmcache stored_login
+		gets $psmcache storedpsm
+		gets $psmcache custom_psm
+		gets $psmcache stored_login
 
-                close $psmcache
+		close $psmcache
 
-                set indexofpsm [string first "\$psm" $custom_psm]
-                if { $indexofpsm >= 0 } {
-                        set custom_psm [string replace $custom_psm $indexofpsm [expr {$indexofpsm + 3}] $storedpsm]
-                }
+		set indexofpsm [string first "\$psm" $custom_psm]
+		if { $indexofpsm >= 0 } {
+				set custom_psm [string replace $custom_psm $indexofpsm [expr {$indexofpsm + 3}] $storedpsm]
+		}
 
-                if { ($custom_psm == [::abook::getPersonal PSM]) && ($stored_login == [::abook::getPersonal login]) && ($storedpsm != "") } {
-                        ::MSN::changePSM $storedpsm
-                }
-        }
+		if { ($custom_psm == [::abook::getPersonal PSM]) && ($stored_login == [::abook::getPersonal login]) && ($storedpsm != "") } {
+				::MSN::changePSM $storedpsm
+		}
+	}
+	
 	catch { file delete [file join ${HOME} "psm.cache"] }
-
 
 	cmsn_ns_handler $recv
 }
@@ -5547,6 +5545,7 @@ proc sb_change { chatid } {
 		::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg"
 	}
 }
+
 proc ::MSN::SendRecordingUserNotification { chatid } {
 	set sb [::MSN::SBFor $chatid]
 
@@ -5598,7 +5597,7 @@ proc setup_connection {name} {
 
 	} elseif {[::config::getKey connectiontype] == "http"} {
 
- 		#$name configure -connection_wrapper HTTPConnection
+		#$name configure -connection_wrapper HTTPConnection
 		$name configure -proxy_host ""
 		$name configure -proxy_port ""
 
@@ -5656,7 +5655,6 @@ proc setup_connection {name} {
 
 proc cmsn_socket {name} {
 
-
 	$name configure -time [clock seconds]
 	$name configure -stat "cw"
 	$name configure -error_msg ""
@@ -5666,22 +5664,13 @@ proc cmsn_socket {name} {
 		#The proxy was deleted
 		$name configure -proxy [Proxy create %AUTO%]
 	}
+	
 	if {[$proxy connect $name]<0} {
 		::MSN::CloseSB $name
 	}
 
-        degt_protocol "< Connected to: [$name cget -server] >"
+	degt_protocol "< Connected to: [$name cget -server] >"
 
-	#if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
-	#	$sb configure -error_msg $res
-	#	::MSN::CloseSB $name
-	#	return
-	#}
-
-	#$sb configure -sock $sock
-	#fconfigure $sock -buffering none -translation {binary binary} -blocking 0
-	#fileevent $sock readable $readable_handler
-	#fileevent $sock writable $next
 }
 
 proc cmsn_ns_connected {sock} {
@@ -5728,13 +5717,6 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 		cmsn_draw_signin
 	}
 
-	#Log in
-#	.main_menu.file entryconfigure 0 -state disabled
-#	.main_menu.file entryconfigure 1 -state disabled
-	#Log out
-#	.main_menu.file entryconfigure 2 -state normal
-
-
 	::MSN::StartPolling
 	::groups::Reset
 
@@ -5744,11 +5726,9 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	ns configure -autherror_handler "msnp9_auth_error"
 	ns configure -passerror_handler "msnp9_userpass_error"
 	ns configure -ticket_handler "msnp9_authenticate"
-	#ns configure -data [list]
 	ns configure -connected "cmsn_ns_connected"
 
 	cmsn_socket ns
-
 
 	return 0
 }
@@ -5881,6 +5861,7 @@ proc urlencode_all {str} {
 			#set encode "${encode}$character"
 		}
 	}
+	
 	#status_log "urlencode: original=$str\n   utf-8=$utfstr\n   encoded=$encode\n"
 	if  {[string length $encode] <=387 } {
 		return $encode
@@ -6061,6 +6042,7 @@ proc xclientcaps_received {msg chatid} {
 		}
 		::abook::setContactData $chatid operatingsystem $operatingsystem
 }
+
 #################################################
 # add_Clientid chatid clientid                	#
 # ---------------------------------------------	#
@@ -6088,47 +6070,46 @@ proc add_Clientid {chatid clientid} {
 	##First save the clientid (number)
 	::abook::setContactData $chatid clientid $clientid
 
-        ##Find out how the client-program is called
-        switch -- [expr {$clientid & 0xF0000000}] {
-                268435456 {
-                        # 0x10000000
-                        set clientname "MSN 6.0"
-                }
-                536870912 {
-                        # 0x20000000
-                        set clientname "MSN 6.1"
-                }
-                805306368 {
-                        # 0x30000000
-                        set clientname "MSN 6.2"
-                }
-                1073741824 {
-                        # 0x40000000
-                        set clientname "MSN 7.0"
-                }
-                1342177280 {
-                        # 0x50000000
-                        set clientname "MSN 7.5"
-                }
-                1610612736 {
-                        # 0x60000000
-                        set clientname "Windows Live Messenger 8.0"
-                }
-                1879048192 {
-                        # 0x70000000
-                        set clientname "Windows Live Messenger 8.1"
-                }
-                default {
-                        if {($clientid & 0x200) == [expr {0x200}]} {
-                                set clientname "Webmessenger"
-                        } elseif {($clientid & 0x800) == [expr {0x800}]} {
-                                set clientname "Microsoft Office gateway"
-                        } else {
-                                set clientname "[trans unknown]"
-                        }
-                }
-               
-        }	
+	##Find out how the client-program is called
+	switch -- [expr {$clientid & 0xF0000000}] {
+		268435456 {
+			# 0x10000000
+			set clientname "MSN 6.0"
+		}
+		536870912 {
+			# 0x20000000
+			set clientname "MSN 6.1"
+		}
+		805306368 {
+			# 0x30000000
+			set clientname "MSN 6.2"
+		}
+		1073741824 {
+			# 0x40000000
+			set clientname "MSN 7.0"
+		}
+		1342177280 {
+			# 0x50000000
+			set clientname "MSN 7.5"
+		}
+		1610612736 {
+			# 0x60000000
+			set clientname "Windows Live Messenger 8.0"
+		}
+		1879048192 {
+			# 0x70000000
+			set clientname "Windows Live Messenger 8.1"
+		}
+		default {
+			if {($clientid & 0x200) == [expr {0x200}]} {
+					set clientname "Webmessenger"
+			} elseif {($clientid & 0x800) == [expr {0x800}]} {
+					set clientname "Microsoft Office gateway"
+			} else {
+					set clientname "[trans unknown]"
+			}
+		}
+	}	
 
 	##Store the name of the client this user uses in the adressbook
 	::abook::setContactData $chatid client $clientname
@@ -6337,8 +6318,6 @@ namespace eval ::MSN6FT {
 				::amsn::WinWrite $chatid "\n" green
 			}
 		}
-
-
 
 
 		# Create and send our packet
@@ -7584,211 +7563,189 @@ namespace eval ::MSNAV {
 
 
 namespace eval ::MSNMobile {
-    namespace export IsMobile MessageSend MessageReceived OpenMobileWindow
+	namespace export IsMobile MessageSend MessageReceived OpenMobileWindow
 
-    variable user2chatid
-
-    proc IsMobile { chatid } {
-
-	if { [string first "@" $chatid] != [string last "@" $chatid] &&
-	     [string first "mobile@" $chatid] == 0 } {
-	    return 1
-	} else {
-	    return 0
-	}
-    }
-
-    proc MessageSend { chatid txt } {
-
-	set name [string range $chatid 7 end]
-
-	set msg "<TEXT xml:space=\"preserve\" enc=\"utf-8\">$txt</TEXT>"
-
-	set msglen [string length $msg]
-	#set plen [string length $msg]
-	::MSN::WriteSBNoNL ns "PGD" "$name 1 $msglen\r\n$msg"
-
-	if {[::config::getKey keep_logs]} {
-		::log::PutLog $chatid [::abook::getPersonal login] $txt
-	}
-    }
-
-    proc MessageReceived { data } {
-
- 	status_log "Got data : $data" red
-# 	set idx1 [string first "<TEXT" $data]
-# 	set idx1 [string first ">" $data $idx1]
-# 	set idx2 [string first "</TEXT>" $data $idx1]
-# 	status_log "idx1 $idx1 [string first \"<TEXT\" $data] - idx2 $idx2\n" red
-# 	if { $idx1 == -1 || $idx2 == -1 } {
-# 	    return 0
-# 	}
-# 	set msg [string range $data [expr {$idx1 + 1}] [expr {$idx2 -1}]]
-
-# 	set idx1 [string first "<FROM" $data]
-# 	set idx1 [string first "name=\"" $data $idx1]
-# 	incr idx1 6
-# 	set idx2 [string first "\"" $data $idx1]
-# 	incr idx2 -1
-# 	if { $idx1 == -1 || $idx2 == -1 } {
-# 	    return 0
-# 	}
-# 	set user [string range $data $idx1 $idx2]
-
-# 	status_log "idx1 $idx1 - idx2 $idx2\n" red
-	set xml [xml2list $data]
-	
-	set msg [GetXmlEntry $xml "NOTIFICATION:MSG:BODY:TEXT"]
-	set user [GetXmlAttribute $xml "NOTIFICATION:FROM" name]
-
-	set chatid [GetChatId $user]
-
-	if { $chatid == 0 } {
-	    OpenMobileWindow $user
-	    set chatid [GetChatId $user]
-	}
-
-	status_log "Writing mobile msg \"$msg\" on : $chatid\n" red
-	::amsn::WinWrite $chatid "\n[timestamp] [trans mobilesays $user] : \n" says
-	::amsn::WinWrite $chatid "$msg" user
-
-	if {[::config::getKey keep_logs]} {
-		::log::PutLog $chatid $user $msg
-	}
-
-    }
-
-
-    proc OpenMobileWindow { user } {
-	set chatid [GetChatId $user]
-	status_log "opening chat window for mobile messaging : $chatid\n" red
-
-	if { $chatid == 0 } {
-	    set win [::ChatWindow::Open]
-	    set chatid "mobile@$user"
-	    ::ChatWindow::SetFor $chatid $win
-	    SetChatId $user $chatid
-	    after 200 "::MSNMobile::UpdateWindow $win $user"
-	    
-	    if { [winfo exists .bossmode] } {
-		set ::BossMode(${win_name}) "normal"
-		wm state $win withdraw
-	    } else {
-		wm state $win normal
-	    }
-
-	    wm deiconify $win
-	} else {
-	    set win [::ChatWindow::For $chatid]
-	    if { [winfo exists .bossmode] } {
-		set ::BossMode(${win_name}) "normal"
-		wm state $win withdraw
-	    } else {
-		wm state $win normal
-	    }
-
-	    wm deiconify $win
-	    focus $win
-	}
-    }
-
-    proc UpdateWindow { win_name user_login } {
-	set top [::ChatWindow::GetTopFrame $win_name]
-	if { ![winfo exists $top] } { return }
-
-	$top itemconfigure to -text "[trans tomobile]:"
-	
-	set toX [::skin::getKey topbarpadx]
-	set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans tomobile]:"] + 5}]
-	set txtY [::skin::getKey topbarpady]
-	
-	$top coords text $usrsX [lindex [$top coords text] 1]
-
-	set title "[trans tomobile] : $user_login"
-
-	set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
-	set state_code [::abook::getVolatileData $user_login state]
-
-	if { $state_code == "" } {
-	    set user_state ""
-	    set state_code FLN
-	} else {
-	    set user_state [::MSN::stateToDescription $state_code]
-	}
-
-	set user_image [::MSN::stateToImage $state_code]
-
-	$top dchars text 0 end
-	if {[::config::getKey truncatenames]} {
-	    #Calculate maximum string width
-	    set maxw [expr { 0 - int([lindex [$top coords text] 0])}]
-
-	    if { "$user_state" != "" && "$user_state" != "online" } {
-		incr maxw [expr {0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]}]
-	    }
-
-	    incr maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] -[font measure sboldf -displayof $top " <${user_login}>"]}]
-
-	    $top insert text end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
-	} else {
-	    $top insert text end "${user_name} <${user_login}>"
-	}
-
-	#TODO: When we have better, smaller and transparent images, uncomment this
-
-	if { "$user_state" != "" && "$user_state" != "online" } {
-	    $top insert text end "\([trans $user_state]\)"
-	}
-	$top insert text end "\n"
-
-
-	#Change color of top background by the status of the contact
-	::ChatWindow::ChangeColorState $user_login $user_state $state_code ${win_name}
-
-
-	#Calculate number of lines, and set top text size
-	set size [$top index text end]
-	
-	set ::ChatWindow::titles(${win_name}) ${title}
-
-	$top dchars text [expr {$size - 1}] end
-
-	$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "text" "h"] + 2*[::skin::getKey topbarpady]}]
-
-	if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
-	    wm title ${win_name} "*${title}"
-	} else {
-	    wm title ${win_name} ${title}
-	}
-	update idletasks
-	after cancel "::MSNMobile::UpdateWindow $win_name $user_login"
-
-	after 5000 "::MSNMobile::UpdateWindow $win_name $user_login"
-    }
-
-    proc GetChatId { user } {
-	variable user2chatid
-	if { [info exists user2chatid($user)] } {
-	    set chatid [set user2chatid($user)]
-	    set win [::ChatWindow::For $chatid]
-	    if {$win != 0 && [winfo exists $win] } {
-		return $chatid
-	    } else {
-		unset user2chatid($user)
-		return 0
-	    }
-	} else {
-	    return 0
-	}
-
-    }
-
-    proc SetChatId { user chatid } {
 	variable user2chatid
 
-	set user2chatid($user) $chatid
+	proc IsMobile { chatid } {
 
-    }
+		if { [string first "@" $chatid] != [string last "@" $chatid] &&
+			 [string first "mobile@" $chatid] == 0 } {
+			return 1
+		} else {
+			return 0
+		}
+	}
+
+	proc MessageSend { chatid txt } {
+
+		set name [string range $chatid 7 end]
+
+		set msg "<TEXT xml:space=\"preserve\" enc=\"utf-8\">$txt</TEXT>"
+
+		set msglen [string length $msg]
+		#set plen [string length $msg]
+		::MSN::WriteSBNoNL ns "PGD" "$name 1 $msglen\r\n$msg"
+
+		if {[::config::getKey keep_logs]} {
+			::log::PutLog $chatid [::abook::getPersonal login] $txt
+		}
+	}
+
+	proc MessageReceived { data } {
+
+		status_log "Got data : $data" red
+
+		set xml [xml2list $data]
+		
+		set msg [GetXmlEntry $xml "NOTIFICATION:MSG:BODY:TEXT"]
+		set user [GetXmlAttribute $xml "NOTIFICATION:FROM" name]
+
+		set chatid [GetChatId $user]
+
+		if { $chatid == 0 } {
+			OpenMobileWindow $user
+			set chatid [GetChatId $user]
+		}
+
+		status_log "Writing mobile msg \"$msg\" on : $chatid\n" red
+		::amsn::WinWrite $chatid "\n[timestamp] [trans mobilesays $user] : \n" says
+		::amsn::WinWrite $chatid "$msg" user
+
+		if {[::config::getKey keep_logs]} {
+			::log::PutLog $chatid $user $msg
+		}
+
+	}
+
+
+	proc OpenMobileWindow { user } {
+		set chatid [GetChatId $user]
+		status_log "opening chat window for mobile messaging : $chatid\n" red
+
+		if { $chatid == 0 } {
+			set win [::ChatWindow::Open]
+			set chatid "mobile@$user"
+			::ChatWindow::SetFor $chatid $win
+			SetChatId $user $chatid
+			after 200 "::MSNMobile::UpdateWindow $win $user"
+			
+			if { [winfo exists .bossmode] } {
+			set ::BossMode(${win_name}) "normal"
+			wm state $win withdraw
+			} else {
+			wm state $win normal
+			}
+
+			wm deiconify $win
+		} else {
+			set win [::ChatWindow::For $chatid]
+			if { [winfo exists .bossmode] } {
+			set ::BossMode(${win_name}) "normal"
+			wm state $win withdraw
+			} else {
+			wm state $win normal
+			}
+
+			wm deiconify $win
+			focus $win
+		}
+	}
+
+	proc UpdateWindow { win_name user_login } {
+		set top [::ChatWindow::GetTopFrame $win_name]
+		if { ![winfo exists $top] } { return }
+
+		$top itemconfigure to -text "[trans tomobile]:"
+		
+		set toX [::skin::getKey topbarpadx]
+		set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans tomobile]:"] + 5}]
+		set txtY [::skin::getKey topbarpady]
+		
+		$top coords text $usrsX [lindex [$top coords text] 1]
+
+		set title "[trans tomobile] : $user_login"
+
+		set user_name [string map {"\n" " "} [::abook::getDisplayNick $user_login]]
+		set state_code [::abook::getVolatileData $user_login state]
+
+		if { $state_code == "" } {
+			set user_state ""
+			set state_code FLN
+		} else {
+			set user_state [::MSN::stateToDescription $state_code]
+		}
+
+		set user_image [::MSN::stateToImage $state_code]
+
+		$top dchars text 0 end
+		if {[::config::getKey truncatenames]} {
+			#Calculate maximum string width
+			set maxw [expr { 0 - int([lindex [$top coords text] 0])}]
+
+			if { "$user_state" != "" && "$user_state" != "online" } {
+			incr maxw [expr {0-[font measure sboldf -displayof $top " \([trans $user_state]\)"]}]
+			}
+
+			incr maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] -[font measure sboldf -displayof $top " <${user_login}>"]}]
+
+			$top insert text end "[trunc ${user_name} ${win_name} $maxw sboldf] <${user_login}>"
+		} else {
+			$top insert text end "${user_name} <${user_login}>"
+		}
+
+		#TODO: When we have better, smaller and transparent images, uncomment this
+
+		if { "$user_state" != "" && "$user_state" != "online" } {
+			$top insert text end "\([trans $user_state]\)"
+		}
+		$top insert text end "\n"
+
+
+		#Change color of top background by the status of the contact
+		::ChatWindow::ChangeColorState $user_login $user_state $state_code ${win_name}
+
+
+		#Calculate number of lines, and set top text size
+		set size [$top index text end]
+		
+		set ::ChatWindow::titles(${win_name}) ${title}
+
+		$top dchars text [expr {$size - 1}] end
+
+		$top configure -height [expr {[::ChatWindow::MeasureTextCanvas $top "text" "h"] + 2*[::skin::getKey topbarpady]}]
+
+		if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == 1 } {
+			wm title ${win_name} "*${title}"
+		} else {
+			wm title ${win_name} ${title}
+		}
+		update idletasks
+		after cancel "::MSNMobile::UpdateWindow $win_name $user_login"
+
+		after 5000 "::MSNMobile::UpdateWindow $win_name $user_login"
+	}
+
+	proc GetChatId { user } {
+		variable user2chatid
+		if { [info exists user2chatid($user)] } {
+			set chatid [set user2chatid($user)]
+			set win [::ChatWindow::For $chatid]
+			if {$win != 0 && [winfo exists $win] } {
+			return $chatid
+			} else {
+			unset user2chatid($user)
+			return 0
+			}
+		} else {
+			return 0
+		}
+	}
+
+	proc SetChatId { user chatid } {
+		variable user2chatid
+		set user2chatid($user) $chatid
+	}
 
 
 }
