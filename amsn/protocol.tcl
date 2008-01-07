@@ -5296,10 +5296,10 @@ proc cmsn_auth {{recv ""}} {
 
 			global login_passport_url
 			if { $login_passport_url == 0 } {
-				status_log "cmsn_auth_msnp9: Nexus didn't reply yet...\n"
+				status_log "cmsn_auth: Nexus didn't reply yet...\n"
 				set login_passport_url $info(all)
 			} else {
-				status_log "cmsn_auth_msnp9: Nexus has replied so we have login URL...\n"
+				status_log "cmsn_auth: Nexus has replied so we have login URL...\n"
 				set proxy [ns cget -proxy]
 				$proxy authenticate $info(all) $login_passport_url
 			}
@@ -5439,22 +5439,20 @@ proc initial_syn_handler {recv} {
 	ns handleCommand $recv
 }
 
-proc msnp9_userpass_error {} {
+proc msnp11_userpass_error {} {
 	ns configure -stat "closed"
 	::MSN::logout
 	status_log "Error: User/Password\n" red
 	::amsn::errorMsg "[trans baduserpass]"
 }
 
-proc msnp9_auth_error {} {
+proc msnp11_auth_error {} {
 	status_log "Error connecting to server\n"
 	::MSN::logout
 	::amsn::errorMsg "[trans connecterror]"
 }
 
-
-
-proc msnp9_authenticate { ticket } {
+proc msnp11_authenticate { ticket } {
 	if {[ns cget -stat] == "u" } {
 		::MSN::WriteSB ns "USR" "TWN S $ticket"
 		set ::authentication_ticket $ticket
@@ -5473,7 +5471,6 @@ proc msnp9_authenticate { ticket } {
 		msg_box "[trans connecterror]: Connection timed out"
 	}
 	return
-
 }
 
 
@@ -5679,9 +5676,9 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	#TODO: Call "on connect" handlers, where hotmail will be registered.
 	set ::hotmail::unread 0
 
-	ns configure -autherror_handler "msnp9_auth_error"
-	ns configure -passerror_handler "msnp9_userpass_error"
-	ns configure -ticket_handler "msnp9_authenticate"
+	ns configure -autherror_handler "msnp11_auth_error"
+	ns configure -passerror_handler "msnp11_userpass_error"
+	ns configure -ticket_handler "msnp11_authenticate"
 	ns configure -connected "cmsn_ns_connected"
 
 	cmsn_socket ns
@@ -5689,35 +5686,6 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	return 0
 }
 
-
-#TODO Delete it when MSNP11 is finished
-proc process_msnp9_lists { bin } {
-
-	set lists [list]
-
-	if { $bin == "" } {
-		status_log "process_msnp9_lists: No lists!!!\n" red
-		return $lists
-	}
-
-	if { $bin & 1 } {
-		lappend lists "FL"
-	}
-
-	if { $bin & 2 } {
-		lappend lists "AL"
-	}
-
-	if { $bin & 4 } {
-		lappend lists "BL"
-	}
-
-	if { $bin & 8 } {
-		lappend lists "RL"
-	}
-
-	return $lists
-}
 
 proc process_msnp11_lists { bin } {
 
