@@ -733,11 +733,7 @@ namespace eval ::abook {
 	proc parseCustomNick { input nick user_login customnick {psm ""} } {
 		#If there's no customnick set, default to user_login
 		if { $customnick eq "" } {
-			if { [::config::getKey protocol] >= 11 && $psm ne "" } {
-				set customnick $user_login\n$psm
-			} else {
-				set customnick $user_login
-			}
+			set customnick $user_login
 		}
 		#By default, quote backslashes, angle brackets and variables
 		set input [string map { "\\" "\\\\" "\$" "\\\$" "\(" "\\\(" } $input]
@@ -754,12 +750,7 @@ namespace eval ::abook {
 
 		#If there's no customnick set, default to user_login
 		if { [::abook::removeStyles $customnick] eq "" } {
-			if { [::config::getKey protocol] >= 11 && $psm ne "" } {
-				set customnick [list [list "text" "$user_login"] [list "newline" "\n"]]
-				set customnick [concat $customnick $psm]
-			} else {
-				set customnick [list [list "text" "$user_login"]]
-			}
+			set customnick [list [list "text" "$user_login"]]
 		}
 
 		set user_login [list [list "text" "$user_login"]]
