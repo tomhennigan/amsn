@@ -3720,7 +3720,7 @@ namespace eval ::ChatWindow {
 		# Should fix the issue with tab switching and the input not focusing.
 		update idletasks
 
-		bind $win <Map> [list focus [::ChatWindow::GetInputText $win] ]
+#		bind $win <Map> [list focus [::ChatWindow::GetInputText $win] ]
 
 		focus [::ChatWindow::GetInputText $win]
 	}
