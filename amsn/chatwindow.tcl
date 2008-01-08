@@ -716,22 +716,33 @@ namespace eval ::ChatWindow {
  	proc MacPosition { window } {
  		#To know where the window manager want to put the window in X and Y
  		set window [winfo toplevel $window]
- 		set info1 [winfo x $window]
- 		set info2 [winfo y $window]
- 		#Determine the maximum place in Y to place a window
- 		#Size of the screen (in y) - size of the window
- 		set max [expr {[winfo vrootheight $window] - [winfo height $window]}]
- 		#If the position of the window in y is superior to the maximum
- 		#Then up the window by the size of the window
- 		if { $info2 > $max } { 
-			set info2 [expr {$info2 - [winfo height $window]}] 
+ 		set x_pos [winfo x $window]
+ 		set y_pos [winfo y $window]
+ 		
+		#Determine the maximum place in Y to place a window
+ 		#Height of the screen - height of the window
+ 		set y_max [expr {[winfo vrootheight $window] - [winfo height $window]}]
+ 		#If the position of the window in y is greater than the maximum
+ 		#Then move the window upwards by the size of the window
+ 		if { $y_pos > $y_max } { 
+			set y_pos [expr {$y_pos - [winfo height $window]}] 
 		}
  		#If the result is smaller than 25 (on small screen) then use 25 
- 		if { $info2 < 25 } {
-			set info2 25
+ 		if { $y_pos < 25 } {
+			set y_pos 25
 		}
+		
+		#Determine the maximum place in X to place a window
+		#Width of screen - width of window
+		set x_max [expr {[winfo vrootwidth $window] - [winfo width $window]}]
+ 		#If the position of the window in x is greater than the maximum
+ 		#Then move the window to the left by the size of the window
+		if { $x_pos > $x_max } {
+			set x_pos [expr {$x_pos - [winfo width $window]}]
+		}
+						
  		#Replace the window to the new position on the screen 	
- 		wm geometry $window +${info1}+${info2}
+ 		wm geometry $window +${x_pos}+${y_pos}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
