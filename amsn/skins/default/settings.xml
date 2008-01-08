@@ -61,6 +61,7 @@
 			<mainwindowbg>#efefef</mainwindowbg>
 			<topcontactlistbg>#ffffff</topcontactlistbg>	<!-- color for the top of the contact list, the status part -->
 			<contactlistbg>#ffffff</contactlistbg>	<!-- color of the contact list, where the contacts appear -->
+			<contactlistborderbg>#ffffff</contactlistborderbg>
 			<bannerbg>#ffffff</bannerbg>
 			<mystatus>#666666</mystatus>
 			<contact_online>#638000</contact_online>
@@ -96,6 +97,7 @@
 		 </Options>
 		<Geometry>
 			<mainwindowbd>1</mainwindowbd>
+			<contactlistbd>0</contactlistbd>
 			<buddylistpad>0</buddylistpad>
 			<bigstate_xpad>1</bigstate_xpad>
 			<bigstate_ypad>1</bigstate_ypad>

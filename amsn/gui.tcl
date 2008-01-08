@@ -37,6 +37,8 @@ if { $initialize_amsn == 1 } {
 	
 	::skin::setKey mainwindowbg #7979f2
 	::skin::setKey contactlistbg #ffffff
+	::skin::setKey contactlistborderbg #ffffff
+	::skin::setKey contactlistbd 0
 	::skin::setKey topcontactlistbg #ffffff
 	::skin::setKey bannerbg #ffffff
 	::skin::setKey contact_mobile #404040

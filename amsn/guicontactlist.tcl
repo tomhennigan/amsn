@@ -125,7 +125,7 @@ namespace eval ::guiContactList {
 		set Xbegin [::skin::getKey contactlist_xpad]
 		set Ybegin [::skin::getKey contactlist_ypad]
 
-		frame $w.cl -background [::skin::getKey contactlistbg] -borderwidth 0
+		frame $w.cl -background [::skin::getKey contactlistborderbg] -borderwidth [::skin::getKey contactlistbd]
 
 		scrollbar $clscrollbar -command [list ::guiContactList::scrollCLsb $clcanvas] \
 			-background [::skin::getKey contactlistbg]
