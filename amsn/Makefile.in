@@ -254,21 +254,25 @@ ifeq ($(FOUND_OS),linux)
       include $(tray_dir)/Rules.mk
       include $(linflash_dir)/Rules.mk
   endif
-else ifeq ($(FOUND_OS),bsd)
-   ifeq ($(FOUND_X11),yes)
+else
+  ifeq ($(FOUND_OS),bsd)
+    ifeq ($(FOUND_X11),yes)
        ADDLIBS    += ${X_LIBS} 
       include $(tray_dir)/Rules.mk
       include $(linflash_dir)/Rules.mk
-  endif
-else ifeq ($(FOUND_OS),solaris)
-  include $(capture_dir)/Rules.mk
-  include $(capture_dir)/libng/Rules.mk
-  include $(capture_dir)/libng/plugins/Rules.mk
+    endif
+  else
+    ifeq ($(FOUND_OS),solaris)
+      include $(capture_dir)/Rules.mk
+      include $(capture_dir)/libng/Rules.mk
+      include $(capture_dir)/libng/plugins/Rules.mk
 
-  ifeq ($(FOUND_X11),yes)
-      ADDLIBS	 += ${X_LIBS}
-      include $(tray_dir)/Rules.mk
-      include $(linflash_dir)/Rules.mk
+      ifeq ($(FOUND_X11),yes)
+        ADDLIBS	 += ${X_LIBS}
+        include $(tray_dir)/Rules.mk
+        include $(linflash_dir)/Rules.mk
+      endif
+    endif
   endif
 endif
 
