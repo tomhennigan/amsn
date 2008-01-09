@@ -82,13 +82,15 @@ namespace eval ::Event {
 	#            notify all listeners for all events with that name
 	proc fireEvent { eventName caller args } {
 		variable eventsArray
+
+		status_log "Event --$eventName-- fired with caller -$caller-- and args : $args"
+
 		#fire events registered for both the current caller and 'all'
 		foreach call [list $caller "all"] {
 			#first check there were some events registered to caller or it will fail
 			if { [array names eventsArray "$eventName,$call"] == "$eventName,$call" } {
 				foreach listener [set eventsArray($eventName,$call)] {
-					set call [linsert $args 0 $listener $eventName]
-					eval $call
+					eval $listener [linsert $args 0 $eventName]
 				}
 			}
 		}
@@ -115,6 +117,7 @@ namespace eval ::Event {
 		}
 			
 	}
+
 }
 
 

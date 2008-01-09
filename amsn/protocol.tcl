@@ -3111,54 +3111,6 @@ namespace eval ::MSNOIM {
 
 }
 
-namespace eval ::Event {
-
-	variable eventsArray
-
-	# sends to all interested listeners the event that occured
-	# eventName: name of the event that happened
-	# caller:    the object that fires the event, set to all to
-	#            notify all listeners for all events with that name
-	proc fireEvent { eventName caller args } {
-		variable eventsArray
-
-		status_log "Event --$eventName-- fired with caller -$caller-- and args : $args"
-
-		#fire events registered for both the current caller and 'all'
-		foreach call [list $caller "all"] {
-			#first check there were some events registered to caller or it will fail
-			if { [array names eventsArray "$eventName,$call"] == "$eventName,$call" } {
-				foreach listener [set eventsArray($eventName,$call)] {
-					eval $listener [linsert $args 0 $eventName]
-				}
-			}
-		}
-	}
-
-	# registers a listener for an event
-	# the listener has to have a method the same as the eventName
-	# eventName: name of the event to listen to
-	# caller:    the object that fires the event, set to all to
-	#            register for all events with that name
-	# listener:  the object that wants to receive the events
-	proc registerEvent { eventName caller listener } {
-		variable eventsArray
-		lappend eventsArray($eventName,$caller) $listener
-	}
-	
-	proc unregisterEvent { eventName caller listener } {
-		variable eventsArray
-		set idx [lsearch [lindex [array get eventsArray "$eventName,$caller"] 1] $listener]
-		if { $idx != -1 } {
-			set eventsArray($eventName,$caller) [lreplace $eventsArray($eventName,$caller) $idx $idx]
-		} else {
-			status_log "ERROR: tried to unregister an unexistant event: $eventName,$caller" white
-		}
-			
-	}
-
-}
-
 ::snit::type Message {
 
 	variable fields
