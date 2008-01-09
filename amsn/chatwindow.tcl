@@ -447,26 +447,22 @@ namespace eval ::ChatWindow {
 	#  - path => Is the parent widget of the destroyed childrens (the window)
 	proc Closed { window path } {
 
-
-		set chatid [::ChatWindow::Name $window]
-
 		#Only run when the parent window close event comes
 		if { "$window" != "$path" } {
 			return 0
 		}
 
+		set chatid [::ChatWindow::Name $window]
 
 		if { $chatid == 0 } {
 			status_log "VERY BAD ERROR in ::ChatWindow::Closed!!!\n" red
 			return 0
 		}
 		if {[::config::getKey keep_logs]} {
-			set user_list [::MSN::usersInChat $chatid]
 			if { [::OIM_GUI::IsOIM $chatid] == 1} {
 				::log::StopLog $chatid
 			} else {
-				set user_list [::MSN::usersInChat $chatid]
-				foreach user_login $user_list {
+				foreach user_login [::MSN::usersInChat $chatid] {
 					::log::StopLog $user_login
 				}
 			}
