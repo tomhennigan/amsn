@@ -131,7 +131,6 @@ proc ShowLastSentences { chatid email } {
 		set textw [::ChatWindow::GetOutText ${win_name}]
 		$textw configure -state normal -font bplainf -foreground black
 	}
-
 	# Set up formatting tags
 	$textw tag configure red -foreground red
 	$textw tag configure RED -foreground red
@@ -198,6 +197,9 @@ proc ShowLastSentences { chatid email } {
 			::remind::WinWrite $chatid "\n" black
 		}
 	}
+
+	after 0 custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] 0.0 end
+	after 0 ::smiley::substSmileys [::ChatWindow::GetOutText ${win_name}] 0.0 end 0 0
 
 	::amsn::WinWriteIcon $chatid greyline 3	
 
@@ -343,16 +345,6 @@ proc WinWrite {chatid txt tagname {fontformat ""}} {
 		${win_name}.f.out.text insert end "$txt" $tagid
 	} else {
 		[::ChatWindow::GetOutText ${win_name}] roinsert end "$txt" $tagid
-	}
-
-	if {[::config::getKey chatsmileys]} {
-		if { $version == "0.94" } {
-			custom_smile_subst $chatid ${win_name}.f.out.text $text_start end
-			::smiley::substSmileys ${win_name}.f.out.text $text_start end 0
-		} else {
-			custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] $text_start end
-			::smiley::substSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0 0
-		}
 	}
 
 }
