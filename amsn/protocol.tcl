@@ -4666,11 +4666,7 @@ proc cmsn_change_state {recv} {
 	set custom_user_name [::abook::getDisplayNick $user]
 
 
-	if {[lindex $recv 0] !="ILN" && $state_changed} {
-
-		#an event used by guicontactlist to know when a contact changed state
-		after 500 [list ::Event::fireEvent contactStateChange protocol $user]
-		::plugins::PostEvent ChangeState evpar
+	if {[lindex $recv 0] != "ILN" && $state_changed} {
 
 		#alarm system (that must replace the one that was before) - KNO
 		if {[lindex $recv 0] == "FLN"} {
@@ -4702,6 +4698,11 @@ proc cmsn_change_state {recv} {
 
 
 	if {$state_changed } {
+
+		#an event used by guicontactlist to know when a contact changed state
+		after 500 [list ::Event::fireEvent contactStateChange protocol $user]
+		::plugins::PostEvent ChangeState evpar
+
 		set maxw [expr {([::skin::getKey notifwidth]-53)*2} ]
 		set short_name [trunc $custom_user_name . $maxw splainf]
 

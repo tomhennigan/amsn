@@ -83,7 +83,7 @@ namespace eval ::Event {
 	proc fireEvent { eventName caller args } {
 		variable eventsArray
 
-		status_log "Event --$eventName-- fired with caller -$caller-- and args : $args"
+		#status_log "Event --$eventName-- fired with caller -$caller-- and args : $args"
 
 		#fire events registered for both the current caller and 'all'
 		foreach call [list $caller "all"] {
