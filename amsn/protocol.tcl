@@ -3395,7 +3395,7 @@ namespace eval ::Event {
 
 			switch -- [lindex $command 0] {
 				ILN {
-					if {$::msnp13} {
+					if {[::config::getKey protocol] == "15"} {
 						$self handleILN $command
 					} else {
 						cmsn_ns_handler $command $message
@@ -4696,7 +4696,7 @@ proc cmsn_change_state {recv} {
 
 		set nick_changed 1
 
-		if {$::msnp13 != 1} {
+		if {[config::getKey protocol] == 15} {
 			# This check below is because today I received a NLN for a user 
 			# who doesn't appear in ANY of my 5 MSN lists (RL,AL,BL,FL,PL)
 			# so amsn just sent the SBP with an empty string for the contactguid, 
@@ -5254,14 +5254,45 @@ proc cmsn_ns_msg {recv message} {
 			::config::setKey checkemail $d(email_enabled)
 		}
 
-		if {$::msnp13} {
-			getAddressbook
-		}
 	} else {
 		::hotmail::hotmail_procmsg $message
 	}
 }
 
+proc sso_authenticate {} {
+	global sso
+	if {[ns cget -stat] == "u" } {
+		set token [$sso GetSecurityTokenByName MessengerClear]
+		set nonce [$sso cget -nonce]
+		set proof [$token cget -proof]
+		set mbi [MBIAuthentication MBICrypt $nonce $proof]
+		
+		set ticket [$token cget -ticket]
+		::MSN::WriteSB ns "USR" "SSO S $ticket $mbi"
+		ns configure -stat "us"
+	} elseif {[ns cget -stat] != "d" } {
+
+		status_log "Connection timeouted : state is [ns cget -stat]\n" white
+		::MSN::logout
+		::config::setKey start_ns_server [::config::getKey default_ns_server]
+		#Reconnect if necessary
+		if { [::config::getKey reconnect] == 1 } {
+			::MSN::reconnect "[trans connecterror]: Connection timed out"
+			return
+		}
+
+		msg_box "[trans connecterror]: Connection timed out"
+	}
+}
+proc sso_authenticated { failed } {
+	global sso
+	if {$failed } {
+	} else {
+		if { [$sso cget -nonce] != "" } {
+			sso_authenticate
+		}
+	}
+}
 
 proc cmsn_auth {{recv ""}} {
 	global HOME info
@@ -5271,13 +5302,17 @@ proc cmsn_auth {{recv ""}} {
 	switch -- [ns cget -stat] {
 		a {
 			#Send three first commands at same time, to be faster
-			if { [::config::getKey protocol] == 13 } {
-				::MSN::WriteSB ns "VER" "MSNP13 CVR0"
+			if { [::config::getKey protocol] == 15 } {
+				::MSN::WriteSB ns "VER" "MSNP15 CVR0"
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP12 CVR0"
 			}
 			::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 8.0.0812 msmsgs [::config::getKey login]"
-			::MSN::WriteSB ns "USR" "TWN I [::config::getKey login]"
+			if { [::config::getKey protocol] == 15 } {
+				::MSN::WriteSB ns "USR" "SSO I [::config::getKey login]"
+			} else {
+				::MSN::WriteSB ns "USR" "TWN I [::config::getKey login]"
+			}
 
 			ns configure -stat "v"
 			return 0
@@ -5288,13 +5323,11 @@ proc cmsn_auth {{recv ""}} {
 				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
 				return 1
 			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
-				if {[lsearch -exact $recv "MSNP13"] != -1} {
-					set ::msnp13 1
-					source msnp13.tcl
-				} else {
-					set ::msnp13 0
+				if { [::config::getKey protocol] == 15 } {
+					global sso
+					set sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
+					$sso Authenticate [list sso_authenticated]
 				}
-
 				ns configure -stat "i"
 				return 0
 			} else {
@@ -5314,25 +5347,42 @@ proc cmsn_auth {{recv ""}} {
 		}
 
 		u {
-			if {([lindex $recv 0] != "USR") || \
-				([lindex $recv 2] != "TWN") || \
-				([lindex $recv 3] != "S")} {
+			if { [::config::getKey protocol] == 15 } {
+				if {([lindex $recv 0] != "USR") || \
+					([lindex $recv 2] != "SSO") || \
+					([lindex $recv 3] != "S")} {
+					
+					status_log "cmsn_auth: was expecting USR x SSO S xxxxx but got something else!\n" red
+					return 1
+				}
+				global sso
+				$sso configure -nonce [lindex $recv 5]
+				set token [$sso GetSecurityTokenByName MessengerClear]
+				if { [$token cget -ticket] != "" } {
+					sso_authenticate
+				}
 
-				status_log "cmsn_auth: was expecting USR x TWN S xxxxx but got something else!\n" red
-				return 1
-			}
-
-			foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
-			set info(all) [lrange $recv 4 end]
-
-			global login_passport_url
-			if { $login_passport_url == 0 } {
-				status_log "cmsn_auth: Nexus didn't reply yet...\n"
-				set login_passport_url $info(all)
 			} else {
-				status_log "cmsn_auth: Nexus has replied so we have login URL...\n"
-				set proxy [ns cget -proxy]
-				$proxy authenticate $info(all) $login_passport_url
+				if {([lindex $recv 0] != "USR") || \
+					([lindex $recv 2] != "TWN") || \
+					([lindex $recv 3] != "S")} {
+					
+					status_log "cmsn_auth: was expecting USR x TWN S xxxxx but got something else!\n" red
+					return 1
+				}
+
+				foreach x [split [lrange $recv 4 end] ","] { set info([lindex [split $x "="] 0]) [lindex [split $x "="] 1] }
+				set info(all) [lrange $recv 4 end]
+
+				global login_passport_url
+				if { $login_passport_url == 0 } {
+					status_log "cmsn_auth: Nexus didn't reply yet...\n"
+					set login_passport_url $info(all)
+				} else {
+					status_log "cmsn_auth: Nexus has replied so we have login URL...\n"
+					set proxy [ns cget -proxy]
+					$proxy authenticate $info(all) $login_passport_url
+				}
 			}
 
 			return 0
@@ -5365,7 +5415,7 @@ proc cmsn_auth {{recv ""}} {
 			
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
-			if { $::msnp13 } {
+			if { [config::getKey protocol] == 15 } {
 				initial_syn_handler ""
 				ns setInitialStatus
 			} else {

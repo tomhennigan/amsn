@@ -245,6 +245,7 @@ proc reload_files { } {
 	source guicontactlist.tcl ;# New contact list (uses canvas)
 	source bugs.tcl 	  ;# bug reporting
 	source spaces.tcl         ;# MSN Space handling functions
+	source auth.tcl           ;# MSNP15 SSO authentication mechanisms
     }
     #As we reloaded amsncore, the version has been resetted and maybe amsn is the newest file
     ::Version::setSubversionId {$Id$}

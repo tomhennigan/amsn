@@ -5,7 +5,7 @@ snit::type SecurityToken {
 	option -type -default ""
 	option -created -default ""
 	option -expires -default ""
-	option -token -default ""
+	option -ticket -default ""
 	option -proof -default ""
 }
 
@@ -15,6 +15,7 @@ snit::type SSOAuthentication {
 	variable security_tokens
 	option -username -default ""
 	option -password -default ""
+	option -nonce -default ""
 
 	constructor { args } {
 		$self configurelist $args
@@ -32,8 +33,10 @@ snit::type SSOAuthentication {
 	}
 
 	destructor {
-		foreach token $security_tokens {
-			$token destroy
+		catch {
+			foreach token $security_tokens {
+				$token destroy
+			}
 		}
 		
 	}
@@ -57,7 +60,7 @@ snit::type SSOAuthentication {
 		return ""
 	}
 	
-	method RSTCallback { callbk soap } {
+	method AuthenticateCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
 		
@@ -80,11 +83,12 @@ snit::type SSOAuthentication {
 			
 				set address [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wsp:AppliesTo:wsa:EndpointReference:wsa:Address"]
 				set token [$self GetSecurityTokenByAddress $address]
+				puts "$subxml\n\n\n"
 				if {$token != "" } {
 					$token configure -type [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:TokenType"]
 					$token configure -created [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Created"]
 					$token configure -expires [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Expires"]
-					$token configure -token [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
+					$token configure -ticket [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
 					$token configure -proof [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedProofToken:wst:BinarySecret"]
 				}
 			}
@@ -93,17 +97,17 @@ snit::type SSOAuthentication {
 			}
 		} else {
 			$soap destroy
-			if {[catch {eval $callbk [list 0]} result]} {
+			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
 			}
 		}
 	}
 	
-	method RST { callbk } {
+	method Authenticate { callbk } {
 		set soap_req [SOAPRequest create %AUTO% \
 				  -url "https://login.live.com/RST.srf" \
 				  -xml [$self getSSOXml] \
-				  -callback [list $self RSTCallback $callbk]]
+				  -callback [list $self AuthenticateCallback $callbk]]
 		$soap_req SendSOAPRequest
 	}
 	
@@ -146,7 +150,7 @@ snit::type SSOAuthentication {
 
 			# The http://Passport.NET/tb token doesn't have a policy reference
 			if {$policy != ""} {
-				append xml "<wsse:PolicyReference xmlns:wsse=\"http://schemas.xmlsoap.org/ws/2003/06/secext\" URI=\"?[xmlencode ${policy}]\">"
+				append xml "<wsse:PolicyReference xmlns:wsse=\"http://schemas.xmlsoap.org/ws/2003/06/secext\" URI=\"[xmlencode ${policy}]\">"
 				append xml {</wsse:PolicyReference>}
 			}
 			append xml {</wst:RequestSecurityToken>}
@@ -162,6 +166,66 @@ snit::type SSOAuthentication {
 	}
 }
 
+
+snit::type MBIAuthentication {
+	typemethod dump { str } {
+		binary scan $str H* h
+		set i 0
+		foreach {c1 c2} [split $h ""] {
+			puts -nonewline "$c1$c2 "
+			incr i
+			if {$i == 8 } {
+				set i 0
+				puts ""
+			}
+		}
+		puts "\n"
+
+	}
+
+	typemethod MBICrypt {nonce proof } {
+		set key1 [base64::decode $proof]
+		MBIAuthentication dump $key1
+		set key2 [MBIAuthentication deriveKey $key1 "WS-SecureConversationSESSION KEY HASH"]
+		MBIAuthentication dump $key2
+		set key3 [MBIAuthentication deriveKey $key1 "WS-SecureConversationSESSION KEY ENCRYPTION"]
+		MBIAuthentication dump $key3
+
+		set hash [binary format H* [::sha1::hmac $key2 $nonce]]
+		MBIAuthentication dump $hash
+
+		set iv [MBIAuthentication rand 8]
+		MBIAuthentication dump $iv
+		set des_message $nonce
+		append des_message [string repeat "\x08" [expr {72 - [string length $nonce]}]]
+		set cipher [::des::des $key3 $des_message 1 1 $iv]
+		MBIAuthentication dump $cipher
+
+
+		set header [binary format iiH8H8iii 28 1 03660000 04800000 [string length $iv] [string length $hash] [string length $cipher]]
+		MBIAuthentication dump $header
+		set data "${iv}${hash}${cipher}"
+
+		return [string map {"\n" ""} [base64::encode "${header}${data}"]]
+	}
+
+	typemethod deriveKey { key magic } {
+		set hash1 [binary format H* [::sha1::hmac $key $magic]]
+		set hash2 [binary format H* [::sha1::hmac $key "${hash1}${magic}"]]
+
+		set hash3 [binary format H* [::sha1::hmac $key $hash1]]
+		set hash4 [binary format H* [::sha1::hmac $key "${hash3}${magic}"]]
+		return "${hash2}[string range $hash4 0 3]"
+	}
+
+	typemethod rand { bytes } {
+		set result ""
+		for {set i 0 } { $i < $bytes } { incr i } {
+			append result [binary format c [expr {int(rand() * 256)}]]
+		}
+		return $result
+	}
+}
 
 snit::type LockKeyAuthentication {
 	
