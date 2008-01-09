@@ -3,8 +3,9 @@
 	<name>Countdown</name>
 	<author>Youness Alaoui (a.k.a KaKaRoTo). Unimatrix for the idea </author>
 	<description>Shows a countdown to a specific date</description>
-	<description_fr>Affiche un d�compte vers une date sp�cifique</description_fr>
-	<description_es>Muestra una cuenta atr�s para una fecha espec�fica</description_es>
+	<description_fr>Affiche un décompte vers une date spécifique</description_fr>
+	<description_es>Muestra una cuenta atrás para una fecha específica</description_es>
+	<description_hu>Visszaszámlálás egy megadott időpontig</description_hu>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.3</plugin_version>
 	<plugin_file>countdown.tcl</plugin_file>

@@ -1,0 +1,16 @@
+amsn_lang_version 2
+date Visszaszámlálás e dátumig/időpontig (hónap/nap/év óra:perc)
+howtoshow1 Válaszd ki, hogyan jelenjen meg a visszaszámlálás.
+howtoshow2 Ha a napok és az órák száma kijelölt, az órák száma csak az utolsó napon jelenik meg (ugyanúgy, mint a perceknél).
+showdays Hátralévő napok megjelenítése
+showhours Hátralévő órák megjelenítése
+showminutes Hátralévő percek megjelenítése
+prefixd Számláló előtag a napoknál
+suffixd Számláló utótag a napoknál
+prefixh Számláló előtag az óráknál
+suffixh Számláló utótag az óráknál
+prefixm Számláló előtag a perceknél
+suffixm Számláló utótag a perceknél
+after Személyes üzenet a beállított időpontban
+invaliddate A megadott dátum/idő érvénytelen.
+invalidshow A megjelenítési opciók érvénytelenek. Mindegyik engedélyezve.
