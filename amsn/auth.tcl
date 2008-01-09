@@ -6,6 +6,7 @@ snit::type SecurityToken {
 	option -created -default ""
 	option -expires -default ""
 	option -token -default ""
+	option -proof -default ""
 }
 
 
@@ -18,16 +19,23 @@ snit::type SSOAuthentication {
 	constructor { args } {
 		$self configurelist $args
 
-		set security_tokens [SecurityToken create Passport -name Passport -address "http://Passport.NET/tb"]
+		set security_tokens [SecurityToken create %AUTO% -name Passport -address "http://Passport.NET/tb"]
 
-		lappend security_tokens [SecurityToken create Contacts -name Contacts -address "contacts.msn.com" -policy "?fs=1&id=24000&kv=7&rn=93S9SWWw&tw=0&ver=2.1.6000.1"]
-		lappend security_tokens [SecurityToken create Messenger -name Messenger -address "messenger.msn.com" -policy "?id=507"]
-		lappend security_tokens [SecurityToken create MessengerClear -name MessengerClear -address "messengerclear.live.com" -policy "MBI_KEY_OLD"]
-		lappend security_tokens [SecurityToken create MessengerSecure -name MessengerSecure -address "messengersecure.live.com" -policy "MBI_SSL"]
+		lappend security_tokens [SecurityToken create %AUTO% -name Contacts -address "contacts.msn.com" -policy "?fs=1&id=24000&kv=7&rn=93S9SWWw&tw=0&ver=2.1.6000.1"]
+		lappend security_tokens [SecurityToken create %AUTO% -name Messenger -address "messenger.msn.com" -policy "?id=507"]
+		lappend security_tokens [SecurityToken create %AUTO% -name MessengerClear -address "messengerclear.live.com" -policy "MBI_KEY_OLD"]
+		lappend security_tokens [SecurityToken create %AUTO% -name MessengerSecure -address "messengersecure.live.com" -policy "MBI_SSL"]
 		
-		lappend security_tokens [SecurityToken create Spaces -name Spaces -address "spaces.live.com" -policy "MBI"]
-		lappend security_tokens [SecurityToken create Voice -name Voice -address "voice.messenger.msn.com" -policy "?id=69264"]
+		lappend security_tokens [SecurityToken create %AUTO% -name Spaces -address "spaces.live.com" -policy "MBI"]
+		lappend security_tokens [SecurityToken create %AUTO% -name Voice -address "voice.messenger.msn.com" -policy "?id=69264"]
 
+	}
+
+	destructor {
+		foreach token $security_tokens {
+			$token destroy
+		}
+		
 	}
 
 	method GetSecurityTokenByName { name } {
@@ -52,20 +60,19 @@ snit::type SSOAuthentication {
 	method RSTCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
-			puts "RST XML : \n$xml"
 		
 			if { [GetXmlNode $xml "S:Envelope:S:Fault"] != "" } {
 				# TODO find a way to specify if it's a wrong password or a server error..
-				set faultcode [GetXmlEntry $list "S:Envelope:S:Fault:faultcode"]	;# Should be "wsse:FailedAuthentication"
-				set faultstring [GetXmlEntry $list "S:Envelope:S:Fault:faultstring"]
+				set faultcode [GetXmlEntry $xml "S:Envelope:S:Fault:faultcode"]	;# Should be "wsse:FailedAuthentication"
+				set faultstring [GetXmlEntry $xml "S:Envelope:S:Fault:faultstring"]
 			
 				if {[catch {eval $callbk [list 1]} result]} {
 					bgerror $result
 				}	
 			}
 			set i 0
-			while {1 } {
-				set subxml [GetXmlNode $list "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse" $i]
+			while {1} {
+				set subxml [GetXmlNode $xml "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse" $i]
 				incr i
 				if  { $subxml == "" } {
 					break
@@ -78,6 +85,7 @@ snit::type SSOAuthentication {
 					$token configure -created [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Created"]
 					$token configure -expires [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Expires"]
 					$token configure -token [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
+					$token configure -proof [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedProofToken:wst:BinarySecret"]
 				}
 			}
 			if {[catch {eval $callbk [list 0]} result]} {
@@ -113,7 +121,7 @@ snit::type SSOAuthentication {
 		append xml {</ps:AuthInfo>}
 
 		append xml {<wsse:Security xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext">}
-		append xml {<wsse:UsernameToken Id=\"user\">}
+		append xml {<wsse:UsernameToken Id="user">}
 		append xml "<wsse:Username>$options(-username)</wsse:Username>"
 		append xml "<wsse:Password>$options(-password)</wsse:Password>"
 		append xml {</wsse:UsernameToken>}
@@ -138,9 +146,9 @@ snit::type SSOAuthentication {
 
 			# The http://Passport.NET/tb token doesn't have a policy reference
 			if {$policy != ""} {
-				append xml "<wsse:PolicyReference xmlns:wsse=\"http://schemas.xmlsoap.org/ws/2003/06/secext\" URI=\"?${policy}\">"
+				append xml "<wsse:PolicyReference xmlns:wsse=\"http://schemas.xmlsoap.org/ws/2003/06/secext\" URI=\"?[xmlencode ${policy}]\">"
+				append xml {</wsse:PolicyReference>}
 			}
-			append xml {</wsse:PolicyReference>}
 			append xml {</wst:RequestSecurityToken>}
 			
 			incr id
