@@ -700,6 +700,7 @@ proc load_config {} {
 	if {[::config::getKey protocol] != 15 } {
 		::config::setKey protocol 11
 	}
+
 	::MSN::setClientCap msnc4
 	::MSN::setClientCap inkgif
 	::MSN::setClientCap multip
