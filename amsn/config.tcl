@@ -82,11 +82,11 @@ namespace eval ::config {
 			::config::setKey usesnack 0
 		} elseif { [OnUnix] } {
 			::config::setKey soundcommand "play \$sound"
-			::config::setKey browser "mozilla \$url"
+			::config::setKey browser "xdg-open \$url"
 			::config::setKey notifyXoffset 0
 			::config::setKey notifyYoffset 0
-			::config::setKey filemanager "my_filemanager open \$location"
-			::config::setKey openfilecommand ""
+			::config::setKey filemanager "xdg-open \$location"
+			::config::setKey openfilecommand "xdg-open \$file"
 			::config::setKey usesnack 0
 		} elseif { [OnWin] } {
 			::config::setKey soundcommand "utils/windows/plwav.exe \$sound"
