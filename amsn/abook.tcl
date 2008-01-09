@@ -1098,6 +1098,11 @@ namespace eval ::abook {
 				continue
 			}
 			setContactData $attr(name) $fieldname $sdata($child)
+
+			#To set up the reverse search array
+			if { $fieldname eq "contactguid" } {
+				setContactForGuid $sdata($child) $attr(name)
+			}
 		}
 		
 		return 0	
