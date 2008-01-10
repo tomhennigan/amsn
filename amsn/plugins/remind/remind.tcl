@@ -2,14 +2,11 @@
 #                  REMIND PLUGIN                      #
 #######################################################
 # Maintainer: Frederic Diaz (gadget_boy@users.sf.net) #
+#  updated and speeded up by Karel "scapor" Demeyer   #
 #######################################################
 
 
 namespace eval ::remind {
-	variable config
-	variable configlist
-	variable language
-
 
 ##############################
 # ::remind::InitPlugin dir   #
@@ -18,44 +15,28 @@ namespace eval ::remind {
 ##############################
 
 proc InitPlugin { dir } {
-
-	global version
-
 	::plugins::RegisterPlugin remind
-	source [file join $dir remind.tcl]
 	::plugins::RegisterEvent remind new_conversation Remind
 
+
+
+	# Loads langsset langdir [file join $dir "lang"]
+
+	set lang [::config::getGlobalKey language]
+	set langdir [file join $dir "lang"]
+	load_lang en $langdir
+	load_lang $lang $langdir
+
 	array set ::remind::config [list beginend {1} daysnumber {7} filetransfert {1} nbline {10} checknote {1} when {1}]
-
-	# Loads langs if aMSN version is upper than 0.95
-	if { $version == "0.94"  | ![file isdirectory "$dir/lang"] } {
-
-		array set ::remind::language [list always {Always} beginendconversation {Display begin and end of conversation} checknote {Display if there are notes} daysnumber {Number of days} filetransfert {Display file transfers} lastsentence {Last sentences in the previous conversations} nbdisplay {Number of line displayed} noteswritten {You have written notes about this contact} talklast {If we have talk in the last x days} talkwinthin {If we have not talk within x days}]
-
-		set ::remind::configlist [list \
-			[list str "$::remind::language(nbdisplay)" nbline] \
-			[list bool "$::remind::language(beginendconversation)" beginend] \
-			[list bool "$::remind::language(filetransfert)" filetransfert] \
-		]
-
-	} else {
-
-		set langdir [file join $dir "lang"]
-		set lang [::config::getGlobalKey language]
-		load_lang en $langdir
-		load_lang $lang $langdir
-		array set ::remind::language [list always "[trans always]" beginendconversation "[trans beginendconversation]" checknote "[trans checknote]" daysnumber "[trans daysnumber]" filetransfert "[trans filetransfert]" lastsentence "[trans lastsentence]" nbdisplay "[trans nbdisplay]" noteswritten "[trans noteswritten]" talklast "[trans talklast]" talkwithin "[trans talkwithin]"]
-
-		set ::remind::configlist [list \
-			[list str "$::remind::language(nbdisplay)" nbline] \
-			[list rbt "$::remind::language(always)" "$::remind::language(talklast)" "$::remind::language(talkwithin)" when] \
-			[list str "$::remind::language(daysnumber)" daysnumber] \
-			[list bool "$::remind::language(beginendconversation)" beginend] \
-			[list bool "$::remind::language(filetransfert)" filetransfert] \
-			[list bool "$::remind::language(checknote)" checknote] \
-		]
- 	
-	}
+	set ::remind::configlist [list \
+		[list str "[trans nbdisplay]" nbline] \
+		[list rbt "[trans always]" "[trans talklast]" "[trans talkwithin]" when] \
+		[list str "[trans daysnumber]" daysnumber] \
+		[list bool "[trans beginendconversation]" beginend] \
+		[list bool "[trans filetransfert]" filetransfert] \
+		[list bool "[trans checknote]" checknote] \
+	]
+	
 
 }
 
@@ -67,40 +48,27 @@ proc InitPlugin { dir } {
 ################################################################
 
 proc Remind { event evpar } {
-
-	global version
-
 	upvar 2 $evpar parameters
+
 	set chatid $parameters(chatid)
 	set email $parameters(usr_name)
-		
-	if { $version == "0.94" } {
-	
+
+	set lastmessage [clock scan [string range [::abook::getContactData $email last_msgedme] 0 7] ]
+
+	set date [clock scan [clock format [clock seconds] -format "%D"]]
+
+	set timeline [expr { $::remind::config(daysnumber) * 86400 }]
+
+	if { $::remind::config(when) == 1
+		|| ( $::remind::config(when) == 2 && [expr { $date - $lastmessage }] <= $timeline )
+		|| ( $::remind::config(when) == 3 && [expr { $date - $lastmessage }] >= $timeline )
+	} {
 		::remind::ShowLastSentences $chatid $email
-		
-	} else {
-	
-		
-		set lastmessage [string range [::abook::getContactData $email last_msgedme] 0 7]
-		set date [clock format [clock seconds] -format "%D"]
-		
-		set lastmessage [clock scan $lastmessage]
-		set date [clock scan $date]
-		set timeline [expr { $::remind::config(daysnumber) * 86400 }]
-
-		if { $::remind::config(when) == 1
-			|| ( $::remind::config(when) == 2 && [expr { $date - $lastmessage }] <= $timeline )
-			|| ( $::remind::config(when) == 3 && [expr { $date - $lastmessage }] >= $timeline )
-		} {
-			::remind::ShowLastSentences $chatid $email
-		}
-
-		if { $::remind::config(checknote) == 1 } {
-			::remind::CheckNote $chatid $email
-		}
-
 	}
-	
+
+	if { $::remind::config(checknote) == 1 } {
+		::remind::CheckNote $chatid $email
+	}	
 }
 	
 
@@ -112,8 +80,6 @@ proc Remind { event evpar } {
 
 proc ShowLastSentences { chatid email } {
 
-	global version
-
 	# Get the last sentences of the contact
 	set loglines [::remind::GetLastSentences $email]
 	set tagname "black"
@@ -124,13 +90,9 @@ proc ShowLastSentences { chatid email } {
 	set win_name [::ChatWindow::For $chatid]
 
 	# Allow something to be written into the chat window
-	if { $version == "0.94" } {
-		set textw ${win_name}.f.out.text 
-		$textw configure -state normal -font bplainf -foreground black
-	} else {
-		set textw [::ChatWindow::GetOutText ${win_name}]
-		$textw configure -state normal -font bplainf -foreground black
-	}
+	set textw [::ChatWindow::GetOutText ${win_name}]
+	$textw configure -state normal -font bplainf -foreground black
+
 	# Set up formatting tags
 	$textw tag configure red -foreground red
 	$textw tag configure RED -foreground red
@@ -142,7 +104,7 @@ proc ShowLastSentences { chatid email } {
 	$textw tag configure ITA -foreground blue
 	$textw tag configure GRE -foreground darkgreen
 
-	::remind::WinWrite "$chatid" "$::remind::language(lastsentence) :\n" blue
+	::remind::WinWrite "$chatid" "[trans lastsentence] :\n" blue
 
 	set nbline 0
 	foreach line $loglines {
@@ -198,18 +160,15 @@ proc ShowLastSentences { chatid email } {
 		}
 	}
 
-	after 0 custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] 0.0 end
-	after 0 ::smiley::substSmileys [::ChatWindow::GetOutText ${win_name}] 0.0 end 0 0
+	#substitute the smlileys
+	custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] 0.0 end] 
+	::smiley::substSmileys [::ChatWindow::GetOutText ${win_name}] 0.0 end 0 0]
 
 	::amsn::WinWriteIcon $chatid greyline 3	
 
-	if { $version == "0.94" } {
-		${win_name}.f.out.text yview end
-		${win_name}.f.out.text configure -state disabled
-	} else {
-		[::ChatWindow::GetOutText $win_name] yview end
-		[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
-	}
+	[::ChatWindow::GetOutText $win_name] yview end
+	[::ChatWindow::GetOutText ${win_name}] configure -state normal -font bplainf -foreground black
+
 
 }
 
@@ -291,7 +250,7 @@ proc CheckNote { chatid email } {
 	
 	if { [file exists $file] } {
 		status_log "REMIND : OK\n" red
-		::remind::WinWrite "$chatid" "\n$::remind::language(noteswritten)\n" blue
+		::remind::WinWrite "$chatid" "\n[trans noteswritten]\n" blue
 
 	}
 	
@@ -306,7 +265,6 @@ proc CheckNote { chatid email } {
 
 proc WinWrite {chatid txt tagname {fontformat ""}} {
 
-	global version
 
 	set win_name [::ChatWindow::For $chatid]
 
@@ -318,15 +276,6 @@ proc WinWrite {chatid txt tagname {fontformat ""}} {
 	set fontstyle [lindex $fontformat 1]      
 	set fontcolor [lindex $fontformat 2]
 
-	#Store position for later smiley
-	if { $version == "0.94" } {
-		set text_start [${win_name}.f.out.text index end]
-	} else {
-		set text_start [[::ChatWindow::GetOutText ${win_name}] index end]
-	}
-	set posyx [split $text_start "."]
-	set text_start "[expr {[lindex $posyx 0]-1}].[lindex $posyx 1]"
-
 	set tagid $tagname
 
 	if { $tagid == "user" } {
@@ -334,18 +283,10 @@ proc WinWrite {chatid txt tagname {fontformat ""}} {
 		set font "\"$fontname\" $size $fontstyle"
 		set tagid [::md5::md5 "$font$fontcolor"]
 
-		if { $version == "0.94" } {
-			${win_name}.f.out.text tag configure $tagid -foreground #$fontcolor -font $font
-		} else {
-			[::ChatWindow::GetOutText ${win_name}] tag configure $tagid -foreground #$fontcolor -font $font
-		}
+		[::ChatWindow::GetOutText ${win_name}] tag configure $tagid -foreground #$fontcolor -font $font
 	}
 
-	if { $version == "0.94" } {
-		${win_name}.f.out.text insert end "$txt" $tagid
-	} else {
-		[::ChatWindow::GetOutText ${win_name}] roinsert end "$txt" $tagid
-	}
+	[::ChatWindow::GetOutText ${win_name}] roinsert end "$txt" $tagid
 
 }
 
