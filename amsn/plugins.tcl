@@ -2072,7 +2072,7 @@ namespace eval ::plugins {
 				set version_online [lindex $lang_online 1]
 
 				if { [::lang::LangExists $langcode_online] } {
-
+					
 					foreach lang [getInfo $plugin lang] {
 						set langcode [lindex $lang 0]
 						set version [lindex $lang 1]
@@ -2087,7 +2087,7 @@ namespace eval ::plugins {
 					     $langcode != $langcode_online ||
 					     [::plugins::DetectNew $version $version_online] } {
 					
-						set file [file join $path "lang" lang$langcode]
+						set file [file join $path "lang" lang$langcode_online]
 						
 						if { [file exists $file] && ![file writable $file] } {
 							status_log "File $file is protected"
