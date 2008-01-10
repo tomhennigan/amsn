@@ -9,7 +9,7 @@
        <plugin_namespace>whatis</plugin_namespace>
        <init_procedure>init</init_procedure>
 		 <deinit_procedure>deInit</deinit_procedure>
-		 <cvs_version>20081001</cvs_version>
+		 <cvs_version>20081002</cvs_version>
 		 <url>
      		   <plugininfo>http://www.amsn-project.net/autoupdater/plugins/whatis/plugininfo.xml</plugininfo>
 		    	<main>http://www.amsn-project.net/autoupdater/plugins/whatis/whatis.tcl</main>

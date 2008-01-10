@@ -107,6 +107,7 @@ namespace eval ::whatis {
 		$copymenu.whatis.translate add command -label "English to Portuguese" -command "whatis::translateText $w en_pt"
 		$copymenu.whatis.translate add command -label "English to Russian" -command "whatis::translateText $w en_ru"	
 		$copymenu.whatis.translate add command -label "English to Greek" -command "whatis::translateText $w en_el"
+		$copymenu.whatis.translate add command -label "English to Japanese"  -command "whatis::translateText $w en_ja"
 		$copymenu.whatis.translate add command -label "Dutch to English" -command "whatis::translateText $w nl_en"
 		$copymenu.whatis.translate add command -label "Spanish to English" -command "whatis::translateText $w es_en"	
 		$copymenu.whatis.translate add command -label "German to English" -command "whatis::translateText $w de_en"	
@@ -115,6 +116,7 @@ namespace eval ::whatis {
 		$copymenu.whatis.translate add command -label "French to English" -command "whatis::translateText $w fr_en"		
 		$copymenu.whatis.translate add command -label "Russian to English" -command "whatis::translateText $w ru_en"	
 		$copymenu.whatis.translate add command -label "Greek to English" -command "whatis::translateText $w el_en"
+		$copymenu.whatis.translate add command -label "Japanese to English" -command "whatis::translateText $w ja_en"
 	}
 	
 	#
@@ -185,6 +187,7 @@ namespace eval ::whatis {
 				"en_pt" { set langTitle "Portuguese" }		
 				"en_ru" { set langTitle "Russian" }		
 				"en_el" { set langTitle "Greek" }
+				"en_ja" { set langTitle "Japanese" }
 				default { set langTitle "English" }
 		}
 		
