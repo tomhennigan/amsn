@@ -7689,7 +7689,14 @@ namespace eval ::OIM_GUI {
 		set arrivalTime [string range $arrivalTime 0 $pos]
 		set unixtimestamp [clock scan $arrivalTime -gmt 1]
 		set tstamp [::config::getKey leftdelimiter]
-		append tstamp [clock format $unixtimestamp -format "%D - %H:%M:%S"]
+		
+		set part1 "[string tolower "[string index "[::config::getKey dateformat]]" 0 ]" ]"
+		set part2 "[string tolower "[string index "[::config::getKey dateformat]]" 1 ]" ]"
+		set part3 "[string tolower "[string index "[::config::getKey dateformat]]" 2 ]" ]"
+		if { [catch {set str  "[ clock format $time -format "%$part1/%$part2/%$part3 %T"]"} ] } {
+			set str ""
+		}
+		append tstamp $str
 		append tstamp [::config::getKey rightdelimiter]
 
 		set chatid [GetChatId $user]
