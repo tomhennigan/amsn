@@ -3439,24 +3439,25 @@ namespace eval ::MSNOIM {
 		global remote_auth HOME
 
 		#Coming online or changing state
-		set user [lindex $command 2]
-		set evpar(user) user
-		set user_name [urldecode [lindex $command 4]]
 		set substate [lindex $command 1]
-		set evpar(substate) substate
+		set user [lindex $command 2]
+		set networkid [lindex $command 3]
+		set user_name [urldecode [lindex $command 4]]
+		set clientid [lindex $command 5]
 		set msnobj [urldecode [lindex $command 6]]
-		#Add clientID to abook
-		add_Clientid $user [lindex $command 5]
 
+		#Add clientID to abook
+		add_Clientid $user $clientid
+		set evpar(substate) substate
+		set evpar(user) user
+
+		set state_changed 0
 		set oldstate [::abook::getVolatileData $user state]
 		if { $oldstate != $substate } {
 			set state_changed 1
-		} else {
-			set state_changed 0
-		}
-
-		if { $msnobj == "" } {
-			set msnobj -1
+			::abook::setVolatileData $user state $substate
+			after 500 [list ::Event::fireEvent contactStateChange $self $user]
+			::plugins::PostEvent ChangeState evpar
 		}
 
 		if {$user_name == ""} {
@@ -3496,20 +3497,6 @@ namespace eval ::MSNOIM {
 		}
 
 		if {$state_changed } {
-
-			::plugins::PostEvent ChangeState evpar
-
-			#alarm system (that must replace the one that was before) - KNO
-			set status "[trans [::MSN::stateToDescription $substate]]"
-			if { ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onstatus] == 1) } {
-				run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name $status]"
-			} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
-				run_alarm all $user $custom_user_name "[trans changestate $custom_user_name $status]"
-			}
-			#end of alarm system
-
-			#an event used by guicontactlist to know when a contact changed state
-			after 500 [list ::Event::fireEvent contactStateChange protocol $user]
 
 			set maxw [expr {([::skin::getKey notifwidth]-53)*2} ]
 			set short_name [trunc $custom_user_name . $maxw splainf]

@@ -295,6 +295,19 @@ namespace eval ::alarms {
 		$snd stop
 		$snd destroy
 	}
+
+	proc contactChanged { eventused user } {
+		if { $eventused == "contactStateChange" } {
+			set custom_user_name [::abook::getDisplayNick $user]
+			set status "[trans [::MSN::stateToDescription [::abook::getVolatileData $user state]]]"
+			if { ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onstatus] == 1) } {
+				run_alarm $user $user $custom_user_name "[trans changestate $custom_user_name $status]"
+			} elseif { ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
+				run_alarm all $user $custom_user_name "[trans changestate $custom_user_name $status]"
+			}
+		}
+	}
+	::Event::registerEvent contactStateChange all ::alarms::contactChanged
 }
 
 
