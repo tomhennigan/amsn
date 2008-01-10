@@ -164,13 +164,14 @@ namespace eval ::whatis {
 		#}
 			 
 		# Translate / Get HTML file from translator
-		if { $transLangs == "en_el" || $transLangs == "el_en" } {
+		# Systranbox seems to stop working most of the time...
+		#if { $transLangs == "en_el" || $transLangs == "el_en" } {
 			set url "http://trans.otenet.gr/systran/box"
 			set query [::http::formatQuery id "OTEnet" lp $transLangs urltext $searchText submit.x "26" submit.y "8"]
-		} else {
-			set url "http://www.systranbox.com/systran/box"
-			set query [::http::formatQuery systran_charset "utf-8" systran_lp $transLangs systran_text $searchText]
-		}
+		#} else {
+		#	set url "http://www.systranbox.com/systran/box"
+		#	set query [::http::formatQuery systran_charset "utf-8" systran_lp $transLangs systran_text $searchText]
+		#}
 		set http  [::http::geturl $url -query $query -timeout 72500]
 		set html  [::http::data $http]
 		
@@ -188,12 +189,12 @@ namespace eval ::whatis {
 		}
 		
 		# Strip HTML before translated text 
-		if { $transLangs == "en_el" || $transLangs == "el_en" } {
+		#if { $transLangs == "en_el" || $transLangs == "el_en" } {
 			set substring "td class=\"tx2\" colspan=\""
-		} else {
-			set substring "name=\"translation\""
+		#} else {
+		#	set substring "name=\"translation\""
 			
-		}
+		#}
 		set start [string first $substring $html]
 		set start [string first ">" $html $start]
 		set start [expr { $start + 1 }]

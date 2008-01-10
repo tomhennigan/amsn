@@ -4,12 +4,12 @@
        <author>Jasper Huzen</author>
        <description>Get information from text/word or translate it to an other language!</description>
        <amsn_version>0.94</amsn_version>
-       <plugin_version>1.4</plugin_version>
+       <plugin_version>1.5</plugin_version>
        <plugin_file>whatis.tcl</plugin_file>
        <plugin_namespace>whatis</plugin_namespace>
        <init_procedure>init</init_procedure>
 		 <deinit_procedure>deInit</deinit_procedure>
-		 <cvs_version>8036</cvs_version>
+		 <cvs_version>20081001</cvs_version>
 		 <url>
      		   <plugininfo>http://www.amsn-project.net/autoupdater/plugins/whatis/plugininfo.xml</plugininfo>
 		    	<main>http://www.amsn-project.net/autoupdater/plugins/whatis/whatis.tcl</main>
