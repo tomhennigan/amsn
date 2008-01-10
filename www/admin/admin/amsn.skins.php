@@ -5,7 +5,7 @@ if (!defined('CPanel') || !isset($_SESSION['user'], $_SESSION['level'], $_GET['l
     exit;
 }
 
-function form($name = '', $desc = '', $author = '', $screen = -1, $file = -1, $idn = 0) {
+function form($name = '', $desc = '', $author = '', $version = '', $screen = -1, $file = -1, $idn = 0) {
 ?>
 <script type="text/javascript" src="admin/files.js"> </script>
 
@@ -16,6 +16,8 @@ function form($name = '', $desc = '', $author = '', $screen = -1, $file = -1, $i
     <input type="text" maxlength="255" size=100 name="skin_desc" id="skin_desc"<?php echo !empty($desc) ? " value=\"$desc\"" : '' ?> /><br />
     <label for="skin_author">Author:</label>
     <input type="text" maxlength="100" name="skin_author" id="skin_author"<?php echo !empty($author) ? " value=\"$author\"" : '' ?> /><br />
+    <label for="skin_version">Version:</label>
+    <input type="text" maxlength="20" name="skin_version" id="skin_version"<?php echo !empty($version) ? " value=\"$version\"" : '' ?> /><br />
 
     <label for="skin_screen_disp">Screenshot:</label>
     <input type="text" name="skin_screen_disp" readonly=true size=60 id="skin_screen_disp" value="<?php echo htmlentities(stripslashes(getFileName($screen))) ; ?>" />
@@ -46,9 +48,9 @@ function form($name = '', $desc = '', $author = '', $screen = -1, $file = -1, $i
 
 
 if ($_GET['action'] == 'add') {
-    if (isset($_POST['skin_name'], $_POST['skin_desc'], $_POST['skin_author'], $_POST['skin_screen'], $_POST['skin_file']) && ereg('^[0-9-]+$', $_POST['skin_screen']) && ereg('^[0-9-]+$', $_POST['skin_file'])) {
+    if (isset($_POST['skin_name'], $_POST['skin_desc'], $_POST['skin_author'], $_POST['skin_version'], $_POST['skin_screen'], $_POST['skin_file']) && ereg('^[0-9-]+$', $_POST['skin_screen']) && ereg('^[0-9-]+$', $_POST['skin_file'])) {
         $_POST = clean4sql($_POST);
-	$request = "INSERT INTO `amsn_skins` (name, `desc`, author, file_id, screen_id) VALUES ('{$_POST['skin_name']}', '{$_POST['skin_desc']}', '{$_POST['skin_author']}', '" . (int)$_POST['skin_file']. "', '" . (int)$_POST['skin_screen'] . "')";
+	$request = "INSERT INTO `amsn_skins` (name, `desc`, author, version, file_id, screen_id) VALUES ('{$_POST['skin_name']}', '{$_POST['skin_desc']}', '{$_POST['skin_author']}', '{$_POST['skin_version']}', '" . (int)$_POST['skin_file']. "', '" . (int)$_POST['skin_screen'] . "')";
         if (mysql_query($request)) {
             echo "<p>Skin successfully added</p>\n";
             return;
@@ -56,7 +58,7 @@ if ($_GET['action'] == 'add') {
             echo "<p>An error ocurred while trying to add the skin to the database</p>\n";
             echo $request . "\n";
             echo mysql_error();
-            form(htmlentities($_POST['skin_name']), htmlentities($_POST['skin_desc']), htmlentities($_POST['skin_author']), $_POST['skin_screen'], $_POST['skin_file']);
+            form(htmlentities($_POST['skin_name']), htmlentities($_POST['skin_desc']), htmlentities($_POST['skin_author']), htmlentities($_POST['skin_version']), $_POST['skin_screen'], $_POST['skin_file']);
             return;
         }
     } else
@@ -85,9 +87,9 @@ if ($_GET['action'] == 'add') {
     }
 
     if ($_GET['action'] == 'edit' && isset($_POST['id'])) {
-        if (isset($_POST['id'], $_POST['skin_name'], $_POST['skin_desc'], $_POST['skin_author'], $_POST['skin_screen'], $_POST['skin_file']) && ereg('^[0-9]+$', $_POST['id']) && ereg('^[0-9-]+$', $_POST['skin_screen']) && ereg('^[0-9-]+$', $_POST['skin_file'])) {
+        if (isset($_POST['id'], $_POST['skin_name'], $_POST['skin_desc'], $_POST['skin_author'], $_POST['skin_version'], $_POST['skin_screen'], $_POST['skin_file']) && ereg('^[0-9]+$', $_POST['id']) && ereg('^[0-9-]+$', $_POST['skin_screen']) && ereg('^[0-9-]+$', $_POST['skin_file'])) {
             $_POST = clean4sql($_POST);
-            $request = "UPDATE `amsn_skins` SET name = '{$_POST['skin_name']}', `desc` = '{$_POST['skin_desc']}', author = '{$_POST['skin_author']}', screen_id = '". (int)$_POST['skin_screen'] ."', file_id = '".(int)$_POST['skin_file']."' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1";
+            $request = "UPDATE `amsn_skins` SET name = '{$_POST['skin_name']}', `desc` = '{$_POST['skin_desc']}', author = '{$_POST['skin_author']}', version = '{$_POST['skin_version']}', screen_id = '". (int)$_POST['skin_screen'] ."', file_id = '".(int)$_POST['skin_file']."' WHERE id = '" . (int)$_POST['id'] . "' LIMIT 1";
             if (mysql_query($request)) {
                 echo "<p>Skin successfully modified</p>\n";
                 return;
@@ -99,7 +101,7 @@ if ($_GET['action'] == 'add') {
         }
 
         $row = mysql_fetch_assoc($q);
-        form(htmlentities(stripslashes($row['name'])), htmlentities(stripslashes($row['desc'])), htmlentities(stripslashes($row['author'])), (int)$row['screen_id'], (int)$row['file_id'], $row['id']);
+        form(htmlentities(stripslashes($row['name'])), htmlentities(stripslashes($row['desc'])), htmlentities(stripslashes($row['author'])), htmlentities(stripslashes($row['version'])), (int)$row['screen_id'], (int)$row['file_id'], $row['id']);
         return;
     }
 ?>

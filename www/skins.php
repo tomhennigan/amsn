@@ -52,26 +52,27 @@ if (!mysql_num_rows(($q = mysql_query("SELECT `amsn_skins`.*, (UNIX_TIMESTAMP(`a
     <li class="skintitle"><?php echo $skin['name'] ?></li>
     <li class="lg"><?php echo $skin['desc'] ?></li>
     <li class="dg">Created by: <?php echo $skin['author'] ?></li>
+    <li class="lg">Version: <?php echo $skin['version'] ?></li>
 <?php 
 		if (getFileURL($skin['screen_id']) != '') {
 ?>
-    <li class="lg"><a href="getURL.php?id=<?php echo $skin['screen_id'] ?>" title="&lt;img src='thumb.php?id=<?php echo $skin['screen_id'] ?>' /&gt;"><strong>Screenshot</strong></a></li>
+    <li class="dg"><a href="getURL.php?id=<?php echo $skin['screen_id'] ?>" title="&lt;img src='thumb.php?id=<?php echo $skin['screen_id'] ?>' /&gt;"><strong>Screenshot</strong></a></li>
 <?php 
 		}
 		else {
 ?>
-    <li class="lg"><strong>No screenshot</strong></li>
+    <li class="dg"><strong>No screenshot</strong></li>
 <?php
 		}
 
 		if (getFileURL($skin['file_id']) != '') {
 ?>
-    <li class="dg"><a href="getURL.php?id=<?php echo $skin['file_id'] ?>"><strong>Download this skin</strong></a></li>
+    <li class="lg"><a href="getURL.php?id=<?php echo $skin['file_id'] ?>"><strong>Download this skin</strong></a></li>
 <?php
 		}
 		else {
 ?>
-    <li class="dg"><strong>Download comming soon!</strong></li>
+    <li class="lg"><strong>Download comming soon!</strong></li>
 <?php
 		}
 ?>
