@@ -5117,13 +5117,15 @@ proc cmsn_ns_handler {item {message ""}} {
 			
 			global loading_list_info
 
+			::MSN::clearList FL
+			::MSN::clearList BL
+			::MSN::clearList RL
+			::MSN::clearList AL
+			::MSN::clearList PL
+
 			if { [llength $item] == 6 && [new_contact_list "[lindex $item 2]" "[lindex $item 3]"] } {
 				status_log "Going to receive contact list\n" blue
 				#First contact in list
-				::MSN::clearList FL
-				::MSN::clearList BL
-				::MSN::clearList RL
-				::MSN::clearList AL
 				::groups::Reset
 				::groups::Set 0 [trans nogroup]
 
@@ -5898,6 +5900,7 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	::MSN::clearList AL
 	::MSN::clearList BL
 	::MSN::clearList RL
+	::MSN::clearList PL
 
 	if {[ns cget -stat] != "d"} {
 		set proxy [ns cget -proxy]
