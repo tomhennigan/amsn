@@ -11,6 +11,29 @@ snit::type Addressbook {
 		$abfindall_req SendSOAPRequest
 	}
 
+	method getCommonHeader { scenario } {
+		set token [$::sso GetSecurityTokenByName Contacts]
+		set mspauth [$token cget -ticket]
+
+		set xml {<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">}
+		append xml {<soap:Header>}
+		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ApplicationId>996CDE1E-AA53-4477-B943-2BE802EA6166</ApplicationId>}
+		append xml {<IsMigration>false</IsMigration>}
+		append xml {<PartnerScenario>}
+		append xml $scenario
+		append xml {</PartnerScenario>}
+		append xml {</ABApplicationHeader>}
+		append xml {<ABAuthHeader xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ManagedGroupRequest>false</ManagedGroupRequest>}
+		append xml {<TicketToken>}
+		append xml [xmlencode $mspauth]
+		append xml {</TicketToken>}
+		append xml {</ABAuthHeader>}
+		append xml {</soap:Header>}
+
+		return $xml
+	}
 
 	method getAllCallback { soap } {
 		global contactlist_loaded
@@ -109,23 +132,7 @@ snit::type Addressbook {
 	}
 
 	method getABFindAllXML { args } {
-		set token [$::sso GetSecurityTokenByName Contacts]
-		set mspauth [$token cget -ticket]
-
-		set xml {<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">}
-		append xml {<soap:Header>}
-		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<ApplicationId>996CDE1E-AA53-4477-B943-2BE802EA6166</ApplicationId>}
-		append xml {<IsMigration>false</IsMigration>}
-		append xml {<PartnerScenario>Initial</PartnerScenario>}
-		append xml {</ABApplicationHeader>}
-		append xml {<ABAuthHeader xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<ManagedGroupRequest>false</ManagedGroupRequest>}
-		append xml {<TicketToken>}
-		append xml [xmlencode $mspauth]
-		append xml {</TicketToken>}
-		append xml {</ABAuthHeader>}
-		append xml {</soap:Header>}
+		set xml [$self getCommonHeader Initial]
 		append xml {<soap:Body>}
 		append xml {<ABFindAll xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
@@ -135,6 +142,7 @@ snit::type Addressbook {
 		append xml {</ABFindAll>}
 		append xml {</soap:Body>}
 		append xml {</soap:Envelope>}
+
 		return $xml
 	}
 
