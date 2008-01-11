@@ -13,6 +13,7 @@ snit::type SecurityToken {
 # Single Sign-On Authentication method (used by MSNP15+)
 snit::type SSOAuthentication {
 	variable security_tokens
+	variable soap_req ""
 	option -username -default ""
 	option -password -default ""
 	option -nonce -default ""
@@ -37,6 +38,9 @@ snit::type SSOAuthentication {
 			foreach token $security_tokens {
 				$token destroy
 			}
+		}
+		if { $soap_req != "" } {
+			catch { $soap_req destroy }
 		}
 		
 	}
@@ -83,7 +87,7 @@ snit::type SSOAuthentication {
 			
 				set address [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wsp:AppliesTo:wsa:EndpointReference:wsa:Address"]
 				set token [$self GetSecurityTokenByAddress $address]
-				puts "$subxml\n\n\n"
+				#puts "$subxml\n\n\n"
 				if {$token != "" } {
 					$token configure -type [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:TokenType"]
 					$token configure -created [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Created"]
@@ -104,6 +108,10 @@ snit::type SSOAuthentication {
 	}
 	
 	method Authenticate { callbk } {
+		if {$soap_req != "" } {
+			$soap_req destroy
+			set soap_req ""
+		}
 		set soap_req [SOAPRequest create %AUTO% \
 				  -url "https://login.live.com/RST.srf" \
 				  -xml [$self getSSOXml] \
@@ -168,42 +176,21 @@ snit::type SSOAuthentication {
 
 
 snit::type MBIAuthentication {
-	typemethod dump { str } {
-		binary scan $str H* h
-		set i 0
-		foreach {c1 c2} [split $h ""] {
-			puts -nonewline "$c1$c2 "
-			incr i
-			if {$i == 8 } {
-				set i 0
-				puts ""
-			}
-		}
-		puts "\n"
-
-	}
 
 	typemethod MBICrypt {nonce proof } {
 		set key1 [base64::decode $proof]
-		MBIAuthentication dump $key1
 		set key2 [MBIAuthentication deriveKey $key1 "WS-SecureConversationSESSION KEY HASH"]
-		MBIAuthentication dump $key2
 		set key3 [MBIAuthentication deriveKey $key1 "WS-SecureConversationSESSION KEY ENCRYPTION"]
-		MBIAuthentication dump $key3
 
 		set hash [binary format H* [::sha1::hmac $key2 $nonce]]
-		MBIAuthentication dump $hash
 
 		set iv [MBIAuthentication rand 8]
-		MBIAuthentication dump $iv
 		set des_message $nonce
 		append des_message [string repeat "\x08" [expr {72 - [string length $nonce]}]]
 		set cipher [::des::des $key3 $des_message 1 1 $iv]
-		MBIAuthentication dump $cipher
 
 
 		set header [binary format iiH8H8iii 28 1 03660000 04800000 [string length $iv] [string length $hash] [string length $cipher]]
-		MBIAuthentication dump $header
 		set data "${iv}${hash}${cipher}"
 
 		return [string map {"\n" ""} [base64::encode "${header}${data}"]]
