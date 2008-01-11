@@ -698,11 +698,11 @@ proc load_config {} {
 
 	::config::setKey clientid 0
 	if {[::config::getKey protocol] != 15 } {
-		::MSN::setClientCap msnc4
 		::config::setKey protocol 11
-	} else {
-		::MSN::setClientCap msnc7
-	} 
+	}
+
+	# TODO : msnc7 support in clientid for MSNP12+.. remove if causes bugs.
+	::MSN::setClientCap msnc7
 	::MSN::setClientCap inkgif
 	::MSN::setClientCap multip
 	::MSN::setClientCap voice
