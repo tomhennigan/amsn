@@ -3253,7 +3253,7 @@ namespace eval ::MSNOIM {
 			set command [string range $dataBuffer 0 [expr {$idx -1}]]
 			
 			#check for payload commands:
-			if {[lsearch {MSG NOT PAG IPG UBX GCF 241} [string range $command 0 2]] != -1} {
+			if {[lsearch {MSG NOT PAG IPG UBX GCF 240 241 UBN UBN UBM} [string range $command 0 2]] != -1} {
 				set length [lindex [split $command] end]
 
 				#There is a bug (#2265) where $length is not numeric
@@ -3358,15 +3358,14 @@ namespace eval ::MSNOIM {
 		} else {
 
 			switch -- [lindex $command 0] {
+				UBM {
+					$self handleUBM $command $message
+				}
 				ADL {
 					$self handleADL $command
 				}
 				ILN {
-					if {[::config::getKey protocol] == "15"} {
-						$self handleILN $command
-					} else {
-						cmsn_ns_handler $command $message
-					}
+					cmsn_ns_handler $command $message
 				}
 				IPG {
 					cmsn_ns_handler $command $payload
@@ -3378,11 +3377,7 @@ namespace eval ::MSNOIM {
 					$self handleLST $command
 				}
 				NLN {
-					if {[::config::getKey protocol] == "15"} {
-						$self handleNLN $command
-					} else {
-						cmsn_ns_handler $command $message
-					}
+					cmsn_ns_handler $command $message
 				}
 				PRP {
 					$self handlePRP $command
@@ -3404,14 +3399,12 @@ namespace eval ::MSNOIM {
 		}
 	}
 
-	method handleADL { command } {
-		puts $command
+	method handleUBM { command message } {
+		# TODO handle messages received from yahoo contacts
 	}
 
-	method handleILN { command } {
-		set passportName [lindex $command 3]
-		set substate [lindex $command 2]
-		Event::fireEvent contactChangeState $self $passportName $substate
+	method handleADL { command } {
+		puts $command
 	}
 
 	method handleLSG { command } {
@@ -3435,180 +3428,7 @@ namespace eval ::MSNOIM {
 		}
 	}
 
-	method handleNLN { command } {
-		global remote_auth HOME
-
-		#Coming online or changing state
-		set substate [lindex $command 1]
-		set user [lindex $command 2]
-		set networkid [lindex $command 3]
-		set user_name [urldecode [lindex $command 4]]
-		set clientid [lindex $command 5]
-		set msnobj [urldecode [lindex $command 6]]
-
-		#Add clientID to abook
-		add_Clientid $user $clientid
-		set evpar(substate) substate
-		set evpar(user) user
-
-		set state_changed 0
-		set oldstate [::abook::getVolatileData $user state]
-		if { $oldstate != $substate } {
-			set state_changed 1
-			::abook::setVolatileData $user state $substate
-			after 500 [list ::Event::fireEvent contactStateChange $self $user]
-			::plugins::PostEvent ChangeState evpar
-		}
-
-		if {$user_name == ""} {
-			set user_name [::abook::getContactData $user nick]
-			set nick_changed 0
-		} elseif {$user_name != [::abook::getContactData $user nick]} {
-			#Nick differs from the one on our list, so change it
-			#in the server list too
-			::abook::setContactData $user nick $user_name
-
-			#an event used by guicontactlist to know when we changed our nick
-			::Event::fireEvent contactNickChange protocol $user
-
-			set nick_changed 1
-
-			# This check below is because today I received a NLN for a user 
-			# who doesn't appear in ANY of my 5 MSN lists (RL,AL,BL,FL,PL)
-			# so amsn just sent the SBP with an empty string for the contactguid, 
-			# which resulted in a wrongly formed SBP, which resulted in the msn server disconnecting me... :@
-			if { [::abook::getContactData $user contactguid] != "" } {
-				#TODO: turn it on again
-				#::MSN::WriteSB ns "SBP" "[::abook::getContactData $user contactguid] MFN [urlencode $user_name]"
-			}
-
-			::log::eventnick $user $user_name
-		} else {
-			set nick_changed 0
-		}
-
-		set custom_user_name [::abook::getDisplayNick $user]
-
-		# Write remote the nick change if the state didn't change
-		if {$remote_auth == 1 && $nick_changed && !$state_changed && 
-		    $substate != "FLN" && [::abook::getVolatileData $user state FLN] != "FLN" } {
-			set nameToWriteRemote "$user_name ($user)"
-			write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]" event
-		}
-
-		if {$state_changed } {
-
-			set maxw [expr {([::skin::getKey notifwidth]-53)*2} ]
-			set short_name [trunc $custom_user_name . $maxw splainf]
-
-			if {[::abook::getVolatileData $user state FLN] != "FLN" } {	;#just a status change
-
-				#Notify in the events
-				::log::event state $custom_user_name [::MSN::stateToDescription $substate]
-
-				# Added by Yoda-BZH
-				if {$remote_auth == 1} {
-					set nameToWriteRemote "$user_name ($user)"
-					write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]" event
-				}
-
-				if { (([::config::getKey notifystate] == 1 && 
-				       [::abook::getContactData $user notifystatus -1] != 0) ||
-				      [::abook::getContactData $user notifystatus -1] == 1) } {
-					::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
-					    "::amsn::chatUser $user" state state $user
-				}
-
-			} else {	;# User was offline, now online
-
-				#Register last login and notify it in the events
-				::abook::setContactData $user last_login [clock format [clock seconds] -format "%D - %H:%M:%S"]
-				::log::event connect $custom_user_name
-				::abook::setVolatileData $user PSM ""
-				#Register PostEvent "UserConnect" for Plugins, email = email user_name=custom nick
-				set evPar(user) user
-				set evPar(user_name) custom_user_name
-				#Reset clientname, if it's not M$N it will set it again
-				#later on with x-clientcaps
-				::abook::setContactData $user clientname ""
-				::plugins::PostEvent UserConnect evPar
-
-				# Added by Yoda-BZH
-				if {$remote_auth == 1} {
-					set nameToWriteRemote "$user_name ($user)"
-					write_remote "** $nameToWriteRemote [trans logsin]" event
-				}
-
-				if { (([::config::getKey notifyonline] == 1 && 
-				       [::abook::getContactData $user notifyonline -1] != 0) ||
-				      [::abook::getContactData $user notifyonline -1] == 1) } {
-					::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online online $user
-				}
-
-				if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {
-					run_alarm $user $user $custom_user_name "$custom_user_name [trans logsin]"
-				} elseif {  ( [::alarms::isEnabled all] == 1 )&& ( [::alarms::getAlarmItem all onstatus] == 1)} {
-					run_alarm all $user $custom_user_name "$custom_user_name [trans logsin]"
-				}
-			}
-			# Retreive the new display picture if it changed
-			#set oldmsnobj [::abook::getVolatileData $user msobj]
-			#set list_users [lreplace $list_users $idx $idx [list $user $user_name $state_no $msnobj]]
-			::abook::setVolatileData $user state $substate
-		}
-		::abook::setVolatileData $user msnobj $msnobj
-		set oldPic [::abook::getContactData $user displaypicfile]
-		set newPic [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
-
-		if { $oldPic != $newPic } {
-			::abook::setContactData $user displaypicfile $newPic
-
-			if { $newPic == "" } {
-				::skin::getDisplayPicture $user 1
-			} else {
-				status_log "picture changed for user $user\n" white
-
-				if { [file readable "[file join $HOME displaypic cache ${newPic}].png"] } {
-					#it's possible that the user set again a DP that we already have in our cache so just load it again, even if we are HDN, or the user is blocked.
-					::MSNP2P::loadUserPic "" $user
-				} elseif { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN" &&
-					   ![::config::getKey lazypicretrieval] && ![::MSN::userIsBlocked $user]} {
-					set chat_id [::MSN::chatTo $user]
-					::MSN::ChatQueue $chat_id [list ::MSNP2P::loadUserPic $chat_id $user]
-				} else {
-					global sb_list
-
-					foreach sb $sb_list {
-						set users_in_chat [$sb cget -users]
-						if { [lsearch $users_in_chat $user] != -1 } {
-							status_log "User changed image while image in use!! Updating!!\n" white
-							::MSNP2P::loadUserPic [::MSN::ChatFor $sb] $user
-							break
-						}
-					}	
-				}
-			}
-		}
 	
-
-		if { $state_changed || $nick_changed } {
-			::MSN::contactListChanged
-
-			foreach chat_id [::ChatWindow::getAllChatIds] {
-				if { $chat_id == $user } {
-					::ChatWindow::TopUpdate $chat_id
-				} else {
-					foreach user_in_chat [::MSN::usersInChat $chat_id] {
-						if { $user_in_chat == $user } {
-							::ChatWindow::TopUpdate $chat_id
-							break
-						}
-					}
-				}
-			}
-		}
-	}
-
 	method authenticationDone {} {
 		$self setInitialStatus
 		
@@ -4272,7 +4092,9 @@ namespace eval ::MSNOIM {
 							# TODO : find a better way to write the messages ?
 							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWriteIcon $chatid greyline 3
+							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWrite $chatid $data gray
+							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWriteIcon $chatid greyline 3
 							::amsn::WinWrite $chatid "\n" gray
 						}
@@ -4351,7 +4173,10 @@ proc cmsn_rng {recv} {
 	set sb [::MSN::GetNewSB]
 
 	#Init SB properly
-	$sb configure -force_gateway_server [lindex [split [lindex $recv 2] ":"]]
+	if { [config::getKey protocol] == 11 ||
+	     ([config::getKey protocol] == 15 && [lindex $recv 9] == "1") } {
+		$sb configure -force_gateway_server [lindex [split [lindex $recv 2] ":"]]
+	}
 	$sb configure -stat ""
 	$sb configure -server [split [lindex $recv 2] ":"]
 	$sb configure -connected [list cmsn_conn_ans $sb]
@@ -4396,7 +4221,10 @@ proc cmsn_open_sb {sb recv} {
 
 	status_log "cmsn_open_sb: Opening SB $sb\n" green
 
-	$sb configure -force_gateway_server [lindex [split [lindex $recv 3] ":"]]
+	if { [config::getKey protocol] == 11 ||
+	     ([config::getKey protocol] == 15 && [lindex $recv 8] == "1") } {
+		$sb configure -force_gateway_server [lindex [split [lindex $recv 3] ":"]]
+	}
 	$sb configure -server [split [lindex $recv 3] ":"]
 	$sb configure -connected [list cmsn_conn_sb $sb]
 	$sb configure -auth_cmd "USR"
@@ -4712,12 +4540,17 @@ proc cmsn_update_users {sb recv} {
 
 			set usr_login [string tolower [lindex $recv 4]]
 			set usr_name [urldecode [lindex $recv 5]]
-
+			
 			$sb addUser [list $usr_login]
 
 			::abook::setContactData $usr_login nick $usr_name
 
 			$sb configure -last_user $usr_login
+
+			if {[config::getKey protocol] == 15 } {
+				set clientid [lindex $recv 6]
+				add_Clientid $usr_login $clientid
+			}
 
 		}
 
@@ -4731,6 +4564,10 @@ proc cmsn_update_users {sb recv} {
 
 			::abook::setContactData $usr_login nick $usr_name
 
+			if {[config::getKey protocol] == 15 } {
+				set clientid [lindex $recv 3]
+				add_Clientid $usr_login $clientid
+			}
 
 			if { [llength [$sb cget -users]] == 1 } {
 
@@ -4792,6 +4629,10 @@ proc cmsn_change_state {recv} {
 		#User is going offline
 		set user [lindex $recv 1]
 		set evpar(user) user
+
+		if {[::config::getKey protocol] == "15"} {
+			set network  [lindex $recv 2]
+		} 
 		set user_name ""
 		set substate "FLN"
 		set evpar(substate) substate
@@ -4799,26 +4640,42 @@ proc cmsn_change_state {recv} {
 #		status_log "contactStateChange in protocol cmsn_change_state FLN"
 	} elseif {[lindex $recv 0] == "ILN"} {
 		#Initial status when we log in
-		set user [lindex $recv 3]
-		set encoded_user_name [lindex $recv 4]
-		set user_name [urldecode [lindex $recv 4]]
 		set substate [lindex $recv 2]
-		set msnobj [urldecode [lindex $recv 6]]
+		set user [lindex $recv 3]
+
+		set idx 4
+		if {[::config::getKey protocol] == "15"} {
+			set network  [lindex $recv 4]
+			incr idx
+		} 
+		set encoded_user_name [lindex $recv $idx]
+		set user_name [urldecode [lindex $recv $idx]]
+		incr idx
 		#Add clientID to abook
-		add_Clientid $user [lindex $recv 5]
+		add_Clientid $user [lindex $recv $idx]
+		incr idx
+		set msnobj [urldecode [lindex $recv $idx]]
 		#Previous clientname info is now inaccurate
 		::abook::setContactData $user clientname ""
 	} else {
 		#Coming online or changing state
-		set user [lindex $recv 2]
-		set evpar(user) user
-		set encoded_user_name [lindex $recv 3]
-		set user_name [urldecode [lindex $recv 3]]
 		set substate [lindex $recv 1]
 		set evpar(substate) substate
-		set msnobj [urldecode [lindex $recv 5]]
+		set user [lindex $recv 2]
+		set evpar(user) user
+
+		set idx 3
+		if {[::config::getKey protocol] == "15"} {
+			set network  [lindex $recv 3]
+			incr idx
+		} 
+		set encoded_user_name [lindex $recv $idx]
+		set user_name [urldecode [lindex $recv $idx]]
+		incr idx
 		#Add clientID to abook
-		add_Clientid $user [lindex $recv 4]
+		add_Clientid $user [lindex $recv $idx]
+		incr idx
+		set msnobj [urldecode [lindex $recv $idx]]
 
 #		status_log "contactStateChange in protocol cmsn_change_state $user"
 	}
@@ -5230,7 +5087,12 @@ proc cmsn_ns_handler {item {message ""}} {
 				set xml [xml2list [$message getBody]]
 				set i 0
 				while {1} {
-					set subxml [GetXmlNode $xml "config:block:regexp:imtext" $i]
+					if {[config::getKey protocol] == 15} {
+						set subxml [GetXmlNode $xml "Policies:Policy:config:block:regexp:imtext" $i]
+					} else { 
+						set subxml [GetXmlNode $xml "config:block:regexp:imtext" $i]
+					}
+				
 					incr i
 					if {$subxml == "" } {
 						break
@@ -5475,6 +5337,10 @@ proc cmsn_auth {{recv ""}} {
 			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
 				if { [::config::getKey protocol] == 15 } {
 					global sso
+					if {[info exists sso] && $sso != "" } {
+						$sso destroy
+						set sso ""
+					}
 					set sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
 					$sso Authenticate [list sso_authenticated]
 				}
