@@ -698,10 +698,11 @@ proc load_config {} {
 
 	::config::setKey clientid 0
 	if {[::config::getKey protocol] != 15 } {
+		::MSN::setClientCap msnc4
 		::config::setKey protocol 11
-	}
-
-	::MSN::setClientCap msnc4
+	} else {
+		::MSN::setClientCap msnc7
+	} 
 	::MSN::setClientCap inkgif
 	::MSN::setClientCap multip
 	::MSN::setClientCap voice
