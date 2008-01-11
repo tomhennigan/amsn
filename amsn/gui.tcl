@@ -2784,7 +2784,7 @@ namespace eval ::amsn {
 				CharsTyped $chatid ""
 			} else {
 				set limit 1380
-				incr -[string length $friendlyname]
+				incr limit -[string length $friendlyname]
 				set first 0
 				while { [expr {$first + $limit}] <= [string length $msg] } {
 					set msgchunk [string range $msg $first [expr {$first + $limit - 1}]]
