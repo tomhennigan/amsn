@@ -161,8 +161,7 @@ proc ShowLastSentences { chatid email } {
 	}
 
 	#substitute the smlileys
-	custom_smile_subst $chatid [::ChatWindow::GetOutText ${win_name}] 0.0 end] 
-	::smiley::substSmileys [::ChatWindow::GetOutText ${win_name}] 0.0 end 0 0]
+	::smiley::substSmileys [::ChatWindow::GetOutText ${win_name}] 0.0 end 0 1]
 
 	::amsn::WinWriteIcon $chatid greyline 3	
 
