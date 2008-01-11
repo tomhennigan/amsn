@@ -13,6 +13,15 @@ snit::type SOAPRequest {
 	variable last_error ""
 	variable xml ""
 	variable redirected 0
+	variable http_req ""
+
+	destructor {
+		if { $http_req != "" } {
+			catch {::http::reset $http_req}
+			catch {::http::cleanup $http_req}
+			set http_req ""			
+		}
+	}
 
 	method SendSOAPRequest { } {
 		if { $options(-url) == "" || $options(-xml) == "" } {
@@ -80,14 +89,19 @@ snit::type SOAPRequest {
 		
 		::http::config -accept "*/*"  -useragent "MSMSGS"
 
+		if { $http_req != "" } {
+			catch {::http::reset $http_req}
+			catch {::http::cleanup $http_req}
+			set http_req ""			
+		}
+
 		# Catch it in case we have no internet.. 
 		# TODO : maybe fix this somehow since we'll never get the callback...
-		catch { http::geturl $options(-url) -command [list $self GotSoapReply] -query $options(-xml) -type "text/xml; charset=utf-8" -headers $headers }
-
-		#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$options(-xml)"
-
-		if { $options(-callback) == "" && $redirected } {
-			tkwait variable [myvar wait]
+		if { ![catch { set http_req [http::geturl $options(-url) -command [list $self GotSoapReply] -query $options(-xml) -type "text/xml; charset=utf-8" -headers $headers] }] } {
+			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$options(-xml)"
+			if { $options(-callback) == "" && $redirected } {
+				tkwait variable [myvar wait]
+			}
 		}
 
 		return $self
