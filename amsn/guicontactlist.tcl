@@ -118,6 +118,10 @@ namespace eval ::guiContactList {
 		::skin::setPixmap downleft box_downleft.gif
 		::skin::setPixmap down box_down.gif
 		::skin::setPixmap downright box_downright.gif
+		::skin::setPixmap away_emblem away_emblem.gif
+		::skin::setPixmap busy_emblem busy_emblem.gif
+		::skin::setPixmap blocked_emblem blocked_emblem.gif
+
 
 		variable Xbegin
 		variable Ybegin
@@ -1422,23 +1426,43 @@ namespace eval ::guiContactList {
 
 		set psm [::abook::getpsmmedia $email 1]
 
-		#Show webMSN buddy icon
-		if { [::MSN::userIsBlocked $email] } {
-			if { $state_code == "FLN" } { 
-				set img [::skin::loadPixmap blocked_off] 
-			} else {
-				set img [::skin::loadPixmap blocked] 
-			}
-		} elseif { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } {
-			set img [::skin::loadPixmap webmsn]
-		} elseif {[::config::getKey show_contactdps_in_cl] == "1" } {
-			set img [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]] ]
-		} elseif { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
-			set img [::skin::loadPixmap mobile]
-		} else {
-			set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
-		}
+		if {[::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN")} {
+			set littlepic [::skin::getLittleDisplayPictureName $email]
+			set img ${littlepic}_cl
 
+			catch { $img delete}
+			image create photo $img
+
+			$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]]]
+
+			#set the blocked emblem if the user is blocked
+			if { [::MSN::userIsBlocked $email] } {
+				$img copy [::skin::loadPixmap blocked_emblem]
+			}
+			
+			if { $state_code == "FLN" } {
+				::picture::Colorize $img grey 0.5
+			} elseif { $state_code != "NLN" } {
+				$img copy [::skin::loadPixmap [::MSN::stateToImage $state_code]_emblem]
+			}
+
+		} else {
+
+			#Show webMSN buddy icon
+			if { [::MSN::userIsBlocked $email] } {
+				if { $state_code == "FLN" } { 
+					set img [::skin::loadPixmap blocked_off] 
+				} else {
+					set img [::skin::loadPixmap blocked] 
+				}
+			} elseif { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } {
+				set img [::skin::loadPixmap webmsn]
+			} elseif { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
+				set img [::skin::loadPixmap mobile]
+			} else {
+				set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
+			}
+		}
 		
 
 		# TODO: hovers for the status-icons

@@ -285,11 +285,16 @@ namespace eval ::skin {
 		}
 		return $picName
 	}
+	proc getLittleDisplayPictureName { email } {
+		return "displaypicture_tny_$email"
+	}
 
-	proc getLittleDisplayPicture { email height {force 0}} {
+
+	proc getLittleDisplayPicture { email { height 20 } {force 0}} {
 		global HOME
 
-		set picName displaypicture_tny_$email
+		set picName [getLittleDisplayPictureName $email]
+
 		#@@@@@@@@@@ WebMSN Patch again by majinsoftware
 		if { [::abook::getContactData $email client] == "Webmessenger" } { 
 			set picName [::skin::loadPixmap webmsn_dp]
