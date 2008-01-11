@@ -2716,58 +2716,128 @@ namespace eval ::amsn {
 		::plugins::PostEvent chat_msg_send evPar
 
 		if {![string equal $msg ""]} {
-			set first 0
-			while { [expr {$first + 400}] <= [string length $msg] } {
-				set msgchunk [string range $msg $first [expr {$first + 399}]]
-			    if {[::MSNMobile::IsMobile $chatid] == 0 && [::OIM_GUI::IsOIM $chatid] == 0} {
-					set ackid [after 60000 [list ::amsn::DeliveryFailed $chatid $msgchunk]]
-			    } else {
-					set ackid 0
-			    }
-			    ::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
-				incr first 400
+			set supports_actions 1
+			
+			foreach user [::MSN::usersInChat $chatid] {
+				set clientid [::abook::getContactData $user clientid]
+				set msnc [expr 0xF0000000]
+				if { ($clientid & $msnc) < 6 } {
+					set supports_actions 0
+					break
+				}
 			}
 
-			set msgchunk [string range $msg $first end]
-	
-			if {[::MSNMobile::IsMobile $chatid] == 0 && [::OIM_GUI::IsOIM $chatid] == 0} {
-				set ackid [after 60000 [list ::amsn::DeliveryFailed $chatid $msgchunk]]
+			if {$supports_actions &&
+			    ![::MSNMobile::IsMobile $chatid] &&
+			    ![::OIM_GUI::IsOIM $chatid] &&
+			    [string first "/action " $msg] == 0 } {
+
+				set action "[string range $msg 8 end]"
+
+				::amsn::WinWrite $chatid "\n" gray
+				::amsn::WinWriteIcon $chatid greyline 3
+				::amsn::WinWrite $chatid "\n" gray
+				::amsn::WinWrite $chatid $action gray
+				::amsn::WinWrite $chatid "\n" gray
+				::amsn::WinWriteIcon $chatid greyline 3
+				::amsn::WinWrite $chatid "\n" gray
+
+				set first 0
+				while { [expr {$first + 1480}] <= [string length $action] } {
+					set msgchunk [string range $action $first [expr {$first + 1479}]]
+					incr first 1480
+					::MSN::SendAction $chatid $msgchunk
+				}
+				
+				set msgchunk [string range $action $first end]
+				if {$msgchunk != "" } {
+					::MSN::SendAction $chatid $msgchunk
+				}
+				CharsTyped $chatid ""
+				
+			} elseif {$supports_actions &&
+				  ![::MSNMobile::IsMobile $chatid] &&
+				  ![::OIM_GUI::IsOIM $chatid] &&
+				  [string first "/me " $msg] == 0 } {
+				
+				set action "$nick [string range $msg 4 end]"
+
+				::amsn::WinWrite $chatid "\n" gray
+				::amsn::WinWriteIcon $chatid greyline 3
+				::amsn::WinWrite $chatid "\n" gray
+				::amsn::WinWrite $chatid $action gray
+				::amsn::WinWrite $chatid "\n" gray
+				::amsn::WinWriteIcon $chatid greyline 3
+				::amsn::WinWrite $chatid "\n" gray
+
+				set first 0
+				while { [expr {$first + 1480}] <= [string length $action] } {
+					set msgchunk [string range $action $first [expr {$first + 1479}]]
+					incr first 1480
+					::MSN::SendAction $chatid $msgchunk
+				}
+				
+				set msgchunk [string range $action $first end]
+				if {$msgchunk != "" } {
+					::MSN::SendAction $chatid $msgchunk
+				}
+				CharsTyped $chatid ""
 			} else {
-				set ackid 0
+				set limit 1380
+				incr -[string length $friendlyname]
+				set first 0
+				while { [expr {$first + $limit}] <= [string length $msg] } {
+					set msgchunk [string range $msg $first [expr {$first + $limit - 1}]]
+					if {[::MSNMobile::IsMobile $chatid] == 0 && [::OIM_GUI::IsOIM $chatid] == 0} {
+						set ackid [after 60000 [list ::amsn::DeliveryFailed $chatid $msgchunk]]
+					} else {
+						set ackid 0
+					}
+					::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
+					incr first $limit
+				}
+				
+				set msgchunk [string range $msg $first end]
+				
+				if {[::MSNMobile::IsMobile $chatid] == 0 && [::OIM_GUI::IsOIM $chatid] == 0} {
+					set ackid [after 60000 [list ::amsn::DeliveryFailed $chatid $msgchunk]]
+				} else {
+					set ackid 0
+				}
+				
+				set message [Message create %AUTO%]
+				$message setBody $msg
+				#TODO: where is the best place to put this code?
+				
+				set color "000000$fontcolor"
+				set color "[string range $color end-1 end][string range $color end-3 end-2][string range $color end-5 end-4]"
+				
+				set style ""
+				
+				if { [string first "bold" $fontstyle] >= 0 } { set style "${style}B" }
+				if { [string first "italic" $fontstyle] >= 0 } { set style "${style}I" }
+				if { [string first "overstrike" $fontstyle] >= 0 } { set style "${style}S" }
+				if { [string first "underline" $fontstyle] >= 0 } { set style "${style}U" }
+				
+				set format ""
+				set format "{$format}FN=[urlencode $fontfamily]; "
+				set format "{$format}EF=$style; "
+				set format "{$format}CO=$color; "
+				set format "{$format}CS=0; "
+				set format "{$format}PF=22"
+				$message setHeader [list X-MMS-IM-Format "$format"]
+				
+				#Draw our own message
+				messageFrom $chatid [::abook::getPersonal login] $nick $message user $p4c
+				
+				#This object isn't used anymore: destroy it
+				$message destroy
+				::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
+				
+				CharsTyped $chatid ""
+				
+				::plugins::PostEvent chat_msg_sent evPar
 			}
-	
-			set message [Message create %AUTO%]
-			$message setBody $msg
-			#TODO: where is the best place to put this code?
-	
-			set color "000000$fontcolor"
-			set color "[string range $color end-1 end][string range $color end-3 end-2][string range $color end-5 end-4]"
-	
-			set style ""
-	
-			if { [string first "bold" $fontstyle] >= 0 } { set style "${style}B" }
-			if { [string first "italic" $fontstyle] >= 0 } { set style "${style}I" }
-			if { [string first "overstrike" $fontstyle] >= 0 } { set style "${style}S" }
-			if { [string first "underline" $fontstyle] >= 0 } { set style "${style}U" }
-	
-			set format ""
-			set format "{$format}FN=[urlencode $fontfamily]; "
-			set format "{$format}EF=$style; "
-			set format "{$format}CO=$color; "
-			set format "{$format}CS=0; "
-			set format "{$format}PF=22"
-			$message setHeader [list X-MMS-IM-Format "$format"]
-	
-			#Draw our own message
-			messageFrom $chatid [::abook::getPersonal login] $nick $message user $p4c
-			
-			#This object isn't used anymore: destroy it
-			$message destroy
-			::MSN::messageTo $chatid "$msgchunk" $ackid $friendlyname
-	
-			CharsTyped $chatid ""
-	
-			::plugins::PostEvent chat_msg_sent evPar
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
