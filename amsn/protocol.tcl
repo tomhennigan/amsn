@@ -1422,9 +1422,20 @@ namespace eval ::MSN {
 	#Delete user totally
 	proc deleteUser { userlogin } {
 		#We remove from everywhere
-		::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
-		foreach groupID [::abook::getGroups $userlogin] {
-			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $groupID"
+		if { [::config::getKey protocol] == 15 } {
+			set contact [split $userlogin "@"]
+			set user [lindex $contact 0]
+			set domain [lindex $contact 1]
+
+			set xml "<ml><d n=\"$domain\"><c n=\"user\" t=\"1\" l=\"3\" /></d></ml>"
+			set xmllen [string length $xml]
+			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
+
+		} else {
+			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
+			foreach groupID [::abook::getGroups $userlogin] {
+				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $groupID"
+			}
 		}
 	}
 
@@ -5434,7 +5445,7 @@ proc cmsn_auth {{recv ""}} {
 			if { [config::getKey protocol] == 15 } {
 				initial_syn_handler ""
 				set ::ab [::Addressbook create %AUTO%]
-				$::ab getAll
+				$::ab ABFindAll
 				ns setInitialStatus
 			} else {
 				set list_version [::abook::getContactData contactlist list_version]

@@ -1,41 +1,31 @@
 snit::type Addressbook {
 
-	method getAll { args } {
+	method ABContactDelete { callbk contactid } {
+		set request [SOAPRequest create %AUTO% \
+		  -url "https://contacts.msn.com/abservice/abservice.asmx" \
+		  -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
+		  -xml [$self getABContactDeleteXML $contactid] \
+		  -callback [list $self ABContactDeleteCallback $callbk]]
 
-		set abfindall_req [SOAPRequest create %AUTO% \
+		$request SendSOAPRequest
+	}
+
+	method ABContactDeleteCallback { callbk soap } {
+		eval $callbk
+	}
+
+
+	method ABFindAll { args } {
+		set request [SOAPRequest create %AUTO% \
 		  -url "https://contacts.msn.com/abservice/abservice.asmx" \
 		  -action "http://www.msn.com/webservices/AddressBook/ABFindAll" \
 		  -xml [$self getABFindAllXML] \
-		  -callback [list $self getAllCallback]]
+		  -callback [list $self ABFindAllCallback]]
 
-		$abfindall_req SendSOAPRequest
+		$request SendSOAPRequest
 	}
 
-	method getCommonHeader { scenario } {
-		set token [$::sso GetSecurityTokenByName Contacts]
-		set mspauth [$token cget -ticket]
-
-		set xml {<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">}
-		append xml {<soap:Header>}
-		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<ApplicationId>996CDE1E-AA53-4477-B943-2BE802EA6166</ApplicationId>}
-		append xml {<IsMigration>false</IsMigration>}
-		append xml {<PartnerScenario>}
-		append xml $scenario
-		append xml {</PartnerScenario>}
-		append xml {</ABApplicationHeader>}
-		append xml {<ABAuthHeader xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<ManagedGroupRequest>false</ManagedGroupRequest>}
-		append xml {<TicketToken>}
-		append xml [xmlencode $mspauth]
-		append xml {</TicketToken>}
-		append xml {</ABAuthHeader>}
-		append xml {</soap:Header>}
-
-		return $xml
-	}
-
-	method getAllCallback { soap } {
+	method ABFindAllCallback { soap } {
 		global contactlist_loaded
 		set contactlist_loaded 0
 		#Make list unconsistent while receiving contact lists
@@ -131,6 +121,24 @@ snit::type Addressbook {
 			
 	}
 
+	method getABContactDeleteXML { contactid args } {
+		set xml [$self getCommonHeader Timer]
+		append xml {<ABContactDelete xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>}
+		append xml {00000000-0000-0000-0000-000000000000}
+		append xml {</abId>}
+		append xml {<contacts>}
+		append xml {<Contact>}
+		append xml {<contactId>}
+		append xml $contactid
+		append xml {</contactId>}
+		append xml {</Contact>}
+		append xml {</contacts>}
+		append xml {</ABContactDelete>}
+
+		return $xml
+	}
+
 	method getABFindAllXML { args } {
 		set xml [$self getCommonHeader Initial]
 		append xml {<soap:Body>}
@@ -146,6 +154,29 @@ snit::type Addressbook {
 		return $xml
 	}
 
+	method getCommonHeader { scenario } {
+		set token [$::sso GetSecurityTokenByName Contacts]
+		set mspauth [$token cget -ticket]
+
+		set xml {<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">}
+		append xml {<soap:Header>}
+		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ApplicationId>996CDE1E-AA53-4477-B943-2BE802EA6166</ApplicationId>}
+		append xml {<IsMigration>false</IsMigration>}
+		append xml {<PartnerScenario>}
+		append xml $scenario
+		append xml {</PartnerScenario>}
+		append xml {</ABApplicationHeader>}
+		append xml {<ABAuthHeader xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ManagedGroupRequest>false</ManagedGroupRequest>}
+		append xml {<TicketToken>}
+		append xml [xmlencode $mspauth]
+		append xml {</TicketToken>}
+		append xml {</ABAuthHeader>}
+		append xml {</soap:Header>}
+
+		return $xml
+	}
 }
 
 #######################
