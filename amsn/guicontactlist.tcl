@@ -1433,7 +1433,7 @@ namespace eval ::guiContactList {
 			catch { $img delete}
 			image create photo $img
 
-			$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap [::MSN::stateToImage $state_code]]]]
+			$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap away_emblem ]]]
 
 			#set the blocked emblem if the user is blocked
 			if { [::MSN::userIsBlocked $email] } {
