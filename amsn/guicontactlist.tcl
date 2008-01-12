@@ -1439,6 +1439,7 @@ namespace eval ::guiContactList {
 			
 			if { $state_code == "FLN" } {
 				::picture::Colorize $img grey 0.5
+				$img copy [::skin::loadPixmap plain_emblem]
 			} elseif { $state_code == "NLN" } {
 				$img copy [::skin::loadPixmap plain_emblem]
 			} else {
