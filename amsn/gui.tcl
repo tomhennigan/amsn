@@ -3640,8 +3640,13 @@ namespace eval ::amsn {
 						set maxw [expr {$maxw - $textwidth}]
 					}
 					"smiley" {
-						$w.c create image $x $y -image [lindex $unit 1] -anchor nw -state normal -tags bg
 						set textwidth [image width [lindex $unit 1]]
+						if {$textwidth > $maxw} {
+							set x $default_x
+							set y [expr $y + $default_y]
+							set maxw $default_maxw
+						}
+						$w.c create image $x $y -image [lindex $unit 1] -anchor nw -state normal -tags bg
 						set maxw [expr {$maxw - $textwidth}]
 						incr x $textwidth
 					}
