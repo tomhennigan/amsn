@@ -118,9 +118,11 @@ namespace eval ::guiContactList {
 		::skin::setPixmap downleft box_downleft.gif
 		::skin::setPixmap down box_down.gif
 		::skin::setPixmap downright box_downright.gif
+		::skin::setPixmap plain_emblem plain_emblem.gif		
 		::skin::setPixmap away_emblem away_emblem.gif
 		::skin::setPixmap busy_emblem busy_emblem.gif
 		::skin::setPixmap blocked_emblem blocked_emblem.gif
+		::skin::setPixmap notinlist_emblem notinlist_emblem.gif
 
 
 		variable Xbegin
@@ -1433,17 +1435,24 @@ namespace eval ::guiContactList {
 			catch { $img delete}
 			image create photo $img
 
-			$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap away_emblem ]]]
+			$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap plain_emblem ]]]
+			
+			if { $state_code == "FLN" } {
+				::picture::Colorize $img grey 0.5
+			} elseif { $state_code == "NLN" } {
+				$img copy [::skin::loadPixmap plain_emblem]
+			} else {
+				$img copy [::skin::loadPixmap [::MSN::stateToImage $state_code]_emblem]
+			}
 
 			#set the blocked emblem if the user is blocked
 			if { [::MSN::userIsBlocked $email] } {
 				$img copy [::skin::loadPixmap blocked_emblem]
 			}
-			
-			if { $state_code == "FLN" } {
-				::picture::Colorize $img grey 0.5
-			} elseif { $state_code != "NLN" } {
-				$img copy [::skin::loadPixmap [::MSN::stateToImage $state_code]_emblem]
+
+			# If you are not on this contact's list, show the notinlist emblem
+			if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+				$img copy [::skin::loadPixmap notinlist_emblem]
 			}
 
 		} else {
@@ -1582,11 +1591,14 @@ namespace eval ::guiContactList {
 		###Not-on-reverse-list icon###
 		#----------------------------#	
 
-		# If you are not on this contact's list, show the notification icon
-		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-			set icon [::skin::loadPixmap notinlist]
-			lappend stylestring [list "image" "$icon" "w"]
-			incr marginx [image width $icon]
+
+		if {!([::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"))} {
+			# If you are not on this contact's list, show the notification icon
+			if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+				set icon [::skin::loadPixmap notinlist]
+				lappend stylestring [list "image" "$icon" "w"]
+				incr marginx [image width $icon]
+			}
 		}
 
 		lappend stylestring [list "space" 3]
