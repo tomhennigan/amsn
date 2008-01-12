@@ -6869,7 +6869,7 @@ namespace eval ::MSN6FT {
 		set n10 [string range $nonce 24 end]
 
 		set nonce [string toupper "$n4$n3$n2$n1-$n6$n5-$n8$n7-$n9-$n10"]
-#		status_log "Got NONCE : $nonce\n" red
+		status_log "Got NONCE : $nonce\n" red
 
 		set bnonce [binary format H2H2H2H2H2H2H2H2H4H* $n1 $n2 $n3 $n4 $n5 $n6 $n7 $n8 $n9 $n10]
 		status_log "got Binary NONCE : $bnonce\n" red
@@ -6880,6 +6880,11 @@ namespace eval ::MSN6FT {
 
 		set data "[binary format iiiiiiii 0 $MsgId 0 0 0 0 0 256]$bnonce"
 		incr MsgId
+
+		status_log "Data blob ID is set to $MsgId\n" red
+
+		# Set the blob id of the current data to send
+		setObjOption $sid data_blob_id $MsgId
 		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
 
 		return $data
@@ -6904,7 +6909,10 @@ namespace eval ::MSN6FT {
 
 
 	proc SendFileToSock  { sock } {
-
+		global msn6ft_test_nak_once
+		if {![info exists msn6ft_test_nak_once] } {
+			set msn6ft_test_nak_once 0
+		}
 		set sid [getObjOption $sock sid]
 
 		set fd [lindex [::MSNP2P::SessionList get $sid] 6]
@@ -6922,9 +6930,27 @@ namespace eval ::MSN6FT {
 
 #		status_log "Sending file with fd : $fd\n" red
 
-		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
+		# Take the MsgId from the session to make sure we use the same blob_id for all the file transfer
+		# Apparently, this could be the bug causing FTs being canceled during upload. WLM sends an MSNSLP
+		# message for renegociating ip/port or to notify us of out of sync, and we ack it,
+		# which will increment the MsgId and all subsequent data messages will use the new MsgId 
+		# which WLM will not recognize and will not be able to link to the other data we sent.. then the FT
+		# times out and gets canceled.
+		# Thanks to the KMess team for finding this : http://www.codingdomain.com/blog/archives/16-KMess-file-transfer-fixes;-MSN-Protocol-goodies.html
+		set MsgId [getObjOption $sid data_blob_id]
 		set DataSize [lindex [::MSNP2P::SessionList get $sid] 1]
 		set Offset [lindex [::MSNP2P::SessionList get $sid] 2]
+
+		# We can receive a NAK to our data being sent.
+		# When a packet is lost for some reason, we get a nak with the position
+		# of the file that WLM wants to receive. If we got that, we simply reposition 
+		# ourselves in the file and set the new offset.
+		if {[getObjOption $sid nak_pos ""] != "" } {
+			set new_pos [getObjOption $sid nak_pos]
+			set Offset $new_pos
+			seek $fd $new_pos
+			setObjOption $sid nak_pos ""
+		}
 
 		if {$DataSize == 0 } {
 			status_log "Correcting DataSize\n" green
@@ -6936,7 +6962,6 @@ namespace eval ::MSN6FT {
 		set data [read $fd 1352]
 		set out "[binary format iiiiiiiiiiii $sid $MsgId $Offset 0 $DataSize 0 [string length $data] 16777264 [expr {int(rand() * 1000000000)%125000000 + 4}] 0 0 0]$data"
 
-		catch { puts -nonewline $sock  "[binary format i [string length $out]]$out" }
 
 		::amsn::FTProgress s $sid "" [expr {$Offset + [string length $data]}] $DataSize
 		#status_log "Writing file to socket $sock, send $Offset of $DataSize\n" red
@@ -6945,6 +6970,13 @@ namespace eval ::MSN6FT {
 
 		::MSNP2P::SessionList set $sid [list -1 -1 $Offset -1 -1 -1 -1 -1 -1 -1]
 
+		if {$msn6ft_test_nak_once } {
+			set msn6ft_test_nak_once 0
+			SendFileToSock $sock
+		} 
+
+		catch { puts -nonewline $sock  "[binary format i [string length $out]]$out" }
+	
 #		status_log "Sending : $out"
 
 		if { ($DataSize - $Offset) == 0} {

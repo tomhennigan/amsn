@@ -445,35 +445,43 @@ namespace eval ::MSNP2P {
 			set sid [SessionList findid $cAckId]
 			status_log "GOT SID : $sid for Ackid : $cAckId\n"
 			if { $sid != -1 } {
-			 	#status_log "MSNP2P | $sid -> Got MSNP2P ACK " red
+				if { $cFlags == 2 } {
+					#status_log "MSNP2P | $sid -> Got MSNP2P ACK " red
 
-			 	# We found a session id that is waiting for an ACK
-			 	set step [lindex [SessionList get $sid] 4]
+					# We found a session id that is waiting for an ACK
+					set step [lindex [SessionList get $sid] 4]
 
-				# Just these 2 for now, will probably need more with file transfers
-				switch $step {
-					DATAPREP {
-						# Set the right variables, prepare to send data after next ack
-						SessionList set $sid [list -1 4 0 -1 "SENDDATA" -1 -1 -1 -1 -1]
-
-						# We need to send a data preparation message
-						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [binary format i 0]]
-						status_log "MSNP2P | $sid -> Sent DATA Preparation\n" red
-					}
-					SENDDATA {
-						#status_log "MSNP2P | $sid -> Sending DATA now\n" red
-						set file [lindex [SessionList get $sid] 8]
-						if { $file != "" } {
-							SendData $sid $chatid "[lindex [SessionList get $sid] 8]"
-						} else {
-							SendData $sid $chatid "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]"
+					# Just these 2 for now, will probably need more with file transfers
+					switch $step {
+						DATAPREP {
+							# Set the right variables, prepare to send data after next ack
+							SessionList set $sid [list -1 4 0 -1 "SENDDATA" -1 -1 -1 -1 -1]
+							
+							# We need to send a data preparation message
+							SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [binary format i 0]]
+							status_log "MSNP2P | $sid -> Sent DATA Preparation\n" red
+						}
+						SENDDATA {
+							#status_log "MSNP2P | $sid -> Sending DATA now\n" red
+							set file [lindex [SessionList get $sid] 8]
+							if { $file != "" } {
+								SendData $sid $chatid "[lindex [SessionList get $sid] 8]"
+							} else {
+								SendData $sid $chatid "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]"
+							}
+						}
+						DATASENT {
+							SessionList set $sid [list -1 -1 0 -1 0 -1 -1 -1 -1 -1]
+							#status_log "MSNP2P | $sid -> Got ACK for sending data, now sending BYE\n" red
+							set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+							SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" [lindex [SessionList get $sid] 3] [::config::getKey login] "$branchid" "0" [lindex [SessionList get $sid] 5] 0 0] 1]
 						}
 					}
-					DATASENT {
-						SessionList set $sid [list -1 -1 0 -1 0 -1 -1 -1 -1 -1]
-						#status_log "MSNP2P | $sid -> Got ACK for sending data, now sending BYE\n" red
-						set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" [lindex [SessionList get $sid] 3] [::config::getKey login] "$branchid" "0" [lindex [SessionList get $sid] 5] 0 0] 1]
+				} elseif { $cFlags == 1 } {
+					set blobid [getObjOption $sid data_blob_id]
+					if {$cAckId == $blobid } {
+						status_log "Received a NAK on our data being sent. Need to reposition ourselves... to $cAckSize"
+						setObjOption $sid nak_pos $cAckSize
 					}
 				}
 			}
@@ -1168,14 +1176,26 @@ namespace eval ::MSNP2P {
 	# nullsid 	: 0 to add sid to header, 1 to put 0 instead of sid in header (usefull for negot + bye)
 	# Returns the MSNP2P packet (half text half binary)
 	proc MakePacket { sid slpdata {nullsid "0"} {MsgId "0"} {TotalSize "0"} {Offset "0"} {Destination "0"} {AfterAck "0"} {flags "0"}} {
+		set custom_msgid 1
+		set custom_totalsize 1
+		set custom_offset 1
 
 		# Let's get our session id variables and put them in a list
 		# If sessionid is 0, means we want to initiate a new session
 		if { $sid != 0 } {
 			set SessionInfo [SessionList get $sid]
-			set MsgId [lindex $SessionInfo 0]
-			set TotalSize [lindex $SessionInfo 1]
-			set Offset [lindex $SessionInfo 2]
+			if {$MsgId == "0" } {
+				set MsgId [lindex $SessionInfo 0]
+				set custom_msgid 0
+			}
+			if {$TotalSize == "0" } {
+				set TotalSize [lindex $SessionInfo 1]
+				set custom_totalsize 0
+			}
+			if {$Offset == "0" } {
+				set Offset [lindex $SessionInfo 2]
+				set custom_offset 0
+			}
 			set Destination [lindex $SessionInfo 3]
 		}
 
@@ -1251,6 +1271,18 @@ namespace eval ::MSNP2P {
 		unset bheader
 		unset bfooter
 		unset slpdata
+
+		# Reset variables if we use the custom ones to avoid overriding the ones in SessionList
+		# and corrupt our stack
+		if {$custom_msgid } {
+			set MsgId -1
+		} 
+		if {$custom_totalsize } {
+			set TotalSize -1
+		}
+		if {$custom_offset } {
+			set Offset -1
+		}
 
 		# Save new Session Variables into SessionList
 		SessionList set $sid [list $MsgId $TotalSize $Offset -1 -1 -1 -1 -1 -1 -1]
@@ -1514,10 +1546,27 @@ namespace eval ::MSNP2P {
 			return
 		}
 
+		set MsgId [getObjOption $sid data_blob_id ""]
+		if {$MsgId == "" } {
+			set MsgId 0
+		}
+
+		# We can receive a NAK to our data being sent.
+		# When a packet is lost for some reason, we get a nak with the position
+		# of the file that WLM wants to receive. If we got that, we simply reposition 
+		# ourselves in the file and set the new offset.
+		if {[getObjOption $sid nak_pos ""] != "" } {
+			set new_pos [getObjOption $sid nak_pos]
+			set offset $new_pos
+			SessionList set $sid [list -1 -1 $offset -1 -1 -1 -1 -1 -1 -1]
+			seek $fd $new_pos
+			setObjOption $sid nak_pos ""
+		}
+
 		set data [read $fd 1202]
 		#		status_log "Reading 1202 bytes of data : got [string length $data]"
 		if { [string length $data] >= 1202 } {
-			set msg [MakePacket $sid $data 0 0 0 0 0 0 16777264]
+			set msg [MakePacket $sid $data 0 $MsgId 0 0 0 0 16777264]
 			set msg_len [string length $msg]
 			puts -nonewline $sock "MSG [incr ::MSN::trid] D $msg_len\r\n$msg"
 			set offset [expr {$offset + 1202}]
@@ -1528,7 +1577,7 @@ namespace eval ::MSNP2P {
 			
 		} else {
 
-			set msg [MakePacket $sid $data 0 0 0 0 0 0 16777264]
+			set msg [MakePacket $sid $data 0 $MsgId 0 0 0 0 16777264]
 			set msg_len [string length $msg]
 			puts -nonewline $sock "MSG [incr ::MSN::trid] D $msg_len\r\n$msg"
 			set offset [expr {$offset + 1202}]
@@ -1540,6 +1589,10 @@ namespace eval ::MSNP2P {
 			unset fd
 
 			::amsn::FTProgress fs $sid ""
+		}
+		if {$MsgId == 0 } {
+			set MsgId [lindex [SessionList get $sid] 0]			
+			getObjOption $sid data_blob_id $MsgId
 		}
 	}
 	
