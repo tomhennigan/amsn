@@ -3566,22 +3566,77 @@ namespace eval ::amsn {
 				default { $w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg }
 			}
 
+			#------convert msg in a list (WIP)----;#
+			set msg [string map { "\n" " "} $msg] ;#
+			set msg [list $msg]                   ;#
+			set msg [list "text $msg"]            ;#
+			#-------------------------------------;#
+
 			#If it's a notification about a user (user var given) and there is an image (the creation results 1) and we have the config set to show the image, show the display-picture
 			if {$user != "" && [getpicturefornotification $user] && [::config::getKey showpicnotify]} {
 				#Put the image on the canvas
 				$w.c create image [::skin::getKey x_notifydp] [::skin::getKey y_notifydp] -anchor nw\
 					-image displaypicture_not_$user -tag bg
-				#Put the text on the canvas
-				set notify_id [$w.c create text [::skin::getKey x_notifytext] [::skin::getKey y_notifytext] \
-					-font [::skin::getKey notify_font] -justify left\
-					-width [::skin::getKey width_notifytext] -anchor nw\
-					-text "$msg" -tag bg -fill [::skin::getKey notifyfg]]
+
+				set x [::skin::getKey x_notifytext]
+				set y [::skin::getKey y_notifytext]
+				set maxw [::skin::getKey width_notifytext]
+
 			#else, just show the text, using all the space
 			} else {
-				set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] [expr {[::skin::getKey notifheight]/2}] \
-					-font [::skin::getKey notify_font] -justify left\
-					-width [expr {[::skin::getKey notifwidth]-20}] -anchor center\
-					-text "$msg" -tag bg -fill [::skin::getKey notifyfg]]
+	#			set notify_id [$w.c create text [expr {[::skin::getKey notifwidth]/2}] [expr {[::skin::getKey notifheight]/2}] \
+	#				-font [::skin::getKey notify_font] -justify left\
+	#				-width [expr {[::skin::getKey notifwidth]-20}] -anchor center\
+	#				-text "$msg" -tag bg -fill [::skin::getKey notifyfg]]
+
+#				set x [::skin::getKey notifwidth]
+#				set x [expr {[::skin::getKey notifwidth]/2}]
+#				set y [expr {[::skin::getKey notifheight]/2}]
+				set x [::skin::getKey x_notifydp]
+				set y [::skin::getKey y_notifytext]
+				set maxw [expr {[::skin::getKey notifwidth]-20}]
+			}
+
+			set default_x $x
+			set default_y $y
+			set default_maxw $maxw
+			set default_colour [::skin::getKey notifyfg]
+
+#			set lines 0 ;# not used
+			set colour $default_colour ;# ok
+			set font_attr [::skin::getKey notify_font]
+
+			foreach unit $msg {
+				switch [lindex $unit 0] {
+					"text" {
+						set textpart [lindex $unit 1]
+						set textwidth [font measure $font_attr $textpart]
+
+						if {[expr {$x + $textwidth}] > $maxw} {
+							set l [string length $textpart]
+							for {set i 0} {$i < $l} {incr i} {
+								if { [ font measure $font_attr -displayof $w.c "[string range $textpart 0 $i]" ] > $maxw} {
+									set txt "[string range $textpart 0 [expr {$i-1}]]"
+									$w.c create text $x $y -text $txt \
+									-anchor nw -fill $colour -font $font_attr -tags bg -justify left
+
+									set textpart [string range $textpart $i end]
+									set textwidth [font measure $font_attr $textpart]
+
+									set i 0
+									set l [string length $textpart]
+									set x $default_x
+									set y [expr $y + $default_y]
+									set maxw $default_maxw
+								}
+							}
+						}
+						$w.c create text $x $y -text $textpart \
+						-anchor nw -fill $colour -font $font_attr -tags bg -justify left
+						incr x $textwidth
+						set maxw [expr {$maxw - $textwidth}]
+					}
+				}
 			}
 
 			#add the close button
