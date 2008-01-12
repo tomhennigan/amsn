@@ -468,7 +468,7 @@ namespace eval ::ChatWindow {
 			}
 		}
 
-		set evPar(chatid) chatid
+		set evPar(chatid) $chatid
 		::plugins::PostEvent chatwindow_closed evPar
 
 		::ChatWindow::UnsetFor $chatid $window
