@@ -4775,7 +4775,8 @@ proc cmsn_change_state {recv} {
 		after 500 [list ::Event::fireEvent contactStateChange protocol $user]
 
 		set maxw [expr {([::skin::getKey notifwidth]-53)*2} ]
-		set short_name [trunc $custom_user_name . $maxw splainf]
+		set font [::skin::getKey notify_font]
+		set short_name [trunc_list "[::abook::getDisplayNick $user 1]" . $maxw $font]
 
 		#User logsout
 		if {$substate == "FLN"} {
@@ -4795,7 +4796,10 @@ proc cmsn_change_state {recv} {
 			       [::abook::getContactData $user notifyoffline -1] != 0) ||
 			      [::abook::getContactData $user notifyoffline -1] == 1) } {
 				#Show notify window if globally enabled, and not locally disabled, or if just locally enabled
-				::amsn::notifyAdd "$short_name\n[trans logsout]." "" offline offline $user
+				set msg $short_name
+				lappend msg [list "newline"]
+				lappend msg [list "text" "[trans logsout]."]
+				::amsn::notifyAdd $msg "" offline offline $user
 			}
 
 			# User was online before, so it's just a status change, and it's not
@@ -4814,8 +4818,15 @@ proc cmsn_change_state {recv} {
 			if { (([::config::getKey notifystate] == 1 && 
 			       [::abook::getContactData $user notifystatus -1] != 0) ||
 			      [::abook::getContactData $user notifystatus -1] == 1) } {
-				::amsn::notifyAdd "$short_name\n[trans statechange]\n[trans [::MSN::stateToDescription $substate]]." \
-				    "::amsn::chatUser $user" state state $user
+
+				set msg $short_name
+				lappend msg [list "newline"]
+				lappend msg [list "text" "[trans statechange]"]
+				lappend msg [list "newline"]
+				lappend msg [list "text" "[trans [::MSN::stateToDescription $substate]]."]
+				::amsn::notifyAdd $msg "" offline offline $user
+
+				::amsn::notifyAdd $msg "::amsn::chatUser $user" state state $user
 			}
 
 		} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
@@ -4841,7 +4852,11 @@ proc cmsn_change_state {recv} {
 			if { (([::config::getKey notifyonline] == 1 && 
 			       [::abook::getContactData $user notifyonline -1] != 0) ||
 			      [::abook::getContactData $user notifyonline -1] == 1) } {
-				::amsn::notifyAdd "$short_name\n[trans logsin]." "::amsn::chatUser $user" online online $user
+
+				set msg $short_name
+				lappend msg [list "newline"]
+				lappend msg [list "text" "[trans logsin]."]
+				::amsn::notifyAdd $msg "::amsn::chatUser $user" online online $user
 			}
 
 			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {

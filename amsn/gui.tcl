@@ -3566,11 +3566,13 @@ namespace eval ::amsn {
 				default { $w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg }
 			}
 
-			#------convert msg in a list (WIP)----;#
-			set msg [string map { "\n" " "} $msg] ;#
-			set msg [list $msg]                   ;#
-			set msg [list "text $msg"]            ;#
-			#-------------------------------------;#
+			#----------convert msg in a list (WIP)--------;#
+			if {$type ne "offline" && $type ne "state" && $type ne "online"} { ;#
+				set msg [string map { "\n" " "} $msg] ;#
+				set msg [list $msg]                   ;#
+				set msg [list "text $msg"]            ;#
+			}					      ;#
+			#---------------------------------------------;#
 
 			#If it's a notification about a user (user var given) and there is an image (the creation results 1) and we have the config set to show the image, show the display-picture
 			if {$user != "" && [getpicturefornotification $user] && [::config::getKey showpicnotify]} {
@@ -3601,10 +3603,11 @@ namespace eval ::amsn {
 			set default_y $y
 			set default_maxw $maxw
 			set default_colour [::skin::getKey notifyfg]
+			set default_font [::skin::getKey notify_font]
 
 #			set lines 0 ;# not used
-			set colour $default_colour ;# ok
-			set font_attr [::skin::getKey notify_font]
+			set colour $default_colour
+			set font_attr [font configure $default_font]
 
 			foreach unit $msg {
 				switch [lindex $unit 0] {
@@ -3636,15 +3639,50 @@ namespace eval ::amsn {
 						incr x $textwidth
 						set maxw [expr {$maxw - $textwidth}]
 					}
+					"smiley" {
+						$w.c create image $x $y -image [lindex $unit 1] -anchor nw -state normal -tags bg
+						set textwidth [image width [lindex $unit 1]]
+						set maxw [expr {$maxw - $textwidth}]
+						incr x $textwidth
+					}
+					"colour" {
+						if {[lindex $unit 1] eq "reset"} {
+							set colour $default_colour
+						} else {
+							set colour [lindex $unit 1]
+						}
+					}
+					"font" {
+						if { [llength [lindex $unit 1]] == 1 } {
+							if { [lindex $unit 1] == "reset" } {
+								set font_attr [font configure $default_font]
+							} else {
+								set font_attr [font configure [lindex $unit 1]]
+							}
+							array set current_format $font_attr
+						} else {
+							array set current_format $font_attr
+							array set modifications [lindex $unit 1]
+							foreach key [array names modifications] {
+								set current_format($key) [set modifications($key)]
+								if { [set current_format($key)] == "reset" } {
+									set current_format($key) \
+										[font configure $default_font $key]
+								}
+							}
+							set font_attr [array get current_format]
+						}
+					}
+					"newline" {
+						set x $default_x
+						set y [expr $y + $default_y]
+						set maxw $default_maxw
+					}
 				}
 			}
 
 			#add the close button
-			$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose] -tag close 
-
-			if {[string length $msg] >100} {
-				set msg "[string range $msg 0 100]..."
-			}
+			$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose] -tag close
 
 			set after_id [after [::config::getKey notifytimeout] [list ::amsn::KillNotify $w $ypos]]
 
