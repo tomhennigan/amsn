@@ -280,6 +280,8 @@ if {![catch {package require Trf 2.0}]} {
 	binary scan $string c* X
 	
 	set output ""
+
+	set nums ""
 	
 	foreach x $X {
 	    set bits [lindex $base64 $x]
@@ -298,17 +300,20 @@ if {![catch {package require Trf 2.0}]} {
 		# padding characters.  If x=={}, we have 12 bits of input 
 		# (enough for 1 8-bit output).  If x!={}, we have 18 bits of
 		# input (enough for 2 8-bit outputs).
-		
-		foreach {v w z} $nums break
-		set a [expr {($v << 2) | (($w & 0x30) >> 4)}]
-		
-		if {$z == {}} {
-		    append output [binary format c $a ]
-		} else {
-		    set b [expr {(($w & 0xF) << 4) | (($z & 0x3C) >> 2)}]
-		    append output [binary format cc $a $b]
-		}		
-		break
+		# if string is just characters nor part of the Base64 alphabet + '='
+		# then nums is still "".
+		if { $nums != ""} { 
+			foreach {v w z} $nums break
+			set a [expr {($v << 2) | (($w & 0x30) >> 4)}]
+			
+			if {$z == {}} {
+				append output [binary format c $a ]
+			} else {
+				set b [expr {(($w & 0xF) << 4) | (($z & 0x3C) >> 2)}]
+				append output [binary format cc $a $b]
+			}		
+			break
+		}
 	    } else {
 		# RFC 2045 says that line breaks and other characters not part
 		# of the Base64 alphabet must be ignored, and that the decoder
