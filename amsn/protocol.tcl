@@ -4824,8 +4824,6 @@ proc cmsn_change_state {recv} {
 				lappend msg [list "text" "[trans statechange]"]
 				lappend msg [list "newline"]
 				lappend msg [list "text" "[trans [::MSN::stateToDescription $substate]]."]
-				::amsn::notifyAdd $msg "" offline offline $user
-
 				::amsn::notifyAdd $msg "::amsn::chatUser $user" state state $user
 			}
 
