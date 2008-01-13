@@ -419,24 +419,20 @@ namespace eval ::log {
 		# Get all the contacts with logs
 		set lDirs [concat [list ${log_dir}] [glob -nocomplain -types d "${log_dir}/*"]]
 
+		set contact_list [list]
 		foreach sDir $lDirs {
 			foreach sLogFile [glob -tails -nocomplain -types f -directory ${sDir} "*.log"] {
 				set sLogFile [ string range $sLogFile 0 [ expr { [string length $sLogFile] - 5 } ] ]
-				set hNames($sLogFile) 1
+				lappend contact_list $sLogFile
 			}
 		}
-		
-		set contact_list [ array names hNames ]
 
-		#Sorts contacts
-		set sortedcontact_list [lsort -dictionary $contact_list]
-
-		#Add the eventlog
-		lappend sortedcontact_list eventlog
+		#Sort contacts
+		set contact_list [lsort -dictionary -unique $contact_list]
 
 		#If there is no email defined, we replace it by the first email in the dictionary order
 		if {$email == ""} {
-			set email [lindex $sortedcontact_list 0]
+			set email [lindex $contact_list 0]
 		}
 		
 		set fileid [LogArray $email get]
@@ -497,9 +493,9 @@ namespace eval ::log {
 		}
 
 		frame $wname.top.contact -borderwidth 0
-		combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22
+		combobox::combobox $wname.top.contact.list -highlightthickness 0 -width 22
 		$wname.top.contact.list list delete 0 end
-		foreach contact $sortedcontact_list {
+		foreach contact $contact_list {
 			$wname.top.contact.list list insert end $contact
 		}
 
@@ -509,34 +505,26 @@ namespace eval ::log {
 		set exactMatch [lsearch -exact $list $email]
 		#Select the email in the list when we open the window with the result of the search
 		$wname.top.contact.list select $exactMatch
-		$wname.top.contact.list configure -command "::log::ChangeLogWin $wname $email"
+		$wname.top.contact.list configure -command [list ::log::ChangeLogWin $wname]
 		$wname.top.contact.list configure -editable false
 
 		pack $wname.top.contact.list -side left
 		pack $wname.top.contact -side left
 
-		::log::LogsByDate $wname $email "1"
+		::log::LogsByDate $wname $email
 
 		ParseLog $wname $logvar
 
-		button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
-		button $wname.buttons.find -text "[trans find]" -command "$wname.search show"
+		button $wname.buttons.close -text "[trans close]" -command [list destroy $wname]
+		button $wname.buttons.find -text "[trans find]" -command [list $wname.search show]
 		button $wname.buttons.stats -text "[trans stats]" -command "::log::stats"
-		button $wname.buttons.save -text "[trans savetofile]" -command "::log::SaveToFile ${wname} ${email} [list ${logvar}]"
-		button $wname.buttons.clear -text "[trans clearlog]" \
-		    -command "if { !\[winfo exists $wname.top.date.list\] } { \
-				                    set date \".\" \
-				              } else {
-				                    set date \[$wname.top.date.list list get \[$wname.top.date.list curselection\]\]\
-					      }
-                                              if { \[::log::ClearLog $email \"\$date\"\] } { 
-				                    destroy $wname
-			         	      }" \
+		button $wname.buttons.save -text "[trans savetofile]" -command [list ::log::SaveToFile ${wname} [list ${logvar}]]
+		button $wname.buttons.clear -text "[trans clearlog]"  -command [list ::log::ClearLogGUI ${wname}]
 		    
 
 
 		menu ${wname}.copypaste -tearoff 0 -type normal
-		${wname}.copypaste add command -label [trans copy] -command "tk_textCopy ${wname}.blueframe.log.txt"
+		${wname}.copypaste add command -label [trans copy] -command [list tk_textCopy ${wname}.blueframe.log.txt]
 		
 		pack $wname.top -side top -fill x
 		pack $wname.blueframe.log.ys -side right -fill y
@@ -561,25 +549,24 @@ namespace eval ::log {
 		# Get all the contacts with saved webcam sessions
 		set lDirs [concat [list ${webcam_dir}] [glob -nocomplain -types d "${webcam_dir}/*"]]
 
+		set contact_list [list]
 		foreach sDir $lDirs {
 			foreach sLogFile [glob -tails -nocomplain -types f -directory ${sDir} "*.cam"] {
 				set sLogFile [ string range $sLogFile 0 [ expr { [string length $sLogFile] - 5 } ] ]
-				set hNames($sLogFile) 1
+				lappend contact_list $sLogFile
 			}
 		}
-
-		set contact_list [ array names hNames ]
 
 		if { [llength $contact_list] == 0 } {
 			::amsn::infoMsg "[trans nologfile [::config::getKey login]]"
 			return
 		}
 		
-		set sortedcontact_list [lsort -dictionary $contact_list]
+		set contact_list [lsort -dictionary -unique $contact_list]
 
 		#If there is no email defined, we replace it by the first email in the dictionary order
 		if {$email == ""} {
-			set email [lindex $sortedcontact_list 0]
+			set email [lindex $contact_list 0]
 		}
 		
 		set wname [::log::cam_wname $email]
@@ -621,7 +608,7 @@ namespace eval ::log {
 		frame $wname.top.contact -borderwidth 0
 		combobox::combobox $wname.top.contact.list -editable true -highlightthickness 0 -width 22
 		$wname.top.contact.list list delete 0 end
-		foreach contact $sortedcontact_list {
+		foreach contact $contact_list {
 			$wname.top.contact.list list insert end $contact
 		}
 
@@ -631,33 +618,24 @@ namespace eval ::log {
 		set exactMatch [lsearch -exact $list $email]
 		#Select the email in the list when we open the window with the result of the search
 		$wname.top.contact.list select $exactMatch
-		$wname.top.contact.list configure -command "::log::ChangeCamLogWin $wname $email"
+		$wname.top.contact.list configure -command [list ::log::ChangeCamLogWin $wname ]
 		$wname.top.contact.list configure -editable false
 
 		pack $wname.top.contact.list -side left -expand true -fill both
 		grid $wname.top.contact -row 0 -column 0 -sticky news
 
-		::log::CamLogsByDate $wname $email "1"
+		::log::CamLogsByDate $wname $email 
 
 		button $wname.buttons.play -text "[trans play]" -state $exists \
 		    -command [list ::CAMGUI::Play $wname [file join ${webcam_dir} ${email}.cam]]
 		
-		button $wname.buttons.pause -text "[trans pause]" -command "::CAMGUI::Pause $wname"  -state disabled
-		button $wname.buttons.stop -text "[trans stop]" -command "::CAMGUI::Stop $wname" -state disabled
+		button $wname.buttons.pause -text "[trans pause]" -command [list ::CAMGUI::Pause $wname]  -state disabled
+		button $wname.buttons.stop -text "[trans stop]" -command [list ::CAMGUI::Stop $wname] -state disabled
 
-		button $wname.buttons.save -text "[trans snapshot]" -command "::CAMGUI::saveToImage $wname" -state $exists
-		button $wname.buttons.close -text "[trans close]" -command "destroy $wname"
-		#	button $wname.buttons.stats -text "[trans stats]" -command "::log::cam_stats"
+		button $wname.buttons.save -text "[trans snapshot]" -command [list ::CAMGUI::saveToImage $wname] -state $exists
+		button $wname.buttons.close -text "[trans close]" -command [list destroy $wname]
 
-		button $wname.buttons.clear -text "[trans clearlog]" \
-		    -command "if { !\[winfo exists $wname.top.date.list\] } { \
-				                    set date \".\" \
-				              } else {
-				                    set date \[$wname.top.date.list list get \[$wname.top.date.list curselection\]\]\
-					      }
-                                              if { \[::log::ClearCamLog $email \"\$date\"\] } { 
-				                    destroy $wname
-			         	      }" \
+		button $wname.buttons.clear -text "[trans clearlog]" -command [list ::log::ClearCamLogGUI ${wname}]
 
 		frame $wname.slider -borderwidth 0
 
@@ -849,17 +827,17 @@ namespace eval ::log {
 		return $wname
 	}
 
-	proc LogsByDate {wname email init} {
+	proc LogsByDate {wname email} {
 
 		global log_dir logvar
 
 		#If we store logs by date
 		if { [::config::getKey logsbydate] == 1 } {
 			#If this is the first log we view
-			if {$init == 1} {
+			if {![winfo exists ${wname}.top.date]} {
 				frame $wname.top.date -borderwidth 0
 				combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22
-			}			
+			}
 			set date_list ""
 			set erdate_list ""
 			$wname.top.date.list list delete 0 end
@@ -904,12 +882,12 @@ namespace eval ::log {
 		}
 	}
 
-	proc CamLogsByDate {wname email init} {
+	proc CamLogsByDate {wname email} {
 
 		global webcam_dir
 
 		# Create the sessions combobox
-		if {$init == 1 } {
+		if {![winfo exists ${wname}.top.sessions]} {
 			frame $wname.top.sessions -borderwidth 0
 			combobox::combobox $wname.top.sessions.list \
 			    -command "::log::JumpToSession $wname" \
@@ -920,7 +898,7 @@ namespace eval ::log {
 		#If we store logs by date
 		if { [::config::getKey logsbydate] == 1 } {
 			#If this is the first log we view
-			if {$init == 1} {
+			if {![winfo exists $wname.top.date]} {
 				frame $wname.top.date -borderwidth 0
 				combobox::combobox $wname.top.date.list -editable true -highlightthickness 0 -width 22
 			}			
@@ -990,57 +968,6 @@ namespace eval ::log {
 	}
 
 
-	proc ResetSave {w email} {
-
-		global logvar
-
-		set name [::log::wname $email]
-
-		#Redefined the command of the button according to the new contact logging
-		$w.buttons.save configure -command "::log::SaveToFile ${name} ${email} [list ${logvar}]"
-
-	}
-
-	proc ResetCamSave {w email img exists} {
-
-		#Redefined the command of the button according to the new contact logging
-		$w.buttons.save configure -command "::CAMGUI::saveToImage $w" -state $exists
-
-	}
-
-
-	proc ResetDelete {w email} {
-		
-		global logvar
-
-		set name [::log::wname $email]
-
-		#Redefined the command of the button according to the new contact logging
-		$w.buttons.clear configure -command	"if { !\[winfo exists $w.top.date.list\] } { \
-							set date \".\" \
-						} else {
-							set date \[$w.top.date.list list get \[$w.top.date.list curselection\]\]\
-						}
-						if { \[::log::ClearLog $email \"\$date\"\] } { 
-							destroy $w
-						} "
-	}
-
-	proc ResetCamDelete {w email} {
-		
-		set name [::log::wname $email]
-
-		#Redefined the command of the button according to the new contact logging
-		$w.buttons.clear configure -command	"if { !\[winfo exists $w.top.date.list\] } { \
-							set date \".\" \
-						} else {
-							set date \[$w.top.date.list list get \[$w.top.date.list curselection\]\]\
-						}
-						if { \[::log::ClearCamLog $email \"\$date\"\] } { 
-							destroy $w
-						} "
-	}
-
 	proc ChangeLogToDate { w email widget date } {
 
 		global log_dir logvar
@@ -1057,8 +984,6 @@ namespace eval ::log {
 		::log::Fileexist $email $date
 
 		$w.blueframe.log.txt rodelete 0.0 end
-
-		::log::ResetSave $w $email
 
 
 		if { [file exists [file join ${log_dir} $date ${email}.log]] } {
@@ -1105,8 +1030,6 @@ namespace eval ::log {
 
 		::CAMGUI::Stop $w
 
-		::log::ResetCamSave $w $email $img $exists
-
 		if { ![file exists [file join ${webcam_dir} $date ${email}.cam]] } {
 			set whole_size 0
 		} else {
@@ -1133,7 +1056,7 @@ namespace eval ::log {
 		UpdateSessionList $w $email $date
 	}
 
-	proc ChangeLogWin {w contact widget email} {
+	proc ChangeLogWin {w widget email} {
 
 		global log_dir logvar
 
@@ -1149,10 +1072,7 @@ namespace eval ::log {
 			wm title $w "[trans history2] (${email})"
 		}
 
-		::log::LogsByDate $w $email "0"	
-
-		::log::ResetSave $w $email
-		::log::ResetDelete $w $email
+		::log::LogsByDate $w $email
 
 		ParseLog $w $logvar
 
@@ -1160,7 +1080,7 @@ namespace eval ::log {
 
 	}	
 
-	proc ChangeCamLogWin {w contact {widget ""} {email ""}} {
+	proc ChangeCamLogWin {w {widget ""} {email ""}} {
 
 		global webcam_dir
 
@@ -1178,12 +1098,9 @@ namespace eval ::log {
 			set size "0K[trans bytesymbol]"
 		}
 
-		::log::CamLogsByDate $w $email "0"	
-		::log::ResetCamDelete $w $email
+		::log::CamLogsByDate $w $email 	
 
 		set img ${w}_img
-
-		::log::ResetCamSave $w $email $img $exists
 
 		::CAMGUI::Stop $w
 
@@ -1206,8 +1123,8 @@ namespace eval ::log {
 		$w.buttons.play configure -state $exists \
 		    -command [list ::CAMGUI::Play $w [file join ${webcam_dir} ${email}.cam]]
 		
-		$w.buttons.pause configure -command "::CAMGUI::Pause $w"  -state disabled
-		$w.buttons.stop configure -command "::CAMGUI::Stop $w" -state disabled
+		$w.buttons.pause configure -state disabled
+		$w.buttons.stop configure -state disabled
 
 		
 		wm title $w "[trans webcamhistory2] (${email} - $size)"
@@ -1352,6 +1269,43 @@ namespace eval ::log {
 		#smile_subst ${wname}.blueframe.log.txt
 	}
 
+	#///////////////////////////////////////////////////////////////////////////////
+	# ClearLogGUI (wname)
+	#
+	# wname : Log window
+
+	proc ClearLogGUI { wname } {
+
+		set email [$wname.top.contact.list list get [$wname.top.contact.list curselection]]
+		
+		if { ![winfo exists $wname.top.date.list] } {
+			set date "."
+		} else {
+			set date [$wname.top.date.list list get [$wname.top.date.list curselection]]
+		}
+        if { [::log::ClearLog $email $date] } { 
+			destroy $wname
+		}
+	}
+
+	#///////////////////////////////////////////////////////////////////////////////
+	# ClearCamLogGUI (wname)
+	#
+	# wname : Log window
+
+	proc ClearCamLogGUI { wname } {
+
+		set email [$wname.top.contact.list list get [$wname.top.contact.list curselection]]
+		
+		if { ![winfo exists $wname.top.date.list] } {
+			set date "."
+		} else {
+			set date [$wname.top.date.list list get [$wname.top.date.list curselection]]
+		}
+        if { [::log::ClearCamLog $email $date] } { 
+			destroy $wname
+		}
+	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# SaveToFile (wname email logvar)
@@ -1360,7 +1314,10 @@ namespace eval ::log {
 	# wname : Log window
 	# logvar : variable containing the whole log file (sure need to setup log file limits)
 
-	proc SaveToFile { wname email logvar } {
+	proc SaveToFile { wname logvar } {
+
+		set email [$wname.top.contact.list list get [$wname.top.contact.list curselection]]
+
 		set file [chooseFileDialog "$email.html" "[trans save]" $wname "" save]
 
 		if { $file != "" } {
