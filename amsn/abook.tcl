@@ -1276,7 +1276,7 @@ namespace eval ::abookGui {
 		menu $the_menu -tearoff 0 -type normal
 		$the_menu add command \
 			-label "[trans copytoclipboard [string tolower [trans filename]]]" \
-			-command [list copyDpToClipboard $filename]
+			-command [list ::abookGui::copyDpToClipboard $filename]
 		$the_menu add command -label "[trans setasmydp]" \
 			-command [list set_displaypic $filename]
 		tk_popup $the_menu $X $Y
