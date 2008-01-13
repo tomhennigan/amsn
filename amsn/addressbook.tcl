@@ -1,37 +1,14 @@
 snit::type Addressbook {
+	variable contacts [list]
+	variable groups [list]
+	variable ab_done 0
+	variable fm_done 0
 
-	method ABContactDelete { callbk contactid } {
-		set request [SOAPRequest create %AUTO% \
-		  -url "https://contacts.msn.com/abservice/abservice.asmx" \
-		  -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
-		  -xml [$self getABContactDeleteXML $contactid] \
-		  -callback [list $self ABContactDeleteCallback $callbk]]
-
-		$request SendSOAPRequest
-	}
-
-	method ABContactDeleteCallback { callbk soap } {
-		eval $callbk
-	}
-
-
-	method ABFindAll { args } {
-		set request [SOAPRequest create %AUTO% \
-		  -url "https://contacts.msn.com/abservice/abservice.asmx" \
-		  -action "http://www.msn.com/webservices/AddressBook/ABFindAll" \
-		  -xml [$self getABFindAllXML] \
-		  -callback [list $self ABFindAllCallback]]
-
-		$request SendSOAPRequest
-	}
-
-	method ABFindAllCallback { soap } {
+	method Synchronize { callback } {
 		global contactlist_loaded
 		set contactlist_loaded 0
 		#Make list unconsistent while receiving contact lists
 		::abook::unsetConsistent
-
-		set ::xml  [$soap GetResponse]
 
 		status_log "Going to receive contact list\n" blue
 		#First contact in list
@@ -42,87 +19,267 @@ snit::type Addressbook {
 		::groups::Reset
 		::groups::Set 0 [trans nogroup]
 
-		set i 0
-		# can go later
-		while {1} {
-			set ::subxml [GetXmlNode $::xml "soap:Envelope:soap:Body:ABFindAllResponse:ABFindAllResult:groups:Group" $i]
-			incr i
-			if  { $::subxml == "" } {
-				break
+
+		$self FindMembership [list $self FindMembershipDone $callback]
+		$self ABFindAll [list $self ABFindAllDone $callback]
+
+	}
+
+	method FindMembershipDone { callback error } {
+		set fm_done 1
+		if {$error } {
+			if {$ab_done == 0 } {
+				$self SynchronizeDone $callback $error
 			}
-			puts "$::subxml\n\n\n"
-			set groupId [GetXmlEntry $::subxml "Group:groupId"]
-			set groupName [GetXmlEntry $::subxml "Group:groupInfo:name"]
-			::groups::Set $groupId $groupName
+		} else {
+			if {$ab_done == 1 } {
+				$self SynchronizeDone $callback $error
+			}
 		}
+	}
 
-		set i 0
-		# can go later
-		set contacts {}
-		while {1} {
-			set ::subxml [GetXmlNode $::xml "soap:Envelope:soap:Body:ABFindAllResponse:ABFindAllResult:contacts:Contact" $i]
-			incr i
-			if  { $::subxml == "" } {
-				break
+	method ABFindAllDone {callback error } {
+		set ab_done 1
+		if {$error } {
+			if {$ab_done == 0 } {
+				$self SynchronizeDone $callback $error
+			} 
+		} else {
+			if {$fm_done == 1 } {
+				$self SynchronizeDone $callback $error
 			}
-			puts "$::subxml\n\n\n"
-			set contact [GetXmlEntry $::subxml "Contact:contactInfo:passportName"]
-			lappend contacts $contact
-			
-			set nickname [GetXmlEntry $::subxml "Contact:contactInfo:displayName"]
-			set contactguid [GetXmlEntry $::subxml "Contact:contactId"]
-			set list_names "11"
-			#TODO: multiple groups
-			set groups [GetXmlEntry $::subxml "Contact:contactInfo:groupIds:guid"]
+		}
+	}
 
-			set username "$contact"
+	method SynchronizeDone {callback error } {
+		status_log "Synchronization done"
+		if {[catch {eval $callback $error} result]} {
+			bgerror $result
+		}
+	}
 
-			set list_names [process_msnp11_lists $list_names]
-			set groups [split $groups ,]
 
-			if { $groups == "" } {
-				set groups 0
+	method ABContactDelete { callbk contactid } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
+				 -header [$self getCommonHeaderXML Timer] \
+				 -xml [$self getABContactDeleteBodyXML $contactid] \
+				 -callback [list $self ABContactDeleteCallback $callbk]]
+
+		$request SendSOAPRequest
+	}
+
+	method ABContactDeleteCallback { callbk soap } {
+		eval $callbk
+	}
+
+	method FindMembership { callbk } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "http://contacts.msn.com/abservice/SharingService.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/FindMembership" \
+				 -header [$self getCommonHeaderXML Initial] \
+				 -body [$self getFindMembershipBodyXML] \
+				 -callback [list $self FindMembershipCallback $callbk]]
+		$request SendSOAPRequest
+	}	
+
+	method FindMembershipCallback { callbk soap } {
+		status_log "FindMembership Callback called : [$soap GetStatus] - [$soap GetLastError]"
+		if { [$soap GetStatus] == "success" } {
+			set xml  [$soap GetResponse]
+			set i 0
+			while {1} {
+				set service [GetXmlNode $xml "soap:Envelope:soap:Body:FindMembershipResponse:FindMembershipResult:Services:Service" $i]
+				incr i
+				if {$service == "" } {
+					break
+				}
+				set type [GetXmlEntry $service "Service:Info:Handle:Type"]
+				if {$type == "Messenger" } {
+					set j 0
+					while {1} {
+						set membership [GetXmlNode $service "Service:Memberships:Membership" $j]
+						incr j
+						if {$membership == "" } {
+							break
+						}
+						set role [GetXmlEntry $membership "Membership:MemberRole"]
+						if {$role == "Allow" } {
+							set member_list "AL"
+						} elseif { $role == "Block" } {
+							set member_list "BL"
+						} elseif { $role == "Reverse" } {
+							set member_list "RL"
+						} elseif { $role == "Pending" } {
+							set member_list "PL"
+						}
+						set k 0
+						while {1} {
+							set member [GetXmlNode $membership "Membership:Members:Member" $k]
+							incr k
+							if {$member == ""} {
+								break
+							}
+							set username [GetXmlEntry $member "Member:PassportName"]
+
+							::abook::addContactToList $username $member_list 
+							::MSN::addToList $member_list $username
+						}
+
+					}
+				}
 			}
 
-			#Remove user from all lists while receiving List data
-			::abook::setContactData $username lists ""
+			$soap destroy
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
+			}
+		} else {
+			$soap destroy
+			if {[catch {eval $callbk [list 1]} result]} {
+				bgerror $result
+			}
+		}
+	}
 
-			::abook::setContactData $username nick $nickname
+	
 
-			::abook::setContactData $username contactguid $contactguid
-			::abook::setContactForGuid $contactguid $username
+	method ABFindAll { callbk } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABFindAll" \
+				 -header [$self getCommonHeaderXML Initial] \
+				 -body [$self getABFindAllBodyXML] \
+				 -callback [list $self ABFindAllCallback $callbk]]
 
-			foreach list_sort $list_names {
+		$request SendSOAPRequest
+	}
 
-				::abook::addContactToList $username $list_sort
-				::MSN::addToList $list_sort $username
+	method ABFindAllCallback { callbk soap } {
+		status_log "ABFindALL Callback called : [$soap GetStatus] - [$soap GetLastError]"
+		if { [$soap GetStatus] == "success" } {
+			set xml  [$soap GetResponse]
 
-				#No need to set groups and set offline state if command is not LST
-				if { $list_sort == "FL" } {
+			set i 0
+			# can go later
+			while {1} {
+				set subxml [GetXmlNode $xml "soap:Envelope:soap:Body:ABFindAllResponse:ABFindAllResult:groups:Group" $i]
+				incr i
+				if  { $subxml == "" } {
+					break
+				}
+				set groupId [GetXmlEntry $subxml "Group:groupId"]
+				set groupName [GetXmlEntry $subxml "Group:groupInfo:name"]
+				::groups::Set $groupId $groupName
+			}
+
+			set i 0
+			while {1} {
+				set subxml [GetXmlNode $xml "soap:Envelope:soap:Body:ABFindAllResponse:ABFindAllResult:contacts:Contact" $i]
+				incr i
+				if  { $subxml == "" } {
+					break
+				}
+
+				set username [GetXmlEntry $subxml "Contact:contactInfo:passportName"]
+				set nickname [GetXmlEntry $subxml "Contact:contactInfo:displayName"]
+				set contactguid [GetXmlEntry $subxml "Contact:contactId"]
+				set is_in_fl [GetXmlEntry $subxml "Contact:contactInfo:isMessengerUser"]
+
+				set groups [list]
+				set j 0
+				while { 1 } {
+					set group [GetXmlEntry $subxml "Contact:contactInfo:groupIds:guid" $j]
+					incr j
+					if {$group == "" } {
+						break
+					}
+					lappend $groups $group
+				}
+
+				if { $groups == [list] } {
+					set groups 0
+				}
+				
+				::abook::setContactData $username nick $nickname
+				::abook::setContactData $username contactguid $contactguid
+				::abook::setContactForGuid $contactguid $username
+
+				if {$is_in_fl } {
+					
+					::abook::addContactToList $username "FL"
+					::MSN::addToList "FL" $username
+
 					::abook::setContactData $username group $groups
 					::abook::setVolatileData $username state "FLN"
 				}
+
 			}
-	
-			set lists [::abook::getLists $username]
-			if { [lsearch $lists PL] != -1 } {
-				if { [lsearch [::abook::getLists $username] "AL"] != -1 || [lsearch [::abook::getLists $username] "BL"] != -1 } {
-					#We already added it we only move it from PL to RL
-					#Just add to RL for now and let the handler remove it from PL... to be sure it's the correct order...
-					::MSN::WriteSB ns "ADC" "RL N=$username"
-				} else {
-					newcontact $username $nickname
-				}
+
+			$soap destroy
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
+			}
+
+		} else {
+			$soap destroy
+			if {[catch {eval $callbk [list 1]} result]} {
+				bgerror $result
 			}
 		}
-		sendADL $contacts
-		::MSN::contactListChanged
-		ns authenticationDone
 			
 	}
 
-	method getABContactDeleteXML { contactid args } {
-		set xml [$self getCommonHeader Timer]
+
+	method getCommonHeaderXML { scenario } {
+		set token [$::sso GetSecurityTokenByName Contacts]
+		set mspauth [$token cget -ticket]
+
+		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ApplicationId>996CDE1E-AA53-4477-B943-2BE802EA6166</ApplicationId>}
+		append xml {<IsMigration>false</IsMigration>}
+		append xml {<PartnerScenario>}
+		append xml $scenario
+		append xml {</PartnerScenario>}
+		append xml {</ABApplicationHeader>}
+		append xml {<ABAuthHeader xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ManagedGroupRequest>false</ManagedGroupRequest>}
+		append xml {<TicketToken>}
+		append xml [xmlencode $mspauth]
+		append xml {</TicketToken>}
+		append xml {</ABAuthHeader>}
+
+		return $xml
+
+	}
+	method getABFindAllBodyXML {  } {
+		set xml {<ABFindAll xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<abView>Full</abView>}
+		append xml {<deltasOnly>false</deltasOnly>}
+		append xml {<lastChange>0001-01-01T00:00:00.0000000-08:00</lastChange>}
+		append xml {</ABFindAll>}
+
+		return $xml
+	}
+
+	method getFindMembershipBodyXML {  } {
+		append xml {<FindMembership xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<serviceFilter xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<Types xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ServiceType xmlns="http://www.msn.com/webservices/AddressBook">Messenger</ServiceType>}
+		append xml {</Types>}
+		append xml {</serviceFilter>}
+		append xml {<View xmlns="http://www.msn.com/webservices/AddressBook">Full</View>}
+		append xml {<deltasOnly xmlns="http://www.msn.com/webservices/AddressBook">false</deltasOnly>}
+		append xml {<lastChange xmlns="http://www.msn.com/webservices/AddressBook">2006-03-29T07:29:42.5200000-08:00</lastChange>}
+		append xml {</FindMembership>}
+
+		return $xml
+	}
+
+	method getABContactDeleteBodyXML { contactid } {
 		append xml {<ABContactDelete xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<abId>}
 		append xml {00000000-0000-0000-0000-000000000000}
@@ -139,68 +296,6 @@ snit::type Addressbook {
 		return $xml
 	}
 
-	method getABFindAllXML { args } {
-		set xml [$self getCommonHeader Initial]
-		append xml {<soap:Body>}
-		append xml {<ABFindAll xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
-		append xml {<abView>Full</abView>}
-		append xml {<deltasOnly>false</deltasOnly>}
-		append xml {<lastChange>0001-01-01T00:00:00.0000000-08:00</lastChange>}
-		append xml {</ABFindAll>}
-		append xml {</soap:Body>}
-		append xml {</soap:Envelope>}
-
-		return $xml
-	}
-
-	method getCommonHeader { scenario } {
-		set token [$::sso GetSecurityTokenByName Contacts]
-		set mspauth [$token cget -ticket]
-
-		set xml {<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">}
-		append xml {<soap:Header>}
-		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<ApplicationId>996CDE1E-AA53-4477-B943-2BE802EA6166</ApplicationId>}
-		append xml {<IsMigration>false</IsMigration>}
-		append xml {<PartnerScenario>}
-		append xml $scenario
-		append xml {</PartnerScenario>}
-		append xml {</ABApplicationHeader>}
-		append xml {<ABAuthHeader xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<ManagedGroupRequest>false</ManagedGroupRequest>}
-		append xml {<TicketToken>}
-		append xml [xmlencode $mspauth]
-		append xml {</TicketToken>}
-		append xml {</ABAuthHeader>}
-		append xml {</soap:Header>}
-
-		return $xml
-	}
 }
 
 #######################
-
-
-proc sendADL {contacts {initial {0}}} {
-	set xml "<ml l=\"1\">"
-	array set domains {}
-	foreach contact $contacts {
-		set contact [split $contact "@"]
-		set user [lindex $contact 0]
-		set domain [lindex $contact 1]
-		lappend domains($domain) $user
-	}
-	foreach {domain users} [array get domains] {
-		append xml "<d n=\"$domain\">"
-		foreach user $users {
-			append xml "<c n=\"$user\" l=\"3\" t=\"1\" />"
-		}
-		append xml "</d>"
-	}
-	append xml "</ml>"
-#	set xml "<ml l=\"1\"><d n=\"hotmail.com\"><c n=\"tjikkun\" l=\"3\" t=\"1\" /></d></ml>"
-	set xmllen [string length $xml]
-	::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
-}
-

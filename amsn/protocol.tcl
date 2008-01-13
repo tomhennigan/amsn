@@ -5461,8 +5461,7 @@ proc cmsn_auth {{recv ""}} {
 			if { [config::getKey protocol] == 15 } {
 				initial_syn_handler ""
 				set ::ab [::Addressbook create %AUTO%]
-				$::ab ABFindAll
-				ns setInitialStatus
+				$::ab Synchronize ::MSN::ABSynchronizationDone
 			} else {
 				set list_version [::abook::getContactData contactlist list_version]
 				#If the value is invalid, we will be disconnected from server
@@ -5496,6 +5495,42 @@ proc cmsn_auth {{recv ""}} {
 
 }
 
+
+proc ::MSN::ABSynchronizationDone { error } {
+	if {$error == 0 } {
+		::MSN::contactListChanged
+		ns authenticationDone
+		ns setInitialStatus
+
+		set contacts [::MSN::getList FL]
+		set xml "<ml l=\"1\">"
+		array set domains {}
+		foreach contact $contacts {
+			set contact [split $contact "@"]
+			set user [lindex $contact 0]
+			set domain [lindex $contact 1]
+			lappend domains($domain) $user
+		}
+		foreach {domain users} [array get domains] {
+			append xml "<d n=\"$domain\">"
+			foreach user $users {
+				set lists [::abook::getLists "$user@$domain"]
+				set mask 1
+				if {[lsearch $lists "AL"] != -1} {
+					incr mask 2
+				}
+				if {[lsearch $lists "BL"] != -1} {
+					incr mask 4
+				}
+				append xml "<c n=\"$user\" l=\"$mask\" t=\"1\" />"
+			}
+			append xml "</d>"
+		}
+		append xml "</ml>"
+		set xmllen [string length $xml]
+		::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
+	}
+}
 proc recreate_contact_lists {} {
 
 	#There's no need to recreate groups, as ::groups already gets all data

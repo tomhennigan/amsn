@@ -7,6 +7,8 @@ snit::type SOAPRequest {
 	option -xml ""
 	option -callback ""
 	option -headers [list]
+	option -header ""
+	option -body ""
 
 	variable wait 0
 	variable status ""
@@ -24,7 +26,7 @@ snit::type SOAPRequest {
 	}
 
 	method SendSOAPRequest { } {
-		if { $options(-url) == "" || $options(-xml) == "" } {
+		if { $options(-url) == "" || ($options(-xml) == "" && ($options(-header) == "" || $options(-body) == "")) } {
 			error "SOAPRequest incomplete"
 		}
 		status_log "Sending SOAP request to $options(-url) with action $options(-action)" green
@@ -95,10 +97,24 @@ snit::type SOAPRequest {
 			set http_req ""			
 		}
 
+		if {$options(-header) != "" && $options(-body) != ""} {
+			set xml {<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">}
+			append xml {<soap:Header>}
+			append xml $options(-header)
+			append xml {</soap:Header>}
+			append xml {<soap:Body>}
+			append xml $options(-body)
+			append xml {</soap:Body>}
+			append xml {</soap:Envelope>}
+
+		} else {
+			set xml $options(-xml)
+		}
+
 		# Catch it in case we have no internet.. 
 		# TODO : maybe fix this somehow since we'll never get the callback...
-		if { ![catch { set http_req [http::geturl $options(-url) -command [list $self GotSoapReply] -query $options(-xml) -type "text/xml; charset=utf-8" -headers $headers] }] } {
-			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$options(-xml)"
+		if { ![catch { set http_req [http::geturl $options(-url) -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] }] } {
+			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
 			if { $options(-callback) == "" && $redirected } {
 				tkwait variable [myvar wait]
 			}
@@ -150,7 +166,9 @@ snit::type SOAPRequest {
 		incr [myvar wait]
 
 		if {$options(-callback) != "" } {
-			eval $options(-callback) $self
+			if {[catch {eval $options(-callback) $self} result]} {
+				bgerror $result
+			}
 		}
 
 	}
