@@ -4159,10 +4159,11 @@ namespace eval ::ChatWindow {
 		::ChatWindow::SetFor $chatid $win_name
 	
 		set ::ChatWindow::first_message($win_name) 0
+		set usr_name [::MSN::usersInChat $chatid] 0]
 	
 		# PostEvent 'new_conversation' to notify plugins that the window was created
-		set evPar(chatid) $chatid
-		set evPar(usr_name) [lindex [::MSN::usersInChat $chatid] 0]
+		set evPar(chatid) chatid
+		set evPar(usr_name) usr_name
 		::plugins::PostEvent new_conversation evPar
 		
 
