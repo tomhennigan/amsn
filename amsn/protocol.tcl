@@ -3266,8 +3266,19 @@ namespace eval ::MSNOIM {
 			if { $idx == -1 } { return }
 			set command [string range $dataBuffer 0 [expr {$idx -1}]]
 			
+
+			set has_payload 0
 			#check for payload commands:
 			if {[lsearch {MSG NOT PAG IPG UBX GCF 240 241 UBN UBN UBM} [string range $command 0 2]] != -1} {
+				set has_payload 1
+			} elseif  {[lsearch {RML ADL} [string range $command 0 2]] != -1} {
+				set trid [lindex [split $command] 1]
+				if {$trid == 0 } {
+					set has_payload 1
+				}
+			}
+
+			if { $has_payload } {
 				set length [lindex [split $command] end]
 
 				#There is a bug (#2265) where $length is not numeric
@@ -3375,8 +3386,11 @@ namespace eval ::MSNOIM {
 				UBM {
 					$self handleUBM $command $message
 				}
+				RML {
+					$self handleRML $command $payload
+				}
 				ADL {
-					$self handleADL $command
+					$self handleADL $command $payload
 				}
 				ILN {
 					cmsn_ns_handler $command $message
@@ -3417,7 +3431,11 @@ namespace eval ::MSNOIM {
 		# TODO handle messages received from yahoo contacts
 	}
 
-	method handleADL { command } {
+	method handleRML { command payload } {
+		puts $command
+	}
+
+	method handleADL { command payload } {
 		puts $command
 	}
 
@@ -5504,9 +5522,12 @@ proc ::MSN::ABSynchronizationDone { error } {
 	if {$error == 0 } {
 		::MSN::contactListChanged
 		ns authenticationDone
-		ns setInitialStatus
 
 		set contacts [::MSN::getList FL]
+		set contacts [concat $contacts [::MSN::getList AL]]
+		set contacts [concat $contacts [::MSN::getList BL]]
+		set contacts [lsort -unique $contacts]
+
 		set xml "<ml l=\"1\">"
 		array set domains {}
 		foreach contact $contacts {
@@ -5519,7 +5540,11 @@ proc ::MSN::ABSynchronizationDone { error } {
 			append xml "<d n=\"$domain\">"
 			foreach user $users {
 				set lists [::abook::getLists "$user@$domain"]
-				set mask 1
+				set mask 0
+
+				if {[lsearch $lists "FL"] != -1} {
+					incr mask 1
+				}
 				if {[lsearch $lists "AL"] != -1} {
 					incr mask 2
 				}
