@@ -3436,7 +3436,12 @@ namespace eval ::MSNOIM {
 	}
 
 	method handleADL { command payload } {
-		puts $command
+		if {$payload == "" } {
+			set ok [lindex $command end]
+			if { $ok == "OK" } {
+				ns authenticationDone	
+			}
+		}
 	}
 
 	method handleLSG { command } {
@@ -5481,7 +5486,6 @@ proc cmsn_auth {{recv ""}} {
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
 			if { [config::getKey protocol] == 15 } {
-				initial_syn_handler ""
 				set ::ab [::Addressbook create %AUTO%]
 				$::ab Synchronize ::MSN::ABSynchronizationDone
 			} else {
@@ -5521,7 +5525,6 @@ proc cmsn_auth {{recv ""}} {
 proc ::MSN::ABSynchronizationDone { error } {
 	if {$error == 0 } {
 		::MSN::contactListChanged
-		ns authenticationDone
 
 		set contacts [::MSN::getList FL]
 		set contacts [concat $contacts [::MSN::getList AL]]
@@ -5558,6 +5561,11 @@ proc ::MSN::ABSynchronizationDone { error } {
 		append xml "</ml>"
 		set xmllen [string length $xml]
 		::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
+
+
+
+		set_initial_nick
+		
 	}
 }
 proc recreate_contact_lists {} {
@@ -5585,9 +5593,11 @@ proc recreate_contact_lists {} {
 	}
 }
 
-proc initial_syn_handler {recv} {
+proc set_initial_nick { } {
 
 	global HOME
+
+	set nick_changed 0
 
 	# Switch to our cached nickname if the server's one is different that ours
 	if { [file exists [file join ${HOME} "nick.cache"]] && [::config::getKey storename] } {
@@ -5608,9 +5618,18 @@ proc initial_syn_handler {recv} {
 
 		if { ($custom_nick == [::abook::getPersonal MFN]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
 			::MSN::changeName [::abook::getPersonal login] $storednick
+			set nick_changed 1
 		}
 	}
 	catch { file delete [file join ${HOME} "nick.cache"] }
+
+
+	if {$nick_changed == 0 && [config::getKey protocol] == 15 } {
+		# Send our nickname to the server because it doesn't know about it!
+		if { [::abook::getPersonal MFN] != "" } {
+			::MSN::changeName [::abook::getPersonal login] [::abook::getPersonal MFN]
+		}
+	}
 
 	if { [file exists [file join ${HOME} "psm.cache"]] && [::config::getKey storename] } {
 
@@ -5634,7 +5653,11 @@ proc initial_syn_handler {recv} {
 	}
 	
 	catch { file delete [file join ${HOME} "psm.cache"] }
+}
 
+proc initial_syn_handler {recv} {
+
+	set_initial_nick
 	ns handleCommand $recv
 }
 
