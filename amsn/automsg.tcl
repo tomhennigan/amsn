@@ -436,7 +436,7 @@ proc EditNewState { mode { idx "" } } {
 	grid $lfname.lnick -row 2 -column 1 -sticky w -pady 5 -padx 5
 	grid $lfname.enick -row 2 -column 2 -sticky w -pady 5 -padx 5
 	grid $lfname.nickhelp -row 2 -column 3 -sticky w -pady 5 -padx 5
-	if { [::config::getKey protocol] == 11 } {
+	if { [::config::getKey protocol] >= 11 } {
                 grid $lfname.lpsm -row 3 -column 1 -sticky w -pady 5 -padx 5
                 grid $lfname.epsm -row 3 -column 2 -sticky w -pady 5 -padx 5
                 grid $lfname.psmhelp -row 3 -column 3 -sticky w -pady 5 -padx 5

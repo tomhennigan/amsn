@@ -5471,7 +5471,7 @@ proc drawNick { } {
 	lappend stylestring [list "tag" "-mystatus"]
 
 	set psmmedia ""
-	if {[::config::getKey protocol] == 11} {
+	if {[::config::getKey protocol] >= 11} {
 		set psmmedia [::abook::getpsmmedia "" 1]
 
 		lappend stylestring [list "newline" "\n"]
@@ -5985,7 +5985,7 @@ proc cmsn_change_name {} {
 	grid $w.f.nick_smiley -row 0 -column 2
 	grid $w.f.nick_newline -row 0 -column 3
 	
-	if { [::config::getKey protocol] == 11} {
+	if { [::config::getKey protocol] >= 11} {
 		grid $w.f.psm_label -row 1 -column 0 -sticky w
 		grid $w.f.psm_entry -row 1 -column 1 -sticky we
 		grid $w.f.psm_smiley -row 1 -column 2
@@ -6051,7 +6051,7 @@ proc change_name_ok {} {
 		::MSN::changeName [::config::getKey login] $new_name
 	}
 
-	if { [::config::getKey protocol] == 11} {
+	if { [::config::getKey protocol] >= 11} {
 		set new_psm [.change_name.f.psm_entry get]
 		#TODO: how many chars in a Personal Message?
 		if { [string length $new_psm] > 130} {
