@@ -3514,9 +3514,6 @@ namespace eval ::MSNOIM {
 		#Make list unconsistent while receiving contact lists
 		::abook::unsetConsistent
 
-		#Remove user from all lists while receiving List data
-		::abook::setContactData $username lists ""
-
 		::abook::setContactData $username nick $nickname
 
 		::abook::setContactData $username contactguid $contactguid
@@ -3535,7 +3532,6 @@ namespace eval ::MSNOIM {
 					::abook::setContactData $username group $groups
 					set loading_list_info(last) $username
 					::abook::setVolatileData $username state "FLN"
-
 				}
 			}
 		}
@@ -5013,6 +5009,11 @@ proc cmsn_ns_handler {item {message ""}} {
 				::groups::Reset
 				::groups::Set 0 [trans nogroup]
 
+				foreach username [::abook::getAllContacts] {
+					#Remove user from all lists while receiving List data
+					::abook::setContactData $username lists ""
+				}
+
 				set loading_list_info(cl_version) [lindex $item 2]
 				set loading_list_info(list_version) [lindex $item 3]
 				set loading_list_info(total) [lindex $item 4]
@@ -5026,6 +5027,9 @@ proc cmsn_ns_handler {item {message ""}} {
 				}
 			} else {
 				::MSN::makeLists
+				foreach username [::MSN::getList "FL"] {
+					::abook::setVolatileData $username state "FLN"
+				}
 				ns authenticationDone
 			}
 			return 0
