@@ -2866,11 +2866,11 @@ namespace eval ::MSNOIM {
 	
 	proc getOIMMailXml {mid ticket_t ticket_p } {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><t>}
-		append xml $ticket_t
+		append xml [xmlencode $ticket_t]
 		append xml {</t><p>}
-		append xml $ticket_p
+		append xml [xmlencode $ticket_p]
 		append xml {</p></PassportCookie></soap:Header><soap:Body><GetMessage xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><messageId>}
-		append xml $mid
+		append xml [xmlencode $mid]
 		append xml {</messageId><alsoMarkAsRead>false</alsoMarkAsRead></GetMessage></soap:Body></soap:Envelope>}
 		return $xml
 	}
@@ -2985,13 +2985,12 @@ namespace eval ::MSNOIM {
 
 		set bnick [string map {"\n" "" } [base64::encode [string range [encoding convertto utf-8 [::abook::getPersonal MFN]] 0 47]]]
 
-		set ticket [string map { "&" "&amp;" } $ticket]
 		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><From}
 		append xml " memberName=\"[config::getKey login]\" friendlyName=\"=?utf-8?B?${bnick}?=\" "
 		append xml {xml:lang="en-US" proxy="MSNMSGR" xmlns="http://messenger.msn.com/ws/2004/09/oim/" msnpVer="MSNP13" buildVer="8.0.0812"/> <To}
 		append xml " memberName=\"$to\" "
 		append xml {xmlns="http://messenger.msn.com/ws/2004/09/oim/"/><Ticket}
-		append xml " passport=\"$ticket\" appid=\"PROD01065C%ZFN6F\" lockkey=\"$lockkey\" xmlns=\"http://messenger.msn.com/ws/2004/09/oim/\"/> "
+		append xml " passport=\"[xmlencode $ticket]\" appid=\"PROD01065C%ZFN6F\" lockkey=\"[xmlencode $lockkey]\" xmlns=\"http://messenger.msn.com/ws/2004/09/oim/\"/> "
 		append xml {<Sequence xmlns="http://schemas.xmlsoap.org/ws/2003/03/rm"><Identifier xmlns="http://schemas.xmlsoap.org/ws/2002/07/utility">http://messenger.msn.com</Identifier><MessageNumber>}
 		append xml $seq_number
 		append xml {</MessageNumber></Sequence></soap:Header><soap:Body><MessageType xmlns="http://messenger.msn.com/ws/2004/09/oim/">text</MessageType><Content xmlns="http://messenger.msn.com/ws/2004/09/oim/">}
@@ -3037,9 +3036,9 @@ namespace eval ::MSNOIM {
 
 	proc deleteOIMMessageXml { mids ticket_t ticket_p} {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><t>}
-		append xml $ticket_t
+		append xml [xmlencode $ticket_t]
 		append xml {</t><p>}
-		append xml $ticket_p
+		append xml [xmlencode $ticket_p]
 		append xml {</p></PassportCookie></soap:Header><soap:Body><DeleteMessages xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><messageIds>}
 		foreach mid $mids {
 			append xml {<messageId>}
@@ -3091,9 +3090,9 @@ namespace eval ::MSNOIM {
 
 	proc getMailDataXml { ticket_t ticket_p } {
 		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"> <t>}
-		append xml $ticket_t
+		append xml [xmlencode $ticket_t]
 		append xml {</t><p>}
-		append xml $ticket_p
+		append xml [xmlencode $ticket_p]
 		append xml {</p></PassportCookie></soap:Header><soap:Body><GetMetadata xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi" /></soap:Body></soap:Envelope>}
 		return $xml
 	}
@@ -3126,11 +3125,11 @@ namespace eval ::MSNOIM {
 	
 	proc getPassport3Xml { url } {
 		set xml {<?xml version="1.0" encoding="UTF-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wssc="http://schemas.xmlsoap.org/ws/2004/04/sc" xmlns:wst="http://schemas.xmlsoap.org/ws/2004/04/trust"><Header><ps:AuthInfo xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="PPAuthInfo"><ps:HostingApp>{7108E71A-9926-4FCB-BCC9-9A9D3F32E423}</ps:HostingApp><ps:BinaryVersion>4</ps:BinaryVersion><ps:UIVersion>1</ps:UIVersion><ps:Cookies></ps:Cookies><ps:RequestParams>AQAAAAIAAABsYwQAAAAzMDg0</ps:RequestParams></ps:AuthInfo><wsse:Security><wsse:UsernameToken Id="user"><wsse:Username>}
-		append xml [config::getKey login]
+		append xml [xmlencode [config::getKey login]]
 		append xml {</wsse:Username><wsse:Password>}
-		append xml $::password
+		append xml [xmlencode $::password]
 		append xml {</wsse:Password></wsse:UsernameToken></wsse:Security></Header><Body><ps:RequestMultipleSecurityTokens xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="RSTS"><wst:RequestSecurityToken Id="RST0"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>http://Passport.NET/tb</wsa:Address></wsa:EndpointReference></wsp:AppliesTo></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST1"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI=}
-		append xml "\"?[string map { "," "&amp;" } [urldecode $url]]\""
+		append xml "\"?[xmlencode [urldecode $url]]\""
 		append xml {></wsse:PolicyReference></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST2"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>voice.messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI="?id=69264"></wsse:PolicyReference></wst:RequestSecurityToken></ps:RequestMultipleSecurityTokens></Body></Envelope>}
 		return $xml
 	}

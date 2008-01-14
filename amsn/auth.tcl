@@ -134,8 +134,8 @@ snit::type SSOAuthentication {
 
 		append xml {<wsse:Security xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext">}
 		append xml {<wsse:UsernameToken Id="user">}
-		append xml "<wsse:Username>$options(-username)</wsse:Username>"
-		append xml "<wsse:Password>$options(-password)</wsse:Password>"
+		append xml "<wsse:Username>[xmlencode $options(-username)]</wsse:Username>"
+		append xml "<wsse:Password>[xmlencode $options(-password)]</wsse:Password>"
 		append xml {</wsse:UsernameToken>}
 		append xml {</wsse:Security>}
 		append xml {</Header>}
