@@ -2720,6 +2720,7 @@ namespace eval ::amsn {
 			
 			foreach user [::MSN::usersInChat $chatid] {
 				set clientid [::abook::getContactData $user clientid]
+				if { $clientid == "" } { set clientid 0 }
 				set msnc [expr 0xF0000000]
 				if { ($clientid & $msnc) < 6 } {
 					set supports_actions 0
