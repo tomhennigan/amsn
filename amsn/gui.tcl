@@ -3608,6 +3608,7 @@ namespace eval ::amsn {
 #			set lines 0 ;# not used
 			set colour $default_colour
 			set font_attr [font configure $default_font]
+			set incr_y [font metrics $font_attr -displayof $w.c -linespace]
 
 			foreach unit $msg {
 				switch [lindex $unit 0] {
@@ -3615,7 +3616,7 @@ namespace eval ::amsn {
 						set textpart [lindex $unit 1]
 						set textwidth [font measure $font_attr $textpart]
 
-						if {[expr {$x + $textwidth}] > $maxw} {
+						if {$textwidth > $maxw} {
 							set l [string length $textpart]
 							for {set i 0} {$i < $l} {incr i} {
 								if { [ font measure $font_attr -displayof $w.c "[string range $textpart 0 $i]" ] > $maxw} {
@@ -3624,12 +3625,16 @@ namespace eval ::amsn {
 									-anchor nw -fill $colour -font $font_attr -tags bg -justify left
 
 									set textpart [string range $textpart $i end]
-									set textwidth [font measure $font_attr $textpart]
-
-									set i 0
-									set l [string length $textpart]
+									if {$textpart ne " "} {
+										set i 0
+										set l [string length $textpart]
+										set textwidth [font measure $font_attr $textpart]
+									} else {
+										set l 0
+										set textwidth 0
+									}
 									set x $default_x
-									set y [expr $y + $default_y]
+									set y [expr $y + $incr_y]
 									set maxw $default_maxw
 								}
 							}
@@ -3643,7 +3648,7 @@ namespace eval ::amsn {
 						set textwidth [image width [lindex $unit 1]]
 						if {$textwidth > $maxw} {
 							set x $default_x
-							set y [expr $y + $default_y]
+							set y [expr $y + $incr_y]
 							set maxw $default_maxw
 						}
 						$w.c create image $x $y -image [lindex $unit 1] -anchor nw -state normal -tags bg
@@ -3679,9 +3684,11 @@ namespace eval ::amsn {
 						}
 					}
 					"newline" {
-						set x $default_x
-						set y [expr $y + $default_y]
-						set maxw $default_maxw
+						if {$x != $default_x} {
+							set x $default_x
+							set y [expr $y + $incr_y]
+							set maxw $default_maxw
+						}
 					}
 				}
 			}
