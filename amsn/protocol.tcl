@@ -1427,7 +1427,7 @@ namespace eval ::MSN {
 			set user [lindex $contact 0]
 			set domain [lindex $contact 1]
 
-			set xml "<ml><d n=\"$domain\"><c n=\"user\" t=\"1\" l=\"3\" /></d></ml>"
+			set xml "<ml><d n=\"$domain\"><c n=\"$user\" t=\"1\" l=\"3\" /></d></ml>"
 			set xmllen [string length $xml]
 			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
 
