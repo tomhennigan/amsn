@@ -195,7 +195,7 @@ snit::type Addressbook {
 					if {$group == "" } {
 						break
 					}
-					lappend $groups $group
+					lappend groups $group
 				}
 
 				if { $groups == [list] } {
