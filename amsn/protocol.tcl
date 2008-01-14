@@ -5078,12 +5078,12 @@ proc cmsn_ns_handler {item {message ""}} {
 				if {[string first "tel:" $value] == 0} {
 					set value [string range $value [string length "tel:"] end]
 				}
-				::abook::setVolatileData $loading_list_info(last) $var $value
+				::abook::setContactData $loading_list_info(last) $var $value
 			} else {
 				#here the first element is the addres of the user, this is when it's not received on login.
 				set var [lindex $item 2]
 				set value [urldecode [lindex $item 3]]
-				::abook::setVolatileData [lindex $item 1] $var $value
+				::abook::setContactData [lindex $item 1] $var $value
 			}
 			return 0
 		}

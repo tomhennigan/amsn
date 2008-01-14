@@ -1409,7 +1409,7 @@ namespace eval ::guiContactList {
 		}
 
 		if { $nickcolour == "" || $nickcolour == "#" } {
-			if { $state_code == "FLN" && [::abook::getVolatileData $email MOB] == "Y" } {
+			if { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y" } {
 				set nickcolour [::skin::getKey "contact_mobile"]
 				set statecolour [::skin::getKey "state_mobile" $nickcolour]
 			} else {
@@ -1418,7 +1418,7 @@ namespace eval ::guiContactList {
 			}
 			set force_colour 0
 		} else {
-			if { $state_code == "FLN" && [::abook::getVolatileData $email MOB] == "Y" } {
+			if { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y" } {
 				set statecolour [::skin::getKey "state_mobile" [::skin::getKey "contact_mobile"]]
 			} else {
 				set statecolour [::MSN::stateToColor $state_code "state"]
@@ -1428,7 +1428,7 @@ namespace eval ::guiContactList {
 
 		set psm [::abook::getpsmmedia $email 1]
 
-		if {[::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN")} {
+		if {[::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN")} {
 			set littlepic [::skin::getLittleDisplayPictureName $email]
 			set img ${littlepic}_cl
 
@@ -1467,7 +1467,7 @@ namespace eval ::guiContactList {
 				}
 			} elseif { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } {
 				set img [::skin::loadPixmap webmsn]
-			} elseif { [::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"} {
+			} elseif { [::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"} {
 				set img [::skin::loadPixmap mobile]
 			} else {
 				set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
@@ -1593,7 +1593,7 @@ namespace eval ::guiContactList {
 		#----------------------------#	
 
 
-		if {!([::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getVolatileData $email MOB] == "Y" && $state_code == "FLN"))} {
+		if {!([::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
 			# If you are not on this contact's list, show the notification icon
 			if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 				set icon [::skin::loadPixmap notinlist]
@@ -1784,7 +1784,7 @@ namespace eval ::guiContactList {
 
 
 		# Binding for left (double)click
-		if { $state_code == "FLN" && [::abook::getVolatileData $email MOB] == "Y"} {
+		if { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y"} {
 			# If the user is offline and support mobile (SMS)
 			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
 				"set ::guiContactList::displayCWAfterId \
@@ -2016,7 +2016,7 @@ namespace eval ::guiContactList {
 		# Online/Offline mode
 		if { $mode == 0 } {
 			if { $status == "FLN" } {
-				if { [::abook::getVolatileData $email MOB] == "Y" \
+				if { [::abook::getContactData $email MOB] == "Y" \
 					&& [::config::getKey showMobileGroup] == 1} {
 					return [list "mobile"]
 				} else {
@@ -2034,7 +2034,7 @@ namespace eval ::guiContactList {
 		# Hybrid Mode, we add offline group
 		if { $mode == 2 } {
 			if { $status == "FLN" } {
-				if { [::abook::getVolatileData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
+				if { [::abook::getContactData $email MOB] == "Y" && [::config::getKey showMobileGroup] == 1} {
 					return [list "mobile"]
 				} else {
 					return [list "offline"]

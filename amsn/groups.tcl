@@ -424,7 +424,7 @@ namespace eval ::groups {
 		} elseif { $gid == "offline" } {
 			foreach contact $contact_list {
 				if { [::abook::getVolatileData $contact state FLN] == "FLN" } {
-					if { [::abook::getVolatileData $contact MOB] != "Y"} {
+					if { [::abook::getContactData $contact MOB] != "Y"} {
 						incr state_contacts
 					}
 					incr total_contacts
@@ -434,7 +434,7 @@ namespace eval ::groups {
 		} elseif { $gid == "mobile" } {
 			foreach contact $contact_list {
 				if { [::abook::getVolatileData $contact state FLN] == "FLN" } {
-					if { [::abook::getVolatileData $contact MOB] == "Y"} {
+					if { [::abook::getContactData $contact MOB] == "Y"} {
 						incr state_contacts
 					}
 					incr total_contacts

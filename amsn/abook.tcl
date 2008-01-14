@@ -1361,16 +1361,16 @@ namespace eval ::abookGui {
 
 		labelframe $nbIdent.fPhone -text [trans phones]
 		label $nbIdent.fPhone.phh -text "[trans home]:" 
-		label $nbIdent.fPhone.phh1 -font splainf -text [::abook::getVolatileData $email phh] \
+		label $nbIdent.fPhone.phh1 -font splainf -text [::abook::getContactData $email phh] \
 		-justify left -wraplength 300 
 		label $nbIdent.fPhone.phw -text "[trans work]:"
-		label $nbIdent.fPhone.phw1 -font splainf -text [::abook::getVolatileData $email phw] \
+		label $nbIdent.fPhone.phw1 -font splainf -text [::abook::getContactData $email phw] \
 			-justify left -wraplength 300 
 		label $nbIdent.fPhone.phm -text "[trans mobile]:" 
-		label $nbIdent.fPhone.phm1 -font splainf -text [::abook::getVolatileData $email phm] \
+		label $nbIdent.fPhone.phm1 -font splainf -text [::abook::getContactData $email phm] \
 		-justify left -wraplength 300 
 		label $nbIdent.fPhone.php -text "[trans pager]:" 
-		label $nbIdent.fPhone.php1 -font splainf -text [::abook::getVolatileData $email mob] \
+		label $nbIdent.fPhone.php1 -font splainf -text [::abook::getContactData $email mob] \
 		-justify left -wraplength 300 
 
 		grid $nbIdent.fPhone.phh -row 0 -column 0 -sticky e
