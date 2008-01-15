@@ -2815,7 +2815,7 @@ namespace eval ::MSNOIM {
 		set msg [getOIMMail "::MSNOIM::getOIMMessageCallback [list $callbk] $mid" $mid]
 	}
 
-	proc getOIMMailCallback { callbk soap } {
+	proc getOIMMailCallback { callbk mid retry soap } {
 		if { [$soap GetStatus] == "success" } {
 			set xml [$soap GetResponse]
 			$soap destroy
@@ -2829,32 +2829,71 @@ namespace eval ::MSNOIM {
 				bgerror $result
 			}
 		} else {
-			$soap destroy
-			if {[catch {eval $callbk [list [list]]} result]} {
-				bgerror $result
-			}
+                        set xml [$soap GetResponse]
+                        status_log "Error in OIM:" white
+                        status_log $xml white
+                        set faultcode [$soap GetStatus]
+                        $soap destroy
+			status_log "Fault code: $faultcode" white
+
+                        if { $faultcode == "AuthenticationFailed" } {
+				status_log "Auth failed, retry : $retry" white
+                                set tweener [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
+                                set lock_challenge [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
+                                if { $lock_challenge != "" } {
+                                        CreateLockKey $lock_challenge
+                                }
+                                if {$tweener != "" && $retry > 0} {
+                                        AuthenticatePassport3 [list ::MSNOIM::getOIMMail $callbk $mid [incr retry -1]] $tweener
+                                } else {
+                                        if { $retry > 0 } {
+                                                ::MSNOIM::getOIMMail $callbk $mid [incr retry -1]
+                                        } else {
+                                                if {[catch {eval $callbk [list [list]]} result]} {
+                                                        bgerror $result
+                                                }
+                                        }
+                                }
+                        } else {
+                                if {[catch {eval $callbk [list [list]]} result]} {
+                                        bgerror $result
+                                }
+                        }
+		#	$soap destroy
+		#	if {[catch {eval $callbk [list [list]]} result]} {
+		#		bgerror $result
+		#	}
 		}
 	}
 
-	proc getOIMMail { callbk mid } {
+	proc getOIMMail { callbk mid {retry 2} {hasError 0} } {
+		if { $hasError } {
+			if {[catch {eval $callbk [list [list]]]} result]} {
+				bgerror $result
+			}
+			return 0
+		}
 		if { [info exists ::authentication_ticket] } {
 			set cookies [split $::authentication_ticket &]
 			foreach cookie $cookies {
 				set c [split $cookie =]
 				set ticket_[lindex $c 0] [lindex $c 1]
 			}
+		} else {
+			set ticket_t ""
+			set ticket_p ""
+		}			
 		
-			if { [info exists ticket_t] && [info exists ticket_p] } {
-				set soap_req [SOAPRequest create %AUTO% \
-						  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
-						  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMessage" \
-						  -xml [::MSNOIM::getOIMMailXml $mid $ticket_t $ticket_p] \
-						  -callback  [list ::MSNOIM::getOIMMailCallback $callbk]]
+		if { [info exists ticket_t] && [info exists ticket_p] } {
+			set soap_req [SOAPRequest create %AUTO% \
+					  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
+					  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMessage" \
+					  -xml [::MSNOIM::getOIMMailXml $mid $ticket_t $ticket_p] \
+					  -callback  [list ::MSNOIM::getOIMMailCallback $callbk $mid $retry]]
 
 
-				$soap_req SendSOAPRequest
-				return
-			}
+			$soap_req SendSOAPRequest
+			return
 		}
 		
 		# This gets executed if the SOAP request is not sent.. serves as error handler
@@ -2938,6 +2977,7 @@ namespace eval ::MSNOIM {
 			if {[catch {eval $callbk [list "Authentication Error"]} result]} {
 				bgerror $result
 			}
+			return 0
 		} elseif { ![info exists ::authentication_ticket]} {
 			#Authenticate with an invalid ticket and let it redo the authentication...
 			set ::authentication_ticket ""
