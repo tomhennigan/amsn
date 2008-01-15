@@ -2938,30 +2938,28 @@ namespace eval ::MSNOIM {
 			if {[catch {eval $callbk [list "Authentication Error"]} result]} {
 				bgerror $result
 			}
-		} elseif { [info exists ::authentication_ticket]} {
-			set id [::md5::hmac $to $msg]
-
-			if { $seq_nbr == 0 } {
-				if {![info exists seq_number($to)] } {
-					set seq_number($to) 1
-				} else {
-					incr seq_number($to)
-				}
-				set seq_nbr [set seq_number($to)]
-			}
-
-			set soap_req [SOAPRequest create %AUTO% \
-					  -url "https://ows.messenger.msn.com/OimWS/oim.asmx" \
-					  -action "http://messenger.msn.com/ws/2004/09/oim/Store" \
-					  -xml [::MSNOIM::sendOIMMessageXml $::authentication_ticket $to $msg $seq_nbr] \
-					  -callback [list ::MSNOIM::sendOIMMessageCallback $callbk $to $msg $retry $seq_nbr]]
-
-			$soap_req SendSOAPRequest
-		} else {
-			if {[catch {eval $callbk [list "failed"]} result]} {
-				bgerror $result
-			}
+		} elseif { ![info exists ::authentication_ticket]} {
+			#Authenticate with an invalid ticket and let it redo the authentication...
+			set ::authentication_ticket ""
 		}
+		set id [::md5::hmac $to $msg]
+
+		if { $seq_nbr == 0 } {
+			if {![info exists seq_number($to)] } {
+				set seq_number($to) 1
+			} else {
+				incr seq_number($to)
+			}
+			set seq_nbr [set seq_number($to)]
+		}
+
+		set soap_req [SOAPRequest create %AUTO% \
+				  -url "https://ows.messenger.msn.com/OimWS/oim.asmx" \
+				  -action "http://messenger.msn.com/ws/2004/09/oim/Store" \
+				  -xml [::MSNOIM::sendOIMMessageXml $::authentication_ticket $to $msg $seq_nbr] \
+				  -callback [list ::MSNOIM::sendOIMMessageCallback $callbk $to $msg $retry $seq_nbr]]
+
+		$soap_req SendSOAPRequest
 	}
 	
 	proc CreateLockKey { challenge } {
@@ -3049,7 +3047,7 @@ namespace eval ::MSNOIM {
 		return $xml
 	}
 	
-	proc getMailDataCallback { callbk soap } {
+	proc getMailDataCallback { callbk soap {retry 2} } {
 		if { [$soap GetStatus] == "success" && 
 			[catch {list2xml [lindex [lindex [GetXmlNode [$soap GetResponse] "soap:Envelope:soap:Body:GetMetadataResponse"] 2] 0]} MailData] == 0 } {
 			$soap destroy
@@ -3057,34 +3055,72 @@ namespace eval ::MSNOIM {
 				bgerror $result
 			}
 		} else {
-			$soap destroy
-			if {[catch {eval $callbk [list [list]]} result]} {
-				bgerror $result
-			}
+                        set xml [$soap GetResponse]
+                        status_log "Error in OIM:" white
+                        status_log $xml white
+                        set faultcode [$soap GetStatus]
+                        $soap destroy
+
+                        if { $faultcode == "q0:AuthenticationFailed" } {
+                                set tweener [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
+                                set lock_challenge [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
+                                if { $lock_challenge != "" } {
+                                        CreateLockKey $lock_challenge
+                                }
+                                if {$tweener != "" && $retry > 0} {
+                                        AuthenticatePassport3 [list ::MSNOIM::getMailData $callbk [incr retry -1] ] $tweener
+                                } else {
+                                        if { $retry > 0 } {
+                                                ::MSNOIM::getMailData $callbk [incr retry -1]
+                                        } else {
+                                                if {[catch {eval $callbk [list "authentication failed"]} result]} {
+                                                        bgerror $result
+                                                }
+                                        }
+                                }
+                        } elseif { $faultcode == "q0:SystemUnavailable" } {
+                                if {[catch {eval $callbk [list "invaliduser"]} result]} {
+                                        bgerror $result
+                                }
+                        } elseif { $faultcode == "q0:SenderThrottleLimitExceeded" } {
+                                if {[catch {eval $callbk [list "Flood Protection Activated"]} result]} {
+                                        bgerror $result
+                                }
+                        } else {
+                                if {[catch {eval $callbk [list "Unexpected error"]} result]} {
+                                        bgerror $result
+                                }
+                        }
+
+		#	$soap destroy
+		#	if {[catch {eval $callbk [list [list]]} result]} {
+		#		bgerror $result
+		#	}
 		}
 	}
 	
 
-	proc getMailData { callbk } {
+	proc getMailData { callbk {retry 2} } {
 		if { [info exists ::authentication_ticket] } {
 			set cookies [split $::authentication_ticket &]
 			foreach cookie $cookies {
 				set c [split $cookie =]
 				set ticket_[lindex $c 0] [lindex $c 1]
 			}
-			
-			if { [info exists ticket_t] && [info exists ticket_p] } {
-				set soap_req [SOAPRequest create %AUTO% \
-					  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
-					  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
-					  -xml [::MSNOIM::getMailDataXml $ticket_t $ticket_p] \
-					  -callback [list ::MSNOIM::getMailDataCallback $callbk]]
-				$soap_req SendSOAPRequest
-			}
 		} else {
-			if {[catch {eval $callbk [list [list]]} result]} {
-				bgerror $result
-			}
+			#If there is no auth ticket, send invalid authentication
+			#and let it authenticate again
+			set ticket_t ""
+			set ticket_p ""
+		}
+			
+		if { [info exists ticket_t] && [info exists ticket_p] } {
+			set soap_req [SOAPRequest create %AUTO% \
+				  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
+				  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
+				  -xml [::MSNOIM::getMailDataXml $ticket_t $ticket_p] \
+				  -callback [list ::MSNOIM::getMailDataCallback $callbk $retry]]
+			$soap_req SendSOAPRequest
 		}
 	}
 
