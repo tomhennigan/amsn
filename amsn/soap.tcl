@@ -114,7 +114,7 @@ snit::type SOAPRequest {
 		# Catch it in case we have no internet.. 
 		# TODO : maybe fix this somehow since we'll never get the callback...
 		if { ![catch { set http_req [http::geturl $options(-url) -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] }] } {
-			puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
+			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
 			if { $options(-callback) == "" && $redirected } {
 				tkwait variable [myvar wait]
 			}
@@ -124,7 +124,7 @@ snit::type SOAPRequest {
 	}
 
 	method GotSoapReply { token } {
-		puts "Received HTTP answer : [::http::code $token]  [::http::status $token]\n[::http::data $token]"
+		#puts "Received HTTP answer : [::http::code $token]  [::http::status $token]\n[::http::data $token]"
 	
 		set last_error [::http::error $token]
 		#shouldn't work if ncode == 500, MS servers ...
@@ -135,7 +135,7 @@ snit::type SOAPRequest {
 				set last_error "$res"
 			} else {
 				set fault [GetXmlNode $xml "soap:Envelope:soap:Body:soap:Fault"]
-				puts "fault : $fault"
+				#puts "fault : $fault"
 				if { $fault != "" } {
 					set status [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultcode"]
 					set last_error [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultstring"]
