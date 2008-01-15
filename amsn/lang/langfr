@@ -247,12 +247,12 @@ custnotifyonline Annoncer quand un de vos contact se connecte
 custnotifystatus Annoncer quand un de vos contact change de statut
 customcolor Couleur personnalisée
 customdp Avatar personnalisé
-custom_edit Editer une émoticône personnalisée
-custom_new Créer une émoticône personnalisée
+custom_edit Editer une émoticône/smiley personnalisée
+custom_new Créer une émoticône/smiley personnalisée
 customnick Pseudo personnalisé
-customsmileys Afficher les émoticônes des contacts
+customsmileys Afficher les émoticônes/smileys des contacts
 customstyle Style personnalisé
-custshowcustomsmileys Afficher les émoticônes de ce contact
+custshowcustomsmileys Afficher les émoticônes/smileys de ce contact
 cut Couper
 cutimageboxreset Mettre à zéro la boîte de sélection\ntaille:
 cutimagebox Sélectionnez la partie de l'image qui vous intéresse en redimensionnant et/ou en déplaçant la boîte de sélection
