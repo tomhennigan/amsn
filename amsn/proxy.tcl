@@ -60,6 +60,7 @@ proc HTTPsecureSocket { args } {
 		puts $socket "Content-Length: 0"
 	        puts $socket "Proxy-Connection: Keep-Alive"
 	        puts $socket "Connection: Keep-Alive"
+		puts $socket "Cache-Control: no-cache"
 		puts $socket "Pragma: no-cache"
 		if { [::config::getKey proxyauthenticate] } {
 			set proxy_user [::config::getKey proxyuser]
@@ -283,6 +284,7 @@ proc SOCKSSocket { args } {
 		append msg "Proxy-Connection: Keep-Alive\r\n"
 		append msg "Connection: Keep-Alive\r\n"
 		append msg "Pragma: no-cache\r\n"
+		append msg "Cache-Control: no-cache\r\n"
 		if {$auth} {
 			set basic [base64::encode "${user}:${pass}"]
 			append msg "Proxy-Authorization: Basic $basic\r\n"
@@ -526,26 +528,28 @@ proc SOCKSSocket { args } {
 			set options(-proxy_queued_data) [string replace $options(-proxy_queued_data) 0 $strend]
 
 			if { $options(-direct) } {
-				set tmp_data "POST /gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"
+				set tmp_data "POST /gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1\r\n"
 			} else {
-				set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1"
+				set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?SessionID=$old_proxy_session_id HTTP/1.1\r\n"
 			}
-			set tmp_data "$tmp_data\r\nAccept: */*"
-			set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
-			set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
-			set tmp_data "$tmp_data\r\nHost: $options(-proxy_gateway_ip)"
-			set tmp_data "$tmp_data\r\nProxy-Connection: Keep-Alive"
-			set tmp_data "$tmp_data\r\nConnection: Keep-Alive"
-			set tmp_data "$tmp_data\r\nPragma: no-cache"
-			set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
-			set tmp_data "$tmp_data\r\nContent-Length: $size"
+			append tmp_data "Accept: */*\r\n"
+			append tmp_data "Content-Type: text/xml; charset=utf-8\r\n"
+			append tmp_data "Content-Length: $size\r\n"
+			append tmp_data "User-Agent: MSMSGS\r\n"
+			append tmp_data "Host: $options(-proxy_gateway_ip)\r\n"
+			append tmp_data "Proxy-Connection: Keep-Alive\r\n"
+			append tmp_data "Connection: Keep-Alive\r\n"
+			append tmp_data "Pragma: no-cache\r\n"
+			append tmp_data "Cache-Control: no-cache\r\n"
 
 			if {[$name cget -proxy_authenticate]  == 1 } {
-				set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [$name cget -proxy_user]:[$name cget -proxy_password]]"
+				append tmp_data "Proxy-Authorization: Basic [::base64::encode [$name cget -proxy_user]:[$name cget -proxy_password]]\r\n"
 			}
 
 
-			set tmp_data "$tmp_data\r\n\r\n$current_data"
+			append tmp_data "\r\n"
+			append tmp_data $current_data
+
 			#status_log "::HTTPConnection::Write: PROXY POST Sending: ($name)\n$tmp_data\n" blue
 			set options(-proxy_writing) $tmp_data
 			if { [catch {puts -nonewline [$name cget -sock] "$tmp_data"} res] } {
@@ -819,23 +823,25 @@ proc SOCKSSocket { args } {
 		}
 
 		if { $options(-direct) } {
-			set tmp_data "POST /gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1"
+			set tmp_data "POST /gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1\r\n"
 		} else {
-			set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1"
+			set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1\r\n"
 		}
-		set tmp_data "$tmp_data\r\nAccept: */*"
-		set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
-		set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
-		set tmp_data "$tmp_data\r\nHost: gateway.messenger.hotmail.com"
-		set tmp_data "$tmp_data\r\nProxy-Connection: Keep-Alive"
-		set tmp_data "$tmp_data\r\nConnection: Keep-Alive"
-		set tmp_data "$tmp_data\r\nPragma: no-cache"
-		set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
-		set tmp_data "$tmp_data\r\nContent-Length: 0"
+	
+		append tmp_data "Accept: */*\r\n"
+		append tmp_data "Content-Type: text/xml; charset=utf-8\r\n"
+		append tmp_data "Content-Length: 0\r\n"
+		append tmp_data "User-Agent: MSMSGS\r\n"
+		append tmp_data "Host: gateway.messenger.hotmail.com\r\n"
+		append tmp_data "Proxy-Connection: Keep-Alive\r\n"
+		append tmp_data "Connection: Keep-Alive\r\n"
+		append tmp_data "Pragma: no-cache\r\n"
+		append tmp_data "Cache-Control: no-cache\r\n"
+
 		if {[$sb cget -proxy_authenticate] == 1 } {
-			set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [$sb cget -proxy_user]:[$sb cget -proxy_password]]"
+			append tmp_data "Proxy-Authorization: Basic [::base64::encode [$sb cget -proxy_user]:[$sb cget -proxy_password]]\r\n"
 		}
-		set tmp_data "$tmp_data\r\n\r\n"
+		append tmp_data "\r\n"
 		status_log "::HTTPConnection::Connected: PROXY SEND ($sb)\n$tmp_data\n" blue
 		if { [catch {puts -nonewline $sock "$tmp_data"} res]} {
 			$sb sockError
@@ -1002,24 +1008,27 @@ proc SOCKSSocket { args } {
 			if { $old_proxy_session_id != ""} {
 
 				if { $options(-direct) } {
-					set tmp_data "POST /gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"
+					set tmp_data "POST /gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1\r\n"
 				} else {
-					set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1"
+					set tmp_data "POST http://$options(-proxy_gateway_ip)/gateway/gateway.dll?Action=poll&SessionID=$old_proxy_session_id HTTP/1.1\r\n"
 				}
 				
-				set tmp_data "$tmp_data\r\nAccept: */*"
-				set tmp_data "$tmp_data\r\nAccept-Encoding: gzip, deflate"
-				set tmp_data "$tmp_data\r\nUser-Agent: MSMSGS"
-				set tmp_data "$tmp_data\r\nHost: $options(-proxy_gateway_ip)"
-				set tmp_data "$tmp_data\r\nProxy-Connection: Keep-Alive"
-				set tmp_data "$tmp_data\r\nConnection: Keep-Alive"
-				set tmp_data "$tmp_data\r\nPragma: no-cache"
-				set tmp_data "$tmp_data\r\nContent-Type: application/x-msn-messenger"
-				set tmp_data "$tmp_data\r\nContent-Length: 0"
+				append tmp_data "Accept: */*\r\n"
+				append tmp_data "Content-Type: text/xml; charset=utf-8\r\n"
+				append tmp_data "Content-Length: 0\r\n"
+				append tmp_data "User-Agent: MSMSGS\r\n"
+				append tmp_data "Host: $options(-proxy_gateway_ip)\r\n"
+				append tmp_data "Proxy-Connection: Keep-Alive\r\n"
+				append tmp_data "Connection: Keep-Alive\r\n"
+				append tmp_data "Pragma: no-cache\r\n"
+				append tmp_data "Cache-Control: no-cache\r\n"
+				
 				if {[$name cget -proxy_authenticate] == 1 } {
-					set tmp_data "$tmp_data\r\nProxy-Authorization: Basic [::base64::encode [$name cget -proxy_user]:[$name cget -proxy_password]]"
+					append tmp_data "Proxy-Authorization: Basic [::base64::encode [$name cget -proxy_user]:[$name cget -proxy_password]]\r\n"
 				}
-				set tmp_data "$tmp_data\r\n\r\n"
+
+				append tmp_data "\r\n"
+
 
 				#status_log "PROXY POST polling connection ($name):\n$tmp_data\n" blue
 				set options(-proxy_writing) $tmp_data
