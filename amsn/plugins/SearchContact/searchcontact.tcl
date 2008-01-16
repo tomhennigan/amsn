@@ -297,10 +297,10 @@ namespace eval ::searchcontact {
 			-value 1 -variable ::searchcontact::config(searchtype)  -command ::searchcontact::redoSearch
 		$m add radiobutton -label "[trans account]" \
 			-value 2 -variable ::searchcontact::config(searchtype)  -command ::searchcontact::redoSearch
-		$m add radiobutton -label "[trans groupnames]" \
+		$m add radiobutton -label "[trans groupname]" \
 			-value 3 -variable ::searchcontact::config(searchtype)  -command ::searchcontact::redoSearch
 		if { $notesloaded }  {
-			$m add radiobutton -label "[trans notes]" \
+			$m add radiobutton -label "[trans note]" \
 				-value 4 -variable ::searchcontact::config(searchtype)  -command ::searchcontact::redoSearch
 		}
 		$m add separator

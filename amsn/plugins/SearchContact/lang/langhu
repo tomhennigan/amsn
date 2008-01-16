@@ -1,0 +1,12 @@
+amsn_lang_version 2
+all Összes
+filterblocked Csak azok megjelenítése, akiket letiltottam
+filterremovedme Csak azok megjelenítése, akik töröltek engem
+clear Törlés
+nickandpsm Becenév és szeméyes üzenet
+typeheretofilter Itt add meg keresőkifejezést a partnerlista szűréséhez ...
+storelastinput Az utolsó keresőkifejezés visszaállítása a plugin betöltésekor
+enableoperators Operátorok használata a kereséshez ("& " (AND) és "| " (OR) támogatott, a vesszővel/szóközzel elválasztott kulcsszavak előtt kell megadni)
+usewildcards Helyettesítő karakterek is használhatók: * és ?
+groupname Csoportnév
+filter Szűrő
