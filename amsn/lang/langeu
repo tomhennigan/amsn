@@ -37,18 +37,22 @@ allowonlyinal Onartze Zerrendan dauden erabiltzaileak bakarrik ni kontaktatzeko 
 allowseen Pertsona honek konektatuta nagoela ikusi dezan eta nirekin kontaktatzeko baimendu
 allow_sms Utzi nire kontaktuei kontaktatzea nire MSN mugikorrera
 allprofilesinuse Esistitzen diren profil guztiak momentu honetan erabiliak izaten ari dira
+always Beti
 animatedemoticon Begitarte hau animatua da
 animatedsmileys Begitarte animatuak gaitu
 animatenotify Jakinarazpenen Leiho Animatua
 appearance Itxura
-appearoff Konektatuta
+appearoff Deskonektatuta agertu
 areacode Kode eremua
 aretyping $1 idazten daude desberdinak edukiko dituzu profil honentzako. \n Sakatu "Profila sortu"-n $1 -rentzat profil berria sortzeko.
 askcam Galdetu Webcam jasotzeko
 askcontactwebcam zure webkamera kontaktuagaitik galdetzeko, edo
 askeachtime Aldi bakoitzean galdetu
 asksendingyourwebcam zure webkamera bidali ahal duzun galdetzeko
+asksendoim Mezu hau, konektatu gabeko mezu moduan bidali nahi duzu?
 askwebcam Erabiltzaile honi webcam-a bidaltzeko eskatu
+assistantselectcam Zure webcam-a hautatu zerrendan
+assistanttitle Soinu eta Video laguntzailea
 author Egilea
 autoaccepted Fitxategi Transferentzia automatikoki onartua
 autoacceptft Fitxategi Transferentzia eskaerak automatikoki onartu
@@ -60,6 +64,7 @@ autodetectip IP helbidea automatikoki aurkitu
 autohotmaillog Hotmailen automatikoki hasi saioa
 autoidle Auto aktibitate eza
 autoip IP automatikoa
+autolisten_voiceclips Soinu sortak jasotzerakoan automatikoki erreproduzitu
 automessage AutoMezua
 autonoact Erakutsi "Ez aktibo" ez-aktibo nagoenean honengaitik:
 autoresizedp Erakusten diren irudiak automatikoki berregokitu lehenetsitako neurrira
@@ -85,6 +90,7 @@ blockinter3 Bakoitzan
 blockinter4 Segunduero.
 blocklist Blokeo Zerrenda (BZ):
 blockmessage Pertsona hauek konektatu daude eta zu blokeatu zaituzte
+blocksounds Soinuak blokatu
 blockusers Momentuan konprobatzeko erabiltzaileen kopurua
 bouncedock Mezu bat jasotzerakoan aMSN-ren ikonoak kaian
 brightness Argitasuna
@@ -95,9 +101,11 @@ browser Nabigatzailea
 bugerror Parkatu baina akatsen datubasera konektatzerakoan arazo bat egon da. Mesedez, egiaztatu zure Internet konexioa.
 bugnocomment Komentariorik gabe bidali? Komentarioak zer doan txarto eta nola zuzendu esatera laguntzen digu.
 busy Okupatuta
+bytesymbol b
 cachedpics $1 irudi jasota
 cagreement Ixilpeko Akordioa
 cancel Utzi
+cancelled Ezeztatua
 cannotdeleteprofile Ezin da profila ezabatu, aMSN beste sesio batean erabilia izaten omen ari delako
 cantexec $1 aplikazioa ezin izan da exekutatua izan. Konfigurazioa egiaztatu
 cantloadonlineversion Eguneratutako hizkuntz-zerrenda ezin da Internetetik jaso
@@ -177,6 +185,7 @@ confirm Zihur al zaude?
 connected Orain konektaturik zaude
 connectedwith $1-rekin konektatuta
 connecterror Akatsa zerbitzarira konektatzerakoan
+connectfirst Lehenago konektatu, mesedez
 connecting Konektatzen
 connection Konekzioa
 connectionlost Deskonektaturik.: Zerbitzariarekin konekzioa itxirik
@@ -229,6 +238,7 @@ defchatwinsize Txat leihorako lehenetsitako tamaina (XSIZExYSIZE)
 deleteall Guztia ezabatu
 deletecustomstate  Egoera pertsonalizatua ezabatu
 delete Ezabatu
+deleteblock Ezabatu eta Blokeatu
 delimiters Data-zigiluen mugatzaileak:
 deliverfail Hurrengo mezua bidaltzen arazoa egon da
 delprofile2 Ezabatu nahi duzun profila aukeratu
@@ -286,6 +296,7 @@ entercontactemail Kontaktuaren e-posta sartu
 enterfilename Fitxategi-izena sartu mesedez
 enternick Zure ezizena sartu
 enterpsm Zure mezu pertsonala
+error Akatsa
 errortls TLS modulua instalatzerakoan errorea:
 eventhistory Gertakizunen historia erakutsi
 examples Adibideak
@@ -311,8 +322,10 @@ findasyoutype Bilatu zuk idatzita moduan
 find Bilatu
 findnext Hurrengoa bilatu
 findprev Lehenekoa bilatu
+finish Bukatu
 firewalled Suebaki edo enrutatzaile baten atzean zaude
 followtext Testu berria sartzen denean korritu behera
+forgot_pass Nere pasahitza ahantzi dut
 friendlyname Lagunarteko izena
 ftacceptedby $1 [e]-k $2 fitxategia jasotzea onartu du
 ftaccepted Fitxategi transferentzia onartuta
@@ -323,6 +336,7 @@ ftconnecting $1 -era ataka $2 -ra konektatzen
 ftconnectionlost Urruneko parearekin konekxioa galduta
 ftgotinvitation $1 [e]-k $2 fitxategia bidali nahi dizu. ($3 byte) $1 -[r]i bidaliak izan dira
 ftportpref Fitxategi transferentzietarako ataka abiarazten
+ftporttest Froga ataka
 ftrejectedby $1 -ek $2 fitxategia jasotzeari uko egin dio
 ftrejected Fitxategi transferentzia gaitzetsita
 ftsendinvitation $2 fitxategiaren transmisiorako gonbidapena ($3 byte) $1 -era bidalia izan da
@@ -339,6 +353,7 @@ gotink $1(e)-k tinta bidaltzen dizu.
 goto $1-era jo
 gotoinbox Mezu-sarrerara jo
 groupadd Talde bat gehitu
+groupcontacts Talde kontaktuak
 groupdelete Talde bat ezabatu
 groupexists Talde hau badago lehendik
 groupmissing Taldea ez dago
@@ -353,6 +368,8 @@ handle Heldulekua
 helpcontents Laguntzaren edukiak
 help Laguntza
 hidedisplaypic Pantaila irudia ezkutatu
+hidemenu Erakutsi/Ezkutatu menuak
+hidemenumessage Seguru menu hauek ezkutatu nahi dituzula?\nGeroago berreskuratu ditzakezu, 'Ctrl-M' erakutsi/ezkutatu menuak tekla-konbinazioa sakatuz.
 hiden Begitarteen menutik begitartea ezkutatu
 hidewindow Leihoa ezkutatu
 history Historia
@@ -455,6 +472,7 @@ mobilegrp2 sartu kontaktuak "mugikor" taldean deskonektaturik daudenean (egoeraz
 mobile Mugikorra
 modified Aldatuta
 month Hilabetea
+more Gehiago
 morepersonal Egoera gehiago ->
 move Mugitu
 movetogroup Taldera mugitu
@@ -497,6 +515,7 @@ nocacheddps Erabiltzaile honetako erakusteko irudirik ez dago katxean
 nodataavailable $1 -erako ez dago data erabilgarririk
 nodevices Ez daukazu gailurik instalaturik
 no Ez
+noftpreview Ezgaitu fitxategi transferentzietan irudien aurrebista bidaltzea
 nogap Taldeen artean hutsunerik ez
 nogroup Talderik ez
 nologfile $1rako ez dago log fitxategirik
@@ -506,6 +525,8 @@ nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
 nopic Ez dago irudirik
 noprofileexists Momentu honetan ez daude profilik, \n profilak erabili nahi badituzu sortu behar dituzu.  \nErabili Profil Berria Gehitu botoia leiho honetan profil berri bat sortzeko.
 normal Normala
+nosound Ez da soinurik detektatu, egiaztatu mikrofonoa ondo konektaturik dagoela
+nosound_or_hold Ez da soinurik detektatu. Ahots grabaketa bat bidaltzeko, hitzegiten duzun bitartean botoia sakatu eta mantendu behar duzu, eta gero mezua bidaltzeko, botoia utzi.
 noskins Pertsonalizatutako azala ez da aurkitu azalen direktorioan. AMSN ezin da hasi
 nosystemtray Aska sistema ez erabilgarria
 note Oharra
@@ -622,11 +643,13 @@ readonlymsgbox Fitxategi transferentzia hau bertan behera utzi da, zeren eta dir
 readonlywarn KONTUZ: Fitxategia seguraski EZ da ondo gordeko zeren eta “Jasotako fitxategiak” direktorioa idatzi-babestua dago. Hartzaile direktorioko ( $1 ) baimenak ono daudela begiratu
 receivedbytes $2 byteetako $1 jasota
 receiveddir Jasotako Fitxategien direktorioa
+receivedvoice Jasotako soinu zatia.
 receivefile Fitxategia jaso
 recentmsg Txat leihoa bat mezu berri bat jasotzen den momentuan ixtea eragotzi
 reconnect $1 birkonektatzera itxaroten
 reconnect2 Galtzerakoan konektatu berriro
 reconnecting Zerbitzarira birkonektatzen
+recorderror   $1 grabatzerakoan akatsa
 reject Ezeztatu
 rememberpass Pasahitza gogoratu
 remembersetting Ezarpen hauek gogoratu
@@ -638,6 +661,7 @@ reporting Informatzen
 required_version Plugin hau ezin da kargatu. Gutxienez $1 bertsioa behar du
 resetincomingfont Iturria berrezarri (bidaltzailearen iturri aukeraketak erabili)
 restartforskin Oharra: Azala ondo ikusteko, aMSN berrabiarazi beharko duzu
+retry Berriz entseatu
 reversed Alderantzikatuta
 reverselist Aldirantzizko Zerrenda
 rightback Oraintxe bueltan nago
@@ -661,8 +685,11 @@ sendfile Fitxategia bidali
 sendmail E-posta bidali
 sendmobmsg Bidali mugikor batera
 sendmsg Mezua bidali
+sendoim Offline mezua bidali
+sendvoice Ahots grabazioa bidali
 sendwebcaminvite Erabiltzaile bat zure webcam-a ikustera gonbidatu
 sentbytes $2 bytetako $1 bidaliak
+sentvoice Ahots grabazioa bidalita
 serverbusy Zerbitzaria okupatuta dago
 servergoingdown Deskonektaturik: Zerbitzaria mantentze lanetarako itzaliko da
 serverunavailable Zerbitzaria erabilezina dago
@@ -694,6 +721,7 @@ smileintro2 Behar diren eremuak bete, begitarte hau pertsonalizatzeko (MEG-FAQ i
 smileintro Begitarte hau sortzeko behar diren eremuak bete (MEG-FAQ ikusi laguntza behar baduzu)
 smiletoobig Hautatutako smiley-a tamaina normalekoak baino haundiagoa da. Tamainuz aldatzea nahi al duzu?
 snackfailed Snack ezin izan da kargatu, lehenetsitakoara bueltan
+snackneeded Eginbide hau erabiltzeko Snack liburutegia beharrezkoa da. Gutxienez, 2.2.9 bertsioa behar da.
 snapshot Argazkia
 sngdblclick Klik xumea mezu berrien leihoa irekitzeko
 sortby $1 $2-gaitik ordenatu
@@ -703,14 +731,15 @@ sortcontactstatus Kontaktuak Egoeratik Ordenatu
 sortgroupsasc Behetik gora Taldeak ordenatu
 sortgroupsdesc Goitik behera Taldeak ordenatu
 sortin $1 ordenatu $2-n
+sound Gertaeren soinuak
 sound2 Kontaktuak sartzen direnean edo mezu bat jasotzerakoan soinu bat jo
 soundactive Leihoa aktiboetan zaudenean mezu bat jasotzerakoan soinuak egin ere.
 soundcommand Hau martxan jartzeko komandoa izan behar da (ex: esdplay)
 soundexample ( \$sound = Soinu fitxategia erreproduzitua izateko) Adibidez:: esdplay \$sound
 soundfile Alarmaren Soinuaren Fitxategia
 soundfiles Soinuen fitxategiak
-sound Gertaeren soinuak
 soundloop Etengabeko soinua
+soundnoavail Soinu txartela ez dago. Gelditu mesedez soinu txartela erabiltzen egon daitekeen aplikazioa.
 soundserver Soinu zerbitzaria
 soundstatus Alarmaren soinua jarri edo kendu
 sourcecode Iturburu-kodea (Konpilazioa eta instalazioa behar du)
@@ -807,6 +836,9 @@ videoconversationrequest Bideo elkarrizketarako (bi zentzutakoa, audio eta bideo
 viewcontactsby Kontaktuak sailkatu
 view Ikuspegia
 viewprofile Profila ikusi
+voice_notimplemented Ahots zatiak jasotzea ez dago oraindik martxan. Pazientzia, mesedez.
+voice_windows Windows erabiltzailea izanik, soinu zatia entzungarri izan ahal zaizu Media Playerrekin zabaltzen baduzu.
+voice_windows_click Klik hemen hori egiteko.
 wanttosharecam Nire webkama besteontzako ikusgarri egotea nahi dut
 webcamcanceled $1-rekin webkamera saioa amaitu egin da
 webcamclosebefcancel Webkamera saio guztiak utzi behar dituzu leihoa itxi baino lehen
@@ -817,6 +849,8 @@ webcamfaq MEG/Laguntza Webkamerarako
 webcamhistory Ikusi Webcam saioak
 webcaminvite $1-k webcam sesio bat hastera gonbidatu zaitu, baina aMSN-k ez du posibilitate hau soportatzen.
 webcaminvitereceived $1(e)-k webkamera saio bat irekitzera gonbidatzen dizu. Saio hau onartu nahi duzu?
+webcaminvitereceiving $1 webcam ikusteko gonbidatua zaude. Saio hau onartu nahi duzu?
+webcaminvitesending $1-k zure webcam-a ikusi nahi du. Saio hau onartu nahi duzu?
 webcamrejected $1 webkamera sesiorako gonbidapena ezetsi du
 webcamrequestreceive Webkamera jasotzeko eskaera bidali
 webcamrequestsend Webkamera bidaltzeko eskaera bidali
@@ -843,28 +877,3 @@ youblocked Honako honek blokeatu zaitu:
 yousay Zuk diozu
 youwant Zuk itxaroten duzu
 zoom Zooma
-deleteblock Ezabatu eta Blokeatu
-hidemenu Erakutsi/Ezkutatu menuak
-hidemenumessage Seguru menu hauek ezkutatu nahi dituzula?\nGeroago berreskuratu ditzakezu, 'Ctrl-M' erakutsi/ezkutatu menuak tekla-konbinazioa sakatuz.
-noftpreview Ezgaitu fitxategi transferentzietan irudien aurrebista bidaltzea
-groupcontacts Talde kontaktuak
-asksendoim Mezu hau, konektatu gabeko mezu moduan bidali nahi duzu?
-autolisten_voiceclips Soinu sortak jasotzerakoan automatikoki erreproduzitu
-cancelled Ezeztatua
-connectfirst Lehenago konektatu, mesedez
-error Akatsa
-ftporttest Froga ataka
-nosound Ez da soinurik detektatu, egiaztatu mikrofonoa ondo konektaturik dagoela
-nosound_or_hold Ez da soinurik detektatu. Ahots grabaketa bat bidaltzeko, hitzegiten duzun bitartean botoia sakatu eta mantendu behar duzu, eta gero mezua bidaltzeko, botoia utzi.
-receivedvoice Jasotako soinu zatia.
-recorderror   $1 grabatzerakoan akatsa
-sendoim Offline mezua bidali
-sendvoice Ahots grabazioa bidali
-sentvoice Ahots grabazioa bidalita
-snackneeded Eginbide hau erabiltzeko Snack liburutegia beharrezkoa da. Gutxienez, 2.2.9 bertsioa behar da.
-soundnoavail Soinu txartela ez dago. Gelditu mesedez soinu txartela erabiltzen egon daitekeen aplikazioa.
-voice_notimplemented Ahots zatiak jasotzea ez dago oraindik martxan. Pazientzia, mesedez.
-voice_windows Windows erabiltzailea izanik, soinu zatia entzungarri izan ahal zaizu Media Playerrekin zabaltzen baduzu.
-voice_windows_click Klik hemen hori egiteko.
-webcaminvitereceiving $1 webcam ikusteko gonbidatua zaude. Saio hau onartu nahi duzu?
-webcaminvitesending $1-k zure webcam-a ikusi nahi du. Saio hau onartu nahi duzu?
