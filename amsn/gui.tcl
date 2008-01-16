@@ -7869,7 +7869,9 @@ namespace eval ::OIM_GUI {
 		set part1 [string index $dateformat 0 ]
 		set part2 [string index $dateformat 1 ]
 		set part3 [string index $dateformat 2 ]
-		set str "[ clock format $unixtimestamp -format "%$part1/%$part2/%$part3 %T"]"
+		if { [catch { set str "[ clock format $unixtimestamp -format "%$part1/%$part2/%$part3 %T"]"} ] } {
+			set str [clock format $unixtimestamp -format "%m/%d/%y %T"]
+		}
 		
 		append tstamp $str
 		append tstamp [::config::getKey rightdelimiter]
