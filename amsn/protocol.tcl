@@ -1322,6 +1322,8 @@ namespace eval ::MSN {
 
 		#an event to let the GUI know a user is blocked
 		after 500 [list ::Event::fireEvent contactBlocked protocol $userlogin]
+		set evpar(userlogin) userlogin
+		::plugins::PostEvent contactBlocked evpar
 	}
 
 	proc unblockUser { userlogin username} {
@@ -1330,6 +1332,8 @@ namespace eval ::MSN {
 
 		#an event to let the GUI know a user is unblocked
 		after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
+		set evpar(userlogin) userlogin
+		::plugins::PostEvent contactUnblocked evpar
 	}
 
 	# Move user from one group to another group
