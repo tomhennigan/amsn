@@ -7863,19 +7863,22 @@ namespace eval ::OIM_GUI {
 		incr pos -1
 		set arrivalTime [string range $arrivalTime 0 $pos]
 		set unixtimestamp [clock scan $arrivalTime -gmt 1]
-		set tstamp [::config::getKey leftdelimiter]
 
 		set dateformat [string tolower [::config::getKey dateformat]]
 		set part1 [string index $dateformat 0 ]
 		set part2 [string index $dateformat 1 ]
 		set part3 [string index $dateformat 2 ]
 		if { [catch { set str "[ clock format $unixtimestamp -format "%$part1/%$part2/%$part3 %T"]"} ] } {
-			set str [clock format $unixtimestamp -format "%m/%d/%y %T"]
+			#the timestamp is maybe corrupted, don't display it
+			status_log "\[DisplayOIM\] timestamp =  $timestamp seems corrupted, or ::config::getKey dateformat = [::config::getKey dateformat] is corrupted" white
+			set unixtimestamp 0
+			set tstamp ""
+		} else {
+			set tstamp [::config::getKey leftdelimiter]
+			append tstamp $str
+			append tstamp [::config::getKey rightdelimiter]
 		}
 		
-		append tstamp $str
-		append tstamp [::config::getKey rightdelimiter]
-
 		set chatid [GetChatId $user]
 
 		if { $chatid == 0 } {
