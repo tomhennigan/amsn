@@ -959,3 +959,20 @@ removefromgroup Elimina del grup
 totalsize Mida total
 fetching Capturant dades...
 nospace Res per veure aquí
+alarmpref2 Ajustaments de l'alarma per a cada contacte
+bytesymbol b
+chooselocation Escolliu la nova ubicació del fitxer
+configureplugin Configura el complement $1
+dontaskweek No em tornis a preguntar per actualitzar fins d'aquí una setmana
+downloadcanceled Baixada cancel·lada.
+downloadingwait Baixant la nova versió de l'aMSN. Si us plau, espereu...
+escapeclosescw La tecla d'escapada tanca les finestres de conversa
+history2 Historial
+newupdate Novetats disponibles per l'aMSN
+saveddefaultloc Deseu en la ubicació per defecte
+savelocation Voleu desar el fitxer en $1?
+savelocationerror No es pot desar el fitxer en aquesta ubicació
+saveotherdirectory Desa en un altre directori
+updatesaved Fet\n $1 desat en $2.
+viewspace Mostra els ítems de l'espai
+webcamhistory2 Sessions de càmera web
