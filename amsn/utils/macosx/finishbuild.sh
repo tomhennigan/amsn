@@ -13,17 +13,23 @@ echo "Renaming built libraries to have correct extension."
 if [ -f ${UTILS_PATH}/webcamsn/webcamsn.so ]; then
 	echo "Moving webcamsn."
 	mv ${UTILS_PATH}/webcamsn/webcamsn.so \
-		${UTILS_PATH}/macosx/webcamsn/webcamsn.dylib
+		${UTILS_PATH}/webcamsn/webcamsn.dylib
 fi
 if [ -f ${UTILS_PATH}/TkCximage/TkCximage.so ]; then
 	echo "Moving TkCximage."
 	mv ${UTILS_PATH}/TkCximage/TkCximage.so \
-		${UTILS_PATH}/macosx/TkCximage/TkCximage.dylib
+		${UTILS_PATH}/TkCximage/TkCximage.dylib
 fi
 if [ -f ${UTILS_PATH}/tcl_siren/tcl_siren.so ]; then
 	echo "Renaming tcl_siren."
 	mv ${UTILS_PATH}/tcl_siren/tcl_siren.so \
 		${UTILS_PATH}/tcl_siren/tcl_siren.dylib
+fi
+
+if [ -f ${UTILS_PATH}/tclISF/tclISF.so ]; then
+	echo "Renaming tclISF."
+	mv ${UTILS_PATH}/tclISF/tclISF.so \
+		${UTILS_PATH}/tclISF/tclISF.dylib
 fi
 
 # Fix bindings to aMSN internal Tcl/Tk versions.
@@ -38,6 +44,15 @@ do
                 @executable_path/../Frameworks/Tcl.framework/Versions/8.4/Tcl "$file"
         install_name_tool -change /System/Library/Frameworks/Tcl.framework/Versions/8.4/Tcl \
                 @executable_path/../Frameworks/Tcl.framework/Versions/8.4/Tcl "$file"
+
+		install_name_tool -change /Library/Frameworks/Tk.framework/Versions/8.5/Tk \
+		        @executable_path/../Frameworks/Tk.framework/Versions/8.5/Tk "$file"
+		install_name_tool -change /System/Library/Frameworks/Tk.framework/Versions/8.5/Tk \
+		        @executable_path/../Frameworks/Tk.framework/Versions/8.5/Tk "$file"
+		install_name_tool -change /Library/Frameworks/Tcl.framework/Versions/8.5/Tcl \
+		        @executable_path/../Frameworks/Tcl.framework/Versions/8.5/Tcl "$file"
+		install_name_tool -change /System/Library/Frameworks/Tcl.framework/Versions/8.5/Tcl \
+		        @executable_path/../Frameworks/Tcl.framework/Versions/8.5/Tcl "$file"
 done
 
 echo "Done."
