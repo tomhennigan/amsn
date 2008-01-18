@@ -9,6 +9,7 @@
 namespace eval ::draw {
 
 	variable ink_text_pack [list]
+	variable window ""
 
 	proc Init { dir } {
 		
@@ -87,10 +88,7 @@ namespace eval ::draw {
 		bind $inkswitch  <<Button1>> "::draw::AddDrawboard $window $buttonbar"
 		bind $inkswitch  <Enter> "$inkswitch configure -image [::skin::loadPixmap butdraw_hover]"
 		bind $inkswitch  <Leave> "$inkswitch configure -image [::skin::loadPixmap butdraw]"	
-	
-
 	}
-
 
 
 	proc AddDrawboard { window buttonbar} {
@@ -272,11 +270,11 @@ status_log "reset sendbutton binding"
 		set widget $window.f.bottom.left.in.inner.draw
 		#Put inktosend picture into a temp directory  to send it
 		 if { [info exists ::env(TEMP) ] } {
-			 $widget SaveDrawing $::env(TEMP) "inktosend-[pid].gif"
+			 $widget SaveDrawing [file join $::env(TEMP) "inktosend-[pid].gif"] 1
 			 #send the saved file
 			 ::amsn::InkSend $window [file join $::env(TEMP) "inktosend-[pid].gif"]
  		} else {
-			$widget SaveDrawing "/tmp" "inktosend-[pid].gif"
+			$widget SaveDrawing [file join "/tmp" "inktosend-[pid].gif"] 1
 			#send the saved file
 			::amsn::InkSend $window [file join /tmp "inktosend-[pid].gif"]
 		}

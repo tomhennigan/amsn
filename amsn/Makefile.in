@@ -26,6 +26,7 @@ tcl_siren_dir := $(srcdir)/utils/tcl_siren
 tkcximage_dir := $(srcdir)/utils/TkCximage
 tray_dir := $(srcdir)/utils/linux/traydock
 linflash_dir := $(srcdir)/utils/linux/linflash
+tclISF_dir := $(srcdir)/utils/tclISF
 
 # programs
 CC		:= @CC@
@@ -51,6 +52,7 @@ WARN_FLAGS	:= -w
 LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
 LIB_FLAGS	:= -I. -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs
 LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tcl_siren_dir)/src -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
+LIB_FLAGS	+= -I$(tclISF_dir)/src/libISF
 LIBDIR		:= @LIBDIR@
 
 
@@ -121,17 +123,17 @@ LDFLAGS	 += ${TK_STUB_LIB_SPEC}
 
 #AppMain.tcl is needed by MacOSX : do not try to simplify by moving it outside the ifeq/else.
 ifeq ($(FOUND_OS),linux)
-FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/drv1-v4l.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl
+FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/drv1-v4l.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl
 
 FILES_TO_EXCLUDE += AppMain.tcl
 else 
 	ifeq ($(FOUND_OS),bsd)
-FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl
+FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl
 
 FILES_TO_EXCLUDE += AppMain.tcl
 	else 
 		ifeq ($(FOUND_OS),solaris)
-FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl
+FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl
 
 FILES_TO_EXCLUDE += AppMain.tcl
 		endif
@@ -247,6 +249,11 @@ include $(webcamsn_dir)/src/Rules.mk
 
 include $(tcl_siren_dir)/Rules.mk
 include $(tcl_siren_dir)/src/Rules.mk
+
+include $(tclISF_dir)/Rules.mk
+include $(tclISF_dir)/src/Rules.mk
+include $(tclISF_dir)/src/libISF/Rules.mk
+include $(tclISF_dir)/src/Rules.mk
 
 ifeq ($(FOUND_OS),linux)
   include $(capture_dir)/Rules.mk

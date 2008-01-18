@@ -18,8 +18,8 @@
 #       -drawmode, drawmode, Drawmode 
 #       -color, color, Color 
 #       -pencil, pencil, Pencil
-#	-width, width, Width
-#	-height, height, Height
+#       -width, width, Width
+#       -height, height, Height
 #
 #   WIDGET COMMAND
 #
@@ -57,6 +57,9 @@ snit::widgetadaptor drawboard {
 	variable endx
 	variable endy
 	variable gridsourceimg
+	variable strokes_list
+	variable curStroke
+
 
 	constructor { args } {
 		installhull using canvas -bg white -relief flat -highlightthickness 0 -width $options(-width) -height $options(-height)
@@ -93,7 +96,9 @@ status_log "creating drawboard widget $self"
 		
 		set endx 0
 		set endy 0
-		
+	
+		set strokes_list [list]
+
 		#bindings
 		bind $self <ButtonPress-1> "$self ButtonDown"
 
@@ -128,10 +133,12 @@ status_log "creating drawboard widget $self"
 
 		set oldy [expr {[winfo pointery $self] - [winfo rooty $self]}]
 
+		set curStroke [list $oldx $oldy]
+
 		$self DrawDot $oldx $oldy
 
 		$self SetEnds $oldx $oldy		
-
+		
 	}
 	
 
@@ -152,7 +159,11 @@ status_log "creating drawboard widget $self"
 
 			$self SetEnds $newx $newy
 
+			lappend curStroke $newx $newy
+
 		}
+
+		lappend strokes_list $curStroke
 
 		#change the buttondown-flag
 		set buttondown 0
@@ -187,6 +198,8 @@ status_log "creating drawboard widget $self"
 				set oldx $posx
 				set oldy $posy
 				
+				lappend curStroke $oldx $oldy
+
 				$self SetEnds $posx $posy
 			}
 		}
@@ -303,20 +316,24 @@ status_log "creating drawboard widget $self"
 	method ClearDrawboard {} {
 		[$hull itemcget drawboard -image] blank
 		set endx 0
-		set endy 0		
+		set endy 0
+		
+		set strokes_list [list]
+		set curStroke_x [list]
+		set curStroke_y [list]
+
 	}
 	
 	
 #TODO:
-	method LoadDrawing { path filename } {
+	method LoadDrawing { filename } {
 #		$self ClearDrawboard	
 
 
 
 		#draw loaded image
 		set drawboard [$hull itemcget drawboard -image]	
-status_log "[file join $path $filename]"
-		set loadedimg [image create photo -file [file join $path $filename]]
+		set loadedimg [image create photo -file $filename]
 		$drawboard copy $loadedimg
 		
 		$self SetEnds [image width $loadedimg] [image height $loadedimg]
@@ -326,7 +343,7 @@ status_log "[file join $path $filename]"
 	
 
 #TODO: needs 'path'/'filename' vars where it will save, now in pwd, as "inktosend.gif"
-	method SaveDrawing {path filename} {
+	method SaveDrawing {filename {gifFortified 0}} {
 
 		set drawboard [$hull itemcget drawboard -image]	
 		
@@ -339,8 +356,7 @@ status_log "[file join $path $filename]"
 		if {$boardw < $endx} {
 			set endx $boardw
 		}
-
-
+		
 		#only save to the most far used coordinates
 		image create photo temp
 
@@ -363,8 +379,16 @@ status_log "[file join $path $filename]"
 		set endx 0
 		set endy 0
 	
-		::picture::Save copytosend [file join $path $filename] cxgif
-	
+		::picture::Save copytosend $filename cxgif
+
+		# Fortify the GIF with the strokes_list
+		if {$gifFortified && [package require tclISF]} {
+			if {[catch {[tclISF_save $filename $strokes_list]} err]} {
+				status_log "\[SaveDrawing\] saving to file $filename. Got Error : $err" red
+				status_log "$strokes_list" red
+			}
+		}
+
 		image delete copytosend
 		image delete temp		
 
