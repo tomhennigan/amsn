@@ -870,6 +870,18 @@ namespace eval ::MSNP2P {
 			}
 			return
 		}
+		if { [string first "ACK MSNMSGR:" $data] != -1 } {
+			set idx [expr {[string first "SessionID:" $data] + 11}]
+			set idx2 [expr {[string first "\r\n" $data $idx] -1}]
+			set sid [string range $data $idx $idx2]
+
+			# We get an ACK message for receiving the user's ip:port for a file transfer..
+			# if we don't ack this message, the FT gets canceled...
+			# TODO : actually parse the message and use it.. RE necessary.
+			SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+			return
+		}
+
 		# Check if we got DECLINE message
 		if { [string first "603 Decline" $data] != -1 } {
 			# Lets get the call ID and find our SessionID
