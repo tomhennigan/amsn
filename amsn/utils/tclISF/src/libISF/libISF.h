@@ -36,13 +36,11 @@
 /* Define the INT64 type */
 /* TODO: define or typedef ?? */
 #ifndef INT64
-#ifndef INT64_MAX
-#ifndef INT64_MIN
-
-#ifdef WIN32
-# define INT64 __int64
-#else
-# define INT64 long long
+# ifdef WIN32
+#  define INT64 __int64
+# else
+#  define INT64 long long
+# endif
 #endif
 
 #ifndef INT64_MAX
@@ -78,9 +76,6 @@
 # endif
 #endif
 
-#endif
-#endif
-#endif
 
 #define UINT64 unsigned INT64
 
