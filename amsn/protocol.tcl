@@ -2493,6 +2493,19 @@ namespace eval ::MSN {
 		set smile_list "[process_custom_smileys_SB $txt_send]"
 		set animated_smile_list "[process_custom_animated_smileys_SB $txt_send]"
 
+		# This is a trick..
+		# by moving the animated smileys into the non-animated smileys message, we *could* be able to sneak in all those custom smileys..
+		# but apparently, WLM stores whether a specific smiley was sent before as being an animated smiley or not and will not show it again
+		# if it's animated and send as a non-animated smiley.... so the code is here, but it's commented out...
+
+ 		#if {[llength $animated_smile_list] >  5 && [llength $smile_list] < 5} {
+ 		#	set new_animated_smile_list [lrange $animated_smile_list 0 4]
+ 		#	set rest [lrange $animated_smile_list 5 end]
+ 		#	set avail [expr {5 - [llength $smile_list]}]
+ 		#	set animated_smile_list $new_animated_smile_list
+ 		#	set smile_list [concat $smile_list [lrange $rest 0 [expr {$avail - 1}]]]			
+ 		#}
+
 		if { $smile_list != [list] } {
 			set smile_header "MIME-Version: 1.0\r\nContent-Type: text/x-mms-emoticon\r\n\r\n"
 			set smile_send ""
@@ -2529,7 +2542,6 @@ namespace eval ::MSN {
 				set symbol [lindex $smile 0]
 				set msnobj [lindex $smile 1]
 				append animated_smile_send "$symbol\t$msnobj\t"
-				puts "Adding $symbol to $animated_smile_send"
 				incr total
 				if {$total >= 5} {
 					set smilemsg "$smile_header$animated_smile_send"
