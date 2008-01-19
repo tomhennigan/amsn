@@ -613,7 +613,7 @@ void freeDecodeISF (decodeISF_t * pDecISF)
  * \param stream stream where we print the informations
  * \param fmt format describing the informations to print.
  ******************************************************************************/
-inline void LOG (FILE * stream, char * fmt, ...)
+void LOG (FILE * stream, char * fmt, ...)
 {
 #ifdef DEBUG
     va_list args;

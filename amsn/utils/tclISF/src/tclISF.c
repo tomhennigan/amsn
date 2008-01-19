@@ -1,7 +1,6 @@
-#include    <tcl.h>
 #include    <stdio.h>
+#include    <stdlib.h>
 
-#include    "libISF/libISF.h"
 #include    "tclISF.h"
 
 
@@ -65,7 +64,6 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
     INT64 payloadSize = 0;
 
     char * filename = NULL;
-    int i;
 
     if (objc != 3)
     {
@@ -130,7 +128,7 @@ ISF_t * getISF_FromTclList (Tcl_Interp *interp, Tcl_Obj ** strokes_vector, int s
         return NULL;
 
     /* change himetric units to pixels units */
-    changeZoom(pISF, (float) 1/HIMPERPX);
+    changeZoom(pISF, (double) 1/HIMPERPX);
 
     /* default pencil used is 7px large */
     curDA = pISF->drawAttrs;

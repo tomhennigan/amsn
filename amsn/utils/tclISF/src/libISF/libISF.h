@@ -37,7 +37,9 @@
 /* TODO: define or typedef ?? */
 #ifndef INT64
 # ifdef WIN32
-#  define INT64 __int64
+#  ifndef INT64
+#    define INT64 __int64
+#  endif
 # else
 #  define INT64 long long
 # endif

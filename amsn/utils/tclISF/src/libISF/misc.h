@@ -57,6 +57,6 @@
 #define GORILLA 		0x00
 
 /*FUNCTIONS*/
-inline void LOG (FILE * stream, char * fmt, ...);
+void LOG (FILE * stream, char * fmt, ...);
 
 #endif
