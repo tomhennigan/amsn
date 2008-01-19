@@ -3610,6 +3610,7 @@ namespace eval ::amsn {
 			set colour $default_colour
 			set font_attr [font configure $default_font]
 			set incr_y [font metrics $font_attr -displayof $w.c -linespace]
+			set default_incr_y $incr_y
 
 			foreach unit $msg {
 				switch [lindex $unit 0] {
@@ -3637,6 +3638,7 @@ namespace eval ::amsn {
 									set x $default_x
 									set y [expr $y + $incr_y]
 									set maxw $default_maxw
+									set incr_y $default_incr_y
 								}
 							}
 						}
@@ -3646,15 +3648,22 @@ namespace eval ::amsn {
 						set maxw [expr {$maxw - $textwidth}]
 					}
 					"smiley" {
-						set textwidth [image width [lindex $unit 1]]
-						if {$textwidth > $maxw} {
-							set x $default_x
-							set y [expr $y + $incr_y]
-							set maxw $default_maxw
+						set img [lindex $unit 1]
+						set width [image width $img]
+ 
+						if {[image height $img] > $incr_y} {
+							set incr_y [image height $img]
 						}
-						$w.c create image $x $y -image [lindex $unit 1] -anchor nw -state normal -tags bg
-						set maxw [expr {$maxw - $textwidth}]
-						incr x $textwidth
+
+						if {$width > $maxw} {
+ 							set x $default_x
+ 							set y [expr $y + $incr_y]
+ 							set maxw $default_maxw
+ 						}
+
+						$w.c create image $x $y -image $img -anchor nw -state normal -tags bg
+						set maxw [expr {$maxw - $width}]
+						incr x $width
 					}
 					"colour" {
 						if {[lindex $unit 1] eq "reset"} {
@@ -3690,6 +3699,7 @@ namespace eval ::amsn {
 							set y [expr $y + $incr_y]
 							set maxw $default_maxw
 						}
+						set incr_y $default_incr_y
 					}
 				}
 			}
