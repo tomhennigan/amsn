@@ -382,7 +382,7 @@ status_log "creating drawboard widget $self"
 		::picture::Save copytosend $filename cxgif
 
 		# Fortify the GIF with the strokes_list
-		if {$gifFortified && [package require tclISF]} {
+		if {$gifFortified && ![catch {[package require tclISF]}]} {
 			if {[catch {[tclISF_save $filename $strokes_list]} err]} {
 				status_log "\[SaveDrawing\] saving to file $filename. Got Error : $err" red
 				status_log "$strokes_list" red
