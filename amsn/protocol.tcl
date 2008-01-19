@@ -2490,9 +2490,65 @@ namespace eval ::MSN {
 			set style "${style}U"
 		}
 
-		set smile_send "[process_custom_smileys_SB $txt_send]"
-		set animated_smile_send "[process_custom_animated_smileys_SB $txt_send]"
+		set smile_list "[process_custom_smileys_SB $txt_send]"
+		set animated_smile_list "[process_custom_animated_smileys_SB $txt_send]"
 
+		if { $smile_list != [list] } {
+			set smile_header "MIME-Version: 1.0\r\nContent-Type: text/x-mms-emoticon\r\n\r\n"
+			set smile_send ""
+			set total 0
+			foreach smile $smile_list {
+				set symbol [lindex $smile 0]
+				set msnobj [lindex $smile 1]
+				append smile_send "$symbol\t$msnobj\t"
+				incr total
+				if {$total >= 5} {
+					set smilemsg "$smile_header$smile_send"
+					set smilemsg_len [string length $smilemsg]
+					WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
+					set msgacks($::MSN::trid) $ackid
+
+					set smile_send ""
+					set total 0
+					break
+				}
+			}
+			if {$smile_send != "" } {
+				set smilemsg "$smile_header$smile_send"
+				set smilemsg_len [string length $smilemsg]
+				WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
+				set msgacks($::MSN::trid) $ackid
+			}
+		}
+		
+		if { $animated_smile_list != [list] } {
+			set smile_header "MIME-Version: 1.0\r\nContent-Type: text/x-mms-animemoticon\r\n\r\n"
+			set animated_smile_send ""
+			set total 0
+			foreach smile $animated_smile_list {
+				set symbol [lindex $smile 0]
+				set msnobj [lindex $smile 1]
+				append animated_smile_send "$symbol\t$msnobj\t"
+				puts "Adding $symbol to $animated_smile_send"
+				incr total
+				if {$total >= 5} {
+					set smilemsg "$smile_header$animated_smile_send"
+					set smilemsg_len [string length $smilemsg]
+					WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
+					set msgacks($::MSN::trid) $ackid
+
+					set animated_smile_send ""
+					set total 0
+					break
+				}
+			}
+			if {$animated_smile_send != "" } {
+				set smilemsg "$smile_header$animated_smile_send"
+				set smilemsg_len [string length $smilemsg]
+				WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
+				set msgacks($::MSN::trid) $ackid
+			}
+		}
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n"
 		if { $friendlyname != "" } {
@@ -2504,22 +2560,6 @@ namespace eval ::MSN {
 		set msg "${msg}X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22\r\n\r\n"
 		set msg "$msg$txt_send"
 		set msg_len [string length $msg]
-
-		if { $smile_send != "" } {
-			set smilemsg "MIME-Version: 1.0\r\nContent-Type: text/x-mms-emoticon\r\n\r\n"
-			set smilemsg "$smilemsg$smile_send"
-			set smilemsg_len [string length $smilemsg]
-			WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
-			set msgacks($::MSN::trid) $ackid
-		}
-		
-		if { $animated_smile_send != "" } {
-			set smilemsg "MIME-Version: 1.0\r\nContent-Type: text/x-mms-animemoticon\r\n\r\n"
-			set smilemsg "$smilemsg$animated_smile_send"
-			set smilemsg_len [string length $smilemsg]
-			WriteSBNoNL $sbn "MSG" "A $smilemsg_len\r\n$smilemsg"
-			set msgacks($::MSN::trid) $ackid
-		}
 
 		WriteSBNoNL $sbn "MSG" "A $msg_len\r\n$msg"
 
