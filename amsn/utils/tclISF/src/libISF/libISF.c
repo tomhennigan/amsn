@@ -424,6 +424,7 @@ int createStroke(stroke_t ** pStroke, INT64 size, stroke_t * next,
         if(!ptrS->X)
         {
             free(ptrS);
+            ptrS = NULL;
             *pStroke = NULL;
             err = OUT_OF_MEMORY;
         }
@@ -432,6 +433,7 @@ int createStroke(stroke_t ** pStroke, INT64 size, stroke_t * next,
         {
             free(ptrS->X);
             free(ptrS);
+            ptrS = NULL;
             *pStroke = NULL;
             err = OUT_OF_MEMORY;
         }
