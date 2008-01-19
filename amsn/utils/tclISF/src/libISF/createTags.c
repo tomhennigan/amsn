@@ -45,7 +45,7 @@ int createDrawAttributesTag (
 
         while (ptrDA)
         {
-            printf("COLOR = #%.8X\n",ptrDA->color);
+            LOG(stdout,"COLOR = #%.8X\n",ptrDA->color);
             err = createDrawAttrsBlock(ptrDA, lastPayload_ptr, &payloadSize);
             if (err != OK) return err;
 
@@ -461,7 +461,7 @@ int createStrokeTag (
     *lastPayload_ptr = (*lastPayload_ptr)->next;
 
     /* Add packet Number */
-    printf("s_ptr->nPoints=%lld\n",s_ptr->nPoints);
+    LOG(stdout,"s_ptr->nPoints=%lld\n",s_ptr->nPoints);
     encodeMBUINT(s_ptr->nPoints, *lastPayload_ptr);
     payloadSize = (*lastPayload_ptr)->cur_length;
 

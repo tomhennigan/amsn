@@ -35,7 +35,7 @@ int createPacketData(
     /*TODO: /!\ We only use gorilla compression for the moment */
 
     blockSize = getBlockSize(nPoints, arr);
-    printf("BLOCK_SIZE = %d\n", blockSize);
+    LOG(stdout,"BLOCK_SIZE = %d\n", blockSize);
 
     /* 1 : one bytes specfiying the encoding used ( and block size for Gorilla)
      * + number of bytes (blocksize is in bits) needed to put all the points
