@@ -577,6 +577,24 @@ void freeISF (ISF_t * pISF)
     }
 }
 
+/*******************************************************************************
+ * Free payload_t structures
+ *
+ * \param pRoot pointer on payload_t list to free
+ ******************************************************************************/
+void freePayloads (payload_t * pRoot)
+{
+    payload_t * curPayload = pRoot,
+              * nextPayload = NULL;
+
+    /* Free payload_t structures */
+    while (curPayload)
+    {
+        nextPayload = curPayload->next;
+        free(curPayload);
+        curPayload = nextPayload;
+    }
+}
 
 /*******************************************************************************
  * Free a decodeISF structure

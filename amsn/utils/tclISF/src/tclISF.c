@@ -54,7 +54,6 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
 {
     Tcl_Obj ** strokes_vector;
 
-
     int filename_length = 0,
         strokes_counter = 0,
         err = 0;
@@ -94,6 +93,7 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
     if (err != OK)
     {
         freeISF(pISF);
+        freePayloads(rootTag);
         sprintf(interp->result, "Got error %d (from createISF) while encoding to ISF to the file %s.", err, filename);
         return TCL_ERROR;
     }
@@ -101,11 +101,13 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
     /* write to file */
     if (writeGIFFortified(interp, filename, rootTag, payloadSize) != TCL_OK)
     {
-        free(pISF);
+        freeISF(pISF);
+        freePayloads(rootTag);
         return TCL_ERROR;
     }
 
-    free(pISF);
+    freeISF(pISF);
+    freePayloads(rootTag);
     return TCL_OK;
 }
 

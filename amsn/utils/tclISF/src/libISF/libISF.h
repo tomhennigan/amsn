@@ -292,6 +292,7 @@ drawAttrs_t * searchDrawingAttrsFor (
 
 void changeZoom (ISF_t * pISF, float zoom);
 void freeISF (ISF_t * pISF);
+void freePayloads (payload_t * pRoot);
 
 
 int createPayload (payload_t ** payload_ptr, int size, payload_t * next_ptr);
@@ -300,6 +301,8 @@ int createISF (
         payload_t ** rootTag,
         transform_t * transformList_ptr,
         INT64 * fullPayloadSize);
+
+
 
 
 
