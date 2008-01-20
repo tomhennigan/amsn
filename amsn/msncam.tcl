@@ -3289,6 +3289,12 @@ namespace eval ::CAMGUI {
 	}	
 
 	proc saveToImage { w } {
+
+		if { [winfo exists $w.saveToImageFormat] } {
+			raise $w.saveToImageFormat
+			return
+		}
+
 		set img ${w}_img
 
 		Pause $w
