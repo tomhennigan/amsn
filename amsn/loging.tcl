@@ -697,24 +697,28 @@ namespace eval ::log {
 		set play $wname.buttons.play
 		set pause $wname.buttons.pause
 		set stop $wname.buttons.stop
+		set save $wname.buttons.save
 
-		if {![winfo exists $play] || ![winfo exists $pause] || ![winfo exists $stop] } { return }
+		if {![winfo exists $play] || ![winfo exists $pause] || ![winfo exists $stop] || ![winfo exists $save]} { return }
 
 		switch $button {
 			play {
 				$play configure -state disabled
 				$pause configure -state normal
 				$stop configure -state normal
+				$save configure -state normal
 			}
 			pause {
 				$play configure -state normal
 				$pause configure -state disabled
 				$stop configure -state normal
+				$save configure -state normal
 			}
 			stop {
 				$play configure -state normal
 				$pause configure -state disabled
 				$stop configure -state disabled
+				$save configure -state disabled
 			}
 			default {
 			}
