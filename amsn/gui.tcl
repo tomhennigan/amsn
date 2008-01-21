@@ -5208,7 +5208,7 @@ proc fileDropHandler { data action {target "self"}} {
 
 # The same as the previous one, but this proc works on a list.
 proc trunc_list {str {window ""} {maxw 0 } {font ""}} {
-	if { $window == "" || $font == "" || [::config::getKey truncatenames]!=1} {
+	if { $window == "" || $font == "" } {
 		return $str
 	}
 
