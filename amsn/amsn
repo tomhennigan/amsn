@@ -66,7 +66,19 @@ wm state . withdrawn
 ############################################################
 # variable rcversion so autoupdate has no problems, version is used to be easier for users
 # rcversion major.minor.patch, patch is 91,92 for RC's and after a release we put .svn
-# behind the version (after 0.95.90 comes 0.95.90.svn, after 0.96 comes 0.96.90.svn)
+# behind the version. Lower patch numbers can be used on branch for bugfix releases.
+#
+# So the following is the correct version -> rcversion mapping:
+# version				rcversion
+#	0.97				0.97
+#	0.97.1b	(branch!)	0.97.00.svn
+#	0.97.1				0.97.01
+#	0.97.2b				0.97.01.svn
+#	0.98b				0.97.90.svn
+#	0.98rc1				0.97.91
+#	0.98b (after rc1)	0.97.91.svn
+#	0.98				0.98
+
 set version "0.98b"
 set rcversion "0.97.90.svn"
 set date "12/25/2007"
