@@ -577,7 +577,13 @@ proc save_config {} {
 		puts $file_id "   <emoticon>"
 		array set emotion $custom_emotions($name)
 		foreach attribute [array names emotion] {
-			set value [::sxml::xmlreplace $emotion($attribute)]
+			set tmp_value $emotion($attribute)
+			#Convert absolute paths to subdirs in the profile-home to relative paths
+			if { $attribute == "file" } {
+				set tmp_value [PathAbsToRel $tmp_value]
+			}
+
+			set value [::sxml::xmlreplace $tmp_value]
 			set attribute [::sxml::xmlreplace $attribute]
 			#set var_attribute [::sxml::xmlreplace [string map [list "${custom}_" ""] $attribute ]]
 			#set var_value [::sxml::xmlreplace $emotions($attribute)]
@@ -1550,6 +1556,28 @@ proc create_dir {path} {
    }
 }
 #///////////////////////////////////////////////////////////////////////
+
+proc PathAbsToRel { path } {
+	global HOME
+
+	#Convert absolute path to a relative path
+	if { [string length $path] > [string length $HOME] && [string equal -length [string length $HOME] $HOME $path] && [string index $path [string length $HOME]] == "/"} {
+		set path "~[string range $path [string length $HOME] end]"
+	}
+
+	return $path
+}
+
+proc PathRelToAbs { path } {
+	global HOME
+	
+	#Expand relative path to an absolute path again
+	if { [string index $path 0] == "~" } {
+		set path "$HOME[string range $path 1 end]"
+	}
+	
+	return $path
+}
 
 if { $initialize_amsn == 1 } {
 	###############################################################

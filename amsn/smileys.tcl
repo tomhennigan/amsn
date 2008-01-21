@@ -196,9 +196,8 @@ namespace eval ::smiley {
 			set emotion($field_sort) [string trim $sdata($field)]
 		}
 
-
 		#Create the image now and store it   ;# $emotion(name) is unique as we store the emoticon in the array under this name (cfr infra)
-		if { [catch { image create photo emoticonCustom_std_$emotion(text) -file $emotion(file) -format cximage } emotion(image_name) ] } {
+		if { [catch { image create photo emoticonCustom_std_$emotion(text) -file [PathRelToAbs $emotion(file)] -format cximage } emotion(image_name) ] } {
 			status_log "Error when creating image for emoticon $emotion(name) : $emotion(image_name)"
 			#Error when creating smiley's image so we don't add it
 			return 0
@@ -319,7 +318,7 @@ namespace eval ::smiley {
 						set sound $emotion(sound)
 					} else { set sound "" }
 					set image_name $emotion(image_name)
-					set image_file $emotion(file)
+					set image_file [PathRelToAbs $emotion(file)]
 					
 					
 					array unset emotion
@@ -564,7 +563,7 @@ namespace eval ::smiley {
 						set sound ""
 					}
 					set image_name $emotion(image_name)
-					set image_file $emotion(file)
+					set image_file [PathRelToAbs $emotion(file)]
 		
 		
 					array unset emotion
@@ -745,7 +744,7 @@ namespace eval ::smiley {
 			set animated [expr {$emotion(animated) && [::config::getKey animatedsmileys 0]}]
 			
 			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
-				$emot_num $name [lindex $emotion(text) 0] $emotion(preview) $emotion(file) $animated
+				$emot_num $name [lindex $emotion(text) 0] $emotion(preview) [PathRelToAbs $emotion(file)] $animated
 	
 			incr emot_num
 		}
@@ -1338,7 +1337,7 @@ proc process_custom_smileys_SB { txt {animated 0} } {
 		foreach symbol [encoding convertto identity $emotion(text)] {
 			set symbol2 [string toupper $symbol]
 		
-			set file $emotion(file)
+			set file [PathRelToAbs $emotion(file)]
 			if { ($animated && ([ info exists emotion(animated) ] && [ is_true $emotion(animated) ])) ||
 			     (!$animated && (! [ info exists emotion(animated) ] || ! [ is_true $emotion(animated) ]))} {
 				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)] } {
