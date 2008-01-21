@@ -230,6 +230,7 @@ snit::widgetadaptor loginscreen {
 		bind $user_field <KeyRelease> "$self UsernameEdited"
 		# Bind <Return> on password field to submit login form
 		bind $pass_field <Return> "$self LoginFormSubmitted"
+		bind $pass_field <KP_Enter> "$self LoginFormSubmitted"
 		# Make checkbutton labels clickable
 		contentmanager bind login_screen main checkboxes rem_me label <ButtonPress-1> "$rem_me_field invoke"
 		contentmanager bind login_screen main checkboxes rem_pass label <ButtonPress-1> "$rem_pass_field invoke"
