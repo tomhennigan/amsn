@@ -30,23 +30,20 @@ int createPacketData(
 {
     int err = OK;
     int blockSize;
-    INT64 size = 0;
+    INT64 allocatedSize = 0;
 
     /*TODO: /!\ We only use gorilla compression for the moment */
 
     blockSize = getBlockSize(nPoints, arr);
     LOG(stdout,"BLOCK_SIZE = %d\n", blockSize);
 
-    /* 1 : one bytes specfiying the encoding used ( and block size for Gorilla)
+    /* 1 : one bytes specifying the encoding used ( and block size for Gorilla)
      * + number of bytes (blocksize is in bits) needed to put all the points
      */
-    size = 1 + ((nPoints*blockSize) >> 3);
-    /* Adjust the size of the payload */
-    if (nPoints*blockSize & 0X7)
-        size++;
+    allocatedSize = 1 + ((nPoints*blockSize+7) >> 3);
 
 
-    err = createPayload(&((*lastPayload_ptr)->next), size, NULL);
+    err = createPayload(&((*lastPayload_ptr)->next), allocatedSize, NULL);
     if (err != OK) return err;
 
     *lastPayload_ptr = (*lastPayload_ptr)->next;
@@ -57,11 +54,14 @@ int createPacketData(
         /*TODO*/
         blockSize = 31;
 
-    (*lastPayload_ptr)->data[(*lastPayload_ptr)->cur_length++] = blockSize | GORILLA;
+    (*lastPayload_ptr)->data[(*lastPayload_ptr)->cur_length] = blockSize | GORILLA;
+    (*lastPayload_ptr)->cur_length++;
 
     encodeGorilla ((*lastPayload_ptr)->data+1, arr, nPoints, blockSize);
-    (*lastPayload_ptr)->cur_length = size;
-
+    /* that payload structure is filled up */
+    (*lastPayload_ptr)->cur_length = allocatedSize;
+    
+    /* increase the global payload size */
     *payloadSize += (*lastPayload_ptr)->cur_length;
 
     return err;
@@ -126,22 +126,23 @@ void encodeGorilla (
         int blockSize)
 {
     int i,
-        blockSizeTmp,
+        blockSizeTmp,/* size in bits of what remains to be encoded ofthe current int */
         mask,signMask,
-        bitsFree = 8;
-    INT64 iTmp;
+        bitsFree = 8;/* number of free bits (LSB) in the current byte */
+    INT64 iTmp;/* current integer being encoded */
 
     *uchar_arr = 0;
     signMask = 1 << (blockSize-1);
 
-    /*TODO: Algorithm : comments */
     for (i = 0; i < packetNumber; i++)
     {
         iTmp = int_arr[i];
+        /* apply the sign mask to encode it the right way */
         if(iTmp<0)
             iTmp |= signMask;
         
         blockSizeTmp = blockSize;
+
         if ( bitsFree  >= blockSize)
         {
             /* that int fits in the current char */
@@ -153,14 +154,16 @@ void encodeGorilla (
                 bitsFree = 8;
             }
         } else {
-            mask = 0XFFFFFFFF >> (32 - blockSizeTmp);
+            /* fill the current byte */
+            mask = 0xFFFFFFFF >> (32 - blockSizeTmp);
             *uchar_arr |= iTmp >> (blockSizeTmp - bitsFree);
             uchar_arr++;
             blockSizeTmp -= bitsFree;
             mask >>= bitsFree;
             iTmp &= mask;
-
-            while (blockSizeTmp >= 8)
+            
+            /* fill all the bytes we can */
+            while (blockSizeTmp > 8)
             {
                 blockSizeTmp -= 8;
                 *uchar_arr = iTmp >> blockSizeTmp;
@@ -168,6 +171,7 @@ void encodeGorilla (
                 iTmp &= mask;
                 uchar_arr++;
             }
+            /* new byte, put the last part of the int as MSB */
             bitsFree = 8 - blockSizeTmp;
             *uchar_arr = iTmp << bitsFree;
         }

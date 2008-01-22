@@ -391,17 +391,17 @@ int createTransform(transform_t ** pTransform)
 /*******************************************************************************
  * \brief Create a Stroke structure.
  * 
- * The X and Y field are allocated and can have #size elements.
+ * The X and Y field are allocated and can have #allocatedSize elements.
  * The Pressure field is not allocated.
  *
- * \param pStroke   pointer where we create the stroke structure.
- * \param size      number of points that can fit in that stroke.
- * \param next      pointer to the next stroke structure (Default is NULL).
- * \param drawAttrs pointer to the Drawing Attributes of that stroke
+ * \param pStroke       pointer where we create the stroke structure.
+ * \param allocatedSize number of points that can fit in that stroke.
+ * \param next          pointer to the next stroke structure (Default is NULL).
+ * \param drawAttrs     pointer to the Drawing Attributes of that stroke
  *
  * \returns the error code given while processing
  ******************************************************************************/
-int createStroke(stroke_t ** pStroke, INT64 size, stroke_t * next, 
+int createStroke(stroke_t ** pStroke, INT64 allocatedSize, stroke_t * next, 
         drawAttrs_t * drawAttrs)
 {
     int err = OK;
@@ -415,12 +415,12 @@ int createStroke(stroke_t ** pStroke, INT64 size, stroke_t * next,
         ptrS->P = NULL;
         ptrS->drawAttrs = drawAttrs;
         ptrS->nPoints = 0;
-        if (size)
-            ptrS->size = size;
+        if (allocatedSize)
+            ptrS->allocatedSize = allocatedSize;
         else
-            ptrS->size = DEFAULT_STROKE_SIZE;
+            ptrS->allocatedSize = DEFAULT_STROKE_SIZE;
 
-        ptrS->X = malloc (ptrS->size * sizeof(INT64));
+        ptrS->X = malloc (ptrS->allocatedSize * sizeof(INT64));
         if(!ptrS->X)
         {
             free(ptrS);
@@ -428,7 +428,7 @@ int createStroke(stroke_t ** pStroke, INT64 size, stroke_t * next,
             *pStroke = NULL;
             err = OUT_OF_MEMORY;
         }
-        ptrS->Y = malloc (ptrS->size * sizeof(INT64));
+        ptrS->Y = malloc (ptrS->allocatedSize * sizeof(INT64));
         if(!ptrS->Y)
         {
             free(ptrS->X);

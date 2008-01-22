@@ -151,8 +151,8 @@ typedef struct stroke
     INT64 xEnd;
     /** bottom coordinate used, not used while encoding */
     INT64 yEnd;
-    /** size of X and Y arrays (and P if P is allocated), not used while encoding  */
-    INT64 size;
+    /** size of X and Y arrays (and P if P is allocated) */
+    INT64 allocatedSize;
     /** pointer to the drawing attributes structure used to display that stroke */
     drawAttrs_t * drawAttrs;
     /** next stroke */
