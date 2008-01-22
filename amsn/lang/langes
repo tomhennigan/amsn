@@ -7,8 +7,8 @@ acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 account Cuenta
 actions Acciones
 activeautoupdate Activar actualización automática
-add Añadir
 addacontact Añadir un contacto
+add Añadir
 addedyou $1 ($2) le ha añadido a su lista de contactos
 addprofile Añadir un perfil
 addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
@@ -113,6 +113,7 @@ browser Navegador
 bugerror Lo sentimos, pero hubo un error conectando a la Base de Datos de Fallos. Por favor verifique su conexión a Internet.
 bugnocomment ¿Enviar sin un comentario?. Comentar un fallo nos ayuda a hacernos una idea de qué fue mal y así poder arreglarlo fácilmente.
 busy No disponible
+bytesymbol b
 cachedpics $1 imágenes para mostrar almacenadas
 cachedpicsfor Imágenes para mostrar almacenadas por
 cagreement Acuerdo de confidencialidad
@@ -335,6 +336,7 @@ enternick Introduce tu apodo
 enterpsm Mensaje personal
 error Error
 errortls Error instalando el módulo TLS:
+escapeclosescw La tecla Escape cierra las ventanas de chat
 eventhistory Ver historial de eventos
 examples Ejemplos
 exitamsn ¿Está seguro de que desea salir?
@@ -930,9 +932,9 @@ viewspace Ver elementos del espacio
 view Ver
 volume Volumen
 wanttosharecam Quiero que mi cámara web esté disponible para otros
+webcam Cámara web
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
-webcam Cámara web
 webcamconfigure Configurar cámara web
 webcamconfiguredLinux Has elegido la siguiente configuración:\nDispositivo de cámara web: $1\nCanal de cámara web: $2
 webcamconfiguredMac Tu cámara web ha sido configurada
