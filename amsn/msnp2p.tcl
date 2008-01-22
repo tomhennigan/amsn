@@ -1558,10 +1558,7 @@ namespace eval ::MSNP2P {
 			return
 		}
 
-		set MsgId [getObjOption $sid data_blob_id ""]
-		if {$MsgId == "" } {
-			set MsgId 0
-		}
+		set MsgId [getObjOption $sid data_blob_id 0]
 
 		# We can receive a NAK to our data being sent.
 		# When a packet is lost for some reason, we get a nak with the position
