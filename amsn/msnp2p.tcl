@@ -1604,7 +1604,7 @@ namespace eval ::MSNP2P {
 		}
 		if {$MsgId == 0 } {
 			set MsgId [lindex [SessionList get $sid] 0]			
-			getObjOption $sid data_blob_id $MsgId
+			setObjOption $sid data_blob_id $MsgId
 		}
 	}
 	
