@@ -1,19 +1,21 @@
 amsn_lang_version 2
-about Om
+abort Afbryd
 aboutamsn Om Alvaro's Messenger
+about Om
 accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
+account Konto
 actions Handlinger
 activeautoupdate Automatisk opdatering
-add Tilføj
 addacontact Tilføj en kontakt
 addedyou $1 ($2) har tilføjet dig til hans/hendes kontaktliste
-addprofile Tilføj ny profil
 addprofiledesc Skriv det login-navn som du vil lave en ny profil til.\nProfilerede logins tillader dig at have forskellige konfigurationer for hvert login.\nUden profiler kan du ikke anvende "Historie"-, Alarm- eller "Husk adgangskode"-funktionerne.
+addprofile Tilføj ny profil
 addstate Tilføj ny status
-addto Tilføj til $1
+add Tilføj
 addtocontacts Tilføj til kontaktliste
 addtoo Tilføj denne person til min kontaktliste
+addto Tilføj til $1
 admincontacts Admin kontakter
 admingroups Admin grupper
 advanced Avanceret
@@ -24,18 +26,20 @@ alarmonconnect Aktivér alarm når en bruger kommer online
 alarmondisconnect Aktivér alarm når en bruger bliver offline/usynlig
 alarmonmsg Aktivér alarm når en bruger sender dig en meddelelse
 alarmonstatus Aktivér alarm når en bruger ændrer status
+alarmpref2 Alarminstillinger for hver kontakt
 alarmpref Alarminstillinger for bruger
 alarms Alarmer
 alarmstatus Slå Alarm TIL/FRA for denne bruger
 allfiles Alle Filer
 allmonths Alle måneder
-allow_sms Tillad personer a kontakte mig på MSN Mobil
 allowallbutbl Tillad alle brugere, bortset fra dem på min Blokeringsliste, at kontakte mig
 allowbadwords Fjern censurering på kaldenavne
 allowlist Tillad-Liste (TL):
 allowonlyinal Tillad kun brugere fra min Acceptér-Liste at kontakte mig
 allowseen Tillad denne person at se når jeg er online
+allow_sms Tillad personer a kontakte mig på MSN Mobil
 allprofilesinuse Alle eksisterende profiler er i brug
+always Altid
 animatedemoticon Dette humørikon er animeret
 animatedsmileys Anvend animerede smileys
 animatenotify Animeret Beskedvindue
@@ -43,23 +47,37 @@ appearance Udseende
 appearoff Vis som offline
 areacode Områdenummer
 aretyping $1 skriver en besked
+askcam Bed om at modtage webcam
 askcontactwebcam Spørger om at se din kontakt's webcam, eller 
 askeachtime Spørger hver gang
 asksendingyourwebcam Spørger om at se dit webcam
+asksendoim Vil du sende denne besked som en offline besked?
 askwebcam Inveter til webcam samtale
+assistantainput Vælg din input enhed og forsøg at optage med det.
+assistantaoutput Vælg din output enhed og forsøg at afspille denne fil for at teste enheden.
+assistantawarn Du vil ikke have mulighed for at optage dig selv eller tale med dine venner. Du kan finde svar på hvordan du installerer denne udvidelse på vores Wiki:
+assistantfinetunepic Ændrer de følgende indstillinger for at justere billedkvaliteten på dit webcam
+assistantselectcam Vælg dit webcam fra listen
+assistantstarting Starter guiden
+assistanttitle Lyd- og Videoassistent
+assistantwelcome Denne guide vil hjælpe dig gennem opsætningen af din lyd- og videoindstilinger for aMSN. \n\nDen vil checke om de nødvendige udvidelser eksisterer og er loadet, og du vil have mulighed for at vælge enheden og kanalen, ændre billedindstillinger og opløsning.
+audioconfigured Du valgte de følgelde lydindstillinger:\n Output enhed: $1\nInput enhed:$2
+audiovideo Lyd og Video indstillinger
 author Forfatter
 autoaccepted Fil-overførsel automatisk acceptéret
 autoacceptft Acceptér fil-overførsels-forespørgelser automatisk
 autoaway Vis mig som "Ikke til stede" når jeg har været inaktiv i
 autocheckver Tjek automatisk efter nye versioner ved opstart
-autoconnect Log på ved start
 autoconnect2 automatisk log på når aMSN startes
+autoconnect Log på ved start
 autodetectip Detektér automatisk IP-adresse
 autohotmaillog Hotmail autologin
 autoidle Automatisk Inaktiv
 autoip Automatisk IP
+autolisten_voiceclips Automatisk afspil lydklip ved modtagelse
 automessage AutoBesked
 autonoact Vis mig som "Ikke aktiv" når jeg har været inaktiv i
+autoresizedp Automatisk ændre display billede til standard størrelse
 avaccepted Anmodning om videokonference accepteret
 avcanceled Anmodning om videokonference anulleret
 avgotinvitation Anmodning om videokonference modtaget fra $1
@@ -68,6 +86,7 @@ avoidseen Undlad at denne person kan se, når jeg er online
 away Ikke til stede
 awaymsg1 Spørg efter "Ikke til stede" besked hver gang jeg ændrer min status til Ikke til stede/Er straks tilbage/Optaget
 awaymsg2 Spørg ikke og anvend altid beskeden nedenfor
+back Tilbage
 baduserpass Forkert brugernavn eller password
 badwebcam Kan ikke vise webcamet's billed. Hver sikker på dit webcam er sat til og installeret.
 bgcolor Ændre aMSN's baggrundsfarve
@@ -82,6 +101,8 @@ blockinter3 hver gang der er gået
 blockinter4 sekunder.
 blocklist Blokerings-Liste (BL):
 blockmessage Disse personer er online og har blokeret dig
+blocknotifications Slå visning af besked vinduer fra
+blocksounds Slå lyde fra
 blockusers Antal brugere der skal tjekkes af gangen
 bouncedock Afvis aMSN's ikon i bjælen når en besked modtages
 brightness Lysstyrke
@@ -90,40 +111,53 @@ browse Gennemse
 browser Browser
 browserexample ($url bliver udskiftet med en URL). F.eks.: mozilla $url
 bugerror Undskyld, men der var et problem ved forbindelsen til fejl databasen. Undersøg din internet forbindelse.
+bugnocomment Send uden kommentar? Kommentarer på bugs hjælper us med at finde ud af, hvad der gik galt, så fejlen kan blive rettet hurtigere.
 busy Travlt
+bytesymbol B
 cachedpics $1 gemte billeder
+cachedpicsfor Gemte display billeder for brugeren
 cagreement Fortrolig med Aftalen
 cancel Annuller
+cancelled Afbrudt
 cannotdeleteprofile Kan ikke slette profilen da det ser ud til, at profilen er i brug af en aMSN session
 cantexec Kan ikke køre applikationen: $1. Tjek præferencer
+cantget Kunne ikke hente $1
 cantloadonlineversion Kan ikke genoprette den On-Line opdateret liste af sprog fra Internettet
 cantremoveothers Kan ikke fjerne "Andre"-gruppen
-captureproperties Webcam billed ejendom
 captureextloaded Capture udvidelse -$1- is indlæst
 captureextnotloaded Capture udvidelse -$1- er ikke indlæst, du skal kompilere den først
+captureproperties Webcam billed ejendom
+capturewarn Du vil ikke have mulighed for at sende fra dit webcam, hvis du har et. Hvis ikke er dette normalt. Du kan finde svar på hvordan du installerer denne udvidelse på vores Wiki:
 casesensitive Brug case-følsomme tjek
-cfgalarm Konfigurer/Tilføj/Fjern Alarm
 cfgalarmall Konfigurer/Tilføj/Fjern Global Alarm
-change Redigér
+cfgalarm Konfigurer/Tilføj/Fjern Alarm
+change_account_info Ændre konto informationer
 changecustomstate Skift til
 changedisplaypic Vælg Display-billede
 changefont Skift skrifttype
 changeglobnick Skift globalt kaldenavn
+change_mobile Ændre mobilindstillinger
 changenick Skift kaldenavn
+change Redigér
 changesize Skift størrelse
 changestate $1 skifter status til $2
+changestatus Ændre status
 changevideosettings Redigér video indstillinger
 channels Kanneler
 charscounter Optælling af antal skrevne tegn i chatvinduet
-chat Chat
 chatack Accepterer chat fra
+chat Chat
 chatmaxmin Når en kontakt åbner en chat med mig, så skal det være:
 chatreq Forespørg chat
-chatsmileys Chat smileys
 chatsmileys2 Vis grafik (humørikoner) i onlinemeddelelser
+chatsmileys Chat smileys
 checkblocking Tjek fortsat om brugere blokerer dig
 checkemail Vis mailoplysning (inbox) i kontaktlisten
 checkfilman Modtagne filer vil blive gemt i $1. Kontrollér filoverførsels-indstillingerne i egenskaber-vinduet.
+checkingaudio Checker om lyd udvidelse (Snack) er loadet ...
+checkingcam Checker om webcam er tilsluttet ...
+checkingcapext Checker om '$1' udvidelse er loadet ...
+checkingextensions Checker for påkrævede video udvidelser
 checkingver Tjekker for ny version
 checkonfln Tjek om en bruger bare har blokeret dig, når han/hun går offline
 checkopenfilecommand Vér venlig at kontrollere åben fil kommandoen i egenskaber
@@ -135,12 +169,16 @@ choosechannel Vælg en kannel
 choosecontact Vælg venligst en kontakt fra listen
 choosedevice Vælg en driver
 choosefontcolor Vælg skrifttypefarve
+chooseinputdev Vælg din input enhed
+chooselocation Vælg ny filplacering
+choosemixerdev Vælg din mixer
+chooseoutputdev Vælg din output enhed
 chooseskin Vælg det skin du vil bruge
 ch_to_state Skift til ny status
-clear Ryd
-clearlog Ryd log
 clearlog2 Tøm historien for alle dine kontaktpersoner
 clearlog3 Tøm alle log-filer
+clearlog Ryd log
+clear Ryd
 clearwebcamlogs Tøm alle webcam log-filer
 clickhere Klik Her
 clicktoadd Klik på tilfør for at tilføre en ny note
@@ -149,45 +187,57 @@ clientcaps Send x-klientcaps pakker til andre klienter
 clientname Klientnavn
 closeall Luk alle faneblade i chat vinduet?
 closealltabs Luk alle faneblade
-closelabel Når du klikker på luk knappen i et faneblad chat vindue
-closeonly Luk kun den aktuelle faneblad
-close Luk
+closechatwindows Luk alle samtaler før log ud?
 closed Samtalen med $1 er lukket pga. inaktivitet
+closelabel Når du klikker på luk knappen i et faneblad chat vindue
+close Luk
+closeonly Luk kun den aktuelle faneblad
+closeordock At lukke kontaktlisten vil afslutte aMSN. Måske mente du bare at du ville lukke kontaktlisten og lade aMSN være åbent i docken.\n\nEr du sikker på at du vil afslutte aMSN?
+closeothers Luk alle andre tabs
 closingdocks Luk-knap minimerer vinduet
 color Farve
 command Kommando
 commandstatus Eksekver kommando
 configure Konfigurér
-confirm Er du sikker?
+configuremic Konfigurer din mikrofon
+configureplugin Konfigurer plugin $1
+configuringaudio Konfigurer lydindstillinger
 confirmbl Er du sikker på du ønsker at blokere denne person?
 confirmdelete Er du sikker på at du vil slette $1?
 confirmdg Er du sikker på du ønsker at slette denne gruppe?
 confirmdu Er du sikker på du ønsker at slette denne bruger?
 confirmeg Er du sikker på du ønsker at tømme denne gruppe?
+confirm Er du sikker?
 confirmpurge Alle gemte display-billeder fra andre kontakter (ikke dine egne display-billeder) vil blive slettet. Er du sikker?
 confirmrfl Er du sikker på du ønsker at slette denne bruger fra denne gruppe?
+congrats Tillykke
 connected Du er nu tilsluttet
 connectedwith Forbundet med $1
 connecterror Kunne ikke få forbindelse til server
+connectfirst Venligst tilslut først
 connecting Tilslutter
 connection Forbindelse
 connectionlost Frakoblet: Forbindelsen med serveren er lukket
-contact Kontakt
 contactadded Kontakt tilføjet
 contactdoesnotexist Kontakt eksisterer ikke!
+contact Kontakt
 contactlist Kontakt-Liste (KL):
+contacts Kontakter
 continuously Fortsat
 contrast Kontrast
 conversationwith $1 personer i samtalen
 convertexplain Stien til CONVERT-filen, fra ImageMagick (påkrævet til Display-billeder).\n Lad feltet være blankt hvis CONVERT findes i din alm. sti
 copy Kopier
+copytoclipboard Kopier $1 til udklipsholderen
 copytogroup Kopier til gruppe
 corruptconfig Fejl i konfigurationsfilen. Laver en ny fil. Den gamle fil vil blive gemt i $1. Send den venligst til os så vi kan finde ud af, hvad der er sket.
 corruptstates Fejl i dine brugerdefinerede status. Laver en ny. Den gamle fil vil blive gemt i $1. Send den venligst til os så vi kan finde ud af, hvad der er sket.
+couldnotrename Kunne ikke omdøbe filen $1
 countrycode Min Lande-/Regions-kode
 cprofile Opret profil
 created Opret
 credits Credits
+curdisplaypic Nuværende display billede
 currentdate Nuværende Dato
 currentlanguage Det aktuelle sprog
 currentnotes nuvérende noter
@@ -196,29 +246,33 @@ custnotifyoffline Vis beskedvindue når denne kontakt går offline
 custnotifyonline Vis beskedvindue når denne kontakt går online
 custnotifystatus Vis beskedvindue når denne kontakt ændrer status
 customcolor Brugerdefineret farve
+customdp Custom Display billede
 custom_edit Redigér brugerdefineret smiley
 custom_new Tilføj ny brugerdefineret smiley
 customnick Brugerdefineret kaldenavn
+customsmileys Vis andre brugeres custom emoticons
 customstyle Brugervalgt stil
-cut Klip
-cutimagebox Vælg den part af billedet du vil bruge, trakke og flytte boksen
+custshowcustomsmileys Vis brugers custom emoticons
 cutimageboxreset Gendan valgte boks\nstørrelse til:
+cutimagebox Vælg den part af billedet du vil bruge, trakke og flytte boksen
+cut Klip
 date Dato
 dateformat Skift datoformat
 day Dag
 days Dage
 dcprofile Opret ikke profil
-default Oprindelig konfiguration
 default2 Oprindelig
 defaultloginradio Log ind med standard konfiguration
+default Oprindelig konfiguration
 defchatwinsize Standardstørrelse for chatvinduer (XSTØRRELSExYSTØRRELSE)
-delete Slet
 deleteall Slet alle
+deleteblock Slet og blokér
 deletecustomstate Slet brugerdefineret status
+delete Slet
 delimiters Afstandstegn:
 deliverfail Der var et problem med at levere følgende besked
-delprofile Slet profil
 delprofile2 Vælg den profil du vil have fjernet
+delprofile Slet profil
 description Beskrivelse
 detach løsgør
 details Detaljer
@@ -235,6 +289,8 @@ displaychat Visningstekst instillinger
 displayeventconnect Vis når kontakter går online
 displayeventdisconnect Vis når kontakter går offline
 displayeventemail Vis når en e-mail modtages
+displayeventnick Vis når kontakter skifter kaldenavn
+displayeventpsm Vis når kontakter skifter personlig besked
 displayeventstate Vis når kontakter skifter status
 displayp4context Vis P4-Kontekstfelt-indhold som beskedsender
 displaypic Vis Billede
@@ -243,70 +299,93 @@ dockgtk Gnome Minimer
 docking Minimer
 dockingoff Minimer Ikke
 dockkde KDE Minimer
-done Férdig
+done Færdig
+dontaskweek Spørg ikke om at opdatere igen før om en uge
 dontdownload Download ikke TLS, jeg installerer det selv
+dontshowdp Lad ikke denne bruger downloade dine nye display billeder
 dontshow Vis ikke
+downloadcanceled Download annulleret.
 download Hent
-downloadingtls Downloader TLS-modulet fra:\n $1
-edit Rediger
+downloadingtls Henter TLS-modulet fra:\n $1
+downloadingwait Henter ny aMSN version. Vent venligst...
+editavsettings Rediger lyd- og videoindstillinger
 editcontent Rediger indholdet i emne feltet og note feltet
 editcustomstate Redigér brugerdefineret status
+editmyprofile Rediger min MSN-profil
 editnewstate Ny Personlig Auto-besked-Status
 editprofile Rediger profil
+edit Rediger
 editstate Redigér Eksisterende Auto-besked-Status
 editvalue Redigér værdi
 email E-mail
 emailsinlist Vis emails i stedet for kaldenavn i kontaktlisten
-emotisounds Afspil lyde for bestemte humørikoner
 emoticon_steal Tilføj humørikon
+emotisounds Afspil lyde for bestemte humørikoner
 emptygroup Tøm gruppen
 enablebanner Vis aMSN's banner (Kræver at aMSN genstartes)
 enabled Aktiveret
 enableproxy Tilslut proxy
 enableremote Gør fjernkontrol mulig
 enablesound Afspil lyd
-encoding Vælg kodning
 encoding2 Vælg måden hvorpå dine tegn er kodet
+encoding Vælg kodning
+enterbugdesc Skriv en beskrivelse om hvad du gør for at hjélpe os reproducere fejlne:
 entercontactemail Skriv kontakt E-mail
 enterfilename Skriv filnavnet
 enternick Skriv dit kaldenavn
-enterbugdesc Skriv en beskrivelse om hvad du gør for at hjélpe os reproducere fejlne:
 enterpsm Skriv en personlig meddelse
+error Fejl
 errortls Fejl ved installation af TLS-modul:
+escapeclosescw Escapetast lukker chat vinduer
 eventhistory Vis historikken over begivenheder
 examples Eksempler
 exitamsn Er du sikker på, at du vil afslutte?
 extras Ekstra Services
-failed Fejl
 faileddelete Kunne ikke slette
 faileddeleteperso Dette billede kan ikke slettes, fordi det ikke er en personlig billedfil. Kun billeder, der tilhører din personlige profil, kan slettes på denne måde.
+failed Fejl
 faq OSS (Ofte Stillede Spørgsmål)
-file Fil
+fetching Henter data...
 filedoesnotexist Filen eksisterer ikke
-fileman Filhåndtering
+file Fil
 filemanexample ( \$location vil blive erstattet med biblioteket ) Eks: nautilus \$location
+fileman Filhåndtering
 filename Filnavn
 filenotwritable Denne fil kan ikke slettes
-filetransfer Filoverførsel
 filetransfercancelled Filoverførsel annulleret
 filetransfercomplete Filoverførsel fuldført
+filetransfer Filoverførsel
 filters Filtre
 filtersselect Vælg de filtre du ønsker at se\n(Bemærk hvis ingen valgt, vises alle)
 filtersx Filterudvælgelse
+findasyoutype Find mens du skriver
+find Find
+findnext Find næste
+findprev Find forrige
+finetunesettings Finjuster billedindstililnger
+finish2apply Tryk afslut for at bruge disse indstilinger.
+finish Afslut
+firewalled2 Du er bag en firewall. Check venligst dine forbindelsesindstillinger i indstillinger vinduet
 firewalled Du er bag en firewalled router
 followtext Rul ned når der er indtastet ny tekst
+forget_me Glem mig
+forgot_pass Jeg har glemt mit password
+formatcsv CSV format
+formatctt CTT format
 friendlyname Vennenavn
-ftaccepted Filoverførsel accepteret
 ftacceptedby $1 acceptérer filoverførsels-tilbud på filen '$2'.
+ftaccepted Filoverførsel accepteret
 ftaccepting Acceptérer filoverførsels-tilbud
 ftautoclose Luk vinduet når filoverførslen er færdig
 ftconnecterror Fejl ved tilslutning til fjern-computer
 ftconnecting Tilslutter til $1 port $2
 ftconnectionlost Forbindelsen til fjern-computeren er mistet
 ftgotinvitation $1 ønsker at sende dig filen '$2' ($3 bytes). Den vil blive gemt i biblioteket $4. Ønsker du at modtage denne fil?
+ftportpref2 Starter port for direkte forbindelser (nødvendigt for filoverførsler og webcam)
 ftportpref Starter porten til filoverførsler
-ftrejected Filoverførsel afvist
+ftporttest Test port
 ftrejectedby $1 har afvist filoverførsels-tilbuddet på filen '$2'.
+ftrejected Filoverførsel afvist
 ftsendinvitation Filoverførsels-tilbud på filen '$2' ($3 bytes) er blevet sendt til $1.
 fullcontactlist Desværre, din kontaktliste er fuld. Du er nødt til at fjerne nogle kontakter for at kunne tilføje nogle nye.
 getdisppic Modtag gerne Display-billeder fra andre brugere
@@ -316,12 +395,17 @@ globalcontainer Global container
 globalnick Indsæt en skabelon til at danne alle dine kontakters kaldenavne. Du kan bruge disse variabler:\$user_login for dine kontakters addresse, \$nick for dine kontakters kaldenavn og \$customnick for dine kontakters brugervalgte kaldenavn. For eksempel: '\$user_login er \$nick' vil være 'contact@msn.com er kontakt'
 globalnicktitle Globalt kaldenavn
 globaloverride Globale kaldenavnes format bør overskrive brugervalgte kaldenavne
-gotink $1 send dig et ink.
 gonelunch Til frokost
-group Gruppe
+gotink $1 send dig et ink.
+goto Gå til $1
+gotoinbox Gå til Inbox
+goto_prefs_removeprofile Click her for at gå til indstillinger og slette din profil
 groupadd Tilføj en gruppe
+groupcontactsbystatus Gruppér kontakter efter status
+groupcontacts Gruppér kontakter
 groupdelete Slet en gruppe
 groupexists Gruppen eksisterer allerede
+group Gruppe
 groupmissing Kan ikke finde gruppen
 groupnewname Nyt navn
 groupnotempty Gruppen er ikke tom!
@@ -330,29 +414,36 @@ grouprename Omdøb en gruppe
 groups Grupper
 groupunknown Ukendt gruppe
 handle Kaldenavn
-help Hjælp
+havenomic Jeg har ingen mikrofon
 helpcontents Indhold i Hjælp
+help Hjælp
+hidebuttonbar Skjul knapper
 hidedisplaypic Skjul Display-billede
+hidemenumessage Er du sikker på at du vil skjule menuerne?\nDu kan til enhver tid gendanne dem ved at bruge skjul/vis menu genvejen 'Ctrl-M'.
+hidemenu Vis/skjul menuer
 hiden Skjul humørikonerne fra smileys-menuen
 hidewindow Skjul Vindue
+history2 Historie
 history Vis Historien
 home Hjem
+howto_remove_profile For at slette din profil (glemme $1) skal du gøre dette fra indstillinger vinduet.\n\nAf sikkerhedshensyn er det ikke tilladt at slette profiler fra login skærmen.
 httpconnection Tilslut ved hjælp af HTTP-metode (bruger HTTP-protokol over port 80)
 hue Farve
 huge Kæmpe
 hybrid Hybrid-modus
 ident Identificerer
 identity Identitet
-ignore Ignorer
+ignorecontact Ignorér samtaler fra kontakten
 ignoreerrors Ignorer andre aMSN fejl indtil slutningen af sessionen
+ignore Ignorer
 imagefiles Billedfiler
 inbox Indbakke
 insertsmiley Indsæt humørikon
 inserttextnote Insæt teskt i emne feltet og noe feltet derfer klik på gem
 installconvert Du skal have ImageMagick (konverteringsprogram) installeret for at kunne anvende Buddy-Ikoner og Brugerdefinerede Humørikoner. Du kan downloade programmet til dit operativsystem ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Hvis du allerede har det installeret, så er dette en programfejl, rapportér det venligst. Disse specifikke muligheder vil derfor IKKE blive anvendt, men hvis du senere installerer ImageMagick, så slå disse muligheder til igen under Præferencer.
 internalerror Intern Server-Fejl
-invalidfile Filen $2, der er indtastet i feltet "$1", eksisterer ikke eller er ikke læselig
 invalidfile2 Filnavnet $1 kunne ikke oprettes, tjek om du har de rigtige rettigheder til denne destination.
+invalidfile Filen $2, der er indtastet i feltet "$1", eksisterer ikke eller er ikke læselig
 invalidgroup Forkert gruppe
 invalidparameter Fejl ved forbindelsen til serveren: ugyldig parameter
 invalidpic Den givne billedfil eksisterer ikke
@@ -368,18 +459,21 @@ istyping $1 skriver en besked
 joins $1 tilslutter sig samtalen
 justonce Kun én gang
 keepalive Hold-i-live (NAT)
-keeplog Gem logs af chat
 keeplog2 Logger alle samtaler til aMSN's historie til senere visning
-language Sprog
+keeplog Gem logs af chat
 language_manager Sproghåndtering
+language Sprog
+large Stor
+largest Størst
 lastlogin Sidste Log-ind
 lastlogout Sidste Log-ud
 lastmsgedme Sidste Besked
 lastmsgtime Sidste besked blev modtaget klokken $1
 lastseen Sidste gang online
-large Stor
+lazypicretrieval Langsomme Display Billed oplysninger
 lclosedwin $1 har lukket vinduet på $2
 lconftopriv Mødet er lavet til privat chat med $1
+lconvstartedOIM Startede en offline Instant Messaging samtale på $1
 lconvstarted Samtale startet på $1
 leaveblankforhotmail Efterlad blank for at bruge hotmail web
 leavejoinsinchat Vis "forlader/tilslutter sig samtalen"-beskeder i chatvinduet
@@ -389,46 +483,55 @@ lineflushlog Opdatér logfiler efter hver linie
 linprivate PRIVAT
 listening Liste
 listeningon Lytter på port $1
-listsmileys Liste af smileys
 listsmileys2 Vis grafik (humørikoner) i aMSN's hovedkontaktliste
+listsmileys Liste af smileys
 ljoinedconf $1 har tilsluttet sig mødet
 lleftconf $1 har forladt mødet
-load Hent
 loadcontacts Hent kontaktliste
+load Hent
+loadotherdisplaypic Loader DB'er fra $1, vent venligst...
 logbigger Logfilstørrelser for hver kontakt overskrides aldrig
 logeventconnect Log forbindelserne
 logeventdisconnect Log afbrydelserne
 logeventemail Log når en e-mail modtages
+logeventnick Log ændringer af kaldenavne
+logeventpsm Log ændringer af personlige beskeder
 logeventstate Log ændringerne i status
 logfandexp Log Filstørrelser og historie overskridelse
 loggedotherlocation Afbrudt. Logget ind fra andet sted
 loggingin Logger Ind
-login Log Ind
 loginas Log ind som
 loging Logging
+login Log Ind
 logolder Kun log chats der har fundet sted på det sidste
 logout Log Ud
+logoutwincloselabel Luk alle samtaler ved log ud
 logsbydate Sortér logfiler efter dato ("Vis historie" indlæses meget hurtigere)
+logschats Gemmer chats
 logsin er lige logget ind
 logsmileys Vis grafik (humørikoner) i aMSN's historie-vinduer
 logsout har lige logget ud
 logwebcam Gem alle webcam samtaler i aMSN's historik for fremtidede kig
 longnick Dit kaldenavn er længere end 130 tegn. Dette er ikke officielt understøttet af MSN-protokollen. Er du sikker på, at du vil anvende navnet?
 longp4c Dit Vennenavn er længere end 130 tegn. Det Vennenavn, der vil fremstå på den officielle MSN-klient, vil være $1. Er du sikker på, at du vil anvende navnet?
+longpsm Din personlige meddelelse er for lang. Dette er ikke officielt understøttet af MSN protokollen. Er du sikker på, du vil bruge den?
+lowrescam Brug et webcam med lav opløsning
 lprivtoconf Privat chat er lavet til et møde med $1
 luclosedwin Du har lukket vinduet på $1
-lazypicretrieval Langsomme Display Billed oplysninger
-mailer Mailer
 mailerexample ( \$recipient = Modtager ) Efterlad tom for at anvende Hotmail
+mailer Mailer
 maintenance Serveren afbrydes for vedligeholdelse om $1 minuter
 maximised Maksimeret
+medium Medium
 minimised Minimeret
+minimize Minimér til dock
 mins minutter
-mobile Mobil
 mobilegrp1 Mobil grouppe
 mobilegrp2 Put personer i "Mobil" groppen når de er offline (og sorter efter status)
+mobile Mobil
 modified Ændret
 month Måned
+more Mere
 morepersonal Flere Status ->
 move Flyt
 movetogroup Flyt til gruppe
@@ -437,6 +540,7 @@ msgflicker Blink med chatvinduets titel-linie når nye meddelelser modtages i et 
 msgmaxmin Når en ny meddelelse modtages vil jeg have den til at være :
 msgmode Vælg hvordan flerfoldige meddelelsesvinduer skal håndteres :
 msn aMSN
+msnstatus MSN Network Status
 msnstyle MSN chatstil
 mustrestart Du skal genstarte programmet for at ændringerne træder i kraft
 myfriendlyname Mit navn blandt venner
@@ -444,6 +548,7 @@ myhomephone Min hjemmetelefon
 mymobilephone Min mobiltelefon
 mynick Mit kaldenavn
 mypic Mit Display-billede
+mypics Mine display billeder
 mystatus Min status
 myworkphone Min arbejdstelefon
 name Navn
@@ -452,6 +557,8 @@ natkeepalive Vælg denne KeepAlive, hvis du ofte bliver logget af
 needonline Du er/foregiver stadig at være offline!
 needwinico2 Har brug for winico05.dll i utils/windows biblioteket for at Windows kan opbevare programmet i systembakken
 never Aldrig
+new_account Opret konto
+newchat Ny Chat
 new_ft_protocol Brug ny FTP-protokol (fortsat enkelte bugs)
 newline Ny linje
 newmail $1 nye beskeder i Indbakken
@@ -459,35 +566,46 @@ newmailfolder Du har $1 nye beskeder i andre Hotmail biblioteker
 newmailfrom Ny mail fra $1 ($2)
 newmailfromother Ny post i andre biblioteker fra $1 ($2)
 newmsg Ny besked
+newoim Nye Offline beskeder
 newstate Tilføj brugerdefineret status
 newtabbedfeature aMSN har fået en ny funktion, du kan nu tale med alle i din kontakt list eller gruppe i et faneblad vindue. vær venlig a vælge hvordan aMSN skal håndtere dine samtaler
+newupdate Nye opdateringer tilgængelige til aMSN
 newveravailable Det er nu muligt at download den nye version $1
 next Næste
+nickchanged $1 ændrede sit kaldenavn til '$2'
 nick Kaldenavn
-no Nej
 noactivity Ingen aktivitet
+nocacheddps Ingen display billeder i cachen for denne bruger
+nocamwarn Intet webcam blev fundet eller dit webcam er allerede i brug af et andet program (hvilket betyder at det ikke kan bruges af aMSN). Du kan finde hjælp til at løse dette problem på vores Wiki:
 nodataavailable Ingen ledig data til $1
 nodevices Du har ikke driverne installeret
+noftpreview Slå preview af afsendte billeder fra ved filoverførsel
 nogap Ingen mellemrum mellem grupper
 nogroup Ingen gruppe
 nologfile Der er ingen logfil for $1
+nomic Ingen mikrofon
 noneavailable Ingen ledige
+no Nej
 nonewmail Ingen nye meddelelser i Indboksen
 nonewver Der er ingen nye versioner at downloade
 nopic Intet billede
 noprofileexists Der er ingen profiler, \n du skal lave én, hvis du ønsker at anvende profilerede logins. \nBrug Tilføj Ny Profil-knappen i dette vindue for at tilføje en ny profil.
+noresizesmileys Nedskaler ikke indkommende brugerdefinerede smileys
 normal Normal
 noskins Kunne ikke finde et standard-skin i mappen skins/. aMSN kan ikke startes
+nosound Der blev ikke opdaget nogen lyd. Vær sikker på at din mikrofon er korrekt sat til
+nosound_or_hold Der blev ikke opdaget nogen lyd. For at sende et Voice Clip skal du trykke på knappen og holde den nede mens du taler og slippe knappen for at sende beskeden.
+nospace Der er intet at se her
 nosystemtray Der er ingen system-bakke
 note Note
 notificationserver MSN Notifikationsserver (MSN Messenger Server)
-notify giv besked
-notify1 Vis en besked, når kontaktpersoner er online
 notify1_5 Vis en besked, når kontakter går offline
 notify1_75 Vis en besked, når kontakter ændrer status
+notify1 Vis en besked, når kontaktpersoner er online
 notify2 Vis en besked, når der modtages en onlinemeddelelse
 notify3 Vis en besked, når der modtages en email
 notify4 Vis beskedvindue når nye e-mails ankommer i andre biblioteker
+notify giv besked
 notifyoffset Koordinér positionen på popup-beskeder
 notifytimeout Antal milisekunder før beskedvinduet forsvinder
 notifytyping Send notifikationer til andre brugere, når du skriver
@@ -496,12 +614,14 @@ notinlist Du er ikke på hans/hendes kontaktliste
 notls MSN Protokol 9 kræver TLS-pakken. Denne pakke ser ikke ud til at være installeret på denne maskine. Hvis den er installeret, så skal stien til dennes bibliotek specificeres i Præferencer-vinduet (f.eks: /opt/tls/lib). \n \n Det er muligt at downloade TLS fra http://tls.sf.net .
 nottabbed Normal vinduer uden faneblad
 nousersinsession Ingen brugere i session
+nouserspecified Ingen bruger specifiseret
 nudge $1 anmoder om din opmærksomhed
 offline Offline
+oim Offline Messaging
 ok Ok
 onenewmail 1 ny besked i Indbakken
-online Online
 onlinehelp Online hjælp
+online Online
 onphone I telefon
 opendir åben mappe
 openfile åben
@@ -512,20 +632,29 @@ ordercontactsby Sorter kontakter efter
 ordergroupsby Sortér grupper efter
 original Oprindelig
 other Andre
+otherdisplaypic Andre display billeder af denne bruger (højre-click for flere muligheder)
+otherdps Andre display billeder
 others Andre
 p4contextprefix Præfiks P4-Kontekst-sendere med denne tekststreng
 pager Pager
 pass Adgangskode
 paste Sæt ind
+pausedwebcamreceive Webcammet er blevet pauset af den anden bruger
 pause Pause
+pausewebcamsend Paus webcammet
 personal Personlig
-phone Telefon
 phones Telefonnumre
+phone Telefon
 picbrowser Display-Billed-browser
 picfile Billedfil (GIF < 500 x 500)
 picstatus Billedalarm
 play Afspil
+playbackposition Afspilningsposition
+playbackspeed Afspilningshastighed (millisekunder mellem hver frame)
+playerror Der opstod en fejl under forsøget på at afspille lyden : $1
 playing Spiller: $1
+playtest Afspil testfilen
+playwebcamsend Genoptag webcammet
 pluginselector Vælg Plugins
 port Port
 portswellconfigured Dine porte er passene konfiguret
@@ -538,9 +667,10 @@ prefblock3 "Du er blevet blokeret af"-gruppe
 prefconnection Forbindelses-indstillinger
 prefemotic Animationer og Humørikoner
 preferences Egenskaber
-preffont Min beskedtekst
 preffont2 Ændre måden andre ser min tekst på i onlinemeddelelser
 preffont3 Ændre aMSN's skrifttyper og størrelser
+preffont4 Ændrer måden jeg ser andre folks tekst i chat sessions
+preffont Min beskedtekst
 prefft Filoverførsel, peer-to-peer og NAT-indstillinger
 preflibs Library-mapper
 preflog1 Mine historie- og logging-indstillinger
@@ -548,13 +678,13 @@ preflogevent Historikken over mine handlinger
 preflook Mit aMSN Messenger udseende
 prefmsging Mit Messenger Interface
 prefname Mit MSN Messenger navn/nick
-prefphone Mine telefonnumre
 prefphone2 Skriv de telefonnumre, som du vil have folk\npå din Godkend Liste til at kunne se\n
-prefprivacy Brugers Tillad/Blokerings-lister
+prefphone Mine telefonnumre
 prefprivacy2 Brugers Kontakt/Modsat-lister
-prefprofile Min offentlige profil
+prefprivacy Brugers Tillad/Blokerings-lister
 prefprofile2 Opret eller rette din offentlige profil\n(beskrivelsen af dig selv, som andre kan se)
 prefprofile3 aMSN's Bruger-konfigurations-profiler
+prefprofile Min offentlige profil
 prefproxy Mine proxy-indstillinger
 prefremote Fjerntilslutnings-Præferencer
 prefsession Min log-ind og status
@@ -568,81 +698,129 @@ profileinuse Denne profil er i brug af en anden aMSN-session, vælg venligst en a
 profileloginradio Log ind med en eksisterende profil
 profiles Profiler
 properties Indstillinger
-proxy Jeg befinder mig bag en Proxy Server (HTTP eller SOCKS5)
-proxyconf Proxy konfiguration
 proxyconfhttp HTTP proxy support konfiguration
+proxyconf Proxy konfiguration
 proxyconnection Jeg tilslutter mig til Internettet gennem en proxy-server:
+proxy Jeg befinder mig bag en Proxy Server (HTTP eller SOCKS5)
+psmatend Vis personlig besked ved siden af kaldenavn
+psmchanged $1 ændrede sin personlige besked til '$2'
+psmdontshow Vi ikke personlige beskeder medmindre andet er specifiseret i global/custom kaldenavn
+psmnewline Vis personlig besked under kaldenavn
+psm Personlig besked
+psmplace Hvor skal den personlige besked vises ?
 publishphones Vis mine telefonnumre
 purge Tøm
 pwcdriver Du bruger pwc driveren
+quit Afslut
 raised Hævet/de-ikoniseret
 readonlymsgbox Filoverførslen er annullæret, da modtager-biblioteket er skrivebeskyttet. Ret venligst rettighederne på dette bibliotek.
 readonlywarn ADVARSEL: Filen vil sandsynligvis IKKE blive gemt korrekt, da "Modtagne filer"-mappen ser ud til at være skrivebeskyttet. Sikr dig venligst at rettighederne på destinations-biblioteket ($1) er sat rigtigt, før du overfører filen.
 receivedbytes Modtaget $1 ud af $2 bytes
 receiveddir "Modtagne Filer"-mappe
+receivedoimread Du har $1 nye Offline Instant Messages. Vil du læse dem nu ?
+receivedvoice Modtaget Voice Clip
 receivefile Modtag fil
 recentmsg Forhindre lukning af chatvindue når en besked lige er ankommet
-reconnect Venter på at $1 genforbinder
 reconnect2 Forbind igen ved tabt forbindelse
 reconnecting Genforbinder til server
+reconnect Venter på at $1 genforbinder
+recorderror En fejl opstod ved forsøg på at optage lyden : $1
+record Optag
+recvwebcamaccepted $1 accepterede din invitation til at se hans/hendes webcam. Tilslutter...
 reject Afvis
+rememberaccount Husk min konto
 rememberpass Husk adgangskode
 remembersetting Husk denne indstilling
 removeempty Fjern tomme grupper fra kontaktlisten
+removefromgroup Fjern fra gruppen
 removefromlist Fjern fra listen
 rename Omdøb
-report Rapportere
 reporting Repporter
+report Rapportere
 required_version Kan ikke hente denne plugin. Den kræver, mindst, aMSN version $1
+resetincomingfont Reset skrifttype (brug skrifttype afsender vælger)
 restartforskin Note: Du skal genstarte aMSN for at se det nye skin ordenligt!
+retry Forsøg igen
 reversed Omvendt
 reverselist Omvendt-liste (OL):
 rightback Er straks tilbage
-save Gem
 saveas Gem som
 savechatwinsize Gem chatvindue-størrelse som standard, når størrelsen ændres
 savecontacts Gem kontaktliste
+saveddefaultloc Gem på standerd placering
+save Gem
+savelocationerror Filen kan ikke gemmes her.
+savelocation Vil du gemme filen i $1?
+saveotherdirectory Gem i en anden mappe
 savetofile Gem i fil
 says $1 siger
 sbcon Forbinder til Switch Board
+searchdown Søg nedad
+searchup Søg opad
 selectall Vælg alt
+selectcontact Vælg en kontakt
 selectplugins Vælg venligst de plugins du vil anvende
 selectskin Vælg venligst et skin fra listen
+sendcam Send Webcam
 sendemail Send min email addresse for at underrette mig om ændringer (se Fortrolig med Aftalen)
-send Send
-sendwebcaminvite Inviter til webcam samtale
+sendfeedback Send Feedback
 sendfile Send fil
 sendmail Send mail
 sendmobmsg $1 Send til Mobil
 sendmsg Send besked
+sendoim Send en offline besked
+send Send
+sendvoice Send et Voice Clip
+sendwebcamaccepted $1 accepterede din invitation til at sende dit webcam. Tilslutter...
+sendwebcaminvite Inviter til webcam samtale
 sentbytes Har sendt $1 ud af $2 bytes
-server Server
+sentvoice Sendte Voice Clip
 serverbusy Serveren er optaget
 servergoingdown Afbrudt. Server lukker ned.
+server Server
 serverunavailable Serveren kan ikke kontaktes
 session Session
+setasmydp Indstil som mit display billede
+setupcamfinetune Opsætter webcam enhed og fintuner billede
+setupcam Opsætter din webcam enhed
 shareswebcam Del webcam
 showbanner Vis aMSN's banner
 showblockedlist Vis liste over personer som har blokeret dig
 showcachedpics Vis gemte display-billeder
-showdisplaypic Vis Display-billede
+show_contactdps_in_cl Vis thumbnails af kontakters display billeder i kontaktlisten
+showcontactemail Vis kontakter med email
+showcontactnick Vis kontakter med kaldenavn
 showdisplaypic2 Vis automatisk Display-billede når et chatvindue åbnes
+showdisplaypic Vis Display-billede
+showlinksinlogin Vis links på login skærmen
+showmailicon Vis mail ikon docken når nye emails ankommer.
 showmypic Mit Display-billede
 shownotify Vis påmindelsesvindue når der sker noget
+showonedpframe Vis kun et Display-billede i chatvinduer
 showpicnotify Vis kontaktpersoners' billed i beskedvindue
 showuserpic $1's Display-billede
 signinstatus Login status
-skin Skin
 skinselector Vælg Skin
+skin Skin
+smallest Mindst
 small Lille
 smileconfig Brugerdefineret humørikon-konfiguration
 smilefile Smiley-filnavn
-smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
 smileintro2 Redigær venligst de krævede felter for at definere denne smiley (se OSSen for hjælp)
+smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
 smiletoobig Humørikonet du har valgt er større end normal størelse. Vil du gøre det mindre?
 snackfailed Snack kunne ikke hentes, går tilbage til standard
+snackneeded Snack biblioteket er nødvendigt for at bruge denne feature. En minimal version af 2.2.9 er nødvendig.
+snapshot Snapshot
 sngdblclick Enkeltklik for at åbne nyt beskedvindue
-sound Lyd
+sortcontactgroup Sortér kontakter efter gruppe
+sortcontacthybrid Sortér kontakter i hybrid mode
+sortcontactsasc Sortér kontakter stigende
+sortcontactsby Sortér kontakter efter
+sortcontactsdesc Sortér kontakter aftagende
+sortcontactstatus Sortér kontakter efter status
+sortgroupsasc Sortér grupper stigende
+sortgroupsdesc Sortér grupper aftagende
 sound2 Afspil lyde, når en kontaktperson logger på eller sender en meddelelse
 soundactive Afspil også lyde når der modtages nye beskeder i aktive vinduer
 soundcommand Dette skal være afspilningskommandoen (eksempel: esdplay)
@@ -650,35 +828,39 @@ soundexample ( \$sound = Lydfil der skal afspilles) Eks: esdplay \$sound
 soundfile Lydfil
 soundfiles Lydfiler
 soundloop Gentag Lyd
+sound Lyd
+soundnoavail Lydenheden er ikke tilgængelig. Stop venligst ethvert program, der bruger lydenheden.
 soundserver Lydserver
 soundstatus Lyd Alarm
 sourcecode Kildekode (kræver kompilering og installering)
 splashstart Start
 sslwarning ADVARSEL: Fravælgelse af SSL vil deaktivere kryptering, så din adgangskode vil blive sendt som ren tekst over netværket. Anvend kun dette til virkelig besværlige proxyer eller netværkskonfigurationer.
-startoffline Start Offline
 startoffline2 Log på som "Vis som offline"
+startoffline Start Offline
 startonboot Start aMSN sammen med Windows startop
 startontray Start aMSN som et tray-ikon
-state Jeg vil fremstå som
 stateautomsg AutoBesked der skal Sendes
 statechange status skiftet til:
 stateedittext Redigær venligst felterne som du vil \n ændre og tryk Gem
 stateinfo Personlig Status-konfiguration
+state Jeg vil fremstå som
 statename Navnet på din Personlige Status
 statenewtext Udfyld venligst de krævede informationer for at oprette \n din nye Personlige Status og tryk Gem
 statenick Brugerdefineret kaldenavn (efterlad blank for ingen ændringer)
+statepsm Brugerdefieneret personlig besked (efterlad blank hvis ingen ændring)
 stats Statistik
 status Status
-stop Stop
+step Skridt
 stopalarm Stop Alarm
+stop Stop
 stopwebcamreceive Stop med at modtage Webcam
 stopwebcamsend Stop med at sende Webcam
 storenickname Vend tilbage til originalt kaldenavn efter en brugerdefineret status med brugerdefineret kaldenavn
 strictfonts Begræns alle skriftfontes størrelse til den valgte (ses på Statusbaren bl.a.)
-style Stil
 stylechat Samme udseende som chats
 stylehist aMSN's historie-udseende
 stylelog Vælg formatet du vil have vist din historie i
+style Stil
 subject Emne
 subjectrequired Emne kræves
 syntaxerror Syntaksfejl
@@ -692,21 +874,22 @@ textsize Tekststørrelse
 thismonth Denne måned
 throughserver igennem server
 timeremaining Tilbageværende tid
-timestamp Tids stemple
 timestamps Vis tidsstempler i Chat-vinduer
+timestamp Tids stemple
 title Al's Messenger
-tkerror TK har skabt en fejl, der er en fejl i aMSN, rapportær den venligst. Send filen $1 til amsn-bugs@lists.sf.net
 tkerror1 TK har skabt en fejl, der er en fejl i aMSN, rapportær den venligst klik på Rapportær knappen. du kan klik på Detaljer for at se mere oplysninger om denne fejl eller klik på Ok for at fortsætte med dine samtaler
+tkerror TK har skabt en fejl, der er en fejl i aMSN, rapportær den venligst. Send filen $1 til amsn-bugs@lists.sf.net
 tlsdowncompleted Filen $1 er downloadet til biblioteket $2. Du skal udpakke den, bygge den (hvis du downloadede kildekode) og installere den inden i biblioteket $3.
 tlsexplain Mappen hvor tcl TLS-modulet kan findes. Hvis aMSN ikke kan finde det selv, så specificær det venligst.\n(Påkrævet til SSL-godkendelse).
-tlsinstall TLS-Modul installations-gennemgang
 tlsinstallexp aMSN anvender nu MSNP9, som kræver brugen af en sikker\nforbindelse gennem SSL. For at kunne bruge SSL er aMSN nødt til at installere et modul ved navn TLS,\nsom du mangler på dit system. Denne gennemgang vil hjælpe dig med at downloade og\ninstallere TLS. Vælg venligst din system-type så vi automatisk kan downloade\nde krævede TLS-filer.
+tlsinstall TLS-Modul installations-gennemgang
 tlsinstcompleted TLS modul-installationen er fuldført - du skulle nu være i stand til at bruge MSNP9. Hvis dette ikke virker, så har du muligvis ikke valgt det rigtige modul, eller også eksisterede der ikke et færdigkompileret modul til din system-type.
-to Til
 today I dag
 tomobile Til Mobil
 tools Værktøjer
 tooltips Anvend værktøjs-tips
+totalsize Samlet størrelse
+to Til
 transnotexists Den kaldte fil er ikke blevet oversat til det valgte sprog endnu
 trayicon Vis status ikon i bekendtgørelses området
 traynotcompiled Tray icon plugin'et er ikke blevet kompileret endnu. Check plugin/traydock
@@ -719,45 +902,61 @@ type Type
 unblock Fjern blokering
 unknown Ukendt
 unload Smid ud af hukommelsen
+unselectall Vælge alt fra
 uoffline Offline
 uonline Online
-update Opdater
 updateonlycurrentlanguage Opdater kun nuværende sprog
+update Opdater
+updatesaved Færdig\n $1 er gemt i $2.
 updating Opdatere
-unselectall Vælge alt fra
-useother Benyt et andet program
 useasdp Brug som Display Billed
-user Bruger
+useasregexp Brug et regulært udtryk (regexp)
+useother Benyt et andet program
 useralreadyonlist Brugeren er allerede på din kontaktliste
 userblocked Brugeren er online men har blokeret dig
+user Bruger
 userdata Brugerdata
+userdps Brug display billeder
 usernotonline Brugeren er ikke online
 userproperties Brugeregenskaber for $1
+usersettings Indstillinger
 useryourself Du kan ikke chatte med dig selv
 usesnack Brug Snack biblioteket (Tcl intern)
 verifyblocked Søg efter personer der har blokeret dig
 version Version
-videoconversationrequest Du har modtaget en video konversation (lyd og video) anmodning. Denne funktion er ikke understøttet af aMSN og er blevet annulleret. Men, du kan stagdigvæk bruge webcam samtale.
+videoconversationrequest Du har modtaget en video samtale (lyd og video) anmodning. Denne funktion er ikke understøttet af aMSN og er blevet annulleret. Men, du kan stagdigvæk bruge webcam samtale.
 viewcontactsby Se kontakter efter
 viewprofile Vis profil
+viewspace Vis plads genstande
 view Vis
-whatisamsn aMSN er en uafhængig MSN Messenger klone
-webcam Webcam
-webcamclosebefcancel Du skal afbrude alle webcam samtalerne før lukning af vinduet
+volume Volume
+wanttosharecam Jeg vil gøre mit webcam tilgængligt for andre
 webcamcanceled Webcam samtalen med $1 er blivet afbrudt
+webcamclosebefcancel Du skal afbrude alle webcam samtalerne før lukning af vinduet
+webcamconfiguredLinux Du valgte de følgende webcamindstillinger:\nWebcam enhed: $1\nWebcam kanal: $2
+webcamconfiguredMac Dine webcamindstillinger er blevet indstillet
+webcamconfiguredWin Du valgte den følgende webcam enhed: $1
 webcamconfigure Instil Webcam
-webcamextloaded Webcamsn udvidelsen er inlæst
+webcamextchecking Checker om webcam udvidelser er loadet ...
+webcamextloaded Webcamsn udvidelsen er indlæst
 webcamextnotloaded Webcamsn udvidelsen er ikke indlæst. Du skal kompilere den først.
+webcamextwarn Du vil ikke kunne se dine kontakters webcams. Du kan finde svar på hvordan man installerer udvidelser på vores Wiki:
 webcamfaq OOS/Hjælp for Webcam
-webcaminvitereceived $1 invitere dig til at starte en webcam samtale. Vil du acceptere?
-webcamrejected $1 afviser invitation til webcam samtale
-webcamrequestsend Send anmodning til at sende webcam
-webcamrequestreceive Send anmodning til at modtage webcam
-webcamsending Liste over personer du i øjeblikket sender webcam til\nKlik for at afbrude
-webcamshot Tag et billed med dit webcam
-webcaminvite $1 har inviteret dig til webcam samtale
+webcamhistory2 Webcam samtaler
 webcamhistory Se webcam samtaler
-whatsize Billedt du har anmodet er ikke det normale fremviste billed\nstørrelse (96x96) VIlken størrelse vil du have billedt vist som?
+webcaminvite $1 har inviteret dig til webcam samtale
+webcaminvitereceived $1 invitere dig til at starte en webcam samtale. Vil du acceptere?
+webcaminvitereceiving Du er blevet inviteret til at se $1 's webcam. Vil du acceptere denne session?
+webcaminvitesending $1 vil gerne se dit webcam. Vil du acceptere denne session?
+webcamrejected $1 afviser invitation til webcam samtale
+webcamrequestreceive Send anmodning til at modtage webcam
+webcamrequestsend Send anmodning til at sende webcam
+webcamsending Liste over personer du i øjeblikket sender webcam til\nKlik for at afbryde
+webcamshot Tag et billed med dit webcam
+webcam Webcam
+web Web
+whatisamsn aMSN er en uafhængig MSN Messenger klon
+whatsize Billedet du har anmodet er ikke den normale fremviste billedstørrelse (96x96)\nHvilken størrelse vil du have billedet vist som?
 willjoin Venter på at $1 slutter sig til samtalen
 winkreceived Du har modtaget et blink fra $1. Denne funktion understøttes ikke endnu af aMSN.
 wintitlenick Vis nicks i et faneblad vindue i stedet for email
@@ -769,172 +968,11 @@ xmmserr Der er ingenting, der spiller, eller også har du ikke xmms-infopipe inst
 xmmssend Send nuværende sang
 xoffset X-koordinat
 year år
-yes Ja
 yesblock Ja og bloker
+yes Ja
 yesterday I går
 yoffset Y-koordinat
 youblocked Du er blevet blokeret
 yousay Du siger
 youwant Du vil have
 zoom Zoom
-abort Afbryd
-account Konto
-askcam Bed om at modtage webcam
-asksendoim Vil du sende denne besked som en offline besked?
-assistantainput Vælg din input enhed og forsøg at optage med det.
-assistantaoutput Vælg din output enhed og forsøg at afspille denne fil for at teste enheden.
-assistantawarn Du vil ikke have mulighed for at optage dig selv eller tale med dine venner. Du kan finde svar på hvordan du installerer denne udvidelse på vores Wiki:
-assistantfinetunepic Ændrer de følgende indstillinger for at justere billedkvaliteten på dit webcam
-assistantselectcam Vælg dit webcam fra listen
-assistantstarting Starter guiden
-assistantwelcome Denne guide vil hjælpe dig gennem opsætningen af din lyd- og videoindstilinger for aMSN. \n\nDen vil checke om de nødvendige udvidelser eksisterer og er loadet, og du vil have mulighed for at vælge enheden og kanalen, ændre billedindstillinger og opløsning.
-audioconfigured Du valgte de følgelde lydindstillinger:\n Output enhed: $1\nInput enhed:$2
-audiovideo Lyd og Video indstillinger
-autolisten_voiceclips Automatisk afspil lydklip ved modtagelse
-autoresizedp Automatisk ændre display billede til standard størrelse
-back Tilbage
-blocknotifications Slå visning af besked vinduer fra
-blocksounds Slå lyde fra
-bugnocomment Send uden kommentar? Kommentarer på bugs hjælper us med at finde ud af, hvad der gik galt, så fejlen kan blive rettet hurtigere.
-cachedpicsfor Gemte display billeder for brugeren
-cancelled Afbrudt
-capturewarn Du vil ikke have mulighed for at sende fra dit webcam, hvis du har et. Hvis ikke er dette normalt. Du kan finde svar på hvordan du installerer denne udvidelse på vores Wiki:
-change_account_info Ændre konto informationer
-change_mobile Ændre mobilindstillinger
-changestatus Ændre status
-checkingaudio Checker om lyd udvidelse (Snack) er loadet ...
-checkingcam Checker om webcam er tilsluttet ...
-checkingcapext Checker om '$1' udvidelse er loadet ...
-checkingextensions Checker for påkrævede video udvidelser
-chooseinputdev Vælg din input enhed
-choosemixerdev Vælg din mixer
-chooseoutputdev Vælg din output enhed
-closeordock At lukke kontaktlisten vil afslutte aMSN. Måske mente du bare at du ville lukke kontaktlisten og lade aMSN være åbent i docken.\n\nEr du sikker på at du vil afslutte aMSN?
-closeothers Luk alle andre tabs
-configuremic Configurer din mikrofon
-configuringaudio Configurer lydindstillinger
-congrats Tillykke
-connectfirst Venligst tilslut først
-contacts Kontakter
-copytoclipboard Kopier $1 til udklipsholderen
-couldnotrename Kunne ikke omdøbe filen $1
-curdisplaypic Nuværende display billede
-customdp Custom Display billede
-customsmileys Vis andre brugeres custom emoticons
-custshowcustomsmileys Vis brugers custom emoticons
-deleteblock Slet og blokér
-dontshowdp Lad ikke denne bruger downloade dine nye display billeder
-editavsettings Rediger lyd- og videoindstillinger
-editmyprofile Rediger min MSN-profil
-error Fejl
-findasyoutype Find mens du skriver
-find Find
-findnext Find næste
-findprev Find forrige
-finetunesettings Finjuster billedindstililnger
-finish Afslut
-finish2apply Tryk afslut for at bruge disse indstilinger.
-firewalled2 Du er bag en firewall. Check venligst dine forbindelsesindstillinger i indstillinger vinduet
-forget_me Glem mig
-forgot_pass Jeg har glemt mit password
-ftportpref2 Starter port for direkte forbindelser (nødvendigt for filoverførsler og webcam)
-ftporttest Test port
-goto Gå til $1
-gotoinbox Gå til Inbox
-goto_prefs_removeprofile Click her for at gå til indstillinger og slette din profil
-groupcontacts Gruppér kontakter
-groupcontactsbystatus Gruppér kontakter efter status
-havenomic Jeg har ingen mikrofon
-hidemenumessage Er du sikker på at du vil skjule menuerne?\nDu kan til enhver tid gendanne dem ved at bruge skjul/vis menu genvejen 'Ctrl-M'.
-hidemenu Vis/skjul menuer
-howto_remove_profile For at slette din profil (glemme $1) skal du gøre dette fra indstillinger vinduet.\n\nAf sikkerhedshensyn er det ikke tilladt at slette profiler fra login skærmen.
-ignorecontact Ignorér samtaler fra kontakten
-largest Størst
-lconvstartedOIM Startede en offline Instant Messaging samtale på $1
-loadotherdisplaypic Loader DB'er fra $1, vent venligst...
-logschats Gemmer chats
-longpsm Din personlige meddelelse er for lang. Dette er ikke officielt understøttet af MSN protokollen. Er du sikker på, du vil bruge den?
-lowrescam Brug et webcam med lav opløsning
-medium Medium
-minimize Minimér til dock
-more Mere
-msnstatus MSN Network Status
-mypics Mine display billeder
-new_account Opret konto
-newchat Ny Chat
-newoim Nye Offline beskeder
-nocacheddps Ingen display billeder i cachen for denne bruger
-nocamwarn Intet webcam blev fundet eller dit webcam er allerede i brug af et andet program (hvilket betyder at det ikke kan bruges af aMSN). Du kan finde hjælp til at løse dette problem på vores Wiki:
-noftpreview Slå preview af afsendte billeder fra ved filoverførsel
-nomic Ingen mikrofon
-nosound Der blev ikke opdaget nogen lyd. Vær sikker på at din mikrofon er korrekt sat til
-nosound_or_hold Der blev ikke opdaget nogen lyd. For at sende et Voice Clip skal du trykke på knappen og holde den nede mens du taler og slippe knappen for at sende beskeden.
-nouserspecified Ingen bruger specifiseret
-oim Offline Messaging
-otherdisplaypic Andre display billeder af denne bruger (højre-click for flere muligheder)
-otherdps Andre display billeder
-pausedwebcamreceive Webcammet er blevet pauset af den anden bruger
-pausewebcamsend Paus webcammet
-playbackposition Afspilningsposition
-playbackspeed Afspilningshastighed (millisekunder mellem hver frame)
-playtest Afspil testfilen
-playwebcamsend Genoptag webcammet
-preffont4 Ændrer måden jeg ser andre folks tekst i chat sessions
-psmatend Vis personlig besked ved siden af kaldenavn
-psmdontshow Vi ikke personlige beskeder medmindre andet er specifiseret i global/custom kaldenavn
-psmnewline Vis personlig besked under kaldenavn
-psm Personlig besked
-psmplace Hvor skal den personlige besked vises ?
-quit Afslut
-receivedoimread Du har $1 nye Offline Instant Messages. Vil du læse dem nu ?
-receivedvoice Modtaget Voice Clip
-record Optag
-recorderror En fejl opstod ved forsøg på at optage lyden : $1
-recvwebcamaccepted $1 accepterede din invitation til at se hans/hendes webcam. Tilslutter...
-rememberaccount Husk min konto
-retry Forsøg igen
-resetincomingfont Reset skrifttype (brug skrifttype afsender vælger)
-searchdown Søg nedad
-searchup Søg opad
-selectcontact Vælg en kontakt
-sendcam Send Webcam
-sendfeedback Send Feedback
-sendoim Send en offline besked
-sendvoice Send et Voice Clip
-sendwebcamaccepted $1 accepterede din invitation til at sende dit webcam. Tilslutter...
-sentvoice Sendte Voice Clip
-setasmydp Indstil som mit display billede
-setupcam Opsætter din webcam enhed
-setupcamfinetune Opsætter webcam enhed og fintuner billede
-show_contactdps_in_cl Vis thumbnails af kontakters display billeder i kontaktlisten
-showcontactemail Vis kontakter med email
-showcontactnick Vis kontakter med kaldenavn
-showlinksinlogin Vis links på login skærmen
-showmailicon Vis mail ikon docken når nye emails ankommer.
-smallest Mindst
-snackneeded Snack biblioteket er nødvendigt for at bruge denne feature. En minimal version af 2.2.9 er nødvendig.
-snapshot Snapshot
-sortcontactsasc Sortér kontakter stigende
-sortcontactsdesc Sortér kontakter aftagende
-sortcontactsby Sortér kontakter efter
-sortcontactgroup Sortér kontakter efter gruppe
-sortcontacthybrid Sortér kontakter i hybrid mode
-sortcontactstatus Sortér kontakter efter status
-sortgroupsasc Sortér grupper stigende
-sortgroupsdesc Sortér grupper aftagende
-soundnoavail Lydenheden er ikke tilgængelig. Stop venligst ethvert program, der bruger lydenheden.
-statepsm Custom personlig besked (efterlad blank hvis ingen ændring)
-step Skridt
-useasregexp Brug et regulært udtryk (regexp)
-userdps Brug display billeder
-usersettings Indstillinger
-volume Volume
-wanttosharecam I vil gøre mit webcam tilgængligt for andre
-web Web
-webcamconfiguredMac Dine webcamindstillinger er blevet indstillet
-webcamconfiguredWin Du valgte den følgende webcam enhed: $1
-webcamconfiguredLinux Du valgte de følgende webcamindstillinger:\nWebcam enhed: $1\nWebcam kanal: $2
-webcamextchecking Checker om webcam udvidelser er loadet ...
-webcamextwarn Du vil ikke kunne se dine kontakters webcams. Du kan finde svar på hvordan man installerer udvidelser på vores Wiki:
-webcaminvitereceiving Du er blevet inviteret til at se $1 's webcam. Vil du acceptere denne session?
-webcaminvitesending $1 vil gerne se dit webcam. Vil du acceptere denne session?
