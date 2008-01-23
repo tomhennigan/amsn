@@ -1,4 +1,7 @@
  namespace eval ::keepalive {
+	variable config
+	variable configlist
+
   proc init { dir } {
 	::plugins::RegisterPlugin KeepAlivePlus
 	plugins_log KeepAlivePlus "Registered plugin"
@@ -7,6 +10,11 @@
 	::plugins::RegisterEvent KeepAlivePlus chat_msg_received message_received
 	::plugins::RegisterEvent KeepAlivePlus chatwindow_closed cw_closed
 	::plugins::RegisterEvent KeepAlivePlus user_leaves_chat keepalive_plus_stop
+	array set ::keepalive::config {
+		only_fln {0}
+	}
+
+	set ::keepalive::configlist [ list [ list bool "Only keep SBs alive when we are or appear Offline" only_fln ] ]
 }
 
 	proc keepalive_plus_init {event epvar} {
@@ -56,7 +64,9 @@
 			plugins_log KeepAlivePlus "YOU HAVE CLOSED THE CHAT"
 			return
 		} else {
-			::keepalive::send_keepalive_msg $sb
+			if { $::keepalive::config(only_fln) == 0 || [::MSN::myStatusIs] == "FLN" || [::MSN::myStatusIs] == "HDN" } {
+				::keepalive::send_keepalive_msg $sb
+			}
 		}
 		after 50000 "::keepalive::keepalive_timer $chatid"
 	}
