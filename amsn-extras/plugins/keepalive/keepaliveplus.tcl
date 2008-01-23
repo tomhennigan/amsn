@@ -59,6 +59,12 @@
 
 	proc keepalive_timer {chatid} {
 		after cancel "::keepalive::keepalive_timer $chatid"
+		if { ! [::MSN::chatReady $chatid] } {
+			# Maybe the SB died in the meantine...
+			# for example, only_fln is 1 and we haven't chatted for a while
+			plugins_log KeepAlivePlus "Chat not ready for $chatid"
+			return
+		}
 		set sb [::MSN::SBFor $chatid]
 		if {$sb == 0} {
 			plugins_log KeepAlivePlus "YOU HAVE CLOSED THE CHAT"
