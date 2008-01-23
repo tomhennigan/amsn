@@ -554,6 +554,12 @@ proc save_config {} {
 	#Save all keys except special ones
 	foreach var_attribute [::config::getKeys] {
 		set var_value [::config::getKey $var_attribute]
+		
+		#Convert absolute path to relative path
+		if { "$var_attribute" == "displaypic" } {
+			set var_value [PathAbsToRel $var_value]
+		}
+
 		if { "$var_attribute" != "remotepassword" } {
 			set var_value [::sxml::xmlreplace $var_value]
 			puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"

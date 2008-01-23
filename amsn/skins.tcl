@@ -606,7 +606,7 @@ namespace eval ::skin {
 
 		set locations [list]
 		#Get file using global path
-		if { "[string range $filename 0 0]" == "/" } {
+		if { "[string range $filename 0 0]" == "/" || "[string range $filename 1 2]" == ":/" } {
 			lappend locations ""
 		}
 		#Get from personal profile folder (needed for displaypics)

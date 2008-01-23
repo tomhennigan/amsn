@@ -467,7 +467,7 @@ namespace eval ::MSNP2P {
 							if { $file != "" } {
 								SendData $sid $chatid "[lindex [SessionList get $sid] 8]"
 							} else {
-								SendData $sid $chatid "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]"
+								SendData $sid $chatid "[::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]"
 							}
 						}
 						DATASENT {
@@ -586,7 +586,7 @@ namespace eval ::MSNP2P {
 						set filenameFromContext [GetFilenameFromContext $context]
 						if { $filenameFromContext != "" } {
 							#status_log "dest = $dest , uid = $uid , sid = $sid"
-							if { ! ( $filenameFromContext == [::config::getKey displaypic] && [::abook::getContactData $dest dontshowdp] == 1 ) } {
+							if { ! ( $filenameFromContext == [PathRelToAbs [::config::getKey displaypic]] && [::abook::getContactData $dest dontshowdp] == 1 ) } {
 								SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "bicon" $filenameFromContext ""]
 							} else {
 								return ""

@@ -7192,9 +7192,9 @@ proc load_my_pic { } {
 	if { [::config::getKey displaypic] == "" } {
 		::config::setKey displaypic nopic.gif
 	}
-	status_log "load_my_pic: Trying to set display picture [::config::getKey displaypic]\n" blue
-	if {[file readable [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]} {
-		image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic [::config::getKey displaypic]]" -format cximage
+	status_log "load_my_pic: Trying to set display picture [PathRelToAbs [::config::getKey displaypic]]\n" blue
+	if {[file readable [::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]]} {
+		image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]" -format cximage
 		load_my_smaller_pic
 	} else {
 		status_log "load_my_pic: Picture not found!!\n" red

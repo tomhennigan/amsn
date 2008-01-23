@@ -1163,7 +1163,7 @@ namespace eval ::MSN {
 			::config::setKey displaypic nopic.gif
 		}
 		if { [::config::getKey displaypic] != "nopic.gif" } {
-			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid] [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [::config::getKey displaypic]]]]"
+			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid] [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]]]"
 		} else {
 			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid]"
 		}
