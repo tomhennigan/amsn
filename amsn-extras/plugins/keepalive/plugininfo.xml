@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<plugin>
+  <name>KeepAlivePlus</name>
+  <author>Giuseppe Bottiglieri</author>
+  <description>Keep Alive plugin!</description>
+  <amsn_version>0.97b</amsn_version>
+  <plugin_version>0.1</plugin_version>
+  <plugin_file>keepaliveplus.tcl</plugin_file>
+  <plugin_namespace>keepalive</plugin_namespace>
+  <init_procedure>init</init_procedure>
+  <deinit_procedure>deinit</deinit_procedure>
+</plugin>
