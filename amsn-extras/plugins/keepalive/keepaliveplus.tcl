@@ -32,7 +32,7 @@
 	}
 
 	proc send_keepalive_msg {sb} {
-		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-keepaliveamsn\r\n\r\n\r\n\r\n"
+		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-keepalive\r\n\r\n\r\n\r\n"
 		set msg_len [string bytelength $msg]
 		::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg"
 		return
