@@ -1,6 +1,7 @@
  namespace eval ::keepalive {
 	variable config
 	variable configlist
+	variable monitoredChatIds
 
   proc init { dir } {
 	::plugins::RegisterPlugin KeepAlivePlus
@@ -25,7 +26,7 @@
 		if {![info exists ::keepalive::nickalive($chatid)]} {
 			set ::keepalive::nickalive($chatid) [list 1]
 			set chat_temp $::keepalive::nickalive($chatid)
-			after 50000 "::keepalive::keepalive_plus ${chatid}"
+			monitor_chatid $chatid
 			plugins_log KeepAlivePlus "NEW: $chatid - [lindex $chat_temp {}]"
 		}
 	}
@@ -45,7 +46,7 @@
 		upvar 2 fontfamily fontfamily
 		upvar 2 fontstyle fontstyle
 		upvar 2 fontcolor fontcolor
-		after 50000 "::keepalive::keepalive_timer ${chatid}"
+		monitor_chatid $chatid
 	}
 
 	proc message_received {event evpar} {
@@ -54,11 +55,35 @@
                 upvar 2 chatid chatid
 		upvar 2 fontformat fontformat
 		upvar 2 message message
-		after 50000 "::keepalive::keepalive_timer ${chatid}"
+		monitor_chatid $chatid
+	}
+
+	proc monitor_chatid {chatid} {
+		variable monitoredChatIds
+		
+		# Only start the timer if one isn't already in place.
+		if {[info exists monitoredChatIds($chatid)] == 0} {
+			set monitoredChatIds($chatid) 1
+
+			# Check to send the keepalive again.
+			after 50000 "::keepalive::keepalive_timer $chatid"
+		}
+	}
+
+	proc stop_monitoring_chatid {chatid} {
+		variable monitoredChatIds
+		
+		if {[info exists monitoredChatIds($chatid)]} {
+			unset monitoredChatIds($chatid)
+		}
+		
+		after cancel "::keepalive::keepalive_timer $chatid"
 	}
 
 	proc keepalive_timer {chatid} {
-		after cancel "::keepalive::keepalive_timer $chatid"
+		# Assume this is the last call of the timer.
+		stop_monitoring_chatid $chatid
+		
 		if { ! [::MSN::chatReady $chatid] } {
 			# Maybe the SB died in the meantine...
 			# for example, only_fln is 1 and we haven't chatted for a while
@@ -69,27 +94,32 @@
 		if {$sb == 0} {
 			plugins_log KeepAlivePlus "YOU HAVE CLOSED THE CHAT"
 			return
-		} else {
-			if { $::keepalive::config(only_fln) == 0 || [::MSN::myStatusIs] == "FLN" || [::MSN::myStatusIs] == "HDN" } {
-				::keepalive::send_keepalive_msg $sb
-			}
 		}
-		after 50000 "::keepalive::keepalive_timer $chatid"
+		
+		# Send the keepalive message...
+		if { $::keepalive::config(only_fln) == 0 || [::MSN::myStatusIs] == "FLN" || [::MSN::myStatusIs] == "HDN" } {
+			# Fires a new after.
+			monitor_chatid $chatid
+			::keepalive::send_keepalive_msg $sb
+		}
 	}
 
 	proc cw_closed {event evpar} {
 		upvar 2 chatid chatid
-		after cancel "::keepalive::keepalive_timer ${chatid}"
+		stop_monitoring_chatid $chatid
 	}
 
 	proc keepalive_plus_stop {event evpar} {
 		upvar 2 usr_name usr_name
 		upvar 2 chatid chatid
 		upvar 2 win_name win_name
-		after cancel "::keepalive::keepalive_timer ${chatid}"
+		stop_monitoring_chatid $chatid
 	}
 
-  proc deinit { } {
-    #Clean up?
-  }
+	proc deinit { } {
+		variable monitoredChatIds
+		foreach chatid [array names monitoredChatIds] {
+			stop_monitoring_chatid $chatid
+		}
+	}
 }
