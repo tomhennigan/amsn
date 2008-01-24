@@ -5753,7 +5753,7 @@ proc set_initial_nick { } {
 proc initial_syn_handler {recv} {
 
 	set_initial_nick
-	ns handleCommand $recv
+	cmsn_ns_handler $recv
 }
 
 proc msnp11_userpass_error {} {
