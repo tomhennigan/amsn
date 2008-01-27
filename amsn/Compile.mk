@@ -56,6 +56,10 @@ endif
 	@$(echo_compile_c)
 	@$(compile_c)
 
+%.o: %.m
+	@$(echo_compile_c)
+	@$(compile_c)
+
 %.cc.o: %.cc
 	@$(echo_compile_cc)
 	@$(compile_cc)
