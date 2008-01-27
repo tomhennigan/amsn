@@ -11,10 +11,10 @@ $(TARGETS-sndplay): $(OBJS-sndplay)
 $(FINAL-sndplay): $(TARGETS-sndplay)
 	cp $< $@
 
-all:: $(TARGETS-sndplay)
+all:: $(FINAL-sndplay)
 	
 
 clean:: clean-sndplay
 
-clean-sndplay::
-	rm -f $(TARGETS-sndplay) $(OBJS-sndplay) $(FINAL-sndplay)
+clean-sndplay:
+	rm -f $(TARGETS-sndplay) $(OBJS-sndplay)

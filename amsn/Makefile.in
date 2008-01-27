@@ -267,6 +267,9 @@ ifeq ($(FOUND_OS),linux)
       include $(linflash_dir)/Rules.mk
   endif
 else
+  ifeq ($(FOUND_OS),mac)
+	include $(macosx_dir)/sndplay-src/Rules.mk
+  endif
   ifeq ($(FOUND_OS),bsd)
     ifeq ($(FOUND_X11),yes)
        ADDLIBS    += ${X_LIBS} 
