@@ -27,6 +27,7 @@ tkcximage_dir := $(srcdir)/utils/TkCximage
 tray_dir := $(srcdir)/utils/linux/traydock
 linflash_dir := $(srcdir)/utils/linux/linflash
 tclISF_dir := $(srcdir)/utils/tclISF
+macosx_dir := $(srcdir)/utils/macosx
 
 # programs
 CC		:= @CC@

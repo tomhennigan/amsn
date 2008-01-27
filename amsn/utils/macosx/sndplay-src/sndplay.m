@@ -18,14 +18,14 @@ int main (int argc, const char * argv[])
         fprintf(stderr,"Usage: sndplay sound.[snd][aiff][wav]\n ");
         return -1;
     }
-    NS_DURING
-        NSString *thePath = [NSString stringWithCString:argv[1]];
-        NSData *data = [NSData dataWithContentsOfFile:thePath];
-        sound = [[NSSound alloc] initWithData:data];
+ 
+   NS_DURING
+        sound = [[NSSound alloc] initWithContentsOfFile:[NSString stringWithCString:argv[1]] byReference:(bool)false];
         [sound play];
         while ( [sound isPlaying] );
     NS_HANDLER
     NS_ENDHANDLER
+
     [pool release];
     return 0;
 }
