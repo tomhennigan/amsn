@@ -2,7 +2,7 @@ OBJS-sndplay := $(macosx_dir)/sndplay-src/sndplay.o
 TARGETS-sndplay := $(macosx_dir)/sndplay-src/sndplay
 FINAL-sndplay := $(macosx_dir)/sndplay
 
-LDFLAGS := -framework AppKit
+LDFLAGS += -framework AppKit
 
 $(TARGETS-sndplay): $(OBJS-sndplay)
 	@$(echo_link_app)
