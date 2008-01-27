@@ -269,6 +269,8 @@ ifeq ($(FOUND_OS),linux)
 else
   ifeq ($(FOUND_OS),mac)
 	include $(macosx_dir)/sndplay-src/Rules.mk
+	include $(macosx_dir)/growl1.0/Rules.mk
+	include $(macosx_dir)/growl1.0/src/Rules.mk
   endif
   ifeq ($(FOUND_OS),bsd)
     ifeq ($(FOUND_X11),yes)
