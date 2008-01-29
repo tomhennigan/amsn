@@ -1036,6 +1036,9 @@ namespace eval ::guiContactList {
 				}
 				"colour" {
 				}
+				"bg" {
+					#background
+				}
 				"font" {
 					#We add to the list the size of ellipsis for last format
 					lappend truncable [list "size" [font measure $font_attr -displayof $canvas $ellips]]
