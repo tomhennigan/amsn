@@ -80,7 +80,8 @@ namespace eval ::searchcontact {
 			$input delete 0 end
 			set cluetextpresent 0
 		}
-		focus $input
+		update idletasks
+		after idle [list after 0 [list focus ${input}]]
 	}
 
 	proc focusOutSearchbar {} {
