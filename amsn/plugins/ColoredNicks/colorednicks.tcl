@@ -884,7 +884,7 @@ proc checkfadedcolor {typeclose type} {
 				incr pos_char 11
 			}
 		} elseif {[string match \[0-9\] $next_char3]} {
-			set num [findnum $up 1]
+			set num [findnum 1]
 			if {$num != -1} {
 				lappend newparsednick [list $type $num]
 				incr pos_char [expr [string length $num] + 4]
