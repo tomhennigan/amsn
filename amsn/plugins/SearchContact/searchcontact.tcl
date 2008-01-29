@@ -320,7 +320,7 @@ namespace eval ::searchcontact {
 			set history [lappend history [getInput]]
 			set ::searchcontact::config(historylist) [lrange $history end-9 end]
 		}
-		::searchcontact::removeSearchBar deInit ""
+		::searchcontact::removeSearchBar deInit ""
 		#redraw CL
 		::guiContactList::organiseList .main.f.cl.cvs [::guiContactList::getContactList]
 		variable clblocked
