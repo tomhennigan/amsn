@@ -3005,12 +3005,23 @@ namespace eval ::ChatWindow {
 		$top dchars text2 0 end
 		#remove the camicon(s) and default icons
 		$top delete camicon img2
-		
-		set nroflines 0
 
 		set camicon [::skin::loadPixmap camicon]
 
 		set toX [::skin::getKey topbarpadx]
+
+		set font [$top itemcget text -font]
+		if { $font != "" } {
+			set incr_y [font metrics $font -displayof $top -linespace]
+		} else {
+			set f [font create -family helvetica -size 12 -weight normal]
+			set incr_y [font metrics $f -displayof $top -linespace]
+			font delete $f
+		}
+
+		set default_incr_y $incr_y
+
+		set Ycoord [lindex [$top coords text] 1]
 
 		foreach user_login $user_list {
 			set shares_cam [::abook::getContactData $user_login webcam_shared]
@@ -3086,15 +3097,8 @@ namespace eval ::ChatWindow {
 				lappend nicktxt [list text $statetxt]
 			}
 			
-			set font [$top itemcget text -font]
-			if { $font != "" } {
-				set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $font -displayof $top -linespace] * $nroflines)}]
-			} else {
-				set f [font create -family helvetica -size 12 -weight normal]
-				set Ycoord [expr {[lindex [$top coords text] 1] + ([font metrics $f -displayof $top -linespace] * $nroflines)}]
-				font delete $f
-			}
 			set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans to]:"] + 5}]
+			set incr_y $default_incr_y
 
 			#get the default colour for the specific state
 			set defaultcolour [::skin::getKey topbartext]
@@ -3130,7 +3134,13 @@ namespace eval ::ChatWindow {
 						incr usrsX $textwidth
 					}
 					"smiley" {
-						$top create image $usrsX $Ycoord -image [lindex $unit 1] -anchor nw -state normal -tags img2
+						set img [lindex $unit 1]
+
+						if {[image height $img] > $incr_y} {
+							set incr_y [image height $img]
+						}
+
+						$top create image $usrsX $Ycoord -image $img -anchor nw -state normal -tags img2
 						set textwidth [image width [lindex $unit 1]]
 						incr usrsX $textwidth
 					}
@@ -3181,9 +3191,10 @@ namespace eval ::ChatWindow {
 
 			$top insert text end "\n"
 			
-			incr nroflines
-			
 			if { $shares_cam == 1 } {
+				if {[image height $camicon] > $incr_y} {
+					set incr_y [image height $camicon]
+				}
 
 				#the image aligned-right to the text
 				set Xcoord [expr {[winfo width $top] - [image width $camicon]}]
@@ -3201,6 +3212,8 @@ namespace eval ::ChatWindow {
 				$top bind camicon <Enter> "+$top configure -cursor hand2"
 				$top bind camicon <Leave> "+$top configure -cursor left_ptr"
 			}
+
+			set Ycoord [expr {$Ycoord + $incr_y + 2}]
 		}
 
 		bind $top <Configure> [list ::ChatWindow::TopUpdate $chatid]
@@ -3218,8 +3231,8 @@ namespace eval ::ChatWindow {
 		set last_char [$top index text end]
 		incr last_char -1
 		$top dchars text $last_char end
-		
-		$top configure -height [expr {[MeasureTextCanvas $top "text" "h"] + 2*[::skin::getKey topbarpady]}]
+
+		$top configure -height $Ycoord
 
 		if { [GetContainerFromWindow $win_name] == "" } {
 			if { [info exists ::ChatWindow::new_message_on(${win_name})] && $::ChatWindow::new_message_on(${win_name}) == "asterisk" } {
