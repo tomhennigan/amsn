@@ -863,7 +863,8 @@ namespace eval ::abook {
 					append output "\n"
 				}
 				"colour" -
-				"font" {
+				"font" -
+				"bg" {
 				}
 				default {
 					status_log "Unknown item in parsed nickname: $unit"

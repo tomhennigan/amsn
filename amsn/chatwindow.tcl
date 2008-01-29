@@ -3175,6 +3175,7 @@ namespace eval ::ChatWindow {
 							set font_attr [array get current_format]
 						}
 					}
+					"bg" -
 					"newline" {
 					}
 					default {
