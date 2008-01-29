@@ -3,17 +3,17 @@
 	<name>ColoredNicks</name>
 	<author>Giuseppe Bottiglieri (Square87)</author>
 	<description>ColoredNicks allows to see colored nicks in contact list. You can also colour your nick and your personal message. Background is not supported yet.</description>
-	<description_fr>ColoredNicks vous permet de voirs les couleurs dans les pseudo de vos contacts. Vous pouvez aussi colorier votre pseudonyme et votre message personnel. Les couleurs ne sont pas encore support√©es.</description_fr>
-	<description_it>ColoredNicks permette di visualizzare i nick colorati nella lista dei contatti. Puoi anche colorare il tuo nick e il messaggio personale. Lo sfondo non √® ancora supportato.</description_it>
-	<description_hu>A ColoredNicks seg√≠ts√©g√©vel a becenevek sz√≠nez√©se is l√°that√≥ . A saj√°t beceneved √©s szem√©lyes √ºzeneted is sz√≠nezhet≈ë. A h√°tt√©r sz√≠nez√©se jelenleg nem t√°mogatott.</description_hu>
-	<amsn_version>0.97</amsn_version>
-	<plugin_version>0.3.1</plugin_version>
+	<description_fr>ColoredNicks vous permet de voirs les couleurs dans les pseudo de vos contacts. Vous pouvez aussi colorier votre pseudonyme et votre message personnel. Les couleurs ne sont pas encore supportÈes.</description_fr>
+	<description_it>ColoredNicks permette di visualizzare i nick colorati nella lista dei contatti. Puoi anche colorare il tuo nick e il messaggio personale. Lo sfondo non Ë ancora supportato.</description_it>
+	<description_hu>A ColoredNicks segÌtsÈgÈvel a becenevek szÌnezÈse is l·thatÛ . A saj·t beceneved Ès szemÈlyes ¸zeneted is szÌnezhet?. A h·ttÈr szÌnezÈse jelenleg nem t·mogatott.</description_hu>
+	<amsn_version>0.98b</amsn_version>
+	<plugin_version>0.3.2</plugin_version>
 	<plugin_file>colorednicks.tcl</plugin_file>
 	<plugin_namespace>colorednicks</plugin_namespace>
 	<init_procedure>init</init_procedure>
 	<deinit_procedure>deinit</deinit_procedure>
 	
-	<cvs_version>9081</cvs_version>
+	<cvs_version>9531</cvs_version>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/colorednicks.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/plugininfo.xml</plugininfo>

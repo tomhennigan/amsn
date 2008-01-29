@@ -31,7 +31,6 @@ proc parsed_nick2 {event epvar} {
 	upvar 2 $evpar(variable) nickArray
 	
 	variable newparsednick ""
-	variable list_background_colors [list ]
 
 	set num_elem [llength $nickArray]
 	set parsednick $nickArray
@@ -52,13 +51,13 @@ proc parsed_nick2 {event epvar} {
 					set old_pos_char $pos_char
 					set next_char1 [string range [lindex $unit 1] [expr $pos_char +1] [expr $pos_char +2] ]
 					if {$next_char1 eq "c="} {
-						checkcolor
+						checkcolor setcolour
 					} elseif { $next_char1 eq "/c"} {
-						checkfadedcolor
+						checkfadedcolor unsetcolour setfadecolour
 					} elseif {$next_char1 eq "C="} {
-						checkcolor 1
+						checkcolor setcolour_UP
 					} elseif { $next_char1 eq "/C"} {
-						checkfadedcolor 1
+						checkfadedcolor unsetcolour_UP setfadecolour_UP
 					}
 
 					if {$old_pos_char eq $pos_char} {
@@ -139,7 +138,7 @@ proc parsed_nick2 {event epvar} {
 							incr pos_char 3
 						}
 					} elseif { $next_char1 eq "a=" } {
-						nick_background
+						checkcolor bg
 					} elseif { $next_char1 eq "/a"} {
 						faded_background_nick
 					} elseif {$next_char1 eq "B]"} {
@@ -263,21 +262,28 @@ proc parsed_nick2 {event epvar} {
 				lappend nickArray [lindex $elem]
 			} elseif {$firstelem eq "font"} {
 				lappend nickArray [lindex $elem]
+			} elseif {$firstelem eq "bg"} {
+				set cl [lindex $elem 1]
+				if {$cl ne "reset" && [string range $cl 0 0] ne "#"} {
+					set cl "#[getColor $cl]"
+				}
+				lappend nickArray [list bg $cl]
 			} elseif {$firstelem eq "newline"} {
 				lappend nickArray [lindex $elem]
 			}
 		}
 	}
 
+	lappend nickArray [list bg reset]
+
 	unset newparsednick
-	unset list_background_colors
 	unset unit
 	unset pos_char
 	unset buffer
 }
 
 
-proc colorortext {{up 0}} {
+proc colorortext {} {
 	variable newparsednick
 	variable idnum 0
 
@@ -775,7 +781,7 @@ proc unbuffer {} {
 }
 
 
-proc checkcolor {{up 0}} {
+proc checkcolor {type} {
 	variable unit
 	variable pos_char
 	variable newparsednick
@@ -783,13 +789,9 @@ proc checkcolor {{up 0}} {
 	set next_char2 [string index [lindex $unit 1] [expr $pos_char +3] ]
 
 	if {[string match \[0-9\] $next_char2]} {
-		set num [findnum $up]
+		set num [findnum]
 		if {$num != -1} {
-			if {$up == 0} {
-				lappend newparsednick "[list setcolour $num]"
-			} else {
-				lappend newparsednick "[list setcolour_UP $num]"
-			}
+			lappend newparsednick "[list $type $num]"
 			incr pos_char [expr [string length $num] + 3]
 		}
 	} elseif {$next_char2 eq "#"} {
@@ -798,11 +800,7 @@ proc checkcolor {{up 0}} {
 			set num [string range [lindex $unit 1] [expr $pos_char+4] [expr $pos_char+9]]
 			if { [catch {expr 0x${num}}] } { return }
 			unbuffer
-			if {$up == 0} {
-				lappend newparsednick "[list setcolour #$num]"
-			} else {
-				lappend newparsednick "[list setcolour_UP #$num]"
-			}
+			lappend newparsednick "[list $type #$num]"
 			incr pos_char 10
 		}
 	} else {
@@ -811,11 +809,7 @@ proc checkcolor {{up 0}} {
 			set colorname [string range [lindex $unit 1] [expr $pos_char +3] [expr $end-1]]
 			if {[IsColorName $colorname]} {
 				unbuffer
-				if {$up == 0} {
-					lappend newparsednick "[list setcolour $colorname]"
-				} else {
-					lappend newparsednick "[list setcolour_UP $colorname]"
-				}
+				lappend newparsednick "[list $type $colorname]"
 				incr pos_char [expr [string length $colorname] + 3]
 			}
 		}
@@ -866,7 +860,7 @@ proc checkIRCcolour {} {
 }
 
 
-proc checkfadedcolor {{up 0}} {
+proc checkfadedcolor {typeclose type} {
 	variable unit
 	variable pos_char
 	variable newparsednick
@@ -874,11 +868,7 @@ proc checkfadedcolor {{up 0}} {
 	set next_char2 [string index [lindex $unit 1] [expr $pos_char +3] ]
 	if { $next_char2 eq "\]" } {
 		unbuffer
-		if {$up == 0} {
-			lappend newparsednick [list unsetcolour]
-		} else {
-			lappend newparsednick [list unsetcolour_UP]
-		}
+		lappend newparsednick [list $typeclose]
 		incr pos_char 3
 	} elseif { $next_char2 eq "=" } {
 		set next_char3 [string index [lindex $unit 1] [expr $pos_char +4]]
@@ -890,21 +880,13 @@ proc checkfadedcolor {{up 0}} {
 					return
 				}
 				unbuffer
-				if {$up == 0} {
-					lappend newparsednick [list setfadecolour "#$num"]
-				} else {
-					lappend newparsednick [list setfadecolour_UP "#$num"]
-				}
+				lappend newparsednick [list $type "#$num"]
 				incr pos_char 11
 			}
 		} elseif {[string match \[0-9\] $next_char3]} {
 			set num [findnum $up 1]
 			if {$num != -1} {
-				if {$up == 0} {
-					lappend newparsednick "[list setfadecolour $num]"
-				} else {
-					lappend newparsednick "[list setfadecolour_UP $num]"
-				}
+				lappend newparsednick [list $type $num]
 				incr pos_char [expr [string length $num] + 4]
 			}
 		} else {
@@ -913,11 +895,7 @@ proc checkfadedcolor {{up 0}} {
 				set colorname [string range [lindex $unit 1] [expr $pos_char +4] [expr $end-1]]
 				if {[IsColorName $colorname]} {
 					unbuffer
-					if {$up == 0} {
-						lappend newparsednick "[list setfadecolour $colorname]"
-					} else {
-						lappend newparsednick "[list setfadecolour_UP $colorname]"
-					}
+					lappend newparsednick [list $type $colorname]
 					incr pos_char [expr [string length $colorname] + 4]
 				}
 			}
@@ -929,22 +907,23 @@ proc checkfadedcolor {{up 0}} {
 proc nick_background {} {
 	variable unit
 	variable pos_char
-	variable list_background_colors
 	variable newparsednick
 
 	set next_char2 [string index [lindex $unit 1] [expr $pos_char +3] ]
 	if {[string match \[0-9\] $next_char2]} {
 		set next_char3 [string index [lindex $unit 1] [expr $pos_char +4] ]
 		if { $next_char3 eq "\]" } {
-			lappend list_background_colors 0
 			unbuffer
+			set cl [getColor "0$next_char2"]
+			lappend newparsednick [list bg "#$cl"]
 			lappend newparsednick [list jump 5 wasbg]
 			incr pos_char 4
 		} else {
 			set next_char4 [string index [lindex $unit 1] [expr $pos_char +5] ]
 			if {$next_char4 eq "\]"} {
-				lappend list_background_colors 0
 				unbuffer
+				set cl [getColor "$next_char2$next_char3"]
+				lappend newparsednick [list bg "#$cl"]
 				lappend newparsednick [list jump 6 wasbg]
 				incr pos_char 5
 			}
@@ -954,8 +933,8 @@ proc nick_background {} {
 		if {$next_char3 eq "\]"} {
 			set num [string range [lindex $unit 1] [expr $pos_char+4] [expr $pos_char+9]]
 			if { [catch {expr 0x${num}}] } { return }
-			lappend list_background_colors 0
-			unbuffer	
+			unbuffer
+			lappend newparsednick [list bg "#$num"]
 			lappend newparsednick [list jump 11 wasbg]
 			incr pos_char 10
 		}
@@ -966,15 +945,12 @@ proc nick_background {} {
 proc faded_background_nick {} {
 	variable unit
 	variable pos_char
-	variable list_background_colors
 	variable newparsednick
-
-	if {[llength $list_background_colors] == 0} { return 2 }
 
 	set next_char2 [string index [lindex $unit 1] [expr $pos_char +3] ]
 	if { $next_char2 eq "\]" } {
 		unbuffer
-		set list_background_colors [lreplace $list_background_colors end end]
+		lappend newparsednick [list bg reset]
 		lappend newparsednick [list jump 4 wasbg]
 		incr pos_char 3
 	} elseif { $next_char2 eq "=" } {
@@ -985,7 +961,7 @@ proc faded_background_nick {} {
 				set num [string range [lindex $unit 1] [expr $pos_char+5] [expr $pos_char+10]]
 				if { [catch {expr 0x${num}}] } { return }
 				unbuffer
-				lappend list_background_colors "#${num}"
+				lappend newparsednick [list bg reset]
 				lappend newparsednick [list jump 12 wasbg]
 				incr pos_char 11
 			}
@@ -994,13 +970,14 @@ proc faded_background_nick {} {
 			if { $next_char4 eq "\]" } {
 				lappend list_colors 0
 				unbuffer
+				lappend newparsednick [list bg reset]
 				lappend newparsednick [list jump 6 wasbg]
 				incr pos_char 5
 			} else {
 				set next_char5 [string index [lindex $unit 1] [expr $pos_char +6] ]
 				if {$next_char5 eq "\]"} {
-					lappend list_background_colors 0
 					unbuffer
+					lappend newparsednick [list bg reset]
 					lappend newparsednick [list jump 7 wasbg]
 					incr pos_char 6
 				}
@@ -1377,7 +1354,7 @@ proc IsColorName {txt} {
 }
 
 
-proc findnum {up {opt 0}} {
+proc findnum {{opt 0}} {
 	variable unit
 	variable pos_char
 
