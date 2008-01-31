@@ -63,7 +63,6 @@
 #include <Carbon/Carbon.h>
 #include "tk.h"
 #include "tcl.h"
-#define Cursor _Cursor
 
 typedef struct TkWindowPrivate {
 	Tk_Window *winPtr;

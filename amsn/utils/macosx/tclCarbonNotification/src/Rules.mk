@@ -1,6 +1,7 @@
 TARGETS-tclCarbonNotification = $(macosx_dir)/tclCarbonNotification/src/tclCarbonNotification0.1.dylib
 OBJS-tclCarbonNotification = $(macosx_dir)/tclCarbonNotification/src/tclCarbonNotification.o
 
+CFLAGS	+= -DMAC_OSX_TK=1
 LDFLAGS += -framework CoreFoundation -framework Carbon -framework QuickTime
 
 all:: $(TARGETS-tclCarbonNotification)

@@ -1,6 +1,7 @@
 TARGETS-tclCarbonHICommand = $(macosx_dir)/tclCarbonHICommand/src/tclCarbonHICommand0.1.dylib
 OBJS-tclCarbonHICommand = $(macosx_dir)/tclCarbonHICommand/src/tclCarbonHICommand.o
 
+CFLAGS	+= -DMAC_OSX_TK=1
 LDFLAGS += -framework CoreFoundation -framework Carbon -framework QuickTime
 
 all:: $(TARGETS-tclCarbonHICommand)
