@@ -1,5 +1,5 @@
-OBJS-tclISF := $(tclISF_dir)/src/tclISF.so
-TARGETS-tclISF := $(tclISF_dir)/tclISF.so 
+OBJS-tclISF := $(tclISF_dir)/src/tclISF.$(SHLIB_EXTENSION)
+TARGETS-tclISF := $(tclISF_dir)/tclISF.$(SHLIB_EXTENSION) 
 
 
 $(TARGETS-tclISF): $(OBJS-tclISF)

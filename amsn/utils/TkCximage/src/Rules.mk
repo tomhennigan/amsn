@@ -4,7 +4,7 @@ ifeq ($(STATIC),yes)
 OBJS-TkCximage += libstdc++.a
 endif
 
-TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.so
+TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.$(SHLIB_EXTENSION)
 
 $(TARGETS-TkCximage):: $(OBJS-TkCximage)
 

@@ -1,5 +1,5 @@
 OBJS-webcamsn := $(webcamsn_dir)/src/webcamsn.o $(webcamsn_dir)/src/kidhash.o $(webcamsn_dir)/src/libmimic.a
-TARGETS-webcamsn := $(webcamsn_dir)/src/webcamsn.so 
+TARGETS-webcamsn := $(webcamsn_dir)/src/webcamsn.$(SHLIB_EXTENSION) 
 
 OBJS-mimic := 	$(webcamsn_dir)/src/bitstring.o  $(webcamsn_dir)/src/deblock.o  $(webcamsn_dir)/src/encode.o \
 		$(webcamsn_dir)/src/idct_dequant.o $(webcamsn_dir)/src/mimic.o \

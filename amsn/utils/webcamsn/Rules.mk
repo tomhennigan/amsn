@@ -1,5 +1,5 @@
-OBJS-webcamsn := $(webcamsn_dir)/src/webcamsn.so
-TARGETS-webcamsn := $(webcamsn_dir)/webcamsn.so 
+OBJS-webcamsn := $(webcamsn_dir)/src/webcamsn.$(SHLIB_EXTENSION)
+TARGETS-webcamsn := $(webcamsn_dir)/webcamsn.$(SHLIB_EXTENSION) 
 
 
 $(TARGETS-webcamsn): $(OBJS-webcamsn)

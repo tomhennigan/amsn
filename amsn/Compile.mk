@@ -72,6 +72,14 @@ endif
 	@$(echo_link_so_cpp)
 	@$(link_so_cpp)
 
+%.cpp.dylib: %.cpp.o
+	@$(echo_link_so_cpp)
+	@$(link_so_cpp)
+
+%.dylib: %.o
+	@$(echo_link_so)
+	@$(link_so)
+
 %.so: %.o
 	@$(echo_link_so)
 	@$(link_so)

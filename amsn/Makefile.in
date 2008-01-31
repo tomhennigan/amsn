@@ -111,6 +111,12 @@ else
 	LDFLAGS := @LDFLAGS@
 endif
 
+ifeq (@FOUND_OS@,mac)
+	SHLIB_EXTENSION := dylib
+else
+	SHLIB_EXTENSION := so
+endif
+
 ifeq (@DEBUG@,no)
 	ifneq (@FOUND_OS@,mac)
 LDFLAGS += -s

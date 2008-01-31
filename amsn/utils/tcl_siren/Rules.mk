@@ -1,5 +1,5 @@
-OBJS-siren := $(tcl_siren_dir)/src/tcl_siren.so
-TARGETS-siren := $(tcl_siren_dir)/tcl_siren.so 
+OBJS-siren := $(tcl_siren_dir)/src/tcl_siren.$(SHLIB_EXTENSION)
+TARGETS-siren := $(tcl_siren_dir)/tcl_siren.$(SHLIB_EXTENSION) 
 
 
 $(TARGETS-siren): $(OBJS-siren)
