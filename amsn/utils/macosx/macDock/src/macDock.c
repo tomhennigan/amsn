@@ -17,13 +17,13 @@ int Macdock_Init(Tcl_Interp *interp)
 	}
 
 	Tcl_CreateObjCommand(interp, \
-		"::aMSN::setIcon", setIcon, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+		"::macDock::setIcon", setIcon, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, \
-		"::aMSN::overlayIcon", overlayIcon, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+		"::macDock::overlayIcon", overlayIcon, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, \
-		"::aMSN::restoreIcon", restoreIcon, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+		"::macDock::restoreIcon", restoreIcon, (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
-	if (Tcl_PkgProvide(interp, "aMSN", "0.1") != TCL_OK) {
+	if (Tcl_PkgProvide(interp, "macDock", "0.1") != TCL_OK) {
 		return TCL_ERROR;
 	}
 
