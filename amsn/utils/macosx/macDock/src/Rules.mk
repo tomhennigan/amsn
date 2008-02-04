@@ -3,7 +3,7 @@ OBJS-macDock = $(macosx_dir)/macDock/src/dockIcon.o $(macosx_dir)/macDock/src/ma
 
 LDFLAGS += -framework Carbon
 
-all:: $(TARGETS-growl)
+all:: $(TARGETS-macDock)
 
 $(TARGETS-macDock): $(OBJS-macDock)
 	@$(echo_link_so)
