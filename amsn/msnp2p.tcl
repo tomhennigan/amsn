@@ -1471,7 +1471,7 @@ namespace eval ::MSNP2P {
 		unset chunk
 
 		#status_log "[SessionList get $sid]\n"
-		if { [lindex [SessionList get $sid] 1] == 0 } {
+		if { [eof $fd] || [lindex [SessionList get $sid] 1] == 0 } {
 			# All file has been sent
 			close $fd
 			unset fd
