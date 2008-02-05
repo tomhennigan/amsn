@@ -30,21 +30,22 @@ const int HuffBases[8][11] =
 };
 
 
-/*******************************************************************************
- * \brief Decode Packet Data
- *
- * Decode Packet Data from the ISF stream.\n
- * Check the encoding and decode the datas.\n
- * Currently known compressions are:
- * - Adaptive Huffman-based compression
- * - Gorilla compression
- *
- * \param pDecISF structure used to decode the ISF file.
- * \param packetNumber number of packets to read
- * \param arr array where we store the decoded integers
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Decode Packet Data                                                  *
+ *                                                                            *
+ * Decode Packet Data from the ISF stream.\n                                  *
+ * Check the encoding and decode the datas.\n                                 *
+ * Currently known compressions are:                                          *
+ * - Adaptive Huffman-based compression                                       *
+ * - Gorilla compression                                                      *
+ *                                                                            *
+ * \param pDecISF      structure used to decode the ISF file.                 *
+ * \param packetNumber number of packets to read                              *
+ * \param arr          array where we store the decoded integers              *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int decodePacketData(decodeISF_t * pDecISF, INT64 packetNumber, INT64 * arr)
 {
     int err = OK; /* the error code */
@@ -109,18 +110,19 @@ int decodePacketData(decodeISF_t * pDecISF, INT64 packetNumber, INT64 * arr)
 }
 
 
-/*******************************************************************************
- * Decode a list of MBUINT encoded with adaptive Huffman compression
- *
- * \param pDecISF structure used to decode the ISF file.
- * \param packetNumber number of packets to read
- * \param index index in array BitAmounts, we know the codec used this way
- * \param arr array where we store the decoded integers
- * \param buffer pointer to a buffer we store the current Byte read
- * \param offset offset of the current bit to be read in #buffer.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * Decode a list of MBUINT encoded with adaptive Huffman compression          *
+ *                                                                            *
+ * \param pDecISF      structure used to decode the ISF file.                 *
+ * \param packetNumber number of packets to read                              *
+ * \param index        index in array BitAmounts, so we know the codec used   *
+ * \param arr          array where we store the decoded integers              *
+ * \param buffer       pointer to a buffer we store the current Byte read     *
+ * \param offset       offset of the current bit to be read in #buffer.       *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int decodeHuffman (
         decodeISF_t * pDecISF,
         INT64 packetNumber,
@@ -152,16 +154,17 @@ int decodeHuffman (
 }
 
 
-/*******************************************************************************
- * \brief Generate the Bases array used in Huffman decompression.
- *
- * \param index index in array BitAmounts, we know the codec used this way
- * \param n pointer where we store the length of huffBases array
- * \param huffBases pointer to an array where we store the Bases. We allocate
- * the array here.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Generate the Bases array used in Huffman decompression.             *
+ *                                                                            *
+ * \param index     index in array BitAmounts, so we know the codec used      *
+ * \param n         where we store the length of huffBases array              *
+ * \param huffBases array where we store the Bases. We allocate the array     *
+ *                  here.                                                     *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int generateHuffBases (int index, int * n, INT64 ** huffBases)
 {
     int err = OK, /* the error code */
@@ -198,19 +201,20 @@ int generateHuffBases (int index, int * n, INT64 ** huffBases)
     return err;
 }
 
-/*******************************************************************************
- * \brief Extract one value from the stream, using Huffman decompression
- *
- * \param pDecISF structure used to decode the ISF file.
- * \param index index in array BitAmounts, we know the codec used this way
- * \param n length of huffBases array
- * \param buffer pointer to a buffer we store the current Byte read
- * \param offset offset of the current bit to be read in #buffer.
- * \param value pointer where we store the decoded value
- * \param huffBases array of the Huffman Bases integers
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Extract one value from the stream, using Huffman decompression      *
+ *                                                                            *
+ * \param pDecISF   structure used to decode the ISF file.                    *
+ * \param index     index in array BitAmounts, so we know the codec used      *
+ * \param n         length of huffBases array                                 *
+ * \param buffer    pointer to a buffer we store the current Byte read        *
+ * \param offset    offset of the current bit to be read in #buffer.          *
+ * \param value     pointer where we store the decoded value                  *
+ * \param huffBases array of the Huffman Bases integers                       *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int extractValueHuffman (
         decodeISF_t * pDecISF,
         int index,
@@ -289,15 +293,16 @@ int extractValueHuffman (
     return err;
 }
 
-/*******************************************************************************
- * \brief Transform an array using the DeltaDelta Inverse transform
- * This array comes from #decodeHuffman.
- *
- * \param packetNumber number of packets to manage
- * \param value array where decoded values are stored
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Transform an array using the DeltaDelta Inverse transform           *
+ * This array comes from #decodeHuffman.                                      *
+ *                                                                            *
+ * \param packetNumber number of packets to manage                            *
+ * \param value        array where decoded values are stored                  *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int transformInverseDeltaDelta (INT64 packetNumber, INT64 * value)
 {
     INT64 curDelta = 0,
@@ -329,18 +334,19 @@ int transformInverseDeltaDelta (INT64 packetNumber, INT64 * value)
     return OK;
 }
 
-/*******************************************************************************
- * Decode a list of MBUINT encoded with Gorilla compression
- *
- * \param pDecISF structure used to decode the ISF file.
- * \param packetNumber number of packets to read
- * \param blockSize size of each data block
- * \param arr array where we store the decoded integers
- * \param buffer pointer to a buffer we store the current Byte read
- * \param offset offset of the current bit to be read in #buffer.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * Decode a list of MBUINT encoded with Gorilla compression                   *
+ *                                                                            *
+ * \param pDecISF      structure used to decode the ISF file.                 *
+ * \param packetNumber number of packets to read                              *
+ * \param blockSize    size of each data block                                *
+ * \param arr array    where we store the decoded integers                    *
+ * \param buffer       pointer to a buffer we store the current Byte read     *
+ * \param offset       offset of the current bit to be read in #buffer.       *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int decodeGorilla (
         decodeISF_t * pDecISF,
         INT64 packetNumber,

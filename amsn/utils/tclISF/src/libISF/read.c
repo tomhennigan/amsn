@@ -4,19 +4,20 @@
 #include	"DecodeISF.h"
 #include	"misc.h"
 
-/*******************************************************************************
- * \brief Read a Multi Bytes Unsigned Integer
- *
- * A MBUINT can be at max 64 bits long. \n
- * Since we don't know how large this MBUINT can be,
- * we put it in a 64 bits long structure.\n
- * The number of bytes read is increased by #getUChar.
- *
- * \param pDecISF structure used to call #getUChar.
- * \param mbuint pointer where we store the decoded MBUINT
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Read a Multi Bytes Unsigned Integer                                 *
+ *                                                                            *
+ * A MBUINT can be at max 64 bits long. \n                                    *
+ * Since we don't know how large this MBUINT can be,                          *
+ * we put it in a 64 bits long structure.\n                                   *
+ * The number of bytes read is increased by #getUChar.                        *
+ *                                                                            *
+ * \param pDecISF structure used to call #getUChar.                           *
+ * \param mbuint  pointer where we store the decoded MBUINT                   *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int readMBUINT (decodeISF_t * pDecISF, INT64 * mbuint)
 {
     int err = OK; /* the error code */
@@ -59,19 +60,20 @@ int readMBUINT (decodeISF_t * pDecISF, INT64 * mbuint)
 
 
 
-/*******************************************************************************
- * \brief Read a Multi Bytes Signed Integer
- *
- * A MBSINT can be at max 64 bits long. \n
- * Since we don't know how large this MBSINT can be,
- * we put it in a 64 bits long structure.\n
- * The number of bytes read is increased by #getUChar.
- *
- * \param pDecISF structure used to call #getUChar.
- * \param mbsint pointer where we store the decoded MBSINT
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Read a Multi Bytes Signed Integer                                   *
+ *                                                                            *
+ * A MBSINT can be at max 64 bits long. \n                                    *
+ * Since we don't know how large this MBSINT can be,                          *
+ * we put it in a 64 bits long structure.\n                                   *
+ * The number of bytes read is increased by #getUChar.                        *
+ *                                                                            *
+ * \param pDecISF structure used to call #getUChar.                           *
+ * \param mbsint  pointer where we store the decoded MBSINT                   *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int readMBSINT (decodeISF_t * pDecISF, INT64 * mbsint)
 {
     int err = OK; /* the error code */
@@ -98,18 +100,19 @@ int readMBSINT (decodeISF_t * pDecISF, INT64 * mbsint)
 
 
 
-/*******************************************************************************
- * \brief Read a Float
- *
- * Read a float from the stream.\n
- * The float is coded in the stream as little endian.\n
- * The number of bytes read is increased (by 4) by #getUChar.
- *
- * \param pDecISF structure used to call #getUChar.
- * \param f pointer where we store the decoded Float
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Read a Float                                                        *
+ *                                                                            *
+ * Read a float from the stream.\n                                            *
+ * The float is coded in the stream as little endian.\n                       *
+ * The number of bytes read is increased (by 4) by #getUChar.                 *
+ *                                                                            *
+ * \param pDecISF structure used to call #getUChar.                           *
+ * \param f       pointer where we store the decoded Float                    *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int readFloat (decodeISF_t * pDecISF, float * f)
 {
     int err = OK, /* the error code */
@@ -151,17 +154,18 @@ int readFloat (decodeISF_t * pDecISF, float * f)
 
 
 
-/*******************************************************************************
- * \brief Read a Byte
- *
- * Read a byte from the ISF file and put it in an unsigned char. \n
- * The number of bytes read is increased (by 1) by #getUChar.
- *
- * \param pDecISF structure used to call #getUChar.
- * \param c pointer we store the decoded Byte.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Read a Byte                                                         *
+ *                                                                            *
+ * Read a byte from the ISF file and put it in an unsigned char. \n           *
+ * The number of bytes read is increased (by 1) by #getUChar.                 *
+ *                                                                            *
+ * \param pDecISF structure used to call #getUChar.                           *
+ * \param c       pointer we store the decoded Byte.                          *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int readByte(decodeISF_t * pDecISF, unsigned char * c)
 {
     return (*(pDecISF->getUChar))(pDecISF->streamInfo,&pDecISF->bytesRead,c);
@@ -170,22 +174,23 @@ int readByte(decodeISF_t * pDecISF, unsigned char * c)
 
 
 
-/*******************************************************************************
- * \brief Read N bits
- *
- * Read N bits from the ISF file and put it in a 64 bits long structure
- * (we assume "INT64" is). \n
- * If N > 64, we use N = N mod 64. That may cause issues.\n
- * The number of bytes read is increased by #getUChar.
- *
- * \param pDecISF structure used to call #getUChar.
- * \param n number of bits to read
- * \param buffer buffer where we store the current Byte read
- * \param offset offset of the current bit to be read in #buffer.
- * \param value pointer where we store the decoded value
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Read N bits                                                         *
+ *                                                                            *
+ * Read N bits from the ISF stream and put it in a 64 bits long structure     *
+ * (we assume "INT64" is). \n                                                 *
+ * If N > 64, we use N = N mod 64. That may cause issues.\n                   *
+ * The number of bytes read is increased by #getUChar.                        *
+ *                                                                            *
+ * \param pDecISF structure used to call #getUChar                            *
+ * \param n       number of bits to read                                      *
+ * \param buffer  buffer where we store the current Byte read                 *
+ * \param offset  offset of the current bit to be read in #buffer             *
+ * \param value   pointer where we store the decoded value                    *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int readNBits (
         decodeISF_t * pDecISF,
         int n,

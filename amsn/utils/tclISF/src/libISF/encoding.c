@@ -5,17 +5,18 @@
 
 
 
-/*******************************************************************************
- * \brief Encode an INT64 into a MBUINT
- *
- * Given a payload structure WITH ENOUGH FREE SPACE (needs at max 10 bytes),
- * convert an INT64 into a MBUINT and put it in the given payloaf structure.
- *
- * \param i INT64 to turn into MBUINT
- * \param p payload structure where the encoded INT64 is put.
- *
- * \returns nothing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Encode an INT64 into a MBUINT                                       *
+ *                                                                            *
+ * Given a payload structure WITH ENOUGH FREE SPACE (needs at max 10 bytes),  *
+ * convert an INT64 into a MBUINT and put it in the given payloaf structure.  *
+ *                                                                            *
+ * \param i INT64 to turn into MBUINT                                         *
+ * \param p payload structure where the encoded INT64 is put.                 *
+ *                                                                            *
+ * \returns nothings                                                          *
+ ** ------------------------------------------------------------------------ **/
 void encodeMBUINT ( INT64 i, payload_t * p)
 {
     unsigned char tmp = 0,
@@ -35,17 +36,18 @@ void encodeMBUINT ( INT64 i, payload_t * p)
 
 
 
-/*******************************************************************************
- * \brief Put a Float in a payload structure
- *
- * Given a payload structure WITH ENOUGH FREE SPACE (needs 4 bytes),
- * put a float into that structure.
- *
- * \param f the float
- * \param p payload structure where the float is put.
- *
- * \returns nothing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Put a Float in a payload structure                                  *
+ *                                                                            *
+ * Given a payload structure WITH ENOUGH FREE SPACE (4 bytes needed), put a   *
+ * float into that structure.                                                 *
+ *                                                                            *
+ * \param f the float                                                         *
+ * \param p payload structure where the float is put.                         *
+ *                                                                            *
+ * \returns nothings                                                          *
+ ** ------------------------------------------------------------------------ **/
 void putFloat (float f, payload_t * p)
 {
     union {

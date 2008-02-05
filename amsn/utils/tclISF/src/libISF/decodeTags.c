@@ -9,19 +9,20 @@
 #define MAX(X, Y)  ((X) > (Y) ? (X) : (Y))
 
 
-/*******************************************************************************
- * \brief Read the rest of the payload
- *
- * This function is mainly used when we don't know how to understand values.\n
- * It displays values as hexadecimal, 16 per lines.
- *
- * \param pDecISF structure used to decode the ISF file.
- * \param label string displayed before every line of hex values
- * \param endPayload number pDecISF->bytesRead should be when the job is done\n
- * 		  it's pDecISF->bytesRead + number of bytes to read.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Read the rest of the payload                                        *
+ *                                                                            *
+ * This function is mainly used when we don't know how to understand values.\n*
+ * It displays values as hexadecimal, 16 per lines.                           *
+ *                                                                            *
+ * \param pDecISF    structure used to decode the ISF file.                   *
+ * \param label      string displayed before every line of hex values         *
+ * \param endPayload number pDecISF->bytesRead should be when the job is      *
+ *                   done. it's pDecISF->bytesRead + number of bytes to read. *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int finishPayload(decodeISF_t * pDecISF, const char * label, INT64 endPayload)
 {
     int err = OK; /* the error code */
@@ -60,17 +61,18 @@ int finishPayload(decodeISF_t * pDecISF, const char * label, INT64 endPayload)
 
 
 
-/*******************************************************************************
- * \brief Get an unknown tag
- *
- * Used when we don't know how to handle a tag.\n
- * We read an MBUINT and we consider it as the payload size of that tag.\n
- * #finishPayload does the rest.
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get an unknown tag                                                  *
+ *                                                                            *
+ * Used when we don't know how to handle a tag.\n                             *
+ * We read an MBUINT and we consider it as the payload size of that tag.\n    *
+ * #finishPayload does the rest.                                              *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getUnknownTag (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -90,13 +92,14 @@ int getUnknownTag (decodeISF_t * pDecISF)
 
 
 
-/*******************************************************************************
- * \brief Get the Persistent format
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get the Persistent format                                           *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getPersistentFormat (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -120,13 +123,14 @@ int getPersistentFormat (decodeISF_t * pDecISF)
 }
 
 
-/*******************************************************************************
- * \brief Get the Himetric size
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get the Himetric size                                               *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getHimetricSize (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -171,15 +175,16 @@ int getHimetricSize (decodeISF_t * pDecISF)
 
 
 
-/*******************************************************************************
- * \brief Get a Drawing Attributes block
- *
- * The drawing attributes block decoded is chained in #ISF.DrawAttrs
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Drawing Attributes block                                      *
+ *                                                                            *
+ * The drawing attributes block decoded is chained in #ISF.DrawAttrs          *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getDrawAttrsBlock (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -317,13 +322,14 @@ int getDrawAttrsBlock (decodeISF_t * pDecISF)
 
 
 
-/*******************************************************************************
- * \brief Get a drawing attributes table.
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a drawing attributes table.                                     *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getDrawAttrsTable (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -354,13 +360,14 @@ int getDrawAttrsTable (decodeISF_t * pDecISF)
 
 
 
-/*******************************************************************************
- * \brief Get a Metric block
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Metric block                                                  *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getMetricBlock (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -390,13 +397,14 @@ int getMetricBlock (decodeISF_t * pDecISF)
     return err;
 }
 
-/*******************************************************************************
- * \brief Get a metric entry
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a metric entry                                                  *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getMetricEntry (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -443,13 +451,14 @@ int getMetricEntry (decodeISF_t * pDecISF)
 }
 
 
-/*******************************************************************************
- * \brief Get a Transform Table
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Transform Table                                               *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getTransformTable (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -533,13 +542,14 @@ int getTransformTable (decodeISF_t * pDecISF)
 }
 
 
-/*******************************************************************************
- * \brief Get a Transform
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Transform                                                     *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getTransform (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -604,13 +614,14 @@ int getTransform (decodeISF_t * pDecISF)
 }
 
 
-/*******************************************************************************
- * \brief Get an Isotropic Scale Transform
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get an Isotropic Scale Transform                                    *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getTransformIsotropicScale (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -656,13 +667,14 @@ int getTransformIsotropicScale (decodeISF_t * pDecISF)
 }
 
 
-/*******************************************************************************
- * \brief Get an Anisotropic Scale Transform
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get an Anisotropic Scale Transform                                  *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getTransformAnisotropicScale (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -708,13 +720,14 @@ int getTransformAnisotropicScale (decodeISF_t * pDecISF)
 }
 
 
-/*******************************************************************************
- * \brief Get a Rotate Transform
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Rotate Transform                                              *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getTransformRotate (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -769,13 +782,14 @@ int getTransformRotate (decodeISF_t * pDecISF)
 }
 
 
-/*******************************************************************************
- * \brief Get a Translate Transform
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Translate Transform                                           *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getTransformTranslate (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -827,13 +841,14 @@ int getTransformTranslate (decodeISF_t * pDecISF)
     return err;
 }
 
-/*******************************************************************************
- * \brief Get a Scale and Translate Transform
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Scale and Translate Transform                                 *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getTransformScaleAndTranslate (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -889,13 +904,14 @@ int getTransformScaleAndTranslate (decodeISF_t * pDecISF)
     return err;
 }
 
-/*******************************************************************************
- * \brief Get Stroke Ids
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get Stroke Ids                                                      *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 /*TODO*/
 int getStrokeIds (decodeISF_t * pDecISF)
 {
@@ -914,17 +930,18 @@ int getStrokeIds (decodeISF_t * pDecISF)
     return err;
 }
 
-/*******************************************************************************
- * \brief Get a Stroke
- *
- * The stroke decoded is chained in #ISF.strokes and chained to its drawing
- * attributes.\n
- * The current transform is also applied.
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Stroke                                                        *
+ *                                                                            *
+ * The stroke decoded is chained in #ISF.strokes and chained to its drawing   *
+ * attributes.\n                                                              *
+ * The current transform is also applied.                                     *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getStroke (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -1127,18 +1144,19 @@ int getStroke (decodeISF_t * pDecISF)
 }
 
 
-/*******************************************************************************
- * \brief Get a Drawing Attributes Index
- *
- * This tag's data consists of a single MBUINT with the DIDX value.\n
- * This value is the index of the drawing attributes list to use for subsequent
- * strokes.\n
- * We change #DecodeISF.curDrawAttrs to reflect that.
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Drawing Attributes Index                                      *
+ *                                                                            *
+ * This tag's data consists of a single MBUINT with the DIDX value.\n         *
+ * This value is the index of the drawing attributes list to use for          *
+ * subsequent strokes.\n                                                      *
+ * We change #DecodeISF.curDrawAttrs to reflect that.                         *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getDIDX (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -1162,17 +1180,19 @@ int getDIDX (decodeISF_t * pDecISF)
     return err;
 }
 
-/*******************************************************************************
- * \brief Get a Transform Index
- *
- * This tag's data consists of a single MBUINT with the TIDX value.\n
- * This value is the index of the transforms list to use for subsequent strokes.\n
- * We change #DecodeISF.curTransform to reflect that.
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Transform Index                                               *
+ *                                                                            *
+ * This tag's data consists of a single MBUINT with the TIDX value.\n         *
+ * This value is the index of the transforms list to use for subsequent       *
+ * strokes.\n                                                                 *
+ * We change #DecodeISF.curTransform to reflect that.                         *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getTIDX (decodeISF_t * pDecISF)
 {
     int err = OK;
@@ -1199,13 +1219,14 @@ int getTIDX (decodeISF_t * pDecISF)
 
 
 
-/*******************************************************************************
- * \brief Get a Stroke Description Block
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a Stroke Description Block                                      *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 /*TODO*/
 int getStrokeDescBlock (decodeISF_t * pDecISF)
 {
@@ -1227,13 +1248,14 @@ int getStrokeDescBlock (decodeISF_t * pDecISF)
     return err;
 }
 
-/**
- * \brief Get a GUID Table
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get a GUID Table                                                    *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 /*TODO*/
 int getGUIDTable (decodeISF_t * pDecISF)
 {

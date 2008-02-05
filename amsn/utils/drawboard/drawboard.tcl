@@ -59,6 +59,8 @@ snit::widgetadaptor drawboard {
 	variable gridsourceimg
 	variable strokes_list
 	variable curStroke
+	variable curDrawingAttributes
+	variable drawAttrs_list
 
 
 	constructor { args } {
@@ -98,6 +100,8 @@ status_log "creating drawboard widget $self"
 		set endy 0
 	
 		set strokes_list [list]
+		set curDrawingAttributes [list 7 $options(-color)]
+		set drawAttrs_list [list]
 
 		#bindings
 		bind $self <ButtonPress-1> "$self ButtonDown"
@@ -113,7 +117,7 @@ status_log "creating drawboard widget $self"
 	}
 
 
-	method LoadImage { imagename filename} {
+	method LoadImage {imagename filename} {
 		return [image create photo $imagename -file $filename.gif]
 	}
 
@@ -164,6 +168,7 @@ status_log "creating drawboard widget $self"
 		}
 
 		lappend strokes_list $curStroke
+		lappend drawAttrs_list $curDrawingAttributes
 
 		#change the buttondown-flag
 		set buttondown 0
@@ -321,6 +326,8 @@ status_log "creating drawboard widget $self"
 		set strokes_list [list]
 		set curStroke_x [list]
 		set curStroke_y [list]
+		set curDrawingAttributes [list 7 $options(-color)]
+		set drawAttrs_list [list]
 
 	}
 	
@@ -342,7 +349,6 @@ status_log "creating drawboard widget $self"
 	}
 	
 
-#TODO: needs 'path'/'filename' vars where it will save, now in pwd, as "inktosend.gif"
 	method SaveDrawing {filename {gifFortified 0}} {
 
 		set drawboard [$hull itemcget drawboard -image]	
@@ -382,19 +388,16 @@ status_log "creating drawboard widget $self"
 		::picture::Save copytosend $filename cxgif
 
 		# Fortify the GIF with the strokes_list
-		if {$gifFortified && ![catch {package require tclISF}]} {
-			if {[catch {[tclISF_save $filename $strokes_list]} err]} {
+		if {$gifFortified && ![catch {package require tclISF 0.2}]} {
+			if {[catch {[tclISF_save $filename $strokes_list $drawAttrs_list]} err]} {
 				status_log "\[SaveDrawing\] saving to file $filename. Got Error : $err" red
 				status_log "$strokes_list" red
+				status_log "$drawAttrs_list" red
 			}
 		}
 
 		image delete copytosend
 		image delete temp		
-
-#status_log "::MSN::SendInk [lindex [::MSN::SBFor $contact] 0] inktosend.gif"
-#		::MSN::SendInk [lindex [::MSN::SBFor $contact] 0] inktosend.gif
-		
 	}
 
 
@@ -433,7 +436,7 @@ status_log "creating drawboard widget $self"
 		#if the pencil img already exists, delete it first before we (re)make it
 		catch { image delete pencil_$self }
 
-		set  pencilimg [::skin::loadPixmap $pencilname]
+		set pencilimg [::skin::loadPixmap $pencilname]
 
 		#get the dimensions for the pencil-image
 		set width [image width $pencilimg]
@@ -445,11 +448,15 @@ status_log "creating drawboard widget $self"
 		#copy the source-img on the new (still empty) pencil image
 		pencil_$self copy $pencilimg			
 
-		if {$options(-color) != "white" && $options(-color) != "FFFFFF"} {
-			#color the pencil
-			::picture::Colorize pencil_$self $options(-color)
+		#color the pencil
+		::picture::Colorize pencil_$self $options(-color)
+
+		#fill the drawing attributes
+		if {[string first "pencil_" $pencilname] == 0} {
+			set width [string range $pencilname 7 end]
 		}
-	}		
+		set curDrawingAttributes [list $width $options(-color)]
+	}
 
 
 

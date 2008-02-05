@@ -8,19 +8,20 @@
 
 
 
-/*******************************************************************************
- * \brief Create the Drawing Attributes Tags
- *
- * Create a payload structure containing one or more drawing attributes tags.
- *
- * \param lastpayload_ptr pointer on the last element where we should put that
- *                        data
- * \param pDA             pointer to a list a drawing attributes
- * \param payloadSize     integer we're going to increase by the size of the
- *                        drawing attributes tags
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Create the Drawing Attributes Tags                                  *
+ *                                                                            *
+ * Create a payload structure containing one or more drawing attributes tags. *
+ *                                                                            *
+ * \param lastpayload_ptr pointer on the last element where we should put     *
+ *                        that data                                           *
+ * \param pDA             pointer to a list a drawing attributes              *
+ * \param payloadSize     integer we're going to increase by the size of the  *
+ *                        drawing attributes tags                             *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createDrawAttributesTag (
         payload_t ** lastPayload_ptr,
         drawAttrs_t * pDA,
@@ -89,19 +90,20 @@ int createDrawAttributesTag (
 
 
 
-/*******************************************************************************
- * \brief Create a Drawing Attributes Block
- *
- * Create a payload structure containing a drawing attributes block
- *
- * \param lastpayload_ptr pointer on the last element where we should put that
- *                        block
- * \param pDA             pointer to a drawing attributes structure
- * \param payloadSize     integer we're going to increase by the size of the
- *                        drawing attributes block
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Create a Drawing Attributes Block                                   *
+ *                                                                            *
+ * Create a payload structure containing a drawing attributes block           *
+ *                                                                            *
+ * \param lastpayload_ptr pointer on the last element where we should put     *
+ *                        that block                                          *
+ * \param pDA             pointer to a drawing attributes structure           *
+ * \param payloadSize     integer we're going to increase by the size of the  *
+ *                        drawing attributes block                            *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createDrawAttrsBlock (
         drawAttrs_t * pDA,
         payload_t ** lastPayload_ptr,
@@ -126,11 +128,8 @@ int createDrawAttrsBlock (
     payload_ptr = *lastPayload_ptr;
 
     /* Color */
-/*    if (pDA->color != DEFAULT_COLOR) // Default is 0 : black 
-    {*/
-        payload_ptr->data[payload_ptr->cur_length++] = COLOR;
-        encodeMBUINT( (INT64) pDA->color, payload_ptr);
-    /*}*/
+    payload_ptr->data[payload_ptr->cur_length++] = COLOR;
+    encodeMBUINT( (INT64) pDA->color, payload_ptr);
 
     /* PenWidth */
     if ( (int) pDA->penWidth != DEFAULT_PEN_WIDTH)
@@ -195,19 +194,20 @@ int createDrawAttrsBlock (
 
 
 
-/*******************************************************************************
- * \brief Create a Transform Tag
- *
- * Create a payload structure containing one or more transformation tags.
- *
- * \param lastpayload_ptr   pointer on the last element where we should put
- *                          those tags
- * \param transformList_ptr pointer to a list of transforms
- * \param payloadSize       integer we're going to increase by the size of the
- *                          transform tag(s)
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Create a Transform Tag                                              *
+ *                                                                            *
+ * Create a payload structure containing one or more transformation tags.     *
+ *                                                                            *
+ * \param lastpayload_ptr   pointer on the last element where we should put   *
+ *                          those tags                                        *
+ * \param transformList_ptr pointer to a list of transforms                   *
+ * \param payloadSize       integer we're going to increase by the size of    *
+ *                          the transform tag(s)                              *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createTransformTag (
         payload_t ** lastPayload_ptr,
         transform_t * transformList_ptr,
@@ -266,20 +266,20 @@ int createTransformTag (
 
 
 
-/*******************************************************************************
- * \brief Create a Transform block
- *
- * Create a payload structure containing one or more transformation tags.
- * That function finds the best transform tag to represent that matrix.
- *
- * \param transform_ptr    pointer to a transform structure
- * \param lastpayload_ptr  pointer on the last element where we should put that
- *                         block
- * \param blockPayloadSize integer we're going to increase by the size of the
- *                         transform tag(s)
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ *                                                                            *
+ * Create a payload structure containing one or more transformation tags.     *
+ * That function finds the best transform tag to represent that matrix.       *
+ *                                                                            *
+ * \param transform_ptr    pointer to a transform structure                   *
+ * \param lastpayload_ptr  pointer on the last element where we should put    *
+ *                         that block                                         *
+ * \param blockPayloadSize integer we're going to increase by the size of the *
+ *                         transform tag(s)                                   *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createTransformBlock (
         transform_t * transform_ptr,
         payload_t ** lastPayload_ptr,
@@ -351,21 +351,22 @@ int createTransformBlock (
 
 
 
-/*******************************************************************************
- * \brief Create Strokes Tags
- *
- * Create a payload structure containing one or more Strokes.
- *
- * \param lastpayload_ptr   pointer on the last element where we should put
- *                          those tags
- * \param strokes           pointer on a list of strokes
- * \param ptrDA             pointer on a list of Drawing Attributes
- * \param transformList_ptr pointer to a list of transforms.
- * \param payloadSize       integer we're going to increase by the size of the
- *                          strokes tag(s)
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Create Strokes Tags                                                 *
+ *                                                                            *
+ * Create a payload structure containing one or more Strokes.                 *
+ *                                                                            *
+ * \param lastpayload_ptr   pointer on the last element where we should put   *
+ *                          those tags                                        *
+ * \param strokes           pointer on a list of strokes                      *
+ * \param ptrDA             pointer on a list of Drawing Attributes           *
+ * \param transformList_ptr pointer to a list of transforms.                  *
+ * \param payloadSize       integer we're going to increase by the size of    *
+ *                          the strokes tag(s)                                *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createStrokesTags(
         payload_t ** lastPayload_ptr,
         stroke_t * strokes,
@@ -421,19 +422,20 @@ int createStrokesTags(
 
 
 
-/*******************************************************************************
- * \brief Create a Stroke Tag
- *
- * Create a payload structure containing a stroke tags.
- *
- * \param lastpayload_ptr   pointer on the last element where we should put that
- *                          data
- * \param s_ptr             pointer to the stroke we're going to proceed on.
- * \param globalpayloadSize integer we're going to increase by the size of the
- *                          stroke tag
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Create a Stroke Tag                                                 *
+ *                                                                            *
+ * Create a payload structure containing a stroke tags.                       *
+ *                                                                            *
+ * \param lastpayload_ptr   pointer on the last element where we should put   *
+ *                          that data                                         *
+ * \param s_ptr             pointer to the stroke we're going to proceed on.  *
+ * \param globalpayloadSize integer we're going to increase by the size of    *
+ *                          the stroke tag                                    *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createStrokeTag (
         payload_t ** lastPayload_ptr,
         stroke_t * s_ptr,

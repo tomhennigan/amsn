@@ -38,7 +38,7 @@ int Tclisf_Init(Tcl_Interp *interp)
      * so scripts that do "package require tclISF"
      * can load the library automatically.
      */
-    Tcl_PkgProvide(interp, "tclISF", "0.1");
+    Tcl_PkgProvide(interp, "tclISF", "0.2");
     return TCL_OK;
 }
 
@@ -48,25 +48,29 @@ int Tclisf_Init(Tcl_Interp *interp)
  * Arguments are :
  * filename (string) : filename of the GIF file to fortify
  * strokes_list (list) : list of list which contains coordinates like x y x y ...
+ * drawingAttributes_list (list) : list of list which contains drawing attributes:
+ *   (pencil_width color)
  */
 int tclISF_save(ClientData clientData, Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[])
 {
     Tcl_Obj ** strokes_vector;
+    Tcl_Obj ** drawAttrs_vector;
 
     int filename_length = 0,
         strokes_counter = 0,
+        drawAttrs_counter = 0,
         err = 0;
 
     ISF_t * pISF = NULL;
     payload_t * rootTag = NULL;
     INT64 payloadSize = 0;
 
-    char * filename = NULL;
+    const char * filename = NULL;
 
-    if (objc != 3)
+    if (objc != 4)
     {
-        Tcl_WrongNumArgs(interp, 1, objv, "filename strokes_list");
+        Tcl_WrongNumArgs(interp, 1, objv, "filename strokes_list drawingAttributes_list");
         return TCL_ERROR;
     }
 
@@ -77,12 +81,27 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
     if ( Tcl_ListObjGetElements(interp, objv[2], &strokes_counter, &strokes_vector) != TCL_OK )
     {
         /* wrong args */
-        sprintf(interp->result, "Wrong arguments given to %s\nThe second parameter is a list", objv[0]);
+        sprintf(interp->result, "Wrong arguments given.\nThe second parameter must be a list");
+        return TCL_ERROR;
+    }
+
+    /* Get the drawing attributes list */
+    if ( Tcl_ListObjGetElements(interp, objv[3], &drawAttrs_counter, &drawAttrs_vector) != TCL_OK )
+    {
+        /* wrong args */
+        sprintf(interp->result, "Wrong arguments given.\nThe third parameter must be a list");
+        return TCL_ERROR;
+    }
+
+    if (drawAttrs_counter != strokes_counter )
+    {
+        /* wrong args */
+        sprintf(interp->result, "Wrong arguments given.\n strokes_list and drawingAttributes_list must have the same length. (%d!=%d)",drawAttrs_counter,strokes_counter);
         return TCL_ERROR;
     }
 
     /* Generate the ISF structure */
-    pISF = getISF_FromTclList(interp, strokes_vector, strokes_counter);
+    pISF = getISF_FromTclList(interp, strokes_vector, drawAttrs_vector, strokes_counter);
     if (!pISF)
     {
         return TCL_ERROR;
@@ -111,20 +130,34 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
     return TCL_OK;
 }
 
+unsigned int stringToAABBGGRRColor (char * color_string)
+{
+    unsigned int r,g,b;
+    sscanf(color_string,"#%2x%2x%2x",&r,&g,&b);
+    return (r | (g<<8) | (b<<16));
+}
 
 /*
  * create an ISF_t structure from the Tcl lists in strokes_vector
  */
-ISF_t * getISF_FromTclList (Tcl_Interp *interp, Tcl_Obj ** strokes_vector, int strokes_counter)
+ISF_t * getISF_FromTclList (
+        Tcl_Interp *interp,
+        Tcl_Obj ** strokes_vector,
+        Tcl_Obj ** drawAttrs_vector,
+        int strokes_counter)
 {
     int i,j,
         err,
         llength,tmp;
     stroke_t ** lastStroke = NULL;
-    stroke_t * pStroke;
+    stroke_t * pStroke = NULL;
     Tcl_Obj ** coords_vector = NULL;
+    Tcl_Obj ** curDrawAttrs_vector = NULL;
     drawAttrs_t * curDA = NULL;
     ISF_t * pISF = NULL;
+    unsigned int color = 0;
+    char * color_string = NULL;
+    float penwidth;
 
     if ( createSkeletonISF(&pISF,0,0) != OK)
         return NULL;
@@ -132,14 +165,51 @@ ISF_t * getISF_FromTclList (Tcl_Interp *interp, Tcl_Obj ** strokes_vector, int s
     /* change himetric units to pixels units */
     changeZoom(pISF, (double) 1/HIMPERPX);
 
-    /* default pencil used is 7px large */
+    /* default pencil used is 3px large in WLM */
     curDA = pISF->drawAttrs;
-    curDA->penWidth = curDA->penHeight = 7;
+    curDA->penWidth = curDA->penHeight = 3;
 
     lastStroke = &(pISF->strokes);
 
     for (i = 0; i < strokes_counter; i++)
     {
+        /* create the drawing attributes for that stroke */
+        if (Tcl_ListObjGetElements(interp, drawAttrs_vector[i], &tmp, &curDrawAttrs_vector) != TCL_OK)
+        {
+            freeISF(pISF);
+            sprintf(interp->result, "Wrong arguments. The drawingAttributes_list is a list of lists");
+            return NULL;
+        }
+        Tcl_GetIntFromObj(interp, curDrawAttrs_vector[0], &tmp);
+        penwidth = (float) tmp;
+        /* get the color */
+        color_string = Tcl_GetStringFromObj(curDrawAttrs_vector[1],&tmp);
+        if(tmp == 7 && color_string[0] == '#') /* no transparency for the moment */
+            color = stringToAABBGGRRColor(color_string);
+
+        curDA = searchDrawingAttrsFor(
+                pISF->drawAttrs,
+                penwidth,
+                penwidth,
+                color,
+                DEFAULT_FLAGS);
+        if (!curDA)
+        {
+            /* need to create one */
+            if (createDrawingAttrs(&curDA) != OK)
+            {
+                freeISF(pISF);
+                return NULL;
+            }
+            curDA->penWidth = curDA->penHeight = penwidth;
+            curDA->color = color;
+
+            curDA->next = pISF->drawAttrs;
+            pISF->drawAttrs = curDA;
+        }
+
+
+
         /* treat each list of coordinates */
         if (Tcl_ListObjGetElements(interp, strokes_vector[i], &llength, &coords_vector) != TCL_OK)
         {
@@ -148,7 +218,7 @@ ISF_t * getISF_FromTclList (Tcl_Interp *interp, Tcl_Obj ** strokes_vector, int s
             return NULL;
         }
         llength >>= 1;
-        err = createStroke(&pStroke, llength,NULL,pISF->drawAttrs);
+        err = createStroke(&pStroke, llength, NULL, curDA);
         if (err != OK)
         {
             freeISF(pISF);

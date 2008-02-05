@@ -7,21 +7,22 @@
 #include	"misc.h"
 
 
-/*******************************************************************************
- * \brief Create Packet Data
- *
- * Create a payload structure containing data encoded as Packet Data.
- * It's mainly use for strokes coordinates.
- *
- * \param lastPayload_ptr pointer on the last element where we should put that
- *                        data
- * \param nPoints         number of points the data has
- * \param arr             array of points we're going to encode
- * \param payloadSize     integer we're going to increase by the size of the
- *                        payload of this packet data
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Create Packet Data                                                  *
+ *                                                                            *
+ * Create a payload structure containing data encoded as Packet Data.         *
+ * It's mainly use for strokes coordinates.                                   *
+ *                                                                            *
+ * \param lastPayload_ptr pointer on the last element where we should put     *
+ *                        that data                                           *
+ * \param nPoints         number of points the data has                       *
+ * \param arr             array of points we're going to encode               *
+ * \param payloadSize     integer we're going to increase by the size of the  *
+ *                        payload of this packet data                         *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createPacketData(
         payload_t ** lastPayload_ptr,
         INT64 nPoints,
@@ -68,15 +69,16 @@ int createPacketData(
 }
 
 
-
-/*******************************************************************************
- * Get the best block size ( as in the Gorilla algorithm) for the specified
- * array
- *
- * \param points_nb size of the array
- * \param arr       array we're going to search
- * \returns the best block size found
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * Get the best block size ( as in the Gorilla algorithm) for the specified   *
+ * array                                                                      *
+ *                                                                            *
+ * \param points_nb size of the array                                         *
+ * \param arr       array we're going to search                               *
+ *                                                                            *
+ * \returns the best block size found                                         *
+ ** ------------------------------------------------------------------------ **/
 int getBlockSize( int points_nb, INT64 * arr)
 {
     int blockSize = 0;
@@ -103,22 +105,25 @@ int getBlockSize( int points_nb, INT64 * arr)
     return blockSize;
 }
 
-/*******************************************************************************
- * \brief Encode using the Gorilla algorithm an array of integers
- *
- * Encode an array of integers using the Gorilla algorithm. The best block size
- * has already been found, and an already allocated array where to put the
- * encoded values is provided to the function.
- * That's why no error code is returned since there is no allocation here.
- *
- * \param uchar_arr    array where the encoded data is put
- * \param int_arr      array describing the integers to encode
- * \param packetNumber size of the integer array = number of integers to encode
- * \param blockSize    size in bits of a block where every integer for #int_arr
- *                     fits in
- *
- * \returns nothing
- ******************************************************************************/
+
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Encode using the Gorilla algorithm an array of integers             *
+ *                                                                            *
+ * Encode an array of integers using the Gorilla algorithm. The best block    *
+ * size has already been found, and an already allocated array where to put   *
+ * the encoded values is provided to the function.                            *
+ * That's why no error code is returned since there is no allocation here.    *
+ *                                                                            *
+ * \param uchar_arr    array where the encoded data is put                    *
+ * \param int_arr      array describing the integers to encode                *
+ * \param packetNumber size of the integer array = number of integers to      *
+ *                     encode                                                 *
+ * \param blockSize    size in bits of a block where every integer for        *
+ *                     #int_arr fits in                                       *
+ *                                                                            *
+ * \returns nothing                                                           *
+ ** ------------------------------------------------------------------------ **/
 void encodeGorilla (
         unsigned char * uchar_arr,
         INT64 * int_arr,

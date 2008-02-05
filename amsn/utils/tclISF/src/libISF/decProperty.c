@@ -5,14 +5,15 @@
 #include	"DecodeISF.h"
 #include	"misc.h"
 
-/*******************************************************************************
- * \brief Get Property data associated with a GUID
- *
- * \param pDecISF structure used to decode the ISF file.
- * \param guidId  number of the GUID to proceed
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief Get Property data associated with a GUID                            *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ * \param guidId  number of the GUID to proceed                               *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getProperty (decodeISF_t * pDecISF, INT64 guidId)
 {
     int err = OK; /* the error code */

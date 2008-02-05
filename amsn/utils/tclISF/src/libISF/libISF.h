@@ -1,4 +1,7 @@
-/*
+
+/**
+ * \mainpage
+ *
  * libISF.h
  *
  * Copyright (C) 2007 Boris FAURE <boris.faure@gmail.com>
@@ -17,14 +20,48 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
- */
-
-/*
+ *
+ *
+ *
+ *
+ * \n\n
+ *
  * All that code has been made possible with the great help from
  * Youness Alaoui and Ole Andre Vadla Ravnas.
  *
  * A quick documentation of the format can be found at :
  * http://synce.org/moin/FormatDocumentation/InkSerializedFormat
+ *
+ * \n\n
+ *
+ * \section howto                      How to use that library?
+ *
+ *  The library is divided into 2 parts:
+ *  - one for decoding an ISF stream
+ *  - one to encoding into an ISF stream
+ *
+ *  \subsection dec                    Decoding process:
+ *  The library provides only one function : #getISF .
+ *
+ *  It fills an #ISF_t structure given as a parameter.
+ *
+ *  A function is given to getISF to get an unsigned char from the input stream.
+ *  This function is like :
+ *  int getUChar (void * streaminfo, INT64 * b, unsigned char *c);\n
+ *  b should be incremented by 1 for each byte read. The unsigned char from the 
+ *  stream should be put in c.\n
+ *  The void * streaminfo pointer from getISF is given to the *pGetUChar function.\n
+ *  The ISF_t structure is filled with a stroke list and their drawing attributes.
+ *
+ *
+ *  \subsection enc                    Encoding process:
+ *  The library also provides only one function : #createISF .
+ *
+ *  This function is given an #ISF_t structure describing the image to encode.
+ *
+ *  It constructs a #payload_t list at the rootTag address. This list is the 
+ *  ISF_t structure encoded in the ISF format. This list is a chained list.
+ *
  */
 
 
@@ -192,7 +229,7 @@ typedef struct transform
           m21,
           m22,
           m23;
-    /** pointer to the next transform matrix */
+    /** next transform matrix */
     struct transform * next;
 } transform_t;
 
@@ -235,19 +272,20 @@ typedef struct ISF
 
 
 /**
- * Structure where we store a binary ISF in order to be put in a file
+ * Structure where we store a binary ISF representation.
+ * It is a chained list.
  * This structure is only used while encoding.
  * It's not used for decoding
  */
 typedef struct payload
 {
-    /** current use of the tab; must be <= size */
+    /** current use of the array; must be <= size */
     INT64 cur_length;
-    /** size of the tab */
+    /** size of the array */
     INT64 size;
-    /** pointer where the data is stored */
+    /** where the data is stored */
     unsigned char * data;
-    /** pointer to the next element */
+    /** next element */
     struct payload * next;
 } payload_t;
 
@@ -256,8 +294,7 @@ typedef struct payload
  * ERROR CODES:
  * those <0 are used when we must stop processing
  * those >0 are used when we have an error while decoding but when we still can
- * keep on decoding the file.
- *     unknown drawing attribute for example.
+ * keep on decoding the file: got unknown drawing attribute for example.
  */
 /* TODO */
 #define OK 0
@@ -272,15 +309,22 @@ typedef struct payload
 
 
 /* FUNCTIONS */
+
 int getISF (
         ISF_t ** pISF,
         void * streamInfo,
         int (*getUChar) (void *, INT64 *, unsigned char*));
 
 int createDrawingAttrs(drawAttrs_t ** pDA);
+
 int createTransform(transform_t ** pTransform);
-int createStroke(stroke_t ** pStroke, INT64 size, stroke_t * next,
+
+int createStroke(
+        stroke_t ** pStroke,
+        INT64 size,
+        stroke_t * next,
         drawAttrs_t * drawAttrs);
+
 int createSkeletonISF(ISF_t ** pISF, int width, int height);
 
 drawAttrs_t * searchDrawingAttrsFor (
@@ -291,11 +335,15 @@ drawAttrs_t * searchDrawingAttrsFor (
         unsigned short flags);
 
 void changeZoom (ISF_t * pISF, float zoom);
+
+
 void freeISF (ISF_t * pISF);
+
+
 void freePayloads (payload_t * pRoot);
 
-
 int createPayload (payload_t ** payload_ptr, int size, payload_t * next_ptr);
+
 int createISF (
         ISF_t * pISF,
         payload_t ** rootTag,

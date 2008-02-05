@@ -11,17 +11,16 @@
  *                               DECODING                                     *
  ******************************************************************************/
 
-/*******************************************************************************
- * \brief Get an ISF structure from a stream
- *
- * \param pISF pointer where we construct the ISF structure
- * \param streamInfo data structure where informations about the stream are
- *                   stored
- * \param pGetUChar function used to get an unsigned char from a stream.
- *
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \brief Get an ISF structure from a stream                                  *
+ *                                                                            *
+ * \param pISF        where we construct the ISF structure                    *
+ * \param streamInfo data structure where informations about the stream are   *
+ *                   stored                                                   *
+ * \param pGetUChar  function used to get an unsigned char from a stream.     *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int getISF (
         ISF_t ** pISF,
         void * streamInfo,
@@ -257,16 +256,17 @@ int getISF (
 }
 
 
-/*******************************************************************************
- * \brief check the header of the ISF file
- *
- * We check if the file is a ISF. \n
- * We get the number of Bytes to read.
- *
- * \param pDecISF structure used to decode the ISF file.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * \brief check the header of the ISF file                                    *
+ *                                                                            *
+ * We check if the file is a ISF. \n                                          *
+ * We get the number of Bytes to read.                                        *
+ *                                                                            *
+ * \param pDecISF structure used to decode the ISF file.                      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int checkHeader (decodeISF_t * pDecISF)
 {
     int err = OK; /* the error code */
@@ -291,17 +291,15 @@ int checkHeader (decodeISF_t * pDecISF)
 
 
 
-
-
-/*******************************************************************************
- * \brief Create and init a drawing attributes structure.
- *
- * We create a drawing attributes structure and we set it with default values.
- *
- * \param pDA pointer where we create the drawing attributes structure.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \brief Create and init a drawing attributes structure.                     *
+ *                                                                            *
+ * We create a drawing attributes structure and we set it with default values.*
+ *                                                                            *
+ * \param pDA pointer where we create the drawing attributes structure.       *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createDrawingAttrs(drawAttrs_t ** pDA)
 {
     int err = OK;
@@ -325,17 +323,18 @@ int createDrawingAttrs(drawAttrs_t ** pDA)
 
 
 
-/*******************************************************************************
- * Search for a Drawing Attributes structure in a list
- *
- * \param pDA_list  list of drawAttrs_t structures to search on
- * \param penWidth  width of the pencil searched
- * \param penHeight height of the pencil searched
- * \param color     color searched
- * \param flags     flags searched
- *
- * \returns a NULL pointer or the searched structure
- ******************************************************************************/
+
+/** ------------------------------------------------------------------------ **
+ * Search for a Drawing Attributes structure in a list                        *
+ *                                                                            *
+ * \param pDA_list  list of drawAttrs_t structures to search on               *
+ * \param penWidth  width of the pencil searched                              *
+ * \param penHeight height of the pencil searched                             *
+ * \param color     color (in AABBGGRR format) searched                       *
+ * \param flags     flags searched                                            *
+ *                                                                            *
+ * \returns a NULL pointer or the searched structure                          *
+ ** ------------------------------------------------------------------------ **/
 drawAttrs_t *
 searchDrawingAttrsFor (
         drawAttrs_t * pDA_list,
@@ -347,10 +346,10 @@ searchDrawingAttrsFor (
 {
     drawAttrs_t * curDA = pDA_list;
     while (curDA 
-           && abs(penWidth - curDA->penWidth) > 0.3
-           && abs(penHeight - curDA->penHeight) > 0.3
-           && color != curDA->color
-           && flags != curDA->flags) 
+           && (abs(penWidth - curDA->penWidth) > 0.3
+            || abs(penHeight - curDA->penHeight) > 0.3
+            || color != curDA->color
+            || flags != curDA->flags)) 
     {
         curDA = curDA->next;
     }
@@ -358,16 +357,17 @@ searchDrawingAttrsFor (
 }
 
 
-/*******************************************************************************
- * \brief Create and init a transformation structure.
- *
- * We create a transformation structure and we set it with default values.\n
- * The default matrix is Identity
- *
- * \param pTransform pointer where we create the transformation structure.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+
+/** ------------------------------------------------------------------------ **
+ * \brief Create and init a transformation structure.                         *
+ *                                                                            *
+ * We create a transformation structure and we set it with default values.\n  *
+ * The default matrix is Identity                                             *
+ *                                                                            *
+ * \param pTransform pointer where we create the transformation structure.    *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createTransform(transform_t ** pTransform)
 {
     int err = OK;
@@ -388,19 +388,19 @@ int createTransform(transform_t ** pTransform)
 }
 
 
-/*******************************************************************************
- * \brief Create a Stroke structure.
- * 
- * The X and Y field are allocated and can have #allocatedSize elements.
- * The Pressure field is not allocated.
- *
- * \param pStroke       pointer where we create the stroke structure.
- * \param allocatedSize number of points that can fit in that stroke.
- * \param next          pointer to the next stroke structure (Default is NULL).
- * \param drawAttrs     pointer to the Drawing Attributes of that stroke
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \brief Create a Stroke structure.                                          *
+ *                                                                            *
+ * The X and Y field are allocated and can have #allocatedSize elements.      *
+ * The Pressure field is not allocated.                                       *
+ *                                                                            *
+ * \param pStroke       pointer where we create the stroke structure.         *
+ * \param allocatedSize number of points that can fit in that stroke.         *
+ * \param next          pointer to the next stroke structure (Default is NULL)*
+ * \param drawAttrs     pointer to the Drawing Attributes of that stroke      *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createStroke(stroke_t ** pStroke, INT64 allocatedSize, stroke_t * next, 
         drawAttrs_t * drawAttrs)
 {
@@ -445,22 +445,22 @@ int createStroke(stroke_t ** pStroke, INT64 allocatedSize, stroke_t * next,
 }
 
 
-/*******************************************************************************
- * \brief Create a skeleton of an ISF structure.
- *
- * This function creates an ISF_t structure. Its bounding box is 0, but its 
- * width and height are those specified by the arguments.
- * Thoses size are used to described the size of the window used to draw that
- * ink.
- * This ISF_t structure has no strokes, but contains the default drawing 
- * attributes.
- *
- * \param pISF    pointer where we create the ISF structure.
- * \param width   width of the drawing area related to that ISF.
- * \param height  height of the drawing area related to that ISF.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \brief Create a skeleton of an ISF structure.                              *
+ *                                                                            *
+ * This function creates an ISF_t structure. Its bounding box is 0, but its   *
+ * width and height are those specified by the arguments.                     *
+ * Thoses size are used to described the size of the window used to draw that *
+ * ink.                                                                       *
+ * This ISF_t structure has no strokes, but contains the default drawing      *
+ * attributes.                                                                *
+ *                                                                            *
+ * \param pISF    pointer where we create the ISF structure.                  *
+ * \param width   width of the drawing area related to that ISF.              *
+ * \param height  height of the drawing area related to that ISF.             *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createSkeletonISF(ISF_t ** pISF, int width, int height)
 {
     int err = OK;
@@ -486,20 +486,20 @@ int createSkeletonISF(ISF_t ** pISF, int width, int height)
 }
 
 
-/*******************************************************************************
- * \brief Change the zoom level of an ISF structure
- *
- * Change the zoom level of an ISF structure by changing the width and height of
- * each of its elements.\n
- * It changes the size of the pencils and the coordinates of the strokes.\n
- * It is mainly used to change the unit of the ISF : converting Himetres to
- * pixels, or the contrary.
- *
- * \param pISF the ISF structure
- * \param zoom factor used to change the zoom level
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \brief Change the zoom level of an ISF structure                           *
+ *                                                                            *
+ * Change the zoom level of an ISF structure by changing the width and height *
+ * of each of its elements.\n                                                 *
+ * It changes the size of the pencils and the coordinates of the strokes.\n   *
+ * It is mainly used to change the unit of the ISF : converting Himetres to   *
+ * pixels, or the contrary.                                                   *
+ *                                                                            *
+ * \param pISF the ISF structure                                              *
+ * \param zoom factor used to change the zoom level                           *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 void changeZoom (ISF_t * pISF, float zoom)
 {
     INT64 i;
@@ -542,11 +542,11 @@ void changeZoom (ISF_t * pISF, float zoom)
     pISF->penHeightMax *= zoom;
 }
 
-/*******************************************************************************
- * Free an ISF structure
- *
- * \param pISF pointer to the ISF structure we're going to free
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * Free an ISF structure                                                      *
+ *                                                                            *
+ * \param pISF pointer to the ISF structure we're going to free               *
+ ** ------------------------------------------------------------------------ **/
 void freeISF (ISF_t * pISF)
 {
     drawAttrs_t * pDrawAttrs,
@@ -579,11 +579,11 @@ void freeISF (ISF_t * pISF)
     }
 }
 
-/*******************************************************************************
- * Free payload_t structures
- *
- * \param pRoot pointer on payload_t list to free
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * Free payload_t structures                                                  *
+ *                                                                            *
+ * \param pRoot pointer on payload_t list to free                             *
+ ** ------------------------------------------------------------------------ **/
 void freePayloads (payload_t * pRoot)
 {
     payload_t * curPayload = pRoot,
@@ -598,11 +598,11 @@ void freePayloads (payload_t * pRoot)
     }
 }
 
-/*******************************************************************************
- * Free a decodeISF structure
- *
- * \param pDecISF pointer to the decodeISF structure we're going to free
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * Free a decodeISF structure                                                 *
+ *                                                                            *
+ * \param pDecISF pointer to the decodeISF structure we're going to free      *
+ ** ------------------------------------------------------------------------ **/
 void freeDecodeISF (decodeISF_t * pDecISF)
 {
     transform_t * ptrTransform,
@@ -623,16 +623,16 @@ void freeDecodeISF (decodeISF_t * pDecISF)
     }
 }
 
-/*******************************************************************************
- * \brief Send debugging informations
- *
- * It is mainly used to provide informations about the file we're
- * decoding/creating.\n
- * It works like fprintf.
- *
- * \param stream stream where we print the informations
- * \param fmt format describing the informations to print.
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \brief Send debugging informations                                         *
+ *                                                                            *
+ * It is mainly used to provide informations about the file we're             *
+ * decoding/creating.\n                                                       *
+ * It works like fprintf.                                                     *
+ *                                                                            *
+ * \param stream stream where we print the informations                       *
+ * \param fmt    format describing the informations to print.                 *
+ ** ------------------------------------------------------------------------ **/
 void LOG (FILE * stream, char * fmt, ...)
 {
 #ifdef DEBUG
@@ -651,18 +651,18 @@ void LOG (FILE * stream, char * fmt, ...)
  ******************************************************************************/
 
 
-/*******************************************************************************
- * \brief Create a Payload structure
- *
- * Create a payload structure and initiate it.
- *
- * \param payload_ptr pointer on where we put the new payload structure
- * \param size        size in Bytes of the payload
- * \param next_ptr    pointer on the next payload structure
- *                    should be NULL most of the time
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \brief Create a Payload structure                                          *
+ *                                                                            *
+ * Create a payload structure and initiate it.                                *
+ *                                                                            *
+ * \param payload_ptr pointer on where we put the new payload structure       *
+ * \param size        size in Bytes of the payload                            *
+ * \param next_ptr    pointer on the next payload structure.                  *
+ *                    should be NULL most of the time                         *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createPayload (payload_t ** payload_ptr, int size, payload_t * next_ptr)
 {
     int err = OK;
@@ -681,26 +681,29 @@ int createPayload (payload_t ** payload_ptr, int size, payload_t * next_ptr)
 
 
 
-/*******************************************************************************
- * \brief Encode an ISF representation into ISF
- *
- * Given an ISF representation (the structure ISF_t which contains a list of
- * strokes, drawing attributes ...), create an ISF "file".
- *
- * \param pISF              pointer on the ISF structure to encode
- * \param rootTag           pointer where the root tag of the file is put.
- * \param transformList_ptr pointer on a list of transformation to apply
- *                          That list can be:
- *                            - empty : no transformation is applied
- *                            - have only one element : this transformation is
- *                              applied to every stroke
- *                            - be as long as the stroke list : each
- *                              transformation matchs the respective stroke.
- * \param fullPayloadSize   pointer on a int where the size of encoded file is
- *                          put.
- *
- * \returns the error code given while processing
- ******************************************************************************/
+/** ------------------------------------------------------------------------ **
+ * \brief Encode an ISF representation into ISF                               *
+ *                                                                            *
+ * Given an ISF representation (the structure ISF_t which contains a list of  *
+ * strokes, drawing attributes ...), create an ISF "file".                    *
+ *                                                                            *
+ * \param pISF              pointer on the ISF structure to encode            *
+ * \param rootTag           pointer where the root tag of the file is put.    *
+ * \param transformList_ptr pointer on a list of transformation to apply      *
+ *                          That list can be:                                 *
+ *                            - empty : no transformation is applied          *
+ *                            - have only one element : this transformation   *
+ *                              is applied to every stroke. This one is       *
+ *                              usefull if your strokes are using pixel       *
+ *                              units. Just add a transformation matrix to    *
+ *                              turn the coordinates into himetric.           *
+ *                            - be as long as the stroke list : each          *
+ *                              transformation matchs the respective stroke.  *
+ * \param fullPayloadSize   pointer on a int where the size of encoded file   *
+ *                          is put.                                           *
+ *                                                                            *
+ * \returns the error code given while processing                             *
+ ** ------------------------------------------------------------------------ **/
 int createISF (
         ISF_t * pISF,
         payload_t ** rootTag,
