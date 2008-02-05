@@ -239,6 +239,7 @@ created Created
 credits Credits
 curdisplaypic Current display picture
 currentdate Current Date
+currentdynrate Current real-time speed (in milliseconds)
 currentlanguage This is the language currently in use
 currentnotes Current notes
 custnotifymsg Display notify window when a message from this user arrives
@@ -308,6 +309,7 @@ download Download
 downloadcanceled Download canceled.
 downloadingtls Downloading TLS module from:\n $1
 downloadingwait Downloading new amsn version. Please Wait...
+dynamicrate Use dynamic frame rate to simulate the real-time speed 
 editcontent Edit the content of the subject field and the note field
 editcustomstate Edit custom state
 edit Edit

@@ -1465,6 +1465,77 @@ namespace eval ::MSNCAM {
 		}
 	}
 
+	proc GetCamDataUID { data } {
+		# struct header {
+		#    char header_size;
+		#    char is_pause_frame;
+		#    short width;
+		#    short height;
+		#    short is_keyframe;
+		#    int payload_size;
+		#    int FCC; \\ ML20
+		#    int unique_random_id;
+		#    int timestamp;
+		# }
+		
+
+		if { [string length $data] < 24 } {
+			return -1
+		}
+
+		#binary scan $data ccsssiiii h_size paused w h is_keyframe p_size fcc uid timestamp
+		binary scan $data c@16i h_size uid
+		
+
+		if { $h_size != 24 } {
+			status_log "invalid - $h_size - [string range $data 0 50]" red
+			return -1
+		}
+		set fcc [string range $data 12 15]
+		if { $fcc != "ML20" } {
+			status_log "fcc invalid - $fcc - [string range $data 0 50]" red
+			return -1
+		}
+
+		return $uid
+
+	}
+	proc GetCamDataTimestamp { data } {
+		# struct header {
+		#    char header_size;
+		#    char is_pause_frame;
+		#    short width;
+		#    short height;
+		#    short is_keyframe;
+		#    int payload_size;
+		#    int FCC; \\ ML20
+		#    int unique_random_id;
+		#    int timestamp;
+		# }
+		
+
+		if { [string length $data] < 24 } {
+			return -1
+		}
+
+		#binary scan $data ccsssiiii h_size paused w h is_keyframe p_size fcc uid timestamp
+		binary scan $data c@20i h_size timestamp
+		
+
+		if { $h_size != 24 } {
+			status_log "invalid - $h_size - [string range $data 0 50]" red
+			return -1
+		}
+		set fcc [string range $data 12 15]
+		if { $fcc != "ML20" } {
+			status_log "fcc invalid - $fcc - [string range $data 0 50]" red
+			return -1
+		}
+		return $timestamp
+
+
+	}
+
 	proc GetCamDataSize { data } {
 
 		# struct header {
@@ -3194,6 +3265,7 @@ namespace eval ::CAMGUI {
 			seek $fd [set ::seek_val($img)]
 			set data [read $fd 24]
 			set size [::MSNCAM::GetCamDataSize $data] 
+			set timestamp [::MSNCAM::GetCamDataTimestamp $data] 
 			if {$size < 0} {
 				set ::seek_val($img) [getNextKeyframeOffset $filename $::seek_val($img)]
 				continue
@@ -3204,7 +3276,6 @@ namespace eval ::CAMGUI {
 				break
 			}
 
-
 			if { [catch { ::Webcamsn::Decode $decoder $img $data} res] } {
 				status_log "Play : Decode error $res" red
 				set ::seek_val($img) [getNextKeyframeOffset $filename $::seek_val($img)]
@@ -3214,12 +3285,29 @@ namespace eval ::CAMGUI {
 				incr ::seek_val($img) $size
 				incr ::seek_val($img) +24
 			}
+	
+			set data [read $fd 24]
+			set next_timestamp [::MSNCAM::GetCamDataTimestamp $data] 
+			seek $fd -24 current
+			if {$next_timestamp < 0} {
+				continue
+			}
+			set diff  [expr {$next_timestamp - $timestamp}]
+			if { $diff < 0 || $diff > 5000 } {
+				set diff 0 
+			}
+			set ::webcam_dynamic_rate $diff
+
+			if  { [::config::getKey dynamic_rate 0] && $diff != 0} {
+				set next_after $diff
+			} else {
+				set next_after [::config::getKey playbackspeed]
+			}
 
 			# Make sure the semaphore wasn't unset during the call to Decode, and that the 'after' gets executed after the 'after cancel' is called..
 			after [::config::getKey playbackspeed] "incr_sem $semaphore"
 			tkwait variable $semaphore
-
-	
+			
 		}
 		close $fd
 		::Webcamsn::Close $decoder

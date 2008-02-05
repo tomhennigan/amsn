@@ -639,8 +639,13 @@ namespace eval ::log {
 
 		frame $wname.slider -borderwidth 0
 
-		scale $wname.slider.playbackspeed -from 10 -to 500 -resolution 1 -showvalue 1 -label "[trans playbackspeed]" -variable [::config::getVar playbackspeed] -orient horizontal
-		
+		scale $wname.slider.playbackspeed -from 10 -to 1000 -resolution 1 -showvalue 1 -label "[trans playbackspeed]" -variable [::config::getVar playbackspeed] -orient horizontal
+
+		checkbutton $wname.dynamicrate -text "[trans dynamicrate]" -variable [::config::getVar dynamic_rate]
+		frame $wname.dynrate
+		label $wname.dynrate.label -text "[trans currentdynrate] : " 
+		label $wname.dynrate.value -textvariable ::webcam_dynamic_rate
+
 		frame $wname.position -borderwidth 0
 
 		#if { ![info exists ::seek_val($img)] } {
@@ -682,6 +687,11 @@ namespace eval ::log {
 		pack $wname.buttons.clear -padx 0 -side right
 		pack $wname.buttons.close -padx 0 -side right
 		pack $wname.buttons -side bottom -fill x -pady 3
+		pack $wname.dynrate.label -side left -fill x -pady 3
+		pack $wname.dynrate.value -side left -fill x -pady 3
+		pack $wname.dynrate -side bottom -fill x -pady 3
+		pack $wname.dynrate -side bottom -fill x -pady 3
+		pack $wname.dynamicrate -side bottom -fill x -pady 3
 		pack $wname.slider.playbackspeed -fill x
 		pack $wname.slider -side bottom -fill x -pady 3
 
