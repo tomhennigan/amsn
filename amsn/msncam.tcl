@@ -3299,13 +3299,13 @@ namespace eval ::CAMGUI {
 			set ::webcam_dynamic_rate $diff
 
 			if  { [::config::getKey dynamic_rate 0] && $diff != 0} {
-				set next_after $diff
+				set next_frame $diff
 			} else {
-				set next_after [::config::getKey playbackspeed]
+				set next_frame [::config::getKey playbackspeed]
 			}
 
 			# Make sure the semaphore wasn't unset during the call to Decode, and that the 'after' gets executed after the 'after cancel' is called..
-			after [::config::getKey playbackspeed] "incr_sem $semaphore"
+			after $next_frame "incr_sem $semaphore"
 			tkwait variable $semaphore
 			
 		}
