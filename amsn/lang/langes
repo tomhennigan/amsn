@@ -7,8 +7,8 @@ acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 account Cuenta
 actions Acciones
 activeautoupdate Activar actualización automática
-addacontact Añadir un contacto
 add Añadir
+addacontact Añadir un contacto
 addedyou $1 ($2) le ha añadido a su lista de contactos
 addprofile Añadir un perfil
 addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
@@ -240,6 +240,7 @@ created Creado
 credits Créditos
 curdisplaypic Imagen mostrada actualmente
 currentdate Fecha actual
+currentdynrate Velocidad actual en tiempo real (en milisegundos)
 currentlanguage Este es el idioma usado actualmente
 currentnotes Notas actuales
 custnotifymsg Mostrar ventana de aviso cuando este contacto envía un nuevo mensaje
@@ -309,6 +310,7 @@ downloadcanceled Descarga cancelada.
 download Descargar
 downloadingtls Descargando el módulo TLS desde:\n $1
 downloadingwait Descargando una nueva versión de aMSN. Por favor, espere...
+dynamicrate Usar tasa de trama dinámica para simular la velocidad en tiempo real
 editavsettings Configurar cámara web
 editcontent Editar el contenido del campo Asunto y el campo Nota
 editcustomstate Editar estado personalizado
@@ -932,9 +934,9 @@ viewspace Ver elementos del espacio
 view Ver
 volume Volumen
 wanttosharecam Quiero que mi cámara web esté disponible para otros
-webcam Cámara web
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
+webcam Cámara web
 webcamconfigure Configurar cámara web
 webcamconfiguredLinux Has elegido la siguiente configuración:\nDispositivo de cámara web: $1\nCanal de cámara web: $2
 webcamconfiguredMac Tu cámara web ha sido configurada
