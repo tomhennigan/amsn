@@ -111,7 +111,6 @@ namespace eval ::searchcontact {
 
 	proc clearSearch { } {
 		.main.searchbar.sunkenframe.input delete 0 end
-		::searchcontact::resetSearchBarColor
 		set ::searchcontact::firstcontact ""
 		pack forget .main.searchbar.sunkenframe.clearbutton
 		::searchcontact::drawContacts
@@ -395,6 +394,12 @@ namespace eval ::searchcontact {
 			set input [list ""]
 		}
 
+		if {[namespace exists ::notes]} {
+			set searchnotes 1
+		} else {
+			set searchnotes 0
+		}
+
 		#search for every input item for matches
 		set matches [list ]
 		foreach item $input {
@@ -418,18 +423,25 @@ namespace eval ::searchcontact {
 
 
 				#filter per searchtype
+				#we search first in the email because there isn't the need to call a proc. So it's more speed.
+				if {$type == 2 || $type == 0} {
+					if { [string match "*$item*" $contact] == 1 } {
+						if { [lsearch output $contact] == -1 } {
+							lappend output $contact
+							continue
+						}
+					}
+				}
 				if {$type == 1 || $type == 0} {
 					if {	[string match "*$item*" [string tolower [::abook::getNick $contact]]] == 1 || \
 						[string match "*$item*" [string tolower [::abook::getVolatileData $contact PSM]]] == 1 ||\
 						[string match "*$item*" [string tolower [::abook::getContactData $contact customnick]]] == 1
 					} {
 
-						if { [lsearch output $contact] == -1 } {lappend output $contact}
-					}
-				}
-				if {$type == 2 || $type == 0} {
-					if { [string match "*$item*" $contact] == 1 } {
-						if { [lsearch output $contact] == -1 } {lappend output $contact}
+						if { [lsearch output $contact] == -1 } {
+							lappend output $contact
+							continue
+						}
 					}
 				}
 				if {$type == 3 || $type == 0} {
@@ -440,16 +452,13 @@ namespace eval ::searchcontact {
 						}
 					}			
 				}
-				if { [namespace exists ::notes] } {
+				if {$searchnotes == 1 && ($type == 4 || $type == 0)} {
 
-					if {$type == 4 || $type == 0} {
-
-						if {[::notes::get_Note $contact] != ""} {
-							catch {
-								if { [lsearch -regexp [string tolower $::notes::notes] [string tolower $item]] != -1 } {
-									if { [lsearch output $contact] == -1 } {lappend output $contact}
-								} 
-							}
+					if {[::notes::get_Note $contact] != ""} {
+						catch {
+							if { [lsearch -regexp [string tolower $::notes::notes] [string tolower $item]] != -1 } {
+								if { [lsearch output $contact] == -1 } {lappend output $contact}
+							} 
 						}
 					}
 				}
