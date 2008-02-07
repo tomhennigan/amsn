@@ -123,6 +123,8 @@ namespace eval ::searchcontact {
 			#we only register those now as otherwise it's already called during login while the bar isn't even drawn yet
 			::plugins::RegisterEvent "Search Contact" ChangeState redoSearch
 			::plugins::RegisterEvent "Search Contact" parse_contact redoSearch
+			::plugins::RegisterEvent "Search Contact" contactBlocked redoSearch
+			::plugins::RegisterEvent "Search Contact" contactUnblocked redoSearch
 
 			frame .main.searchbar -bg white -borderwidth 1 -highlightthickness 0
 			label .main.searchbar.label -text "[trans filter]:" -bg white
@@ -600,19 +602,24 @@ namespace eval ::searchcontact {
 		if {!$::contactlist_loaded} { return }
 		variable clblocked
 
-		if { $event == "filterChange" || $event == "historyScroll" } {
+		if { $event eq "filterChange" || $event eq "historyScroll" } {
 			set clblocked 1
 		}
 		
-		if { $event == "ChangeState" } {
-			set tick 100
-		} else {
-			set tick 250
-		}
-
 		if {$clblocked && [winfo exists .main.searchbar]} {
+			after cancel ::searchcontact::drawContacts
+
+			if { $event eq "ChangeState" } {
+				set tick 100
+			} elseif { $event eq "contactBlocked" || $event eq "contactUnblocked" } {
+				set tick 700
+			} else {
+				set tick 250
+			}
+
 			after $tick ::searchcontact::drawContacts
 		}
+
 	}
 
 	#proc to time our filter proc 
