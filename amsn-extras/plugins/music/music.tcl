@@ -206,7 +206,7 @@ namespace eval ::music {
 			activated {1} \
 			display {1} \
 			songart {1} \
-			separator {-} \
+			display_style {%title - %artist} \
 			changepic {0} \
 			mpd_ip {127.0.0.1} \
 			mpd_port {6600} \
@@ -283,38 +283,31 @@ namespace eval ::music {
 			set info [::music::GetSong]
 
 			set song [lindex $info 0]
-			set file [lindex $info 1]
-			set artfile [lindex $info 2]
+			set artist [lindex $info 1]
+			set file [lindex $info 2]
+			set artfile [lindex $info 3]
+			set album [lindex $info 4]
 
 			#First add the nickname the user choosed in config to the name variable
 			set name "$config(nickname)"
 			#Symbol that will be betwen the nick and the song
 			set separation " $config(symbol) "
 
-			#Merge the nickname with the song name if a song is playing
-			#Else, show the stop messsage
-			if {$info != "0"} {
-				#Merge the nickname with the symbol and the song name
-				append name $separation
-				append name $song
-			} else {
-				if {$config(stop) != ""} {
-					#Modification to avoid the separator to be displayed if there is no text when XMMS is stopped
-					#Merge the nickname with the symbol and the stop text ( modified from ITunes plugin)
-					append name $separation
-					append name $config(stop)
-				}
-			}
 
-			#Change the nickname if the user did'nt uncheck that config.
+			#Change the nickname if the user didn't uncheck that config.
 			if {$config(display) && ![string equal $info $oldinfo] } {
-				if {[::config::getKey protocol] == 11} {
+				if {[::config::getKey protocol] >= 11} {
 					if { $song != "0"} {
-						::MSN::changeCurrentMedia Music 1 "{0}" $song
+						# Convert our formatting string into the .NET-format one.
+						set style [string map {"%title" "{0}" "%artist" "{1}" "%album" "{2}"} $config(display_style)]
+						#::music::log $style
+						::MSN::changeCurrentMedia Music 1 $style $song $artist $album
 					} else {
 						::MSN::changeCurrentMedia Music 0 "{0}" ""
 					}
 				} else {
+					set style [string map {"%title" "$song" "%artist" "$artist" "%album" "$album"} $config(display_style)]
+					append name $style
 					::music::changenick "$name"
 				}
 			}
@@ -561,7 +554,7 @@ namespace eval ::music {
 		#If we are online, start the loop
 		if {[::MSN::myStatusIs] != "FLN" } {
 			if { $::music::config(display) } {
-				if {[::config::getKey protocol] == 11} {
+				if {[::config::getKey protocol] >= 11} {
 					::MSN::changeCurrentMedia Music 0 "{0}" ""
 				} else {
 					set nick [::abook::getPersonal MFN]
@@ -600,7 +593,7 @@ namespace eval ::music {
 
 		#Remove the song from the nick if we are online
 		if {[::MSN::myStatusIs] != "FLN" && $::music::config(activated) } {
-			if {[::config::getKey protocol] == 11} {
+			if {[::config::getKey protocol] >= 11} {
 				::MSN::changeCurrentMedia Music 0 "{0}" ""
 			} else {
 				::music::changenick "$config(oldnickname)"
@@ -742,19 +735,16 @@ namespace eval ::music {
 		#order for song and artist name
 		frame $mainFrame.order -class degt
 		pack $mainFrame.order -anchor w -expand true -fill both
-		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
-		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
-		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
-		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
-		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
-		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
-		pack $mainFrame.order.label \
-			$mainFrame.order.1 \
-			$mainFrame.order.2 \
-			$mainFrame.order.3 \
-				-anchor w -side top
-		pack $mainFrame.order.separator_label \
-				$mainFrame.order.separator_entry \
+		menubutton $mainFrame.order.menubutton -font sboldf -text "<-" -menu $mainFrame.order.menubutton.menu
+		menu $mainFrame.order.menubutton.menu -tearoff 0
+			$mainFrame.order.menubutton.menu add command -label "%artist" -command "$mainFrame.order.style_entry insert insert %artist"
+			$mainFrame.order.menubutton.menu add command -label "%title" -command "$mainFrame.order.style_entry insert insert %title"
+			$mainFrame.order.menubutton.menu add command -label "%album" -command "$mainFrame.order.style_entry insert insert %album"
+		label $mainFrame.order.style_label -text "[trans style]" -padx 5 -font sboldf
+		entry $mainFrame.order.style_entry -bg #ffffff -width 20 -textvariable ::music::config(display_style)
+		pack $mainFrame.order.style_label \
+				$mainFrame.order.style_entry \
+				$mainFrame.order.menubutton \
 				-anchor w -side left
 	
 		#changepic
@@ -773,19 +763,16 @@ namespace eval ::music {
 		#order for song and artist name
 		frame $mainFrame.order -class degt
 		pack $mainFrame.order -anchor w -expand true -fill both
-		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
-		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
-		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
-		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
-		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
-		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
-		pack $mainFrame.order.label \
-				$mainFrame.order.1 \
-				$mainFrame.order.2 \
-				$mainFrame.order.3 \
-				-anchor w -side top
-		pack $mainFrame.order.separator_label \
-				$mainFrame.order.separator_entry \
+		menubutton $mainFrame.order.menubutton -font sboldf -text "<-" -menu $mainFrame.order.menubutton.menu
+		menu $mainFrame.order.menubutton.menu -tearoff 0
+			$mainFrame.order.menubutton.menu add command -label "%artist" -command "$mainFrame.order.style_entry insert insert %artist"
+			$mainFrame.order.menubutton.menu add command -label "%title" -command "$mainFrame.order.style_entry insert insert %title"
+			$mainFrame.order.menubutton.menu add command -label "%album" -command "$mainFrame.order.style_entry insert insert %album"
+		label $mainFrame.order.style_label -text "[trans style]" -padx 5 -font sboldf
+		entry $mainFrame.order.style_entry -bg #ffffff -width 20 -textvariable ::music::config(display_style)
+		pack $mainFrame.order.style_label \
+				$mainFrame.order.style_entry \
+				$mainFrame.order.menubutton \
 				-anchor w -side left
 	}
 
@@ -807,19 +794,16 @@ namespace eval ::music {
 		#order for song and artist name
 		frame $mainFrame.order -class degt
 		pack $mainFrame.order -anchor w -expand true -fill both
-		label $mainFrame.order.label -text "[trans choose_order]" -padx 5 -font sboldf
-		radiobutton $mainFrame.order.1 -text "[trans songartist]" -variable ::music::config(songart) -value 1
-		radiobutton $mainFrame.order.2 -text "[trans artistsong]" -variable ::music::config(songart) -value 2
-		radiobutton $mainFrame.order.3 -text "[trans song]" -variable ::music::config(songart) -value 3
-		label $mainFrame.order.separator_label -text "[trans separator]" -padx 5 -font sboldf
-		entry $mainFrame.order.separator_entry -bg #ffffff -width 10 -textvariable ::music::config(separator)			
-		pack $mainFrame.order.label \
-				$mainFrame.order.1 \
-				$mainFrame.order.2 \
-				$mainFrame.order.3 \
-				-anchor w -side top
-		pack $mainFrame.order.separator_label \
-				$mainFrame.order.separator_entry \
+		menubutton $mainFrame.order.menubutton -font sboldf -text "<-" -menu $mainFrame.order.menubutton.menu
+		menu $mainFrame.order.menubutton.menu -tearoff 0
+			$mainFrame.order.menubutton.menu add command -label "%artist" -command "$mainFrame.order.style_entry insert insert %artist"
+			$mainFrame.order.menubutton.menu add command -label "%title" -command "$mainFrame.order.style_entry insert insert %title"
+			$mainFrame.order.menubutton.menu add command -label "%album" -command "$mainFrame.order.style_entry insert insert %album"
+		label $mainFrame.order.style_label -text "[trans style]" -padx 5 -font sboldf
+		entry $mainFrame.order.style_entry -bg #ffffff -width 20 -textvariable ::music::config(display_style)
+		pack $mainFrame.order.style_label \
+				$mainFrame.order.style_entry \
+				$mainFrame.order.menubutton \
 				-anchor w -side left
 				
 		#ip
@@ -874,37 +858,27 @@ namespace eval ::music {
 			return 0
 		}
 
-		#Get the 4 first lines
+		#Get the information
 		set status [lindex $tmplst 0]
 		set song [lindex $tmplst 1]
 		set art [lindex $tmplst 2]
 		set path [lindex $tmplst 3]
 		set artpath [lindex $tmplst 4]
+		set album [lindex $tmplst 5]
 		
 		if {[string first "nocover" [file tail $artpath]] != -1} { set artpath "" }
 
-
 		if {$status == "0"} {
 			return 0
-		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
-			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
-			} elseif {$::music::config(songart) == 3} {
-				append songart $song
-			}
-			lappend return $songart
-			if { ![string compare -nocase [string range $path 0 4] "file:"] } {
-				lappend return [urldecode [string range $path 7 end]]
-			} else {
-				lappend return ""
-			}
-			lappend return $artpath
 		}
-		return $return
+		
+		if { ![string compare -nocase [string range $path 0 4] "file:"] } {
+			set path [urldecode [string range $path 7 end]]
+		} else {
+			set path ""
+		}
+
+		return [list $song $art $path $artpath $album]
 	}
 
 	###############################################
@@ -938,22 +912,13 @@ namespace eval ::music {
 
 		if {$status == "0" || $status == "stopped"} {
 			return 0
-		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
-			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
-			} elseif {$::music::config(songart) == 3} {
-				append songart $song
-			}
-			lappend return $songart
-			if { [file exists $path] } {
-				lappend return $path
-			}
 		}
-		return $return
+		
+		if { ![file exists $path] } {
+			set path ""
+		}
+		
+		return [list $song $art $path "" ""]
 	}
 
 	###############################################
@@ -983,30 +948,14 @@ namespace eval ::music {
 			return 0
 		}
 
-
 		append Title [lindex $tmplst 1]
 		append Artist [lindex $tmplst 2]
 		append Uri [lindex $tmplst 3]
 		append CoverUri [lindex $tmplst 4]
 
-		#Define in which order we want to show the song (from the config)
-		#Use the separator(from the cong) betwen song and artist
-		if {$::music::config(songart) == 1} {
-			append songart $Title " " $::music::config(separator) " " $Artist
-		} elseif {$::music::config(songart) == 2} {
-			append songart $Artist " " $::music::config(separator) " " $Title
-		} elseif {$::music::config(songart) == 3} {
-			append songart $Title
-		}
+		set Uri [urldecode [string range $Uri 7 end]]
 
-		#First element in the returned list is the artist + song in desired format
-		lappend return $songart
-		#Second element is the path to the music-file
-		lappend return [urldecode [string range $Uri 7 end]]
-		#Third element is the path to the album cover-art (if available, else it is "")
-		lappend return $CoverUri
-
-		return $return
+		return [list $Title $Artist $Uri $CoverUri ""]
 	}
 
 	 ###########################################################
@@ -1043,11 +992,12 @@ namespace eval ::music {
 			append songart "Paused"
 		}
 
-		append newPath "file://" $path ;
-		lappend return $songart
-		lappend return  [urldecode [string range $newPath 5 end]]
+		# !!! Was this unneeded in the first place?
+		#append newPath "file://" $path ;
+		#lappend return  [urldecode [string range $newPath 5 end]]
 
-		return $return
+		# !!! This is bad.
+		return [list $songart "" $path "" ""]
 	}
 
 	###############################################
@@ -1086,21 +1036,9 @@ namespace eval ::music {
 		
 		if {$status != "playing"} {
 			return 0
-		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
-			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
-			} elseif {$::music::config(songart) == 3} {
-				append songart $song
-			}
-			lappend return $songart
-			lappend return [urldecode [string range $path 5 end]]
-
-			return $return
 		}
+		
+		return [list $song $art $path "" ""]
 	}
 
 	###############################################
@@ -1129,18 +1067,7 @@ namespace eval ::music {
 		set Title ""
 		set Artist ""
 		if {[regexp {(.*) \- \(.* \- (.*)\)} $::music::actualsong -> Title Artist]} {
-			#Define in which order we want to show the song (from the config)
-			#Use the separator(from the conf) between song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $Title " " $::music::config(separator) " " $Artist
-			} elseif {$::music::config(songart) == 2} {
-				append songart $Artist " " $::music::config(separator) " " $Title
-			} elseif {$::music::config(songart) == 3} {
-				append songart $Title
-			}
-			#First element in the returned list is the artist + song in desired format
-			lappend return $songart
-			return $return
+			return [list $Title $Artist "" "" ""]
 		}
 		return 0
 	}
@@ -1248,21 +1175,8 @@ namespace eval ::music {
 				return 0
 			}		
 		}
-		#Define in which order we want to show the song (from the config)
-		#Use the separator(from the conf) between song and artist
-		if {$::music::config(songart) == 1} {
-		append songart $Title " " $::music::config(separator) " " $Artist
-		} elseif {$::music::config(songart) == 2} {
-			append songart $Artist " " $::music::config(separator) " " $Title
-		} elseif {$::music::config(songart) == 3} {
-			append songart $Title
-		}
-		#First element in the returned list is the artist + song in desired format
-		lappend return $songart
-		#Second element is the path to the music-file
-		#lappend return [file join $::music::config(mpd_music_directory) $File]
-		#Third element is the path to the album cover-art (if available, else it is "")
-		#lappend return $CoverUri
+		
+		return [list $Title $Artist "" "" ""]
 		
 		close $chan
 		return $return
@@ -1308,23 +1222,8 @@ namespace eval ::music {
 			if {$Title == "" && $File != ""} {
 				set Title [getfilename $File]
 			}
-			#Define in which order we want to show the song (from the config)
-			#Use the separator(from the conf) between song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $Title " " $::music::config(separator) " " $Artist
-			} elseif {$::music::config(songart) == 2} {
-				append songart $Artist " " $::music::config(separator) " " $Title
-			} elseif {$::music::config(songart) == 3} {
-				append songart $Title
-			}
-			#First element in the returned list is the artist + song in desired format
-			lappend return $songart
-			#Second element is the path to the music-file
-			lappend return $File
-			#Third element is the path to the album cover-art (if available, else it is "")
-			#lappend return $CoverUri
 			
-			return $return
+			return [list $Title $Artist $File "" ""]
 		} else {
 			return 0
 		}
@@ -1369,23 +1268,14 @@ namespace eval ::music {
 			set path [lindex $tmplst 2]
 			set songlength [lindex $tmplst 3]
 		}
+		
 		if {$songlength == "-1"} {
 			return 0
-		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
-			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
-			} elseif {$::music::config(songart) == 3} {
-				append songart $song
-			}
-			lappend return $songart
-			lappend return [urldecode [string range $path 5 end]]
 		}
-
-		return $return
+		
+		set path [urldecode [string range $path 5 end]]
+		
+		return [list $song $art $path "" ""]
 	}
 
 	###############################################
@@ -1471,22 +1361,9 @@ namespace eval ::music {
 		if {$status == "0"} {
 			::music::log "Status is 0"
 			return 0
-		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
-			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
-			} elseif {$::music::config(songart) == 3} {
-				append songart $song
-			}
-			lappend return $songart
-			lappend return $path
-			lappend return $artfile
 		}
-		return $return
-
+		
+		return [list $song $art $path $artfile ""]
 	}
 	
 
@@ -1507,20 +1384,9 @@ namespace eval ::music {
 
 		if {$status == "0"} {
 			return 0
-		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
-			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
-			} elseif {$::music::config(songart) == 3} {
-				append songart $song
-			}
-			lappend return $songart
-			lappend return $path
 		}
-		return $return
+		
+		return [list $song $art $path "" ""]
 	}
 
 	###############################################
@@ -1540,18 +1406,8 @@ namespace eval ::music {
 
 		if { [string compare -nocase $type "Music"] || ($art == "" && $song == "") } {
 			return 0
-		} else {
-			#Define in which  order we want to show the song (from the config)
-			#Use the separator(from the cong) betwen song and artist
-			if {$::music::config(songart) == 1} {
-				append songart $song " " $::music::config(separator) " " $art
-			} elseif {$::music::config(songart) == 2} {
-				append songart $art " " $::music::config(separator) " " $song
-			} elseif {$::music::config(songart) == 3} {
-				append songart $song
-			}
-			lappend return $songart
-			return $return
 		}
+		
+		return [list $song $art "" "" ""]
 	}
 }

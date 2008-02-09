@@ -25,3 +25,4 @@ music_mpd_port Port of your MPD server
 music_mpd_password Password of your MPD server (if needed)
 lasterror Last error
 noerror No error
+style Format of the display 

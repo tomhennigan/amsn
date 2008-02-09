@@ -11,6 +11,7 @@ then
 	dcop amarok player artist
 	dcop amarok player encodedURL
 	dcop amarok player coverImage
+	dcop amarok player album
 else
 	#No so we set to state stopped
 	echo 0
