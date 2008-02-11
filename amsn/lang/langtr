@@ -239,6 +239,7 @@ created Oluþturuldu
 credits Emeði Geçenler
 curdisplaypic Þu anki kullanýcý resmi
 currentdate Bugün
+currentdynrate Güncel gerçek zamanlý hýz (milisaniye ile)
 currentlanguage Þu an kullandýðýnýz dil
 currentnotes Güncel notlar
 custnotifymsg Bu kiþiden yeni ileti gelince uyarý penceresi göster
@@ -308,6 +309,7 @@ download Ýndir
 downloadcanceled Ýndirme iptal edildi.
 downloadingtls TLS $1 \n adresinden alýnýyor
 downloadingwait Yeni aMSN sürümü alýnýyor. Lütfen bekleyin...
+dynamicrate Gerçek zamanlý hýzý canlandýrmak için deðiþken kare sayýsý kullan
 edit Düzenle
 editavsettings Ses ve görüntü ayarlarýný deðiþtir
 editcontent Konu ve not alanlarýnýn içeriðini düzenle
