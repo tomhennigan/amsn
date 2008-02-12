@@ -125,6 +125,8 @@ namespace eval ::searchcontact {
 			::plugins::RegisterEvent "Search Contact" parse_contact redoSearch
 			::plugins::RegisterEvent "Search Contact" contactBlocked redoSearch
 			::plugins::RegisterEvent "Search Contact" contactUnblocked redoSearch
+			::plugins::RegisterEvent "Search Contact" addedUser redoSearch
+			::plugins::RegisterEvent "Search Contact" deletedUser redoSearch
 
 			frame .main.searchbar -bg white -borderwidth 1 -highlightthickness 0
 			label .main.searchbar.label -text "[trans filter]:" -bg white
