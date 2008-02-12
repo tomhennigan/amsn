@@ -509,8 +509,8 @@ namespace eval ::music {
 
 		set info [::music::GetSong]
 		set song [lindex $info 0]
-		set file [lindex $info 1]
-		set artfile [lindex $info 2]
+		set file [lindex $info 2]
+		set artfile [lindex $info 3]
 
 		if {$info == "0"} {
 			msg_box [trans musicerr]
