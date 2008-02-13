@@ -179,6 +179,10 @@ namespace eval ::MSNP2P {
 				} else {
 					image delete displaypicture_not_$user
 				}
+
+				# launch an event for plugins
+				set evPar(user) $user
+				::plugins::PostEvent ChangeDP evPar
 			}				
 			
 
@@ -187,6 +191,10 @@ namespace eval ::MSNP2P {
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
 			::skin::getDisplayPicture $user 1
+			
+			# launch an event for plugins
+			set evPar(user) $user
+			::plugins::PostEvent ChangeDP evPar
 		}
 	}
 

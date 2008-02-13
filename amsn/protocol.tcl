@@ -4999,9 +4999,6 @@ proc cmsn_change_state {recv} {
 	if { $oldPic != $newPic } {
 		::abook::setContactData $user displaypicfile $newPic
 
-#		set evPar(user) user
-		::plugins::PostEvent ChangeDP evPar
-
 		if { $newPic == "" } {
 			::skin::getDisplayPicture $user 1
 		} else {
