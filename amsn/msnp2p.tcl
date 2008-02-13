@@ -453,9 +453,15 @@ namespace eval ::MSNP2P {
 			set sid [SessionList findid $cAckId]
 			status_log "GOT SID : $sid for Ackid : $cAckId\n"
 			if { $sid != -1 } {
+				set type [lindex [SessionList get $sid] 7]
+				#status_log "TYPE of SID : $type"
 				if { $cFlags == 2 } {
 					#status_log "MSNP2P | $sid -> Got MSNP2P ACK " red
-
+					if {$type == "game"} {
+						::MSNGames::handleACK $sid $cAckId
+						return
+					}
+					
 					# We found a session id that is waiting for an ACK
 					set step [lindex [SessionList get $sid] 4]
 
@@ -552,6 +558,8 @@ namespace eval ::MSNP2P {
 					::MSN6FT::answerFTInvite $sid $chatid $branchuid $conntype
 				} elseif { $type == "webcam" } {
 					::MSNCAM::answerCamInvite $sid $chatid $branchuid
+				} elseif { $type == "game" } {
+					::MSNGames::answerGameInvite $sid $chatid $branchuid
 				}
 
 			} elseif { $ctype == "application/x-msnmsgr-sessionreqbody" } {
@@ -586,8 +594,9 @@ namespace eval ::MSNP2P {
 				     $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" ||
 				     $eufguid == "E073B06B-636E-45B7-ACA4-6D4B5978C93C" ||
 				     $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" ||
-				     $eufguid == "1C9AA97E-9C05-4583-A3BD-908A196F1E92"} {
-					status_log "MSNP2P | $sid $dest -> Got INVITE for buddy icon, emoticon, or file transfer, or Wink(MSN 7)\n" red
+				     $eufguid == "1C9AA97E-9C05-4583-A3BD-908A196F1E92" ||
+					 $eufguid == "6A13AF9C-5308-4F35-923A-67E8DDA40C2F"} {
+					status_log "MSNP2P | $sid $dest -> Got INVITE for buddy icon, emoticon, game, or file transfer, or Wink(MSN 7)\n" red
 					# Make new data structure for this session id
 					if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" } {
 						# Buddyicon or emoticon
@@ -666,6 +675,21 @@ namespace eval ::MSNP2P {
 
 						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 						return
+					} elseif { $eufguid == "6A13AF9C-5308-4F35-923A-67E8DDA40C2F" } {
+						::ChatWindow::MakeFor $chatid
+						status_log "!!! GAME INVITATION !!!" red
+
+						SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
+
+						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "game" "" "$branchuid"]
+
+						set context [base64::decode $context]
+						set context [FromUnicode $context]
+						
+						::MSNGames::IncomingGameRequest $chatid $dest $branchuid $cseq $uid $sid $context
+
+						return
 					}
 
 					# Let's send an ACK
@@ -717,6 +741,8 @@ namespace eval ::MSNP2P {
 								::MSN6FT::ConnectSockets $sid $nonce $addr $port 0
 							} elseif { $type == "webcam" } {
 								#::MSNCAM::connectMsnCam2 $sid $nonce $addr $port 0
+							} elseif { $type == "game" } {
+								::MSNGames::ConnectPort $sid $nonce $addr $port 0
 							}
 						} 
 						if {[string first "IPv4Internal-Addrs: " $data] != -1 } {
@@ -733,6 +759,8 @@ namespace eval ::MSNP2P {
 								::MSN6FT::ConnectSockets $sid $nonce $addr $port 0
 							} elseif { $type == "webcam" } {
 								#::MSNCAM::connectMsnCam2 $sid $nonce $addr $port 0
+							} elseif { $type == "game" } {
+								::MSNGames::ConnectPort $sid $nonce $addr $port 0
 							}
 						}
 
@@ -854,9 +882,16 @@ namespace eval ::MSNP2P {
 
 			if { $sid != -1 } {
 				# Send a BYE ACK
-				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
-				status_log "MSNP2P | $sid -> Sending BYE ACK\n" red
-
+				if { [lindex [SessionList get $sid] 7] == "game" } {
+					status_log "Game canceled"
+					::MSNGames::GameCanceled $chatid $sid
+					::MSNGames::SendData $sid [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+					status_log "MSNP2P | $sid -> Sending game BYE ACK\n" red
+				} else {
+					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+					status_log "MSNP2P | $sid -> Sending BYE ACK\n" red
+				}
+					
 				# If it's a file transfer, advise the user it has been canceled
 				if { [lindex [SessionList get $sid] 7] == "filetransfer" } {
 					status_log "File transfer canceled\n"
@@ -869,7 +904,7 @@ namespace eval ::MSNP2P {
 					status_log "Webcam canceled\n"
 					::MSNCAM::CamCanceled $chatid $sid
 				}
-
+				
 				# Delete SessionID Data
 				SessionList unset $sid
 
@@ -1033,6 +1068,8 @@ namespace eval ::MSNP2P {
 				SessionList set $cSid [list -1 -1 -1 -1 -1 -1 -1 "filetransfersuccessfull" -1 -1]
 					}
 				}
+			} elseif { $type == "game" } {
+				::MSNGames::handleMessage $message $chatid
 			} elseif { $cMsgSize == 4 } {
 				# We got ourselves a DATA PREPARATION message, lets open file and send ACK
 				set session_data [SessionList get $sid]

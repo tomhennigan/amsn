@@ -389,6 +389,10 @@ ftrejectedby $1 rejected the transfer request for file '$2'.
 ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
 fullcontactlist Sorry, your contact list is full. You'll need to remove some contacts in order to add new ones.
+gameclosedbyother $1 has canceled the game session with you.
+gameclosedbyself You have canceled the game session with $1.
+gameinvitation $1 has invited you to play $2. Do you want to accept this invitation?
+gamepluginnotfound $1 has invited you to play $2 but there is no plugin for this game currently loaded. Please activate and configure this plugin first.
 getdisppic Enable receiving Display Pictures from other users
 getmoreplugins Get more Plugins!
 getmoreskins Get more skins!
