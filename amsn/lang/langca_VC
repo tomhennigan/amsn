@@ -113,6 +113,7 @@ browser Navegador
 bugerror Ho sentim, però hi ha hagut un problema connectant a la base de dades d'errors. Per favor, comprova la teua connexió a internet.
 bugnocomment Enviar sense cap comentari? Comentar un error ens ajuda a fer-nos una idea de què ha anat malament i d'esta manera poder arreglar-ho més fàcilment.
 busy No disponible
+bytesymbol B
 cachedpics $1 imatges guardades
 cachedpicsfor Imatges de mostra guardades per a l'usuari
 cagreement Acord de confidencialitat
@@ -238,6 +239,7 @@ created Creat
 credits Crèdits
 curdisplaypic Imatge actual de mostra
 currentdate Data actual
+currentdynrate Velocitat actual en temps real (en mil·lisegons)
 currentlanguage Este és l'idioma en ús actualment
 currentnotes Notes actuals
 custnotifymsg Mostra una finestra de notificació quan es reba un missatge d'usuari nou
@@ -307,6 +309,7 @@ download Descarregar
 downloadcanceled Descàrrega cancel·lada.
 downloadingtls Descarregant el mòdul TLS des de: \n $1
 downloadingwait Descarregant una nova versió d'aMSN. Per favor, espera...
+dynamicrate Canviar dinàmicament la velocitat per a simular la velocitat en temps real
 editavsettings Modifica les opcions d'àudio i vídeo
 editcontent Edita el contingut del camp assumpte i del camp nota
 editcustomstate Editar estat personalitzat
@@ -386,6 +389,10 @@ ftrejectedby $1 ha rebutjat la invitació per a transferir l'arxiu '$2'.
 ftrejected Transferència d'arxiu cancel·lada
 ftsendinvitation La invitació per a transferir l'arxiu '$2' ($3 bytes) s'ha enviat a $1.
 fullcontactlist La teua llista de contactes està plena. Necessitarà eliminar algun contacte per a poder afegir-ne nous.
+gameclosedbyother $1 ha cancel·lat la sessió de joc amb tú.
+gameclosedbyself Has cancel·lat la sessió de joc amb $1.
+gameinvitation $1 t'ha convidat a jugar a $2. Vols acceptar la invitació?
+gamepluginnotfound $1 t'ha convidat a jugar a $2 però no hi ha cap plug-in carregat per a este joc. Per favor, activa i configura este plug-in primer.
 getdisppic Activar l'opció de rebre imatges de mostra d'altres usuaris
 getmoreplugins Descarrega més plugins!
 getmoreskins Descarrega més temes!
