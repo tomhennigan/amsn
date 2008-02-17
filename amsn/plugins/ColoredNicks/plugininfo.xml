@@ -14,6 +14,28 @@
 	<deinit_procedure>deinit</deinit_procedure>
 	
 	<cvs_version>9567</cvs_version>
+
+	<lang>
+		<langcode>en</langcode>
+		<version>1.0</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>1.0</version>
+	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>1.0</version>
+	</lang>
+	<lang>
+		<langcode>it</langcode>
+		<version>1.0</version>
+	</lang>
+	<lang>
+		<langcode>pt_BR</langcode>
+		<version>1.0</version>
+	</lang>
+
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/colorednicks.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/plugininfo.xml</plugininfo>
