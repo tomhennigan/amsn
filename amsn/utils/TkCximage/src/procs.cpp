@@ -102,7 +102,7 @@ int Tk_Convert (ClientData clientData,
     OutType = CXIMAGE_FORMAT_GIF;
   
   if (image.GetNumFrames() > 1){
-    image.RetreiveAllFrame();
+    image.SetRetreiveAllFrames(true);
     image.SetFrame(image.GetNumFrames() - 1);
     if(!LoadFromFile(interp, &image, In, InType) ) {
       Tcl_AppendResult(interp, image.GetLastError(), NULL);
@@ -173,7 +173,7 @@ int Tk_Resize (ClientData clientData,
   item = TkCxImage_lstGetItem(Photo);
   if ( item != NULL ) {
     for(unsigned int i=0; i< item->NumFrames; i++) {
-      item->image->GetFrameNo(i)->Resample(width, height, 1);
+      item->image->GetFrame(i)->Resample(width, height, 1);
     }
 
     //We clear stored buffers and when we will display them they will be recreated
@@ -517,7 +517,7 @@ int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int 
 			LOG("Loading frame : ");
 			APPENDLOG( Info->buffers.size());
 			
-			CxImage *image = Info->image->GetFrameNo(Info->buffers.size());
+			CxImage *image = Info->image->GetFrame(Info->buffers.size());
 			
 			buffer = new CxMemFile();
 			//The image isn't stored yet we will make the buffer and keep it
@@ -596,7 +596,7 @@ int Tk_EnableAnimation (ClientData clientData,
 		item->Enabled=true;
 		if (item->timerToken == NULL) {
 			int currentFrame = item->CurrentFrame;
-			CxImage *image = item->image->GetFrameNo(currentFrame);
+			CxImage *image = item->image->GetFrame(currentFrame);
 			item->timerToken = Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, item);
 		}
 	}
@@ -703,7 +703,7 @@ int Tk_JumpToFrame (ClientData clientData,
 
 	if ((unsigned int)frame_number < item->NumFrames) {
 		item->CurrentFrame = frame_number;
-		CxImage *image = item->image->GetFrameNo(item->CurrentFrame);
+		CxImage *image = item->image->GetFrame(item->CurrentFrame);
 		Tk_ImageChanged(item->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
 	} else {
 		Tcl_AppendResult(interp, "The image you specified hasn't enough frames", NULL);

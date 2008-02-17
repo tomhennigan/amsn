@@ -93,21 +93,21 @@ int ObjMatch (Tcl_Obj *data, Tcl_Obj *format, int *widthPtr, int *heightPtr, Tcl
   BYTE * buffer = NULL;
   int length = 0;
 
-  basic_image_information fmt;
+  CxImage image;
 
   LOG("Data matching"); //
 
   buffer = Tcl_GetByteArrayFromObj(data, &length);
 
-  if (CxImage::CheckFormat(buffer,length,&fmt)) {
+  if (image.CheckFormat(buffer,length,CXIMAGE_FORMAT_UNKNOWN)) {
     LOG("Supported Format : "); //
-    APPENDLOG(fmt.format);
+    APPENDLOG(image.GetType());
     LOG("Size : ");
-    APPENDLOG(fmt.width);
+    *widthPtr = image.GetWidth();
+    *heightPtr = image.GetHeight();
+    APPENDLOG(*widthPtr);
     APPENDLOG("x");
-    APPENDLOG(fmt.height);
-    *widthPtr = fmt.width;
-    *heightPtr = fmt.height;
+    APPENDLOG(*heightPtr);
     return true;
   }
 
@@ -224,7 +224,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 	if(item!=NULL) {
 		LOG("Got item in Animated list");
 		Tcl_DeleteTimerHandler(item->timerToken);
-		item->image->DestroyGifFrames();
+		item->image->DestroyFrames();
 		delete item->image;
 		for(GifBuffersIterator it=item->buffers.begin(); it!=item->buffers.end(); it++){
 			(*it)->Close();
@@ -247,7 +247,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 		AnimatedGifInfo->ImageMaster = (Tk_ImageMaster) *((void **)imageHandle);
 		AnimatedGifInfo->interp = interp;
 		AnimatedGifInfo->image = new CxImage;
-		AnimatedGifInfo->image->RetreiveAllFrame();
+		AnimatedGifInfo->image->SetRetreiveAllFrames(true);
 		AnimatedGifInfo->image->SetFrame(numframes - 1);
 		AnimatedGifInfo->image->Decode(FileData, length, CXIMAGE_FORMAT_GIF);
 
@@ -282,7 +282,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 	*/
 		AnimatedGifInfo->Enabled = true;
 		if (AnimatedGifInfo)
-			AnimatedGifInfo->timerToken=Tcl_CreateTimerHandler(AnimatedGifInfo->image->GetFrameNo(0)->GetFrameDelay(), AnimateGif, (ClientData) AnimatedGifInfo);
+			AnimatedGifInfo->timerToken=Tcl_CreateTimerHandler(AnimatedGifInfo->image->GetFrame(0)->GetFrameDelay(), AnimateGif, (ClientData) AnimatedGifInfo);
 	}
 
 #endif // ANIMATE_GIFS
@@ -404,7 +404,7 @@ void AnimateGif(ClientData data) {
 			Info->CurrentFrame++;
 			if(Info->CurrentFrame == Info->NumFrames)
 				Info->CurrentFrame = 0;
-			CxImage *image = Info->image->GetFrameNo(Info->CurrentFrame);
+			CxImage *image = Info->image->GetFrame(Info->CurrentFrame);
 			Tk_ImageChanged(Info->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
 		
 			Info->timerToken=Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, data);
@@ -414,7 +414,7 @@ void AnimateGif(ClientData data) {
 			APPENDLOG(" - ");
 			APPENDLOG( Info->ImageMaster);
 
-			Info->image->DestroyGifFrames();
+			Info->image->DestroyFrames();
 			delete Info->image;
 			LOG("Deleting AnimatedGifInfo");
 			APPENDLOG(Info->Handle);
@@ -500,7 +500,7 @@ void PhotoDisplayProcHook(
 	GifInfo* item=TkCxImage_lstGetItem(handle);
 	if (item != NULL){
 		if (item->CurrentFrame != (unsigned int)item->CopiedFrame) { //Frame isn't the good one in the photo buffer
-			CxImage *image = item->image->GetFrameNo(item->CurrentFrame);
+			CxImage *image = item->image->GetFrame(item->CurrentFrame);
 			item->CopiedFrame = item->CurrentFrame; //We set the copied frame before to avoid infinite loops
 			AnimatedGifFrameToTk(NULL, item, image, true);
 			//fprintf(stderr, "Copied frame n°%u\n",item->CopiedFrame);

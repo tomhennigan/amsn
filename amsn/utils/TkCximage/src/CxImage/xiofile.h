@@ -17,7 +17,7 @@ public:
 		Close();
 	}
 //////////////////////////////////////////////////////////
-	bool Open(const char *filename, const char *mode)
+	bool Open(const char * filename, const char * mode)
 	{
 		if (m_fp) return false;	// Can't re-open without closing first
 
@@ -102,6 +102,18 @@ public:
 	{
 		if (!m_fp) return EOF;
 		return getc(m_fp);
+	}
+//////////////////////////////////////////////////////////
+	virtual char *	GetS(char *string, int n)
+	{
+		if (!m_fp) return NULL;
+		return fgets(string,n,m_fp);
+	}
+//////////////////////////////////////////////////////////
+	virtual long	Scanf(const char *format, void* output)
+	{
+		if (!m_fp) return EOF;
+		return fscanf(m_fp, format, output);
 	}
 //////////////////////////////////////////////////////////
 protected:

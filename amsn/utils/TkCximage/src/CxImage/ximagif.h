@@ -58,26 +58,6 @@ typedef short int       code_int;
 #define HashTabOf(i)    htab[i]
 #define CodeTabOf(i)    codetab[i]
 
-//#define BYTEPTR(p)		((BYTE *)(&p))
-//#define GETWORD(w)		(*BYTEPTR(w) + (*(BYTEPTR(w)+1) << 8))
-//#define PUTWORD(w)		((((w & 0xff) << 8) | ((w >> 8) & 0xff)))
-
-short int inline htols( short int word ) {
-	short int test = 1;
-
-	if ( *((char *) &test) == 1 )
-		return word; //Host is little endian
-	else
-		return ( (word & 0xff) << 8 ) | ( (word >> 8) & 0xff ) ; //Host is big endian : we swap the two bytes
-}
-
-short int inline ltohs( short int word ) {
-	short int test = 1;
-	if ( *((char *) &test) == 1 )
-		return word; // Host is little endian
-	else
-		return ( (word & 0xff) << 8 ) | ( (word >> 8) & 0xff ) ; //Host is big endian : we swap the two bytes
-}
 
 class CImageIterator;
 class DLL_EXP CxImageGIF: public CxImage
@@ -85,7 +65,7 @@ class DLL_EXP CxImageGIF: public CxImage
 #pragma pack(1)
 
 typedef struct tag_gifgce{
-  BYTE flags;
+  BYTE flags; /*res:3|dispmeth:3|userinputflag:1|transpcolflag:1*/
   WORD delaytime;
   BYTE transpcolindex;
 } struct_gifgce;
@@ -138,18 +118,17 @@ typedef struct tag_RLE{
 #pragma pack()
 
 public:
-	CxImageGIF(): CxImage(CXIMAGE_FORMAT_GIF) {m_loops=0; m_comment[0]='\0';}
+	CxImageGIF(): CxImage(CXIMAGE_FORMAT_GIF) {m_loops=0; info.dispmeth=0; m_comment[0]='\0';}
 
-//	bool Load(const char * imageFileName){ return CxImage::Load(imageFileName,CXIMAGE_FORMAT_GIF);}
-//	bool Save(const char * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_GIF);}
+//	bool Load(const TCHAR * imageFileName){ return CxImage::Load(imageFileName,CXIMAGE_FORMAT_GIF);}
+//	bool Save(const TCHAR * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_GIF);}
 	
 	bool Decode(CxFile * fp);
 	bool Decode(FILE *fp) { CxIOFile file(fp); return Decode(&file); }
-	static bool CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info);
 
 #if CXIMAGE_SUPPORT_ENCODE
 	bool Encode(CxFile * fp);
-	bool Encode(CxFile * fp, CxImage ** pImages, int pagecount, bool bLocalColorMap = false);
+	bool Encode(CxFile * fp, CxImage ** pImages, int pagecount, bool bLocalColorMap = false, bool bLocalDispMeth = false);
 	bool Encode(FILE *fp) { CxIOFile file(fp); return Encode(&file); }
 	bool Encode(FILE *fp, CxImage ** pImages, int pagecount, bool bLocalColorMap = false)
 				{ CxIOFile file(fp); return Encode(&file, pImages, pagecount, bLocalColorMap); }
