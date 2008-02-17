@@ -6,7 +6,7 @@
 namespace eval ::config {
 
 	proc configDefaults {} {
-		global password auto_path advanced_options custom_emotions
+		global password auto_path advanced_options custom_emotions osspecific_keys
 
 		::config::setKey nossl 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
@@ -80,6 +80,8 @@ namespace eval ::config {
 			::config::setKey filemanager "open \$location"
 			::config::setKey openfilecommand "open \$file"
 			::config::setKey usesnack 0
+
+			::config::setKey os "mac"
 		} elseif { [OnUnix] } {
 			::config::setKey soundcommand "play \$sound"
 			::config::setKey browser "xdg-open \$url"
@@ -88,6 +90,8 @@ namespace eval ::config {
 			::config::setKey filemanager "xdg-open \$location"
 			::config::setKey openfilecommand "xdg-open \$file"
 			::config::setKey usesnack 0
+
+			::config::setKey os "unix"
 		} elseif { [OnWin] } {
 			::config::setKey soundcommand "utils/windows/plwav.exe \$sound"
 			::config::setKey browser "explorer \$url"
@@ -97,6 +101,8 @@ namespace eval ::config {
 			::config::setKey openfilecommand "start \$file"
 			::config::setKey usesnack 1
 			#::config::setKey dock 4				;#Set docking to type 4 (windows)
+			
+			::config::setKey os "win"
 		} else {
 			::config::setKey soundcommand ""			;#Sound player command
 			::config::setKey browser ""			;#Browser command
@@ -105,6 +111,8 @@ namespace eval ::config {
 			::config::setKey notifyXoffset 0			;#Notify window offsets
 			::config::setKey notifyYoffset 0
 			::config::setKey usesnack 0			;#Use the Snack library for sounds
+			
+			::config::setKey os "other"
 		}
 
 		::config::setKey autoidle 1				;#Enable/disable auto-idle feature: 0|1
@@ -363,6 +371,10 @@ namespace eval ::config {
 			[list global disableprofiles bool disableprofiles] \
 		]
 
+		set osspecific_keys [list receiveddir soundcommand browser notifyXoffset \
+					notifyYoffset filemanager openfilecommand usesnack \
+					wingeometry backgroundcolor dockbounce newchatwinstate \
+					newmsgwinstate psmplace mailcommand]
 	}
 
 	proc globalDefaults {} {
@@ -422,6 +434,13 @@ namespace eval ::config {
 	
 	proc isSet {key} {
 		return [info exists ::config($key)]
+	}
+
+	proc renameKey {srcKey dstKey} {
+		if {[info exists ::config($srcKey)]} {
+			set ::config($dstKey) $::config($srcKey)
+			unset ::config($srcKey)
+		}
 	}
 
 	proc getGlobalKey {key {default ""}} {
@@ -521,7 +540,7 @@ namespace eval ::config {
 }
 
 proc save_config {} {
-	global HOME HOME2 version password custom_emotions
+	global HOME HOME2 version password custom_emotions osspecific_keys
 	
 	#saving the plugins
 	::plugins::save_config
@@ -549,6 +568,12 @@ proc save_config {} {
 		set password ""
 	}
 
+	# rename os-specific keys
+	foreach srcKey $osspecific_keys {
+		set dstKey "${srcKey}_[::config::getKey os]"
+		::config::renameKey $srcKey $dstKey
+	}
+
 	#Start of config file
 	puts $file_id  "<?xml version=\"1.0\"?>\n\n<config>"
 
@@ -561,7 +586,7 @@ proc save_config {} {
 			set var_value [PathAbsToRel $var_value]
 		}
 
-		if { "$var_attribute" != "remotepassword" } {
+		if { ("$var_attribute" != "remotepassword") && ("$var_attribute" != "os") } {
 			set var_value [::sxml::xmlreplace $var_value]
 			puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
 		}
@@ -604,6 +629,12 @@ proc save_config {} {
 
 	close $file_id
 
+	# re-rename os-specific keys
+	foreach dstKey $osspecific_keys {
+		set srcKey "${dstKey}_[::config::getKey os]"
+		::config::renameKey $srcKey $dstKey
+	}
+
 	::config::setKey login $loginback
 	set password $passback
 
@@ -622,7 +653,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-	global HOME password protocol
+	global HOME password protocol osspecific_keys
 
 	#Create custom smileys folder
 	create_dir "[file join ${HOME} smileys]"
@@ -644,6 +675,13 @@ proc load_config {} {
 			sxml::register_routine $file_id "config:emoticon" "::smiley::newCustomEmoticonXML"
 			set val [sxml::parse $file_id]
 			sxml::end $file_id
+
+			# rename os-specific keys
+			foreach dstKey $osspecific_keys {
+				set srcKey "${dstKey}_[::config::getKey os]"
+				::config::renameKey $srcKey $dstKey
+			}
+
 			status_log "load_config: Config loaded\n" green
 			if { [winfo exists .smile_selector]} { destroy .smile_selector }
 
