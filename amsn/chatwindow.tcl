@@ -3004,7 +3004,7 @@ namespace eval ::ChatWindow {
 		$top dchars text 0 end
 		$top dchars text2 0 end
 		#remove the camicon(s) and default icons
-		$top delete camicon img2
+		$top delete camicon img2 bg
 
 		set camicon [::skin::loadPixmap camicon]
 
@@ -3120,9 +3120,19 @@ namespace eval ::ChatWindow {
 				}
 			}
 
+			foreach unit $nicktxt {
+				if {[lindex $unit 0] eq "smiley"} {
+					if {[image height [lindex $unit 1]] > $incr_y} {
+						set incr_y [image height [lindex $unit 1]]
+					}
+				}
+			}
+
 			set defaultfont sboldf
 			set colour $defaultcolour
 			set font_attr [font configure $defaultfont]
+			set bg_x ""
+			set bg_cl ""
 
 			foreach unit $nicktxt {
 				switch [lindex $unit 0] {
@@ -3134,13 +3144,7 @@ namespace eval ::ChatWindow {
 						incr usrsX $textwidth
 					}
 					"smiley" {
-						set img [lindex $unit 1]
-
-						if {[image height $img] > $incr_y} {
-							set incr_y [image height $img]
-						}
-
-						$top create image $usrsX $Ycoord -image $img -anchor nw -state normal -tags img2
+						$top create image $usrsX $Ycoord -image [lindex $unit 1] -anchor nw -state normal -tags img2
 						set textwidth [image width [lindex $unit 1]]
 						incr usrsX $textwidth
 					}
@@ -3175,7 +3179,26 @@ namespace eval ::ChatWindow {
 							set font_attr [array get current_format]
 						}
 					}
-					"bg" -
+					"bg" {
+						if {$bg_x eq ""} {
+							if {[lindex $unit 1] ne "reset"} {
+								set bg_x $usrsX
+								set bg_cl [lindex $unit 1]
+							}
+						} else {
+							$top create rect $bg_x $Ycoord $usrsX [expr {$Ycoord + $incr_y}] -fill $bg_cl -outline "" -tag bg
+
+							foreach tag [list "text2" "img"] {
+								$top lower bg $tag
+							}
+
+							set bg_x $usrsX
+							set bg_cl [lindex $unit 1]
+							if {$bg_cl eq "reset"} {
+								set bg_x ""
+							}
+						}
+					}
 					"newline" {
 					}
 					default {
