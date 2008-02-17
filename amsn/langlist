@@ -313,4 +313,10 @@
 		<version>1.11</version>
 		<encoding>utf-8</encoding>
 	</lang>
+	<lang>
+		<langcode>mt</langcode>
+		<name>Maltese</name>
+		<version>0.1</version>
+		<encoding>utf-8</encoding>
+	</lang>
 </version>
