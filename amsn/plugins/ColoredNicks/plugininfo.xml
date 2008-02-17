@@ -13,7 +13,7 @@
 	<init_procedure>init</init_procedure>
 	<deinit_procedure>deinit</deinit_procedure>
 	
-	<cvs_version>9532</cvs_version>
+	<cvs_version>9567</cvs_version>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/colorednicks.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/plugininfo.xml</plugininfo>
