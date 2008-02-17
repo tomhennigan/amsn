@@ -19,11 +19,15 @@ namespace eval ::GameTTT {
 	
 		RegisterGame
 	}
+	
+	proc DeInit {} {
+		::MSNGamesPlugins::unregister "tictactoe"
+	}
 
 	proc RegisterGame {} {
 		set name "tictactoe"
 		set pVer 1
-		set appId [list [list "10311021" [trans gamettttitle]]]
+		set appId [list [list "10311021" "Tic Tac Toe (de)"] [list "10401021" "Tic Tac Toe (it)"]]
 		set funcs [list \
 			"::GameTTT::onCreate" \
 			"::GameTTT::onDestroy" \

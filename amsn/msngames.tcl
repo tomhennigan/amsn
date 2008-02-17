@@ -1221,7 +1221,7 @@ namespace eval ::MSNGamesPlugins {
 		
 		if {[info exists gamePlugins($name)]} {
 			array set plugin [set gamePlugins($name)]
-			set $appId [set plugin(appId)]
+			set appId [set plugin(appId)]
 			
 			#remove appIds
 			foreach item $appId {

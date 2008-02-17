@@ -9,6 +9,7 @@
 	<plugin_file>GameTTT.tcl</plugin_file>
 	<plugin_namespace>GameTTT</plugin_namespace>
 	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
 
 	<lang>
 		<langcode>en</langcode>
