@@ -1112,6 +1112,8 @@ namespace eval ::guiContactList {
 		set marginy 0
 		set colour $defaultcolour
 		set colourignore 0
+		set bg_x ""
+		set bg_cl ""
 		set font_attr [font configure $defaultfont]
 		#The text is placed at the middle of coords because anchor is w so we use only the half of the size
 		set textheight [expr {[font metrics $font_attr -displayof $canvas -linespace]/2}]
@@ -1165,7 +1167,6 @@ namespace eval ::guiContactList {
 				}
 				"smiley" {
 					set imagename [lindex $unit 1]
-	
 					if { [image width $imagename] <= $size } {
 						# Draw the image
 						$canvas create image $xpos [expr {$ypos + $marginy}] \
@@ -1185,6 +1186,43 @@ namespace eval ::guiContactList {
 						}
 						# Change the coords
 						incr xpos $textwidth
+					}
+				}
+				"bg" {
+					set nosize 1
+					if {$bg_x eq ""} {
+						if {[lindex $unit 1] ne "reset"} {
+							set bg_x $xpos
+							set bg_cl [lindex $unit 1]
+						}
+					} else {
+						if {$i == 0} {
+							set bg_y1 0
+							set bg_y2 [lindex $linesheight $i]
+						} else {
+							set bg_y1 [lindex $linesheight 0]
+							for {set z 1} {$z < $i} {incr z} {
+								incr bg_y1 [lindex $linesheight $z]
+							}
+							set bg_y2 [expr {[lindex $linesheight $z]+$bg_y1}]
+						}
+
+						set tags [linsert $tags 0 "bg"]
+
+						$canvas create rect $bg_x $bg_y1 $xpos $bg_y2 -fill $bg_cl -outline "" -tag $tags
+
+						set tags [lreplace $tags 0 0]
+
+						set bg_cl [lindex $unit 1]
+						if {$bg_cl eq "reset"} {
+							set bg_x ""
+						} else {
+							set bg_x $xpos
+						}
+
+						foreach tag $tags {
+							$canvas lower bg $tag
+						}
 					}
 				}
 				"image" {
@@ -1329,7 +1367,6 @@ namespace eval ::guiContactList {
 			}
 		#END the foreach loop
 		}
-
 		return [array get underlinearr]
 	}
 
@@ -1350,6 +1387,8 @@ namespace eval ::guiContactList {
 				"space" {
 				}
 				"fill" {
+				}
+				"bg" {
 				}
 				default {
 					set nosize 1
