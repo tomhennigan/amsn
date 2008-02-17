@@ -239,6 +239,7 @@ created créé[e]
 credits Crédits
 curdisplaypic Avatar actuel
 currentdate Date actuelle
+currentdynrate Vitesse courante (en millisecondes)
 currentlanguage Langue actuelle
 currentnotes Notes actuelles
 custnotifymsg Annoncer quand vous recevez un message d'un de vos contacts
@@ -308,6 +309,7 @@ downloadingtls Téléchargement du module TLS à partir de :\n $1
 download Télécharger
 downloadcanceled Téléchargement annulé
 downloadingwait Téléchargement d'une nouvelle version d'aMSN. Veuillez patienter.
+dynamicrate Utiliser le rendu dynamique pour simuler la vitesse en temps réél
 editavsettings Modifier les paramètres audio et vidéo
 editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregistrer
 editcustomstate Editer le statut personnel
@@ -387,6 +389,10 @@ ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$
 ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 fullcontactlist Désolé, votre liste de contact est pleine. Vous devez supprimer des contacts pour en ajouter de nouveaux.
+gameclosedbyother $1 a annulé la session de jeu.
+gameclosedbyself Vous avez annulé la session de jeu avec $1.
+gameinvitation $1 vous invite a jouer à $2. Voulez-vous accepter son invitation ?
+gamepluginnotfound $1 vous a invité[e] à jouer à $2 mais il n'y a pas de plugin chargé pour jouer à ce jeu. Veuillez l'activer et le configurer.
 getdisppic Permettre la réception d'avatars des autres contacts
 getmoreplugins Obtenez d'autres plugins !
 getmoreskins Obtenez d'autres apparences !
