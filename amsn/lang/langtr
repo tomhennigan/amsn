@@ -389,6 +389,10 @@ ftrejected Dosya aktarýmý reddedildi
 ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
 ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1 kullanýcýsýna gönderildi
 fullcontactlist Baðlantý listeniz dolu. Yeni baðlantý eklemek için bazýlarýný silmeniz gerek
+gameclosedbyother $1 sizinle olan oyun oturumunu kapattý
+gameclosedbyself $1 ile olan oyun oturumunu kapattýnýz
+gameinvitation $1 sizi $2 oynamaya davet ediyor. Kabul ediyor musunuz?
+gamepluginnotfound $1 sizi $2 oynamaya davet ediyor; ancak bu oyunun eklentisi yüklenmiþ deðil. Lütfen eklentiyi yükleyip ayarlayýnýz.
 getdisppic Diðer kullanýcýlardan kullanýcý resmi alýnabilsin
 getmoreplugins Yeni eklentiler al!
 getmoreskins Yeni kabuklar al!
