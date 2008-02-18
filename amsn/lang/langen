@@ -760,6 +760,7 @@ saveotherdirectory Save in another directory
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
+searchadvprefs Search in advanced preferences:
 searchdown Search down
 searchup Search up
 selectall Select all

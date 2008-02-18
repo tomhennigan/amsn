@@ -1415,6 +1415,157 @@ proc connection_check { lfname } {
 
 }
 
+# hide an option from the advanced preferences pane
+proc hide_option { w {w_exp ""} } {
+	if {!([catch {pack info $w}])} {
+		pack forget $w
+	}
+	if {$w_exp != "" && !([catch {pack info $w_exp}])} {
+		pack forget $w_exp
+	}
+}
+
+# show an option from the advanced preferences pane
+proc show_option { w name oldw {w_exp ""}} {
+	if {$w_exp != "" && [catch {pack info $w_exp}]} {
+		if {$oldw != ""} {
+			pack $w_exp -anchor w -padx 15 -before $oldw
+		} else {
+			pack $w_exp -anchor w -padx 15
+		}
+		set oldw $w_exp
+	}
+	if {[catch {pack info $w}]} {
+		set command [list pack $w]
+		# pack options courtesy of reload_advanced_options procedure
+		switch -glob $name {
+			[0-9]* {
+				lappend command -side top -padx 0 -fill x
+			}
+			cb* {
+				lappend command -anchor w
+			}
+			le* -
+			fr* {
+				lappend command -anchor w -expand true -fill x
+			}
+			sp* {
+				lappend command -anchor w -side top -anchor w -pady 4
+			}
+			l* {
+				lappend command -anchor w -side top -anchor w -pady 4
+			}
+			default {
+				return
+			}
+		}
+		# oldw is the option *below* the current one
+		if {$oldw != ""} {
+			lappend command -before $oldw
+		}
+		eval $command
+	}
+}
+
+proc filter_prefs { frm str action } {
+	# action = -1 -> search box focused (do nothing)
+	if {$action == -1} { return 1 }
+	
+	set optionlist [winfo children $frm]
+	set oldoption ""
+	# isempty means "there are no options visible below the current one"
+	# as we go through the options from bottom to top, it's initialized to 1
+	set isempty 1
+	# isglobalempty means "the frame is completely empty"
+	set isglobalempty 1
+	# cycles through the list in reverse order
+	set l [llength $optionlist]
+	for {set i $l} {$i >= 0} {incr i -1} {
+		set option [lindex $optionlist $i]
+		set option_exp ""
+		set text ""
+		set name [regexp -inline -- (?:cb|exp|le|fr|l|sp)?\[0-9\]+$ $option]
+		switch -glob $name {
+			[0-9]* {
+				# workaround for the date delimitators option
+				catch {set text [$option.delimiters cget -text]}
+			}
+			cb* {
+				catch {set text [$option cget -text]}
+			}
+			exp* {
+				continue
+			}
+			le* {
+				catch {set text [$option.lbl cget -text]}
+			}
+			fr* {
+				catch {set text [$option.le.lbl cget -text]}
+			}
+			l* {
+				if {$isempty} {
+					# hide the title if there are no options below it
+					hide_option $option
+				} else {
+					show_option $option $name $oldoption
+					set oldoption $option
+				}
+				continue
+			}
+			sp* {
+				if {$isempty} {
+					hide_option $option
+				} else {
+					show_option $option $name $oldoption
+					set oldoption $option
+					# here begins a new section, so isempty is initialized
+					set isempty 1
+				}
+				continue
+			}
+			default {
+				set oldoption $option
+				continue
+			}
+		}
+		set j [regsub -all \[^0-9\] $name ""]
+		set option_exp [regsub $name\$ $option exp$j]
+		if {[winfo exists $option_exp]} {
+			set text [join [list $text " " [$option_exp cget -text]]]
+		} else {
+			set option_exp ""
+		}
+		if {$text != ""} {
+			if {$str == "" || [string first [string tolower $str] [string tolower $text]] != -1} {
+				show_option $option $name $oldoption $option_exp
+				set oldoption $option
+				if {$isglobalempty} {
+					set isglobalempty 0
+				}
+				if {$isempty} {
+					set isempty 0
+				}
+			} else {
+				hide_option $option $option_exp
+			}
+		}
+	}
+	# hide leading space
+	if {[regexp -- sp\[0-9\]+$ $oldoption]} {
+		hide_option $oldoption
+	}
+	# if the frame is empty, add a spacer to avoid the scrollbar bug
+	# the name of the spacer MUST NOT begin with "sp" or it will be handled
+	# as a normal spacer
+	if {$isglobalempty} {
+		catch {label $frm.bugfix_spacer -font bboldf}
+		pack $frm.bugfix_spacer -side top -anchor w -pady 4
+	} else {
+		destroy $frm.bugfix_spacer
+	}
+	return 1
+}
+
 proc Preferences { { settings "personal"} } {
 	global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls proxy_user proxy_pass rbsel rbcon pager
 	
@@ -2245,13 +2396,23 @@ proc Preferences { { settings "personal"} } {
 	set frm [$nb.nn getframe advanced]
 	
 	set lfname [labelframe $frm.lfname -text [trans advancedprefs]]
-	pack $frm.lfname -anchor n -side top -expand true -fill both
 	
 	#Scrollable frame that will contain advanced optoins
 	ScrolledWindow $lfname.sw
 	ScrollableFrame $lfname.sw.sf -constrainedwidth 1
 	$lfname.sw setwidget $lfname.sw.sf
 	set path [$lfname.sw.sf getframe]	
+
+	# search box
+	set searchfrm [frame $frm.searchframe]
+	label $searchfrm.searchlabel -text "[trans searchadvprefs]" -anchor ne
+	entry $searchfrm.searchfield -bg #FFFFFF -width 20 -validate key -vcmd "filter_prefs $path %P %d"
+
+	pack $searchfrm.searchfield -anchor ne -side right
+	pack $searchfrm.searchlabel -anchor ne -side right
+	pack $searchfrm -anchor n -side top -fill x
+
+	pack $frm.lfname -anchor n -side top -expand true -fill both
 	pack $lfname.sw -anchor n -side top -expand true -fill both
 	
 	reload_advanced_options $path
