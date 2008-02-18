@@ -5221,7 +5221,7 @@ proc trunc_list {str {window ""} {maxw 0 } {font ""}} {
 				for {set idx 0} { $idx <= $slen} {incr idx} {
 					if { [font measure $font -displayof $window "[string range $txt 0 $idx]..."] > $maxw } {
 						set txt "[string range $txt 0 [expr {$idx-1}]]"
-						lappend buffer [list text $txt] [list colour reset] [list font reset] [list text "..."]
+						lappend buffer [list text $txt] [list colour reset] [list bg reset] [list font reset] [list text "..."]
 						return $buffer
 					}
 				}
@@ -5231,7 +5231,7 @@ proc trunc_list {str {window ""} {maxw 0 } {font ""}} {
 		smiley {
 				set maxw [expr {$maxw - [image width [lindex $elt 1]]}]
 				if {$maxw <= 0 } {
-					lappend buffer [list colour reset] [list font reset] [list text "..."]
+					lappend buffer [list colour reset] [list bg reset] [list font reset] [list text "..."]
 					return $buffer
 				}
 				lappend buffer $elt
