@@ -315,7 +315,7 @@ namespace eval ::smiley {
 					
 					set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
 					if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
-						set sound $emotion(sound)
+						set sound [PathRelToAbs $emotion(sound)]
 					} else { set sound "" }
 					set image_name $emotion(image_name)
 					set image_file [PathRelToAbs $emotion(file)]
@@ -558,7 +558,7 @@ namespace eval ::smiley {
 		
 					set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
 					if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
-						set sound $emotion(sound)
+						set sound [PathRelToAbs $emotion(sound)]
 					} else {
 						set sound ""
 					}
@@ -936,7 +936,12 @@ namespace eval ::smiley {
 		
 		foreach element [list name file animated sound casesensitive] {
 			if {[info exists emotion($element)]} {
-				set new_custom_cfg($element) $emotion($element)
+				if {$element == "file" || $element == "sound"} {
+					#restore absolute path
+					set new_custom_cfg($element) [PathRelToAbs $emotion($element)]
+				} else {
+					set new_custom_cfg($element) $emotion($element)
+				}
 			} else {
 				set new_custom_cfg($element) ""
 			}

@@ -611,7 +611,7 @@ proc save_config {} {
 		foreach attribute [array names emotion] {
 			set tmp_value $emotion($attribute)
 			#Convert absolute paths to subdirs in the profile-home to relative paths
-			if { $attribute == "file" } {
+			if { $attribute == "file" || $attribute == "sound" } {
 				set tmp_value [PathAbsToRel $tmp_value]
 			}
 
