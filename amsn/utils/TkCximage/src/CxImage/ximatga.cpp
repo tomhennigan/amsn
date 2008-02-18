@@ -2,7 +2,7 @@
  * File:	ximatga.cpp
  * Purpose:	Platform Independent TGA Image Class Loader and Writer
  * 05/Jan/2001 Davide Pizzolato - www.xdp.it
- * CxImage version 6.0.0 02/Feb/2008
+ * CxImage version 5.99c 17/Oct/2004
  */
 
 #include "ximatga.h"
@@ -22,8 +22,35 @@
 #define TGA_CompMap 32
 #define TGA_CompMap4 33
 
-////////////////////////////////////////////////////////////////////////////////
-#if CXIMAGE_SUPPORT_DECODE
+bool CxImageTGA::CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info){
+	TGAHEADER *tgaHead;
+	if (size < sizeof(tgaHead)) return false;
+	tgaHead = (TGAHEADER *)buffer;
+	switch (tgaHead->ImageType){
+	case TGA_Map:
+	case TGA_RGB:
+	case TGA_Mono:
+	case TGA_RLEMap:
+	case TGA_RLERGB:
+	case TGA_RLEMono:
+		if (!(tgaHead->ImageWidth==0 || 
+		tgaHead->ImageHeight==0 || 
+		tgaHead->PixelDepth==0 || 
+		tgaHead->CmapLength>256) && 
+		(tgaHead->PixelDepth==8 || 
+		tgaHead->PixelDepth==15 || 
+		tgaHead->PixelDepth==16 || 
+		tgaHead->PixelDepth!=24 || 
+		tgaHead->PixelDepth!=32))
+		create_basic_image_information(CXIMAGE_FORMAT_TGA,tgaHead->ImageWidth,tgaHead->ImageHeight, basic_info);
+		return true;
+		break;
+	default:
+		return false;
+		break;
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 bool CxImageTGA::Decode(CxFile *hFile)
 {
@@ -31,12 +58,10 @@ bool CxImageTGA::Decode(CxFile *hFile)
 
 	TGAHEADER tgaHead;
 
-  cx_try
+  try
   {
 	if (hFile->Read(&tgaHead,sizeof(tgaHead),1)==0)
-		cx_throw("Not a TGA");
-
-	tga_toh(&tgaHead);
+		throw "Not a TGA";
 
 	bool bCompressed;
 	switch (tgaHead.ImageType){
@@ -51,21 +76,14 @@ bool CxImageTGA::Decode(CxFile *hFile)
 		bCompressed = true;
 		break;
 	default:
-		cx_throw("Unknown TGA image type");
+		throw "Unknown TGA image type";
 	}
 
 	if (tgaHead.ImageWidth==0 || tgaHead.ImageHeight==0 || tgaHead.PixelDepth==0 || tgaHead.CmapLength>256)
-		cx_throw("bad TGA header");
+		throw "bad TGA header";
 
 	if (tgaHead.PixelDepth!=8 && tgaHead.PixelDepth!=15 && tgaHead.PixelDepth!=16 && tgaHead.PixelDepth!=24 && tgaHead.PixelDepth!=32)
-		cx_throw("bad TGA header");
-
-	if (info.nEscape == -1){
-		head.biWidth = tgaHead.ImageWidth ;
-		head.biHeight= tgaHead.ImageHeight;
-		info.dwType = CXIMAGE_FORMAT_TGA;
-		return true;
-	}
+		throw "bad TGA header";
 
 	if (tgaHead.IdLength>0) hFile->Seek(tgaHead.IdLength,SEEK_CUR); //skip descriptor
 
@@ -74,9 +92,9 @@ bool CxImageTGA::Decode(CxFile *hFile)
 	if (tgaHead.PixelDepth==32) AlphaCreate(); // Image has alpha channel
 #endif //CXIMAGE_SUPPORT_ALPHA
 
-	if (!IsValid()) cx_throw("TGA Create failed");
+	if (!IsValid()) throw "TGA Create failed";
 	
-	if (info.nEscape) cx_throw("Cancelled"); // <vho> - cancel decoding
+	if (info.nEscape) throw "Cancelled"; // <vho> - cancel decoding
 
 	if (tgaHead.CmapType != 0){ // read the palette
 		rgb_color pal[256];
@@ -96,9 +114,9 @@ bool CxImageTGA::Decode(CxFile *hFile)
 	BYTE* pDest;
     for (int y=0; y < tgaHead.ImageHeight; y++){
 
-		if (info.nEscape) cx_throw("Cancelled"); // <vho> - cancel decoding
+		if (info.nEscape) throw "Cancelled"; // <vho> - cancel decoding
 
-		if (hFile == NULL || hFile->Eof()) cx_throw("corrupted TGA");
+		if (hFile == NULL || hFile->Eof()) throw "corrupted TGA";
 
 		if (bYReversed) pDest = iter.GetRow(tgaHead.ImageHeight-y-1);
 		else pDest = iter.GetRow(y);
@@ -113,14 +131,12 @@ bool CxImageTGA::Decode(CxFile *hFile)
 	if (bYReversed && tgaHead.PixelDepth==32) AlphaFlip(); //<lioucr>
 #endif //CXIMAGE_SUPPORT_ALPHA
 
-  } cx_catch {
-	if (strcmp(message,"")) strncpy(info.szLastError,message,255);
-	return false;
+  } catch (const char *message) {
+	strncpy(info.szLastError,message,255);
+	return FALSE;
   }
     return true;
 }
-////////////////////////////////////////////////////////////////////////////////
-#endif //CXIMAGE_SUPPORT_DECODE
 ////////////////////////////////////////////////////////////////////////////////
 #if CXIMAGE_SUPPORT_ENCODE
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,9 +168,7 @@ bool CxImageTGA::Encode(CxFile * hFile)
 
 	if (pAlpha && head.biBitCount==24) tgaHead.PixelDepth=32; 
 
-	tga_toh(&tgaHead);
 	hFile->Write(&tgaHead,sizeof(TGAHEADER),1);
-	tga_toh(&tgaHead);
 
 	if (head.biBitCount==8){
 		rgb_color pal[256];
@@ -179,12 +193,12 @@ bool CxImageTGA::Encode(CxFile * hFile)
 		RGBQUAD c;
 		for (int y=0; y < tgaHead.ImageHeight; y++){
 			for(int x=0, x4=0;x<tgaHead.ImageWidth;x++, x4+=4){
-				c = BlindGetPixelColor(x,y);
+				c=GetPixelColor(x,y);
 				pDest[x4+0]=c.rgbBlue;
 				pDest[x4+1]=c.rgbGreen;
 				pDest[x4+2]=c.rgbRed;
 #if CXIMAGE_SUPPORT_ALPHA	// <vho>
-				pDest[x4+3]=AlphaGet(x,y);
+				pDest[x4+3]=(BYTE)((AlphaGet(x,y)*info.nAlphaMax)/255);
 #else
 				pDest[x4+3]=0;
 #endif //CXIMAGE_SUPPORT_ALPHA
@@ -200,8 +214,9 @@ bool CxImageTGA::Encode(CxFile * hFile)
 ////////////////////////////////////////////////////////////////////////////////
 BYTE CxImageTGA::ExpandCompressedLine(BYTE* pDest,TGAHEADER* ptgaHead,CxFile *hFile,int width, int y, BYTE rleLeftover)
 {
+	try{
 	BYTE rle;
-	long filePos=0;
+	long filePos;
 	for (int x=0; x<width; ){
 		if (rleLeftover != 255){
             rle = rleLeftover;
@@ -212,9 +227,9 @@ BYTE CxImageTGA::ExpandCompressedLine(BYTE* pDest,TGAHEADER* ptgaHead,CxFile *hF
 		if (rle & 128) { // RLE-Encoded packet
 			rle -= 127; // Calculate real repeat count.
 			if ((x+rle)>width){
-				rleLeftover = (BYTE)(128 + (rle - (width - x) - 1));
+				rleLeftover = 128 + (rle - (width - x) - 1);
                 filePos = hFile->Tell();
-				rle = (BYTE)(width - x);
+				rle=width-x;
 			}
 			switch (ptgaHead->PixelDepth)
 			{
@@ -258,19 +273,21 @@ BYTE CxImageTGA::ExpandCompressedLine(BYTE* pDest,TGAHEADER* ptgaHead,CxFile *hF
 		} else { // Raw packet
 			rle += 1; // Calculate real repeat count.
 			if ((x+rle)>width){
-                rleLeftover = (BYTE)(rle - (width - x) - 1);
-				rle = (BYTE)(width - x);
+                rleLeftover = rle - (width - x) - 1;
+				rle=width-x;
 			}
 			ExpandUncompressedLine(pDest,ptgaHead,hFile,rle,y,x);
 		}
 		if (head.biBitCount == 24)	pDest += rle*3;	else pDest += rle;
 		x += rle;
 	}
+	} catch(...){	}
 	return rleLeftover;
 }
 ////////////////////////////////////////////////////////////////////////////////
 void CxImageTGA::ExpandUncompressedLine(BYTE* pDest,TGAHEADER* ptgaHead,CxFile *hFile,int width, int y, int xoffset)
 {
+	try{
 	switch (ptgaHead->PixelDepth){
 	case 8:
 		hFile->Read(pDest,width,1);
@@ -305,16 +322,7 @@ void CxImageTGA::ExpandUncompressedLine(BYTE* pDest,TGAHEADER* ptgaHead,CxFile *
 		break;
 			}
 	}
-}
-////////////////////////////////////////////////////////////////////////////////
-void CxImageTGA::tga_toh(TGAHEADER* p)
-{
-    p->CmapIndex = ntohs(p->CmapIndex);
-    p->CmapLength = ntohs(p->CmapLength);
-    p->X_Origin = ntohs(p->X_Origin);
-    p->Y_Origin = ntohs(p->Y_Origin);
-    p->ImageWidth = ntohs(p->ImageWidth);
-    p->ImageHeight = ntohs(p->ImageHeight);
+	} catch(...){	}
 }
 ////////////////////////////////////////////////////////////////////////////////
 #endif 	// CXIMAGE_SUPPORT_TGA

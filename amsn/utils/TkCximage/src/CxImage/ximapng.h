@@ -25,15 +25,24 @@ extern "C" {
 #include <png.h>
 }
 
+long int inline btohl( long int dword ) {
+	short int test = 1;
+	if ( *((char *) &test) == 0 )
+		return dword; // Host is big endian
+	else
+		return ( ((dword & 0xff) << 24 ) | ((dword & 0xff00) << 8 ) | ((dword >> 8) & 0xff00) | ((dword >> 24) & 0xff) ); //Host is little endian : we swap the four bytes
+}
+
 class CxImagePNG: public CxImage
 {
 public:
 	CxImagePNG(): CxImage(CXIMAGE_FORMAT_PNG) {}
 
-//	bool Load(const TCHAR * imageFileName){ return CxImage::Load(imageFileName,CXIMAGE_FORMAT_PNG);}
-//	bool Save(const TCHAR * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_PNG);}
+//	bool Load(const char * imageFileName){ return CxImage::Load(imageFileName,CXIMAGE_FORMAT_PNG);}
+//	bool Save(const char * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_PNG);}
 	bool Decode(CxFile * hFile);
 	bool Decode(FILE *hFile) { CxIOFile file(hFile); return Decode(&file); }
+	static bool CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info);
 
 #if CXIMAGE_SUPPORT_ENCODE
 	bool Encode(CxFile * hFile);
@@ -44,25 +53,24 @@ protected:
 	void ima_png_error(png_struct *png_ptr, char *message);
 	void expand2to4bpp(BYTE* prow);
 
-	static void PNGAPI user_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
+	static void user_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
 	{
 		CxFile* hFile = (CxFile*)png_get_io_ptr(png_ptr);
-		if (hFile == NULL || hFile->Read(data,1,length) != length) png_error(png_ptr, "Read Error");
+		if (hFile->Read(data,1,length) != length) png_error(png_ptr, "Read Error");
 	}
 
-	static void PNGAPI user_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
+	static void user_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
 	{
 		CxFile* hFile = (CxFile*)png_get_io_ptr(png_ptr);
-		if (hFile == NULL || hFile->Write(data,1,length) != length) png_error(png_ptr, "Write Error");
+		if (hFile->Write(data,1,length) != length) png_error(png_ptr, "Write Error");
 	}
 
-	static void PNGAPI user_flush_data(png_structp png_ptr)
+	static void user_flush_data(png_structp png_ptr)
 	{
 		CxFile* hFile = (CxFile*)png_get_io_ptr(png_ptr);
-		if (hFile == NULL || !hFile->Flush()) png_error(png_ptr, "Flush Error");
+		if (!hFile->Flush()) png_error(png_ptr, "Flush Error");
 	}
-
-    static void PNGAPI user_error_fn(png_structp png_ptr,png_const_charp error_msg)
+    static void user_error_fn(png_structp png_ptr,png_const_charp error_msg)
 	{
 		strncpy((char*)png_ptr->error_ptr,error_msg,255);
 		longjmp(png_ptr->jmpbuf, 1);

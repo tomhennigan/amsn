@@ -37,10 +37,7 @@ bool CxMemFile::Open()
 //////////////////////////////////////////////////////////
 BYTE* CxMemFile::GetBuffer(bool bDetachBuffer)
 {
-	//can only detach, avoid inadvertantly attaching to
-	// memory that may not be ours [Jason De Arte]
-	if( bDetachBuffer )
-		m_bFreeOnClose = false;
+	m_bFreeOnClose = !bDetachBuffer;
 	return m_pBuffer;
 }
 //////////////////////////////////////////////////////////
@@ -74,11 +71,7 @@ size_t CxMemFile::Write(const void *buffer, size_t size, size_t count)
 	long nCount = (long)(count*size);
 	if (nCount == 0) return 0;
 
-	if (m_Position + nCount > m_Edge){
-		if (!Alloc(m_Position + nCount)){
-			return false;
-		}
-	}
+	if (m_Position + nCount > m_Edge) Alloc(m_Position + nCount);
 
 	memcpy(m_pBuffer + m_Position, buffer, nCount);
 
@@ -138,14 +131,11 @@ long CxMemFile::Error()
 bool CxMemFile::PutC(unsigned char c)
 {
 	if (m_pBuffer==NULL) return false;
+	if (m_Position + 1 > m_Edge) Alloc(m_Position + 1);
 
-	if (m_Position >= m_Edge){
-		if (!Alloc(m_Position + 1)){
-			return false;
-		}
-	}
+	memcpy(m_pBuffer + m_Position, &c, 1);
 
-	m_pBuffer[m_Position++] = c;
+	m_Position += 1;
 
 	if (m_Position > (long)m_Size) m_Size = m_Position;
 	
@@ -158,31 +148,12 @@ long CxMemFile::GetC()
 	return *(BYTE*)((BYTE*)m_pBuffer + m_Position++);
 }
 //////////////////////////////////////////////////////////
-char * CxMemFile::GetS(char *string, int n)
-{
-	n--;
-	long c,i=0;
-	while (i<n){
-		c = GetC();
-		if (c == EOF) return 0;
-		string[i++] = (char)c;
-		if (c == '\n') break;
-	}
-	string[i] = 0;
-	return string;
-}
-//////////////////////////////////////////////////////////
-long	CxMemFile::Scanf(const char *format, void* output)
-{
-	return 0;
-}
-//////////////////////////////////////////////////////////
-bool CxMemFile::Alloc(DWORD dwNewLen)
+void CxMemFile::Alloc(DWORD dwNewLen)
 {
 	if (dwNewLen > (DWORD)m_Edge)
 	{
 		// find new buffer size
-		DWORD dwNewBufferSize = (DWORD)(((dwNewLen>>16)+1)<<16);
+		DWORD dwNewBufferSize = (DWORD)(((dwNewLen>>12)+1)<<12);
 
 		// allocate new buffer
 		if (m_pBuffer == NULL) m_pBuffer = (BYTE*)malloc(dwNewBufferSize);
@@ -192,7 +163,7 @@ bool CxMemFile::Alloc(DWORD dwNewLen)
 
 		m_Edge = dwNewBufferSize;
 	}
-	return (m_pBuffer!=0);
+	return;
 }
 //////////////////////////////////////////////////////////
 void CxMemFile::Free()

@@ -24,11 +24,9 @@ public:
 	virtual long	Error();
 	virtual bool	PutC(unsigned char c);
 	virtual long	GetC();
-	virtual char *	GetS(char *string, int n);
-	virtual long	Scanf(const char *format, void* output);
 
 protected:
-	bool	Alloc(DWORD nBytes);
+	void	Alloc(DWORD nBytes);
 	void	Free();
 
 	BYTE*	m_pBuffer;

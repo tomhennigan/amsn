@@ -1,6 +1,6 @@
 // ximage.cpp : main implementation file
 /* 07/08/2001 v1.00 - Davide Pizzolato - www.xdp.it
- * CxImage version 6.0.0 02/Feb/2008
+ * CxImage version 5.99c 17/Oct/2004
  */
 
 #include "ximage.h"
@@ -15,21 +15,20 @@ void CxImage::Startup(DWORD imagetype)
 {
 	//init pointers
 	pDib = pSelection = pAlpha = NULL;
-	ppLayers = ppFrames = NULL;
+	pLayers = NULL;
 	//init structures
 	memset(&head,0,sizeof(BITMAPINFOHEADER));
 	memset(&info,0,sizeof(CXIMAGEINFO));
 	//init default attributes
     info.dwType = imagetype;
-	info.fQuality = 90.0f;
+	info.nQuality = 90;
 	info.nAlphaMax = 255;
 	info.nBkgndIndex = -1;
 	info.bEnabled = true;
-	SetXDPI(CXIMAGE_DEFAULT_DPI);
-	SetYDPI(CXIMAGE_DEFAULT_DPI);
-
-	short test = 1;
-	info.bLittleEndianHost = (*((char *) &test) == 1);
+	info.bGetAllFrames = false;
+	info.GifFrames = NULL;
+	SetXDPI(96);
+	SetYDPI(96);
 }
 ////////////////////////////////////////////////////////////////////////////////
 /**
@@ -51,25 +50,27 @@ bool CxImage::Destroy()
 {
 	//free this only if it's valid and it's not a ghost
 	if (info.pGhost==NULL){
-		if (ppLayers) { 
-			for(long n=0; n<info.nNumLayers;n++){ delete ppLayers[n]; }
-			delete [] ppLayers; ppLayers=0; info.nNumLayers = 0;
+		if (pLayers) { 
+			for(long n=0; n<info.nNumLayers;n++){ delete pLayers[n]; }
+			free(pLayers); pLayers=0;
 		}
 		if (pSelection) {free(pSelection); pSelection=0;}
 		if (pAlpha) {free(pAlpha); pAlpha=0;}
 		if (pDib) {free(pDib); pDib=0;}
+
 		return true;
 	}
 	return false;
 }
-////////////////////////////////////////////////////////////////////////////////
-bool CxImage::DestroyFrames()
+
+bool CxImage::DestroyGifFrames()
 {
-	if (info.pGhost==NULL) {
-		if (ppFrames) {
-			for (long n=0; n<info.nNumFrames; n++) { delete ppFrames[n]; }
-			delete [] ppFrames; ppFrames = NULL; info.nNumFrames = 0;
+	if (info.pGhost==NULL && info.GifFrames && info.bGetAllFrames) {
+		for (int i = 0; i < info.nNumFrames; i++) {
+			delete info.GifFrames[i];
 		}
+		delete info.GifFrames;
+		info.GifFrames = NULL;
 		return true;
 	}
 	return false;
@@ -111,14 +112,8 @@ CxImage::CxImage(const CxImage &src, bool copypixels, bool copyselection, bool c
  */
 void CxImage::Copy(const CxImage &src, bool copypixels, bool copyselection, bool copyalpha)
 {
-	// if the source is a ghost, the copy is still a ghost
-	if (src.info.pGhost){
-		Ghost(&src);
-		return;
-	}
 	//copy the attributes
 	memcpy(&info,&src.info,sizeof(CXIMAGEINFO));
-	memcpy(&head,&src.head,sizeof(BITMAPINFOHEADER)); // [andy] - fix for bitmap header DPI
 	//rebuild the image
 	Create(src.GetWidth(),src.GetHeight(),src.GetBpp(),src.GetType());
 	//copy the pixels and the palette, or at least copy the palette only.
@@ -185,9 +180,7 @@ void* CxImage::Create(DWORD dwWidth, DWORD dwHeight, DWORD wBpp, DWORD imagetype
     else				wBpp = 24;
 
 	// limit memory requirements (and also a check for bad parameters)
-	if (((dwWidth*dwHeight*wBpp)>>3) > CXIMAGE_MAX_MEMORY ||
-		((dwWidth*dwHeight*wBpp)/wBpp) != (dwWidth*dwHeight))
-	{
+	if (((dwWidth*dwHeight*wBpp)>>8) > CXIMAGE_MAX_MEMORY){
 		strcpy(info.szLastError,"CXIMAGE_MAX_MEMORY exceeded");
 		return NULL;
 	}
@@ -218,7 +211,7 @@ void* CxImage::Create(DWORD dwWidth, DWORD dwHeight, DWORD wBpp, DWORD imagetype
     head.biSizeImage = info.dwEffWidth * dwHeight;
 //    head.biXPelsPerMeter = 0; See SetXDPI
 //    head.biYPelsPerMeter = 0; See SetYDPI
-//    head.biClrImportant = 0;  See SetClrImportant
+    head.biClrImportant = 0;
 
 	pDib = malloc(GetSize()); // alloc memory block to store our bitmap
     if (!pDib){
@@ -308,7 +301,7 @@ void CxImage::Clear(BYTE bval)
  * Transfers the image from an existing source image. The source becomes empty.
  * \return true if everything is ok
  */
-bool CxImage::Transfer(CxImage &from, bool bTransferFrames /*=true*/)
+bool CxImage::Transfer(CxImage &from)
 {
 	if (!Destroy())
 		return false;
@@ -319,19 +312,12 @@ bool CxImage::Transfer(CxImage &from, bool bTransferFrames /*=true*/)
 	pDib = from.pDib;
 	pSelection = from.pSelection;
 	pAlpha = from.pAlpha;
-	ppLayers = from.ppLayers;
+	pLayers = from.pLayers;
 
 	memset(&from.head,0,sizeof(BITMAPINFOHEADER));
 	memset(&from.info,0,sizeof(CXIMAGEINFO));
 	from.pDib = from.pSelection = from.pAlpha = NULL;
-	from.ppLayers = NULL;
-
-	if (bTransferFrames){
-		DestroyFrames();
-		ppFrames = from.ppFrames;
-		from.ppFrames = NULL;
-	}
-
+	from.pLayers = NULL;
 	return true;
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -339,7 +325,7 @@ bool CxImage::Transfer(CxImage &from, bool bTransferFrames /*=true*/)
  * (this) points to the same pDib owned by (*from), the image remains in (*from)
  * but (this) has the access to the pixels. <b>Use carefully !!!</b>
  */
-void CxImage::Ghost(const CxImage *from)
+void CxImage::Ghost(CxImage *from)
 {
 	if (from){
 		memcpy(&head,&from->head,sizeof(BITMAPINFOHEADER));
@@ -347,16 +333,15 @@ void CxImage::Ghost(const CxImage *from)
 		pDib = from->pDib;
 		pSelection = from->pSelection;
 		pAlpha = from->pAlpha;
-		ppLayers = from->ppLayers;
-		ppFrames = from->ppFrames;
-		info.pGhost=(CxImage *)from;
+		pLayers = from->pLayers;
+		info.pGhost=from;
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////
 /**
  * turns a 16 or 32 bit bitfield image into a RGB image
  */
-void CxImage::Bitfield2RGB(BYTE *src, DWORD redmask, DWORD greenmask, DWORD bluemask, BYTE bpp)
+void CxImage::Bitfield2RGB(BYTE *src, WORD redmask, WORD greenmask, WORD bluemask, BYTE bpp)
 {
 	switch (bpp){
 	case 16:
@@ -391,13 +376,6 @@ void CxImage::Bitfield2RGB(BYTE *src, DWORD redmask, DWORD greenmask, DWORD blue
 	}
 	case 32:
 	{
-		DWORD ns[3]={0,0,0};
-		// compute the number of shift for each mask
-		for (int i=8;i<32;i+=8){
-			if (redmask>>i) ns[0]++;
-			if (greenmask>>i) ns[1]++;
-			if (bluemask>>i) ns[2]++;
-		}
 		// dword aligned width for 32 bit image
 		long effwidth4 = head.biWidth * 4;
 		long y4,y3,x4,x3;
@@ -409,9 +387,9 @@ void CxImage::Bitfield2RGB(BYTE *src, DWORD redmask, DWORD greenmask, DWORD blue
 			for (long x=head.biWidth-1; x>=0; x--){
 				x4 = 4*x+y4;
 				x3 = 3*x+y3;
-				p[  x3]=src[ns[2]+x4];
-				p[1+x3]=src[ns[1]+x4];
-				p[2+x3]=src[ns[0]+x4];
+				p[  x3]=src[  x4];
+				p[1+x3]=src[1+x4];
+				p[2+x3]=src[2+x4];
 			}
 		}
 	}
@@ -526,7 +504,6 @@ int CxImage::CompareColors(const void *elem1, const void *elem2)
  * Useful when calling Encode for a memory buffer,
  * from a DLL compiled with different memory management options.
  * CxImage::FreeMemory will use the same memory environment used by Encode. 
- * \author [livecn]
  */
 void CxImage::FreeMemory(void* memblock)
 {

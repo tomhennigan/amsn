@@ -40,6 +40,7 @@ public:
 
 	bool Decode(CxFile * hFile);
 	bool Decode(FILE *hFile) { CxIOFile file(hFile); return Decode(&file); }
+	static bool CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info);
 
 #if CXIMAGE_SUPPORT_ENCODE
 	bool Encode(CxFile * hFile);

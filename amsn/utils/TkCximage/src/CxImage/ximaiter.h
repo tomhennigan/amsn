@@ -147,8 +147,7 @@ inline void CImageIterator::SetRow(BYTE *buf, int n)
 /////////////////////////////////////////////////////////////////////
 inline void CImageIterator::GetRow(BYTE *buf, int n)
 {
-	if ((IterImage!=NULL)&&(buf!=NULL)&&(n>0))
-		memcpy(buf,IterImage,min(n,(int)ima->GetEffWidth()));
+	if ((IterImage!=NULL)&&(buf!=NULL)&&(n>0)) memcpy(buf,IterImage,n);
 }
 /////////////////////////////////////////////////////////////////////
 inline BYTE* CImageIterator::GetRow()
@@ -222,7 +221,7 @@ inline BOOL CImageIterator::GetCol(BYTE* pCol, DWORD x)
 		return 0;
 	DWORD h = ima->GetHeight();
 	//DWORD line = ima->GetEffWidth();
-	BYTE bytes = (BYTE)(ima->GetBpp()>>3);
+	BYTE bytes = ima->GetBpp()>>3;
 	BYTE* pSrc;
 	for (DWORD y=0;y<h;y++){
 		pSrc = ima->GetBits(y) + x*bytes;
@@ -239,7 +238,7 @@ inline BOOL CImageIterator::SetCol(BYTE* pCol, DWORD x)
 		return 0;
 	DWORD h = ima->GetHeight();
 	//DWORD line = ima->GetEffWidth();
-	BYTE bytes = (BYTE)(ima->GetBpp()>>3);
+	BYTE bytes = ima->GetBpp()>>3;
 	BYTE* pSrc;
 	for (DWORD y=0;y<h;y++){
 		pSrc = ima->GetBits(y) + x*bytes;

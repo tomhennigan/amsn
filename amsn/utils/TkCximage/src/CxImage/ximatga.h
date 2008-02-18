@@ -41,10 +41,11 @@ typedef struct tagTgaHeader
 public:
 	CxImageTGA(): CxImage(CXIMAGE_FORMAT_TGA) {}
 
-//	bool Load(const TCHAR * imageFileName){ return CxImage::Load(imageFileName,CXIMAGE_FORMAT_TGA);}
-//	bool Save(const TCHAR * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_TGA);}
+//	bool Load(const char * imageFileName){ return CxImage::Load(imageFileName,CXIMAGE_FORMAT_TGA);}
+//	bool Save(const char * imageFileName){ return CxImage::Save(imageFileName,CXIMAGE_FORMAT_TGA);}
 	bool Decode(CxFile * hFile);
 	bool Decode(FILE *hFile) { CxIOFile file(hFile); return Decode(&file); }
+	static bool CheckFormat(BYTE * buffer, DWORD size, basic_image_information *basic_info);
 
 #if CXIMAGE_SUPPORT_ENCODE
 	bool Encode(CxFile * hFile);
@@ -53,7 +54,6 @@ public:
 protected:
 	BYTE ExpandCompressedLine(BYTE* pDest,TGAHEADER* ptgaHead,CxFile *hFile,int width, int y, BYTE rleLeftover);
 	void ExpandUncompressedLine(BYTE* pDest,TGAHEADER* ptgaHead,CxFile *hFile,int width, int y, int xoffset);
-	void tga_toh(TGAHEADER* p);
 };
 
 #endif

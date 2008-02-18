@@ -1,6 +1,6 @@
 // xImaInt.cpp : interpolation functions
 /* 02/2004 - Branko Brevensek 
- * CxImage version 6.0.0 02/Feb/2008 - Davide Pizzolato - www.xdp.it
+ * CxImage version 5.99c 17/Oct/2004 - Davide Pizzolato - www.xdp.it
  */
 
 #include "ximage.h"
@@ -129,7 +129,7 @@ RGBQUAD CxImage::GetPixelColorWithOverflow(long x, long y, OverflowMethod const 
         return color;
       case OM_BACKGROUND:
 		  //return background color (if it exists, otherwise input value)
-		  if (info.nBkgndIndex >= 0) {
+		  if (info.nBkgndIndex != -1) {
 			  if (head.biBitCount<24) color = GetPaletteColor((BYTE)info.nBkgndIndex);
 			  else color = info.nBkgndColor;
 		  }//if
@@ -198,7 +198,7 @@ RGBQUAD CxImage::GetPixelColorInterpolated(
     case IM_NEAREST_NEIGHBOUR:
       return GetPixelColorWithOverflow((long)(x+0.5f), (long)(y+0.5f), ofMethod, rplColor);
     default: {
-      //IM_BILINEAR: bilinear interpolation
+      //bilinear interpolation
       if (xi<-1 || xi>=head.biWidth || yi<-1 || yi>=head.biHeight) {  //all 4 points are outside bounds?:
         switch (ofMethod) {
           case OM_COLOR: case OM_TRANSPARENT: case OM_BACKGROUND:
@@ -282,8 +282,6 @@ RGBQUAD CxImage::GetPixelColorInterpolated(
 	case IM_QUADRATIC:
 	case IM_MITCHELL:
 	case IM_CATROM:
-	case IM_HANNING:
-	case IM_POWER:
       //bicubic interpolation(s)
       if (((xi+2)<0) || ((xi-1)>=head.biWidth) || ((yi+2)<0) || ((yi-1)>=head.biHeight)) { //all points are outside bounds?:
         switch (ofMethod) {
@@ -383,18 +381,6 @@ RGBQUAD CxImage::GetPixelColorInterpolated(
           for (i=0; i<4; i++) {
             kernelx[i]=KernelCatrom((float)(xi+i-1-x));
             kernely[i]=KernelCatrom((float)(yi+i-1-y));
-          }//for i
-          break;
-        case IM_HANNING:
-          for (i=0; i<4; i++) {
-            kernelx[i]=KernelHanning((float)(xi+i-1-x));
-            kernely[i]=KernelHanning((float)(yi+i-1-y));
-          }//for i
-          break;
-        case IM_POWER:
-          for (i=0; i<4; i++) {
-            kernelx[i]=KernelPower((float)(xi+i-1-x));
-            kernely[i]=KernelPower((float)(yi+i-1-y));
           }//for i
           break;
       }//switch
@@ -817,12 +803,6 @@ float CxImage::KernelHermite(const float x)
 //	return(0.5f+0.5f*(float)cos(PI*x));
 }
 ////////////////////////////////////////////////////////////////////////////////
-float CxImage::KernelHanning(const float x)
-{
-	if (fabs(x)>1) return 0.0f;
-	return (0.5f+0.5f*(float)cos(PI*x))*((float)sin(PI*x)/(PI*x));
-}
-////////////////////////////////////////////////////////////////////////////////
 float CxImage::KernelHamming(const float x)
 {
 	if (x < -1.0f)
@@ -1044,12 +1024,6 @@ float CxImage::KernelCatrom(const float x)
 	if (x < 2.0)
 		return(0.5f*(4.0f+x*(-8.0f+x*(5.0f-x))));
 	return(0.0f);
-}
-////////////////////////////////////////////////////////////////////////////////
-float CxImage::KernelPower(const float x, const float a)
-{
-	if (fabs(x)>1) return 0.0f;
-	return (1.0f - (float)fabs(pow(x,a)));
 }
 ////////////////////////////////////////////////////////////////////////////////
 
