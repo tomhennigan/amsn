@@ -4003,6 +4003,10 @@ proc create_main_menu {wmenu} {
 	$actions add command -label "[trans sendcam]..." -command "" -command [list ::amsn::ShowUserList [trans sendcam] ::MSNCAM::SendInviteQueue] -state disabled
 	#Ask Webcam
 	$actions add command -label "[trans askcam]..." -command "" -command [list ::amsn::ShowUserList [trans askcam] ::MSNCAM::AskWebcamQueue] -state disabled
+	#-------------------
+	$actions add separator
+	#Play game
+	$actions add cascade -label "[trans playgame]" -menu [::MSNGamesGUI::buildMenu $actions] -state disabled
 	
 	###########################
 	#Contacts menu
@@ -4341,7 +4345,8 @@ proc loggedInGuiConf { event } {
 	set file_idx [$menu index "[trans sendfile]..."]
 	set send_cam_idx [$menu index "[trans sendcam]..."]
 	set ask_cam_idx [$menu index "[trans askcam]..."]
-	enableEntries $menu [list $msg_idx $mobile_idx $email_idx $file_idx $send_cam_idx $ask_cam_idx]
+	set play_game_idx [$menu index "[trans playgame]"]
+	enableEntries $menu [list $msg_idx $mobile_idx $email_idx $file_idx $send_cam_idx $ask_cam_idx $play_game_idx]
 	
 	# Contacts menu
 	set menu .main_menu.contacts
@@ -4415,7 +4420,8 @@ proc loggedOutGuiConf { event } {
 	set file_idx [$menu index "[trans sendfile]..."]
 	set send_cam_idx [$menu index "[trans sendcam]..."]
 	set ask_cam_idx [$menu index "[trans askcam]..."]
-	enableEntries $menu [list $msg_idx $mobile_idx $email_idx $file_idx $send_cam_idx $ask_cam_idx] 0
+	set play_game_idx [$menu index "[trans playgame]"]
+	enableEntries $menu [list $msg_idx $mobile_idx $email_idx $file_idx $send_cam_idx $ask_cam_idx $play_game_idx] 0
 	
 	# Contacts menu
 	set menu .main_menu.contacts

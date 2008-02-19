@@ -1591,6 +1591,10 @@ namespace eval ::ChatWindow {
 		$actionsmenu add command -label "[trans sendcam]..." \
 			-command "::amsn::ShowChatList \"[trans sendcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
 
+		$actionsmenu add separator
+		
+		$actionsmenu add cascade -label "[trans playgame]" -menu [::MSNGamesGUI::buildMenu $actionsmenu $w]
+		
 		#nudge to add item here
 	
 		return $actionsmenu

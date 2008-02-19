@@ -1,9 +1,12 @@
-################## GameTTT #######################
-## This plugin is the game "Tic Tac Toe" of the ##
-## MSN-Zone games. It is fully compatible.      ##
-##                                              ##
-## written by Mirko Hansen (BaaaZen)            ##
-##################################################
+################## MSNGames #######################
+## MSN-Games communication and plugin interface  ##
+##                                               ##
+## written by Mirko Hansen (BaaaZen)             ##
+###################################################
+
+# TODO:
+#	- implement reflector communication
+#	- games need localization (-> AppID = xxxxyyyy, xxxx = country-code, yyyy = application-code)
 
 namespace eval ::MSNGames {
 	proc IncomingGameRequest {chatid dest branchuid cseq uid sid context} {
@@ -12,10 +15,10 @@ namespace eval ::MSNGames {
 		if {[llength $gameinfo] == 3} {
 			#check if we have a fitting plugin for this game
 			if {[::MSNGamesPlugins::supportedGame [lindex $gameinfo 0]] == 1} {
-				SendMessageFIFO [list ::MSNGames::IncomingGameRequestShow $chatid $dest $branchuid $cseq $uid $sid $gameinfo] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+				SendMessageFIFO [list ::MSNGamesGUI::IncomingGameRequestShow $chatid $dest $branchuid $cseq $uid $sid $gameinfo] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 			} else {
 				#no plugin found, so warn the user and abort request
-				SendMessageFIFO [list ::MSNGames::IncomingGameRequestInvalid $chatid $dest $branchuid $cseq $uid $sid $gameinfo] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+				SendMessageFIFO [list ::MSNGamesGUI::IncomingGameRequestInvalid $chatid $dest $branchuid $cseq $uid $sid $gameinfo] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 			
 				# abort invitation
 				::MSN::ChatQueue $chatid [list ::MSN6FT::RejectFT $chatid $sid $branchuid $uid]
@@ -28,97 +31,112 @@ namespace eval ::MSNGames {
 		}
 	}
 	
-	proc IncomingGameRequestInvalid {chatid dest branchuid cseq uid sid gameinfo} {
-		::amsn::WinWrite $chatid "\n" green
-		::amsn::WinWriteIcon $chatid greyline 3
-		::amsn::WinWrite $chatid " \n" green
-
-		#Show invitation
-		::amsn::WinWrite $chatid "[timestamp] [trans gamepluginnotfound [::abook::getDisplayNick $chatid] [lindex $gameinfo 2]]\n" green
-
-		#Grey line
-		::amsn::WinWriteIcon $chatid greyline 3
-	}
-
-	proc IncomingGameRequestShow {chatid dest branchuid cseq uid sid gameinfo} {
-		#Grey line
-		::amsn::WinWrite $chatid "\n" green
-		::amsn::WinWriteIcon $chatid greyline 3
-		::amsn::WinWrite $chatid " \n" green
-
-		#Show invitation
-		::amsn::WinWrite $chatid "[timestamp] [trans gameinvitation [::abook::getDisplayNick $chatid] [lindex $gameinfo 2]]" green
-
-		#Accept and refuse actions
-		::amsn::WinWrite $chatid " - (" green
-		::amsn::WinWriteClickable $chatid "[trans accept]" [list ::MSNGames::IncomingGameRequestAccept $chatid $dest $branchuid $cseq $uid $sid $gameinfo] acceptgame$sid
-		::amsn::WinWrite $chatid " / " green
-		::amsn::WinWriteClickable $chatid "[trans reject]" [list ::MSNGames::IncomingGameRequestReject $chatid $sid $branchuid $uid] rejectgame$sid
-		::amsn::WinWrite $chatid ")\n" green
-
-		#Grey line
-		::amsn::WinWriteIcon $chatid greyline 3
-	}
-
-	proc IncomingGameRequestReject {chatid sid branchuid uid} {
-		#Get the chatwindow name
-		set win_name [::ChatWindow::For $chatid]
-		if { [::ChatWindow::For $chatid] == 0} {
-				return 0
-		}
-
-		#Disable items in the chatwindow
-		[::ChatWindow::GetOutText ${win_name}] tag configure acceptgame$sid \
-				-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Button1-ButtonRelease> ""
-
-
-		[::ChatWindow::GetOutText ${win_name}] tag configure rejectgame$sid \
-				-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Button1-ButtonRelease> ""
-
-		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
-
-		# abort invitation
-		if {[::MSN::ChatQueue $chatid [list ::MSN6FT::RejectFT $chatid $sid $branchuid $uid]] == 0} {
-			return 0
-		}
+	proc SendInviteQueue {appId chatid} {
+		::MSN::ChatQueue $chatid [list ::MSNGames::SendInvite $appId $chatid]
 	}
 	
-	proc IncomingGameRequestAccept {chatid dest branchuid cseq uid sid gameinfo} {
-		#Get the chatwindow name
-		set win_name [::ChatWindow::For $chatid]
-		if { [::ChatWindow::For $chatid] == 0} {
-				return 0
+	proc SendInvite {appId chatid} {
+		set gameName [::MSNGamesPlugins::getName $appId]
+	
+		set guid "6A13AF9C-5308-4F35-923A-67E8DDA40C2F"
+		set context "$appId;1;$gameName"
+	
+		if {[::ChatWindow::For $chatid]==0} {
+			::amsn::chatUser $chatid
 		}
 
-		#Disable items in the chatwindow
-		[::ChatWindow::GetOutText ${win_name}] tag configure acceptgame$sid \
-				-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Button1-ButtonRelease> ""
+		status_log "Sending Game $gameName Request\n"
 
+		set sid [expr {int([expr {rand() * 1000000000}])%125000000 + 4}]
+		# Generate BranchID and CallID
+		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 
-		[::ChatWindow::GetOutText ${win_name}] tag configure rejectgame$sid \
-				-foreground #808080 -font bplainf -underline false
-		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Enter> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Button1-ButtonRelease> ""
+		set dest [lindex [::MSN::usersInChat $chatid] 0]
 
-		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+		# This is a fixed value... it must be that way or the invite won't work
+		set context [ToUnicode $context]
 
-		# accept invitation
-		if {[::MSN::ChatQueue $chatid [list ::MSNGames::AcceptGameOpenSB $chatid $dest $branchuid $cseq $uid $sid $gameinfo]] == 0} {
-				return 0
+		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "game" "$context" "$branchid"]
+
+		setObjOption $sid inviter 1
+		setObjOption $sid chatid $chatid
+		setObjOption $sid reflector 0
+		setObjOption $sid appid $appId
+
+		::MSNGamesGUI::InvitationSent $chatid $sid $appId $gameName
+
+		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
+
+		# Create and send our packet
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 $guid $sid 4 \
+				 [string map { "\n" "" } [::base64::encode "$context"]]]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
+		status_log "Sent an INVITE to [::MSN::usersInChat $chatid]  on chatid $chatid for game $gameName\n" red
+	}
+	
+	proc SendInvite2 {sid chatid} {
+		set session [::MSNP2P::SessionList get $sid]
+		set branchid [lindex $session 9]
+		set callid [lindex $session 5]
+		set dest [lindex $session 3]
+		set conntype [abook::getDemographicField conntype]
+
+		set listening [abook::getDemographicField listening]
+
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
+
+		if {$listening == "true" } {
+			set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+			set port [OpenGamePort [config::getKey initialftport] $nonce $sid 1]
+			set clientip [::abook::getDemographicField clientip]
+			set localip [::abook::getDemographicField localip]
+		} else {
+			set nonce "00000000-0000-0000-0000-000000000000"
+			set port ""
+			set clientip ""
+			set localip ""
+		}
+		
+		if { $listening == "true" } {
+			set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "$listening" "$nonce" "$clientip"\
+					 "$port" "$localip" "$port"]
+			::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
+				#after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
+		} else {
+			#after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		}
 	}
 
-	proc AcceptGame { chatid dest branchuid cseq uid sid gameinfo} {
+	proc SendAcceptInvite {sid chatid} {
+		set session [::MSNP2P::SessionList get $sid]
+		set branchid [lindex $session 9]
+		set callid [lindex $session 5]
+		set dest [lindex $session 3]
+
+		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+
+		status_log "branchid  : $branchid\n" red
+		set netid [abook::getDemographicField netid]
+		set conntype [abook::getDemographicField conntype]
+		set upnp [abook::getDemographicField upnpnat]
+
+		if { $netid == "" || $conntype == "" } {
+			abook::getIPConfig
+			set netid [abook::getDemographicField netid]
+			set conntype [abook::getDemographicField conntype]
+			if { $netid == "" } { set netid 0 }
+			if { $conntype == "" } {set conntype "Firewall" }
+		}
+
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE1" -1 -1 -1 -1 $branchid]
+
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid "0 " $callid 0 1 "TRUDPv1 TCPv1" \
+				 $netid $conntype $upnp "false"]
+		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
+	}
+
+	proc AcceptGame {chatid dest branchuid cseq uid sid gameinfo} {
 		setObjOption $sid inviter 0
 		setObjOption $sid chatid $chatid
 		setObjOption $sid reflector 0
@@ -127,6 +145,8 @@ namespace eval ::MSNGames {
 		# Let's make and send a 200 OK Message
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
+		
+		SendAcceptInvite $sid $chatid
 	}
 
 	proc AcceptGameOpenSB {chatid dest branchuid cseq uid sid gameinfo} {
@@ -166,35 +186,7 @@ namespace eval ::MSNGames {
 	proc GameCanceled {chatid sid} {
 		#aborted game
 		::MSNGamesInterface::abortedGame $sid
-	
-		if {$chatid > 0} {
-			#show message in CW
-			::amsn::WinWrite $chatid "\n" green
-			::amsn::WinWriteIcon $chatid greyline 3
-			::amsn::WinWrite $chatid " \n" green
-
-			#Show invitation
-			::amsn::WinWrite $chatid "[timestamp] [trans gameclosedbyother [::abook::getDisplayNick $chatid]]\n" green
-
-			#Grey line
-			::amsn::WinWriteIcon $chatid greyline 3
-		}
-	
-		set sock [getObjOption $sid sock 0]
-		if {$sock != 0} {
-#			set session_data [::MSNP2P::SessionList get $sid]
-#			set user_login [lindex $session_data 3]
-#			set callid [lindex $session_data 5]
-#			set branchid [lindex $session_data 9]
-
-			#set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-#			set slpdata [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 1 "dAMAgQ==\r\n"]
-#			::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
-		
-			setObjOption $sock state "END"
-			setObjOption $sid sock 0
-			CloseUnusedSockets $sid ""
-		}
+		::MSNGamesGUI::GameClosedByOther $chatid
 	}
 	
 	proc CancelGame {sid} {
@@ -203,27 +195,21 @@ namespace eval ::MSNGames {
 		set callid [lindex $session_data 5]
 		set branchid [lindex $session_data 9]
 		set chatid [getObjOption $sid chatid 0]
+		set sock [getObjOption $sid sock 0]
 		
-		if {$chatid > 0} {
-			#cancel session
-			set slpdata [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 1 "dAMAgQ==\r\n"]
+		::MSNGamesGUI::GameClosedBySelf $chatid
+		
+		if {$sock == 0} {
+			#abort game
+			set slpdata [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 2 $sid "dAMAgQ==\r\n"]
 			::MSN::ChatQueue $chatid [list ::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]]
-		
-			#show message in CW
-			::amsn::WinWrite $chatid "\n" green
-			::amsn::WinWriteIcon $chatid greyline 3
-			::amsn::WinWrite $chatid " \n" green
-
-			#Show invitation
-			::amsn::WinWrite $chatid "[timestamp] [trans gameclosedbyself [::abook::getDisplayNick $chatid]]\n" green
-
-			#Grey line
-			::amsn::WinWriteIcon $chatid greyline 3
+		} else {
+			#close direct connection
+			set slpdata [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 2 \
+				"$sid\r\nSChannelState: 0\r\nCapabilities-Flags: 1" "dAMAgQ==\r\n"]
+			SendBYE $sid $slpdata 0
 		}
-		
-		#close direct connection
-		SendBYE $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 1 "dAMAgQ==\r\n"]
-		
+			
 		#game aborted
 		::MSNGamesInterface::abortedGame $sid
 	}
@@ -284,8 +270,8 @@ namespace eval ::MSNGames {
 		}
 	}
 
-	proc CheckConnected { sid socket}  {
-		status_log "fileevent CheckConnectd for socket $socket\n"
+	proc CheckConnected {sid socket}  {
+		status_log "fileevent CheckConnected for socket $socket\n"
 
 		fileevent $socket readable ""
 		fileevent $socket writable ""
@@ -478,7 +464,12 @@ namespace eval ::MSNGames {
 	
 			#status_log "READ data = $data SOCKstate = [getObjOption $sock state]" green
 			
-			#TODO: WLM doesn't send foo as handshake anymore, so we need some modifications here!!!
+			#other client seems to be WLM that doesn't send foo as handshake
+			#if { $server && $state == "FOO" && $data != "foo\x00" } {
+			#	setObjOption $sid wlmhandshake 1
+			#	set state "CONNECTED"
+			#}
+			
 			switch -- $state {
 				"FOO"
 				{
@@ -491,16 +482,13 @@ namespace eval ::MSNGames {
 				{
 					set nonce [getObjOption $sock nonce]
 					if { $nonce == [GetNonceFromData $data] } {
-						::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
+						#::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
 	
 						if { $server } {
 							setObjOption $sock state "NONCE_SEND"
 							fileevent $sock writable "::MSNGames::handleWritePort $sock"
 						} else {
 							setObjOption $sock state "CONNECTED"
-							if { $sending } {
-								fileevent $sock writable "::MSNGames::handleWritePort $sock"	
-							}
 							startGame $sid
 						}
 					}
@@ -542,6 +530,7 @@ namespace eval ::MSNGames {
 		set state [getObjOption $sock state]
 		set server [getObjOption $sock server]
 		set sending [getObjOption $sid sending]
+		set appId [getObjOption $sid appid]
 
 		if { $sid == "" } {
 			status_log "Can't find sid for socket $sock!!! ERROR" red
@@ -552,14 +541,27 @@ namespace eval ::MSNGames {
 		fileevent $sock writable ""
 
 		set data ""
-
+		set startgame 0
+		
 		switch -- $state {
 			"FOO"			
 			{
 				if { $server == 0 } {
+					#set session [::MSNP2P::SessionList get $sid]
+					#set user_login [lindex $session 3]
+					#set callid [lindex $session 5]
+					#set context [lindex $session 8]
+					#set branchid [lindex $session 9]
+
+					#setObjOption $sock state "CONNECTED"
+					#setObjOption $sid wlmhandshake 1
+					#SendData $sid [::MSNP2P::MakeMSNSLP "INVITE" $user_login [::config::getKey login] $branchid 0 $callid 0 0 \
+					#	"6A13AF9C-5308-4F35-923A-67E8DDA40C2F" $sid $appId [string map { "\n" "" } [::base64::encode "$context"]]] 0
+					
 					set data "foo\x00"
 					setObjOption $sock state "NONCE_SEND"
 					fileevent $sock writable "::MSNGames::handleWritePort $sock"
+					fileevent $sock readable "::MSNGames::handleReadPort $sock"
 				}
 			}
 
@@ -570,20 +572,15 @@ namespace eval ::MSNGames {
 				set data "[GetDataFromNonce $nonce $sid]"
 				if { $server } {
 					setObjOption $sock state "CONNECTED"
-					if { $sending } {
-						fileevent $sock writable "::MSNGames::handleWritePort $sock"	
-					}
-					startGame $sid
+					set startgame 1
 				} else {
 					setObjOption $sock state "NONCE_GET"
-#					fileevent $sock readable "::MSNGames::handleReadPort $sock"	
 				}
 			}
 
 			"CONNECTED"
 			{
-				#after 5 [list fileevent $sock writable "::MSNGames::HandleWritePort $sock"]
-				fileevent $sock writable "::MSNGames::HandleWritePort $sock"
+				#nothing to do
 			}
 
 		}
@@ -592,6 +589,36 @@ namespace eval ::MSNGames {
 #			status_log "Writing Data on socket $sock with state $state : $data\n" red
 			puts -nonewline $sock "[binary format i [string length $data]]$data"
 		}
+		if {$startgame == 1} {
+			startGame $sid
+		}
+	}
+	
+	proc handleHandshake {sid message type} {
+		set cSid [$message cget -sessionid]
+		set cId [$message cget -identifier]
+		set cOffset [$message cget -offset]
+		set cTotalDataSize [$message cget -totalsize]
+		set cMsgSize [$message cget -datalength]
+		set cFlags [$message cget -flag]
+		set cAckId [$message cget -ackid]
+		set cAckUID [$message cget -ackuid]
+		set cAckSize [$message cget -acksize]
+		set data [$message getBody]
+
+		#send ACK
+		enqueueOutBuffer $sock [buildACK $sid $cTotalDataSize $cId $cAckId 0]
+		
+		if {$type == 0} {
+			#incoming INVITE -> send OK
+			SendData $sid [::MSNP2P::MakeMSNSLP "OK" $user_login [::config::getKey login] $branchid 0 $callid 0 0 \
+				"$sid\r\nSChannelState: 0\r\nCapabilities-Flags: 1"]
+		} elseif {$type == 1} {
+			#incoming OK
+		}
+			
+		setObjOption $sid wlmhandshake 2
+		startGame $sid
 	}
 
 	proc GetNonceFromData {data} {
@@ -665,6 +692,11 @@ namespace eval ::MSNGames {
 			#close connection
 			setObjOption $sock state "END"
 			setObjOption $cSid sock 0
+			catch { close $sock }
+
+			set ips [getObjOption $cSid ips]
+			setObjOption $cSid ips [::MSNCAM::RemoveSocketFromList $ips $sock]
+
 			CloseUnusedSockets $cSid ""
 		} elseif {$waitACK == $cAckId} {
 			dequeueOutBuffer $sock 1
@@ -692,7 +724,7 @@ namespace eval ::MSNGames {
 			return
 		}
 		
-		#status_log "MSNGames-handleMessage: received message with cId = $cId" blue
+		status_log "MSNGames-handleMessage: received message with cId = $cId" blue
 		
 		#send ACK
 		if {[expr $cOffset + $cMsgSize] < $cTotalDataSize} {
@@ -701,14 +733,14 @@ namespace eval ::MSNGames {
 			
 			return
 		} else {
-			enqueueOutBuffer $sock [list 0 [buildACK $cSid $cTotalDataSize $cId $cAckId]]
+			enqueueOutBuffer $sock [buildACK $cSid $cTotalDataSize $cId $cAckId]
 			if {$cMsgSize < $cTotalDataSize} {
 				set data [getObjOption $cSid buffereddata ""]$data
 				setObjOption $cSid buffereddata ""
 			}
 		}
-		#status_log "MSNGames-handleMessage: send ACK with cId = $cId" blue
-		#status_log "MSNGames-handleMessage: cMsgSize = $cMsgSize" blue
+		status_log "MSNGames-handleMessage: send ACK with cId = $cId" blue
+		status_log "MSNGames-handleMessage: cMsgSize = $cMsgSize" blue
 
 		if {![::MSNGamesInterface::getSetting $cSid opponentready 0] && $cMsgSize == 4} {
 			#opponent is ready
@@ -718,7 +750,7 @@ namespace eval ::MSNGames {
 		}
 	}
 	
-	proc SendData {sid data} {
+	proc SendData {sid data {sendSid 1}} {
 		if {$sid == 0} {
 			return
 		}
@@ -730,10 +762,10 @@ namespace eval ::MSNGames {
 
 		#send data
 		#puts -nonewline $sock [buildPackage $sid $data]
-		enqueueOutBuffer $sock [buildPackage $sid $data]
+		enqueueOutBuffer $sock [buildPackage $sid $data $sendSid]
 	}
 	
-	proc SendBYE {sid data} {
+	proc SendBYE {sid data {sendSid 1}} {
 		if {$sid == 0} {
 			return
 		}
@@ -744,8 +776,23 @@ namespace eval ::MSNGames {
 		}
 
 		#send data
-		set pkg [buildPackage $sid $data]
+		set pkg [buildPackage $sid $data $sendSid]
 		setObjOption $sock byeack [lindex $pkg 0]
+		enqueueOutBuffer $sock $pkg
+	}
+	
+	proc SendLast {sid pkg} {
+		if {$sid == 0} {
+			return
+		}
+		
+		set sock [getObjOption $sid sock 0]
+		if {$sock == 0} {
+			return
+		}
+
+		#send data
+		setObjOption $sock lastpkg 1
 		enqueueOutBuffer $sock $pkg
 	}
 	
@@ -762,43 +809,60 @@ namespace eval ::MSNGames {
 		if {$nocheck == 0} {
 			set waitACK [getObjOption $sock waitack]
 			#status_log "dequeue 1: waitACK = $waitACK" blue
-			if {$waitACK != 0} {
-				return
-			}
+		} else {
+			set waitACK 0
 		}
 		
 		set queue [getObjOption $sock sendqueue]
+		set newQueue [list]
 		#status_log "dequeue 2: queue = $queue" blue
-		set nextACK 0
-		while {$nextACK == 0} {
-			#status_log "dequeue 3: nextACK = $nextACK" blue
-			if {[llength $queue] > 0} {
-				set item [lindex $queue 0]
-				#status_log "dequeue 4: item = $item" blue
-				set queue [lrange $queue 1 end]
-				#status_log "dequeue 4: queue = $queue" blue
-				
-				set nextACK [lindex $item 0]
-				set data [lindex $item 1]
-				
-				puts -nonewline $sock $data
+		foreach item $queue {
+			#status_log "dequeue 3: item = $item" blue
+			#status_log "dequeue 3: waitACK = $waitACK" blue
+			set ackId [lindex $item 0]
+			if {$waitACK > 0 && $ackId > 0} {
+				set newQueue [lappend $newQueue $item]
+				#status_log "dequeue 4: newQueue = $newQueue" blue
 			} else {
-				break
+				set waitACK $ackId
+				set data [lindex $item 1]
+				#status_log "dequeue 5: waitACK = $waitACK" blue
+				#status_log "dequeue 5: data = $data" blue
+
+				puts -nonewline $sock $data
 			}
 		}
-		#status_log "dequeue 5: nextACK = $nextACK" blue
+		#status_log "dequeue 5: waitACK = $waitACK" blue
 		
-		setObjOption $sock waitack $nextACK
-		setObjOption $sock sendqueue $queue
+		setObjOption $sock waitack $waitACK
+		setObjOption $sock sendqueue $newQueue
+		
+		if {[getObjOption $sock lastpkg 0] == 1 && [llength $newQueue] == 0} {
+			set sid [getObjOption $sock sid]
+			setObjOption $sid sock 0
+			setObjOption $sock state "END"
+			catch { close $sock }
+
+			set ips [getObjOption $sid ips]
+			setObjOption $sid ips [::MSNCAM::RemoveSocketFromList $ips $sock]
+
+			CloseUnusedSockets $sid ""
+		}
 	}
 	
-	proc buildPackage { cSid data } {
+	proc buildPackage {cSid data {sendSid 1}} {
 		set SessionInfo [::MSNP2P::SessionList get $cSid]
 		set MsgId [lindex $SessionInfo 0]
 
 		incr MsgId
 
-		set b [binary format iiiiiiiiiiii $cSid $MsgId 0 0 [string length $data] 0 [string length $data] 0 [myRand 4369 6545000] 0 0 0]
+		if {$sendSid == 1} {
+			set sid $cSid
+		} else {
+			set sid 0
+		}
+		
+		set b [binary format iiiiiiiiiiii $sid $MsgId 0 0 [string length $data] 0 [string length $data] 0 [myRand 4369 6545000] 0 0 0]
 		set b $b$data
 		set b [binary format i [string length $b]]$b
 		
@@ -807,18 +871,22 @@ namespace eval ::MSNGames {
 		return [list $MsgId $b]
 	}
 	
-	proc buildACK { cSid cTotalDataSize cId cAckId } {
+	proc buildACK {cSid cTotalDataSize cId cAckId {finalAck 0}} {
 		set SessionInfo [::MSNP2P::SessionList get $cSid]
 		set MsgId [lindex $SessionInfo 0]
 
 		incr MsgId
 
-		set b [binary format iiiiiiiiiiii $cSid $MsgId 0 0 $cTotalDataSize 0 0 2 $cId $cAckId 0 $cTotalDataSize]
+		if {$finalAck == 1} {
+			set b [binary format iiiiiiiiiiii 0 $MsgId 0 0 0 0 0 2 $cId $cAckId $cTotalDataSize 0]
+		} else {
+			set b [binary format iiiiiiiiiiii $cSid $MsgId 0 0 $cTotalDataSize 0 0 2 $cId $cAckId 0 $cTotalDataSize]
+		}
 		set b [binary format i [string length $b]]$b
 		
 		::MSNP2P::SessionList set $cSid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
 
-		return $b
+		return [list 0 $b]
 	}
 	
 	proc buildGameMessage {data {unicode 0}} {
@@ -858,6 +926,240 @@ namespace eval ::MSNGames {
 		
 		#start game
 		::MSNGamesInterface::startGame $sid $appId $oppNick $inviter
+	}
+}
+
+namespace eval ::MSNGamesGUI {
+	proc buildMenu {menu {w ""}} {
+		set gamesmenu $menu.games
+
+		menu $gamesmenu -tearoff 0 -type normal
+
+		set gameList [::MSNGamesPlugins::getGameList]
+		
+		foreach game $gameList {
+			set appName [lindex $game 1]
+			set appId [lindex $game 0]
+			
+			if {$w == ""} {
+				#menu in contact list
+				$gamesmenu add command -label $appName -command "::amsn::ShowUserList \[trans playgame2 \[list $appName\]\] \[list ::MSNGames::SendInviteQueue $appId\]"
+			} else {
+				#menu in chatwindow
+				$gamesmenu add command -label $appName -command "::amsn::ShowChatList \[trans playgame2 \[list $appName\]\] \[::ChatWindow::getCurrentTab $w\] \[list ::MSNGames::SendInviteQueue $appId\]"
+			}
+		}
+		
+		return $gamesmenu
+	}
+	
+	proc InvitationSent {chatid sid appId gameName} {
+		SendMessageFIFO [list ::MSNGamesGUI::InvitationSentWrapped $chatid $sid $appId $gameName] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	}
+	
+	proc InvitationSentWrapped {chatid sid appId gameName} {
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid " \n" green
+		::amsn::WinWrite $chatid "[timestamp] [trans gamerequest [::abook::getDisplayNick $chatid] $gameName]" green
+		::amsn::WinWrite $chatid " - (" green
+		::amsn::WinWriteClickable $chatid "[trans cancel]" [list ::MSNGamesGUI::CancelInvitation $chatid $sid] cancelgame$sid
+		::amsn::WinWrite $chatid ")\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
+	
+	proc CancelInvitation {chatid sid} {
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+				return 0
+		}
+
+		#Disable item in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure cancelgame$sid \
+				-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+
+		# abort invitation
+		if {[::MSN::ChatQueue $chatid [list ::MSNGames::CancelGame $sid]] == 0} {
+			return 0
+		}
+	}
+	
+	proc InvitationRejected {chatid sid} {
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+				return 0
+		}
+
+		#Disable item in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure cancelgame$sid \
+				-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+
+
+		#show message in CW
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid " \n" green
+
+		#Show invitation
+		::amsn::WinWrite $chatid "[timestamp] [trans gamerejected [::abook::getDisplayNick $chatid]]\n" green
+
+		#Grey line
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
+
+	proc InvitationAccepted {chatid sid} {
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+				return 0
+		}
+
+		#Disable item in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure cancelgame$sid \
+				-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+
+
+		#show message in CW
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid " \n" green
+
+		#Show invitation
+		::amsn::WinWrite $chatid "[timestamp] [trans gameaccepted [::abook::getDisplayNick $chatid]]\n" green
+
+		#Grey line
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
+	
+	proc IncomingGameRequestInvalid {chatid dest branchuid cseq uid sid gameinfo} {
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid " \n" green
+
+		#Show invitation
+		::amsn::WinWrite $chatid "[timestamp] [trans gamepluginnotfound [::abook::getDisplayNick $chatid] [lindex $gameinfo 2]]\n" green
+
+		#Grey line
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
+
+	proc IncomingGameRequestShow {chatid dest branchuid cseq uid sid gameinfo} {
+		#Grey line
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid " \n" green
+
+		#Show invitation
+		::amsn::WinWrite $chatid "[timestamp] [trans gameinvitation [::abook::getDisplayNick $chatid] [lindex $gameinfo 2]]" green
+
+		#Accept and refuse actions
+		::amsn::WinWrite $chatid " - (" green
+		::amsn::WinWriteClickable $chatid "[trans accept]" [list ::MSNGamesGUI::IncomingGameRequestAccept $chatid $dest $branchuid $cseq $uid $sid $gameinfo] acceptgame$sid
+		::amsn::WinWrite $chatid " / " green
+		::amsn::WinWriteClickable $chatid "[trans reject]" [list ::MSNGamesGUI::IncomingGameRequestReject $chatid $sid $branchuid $uid] rejectgame$sid
+		::amsn::WinWrite $chatid ")\n" green
+
+		#Grey line
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
+
+	proc IncomingGameRequestReject {chatid sid branchuid uid} {
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+				return 0
+		}
+
+		#Disable items in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure acceptgame$sid \
+				-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Button1-ButtonRelease> ""
+
+
+		[::ChatWindow::GetOutText ${win_name}] tag configure rejectgame$sid \
+				-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+
+		# abort invitation
+		if {[::MSN::ChatQueue $chatid [list ::MSN6FT::RejectFT $chatid $sid $branchuid $uid]] == 0} {
+			return 0
+		}
+	}
+	
+	proc IncomingGameRequestAccept {chatid dest branchuid cseq uid sid gameinfo} {
+		#Get the chatwindow name
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+				return 0
+		}
+
+		#Disable items in the chatwindow
+		[::ChatWindow::GetOutText ${win_name}] tag configure acceptgame$sid \
+				-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Button1-ButtonRelease> ""
+
+
+		[::ChatWindow::GetOutText ${win_name}] tag configure rejectgame$sid \
+				-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
+
+		# accept invitation
+		if {[::MSN::ChatQueue $chatid [list ::MSNGames::AcceptGameOpenSB $chatid $dest $branchuid $cseq $uid $sid $gameinfo]] == 0} {
+				return 0
+		}
+	}
+
+	proc GameClosedByOther {chatid} {
+		#show message in CW
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid " \n" green
+
+		::amsn::WinWrite $chatid "[timestamp] [trans gameclosedbyother [::abook::getDisplayNick $chatid]]\n" green
+
+		#Grey line
+		::amsn::WinWriteIcon $chatid greyline 3
+	}
+	
+	proc GameClosedBySelf {chatid} {
+		#show message in CW
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid " \n" green
+
+		::amsn::WinWrite $chatid "[timestamp] [trans gameclosedbyself [::abook::getDisplayNick $chatid]]\n" green
+
+		#Grey line
+		::amsn::WinWriteIcon $chatid greyline 3
 	}
 }
 
@@ -1236,6 +1538,22 @@ namespace eval ::MSNGamesPlugins {
 		}
 	}
 
+	proc getGameList {} {
+		global gamePlugins
+		
+		set ret [list]
+		set gameNames [array names gamePlugins]
+		foreach gameName $gameNames {
+			array set plugin [set gamePlugins($gameName)]
+			set appIdList $plugin(appId)
+			foreach appId $appIdList {
+				set ret [lappend ret $appId]
+			}
+		}
+		
+		return $ret
+	}
+	
 	proc supportedGame {appId} {
 		global appIds
 		
@@ -1275,6 +1593,31 @@ namespace eval ::MSNGamesPlugins {
 		set game(descr) $descr
 		
 		set runningGame($sid) [array get game]
+	}
+	
+	proc getName {appId} {
+		global gamePlugins appIds
+		
+		if {![info exists appIds($appId)]} {
+			return ""
+		}
+		
+		set name [set appIds($appId)]
+		if {![info exists gamePlugins($name)]} {
+			return ""
+		}
+		
+		array set plugin [set gamePlugins($name)]
+		set descr ""
+		foreach item [set plugin(appId)] {
+			set id [lindex $item 0]
+			if {$id == $appId} {
+				set descr [lindex $item 1]
+				break
+			}
+		}
+		
+		return $descr
 	}
 	
 	proc removeGame {sid} {

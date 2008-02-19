@@ -676,20 +676,24 @@ namespace eval ::MSNP2P {
 						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 						return
 					} elseif { $eufguid == "6A13AF9C-5308-4F35-923A-67E8DDA40C2F" } {
-						::ChatWindow::MakeFor $chatid
-						status_log "!!! GAME INVITATION !!!" red
+						if {[getObjOption $sid wlmhandshake 0] == 0} {
+							::ChatWindow::MakeFor $chatid
+							status_log "!!! GAME INVITATION !!!" red
 
-						SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
-						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
+							SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+							status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 
-						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "game" "" "$branchuid"]
+							set context [base64::decode $context]
+							SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "game" "$context" "$branchuid"]
+							set context [FromUnicode $context]
+							
+							::MSNGames::IncomingGameRequest $chatid $dest $branchuid $cseq $uid $sid $context
 
-						set context [base64::decode $context]
-						set context [FromUnicode $context]
-						
-						::MSNGames::IncomingGameRequest $chatid $dest $branchuid $cseq $uid $sid $context
-
-						return
+							return
+						} else {
+							::MSNGames::handleHandshake $sid $message 0
+							return
+						}
 					}
 
 					# Let's send an ACK
@@ -790,6 +794,13 @@ namespace eval ::MSNP2P {
 				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 				if { $type == "filetransfer" } {
 					::MSN6FT::SendFTInvite $sid $chatid
+				} elseif { $type == "game" } {
+					
+					if {[getObjOption $sid wlmhandshake 0] == 0} {
+						::MSNGamesGUI::InvitationAccepted $chatid $sid
+					} else {
+						::MSNGames::handleHandshake $sid $message 1
+					}
 				}
 			} else {
 				set idx [expr {[string first "Call-ID: \{" $data] + 10}]
@@ -830,6 +841,8 @@ namespace eval ::MSNP2P {
 								::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
 							} elseif { $type == "webcam" } {
 								::MSNCAM::SendSyn $sid $chatid
+							} elseif { $type == "game" } {
+								::MSNGames::ConnectPort $sid $nonce $addr $port 1
 							}
 						} 
 						if { [string first "IPv4Internal-Addrs: " $data] != -1 } {
@@ -848,6 +861,8 @@ namespace eval ::MSNP2P {
 								::MSN6FT::ConnectSockets $sid $nonce $addr $port 1
 							} elseif { $type == "webcam" } {
 								::MSNCAM::SendSyn $sid $chatid
+							} elseif { $type == "game" } {
+								::MSNGames::ConnectPort $sid $nonce $addr $port 1
 							}
 						}
 
@@ -858,6 +873,8 @@ namespace eval ::MSNP2P {
 						} elseif { $type == "webcam" } {
 							::MSNCAM::SendSyn $sid $chatid
 							#::MSNCAM::SendAcceptInvite $sid $chatid
+						} elseif { $type == "game" } {
+							::MSNGames::SendInvite2 $sid $chatid
 						}
 					} else {
 						status_log "Error sending file, got answer to invite :\n$data\n\n" red
@@ -885,7 +902,7 @@ namespace eval ::MSNP2P {
 				if { [lindex [SessionList get $sid] 7] == "game" } {
 					status_log "Game canceled"
 					::MSNGames::GameCanceled $chatid $sid
-					::MSNGames::SendData $sid [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+					::MSNGames::SendLast $sid [::MSNGames::buildACK $sid $cTotalDataSize $cId $cAckId 1]
 					status_log "MSNP2P | $sid -> Sending game BYE ACK\n" red
 				} else {
 					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
@@ -949,6 +966,8 @@ namespace eval ::MSNP2P {
 				    } else {
 					::MSNCAM::SendSyn $sid $chatid
 				    }
+				} elseif {[lindex [SessionList get $sid] 7] == "game"} {
+					::MSNGamesGUI::InvitationRejected $chatid $sid
 				}
 
 
@@ -1461,6 +1480,9 @@ namespace eval ::MSNP2P {
 			append body "SessionID: ${A}\r\n"
 		} elseif { $method == "BYE" && $contenttype == 1} {
 			append body "Context: ${A}"
+		} elseif { $method == "BYE" && $contenttype == 2} {
+			append body "SessionID: ${A}\r\n"
+			append body "Context: ${B}"
 		} 
 
 		append body "\r\n\x00"
