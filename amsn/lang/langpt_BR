@@ -389,10 +389,13 @@ ftrejected Transferência de arquivo cancelada
 ftrejectedby $1 cancelou o pedido de transferência do arquivo "$2".
 ftsendinvitation Convite para transferência do arquivo "$2" ($3 bytes) foi enviado para $1
 fullcontactlist Desculpe, sua lista de contatos está cheia. Você precisará remover alguns contatos para poder adicionar novos.
+gameaccepted $1 aceitou seu convite para o jogo
 gameclosedbyother $1 cancelou a sessão de jogo com você.
 gameclosedbyself Você cancelou a sessão de game com $1.
 gameinvitation $1 convidou você para jogar $2. Você aceita o convite?
 gamepluginnotfound $1 convidou você para jogar $2 mas não existe plugin para esse jogo carregado. Por favor ative e configure o plugin primeiro.
+gamerejected $1 rejeitou seu convite para jogar
+gamerequest Você convidou $1 para jogar $2
 getdisppic Permitir recebimento de imagens de exibição de outros usuários
 getmoreplugins Pegue mais plugins!
 getmoreskins Pegue mais skins!
@@ -657,6 +660,8 @@ play Tocar
 playbackposition Posição do playback
 playbackspeed Velocidade do playback (milissegundos entre cada quadro)
 playerror Um erro ocorreu ao tentar tocar o som : $1
+playgame Jogar
+playgame2 Jogar $1
 playing Tocando: $1
 playtest Tocar arquivo teste
 playwebcamsend Enviar resumo da webcam
@@ -760,6 +765,7 @@ saveotherdirectory Salve em outro diretório
 savetofile Salvar para arquivo
 says $1 diz
 sbcon Conectando ao "Switch Board"
+searchadvprefs Procurar com opções avançadas:
 searchdown Procurar para cima
 searchup Procurar para baixo
 selectall Selecionar tudo
