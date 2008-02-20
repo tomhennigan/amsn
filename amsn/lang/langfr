@@ -389,10 +389,13 @@ ftrejectedby $1 a refusé l'invitation de transfert de fichier pour le fichier '$
 ftrejected Transfert de fichier refusé
 ftsendinvitation L'invitation de transfert du fichier '$2' ($3 bytes) a été envoyé à $1.
 fullcontactlist Désolé, votre liste de contact est pleine. Vous devez supprimer des contacts pour en ajouter de nouveaux.
+gameaccepted $1 a accepté votre invitation à jouer
 gameclosedbyother $1 a annulé la session de jeu.
 gameclosedbyself Vous avez annulé la session de jeu avec $1.
 gameinvitation $1 vous invite a jouer à $2. Voulez-vous accepter son invitation ?
 gamepluginnotfound $1 vous a invité[e] à jouer à $2 mais il n'y a pas de plugin chargé pour jouer à ce jeu. Veuillez l'activer et le configurer.
+gamerejected $1 a refusé votre invitation à jouer
+gamerequest Vous venez d'inviter $1 à jouer à $2
 getdisppic Permettre la réception d'avatars des autres contacts
 getmoreplugins Obtenez d'autres plugins !
 getmoreskins Obtenez d'autres apparences !
@@ -656,6 +659,8 @@ picstatus Activer/Désactiver l'image associée à l'alarme
 playbackposition Position de la lecture
 playbackspeed Vitesse de lecture (nombre de millisecondes entre chaque image)
 playerror Une erreur s'est produite lors de la lecture du son : $1
+playgame Jouer
+playgame2 Jouer à $1
 playing Joue: $1
 play Jouer
 playtest Lire le fichier de test
@@ -760,6 +765,7 @@ saveotherdirectory Enregistrer dans un autre emplacement
 savetofile Sauvegarder dans un fichier
 says $1 dit
 sbcon Connexion au "Switch Board"
+searchadvprefs Chercher dans les préférences avancées :
 searchdown Rechercher vers le bas
 searchup Rechercher vers le haut
 selectall Tout sélectionner
