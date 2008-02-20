@@ -80,12 +80,7 @@ print qq {
 If you like $f_other_diff, just move $f_other_new to
 $f_other.
 
-To help the amsn project, please send your $f_other_diff 
-to alberto\@udlaspalmas.net
-
-Or, if you are subscribed to the amsn-lang list: 
-amsn-lang\@lists.sourceforge.net
-
+To help the amsn project, please refer to the LANG-HOWTO file
 };
 
 exit 0;
