@@ -895,9 +895,6 @@ namespace eval ::ChatWindow {
 
 		#Dock Bouncing on Mac OS X
 		if { [OnMac] } {
-			# tclCarbonNotification is in plugins, we have to require it
-			package require tclCarbonNotification
-
 			# Bounce unlimited of time when we are not in aMSN and receive a
 			# message, until we re-click on aMSN icon (or get back to aMSN)
 			if { (([::config::getKey dockbounce] == "unlimited" && $usr_name != [::config::getKey login]) \

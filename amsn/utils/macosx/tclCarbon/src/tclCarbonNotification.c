@@ -61,20 +61,7 @@
 # \
  */
 
-#include <Carbon/Carbon.h>
-#include "tk.h"
-#include "tcl.h"
-static int notificationAdded = 0;
-static NMRec request;
-
-/*
- * Helper routine for errors.
- */
-static char *OSErrDesc(OSErr err) {
-	static char desc[255];
-	sprintf(desc, "OS Error: %d.\n", err);
-	return desc;
-}
+#include "tclCarbonNotification.h"
 
 /*
  * Start a notification!
@@ -99,7 +86,7 @@ int notification(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *C
 		err = NMRemove(&request);
                 if (err != noErr) {
                         Tcl_AppendResult(interp, "Could not remove notification: ",
-                                        OSErrDesc(err), NULL);
+                                        TclCarbonNotificationErr(err), NULL);
                         return TCL_ERROR;
                 }
 		notificationAdded = 0;
@@ -116,7 +103,7 @@ int notification(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *C
         request.nmResp = NULL;
         err = NMInstall(&request);
         if (err != noErr) {
-                Tcl_AppendResult(interp, "Could not install notification: ", OSErrDesc(err), NULL);
+                Tcl_AppendResult(interp, "Could not install notification: ", TclCarbonNotificationErr(err), NULL);
                 return TCL_ERROR;
         }
         notificationAdded = 1;
@@ -136,7 +123,7 @@ int endNotification(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj
 	if(notificationAdded) {
 		err = NMRemove(&request);
                 if (err != noErr) {
-                        Tcl_AppendResult(interp, "Could not remove notification: ", OSErrDesc(err), NULL);
+                        Tcl_AppendResult(interp, "Could not remove notification: ", TclCarbonNotificationErr(err), NULL);
                         return TCL_ERROR;
                 }
 		notificationAdded = 0;
@@ -145,20 +132,11 @@ int endNotification(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj
 }
 
 /*
- * Tcl/Tk Magic
+ * Helper routine for errors.
  */
-int Tclcarbonnotification_Init(Tcl_Interp *interp ) {
-  if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
-    return TCL_ERROR;
-  }
-  if (Tk_InitStubs(interp, TK_VERSION, 0) == NULL) {
-    return TCL_ERROR;
-  }
-  Tcl_CreateObjCommand(interp, "carbon::notification", notification, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "carbon::endNotification", endNotification, NULL, NULL);
-  return Tcl_PkgProvide(interp, "tclCarbonNotification", "0.1");
-}
-
-int Tclcarbonnotification_SafeInit(Tcl_Interp *interp) {
-  return Tclcarbonnotification_Init(interp);
+static char * TclCarbonNotificationErr(OSErr err)
+{
+	static char desc[255];
+	sprintf(desc, "OS Error: %d.\n", err);
+	return desc;
 }

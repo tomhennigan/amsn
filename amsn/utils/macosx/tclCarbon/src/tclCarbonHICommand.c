@@ -60,24 +60,7 @@
 # \
  */
 
-#include <Carbon/Carbon.h>
-#include "tk.h"
-#include "tcl.h"
-
-typedef struct TkWindowPrivate {
-	Tk_Window *winPtr;
-	CGrafPtr  grafPtr;
-} TkWindowPrivate;
-
-static char *OSErrDesc(OSErr err) {
-	static char desc[255];
-	if (err == eventNotHandledErr) {
-		sprintf(desc, "Carbon Event not handled.\n", err);
-	} else {
-		sprintf(desc, "OS Error: %d.\n", err);
-	}
-	return desc;
-}
+#include "tclCarbonHICommand.h"
 
 /*
 #---------------------------------------------------------------------------------------------------
@@ -128,14 +111,14 @@ int processHICommand(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Ob
 				&command.source.menu.menuRef, &command.source.menu.menuItemIndex);
 		if (err != noErr) {
 			Tcl_AppendResult(interp, "Could not find menu item corresponding to commandID: ",
-					OSErrDesc(err), NULL);
+					TclCarbonHICommandErr(err), NULL);
 		} else {
 			command.attributes = kHICommandFromMenu;
 		}
 	}
 	err = ProcessHICommand((HICommand*)&command);
 	if (err != noErr) {
-		Tcl_AppendResult(interp, "Could not process command: ", OSErrDesc(err), NULL);
+		Tcl_AppendResult(interp, "Could not process command: ", TclCarbonHICommandErr(err), NULL);
 		return TCL_ERROR;
 	}
 	return TCL_OK;
@@ -180,20 +163,11 @@ int enableMenuCommand(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_O
 }
 
 /*
- * Tcl/Tk Magic
+ * Helper routine for errors.
  */
-int Tclcarbonhicommand_Init(Tcl_Interp *interp ) {
-  if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
-    return TCL_ERROR;
-  }
-  if (Tk_InitStubs(interp, TK_VERSION, 0) == NULL) {
-    return TCL_ERROR;
-  }
-  Tcl_CreateObjCommand(interp, "carbon::processHICommand", processHICommand, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "carbon::enableMenuCommand", enableMenuCommand, NULL, NULL);
-  return Tcl_PkgProvide(interp, "tclCarbonHICommand", "0.1");
-}
-
-int Tclcarbonhicommand_SafeInit(Tcl_Interp *interp) {
-  return Tclcarbonhicommand_Init(interp);
+static char * TclCarbonHICommandErr(OSErr err)
+{
+	static char desc[255];
+	sprintf(desc, "OS Error: %d.\n", err);
+	return desc;
 }

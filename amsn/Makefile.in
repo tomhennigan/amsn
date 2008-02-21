@@ -277,10 +277,8 @@ else
 	include $(macosx_dir)/sndplay-src/Rules.mk
 	include $(macosx_dir)/growl1.0/Rules.mk
 	include $(macosx_dir)/growl1.0/src/Rules.mk
-	include $(macosx_dir)/tclCarbonHICommand/Rules.mk
-	include $(macosx_dir)/tclCarbonHICommand/src/Rules.mk
-	include $(macosx_dir)/tclCarbonNotification/Rules.mk
-	include $(macosx_dir)/tclCarbonNotification/src/Rules.mk
+	include $(macosx_dir)/tclCarbon/Rules.mk
+	include $(macosx_dir)/tclCarbon/src/Rules.mk
 	include $(macosx_dir)/macDock/Rules.mk
 	include $(macosx_dir)/macDock/src/Rules.mk
   endif

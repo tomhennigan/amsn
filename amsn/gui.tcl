@@ -27,8 +27,8 @@ if { $initialize_amsn == 1 } {
 	if { [OnMac] } {
 		# Use brushed metal style windows on Mac OS X.
 		catch {package require tkUnsupported}
-		#Use tclCarbonHICommand for window utilities
-		catch {package require tclCarbonHICommand}
+		# tclCarbon has tclCarbonHICommand, and tclCarbonNotification...
+		catch {package require tclCarbon}
 		catch {package require QuickTimeTcl}
 		catch {load utils/macosx/Quicktimetcl3.1/quicktimetcl3.1.dylib}
 	} else {
