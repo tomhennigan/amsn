@@ -23,7 +23,7 @@ Links to aMSN Documents
 </li>
 
 <li>
-<a href="http://amsn.sourceforge.net/devwiki">Developper WIKI</a>
+<a href="http://amsn.sourceforge.net/devwiki">Developer WIKI</a>
 </li>
 
 </ul>
