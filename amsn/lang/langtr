@@ -389,10 +389,13 @@ ftrejected Dosya aktarýmý reddedildi
 ftrejectedby $1, '$2' dosyasý için yapýlan aktarým davetini geri çevirdi
 ftsendinvitation '$2' dosyasý ($3 bayt) için aktarým daveti $1 kullanýcýsýna gönderildi
 fullcontactlist Baðlantý listeniz dolu. Yeni baðlantý eklemek için bazýlarýný silmeniz gerek
+gameaccepted $1 oyun davetinizi kabul etti
 gameclosedbyother $1 sizinle olan oyun oturumunu kapattý
 gameclosedbyself $1 ile olan oyun oturumunu kapattýnýz
 gameinvitation $1 sizi $2 oynamaya davet ediyor. Kabul ediyor musunuz?
 gamepluginnotfound $1 sizi $2 oynamaya davet ediyor; ancak bu oyunun eklentisi yüklenmiþ deðil. Lütfen eklentiyi yükleyip ayarlayýnýz.
+gamerejected $1 oyun davetinizi geri çevirdi
+gamerequest $1'i $2 oynamaya davet ettiniz
 getdisppic Diðer kullanýcýlardan kullanýcý resmi alýnabilsin
 getmoreplugins Yeni eklentiler al!
 getmoreskins Yeni kabuklar al!
@@ -657,6 +660,8 @@ play Oynat
 playbackposition Oynatýcý konumu
 playbackspeed Oynatma hýzý (iki kare arasýnda milisaniye cinsinden süre)
 playerror Sesi çalarken bir sorun oluþtu: $1
+playgame Oyun oyna
+playgame2 $1 oyna
 playing $1 çalýnýyor
 playtest Deneme dosyasýný çal
 playwebcamsend Kamera görüntüsü göndermeye devam et
@@ -760,6 +765,7 @@ saveotherdirectory Baþka bir dizine kaydet
 savetofile Dosyaya kaydet
 says $1 diyor ki
 sbcon Switch Board'a baðlanýyor
+searchadvprefs Geliþmiþ seçeneklerde ara:
 searchdown Aþaðý doðru ara
 searchup Yukarý doðru ara
 selectall Hepsini seç
