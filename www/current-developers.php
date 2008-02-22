@@ -136,6 +136,12 @@
         <br />IRC Nick: KaKaRoTo
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr></tbody></table><br />
 
+<tr><td><img  title="Tom Hennigan - tomhennigan" alt="Tom Hennigan - tomhennigan" src="images/developer-tomhennigan.png" width="168" height="147" /></td><td>
+<b>Tom Hennigan</b>
+		<br />Role: Developer
+		<br />Location: London
+		<br />IRC Nick: tomhennigan
+		<br /><a href="http://www.notjustanothermacuser.com/">Web site</a> &#8226; <a href="http://www.notjustanothermacuser.com/blog/">Blog</a></td></tr></tbody></table><br />
 
     <h3><b>Testers and contributers : </b></h3><br />
 
