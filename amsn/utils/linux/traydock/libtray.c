@@ -164,7 +164,7 @@ DockIcon(ClientData clientData)
 	Window root, parent, *children;
 	unsigned int n, ret, atom;
 	TrayIcon *icon= clientData;
-	char* wm_name = get_wm_name();
+	char* wm_name;
 
 	Tk_MapWindow(icon->win);
 
@@ -178,19 +178,19 @@ DockIcon(ClientData clientData)
 
 	Tk_UnmapWindow(icon->win);
 
-	if (wm_name != NULL && !strcmp(wm_name, "KWin")) {
-
-		atom = XInternAtom(display, "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR", False);
-
-		ret = XChangeProperty(display, parent, atom,
+	if ( (atom = XInternAtom(display, "_NET_SYSTEM_TRAY_OPCODE", True )) == None ) {
+		wm_name = get_wm_name();
+		if (wm_name != NULL && !strcmp(wm_name, "KWin")) {
+			atom = XInternAtom(display, "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR", False);
+			ret = XChangeProperty(display, parent, atom,
 				XA_WINDOW, 32, PropModeReplace, (unsigned char *)&parent, 1);
-		Tk_MapWindow(icon->win);
+			Tk_MapWindow(icon->win);
+		}
+		XFree(wm_name);
 	} else {
-		send_message(display,systemtray,XInternAtom (display, "_NET_SYSTEM_TRAY_OPCODE", False ),
+		send_message(display,systemtray, atom,
 				SYSTEM_TRAY_REQUEST_DOCK,Tk_WindowId(icon->win),0,0);
 	}
-
-	XFree(wm_name);
 
 }
 
