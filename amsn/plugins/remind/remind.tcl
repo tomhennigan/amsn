@@ -48,6 +48,9 @@ proc InitPlugin { dir } {
 ################################################################
 
 proc Remind { event evpar } {
+
+	plugins_log remind "New conversation window.  Let's check if we need to digg up messages for you, sir."
+
 	upvar 2 $evpar parameters
 
 	set chatid $parameters(chatid)
@@ -63,6 +66,7 @@ proc Remind { event evpar } {
 		|| ( $::remind::config(when) == 2 && [expr { $date - $lastmessage }] <= $timeline )
 		|| ( $::remind::config(when) == 3 && [expr { $date - $lastmessage }] >= $timeline )
 	} {
+		plugins_log remind "You wanted mle to show some messages, so that's what I'm about to do..."
 		::remind::ShowLastSentences $chatid $email
 	}
 
@@ -79,6 +83,8 @@ proc Remind { event evpar } {
 ################################################
 
 proc ShowLastSentences { chatid email } {
+
+	plugins_log remind "So, here we go, get ready to rumble!"
 
 	# Get the last sentences of the contact
 	set loglines [::remind::GetLastSentences $email]
@@ -160,7 +166,9 @@ proc ShowLastSentences { chatid email } {
 		}
 	}
 
-	#substitute the smlileys
+	plugins_log remind "There's your text sir.  You want any smileys with it ? \nYes I know you want.  Here they are ..."
+
+	#substitute the smileys
 	::smiley::substSmileys [::ChatWindow::GetOutText ${win_name}] 0.0 end 0 1]
 
 	::amsn::WinWriteIcon $chatid greyline 3	
@@ -179,7 +187,7 @@ proc ShowLastSentences { chatid email } {
 #############################################
 
 proc GetLastSentences { email } {
-
+	plugins_log remind "Getting you messages for $email ..."
 	global log_dir
 
 	# Select the last logging file, and cancel the proc if there is no log file yet
