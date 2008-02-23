@@ -134,7 +134,7 @@
         <br />Role: Admin &#8226; Developer
         <br />Location: 
         <br />IRC Nick: KaKaRoTo
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr></tbody></table><br />
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
 <tr><td><img  title="Tom Hennigan - tomhennigan" alt="Tom Hennigan - tomhennigan" src="images/developer-tomhennigan.png" width="168" height="147" /></td><td>
 <b>Tom Hennigan</b>
