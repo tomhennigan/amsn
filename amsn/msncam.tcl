@@ -1845,6 +1845,10 @@ namespace eval ::CAMGUI {
 					msg_box "[trans badwebcam]\n$res"
 					return
 				}
+				if { [catch { $grabber format 320x240 } res] } {
+					msg_box "[trans badwebcam]\n$res"
+					return
+				}
 				setObjOption $sid grab_proc "Grab_Windows"
 
 			} elseif { [OnDarwin] } {

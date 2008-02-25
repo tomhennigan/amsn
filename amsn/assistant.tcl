@@ -1744,6 +1744,11 @@ namespace eval ::AVAssistant {
 				after 3000 "catch { $previmc delete errmsg }"
 				return
 			}
+			if { [catch { .webcam_preview format 320x240 } res] } {
+				$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+				after 3000 "catch { $previmc delete errmsg }"
+				return
+			}
 			
 			set previmg [image create photo [TmpImgName]]
 
