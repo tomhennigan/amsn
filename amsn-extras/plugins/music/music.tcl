@@ -509,8 +509,10 @@ namespace eval ::music {
 
 		set info [::music::GetSong]
 		set song [lindex $info 0]
+		set artist [lindex $info 1]
 		set file [lindex $info 2]
 		set artfile [lindex $info 3]
+		set album [lindex $info 4]
 
 		if {$info == "0"} {
 			msg_box [trans musicerr]
@@ -521,8 +523,9 @@ namespace eval ::music {
 		switch -- $action {
 			1 {
 				#Send a message with the name of the current song
-				::music::log "Send message with song name : [trans playing $song]"
-				::amsn::MessageSend $win_name 0 "[trans playing $song]"	
+				set msg [string map {"%title" "$song" "%artist" "$artist" "%album" "$album"} $config(display_style)]
+				::music::log "Send message with song name : [trans playing $msg]"
+				::amsn::MessageSend $win_name 0 "[trans playing $msg]"	
 			}
 			2 {
 				#Send the current song as a file
