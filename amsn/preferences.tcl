@@ -3222,6 +3222,11 @@ proc SavePreferences {} {
 		::config::setKey idletime $myconfig(idletime)
 	}
 
+	# make sure country code has 4 digits, otherwise set back to 1033 (= en-US)
+	if { [string length [::config::getKey localecode]] != 4 } {
+		::config::setKey localecode 1033
+	}
+	
 	# Check and save phone numbers
         
 	if { [::MSN::myStatusIs] != "FLN" } {

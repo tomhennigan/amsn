@@ -300,6 +300,8 @@ namespace eval ::config {
 
 		::config::setKey dynamic_rate 0 				;# Use a dynamic framerate for webcam depending on the timestamps in the ML20 header
 
+		::config::setKey localecode 1033				;# Default locale-code is 1033 for en-US
+		
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
@@ -358,6 +360,7 @@ namespace eval ::config {
 			[list title MSN] \
 			[list local displayp4context bool displayp4context] \
 			[list local p4contextprefix str p4contextprefix] \
+			[list local localecode int localecode] \
 			[list title others] \
 			[list local activeautoupdate bool activeautoupdate] \
 			[list local allowbadwords bool allowbadwords] \

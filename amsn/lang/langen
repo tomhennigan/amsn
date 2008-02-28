@@ -498,6 +498,7 @@ lleftconf $1 has left conference
 loadcontacts Load Contact List
 load Load
 loadotherdisplaypic Loading display pictures of $1, please wait...
+localecode Your 4-digit language-/country-code
 logbigger Log file sizes for each contact never exceeds 
 logeventconnect Log the connections
 logeventdisconnect Log the disconnections

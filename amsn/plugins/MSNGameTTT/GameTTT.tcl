@@ -27,7 +27,7 @@ namespace eval ::GameTTT {
 	proc RegisterGame {} {
 		set name "tictactoe"
 		set pVer 1
-		set appId [list [list "10311021" "Tic Tac Toe (de)"] [list "10401021" "Tic Tac Toe (it)"]]
+		set appId [list [list "1021" [trans gamettttitle]]]
 		set funcs [list \
 			"::GameTTT::onCreate" \
 			"::GameTTT::onDestroy" \

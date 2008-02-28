@@ -6,15 +6,15 @@
 
 # TODO:
 #	- implement reflector communication
-#	- games need localization (-> AppID = xxxxyyyy, xxxx = country-code, yyyy = application-code)
 
 namespace eval ::MSNGames {
 	proc IncomingGameRequest {chatid dest branchuid cseq uid sid context} {
 		set gameinfo [split $context ";"]
+		status_log "game request: $context" green
 	
 		if {[llength $gameinfo] == 3} {
 			#check if we have a fitting plugin for this game
-			if {[::MSNGamesPlugins::supportedGame [lindex $gameinfo 0]] == 1} {
+			if {[::MSNGamesPlugins::supportedGame [string range [lindex $gameinfo 0] 4 end]] == 1} {
 				SendMessageFIFO [list ::MSNGamesGUI::IncomingGameRequestShow $chatid $dest $branchuid $cseq $uid $sid $gameinfo] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 			} else {
 				#no plugin found, so warn the user and abort request
@@ -37,9 +37,10 @@ namespace eval ::MSNGames {
 	
 	proc SendInvite {appId chatid} {
 		set gameName [::MSNGamesPlugins::getName $appId]
+		set localecode [::config::getKey localecode]
 	
 		set guid "6A13AF9C-5308-4F35-923A-67E8DDA40C2F"
-		set context "$appId;1;$gameName"
+		set context "$localecode$appId;1;$gameName"
 	
 		if {[::ChatWindow::For $chatid]==0} {
 			::amsn::chatUser $chatid
@@ -140,7 +141,7 @@ namespace eval ::MSNGames {
 		setObjOption $sid inviter 0
 		setObjOption $sid chatid $chatid
 		setObjOption $sid reflector 0
-		setObjOption $sid appid [lindex $gameinfo 0]
+		setObjOption $sid appid [string range [lindex $gameinfo 0] 4 end]
 
 		# Let's make and send a 200 OK Message
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
