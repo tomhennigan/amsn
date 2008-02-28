@@ -14,7 +14,8 @@ namespace eval ::MSNGames {
 	
 		if {[llength $gameinfo] == 3} {
 			#check if we have a fitting plugin for this game
-			if {[::MSNGamesPlugins::supportedGame [string range [lindex $gameinfo 0] 4 end]] == 1} {
+			set appId [string range [lindex $gameinfo 0] [expr [string length [lindex $gameinfo 0]] - 4] end]
+			if {[::MSNGamesPlugins::supportedGame $appId] == 1} {
 				SendMessageFIFO [list ::MSNGamesGUI::IncomingGameRequestShow $chatid $dest $branchuid $cseq $uid $sid $gameinfo] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 			} else {
 				#no plugin found, so warn the user and abort request
@@ -141,7 +142,7 @@ namespace eval ::MSNGames {
 		setObjOption $sid inviter 0
 		setObjOption $sid chatid $chatid
 		setObjOption $sid reflector 0
-		setObjOption $sid appid [string range [lindex $gameinfo 0] 4 end]
+		setObjOption $sid appid [string range [lindex $gameinfo 0] [expr [string length [lindex $gameinfo 0]] - 4] end]
 
 		# Let's make and send a 200 OK Message
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]

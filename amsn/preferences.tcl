@@ -3222,8 +3222,8 @@ proc SavePreferences {} {
 		::config::setKey idletime $myconfig(idletime)
 	}
 
-	# make sure country code has 4 digits, otherwise set back to 1033 (= en-US)
-	if { [string length [::config::getKey localecode]] != 4 } {
+	# make sure country code has 4 or 5 digits, otherwise set back to 1033 (= en-US)
+	if { [string length [::config::getKey localecode]] < 4 || [string length [::config::getKey localecode]] > 5 } {
 		::config::setKey localecode 1033
 	}
 	

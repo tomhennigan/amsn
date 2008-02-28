@@ -5414,6 +5414,11 @@ proc cmsn_ns_msg {recv message} {
 
 		::config::setKey myip $d(clientip)
 		status_log "My IP is [::config::getKey myip]\n"
+		
+		# fetch localization-code from info as long as it wasn't detected/set before
+		if {[::config::getKey localecode 1033] == "1033" && $d(langpreference) != ""} {
+			::config::setKey localecode $d(langpreference)
+		}
 
 		# Looks like MSN sends us whether this user has his emails enabled, so for non hotmail accounts we can automatically remove that inbox line from the CL
 		if { [::config::getKey checkemail] == 1 && $d(email_enabled) == 0} {
