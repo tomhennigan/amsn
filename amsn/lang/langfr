@@ -944,9 +944,9 @@ wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
 webcamclosebefcancel Vous devez annuler toutes les conversations par webcam avant de fermer la fenêtre
 webcamconfigure Configurer la webcam
-webcamconfiguredLinux: Vous avez choisi les paramètres suivants pour la webcam :\nPériphérique : $1\nCanal : $2
+webcamconfiguredLinux Vous avez choisi les paramètres suivants pour la webcam :\nPériphérique : $1\nCanal : $2
 webcamconfiguredMac Les paramètres de la webcam ont été réglés
-webcamconfiguredWin: Vous avez choisi la webcam suivante : $1
+webcamconfiguredWin Vous avez choisi la webcam suivante : $1
 webcamextchecking Vérifie si l'extension requise pour la webcam est chargée...
 webcamextloaded L'extension Webcamsn est chargée
 webcamextnotloaded L'extension Webcamsn n'est pas chargée. Vous devez la compiler.
