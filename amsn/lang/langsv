@@ -239,6 +239,7 @@ created Skapad
 credits Tack till
 curdisplaypic Nuvarande visningsbild
 currentdate Datum
+currentdynrate Nuvarande realtidshastighet (i millisekunder) 
 currentlanguage Det här är det språk som används för nuvarande
 currentnotes Nuvarande anteckningar
 custnotifymsg Informera mig när ett konversationsmeddelande tas emot
@@ -308,6 +309,7 @@ download Ladda ner
 downloadcanceled Nedladdning avbruten.
 downloadingtls Laddar ner TLS från:\n $1
 downloadingwait Laddar ner ny version av aMSN...
+dynamicrate  Använd dynamisk frame-rate för att simulera realtidshastigheten.
 edit Redigera
 editavsettings Redigera ljud- och videoinställningar
 editcontent Ändra innehållet i ämnes- och anteckningsfältet
@@ -387,6 +389,13 @@ ftrejected Filöverföring nekades
 ftrejectedby $1 nekade filöverföringen av '$2'.
 ftsendinvitation Filöverföringsförfrågan för filen '$2' ($3) har skickats till $1.
 fullcontactlist Tyvärr är din kontaktlista full. Du måste radera några kontakter för att kunna lägga till nya.
+gameaccepted $1 har accepterat din inbjudan.  
+gameclosedbyother $1 har avbrutit sin spelsession med dig. 
+gameclosedbyself Du har avbrutit spelsessionen med $1. 
+gameinvitation $1 har bjudit in dig att spela $2. Accepterar du inbjudan?
+gamepluginnotfound $1 har bjudit in dig att spela $2 men det finns ingen plugin laddad för detta spel. Du måste aktivera och konfigurera denna plugin först.
+gamerejected $1 har tackat nej till din inbjudan
+gamerequest Du har bjudit in $1 till att spela $2.
 getdisppic Spara andras visningsbilder på disk
 getmoreplugins Skaffa fler plugins!
 getmoreskins Skaffa fler teman!
@@ -651,6 +660,8 @@ play Spela upp
 playbackposition Uppspelningsposition
 playbackspeed Uppspelningshastighet (millisekunder mellan varje bild)
 playerror Ett fel uppstod när ljudet skulle spelas upp: $1 
+playgame Spela 
+playgame2 Spela $1
 playing Lyssnar på: $1
 playtest Spela testfilen
 playwebcamsend Fortsätt webbkamerasändningen
@@ -754,6 +765,7 @@ saveotherdirectory Spara i en annan katalog
 savetofile Spara som fil
 says $1 säger
 sbcon Ansluter till uppslagsserver
+searchadvprefs Sök i avancerade inställningar:
 searchdown Sök nedåt
 searchup Sök uppåt
 selectall Markera alla
