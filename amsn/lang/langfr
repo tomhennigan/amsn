@@ -498,6 +498,7 @@ lleftconf $1 a quitté la conférence
 load Activer
 loadcontacts Importer la liste de contacts
 loadotherdisplaypic Chargement des avatars de $1, patientez...
+localecode Le code à 4 chiffres désignant votre pays ou votre langue
 logbigger Taille du fichier Log pour chaque contact ne dépasse jamais
 logeventconnect Enregistrer les connexions
 logeventdisconnect Enregistrer les déconnexions
