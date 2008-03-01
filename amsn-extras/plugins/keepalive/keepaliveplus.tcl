@@ -15,7 +15,7 @@
 		only_fln {0}
 	}
 
-	set ::keepalive::configlist [ list [ list bool "Only keep SBs alive when we are or appear Offline" only_fln ] ]
+	set ::keepalive::configlist [ list [ list bool "Only keep SBs alive when we (or the other party) are or appear Offline" only_fln ] ]
 }
 
 	proc keepalive_plus_init {event epvar} {
@@ -97,7 +97,7 @@
 		}
 		
 		# Send the keepalive message...
-		if { $::keepalive::config(only_fln) == 0 || [::MSN::myStatusIs] == "FLN" || [::MSN::myStatusIs] == "HDN" } {
+		if { $::keepalive::config(only_fln) == 0 || [::MSN::myStatusIs] == "FLN" || [::MSN::myStatusIs] == "HDN" || [::abook::getVolatileData $chatid state] == "FLN" } {
 			# Fires a new after.
 			monitor_chatid $chatid
 			::keepalive::send_keepalive_msg $sb
