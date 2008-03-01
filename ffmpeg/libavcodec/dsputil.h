@@ -406,6 +406,7 @@ typedef struct DSPContext {
     void (*shrink[4])(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
 
     /* vc1 functions */
+    void (*vc1_fwd_trans_8x8)(DCTELEM *b);
     void (*vc1_inv_trans_8x8)(DCTELEM *b);
     void (*vc1_inv_trans_8x4)(uint8_t *dest, int line_size, DCTELEM *block);
     void (*vc1_inv_trans_4x8)(uint8_t *dest, int line_size, DCTELEM *block);

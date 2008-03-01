@@ -309,4 +309,6 @@ typedef struct VC1Context{
     int x8_type;
 } VC1Context;
 
+inline int vc1_coded_block_pred(MpegEncContext * s, int n, uint8_t **coded_block_ptr);
+
 #endif /* FFMPEG_VC1_H */

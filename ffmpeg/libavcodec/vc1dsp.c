@@ -307,6 +307,106 @@ static void vc1_inv_trans_4x4_c(uint8_t *dest, int linesize, DCTELEM *block)
     }
 }
 
+
+void vc1_fwd_trans_8x8_c(DCTELEM block[64])
+{
+    int i;
+    register int t1,t2,t3,t4,t5,t6,t7,t8;
+    const int *norm_mat;
+    DCTELEM *dest, *src;
+
+    static const int norm_8[64] = {
+    82944, 83232, 84096, 83232, 82944, 83232, 84096, 83232,
+    83232, 83521, 84388, 83521, 83232, 83521, 84388, 83521,
+    84096, 84388, 85264, 84388, 84096, 84388, 85264, 84388,
+    83232, 83521, 84388, 83521, 83232, 83521, 84388, 83521,
+    82944, 83232, 84096, 83232, 82944, 83232, 84096, 83232,
+    83232, 83521, 84388, 83521, 83232, 83521, 84388, 83521,
+    84096, 84388, 85264, 84388, 84096, 84388, 85264, 84388,
+    83232, 83521, 84388, 83521, 83232, 83521, 84388, 83521
+    };
+
+    src  = block;
+    dest = block;
+
+    for(i=0 ; i < 8 ; i++){
+        t1 = src[0]  + src[56];
+        t2 = src[0]  - src[56];
+        t3 = src[8]  + src[48];
+        t4 = src[8]  - src[48];
+        t5 = src[16] + src[40];
+        t6 = src[16] - src[40];
+        t7 = src[24] + src[32];
+        t8 = src[24] - src[32];
+
+        dest[0]  = 12 * (t1 + t3 + t5 + t7);
+        dest[8]  = 16 * t2 + 15 * t4 + 9 * t6 + 4 * t8;
+        dest[16] = 16 * (t1 - t7) + 6 * ( t3 - t5);
+        dest[24] = 15 * t2 - 4 * t4 - 16 * t6 - 9 * t8;
+        dest[32] = 12 * ( t1 - t3 - t5 + t7);
+        dest[40] = 9 * t2 - 16 * t4 + 4 * t6 + 15 * t8;
+        dest[48] = 6 * (t1 - t7) - 16 * (t3 - t5);
+        dest[56] = 4 * t2 - 9 * t4 + 15 * t6 - 16 * t8;
+
+        dest++;
+        src++;
+    }
+
+    dest = block;
+    src  = block;
+
+    norm_mat = norm_8;
+    for(i=0 ; i < 8 ; i++){
+        t1 = dest[0] + dest[7];
+        t2 = dest[0] - dest[7];
+        t3 = dest[1] + dest[6];
+        t4 = dest[1] - dest[6];
+
+        t5 = dest[2] + dest[5];
+        t6 = dest[2] - dest[5];
+        t7 = dest[3] + dest[4];
+        t8 = dest[3] - dest[4];
+
+        src[0] = ( (12 * (t1 + t3 + t5 + t7)) << 6 ) / (norm_mat[0]);
+        src[1] = ( (16 * t2 + 15 * t4 + 9 * t6 + 4 * t8) << 6) / (norm_mat[1]);
+        src[2] = ( (16 * (t1 - t7) + 6 * ( t3 - t5)) << 6) / (norm_mat[2]);
+        src[3] = ( (15 * t2 - 4 * t4 - 16 * t6 - 9 * t8) << 6) / (norm_mat[3]);
+        src[4] = ( (12 * ( t1 - t3 - t5 + t7)) << 6) / (norm_mat[4]);
+        src[5] = ( (9 * t2 - 16 * t4 + 4 * t6 + 15 * t8) << 6) / (norm_mat[5]);
+        src[6] = ( (6 * (t1 - t7) - 16 * (t3 - t5)) << 6) / (norm_mat[6]);
+        src[7] = ( (4 * t2 - 9 * t4 + 15 * t6 - 16 * t8) << 6) / (norm_mat[7]);
+
+        dest+=8;
+        src+=8;
+        norm_mat+=8;
+    }
+}
+
+
+void ff_vc1_inv_trans_put(uint8_t *dest, int linesize, DCTELEM block[64])
+{
+    int i,j;
+    uint8_t *cm = ff_cropTbl + MAX_NEG_CROP;
+
+    vc1_inv_trans_8x8_c(block);
+
+    /* read the pixels */
+    for(i=0;i<8;i++) {
+        dest[0] = cm[block[0]];
+        dest[1] = cm[block[1]];
+        dest[2] = cm[block[2]];
+        dest[3] = cm[block[3]];
+        dest[4] = cm[block[4]];
+        dest[5] = cm[block[5]];
+        dest[6] = cm[block[6]];
+        dest[7] = cm[block[7]];
+
+        dest += linesize;
+        block += 8;
+    }
+}
+
+
 /* motion compensation functions */
 /** Filter in case of 2 filters */
 #define VC1_MSPEL_FILTER_16B(DIR, TYPE)                                 \
@@ -439,6 +539,14 @@ void ff_vc1dsp_init(DSPContext* dsp, AVCodecContext *avctx) {
     dsp->vc1_inv_trans_4x4 = vc1_inv_trans_4x4_c;
     dsp->vc1_h_overlap = vc1_h_overlap_c;
     dsp->vc1_v_overlap = vc1_v_overlap_c;
+
+    if( ENABLE_WMV3_ENCODER ) {
+        dsp->vc1_fwd_trans_8x8 = vc1_fwd_trans_8x8_c;
+        if(avctx->idct_algo == FF_IDCT_VC1) {
+            dsp->idct_put = ff_vc1_inv_trans_put;
+            dsp->idct_permutation_type = FF_NO_IDCT_PERM;
+        }
+    }
 
     dsp->put_vc1_mspel_pixels_tab[ 0] = ff_put_vc1_mspel_mc00_c;
     dsp->put_vc1_mspel_pixels_tab[ 1] = put_vc1_mspel_mc10_c;

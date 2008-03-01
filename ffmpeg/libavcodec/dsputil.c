@@ -31,7 +31,9 @@
 #include "dsputil.h"
 #include "simple_idct.h"
 #include "mpegvideo.h"
+#include "faandct.h"
 #include "h263.h"
+
 
 /* snow.c */
 void ff_spatial_dwt(int *buffer, int width, int height, int stride, int type, int decomposition_count);

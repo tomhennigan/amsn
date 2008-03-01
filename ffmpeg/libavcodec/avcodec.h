@@ -1324,6 +1324,8 @@ typedef struct AVCodecContext {
 #define FF_IDCT_SIMPLEARMV6   17
 #define FF_IDCT_SIMPLEVIS     18
 #define FF_IDCT_WMV2          19
+#define FF_IDCT_VC1           20
+
 
     /**
      * slice count
