@@ -29,7 +29,7 @@
 /* msmpeg4 externs*/
 extern void ff_msmpeg4_encode_block(MpegEncContext * s, DCTELEM * block, int n);
 extern void ff_find_best_tables(MpegEncContext * s);
-extern void ff_code012(PutBitContext *pb, int n);
+extern void ff_msmpeg4_code012(PutBitContext *pb, int n);
 
 /**
  * Unquantize a block
@@ -257,11 +257,11 @@ void vc1_encode_i_sm_picture_header(MpegEncContext * s, int picture_number)
     }
 
     if( t->pqindex<=8 ) {
-        ff_code012(&s->pb, s->rl_chroma_table_index%3);//TRANSACFRM (UV)
-        ff_code012(&s->pb, s->rl_table_index%3); //TRANSACFRM2 (Y)
+        ff_msmpeg4_code012(&s->pb, s->rl_chroma_table_index%3);//TRANSACFRM (UV)
+        ff_msmpeg4_code012(&s->pb, s->rl_table_index%3); //TRANSACFRM2 (Y)
     } else {
-        ff_code012(&s->pb, s->rl_chroma_table_index);//TRANSACFRM (UV)
-        ff_code012(&s->pb, s->rl_table_index); //TRANSACFRM2 (Y)
+        ff_msmpeg4_code012(&s->pb, s->rl_chroma_table_index);//TRANSACFRM (UV)
+        ff_msmpeg4_code012(&s->pb, s->rl_table_index); //TRANSACFRM2 (Y)
     }
 
     put_bits(&s->pb, 1, s->dc_table_index);//TRANSDCTAB

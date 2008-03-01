@@ -32,6 +32,7 @@
 #include "mpegvideo.h"
 #include "mpegvideo_common.h"
 #include "msmpeg4.h"
+#include "faandct.h"
 #include "h263.h"
 #include "vc1enc.h"
 #include <limits.h>

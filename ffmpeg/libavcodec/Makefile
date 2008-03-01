@@ -16,6 +16,8 @@ OBJS = allcodecs.o \
        faandct.o \
        imgconvert.o \
        jrevdct.o \
+       jfdctfst.o \
+       jfdctint.o\
        mpeg12data.o \
        mpegvideo.o \
        opt.o \
@@ -209,7 +211,7 @@ OBJS-$(CONFIG_WMV1_ENCODER)            += mpegvideo_enc.o motion_est.o ratecontr
 OBJS-$(CONFIG_WMV2_DECODER)            += wmv2dec.o wmv2.o msmpeg4.o msmpeg4data.o h263dec.o h263.o intrax8.o intrax8dsp.o
 OBJS-$(CONFIG_WMV2_ENCODER)            += wmv2enc.o wmv2.o msmpeg4.o msmpeg4data.o mpegvideo_enc.o motion_est.o ratecontrol.o h263.o
 OBJS-$(CONFIG_WMV3_DECODER)            += vc1.o vc1data.o vc1dsp.o
-OBJS-$(CONFIG_WMV3_ENCODER)            += vc1.o vc1data.o vc1dsp.o msmpeg4data.o vc1enc.o msmpeg4.o
+OBJS-$(CONFIG_WMV3_ENCODER)            += vc1.o vc1data.o vc1dsp.o msmpeg4data.o vc1enc.o msmpeg4.o mpegvideo_enc.o motion_est.o ratecontrol.o
 OBJS-$(CONFIG_WNV1_DECODER)            += wnv1.o
 OBJS-$(CONFIG_WS_SND1_DECODER)         += ws-snd1.o
 OBJS-$(CONFIG_XAN_DPCM_DECODER)        += dpcm.o
