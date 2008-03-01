@@ -7,8 +7,8 @@ acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 account Cuenta
 actions Acciones
 activeautoupdate Activar actualización automática
-addacontact Añadir un contacto
 add Añadir
+addacontact Añadir un contacto
 addedyou $1 ($2) le ha añadido a su lista de contactos
 addprofile Añadir un perfil
 addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
@@ -390,10 +390,13 @@ ftrejectedby $1 ha rechazado la invitación a la transferencia del archivo '$2'.
 ftrejected Transferencia de archivo cancelada
 ftsendinvitation Una invitación para la transferencia del archivo '$2' ($3 bytes) ha sido enviada a $1.
 fullcontactlist Tu lista de contactos está llena. Necesitarás eliminar algún contacto para poder añadir nuevos.
+gameaccepted $1 ha aceptado tu invitación para jugar
 gameclosedbyother $1 Ha cancelado la sesión de juego contigo.
 gameclosedbyself Has cancelado la sesión de juego con $1.
 gameinvitation $1 Te ha invitado a jugar $2. ¿Quieres aceptar esta invitación?
 gamepluginnotfound $1 Te ha invitado a jugar $2 pero no hay plug-in cargado para este juego. Por favor activa y configura este plug-in primero.
+gamerejected $1 ha rechazado tu invitación para jugar
+gamerequest Has invitado a $1 para jugar a $2
 getdisppic Habilitar la recepción de imágenes para mostrar de otros usuarios
 getmoreplugins ¡Consigue más plug-ins!
 getmoreskins ¡Consigue más skins!
@@ -496,6 +499,7 @@ lleftconf $1 deja la conversación
 loadcontacts Cargar lista de contactos
 load Habilitar
 loadotherdisplaypic Cargando las imágenes mostradas de $1, por favor espere...
+localecode Tus 4 dígitos de idioma-/código-país
 logbigger Archivos de registro de un contacto no superan los
 logeventconnect Registrar las conexiones
 logeventdisconnect Registrar las desconexiones
@@ -657,6 +661,8 @@ picstatus Imagen para la alarma
 playbackposition Posición de playback
 playbackspeed Velocidad de playback (milisegundos entre cada fotograma)
 playerror Ocurrió un error al intentar reproducir el sonido : $1
+playgame2 Jugar a $1
+playgame Jugar a un juego
 playing Reproduciendo: $1
 play Reproducir
 playtest Reproducir sonido de prueba
@@ -762,6 +768,7 @@ saveotherdirectory Guardar en otro directorio
 savetofile Guardar en archivo
 says $1 dice
 sbcon Conectando a la centralita telefónica
+searchadvprefs Buscar en las preferencias avanzadas:
 searchdown Buscar arriba
 searchup Buscar abajo
 selectall Seleccionar todos
@@ -938,9 +945,9 @@ viewspace Ver elementos del espacio
 view Ver
 volume Volumen
 wanttosharecam Quiero que mi cámara web esté disponible para otros
-webcam Cámara web
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
+webcam Cámara web
 webcamconfigure Configurar cámara web
 webcamconfiguredLinux Has elegido la siguiente configuración:\nDispositivo de cámara web: $1\nCanal de cámara web: $2
 webcamconfiguredMac Tu cámara web ha sido configurada
