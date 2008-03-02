@@ -1,12 +1,16 @@
 amsn_lang_version 2
 gametttgameclosed Der Gegner hat das Spiel geschlossen.
 gametttgamesessionwith $1 gegen $2
-gametttnobody Niemand
+gametttnowinner Niemand hat die Runde gewonnen!\nEs steht weiterhin $1:$2.
+gametttopponent Gegner
 gametttopponentloading Kleinen Moment, der Gegner läd noch das Spiel ...
 gametttopponentready Der Gegner ist bereit zum Spielen, klicke auf "Start" um zu beginnen.
+gametttopponentsturn Der Gegner ist dran.
 gametttopponentnotready Warte darauf, dass der Gegner "Start" klickt ...
 gametttrestart Neustart
 gametttstart Start
 gamettttitle Tic Tac Toe
 gametttwait Bitte warten ...
-gametttwinner $1 hat die Runde gewonnen!
+gametttwinner $1 hat die Runde gewonnen!\nEs steht jetzt $2:$3.
+gametttyou Du
+gametttyourturn DU bist dran.

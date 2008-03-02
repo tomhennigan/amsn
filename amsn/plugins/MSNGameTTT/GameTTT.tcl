@@ -5,12 +5,11 @@
 ## written by Mirko Hansen (BaaaZen)            ##
 ##################################################
 
-# TODO:
-#  -use pixmaps instead of buttons and make it look nicer
-#  -implement scoring
-
 namespace eval ::GameTTT {
 	proc Init { dir } {
+		variable pluginDir
+		set pluginDir $dir
+	
 		::plugins::RegisterPlugin GameTTT
 
 		# load language file		
@@ -21,6 +20,13 @@ namespace eval ::GameTTT {
 	}
 	
 	proc DeInit {} {
+		variable loadedImages
+		
+		set imgs [array names loadedImages]
+		foreach img $imgs {
+			image destroy $img
+		}
+	
 		::MSNGamesPlugins::unregister "tictactoe"
 	}
 
@@ -51,7 +57,7 @@ namespace eval ::GameTTT {
 		
 		#create window
 		toplevel $w
-		wm geometry $w 200x200
+		wm geometry $w 228x300
 		wm resizable $w 0 0
 		wm title $w "[trans gametttgamesessionwith [trans gamettttitle] [::MSNGamesInterface::getSetting $sid opponentnick]]"
 		wm protocol $w WM_DELETE_WINDOW "::GameTTT::CloseWindow $sid"
@@ -106,25 +112,29 @@ namespace eval ::GameTTT {
 	
 	#called after opponent is ready after loading phase on WLM
 	proc onStart {sid {param ""}} {
-		set w .game_ttt_$sid
-		
-		set waiting $w.waiting
-		$waiting configure -text "[trans gametttopponentready]"
-		
-		set startbutton $w.startbutton
-		if {[winfo exists $startbutton]} {
-			$startbutton configure -text "[trans gametttstart]" -state normal -command "::GameTTT::StartClick $sid"
-		} else {
-			button $startbutton -text "[trans gametttstart]" -command "::GameTTT::StartClick $sid"
-			pack configure $startbutton -side bottom -padx 5 -pady 5
-		}
-		
 		#reset internal field and other settings
 		array set fieldArray [list]
 		for {set x 1} {$x <= 9} {incr x} {
 			set fieldArray($x) "0"
 		}
 		::MSNGamesInterface::setSetting $sid field [array get fieldArray]
+
+		#setup waiting screen on first round
+		if {[::MSNGamesInterface::getSetting $sid firstRound 1] == 1} {
+			set w .game_ttt_$sid
+			set waiting $w.waiting
+			$waiting configure -text "[trans gametttopponentready]"
+			
+			set startbutton $w.startbutton
+			if {![winfo exists $startbutton]} {
+				button $startbutton -text "[trans gametttstart]" -command "::GameTTT::StartClick $sid"
+				pack configure $startbutton -side bottom -padx 5 -pady 5
+			}
+			
+			::MSNGamesInterface::setSetting $sid firstRound 0
+		} else {
+			CheckStartRemote $sid
+		}
 	}
 
 	#called once after opponent has clicked the restart button
@@ -214,28 +224,61 @@ namespace eval ::GameTTT {
 		
 		set playground $w.playground
 		if {![winfo exists $playground]} {
-			frame $playground
+			canvas $playground -width 228 -height 300
+			
+			$playground create image 0 0 -anchor nw -image [GetImage "background.png"] -tags background
+			$playground create text 114 260 -text "" -font bboldf -tags displayturn
+			$playground create text 114 281 -text "" -font bboldf -fill #111111 -tags displayscore
+
+			for {set x 1} {$x <= 9} {incr x} {
+				set xpos [expr [expr $x - 1] % 3]
+				set ypos [expr [expr [expr $x - 1] - $xpos] / 3]
+				set px [expr [expr $xpos * 76] + 37]
+				set py [expr [expr $ypos * 80] + 40]
+				
+				$playground create image $px $py -image [GetImage "empty_normal.png"] -state hidden -tags ${x}_empty_empty
+				$playground create image $px $py -image [GetImage "empty_normal.png"] -activeimage [GetImage "x_hover.png"] -state hidden -tags ${x}_empty_x
+				$playground create image $px $py -image [GetImage "empty_normal.png"] -activeimage [GetImage "o_hover.png"] -state hidden -tags ${x}_empty_o
+				$playground create image $px $py -image [GetImage "x_normal.png"] -state hidden -tags ${x}_x_x
+				$playground create image $px $py -image [GetImage "o_normal.png"] -state hidden -tags ${x}_o_o
+
+				$playground bind ${x}_empty_x <Button1-ButtonRelease> "::GameTTT::SetField $sid $x 1"
+				$playground bind ${x}_empty_o <Button1-ButtonRelease> "::GameTTT::SetField $sid $x 1"
+			}
 		}
-		
+
+		#setup visibility
 		for {set x 1} {$x <= 9} {incr x} {
-			set button $w.field_$x
 			set xpos [expr [expr $x - 1] % 3]
 			set ypos [expr [expr [expr $x - 1] - $xpos] / 3]
 			
-			#set px [expr $xpos * 60]
-			#set py [expr $ypos * 60]
-			
-			if {[winfo exists $button]} {
-				$button configure -text "  " -background white -state normal
+			if {[::MSNGamesInterface::getSetting $sid turn 0] == 1} {
+				$playground itemconfigure ${x}_empty_empty -state hidden
+				$playground itemconfigure ${x}_empty_x -state normal
 			} else {
-				button $button  -text "  " -background white -padx 2 -pady 2 -command "::GameTTT::SetField $sid $x 1"
-				grid $button -column [expr $xpos + 1] -row [expr $ypos + 1] -in $playground
+				$playground itemconfigure ${x}_empty_empty -state normal
+				$playground itemconfigure ${x}_empty_x -state hidden
 			}
+			$playground itemconfigure ${x}_empty_o -state hidden
+			$playground itemconfigure ${x}_x_x -state hidden
+			$playground itemconfigure ${x}_o_o -state hidden
 		}
+		
+		#setup text
+		if {[::MSNGamesInterface::getSetting $sid turn 0] == 1} {
+			$playground itemconfigure displayturn -fill #FF0000 -text [trans gametttyourturn]
+		} else {
+			$playground itemconfigure displayturn -fill #FF0000 -text [trans gametttopponentsturn]
+		}
+		$playground itemconfigure displayscore -text "[trans gametttyou] - [::MSNGamesInterface::getSetting $sid score1 0]:[::MSNGamesInterface::getSetting $sid score0 0] - [trans gametttopponent]"
+		
 		pack $playground
 	}
 	
 	proc SetField {sid field {local 0}} {
+		set w .game_ttt_$sid
+		set playground $w.playground
+
 		set fieldList [::MSNGamesInterface::getSetting $sid field [list]]
 		array set fieldArray $fieldList
 		if {![info exists fieldArray($field)]} {
@@ -251,6 +294,15 @@ namespace eval ::GameTTT {
 				return
 			}
 		
+			#disable fields
+			for {set x 1} {$x <= 9} {incr x} {
+				if {[set fieldArray($x)] == "0"} {
+					$playground itemconfigure ${x}_empty_x -state hidden
+					$playground itemconfigure ${x}_empty_o -state hidden
+					$playground itemconfigure ${x}_empty_empty -state normal
+				}
+			}
+
 			#send field information
 			::MSNGamesInterface::send $sid "18:$field"
 			
@@ -262,20 +314,37 @@ namespace eval ::GameTTT {
 		}
 		
 		if {[::MSNGamesInterface::getSetting $sid startTurn 0] != [::MSNGamesInterface::getSetting $sid turn 0]} {
-			set sign "X"
-			set color "orange"
+			set sign "x"
+			set color "#00B900"
+			set oppsign "o"
 		} else {
-			set sign "O"
-			set color "green"
+			set sign "o"
+			set oppsign "x"
+			set color "#FF0000"
 		}
 		
 		#set field
-		set w .game_ttt_$sid
-		set button $w.field_$field
-		$button configure -state disabled -disabledforeground black -background $color -text "$sign"
-	
+		$playground itemconfigure ${field}_empty_empty -state hidden
+		$playground itemconfigure ${field}_${sign}_${sign} -state normal
+		
 		set fieldArray($field) $sign
 
+		if {$local == 0} {
+			#enable fields
+			for {set x 1} {$x <= 9} {incr x} {
+				if {[set fieldArray($x)] == "0"} {
+					$playground itemconfigure ${x}_empty_empty -state hidden
+					$playground itemconfigure ${x}_empty_${oppsign} -state normal
+				}
+			}
+			
+			#set text
+			$playground itemconfigure displayturn -fill $color -text [trans gametttyourturn]
+		} else {
+			#set text
+			$playground itemconfigure displayturn -fill $color -text [trans gametttopponentsturn]
+		}
+		
 		#check for winner
 		if {($fieldArray(1) == $fieldArray(2) && $fieldArray(2) == $fieldArray(3) && $fieldArray(1) != "0") \
 			|| ($fieldArray(4) == $fieldArray(5) && $fieldArray(5) == $fieldArray(6) && $fieldArray(4) != "0") \
@@ -287,11 +356,19 @@ namespace eval ::GameTTT {
 			|| ($fieldArray(3) == $fieldArray(5) && $fieldArray(5) == $fieldArray(7) && $fieldArray(3) != "0")} {
 			#somebody has a row
 			
+			#update score
+			set score0 [::MSNGamesInterface::getSetting $sid score0 0]
+			set score1 [::MSNGamesInterface::getSetting $sid score1 0]
+			incr score${local}
+			::MSNGamesInterface::setSetting $sid score0 $score0
+			::MSNGamesInterface::setSetting $sid score1 $score1
+
+			#show winner and score
 			set playground $w.playground
 			pack forget $playground
 			
 			set waiting $w.waiting
-			$waiting configure -text "[trans gametttwinner $player]"
+			$waiting configure -text "[trans gametttwinner $player $score1 $score0]"
 			pack $waiting
 			
 			set startbutton $w.startbutton
@@ -302,11 +379,16 @@ namespace eval ::GameTTT {
 				&& $fieldArray(9) != "0"} {
 			#nobody wins
 
+			#read score
+			set score0 [::MSNGamesInterface::getSetting $sid score0 0]
+			set score1 [::MSNGamesInterface::getSetting $sid score1 0]
+
+			#show winner and score
 			set playground $w.playground
 			pack forget $playground
 			
 			set waiting $w.waiting
-			$waiting configure -text "[trans gametttwinner [trans gametttnobody]]"
+			$waiting configure -text "[trans gametttnowinner $score1 $score0]"
 			pack $waiting
 			
 			set startbutton $w.startbutton
@@ -324,5 +406,27 @@ namespace eval ::GameTTT {
 		$startbutton configure -state disabled -text "[trans gametttwait]"
 	
 		::MSNGamesInterface::restartGame $sid
+	}
+	
+	proc GetImage {imgfile} {
+		variable pluginDir 
+		variable loadedImages
+		
+		if {![info exists loadedImages]} {
+			array set loadedImages [list]
+		}
+		
+		if {[info exists loadedImages($imgfile)]} {
+			return [set loadedImages($imgfile)]
+		}
+
+		if {[catch {set img [image create photo -file [file join $pluginDir "pixmaps" $imgfile] -format cximage]} res]} {
+				status_log "::GameTTT::LoadImage - Error loading $imgfile : $res" red
+				set img [image create photo]
+		}
+		
+		set loadedImages($imgfile) $img
+		
+		return $img
 	}
 }

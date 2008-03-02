@@ -5,7 +5,7 @@
 	<description>MSN-Game Tic Tac Toe</description>
 	<description_de>MSN-Spiel Tic Tac Toe</description_de>
 	<amsn_version>0.98</amsn_version>
-	<plugin_version>0.1</plugin_version>
+	<plugin_version>1.0</plugin_version>
 	<plugin_file>GameTTT.tcl</plugin_file>
 	<plugin_namespace>GameTTT</plugin_namespace>
 	<init_procedure>Init</init_procedure>
