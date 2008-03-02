@@ -26,6 +26,8 @@
 #include "vc1data.h"
 #include "vc1enc.h"
 
+#include "simple_idct.h"
+
 /* msmpeg4 externs*/
 extern void ff_msmpeg4_encode_block(MpegEncContext * s, DCTELEM * block, int n);
 extern void ff_find_best_tables(MpegEncContext * s);
@@ -292,13 +294,13 @@ void ff_vc1_encode_picture_header(MpegEncContext * s, int picture_number)
  * Sequence layer bitstream encoder
  * @param t VC1 context
  */
-void vc1_encode_ext_header(VC1Context *t)
+void vc1_encode_ext_header(AVCodecContext *avctx, VC1Context *t)
 {
     MpegEncContext * const s= &t->s;
     PutBitContext pb;
     init_put_bits(&pb, s->avctx->extradata, s->avctx->extradata_size);
 
-    t->profile = PROFILE_MAIN;
+    t->profile = PROFILE_SIMPLE;
     put_bits(&pb, 2, t->profile); //Profile
     if(t->profile == PROFILE_ADVANCED) {
         t->level = 2;
@@ -306,22 +308,37 @@ void vc1_encode_ext_header(VC1Context *t)
         t->chromaformat = 1; //4:2:0
         put_bits(&pb, 2, t->chromaformat);
     } else {
-        put_bits(&pb, 2, 0); //Unused
+        t->zz_8x4 = ff_vc1_simple_progressive_8x4_zz;
+        t->zz_4x8 = ff_vc1_simple_progressive_4x8_zz;
+
+        t->res_sm = 0; //reserved
+        put_bits(&pb, 2, t->res_sm); //Unused
     }
 
-    put_bits(&pb, 3, 0); //TODO: Q frame rate
-    put_bits(&pb, 5, 0); //TODO: Q bit rate
+    t->frmrtq_postproc = 7;
+    put_bits(&pb, 3, t->frmrtq_postproc); //TODO: Q frame rate
+    t->bitrtq_postproc = 31;
+    put_bits(&pb, 5, t->bitrtq_postproc); //TODO: Q bit rate
 
     s->loop_filter = 0;//TODO: loop_filter
     put_bits(&pb, 1, s->loop_filter);
 
     if(t->profile < PROFILE_ADVANCED) {
-        put_bits(&pb, 1, 0); //Reserved
-        put_bits(&pb, 1, 0); //Multires
-        put_bits(&pb, 1, 1); //Reserved
+      t->res_x8 = 0;
+      t->multires = 0;
+      t->res_fasttx = 1;
+
+        put_bits(&pb, 1, t->res_x8); //Reserved
+        put_bits(&pb, 1, t->multires); //Multires
+        put_bits(&pb, 1, t->res_fasttx); //Reserved
+
+        s->dsp.vc1_inv_trans_8x8 = ff_simple_idct;
+        s->dsp.vc1_inv_trans_8x4 = ff_simple_idct84_add;
+        s->dsp.vc1_inv_trans_4x8 = ff_simple_idct48_add;
+        s->dsp.vc1_inv_trans_4x4 = ff_simple_idct44_add;
     }
 
-    t->fastuvmc = 0;//TODO : FAST U/V MC
+    t->fastuvmc = 1;//TODO : FAST U/V MC
     put_bits(&pb, 1, t->fastuvmc);
 
     t->extended_mv = 0;//TODO : Extended MV
@@ -334,7 +351,8 @@ void vc1_encode_ext_header(VC1Context *t)
     put_bits(&pb, 1, t->vstransform);
 
     if (t->profile < PROFILE_ADVANCED) {
-        put_bits(&pb, 1, 0); //Reserved
+      t->res_transtab = 0;
+        put_bits(&pb, 1, t->res_transtab); //Reserved
     }
 
     t->overlap = 0; //TODO : Overlap
@@ -347,15 +365,17 @@ void vc1_encode_ext_header(VC1Context *t)
         put_bits(&pb, 1, t->rangered);
     }
 
-    put_bits(&pb, 3, 0); //Max B-frames
+    avctx->max_b_frames = s->max_b_frames = 0;
+    put_bits(&pb, 3, s->max_b_frames); //Max B-frames
 
-    t->quantizer_mode = QUANT_FRAME_EXPLICIT;
+    t->quantizer_mode = QUANT_FRAME_IMPLICIT;
     put_bits(&pb, 2, t->quantizer_mode); //Quantizer
 
     if (t->profile < PROFILE_ADVANCED) {
         t->finterpflag = 0; //TODO : Frame interpol
+	t->res_rtm_flag = 1;
         put_bits(&pb, 1, t->finterpflag);
-        put_bits(&pb, 1, 1); //Reserved
+        put_bits(&pb, 1, t->res_rtm_flag); //Reserved
     }
     flush_put_bits(&pb);
 }
@@ -377,7 +397,7 @@ static int vc1_encode_init(AVCodecContext *avctx){
     s->dct_unquantize_intra =
     s->dct_unquantize_inter = vc1_unquantize_c;
 
-    vc1_encode_ext_header(t);
+    vc1_encode_ext_header(avctx, t);
 
     return 0;
 fail:
