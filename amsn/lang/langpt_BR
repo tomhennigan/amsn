@@ -498,6 +498,7 @@ lleftconf $1 deixou a conferência
 load Carregar
 loadcontacts Carregar lista de contatos
 loadotherdisplaypic Carregar DPs de $1, por favor espere...
+localecode Os 4 dígitos do código de língua/país
 logbigger Tamanho dos arquivos para cada contato nunca deve exceder
 logeventconnect Registrar conexões
 logeventdisconnect Registrar desconexões
