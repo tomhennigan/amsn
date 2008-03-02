@@ -697,7 +697,7 @@ int MPV_encode_init(AVCodecContext *avctx)
         ff_h261_encode_init(s);
     if (ENABLE_ANY_H263_ENCODER && s->out_format == FMT_H263)
         h263_encode_init(s);
-    if (ENABLE_MSMPEG4_ENCODER && s->msmpeg4_version)
+    if ((ENABLE_WMV3_ENCODER || ENABLE_MSMPEG4_ENCODER) && s->msmpeg4_version)
         ff_msmpeg4_encode_init(s);
     if ((ENABLE_MPEG1VIDEO_ENCODER || ENABLE_MPEG2VIDEO_ENCODER)
         && s->out_format == FMT_MPEG1)
