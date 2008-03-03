@@ -290,9 +290,11 @@ namespace eval ::music {
 
 			#First add the nickname the user choosed in config to the name variable
 			set name "$config(nickname)"
-			#Symbol that will be betwen the nick and the song
-			set separation " $config(symbol) "
 
+			# xmms only gives us a string describing song+artist
+			if { $config(player)== "XMMS" } {
+				set config(display_style) {%title}
+			}
 
 			#Change the nickname if the user didn't uncheck that config.
 			if {$config(display) && ![string equal $info $oldinfo] } {
@@ -523,7 +525,7 @@ namespace eval ::music {
 		switch -- $action {
 			1 {
 				#Send a message with the name of the current song
-				set msg [string map {"%title" "$song" "%artist" "$artist" "%album" "$album"} $config(display_style)]
+				set msg [string map {"%title" "$song" "%artist" "$artist" "%album" "$album"} $::music::config(display_style)]
 				::music::log "Send message with song name : [trans playing $msg]"
 				::amsn::MessageSend $win_name 0 "[trans playing $msg]"	
 			}
@@ -1321,12 +1323,12 @@ namespace eval ::music {
 
 		if {[info exists info(Status:)]} {
 			switch -- $info(Status:) {
-				"Playing" { lappend return $info(Title:); lappend return $info(File:) }
-				"Paused" { lappend return $info(Title:); lappend return $info(File:) }
-				"Stopped" { set return 0 }
-				default { set return 0 }
+				"Playing" { set return_lst [list $info(Title:) "" $info(File:) "" ""] }
+				"Paused" { set return_lst [list $info(Title:); "" return $info(File:) "" ""] }
+				"Stopped" { set return_lst [list] }
+				default { set return_lst [list] }
 			}
-			return $return
+			return $return_lst
 		}
 		return 0
 	}
