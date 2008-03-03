@@ -379,7 +379,7 @@ ftautoclose Dieses Fenster nach Abschluss der Dateiübertragung schließen
 ftconnecterror Fehler beim Verbinden mit Gegenüber
 ftconnecting Verbinde mit $1 Port $2
 ftconnectionlost Verbindung mit Gegenüber verloren
-ftgotinvitation $1 möchte Ihnen die Datei "$2" ($3 Bytes) schicken. Sie würde im Verzeichnis "$4" gespeichert. Möchten Sie diese Datei empfangen?
+ftgotinvitation $1 möchte Ihnen die Datei "$2" ($3 Bytes) schicken. Sie wurde im Verzeichnis "$4" gespeichert. Möchten Sie diese Datei empfangen?
 ftportpref2 Port für direkte Verbindungen (für Dateitransfer und Webcam benötigt)
 ftportpref Anfangsport für Dateiübertragungen
 ftporttest Port testen
@@ -387,6 +387,11 @@ ftrejected Übertragung abgewiesen
 ftrejectedby $1 lehnt die Einladung zum Transfer der Datei "$2" ab
 ftsendinvitation Einladung zum Transfer der Datei "$2" ($3 Bytes) wurde an $1 gesendet
 fullcontactlist Ihre Kontaktliste ist voll. Sie müssen einige Kontakte löschen, um neue hinzufügen zu können
+gameaccepted $1 hat Ihre Spieleinladung angenommen
+gameinvitation $1 hat Sie zum Spiel $2 eingeladen. Möchten Sie die Einladung annehmen?
+gamepluginnotfound Spiel momentan geladen. Bitte aktivieren und konfigurieren Sie das Plugin zuerst.
+gamerejected $1 hat Ihre Spieleinladung abgelehnt
+gamerequest Sie haben $1 zum Spiel $2 eingeladen.
 getdisppic Aktivieren den Empfang der Anzeigebilder meiner Kontakte
 getmoreplugins Mehr Plugins...
 getmoreskins Mehr Skins...
@@ -489,6 +494,7 @@ lleftconf $1 hat die Konferenz verlassen
 loadcontacts Kontaktliste laden
 load Lade
 loadotherdisplaypic Anzeigebilder von $1 werden geladen, bitte warten...
+localecode Ihr 4-stelliger Sprach-/Ländercode
 logbigger Maximale Größe der Protokolldatei für einen Kontakt
 logeventconnect Verbindungen protokollieren
 logeventdisconnect Abmeldungen protokollieren
@@ -651,6 +657,8 @@ play Abspielen
 playbackposition Abspielposition
 playbackspeed Abspieltempo (Millisekunden zwischen jedem Frame)
 playerror Es ist ein Fehler beim Abspielen des Sounds aufgetreten : $1
+playgame Spiel starten
+playgame2 $1 spielen
 playing Abgespielt wird: $1
 playtest Testdatei abspielen
 playwebcamsend Webcamübertragung fortsetzen
@@ -754,6 +762,7 @@ saveotherdirectory In einem anderen Verzeichnis speichern
 savetofile Speichern unter
 says $1 sagt
 sbcon Verbinde mit Server
+searchadvprefs In erweiterten Einstellungen suchen:
 searchdown Abwärts suchen
 searchup Aufwärts suchen
 selectall Alle auswählen
