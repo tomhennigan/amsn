@@ -1325,8 +1325,8 @@ namespace eval ::music {
 			switch -- $info(Status:) {
 				"Playing" { set return_lst [list $info(Title:) "" $info(File:) "" ""] }
 				"Paused" { set return_lst [list $info(Title:); "" return $info(File:) "" ""] }
-				"Stopped" { set return_lst [list] }
-				default { set return_lst [list] }
+				"Stopped" { set return_lst 0 }
+				default { set return_lst 0] }
 			}
 			return $return_lst
 		}
