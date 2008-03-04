@@ -65,17 +65,24 @@ snit::type SSOAuthentication {
 	}
 	
 	method AuthenticateCallback { callbk soap } {
+		status_log "SSO::AuthenticateCallback : $soap - [$soap GetStatus]"
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
-		
 			if { [GetXmlNode $xml "S:Envelope:S:Fault"] != "" } {
 				# TODO find a way to specify if it's a wrong password or a server error..
 				set faultcode [GetXmlEntry $xml "S:Envelope:S:Fault:faultcode"]	;# Should be "wsse:FailedAuthentication"
 				set faultstring [GetXmlEntry $xml "S:Envelope:S:Fault:faultstring"]
 			
-				if {[catch {eval $callbk [list 1]} result]} {
+				status_log "Error authenticating : $faultcode - $faultstring" green
+				if {$faultcode == "wsse:FailedAuthentication" } {
+					set error 2
+				} else {
+					set error 1
+				}
+				if {[catch {eval $callbk [list $error]} result]} {
 					bgerror $result
-				}	
+				}
+				return
 			}
 			set i 0
 			while {1} {
@@ -94,6 +101,8 @@ snit::type SSOAuthentication {
 					$token configure -expires [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Expires"]
 					$token configure -ticket [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
 					$token configure -proof [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedProofToken:wst:BinarySecret"]
+
+					status_log "Found security token $token for address $address" green
 				}
 			}
 			if {[catch {eval $callbk [list 0]} result]} {

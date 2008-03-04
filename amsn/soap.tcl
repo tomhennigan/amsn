@@ -18,6 +18,7 @@ snit::type SOAPRequest {
 	variable http_req ""
 
 	destructor {
+		set status "canceled"
 		if { $http_req != "" } {
 			catch {::http::reset $http_req}
 			catch {::http::cleanup $http_req}

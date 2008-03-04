@@ -5457,7 +5457,10 @@ proc sso_authenticate {} {
 }
 proc sso_authenticated { failed } {
 	global sso
-	if {$failed } {
+	if {$failed == 2} {
+		eval [ns cget -passerror_handler]
+	} elseif { $failed == 1 } {
+		eval [ns cget -autherror_handler]
 	} else {
 		if { [$sso cget -nonce] != "" } {
 			sso_authenticate
@@ -5494,15 +5497,6 @@ proc cmsn_auth {{recv ""}} {
 				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
 				return 1
 			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
-				if { [::config::getKey protocol] == 15 } {
-					global sso
-					if {[info exists sso] && $sso != "" } {
-						$sso destroy
-						set sso ""
-					}
-					set sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
-					$sso Authenticate [list sso_authenticated]
-				}
 				ns configure -stat "i"
 				return 0
 			} else {
@@ -5516,6 +5510,15 @@ proc cmsn_auth {{recv ""}} {
 				status_log "cmsn_auth: was expecting CVR reply but got a [lindex $recv 0]\n" red
 				return 1
 			} else {
+				if { [::config::getKey protocol] == 15 } {
+					global sso
+					if {[info exists sso] && $sso != "" } {
+						$sso destroy
+						set sso ""
+					}
+					set sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
+					$sso Authenticate [list sso_authenticated]
+				}
 				ns configure -stat "u"
 				return 0
 			}
