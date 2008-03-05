@@ -239,6 +239,7 @@ created Erzeugt
 credits Danksagung
 curdisplaypic Momentanes Anzeigebild
 currentdate Aktuelles Datum
+currentdynrate Aktuelle Echtzeit-Geschwindigkeit (in Millisekunden)
 currentlanguage Dies ist die momentan aktive Sprache
 currentnotes Derzeitige Notizen
 custnotifymsg Benachrichtige wenn eine neue Nachricht eintrifft
@@ -308,6 +309,7 @@ download Herunterladen
 downloadcanceled Herrunterladen Abbrechen
 downloadingtls Lade TLS Modul herunter:\n $1
 downloadingwait Läd eine neue aMSN version Bitte warten...
+dynamicrate Dynamische Bildrate zur Simulaton der Echtzeit-Geschwindigkeit verwenden
 editavsettings Audio- und Video-Assistent starten
 editcontent Bearbeiten Sie den Inhalt des Betreff- und des Notiz-Feldes
 editcustomstate Benutzerdefinierten Status ändern
@@ -388,6 +390,8 @@ ftrejectedby $1 lehnt die Einladung zum Transfer der Datei "$2" ab
 ftsendinvitation Einladung zum Transfer der Datei "$2" ($3 Bytes) wurde an $1 gesendet
 fullcontactlist Ihre Kontaktliste ist voll. Sie müssen einige Kontakte löschen, um neue hinzufügen zu können
 gameaccepted $1 hat Ihre Spieleinladung angenommen
+gameclosedbyother $1 hat die Spielsitzung mit Ihnen beendet.
+gameclosedbyself Sie haben die Spielsitzung mit $1 beendet.
 gameinvitation $1 hat Sie zum Spiel $2 eingeladen. Möchten Sie die Einladung annehmen?
 gamepluginnotfound Spiel momentan geladen. Bitte aktivieren und konfigurieren Sie das Plugin zuerst.
 gamerejected $1 hat Ihre Spieleinladung abgelehnt
