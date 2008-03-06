@@ -226,8 +226,6 @@ void vc1_encode_i_sm_picture_header(MpegEncContext * s, int picture_number)
 
     put_bits(&s->pb,7,50);//BF
 
-    t->pquantizer = 1;//always use non uniform quantizer
-
     if(s->qscale > 8 ) {
         t->halfpq = 0;
     } else {
@@ -236,7 +234,8 @@ void vc1_encode_i_sm_picture_header(MpegEncContext * s, int picture_number)
 
     if( t->quantizer_mode == QUANT_FRAME_IMPLICIT){
         //TODO create table
-        // put_bits(&s->pb,5,t->pqindex);//PQINDEX
+        t->pqindex = s->qscale;
+        put_bits(&s->pb,5,t->pqindex);//PQINDEX
     } else {
         t->pqindex = s->qscale;
         put_bits(&s->pb,5,t->pqindex);//PQINDEX
@@ -244,6 +243,12 @@ void vc1_encode_i_sm_picture_header(MpegEncContext * s, int picture_number)
 
     if( t->pqindex <= 8 )
         put_bits(&s->pb,1,t->halfpq);//HALFQP
+
+    t->pquantizer = 1;
+    if (t->quantizer_mode == QUANT_FRAME_IMPLICIT)
+        t->pquantizer = t->pqindex < 9;
+    if (t->quantizer_mode == QUANT_NON_UNIFORM)
+        t->pquantizer = 0;
 
     if( t->quantizer_mode == QUANT_FRAME_EXPLICIT )
         put_bits(&s->pb,1,t->pquantizer);//PQUANTIZER : NON_UNIFOMR 0 / UNIFORM 1
