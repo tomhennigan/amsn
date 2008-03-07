@@ -197,8 +197,12 @@ namespace eval ::hotmail {
 	}
 
 	proc askReadReceivedOIMs { oim_count oim_messages } {
-		set answer [tk_messageBox -type yesno -title "[trans newoim]" \
-			-message [trans receivedoimread $oim_count]]
+		if {[config::getKey no_oim_confirmation 0] == 1 } {
+			set answer "yes"
+		} else {
+			set answer [tk_messageBox -type yesno -title "[trans newoim]" \
+					-message [trans receivedoimread $oim_count]]
+		}
 		if { $answer == "yes" } {
 			::OIM_GUI::MessagesReceived $oim_messages
 		}

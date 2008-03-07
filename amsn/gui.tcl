@@ -7790,10 +7790,15 @@ namespace eval ::OIM_GUI {
 		if { ![info exists ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] ] } {
 			set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ] 1
 		}
+		
+		# should fix issue with automessages from alarms since the window is
+		# not yet created and the user has just gone offline
+		# in that case, should we send the message ?  ask to send the message ? 
+		# for the moment we send it without asking
 		set window [::ChatWindow::For $chatid]
-		if { [set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ]] && $window != 0} {
-		# should fix issue with automessages from alarms since the window is not yet created and the user has just gone offline
-		# in that case, should we send the message ? ask to send the message ? for the moment we send it without asking
+		if {[config::getKey no_oim_confirmation 0] == 0 &&
+		    [set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ]] &&
+		    $window != 0} {
 			set answer [tk_messageBox -type yesno -parent $window -message "[trans asksendoim]"]
 		} else {
 			set answer "yes"

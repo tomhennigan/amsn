@@ -583,6 +583,7 @@ newveravailable Newer version $1 available for download
 next Next
 nick Nick
 nickchanged $1 Changed his nickname to '$2'
+no No
 noactivity Idle
 nocacheddps No Display Pictures in cache for this user
 nocamwarn No webcam were found, or your webcam is already in use by another program (which means it cannot be used by aMSN). You will find help on how to solve this issue on our Wiki:
@@ -596,7 +597,7 @@ nomic No microphone
 noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
-no No
+nooimconfirmation Do not ask for confirmation when sending/receiving Offline Messages
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 noresizesmileys Do not scale down incoming custom emoticons
