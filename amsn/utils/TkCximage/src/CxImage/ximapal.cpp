@@ -83,6 +83,8 @@ RGBQUAD CxImage::GetPaletteColor(BYTE idx)
 			rgb.rgbGreen=iDst[ldx++];
 			rgb.rgbRed =iDst[ldx++];
 			rgb.rgbReserved = iDst[ldx];
+            if ( IsTransparent() )
+                rgb.rgbReserved = (idx==GetTransIndex()) ? 0 : 255;
 		}
 	}
 	return rgb;
@@ -170,8 +172,6 @@ RGBQUAD CxImage::GetPixelColor(long x,long y, bool bGetAlpha)
 #if CXIMAGE_SUPPORT_ALPHA
 	if (pAlpha && bGetAlpha)
         rgb.rgbReserved = BlindAlphaGet(x,y);
-    else
-        rgb.rgbReserved = 255;
 #else
 	rgb.rgbReserved = 0;
 #endif //CXIMAGE_SUPPORT_ALPHA
@@ -210,8 +210,6 @@ RGBQUAD CxImage::BlindGetPixelColor(const long x,const long y, bool bGetAlpha)
 #if CXIMAGE_SUPPORT_ALPHA
 	if (pAlpha && bGetAlpha)
         rgb.rgbReserved = BlindAlphaGet(x,y);
-    else
-        rgb.rgbReserved = 255;
 #else
 	rgb.rgbReserved = 0;
 #endif //CXIMAGE_SUPPORT_ALPHA
