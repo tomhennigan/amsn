@@ -96,14 +96,14 @@ namespace eval ::bugs {
 
 	#error message into status_log
 	status_log "-----------------------------------------\n" error
-	status_log ">>> GOT TCL/TK ERROR : $args\n>>> Stack:\n$::bugs::bug(info)\n>>> Code: $::bugs::bug(code)\n" error
+	status_log ">>> GOT TCL/TK ERROR : $args\n>>> Stack:\n[privacy $errorInfo]\n>>> Code: $::bugs::bug(code)\n" error
 	status_log "-----------------------------------------\n" error
 	catch { status_log ">>> AMSN version: $::version - AMSN date: $date\n" error }
 	catch { status_log ">>> TCL version : $tcl_patchLevel - TK version : $tk_patchLevel\n" error }
 	catch { status_log ">>> tcl_platform array content : [array get tcl_platform]\n" error }
 	status_log "-----------------------------------------\n\n" error
 
-	::bugs::show_bug_dialog $::bugs::bug(info)
+	::bugs::show_bug_dialog [privacy $errorInfo]
     }
 
     proc save {path} {
