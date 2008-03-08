@@ -977,7 +977,8 @@ namespace eval ::MSNP2P {
 				    set idx [expr {[string first "Content-Type: " $data] + 14}]
 				    set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 				    set content_type [string range $data $idx $idx2]
-				    if { $content_type != "null" } {
+				    if { $content_type != "null"  &&
+					 $content_type != "application/x-msnmsgr-session-failure-respbody" } {
 					::CAMGUI::InvitationDeclined $chatid $sid
 				    } else {
 					::MSNCAM::SendSyn $sid $chatid
