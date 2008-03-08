@@ -38,6 +38,18 @@ proc getObjOption { obj option {def ""}} {
 
 }
 
+
+proc clearObjOption { obj } {
+	global objects
+
+	array unset objects $obj
+}
+
+proc checkObjExists { obj } {
+	global objects
+	return [info exists objects($obj)]
+}
+
 proc nbread { sock numChars } {
 	set tmpsize 0
 	set tmpdata ""
@@ -93,6 +105,13 @@ namespace eval ::MSNCAM {
 		set grabber [getObjOption $sid grabber]
 		set window [getObjOption $sid window]
 
+		set sock [getObjOption $sid socket]
+
+		after cancel "::MSNCAM::CreateReflectorSession $sid"
+		 
+ 		CloseUnusedSockets $sid ""
+
+
 		#draw a notification in the window (gui)
 		::CAMGUI::CamCanceled $chatid $sid
 
@@ -134,7 +153,11 @@ namespace eval ::MSNCAM {
 		if { $listening != "" } {
 			catch { close $listening }
 		}
-		setObjOption $sid listening_socket ""
+
+
+		clearObjOption $sid
+		catch {close $sock}
+		clearObjOption $sock
 	}
 
 	#//////////////////////////////////////////////////////////////////////////////
@@ -158,6 +181,8 @@ namespace eval ::MSNCAM {
 
 		status_log "Canceling webcam $sid with $chatid \n" red
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 1 "dAMAgQ==\r\n"] 1]
+
+		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "BYE" -1 -1 -1 -1 -1]
 
 		if { $socket != "" } {
 			status_log "Connected through socket $socket : closing socket\n" red
@@ -1129,7 +1154,8 @@ namespace eval ::MSNCAM {
 		set connected_ips [getObjOption $sid connected_ips]
 		status_log "we have $ips connecting sockets and $connected_ips connected sockets\n" red
 		if { [llength $connected_ips] == 0
-		     && [getObjOption $sid canceled] != 1 && [getObjOption $sid reflector] != 1} {
+		     && [getObjOption $sid canceled] != 1 && [checkObjExists $sid]
+		     && [getObjOption $sid reflector] != 1} {
 			status_log "No socket was connected\n" red
 			after 5000 "::MSNCAM::CreateReflectorSession $sid"
 		}
@@ -1246,7 +1272,7 @@ namespace eval ::MSNCAM {
 	}
 
 	proc CheckConnected { sid socket}  {
-		status_log "fileevent CheckConnectd for socket $socket\n"
+		status_log "fileevent CheckConnected for socket $socket\n"
 
 		fileevent $socket readable ""
 		fileevent $socket writable ""
@@ -1254,9 +1280,12 @@ namespace eval ::MSNCAM {
 		if { [eof $socket] || [fconfigure $socket -error] != "" } {
 			status_log "Socket didn't connect $socket : [eof $socket] || [fconfigure $socket -error]\n" red
 			close $socket
+			clearObjOption $socket
 
-			set ips [getObjOption $sid ips]
-			setObjOption $sid ips [RemoveSocketFromList $ips $socket]
+			if {[checkObjExists $sid] } {
+				set ips [getObjOption $sid ips]
+				setObjOption $sid ips [RemoveSocketFromList $ips $socket]
+			}
 
 		} else {
 			status_log "Connected on socket $socket : [eof $socket] || [fconfigure $socket -error]\n" red
@@ -1310,6 +1339,8 @@ namespace eval ::MSNCAM {
 		#setObjOption $sid socket ""
 
 		catch { close $socket }
+		clearObjOption $socket
+
 		status_log "Authentification on socket $socket failed\n" red
 		#if {[llength $list] > 0 } {
 		#	set element [lindex $list 0]
@@ -1390,6 +1421,7 @@ namespace eval ::MSNCAM {
 
 				status_log "fileevents reset\n" red
 				catch {close $sock}
+				clearObjOption $sock
 				status_log "closed\n" red
 			}
 

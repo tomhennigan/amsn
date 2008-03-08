@@ -285,20 +285,20 @@ namespace eval ::MSNP2P {
 
 		switch $action {
 			get {
-				set ret [getObjOption $sid MsgId] 
+				set ret [getObjOption sl_$sid MsgId] 
 				#status_log "getting $sid : [getObjOption $sid MsgId] - $ret" green
 
 				if { $ret != "" } {
 					# Session found, return values
-					lappend ret [getObjOption $sid TotalSize] 
-					lappend ret [getObjOption $sid Offset] 
-					lappend ret [getObjOption $sid Destination] 
-					lappend ret [getObjOption $sid AfterAck]
-					lappend ret [getObjOption $sid CallId] 
-					lappend ret [getObjOption $sid Fd]
-					lappend ret [getObjOption $sid Type] 
-					lappend ret [getObjOption $sid Filename]
-					lappend ret [getObjOption $sid branchid]
+					lappend ret [getObjOption sl_$sid TotalSize] 
+					lappend ret [getObjOption sl_$sid Offset] 
+					lappend ret [getObjOption sl_$sid Destination] 
+					lappend ret [getObjOption sl_$sid AfterAck]
+					lappend ret [getObjOption sl_$sid CallId] 
+					lappend ret [getObjOption sl_$sid Fd]
+					lappend ret [getObjOption sl_$sid Type] 
+					lappend ret [getObjOption sl_$sid Filename]
+					lappend ret [getObjOption sl_$sid branchid]
 
 					#status_log "returning $ret" green
 					return $ret
@@ -313,49 +313,60 @@ namespace eval ::MSNP2P {
 				#status_log "setting $sid with $varlist" green
 				# This overwrites previous vars if they are set to something else than -1
 				if { [lindex $varlist 0] != -1 } {
-					setObjOption $sid MsgId [lindex $varlist 0]
-					setObjOption [lindex $varlist 0] sid $sid
+					set ret [getObjOption sl_$sid MsgId] 
+					if {$ret != "" } {
+						clearObjOption sl_$ret
+					}
+					setObjOption sl_$sid MsgId [lindex $varlist 0]
+					setObjOption sl_[lindex $varlist 0] sid $sid
 				}
 				if { [lindex $varlist 1] != -1 } {
-					setObjOption $sid TotalSize [lindex $varlist 1]
+					setObjOption sl_$sid TotalSize [lindex $varlist 1]
 				}
 				if { [lindex $varlist 2] != -1 } {
-					setObjOption $sid Offset [lindex $varlist 2]
+					setObjOption sl_$sid Offset [lindex $varlist 2]
 				}
 				if { [lindex $varlist 3] != -1 } {
-					setObjOption $sid Destination [lindex $varlist 3]
+					setObjOption sl_$sid Destination [lindex $varlist 3]
 				}
 				if { [lindex $varlist 4] != -1 } {
-					setObjOption $sid AfterAck [lindex $varlist 4]
+					setObjOption sl_$sid AfterAck [lindex $varlist 4]
 				}
 				if { [lindex $varlist 5] != -1 } {
-					setObjOption $sid CallId [lindex $varlist 5]
-					setObjOption [lindex $varlist 5] sid $sid
+					set ret [getObjOption sl_$sid CallId] 
+					if {$ret != "" } {
+						clearObjOption sl_$ret
+					}
+					setObjOption sl_$sid CallId [lindex $varlist 5]
+					setObjOption sl_[lindex $varlist 5] sid $sid
 				}
 				if { [lindex $varlist 6] != -1 } {
-					setObjOption $sid Fd [lindex $varlist 6]
+					setObjOption sl_$sid Fd [lindex $varlist 6]
 				}
 				if { [lindex $varlist 7] != -1 } {
-					setObjOption $sid Type [lindex $varlist 7]
+					setObjOption sl_$sid Type [lindex $varlist 7]
 				}
 				if { [lindex $varlist 8] != -1 } {
-				        setObjOption $sid Filename [lindex $varlist 8]
+				        setObjOption sl_$sid Filename [lindex $varlist 8]
 				}
 				if { [lindex $varlist 9] != -1 } {
-				        setObjOption $sid branchid [lindex $varlist 9]
+				        setObjOption sl_$sid branchid [lindex $varlist 9]
 				}
 			}
 
 			unset {
 				#status_log "unsetting..." green
+				set msgid [getObjOption sl_$sid MsgId] 
+				set callid [getObjOption sl_$sid CallId] 
+				clearObjOption sl_$sid
+				clearObjOption sl_$msgid
+				clearObjOption sl_$callid
 				return
 			}
 			findcallid -
 			findid {
 				#status_log "Finding $action of $sid, found : [getObjOption $sid sid]" green
-				if { [getObjOption $sid sid] != "" } {
-					return [getObjOption $sid sid]
-				}
+				return [getObjOption sl_$sid sid]
 			}
 		}
 	}
@@ -485,10 +496,14 @@ namespace eval ::MSNP2P {
 							}
 						}
 						DATASENT {
-							SessionList set $sid [list -1 -1 0 -1 0 -1 -1 -1 -1 -1]
+							SessionList set $sid [list -1 -1 0 -1 "BYE" -1 -1 -1 -1 -1]
 							#status_log "MSNP2P | $sid -> Got ACK for sending data, now sending BYE\n" red
 							set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 							SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" [lindex [SessionList get $sid] 3] [::config::getKey login] "$branchid" "0" [lindex [SessionList get $sid] 5] 0 0] 1]
+						
+						}
+						BYE {
+							SessionList unset $sid
 						}
 					}
 				} elseif { $cFlags == 1 } {
@@ -924,6 +939,7 @@ namespace eval ::MSNP2P {
 				
 				# Delete SessionID Data
 				SessionList unset $sid
+				clearObjOption $sid
 
 			} else {
 				status_log "MSNP2P | $sid -> Got a BYE for unexisting SessionID\n" red
@@ -1020,6 +1036,7 @@ namespace eval ::MSNP2P {
 
 					if { [lindex [SessionList get $cSid] 7] == "bicon" } {
 						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid [MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
+						::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "BYE" -1 -1 -1 -1 -1]
 
 						#set filename2 [::MSNP2P::GetFilenameFromMSNOBJ [::abook::getVolatileData $user_login msnobj]]
 						set filename2 [::abook::getContactData $user_login displaypicfile ""]
