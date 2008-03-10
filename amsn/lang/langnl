@@ -239,6 +239,7 @@ created Gemaakt
 credits De makers
 curdisplaypic Huidige schermafbeelding
 currentdate Huidige datum
+currentdynrate Huidige real-timesnelheid (in milliseconden)
 currentlanguage Deze taal gebruik je nu
 currentnotes Huidige notities
 custnotifymsg Meldingsvenster weergeven wanneer een nieuw bericht binnenkomt
@@ -308,6 +309,7 @@ download Downloaden
 downloadcanceled Download geannuleerd.
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
 downloadingwait Bezig met downloaden van nieuwe amsn-versie. Even wachten...
+dynamicrate Dynamische framerate gebruiken voor simulatie van de real-timesnelheid
 edit Bewerken
 editavsettings Instellingen voor beeld en geluid bewerken
 editcontent Inhoud van de velden 'Titel' en 'Notitie' bewerken
@@ -387,6 +389,13 @@ ftrejected Bestandsoverdracht geweigerd
 ftrejectedby $1 heeft de overdracht van het bestand '$2' geweigerd.
 ftsendinvitation De uitnodiging voor de overdracht van bestand '$2' ($3 bytes) is verstuurd naar $1
 fullcontactlist Sorry, je contactenlijst is vol. Je moet eerst iemand verwijderen voordat je weer iemand kunt toevoegen.
+gameaccepted $1 heeft je speluitnodiging geaccepteerd
+gameclosedbyother $1 heeft de spelsessie met jou geannuleerd.
+gameclosedbyself Je hebt de spelsessie met $1 geannuleerd.
+gameinvitation $1 heeft je uitgenodigd om $2 te spelen. Wil je deze uitnodiging accepteren?
+gamepluginnotfound $1 heeft je uitgenodigd om $2 te spelen, maar er is momenteel geen plug-in voor dit spel geladen. Activeer en configureer deze plug-in eerst.
+gamerejected $1 heeft je speluitnodiging afgewezen
+gamerequest Je hebt $1 uitgenodigd om $2 te spelen
 getdisppic De schermafbeelding van anderen weergeven tijdens gesprekken
 getmoreplugins Klik hier voor meer plug-ins!
 getmoreskins Klik hier voor meer skins!
@@ -488,7 +497,8 @@ ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 load Activeren
 loadcontacts Contactenlijst importeren
-loadotherdisplaypic Even geduld, de schermafbeeldingen van $1 worden geladen...
+loadotherdisplaypic Even geduld, de schermafbeeldingen van $1 worden geladen...	
+localecode Je 4-letterige taal-landcode
 logbigger Het logboek mag per contact niet groter zijn dan 
 logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
@@ -587,6 +597,7 @@ nomic Geen microfoon
 noneavailable Geen beschikbaar
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
+nooimconfirmation Geen bevestiging vragen bij het verzenden/ontvangen van offlineberichten
 nopic Geen afbeelding
 noprofileexists Er zijn momenteel geen profielen,\nje moet er een aanmaken als je aanmeldingsnamen met een profiel wilt gebruiken.\nGebruik de knop 'Nieuw profiel toevoegen' in dit venster om een nieuw profiel toe te voegen.
 noresizesmileys Inkomende aangepaste emoticons niet schalen
@@ -651,6 +662,8 @@ play Afspelen
 playbackposition Afspeelpositie
 playbackspeed Afspeelsnelheid (milliseconden tussen elk frame)
 playerror Er is een fout opgetreden tijdens het afspelen van het geluid: $1
+playgame Spel spelen
+playgame2 $1 spelen
 playing $1 wordt afgespeeld
 playtest Het testgeluid afspelen
 playwebcamsend Webcam hervatten
@@ -754,6 +767,7 @@ saveotherdirectory Opslaan in een andere map
 savetofile Opslaan in bestand
 says $1 zegt
 sbcon Bezig met verbinden met schakelbord
+searchadvprefs Zoeken in geavanceerde instellingen:
 searchdown Neerwaarts zoeken
 searchup Opwaarts zoeken
 selectall Alles selecteren
