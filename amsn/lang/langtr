@@ -498,6 +498,7 @@ lleftconf $1 konferanstan ayrýldý
 load Yükle
 loadcontacts Baðlantý listesi yükle
 loadotherdisplaypic $1 kullanýcýsýna ait resimler yükleniyor, lütfen bekleyin...
+localecode 4 haneli ülke/dil kodunuz
 logbigger Her baðlantý için kayýt dosyasý boyutu üst sýnýrý
 logeventconnect Baðlantýlarý kayda geçir
 logeventdisconnect Baðlantýdan çýkýþlarý kayda geçir
@@ -596,6 +597,7 @@ nomic Mikrofon yok
 noneavailable Hiçbiri yok
 nonewmail Gelen kutusunda yeni ileti yok
 nonewver Daha yeni bir sürüm yok
+nooimconfirmation Çevrimdýþý ileti alýrken/gönderirken onay isteme
 nopic Resim yok
 noprofileexists Henüz hiçbir kimlik yok. Eðer kimlikle baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Kimlik Ekle düðmesine týklayarak bunu yapabilirsiniz.
 noresizesmileys Alýnan özel gülen adamlarýn boyutunu küçültme
