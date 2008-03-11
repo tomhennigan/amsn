@@ -6,7 +6,7 @@ accept Aċċetta
 acceptfile Trid taċċetta il-fajl $1 (ta' daqs $2 'bytes')? Se jiġi issejvjat f'$3
 account Account
 actions Azzjonijiet
-activeautoupdate Updates awtomatiċi
+activeautoupdate Aġġornamenti awtomatiċi
 addacontact Żid indirizz
 addedyou $1 ($2) żiedek/żiditek mal-lista ta' ndirizzi tiegħu/tagħha
 add Żid
@@ -22,7 +22,7 @@ advanced Avvanzat
 advancedprefs Konfigurazzjoni t'għażliet avvanzati
 adverts Reklami
 agotinvitation Irċevejt invit għall-audio mingħand $1
-alarmonconnect Attiva l-alarm meta l-utent jiġi online
+alarmonconnect Attiva l-alarm meta l-utent jiġi onlajn
 alarmondisconnect Attiva l-alarm meta l-utent jiskonnetja/jibdel l-istat għall-'inviżibbli'
 alarmonmsg Attiva l-alarm meta l-utent jibgħatlek messaġġ
 alarmonstatus Attiva l-alarm meta l-utent jibdel l-istat
@@ -34,9 +34,9 @@ allfiles Il-fajls kollha
 allmonths Ix-xhur kollha
 allowallbutbl Ħalli lil kulħadd jikkuntattjani, ħlief għal persuni li blukkajt
 allowbadwords Tiċċensurax nicks
-allowlist Lista t'utenti Aċċettati (AL):
+allowlist Lista t'indirizzi aċċettati (AL):
 allowonlyinal Persuni li aċċettajt biss jistgħu jikkuntattjawni
-allowseen Tħalli lil din il-persuna tara meta jiena online u tikkuntattjani
+allowseen Tħalli lil din il-persuna tara meta jiena onlajn u tikkuntattjani
 allow_sms Ħalli lil utenti jikkuntattjawni fuq l-"MSN mobile" 
 allprofilesinuse Il-profili eżistenti qedin jintużaw kollha
 always Dejjem
@@ -53,18 +53,19 @@ askeachtime Staqsi kull darba
 asksendingyourwebcam biex tistaqsi biex tibgħat il-webcam tiegħek
 asksendoim Trid tibgħat dan il-messaġġ bħala 'offline message' ?
 askwebcam Staqsi biex tara l-webcam ta' l-utent
-assistantainput Agħżel l-istrument tal-'input' u pprova irrekordja minnu.
+assistantainput Agħżel il-mikrofonu u pprova irrekordja minnu.
 assistantaoutput Agħżel l-istrument tal-output u pprova doqq din il-mużika bix tittestjah.
 assistantawarn Mhux se tkun tista' tirrekordja lilek innifsek, jew titkellem ma' ħaddieħor. Tista' ssib tweġibiet dwar kif tinstalla din l-estensjoni fil-Wiki:
 assistantfinetunepic Ibdel dawn is-settings biex tirranġa il-kwalità ta' l-istampa tal-webcam
 assistantselectcam Agħżel il-webcam tigħek mil-lista
+assistantstarting L-Assistent qied jistartja
 assistanttitle Assistent ta' l-Audio u l-Video
-assistantwelcome Dan l-assistent jiggwidak biex tipprepara is-settings ta' l-audio u l-video għall-aMSN.\n\nSe jieċċekja jekk l-estensjonijiet neċessarji humiex preżenti u llodjati u tkun tista' tagħżel l-istrument u l-kanal, tissetja l-istampa u r-riżoluzzjoni.
+assistantwelcome Dan l-assistent jiggwidak biex tipprepara is-settings ta' l-audio u l-video għall-aMSN.\n\nSe jiċċekja jekk l-estensjonijiet neċessarji humiex preżenti u llodjati u tkun tista' tagħżel l-istrument u l-kanal, tissetja l-istampa u r-riżoluzzjoni.
 audioconfigured Int għażlt is-settings ta' l-audio li ġejjin:\n\nStrument ta' l-output: $1\nStrument ta' l-input: $2
 audiovideo Settings ta' l-audio u l-video
 author Awtur
 autoaccepted It-transfer tal-fajl ġie aċċettat awtomatikament
-autoacceptft Aċċetta awtomatikament rikjesti għat-transfer ta' fajls
+autoacceptft Aċċetta awtomatikament talbiet għat-trasferiment ta' fajls
 autoaway Ibdel l-istat għal "Minix hawn" meta tkun inattiv għal
 autocheckver Iċċekkja awtomatikament għall-verżjonijiet ġodda xħin jistartja aMSN
 autoconnect2 Idħol fl-account awtomatikament meta aMSN jistartja
@@ -77,7 +78,7 @@ autolisten_voiceclips Doqq awtomatikament 'voiceclips' li tirċievi
 automessage Messaġġ awtomatiku
 autonoact Ibdel l-istat għal "Mhux attiv(a)" meta tkun inattiv(a) għal
 autoresizedp Ibdel id-daqs ta' l-istampi għad-daqs predefinit
-avoidseen Twaqqaf lil din il-persuna milli tara meta jina online u tikkuntattjani
+avoidseen Twaqqaf lil din il-persuna milli tara meta jina onlajn u tikkuntattjani
 away Minix hawn
 awaymsg1 Staqsi għall-messaġġ ta' meta ma tkunx hawn kull darba li nibdel l-istat għal Minix hawn/Daqt ġej(ja) lura/Okkupat(a)
 awaymsg2 Qatt tistaqsi u uża dejjem il-messaġġ t'hawn taħt
@@ -90,12 +91,12 @@ blocked Ibblokkat
 blockedyougroup Uri grupp separat għall-persuni li blokkawk
 block Ibblokka
 blocking Jiblokka
-blockinter1 Meta tkun online iċċekkja kull 
+blockinter1 Meta tkun onlajn iċċekkja kull 
 blockinter2 sekondi, il-bqija iċċekkja kull:
 blockinter3 kull
 blockinter4 sekondi.
-blocklist Lista ta' persuni blukkati (BL):
-blockmessage Dawn il-persuni huma online u blokkawk
+blocklist Lista t'indirizzi blokkati (BL):
+blockmessage Dawn il-persuni huma onlajn u blokkawk
 blocknotifications Turix windows ta' notifika
 blocksounds Neħħi il-ħsejjes
 blockusers Numru ta' utenti li tiċċekja f'daqqa
@@ -106,10 +107,12 @@ browse Ibbrowsja
 browser Browser
 browserexample (\$url tiġi mibdula bil-URL) Eż: mozilla \$url
 bugerror Kin hemm problema bix nikkonnetja mad-dejtabejż tal-bugs. Iċċekja il-konessjoni ta' l-internet.
+bugnocomment Se tibgħat mingħajr kumment? Meta tikkumenta fuq bug tgħinna nifhmu x'mar ħażin u nkunu nistaw nirranġawha b'anqas tbatija.
 busy Okkupat/a
 bytesymbol b
+cachedpics $1 stampi fil-cache
 cachedpicsfor Stampi ta' l-utent fil-cache
-cagreement Ftehim tal-kunfidenzjalità
+cagreement Ftehim ta' kunfidenzjalità
 cancel Ikkanċella
 cancelled Ikkanċellat
 cannotdeleteprofile Il-profil ma jistax jitneħħa għax qied jintuża
@@ -117,26 +120,42 @@ cantremoveothers Il-grupp "Oħrajn" ma jistax jitnehha
 cfgalarmall Issetja/Żid/Neħħi alarm globali
 cfgalarm Issetja/Żid/Neħħi Alarm
 change_account_info Ibdel l-informazzjoni ta' l-account
-changedisplaypic Ibdel l-istampa personali
+changecustomstate Ibdel għal
+changedisplaypic Ibdel l-istampa tiegħek
 changefont Ibdel it-tipa
 changeglobnick Ibdel in-nick globali
 change Ibdel
+change_mobile Ibdel is-settings tal-Mobile
 changenick Ibdel in-nick
 changesize Ibdel id-daqs
 changestate $1 jibdel l-istat għal $2
 changestatus Ibdel l-istat
 changevideosettings Ibdel is-settings tal-video
+channels kanali
 chatack Naċċettaw konversazzjoni mingħand
 chat Konversazzjoni
 chatmaxmin Meta xi ħadd jiftaħ konversazzjoni miegħi irridha:
-chatreq Nitolbu konversazzjoni
+chatreq Qed nitlob konversazzjoni
 chatsmileys Uri l-iSmileys fil-konversazzjoni
 checkblocking Iċċekja kontinwament jekk l-utenti humiex jiblokkawk
+checkfilman Fajls li tirċievi se jiġu ssejvjati ġo $1. Jekk jogħġbok iċċekja is-settings tal-maniġer tal-fajls mill-Preferenzi.
+checkingaudio Qed niċċekja jekk l-estensjoni tal-ħoss (Snack) hux illodjat ...
+checkingcam Qed niċċekja jekk hemmx webcam ikkonnetjata ...
+checkingcapext Qed niċċekja jekk l-estensjoni '$1' hix illodjata ...
+checkingextensions Qed niċċekja għall-estensjonijiet meħtieġa tal-video
+checkingver Qed niċċekja jekk hemmx verżjoni ġdida
+checkonfln Iċċekja jekk xi ħadd ibblokkakx meta jmur offlajn
+checkopenfilecommand Jekk jogħġbok iċċekja il-programm li bih tiftaħ il-fajls mill-Preferenzi
 checkver Iċċekja għall-verżjoni ġdida
+choosearq Agħżel l-arkitettura tas-sistema tiegħek
 choosebasefont Agħżel it-tipa
 choosebgcolor Agħżel il-kulur ta' l-isfond
+choosechannel Agħżel kanal
 choosecontact Agħżel indirizz mil-lista
+choosedevice Agħżel l-istrument
 choosefontcolor Agħżel il-kulur tat-tipa
+chooselocation Agħżel post ġdid għall-fajl
+choosemixerdev Agħżel il-mixer
 chooseskin Jekk jogħġbok agħżel l-iskin li trid tuża
 ch_to_state Aqleb għall-istat il-ġdid
 clear Ħassar dak li ntqal
@@ -145,14 +164,16 @@ clearlog3 Neħħi il-logs kollha
 clearlog Neħħi il-log
 clearwebcamlogs Neħħi il-logs kollha tal-Webcam
 clickhere Għafas hawn
+clicktoadd Ikklikja fuq il-buttuna 'Żid' biex iżżid nota ġdida
+clicktologin Ikklikkja hawn biex tidħol fl-account
+close Agħlaq
 closeall Ngħalaq it-tabs kollha ta' din il-window?
-closealltabs Għalaq it-tabs kollha
+closealltabs Agħlaq it-tabs kollha
 closechatwindows Trid tagħlaq il-konversazzjonijiet kollha qabel toħroġ barra mill-account?
 closed Il-konversazzjoni ma' $1 ingħalqet minħabba l-inattività
-close Għalaq
-closeonly Għalaq biss it-'tab' kurrenti
-closeordock Meta tgħalaq il-window tal-contact list iġġiegħel lil aMSN joħroġ. Forsi ridt biss tgħalaq il-window u tħalli lil aMSN għaddej fit-tray.\n\nĊert li trid toħrog minn aMSN?
-closeothers Għalaq it-tabs l-oħra
+closeonly Agħlaq biss it-'tab' kurrenti
+closeordock Meta tagħlaq il-window tal-contact list iġġiegħel lil aMSN joħroġ. Forsi ridt biss tagħlaq il-window u tħalli lil aMSN għaddej fit-tray.\n\nĊert li trid toħrog minn aMSN?
+closeothers Agħlaq it-tabs l-oħra
 color Kulur
 command Kmand
 commandstatus Esegwixxi dan il-kmand
@@ -165,27 +186,37 @@ confirmdu Ċert li trid tħassar dan l-indirizz?
 confirmeg Ċert li trid tbattal il-grupp?
 confirm Ċert?
 confirmrfl Ċert li trid tneħħi lil din il-persuna minn dan il-grupp?
-congrats Kongratulazzjoni
+congrats Kongratulazzjoni!
+connected Issa ikkonnetjat
 connectedwith Ikkonetjat ma' $1
+connecterror Żball waqt li qed nikkonnetja mas-server
+connectfirst Jekk jogħġbok ikkonnetja l-ewwel
+connecting Qed nikkonetja
 connection Konnesjoni
+connectionlost Skonnetjat: Tlift il-komunikazzjoni mas-server
 contactadded Indirizz miżjud
+contactdoesnotexist L-indirizz ma jeżistix!
+contact Indirizz
+contactlist Lista t'indirizzi (FL):
 contacts Indirizzi
 continuously Kontinwament
 contrast Kuntrast
+conversationwith $1 persuni fil-konversazzjoni
 copy Ikkopja
 copytoclipboard Ikkopja $1 għall-clipboard
 copytogroup Ikkopja għall-grupp
 couldnotrename Il-fajl $1 ma setax jingħata isem ġdid
 countrycode Kodiċi tal-pajjiż/reġjun tiegħi
 cprofile Oħloq profil
-created Ikkrejat
+created Krejata
+credits Kreditu
 curdisplaypic L-istampa kurrenti
 currentdate Data kurrenti
 currentlanguage Din hija il-lingwa li qed tiġi wżata
 currentnotes Noti kurrenti
 custnotifymsg Uri window ta' notifika meta jasal messaġġ mingħand din il-persuna
-custnotifyoffline Uri window ta' notifika meta din il-persuna tmur offline
-custnotifyonline Uri window ta' notifika meta din il-persuna tiġi online
+custnotifyoffline Uri window ta' notifika meta din il-persuna tmur offlajn
+custnotifyonline Uri window ta' notifika meta din il-persuna tiġi onlajn
 custnotifystatus Uri window ta' notifika meta din il-persuna tibdel l-istat
 customcolor Kulur personalizzat
 customdp Stampa ppersonalizzata
@@ -203,19 +234,25 @@ dcprofile Toħloqx il-profil
 deleteall Ħassar kollox
 delete Ħassar
 deleteblock Ħassar u bblokka
+deletecustomstate Ħassar stat personalizzat
 deliverfail Dan il-messaġġ ma setax jitwassal
 delprofile2 Agħżel il-profil li trid tneħħi
 delprofile Ħassar Profil
 description Deskrizzjoni
 detach Issepara
 details Dettalji
+devicebusy Strument $1 huwa okkupat
+directconnection Għandi konnesjoni diretta ma' l-Internet (juża port 1863)
+disabled Disattivat
 disconnect $1 Skonnetja.
 disconnectedfrom Skonnetjat minn $1
+displayeventconnect Uri meta xi ħadd jidħol onlajn
+displayeventdisconnect Uri meta xi ħadd imur offlajn
 displayeventemail Uri meta nirċievi imejl
 displayeventnick Uri meta xi ħadd jibdel in-nick
 displayeventpsm Uri meta xi ħadd jibdel il-messaġġ personali
 displayeventstate Uri meta xi ħadd jibdel l-istat
-displaypic Stampa
+displaypic Stampa tiegħek
 done Lest
 dontaskweek Tistaqsinix biex napdejtja għal ġimgħa
 dontdownload Tiddawnlodjax TLS, se ninstallah jiena
@@ -224,41 +261,62 @@ dontshow Turix
 downloadcanceled Dawnlowd ikkanċellat.
 download Iddawnlodja
 editavsettings Ibdel is-settings ta' l-audio u l-video
+editcustomstate Immodifika stat personalizzat
 edit Editja
 editmyprofile Editja il-profil ta' l-MSN
 editnewstate Stat ġdid personalizzat b'risposti awtomatiċi
 editprofile Editja il-profil
 editstate Editja stat ta' risposti awtomatiċi diġa eżistenti
+email Imejl
+emailsinlist Uri imejls minflok nicks fil-lista ta' ndirizzi
+emptygroup Grupp vojt
+enabled Attivat
+enablesound Agħmel ħoss
+enterbugdesc Daħħal deskrizzjoni ta' x'kont qed tagħmel biex tgħinna nirriproduċu il-bug:
 entercontactemail Ikteb l-imejl tal-persuna
 enterfilename Daħħal l-isem tal-fajl
 enternick Ikteb in-nick tiegħek
 enterpsm Il-messaġġ personali tiegħek
 error Żball
-escapeclosescw Il-buttuna 'Escape' tgħalaq il-konversazzjonijiet
+errortls Żball waqt l-istallazjoni tal-module TLS:
+escapeclosescw Il-buttuna 'Escape' tagħlaq il-konversazzjonijiet
 eventhistory Ara l-istorja ta' x'seħħ
 examples Eżempji
-exitamsn Ċert li trid tgħalaq l-aMSN?
+exitamsn Ċert li trid tagħlaq l-aMSN?
+extras Servizzi miżjuda
+faileddelete Ma setax jitħassar
+failed Falla
 faq Mistoqsijiet Komuni
 filedoesnotexist Il-fajl ma jeżistix
 file Fajl
+fileman Maniġer tal-fajls
 filename Isem il-fajl
+filenotwritable Dan il-fajl ma jistax jitħassar
 filetransfercancelled Transfer tal-fajl ikkanċellat
 filetransfercomplete Transfer tal-fajl lest
+filetransfer Transfer tal-fajl
 findasyoutype Fittex waqt li tittajpja
 find Fittex
 findnext Sib li jmiss
 findprev Sib ta' qabel
+finish2apply Agħfas Tmiem biex tapplika dawn is-settings
+finish Tmiem
 forget_me Insini
 forgot_pass Insejt il-password?
 formatcsv Fil-format CSV 
 formatctt Fil-format CTT
 friendlyname Isem personalizzat
+ftacceptedby $1 aċċetta l-invit għat-trasferiment ta' fajl '$2'.
 ftaccepted Transfer tal-fajl aċċettat
-ftautoclose Għalaq din il-window wara li jkun lest it-transfer tal-fajl
-ftgotinvitation $1 irid jibgħatlek il-fajl '$2' ($3 bytes). Se jiġi issejvjat ġol-folder $4. Trid tirċevih dan il-fajl?
+ftautoclose Agħlaq din il-window wara li jkun lest it-transfer tal-fajl
+ftconnecting Qed nikkonnetja ma' $1 fuq port $2
+ftgotinvitation $1 irid jibgħatlek il-fajl '$2' ($3 bytes). Se jiġi issejvjat ġol-fowlder $4. Trid tirċevih dan il-fajl?
 ftporttest Ittestja il-port
+ftrejectedby $1 irriġetta it-talba għat-trasferiment ta' fajl '$2'.
 ftrejected Transfer tal-fajl ġie rrifjutat
 ftsendinvitation Invit għat-trasferiment tal-fajl '$2' ($3 bytes) kin mibgħut lil $1.
+fullcontactlist Jiddispjaċini, ima il-lista t'indirizzi tiegħek hija mimlija. Trid tħassar xi ndirizzi biex tkun tista' żżid oħrajn ġodda.
+getdisppic Irċievi stampi ta' ħaddieħor
 getmoreplugins Akkwista aktar Plugins!
 getmoreskins Akkwista aktar skins!
 globalnick Daħħal mudell ta' kif trid tara in-nicks ta' ħaddieħor. Tista' tuża dawn il-variables: \$user_login għall-indirizz tal-persuna, \$nick għan-nick tal-persuna u \$customnick għall-isem personalizzat tal-persuna. Eżempju: '\$user_login huwa \$nick' tiġi 'contact@msn.com huwa Contact'
@@ -266,6 +324,7 @@ globalnicktitle Nick globali
 globaloverride Il-mudell tan-nick globali jieħu preċedenza fuq in-nick personalizzat
 gonelunch Qiegħed/qiegħda għall-ikel
 gotoinbox Mur fl-Inbox
+goto_prefs_removeprofile Ikklikkja hawn biex tmur fil-Preferenzi u tħassar il-profil tiegħek
 groupadd Żid grupp
 groupcontactsbystatus Igruppa l-indirizzi bl-istat
 groupcontacts Persuni fil-grupp
@@ -285,95 +344,170 @@ help Għajnuna
 hidebuttonbar Aħbi l-istrixxa tal-buttuni
 hidedisplaypic Aħbi l-istampa
 hidemenu Uri/Aħbi il-menus
+hiden Aħbi l-emoticon mill-menu ta' l-ismileys
+hidewindow Aħbi il-Window
 history2 Storja
 history Ara l-istorja
 home Tad-dar
+httpconnection Ikkonnetja bil-metodu HTTP (juża il-protokoll HTTP fuq port 80)
+hue Lewn
 huge Enormi
+ident Identifikazzjoni
 identity Identità
 ignorecontact Injora konversazzjonijiet mingħand din il-persuna
 ignoreerrors Injora żbalji oħra ta' l-AMSN sa l-aħħar tas-sessjoni
 ignore Injora
 imagefiles Fajls ta' l-istampi
+inbox Inbox
 insertsmiley Żid emoticon
+internalerror Żball intern tas-Server
+invalidgroup Grupp invalidu
+invalidpic Il-fajl ta' l-istampa magħżula ma jeżistix
+invalidpicsize L-istampa magħżula hija kbira wisq, agħżel waħda iżgħar
+invalidsound Il-fajl tal-ħoss magħżul ma jeżistix
 invalidusername User name invalidu
 invitationcancelled L-invit kin ikkanċellat
 invite Invita
+ipaddress IP Address
 ircstyle Stil ta' IRC
 istyping $1 qed jikteb/tikteb messaġġ
+joins $1 jingħaqad mal-konversazzjoni
 justonce Darba biss
 keeplog Żomm log tal-konversazzjonijiet
 language Lingwa
+language_manager Maniġer tal-lingwa
 large Kbir
 largest L-akbar
 lastlogin L-aħħar darba li daħal fl-account
 lastlogout L-aħħar darba li ħareġ mill-account
 lastmsgedme L-aħħar messaġġ
 lastmsgtime L-aħħar messaġġ irċevejtu $1
-lastseen L-aħħar darba li kien online
+lastseen L-aħħar darba li kien onlajn
+lconftopriv Konferenza mibdula f'konversazzjoni privata ma' $1
+lconvstarted Il-konversazzjoni kinet mibdija nhar $1
 leaveblankforhotmail Ħalli vojt biex tuża il-Hotmail
 leaves $1 telaq mill-konversazzjoni
+lenteredconf $1 daħal f'konferenza nhar $2
+linprivate FIL-PRIVAT
+ljoinedconf $1 ingħaqad fil-konferenza
+lleftconf $1 telaq mill-konferenza
 loadcontacts Illowdja il-lista ta' ndirizzi
 load Illowdja
+loadotherdisplaypic Qed nillodja l-istampi ta' $1, stenna ftit jekk jogħġbok...
+logeventconnect Illogja kull darba li nikkonnetja
+logeventdisconnect Illogja kull darba li niskonnetja
+logeventemail Illogja meta nirċievi imejl
+logeventnick Illogja bidliet tan-nicks
+logeventpsm Illogja bidliet fil-Messaġġ Personali
+logeventstate Illogja bidliet fl-istat
+loggedotherlocation Skonnetjat. Dħalt fl-account minn post ieħor
 loggingin Dieħel fl-account
+loginas Idħol bħala
+loging Illogja
 login Idħol fl-account
 logout Oħroġ barra mill-account
 logschats Qiegħed iżomm rikordju \n tal-konversazzjonijiet
+logsin għadu kif daħal onlajn
+logsout għadu kif ħareġ mill-account
+logwebcam Issejvja is-sessjonijiet kollha tal-webcam fl-Istorja ta' l-aMSN biex narhom fil-futur
+longpsm Il-Messaġġ Personali twil wisq. Mhux issapportjat uffiċċjalment bil-protokoll ta' MSN. Ċert li trid tagħmlu hekk?
+lowrescam Uża webcam b'riżoluzzjoni baxxa
+lprivtoconf Il-konversazzjoni privata ġiet mibdula f'konferenza ma' $1
+luclosedwin Għalaqt il-window nhar $1
+mailerexample (\$recipient = Reċipjent) Ħalli vojt biex tuża il-Hotmail
 medium Medju
 minimize Ċekken għat-tray
 mins minuti
 mobilegrp1 Grupp 'mobajl'
-modified Immodifikat
+modified Immodifikata
 month Xahar
 more Aktar
 morepersonal Aktar stati ->
 move Mexxi
 movetogroup Mexxi għall-grupp
+msgmaxmin Meta nirċievi messaġġ ġdid irridu:
 msg Messaġġ
 msn aMSN
 msnstatus Stat tan-network MSN
 msnstyle Stil ta' MSN
+mustrestart Trid tagħlaq u terġa' tiftaħ il-programm biex tapplika it-tibdiliet
 myhomephone Telefon tad-dar
 mymobilephone In-numru tal-mobajl
 mynick In-nick tijaj
-mypic L-istampa personali tiegħi
+mypic L-istampa tiegħek
 mypics L-istampi tiegħi
 mystatus L-istat tiegħi
 myworkphone Telefon tax-xogħol
 name Isem
+natip Sib l-IP bil-web page
+natkeepalive Jekk qed tiġi skonnetjat regolarment, attiva il-KeepAlive
+needonline Għadek inviżibbli!
 never Qatt
 new_account Oħloq account ġdid
 newchat Konversazzjoni ġdida
 new_ft_protocol Uża il-protokoll ġdid ta' trasferiment ta' fajls (għadu taħt prova)
-newmail $1 E-mail's ġodda
+newline Linja ġdida
+newmail $1 Imejls ġodda
+newmailfolder Għandek $1 imejl(s) ġdid/ġodda f'fowlders oħra tal-Hotmail
+newmailfrom Imejl ġdid mingħand $1 ($2)
+newmailfromother Imejl ġdid f'fowlder ieħor mingħand $1 ($2)
 newmsg Messaġġ ġdid
-newoim Messaġġi ġodda meta ma kontx online
+newoim Messaġġi ġodda meta ma kontx onlajn
 newstate Żid stat personalizzat
+newupdate Aġġornamenti ġodda disponibbli għall-aMSN
+newveravailable Verżjoni ġdida $1 disponibbli għad-dawnlowd
 next li jmiss
 nickchanged $1 bidel in-nick għal '$2'
 nick Nick
 noactivity Mhux attiv/a
 nocacheddps M'hemmx stampi fil-cache għal dan l-utent
+nodataavailable M'hemmx informazzjoni dwar $1
+nodevices Bħalissa m'hemmx strumenti nstallati
 noftpreview Waqqaf milli tintbagħat previżjoni ta' l-istampi waqt it-trasferiment ta' fajls
+nogap Ebda spazju bejn il-gruppi
 nogroup Bla grupp
 no Le
 nologfile M'hemmx log fajl għal $1
 nomic M'hawnx mikrofonu
-nonewmail M'hemmx E-mails ġodda fl-Inbox
+noneavailable Xejn disponibbli
+nonewmail M'hemmx Imejls ġodda fl-Inbox
 nonewver M'hemmx verżjonijiet ġodda għad-dawnlowd
 nopic Bla stampa
+noprofileexists Bħalissa m'hemmx profili, \n trid toħloq wieħed jekk trid tidħol fl-account bil-profil. \nUża il-buttuna Żid Profil Ġdid f'din il-window biex toħloq profil ġdid.
+noresizesmileys Iċċekkinx smileys li niċievi
 normal Normali
+nosound Ebda ħoss ma kien osservat, iċċekja jekk il-mikrofonu huwiex mqabbad sew mal-kompjuter
 nospace M'hemm xejn x'tara hawn
+nosystemtray It-Tray tas-sistema m'hux disponibbli
 note Nota
+notify1_5 Uri il-window ta' notifika meta xi ħadd imur offlajn
+notify1_75 Uri il-window ta' notifika meta xi ħadd jibdel l-istat
+notify1 Uri il-window ta' notifika meta xi ħadd jidħol onlajn
+notify2 Uri il-window ta' notifika meta tirċievi messaġġi ġodda
+notify3 Uri il-window ta' notifika meta tirċievi imejls ġodda
+notify4 Uri il-window ta' notifika meta tirċievi imejls ġodda f'fowlders oħra
+notify għarraf
+notifytimeout Numru ta' millisekondi qabel il-window ta' notifika tisparixxi
+notifytyping Għarraf lill-persuna l-oħra meta tkun qed tittajpja
 notifywin Window ta' notifika
 notinlist Mintix fuq il-lista ta' ndririzzi tiegħu/tagħha
+notls Il-Protokoll MSN 9 jirrikjedi il-pakkett TLS. Dan il-pakkett ma nstabx fuq il-kompjuter. Jekk hu nstallat, speċifika il-lok tal-librerija fil-Preferenzi (eż: /opt/tls/lib). \n \n Tista' tiddawnlodja il-pakkett TLS minn http://tls.sf.net.
+nottabbed Windows normali mingħajr tabs
+nousersinsession Ebda utent fis-sessjoni
 nouserspecified Ebda utent speċifikat
-nudge $1 jirrikjedi l-attenzjoni tiegħek
-onlinehelp Għajnuna online
-online Online
+nudge $1 talab l-attenzjoni tiegħek
+offline Offlajn
+oim Messaġġi Offlajn
+ok Ok
+onenewmail Imejl ġdid fl-Inbox
+onlinehelp Għajnuna onlajn
+online onlajn
 onphone Fuq it-telefon
-opendir Iftaħ il-folder
+opendir Iftaħ il-fowlder
+openfilecommand Programm li bih tiftaħ il-fajls
 openfile Iftaħ il-fajl
 openreceived Iftaħ il-fajls li rċevejt
+options Għażliet
 original Oriġinali
 otherdisplaypic Stampi oħra ta' dan l-utent (right-click għal aktar għażliet)
 otherdps Stampi oħra
@@ -381,28 +515,63 @@ other Oħrajn
 others Oħrajn
 pass Password
 paste Ippejstja
+pausedwebcamreceive Il-webcam ġiet imwaqqfa għall-ftit ħin mill-persuna l-oħra
+pause Pawsa
+personal Personali
 phones Numri tat-telefon
 picbrowser Browser ta' l-istampi
 picfile Fajl ta' l-istampa (GIF < 500 x 500)
 picstatus Alarm bl-istampa
+playing Qed jindaqq: $1
+playwebcamsend Kompli ibgħat il-webcam
 pluginselector Immaniġja il-plugins
+port Port
+portswellconfigured Għandek il-ports issetjati tajjeb
+prefapps Programmi
 prefawaymsg Il-messaġġ ta' meta ma tkunx hawn
+prefblock1 Iċċekkja meta tiskonnetja
+prefblock2 Iċċekja kontinwament
+prefblock3 Grupp "Int ġejt iblokkat minn"
+prefconnection Settings tal-konnesjoni
+prefemotic Emotions Ikoni u Smileys
 preferences Preferenzi
 preffont3 Ibdel it-tipa u d-daqs tal-kliem ta l-aMSN
+preffont Test tal-Messaġġ tiegħi
 preflook Id-dehra ta' l-aMSN Messenger
 prefname L-isem/nick ta' l-MSN Messenger tiegħi
 prefphone In-numri tat-telefon
+prefprivacy2 Lista t'indirizzi/Persuni li għandhom l-indirizz tiegħek
+prefprivacy Lista t'indirizzi Aċċettati/Blokkati ta' l-utent
 prefprofile2 Oħloq jew immodifika il-profil pubbliku (id-deskrizzjoni \n tiegħek li ħaddieħor jista' jara)
 prefprofile Il-Profile pubbliku
 prefproxy Settings tal-"proxy"
+prefsound Ħsejjes
 preview Previżjoni
 privacy Privatezza
+profileexists Ma tistax toħloq profil għal dan l-account \n għaliex diġa' jeżisiti. Jekk jogħġbok agħżel account iħor.
+profileinuse Dan il-profil diġa qed jintuża, jekk jogħġbok agħżel ieħor
+profileloginradio Idħol fl-account billi tuża profil eżistenti
+profiles Profili
 properties Dettalji
+proxyconf Konfigurazzjoni tal-Proxy
+proxyconnection Nikkonnetja ma' l-internet billi nuża proxy server:
+proxy Qiegħed wara proxy server (HTTP jew SOCKS5)
 psmatend Uri l-messaġġ personali ħdej in-nick
+psmchanged $1 Bidel il-Messaġġ Personali għal '$2'
 psm Messaġġ personali
 psmnewline Uri l-messaġġ personali ħdej in-nick
+psmplace Fejn trid tqiegħed il-Messaġġ Personali ?
+pwcdriver Qed tuża id-driver pwc
 quit Oħroġ
-receivedoimread Irċevejt $1 messaġġ(i) meta ma kontx online. Trid taqrah/om?
+receivedbytes Irċevejt $1 minn $2 bytes
+receiveddir Fowlder tal-fajls li rċecejt
+receivedoimread Irċevejt $1 messaġġ(i) meta ma kontx onlajn. Trid taqrah/om?
+receivedvoice Irċievi Voice Clip
+receivefile Irċievi fajl
+recentmsg Waqqaf milli tagħlaq il-window tal-konversazzjoni meta tkun għadek kif irċevejt messaġġ
+reconnect2 Erġa ikkonnetja meta tiġi skonnetjat
+reconnecting Qed nerġa' nikkonnetja mas-server
+recorderror Kien hemm żball waqt ir-rekording tal-ħoss : $1
 record Irrekordja
 reject Irreġetta
 rememberaccount Ftakar l-account tiegħi
@@ -412,21 +581,29 @@ removeempty Neħħi gruppi vojta mil-lista ta' ndirizzi
 removefromgroup Neħħi mill-grupp
 removefromlist Neħħi mil-lista
 rename Għati isem ġdid
+reporting Qed nirrapporta
 report Irrappporta
+required_version Ma nistax nillodja din il-plugin. Mill-anqans, trrikjedi verżjoni $1 t'aMSN
 restartforskin Nota: Jista' jkun hemm bżonn li tirrestartja l-aMSN biex tara l-iskin tajjeb!
 retry Erġa' pprova
+reverselist Lista opposta (RL):
 rightback Daqt ġej/ja lura
 saveas Issejvja bħala
-savecontacts Issejvja il-lista ta' ndirizzi
+savecontacts Issejvja il-lista t'indirizzi
 save Issejvja
+savelocationerror Il-fajl ma jistax jiġi issejvjat f'dan il-post.
+savelocation Trid tissejvja fajl fuq $1?
+saveotherdirectory Issejvja f'fowlder ieħor
 savetofile Issejvja ġo fajl
 says $1 qal/et
 searchdown Fittex l-isfel
 searchup Fittex il-fuq
 selectall Agħżel kollox
 selectcontact Agħżel indirizz
+selectplugins Agħżel il-plugins li trid attivati
+selectskin Agħżel skin mill-lista
 sendcam Ibgħat invit għall-webcam
-sendemail Ibgħat l-indirizz ta' l-imejl tiegħi biex niġi notifikat meta jsiru xi tibdiliet
+sendemail Ibgħat l-indirizz tiegħi biex niġi notifikat meta jsiru xi tibdiliet
 sendfeedback Ibgħat Kummenti
 sendfile Ibgħat fajl
 send Ibgħat
@@ -435,21 +612,33 @@ sendmobmsg Ibgħat fuq il-mobajl
 sendmsg Ibda konversazzjoni
 sendoim Ibgħat 'Offline Message'
 sendvoice Ibgħat 'Voice Clip'
+sendwebcaminvite Invita lil xi ħadd biex jara il-webcam tiegħek
 sentbytes Intbgħat $1 minn $2 bytes
+sentvoice Bgħatt Voice Clip
+serverbusy Is-Server huwa okkupat
+servergoingdown Skonnetjat: Is-server qed jintefa
+server Server
+serverunavailable Is-Server m'huwiex disponibbli
 session Sessjoni
-setasmydp Qiegħed bħala l-istampa tiegħi
+setasmydp Qiegħed bħala l-istampa tiegħek
 showbanner Uri l-banner ta' aMSN
 showblockedlist Uri lista ta' persuni li bblokkawk
+showcachedpics Uri l-istampi ta' ħaddiħor li qedin fil-cache
 showcontactemail Uri l-indirizzi bl-imejl
 showcontactnick Uri l-indirizzi bin-nick
 showdisplaypic Uri l-istampa personali
-showmypic L-istampa personali tiegħi
+showmypic L-istampa tiegħek
 shownotify Uri l-window ta' notifika meta jseħħ xi ħaġa
+showuserpic L-istampa ta' $1
 skinselector Agħżel Skin
+skin Skin
 smallest L-iżgħar
 small Żgħir
+smileconfig Konfigurazzjoni ta' l-emoticons personalizzati
 smilefile Isem il-fajl ta' l-ismiley
 smileintro Jekk jogħġbok imla' l-informazzjoni neċessarja biex toħloq smiley ġdid (Ara il-mistoqsijiet komuni għall-għajnuna)
+smiletoobig L-ismiley li għażilt huwa akbar min-normal. Trid iċċeknu ?
+sngdblclick Ikklikkja darba biex tiftaħ konversazzjoni ġdida
 sortcontactgroup Agħżel l-indirizzi bil-grupp
 sortcontacthybrid Agħżel l-indirizzi bit-tnejn t'hawn fuq
 sortcontactsasc Agħżel l-indirizzi mil-A->Ż
@@ -458,13 +647,20 @@ sortcontactsdesc Agħżel l-indirizzi miż-Ż->A
 sortcontactstatus Agħżel l-indirizzi bl-istat
 sortgroupsasc Agħżel il-gruppi mil-A->Ż
 sortgroupsdesc Agħżel il-gruppi miż-Ż->A
+sound2 Agħmel ħoss meta xi ħadd jidħol onlajn jew jibgħat messaġġ
+soundactive Agħmel ħoss anka meta tirċievi messaġġ fil-window attiva
 soundfile Fajl tal-ħoss
 soundfiles Fajls tal-ħsejjes
 sound Għamel ħoss kull darba li jseħħ xi ħaġa
 soundloop Irrepeti il-ħoss
 soundstatus Alarm tal-ħoss
 splashstart Ibda
+startoffline2 Idħol silenzjożament fl-account bħala "Inviżibbli"
+startoffline Startja Offlajn
+startonboot Startja aMSN meta tistartja il-Windows
+startontray Startja aMSN fit-tray biss
 stateautomsg Messaġġ li jintbgħat awtomatikament
+statechange stat mibdul għal:
 stateinfo Konfigurazzjoni ta' l-istat personali
 state Irrid nidher bħala
 statename Isem l-istat personalizzat
@@ -473,41 +669,92 @@ statenick Nick ġdid (ħalli vojt biex ma tibdlux)
 statepsm Messaġġ personali ġdid (ħalli vojt biex ma tibdlux)
 stats Statistika
 status Stat
+step Pass
 stopalarm Waqqaf l-alarm
 stop Waqqaf
+stopwebcamreceive Ieqaf irċievi il-Webcam
+stopwebcamsend Ieqaf ibat il-Webcam
 stylechat L-istess dehra bħall-konversazzjonijiet
+stylehist Dehra ta' l-Istorja ta' l-aMSN
+stylelog Agħżeil il-format li fih trid tara l-Istorja
 style Stil
 subjectrequired Suġġett meħtieġ
 subject Suġġett
 syntaxerror Żball fis-sintassi
+tabbed Windows bit-Tabs
+tabtitlenick Uri in-nicks fit-tabs minflok l-imejl
 temp_state Stat temporanju (ma jiġix issejvjat)
 textsize Kobor tat-test
 thismonth Dan ix-xahar
 timeremaining Fadal
+title aMSN
+tkerror1 TK indika il-possibiltà ta' bug f'aMSN, jekk jogħġbok irrapurtha billi tikklikkja fuq il-buttuna "Irrappporta". Tista' tikklikkja fuq "Dettalji" biex tara aktar informazzjoni dwar il-bug jew ikklikkja fuq "Injora" biex tkompli tiċċetja bl-aMSN
+tkerror TK indika il-possibiltà ta' bug f'aMSN, jekk jogħġbok irrapurtha. Ibgħat il-fajl $1 lil amsn-bugs@lists.sf.net
+tlsinstcompleted L-istallazjoni tal-module TLS kin suċċess - issa tista' tuża MSNP9. Jekk ma jaħdimx, probabilment magħżiltx il-module it-tajjeb, jew inkella module ikkompilat ma jeżistix għas-sistema tiegħek.
 today Illum
+tools Għodda
 totalsize Daqs totali
+transnotexists Il-fajl mitlub għadu ma ġiex tradott fil-lingwa kurrenti.
+trayicon Uri ikona ta' l-istat fil-post ta' notifika
+truncatenames1 Qassar nicks itwal mil-wisa' tal-window fit-titli tal-windows u fil-lista ta' ndirizzi
+truncatenames2 Qassar nicks itwal mil-wisa' tal-window fil-konversazzjonijiet
+truncatenicks Qassar nicks itwal mil-wisa' tal-window
+twonewmail $1 imejls ġodda fl-Inbox
+type Tip
 unblock Sblokka
 unknown Mhux magħruf
 unload Neħħi
 unselectall Tagħżel xejn
-updateonlycurrentlanguage Updejtja biss il-lingwa kurrenti
-update Updejt
+uoffline Offlajn
+uonline Onlajn
+update Aġġorna
+updateonlycurrentlanguage Aġġorna biss il-lingwa kurrenti
+updatesaved Lest\n Issejvjajt $1 ġo $2.
+updating Aġġornament fil-proċess
+useasdp Uża bħala l-istampa tiegħek
 useasregexp Uża espressjoni regolari (regexp)
 useother Uża programm differenti
+useralreadyonlist Din il-persuna diġa qegħda fil-lista ta' ndirizzi
+userblocked L-utent qiegħed onlajn imma bblokkak
 userdata Informazzjoni dwar l-utent
 userdps Stampi ta' l-utent
-usernotonline L-utent m'huwiex online
+usernotonline L-utent m'huwiex onlajn
 userproperties Dettalji ta' $1
 usersettings Settings
 user Utent
 useryourself Ma tistax tagħmel konversazzjoni miegħek innifsek!
+usesnack Uża il-librerija Snack (Interna f'Tcl)
+verifyblocked Iċċekja għall-persuni li qed jiblokkawk
 version Verżjoni
 view Dehra
 viewprofile Ara l-profil
 volume Volum
+wanttosharecam Irrid il-webcam tiegħi aċċessibli għal ħaddieħor
 webcamcanceled Is-sessjoni tal-webcam ma' $1 ġiet ikkanċellata
+webcamclosebefcancel Trid tikkanċella is-sessjonijiet kollha tal-webcam qabel tagħlaq il-window
+webcamconfiguredWin Għażilt din il-webcam : $1
+webcamconfigure Ikkonfigura il-Webcam
+webcamextchecking Qed niċċekja jekk l-estensjoni tal-webcam hix illodjata ...
+webcamextloaded L-estensjoni Webcamsn illodjata
+webcamextnotloaded L-estensjoni Webcamsn mhix illodjata. Trid tikkompilha.
+webcamextwarn Mhux se tkun tista' tara il-webcams ta' ħaddieħor. Tista' ssib tweġibiet dwar kif tinstalla l-estensjonijiet fuq il-Wiki tagħna:
+webcamfaq Mistoqsijiet Komuni/Għajnuna għall-Webcam
+webcamhistory2 Sessjonijiet tal-Webcam
 webcamhistory Ara is-sessjonijiet tal-webcam
+webcaminvitereceived $1 stiednek biex tibda sessjoni bil-webcam. Trid taċċeta din is-sessjoni?
+webcaminvitereceiving Ġejt mistieden biex tara il-webcam ta' $1 . Trid taċċetta din is-sessjoni?
+webcaminvitesending $1 irid jara il-webcam tiegħek. Trid taċċetta din is-sessjoni?
+webcamrejected $1 irriġetta/t l-invit għall-sessjoni bil-webcam
+webcamrequestreceive Tlabt biex tirċievi il-webcam
+webcamrequestsend Tlabt biex tibgħat il-webcam
+webcamsending Lista ta' persuni li qed tibgħatilhom il-webcam\nIkklikkja biex tikkanċella
+webcam Webcam
+web Web
+whatisamsn aMSN huwa klonu ta' l-MSN Messenger li jaħdem fuq kull sistema operattiva
+willjoin Nistennew lil $1 jingħaqad fil-konversazzjoni
+wintitlenick Uri in-nicks minflok l-imejl f'konversazzjonijiet bit-tabs
 work Tax-xogħol
+wrongprofileversion Verżjoni ħażina tal-fajl ta' konfigurazzjoni tal-profil. Biex tirranġah, ħassar il-fowlder $1, jew aġġorna l-aMSN
 xmmscurrent Uri id-diska kurrenti
 xmmserr Xejn m'hu jdoqq, jew inkella mgħandekx xmms-infopipe installat.
 xmmssend Ibgħat isem id-diska kurrenti
@@ -518,3 +765,4 @@ yesterday Il-bieraħ
 youblocked Int ġejt iblokkat minn
 yousay Tgħid
 youwant Trid
+zoom Kabbar
