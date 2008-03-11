@@ -239,6 +239,7 @@ created Ustvarjeno
 credits Zasluge
 curdisplaypic Trenutna prikazna slika
 currentdate Trenutni datum
+currentdynrate Trenutna realno-èasovna hitrost (v milisekundah)
 currentlanguage Jezik, ki ga trenutno uporablja¹
 currentnotes Trenutne opombe
 custnotifymsg Prika¾i obvestilo, ko ti ta stik po¹lje sporoèilo
@@ -308,6 +309,7 @@ downloadcanceled Prenos prekinjen.
 downloadingtls Pobiram modul TLS iz:\n $1
 downloadingwait Prena¹a se nova verzija aMSN. Prosimo poèakajte...
 download Poberi
+dynamicrate Uporabi dinamièno spreminjanje hitrosti ¹tevila posnetkov za simulacijo realno-èasovne hitrosti
 editavsettings Uredi zvoène in video nastavitve
 editcontent Uredi vsebino polj za naslov in opombo
 editcustomstate Uredi
@@ -387,6 +389,13 @@ ftrejectedby $1 je zavrnil/a povabilo za prenos datoteke '$2'.
 ftrejected Prenos datoteke je bil zavrnjen.
 ftsendinvitation $1 bo prejel/a povabilo za prenos datoteke '$2' ($3 bajtov).
 fullcontactlist Tvoj seznam stikov je poln. Da bi dodal novega, mora¹ izbrisati katerega od trenutnih stikov.
+gameaccepted $1 je sprejel povabilo za igro
+gameclosedbyother $1 je preklical igro z vami.
+gameclosedbyself Preklicali ste igro z $1
+gameinvitation $1 vas je povabil na igro $2. Sprejmem povabilo?
+gamepluginnotfound $1 vas je povabil na igro $2 vendar ni vstavka za igranje te igre. Najprej aktivirajte in konfigurirajte vstavek.
+gamerejected $1 je zavrnil va¹e povabilo za igro
+gamerequest Povabili ste  $1 na igro $2
 getdisppic Omogoèi prejemanje osebne slike od drugih uporabnikov
 getmoreplugins Dobi veè vstavkov!
 getmoreskins Dobi veè preoblek za aMSN!
@@ -489,6 +498,7 @@ lleftconf $1 je zapustil/a konferenco
 loadcontacts Nalo¾i seznam stikov
 load Nalo¾i
 loadotherdisplaypic Nalagam osebne slike od $1, prosim poèakaj...
+localecode Va¹e  4-mestna koda jezika / dr¾ave
 logbigger Dnevni¹ka datoteka za vsak stik je lahko velika najveè
 logeventconnect Bele¾i prijave
 logeventdisconnect Bele¾i odjave
@@ -587,6 +597,7 @@ no Ne
 noneavailable Noben ni na voljo
 nonewmail Ni novih sporoèil v Inboxu
 nonewver Ni novih razlièic na voljo za prenos
+nooimconfirmation Ne zahtevaj potrdila pri po¹iljanju/sprejemanju Sporoèil brez povezave
 nopic Brez slike
 noprofileexists Trenutno ni raèunov.\nUstvari nov raèun\nz gumbom dodaj raèun.
 noresizesmileys Ne pomanj¹uj prihajajoèih emotikonov
@@ -650,6 +661,8 @@ picstatus Slika omogoèena
 playbackposition Pozicija predvajanja
 playbackspeed Hitrost predvajanja (milisekunde med vsako sliko videa)
 playerror Pri¹lo je do napake pri igranju zvoka : $1
+playgame2 Igraj $1
+playgame Igraj igro
 playing Igram: $1
 play Predvajaj
 playtest Predvajaj preizkusno datoteko
@@ -754,6 +767,7 @@ save Shrani
 savetofile Shrani v datoteko
 says $1 pravi
 sbcon Povezujem se na Switch Board
+searchadvprefs I¹èi v naprednih nastavitvah:
 searchdown I¹èi dol
 searchup I¹èi gor
 selectall Izberi vse
