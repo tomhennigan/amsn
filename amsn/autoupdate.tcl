@@ -480,8 +480,15 @@ namespace eval ::autoupdate {
 	#If yes, save the actual time in seconds in the weekdate
 	proc dont_ask_before {} {
 		if {$::dont_ask_for_one_week} {
-			::config::setKey weekdate "[clock seconds]"
+			#re-check again in a week
+			set wait_period [expr {60*60*24*7}]
+		} else {
+			#just wait one day
+			set wait_period [expr {60*60*24*1}]
 		}
+		set current_time [clock seconds]
+		set next_check [expr {$current_time + $wait_period}]
+		::config::setGlobalKey next_update_check $next_check
 	}
 
 	#///////////////////////////////////////////////////////////////////////
@@ -558,31 +565,30 @@ namespace eval ::autoupdate {
 			}
 
 			catch {status_log "check_web_ver: Current= $rcversion New=$tmp_data\n"}
-			#Time in second when the user clicked to not have an alert before 3 days
-			set weekdate [::config::getKey weekdate]
-			#Actual time in seconds
-			set actualtime "[clock seconds]"
-			#Number of seconds for 7 days
-			set three_days "[expr {60*60*24*7}]"
-			#If you tant to test just with 60 seconds, add # on the previous line and remove the # on the next one
-			#set three_days "60"
-			#Compare the difference betwen actualtime and the time when he clicked
-			if {$weekdate != ""} {
-				set diff_time "[expr {$actualtime-$weekdate}]"
-			} else {
-				set diff_time "[expr {$three_days + 1 } ]"
-			}
-			status_log "Three days (in seconds) :$three_days\n" blue
-			status_log "Difference time (in seconds): $diff_time\n" blue
-			#If new version and more than 7 days since the last alert (if user choosed that feature)
-			#Open the update window
-			if { $newer == 1 && $diff_time > $three_days} {
+			#Open the update window if newer version
+			if { $newer == 1 } {
 				::autoupdate::update_window $tmp_data
 			} else {
-				status_log "Not yet 3 days or no new version\n" red 
+				status_log "No new version\n" red 
+
+				#no new version, so re-check in a week
+				set current_time [clock seconds]
+				set wait_period [expr {60*60*24*7}]
+				set next_check [expr {$current_time + $wait_period}]
+				::config::setGlobalKey next_update_check $next_check
 			}
 		} else {
 			catch {status_log "check_web_ver: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue}
+			
+			#checking for new version failed, so retry in 1 day
+			set current_time [clock seconds]
+			set wait_period [expr {60*60*24*1}]
+			set next_check [expr {$current_time + $wait_period}]
+			::config::setGlobalKey next_update_check $next_check
+			
+			#abort it, don't even try to update the plugins as it seems that the server has an error
+			::http::cleanup $token
+			return 0
 		}
 		::http::cleanup $token
 
@@ -642,10 +648,14 @@ namespace eval ::autoupdate {
 	proc check_version_silent {} {
 		global weburl
 
-		catch {
-			::http::geturl ${weburl}/amsn_latest -timeout 10000 -command ::autoupdate::check_web_version
+		#check if check for new version is necessary
+		set next_check [::config::getGlobalKey next_update_check]
+		set current_time [clock seconds]
+		if {$next_check == "" || $next_check < $current_time} {
+			catch {
+				::http::geturl ${weburl}/amsn_latest -timeout 10000 -command ::autoupdate::check_web_version
+			}
 		}
-
 	}
 
 
