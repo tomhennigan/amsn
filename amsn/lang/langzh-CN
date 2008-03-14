@@ -384,7 +384,7 @@ inbox 收件匣
 insertsmiley 插入表情符号
 installconvert 您必须安装 ImageMagick (convert program) 才能够使用 Buddy 图示 以及个人的表情符号. 您可以从 ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ 下载适合您操作系统的Binary文件. 如果您已经安装, 那这应该是个bug, 请回报给我们. 这个功能现在将会被关闭, 等您安装好ImageMagick后请到偏好设定中做设定.
 internalerror 内部服务器发生错误
-invalidfile2 目标无法产生 $1 的檔名。请确定您的权限。
+invalidfile2 目标无法产生 $1 的?n名。请确定您的权限。
 invalidfile 于字段 "$1" 中输入的档案 $2 并不存在或是它不可被读取
 invalidgroup 无效的群组
 invalidpicsize 指定的图片太大，请选择较小的图片
@@ -861,11 +861,131 @@ yes 同意
 yesterday 昨日
 yoffset Y轴位置
 youblocked 你已经被他封锁
-yousay 您说
-youwant 您要
+yousay 你说
+youwant 你要
 yesblock 确定阻止
 zoom 缩放
 blocknotifications 阻止通知窗口 
 blocksounds 静音 
 customdp 个性化显示图片 
 nouserspecified 无指定的用户 
+abort 放弃
+alarmpref2 每个联络人的闹钟设定
+always 时常
+assistantainput 选择你的输入装置然后尝试用它录音
+assistantaoutput 选择你的输出装置然后尝试打开这个文件测试它
+assistantawarn 你不能记录自己, 或与你的朋友谈话。你可以在我们的网站查找安装这插件的教学:
+assistantfinetunepic 改变以下设置调整你的网路摄影机的图象素质
+assistantselectcam 从名单里选择您的网路摄影机
+assistantstarting 开启助理
+assistanttitle 音像和录影助理
+audioconfigured 你选择了以下音像设置:\n\n输出装置: $1\n输入装置: $2
+audiovideo 音像和录影设置
+back 回去
+bytesymbol b
+cachedpicsfor 被贮藏的用户显示图片
+cantget 无法取得 $1
+capturewarn 你不能开启你的网路摄影机如果你有。如果不能，这是正常的。你可以在我们的网站查找安装这插件的教学
+checkingcam 检查网路摄影机是否连接
+checkingcapext 检查'$1'插件是否已被开启
+checkingextensions 检查录音插件
+chooseinputdev 检查你的输入装置
+chooselocation 选择新的文件位置
+choosemixerdev 选择你的混合装置
+chooseoutputdev 选择你的输出装置
+closechatwindows 在登出之前关闭所有对话？
+closeothers 关闭所有其他对话
+configuremic 正在设置你的麦克风
+configuringaudio 正在更改音像设置
+configureplugin 正在更改 $1 插件设置
+congrats 祝贺
+currentdynrate 目前实时速度（毫秒）
+displayeventnick 显示当联络人改变昵称
+displayeventpsm 显示当联络人改变个人讯息
+dontaskweek 在一星期内不要问是否要更新
+dontshowdp 不要让这个用户下载你的新显示图片
+downloadcanceled 下载已被取消
+downloadingwait 正在下载新版本，请稍等。。。
+dynamicrate 利用动态帧速率以模拟真实时间制速度
+editavsettings 更改音像和录影设置
+escapeclosescw Esc键盘关闭聊天视窗
+fetching 正在获取数据。。。
+finetunesettings 调整图片设置
+finish 完毕
+finish2apply 点击完毕以提交那些设置
+firewalled2 你已被防火墙阻止，请在偏好设定视窗里检查你的连接设置
+forget_me 忘记我
+forgot_pass 我忘了我的密码
+formatctt CTT格式
+formatcsv CSV格式
+gameaccepted $1 已接受你的游戏邀请
+gameclosedbyother $1 已取消与你的游戏
+gameclosedbyself 你已取消与 $1 游戏
+gameinvitation $1 邀请你玩 $2。你接受邀请吗？
+gamepluginnotfound $1 邀请你玩 $2 但没有适合的插件，请开启和设定插件先
+gamerejected $1 已取消你的游戏邀请
+gamerequest 你已邀请 $1 以玩 $2
+goto_prefs_removeprofile 点击这里以去偏好设定并删除你的档案
+groupcontactsbystatus 用状态以重组联络人
+havenomic 我没有麦克风
+hidebuttonbar 隐藏按钮 bar
+history2 历史
+howto_remove_profile 你必须从偏好设定删除你的档案（忘记 $1 )。\n\因为安全起见，从登录视窗删除档案是不允许的
+largest 最大
+lconvstartedOIM 已开启对 $1 离线即时通讯对话
+localecode 你的4位数语言／国家号码
+logeventnick 记载昵称的改变
+logeventpsm 记载个人讯息的改变
+logoutwincloselabel 在登出时关闭对话
+medium 中等
+more 更多
+mypics 我的显示图片
+new_account 建立账户
+newoim 新的离线讯息
+newupdate 有新的aMSN升级
+nickchanged $1 已换去 '$2' 昵称
+nocamwarn 找不到网络摄影机，或者是已被其他软件用（就是说不能被 aMSN 用）。你可以在我们的网站查找这问题的解决方案：
+nomic 没有麦克风
+nooimconfirmation 不要求确认当发送/接收离线讯息
+noresizesmileys 不缩减来袭定制表情符号
+nospace 这里没有东西可以显示
+oim 离线讯息
+otherdps 其他的显示图片
+playerror 发生错误当尝试播放声音 : $1
+playgame 玩游戏
+playgame2 玩 $1
+playtest 播放测试文件
+psmchanged $1 已换PSM去 '$2'
+receivedoimread 你有 $1 新的离线即时讯息。你要读吗？
+record 录
+recvwebcamaccepted $1 已同意显示他／她的网络摄影机。正在连接。。。
+rememberaccount 记得我的帐户
+removefromgroup 从组合里删除
+retry 再试
+saveddefaultloc 储存在默认位置
+savelocation 在 $1 储存吗？
+savelocationerror 文件不能在这里储存
+saveotherdirectory 储存在另一个目录
+searchadvprefs 在进阶偏好设定搜寻:
+selectcontact 选择一个联络人
+sendwebcamaccepted 已接受你的邀请以显示你的网络摄影机。。。
+setupcam 正在设立你的网络摄影机
+setupcamfinetune 设立视讯设备，并微调图片
+showonedpframe 只显示一个显示图片在对话视窗里
+showlinksinlogin 在登录视窗显示连接
+smallest 最小
+sortcontactsasc 升序的重组联络人
+sortcontactsdesc 降序的重组联络人
+sortcontactsby 重组联络人
+step 步骤
+totalsize 总面积
+updatesaved 完毕\n 已在$2储存$1。
+viewspace 显示空间项目
+volume 体积
+web 网络
+webcamconfiguredMac 你的网络摄影机设置已被设定
+webcamconfiguredWin 你已选择此网络摄影机 : $1
+webcamconfiguredLinux 你已选择此网络摄影机设置:\n网络摄影机装置: $1\n网络摄影机频道: $2
+webcamextchecking 检查网络摄影机插件是否已被开启。。。
+webcamextwarn 你不能看联络人的网络摄影机。你可以在我们的网站查找安装这插件的教学：
+webcamhistory2 网络摄影机历史
