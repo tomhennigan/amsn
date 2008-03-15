@@ -199,6 +199,10 @@ namespace eval ::smiley {
 		#Create the image now and store it   ;# $emotion(name) is unique as we store the emoticon in the array under this name (cfr infra)
 		if { [catch { image create photo emoticonCustom_std_$emotion(text) -file [PathRelToAbs $emotion(file)] -format cximage } emotion(image_name) ] } {
 			status_log "Error when creating image for emoticon $emotion(name) : $emotion(image_name)"
+			
+			#Add emoticon to the discarded_emoticons.xml
+			catch { discardCustomEmoticon [array get emotion] }
+
 			#Error when creating smiley's image so we don't add it
 			return 0
 		} else {
@@ -215,7 +219,50 @@ namespace eval ::smiley {
 		return 0
 	}
 	
+	proc discardCustomEmoticon {data} {
+		global HOME
 
+		array set emotion $data
+		
+		if {[file exists "[file join ${HOME} discarded_emoticons.xml]"]} {
+			if { [catch {
+				if { [OnUnix] } {
+					set file_id [open "[file join ${HOME} discarded_emoticons.xml]" a 00600]
+				} else {
+					set file_id [open "[file join ${HOME} discarded_emoticons.xml]" a]
+				}
+			} res]} {
+				return
+			}
+			fconfigure $file_id -encoding utf-8
+		} else {
+			if { [catch {
+				if { [OnUnix] } {
+					set file_id [open "[file join ${HOME} discarded_emoticons.xml]" w 00600]
+				} else {
+					set file_id [open "[file join ${HOME} discarded_emoticons.xml]" w]
+				}
+			} res]} {
+				return
+			}
+			fconfigure $file_id -encoding utf-8
+			puts $file_id  "<?xml version=\"1.0\"?>\n\n"
+		}
+
+		puts $file_id "<emoticon>"
+		foreach attribute [array names emotion] {
+			set tmp_value $emotion($attribute)
+
+			if { $attribute == "file" || $attribute == "sound" } {
+				set tmp_value [PathAbsToRel $tmp_value]
+			}
+
+			set value [::sxml::xmlreplace $tmp_value]
+			set attribute [::sxml::xmlreplace $attribute]
+			puts $file_id "   <$attribute>$value</$attribute>"
+		}
+		puts $file_id "</emoticon>\n"
+	}
 	
 	#///////////////////////////////////////////////////////////////////////////////
 	# proc cleanup
