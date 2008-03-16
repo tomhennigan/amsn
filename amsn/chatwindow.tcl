@@ -755,9 +755,12 @@ namespace eval ::ChatWindow {
 		set lastfocus [focus]
 		set win_name [::ChatWindow::For $chatid]
 
+		set new_window 0
+
 		# If there wasn't a window created and assigned to $chatid, let's create one
 		# through ::ChatWindow::Open and assign it to $chatid with ::ChatWindow::SetFor
 		if { $win_name == 0 } {
+			set new_window 1
 
 			if { [UseContainer] == 0 } {
 
@@ -887,10 +890,12 @@ namespace eval ::ChatWindow {
 			}
 		}
 
-		#If no focus, and it's a message event, do something to the window
-		if { (([::config::getKey soundactive] == "1" && $usr_name != [::config::getKey login]) || \
-			[string first ${win_name} [focus]] != 0) && $msg != "" } {
-			play_sound type.wav
+		if { $new_window == 1 || [::config::getKey sound_on_first_message 0] == 0 } {
+			#If no focus, and it's a message event, do something to the window
+			if { (([::config::getKey soundactive] == "1" && $usr_name != [::config::getKey login]) || \
+				  [string first ${win_name} [focus]] != 0) && ($msg != "" || [::config::getKey sound_on_first_message 0] == 1)} {
+				play_sound type.wav
+			}
 		}
 
 		#Dock Bouncing on Mac OS X

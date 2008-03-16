@@ -303,6 +303,7 @@ namespace eval ::config {
 		::config::setKey localecode 1033				;# Default locale-code is 1033 for en-US
 		
                 ::config::setKey no_oim_confirmation 0                          ;# Ask or not confirmation to send/read oim messages
+		::config::setKey sound_on_first_message 0			;# Play sound only on the first message received in a chat window
 
 
 		#Advanced options, not in preferences window
