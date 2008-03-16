@@ -1433,6 +1433,7 @@ namespace eval ::log {
 
 			set loglines [split $logvar "\n"]
 			set result [list]
+			set color "#efefef"
 			foreach line $loglines {
 				incr nbline
 				set aidx 0
