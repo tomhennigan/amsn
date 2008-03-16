@@ -663,7 +663,7 @@ playbackposition Posición de playback
 playbackspeed Velocidad de playback (milisegundos entre cada fotograma)
 playerror Ocurrió un error al intentar reproducir el sonido : $1
 playgame2 Jugar a $1
-playgame Jugar a un juego
+playgame Iniciar un juego
 playing Reproduciendo: $1
 play Reproducir
 playtest Reproducir sonido de prueba
