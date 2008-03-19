@@ -1420,8 +1420,8 @@ proc CheckLock { email } {
 	set Port [LoginList getlock 0 $email]
 	status_log "CheckLock: LoginList getlock called. Lock=$Port\n" blue
 	if { $Port != 0 } {
-		if { [catch {socket -server phony $Port} newlockSock] != 0 || [OnWinVista] } {
-			status_log "CheckLock Port is already in use: $newlockSock\n" red
+		if { [OnWinVista] || [catch {socket -server phony $Port} newlockSock] != 0 } {
+			#status_log "CheckLock Port is already in use: $newlockSock\n" red
 			# port is taken, let's make sure it's a profile lock
 			foreach {local_host} { localhost "[info hostname]" 127.0.0.1 } {
 				if {[catch {socket $local_host $Port} clientSock] == 0 } {
