@@ -3415,7 +3415,7 @@ namespace eval ::ChatWindow {
 					catch { ${container}.bar.less configure -bg green }
 				} else {
 					#we flicker the more button
-					status_log ">>>>>>>>>>> coloring button more: ${container}.bar.more\n"
+					#status_log ">>>>>>>>>>> coloring button more: ${container}.bar.more\n"
 					catch { ${container}.bar.more configure -bg green }
 				}
 			}
