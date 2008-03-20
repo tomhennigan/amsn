@@ -1660,7 +1660,7 @@ namespace eval ::amsn {
 			lappend style "overstrike"
 		}
 		if { [::config::getKey disableuserfonts] } {	 
-			# If user wants incoming and outgoing messages to have the same font\
+			# If user wants incoming and outgoing messages to have the same font
 			set fontfamily [lindex [::config::getKey mychatfont] 0]	 
 			set style [lindex [::config::getKey mychatfont] 1]	 
 			#set fontcolor [lindex [::config::getKey mychatfont] 2]	 
