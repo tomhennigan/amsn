@@ -557,9 +557,9 @@ proc save_config {} {
 
 	if { [catch {
 		if { [OnUnix] } {
-			set file_id [open "[file join ${HOME} config.xml]" w 00600]
+			set file_id [open "[file join ${HOME} config.xml.temp]" w 00600]
 		} else {
-			set file_id [open "[file join ${HOME} config.xml]" w]
+			set file_id [open "[file join ${HOME} config.xml.temp]" w]
 		}
 	} res]} {
 		return 0
@@ -636,6 +636,9 @@ proc save_config {} {
 	puts $file_id "</config>"
 
 	close $file_id
+	
+	#writing was successful, so move config.xml.temp to config.xml
+	file rename -force [file join ${HOME} config.xml.temp] [file join ${HOME} config.xml]
 
 	# re-rename os-specific keys
 	foreach dstKey $osspecific_keys {
@@ -1626,7 +1629,10 @@ proc PathRelToAbs { path } {
 	
 	#Expand relative path to an absolute path again
 	if { [string index $path 0] == "~" } {
-		set path "$HOME[string range $path 1 end]"
+		set path2 "$HOME[string range $path 1 end]"
+		if {[file exists $path2]} {
+			return $path2
+		}
 	}
 	
 	return $path

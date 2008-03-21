@@ -822,6 +822,7 @@ smilefile Smiley filename
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
 smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 smiletoobig The smiley you choose is bigger than normal size. Do you want to resize it ?
+smileynotavailable Smiley not available!
 snackfailed Snack failed to load, reverting to default
 snackneeded The Snack library is needed in order to use this feature. A minimal version of 2.2.9 is necessary.
 snapshot Snapshot
