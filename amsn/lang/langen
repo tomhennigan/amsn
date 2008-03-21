@@ -442,7 +442,7 @@ hybrid Hybrid mode
 ident Identifying
 identity Identity
 ignorecontact Ignore the conversations from the contact
-ignoreerrors Silently ignore other AMSN errors until the end of session
+ignoreerrors Silently ignore other aMSN errors until the end of session
 ignore Ignore
 imagefiles Image Files
 inbox Inbox
@@ -890,7 +890,7 @@ timeremaining Time remaining
 timestamps Enable timestamps on chat windows
 timestamp Timestamp
 title aMSN
-tkerror1 TK has brought an error, there is a bug in amsn, please report it clicking the Report button. You can click on Details to see more informations about the bug or click on Ok to continue chatting with AMsn
+tkerror1 TK has brought an error, there is a bug in aMSN, please report it by clicking the Report button. You can click Details to see more informations about the bug or click Ignore to continue chatting with aMSN.
 tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
 tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).
