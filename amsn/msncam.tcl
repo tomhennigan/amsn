@@ -42,7 +42,7 @@ proc getObjOption { obj option {def ""}} {
 proc clearObjOption { obj } {
 	global objects
 
-	array unset objects $obj
+	catch { unset objects($obj) }
 }
 
 proc checkObjExists { obj } {

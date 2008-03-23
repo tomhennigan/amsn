@@ -313,12 +313,11 @@ namespace eval ::MSNP2P {
 				#status_log "setting $sid with $varlist" green
 				# This overwrites previous vars if they are set to something else than -1
 				if { [lindex $varlist 0] != -1 } {
-					set ret [getObjOption sl_$sid MsgId] 
-					if {$ret != "" } {
-						clearObjOption sl_$ret
-					}
+					set MsgsIds [getObjOption sl_${sid} MsgsIds]
+					lappend MsgsIds [lindex $varlist 0]
 					setObjOption sl_$sid MsgId [lindex $varlist 0]
-					setObjOption sl_[lindex $varlist 0] sid $sid
+					setObjOption sl_$sid MsgsIds $MsgsIds
+					setObjOption slm_[lindex $varlist 0] sid $sid
 				}
 				if { [lindex $varlist 1] != -1 } {
 					setObjOption sl_$sid TotalSize [lindex $varlist 1]
@@ -333,12 +332,11 @@ namespace eval ::MSNP2P {
 					setObjOption sl_$sid AfterAck [lindex $varlist 4]
 				}
 				if { [lindex $varlist 5] != -1 } {
-					set ret [getObjOption sl_$sid CallId] 
-					if {$ret != "" } {
-						clearObjOption sl_$ret
-					}
+					set CallsIds [getObjOption sl_${sid} CallsIds]
+					lappend CallsIds [lindex $varlist 0]
 					setObjOption sl_$sid CallId [lindex $varlist 5]
-					setObjOption sl_[lindex $varlist 5] sid $sid
+					setObjOption sl_$sid CallsIds $CallsIds
+					setObjOption slc_[lindex $varlist 5] sid $sid
 				}
 				if { [lindex $varlist 6] != -1 } {
 					setObjOption sl_$sid Fd [lindex $varlist 6]
@@ -356,17 +354,23 @@ namespace eval ::MSNP2P {
 
 			unset {
 				#status_log "unsetting..." green
-				set msgid [getObjOption sl_$sid MsgId] 
-				set callid [getObjOption sl_$sid CallId] 
+				set msgsids [getObjOption sl_$sid MsgsIds] 
+				set callsids [getObjOption sl_$sid CallsIds] 
 				clearObjOption sl_$sid
-				clearObjOption sl_$msgid
-				clearObjOption sl_$callid
+				foreach msgid $msgsids {
+					clearObjOption slm_$msgid
+				}
+				foreach callid $callsids {
+					clearObjOption slc_$callid
+				}
 				return
 			}
-			findcallid -
+			findcallid {
+				return [getObjOption slc_$sid sid]
+			}
 			findid {
 				#status_log "Finding $action of $sid, found : [getObjOption $sid sid]" green
-				return [getObjOption sl_$sid sid]
+				return [getObjOption slm_$sid sid]
 			}
 		}
 	}
