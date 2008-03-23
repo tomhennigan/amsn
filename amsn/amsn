@@ -308,8 +308,8 @@ foreach font [font families] {
 # Bye bye hidden files in file dialogs (works fine with Mac even without this).
 if {[OnLinux]} {
 	catch { tk_getOpenFile -w00t } ;# start file dialog with unknown option
-	set ::tk::dialog::file::showHiddenVar 0
-	set ::tk::dialog::file::showHiddenBtn 1
+	catch { set ::tk::dialog::file::showHiddenVar 0}
+	catch { set ::tk::dialog::file::showHiddenBtn 1}
 }
 
 set ::auto_encoding [encoding system]
