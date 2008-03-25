@@ -4641,7 +4641,7 @@ proc cmsn_draw_status {} {
 
 	frame $w.bot -relief sunken -borderwidth 1
 	button $w.bot.save -text "[trans savetofile]" -command status_save
-	button $w.bot.clear  -text "Clear" \
+	button $w.bot.clear  -text [trans clearlabel] \
 		-command "$w.info delete 0.0 end"
 	button $w.bot.close -text [trans close] -command toggle_status
 	pack $w.bot.save $w.bot.close $w.bot.clear -side left
@@ -7667,7 +7667,7 @@ proc degt_protocol_win { } {
 
 	frame .degt.bot -relief sunken -borderwidth 1 -class Degt
 	button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save
-		button .degt.bot.clear  -text "Clear" \
+		button .degt.bot.clear  -text [trans clearlabel] \
 			-command ".degt.mid.txt delete 0.0 end"
 		button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle
 		pack .degt.bot.save .degt.bot.close .degt.bot.clear -side left

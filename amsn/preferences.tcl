@@ -2308,7 +2308,7 @@ proc Preferences { { settings "personal"} } {
 		#open file command
 		label $lfname.1.lopenfile -text "[trans openfilecommand] :" -padx 5 -font sboldf
 		entry $lfname.1.openfile -width 40 -textvariable [::config::getVar openfilecommand]
-		label $lfname.1.lopenfileex -text "(gnome: gnome-open \$file) (kde: kfmclient exec \$file)" -font examplef
+		label $lfname.1.lopenfileex -text "(Gnome: gnome-open \$file) (KDE: kfmclient exec \$file)" -font examplef
 	}
 	
 	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf

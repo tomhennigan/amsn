@@ -1980,13 +1980,13 @@ namespace eval ::log {
 			incr id
 			incr totalsize $size
 			set wlabel "label_$id"
-			label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]b)"
+			label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size][trans bytesymbol])"
 			pack configure $frame.$wlabel -side top
 		}
 		
 		$w.select.list configure -editable false -command "::log::stats_select $id"
 
-		$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize]b"
+		$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize][trans bytesymbol]"
 
 		#frame $w.button
 		button $w.close -text "[trans close]" -command "destroy $w"
@@ -2031,12 +2031,12 @@ namespace eval ::log {
 			incr id
 			incr totalsize $size
 			set wlabel "label_$id"
-			label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size]b)"
+			label $frame.$wlabel -text "$id) $email ([::amsn::sizeconvert $size][trans bytesymbol])"
 			pack configure $frame.$wlabel -side top
 		}
 		
 		$w.select.list configure -editable false -command "::log::stats_select $id"
-		$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize]b"
+		$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize][trans bytesymbol]"
 		$w.list.sf yview moveto 0
 		
 		
