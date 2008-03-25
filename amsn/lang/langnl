@@ -368,7 +368,7 @@ finish Voltooien
 finish2apply Klik op Voltooien om deze instellingen toe te passen.
 firewalled Je bevindt je achter een firewall of router
 firewalled2 Je bevindt je achter een firewall, controleer je verbindingsinstellingen in het voorkeurenvenster
-followtext Naar beneden scrollen als er nieuwe tekst wordt ingevoerd
+followtext Naar beneden scrollen wanneer nieuwe tekst wordt ingevoerd
 forget_me Mij vergeten
 forgot_pass Ik ben mijn wachtwoord vergeten
 formatctt CTT-formaat
@@ -498,7 +498,7 @@ lleftconf $1 heeft de vergadering verlaten
 load Activeren
 loadcontacts Contactenlijst importeren
 loadotherdisplaypic Even geduld, de schermafbeeldingen van $1 worden geladen...	
-localecode Je 4-letterige taal-landcode
+localecode Je 4-cijferige taal-landcode
 logbigger Het logboek mag per contact niet groter zijn dan 
 logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
@@ -807,7 +807,7 @@ showdisplaypic Schermafbeelding tonen
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showonedpframe Slechts één schermafbeeldingsframe tonen in gespreksvensters
 showlinksinlogin Koppelingen weergeven in het aanmeldscherm
-showmailicon E-mailpictogram weergeven in het systeemvak als er nieuwe e-mails binnenkomen
+showmailicon E-mailpictogram weergeven in systeemvak wanneer nieuwe e-mails binnenkomen
 showmypic Mijn afbeelding
 shownotify Meldingsvenster weergeven bij bepaalde gebeurtenissen
 showpicnotify Schermafbeelding weergeven op meldingsvensters
@@ -822,6 +822,7 @@ smilefile Bestandsnaam van de emoticon
 smileintro Vul de nodige velden in om een nieuwe emoticon te maken (zie de FAQ voor hulp)
 smileintro2 Pas de nodige velden aan om deze emoticon te bewerken (zie de FAQ voor hulp)
 smiletoobig De gekozen emoticon is groter dan gewoonlijk. Wil je de grootte aanpassen?
+smileynotavailable Emoticon niet beschikbaar!
 snackfailed Laden van Snack is niet gelukt. Teruggevallen op de standaardfuncties.
 snackneeded Om deze functionaliteit te gebruiken heb je de Snack-bibliotheek (versie 2.2.9 of nieuwer) nodig.
 snapshot Foto
