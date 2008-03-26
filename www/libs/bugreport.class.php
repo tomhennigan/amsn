@@ -142,8 +142,11 @@ if(!defined('_BUGREPORT_CLASS_')) {
                   return true;
                 }
               }
-              else {
+	      elseif ($matches[3] == "") {
                 return true;
+	      }
+              else {
+                return false;
               }
             }
           }
