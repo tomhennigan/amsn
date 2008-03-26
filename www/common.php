@@ -8,7 +8,7 @@ require_once 'libs/files.lib.php';
 define('inc', 'includes' . DIRECTORY_SEPARATOR);
 $_GET['section'] = (isset($_GET['section']) && !empty($_GET['section'])) ? $_GET['section'] : 'home';
 sess_init(DBHOST,DBNAME_WWW,DBUSER,DBPASS,'');
-mysql_select_db(DBNAME_WWW, mysql_pconnect(DBHOST,DBUSER,DBPASS)) or die(mysql_error());
+mysql_select_db(DBNAME_WWW, mysql_connect(DBHOST,DBUSER,DBPASS)) or die(mysql_error());
 
 if(isset($_GET['lang'])) {
   setLangKey($_GET['lang']);
