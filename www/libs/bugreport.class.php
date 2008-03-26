@@ -64,6 +64,8 @@ if(!defined('_BUGREPORT_CLASS_')) {
         $report = $report_fixed;
       if ($report_fixed = preg_replace('/<stack>(.*)<\/stack>/is', '<stack><![CDATA[$1]]></stack>', $report))
         $report = $report_fixed;
+      if ($report_fixed = preg_replace('/<tip,([0-9]*)>(.*)<\/tip,[0-9]*>/is', '<tip_$1><![CDATA[$2]]></tip_$1>', $report))
+        $report = $report_fixed;
 
       $xml->load_text($report);
 
@@ -112,8 +114,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
 
 #checks version of the client against the latest one
     function check_amsn_version() {
-	$path = dirname(__FILE__);
-	$path = realpath($path . '/../amsn_latest');
+	$path = realpath('../amsn_latest');
 	if (file_exists($path) && is_readable($path)) {
           $latest = implode("", file($path));
           preg_match('/^([0-9]+)\.([0-9]+)(\.[0-9]+)?/', $latest, $matches_latest);
@@ -133,7 +134,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
               return true;
             }
             else {
-              if (substr($matches[3],0,1) == '.') {
+              if (substr($matches_latest[3],0,1) == '.') {
                 if (strcmp($matches[3], $matches_latest[3]) < 0) {
                   return false;
                 }
@@ -142,7 +143,7 @@ if(!defined('_BUGREPORT_CLASS_')) {
                 }
               }
               else {
-                return false;
+                return true;
               }
             }
           }
