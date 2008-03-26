@@ -3175,7 +3175,7 @@ namespace eval ::MSNOIM {
                 	                  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
                         	          -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
                                 	  -xml [::MSNOIM::getMailDataXml $ticket_t $ticket_p] \
-	                                  -callback [list ::MSNOIM::getMailDataCallback $callbk $retry]]
+	                                  -callback [list ::MSNOIM::getMailDataCallback $callbk]]
         	                $soap_req SendSOAPRequest
                 	}
 
