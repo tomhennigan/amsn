@@ -2616,18 +2616,16 @@ namespace eval ::MSN {
 	#Parses "name: value\nname: value\n..." headers and returns the "value" for "name"
 	#TODO remove this proc after deleting the stuff that needs it in the proxy code
 	#///////////////////////////////////////////////////////////////////////////////
-	proc GetHeaderValue { bodywithr name } {
+	proc GetHeaderValue { body name } {
 
-		set body "\n[string map {"\r" ""} $bodywithr]"
-		set pos [string first "\n${name}:" $body]
-
-		if { $pos < 0 } {
-			return ""
+		set reg {^}
+		append reg $name
+		append reg {:[ \t]*(.*)[ \t]*$}
+		if {[regexp -nocase -line $reg $body -> value] } {
+			return [string trim $value]			
 		} else {
-			set strstart [expr { $pos + [string length $name] + 3 } ]
-			set strend [expr { $strstart + [string first "\n" [string range $body $strstart end]] - 1 } ]
-			return [string range $body $strstart $strend]
-		}
+			return ""
+		} 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
