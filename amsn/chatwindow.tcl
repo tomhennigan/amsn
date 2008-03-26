@@ -3411,11 +3411,9 @@ namespace eval ::ChatWindow {
 			if { [info exists right] } {
 				if { $right == 0 } {
 					#we change the less color
-					status_log ">>>>>>>>>>> coloring button less: ${container}.bar.less\n"
 					catch { ${container}.bar.less configure -bg green }
 				} else {
 					#we flicker the more button
-					#status_log ">>>>>>>>>>> coloring button more: ${container}.bar.more\n"
 					catch { ${container}.bar.more configure -bg green }
 				}
 			}
