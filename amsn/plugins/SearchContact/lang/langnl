@@ -3,10 +3,10 @@ all Alles
 filterblocked Alleen geblokkeerde contacten tonen
 filterremovedme Alleen contacten die me verwijderden tonen
 Clear Wissen
-nickandpsm Schuilnaam en persoonlijk bericht
-groupnames Groepnaam
-typeheretofilter Typ hier om de contactenlijst te filteren ...
-storelastinput Onthoud en herstel de laatste zoekopdracht bij afsluiten
-enableoperators Gebruik 'operators'; Ondersteund: "& " (AND) en "| " (OR) voor de door kommas/spaties uiteengehouden zoekwoorden
-usewildcards Gebruik 'wildcards': ondersteund zijn * en ?
+nickandpsm Schermnaam en persoonlijk bericht
+groupname Groepsnaam
+typeheretofilter Typ hier om de contactenlijst te filteren...
+storelastinput Laatste zoekopdracht herstellen bij laden van de plug-in
+enableoperators 'Operators' gebruiken (ondersteund zijn "& " (AND) en "| " (OR), te plaatsen voor de door komma's/spaties gescheiden zoekwoorden)
+usewildcards 'Wildcards' gebruiken (ondersteund zijn * en ?)
 filter Filter

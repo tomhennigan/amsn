@@ -1,13 +1,12 @@
 amsn_lang_version 2
 all All
 filterblocked Show only those I blocked
-filterremovedme Show only those  who removed me
+filterremovedme Show only those who removed me
 clear Clear
 nickandpsm Nickname and Personal Message
-typeheretofilter Type here to filter the contactlist ...
+typeheretofilter Type here to filter the contactlist...
 storelastinput Restore the last input when loading the plugin
-enableoperators Use operators to search (supported are "& " (AND) and "| " (OR), to be placed before the comma/space seperated keywords)
+enableoperators Use operators to search (supported are "& " (AND) and "| " (OR), to be placed before the comma/space separated keywords)
 usewildcards Support the use of wildcards: * and ?
 groupname Group name
 filter Filter
-

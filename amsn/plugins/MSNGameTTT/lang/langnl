@@ -1,0 +1,16 @@
+amsn_lang_version 2
+gametttgameclosed De tegenstander heeft het spel afgesloten.
+gametttgamesessionwith $1 tegen $2
+gametttnowinner Niemand wint de ronde!\nDe score blijft $1:$2.
+gametttopponent tegenstander
+gametttopponentloading Een moment, tegenstander laadt het spel...
+gametttopponentready Je tegenstander is klaar om te spelen, klik op "Starten" om te beginnen.
+gametttopponentsturn beurt aan de tegenstander
+gametttopponentnotready Wachten tot de tegenstander op "Starten" klikt...
+gametttrestart Herstarten
+gametttstart Starten
+gamettttitle Tic Tac Toe
+gametttwait Even wachten...
+gametttwinner $1 wint de ronde!\nDe score is nu $2:$3.
+gametttyou jij
+gametttyourturn JOUW beurt

@@ -4,6 +4,7 @@
 	<author>Giuseppe Bottiglieri (Square87) and Karel Demeyer (scapor), 2008</author>
 	<description>This plugin adds a search-as-you-type searchbar underneath the contactlist to filter contacts.</description>
 	<description_hu>A partnerek szűrését teszi lehetővé egy keresősáv segítségével, szabadon megadható keresőszöveggel.</description_hu>
+	<description_nl>Deze plug-in voegt een zoeken-terwijl-u-typt-zoekbalk onder de contactenlijst toe voor het filteren van contacten.</description_nl>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.9</plugin_version>
 	<plugin_file>searchcontact.tcl</plugin_file>

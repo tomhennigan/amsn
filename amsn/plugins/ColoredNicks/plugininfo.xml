@@ -6,6 +6,7 @@
 	<description_fr>ColoredNicks vous permet de voirs les couleurs dans les pseudo de vos contacts. Vous pouvez aussi colorier votre pseudonyme et votre message personnel. Les couleurs ne sont pas encore supportées.</description_fr>
 	<description_it>ColoredNicks permette di visualizzare i nick colorati nella lista dei contatti. Puoi anche colorare il tuo nick e il messaggio personale. Lo sfondo non è ancora supportato.</description_it>
 	<description_hu>A ColoredNicks segítségével a becenevek színezése is látható . A saját beceneved és személyes üzeneted is színezhető. A háttér színezése jelenleg nem támogatott.</description_hu>
+	<description_nl>ColoredNicks laat gekleurde schermnamen zien in de contactenlijst. Je kunt ook je schermnaam en je persoonlijk bericht inkleuren. Achtergrond wordt nog niet ondersteund.</description_nl>
 	<amsn_version>0.98b</amsn_version>
 	<plugin_version>0.4</plugin_version>
 	<plugin_file>colorednicks.tcl</plugin_file>
@@ -29,6 +30,10 @@
 	</lang>
 	<lang>
 		<langcode>it</langcode>
+		<version>1.0</version>
+	</lang>
+	<lang>
+		<langcode>nl</langcode>
 		<version>1.0</version>
 	</lang>
 	<lang>
