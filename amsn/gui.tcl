@@ -4640,8 +4640,8 @@ proc cmsn_draw_status {} {
 	checkbutton $w.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_status -font sboldf
 
 	frame $w.bot -relief sunken -borderwidth 1
-	button $w.bot.save -text "[trans savetofile]" -command status_save
-	button $w.bot.clear  -text [trans clearlabel] \
+	button $w.bot.save -text [trans savetofile] -command status_save
+	button $w.bot.clear  -text [trans clear] \
 		-command "$w.info delete 0.0 end"
 	button $w.bot.close -text [trans close] -command toggle_status
 	pack $w.bot.save $w.bot.close $w.bot.clear -side left
@@ -4681,19 +4681,19 @@ proc status_save { } {
 	set w .status_save
 
 	toplevel $w
-	wm title $w \"[trans savetofile]\"
-	label $w.msg -justify center -text "Please give a filename"
+	wm title $w [trans savetofile]
+	label $w.msg -justify center -text [trans enterfilename]
 	pack $w.msg -side top
 
 	frame $w.buttons
 	pack $w.buttons -side bottom -fill x -pady 2m
-	button $w.buttons.dismiss -text Cancel -command "destroy $w"
-	button $w.buttons.save -text Save -command "status_save_file $w.filename.entry; destroy $w"
+	button $w.buttons.dismiss -text [trans cancel] -command "destroy $w"
+	button $w.buttons.save -text [trans save] -command "status_save_file $w.filename.entry; destroy $w"
 	pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
 	frame $w.filename -bd 2
 	entry $w.filename.entry -relief sunken -width 40
-	label $w.filename.label -text "Filename:"
+	label $w.filename.label -text "[trans filename]:"
 	pack $w.filename.entry -side right
 	pack $w.filename.label -side left
 	pack $w.msg $w.filename -side top -fill x
@@ -7666,8 +7666,8 @@ proc degt_protocol_win { } {
 	checkbutton .degt.follow -text "[trans followtext]" -onvalue 1 -offvalue 0 -variable followtext_degt -font sboldf
 
 	frame .degt.bot -relief sunken -borderwidth 1 -class Degt
-	button .degt.bot.save -text "[trans savetofile]" -command degt_protocol_save
-		button .degt.bot.clear  -text [trans clearlabel] \
+	button .degt.bot.save -text [trans savetofile] -command degt_protocol_save
+		button .degt.bot.clear  -text [trans clear] \
 			-command ".degt.mid.txt delete 0.0 end"
 		button .degt.bot.close -text [trans close] -command degt_protocol_win_toggle
 		pack .degt.bot.save .degt.bot.close .degt.bot.clear -side left
@@ -7694,19 +7694,19 @@ proc degt_protocol_save { } {
 	set w .protocol_save
 
 	toplevel $w
-	wm title $w \"[trans savetofile]\"
-	label $w.msg -justify center -text "Please give a filename"
+	wm title $w [trans savetofile]
+	label $w.msg -justify center -text [trans enterfilename]
 	pack $w.msg -side top
 
 	frame $w.buttons -class Degt
 	pack $w.buttons -side bottom -fill x -pady 2m
-	button $w.buttons.dismiss -text Cancel -command "destroy $w"
-	button $w.buttons.save -text Save -command "degt_protocol_save_file $w.filename.entry; destroy $w"
+	button $w.buttons.dismiss -text [trans cancel] -command "destroy $w"
+	button $w.buttons.save -text [trans save] -command "degt_protocol_save_file $w.filename.entry; destroy $w"
 	pack $w.buttons.save $w.buttons.dismiss -side left -expand 1
 
 	frame $w.filename -bd 2 -class Degt
 	entry $w.filename.entry -relief sunken -width 40
-	label $w.filename.label -text "Filename:"
+	label $w.filename.label -text "[trans filename]:"
 	pack $w.filename.entry -side right
 	pack $w.filename.label -side left
 	pack $w.msg $w.filename -side top -fill x

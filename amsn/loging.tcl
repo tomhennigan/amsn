@@ -1956,7 +1956,7 @@ namespace eval ::log {
 		pack configure $w.select -side top -fill x -expand false
 
 		frame $w.totalsize
-		label $w.totalsize.txt -text "[trans totalsize] :"
+		label $w.totalsize.txt -text "[trans totalsize]:"
 		pack configure $w.totalsize.txt -side bottom -fill x
 		pack $w.totalsize -side top -fill x -expand false
 
@@ -1986,7 +1986,7 @@ namespace eval ::log {
 		
 		$w.select.list configure -editable false -command "::log::stats_select $id"
 
-		$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize][trans bytesymbol]"
+		$w.totalsize.txt configure -text "[trans totalsize]: [::amsn::sizeconvert $totalsize][trans bytesymbol]"
 
 		#frame $w.button
 		button $w.close -text "[trans close]" -command "destroy $w"
@@ -2036,7 +2036,7 @@ namespace eval ::log {
 		}
 		
 		$w.select.list configure -editable false -command "::log::stats_select $id"
-		$w.totalsize.txt configure -text "[trans totalsize] : [::amsn::sizeconvert $totalsize][trans bytesymbol]"
+		$w.totalsize.txt configure -text "[trans totalsize]: [::amsn::sizeconvert $totalsize][trans bytesymbol]"
 		$w.list.sf yview moveto 0
 		
 		
