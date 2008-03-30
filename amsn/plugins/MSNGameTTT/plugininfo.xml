@@ -4,6 +4,7 @@
 	<author>Mirko Hansen (BaaaZen)</author>
 	<description>MSN-Game Tic Tac Toe</description>
 	<description_de>MSN-Spiel Tic Tac Toe</description_de>
+	<description_es>MSN-Juego Tres en Raya</description_es>
 	<description_nl>MSN-spel Tic Tac Toe</description_nl>
 	<amsn_version>0.98</amsn_version>
 	<plugin_version>1.0</plugin_version>
@@ -15,6 +16,10 @@
 	<lang>
 		<langcode>en</langcode>
 		<version>0.1</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>9675</version>
 	</lang>
 	<lang>
 		<langcode>de</langcode>

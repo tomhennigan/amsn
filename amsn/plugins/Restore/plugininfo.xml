@@ -3,6 +3,7 @@
 	<name>Restore Chats</name>
 	<author>Karel Demeyer</author>
 	<description>Reopens chats after a crash</description>
+	<description_es>Vuelve a abrir las conversaciones tras un fallo</description_es>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.2</plugin_version>
 	<plugin_file>restore.tcl</plugin_file>

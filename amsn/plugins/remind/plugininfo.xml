@@ -3,6 +3,7 @@
 	<name>remind</name>
 	<author>Frederic Diaz</author>
 	<description>Shows the last sentences of the previous conversations when opening a new chat window</description>
+	<description_es>Muestra las últimas frases de las conversaciones anteriores al abrir una nueva ventana de conversación</description_es>
 	<description_fr>Afficher les dernières phrases des précédentes conversations lors de l'ouverture de la fenêtre de conversation</description_fr>
 	<description_hu>A korábbi beszélgetések utolsó mondatainak megjelenítése új chat ablak megnyitásakor.</description_hu>
 	<amsn_version>0.94</amsn_version>

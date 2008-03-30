@@ -1,0 +1,16 @@
+amsn_lang_version 2
+gametttgameclosed El contrincante ha cerrado el juego.
+gametttgamesessionwith $1 con $2
+gametttnowinner ¡No ganó nadie la ronda!\nLa puntuación continúa $1:$2.
+gametttopponentloading Por favor, espere. Su oponente está cargando el juego ...
+gametttopponentnotready Esperando a que su oponente pinche en "Iniciar" ...
+gametttopponent oponente
+gametttopponentready Su oponente está preparado para jugar, pinche en "Iniciar" para empezar.
+gametttopponentsturn turno del oponente
+gametttrestart Reiniciar
+gametttstart Iniciar
+gamettttitle Tres en raya
+gametttwait Por favor, espere ...
+gametttwinner ¡$1 gana la ronda!
+gametttyourturn TU turno
+gametttyou tú
