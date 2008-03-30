@@ -822,6 +822,7 @@ smilefile Nom du fichier de l'émoticône/smiley
 smileintro2 Veuillez éditer les champs obligatoires pour personnaliser cette émoticône/smiley (voir la FAQ pour l'aide)
 smileintro Veuillez remplir les champs obligatoires pour créer un nouvelle émoticône/smiley (voir la FAQ pour l'aide)
 smiletoobig L'émoticône/smiley que vous avez choisie est plus grande que la taille normale. Voulez-vous la redimensionner ?
+smileynotavailable Émoticône/smiley non disponible!
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
 snackneeded Vous devez avoir la librarie Snack pour utiliser cette fonctionnalité. Une version minimale de 2.2.9 est necessaire.
 snapshot Garder l'image
