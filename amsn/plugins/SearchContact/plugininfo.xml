@@ -12,4 +12,42 @@
 	<plugin_namespace>searchcontact</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>9561</cvs_version>
+	<lang>
+		<langcode>en</langcode>
+		<version>9674</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>9676</version>
+	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>9403</version>
+	</lang>
+	<lang>
+		<langcode>nl</langcode>
+		<version>9674</version>
+	</lang>
+
+	<file>
+		<path>pixmaps/clear.png</path>
+		<version>9273</version>
+	</file>
+	<file>
+		<path>pixmaps/license.txt</path>
+		<version>9273</version>
+	</file>
+	<file>
+		<path>pixmaps/search.png</path>
+		<version>9273</version>
+	</file>
+
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins2/SearchContact/searchcontact.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/SearchContact/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins2/SearchContact/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins2/SearchContact/$file</file>
+	</URL>
+
 </plugin>
