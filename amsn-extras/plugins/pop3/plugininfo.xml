@@ -3,6 +3,7 @@
 	<name>pop3</name>
 	<author>Arieh Schneier</author>
 	<description>Plugin to check POP3 accounts in aMSN in the same way as hotmail ones.</description>
+	<description_es>Plugin para comprobar las cuentas POP3 en aMSN de la misma forma que las de hotmail.</description_es>
 	<description_fr>Ce plugin vous permet d'afficher vos comptes mails (par pop3) comme s'ils étaient sur hotmail.</description_fr>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>2.3</plugin_version>

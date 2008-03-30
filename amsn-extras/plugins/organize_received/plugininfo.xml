@@ -3,6 +3,7 @@
 	<name>Organize Received Files</name>
 	<author>Nilton Volpato &lt;first-name dot last-name @ gmail.com&gt;</author>
 	<description>When the user accepts an incoming file transfer, the file will be saved in a subdirectory of the amsn_received dir. This subdirectory may be configured, and is by default the email of the user sending the file followed by the current date.</description>
+	<description_es>Cuando el usuario acepte una transferencia de archivo entrante, el archivo se guardará en un subdirectorio del directorio amsn_received. Este subdirectorio puede configurarse, y por defecto será la dirección de correo electrónico del usuario, que envía el archivo, seguido de la fecha actual.</description_es>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>0.4</plugin_version>
 	<plugin_file>organize_received.tcl</plugin_file>
