@@ -4,6 +4,7 @@
 	<author>aMSN Team</author>
 	<description>This plugin adds functionality for power-users to aMSN</description>
 	<description_es>Este plugin añade funcionalidades para usuarios avanzados a aMSN</description_es>
+	<description_fr>Ce plugin ajoute des fonctionnalités à aMSN pour les utilisateurs avancés</description_fr>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>0.1</plugin_version>
 	<plugin_file>powertool.tcl</plugin_file>

@@ -1,0 +1,17 @@
+amsn_lang_version 2
+gametttgameclosed Votre adversaire a quitté le jeu.
+gametttgamesessionwith $1 avec $2
+gametttnowinner Personne n'a gagné la manche!\nLe score reste inchangé $1:$2.
+gametttopponent adversaire
+gametttopponentloading Attendez s'il vous plait, votre adversaire charge le jeu...
+gametttopponentready Votre adversaire est prêt à jouer, cliquez sur "Démarrer" pour lancer le jeu.
+gametttopponentsturn Au tour de votre adversaire
+gametttopponentnotready En attente que votre adversaire clique sur "Démarrer"...
+gametttrestart Redémarrer
+gametttstart Démarrer
+gamettttitle Tic Tac Toe
+gametttwait Attendez s'il vous plait...
+gametttwinner $1 gagne la manche!\nLe score est maintenant $2:$3.
+gametttyou vous
+gametttyourturn à VOTRE tour
+

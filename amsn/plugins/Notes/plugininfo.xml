@@ -4,6 +4,7 @@
 	<author>Fred '04; Karel Demeyer '08</author>
 	<description>Add contactnotes system to aMSN</description>
 	<description_es>Añade el sistema de notas de los contactos a aMSN</description_es>
+	<description_fr>Ajouter le système de notes des contacts à aMSN</description_fr>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.1</plugin_version>
 	<plugin_file>notes.tcl</plugin_file>

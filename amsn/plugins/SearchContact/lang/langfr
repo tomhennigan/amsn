@@ -1,0 +1,12 @@
+amsn_lang_version 2
+all Tout
+filterblocked Ne montrer que ceux que j'ai bloqués
+filterremovedme Ne montrer que ceux qui m'ont supprimé de leur liste
+clear Effacer
+nickandpsm Surnom et message personnel
+typeheretofilter Taper ici pour filtrer la liste de contact...
+storelastinput Afficher la dernière recherche lors du démarrage
+enableoperators Utiliser les opérateurs logiques pour la recherche ("&" (ET) et "|" (OU) sont supportés, ils doivent être placés avant les virgules/espaces)
+usewildcards Supporter l'utilisation des expressions régulières: * et ?
+groupname Nom du groupe
+filter Filtre
