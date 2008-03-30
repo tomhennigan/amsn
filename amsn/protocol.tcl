@@ -6351,6 +6351,10 @@ proc add_Clientid {chatid clientid} {
 			# 0x70000000
 			set clientname "Windows Live Messenger 8.1"
 		}
+		2147483648 {
+			# 0x80000000
+			set clientname "Windows Live Messenger 8.5"
+		}
 		default {
 			if {($clientid & 0x200) == [expr {0x200}]} {
 					set clientname "Webmessenger"
