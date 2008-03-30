@@ -198,7 +198,6 @@ closingdocks Botón de cerrar iconifica la ventana
 color Color
 command Comando
 commandstatus Ejecutar comando
-configureaudiovideo Configurar ajustes de audio y vídeo
 configure Configurar
 configuremic Configurando tu micrófono
 configureplugin Configurar plug-in $1
@@ -744,7 +743,6 @@ reject Rechazar
 rememberaccount Recordar mi cuenta
 rememberpass Recordar contraseña
 remembersetting Recordar esta selección
-removecustom Eliminar imagen personalizada
 removeempty Eliminar grupos vacíos de la lista de contactos
 removefromgroup Eliminar del grupo
 removefromlist Borrar de esta lista
@@ -795,7 +793,6 @@ servergoingdown Desconectado: El servidor se va a apagar para mantenimiento
 server Servidor
 serverunavailable El servidor no está disponible
 session Sesión
-setascustom Establecer como imagen personalizada
 setasmydp Establecer como mi Imagen para Mostrar
 setupcam Configurando tu cámara web
 setupcamfinetune Configurando tu cámara web, y aplicando ajuste fino de imagen
@@ -825,6 +822,7 @@ smilefile Nombre del archivo
 smileintro2 Edita los siguientes campos para personalizar el emoticono (ver FAQ para más información)
 smileintro Rellena los siguientes campos para crear un emoticono personalizado (ver FAQ para más información)
 smiletoobig El emoticono seleccionado es más grande de lo normal. ¿ Deseas cambiar el tamaño ?
+smileynotavailable ¡Emoticono no disponible!
 snackfailed Fallo al cargar SNACK, volviendo a configuración por defecto
 snackneeded Se necesita la biblioteca Snack para utilizar esta funcionalidad. Como mínimo es necesario la versión 2.2.9
 snapshot Captura de pantalla
