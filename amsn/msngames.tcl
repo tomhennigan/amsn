@@ -347,7 +347,10 @@ namespace eval ::MSNGames {
 				set sock [lindex $connection 2]
 
 				status_log "verifying $ip : $port on $sock \n" red
-				if {$sock == $used_socket } { continue }
+				if {$sock == $used_socket } {
+					setObjOption $sid sock $sock
+					continue
+				}
 
 				status_log "Closing $sock\n" red
 				catch {
