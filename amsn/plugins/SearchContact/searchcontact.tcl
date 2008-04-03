@@ -7,7 +7,11 @@
 #  ============================================  #
 ##################################################
 
-#TODO: so a binding on the main menu for any-key that stores that keypress, focusses the bar and inserts the pressed key ?
+#TODO:
+
+#so a binding on the main menu for any-key that stores that keypress, focusses the bar and inserts the pressed key ?
+
+#(bug) if entry is focused and we open a CW if we write somenthing in CW the text is written in the entry search-bar
 
 namespace eval ::searchcontact {
 
@@ -340,7 +344,7 @@ namespace eval ::searchcontact {
 		variable cluetextpresent
 		set input .main.searchbar.sunkenframe.input
 
-		if {[winfo exists $input] && $cluetextpresent != 1} {                    
+		if {[winfo exists $input] && $cluetextpresent != 1} {
                         return [string tolower [$input get] ]
 		} else {
 			return ""
@@ -348,7 +352,7 @@ namespace eval ::searchcontact {
 	}
 
 	#return a list of contacts filtered according to $searchtype
-	proc filterContacts {input} { 
+	proc filterContacts {input} {
 		set type $::searchcontact::config(searchtype)
 
 		#Parse $input to backslash some chars
@@ -404,6 +408,13 @@ namespace eval ::searchcontact {
 			set searchnotes 0
 		}
 
+
+		if {$::searchcontact::config(filter_blocked) == 1 || $::searchcontact::config(filter_removedme) == 1 } {
+			set filters 1
+		} else {
+			set filters 0
+		}
+
 		#search for every input item for matches
 		set matches [list ]
 		foreach item $input {
@@ -413,18 +424,17 @@ namespace eval ::searchcontact {
 		#filter_blocked
 		#filter_removedme
 				#don't think about adding not blocked/removedme contacts if the filter is on
-				if {	($::searchcontact::config(filter_blocked) == 1 && [string last "BL" [::abook::getContactData $contact lists]] == -1) ||\
-					($::searchcontact::config(filter_removedme) == 1 && [string last "RL" [::abook::getContactData $contact lists]] != -1)
-				} { continue }
-
+				if {$filters} {
+					if {	($::searchcontact::config(filter_blocked) == 1 && [string last "BL" [::abook::getContactData $contact lists]] == -1) ||\
+						($::searchcontact::config(filter_removedme) == 1 && [string last "RL" [::abook::getContactData $contact lists]] != -1)
+					} { continue }
+				}
 
 				#if no input, add all users that passed the filters
 				if {$input == ""} { 
 					lappend output $contact
 					continue
 				}
-
-
 
 				#filter per searchtype
 				#we search first in the email because there isn't the need to call a proc. So it's more speed.
@@ -437,8 +447,8 @@ namespace eval ::searchcontact {
 					}
 				}
 				if {$type == 1 || $type == 0} {
-					if {	[string match "*$item*" [string tolower [::abook::getNick $contact]]] == 1 || \
-						[string match "*$item*" [string tolower [::abook::getVolatileData $contact PSM]]] == 1 ||\
+					if {	[string match "*$item*" [string tolower [ removeStyles [::abook::getVolatileData $contact parsed_nick]]]] == 1 || \
+						[string match "*$item*" [string tolower [ removeStyles [::abook::getVolatileData $contact parsed_psm]]]] == 1 ||\
 						[string match "*$item*" [string tolower [::abook::getContactData $contact customnick]]] == 1
 					} {
 
@@ -452,9 +462,11 @@ namespace eval ::searchcontact {
 
 					foreach group [::abook::getGroupsname $contact] {
 						if { [string match -nocase "*$item*" $group] == 1 } {
-							if { [lsearch output $contact] == -1 } {lappend output $contact}
+							if { [lsearch output $contact] == -1 } { 	lappend output $contact
+								break
+							}
 						}
-					}			
+					}
 				}
 				if {$searchnotes == 1 && ($type == 4 || $type == 0)} {
 
@@ -496,7 +508,7 @@ namespace eval ::searchcontact {
 					}
 					return $output
 					
-				}			
+				}
 			}
 			"OR" {
 				#add all elements to the output but remove doubles
@@ -507,6 +519,21 @@ namespace eval ::searchcontact {
 
 		}
 
+	}
+
+	proc removeStyles {list_styles} {
+		set output ""
+		foreach unit $list_styles {
+			switch [lindex $unit 0] {
+				"text" {
+					append output [lindex $unit 1]
+				}
+				"smiley" {
+					append output [lindex $unit 2]
+				}
+			}
+		}
+		return $output
 	}
 
 	proc shortestList {list1 list2} {
@@ -524,8 +551,15 @@ namespace eval ::searchcontact {
 
 	#Do the drawing of the CL.main.searchbar.sunkenframe.input
 	proc drawContacts {} {
+
+		if {$::searchcontact::config(filter_blocked) == 0 && $::searchcontact::config(filter_removedme) == 0} {
+			set filters 0
+		} else {
+			set filters 1
+		}
+
 		variable cluetextpresent
-		if {$cluetextpresent == 1} {
+		if {$cluetextpresent == 1 && $filters == 0} {
 			return
 		}
 
@@ -534,7 +568,7 @@ namespace eval ::searchcontact {
 		set ::searchcontact::firstcontact ""
 
 		#if any filter is applied, block the drawing
-		if {$input == "" && $::searchcontact::config(filter_blocked) == 0 && $::searchcontact::config(filter_removedme) == 0} {
+		if {$input == "" && $filters == 0} {
 			::searchcontact::resetSearchBarColor
 			set ::guiContactList::external_lock 0
 			::guiContactList::drawContacts .main.f.cl.cvs
@@ -572,7 +606,13 @@ namespace eval ::searchcontact {
 				set output_element [lreplace $output_element end end]
 			}
 
-			set ::searchcontact::firstcontact [lindex [lsearch -regexp -inline $output_element [list "C" *]] 1]
+			#search and save the first contact outputted
+			foreach element $output_element {
+				if {[lindex $element 0] eq "C"} {
+					set ::searchcontact::firstcontact [lindex $element 1]
+					break
+				}
+			}
 
 			set groupID "offline"
 			set ::guiContactList::external_lock 0
