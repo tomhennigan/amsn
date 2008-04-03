@@ -128,7 +128,7 @@ public:
 
 #if CXIMAGE_SUPPORT_ENCODE
 	bool Encode(CxFile * fp);
-	bool Encode(CxFile * fp, CxImage ** pImages, int pagecount, bool bLocalColorMap = false, bool bLocalDispMeth = false);
+	bool Encode(CxFile * fp, CxImage ** pImages, int pagecount, bool bLocalColorMap = false, bool bLocalDispMeth = true);
 	bool Encode(FILE *fp) { CxIOFile file(fp); return Encode(&file); }
 	bool Encode(FILE *fp, CxImage ** pImages, int pagecount, bool bLocalColorMap = false)
 				{ CxIOFile file(fp); return Encode(&file, pImages, pagecount, bLocalColorMap); }
