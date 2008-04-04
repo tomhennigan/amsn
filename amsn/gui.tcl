@@ -4285,6 +4285,7 @@ proc cmsn_draw_main {} {
 		::config::setKey wingeometry $geometry
 	}
 	catch {wm geometry . $geometry}
+	update idletasks
 	
 	#Unhide main window now that it has finished being created
 	wm state . normal
