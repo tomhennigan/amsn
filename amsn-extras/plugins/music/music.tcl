@@ -20,7 +20,20 @@ namespace eval ::music {
 		variable lasterror
 
 		set musicpluginpath $dir
-		set smallcoverfilename [file join $musicpluginpath albumart.jpg]
+		
+		global tcl_platform
+		switch $tcl_platform(platform) {
+		unix {
+			set tmpdir /tmp
+		} macintosh {
+			set tmpdir $::env(TRASH_FOLDER)
+		} default {
+			set tmpdir [pwd]
+			catch {set tmpdir $::env(TMP)}
+			catch {set tmpdir $::env(TEMP)}
+		}
+		}
+		set smallcoverfilename [file join $tmpdir amsn_albumart.jpg]
 		set dppath ""
 		set oldinfo [list]
 		set lastafter ""
@@ -325,9 +338,13 @@ namespace eval ::music {
 				}
 				if {$artfile != ""} {
 					#create a photo called "smallcover" with the albumart of the played song
-					::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96
+					if { [catch {::picture::ResizeWithRatio [image create photo smallcover -file $artfile] 96 96} err]} {
+						::music::log "error while resing $artfile : $err"
+					}
 
-					if {![catch {::picture::Save smallcover $smallcoverfilename cxjpg}]} {
+					if {[catch {::picture::Save smallcover $smallcoverfilename cxjpg} err]} {
+						::music::log "error while saving small cover to $smallcoverfilename : $err"
+					} else {
 						::music::log "Album art found, changing..."
 						::music::set_dp $smallcoverfilename
 					}
