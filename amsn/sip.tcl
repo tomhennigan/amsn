@@ -13,6 +13,7 @@ snit::type SIPConnection {
 	option -proxy_user -default ""
 	option -proxy_password -default ""
 	option -request_handler -default ""
+	option -error_handler -default ""
 
 	variable sock ""
 	variable compact_form 
@@ -20,6 +21,7 @@ snit::type SIPConnection {
 	variable cseqs
 	variable callids
 	variable callid_handler
+	variable tags
 
 	constructor { args } {
 		$self configurelist $args
@@ -57,13 +59,13 @@ snit::type SIPConnection {
 
 	method Disconnect { } {
 		if {$sock != "" && $state != "DISCONNECTED" } {
+			puts "Current time is [clock seconds]"
 			close $sock
 			set sock ""
 			set state "DISCONNECTED"
-			array unset cseqs
-			array unset callids
-			array unset callid_handler
 		}
+		after cancel [list $self KeepAlive]
+		after cancel [list $self RegisterExpires]
 
 	}
 
@@ -151,6 +153,19 @@ snit::type SIPConnection {
 		fconfigure $sock -buffering none -translation binary
 		fileevent $sock readable [list $self SocketReadable]
 		set state "CONNECTED"
+		after 30000 [list $self KeepAlive]
+	}
+
+	method KeepAlive { } {
+		
+		puts "Keepalive"
+		if { [catch {puts -nonewline $sock "\r\n"}] } {
+			$self Disconnect
+			# TODO : eval error_handler
+		} else {
+			after 30000 [list $self KeepAlive]
+		}
+
 	}
 
 	method GetHeader { headers name} {
@@ -195,6 +210,7 @@ snit::type SIPConnection {
 			set body [read $sock $content_length]
 		}
 
+		puts "Received a $method : [set $method] : \n$headers\n\n$body"
 		if {$method == "response" } {
 			set callid [$self GetHeader $headers "Call-ID"]
 			if { ![info exists callid_handler($callid)] } {
@@ -208,7 +224,6 @@ snit::type SIPConnection {
 			set handler $callid_handler($callid)
 			eval [linsert $handler end $response $headers $body]
 		}
-		puts "Received a $method : [set $method] : \n$headers\n\n$body"
 	}
 
 
@@ -241,6 +256,9 @@ snit::type SIPConnection {
 		if {[lindex $response 1] == "200" } {
 			set state "REGISTERED"
 			puts "registered"
+			set expires [$self GetHeader $headers "Expires"]
+			after [expr {$expires * 1000 - 10000}] [list $self RegisterExpires] 
+			puts "Current time is [clock seconds]"
 			if {$callbk != "" } {
 				if {[catch {eval $callbk 1} result]} {
 					bgerror $result
@@ -254,6 +272,27 @@ snit::type SIPConnection {
 				}				
 			}
 		}
+	}
+
+	method Send { headers {content_type ""} {body ""}} {
+		set msg $headers
+		if {$content_type != ""} {
+			append msg "c: $content_type\r\n"
+		}
+		append msg "l: [string length $body]\r\n"
+		append msg "\r\n"
+		append msg "$body"
+
+		puts "Writing to $sock : \n$msg"
+		if { [catch {puts -nonewline $sock "$msg"}] } {
+			$self Disconnect
+			# TODO : eval error_handler
+		}
+
+	}
+	method RegisterExpires { } {
+		set state "CONNECTED"
+		$self Register
 	}
 
 	method Register { {callbk ""} } {
@@ -277,15 +316,19 @@ snit::type SIPConnection {
 		set sockname [fconfigure $sock -sockname]
 		set auth "$options(-user):$options(-password)"
 		set auth [string map {"\n" "" } [base64::encode $auth]]
+
 		set callid [$self GenerateCallID]
+		set tag [$self GenerateTag]
+		set epid [$self GenerateEpid]
 		set callids($callid) "$cseqs(REGISTER) REGISTER"
 		set callid_handler($callid) [list $self RegisterResponse $callbk]
-		
+		set tags($callid) [list $tag $epid]
+
 
 		set msg "REGISTER sip:[lindex [split $options(-user) @] 1] SIP/2.0\r\n"
 		append msg "v: SIP/2.0/TLS [lindex $sockname 0]:[lindex $sockname 2]\r\n"
 		append msg "Max-Forwards: 70\r\n"
-		append msg "f: <sip:$options(-user)>;tag=[$self GenerateTag];epid=[$self GenerateEpid]\r\n"
+		append msg "f: <sip:$options(-user)>;tag=$tag;epid=$epid\r\n"
 		append msg "t: <sip:$options(-user)>\r\n"
 		append msg "i: $callid\r\n"
 		append msg "CSeq: $cseqs(REGISTER) REGISTER\r\n"
@@ -295,11 +338,8 @@ snit::type SIPConnection {
 		append msg "ms-keep-alive: UAC;hop-hop=yes\r\n"
 		append msg "o: registration\r\n"
 		append msg "Authorization: Basic $auth\r\n"
-		append msg "l: 0\r\n"
-		append msg "\r\n"
 
-		puts "Writing to $sock : \n$msg"
-		puts -nonewline $sock "$msg"
+		$self Send $msg
 
 		return 0
 	}
@@ -352,10 +392,15 @@ snit::type SIPConnection {
 		return $sdp
 	}
 	method Invite {destination codec_list candidate_list {callbk ""}} {
-		$self Register [list $self InviteCB $destination $codec_list $candidate_list $callbk]
+		set callid [$self GenerateCallID]
+		set tag [$self GenerateTag]
+		set epid [$self GenerateEpid]
+		set tags($callid) [list $tag $epid]
+		$self Register [list $self InviteCB $destination $callid $codec_list $candidate_list $callbk]
+		return $callid
 	}
 
-	method InviteCB {destination codec_list candidate_list callbk success} {
+	method InviteCB {destination callid codec_list candidate_list callbk success} {
 
 		if {$success == 0} {
 			puts "Not registered"
@@ -369,16 +414,18 @@ snit::type SIPConnection {
 		}
 
 		set sockname [fconfigure $sock -sockname]
-		set callid [$self GenerateCallID]
 		set callids($callid) "$cseqs(INVITE) INVITE"
 		set callid_handler($callid) [list $self InviteResponse $callbk]
+
+		set tag [lindex $tags($callid) 0]
+		set epid [lindex $tags($callid) 1]
 
 		set sdp [$self CreateSDP $codec_list $candidate_list]
 
 		set msg "INVITE sip:$destination SIP/2.0\r\n"
 		append msg "v: SIP/2.0/TLS [lindex $sockname 0]:[lindex $sockname 2]\r\n"
 		append msg "Max-Forwards: 70\r\n"
-		append msg "f: <sip:$options(-user)>;tag=[$self GenerateTag];epid=[$self GenerateEpid]\r\n"
+		append msg "f: <sip:$options(-user)>;tag=$tag;epid=$epid\r\n"
 		append msg "t: <sip:$destination>\r\n"
 		append msg "i: $callid\r\n"
 		append msg "CSeq: $cseqs(INVITE) INVITE\r\n"
@@ -386,13 +433,8 @@ snit::type SIPConnection {
 		append msg "transport=$options(-transport)>;proxy=replace\r\n"
 		append msg "User-Agent: $options(-user_agent)\r\n"
 		append msg "Ms-Conversation-ID: f=0\r\n"
-		append msg "c: application/sdp\r\n"
-		append msg "l: [string length $sdp]\r\n"
-		append msg "\r\n"
-		append msg "$sdp"
 
-		puts "Writing to $sock : \n$msg"
-		puts -nonewline $sock "$msg"
+		$self Send $msg "application/sdp" $sdp
 	}
 
 	method SendACK { destination callid from_tag from_epid to_tag } {
@@ -412,18 +454,15 @@ snit::type SIPConnection {
 		append msg "i: $callid\r\n"
 		append msg "CSeq: $cseqs(ACK) ACK\r\n"
 		append msg "User-Agent: $options(-user_agent)\r\n"
-		append msg "l: 0\r\n"
-		append msg "\r\n"
 
-		puts "Writing to $sock : \n$msg"
-		puts -nonewline $sock "$msg"
+		$self Send $msg
 	
 	}
 
 	method InviteResponse {callbk response headers body } {
 		puts "Received INVITE response"
-		if {[lindex $response 1] == "200" } {
-			set callid [$self GetHeader $headers "Call-ID"]
+		set callid [$self GetHeader $headers "Call-ID"]
+		if {[lindex $response 1] >= "200" && [$self GetHeader $headers "CSeq"] == "$callids($callid)" } {
 			set from [$self GetHeader $headers "From"]
 			set to [$self GetHeader $headers "To"]
 			set from_epid [$self GenerateEpid]
@@ -446,8 +485,76 @@ snit::type SIPConnection {
 			set destination [string range $to [expr {[string first "<sip:" $to] + 5}] [expr {[string first ">" $to] - 1}]]
 
 			$self SendACK $destination $callid $from_tag $from_epid $to_tag
-		} else {
 		}
+		
+	}
+
+	method Cancel { destination callid } {
+		$self Register [list $self CancelCB $destination $callid]
+	}
+
+	method CancelCB { destination callid success} {
+
+		if {$success == 0} {
+			puts "Not registered"
+			return
+		}
+
+		if { ![info exists cseqs(CANCEL)] } {
+			set cseqs(CANCEL) 1
+		} else {
+			incr cseqs(CANCEL)
+		}
+
+		set sockname [fconfigure $sock -sockname]
+
+		set tag [lindex $tags($callid) 0]
+		set epid [lindex $tags($callid) 1]
+
+		set msg "CANCEL sip:$destination SIP/2.0\r\n"
+		append msg "v: SIP/2.0/TLS [lindex $sockname 0]:[lindex $sockname 2]\r\n"
+		append msg "Max-Forwards: 70\r\n"
+		append msg "f: <sip:$options(-user)>;tag=$tag;epid=$epid\r\n"
+		append msg "t: <sip:$destination>\r\n"
+		append msg "i: $callid\r\n"
+		append msg "CSeq: $cseqs(CANCEL) CANCEL\r\n"
+		append msg "User-Agent: $options(-user_agent)\r\n"
+
+		$self Send $msg
+	}
+
+	method Bye { destination callid } {
+		$self Register [list $self ByeCB $destination $callid]
+	}
+
+	method ByeCB { destination callid success } {
+
+		if {$success == 0} {
+			puts "Not registered"
+			return
+		}
+
+		if { ![info exists cseqs(BYE)] } {
+			set cseqs(BYE) 1
+		} else {
+			incr cseqs(BYE)
+		}
+
+		set sockname [fconfigure $sock -sockname]
+
+		set tag [lindex $tags($callid) 0]
+		set epid [lindex $tags($callid) 1]
+
+		set msg "BYE sip:$destination SIP/2.0\r\n"
+		append msg "v: SIP/2.0/TLS [lindex $sockname 0]:[lindex $sockname 2]\r\n"
+		append msg "Max-Forwards: 70\r\n"
+		append msg "f: <sip:$options(-user)>;tag=$tag;epid=$epid\r\n"
+		append msg "t: <sip:$destination>\r\n"
+		append msg "i: $callid\r\n"
+		append msg "CSeq: $cseqs(BYE) BYE\r\n"
+		append msg "User-Agent: $options(-user_agent)\r\n"
+
+		$self Send $msg
 	}
 }
 
