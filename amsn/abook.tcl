@@ -235,16 +235,16 @@ namespace eval ::abook {
 		#Need this timeout thing to avoid the socket blocking...
 		set connection_success -2
 		
-		status_log "Connecting to $::weburl/check_connectivity.php?port=$port&id=$random_id" blue
-		if { [catch { ::http::geturl "$::weburl/check_connectivity.php?port=$port&id=$random_id" -command "::abook::gotConnectivityReply" -timeout 9500 } res] } { 
+		status_log "Connecting to http://firewall.amsn-project.net/check_connectivity.php?port=$port&id=$random_id" blue
+		if { [catch { ::http::geturl "http://firewall.amsn-project.net/check_connectivity.php?port=$port&id=$random_id" -command "::abook::gotConnectivityReply" -timeout 9500 } res] } { 
 			after 500 [list set ::connection_success -1]
 			status_log "::abook::getFirewalled failed: $res" red
 		}
+		after 6000 [list set ::connection_success -3]
 		tkwait variable connection_success
 
-		status_log "::abook::getFirewalled: connection_success ($connection_success)\n" blue
-		
 		if { $connection_success == -1 } {
+			status_log "::abook::getFirewalled: connection_success ($connection_success), trying old method\n" blue
 			set connection_success -2
 			if {[catch {set clientsock [socket -async [getDemographicField clientip] $port]}] == 0} {
 				fileevent $clientsock readable [list ::abook::connectionHandler $clientsock]
@@ -269,10 +269,7 @@ namespace eval ::abook {
 		if { [::http::status $token] ne "ok" || [::http::ncode $token ] != 200 } {
 			set connection_success -1
 			status_log "::abook::gotConnectivityReply error : [http::status $token] - [::http::ncode $token]" green
-		} else {
-			set connection_success [::http::data $token]
-			status_log "::abook::gotConnectivityReply ok : [::http::data $token]" green
-		} 
+		}
 		::http::cleanup $token
 	}
 
@@ -321,6 +318,7 @@ namespace eval ::abook {
 
 	# This proc is a dummy socket server proc, because we need a command to be called which the client connects to the test server (if not firewalled)
 	proc dummysocketserver { sock ip port } {
+		global connection_success
 		variable random_id
 		if {[catch {
 			#puts $sock "AMSNPING"
@@ -331,6 +329,7 @@ namespace eval ::abook {
 			}
 			flush $sock
 			close $sock
+			set connection_success 1
 			status_log "::abook::dummysocketserver: Received connection on $sock" blue
 		} res]} {
 			status_log "::abook::dummysocketserver: Error writing to socket: $res\n"

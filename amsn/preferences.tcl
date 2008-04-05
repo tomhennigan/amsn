@@ -1396,6 +1396,7 @@ proc dlgCopyUser {} {
 }
 
 proc connection_check { lfname } {
+	$lfname.1.ftport.bttest configure -state disabled
 	$lfname.1.ftport.test configure -text [trans connecting]
 	::abook::getIPConfig
 	if {[winfo exists $lfname]} {
@@ -1411,6 +1412,7 @@ proc connection_check { lfname } {
 				$lfname.1.ftport.test configure -text "[trans ok]" -fg [::skin::getKey extrastdokcolor]
 			}
 		}
+		$lfname.1.ftport.bttest configure -state normal
 	}
 
 }
