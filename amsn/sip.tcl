@@ -153,17 +153,17 @@ snit::type SIPConnection {
 		fconfigure $sock -buffering none -translation binary
 		fileevent $sock readable [list $self SocketReadable]
 		set state "CONNECTED"
-		after 30000 [list $self KeepAlive]
+		after 20000 [list $self KeepAlive]
 	}
 
 	method KeepAlive { } {
 		
 		puts "Keepalive"
-		if { [catch {puts -nonewline $sock "\r\n"}] } {
+		if { [catch {puts -nonewline $sock "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"}] } {
 			$self Disconnect
 			# TODO : eval error_handler
 		} else {
-			after 30000 [list $self KeepAlive]
+			after 20000 [list $self KeepAlive]
 		}
 
 	}
@@ -292,7 +292,6 @@ snit::type SIPConnection {
 	}
 	method RegisterExpires { } {
 		set state "CONNECTED"
-		$self Register
 	}
 
 	method Register { {callbk ""} } {
