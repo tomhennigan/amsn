@@ -65,12 +65,6 @@ typedef struct SirenCodecObject {
 } SirenCodecObject;
 
 
-#define g_list Coders
-#define data_item SirenCodecObject
-#define list_element_id name
-
-
-
 // External functions
 EXTERN int Siren_Init _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int Siren_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));

@@ -85,9 +85,6 @@ struct CodecInfo {
 
 typedef struct CodecInfo CodecInfo;
 
-#define g_list Codecs
-#define data_item CodecInfo
-#define list_element_id name
 
 #define MAX_INTERFRAMES 15
 

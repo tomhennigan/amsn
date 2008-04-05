@@ -10,94 +10,9 @@
 // Include the header file
 #include "tcl_siren.h"
 
-struct list_ptr {
-	struct list_ptr* prev_item;
-	struct list_ptr* next_item;
-	struct data_item* element;
-};
+static int codec_counter = 0;
+static Tcl_HashTable *Coders = NULL;
 
-
-
-int codec_counter = 0;
-struct list_ptr *Coders = NULL;
-
-/////////////////////////////////////
-// Functions to manage lists       //
-/////////////////////////////////////
-
-struct list_ptr* Siren_lstGetListItem(char *list_element_id){ //Get the list item with the specified name
-  struct list_ptr* item = g_list;
-
-  while(item && strcmp(item->element->list_element_id, list_element_id))
-    item = item->next_item;
-  
-  return item;
-
-}
-
-int Siren_lstListSize(){ 
-  struct list_ptr* item = g_list;
-  int ret = 0;
-
-  while(item) {
-    item = item->next_item;
-    ret = ret + 1;
-  }
-  
-  return ret;
-
-}
-
-struct data_item* Siren_lstAddItem(struct data_item* item) {
-  struct list_ptr* newItem;
-
-  if (!item) return NULL;
-  if (Siren_lstGetListItem(item->list_element_id)) return NULL;
-
-  newItem = (struct list_ptr *) malloc(sizeof(struct list_ptr));
-
-  if(newItem) {
-    memset(newItem,0,sizeof(struct list_ptr));
-    newItem->element = item;
-
-    newItem->next_item = g_list;
-
-    if (g_list) {
-      g_list->prev_item = newItem;
-    }
-    g_list = newItem;
-    return newItem->element;
-  } else
-    return NULL;
-
-}
-
-struct data_item* Siren_lstGetItem(char *list_element_id){ //Get the item with the specified name
-	struct list_ptr* listitem = Siren_lstGetListItem(list_element_id);
-	if(listitem)
-		return listitem->element;
-	else
-		return NULL;
-}
-
-struct data_item* Siren_lstDeleteItem(char *list_element_id){
-	struct list_ptr* item = Siren_lstGetListItem(list_element_id);
-	struct data_item* element = NULL;
-
-	if(item) {
-	  element = item->element;
-	  if(item->prev_item==NULL) //The first item
-	    g_list = item->next_item;
-	  else
-	    (item->prev_item)->next_item = item->next_item;
-
-	  if (item->next_item) 
-	    (item->next_item)->prev_item = item->prev_item;
-
-	  free(item);
-	}
-	return element;
-}
 
 static int Siren_NewCodec (Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], SirenCodecType type) {
 
@@ -106,6 +21,8 @@ static int Siren_NewCodec (Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], 
 	char * req_name = NULL;
 	int sample_rate = 16000;
 	char *prefix;
+	Tcl_HashEntry *hPtr = NULL;
+	int newHash;
 	static char encoder_prefix[] = "encoder";
 	static char decoder_prefix[] = "decoder";
 
@@ -141,7 +58,7 @@ static int Siren_NewCodec (Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], 
 	if ( objc == 3) {
 	  // Set the requested name and see if it exists...
 	  req_name = Tcl_GetStringFromObj(objv[2], NULL);
-	  if (Siren_lstGetItem(req_name) == NULL) {
+	  if (Tcl_FindHashEntry(Coders, req_name) == NULL) {
 	    strcpy(name, req_name);
 	  }else {
 	    sprintf(name, "%s%d", prefix, ++codec_counter);
@@ -159,8 +76,8 @@ static int Siren_NewCodec (Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], 
 		new_codec->decoder = Siren7_NewDecoder(sample_rate);
 	}
 
-
-	Siren_lstAddItem(new_codec);
+	hPtr = Tcl_CreateHashEntry(Coders, name, &newHash);
+	Tcl_SetHashValue(hPtr, (ClientData) new_codec);
 
 	Tcl_ResetResult(interp);
 	Tcl_AppendResult(interp, name, NULL);
@@ -200,6 +117,7 @@ int Siren_Encode _ANSI_ARGS_((ClientData clientData,
 	unsigned char * output = NULL;
 	unsigned char * out_ptr = NULL;
 	unsigned char* input = NULL;
+	Tcl_HashEntry *hPtr = NULL;
 	int length = 0;
 	int dataSize;
 	int processed = 0;
@@ -212,7 +130,10 @@ int Siren_Encode _ANSI_ARGS_((ClientData clientData,
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
 
-	encoder = Siren_lstGetItem(name);
+	hPtr = Tcl_FindHashEntry(Coders, name);
+	if (hPtr != NULL) {
+	  encoder = (SirenCodecObject *) Tcl_GetHashValue(hPtr);
+	}
 
 	if (!encoder || encoder->codecType != SIREN_ENCODER) {
 		Tcl_AppendResult (interp, "Invalid encoder : " , name, (char *) NULL);
@@ -253,6 +174,7 @@ int Siren_Decode _ANSI_ARGS_((ClientData clientData,
 	unsigned char * output = NULL;
 	unsigned char * out_ptr = NULL;
 	unsigned char* input = NULL;
+	Tcl_HashEntry *hPtr = NULL;
 	int length = 0;
 	int dataSize;
 	int processed = 0;
@@ -265,7 +187,10 @@ int Siren_Decode _ANSI_ARGS_((ClientData clientData,
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
 
-	decoder = Siren_lstGetItem(name);
+	hPtr = Tcl_FindHashEntry(Coders, name);
+	if (hPtr != NULL) {
+	  decoder = (SirenCodecObject *) Tcl_GetHashValue(hPtr);
+	}
 
 	if (!decoder || decoder->codecType != SIREN_DECODER) {
 		Tcl_AppendResult (interp, "Invalid decoder : " , name, (char *) NULL);
@@ -300,6 +225,7 @@ int Siren_Close _ANSI_ARGS_((ClientData clientData,
 {
 	char * name = NULL;
 	SirenCodecObject * codec;
+	Tcl_HashEntry *hPtr = NULL;
 
 	// We verify the arguments
 	if( objc != 2) {
@@ -309,7 +235,11 @@ int Siren_Close _ANSI_ARGS_((ClientData clientData,
 
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
-	codec = Siren_lstGetItem(name);
+
+	hPtr = Tcl_FindHashEntry(Coders, name);
+	if (hPtr != NULL) {
+	  codec = (SirenCodecObject *) Tcl_GetHashValue(hPtr);
+	}
 
 	if (!codec) {
 		Tcl_AppendResult (interp, "Invalid Siren codec : " , name, (char *) NULL);
@@ -321,7 +251,9 @@ int Siren_Close _ANSI_ARGS_((ClientData clientData,
 	} else if (codec->codecType == SIREN_DECODER) {
 		Siren7_CloseDecoder(codec->decoder);
 	}
-	Siren_lstDeleteItem(name);
+
+	Tcl_DeleteHashEntry(hPtr);
+
 	free(codec);
 
 	return TCL_OK;
@@ -339,6 +271,7 @@ int Siren_WriteWav _ANSI_ARGS_((ClientData clientData,
 	FILE * f = NULL;
 	unsigned int dataSize;
 	SirenCodecObject * codec;
+	Tcl_HashEntry *hPtr = NULL;
 
 	// We verify the arguments
 	if( objc != 4) {
@@ -347,7 +280,11 @@ int Siren_WriteWav _ANSI_ARGS_((ClientData clientData,
 	} 
 
 	name = Tcl_GetStringFromObj(objv[1], NULL);
-	codec = Siren_lstGetItem(name);
+
+	hPtr = Tcl_FindHashEntry(Coders, name);
+	if (hPtr != NULL) {
+	  codec = (SirenCodecObject *) Tcl_GetHashValue(hPtr);
+	}
 
 	if (!codec) {
 		Tcl_AppendResult (interp, "Invalid codec : " , name, (char *) NULL);
@@ -411,6 +348,10 @@ int Siren_Init (Tcl_Interp *interp ) {
   if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
     return TCL_ERROR;
   }
+
+  Coders = (Tcl_HashTable *) ckalloc(sizeof(Tcl_HashTable));
+  Tcl_InitHashTable(Coders, TCL_STRING_KEYS);
+   
 
   // Create the wrapping commands in the Webcamsn namespace linked to custom functions with a NULL clientdata and 
   // no deleteproc inside the current interpreter
