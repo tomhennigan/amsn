@@ -182,7 +182,6 @@ void vc1_intra_picture_encode_mb(MpegEncContext * s, DCTELEM block[6][64])
 
 
 
-
 /**
  * MB layer bitstream encoder
  * @param s Mpeg encoder context
@@ -193,23 +192,25 @@ void vc1_intra_picture_encode_mb(MpegEncContext * s, DCTELEM block[6][64])
 void ff_vc1_encode_mb(MpegEncContext * s, DCTELEM block[6][64],
                    int motion_x, int motion_y)
 {
-    if ( I_TYPE == s->pict_type ) {
+  if ( I_TYPE == s->pict_type ) {
         vc1_intra_picture_encode_mb(s, block);
-    }
+  }
 }
 
 
 
 
-
 /**
- * Progressive I picture layer bitstream encoder for Simple and Main Profile
+ * Picture layer bitstream encoder for Simple and Main Profile
  * @param s Mpeg encoder context
  * @param picture_number number of the frame to encode
  */
-void vc1_encode_i_sm_picture_header(MpegEncContext * s, int picture_number)
+void ff_vc1_encode_picture_header(MpegEncContext * s, int picture_number)
 {
     VC1Context * const t= s->avctx->priv_data;
+
+    ff_find_best_tables(s);
+
     if( t->finterpflag ) {
         t->interpfrm = 0;//INTERPFRM
         put_bits(&s->pb,1,t->interpfrm);
@@ -222,9 +223,13 @@ void vc1_encode_i_sm_picture_header(MpegEncContext * s, int picture_number)
         put_bits(&s->pb,1,t->rangeredfrm);
     }
 
-    put_bits(&s->pb,1,s->pict_type-1);//PTYPE
+    if (s->pict_type == I_TYPE)
+      put_bits(&s->pb,1,0);//PTYPE
+    else if (s->pict_type == P_TYPE)
+      put_bits(&s->pb,1,1);//PTYPE
 
-    put_bits(&s->pb,7,50);//BF
+    if (s->pict_type == I_TYPE)
+      put_bits(&s->pb,7,50);//BF
 
     if(s->qscale > 8 ) {
         t->halfpq = 0;
@@ -232,13 +237,10 @@ void vc1_encode_i_sm_picture_header(MpegEncContext * s, int picture_number)
         t->halfpq = 1;
     }
 
+    t->pqindex = s->qscale;
+    put_bits(&s->pb,5,t->pqindex);//PQINDEX
     if( t->quantizer_mode == QUANT_FRAME_IMPLICIT){
         //TODO create table
-        t->pqindex = s->qscale;
-        put_bits(&s->pb,5,t->pqindex);//PQINDEX
-    } else {
-        t->pqindex = s->qscale;
-        put_bits(&s->pb,5,t->pqindex);//PQINDEX
     }
 
     if( t->pqindex <= 8 )
@@ -263,31 +265,107 @@ void vc1_encode_i_sm_picture_header(MpegEncContext * s, int picture_number)
         put_bits(&s->pb,2,t->respic);
     }
 
+
+    if (s->pict_type == P_TYPE) {
+      /* TODO : Write P_TYPE header info */
+      /* is read like this : */
+#if 0
+        if (v->pq < 5) v->tt_index = 0;
+        else if(v->pq < 13) v->tt_index = 1;
+        else v->tt_index = 2;
+
+        lowquant = (v->pq > 12) ? 0 : 1;
+        v->mv_mode = ff_vc1_mv_pmode_table[lowquant][get_unary(gb, 1, 4)];
+        if (v->mv_mode == MV_PMODE_INTENSITY_COMP)
+        {
+            int scale, shift, i;
+            v->mv_mode2 = ff_vc1_mv_pmode_table2[lowquant][get_unary(gb, 1, 3)];
+            v->lumscale = get_bits(gb, 6);
+            v->lumshift = get_bits(gb, 6);
+            v->use_ic = 1;
+            /* fill lookup tables for intensity compensation */
+            if(!v->lumscale) {
+                scale = -64;
+                shift = (255 - v->lumshift * 2) << 6;
+                if(v->lumshift > 31)
+                    shift += 128 << 6;
+            } else {
+                scale = v->lumscale + 32;
+                if(v->lumshift > 31)
+                    shift = (v->lumshift - 64) << 6;
+                else
+                    shift = v->lumshift << 6;
+            }
+            for(i = 0; i < 256; i++) {
+                v->luty[i] = av_clip_uint8((scale * i + shift + 32) >> 6);
+                v->lutuv[i] = av_clip_uint8((scale * (i - 128) + 128*64 + 32) >> 6);
+            }
+        }
+        if(v->mv_mode == MV_PMODE_1MV_HPEL || v->mv_mode == MV_PMODE_1MV_HPEL_BILIN)
+            v->s.quarter_sample = 0;
+        else if(v->mv_mode == MV_PMODE_INTENSITY_COMP) {
+            if(v->mv_mode2 == MV_PMODE_1MV_HPEL || v->mv_mode2 == MV_PMODE_1MV_HPEL_BILIN)
+                v->s.quarter_sample = 0;
+            else
+                v->s.quarter_sample = 1;
+        } else
+            v->s.quarter_sample = 1;
+        v->s.mspel = !(v->mv_mode == MV_PMODE_1MV_HPEL_BILIN || (v->mv_mode == MV_PMODE_INTENSITY_COMP && v->mv_mode2 == MV_PMODE_1MV_HPEL_BILIN));
+
+        if ((v->mv_mode == MV_PMODE_INTENSITY_COMP &&
+                 v->mv_mode2 == MV_PMODE_MIXED_MV)
+                || v->mv_mode == MV_PMODE_MIXED_MV)
+        {
+            status = bitplane_decoding(v->mv_type_mb_plane, &v->mv_type_is_raw, v);
+            if (status < 0) return -1;
+            av_log(v->s.avctx, AV_LOG_DEBUG, "MB MV Type plane encoding: "
+                   "Imode: %i, Invert: %i\n", status>>1, status&1);
+        } else {
+            v->mv_type_is_raw = 0;
+            memset(v->mv_type_mb_plane, 0, v->s.mb_stride * v->s.mb_height);
+        }
+        status = bitplane_decoding(v->s.mbskip_table, &v->skip_is_raw, v);
+        if (status < 0) return -1;
+        av_log(v->s.avctx, AV_LOG_DEBUG, "MB Skip plane encoding: "
+               "Imode: %i, Invert: %i\n", status>>1, status&1);
+
+        /* Hopefully this is correct for P frames */
+        v->s.mv_table_index = get_bits(gb, 2); //but using ff_vc1_ tables
+        v->cbpcy_vlc = &ff_vc1_cbpcy_p_vlc[get_bits(gb, 2)];
+
+        if (v->dquant)
+        {
+            av_log(v->s.avctx, AV_LOG_DEBUG, "VOP DQuant info\n");
+            vop_dquant_decoding(v);
+        }
+
+        v->ttfrm = 0; //FIXME Is that so ?
+        if (v->vstransform)
+        {
+            v->ttmbf = get_bits1(gb);
+            if (v->ttmbf)
+            {
+                v->ttfrm = ff_vc1_ttfrm_to_tt[get_bits(gb, 2)];
+            }
+        } else {
+            v->ttmbf = 1;
+            v->ttfrm = TT_8X8;
+        }
+#endif
+    }
+
+
     if( t->pqindex<=8 ) {
         ff_msmpeg4_code012(&s->pb, s->rl_chroma_table_index%3);//TRANSACFRM (UV)
-        ff_msmpeg4_code012(&s->pb, s->rl_table_index%3); //TRANSACFRM2 (Y)
+	if (s->pict_type == I_TYPE)
+	  ff_msmpeg4_code012(&s->pb, s->rl_table_index%3); //TRANSACFRM2 (Y)
     } else {
         ff_msmpeg4_code012(&s->pb, s->rl_chroma_table_index);//TRANSACFRM (UV)
-        ff_msmpeg4_code012(&s->pb, s->rl_table_index); //TRANSACFRM2 (Y)
+	if (s->pict_type == I_TYPE)
+	  ff_msmpeg4_code012(&s->pb, s->rl_table_index); //TRANSACFRM2 (Y)
     }
 
     put_bits(&s->pb, 1, s->dc_table_index);//TRANSDCTAB
-}
-
-
-
-/**
- * Picture layer bitstream encoder
- * @param s Mpeg encoder context
- * @param picture_number number of the frame to encode
- */
-void ff_vc1_encode_picture_header(MpegEncContext * s, int picture_number)
-{
-
-    ff_find_best_tables(s);
-
-    if( I_TYPE == s->pict_type)
-        vc1_encode_i_sm_picture_header(s, picture_number) ;
 
     s->esc3_level_length = 0;
     s->esc3_run_length = 0;
