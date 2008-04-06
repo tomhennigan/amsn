@@ -80,7 +80,7 @@ snit::type SIPConnection {
 	}
 
 	method KeepAlive { } {
-		puts "Keepalive"
+		#puts "Keepalive"
 		if { [$socket Send "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"] } {
 			after 20000 [list $self KeepAlive]
 		} else {
@@ -96,7 +96,7 @@ snit::type SIPConnection {
 			set type "request"
 		}
 
-		puts "Received a $type message : $start : \n$headers\n\n$body"
+		#puts "Received a $type message : $start : \n$headers\n\n$body"
 		if {$type == "status" } {
 			set callid [$self GetHeader $headers "Call-ID"]
 
@@ -112,6 +112,7 @@ snit::type SIPConnection {
 			}
 			set callid [$self GetHeader $headers "Call-ID"]
 			if { ![info exists callid_handler($callid)] } {
+				# TODO : we should actually answer with 'unknown leg' error
 				puts "ERROR : unknown callid : $callid"
 				return
 			} else {
@@ -171,17 +172,17 @@ snit::type SIPConnection {
 	method RegisterResponse {callbk response headers body} {
 		if {[lindex $response 1] == "200" } {
 			set state "REGISTERED"
-			puts "registered"
+			#puts "registered"
 			set expires [$self GetHeader $headers "Expires"]
 			after [expr {$expires * 1000 - 10000}] [list $self RegisterExpires] 
-			puts "Current time is [clock seconds]"
+			#puts "Current time is [clock seconds]"
 			if {$callbk != "" } {
 				if {[catch {eval $callbk} result]} {
 					bgerror $result
 				}				
 			}
 		} else {
-			puts "error on registration"
+			#puts "error on registration"
 			if {$options(-error_handler) != "" } {
 				if {[catch {eval [linsert $options(-error_handler) end REGISTRATION]} result]} {
 					bgerror $result
@@ -196,16 +197,6 @@ snit::type SIPConnection {
 	########################################
 
 	method Invite {destination codec_list candidate_list {callbk ""}} {
-		set callid [$self GenerateCallID]
-		set tag [$self GenerateTag]
-		set epid [$self GenerateEpid]
-		set tags($callid) [list $tag $epid]
-		$self Register [list $self InviteCB $destination $callid $codec_list $candidate_list $callbk]
-		return $callid
-	}
-
-	method InviteCB {destination callid codec_list candidate_list callbk} {
-
 		set sdp [$self BuildSDP $codec_list $candidate_list]
 
 		set request [$self BuildRequest INVITE $destination $destination]
@@ -215,11 +206,16 @@ snit::type SIPConnection {
 
 		set callid_handler($callid) [list $self InviteResponse $callid $callbk]
 
+		$self Register [list $self InviteCB $msg $sdp $callbk]
+		return $callid
+	}
+
+	method InviteCB {msg sdp callbk} {
 		$self Send $msg "application/sdp" $sdp
 	}
 
 	method InviteResponse {callid callbk response headers body } {
-		puts "Received INVITE response"
+		#puts "Received INVITE response"
 
 		# Answer with ACK to any INVITE response (200 ok, or call terminated, or busy..)
 		# Answer only to INVITE responses
@@ -545,7 +541,7 @@ snit::type SIPConnection {
 				"a" {
 					set attribute [lindex [split $value ":"] 0]
 					set attr [string range $value [expr {[string length $attribute] +1}] end]
-					puts "$attribute -- $attr"
+					#puts "$attribute -- $attr"
 					switch -- $attribute {
 						"candidate" {
 							lappend ice_candidates $attr
@@ -717,9 +713,8 @@ snit::type SIPSocket {
 	}
 
 	method Send { data } {
-		if {[string trim $data] != "" } { 
-			puts "Writing to $sock : $data"
-		}
+		degt_protocol "-->SIP ($options(-host)) $data" "sbsend"
+		
 		if {[catch {puts -nonewline $sock $data}] } {
 			$self Disconnect
 			return 0
@@ -730,7 +725,7 @@ snit::type SIPSocket {
 
 	method SocketReadable { } {
 		if { [eof $sock] } {
-			puts "Socket $sock reached eof"
+			#puts "Socket $sock reached eof"
 			$self Disconnect
 			return
 		}
@@ -750,6 +745,7 @@ snit::type SIPSocket {
 			set body [read $sock $content_length]
 		}
 
+		degt_protocol "<--SIP ($options(-host)) $start\n$headers\n\n$body" "sbrecv"
 		$options(-sipconnection) HandleMessage $start $headers $body
 	}
 
@@ -771,11 +767,11 @@ proc inviteSIP { email } {
 }
 
 proc inviteSIPCB { status detail} {
-	puts "Invite SIP Response '[clock format [clock seconds]]' : $status -- $detail"
+	puts "Invite SIP Response : $status -- $detail"
 }
 
 proc requestSIP { request headers body } {
-	puts "Invite SIP Callback : "
+	puts "Received Request : $request"
 }
 
 proc errorSIP { reason } {
