@@ -12,6 +12,8 @@ snit::type SIPConnection {
 
 
 	variable compact_form 
+	variable reasons
+
 	variable state ""
 	variable cseqs
 	variable callid_handler
@@ -20,6 +22,7 @@ snit::type SIPConnection {
 	variable call_cseq
 	variable call_route
 	variable call_contact
+	variable call_via
 
 	constructor { args } {
 		install socket using SIPSocket %AUTO% -sipconnection $self
@@ -38,6 +41,56 @@ snit::type SIPConnection {
 					    "event" "o" \
 					    "allow-events" "u"]
 
+		array set reasons [list 100 "Trying" \
+					    180 "Ringing" \
+					    181 "Call Is Being Forwarded" \
+					    182 "Queues" \
+					    183 "Session Progress" \
+					    200 "OK" \
+					    300 "Multiple Choices" \
+					    301 "Moved Permanently" \
+					    302 "Moved Temporarily" \
+					    305 "Use Proxy" \
+					    380 "Alternative Service" \
+					    400 "Bad Request" \
+					    401 "Unauthorized" \
+					    402 "Payment Required" \
+					    403 "Forbidden" \
+					    404 "Not Found" \
+					    405 "Method Not Allowed" \
+					    406 "Not Acceptable" \
+					    407 "Proxy Authentication Required" \
+					    408 "Request Timeout" \
+					    410 "Gone" \
+					    413 "Request Entity Too Large" \
+					    414 "Request-URI Too Long" \
+					    415 "Unsupported Media Type" \
+					    416 "Unsupported URI Scheme" \
+					    420 "Bad Extension" \
+					    421 "Extension Required" \
+					    423 "Interval Too Brief" \
+					    480 "Temporarily Unavailable" \
+					    481 "Call/Transaction Does Not Exist" \
+					    482 "Loop Detected" \
+					    483 "Too Many Hops" \
+					    484 "Address Incomplete" \
+					    485 "Ambiguous" \
+					    486 "Busy Here" \
+					    487 "Request Terminated" \
+					    488 "Not Acceptable Here" \
+					    491 "Request Pending" \
+					    493 "Undecipherable" \
+					    500 "Server Internal Error" \
+					    501 "Not Implemented" \
+					    502 "Bad Gateway" \
+					    503 "Service Unavailable" \
+					    504 "Server Time-out" \
+					    505 "Version Not Supported" \
+					    513 "Message Too Large" \
+					    600 "Busy Everywhere" \
+					    603 "Decline" \
+					    604 "Does Not Exist Anywhere" \
+					    606 "Not Acceptable"]
 	}
 
 	destructor {
@@ -92,41 +145,72 @@ snit::type SIPConnection {
 	method HandleMessage { start headers body } {
 		if {[string range $start 0 6] == "SIP/2.0" } {
 			set type "status"
-		} else {
+		} elseif {[string range $start end-6 end] == "SIP/2.0" } {
 			set type "request"
+		} else {
+			puts "Received a non SIP message "
+			if {$options(-error_handler) != "" } {
+				if {[catch {eval [linsert $options(-error_handler) end NOT_SIP]} result]} {
+					bgerror $result
+				}				
+			}
+			return
+		}
+		
+		set callid [$self GetHeader $headers "Call-ID"]
+
+		set call_from($callid) [$self GetHeader $headers "From"]
+		set call_to($callid) [$self GetHeader $headers "To"]
+
+		set route [$self GetHeader $headers "Record-Route"]
+		set contact [$self GetHeader $headers "Contact"]
+
+		set call_via($callid) [$self GetHeaders $headers "Via"]
+
+		if {$route != "" && $contact != "" } {
+			set call_route($callid) $route
+			set call_contact($callid) $contact
+		}
+		
+		if {![info exists call_cseq($callid)] } {
+			set call_cseq($callid) [lindex [$self GetHeader $headers "CSeq"] 0]
 		}
 
 		#puts "Received a $type message : $start : \n$headers\n\n$body"
 		if {$type == "status" } {
-			set callid [$self GetHeader $headers "Call-ID"]
-
-			set call_from($callid) [$self GetHeader $headers "From"]
-			set call_to($callid) [$self GetHeader $headers "To"]
-
-			set route [$self GetHeader $headers "Record-Route"]
-			set contact [$self GetHeader $headers "Contact"]
-
-			if {$route != "" && $contact != "" } {
-				set call_route($callid) $route
-				set call_contact($callid) $contact
-			}
-			set callid [$self GetHeader $headers "Call-ID"]
 			if { ![info exists callid_handler($callid)] } {
-				# TODO : we should actually answer with 'unknown leg' error
+				# Answer with 'Call/Transaction does not exit error
+				$self Send [$self BuildResponse $callid [$self GetCommand $headers] 481]
 				puts "ERROR : unknown callid : $callid"
-				return
+				if {$options(-error_handler) != "" } {
+					if {[catch {eval [linsert $options(-error_handler) end UNKNOWN_CALL]} result]} {
+						bgerror $result
+					}				
+				}
 			} else {
 				set handler $callid_handler($callid)
 				eval [linsert $handler end $start $headers $body]
 			}
 		} else {
-			set callid [$self GetHeader $headers "Call-ID"]
+
 			if { [info exists callid_handler($callid)] } {
 				eval [linsert $callid_handler($callid) end $start $headers $body]
 			} elseif {$options(-request_handler) != ""} {
-				# TODO : make sure it's an INVITE and parse it locally
-				# before sending it out
-				eval [linsert $options(-request_handler) end $start $headers $body]
+				if {[$self GetCommand $headers] == "INVITE" } {
+					$self Send [$self BuildResponse $callid INVITE 100]
+					set sdp [$self ParseSDP $body]
+					set candidates [lindex $sdp 0]
+					set codecs [lindex $sdp 1]
+					set callid_handler($callid) [list $self InviteRequestHandler $callid]
+					eval [linsert $options(-request_handler) end $callid INVITE [list $candidates $codecs]]
+				} else {
+					puts "ERROR: Received non-INVITE Request"
+					if {$options(-error_handler) != "" } {
+						if {[catch {eval [linsert $options(-error_handler) end NOT_INVITE]} result]} {
+							bgerror $result
+						}				
+					}
+				}
 			}
 		}
 	}
@@ -196,10 +280,8 @@ snit::type SIPConnection {
 	################ INVITE ################
 	########################################
 
-	method Invite {destination codec_list candidate_list {callbk ""}} {
-		$self Connect
-
-		set sdp [$self BuildSDP $codec_list $candidate_list]
+	method Invite {destination candidate_list codec_list {callbk ""}} {
+		set sdp [$self BuildSDP $candidate_list $codec_list]
 
 		set request [$self BuildRequest INVITE $destination $destination]
 		set callid [lindex $request 0]
@@ -221,7 +303,6 @@ snit::type SIPConnection {
 
 		# Answer with ACK to any INVITE response (200 ok, or call terminated, or busy..)
 		# Answer only to INVITE responses
-		# TODO : maybe answer BYE too ?
 		if {[$self GetCommand $headers] == "INVITE"} {
 			set status [lindex $response 1] 
 			if {$status >= "200" } {
@@ -230,13 +311,13 @@ snit::type SIPConnection {
 			
 			if {$status == "100" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end TRYING ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid TRYING ""]} result]} {
 						bgerror $result
 					}
 				}
 			} elseif {$status == "180" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end RINGING ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid RINGING ""]} result]} {
 						bgerror $result
 					}
 				}
@@ -244,71 +325,129 @@ snit::type SIPConnection {
 				
 				set sdp [$self ParseSDP $body]
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end OK $sdp]} result]} {
+					if {[catch {eval [linsert $callbk end $callid OK $sdp]} result]} {
 						bgerror $result
 					}
 				}
 			} elseif {$status == "408" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end NO_ANSWER ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid NO_ANSWER ""]} result]} {
 						bgerror $result
 					}
 				}
 			} elseif {$status == "480" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end UNAVAILABLE ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid UNAVAILABLE ""]} result]} {
 						bgerror $result
 					}
 				}
 			} elseif {$status == "486" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end BUSY ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid BUSY ""]} result]} {
 						bgerror $result
 					}
 				}
 			} elseif {$status == "487" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end TERMINATED ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid TERMINATED ""]} result]} {
 						bgerror $result
 					}
 				}
 			} elseif {$status == "603" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end DECLINED ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid DECLINED ""]} result]} {
 						bgerror $result
 					}
 				}
 			} elseif {$status == "504" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end TIMEOUT ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid TIMEOUT ""]} result]} {
 						bgerror $result
 					}
 				}
 			} else {
 				# TODO : Maybe some other messages are not errors..
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end ERROR [lrange $response 1 end]]} result]} {
+					if {[catch {eval [linsert $callbk end $callid ERROR [lrange $response 1 end]]} result]} {
 						bgerror $result
 					}
 				}
 			}
 		} elseif {[$self GetCommand $headers] == "BYE"} {
-			# TODO : Must respond to the BYE
+			# Answer 200 OK only when receiving the BYE request
+			if {[lindex $response 0] == "BYE" } {
+				$self Send [$self BuildResponse $callid BYE 200]
+			}
 			if {$callbk != "" } {
-				if {[catch {eval [linsert $callbk end CLOSED BYE]} result]} {
+				if {[catch {eval [linsert $callbk end $callid CLOSED BYE]} result]} {
 					bgerror $result
 				}				
 			}
 		} elseif {[$self GetCommand $headers] == "CANCEL"} {
 			set status [lrange $response 1 end]
 			if {$callbk != "" } {
-				if {[catch {eval [linsert $callbk end CANCEL $status]} result]} {
+				if {[catch {eval [linsert $callbk end $callid CANCEL $status]} result]} {
 					bgerror $result
 				}				
 			}
 		}
 		
 	}
+
+	method InviteRequestHandler {callid response headers body } {
+		if {[$self GetCommand $headers] == "ACK"} {
+			if {[catch {eval [linsert $options(-request_handler) end $callid ACK ""]} result]} {
+				bgerror $result
+			}				
+		} elseif {[$self GetCommand $headers] == "BYE"} {
+			# Answer 200 OK only when receiving the BYE request
+			if {[lindex $response 0] == "BYE" } {
+				$self Send [$self BuildResponse $callid BYE 200]
+			}
+			if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED BYE]} result]} {
+				bgerror $result
+			}				
+		} elseif {[$self GetCommand $headers] == "CANCEL"} {
+			$self Send [$self BuildResponse $callid CANCEL 200]
+			if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED CANCEL]} result]} {
+				bgerror $result
+			}
+		}			
+
+		
+	}
+
+	method AnswerInvite { callid status {detail ""} } {
+		switch -- $status {
+			"RINGING" {
+				set status 180
+				set content_type ""
+				set content ""
+			}
+			"BUSY" {
+				set status 486
+				set content_type ""
+				set content ""
+			}
+			"OK" {
+				set status 200
+				set content_type "application/sdp"
+				set candidates [lindex $detail 0]
+				set codecs [lindex $detail 1]
+				set content [$self BuildSDP $candidates $codecs]
+			}
+			"DECLINE" {
+				set status 603
+				set content_type ""
+				set content ""
+			}
+			default {
+				error "Unknown Status"
+			}
+		}
+		$self Send [$self BuildResponse $callid INVITE $status] $content_type $content
+	}
+
 
 	method SendACK { callid } {
 		$self Send [lindex [$self BuildRequest ACK [$self GetDestination $callid] [$self GetDestination $callid] $callid] 1]
@@ -358,7 +497,8 @@ snit::type SIPConnection {
 	########################################
 
 	method BuildRequest { request uri to {callid ""} } {
-		
+		$self Connect
+
 		set sockname [$socket GetInfo]
 
 		if {$callid == "" } {
@@ -399,8 +539,38 @@ snit::type SIPConnection {
 		return [list $callid $msg]
 	}
 
+	method BuildResponse { callid request status } {
+		$self Connect
 
-	method BuildSDP { codec_list candidate_list  } {
+		set sockname [$socket GetInfo]
+ 
+		set reason ""
+		if {[info exists reasons($status)] } {
+			set reason $reasons($status)
+		} 
+
+		set msg "SIP/2.0 $status $reason\r\n"
+		foreach via $call_via($callid) {
+			append msg "v: $via\r\n"
+		}
+		if {$request == "INVITE" && $status >= 180} {
+			append msg "Record-Route: $call_route($callid)\r\n"
+		}
+		append msg "Max-Forwards: 70\r\n"
+		append msg "f: $call_from($callid)\r\n"
+		append msg "t: $call_to($callid)\r\n"
+		append msg "i: $callid\r\n"
+		append msg "CSeq: $call_cseq($callid) $request\r\n"
+		if {$request == "INVITE" && $status == 200} {
+			append msg "m: <sip:[lindex $sockname 0]:[lindex $sockname 2];"
+			append msg "transport=tls>;proxy=replace\r\n"
+		}
+		append msg "User-Agent: $options(-user_agent)\r\n"
+
+		return $msg
+	}
+
+	method BuildSDP { candidate_list codec_list } {
 
 		set pt_list ""
 		foreach codec $codec_list {
@@ -471,6 +641,10 @@ snit::type SIPConnection {
 	########################################
 
 	method GetHeader { headers name} {
+		return [lindex [$self GetHeaders $headers $name] 0]
+	}
+
+	method GetHeaders { headers name} {
 		if {[info exist compact_form([string tolower $name])] } {
 			set short_name $compact_form([string tolower $name])
 		} else {
@@ -479,11 +653,12 @@ snit::type SIPConnection {
 		set reg {^}
 		append reg "($name|$short_name)"
 		append reg {:[ \t]*(.*)[ \t]*$}
-		if {[regexp -nocase -line $reg $headers -> field value] } {
-			return [string trim $value]			
-		} else {
-			return ""
-		} 
+		set result [regexp -nocase -all -inline -line $reg $headers]
+		set header [list]
+		foreach {match field value} $result {
+			lappend header [string trim $value]
+		}
+		return $header
 	}
 
 	method GetDestination { callid } {
@@ -530,6 +705,7 @@ snit::type SIPConnection {
 		set rtcp_port 0
 
 		foreach line [split $body "\n"] {
+			set line [string trim $line]
 			set field [string range $line 0 0]
 			set value [string range $line 2 end]
 
@@ -765,15 +941,30 @@ proc createSIP { {host "vp.sip.messenger.msn.com"} } {
 }
 
 proc inviteSIP { email } {
-	sip Invite $email [list [list "PCMA" 8 8000] [list "PCMU" 0 8000]] [list [list "" 1 "" UDP 1 [::abook::getDemographicField localip] 7078]] inviteSIPCB
+	sip Invite $email [list [list "" 1 "" UDP 1 [::abook::getDemographicField localip] 7078]] [list [list "PCMA" 8 8000] [list "PCMU" 0 8000]] inviteSIPCB
 }
 
-proc inviteSIPCB { status detail} {
+proc inviteSIPCB { callid status detail} {
 	puts "Invite SIP Response : $status -- $detail"
 }
 
-proc requestSIP { request headers body } {
-	puts "Received Request : $request"
+proc requestSIP { callid what detail } {
+	puts "Received $what : $callid - $detail"
+	if {$what == "INVITE" } {
+		set candidates [lindex $detail 0]
+		set codecs [lindex $detail 1]
+		sip AnswerInvite $callid RINGING
+	}
+}
+
+proc busySIP {callid } {
+	sip AnswerInvite $callid BUSY
+}
+proc declineSIP {callid } {
+	sip AnswerInvite $callid DECLINE
+}
+proc acceptSIP { callid } {
+	sip AnswerInvite $callid OK [list [list [list "" 1 "" UDP 1 [::abook::getDemographicField localip] 7078]] [list [list "PCMA" 8 8000] [list "PCMU" 0 8000]]]
 }
 
 proc errorSIP { reason } {
