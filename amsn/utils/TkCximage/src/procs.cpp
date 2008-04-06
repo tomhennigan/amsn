@@ -188,7 +188,7 @@ int Tk_Resize (ClientData clientData,
     #if TK_MINOR_VERSION == 4
     Tk_PhotoSetSize(Photo, width, height);
     #else 
-    #if TK_MINOR_VERSION == 5
+    #if TK_MINOR_VERSION >= 5
     Tk_PhotoSetSize(interp, Photo, width, height);
     #endif
     #endif
@@ -430,7 +430,7 @@ int Tk_Colorize (ClientData clientData,
   #if TK_MINOR_VERSION == 4
   Tk_PhotoPutBlock(Photo, &photoData, 0, 0, photoData.width, photoData.height, TK_PHOTO_COMPOSITE_SET );
   #else 
-  #if TK_MINOR_VERSION == 5
+  #if TK_MINOR_VERSION >= 5
   Tk_PhotoPutBlock((Tcl_Interp *) interp, Photo, &photoData, 0, 0, photoData.width, photoData.height, TK_PHOTO_COMPOSITE_SET );
   #endif
   #endif
@@ -454,7 +454,7 @@ int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int
 	#if TK_MINOR_VERSION == 4
 	Tk_PhotoSetSize(Photo, width, height);
 	#else 
-	#if TK_MINOR_VERSION == 5
+	#if TK_MINOR_VERSION >= 5
 	Tk_PhotoSetSize(interp, Photo, width, height);
 	#endif
 	#endif
@@ -488,7 +488,7 @@ int CopyImageToTk(Tcl_Interp * interp, CxImage *image, Tk_PhotoHandle Photo, int
 	#if TK_MINOR_VERSION == 4
 	Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, (blank ? TK_PHOTO_COMPOSITE_SET : TK_PHOTO_COMPOSITE_OVERLAY) );
 	#else 
-	#if TK_MINOR_VERSION == 5
+	#if TK_MINOR_VERSION >= 5
 	Tk_PhotoPutBlock((Tcl_Interp *) interp, Photo, &block, 0, 0, width, height, (blank ? TK_PHOTO_COMPOSITE_SET : TK_PHOTO_COMPOSITE_OVERLAY) );
 	#endif
 	#endif
@@ -554,7 +554,7 @@ int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int 
 		#if TK_MINOR_VERSION == 4
 		Tk_PhotoPutBlock(Photo, &block, 0, 0, width, height, (blank ? TK_PHOTO_COMPOSITE_SET : TK_PHOTO_COMPOSITE_OVERLAY) );
 		#else 
-		#if TK_MINOR_VERSION == 5
+		#if TK_MINOR_VERSION >= 5
 		Tk_PhotoPutBlock((Tcl_Interp *) interp, Photo, &block, 0, 0, width, height, (blank ? TK_PHOTO_COMPOSITE_SET : TK_PHOTO_COMPOSITE_OVERLAY) );
 		#endif
 		#endif

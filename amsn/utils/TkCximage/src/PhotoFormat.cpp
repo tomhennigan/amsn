@@ -211,7 +211,7 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 #if TK_MINOR_VERSION == 4
   Tk_PhotoPutBlock(imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_SET);
 #else
-#if TK_MINOR_VERSION == 5
+#if TK_MINOR_VERSION >= 5
   Tk_PhotoPutBlock((Tcl_Interp *) NULL, imageHandle, &block, destX, destY, width, height, TK_PHOTO_COMPOSITE_SET);
 #endif
 #endif

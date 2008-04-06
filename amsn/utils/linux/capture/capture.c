@@ -785,7 +785,7 @@ int Capture_Grab _ANSI_ARGS_((ClientData clientData,
   }
 
   Tk_PhotoSetSize( 
-# if TK_MINOR_VERSION == 5
+# if TK_MINOR_VERSION >= 5
     interp, 
 # endif
     Photo, capItem->requested_format->width, capItem->requested_format->height);

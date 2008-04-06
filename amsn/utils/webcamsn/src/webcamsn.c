@@ -243,7 +243,7 @@ int Webcamsn_Decode _ANSI_ARGS_((ClientData clientData,
 		decoder->frames++;
 
 		Tk_PhotoSetSize(
-		#if TK_MINOR_VERSION == 5
+		#if TK_MINOR_VERSION >= 5
 			interp, 
 		#endif
 			Photo, width, height);
@@ -261,7 +261,7 @@ int Webcamsn_Decode _ANSI_ARGS_((ClientData clientData,
 		block.offset[3] = -1;
 
 		Tk_PhotoPutBlock(
-			#if TK_MINOR_VERSION == 5
+			#if TK_MINOR_VERSION >= 5
 			interp, 
 			#endif
 				Photo, &block, 0, 0, width, height
