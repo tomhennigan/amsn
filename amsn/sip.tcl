@@ -197,6 +197,8 @@ snit::type SIPConnection {
 	########################################
 
 	method Invite {destination codec_list candidate_list {callbk ""}} {
+		$self Connect
+
 		set sdp [$self BuildSDP $codec_list $candidate_list]
 
 		set request [$self BuildRequest INVITE $destination $destination]
