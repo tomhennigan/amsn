@@ -596,6 +596,8 @@ snit::type SIPConnection {
 		append sdp "o=- 0 0 IN IP4 $default_ip\r\n"
 		append sdp "s=session\r\n"
 		append sdp "c=IN IP4 $default_ip\r\n"
+		append sdp "b=CT:100\r\n"
+		append sdp "t=0 0\r\n"
 		append sdp "m=audio $default_port RTP/AVP$pt_list\r\n"
 		foreach candidate $candidate_list {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
@@ -614,6 +616,7 @@ snit::type SIPConnection {
 				append sdp "a=fmtp:$payload_type $fmtp\r\n"
 			}
 		}
+		append sdp "a=encryption:rejected\r\n"
 
 		return $sdp
 	}
@@ -941,7 +944,7 @@ proc createSIP { {host "vp.sip.messenger.msn.com"} } {
 }
 
 proc inviteSIP { email } {
-	sip Invite $email [list [list "" 1 "" UDP 1 [::abook::getDemographicField localip] 7078]] [list [list "PCMA" 8 8000] [list "PCMU" 0 8000]] inviteSIPCB
+	sip Invite $email [list [list "" 1 "" UDP 1 [::abook::getDemographicField localip] 7078] [list "" 2 "" UDP 1 [::abook::getDemographicField localip] 7079]] [list [list "PCMA" 8 8000] [list "PCMU" 0 8000]] inviteSIPCB
 }
 
 proc inviteSIPCB { callid status detail} {
