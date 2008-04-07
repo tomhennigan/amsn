@@ -5,6 +5,8 @@
 #include <gst/farsight/fs-stream-transmitter.h>
 
 
+static GMainLoop *loop;
+
 static void
 _new_local_candidate (FsStream *stream, FsCandidate *candidate,
     gpointer user_data)
@@ -34,8 +36,6 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   GstElement *sink = gst_element_factory_make ("autoaudiosink", NULL);
   GstPad *sink_pad = NULL;
   GstPadLinkReturn ret;
-  FsCodec *codeccopy = fs_codec_copy (codec);
-  gchar *str = NULL;
 
   g_assert (sink);
 
@@ -43,10 +43,6 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
       "sync", TRUE,
       "async", TRUE,
       NULL);
-
-  g_object_set_data (G_OBJECT (sink), "codec", codeccopy);
-  g_object_weak_ref (G_OBJECT (sink),
-      (GWeakNotify) fs_codec_destroy, codeccopy);
 
   gst_bin_add (GST_BIN (pipeline), sink);
 
@@ -59,37 +55,6 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   g_assert (gst_element_set_state (sink, GST_STATE_PLAYING) !=
       GST_STATE_CHANGE_FAILURE);
 
-  str = fs_codec_to_string (codec);
-  //g_debug ("Added sink for codec %s", str);
-  g_free (str);
-}
-
-
-static void
-_new_active_candidate_pair (FsStream *stream, FsCandidate *local,
-    FsCandidate *remote, gpointer user_data)
-{
-  /*g_debug ("New active candidate pair between (%s) : %s:%d and %s:%d",
-      local->component_id == 1 ? "RTP" : "RTCP",
-      local->ip, local->port, remote->ip, remote->port);*/
-}
-
-static void
-_current_send_codec_notify (GObject *object, GParamSpec *paramspec,
-    gpointer user_data)
-{
-  FsSession *session = FS_SESSION (object);
-  FsCodec *codec = NULL;
-  gchar *str = NULL;
-
-  g_object_get (session, "current-send-codec", &codec, NULL);
-  g_assert (codec);
-
-  /*str = fs_codec_to_string (codec);
-  g_debug ("New send codec: %s", str);
-  g_free (str);*/
-
-  fs_codec_destroy (codec);
 }
 
 static gboolean
@@ -98,7 +63,6 @@ stdin_io_cb(GIOChannel *source, GIOCondition condition, gpointer data) {
   gsize term = 0;
   GError *error = NULL;
   gchar *line = NULL;
-  gchar *argument = NULL;
   static GList *remote_codecs = NULL;
   FsStream *stream = data;
 
@@ -179,13 +143,15 @@ stdin_io_cb(GIOChannel *source, GIOCondition condition, gpointer data) {
     /*g_debug ("Setting remote codecs");*/
     if (!fs_stream_set_remote_codecs (stream, remote_codecs, &error)) {
       if (error) {
-        g_printerr ("Could not set the remote codecs on stream %s : %s",
+        g_printerr ("Could not set the remote codecs on stream %d : %s",
             error->code, error->message);
       }
       g_assert (0);
     }
     fs_codec_list_destroy (remote_codecs);
     remote_codecs = NULL;
+  } else if (strcmp (line, "EXIT") == 0) {
+    g_main_loop_quit(loop);
   }
 
   g_free (line);
@@ -213,10 +179,9 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         errorvalue = gst_structure_get_value (message->structure, "error-msg");
         debugvalue = gst_structure_get_value (message->structure, "debug-msg");
 
-        g_printerr ("Error on BUS (%d) %s .. %s", errno,
+        g_error ("Error on BUS (%d) %s .. %s", errno,
             g_value_get_string (errorvalue),
             g_value_get_string (debugvalue));
-        g_assert (0);
       }
 
       break;
@@ -226,11 +191,10 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         gchar *debug = NULL;
         gst_message_parse_error (message, &error, &debug);
 
-        g_printerr ("Got an error on the BUS (%d): %s (%s)", error->code,
+        g_error ("Got an error on the BUS (%d): %s (%s)", error->code,
             error->message, debug);
         g_error_free (error);
         g_free (debug);
-        g_assert (0);
       }
       break;
     case GST_MESSAGE_WARNING:
@@ -257,9 +221,7 @@ int main (int argc, char *argv[]) {
   GstElement *pipeline;
   GstElement *conference;
   FsSession *session;
-  GstElement *fakesrc;
   GError *error = NULL;
-  GMainLoop *loop;
   GList *local_codecs = NULL;
   GList *item = NULL;
   GstBus *bus = NULL;
@@ -271,6 +233,10 @@ int main (int argc, char *argv[]) {
   GParameter transmitter_params[3];
 
   gst_init (&argc, &argv);
+
+  if (argc != 3) {
+    return -1;
+  }
 
   loop = g_main_loop_new (NULL, FALSE);
 
@@ -297,10 +263,12 @@ int main (int argc, char *argv[]) {
   }
   g_assert (session != NULL);
 
-  g_signal_connect (session, "notify::current-send-codec",
+  g_object_set (session, "no-rtcp-timeout", 0, NULL);
+
+  /*g_signal_connect (session, "notify::current-send-codec",
       G_CALLBACK (_current_send_codec_notify), NULL);
 
-  /*  g_signal_connect (session, "new-negotiated-codecs",
+    g_signal_connect (session, "new-negotiated-codecs",
       G_CALLBACK (_new_negotiated_codecs), NULL);*/
 
   g_object_get (session, "sink-pad", &sinkpad, NULL);
@@ -311,7 +279,7 @@ int main (int argc, char *argv[]) {
 
   g_assert (gst_bin_add (GST_BIN (pipeline), src));
 
-  g_object_set (src, "blocksize", 10, "is-live", TRUE,  NULL);
+  g_object_set (src, "is-live", TRUE,  NULL);
 
   srcpad = gst_element_get_static_pad (src, "src");
 
@@ -367,10 +335,9 @@ int main (int argc, char *argv[]) {
   g_assert (stream != NULL);
 
   g_io_add_watch (ioc, G_IO_IN, stdin_io_cb, stream);
+
   g_signal_connect (stream, "src-pad-added",
       G_CALLBACK (_src_pad_added), pipeline);
-  g_signal_connect (stream, "new-active-candidate-pair",
-      G_CALLBACK (_new_active_candidate_pair), NULL);
   g_signal_connect (stream, "new-local-candidate",
       G_CALLBACK (_new_local_candidate), NULL);
   g_signal_connect (stream, "local-candidates-prepared",
@@ -391,6 +358,7 @@ int main (int argc, char *argv[]) {
 
   g_main_loop_unref (loop);
 
+  return 0;
 }
 
 /*
