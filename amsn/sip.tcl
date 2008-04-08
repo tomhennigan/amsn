@@ -251,6 +251,7 @@ snit::type SIPConnection {
 
 	method RegisterExpires { } {
 		set state ""
+		sip Register
 	}
 
 	method RegisterResponse {callbk response headers body} {
@@ -377,11 +378,12 @@ snit::type SIPConnection {
 			# Answer 200 OK only when receiving the BYE request
 			if {[lindex $response 0] == "BYE" } {
 				$self Send [$self BuildResponse $callid BYE 200]
-			}
-			if {$callbk != "" } {
-				if {[catch {eval [linsert $callbk end $callid CLOSED BYE]} result]} {
-					bgerror $result
-				}				
+			} elseif { [lindex $response 1] == "200" } {
+				if {$callbk != "" } {
+					if {[catch {eval [linsert $callbk end $callid CLOSED BYE]} result]} {
+						bgerror $result
+					}				
+				}
 			}
 		} elseif {[$self GetCommand $headers] == "CANCEL"} {
 			set status [lrange $response 1 end]
@@ -601,7 +603,7 @@ snit::type SIPConnection {
 		append sdp "m=audio $default_port RTP/AVP$pt_list\r\n"
 		foreach candidate $candidate_list {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {$candidate_id != "" } {
+			if {$candidate_id != "" && $password != "" } {
 				append sdp "a=candidate:$candidate_id $component_id $password $transport $qvalue $ip $port\r\n"
 			}
 		}
@@ -725,7 +727,7 @@ snit::type SIPConnection {
 					#puts "$attribute -- $attr"
 					switch -- $attribute {
 						"candidate" {
-							lappend ice_candidates $attr
+							lappend ice_candidates [split $attr ""]
 						}
 						"rtcp" {
 							set rtcp_port $attr
@@ -944,32 +946,190 @@ proc createSIP { {host "vp.sip.messenger.msn.com"} } {
 }
 
 proc inviteSIP { email } {
-	sip Invite $email [list [list "" 1 "" UDP 1 [::abook::getDemographicField localip] 7078] [list "" 2 "" UDP 1 [::abook::getDemographicField localip] 7079]] [list [list "PCMA" 8 8000] [list "PCMU" 0 8000]] inviteSIPCB
+	global farsight
+	global sip_codecs
+	global sip_candidates
+	global sip_codecs_done
+	global sip_candidates_done
+
+	closeFarsight
+	set sip_codecs [list]
+	set sip_candidates [list]
+	set sip_codecs_done 0
+	set sip_candidates_done 0
+
+	set farsight [open "| ./utils/farsight/farsight y x" r+]
+	fileevent $farsight readable [list farsightRead $farsight $email]
+}
+
+proc farsightRead { farsight email} {
+	global sip_codecs
+	global sip_candidates
+	global sip_codecs_done
+	global sip_candidates_done
+
+	if { [eof $farsight] } {
+		closeFarsight
+		return
+	}
+
+	set line [gets $farsight]
+	if {[string first "LOCAL_CODEC: " $line] == 0} {
+		set codec [string range $line 13 end]
+		foreach {pt name rate} [split $codec " "] break
+		if {$name == "PCMA" || $name == "PCMU" || 
+		    $name == "SIREN" || $name == "G723" || 
+		    $name == "AAL2-G726-32" || $name == "x-msrta"} {
+			lappend sip_codecs [list $name $pt $rate]
+		}
+	} elseif  {[string first "LOCAL_CANDIDATE: " $line] == 0} {
+		set candidate [string range $line 17 end]
+		lappend sip_candidates [split $candidate " "]
+	} elseif  {$line == "LOCAL_CODECS_DONE"} {
+		set sip_codecs_done 1
+	} elseif  {$line == "LOCAL_CANDIDATES_DONE"} {
+		set sip_candidates_done 1
+	}
+	if {$sip_codecs_done && $sip_candidates_done } {
+		sip Invite $email $sip_candidates $sip_codecs inviteSIPCB
+		set sip_codecs_done 0
+	}
 }
 
 proc inviteSIPCB { callid status detail} {
-	puts "Invite SIP Response : $status -- $detail"
+	global farsight
+	puts "Invite SIP Response $callid : $status -- $detail"
+	if { $status == "OK" } {
+		set candidates [lindex $detail 0]
+		set codecs [lindex $detail 1]
+		foreach candidate $candidates {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
+			puts $farsight "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $qvalue $ip $port"
+			#puts "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $qvalue $ip $port"
+		}
+		puts $farsight "REMOTE_CANDIDATES_DONE"
+		#puts "REMOTE_CANDIDATES_DONE"
+		
+		foreach codec $codecs {
+			foreach {encoding_name payload_type bitrate} $codec break
+			puts $farsight "REMOTE_CODEC: $payload_type $encoding_name $bitrate"
+			#puts "REMOTE_CODEC: $payload_type $encoding_name $bitrate"
+		}
+		puts $farsight "REMOTE_CODECS_DONE"
+		#puts "REMOTE_CODECS_DONE"
+		
+		flush $farsight
+	} elseif {$status != "TRYING" && $status != "RINGING" } {
+		closeFarsight
+	}
 }
 
 proc requestSIP { callid what detail } {
+	global farsight
+	global sip_remote_candidates
+	global sip_remote_codecs
+
 	puts "Received $what : $callid - $detail"
 	if {$what == "INVITE" } {
-		set candidates [lindex $detail 0]
-		set codecs [lindex $detail 1]
+
+		set sip_remote_candidates [lindex $detail 0]
+		set sip_remote_codecs [lindex $detail 1]
+
+		set farsight [open "| ./utils/farsight/farsight x y " r+]
 		sip AnswerInvite $callid RINGING
+	} elseif {$what == "BYE" } {
+		closeFarsight
 	}
 }
 
 proc busySIP {callid } {
+	closeFarsight
 	sip AnswerInvite $callid BUSY
 }
 proc declineSIP {callid } {
+	closeFarsight
 	sip AnswerInvite $callid DECLINE
 }
+
 proc acceptSIP { callid } {
-	sip AnswerInvite $callid OK [list [list [list "" 1 "" UDP 1 [::abook::getDemographicField localip] 7078]] [list [list "PCMA" 8 8000] [list "PCMU" 0 8000]]]
+	global farsight
+	global sip_remote_candidates
+	global sip_remote_codecs
+	global sip_codecs
+	global sip_candidates
+	global sip_codecs_done
+	global sip_candidates_done
+
+	foreach candidate $sip_remote_candidates {
+		foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
+		puts $farsight "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $qvalue $ip $port"
+		#puts "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $qvalue $ip $port"
+	}
+	puts $farsight "REMOTE_CANDIDATES_DONE"
+	#puts "REMOTE_CANDIDATES_DONE"
+	
+	foreach codec $sip_remote_codecs {
+		foreach {encoding_name payload_type bitrate} $codec break
+		puts $farsight "REMOTE_CODEC: $payload_type $encoding_name $bitrate"
+		#puts "REMOTE_CODEC: $payload_type $encoding_name $bitrate"
+	}
+	puts $farsight "REMOTE_CODECS_DONE"
+	#puts "REMOTE_CODECS_DONE"
+	flush $farsight
+
+	set sip_codecs [list]
+	set sip_candidates [list]
+	set sip_codecs_done 0
+	set sip_candidates_done 0
+	fileevent $farsight readable [list farsightAcceptRead $farsight $callid]
+}
+
+proc farsightAcceptRead { farsight callid } {
+	global sip_codecs
+	global sip_candidates
+	global sip_codecs_done
+	global sip_candidates_done
+
+	if { [eof $farsight] } {
+		closeFarsight
+		return
+	}
+	set line [gets $farsight]
+	#puts $line
+	if {[string first "LOCAL_CODEC: " $line] == 0} {
+		set codec [string range $line 13 end]
+		foreach {pt name rate} [split $codec " "] break
+		if {$name == "PCMA" || $name == "PCMU" || 
+		    $name == "SIREN" || $name == "G723" || 
+		    $name == "AAL2-G726-32" || $name == "x-msrta"} {
+			lappend sip_codecs [list $name $pt $rate]
+		}
+	} elseif  {[string first "LOCAL_CANDIDATE: " $line] == 0} {
+		set candidate [string range $line 17 end]
+		lappend sip_candidates [split $candidate " "]
+	} elseif  {$line == "LOCAL_CODECS_DONE"} {
+		set sip_codecs_done 1
+	} elseif  {$line == "LOCAL_CANDIDATES_DONE"} {
+		set sip_candidates_done 1
+	}
+	
+	if {$sip_codecs_done && $sip_candidates_done } {
+		sip AnswerInvite $callid OK [list $sip_candidates $sip_codecs]
+		set sip_codecs_done 0
+	}
 }
 
 proc errorSIP { reason } {
 	puts "Error in SIP : $reason"
+	closeFarsight
+}
+
+proc closeFarsight { } {
+	global farsight
+	if {[info exists farsight] && $farsight != "" } {
+		catch {puts $farsight "EXIT"}
+		catch {close $farsight} res
+		puts $res
+	}
+	set farsight ""
 }
