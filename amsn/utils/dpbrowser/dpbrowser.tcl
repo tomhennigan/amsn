@@ -167,8 +167,11 @@ snit::widget dpbrowser {
 	
 	proc doMWScroll { w d {reverse 0} } {
 		if {[winfo exists $w]} {
-			if {$reverse} {
+			if { [OnMac] } {
 				set d [expr {-($d)}]
+			}
+			if { [OnWin] } {
+				set d [expr {$d/-120}]
 			}
 			$w yview scroll $d units
 		}
@@ -188,9 +191,7 @@ snit::widget dpbrowser {
 	proc selectMWScroll { w } {
 		if {[winfo exists $w]} {
 			set top_w [winfo toplevel $w]
-			if { [OnMac] } {
-				bind $top_w <MouseWheel> [list ::dpbrowser::doMWScroll $w %D 1]
-			} elseif { [OnWin] } {
+			if { [OnMac] || [OnWin] } {
 				bind $top_w <MouseWheel> [list ::dpbrowser::doMWScroll $w %D]
 			} elseif { [OnX11] } {
 				bind $top_w <5> [list ::dpbrowser::doMWScroll $w 1]

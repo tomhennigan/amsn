@@ -2436,9 +2436,9 @@ proc Preferences { { settings "personal"} } {
 	    bind .cfg <MouseWheel> {
 		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
 		    if { [winfo exists $w.sw.sf] } {
-			    $w.sw.sf yview scroll %D units   
+			    $w.sw.sf yview scroll [expr {%D/-120}] units  
 		    } elseif { [winfo exists $w.lfname.sw.sf] } {
-			    $w.lfname.sw.sf yview scroll %D units
+			    $w.lfname.sw.sf yview scroll [expr {%D/-120}] units
 		    }
 	    }
 	} elseif { [OnX11] } {
