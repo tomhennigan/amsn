@@ -969,7 +969,7 @@ proc farsightRead { farsight email} {
 	global sip_candidates_done
 
 	if { [eof $farsight] } {
-		closeFarsight
+		catch {close $farsight}
 		return
 	}
 
@@ -1021,7 +1021,7 @@ proc inviteSIPCB { callid status detail} {
 		flush $farsight
 	} elseif {$status != "TRYING" && $status != "RINGING" } {
 		closeFarsight
-	}
+	} 
 }
 
 proc requestSIP { callid what detail } {
@@ -1034,6 +1034,8 @@ proc requestSIP { callid what detail } {
 
 		set sip_remote_candidates [lindex $detail 0]
 		set sip_remote_codecs [lindex $detail 1]
+
+		closeFarsight
 
 		set farsight [open "| ./utils/farsight/farsight x y " r+]
 		sip AnswerInvite $callid RINGING
@@ -1091,7 +1093,7 @@ proc farsightAcceptRead { farsight callid } {
 	global sip_candidates_done
 
 	if { [eof $farsight] } {
-		closeFarsight
+		catch {close $farsight}
 		return
 	}
 	set line [gets $farsight]
