@@ -162,6 +162,50 @@ snit::widget dpbrowser {
 		set drawlock [after 0 [list $self drawPics_core]]
 	}
 
+	# (almost) universal mouse wheel scrolling procedures
+	# i think it would be better to put them in the ::gui namespace
+	
+	proc doMWScroll { w d {reverse 0} } {
+		if {[winfo exists $w]} {
+			if {$reverse} {
+				set d [expr {-($d)}]
+			}
+			$w yview scroll $d units
+		}
+	}
+
+	proc unSelectMWScroll { w } {
+		if {[winfo exists $w]} {
+			if { [OnMac] || [OnWin]} {
+				bind [winfo toplevel $w] <MouseWheel> ""
+			} elseif { [OnX11] } {
+				bind [winfo toplevel $w] <4> ""
+				bind [winfo toplevel $w] <5> ""
+			}
+		}
+	}
+
+	proc selectMWScroll { w } {
+		if {[winfo exists $w]} {
+			set top_w [winfo toplevel $w]
+			if { [OnMac] } {
+				bind $top_w <MouseWheel> [list ::dpbrowser::doMWScroll $w %D 1]
+			} elseif { [OnWin] } {
+				bind $top_w <MouseWheel> [list ::dpbrowser::doMWScroll $w %D]
+			} elseif { [OnX11] } {
+				bind $top_w <5> [list ::dpbrowser::doMWScroll $w 1]
+				bind $top_w <4> [list ::dpbrowser::doMWScroll $w -1]
+			}
+		}
+	}
+
+	proc addMWScrolling { w } {
+		if {[winfo exists $w]} {
+			bind $w <Enter> "+::dpbrowser::selectMWScroll $w"
+			bind $w <Leave> "+::dpbrowser::unSelectMWScroll $w"
+		}
+	}
+
 	# Redraw the widget - the true method
 	method drawPics_core { } {
 		global HOME
@@ -174,6 +218,7 @@ snit::widget dpbrowser {
 		$self.sw setwidget $self.sw.sf
 		pack $self.sw -expand true -fill both
 		set frame [$self.sw.sf getframe]
+		addMWScrolling $self.sw.sf
 
 		# if width is not consistent, calculate it
 		if { $options(-width) < 1 } {
