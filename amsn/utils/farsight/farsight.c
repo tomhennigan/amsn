@@ -337,7 +337,7 @@ int main (int argc, char *argv[]) {
 
   transmitter_params[0].name = "stun-ip";
   g_value_init (&transmitter_params[0].value, G_TYPE_STRING);
-  g_value_set_static_string (&transmitter_params[0].value, "192.245.12.229");
+  g_value_set_static_string (&transmitter_params[0].value, "64.14.48.28");
 
   transmitter_params[1].name = "stun-port";
   g_value_init (&transmitter_params[1].value, G_TYPE_UINT);
