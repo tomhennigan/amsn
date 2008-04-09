@@ -1135,3 +1135,10 @@ proc closeFarsight { } {
 	}
 	set farsight ""
 }
+
+if { [file exists [file join utils farsight farsight]] } {
+	::MSN::setClientCap sip
+	if {[::MSN::myStatusIs] != "FLN" } {
+		::MSN::changeStatus [::MSN::myStatusIs]
+	}
+}

@@ -3508,6 +3508,10 @@ namespace eval ::MSNOIM {
 				PRP {
 					$self handlePRP $command
 				}
+				#SIP request
+				UBN {
+					$self handleUBN $command $payload
+				}
 				#psm info
 				UBX {
 					$self handleUBX $command $payload
@@ -3521,6 +3525,15 @@ namespace eval ::MSNOIM {
 				default {
 					cmsn_ns_handler $command $message
 				}
+			}
+		}
+	}
+
+	method handleUBN { command message } {
+		if {[llength $message] == 3 && [lindex $message 0] == "INVITE"} {
+			if { ([::config::getKey clientid 0] & 0x100000) != 0 } {
+				set sip [createSIP [lindex $message 1]]
+				$sip Register
 			}
 		}
 	}

@@ -34,6 +34,9 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
 {
   GstElement *pipeline = user_data;
   GstElement *sink = gst_element_factory_make ("autoaudiosink", NULL);
+  GstElement *convert = gst_element_factory_make ("audioconvert", NULL);
+  GstElement *resample = gst_element_factory_make ("audioresample", NULL);
+  GstElement *convert2 = gst_element_factory_make ("audioconvert", NULL);
   GstPad *sink_pad = NULL;
   GstPadLinkReturn ret;
 
@@ -45,12 +48,28 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
       NULL);
 
   gst_bin_add (GST_BIN (pipeline), sink);
+  gst_bin_add (GST_BIN (pipeline), convert);
+  gst_bin_add (GST_BIN (pipeline), resample);
+  gst_bin_add (GST_BIN (pipeline), convert2);
 
-  sink_pad = gst_element_get_static_pad (sink, "sink");
+  sink_pad = gst_element_get_static_pad (convert, "sink");
   ret = gst_pad_link (pad, sink_pad);
   gst_object_unref (sink_pad);
 
   g_assert (GST_PAD_LINK_SUCCESSFUL(ret));
+
+  gst_element_link(convert, resample);
+  gst_element_link(resample, convert2);
+  gst_element_link(convert2, sink);
+
+  g_assert (gst_element_set_state (convert, GST_STATE_PLAYING) !=
+      GST_STATE_CHANGE_FAILURE);
+
+  g_assert (gst_element_set_state (resample, GST_STATE_PLAYING) !=
+      GST_STATE_CHANGE_FAILURE);
+
+  g_assert (gst_element_set_state (convert2, GST_STATE_PLAYING) !=
+      GST_STATE_CHANGE_FAILURE);
 
   g_assert (gst_element_set_state (sink, GST_STATE_PLAYING) !=
       GST_STATE_CHANGE_FAILURE);
@@ -274,7 +293,11 @@ int main (int argc, char *argv[]) {
   g_object_get (session, "sink-pad", &sinkpad, NULL);
   g_assert (sinkpad != NULL);
 
-  src = gst_element_factory_make ("audiotestsrc", NULL);
+  src = gst_element_factory_make ("osxaudiosrc", NULL);
+  if (src == NULL)
+     src = gst_element_factory_make ("alsasrc", NULL);
+  if (src == NULL)
+     src = gst_element_factory_make ("osssrc", NULL);
   g_assert (src != NULL);
 
   g_assert (gst_bin_add (GST_BIN (pipeline), src));
@@ -287,7 +310,6 @@ int main (int argc, char *argv[]) {
 
   gst_object_unref (sinkpad);
   gst_object_unref (srcpad);
-
 
   g_object_get (session, "local-codecs", &local_codecs, NULL);
 
@@ -323,7 +345,7 @@ int main (int argc, char *argv[]) {
 
   transmitter_params[2].name = "stun-timeout";
   g_value_init (&transmitter_params[2].value, G_TYPE_UINT);
-  g_value_set_uint (&transmitter_params[2].value, 5);
+  g_value_set_uint (&transmitter_params[2].value, 15);
 
   stream = fs_session_new_stream (session, participant,
       FS_DIRECTION_BOTH, "rawudp", 3, transmitter_params, &error);
