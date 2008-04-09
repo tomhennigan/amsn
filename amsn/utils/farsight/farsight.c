@@ -198,9 +198,11 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         errorvalue = gst_structure_get_value (message->structure, "error-msg");
         debugvalue = gst_structure_get_value (message->structure, "debug-msg");
 
-        g_error ("Error on BUS (%d) %s .. %s", errno,
-            g_value_get_string (errorvalue),
-            g_value_get_string (debugvalue));
+	if (errno != FS_ERROR_UNKNOWN_CNAME)  {
+            g_debug ("Error on BUS (%d) %s .. %s", errno,
+                g_value_get_string (errorvalue),
+                g_value_get_string (debugvalue));
+        }
       }
 
       break;
@@ -349,6 +351,8 @@ int main (int argc, char *argv[]) {
 
   stream = fs_session_new_stream (session, participant,
       FS_DIRECTION_BOTH, "rawudp", 3, transmitter_params, &error);
+  /*stream = fs_session_new_stream (session, participant,
+      FS_DIRECTION_BOTH, "rawudp", 0, NULL, &error);*/
   if (error) {
     g_printerr ("Error while creating new stream (%d): %s",
         error->code, error->message);

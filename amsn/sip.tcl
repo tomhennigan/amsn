@@ -913,8 +913,8 @@ snit::type SIPSocket {
 			return
 		}
 
-		set start [string trim [gets $sock]]
-		if {$start == "" } {
+		if { [catch {set start [string trim [gets $sock]]}] ||
+		     $start == "" } {
 			$self Disconnect
 			return
 		}
@@ -959,17 +959,24 @@ proc inviteSIP { email } {
 	set sip_candidates_done 0
 
 	set farsight [open "| ./utils/farsight/farsight y x" r+]
+	fconfigure $farsight -buffering line
 	fileevent $farsight readable [list farsightRead $farsight $email]
 }
 
-proc farsightRead { farsight email} {
+proc farsightRead { farsight email {callid ""}} {
 	global sip_codecs
 	global sip_candidates
 	global sip_codecs_done
 	global sip_candidates_done
 
 	if { [eof $farsight] } {
+		catch {puts $farsight "EXIT"}
+		catch {close $farsight} res
 		catch {close $farsight}
+		puts $res
+		if {$callid != "" } {
+			catch {sip Bye $callid}
+		}
 		return
 	}
 
@@ -979,7 +986,8 @@ proc farsightRead { farsight email} {
 		foreach {pt name rate} [split $codec " "] break
 		if {$name == "PCMA" || $name == "PCMU" || 
 		    $name == "SIREN" || $name == "G723" || 
-		    $name == "AAL2-G726-32" || $name == "x-msrta"} {
+		    $name == "AAL2-G726-32" || $name == "x-msrta" ||
+		    $name == "telephone-event"} {
 			lappend sip_codecs [list $name $pt $rate]
 		}
 	} elseif  {[string first "LOCAL_CANDIDATE: " $line] == 0} {
@@ -991,8 +999,9 @@ proc farsightRead { farsight email} {
 		set sip_candidates_done 1
 	}
 	if {$sip_codecs_done && $sip_candidates_done } {
-		sip Invite $email $sip_candidates $sip_codecs inviteSIPCB
+		set callid [sip Invite $email $sip_candidates $sip_codecs inviteSIPCB]
 		set sip_codecs_done 0
+		fileevent $farsight readable [list farsightRead $farsight $email $callid]
 	}
 }
 
@@ -1038,6 +1047,7 @@ proc requestSIP { callid what detail } {
 		closeFarsight
 
 		set farsight [open "| ./utils/farsight/farsight x y " r+]
+		fconfigure $farsight -buffering line
 		sip AnswerInvite $callid RINGING
 	} elseif {$what == "BYE" } {
 		closeFarsight
@@ -1093,7 +1103,13 @@ proc farsightAcceptRead { farsight callid } {
 	global sip_candidates_done
 
 	if { [eof $farsight] } {
+		catch {puts $farsight "EXIT"}
+		catch {close $farsight} res
 		catch {close $farsight}
+		puts $res
+		if {$callid != "" } {
+			catch {sip Bye $callid}
+		}
 		return
 	}
 	set line [gets $farsight]
@@ -1103,7 +1119,8 @@ proc farsightAcceptRead { farsight callid } {
 		foreach {pt name rate} [split $codec " "] break
 		if {$name == "PCMA" || $name == "PCMU" || 
 		    $name == "SIREN" || $name == "G723" || 
-		    $name == "AAL2-G726-32" || $name == "x-msrta"} {
+		    $name == "AAL2-G726-32" || $name == "x-msrta" ||
+		    $name == "telephone-event"} {
 			lappend sip_codecs [list $name $pt $rate]
 		}
 	} elseif  {[string first "LOCAL_CANDIDATE: " $line] == 0} {
