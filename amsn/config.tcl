@@ -1313,6 +1313,7 @@ proc CreateProfile { email } {
 
 	set oldpassword $password
 	set oldsavepwd [::config::getKey save_password]
+	set oldautoconnect [::config::getKey autoconnect 0]
 
 	# set all config keys to default
 	::config::configDefaults
@@ -1321,10 +1322,12 @@ proc CreateProfile { email } {
 	::config::setKey login $email
 	set password $oldpassword
 	::config::setKey save_password $oldsavepwd
+	::config::setKey autoconnect $oldautoconnect
 	save_config
 
 	unset oldpassword
 	unset oldsavepwd
+	unset oldautoconnect
 
 	# Add to login list
 	LoginList add 0 $email 0
