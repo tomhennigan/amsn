@@ -1130,7 +1130,7 @@ snit::type Farsight {
 }
 
 if { ![info exists ::farsight] } {
-	set ::farsight [Farsight]
+	set ::farsight [Farsight create farsight]
 }
 
 proc FarsightTestFailed { } {
@@ -1243,7 +1243,7 @@ proc errorSIP { reason } {
 proc regenFarsight { } {
 	$::farsight destroy
 	unset ::farsight
-	set ::farsight [Farsight]
+	set ::farsight [Farsight create farsight]
 }
 
 
