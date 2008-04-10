@@ -304,8 +304,6 @@ int main (int argc, char *argv[]) {
 
   g_assert (gst_bin_add (GST_BIN (pipeline), src));
 
-  g_object_set (src, "is-live", TRUE,  NULL);
-
   srcpad = gst_element_get_static_pad (src, "src");
 
   g_assert (gst_pad_link (srcpad, sinkpad) == GST_PAD_LINK_OK);
