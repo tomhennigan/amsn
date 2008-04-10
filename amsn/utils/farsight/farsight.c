@@ -349,10 +349,7 @@ int main (int argc, char *argv[]) {
   g_value_init (&transmitter_params[2].value, G_TYPE_UINT);
   g_value_set_uint (&transmitter_params[2].value, 15);
 
-  stream = fs_session_new_stream (session, participant,
-      FS_DIRECTION_BOTH, "rawudp", 3, transmitter_params, &error);
-  /*stream = fs_session_new_stream (session, participant,
-      FS_DIRECTION_BOTH, "rawudp", 0, NULL, &error);*/
+  stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH, "rawudp", 3, transmitter_params, &error);
   if (error) {
     g_printerr ("Error while creating new stream (%d): %s",
         error->code, error->message);
