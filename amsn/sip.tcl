@@ -1010,9 +1010,22 @@ snit::type Farsight {
 	}
 
 	method GetLocalCodecs { } {
-		return $local_codecs
+		return [lsort -decreasing -command [list $self CompareCodecs] $local_codecs]
 	}
-
+	
+	method CompareCodecs {codec1 codec2} {
+		foreach {name1 payload_type bitrate} $codec1 break
+		foreach {name2 payload_type bitrate} $codec2 break
+		
+		puts "Comparing $name1 to $name2"
+		if {$name1 == "SIREN" } {
+			return 1
+		} elseif {$name2 == "SIREN" } {
+			return -1
+		}
+		return 0
+		
+	}
 	
 	method IsInUse { } {
 		return [expr {$pipe != ""}]
@@ -1256,3 +1269,4 @@ if {![$::farsight IsInUse] } {
 		FarsightTestFailed
 	} ;# else let the callbacks act
 }
+
