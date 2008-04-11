@@ -5663,6 +5663,7 @@ proc ::MSN::ABSynchronizationDone { error } {
 		}
 		foreach {domain users} [array get domains] {
 			append xml "<d n=\"$domain\">"
+			set added_users 0
 			foreach user $users {
 				set lists [::abook::getLists "$user@$domain"]
 				set mask 0
@@ -5676,6 +5677,14 @@ proc ::MSN::ABSynchronizationDone { error } {
 				if {[lsearch $lists "BL"] != -1} {
 					incr mask 4
 				}
+				if {$added_users > 0 && [expr {[string length $xml] + [string length "<c n=\"$user\" l=\"$mask\" t=\"1\" /></d></ml>"]}] > 7400} {
+					append xml "</d></ml>"
+					set xmllen [string length $xml]
+					::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
+					set xml "<ml l=\"1\">"
+					append xml "<d n=\"$domain\">"
+				}
+				incr added_users
 				append xml "<c n=\"$user\" l=\"$mask\" t=\"1\" />"
 			}
 			append xml "</d>"
