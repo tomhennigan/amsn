@@ -487,6 +487,11 @@ snit::type SIPConnection {
 				set content_type ""
 				set content ""
 			}
+			"UNAVAILABLE" {
+				set status 480
+				set content_type ""
+				set content ""
+			}
 			"BUSY" {
 				set status 486
 				set content_type ""
@@ -1035,12 +1040,14 @@ snit::type Farsight {
 	variable local_candidates [list]
 	variable ice_candidates [list]
 	variable remote_candidates [list]
+	variable remote_ice_candidates [list]
 	variable remote_codecs [list]
 	variable codecs_done 0
 	variable candidates_done 0
 	variable prepared 0
 	option -closed -default ""
 	option -prepared -default ""
+	option -enable_ice -default 0
 
 	constructor { args } {
 		$self configurelist $args
@@ -1077,19 +1084,27 @@ snit::type Farsight {
 	}
 
 	method SetRemoteCandidates { candidates } {
-		set remote_candidates $candidates
+		set remote_candidates [list]
+		foreach candidate $candidates {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
+			if {$transport == "UDP" } {
+				lappend remote_candidates $candidate
+			}
+		}
+		$self CandidatesFromICE
+		
 	}
 
 	method SetRemoteCodecs { codecs } {
 		set remote_codecs $codecs
 	}
 
-	method GetIceCandidates { } {
-		return $ice_candidates
-	}
-
 	method GetLocalCandidates { } {
-		return $local_candidates
+		if {$options(-enable_ice)} {
+			return $ice_candidates
+		} else {
+			return $local_candidates
+		}
 	}
 
 	method GetLocalCodecs { } {
@@ -1100,7 +1115,6 @@ snit::type Farsight {
 		foreach {name1 payload_type bitrate} $codec1 break
 		foreach {name2 payload_type bitrate} $codec2 break
 		
-		puts "Comparing $name1 to $name2"
 		if {$name1 == "SIREN" } {
 			return 1
 		} elseif {$name2 == "SIREN" } {
@@ -1130,11 +1144,14 @@ snit::type Farsight {
 	}
 
 	method Start { } {
-		foreach candidate $remote_candidates {
+		if {$options(-enable_ice) == 0} {
+			set candidates $remote_candidates
+		} else {
+			set candidates $remote_ice_candidates
+		}
+		foreach candidate $candidates {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
-			if {$transport == "UDP" } {
-				puts $pipe "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $qvalue $ip $port"
-			}
+			puts $pipe "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $qvalue $ip $port"
 		}
 		puts $pipe "REMOTE_CANDIDATES_DONE"
 		
@@ -1223,6 +1240,100 @@ snit::type Farsight {
 		}
 
 	}
+
+	method CandidatesFromICE { } {
+		set priorities [list]
+		foreach candidate $remote_candidates {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			if {$qvalue == 1 } {
+				continue
+			}
+			if {[lsearch $priorities $qvalue] == -1} {
+				lappend priorities $qvalue
+			}
+		}
+		set priorities [lsort -decreasin $priorities]
+
+		set remote_ice_candidates $remote_candidates
+
+		# Didn't receive ICE candidates
+		if {[llength $priorities] < 2 } {
+			return
+		}
+
+		set remote_candidates [list]
+			
+		# Host candidates
+		set host_candidates [list]
+		set srflx_candidates [list]
+		set relay_candidates [list]
+			
+		foreach candidate $remote_ice_candidates {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			if {[lindex $priorities 0] == $qvalue} {
+				lappend host_candidates $candidate
+			} elseif {[lindex $priorities 1] == $qvalue} {
+				lappend srflx_candidates $candidate
+			} elseif {[lindex $priorities 2] == $qvalue} {
+				lappend relay_candidates $candidate
+			}
+		}
+	
+		foreach candidate $srflx_candidates {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			if {$component_id != 1} {
+				continue
+			}
+			if {$ip == [::abook::getDemographicField clientip]} {
+				# host is in the same local network
+				set max 0
+				set cand ""
+				set n0 [lindex [split [::abook::getDemographicField localip] "."] 0]
+				set n1 [lindex [split [::abook::getDemographicField localip] "."] 1]
+				set n2 [lindex [split [::abook::getDemographicField localip] "."] 2]
+				set n3 [lindex [split [::abook::getDemographicField localip] "."] 3]
+
+				foreach candidate2 $host_candidates {
+					foreach {candidate_id component_id password transport qvalue ip port} $candidate2 break
+					set m0 [lindex [split $ip "."] 0]
+					set m1 [lindex [split $ip "."] 1]
+					set m2 [lindex [split $ip "."] 2]
+					set m3 [lindex [split $ip "."] 3]
+					set current 0
+					if {$m0 == $n0} {
+						incr current
+						if {$m1 == $n1 } {
+							incr current
+							if {$m2 == $n2 } {
+								incr current
+								if {$m3 == $n3 } {
+									incr current
+								}
+							}
+						}
+					}
+					if {$current > $max} {
+						set max $current
+						set cand $candidate_id
+					}
+				}
+				if {$cand != "" } {
+					foreach candidate2 $host_candidates {
+						foreach {candidate_id component_id password transport qvalue ip port} $candidate2 break
+						if {$candidate_id == $cand} {
+							lappend remote_candidates $candidate2
+						}
+					}
+					break					
+				}
+			}
+		}
+
+		if {$remote_candidates == [list] } {
+			set remote_candidates $srflx_candidates
+		}
+		
+	}
 }
 
 if { ![info exists ::farsight] } {
@@ -1306,17 +1417,29 @@ proc requestSIP { callid what detail } {
 		if {[$::farsight IsInUse] } {
 			sip AnswerInvite $callid BUSY
 		} else {
-			$::farsight configure -prepared [list requestPrepared $callid]
-			$::farsight Prepare
-			$::farsight SetRemoteCandidates [sip cget -remote_candidates]
-			$::farsight SetRemoteCodecs [sip cget -remote_codecs]
+			$::farsight configure -prepared [list requestPrepared $callid] -closed [list answerClosed $callid 0]
+			if {[catch {$::farsight Prepare}] } {
+				sip AnswerInvite $callid UNAVAILABLE
+			} else {
+				$::farsight SetRemoteCandidates [sip cget -remote_candidates]
+				$::farsight SetRemoteCodecs [sip cget -remote_codecs]
+			}
 		}
 	} elseif {$what == "CLOSED" } {
 		$::farsight Close
 	}
 }
 
-proc requestPrepared { callid } {
+
+proc answerClosed { callid {started 0}} {
+	if {$started } {
+		sip Bye $callid
+	} else {
+		sip AnswerInvite $callid UNAVAILABLE
+	}
+}
+
+proc requestPrepared { callid } {	
 	# UI goes here
 	sip AnswerInvite $callid RINGING
 }
@@ -1332,6 +1455,7 @@ proc acceptSIP { callid } {
 	sip configure -local_candidates [$::farsight GetLocalCandidates]
 	sip configure -local_codecs [$::farsight GetLocalCodecs]
 	sip AnswerInvite $callid OK	
+	$::farsight configure -closed [list answerClosed $callid 1]
 }
 
 
