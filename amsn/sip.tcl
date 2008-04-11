@@ -873,6 +873,9 @@ snit::type SIPSocket {
 	option -sipconnection
 
 	variable sock ""
+	variable state "NONE"
+	variable start ""
+	variable headers ""
 
 	constructor { args } {
 		$self configurelist $args
@@ -886,6 +889,7 @@ snit::type SIPSocket {
 		catch {close $sock}
 		set sock ""
 		$options(-sipconnection) Disconnected
+		set state "NONE"
 	}
 
 	method IsConnected { } {
@@ -983,6 +987,7 @@ snit::type SIPSocket {
 			}
 		}
 
+		set state "NONE"
 		fconfigure $sock -buffering none -translation binary
 		fileevent $sock readable [list $self SocketReadable]
 
@@ -1009,23 +1014,44 @@ snit::type SIPSocket {
 			return
 		}
 
-		if { [catch {set start [string trim [gets $sock]]}] ||
-		     $start == "" } {
-			$self Disconnect
-			return
-		}
-		set headers ""
-		set body ""
-		while {[string length [set r [string trim [gets $sock]]]] > 0} {
-			append headers "$r\n"
-		}
-		set content_length [$options(-sipconnection) GetHeader $headers "Content-Length"]
-		if {$content_length > 0 } {
-			set body [read $sock $content_length]
+		if {$state == "BODY" } {
+			set content_length [$options(-sipconnection) GetHeader $headers "Content-Length"]
+			if { [catch {set body [read $sock $content_length]}]} {
+				$self Disconnect
+				return
+			}
+			set done 1
+		} else {
+			if { [catch {set line [string trim [gets $sock]]}]} {
+				$self Disconnect
+				return
+			}
+			set done 0
 		}
 
-		degt_protocol "<--SIP ($options(-host)) $start\n$headers\n\n$body" "sbrecv"
-		$options(-sipconnection) HandleMessage $start $headers $body
+		if {$state == "NONE" } {
+			set start $line
+			set state "HEADERS"
+			set headers ""
+		} elseif {$state == "HEADERS" } {
+			append headers "$line\n"
+			if {$line == "" } {
+				set content_length [$options(-sipconnection) GetHeader $headers "Content-Length"]
+				if {$content_length > 0 } {
+					set state "BODY"
+				} else {
+					set body ""
+					set done 1
+
+				}
+			}
+		}
+
+		if {$done} {
+			degt_protocol "<--SIP ($options(-host)) $start\n$headers\n\n$body" "sbrecv"
+			$options(-sipconnection) HandleMessage $start $headers $body
+			set state "NONE"
+		}
 	}
 
 	method GetInfo { } {
