@@ -1,3 +1,5 @@
+#SIP : vp.sip.messenger.msn.com
+#TURN : relay.voice.messenger.msn.com
 
 snit::type SIPConnection {
 	option -user -default ""
@@ -168,8 +170,12 @@ snit::type SIPConnection {
 		
 		set callid [$self GetHeader $headers "Call-ID"]
 
-		set call_from($callid) [$self GetHeader $headers "From"]
-		set call_to($callid) [$self GetHeader $headers "To"]
+		if { ![info exists call_to($callid)] ||
+		     [$self GetDestination $callid] ==
+		     [$self GetRecipient [$self GetHeader $headers "To"]] } {
+			set call_from($callid) [$self GetHeader $headers "From"]
+			set call_to($callid) [$self GetHeader $headers "To"]
+		}
 		
 		set route [$self GetHeader $headers "Record-Route"]
 		set contact [$self GetHeader $headers "Contact"]
@@ -413,12 +419,15 @@ snit::type SIPConnection {
 				if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED BYE]} result]} {
 					bgerror $result
 				}
-			} elseif { [lindex $response 1] == "200" } {
+			} elseif { [lindex $response 1] == "200" ||
+				   [lindex $response 1] == "403" } {
 				if {$callbk != "" } {
 					if {[catch {eval [linsert $callbk end $callid CLOSED BYE]} result]} {
 						bgerror $result
 					}				
 				}
+			} elseif { [lindex $response 1] == "500"} {
+				$self Bye $callid
 			}
 		} elseif {[$self GetCommand $headers] == "CANCEL"} {
 			set status [lrange $response 1 end]
@@ -434,8 +443,7 @@ snit::type SIPConnection {
 	method RenegociateInvite { callid } {
 		set content [$self BuildSDP]
 		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
-		set msg [lindex [$self BuildRequest INVITE $uri [$self GetDestination $callid] $callid] 1]
-		append msg "Route: $call_contact($callid)\r\n"	
+		set msg [lindex [$self BuildRequest INVITE $uri [$self GetDestination $callid] $callid 1] 1]
 		append msg "Ms-Conversation-ID: f=0\r\n"
 		
 		$self Send $msg "application/sdp" $content
@@ -453,10 +461,14 @@ snit::type SIPConnection {
 				if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED BYE]} result]} {
 					bgerror $result
 				}
-			} elseif { [lindex $response 1] == "200" } {
+			} elseif { [lindex $response 1] == "200" ||
+				   [lindex $response 1] == "403" } {
+				# Forbidden means 'call ended' for WLM it seems...
 				if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED BYE]} result]} {
 					bgerror $result
 				}
+			} elseif { [lindex $response 1] == "500"} {
+				$self Bye $callid
 			}
 		} elseif {[$self GetCommand $headers] == "CANCEL"} {
 			$self Send [$self BuildResponse $callid CANCEL 200]
@@ -534,7 +546,7 @@ snit::type SIPConnection {
 
 		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
 
-		set msg [lindex [$self BuildRequest BYE $uri [$self GetDestination $callid] $callid] 1]		
+		set msg [lindex [$self BuildRequest BYE $uri [$self GetDestination $callid] $callid 1] 1]
 		
 		$self Send $msg
 	}
@@ -545,43 +557,67 @@ snit::type SIPConnection {
 	######### Message Builders #############
 	########################################
 
-	method BuildRequest { request uri to {callid ""} {new_request 1}} {
+	# new_request here is not really whether it's a new request
+	# or not, it's rather whether it's a new request relating to
+	# an existing callid. Useful because INVITE renegociation
+	# and BYE need to be sent with the 'From' field set to self
+	method BuildRequest { request uri to {callid ""} {new_request 0}} {
 		$self Connect
 
 		set sockname [$socket GetInfo]
 
-		if {$callid == "" } {
+		if {$new_request} {
 			if { ![info exists cseqs($request)] } {
 				set cseqs($request) 1
 			} else {
 				incr cseqs($request)
 			}
-			set callid [$self GenerateCallID]
-			set call_cseq($callid) $cseqs($request)
-			set call_from($callid) "<sip:$options(-user)>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
-			set call_to($callid) "<sip:$to>"
-		}
+			set cseq $cseqs($request)
+		} else {
+			if { ![info exists cseqs($request)] } {
+				set cseqs($request) 1
+			} else {
+				incr cseqs($request)
+			}
 
-		set cseq $call_cseq($callid) 
-
-		if {$request == "BYE" } {
-			incr cseq
+			if {$callid == "" } {
+				set callid [$self GenerateCallID]
+				set call_cseq($callid) $cseqs($request)
+				if {$request == "REGISTER" } {
+					set name ""
+				} else {
+					set name "\"0\" "
+				}
+				set call_from($callid) "$name<sip:$options(-user)>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
+				set call_to($callid) "<sip:$to>"
+			}
+			set cseq $call_cseq($callid)
 		}
 
 		set msg "$request sip:$uri SIP/2.0\r\n"
 		append msg "v: SIP/2.0/TLS [lindex $sockname 0]:[lindex $sockname 2]\r\n"
 		append msg "Max-Forwards: 70\r\n"
-		append msg "f: $call_from($callid)\r\n"
-		append msg "t: $call_to($callid)\r\n"
+		# Switch the from/to only if we send a new invite of an existing
+		# call, where we were the original recipient..
+		if { $new_request == 1 &&
+		     [$self GetDestination $callid] == $options(-user)} {
+			append msg "f: $call_to($callid)\r\n"
+			append msg "t: $call_from($callid)\r\n"		
+		} else {
+			append msg "f: $call_from($callid)\r\n"
+			append msg "t: $call_to($callid)\r\n"
+		}
 		append msg "i: $callid\r\n"
 		append msg "CSeq: $cseq $request\r\n"
-		if {$request == "REGISTER" || 
-		    $request == "INVITE" } {
+		if {$request == "REGISTER"} {
 			append msg "m: <sip:[lindex $sockname 0]:[lindex $sockname 2];"
 			append msg "transport=tls>;proxy=replace\r\n"
+		} elseif { $request == "INVITE" } {
+			append msg "m: \"0\" <sip:$options(-user):[lindex $sockname 2];"
+			append msg "maddr=[lindex $sockname 0];transport=tls>;proxy=replace\r\n"
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
-		if {$request == "BYE" } {
+		if {$new_request} {
 			append msg "Route: $call_contact($callid)\r\n"	
 		}
 
@@ -605,14 +641,18 @@ snit::type SIPConnection {
 		if {$request == "INVITE" && $status >= 180} {
 			append msg "Record-Route: $call_route($callid)\r\n"
 		}
+		if {$status != 100 &&
+		    $call_to($callid) == "<sip:$options(-user)>" } {
+			set call_to($callid) "\"0\" <sip:$options(-user)>;tag=[$self GenerateTag]"
+		}
 		append msg "Max-Forwards: 70\r\n"
 		append msg "f: $call_from($callid)\r\n"
 		append msg "t: $call_to($callid)\r\n"
 		append msg "i: $callid\r\n"
 		append msg "CSeq: $call_cseq($callid) $request\r\n"
 		if {$request == "INVITE" && $status == 200} {
-			append msg "m: <sip:[lindex $sockname 0]:[lindex $sockname 2];"
-			append msg "transport=tls>;proxy=replace\r\n"
+			append msg "m: \"0\" <sip:$options(-user):[lindex $sockname 2];"
+			append msg "maddr=[lindex $sockname 0];transport=tls>;proxy=replace\r\n"
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
 
@@ -713,12 +753,16 @@ snit::type SIPConnection {
 		return $header
 	}
 
-	method GetDestination { callid } {
-		set destination [string range $call_to($callid) [expr {[string first "<sip:" $call_to($callid)] + 5}] [expr {[string first ">" $call_to($callid)] - 1}]]
-		set destination [lindex [split $destination ";"] 0]
-		set destination [lindex [split $destination ":"] 0]
+	method GetRecipient { field } {
+		set recipient [string range $field [expr {[string first "<sip:" $field] + 5}] [expr {[string first ">" $field] - 1}]]
+		set recipient [lindex [split $recipient ";"] 0]
+		set recipient [lindex [split $recipient ":"] 0]
 
-		return $destination
+		return $recipient
+	}
+
+	method GetDestination { callid } {
+		return [$self GetRecipient $call_to($callid)]
 	}
 	
 	method GetCommand { headers } {
