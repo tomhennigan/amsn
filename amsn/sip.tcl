@@ -5,6 +5,11 @@ snit::type SIPConnection {
 	option -request_handler -default ""
 	option -error_handler -default ""
 	option -user_agent -default "aTSC/0.1"
+	option -registered_host -default ""
+	option -local_codecs -default ""
+	option -local_candidates -default ""
+	option -remote_codecs -default ""
+	option -remote_candidates -default ""
 
 	delegate option {-host -port -transport
 		-proxy -proxy_host -proxy_port
@@ -27,6 +32,8 @@ snit::type SIPConnection {
 	constructor { args } {
 		install socket using SIPSocket %AUTO% -sipconnection $self
 		$self configurelist $args
+
+		set options(-registered_host) [$socket cget -host]
 
 		array set compact_form [list "call-id" "i" \
 					    "contact" "m" \
@@ -115,8 +122,9 @@ snit::type SIPConnection {
 
 	method Disconnect { } {
 		set state ""
+
 		if {[$socket IsConnected] } {
-			$socket Disconnect
+			$self Unregister
 		}
 	}
 
@@ -162,7 +170,7 @@ snit::type SIPConnection {
 
 		set call_from($callid) [$self GetHeader $headers "From"]
 		set call_to($callid) [$self GetHeader $headers "To"]
-
+		
 		set route [$self GetHeader $headers "Record-Route"]
 		set contact [$self GetHeader $headers "Contact"]
 
@@ -199,11 +207,9 @@ snit::type SIPConnection {
 			} elseif {$options(-request_handler) != ""} {
 				if {[$self GetCommand $headers] == "INVITE" } {
 					$self Send [$self BuildResponse $callid INVITE 100]
-					set sdp [$self ParseSDP $body]
-					set candidates [lindex $sdp 0]
-					set codecs [lindex $sdp 1]
+					$self ParseSDP $body
 					set callid_handler($callid) [list $self InviteRequestHandler $callid]
-					eval [linsert $options(-request_handler) end $callid INVITE [list $candidates $codecs]]
+					eval [linsert $options(-request_handler) end $callid INVITE ""]
 				} else {
 					puts "ERROR: Received non-INVITE Request"
 					if {$options(-error_handler) != "" } {
@@ -257,6 +263,8 @@ snit::type SIPConnection {
 
 	method RegisterResponse {callbk response headers body} {
 		if {[lindex $response 1] == "200" } {
+			set options(-registered_host) [lindex $response 3]
+
 			set state "REGISTERED"
 			#puts "registered"
 			set expires [$self GetHeader $headers "Expires"]
@@ -278,12 +286,35 @@ snit::type SIPConnection {
 	}
 
 
+	method Unregister { } {
+		set auth "$options(-user):$options(-password)"
+		set auth [string map {"\n" "" } [base64::encode $auth]]
+
+		set request [$self BuildRequest REGISTER [lindex [split $options(-user) @] 1] $options(-user) ]
+		set callid [lindex $request 0]
+		
+		set msg [lindex $request 1]
+		append msg "ms-keep-alive: UAC;hop-hop=yes\r\n"
+		append msg "Expires: 0\r\n"
+		append msg "Authorization: Basic $auth\r\n"
+		
+		set callid_handler($callid) [list $self UnregisterResponse]
+		
+		$self Send $msg
+		after cancel [list $self KeepAlive]
+		after cancel [list $self RegisterExpires]
+	}
+
+	method UnregisterResponse { response headers body } {
+		$socket Disconnect
+	}
+
 	########################################
 	################ INVITE ################
 	########################################
 
-	method Invite {destination candidate_list codec_list {callbk ""}} {
-		set sdp [$self BuildSDP $candidate_list $codec_list]
+	method Invite {destination {callbk ""}} {
+		set sdp [$self BuildSDP]
 
 		set request [$self BuildRequest INVITE $destination $destination]
 		set callid [lindex $request 0]
@@ -325,9 +356,9 @@ snit::type SIPConnection {
 				}
 			} elseif {$status == "200" } {
 				
-				set sdp [$self ParseSDP $body]
+				$self ParseSDP $body
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end $callid OK $sdp]} result]} {
+					if {[catch {eval [linsert $callbk end $callid OK ""]} result]} {
 						bgerror $result
 					}
 				}
@@ -400,11 +431,21 @@ snit::type SIPConnection {
 		
 	}
 
+	method RenegociateInvite { callid } {
+		set content [$self BuildSDP]
+		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
+		set msg [lindex [$self BuildRequest INVITE $uri [$self GetDestination $callid] $callid] 1]
+		append msg "Route: $call_contact($callid)\r\n"	
+		append msg "Ms-Conversation-ID: f=0\r\n"
+		
+		$self Send $msg "application/sdp" $content
+	}
+
 	method InviteRequestHandler {callid response headers body } {
 		if {[$self GetCommand $headers] == "ACK"} {
 			if {[catch {eval [linsert $options(-request_handler) end $callid ACK ""]} result]} {
 				bgerror $result
-			}				
+			}
 		} elseif {[$self GetCommand $headers] == "BYE"} {
 			# Answer 200 OK only when receiving the BYE request
 			if {[lindex $response 0] == "BYE" } {
@@ -427,7 +468,7 @@ snit::type SIPConnection {
 		
 	}
 
-	method AnswerInvite { callid status {detail ""} } {
+	method AnswerInvite { callid status } {
 		switch -- $status {
 			"RINGING" {
 				set status 180
@@ -442,9 +483,7 @@ snit::type SIPConnection {
 			"OK" {
 				set status 200
 				set content_type "application/sdp"
-				set candidates [lindex $detail 0]
-				set codecs [lindex $detail 1]
-				set content [$self BuildSDP $candidates $codecs]
+				set content [$self BuildSDP]
 			}
 			"DECLINE" {
 				set status 603
@@ -506,7 +545,7 @@ snit::type SIPConnection {
 	######### Message Builders #############
 	########################################
 
-	method BuildRequest { request uri to {callid ""} } {
+	method BuildRequest { request uri to {callid ""} {new_request 1}} {
 		$self Connect
 
 		set sockname [$socket GetInfo]
@@ -580,10 +619,10 @@ snit::type SIPConnection {
 		return $msg
 	}
 
-	method BuildSDP { candidate_list codec_list } {
+	method BuildSDP { } {
 
 		set pt_list ""
-		foreach codec $codec_list {
+		foreach codec $options(-local_codecs) {
 			foreach {encoding_name payload_type bitrate fmtp} $codec break
 			append pt_list " $payload_type"
 		}
@@ -591,7 +630,7 @@ snit::type SIPConnection {
 		set rtcp_port 0
 		set default_ip 0
 		set default_port 0
-		foreach candidate $candidate_list {
+		foreach candidate $options(-local_candidates) {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
 			if {$component_id == 1 && $default_ip == 0} {
 				set default_ip $ip
@@ -609,7 +648,7 @@ snit::type SIPConnection {
 		append sdp "b=CT:100\r\n"
 		append sdp "t=0 0\r\n"
 		append sdp "m=audio $default_port RTP/AVP$pt_list\r\n"
-		foreach candidate $candidate_list {
+		foreach candidate $options(-local_candidates) {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
 			if {$candidate_id != "" && $password != "" } {
 				append sdp "a=candidate:$candidate_id $component_id $password $transport $qvalue $ip $port\r\n"
@@ -619,7 +658,7 @@ snit::type SIPConnection {
 			append sdp "a=rtcp:$rtcp_port\r\n"
 		}
 
-		foreach codec $codec_list {
+		foreach codec $options(-local_codecs) {
 			foreach {encoding_name payload_type bitrate fmtp} $codec break
 			append sdp "a=rtpmap:$payload_type $encoding_name/$bitrate\r\n"
 			if { $fmtp != "" } {
@@ -713,7 +752,7 @@ snit::type SIPConnection {
 	}
 
 	method ParseSDP { body } {
-		set codecs [list]
+		set options(-remote_codecs) [list]
 		set ice_candidates [list]
 		set rtcp_port 0
 
@@ -746,7 +785,7 @@ snit::type SIPConnection {
 							set encoding_name [lindex [split $codec "/"] 0]
 							set bitrate [lindex [split $codec "/"] 1]
 							
-							lappend codecs [list $encoding_name $pt $bitrate]
+							lappend options(-remote_codecs) [list $encoding_name $pt $bitrate]
 						}
 					}
 				}
@@ -756,15 +795,13 @@ snit::type SIPConnection {
 			set rtcp_port $port
 			incr rtcp_port
 		}
-		set candidates [list]
-		lappend candidates [list "" 1 "" UDP 1 $ip $port]
-		lappend candidates [list "" 2 "" UDP 1 $ip $rtcp_port]
+		set options(-remote_candidates) [list]
+		lappend options(-remote_candidates) [list "" 1 "" UDP 1 $ip $port]
+		lappend options(-remote_candidates) [list "" 2 "" UDP 1 $ip $rtcp_port]
 		
 		foreach candidate $ice_candidates {
-			lappend candidates $candidate
+			lappend options(-remote_candidates) $candidate
 		}
-
-		return [list $candidates $codecs]
 	}
 
 }
@@ -904,7 +941,9 @@ snit::type SIPSocket {
 	}
 
 	method Send { data } {
-		degt_protocol "-->SIP ($options(-host)) $data" "sbsend"
+		if {[string trim $data] != "" } {
+			degt_protocol "-->SIP ($options(-host)) $data" "sbsend"
+		}
 		
 		if {[catch {puts -nonewline $sock $data}] } {
 			$self Disconnect
@@ -1188,7 +1227,9 @@ proc inviteSIP { email } {
 }
 
 proc invitePrepared { email } {
-	set callid [sip Invite $email [$::farsight GetLocalCandidates] [$::farsight GetLocalCodecs] inviteSIPCB]
+	sip configure -local_candidates [$::farsight GetLocalCandidates]
+	sip configure -local_codecs [$::farsight GetLocalCodecs] 
+	set callid [sip Invite $email inviteSIPCB]
 	$::farsight configure -closed [list inviteClosed $callid 0]
 }
 
@@ -1205,8 +1246,8 @@ proc inviteSIPCB { callid status detail} {
 	global farsight
 	puts "Invite SIP Response $callid : $status -- $detail"
 	if { $status == "OK" } {
-		$::farsight SetRemoteCandidates [lindex $detail 0]
-		$::farsight SetRemoteCodecs [lindex $detail 1]
+		$::farsight SetRemoteCandidates [sip cget -remote_candidates]
+		$::farsight SetRemoteCodecs [sip cget -remote_codecs]
 		$::farsight Start
 		$::farsight configure -closed [list inviteClosed $callid 1]
 	} elseif {$status != "TRYING" && $status != "RINGING" } {
@@ -1223,8 +1264,8 @@ proc requestSIP { callid what detail } {
 		} else {
 			$::farsight configure -prepared [list requestPrepared $callid]
 			$::farsight Prepare
-			$::farsight SetRemoteCandidates [lindex $detail 0]
-			$::farsight SetRemoteCodecs [lindex $detail 1]
+			$::farsight SetRemoteCandidates [sip cget -remote_candidates]
+			$::farsight SetRemoteCodecs [sip cget -remote_codecs]
 		}
 	} elseif {$what == "CLOSED" } {
 		$::farsight Close
@@ -1244,7 +1285,9 @@ proc declineSIP {callid } {
 proc acceptSIP { callid } {
 	# no prepare since it's already done before it started RINGING
 	$::farsight Start
-	sip AnswerInvite $callid OK [list [$::farsight GetLocalCandidates] [$::farsight GetLocalCodecs]]	
+	sip configure -local_candidates [$::farsight GetLocalCandidates]
+	sip configure -local_codecs [$::farsight GetLocalCodecs]
+	sip AnswerInvite $callid OK	
 }
 
 
