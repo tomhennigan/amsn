@@ -890,6 +890,7 @@ namespace eval ::skin {
 		::skin::setPixmap webmsn_dp webmsn_dp.gif
 		::skin::setPixmap webmsn webmsn.gif
 	
+		::skin::setPixmap sipicon sipicon.gif
 		::skin::setPixmap fticon fticon.gif
 		::skin::setPixmap ftreject ftreject.gif
 	

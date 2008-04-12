@@ -896,6 +896,11 @@ namespace eval ::MSN {
 			return -1
 		}
 
+		# Test if farsight is available to set the sip clientcap
+		# do it on every connect in case you changed protocol
+		# version used, or change profile, etc...
+		::MSNSIP::TestFarsight
+
 		cmsn_ns_connect $username $passwd
 
 		::Event::fireEvent loggingIn protocol
@@ -3531,13 +3536,7 @@ namespace eval ::MSNOIM {
 
 	method handleUBN { command message } {
 		if {[llength $message] == 3 && [lindex $message 0] == "INVITE"} {
-			if { ([::config::getKey clientid 0] & 0x100000) != 0 } {
-				# TODO : check if a SIP client is not already
-				# connected to that ip with the
-				# cget -registered_host
-				set sip [createSIP [lindex $message 1]]
-				$sip Register
-			}
+			::MSNSIP::ReceivedInvite [lindex $message 1]
 		}
 	}
 

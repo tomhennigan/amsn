@@ -422,6 +422,7 @@ grouprename Rename Group
 groups Groups
 groupunknown Unknown group
 handle Handle
+hangup Hang Up
 havenomic I have no microphone
 helpcontents Help Contents
 help Help
@@ -783,6 +784,7 @@ sendmobmsg Send to Mobile Device
 sendmsg Send Message
 sendoim Send an Offline Message
 send Send
+sendsip Start Audio Call
 sendvoice Send a Voice Clip
 sendwebcamaccepted $1 accepted your invitation to view your webcam. Connecting...
 sendwebcaminvite Invite a user to see your webcam
@@ -813,6 +815,24 @@ shownotify Show notify window when some events happen
 showpicnotify Show users' pictures on notify windows
 showuserpic $1's Display Picture
 signinstatus Sign-in status
+sipcallaccepted Audio Call Accepted
+sipcallback Call Back
+sipcalldeclined Audio Call Rejected
+sipcalleeaccepted User accepted your Audio Call
+sipcalleebusy User is currently Busy
+sipcalleecanceled User has canceled the Audio call Invitation
+sipcalleeclosed User has ended your Audio Call
+sipcalleedeclined User Declined your Audio Call invitation
+sipcalleenoanswer User did not answer your Call
+sipcalleeunavailable User is not available right now
+sipcallended Your Audio Call has ended
+sipcallimpossible You cannot make an Audio Call. Please install Farsight2 and try again.
+sipcallmissed You missed an Audio Call from $1
+sipcallnosipflag User does not support Audio Calls.
+sipcallsent Calling $1
+sipcallunsupported You have received an Audio Call invitation that is not currently supported. You may call back with a new invitation. The Audio Call will then work
+sipcallyouarebusy You can only have one Audio Call at a time.
+sipgotinvitation Received Audio Call invitation from $1
 skinselector Select Skin
 skin Skin
 small Small

@@ -30,6 +30,8 @@ snit::type SIPConnection {
 	variable call_route
 	variable call_contact
 	variable call_via
+	variable trying_afterid
+	variable timeout_afterid
 
 	constructor { args } {
 		install socket using SIPSocket %AUTO% -sipconnection $self
@@ -123,11 +125,10 @@ snit::type SIPConnection {
 	}
 
 	method Disconnect { } {
-		set state ""
-
-		if {[$socket IsConnected] } {
+		if {$state != "" } {
 			$self Unregister
 		}
+		set state ""
 	}
 
 	method Disconnected { } {
@@ -141,10 +142,16 @@ snit::type SIPConnection {
 		set state ""
 		after cancel [list $self KeepAlive]
 		after cancel [list $self RegisterExpires]
+		foreach callid [array names trying_afterid] {
+			after cancel $trying_afterid($callid)
+		}
+		foreach callid [array names timeout_afterid] {
+			after cancel $timeout_afterid($callid)
+		}
 	}
 
 	method KeepAlive { } {
-		#puts "Keepalive"
+		status_log "SIP Keepalive" green
 		if { [$socket Send "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"] } {
 			after 20000 [list $self KeepAlive]
 		} else {
@@ -159,7 +166,7 @@ snit::type SIPConnection {
 		} elseif {[string range $start end-6 end] == "SIP/2.0" } {
 			set type "request"
 		} else {
-			puts "Received a non SIP message "
+			status_log "Received a non SIP message " red
 			if {$options(-error_handler) != "" } {
 				if {[catch {eval [linsert $options(-error_handler) end NOT_SIP]} result]} {
 					bgerror $result
@@ -171,7 +178,7 @@ snit::type SIPConnection {
 		set callid [$self GetHeader $headers "Call-ID"]
 
 		if { ![info exists call_to($callid)] ||
-		     [$self GetDestination $callid] ==
+		     [$self GetCallee $callid] ==
 		     [$self GetRecipient [$self GetHeader $headers "To"]] } {
 			set call_from($callid) [$self GetHeader $headers "From"]
 			set call_to($callid) [$self GetHeader $headers "To"]
@@ -191,12 +198,11 @@ snit::type SIPConnection {
 			set call_cseq($callid) [lindex [$self GetHeader $headers "CSeq"] 0]
 		}
 
-		#puts "Received a $type message : $start : \n$headers\n\n$body"
 		if {$type == "status" } {
 			if { ![info exists callid_handler($callid)] } {
 				# Answer with 'Call/Transaction does not exit error
 				$self Send [$self BuildResponse $callid [$self GetCommand $headers] 481]
-				puts "ERROR : unknown callid : $callid"
+				status_log "ERROR : unknown callid : $callid" red
 				if {$options(-error_handler) != "" } {
 					if {[catch {eval [linsert $options(-error_handler) end UNKNOWN_CALL]} result]} {
 						bgerror $result
@@ -212,12 +218,12 @@ snit::type SIPConnection {
 				eval [linsert $callid_handler($callid) end $start $headers $body]
 			} elseif {$options(-request_handler) != ""} {
 				if {[$self GetCommand $headers] == "INVITE" } {
-					$self Send [$self BuildResponse $callid INVITE 100]
+					$self SendTrying $callid
 					$self ParseSDP $body
 					set callid_handler($callid) [list $self InviteRequestHandler $callid]
 					eval [linsert $options(-request_handler) end $callid INVITE ""]
 				} else {
-					puts "ERROR: Received non-INVITE Request"
+					status_log "SIP ERROR: Received non-INVITE Request" red
 					if {$options(-error_handler) != "" } {
 						if {[catch {eval [linsert $options(-error_handler) end NOT_INVITE]} result]} {
 							bgerror $result
@@ -263,8 +269,9 @@ snit::type SIPConnection {
 	}
 
 	method RegisterExpires { } {
+		after cancel [list $self RegisterExpires] 
 		set state ""
-		sip Register
+		$self Register
 	}
 
 	method RegisterResponse {callbk response headers body} {
@@ -274,7 +281,11 @@ snit::type SIPConnection {
 			set state "REGISTERED"
 			#puts "registered"
 			set expires [$self GetHeader $headers "Expires"]
-			after [expr {$expires * 1000 - 10000}] [list $self RegisterExpires] 
+			if {$expires != "" } {
+				after [expr {$expires * 1000}] [list $self RegisterExpires] 
+			} else {
+				after 30000 [list $self RegisterExpires] 
+			}
 			#puts "Current time is [clock seconds]"
 			if {$callbk != "" } {
 				if {[catch {eval $callbk} result]} {
@@ -370,7 +381,7 @@ snit::type SIPConnection {
 				}
 			} elseif {$status == "408" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end $callid NO_ANSWER ""]} result]} {
+					if {[catch {eval [linsert $callbk end $callid NOANSWER ""]} result]} {
 						bgerror $result
 					}
 				}
@@ -416,13 +427,15 @@ snit::type SIPConnection {
 			# Answer 200 OK only when receiving the BYE request
 			if {[lindex $response 0] == "BYE" } {
 				$self Send [$self BuildResponse $callid BYE 200]
-				if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED BYE]} result]} {
-					bgerror $result
+				if {$callbk != "" } {
+					if {[catch {eval [linsert $callbk end $callid CLOSED REMOTE_BYE]} result]} {
+						bgerror $result
+					}
 				}
 			} elseif { [lindex $response 1] == "200" ||
 				   [lindex $response 1] == "403" } {
 				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end $callid CLOSED BYE]} result]} {
+					if {[catch {eval [linsert $callbk end $callid CLOSED LOCAL_BYE]} result]} {
 						bgerror $result
 					}				
 				}
@@ -443,10 +456,29 @@ snit::type SIPConnection {
 	method RenegociateInvite { callid } {
 		set content [$self BuildSDP]
 		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
-		set msg [lindex [$self BuildRequest INVITE $uri [$self GetDestination $callid] $callid 1] 1]
+		set msg [lindex [$self BuildRequest INVITE $uri [$self GetCallee $callid] $callid 1] 1]
 		append msg "Ms-Conversation-ID: f=0\r\n"
 		
 		$self Send $msg "application/sdp" $content
+	}
+
+	method SendTrying { callid } {
+		$self Send [$self BuildResponse $callid INVITE 100]
+		set trying_afterid($callid) [after 25000 [list $self SendSecondTrying $callid]]
+	}
+
+	method SendSecondTrying { callid } {
+		unset trying_afterid($callid)
+		$self Send [$self BuildResponse $callid INVITE 100]
+		set timeout_afterid($callid) [after 25000 [list $self SendTimeout $callid]]
+	}
+
+	method SendTimeout { callid } {
+		unset timeout_afterid($callid)
+		$self Send [$self BuildResponse $callid INVITE 408]
+		if {[catch {eval [linsert $options(-request_handler) end $callid TIMEOUT ""]} result]} {
+			bgerror $result
+		}
 	}
 
 	method InviteRequestHandler {callid response headers body } {
@@ -458,21 +490,31 @@ snit::type SIPConnection {
 			# Answer 200 OK only when receiving the BYE request
 			if {[lindex $response 0] == "BYE" } {
 				$self Send [$self BuildResponse $callid BYE 200]
-				if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED BYE]} result]} {
+				if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED REMOTE_BYE]} result]} {
 					bgerror $result
 				}
 			} elseif { [lindex $response 1] == "200" ||
 				   [lindex $response 1] == "403" } {
 				# Forbidden means 'call ended' for WLM it seems...
-				if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED BYE]} result]} {
+				if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED LOCAL_BYE]} result]} {
 					bgerror $result
 				}
 			} elseif { [lindex $response 1] == "500"} {
 				$self Bye $callid
 			}
 		} elseif {[$self GetCommand $headers] == "CANCEL"} {
+
+			if {[info exists trying_afterid($callid)] } {
+				after cancel $trying_afterid($callid)
+				unset trying_afterid($callid)
+			}
+			if {[info exists timeout_afterid($callid)] } {
+				after cancel $timeout_afterid($callid)
+				unset timeout_afterid($callid)
+			}
+
 			$self Send [$self BuildResponse $callid CANCEL 200]
-			if {[catch {eval [linsert $options(-request_handler) end $callid CLOSED CANCEL]} result]} {
+			if {[catch {eval [linsert $options(-request_handler) end $callid CANCEL ""]} result]} {
 				bgerror $result
 			}
 		}			
@@ -512,11 +554,21 @@ snit::type SIPConnection {
 			}
 		}
 		$self Send [$self BuildResponse $callid INVITE $status] $content_type $content
+		if {$status != 180 } {
+			if {[info exists trying_afterid($callid)] } {
+				after cancel $trying_afterid($callid)
+				unset trying_afterid($callid)
+			}
+			if {[info exists timeout_afterid($callid)] } {
+				after cancel $timeout_afterid($callid)
+				unset timeout_afterid($callid)
+			}
+		}
 	}
 
 
 	method SendACK { callid } {
-		$self Send [lindex [$self BuildRequest ACK [$self GetDestination $callid] [$self GetDestination $callid] $callid] 1]
+		$self Send [lindex [$self BuildRequest ACK [$self GetCallee $callid] [$self GetCallee $callid] $callid] 1]
 	}
 
 	########################################
@@ -531,7 +583,7 @@ snit::type SIPConnection {
 	}
 
 	method CancelCB { callid } {
-		$self Send [lindex [$self BuildRequest CANCEL [$self GetDestination $callid] [$self GetDestination $callid] $callid] 1]
+		$self Send [lindex [$self BuildRequest CANCEL [$self GetCallee $callid] [$self GetCallee $callid] $callid] 1]
 
 	}
 
@@ -551,7 +603,7 @@ snit::type SIPConnection {
 
 		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
 
-		set msg [lindex [$self BuildRequest BYE $uri [$self GetDestination $callid] $callid 1] 1]
+		set msg [lindex [$self BuildRequest BYE $uri [$self GetCallee $callid] $callid 1] 1]
 		
 		$self Send $msg
 	}
@@ -573,7 +625,7 @@ snit::type SIPConnection {
 
 		if {$new_request} {
 			if { ![info exists cseqs($request)] } {
-				set cseqs($request) 1
+				set cseqs($request) 2
 			} else {
 				incr cseqs($request)
 			}
@@ -605,7 +657,7 @@ snit::type SIPConnection {
 		# Switch the from/to only if we send a new invite of an existing
 		# call, where we were the original recipient..
 		if { $new_request == 1 &&
-		     [$self GetDestination $callid] == $options(-user)} {
+		     [$self GetCallee $callid] == $options(-user)} {
 			append msg "f: $call_to($callid)\r\n"
 			append msg "t: $call_from($callid)\r\n"		
 		} else {
@@ -766,7 +818,10 @@ snit::type SIPConnection {
 		return $recipient
 	}
 
-	method GetDestination { callid } {
+	method GetCaller { callid } {
+		return [$self GetRecipient $call_from($callid)]
+	}
+	method GetCallee { callid } {
 		return [$self GetRecipient $call_to($callid)]
 	}
 	
@@ -968,12 +1023,6 @@ snit::type SIPSocket {
 				set result [lindex $reply 0]
 				set code [lindex [split $result { }] 1]
 
-				# be sure there's a valid response code
-				# We use a regexp because of some (or maybe only one) 
-				# proxy returning "HTTP/1.0  200 .." with two spaces, 
-				# so the split makes the code the 3rd argument not 
-				# the second, and $code becomes empty. 
-				# refer to http://amsn.sf.net/forums/viewtopic.php?t=1030
 				if {! [regexp {^HTTP/1\.[01] +2[0-9][0-9]} $result]} {
 					return -code error $result
 				}
@@ -1074,6 +1123,7 @@ snit::type Farsight {
 	option -closed -default ""
 	option -prepared -default ""
 	option -enable_ice -default 0
+	option -sipconnection -default ""
 
 	constructor { args } {
 		$self configurelist $args
@@ -1089,6 +1139,7 @@ snit::type Farsight {
 		set codecs_done 0
 		set candidates_done 0
 		set prepared 0
+		set options(-sipconnection) ""
 	}
 
 	method Closed { } {
@@ -1107,6 +1158,13 @@ snit::type Farsight {
 		}
 		set pipe ""
 		$self Reset
+	}
+
+	method AcceptCandidates { candidates } {
+		if {$options(-enable_ice) == 0} {
+			return [expr {[llength $candidates] == 2}]
+		}
+		return 1
 	}
 
 	method SetRemoteCandidates { candidates } {
@@ -1362,148 +1420,333 @@ snit::type Farsight {
 	}
 }
 
-if { ![info exists ::farsight] } {
-	set ::farsight [Farsight create farsight]
-}
+namespace eval ::MSNSIP {
+	namespace export ReceivedInvite InviteUser AcceptInvite DeclineInvite HangUp CancelCall
 
-proc FarsightTestFailed { } {
-	if { ([::config::getKey clientid 0] & 0x100000) != 0 } {
-		::MSN::setClientCap sip 0
-		if {[::MSN::myStatusIs] != "FLN" } {
-			::MSN::changeStatus [::MSN::myStatusIs]
+	variable sipconnections [list]
+
+	proc createSIP { {host "vp.sip.messenger.msn.com"} } {
+		variable sipconnections
+		global sso
+		if {![info exists sso] } {
+			return ""
+		}
+		set token [$sso GetSecurityTokenByName Voice]
+		set sip [SIPConnection create %AUTO% -user [::config::getKey login] -password [$token cget -ticket] -host $host]
+		$sip configure -error_handler [list ::MSNSIP::errorSIP $sip] -request_handler [list ::MSNSIP::requestSIP $sip]
+		lappend sipconnections $sip
+		return $sip
+		
+	}
+
+	proc destroySIP { sip } {
+		variable sipconnections
+
+		# TODO : Make sure the sip connection is not used by another call..
+		# Imagine you talk on a SIP server, and you receive an invite from 
+		# someone else on the same server, you decline it with BUSY
+		# we shouldn't destroy our sip connection and close farsight from
+		# our first call...
+
+		# if we do a '$sip destroy' here...  Tcl segfaults!!! :D
+
+		set idx [lsearch $sipconnections $sip]
+		if {$idx >= 0} {
+			set sipconnections [lreplace $sipconnections $idx $idx]
+			$sip Unregister
+			after 10000 [list $sip destroy]
+		}
+
+		if {[$::farsight cget -sipconnection] == $sip } {
+			$::farsight Close
+			$::farsight configure -sipconnection "" -closed "" -prepared ""
 		}
 	}
-	
-	$::farsight configure -prepared "" -closed ""
-	$::farsight Close
-}
 
-proc FarsightTestSucceeded { } {
-	if { ([::config::getKey clientid 0] & 0x100000) == 0 } {
-		::MSN::setClientCap sip
-		if {[::MSN::myStatusIs] != "FLN" } {
-			::MSN::changeStatus [::MSN::myStatusIs]
-		}
-	}
+	proc ReceivedInvite { ip } {
+		variable sipconnections
 
-	$::farsight configure -prepared "" -closed ""
-	$::farsight Close
-}
-
-proc createSIP { {host "vp.sip.messenger.msn.com"} } {
-	global sso
-	set token [$sso GetSecurityTokenByName Voice]
-	catch {sip destroy}
-	return [SIPConnection create sip -user [::config::getKey login] -password [$token cget -ticket] -error_handler errorSIP -request_handler requestSIP -host $host]
-}
-
-proc inviteSIP { email } {
-	if {[$::farsight IsInUse] } {
-		return BUSY
-	} else {
-		createSIP
-		$::farsight configure -prepared [list invitePrepared $email] -closed ""
-		$::farsight Prepare
-	}
-}
-
-proc invitePrepared { email } {
-	sip configure -local_candidates [$::farsight GetLocalCandidates]
-	sip configure -local_codecs [$::farsight GetLocalCodecs] 
-	set callid [sip Invite $email inviteSIPCB]
-	$::farsight configure -closed [list inviteClosed $callid 0]
-}
-
-
-proc inviteClosed { callid {started 0}} {
-	if {$started } {
-		sip Bye $callid
-	} else {
-		sip Cancel $callid
-	}
-}
-
-proc inviteSIPCB { callid status detail} {
-	global farsight
-	puts "Invite SIP Response $callid : $status -- $detail"
-	if { $status == "OK" } {
-		$::farsight SetRemoteCandidates [sip cget -remote_candidates]
-		$::farsight SetRemoteCodecs [sip cget -remote_codecs]
-		$::farsight Start
-		$::farsight configure -closed [list inviteClosed $callid 1]
-	} elseif {$status != "TRYING" && $status != "RINGING" } {
-		$::farsight Close
-	}
-}
-
-proc requestSIP { callid what detail } {
-
-	puts "Received $what : $callid - $detail"
-	if {$what == "INVITE" } {
-		if {[$::farsight IsInUse] } {
-			sip AnswerInvite $callid BUSY
-		} else {
-			$::farsight configure -prepared [list requestPrepared $callid] -closed [list answerClosed $callid 0]
-			if {[catch {$::farsight Prepare}] } {
-				sip AnswerInvite $callid UNAVAILABLE
-			} else {
-				$::farsight SetRemoteCandidates [sip cget -remote_candidates]
-				$::farsight SetRemoteCodecs [sip cget -remote_codecs]
+		foreach sip $sipconnections {
+			if {[$sip cget -registered_host] == $ip } {
+				# Just in case we're connected but registration expired
+				# and the timer didn't re-register us..
+				$sip RegisterExpires
+				return
 			}
 		}
-	} elseif {$what == "CLOSED" } {
+
+		set sip [createSIP $ip]
+		if {$sip == "" } {
+			SSOAuthenticate [list ::MSNSIP::ReceivedInvite $ip]
+		} else {
+			$sip Register
+		}
+	}
+
+	proc SSOAuthenticated { callback failed } {
+		if {$failed == 0 } {
+			eval $callback
+		}
+	}
+
+	proc SSOAuthenticate { callback } {
+		global sso 
+		set sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
+		$sso Authenticate [list ::MSNSIP::SSOAuthenticated $callback]
+	}
+
+	proc InviteUser { email } {
+		if {[$::farsight IsInUse] } {
+			# Signal the UI
+			::amsn::SIPCallYouAreBusy $email
+			return "BUSY"
+		} else {
+			set sip [createSIP]
+			if {$sip == "" } {
+				SSOAuthenticate [list ::MSNSIP::InviteUser $email]
+				return "DELAYED"
+			}
+
+			$::farsight configure -sipconnection $sip -prepared [list ::MSNSIP::invitePrepared $sip $email] -closed  [list ::MSNSIP::inviteClosed $sip $email "" -1]
+		
+			if {[catch {$::farsight Prepare}] } {
+				::amsn::SIPCallImpossible $email
+				return "IMPOSSIBLE"
+			} else {
+				# Reset the SipConnection because the Prepare clears it
+				$::farsight configure -sipconnection $sip 
+				return $sip
+			}
+		}
+	}
+
+	proc invitePrepared { sip email } {
+		$sip configure -local_candidates [$::farsight GetLocalCandidates]
+		$sip configure -local_codecs [$::farsight GetLocalCodecs] 
+		set callid [$sip Invite $email [list ::MSNSIP::inviteSIPCB $sip $email]]
+
+		$::farsight configure -closed [list ::MSNSIP::inviteClosed $sip $email $callid 0]
+
+		# Signal the UI
+		::amsn::SIPInviteSent $email $sip $callid
+	}
+
+
+	proc inviteClosed { sip email callid {started 0}} {
+		if {$started == 1} {
+			$sip Bye $callid
+
+			# Signal the UI
+			::amsn::SIPCallEnded $email $sip $callid
+		} elseif {$start == 0 } {
+			$sip Cancel $callid
+			
+			# Signal the UI
+			::amsn::SIPCallEnded $email $sip $callid
+		} else {
+			# Signal the UI
+			::amsn::SIPCallImpossible $email
+		}
+		destroySIP $sip
+
+	}
+
+	proc CancelCall { sip callid } {
+		$sip Cancel $callid
+		destroySIP $sip		
+	}
+
+	proc HangUp { sip callid } {
+		$sip Bye $callid
+		destroySIP $sip
+	}
+
+	proc inviteSIPCB { sip email callid status detail} {
+		status_log "inviteSIPCB : $sip $email $callid $status" green
+		if { $status == "OK" } {
+			# Signal the UI
+			::amsn::SIPCalleeAccepted $email $sip $callid
+
+			$::farsight SetRemoteCandidates [$sip cget -remote_candidates]
+			$::farsight SetRemoteCodecs [$sip cget -remote_codecs]
+			$::farsight Start
+			$::farsight configure -closed [list ::MSNSIP::inviteClosed $sip $callid 1]
+		} elseif {$status == "BUSY"} {
+			# Signal the UI
+			::amsn::SIPCalleeBusy $email $sip $callid
+		} elseif {$status == "DECLINED"} {
+			# Signal the UI
+			::amsn::SIPCalleeDeclined $email $sip $callid
+		} elseif {$status == "CLOSED"} {
+			# Signal the UI
+			if {$detail == "LOCAL_BYE" } {
+				::amsn::SIPCallEnded $email $sip $callid
+			} elseif {$detail == "REMOTE_BYE" } {
+				::amsn::SIPCalleeClosed $email $sip $callid
+			}
+		} elseif {$status == "UNAVAILABLE"} {
+			# Signal the UI
+			::amsn::SIPCalleeUnavailable $email $sip $callid
+		} elseif {$status == "NOANSWER"} {
+			# Signal the UI
+			::amsn::SIPCalleeNoAnswer $email $sip $callid
+		} elseif {$status != "TRYING" && $status != "RINGING" && $status != "CANCEL"} {
+			# Signal the UI
+			::amsn::SIPCallEnded $email $sip $callid
+		}
+		if {$status != "OK" && $status != "TRYING" && $status != "RINGING"}  {
+			destroySIP $sip
+		}
+	}
+
+	proc requestSIP { sip callid what detail } {
+		status_log "requestSIP : $sip $callid $what" green
+		if {$what == "INVITE" } {
+			if {[$::farsight IsInUse] } {
+				# Signal the UI
+				::amsn::SIPCallMissed [$sip GetCaller $callid]
+
+				$sip AnswerInvite $callid BUSY
+				destroySIP $sip
+			} else {
+				if { [$::farsight AcceptCandidates [$sip cget -remote_candidates]] } {
+					$::farsight configure -prepared [list ::MSNSIP::requestPrepared $sip $callid] -closed [list ::MSNSIP::answerClosed $sip $callid 0] -sipconnection $sip
+					if {[catch {$::farsight Prepare}] } {
+						$::farsight configure -sipconnection $sip 
+						# Signal the UI
+						::amsn::SIPCallImpossible [$sip GetCaller $callid]
+
+						$sip AnswerInvite $callid UNAVAILABLE
+						destroySIP $sip
+					} else {
+						# Reset the SipConnection because the Prepare clears it
+						$::farsight configure -sipconnection $sip 
+						$::farsight SetRemoteCandidates [$sip cget -remote_candidates]
+						$::farsight SetRemoteCodecs [$sip cget -remote_codecs]
+					}
+				} else {
+					# Signal the UI
+					::amsn::SIPCallUnsupported [$sip GetCaller $callid]
+
+					$sip AnswerInvite $callid UNAVAILABLE
+					destroySIP $sip
+				}
+			}
+		} elseif {$what == "CLOSED" } {
+			# Signal the UI
+			if {$detail == "REMOTE_BYE" } {
+				::amsn::SIPCalleeClosed [$sip GetCaller $callid] $sip $callid
+			} elseif {$detail == "LOCAL_BYE" } {
+				::amsn::SIPCallEnded [$sip GetCaller $callid] $sip $callid
+			}
+
+			destroySIP $sip
+		} elseif {$what == "CANCEL" } {
+			# Signal the UI
+			::amsn::SIPCalleeCanceled [$sip GetCaller $callid] $sip $callid
+
+			destroySIP $sip
+		} elseif {$what == "TIMEOUT" } {
+			# Signal the UI
+			::amsn::SIPCallMissed [$sip GetCaller $callid] $callid
+
+			destroySIP $sip
+		}
+	}
+
+
+
+	proc answerClosed { sip callid {started 0}} {
+		if {$started } {
+			# Signal the UI
+			::amsn::SIPCallEnded [$sip GetCaller $callid] $sip $callid
+
+			$sip Bye $callid
+		} else {
+			# Signal the UI
+			::amsn::SIPCallImpossible [$sip GetCaller $callid]
+
+			$sip AnswerInvite $callid UNAVAILABLE
+		}
+		destroySIP $sip
+	}
+
+	proc requestPrepared { sip callid } {
+		# Signal the UI
+		::amsn::SIPCallReceived [$sip GetCaller $callid] $sip $callid
+
+		$sip AnswerInvite $callid RINGING
+	}
+
+	proc DeclineInvite {sip callid } {
+		$sip AnswerInvite $callid DECLINE
+		destroySIP $sip
+	}
+
+	proc AcceptInvite { sip callid } {
+		# no prepare since it's already done before it started RINGING
+		$::farsight Start
+		$sip configure -local_candidates [$::farsight GetLocalCandidates]
+		$sip configure -local_codecs [$::farsight GetLocalCodecs]
+		$sip AnswerInvite $callid OK
+		$::farsight configure -closed [list ::MSNSIP::answerClosed $sip $callid 1]
+	}
+
+	proc errorSIP { sip reason } {
+		# TODO : what use case where we need to signal the UI?
+		destroySIP $sip
+	}
+
+
+	proc FarsightTestFailed { callbk } {
+		if { ([::config::getKey clientid 0] & 0x100000) != 0 } {
+			::MSN::setClientCap sip 0
+			if {[::MSN::myStatusIs] != "FLN" } {
+				::MSN::changeStatus [::MSN::myStatusIs]
+			}
+		}
+		
+		$::farsight configure -prepared "" -closed ""
 		$::farsight Close
+		if {$callbk != "" } {
+			eval [linsert $callbk end 0]
+		}
+	}
+
+	proc FarsightTestSucceeded { callbk } {
+		if { [::config::getKey protocol] >= 15 &&
+		     ([::config::getKey clientid 0] & 0x100000) == 0 } {
+			::MSN::setClientCap sip
+			if {[::MSN::myStatusIs] != "FLN" } {
+				::MSN::changeStatus [::MSN::myStatusIs]
+			}
+		}
+
+		$::farsight configure -prepared "" -closed ""
+		$::farsight Close
+
+		if {$callbk != "" } {
+			eval [linsert $callbk end 1]
+		}
+	}
+
+
+	proc TestFarsight { {callbk ""} } {
+		if {![$::farsight IsInUse] } {
+			$::farsight configure -prepared [list ::MSNSIP::FarsightTestSucceeded $callbk] -closed [list ::MSNSIP::FarsightTestFailed $callbk]
+			set result [$::farsight Test]
+			if { $result == 1 } {
+				::MSNSIP::FarsightTestSucceeded $callbk
+			} elseif {$result == 0 } {
+				::MSNSIP::FarsightTestFailed $callbk
+			} ;# else let the callbacks act
+		}
 	}
 }
 
 
-proc answerClosed { callid {started 0}} {
-	if {$started } {
-		sip Bye $callid
-	} else {
-		sip AnswerInvite $callid UNAVAILABLE
-	}
-}
 
-proc requestPrepared { callid } {	
-	# UI goes here
-	sip AnswerInvite $callid RINGING
-}
-
-proc declineSIP {callid } {
-	$::farsight Close
-	sip AnswerInvite $callid DECLINE
-}
-
-proc acceptSIP { callid } {
-	# no prepare since it's already done before it started RINGING
-	$::farsight Start
-	sip configure -local_candidates [$::farsight GetLocalCandidates]
-	sip configure -local_codecs [$::farsight GetLocalCodecs]
-	sip AnswerInvite $callid OK	
-	$::farsight configure -closed [list answerClosed $callid 1]
-}
-
-
-proc errorSIP { reason } {
-	puts "Error in SIP : $reason"
-	$::farsight Close
-}
-
-proc regenFarsight { } {
-	$::farsight destroy
-	unset ::farsight
+if { ![info exists ::farsight] } {
 	set ::farsight [Farsight create farsight]
-}
-
-
-if {![$::farsight IsInUse] } {
-	$::farsight configure -prepared FarsightTestSucceeded -closed FarsightTestFailed
-	set result [$::farsight Test]
-	if { $result == 1 } {
-		FarsightTestSucceeded
-	} elseif {$result == 0 } {
-		FarsightTestFailed
-	} ;# else let the callbacks act
 }
 

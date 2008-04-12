@@ -1619,6 +1619,252 @@ namespace eval ::amsn {
  		}
  	}
 
+
+	#////////////////////////////////////////////////////////////////////////////////
+	#  SIP CALLING FUNCTION
+	#////////////////////////////////////////////////////////////////////////////////
+	proc SIPCallInviteUser { email } {
+		set supports_sip 0
+			
+		set clientid [::abook::getContactData $email clientid]
+		if { $clientid == "" } { set clientid 0 }
+		set msnc [expr 0x100000]
+		if { ($clientid & $msnc) != 0 } {
+			set supports_sip 1
+		}
+
+		if {$supports_sip } {
+			::MSNSIP::InviteUser $email
+		} else {
+			SIPCallNoSIPFlag $email			
+		}
+	}
+
+	proc DisableSIPButton { chatid tag } {
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+
+		# Disable SIP Button button
+		[::ChatWindow::GetOutText ${win_name}] tag configure $tag \
+		-foreground #808080 -font bplainf -underline false
+		[::ChatWindow::GetOutText ${win_name}] tag bind $tag <Enter> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind $tag <Leave> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind $tag <Button1-ButtonRelease> ""
+
+		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
+	}
+
+	proc SIPCallBack { email} {
+		DisableSIPButton $email sipcallback$email
+		SIPCallInviteUser $email
+	}
+
+	proc SIPCallMessageCallBack { chatid txt} {
+		::ChatWindow::MakeFor $chatid
+
+		DisableSIPButton $chatid sipcallback$chatid
+
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid sipicon 3 2
+		WinWrite $chatid " $txt\n" green
+		WinWrite $chatid " (" green
+		WinWriteClickable $chatid "[trans sipcallback]" [list ::amsn::SIPCallBack $chatid] sipcallback$chatid
+		WinWrite $chatid ")\n" green
+		WinWriteIcon $chatid greyline 3
+
+	}
+
+	proc SIPCallMessage { chatid txt } {
+		::ChatWindow::MakeFor $chatid
+
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid sipicon 3 2
+		WinWrite $chatid " $txt\n" green
+		WinWriteIcon $chatid greyline 3
+
+	}
+
+	proc SIPCallReceived { chatid sip callid} {
+
+		set fromname [::abook::getDisplayNick $chatid]
+		set txt [trans sipgotinvitation $fromname]
+		set win_name [::ChatWindow::MakeFor $chatid $txt $chatid]
+
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid " \n" green
+
+		WinWriteIcon $chatid sipicon 3 2
+		WinWrite $chatid $txt green
+		WinWrite $chatid " - (" green
+		WinWriteClickable $chatid "[trans accept]" [list ::amsn::AcceptSIPCall $chatid $sip $callid] sipyes$callid
+		WinWrite $chatid " / " green
+		WinWriteClickable $chatid "[trans reject]" [list ::amsn::DeclineSIPCall $chatid $sip $callid] sipno$callid
+		WinWrite $chatid ")\n" green
+		WinWriteIcon $chatid greyline 3
+	}
+
+	proc AcceptSIPCall { chatid sip callid } {
+
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+
+		DisableSIPButton $chatid sipyes$callid 
+		DisableSIPButton $chatid sipno$callid 
+
+
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid sipicon 3 2
+		WinWrite $chatid " [trans sipcallaccepted]\n" green
+		WinWrite $chatid " (" green
+		WinWriteClickable $chatid "[trans hangup]" [list ::amsn::HangupSIPCall $chatid $sip $callid] siphangup$callid
+		WinWrite $chatid ")\n" green
+		WinWriteIcon $chatid greyline 3
+
+		::MSNSIP::AcceptInvite $sip $callid
+	}
+
+	proc DeclineSIPCall { chatid sip callid } {
+
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+
+		DisableSIPButton $chatid sipyes$callid 
+		DisableSIPButton $chatid sipno$callid 
+
+
+		SIPCallMessage $chatid [trans sipcalldeclined]
+
+		::MSNSIP::DeclineInvite $sip $callid
+	}
+
+	proc HangupSIPCall { chatid sip callid } {
+		SIPCallEnded $chatid $sip $callid
+
+		::MSNSIP::HangUp $sip $callid
+	}
+
+	proc CancelSIPCall { chatid sip callid} {
+		DisableSIPButton $chatid siphangup$callid 
+
+		::MSNSIP::CancelCall $sip $callid
+	}
+
+	proc SIPInviteSent { chatid sip callid } {
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid greyline 3
+		WinWrite $chatid "\n" green
+		WinWriteIcon $chatid sipicon 3 2
+		WinWrite $chatid " [trans sipcallsent [::abook::getDisplayNick $chatid]]\n" green
+		WinWrite $chatid " (" green
+		WinWriteClickable $chatid "[trans hangup]" [list ::amsn::CancelSIPCall $chatid $sip $callid] siphangup$callid
+		WinWrite $chatid ")\n" green
+		WinWriteIcon $chatid greyline 3
+	}
+
+	proc SIPCallEnded {chatid sip callid } {
+		SIPCallMessage $chatid [trans sipcallended]
+
+		DisableSIPButton $chatid siphangup$callid 
+	}
+
+	proc SIPCalleeAccepted { chatid sip callid } {
+		::ChatWindow::MakeFor $chatid
+
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+
+		SIPCallMessage $chatid [trans sipcalleeaccepted]
+
+		# Modify Hangup button to hangup instead of cancel call 
+		[::ChatWindow::GetOutText ${win_name}] tag bind siphangup$callid <Button1-ButtonRelease> [list ::amsn::HangupSIPCall $chatid $sip $callid]
+
+	}
+
+	proc SIPCalleeBusy { chatid sip callid } {
+
+		SIPCallMessage $chatid [trans sipcalleebusy]
+
+		DisableSIPButton $chatid siphangup$callid 
+	}
+
+	proc SIPCalleeDeclined { chatid sip callid } {
+		SIPCallMessage $chatid [trans sipcalleedeclined]
+
+		DisableSIPButton $chatid siphangup$callid 
+	}
+
+	proc SIPCalleeClosed { chatid sip callid } {
+		SIPCallMessage $chatid [trans sipcalleeclosed]
+
+		DisableSIPButton $chatid siphangup$callid 
+	}
+
+	proc SIPCalleeNoAnswer { chatid sip callid }  {
+		SIPCallMessage $chatid [trans sipcalleenoanswer]
+
+		DisableSIPButton $chatid siphangup$callid 
+	}
+
+	proc SIPCalleeUnavailable { chatid sip callid }  {
+		SIPCallMessage $chatid [trans sipcalleeunavailable]
+
+		DisableSIPButton $chatid siphangup$callid 
+	}
+
+	proc SIPCallImpossible { chatid } {
+		SIPCallMessage $chatid [trans sipcallimpossible]
+	}
+
+	proc SIPCallUnsupported { chatid } {
+		SIPCallMessageCallBack $chatid [trans sipcallunsupported]
+	}
+
+	proc SIPCallNoSIPFlag { chatid } {
+		SIPCallMessage $chatid [trans sipcallnosipflag]
+	}
+
+	proc SIPCallMissed { chatid {callid ""} } {
+		SIPCallMessageCallBack $chatid [trans sipcallmissed [::abook::getDisplayNick $chatid]]
+		if {$callid != "" } {
+			DisableSIPButton $chatid sipyes$callid
+			DisableSIPButton $chatid sipno$callid
+		}
+	}
+
+	proc SIPCallYouAreBusy { chatid } {
+		SIPCallMessage $chatid [trans sipcallyouarebusy]
+	}
+
+
+	proc SIPCalleeCanceled { chatid sip callid } {
+
+		set win_name [::ChatWindow::For $chatid]
+		if { [::ChatWindow::For $chatid] == 0} {
+			return 0
+		}
+
+		DisableSIPButton $chatid sipyes$callid 
+		DisableSIPButton $chatid sipno$callid 
+
+
+		SIPCallMessage $chatid [trans sipcalleecanceled]
+	}
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# PUBLIC messageFrom(chatid,user,msg,type,[fontformat])
 	# Called by the protocol layer when a message 'msg' arrives from the chat
