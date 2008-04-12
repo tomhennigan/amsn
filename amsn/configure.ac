@@ -478,6 +478,37 @@ else
 fi
 AC_MSG_RESULT($USE_MMX)
 
+HAVE_FARSIGHT=no
+GST_REQUIRED=0.10.17
+GST_MAJORMINOR=0.10
+FARSIGHT_REQUIRED=0.0.2
+ 
+dnl Check for pkgconfig first
+AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, yes, no)
+
+
+dnl Give error and exit if we don't have pkgconfig
+if test "x$HAVE_PKGCONFIG" = "xyes"; then
+  PKG_CHECK_MODULES(GST, \
+    gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED,
+    HAVE_GST=yes,HAVE_GST=no)
+
+  dnl Give error and exit if we don't have gstreamer
+  if test "x$HAVE_GST" = "xyes"; then
+       PKG_CHECK_MODULES(FARSIGHT2, \
+           farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED,
+          HAVE_FARSIGHT=yes,HAVE_FARSIGHT=no)
+  fi
+
+fi
+
+AC_SUBST(GST_CFLAGS)
+AC_SUBST(GST_LIBS)
+
+AC_SUBST(FARSIGHT2_CFLAGS)
+AC_SUBST(FARSIGHT2_LIBS)
+
+AC_SUBST(HAVE_FARSIGHT)
 
 dnl ---------------------------------------------------------------------
 dnl write out stuff
@@ -495,8 +526,14 @@ compile time options summary
     TK 		 : $TK_VERSION
     DEBUG        : $DEBUG
     STATIC       : $STATIC
+    FARSIGHT     : $HAVE_FARSIGHT
 
 EOF
 
+if test x"$HAVE_FARSIGHT" = "xno"; then
+   echo "*** You do not seem to have gstreamer and farsight2 installed."
+   echo "*** You will not be able to build the required component for audio conversations."
+   echo "*** Read this for more information : http://amsn-project.net/wiki/Farsight"
+fi
 
 exit 0

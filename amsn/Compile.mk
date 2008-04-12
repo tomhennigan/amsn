@@ -17,8 +17,9 @@ verbose		?= no
 
 # dependency files
 
-compile_c	= $(CC) $(CFLAGS)  -c -o $@ $<
-compile_cc	= $(CXX) $(CXXFLAGS)  -c -o $@ $<
+compile_c	 = $(CC) $(CFLAGS)  -c -o $@ $<
+compile_farsight = $(CC) $(CFLAGS) $(GST_CFLAGS) $(FARSIGHT2_CFLAGS) -c -o $@ $<
+compile_cc	 = $(CXX) $(CXXFLAGS)  -c -o $@ $<
 
 ifeq ($(FOUND_OS),mac)
 SHARED	:= -dynamiclib -fno-common -Wl,-single_module
@@ -27,6 +28,7 @@ SHARED	:= -shared
 endif
 
 link_app	= $(CC) $(LDFLAGS) -o $@  $^ $(LDLIBS)
+link_farsight	= $(CC) $(LDFLAGS) -o $@  $^ $(LDLIBS) $(GST_LIBS) $(FARSIGHT2_LIBS)
 link_so		= $(CC) $(LDFLAGS) $(SHARED) -o $@ $^ $(LDLIBS)
 link_so_addlibs = $(link_so) $(ADDLIBS)
 link_so_cpp	= $(CXX) $(LDFLAGS) $(SHARED) -o $@ $^ $(LDLIBS) $(CXX_LIB)
@@ -36,16 +38,20 @@ ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 # non-verbose output
 ifeq ($(verbose),no)
   echo_compile_c	= echo "  CC	 " $@
+  echo_compile_farsight	= echo "  CC	 " $@
   echo_compile_cc	= echo "  CXX	 " $@
   echo_link_app		= echo "  LD	 " $@
+  echo_link_farsight	= echo "  LD	 " $@
   echo_link_so		= echo "  LD	 " $@
   echo_link_so_cpp	= echo "  LDX	 " $@
   echo_link_so_addlibs	= echo "  LD	 " $@
   echo_ar_lib		= echo "  AR	 " $@
 else
   echo_compile_c	= echo $(compile_c)
+  echo_compile_farsight	= echo $(compile_farsight)
   echo_compile_cc	= echo $(compile_cc)
   echo_link_app		= echo $(link_app)
+  echo_link_farsight	= echo $(link_farsight)
   echo_link_so		= echo $(link_so)
   echo_link_so_addlibs	= echo $(link_so_addlibs)
   echo_link_so_cpp	= echo $(link_so_cpp)
