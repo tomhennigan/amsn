@@ -296,12 +296,12 @@ int Siren_WriteWav _ANSI_ARGS_((ClientData clientData,
 	data = Tcl_GetByteArrayFromObj(objv[3], &dataSize);
 
 	if (codec->codecType == SIREN_ENCODER) {
-		if (dataSize != GUINT32_FROM_LE(codec->encoder->WavHeader.DataSize)) {
+		if (dataSize != ME_FROM_LE32(codec->encoder->WavHeader.DataSize)) {
 			Tcl_AppendResult (interp, "The data you provided does not correspond to this encoder instance" , (char *) NULL);
 			return TCL_ERROR;
 		}
 	} else if (codec->codecType == SIREN_DECODER) {
-		if (dataSize != GUINT32_FROM_LE(codec->decoder->WavHeader.DataSize)) {
+		if (dataSize != ME_FROM_LE32(codec->decoder->WavHeader.DataSize)) {
 			Tcl_AppendResult (interp, "The data you provided does not correspond to this decoder instance" , (char *) NULL);
 			return TCL_ERROR;
 		}
