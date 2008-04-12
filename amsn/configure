@@ -1792,7 +1792,7 @@ case `uname -s` in
 	Darwin)
 		FOUND_OS="mac"
 		UNIVERSAL="-arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.3"
-		CFLAGS="$CFLAGS -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
+		CFLAGS="$CFLAGS -DMAC_OSX_TK=1 -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
 		CXXFLAGS="$CXXFLAGS -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
 		LDFLAGS="$LDFLAGS -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
 
