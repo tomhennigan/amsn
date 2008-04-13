@@ -717,13 +717,13 @@ CxImage * CxImage::GetFrame(long nFrame) const
 	return ppFrames[nFrame];
 }
 ////////////////////////////////////////////////////////////////////////////////
-short CxImage::ntohs(const short word)
+short CxImage::xima_ntohs(const short word)
 {
 	if (info.bLittleEndianHost) return word;
 	return ( (word & 0xff) << 8 ) | ( (word >> 8) & 0xff );
 }
 ////////////////////////////////////////////////////////////////////////////////
-long CxImage::ntohl(const long dword)
+long CxImage::xima_ntohl(const long dword)
 {
 	if (info.bLittleEndianHost) return dword;
 	return  ((dword & 0xff) << 24 ) | ((dword & 0xff00) << 8 ) |
@@ -732,17 +732,17 @@ long CxImage::ntohl(const long dword)
 ////////////////////////////////////////////////////////////////////////////////
 void CxImage::bihtoh(BITMAPINFOHEADER* bih)
 {
-	bih->biSize = ntohl(bih->biSize);
-	bih->biWidth = ntohl(bih->biWidth);
-	bih->biHeight = ntohl(bih->biHeight);
-	bih->biPlanes = ntohs(bih->biPlanes);
-	bih->biBitCount = ntohs(bih->biBitCount);
-	bih->biCompression = ntohl(bih->biCompression);
-	bih->biSizeImage = ntohl(bih->biSizeImage);
-	bih->biXPelsPerMeter = ntohl(bih->biXPelsPerMeter);
-	bih->biYPelsPerMeter = ntohl(bih->biYPelsPerMeter);
-	bih->biClrUsed = ntohl(bih->biClrUsed);
-	bih->biClrImportant = ntohl(bih->biClrImportant);
+	bih->biSize = xima_ntohl(bih->biSize);
+	bih->biWidth = xima_ntohl(bih->biWidth);
+	bih->biHeight = xima_ntohl(bih->biHeight);
+	bih->biPlanes = xima_ntohs(bih->biPlanes);
+	bih->biBitCount = xima_ntohs(bih->biBitCount);
+	bih->biCompression = xima_ntohl(bih->biCompression);
+	bih->biSizeImage = xima_ntohl(bih->biSizeImage);
+	bih->biXPelsPerMeter = xima_ntohl(bih->biXPelsPerMeter);
+	bih->biYPelsPerMeter = xima_ntohl(bih->biYPelsPerMeter);
+	bih->biClrUsed = xima_ntohl(bih->biClrUsed);
+	bih->biClrImportant = xima_ntohl(bih->biClrImportant);
 }
 ////////////////////////////////////////////////////////////////////////////////
 /**
