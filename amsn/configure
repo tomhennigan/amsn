@@ -697,6 +697,8 @@ LIBPTHREAD
 USE_MMX
 HAVE_PKGCONFIG
 PKG_CONFIG
+GLIB_CFLAGS
+GLIB_LIBS
 GST_CFLAGS
 GST_LIBS
 FARSIGHT2_CFLAGS
@@ -719,6 +721,8 @@ CCC
 XMKMF
 CPP
 PKG_CONFIG
+GLIB_CFLAGS
+GLIB_LIBS
 GST_CFLAGS
 GST_LIBS
 FARSIGHT2_CFLAGS
@@ -1319,6 +1323,8 @@ Some influential environment variables:
   XMKMF       Path to xmkmf, Makefile generator for X Window System
   CPP         C preprocessor
   PKG_CONFIG  path to pkg-config utility
+  GLIB_CFLAGS C compiler flags for GLIB, overriding pkg-config
+  GLIB_LIBS   linker flags for GLIB, overriding pkg-config
   GST_CFLAGS  C compiler flags for GST, overriding pkg-config
   GST_LIBS    linker flags for GST, overriding pkg-config
   FARSIGHT2_CFLAGS
@@ -6698,6 +6704,87 @@ echo "${ECHO_T}no" >&6; }
 fi
 
 pkg_failed=no
+{ echo "$as_me:$LINENO: checking for GLIB" >&5
+echo $ECHO_N "checking for GLIB... $ECHO_C" >&6; }
+
+if test -n "$PKG_CONFIG"; then
+    if test -n "$GLIB_CFLAGS"; then
+        pkg_cv_GLIB_CFLAGS="$GLIB_CFLAGS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
+    glib-2.0 >= 2.14\"") >&5
+  ($PKG_CONFIG --exists --print-errors "\
+    glib-2.0 >= 2.14") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_GLIB_CFLAGS=`$PKG_CONFIG --cflags "\
+    glib-2.0 >= 2.14" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+if test -n "$PKG_CONFIG"; then
+    if test -n "$GLIB_LIBS"; then
+        pkg_cv_GLIB_LIBS="$GLIB_LIBS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
+    glib-2.0 >= 2.14\"") >&5
+  ($PKG_CONFIG --exists --print-errors "\
+    glib-2.0 >= 2.14") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_GLIB_LIBS=`$PKG_CONFIG --libs "\
+    glib-2.0 >= 2.14" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "\
+    glib-2.0 >= 2.14"`
+        else
+	        GLIB_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "\
+    glib-2.0 >= 2.14"`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GLIB_PKG_ERRORS" >&5
+
+	{ echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+                HAVE_GLIB=no
+elif test $pkg_failed = untried; then
+	HAVE_GLIB=no
+else
+	GLIB_CFLAGS=$pkg_cv_GLIB_CFLAGS
+	GLIB_LIBS=$pkg_cv_GLIB_LIBS
+        { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+	HAVE_GLIB=yes
+fi
+
+    if test "x$HAVE_GLIB" = "xyes"; then
+
+pkg_failed=no
 { echo "$as_me:$LINENO: checking for GST" >&5
 echo $ECHO_N "checking for GST... $ECHO_C" >&6; }
 
@@ -6707,14 +6794,14 @@ if test -n "$PKG_CONFIG"; then
     else
         if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
-    gstreamer-\$GST_MAJORMINOR >= \$GST_REQUIRED\"") >&5
+      gstreamer-\$GST_MAJORMINOR >= \$GST_REQUIRED\"") >&5
   ($PKG_CONFIG --exists --print-errors "\
-    gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED") 2>&5
+      gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED") 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
   pkg_cv_GST_CFLAGS=`$PKG_CONFIG --cflags "\
-    gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED" 2>/dev/null`
+      gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -6728,14 +6815,14 @@ if test -n "$PKG_CONFIG"; then
     else
         if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
-    gstreamer-\$GST_MAJORMINOR >= \$GST_REQUIRED\"") >&5
+      gstreamer-\$GST_MAJORMINOR >= \$GST_REQUIRED\"") >&5
   ($PKG_CONFIG --exists --print-errors "\
-    gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED") 2>&5
+      gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED") 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
   pkg_cv_GST_LIBS=`$PKG_CONFIG --libs "\
-    gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED" 2>/dev/null`
+      gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -6755,10 +6842,10 @@ else
 fi
         if test $_pkg_short_errors_supported = yes; then
 	        GST_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "\
-    gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED"`
+      gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED"`
         else
 	        GST_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "\
-    gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED"`
+      gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED"`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GST_PKG_ERRORS" >&5
@@ -6776,7 +6863,7 @@ echo "${ECHO_T}yes" >&6; }
 	HAVE_GST=yes
 fi
 
-    if test "x$HAVE_GST" = "xyes"; then
+        if test "x$HAVE_GST" = "xyes"; then
 
 pkg_failed=no
 { echo "$as_me:$LINENO: checking for FARSIGHT2" >&5
@@ -6788,14 +6875,14 @@ if test -n "$PKG_CONFIG"; then
     else
         if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
-           farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\"") >&5
+             farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\"") >&5
   ($PKG_CONFIG --exists --print-errors "\
-           farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
   pkg_cv_FARSIGHT2_CFLAGS=`$PKG_CONFIG --cflags "\
-           farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -6809,14 +6896,14 @@ if test -n "$PKG_CONFIG"; then
     else
         if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
-           farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\"") >&5
+             farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\"") >&5
   ($PKG_CONFIG --exists --print-errors "\
-           farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
   pkg_cv_FARSIGHT2_LIBS=`$PKG_CONFIG --libs "\
-           farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -6836,10 +6923,10 @@ else
 fi
         if test $_pkg_short_errors_supported = yes; then
 	        FARSIGHT2_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "\
-           farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED"`
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED"`
         else
 	        FARSIGHT2_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "\
-           farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED"`
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED"`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$FARSIGHT2_PKG_ERRORS" >&5
@@ -6856,8 +6943,8 @@ else
 echo "${ECHO_T}yes" >&6; }
 	HAVE_FARSIGHT=yes
 fi
+    fi
   fi
-
 fi
 
 
@@ -7569,6 +7656,8 @@ LIBPTHREAD!$LIBPTHREAD$ac_delim
 USE_MMX!$USE_MMX$ac_delim
 HAVE_PKGCONFIG!$HAVE_PKGCONFIG$ac_delim
 PKG_CONFIG!$PKG_CONFIG$ac_delim
+GLIB_CFLAGS!$GLIB_CFLAGS$ac_delim
+GLIB_LIBS!$GLIB_LIBS$ac_delim
 GST_CFLAGS!$GST_CFLAGS$ac_delim
 GST_LIBS!$GST_LIBS$ac_delim
 FARSIGHT2_CFLAGS!$FARSIGHT2_CFLAGS$ac_delim
@@ -7578,7 +7667,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 91; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 93; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
