@@ -132,6 +132,7 @@ snit::type SIPConnection {
 	}
 
 	method Disconnected { } {
+		status_log "Got Disconnected from SIP"
 		if {$state != "" } {
 			if {$options(-error_handler) != "" } {
 				if {[catch {eval [linsert $options(-error_handler) end DISCONNECTED]} result]} {
@@ -242,6 +243,7 @@ snit::type SIPConnection {
 	method Register { {callbk ""} } {
 		$self Connect
 
+		status_log "SIP : Registering : $state"
 		if { $state == "REGISTERED" } {
 			if {$callbk != "" } {
 				if {[catch {eval $callbk} result]} {
@@ -269,6 +271,8 @@ snit::type SIPConnection {
 	}
 
 	method RegisterExpires { } {
+		status_log "SIP : Register expired"
+
 		after cancel [list $self RegisterExpires] 
 		set state ""
 		$self Register
@@ -279,7 +283,8 @@ snit::type SIPConnection {
 			set options(-registered_host) [lindex $response 3]
 
 			set state "REGISTERED"
-			#puts "registered"
+			
+			status_log "SIP : Registered"
 			set expires [$self GetHeader $headers "Expires"]
 			if {$expires != "" } {
 				after [expr {$expires * 1000}] [list $self RegisterExpires] 
@@ -293,7 +298,7 @@ snit::type SIPConnection {
 				}				
 			}
 		} else {
-			#puts "error on registration"
+			status_log "SIP :error on registration"
 			if {$options(-error_handler) != "" } {
 				if {[catch {eval [linsert $options(-error_handler) end REGISTRATION]} result]} {
 					bgerror $result
@@ -304,6 +309,8 @@ snit::type SIPConnection {
 
 
 	method Unregister { } {
+		status_log "SIP : Unregistering"
+
 		set auth "$options(-user):$options(-password)"
 		set auth [string map {"\n" "" } [base64::encode $auth]]
 
@@ -345,11 +352,12 @@ snit::type SIPConnection {
 	}
 
 	method InviteCB {msg sdp callbk} {
+		status_log "SIP : Sending Invite"
 		$self Send $msg "application/sdp" $sdp
 	}
 
 	method InviteResponse {callid callbk response headers body } {
-		#puts "Received INVITE response"
+		status_log "Received INVITE response"
 
 		# Answer with ACK to any INVITE response (200 ok, or call terminated, or busy..)
 		# Answer only to INVITE responses
@@ -482,6 +490,8 @@ snit::type SIPConnection {
 	}
 
 	method InviteRequestHandler {callid response headers body } {
+		status_log "SIP : InviteRequestHandler called "
+
 		if {[$self GetCommand $headers] == "ACK"} {
 			if {[catch {eval [linsert $options(-request_handler) end $callid ACK ""]} result]} {
 				bgerror $result
@@ -553,6 +563,8 @@ snit::type SIPConnection {
 				error "Unknown Status"
 			}
 		}
+		status_log "SIP : Answering Invite with status $status"
+
 		$self Send [$self BuildResponse $callid INVITE $status] $content_type $content
 		if {$status != 180 } {
 			if {[info exists trying_afterid($callid)] } {
@@ -1058,20 +1070,22 @@ snit::type SIPSocket {
 
 	method SocketReadable { } {
 		if { [eof $sock] } {
-			#puts "Socket $sock reached eof"
+			status_log "SIPSocket: $sock reached eof"
 			$self Disconnect
 			return
 		}
 
 		if {$state == "BODY" } {
 			set content_length [$options(-sipconnection) GetHeader $headers "Content-Length"]
-			if { [catch {set body [read $sock $content_length]}]} {
+			if { [catch {set body [read $sock $content_length]} res]} {
+				status_log "SIPSocket: Reading Body got error $res"
 				$self Disconnect
 				return
 			}
 			set done 1
 		} else {
-			if { [catch {set line [string trim [gets $sock]]}]} {
+			if { [catch {set line [string trim [gets $sock]]} res]} {
+				status_log "SIPSocket: Reading line got error $res"
 				$self Disconnect
 				return
 			}
@@ -1143,6 +1157,7 @@ snit::type Farsight {
 	}
 
 	method Closed { } {
+		status_log "Farsight : Closed"
 		$self Close
 		if {$options(-closed) != "" } {
 			if {[catch {eval $options(-closed)} result]} {
@@ -1154,7 +1169,8 @@ snit::type Farsight {
 	method Close { } {
 		if {$pipe != "" } {
 			catch {puts $pipe "EXIT"}
-			catch {close $pipe}
+			catch {close $pipe} res
+			status_log "Closed pipe : $res" red
 		}
 		set pipe ""
 		$self Reset
@@ -1222,17 +1238,25 @@ snit::type Farsight {
 
 	method Prepare { } {
 		$self Close
+
+		status_log "Farsight : Preparing"
+
 		set pipe [open "| ./utils/farsight/farsight user@localhost remote@remotehost" r+]
 		fconfigure $pipe -buffering line
 		fileevent $pipe readable [list $self PipeReadable]
 	}
 
 	method Start { } {
+
+
 		if {$options(-enable_ice) == 0} {
 			set candidates $remote_candidates
 		} else {
 			set candidates $remote_ice_candidates
 		}
+
+		status_log "Farsight starting : $remote_candidates - $remote_codecs"
+
 		foreach candidate $candidates {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
 			puts $pipe "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $qvalue $ip $port"
@@ -1248,12 +1272,20 @@ snit::type Farsight {
 	}
 
 	method PipeReadable { } {
+		status_log "Farsight : Pipe is now readable"
 		if { [eof $pipe] } {
+			status_log "Farsight : got eof"
 			$self Closed
 			return
 		}
 
-		set line [gets $pipe]
+		if { [catch {set line [gets $pipe]} res] } {
+			status_log "Farsight : read error : $res"
+			$self Closed
+			return
+		}
+
+		status_log "Farsight answering : $line"
 
 		if {[string first "LOCAL_CODEC: " $line] == 0} {
 			set codec [string range $line 13 end]
@@ -1282,6 +1314,8 @@ snit::type Farsight {
 		}
 	
 		if {$prepared == 0 && $codecs_done && $candidates_done } {
+			status_log "Farsight : Farsight is now prepared!"
+
 			set prepared 1
 
 			$self CandidatesToICE
@@ -1429,12 +1463,18 @@ namespace eval ::MSNSIP {
 		variable sipconnections
 		global sso
 		if {![info exists sso] } {
+			status_log "MSNSIP : Creating SIP.. not authenticated"
 			return ""
 		}
+
+		status_log "MSNSIP : Creating SIP connection to $host"
+
 		set token [$sso GetSecurityTokenByName Voice]
 		set sip [SIPConnection create %AUTO% -user [::config::getKey login] -password [$token cget -ticket] -host $host]
 		$sip configure -error_handler [list ::MSNSIP::errorSIP $sip] -request_handler [list ::MSNSIP::requestSIP $sip]
 		lappend sipconnections $sip
+
+		status_log "MSNSIP : SIP connection created : $sip"
 		return $sip
 		
 	}
@@ -1450,6 +1490,7 @@ namespace eval ::MSNSIP {
 
 		# if we do a '$sip destroy' here...  Tcl segfaults!!! :D
 
+		status_log "MSNSIP : Destroying $sip"
 		set idx [lsearch $sipconnections $sip]
 		if {$idx >= 0} {
 			set sipconnections [lreplace $sipconnections $idx $idx]
@@ -1466,10 +1507,12 @@ namespace eval ::MSNSIP {
 	proc ReceivedInvite { ip } {
 		variable sipconnections
 
+		status_log "MSNSIP : Received SIP invite on $ip"
 		foreach sip $sipconnections {
 			if {[$sip cget -registered_host] == $ip } {
 				# Just in case we're connected but registration expired
 				# and the timer didn't re-register us..
+				status_log "MSNSIP : $sip already registered on $ip"
 				$sip RegisterExpires
 				return
 			}
@@ -1487,6 +1530,7 @@ namespace eval ::MSNSIP {
 		if {$failed == 0 } {
 			eval $callback
 		}
+		# TODO : if can't auth for some reason.. signal the UI ?
 	}
 
 	proc SSOAuthenticate { callback } {
@@ -1496,6 +1540,7 @@ namespace eval ::MSNSIP {
 	}
 
 	proc InviteUser { email } {
+		status_log "MSNSIP : Inviting user $email to a SIP call"
 		if {[$::farsight IsInUse] } {
 			# Signal the UI
 			::amsn::SIPCallYouAreBusy $email
@@ -1533,12 +1578,13 @@ namespace eval ::MSNSIP {
 
 
 	proc inviteClosed { sip email callid {started 0}} {
+		status_log "MSNSIP : InviteClosed $sip $email $callid $started"
 		if {$started == 1} {
 			$sip Bye $callid
 
 			# Signal the UI
 			::amsn::SIPCallEnded $email $sip $callid
-		} elseif {$start == 0 } {
+		} elseif {$started == 0 } {
 			$sip Cancel $callid
 			
 			# Signal the UI
@@ -1552,17 +1598,19 @@ namespace eval ::MSNSIP {
 	}
 
 	proc CancelCall { sip callid } {
+		status_log "MSNSIP : Canceling SIP call"
 		$sip Cancel $callid
 		destroySIP $sip		
 	}
 
 	proc HangUp { sip callid } {
+		status_log "MSNSIP : Hanging up SIP call"
 		$sip Bye $callid
 		destroySIP $sip
 	}
 
 	proc inviteSIPCB { sip email callid status detail} {
-		status_log "inviteSIPCB : $sip $email $callid $status" green
+		status_log "MSNSIP : inviteSIPCB : $sip $email $callid $status $detail" green
 		if { $status == "OK" } {
 			# Signal the UI
 			::amsn::SIPCalleeAccepted $email $sip $callid
@@ -1600,7 +1648,7 @@ namespace eval ::MSNSIP {
 	}
 
 	proc requestSIP { sip callid what detail } {
-		status_log "requestSIP : $sip $callid $what" green
+		status_log "MSNSIP : requestSIP : $sip $callid $what" green
 		if {$what == "INVITE" } {
 			if {[$::farsight IsInUse] } {
 				# Signal the UI
@@ -1657,6 +1705,7 @@ namespace eval ::MSNSIP {
 
 
 	proc answerClosed { sip callid {started 0}} {
+		status_log "MSNSIP: answerClosed : $sip $callid $started"
 		if {$started } {
 			# Signal the UI
 			::amsn::SIPCallEnded [$sip GetCaller $callid] $sip $callid
@@ -1672,6 +1721,8 @@ namespace eval ::MSNSIP {
 	}
 
 	proc requestPrepared { sip callid } {
+		status_log "MSNSIP : request Prepared for $sip $callid"
+
 		# Signal the UI
 		::amsn::SIPCallReceived [$sip GetCaller $callid] $sip $callid
 
@@ -1679,11 +1730,15 @@ namespace eval ::MSNSIP {
 	}
 
 	proc DeclineInvite {sip callid } {
+		status_log "MSNSIP: Declining invite"
+
 		$sip AnswerInvite $callid DECLINE
 		destroySIP $sip
 	}
 
 	proc AcceptInvite { sip callid } {
+		status_log "MSNSIP: Accepting invite"
+
 		# no prepare since it's already done before it started RINGING
 		$::farsight Start
 		$sip configure -local_candidates [$::farsight GetLocalCandidates]
@@ -1693,6 +1748,7 @@ namespace eval ::MSNSIP {
 	}
 
 	proc errorSIP { sip reason } {
+		status_log "MSNSIP: Got an error"
 		# TODO : what use case where we need to signal the UI?
 		destroySIP $sip
 	}

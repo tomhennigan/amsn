@@ -1625,7 +1625,9 @@ namespace eval ::amsn {
 	#////////////////////////////////////////////////////////////////////////////////
 	proc SIPCallInviteUser { email } {
 		set supports_sip 0
-			
+
+		status_log "CallInviteUser $email"
+
 		set clientid [::abook::getContactData $email clientid]
 		if { $clientid == "" } { set clientid 0 }
 		set msnc [expr 0x100000]
@@ -1634,8 +1636,10 @@ namespace eval ::amsn {
 		}
 
 		if {$supports_sip } {
+			status_log "User supports SIP"
 			::MSNSIP::InviteUser $email
 		} else {
+			status_log "User has no SIP flag"
 			SIPCallNoSIPFlag $email			
 		}
 	}
@@ -1712,6 +1716,8 @@ namespace eval ::amsn {
 
 	proc AcceptSIPCall { chatid sip callid } {
 
+		status_log "Accepting SIP call from $chatid"
+
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
@@ -1736,6 +1742,8 @@ namespace eval ::amsn {
 
 	proc DeclineSIPCall { chatid sip callid } {
 
+		status_log "Rejecting SIP call from $chatid"
+
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
@@ -1751,18 +1759,24 @@ namespace eval ::amsn {
 	}
 
 	proc HangupSIPCall { chatid sip callid } {
+		status_log "Hanging up SIP call"
+
 		SIPCallEnded $chatid $sip $callid
 
 		::MSNSIP::HangUp $sip $callid
 	}
 
 	proc CancelSIPCall { chatid sip callid} {
+		status_log "Canceling SIP invite"
+
 		DisableSIPButton $chatid siphangup$callid 
 
 		::MSNSIP::CancelCall $sip $callid
 	}
 
 	proc SIPInviteSent { chatid sip callid } {
+		status_log "SIP invite sent"
+
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
 		WinWrite $chatid "\n" green
@@ -1775,6 +1789,8 @@ namespace eval ::amsn {
 	}
 
 	proc SIPCallEnded {chatid sip callid } {
+		status_log "SIP call ended"
+
 		SIPCallMessage $chatid [trans sipcallended]
 
 		DisableSIPButton $chatid siphangup$callid 
@@ -1782,6 +1798,8 @@ namespace eval ::amsn {
 
 	proc SIPCalleeAccepted { chatid sip callid } {
 		::ChatWindow::MakeFor $chatid
+
+		status_log "SIP callee accepted our call"
 
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
@@ -1797,48 +1815,65 @@ namespace eval ::amsn {
 
 	proc SIPCalleeBusy { chatid sip callid } {
 
+		status_log "SIP callee is busy"
+
 		SIPCallMessage $chatid [trans sipcalleebusy]
 
 		DisableSIPButton $chatid siphangup$callid 
 	}
 
 	proc SIPCalleeDeclined { chatid sip callid } {
+		status_log "SIP callee declined our call"
+
 		SIPCallMessage $chatid [trans sipcalleedeclined]
 
 		DisableSIPButton $chatid siphangup$callid 
 	}
 
 	proc SIPCalleeClosed { chatid sip callid } {
+		status_log "SIP callee closed the call"
+
 		SIPCallMessage $chatid [trans sipcalleeclosed]
 
 		DisableSIPButton $chatid siphangup$callid 
 	}
 
 	proc SIPCalleeNoAnswer { chatid sip callid }  {
+		status_log "SIP user did not answer our call"
+
 		SIPCallMessage $chatid [trans sipcalleenoanswer]
 
 		DisableSIPButton $chatid siphangup$callid 
 	}
 
 	proc SIPCalleeUnavailable { chatid sip callid }  {
+		status_log "SIP user is currently unavailable"
+
 		SIPCallMessage $chatid [trans sipcalleeunavailable]
 
 		DisableSIPButton $chatid siphangup$callid 
 	}
 
 	proc SIPCallImpossible { chatid } {
+		status_log "SIP call is impossible.. no farsight utility found/working"
+
 		SIPCallMessage $chatid [trans sipcallimpossible]
 	}
 
 	proc SIPCallUnsupported { chatid } {
+		status_log "Received unsupported SIP call from $chatid"
+
 		SIPCallMessageCallBack $chatid [trans sipcallunsupported]
 	}
 
 	proc SIPCallNoSIPFlag { chatid } {
+		status_log "User $chatid has no SIP flag in his clientid"
 		SIPCallMessage $chatid [trans sipcallnosipflag]
 	}
 
 	proc SIPCallMissed { chatid {callid ""} } {
+		status_log "We missed a SIP call from $chatid"
+
 		SIPCallMessageCallBack $chatid [trans sipcallmissed [::abook::getDisplayNick $chatid]]
 		if {$callid != "" } {
 			DisableSIPButton $chatid sipyes$callid
@@ -1847,11 +1882,15 @@ namespace eval ::amsn {
 	}
 
 	proc SIPCallYouAreBusy { chatid } {
+		status_log "Trying to make multiple SIP calls"
+
 		SIPCallMessage $chatid [trans sipcallyouarebusy]
 	}
 
 
 	proc SIPCalleeCanceled { chatid sip callid } {
+
+		status_log "SIP callee canceled his invite"
 
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
