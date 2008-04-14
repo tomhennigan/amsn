@@ -987,7 +987,7 @@ snit::type SIPSocket {
 
 		switch -- $options(-proxy) {
 			"direct" {
-				set sock [::tls::socket $options(-host) $options(-port)]
+				set sock [::tls::socket -async $options(-host) $options(-port)]
 			}
 			"socks" {
 				# FIXME : we should 'package require socks' ...
@@ -1049,7 +1049,7 @@ snit::type SIPSocket {
 		}
 
 		set state "NONE"
-		fconfigure $sock -buffering none -translation binary
+		fconfigure $sock -buffering none -translation {crlf binary}
 		fileevent $sock readable [list $self SocketReadable]
 
 		return 1
@@ -1080,18 +1080,24 @@ snit::type SIPSocket {
 		if {$state == "BODY" } {
 			set content_length [$options(-sipconnection) GetHeader $headers "Content-Length"]
 			status_log "Going to Read : $content_length"
-			if { [catch {set body [read $sock $content_length]} res]} {
-				status_log "SIPSocket: Reading Body got error $res"
-				$self Disconnect
-				return
+			set body ""
+			while { [string length $body] < $content_length } {
+				if { [catch {set line [gets $sock]} res]} {
+					status_log "SIPSocket: Reading Body got error $res"
+					$self Disconnect
+					return
+				}
+				append body "$line\r\n"
 			}
 			set done 1
 		} else {
-			if { [catch {set line [string trim [gets $sock]]} res]} {
+			if { [catch {gets $sock line} res]} {
 				status_log "SIPSocket: Reading line got error $res"
 				$self Disconnect
 				return
 			}
+			
+			set line [string trim $line]
 			set done 0
 		}
 
