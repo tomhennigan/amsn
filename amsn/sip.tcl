@@ -298,7 +298,7 @@ snit::type SIPConnection {
 				}				
 			}
 		} else {
-			status_log "SIP :error on registration"
+			status_log "SIP :error on registration : $response"
 			if {$options(-error_handler) != "" } {
 				if {[catch {eval [linsert $options(-error_handler) end REGISTRATION]} result]} {
 					bgerror $result
