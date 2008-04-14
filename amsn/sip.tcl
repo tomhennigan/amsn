@@ -253,7 +253,7 @@ snit::type SIPConnection {
 			return
 		}
 
-		set auth "$options(-user):$options(-password)"
+		set auth "msmsgs:RPS_$options(-password)"
 		set auth [string map {"\n" "" } [base64::encode $auth]]
 
 		set request [$self BuildRequest REGISTER [lindex [split $options(-user) @] 1] $options(-user) ]
@@ -1060,7 +1060,8 @@ snit::type SIPSocket {
 			degt_protocol "-->SIP ($options(-host)) $data" "sbsend"
 		}
 		
-		if {[catch {puts -nonewline $sock $data}] } {
+		if {[catch {puts -nonewline $sock $data} res] } {
+			status_log "SIPSocket : Unable to send data : $res"
 			$self Disconnect
 			return 0
 		} else {
@@ -1069,6 +1070,7 @@ snit::type SIPSocket {
 	}
 
 	method SocketReadable { } {
+		status_log "socket readable"
 		if { [eof $sock] } {
 			status_log "SIPSocket: $sock reached eof"
 			$self Disconnect
@@ -1077,6 +1079,7 @@ snit::type SIPSocket {
 
 		if {$state == "BODY" } {
 			set content_length [$options(-sipconnection) GetHeader $headers "Content-Length"]
+			status_log "Going to Read : $content_length"
 			if { [catch {set body [read $sock $content_length]} res]} {
 				status_log "SIPSocket: Reading Body got error $res"
 				$self Disconnect
@@ -1469,7 +1472,7 @@ namespace eval ::MSNSIP {
 
 		status_log "MSNSIP : Creating SIP connection to $host"
 
-		set token [$sso GetSecurityTokenByName Voice]
+		set token [$sso GetSecurityTokenByName MessengerSecure]
 		set sip [SIPConnection create %AUTO% -user [::config::getKey login] -password [$token cget -ticket] -host $host]
 		$sip configure -error_handler [list ::MSNSIP::errorSIP $sip] -request_handler [list ::MSNSIP::requestSIP $sip]
 		lappend sipconnections $sip
