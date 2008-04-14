@@ -849,7 +849,7 @@ snit::type SIPConnection {
 	method GenerateHex { num } {
 		set res ""
 		while { $num > 0 } {
-			append res [format %X [$self Random 0 15]]
+			append res [format %x [$self Random 0 15]]
 			incr num -1
 		}
 		return $res
@@ -921,6 +921,403 @@ snit::type SIPConnection {
 	}
 
 }
+
+
+
+
+
+###########################################
+#  SIPSocket is a socket wrapper for SIP  #
+###########################################
+
+snit::type TURN {
+	option -user -default ""
+	option -password -default ""
+	option -host -default "relay.voice.messenger.msn.com"
+	option -port -default "443"
+	option -transport -default "tls"
+	option -proxy -default "direct" -configuremethod ProxyChanged
+	option -proxy_host -default ""
+	option -proxy_port -default ""
+	option -proxy_authenticate -default 0
+	option -proxy_user -default ""
+	option -proxy_password -default ""
+
+	variable sock ""
+	variable message_types
+	variable attribute_types
+	variable messages
+
+	constructor { args } {
+		$self configurelist $args
+
+		array set message_types [list "1" "BINDING-REQUEST" \
+					     "2" "SHARED-SECRET-REQUEST" \
+					     "3" "ALLOCATE-REQUEST" \
+					     "257" "BINDING-RESPONSE" \
+					     "258" "SHARED-SECRET-RESPONSE" \
+					     "259" "ALLOCATE-RESPONSE" \
+					     "273" "BINDING-ERROR" \
+					     "274" "SHARED-SECRET-ERROR" \
+					     "275" "ALLOCATE-ERROR"]
+
+		array set attribute_types [list "1" "MAPPED-ADDRESS" \
+					       "2" "RESPONSE_ADDRESS" \
+					       "3" "CHANGE_REQUEST" \
+					       "4" "SOURCE_ADDRESS" \
+					       "5" "CHANGED-ADDRESS" \
+					       "6" "USERNAME" \
+					       "7" "PASSWORD" \
+					       "8" "MESSAGE-INTEGRITY" \
+					       "9" "ERROR-CODE" \
+					       "10" "UNKNOWN-ATTRIBUTES" \
+					       "11" "REFLECTED-FROM" \
+					       "12" "TRANSPORT-PREFERENCES" \
+					       "13" "LIFETIME" \
+					       "14" "ALTERNATE-SERVER" \
+					       "15" "MAGIC-COOKIE" \
+					       "16" "BANDWIDTH" \
+					       "17" "MORE-AVAILABLE" \
+					       "18" "REMOTE-ADDRESS" \
+					       "19" "DATA" \
+					       "20" "REALM" \
+					       "21" "NONCE" \
+					       "22" "RELAY-ADDRESS" \
+					       "23" "REQUESTED-ADDRESS-TYPE" \
+					       "24" "REQUESTED-PORT" \
+					       "25" "REQUESTED-TRANSPORT" \
+					       "26" "XOR-MAPPED-ADDRESS" \
+					       "27" "TIMER-VAL" \
+					       "28" "REQUESTED-IP" \
+					       "29" "FINGERPRINT" \
+					       "32802" "SERVER" \
+					       "32803" "ALTERNATE-SERVER" \
+					       "32804" "REFRESH-INTERVAL"]
+	}
+
+	destructor {
+		$self Disconnect
+	}
+
+	method Disconnect { } {
+		puts "Disconnecting"
+		catch {close $sock}
+		set sock ""
+	}
+
+	method IsConnected { } {
+		return [expr {$sock != ""}]
+	}
+
+	method ProxyChanged {option value} {
+		switch -- $value {
+			"direct" -
+			"socks" -
+			"http" {
+				set options($option) $value
+			}
+			default {
+				error "Unknown value '$value' to -proxy option. Accepted values are : 'direct', 'socks' and 'http'"
+			}
+		}
+	}
+
+	method Connect {} {
+		puts "Connecting"
+
+		if { $options(-transport) == "tls" } {
+			package require tls
+		} else {
+
+			error "Only 'tls' transport currently supported!"
+		}
+
+		switch -- $options(-proxy) {
+			"direct" {
+				set sock [::tls::socket -async $options(-host) $options(-port)]
+			}
+			"socks" {
+				# FIXME : we should 'package require socks' ...
+				# But socks.tcl must first be made into a proper package
+
+				set socket [socket -async $options(-proxy_host) $options(-proxy_port)]
+			
+				set res [::Socks5::Init $socket $options(-host) $options(-port) \
+					     $options(-proxy_authenticate) \
+					     $options(-proxy_user) $options(-proxy_pass)]
+
+				if { $res != "OK" } {
+					error $res
+				}
+
+				# now add tls to the socket and return it
+				fconfigure $socket -blocking 0 -buffering none -translation binary
+				set sock [::tls::import $socket]
+
+			}
+			"http" {
+				set socket [socket -async $options(-proxy_host) $options(-proxy_port)]
+				fconfigure $socket -buffering line -translation crlf
+				puts $socket "CONNECT $options(-host):$options(-port) HTTP/1.0"
+				puts $socket "Host: $options(-host)"
+				puts $socket "User-Agent: $options(-user_agent)"
+				puts $socket "Content-Length: 0"
+				puts $socket "Proxy-Connection: Keep-Alive"
+				puts $socket "Connection: Keep-Alive"
+				puts $socket "Cache-Control: no-cache"
+				puts $socket "Pragma: no-cache"
+				
+				if { $options(-proxy_authenticate) } {
+					set auth "$options(-proxy_user):$options(-proxy_pass)"
+					set auth [string map {"\n" "" } [base64::encode $auth]]
+					puts $socket "Proxy-Authorization: Basic $auth"
+				}
+				puts $socket ""
+
+				set reply ""
+				while {[gets $socket r] > 0} {
+					lappend reply $r
+				}
+
+				set result [lindex $reply 0]
+				set code [lindex [split $result { }] 1]
+
+				if {! [regexp {^HTTP/1\.[01] +2[0-9][0-9]} $result]} {
+					return -code error $result
+				}
+
+				# now add tls to the socket and return it
+				fconfigure $socket -blocking 0 -buffering none -translation binary
+				set sock [::tls::import $socket]
+			}
+			default {
+				error "Unkwown proxy method : $options(-proxy)"
+			}
+		}
+
+		set state "NONE"
+		fconfigure $sock -buffering none -translation binary
+		fileevent $sock readable [list $self SocketReadable]
+
+		return 1
+	}
+
+	method Send { data } {
+		puts "Sending [hexify $data]"
+		if {[catch {puts -nonewline $sock $data} res] } {
+			status_log "SIPSocket : Unable to send data : $res"
+			$self Disconnect
+			return 0
+		} else {
+			return 1
+		}
+	}
+
+	method SocketReadable { } {
+		if { [eof $sock] } {
+			status_log "TURN: $sock reached eof"
+			$self Disconnect
+			return
+		}
+
+		if { [catch {set header [read $sock 20] } res]} {
+			status_log "TURN: Reading line got error $res"
+			$self Disconnect
+			return
+		}
+
+		if {![info exists header] || [string length $header] != 20 } {
+			puts "Not enough header : [string length $header]"
+			return
+		}
+
+		binary scan $header SSH32 message_type payload_size id
+		set message_type [expr {$message_type & 0xFFFF}]
+
+		set message_type [$self MessageTypeToString $message_type]
+
+		puts "Received message of type $message_type"
+
+		if { [catch {set payload [read $sock $payload_size] } res]} {
+			status_log "TURN: Reading line got error $res"
+			$self Disconnect
+			return
+		}
+		if {![info exists payload] || [string length $payload] != $payload_size } {
+			puts "Not enough payload : [string length $payload] != $payload_size"
+			return
+		}
+
+		puts "Received [hexify $payload]"
+
+		set attributes [list]
+		set total_size 0
+		while {$total_size < $payload_size } {
+			binary scan $payload @${total_size}SS attribute_type attribute_size
+			set attribute_type [expr {$attribute_type & 0xFFFF}]
+			incr total_size 4
+			set attribute_value [string range $payload $total_size [expr {$total_size + $attribute_size - 1}]]
+			incr total_size $attribute_size
+			lappend attributes [$self AttributeTypeToString $attribute_type]
+			lappend attributes $attribute_value
+			puts "Received attribute [$self AttributeTypeToString $attribute_type] : [hexify $attribute_value]"
+		}
+
+		$self HandleResponse $id $message_type $attributes
+		
+	}
+
+	method MessageTypeToString { message_type } {
+		if {[info exists message_types($message_type)] } {
+			return $message_types($message_type)
+		} else {
+			return "UNKNOWN_MESSAGE_$message_type"
+		}
+	}
+
+	method AttributeTypeToString { attribute_type } {
+		if {[info exists attribute_types($attribute_type)] } {
+			return $attribute_types($attribute_type)
+		} else {
+			return "UNKNOWN_ATTRIBUTE_$attribute_type"
+		}
+	}
+
+	method StringToMessageType { message_type } {
+		foreach value [array names message_types] {
+			if {$message_types($value) == $message_type } {
+				return $value
+			}
+		}
+		return 0
+	}
+
+	method StringToAttributeType { attribute_type } {
+		foreach value [array names attribute_types] {
+			if {$attribute_types($value) == $attribute_type } {
+				return $value
+			}
+		}
+		return 0
+	}
+
+	method RequestSharedSecret { {total 2} } {
+		$self Connect
+
+		for {set i 0} { $i < $total} { incr i} {
+			set id [$self GenerateId]
+			set message [$self BuildMessage $id "SHARED-SECRET-REQUEST" \
+					 [list "USERNAME" "RPS_$options(-password)\x00\x00\x00"]]
+			set messages($id) $message
+			$self Send $message
+		}
+	}
+
+	method HandleResponse { id message_type attributes } {
+		puts "Received response $message_type for id $id"
+		if {[info exists messages($id)] } {
+			unset messages($id)
+			if {$message_type == "SHARED-SECRET-ERROR" } {
+				foreach {attr_type value} $attributes {
+					puts "Parsing $attr_type"
+					if {$attr_type == "REALM" } {
+						set realm $value
+					} elseif {$attr_type == "NONCE" } {
+						set nonce $value
+					} elseif {$attr_type == "ERROR-CODE" } {
+						binary scan $value Ia* error_code error_message
+					}
+				}
+				if {$error_message == "Unauthorized" } {
+					set id [$self GenerateId]
+					set message [$self BuildMessage $id \
+							 "SHARED-SECRET-REQUEST" \
+							 [list "USERNAME" "RPS_$options(-password)\x00\x00\x00" \
+							      "REALM" $realm \
+							      "NONCE" $nonce ] 24]
+					puts "Doing integrity check ($nonce) on [hexify $message] "
+					set message_integrity [$self BuildSharedSecretIntegrity $message $nonce]
+					
+					set message [$self BuildMessage $id \
+							 "SHARED-SECRET-REQUEST" \
+							 [list "USERNAME" "RPS_$options(-password)\x00\x00\x00" \
+							      "REALM" $realm \
+							      "NONCE" $nonce \
+							      "MESSAGE-INTEGRITY" $message_integrity]]
+					set messages($id) $message
+					$self Send $message
+				}
+
+			} elseif {$message_type == "SHARED-SECRET-RESPONSE" } {
+				foreach {attr_type value} $attributes {
+					if {$attr_type == "USERNAME" } {
+						set username $value
+					} elseif {$attr_type == "PASSWORD" } {
+						set password $value
+					} elseif {$attr_type == "ALTERNATE-SERVER" } {
+						binary scan $value SScccc ipv4 port i1 i2 i3 i4
+						set ipv4 [expr {$ipv4 & 0xFFFF}]
+						set port [expr {$port & 0xFFFF}]
+
+						set server_ip " [expr {$i1 & 0xFF}]. [expr {$i2 & 0xFF}]. [expr {$i3 & 0xFF}]. [expr {$i4 & 0xFF}]"
+						set server_port $port
+						puts "TURN server $server_ip : $server_port"
+					}
+				}
+			}
+		} else {
+			puts "Received unknown id $id"
+			return
+		}
+		if {[llength [array names messages]] == 0} {
+			$self Disconnect
+		}
+	}
+
+	method BuildMessage { id message_type attributes {extra_size 0}} {
+		set message_type [$self StringToMessageType $message_type]
+		if {$message_type == 0 } {
+			error "Unknown message type $message_type"
+		}
+
+		set message ""
+		foreach {attr_type value} $attributes {
+			set attribute_type [$self StringToAttributeType $attr_type]
+			append message [binary format SS $attribute_type [string length $value]]
+			append message $value
+		}
+
+		set header [binary format SSH32 $message_type [expr {[string length $message] + $extra_size}] $id]
+
+		return "${header}${message}"
+	}
+
+	method BuildSharedSecretIntegrity { message nonce } {
+		set nonce [string trim $nonce "\""]
+		set md5 [::md5::md5 "RPS_$options(-password)\x00\x00\x00:$nonce:$options(-user)"]
+		set key "[binary format H* $md5][string repeat \x00 16]"
+		set hash [::sha1::hmac $key "$message[string repeat \x00 16]"]
+		return [binary format H* $hash]
+	}
+
+	method Random { min max } {
+		return [expr {int($min + rand() * (1+$max-$min))}]
+	}
+
+	method GenerateHex { num } {
+		set res ""
+		while { $num > 0 } {
+			append res [format %x [$self Random 0 15]]
+			incr num -1
+		}
+		return $res
+	}
+
+	method GenerateId { } {
+		return [$self GenerateHex 32]
+	}
+}
+
 
 
 ###########################################
@@ -1070,7 +1467,6 @@ snit::type SIPSocket {
 	}
 
 	method SocketReadable { } {
-		status_log "socket readable"
 		if { [eof $sock] } {
 			status_log "SIPSocket: $sock reached eof"
 			$self Disconnect
