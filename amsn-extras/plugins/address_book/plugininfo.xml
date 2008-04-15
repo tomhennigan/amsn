@@ -3,6 +3,7 @@
 	<name>Address Book</name>
 	<author>Tom Hennigan</author>
 	<description>Integrates aMSN with the Mac OS X address book. It requires Tclx (which is installed by default on os x). The addressbook extension was written by Bernard Desgraupes, and is released under the same license as Tcl/Tk (http://www.tcl.tk/software/tcltk/license.html).</description>
+	<description_fr>Intégration d'aMSN avec le carnet d'adresse de MAC OS X. Cela nécessite Tclx (qui est installé par défaut sous MAC OS X). L'extension du carnet d'adresse a été écrit par Bernard Desgraupes, et est diffusé sous la même licence que Tcl/Tk (http://www.tcl.tk/software/tcltk/license.html).</description_fr>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>1.2</plugin_version>
 	<plugin_file>addressbook.tcl</plugin_file>

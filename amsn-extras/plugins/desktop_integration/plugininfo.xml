@@ -3,6 +3,7 @@
 	<name>Desktop Integration</name>
 	<author>Isma</author>
 	<description>For KDE or GNOME users. It shows desktop-like dialogs instead of tcl/tk ones. It also sets some options to fit better in the desktop. </description>
+	<description_fr>Pour les utilisateurs de KDE et de GNOME. Il affiche nos fenêtes avec le thème qui nous est appliqué au lieu des feneres typé tcl/tk. Il défini également différentes options pour d'adapter au plus près de notre thème. </description_fr>
 	<description_es>Para usuarios de KDE o GNOME. Muestra diÃ¡logos del entorno de escritorio en lugar de los diÃ¡logos tcl/tk. AdemÃ¡s fija algunas opciones para un mejor ajuste en el escritorio.</description_es>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>1.2</plugin_version>

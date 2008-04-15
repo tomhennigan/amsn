@@ -3,6 +3,7 @@
   <name>KeepAlivePlus</name>
   <author>Giuseppe Bottiglieri</author>
   <description>Keep Alive plugin!</description>
+  <description_fr>Plugin qui permet le maintien de la connexion avec le correspondant de la conversation</description_fr>
   <description_es>Plugin que mantiene activa la conexión con el usuario remoto de la ventana de conversación.</description_es>
   <amsn_version>0.97b</amsn_version>
   <plugin_version>0.1</plugin_version>

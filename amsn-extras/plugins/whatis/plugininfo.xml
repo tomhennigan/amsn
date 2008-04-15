@@ -3,6 +3,7 @@
        <name>whatis</name>
        <author>Jasper Huzen</author>
        <description>Get information from text/word or translate it to an other language!</description>
+       <description_fr>Obtenir des informations à partir d'un texte/mot ou traduisez le dans un autre langage!</description_fr>
        <amsn_version>0.94</amsn_version>
        <plugin_version>1.5</plugin_version>
        <plugin_file>whatis.tcl</plugin_file>
@@ -14,7 +15,4 @@
      		   <plugininfo>http://www.amsn-project.net/autoupdater/plugins/whatis/plugininfo.xml</plugininfo>
 		    	<main>http://www.amsn-project.net/autoupdater/plugins/whatis/whatis.tcl</main>
      	 </url>
-</plugin> 
-
-
-
+</plugin>
