@@ -1670,7 +1670,13 @@ snit::type Farsight {
 			set candidates $remote_ice_candidates
 		}
 
-		status_log "Farsight starting : $remote_candidates - $remote_codecs"
+		status_log "Farsight starting : $remote_codecs - $remote_candidates"
+
+		foreach codec $remote_codecs {
+			foreach {encoding_name payload_type bitrate} $codec break
+			puts $pipe "REMOTE_CODEC: $payload_type $encoding_name $bitrate"
+		}
+		puts $pipe "REMOTE_CODECS_DONE"
 
 		foreach candidate $candidates {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
@@ -1678,11 +1684,6 @@ snit::type Farsight {
 		}
 		puts $pipe "REMOTE_CANDIDATES_DONE"
 		
-		foreach codec $remote_codecs {
-			foreach {encoding_name payload_type bitrate} $codec break
-			puts $pipe "REMOTE_CODEC: $payload_type $encoding_name $bitrate"
-		}
-		puts $pipe "REMOTE_CODECS_DONE"
 		flush $pipe
 	}
 
