@@ -1646,7 +1646,17 @@ snit::type Farsight {
 
 		status_log "Farsight : Preparing"
 
-		set pipe [open "| ./utils/farsight/farsight user@localhost remote@remotehost" r+]
+		if {[OnWin] } {
+			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
+			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
+			set pipe [open "| ./utils/windows/gstreamer/farsight.exe user@localhost remote@remotehost" r+]
+		} elseif { [OnMac] } {
+			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils macos gstreamer]
+			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils macos gstreamer]
+			set pipe [open "| ./utils/macosx/gstreamer/farsight user@localhost remote@remotehost" r+]
+		} else {
+			set pipe [open "| ./utils/farsight/farsight user@localhost remote@remotehost" r+]
+		}
 		fconfigure $pipe -buffering line
 		fileevent $pipe readable [list $self PipeReadable]
 	}
