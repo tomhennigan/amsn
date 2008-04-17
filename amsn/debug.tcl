@@ -107,8 +107,35 @@ namespace eval ::debug {
 	}
 
 
+	proc findSockets { {namespace "::" } } {
+		set result [list]
+		foreach v [info vars "${namespace}::*"] {
+			set content ""
+			if { [catch {set content [set $v]}] } {
+				foreach {key val} [array get $v] {
+					set content $val
+					if {[string first "sock" $content] == 0 &&
+					    ![catch {eof $content}]} {
+						lappend result $content
+						puts "Found socket $content in variable ${v} ($key)"
+					}
+					
+				}
+			} else {
+				if {[string first "sock" $content] == 0  &&
+				    ![catch {eof $content}] } {
+					lappend result $content
+					puts "Found socket $content in variable ${v}"
+				}
+			}
+		}
+		foreach n [namespace children $namespace] {
+			set res [findSockets $n]
+			set result [concat $result $res]
+		}
 
-
+		return $result
+	}
 
 
 #Aid procs	
