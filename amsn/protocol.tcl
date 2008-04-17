@@ -4674,6 +4674,7 @@ proc cmsn_update_users {sb recv} {
 			}
 			if { [::ChatWindow::For $chatid] == 0 } {
 				::MSN::DelSBFor $chatid $sb
+				::MSN::KillSB $sb
 			}
 
 		}
