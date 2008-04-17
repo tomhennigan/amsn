@@ -2113,6 +2113,12 @@ namespace eval ::guiContactList {
 		lappend balloon_message [string map { "%" "%%" } $psmmedia]
 		lappend balloon_message "$email"
 		lappend balloon_message "[trans status] : [trans [::MSN::stateToDescription $state_code]]"
+		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+			lappend balloon_message "[trans notinlist]"
+		}
+		if {[::abook::getContactData $email webcam_shared] == 1} {
+			lappend balloon_message "[trans shareswebcam]"
+		}	
 		return $balloon_message	
 	}
 
