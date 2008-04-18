@@ -390,3 +390,7 @@ Gabriel Gambetta for his patch to libng that adds support for SN9C10x based webc
 Giuseppe Bottiglieri (Square87) for his numerous patches and plugin development.
 Samuele Diella (Nuitari) for his huge improvements on the skin system
 Eric Enright (eenright) for his patch allowing webcam to work on Solaris systems.
+Wim Taymans and the Gstreamer team for their work on Gstreamer and the rtpmanager.
+Collabora Ltd. and Olivier Crete (a.k.a Tester) for their work on Farsight 2.
+Ole Andre Vadla Ravnas (once again) for his work on OABuild for building the gstreamer/farsight binaries for windows.
+
