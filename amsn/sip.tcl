@@ -1688,7 +1688,6 @@ snit::type Farsight {
 	}
 
 	method PipeReadable { } {
-		status_log "Farsight : Pipe is now readable"
 		if { [eof $pipe] } {
 			status_log "Farsight : got eof"
 			$self Closed
