@@ -4,6 +4,9 @@
 #include <gst/farsight/fs-conference-iface.h>
 #include <gst/farsight/fs-stream-transmitter.h>
 
+#ifdef G_OS_WIN32
+#include <winsock2.h>
+#endif
 
 static GMainLoop *loop;
 
@@ -29,6 +32,18 @@ _local_candidates_prepared (FsStream *stream, gpointer user_data)
 
 }
 
+
+
+static void
+_sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
+{
+
+  g_object_set (sink, 
+	  "sync", FALSE,
+      NULL);
+}
+
+
 static void
 _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
 {
@@ -42,10 +57,8 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
 
   g_assert (sink);
 
-  g_object_set (sink,
-      "sync", TRUE,
-      "async", TRUE,
-      NULL);
+  g_signal_connect (sink, "element-added",
+      G_CALLBACK (_sink_element_added), NULL);
 
   gst_bin_add (GST_BIN (pipeline), sink);
   gst_bin_add (GST_BIN (pipeline), convert);
@@ -86,7 +99,9 @@ stdin_io_cb(GIOChannel *source, GIOCondition condition, gpointer data) {
   FsStream *stream = data;
 
   /* Free what was entered */
-  g_io_channel_read_line (source, &line, &length, &term, &error);
+  if (g_io_channel_read_line (source, &line, &length, &term, &error) != G_IO_STATUS_NORMAL) {
+	g_main_loop_quit(loop);
+  }
   g_free (error);
 
   if (length == 0) {
@@ -252,12 +267,19 @@ int main (int argc, char *argv[]) {
   GstPad *sinkpad = NULL, *srcpad = NULL;
   GIOChannel *ioc = g_io_channel_unix_new (0);
   GParameter transmitter_params[3];
+#ifdef G_OS_WIN32
+  WSADATA w;
+#endif
 
   gst_init (&argc, &argv);
 
   if (argc != 3) {
     return -1;
   }
+
+#ifdef G_OS_WIN32
+  WSAStartup(0x0202, &w);
+#endif
 
   loop = g_main_loop_new (NULL, FALSE);
 
@@ -295,12 +317,19 @@ int main (int argc, char *argv[]) {
   g_object_get (session, "sink-pad", &sinkpad, NULL);
   g_assert (sinkpad != NULL);
 
-  src = gst_element_factory_make ("osxaudiosrc", NULL);
+  src = gst_element_factory_make ("dshowaudiosrc", NULL);
+  if (src == NULL)
+     src = gst_element_factory_make ("directsoundsrc", NULL);
+  if (src == NULL)
+     src = gst_element_factory_make ("osxaudiosrc", NULL);
   if (src == NULL)
      src = gst_element_factory_make ("alsasrc", NULL);
   if (src == NULL)
      src = gst_element_factory_make ("osssrc", NULL);
   g_assert (src != NULL);
+
+  g_object_set(src, "blocksize", 640, NULL);
+  g_object_set(src, "buffer-time", 20000, NULL);
 
   g_assert (gst_bin_add (GST_BIN (pipeline), src));
 
@@ -345,7 +374,7 @@ int main (int argc, char *argv[]) {
 
   transmitter_params[2].name = "stun-timeout";
   g_value_init (&transmitter_params[2].value, G_TYPE_UINT);
-  g_value_set_uint (&transmitter_params[2].value, 15);
+  g_value_set_uint (&transmitter_params[2].value, 10);
 
   //stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH, "rawudp", 0, NULL, &error);
   stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH, "rawudp", 3, transmitter_params, &error);
@@ -379,6 +408,10 @@ int main (int argc, char *argv[]) {
   gst_object_unref (pipeline);
 
   g_main_loop_unref (loop);
+
+#ifdef G_OS_WIN32
+   WSACleanup();
+#endif
 
   return 0;
 }
