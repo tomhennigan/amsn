@@ -108,7 +108,7 @@ bouncedock Faire rebondir l'icone de aMSN dans le dock lorsque vous recevez un m
 brightness Luminosité
 broughtby Développé pour vous par
 browse Parcourir
-browserexample (\$url sera remplacée par l'URL) Ex: mozilla \$url
+browserexample (\$url sera remplacée par l'URL) Ex: firefox \$url
 browser Navigateur web
 bugerror Nous sommes désolés, mais il y a eu un problème lors de la connexion à la base de données des bogues. Merci de véifier votre connexion internet.
 bugnocomment Envoyer sans commentaire ? Mettre des commentaires nous aide à mieux comprendre ce qui c'est passé et donc à résoudre le problème plus facilement.
