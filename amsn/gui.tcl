@@ -1712,6 +1712,8 @@ namespace eval ::amsn {
 		WinWriteClickable $chatid "[trans reject]" [list ::amsn::DeclineSIPCall $chatid $sip $callid] sipno$callid
 		WinWrite $chatid ")\n" green
 		WinWriteIcon $chatid greyline 3
+		# The phone is ringing!!
+		play_sound ring.wav
 	}
 
 	proc AcceptSIPCall { chatid sip callid } {
@@ -1786,6 +1788,8 @@ namespace eval ::amsn {
 		WinWriteClickable $chatid "[trans hangup]" [list ::amsn::CancelSIPCall $chatid $sip $callid] siphangup$callid
 		WinWrite $chatid ")\n" green
 		WinWriteIcon $chatid greyline 3
+		# Can be weird to ring the phone there, but i think it's useful
+		play_sound ring.wav
 	}
 
 	proc SIPCallEnded {chatid sip callid } {
