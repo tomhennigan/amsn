@@ -78,8 +78,8 @@ autolisten_voiceclips Reproducir clips de voz recibidos automáticamente
 automessage Mensaje automático
 autonoact Mostrarme como "Sin actividad" cuando no hay actividad en
 autoresizedp Redimensionar automáticamente la imagen al tamaño predeterminado
-avaccepted Aceptada llamada para videoconferencia
-avcanceled Cancelada llamada para videoconferencia
+avaccepted Aceptada la llamada para videoconferencia
+avcanceled Rechazada la llamada para videoconferencia
 avgotinvitation Recibida invitación para videoconferencia de $1
 avinitfailed Fallo en la inicialización del plug-in de Audio/Video. Llamada cancelada.
 avoidseen Evitar que esta persona vea tu conexión y te contacte
@@ -422,6 +422,7 @@ grouprename Cambiar nombre a grupo
 groups Grupos
 groupunknown Grupo desconocido
 handle Apodo
+hangup Colgar
 havenomic No tengo micrófono
 help Ayuda
 helpcontents Temas de ayuda
@@ -783,6 +784,7 @@ sendmail Enviar correo electrónico
 sendmobmsg Enviar a dispositivo móvil
 sendmsg Enviar mensaje
 sendoim Enviar un mensaje sin conexión
+sendsip Iniciar una llamada de audio
 sendvoice Enviar un Clip de Voz
 sendwebcamaccepted $1 aceptó tu invitación para enviar tu cámara web. Conectando...
 sendwebcaminvite Invitar al usuario a ver tu cámara web
@@ -813,6 +815,24 @@ showonedpframe Mostrar un único marco con la imagen para mostrar en las ventana
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
 showuserpic Imagen de $1
 signinstatus Estado inicial
+sipcallaccepted Llamada de audio aceptada
+sipcallback Devolver la llamada
+sipcalldeclined Llamada de audio rechazada
+sipcalleeaccepted El usuario aceptó la llamada de audio
+sipcalleebusy El usuario se encuentra en estado "No disponible" en estos momentos
+sipcalleecanceled El usuario ha cancelado la invitación de llamada de audio
+sipcalleeclosed El usuario ha finalizado la llamada de audio
+sipcalleedeclined El usuario ha rechazado la invitación de llamada de audio
+sipcalleenoanswer El usuario no respondió a tu llamada
+sipcalleeunavailable El usuario no se encuentra disponible en estos momentos
+sipcallended Ha finalizado tu llamada
+sipcallimpossible No puedes realizar una llamada de audio. Por favor, instala Farsight2 e inténtalo de nuevo.
+sipcallmissed Perdiste tu llamada de audio con $1
+sipcallnosipflag El usuario no soporta llamadas de audio.
+sipcallsent Llamando a $1
+sipcallunsupported Has recibido una invitación de llamada de audio que actualmente no está soportada. Puedes devolver la llamada con una nueva invitación. La llamada de audio entonces funcionará
+sipcallyouarebusy Sólo puedes tener una llamada de audio a la vez.
+sipgotinvitation Invitación de llamada de audio recibida de $1
 skinselector Elegir tema (skin)
 skin Tema (skin)
 smallest El más pequeño
