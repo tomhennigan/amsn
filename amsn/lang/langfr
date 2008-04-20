@@ -784,7 +784,7 @@ sendmail Envoyer un courrier
 sendmobmsg Envoyer un message au mobile
 sendmsg Envoyer un message
 sendoim Envoyer un message différé
-sendsip Engager un appel audio
+sendsip Démarrer un appel audio
 sendvoice Envoyer un message vocal
 sendwebcamaccepted $1 a accepté votre invitation pour voir votre webcam. Connexion en cours.
 sendwebcaminvite Inviter un contact à voir votre webcam
@@ -827,12 +827,12 @@ sipcalleenoanswer Votre contact n'a pas répondu à votre appel
 sipcalleeunavailable Votre contact n'est pas disponible pour le moment
 sipcallended L'appel audio est terminé
 sipcallimpossible Vous ne pouvez pas effectuer d'appels audio. Veuillez installer Farsight2 et ressayer.
-sipcallmissed You avez raté un appel audio de $1
+sipcallmissed Vous avez manqué un appel audio de $1
 sipcallnosipflag Votre contact ne peut pas recevoir d'appels audio.
 sipcallsent Appel de $1 en cours
-sipcallunsupported: You have received an Audio Call invitation that is not currently supported. You may call back with a new invitation. The Audio Call will then work
+sipcallunsupported Vous avez reçu une invitation pour un appel audio qui n'est pas encore pris en charge. Vous pouvez rappeler votre contact avec une nouvelle invitation. L'appel audio fonctionnera à ce moment.
 sipcallyouarebusy Vous ne pouvez avoir qu'une conversation audio à la fois.
-sipgotinvitation: Received Audio Call invitation from $1
+sipgotinvitation Invitation pour un appel audio reçue de la part de $1
 skin apparence
 skinselector Changer l'apparence
 smallest Plus petit
