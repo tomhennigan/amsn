@@ -422,6 +422,7 @@ grouprename Öbeði yeniden isimlendir
 groups Öbekler
 groupunknown Bilinmeyen öbek
 handle Ýsim
+hangup Sesli aramayý bitir
 havenomic Mikrofonum yok
 help Yardým
 helpcontents Yardým içeriði
@@ -783,6 +784,7 @@ sendmail E-posta iletisi gönder
 sendmobmsg Taþýnabilir aygýta gönder
 sendmsg Sohbet et
 sendoim Çevrim dýþý ileti gönder
+sendsip Sesli aramayý baþlat
 sendvoice Ses kaydý gönder
 sendwebcamaccepted $1 kamera görüntünüzü gönderme isteðinizi kabul etti. Baðlantý kuruluyor...
 sendwebcaminvite Kullanýcýyý kameranýzý izlemeye davet edin
@@ -813,6 +815,25 @@ showonedpframe Sohbet pencerelerinde bir tek kullanýcý resmi çerçevesi olsun
 showpicnotify Uyarý pencerelerinde kullanýcý resimleri gözüksün
 showuserpic $1 kullanýcýsýnýn resmi
 signinstatus Baðlanma þekli:
+sipcallaccepted Sesli arama kabul edildi
+sipcallback Geri ara
+sipcalldeclined Sesli arama reddedildi
+sipcalleeaccepted Kullanýcý sesli aramanýzý kabul etti
+sipcalleebusy Kullanýcý þu an meþgul
+sipcalleecanceled Kullanýcý sesli arama davetini iptal etti
+sipcalleeclosed Kullanýcý sesli aramayý bitirdi
+sipcalleedeclined Kullanýcý sesli arama davetinizi reddetti
+sipcalleenoanswer Kullanýcý aramanýza yanýt vermedi
+sipcalleeunavailable Kullanýcýya þu an ulaþýlamýyor
+sipcallended Sesli aramanýz sona erdi
+sipcallimpossible Sesli arama yapamazsýnýz. Lütfen Farsight2'yi kurup tekrar deneyin.
+sipcallmissed $1 kullanýcýsýndan gelen bir sesli aramayý kaçýrdýnýz
+sipcallnosipflag Kullanýcý sesli arama yapamýyor.
+sipcallsent $1 aranýyor
+sipcallunsupported Henüz desteklenmeyen bir sesli arama daveti aldýnýz. Geri arama ile yeni bir davet gönderip konuþabilirsiniz.
+sipcallyouarebusy Bir anda tek bir sesli arama yapabilirsiniz
+sipgotinvitation $1 kullanýcýsýndan sesli arama daveti aldýnýz
+smileynotavailable Gülen adam bulunmuyor!
 skin Kabuk
 skinselector Kabuk Seç
 small Küçük
