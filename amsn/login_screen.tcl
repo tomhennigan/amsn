@@ -105,7 +105,7 @@ snit::widgetadaptor loginscreen {
 		set user_field_tag [$self create window 0 0 -anchor nw -window $user_field]
 		# Password
 		set pass_label_tag [$self create text 0 0 -anchor nw -text "[trans pass]:" -fill [::skin::getKey loginfg]]
-		set pass_field [entry $self.pass -show "*" -relief solid -width 25 -vcmd {expr {[string length %P] <= 16} } -validate key -background [::skin::getKey loginwidgetbg]]
+		set pass_field [entry $self.pass -show "*" -relief solid -width 25 -vcmd {expr {[string length %P] <= 40} } -validate key -background [::skin::getKey loginwidgetbg]]
 		set pass_field_tag [$self create window 0 0 -anchor nw -window $pass_field]
 		# Status
 		set status_label_tag [$self create text 0 0 -anchor nw -text "[trans signinstatus]:" -fill [::skin::getKey loginfg]]
