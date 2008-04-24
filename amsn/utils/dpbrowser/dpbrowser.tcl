@@ -475,7 +475,7 @@ snit::widget dpbrowser {
 			;#with -force we can overwrite the new *.dat file, with the old one. So we can have the original date of when we downloaded it.
 			;# we are sure that *.dat exists, while *.png cound not exist
 			file copy -force $dat $dir
-			catch { file copy "[filenoext $dat].png" $dir
+			catch { file copy "[filenoext $dat].png" $dir }
 			file delete $dat
 			catch { file delete "[filenoext $dat].png" }
 
