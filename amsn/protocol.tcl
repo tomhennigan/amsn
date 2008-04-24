@@ -5018,7 +5018,7 @@ proc cmsn_change_state {recv} {
 		} else {
 			status_log "picture changed for user $user\n" white
 
-			if { [file readable "[file join $HOME displaypic cache ${newPic}].png"] } {
+			if { [file readable "[file join $HOME displaypic cache $user ${newPic}].png"] } {
 				#it's possible that the user set again a DP that we already have in our cache so just load it again, even if we are HDN, or the user is blocked.
 				::MSNP2P::loadUserPic "" $user
 			} elseif { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN" &&

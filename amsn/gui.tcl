@@ -7560,7 +7560,7 @@ proc dpBrowser { {target_user "self" } } {
 			set image_name [::abook::getContactData $target_user displaypicfile ""]
 		}
 		if {$image_name != ""} {
-			set selected_path [file join $HOME displaypic cache [filenoext $image_name].png]
+			set selected_path [file join $HOME displaypic cache $target_user [filenoext $image_name].png]
 		} else {
 			set selected_path ""
 		}

@@ -128,7 +128,8 @@ snit::widget dpbrowser {
 				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] "self"]]
 			}
 			if {$email_list != ""} {
-				set cached_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat] $email_list]]
+				$self OrderDPs [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
+				set cached_dps [lsort -index 1 -decreasing [$self getOrderedDpsList $email_list]]	
 			}
 						
 			set dps [concat $shipped_dps $user_dps $cached_dps]
@@ -144,10 +145,10 @@ snit::widget dpbrowser {
 				set image_name [::abook::getContactData $email displaypicfile ""]
 				set custom_image_name [::abook::getContactData $email customdp ""]
 				if {$image_name != ""} {
-					lappend pics_in_use [file join $HOME displaypic cache [filenoext $image_name].png]
+					lappend pics_in_use [file join $HOME displaypic cache $email [filenoext $image_name].png]
 				}
 				if { $custom_image_name != "" && $custom_image_name != $image_name } {
-					lappend pics_in_use [file join $HOME displaypic cache [filenoext $custom_image_name].png]
+					lappend pics_in_use [file join $HOME displaypic cache $email [filenoext $custom_image_name].png]
 				}
 			}
 			set pics_in_use [lsort -unique $pics_in_use]
@@ -448,6 +449,73 @@ snit::widget dpbrowser {
 		} else {
 			set selected [list $i $filepath]
 		}
+	}
+
+
+	# This method is used to move dps that there are in "displaypic cache" in "displaypic cache $email"
+	# This method is called everytime we show the dp_browser, but only the first time it (should) order(s) all DPs.
+	method OrderDPs { dat_list {isShipped 0} } {
+		global HOME
+		foreach dat $dat_list {
+			if {$isShipped} {
+				set file [::skin::GetSkinFile displaypic [file tail $dat]]
+			} else {
+				set file $dat
+			}
+			
+			set fd [open $file]
+			#first line is date or name (for shipped dps)
+			#second line is id of the user or filename for shipped dps
+			set date [gets $fd]
+			set id [gets $fd]
+			close $fd
+
+			set dir [file join $HOME displaypic cache $id]
+			create_dir $dir
+			;#with -force we can overwrite the new *.dat file, with the old one. So we can have the original date of when we downloaded it.
+			;# we are sure that *.dat exists, while *.png cound not exist
+			file copy -force $dat $dir
+			catch { file copy "[filenoext $dat].png" $dir
+			file delete $dat
+			catch { file delete "[filenoext $dat].png" }
+
+		}
+	}
+
+	# Return the list of the dps for a list of users
+	method getOrderedDpsList { email_list {isShipped 0}} {
+		global HOME
+		set dps_list ""
+		foreach email $email_list {
+
+			set dat_list [glob -nocomplain -directory [file join $HOME displaypic cache $email] *.dat]
+
+			foreach dat $dat_list {
+				if {$isShipped} {
+					set file [::skin::GetSkinFile displaypic [file tail $dat]]
+				} else {
+					set file $dat
+				}
+
+				set fd [open $file]
+				#first line is date or name (for shipped dps)
+				#second line is id of the user or filename for shipped dps
+				set date [gets $fd]
+				set id [gets $fd]
+				close $fd
+				
+				if {$email_list == "self" || ([lsearch -sorted $email_list $id] != -1)} {
+					set found_match 1
+				} else {
+					set found_match 0
+				}
+				if {$found_match != $options(-invertmatch)} {
+					set readable_date [$self convertdate $date]
+					lappend dps_list [list $file $date $readable_date]
+				}
+			}
+		}
+		return $dps_list
 	}
 
 	# Return the list of the dps for a list of users

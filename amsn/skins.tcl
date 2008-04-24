@@ -252,7 +252,7 @@ namespace eval ::skin {
 			set file $filename
 		} else {
 			set filename [::abook::getContactData $email displaypicfile ""]
-			set file "[file join $HOME displaypic cache ${filename}].png"
+			set file "[file join $HOME displaypic cache $email ${filename}].png"
 		}
 		
 		if { $filename != "" && [file readable "$file"] } {
@@ -315,7 +315,7 @@ namespace eval ::skin {
 			set file $filename
 		} else {
 			set filename [::abook::getContactData $email displaypicfile ""]
-			set file "[file join $HOME displaypic cache ${filename}].png"
+			set file "[file join $HOME displaypic cache $email ${filename}].png"
 		}
 		
 		if { $filename != "" && [file readable $file] } {

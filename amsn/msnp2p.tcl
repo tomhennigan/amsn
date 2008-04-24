@@ -159,8 +159,8 @@ namespace eval ::MSNP2P {
 		#Destroy it before to avoid TkCxImage to redraw animated gif above the good display pic
 		#TODO: FIX: I think the next line is incorrect, did you want image delete? (be careful if there are images on the screen)
 		destroy user_pic_$user
-		if { ![file readable "[file join $HOME displaypic cache ${filename}].png"] || $reload == "1" } {
-			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache ${filename}] doesn't exist!!\n" white
+		if { ![file readable "[file join $HOME displaypic cache $user ${filename}].png"] || $reload == "1" } {
+			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache $user ${filename}] doesn't exist!!\n" white
 			image create photo user_pic_$user -file [::skin::GetSkinFile "displaypic" "loading.gif"] -format cximage
 
 
@@ -185,9 +185,9 @@ namespace eval ::MSNP2P {
 				::plugins::PostEvent ChangeDP evPar
 			}				
 			
-
 			create_dir [file join $HOME displaypic]
 			create_dir [file join $HOME displaypic cache]
+			create_dir [file join $HOME displaypic cache $user]
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
 			::skin::getDisplayPicture $user 1
@@ -1053,7 +1053,7 @@ namespace eval ::MSNP2P {
 							::skin::getDisplayPicture $user_login 1
 							::amsn::UpdateAllPictures
 
-							set desc_file "[file join $HOME displaypic cache ${filename}.dat]"
+							set desc_file "[file join $HOME displaypic cache $user_login ${filename}.dat]"
 							create_dir [file join $HOME displaypic]
 							set fd [open [file join $HOME displaypic $desc_file] w]
 							status_log "Writing description to $desc_file\n"
@@ -1124,7 +1124,8 @@ namespace eval ::MSNP2P {
 				if {$type == "bicon" } {
 					if { $filename == $filename2 } {
 						create_dir [file join $HOME displaypic cache]
-						set fd [open "[file join $HOME displaypic cache ${filename}.png]" w]
+						create_dir [file join $HOME displaypic cache $user_login]
+						set fd [open "[file join $HOME displaypic cache $user_login ${filename}.png]" w]
 					} else {
 						create_dir [file join $HOME smileys cache]
 						set fd [open "[file join $HOME smileys cache ${filename}.png]" w]
