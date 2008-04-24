@@ -3439,8 +3439,28 @@ namespace eval ::CAMGUI {
 
 	proc saveToImageStep2  { w } {
 		set img ${w}_img
-		
-		set filename [tk_getSaveFile -filetypes {{"PNG files" .png}}]
+
+		set imgFormat [ set ::${w}_saveToImageFormat ]
+		switch -- $imgFormat {
+			"cxgif" {
+				set type { {"GIF Files" .gif} }
+			}
+			"cxpng" {
+				set type { {"PNG Files" .png} }
+			}
+			"cxjpg" {
+				set type { {"JPEG Files" .jpg} }
+			}
+			"cxtga" {
+				set type { {"TGA Files" .tga} }
+			}
+			default {
+				set type [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.jpeg *.JPEG *.bmp *.BMP *.png *.PNG]]]
+			}
+		}
+
+		set filename [tk_getSaveFile -filetypes $type]
+
 		if { $filename != "" } {
 			$img write $filename -format [set ::${w}_saveToImageFormat]
 		}

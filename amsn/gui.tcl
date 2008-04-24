@@ -7748,7 +7748,7 @@ proc chooseFileDialog { {initialfile ""} {title ""} {parent ""} {entry ""} {oper
 
 proc pictureChooseFile { target } {
 
-	set file [chooseFileDialog "" "" "" "" open [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
+	set file [chooseFileDialog "" "" "" "" open [list [list [trans imagefiles] [list *.gif *.GIF *.jpg *.JPG *.jpeg *.JPEG *.bmp *.BMP *.png *.PNG]] [list [trans allfiles] *]]]
 	setDPFromFile $target $file
 
 }
