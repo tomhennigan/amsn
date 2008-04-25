@@ -101,7 +101,7 @@ snit::widget dpbrowser {
 					set shipped_dp_list $default_dps
 				}
 
-				set shipped_dps [lsort -index 1 [$self getDpsList $shipped_dp_list "self" 1]]
+				set shipped_dps [lsort -index 1 [$self getMyDpsList $shipped_dp_list 1]]
 				set shipped_dps [linsert $shipped_dps 0 [list "" "nopic" "[trans nopic]"]]
 
 				# Delete dat files for non-existing png files
@@ -125,11 +125,11 @@ snit::widget dpbrowser {
 						close $fd
 					}
 				}
-				set user_dps [lsort -index 1 -decreasing [$self getDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat] "self"]]
+				set user_dps [lsort -index 1 -decreasing [$self getMyDpsList [glob -nocomplain -directory [file join $HOME displaypic] *.dat]]]
 			}
 			if {$email_list != ""} {
-				$self OrderDPs [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
-				set cached_dps [lsort -index 1 -decreasing [$self getOrderedDpsList $email_list]]	
+				$self OrderDPs
+				set cached_dps [lsort -index 1 -decreasing [$self getDpsList $email_list]]
 			}
 						
 			set dps [concat $shipped_dps $user_dps $cached_dps]
@@ -452,18 +452,16 @@ snit::widget dpbrowser {
 	}
 
 
-	# This method is used to move dps that there are in "displaypic cache" in "displaypic cache $email"
-	# This method is called everytime we show the dp_browser, but only the first time it (should) order(s) all DPs.
-	method OrderDPs { dat_list {isShipped 0} } {
+	# This proc is used to move dps that there are in "displaypic cache" in "displaypic cache $email"
+	# This proc is called everytime we show the dp_browser, but only the first time it (should) order(s) all DPs.
+	method OrderDPs {} {
 		global HOME
-		foreach dat $dat_list {
-			if {$isShipped} {
-				set file [::skin::GetSkinFile displaypic [file tail $dat]]
-			} else {
-				set file $dat
-			}
+
+ 		set dat_list [glob -nocomplain -directory [file join $HOME displaypic cache] *.dat]
+
+		foreach dat_file $dat_list {
 			
-			set fd [open $file]
+			set fd [open $dat_file]
 			#first line is date or name (for shipped dps)
 			#second line is id of the user or filename for shipped dps
 			set date [gets $fd]
@@ -472,54 +470,38 @@ snit::widget dpbrowser {
 
 			set dir [file join $HOME displaypic cache $id]
 			create_dir $dir
-			;#with -force we can overwrite the new *.dat file, with the old one. So we can have the original date of when we downloaded it.
 			;# we are sure that *.dat exists, while *.png cound not exist
-			file copy -force $dat $dir
-			catch { file copy "[filenoext $dat].png" $dir }
-			file delete $dat
-			catch { file delete "[filenoext $dat].png" }
+			catch { file rename -force $dat_file $dir }
+			catch { file rename -force "[filenoext $dat_file].png" $dir }
 
 		}
 	}
 
 	# Return the list of the dps for a list of users
-	method getOrderedDpsList { email_list {isShipped 0}} {
+	method getDpsList { email_list } {
 		global HOME
 		set dps_list ""
 		foreach email $email_list {
 
 			set dat_list [glob -nocomplain -directory [file join $HOME displaypic cache $email] *.dat]
 
-			foreach dat $dat_list {
-				if {$isShipped} {
-					set file [::skin::GetSkinFile displaypic [file tail $dat]]
-				} else {
-					set file $dat
-				}
-
-				set fd [open $file]
+			foreach dat_file $dat_list {
+				set fd [open $dat_file]
 				#first line is date or name (for shipped dps)
 				#second line is id of the user or filename for shipped dps
 				set date [gets $fd]
 				set id [gets $fd]
 				close $fd
 				
-				if {$email_list == "self" || ([lsearch -sorted $email_list $id] != -1)} {
-					set found_match 1
-				} else {
-					set found_match 0
-				}
-				if {$found_match != $options(-invertmatch)} {
-					set readable_date [$self convertdate $date]
-					lappend dps_list [list $file $date $readable_date]
-				}
+				set readable_date [$self convertdate $date]
+				lappend dps_list [list $dat_file $date $readable_date]
 			}
 		}
 		return $dps_list
 	}
 
-	# Return the list of the dps for a list of users
-	method getDpsList { dat_list email_list {isShipped 0} } {
+	# Return the list of our dps.
+	method getMyDpsList { dat_list {isShipped 0} } {
 		set dps_list ""
 		foreach dat $dat_list {
 			if {$isShipped} {
@@ -535,15 +517,8 @@ snit::widget dpbrowser {
 			set id [gets $fd]
 			close $fd
 			
-			if {$email_list == "self" || ([lsearch -sorted $email_list $id] != -1)} {
-				set found_match 1
-			} else {
-				set found_match 0
-			}
-			if {$found_match != $options(-invertmatch)} {
-				set readable_date [$self convertdate $date]
-				lappend dps_list [list $file $date $readable_date]
-			}
+			set readable_date [$self convertdate $date]
+			lappend dps_list [list $file $date $readable_date]
 		}
 		return $dps_list
 	}
@@ -593,7 +568,15 @@ snit::widget dpbrowser {
 		}
 		$the_menu add command -label "[trans setasmydp]" \
 			-command [list set_displaypic $filename]
+		$the_menu add command -label "[trans save]" \
+			-command [list $self saveFile $filename]
 		tk_popup $the_menu $X $Y
+	}
+
+	method saveFile {filename} {
+		set name [file tail $filename]
+		set newfilename [chooseFileDialog "$name" "[trans save]" "" "" save]
+		catch {file copy $filename $newfilename}
 	}
 
 	# Delete a dp from the hard disk
