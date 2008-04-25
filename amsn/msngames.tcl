@@ -4,9 +4,6 @@
 ## written by Mirko Hansen (BaaaZen)             ##
 ###################################################
 
-# TODO:
-#	- implement reflector communication
-
 namespace eval ::MSNGames {
 	proc IncomingGameRequest {chatid dest branchuid cseq uid sid context} {
 		set gameinfo [split $context ";"]
@@ -65,6 +62,7 @@ namespace eval ::MSNGames {
 		setObjOption $sid chatid $chatid
 		setObjOption $sid reflector 0
 		setObjOption $sid appid $appId
+		setObjOption $sid completeappid "$localecode$appId"
 
 		::MSNGamesGUI::InvitationSent $chatid $sid $appId $gameName
 
@@ -83,8 +81,9 @@ namespace eval ::MSNGames {
 		set callid [lindex $session 5]
 		set dest [lindex $session 3]
 		set conntype [abook::getDemographicField conntype]
-
+		
 		set listening [abook::getDemographicField listening]
+		#set listening "false"
 
 		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "INVITE2" -1 -1 -1 -1 -1]
 
@@ -104,10 +103,20 @@ namespace eval ::MSNGames {
 			set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 1 $callid 0 2 "TCPv1" "$listening" "$nonce" "$clientip"\
 					 "$port" "$localip" "$port"]
 			::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
-				#after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
+			after 5000 "::MSNGames::ReflectorConnection $sid [getObjOption $sid chatid]"
 		} else {
-			#after 5000 "::MSNP2P::SendDataFile $sid $chatid [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
+			after 5000 "::MSNGames::ReflectorConnection $sid [getObjOption $sid chatid]"
 		}
+	}
+	
+	proc ReflectorConnection {sid chatid} {
+		if {[getObjOption $sid directconnection 0] == 1} {
+			return
+		}
+		
+		status_log "no direct connection -> using reflector!" blue
+		setObjOption $sid reflector 1
+		startGame $sid
 	}
 
 	proc SendAcceptInvite {sid chatid} {
@@ -141,8 +150,9 @@ namespace eval ::MSNGames {
 	proc AcceptGame {chatid dest branchuid cseq uid sid gameinfo} {
 		setObjOption $sid inviter 0
 		setObjOption $sid chatid $chatid
-		setObjOption $sid reflector 0
+		setObjOption $sid reflector 1
 		setObjOption $sid appid [string range [lindex $gameinfo 0] [expr [string length [lindex $gameinfo 0]] - 4] end]
+		setObjOption $sid completeappid [lindex $gameinfo 0]
 
 		# Let's make and send a 200 OK Message
 		set slpdata [::MSNP2P::MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
@@ -165,6 +175,7 @@ namespace eval ::MSNGames {
 		set callid [lindex $session 5]
 
 		set listening [abook::getDemographicField listening]
+		#set listening "false"
 
 		if {$listening == "true" } {
 				set nonce "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
@@ -218,11 +229,11 @@ namespace eval ::MSNGames {
 
 	proc OpenGamePort {port nonce sid sending} {
 		while { [catch {set sock [socket -server "::MSNGames::handleGamePort $nonce $sid $sending" $port] } ] } {
-				incr port
+			incr port
 		}
 		
-		# TODO the server socket should be closed as soon as the user authenticated or whatever...
-		#after 300000 "catch {close $sock}"
+		# close server socket after 5 minutes
+		after 300000 "catch {close $sock}"
 
 		status_log "Opening server on port $port for games\n" red
 		return $port
@@ -264,11 +275,10 @@ namespace eval ::MSNGames {
 		set ips [getObjOption $sid ips]
 		set connected_ips [getObjOption $sid connected_ips]
 		status_log "we have $ips connecting sockets and $connected_ips connected sockets\n" red
-		#TODO: use SB for communication!
-#		after 5000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
+
+		after 5000 "::MSNGames::ReflectorConnection $sid [getObjOption $sid chatid]"
 		if { [llength $ips] == 0 && [llength $connected_ips] == 0 } {
 			status_log "No socket was connected\n" red
-			#after 5000 "::MSNP2P::SendDataFile $sid [getObjOption $sid chatid] [list [lindex [::MSNP2P::SessionList get $sid] 8]] \"INVITE2\""
 		}
 	}
 
@@ -372,7 +382,6 @@ namespace eval ::MSNGames {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red
 			return 0
 		} else {
-			setObjOption $sid sock $sock
 			setObjOption $sock nonce $nonce
 			setObjOption $sock state "FOO"
 			setObjOption $sock server 0
@@ -387,6 +396,7 @@ namespace eval ::MSNGames {
 
 	proc handleGamePort {nonce sid sending sock ip port} {
 		setObjOption $sid sending $sending
+		setObjOption $sid reflector 0
 		setObjOption $sid sock $sock
 		setObjOption $sock nonce $nonce
 		setObjOption $sock state "FOO"
@@ -398,8 +408,6 @@ namespace eval ::MSNGames {
 		status_log "Received game connection from $ip on port $port - socket $sock\n"
 
 		fileevent $sock readable "::MSNGames::handleReadPort $sock"
-		#fileevent $sock writable "::MSNGames::handleWritePort $sock"
-
 		fconfigure $sock -blocking 0 -buffering none -translation {binary binary}
 	}
 
@@ -469,12 +477,6 @@ namespace eval ::MSNGames {
 	
 			#status_log "READ data = $data SOCKstate = [getObjOption $sock state]" green
 			
-			#other client seems to be WLM that doesn't send foo as handshake
-			#if { $server && $state == "FOO" && $data != "foo\x00" } {
-			#	setObjOption $sid wlmhandshake 1
-			#	set state "CONNECTED"
-			#}
-			
 			switch -- $state {
 				"FOO"
 				{
@@ -487,13 +489,13 @@ namespace eval ::MSNGames {
 				{
 					set nonce [getObjOption $sock nonce]
 					if { $nonce == [GetNonceFromData $data] } {
-						#::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "DATASEND" -1 -1 -1 -1 -1]
-	
 						if { $server } {
 							setObjOption $sock state "NONCE_SEND"
 							fileevent $sock writable "::MSNGames::handleWritePort $sock"
 						} else {
 							setObjOption $sock state "CONNECTED"
+							setObjOption $sid directconnection 1
+							setObjOption $sid reflector 0
 							startGame $sid
 						}
 					}
@@ -552,17 +554,6 @@ namespace eval ::MSNGames {
 			"FOO"			
 			{
 				if { $server == 0 } {
-					#set session [::MSNP2P::SessionList get $sid]
-					#set user_login [lindex $session 3]
-					#set callid [lindex $session 5]
-					#set context [lindex $session 8]
-					#set branchid [lindex $session 9]
-
-					#setObjOption $sock state "CONNECTED"
-					#setObjOption $sid wlmhandshake 1
-					#SendData $sid [::MSNP2P::MakeMSNSLP "INVITE" $user_login [::config::getKey login] $branchid 0 $callid 0 0 \
-					#	"6A13AF9C-5308-4F35-923A-67E8DDA40C2F" $sid $appId [string map { "\n" "" } [::base64::encode "$context"]]] 0
-					
 					set data "foo\x00"
 					setObjOption $sock state "NONCE_SEND"
 					fileevent $sock writable "::MSNGames::handleWritePort $sock"
@@ -595,37 +586,12 @@ namespace eval ::MSNGames {
 			puts -nonewline $sock "[binary format i [string length $data]]$data"
 		}
 		if {$startgame == 1} {
+			setObjOption $sid directconnection 1
+			setObjOption $sid reflector 0
 			startGame $sid
 		}
 	}
 	
-	proc handleHandshake {sid message type} {
-		set cSid [$message cget -sessionid]
-		set cId [$message cget -identifier]
-		set cOffset [$message cget -offset]
-		set cTotalDataSize [$message cget -totalsize]
-		set cMsgSize [$message cget -datalength]
-		set cFlags [$message cget -flag]
-		set cAckId [$message cget -ackid]
-		set cAckUID [$message cget -ackuid]
-		set cAckSize [$message cget -acksize]
-		set data [$message getBody]
-
-		#send ACK
-		enqueueOutBuffer $sock [buildACK $sid $cTotalDataSize $cId $cAckId 0]
-		
-		if {$type == 0} {
-			#incoming INVITE -> send OK
-			SendData $sid [::MSNP2P::MakeMSNSLP "OK" $user_login [::config::getKey login] $branchid 0 $callid 0 0 \
-				"$sid\r\nSChannelState: 0\r\nCapabilities-Flags: 1"]
-		} elseif {$type == 1} {
-			#incoming OK
-		}
-			
-		setObjOption $sid wlmhandshake 2
-		startGame $sid
-	}
-
 	proc GetNonceFromData {data} {
 		set bnonce [string range $data 32 end]
 		binary scan $bnonce H2H2H2H2H2H2H2H2H4H* n1 n2 n3 n4 n5 n6 n7 n8 n9 n10
@@ -658,10 +624,6 @@ namespace eval ::MSNGames {
 		set data "[binary format iiiiiiii 0 $MsgId 0 0 0 0 0 256]$bnonce"
 		incr MsgId
 
-		status_log "Data blob ID is set to $MsgId\n" red
-
-		# Set the blob id of the current data to send
-		setObjOption $sid data_blob_id $MsgId
 		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
 
 		return $data
@@ -672,7 +634,7 @@ namespace eval ::MSNGames {
 		if {$cFlags == 0} {
 			handleMessage $message $chatid
 		} else {
-			status_log "!!!WARNING!!! cFlags = $cFlags ... not yet handled" red
+			status_log "MSNGames - handleIncoming: !!!WARNING!!! cFlags = $cFlags ... not yet handled" red
 		}
 	}
 	
@@ -682,29 +644,27 @@ namespace eval ::MSNGames {
 			return
 		}
 		
-		set sock [getObjOption $cSid sock 0]
-		if {$sock == 0} {
-			return
-		}
-
-		set waitACK [getObjOption $sock waitack 0]
-		set byeACK [getObjOption $sock byeack 0]
+		set waitACK [getObjOption $cSid waitack 0]
+		set byeACK [getObjOption $cSid byeack 0]
 		status_log "MSNGames - handleACK: byeACK = $byeACK" blue
 		status_log "MSNGames - handleACK: waitACK = $waitACK" blue
 		status_log "MSNGames - handleACK: cAckId = $cAckId" blue
 		
 		if {$byeACK == $cAckId} {
 			#close connection
-			setObjOption $sock state "END"
-			setObjOption $cSid sock 0
-			catch { close $sock }
+			if {[getObjOption $cSid reflector 0] == 0} {
+				set sock [getObjOption $cSid sock 0]
+				setObjOption $sock state "END"
+				setObjOption $cSid sock 0
+				catch { close $sock }
+			}
 
 			set ips [getObjOption $cSid ips]
 			setObjOption $cSid ips [::MSNCAM::RemoveSocketFromList $ips $sock]
 
 			CloseUnusedSockets $cSid ""
 		} elseif {$waitACK == $cAckId} {
-			dequeueOutBuffer $sock 1
+			dequeueOutBuffer $cSid 1
 		}
 	}
 	
@@ -724,12 +684,28 @@ namespace eval ::MSNGames {
 			return
 		}
 		
+		#trim message (reflector communication has footer after data!)
+		set data [string range $data 0 [expr $cMsgSize - 1]]
+		
+		set firstMessage [getObjOption $cSid firstMessage 1]
+		set reflector [getObjOption $cSid reflector 0]
+		
 		set sock [getObjOption $cSid sock 0]
 		if {$sock == 0} {
-			return
+			if {$firstMessage == 1} {
+				setObjOption $cSid reflector 1
+				set reflector 1
+				if {[getObjOption $cSid gamestarted 0] == 0} {
+					startGame $cSid
+				}
+			}
+			
+			if {$reflector != 1} {
+				return
+			}
 		}
 		
-		status_log "MSNGames-handleMessage: received message with cId = $cId" blue
+		status_log "MSNGames - handleMessage: received message with cId = $cId" blue
 		
 		#send ACK
 		if {[expr $cOffset + $cMsgSize] < $cTotalDataSize} {
@@ -738,14 +714,14 @@ namespace eval ::MSNGames {
 			
 			return
 		} else {
-			enqueueOutBuffer $sock [buildACK $cSid $cTotalDataSize $cId $cAckId]
+			enqueueOutBuffer $cSid [buildACK $cSid $cTotalDataSize $cId $cAckId]
 			if {$cMsgSize < $cTotalDataSize} {
 				set data [getObjOption $cSid buffereddata ""]$data
 				setObjOption $cSid buffereddata ""
 			}
 		}
-		status_log "MSNGames-handleMessage: send ACK with cId = $cId" blue
-		status_log "MSNGames-handleMessage: cMsgSize = $cMsgSize" blue
+		status_log "MSNGames - handleMessage: send ACK with cId = $cId" blue
+		status_log "MSNGames - handleMessage: cMsgSize = $cMsgSize" blue
 
 		if {![::MSNGamesInterface::getSetting $cSid opponentready 0] && $cMsgSize == 4} {
 			#opponent is ready
@@ -760,14 +736,8 @@ namespace eval ::MSNGames {
 			return
 		}
 		
-		set sock [getObjOption $sid sock 0]
-		if {$sock == 0} {
-			return
-		}
-
 		#send data
-		#puts -nonewline $sock [buildPackage $sid $data]
-		enqueueOutBuffer $sock [buildPackage $sid $data $sendSid]
+		enqueueOutBuffer $sid [buildPackage $sid $data $sendSid]
 	}
 	
 	proc SendBYE {sid data {sendSid 1}} {
@@ -775,15 +745,10 @@ namespace eval ::MSNGames {
 			return
 		}
 		
-		set sock [getObjOption $sid sock 0]
-		if {$sock == 0} {
-			return
-		}
-
 		#send data
 		set pkg [buildPackage $sid $data $sendSid]
-		setObjOption $sock byeack [lindex $pkg 0]
-		enqueueOutBuffer $sock $pkg
+		setObjOption $sid byeack [lindex $pkg 0]
+		enqueueOutBuffer $sid $pkg
 	}
 	
 	proc SendLast {sid pkg} {
@@ -791,63 +756,63 @@ namespace eval ::MSNGames {
 			return
 		}
 		
-		set sock [getObjOption $sid sock 0]
-		if {$sock == 0} {
-			return
-		}
-
 		#send data
-		setObjOption $sock lastpkg 1
-		enqueueOutBuffer $sock $pkg
+		setObjOption $sid lastpkg 1
+		enqueueOutBuffer $sid $pkg
 	}
 	
-	proc enqueueOutBuffer {sock pkg} {
-		set queue [getObjOption $sock sendqueue]
-		setObjOption $sock sendqueue [lappend $queue $pkg]
+	proc enqueueOutBuffer {sid pkg} {
+		set queue [getObjOption $sid sendqueue]
+		setObjOption $sid sendqueue [lappend $queue $pkg]
 		
 		#set waitACK [getObjOption $sock waitack]
-		dequeueOutBuffer $sock
+		dequeueOutBuffer $sid
 	}
 	
-	proc dequeueOutBuffer {sock {nocheck 0}} {
-		#status_log "dequeue 1: nocheck = $nocheck" blue
+	proc dequeueOutBuffer {sid {nocheck 0}} {
+		if {$sid == 0} {
+			return
+		}
+		set reflector [getObjOption $sid reflector 0]
+		
 		if {$nocheck == 0} {
-			set waitACK [getObjOption $sock waitack]
-			#status_log "dequeue 1: waitACK = $waitACK" blue
+			set waitACK [getObjOption $sid waitack]
 		} else {
 			set waitACK 0
 		}
 		
-		set queue [getObjOption $sock sendqueue]
+		set queue [getObjOption $sid sendqueue]
 		set newQueue [list]
-		#status_log "dequeue 2: queue = $queue" blue
 		foreach item $queue {
-			#status_log "dequeue 3: item = $item" blue
-			#status_log "dequeue 3: waitACK = $waitACK" blue
 			set ackId [lindex $item 0]
-			if {$waitACK > 0 && $ackId > 0} {
+			if {$waitACK > 0 && $ackId > 0 && $reflector == 0} {
 				set newQueue [lappend $newQueue $item]
-				#status_log "dequeue 4: newQueue = $newQueue" blue
 			} else {
 				set waitACK $ackId
 				set data [lindex $item 1]
-				#status_log "dequeue 5: waitACK = $waitACK" blue
-				#status_log "dequeue 5: data = $data" blue
-
-				puts -nonewline $sock $data
+				
+				if {$reflector == 1} {
+					set chatid [getObjOption $sid chatid]
+					set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $chatid\r\n\r\n"
+					::MSNP2P::SendPacket [::MSN::SBFor $chatid] "$theader$data"
+				} else {
+					set sock [getObjOption $sid sock 0]
+					puts -nonewline $sock $data
+				}
 			}
 		}
-		#status_log "dequeue 5: waitACK = $waitACK" blue
 		
-		setObjOption $sock waitack $waitACK
-		setObjOption $sock sendqueue $newQueue
+		setObjOption $sid waitack $waitACK
+		setObjOption $sid sendqueue $newQueue
 		
-		if {[getObjOption $sock lastpkg 0] == 1 && [llength $newQueue] == 0} {
-			set sid [getObjOption $sock sid]
+		if {[getObjOption $sid lastpkg 0] == 1 && [llength $newQueue] == 0} {
+			set sock [getObjOption $sid sock 0]
 			setObjOption $sid sock 0
 			setObjOption $sock state "END"
-			catch { close $sock }
-
+			if {$reflector == 0} {
+				catch { close $sock }
+			}
+			
 			set ips [getObjOption $sid ips]
 			setObjOption $sid ips [::MSNCAM::RemoveSocketFromList $ips $sock]
 
@@ -869,7 +834,14 @@ namespace eval ::MSNGames {
 		
 		set b [binary format iiiiiiiiiiii $sid $MsgId 0 0 [string length $data] 0 [string length $data] 0 [myRand 4369 6545000] 0 0 0]
 		set b $b$data
-		set b [binary format i [string length $b]]$b
+		
+		set reflector [getObjOption $cSid reflector 0]
+		if {$reflector == 0} {
+			set b [binary format i [string length $b]]$b
+		} else {
+			set appId [getObjOption $cSid completeappid]
+			set b "$b[binary format I $appId]"
+		}
 		
 		::MSNP2P::SessionList set $cSid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
 
@@ -887,7 +859,12 @@ namespace eval ::MSNGames {
 		} else {
 			set b [binary format iiiiiiiiiiii $cSid $MsgId 0 0 $cTotalDataSize 0 0 2 $cId $cAckId 0 $cTotalDataSize]
 		}
-		set b [binary format i [string length $b]]$b
+		set reflector [getObjOption $cSid reflector 0]
+		if {$reflector == 0} {
+			set b [binary format i [string length $b]]$b
+		} else {
+			set b "$b[binary format i 0]"
+		}
 		
 		::MSNP2P::SessionList set $cSid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1]
 
@@ -917,6 +894,8 @@ namespace eval ::MSNGames {
 	}
 
 	proc startGame {sid} {
+		setObjOption $sid gamestarted 1
+	
 		#get opponent nick
 		set chatid [getObjOption $sid chatid 0]
 		if {$chatid > 0} {
@@ -1180,40 +1159,8 @@ namespace eval ::MSNGamesInterface {
 	##	-
 	###############################################################
 	proc restartGame {sid} {
-		#reset handshake
-		setSetting $sid handshakestate ""
-
-		#send out restart data
-		if {[getSetting $sid inviter 0] == 0} {
-			send $sid "0:GameEnd:"
-		}
-		send $sid "0:PlayerClickedYes:"
-
-		#set restart state
-		set restartState [getSetting $sid restartstate ""]
-		if {[getSetting $sid inviter 0] == 0} {
-			if {$restartState == ""} {
-				setSetting $sid restartstate "LOCAL"
-			} elseif {$restartState == "REMOTE"} {
-				#round restarts
-				setSetting $sid restartstate ""
-				::MSNGamesPlugins::trigger $sid restart
-				after 1000 "::MSNGamesInterface::checkHandshake $sid"
-			}
-		} else {
-			if {$restartState == ""} {
-				setSetting $sid restartstate "LOCAL"
-			} elseif {$restartState == "REMOTEYES"} {
-				setSetting $sid restartstate "LOCALYES"
-			} elseif {$restartState == "REMOTEEND"} {
-				setSetting $sid restartstate "LOCALEND"
-			} elseif {$restartState == "REMOTE"} {
-				#round restarts
-				setSetting $sid restartstate ""
-				::MSNGamesPlugins::trigger $sid restart
-				after 1000 "::MSNGamesInterface::checkHandshake $sid"
-			}
-		}
+		#trigger handshake process
+		after 1000 "::MSNGamesInterface::checkHandshake $sid"
 	}
 	
 	########## ::MSNGamesInterface::closeGame #####################
@@ -1244,7 +1191,10 @@ namespace eval ::MSNGamesInterface {
 	###############################################################
 	proc destroyGame {sid} {
 		::MSNGamesPlugins::removeGame $sid
-		removeSettings $sid
+		after 60000 "::MSNGamesInterface::removeSettings $sid"
+		
+		#abort running handshake process
+		resetHandshakeState $sid [getHandshakeFlag complete]
 	}
 	
 	########## ::MSNGamesInterface::send ##########################
@@ -1328,6 +1278,7 @@ namespace eval ::MSNGamesInterface {
 			
 			#send "i am ready" package
 			::MSNGames::SendData $sid [binary format Ss [myRand 17 127] 1]
+			resetHandshakeState $sid [getHandshakeFlag newgame]
 			after 1000 "::MSNGamesInterface::checkHandshake $sid"
 			
 			#trigger start game
@@ -1346,103 +1297,125 @@ namespace eval ::MSNGamesInterface {
 		}
 	}
 	
+	proc resetHandshakeState {sid state} {
+		setSetting $sid handshakestate $state
+	}
+
+	proc setHandshakeState {sid flag} {
+		set state [getSetting $sid handshakestate 0]
+		set state [expr {$state | $flag}]
+		setSetting $sid handshakestate $state
+	}
+
+	proc getHandshakeState {sid flag} {
+		set state [getSetting $sid handshakestate 0]
+		return [expr {$state & $flag}]
+	}
+	
+	proc getHandshakeFlag {flag} {
+		switch -- $flag {
+			endgame 		{ return 1 }
+			clickedyessent 	{ return 2 }
+			clickedyesrecv	{ return 4 }
+			triggergameend 	{ return 8 }
+			triggerrestart	{ return 16 }
+			guidsent		{ return 32 }
+			guidrecv		{ return 64 }
+			triggerstart	{ return 128 }
+			
+			gameendcheck	{ return 5 }
+			restartcompl	{ return 15 }
+			restartcheck	{ return 31 }
+
+			startcompl		{ return 96 }
+			startcheck		{ return 224 }
+			
+			newgame			{ return 31 }
+			restartgame		{ return 0 }
+			complete		{ return 255 }
+		}
+		return 0
+	}
+
 	proc checkHandshake {sid} {
 		if {![::MSNGamesInterface::getSetting $sid opponentready 0]} {
+			#wait until connection is ready and opponent finished loading
 			after 1000 "::MSNGamesInterface::checkHandshake $sid"
 			return
 		}
-	
-		set handshakeState [getSetting $sid handshakestate ""]
-		if {$handshakeState == "" && [getSetting $sid inviter 0] == 1} {
-			setSetting $sid handshakestate "REQUEST"
 		
-			#generate guid and sendout handshake
-			set guid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-			::MSNGames::SendData $sid [::MSNGames::buildGameMessage "0:SendGameGuid:\{$guid\}"]
+		if {[getHandshakeState $sid [getHandshakeFlag endgame]] == 0 && [getSetting $sid inviter 0] == 0} {
+			#aren't we inviter and have sent GameEnd after restarting a game yet?
+			send $sid "0:GameEnd:"
+			setHandshakeState $sid [getHandshakeFlag endgame]
+		}
+		if {[getHandshakeState $sid [getHandshakeFlag clickedyessent]] == 0} {
+			#have we sent PlayerClickedYes after restarting a game yet?
+			send $sid "0:PlayerClickedYes:"
+			setHandshakeState $sid [getHandshakeFlag clickedyessent]
+		}
+		if {[getHandshakeState $sid [getHandshakeFlag gameendcheck]] > 0 && \
+			[getHandshakeState $sid [getHandshakeFlag triggergameend]] == 0} {
+			#trigger gameend after we sent/received GameEnd and have received and sent PlayerClickedYes
+			::MSNGamesPlugins::trigger $sid gameend
+			setHandshakeState $sid [getHandshakeFlag triggergameend]
+		}
+		
+		if {[getHandshakeState $sid [getHandshakeFlag restartcheck]] == [getHandshakeFlag restartcompl]} {
+			#trigger restart after triggering gameend
+			::MSNGamesPlugins::trigger $sid restart
+			setHandshakeState $sid [getHandshakeFlag triggerrestart]
+		} elseif {[getHandshakeState $sid [getHandshakeFlag restartcheck]] == [getHandshakeFlag restartcheck]} {
+			if {[getHandshakeState $sid [getHandshakeFlag guidsent]] == 0} {
+				#have we sent the guid yet?
+				if {[getSetting $sid inviter 0] == 1} {
+					#generate guid and sendout handshake
+					set guid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+					::MSNGames::SendData $sid [::MSNGames::buildGameMessage "0:SendGameGuid:\{$guid\}"]
+					setHandshakeState $sid [getHandshakeFlag guidsent]
+				} elseif {[getHandshakeState $sid [getHandshakeFlag guidrecv]] > 0} {
+					#simply fake ticket data with DUMMY, the other side should accept that but scoring will not work
+					#TODO: if we want to use the server-side scoring we should replace DUMMY by the ticket-ID that
+					#      can be requested from the MSN-server
+					::MSNGames::SendData $sid [::MSNGames::buildGameMessage "0:SendSignedTicket:[::config::getKey login]:DUMMY"]
+					setHandshakeState $sid [getHandshakeFlag guidsent]
+				}
+			} elseif {[getHandshakeState $sid [getHandshakeFlag startcheck]] == [getHandshakeFlag startcompl]} {
+				#tell local game that handshake is complete
+				::MSNGamesPlugins::trigger $sid gamestart
+				setHandshakeState $sid [getHandshakeFlag triggerstart]
+			}
+		}
+		
+		if {[getHandshakeState $sid [getHandshakeFlag complete]] == [getHandshakeFlag complete]} {
+			#handshake complete
+			resetHandshakeState $sid [getHandshakeFlag restartgame]
+		} else {
+			#handshake incomplete, keep on checking every 1s
+			after 1000 "::MSNGamesInterface::checkHandshake $sid"
 		}
 	}
 	
 	proc receiveData {sid data} {
-		status_log "MSNGamesInterface-receiveData: data = $data" blue
+		status_log "MSNGamesInterface - receiveData: data = \"$data\"" blue
+		status_log "MSNGamesInterface - receiveData: length(data) = [string length $data]" blue
 		
 		set recv [split $data :]
 		if {[lindex $recv 0] == "0"} {
 			#message in the messenger layer
-			if {[lindex $recv 1] == "SendGameGuid" && [getSetting $sid handshakestate ""] == ""} {
-				setSetting $sid handshakestate "READY"
-				setSetting $sid gotreset 0
-
-				#simply fake ticket data with DUMMY, the other side should accept that but scoring will not work
-				#TODO: if we want to use the server-side scoring we should replace DUMMY by the ticket-ID that
-				#      can be requested from the MSN-server
-				::MSNGames::SendData $sid [::MSNGames::buildGameMessage "0:SendSignedTicket:[::config::getKey login]:DUMMY"]
-
-				#tell local game that handshake is complete
-				::MSNGamesPlugins::trigger $sid gamestart
-			} elseif {[lindex $recv 1] == "SendSignedTicket" && [getSetting $sid handshakestate ""] == "REQUEST"} {
-				setSetting $sid handshakestate "READY"
-				setSetting $sid gotreset 0
-				
-				#tell local game that handshake is complete
-				::MSNGamesPlugins::trigger $sid gamestart
+			if {[lindex $recv 1] == "SendGameGuid"} {
+				setHandshakeState $sid [getHandshakeFlag guidrecv]
+			} elseif {[lindex $recv 1] == "SendSignedTicket"} {
+				setHandshakeState $sid [getHandshakeFlag guidrecv]
 			} elseif {[lindex $recv 1] == "PlayerClickedYes"} {
-				if {[getSetting $sid gotreset 0] == 0} {
-					setSetting $sid gotreset 1
-					::MSNGamesPlugins::trigger $sid gameend
-				}
-			
-				set restartState [getSetting $sid restartstate ""]
-				if {[getSetting $sid inviter 0] == 0} {
-					if {$restartState == ""} {
-						setSetting $sid restartstate "REMOTE"
-					} elseif {$restartState == "LOCAL"} {
-						#round restarts
-						setSetting $sid restartstate ""
-						::MSNGamesPlugins::trigger $sid restart
-						after 1000 "::MSNGamesInterface::checkHandshake $sid"
-					}
-				} else {
-					if {$restartState == ""} {
-						setSetting $sid restartstate "REMOTEYES"
-					} elseif {$restartState == "REMOTEEND"} {
-						setSetting $sid restartstate "REMOTE"
-					} elseif {$restartState == "LOCAL" } {
-						setSetting $sid restartstate "LOCALYES"
-					} elseif {$restartState == "LOCALEND"} {
-						#round restarts
-						setSetting $sid restartstate ""
-						::MSNGamesPlugins::trigger $sid restart
-						after 1000 "::MSNGamesInterface::checkHandshake $sid"
-					}
-				}
+				setHandshakeState $sid [getHandshakeFlag clickedyesrecv]
 			} elseif {[lindex $recv 1] == "GameEnd"} {
-				if {[getSetting $sid gotreset 0] == 0} {
-					setSetting $sid gotreset 1
-					::MSNGamesPlugins::trigger $sid gameend
-				}
-			
-				set restartState [getSetting $sid restartstate ""]
-				if {[getSetting $sid inviter 0] == 0} {
-					#just ignore it
-				} else {
-					if {$restartState == ""} {
-						setSetting $sid restartstate "REMOTEEND"
-					} elseif {$restartState == "REMOTEYES"} {
-						setSetting $sid restartstate "REMOTE"
-					} elseif {$restartState == "LOCAL" } {
-						setSetting $sid restartstate "LOCALEND"
-					} elseif {$restartState == "LOCALYES"} {
-						#round restarts
-						setSetting $sid restartstate ""
-						::MSNGamesPlugins::trigger $sid restart
-						after 1000 "::MSNGamesInterface::checkHandshake $sid"
-					}
-				}
-			} elseif {[getSetting $sid handshakestate ""] == "READY"} {
+				setHandshakeState $sid [getHandshakeFlag endgame]
+			} else {
 				#send message to game plugin
 				::MSNGamesPlugins::trigger $sid message $data
 			}
-		} elseif {[getSetting $sid handshakestate ""] == "READY"} {
+		} else {
 			#send message to game plugin
 			::MSNGamesPlugins::trigger $sid message $data
 		}

@@ -695,24 +695,19 @@ namespace eval ::MSNP2P {
 						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 						return
 					} elseif { $eufguid == "6A13AF9C-5308-4F35-923A-67E8DDA40C2F" } {
-						if {[getObjOption $sid wlmhandshake 0] == 0} {
-							::ChatWindow::MakeFor $chatid
-							status_log "!!! GAME INVITATION !!!" red
+						::ChatWindow::MakeFor $chatid
+						status_log "!!! GAME INVITATION !!!" red
 
-							SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
-							status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
+						SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 
-							set context [base64::decode $context]
-							SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "game" "$context" "$branchuid"]
-							set context [FromUnicode $context]
-							
-							::MSNGames::IncomingGameRequest $chatid $dest $branchuid $cseq $uid $sid $context
+						set context [base64::decode $context]
+						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "game" "$context" "$branchuid"]
+						set context [FromUnicode $context]
+						
+						::MSNGames::IncomingGameRequest $chatid $dest $branchuid $cseq $uid $sid $context
 
-							return
-						} else {
-							::MSNGames::handleHandshake $sid $message 0
-							return
-						}
+						return
 					}
 
 					# Let's send an ACK
@@ -814,12 +809,7 @@ namespace eval ::MSNP2P {
 				if { $type == "filetransfer" } {
 					::MSN6FT::SendFTInvite $sid $chatid
 				} elseif { $type == "game" } {
-					
-					if {[getObjOption $sid wlmhandshake 0] == 0} {
-						::MSNGamesGUI::InvitationAccepted $chatid $sid
-					} else {
-						::MSNGames::handleHandshake $sid $message 1
-					}
+					::MSNGamesGUI::InvitationAccepted $chatid $sid
 				}
 			} else {
 				set idx [expr {[string first "Call-ID: \{" $data] + 10}]
