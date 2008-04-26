@@ -326,7 +326,7 @@ proc bgortext {} {
 proc bot_unsetbg {x} {
 	variable newparsednick
 
-	set idnum 100
+	set idnum 1000
 	set count 0
 	for {set y [expr $x -1]} {$y >= 0} {incr y -1} {
 		set unit2 [lindex [lindex $newparsednick $y] 0]
@@ -1328,13 +1328,16 @@ proc fade {penultimate_color last_color col type} {
 	for {set x $pos} {$x < $lung_newparsednick} {incr x} {
 		set unit [lindex $newparsednick $x]
 		if {[lindex $unit 0] eq "smiley"} {
-			lappend tempparsednick [lindex $unit]
 			set lung_smiley [string length [lindex $unit 2] ]
 
 			if {$last_faded != 0} {
 				incr lung_smiley -1
 				set last_faded 0
+			} elseif {$type eq "bg"} {
+				lappend tempparsednick [list bg reset]
 			}
+
+			lappend tempparsednick [lindex $unit]
 
 			for {set z 0} {$z < 3} {incr z} {
 				set pen [lreplace $pen $z $z [expr [lindex $pen $z] + [expr $lung_smiley * [lindex $quantity $z]]]]
@@ -1367,7 +1370,7 @@ proc fade {penultimate_color last_color col type} {
 				}
 				lappend tempparsednick [list text $char]
 			}
-		} elseif {[lindex $unit 0] eq "startpost"} {
+		} elseif {[lindex $unit 0] eq "startpost" && (( [lindex $unit 2] >= 1000 && $type eq "bg") || ( [lindex $unit 2] < 1000 && $type ne "bg" ))} {
 
 			set identificator [lindex $unit 2]
 			set q 1
@@ -1434,7 +1437,7 @@ proc fade {penultimate_color last_color col type} {
 			for {set z 0} {$z < 3} {incr z} {
 				set pen [lreplace $pen $z $z [expr [lindex $pen $z] + [expr $jump * [lindex $quantity $z]]]]
 			}
-		} elseif {[lindex $unit 0] eq "stoppost"} {
+		} elseif {[lindex $unit 0] eq "stoppost" || [lindex $unit 0] eq "startpost" } {
 			lappend tempparsednick [lindex $newparsednick $x]
 			set lung [lindex $unit 1]
 			if {$last_faded != 0} {
