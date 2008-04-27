@@ -5,6 +5,10 @@
 #include <string.h>
 #include "ximage.h"
 
+#ifdef _MSC_VER
+#define strncasecmp strnicmp
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 /**
  * \return the color used for transparency, and/or for background color
