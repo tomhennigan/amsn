@@ -57,10 +57,9 @@ case `uname -s` in
 		;;
 	Darwin)
 		FOUND_OS="mac"
-		UNIVERSAL="-arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.3"
-		CFLAGS="$CFLAGS -DMAC_OSX_TK=1 -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
-		CXXFLAGS="$CXXFLAGS -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
-		LDFLAGS="$LDFLAGS -I${prefix}/include -L${prefix}/lib ${UNIVERSAL}"
+		CFLAGS="$CFLAGS -DMAC_OSX_TK=1 -I${prefix}/include -L${prefix}/lib"
+		CXXFLAGS="$CXXFLAGS -I${prefix}/include -L${prefix}/lib"
+		LDFLAGS="$LDFLAGS -I${prefix}/include -L${prefix}/lib"
 		
 		# Directories in which the Tcl core can be found
 		TCL_INC_SPEC="-I/Library/Frameworks/Tcl.framework/Headers -DUSE_TCL_STUBS"

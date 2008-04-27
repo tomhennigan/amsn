@@ -112,11 +112,7 @@ CXXFLAGS += -fPIC
 
 # libraries
 LDLIBS  := @LDLIBS@ -lpng -lz -lm -ljpeg
-ifeq ($(FOUND_OS),mac)
-	LDFLAGS := @LDFLAGS@ -Wl,-single_module
-else
-	LDFLAGS := @LDFLAGS@
-endif
+LDFLAGS := @LDFLAGS@
 
 ifeq (@FOUND_OS@,mac)
 	SHLIB_EXTENSION := dylib
