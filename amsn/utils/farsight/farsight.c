@@ -329,7 +329,7 @@ int main (int argc, char *argv[]) {
   g_assert (src != NULL);
 
   g_object_set(src, "blocksize", 640, NULL);
-  g_object_set(src, "buffer-time", 20000, NULL);
+  g_object_set(src, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
 
   g_assert (gst_bin_add (GST_BIN (pipeline), src));
 
