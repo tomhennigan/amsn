@@ -58,7 +58,7 @@ namespace eval ::config {
 
 		#Dir for received files
 		if { [OnDarwin] } {
-		        ::config::setKey receiveddir "[file join $::env(HOME) Desktop/amsn\ received\ files]"
+		        ::config::setKey receiveddir "[file join $::env(HOME) Desktop]"
 		} elseif { [OnUnix] } {
 			::config::setKey receiveddir "[file join $::env(HOME) amsn_received]"
 		} elseif { [OnWin] } {
