@@ -200,8 +200,15 @@ namespace eval ::hotmail {
 		if {[config::getKey no_oim_confirmation 0] == 1 } {
 			set answer "yes"
 		} else {
-			set answer [tk_messageBox -type yesno -title "[trans newoim]" \
-					-message [trans receivedoimread $oim_count]]
+			set answerAndRemember [::amsn::customMessageBox \
+				[trans receivedoimread $oim_count] yesno {} [trans newoim] {} 1]
+			set answer [lindex $answerAndRemember 0]
+			set remember [lindex $answerAndRemember 1]
+			
+			# we only remember if they want to read OIM's.
+			if { $answer == "yes" && $remember == 1} { 
+				::config::setKey no_oim_confirmation 1
+			}
 		}
 		if { $answer == "yes" } {
 			::OIM_GUI::MessagesReceived $oim_messages
