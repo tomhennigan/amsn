@@ -1651,6 +1651,7 @@ snit::type Farsight {
 			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
 			set pipe [open "| ./utils/windows/gstreamer/farsight.exe user@localhost remote@remotehost" r+]
 		} elseif { [OnMac] } {
+			set ::env(DYLD_LIBRARY_PATH) [file join [pwd] utils macosx gstreamer]
 			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils macos gstreamer]
 			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils macos gstreamer]
 			set pipe [open "| ./utils/macosx/gstreamer/farsight user@localhost remote@remotehost" r+]
