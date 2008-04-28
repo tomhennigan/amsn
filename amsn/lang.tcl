@@ -422,6 +422,11 @@ namespace eval ::lang {
 		set selection [$w.selection.box curselection]
 		set langcode [lindex $::lang::OnlineLang $selection]
 		set lang "lang$langcode"
+		
+		# No selection, we shouldn't crash..
+		if {$selection == ""} {
+			return
+		}
 
 		# If the lang selected is the current lang
 		if { $langcode == [::config::getGlobalKey language]} {
@@ -771,6 +776,9 @@ namespace eval ::lang {
 	# Add a new lang
 
 	proc AddLang { langcode name version encoding } {
+		if {$langcode == "" } {
+			return
+		}
 
 		array set ::lang::Lang$langcode [list name "$name" version $version encoding $encoding]
 
