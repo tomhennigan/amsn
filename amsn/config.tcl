@@ -1499,7 +1499,7 @@ proc LockProfile { email } {
 	status_log "LockProfile: Locking $email\n" blue
 	global lockSock
 	set tries 0
-	while { $tries < 5 } {
+	while { $tries < 6 } {
 		set Port [GetRandomProfilePort]
 		status_log "LockProfile: Got random port $Port\n" blue
 		if { [::config::getKey enableremote] == 1 } {
@@ -1513,7 +1513,7 @@ proc LockProfile { email } {
 			break
 		} elseif {$tries >= 5} {
 			::amsn::errorMsg "Unable to get a socket from locahost.\n Check your /etc/hosts file, please."
-			exit 1
+			break
 		} else {
 			catch {status_log "unable to create socket on port $Port - $newlockSock"}
 			incr tries
