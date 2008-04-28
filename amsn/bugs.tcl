@@ -381,9 +381,9 @@ namespace eval ::bugs {
 }
 
 proc privacy { str } {
-    regsub -all {[A-Za-z0-9._-]{3}@[A-Za-z0-9.-]+} $str {xxx@sadamsnuser.com} str
+    regsub -all {[A-Za-z0-9._-]{3}@[A-Za-z0-9.-]+} $str {xxx@sad-amsn-user.com} str
     #take care of url encoded ones 
-    regsub -all {[A-Za-z0-9._-]{3}%40[A-Za-z0-9.-]+} $str {xxx%40sadamsnuser.com} str
+    regsub -all {[A-Za-z0-9._-]{3}%40[A-Za-z0-9.-]+} $str {xxx%40sad-amsn-user.com} str
     return $str
 }
 
