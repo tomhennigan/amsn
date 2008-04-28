@@ -982,14 +982,17 @@ proc SOCKSSocket { args } {
 
 				}
 
-				if { $session_id != ""} {
-					#status_log "Scheduling HTTPPoll\n" white
-					set poll_afterids($name) [after 2000 [list $self HTTPPoll $name]]
+				# the handleCommand *could* potentially destroy our own object for some reason...
+				# we must be prepared to not crash because of that.
+				catch { 
+					if { $session_id != ""} {
+						#status_log "Scheduling HTTPPoll\n" white
+						set poll_afterids($name) [after 2000 [list $self HTTPPoll $name]]
+					}
+					
+					set options(-proxy_gateway_ip) $gateway_ip
+					set options(-proxy_session_id) $session_id
 				}
-
-				set options(-proxy_gateway_ip) $gateway_ip
-				set options(-proxy_session_id) $session_id
-
 			}
 		}
 	}
