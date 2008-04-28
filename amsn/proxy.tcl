@@ -478,6 +478,7 @@ proc SOCKSSocket { args } {
 	option -proxy_gateway_ip
 	option -proxy_writing
 	variable poll_afterids
+	variable created_sockets [list]
 
 	constructor {args } {
 		array set poll_afterids [list]
@@ -487,6 +488,9 @@ proc SOCKSSocket { args } {
 	destructor {
 		foreach name [array names poll_afterids]  {
 			after cancel [set poll_afterids($name)]
+		}
+		foreach sock $created_sockets {
+			catch {close $sock}
 		}
 	}
 
@@ -745,6 +749,7 @@ proc SOCKSSocket { args } {
 			fileevent $sock readable ""
 			fileevent $sock writable ""
 		}
+		set created_sockets [lreplace $created_sockets [lsearch $created_sockets $sock] [lsearch $created_sockets $sock]]
 
 		if {[catch {close $sock}]} {
 			return -1
@@ -786,6 +791,7 @@ proc SOCKSSocket { args } {
 			$sb configure -error_msg $res
 			return -1
 		}
+		lappend created_sockets $sock
 
 		$sb configure -sock $sock
 		fconfigure $sock -buffering none -translation {binary binary} -blocking 0
@@ -892,6 +898,7 @@ proc SOCKSSocket { args } {
 		set sock [$name cget -sock]
 		if {[catch {eof $sock} res]} {
 			status_log "::HTTPConnection::HTTPRead: Error, closing\n" red
+			catch { close $sock }
 			$name sockError
 		} elseif {[eof $sock]} {
 			fileevent $sock readable ""

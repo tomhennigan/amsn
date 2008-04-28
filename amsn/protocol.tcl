@@ -1687,6 +1687,7 @@ namespace eval ::MSN {
 
 		if { [string match -nocase "*ns*" $sb] } {
 			status_log "clearing sb $sb. oldstat=$oldstat"
+			catch {[$sb cget -proxy] finish $sb}
 			catch {close [$sb cget -sock]}
 
 			$sb configure -sock ""
@@ -4495,6 +4496,7 @@ proc cmsn_reconnect { sb } {
 
 			$sb configure -time [clock seconds]
 
+			catch {[$sb cget -proxy] finish $sb}
 			$sb configure -sock ""
 			#$sb configure -data [list]
 			$sb configure -users [list]
