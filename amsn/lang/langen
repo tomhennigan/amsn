@@ -308,7 +308,7 @@ dontshowdp Don't let this user download your new Display Pictures
 download Download
 downloadcanceled Download canceled.
 downloadingtls Downloading TLS module from:\n $1
-downloadingwait Downloading new amsn version. Please Wait...
+downloadingwait Downloading new aMSN version. Please Wait...
 dynamicrate Use dynamic frame rate to simulate the real-time speed 
 editcontent Edit the content of the subject field and the note field
 editcustomstate Edit custom state
@@ -603,7 +603,7 @@ nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
 noresizesmileys Do not scale down incoming custom emoticons
 normal Normal
-noskins Couldn't find default skin in skins/ folder. Can't start AMSN
+noskins Couldn't find default skin in skins/ folder. Can't start aMSN
 nosound No sound was detected, make sure your microphone has been connected to your computer properly
 nosound_or_hold No sound was detected. To send a Voice Clip you need to press and hold down the button while speaking then release it to send the message.
 nospace Nothing to see here
@@ -911,9 +911,9 @@ timestamps Enable timestamps on chat windows
 timestamp Timestamp
 title aMSN
 tkerror1 TK has brought an error, there is a bug in aMSN, please report it by clicking the Report button. You can click Details to see more informations about the bug or click Ignore to continue chatting with aMSN.
-tkerror TK has brought an error, there is a bug in amsn, please report it. Send the file $1 to amsn-bugs@lists.sf.net
+tkerror TK has brought an error, there is a bug in aMSN, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
-tlsexplain Folder where the tcl TLS module is located. If AMSN can't locate it, please specify.\n(Required for SSL authentication).
+tlsexplain Folder where the tcl TLS module is located. If aMSN can't locate it, please specify.\n(Required for SSL authentication).
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
 tlsinstall TLS Module installation wizard
 tlsinstcompleted TLS module installation was successful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.

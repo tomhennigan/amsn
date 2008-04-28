@@ -48,7 +48,7 @@ appearoff Offline weergeven
 areacode Netnummer
 aretyping $1 zijn bezig met typen
 askcam Webcambeeld vragen
-askcontactwebcam om je contact te vragen of je zijn/haar webcambeeld mag zien. 
+askcontactwebcam om je contact te vragen of je zijn/haar webcambeeld mag zien, of 
 askeachtime Altijd vragen wat er moet gebeuren
 asksendingyourwebcam om hem/haar uit te nodigen om jouw webcambeeld te bekijken
 asksendoim Wil je dit bericht verzenden als offlinebericht?
@@ -109,7 +109,7 @@ brightness Helderheid
 broughtby Aangeboden door de volgende ontwikkelaars
 browse Verkennen
 browser Webbrowser
-browserexample (\$url wordt vervangen door de URL) Vb.: mozilla \$url
+browserexample (\$url wordt vervangen door de URL) Vb.: firefox \$url
 bugerror Er is een fout opgetreden bij het verbinden met de gegevensbank voor bugrapportages. Controleer je internetverbinding.
 bugnocomment Wil je dit foutrapport echt verzenden zonder commentaar? Hou er rekening mee dat het voor ons makkelijker is om de fout te reproduceren en te repareren als we een beschrijving hebben van de situatie waarin deze optrad.
 busy Bezig
@@ -308,7 +308,7 @@ dontshowdp Dit contact niet toestaan om mijn nieuwe schermafbeeldingen te downlo
 download Downloaden
 downloadcanceled Download geannuleerd.
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
-downloadingwait Bezig met downloaden van nieuwe amsn-versie. Even wachten...
+downloadingwait Bezig met downloaden van nieuwe aMSN-versie. Even wachten...
 dynamicrate Dynamische framerate gebruiken voor simulatie van de real-timesnelheid
 edit Bewerken
 editavsettings Instellingen voor beeld en geluid bewerken
@@ -422,6 +422,7 @@ grouprename Groepsnaam wijzigen
 groups Groepen
 groupunknown Onbekende groep
 handle Schermnaam
+hangup Ophangen
 havenomic Ik heb geen microfoon
 help Help
 helpcontents Help-onderwerpen
@@ -443,7 +444,7 @@ ident Bezig met identificeren
 identity Identiteit
 ignore Negeren
 ignorecontact Inkomende berichten van dit contact negeren
-ignoreerrors De overige AMSN-foutberichten negeren tot het einde van de sessie
+ignoreerrors De overige aMSN-foutberichten negeren tot het einde van de sessie
 imagefiles Afbeeldingsbestanden
 inbox Postvak IN
 insertsmiley Emoticon invoegen
@@ -548,7 +549,7 @@ msg Bericht
 msgflicker Titel van gespreksvenster laten knipperen als een bericht aankomt in een inactief venster
 msgmaxmin Weergave van binnenkomende berichten in een bestaand gesprek:
 msgmode Kies hoe meerdere gespreksvensters worden weergegeven:
-msn AMSN
+msn aMSN
 msnstatus MSN Messenger-netwerkstatus
 msnstyle MSN-stijl
 mustrestart Je moet het programma herstarten om wijzigingen door te voeren
@@ -783,6 +784,7 @@ sendmail E-mail verzenden
 sendmobmsg Bericht verzenden naar mobiel
 sendmsg Bericht verzenden
 sendoim Offlinebericht verzenden
+sendsip Audiogesprek starten
 sendvoice Voiceclip verzenden
 sendwebcamaccepted $1 heeft je uitnodiging om je webcambeeld te bekijken geaccepteerd. Bezig met verbinden...
 sendwebcaminvite Dit contact uitnodigen om je webcambeeld te bekijken
@@ -813,6 +815,24 @@ shownotify Meldingsvenster weergeven bij bepaalde gebeurtenissen
 showpicnotify Schermafbeelding weergeven op meldingsvensters
 showuserpic Afbeelding van $1
 signinstatus Status na aanmelden
+sipcallaccepted Audiogesprek geaccepteerd
+sipcallback Terugbellen
+sipcalldeclined Audiogesprek geweigerd
+sipcalleeaccepted Gebruiker heeft je audiogespreksoproep geaccepteerd
+sipcalleebusy Gebruiker is momenteel bezet
+sipcalleecanceled Gebruiker heeft de uitnodiging voor een audiogesprek geannuleerd
+sipcalleeclosed Gebruiker heeft je audiogesprek beëindigd
+sipcalleedeclined Gebruiker heeft je uitnodiging voor een audiogesprek geweigerd
+sipcalleenoanswer Gebruiker heeft je gespreksoproep niet beantwoord
+sipcalleeunavailable Gebruiker is momenteel niet beschikbaar
+sipcallended Je audiogesprek is beëindigd
+sipcallimpossible Je kunt geen audiogesprek starten. Installeer Farsight2 en probeer het opnieuw.
+sipcallmissed Je hebt een audiogespreksoproep van $1 gemist
+sipcallnosipflag Gebruiker ondersteunt geen audiogesprekken.
+sipcallsent $1 bellen
+sipcallunsupported Je hebt een uitnodiging voor een audiogesprek ontvangen dat momenteel niet wordt ondersteund. Je kunt terugbellen met een nieuwe uitnodiging. Het audiogesprek zal dan werken.
+sipcallyouarebusy Je kunt slechts één audiogesprek tegelijk voeren.
+sipgotinvitation Uitnodiging voor audiogesprek ontvangen van $1
 skin Skin
 skinselector Skin selecteren
 small Klein
@@ -893,10 +913,10 @@ title Al's Messenger
 tkerror TK heeft een fout gemeld, er zit een bug in aMSN, rapporteer het alsjeblieft. Stuur het bestand $1 naar amsn-bugs@lists.sf.net
 tkerror1 Er is een fout gemeld door TK, de oorzaak hiervan is een bug in aMSN. Klik op Foutrapport versturen om deze fout te melden aan de makers van aMSN. Klik op Details voor meer informatie over de opgetreden fout, of klik op Negeren om de fout te negeren en door te gaan.
 tlsdowncompleted Het bestand $1 is opgeslagen in $2. Pak dit bestand uit, maak er een build van (als je broncode hebt gedownload) en installeer het in $3.
-tlsexplain De map waarin de tcl TLS-module staat. Vul dit in als aMSN het zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL).
+tlsexplain De map waarin de tcl TLS-module staat. Vul dit in als aMSN deze zelf niet kan vinden.\n(Dit is nodig voor beveiligd aanmelden met SSL).
 tlsinstall TLS-module-installatiewizard
 tlsinstallexp aMSN gebruikt nu versie 9 van het MSN-protocol.\nDaarvoor is een met SSL beveiligde verbinding vereist. aMSN heeft hierbij een module\nnodig met de naam TLS, die niet aanwezig is op je systeem. Deze wizard helpt je bij\nhet downloaden en installeren van TLS. Selecteer het type systeem dat je gebruikt\nzodat de benodigde bestanden automatisch kunnen worden gedownload.
-tlsinstcompleted De TLS-module is geïnstalleerd. Je zult versie 9 van het MSN-protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb je vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor jouw systeem.
+tlsinstcompleted De TLS-module is geïnstalleerd. Je zou versie 9 van het MSN-protocol nu moeten kunnen gebruiken. Als dit niet werkt, dan heb je vermoedelijk niet de juiste module gekozen, of er bestaat geen kant-en-klare module voor jouw systeem.
 to Aan
 today Vandaag
 tomobile Naar Mobiel
