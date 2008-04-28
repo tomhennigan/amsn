@@ -27,7 +27,7 @@ alarmondisconnect Benachrichtigung, wenn der Kontakt sich abmeldet
 alarmonmsg Benachrichtigung, wenn der Kontakt mir eine Nachricht sendet
 alarmonstatus Benachrichtigung, wenn der Kontakt seinen Status ändert
 alarmpref Benachrichtigung für diesen Kontakt konfigurieren
-alarmpref2 Benachrichtigungs einstellung für jeden Kontakt
+alarmpref2 Benachrichtigungseinstellungen für alle Kontakte
 alarms Benachrichtigungen
 alarmstatus Benachrichtigung für diesen Kontakt an-/ausschalten
 allfiles Alle Dateien
@@ -170,7 +170,7 @@ choosecontact Bitte wählen Sie einen Kontakt aus der Liste
 choosedevice Bitte wählen Sie ein Gerät
 choosefontcolor Schriftfarbe auswählen
 chooseinputdev Wählen Sie das Eingabegerät aus
-chooselocation Wähle ein neues Dateien Verzeichniss
+chooselocation Verzeichnis auswählen
 choosemixerdev Wählen Sie den Mixer aus
 chooseoutputdev Wählen Sie das Ausgabegerät aus
 chooseskin Bitte wähle einen Skin aus
@@ -200,7 +200,7 @@ command Befehl
 commandstatus Befehl ausführen
 configure Einstellen
 configuremic Mikrofon einrichten
-configureplugin Einstellung des Plugins Ändern $1
+configureplugin Einstellungen von '$1'-Plugin
 configuringaudio Audiogeräte einrichten
 confirmbl Wollen Sie den Kontakt wirklich blockieren?
 confirmdelete $1 wirklich löschen?
@@ -301,14 +301,14 @@ docking Festankern eingeschaltet
 dockingoff Festankern ausgeschaltet
 dockkde In KDE verankern
 done Fertig
-dontaskweek Don't Keine Update anfrage für eine Woche
+dontaskweek Update-Benachrichtigung eine Woche deaktivieren
 dontdownload TLS nicht herunterladen, ich installiere es selbst
 dontshowdp Das eigene Anzeigebild für diesen Kontakt sperren
 dontshow Nicht anzeigen
 download Herunterladen
-downloadcanceled Herrunterladen Abbrechen
+downloadcanceled Herunterladen abgebrochen.
 downloadingtls Lade TLS Modul herunter:\n $1
-downloadingwait Läd eine neue aMSN version Bitte warten...
+downloadingwait Lade eine neue Version von aMSN herunter. Bitte warten...
 dynamicrate Dynamische Bildrate zur Simulaton der Echtzeit-Geschwindigkeit verwenden
 editavsettings Audio- und Video-Assistent starten
 editcontent Bearbeiten Sie den Inhalt des Betreff- und des Notiz-Feldes
@@ -337,7 +337,7 @@ enternick Geben Sie Ihren Spitznamen ein
 enterpsm Persönliche Nachricht
 error Fehler
 errortls Fehler bei der Installation des TLS Moduls:
-escapeclosescw Escape Taste schließt das fenster
+escapeclosescw Escape-Taste schließt das Unterhaltungsfenster
 eventhistory Ereignisprotokoll anzeigen
 examples Beispiele
 exitamsn Wirklich beenden?
@@ -346,7 +346,7 @@ faileddelete Löschen schlug fehl
 faileddeleteperso Dieses Bild konnte nicht gelöscht werden, da es keine persönliche Bilddatei ist. Auf diese Weise können nur Bilder entfernt werden, die zu Ihrem persönlichen Profil gehören
 failed Fehlgeschlagen
 faq Häufig gestellte Fragen
-fetching Fetching data...
+fetching Lade Daten ...
 file Datei
 filedoesnotexist Datei nicht vorhanden
 fileman Dateimanager
@@ -371,8 +371,8 @@ firewalled Sie sind hinter einer Firewall oder einem Router
 followtext Herunterrollen wenn neuer Text eingegeben wird
 forget_me (Anmeldeinformationen löschen)
 forgot_pass Kennwort vergessen?
-formatctt CTT format
-formatcsv CSV format
+formatctt CTT-Format
+formatcsv CSV-Format
 friendlyname Spitzname innerhalb von Unterhaltungen
 ftaccepted Übertragung angenommen
 ftacceptedby $1 akzeptiert die Einladung zum Transfer der Datei "$2"
@@ -381,7 +381,7 @@ ftautoclose Dieses Fenster nach Abschluss der Dateiübertragung schließen
 ftconnecterror Fehler beim Verbinden mit Gegenüber
 ftconnecting Verbinde mit $1 Port $2
 ftconnectionlost Verbindung mit Gegenüber verloren
-ftgotinvitation $1 möchte Ihnen die Datei "$2" ($3 Bytes) schicken. Sie wurde im Verzeichnis "$4" gespeichert. Möchten Sie diese Datei empfangen?
+ftgotinvitation $1 möchte Ihnen die Datei "$2" ($3 Bytes) schicken. Sie wird im Verzeichnis "$4" gespeichert. Möchten Sie diese Datei empfangen?
 ftportpref2 Port für direkte Verbindungen (für Dateitransfer und Webcam benötigt)
 ftportpref Anfangsport für Dateiübertragungen
 ftporttest Port testen
@@ -392,10 +392,10 @@ fullcontactlist Ihre Kontaktliste ist voll. Sie müssen einige Kontakte löschen, 
 gameaccepted $1 hat Ihre Spieleinladung angenommen
 gameclosedbyother $1 hat die Spielsitzung mit Ihnen beendet.
 gameclosedbyself Sie haben die Spielsitzung mit $1 beendet.
-gameinvitation $1 hat Sie zum Spiel $2 eingeladen. Möchten Sie die Einladung annehmen?
-gamepluginnotfound Spiel momentan geladen. Bitte aktivieren und konfigurieren Sie das Plugin zuerst.
+gameinvitation $1 hat Sie eingeladen $2 zu spielen. Möchten Sie die Einladung annehmen?
+gamepluginnotfound $1 hat Sie eingeladen $2 zu spielen, aber Sie haben kein passendes Plugin dafür aktiviert. Bitte aktivieren und konfigurieren Sie das Plugin zuerst.
 gamerejected $1 hat Ihre Spieleinladung abgelehnt
-gamerequest Sie haben $1 zum Spiel $2 eingeladen.
+gamerequest Sie haben $1 eingeladen $2 zu spielen.
 getdisppic Aktivieren den Empfang der Anzeigebilder meiner Kontakte
 getmoreplugins Mehr Plugins...
 getmoreskins Mehr Skins...
@@ -432,7 +432,7 @@ hidemenumessage Sind Sie sich sicher, dass Sie die Menüs verstecken möchten?\nSi
 hiden Emoticons aus dem Emoticon-Menü verbergen
 hidewindow Fenster verbergen
 history Verlauf ansehen
-history2 Protokoll
+history2 Verlauf
 home Start
 howto_remove_profile Das Löschen Ihres Profils (Anmeldeinformationen von $1 löschen) ist nur über die Einstellungen möglich.\n\nAus Sicherheitsgründen können Profile nicht über das Login-Fenster gelöscht werden.
 httpconnection Verbinde mit der HTTP-Methode (verwendet das HTTP Protokoll mit Port 80)
@@ -578,7 +578,7 @@ newmsg Neue Nachricht
 newoim Neue Offline-Nachricht(en)
 newstate Benutzerdefinierten Status hinzufügen
 newtabbedfeature aMSN hat ein neues Feature zum Verwalten von Unterhaltungen: Es ist nun möglich, alle Ihre Fenster derselben Gruppe oder der gesamten Kontaktliste in einem einzigen Fenster mit Tabulatoren zu gruppieren. Bitte wählen Sie die Weise, in der aMSN Ihre Unterhaltungen verwalten soll
-newupdate Neue Updates verfügbar aMSN
+newupdate Neue Updates sind für aMSN verfügbar
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
 nick Spitzname
@@ -737,7 +737,7 @@ reconnecting Erneute Anmeldung beim Server
 reconnect Warte, bis $1 wieder angemeldet ist
 record Aufnehmen
 recorderror Ein Fehler trat beim Aufnehmen des Sounds auf: $1
-recvwebcamaccepted $1 hat der Einladung zum Senden seiner/ihrer Webcam zugestimmt. Verbinde ...
+recvwebcamaccepted $1 hat die Einladung zum Senden seiner/ihrer Webcam angenommen. Verbinde ...
 reject Abweisen
 rememberaccount Benutzer speichern
 rememberpass Passwort speichern
@@ -758,10 +758,10 @@ rightback Bin gleich zurück
 saveas Speichern unter
 savechatwinsize Chat-Fenstergröße speichern wenn die Fenstergröße verändert wird
 savecontacts Kontaktliste speichern
-saveddefaultloc Im Standart Verzeichnis Speichern
+saveddefaultloc Standard-Verzeichnis verwenden
 save Speichern
-savelocation Willst du die Datei hier speichern $1?
-savelocationerror Die Datei kann nicht hier gespeichert werden
+savelocation Soll die Datei nach $1 gespeichert werden?
+savelocationerror Die Datei kann hier nicht gespeichert werden!
 saveotherdirectory In einem anderen Verzeichnis speichern
 savetofile Speichern unter
 says $1 sagt
@@ -783,7 +783,7 @@ sendmsg Nachricht senden
 sendoim Offline-Nachricht senden
 send Senden
 sendvoice Sprachclip senden
-sendwebcamaccepted $1 hat der Einladung zum Empfang Ihrer Webcam zugestimmt. Verbinde ...
+sendwebcamaccepted $1 hat die Einladung zum Empfang Ihrer Webcam angenommen. Verbinde ...
 sendwebcaminvite Einen Kontakt zum Betrachten Ihres Webcambilds einladen
 sentbytes $1 von $2 Bytes gesendet
 sentvoice Sprachclip gesendet
@@ -900,7 +900,7 @@ today Heute
 tomobile An Mobilgerät
 tools Extras
 tooltips Tooltips zulassen
-totalsize Datei größe
+totalsize Dateigröße
 transnotexists Die gewünschte Datei wurde noch nicht in die aktuelle Sprache übersetzt
 trayicon System-Icon aktivieren
 traynotcompiled Ablage Icon Plugin ist nicht compiliert. Überprüfen Sie Plugins/Ablageanker
@@ -918,7 +918,7 @@ uoffline Offline
 uonline Online
 updateonlycurrentlanguage Nur die aktuelle Sprache updaten
 update Updaten
-updatesaved Fertig...Gespeichert $1 im Verzeichniss $2.
+updatesaved Fertig\n $1 im Verzeichnis $2 gespeichert.
 updating Update wird ausgeführt
 useasdp Als Anzeigebild verwenden
 useasregexp Als regulären Ausdruck verwenden (Regexp)
@@ -939,7 +939,7 @@ videoconversationrequest Sie haben soeben eine Anforderung zu einer Videounterha
 view Ansicht
 viewcontactsby Kontakte filtern nach
 viewprofile Profil ansehen
-viewspace View space items
+viewspace Space anzeigen
 volume Lautstärke
 wanttosharecam Ich möchte meine Webcam anderen zugänglich machen
 webcamcanceled Die Webcam-Sitzung mit $1 wurde abgebrochen
@@ -954,7 +954,7 @@ webcamextnotloaded Webcamsn-Erweiterung ist nicht geladen. Sie müssen sie kompil
 webcamextwarn Sie werden keine Webcam-Übertragungen Ihrer Kontakte sehen können. Eine Anleitung zum Installieren der benötigten Programmerweiterung könnten Sie in unserem Wiki (auf Englisch) finden:
 webcamfaq FAQ/Hilfe zur Webcam
 webcamhistory Webcam-Sitzungen anzeigen
-webcamhistory2 Webcam Protokoll
+webcamhistory2 Webcam-Sitzungen
 webcaminvite $1 hat Sie zu einer Webcam Sitzung eingeladen. Leider unterstützt aMSN diese Funktion nicht
 webcaminvitereceived $1 hat Sie eingeladen, eine Webcam-Sitzung zu starten. Möchten Sie diese Einladung akzeptieren?
 webcaminvitereceiving Sie wurden eingeladen, das Webcam-Bild von $1 zu empfangen. Möchten Sie diese Sitzung akzeptieren?
