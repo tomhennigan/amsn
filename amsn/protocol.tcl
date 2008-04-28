@@ -899,7 +899,10 @@ namespace eval ::MSN {
 		# Test if farsight is available to set the sip clientcap
 		# do it on every connect in case you changed protocol
 		# version used, or change profile, etc...
-		::MSNSIP::TestFarsight
+		# Do it only if necessary (protocol > 13)
+		if { [::config::getKey protocol] > 13 } {
+			::MSNSIP::TestFarsight
+		}
 
 		cmsn_ns_connect $username $passwd
 
