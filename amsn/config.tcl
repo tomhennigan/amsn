@@ -1512,7 +1512,7 @@ proc LockProfile { email } {
 			set lockSock $newlockSock
 			break
 		} elseif {$tries >= 5} {
-			::amsn::errorMsg "Unable to get a socket from locahost.\n Check your /etc/hosts file, please."
+			::amsn::errorMsg "Unable to get a socket from localhost.\n Check your /etc/hosts file, please. Be sure to have net loopback up."
 			break
 		} else {
 			catch {status_log "unable to create socket on port $Port - $newlockSock"}
