@@ -80,7 +80,7 @@ namespace eval ::remote {
 	proc status { } {
 		set nick [::abook::getPersonal MFN]
 		write_remote "[trans nick]: $nick"
-		if {[ ::config::getKey protocol] == 11 } {
+		if {[ ::config::getKey protocol] >= 11 } {
 			set psm [::abook::getPersonal PSM]
 			write_remote "[trans PSM]: $psm"
 		}

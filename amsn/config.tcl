@@ -759,7 +759,7 @@ proc load_config {} {
 	}
 
 	::config::setKey clientid 0
-	if {[::config::getKey protocol] != 15 } {
+	if {[::config::getKey protocol] < 11 } {
 		::config::setKey protocol 11
 	}
 
@@ -1670,4 +1670,31 @@ if { $initialize_amsn == 1 } {
 
 	# Init skin and smileys
 	::skin::reloadSkin [::config::getGlobalKey skin]
+
+	set machineguid [::config::getGlobalKey machineguid ""]
+	if {$machineguid == "" } {
+		set machineguid "{"
+		for {set i 0} {$i < 8} {incr i} {
+			append machineguid [format %X [expr {int(rand() * 16)}]]
+		}
+		append machineguid "-"
+		for {set i 0} {$i < 4} {incr i} {
+			append machineguid [format %X [expr {int(rand() * 16)}]]
+		}
+		append machineguid "-"
+		for {set i 0} {$i < 4} {incr i} {
+			append machineguid [format %X [expr {int(rand() * 16)}]]
+		}
+		append machineguid "-"
+		for {set i 0} {$i < 4} {incr i} {
+			append machineguid [format %X [expr {int(rand() * 16)}]]
+		}
+		append machineguid "-"
+		for {set i 0} {$i < 12} {incr i} {
+			append machineguid [format %X [expr {int(rand() * 16)}]]
+		}
+		append machineguid "}"
+
+		::config::setGlobalKey machineguid $machineguid
+	}
 }

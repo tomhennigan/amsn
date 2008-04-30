@@ -1437,7 +1437,7 @@ namespace eval ::MSN {
 	#Delete user totally
 	proc deleteUser { userlogin } {
 		#We remove from everywhere
-		if { [::config::getKey protocol] == 15 } {
+		if { [::config::getKey protocol] >= 15 } {
 			set contact [split $userlogin "@"]
 			set user [lindex $contact 0]
 			set domain [lindex $contact 1]
@@ -4324,14 +4324,18 @@ proc cmsn_rng {recv} {
 
 	#Init SB properly
 	if { [config::getKey protocol] == 11 ||
-	     ([config::getKey protocol] == 15 && [lindex $recv 9] == "1") } {
+	     ([config::getKey protocol] >= 13 && [lindex $recv 9] == "1") } {
 		$sb configure -force_gateway_server [lindex [split [lindex $recv 2] ":"]]
+	}
+	set auth_username [::config::getKey login]
+	if {[::config::getKey protocol] >= 16 } {
+		append auth_username ";[::config::getGlobalKey machineguid]"
 	}
 	$sb configure -stat ""
 	$sb configure -server [split [lindex $recv 2] ":"]
 	$sb configure -connected [list cmsn_conn_ans $sb]
 	$sb configure -auth_cmd "ANS"
-	$sb configure -auth_param "[::config::getKey login] [lindex $recv 4] [lindex $recv 1]"
+	$sb configure -auth_param "$auth_username [lindex $recv 4] [lindex $recv 1]"
 
 	lappend sb_list "$sb"
 
@@ -4372,13 +4376,17 @@ proc cmsn_open_sb {sb recv} {
 	status_log "cmsn_open_sb: Opening SB $sb\n" green
 
 	if { [config::getKey protocol] == 11 ||
-	     ([config::getKey protocol] == 15 && [lindex $recv 8] == "1") } {
+	     ([config::getKey protocol] >= 13 && [lindex $recv 8] == "1") } {
 		$sb configure -force_gateway_server [lindex [split [lindex $recv 3] ":"]]
+	}
+	set auth_username [::config::getKey login]
+	if {[::config::getKey protocol] >= 16 } {
+		append auth_username ";[::config::getGlobalKey machineguid]"
 	}
 	$sb configure -server [split [lindex $recv 3] ":"]
 	$sb configure -connected [list cmsn_conn_sb $sb]
 	$sb configure -auth_cmd "USR"
-	$sb configure -auth_param "[::config::getKey login] [lindex $recv 5]"
+	$sb configure -auth_param "$auth_username [lindex $recv 5]"
 
 
 	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans sbcon]...\n" miniinfo ready
@@ -4699,8 +4707,11 @@ proc cmsn_update_users {sb recv} {
 
 			$sb configure -last_user $usr_login
 
-			if {[config::getKey protocol] == 15 } {
+			if {[config::getKey protocol] >= 15 } {
 				set clientid [lindex $recv 6]
+				if {[config::getKey protocol] >= 16 } {
+					set clientid [lindex [split $clientid ":"] 0]
+				}
 				add_Clientid $usr_login $clientid
 			}
 
@@ -4716,8 +4727,11 @@ proc cmsn_update_users {sb recv} {
 
 			::abook::setContactData $usr_login nick $usr_name
 
-			if {[config::getKey protocol] == 15 } {
+			if {[config::getKey protocol] >= 15 } {
 				set clientid [lindex $recv 3]
+				if {[config::getKey protocol] >= 16 } {
+					set clientid [lindex [split $clientid ":"] 0]
+				}
 				add_Clientid $usr_login $clientid
 			}
 
@@ -4782,7 +4796,7 @@ proc cmsn_change_state {recv} {
 		set user [lindex $recv 1]
 		set evpar(user) user
 
-		if {[::config::getKey protocol] == "15"} {
+		if {[::config::getKey protocol] >= 14} {
 			set network  [lindex $recv 2]
 		} 
 		set user_name ""
@@ -4796,7 +4810,7 @@ proc cmsn_change_state {recv} {
 		set user [lindex $recv 3]
 
 		set idx 4
-		if {[::config::getKey protocol] == "15"} {
+		if {[::config::getKey protocol] >= 14} {
 			set network  [lindex $recv 4]
 			incr idx
 		} 
@@ -4804,9 +4818,17 @@ proc cmsn_change_state {recv} {
 		set user_name [urldecode [lindex $recv $idx]]
 		incr idx
 		#Add clientID to abook
-		add_Clientid $user [lindex $recv $idx]
+		set clientid [lindex $recv $idx]
+		if {[::config::getKey protocol] >= 16} {
+			set clientid [lindex [split $clientid ":"] 0]
+		}
+		add_Clientid $user  $clientid
 		incr idx
 		set msnobj [urldecode [lindex $recv $idx]]
+		incr idx
+		if {[::config::getKey protocol] >= 16} {
+			set unknown_machineguid [lindex $recv $idx]
+		}
 		#Previous clientname info is now inaccurate
 		::abook::setContactData $user clientname ""
 	} else {
@@ -4817,7 +4839,7 @@ proc cmsn_change_state {recv} {
 		set evpar(user) user
 
 		set idx 3
-		if {[::config::getKey protocol] == "15"} {
+		if {[::config::getKey protocol] >= 14} {
 			set network  [lindex $recv 3]
 			incr idx
 		} 
@@ -4825,10 +4847,17 @@ proc cmsn_change_state {recv} {
 		set user_name [urldecode [lindex $recv $idx]]
 		incr idx
 		#Add clientID to abook
-		add_Clientid $user [lindex $recv $idx]
+		set clientid [lindex $recv $idx]
+		if {[::config::getKey protocol] >= 16} {
+			set clientid [lindex [split $clientid ":"] 0]
+		}
+		add_Clientid $user $clientid
 		incr idx
 		set msnobj [urldecode [lindex $recv $idx]]
-
+		incr idx
+		if {[::config::getKey protocol] >= 16} {
+			set unknown_machineguid [lindex $recv $idx]
+		}
 #		status_log "contactStateChange in protocol cmsn_change_state $user"
 	}
 
@@ -4856,7 +4885,7 @@ proc cmsn_change_state {recv} {
 
 		set nick_changed 1
 
-		if {[config::getKey protocol] != 15} {
+		if {[config::getKey protocol] < 15} {
 			# This check below is because today I received a NLN for a user 
 			# who doesn't appear in ANY of my 5 MSN lists (RL,AL,BL,FL,PL)
 			# so amsn just sent the SBP with an empty string for the contactguid, 
@@ -5260,7 +5289,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				set xml [xml2list [$message getBody]]
 				set i 0
 				while {1} {
-					if {[config::getKey protocol] == 15} {
+					if {[config::getKey protocol] >= 15} {
 						set subxml [GetXmlNode $xml "Policies:Policy:config:block:regexp:imtext" $i]
 					} else { 
 						set subxml [GetXmlNode $xml "config:block:regexp:imtext" $i]
@@ -5458,7 +5487,11 @@ proc sso_authenticate {} {
 		set mbi [MBIAuthentication MBICrypt $nonce $proof]
 		
 		set ticket [$token cget -ticket]
-		::MSN::WriteSB ns "USR" "SSO S $ticket $mbi"
+		if {[::config::getKey protocol] >= 16} {
+			::MSN::WriteSB ns "USR" "SSO S $ticket $mbi [::config::getGlobalKey machineguid]"
+		} else {
+			::MSN::WriteSB ns "USR" "SSO S $ticket $mbi"
+		}
 		ns configure -stat "us"
 	} elseif {[ns cget -stat] != "d" } {
 
@@ -5495,13 +5528,15 @@ proc cmsn_auth {{recv ""}} {
 	switch -- [ns cget -stat] {
 		a {
 			#Send three first commands at same time, to be faster
-			if { [::config::getKey protocol] == 15 } {
+			if { [::config::getKey protocol] == 16 } {
+				::MSN::WriteSB ns "VER" "MSNP16 CVR0"
+			} elseif { [::config::getKey protocol] == 15 } {
 				::MSN::WriteSB ns "VER" "MSNP15 CVR0"
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP12 CVR0"
 			}
 			::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 8.0.0812 msmsgs [::config::getKey login]"
-			if { [::config::getKey protocol] == 15 } {
+			if { [::config::getKey protocol] >= 15 } {
 				::MSN::WriteSB ns "USR" "SSO I [::config::getKey login]"
 			} else {
 				::MSN::WriteSB ns "USR" "TWN I [::config::getKey login]"
@@ -5529,7 +5564,7 @@ proc cmsn_auth {{recv ""}} {
 				status_log "cmsn_auth: was expecting CVR reply but got a [lindex $recv 0]\n" red
 				return 1
 			} else {
-				if { [::config::getKey protocol] == 15 } {
+				if { [::config::getKey protocol] >= 15 } {
 					global sso
 					if {[info exists sso] && $sso != "" } {
 						$sso destroy
@@ -5544,7 +5579,7 @@ proc cmsn_auth {{recv ""}} {
 		}
 
 		u {
-			if { [::config::getKey protocol] == 15 } {
+			if { [::config::getKey protocol] >= 15 } {
 				if {([lindex $recv 0] != "USR") || \
 					([lindex $recv 2] != "SSO") || \
 					([lindex $recv 3] != "S")} {
@@ -5612,7 +5647,7 @@ proc cmsn_auth {{recv ""}} {
 			
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
-			if { [config::getKey protocol] == 15 } {
+			if { [config::getKey protocol] >= 13 } {
 				set ::ab [::Addressbook create %AUTO%]
 				$::ab Synchronize ::MSN::ABSynchronizationDone
 			} else {
@@ -5760,7 +5795,7 @@ proc set_initial_nick { } {
 	catch { file delete [file join ${HOME} "nick.cache"] }
 
 
-	if {$nick_changed == 0 && [config::getKey protocol] == 15 } {
+	if {$nick_changed == 0 && [config::getKey protocol] >= 15 } {
 		# Send our nickname to the server because it doesn't know about it!
 		if { [::abook::getPersonal MFN] != "" } {
 			::MSN::changeName [::abook::getPersonal login] [::abook::getPersonal MFN]
