@@ -1539,6 +1539,7 @@ snit::type Farsight {
 	variable codecs_done 0
 	variable candidates_done 0
 	variable prepared 0
+	variable known_bitrates
 	option -closed -default ""
 	option -prepared -default ""
 	option -enable_ice -default 0
@@ -1547,6 +1548,10 @@ snit::type Farsight {
 	constructor { args } {
 		$self configurelist $args
 		$self Reset
+
+		array set known_bitrates [list "SIREN" 16000 \
+					      "x-msrta" 12000 \
+					      "G7221" 24000]
 	}
 
 	method Reset { } {
@@ -1709,8 +1714,8 @@ snit::type Farsight {
 			if {$name == "PCMA" || $name == "PCMU" || 
 			    $name == "SIREN" || $name == "G723" || 
 			    $name == "AAL2-G726-32" || $name == "x-msrta"} {
-				if {$pt >= 96} {
-					lappend local_codecs [list $name $pt $rate "bitrate=$rate"]
+				if {[info exists known_bitrates($name)] } {
+					lappend local_codecs [list $name $pt $rate "bitrate=$known_bitrates($name)"]
 				} else {
 					lappend local_codecs [list $name $pt $rate]
 				}
