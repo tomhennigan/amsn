@@ -163,14 +163,15 @@ snit::type SOAPRequest {
 			set status [::http::code $token]
 		}
 
-		::http::cleanup $token
 		incr [myvar wait]
-
-		if {$options(-callback) != "" } {
-			if {[catch {eval $options(-callback) $self} result]} {
-				bgerror $result
+		if {[::http::status $token] != "reset"} {
+			if {$options(-callback) != "" } {
+				if {[catch {eval $options(-callback) $self} result]} {
+					bgerror $result
+				}
 			}
 		}
+		::http::cleanup $token
 
 	}
 

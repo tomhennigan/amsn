@@ -885,6 +885,13 @@ namespace eval ::MSN {
 			return
 		}
 
+		if {[::config::getKey protocol] >= 15} {
+			global sso
+			if {[info exists sso] && $sso != "" } {
+				$sso destroy
+				set sso ""
+			}
+		}
 		ns configure -stat "d" -sock "" \
 			-server [split [::config::getKey start_ns_server] ":"]
 
@@ -899,8 +906,8 @@ namespace eval ::MSN {
 		# Test if farsight is available to set the sip clientcap
 		# do it on every connect in case you changed protocol
 		# version used, or change profile, etc...
-		# Do it only if necessary (protocol > 13)
-		if { [::config::getKey protocol] > 13 } {
+		# Do it only if necessary (protocol >= 13)
+		if { [::config::getKey protocol] >= 13 } {
 			::MSNSIP::TestFarsight
 		}
 
