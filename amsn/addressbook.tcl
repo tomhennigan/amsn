@@ -183,6 +183,7 @@ snit::type Addressbook {
 				}
 
 				set username [GetXmlEntry $subxml "Contact:contactInfo:passportName"]
+				set username [string tolower $username]
 				set nickname [GetXmlEntry $subxml "Contact:contactInfo:displayName"]
 				set contactguid [GetXmlEntry $subxml "Contact:contactId"]
 				set is_in_fl [GetXmlEntry $subxml "Contact:contactInfo:isMessengerUser"]
