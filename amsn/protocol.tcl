@@ -4614,8 +4614,15 @@ proc cmsn_update_users {sb recv} {
 
 
 			set leaves [$sb search -users "[lindex $recv 1]"]
+
+			# Ignore double BYEs for protocol MSNP16
+			if {$leaves == -1 } {
+				return 0
+			}
+
 			$sb configure -last_user [lindex [$sb cget -users] $leaves]
 			$sb delUser $leaves
+
 
 			set usr_login [lindex [$sb cget -users] 0]
 
@@ -4701,6 +4708,16 @@ proc cmsn_update_users {sb recv} {
 			set usr_login [string tolower [lindex $recv 4]]
 			set usr_name [urldecode [lindex $recv 5]]
 			
+			# Ignore our own user when on MSNP16
+			# And ignore duplicate users
+			if {[config::getKey protocol] >= 16 } {
+				foreach {usr_login machineguid} [split $usr_login ";"] break
+				if {$usr_login == [::config::getKey login] ||
+				    [$sb search -users $usr_login] >= 0} {
+					return 0
+				}
+			}
+
 			$sb addUser [list $usr_login]
 
 			::abook::setContactData $usr_login nick $usr_name
@@ -4722,6 +4739,16 @@ proc cmsn_update_users {sb recv} {
 
 			set usr_login [string tolower [lindex $recv 1]]
 			set usr_name [urldecode [lindex $recv 2]]
+
+			# Ignore our own user when on MSNP16
+			# And ignore duplicate users
+			if {[config::getKey protocol] >= 16 } {
+				foreach {usr_login machineguid} [split $usr_login ";"] break
+				if {$usr_login == [::config::getKey login] ||
+				    [$sb search -users $usr_login] >= 0} {
+					return 0
+				}
+			}
 
 			$sb addUser [list $usr_login]
 
