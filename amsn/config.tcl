@@ -306,6 +306,9 @@ namespace eval ::config {
 		::config::setKey sound_on_first_message 0			;# Play sound only on the first message received in a chat window
 
 
+		::config::setKey epname "aMSN"					;# Endpoint Name.. MSNP16+ name of your current location
+
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
@@ -764,7 +767,11 @@ proc load_config {} {
 	}
 
 	# TODO : msnc7 support in clientid for MSNP12+.. remove if causes bugs.
-	::MSN::setClientCap msnc7
+	if {[config::getKey protocol] >= 16} {
+		::MSN::setClientCap msnc9
+	} else {
+		::MSN::setClientCap msnc7
+	}
 	::MSN::setClientCap inkgif
 	::MSN::setClientCap multip
 	::MSN::setClientCap voice

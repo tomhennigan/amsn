@@ -1134,15 +1134,9 @@ namespace eval ::MSN {
 	proc changePSM { newpsm { forcechange 0 } } {
 		#TODO: encode XML etc
 		if { [::abook::getPersonal PSM] != $newpsm || $forcechange } {
-			set currentMedia [::abook::getPersonal currentMedia]
-			set currentMedia [::sxml::xmlreplace $currentMedia]
-			set currentMedia [encoding convertto utf-8 $currentMedia]
 			::abook::setPersonal PSM $newpsm
-			set newpsm [::sxml::xmlreplace $newpsm]
-			set newpsm [encoding convertto utf-8 $newpsm]
 			
-			set psm "<Data><PSM>$newpsm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
-			::MSN::WriteSBNoNL ns "UUX" "[string length $psm]\r\n$psm"
+			sendUUXData
 			save_config
 			::abook::saveToDisk
 		}
@@ -1154,20 +1148,36 @@ namespace eval ::MSN {
 	#format: A formatter string ala .Net; For example: {0} - {1}
 	#args: list with the other things, first will match {0} in format	
 	proc changeCurrentMedia { type enabled format args } {
-		set psm [::abook::getPersonal PSM]
-		set psm [::sxml::xmlreplace $psm]
-		set psm [encoding convertto utf-8 $psm]
-
 		if {$enabled == 1} {
 			set currentMedia "aMSN\\0$type\\01\\0$format\\0[join $args \\0]\\0"
 		} else {
 			set currentMedia ""
 		}
 		::abook::setPersonal currentMedia $currentMedia
+		sendUUXData	
+	}
+
+	proc sendUUXData { } {
+		set psm [::abook::getPersonal PSM]
+		set psm [::sxml::xmlreplace $psm]
+		set psm [encoding convertto utf-8 $psm]
+
+		set currentMedia [::abook::getPersonal currentMedia]
 		set currentMedia [::sxml::xmlreplace $currentMedia]
 		set currentMedia [encoding convertto utf-8 $currentMedia]
-		set str "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia></Data>"
-		::MSN::WriteSBNoNL ns "UUX" "[string length $str]\r\n$str"
+
+		set machineguid [::config::getGlobalKey machineguid]
+		set machineguid [::sxml::xmlreplace $machineguid]
+		set machineguid [string map { "{" "&#x7B;" "}" "&#x7D;"} $machineguid] 
+
+		set data "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia><MachineGuid>$machineguid</MachineGuid>"
+		if {[::config::getKey protocol] >= 16} {
+			set signatureSound [::abook::getPersonal signatureSound]
+			set signatureSound [::sxml::xmlreplace $signatureSound]
+			set signatureSound [encoding convertto utf-8 $signatureSound]
+		}
+		append data "</Data>"
+		::MSN::WriteSBNoNL ns "UUX" "[string length $data]\r\n$data"
 	}
 
 	#Procedure called to change our status
@@ -1270,6 +1280,7 @@ namespace eval ::MSN {
 				secure { set clientid [expr {$clientid | 0x080000} ] }
 				sip    { set clientid [expr {$clientid | 0x100000} ] }
 				shared { set clientid [expr {$clientid | 0x400000} ] }
+				uun    { set clientid [expr {$clientid | 0x04000000} ] }
 				msnc1  { set clientid [expr {$clientid | 0x10000000} ] }
 				msnc2  { set clientid [expr {$clientid | 0x20000000} ] }
 				msnc3  { set clientid [expr {$clientid | 0x30000000} ] }
@@ -1277,6 +1288,8 @@ namespace eval ::MSN {
 				msnc5  { set clientid [expr {$clientid | 0x50000000} ] }
 				msnc6  { set clientid [expr {$clientid | 0x60000000} ] }
 				msnc7  { set clientid [expr {$clientid | 0x70000000} ] }
+				msnc8  { set clientid [expr {$clientid | 0x80000000} ] }
+				msnc9  { set clientid [expr {$clientid | 0x90000000} ] }
 			}
 		} else {
 			switch -- $cap {
@@ -1299,6 +1312,7 @@ namespace eval ::MSN {
 				secure { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x080000)} ] }
 				sip    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x100000)} ] }
 				shared { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x400000)} ] }
+				uun    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x04000000)} ] }
 				msnc1  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x10000000)} ] }
 				msnc2  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x20000000)} ] }
 				msnc3  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x30000000)} ] }
@@ -1306,6 +1320,8 @@ namespace eval ::MSN {
 				msnc5  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x50000000)} ] }
 				msnc6  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x60000000)} ] }
 				msnc7  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x70000000)} ] }
+				msnc8  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x80000000)} ] }
+				msnc9  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x90000000)} ] }
 			}
 		}
 		::config::setKey clientid $clientid
@@ -3787,38 +3803,59 @@ namespace eval ::MSNOIM {
 
 	method setInitialStatus { } {
 
+		set newstate "NLN"
+		set newstate_custom $newstate
 		#Don't use oldstatus if it was "FLN" (disconnectd) or we will get a 201 error
 		if {[info exists ::oldstatus] && $::oldstatus != "FLN" } {
-			ChCustomState $::oldstatus
-			send_dock "STATUS" [::MSN::myStatusIs]
+			set newstate $::oldstatus
 			unset ::oldstatus
+			set newstate_custom $newstate
 		} elseif {![is_connectas_custom_state [::config::getKey connectas]]} {
 			#Protocol code to choose our state on connect
 			set number [get_state_list_idx [::config::getKey connectas]]
 			set goodstatecode "[::MSN::numberToState $number]"
 
 			if {$goodstatecode != ""} {
-				ChCustomState "$goodstatecode"
-				send_dock "STATUS" "$goodstatecode"
+				set newstate $goodstatecode
 			} else {
 				status_log "Not able to get choosen key: [::config::getKey connectas]"
-				ChCustomState "NLN"
-				send_dock "STATUS" "NLN"
+				set newstate "NLN"
 			}
+			set newstate_custom $newstate
 		} else {
 			set idx [get_custom_state_idx [::config::getKey connectas]]
-			ChCustomState $idx
+			set newstate_custom $idx
 			if { [lindex [StateList get $idx] 2] != "" } {
-				set new_state [::MSN::numberToState [lindex [StateList get $idx] 2]]
-				send_dock "STATUS" "$new_state"
+				set newstate [::MSN::numberToState [lindex [StateList get $idx] 2]]
 			}
 		}
 
-		# Send our PSM to the server because it doesn't know about it!
-		if { [::abook::getPersonal PSM] != "" || [::abook::getPersonal CurrentMedia] != "" } {
-			#second argument is force change
-			::MSN::changePSM [::abook::getPersonal PSM] 1
+		# Send Endpoint data
+		if {[::config::getKey protocol] >= 16 } {
+			global idletime
+			if {$idletime >= [expr {[::config::getKey idletime] * 60}]} {
+				set idle "true"
+			} else {
+				set idle "false"
+			}
+			set epname [::config::getKey epname aMSN]
+			set epname [::sxml::xmlreplace $epname]
+			set epname [encoding convertto utf-8 $epname]
+
+			set endpoint "<EndpointData><Capabilities>[::config::getKey clientid]:0</Capabilities></EndpointData>"
+			set privateep "<PrivateEndpointData><EpName>$epname</EpName><Idle>$idle</Idle><State>$newstate</State></PrivateEndpointData>"
+
+			::MSN::WriteSBNoNL ns "UUX" "[string length $endpoint]\r\n$endpoint"
+			::MSN::WriteSBNoNL ns "UUX" "[string length $privateep]\r\n$privateep"
 		}
+		# Send our PSM to the server because it doesn't know about it!
+		::MSN::sendUUXData
+
+		set_initial_nick
+
+		# Change status after sending the UUX stuff
+		ChCustomState $newstate_custom
+		send_dock "STATUS" $newstate
 	}
 }
 
@@ -5769,10 +5806,6 @@ proc ::MSN::ABSynchronizationDone { error } {
 		set xmllen [string length $xml]
 		::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
 
-
-
-		set_initial_nick
-		
 	}
 }
 proc recreate_contact_lists {} {
