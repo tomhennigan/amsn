@@ -1201,13 +1201,14 @@ namespace eval ::MSN {
 
 		set machineguid [::config::getGlobalKey machineguid]
 		set machineguid [::sxml::xmlreplace $machineguid]
-		set machineguid [string map { "{" "&#x7B;" "}" "&#x7D;"} $machineguid] 
 
 		set data "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia><MachineGuid>$machineguid</MachineGuid>"
 		if {[::config::getKey protocol] >= 16} {
 			set signatureSound [::abook::getPersonal signatureSound]
 			set signatureSound [::sxml::xmlreplace $signatureSound]
 			set signatureSound [encoding convertto utf-8 $signatureSound]
+
+			append data "<SignatureSound>$signatureSound</SignatureSound>"
 		}
 		append data "</Data>"
 		::MSN::WriteSBNoNL ns "UUX" "[string length $data]\r\n$data"
@@ -3798,12 +3799,24 @@ namespace eval ::MSNOIM {
 			}
 			set psm [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $xml "Data:PSM"]]]
 			set currentMedia [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $xml "Data:CurrentMedia"]]]
+			set signatureSound [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $xml "Data:SignatureSound"]]]
 		} else {
 			set psm ""
 			set currentMedia ""
+			set signatureSound ""
 		}
 		::abook::setVolatileData $contact PSM $psm
 		::abook::setVolatileData $contact currentMedia $currentMedia
+
+		if {[config::getKey protocol] >= 16} {
+			::abook::setVolatileData $contact signatureSound $signatureSound
+			if { [config::getKey login] == $contact} {
+				::abook::setPersonal PSM $psm
+				::abook::setPersonal currentMedia $currentMedia	
+				::abook::setPersonal signatureSound $signatureSound
+				cmsn_draw_online 1 1		
+			}
+		}
 
 		if {$currentMedia != "" } {
 			::log::eventpsm $contact $currentMedia
