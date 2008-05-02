@@ -1479,7 +1479,8 @@ namespace eval ::guiContactList {
 
 			$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap plain_emblem ]]]
 			
-			if { $state_code == "FLN" } {
+			# We can get a user "hidden" if you have yourself on your own CL and you use MSNP16+ with mpop
+			if { $state_code == "FLN" || $state_code == "HDN"} {
 				::picture::Colorize $img grey 0.5
 				$img copy [::skin::loadPixmap plain_emblem]
 			} elseif { $state_code == "NLN" } {
