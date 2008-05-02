@@ -976,3 +976,38 @@ saveotherdirectory Desa en un altre directori
 updatesaved Fet\n $1 desat en $2.
 viewspace Mostra els ítems de l'espai
 webcamhistory2 Sessions de càmera web
+currentdynrate Actual velocitat real (en mil·lisegons)
+dynamicrate Utilitza freqüència de quadre dinàmica per a simular velocitat de temps real
+gameaccepted $1 ha acceptat la vostra invitació
+gameclosedbyother $1 ha cancel·lat la sessió de joc.
+gameclosedbyself Heu cancel·lat la sessió de joc amb en/na $1.
+gameinvitation $1 us ha convidat a jugar a $2. Voleu acceptar la invitació?
+gamepluginnotfound $1 us ha convidat a jugar a $2 però no hi ha cap complement per a aquest joc carregat actualment. Si us plau, activeu-lo i configureu-lo primer.
+gamerejected En/na $1 ha rebutjat la vostra invitació per jugar
+gamerequest Heu convidat en/na $1 a jugar a $2
+hangup Penja
+localecode El vostre codi de país o idioma de 4 dígits
+nooimconfirmation No em demanis confirmació en enviar o rebre missatges desconnectat
+playgame Inicia joc
+playgame2 Jugueu a $1
+searchadvprefs Cerqueu en les preferències avançades:
+sendsip Inicia conferència amb so
+sipcallaccepted Heu acceptat la conferència amb so
+sipcallback Retorna la trucada
+sipcalldeclined La conferència amb so ha estat rebutjada
+sipcalleeaccepted L'usuari ha acceptat la vostra conferència amb so
+sipcalleebusy L'usuari està ocupat
+sipcalleecanceled L'usuari ha cancel·lat la invitació de conferència amb so
+sipcalleeclosed L'usuari ha acabat la vostra conferència amb so
+sipcalleedeclined L'usuari ha rebutjat la vostra invitació de conferència amb so
+sipcalleenoanswer L'usuari no ha contestat a la vostra trucada
+sipcalleeunavailable L'usuari no està disponible ara mateix
+sipcallended La vostra conferència amb so ha acabat
+sipcallimpossible No podeu fer una conferència amb so. Si us plau, instal·leu Farsight2 i torneu-ho a provar.
+sipcallmissed Heu perdut la conferència amb so de $1
+sipcallnosipflag L'usuari no té les conferències amb so suportades.
+sipcallsent Trucant en/na $1
+sipcallunsupported Heu rebut una invitació de conferència amb so que no està suportada. Podeu tornar la trucada amb una nova invitació. La conferència amb so funcionarà aleshores.
+sipcallyouarebusy Només podeu tenir una conferència amb so a la vegada.
+sipgotinvitation Heu rebut una invitació de conferència amb so d'en/na $1
+smileynotavailable la icona no està disponible!
