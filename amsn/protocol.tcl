@@ -5244,6 +5244,15 @@ proc cmsn_ns_handler {item {message ""}} {
 		FLN -
 		ILN -
 		NLN {
+			if {[::config::getKey protocol] >= 16 &&
+			    [lindex $item 2] == [::config::getKey login] &&
+			    [lindex $item 0] == "NLN" &&
+			    [lindex $item 1] != "IDL" } {
+				::MSN::setMyStatus [lindex $item 1]
+				cmsn_draw_online 1 1
+				#Alert dock of status change
+				send_dock "STATUS" [lindex $item 1]
+			}
 			cmsn_change_state $item
 			return 0
 		}
