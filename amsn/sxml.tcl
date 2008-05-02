@@ -1085,7 +1085,7 @@ proc GetXmlAttribute { list find attribute_name {stack ""}} {
 			#status_log "Found it in $current_stack\n" blue
 			array set attributes_arr $attributes
 			if { [info exists attributes_arr($attribute_name)] } {
-				return [set attributes_arr($attribute_name)]
+				return [string map {"\\\\" "\\" "\\\{" "\{" "\\\}" "\}" } [set attributes_arr($attribute_name)]]
 			} else {
 				return ""
 			}
