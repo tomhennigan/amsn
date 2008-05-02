@@ -3347,7 +3347,7 @@ namespace eval ::MSNOIM {
 		status_log "End of proxy for $options(-name). Destruction of proxy $options(-proxy). Closing socket $options(-sock)" red
 		catch {
 			$options(-proxy) finish $options(-name)
-			$options(-proxy) destroy 
+			after idle [list $options(-proxy) destroy]
 		}
 		catch {
 			close $options(-sock)

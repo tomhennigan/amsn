@@ -501,7 +501,7 @@ proc SOCKSSocket { args } {
 #		variable options(-proxy_writing)
 
 		#Cancel any previous attemp to write or POLL
-		after cancel "$self PollPOST $name"
+		after cancel [list $self HTTPPoll $name]
 		array unset poll_afterids $name
 
 		after cancel "globalWrite $self $name"
@@ -728,7 +728,7 @@ proc SOCKSSocket { args } {
 		variable proxy_queued_data
 
 		#status_log "Canceling \"$self HTTPPoll $name\""
-		after cancel "$self HTTPPoll $name"
+		after cancel [list $self HTTPPoll $name]
 		array unset poll_afterids $name
 		
 		if {[info exists options(-proxy_session_id)]} {
@@ -892,7 +892,7 @@ proc SOCKSSocket { args } {
 		variable proxy_data
 		variable options
 
-		after cancel "$self HTTPPoll $name"
+		after cancel [list $self HTTPPoll $name]
 		array unset poll_afterids $name
 
 		set sock [$name cget -sock]
@@ -971,13 +971,15 @@ proc SOCKSSocket { args } {
 						set msg_data [string range $log 0 [expr {[lindex $recv end]-1}]]
 						set log [string range $log [expr {[lindex $recv end]}] end]
 						set command [encoding convertfrom utf-8 $command]
-						$name handleCommand $command $msg_data
+						# The sb could be closed while we are inside the httpread
+						catch {$name handleCommand $command $msg_data}
 						#degt_protocol " Message contents:\n$msg_data" msgcontents
 
 						#sb append $name data $msg_data
 					} else {
 						set command [encoding convertfrom utf-8 $command]
-						$name handleCommand $command
+						# The sb could be closed while we are inside the httpread
+						catch {$name handleCommand $command}
 					}
 
 				}
