@@ -19,6 +19,10 @@ snit::type Addressbook {
 		::groups::Reset
 		::groups::Set 0 [trans nogroup]
 
+		foreach username [::abook::getAllContacts] {
+			#Remove user from all lists while receiving List data
+			::abook::setContactData $username lists ""
+		}
 
 		$self FindMembership [list $self FindMembershipDone $callback]
 		$self ABFindAll [list $self ABFindAllDone $callback]
