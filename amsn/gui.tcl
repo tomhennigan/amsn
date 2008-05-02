@@ -312,6 +312,7 @@ namespace eval ::amsn {
 		errorMsg notifyAdd initLook messageFrom userJoins userLeaves \
 		updateTypers ackMessage nackMessage chatUser
 
+
 	##PUBLIC
 
 	proc initLook { family size bgcolor} {
@@ -1623,6 +1624,29 @@ namespace eval ::amsn {
 	#////////////////////////////////////////////////////////////////////////////////
 	#  SIP CALLING FUNCTION
 	#////////////////////////////////////////////////////////////////////////////////
+	variable sipchatids
+	set sipchatids [list]
+	proc AddSIPchatidToList {chatid} {
+		variable sipchatids
+		lappend sipchatids $chatid
+	}
+	proc DelSIPchatidFromList {chatid} {
+		variable sipchatids
+		set pos [lsearch $sipchatids $chatid]
+		if {$pos != -1} {
+			set sipchatids [lreplace $sipchatids $pos $pos]
+		}
+	}
+	proc SIPchatidExistsInList {chatid} {
+		variable sipchatids
+		if {[lsearch $sipchatids $chatid] != -1} {
+			return 1
+		} else {
+			return 0
+		}
+	}
+
+
 	proc SIPCallInviteUser { email } {
 		set supports_sip 0
 
@@ -1638,6 +1662,7 @@ namespace eval ::amsn {
 		if {$supports_sip } {
 			status_log "User supports SIP"
 			::MSNSIP::InviteUser $email
+			AddSIPchatidToList $email
 		} else {
 			status_log "User has no SIP flag"
 			SIPCallNoSIPFlag $email			
@@ -1740,6 +1765,7 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid greyline 3
 
 		::MSNSIP::AcceptInvite $sip $callid
+		AddSIPchatidToList $chatid
 	}
 
 	proc DeclineSIPCall { chatid sip callid } {
@@ -1758,6 +1784,7 @@ namespace eval ::amsn {
 		SIPCallMessage $chatid [trans sipcalldeclined]
 
 		::MSNSIP::DeclineInvite $sip $callid
+		DelSIPchatidFromList $chatid
 	}
 
 	proc HangupSIPCall { chatid sip callid } {
@@ -1766,6 +1793,7 @@ namespace eval ::amsn {
 		SIPCallEnded $chatid $sip $callid
 
 		::MSNSIP::HangUp $sip $callid
+		DelSIPchatidFromList $chatid
 	}
 
 	proc CancelSIPCall { chatid sip callid} {
@@ -1774,6 +1802,7 @@ namespace eval ::amsn {
 		DisableSIPButton $chatid siphangup$callid 
 
 		::MSNSIP::CancelCall $sip $callid
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPInviteSent { chatid sip callid } {
@@ -1798,6 +1827,7 @@ namespace eval ::amsn {
 		SIPCallMessage $chatid [trans sipcallended]
 
 		DisableSIPButton $chatid siphangup$callid 
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCalleeAccepted { chatid sip callid } {
@@ -1824,6 +1854,7 @@ namespace eval ::amsn {
 		SIPCallMessage $chatid [trans sipcalleebusy]
 
 		DisableSIPButton $chatid siphangup$callid 
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCalleeDeclined { chatid sip callid } {
@@ -1832,6 +1863,7 @@ namespace eval ::amsn {
 		SIPCallMessage $chatid [trans sipcalleedeclined]
 
 		DisableSIPButton $chatid siphangup$callid 
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCalleeClosed { chatid sip callid } {
@@ -1840,6 +1872,7 @@ namespace eval ::amsn {
 		SIPCallMessage $chatid [trans sipcalleeclosed]
 
 		DisableSIPButton $chatid siphangup$callid 
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCalleeNoAnswer { chatid sip callid }  {
@@ -1848,6 +1881,7 @@ namespace eval ::amsn {
 		SIPCallMessage $chatid [trans sipcalleenoanswer]
 
 		DisableSIPButton $chatid siphangup$callid 
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCalleeUnavailable { chatid sip callid }  {
@@ -1856,23 +1890,27 @@ namespace eval ::amsn {
 		SIPCallMessage $chatid [trans sipcalleeunavailable]
 
 		DisableSIPButton $chatid siphangup$callid 
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCallImpossible { chatid } {
 		status_log "SIP call is impossible.. no farsight utility found/working"
 
 		SIPCallMessage $chatid [trans sipcallimpossible]
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCallUnsupported { chatid } {
 		status_log "Received unsupported SIP call from $chatid"
 
 		SIPCallMessageCallBack $chatid [trans sipcallunsupported]
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCallNoSIPFlag { chatid } {
 		status_log "User $chatid has no SIP flag in his clientid"
 		SIPCallMessage $chatid [trans sipcallnosipflag]
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCallMissed { chatid {callid ""} } {
@@ -1883,12 +1921,14 @@ namespace eval ::amsn {
 			DisableSIPButton $chatid sipyes$callid
 			DisableSIPButton $chatid sipno$callid
 		}
+		DelSIPchatidFromList $chatid
 	}
 
 	proc SIPCallYouAreBusy { chatid } {
 		status_log "Trying to make multiple SIP calls"
 
 		SIPCallMessage $chatid [trans sipcallyouarebusy]
+		DelSIPchatidFromList $chatid
 	}
 
 
@@ -1906,6 +1946,7 @@ namespace eval ::amsn {
 
 
 		SIPCallMessage $chatid [trans sipcalleecanceled]
+		DelSIPchatidFromList $chatid
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
