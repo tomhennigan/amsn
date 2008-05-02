@@ -574,10 +574,21 @@ namespace eval ::abook {
 		variable endpoints
 		set endpoints($machineguid) $epname
 	}
+
 	proc getEndPoints { } {
 		variable endpoints
-		return [array get endpoints]
+		return [array names endpoints]
 	}
+
+	proc getEndPointName { machineguid } {
+		variable endpoints
+		if {[info exists endpoints($machineguid)] } {
+			return [set endpoints($machineguid)]
+		} else {
+			return ""
+		}
+	}
+
 	proc clearEndPoints { } {
 		variable endpoints
 		array unset endpoints
