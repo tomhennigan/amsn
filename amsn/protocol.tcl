@@ -5563,13 +5563,15 @@ proc cmsn_auth {{recv ""}} {
 		a {
 			#Send three first commands at same time, to be faster
 			if { [::config::getKey protocol] == 16 } {
-				::MSN::WriteSB ns "VER" "MSNP16 CVR0"
+				::MSN::WriteSB ns "VER" "MSNP16 MSNP15 CVR0"
+				::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 WLMSGRBETA 9.0.1407 msmsgs [::config::getKey login]"
 			} elseif { [::config::getKey protocol] == 15 } {
 				::MSN::WriteSB ns "VER" "MSNP15 CVR0"
+				::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 8.0.0812 msmsgs [::config::getKey login]"
 			} else {
 				::MSN::WriteSB ns "VER" "MSNP12 CVR0"
+				::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 8.0.0812 msmsgs [::config::getKey login]"
 			}
-			::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 8.0.0812 msmsgs [::config::getKey login]"
 			if { [::config::getKey protocol] >= 15 } {
 				::MSN::WriteSB ns "USR" "SSO I [::config::getKey login]"
 			} else {
