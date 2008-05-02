@@ -1131,9 +1131,9 @@ namespace eval ::MSN {
 	}
 
 	#Change a users personal message
-	proc changePSM { newpsm { forcechange 0 } } {
+	proc changePSM { newpsm } {
 		#TODO: encode XML etc
-		if { [::abook::getPersonal PSM] != $newpsm || $forcechange } {
+		if { [::abook::getPersonal PSM] != $newpsm } {
 			::abook::setPersonal PSM $newpsm
 			
 			sendUUXData
@@ -1157,7 +1157,40 @@ namespace eval ::MSN {
 		sendUUXData	
 	}
 
-	proc sendUUXData { } {
+	#Change a users personal message
+	proc changeLocationName { newname  } {
+		::config::setKey epname $newname
+		
+		sendUUXData
+		save_config
+		::abook::saveToDisk
+	}
+
+	proc sendUUXData { {state ""} } {
+		# Send Endpoint data
+		if {[::config::getKey protocol] >= 16 } {
+			global idletime
+			if {$idletime >= [expr {[::config::getKey idletime] * 60}]} {
+				set idle "true"
+			} else {
+				set idle "false"
+			}
+
+			if {$state == "" } {
+				set state [::MSN::myStatusIs]
+			}
+
+			set epname [::config::getKey epname aMSN]
+			set epname [::sxml::xmlreplace $epname]
+			set epname [encoding convertto utf-8 $epname]
+
+			set endpoint "<EndpointData><Capabilities>[::config::getKey clientid]:0</Capabilities></EndpointData>"
+			set privateep "<PrivateEndpointData><EpName>$epname</EpName><Idle>$idle</Idle><State>$state</State></PrivateEndpointData>"
+
+			::MSN::WriteSBNoNL ns "UUX" "[string length $endpoint]\r\n$endpoint"
+			::MSN::WriteSBNoNL ns "UUX" "[string length $privateep]\r\n$privateep"
+		}
+
 		set psm [::abook::getPersonal PSM]
 		set psm [::sxml::xmlreplace $psm]
 		set psm [encoding convertto utf-8 $psm]
@@ -3830,26 +3863,8 @@ namespace eval ::MSNOIM {
 			}
 		}
 
-		# Send Endpoint data
-		if {[::config::getKey protocol] >= 16 } {
-			global idletime
-			if {$idletime >= [expr {[::config::getKey idletime] * 60}]} {
-				set idle "true"
-			} else {
-				set idle "false"
-			}
-			set epname [::config::getKey epname aMSN]
-			set epname [::sxml::xmlreplace $epname]
-			set epname [encoding convertto utf-8 $epname]
-
-			set endpoint "<EndpointData><Capabilities>[::config::getKey clientid]:0</Capabilities></EndpointData>"
-			set privateep "<PrivateEndpointData><EpName>$epname</EpName><Idle>$idle</Idle><State>$newstate</State></PrivateEndpointData>"
-
-			::MSN::WriteSBNoNL ns "UUX" "[string length $endpoint]\r\n$endpoint"
-			::MSN::WriteSBNoNL ns "UUX" "[string length $privateep]\r\n$privateep"
-		}
 		# Send our PSM to the server because it doesn't know about it!
-		::MSN::sendUUXData
+		::MSN::sendUUXData $newstate
 
 		set_initial_nick
 
