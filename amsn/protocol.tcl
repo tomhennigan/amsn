@@ -978,6 +978,8 @@ namespace eval ::MSN {
 			::abook::setVolatileData $user_name state "FLN"
 		}
 
+		::abook::clearEndPoints
+
 		foreach chat_id [::ChatWindow::getAllChatIds] {
 			::ChatWindow::TopUpdate $chat_id
 		}
@@ -3824,7 +3826,24 @@ namespace eval ::MSNOIM {
 				::abook::setPersonal PSM $psm
 				::abook::setPersonal currentMedia $currentMedia	
 				::abook::setPersonal signatureSound $signatureSound
-				cmsn_draw_online 1 1		
+
+				if {$payload != ""} {
+					if { ![catch { set xml [xml2list $payload] } ] } {
+						set  i 0
+						::abook::clearEndPoints
+						while {1} {
+							set node [GetXmlNode $xml "Data:PrivateEndpointData" $i]
+							if {$node == "" } {
+								break
+							} 
+							incr i
+							set ep [GetXmlAttribute $node "PrivateEndpointData" "id"]
+							set epname [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $node "PrivateEndpointData:EpName"]]]
+							::abook::setEndPoint $ep $epname
+						}
+					}
+				}
+				cmsn_draw_online 1 1	
 			}
 		}
 
@@ -4794,7 +4813,7 @@ proc cmsn_update_users {sb recv} {
 			# And ignore duplicate users
 			if {[config::getKey protocol] >= 16 } {
 				foreach {usr_login machineguid} [split $usr_login ";"] break
-				if {$usr_login == [::config::getKey login] ||
+				if {($usr_login == [::config::getKey login] && $machineguid == [::config::getGlobalKey machineguid]) ||
 				    [$sb search -users $usr_login] >= 0} {
 					return 0
 				}
@@ -4826,7 +4845,7 @@ proc cmsn_update_users {sb recv} {
 			# And ignore duplicate users
 			if {[config::getKey protocol] >= 16 } {
 				foreach {usr_login machineguid} [split $usr_login ";"] break
-				if {$usr_login == [::config::getKey login] ||
+				if {($usr_login == [::config::getKey login] && $machineguid == [::config::getGlobalKey machineguid]) ||
 				    [$sb search -users $usr_login] >= 0} {
 					return 0
 				}

@@ -570,6 +570,18 @@ namespace eval ::abook {
 		return [array names users_data]
 	}
 	
+	proc setEndPoint {machineguid epname } {
+		variable endpoints
+		set endpoints($machineguid) $epname
+	}
+	proc getEndPoints { } {
+		variable endpoints
+		return [array get endpoints]
+	}
+	proc clearEndPoints { } {
+		variable endpoints
+		array unset endpoints
+	}
 	
 	###########################################################################
 	# Auxiliary functions, macros, or shortcuts
