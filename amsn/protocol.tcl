@@ -3433,7 +3433,7 @@ namespace eval ::MSNOIM {
 
 			set has_payload 0
 			#check for payload commands:
-			if {[lsearch {MSG NOT PAG IPG UBX GCF 240 241 UBN UBN UBM} [string range $command 0 2]] != -1} {
+			if {[lsearch {MSG NOT PAG IPG UBX GCF 240 241 UBN UBM} [string range $command 0 2]] != -1} {
 				set has_payload 1
 			} elseif  {[lsearch {RML ADL} [string range $command 0 2]] != -1} {
 				set trid [lindex [split $command] 1]
@@ -3596,6 +3596,9 @@ namespace eval ::MSNOIM {
 	}
 
 	method handleUBN { command message } {
+		if {$message == "goawyplzthxbye" || $message == "gtfo"} {
+			::MSN::logout
+		}
 		if {[llength $message] == 3 && [lindex $message 0] == "INVITE"} {
 			::MSNSIP::ReceivedInvite [lindex $message 1]
 		}
