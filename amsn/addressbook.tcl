@@ -80,7 +80,7 @@ snit::type Addressbook {
 
 	method FindMembership { callbk } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "http://contacts.msn.com/abservice/SharingService.asmx" \
+				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/FindMembership" \
 				 -header [$self getCommonHeaderXML Initial] \
 				 -body [$self getFindMembershipBodyXML] \
