@@ -2400,12 +2400,12 @@ namespace eval ::ChatWindow {
 		bind $voice    <Button1-ButtonRelease> "::ChatWindow::stop_and_send_voice_clip $w"
 
 		# Create our bindings
-		bind  $smileys  <Enter> "$smileys configure -image [::skin::loadPixmap butsmile_hover]"
-		bind  $smileys  <Leave> "$smileys configure -image [::skin::loadPixmap butsmile]"
-		bind  $fontsel  <Enter> "$fontsel configure -image [::skin::loadPixmap butfont_hover]"
-		bind  $fontsel  <Leave> "$fontsel configure -image [::skin::loadPixmap butfont]"
-		bind  $voice  <Enter> "$voice configure -image [::skin::loadPixmap butvoice_hover]"
-		bind  $voice  <Leave> "$voice configure -image [::skin::loadPixmap butvoice]"
+		bind $smileys <Enter> "$smileys configure -image [::skin::loadPixmap butsmile_hover]"
+		bind $smileys <Leave> "$smileys configure -image [::skin::loadPixmap butsmile]"
+		bind $fontsel <Enter> "$fontsel configure -image [::skin::loadPixmap butfont_hover]"
+		bind $fontsel <Leave> "$fontsel configure -image [::skin::loadPixmap butfont]"
+		bind $voice <Enter> "$voice configure -image [::skin::loadPixmap butvoice_hover]"
+		bind $voice <Leave> "$voice configure -image [::skin::loadPixmap butvoice]"
 		bind $block <Enter> "$block configure -image [::skin::loadPixmap butblock_hover]"
 		bind $block <Leave> "$block configure -image [::skin::loadPixmap butblock]"
 		
@@ -2440,6 +2440,44 @@ namespace eval ::ChatWindow {
 		} else {
 			::AVAssistant::AVAssistant
 		}
+	}
+	
+	proc setHangupButton {chatid cmd txt} {
+		set win [For $chatid]
+		if { $win == 0 } {
+			status_log "Oops, no CW for chatid : $chatid" red
+			return
+		}
+		set buttons [GetButtonBarForWin $win]
+		set buttonsinner [$buttons getinnerframe]
+		set hangup $buttonsinner.hangup
+
+		if {[winfo exists $hangup]} {
+			$hangup configure -command ${cmd}
+			set_balloon $hangup $txt
+		} else {
+			#Hangup button
+			button $hangup -image [::skin::loadPixmap buthangup] -relief flat -padx 0 \
+				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+				-command ${cmd}
+			set_balloon $hangup $txt
+			bind $hangup <Enter> "$webcam configure -image [::skin::loadPixmap buthangup_hover]"
+			bind $hangup <Leave> "$webcam configure -image [::skin::loadPixmap buthangup]"
+		}
+		pack $hangup -side left -padx 0 -pady 0			
+	}
+
+	proc removeHangupButton { chatid } {
+		set win [For $chatid]
+		if { $win == 0 } {
+			status_log "Oops, no CW for chatid : $chatid" red
+			return
+		}
+		set buttons [GetButtonBarForWin $win]
+		set buttonsinner [$buttons getinnerframe]
+		set hangup $buttonsinner.hangup
+		catch {destroy $hangup}	
 	}
 
 	proc start_voice_clip { w } {
