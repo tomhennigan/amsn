@@ -5877,7 +5877,7 @@ proc drawNick { } {
 		lappend stylestring [list "tag" "-mypsmmedia"]
 	}
 
-	if {[llength [::abook::getEndPoints]] > 0} {
+	if {[llength [::abook::getEndPoints]] > 1} {
 		lappend stylestring [list "newline" "\n"]
 		lappend stylestring [list "newline" "\n"]
 		lappend stylestring [list "tag" "myplaces"]
@@ -5926,7 +5926,7 @@ proc drawNick { } {
 	$pgBuddyTop.mystatus bind mystatus <Motion> \
 		+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
-	if {[llength [::abook::getEndPoints]] > 0} {
+	if {[llength [::abook::getEndPoints]] > 1} {
 
 		create_places_menu .my_places_menu
 
