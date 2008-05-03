@@ -1438,7 +1438,6 @@ proc CheckLock { email } {
 			# port is taken, let's make sure it's a profile lock
 			foreach {local_host} { localhost "[info hostname]" 127.0.0.1 } {
 				if {[catch {socket $local_host $Port} clientSock] == 0 } {
-					set done 1
 					status_log "CheckLock: Can connect to port. Sending PING\n" blue
 					fileevent $clientSock readable "lockcltHdl $clientSock"
 					fconfigure $clientSock -buffering line
