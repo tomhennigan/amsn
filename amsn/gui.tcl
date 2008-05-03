@@ -4101,6 +4101,27 @@ namespace eval ::amsn {
 	}
 }
 
+proc create_places_menu { wmenu } {
+	# Destroy if already existing
+	if {[winfo exists $wmenu]} {
+		destroy $wmenu
+	}
+
+  	# User status menu
+	menu $wmenu -tearoff 0 -type normal
+
+	$wmenu add command -label [trans signouthere [::config::getKey epname aMSN]] -command "::MSN::logout"
+	foreach ep [::abook::getEndPoints] {
+		if {![string equal -nocase $ep [::config::getGlobalKey machineguid]] } {
+			$wmenu add command -label [trans signoutep [::abook::getEndPointName $ep]] -command [list ::MSN::logoutEP $ep]
+		}
+	}
+	$wmenu add command -label [trans signouteverywhere] -command "::MSN::logoutGtfo"
+	$wmenu add separator	
+	$wmenu add command -label [trans renameep [::config::getKey epname aMSN]] -command "Preferences"
+	
+}
+
 proc create_states_menu { wmenu } {
 	# Destroy if already existing
 	if {[winfo exists $wmenu]} {
@@ -4118,6 +4139,7 @@ proc create_states_menu { wmenu } {
 	$wmenu add command -label [trans onphone] -command "ChCustomState PHN"
 	$wmenu add command -label [trans gonelunch] -command "ChCustomState LUN"
 	$wmenu add command -label [trans appearoff] -command "ChCustomState HDN"
+	$wmenu add command -label [trans signout] -command "::MSN::logout"
 
 	set modifier [GetPlatformModifier]
 	bind all <$modifier-Key-0> {catch {ChCustomState HDN}}
@@ -5837,6 +5859,24 @@ proc drawNick { } {
 		lappend stylestring [list "tag" "-mypsmmedia"]
 	}
 
+	if {[llength [::abook::getEndPoints]] > 0} {
+		lappend stylestring [list "newline" "\n"]
+		lappend stylestring [list "newline" "\n"]
+		lappend stylestring [list "tag" "myplaces"]
+		lappend stylestring [list "underline" "pl"]
+		lappend stylestring [list "colour" [::skin::getKey mystatus]]
+		lappend stylestring [list "font" [::skin::getFont "mystatuslabel" "splainf"]]
+		lappend stylestring [list "text" "[trans connectedat]: "]
+		lappend stylestring [list "default" $my_colour_state [::skin::getFont "mystatus" "bboldf"]]
+		lappend stylestring [list "colour" "reset"]
+		lappend stylestring [list "font" "reset"]
+		lappend stylestring [list "underline" "pl"]
+		lappend stylestring [list "text" "[trans xplaces [llength [::abook::getEndPoints]]]"]
+		lappend stylestring [list "underline" "pl"]
+		lappend stylestring [list "tag" "-myplaces"]
+		
+	}
+
 	::guiContactList::trimInfo stylestring
 	set renderInfo [::guiContactList::renderContact $pgBuddyTop.mystatus "all" $maxw $stylestring]
 	array set underlinst $renderInfo
@@ -5868,6 +5908,40 @@ proc drawNick { } {
 	$pgBuddyTop.mystatus bind mystatus <Motion> \
 		+[list balloon_motion %W %X %Y $balloon_message $pic_name $fonts complex]
 	
+	if {[llength [::abook::getEndPoints]] > 0} {
+
+		create_places_menu .my_places_menu
+
+		#Change mouse button on Mac OS X
+		if { [OnMac] } {
+			$pgBuddyTop.mystatus bind myplaces <Button2-ButtonRelease> "destroy .balloon; tk_popup .my_places_menu %X %Y"
+			$pgBuddyTop.mystatus bind myplaces <Control-ButtonRelease> "destroy .balloon; tk_popup .my_places_menu %X %Y"
+		} else {
+			$pgBuddyTop.mystatus bind myplaces <Button3-ButtonRelease> "destroy .balloon; tk_popup .my_places_menu %X %Y"
+		}
+
+		set ep_balloon ""
+		foreach ep [::abook::getEndPoints] {
+			append ep_balloon "[::abook::getEndPointName $ep]\n"
+		}
+		
+		$pgBuddyTop.mystatus bind myplaces <Enter> \
+		    [list ::guiContactList::underlineList $pgBuddyTop.mystatus [set underlinst(pl)] "all"]
+		$pgBuddyTop.mystatus bind myplaces <Leave> [list $pgBuddyTop.mystatus delete "uline_all"]
+		$pgBuddyTop.mystatus bind myplaces <Enter> \
+		    +[list $pgBuddyTop.mystatus configure -cursor hand2]
+		$pgBuddyTop.mystatus bind myplaces <Leave> +[list $pgBuddyTop.mystatus configure -cursor left_ptr]
+		
+		$pgBuddyTop.mystatus bind myplaces <Button1-ButtonRelease> "destroy .balloon; tk_popup .my_places_menu %X %Y"
+		$pgBuddyTop.mystatus bind myplaces <Enter> \
+		    +[list balloon_enter %W %X %Y $ep_balloon "" $fonts simple]
+		$pgBuddyTop.mystatus bind myplaces <Leave> "+set Bulle(first) 0; kill_balloon"
+		$pgBuddyTop.mystatus bind myplaces <Motion> \
+		    +[list balloon_motion %W %X %Y $ep_balloon "" $fonts simple]
+
+	}
+
+
 	#Called when the window is resized
 	# -> Refreshes the colorbar depending on the width of the window, and redraw the nickname, truncating as necessary
 	bind $pgBuddyTop.mystatus <Configure> "::skin::getColorBar ; RedrawNick"

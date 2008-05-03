@@ -1657,10 +1657,18 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1.p4c
 	label $lfname.1.p4c.label -text "[trans friendlyname] :" -font sboldf -padx 10
 	entry $lfname.1.p4c.entry -font splainf -width 45
+	frame $lfname.1.ep
+	label $lfname.1.ep.label -text "[trans renamelocation] :" -font sboldf -padx 10
+	entry $lfname.1.ep.entry -font splainf -width 45
 	pack $lfname.1 -side top -padx 0 -pady 3 -expand 1 -fill both
 	pack $lfname.1.name.label $lfname.1.name.entry -side left
 	pack $lfname.1.p4c.label $lfname.1.p4c.entry -side left
-	pack $lfname.1.name $lfname.1.p4c -side top -anchor nw
+	pack $lfname.1.ep.label $lfname.1.ep.entry -side left
+	if {[::config::getKey protocol] >= 16} {
+		pack $lfname.1.name $lfname.1.p4c $lfname.1.ep -side top -anchor nw
+	} else {
+		pack $lfname.1.name $lfname.1.p4c -side top -anchor nw
+	}
 
 	## Public Profile Frame ##
 	set lfname [labelframe $frm.lfname2 -text [trans prefprofile] -font splainf]
@@ -2935,6 +2943,11 @@ proc InitPref { {fullinit 0} } {
 	
 		$lfname.lfname.1.p4c.entry delete 0 end
 		$lfname.lfname.1.p4c.entry insert 0 [::config::getKey p4c_name]
+		
+		if {[::config::getKey protocol] >= 16} {
+			$lfname.lfname.1.ep.entry delete 0 end
+			$lfname.lfname.1.ep.entry insert 0 [::config::getKey epname aMSN]
+		}
 	
 		
 		# Get My Phone numbers and insert them
@@ -3284,6 +3297,10 @@ proc SavePreferences {} {
 		::MSN::changeName [::config::getKey login] $new_name
 	}
 	::config::setKey p4c_name [$lfname.p4c.entry get]
+
+	if {[::config::getKey protocol] >= 16} {
+		::MSN::changeEndPointName [$lfname.ep.entry get]
+	}
 
 	# Get remote controlling preferences
 	#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
