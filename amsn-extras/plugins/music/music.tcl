@@ -322,6 +322,7 @@ namespace eval ::music {
 					}
 				} else {
 					set style [string map {"%title" "$song" "%artist" "$artist" "%album" "$album"} $config(display_style)]
+					set style [subst $style]
 					append name $style
 					::music::changenick "$name"
 				}
@@ -543,6 +544,7 @@ namespace eval ::music {
 			1 {
 				#Send a message with the name of the current song
 				set msg [string map {"%title" "$song" "%artist" "$artist" "%album" "$album"} $::music::config(display_style)]
+				set msg [subst $msg]
 				::music::log "Send message with song name : [trans playing $msg]"
 				::amsn::MessageSend $win_name 0 "[trans playing $msg]"	
 			}
