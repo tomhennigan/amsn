@@ -1682,23 +1682,23 @@ if { $initialize_amsn == 1 } {
 	if {$machineguid == "" } {
 		set machineguid "{"
 		for {set i 0} {$i < 8} {incr i} {
-			append machineguid [format %X [expr {int(rand() * 16)}]]
+			append machineguid [format %x [expr {int(rand() * 16)}]]
 		}
 		append machineguid "-"
 		for {set i 0} {$i < 4} {incr i} {
-			append machineguid [format %X [expr {int(rand() * 16)}]]
+			append machineguid [format %x [expr {int(rand() * 16)}]]
 		}
 		append machineguid "-"
 		for {set i 0} {$i < 4} {incr i} {
-			append machineguid [format %X [expr {int(rand() * 16)}]]
+			append machineguid [format %x [expr {int(rand() * 16)}]]
 		}
 		append machineguid "-"
 		for {set i 0} {$i < 4} {incr i} {
-			append machineguid [format %X [expr {int(rand() * 16)}]]
+			append machineguid [format %x [expr {int(rand() * 16)}]]
 		}
 		append machineguid "-"
 		for {set i 0} {$i < 12} {incr i} {
-			append machineguid [format %X [expr {int(rand() * 16)}]]
+			append machineguid [format %x [expr {int(rand() * 16)}]]
 		}
 		append machineguid "}"
 
