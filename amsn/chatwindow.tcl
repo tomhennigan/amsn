@@ -3648,7 +3648,7 @@ namespace eval ::ChatWindow {
 		set win [set tab2win($tab)]
 		if {[::amsn::SIPchatidExistsInList [Name $win]]} {
 			status_log " we can't close, there's a sip call running ..." green
-			tk_messageBox -default ok -message "You have to close/cancel the SIP call in order to close the window"
+			tk_messageBox -default ok -message [trans closeorcall]
 			return
 		}
 		set container [winfo toplevel $win]
