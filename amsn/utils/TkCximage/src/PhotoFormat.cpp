@@ -170,13 +170,6 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
     return TCL_ERROR;
   }
 
-  /*LOG("Flipping image"); //
-
-  if(!image.Flip()) {
-    Tcl_AppendResult(interp, image.GetLastError(), NULL);
-    return TCL_ERROR;
-  }*/
-
   LOG("Encoding to RGBA"); //
 
   if(!image.Encode2RGBA(buffer, size)) {
@@ -251,35 +244,10 @@ int ObjRead (Tcl_Interp *interp, Tcl_Obj *data, Tcl_Obj *format, Tk_PhotoHandle 
 		AnimatedGifInfo->image->SetFrame(numframes - 1);
 		AnimatedGifInfo->image->Decode(FileData, length, CXIMAGE_FORMAT_GIF);
 
-		/*for(int i = 0; i < numframes; i++){
-			if(AnimatedGifInfo->image->GetFrameNo(i) != AnimatedGifInfo->image) {
-				AnimatedGifInfo->image->GetFrameNo(i)->Flip();
-			}
-		}*/
 		LOG("Adding AnimatedGifInfo");
 		APPENDLOG(imageHandle);
 		TkCxImage_lstAddItem(AnimatedGifInfo);
 
-		/*
-		// Store each frame
-		for(int i = 0; i < numframes; i++){
-			currentFrame = new CxImage();
-			currentFrame->SetFrame(i);
-			if(currentFrame->Decode(FileData, length, CXIMAGE_FORMAT_GIF) && currentFrame->Flip()) {
-				AnimatedGifInfo->Frames[i] = currentFrame;
-			} else {
-				delete currentFrame;
-				for(int i = 0; i < numframes; i++){
-					delete AnimatedGifInfo->Frames[i];
-					AnimatedGifInfo->Frames[i] = NULL;
-				}
-				delete AnimatedGifInfo->Frames;
-				AnimatedGifInfo->Frames = NULL;
-				delete AnimatedGifInfo;
-				AnimatedGifInfo = NULL;
-			}
-		}
-	*/
 		AnimatedGifInfo->Enabled = true;
 		if (AnimatedGifInfo)
 			AnimatedGifInfo->timerToken=Tcl_CreateTimerHandler(AnimatedGifInfo->image->GetFrame(0)->GetFrameDelay(), AnimateGif, (ClientData) AnimatedGifInfo);
@@ -441,8 +409,7 @@ void PhotoDisplayProcHook(
 	int drawableX,
 	int drawableY){
 
-#ifndef __APPLE__
-#ifndef WIN32
+#if !defined(__APPLE__) && !defined (WIN32)
 
   /* 
    * The whole next block is used to prevent a bug with XGetImage
@@ -492,7 +459,6 @@ void PhotoDisplayProcHook(
    * End of the fix
    */
 
-#endif
 #endif
 
 
