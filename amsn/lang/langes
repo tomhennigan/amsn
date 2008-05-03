@@ -108,7 +108,7 @@ bouncedock Animación del icono aMSN cuando se recibe un mensaje
 brightness Brillo
 broughtby Traído para ti por los siguientes programadores
 browse Examinar
-browserexample ( \$url se sustituirá por la dirección). Ej: mozilla \$url
+browserexample ( \$url se sustituirá por la dirección). Ej: firefox \$url
 browser Navegador
 bugerror Lo sentimos, pero hubo un error conectando a la Base de Datos de Fallos. Por favor verifique su conexión a Internet.
 bugnocomment ¿Enviar sin un comentario?. Comentar un fallo nos ayuda a hacernos una idea de qué fue mal y así poder arreglarlo fácilmente.
@@ -212,6 +212,7 @@ confirmpurge Todas las imágenes para mostrar del resto de los contactos (no las
 confirmrfl ¿Estás seguro que deseas borrar este usuario de este grupo?
 congrats Felicitaciones
 connected Ahora estás conectado
+connectedat Conectado en
 connectedwith Conectado como $1
 connecterror Error conectándose al servidor
 connectfirst Por favor conéctate primero
@@ -748,6 +749,8 @@ removeempty Eliminar grupos vacíos de la lista de contactos
 removefromgroup Eliminar del grupo
 removefromlist Borrar de esta lista
 rename Cambiar nombre
+renameep Renombrar este lugar ($1)
+renamelocation Renombrar este lugar
 report Informe
 reporting Generando informe
 required_version Imposible cargar este plug-in. Este plug-in requiere como mínimo aMSN $1 para funcionar
@@ -815,6 +818,10 @@ showonedpframe Mostrar un único marco con la imagen para mostrar en las ventana
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
 showuserpic Imagen de $1
 signinstatus Estado inicial
+signout Cerrar la sesión
+signoutep Cerrar la sesión de $1
+signouteverywhere Cerrar todas las sesiones
+signouthere Cerrar esta sesión ($1)
 sipcallaccepted Llamada de audio aceptada
 sipcallback Devolver la llamada
 sipcalldeclined Llamada de audio rechazada
@@ -999,6 +1006,7 @@ xmmscurrent Mostrar la canción actual
 xmmserr No hay canción en reproducción, o no tienes xmms-infopipe instalado.
 xmmssend Enviar canción actual
 xoffset Desplazamiento X
+xplaces $1 lugar(es)
 year Año
 yesblock Sí, y bloquear
 yes Sí
