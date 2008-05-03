@@ -958,7 +958,7 @@ proc SOCKSSocket { args } {
 
 				# the handleCommand *could* potentially destroy our own object for some reason...
 				# we must be prepared to not crash because of that.
-				catch { 
+				if { [catch { 
 					if { $session_id != ""} {
 						#status_log "Scheduling HTTPPoll\n" white
 						set poll_afterids($name) [after 2000 [list $self HTTPPoll $name]]
@@ -966,6 +966,8 @@ proc SOCKSSocket { args } {
 					
 					set options(-proxy_gateway_ip) $gateway_ip
 					set options(-proxy_session_id) $session_id
+				}] } {
+					after cancel [list $self HTTPPoll $name]
 				}
 			}
 		}
