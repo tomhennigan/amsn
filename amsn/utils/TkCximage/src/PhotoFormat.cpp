@@ -402,7 +402,7 @@ void AnimateGif(ClientData data) {
 		if(master == Info->ImageMaster) {
 		//Image is always the same
 			Info->CurrentFrame++;
-			if(Info->CurrentFrame == Info->NumFrames)
+			if(Info->CurrentFrame >= Info->NumFrames || Info->image->GetFrame(Info->CurrentFrame) == NULL)
 				Info->CurrentFrame = 0;
 			CxImage *image = Info->image->GetFrame(Info->CurrentFrame);
 			Tk_ImageChanged(Info->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
@@ -501,6 +501,10 @@ void PhotoDisplayProcHook(
 	if (item != NULL){
 		if (item->CurrentFrame != (unsigned int)item->CopiedFrame) { //Frame isn't the good one in the photo buffer
 			CxImage *image = item->image->GetFrame(item->CurrentFrame);
+			if (image == NULL) {
+			  item->CurrentFrame = 0;
+			  image = item->image->GetFrame(item->CurrentFrame);
+			}
 			item->CopiedFrame = item->CurrentFrame; //We set the copied frame before to avoid infinite loops
 			AnimatedGifFrameToTk(NULL, item, image, true);
 			//fprintf(stderr, "Copied frame n°%u\n",item->CopiedFrame);

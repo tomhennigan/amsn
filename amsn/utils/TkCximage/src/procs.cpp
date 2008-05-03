@@ -173,7 +173,10 @@ int Tk_Resize (ClientData clientData,
   item = TkCxImage_lstGetItem(Photo);
   if ( item != NULL ) {
     for(unsigned int i=0; i< item->NumFrames; i++) {
-      item->image->GetFrame(i)->Resample(width, height, 1);
+      /* an image could have X frames but not all of them could have been decoded */
+      if (item->image->GetFrame(i) != NULL) {
+        item->image->GetFrame(i)->Resample(width, height, 1);
+      }
     }
 
     //We clear stored buffers and when we will display them they will be recreated
@@ -518,7 +521,8 @@ int AnimatedGifFrameToTk(Tcl_Interp *interp, GifInfo *Info, CxImage *frame, int 
 			APPENDLOG( Info->buffers.size());
 			
 			CxImage *image = Info->image->GetFrame(Info->buffers.size());
-			
+			if (image == NULL)
+			  break;
 			buffer = new CxMemFile();
 			//The image isn't stored yet we will make the buffer and keep it
 			buffer->Open();
@@ -597,6 +601,10 @@ int Tk_EnableAnimation (ClientData clientData,
 		if (item->timerToken == NULL) {
 			int currentFrame = item->CurrentFrame;
 			CxImage *image = item->image->GetFrame(currentFrame);
+			if (image == NULL) {
+			  currentFrame = item->CurrentFrame = 0;
+			  CxImage *image = item->image->GetFrame(currentFrame);
+			}
 			item->timerToken = Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, item);
 		}
 	}
@@ -701,7 +709,7 @@ int Tk_JumpToFrame (ClientData clientData,
 		return TCL_ERROR;
 	}
 
-	if ((unsigned int)frame_number < item->NumFrames) {
+	if ((unsigned int)frame_number < item->NumFrames && item->image->GetFrame(frame_number) != NULL ) {
 		item->CurrentFrame = frame_number;
 		CxImage *image = item->image->GetFrame(item->CurrentFrame);
 		Tk_ImageChanged(item->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
