@@ -359,7 +359,7 @@ namespace eval ::ChatWindow {
 				# ask whether those windows should be closed or not
 				if {[::config::getKey closeChatWindowsAfterLogout 0] == 2} {
 					return 1
-				} elseif {[::config::getKey closeChatWindowsAfterLogout 0] == 0} {
+				} elseif {[::config::getKey closeChatWindowsAfterLogout 0] != 1} {
 					set result [::amsn::customMessageBox [trans closechatwindows] yesnocancel question [trans title] "" 1 1]
 					set answer [lindex $result 0]
 					set rememberAnswer [lindex $result 1]
