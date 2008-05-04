@@ -686,6 +686,26 @@ namespace eval ::gnotify {
 
 	}
 
+	proc setup_http { } {
+		set proxy [::config::getKey proxy]
+		set proxy_host [lindex $proxy 0]
+		set proxy_port [lindex $proxy 1]
+		if {$proxy_host == "" } {
+			::http::config -proxyhost ""
+		} else {
+			if { $proxy_port == "" } {
+				set proxy_port 1080
+			}
+			::http::config -proxyhost $proxy_host -proxyport $proxy_port
+		}
+		#bind the https in order to use tls
+		if { [::config::getKey proxytype] == "http"} {
+			http::register https 443 HTTPsecureSocket
+		} else {
+			http::register https 443 SOCKSsecureSocket
+		}
+	}
+
 	proc check_gmail { acnt {url "http://mail.google.com/mail/?ui=pb"}} {
 		variable user_cookies
 		variable status_$acnt
@@ -698,8 +718,9 @@ namespace eval ::gnotify {
 
 		if { [info exists user_cookies($username,$password,SID)]} {
 			set cookie [buildCookie $username $password]
-
 			set headers [list Cookie $cookie]
+
+			setup_http
 			set token [http::geturl $url -headers $headers -timeout 10000 -command [list ::gnotify::check_gmail_callback $acnt]]
 		} else {
 			set token [authenticate_gmail $acnt [list ::gnotify::check_gmail $acnt]]
@@ -786,8 +807,7 @@ namespace eval ::gnotify {
 		package require http
 		package require tls
 		package require base64
-		#bind the https in order to use tls
-		http::register https 443 ::tls::socket
+
 		
 		set username $::gnotify::config(user_$acnt)
 		set password [::gnotify::decrypt $::gnotify::config(passe_$acnt)]
@@ -799,6 +819,8 @@ namespace eval ::gnotify {
 			set headers [list Authorization "Basic [base64::encode $username:$password]"]
 		}
 		plugins_log gnotify "authenticating at $url"
+
+		setup_http
 		return [http::geturl $url -headers $headers -timeout 10000 \
 			    -command [list ::gnotify::authenticate_gmail_callback $acnt $callback]]
 	}
