@@ -5885,12 +5885,9 @@ proc drawNick { } {
 		lappend stylestring [list "colour" [::skin::getKey mystatus]]
 		lappend stylestring [list "font" [::skin::getFont "mystatuslabel" "splainf"]]
 		lappend stylestring [list "text" "[trans connectedat]: "]
-		lappend stylestring [list "default" $my_colour_state [::skin::getFont "mystatus" "bboldf"]]
 		lappend stylestring [list "colour" "reset"]
 		lappend stylestring [list "font" "reset"]
-		lappend stylestring [list "underline" "pl"]
 		lappend stylestring [list "text" "[trans xplaces [llength [::abook::getEndPoints]]]"]
-		lappend stylestring [list "underline" "pl"]
 		lappend stylestring [list "tag" "-myplaces"]
 		
 	}
@@ -5968,7 +5965,8 @@ proc drawNick { } {
 
 	#make sure we didn't get an empty string (because the status isn't visible anymore)
 	if {[llength $bbox] == 4} {
-		$pgBuddyTop.mystatus configure -width [lindex $bbox 2] -height [lindex $bbox 3]
+		# We say +2 to let underline visible
+		$pgBuddyTop.mystatus configure -width [lindex $bbox 2] -height [expr {[lindex $bbox 3]+2}]
 	}
 }
 
