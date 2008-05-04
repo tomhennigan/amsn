@@ -192,6 +192,7 @@ close Fermer
 closechatwindows Fermer toutes les conversations avant de se déconnecter ?
 closelabel Lorsque vous cliquez sur le bouton Fermer dans une fenêtre de conversation à onglets
 closeonly Ne fermer que l'onglet courant
+closeorcall Vous devez raccrocher l'appel audio avant de fermer la fenêtre de conversation
 closeordock Fermer la fenêtre de la liste de contacts va quitter aMSN. Peut-être que vous souhaitez seulement fermer la fenêtre et avoir aMSN dans la boîte à miniatures (systray ou traydock).\n\nEtes-vous sûr de vouloir quitter aMSN?
 closeothers Fermer tous les autres onglets
 closingdocks Le bouton Fermer ancre l'application
@@ -212,6 +213,7 @@ confirmrfl Etes-vous sûr de vouloir effacer ce contact de ce groupe ?
 confirm Êtes-vous sûr ?
 congrats Félicitations
 connected Vous êtes maintenant connecté[e]
+connectedat Connecté[e] depuis
 connectedwith Connecté[e] avec $1
 connecterror Erreur de connexion
 connectfirst Veuillez vous connecter
@@ -748,6 +750,8 @@ removeempty Retirer les groupes vides de la liste des contacts
 removefromgroup Enlever de ce groupe
 removefromlist Supprimer de cette liste
 rename Renommer
+renameep Renommer cet emplacement ($1)
+renamelocation Renommer cet emplacement
 report Envoyer
 reporting Envoi du bug....
 required_version Impossible de charger ce plugin. Il nécessite au moins la version $1 d'aMSN
@@ -815,6 +819,10 @@ showonedpframe N'afficher qu'un avatar dans la fenêtre de conversation
 showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
 showuserpic Icône de $1
 signinstatus Statut lors de la connexion
+signout Se déconnecter 
+signoutep Se déconnecter de $1
+signouteverywhere Se déconnecter partout
+signouthere Se déconnecter de cet emplacement ($1)
 sipcallaccepted Appel audio accepté
 sipcallback Rappeler
 sipcalldeclined Appel audio rejeté
@@ -999,6 +1007,7 @@ xmmscurrent Affiche la chanson que j'écoute
 xmmserr Rien à jouer, ou vous n'avez pas installé xmms-infopipe.
 xmmssend Envoyer la chanson courante
 xoffset Position en X
+xplaces $1 emplacements
 year Année
 yesblock Oui et bloquer
 yes Oui
