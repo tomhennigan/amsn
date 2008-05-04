@@ -5877,16 +5877,20 @@ proc drawNick { } {
 		lappend stylestring [list "tag" "-mypsmmedia"]
 	}
 
+	lappend stylestring [list "underline" "reset"]
+
 	if {[llength [::abook::getEndPoints]] > 1} {
 		lappend stylestring [list "newline" "\n"]
-		lappend stylestring [list "newline" "\n"]
-		lappend stylestring [list "tag" "myplaces"]
-		lappend stylestring [list "underline" "pl"]
+		lappend stylestring [list "tag" "myplaceslabel"]
 		lappend stylestring [list "colour" [::skin::getKey mystatus]]
 		lappend stylestring [list "font" [::skin::getFont "mystatuslabel" "splainf"]]
 		lappend stylestring [list "text" "[trans connectedat]: "]
+		lappend stylestring [list "tag" "-myplaceslabel"]
+		lappend stylestring [list "tag" "myplaces"]
+		lappend stylestring [list "default" $my_colour_state [::skin::getFont "mystatus" "bboldf"]]
 		lappend stylestring [list "colour" "reset"]
 		lappend stylestring [list "font" "reset"]
+		lappend stylestring [list "underline" "pl"]
 		lappend stylestring [list "text" "[trans xplaces [llength [::abook::getEndPoints]]]"]
 		lappend stylestring [list "tag" "-myplaces"]
 		
