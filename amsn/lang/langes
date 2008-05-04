@@ -192,6 +192,7 @@ closechatwindows ¿Cerrar todas las conversaciones antes de cerrar la sesión?
 closed Conversación con $1 cerrada por inactividad
 closelabel Al cerrar una ventana de chat que contiene varias pestañas
 closeonly Cerrar sólo la pestaña actual
+closeorcall Tienes que cerrar/cancelar la llamada de audio antes de cerrar la ventana.
 closeordock Al cerrar la lista de contactos se saldrá de aMSN. Quizás sólo quieras cerrar la ventana y que aMSN permanezca en la bandeja del sistema.\n\n¿Estás seguro de que deseas salir de aMSN?
 closeothers Cerrar las demás pestañas
 closingdocks Botón de cerrar iconifica la ventana
@@ -1006,7 +1007,7 @@ xmmscurrent Mostrar la canción actual
 xmmserr No hay canción en reproducción, o no tienes xmms-infopipe instalado.
 xmmssend Enviar canción actual
 xoffset Desplazamiento X
-xplaces $1 lugar(es)
+xplaces $1 lugares
 year Año
 yesblock Sí, y bloquear
 yes Sí
