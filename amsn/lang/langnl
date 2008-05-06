@@ -192,8 +192,9 @@ closechatwindows Alle gesprekken sluiten voor afmelden?
 closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closelabel Bij het klikken op de sluitknop van een venster met tabbladen
 closeonly Alleen het zichtbare tabblad sluiten
+closeorcall Je moet het audiogesprek sluiten/annuleren alvorens het venster te sluiten.
 closeordock Als je de contactenlijst sluit, wordt aMSN afgesloten. Wellicht wilde je enkel het venster sluiten en aMSN actief houden in het systeemvak.\n\nWil je aMSN werkelijk afsluiten?
-closeothers Alle andere tabbladen sluiten
+closeothers Alle overige tabbladen sluiten
 closingdocks Minimaliseren i.p.v. sluiten
 color Kleur
 command Commando
@@ -212,6 +213,7 @@ confirmpurge Alle opgeslagen schermafbeeldingen van je contacten zullen worden v
 confirmrfl weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
 congrats Gefeliciteerd
 connected Je bent nu verbonden
+connectedat Aangemeld om 
 connectedwith Aangemeld als $1
 connecterror Fout bij verbinden met server
 connectfirst Maak eerst verbinding
@@ -642,7 +644,7 @@ options Opties
 ordercontactsby Contacten sorteren op
 ordergroupsby Groepen sorteren op
 original Origineel
-other Andere
+other Overig
 otherdisplaypic Overige schermafbeeldingen van dit contact (klik met de rechtermuisknop voor meer opties)
 otherdps Overige schermafbeeldingen
 others Overig
@@ -748,6 +750,8 @@ removeempty Lege groepen verwijderen uit de contactenlijst
 removefromgroup Verwijderen uit groep
 removefromlist Verwijderen uit deze lijst
 rename Hernoemen
+renameep Deze locatie hernoemen ($1)
+renamelocation Deze locatie hernoemen
 report Foutrapport versturen
 reporting Foutrapport wordt verstuurd
 required_version Kan de plug-in niet laden omdat deze minimaal aMSN $1 nodig heeft om te werken
@@ -815,6 +819,10 @@ shownotify Meldingsvenster weergeven bij bepaalde gebeurtenissen
 showpicnotify Schermafbeelding weergeven op meldingsvensters
 showuserpic Afbeelding van $1
 signinstatus Status na aanmelden
+signout Afmelden
+signouthere Hier afmelden ($1)
+signoutep Afmelden bij $1
+signouteverywhere Overal afmelden
 sipcallaccepted Audiogesprek geaccepteerd
 sipcallback Terugbellen
 sipcalldeclined Audiogesprek geweigerd
@@ -1001,6 +1009,7 @@ wrongprofileversion Verkeerde versie profielconfiguratiebestand. Gelieve de map 
 xmmscurrent Weergeven welke muziek je afspeelt
 xmmserr Er wordt niks afgespeeld of "xmms-infopipe" is niet geïnstalleerd
 xmmssend Huidige nummer verzenden
+xplaces $1 plaatsen
 xoffset Horizontaal
 year Jaar
 yes Ja
