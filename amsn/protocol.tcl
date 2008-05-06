@@ -4828,7 +4828,7 @@ proc cmsn_update_users {sb recv} {
 			# And ignore duplicate users
 			if {[config::getKey protocol] >= 16 } {
 				foreach {usr_login machineguid} [split $usr_login ";"] break
-				if {($usr_login == [::config::getKey login] && $machineguid == [::config::getGlobalKey machineguid]) ||
+				if {$usr_login == [::config::getKey login] ||
 				    [$sb search -users $usr_login] >= 0} {
 					return 0
 				}
@@ -4860,7 +4860,7 @@ proc cmsn_update_users {sb recv} {
 			# And ignore duplicate users
 			if {[config::getKey protocol] >= 16 } {
 				foreach {usr_login machineguid} [split $usr_login ";"] break
-				if {($usr_login == [::config::getKey login] && $machineguid == [::config::getGlobalKey machineguid]) ||
+				if {$usr_login == [::config::getKey login] ||
 				    [$sb search -users $usr_login] >= 0} {
 					return 0
 				}
