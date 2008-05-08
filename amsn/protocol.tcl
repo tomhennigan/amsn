@@ -5187,7 +5187,7 @@ proc cmsn_change_state {recv} {
 	set oldPic [::abook::getContactData $user displaypicfile]
 	set newPic [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 
-	if { $oldPic != $newPic } {
+	if { $oldPic != $newPic && $user != [::config::getKey login] } {
 		::abook::setContactData $user displaypicfile $newPic
 
 		if { $newPic == "" } {
