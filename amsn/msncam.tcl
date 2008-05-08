@@ -42,7 +42,8 @@ proc getObjOption { obj option {def ""}} {
 proc clearObjOption { obj } {
 	global objects
 
-	catch { unset objects($obj) }
+	status_log "Clearing ObjOption for $obj"
+#	catch { unset objects($obj) }
 }
 
 proc checkObjExists { obj } {
