@@ -184,10 +184,6 @@ namespace eval ::MSNP2P {
 				} else {
 					image delete displaypicture_not_$user
 				}
-
-				# launch an event for plugins
-				set evPar(user) $user
-				::plugins::PostEvent ChangeDP evPar
 			}				
 			
 			create_dir [file join $HOME displaypic]
@@ -195,12 +191,11 @@ namespace eval ::MSNP2P {
 			create_dir [file join $HOME displaypic cache $user]
 			::MSNP2P::RequestObject $chatid $user $msnobj
 		} else {
-			::skin::getDisplayPicture $user 1
-			
-			# launch an event for plugins
-			set evPar(user) $user
-			::plugins::PostEvent ChangeDP evPar
+			::skin::getDisplayPicture $user 1	
 		}
+		# launch an event for plugins
+		set evPar(user) $user
+		::plugins::PostEvent ChangeDP evPar
 	}
 
 	proc loadUserSmiley { chatid user msnobj } {
@@ -1055,6 +1050,8 @@ namespace eval ::MSNP2P {
 #							puts $fd "[clock format [clock seconds] -format %x]\n$user_login"
 							puts $fd "[clock seconds]\n$user_login"
 							close $fd
+							# new DP, maybe we need to refresh the CL
+							::Event::fireEvent contactDPChange protocol $user_login
 
 						} else {
 							#set file [png_to_gif [file join $HOME smileys cache ${filename}.png]]

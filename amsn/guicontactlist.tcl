@@ -145,6 +145,9 @@ namespace eval ::guiContactList {
 
 		# Register events
 		::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
+		if {[::config::getKey show_contactdps_in_cl] == "1"} {
+			::Event::registerEvent contactDPChange all ::guiContactList::contactChanged
+		}
 		::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactPSMChange all ::guiContactList::contactChanged
