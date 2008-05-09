@@ -16,16 +16,9 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
-<tr><td><img  title="Alberto Diaz" alt="Alberto Diaz" src="images/developer-alberto.png" width="168" height="147" /></td><td>
-<b>Alberto Diaz</b>
-        <br />Role: Admin &#8226; Developer
-        <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
-<tr><td><img  title="Arieh Schneier" alt="Arieh Schneier" src="images/developer-arieh.png" width="168" height="147" /></td><td>
-<b>Arieh Schneier</b>
-        <br />Role: Developer &#8226; Win Maintainer &#8226; Admin
+<tr><td><img  title="Cristofaro Del Prete" alt="Cristofaro Del Prete" src="images/developer-default.png" width="168" height="147" /></td><td>
+<b>Cristofaro Del Prete</b>
+        <br />Role: Developer
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
@@ -37,16 +30,16 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
+<tr><td><img  title="Giuseppe Bottiglieri" alt="Giuseppe Bottiglieri" src="images/developer-default.png" width="168" height="147" /></td><td>
+<b>Giuseppe Bottiglieri</b>
+        <br />Role: Developer
+        <br />Location: 
+        <br />IRC Nick: [square] 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
 <tr><td><img  title="Harry Vennik" alt="Harry Vennik" src="images/developer-harry.png" width="168" height="147" /></td><td>
 <b>Harry Vennik</b>
         <br />Role: 
-        <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
-<tr><td><img  title="Jerome Gagnon-Voyer" alt="Jerome Gagnon-Voyer" src="images/developer-jerome.png" width="168" height="147" /></td><td>
-<b>Jerome Gagnon-Voyer</b>
-        <br />Role: Mac Porter &#8226; Maintainer &#8226; Admin &#8226; Developer
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
@@ -65,13 +58,6 @@
         <br />IRC Nick:
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
-<tr><td><img  title="Karol Krizka" alt="Karol Krizka" src="images/developer-karol.png" width="168" height="147" /></td><td>
-<b>Karol Krizka</b>
-        <br />Role: Developer
-        <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
 <tr><td><img  title="Khalaf G. Philippe" alt="Khalaf G. Philippe" src="images/developer-burger.png" width="168" height="147" /></td><td>
 <b>Khalaf G. Philippe</b>
         <br />Role: Admin &#8226; Developer &#8226; Retired webpage developer &#8226;<a href="http://farsight.sourceforge.net/"> Farsight Project Manager</a>
@@ -86,18 +72,11 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
-<tr><td><img  title="Luis Q. T." alt="Luis Q. T." src="images/developer-default.png" width="168" height="147" /></td><td>
-<b>Luis Q. T.</b>
+<tr><td><img  title="Mirko Hansen" alt="Mirko Hansen" src="images/developer-default.png" width="168" height="147" /></td><td>
+<b>Mirko Hansen</b>
         <br />Role: Developer
         <br />Location: 
-        <br />IRC Nick: 
-        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
-
-<tr><td><img  title="LuisMi Garcia" alt="LuisMi Garcia" src="images/developer-default.png" width="168" height="147" /></td><td>
-<b>LuisMi Garcia</b>
-        <br />Role: Developer
-        <br />Location: 
-        <br />IRC Nick: 
+        <br />IRC Nick: BaaaZen
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
 <tr><td><img  title="Philippe Valembois" alt="Philippe Valembois"
@@ -113,6 +92,13 @@
         <br />Role: Admin &#8226; Developer
         <br />Location: 
         <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="Thomas Geirhovd" alt="Thomas Geirhovd" src="images/developer-default.png" width="168" height="147" /></td><td>
+<b>Thomas Geirhovd</b>
+        <br />Role: Developer
+        <br />Location: 
+        <br />IRC Nick:
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
 
@@ -271,6 +257,49 @@
         <br />Location: 
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="Alberto Diaz" alt="Alberto Diaz" src="images/developer-alberto.png" width="168" height="147" /></td><td>
+<b>Alberto Diaz</b>
+        <br />Role: Admin &#8226; Developer
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="Arieh Schneier" alt="Arieh Schneier" src="images/developer-arieh.png" width="168" height="147" /></td><td>
+<b>Arieh Schneier</b>
+        <br />Role: Developer &#8226; Win Maintainer &#8226; Admin
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="Karol Krizka" alt="Karol Krizka" src="images/developer-karol.png" width="168" height="147" /></td><td>
+<b>Karol Krizka</b>
+        <br />Role: Developer
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="Jerome Gagnon-Voyer" alt="Jerome Gagnon-Voyer" src="images/developer-jerome.png" width="168" height="147" /></td><td>
+<b>Jerome Gagnon-Voyer</b>
+        <br />Role: Mac Porter &#8226; Maintainer &#8226; Admin &#8226; Developer
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="Luis Q. T." alt="Luis Q. T." src="images/developer-default.png" width="168" height="147" /></td><td>
+<b>Luis Q. T.</b>
+        <br />Role: Developer
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
+<tr><td><img  title="LuisMi Garcia" alt="LuisMi Garcia" src="images/developer-default.png" width="168" height="147" /></td><td>
+<b>LuisMi Garcia</b>
+        <br />Role: Developer
+        <br />Location: 
+        <br />IRC Nick: 
+        <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
 </tbody></table>
 <br />
 
