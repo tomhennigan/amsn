@@ -13,6 +13,9 @@ snit::type SOAPRequest {
 	variable wait 0
 	variable status ""
 	variable last_error ""
+	variable fault_code ""
+	variable fault_string ""
+	variable fault_detail ""
 	variable xml ""
 	variable redirected 0
 	variable http_req ""
@@ -137,14 +140,21 @@ snit::type SOAPRequest {
 			} else {
 				set fault [GetXmlNode $xml "soap:Envelope:soap:Body:soap:Fault"]
 				set faultcode [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultcode"]
+				set faultstring [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultstring"]
+				set faultdetail [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:errorcode"]
 				if {$fault == "" } {
 					set fault [GetXmlNode $xml "S:Envelope:S:Fault"]
 					set faultcode [GetXmlEntry $xml "S:Envelope:S:Fault:faultcode"]
+					set faultstring [GetXmlEntry $xml "S:Envelope:S:Fault:faultstring"]
+					set faultdetail [GetXmlEntry $xml "S:Envelope:S:Fault:detail:errorcode"]
 				}
 
 				if { $fault != "" } {
 					set status "fault"
 					set last_error $faultcode
+					set fault_code $faultcode
+					set fault_string $faultstring
+					set fault_detail $faultdetail
 				}
 			}
 		} elseif { [::http::status $token] == "ok" } {
@@ -190,5 +200,15 @@ snit::type SOAPRequest {
 
 	method GetLastError { } {
 		return $last_error
+	}
+
+	method GetFaultCode { } {
+		return $fault_code
+	}
+	method GetFaultString { } {
+		return $fault_string
+	}
+	method GetFaultDetail { } {
+		return $fault_detail
 	}
 }

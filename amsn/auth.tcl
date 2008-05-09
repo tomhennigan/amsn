@@ -95,8 +95,8 @@ snit::type SSOAuthentication {
 		} elseif  {[$soap GetStatus] == "fault" } {
 			set xml  [$soap GetResponse]
 
-			set faultcode [GetXmlEntry $xml "S:Envelope:S:Fault:faultcode"]	;# Should be "wsse:FailedAuthentication"
-			set faultstring [GetXmlEntry $xml "S:Envelope:S:Fault:faultstring"]
+			set faultcode [$soap GetFaultCode]
+			set faultstring [$soap GetFaultString]
 			
 			status_log "Error authenticating : $faultcode - $faultstring" green
 			if {$faultcode == "wsse:FailedAuthentication" } {

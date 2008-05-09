@@ -2974,7 +2974,7 @@ namespace eval ::MSNOIM {
                         set xml [$soap GetResponse]
                         status_log "Error in OIM:" white
                         status_log $xml white
-                        set faultcode [$soap GetLastError]
+                        set faultcode [$soap GetFaultCode]
                         $soap destroy
 			status_log "Fault code: $faultcode" white
 
@@ -3068,7 +3068,7 @@ namespace eval ::MSNOIM {
 			set xml [$soap GetResponse]
 			status_log "Error in OIM:" white
 			status_log $xml white
-			set faultcode [$soap GetLastError]
+			set faultcode [$soap GetFaultCode]
 			$soap destroy
 
 			if { $faultcode == "q0:AuthenticationFailed" } {
