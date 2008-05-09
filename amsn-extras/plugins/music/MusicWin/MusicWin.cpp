@@ -17,9 +17,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+/* NOTICE:
+ * To compile this file you need iTunesCOMInterface_i.c and iTunesCOMInterface.h
+ * from http://developer.apple.com/sdk/itunescomsdk.html
+ * Thanks to Denis Lukianov for the example on how to use the COM interface.
+ */
 
 #include "MusicWin.h"
 #include "wa_ipc.h"
+
+#include <string>
+#include "iTunesCOMInterface.h"
 
 Tcl_UniChar WMPTitle[2048] = {'\0'};
 int cbWMPTitle = 0;
@@ -267,6 +275,122 @@ static int GetWMPInfo(ClientData clientData,
 	return TCL_OK;
 }
 
+static int GetiTunesInfo(ClientData clientData,
+					Tcl_Interp *interp,
+					int objc,
+					Tcl_Obj *CONST objv[])
+{
+	using std::wstring;
+
+	IiTunes *iITunes = 0;
+	IITTrack *iITrack = 0;
+
+	wstring wstrTitle;
+	wstring wstrArtist;
+	wstring wstrAlbum;
+
+	Tcl_Obj *output = Tcl_NewListObj(0,NULL);
+	Tcl_SetObjResult(interp,output);
+
+	CoInitialize(0);
+
+	try
+	{
+		HRESULT hRes;
+
+		BSTR bstrURL = 0;
+
+		// Create itunes interface
+		hRes = ::CoCreateInstance(CLSID_iTunesApp, NULL, CLSCTX_LOCAL_SERVER, IID_IiTunes, (PVOID *)&iITunes);
+
+		if(hRes == S_OK && iITunes)
+		{
+			//fetch player state
+			ITPlayerState iIPlayerState;
+			iITunes->get_PlayerState(&iIPlayerState);
+			if(iIPlayerState == ITPlayerStateStopped)
+			{
+				//player is stopped
+				CoUninitialize();
+				Tcl_ListObjAppendElement(interp,output,Tcl_NewIntObj(0));
+				return TCL_OK;
+			}
+
+			//fetch current track
+			iITunes->get_CurrentTrack(&iITrack);
+			if(iITrack)
+			{
+				//fetch current title
+				BSTR bstrTitle = 0;
+				iITrack->get_Name((BSTR *)&bstrTitle);
+				if(bstrTitle) wstrTitle += bstrTitle;
+
+				//fetch current artist
+				BSTR bstrArtist = 0;
+				iITrack->get_Artist((BSTR *)&bstrArtist);
+				if(bstrArtist) wstrArtist += bstrArtist;
+				
+				//fetch current album
+				BSTR bstrAlbum = 0;
+				iITrack->get_Album((BSTR *)&bstrAlbum);
+				if(bstrAlbum) wstrAlbum += bstrAlbum;
+				
+				iITrack->Release();
+			}
+			else
+			{
+				//couldn't get track name
+				CoUninitialize();
+				Tcl_ListObjAppendElement(interp,output,Tcl_NewIntObj(0));
+				return TCL_OK;
+			}
+
+			iITunes->Release();
+		}
+		else
+		{
+			//iTunes interface not found/failed
+			CoUninitialize();
+			Tcl_ListObjAppendElement(interp,output,Tcl_NewIntObj(0));
+			return TCL_OK;
+		}
+
+	}
+	catch(...)
+	{
+		try
+		{
+			if(iITunes)
+				iITunes->Release();
+					
+			if(iITrack)
+				iITrack->Release();
+		}
+		catch(...)
+		{
+		}
+		
+		//abort as code above threw an exception
+		CoUninitialize();
+		Tcl_ListObjAppendElement(interp,output,Tcl_NewIntObj(0));
+		return TCL_OK;
+	}
+
+	CoUninitialize();
+
+	//Put informations on the output :
+	//Status (0: Stopped, 1: Playing)
+	//Artist
+	//Title
+	//Album
+	Tcl_ListObjAppendElement(interp,output,Tcl_NewIntObj(1));
+	Tcl_ListObjAppendElement(interp,output,Tcl_NewUnicodeObj(wstrArtist.c_str(), wstrArtist.size()));
+	Tcl_ListObjAppendElement(interp,output,Tcl_NewUnicodeObj(wstrTitle.c_str(), wstrTitle.size()));
+	Tcl_ListObjAppendElement(interp,output,Tcl_NewUnicodeObj(wstrAlbum.c_str(), wstrAlbum.size()));
+
+	return TCL_OK;
+}
+
 int Musicwin_Init (Tcl_Interp *interp ) {
 	WNDCLASSEX WMPClass={sizeof(WNDCLASSEX),0,WMPWinProc,0,0,GetModuleHandle(NULL),NULL,NULL,NULL,NULL,"MsnMsgrUIManager",NULL};
 	//Check Tcl version
@@ -277,6 +401,8 @@ int Musicwin_Init (Tcl_Interp *interp ) {
 	Tcl_CreateObjCommand(interp, "::music::TreatSongWinamp", GetWinampInfo,
 		(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "::music::TreatSongWMP", GetWMPInfo,
+		(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "::music::TreatSongiTunes", GetiTunesInfo,
 		(ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 	
 	RegisterClassEx(&WMPClass);

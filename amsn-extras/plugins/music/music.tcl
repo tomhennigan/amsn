@@ -262,6 +262,7 @@ namespace eval ::music {
 			} else {
 				if {[OnWin]} {
 					array set playersarray [list \
+						"iTunes" [list GetSongiTunesWin return FillFrameLess] \
 						"WinAmp" [list GetSongWinamp return FillFrameLess] \
 						"Windows Media Player" [list GetSongWMP return FillFrameLess] \
 						"MPD" [list GetSongMPD return FillFrameMPD] \
@@ -1411,6 +1412,28 @@ namespace eval ::music {
 		}
 		
 		return [list $song $art $path "" ""]
+	}
+
+	###############################################
+	# ::music::GetSongiTunesWin                   #
+	# ------------------------------------------- #
+	# Gets the current playing song in iTunes(Win)#
+	###############################################
+	proc GetSongiTunesWin {} {
+		variable musicpluginpath
+		load [file join $musicpluginpath MusicWin.tmp]
+		set tmplst [::music::TreatSongiTunes]
+
+		set status [lindex $tmplst 0]
+		set art [lindex $tmplst 1]
+		set song [lindex $tmplst 2]
+		set album [lindex $tmplst 3]
+
+		if {$status == "0"} {
+			return 0
+		}
+		
+		return [list $song $art "" "" $album]
 	}
 
 	###############################################

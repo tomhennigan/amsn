@@ -12,7 +12,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>9808</cvs_version>
+	<cvs_version>9836</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -89,7 +89,7 @@
 	</file>
 	<file>
 		<path>MusicWin.dll</path>
-		<version>8521</version>
+		<version>9836</version>
 	</file>
 	<file>
 		<path>readme.txt</path>
