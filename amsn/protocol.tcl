@@ -2970,11 +2970,11 @@ namespace eval ::MSNOIM {
 			if {[catch {eval $callbk [list $message]} result]} {
 				bgerror $result
 			}
-		} else {
+		} elseif { [$soap GetStatus] == "fault" } {
                         set xml [$soap GetResponse]
                         status_log "Error in OIM:" white
                         status_log $xml white
-                        set faultcode [$soap GetStatus]
+                        set faultcode [$soap GetLastError]
                         $soap destroy
 			status_log "Fault code: $faultcode" white
 
@@ -3001,10 +3001,11 @@ namespace eval ::MSNOIM {
                                         bgerror $result
                                 }
                         }
-		#	$soap destroy
-		#	if {[catch {eval $callbk [list [list]]} result]} {
-		#		bgerror $result
-		#	}
+		} else {
+			$soap destroy
+			if {[catch {eval $callbk [list [list]]} result]} {
+				bgerror $result
+			}
 		}
 	}
 
@@ -3063,11 +3064,11 @@ namespace eval ::MSNOIM {
 			if {[catch {eval $callbk [list "success"]} result]} {
 				bgerror $result
 			}
-		} else {
+		} elseif { [$soap GetStatus] == "fault" } {
 			set xml [$soap GetResponse]
 			status_log "Error in OIM:" white
 			status_log $xml white
-			set faultcode [$soap GetStatus]
+			set faultcode [$soap GetLastError]
 			$soap destroy
 
 			if { $faultcode == "q0:AuthenticationFailed" } {
@@ -3099,6 +3100,10 @@ namespace eval ::MSNOIM {
 				if {[catch {eval $callbk [list "Unexpected error"]} result]} {
 					bgerror $result
 				}
+			}
+		} else {
+			if {[catch {eval $callbk [list "Unexpected error"]} result]} {
+				bgerror $result
 			}
 		}
 	}
@@ -3190,6 +3195,9 @@ namespace eval ::MSNOIM {
 		} else {
 			$soap destroy
 			status_log "error deleting OIMS : [$soap GetResponse]" red
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
+			}
 		}
 	}
 

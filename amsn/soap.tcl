@@ -136,10 +136,15 @@ snit::type SOAPRequest {
 				set last_error "$res"
 			} else {
 				set fault [GetXmlNode $xml "soap:Envelope:soap:Body:soap:Fault"]
-				#puts "fault : $fault"
+				set faultcode [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultcode"]
+				if {$fault == "" } {
+					set fault [GetXmlNode $xml "S:Envelope:S:Fault"]
+					set faultcode [GetXmlEntry $xml "S:Envelope:S:Fault:faultcode"]
+				}
+
 				if { $fault != "" } {
-					set status [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultcode"]
-					set last_error [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultstring"]
+					set status "fault"
+					set last_error $faultcode
 				}
 			}
 		} elseif { [::http::status $token] == "ok" } {
