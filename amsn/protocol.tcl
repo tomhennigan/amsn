@@ -3856,9 +3856,12 @@ namespace eval ::MSNOIM {
 
 			::MSN::contactListChanged
 
-			if { $curr_list == "FL" || $curr_list == "RL" } {
+			#an event to let the GUI know a user was added to a list
+			::Event::fireEvent contactListChange protocol $username
+
+			if { $lst == "FL" || $lst == "RL" } {
 				#Don't send the event for an addition to any other list
-				::Event::fireEvent contactAdded protocol $username $groups
+				::Event::fireEvent contactAdded protocol $username ""
 			}
 		}
 	}
