@@ -348,20 +348,32 @@ snit::type Addressbook {
 	}
 
 	method ABContactAddCallback { callbk email soap } {
+		set guid ""
 		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
-			# guid : ABContactAddResponse:ABContactAddResult:guid
-			if {[catch {eval $callbk [list $email 1]} result]} {
-				bgerror $result
+			set fail 0
+			set xml [$soap GetResponse]
+			set guid [GetXmlEntry $xml "soap:Envolope:soap:Body:ABContactAddResponse:ABContactAddResult:guid"]
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "ContactAlreadyExists" } {
+				set fail 2
+			} elseif {$errorcode == "InvalidPassportUser" } {
+				set fail 3
+			} elseif {$errorcode == "BadEmailArgument" } {
+				set fail 4
+			} elseif {$errorcode == "RequestLimitReached" } {
+				set fail 5
+			} else {
+				set fail 1				
 			}
-			$soap destroy
 		} else {
-			#detail: ContactAlreadyExists 
-			#detail: InvalidPassportUser
-			if {[catch {eval $callbk [list $email 0]} result]} {
-				bgerror $result
-			}
-			$soap destroy
+			set fail 1
+		}
+		
+		$soap destroy
+		if {[catch {eval $callbk [list $guid $fail]} result]} {
+			bgerror $result
 		}
 	}
 
@@ -399,16 +411,21 @@ snit::type Addressbook {
 	method ABContactDeleteCallback { callbk email soap } {
 		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
-			if {[catch {eval $callbk [list $email 1]} result]} {
-				bgerror $result
+			set fail 0
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "ContactDoesNotExist" } {
+				set fail 2
+			} else {
+				set fail 1				
 			}
-			$soap destroy
 		} else {
-			#detail: ContactDoesNotExist
-			if {[catch {eval $callbk [list $email 0]} result]} {
-				bgerror $result
-			}
-			$soap destroy
+			set fail 1
+		}
+		
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
 		}
 	}
 	
@@ -453,22 +470,87 @@ snit::type Addressbook {
 	method ABContactUpdateCallback { callbk contactid soap } {
 		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
-			if {[catch {eval $callbk [list $email 1]} result]} {
+			if {[catch {eval $callbk [list $email 0]} result]} {
 				bgerror $result
 			}
 			$soap destroy
 		} else { 
-		
-			if {[catch {eval $callbk [list $email 0]} result]} {
+			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
 			}
 			$soap destroy
 		}
 	}
-
-	########################Delete Member###########################################
-	#Used for Allow Block
 	
+
+	method BlockUser { callbk email } {
+		$self DeleteMember [list $self BlockUserDeletedCB $callbk $email] \
+		    "BlockUnblock" $email "Allow"
+	}
+
+
+	method BlockUserDeletedCB { callbk email fail } {
+		if {$fail != 0 && $fail != 2} {
+			if {[catch {eval $callbk [list $fail]} result]} {
+				bgerror $result
+			}
+		} else {
+			$self AddMember [list $self BlockUserAddedCB $callbk $email] \
+			    "BlockUnblock" $email "Block"
+		}
+	}
+
+	method BlockUserAddedCB { callbk email fail } {
+		if {$fail != 0 && $fail != 2} {
+			$self AddMember [list $self BlockUnblockUserFailureCB] \
+			    "BlockUnblock" $email "Allow"
+			if {[catch {eval $callbk [list $fail]} result]} {
+				bgerror $result
+			}
+		} else {
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
+			}			
+		}
+	}
+
+
+	method UnblockUser { callbk email } {
+		$self DeleteMember [list $self UnblockUserDeletedCB $callbk $email] \
+		    "BlockUnblock" $email "Block"
+	}
+
+
+	method UnblockUserDeletedCB { callbk email fail } {
+		if {$fail != 0 && $fail != 2} {
+			if {[catch {eval $callbk [list $fail]} result]} {
+				bgerror $result
+			}
+		} else {
+			$self AddMember [list $self UnblockUserAddedCB $callbk $email] \
+			    "BlockUnblock" $email "Allow"
+		}
+	}
+
+	method UnblockUserAddedCB { callbk email fail } {
+		if {$fail != 0 && $fail != 2} {
+			$self AddMember [list $self BlockUnblockUserFailureCB] \
+			    "BlockUnblock" $email "Block"
+			if {[catch {eval $callbk [list $fail]} result]} {
+				bgerror $result
+			}
+		} else {
+			if {[catch {eval $callbk [list 0]} result]} {
+				bgerror $result
+			}			
+		}
+	}
+
+	method BlockUnblockUserFailureCB { fail } {
+		# Silently ignore anything here...
+	}
+
+
 	################################Add Member##################################
 	#Used for Allow Block
 	
@@ -496,14 +578,16 @@ snit::type Addressbook {
 		append xml $role
 		append xml {</MemberRole>}
 		append xml {<Members>}
-		append xml {<Member xsi:type="PassportMember">}
-		append xml {<Type>Passport</Type>}
-		append xml {<State>Accepted</State>}
-		append xml {<Deleted>false</Deleted>}
-		append xml {<PassportName>}
-		append xml $email
-		append xml {</PassportName>}
-		append xml {</Member>}
+		foreach member $email {
+			append xml {<Member xsi:type="PassportMember">}
+			append xml {<Type>Passport</Type>}
+			append xml {<State>Accepted</State>}
+			append xml {<Deleted>false</Deleted>}
+			append xml {<PassportName>}
+			append xml $member
+			append xml {</PassportName>}
+			append xml {</Member>}
+		}
 		append xml {</Members>}
 		append xml {</Membership>}
 		append xml {</memberships>}
@@ -515,19 +599,26 @@ snit::type Addressbook {
 	method AddMemberCallback { callbk email soap } {
 		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
-			if {[catch {eval $callbk [list $email 1]} result]} {
-				bgerror $result
+			set fail 0
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "MemberAlreadyExists" } {
+				set fail 2
+			} else {
+				set fail 1				
 			}
-			$soap destroy
-		} else { 
+		} else {
+			set fail 1
+		}
 		
-			if {[catch {eval $callbk [list $email 0]} result]} {
-				bgerror $result
-			}
-			$soap destroy
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
 		}
 	}
 
+	########################Delete Member###########################################
+	#Used for Allow Block
 	method DeleteMember { callbk scenario email role } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
@@ -553,13 +644,15 @@ snit::type Addressbook {
 		append xml $role
 		append xml {</MemberRole>}
 		append xml {<Members>}
-		append xml {<Member xsi:type="PassportMember">}
-		append xml {<Type>Passport</Type>}
-		append xml {<State>Accepted</State>}
-		append xml {<PassportName>}
-		append xml $email
-		append xml {</PassportName>}
-		append xml {</Member>}
+		foreach member $email {
+			append xml {<Member xsi:type="PassportMember">}
+			append xml {<Type>Passport</Type>}
+			append xml {<State>Accepted</State>}
+			append xml {<PassportName>}
+			append xml $member
+			append xml {</PassportName>}
+			append xml {</Member>}
+		}
 		append xml {</Members>}
 		append xml {</Membership>}
 		append xml {</memberships>}
@@ -571,15 +664,21 @@ snit::type Addressbook {
 	method DeleteMemberCallback { callbk email soap } {
 		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
-			if {[catch {eval $callbk [list $email 0]} result]} {
-				bgerror $result
+			set fail 0
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "MemberDoesNotExist" } {
+				set fail 2
+			} else {
+				set fail 1				
 			}
-			$soap destroy
-		} else { 
-			if {[catch {eval $callbk [list $email 2]} result]} {
-				bgerror $result
-			}
-			$soap destroy
+		} else {
+			set fail 1
+		}
+		
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
 		}
 	}
 

@@ -1399,23 +1399,84 @@ namespace eval ::MSN {
 	}
 
 	proc blockUser { userlogin username} {
-		::MSN::WriteSB ns REM "AL $userlogin"
-		::MSN::WriteSB ns ADC "BL N=$userlogin"
+		if {[::config::getKey protocol] >= 13} {
+			$::ab BlockUser [list ::MSN::blockUserCB $userlogin] $userlogin
+		} else {
+			::MSN::WriteSB ns REM "AL $userlogin"
+			::MSN::WriteSB ns ADC "BL N=$userlogin"
+			
+			#an event to let the GUI know a user is blocked
+			after 500 [list ::Event::fireEvent contactBlocked protocol $userlogin]
+			set evpar(userlogin) userlogin
+			::plugins::PostEvent contactBlocked evpar
+		}
+	}
 
-		#an event to let the GUI know a user is blocked
-		after 500 [list ::Event::fireEvent contactBlocked protocol $userlogin]
-		set evpar(userlogin) userlogin
-		::plugins::PostEvent contactBlocked evpar
+	proc blockUserCB { userlogin fail } {
+		if {$fail == 0 } {
+			set contact [split $userlogin "@"]
+			set user [lindex $contact 0]
+			set domain [lindex $contact 1]
+			set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
+			set xmllen [string length $xml]
+
+			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
+			::abook::removeContactFromList $userlogin AL
+			::MSN::deleteFromList AL $userlogin
+
+			set xml2 "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
+			set xmlllen [string length $xml2]
+			::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml2"
+
+			::abook::addContactToList $userlogin BL
+			::MSN::addToList BL $userlogin
+			::MSN::contactListChanged
+
+			#an event to let the GUI know a user is blocked
+			after 500 [list ::Event::fireEvent contactBlocked protocol $userlogin]
+			set evpar(userlogin) userlogin
+			::plugins::PostEvent contactBlocked evpar
+		}
 	}
 
 	proc unblockUser { userlogin username} {
-		::MSN::WriteSB ns REM "BL $userlogin"
-		::MSN::WriteSB ns ADC "AL N=$userlogin"
+		if {[::config::getKey protocol] >= 13} {
+			$::ab UnblockUser [list ::MSN::unblockUserCB $userlogin] $userlogin
+		} else {
+			::MSN::WriteSB ns REM "BL $userlogin"
+			::MSN::WriteSB ns ADC "AL N=$userlogin"
+		
+			#an event to let the GUI know a user is unblocked
+			after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
+			set evpar(userlogin) userlogin
+			::plugins::PostEvent contactUnblocked evpar
+		}
+	}
 
-		#an event to let the GUI know a user is unblocked
-		after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
-		set evpar(userlogin) userlogin
-		::plugins::PostEvent contactUnblocked evpar
+	proc unblockUserCB { userlogin fail } {
+		if {$fail == 0 } {
+			set contact [split $userlogin "@"]
+			set user [lindex $contact 0]
+			set domain [lindex $contact 1]
+			set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
+			set xmllen [string length $xml]
+			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
+			::abook::removeContactFromList $userlogin BL
+			::MSN::deleteFromList BL $userlogin
+
+			set xml2 "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
+			set xmlllen [string length $xml2]
+			::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml2"
+
+			::abook::addContactToList $userlogin AL
+			::MSN::addToList AL $userlogin
+			::MSN::contactListChanged
+
+			#an event to let the GUI know a user is unblocked
+			after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
+			set evpar(userlogin) userlogin
+			::plugins::PostEvent contactUnblocked evpar
+		}
 	}
 
 	# Move user from one group to another group
@@ -1459,10 +1520,77 @@ namespace eval ::MSN {
 			set username $userlogin
 		}
 		
-		::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler $gid"
+		if {[::config::getKey protocol] >= 13} {
+			$::ab ABContactAdd [list ::MSN::addUserCB $userlogin $gid] $userlogin
+		} else {
+			::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler $gid"
 
-		set evPar(userlogin) userlogin
-		::plugins::PostEvent addedUser evPar
+			set evPar(userlogin) userlogin
+			::plugins::PostEvent addedUser evPar
+		}
+	}
+
+	proc addUserCB { email gid cid fail } {
+		switch -- $fail {
+			0 {
+				set contact [split $email "@"]
+				set user [lindex $contact 0]
+				set domain [lindex $contact 1]
+				
+				::abook::setContactData $email contactguid $cid
+				::abook::setContactForGuid $cid $email
+
+					
+				$::ab AddMember [list ::MSN::addUserAddMemberCB $email] \
+				    "ContactSave" $email "Allow"
+
+				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"1\" t=\"1\"/></d></ml>"
+				set xmllen [string length $xml]
+				::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
+			
+				::abook::addContactToList $email "FL"
+				::MSN::addToList "FL" $email
+
+				::MSN::contactListChanged
+
+				#an event to let the GUI know a user is copied/added to a group
+				::Event::fireEvent contactAdded protocol $email $gid
+				if { $gid != 0 } {
+					moveUser $email 0 $gid
+				}
+				msg_box "[trans contactadded]\n$email"
+			}
+			1 {
+			}
+			2 {
+			}
+			3 {
+				msg_box "[trans contactdoesnotexist]"
+			}
+			4 {
+				msg_box "[trans invalidusername]"
+			}
+			5 {
+
+			}
+		}
+	}
+
+	proc addUserAddMemberCB { userlogin fail } {
+		set contact [split $userlogin "@"]
+		set user [lindex $contact 0]
+		set domain [lindex $contact 1]
+		set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
+		set xmlllen [string length $xml]
+		::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
+
+		::abook::addContactToList $userlogin AL
+		::MSN::addToList AL $userlogin
+		::MSN::contactListChanged
+
+		#an event to let the GUI know a user is unblocked
+		after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
+		
 	}
 
 	#Handler for the ADC message, to show the ADD messagebox, and to move a user to a group if gid != 0
@@ -3641,7 +3769,55 @@ namespace eval ::MSNOIM {
 	}
 
 	method handleRML { command payload } {
-		puts $command
+		if {$payload == "" } {
+			set ok [lindex $command end]
+			if { $ok == "OK" } {
+				
+			}
+		} else {
+			set xml [xml2list $payload]
+			set node [GetXmlNode $xml "ml:d"]
+			set dmn [GetXmlAttribute $node d n]
+			set cfield [GetXmlNode $node "d:c"]
+			set usr [GetXmlAttribute $cfield c n]
+			set mask [GetXmlAttribute $cfield c l]
+			set user "$usr@$dmn"
+			
+			switch -- $mask {
+				1 {
+					set lst FL
+				}
+				2 {
+					set lst AL
+				}
+				4 {
+					set lst BL
+				}
+				8 {
+					set lst RL
+				}
+			}
+
+			::abook::removeContactFromList $user $lst
+			::MSN::deleteFromList $lst $user
+			::MSN::contactListChanged
+			#an event to let the GUI know a user is removed from a list
+			::Event::fireEvent contactListChange protocol $user
+			
+			if { $lst == "FL" } {
+				set affected_groups [::abook::getGroups $user]
+				::abook::emptyUserGroups $user
+				
+				#The GUID is invalid if the contact is removed from the FL list
+				set userguid [::abook::getContactData $user contactguid]
+				::abook::setContactForGuid $userguid ""
+				::abook::setContactData $user contactguid ""
+				::abook::clearVolatileData $user
+				
+				#an event to let the GUI know a user is removed from a group / the list
+				::Event::fireEvent contactRemoved protocol $user $affected_groups
+			}
+		}
 	}
 
 	method handleADL { command payload } {
@@ -3649,6 +3825,40 @@ namespace eval ::MSNOIM {
 			set ok [lindex $command end]
 			if { $ok == "OK" } {
 				ns authenticationDone	
+			}
+		} else {
+			set xml [xml2list $payload]
+			set node [GetXmlNode $xml "ml:d"]
+			set dmn [GetXmlAttribute $node d n]
+			set cfield [GetXmlNode $node "d:c"]
+			set usr [GetXmlAttribute $cfield c n]
+			set mask [GetXmlAttribute $cfield c l]
+			set nick [GetXmlAttribute $cfield c f]
+			set username "$usr@$dmn"
+
+			switch -- $mask {
+				1 {
+					set lst FL
+				}
+				2 {
+					set lst AL
+				}
+				4 {
+					set lst BL
+				}
+				8 {
+					set lst RL
+				}
+			}
+
+			::abook::addContactToList $username $lst
+			::MSN::addToList $lst $username
+
+			::MSN::contactListChanged
+
+			if { $curr_list == "FL" || $curr_list == "RL" } {
+				#Don't send the event for an addition to any other list
+				::Event::fireEvent contactAdded protocol $username $groups
 			}
 		}
 	}
@@ -5812,6 +6022,10 @@ proc cmsn_auth {{recv ""}} {
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
 			if { [config::getKey protocol] >= 13 } {
+				if {[info exists ::ab] } {
+					catch {$::ab destroy}
+					unset ::ab
+				}
 				set ::ab [::Addressbook create %AUTO%]
 				$::ab Synchronize ::MSN::ABSynchronizationDone
 			} else {
