@@ -23,7 +23,7 @@ if(!isset($_GET['port']) || !is_numeric($_GET['port']) || !isset($_GET['id'])) {
 		return;
 	}
 
-	@socket_set_option( $socket, SOL_SOCKET, SO_SNDTIMEO, array("sec"=>8,"usec"=>0) );
+	@socket_set_option( $socket, SOL_SOCKET, SO_SNDTIMEO, array("sec"=>2,"usec"=>0) );
 
 	$result = @socket_connect($socket, addr(), $_GET['port']);
 
@@ -31,7 +31,7 @@ if(!isset($_GET['port']) || !is_numeric($_GET['port']) || !isset($_GET['id'])) {
 	if ($result == 0) {
 		echo "0";
 	} else {
-		if ( socket_select($r = array($socket), $w = NULL, $f = NULL, 8) > 0 ) { 
+		if ( socket_select($r = array($socket), $w = NULL, $f = NULL, 2) > 0 ) { 
 			$retval = @socket_read($socket, 10000, PHP_NORMAL_READ);
 			#echo '"'.$retval.'"';
 			if (!strncmp($retval,"AMSNPING".$_GET['id'],strlen("AMSNPING".$_GET['id']))) {
