@@ -62,22 +62,6 @@ snit::type Addressbook {
 		}
 	}
 
-
-	method ABContactDelete { callbk contactid } {
-		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
-				 -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
-				 -header [$self getCommonHeaderXML Timer] \
-				 -xml [$self getABContactDeleteBodyXML $contactid] \
-				 -callback [list $self ABContactDeleteCallback $callbk]]
-
-		$request SendSOAPRequest
-	}
-
-	method ABContactDeleteCallback { callbk soap } {
-		eval $callbk
-	}
-
 	method FindMembership { callbk } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
@@ -237,27 +221,7 @@ snit::type Addressbook {
 	}
 
 
-	method getCommonHeaderXML { scenario } {
-		set token [$::sso GetSecurityTokenByName Contacts]
-		set mspauth [$token cget -ticket]
 
-		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<ApplicationId>996CDE1E-AA53-4477-B943-2BE802EA6166</ApplicationId>}
-		append xml {<IsMigration>false</IsMigration>}
-		append xml {<PartnerScenario>}
-		append xml $scenario
-		append xml {</PartnerScenario>}
-		append xml {</ABApplicationHeader>}
-		append xml {<ABAuthHeader xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<ManagedGroupRequest>false</ManagedGroupRequest>}
-		append xml {<TicketToken>}
-		append xml [xmlencode $mspauth]
-		append xml {</TicketToken>}
-		append xml {</ABAuthHeader>}
-
-		return $xml
-
-	}
 	method getABFindAllBodyXML {  } {
 		set xml {<ABFindAll xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
@@ -284,15 +248,146 @@ snit::type Addressbook {
 		return $xml
 	}
 
-	method getABContactDeleteBodyXML { contactid } {
+	#########################MSNP15 SUPPORT by Takeshi###################################
+	###############################ABAdd#################################################
+
+	#Create an Addressbook Template
+	method ABAdd { callbk email } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABAdd" \
+				 -header [$self getCommonHeaderXML ContactSave] \
+				 -body [$self getABAddBodyXML $email] \
+				 -callback [list $self ABAddCallback $callbk $email]]
+		
+		$request SendSOAPRequest
+	
+		
+	}
+	
+	method getABAddBodyXML {email } {
+		append xml {<ABAdd xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abInfo>}
+		append xml {<name/>}
+		append xml {<ownerPuid>0</ownerPuid>}
+		append xml {<ownerEmail>}
+		append xml $email
+		append xml {</ownerEmail>}
+		append xml {<fDefault>true</fDefault>}
+		append xml {</abInfo>}
+		append xml {</ABAdd>}
+
+		return $xml
+	}
+	
+	method ABAddCallback { callbk email soap} {
+		if { [$soap GetStatus] == "success" } {
+			$callbk $email
+			$soap destroy
+		} else { 
+			$soap destroy
+		}
+	}
+
+
+	###########################Add a contact#############################################
+	
+	method ABContactAdd { callbk email {yahoo 0}} {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABContactAdd" \
+				 -header [$self getCommonHeaderXML ContactSave] \
+				 -body [$self getABContactAddBodyXML $email $yahoo] \
+				 -callback [list $self ABContactAddCallback $callbk $email]]
+		
+		$request SendSOAPRequest
+	
+		
+	}
+
+	method getABContactAddBodyXML { email yahoo } {
+		append xml {<ABContactAdd xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<contacts>}
+		append xml {<Contact xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<contactInfo>}
+
+		if {$yahoo} {
+			append xml {<isMessengerUser>false</isMessengerUser>}
+			append xml {<contactType>Regular</contactType>}
+			append xml {<isMessengerEnabled>true</isMessengerEnabled>}
+			append xml {<contactEmailType>account</contactEmailType>}
+			append xml {<email>}
+			append xml $email
+			append xml {</email>}
+		} else {
+			append xml {<passportName>}
+			append xml $email
+			append xml {</passportName>}
+			append xml {<isMessengerUser>true</isMessengerUser>}
+			append xml {<contactType>LivePending</contactType>}
+		}
+
+		append xml {<MessengerMemberInfo>}
+		append xml {<PendingAnnotations>}
+		append xml {<Annotation>}
+		append xml {<Name>MSN.IM.InviteMessage</Name>}
+		append xml {<Value></Value>}
+		append xml {</Annotation>}
+		append xml {</PendingAnnotations>}
+		append xml {</MessengerMemberInfo>}
+		append xml {</contactInfo>}
+		append xml {</Contact>}
+		append xml {</contacts>}
+		append xml {<options>}
+		append xml {<EnableAllowListManagement>true</EnableAllowListManagement>}
+		append xml {</options>}
+		append xml {</ABContactAdd>}
+		
+		return $xml	
+	}
+
+	method ABContactAddCallback { callbk email soap } {
+		puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			# guid : ABContactAddResponse:ABContactAddResult:guid
+			if {[catch {eval $callbk [list $email 1]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		} else {
+			#detail: ContactAlreadyExists 
+			#detail: InvalidPassportUser
+			if {[catch {eval $callbk [list $email 0]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		}
+	}
+
+	#################Delete a contact#####################################
+	#Delete a contact from both MSNAB and CL
+	method ABContactDelete { callbk email } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
+				 -header [$self getCommonHeaderXML Timer] \
+				 -body [$self getABContactDeleteBodyXML $email] \
+				 -callback [list $self ABContactDeleteCallback $callbk $email]]
+		
+		$request SendSOAPRequest
+		
+	}
+
+
+	method getABContactDeleteBodyXML { email } {
+		set guid [::abook::getContactData $email contactguid]		
 		append xml {<ABContactDelete xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<abId>}
-		append xml {00000000-0000-0000-0000-000000000000}
-		append xml {</abId>}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
 		append xml {<contacts>}
 		append xml {<Contact>}
 		append xml {<contactId>}
-		append xml $contactid
+		append xml $guid
 		append xml {</contactId>}
 		append xml {</Contact>}
 		append xml {</contacts>}
@@ -300,7 +395,477 @@ snit::type Addressbook {
 
 		return $xml
 	}
+		
+	method ABContactDeleteCallback { callbk email soap } {
+		puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			if {[catch {eval $callbk [list $email 1]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		} else {
+			#detail: ContactDoesNotExist
+			if {[catch {eval $callbk [list $email 0]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		}
+	}
+	
+	########################AB Contact Update#########################################
+	#update information for contact Type /possibly DisplayName
+	#Accepted values are Regular Live LivePending LiveRejected LiveDropped Messenger2
+	 
+	method ABContactUpdate { callbk email ctype } {
+		set request [SOAPRequest create %AUTO% \
+				-url "https://contacts.msn.com/abservice/abservice.asmx" \
+				-action "http://www.msn.com/webservices/AddressBook/ABContactUpdate" \
+				-header [$self getCommonHeaderXML BlockUnblock] \
+				-body [$self getABContactUpdateBodyXML $email $ctype] \
+				-callback [list $self ABContactUpdateCallback $callbk $email]]
 
+		$request SendSOAPRequest
+	}
+	
+	method getABContactUpdateBodyXML { email ctype } {
+		#contact type can be Regular Live LivePending LiveRejected LiveDropped
+		set guid [::abook::getContactData $email contactguid]
+		append xml {<ABContactUpdate xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<contacts>}
+		append xml {<Contact>}
+		append xml {<contactId>}
+		append xml $guid
+		append xml {</contactId>}
+		append xml {<contactInfo>}
+		append xml {<contactType>}
+		append xml $ctype
+		append xml {</contactType>}
+		append xml {</contactInfo>}
+		append xml {<propertiesChanged>ContactType</propertiesChanged>}
+		append xml {</Contact>}
+		append xml {</contacts>}
+		append xml {</ABContactUpdate>}
+		
+		return $xml
+	}
+	
+	method ABContactUpdateCallback { callbk contactid soap } {
+		puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			if {[catch {eval $callbk [list $email 1]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		} else { 
+		
+			if {[catch {eval $callbk [list $email 0]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		}
+	}
+
+	########################Delete Member###########################################
+	#Used for Allow Block
+	
+	################################Add Member##################################
+	#Used for Allow Block
+	
+	method AddMember { callbk scenario email role } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/AddMember" \
+				 -header [$self getCommonHeaderXML $scenario] \
+				 -body [$self getAddMemberBodyXML $email $role] \
+				 -callback [list $self AddMemberCallback $callbk $email]]
+
+		$request SendSOAPRequest
+	}
+	
+	method getAddMemberBodyXML { email role } {
+		append xml {<AddMember xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<serviceHandle>}
+		append xml {<Id>0</Id>}
+		append xml {<Type>Messenger</Type>}
+		append xml {<ForeignId></ForeignId>}
+		append xml {</serviceHandle>}
+		append xml {<memberships>}
+		append xml {<Membership>}
+		append xml {<MemberRole>}
+		append xml $role
+		append xml {</MemberRole>}
+		append xml {<Members>}
+		append xml {<Member xsi:type="PassportMember">}
+		append xml {<Type>Passport</Type>}
+		append xml {<State>Accepted</State>}
+		append xml {<Deleted>false</Deleted>}
+		append xml {<PassportName>}
+		append xml $email
+		append xml {</PassportName>}
+		append xml {</Member>}
+		append xml {</Members>}
+		append xml {</Membership>}
+		append xml {</memberships>}
+		append xml {</AddMember>}
+		
+		return $xml
+	}
+	
+	method AddMemberCallback { callbk email soap } {
+		puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			if {[catch {eval $callbk [list $email 1]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		} else { 
+		
+			if {[catch {eval $callbk [list $email 0]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		}
+	}
+
+	method DeleteMember { callbk scenario email role } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/DeleteMember" \
+				 -header [$self getCommonHeaderXML $scenario] \
+				 -body [$self getDeleteMemberBodyXML $email $role] \
+				 -callback [list $self DeleteMemberCallback $callbk $email]]
+
+		$request SendSOAPRequest
+	}
+	
+	method getDeleteMemberBodyXML { email role } {
+		
+		append xml {<DeleteMember xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<serviceHandle>}
+		append xml {<Id>0</Id>}
+		append xml {<Type>Messenger</Type>}
+		append xml {<ForeignId></ForeignId>}
+		append xml {</serviceHandle>}
+		append xml {<memberships>}
+		append xml {<Membership>}
+		append xml {<MemberRole>}
+		append xml $role
+		append xml {</MemberRole>}
+		append xml {<Members>}
+		append xml {<Member xsi:type="PassportMember">}
+		append xml {<Type>Passport</Type>}
+		append xml {<State>Accepted</State>}
+		append xml {<PassportName>}
+		append xml $email
+		append xml {</PassportName>}
+		append xml {</Member>}
+		append xml {</Members>}
+		append xml {</Membership>}
+		append xml {</memberships>}
+		append xml {</DeleteMember>}
+		
+		return $xml
+	}
+	
+	method DeleteMemberCallback { callbk email soap } {
+		puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			if {[catch {eval $callbk [list $email 0]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		} else { 
+			if {[catch {eval $callbk [list $email 2]} result]} {
+				bgerror $result
+			}
+			$soap destroy
+		}
+	}
+
+	########################Member Update#############################################
+	#Allow Block Reverse Pending 
+	#Must be fixed and should be used instead of delete add 
+	method UpdateMember { callbk contactid role cstate deleted } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/UpdateMember" \
+				 -header [$self getCommonHeaderXML ContactSave] \
+				 -body [$self getUpdateMemberBodyXML $contactid $role $cstate $deleted] \
+				 -callback [list $self UpdateMemberCallback $callbk $contactid]]
+
+		$request SendSOAPRequest
+	}
+	
+	method getUpdateMemberBodyXML { contactid role cstate deleted } {
+		append xml {<UpdateMember xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<serviceHandle><Id>0</Id><Type>Messenger</Type><ForeignId></ForeignId></serviceHandle>}
+		append xml {<memberships><Membership><MemberRole>}
+		append xml $role
+		append xml {</MemberRole>}
+		append xml {<propertiesChanged/>}
+		append xml {Changes}
+		append xml {<Members>}
+		append xml {<Member xsi:type="PassportMember">}
+		append xml {<Type>Passport</Type>}
+		#append xml {<State>}
+		#append xml $cstate
+		#append xml {</State>}
+		#append xml {<Deleted>}
+		#append xml $deleted
+		#append xml {</Deleted>}
+		append xml {<PassportName>}
+		append xml $contactid
+		append xml {</PassportName>}
+		append xml {</Member>}
+		append xml {</Members>}
+		append xml {</Membership>}
+		#append xml {<propertiesChanged>MemberRole</propertiesChanged>}
+		append xml {</memberships>}
+		append xml {</UpdateMember>}
+
+		return $xml
+	}
+	
+	method UpdateMemberCallback { callbk contactid soap } {
+		if { [$soap GetStatus] == "success" } {
+			$callbk $contactid
+			$soap destroy
+		} else {
+			$soap destroy
+		}
+	}
+
+	#######################Create a Group#################################################
+	
+	method ABGroupAdd { callbk groupname } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABGroupAdd" \
+				 -header [$self getCommonHeaderXML GroupSave] \
+				 -body [$self getABGroupAddBodyXML $groupname] \
+				 -callback [list $self ABGroupAddCallback $callbk $groupname]]
+		$request SendSOAPRequest
+	}
+	
+	method getABGroupAddBodyXML { groupname } {
+		append xml {<ABGroupAdd xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<groupAddOptions>}
+		append xml {<fRenameOnMsgrConflict>false</fRenameOnMsgrConflict>}
+		append xml {</groupAddOptions>}
+		append xml {<groupInfo>}
+		append xml {<GroupInfo>}
+		append xml {<name>}
+		append xml $groupname
+		append xml {</name>}
+		append xml {<groupType>C8529CE2-6EAD-434d-881F-341E17DB3FF8</groupType>}
+		append xml {<fMessenger>false</fMessenger>}
+		append xml {<annotations>}
+		append xml {<Annotation>}
+		append xml {<Name>MSN.IM.Display</Name>}
+		append xml {<Value>1</Value>}
+		append xml {</Annotation>}
+		append xml {</annotations>}
+		append xml {</GroupInfo>}
+		append xml {</groupInfo>}
+		append xml {</ABGroupAdd>}
+
+		return $xml
+	}
+	
+	method ABGroupAddCallback { callbk groupname soap } {
+		
+		if { [$soap GetStatus] == "success" } {
+			set xml [$soap GetResponse]
+			set gid [GetXmlEntry $xml "soap:Envelope:soap:Body:ABGroupAddResponse:ABGroupAddResult:guid"]
+			$callbk $gid $groupname
+			$soap destroy
+		} else {
+			$soap destroy
+		}
+	}	
+	############################Remove a Group#################################################
+	method ABGroupDelete { callbk gid} {
+		set request [SOAPRequest create %AUTO% \
+				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABGroupDelete" \
+				 -header [$self getCommonHeaderXML GroupSave] \
+				 -body [$self getABGroupDeleteBodyXML $gid] \
+				 -callback [list $self ABGroupDeleteCallback $callbk $gid]]
+		$request SendSOAPRequest
+		
+	}
+	
+	method getABGroupDeleteBodyXML { gid } {
+		append xml {<ABGroupDelete xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<groupFilter>}
+		append xml {<groupIds>}
+		append xml {<guid>}
+		append xml $gid
+		append xml {</guid>}
+		append xml {</groupIds>}
+		append xml {</groupFilter>}
+		append xml {</ABGroupDelete>}
+		
+		return $xml
+		
+	}
+	
+	method ABGroupDeleteCallback { callbk gid soap } {
+		if { [$soap GetStatus] == "success"} {
+			$callbk $gid
+			$soap destroy
+		} else {
+			$soap destroy
+		}
+	}
+		########################Add a contact to a group###############################
+	method ABGroupContactAdd { callbk gid cid } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactAdd" \
+				 -header [$self getCommonHeaderXML GroupSave] \
+				 -body [$self getABGroupContactAddBodyXML $gid $cid] \
+				 -callback [list $self ABGroupContactAddCallback $callbk $gid $cid]]
+		$request SendSOAPRequest
+	}
+	
+	method getABGroupContactAddBodyXML { gid cid } {
+		append xml {<ABGroupContactAdd xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<groupFilter><groupIds><guid>}
+		append xml $gid
+		append xml {</guid></groupIds></groupFilter><contacts><Contact><contactId>}
+		append xml $cid
+		append xml {</contactId></Contact></contacts></ABGroupContactAdd>}
+		#status_log "$xml" white
+		return $xml
+	}
+	
+	method ABGroupContactAddCallback { callbk gid cid soap } {
+		if { [$soap GetStatus] == "success"} {
+			$callbk $gid $cid
+			$soap destroy
+		} else {
+			$soap destroy
+		}
+	}
+
+	##################Remove a contact from a Group##############################################
+	method ABGroupContactDelete { callbk gid cid } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactDelete" \
+				 -header [$self getCommonHeaderXML GroupSave] \
+				 -body [$self getABGroupContactDeleteBodyXML $gid $cid] \
+				 -callback [list $self ABGroupContactDeleteCallback $callbk $gid $cid]]
+		$request SendSOAPRequest
+	}
+	
+	method getABGroupContactDeleteBodyXML { gid cid } {
+		append xml {<ABGroupContactDelete xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<contacts>}
+		append xml {<Contact>}
+		append xml {<contactId>}
+		append xml $cid
+		append xml {</contactId>}
+		append xml {</Contact>}
+		append xml {</contacts>}
+		append xml {<groupFilter>}
+		append xml {<groupIds>}
+		append xml {<guid>}
+		append xml $gid
+		append xml {</guid>}
+		append xml {</groupIds>}
+		append xml {</groupFilter>}
+		append xml {</ABGroupContactDelete>}
+
+		return $xml
+	}
+	
+	method ABGroupContactDeleteCallback { callbk gid cid soap } {
+		if { [$soap GetStatus] == "success"} {
+			$callbk $gid $cid
+			$soap destroy
+		} else {
+			$soap destroy
+		}
+		
+	}
+	##########################Rename a Group#####################################################
+	method ABGroupUpdate { callbk gid newname } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABGroupUpdate" \
+				 -header [$self getCommonHeaderXML GroupSave] \
+				 -body [$self getABGroupUpdateBodyXML $gid $newname] \
+				 -callback [list $self ABGroupUpdateCallback $callbk $gid $newname]]
+		$request SendSOAPRequest
+	}
+	
+	method getABGroupUpdateBodyXML { gid newname } {
+		
+		append xml {<ABGroupUpdate xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<groups>}
+		append xml {<Group>}
+		append xml {<groupId>}
+		append xml $gid
+		append xml {</groupId>}
+		append xml {<groupInfo>}
+		append xml {<name>}
+		append xml $newname
+		append xml {</name>}
+		append xml {</groupInfo>}
+		append xml {<propertiesChanged>GroupName</propertiesChanged>}
+		append xml {</Group>}
+		append xml {</groups>}
+		append xml {</ABGroupUpdate>}
+
+		return $xml
+	}
+	
+	method ABGroupUpdateCallback { callbk gid newname soap } {
+		status_log "[$soap GetStatus]"
+
+		if { [$soap GetStatus] == "success"} {
+			$callbk $gid $newname
+			$soap destroy
+		} else {
+			status_log "[$soap GetLastError]" red
+			$soap destroy
+		}
+	}
+	################################Common Header####################################
+	
+	
+	method getCommonHeaderXML { scenario } {
+		set token [$::sso GetSecurityTokenByName Contacts]
+		set mspauth [$token cget -ticket]
+
+		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ApplicationId xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {996CDE1E-AA53-4477-B943-2BE802EA6166}
+		append xml {</ApplicationId>}
+		append xml {<IsMigration xmlns="http://www.msn.com/webservices/AddressBook">false</IsMigration>}
+		append xml {<PartnerScenario xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml $scenario
+		append xml {</PartnerScenario>}
+		append xml {</ABApplicationHeader>}
+		append xml {<ABAuthHeader xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<ManagedGroupRequest xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {false}
+		append xml {</ManagedGroupRequest>}
+		append xml {<TicketToken xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml [xmlencode $mspauth]
+		append xml {</TicketToken>}
+		append xml {</ABAuthHeader>}
+		
+		return $xml
+
+	}
 }
-
 #######################
