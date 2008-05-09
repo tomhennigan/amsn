@@ -1439,7 +1439,7 @@ proc show_option { w name oldw {w_exp ""}} {
 	}
 	if {[catch {pack info $w}]} {
 		set command [list pack $w]
-		# pack options courtesy of reload_advanced_options procedure
+		# pack options courtesy of advanced_options_reload procedure
 		switch -glob $name {
 			[0-9]* {
 				lappend command -side top -padx 0 -fill x
@@ -2425,7 +2425,7 @@ proc Preferences { { settings "personal"} } {
 	pack $frm.lfname -anchor n -side top -expand true -fill both
 	pack $lfname.sw -anchor n -side top -expand true -fill both
 	
-	reload_advanced_options $path
+	advanced_options_reload $path
 
 	#add bindings to scroll with mousewheel
 	#can not use local variables in bind scripts with {}. 
@@ -2834,7 +2834,7 @@ proc moveinscreen {window {mindist 0}} {
 	catch {wm geometry $window "${winx}x${winy}+${winpx}+${winpy}"}
 }
 
-proc reload_advanced_options {path} {
+proc advanced_options_reload {path} {
 	global advanced_options
 
 	set i 0
