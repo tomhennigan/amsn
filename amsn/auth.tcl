@@ -33,12 +33,9 @@ snit::type SecurityToken {
 			return 1
 		}
 		set remaining [expr {$expires - $created}]
-		puts "$expires - $created - $remaining - $elapsed"
 		if {$remaining < $elapsed} {
-			puts "Expired"
 			return 1
 		} else {
-			puts "Not expired"
 			return 0
 		}
 	}
