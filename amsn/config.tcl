@@ -762,8 +762,8 @@ proc load_config {} {
 	}
 
 	::config::setKey clientid 0
-	if {[::config::getKey protocol] < 11 } {
-		::config::setKey protocol 11
+	if {[::config::getKey protocol] < 15 } {
+		::config::setKey protocol 15
 	}
 
 	# TODO : msnc7 support in clientid for MSNP12+.. remove if causes bugs.
