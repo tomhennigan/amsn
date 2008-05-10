@@ -1111,6 +1111,73 @@ proc GetXmlAttribute { list find attribute_name {stack ""}} {
 }
 
 
+proc ListXmlChildren {list find {stack ""}} {
+    global xmlEntry_occurences
+    if {$stack == "" } {
+	set xmlEntry_occurences 0
+    }
+    set current_stack $stack
+    foreach { entry attributes content} $list {
+	set current_stack "$stack:$entry"
+	if {$current_stack == $find || $current_stack == ":$find" } {
+	    #status_log "Found it in $current_stack\n" red
+  	    set keys [list]
+	    foreach subkey $content {
+		set key [lindex $subkey 0]
+		set value [lindex $subkey 1]
+		lappend keys $key
+	    }
+	    return $keys
+	} else {
+	    if {[string first $current_stack $find] == -1 &&
+		[string first $current_stack ":$find"] == -1 } {
+		#status_log "$find not in $current_stack" red
+		continue
+	    } else { 
+		#status_log "$find is in a subkey of $current_stack\n" red
+		foreach subkey $content {
+		    set result [ListXmlChildren $subkey $find $current_stack]
+		    if { $result != "" } {
+			return $result
+		    }
+		}
+	    }
+	}	
+    }
+    
+    return ""
+}
+
+proc ListXmlAttributes { list find {stack ""}} {
+
+	set current_stack $stack
+	foreach { entry attributes content} $list {
+		set current_stack "$stack:$entry"
+		if {$current_stack == $find || $current_stack == ":$find" } {
+			#status_log "Found it in $current_stack\n" blue
+			array set attributes_arr $attributes
+			return [array names attributes_arr]
+		} else {
+			if {[string first $current_stack $find] == -1 &&
+			    [string first $current_stack ":$find"] == -1 } {
+				#status_log "$find not in $current_stack" red
+				continue
+			} else { 
+				#status_log "$find is in a subkey of $current_stack\n" red
+				foreach subkey $content {
+					set result [ListXmlAttributes $subkey $find $current_stack]
+					if { $result != "" } {
+						return $result
+					}
+				}
+			}
+		}	
+	}
+	
+	return ""
+	
+}
+
 proc xmlencode {string} {
 	return [string map { "<" "&lt;" ">" "&gt;" "&" "&amp;" "\"" "&quot;" "'" "&apos;"} $string]
 }
