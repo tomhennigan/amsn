@@ -224,8 +224,9 @@ namespace eval ::groups {
 		set answer [::amsn::messageBox "[trans confirm]" yesno question [trans block]]
 		#If yes
 		if { $answer == "yes"} {
+			set users_to_block [list]
+
 			#Get all the contacts
-			set timer 0
 			foreach user_login [::abook::getAllContacts] {
 				#If the contact is not already blocked
 				if { [lsearch [::abook::getLists $user_login] BL] == -1} {
@@ -233,19 +234,28 @@ namespace eval ::groups {
 					foreach gp [::abook::getContactData $user_login group] {
 						#If the group is the same at specified, block the user
 						if { $gp == $gid } {
-							set name [::abook::getNick ${user_login}]
-							after $timer [list ::MSN::blockUser ${user_login} [urlencode $name]]
-							set timer [expr {$timer + 250}]
+							lappend users_to_block $user_login
 						}
 					}
+				}
+			}
+
+			if {[::config::getKey protocol] >= 13 } {
+				::MSN::blockUser $users_to_block
+			} else {
+				set timer 0
+				foreach user_login $users_to_block {
+					after $timer [list ::MSN::blockUser ${user_login} [urlencode $name]]
+					set timer [expr {$timer + 250}]
 				}
 			}
 		}
 	}
 	#Unblock all the contacts into a group
 	proc unblockgroup {gid} {
+		set users_to_unblock [list]
+
 		#For each user in all contacts
-		set timer 0
 		foreach user_login [::abook::getAllContacts] {
 			#If the contact is blocked
 			if { [lsearch [::abook::getLists $user_login] BL] != -1} {
@@ -254,11 +264,19 @@ namespace eval ::groups {
 					#Compare if the group of the user is the same that the group requested to be blocked
 					if {$gp == $gid} {
 						#If yes, unblock the user
-						set name [::abook::getNick ${user_login}]
-						after $timer [list ::MSN::unblockUser ${user_login} [urlencode $name]]
-						set timer [expr {$timer + 250}]
+						lappend users_to_unblock $user_login
 					}
 				}
+			}
+		}
+
+		if {[::config::getKey protocol] >= 13 } {
+			::MSN::unblockUser $users_to_unblock
+		} else {
+			set timer 0
+			foreach user_login $users_to_unblock {
+				after $timer [list ::MSN::unblockUser ${user_login}]
+				set timer [expr {$timer + 250}]
 			}
 		}
 	}

@@ -1398,7 +1398,7 @@ namespace eval ::MSN {
 
 	}
 
-	proc blockUser { userlogin username} {
+	proc blockUser { userlogin } {
 		if {[::config::getKey protocol] >= 13} {
 			$::ab BlockUser [list ::MSN::blockUserCB $userlogin] $userlogin
 		} else {
@@ -1412,34 +1412,36 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc blockUserCB { userlogin fail } {
+	proc blockUserCB { emails fail } {
 		if {$fail == 0 } {
-			set contact [split $userlogin "@"]
-			set user [lindex $contact 0]
-			set domain [lindex $contact 1]
-			set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
-			set xmllen [string length $xml]
+			foreach userlogin $emails {
+				set contact [split $userlogin "@"]
+				set user [lindex $contact 0]
+				set domain [lindex $contact 1]
+				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
+				set xmllen [string length $xml]
 
-			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
-			::abook::removeContactFromList $userlogin AL
-			::MSN::deleteFromList AL $userlogin
+				::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
+				::abook::removeContactFromList $userlogin AL
+				::MSN::deleteFromList AL $userlogin
 
-			set xml2 "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
-			set xmlllen [string length $xml2]
-			::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml2"
+				set xml2 "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
+				set xmlllen [string length $xml2]
+				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml2"
+				
+				::abook::addContactToList $userlogin BL
+				::MSN::addToList BL $userlogin
+				::MSN::contactListChanged
 
-			::abook::addContactToList $userlogin BL
-			::MSN::addToList BL $userlogin
-			::MSN::contactListChanged
-
-			#an event to let the GUI know a user is blocked
-			after 500 [list ::Event::fireEvent contactBlocked protocol $userlogin]
-			set evpar(userlogin) userlogin
-			::plugins::PostEvent contactBlocked evpar
+				#an event to let the GUI know a user is blocked
+				after 500 [list ::Event::fireEvent contactBlocked protocol $userlogin]
+				set evpar(userlogin) userlogin
+				::plugins::PostEvent contactBlocked evpar
+			}
 		}
 	}
 
-	proc unblockUser { userlogin username} {
+	proc unblockUser { userlogin } {
 		if {[::config::getKey protocol] >= 13} {
 			$::ab UnblockUser [list ::MSN::unblockUserCB $userlogin] $userlogin
 		} else {
@@ -1453,29 +1455,31 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc unblockUserCB { userlogin fail } {
+	proc unblockUserCB { emails fail } {
 		if {$fail == 0 } {
-			set contact [split $userlogin "@"]
-			set user [lindex $contact 0]
-			set domain [lindex $contact 1]
-			set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
-			set xmllen [string length $xml]
-			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
-			::abook::removeContactFromList $userlogin BL
-			::MSN::deleteFromList BL $userlogin
+			foreach userlogin $emails {
+				set contact [split $userlogin "@"]
+				set user [lindex $contact 0]
+				set domain [lindex $contact 1]
+				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
+				set xmllen [string length $xml]
+				::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
+				::abook::removeContactFromList $userlogin BL
+				::MSN::deleteFromList BL $userlogin
 
-			set xml2 "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
-			set xmlllen [string length $xml2]
-			::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml2"
-
-			::abook::addContactToList $userlogin AL
-			::MSN::addToList AL $userlogin
-			::MSN::contactListChanged
-
-			#an event to let the GUI know a user is unblocked
-			after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
-			set evpar(userlogin) userlogin
-			::plugins::PostEvent contactUnblocked evpar
+				set xml2 "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
+				set xmlllen [string length $xml2]
+				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml2"
+				
+				::abook::addContactToList $userlogin AL
+				::MSN::addToList AL $userlogin
+				::MSN::contactListChanged
+				
+				#an event to let the GUI know a user is unblocked
+				after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
+				set evpar(userlogin) userlogin
+				::plugins::PostEvent contactUnblocked evpar
+			}
 		}
 	}
 

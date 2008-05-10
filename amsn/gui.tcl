@@ -866,7 +866,7 @@ namespace eval ::amsn {
 		set answer [::amsn::messageBox "[trans confirmbl] ($user_login)" yesno question [trans block]]
 		if { $answer == "yes"} {
 			set name [::abook::getNick ${user_login}]
-			::MSN::blockUser ${user_login} [urlencode $name]
+			::MSN::blockUser ${user_login}
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -875,7 +875,7 @@ namespace eval ::amsn {
 	#///////////////////////////////////////////////////////////////////////////////
 	proc unblockUser {user_login} {
 		set name [::abook::getNick ${user_login}]
-		::MSN::unblockUser ${user_login} [urlencode $name]
+		::MSN::unblockUser ${user_login}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -914,7 +914,7 @@ namespace eval ::amsn {
 		#If the user wants to delete AND block a user
 		if { $block == 1 } {
 			set name [::abook::getNick ${user_login}]
-			::MSN::blockUser ${user_login} [urlencode $name]
+			::MSN::blockUser ${user_login}
 		}
 
 		::MSN::deleteUser ${user_login}
@@ -6740,7 +6740,7 @@ proc Allow_to_Block { path } {
 	if { [VerifySelect $path "allow"] } {
 		$path.status configure -text ""
 		set user [$path.allowlist.box get active]
-		::MSN::blockUser "$user" [urlencode $user]
+		::MSN::blockUser "$user"
 	}
 }
 
@@ -6748,7 +6748,7 @@ proc Block_to_Allow  { path } {
 	if { [VerifySelect $path "block"] } {
 		$path.status configure -text ""
 		set user [$path.blocklist.box get active]
-		::MSN::unblockUser "$user" [urlencode $user]
+		::MSN::unblockUser "$user"
 	}
 }
 
