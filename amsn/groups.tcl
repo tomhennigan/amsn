@@ -436,9 +436,9 @@ namespace eval ::groups {
 			return [list [llength [array names ::emailBList]] 0]
 		} elseif {$gid == "nonim" } {
 			if {[::config::getKey shownonim] == 1} {
-				set state_contacts [llength [::MSN::getList EL]] 
+				set total_contacts [llength [::MSN::getList EL]] 
 			}
-			return [list $state_contacts 0]
+			return [list $total_contacts $total_contacts]
 		} else {
 			foreach contact $contact_list {
 				if { [lsearch [::abook::getGroups $contact] $gid] != -1 } {

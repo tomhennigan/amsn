@@ -1972,15 +1972,12 @@ namespace eval ::guiContactList {
 		}
 
 		set mode [::config::getKey orderbygroup]
-		if { $mode == 0} {
-			# Status mode
+		if { $mode == 0 || $mode == 2 || [lindex $element 0] == "nonim" } {
+			# Status mode or Hybrid mode
 			set groupcount [lindex $groupcounts $mobileidx]
 		}  elseif { $mode == 1} {
 			# Group mode
 			set groupcount "[lindex $groupcounts 0]/[lindex $groupcounts 1]"
-		} elseif { $mode == 2} {
-			# Hybrid mode
-			set groupcount [lindex $groupcounts $mobileidx]
 		}
 
 		return $groupcount
