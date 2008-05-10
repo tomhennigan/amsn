@@ -375,7 +375,7 @@ snit::type Addressbook {
 			set errorcode [$soap GetFaultDetail]
 			if {$errorcode == "ContactAlreadyExists" } {
 				set xml [$soap GetResponse]
-				set guid [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:additionalDetails:conflictObjectId"]
+				set guid [string tolower [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:additionalDetails:conflictObjectId"]]
 				set fail 2
 			} elseif {$errorcode == "InvalidPassportUser" } {
 				set fail 3
@@ -475,7 +475,7 @@ snit::type Addressbook {
 		append xml {</contactId>}
 		append xml {<contactInfo>}
 		foreach {tag property value} $changes {
-			append xml "<$tag>$value</$tag>"
+			append xml "<$tag>[xmlencode $value]</$tag>"
 		}
 		append xml {</contactInfo>}
 		append xml {<propertiesChanged>}
@@ -768,7 +768,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupAdd" \
 				 -header [$self getCommonHeaderXML GroupSave] \
 				 -body [$self getABGroupAddBodyXML $groupname] \
-				 -callback [list $self ABGroupAddCallback $callbk $groupname]]
+				 -callback [list $self ABGroupAddCallback $callbk]]
 		$request SendSOAPRequest
 	}
 	
@@ -781,7 +781,7 @@ snit::type Addressbook {
 		append xml {<groupInfo>}
 		append xml {<GroupInfo>}
 		append xml {<name>}
-		append xml $groupname
+		append xml [xmlencode $groupname]
 		append xml {</name>}
 		append xml {<groupType>C8529CE2-6EAD-434d-881F-341E17DB3FF8</groupType>}
 		append xml {<fMessenger>false</fMessenger>}
@@ -798,15 +798,29 @@ snit::type Addressbook {
 		return $xml
 	}
 	
-	method ABGroupAddCallback { callbk groupname soap } {
-		
+	method ABGroupAddCallback { callbk soap } {
+		set guid ""
+		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			set xml [$soap GetResponse]
-			set gid [GetXmlEntry $xml "soap:Envelope:soap:Body:ABGroupAddResponse:ABGroupAddResult:guid"]
-			$callbk $gid $groupname
-			$soap destroy
+			set fail 0
+			set guid [GetXmlEntry $xml "soap:Envelope:soap:Body:ABGroupAddResponse:ABGroupAddResult:guid"]
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "GroupAlreadyExists" } {
+				set xml [$soap GetResponse]
+				set guid [string tolower [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:additionalDetails:conflictObjectId"]]
+				set fail 2
+			} else {
+				set fail 1
+			}
 		} else {
-			$soap destroy
+			set fail 1
+		}
+
+		$soap destroy
+		if {[catch {eval $callbk [list $guid $fail]} result]} {
+			bgerror $result
 		}
 	}	
 	############################Remove a Group#################################################
@@ -816,7 +830,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupDelete" \
 				 -header [$self getCommonHeaderXML GroupSave] \
 				 -body [$self getABGroupDeleteBodyXML $gid] \
-				 -callback [list $self ABGroupDeleteCallback $callbk $gid]]
+				 -callback [list $self ABGroupDeleteCallback $callbk]]
 		$request SendSOAPRequest
 		
 	}
@@ -837,12 +851,24 @@ snit::type Addressbook {
 		
 	}
 	
-	method ABGroupDeleteCallback { callbk gid soap } {
-		if { [$soap GetStatus] == "success"} {
-			$callbk $gid
-			$soap destroy
+	method ABGroupDeleteCallback { callbk soap } {
+		puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			set fail 0
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "GroupDoesNotExist" } {
+				set fail 2
+			} else {
+				set fail 1
+			}
 		} else {
-			$soap destroy
+			set fail 1
+		}
+
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
 		}
 	}
 		########################Add a contact to a group###############################
@@ -941,7 +967,7 @@ snit::type Addressbook {
 		append xml {</groupId>}
 		append xml {<groupInfo>}
 		append xml {<name>}
-		append xml $newname
+		append xml [xmlencode $newname]
 		append xml {</name>}
 		append xml {</groupInfo>}
 		append xml {<propertiesChanged>GroupName</propertiesChanged>}

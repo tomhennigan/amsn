@@ -336,9 +336,6 @@ namespace eval ::groups {
 	}
 
 	proc DeleteCB {pdu} {	# RMG 24 12065 15
-		variable parent
-		variable bShowing
-		array set groups [abook::getContactData contactlist groups]
 		
 		if { [::config::getKey protocol] == 11 } {
 			set trid [lindex $pdu 1]
@@ -348,25 +345,12 @@ namespace eval ::groups {
 			set lmod [lindex $pdu 2]
 			set gid  [lindex $pdu 3]
 		}
+
+		DeleteGroupCB $gid
 	
-		# Update our local information
-		unset groups($gid)
-		unset bShowing($gid)
-	
-		# TODO: We are out of sync, maybe we should request
-		# a new list
-		abook::setContactData contactlist groups [array get groups]
-		# Update the Delete Group... menu
-		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
-		::Event::fireEvent groupRemoved groups $gid
 	}
 
 	proc AddCB {pdu} {	# ADG 23 12064 New%20Group 15 =?�-CC
-		variable parent
-		variable bShowing
-		array set groups [abook::getContactData contactlist groups]
-
 		if { [::config::getKey protocol] == 11 } {
 			set trid [lindex $pdu 1]
 			set gname [urldecode [lindex $pdu 2]]
@@ -377,18 +361,8 @@ namespace eval ::groups {
 			set gname [urldecode [lindex $pdu 3]]
 			set gid  [lindex $pdu 4]
 		}
-	
-		set groups($gid) $gname
-		set bShowing($gid) 1
-		if { [::config::getKey expanded_group_$gid]!="" } {
-			set bShowing($gid) [::config::getKey expanded_group_$gid]
-		}
-		::config::setKey expanded_group_$gid [set bShowing($gid)]
-
-		abook::setContactData contactlist groups [array get groups]	
-		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
-		::Event::fireEvent groupAdded groups $gid $gname
+		
+		AddGroupCB $gname $gid
 	}
    
 	proc ToggleStatus {gid} {
@@ -665,13 +639,15 @@ namespace eval ::groups {
 			return 0
 		}
 	
-		set gname2 [urlencode $gname]
-		::MSN::WriteSB ns "ADG" "$gname2 0"
-		# MSN sends back "ADG %T %M $gname gid junkdata"
-		# AddCB() should be called when we receive the ADG
-		# packet from the server
-
-		after 2000 [list ::groups::AddContactsToGroup $gname]
+		if {[::config::getKey protocol] >= 13} {
+			$::ab ABGroupAdd [list ::groups::ABAddGroupCB $gname] $gname
+		} else {
+			set gname2 [urlencode $gname]
+			::MSN::WriteSB ns "ADG" "$gname2 0"
+			# MSN sends back "ADG %T %M $gname gid junkdata"
+			# AddCB() should be called when we receive the ADG
+			# packet from the server
+		}
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
@@ -680,6 +656,31 @@ namespace eval ::groups {
 		return 1
 	}
 
+	proc ABAddGroupCB { gname gid fail} {
+		if {$fail == 0 || $fail == 2} {
+			AddGroupCB $gname $gid
+		}
+	} 
+
+	proc AddGroupCB { gname gid } {
+		variable parent
+		variable bShowing
+		array set groups [::abook::getContactData contactlist groups]
+
+		set groups($gid) $gname
+		set bShowing($gid) 1
+		if { [::config::getKey expanded_group_$gid]!="" } {
+			set bShowing($gid) [::config::getKey expanded_group_$gid]
+		}
+		::config::setKey expanded_group_$gid [set bShowing($gid)]
+
+		abook::setContactData contactlist groups [array get groups]	
+		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
+		::Event::fireEvent groupAdded groups $gid $gname
+
+		::groups::AddContactsToGroup $gname
+	}
 
 	proc AddContactsToGroup { gname } {
 
@@ -705,26 +706,31 @@ namespace eval ::groups {
 		
 		set gname [::groups::GetName $gid]
 		if {![::groups::Exists $gname]} {
-		if {$ghandler != ""} {
-		set retval [eval "$ghandler \"[trans groupunknown]!\""]
-		}
-		set pgc 0
-		return 0
-		}
-	
-		# Cannot and must not delete a group until it is empty
-		if {[lindex [::groups::getGroupCount $gid] 1] != 0} {
 			if {$ghandler != ""} {
-				set retval [eval "$ghandler \"[trans groupnotempty]!\""]
+				set retval [eval "$ghandler \"[trans groupunknown]!\""]
 			}
 			set pgc 0
 			return 0
 		}
+
+		if {[::config::getKey protocol] >= 13} {
+			$::ab ABGroupDelete [list ::groups::ABDeleteGroupCB $gid] $gid
+		} else {
+	
+			# Cannot and must not delete a group until it is empty
+			if {[lindex [::groups::getGroupCount $gid] 1] != 0} {
+				if {$ghandler != ""} {
+					set retval [eval "$ghandler \"[trans groupnotempty]!\""]
+				}
+				set pgc 0
+				return 0
+			}
 		
-		::MSN::WriteSB ns "RMG" $gid
-		# MSN sends back "RMG %T %M $gid"
-		# DeleteCB() should be called when we receive the RMG
-		# packet from the server
+			::MSN::WriteSB ns "RMG" $gid
+			# MSN sends back "RMG %T %M $gid"
+			# DeleteCB() should be called when we receive the RMG
+			# packet from the server
+		}
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
@@ -732,6 +738,35 @@ namespace eval ::groups {
 		}
 
 		return 1
+	}
+
+	proc ABDeleteGroupCB { gid fail } {
+		if {$fail == 0 || $fail == 2 } {
+			# We deleted a group that wasn't empty, we must resync
+			set count [lindex [::groups::getGroupCount $gid] 1]
+			DeleteGroupCB $gid
+			if {$count > 0 } {
+				$::ab Resync
+			}
+		}
+	}
+
+	proc DeleteGroupCB { gid } {
+		variable parent
+		variable bShowing
+		array set groups [abook::getContactData contactlist groups]
+
+		# Update our local information
+		unset groups($gid)
+		unset bShowing($gid)
+	
+		# TODO: We are out of sync, maybe we should request
+		# a new list
+		abook::setContactData contactlist groups [array get groups]
+		# Update the Delete Group... menu
+		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
+		::Event::fireEvent groupRemoved groups $gid
 	}
 
 	proc GetList {{opt ""}} {
