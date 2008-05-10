@@ -180,6 +180,8 @@ snit::type SOAPRequest {
 
 		incr [myvar wait]
 		if {[::http::status $token] != "reset"} {
+			status_log "Received answer to SOAP request sent to $options(-url) with action $options(-action) : ..." green
+			status_log "... status=$status, LastError=$last_error, FaultDetail=$fault_detail" green
 			if {$options(-callback) != "" } {
 				if {[catch {eval $options(-callback) $self} result]} {
 					bgerror $result
