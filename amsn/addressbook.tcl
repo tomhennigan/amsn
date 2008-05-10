@@ -127,6 +127,7 @@ snit::type Addressbook {
 								break
 							}
 							set username [GetXmlEntry $member "Member:PassportName"]
+							set username [string tolower $username]
 
 							::abook::addContactToList $username $member_list 
 							::MSN::addToList $member_list $username
