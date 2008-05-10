@@ -93,14 +93,19 @@ snit::type SSOAuthentication {
 				bgerror $result
 			}
 		} elseif  {[$soap GetStatus] == "fault" } {
-			set xml  [$soap GetResponse]
-
 			set faultcode [$soap GetFaultCode]
 			set faultstring [$soap GetFaultString]
 			
 			status_log "Error authenticating : $faultcode - $faultstring" green
 			if {$faultcode == "wsse:FailedAuthentication" } {
 				set error 2
+			} elseif {$faultcode == "psf:Redirect"} {
+				set xml  [$soap GetResponse]
+				set url [GetXmlEntry $xml "S:Envelope:S:Fault:psf:redirectUrl"]
+				status_log "SSO Authentication redirected to $url"
+				$soap configure -url $url
+				$soap SendSOAPRequest
+				return
 			} else {
 				set error 1
 			}
