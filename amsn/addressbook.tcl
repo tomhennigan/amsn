@@ -441,7 +441,7 @@ snit::type Addressbook {
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 			set xml [$soap GetResponse]
-			set guid [GetXmlEntry $xml "soap:Envolope:soap:Body:ABContactAddResponse:ABContactAddResult:guid"]
+			set guid [GetXmlEntry $xml "soap:Envelope:soap:Body:ABContactAddResponse:ABContactAddResult:guid"]
 		} elseif { [$soap GetStatus] == "fault" } { 
 			set errorcode [$soap GetFaultDetail]
 			if {$errorcode == "ContactAlreadyExists" } {
