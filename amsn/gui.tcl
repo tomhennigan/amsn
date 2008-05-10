@@ -7230,20 +7230,25 @@ proc show_umenu {user_login grId x y} {
 	if {[winfo exists $actions]} { destroy $actions }
 	menu $actions -tearoff 0 -type normal
 
-	#add mobile if it's not already the default action
-	#	mobile is default when offline and a mobile account is set up
-	if {![::MSN::userIsNotIM ${user_login}] && $mobile == 1 && $statecode != "FLN"} {
-		$actions add command -label "[trans sendmobmsg]" \
-		-command "::MSNMobile::OpenMobileWindow ${user_login}"	
+
+	if {[::MSN::userIsNotIM ${user_login}] } {
+		$actions add command -label "[trans addtocontacts]" \
+		    -command "::MSN::addUser ${user_login}"
+	} else {
+		#add mobile if it's not already the default action
+		#	mobile is default when offline and a mobile account is set up
+		if {$mobile == 1 && $statecode != "FLN"} {
+			$actions add command -label "[trans sendmobmsg]" \
+			    -command "::MSNMobile::OpenMobileWindow ${user_login}"	
+		}
+		#add e-mail if it's not already the default action	
+		#	e-mail is default when offline and no mobile account set up
+		if { !($mobile != 1 && $statecode == "FLN")} {
+			$actions add command -label "[trans sendmail]" \
+			    -command "launch_mailer $user_login"
+		}
 	}
 	
-	#add e-mail if it's not already the default action	
-	#	e-mail is default when offline and no mobile account set up
-	if {![::MSN::userIsNotIM ${user_login}] &&  !($mobile != 1 && $statecode == "FLN")} {
-		$actions add command -label "[trans sendmail]" \
-			-command "launch_mailer $user_login"
-	}
-
 	#view profile action			
 	.user_menu add command -label "[trans viewprofile]" \
 		-command "::hotmail::viewProfile [list ${user_login}]"		

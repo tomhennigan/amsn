@@ -2135,14 +2135,18 @@ namespace eval ::guiContactList {
 		set balloon_message [list [string map { "%" "%%" } [::abook::getNick $email]]]
 		lappend balloon_message [string map { "%" "%%" } $psmmedia]
 		lappend balloon_message "$email"
-		lappend balloon_message "[trans status] : [trans [::MSN::stateToDescription $state_code]]"
-		if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-			lappend balloon_message "[trans notinlist]"
+		if {[::MSN::userIsNotIM $email] } {
+			lappend balloon_message "[trans notimcontact]"
+		} else {
+			lappend balloon_message "[trans status] : [trans [::MSN::stateToDescription $state_code]]"
+			if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+				lappend balloon_message "[trans notinlist]"
+			}
+			if {[::abook::getContactData $email webcam_shared] == 1} {
+				lappend balloon_message "[trans shareswebcam]"
+			}	
+			return $balloon_message	
 		}
-		if {[::abook::getContactData $email webcam_shared] == 1} {
-			lappend balloon_message "[trans shareswebcam]"
-		}	
-		return $balloon_message	
 	}
 
 
