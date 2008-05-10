@@ -1586,22 +1586,75 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc acceptUserCB { userlogin fail } {
+	proc addUserToList { email list} {
+		if {$list == "AL" } {
+			$::ab AddMember [list ::MSN::addUserToListCB $email $list] \
+			    "ContactSave" $email "Allow"
+		} elseif {$list == "BL" } {
+			$::ab AddMember [list ::MSN::addUserToListCB $email $list] \
+			    "ContactSave" $email "Block"
+			
+		}
+	}
+	proc addUserToListCB { userlogin list fail } {
+		switch -- $list {
+			"AL" {
+				set mask 2
+			}
+			"BL" {
+				set mask 4
+			}
+		}
 		set contact [split $userlogin "@"]
 		set user [lindex $contact 0]
 		set domain [lindex $contact 1]
-		set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
+		set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"$mask\" t=\"1\"/></d></ml>"
 		set xmlllen [string length $xml]
 		::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
 
-		::abook::addContactToList $userlogin AL
-		::MSN::addToList AL $userlogin
+		::abook::addContactToList $userlogin $list
+		::MSN::addToList $list $userlogin
 		::MSN::contactListChanged
 
-		#an event to let the GUI know a user is unblocked
-		after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
+		#an event to let the GUI know a user's list changed
+		after 500 [list ::Event::fireEvent contactListChange protocol $userlogin]
 		
 	}
+	proc removeUserFromList { email list} {
+		if {$list == "AL" } {
+			$::ab DeleteMember [list ::MSN::removeUserFromListCB $email $list] \
+			    "ContactSave" $email "Allow"
+		} elseif {$list == "BL" } {
+			$::ab DeleteMember [list ::MSN::removeUserFromListCB $email $list] \
+			    "ContactSave" $email "Block"
+			
+		}
+	}
+	proc removeUserFromListCB { userlogin list fail } {
+		switch -- $list {
+			"AL" {
+				set mask 2
+			}
+			"BL" {
+				set mask 4
+			}
+		}
+		set contact [split $userlogin "@"]
+		set user [lindex $contact 0]
+		set domain [lindex $contact 1]
+		set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"$mask\" t=\"1\"/></d></ml>"
+		set xmlllen [string length $xml]
+		::MSN::WriteSBNoNL ns "RML" "$xmlllen\r\n$xml"
+
+		::abook::removeContactFromList $userlogin $list
+		::MSN::deleteFromList $list $userlogin
+		::MSN::contactListChanged
+
+		#an event to let the GUI know a user's list changed
+		after 500 [list ::Event::fireEvent contactListChange protocol $userlogin]
+		
+	}
+
 
 	#Handler for the ADC message, to show the ADD messagebox, and to move a user to a group if gid != 0
 	proc ADCHandler { gid item } {

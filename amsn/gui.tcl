@@ -6660,7 +6660,9 @@ proc create_users_list_popup { path list x y} {
 
 proc AddToContactList { user path } {
 	if { [NotInContactList "$user"] } {
-		if { [::config::getKey protocol] == 11 } {
+		if {[::config::getKey protocol] >= 13 } {
+			::MSN::addUser $user
+		} elseif { [::config::getKey protocol] == 11 } {
 			::MSN::WriteSB ns "ADC" "FL N=$user F=$user"
 		} else {
 			::MSN::WriteSB ns "ADD" "FL $user $user 0"
@@ -6672,14 +6674,26 @@ proc AddToContactList { user path } {
 
 proc Remove_from_list { list user } {
 	if { "$list" == "contact" && [lsearch [::abook::getLists $user] FL] != -1 } {
-		set guid [::abook::getContactData $user contactguid]
-		if { $guid != "" } {
-			::MSN::WriteSB ns "REM" "FL $guid"
+		if {[::config::getKey protocol] >= 13 } {
+			::MSN::deleteUser $user
+		} else {
+			set guid [::abook::getContactData $user contactguid]
+			if { $guid != "" } {
+				::MSN::WriteSB ns "REM" "FL $guid"
+			}
 		}
 	} elseif { "$list" == "allow" && [lsearch [::abook::getLists $user] AL] != -1} {
-		::MSN::WriteSB ns "REM" "AL $user"
+		if {[::config::getKey protocol] >= 13 } {
+			::MSN::removeUserFromList $user "AL"
+		} else {
+			::MSN::WriteSB ns "REM" "AL $user"
+		}
 	} elseif { "$list" == "block" && [lsearch [::abook::getLists $user] BL] != -1} {
-		::MSN::WriteSB ns "REM" "BL $user"
+		if {[::config::getKey protocol] >= 13 } {
+			::MSN::removeUserFromList $user "BL"
+		} else {
+			::MSN::WriteSB ns "REM" "BL $user"
+		}
 	}
 }
 
@@ -6694,7 +6708,9 @@ proc Add_To_List { path list } {
 	if { $list == "FL" } {
 		AddToContactList "$username" "$path"
 	} else {
-		if { [::config::getKey protocol] == 11 } {
+		if { [::config::getKey protocol] >= 13 } {
+			::MSN::addUserToList $username $list
+		} elseif { [::config::getKey protocol] == 11 } {
 			::MSN::WriteSB ns "ADC" "$list N=$username"
 		} else {
 			::MSN::WriteSB ns "ADD" "$list $username $username"
