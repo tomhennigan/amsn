@@ -4,6 +4,22 @@ snit::type Addressbook {
 	variable ab_done 0
 	variable fm_done 0
 
+	method Resync { } {
+		$self Synchronize [list $self ResyncCB]
+	}
+	method ResyncCB { error } {
+		set ::contactlist_loaded 1
+		::abook::setConsistent
+		::abook::saveToDisk
+
+		after 0 { 
+			cmsn_draw_online 1
+		}
+
+		::Event::fireEvent contactlistLoaded protocol
+		::plugins::PostEvent contactlistLoaded evPar
+	}
+
 	method Synchronize { callback } {
 		global contactlist_loaded
 		set contactlist_loaded 0
@@ -45,7 +61,7 @@ snit::type Addressbook {
 	method ABFindAllDone {callback error } {
 		set ab_done 1
 		if {$error } {
-			if {$ab_done == 0 } {
+			if {$fm_done == 0 } {
 				$self SynchronizeDone $callback $error
 			} 
 		} else {
@@ -57,6 +73,7 @@ snit::type Addressbook {
 
 	method SynchronizeDone {callback error } {
 		status_log "Synchronization done"
+		::MSN::contactListChanged
 		if {[catch {eval $callback $error} result]} {
 			bgerror $result
 		}
@@ -201,7 +218,7 @@ snit::type Addressbook {
 					::MSN::addToList "FL" $username
 
 					::abook::setContactData $username group $groups
-					::abook::setVolatileData $username state "FLN"
+					#::abook::setVolatileData $username state "FLN"
 				}
 
 			}
@@ -357,6 +374,8 @@ snit::type Addressbook {
 		} elseif { [$soap GetStatus] == "fault" } { 
 			set errorcode [$soap GetFaultDetail]
 			if {$errorcode == "ContactAlreadyExists" } {
+				set xml [$soap GetResponse]
+				set guid [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:additionalDetails:conflictObjectId"]
 				set fail 2
 			} elseif {$errorcode == "InvalidPassportUser" } {
 				set fail 3
@@ -433,33 +452,39 @@ snit::type Addressbook {
 	#update information for contact Type /possibly DisplayName
 	#Accepted values are Regular Live LivePending LiveRejected LiveDropped Messenger2
 	 
-	method ABContactUpdate { callbk email ctype } {
+	method ABContactUpdate { callbk email changes} {
 		set request [SOAPRequest create %AUTO% \
 				-url "https://contacts.msn.com/abservice/abservice.asmx" \
 				-action "http://www.msn.com/webservices/AddressBook/ABContactUpdate" \
 				-header [$self getCommonHeaderXML BlockUnblock] \
-				-body [$self getABContactUpdateBodyXML $email $ctype] \
-				-callback [list $self ABContactUpdateCallback $callbk $email]]
+				-body [$self getABContactUpdateBodyXML $email $changes] \
+				-callback [list $self ABContactUpdateCallback $callbk]]
 
 		$request SendSOAPRequest
 	}
 	
-	method getABContactUpdateBodyXML { email ctype } {
+	method getABContactUpdateBodyXML { email changes } {
 		#contact type can be Regular Live LivePending LiveRejected LiveDropped
 		set guid [::abook::getContactData $email contactguid]
 		append xml {<ABContactUpdate xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
 		append xml {<contacts>}
-		append xml {<Contact>}
+		append xml {<Contact xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<contactId>}
 		append xml $guid
 		append xml {</contactId>}
 		append xml {<contactInfo>}
-		append xml {<contactType>}
-		append xml $ctype
-		append xml {</contactType>}
+		foreach {tag property value} $changes {
+			append xml "<$tag>$value</$tag>"
+		}
 		append xml {</contactInfo>}
-		append xml {<propertiesChanged>ContactType</propertiesChanged>}
+		append xml {<propertiesChanged>}
+		set properties [list]
+		foreach {tag property value} $changes {
+			lappend properties "$property"
+		}
+		append xml [join $properties " "]
+		append xml {</propertiesChanged>}
 		append xml {</Contact>}
 		append xml {</contacts>}
 		append xml {</ABContactUpdate>}
@@ -467,10 +492,10 @@ snit::type Addressbook {
 		return $xml
 	}
 	
-	method ABContactUpdateCallback { callbk contactid soap } {
+	method ABContactUpdateCallback { callbk soap } {
 		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
-			if {[catch {eval $callbk [list $email 0]} result]} {
+			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
 			}
 			$soap destroy

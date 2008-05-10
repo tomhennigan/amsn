@@ -1521,7 +1521,16 @@ namespace eval ::MSN {
 		}
 		
 		if {[::config::getKey protocol] >= 13} {
-			$::ab ABContactAdd [list ::MSN::addUserCB $userlogin $gid] $userlogin
+			set cid [::abook::getContactData $username contactguid]
+			# This is the WLM bug where you add someone but he doesn't get added correctly...
+			# if you delete someone from WLM, it will mark is "isMessengerUser = false", then if you add it again
+			# instead of updating it to "isMessengerUser = true", it does an ABContactAdd which results in the error
+			# ContactAlreadyExists.
+			if {$cid == "" } {
+				$::ab ABContactAdd [list ::MSN::addUserCB $userlogin $gid] $userlogin
+			} else {
+				$::ab ABContactUpdate [list ::MSN::addUserCB $userlogin $gid $cid] $userlogin [list isMessengerUser IsMessengerUser true]
+			}
 		} else {
 			::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler $gid"
 
@@ -1532,6 +1541,7 @@ namespace eval ::MSN {
 
 	proc addUserCB { email gid cid fail } {
 		switch -- $fail {
+			2 -
 			0 {
 				set contact [split $email "@"]
 				set user [lindex $contact 0]
@@ -1540,18 +1550,23 @@ namespace eval ::MSN {
 				::abook::setContactData $email contactguid $cid
 				::abook::setContactForGuid $cid $email
 
-					
-				$::ab AddMember [list ::MSN::addUserAddMemberCB $email] \
-				    "ContactSave" $email "Allow"
-
 				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"1\" t=\"1\"/></d></ml>"
 				set xmllen [string length $xml]
 				::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
 			
+				#It's a new contact so we save its guid and its nick
+				::abook::setContactData $email contactguid $cid
+				::abook::setContactForGuid $cid $email
+
+				::abook::addContactToGroup $email 0
+
 				::abook::addContactToList $email "FL"
 				::MSN::addToList "FL" $email
 
 				::MSN::contactListChanged
+				
+				#an event to let the GUI know a user was added to a list
+				::Event::fireEvent contactListChange protocol $email
 
 				#an event to let the GUI know a user is copied/added to a group
 				::Event::fireEvent contactAdded protocol $email $gid
@@ -1560,23 +1575,18 @@ namespace eval ::MSN {
 				}
 				msg_box "[trans contactadded]\n$email"
 			}
-			1 {
-			}
-			2 {
-			}
 			3 {
 				msg_box "[trans contactdoesnotexist]"
 			}
-			4 {
-				msg_box "[trans invalidusername]"
-			}
+			1 -
+			4 -
 			5 {
-
+				msg_box "[trans invalidusername]"
 			}
 		}
 	}
 
-	proc addUserAddMemberCB { userlogin fail } {
+	proc acceptUserCB { userlogin fail } {
 		set contact [split $userlogin "@"]
 		set user [lindex $contact 0]
 		set domain [lindex $contact 1]
@@ -1637,25 +1647,60 @@ namespace eval ::MSN {
 
 
 	#Delete user totally
-	proc deleteUser { userlogin } {
+	proc deleteUser { userlogin {full 0} } {
 		#We remove from everywhere
 		if { [::config::getKey protocol] >= 15 } {
-			set contact [split $userlogin "@"]
-			set user [lindex $contact 0]
-			set domain [lindex $contact 1]
-
-			set xml "<ml><d n=\"$domain\"><c n=\"$user\" t=\"1\" l=\"3\" /></d></ml>"
-			set xmllen [string length $xml]
-			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
-
+			if {$full} {
+				$::ab ABContactDelete [list ::MSN::deleteUserCB $userlogin $full] $userlogin
+			} else {
+				$::ab ABContactUpdate [list ::MSN::deleteUserCB $userlogin $full] $userlogin [list isMessengerUser IsMessengerUser false]
+			}
 		} else {
 			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
 			foreach groupID [::abook::getGroups $userlogin] {
 				::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $groupID"
 			}
+
+			set evPar(userlogin) userlogin
+			::plugins::PostEvent deletedUser evPar
 		}
-		set evPar(userlogin) userlogin
-		::plugins::PostEvent deletedUser evPar
+	}
+
+	proc deleteUserCB { userlogin full err } {
+		#We remove from everywhere
+		if { $err == 0 || $err == 2 } {
+			set contact [split $userlogin "@"]
+			set user [lindex $contact 0]
+			set domain [lindex $contact 1]
+
+			set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"1\" t=\"1\" /></d></ml>"
+			set xmllen [string length $xml]
+			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
+
+			::abook::removeContactFromList $userlogin FL
+			::MSN::deleteFromList FL $userlogin
+			::MSN::contactListChanged
+			#an event to let the GUI know a user is removed from a list
+			::Event::fireEvent contactListChange protocol $userlogin
+			
+			set affected_groups [::abook::getGroups $userlogin]
+
+			if {$full} {
+				::abook::emptyUserGroups $userlogin
+				
+				#The GUID is invalid if the contact is removed from the FL list
+				set userguid [::abook::getContactData $userlogin contactguid]
+				::abook::setContactForGuid $userguid ""
+				::abook::setContactData $userlogin contactguid ""
+				::abook::clearVolatileData $userlogin
+			}
+				
+			#an event to let the GUI know a user is removed from a group / the list
+			::Event::fireEvent contactRemoved protocol $userlogin $affected_groups
+
+			set evPar(userlogin) userlogin
+			::plugins::PostEvent deletedUser evPar
+		}
 	}
 
 	##################################################
@@ -3823,9 +3868,6 @@ namespace eval ::MSNOIM {
 	method handleADL { command payload } {
 		if {$payload == "" } {
 			set ok [lindex $command end]
-			if { $ok == "OK" } {
-				ns authenticationDone	
-			}
 		} else {
 			set xml [xml2list $payload]
 			set node [GetXmlNode $xml "ml:d"]
@@ -6114,6 +6156,7 @@ proc ::MSN::ABSynchronizationDone { error } {
 		set xmllen [string length $xml]
 		::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
 
+		ns authenticationDone	
 	}
 }
 proc recreate_contact_lists {} {
