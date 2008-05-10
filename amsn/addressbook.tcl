@@ -871,7 +871,63 @@ snit::type Addressbook {
 			bgerror $result
 		}
 	}
-		########################Add a contact to a group###############################
+
+
+	##########################Rename a Group#####################################################
+	method ABGroupUpdate { callbk gid newname } {
+		set request [SOAPRequest create %AUTO% \
+				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -action "http://www.msn.com/webservices/AddressBook/ABGroupUpdate" \
+				 -header [$self getCommonHeaderXML GroupSave] \
+				 -body [$self getABGroupUpdateBodyXML $gid $newname] \
+				 -callback [list $self ABGroupUpdateCallback $callbk]]
+		$request SendSOAPRequest
+	}
+	
+	method getABGroupUpdateBodyXML { gid newname } {
+		
+		append xml {<ABGroupUpdate xmlns="http://www.msn.com/webservices/AddressBook">}
+		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
+		append xml {<groups>}
+		append xml {<Group>}
+		append xml {<groupId>}
+		append xml $gid
+		append xml {</groupId>}
+		append xml {<groupInfo>}
+		append xml {<name>}
+		append xml [xmlencode $newname]
+		append xml {</name>}
+		append xml {</groupInfo>}
+		append xml {<propertiesChanged>GroupName</propertiesChanged>}
+		append xml {</Group>}
+		append xml {</groups>}
+		append xml {</ABGroupUpdate>}
+
+		return $xml
+	}
+	
+	method ABGroupUpdateCallback { callbk soap } {
+		puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			set fail 0
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "GroupDoesNotExist" } {
+				set fail 2
+			} else {
+				set fail 1
+			}
+		} else {
+			set fail 1
+		}
+
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
+		}
+	}
+	
+	########################Add a contact to a group###############################
 	method ABGroupContactAdd { callbk gid cid } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
@@ -944,50 +1000,6 @@ snit::type Addressbook {
 			$soap destroy
 		}
 		
-	}
-	##########################Rename a Group#####################################################
-	method ABGroupUpdate { callbk gid newname } {
-		set request [SOAPRequest create %AUTO% \
-				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
-				 -action "http://www.msn.com/webservices/AddressBook/ABGroupUpdate" \
-				 -header [$self getCommonHeaderXML GroupSave] \
-				 -body [$self getABGroupUpdateBodyXML $gid $newname] \
-				 -callback [list $self ABGroupUpdateCallback $callbk $gid $newname]]
-		$request SendSOAPRequest
-	}
-	
-	method getABGroupUpdateBodyXML { gid newname } {
-		
-		append xml {<ABGroupUpdate xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
-		append xml {<groups>}
-		append xml {<Group>}
-		append xml {<groupId>}
-		append xml $gid
-		append xml {</groupId>}
-		append xml {<groupInfo>}
-		append xml {<name>}
-		append xml [xmlencode $newname]
-		append xml {</name>}
-		append xml {</groupInfo>}
-		append xml {<propertiesChanged>GroupName</propertiesChanged>}
-		append xml {</Group>}
-		append xml {</groups>}
-		append xml {</ABGroupUpdate>}
-
-		return $xml
-	}
-	
-	method ABGroupUpdateCallback { callbk gid newname soap } {
-		status_log "[$soap GetStatus]"
-
-		if { [$soap GetStatus] == "success"} {
-			$callbk $gid $newname
-			$soap destroy
-		} else {
-			status_log "[$soap GetLastError]" red
-			$soap destroy
-		}
 	}
 	################################Common Header####################################
 	

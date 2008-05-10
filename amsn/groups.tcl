@@ -312,10 +312,6 @@ namespace eval ::groups {
 	#
 	# ----------------- Callbacks -------------------
 	proc RenameCB {pdu} {  # REG 25 12066 15 New%20Name 0
-		variable parent
-		#variable groups
-		array set groups [::abook::getContactData contactlist groups]
-	
 		if { [::config::getKey protocol] == 11 } {
 			set trid [lindex $pdu 1]
 			set gid  [lindex $pdu 2]
@@ -327,13 +323,7 @@ namespace eval ::groups {
 			set gname [urldecode [lindex $pdu 4]]
 		}
 	
-		set groups($gid) $gname
-	
-		::abook::setContactData contactlist groups [array get groups]
-		# Update the Delete Group... menu
-		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
-		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
-		::Event::fireEvent groupRenamed groups $gid $gname
+		RenameGroupCB $gname $gid
 	}
 
 	proc DeleteCB {pdu} {	# RMG 24 12065 15
@@ -615,11 +605,15 @@ namespace eval ::groups {
 			return 0
 		}
 	
-		#TODO Keep track of transaction number
-		set new [urlencode $new]
-		::MSN::WriteSB ns "REG" "$currentGid $new 0"
-		# RenameCB() should be called when we receive the REG
-		# packet from the server
+		if {[::config::getKey protocol] >= 13} {
+			$::ab ABGroupUpdate [list ::groups::ABRenameGroupCB $currentGid $new] $currentGid $new
+		} else {
+			#TODO Keep track of transaction number
+			set new [urlencode $new]
+			::MSN::WriteSB ns "REG" "$currentGid $new 0"
+			# RenameCB() should be called when we receive the REG
+			# packet from the server
+		}
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
@@ -627,6 +621,26 @@ namespace eval ::groups {
 		}
 
 		return 1
+	}
+
+	proc ABRenameGroupCB { gid gname fail} {
+		if {$fail == 0} {
+			RenameGroupCB $gname $gid
+		}
+	} 
+
+	proc RenameGroupCB { gname gid } {
+		variable parent
+		#variable groups
+		array set groups [::abook::getContactData contactlist groups]
+	
+		set groups($gid) $gname
+	
+		::abook::setContactData contactlist groups [array get groups]
+		# Update the Delete Group... menu
+		::groups::updateMenu menu $parent.group_list_delete ::groups::menuCmdDelete
+		::groups::updateMenu menu $parent.group_list_rename ::groups::menuCmdRename
+		::Event::fireEvent groupRenamed groups $gid $gname
 	}
 
 	proc Add { gname {ghandler ""}} {
