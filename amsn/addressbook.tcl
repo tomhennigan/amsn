@@ -219,7 +219,9 @@ snit::type Addressbook {
 					::MSN::addToList "FL" $username
 
 					::abook::setContactData $username group $groups
-					#::abook::setVolatileData $username state "FLN"
+					if {[::abook::getVolatileData $username state] == ""} {
+						::abook::setVolatileData $username state "FLN"
+					}
 				}
 
 			}
