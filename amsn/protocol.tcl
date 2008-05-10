@@ -1776,11 +1776,7 @@ namespace eval ::MSN {
 	proc deleteUser { userlogin {full 0} } {
 		#We remove from everywhere
 		if { [::config::getKey protocol] >= 15 } {
-			if {$full} {
-				$::ab ABContactDelete [list ::MSN::deleteUserCB $userlogin $full] $userlogin
-			} else {
-				$::ab ABContactUpdate [list ::MSN::deleteUserCB $userlogin $full] $userlogin [list isMessengerUser IsMessengerUser false]
-			}
+			$::ab ABContactUpdate [list ::MSN::deleteUserCB $userlogin $full] $userlogin [list isMessengerUser IsMessengerUser false]
 		} else {
 			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
 			foreach groupID [::abook::getGroups $userlogin] {
@@ -1793,7 +1789,6 @@ namespace eval ::MSN {
 	}
 
 	proc deleteUserCB { userlogin full err } {
-		#We remove from everywhere
 		if { $err == 0 || $err == 2 } {
 			set contact [split $userlogin "@"]
 			set user [lindex $contact 0]
@@ -1812,13 +1807,7 @@ namespace eval ::MSN {
 			set affected_groups [::abook::getGroups $userlogin]
 
 			if {$full} {
-				::abook::emptyUserGroups $userlogin
-				
-				#The GUID is invalid if the contact is removed from the FL list
-				set userguid [::abook::getContactData $userlogin contactguid]
-				::abook::setContactForGuid $userguid ""
-				::abook::setContactData $userlogin contactguid ""
-				::abook::clearVolatileData $userlogin
+				$::ab ABContactDelete [list ::MSN::deleteUserFullCB $userlogin] $userlogin
 			}
 				
 			#an event to let the GUI know a user is removed from a group / the list
@@ -1826,6 +1815,17 @@ namespace eval ::MSN {
 
 			set evPar(userlogin) userlogin
 			::plugins::PostEvent deletedUser evPar
+		}
+	}
+	proc deleteUserFullCB { userlogin err } {
+		if { $err == 0 || $err == 2 } {
+			::abook::emptyUserGroups $userlogin
+				
+			#The GUID is invalid if the contact is removed from the FL list
+			set userguid [::abook::getContactData $userlogin contactguid]
+			::abook::setContactForGuid $userguid ""
+			::abook::setContactData $userlogin contactguid ""
+			::abook::clearVolatileData $userlogin
 		}
 	}
 
