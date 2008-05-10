@@ -1201,11 +1201,7 @@ namespace eval ::abook {
 	proc importContactList { ImportedContact } {
 		foreach contact $ImportedContact {
 			status_log "Importation of contacts : $contact\n" red
-			if { [::config::getKey protocol] >= 11 } {
-				::MSN::WriteSB ns "ADC" "FL N=$contact F=$contact" "::MSN::ADCHandler 0"
-			} else {
-				::MSN::WriteSB ns "ADD" "FL $contact $contact 0" "::MSN::ADDHandler"
-			}
+			::MSN::addUser $contact
 		}
 				
 	}
@@ -1414,7 +1410,9 @@ namespace eval ::abookGui {
 		label $nbIdent.fStats.lastlogout1 -text [::abook::dateconvert "[::abook::getContactData $email last_logout]"] -font splainf
 
 		label $nbIdent.fStats.lastseen -text "[trans lastseen]:"
-		if { [::abook::getVolatileData $email state] eq "FLN" || [lsearch [::abook::getContactData $email lists] "FL"] eq -1} {
+		if { [::abook::getVolatileData $email state] eq "FLN" || 
+		     ([lsearch [::abook::getContactData $email lists] "FL"] == -1 &&
+		      [lsearch [::abook::getContactData $email lists] "EL"] != -1)} {
 			label $nbIdent.fStats.lastseen1 -text [::abook::dateconvert "[::abook::getContactData $email last_seen]"] -font splainf
 		} elseif { [::abook::getContactData $email last_seen] eq "" } {		
 			label $nbIdent.fStats.lastseen1 -text "" -font splainf

@@ -1473,13 +1473,15 @@ namespace eval ::guiContactList {
 
 		set psm [::abook::getpsmmedia $email 1]
 
-		if {[::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN")} {
+		if {[::config::getKey show_contactdps_in_cl] == "1" &&
+		    !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN") &&
+		    ![::MSN::userIsNotIM $email]} {
 			set littlepic [::skin::getLittleDisplayPictureName $email]
 			set img ${littlepic}_cl
 
 			catch { $img delete}
 			image create photo $img
-
+			
 			$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap plain_emblem ]]]
 			
 			# We can get a user "hidden" if you have yourself on your own CL and you use MSNP16+ with mpop
@@ -1504,14 +1506,16 @@ namespace eval ::guiContactList {
 
 		} else {
 
-			#Show webMSN buddy icon
-			if { [::MSN::userIsBlocked $email] } {
+			if {[::MSN::userIsNotIM $email]} {
+				set img [::skin::loadPixmap nonim]
+			} elseif { [::MSN::userIsBlocked $email] } {
 				if { $state_code == "FLN" } { 
 					set img [::skin::loadPixmap blocked_off] 
 				} else {
 					set img [::skin::loadPixmap blocked] 
 				}
 			} elseif { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } {
+				#Show webMSN buddy icon
 				set img [::skin::loadPixmap webmsn]
 			} elseif { [::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"} {
 				set img [::skin::loadPixmap mobile]
@@ -1641,7 +1645,7 @@ namespace eval ::guiContactList {
 
 		if {!([::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
 			# If you are not on this contact's list, show the notification icon
-			if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+			if {![::MSN::userIsNotIM $email] && [expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 				set icon [::skin::loadPixmap notinlist]
 				lappend stylestring [list "image" "$icon" "w"]
 				incr marginx [image width $icon]
@@ -1830,7 +1834,12 @@ namespace eval ::guiContactList {
 
 
 		# Binding for left (double)click
-		if { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y"} {
+		if {[::MSN::userIsNotIM $email] } {
+			# If the user is a non IM user, send email.
+			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
+				"set ::guiContactList::displayCWAfterId \
+				\[after 0 \[list launch_mailer \"$email\"\]\]" $main_part %X %Y %t]
+		} elseif { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y"} {
 			# If the user is offline and support mobile (SMS)
 			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
 				"set ::guiContactList::displayCWAfterId \
@@ -2042,7 +2051,11 @@ namespace eval ::guiContactList {
 			}
 			lappend groupList [list "offline" [trans uoffline]]
 		}
-		
+
+		if {[::config::getKey groupnonim]} {
+			lappend groupList [list "nonim" [trans nonimgroup]]
+		}
+
 		return $groupList
 	}
 
@@ -2051,10 +2064,19 @@ namespace eval ::guiContactList {
 	# Function that returns the appropriate GroupID(s) for the user
 	# this GroupID depends on the group view mode selected
 	proc getGroupId { email } {
-		if { [lsearch [::abook::getLists $email] "FL"] == -1 } {
+		if { [lsearch [::abook::getLists $email] "FL"] == -1 &&
+		     [lsearch [::abook::getLists $email] "EL"] == -1 } {
 			#The contact isn't in the contact list
 			return [list ]
 		}
+		if {[lsearch [::abook::getLists $email] "EL"] != -1 } {
+			if { [::config::getKey shownonim] == 0} {
+				return [list]
+			}
+			if { [::config::getKey groupnonim] == 1} {
+				return [list "nonim"]
+			}
+		} 
 
 		set mode [::config::getKey orderbygroup]
 		set status [::abook::getVolatileData $email state FLN]

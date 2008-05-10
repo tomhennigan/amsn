@@ -803,6 +803,8 @@ namespace eval ::MSN {
 		variable list_BL [list]
 		#Pending list (MSNP11)
 		variable list_PL [list]
+		#Email (Non-IM) list (MSNP15)
+		variable list_EL [list]
 
 		variable list_users ""
 
@@ -968,6 +970,7 @@ namespace eval ::MSN {
 		::MSN::clearList BL
 		::MSN::clearList FL
 		::MSN::clearList RL
+		::MSN::clearList EL
 
 		set list_BLP -1
 		if { [info exists emailBList] } {
@@ -1389,9 +1392,15 @@ namespace eval ::MSN {
 		set myStatus $status
 	}
 
+	proc userIsNotIM {userlogin} {
+		if { [lsearch  [::abook::getLists $userlogin] FL] == -1} {
+			return 1
+		}
+		return 0
+
+	}
 	proc userIsBlocked {userlogin} {
-		set lists [::abook::getLists $userlogin]
-		if { [lsearch $lists BL] != -1} {
+		if { [lsearch  [::abook::getLists $userlogin] BL] != -1} {
 			return 1
 		}
 		return 0
@@ -1582,9 +1591,9 @@ namespace eval ::MSN {
 			# instead of updating it to "isMessengerUser = true", it does an ABContactAdd which results in the error
 			# ContactAlreadyExists.
 			if {$cid == "" } {
-				$::ab ABContactAdd [list ::MSN::addUserCB $userlogin $gid] $userlogin
+				$::ab ABContactAdd [list ::MSN::addUserCB $userlogin $gid 1] $userlogin
 			} else {
-				$::ab ABContactUpdate [list ::MSN::addUserCB $userlogin $gid $cid] $userlogin [list isMessengerUser IsMessengerUser true]
+				$::ab ABContactUpdate [list ::MSN::addUserCB $userlogin $gid 0 $cid] $userlogin [list isMessengerUser IsMessengerUser true]
 			}
 		} else {
 			::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler $gid"
@@ -1594,7 +1603,7 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc addUserCB { email gid cid fail } {
+	proc addUserCB { email gid added cid fail } {
 		switch -- $fail {
 			2 -
 			0 {
@@ -1614,6 +1623,11 @@ namespace eval ::MSN {
 				::abook::setContactForGuid $cid $email
 
 				::abook::addContactToGroup $email 0
+
+				if {$added == 0} {
+					::abook::removeContactFromList $email "EL"
+					::MSN::deleteFromList "EL" $email
+				}
 
 				::abook::addContactToList $email "FL"
 				::MSN::addToList "FL" $email
@@ -1776,7 +1790,11 @@ namespace eval ::MSN {
 	proc deleteUser { userlogin {full 0} } {
 		#We remove from everywhere
 		if { [::config::getKey protocol] >= 15 } {
-			$::ab ABContactUpdate [list ::MSN::deleteUserCB $userlogin $full] $userlogin [list isMessengerUser IsMessengerUser false]
+			if { [lsearch [::abook::getContactData $userlogin lists] "FL"] == -1 } {
+				$::ab ABContactDelete [list ::MSN::deleteUserFullCB $userlogin] $userlogin
+			} else {
+				$::ab ABContactUpdate [list ::MSN::deleteUserCB $userlogin $full] $userlogin [list isMessengerUser IsMessengerUser false]
+			}
 		} else {
 			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
 			foreach groupID [::abook::getGroups $userlogin] {
@@ -1798,8 +1816,14 @@ namespace eval ::MSN {
 			set xmllen [string length $xml]
 			::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
 
+			::abook::addContactToList $userlogin EL
+			::MSN::addToList EL $userlogin
+
 			::abook::removeContactFromList $userlogin FL
 			::MSN::deleteFromList FL $userlogin
+
+			::abook::setVolatileData $userlogin state FLN
+
 			::MSN::contactListChanged
 			#an event to let the GUI know a user is removed from a list
 			::Event::fireEvent contactListChange protocol $userlogin
@@ -1808,24 +1832,33 @@ namespace eval ::MSN {
 
 			if {$full} {
 				$::ab ABContactDelete [list ::MSN::deleteUserFullCB $userlogin] $userlogin
-			}
-				
-			#an event to let the GUI know a user is removed from a group / the list
-			::Event::fireEvent contactRemoved protocol $userlogin $affected_groups
+			} else {
+				#an event to let the GUI know a user is removed from a group / the list
+				::Event::fireEvent contactRemoved protocol $userlogin $affected_groups
 
-			set evPar(userlogin) userlogin
-			::plugins::PostEvent deletedUser evPar
+				set evPar(userlogin) userlogin
+				::plugins::PostEvent deletedUser evPar
+			}
 		}
 	}
 	proc deleteUserFullCB { userlogin err } {
 		if { $err == 0 || $err == 2 } {
+			set affected_groups [::abook::getGroups $userlogin]
 			::abook::emptyUserGroups $userlogin
-				
+			
+			::abook::removeContactFromList $userlogin EL
+			::MSN::deleteFromList EL $userlogin
+
 			#The GUID is invalid if the contact is removed from the FL list
 			set userguid [::abook::getContactData $userlogin contactguid]
 			::abook::setContactForGuid $userguid ""
 			::abook::setContactData $userlogin contactguid ""
-			::abook::clearVolatileData $userlogin
+
+			#an event to let the GUI know a user is removed from a group / the list
+			::Event::fireEvent contactRemoved protocol $userlogin $affected_groups
+			
+			set evPar(userlogin) userlogin
+			::plugins::PostEvent deletedUser evPar
 		}
 	}
 
@@ -3022,7 +3055,7 @@ namespace eval ::MSN {
 			set last_ordering_options ""
 		}
 
-		set new_ordering_options [list [::config::getKey orderusersincreasing 1] [config::getKey orderusersbystatus 1] [config::getKey emailsincontactlist 0]]
+		set new_ordering_options [list [::config::getKey orderusersincreasing 1] [config::getKey orderusersbystatus 1] [config::getKey emailsincontactlist 0] [config::getKey shownonim 1] [config::getKey groupnonim 0]]
 
 		#Don't sort list again if it's already sorted
 		if { $list_users == "" || $last_ordering_options != $new_ordering_options} {
@@ -3031,7 +3064,11 @@ namespace eval ::MSN {
 			} else {
 				set order "-decreasing"
 			}
-			set list_users [lsort $order -command ::MSN::CompareNick [::MSN::getList FL]]
+			set list_users [::MSN::getList FL]
+			if {[::config::getKey shownonim 1] == 1} {
+				set list_users [concat $list_users [::MSN::getList EL]]
+			}
+			set list_users [lsort $order -command ::MSN::CompareNick $list_users]
 
 			if { [config::getKey orderusersbystatus 1] } {
 				set list_users [lsort -increasing -command ::MSN::CompareState $list_users]
@@ -3123,7 +3160,15 @@ namespace eval ::MSN {
 
 	#Compare two nicks, for sorting
 	proc CompareNick { item1 item2 } {
-		return [string compare -nocase [::abook::getDisplayNick $item1] [::abook::getDisplayNick $item2]]
+		set non_im1 [expr {[lsearch [::abook::getContactData $item1 lists] "FL"] == -1}]
+		set non_im2 [expr {[lsearch [::abook::getContactData $item2 lists] "FL"] == -1}]
+		if {$non_im1 && !$non_im2} {
+			return 1
+		} elseif {!$non_im1 && $non_im2 } {
+			return -1
+		} else {
+			return [string compare -nocase [::abook::getDisplayNick $item1] [::abook::getDisplayNick $item2]]
+		}
 	}
 
 	proc stateToNumber { state_code } {
@@ -5417,7 +5462,7 @@ proc cmsn_change_state {recv} {
 
 		set nick_changed 1
 
-		if {[config::getKey protocol] < 15} {
+		if {[config::getKey protocol] < 13} {
 			# This check below is because today I received a NLN for a user 
 			# who doesn't appear in ANY of my 5 MSN lists (RL,AL,BL,FL,PL)
 			# so amsn just sent the SBP with an empty string for the contactguid, 
@@ -5716,6 +5761,7 @@ proc cmsn_ns_handler {item {message ""}} {
 			::MSN::clearList RL
 			::MSN::clearList AL
 			::MSN::clearList PL
+			::MSN::clearList EL
 
 			if { [llength $item] == 6 && [new_contact_list "[lindex $item 2]" "[lindex $item 3]"] } {
 				status_log "Going to receive contact list\n" blue
@@ -6298,6 +6344,7 @@ proc recreate_contact_lists {} {
 	::MSN::clearList BL
 	::MSN::clearList FL
 	::MSN::clearList RL
+	::MSN::clearList EL
 	foreach user [::abook::getAllContacts] {
 		foreach list_name [::abook::getLists $user] {
 			if { $list_name == "FL" } {
@@ -6598,6 +6645,7 @@ proc cmsn_ns_connect { username {password ""} {nosignin ""} } {
 	::MSN::clearList BL
 	::MSN::clearList RL
 	::MSN::clearList PL
+	::MSN::clearList EL
 
 	if {[ns cget -stat] != "d"} {
 		set proxy [ns cget -proxy]

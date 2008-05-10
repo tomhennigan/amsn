@@ -2610,13 +2610,16 @@ namespace eval ::amsn {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
-	proc ShowUserList {title command {show_offlines 0}} {
+	proc ShowUserList {title command {show_offlines 0} {show_nonim 0}} {
 		
 		#Replace for"::amsn::ChooseList \"[trans sendmsg]\" online ::amsn::chatUser 1 0"
 
 		set userlist [list]
 
 		foreach user_login [::MSN::sortedContactList] {
+			if { [lsearch [::abook::getContactData $user_login lists] "EL"] != -1 } {
+				continue
+			}
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
 			if { $user_state_code == "NLN" } {
 				lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
@@ -2625,6 +2628,9 @@ namespace eval ::amsn {
 			}
 		}
 
+		if {$show_nonim} {
+			lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
+		}
 		::amsn::listChoose $title $userlist $command 1 1
 	}
 
@@ -4336,6 +4342,11 @@ proc create_main_menu {wmenu} {
 	$view.sortcontacts add separator
 	$view.sortcontacts add checkbutton -label "[trans groupcontactsbystatus]" -onvalue 1 -offvalue 0 \
 	    -variable [::config::getVar orderusersbystatus] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add separator
+	$view.sortcontacts add checkbutton -label "[trans shownonim]" -onvalue 1 -offvalue 0 \
+	    -variable [::config::getVar shownonim] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add checkbutton -label "[trans groupnonim]" -onvalue 1 -offvalue 0 \
+	    -variable [::config::getVar groupnonim] -command "::Event::fireEvent changedSorting gui"
 
 	#-------------------
 	$view add separator	
@@ -4364,7 +4375,7 @@ proc create_main_menu {wmenu} {
 	#Send SMS
 	$actions add command -label "[trans sendmobmsg]..." -command [list ::amsn::ShowUserList [trans sendmobmsg] ::MSNMobile::OpenMobileWindow] -state disabled
 	#Send e-mail
-	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowUserList [trans sendmail] launch_mailer 1] -state disabled
+	$actions add command -label "[trans sendmail]..." -command [list ::amsn::ShowUserList [trans sendmail] launch_mailer 1 1] -state disabled
 	#-------------------
 	$actions add separator
 	#Send File
@@ -7191,7 +7202,11 @@ proc show_umenu {user_login grId x y} {
 	set mobile [expr {[::abook::getContactData $user_login MOB] == "Y"}]
 
 	#Add the first item, depending on what's possible
-	if {$statecode != "FLN"} {
+	if {[::MSN::userIsNotIM ${user_login}]} {
+		.user_menu add command -label "[trans sendmail] ($user_login)" \
+			-command "launch_mailer ${user_login}"
+		set first "[trans sendmail] ($user_login)"
+	} elseif {$statecode != "FLN"} {
 		.user_menu add command -label "[trans sendmsg] ($user_login)" \
 			-command "::amsn::chatUser ${user_login}"
 		set first "[trans sendmsg] ($user_login)"
@@ -7217,14 +7232,14 @@ proc show_umenu {user_login grId x y} {
 
 	#add mobile if it's not already the default action
 	#	mobile is default when offline and a mobile account is set up
-	if { $mobile == 1 && $statecode != "FLN"} {
+	if {![::MSN::userIsNotIM ${user_login}] && $mobile == 1 && $statecode != "FLN"} {
 		$actions add command -label "[trans sendmobmsg]" \
 		-command "::MSNMobile::OpenMobileWindow ${user_login}"	
 	}
 	
 	#add e-mail if it's not already the default action	
 	#	e-mail is default when offline and no mobile account set up
-	if { !($mobile != 1 && $statecode == "FLN")} {
+	if {![::MSN::userIsNotIM ${user_login}] &&  !($mobile != 1 && $statecode == "FLN")} {
 		$actions add command -label "[trans sendmail]" \
 			-command "launch_mailer $user_login"
 	}
@@ -7266,13 +7281,14 @@ proc show_umenu {user_login grId x y} {
 	#-----------------------
 	.user_menu add separator
 
-
-	#block/unblock
-	if {$blocked == 0} {
-		.user_menu add command -label "[trans block]" -command  "::amsn::blockUser ${user_login}"
-	} else {
-		.user_menu add command -label "[trans unblock]" \
-			-command  "::amsn::unblockUser ${user_login}"
+	if {![::MSN::userIsNotIM ${user_login}] } {
+		#block/unblock
+		if {$blocked == 0} {
+			.user_menu add command -label "[trans block]" -command  "::amsn::blockUser ${user_login}"
+		} else {
+			.user_menu add command -label "[trans unblock]" \
+			    -command  "::amsn::unblockUser ${user_login}"
+		}
 	}
 
 	#move/copy

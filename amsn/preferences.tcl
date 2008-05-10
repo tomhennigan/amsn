@@ -1215,6 +1215,7 @@ proc MakeContactList { lfcontact } {
 			pack $lfcontact.lbcontact.fix.list -side top -anchor w -pady 5 -padx 5 -expand true -fill both
 			## list contacts that don't have a group ##
 			set contacts [::MSN::getList FL]
+			set contacts [concat $contacts [::MSN::getList EL]]
 			set i 0
 			while { $i < [llength $contacts] } {
 				set contact [lindex $contacts $i]
@@ -1243,6 +1244,7 @@ proc MakeContactList { lfcontact } {
 
 		set groups [::abook::getContactData contactlist groups]
 		set contacts [::MSN::getList FL]
+		set contacts [concat $contacts [::MSN::getList EL]]
 		set i 0
 		while { $i < [llength $contacts] } {
 			set contact [lindex $contacts $i]

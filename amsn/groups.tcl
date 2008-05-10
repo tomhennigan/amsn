@@ -99,7 +99,8 @@ namespace eval ::groups {
 
 		#Create a list with the contacts
 		foreach contact [::abook::getAllContacts] {
-			if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
+			if { [lsearch [::abook::getLists $contact] "FL"] != -1 ||
+			     [lsearch [::abook::getLists $contact] "EL"] != -1} {
 				set contactname [::abook::getDisplayNick $contact]
 				lappend contactlist [list $contactname $contact]
 			}
@@ -125,7 +126,8 @@ namespace eval ::groups {
 			-command {
 				set pgc 0;
 				foreach contact [::abook::getAllContacts] {
-					if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
+					if { [lsearch [::abook::getLists $contact] "FL"] != -1 ||
+					     [lsearch [::abook::getLists $contact] "EL"] != -1 } {
 						set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $contact]
 						::config::unsetKey tempcontact_$passport2
 					}
@@ -146,7 +148,8 @@ namespace eval ::groups {
 		bind $w <<Escape>> {
 			set pgc 0
 			foreach contact [::abook::getAllContacts] {
-				if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
+				if { [lsearch [::abook::getLists $contact] "FL"] != -1 ||
+				     [lsearch [::abook::getLists $contact] "EL"] != -1  } {
 					set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $contact]
 					::config::unsetKey tempcontact_$passport2
 				}
@@ -394,6 +397,10 @@ namespace eval ::groups {
 
 	proc getGroupCount { gid } {
 		set contact_list [::MSN::getList FL]
+		if { [::config::getKey groupnonim] == 0 &&
+		     [::config::getKey shownonim] == 1} {
+			set contact_list [concat $contact_list [::MSN::getList EL]]
+		}
 		set state_contacts 0
 		set total_contacts 0
 		if { $gid == "online" } {
@@ -427,6 +434,11 @@ namespace eval ::groups {
 		}  elseif { $gid == "blocked" } {
 			#Even if it's unused now... Maybe it will be back...
 			return [list [llength [array names ::emailBList]] 0]
+		} elseif {$gid == "nonim" } {
+			if {[::config::getKey shownonim] == 1} {
+				set state_contacts [llength [::MSN::getList EL]] 
+			}
+			return [list $state_contacts 0]
 		} else {
 			foreach contact $contact_list {
 				if { [lsearch [::abook::getGroups $contact] $gid] != -1 } {
@@ -720,7 +732,8 @@ namespace eval ::groups {
 		set timer 250
 		set gid [::groups::GetId $gname]
 		foreach contact [::abook::getAllContacts] {
-			if { [lsearch [::abook::getLists $contact] "FL"] != -1 } {
+			if { [lsearch [::abook::getLists $contact] "FL"] != -1 ||
+			     [lsearch [::abook::getLists $contact] "EL"] != -1} {
 				set passport2 [string map { @ _40_ . _2E_ _ _5F_ } $contact]
 				if { [::config::getKey tempcontact_$passport2] == 1 } {
 					

@@ -418,6 +418,7 @@ groupexists Group already exists
 group Group
 groupmissing Cannot find group
 groupnewname New name
+groupnonim Group Non-Instant Messaging contacts together
 groupnotempty Group is not empty!
 groupoldname Old name
 grouprename Rename Group
@@ -600,6 +601,7 @@ nomic No microphone
 noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
+nonimgroup Non-Instant Messaging Contacts
 nooimconfirmation Do not ask for confirmation when sending/receiving Offline Messages
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
@@ -813,6 +815,7 @@ showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
 showonedpframe Show only one DisplayPicture frame in chat windows
 showlinksinlogin Show Links in the Login Screen
+shownonim Show Non-Instant Messaging Contacts
 showmailicon Show mail icon on traydock when new emails arrive
 showmypic My Display Picture
 shownotify Show notify window when some events happen

@@ -804,6 +804,7 @@ namespace eval ::skin {
 		::skin::setPixmap baway baway.gif
 		::skin::setPixmap bbusy bbusy.gif
 		::skin::setPixmap mystatus_bg mystatus_bg.gif
+		::skin::setPixmap nonim nonim.gif
 	
 		::skin::setPixmap mailbox mailbox.gif
 		::skin::setPixmap mailbox_new mailbox_unread.gif

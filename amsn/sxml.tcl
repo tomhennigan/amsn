@@ -977,12 +977,12 @@ proc xml2list xml {
 
 proc list2xml list {
 	switch -- [llength $list] {
-		2 {lindex $list 1}
+		2 {xmlencode [lindex $list 1]}
 		3 {
 			foreach {tag attributes children} $list break
 			set res <$tag
 			foreach {name value} $attributes {
-				append res " $name=\"$value\""
+				append res " $name=\"[xmlencode $value]\""
 			}
 			if [llength $children] {
 				append res >

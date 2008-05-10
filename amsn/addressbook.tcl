@@ -29,6 +29,7 @@ snit::type Addressbook {
 		status_log "Going to receive contact list\n" blue
 		#First contact in list
 		::MSN::clearList FL
+		::MSN::clearList EL
 		::MSN::clearList BL
 		::MSN::clearList RL
 		::MSN::clearList AL
@@ -288,8 +289,14 @@ snit::type Addressbook {
 				if {$is_in_fl } {
 					::abook::addContactToList $username "FL"
 					::MSN::addToList "FL" $username
-
-					::abook::setContactData $username group $groups
+				} else {
+					::abook::addContactToList $username "EL"
+					::MSN::addToList "EL" $username
+				}
+				
+				::abook::setContactData $username group $groups
+				if {[::abook::getVolatileData $username state] == ""} {
+					::abook::setVolatileData $username state "FLN"
 				}
 
 			}
