@@ -166,7 +166,6 @@ snit::type Addressbook {
 		status_log "ABFindALL Callback called : [$soap GetStatus] - [$soap GetLastError]"
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
-
 			set i 0
 			# can go later
 			while {1} {
@@ -192,7 +191,13 @@ snit::type Addressbook {
 				set username [string tolower $username]
 				set nickname [GetXmlEntry $subxml "Contact:contactInfo:displayName"]
 				set contactguid [GetXmlEntry $subxml "Contact:contactId"]
+				set contacttype [GetXmlEntry $subxml "Contact:contactInfo:contactType"]
 				set is_in_fl [GetXmlEntry $subxml "Contact:contactInfo:isMessengerUser"]
+				set is_mobile [GetXmlEntry $subxml "Contact:contactInfo:isMobileIMEnabled"]
+
+				if {$username == ""} {
+					continue
+				}
 
 				set groups [list]
 				set j 0
@@ -208,20 +213,84 @@ snit::type Addressbook {
 				if { $groups == [list] } {
 					set groups 0
 				}
-				
-				::abook::setContactData $username nick $nickname
-				::abook::setContactData $username contactguid $contactguid
-				::abook::setContactForGuid $contactguid $username
+
+				set j 0
+				while { 1 } {
+					set phone_type [GetXmlEntry $subxml "Contact:contactInfo:phones:ContactPhone:contactPhoneType" $j]
+					set phone_number [GetXmlEntry $subxml "Contact:contactInfo:phones:ContactPhone:number" $j]
+					incr j
+					if {$phone_type == "" } {
+						break
+					}
+
+					if {$phone_type == "ContactPhonePersonal" } {
+						if {$contacttype == "Me" } {
+							::abook::setPersonal PHH $phone_number							
+						} else {
+							::abook::setContactData $username PHH $phone_number
+						}
+					} elseif {$phone_type == "ContactPhoneBusiness" } {
+						if {$contacttype == "Me" } {
+							::abook::setPersonal PHW $phone_number							
+						} else {
+							::abook::setContactData $username PHW $phone_number
+						}
+					} elseif {$phone_type == "ContactPhoneMobile"} {
+						if {$contacttype == "Me" } {
+							::abook::setPersonal PHM $phone_number							
+						} else {
+							::abook::setContactData $username PHM $phone_number
+						}
+
+					}
+				}
+			       
+				if {$contacttype == "Me" } {
+					set j 0
+					while { 1 } {
+						set annotation_k [GetXmlEntry $subxml "Contact:contactInfo:annotations:Annotation:Name" $j]
+						set annotation_v [GetXmlEntry $subxml "Contact:contactInfo:annotations:Annotation:Value" $j]
+						incr j
+						if {$annotation_k == "" } {
+							break
+						}
+
+						if {$annotation_k == "MSN.IM.BLP" } {
+							global list_BLP
+							set list_BLP annotation_v
+						} elseif {$annotation_k == "MSN.IM.MPOP" } {
+							::abook::setPersonal MPOP $annotation_v
+						}
+					}
+				}
+			       
+				if {$contacttype == "Me" } {
+					::abook::setPersonal MFN $nickname
+					::abook::setPersonal login $username
+				} else {
+					::abook::setContactData $username nick $nickname
+					::abook::setContactData $username contactguid $contactguid
+					::abook::setContactForGuid $contactguid $username
+				}
+
+				if {$is_mobile} {
+					set is_mobile Y
+				} else {
+					set is_mobile N
+				}
+				if {$contacttype == "Me" } {
+					::abook::setPersonal MOB $is_mobile
+					continue
+				} else {
+					::abook::setContactData $username MOB $is_mobile
+				}
 
 				if {$is_in_fl } {
-					
 					::abook::addContactToList $username "FL"
 					::MSN::addToList "FL" $username
 
 					::abook::setContactData $username group $groups
 					if {[::abook::getVolatileData $username state] == ""} {
-						::abook::setVolatileData $username state "FLN"
-					}
 				}
 
 			}
