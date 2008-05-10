@@ -80,11 +80,15 @@ snit::type Addressbook {
 		}
 	}
 
-	method FindMembership { callbk } {
+	method FindMembership { callbk} {
+		$::sso RequireSecurityToken Contacts [list $self FindMembershipSSOCB $callbk]
+	}
+
+	method FindMembershipSSOCB {callbk ticket} {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/FindMembership" \
-				 -header [$self getCommonHeaderXML Initial] \
+				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getFindMembershipBodyXML] \
 				 -callback [list $self FindMembershipCallback $callbk]]
 		$request SendSOAPRequest
@@ -152,11 +156,15 @@ snit::type Addressbook {
 
 	
 
-	method ABFindAll { callbk } {
+	method ABFindAll { callbk} {
+		$::sso RequireSecurityToken Contacts [list $self ABFindAllSSOCB $callbk]
+	}
+
+	method ABFindAllSSOCB { callbk ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABFindAll" \
-				 -header [$self getCommonHeaderXML Initial] \
+				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getABFindAllBodyXML] \
 				 -callback [list $self ABFindAllCallback $callbk]]
 
@@ -348,10 +356,14 @@ snit::type Addressbook {
 
 	#Create an Addressbook Template
 	method ABAdd { callbk email } {
+		$::sso RequireSecurityToken Contacts [list $self ABAddSSOCB $callbk $email]
+	}
+
+	method ABAddSSOCB { callbk email ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABAdd" \
-				 -header [$self getCommonHeaderXML ContactSave] \
+				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getABAddBodyXML $email] \
 				 -callback [list $self ABAddCallback $callbk $email]]
 		
@@ -388,10 +400,14 @@ snit::type Addressbook {
 	###########################Add a contact#############################################
 	
 	method ABContactAdd { callbk email {yahoo 0}} {
+		$::sso RequireSecurityToken Contacts [list $self ABContactAddSSOCB $callbk $email $yahoo]
+	}
+
+	method ABContactAddSSOCB { callbk email yahoo ticket} {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABContactAdd" \
-				 -header [$self getCommonHeaderXML ContactSave] \
+				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getABContactAddBodyXML $email $yahoo] \
 				 -callback [list $self ABContactAddCallback $callbk $email]]
 		
@@ -475,11 +491,15 @@ snit::type Addressbook {
 
 	#################Delete a contact#####################################
 	#Delete a contact from both MSNAB and CL
-	method ABContactDelete { callbk email } {
+	method ABContactDelete { callbk email} {
+		$::sso RequireSecurityToken Contacts [list $self ABContactDeleteSSOCB $callbk $email]
+	}
+
+	method ABContactDeleteSSOCB { callbk email ticket} {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
-				 -header [$self getCommonHeaderXML Timer] \
+				 -header [$self getCommonHeaderXML Timer $ticket] \
 				 -body [$self getABContactDeleteBodyXML $email] \
 				 -callback [list $self ABContactDeleteCallback $callbk $email]]
 		
@@ -528,11 +548,15 @@ snit::type Addressbook {
 	#update information for contact Type /possibly DisplayName
 	#Accepted values are Regular Live LivePending LiveRejected LiveDropped Messenger2
 	 
-	method ABContactUpdate { callbk email changes} {
+	method ABContactUpdate { callbk email changes } {
+		$::sso RequireSecurityToken Contacts [list $self ABContactUpdateSSOCB $callbk $email $changes]
+	}
+
+	method ABContactUpdateSSOCB { callbk email changes ticket} {
 		set request [SOAPRequest create %AUTO% \
 				-url "https://contacts.msn.com/abservice/abservice.asmx" \
 				-action "http://www.msn.com/webservices/AddressBook/ABContactUpdate" \
-				-header [$self getCommonHeaderXML BlockUnblock] \
+				-header [$self getCommonHeaderXML BlockUnblock $ticket] \
 				-body [$self getABContactUpdateBodyXML $email $changes] \
 				-callback [list $self ABContactUpdateCallback $callbk]]
 
@@ -655,10 +679,14 @@ snit::type Addressbook {
 	#Used for Allow Block
 	
 	method AddMember { callbk scenario email role } {
+		$::sso RequireSecurityToken Contacts [list $self AddMemberSSOCB $callbk $scenario $email $role]
+	}
+
+	method AddMemberSSOCB { callbk scenario email role ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/AddMember" \
-				 -header [$self getCommonHeaderXML $scenario] \
+				 -header [$self getCommonHeaderXML $scenario $ticket] \
 				 -body [$self getAddMemberBodyXML $email $role] \
 				 -callback [list $self AddMemberCallback $callbk $email]]
 
@@ -718,11 +746,15 @@ snit::type Addressbook {
 
 	########################Delete Member###########################################
 	#Used for Allow Block
-	method DeleteMember { callbk scenario email role } {
+	method DeleteMember { callbk scenario email role} {
+		$::sso RequireSecurityToken Contacts [list $self DeleteMemberSSOCB $callbk $scenario $email $role]
+	}
+
+	method DeleteMemberSSOCB { callbk scenario email role ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/DeleteMember" \
-				 -header [$self getCommonHeaderXML $scenario] \
+				 -header [$self getCommonHeaderXML $scenario $ticket] \
 				 -body [$self getDeleteMemberBodyXML $email $role] \
 				 -callback [list $self DeleteMemberCallback $callbk $email]]
 
@@ -784,10 +816,14 @@ snit::type Addressbook {
 	#Allow Block Reverse Pending 
 	#Must be fixed and should be used instead of delete add 
 	method UpdateMember { callbk contactid role cstate deleted } {
+		$::sso RequireSecurityToken Contacts [list $self UpdateMemberSSOCB $callbk $contactid $role $cstate $deleted]
+	}
+
+	method UpdateMemberSSOCB { callbk contactid role cstate deleted ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/UpdateMember" \
-				 -header [$self getCommonHeaderXML ContactSave] \
+				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getUpdateMemberBodyXML $contactid $role $cstate $deleted] \
 				 -callback [list $self UpdateMemberCallback $callbk $contactid]]
 
@@ -835,11 +871,15 @@ snit::type Addressbook {
 
 	#######################Create a Group#################################################
 	
-	method ABGroupAdd { callbk groupname } {
+	method ABGroupAdd { callbk groupname} {
+		$::sso RequireSecurityToken Contacts [list $self ABGroupAddSSOCB $callbk $groupname]
+	}
+
+	method ABGroupAddSSOCB { callbk groupname ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupAdd" \
-				 -header [$self getCommonHeaderXML GroupSave] \
+				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupAddBodyXML $groupname] \
 				 -callback [list $self ABGroupAddCallback $callbk]]
 		$request SendSOAPRequest
@@ -896,11 +936,15 @@ snit::type Addressbook {
 		}
 	}	
 	############################Remove a Group#################################################
-	method ABGroupDelete { callbk gid} {
+	method ABGroupDelete { callbk gid } {
+		$::sso RequireSecurityToken Contacts [list $self ABGroupDeleteSSOCB $callbk $gid]
+	}
+
+	method ABGroupDeleteSSOCB { callbk gid ticket} {
 		set request [SOAPRequest create %AUTO% \
 				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupDelete" \
-				 -header [$self getCommonHeaderXML GroupSave] \
+				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupDeleteBodyXML $gid] \
 				 -callback [list $self ABGroupDeleteCallback $callbk]]
 		$request SendSOAPRequest
@@ -946,10 +990,14 @@ snit::type Addressbook {
 
 	##########################Rename a Group#####################################################
 	method ABGroupUpdate { callbk gid newname } {
+		$::sso RequireSecurityToken Contacts [list $self ABGroupUpdateSSOCB $callbk $gid $newname]
+	}
+
+	method ABGroupUpdateSSOCB { callbk gid newname ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupUpdate" \
-				 -header [$self getCommonHeaderXML GroupSave] \
+				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupUpdateBodyXML $gid $newname] \
 				 -callback [list $self ABGroupUpdateCallback $callbk]]
 		$request SendSOAPRequest
@@ -999,10 +1047,14 @@ snit::type Addressbook {
 	
 	########################Add a contact to a group###############################
 	method ABGroupContactAdd { callbk gid cid } {
+		$::sso RequireSecurityToken Contacts [list $self ABGroupContactAddSSOCB $callbk $gid $cid]
+	}
+
+	method ABGroupContactAddSSOCB { callbk gid cid ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactAdd" \
-				 -header [$self getCommonHeaderXML GroupSave] \
+				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupContactAddBodyXML $gid $cid] \
 				 -callback [list $self ABGroupContactAddCallback $callbk]]
 		$request SendSOAPRequest
@@ -1054,10 +1106,14 @@ snit::type Addressbook {
 
 	##################Remove a contact from a Group##############################################
 	method ABGroupContactDelete { callbk gid cid } {
+		$::sso RequireSecurityToken Contacts [list $self ABGroupContactDeleteSSOCB $callbk $gid $cid]
+	}
+
+	method ABGroupContactDeleteSSOCB { callbk gid cid ticket } {
 		set request [SOAPRequest create %AUTO% \
 				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactDelete" \
-				 -header [$self getCommonHeaderXML GroupSave] \
+				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupContactDeleteBodyXML $gid $cid] \
 				 -callback [list $self ABGroupContactDeleteCallback $callbk]]
 		$request SendSOAPRequest
@@ -1110,10 +1166,7 @@ snit::type Addressbook {
 	################################Common Header####################################
 	
 	
-	method getCommonHeaderXML { scenario } {
-		set token [$::sso GetSecurityTokenByName Contacts]
-		set mspauth [$token cget -ticket]
-
+	method getCommonHeaderXML { scenario ticket } {
 		append xml {<ABApplicationHeader xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<ApplicationId xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {996CDE1E-AA53-4477-B943-2BE802EA6166}
@@ -1128,7 +1181,7 @@ snit::type Addressbook {
 		append xml {false}
 		append xml {</ManagedGroupRequest>}
 		append xml {<TicketToken xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml [xmlencode $mspauth]
+		append xml [xmlencode $ticket]
 		append xml {</TicketToken>}
 		append xml {</ABAuthHeader>}
 		

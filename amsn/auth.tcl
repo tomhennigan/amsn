@@ -7,6 +7,41 @@ snit::type SecurityToken {
 	option -expires -default ""
 	option -ticket -default ""
 	option -proof -default ""
+	option -local_clock -default ""
+	option -server_clock -default ""
+
+	method IsExpired { } {
+		if {$options(-ticket) == "" ||
+		    $options(-local_clock) == "" ||
+		    $options(-server_clock) == "" ||
+		    $options(-expires) == ""} {
+			return 1
+		}
+		set created_clock $options(-local_clock)
+		set current_clock [clock seconds]
+		set elapsed [expr {$current_clock - $created_clock}]
+		
+		set created 0
+		set expires 0
+		if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})} $options(-server_clock) -> y m d h min s] } {
+			set created [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
+		}
+		if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})} $options(-expires) -> y m d h min s] } {
+			set expires [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
+		}
+		if {$created == 0 || $expires == 0 } {
+			return 1
+		}
+		set remaining [expr {$expires - $created}]
+		puts "$expires - $created - $remaining - $elapsed"
+		if {$remaining < $elapsed} {
+			puts "Expired"
+			return 1
+		} else {
+			puts "Not expired"
+			return 0
+		}
+	}
 }
 
 
@@ -14,6 +49,7 @@ snit::type SecurityToken {
 snit::type SSOAuthentication {
 	variable security_tokens
 	variable soap_req ""
+	variable callbacks [list]
 	option -username -default ""
 	option -password -default ""
 	option -nonce -default ""
@@ -45,6 +81,25 @@ snit::type SSOAuthentication {
 		
 	}
 
+	method RequireSecurityToken { name command } {
+		set token [$self GetSecurityTokenByName $name]
+		if {$token == "" || [$token IsExpired] } {
+			lappend callbacks [list $name $command]
+			$self Authenticate [list $self RequireSecurityTokenCB ]
+		} else {
+			eval $command [$token cget -ticket]
+		}
+	}
+
+	method RequireSecurityTokenCB {err} {
+		foreach callback $callbacks {
+			foreach {name command} $callback break
+			set token [$self GetSecurityTokenByName $name]
+			eval $command [$token cget -ticket]
+		}
+		set callbacks [list]
+	}
+
 	method GetSecurityTokenByName { name } {
 		foreach token $security_tokens {
 			set n [$token cget -name]
@@ -68,6 +123,7 @@ snit::type SSOAuthentication {
 		status_log "SSO::AuthenticateCallback : $soap - [$soap GetStatus]"
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
+			set server_clock [GetXmlAttribute $xml "S:Envelope:S:Header:psf:pp:psf:serverInfo" "ServerTime"]
 			set i 0
 			while {1} {
 				set subxml [GetXmlNode $xml "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse" $i]
@@ -85,6 +141,8 @@ snit::type SSOAuthentication {
 					$token configure -expires [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Expires"]
 					$token configure -ticket [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
 					$token configure -proof [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedProofToken:wst:BinarySecret"]
+					$token configure -local_clock [clock seconds]
+					$token configure -server_clock $server_clock
 
 					status_log "Found security token $token for address $address" green
 				}
