@@ -366,7 +366,6 @@ snit::type Addressbook {
 
 	method ABContactAddCallback { callbk email soap } {
 		set guid ""
-		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 			set xml [$soap GetResponse]
@@ -428,7 +427,6 @@ snit::type Addressbook {
 	}
 		
 	method ABContactDeleteCallback { callbk email soap } {
-		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -493,7 +491,6 @@ snit::type Addressbook {
 	}
 	
 	method ABContactUpdateCallback { callbk soap } {
-		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
@@ -622,7 +619,6 @@ snit::type Addressbook {
 	}
 	
 	method AddMemberCallback { callbk email soap } {
-		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -687,7 +683,6 @@ snit::type Addressbook {
 	}
 	
 	method DeleteMemberCallback { callbk email soap } {
-		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -800,7 +795,6 @@ snit::type Addressbook {
 	
 	method ABGroupAddCallback { callbk soap } {
 		set guid ""
-		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			set xml [$soap GetResponse]
 			set fail 0
@@ -852,7 +846,6 @@ snit::type Addressbook {
 	}
 	
 	method ABGroupDeleteCallback { callbk soap } {
-		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -907,7 +900,6 @@ snit::type Addressbook {
 	}
 	
 	method ABGroupUpdateCallback { callbk soap } {
-		puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -934,28 +926,51 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactAdd" \
 				 -header [$self getCommonHeaderXML GroupSave] \
 				 -body [$self getABGroupContactAddBodyXML $gid $cid] \
-				 -callback [list $self ABGroupContactAddCallback $callbk $gid $cid]]
+				 -callback [list $self ABGroupContactAddCallback $callbk]]
 		$request SendSOAPRequest
 	}
 	
 	method getABGroupContactAddBodyXML { gid cid } {
 		append xml {<ABGroupContactAdd xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
-		append xml {<groupFilter><groupIds><guid>}
+		append xml {<groupFilter>}
+		append xml {<groupIds>}
+		append xml {<guid>}
 		append xml $gid
-		append xml {</guid></groupIds></groupFilter><contacts><Contact><contactId>}
+		append xml {</guid>}
+		append xml {</groupIds>}
+		append xml {</groupFilter>}
+		append xml {<contacts>}
+		append xml {<Contact>}
+		append xml {<contactId>}
 		append xml $cid
-		append xml {</contactId></Contact></contacts></ABGroupContactAdd>}
-		#status_log "$xml" white
+		append xml {</contactId>}
+		append xml {</Contact>}
+		append xml {</contacts>}
+		append xml {</ABGroupContactAdd>}
+
 		return $xml
 	}
 	
-	method ABGroupContactAddCallback { callbk gid cid soap } {
-		if { [$soap GetStatus] == "success"} {
-			$callbk $gid $cid
-			$soap destroy
+	method ABGroupContactAddCallback { callbk soap } {
+		if { [$soap GetStatus] == "success" } {
+			set fail 0
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "ContactDoesNotExist" } {
+				set fail 2
+			} elseif {$errorcode == "GroupDoesNotExist" } {
+				set fail 3
+			} else {
+				set fail 1
+			}
 		} else {
-			$soap destroy
+			set fail 1
+		}
+
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
 		}
 	}
 
@@ -966,7 +981,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactDelete" \
 				 -header [$self getCommonHeaderXML GroupSave] \
 				 -body [$self getABGroupContactDeleteBodyXML $gid $cid] \
-				 -callback [list $self ABGroupContactDeleteCallback $callbk $gid $cid]]
+				 -callback [list $self ABGroupContactDeleteCallback $callbk]]
 		$request SendSOAPRequest
 	}
 	
@@ -992,12 +1007,25 @@ snit::type Addressbook {
 		return $xml
 	}
 	
-	method ABGroupContactDeleteCallback { callbk gid cid soap } {
-		if { [$soap GetStatus] == "success"} {
-			$callbk $gid $cid
-			$soap destroy
+	method ABGroupContactDeleteCallback { callbk soap } {
+		if { [$soap GetStatus] == "success" } {
+			set fail 0
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "ContactDoesNotExist" } {
+				set fail 2
+			} elseif {$errorcode == "GroupDoesNotExist" } {
+				set fail 3
+			} else {
+				set fail 1
+			}
 		} else {
-			$soap destroy
+			set fail 1
+		}
+
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
 		}
 		
 	}

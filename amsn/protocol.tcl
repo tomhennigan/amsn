@@ -1489,11 +1489,45 @@ namespace eval ::MSN {
 		}
 
 		set contactguid [::abook::getContactData $passport contactguid]
-		set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid" "::MSN::MOVHandler $oldGid $contactguid $passport" ]
+		if {[::config::getKey protocol] >= 13 } {
+			$::ab ABGroupContactAdd [list ::MSN::moveUserCB $passport $newGid $oldGid] $newGid $contactguid
+		} else {
+			set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid" "::MSN::MOVHandler $oldGid $contactguid $passport" ]
+		}
 
 		#an event to let the GUI know a user is moved between 2 groups
 		::Event::fireEvent contactMoved protocol $passport [list $oldGid $newGid]
 
+	}
+
+	proc moveUserCB { passport newGid oldGid fail} {
+		if {$fail == 0} {
+			set affected_groups $newGid
+			::abook::addContactToGroup $passport $newGid
+			if { $oldGid != "0" } {
+				set contactguid [::abook::getContactData $passport contactguid]
+				$::ab ABGroupContactDelete [list ::MSN::moveUserDoneCB $passport $newGid $oldGid] $oldGid $contactguid
+			} else {
+				lappend affected_groups 0
+				::abook::removeContactFromGroup $passport "0"
+			}
+			::Event::fireEvent contactAdded protocol $passport $affected_groups
+		}
+	}
+
+	proc moveUserDoneCB { passport newGid oldGid fail} {
+		if  {$fail == 0} {
+			set affected_groups [::abook::getGroups $passport]
+			::abook::removeContactFromGroup $passport $oldGid
+			if { [::abook::getGroups $passport] == [list 0] } {
+				#User is now on nogroup
+				::Event::fireEvent contactMoved protocol $passport [linsert $affected_groups end 0]
+				::Event::fireEvent contactAdded protocol $passport 0
+			} else {
+				#an event to let the GUI know a user is removed from a group / the list
+				::Event::fireEvent contactRemoved protocol $passport $affected_groups
+			}			
+		}
 	}
 
 	#Copy user from one group to another
@@ -1503,9 +1537,26 @@ namespace eval ::MSN {
 		}
 
 		set contactguid [::abook::getContactData $passport contactguid]
-		set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid"]
+		if {[::config::getKey protocol] >= 13 } {
+			$::ab ABGroupContactAdd [list ::MSN::copyUserCB $passport $newGid] $newGid $contactguid
+		} else {
+		    set atrid [::MSN::WriteSB ns "ADC" "FL C=$contactguid $newGid"]
+		}
 	}
 
+	proc copyUserCB { passport newGid fail} {
+		if {$fail == 0} {
+			set affected_groups $newGid
+			if { [::abook::getGroups $passport] == [list 0] } {
+				lappend affected_groups 0
+				::abook::addContactToGroup $passport $newGid
+				::abook::removeContactFromGroup $passport 0
+			} else {
+				::abook::addContactToGroup $passport $newGid
+			}
+			::Event::fireEvent contactAdded protocol $passport $affected_groups
+		}
+	}
 
 	#Add user to our Forward (contact) list
 	proc addUser { userlogin {username ""} {gid 0} } {
@@ -1695,9 +1746,27 @@ namespace eval ::MSN {
 			return
 		}
 	
-		::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $grId"
+		if {[::config::getKey protocol] >= 13} {
+			$::ab ABGroupContactDelete [list ::MSN::removeUserFromGroupCB $userlogin $grId] $grId [::abook::getContactData $userlogin contactguid]
+		} else {
+			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid] $grId"
+		}
 	}
 
+	proc removeUserFromGroupCB { userlogin grId fail} {
+		if  {$fail == 0} {
+			set affected_groups [::abook::getGroups $userlogin]
+			::abook::removeContactFromGroup $userlogin $grId
+			if { [::abook::getGroups $userlogin] == [list 0] } {
+				#User is now on nogroup
+				::Event::fireEvent contactRemoved protocol $userlogin [linsert $affected_groups end 0]
+				::Event::fireEvent contactAdded protocol $userlogin 0
+			} else {
+				#an event to let the GUI know a user is removed from a group / the list
+				::Event::fireEvent contactRemoved protocol $userlogin $affected_groups
+			}			
+		}
+	}
 
 	#Delete user totally
 	proc deleteUser { userlogin {full 0} } {
