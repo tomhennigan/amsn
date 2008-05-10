@@ -154,6 +154,7 @@ namespace eval ::groups {
 			destroy .dlgag;
 		}
 
+		focus .dlgag.groupname.ent
 		moveinscreen $w 30
 	}
 
