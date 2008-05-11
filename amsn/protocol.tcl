@@ -4063,7 +4063,6 @@ namespace eval ::MSNOIM {
 		::abook::saveToDisk
 
 		after 0 { 
-			::MSNSPACES::InitSpaces
 			cmsn_draw_online 1
 
 			#Update Preferences window if it's open

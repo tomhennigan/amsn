@@ -1592,7 +1592,7 @@ namespace eval ::guiContactList {
 			lappend stylestring [list "tag" "-$space_icon"]
 		} else {
 			# TODO : uncomment this line to get back the space needed for the support of MSN spaces.
-			#lappend stylestring [list "space" [image width $noupdate_img]]
+			lappend stylestring [list "space" [image width $noupdate_img]]
 		}
 		incr marginx [image width $noupdate_img]
 		

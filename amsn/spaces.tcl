@@ -5,136 +5,11 @@
 namespace eval ::MSNSPACES {
 	variable storageAuthCache ""
 
-	proc InitSpacesCallback { callbk soap } {
-		variable storageAuthCache
-		variable resources
-		variable space_info
-
-		if { [$soap GetStatus] == "success"  } {
-			set list [$soap GetResponse]
-			$soap destroy
-
-			set storageAuthCache [GetXmlEntry $list "soap:Envelope:soap:Header:StorageUserHeader:UserAuthCache"]
-			set i 0
-			set users_with_space [list]
-			while {1 } {
-				set subxml [GetXmlNode $list "soap:Envelope:soap:Body:GetItemVersionResponse:GetItemVersionResult:SpaceVersion" $i]
-
-				incr i
-				if {$subxml == "" } {
-					break
-				}
-				set has_new [GetXmlEntry $subxml "SpaceVersion:HasNewItem"]
-				set last_modif [GetXmlEntry $subxml "SpaceVersion:LastModifiedDate"]
-				set resourceID [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:ResourceID"]
-				set email [GetXmlEntry $subxml "SpaceVersion:SpaceHandle:Alias:Name"]
-
-				# TODO this is just a hack to disable spaces from the core since it doesn't seem to work right.
-				set resourceID ""
-
-
-				if { [string length $resourceID] > 0} {
-					lappend users_with_space $email
-					set resources($email) $resourceID
-					set space_info($email) [list $has_new $last_modif $resourceID]
-					
-					# Transform the last modification date to an acceptable date format... 
-					# "2006-02-19T01:49:59-08:00" is not accepted, but "2006-02-19T01:49:59" is accepted
-					if { [catch { 
-						set idx [string last "+" $last_modif]
-						if {$idx != -1 } {
-							incr idx -1
-							set last_modif [clock scan [string range $last_modif 0 $idx]]
-						} else {
-							set idx [string last "-" $last_modif]
-							incr idx -1
-							set last_modif [clock scan [string range $last_modif 0 $idx]]
-						}
-					}] } {
-						if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})([-+]\d{2}:\d{2})} $last_modif -> y m d h min s z] } {
-							set last_modif [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
-						}
-					}
-					
-					# Set the fact that they've got new data as volatile abook data
-					if {$has_new == "true" } {
-						::abook::setVolatileData $email space_updated 1
-						::abook::setContactData $email spaces_info_xml [list]
-						::abook::setContactData $email spaces_last_modif $last_modif
-					} else {
-						::abook::setVolatileData $email space_updated 0
-						
-						# Reset the known info if the last modified date has changed,
-						# this means that the user fetched the spaces info from another client
-						set old_date [::abook::getContactData $email spaces_last_modif 0]
-						if { $last_modif > $old_date } {
-							::abook::setContactData $email spaces_info_xml [list]
-							::abook::setContactData $email spaces_last_modif $last_modif						
-						}
-					}
-				} else {
-					status_log "User $email has a space but no resource ID : $subxml" red
-				}
-				
-			}
-
-			#fire event to redraw contacts with changed space
-			::Event::fireEvent contactSpaceChange protocol $users_with_space
-		} else {
-			status_log "InitSpaces: ERROR: [$soap GetLastError]"
-			$soap destroy
-		}
-		
-		if {$callbk != "" } {
-			eval $callbk
-		}
-	}
-
-	proc InitSpaces { {callbk ""} } {
-		set users_with_space [list]
-		set all_contacts [::MSN::sortedContactList]
-
-		if { [llength $all_contacts] > 0 } {
-			if { [info exists ::authentication_ticket] } {
-				set cookies [split $::authentication_ticket &]
-				foreach cookie $cookies {
-					set c [split $cookie =]
-					set ticket_[lindex $c 0] [lindex $c 1]
-				}
-				
-				if { [info exists ticket_t] && [info exists ticket_p] } {
-					set soap_req [SOAPRequest create %AUTO% \
-							  -url "http://storage.msn.com/storageservice/schematizedstore.asmx" \
-							  -action "http://www.msn.com/webservices/storage/w10/GetItemVersion" \
-							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] \
-							  -xml [::MSNSPACES::getSchematizedStoreXml $all_contacts] \
-							  -callback [list ::MSNSPACES::InitSpacesCallback $callbk]]
-					$soap_req SendSOAPRequest
-					
-				}
-			}
-
-		}
-	}
-
-
-	proc getSchematizedStoreXml {contacts} {
-		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><StorageApplicationHeader xmlns="http://www.msn.com/webservices/storage/w10"><ApplicationID>Messenger Client 7.0</ApplicationID></StorageApplicationHeader><StorageUserHeader xmlns="http://www.msn.com/webservices/storage/w10"><Puid>0</Puid><UserAuthCache></UserAuthCache><IPAddress/></StorageUserHeader></soap:Header><soap:Body><GetItemVersion xmlns="http://www.msn.com/webservices/storage/w10"><spaceVersionRequests>}
-		foreach contact $contacts {
-			append xml {<SpaceVersionRequest><SpaceHandle><RelationshipName>MySpace</RelationshipName><Alias><NameSpace>MyStuff</NameSpace><Name>}
-			append xml $contact
-			append xml {</Name></Alias></SpaceHandle><LastModifiedDate>2004-01-01T00:00:00.0000000-08:00</LastModifiedDate></SpaceVersionRequest>}
-		}
-		append xml {</spaceVersionRequests><spaceRequestFilter><SpaceFilterAttributes>Annotation</SpaceFilterAttributes><FilterValue>1</FilterValue></spaceRequestFilter></GetItemVersion></soap:Body></soap:Envelope>}
-		return $xml
-	}
-
 	proc hasSpace { email } {
-		variable resources
-		return [info exists resources($email)]
+		return [::abook::getContactData $email space_access 0]
 	}
 
-	proc getContactCardCallback { email callback soap } {
+	proc getContactCardCallback {callback email soap } {
 		if { [$soap GetStatus ] == "success" } {
 			set xml [$soap GetResponse]
 			$soap destroy
@@ -148,39 +23,28 @@ namespace eval ::MSNSPACES {
 				bgerror $result
 			}
 		}  else {
-			variable resources
-			status_log "ERROR getting CCARD of $email - $resources($email) - [$soap GetStatus ]: [$soap GetLastError]"
+			status_log "ERROR getting CCARD of $email - [$soap GetStatus ]: [$soap GetLastError]"
 			$soap destroy
 			if {[catch {eval $callback [list [list]]} result]} {
 				bgerror $result
 			}
 		}
 	}
-	proc getContactCard { email callback } {
-		variable resources
-		variable contactcards
-		
+	proc getContactCard { callback email } {
+		$::sso RequireSecurityToken Spaces [list ::MSNSPACES::getContactCardSSOCB $callback $email]
+	}
+
+	proc getContactCardSSOCB { callback email ticket } {
 		status_log "fetching ContactCard for user $email"
 
 		if {[::MSNSPACES::hasSpace $email] } {
-			if  {[info exists ::authentication_ticket] } {
-				set cookies [split $::authentication_ticket &]
-				foreach cookie $cookies {
-					set c [split $cookie =]
-					set ticket_[lindex $c 0] [lindex $c 1]
-				}
-				
-				if { [info exists ticket_t] && [info exists ticket_p] } {
-					set soap_req [SOAPRequest create %AUTO% \
-							  -url "http://cc.services.spaces.msn.com/contactcard/contactcardservice.asmx" \
-							  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
-							  -xml [::MSNSPACES::getContactCardXml [set resources($email)]] \
-							  -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] \
-							  -callback [list ::MSNSPACES::getContactCardCallback $email $callback]]
-					$soap_req SendSOAPRequest
-					return
-				}
-			} 
+			set soap_req [SOAPRequest create %AUTO% \
+					  -url "http://cc.services.spaces.msn.com/contactcard/contactcardservice.asmx" \
+					  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
+					  -xml [::MSNSPACES::getContactCardXml $email $ticket] \
+					  -callback [list ::MSNSPACES::getContactCardCallback $callback $email]]
+			$soap_req SendSOAPRequest
+			return
 		}
 		
 		status_log "Error fetching ContactCard for user $email" red
@@ -190,18 +54,42 @@ namespace eval ::MSNSPACES {
 		}
 	}
 
-	proc getContactCardXml { resourceID } {
+	proc getContactCardXml { email ticket } {
 		variable storageAuthCache
 
-		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">}
-		append xml {<soap:Header><AuthTokenHeader xmlns="http://www.msn.com/webservices/spaces/v1/"><Token>}
-		append xml [::sxml::xmlreplace $::authentication_ticket]
-		append xml {</Token></AuthTokenHeader></soap:Header>}
-		append xml {<soap:Body><GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/"><refreshInformation><spaceResourceId xmlns="http://www.msn.com/webservices/spaces/v1/">}
-		append xml $resourceID
-		append xml {</spaceResourceId><storageAuthCache>}
+		set cid [::abook::getContactData $email cid]
+		set xml {<?xml version="1.0" encoding="utf-8"?>}
+		append xml {<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">}
+		append xml {<soap:Header>}
+		append xml {<AuthTokenHeader xmlns="http://www.msn.com/webservices/spaces/v1/">}
+		append xml {<Token>}
+		append xml [xmlencode $ticket]
+		append xml {</Token>}
+		append xml {</AuthTokenHeader>}
+		append xml {</soap:Header>}
+		append xml {<soap:Body>}
+		append xml {<GetXmlFeed xmlns="http://www.msn.com/webservices/spaces/v1/">}
+		append xml {<refreshInformation>}
+		append xml {<cid xmlns="http://www.msn.com/webservices/spaces/v1/">}
+		append xml $cid
+		append xml {</cid><storageAuthCache>}
 		append xml $storageAuthCache
-		append xml {</storageAuthCache><market xmlns="http://www.msn.com/webservices/spaces/v1/">en-US</market><brand></brand><maxElementCount xmlns="http://www.msn.com/webservices/spaces/v1/">5</maxElementCount><maxCharacterCount xmlns="http://www.msn.com/webservices/spaces/v1/">200</maxCharacterCount><maxImageCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxImageCount></refreshInformation></GetXmlFeed></soap:Body></soap:Envelope>}
+		append xml {</storageAuthCache>}
+		append xml {<market xmlns="http://www.msn.com/webservices/spaces/v1/">en-US</market>}
+		append xml {<brand></brand>}
+		append xml {<maxElementCount xmlns="http://www.msn.com/webservices/spaces/v1/">2</maxElementCount>}
+		append xml {<maxCharacterCount xmlns="http://www.msn.com/webservices/spaces/v1/">200</maxCharacterCount>}
+		append xml {<maxImageCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxImageCount>}
+		append xml {<applicationId>Messenger Client 8.0</applicationId><}
+		append xml {updateAccessedTime>true</updateAccessedTime><}
+		append xml {spaceLastViewed>1753-01-01T00:00:00.0000000-00:00</spaceLastViewed>}
+		append xml {<profileLastViewed>1753-01-01T00:00:00.0000000-00:00</profileLastViewed>}
+		append xml {<contactProfileLastViewed>1753-01-01T00:00:00.0000000-00:00</contactProfileLastViewed>}
+		append xml {<isActiveContact>false</isActiveContact><}
+		append xml {/refreshInformation>}
+		append xml {</GetXmlFeed>}
+		append xml {</soap:Body>}
+		append xml {</soap:Envelope>}
 
 		return $xml
 	}
@@ -326,7 +214,7 @@ namespace eval ::MSNSPACES {
 		if {[::abook::getContactData $email spaces_info_xml [list]] == [list] } {
 			::abook::setVolatileData $email fetching_space 1
 			# fetch the ccard info and check if the user 
-			::MSNSPACES::getContactCard $email [list ::MSNSPACES::fetchedSpace $email]
+			::MSNSPACES::getContactCard [list ::MSNSPACES::fetchedSpace $email] $email 
 		}
 	}
 	

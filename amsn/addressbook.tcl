@@ -201,6 +201,7 @@ snit::type Addressbook {
 				set nickname [GetXmlEntry $subxml "Contact:contactInfo:displayName"]
 				set contactguid [GetXmlEntry $subxml "Contact:contactId"]
 				set contacttype [GetXmlEntry $subxml "Contact:contactInfo:contactType"]
+				set cid [GetXmlEntry $subxml "Contact:contactInfo:CID"]
 				set is_in_fl [GetXmlEntry $subxml "Contact:contactInfo:isMessengerUser"]
 				set is_mobile [GetXmlEntry $subxml "Contact:contactInfo:isMobileIMEnabled"]
 
@@ -276,9 +277,11 @@ snit::type Addressbook {
 				if {$contacttype == "Me" } {
 					::abook::setPersonal MFN $nickname
 					::abook::setPersonal login $username
+					::abook::setPersonal cid $cid
 				} else {
 					::abook::setContactData $username nick $nickname
 					::abook::setContactData $username contactguid $contactguid
+					::abook::setContactData $username cid $cid
 					::abook::setContactForGuid $contactguid $username
 				}
 
@@ -309,6 +312,68 @@ snit::type Addressbook {
 
 			}
 
+			set i 0
+			set users_with_space [list]
+			while {1} {
+				set subxml [GetXmlNode $xml "soap:Envelope:soap:Body:ABFindAllResponse:ABFindAllResult:DynamicItems:DynamicItem" $i]
+				incr i
+				if  { $subxml == "" } {
+					break
+				}
+				set username [GetXmlEntry $subxml "DynamicItem:PassportName"]
+				set username [string tolower $username]
+				set space_status [GetXmlEntry $subxml "DynamicItem:SpaceStatus"]
+				set last_modified [GetXmlEntry $subxml "DynamicItem:SpaceLastChanged"]
+				set last_viewed [GetXmlEntry $subxml "DynamicItem:SpaceLastViewed"]
+				set has_new [GetXmlEntry $subxml "DynamicItem:SpaceGleam"]
+				set cid [GetXmlEntry $subxml "DynamicItem:CID"]
+
+				set has_space 0
+				foreach status [split $space_status " "] {
+					if {$status == "Access" } {
+						set has_space 1
+					}
+				}
+				if {$has_space } {
+					set last_modif 0
+					if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})} $last_modified -> y m d h min s] } {
+						set last_modif [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
+					}
+					# Apparently, we could receive a 'spacegleam' to 'false' but the lastviewed is < last_modified, and WLM
+					# still shows the gleam...
+					set last_view 0
+					if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})} $last_viewed -> y m d h min s] } {
+						set last_view [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
+					}
+					if {$last_modif > $last_view} {
+						set has_new "true"
+					}
+					::abook::setContactData $username space_access 1
+					if {$has_new == "true" } {
+						::abook::setVolatileData $username space_updated 1
+						::abook::setContactData $username spaces_info_xml [list]
+						::abook::setContactData $username spaces_last_modif $last_modif
+					} else {
+						::abook::setVolatileData $username space_updated 0
+						
+						# Reset the known info if the last modified date has changed,
+						# this means that the user fetched the spaces info from another client
+						set old_date [::abook::getContactData $username spaces_last_modif 0]
+						if { $last_modif > $old_date } {
+							::abook::setContactData $username spaces_info_xml [list]
+							::abook::setContactData $username spaces_last_modif $last_modif
+						}
+					}
+				} else {
+					::abook::setContactData $username space_access 0
+				}
+				::abook::setContactData $username cid $cid				
+			}
+			if {$users_with_space != [list] } {
+				#fire event to redraw contacts with changed space
+				::Event::fireEvent contactSpaceChange protocol $users_with_space
+			}
+
 			$soap destroy
 			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
@@ -330,6 +395,7 @@ snit::type Addressbook {
 		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
 		append xml {<abView>Full</abView>}
 		append xml {<deltasOnly>false</deltasOnly>}
+		append xml {<dynamicItemView>Gleam</dynamicItemView>}
 		append xml {<lastChange>0001-01-01T00:00:00.0000000-08:00</lastChange>}
 		append xml {</ABFindAll>}
 
