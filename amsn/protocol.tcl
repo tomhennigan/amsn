@@ -3343,22 +3343,22 @@ namespace eval ::MSNOIM {
 
                         if { $faultcode == "AuthenticationFailed" } {
 				status_log "Auth failed, retry : $retry" white
-                                set tweener [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
+                                set reauth [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:RequiredAuthPolicy"]
                                 set lock_challenge [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
                                 if { $lock_challenge != "" } {
                                         CreateLockKey $lock_challenge
                                 }
-                                if {$tweener != "" && $retry > 0} {
-                                        AuthenticatePassport3 [list ::MSNOIM::getOIMMail $callbk $mid [incr retry -1]] $tweener
-                                } else {
-                                        if { $retry > 0 } {
-                                                ::MSNOIM::getOIMMail $callbk $mid [incr retry -1]
-                                        } else {
-                                                if {[catch {eval $callbk [list [list]]} result]} {
-                                                        bgerror $result
-                                                }
-                                        }
-                                }
+				if {$reauth != "" } {
+					set token [$::sso GetSecurityTokenByName MessengerSecure]
+					$token configure -expires ""
+				}
+				if { $retry > 0 } {
+					::MSNOIM::getOIMMail $callbk $mid [incr retry -1]
+				} else {
+					if {[catch {eval $callbk [list [list]]} result]} {
+						bgerror $result
+					}
+				}
                         } else {
                                 if {[catch {eval $callbk [list [list]]} result]} {
                                         bgerror $result
@@ -3372,24 +3372,17 @@ namespace eval ::MSNOIM {
 		}
 	}
 
-	proc getOIMMail { callbk mid {retry 2} {hasError 0} } {
-		if { $hasError } {
-			if {[catch {eval $callbk [list [list]]} result]} {
-				bgerror $result
-			}
-			return 0
+	proc getOIMMail { callbk mid {retry 2} } {
+		$::sso RequireSecurityToken Messenger [list ::MSNOIM::getOIMMailSSOCB $callbk $mid $retry]
+	}
+
+	proc getOIMMailSSOCB { callbk mid retry ticket} {
+		set cookies [split $ticket &]
+		foreach cookie $cookies {
+			set c [split $cookie =]
+			set ticket_[lindex $c 0] [lindex $c 1]
 		}
-		if { [info exists ::authentication_ticket] } {
-			set cookies [split $::authentication_ticket &]
-			foreach cookie $cookies {
-				set c [split $cookie =]
-				set ticket_[lindex $c 0] [lindex $c 1]
-			}
-		} else {
-			set ticket_t ""
-			set ticket_p ""
-		}			
-		
+				
 		if { [info exists ticket_t] && [info exists ticket_p] } {
 			set soap_req [SOAPRequest create %AUTO% \
 					  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
@@ -3408,7 +3401,6 @@ namespace eval ::MSNOIM {
 		}
 	}
 	
-	
 	proc getOIMMailXml {mid ticket_t ticket_p } {
 		set xml {<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><PassportCookie xmlns="http://www.hotmail.msn.com/ws/2004/09/oim/rsi"><t>}
 		append xml [xmlencode $ticket_t]
@@ -3423,75 +3415,53 @@ namespace eval ::MSNOIM {
 	proc sendOIMMessageCallback { callbk to msg retry seq_nbr soap} {
 		if { [$soap GetStatus] == "success" } {
 			status_log "OIM sent to $to successfully : [$soap GetResponse]" green
-			$soap destroy
-			if {[catch {eval $callbk [list "success"]} result]} {
-				bgerror $result
-			}
+			set res "success"
 		} elseif { [$soap GetStatus] == "fault" } {
 			set xml [$soap GetResponse]
 			status_log "Error in OIM:" white
 			status_log $xml white
 			set faultcode [$soap GetFaultCode]
-			$soap destroy
 
 			if { $faultcode == "q0:AuthenticationFailed" } {
-				set tweener [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:TweenerChallenge"]
+				set reauth [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:RequiredAuthPolicy"]
 				set lock_challenge [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
 				if { $lock_challenge != "" } {
 					CreateLockKey $lock_challenge
 				} 
-				if {$tweener != "" && $retry > 0} {
-					AuthenticatePassport3 [list ::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr] $tweener
+				if {$reauth != "" } {
+					set token [$::sso GetSecurityTokenByName MessengerSecure]
+					$token configure -expires ""
+				}
+				if { $retry > 0 } {
+					$soap destroy
+					::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr
+					return
 				} else {
-					if { $retry > 0 } {
-						::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr
-					} else {
-						if {[catch {eval $callbk [list "authentication failed"]} result]} {
-							bgerror $result
-						}
-					}
+					set res "authentication failed"
 				}
 			} elseif { $faultcode == "q0:SystemUnavailable" } {
-				if {[catch {eval $callbk [list "invaliduser"]} result]} {
-					bgerror $result
-				}
+				set res "invaliduser"
 			} elseif { $faultcode == "q0:SenderThrottleLimitExceeded" } {
-				if {[catch {eval $callbk [list "Flood Protection Activated"]} result]} {
-					bgerror $result
-				}
+				set res "Flood Protection Activated"
 			} else {
-				if {[catch {eval $callbk [list "Unexpected error"]} result]} {
-					bgerror $result
-				}
+				set res "Unexpected error"
 			}
 		} else {
-			if {[catch {eval $callbk [list "Unexpected error"]} result]} {
-				bgerror $result
-			}
+			set res "Unexpected error"
+		}
+
+		$soap destroy
+		if {[catch {eval $callbk [list $res]} result]} {
+			bgerror $result
 		}
 	}
 	
-	
-	# If we want to have a more 'secure/robust' OIM support, we need to switch to the MSNP15 OIM support, the following modifications will be needed :
-	# the action of the SOAP request will have to become :  "http://messenger.live.com/ws/2006/09/oim/Store2" 
-	# The lockkey will have to be created against the following product key/id : 
-	# set lockkey [::MSN::CreateQRYHash $challenge  "PROD0114ES4Z%Q5W" "PK\}_A_0N_K%O?A9S"]
-	# Also, the xml will have to be modified to have :
-	# the msnpVer="MSNP15" buildVer="8.1.0178" and appid="PROD0114ES4Z%Q5W"
-	# and finally, the last but not the least, the reason why it was not done.. it's because the MSNP15 version of the OIMS will need an SSO ticket, 
-	# so it's not a TWN (TweenerChallenge) key anymore, but an SSO (Single-Sign-On) challenge ticket that we'll have to generate... 
-	proc sendOIMMessage { callbk to msg {retry 5} {seq_nbr 0} {hasError 0}} {
+	proc sendOIMMessage { callbk to msg {retry 5} {seq_nbr 0}} {
+		$::sso RequireSecurityToken MessengerSecure [list ::MSNOIM::sendOIMMessageSSOCB $callbk $to $msg $retry $seq_nbr]
+	}
+
+	proc sendOIMMessageSSOCB { callbk to msg retry seq_nbr ticket} {
 		variable seq_number
-		set res ""
-		if { $hasError } {
-			if {[catch {eval $callbk [list "Authentication Error"]} result]} {
-				bgerror $result
-			}
-			return 0
-		} elseif { ![info exists ::authentication_ticket]} {
-			#Authenticate with an invalid ticket and let it redo the authentication...
-			set ::authentication_ticket ""
-		}
 		set id [::md5::hmac $to $msg]
 
 		if { $seq_nbr == 0 } {
@@ -3505,8 +3475,8 @@ namespace eval ::MSNOIM {
 
 		set soap_req [SOAPRequest create %AUTO% \
 				  -url "https://ows.messenger.msn.com/OimWS/oim.asmx" \
-				  -action "http://messenger.msn.com/ws/2004/09/oim/Store" \
-				  -xml [::MSNOIM::sendOIMMessageXml $::authentication_ticket $to $msg $seq_nbr] \
+				  -action "http://messenger.live.com/ws/2006/09/oim/Store2" \
+				  -xml [::MSNOIM::sendOIMMessageXml $ticket $to $msg $seq_nbr] \
 				  -callback [list ::MSNOIM::sendOIMMessageCallback $callbk $to $msg $retry $seq_nbr]]
 
 		$soap_req SendSOAPRequest
@@ -3514,7 +3484,7 @@ namespace eval ::MSNOIM {
 	
 	proc CreateLockKey { challenge } {
 		variable lockkey
-		set lockkey [::MSN::CreateQRYHash $challenge "PROD01065C%ZFN6F" "O4BG@C7BWLYQX?5G"]
+		set lockkey [::MSN::CreateQRYHash $challenge  {PROD0119GSJUC$18} {ILTXC!4IXB5FB*PX}]
 	}
 
 	proc sendOIMMessageXml {ticket to msg seq_number} {
@@ -3535,10 +3505,10 @@ namespace eval ::MSNOIM {
 
 		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><From}
 		append xml " memberName=\"[config::getKey login]\" friendlyName=\"=?utf-8?B?${bnick}?=\" "
-		append xml {xml:lang="en-US" proxy="MSNMSGR" xmlns="http://messenger.msn.com/ws/2004/09/oim/" msnpVer="MSNP13" buildVer="8.0.0812"/> <To}
+		append xml {xml:lang="en-US" proxy="MSNMSGR" xmlns="http://messenger.msn.com/ws/2004/09/oim/" msnpVer="MSNP15" buildVer="8.5.1302"/> <To}
 		append xml " memberName=\"$to\" "
 		append xml {xmlns="http://messenger.msn.com/ws/2004/09/oim/"/><Ticket}
-		append xml " passport=\"[xmlencode $ticket]\" appid=\"PROD01065C%ZFN6F\" lockkey=\"[xmlencode $lockkey]\" xmlns=\"http://messenger.msn.com/ws/2004/09/oim/\"/> "
+		append xml " passport=\"[xmlencode $ticket]\" appid=\"PROD0119GSJUC\$18\" lockkey=\"[xmlencode $lockkey]\" xmlns=\"http://messenger.msn.com/ws/2004/09/oim/\"/> "
 		append xml {<Sequence xmlns="http://schemas.xmlsoap.org/ws/2003/03/rm"><Identifier xmlns="http://schemas.xmlsoap.org/ws/2002/07/utility">http://messenger.msn.com</Identifier><MessageNumber>}
 		append xml $seq_number
 		append xml {</MessageNumber></Sequence></soap:Header><soap:Body><MessageType xmlns="http://messenger.msn.com/ws/2004/09/oim/">text</MessageType><Content xmlns="http://messenger.msn.com/ws/2004/09/oim/">}
@@ -3565,23 +3535,25 @@ namespace eval ::MSNOIM {
 	}
 
 	proc deleteOIMMessage { callbk mids } {
-		if {[info exists ::authentication_ticket] } {
-			set cookies [split $::authentication_ticket &]
-			foreach cookie $cookies {
-				set c [split $cookie =]
-				set ticket_[lindex $c 0] [lindex $c 1]
-			}
+		$::sso RequireSecurityToken Messenger [list ::MSNOIM::deleteOIMMessageSSOCB $callbk $mids]
+	}
+
+	proc deleteOIMMessageSSOCB { callbk mids ticket } {
+		set cookies [split $ticket &]
+		foreach cookie $cookies {
+			set c [split $cookie =]
+			set ticket_[lindex $c 0] [lindex $c 1]
+		}
 			
-			status_log "deleting oims : $mids"
-			if { [info exists ticket_t] && [info exists ticket_p] } {
-				set id [::md5::hmac $callbk $mids]
-				set soap_req [SOAPRequest create %AUTO% \
+		status_log "deleting oims : $mids"
+		if { [info exists ticket_t] && [info exists ticket_p] } {
+			set id [::md5::hmac $callbk $mids]
+			set soap_req [SOAPRequest create %AUTO% \
 					  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
 					  -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/DeleteMessages" \
 					  -xml [::MSNOIM::deleteOIMMessageXml $mids $ticket_t $ticket_p] \
 					  -callback [list ::MSNOIM::deleteOIMMessageCallback $callbk] ]
-				$soap_req SendSOAPRequest
-			}
+			$soap_req SendSOAPRequest
 		}
 	}
 
@@ -3617,28 +3589,24 @@ namespace eval ::MSNOIM {
 	
 
 	proc getMailData { callbk } {
-		if { [info exists ::authentication_ticket] } {
-			set cookies [split $::authentication_ticket &]
-			foreach cookie $cookies {
-				set c [split $cookie =]
-				set ticket_[lindex $c 0] [lindex $c 1]
-			}
+		$::sso RequireSecurityToken Messenger [list ::MSNOIM::getMailDataSSOCB $callbk]
+	}
 
-	                if { [info exists ticket_t] && [info exists ticket_p] } {
-        	                set soap_req [SOAPRequest create %AUTO% \
+	proc getMailDataSSOCB { callbk ticket } {
+		set cookies [split $ticket &]
+		foreach cookie $cookies {
+			set c [split $cookie =]
+			set ticket_[lindex $c 0] [lindex $c 1]
+		}
+
+		if { [info exists ticket_t] && [info exists ticket_p] } {
+			set soap_req [SOAPRequest create %AUTO% \
                 	                  -url "https://rsi.hotmail.com/rsi/rsi.asmx" \
                         	          -action "http://www.hotmail.msn.com/ws/2004/09/oim/rsi/GetMetadata" \
                                 	  -xml [::MSNOIM::getMailDataXml $ticket_t $ticket_p] \
 	                                  -callback [list ::MSNOIM::getMailDataCallback $callbk]]
-        	                $soap_req SendSOAPRequest
-                	}
-
-		} else {
-			if {[catch {eval $callbk [list [list]]} result]} {
-				bgerror $result
-			}
+			$soap_req SendSOAPRequest
 		}
-
 	}
 
 	proc getMailDataXml { ticket_t ticket_p } {
@@ -3650,42 +3618,6 @@ namespace eval ::MSNOIM {
 		return $xml
 	}
 
-	proc AuthenticatePassport3Callback { callbk soap } {
-		if { [$soap GetStatus] == "success" } {
-			set xml [$soap GetResponse]
-			set ticket [GetXmlEntry $xml "S:Envelope:S:Body:wst:RequestSecurityTokenResponseCollection:wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
-			if {$ticket != "" } {
-				set ::authentication_ticket $ticket
-			}
-			if {[catch {eval $callbk [list 0]} result]} {
-				bgerror $result
-			}
-		} else {
-			$soap destroy
-			if {[catch {eval $callbk [list 0]} result]} {
-				bgerror $result
-			}
-		}
-	}
-
-	proc AuthenticatePassport3 { callbk url } {
-		set soap_req [SOAPRequest create %AUTO% \
-			  -url "https://loginnet.passport.com/RST.srf" \
-			  -xml [::MSNOIM::getPassport3Xml $url] \
-			  -callback [list ::MSNOIM::AuthenticatePassport3Callback $callbk]]
-		$soap_req SendSOAPRequest
-	}
-	
-	proc getPassport3Xml { url } {
-		set xml {<?xml version="1.0" encoding="UTF-8"?><Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:wsp="http://schemas.xmlsoap.org/ws/2002/12/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing" xmlns:wssc="http://schemas.xmlsoap.org/ws/2004/04/sc" xmlns:wst="http://schemas.xmlsoap.org/ws/2004/04/trust"><Header><ps:AuthInfo xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="PPAuthInfo"><ps:HostingApp>{7108E71A-9926-4FCB-BCC9-9A9D3F32E423}</ps:HostingApp><ps:BinaryVersion>4</ps:BinaryVersion><ps:UIVersion>1</ps:UIVersion><ps:Cookies></ps:Cookies><ps:RequestParams>AQAAAAIAAABsYwQAAAAzMDg0</ps:RequestParams></ps:AuthInfo><wsse:Security><wsse:UsernameToken Id="user"><wsse:Username>}
-		append xml [xmlencode [config::getKey login]]
-		append xml {</wsse:Username><wsse:Password>}
-		append xml [xmlencode $::password]
-		append xml {</wsse:Password></wsse:UsernameToken></wsse:Security></Header><Body><ps:RequestMultipleSecurityTokens xmlns:ps="http://schemas.microsoft.com/Passport/SoapServices/PPCRL" Id="RSTS"><wst:RequestSecurityToken Id="RST0"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>http://Passport.NET/tb</wsa:Address></wsa:EndpointReference></wsp:AppliesTo></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST1"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI=}
-		append xml "\"?[xmlencode [urldecode $url]]\""
-		append xml {></wsse:PolicyReference></wst:RequestSecurityToken><wst:RequestSecurityToken Id="RST2"><wst:RequestType>http://schemas.xmlsoap.org/ws/2004/04/security/trust/Issue</wst:RequestType><wsp:AppliesTo><wsa:EndpointReference><wsa:Address>voice.messenger.msn.com</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wsse:PolicyReference URI="?id=69264"></wsse:PolicyReference></wst:RequestSecurityToken></ps:RequestMultipleSecurityTokens></Body></Envelope>}
-		return $xml
-	}
 
 }
 
