@@ -594,15 +594,15 @@ snit::type Addressbook {
 	
 	method ABContactUpdateCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
+			$soap destroy
 			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
 			}
-			$soap destroy
 		} else { 
+			$soap destroy
 			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
 			}
-			$soap destroy
 		}
 	}
 	
