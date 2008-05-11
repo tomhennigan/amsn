@@ -168,23 +168,54 @@ namespace eval ::MSNSPACES {
 			return $photos
                 }
 	}
-	proc getAlbumImage { url } {
-		set data ""
-		if { [info exists ::authentication_ticket] } {
-			set cookies [split $::authentication_ticket &]
-			foreach cookie $cookies {
-				set c [split $cookie =]
-				set ticket_[lindex $c 0] [lindex $c 1]
-			}
-			
-			if { [info exists ticket_t] && [info exists ticket_p] } {
-				set token [http::geturl $url -headers [list "Cookie" "MSPAuth=${ticket_t}; MSPProf=${ticket_p}"] ]
-				set data [::http::data $token]
-				::http::cleanup $token
-			}
-		}
-		return $data
+	proc  getAlbumImage {callback url } {
+		$::sso RequireSecurityToken Spaces [list ::MSNSPACES::getAlbumImageSSOCB $callback $url]
 	}
+
+	proc getAlbumImageSSOCB {  callback url ticket } {
+		set cookies [split $ticket &]
+		foreach cookie $cookies {
+			set c [split $cookie =]
+			set ticket_[lindex $c 0] [lindex $c 1]
+		}
+
+		if { [catch { http::geturl $url -headers [list "Cookie" "RPSTAuth=${ticket_t}"]  -command [list ::MSNSPACES::getAlbumImageHTTPCB $callback]}] } {
+			if {[catch {eval $callback [list ""]} result]} {
+				bgerror $result
+			}			
+		}
+
+		
+	}
+	proc getAlbumImageHTTPCB {  callback token } {
+		set data ""
+
+		if { [::http::status $token] == "ok" && 
+		     [::http::ncode $token] >= 200 && [::http::ncode $token] < 300
+		     || [::http::ncode $token] == 500} {
+			set data [::http::data $token]
+		} elseif { [::http::status $token] == "ok" } {
+			upvar #0 $token state
+			set meta $state(meta)
+
+			array set meta_array $meta 
+			if {[info exists meta_array(Location)]} {
+				set url $meta_array(Location)
+				::http::cleanup $token
+
+				getAlbumImage $callback $url
+				return
+			} 
+		} 
+		::http::cleanup $token
+
+		if {[catch {eval $callback [list $data]} result]} {
+			bgerror $result
+		}
+
+	}
+
+
 	proc getAllBlogPosts { ccard } {
 		# Should return a list :
 		# { { description title url} {description title url} ... }
@@ -228,18 +259,18 @@ namespace eval ::MSNSPACES {
 			set count 0
 
 			# TODO : use an http "Last-Modified" header and check if the server returns an "30X Not Modified" then use the cached file...
-			foreach photolist $photos {
-				#download the thumbnail
-				set thumbnailurl [lindex $photolist 3]
-				set data [getAlbumImage $thumbnailurl]
-				set filename "[file join $cachedir $count.jpg]"
-				set fid [open $filename w]
-				fconfigure $fid -translation binary
-				puts -nonewline $fid "$data"
-				close $fid
+		# 	foreach photolist $photos {
+# 				#download the thumbnail
+# 				set thumbnailurl [lindex $photolist 3]
+# 				set data [getAlbumImage $thumbnailurl]
+# 				set filename "[file join $cachedir $count.jpg]"
+# 				set fid [open $filename w]
+# 				fconfigure $fid -translation binary
+# 				puts -nonewline $fid "$data"
+# 				close $fid
 				
-				incr count
-			}		
+# 				incr count
+# 			}		
 		
 		}
 
@@ -622,6 +653,19 @@ namespace eval ::ccard {
 	}
 
 
+	proc drawSpacesImageCB { img data} {
+		if {$data != "" } {
+			catch {
+				set temp [image create photo -data $data]
+				::picture::ResizeWithRatio $temp [$img cget -width] [$img cget -height]
+				$img blank
+				$img copy $temp
+				image delete $temp
+			} res
+			puts $res
+		}
+		
+	}
 	#///////////////////////////////////////////////////////////////////////////////
 	#Draws info of MSN Spaces on chosen coordinate on a choosen canvas
 	proc drawSpacesCL { canvas email base_tag marginx marginy } {
@@ -723,19 +767,16 @@ namespace eval ::ccard {
 						if { [lindex $i 0] != "" } {
 	
 							if {[lindex $i 3] != "" } {
-								set imageData [::MSNSPACES::getAlbumImage [lindex $i 3]]
-								if {$imageData != "" } {
-									set img [image create photo tempspacethumb$count -data $imageData]
-									::picture::ResizeWithRatio $img 22 22
+								set img [image create photo tempspacethumb$count -width 35 -height 35]
+								::MSNSPACES::getAlbumImage [list ::ccard::drawSpacesImageCB $img] [lindex $i 3]
 	
-									lappend stylestring [list "tag" "$itemtag"]
-									lappend stylestring [list "image" $img "w"]
-									lappend stylestring [list "tag" "-$itemtag"]
+								lappend stylestring [list "tag" "$itemtag"]
+								lappend stylestring [list "image" $img "w"]
+								lappend stylestring [list "tag" "-$itemtag"]
 	
-									lappend stylestring [list "space" 3]
-	
-									bind $canvas <Destroy> +[list image delete tempspacethumb$count]
-								}
+								lappend stylestring [list "space" 3]
+								
+								bind $canvas <Destroy> +[list image delete tempspacethumb$count]
 							}
 							$canvas bind $itemtag <Button-1> \
 								[list ::hotmail::gotURL "[lindex $i 2]"]
@@ -851,18 +892,15 @@ namespace eval ::ccard {
 					if { [lindex $i 0] != "" } {
 
 						if {[lindex $i 3] != "" } {
-							set imageData [::MSNSPACES::getAlbumImage [lindex $i 3]]
-							if {$imageData != "" } {
-								set img [image create photo tempspacethumb$count -data $imageData]
-								::picture::ResizeWithRatio $img 22 22
-								set imgx [expr {$xcoord + 10 + $photooffset}]
-								set imgy [expr {$ycoord + $height + $lineheight}]
-								$canvas create image $imgx $imgy -image $img \
-								    -tags [linsert $taglist end $itemtag clickable] -anchor nw
-								$canvas create rectangle $imgx $imgy  [expr {$imgx + 22}] [expr {$imgy + 22}] -outline #576373 -tags [linsert $taglist end $itemtag clickable]
-								set photooffset [expr {$photooffset + 25}]
-								bind $canvas <Destroy> +[list image delete tempspacethumb$count]
-							}
+							set img [image create photo tempspacethumb$count -width 35 -height 35]
+							::MSNSPACES::getAlbumImage [list ::ccard::drawSpacesImageCB $img] [lindex $i 3]
+							set imgx [expr {$xcoord + 10 + $photooffset}]
+							set imgy [expr {$ycoord + $height + $lineheight}]
+							$canvas create image $imgx $imgy -image $img \
+							    -tags [linsert $taglist end $itemtag clickable] -anchor nw
+							$canvas create rectangle $imgx $imgy  [expr {$imgx + 35}] [expr {$imgy + 35}] -outline #576373 -tags [linsert $taglist end $itemtag clickable]
+							set photooffset [expr {$photooffset + 25}]
+							bind $canvas <Destroy> +[list image delete tempspacethumb$count]
 						}
 						$canvas bind $itemtag <Button-1> \
 							[list ::hotmail::gotURL "[lindex $i 2]"]
