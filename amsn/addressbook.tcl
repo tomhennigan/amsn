@@ -134,6 +134,10 @@ snit::type Addressbook {
 							set username [GetXmlEntry $member "Member:PassportName"]
 							set username [string tolower $username]
 
+							if {$username == "" } {
+								continue
+							}
+
 							::abook::addContactToList $username $member_list 
 							::MSN::addToList $member_list $username
 						}
@@ -205,6 +209,8 @@ snit::type Addressbook {
 				set is_in_fl [GetXmlEntry $subxml "Contact:contactInfo:isMessengerUser"]
 				set is_mobile [GetXmlEntry $subxml "Contact:contactInfo:isMobileIMEnabled"]
 
+				# This is a generic addressbook so we can have in it contacts that have no passport..
+				# These can be phone numbers or just emails without anything more associated to them...  
 				if {$username == ""} {
 					continue
 				}
