@@ -2462,8 +2462,8 @@ namespace eval ::ChatWindow {
 				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
 				-command ${cmd}
 			set_balloon $hangup $txt
-			bind $hangup <Enter> "$webcam configure -image [::skin::loadPixmap buthangup_hover]"
-			bind $hangup <Leave> "$webcam configure -image [::skin::loadPixmap buthangup]"
+			bind $hangup <Enter> "$hangup configure -image [::skin::loadPixmap buthangup_hover]"
+			bind $hangup <Leave> "$hangup configure -image [::skin::loadPixmap buthangup]"
 		}
 		pack $hangup -side left -padx 0 -pady 0			
 	}
