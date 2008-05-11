@@ -1880,23 +1880,21 @@ namespace eval ::MSNSIP {
 
 	variable sipconnections [list]
 
-	proc createSIP { {host "vp.sip.messenger.msn.com"} } {
+	proc createSIP {callbk {host "vp.sip.messenger.msn.com"}} {
+		$::sso RequireSecurityToken MessengerSecure [list ::MSNSIP::createSIPSSOCB $callbk $host]
+	}
+
+	proc createSIPSSOCB {callbk host ticket} {
 		variable sipconnections
-		global sso
-		if {![info exists sso] } {
-			status_log "MSNSIP : Creating SIP.. not authenticated"
-			return ""
-		}
 
 		status_log "MSNSIP : Creating SIP connection to $host"
 
-		set token [$sso GetSecurityTokenByName MessengerSecure]
-		set sip [SIPConnection create %AUTO% -user [::config::getKey login] -password [$token cget -ticket] -host $host]
+		set sip [SIPConnection create %AUTO% -user [::config::getKey login] -password $ticket -host $host]
 		$sip configure -error_handler [list ::MSNSIP::errorSIP $sip] -request_handler [list ::MSNSIP::requestSIP $sip]
 		lappend sipconnections $sip
 
 		status_log "MSNSIP : SIP connection created : $sip"
-		return $sip
+		eval $callbk $sip
 		
 	}
 
@@ -1939,25 +1937,11 @@ namespace eval ::MSNSIP {
 			}
 		}
 
-		set sip [createSIP $ip]
-		if {$sip == "" } {
-			SSOAuthenticate [list ::MSNSIP::ReceivedInvite $ip]
-		} else {
-			$sip Register
-		}
+		createSIP ::MSNSIP::ReceivedInviteCB $ip
 	}
 
-	proc SSOAuthenticated { callback failed } {
-		if {$failed == 0 } {
-			eval $callback
-		}
-		# TODO : if can't auth for some reason.. signal the UI ?
-	}
-
-	proc SSOAuthenticate { callback } {
-		global sso 
-		set sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
-		$sso Authenticate [list ::MSNSIP::SSOAuthenticated $callback]
+	proc ReceivedInviteCB { sip } {
+		$sip Register
 	}
 
 	proc InviteUser { email } {
@@ -1967,22 +1951,20 @@ namespace eval ::MSNSIP {
 			::amsn::SIPCallYouAreBusy $email
 			return "BUSY"
 		} else {
-			set sip [createSIP]
-			if {$sip == "" } {
-				SSOAuthenticate [list ::MSNSIP::InviteUser $email]
-				return "DELAYED"
-			}
+			createSIP [list ::MSNSIP::InviteUserCB $email]
+		}
+	}
 
-			$::farsight configure -sipconnection $sip -prepared [list ::MSNSIP::invitePrepared $sip $email] -closed  [list ::MSNSIP::inviteClosed $sip $email "" -1]
+	proc InviteUserCB { email sip } {
+		$::farsight configure -sipconnection $sip -prepared [list ::MSNSIP::invitePrepared $sip $email] -closed  [list ::MSNSIP::inviteClosed $sip $email "" -1]
 		
-			if {[catch {$::farsight Prepare}] } {
-				::amsn::SIPCallImpossible $email
-				return "IMPOSSIBLE"
-			} else {
-				# Reset the SipConnection because the Prepare clears it
-				$::farsight configure -sipconnection $sip 
-				return $sip
-			}
+		if {[catch {$::farsight Prepare}] } {
+			::amsn::SIPCallImpossible $email
+			return "IMPOSSIBLE"
+		} else {
+			# Reset the SipConnection because the Prepare clears it
+			$::farsight configure -sipconnection $sip 
+			return $sip
 		}
 	}
 
