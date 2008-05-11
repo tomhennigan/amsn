@@ -89,12 +89,14 @@ snit::type SSOAuthentication {
 	}
 
 	method RequireSecurityTokenCB {err} {
-		foreach callback $callbacks {
+		set clbks $callbacks 
+		set callbacks [list]
+		
+		foreach callback $clbks {
 			foreach {name command} $callback break
 			set token [$self GetSecurityTokenByName $name]
 			eval $command [$token cget -ticket]
 		}
-		set callbacks [list]
 	}
 
 	method GetSecurityTokenByName { name } {
