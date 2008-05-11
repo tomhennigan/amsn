@@ -1579,20 +1579,22 @@ namespace eval ::guiContactList {
 		###Space icon###
 		#--------------#
 		
-		# Check if we need an icon to show an updated space/blog, and draw one if we do
-		# We must create the icon and hide after else, the status icon will stick the border \
-		# it's surely due to anchor parameter
-		if { [::MSNSPACES::hasSpace $email] } {
-			lappend stylestring [list "tag" "$space_icon"]
-			if { $space_update } {
-				lappend stylestring [list "image" "$update_img" "w"]
+		if {[::config::getKey showspaces 1]} {
+			# Check if we need an icon to show an updated space/blog, and draw one if we do
+			# We must create the icon and hide after else, the status icon will stick the border \
+							  # it's surely due to anchor parameter
+			if { [::MSNSPACES::hasSpace $email] } {
+				lappend stylestring [list "tag" "$space_icon"]
+				if { $space_update } {
+					lappend stylestring [list "image" "$update_img" "w"]
+				} else {
+					lappend stylestring [list "image" "$noupdate_img" "w"]
+				}
+				lappend stylestring [list "tag" "-$space_icon"]
 			} else {
-				lappend stylestring [list "image" "$noupdate_img" "w"]
+				# TODO : uncomment this line to get back the space needed for the support of MSN spaces.
+				lappend stylestring [list "space" [image width $noupdate_img]]
 			}
-			lappend stylestring [list "tag" "-$space_icon"]
-		} else {
-			# TODO : uncomment this line to get back the space needed for the support of MSN spaces.
-			lappend stylestring [list "space" [image width $noupdate_img]]
 		}
 		incr marginx [image width $noupdate_img]
 		
