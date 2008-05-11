@@ -1655,16 +1655,31 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc addUserToList { email list} {
-		if {$list == "AL" } {
-			$::ab AddMember [list ::MSN::addUserToListCB $email $list] \
-			    "ContactSave" $email "Allow"
-		} elseif {$list == "BL" } {
-			$::ab AddMember [list ::MSN::addUserToListCB $email $list] \
-			    "ContactSave" $email "Block"
-			
+	proc  listToRole {list} {
+		switch -- $list {
+			"AL" {
+				set role "Allow"
+			}
+			"BL" {
+				set role "Block"
+			}
+			"PL" {
+				set role "Pending"
+			}
+			"RL" {
+				set role "Reverse"
+			}
+			default {
+				# error...
+				return ""
+			}
 		}
 	}
+	proc addUserToList { email list} {
+		$::ab AddMember [list ::MSN::addUserToListCB $email $list] \
+		    "ContactSave" $email [listToRole $list]
+	}
+
 	proc addUserToListCB { userlogin list fail } {
 		switch -- $list {
 			"AL" {
@@ -1673,13 +1688,18 @@ namespace eval ::MSN {
 			"BL" {
 				set mask 4
 			}
+			default {
+				set mask 0
+			}
 		}
-		set contact [split $userlogin "@"]
-		set user [lindex $contact 0]
-		set domain [lindex $contact 1]
-		set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"$mask\" t=\"1\"/></d></ml>"
-		set xmlllen [string length $xml]
-		::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
+		if {$mask != 0 } {
+			set contact [split $userlogin "@"]
+			set user [lindex $contact 0]
+			set domain [lindex $contact 1]
+			set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"$mask\" t=\"1\"/></d></ml>"
+			set xmlllen [string length $xml]
+			::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
+		}
 
 		::abook::addContactToList $userlogin $list
 		::MSN::addToList $list $userlogin
@@ -1689,15 +1709,9 @@ namespace eval ::MSN {
 		after 500 [list ::Event::fireEvent contactListChange protocol $userlogin]
 		
 	}
-	proc removeUserFromList { email list} {
-		if {$list == "AL" } {
-			$::ab DeleteMember [list ::MSN::removeUserFromListCB $email $list] \
-			    "ContactSave" $email "Allow"
-		} elseif {$list == "BL" } {
-			$::ab DeleteMember [list ::MSN::removeUserFromListCB $email $list] \
-			    "ContactSave" $email "Block"
-			
-		}
+	proc removeUserFromList { email list} { 
+		$::ab DeleteMember [list ::MSN::removeUserFromListCB $email $list] \
+		    "ContactSave" $email [listToRole $list]
 	}
 	proc removeUserFromListCB { userlogin list fail } {
 		switch -- $list {
@@ -1707,13 +1721,18 @@ namespace eval ::MSN {
 			"BL" {
 				set mask 4
 			}
+			default {
+				set mask 0
+			}
 		}
-		set contact [split $userlogin "@"]
-		set user [lindex $contact 0]
-		set domain [lindex $contact 1]
-		set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"$mask\" t=\"1\"/></d></ml>"
-		set xmlllen [string length $xml]
-		::MSN::WriteSBNoNL ns "RML" "$xmlllen\r\n$xml"
+		if {$mask != 0 } {
+			set contact [split $userlogin "@"]
+			set user [lindex $contact 0]
+			set domain [lindex $contact 1]
+			set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"$mask\" t=\"1\"/></d></ml>"
+			set xmlllen [string length $xml]
+			::MSN::WriteSBNoNL ns "RML" "$xmlllen\r\n$xml"
+		}
 
 		::abook::removeContactFromList $userlogin $list
 		::MSN::deleteFromList $list $userlogin
@@ -4072,6 +4091,9 @@ namespace eval ::MSNOIM {
 			#an event to let the GUI know a user was added to a list
 			::Event::fireEvent contactListChange protocol $username
 
+			if { $lst == "RL" && [lsearch [::abook::getContactData $username lists] "FL"] == -1} {
+				$::ab Synchronize ::MSN::ABSynchronizationDone
+			}
 			if { $lst == "FL" || $lst == "RL" } {
 				#Don't send the event for an addition to any other list
 				::Event::fireEvent contactAdded protocol $username ""
@@ -6312,6 +6334,11 @@ proc ::MSN::ABSynchronizationDone { error } {
 				if {[lsearch $lists "BL"] != -1} {
 					incr mask 4
 				}
+				# Make sure we don't have a contact in AL and BL at the same time
+				if {[expr {$mask & 6}] == 6} {
+					after 0 [list ::MSN::removeUserFromList $username AL]
+					incr mask -2
+				}
 				if {$added_users > 0 && [expr {[string length $xml] + [string length "<c n=\"$user\" l=\"$mask\" t=\"1\" /></d></ml>"]}] > 7400} {
 					append xml "</d></ml>"
 					set xmllen [string length $xml]
@@ -6328,9 +6355,25 @@ proc ::MSN::ABSynchronizationDone { error } {
 		set xmllen [string length $xml]
 		::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
 
+		foreach username [::MSN::getList PL] {
+			if { [lsearch [::abook::getLists $username] "AL"] != -1 || [lsearch [::abook::getLists $username] "BL"] != -1 } {
+				#We already added it we only move it from PL to RL
+				#Just add to RL for now and let the handler remove it from PL... to be sure it's the correct order...
+				::MSN::removeUserFromList $username PL
+				::MSN::addUserToList $username RL
+			} else {
+				set nickname [::abook::getContactData $username nick]
+				if {$nickname == "" } {
+					set nickname $username
+				}
+				newcontact $username $nickname
+			}
+		}
 		ns authenticationDone	
 	}
 }
+
+
 proc recreate_contact_lists {} {
 
 	#There's no need to recreate groups, as ::groups already gets all data
