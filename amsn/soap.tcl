@@ -119,6 +119,11 @@ snit::type SOAPRequest {
 		# TODO : maybe fix this somehow since we'll never get the callback...
 		if { ![catch { set http_req [http::geturl $options(-url) -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] }] } {
 			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
+			if {[info exists soap_debug] && $soap_debug != ""} {
+				set fd [open [file join $soap_debug $filename] w]
+				puts $fd [xml2prettyxml $xml]
+				close $fd
+			}
 			if { $options(-callback) == "" && $redirected } {
 				tkwait variable [myvar wait]
 			}
@@ -130,6 +135,12 @@ snit::type SOAPRequest {
 	method GotSoapReply { token } {
 		#puts "Received HTTP answer : [::http::code $token]  [::http::status $token]\n[::http::data $token]"
 	
+		if {[info exists soap_debug] && $soap_debug != ""} {
+			set fd [open [file join $soap_debug $filename] w]
+			puts $fd [xml2prettyxml $xml]
+			close $fd
+		}
+
 		set last_error [::http::error $token]
 		#shouldn't work if ncode == 500, MS servers ...
 		if { [::http::status $token] == "ok" && [::http::ncode $token] >= 200 && [::http::ncode $token] < 300 || [::http::ncode $token] == 500} {
@@ -168,7 +179,6 @@ snit::type SOAPRequest {
 
 				set redirected 1
 				$self SendSOAPRequest
-				::http::cleanup $token
 				return
 			} else {
 				set last_error [::http::code $token]
@@ -178,8 +188,11 @@ snit::type SOAPRequest {
 			set status [::http::code $token]
 		}
 
+		set http_stat [::http::status $token]
+		::http::cleanup $token
+
 		incr [myvar wait]
-		if {[::http::status $token] != "reset"} {
+		if {$http_stat  != "reset"} {
 			status_log "Received answer to SOAP request sent to $options(-url) with action $options(-action) : ..." green
 			status_log "... status=$status, LastError=$last_error, FaultDetail=$fault_detail" green
 			if {$options(-callback) != "" } {
@@ -188,7 +201,6 @@ snit::type SOAPRequest {
 				}
 			}
 		}
-		::http::cleanup $token
 
 	}
 
