@@ -754,9 +754,14 @@ namespace eval ::amsn {
 
 		label $w.top.message -text $message -wraplength 400 -justify left
 		pack $w.top.message -pady 0 -padx 0 -side top
-		if {$askRememberAnswer} {
+		if {$askRememberAnswer != 0} {
+			if {$askRememberAnswer == 1} {
+				set rememberText [trans remembersetting]
+			} else {
+				set rememberText [trans $askRememberAnswer]
+			}
 			checkbutton $w.top.remember -variable customMessageBoxRememberTracker($uniqueId) \
-				-text [trans remembersetting] -anchor w -state normal
+				-text $rememberText -anchor w -state normal
 
 			pack $w.top.remember -pady 5 -padx 10 -side bottom -fill x
 		}
@@ -822,7 +827,7 @@ namespace eval ::amsn {
 		}
 
 		catch { destroy $w }
-		if {$askRememberAnswer} {
+		if {$askRememberAnswer != 0} {
 			set answer [list $customMessageBoxAnswerTracker($uniqueId) $customMessageBoxRememberTracker($uniqueId)]
 			unset customMessageBoxAnswerTracker($uniqueId)
 			unset customMessageBoxRememberTracker($uniqueId)
@@ -892,32 +897,38 @@ namespace eval ::amsn {
 	proc deleteUser { user_login } {
 		if {[lsearch [::abook::getLists $user_login] BL] == -1} {
 			# User is not blocked.
-			set answer [customMessageBox [trans confirmdu] deleteblockcancel "" "[trans delete] - $user_login" "." 0]
+			set type deleteblockcancel
 		} else {
 			# User is already blocked.
-			set answer [customMessageBox [trans confirmdu] deletecancel "" "[trans delete] - $user_login" "." 0]
+			set type deletecancel
 		}
-		
+		if {[::MSN::userIsNotIM $user_login] } {
+			set answer [customMessageBox [trans confirmdu] $type "" "[trans delete] - $user_login" "." 0]
+			set fulldelete 1
+		} else {
+			set answer [customMessageBox [trans confirmdu] $type "" "[trans delete] - $user_login" "." confirmfulldelete]
+			foreach {answer fulldelete} $answer break
+		}
 		if {$answer == "deleteblock"} {
 			# Delete the user and block.
-			::amsn::deleteUserAction $user_login 1
+			::amsn::deleteUserAction $user_login 1 $fulldelete
 		} elseif {$answer == "delete"} {
 			# Only delete the user.
-			::amsn::deleteUserAction $user_login 0
+			::amsn::deleteUserAction $user_login 0 $fulldelete
 		}
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# deleteUserAction {user_login answer grId block}
 	# Action to do when someone click delete a user
-	proc deleteUserAction {user_login {block 0}} {
+	proc deleteUserAction {user_login {block 0} {full 0}} {
 		#If the user wants to delete AND block a user
 		if { $block == 1 } {
 			set name [::abook::getNick ${user_login}]
 			::MSN::blockUser ${user_login}
 		}
 
-		::MSN::deleteUser ${user_login}
+		::MSN::deleteUser ${user_login} $full
 		::abook::setContactData $user_login alarms ""
 
 		return
@@ -6385,7 +6396,17 @@ proc newcontact_ok { w x0 x1 } {
 	set newc_allow_block [set newc_allow_block_$w]
 	set newc_add_to_list [set newc_add_to_list_$w]
 
-	if { [::config::getKey protocol] == 11 } {
+	if {[::config::getKey protocol] >= 13 } {
+		if { [lsearch [::abook::getLists $x0] PL] != -1 } {
+			::MSN::removeUserFromList $x0 PL
+			::MSN::addUserToList $x0 RL
+		}
+		if {$newc_allow_block == "1"} {
+			::MSN::unblockUser $x0
+		} else {
+			::MSN::blockUser $x0
+		}
+	} elseif { [::config::getKey protocol] == 11 } {
 		if {$newc_allow_block == "1"} {
 			::MSN::WriteSB ns "ADC" "AL N=$x0"
 		} else {
