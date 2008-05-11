@@ -975,25 +975,59 @@ proc xml2list xml {
 	string map {"\} \}" "\}\}" "&amp;" "&" "&lt;" "<" "&gt;" ">" "&apos;" "\'" "&quot;" "\"" "&right_accolade;" "\\\{" "&left_accolade;" "\\\}" "&escape_char;" "\\\\"} [lindex $res 0]
 }
 
-proc list2xml list {
+proc list2xml {list {depth -1}} {
+	set res ""
 	switch -- [llength $list] {
-		2 {xmlencode [lindex $list 1]}
+		2 {
+			if {$depth > 0} {
+				append res [string repeat "    " [expr {$depth - 1}]]
+				append res "  "
+			}
+			append res [xmlencode [lindex $list 1]]
+			if {$depth >= 0} {
+				append res "\n"
+			}
+		}
 		3 {
 			foreach {tag attributes children} $list break
-			set res <$tag
+			if {$depth > 0} {
+				append res [string repeat "    " $depth]
+			}
+			append res <$tag
 			foreach {name value} $attributes {
 				append res " $name=\"[xmlencode $value]\""
 			}
 			if [llength $children] {
+				set child_depth $depth
 				append res >
+				if {$depth >= 0} {
+					append res "\n"
+					incr child_depth
+				}
 				foreach child $children {
-					append res [list2xml $child]
+					append res [list2xml $child $child_depth]
+				}
+				if {$depth > 0} {
+					append res [string repeat "    " $depth]
 				}
 				append res </$tag>
-			} else {append res />}
+				if {$depth >= 0} {
+					append res "\n"
+				}
+			} else {
+				append res />
+				if {$depth >= 0} {
+					append res "\n"
+				}
+			}
 		}
 		default {error "could not parse $list"}
 	}
+	return $res
+}
+
+proc xml2prettyxml { xml } {
+	return [list2xml [xml2list $xml] 0]
 }
 
 proc GetXmlEntry {list find {no 0} {stack ""}} {
