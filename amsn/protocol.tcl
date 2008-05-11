@@ -3374,7 +3374,7 @@ namespace eval ::MSNOIM {
 
 	proc getOIMMail { callbk mid {retry 2} {hasError 0} } {
 		if { $hasError } {
-			if {[catch {eval $callbk [list [list]]]} result]} {
+			if {[catch {eval $callbk [list [list]]} result]} {
 				bgerror $result
 			}
 			return 0
