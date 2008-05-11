@@ -39,7 +39,7 @@ namespace eval ::MSNSPACES {
 
 		if {[::MSNSPACES::hasSpace $email] } {
 			set soap_req [SOAPRequest create %AUTO% \
-					  -url "http://cc.services.spaces.msn.com/contactcard/contactcardservice.asmx" \
+					  -url "http://cc.services.spaces.live.com/contactcard/contactcardservice.asmx" \
 					  -action "http://www.msn.com/webservices/spaces/v1/GetXmlFeed" \
 					  -xml [::MSNSPACES::getContactCardXml $email $ticket] \
 					  -callback [list ::MSNSPACES::getContactCardCallback $callback $email]]
@@ -58,6 +58,7 @@ namespace eval ::MSNSPACES {
 		variable storageAuthCache
 
 		set cid [::abook::getContactData $email cid]
+
 		set xml {<?xml version="1.0" encoding="utf-8"?>}
 		append xml {<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">}
 		append xml {<soap:Header>}
@@ -72,21 +73,19 @@ namespace eval ::MSNSPACES {
 		append xml {<refreshInformation>}
 		append xml {<cid xmlns="http://www.msn.com/webservices/spaces/v1/">}
 		append xml $cid
-		append xml {</cid><storageAuthCache>}
+		append xml {</cid>}
+		append xml {<storageAuthCache>}
 		append xml $storageAuthCache
 		append xml {</storageAuthCache>}
 		append xml {<market xmlns="http://www.msn.com/webservices/spaces/v1/">en-US</market>}
-		append xml {<brand></brand>}
-		append xml {<maxElementCount xmlns="http://www.msn.com/webservices/spaces/v1/">2</maxElementCount>}
+		append xml {<brand />}
+		append xml {<maxElementCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxElementCount>}
 		append xml {<maxCharacterCount xmlns="http://www.msn.com/webservices/spaces/v1/">200</maxCharacterCount>}
 		append xml {<maxImageCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxImageCount>}
-		append xml {<applicationId>Messenger Client 8.0</applicationId><}
-		append xml {updateAccessedTime>true</updateAccessedTime><}
-		append xml {spaceLastViewed>1753-01-01T00:00:00.0000000-00:00</spaceLastViewed>}
-		append xml {<profileLastViewed>1753-01-01T00:00:00.0000000-00:00</profileLastViewed>}
-		append xml {<contactProfileLastViewed>1753-01-01T00:00:00.0000000-00:00</contactProfileLastViewed>}
-		append xml {<isActiveContact>false</isActiveContact><}
-		append xml {/refreshInformation>}
+		append xml {<applicationId>Messenger Client 8.0</applicationId>}
+		append xml {<updateAccessedTime>true</updateAccessedTime>}
+		append xml {<isActiveContact>false</isActiveContact>}
+		append xml {</refreshInformation>}
 		append xml {</GetXmlFeed>}
 		append xml {</soap:Body>}
 		append xml {</soap:Envelope>}
