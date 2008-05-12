@@ -33,10 +33,118 @@ namespace eval ::hotmail {
 		variable froms
 		return $froms
 	}
+	proc genNonce {  } {
+		set result ""
+		for {set i 0 } { $i < 24 } { incr i } {
+			append result [binary format c [expr {int(rand() * 256)}]]
+		}
+		return $result
+	}
+
+	proc genHash { nonce proof data } {
+		set key1 [base64::decode $proof]
+		set magic "WS-SecureConversation$nonce"
+		set key2 [MBIAuthentication deriveKey $key1 $magic]
+
+		set hash [binary format H* [::sha1::hmac $key2 $data]]
+	}
+
+
+	# copy of urlencode which seems to crop at 350 chars.. we need full data, nothing cropped!
+	proc urlencode_full {str} {
+		set encode ""
+
+		set utfstr [encoding convertto utf-8 $str]
+
+
+		for {set i 0} {$i<[string length $utfstr]} {incr i} {
+			set character [string range $utfstr $i $i]
+
+			if {[string match {[^a-zA-Z0-9()]} $character]==0} {
+				binary scan $character c charval
+				set charval [expr {($charval + 0x100) % 0x100}]
+				set encode "${encode}%[format %.2X $charval]"
+			} else {
+				set encode "${encode}${character}"
+			}
+		}
+		return $encode
+	}
+
+	proc genToken { url ticket proof id} {
+		lappend vars [list ct [clock seconds]]
+		lappend vars [list bver 4]
+		# ru is the full 'redirect url', while rru is the URI without the host (/cgi-bin/... for example).. 
+		# maybe it means 'redirect redirect url'... sru might be for 'secure redirect url' for https redirects?
+		# I think depending on the site ID, it will take the appropriate variable, so we're safe to put the same url
+		# on all of those vars without risk of 'conflict'
+		lappend vars [list ru [urlencode_full $url]]
+		lappend vars [list rru [urlencode_full $url]]
+		lappend vars [list sru [urlencode_full $url]]
+		lappend vars [list js yes]
+		# The SiteID is a value that we get from the config SOAP, it's dependant on the site you want to go to.
+		# It will determine if it uses 'ru', 'rru' or 'sru' and for 'rru's it will tell the server where to go
+		# (since we don't specify the base host). Important to know the right site ids...
+		# Known site ids : msn/live = 2, spaces = 73625, profiles = 4263
+		lappend vars [list id $id]
+		lappend vars [list pl [urlencode_full "?id=$id"]]
+		lappend vars [list da [urlencode_full $ticket]]
+
+		set nonce [genNonce]
+		lappend vars [list nonce [urlencode_full [base64::encode $nonce]]]
+
+		set data [list]
+		foreach var $vars {
+			lappend data [join $var "="]
+		}
+		set token [join $data "&"]
+		set hash [genHash $nonce $proof $token]
+		append token "&hash=[urlencode_full [base64::encode $hash]]"
+		
+		return $token
+	}
+
+	proc gotSHA1URL {url {id 2}} {
+		$::sso RequireSecurityToken Passport [list ::hotmail::gotSHA1URLSSOCB $url $id] 1
+	}
+
+	proc gotSHA1URLSSOCB {url id token} {
+		global HOME 
+
+		set token [genToken $url [$token cget -ticket] [$token cget -proof] $id]
+
+		set page_data {<html><head><noscript><meta http-equiv=Refresh content="0; url=http://www.hotmail.com"></noscript></head>}
+		append page_data {<body onload="document.pform.submit(); "><form name="pform" action=}
+		append page_data "\"https://login.live.com/ppsecure/sha1auth.srf?lc=1033\""
+		append page_data {method="POST"><input type="hidden" name="token" value=}
+		append page_data "\"$token\""
+		append page_data {></form></body></html>}
+
+		if { [OnUnix] } {
+			set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
+		} else {
+			set file_id [open "[file join ${HOME} hotlog.htm]" w]
+		}
+		
+		puts $file_id $page_data
+		
+		close $file_id
+		
+		if { [OnDarwin] } {
+			launch_browser [file join ${HOME} hotlog.htm] 1
+		} else {
+			launch_browser "file://${HOME}/hotlog.htm" 1
+		}
+		
+	}
 
 	proc gotURL {main_url {post_url "https://loginnet.passport.com/ppsecure/md5auth.srf?lc=1033"} {id 2}} {
-		global HOME password
+		# Use sha1auth as it will probably work just as good as this one but will likely fix
+		# the issue of some people getting redirected to the wrong page when trying to view their profile...
+		return [gotSHA1URL $main_url $id]
 
+		global HOME password
+		
 		set fd [open "hotmlog.htm" r]
 		set page_data [read $fd]
 		close $fd
