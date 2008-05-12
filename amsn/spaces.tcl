@@ -662,7 +662,6 @@ namespace eval ::ccard {
 				$img copy $temp
 				image delete $temp
 			} res
-			puts $res
 		}
 		
 	}
