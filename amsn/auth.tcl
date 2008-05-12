@@ -78,13 +78,17 @@ snit::type SSOAuthentication {
 		
 	}
 
-	method RequireSecurityToken { name command } {
+	method RequireSecurityToken { name command {full 0} } {
 		set token [$self GetSecurityTokenByName $name]
 		if {$token == "" || [$token IsExpired] } {
-			lappend callbacks [list $name $command]
+			lappend callbacks [list $name $command $full]
 			$self Authenticate [list $self RequireSecurityTokenCB ]
 		} else {
-			eval $command [$token cget -ticket]
+			if {$full} {
+				eval $command [list $token]
+			} else {
+				eval $command [list [$token cget -ticket]]
+			}
 		}
 	}
 
@@ -93,9 +97,13 @@ snit::type SSOAuthentication {
 		set callbacks [list]
 		
 		foreach callback $clbks {
-			foreach {name command} $callback break
+			foreach {name command full} $callback break
 			set token [$self GetSecurityTokenByName $name]
-			eval $command [$token cget -ticket]
+			if {$full} {
+				eval $command [list $token]
+			} else {
+				eval $command [list [$token cget -ticket]]
+			}
 		}
 	}
 
@@ -139,6 +147,9 @@ snit::type SSOAuthentication {
 					$token configure -created [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Created"]
 					$token configure -expires [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Expires"]
 					$token configure -ticket [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
+					if {[$token cget -ticket] == "" } {
+						$token configure -ticket [list2xml [GetXmlNode $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:EncryptedData"]]
+					}
 					$token configure -proof [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedProofToken:wst:BinarySecret"]
 					$token configure -local_clock [clock seconds]
 					$token configure -server_clock $server_clock
