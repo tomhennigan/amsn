@@ -739,7 +739,7 @@ namespace eval ::ccard {
 						lappend stylestring [list "text" $title]
 						lappend stylestring [list "tag" "-$itemtag"]
 	
-						$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
+						$canvas bind $itemtag <Button-1> [list ::hotmail::gotSHA1URL "[lindex $i 2]" 73625]
 	
 						incr count
 					}
@@ -779,7 +779,7 @@ namespace eval ::ccard {
 								bind $canvas <Destroy> +[list image delete tempspacethumb$count]
 							}
 							$canvas bind $itemtag <Button-1> \
-								[list ::hotmail::gotURL "[lindex $i 2]"]
+								[list ::hotmail::gotSHA1URL "[lindex $i 2]" 73625]
 	
 							incr count
 						}
@@ -867,7 +867,7 @@ namespace eval ::ccard {
 							-tags [linsert $taglist end $itemtag clickable]  -anchor nw -fill black
 					}
 					
-					$canvas bind $itemtag <Button-1> [list ::hotmail::gotURL "[lindex $i 2]"]
+					$canvas bind $itemtag <Button-1> [list ::hotmail::gotSHA1URL "[lindex $i 2]" 73625]
 
 					#update ychange
 					set height [expr {$height + $lineheight}]
@@ -903,7 +903,7 @@ namespace eval ::ccard {
 							bind $canvas <Destroy> +[list image delete tempspacethumb$count]
 						}
 						$canvas bind $itemtag <Button-1> \
-							[list ::hotmail::gotURL "[lindex $i 2]"]
+							[list ::hotmail::gotSHA1URL "[lindex $i 2]" 73625]
 						#update ychange
 #						set height [expr {$height + $lineheight } ]
 						incr count
