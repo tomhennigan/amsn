@@ -82,9 +82,6 @@ namespace eval ::MSNSPACES {
 		append xml {<maxElementCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxElementCount>}
 		append xml {<maxCharacterCount xmlns="http://www.msn.com/webservices/spaces/v1/">200</maxCharacterCount>}
 		append xml {<maxImageCount xmlns="http://www.msn.com/webservices/spaces/v1/">6</maxImageCount>}
-		append xml {<applicationId>Messenger Client 8.0</applicationId>}
-		append xml {<updateAccessedTime>true</updateAccessedTime>}
-		append xml {<isActiveContact>false</isActiveContact>}
 		append xml {</refreshInformation>}
 		append xml {</GetXmlFeed>}
 		append xml {</soap:Body>}
