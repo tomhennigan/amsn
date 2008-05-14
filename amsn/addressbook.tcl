@@ -41,6 +41,9 @@ snit::type Addressbook {
 			::abook::setContactData $username lists ""
 		}
 
+		set ab_done 0
+		set fm_done 0
+
 		$self FindMembership [list $self FindMembershipDone $callback]
 		$self ABFindAll [list $self ABFindAllDone $callback]
 
