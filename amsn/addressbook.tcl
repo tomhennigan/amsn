@@ -481,7 +481,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/ABContactAdd" \
 				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getABContactAddBodyXML $email $yahoo] \
-				 -callback [list $self ABContactAddCallback $callbk $email]]
+				 -callback [list $self ABContactAddCallback $callbk]]
 		
 		$request SendSOAPRequest
 	
@@ -530,7 +530,7 @@ snit::type Addressbook {
 		return $xml	
 	}
 
-	method ABContactAddCallback { callbk email soap } {
+	method ABContactAddCallback { callbk soap } {
 		set guid ""
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
@@ -573,7 +573,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
 				 -header [$self getCommonHeaderXML Timer $ticket] \
 				 -body [$self getABContactDeleteBodyXML $email] \
-				 -callback [list $self ABContactDeleteCallback $callbk $email]]
+				 -callback [list $self ABContactDeleteCallback $callbk]]
 		
 		$request SendSOAPRequest
 		
@@ -596,7 +596,7 @@ snit::type Addressbook {
 		return $xml
 	}
 		
-	method ABContactDeleteCallback { callbk email soap } {
+	method ABContactDeleteCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -760,7 +760,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/AddMember" \
 				 -header [$self getCommonHeaderXML $scenario $ticket] \
 				 -body [$self getAddMemberBodyXML $email $role] \
-				 -callback [list $self AddMemberCallback $callbk $email]]
+				 -callback [list $self AddMemberCallback $callbk]]
 
 		$request SendSOAPRequest
 	}
@@ -796,7 +796,7 @@ snit::type Addressbook {
 		return $xml
 	}
 	
-	method AddMemberCallback { callbk email soap } {
+	method AddMemberCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -828,7 +828,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/DeleteMember" \
 				 -header [$self getCommonHeaderXML $scenario $ticket] \
 				 -body [$self getDeleteMemberBodyXML $email $role] \
-				 -callback [list $self DeleteMemberCallback $callbk $email]]
+				 -callback [list $self DeleteMemberCallback $callbk]]
 
 		$request SendSOAPRequest
 	}
@@ -864,7 +864,7 @@ snit::type Addressbook {
 		return $xml
 	}
 	
-	method DeleteMemberCallback { callbk email soap } {
+	method DeleteMemberCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -897,7 +897,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/UpdateMember" \
 				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getUpdateMemberBodyXML $contactid $role $cstate $deleted] \
-				 -callback [list $self UpdateMemberCallback $callbk $contactid]]
+				 -callback [list $self UpdateMemberCallback $callbk]]
 
 		$request SendSOAPRequest
 	}
@@ -932,7 +932,7 @@ snit::type Addressbook {
 		return $xml
 	}
 	
-	method UpdateMemberCallback { callbk contactid soap } {
+	method UpdateMemberCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
 			$callbk $contactid
 			$soap destroy
