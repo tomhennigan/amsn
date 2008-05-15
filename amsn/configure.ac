@@ -504,7 +504,7 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
     dnl Give error and exit if we don't have gstreamer
     if test "x$HAVE_GST" = "xyes"; then
          PKG_CHECK_MODULES(FARSIGHT2, \
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED,
+             farsight2-$GST_MAJORMINOR = $FARSIGHT_REQUIRED,
             HAVE_FARSIGHT=yes,HAVE_FARSIGHT=no)
     fi
   fi

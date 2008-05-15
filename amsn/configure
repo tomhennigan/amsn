@@ -6878,14 +6878,14 @@ if test -n "$PKG_CONFIG"; then
     else
         if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
-             farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\"") >&5
+             farsight2-\$GST_MAJORMINOR = \$FARSIGHT_REQUIRED\"") >&5
   ($PKG_CONFIG --exists --print-errors "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
+             farsight2-$GST_MAJORMINOR = $FARSIGHT_REQUIRED") 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
   pkg_cv_FARSIGHT2_CFLAGS=`$PKG_CONFIG --cflags "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
+             farsight2-$GST_MAJORMINOR = $FARSIGHT_REQUIRED" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -6899,14 +6899,14 @@ if test -n "$PKG_CONFIG"; then
     else
         if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
-             farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\"") >&5
+             farsight2-\$GST_MAJORMINOR = \$FARSIGHT_REQUIRED\"") >&5
   ($PKG_CONFIG --exists --print-errors "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
+             farsight2-$GST_MAJORMINOR = $FARSIGHT_REQUIRED") 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
   pkg_cv_FARSIGHT2_LIBS=`$PKG_CONFIG --libs "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
+             farsight2-$GST_MAJORMINOR = $FARSIGHT_REQUIRED" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -6926,10 +6926,10 @@ else
 fi
         if test $_pkg_short_errors_supported = yes; then
 	        FARSIGHT2_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED"`
+             farsight2-$GST_MAJORMINOR = $FARSIGHT_REQUIRED"`
         else
 	        FARSIGHT2_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED"`
+             farsight2-$GST_MAJORMINOR = $FARSIGHT_REQUIRED"`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$FARSIGHT2_PKG_ERRORS" >&5
