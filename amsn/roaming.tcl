@@ -206,10 +206,10 @@ snit::type ContentRoaming {
 		append xml {<ExpressionProfile>}
 		append xml {<FreeText>Update</FreeText>}
 		append xml {<DisplayName>}
-		append xml [xmlencode $nickname]
+		append xml [encoding convertto utf-8 [xmlencode $nickname]]
 		append xml {</DisplayName>}
 		append xml {<PersonalStatus>}
-		append xml [xmlencode $psm]
+		append xml [encoding convertto utf-8 [xmlencode $psm]]
 		append xml {</PersonalStatus>}
 		append xml {<Flags>0</Flags>}
 		append xml {</ExpressionProfile>}
