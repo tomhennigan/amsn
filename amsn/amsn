@@ -260,6 +260,7 @@ proc reload_files { } {
 	source spaces.tcl         ;# MSN Space handling functions
 	source auth.tcl           ;# MSNP15 SSO authentication mechanisms
 	source addressbook.tcl    ;# MSNP15 contactlist handling functions
+	source roaming.tcl    ;# MSNP15 Content Roaming functions
 	source sip.tcl		  ;# Support for Audio conferencing with SIP and Farsight2
     }
     #As we reloaded amsncore, the version has been resetted and maybe amsn is the newest file

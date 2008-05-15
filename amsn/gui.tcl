@@ -6520,6 +6520,8 @@ proc cmsn_change_name {} {
 
 #///////////////////////////////////////////////////////////////////////
 proc change_name_ok {} {
+	set nick_changed 0
+	set psm_changed 0
 	set new_name [.change_name.f.nick_entry get]
 	if {$new_name != "" && [::abook::getContactData myself MFN] != $new_name} {
 		if { [string length $new_name] > 130} {
@@ -6528,7 +6530,7 @@ proc change_name_ok {} {
 				return
 			}
 		}
-		::MSN::changeName [::config::getKey login] $new_name
+		set nick_changed 1
 	}
 
 	if { [::config::getKey protocol] >= 11} {
@@ -6540,7 +6542,13 @@ proc change_name_ok {} {
 				return
 			}
 		}
-		::MSN::changePSM $new_psm
+		set psm_changed 1
+	}
+	if {$psm_changed } {
+		::MSN::changePSM $new_psm [expr {!$nick_changed}]
+	}
+	if {$nick_changed } {
+		::MSN::changeName $new_name
 	}
 
 	set friendly [.change_name.f.p4c_entry get]

@@ -285,7 +285,7 @@ proc ChCustomState { idx } {
 				set newname [string map { "\\" "\\\\" "\$" "\\\$" } $newname]
 				set newname [string map { "\\\$nick" "\${original_nick}" } $newname]
 				set newname [subst -nocommands $newname]
-				::MSN::changeName [::config::getKey login] $newname
+				::MSN::changeName $newname
 				StateList promote $idx
 			}
 			if { $newpsm != "" } {
@@ -311,7 +311,7 @@ proc ChCustomState { idx } {
 		}
 		if {[::config::getKey storename]} {
 			if { [info exists original_nick] } {
-				::MSN::changeName [::config::getKey login] $original_nick
+				::MSN::changeName $original_nick
 				unset original_nick
 				catch { file delete [file join ${HOME} "nick.cache"] }
 			}

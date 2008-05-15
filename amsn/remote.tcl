@@ -161,7 +161,7 @@ namespace eval ::remote {
 	proc setnick { args } {
 	       set nickname [string map { \\\; \; \\\" \" \\\[ \[ \\\] \] \\\: \: \\\\ \\ \\\* \* \\\? \?} [join $args]]
 		if {$nickname != ""} {
-			::MSN::changeName [::config::getKey login] "$nickname"
+			::MSN::changeName "$nickname"
 			write_remote "New nick set to : $nickname"
 		} else {
 			write_remote "New nick not entered"

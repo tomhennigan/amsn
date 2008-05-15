@@ -236,7 +236,7 @@ namespace eval Preferences {
 
 	proc StoreNick { nick } {
 		if {$nick != "" && $nick != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN"} {
-			::MSN::changeName [::config::getKey login] $nick
+			::MSN::changeName $nick
 		}
 	}
 
@@ -3297,7 +3297,7 @@ proc SavePreferences {} {
 	set lfname "$lfname.lfname.1"
 	set new_name [$lfname.name.entry get]
 	if {$new_name != "" && $new_name != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN"} {
-		::MSN::changeName [::config::getKey login] $new_name
+		::MSN::changeName $new_name
 	}
 	::config::setKey p4c_name [$lfname.p4c.entry get]
 

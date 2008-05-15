@@ -1136,27 +1136,24 @@ namespace eval ::MSN {
 	}
 
 	#Change a users nickname
-	proc changeName { userlogin newname { nourlencode 0 } } {
-		if { $userlogin == "" } {
-			return
-		}
+	proc changeName { newname {update 1}} {
 
-		if { $nourlencode } {
-			set name $newname
-		} else {
-			set name [urlencode $newname]
-		}
+		set name [urlencode $newname]
+		::MSN::WriteSB ns "PRP" "MFN $name" [list ns handlePRPResponse "$name" $update]
 
-		::MSN::WriteSB ns "PRP" "MFN $name" [list ns handlePRPResponse "$name"]
 	}
 
 	#Change a users personal message
-	proc changePSM { newpsm } {
+	proc changePSM { newpsm {state ""} {update 1}} {
 		#TODO: encode XML etc
 		if { [::abook::getPersonal PSM] != $newpsm } {
 			::abook::setPersonal PSM $newpsm
 			
-			sendUUXData
+			if {$update && [::config::getKey protocol] >= 15 } {
+				$::roaming UpdateProfile [list ns updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
+			}
+
+			sendUUXData $state
 			save_config
 			::abook::saveToDisk
 		}
@@ -4181,7 +4178,7 @@ namespace eval ::MSNOIM {
 	}
 
 	#Callback procedure called when a PRP (Personal info like nick and phone change) message is received
-	method handlePRPResponse { newname command } {
+	method handlePRPResponse { newname update command } {
 		switch -- [lindex $command 0] {
 			PRP {
 				::abook::setPersonal [lindex $command 2] [urldecode [lindex $command 3]]
@@ -4190,6 +4187,9 @@ namespace eval ::MSNOIM {
 					cmsn_draw_online 1 1
 					send_dock STATUS [::MSN::myStatusIs]
 					
+					if {$update && [::config::getKey protocol] >= 15 } {
+						$::roaming UpdateProfile [list $self updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
+					}
 					#an event used by guicontactlist to know when we changed our nick
 					::Event::fireEvent myNickChange protocol
 				}
@@ -4203,6 +4203,9 @@ namespace eval ::MSNOIM {
 			default {
 			}
 		}
+	}
+
+	method updateProfileCB { fail } {
 	}
 
 	method handleUBX { command payload } {
@@ -4307,14 +4310,43 @@ namespace eval ::MSNOIM {
 			}
 		}
 
-		# Send our PSM to the server because it doesn't know about it!
-		::MSN::sendUUXData $newstate
+		if {[::config::getKey protocol] >= 15 } {
+			if {[info exists ::roaming] } {
+				catch {$::roamin destroy}
+				unset ::roaming
+			}
+			set ::roaming [::ContentRoaming create %AUTO%]
+			$::roaming GetProfile [list $self setInitialNicknameCB $newstate $newstate_custom]
+		} else {
+			set_initial_nick
 
-		set_initial_nick
+			# Change status after sending the UUX stuff
+			ChCustomState $newstate_custom
+			send_dock "STATUS" $newstate
+		}
 
-		# Change status after sending the UUX stuff
-		ChCustomState $newstate_custom
-		send_dock "STATUS" $newstate
+	}
+
+	method setInitialNicknameCB { newstate newstate_custom nickname psm dp fail } {
+		if {$fail == 0} {
+			status_log "GetProfile : Retrieved nickname from server : $nickname - psm : $psm"
+			::MSN::changePSM $psm $newstate 0
+
+			::MSN::changeName $nickname 0
+
+			# Change status after sending the UUX stuff
+			ChCustomState $newstate_custom
+			send_dock "STATUS" $newstate
+		} else {
+			# Send our PSM to the server because it doesn't know about it!
+			::MSN::sendUUXData $newstate
+
+			set_initial_nick
+
+			# Change status after sending the UUX stuff
+			ChCustomState $newstate_custom
+			send_dock "STATUS" $newstate			
+		}
 	}
 }
 
@@ -6355,7 +6387,7 @@ proc set_initial_nick { } {
 		}
 
 		if { ($custom_nick == [::abook::getPersonal MFN]) && ($stored_login == [::abook::getPersonal login]) && ($storednick != "") } {
-			::MSN::changeName [::abook::getPersonal login] $storednick
+			::MSN::changeName $storednick
 			set nick_changed 1
 		}
 	}
@@ -6365,7 +6397,7 @@ proc set_initial_nick { } {
 	if {$nick_changed == 0 && [config::getKey protocol] >= 15 } {
 		# Send our nickname to the server because it doesn't know about it!
 		if { [::abook::getPersonal MFN] != "" } {
-			::MSN::changeName [::abook::getPersonal login] [::abook::getPersonal MFN]
+			::MSN::changeName [::abook::getPersonal MFN]
 		}
 	}
 
