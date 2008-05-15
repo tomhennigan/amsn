@@ -47,6 +47,8 @@ else
 RELEASEVERSION  := svn`which svnversion > /dev/null && svnversion`
 endif
 VERSION		:= $(BASEVERSION)-$(RELEASEVERSION)
+TCL_VERSION     := @TCL_VERSION@
+TK_VERSION      := @TK_VERSION@
 
 # for CFLAGS
 #WARN_FLAGS	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
@@ -238,10 +240,14 @@ deb: all
 	mkdir -p ./distrib/DEB
 
 	sed "s/#VERSION#/${VERSION}/" debian/changelog.in > debian/changelog
+	sed "s/#TCL_VERSION#/${TCL_VERSION}/" debian/control.in > debian/control.tmp
+	sed "s/#TK_VERSION#/${TK_VERSION}/" debian/control.tmp > debian/control
+	rm debian/control.tmp
 	fakeroot debian/rules clean
 	fakeroot debian/rules binary VERSION=${VERSION}
 
 	rm -f debian/changelog
+	rm -f debian/control
 	rm -rf debian/amsn
 
 libstdc++.a :

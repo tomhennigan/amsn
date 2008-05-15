@@ -2,13 +2,13 @@ Source: amsn
 Section: x11
 Priority: optional
 Maintainer: Theodore Karkoulis <bilbo@debian.org>
-Build-Depends: debhelper (>> 4.0.0), tcl8.4-dev, tk8.4-dev, libpng12-dev, libjpeg62-dev
+Build-Depends: debhelper (>> 4.0.0), tcl#TCL_VERSION#-dev, tk#TK_VERSION#-dev, libpng12-dev, libjpeg62-dev
 Standards-Version: 3.6.1
 
 Package: amsn
 Replaces: ccmsn
 Architecture: any
-Depends: tcl8.4, tk8.4, tcltls, ${shlibs:Depends}
+Depends: tcl#TCL_VERSION#, tk#TK_VERSION#, tcltls, ${shlibs:Depends}
 Suggests: mozilla | galeon | konqueror | iceweasel, sox, docker, libsnack2
 Description: An MSN messenger written in tcl
  A very nice MSN compatible messenger application. Works pretty much like its
