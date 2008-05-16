@@ -3268,7 +3268,9 @@ namespace eval ::MSNOIM {
 				if { [string range $data 0 0] == "=" } {
 					set data [string range $data 1 end]
 				}
-				set decoded [base64::decode $data]
+				# We might receive an invalid base64 value...
+				set decoded $data
+				catch {set decoded [base64::decode $data]}
 			} elseif {$type == "Q" } {
 				set decoded [urldecode $data]
 			} else {
