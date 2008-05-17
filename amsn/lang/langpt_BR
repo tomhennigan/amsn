@@ -192,6 +192,7 @@ closechatwindows Fechar todas as conversas antes de deslogar?
 closed Conversa com $1 foi fechada por inatividade
 closelabel Quando você clicar no botão de fechar em uma janela de conversa com abas
 closeonly Fechar somente a aba atual
+closeorcall Você precisa fechar/cancelar a liganção antes de fechar a janela.
 closeordock Fechar a janela da lista de contatos irá fechar o aMSN.\nTalvez você deseje apenas fechar a janela e manter o aMSN ligado na bandeja do sistema.\n\nVocê tem certeza de que deseja fechar o aMSN?
 closeothers Fechar todas as outras tabs
 closingdocks Botão de fechar minimiza janela
@@ -208,10 +209,12 @@ confirmdelete Você tem certeza de que quer apagar $1?
 confirmdg Você tem certeza de que quer apagar este grupo?
 confirmdu Você tem certeza de que quer apagar este usuário?
 confirmeg Você tem certeza de que quer esvaziar este grupo?
+confirmfulldelete Remover também da lista de endereços do Windows Live
 confirmpurge Todas as imagens de exibição armazenados dos outros contatos (não as suas) serão apagadas. Tem Certeza?
 confirmrfl Você tem certeza que de que quer apagar este usuário deste grupo?
 congrats Parabéns!
 connected Você está conectado
+connectedat Conectado a
 connectedwith Conectado a $1
 connecterror Erro ao conectar-se ao servidor
 connectfirst Por favor conecte-se primeiro
@@ -416,12 +419,14 @@ groupdelete Apagar um grupo
 groupexists Grupo já existente
 groupmissing Não pude localizar o grupo
 groupnewname Novo nome
+groupnonim Agrupar contatos que não são do messenger juntos
 groupnotempty Grupo não está vazio
 groupoldname Nome antigo
 grouprename Renomear um grupo
 groups Grupos
 groupunknown Grupo desconhecido
 handle Manipular
+hangup Desligar
 havenomic Eu não tenho microfone
 help Ajuda
 helpcontents Conteúdo da ajuda
@@ -597,6 +602,8 @@ nomic Sem microfone
 noneavailable Nada Disponível
 nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
+nonimgroup Contatos não do messenger
+nooimconfirmation Não peça confirmação quando enviar/receber Messagens Offline
 nopic Sem imagem
 noprofileexists Não há nenhum perfil instalado,\nvocê têm de instalar (ou criar) um se quiser usar múltiplos endereços de e-mail.\nUse o botão Adicionar Novo Perfil nesta janela para adicionar um novo perfil
 noresizesmileys Não reduza os emotions customizados recebidos
@@ -619,6 +626,7 @@ notifyoffset Ajustar a posição da janela de notificação
 notifytimeout Números em milissegundos antes da janela de notificação desaparecer
 notifytyping Enviar notificação para os outros usuários de quando eu estou digitando
 notifywin Janela de Notificação
+notimcontact Esse contato não é um contato do messenger
 notinlist Você não está na lista de contatos dele(a)
 notls O protocolo MSN 9 requer o pacote tls. Aparentemente ele não está instalado em sua máquina. Se estiver, o caminho para a biblioteca deve ser especificado na janela Preferences (ex: /opt/tls/lib). É possível baixar o tls de http://tls.sf.net.
 nottabbed Janelas normais, sem abas
@@ -746,6 +754,8 @@ removeempty Ocultar grupos vazios na lista de contatos
 removefromgroup Remover do grupo
 removefromlist Remover desta lista
 rename Renomear
+renameep Renomear esse local ($1)
+renamelocation Renomear esse local
 report Reportar
 reporting Reportando
 required_version Impossível carregar plugin. Necessário aMSN versão $1 ou superior.
@@ -782,6 +792,7 @@ sendmail Enviar e-mail
 sendmobmsg Enviar mensagem a celular
 sendmsg Enviar mensagem
 sendoim Enviar mensagem offline.
+sendsip Iniciar Ligação
 sendvoice Enviar Clip de Voz
 sendwebcamaccepted $1 aceitou o convite de envio da sua webcam. Conectando...
 sendwebcaminvite Convidar um usuário para ver sua webcam
@@ -807,11 +818,35 @@ showdisplaypic2 Mostrar imagem de exibição automaticamente quando uma janela de 
 showlinksinlogin Mostrar Links na tela de login
 showmailicon Mostrar ícone de e-mail na bandeja do sistema quando novos e-mails chegarem
 showmypic Minha imagem de exibição
+shownonim Mostrar contatos que não estão no messenger
 shownotify Exibir janela de notificação quando alguns eventos acontecerem
 showonedpframe Mostrar apenas 1 imagem de exibição na janela de chat
 showpicnotify Mostrar figuras do usuário na janela de notificação
+showspaces Mostrar icones do Spaces na lista de contato
 showuserpic Figura do usuário $1
 signinstatus Status da conexão
+signout Deslogar
+signoutep Logar de $1
+signouteverywhere Deslogar de tudo
+signouthere Deslogar daqui ($1)
+sipcallaccepted Ligação Aceita
+sipcallback Ligar de volta
+sipcalldeclined Ligação rejeitada
+sipcalleeaccepted Usuário aceitou sua ligação
+sipcalleebusy Usuário está ocupado
+sipcalleecanceled Usuário cancelou o convite de ligação
+sipcalleeclosed Usuário finalizou sua ligação
+sipcalleedeclined Usuário não aceitou seu convite de ligação
+sipcalleenoanswer Usuário não aceitou seu ligação
+sipcalleeunavailable Usuário não está disponível no momento
+sipcallended Sua ligação terminou
+sipcallimpossible Você não pode fazer uma ligação. Por favor instale o farsight2 e tente novamente.
+sipcallmissed Você perdeu uma ligação de $1
+sipcallnosipflag Usuário não pode fazer ligações.
+sipcallsent Ligando para $1
+sipcallunsupported Você recebeu um convite de ligação que não é suportado no momento. Você pode ligar de volta com um novo convite. A ligação irá funcionar
+sipcallyouarebusy Você só pode ter uma ligação por vez.
+sipgotinvitation Convite de ligação recebido de $1
 skin Skin
 skinselector Skin selecionada
 small Pequeno
@@ -821,6 +856,7 @@ smilefile Arquivo do smiley
 smileintro Por favor preencha os campos necessários para criar um novo smiley (Leia o FAQ para ajuda)
 smileintro2 Por Favor edite os campos necessários para personalizar este smiley (Leia o FAQ para ajuda)
 smiletoobig O smiley que você escolheu é maior que o tamanho normal. Quer mudar seu tamanho?
+smileynotavailable Smiley não está disponível!
 snackfailed Falha ao carregar Snack, revertendo para o padrão
 snackneeded A biblioteca Snack é preciso para esse utilidade
 snapshot Snapshot
@@ -977,6 +1013,7 @@ xmmscurrent Mostrar nome da música sendo tocada
 xmmserr Você não está tocando nenhuma música ou não tem o xmms-infopipe instalado
 xmmssend Enviar arquivo com a música sendo tocada
 xoffset Deslocamento X
+xplaces $1 lugares
 year Ano
 yes Sim
 yesblock Sim e bloquear
