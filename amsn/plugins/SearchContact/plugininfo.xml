@@ -13,7 +13,7 @@
 	<plugin_namespace>searchcontact</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>9561</cvs_version>
+	<cvs_version>9895</cvs_version>
 	<lang>
 		<langcode>en</langcode>
 		<version>9674</version>

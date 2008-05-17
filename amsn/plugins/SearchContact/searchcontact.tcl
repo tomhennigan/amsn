@@ -28,6 +28,9 @@ namespace eval ::searchcontact {
 		set langdir [file join $dir "lang"]
 		load_lang en $langdir
 		load_lang [::config::getGlobalKey language] $langdir
+ 
+		#Set the last search variable.
+		set ::searchcontact::lastSearch ""
 
 		#Setting the default configuration
 	#searchtypes:
@@ -99,13 +102,34 @@ namespace eval ::searchcontact {
 			set cluetextpresent 1
 		}
 	}
+	
+	proc keyEnteredSearchBar { key } {
+		if { "${key}" == "Escape" } {
+			if { [::searchcontact::getInput] == "" } {
+				# If we've got no text in the SearchBar, remove focus from the SearchBar (focus the CL).
+				focus .main
+			} else {
+				# If we have text in the search bar, clear it.
+				::searchcontact::clearSearch
+			}
+			
+			# No need to process the input.
+			return;
+		}
+		
+		# The event is fired for non-printable chars (like Control, Escape), so don't re-search unless we have to.
+		if { "[::searchcontact::getInput]" != "${::searchcontact::lastSearch}" } {
+			set ::searchcontact::lastSearch "[::searchcontact::getInput]"
+			after cancel ::searchcontact::drawContacts
+			after 250 ::searchcontact::drawContacts
+			after 0 ::searchcontact::updateClearIcon
+		}
+	}
 
 	proc removeSearchBar {event evPar} {
 		set frame .main.searchbar.sunkenframe
 		#remove bindings
-		bind . <Control-f> ""
-		bind .main <FocusIn> ""
-		bind .main <FocusOut> ""		
+		bind . <[GetPlatformModifier]-f> ""
 
 		if { $event == "OnDisconnect" } { set ::contactlist_loaded 0 } ;# in aMNS 0.97.0 when we log out contactlist_loaded is still 1 
 		after cancel ::searchcontact::drawSearchBar
@@ -141,7 +165,8 @@ namespace eval ::searchcontact {
 			set frame .main.searchbar.sunkenframe
 
 			label $frame.searchbutton -image [::skin::loadPixmap search] -bg white	
-			entry $frame.input -relief flat -bg white -font splainf -selectbackground #b7d1ff -fg grey
+			entry $frame.input -relief flat -bg white -font splainf -selectbackground #b7d1ff -fg grey \
+				-highlightcolor #aaaaaa -highlightthickness 2
 			label $frame.clearbutton -image [::skin::loadPixmap clear]  -bg white
 
 			pack $frame.searchbutton -side left
@@ -149,11 +174,10 @@ namespace eval ::searchcontact {
 			pack .main.searchbar -fill x -expand false
 			bind $frame.clearbutton <<Button1>> ::searchcontact::clearSearch
 			bind $frame.searchbutton <<Button1>> "::searchcontact::showFilterMenu %X %Y"
-			bind $frame.input <Any-Key> "after cancel ::searchcontact::drawContacts;after 250 ::searchcontact::drawContacts;after 0 ::searchcontact::updateClearIcon"
+			bind $frame.input <KeyRelease> "::searchcontact::keyEnteredSearchBar %K"
 			bind $frame.input <Return> ::searchcontact::enterPressed
-			bind $frame.input <<Escape>> ::searchcontact::clearSearch
 	#		binding to give focus
-			bind . <Control-f> "focus $frame.input"
+			bind . <[GetPlatformModifier]-f> "focus $frame.input"
 			
 			#history bindings
 			bind $frame.input <Key-Up> ::searchcontact::historyUp
@@ -166,8 +190,8 @@ namespace eval ::searchcontact {
 			
 
 			#bindings to remove/add clue text
-			bind .main <FocusIn> ::searchcontact::focusInSearchbar
-			bind .main <FocusOut> ::searchcontact::focusOutSearchbar
+			bind $frame.input <FocusIn> ::searchcontact::focusInSearchbar
+			bind $frame.input <FocusOut> ::searchcontact::focusOutSearchbar
 
 			if { $::searchcontact::config(storelastinput) == 1 } {
 				#set the stored input
