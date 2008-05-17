@@ -209,6 +209,7 @@ confirmdg ¿Estás seguro que deseas borrar este grupo?
 confirmdu ¿Estás seguro que deseas borrar este usuario?
 confirmeg ¿Estás seguro que deseas vaciar este grupo?
 confirm ¿ Estás seguro ?
+confirmfulldelete Eliminar además de la agenda de contactos de Windows Live
 confirmpurge Todas las imágenes para mostrar del resto de los contactos (no las tuyas) serán eliminadas. ¿ Estás seguro ?
 confirmrfl ¿Estás seguro que deseas borrar este usuario de este grupo?
 congrats Felicitaciones
@@ -418,6 +419,7 @@ groupexists El grupo ya existe
 group Grupo
 groupmissing No se puede encontrar el grupo
 groupnewname Nuevo nombre
+groupnonim Agrupar los contactos sin messenger
 groupnotempty El grupo no esta vacío
 groupoldname Nombre antiguo
 grouprename Cambiar nombre a grupo
@@ -599,6 +601,7 @@ nomic Sin micrófono
 noneavailable No hay ninguno disponible
 nonewmail No hay mensajes nuevos en bandeja de entrada
 nonewver No hay versiones más actuales disponibles
+nonimgroup Contactos sin messenger
 no No
 nooimconfirmation No solicitar confirmación al enviar/recibir mensajes sin conexión
 nopic Sin imagen
@@ -623,6 +626,7 @@ notifyoffset Ajusta la posición de la ventana de aviso mediante un desplazamien
 notifytimeout Número de milisegundos que permanece la ventana de notificaciones
 notifytyping Enviar a otros usuarios notificaciones cuando se está tecleando
 notifywin Ventana de avisos
+notimcontact Este contacto no es un contacto de mensajería instantánea
 notinlist No estás en su lista de contactos
 notls La versión 9 del protocolo MSN requiere usar el paquete "TLS". Este paquete no parece estar instalado en el equipo. Si está instalado, la ruta al directorio debería ser especificada en la ventana de Preferencias (ej: /opt/tls/lib). \n \n Es posible descargar "TLS" en http://tls.sf.net.
 nottabbed Ventanas normales sin pestañas
@@ -814,9 +818,11 @@ showdisplaypic Ver imagen para mostrar
 showlinksinlogin Mostrar los enlaces en la pantalla de inicio de sesión
 showmailicon Mostrar el icono de correo en la bandeja del sistema cuando llegue un nuevo correo electrónico
 showmypic Mostrar mi imagen
+shownonim Mostrar contactos sin messenger
 shownotify Mostrar ventana de avisos al producirse diversos eventos
 showonedpframe Mostrar un único marco con la imagen para mostrar en las ventanas de conversación
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
+showspaces Mostrar el icono de espacios en la lista de contactos
 showuserpic Imagen de $1
 signinstatus Estado inicial
 signout Cerrar la sesión
