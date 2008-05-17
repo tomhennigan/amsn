@@ -208,7 +208,8 @@ confirmbl Weet je zeker dat je dit contact wilt blokkeren?
 confirmdelete Weet je zeker dat je $1 wilt verwijderen?
 confirmdg Weet je zeker dat je deze groep wilt verwijderen?
 confirmdu Weet je zeker dat je deze gebruiker wilt verwijderen?
-confirmeg Weet je zeker dat je deze groep leeg wilt maken?
+confirmeg Weet je zeker dat je deze groep wilt leegmaken?
+confirmfulldelete Ook uit Windows Live-adresboek verwijderen
 confirmpurge Alle opgeslagen schermafbeeldingen van je contacten zullen worden verwijderd. Wil je dit echt?
 confirmrfl weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
 congrats Gefeliciteerd
@@ -418,6 +419,7 @@ groupdelete Groep verwijderen
 groupexists Groep bestaat al
 groupmissing Kan de groep niet vinden
 groupnewname Nieuwe naam
+groupnonim Niet-instant messaging-contacten samen groeperen
 groupnotempty Deze groep is niet leeg!
 groupoldname Oude naam
 grouprename Groepsnaam wijzigen
@@ -600,6 +602,7 @@ nomic Geen microfoon
 noneavailable Geen beschikbaar
 nonewmail Geen nieuwe berichten in Postvak IN
 nonewver Er zijn geen nieuwere versies beschikbaar
+nonimgroup Niet-instant messaging-contacten
 nooimconfirmation Geen bevestiging vragen bij het verzenden/ontvangen van offlineberichten
 nopic Geen afbeelding
 noprofileexists Er zijn momenteel geen profielen,\nje moet er een aanmaken als je aanmeldingsnamen met een profiel wilt gebruiken.\nGebruik de knop 'Nieuw profiel toevoegen' in dit venster om een nieuw profiel toe te voegen.
@@ -623,6 +626,7 @@ notifyoffset Afstand meldingsvenster vanaf de hoek van het scherm
 notifytimeout Aantal milliseconden voordat het meldingsvenster verdwijnt
 notifytyping Anderen in een gesprek laten zien of je aan het typen bent
 notifywin Meldingsvenster
+notimcontact Dit contact is geen instant messaging-contact
 notinlist Je staat niet in zijn/haar contactenlijst
 notls Versie 9 van het MSN-protocol vereist het pakket TLS. Dit pakket lijkt niet geïnstalleerd te zijn op deze machine. Als het wel is geïnstalleerd, moet het pad naar de map van de TLS-bibliotheek worden opgegeven in het instellingenvenster (bv. /opt/tls/lib). \n \n TLS is te downloaden van http://tls.sf.net.
 nottabbed Geen tabbladen gebruiken
@@ -815,8 +819,10 @@ showonedpframe Slechts één schermafbeeldingsframe tonen in gespreksvensters
 showlinksinlogin Koppelingen weergeven in het aanmeldscherm
 showmailicon E-mailpictogram weergeven in systeemvak wanneer nieuwe e-mails binnenkomen
 showmypic Mijn afbeelding
+shownonim Niet-instant messaging-contacten tonen
 shownotify Meldingsvenster weergeven bij bepaalde gebeurtenissen
 showpicnotify Schermafbeelding weergeven op meldingsvensters
+showspaces Spaces-pictogram tonen in de contactenlijst
 showuserpic Afbeelding van $1
 signinstatus Status na aanmelden
 signout Afmelden
