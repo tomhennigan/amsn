@@ -211,6 +211,7 @@ confirmeg Etes-vous sûr de vouloir vider ce groupe ?
 confirmpurge Toutes les avatars de vos contacts vont être supprimés. Etes-vous sur de vouloir le faire ?
 confirmrfl Etes-vous sûr de vouloir effacer ce contact de ce groupe ?
 confirm Êtes-vous sûr ?
+confirmfulldelete Aussi supprimer du carnet d'adresse de Windows Live
 congrats Félicitations
 connected Vous êtes maintenant connecté[e]
 connectedat Connecté[e] depuis 
@@ -418,6 +419,7 @@ groupexists Le groupe existe déjà
 group Groupe
 groupmissing Impossible de trouver le groupe
 groupnewname Nouveau nom
+groupnonim Grouper les contacts hors messagerie instantanée ensemble
 groupnotempty Groupe non vide
 groupoldname Ancien nom
 grouprename Renommer un groupe
@@ -599,6 +601,7 @@ nomic Pas de microphone
 noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
+nonimgroup Contacts hors messagerie instantanée
 nooimconfirmation Ne pas demander de confirmation lors de l'envoi ou de la réception de messages différés
 no Non
 nopic Pas d'avatar
@@ -623,6 +626,7 @@ notify prévenir
 notifytimeout Nombre de milisecondes écoulées avant que la fenêtre d'annonce ne disparaisse
 notifytyping Notifier les contacts du fait que vous tapez un message, lors d'une conversation
 notifywin Fenêtre d'annonce
+notimcontact Ce contact est hors messagerie instantanée
 notinlist Vous ne figurez pas dans sa liste de contact
 notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être installé sur le système. S'il est installé,
 nottabbed Fenêtres normales sans onglets
@@ -814,9 +818,11 @@ showdisplaypic Afficher l'avatar
 showlinksinlogin Afficher les liens dans la fenêtre de connexion
 showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nouveaux mails arrivent
 showmypic Mon avatar
+shownonim Afficher les contacts hors messagerie instantanée
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
 showonedpframe N'afficher qu'un avatar dans la fenêtre de conversation
 showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
+showspaces Afficher les icônes des pages personnelles dans la liste de contacts
 showuserpic Icône de $1
 signinstatus Statut lors de la connexion
 signout Se déconnecter 
@@ -969,7 +975,7 @@ videoconversationrequest Vous venez de recevoir une invitation pour une conversa
 view Affichage
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
-viewspace Voir les éléments des pages "space"
+viewspace Voir les éléments des pages personnelles
 volume Volume
 wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
