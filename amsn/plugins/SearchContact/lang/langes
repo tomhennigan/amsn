@@ -1,7 +1,7 @@
 amsn_lang_version 2
 all Todo
 clear Limpiar
-enableoperators Usar operadores para buscar (son soportados "& " (AND) y "| " (OR), para colocarse antes de las palabras separadas por coma/espacio)
+enableoperators Usar operadores para buscar (están soportados "& " (AND) y "| " (OR), para colocarse antes de las palabras separadas por coma/espacio)
 filterblocked Mostrar sólo aquellos que puse sin admisión
 filter Filtro
 filterremovedme Mostrar sólo aquellos que me eliminaron
@@ -9,4 +9,4 @@ groupname Nombre de grupo
 nickandpsm Apodo y mensaje personal
 storelastinput Restaurar la última entrada al cargar el plugin
 typeheretofilter Escribe aquí para filtrar la lista de contactos ...
-usewildcards Suportar el uso de comodines: * y ?
+usewildcards Soportar el uso de comodines: * y ?
