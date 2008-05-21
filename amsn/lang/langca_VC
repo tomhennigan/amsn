@@ -192,6 +192,7 @@ closechatwindows Vols tancar totes les converses abans de tancar sessió?
 closed Conversa amb $1 tancada per inactivitat
 closelabel Quan fas clic al botó de tancar en una finestra de conversa amb pestanyes
 closeonly Tancar només la pestanya actual
+closeorcall Has de tancar/cancel·lar la conversa d'audio abans de tancar la finestra
 closeordock El tancar la llista de contactes tancará aMSN. Potser només vols tancar la finestra i que aMSN continue a l'àrea de notificació.\n\nEstàs segur que vols eixir d'aMSN?
 closeothers Tancar les altres pestanyes
 closingdocks Botó de tancar minimitza la finestra
@@ -207,11 +208,13 @@ confirmdelete Segur que vols esborrar a $1?
 confirmdg Segur que vols eliminar este grup?
 confirmdu Segur que vols eliminar este usuari?
 confirmeg Segur que vols buidar este grup?
+confirmfulldelete Eliminar a més de l'agenda de contactes de Windows Live
 confirm Estàs segur?
 confirmpurge Totes les imatges de mostra d'altres contactes (no les teues) seran esborrades. Estàs segur?
 confirmrfl Segur que vols eliminar este usuari d'este grup?
 congrats Felicitats
 connected Ara estàs connectat
+connectedat Conectat en
 connectedwith Connectat amb $1
 connecterror Error connectant-se al servidor
 connectfirst Per favor, connectat primer
@@ -389,10 +392,13 @@ ftrejectedby $1 ha rebutjat la invitació per a transferir l'arxiu '$2'.
 ftrejected Transferència d'arxiu cancel·lada
 ftsendinvitation La invitació per a transferir l'arxiu '$2' ($3 bytes) s'ha enviat a $1.
 fullcontactlist La teua llista de contactes està plena. Necessitarà eliminar algun contacte per a poder afegir-ne nous.
+gameaccepted $1 ha acceptat la invitació al joc
 gameclosedbyother $1 ha cancel·lat la sessió de joc amb tú.
 gameclosedbyself Has cancel·lat la sessió de joc amb $1.
 gameinvitation $1 t'ha convidat a jugar a $2. Vols acceptar la invitació?
 gamepluginnotfound $1 t'ha convidat a jugar a $2 però no hi ha cap plug-in carregat per a este joc. Per favor, activa i configura este plug-in primer.
+gamerejected $1 ha rebutjat la invitació al joc
+gamerequest Has convidat a $1 per a jugar a $2
 getdisppic Activar l'opció de rebre imatges de mostra d'altres usuaris
 getmoreplugins Descarrega més plugins!
 getmoreskins Descarrega més temes!
@@ -413,12 +419,14 @@ groupexists El grup ya existix
 group Grup
 groupmissing No es pot trobar el grup
 groupnewname Nou nom
+groupnonim Agrupar els contactes sense messenger
 groupnotempty El grup no està buit
 groupoldname Nom antic
 grouprename Canviar nom a grup
 groups Grups
 groupunknown Grup desconegut
 handle Sobrenom
+hangup Penjar
 havenomic No tinc micròfon
 help Ajuda
 helpcontents Temes d'ajuda
@@ -495,6 +503,7 @@ lleftconf $1 deixa la conversa
 load Carregar
 loadcontacts Carregar llista de contactes
 loadotherdisplaypic Carregant la imatge de mostra de $1, per favor espera...
+localecode El codi de 4 dígits del teu llenguatge i país
 logbigger Que els arxius d'un contacte no superen els
 logeventconnect Enregistrar les connexions
 logeventdisconnect Enregistrar les desconnexions
@@ -579,6 +588,7 @@ newveravailable Nova versió $1 disponible per a descàrrega
 next Següent
 nick Sobrenom
 nickchanged $1 ha canviat el seu sobrenom a '$2'
+no No
 noactivity Inactivitat
 nocacheddps Cap imatge de mostra en caché per a este usuari
 nocamwarn No s'ha trobat cap càmera web, el problema pot ser també perquè la teua càmera web ja està sent utilitzada per un altre programa (la qual cosa significa que no pot ser utilitzada per aMSN). Trobaràs ajuda per solucionar este obstacle al nostre Wiki:
@@ -592,7 +602,8 @@ nomic No hi ha micròfon
 noneavailable Cap disponible
 nonewmail No hi ha nous correus
 nonewver No hi ha una nova versió disponible per a descarregar
-no No
+nonimgroup Contactes sense messenger
+nooimconfirmation No sol·licitar confirmació en enviar/rebre missatges sense connexió
 nopic No hi ha imatge
 noprofileexists No hi han perfils actualment, \n has de crear un de nou si vols utilitzar els perfils d'entrada. \nUtilitza el botó Afegir Nou Perfil en esta finestra per a afegir un nou perfil.
 normal Normal
@@ -615,6 +626,7 @@ notifyoffset Desplaçament de la posició de la finestra emergent de notificació
 notifytimeout Número de mil·lisegons que la finestra de notificacions es mantindrà oberta
 notifytyping Enviar a altres usuaris notificacions quan s'esta teclejant
 notifywin Finestra de notificació
+notimcontact Este contacte no és un contacte de missatgeria instantània
 notinlist No estàs en la seua llista de contactes
 notls El Protocol 9 de MSN requerix el paquet TLS. Este paquet no pareix que estiga instal·lat en el teu ordenador. Si està instal·lat, el camí al directori de la llibreria deu ser especificat en la finestra de preferències (ex: /opt/tls/lib). \n \n Pots descarregar TLS des de http://tls.sf.net.
 nottabbed Finestres normals sense pestanyes
@@ -658,6 +670,8 @@ playbackspeed Velocitat de reproducció (mil·lisegons entre cada fotograma)
 playing Reproduint: $1
 play Reproduir
 playerror S'ha produït un error a l'intentar reproduir el so : $1
+playgame Jugar al joc
+playgame2 Jugar a $1
 playtest Reproduix l'arxiu de prova
 playwebcamsend Continua enviant per càmera web
 pluginselector Seleccionar plug-in
@@ -740,6 +754,8 @@ removeempty Eliminar els grups buits de la llista de contactes
 removefromlist Esborrar d'esta llista
 removefromgroup Esborrar del grup
 rename Canviar nom
+renameep Reanomenar este lloc ($1)
+renamelocation Reanomenar este lloc
 report Informe
 reporting Informant
 required_version No és possible carregar este plugin. Necessita com a mínim aMSN versió $1
@@ -760,6 +776,7 @@ saveotherdirectory Guardar en una altra carpeta
 savetofile Guardar en arxiu
 says $1 diu
 sbcon Connectant a centraleta
+searchadvprefs Buscar en preferències avançades
 searchdown Busca baix
 searchup Busca dalt
 selectall Seleccionar tots
@@ -775,6 +792,7 @@ sendmail Enviar correu
 sendmobmsg Enviar a un dispositiu mòvil
 sendmsg Enviar missatge
 sendoim Enviar un missatge desconnectat
+sendsip Inicia conversa amb àudio
 sendvoice Enviar un missatge de veu
 sendwebcamaccepted $1 ha acceptat la teua invitació per a enviar-li la teua càmera web. Connectant...
 sendwebcaminvite Invitar a un usuari a vore la teua càmera web
@@ -800,11 +818,35 @@ showdisplaypic Vore imatge de mostra
 showlinksinlogin Mostra enllaços en la finestra de connexió
 showmailicon Mostrar un icon en l'àrea de notificació en arribar correu nou
 showmypic La meua imatge de mostra
+shownonim Mostrar contactes sense messenger
 shownotify Mostrar finestra d'avís al produïr-se diferents events
 showonedpframe En les finestres de conversa mostrar un únic marc per a imatges de mostra
 showpicnotify Mostrar les imatges dels usuaris en les finestres d'alerta
+showspaces Mostrar l'icon d'espais en la lista de contactes
 showuserpic La imatge de mostra de $1
 signinstatus Estat inicial
+signout Tancar la sessió
+signoutep Tancar la sessió de $1
+signouteverywhere Tancar totes les sessions
+signouthere Tancar esta sessió ($1)
+sipcallaccepted Conversa d'àudio acceptada
+sipcallback Tornar la cridada
+sipcalldeclined Conversa d'àudio rebutjada
+sipcalleeaccepted L'usuari ha acceptat la conversa d'àudio
+sipcalleebusy L'usuari es troba en estat "No disponible" en estos moments
+sipcalleecanceled L'usuari ha cancel·lat la invitació de conversa d'àudio
+sipcalleeclosed L'usuari ha finalitzat la conversa d'àudio
+sipcalleedeclined L'usuari ha rebutjat la invitació de conversa d'àudio
+sipcalleenoanswer L'usuari no ha respost a la teua cridada
+sipcalleeunavailable L'usuari no es troba disponible en estos moments
+sipcallended Ha finalitzat la teua cridada
+sipcallimpossible No pots realitzar una conversa d'àudio. Per favor, instal·la Farsight2 i torna-ho a intentar.
+sipcallmissed Has perdut la teua conversa d'àudio amb $1
+sipcallnosipflag L'usuari no suporta converses d'àudio
+sipcallsent Cridant a $1
+sipcallunsupported Has rebut una invitació de conversa d'àudio que actualment no està suportada. Pots tornar la cridada amb una nova invitació, llavors la conversa d'àudio funcionarà.
+sipcallyouarebusy Només pots tindre una conversa d'àudio al mateix temps.
+sipgotinvitation Invitació de conversa d'àudio rebuda de $1
 skinselector Triar tema
 skin Tema
 smallest El més menut
@@ -814,6 +856,7 @@ smilefile Nom de l'arxiu d'emoticon
 smileintro2 Per favor, edita els camps requerits per a personalitzar este emoticon (mira el FAQ per a ajuda)
 smileintro Per favor, completa els camps requerits per a crear un nou emoticon personalitzat (mira el FAQ per a ajuda)
 smiletoobig L'emoticon seleccionat és més gran que la mida normal. Vols canviar-li la mida ?
+smileynotavailable L'emoticon no està disponible!
 snackfailed No s'ha pogut carregar Snack, tornarà a l'estat predeterminat
 snackneeded Es necessita la biblioteca Snack (com a mínim la versió 2.2.9) per a usar esta funció.
 snapshot Captura de pantalla
@@ -970,6 +1013,7 @@ xmmscurrent Mostra cançó actual
 xmmserr No hi ha res reproduint-se, o no tens xmms-infopipe instal·lat.
 xmmssend Envia cançó actual
 xoffset Desplaçament X
+xplaces $1 Llocs
 year Any
 yesblock Sí i bloqueja
 yes Sí
