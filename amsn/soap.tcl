@@ -119,10 +119,11 @@ snit::type SOAPRequest {
 		# TODO : maybe fix this somehow since we'll never get the callback...
 		if { ![catch { set http_req [http::geturl $options(-url) -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] }] } {
 			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
-			if {[info exists soap_debug] && $soap_debug != ""} {
-				set fd [open [file join $soap_debug $filename] w]
-				puts $fd [xml2prettyxml $xml]
-				close $fd
+			if {[info exists ::soap_debug] && $::soap_debug != ""} {
+				set filename "[$self GetDebugFilename]_req.xml"
+				catch {set fd [open [file join $::soap_debug $filename] w]}
+				catch {puts $fd [xml2prettyxml $xml]}
+				catch {close $fd}
 			}
 			if { $options(-callback) == "" && $redirected } {
 				tkwait variable [myvar wait]
@@ -135,10 +136,11 @@ snit::type SOAPRequest {
 	method GotSoapReply { token } {
 		#puts "Received HTTP answer : [::http::code $token]  [::http::status $token]\n[::http::data $token]"
 	
-		if {[info exists soap_debug] && $soap_debug != ""} {
-			set fd [open [file join $soap_debug $filename] w]
-			puts $fd [xml2prettyxml $xml]
-			close $fd
+		if {[info exists ::soap_debug] && $::soap_debug != ""} {
+			set filename "[$self GetDebugFilename]_resp.xml"
+			catch {set fd [open [file join $::soap_debug $filename] w]}
+			catch {puts $fd [xml2prettyxml [::http::data $token]]}
+			catch {close $fd}
 		}
 
 		set last_error [::http::error $token]
@@ -224,5 +226,14 @@ snit::type SOAPRequest {
 	}
 	method GetFaultDetail { } {
 		return $fault_detail
+	}
+	method GetDebugFilename {} {
+		if {$options(-action) != ""} {
+			set filename $options(-action)
+		} else {
+			set filename $options(-url)
+		} 
+		return [file tail $filename]
+		
 	}
 }
