@@ -6301,7 +6301,7 @@ proc ::MSN::ABSynchronizationDone { error } {
 				}
 				# Make sure we don't have a contact in AL and BL at the same time
 				if {[expr {$mask & 6}] == 6} {
-					after 0 [list ::MSN::removeUserFromList $user AL]
+					after 0 [list ::MSN::removeUserFromList "$user@$domain" AL]
 					incr mask -2
 				}
 				if {$added_users > 0 && [expr {[string length $xml] + [string length "<c n=\"$user\" l=\"$mask\" t=\"1\" /></d></ml>"]}] > 7400} {
