@@ -4320,6 +4320,9 @@ namespace eval ::MSNOIM {
 			set ::roaming [::ContentRoaming create %AUTO%]
 			$::roaming GetProfile [list $self setInitialNicknameCB $newstate $newstate_custom]
 		} else {
+			# Send our PSM to the server because it doesn't know about it!
+			::MSN::sendUUXData $newstate
+
 			set_initial_nick
 
 			# Change status after sending the UUX stuff
