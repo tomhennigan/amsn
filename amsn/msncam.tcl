@@ -2705,7 +2705,7 @@ namespace eval ::CAMGUI {
 		set devices [::Capture::ListDevices]
 
 		if { [llength $devices] == 0 } {
-			tk_messageBox -message "[trans nodevices]"
+			::amsn::infoMsg [trans nodevices]
 			return
 		}
 

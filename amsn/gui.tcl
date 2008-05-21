@@ -4835,8 +4835,8 @@ proc loggedOutGuiConf { event } {
 }
 
 proc ShowFirstTimeMenuHidingFeature { parent } {
-#TODO: Make this a ::amsn::MessageBox so Desktop Integration works ?
-    return [expr [tk_messageBox -default no -icon warning -title [trans hidemenu] -message [trans hidemenumessage] -parent $parent -type yesno] == yes]
+	#TODO : customMessageBox with askRememberAnswer
+    return [expr [::amsn::messageBox [trans hidemenumessage] yesno warning [trans hidemenu] $parent ] == yes]
 }
 
 proc Showhidemenu { {toggle 0} } {
@@ -8290,7 +8290,7 @@ namespace eval ::OIM_GUI {
 		if {[config::getKey no_oim_confirmation 0] == 0 &&
 		    [set ::OIM_GUI::oim_asksend_[string map {: _} ${chatid} ]] &&
 		    $window != 0} {
-			set answer [tk_messageBox -type yesno -parent $window -message "[trans asksendoim]"]
+			set answer [::amsn::messageBox [trans asksendoim] yesno question ""  $window]
 		} else {
 			set answer "yes"
 		}
