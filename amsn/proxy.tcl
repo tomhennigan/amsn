@@ -43,10 +43,12 @@ proc globalWrite { proxy name {msg ""} } {
 #http://wiki.tcl.tk/2627
 #helped by patthoyts autoproxy!
 proc HTTPsecureSocket { args } {
-	set phost [::http::config -proxyhost]
-	set pport [::http::config -proxyport]
 	upvar host thost
 	upvar port tport
+	
+	set proxy [::config::getKey proxy]
+	set phost [lindex $proxy 0]
+	set pport [lindex $proxy 1]
 
 	# if a proxy has been configured
 	if {[string length $phost] && [string length $pport]} {
@@ -97,10 +99,13 @@ proc HTTPsecureSocket { args } {
 }
 
 proc SOCKSsecureSocket { args } {
-	set phost [::http::config -proxyhost]
-	set pport [::http::config -proxyport]
 	upvar host thost
 	upvar port tport
+
+	set proxy [::config::getKey proxy]
+	set phost [lindex $proxy 0]
+	set pport [lindex $proxy 1]
+
 	# if a proxy has been configured
 	if {[string length $phost] && [string length $pport]} {
 		#TODO: make async: set socket [socket -async $phost $pport]
