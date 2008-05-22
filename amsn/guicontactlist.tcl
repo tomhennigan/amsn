@@ -1943,18 +1943,12 @@ namespace eval ::guiContactList {
 			}
 			
 			# We check for each contact
-			set idx 0
 			foreach user $userGroupList {
-				set hisgroupslist [lindex $user 1]
 				# If this contact matches this group, let's add him
-				if { [lsearch $hisgroupslist [lindex $group 0]] != -1 } {
+				# set hisgroupslist [lindex $user 1]
+				if { [lsearch [lindex $user 1] [lindex $group 0]] != -1 } {
 					lappend contactList [list "C" [lindex $user 0]]
-					# If he only belongs to this group, remove him from initial list
-					if { [llength $hisgroupslist] == 1 } {
-						lreplace $userGroupList $idx $idx
-					}
 				}
-				incr idx
 			}
 		}
 
