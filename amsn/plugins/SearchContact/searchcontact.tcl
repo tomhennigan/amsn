@@ -114,7 +114,7 @@ namespace eval ::searchcontact {
 			}
 			
 			# No need to process the input.
-			return;
+			return
 		}
 		
 		# The event is fired for non-printable chars (like Control, Escape), so don't re-search unless we have to.
@@ -146,63 +146,60 @@ namespace eval ::searchcontact {
 
 
 	proc drawSearchBar {{event none} {evPar ""} } {
-
-		if {![winfo exists .main.searchbar]} {
-			#we only register those now as otherwise it's already called during login while the bar isn't even drawn yet
-			::plugins::RegisterEvent "Search Contact" ChangeState redoSearch
-			::plugins::RegisterEvent "Search Contact" parse_contact redoSearch
-			::plugins::RegisterEvent "Search Contact" contactBlocked redoSearch
-			::plugins::RegisterEvent "Search Contact" contactUnblocked redoSearch
-			::plugins::RegisterEvent "Search Contact" addedUser redoSearch
-			::plugins::RegisterEvent "Search Contact" deletedUser redoSearch
-
-			frame .main.searchbar -bg white -borderwidth 1 -highlightthickness 0
-			label .main.searchbar.label -text "[trans filter]:" -bg white
-			frame .main.searchbar.sunkenframe -relief sunken -bg white
-			pack .main.searchbar.label -side left
-			pack .main.searchbar.sunkenframe -side left -fill x -expand 1 -padx 20
-
-			set frame .main.searchbar.sunkenframe
-
-			label $frame.searchbutton -image [::skin::loadPixmap search] -bg white	
-			entry $frame.input -relief flat -bg white -font splainf -selectbackground #b7d1ff -fg grey \
-				-highlightcolor #aaaaaa -highlightthickness 2
-			label $frame.clearbutton -image [::skin::loadPixmap clear]  -bg white
-
-			pack $frame.searchbutton -side left
-			pack $frame.input -side left -fill x -expand 1
-			pack .main.searchbar -fill x -expand false
-			bind $frame.clearbutton <<Button1>> ::searchcontact::clearSearch
-			bind $frame.searchbutton <<Button1>> "::searchcontact::showFilterMenu %X %Y"
-			bind $frame.input <KeyRelease> "::searchcontact::keyEnteredSearchBar %K"
-			bind $frame.input <Return> ::searchcontact::enterPressed
-	#		binding to give focus
-			bind . <[GetPlatformModifier]-f> "focus $frame.input"
-			
-			#history bindings
-			bind $frame.input <Key-Up> ::searchcontact::historyUp
-			bind $frame.input <Key-Down> ::searchcontact::historyDown
-
-
-			#insert the clue text
-			variable cluetextpresent 1
-			$frame.input insert 0 "[trans typeheretofilter]"
-			
-
-			#bindings to remove/add clue text
-			bind $frame.input <FocusIn> ::searchcontact::focusInSearchbar
-			bind $frame.input <FocusOut> ::searchcontact::focusOutSearchbar
-
-			if { $::searchcontact::config(storelastinput) == 1 } {
-				#set the stored input
-				::searchcontact::restoreSavedInput
-			}
-
-		} else {
-			variable output ""
+		if {[winfo exists .main.searchbar]} {
 			destroy .main.searchbar
 			variable ::guiContactList::external_lock 0
 			::guiContactList::organiseList .main.f.cl.cvs [::guiContactList::getContactList]
+		}
+		
+		#we only register those now as otherwise it's already called during login while the bar isn't even drawn yet
+		::plugins::RegisterEvent "Search Contact" ChangeState redoSearch
+		::plugins::RegisterEvent "Search Contact" parse_contact redoSearch
+		::plugins::RegisterEvent "Search Contact" contactBlocked redoSearch
+		::plugins::RegisterEvent "Search Contact" contactUnblocked redoSearch
+		::plugins::RegisterEvent "Search Contact" addedUser redoSearch
+		::plugins::RegisterEvent "Search Contact" deletedUser redoSearch
+
+		frame .main.searchbar -bg white -borderwidth 1 -highlightthickness 0
+		label .main.searchbar.label -text "[trans filter]:" -bg white
+		frame .main.searchbar.sunkenframe -relief sunken -bg white
+		pack .main.searchbar.label -side left
+		pack .main.searchbar.sunkenframe -side left -fill x -expand 1 -padx 20
+
+		set frame .main.searchbar.sunkenframe
+
+		label $frame.searchbutton -image [::skin::loadPixmap search] -bg white	
+		entry $frame.input -relief flat -bg white -font splainf -selectbackground #b7d1ff -fg grey \
+			-highlightcolor #aaaaaa -highlightthickness 2
+		label $frame.clearbutton -image [::skin::loadPixmap clear]  -bg white
+
+		pack $frame.searchbutton -side left
+		pack $frame.input -side left -fill x -expand 1
+		pack .main.searchbar -fill x -expand false
+		bind $frame.clearbutton <<Button1>> ::searchcontact::clearSearch
+		bind $frame.searchbutton <<Button1>> "::searchcontact::showFilterMenu %X %Y"
+		bind $frame.input <KeyRelease> "::searchcontact::keyEnteredSearchBar %K"
+		bind $frame.input <Return> ::searchcontact::enterPressed
+#		binding to give focus
+		bind . <[GetPlatformModifier]-f> "focus $frame.input"
+		
+		#history bindings
+		bind $frame.input <Key-Up> ::searchcontact::historyUp
+		bind $frame.input <Key-Down> ::searchcontact::historyDown
+
+
+		#insert the clue text
+		variable cluetextpresent 1
+		$frame.input insert 0 "[trans typeheretofilter]"
+		
+
+		#bindings to remove/add clue text
+		bind $frame.input <FocusIn> ::searchcontact::focusInSearchbar
+		bind $frame.input <FocusOut> ::searchcontact::focusOutSearchbar
+
+		if { $::searchcontact::config(storelastinput) == 1 } {
+			#set the stored input
+			::searchcontact::restoreSavedInput
 		}
 	}
 
@@ -575,6 +572,8 @@ namespace eval ::searchcontact {
 
 	#Do the drawing of the CL.main.searchbar.sunkenframe.input
 	proc drawContacts {} {
+		global guiclForceOfflineGroup
+		set guiclForceOfflineGroup 1
 
 		if {$::searchcontact::config(filter_blocked) == 0 && $::searchcontact::config(filter_removedme) == 0} {
 			set filters 0
@@ -584,6 +583,7 @@ namespace eval ::searchcontact {
 
 		variable cluetextpresent
 		if {$cluetextpresent == 1 && $filters == 0} {
+			unset guiclForceOfflineGroup
 			return
 		}
 
@@ -599,6 +599,7 @@ namespace eval ::searchcontact {
 			#redraw CL
 			::guiContactList::organiseList .main.f.cl.cvs [::guiContactList::getContactList]
 			
+			unset guiclForceOfflineGroup
 			variable clblocked 0
 			return ""
 		}
@@ -659,8 +660,8 @@ namespace eval ::searchcontact {
 		::guiContactList::organiseList .main.f.cl.cvs $output_element
 		variable clblocked 1
 		set ::guiContactList::external_lock $clblocked
-
-
+		
+		unset guiclForceOfflineGroup
 	}
 
 
