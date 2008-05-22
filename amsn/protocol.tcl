@@ -1144,9 +1144,9 @@ namespace eval ::MSN {
 	}
 
 	#Change a users personal message
-	proc changePSM { newpsm {state ""} {update 1}} {
+	proc changePSM { newpsm {state ""} {update 1} {force 0} } {
 		#TODO: encode XML etc
-		if { [::abook::getPersonal PSM] != $newpsm } {
+		if { $force  || [::abook::getPersonal PSM] != $newpsm } {
 			::abook::setPersonal PSM $newpsm
 			
 			if {$update && [::config::getKey protocol] >= 15 } {
@@ -4335,7 +4335,7 @@ namespace eval ::MSNOIM {
 	method setInitialNicknameCB { newstate newstate_custom nickname psm dp fail } {
 		if {$fail == 0} {
 			status_log "GetProfile : Retrieved nickname from server : $nickname - psm : $psm"
-			::MSN::changePSM $psm $newstate 0
+			::MSN::changePSM $psm $newstate 0 1
 
 			::MSN::changeName $nickname 0
 
