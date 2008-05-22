@@ -5722,14 +5722,14 @@ proc cmsn_draw_buildtop_wrapped {} {
 					-image [::skin::loadPixmap $my_image_type] \
 					-width [image width [::skin::loadPixmap $my_image_type]] \
 					-height [image height [::skin::loadPixmap $my_image_type]]
-		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {destroy .balloon; tk_popup .my_menu %X %Y}
+		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {kill_balloon; tk_popup .my_menu %X %Y}
 		set disppic $pgBuddyTop.bigstate
 	} else { 
-		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {destroy .balloon; tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
+		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {kill_balloon; tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
 	}
 
 	set pic_name displaypicture_std_self
-	bind $pgBuddyTop.bigstate <<Button3>> {destroy .balloon; tk_popup .my_menu %X %Y} 
+	bind $pgBuddyTop.bigstate <<Button3>> {kill_balloon; tk_popup .my_menu %X %Y} 
 	pack $disppic -side left -padx [::skin::getKey bigstate_xpad] -pady [::skin::getKey bigstate_ypad]
 
 	canvas $pgBuddyTop.mystatus -background [::skin::getKey topcontactlistbg] -borderwidth 0 \
@@ -5929,10 +5929,10 @@ proc drawNick { } {
 
 	#Change mouse button on Mac OS X
 	if { [OnMac] } {
-		$pgBuddyTop.mystatus bind mystatus <Button2-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
-		$pgBuddyTop.mystatus bind mystatus <Control-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus bind mystatus <Button2-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus bind mystatus <Control-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
 	} else {
-		$pgBuddyTop.mystatus bind mystatus <Button3-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
+		$pgBuddyTop.mystatus bind mystatus <Button3-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
 	}
 
 	$pgBuddyTop.mystatus bind mystatus <Enter> \
@@ -5942,7 +5942,7 @@ proc drawNick { } {
 		+[list $pgBuddyTop.mystatus configure -cursor hand2]
 	$pgBuddyTop.mystatus bind mystatus <Leave> +[list $pgBuddyTop.mystatus configure -cursor left_ptr]
 
-	$pgBuddyTop.mystatus bind mystatus <Button1-ButtonRelease> "destroy .balloon; tk_popup .my_menu %X %Y"
+	$pgBuddyTop.mystatus bind mystatus <Button1-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
 	$pgBuddyTop.mystatus bind mystatus <Enter> \
 		+[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
 	$pgBuddyTop.mystatus bind mystatus <Leave> "+set Bulle(first) 0; kill_balloon"
@@ -5955,10 +5955,10 @@ proc drawNick { } {
 
 		#Change mouse button on Mac OS X
 		if { [OnMac] } {
-			$pgBuddyTop.mystatus bind myplaces <Button2-ButtonRelease> "destroy .balloon; tk_popup .my_places_menu %X %Y"
-			$pgBuddyTop.mystatus bind myplaces <Control-ButtonRelease> "destroy .balloon; tk_popup .my_places_menu %X %Y"
+			$pgBuddyTop.mystatus bind myplaces <Button2-ButtonRelease> "kill_balloon; tk_popup .my_places_menu %X %Y"
+			$pgBuddyTop.mystatus bind myplaces <Control-ButtonRelease> "kill_balloon; tk_popup .my_places_menu %X %Y"
 		} else {
-			$pgBuddyTop.mystatus bind myplaces <Button3-ButtonRelease> "destroy .balloon; tk_popup .my_places_menu %X %Y"
+			$pgBuddyTop.mystatus bind myplaces <Button3-ButtonRelease> "kill_balloon; tk_popup .my_places_menu %X %Y"
 		}
 
 		set ep_balloon ""
@@ -5973,7 +5973,7 @@ proc drawNick { } {
 		    +[list $pgBuddyTop.mystatus configure -cursor hand2]
 		$pgBuddyTop.mystatus bind myplaces <Leave> +[list $pgBuddyTop.mystatus configure -cursor left_ptr]
 		
-		$pgBuddyTop.mystatus bind myplaces <Button1-ButtonRelease> "destroy .balloon; tk_popup .my_places_menu %X %Y"
+		$pgBuddyTop.mystatus bind myplaces <Button1-ButtonRelease> "kill_balloon; tk_popup .my_places_menu %X %Y"
 		$pgBuddyTop.mystatus bind myplaces <Enter> \
 		    +[list balloon_enter %W %X %Y $ep_balloon "" $fonts simple]
 		$pgBuddyTop.mystatus bind myplaces <Leave> "+set Bulle(first) 0; kill_balloon"
@@ -7389,7 +7389,7 @@ proc show_umenu {user_login grId x y} {
 		.user_menu insert $start cascade -label "[trans moreactions]" -menu $actions
 	}
 
-	destroy .balloon
+	kill_balloon
 	
 	tk_popup .user_menu $x $y
 }
