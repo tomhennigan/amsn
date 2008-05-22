@@ -1656,9 +1656,14 @@ snit::type Farsight {
 			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
 			set pipe [open "| ./utils/windows/gstreamer/farsight.exe user@localhost remote@remotehost" r+]
 		} elseif { [OnMac] } {
-			set ::env(DYLD_LIBRARY_PATH) [file join [pwd] utils macosx gstreamer]
-			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils macos gstreamer]
-			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils macos gstreamer]
+			if { $::tcl_platform(byteOrder) == "bigEndian" } {
+				set uname_p "powerpc"
+			} else {
+				set uname_p "i386"
+			}
+			set ::env(DYLD_LIBRARY_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
+			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
+			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
 			set pipe [open "| ./utils/macosx/gstreamer/farsight user@localhost remote@remotehost" r+]
 		} else {
 			set pipe [open "| ./utils/farsight/farsight user@localhost remote@remotehost" r+]
