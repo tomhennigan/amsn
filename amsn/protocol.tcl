@@ -1170,8 +1170,11 @@ namespace eval ::MSN {
 		} else {
 			set currentMedia ""
 		}
-		::abook::setPersonal currentMedia $currentMedia
-		sendUUXData	
+		# Check if an update is necessary.
+		if { [::abook::getPersonal currentMedia] != ${currentMedia} } {
+			::abook::setPersonal currentMedia $currentMedia
+			sendUUXData
+		}
 	}
 
 	#Change a users personal message
