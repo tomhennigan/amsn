@@ -1989,18 +1989,30 @@ namespace eval ::guiContactList {
 	proc getGroupList { {realgroups 0} } {
 		set mode [::config::getKey orderbygroup]
 		
+		set drawOfflineGroup [::config::getKey showOfflineGroup 1]
+		set drawMobileGroup [::config::getKey showMobileGroup 0]
+		set drawNoimGroup [::config::getKey groupnonim 0]
+		
+		# This global var can be used to force us to draw the offline group (IE. a plugin can use it..)
+		global guiclForceOfflineGroup
+		if {[info exists guiclForceOfflineGroup] && $guiclForceOfflineGroup == 1} {
+			set drawOfflineGroup 1
+		}
+		
 		# Online/Offline mode
 		if { $mode == 0 } {
 			if { $realgroups } {
 				set groupList [list ]
 			} else {
-				if {[::config::getKey showMobileGroup] == 1} {
-					set groupList [list [list "online" [trans uonline]] \
-						[list "mobile" [trans mobile]] \
-						[list "offline" [trans uoffline]]]
-				} else {
-					set groupList [list [list "online" [trans uonline]] \
-						[list "offline" [trans uoffline]]]
+				set groupList [list ]
+				
+				lappend groupList [list "online" [trans uonline]]
+				if {$drawMobileGroup == 1} {
+					# We need to draw the mobile group.
+					lappend groupList [list "mobile" [trans mobile]]
+				}
+				if {$drawOfflineGroup == 1} {
+					lappend groupList [list "offline" [trans uoffline]]
 				}
 			}
 
@@ -2039,13 +2051,15 @@ namespace eval ::guiContactList {
 		
 		# Hybrid Mode, we add mobile and offline group
 		if { $mode == 2 && !$realgroups } {
-			if {[::config::getKey showMobileGroup] == 1} {
+			if {$drawMobileGroup == 1} {
 				lappend groupList [list "mobile" [trans mobile]]
 			}
-			lappend groupList [list "offline" [trans uoffline]]
+			if {$drawOfflineGroup == 1} {
+				lappend groupList [list "offline" [trans uoffline]]
+			}
 		}
 
-		if {[::config::getKey groupnonim]} {
+		if {$drawNoimGroup == 1} {
 			lappend groupList [list "nonim" [trans nonimgroup]]
 		}
 
