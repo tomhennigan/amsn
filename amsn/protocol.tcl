@@ -4340,7 +4340,11 @@ namespace eval ::MSNOIM {
 			status_log "GetProfile : Retrieved nickname from server : $nickname - psm : $psm"
 			::MSN::changePSM $psm $newstate 0 1
 
-			::MSN::changeName $nickname 0
+			if {$nickname != "" } {
+				::MSN::changeName $nickname 0
+			} else {
+				::MSN::changeName [::abook::getPersonal MFN] 1
+			}
 
 			# Change status after sending the UUX stuff
 			ChCustomState $newstate_custom
