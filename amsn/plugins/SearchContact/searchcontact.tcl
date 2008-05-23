@@ -569,11 +569,20 @@ namespace eval ::searchcontact {
 		}
 	}
 
+	proc setOfflineLock {} {
+		global guiclForceOfflineGroup
+		set guiclForceOfflineGroup 1
+	}
+	
+	proc clearOfflineLock {} {
+		global guiclForceOfflineGroup
+		set guiclForceOfflineGroup 0
+		unset guiclForceOfflineGroup
+	}
 
 	#Do the drawing of the CL.main.searchbar.sunkenframe.input
 	proc drawContacts {} {
-		global guiclForceOfflineGroup
-		set guiclForceOfflineGroup 1
+		::searchcontact::setOfflineLock
 
 		if {$::searchcontact::config(filter_blocked) == 0 && $::searchcontact::config(filter_removedme) == 0} {
 			set filters 0
@@ -583,7 +592,7 @@ namespace eval ::searchcontact {
 
 		variable cluetextpresent
 		if {$cluetextpresent == 1 && $filters == 0} {
-			unset guiclForceOfflineGroup
+			::searchcontact::clearOfflineLock
 			return
 		}
 
@@ -593,13 +602,14 @@ namespace eval ::searchcontact {
 
 		#if any filter is applied, block the drawing
 		if {$input == "" && $filters == 0} {
+			::searchcontact::clearOfflineLock
+			
 			::searchcontact::resetSearchBarColor
 			set ::guiContactList::external_lock 0
 			::guiContactList::drawContacts .main.f.cl.cvs
 			#redraw CL
 			::guiContactList::organiseList .main.f.cl.cvs [::guiContactList::getContactList]
 			
-			unset guiclForceOfflineGroup
 			variable clblocked 0
 			return ""
 		}
@@ -661,7 +671,7 @@ namespace eval ::searchcontact {
 		variable clblocked 1
 		set ::guiContactList::external_lock $clblocked
 		
-		unset guiclForceOfflineGroup
+		::searchcontact::clearOfflineLock
 	}
 
 
