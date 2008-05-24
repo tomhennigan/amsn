@@ -11,11 +11,11 @@
 	<plugin_namespace>growl</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInitPlugin</deinit_procedure>
-	<svn_version>9219</svn_version>
+	<svn_version>9915</svn_version>
 	
 	<file>
 		<path>growl.png</path>
-		<version>3184</version>
+		<version>9915</version>
 	</file>
 	<file>
 		<path>styles/aMSN.growlStyle/Contents/Info.plist</path>
