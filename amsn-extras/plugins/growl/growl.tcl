@@ -326,6 +326,9 @@ namespace eval ::growl {
 		#If the picture already exist, return the path to that picture, if the picture do not exist, return the default icon of aMSN
 		if { [file readable "[file join $HOME displaypic cache ${filename}].png"] } {
 			return "[file join $HOME displaypic cache ${filename}].png"
+		} elseif { [file readable "[file join $HOME displaypic cache ${email} ${filename}].png"] } {
+			# New style cache as of aMSN 0.98.
+			return "[file join $HOME displaypic cache ${email} ${filename}].png"
 		} else {
 			return
 		}
