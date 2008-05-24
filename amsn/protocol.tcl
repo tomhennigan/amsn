@@ -4317,7 +4317,7 @@ namespace eval ::MSNOIM {
 
 		if {[::config::getKey protocol] >= 15 } {
 			if {[info exists ::roaming] } {
-				catch {$::roamin destroy}
+				catch {$::roaming destroy}
 				unset ::roaming
 			}
 			set ::roaming [::ContentRoaming create %AUTO%]
