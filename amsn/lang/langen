@@ -419,7 +419,7 @@ groupexists Group already exists
 group Group
 groupmissing Cannot find group
 groupnewname New name
-groupnonim Group Non-Instant Messaging contacts together
+groupnonim Group Non-Instant Messaging Contacts Together
 groupnotempty Group is not empty!
 groupoldname Old name
 grouprename Rename Group
@@ -821,6 +821,7 @@ shownonim Show Non-Instant Messaging Contacts
 showmailicon Show mail icon on traydock when new emails arrive
 showmypic My Display Picture
 shownotify Show notify window when some events happen
+showofflinegroup Show Offline Group
 showpicnotify Show users' pictures on notify windows
 showspaces Show Spaces icon in the contact list
 showuserpic $1's Display Picture

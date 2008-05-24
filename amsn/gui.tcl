@@ -4353,11 +4353,13 @@ proc create_main_menu {wmenu} {
 	$view.sortcontacts add separator
 	$view.sortcontacts add checkbutton -label "[trans groupcontactsbystatus]" -onvalue 1 -offvalue 0 \
 	    -variable [::config::getVar orderusersbystatus] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add checkbutton -label "[trans groupnonim]" -onvalue 1 -offvalue 0 \
+	    -variable [::config::getVar groupnonim] -command "::Event::fireEvent changedSorting gui"
 	$view.sortcontacts add separator
 	$view.sortcontacts add checkbutton -label "[trans shownonim]" -onvalue 1 -offvalue 0 \
 	    -variable [::config::getVar shownonim] -command "::Event::fireEvent changedSorting gui"
-	$view.sortcontacts add checkbutton -label "[trans groupnonim]" -onvalue 1 -offvalue 0 \
-	    -variable [::config::getVar groupnonim] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add checkbutton -label "[trans showofflinegroup]" -onvalue 1 -offvalue 0 \
+	    -variable [::config::getVar showOfflineGroup] -command "::Event::fireEvent changedSorting gui"
 
 	#-------------------
 	$view add separator	
