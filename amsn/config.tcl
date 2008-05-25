@@ -1236,6 +1236,7 @@ proc SwitchToDefaultProfile { } {
 	::config::setKey log_event_state 0
 	::config::setKey log_event_nick 0
 	::config::setKey log_event_psm 0
+	::config::setKey displaypic "amsn.png"
 }
 
 #///////////////////////////////////////////////////////////////////////////////
