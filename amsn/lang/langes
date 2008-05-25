@@ -349,6 +349,8 @@ faileddelete No se pudo borrar
 faileddeleteperso Esta imagen no se puede borrar porque no es una imagen personal para mostrar. Sólo las imágenes que pertenecen a tu perfil personal pueden ser eliminadas así.
 failed Fallo
 faq FAQ (Preguntas frecuentes)
+farsightextchecking Comprobar si está cargada la extensión Farsight ...
+farsightextwarn No puedes realizar llamadas SIP. Puedes encontrar respuestas de cómo instalar Farsight en nuestro Wiki:
 fetching Obteniendo datos...
 file Archivo
 filedoesnotexist El archivo no existe
