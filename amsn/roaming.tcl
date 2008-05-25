@@ -15,7 +15,7 @@ snit::type ContentRoaming {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
 				 -action "http://www.msn.com/webservices/storage/w10/GetProfile" \
-				 -header [$self getCommonHeaderXML RoamingIdentityChanged $ticket] \
+				 -header [$self getCommonHeaderXML RoamingSeed $ticket] \
 				 -body [$self getGetProfileBodyXML $email] \
 				 -callback [list $self GetProfileCallback $callbk $email]]
 		
@@ -157,8 +157,9 @@ snit::type ContentRoaming {
 			
 		} elseif { [$soap GetStatus] == "fault" } { 
 			set errorcode [$soap GetFaultDetail]
-			if {$errorcode == "ItemDoesNotExist" ||
-			    $errorcode == "InvalidObjectHandle"} {
+			if {$errorcode == "ItemDoesNotExist"} {
+				set fail 3				
+			} elseif {$errorcode == "InvalidObjectHandle"} {
 				set fail 2
 			} else {
 				set fail 1				
