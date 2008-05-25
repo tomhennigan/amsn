@@ -1899,7 +1899,8 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoconnect]
 		
 	if { [OnWin] } { 
-		checkbutton $lfname.3.startonboot -text "[trans startonboot]" -onvalue "add" -offvalue "remove" -variable ::start_on_windows_boot
+		set ::start_on_windows_boot [WinDetectBoot]
+		checkbutton $lfname.3.startonboot -text "[trans startonboot]" -onvalue 1 -offvalue 0 -variable ::start_on_windows_boot
 	}
 	
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both

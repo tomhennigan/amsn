@@ -1565,6 +1565,20 @@ proc lockSvrHdl { addr sock } {
 	}
 }
 
+proc WinDetectBoot { } {
+	if { [OnWin] } {
+		if {[catch {package require registry}] } {
+			return 0
+		}
+		set path "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+		if {[catch { registry get $path amsn} ] } {
+			return 0
+		} else {
+			return 1
+		}
+	}
+	return 0
+}
 #///////////////////////////////////////////////////////////////////////
 # WinRegKey ( [addrem] )
 # Adds or removes the registry key to start amsn on startup (windows only)
@@ -1574,31 +1588,22 @@ proc lockSvrHdl { addr sock } {
 #         file after completion, but the registry key may have still been created/removed
 proc WinRegKey { addrem } {
 	if { [OnWin] } {
-	    set filename [file join $::env(TEMP) amsn_addrem.reg]
-		if { [catch { set file_id [open "$filename" w]} res]} {
-			msg_box "Failed to create temporary file with error:\n$res"
+		if {[catch {package require registry}] } {
 			return 0
 		}
-		puts $file_id "REGEDIT4\n"
-		puts $file_id "\[HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\]"
-		if { $addrem == "add" } {
-		    set amsn_path [file nativename [file normalize [file join [file dirname [info nameofexecutable]] .. amsn.exe]]]
-		    puts $file_id "\"amsn\"=\"\\\"[string map {"\\" "\\\\"} $amsn_path]\\\"\"\n"
+		set path "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+		set amsn_path [file nativename [file normalize [file join [file dirname [info nameofexecutable]] .. amsn.exe]]]
+		if {![file exists $amsn_path] } {
+			set amsn_path "[file nativename [file normalize [info nameofexecutable]]] [file nativename [file normalize [info script]]]"
+		}
+	
+		if { $addrem } {
+		    registry set $path amsn $amsn_path
 		} else {
-		    puts $file_id "\"amsn\"=-"
+		    registry delete $path amsn
 		}
 		
-		close $file_id
-
-		if { [catch { exec regedit /s "$filename"} res]} {
-			msg_box "Failed to create/remove the registry key with error:\n$res"
-			return 0
-		}
-		
-		if { [catch { file delete "$filename"} res]} {
-			msg_box "Failed to delete temporary file with error:\n$res"
-			return 0
-		}
+		WinDetectBoot
 		return 1
 	}
 	return 0
