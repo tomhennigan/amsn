@@ -285,7 +285,7 @@ proc ChCustomState { idx } {
 				set newname [string map { "\\" "\\\\" "\$" "\\\$" } $newname]
 				set newname [string map { "\\\$nick" "\${original_nick}" } $newname]
 				set newname [subst -nocommands $newname]
-				::MSN::changeName $newname
+				::MSN::changeName $newname 0
 				StateList promote $idx
 			}
 			if { $newpsm != "" } {
@@ -301,7 +301,7 @@ proc ChCustomState { idx } {
                                 set newpsm [string map { "\\" "\\\\" "\$" "\\\$" } $newpsm]
                                 set newpsm [string map { "\\\$psm" "\${original_psm}" } $newpsm]
                                 set newpsm [subst -nocommands $newpsm]
-                                ::MSN::changePSM $newpsm
+                                ::MSN::changePSM $newpsm "" 0
                         }
 		}
 	} else {
@@ -311,12 +311,12 @@ proc ChCustomState { idx } {
 		}
 		if {[::config::getKey storename]} {
 			if { [info exists original_nick] } {
-				::MSN::changeName $original_nick
+				::MSN::changeName $original_nick 0
 				unset original_nick
 				catch { file delete [file join ${HOME} "nick.cache"] }
 			}
                         if { [info exists original_psm] } {
-                                ::MSN::changePSM $original_psm
+                                ::MSN::changePSM $original_psm "" 0
                                 unset original_psm
                                 catch { file delete [file join ${HOME} "psm.cache"] } 
                         }
