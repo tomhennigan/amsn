@@ -349,6 +349,8 @@ faileddelete Failed to delete
 faileddeleteperso This picture cannot be deleted because it does not belong to your profile. Only pictures that belong to your personal profile can be removed this way.
 failed Failed
 faq FAQ (Frequently Asked Questions)
+farsightextchecking Checking if Farsight extension is loaded ...
+farsightextwarn You won't be able to have SIP calls. You may find answers on how to install Farsight on our Wiki:
 fetching Fetching data...
 filedoesnotexist File does not exist
 file File

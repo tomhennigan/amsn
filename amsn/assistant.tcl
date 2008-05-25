@@ -940,6 +940,10 @@ namespace eval ::AVAssistant {
 		set Step [list "Step1A" 1 ::AVAssistant::Step1A ::AVAssistant::stopSound "" "" ""  [trans configuringaudio] assistant_audio 1 1]
 		$assistant addStepEnd $Step
 
+		#check for audio extensions, and configure it
+		set Step [list "StepFarsight" 1 ::AVAssistant::StepFarsight "" "" "" ""  "Farsight" assistant_audio 1 1]
+		$assistant addStepEnd $Step
+
 		#Finishing, greetings
 		set Step [list "LastStep" 0 ::AVAssistant::LastStep "" "" "" "" [trans congrats] "" 0 0]
 		$assistant addStepEnd $Step
@@ -1023,8 +1027,6 @@ namespace eval ::AVAssistant {
 				variable video_configured
 				set video_configured 1
 				::AVAssistant::Step1WWin $assistant $contentf
-			} else {
-
 			}
 		} else {
 			#we won't be able to configure the video settings
@@ -2211,6 +2213,43 @@ namespace eval ::AVAssistant {
 			$w.recf.stoprecorded configure -state disabled
 		}
 	}
+
+
+	######################################################################################
+	# Step 3 : Farsight                                                                  #
+	######################################################################################	
+	proc StepFarsight {assistant contentf} {
+		$contentf configure -padx 20 -pady 50
+		label $contentf.fslabel -justify left -anchor nw -font bboldf \
+			-text [trans farsightextchecking]
+		pack $contentf.fslabel
+		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf]
+	}
+
+	proc StepFarsightClBk {assistant contentf result} {
+		if {![winfo exists $contentf.fslabel]} {
+			return
+		}
+		if { $result == 1} {
+			$contentf.fslabel configure -image [::skin::loadPixmap yes-emblem] -compound right
+		} else {
+			#display error message
+			$contentf.fslabel configure -image [::skin::loadPixmap no-emblem] -compound right
+
+			label $contentf.fsmsg -justify left -text [trans farsightextwarn]
+			label $contentf.fsurl -justify left -text "$::weburl/wiki/Farsight" -fg blue
+			pack $contentf.fslabel
+			pack $contentf.fsmsg 
+			pack $contentf.fsurl
+
+			bind $contentf.fsurl <Enter> [list %W configure -font sunderf]
+			bind $contentf.fsurl <Leave> [list %W configure -font splainf]
+			bind $contentf.fsurl <ButtonRelease> [list launch_browser "$::weburl/wiki/Farsight"]
+			#to get a nice wrapping
+			bind $contentf.fsmsg <Configure> [list %W configure -wraplength %w]
+		}
+	}
+
 
 
 	######################################################################################
