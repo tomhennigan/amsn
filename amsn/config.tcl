@@ -310,6 +310,7 @@ namespace eval ::config {
 		::config::setKey shownonim 1					;# Show non IM contacts in the contact list
 		::config::setKey groupnonim 0					;# Group non IM contacts in a separate group in the CL
 		::config::setKey showspaces 1					;# Enable/disable showing of the spaces star in the CL
+		::config::setKey showOfflineGroup 1
 
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
