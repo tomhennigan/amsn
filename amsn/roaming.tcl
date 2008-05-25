@@ -134,10 +134,7 @@ snit::type ContentRoaming {
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 			set xml [$soap GetResponse]
-			set cache [GetXmlEntry $xml "soap:Envelope:soap:Header:AffinityCacheHeader:CacheKey"]
-			if {$cache != "" } {
-				set affinity_cache $cache
-			}
+			$self UpdateCacheKey $xml
 
 			set result [GetXmlNode $xml "soap:Envelope:soap:Body:GetProfileResponse:GetProfileResult"]
 			if {$result != "" } {
@@ -222,7 +219,8 @@ snit::type ContentRoaming {
 	method UpdateProfileCallback { callbk soap } {
 		#puts [$soap GetResponse]
 		if { [$soap GetStatus] == "success" } {
-			set fail 0			
+			set fail 0
+			$self UpdateCacheKey [$soap GetResponse]
 		} elseif { [$soap GetStatus] == "fault" } { 
 			set errorcode [$soap GetFaultDetail]
 			if {$errorcode == "AccessDenied" } {
@@ -239,6 +237,109 @@ snit::type ContentRoaming {
 			bgerror $result
 		}
 	}
+
+
+	method CreateProfile { callbk } {
+		$::sso RequireSecurityToken Storage [list $self CreateProfileSSOCB $callbk]
+	}
+
+	method CreateProfileSSOCB { callbk ticket} {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
+				 -action "http://www.msn.com/webservices/storage/w10/CreateProfile" \
+				 -header [$self getCommonHeaderXML RoamingSeed $ticket] \
+				 -body [$self getCreateProfileBodyXML] \
+				 -callback [list $self CreateProfileCallback $callbk]]
+		
+		$request SendSOAPRequest
+		
+	}
+
+
+	method getCreateProfileBodyXML { } {
+		append xml {<CreateProfile xmlns="http://www.msn.com/webservices/storage/w10">}
+		append xml {<profile>}
+		append xml {<ExpressionProfile>}
+		append xml {<PersonalStatus/>}
+		append xml {<RoleDefinitionName>ExpressionProfileDefault</RoleDefinitionName>}
+		append xml {</ExpressionProfile>}
+		append xml {</profile>}
+		append xml {</CreateProfile>}
+
+		return $xml
+	}
+	
+	method CreateProfileCallback { callbk soap } {
+		set rid ""
+		#puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			set fail 0
+			set xml [$soap GetResponse]
+			$self UpdateCacheKey $xml
+			set rid [GetXmlEntry $xml "soap:Envelope:soap:Body:CreateProfileResponse:CreateProfileResult"]	
+			if {$rid != "" } {
+				::abook::setPersonal profile_resourceid $rid
+			}
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "ItemAlreadyExists"} {
+				set fail 2
+			} else {
+				set fail 1
+			}
+		} else {
+			set fail 1
+		}
+		
+		$soap destroy
+		if {[catch {eval $callbk [list $rid $fail]} result]} {
+			bgerror $result
+		}
+	}
+
+	method ShareItem { callbk rid } {
+		$::sso RequireSecurityToken Storage [list $self ShareItemSSOCB $callbk $rid]
+	}
+
+	method ShareItemSSOCB { callbk rid ticket} {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
+				 -action "http://www.msn.com/webservices/storage/w10/ShareItem" \
+				 -header [$self getCommonHeaderXML RoamingSeed $ticket] \
+				 -body [$self getShareItemBodyXML $rid] \
+				 -callback [list $self ShareItemCallback $callbk]]
+		
+		$request SendSOAPRequest
+		
+	}
+
+
+	method getShareItemBodyXML { rid } {
+		append xml {<ShareItem xmlns="http://www.msn.com/webservices/storage/w10">}
+		append xml {<resourceID>}
+		append xml [xmlencode $rid]
+		append xml {</resourceID>}
+		append xml {<displayName>Messenger Roaming Identity</displayName>}
+		append xml {</ShareItem>}
+
+		return $xml
+	}
+	
+	method ShareItemCallback { callbk soap } {
+		#puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			set fail 0
+			$self UpdateCacheKey [$soap GetResponse]
+		} else {
+			set fail 1
+		}
+		
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
+		}
+	}
+
 
 	method FindDocuments { callbk } {
 		$::sso RequireSecurityToken Storage [list $self FindDocumentsSSOCB $callbk]
@@ -293,6 +394,7 @@ snit::type ContentRoaming {
 			set fail 0
 
 			set xml [$soap GetResponse]
+			$self UpdateCacheKey $xml
 			set documents [list]
 			set i 0
 			while {1} {
@@ -313,6 +415,13 @@ snit::type ContentRoaming {
 		$soap destroy
 		if {[catch {eval $callbk [list $documents]} result]} {
 			bgerror $result
+		}
+	}
+
+	method UpdateCacheKey { xml } {
+		set cache [GetXmlEntry $xml "soap:Envelope:soap:Header:AffinityCacheHeader:CacheKey"]
+		if {$cache != "" } {
+			set affinity_cache $cache
 		}
 	}
 
