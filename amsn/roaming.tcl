@@ -15,7 +15,7 @@ snit::type ContentRoaming {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
 				 -action "http://www.msn.com/webservices/storage/w10/GetProfile" \
-				 -header [$self getCommonHeaderXML Initial $ticket] \
+				 -header [$self getCommonHeaderXML RoamingIdentityChanged $ticket] \
 				 -body [$self getGetProfileBodyXML $email] \
 				 -callback [list $self GetProfileCallback $callbk $email]]
 		
@@ -28,7 +28,7 @@ snit::type ContentRoaming {
 		if {$email == "" } {
 			set cid [::abook::getPersonal cid]
 		} else {
-			set cid [::abook::getContactData $email cid]			
+			set cid [::abook::getContactData $email cid]
 		}
 
 		# LastModified tags are set to false since we don't need those and it will
@@ -43,22 +43,21 @@ snit::type ContentRoaming {
 		append xml {</Alias>}
 		append xml {<RelationshipName>MyProfile</RelationshipName>}
 		append xml {</profileHandle>}
-		append xml {<profileAttributes><}
-		append xml {ResourceID>true</ResourceID>}
-		append xml {<DateModified>false</DateModified>}
+		append xml {<profileAttributes>}
+		append xml {<ResourceID>true</ResourceID>}
+		append xml {<DateModified>true</DateModified>}
 		append xml {<ExpressionProfileAttributes>}
 		append xml {<ResourceID>true</ResourceID>}
-		append xml {<DateModified>false</DateModified>}
+		append xml {<DateModified>true</DateModified>}
 		append xml {<DisplayName>true</DisplayName>}
-		append xml {<DisplayNameLastModified>false</DisplayNameLastModified>}
+		append xml {<DisplayNameLastModified>true</DisplayNameLastModified>}
 		append xml {<PersonalStatus>true</PersonalStatus>}
-		append xml {<PersonalStatusLastModified>false</PersonalStatusLastModified>}
+		append xml {<PersonalStatusLastModified>true</PersonalStatusLastModified>}
 		append xml {<StaticUserTilePublicURL>true</StaticUserTilePublicURL>}
 		append xml {<Photo>true</Photo>}
-		append xml {<PhotoLastModified>false</PhotoLastModified>}
 		append xml {<Flags>true</Flags>}
-		append xml {</ExpressionProfileAttributes><}
-		append xml {/profileAttributes>}
+		append xml {</ExpressionProfileAttributes>}
+		append xml {</profileAttributes>}
 		append xml {</GetProfile>}
 
 		return $xml
