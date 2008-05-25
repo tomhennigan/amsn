@@ -26,12 +26,15 @@ namespace eval ::log {
 		if { [LoginList exists 0 [::config::getKey login]] == 0 } {
 			LogArray $email set 0
 		} else {
-			LogArray $email set [CheckLogDate $email]
+			if {[catch {set fd [CheckLogDate $email]}] } {
+				return
+			}
+			LogArray $email set $fd
 
 			if { [::config::getKey lineflushlog] == 1 } {
-				fconfigure [LogArray $email get] -buffering none -encoding utf-8 
+				fconfigure $fd -buffering none -encoding utf-8 
 			} else {
-				fconfigure [LogArray $email get] -buffersize 1024 -encoding utf-8
+				fconfigure $fd -buffersize 1024 -encoding utf-8
 			}
 		}
 	}
