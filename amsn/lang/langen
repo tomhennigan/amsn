@@ -914,6 +914,7 @@ stylelog Select the format in which you would like to view your History
 style Style
 subjectrequired Subject required
 subject Subject
+svnversion SVN Version
 syntaxerror Syntax Error
 tabbedglobal A tabbed window for all users in the contact list
 tabbedgroups A tabbed window for users from the same group

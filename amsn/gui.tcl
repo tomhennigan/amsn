@@ -516,8 +516,12 @@ namespace eval ::amsn {
 		#Top frame (Picture and name of developers)
 		set developers "Didimo Grimaldo\n Alvaro J. Iradier\n Khalaf Philippe\n Alaoui Youness\n Dave Mifsud\n..."
 
+		set version "aMSN $::version ([::abook::dateconvert $date])"
+		if {[string index $::version end] == "b" && $::Version::amsn_revision > 0} {
+			append version "\n[trans svnversion] : $::Version::amsn_revision"
+		}
 		label .about.image -image [::skin::loadPixmap msndroid]
-		label .about.title -text "aMSN $::version ([::abook::dateconvert $date])" -font bboldf
+		label .about.title -text $version -font bboldf
 		label .about.what -text "[trans whatisamsn]\n"
 		pack .about.image .about.title .about.what -side top
 
