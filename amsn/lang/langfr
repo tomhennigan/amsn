@@ -348,6 +348,8 @@ extras Services Additionnels
 faileddelete Echec de l'effacement
 faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seules les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
 failed Echec
+farsightextchecking Vérifie si l'extension Farsight est chargée...
+farsightextwarn Vous ne pourrez pas avoir d'appels Audio. Vous trouverez des informations sur Farsight sur notre Wiki :
 faq Questions les plus fréquentes
 fetching Téléchargement des données ...
 filedoesnotexist Le fichier n'existe pas
@@ -991,7 +993,7 @@ webcamconfiguredWin Vous avez choisi la webcam suivante : $1
 webcamextchecking Vérifie si l'extension requise pour la webcam est chargée...
 webcamextloaded L'extension Webcamsn est chargée
 webcamextnotloaded L'extension Webcamsn n'est pas chargée. Vous devez la compiler.
-webcamextwarn Vous ne pourrez pas voir la webcam de vos contacts. Vous trouverez des aides pour installer les extensions sur le Wiki:
+webcamextwarn Vous ne pourrez pas voir la webcam de vos contacts. Vous trouverez des aides pour installer les extensions sur le Wiki :
 webcamfaq FAQ/Aide à propos de la webcam
 webcamhistory Voir les sessions webcam
 webcamhistory2 Sessions webcam
