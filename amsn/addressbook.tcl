@@ -153,7 +153,20 @@ snit::type Addressbook {
 			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
 			}
-		} else {
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "ABDoesNotExist" } {
+				$soap destroy
+				if {[catch {eval $callbk [list 2]} result]} {
+					bgerror $result
+				}
+			} else {
+				$soap destroy
+				if {[catch {eval $callbk [list 1]} result]} {
+					bgerror $result
+				}
+			}
+		} else { 
 			$soap destroy
 			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
@@ -182,6 +195,12 @@ snit::type Addressbook {
 		status_log "ABFindALL Callback called : [$soap GetStatus] - [$soap GetLastError]"
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
+
+			set ownercid [GetXmlEntry $xml "soap:Envelope:soap:Body:ABFindAllResponse:ABFindAllResult:ab:abInfo:OwnerCID"]
+			if {$ownercid != "" } {
+				::abook::setPersonal cid $ownercid
+			}
+
 			set i 0
 			# can go later
 			while {1} {
@@ -388,6 +407,19 @@ snit::type Addressbook {
 				bgerror $result
 			}
 
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "ABDoesNotExist" } {
+				$soap destroy
+				if {[catch {eval $callbk [list 2]} result]} {
+					bgerror $result
+				}
+			} else {
+				$soap destroy
+				if {[catch {eval $callbk [list 1]} result]} {
+					bgerror $result
+				}
+			}
 		} else {
 			$soap destroy
 			if {[catch {eval $callbk [list 1]} result]} {
@@ -438,9 +470,9 @@ snit::type Addressbook {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABAdd" \
-				 -header [$self getCommonHeaderXML ContactSave $ticket] \
+				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getABAddBodyXML $email] \
-				 -callback [list $self ABAddCallback $callbk $email]]
+				 -callback [list $self ABAddCallback $callbk]]
 		
 		$request SendSOAPRequest
 	
@@ -462,12 +494,23 @@ snit::type Addressbook {
 		return $xml
 	}
 	
-	method ABAddCallback { callbk email soap} {
+	method ABAddCallback { callbk soap} {
 		if { [$soap GetStatus] == "success" } {
-			$callbk $email
-			$soap destroy
-		} else { 
-			$soap destroy
+			set fail 0
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "ABAlreadyExists" } {
+				set fail 2
+			} else {
+				set fail 1				
+			}
+		} else {
+			set fail 1
+		}
+		
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
+			bgerror $result
 		}
 	}
 
@@ -623,41 +666,37 @@ snit::type Addressbook {
 	#update information for contact Type /possibly DisplayName
 	#Accepted values are Regular Live LivePending LiveRejected LiveDropped Messenger2
 	 
-	method ABContactUpdate { callbk email changes } {
-		$::sso RequireSecurityToken Contacts [list $self ABContactUpdateSSOCB $callbk $email $changes]
+	method ABContactUpdate { callbk email changes properties } {
+		$::sso RequireSecurityToken Contacts [list $self ABContactUpdateSSOCB $callbk $email $changes $properties]
 	}
 
-	method ABContactUpdateSSOCB { callbk email changes ticket} {
+	method ABContactUpdateSSOCB { callbk email changes properties ticket} {
 		set request [SOAPRequest create %AUTO% \
 				-url "https://contacts.msn.com/abservice/abservice.asmx" \
 				-action "http://www.msn.com/webservices/AddressBook/ABContactUpdate" \
 				-header [$self getCommonHeaderXML BlockUnblock $ticket] \
-				-body [$self getABContactUpdateBodyXML $email $changes] \
+				-body [$self getABContactUpdateBodyXML $email $changes $properties] \
 				-callback [list $self ABContactUpdateCallback $callbk]]
 
 		$request SendSOAPRequest
 	}
 	
-	method getABContactUpdateBodyXML { email changes } {
-		#contact type can be Regular Live LivePending LiveRejected LiveDropped
-		set guid [::abook::getContactData $email contactguid]
+	method getABContactUpdateBodyXML { email changes properties} {
 		append xml {<ABContactUpdate xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<abId>00000000-0000-0000-0000-000000000000</abId>}
 		append xml {<contacts>}
 		append xml {<Contact xmlns="http://www.msn.com/webservices/AddressBook">}
-		append xml {<contactId>}
-		append xml $guid
-		append xml {</contactId>}
+		if {$email != ""} {
+			append xml {<contactId>}
+			append xml [::abook::getContactData $email contactguid]
+			append xml {</contactId>}
+		}
 		append xml {<contactInfo>}
-		foreach {tag property value} $changes {
-			append xml "<$tag>[xmlencode $value]</$tag>"
+		foreach {tag value} $changes {
+			append xml "<$tag>$value</$tag>"
 		}
 		append xml {</contactInfo>}
 		append xml {<propertiesChanged>}
-		set properties [list]
-		foreach {tag property value} $changes {
-			lappend properties "$property"
-		}
 		append xml [join $properties " "]
 		append xml {</propertiesChanged>}
 		append xml {</Contact>}
@@ -772,8 +811,13 @@ snit::type Addressbook {
 		append xml {<AddMember xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<serviceHandle>}
 		append xml {<Id>0</Id>}
-		append xml {<Type>Messenger</Type>}
-		append xml {<ForeignId></ForeignId>}
+		if {$role == "ProfileExpression" } {
+			append xml {<Type>Profile</Type>}
+			append xml {<ForeignId>MyProfile</ForeignId>}
+		} else {
+			append xml {<Type>Messenger</Type>}
+			append xml {<ForeignId></ForeignId>}
+		}
 		append xml {</serviceHandle>}
 		append xml {<memberships>}
 		append xml {<Membership>}
@@ -781,15 +825,30 @@ snit::type Addressbook {
 		append xml $role
 		append xml {</MemberRole>}
 		append xml {<Members>}
-		foreach member $email {
-			append xml {<Member xsi:type="PassportMember">}
-			append xml {<Type>Passport</Type>}
+		if {$role == "ProfileExpression" } {
+			append xml {<Member xsi:type="RoleMember" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">}
+			append xml {<Type>Role</Type>}
 			append xml {<State>Accepted</State>}
-			append xml {<Deleted>false</Deleted>}
-			append xml {<PassportName>}
-			append xml $member
-			append xml {</PassportName>}
+			append xml {<Id>Allow</Id>}
+			append xml {<DefiningService>}
+			append xml {<Id>0</Id>}
+			append xml {<Type>Messenger</Type>}
+			append xml {<ForeignId></ForeignId>}
+			append xml {</DefiningService>}
+			append xml {<MaxRoleRecursionDepth>0</MaxRoleRecursionDepth>}
+			append xml {<MaxDegreesSeparationDepth>0</MaxDegreesSeparationDepth>}
 			append xml {</Member>}
+		} else {
+			foreach member $email {
+				append xml {<Member xsi:type="PassportMember">}
+				append xml {<Type>Passport</Type>}
+				append xml {<State>Accepted</State>}
+				append xml {<Deleted>false</Deleted>}
+				append xml {<PassportName>}
+				append xml $member
+				append xml {</PassportName>}
+				append xml {</Member>}
+			}
 		}
 		append xml {</Members>}
 		append xml {</Membership>}
@@ -841,8 +900,13 @@ snit::type Addressbook {
 		append xml {<DeleteMember xmlns="http://www.msn.com/webservices/AddressBook">}
 		append xml {<serviceHandle>}
 		append xml {<Id>0</Id>}
-		append xml {<Type>Messenger</Type>}
-		append xml {<ForeignId></ForeignId>}
+		if {$role == "ProfileExpression" } {
+			append xml {<Type>Profile</Type>}
+			append xml {<ForeignId>MyProfile</ForeignId>}
+		} else {
+			append xml {<Type>Messenger</Type>}
+			append xml {<ForeignId></ForeignId>}
+		}
 		append xml {</serviceHandle>}
 		append xml {<memberships>}
 		append xml {<Membership>}
@@ -850,14 +914,29 @@ snit::type Addressbook {
 		append xml $role
 		append xml {</MemberRole>}
 		append xml {<Members>}
-		foreach member $email {
-			append xml {<Member xsi:type="PassportMember">}
-			append xml {<Type>Passport</Type>}
+		if {$role == "ProfileExpression" } {
+			append xml {<Member xsi:type="RoleMember" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">}
+			append xml {<Type>Role</Type>}
 			append xml {<State>Accepted</State>}
-			append xml {<PassportName>}
-			append xml $member
-			append xml {</PassportName>}
+			append xml {<Id>Allow</Id>}
+			append xml {<DefiningService>}
+			append xml {<Id>0</Id>}
+			append xml {<Type>Messenger</Type>}
+			append xml {<ForeignId></ForeignId>}
+			append xml {</DefiningService>}
+			append xml {<MaxRoleRecursionDepth>0</MaxRoleRecursionDepth>}
+			append xml {<MaxDegreesSeparationDepth>0</MaxDegreesSeparationDepth>}
 			append xml {</Member>}
+		} else {
+			foreach member $email {
+				append xml {<Member xsi:type="PassportMember">}
+				append xml {<Type>Passport</Type>}
+				append xml {<State>Accepted</State>}
+				append xml {<PassportName>}
+				append xml $member
+				append xml {</PassportName>}
+				append xml {</Member>}
+			}
 		}
 		append xml {</Members>}
 		append xml {</Membership>}
