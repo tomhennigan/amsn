@@ -1312,6 +1312,7 @@ proc custom_smile_subst { chatid tw {textbegin "0.0"} {end "end"} } {
 				$tw tag bind $twTag <Enter> "$tw configure -cursor hand2"
 				$tw tag bind $twTag <Leave> "$tw configure -cursor xterm"
 				$tw tag bind $twTag <<Button1>> "tk_popup $copyMenu %X %Y"
+				$tw tag bind $twTag <<Button3>> "tk_popup $copyMenu %X %Y"
 		    }
 			
 			set smileyIdx [$tw image create $endpos -image "emoticonCustom_std_$file" -padx 0 -pady 0]
