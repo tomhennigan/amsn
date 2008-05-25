@@ -1137,7 +1137,6 @@ namespace eval ::MSN {
 
 	#Change a users nickname
 	proc changeName { newname {update 1}} {
-
 		set name [urlencode $newname]
 		::MSN::WriteSB ns "PRP" "MFN $name" [list ns handlePRPResponse "$name" $update]
 
@@ -1593,7 +1592,7 @@ namespace eval ::MSN {
 			if {$cid == "" } {
 				$::ab ABContactAdd [list ::MSN::addUserCB $userlogin $gid 1] $userlogin
 			} else {
-				$::ab ABContactUpdate [list ::MSN::addUserCB $userlogin $gid 0 $cid] $userlogin [list isMessengerUser IsMessengerUser true]
+				$::ab ABContactUpdate [list ::MSN::addUserCB $userlogin $gid 0 $cid] $userlogin [list isMessengerUser true] IsMessengerUser
 			}
 		} else {
 			::MSN::WriteSB ns "ADC" "FL N=$userlogin F=$username" "::MSN::ADCHandler $gid"
@@ -1812,7 +1811,7 @@ namespace eval ::MSN {
 			if { [lsearch [::abook::getContactData $userlogin lists] "FL"] == -1 } {
 				$::ab ABContactDelete [list ::MSN::deleteUserFullCB $userlogin] $userlogin
 			} else {
-				$::ab ABContactUpdate [list ::MSN::deleteUserCB $userlogin $full] $userlogin [list isMessengerUser IsMessengerUser false]
+				$::ab ABContactUpdate [list ::MSN::deleteUserCB $userlogin $full] $userlogin [list isMessengerUser false] IsMessengerUser
 			}
 		} else {
 			::MSN::WriteSB ns REM "FL [::abook::getContactData $userlogin contactguid]"
@@ -4194,6 +4193,8 @@ namespace eval ::MSNOIM {
 					
 					if {$update && [::config::getKey protocol] >= 15 } {
 						$::roaming UpdateProfile [list $self updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
+						$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [xmlencode [::abook::getPersonal MFN]]] DisplayName
+
 					}
 					#an event used by guicontactlist to know when we changed our nick
 					::Event::fireEvent myNickChange protocol
@@ -4359,6 +4360,28 @@ namespace eval ::MSNOIM {
 			ChCustomState $newstate_custom
 			send_dock "STATUS" $newstate			
 		}
+		if {$fail == 3} {
+			# ItemDoesNotExist
+			$::roaming CreateProfile [list $self RoamingProfileCreated]
+		}
+	}
+	method RoamingProfileCreated { rid fail } {
+		if {$rid == "" } {
+			set rid [::abook::getPersonal profile_resourceid]
+		}
+		if {$rid != "" } {
+			$::roaming ShareItem [list $self RoamingItemShared] $rid
+		}
+	}
+
+	method RoamingItemShared { fail } {
+		$::ab AddMember [list $self RoamingMemberAdded] RoamingSeed "" ProfileExpression
+	}
+	method RoamingMemberAdded { fail } {
+		$::ab ABContactUpdate [list $self RoamingAnnotationAdded] "" [list contactType Me annotations "<Annotation><Name>MSN.IM.RoamLiveProperties</Name><Value>1</Value></Annotation>"] Annotation
+	}
+	method RoamingAnnotationAdded { fail } {
+		$::roaming UpdateProfile [list ns updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
 	}
 }
 
@@ -6345,9 +6368,27 @@ proc ::MSN::ABSynchronizationDone { error } {
 			}
 		}
 		ns authenticationDone	
+	} elseif {$error == 2 } {
+		#ABDoesNotExist
+		$::ab ABAdd ::MSN::ABAddDone [::config::getKey login]
+	} else {
+		::MSN::logout
+		::amsn::errorMsg "[trans internalerror]"		
 	}
 }
 
+proc ::MSN::ABAddDone { error } {
+	if {$error == 0 } {
+		::abook::setPersonal MFN [::config::getKey login]
+		$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [xmlencode [::abook::getPersonal MFN]]] DisplayName
+		$::ab Synchronize ::MSN::ABSynchronizationDone
+	} else {
+		::MSN::logout
+		::amsn::errorMsg "[trans internalerror]"
+	}
+}
+proc ::MSN::ABUpdateNicknameCB { fail } {
+}
 
 proc recreate_contact_lists {} {
 
