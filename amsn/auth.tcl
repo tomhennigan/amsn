@@ -62,7 +62,7 @@ snit::type SSOAuthentication {
 		lappend security_tokens [SecurityToken create %AUTO% -name MessengerSecure -address "messengersecure.live.com" -policy "MBI_SSL"]
 		
 		lappend security_tokens [SecurityToken create %AUTO% -name Spaces -address "spaces.live.com" -policy "MBI"]
-		lappend security_tokens [SecurityToken create %AUTO% -name Voice -address "voice.messenger.msn.com" -policy "?id=69264"]
+		lappend security_tokens [SecurityToken create %AUTO% -name Storage -address "storage.msn.com" -policy "MBI"]
 
 	}
 

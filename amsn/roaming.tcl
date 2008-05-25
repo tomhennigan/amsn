@@ -8,7 +8,7 @@ snit::type ContentRoaming {
 	variable affinity_cache ""
 
 	method GetProfile { callbk {email ""}} {
-		$::sso RequireSecurityToken Contacts [list $self GetProfileSSOCB $callbk $email]
+		$::sso RequireSecurityToken Storage [list $self GetProfileSSOCB $callbk $email]
 	}
 
 	method GetProfileSSOCB { callbk email ticket} {
@@ -175,7 +175,7 @@ snit::type ContentRoaming {
 	}
 
 	method UpdateProfile { callbk nickname psm } {
-		$::sso RequireSecurityToken Contacts [list $self UpdateProfileSSOCB $callbk $nickname $psm]
+		$::sso RequireSecurityToken Storage [list $self UpdateProfileSSOCB $callbk $nickname $psm]
 	}
 
 	method UpdateProfileSSOCB { callbk nickname psm ticket} {
@@ -241,7 +241,7 @@ snit::type ContentRoaming {
 	}
 
 	method FindDocuments { callbk } {
-		$::sso RequireSecurityToken Contacts [list $self FindDocumentsSSOCB $callbk]
+		$::sso RequireSecurityToken Storage [list $self FindDocumentsSSOCB $callbk]
 	}
 
 	method FindDocumentsSSOCB { callbk ticket} {
