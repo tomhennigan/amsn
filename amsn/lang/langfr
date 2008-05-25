@@ -367,8 +367,8 @@ findnext Résultat suivant
 findprev Résultat précédent
 find Rechercher
 finetunesettings Réglages avancés de l'image
-finish2apply Appuyez sur Terminé pour utiliser les nouveaux paramètres.
-finish Terminé
+finish2apply Appuyez sur Terminer pour utiliser les nouveaux paramètres.
+finish Terminer
 firewalled2 Vous êtes derrière un pare-feu ou un routeur. Veuillez vérifier les paramètres dans la fenêtre des Préférences.
 firewalled Vous êtes derrière un pare-feu ou un routeur
 followtext Faire défiler lorsque du texte est entré
@@ -598,6 +598,7 @@ nogap Aucun espace entre les groupes
 nogroup Aucun groupe
 nologfile Pas d'historique pour $1
 nomic Pas de microphone
+nojavascript Vous n'avez pas javascript activé dans votre navigateur. La connexion automatique risque de ne pas fonctionner.
 noneavailable Pas disponible
 nonewmail Pas de nouveau message
 nonewver Il n'y a pas de nouvelle version disponible
@@ -746,6 +747,7 @@ reconnecting Reconnexion au serveur
 record Enregistrer
 recorderror Une erreur s'est produite lors de l'enregistrement du son : $1
 recvwebcamaccepted $1 a accepté votre invitation pour voir sa webcam. Connexion en cours.
+redirect Cliquez ici pour être redirigé
 reject Refuser
 rememberaccount Enregistrer le nom de compte
 rememberpass Enregistrer le mot de passe
@@ -821,6 +823,7 @@ showmypic Mon avatar
 shownonim Afficher les contacts hors messagerie instantanée
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
 showonedpframe N'afficher qu'un avatar dans la fenêtre de conversation
+showofflinegroup Montrer le groupe des contacts Déconnectés
 showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
 showspaces Afficher les icônes des pages personnelles dans la liste de contacts
 showuserpic Icône de $1
@@ -911,6 +914,7 @@ stylelog Sélectionner le format dans lequel vous voulez voir l'historique
 style Style
 subjectrequired Sujet requis
 subject Sujet
+svnversion Version SVN 
 syntaxerror Erreur de syntaxe
 tabbedglobal Une fenêtre à onglets pour tous les contacts se trouvant dans votre liste de contacts
 tabbedgroups Une fenêtre à onglets pour tous les contacts se trouvant dans un même groupe
