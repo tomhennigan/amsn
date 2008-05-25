@@ -596,6 +596,7 @@ nodevices No tienes dispositivos instalados
 noftpreview Desactivar el envío de previsualización en las transferencias de archivos.
 nogap No dejar espacio entre los grupos en lista de contactos
 nogroup Sin grupo
+nojavascript No tienes javascript activado. Puede que no funcione el inicio de sesión automático.
 nologfile No existe archivo de historial para $1
 nomic Sin micrófono
 noneavailable No hay ninguno disponible
@@ -746,6 +747,7 @@ reconnecting Reconectando al servidor
 recorderror Ocurrió un error al grabar el sonido: $1
 record Grabar
 recvwebcamaccepted $1 aceptó tu invitación para ver su cámara web. Conectando...
+redirect Pinche aquí para ser redirigido
 reject Rechazar
 rememberaccount Recordar mi cuenta
 rememberpass Recordar contraseña
@@ -820,6 +822,7 @@ showmailicon Mostrar el icono de correo en la bandeja del sistema cuando llegue 
 showmypic Mostrar mi imagen
 shownonim Mostrar contactos sin messenger
 shownotify Mostrar ventana de avisos al producirse diversos eventos
+showofflinegroup Mostrar el grupo "Desconectados"
 showonedpframe Mostrar un único marco con la imagen para mostrar en las ventanas de conversación
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
 showspaces Mostrar el icono de espacios en la lista de contactos
@@ -911,6 +914,7 @@ stylehist apariencia de historial de aMSN
 stylelog Elige el estilo en el que deseas ver el historial
 subject Asunto
 subjectrequired Asunto requerido
+svnversion Versión SVN
 syntaxerror Error de sintaxis
 tabbedglobal Una ventana con pestañas para todos los usuarios
 tabbedgroups Una ventana con pestañas para cada grupo
