@@ -597,6 +597,7 @@ nodevices Currently, no devices are installed
 noftpreview Disable sending a preview of images in file transfers
 nogap No space between groups
 nogroup No group
+nojavascript You do not have javascript enabled. Automatic signin might not work.
 nologfile No Log file for $1
 nomic No microphone
 noneavailable None Available
@@ -746,6 +747,7 @@ reconnect Waiting for $1 to reconnect
 record Record
 recorderror An error occured when trying to record the sound : $1
 recvwebcamaccepted $1 accepted your invitation to view his/her webcam. Connecting...
+redirect Click here to get redirected
 reject Reject
 rememberaccount Remember my account
 rememberpass Remember password

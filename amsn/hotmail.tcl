@@ -113,12 +113,18 @@ namespace eval ::hotmail {
 
 		set token [genToken $url [$token cget -ticket] [$token cget -proof] $id]
 
-		set page_data {<html><head><noscript><meta http-equiv=Refresh content="0; url=http://www.hotmail.com"></noscript></head>}
+		set page_data {<html><head></head>}
 		append page_data {<body onload="document.pform.submit(); "><form name="pform" action=}
 		append page_data "\"https://login.live.com/ppsecure/sha1auth.srf?lc=1033\""
 		append page_data {method="POST"><input type="hidden" name="token" value=}
 		append page_data "\"$token\""
-		append page_data {></form></body></html>}
+		append page_data {>}
+		append page_data {<noscript>}
+		append page_data "[trans nojavascript]"
+		append page_data {<br /> <br /> <input type="submit" value=}
+		append page_data "\"[trans redirect]\""
+		append page_data {/></noscript>}
+		append page_data {</form></body></html>}
 
 		if { [OnUnix] } {
 			set file_id [open "[file join ${HOME} hotlog.htm]" w 00600]
