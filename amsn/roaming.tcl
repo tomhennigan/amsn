@@ -63,71 +63,10 @@ snit::type ContentRoaming {
 		return $xml
 	}
 	
-# 	<GetProfileResponse xmlns="http://www.msn.com/webservices/storage/w10">
-#             <GetProfileResult>
-#                 <ResourceID>
-#                   resourceid1
-#                 </ResourceID>
-#                 <ExpressionProfile>
-#                     <ResourceID>
-#                       resourceid2
-#                     </ResourceID>
-#                     <Flags>
-#                       0
-#                     </Flags>
-#                     <Photo>
-#                         <ItemType>
-#                           Photo
-#                         </ItemType>
-#                         <ResourceID>
-#                           resourceid3
-#                         </ResourceID>
-#                         <DateModified>
-#                           2008-04-19T12:56:58-07:00
-#                         </DateModified>
-#                         <Name>
-#                           dp name
-#                         </Name>
-#                         <DocumentStreams>
-#                             <DocumentStream xsi:type="PhotoStream">
-#                                 <DocumentStreamType>
-#                                   UserTileStatic
-#                                 </DocumentStreamType>
-#                                 <MimeType>
-#                                   image/jpeg
-#                                 </MimeType>
-#                                 <DataSize>
-#                                   1924
-#                                 </DataSize>
-#                                 <PreAuthURL>
-#                                   /url
-#                                 </PreAuthURL>
-#                                 <PreAuthURLPartner>
-#                                   http://tkfiles.pvt-storage.msn.com/url
-#                                 </PreAuthURLPartner>
-#                                 <SizeX>
-#                                   0
-#                                 </SizeX>
-#                                 <SizeY>
-#                                   0
-#                                 </SizeY>
-#                             </DocumentStream>
-#                         </DocumentStreams>
-#                     </Photo>
-#                     <PersonalStatus>
-#                       psm
-#                     </PersonalStatus>
-#                     <DisplayName>
-#                       nick
-#                     </DisplayName>
-#                     <StaticUserTilePublicURL>
-#                       /url
-#                     </StaticUserTilePublicURL>
-#                 </ExpressionProfile>
-#             </GetProfileResult>
-#         </GetProfileResponse>
+
 	method GetProfileCallback { callbk email soap } {
 		set nick ""
+		set last_modif ""
 		set psm ""
 		set dp ""
 		#puts [$soap GetResponse]
@@ -147,6 +86,7 @@ snit::type ContentRoaming {
 					}
 				}
 				set nick [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayName"]
+				set last_modif [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayNameLastModified"]
 				set psm [GetXmlEntry $result "GetProfileResult:ExpressionProfile:PersonalStatus"]
 
 				# TODO : DP is more complicated.. will look at it later...
@@ -166,7 +106,7 @@ snit::type ContentRoaming {
 		}
 		
 		$soap destroy
-		if {[catch {eval $callbk [list $nick $psm $dp $fail]} result]} {
+		if {[catch {eval $callbk [list $nick $last_modif $psm $dp $fail]} result]} {
 			bgerror $result
 		}
 	}

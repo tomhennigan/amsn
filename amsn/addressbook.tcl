@@ -303,6 +303,7 @@ snit::type Addressbook {
 				}
 			       
 				if {$contacttype == "Me" } {
+					::abook::setPersonal info_lastchange [GetXmlEntry $subxml "Contact:lastChange"]
 					::abook::setPersonal MFN $nickname
 					::abook::setPersonal login $username
 					::abook::setPersonal cid $cid

@@ -4336,13 +4336,37 @@ namespace eval ::MSNOIM {
 
 	}
 
-	method setInitialNicknameCB { newstate newstate_custom nickname psm dp fail } {
+	method setInitialNicknameCB { newstate newstate_custom nickname last_modif psm dp fail } {
 		if {$fail == 0} {
 			status_log "GetProfile : Retrieved nickname from server : $nickname - psm : $psm"
 			::MSN::changePSM $psm $newstate 0 1
 
+			set lastchange [::abook::getPersonal info_lastchange]
+			set roaming_newer 1
+			set roaming_last_modif 0
+			set ab_last_modif 0
+			if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})} $last_modif -> y m d h min s] } {
+				set roaming_last_modif [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
+			}
+
+			if { [regexp {(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})} $lastchange -> y m d h min s] } {
+				set ab_last_modif [clock scan "${y}-${m}-${d} ${h}:${min}:${s}"]
+			}
+			status_log "Roaming last modif :$last_modif, AB last modif : $lastchange" 
 			if {$nickname != "" } {
-				::MSN::changeName $nickname 0
+				if {[::abook::getPersonal MFN] != ""} {
+					if {$nickname != [::abook::getPersonal MFN]} {
+						if { $roaming_last_modif > $ab_last_modif } {
+							::MSN::changeName $nickname 1
+						} else {
+							::MSN::changeName [::abook::getPersonal MFN] 1
+						}
+					} else {
+						::MSN::changeName $nickname 0
+					}
+				} else {
+					::MSN::changeName $nickname 1
+				}
 			} else {
 				::MSN::changeName [::abook::getPersonal MFN] 1
 			}
