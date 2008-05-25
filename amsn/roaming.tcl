@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 snit::type ContentRoaming {
 	# GetProfile, UpdateProfile,
 	# CreateDocument, FindDocuments,

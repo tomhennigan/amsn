@@ -1,6 +1,8 @@
 #SIP : vp.sip.messenger.msn.com
 #TURN : relay.voice.messenger.msn.com
 
+::Version::setSubversionId {$Id$}
+
 snit::type SIPConnection {
 	option -user -default ""
 	option -password -default ""

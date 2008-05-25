@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 snit::type Addressbook {
 	variable contacts [list]
 	variable groups [list]

@@ -1,3 +1,6 @@
+
+::Version::setSubversionId {$Id$}
+
 snit::type SecurityToken {
 	option -name -default ""
 	option -address -default ""

@@ -1,3 +1,7 @@
+
+::Version::setSubversionId {$Id$}
+
+
 package require snit
 
 snit::type SOAPRequest {

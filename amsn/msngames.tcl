@@ -4,6 +4,9 @@
 ## written by Mirko Hansen (BaaaZen)             ##
 ###################################################
 
+
+::Version::setSubversionId {$Id$}
+
 namespace eval ::MSNGames {
 	proc IncomingGameRequest {chatid dest branchuid cseq uid sid context} {
 		set gameinfo [split $context ";"]
