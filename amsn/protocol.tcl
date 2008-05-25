@@ -6494,7 +6494,7 @@ proc set_initial_nick { } {
 				set custom_psm [string replace $custom_psm $indexofpsm [expr {$indexofpsm + 3}] $storedpsm]
 		}
 
-		if { ($custom_psm == [::abook::getPersonal PSM]) && ($stored_login == [::abook::getPersonal login]) && ($storedpsm != "") } {
+		if { ($custom_psm == [::abook::getPersonal PSM]) && ($stored_login == [::abook::getPersonal login]) } {
 				::MSN::changePSM $storedpsm
 		}
 	}
