@@ -288,6 +288,7 @@ snit::type Addressbook {
 			       
 				if {$contacttype == "Me" } {
 					set j 0
+					set nickname [encoding convertfrom identity $nickname]
 					while { 1 } {
 						set annotation_k [GetXmlEntry $subxml "Contact:contactInfo:annotations:Annotation:Name" $j]
 						set annotation_v [GetXmlEntry $subxml "Contact:contactInfo:annotations:Annotation:Value" $j]
