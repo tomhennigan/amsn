@@ -4193,7 +4193,7 @@ namespace eval ::MSNOIM {
 					
 					if {$update && [::config::getKey protocol] >= 15 } {
 						$::roaming UpdateProfile [list $self updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
-						$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [encoding convertto utf-8 [xmlencode [::abook::getPersonal MFN]]]] DisplayName
+						$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [xmlencode [::abook::getPersonal MFN]]] DisplayName
 
 					}
 					#an event used by guicontactlist to know when we changed our nick
@@ -4317,11 +4317,6 @@ namespace eval ::MSNOIM {
 		}
 
 		if {[::config::getKey protocol] >= 15 } {
-			if {[info exists ::roaming] } {
-				catch {$::roaming destroy}
-				unset ::roaming
-			}
-			set ::roaming [::ContentRoaming create %AUTO%]
 			$::roaming GetProfile [list $self setInitialNicknameCB $newstate $newstate_custom]
 		} else {
 			# Send our PSM to the server because it doesn't know about it!
@@ -6200,13 +6195,24 @@ proc cmsn_auth {{recv ""}} {
 				return 1
 			} else {
 				if { [::config::getKey protocol] >= 15 } {
-					global sso
 					if {[info exists sso] && $sso != "" } {
 						$sso destroy
 						set sso ""
 					}
-					set sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
-					$sso Authenticate [list sso_authenticated]
+					set ::sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
+
+					if {[info exists ::roaming] } {
+						catch {$::roaming destroy}
+						unset ::roaming
+					}
+					set ::roaming [::ContentRoaming create %AUTO%]
+					if {[info exists ::ab] } {
+						catch {$::ab destroy}
+						unset ::ab
+					}
+					set ::ab [::Addressbook create %AUTO%]
+
+					$::sso Authenticate [list sso_authenticated]
 				}
 				ns configure -stat "u"
 				return 0
@@ -6283,11 +6289,6 @@ proc cmsn_auth {{recv ""}} {
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
 			if { [config::getKey protocol] >= 13 } {
-				if {[info exists ::ab] } {
-					catch {$::ab destroy}
-					unset ::ab
-				}
-				set ::ab [::Addressbook create %AUTO%]
 				$::ab Synchronize ::MSN::ABSynchronizationDone
 			} else {
 				set list_version [::abook::getContactData contactlist list_version]
@@ -6404,7 +6405,7 @@ proc ::MSN::ABSynchronizationDone { error } {
 proc ::MSN::ABAddDone { error } {
 	if {$error == 0 } {
 		::abook::setPersonal MFN [::config::getKey login]
-		$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [encoding convertto utf-8 [xmlencode [::abook::getPersonal MFN]]]] DisplayName
+		$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [xmlencode [::abook::getPersonal MFN]]] DisplayName
 		$::ab Synchronize ::MSN::ABSynchronizationDone
 	} else {
 		::MSN::logout

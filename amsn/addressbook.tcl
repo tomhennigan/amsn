@@ -1052,7 +1052,7 @@ snit::type Addressbook {
 		append xml {<groupInfo>}
 		append xml {<GroupInfo>}
 		append xml {<name>}
-		append xml [encoding convertto utf-8 [xmlencode $groupname]]
+		append xml [xmlencode $groupname]
 		append xml {</name>}
 		append xml {<groupType>C8529CE2-6EAD-434d-881F-341E17DB3FF8</groupType>}
 		append xml {<fMessenger>false</fMessenger>}
@@ -1172,7 +1172,7 @@ snit::type Addressbook {
 		append xml {</groupId>}
 		append xml {<groupInfo>}
 		append xml {<name>}
-		append xml [encoding convertto utf-8 [xmlencode $newname]]
+		append xml [xmlencode $newname]
 		append xml {</name>}
 		append xml {</groupInfo>}
 		append xml {<propertiesChanged>GroupName</propertiesChanged>}

@@ -119,6 +119,8 @@ snit::type SOAPRequest {
 			set xml $options(-xml)
 		}
 
+		set xml [encoding convertto utf-8 $xml]
+
 		# Catch it in case we have no internet.. 
 		# TODO : maybe fix this somehow since we'll never get the callback...
 		if { ![catch { set http_req [http::geturl $options(-url) -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] }] } {
