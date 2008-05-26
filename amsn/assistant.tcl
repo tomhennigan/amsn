@@ -2232,22 +2232,22 @@ namespace eval ::AVAssistant {
 		}
 		if { $result == 1} {
 			$contentf.fslabel configure -image [::skin::loadPixmap yes-emblem] -compound right
+			set txt [trans farsightinfook]
 		} else {
 			#display error message
 			$contentf.fslabel configure -image [::skin::loadPixmap no-emblem] -compound right
-
-			label $contentf.fsmsg -justify left -text [trans farsightextwarn]
-			label $contentf.fsurl -justify left -text "$::weburl/wiki/Farsight" -fg blue
-			pack $contentf.fslabel
-			pack $contentf.fsmsg 
-			pack $contentf.fsurl
-
-			bind $contentf.fsurl <Enter> [list %W configure -font sunderf]
-			bind $contentf.fsurl <Leave> [list %W configure -font splainf]
-			bind $contentf.fsurl <ButtonRelease> [list launch_browser "$::weburl/wiki/Farsight"]
-			#to get a nice wrapping
-			bind $contentf.fsmsg <Configure> [list %W configure -wraplength %w]
+			set txt [trans farsightextwarn]
 		}
+		label $contentf.fsmsg -justify left -text $txt 
+		label $contentf.fsurl -justify left -text "$::weburl/wiki/Farsight" -fg blue
+		pack $contentf.fsmsg 
+		pack $contentf.fsurl
+
+		bind $contentf.fsurl <Enter> [list %W configure -font sunderf]
+		bind $contentf.fsurl <Leave> [list %W configure -font splainf]
+		bind $contentf.fsurl <ButtonRelease> [list launch_browser "$::weburl/wiki/Farsight"]
+		#to get a nice wrapping
+		bind $contentf.fsmsg <Configure> [list %W configure -wraplength %w]
 	}
 
 

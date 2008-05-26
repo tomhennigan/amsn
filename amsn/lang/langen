@@ -351,6 +351,7 @@ failed Failed
 faq FAQ (Frequently Asked Questions)
 farsightextchecking Checking if Farsight extension is loaded ...
 farsightextwarn You won't be able to have SIP calls. You may find answers on how to install Farsight on our Wiki:
+farsightinfook Farsight is a framework to deal with audio/video conferencing protocols. With Farsight can send or receive SIP calls within aMSN! Have a look at farsight on our Wiki:
 fetching Fetching data...
 filedoesnotexist File does not exist
 file File
