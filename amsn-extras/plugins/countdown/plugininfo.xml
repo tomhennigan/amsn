@@ -12,7 +12,7 @@
 	<plugin_namespace>countdown</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>9240</cvs_version>
+	<cvs_version>9948</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>

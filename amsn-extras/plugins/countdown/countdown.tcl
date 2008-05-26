@@ -17,6 +17,8 @@ namespace eval ::countdown {
 
 		::plugins::RegisterPlugin Countdown
 		::plugins::RegisterEvent Countdown PluginConfigured ConfigChanged
+		::plugins::RegisterEvent Countdown contactlistLoaded Connected
+
 		array set config [list date "1/1/2009" \
 				      days {1} \
 				      hours {1} \
@@ -62,7 +64,7 @@ namespace eval ::countdown {
 		variable old_psm
 		after cancel ::countdown::DoCountdown
 		
-		::MSN::changePSM $old_psm		
+		::MSN::changePSM $old_psm
 	}
 
 	proc ConfigChanged { event evpar } {
@@ -71,6 +73,10 @@ namespace eval ::countdown {
 		after idle ::countdown::DoCountdown
 	}
 	
+	proc Connected { event evpar } {
+		::countdown::DoCountdown
+	}
+
 	proc ValidateDate {} {
 		variable config
 		if {[catch {clock scan $config(date)}] } {
