@@ -1298,6 +1298,8 @@ namespace eval ::abookGui {
 			-command [list ::abookGui::copyDpToClipboard $filename]
 		$the_menu add command -label "[trans setasmydp]" \
 			-command [list set_displaypic $filename]
+		$the_menu add command -label "[trans save]" \
+			-command [list saveFile $filename]
 		tk_popup $the_menu $X $Y
 	}
 
@@ -1333,7 +1335,7 @@ namespace eval ::abookGui {
 		label $nbIdent.fBasicInfo.displaypic -image [::skin::getDisplayPicture $email] -highlightthickness 2 -highlightbackground black -borderwidth 0
 		bind $nbIdent.fBasicInfo.displaypic <ButtonPress-3> \
 			[list ::abookGui::dp_mypicpopup_menu %X %Y\
-			[file join $HOME displaypic cache [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
+			[file join $HOME displaypic cache $email [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
 		
 		set nick [::abook::getNick $email]
 		set h [expr {[string length $nick]/50 +1}]
@@ -1633,7 +1635,7 @@ namespace eval ::abookGui {
 #		label $nbUserDPs.displaypic -image [::skin::getDisplayPicture $email]
 #		bind $nbUserDPs.displaypic <ButtonPress-3> \
 			[list ::abookGui::dp_mypicpopup_menu %X %Y\
-			[file join $HOME displaypic cache [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
+			[file join $HOME displaypic cache $email [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
 
 		# Other display pictures of user
 		label $nbUserDPs.titlepic2 -text "[trans otherdisplaypic]" \

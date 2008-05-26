@@ -8090,6 +8090,12 @@ proc set_displaypic { file { email "self" } } {
 	}
 }
 
+proc saveFile {filename} {
+	set name [file tail $filename]
+	set newfilename [chooseFileDialog "$name" "[trans save]" "" "" save]
+	catch {file copy $filename $newfilename}
+}
+
 ###################### Protocol Debugging ###########################
 if { $initialize_amsn == 1 } {
 	global degt_protocol_window_visible degt_command_window_visible
