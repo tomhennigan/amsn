@@ -1148,11 +1148,13 @@ namespace eval ::MSN {
 		if { $force  || [::abook::getPersonal PSM] != $newpsm } {
 			::abook::setPersonal PSM $newpsm
 			
-			if {$update && [::config::getKey protocol] >= 15 } {
+			if {$update && [info exists ::roaming] && [::config::getKey protocol] >= 15 } {
 				$::roaming UpdateProfile [list ns updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
 			}
 
-			sendUUXData $state
+			if {[::MSN::myStatusIs] != "FLN" } {
+				sendUUXData $state
+			}
 			save_config
 			::abook::saveToDisk
 		}
