@@ -4193,7 +4193,7 @@ namespace eval ::MSNOIM {
 					
 					if {$update && [::config::getKey protocol] >= 15 } {
 						$::roaming UpdateProfile [list $self updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
-						$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [xmlencode [::abook::getPersonal MFN]]] DisplayName
+						$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [encoding convertto utf-8 [xmlencode [::abook::getPersonal MFN]]]] DisplayName
 
 					}
 					#an event used by guicontactlist to know when we changed our nick
@@ -6404,7 +6404,7 @@ proc ::MSN::ABSynchronizationDone { error } {
 proc ::MSN::ABAddDone { error } {
 	if {$error == 0 } {
 		::abook::setPersonal MFN [::config::getKey login]
-		$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [xmlencode [::abook::getPersonal MFN]]] DisplayName
+		$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [encoding convertto utf-8 [xmlencode [::abook::getPersonal MFN]]]] DisplayName
 		$::ab Synchronize ::MSN::ABSynchronizationDone
 	} else {
 		::MSN::logout
