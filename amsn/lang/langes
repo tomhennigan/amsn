@@ -351,6 +351,7 @@ failed Fallo
 faq FAQ (Preguntas frecuentes)
 farsightextchecking Comprobar si está cargada la extensión Farsight ...
 farsightextwarn No puedes realizar llamadas SIP. Puedes encontrar respuestas de cómo instalar Farsight en nuestro Wiki:
+farsightinfook Farsight es un framework para tratar con los protocolos de conferencias de audio/video. ¡Con Farsight se pueden enviar o recibir llamadas SIP dentro de aMSN! Echa un vistazo a farsight en nuestra Wiki:
 fetching Obteniendo datos...
 file Archivo
 filedoesnotexist El archivo no existe
