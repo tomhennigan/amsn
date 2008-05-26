@@ -1151,10 +1151,14 @@ namespace eval ::MSN {
 			if {$update && [info exists ::roaming] && [::config::getKey protocol] >= 15 } {
 				$::roaming UpdateProfile [list ns updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
 			}
+			
+			# We catch because we might have a plugin changing
+			# the psm when we are offline and we don't want a bugreport
+			# if amsn hasn't finished loading
+			# We also can't check if the state is != "FLN" since we need to send
+			# the UUX data before the initial CHG
+			catch {sendUUXData $state}
 
-			if {[::MSN::myStatusIs] != "FLN" } {
-				sendUUXData $state
-			}
 			save_config
 			::abook::saveToDisk
 		}
