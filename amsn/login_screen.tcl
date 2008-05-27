@@ -101,15 +101,15 @@ snit::widgetadaptor loginscreen {
 		set dp_label_tag [$self create window 0 0 -anchor nw -window $dp_label]
 		# Username
 		set user_label_tag [$self create text 0 0 -anchor nw -text "[trans user]:" -fill [::skin::getKey loginfg]]
-		set user_field [combobox::combobox $self.user -editable true -relief solid -width 25 -command "$self UserSelected" -background [::skin::getKey loginwidgetbg] -buttonbackground [::skin::getKey loginwidgetbg] -highlightthickness 0]
+		set user_field [combobox::combobox $self.user -editable true -relief solid -bd [::skin::getKey loginfieldbd 1] -width 25 -command "$self UserSelected" -background [::skin::getKey loginwidgetbg] -buttonbackground [::skin::getKey loginwidgetbg] -highlightthickness 0]
 		set user_field_tag [$self create window 0 0 -anchor nw -window $user_field]
 		# Password
 		set pass_label_tag [$self create text 0 0 -anchor nw -text "[trans pass]:" -fill [::skin::getKey loginfg]]
-		set pass_field [entry $self.pass -show "*" -relief solid -width 25 -vcmd {expr {[string length %P] <= 16} } -validate key -background [::skin::getKey loginwidgetbg] -highlightthickness 0]
+		set pass_field [entry $self.pass -show "*" -relief solid -bd [::skin::getKey loginfieldbd 1] -width 25 -vcmd {expr {[string length %P] <= 16} } -validate key -background [::skin::getKey loginwidgetbg] -highlightthickness 0]
 		set pass_field_tag [$self create window 0 0 -anchor nw -window $pass_field]
 		# Status
 		set status_label_tag [$self create text 0 0 -anchor nw -text "[trans signinstatus]:" -fill [::skin::getKey loginfg]]
-		set status_field [combobox::combobox $self.status -editable true -relief solid -width 25 -command remember_state_list -background [::skin::getKey loginwidgetbg] -buttonbackground [::skin::getKey loginwidgetbg] -highlightthickness 0]
+		set status_field [combobox::combobox $self.status -editable true -relief solid -bd [::skin::getKey loginfieldbd 1] -width 25 -command remember_state_list -background [::skin::getKey loginwidgetbg] -buttonbackground [::skin::getKey loginwidgetbg] -highlightthickness 0]
 		set status_field_tag [$self create window 0 0 -anchor nw -window $status_field]
 		# Options
 		# Remember me

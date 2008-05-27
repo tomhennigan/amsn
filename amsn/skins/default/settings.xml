@@ -53,6 +53,7 @@
 		<Geometry>
 			<loginbuttonx>4</loginbuttonx>
 			<loginbuttony>4</loginbuttony>
+			<loginfieldbd>1</loginfieldbd>
 		</Geometry>
 	</Login>
 
