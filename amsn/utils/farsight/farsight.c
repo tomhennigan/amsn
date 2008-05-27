@@ -271,6 +271,10 @@ int main (int argc, char *argv[]) {
   WSADATA w;
 #endif
 
+#if defined(__APPLE__)
+  gst_registry_fork_set_enabled((gboolean)FALSE);
+#endif
+
   gst_init (&argc, &argv);
 
   if (argc != 3) {
