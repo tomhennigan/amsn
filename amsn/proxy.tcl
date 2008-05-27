@@ -331,13 +331,7 @@ proc SOCKSSocket { args } {
 	}
 
 	method authInit {} {
-		global tlsinstalled login_passport_url
-
-		#Check if we need to install the TLS module
-		if { $tlsinstalled == 0 && [checking_package_tls] == 0} {
-			::autoupdate::installTLS
-			return -1
-		}
+		global login_passport_url
 
 		set proxy_host [ns cget -proxy_host]
 		set proxy_port [ns cget -proxy_port]

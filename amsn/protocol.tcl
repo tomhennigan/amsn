@@ -899,10 +899,21 @@ namespace eval ::MSN {
 
 		#Setup the conection
 		setup_connection ns
+
+
+		global tlsinstalled
+		#Check if we need to install the TLS module
+		if { $tlsinstalled == 0 && [checking_package_tls] == 0} {
+			::autoupdate::installTLS
+			return -1
+		}
+
 		#Call the pre authentication
 		set proxy [ns cget -proxy]
-		if { [$proxy authInit] < 0 } {
-			return -1
+		if { [::config::getKey protocol] < 13 } {
+			if { [$proxy authInit] < 0 } {
+				return -1
+			}
 		}
 
 		# Test if farsight is available to set the sip clientcap
