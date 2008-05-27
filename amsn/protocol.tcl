@@ -6216,9 +6216,9 @@ proc cmsn_auth {{recv ""}} {
 				return 1
 			} else {
 				if { [::config::getKey protocol] >= 15 } {
-					if {[info exists sso] && $sso != "" } {
-						$sso destroy
-						set sso ""
+					if {[info exists ::sso] && $::sso != "" } {
+						$::sso destroy
+						set ::sso ""
 					}
 					set ::sso [::SSOAuthentication create %AUTO% -username [::config::getKey login] -password $::password]
 
