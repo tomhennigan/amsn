@@ -155,8 +155,8 @@ proc CreateStatesMenu { path { mode "complete" } } {
 	}
 	
 	# Delete old menu to create new one
-	if { [$path index end] != 7 } {
-		$path delete 8 end
+	if { [$path index end] != 8 } {
+		$path delete 9 end
 	}
 	if { [winfo exists $path.editstates] && [winfo exists $path.deletestates] } {
 		$path.editstates delete 0 end
