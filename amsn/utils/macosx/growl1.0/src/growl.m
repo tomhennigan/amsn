@@ -40,22 +40,47 @@
 
 static TclGrowler *tg = nil;
 
+NSArray *
+Tcl_ListToNSArray(Tcl_Interp * interp, Tcl_Obj * listObj)
+{
+	NSMutableArray * mut = [[NSMutableArray alloc] init];
+	Tcl_Obj ** listPtr;		int listLen;
+
+	if (Tcl_ListObjGetElements(interp, listObj, &listLen, &listPtr) != TCL_OK) { return nil; }
+	
+	int i;
+	for (i=0; i<listLen; i++) {
+		[mut addObject:[NSString stringWithUTF8String:Tcl_GetString(listPtr[i])]];
+	}
+	
+	NSArray * ret = [[NSArray alloc] initWithArray:mut];
+	[mut release];
+	
+	return ret;
+}
+
 int
-growl_register(int objc, Tcl_Obj *CONST objv[])
+growl_register(Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 	NSString *appName = nil;
 	NSArray *allNotifications = nil;
 	NSString *iconFile = nil;
 	NSImage *notificationIcon = nil;
 
-	if (tg != nil || objc != 3) {
+	if (tg != nil) {
+		Tcl_AppendResult(interp, "application has already been registered...", NULL);
+		return TCL_ERROR;
+	}
+	
+	if (objc != 3) {
+		Tcl_WrongNumArgs(interp, 0, objv, "growl register appname notifications ?icon?");
 		return TCL_ERROR;
 	}
 
 	appName = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 	++objv, --objc;
 
-	allNotifications = [[NSString stringWithUTF8String:Tcl_GetString(*objv)] componentsSeparatedByString:@" "];
+	allNotifications = (NSArray *)Tcl_ListToNSArray(interp, *objv);
 	++objv, --objc;
 
 	iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
@@ -70,7 +95,7 @@ growl_register(int objc, Tcl_Obj *CONST objv[])
 }
 
 int
-growl_post(int objc, Tcl_Obj *CONST objv[])
+growl_post(Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 	NSString *notificationName = nil;
 	NSString *notificationTitle = nil;
@@ -79,6 +104,7 @@ growl_post(int objc, Tcl_Obj *CONST objv[])
 	NSImage *notificationIcon = nil;
 
 	if (objc != 3 && objc != 4) {
+		Tcl_WrongNumArgs(interp, 0, objv, "growl post notification title description ?icon?");
 		return TCL_ERROR;
 	}
 
@@ -91,7 +117,7 @@ growl_post(int objc, Tcl_Obj *CONST objv[])
 	notificationDescription = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 	++objv, --objc;
 
-	if (objc) {
+	if (objc != 0) {
 		iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 		notificationIcon = [[NSImage alloc] initWithContentsOfFile:iconFile];
 		++objv, --objc;
@@ -119,19 +145,25 @@ GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST obj
 {
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	NSString *action = nil;
-	int e = TCL_ERROR;
+	int e;
 
 	++objv, --objc;
 
-	if (objc) {
+	if (objc != 0) {
 		action = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 		++objv, --objc;
 
 		if ([action isEqualToString:@"register"]) {
-			e = growl_register(objc, objv);
+			e = growl_register(interp, objc, objv);
 		} else if ([action isEqualToString:@"post"]) {
-			e = growl_post(objc, objv);
+			e = growl_post(interp, objc, objv);
+		} else {
+			e = TCL_ERROR;
+			Tcl_AppendResult(interp, "wrong args, should be growl post/register ?args?", NULL);
 		}
+	} else {
+		e = TCL_ERROR;
+		Tcl_WrongNumArgs(interp, 0, objv, "growl register/post ?args?");
 	}
 
 	[pool release];
