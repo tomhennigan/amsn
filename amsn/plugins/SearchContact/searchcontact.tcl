@@ -582,8 +582,6 @@ namespace eval ::searchcontact {
 
 	#Do the drawing of the CL.main.searchbar.sunkenframe.input
 	proc drawContacts {} {
-		::searchcontact::setOfflineLock
-
 		if {$::searchcontact::config(filter_blocked) == 0 && $::searchcontact::config(filter_removedme) == 0} {
 			set filters 0
 		} else {
@@ -619,6 +617,8 @@ namespace eval ::searchcontact {
 		set output_element [list]
 		if {$filtered != [list "" ] } {
 			::searchcontact::resetSearchBarColor
+			
+			::searchcontact::setOfflineLock
 			foreach element [::guiContactList::getContactList full] {
 				#if the element is not a contact
 				if {[lindex $element 0] != "C"} {
