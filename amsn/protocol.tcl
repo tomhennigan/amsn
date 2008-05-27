@@ -6121,6 +6121,10 @@ proc sso_authenticate {} {
 		set mbi [MBIAuthentication MBICrypt $nonce $proof]
 		
 		set ticket [$token cget -ticket]
+		if {$ticket == "" || $proof == "" || $nonce == "" } {
+			eval [ns cget -autherror_handler]
+			return
+		}
 		if {[::config::getKey protocol] >= 16} {
 			::MSN::WriteSB ns "USR" "SSO S $ticket $mbi [::config::getGlobalKey machineguid]"
 		} else {
