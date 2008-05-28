@@ -792,7 +792,7 @@ namespace eval ::groups {
 			set count [lindex [::groups::getGroupCount $gid] 1]
 			DeleteGroupCB $gid
 			if {$count > 0 } {
-				$::ab Resync
+				$::ab Synchronize ::MSN::ABSynchronizationDone
 			}
 		}
 	}

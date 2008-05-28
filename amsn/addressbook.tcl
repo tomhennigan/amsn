@@ -7,22 +7,6 @@ snit::type Addressbook {
 	variable ab_done 0
 	variable fm_done 0
 
-	method Resync { } {
-		$self Synchronize [list $self ResyncCB]
-	}
-	method ResyncCB { error } {
-		set ::contactlist_loaded 1
-		::abook::setConsistent
-		::abook::saveToDisk
-
-		after 0 { 
-			cmsn_draw_online 1
-		}
-
-		::Event::fireEvent contactlistLoaded protocol
-		::plugins::PostEvent contactlistLoaded evPar
-	}
-
 	method Synchronize { callback } {
 		global contactlist_loaded
 		set contactlist_loaded 0
