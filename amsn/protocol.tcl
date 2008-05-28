@@ -1425,7 +1425,25 @@ namespace eval ::MSN {
 
 	proc blockUser { userlogin } {
 		if {[::config::getKey protocol] >= 13} {
-			$::ab BlockUser [list ::MSN::blockUserCB $userlogin] $userlogin
+			set users_to_delete [list]
+			set users_to_add [list]
+			foreach user $userlogin {
+				if {[lsearch [::abook::getContactData $user lists] "FL"] == -1 &&
+				    [lsearch [::abook::getContactData $user lists] "RL"] == -1} {
+					continue
+				}
+				if {[lsearch [::abook::getContactData $user lists] "AL"] != -1} {
+					lappend users_to_delete $user
+				}
+				if {[lsearch [::abook::getContactData $user lists] "BL"] == -1} {
+					lappend users_to_add $user
+				}
+			}
+			if {$users_to_delete != [list] } {
+				$::ab DeleteMember [list ::MSN::blockUserDeleteCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_delete "Allow"
+			} elseif {$users_to_add != [list] } {
+				$::ab AddMember [list ::MSN::blockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Block"
+			}
 		} else {
 			::MSN::WriteSB ns REM "AL $userlogin"
 			::MSN::WriteSB ns ADC "BL N=$userlogin"
@@ -1437,9 +1455,14 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc blockUserCB { emails fail } {
-		if {$fail == 0 } {
-			foreach userlogin $emails {
+	proc blockUserDeleteCB { users_deleted users_to_add fail } {
+		if {$fail == 0 || $fail == 2} {
+			$::ab AddMember [list ::MSN::blockUserAddCB $users_deleted $users_to_add] "BlockUnblock" $users_to_add "Block"
+		}
+	}
+	proc blockUserAddCB { users_deleted users_added fail } {
+		if {$fail == 0 || $fail == 2} {
+			foreach userlogin $users_deleted {
 				set contact [split $userlogin "@"]
 				set user [lindex $contact 0]
 				set domain [lindex $contact 1]
@@ -1450,25 +1473,55 @@ namespace eval ::MSN {
 				::abook::removeContactFromList $userlogin AL
 				::MSN::deleteFromList AL $userlogin
 
-				set xml2 "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
-				set xmlllen [string length $xml2]
-				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml2"
+			}
+			foreach userlogin $users_added {
+				set contact [split $userlogin "@"]
+				set user [lindex $contact 0]
+				set domain [lindex $contact 1]
+				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
+				set xmlllen [string length $xml]
+				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
 				
 				::abook::addContactToList $userlogin BL
 				::MSN::addToList BL $userlogin
 				::MSN::contactListChanged
+			}
+			
+			set blocked_users [concat $users_deleted $users_added]
+			set blocked_users [lsort -unique $blocked_users]
 
+			foreach userlogin $blocked_users {	
 				#an event to let the GUI know a user is blocked
-				after 500 [list ::Event::fireEvent contactBlocked protocol $userlogin]
+				::Event::fireEvent contactBlocked protocol $userlogin
 				set evpar(userlogin) userlogin
 				::plugins::PostEvent contactBlocked evpar
 			}
+		} elseif {$users_deleted != [list] } {
+			$::ab AddMember [list ::MSN::blockUnblockUserFailureCB] "BlockUnblock" $users_deleted "Allow"
 		}
 	}
 
 	proc unblockUser { userlogin } {
 		if {[::config::getKey protocol] >= 13} {
-			$::ab UnblockUser [list ::MSN::unblockUserCB $userlogin] $userlogin
+			set users_to_delete [list]
+			set users_to_add [list]
+			foreach user $userlogin {
+				if {[lsearch [::abook::getContactData $user lists] "FL"] == -1 &&
+				    [lsearch [::abook::getContactData $user lists] "RL"] == -1} {
+					continue
+				}
+				if {[lsearch [::abook::getContactData $user lists] "BL"] != -1} {
+					lappend users_to_delete $user
+				}
+				if {[lsearch [::abook::getContactData $user lists] "AL"] == -1} {
+					lappend users_to_add $user
+				}
+			}
+			if {$users_to_delete != [list] } {
+				$::ab DeleteMember [list ::MSN::unblockUserDeleteCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_delete "Block"
+			} elseif {$users_to_add != [list] } {
+				$::ab AddMember [list ::MSN::unblockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Allow"
+			}
 		} else {
 			::MSN::WriteSB ns REM "BL $userlogin"
 			::MSN::WriteSB ns ADC "AL N=$userlogin"
@@ -1480,32 +1533,56 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc unblockUserCB { emails fail } {
-		if {$fail == 0 } {
-			foreach userlogin $emails {
+	proc unblockUserDeleteCB { users_deleted users_to_add fail } {
+		if {$fail == 0 || $fail == 2} {
+			$::ab AddMember [list ::MSN::unblockUserAddCB $users_deleted $users_to_add] "BlockUnblock" $users_to_add "Allow"
+		}
+	}
+
+	proc unblockUserAddCB { users_deleted users_added fail } {
+		if {$fail == 0 || $fail == 2} {
+			foreach userlogin $users_deleted {
 				set contact [split $userlogin "@"]
 				set user [lindex $contact 0]
 				set domain [lindex $contact 1]
 				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
 				set xmllen [string length $xml]
-				::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
-				::abook::removeContactFromList $userlogin BL
-				::MSN::deleteFromList BL $userlogin
 
-				set xml2 "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
-				set xmlllen [string length $xml2]
-				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml2"
+				::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
+				::abook::removeContactFromList $userlogin AL
+				::MSN::deleteFromList AL $userlogin
+
+			}
+			foreach userlogin $users_added {
+				set contact [split $userlogin "@"]
+				set user [lindex $contact 0]
+				set domain [lindex $contact 1]
+				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
+				set xmlllen [string length $xml]
+				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
 				
-				::abook::addContactToList $userlogin AL
-				::MSN::addToList AL $userlogin
+				::abook::addContactToList $userlogin BL
+				::MSN::addToList BL $userlogin
 				::MSN::contactListChanged
-				
-				#an event to let the GUI know a user is unblocked
-				after 500 [list ::Event::fireEvent contactUnblocked protocol $userlogin]
+			}
+			
+			set unblocked_users [concat $users_deleted $users_added]
+			set unblocked_users [lsort -unique $unblocked_users]
+
+			foreach userlogin $unblocked_users {	
+				#an event to let the GUI know a user is blocked
+				::Event::fireEvent contactUnblocked protocol $userlogin
 				set evpar(userlogin) userlogin
 				::plugins::PostEvent contactUnblocked evpar
 			}
+		} elseif {$users_deleted != [list] } {
+			$::ab AddMember [list ::MSN::blockUnblockUserFailureCB] "BlockUnblock" $users_deleted "Block"
 		}
+	}
+
+
+	proc blockUnblockUserFailureCB { fail } {
+		# Silently ignore anything here...
 	}
 
 	# Move user from one group to another group
@@ -6406,6 +6483,15 @@ proc ::MSN::ABSynchronizationDone { error } {
 				::MSN::removeUserFromList $username PL
 				::MSN::addUserToList $username RL
 			} else {
+				set nickname [::abook::getContactData $username nick]
+				if {$nickname == "" } {
+					set nickname $username
+				}
+				newcontact $username $nickname
+			}
+		}
+		foreach username [::MSN::getList RL] {
+			if { [lsearch [::abook::getLists $username] "AL"] == -1 && [lsearch [::abook::getLists $username] "BL"] == -1 } {
 				set nickname [::abook::getContactData $username nick]
 				if {$nickname == "" } {
 					set nickname $username
