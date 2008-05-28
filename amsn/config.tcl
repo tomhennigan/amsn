@@ -1599,12 +1599,11 @@ proc WinRegKey { addrem } {
 		}
 	
 		if { $addrem } {
-		    registry set $path amsn $amsn_path
+			catch {registry set $path amsn $amsn_path}
 		} else {
-		    registry delete $path amsn
+			catch {registry delete $path amsn}
 		}
 		
-		WinDetectBoot
 		return 1
 	}
 	return 0
