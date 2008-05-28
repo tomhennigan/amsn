@@ -1052,7 +1052,6 @@ namespace eval ::guiContactList {
 						} else {
 							set font_attr [font configure [lindex $unit 1]]
 						}
-						array set current_format $font_attr
 					} else {
 						array set current_format $font_attr
 						array set modifications [lindex $unit 1]
@@ -1409,15 +1408,13 @@ namespace eval ::guiContactList {
 	# Function that draws a contact 
 	#/////////////////////////////////////////////////////////////////////////
 	proc drawContact { canvas element groupID } {
+		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
 	
 		# We are gonna store the height of the nicknames
 		variable nickheightArray
 
 		#Xbegin is the padding between the beginning of the contact and the left edge of the CL
 		variable Xbegin
-		
-
-		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
 
 		set stylestring [list ]
 
@@ -1473,9 +1470,10 @@ namespace eval ::guiContactList {
 
 		set psm [::abook::getpsmmedia $email 1]
 
-		if {[::config::getKey show_contactdps_in_cl] == "1" &&
-		    !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN") &&
-		    ![::MSN::userIsNotIM $email]} {
+		if {[::MSN::userIsNotIM $email]} {
+			set img [::skin::loadPixmap nonim]
+		} elseif {[::config::getKey show_contactdps_in_cl] == "1" &&
+		    !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN")} {
 			set littlepic [::skin::getLittleDisplayPictureName $email]
 			set img ${littlepic}_cl
 
@@ -1506,9 +1504,7 @@ namespace eval ::guiContactList {
 
 		} else {
 
-			if {[::MSN::userIsNotIM $email]} {
-				set img [::skin::loadPixmap nonim]
-			} elseif { [::MSN::userIsBlocked $email] } {
+			if { [::MSN::userIsBlocked $email] } {
 				if { $state_code == "FLN" } { 
 					set img [::skin::loadPixmap blocked_off] 
 				} else {
@@ -1544,15 +1540,6 @@ namespace eval ::guiContactList {
 				set statetext "\([trans mobile]\)"
 			}
 		}
-
-		set update_img [::skin::loadPixmap space_update]
-		set noupdate_img [::skin::loadPixmap space_noupdate]
-		
-		#this is when there is an update and we should show a star
-		set space_update [::abook::getVolatileData $email space_updated 0]
-		
-		#is the space shown or not ?
-		set space_shown [::abook::getVolatileData $email SpaceShowed 0]
 		
 		set maxwidth [expr {[winfo width $canvas] - 2*$Xbegin - [::skin::getKey buddy_xpad] - 5}]
 
@@ -1579,7 +1566,18 @@ namespace eval ::guiContactList {
 		###Space icon###
 		#--------------#
 		
-		if {[::config::getKey showspaces 1]} {
+		set showspaces [::config::getKey showspaces 1]
+		if {$showspaces} {
+
+			#this is when there is an update and we should show a star
+			set space_update [::abook::getVolatileData $email space_updated 0]
+			
+			#is the space shown or not ?
+			set space_shown [::abook::getVolatileData $email SpaceShowed 0]
+
+			set update_img [::skin::loadPixmap space_update]
+			set noupdate_img [::skin::loadPixmap space_noupdate]
+
 			# Check if we need an icon to show an updated space/blog, and draw one if we do
 			# We must create the icon and hide after else, the status icon will stick the border \
 							  # it's surely due to anchor parameter
@@ -1595,8 +1593,9 @@ namespace eval ::guiContactList {
 				# TODO : uncomment this line to get back the space needed for the support of MSN spaces.
 				lappend stylestring [list "space" [image width $noupdate_img]]
 			}
+
+			incr marginx [image width $noupdate_img]
 		}
-		incr marginx [image width $noupdate_img]
 		
 		#---------------#
 		###Status icon###
@@ -1701,7 +1700,7 @@ namespace eval ::guiContactList {
 			lappend stylestring [list "text" $statetext]
 			lappend stylestring [list "tag" "-state"]
 
-			lappend stylestring [list "colour" "reset"]
+		#	lappend stylestring [list "colour" "reset"]
 
 			if {$force_colour} {
 				lappend stylestring [list "colour" "ignore"]
@@ -1760,7 +1759,7 @@ namespace eval ::guiContactList {
 
 		#This is a technology demo, the default is not unchangeable
 		# values for this variable can be "inline", "ccard" or "disabled"
-		if {$space_shown && \
+		if {$showspaces && $space_shown && \
 			([::config::getKey spacesinfo "inline"] == "inline" || \
 			[::config::getKey spacesinfo "inline"] == "both") } {
 
