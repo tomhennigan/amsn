@@ -56,8 +56,24 @@ proc detect_language { {default "en"} } {
 		return $language
 	}
 	
+	set idx [string first "." $system_language]
+	status_log "System language is $system_language\n"
+	#Remove .UTF-8 thing or similar
+	if { $idx != -1 } {
+		incr idx -1
+		set system_language [string range $system_language 0 $idx]
+		status_log "Removed . thing. Now system language is $system_language\n"
+	}
+	
+	set language [language_in_list $system_language]
+	if { $language != 0 } {
+		status_log "Matching language $language!\n"
+		return $language
+	}
+	
 	set idx [string first "_" $system_language]
-	#Remove _variant thing, like BR in pt_BR
+	# Remove _variant thing, like US in en_US
+	# This will remove _BR from pt_BR but only if it pt_BR doesn't exist in our language list.
 	if { $idx != -1 } {
 		incr idx -1
 		set system_language [string range $system_language 0 $idx]
