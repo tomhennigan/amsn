@@ -1902,7 +1902,11 @@ namespace eval ::guiContactList {
 		set contactList [list]
 		
 		# First let's get our groups
-		set groupList [getGroupList]
+		if { $kind == "full" } {
+			set groupList [getGroupList 0 1] ;# Get the offline group as well if the full cl is requested.
+		} else {
+			set groupList [getGroupList]
+		}
 
 		# Now our contacts
 		set userList [::MSN::sortedContactList]
@@ -1985,16 +1989,15 @@ namespace eval ::guiContactList {
 	# [group_state gid group_name [listofmembers]]
 	# listofmembers is like this :
 	# [email redraw_flag]
-	proc getGroupList { {realgroups 0} } {
+	proc getGroupList { {realgroups 0} {forceoffline 0} } {
 		set mode [::config::getKey orderbygroup]
 		
 		set drawOfflineGroup [::config::getKey showOfflineGroup 1]
 		set drawMobileGroup [::config::getKey showMobileGroup 0]
 		set drawNoimGroup [::config::getKey groupnonim 0]
 		
-		# This global var can be used to force us to draw the offline group (IE. a plugin can use it..)
-		global guiclForceOfflineGroup
-		if {[info exists guiclForceOfflineGroup] && $guiclForceOfflineGroup == 1} {
+		# We need to draw the offline group even if the config key is set. We can then hide the group if requested.
+		if { $forceoffline == 1 } {
 			set drawOfflineGroup 1
 		}
 		
