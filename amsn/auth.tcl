@@ -151,7 +151,7 @@ snit::type SSOAuthentication {
 					$token configure -expires [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:LifeTime:wsu:Expires"]
 					$token configure -ticket [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:wsse:BinarySecurityToken"]
 					if {[$token cget -ticket] == "" } {
-						$token configure -ticket [list2xml [GetXmlNode $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:EncryptedData"]]
+						catch {$token configure -ticket [list2xml [GetXmlNode $subxml "wst:RequestSecurityTokenResponse:wst:RequestedSecurityToken:EncryptedData"]]}
 					}
 					$token configure -proof [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:wst:RequestedProofToken:wst:BinarySecret"]
 					$token configure -local_clock [clock seconds]
