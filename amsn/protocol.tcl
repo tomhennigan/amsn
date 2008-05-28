@@ -1458,8 +1458,24 @@ namespace eval ::MSN {
 	proc blockUserAddCB { users_to_delete users_added fail } {
 		if {$fail == 0 || $fail == 2} {
 			$::ab DeleteMember [list ::MSN::blockUserDeleteCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Allow"
+		} else {
+			set blocked_users [concat $users_to_delete $users_added]
+			set blocked_users [lsort -unique $blocked_users]
+			if {[llength $blocked_users] > 1 } {
+				::MSN::blockUserGroupChained $blocked_users
+			}
 		}
 	}
+
+	proc blockUserGroupChained { users } {
+		set user [lindex $users 0]
+		set users [lreplace $users 0 0]
+
+		::MSN::blockUser $user
+		update
+		after 100 [list ::MSN::blockUserGroupChained $users]
+	}
+
 	proc blockUserDeleteCB { users_deleted users_added fail } {
 		if {$fail == 0 || $fail == 2} {
 			foreach userlogin $users_deleted {
@@ -1536,8 +1552,24 @@ namespace eval ::MSN {
 	proc unblockUserAddCB { users_to_delete users_added fail } {
 		if {$fail == 0 || $fail == 2} {
 			$::ab DeleteMember [list ::MSN::unblockUserDeleteCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Block"
+		} else {
+			set unblocked_users [concat $users_to_delete $users_added]
+			set unblocked_users [lsort -unique $unblocked_users]
+			if {[llength $unblocked_users] > 1 } {
+				::MSN::unblockUserGroupChained $unblocked_users
+			}
 		}
 	}
+
+	proc unblockUserGroupChained { users } {
+		set user [lindex $users 0]
+		set users [lreplace $users 0 0]
+
+		::MSN::unblockUser $user
+		update
+		after 100 [list ::MSN::unblockUserGroupChained $users]
+	}
+
 
 	proc unblockUserDeleteCB { users_deleted users_added fail } {
 		if {$fail == 0 || $fail == 2} {
@@ -1549,8 +1581,8 @@ namespace eval ::MSN {
 				set xmllen [string length $xml]
 
 				::MSN::WriteSBNoNL ns "RML" "$xmllen\r\n$xml"
-				::abook::removeContactFromList $userlogin AL
-				::MSN::deleteFromList AL $userlogin
+				::abook::removeContactFromList $userlogin BL
+				::MSN::deleteFromList BL $userlogin
 
 			}
 			foreach userlogin $users_added {
@@ -1561,8 +1593,8 @@ namespace eval ::MSN {
 				set xmlllen [string length $xml]
 				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
 				
-				::abook::addContactToList $userlogin BL
-				::MSN::addToList BL $userlogin
+				::abook::addContactToList $userlogin AL
+				::MSN::addToList AL $userlogin
 				::MSN::contactListChanged
 			}
 			
