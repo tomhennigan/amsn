@@ -5635,6 +5635,11 @@ proc cmsn_change_state {recv} {
 			if { [::abook::getContactData $user contactguid] != "" } {
 				::MSN::WriteSB ns "SBP" "[::abook::getContactData $user contactguid] MFN [urlencode $user_name]"
 			}
+		} else {
+			# Update the contact's nickname in the server's abook as well
+			if { [::abook::getContactData $user contactguid] != "" } {
+				$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] $user [list displayName [xmlencode $user_name]] DisplayName
+			}
 		}
 
 		::log::eventnick $user $user_name
