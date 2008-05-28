@@ -5708,7 +5708,7 @@ proc cmsn_change_state {recv} {
 				set msg $short_name
 				lappend msg [list "newline"]
 				lappend msg [list "text" "[trans logsout]."]
-				::amsn::notifyAdd $msg "" offline offline $user
+				::amsn::notifyAdd $msg "" offline offline $user 1
 			}
 
 			# User was online before, so it's just a status change, and it's not
@@ -5733,7 +5733,7 @@ proc cmsn_change_state {recv} {
 				lappend msg [list "text" "[trans statechange]"]
 				lappend msg [list "newline"]
 				lappend msg [list "text" "[trans [::MSN::stateToDescription $substate]]."]
-				::amsn::notifyAdd $msg "::amsn::chatUser $user" state state $user
+				::amsn::notifyAdd $msg "::amsn::chatUser $user" state state $user 1
 			}
 
 		} elseif {[lindex $recv 0] == "NLN"} {	;# User was offline, now online
@@ -5763,7 +5763,7 @@ proc cmsn_change_state {recv} {
 				set msg $short_name
 				lappend msg [list "newline"]
 				lappend msg [list "text" "[trans logsin]."]
-				::amsn::notifyAdd $msg "::amsn::chatUser $user" online online $user
+				::amsn::notifyAdd $msg "::amsn::chatUser $user" online online $user 1
 			}
 
 			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user onconnect] == 1)} {

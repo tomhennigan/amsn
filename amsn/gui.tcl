@@ -3868,7 +3868,7 @@ namespace eval ::amsn {
 
 	#Adds a message to the notify, that executes "command" when clicked, and
 	#plays "sound"
-	proc notifyAdd { msg command {sound ""} {type other} {user ""}} {
+	proc notifyAdd { msg command {sound ""} {type other} {user ""} {lst 0}} {
 		#no notifications in bossmode or if disabled
 		if { [winfo exists .bossmode] || [::config::getKey shownotify] == 0} {
 			return
@@ -3936,8 +3936,8 @@ namespace eval ::amsn {
 				default { $w.c create image 0 0 -anchor nw -image [::skin::loadPixmap notifyonline] -tag bg }
 			}
 
-			#----------convert msg in a list (WIP)--------;#
-			if {$type ne "offline" && $type ne "state" && $type ne "online"} { ;#
+			#----------convert msg in a list--------------;#
+			if {!$lst} {                                  ;#
 				set msg [string map { "\n" " "} $msg] ;#
 				set msg [list $msg]                   ;#
 				set msg [list "text $msg"]            ;#
