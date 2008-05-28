@@ -3980,6 +3980,8 @@ namespace eval ::amsn {
 			set font_attr [font configure $default_font]
 			set incr_y [font metrics $font_attr -displayof $w.c -linespace]
 			set default_incr_y $incr_y
+			set bg_x ""
+			set bg_cl ""
 
 			foreach unit $msg {
 				switch [lindex $unit 0] {
@@ -3993,7 +3995,18 @@ namespace eval ::amsn {
 								if { [ font measure $font_attr -displayof $w.c "[string range $textpart 0 $i]" ] > $maxw} {
 									set txt "[string range $textpart 0 [expr {$i-1}]]"
 									$w.c create text $x $y -text $txt \
-									-anchor nw -fill $colour -font $font_attr -tags bg -justify left
+									-anchor nw -fill $colour -font $font_attr -tags {bg text2} -justify left
+
+									if {$bg_x ne ""} {
+										incr x [font measure $font_attr -displayof $w.c $txt]
+										$w.c create rect $bg_x $y $x [expr {$y + $incr_y}] -fill $bg_cl -outline "" -tag bgtext
+			
+										foreach tag [list "text2" "img"] {
+											$w.c lower bgtext $tag
+										}
+			
+										set bg_x $default_x
+									}
 
 									set textpart [string range $textpart $i end]
 									if {$textpart ne " "} {
@@ -4012,7 +4025,7 @@ namespace eval ::amsn {
 							}
 						}
 						$w.c create text $x $y -text $textpart \
-						-anchor nw -fill $colour -font $font_attr -tags bg -justify left
+						-anchor nw -fill $colour -font $font_attr -tags {bg text2} -justify left
 						incr x $textwidth
 						set maxw [expr {$maxw - $textwidth}]
 					}
@@ -4030,7 +4043,7 @@ namespace eval ::amsn {
  							set maxw $default_maxw
  						}
 
-						$w.c create image $x $y -image $img -anchor nw -state normal -tags bg
+						$w.c create image $x $y -image $img -anchor nw -state normal -tags {bg img}
 						set maxw [expr {$maxw - $width}]
 						incr x $width
 					}
@@ -4039,6 +4052,26 @@ namespace eval ::amsn {
 							set colour $default_colour
 						} else {
 							set colour [lindex $unit 1]
+						}
+					}
+					"bg" {
+						if {$bg_x eq ""} {
+							if {[lindex $unit 1] ne "reset"} {
+								set bg_x $x
+								set bg_cl [lindex $unit 1]
+							}
+						} else {
+							$w.c create rect $bg_x $y $x [expr {$y + $incr_y}] -fill $bg_cl -outline "" -tag bgtext
+
+							foreach tag [list "text2" "img"] {
+								$w.c lower bgtext $tag
+							}
+
+							set bg_x $x
+							set bg_cl [lindex $unit 1]
+							if {$bg_cl eq "reset"} {
+								set bg_x ""
+							}
 						}
 					}
 					"font" {
