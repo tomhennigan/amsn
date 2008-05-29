@@ -5583,8 +5583,12 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 	    -cursor hand2 -borderwidth 0
 	
 	$tw.$name create image [::skin::getKey x_dp_top] [::skin::getKey y_dp_top] -anchor nw -image displaypicture_not_self
-	$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg]
-
+	$tw.$name create image 0 0 -anchor nw -image [::skin::loadPixmap mystatus_bg] -tag mystatus_bg
+	
+	if {[::skin::getKey mydp_hoverimage 0] == 1} {
+		$tw.$name bind mystatus_bg <Enter> [list $tw.$name itemconfigure mystatus_bg -image [::skin::loadPixmap mystatus_bg_hover]]
+		$tw.$name bind mystatus_bg <Leave> [list $tw.$name itemconfigure mystatus_bg -image [::skin::loadPixmap mystatus_bg]]
+	}
 
 	bind $tw.$name <Button1-ButtonRelease> $command
 	# Drag and Drop setting DP

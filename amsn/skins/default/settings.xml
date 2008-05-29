@@ -95,6 +95,7 @@
 			<showdisplaycontactlist>1</showdisplaycontactlist>
 			<contactlistbgtile>0</contactlistbgtile>
 			<contactlistbgnontiled>1</contactlistbgnontiled>
+			<mydp_hoverimage>1</mydp_hoverimage>
 		 </Options>
 		<Geometry>
 			<mainwindowbd>1</mainwindowbd>

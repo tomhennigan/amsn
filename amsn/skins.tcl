@@ -70,6 +70,8 @@ namespace eval ::skin {
 		::skin::setKey contactlist_xpad 10
 		::skin::setKey contactlist_ypad 10
 		
+		::skin::setKey mydp_hoverimage 0
+		
 	}
 
 
@@ -804,6 +806,7 @@ namespace eval ::skin {
 		::skin::setPixmap baway baway.gif
 		::skin::setPixmap bbusy bbusy.gif
 		::skin::setPixmap mystatus_bg mystatus_bg.gif
+		::skin::setPixmap mystatus_bg_hover mystatus_bg_hover.gif
 		::skin::setPixmap nonim nonim.gif
 	
 		::skin::setPixmap mailbox mailbox.gif
