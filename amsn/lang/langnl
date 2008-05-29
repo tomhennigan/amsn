@@ -95,8 +95,8 @@ block Blokkeren
 blocked Geblokkeerd
 blockedyougroup Mensen die je geblokkeerd hebben als een aparte groep tonen
 blocking Blokkeren
-blockinter1 Controleren wanneer je online bent om de
-blockinter2 seconden, anders elke:
+blockinter1 Wanneer je status online is, om de
+blockinter2 seconden controleren, anders elke:
 blockinter3 elke
 blockinter4 seconden.
 blocklist [BL] Geblokkeerd
@@ -104,7 +104,7 @@ blockmessage Deze mensen zijn online en hebben je geblokkeerd
 blocknotifications Geen meldingsvensters weergeven
 blocksounds Geen geluid afspelen
 blockusers Gelijktijdig controleren
-bouncedock aMSN's pictogram in het dock laten stuiteren wanneer een bericht is ontvangen
+bouncedock aMSN's pictogram in het dock laten stuiteren zodra een bericht wordt ontvangen
 brightness Helderheid
 broughtby Aangeboden door de volgende ontwikkelaars
 browse Verkennen
@@ -183,7 +183,7 @@ clearwebcamlogs Webcamsessies wissen
 clickhere Klik hier
 clicktoadd Klik op de knop 'Toevoegen' voor een nieuwe notitie
 clicktologin Klik hier om je aan te melden
-clientcaps x-clientcaps-pakketje naar andere clients sturen
+clientcaps x-clientcaps-pakketje naar clients van anderen sturen
 clientname Clientnaam
 close Sluiten
 closeall Alle tabbladen in dit venster sluiten?
@@ -211,7 +211,7 @@ confirmdu Weet je zeker dat je deze gebruiker wilt verwijderen?
 confirmeg Weet je zeker dat je deze groep wilt leegmaken?
 confirmfulldelete Ook uit Windows Live-adresboek verwijderen
 confirmpurge Alle opgeslagen schermafbeeldingen van je contacten zullen worden verwijderd. Wil je dit echt?
-confirmrfl weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
+confirmrfl Weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
 congrats Gefeliciteerd
 connected Je bent nu verbonden
 connectedat Aangemeld om 
@@ -349,6 +349,9 @@ failed Mislukt
 faileddelete Verwijderen mislukt
 faileddeleteperso Deze afbeelding kan niet worden verwijderd omdat het bestand niet in je persoonlijke profiel staat. Alleen afbeeldingen die zijn opgeslagen in je persoonlijke profiel kun je op deze manier verwijderen.
 faq FAQ (Veelgestelde vragen)
+farsightextchecking Controleren of Farsight-extensie is geladen...
+farsightextwarn Je kunt geen SIP-gesprekken voeren. Informatie over het installeren van Farsight kun je vinden op onze Wiki:
+farsightinfook Farsight is een raamwerk voor het omgaan met audio-/videoconferentieprotocollen. Met Farsight kun je SIP-gesprekken voeren binnen aMSN! Neem eens een kijkje naar Farsight op onze Wiki:
 fetching Gegevens ophalen...
 file Bestand
 filedoesnotexist Bestand bestaat niet
@@ -371,7 +374,7 @@ finish Voltooien
 finish2apply Klik op Voltooien om deze instellingen toe te passen.
 firewalled Je bevindt je achter een firewall of router
 firewalled2 Je bevindt je achter een firewall, controleer je verbindingsinstellingen in het voorkeurenvenster
-followtext Naar beneden scrollen wanneer nieuwe tekst wordt ingevoerd
+followtext Omlaag scrollen zodra nieuwe tekst wordt ingevoerd
 forget_me Mij vergeten
 forgot_pass Ik ben mijn wachtwoord vergeten
 formatctt CTT-formaat
@@ -597,6 +600,7 @@ nodevices Er zijn geen apparaten geïnstalleerd
 noftpreview Geen voorbeeld van afbeeldingen verzenden bij bestandsoverdrachten
 nogap Geen ruimte openlaten tussen groepen
 nogroup Geen groep
+nojavascript Je hebt geen javascript ingeschakeld. Mogelijk werkt automatisch aanmelden niet.
 nologfile Geen logboek voor $1
 nomic Geen microfoon
 noneavailable Geen beschikbaar
@@ -714,7 +718,7 @@ privacy Privacy
 profiledconfig Profielconfiguratie
 profileexists Je kunt geen profiel aanmaken met deze aanmeldingsnaam omdat er al een bestaat. Gelieve een andere aanmeldingsnaam te kiezen.
 profileinuse Dit profiel wordt momenteel gebruikt door een andere aMSN-sessie, kies een andere
-profileloginradio Aanmelden d.m.v. een bestaand profiel
+profileloginradio Aanmelden met een bestaand profiel
 profiles Profielen
 properties Eigenschappen
 proxy Een proxyserver gebruiken (HTTP of SOCKS5)
@@ -746,6 +750,7 @@ reconnecting Bezig met opnieuw verbinden met de server
 record Opnemen
 recorderror Er is een fout opgetreden tijdens het opnemen van het geluid: $1
 recvwebcamaccepted $1 heeft je verzoek om zijn/haar webcambeeld te mogen zien geaccepteerd. Bezig met verbinden...
+redirect Klik hier om te worden doorgestuurd
 reject Afwijzen
 rememberaccount Mijn account onthouden
 rememberpass Wachtwoord onthouden
@@ -821,6 +826,7 @@ showmailicon E-mailpictogram weergeven in systeemvak wanneer nieuwe e-mails binn
 showmypic Mijn afbeelding
 shownonim Niet-instant messaging-contacten tonen
 shownotify Meldingsvenster weergeven bij bepaalde gebeurtenissen
+showofflinegroup Groep Offline tonen
 showpicnotify Schermafbeelding weergeven op meldingsvensters
 showspaces Spaces-pictogram tonen in de contactenlijst
 showuserpic Afbeelding van $1
@@ -911,6 +917,7 @@ stylehist aMSN-geschiedenisstijl
 stylelog Kies de opmaak van de geschiedenislogboeken
 subject Onderwerp
 subjectrequired Er moet een onderwerp worden opgegeven
+svnversion SVN-versie
 syntaxerror Syntaxisfout
 tabbed Vensters met tabbladen
 tabbedglobal Alle gesprekken met contacten in één venster
