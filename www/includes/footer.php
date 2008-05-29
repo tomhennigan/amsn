@@ -4,6 +4,7 @@
 
 <?php include inc . 'footer-ads.php'; ?>
 
+  <div style="clear: both;"></div>
   </div>
     <div id="footer" class="center"><br />
       All logos and trademarks in this site are property of their respective
