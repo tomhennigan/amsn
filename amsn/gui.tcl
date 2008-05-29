@@ -4392,12 +4392,6 @@ proc create_main_menu {wmenu} {
 	    -variable [::config::getVar orderusersbystatus] -command "::Event::fireEvent changedSorting gui"
 	$view.sortcontacts add checkbutton -label "[trans groupnonim]" -onvalue 1 -offvalue 0 \
 	    -variable [::config::getVar groupnonim] -command "::Event::fireEvent changedSorting gui"
-	$view.sortcontacts add separator
-	$view.sortcontacts add checkbutton -label "[trans shownonim]" -onvalue 1 -offvalue 0 \
-	    -variable [::config::getVar shownonim] -command "::Event::fireEvent changedSorting gui"
-	$view.sortcontacts add checkbutton -label "[trans showofflinegroup]" -onvalue 1 -offvalue 0 \
-	    -variable [::config::getVar showOfflineGroup] -command "::Event::fireEvent changedSorting gui"
-
 	#-------------------
 	$view add separator	
 	$view add radio -label "[trans showcontactnick]" -value 0 \
@@ -4413,6 +4407,14 @@ proc create_main_menu {wmenu} {
 		-variable [::config::getVar ordergroupsbynormal] -command "::Event::fireEvent changedSorting gui" -state disabled
 	$view add radio -label "[trans sortgroupsdesc]" -value 0 \
 		-variable [::config::getVar ordergroupsbynormal] -command "::Event::fireEvent changedSorting gui" -state disabled
+	#-------------------
+	$view add separator
+	$view add checkbutton -label "[trans shownonim]" -onvalue 1 -offvalue 0 -state disabled \
+	    -variable [::config::getVar shownonim] -command "::Event::fireEvent changedSorting gui"
+	$view add checkbutton -label "[trans showspaces]" -onvalue 1 -offvalue 0  -state disabled \
+	    -variable [::config::getVar showspaces] -command "::Event::fireEvent changedSorting gui"
+	$view add checkbutton -label "[trans showofflinegroup]" -onvalue 1 -offvalue 0  -state disabled \
+	    -variable [::config::getVar showOfflineGroup] -command "::Event::fireEvent changedSorting gui"
 
 	###########################
 	#Actions menu
@@ -4767,7 +4769,10 @@ proc loggedInGuiConf { event } {
 	set nick_idx [$menu index "[trans showcontactnick]"]
 	set asc_idx [$menu index "[trans sortgroupsasc]"]
 	set desc_idx [$menu index "[trans sortgroupsdesc]"]
-	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx]
+	set nonim_idx [$menu index "[trans shownonim]"]
+	set spaces_idx [$menu index "[trans showspaces]"]
+	set offline_idx [$menu index "[trans showofflinegroup]"]
+	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx $nonim_idx $spaces_idx $offline_idx]
 	
 	# Actions menu
 	set menu .main_menu.actions
@@ -4842,7 +4847,10 @@ proc loggedOutGuiConf { event } {
 	set nick_idx [$menu index "[trans showcontactnick]"]
 	set asc_idx [$menu index "[trans sortgroupsasc]"]
 	set desc_idx [$menu index "[trans sortgroupsdesc]"]
-	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx] 0
+	set nonim_idx [$menu index "[trans shownonim]"]
+	set spaces_idx [$menu index "[trans showspaces]"]
+	set offline_idx [$menu index "[trans showofflinegroup]"]
+	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx $nonim_idx $spaces_idx $offline_idx] 0
 	
 	# Actions menu
 	set menu .main_menu.actions
