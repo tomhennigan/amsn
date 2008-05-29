@@ -39,7 +39,11 @@ namespace eval ::gename {
 	if {$config(usePSM)} {
 		::MSN::changePSM $name
 	} else {
-		::MSN::changeName [::gename::get_login] $name
+		if {[info args ::MSN::changeName] == [list "newname" "update"] } {
+			::MSN::changeName $name
+		} else {
+			::MSN::changeName [::gename::get_login] $name
+		}
 	}
 	plugins_log gename "New name is set to $name"
 	if {$config(refreshRate) > 0} {

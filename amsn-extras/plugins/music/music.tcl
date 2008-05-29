@@ -394,8 +394,12 @@ namespace eval ::music {
 	# Protocol to change the nickname             #
 	###############################################
 	proc changenick {name} {
-		set email [::config::getKey login]
-		::MSN::changeName $email $name
+		if {[info args ::MSN::changeName] == [list "newname" "update"] } {
+			::MSN::changeName $name
+		} else {
+			set email [::config::getKey login]
+			::MSN::changeName $email $name
+		}
 		::music::log "Change nickname for $email $name"
 	}
 

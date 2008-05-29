@@ -1151,7 +1151,11 @@ namespace eval ::amsnplus {
 				set nick $msg
 				set nlen [string length $nick]
 				set msg ""
-				::MSN::changeName [::config::getKey login] $nick
+				if {[info args ::MSN::changeName] == [list "newname" "update"] } {
+					::MSN::changeName $nick
+				} else {
+					::MSN::changeName [::config::getKey login] $nick
+				}
 				if {[string equal $::version "0.95"]} {
 					::amsnplus::write_window $chatid "[trans cnewnick $nick]" 0
 				} else {
