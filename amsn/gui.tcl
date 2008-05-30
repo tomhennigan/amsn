@@ -3458,7 +3458,7 @@ namespace eval ::amsn {
 			
 			#TODO: This check shouldn't be there
 			#Have a look at proc IsOIM (gui.tcl)
-			if {[::OIM_GUI::IsOIM $user] == 0} {
+			if {[::OIM_GUI::IsOIM $user] == 0 && $oim == 0} {
 				set chatid [::MSN::chatTo $lowuser]
 			} else {
 				#doing OIM
@@ -3486,7 +3486,7 @@ namespace eval ::amsn {
 
 		#TODO: This check shouldn't be there
 		#Have a look at proc IsOIM (gui.tcl, ~2540)
-		if {[::OIM_GUI::IsOIM $user] == 0} {
+		if {[::OIM_GUI::IsOIM $user] == 0 && $oim == 0 } {
 			set chatid [::MSN::chatTo $lowuser]
 		} else {
 			#doing OIM
