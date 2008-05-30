@@ -2108,9 +2108,18 @@ namespace eval ::CAMGUI {
 			}
 			$grabber image ImageReady_Mac $img
 			::CAMGUI::ImageReady_Mac $grabber $img
+		} else {
+			# Ok, this is very important!! this is the famous bugfix to the infamous
+			# 'whitescreen bug'.. the problem is that if the window is not yet mapped
+			# we didn't do anything, and for a direct connection, that pretty much meant
+			# that 250ms later, we get the chance to send a new frame...
+			# the problem with the WSOD is that it happens when using the reflector
+			# if we don't send a frame, we can't get an ACK for it, if we don't get the ACK
+			# then we'll never get the writable event called again, so we won't get the chance
+			# to send any frame.. ever.. no frame = white screen..
+			catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 		}
 
-		#catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
 
 	}
 	
