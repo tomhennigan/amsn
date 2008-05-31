@@ -3897,7 +3897,10 @@ namespace eval ::MSNOIM {
 				set handler [lindex $cmd 0]
 				set handler_args [lrange $cmd 1 end]
 				set handler_numargs [llength $handler_args]
-				set handler_realargs [info args $handler]
+				set handler_realargs [list]
+				if { $handler != "ns" } {
+					set handler_realargs [info args $handler]
+				}
 
 				if {$handler_realargs == "method args" } {
 					set method [lindex $cmd 1]
