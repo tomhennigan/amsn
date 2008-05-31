@@ -4,8 +4,8 @@
 proc bgerror { args } {
 	set err $::errorInfo
 	if { [catch {::bugs::bgerror $args} res ] } {
-		puts $err
-		puts $::errorInfo
+		puts "Original stack trace :\n$err"
+		puts "\nStack trace of bgerror :\n$::errorInfo"
 		error $res
 	}
 }
