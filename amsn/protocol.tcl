@@ -3898,10 +3898,15 @@ namespace eval ::MSNOIM {
 				set handler_args [lrange $cmd 1 end]
 				set handler_numargs [llength $handler_args]
 				set handler_realargs [list]
-				if { $handler != "ns" } {
-					set handler_realargs [info args $handler]
+				#snit with tcl 8.5 throws an error
+				if {[catch {set handler_realargs [info args $handler]}]} {
+					set method [lindex $cmd 1]
+					set handler_args [lrange $cmd 2 end]
+					set handler_numargs [llength $handler_args]
+					set handler_realargs [$handler info args $method]
+					status_log "Detected snit object $handler. Method was $method" blue
 				}
-
+				#snit with tcl 8.4 gives us "method args"
 				if {$handler_realargs == "method args" } {
 					set method [lindex $cmd 1]
 					set handler_args [lrange $cmd 2 end]
