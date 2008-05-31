@@ -1496,7 +1496,7 @@ namespace eval ::MSN {
 				set domain [lindex $contact 1]
 				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"4\" t=\"1\"/></d></ml>"
 				set xmlllen [string length $xml]
-				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
+				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml" [list ns handleADLResponse]
 				
 				::abook::addContactToList $userlogin BL
 				::MSN::addToList BL $userlogin
@@ -1591,7 +1591,7 @@ namespace eval ::MSN {
 				set domain [lindex $contact 1]
 				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"2\" t=\"1\"/></d></ml>"
 				set xmlllen [string length $xml]
-				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
+				::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml" [list ns handleADLResponse]
 				
 				::abook::addContactToList $userlogin AL
 				::MSN::addToList AL $userlogin
@@ -1741,7 +1741,7 @@ namespace eval ::MSN {
 
 				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"1\" t=\"1\"/></d></ml>"
 				set xmllen [string length $xml]
-				::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
+				::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml" [list ns handleADLResponse]
 			
 				#It's a new contact so we save its guid and its nick
 				::abook::setContactData $email contactguid $cid
@@ -1823,7 +1823,7 @@ namespace eval ::MSN {
 			set domain [lindex $contact 1]
 			set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"$mask\" t=\"1\"/></d></ml>"
 			set xmlllen [string length $xml]
-			::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml"
+			::MSN::WriteSBNoNL ns "ADL" "$xmlllen\r\n$xml" [list ns handleADLResponse]
 		}
 
 		::abook::addContactToList $userlogin $list
@@ -2441,7 +2441,6 @@ namespace eval ::MSN {
 				set chatid [::MSN::ChatFor $sb_name]
 				::MSN::ClearQueue $chatid
 				::amsn::chatStatus $chatid "$user: [trans userblocked]\n" miniwarning
-				return 0
 			}
 			217 {
 				#TODO: Check what we do with sb stat "?", disable chat window?
@@ -2456,13 +2455,12 @@ namespace eval ::MSN {
 				#::abook::setVolatileData $user state "FLN"
 				::ChatWindow::TopUpdate $chatid
 				#msg_box "[trans usernotonline]"
-				return 0
 			}
 			713 {
 				status_log "CALReceived: 713 USER TOO ACTIVE\n" white
-				return 0
 			}
 		}
+		return 1
 	}
 
 
@@ -3886,12 +3884,49 @@ namespace eval ::MSNOIM {
 			
 
 			set has_payload 0
-			#check for payload commands:
-			if {[lsearch {MSG NOT PAG IPG UBX GCF 240 241 UBN UBM FQY 511} [string range $command 0 2]] != -1} {
-				set has_payload 1
-			} elseif  {[lsearch {RML ADL} [string range $command 0 2]] != -1} {
-				set trid [lindex [split $command] 1]
-				if {$trid == 0 } {
+
+			global list_cmdhnd
+			set sb_name $options(-name)
+			if {$sb_name == "::ns" } {
+				set sb_name "ns"
+			}
+			set trid [lindex $command 1]
+			set handler_idx [lsearch $list_cmdhnd "$sb_name $trid *"]
+			if {$handler_idx != -1} {		;# Command has a handler associated!
+				set cmd [lindex [lindex $list_cmdhnd $handler_idx] 2]
+				set handler [lindex $cmd 0]
+				set handler_args [lrange $cmd 1 end]
+				set handler_numargs [llength $handler_args]
+				set handler_realargs [info args $handler]
+
+				if {$handler_realargs == "method args" } {
+					set method [lindex $cmd 1]
+					set handler_args [lrange $cmd 2 end]
+					set handler_numargs [llength $handler_args]
+					set handler_realargs [$handler info args $method]
+					status_log "Detected snit object $handler. Method was $method" blue
+				}
+				set handler_num_realargs [llength $handler_realargs]
+
+				if {$handler_num_realargs == [expr {$handler_numargs + 1}] } {
+					set has_payload 0
+				} elseif {$handler_num_realargs == [expr {$handler_numargs + 2}] } {
+					set length [lindex $command end]
+					if {[string is integer $length] } {
+						set has_payload 1
+					} else {
+						status_log "We expect a payload but the length is $length. Could be an ADL OK. No payload." blue
+						set has_payload 0
+					}
+				} else {
+					status_log "We are expecting a bug here!!!!"
+				}
+
+				status_log "Found handler for command [lindex $command 0] with trid $trid : $handler with $handler_numargs args. Function needs $handler_realargs. So the command has payload : $has_payload" blue
+			} else {
+				#check for payload commands:
+				if {[lsearch {MSG NOT PAG IPG UBX GCF UBN UBM FQY} [string range $command 0 2]] != -1 ||
+				    ($trid == 0 && [lsearch {RML ADL} [string range $command 0 2]] != -1)} {
 					set has_payload 1
 				}
 			}
@@ -3987,15 +4022,21 @@ namespace eval ::MSNOIM {
 			$message createFromPayload $payload
 		}
 
-		global list_cmdhnd password
+		global list_cmdhnd
 		set ret_trid [lindex $command 1]
 		set idx [lsearch $list_cmdhnd "ns $ret_trid *"]
 		if {$idx != -1 && [lindex $command 0] != "LSG"} {		;# Command has a handler associated!
 			status_log "::NS::handleCommand: evaluating handler for $ret_trid\n"
 
 			set cmd "[lindex [lindex $list_cmdhnd $idx] 2] [list $command]"
-			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
-			eval "$cmd"
+			if {$payload != "" } {
+				set done [eval [linsert $cmd end $payload]]
+			} else {
+				set done [eval $cmd]
+			}
+			if {$done} {
+				set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
+			}
 
 			return 0
 		} else {
@@ -4157,6 +4198,18 @@ namespace eval ::MSNOIM {
 				#Don't send the event for an addition to any other list
 				::Event::fireEvent contactAdded protocol $username ""
 			}
+		}
+	}
+	method handleADLResponse { command {payload ""}} {
+		# We should probably take a look at the command returned, if we get an 'OK' or an error, etc... 
+		# maybe our list/xml has something wrong in it, etc...
+		if {[lindex $command 0] != "ADL" } {
+			status_log "ADL Response is an error : [lindex $command 0] = $payload" red
+			# TODO : keep a list of the contacts originally sent and the list of contacts with an error
+			# if all contacts sent returned with an error, then return 1, since we can't expect an ADL OK
+			return 0
+		} else {
+			return 1
 		}
 	}
 
@@ -4330,11 +4383,11 @@ namespace eval ::MSNOIM {
 			209 {
 				#Nickname change illegal.
 				msg_box [trans invalidusername]
-				return 0
 			}
 			default {
 			}
 		}
+		return 1
 	}
 
 	method updateProfileCB { fail } {
@@ -4586,8 +4639,9 @@ namespace eval ::MSNOIM {
 			status_log "sb::handleCommand: Evaluating handler for $ret_trid in SB $self\n"
 			set cmd "[lindex [lindex $list_cmdhnd $idx] 2] {$command}"
 			#status_log "command is $cmd"
-			set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
-			eval "$cmd"
+			if {[eval $cmd] } {
+				set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]				
+			}
 		} else {
 			switch -- [lindex $command 0] {
 				MSG {
@@ -5065,12 +5119,12 @@ proc cmsn_open_sb {sb recv} {
 
 	#if the sb doesn't exist return
 	if {[catch {$sb cget -name}]} {
-		return 0
+		return 1
 	}
 
 	#TODO: I hope this works. If stat is not "c" (trying to connect), ignore
 	if { [$sb cget -stat] != "c" } {
-		return 0
+		return 1
 	}
 
 	if {[lindex $recv 0] == "913"} {
@@ -5107,7 +5161,7 @@ proc cmsn_open_sb {sb recv} {
 	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans sbcon]...\n" miniinfo ready
 	setup_connection $sb
 	cmsn_socket $sb
-	return 0
+	return 1
 }
 
 
@@ -5151,6 +5205,7 @@ proc cmsn_auth_sb { sb recv } {
 			}
 		}
 	}
+	return 1
 }
 
 proc cmsn_conn_ans {sb sock} {
@@ -5842,7 +5897,7 @@ proc cmsn_change_state {recv} {
 
 
 proc cmsn_ns_handler {item {message ""}} {
-	global list_cmdhnd password
+	global password
 
 	switch -- [lindex $item 0] {
 		MSG {
@@ -6500,7 +6555,7 @@ proc ::MSN::ABSynchronizationDone { error } {
 				if {$added_users > 0 && [expr {[string length $xml] + [string length "<c n=\"$user\" l=\"$mask\" t=\"1\" /></d></ml>"]}] > 7400} {
 					append xml "</d></ml>"
 					set xmllen [string length $xml]
-					::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
+					::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml" [list ns handleADLResponse]
 					set xml "<ml l=\"1\">"
 					append xml "<d n=\"$domain\">"
 				}
@@ -6511,7 +6566,7 @@ proc ::MSN::ABSynchronizationDone { error } {
 		}
 		append xml "</ml>"
 		set xmllen [string length $xml]
-		::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml"
+		::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml" [list ns handleADLResponse]
 
 		foreach username [::MSN::getList PL] {
 			if { [lsearch [::abook::getLists $username] "AL"] != -1 || [lsearch [::abook::getLists $username] "BL"] != -1 } {
@@ -6651,6 +6706,8 @@ proc initial_syn_handler {recv} {
 
 	set_initial_nick
 	cmsn_ns_handler $recv
+
+	return 1
 }
 
 proc msnp11_userpass_error {} {
