@@ -3898,22 +3898,28 @@ namespace eval ::MSNOIM {
 				set handler_args [lrange $cmd 1 end]
 				set handler_numargs [llength $handler_args]
 				set handler_realargs [list]
-				#snit with tcl 8.5 throws an error
-				if {[catch {set handler_realargs [info args $handler]}]} {
+
+				set handler_is_snit 0
+				#snit with tcl 8.5 creates a command, but not a proc
+				if {[info command $handler] == "$handler" &&
+				    [info proc $handler] == "" } {
+					set handler_is_snit 1
+				} else {
+					set handler_realargs [info args $handler]
+					#snit with tcl 8.4 gives us "method args"
+					if {$handler_realargs == "method args" } {
+						set handler_is_snit 1
+					}
+				}
+
+				if {$handler_is_snit } {
 					set method [lindex $cmd 1]
 					set handler_args [lrange $cmd 2 end]
 					set handler_numargs [llength $handler_args]
 					set handler_realargs [$handler info args $method]
 					status_log "Detected snit object $handler. Method was $method" blue
 				}
-				#snit with tcl 8.4 gives us "method args"
-				if {$handler_realargs == "method args" } {
-					set method [lindex $cmd 1]
-					set handler_args [lrange $cmd 2 end]
-					set handler_numargs [llength $handler_args]
-					set handler_realargs [$handler info args $method]
-					status_log "Detected snit object $handler. Method was $method" blue
-				}
+
 				set handler_num_realargs [llength $handler_realargs]
 
 				if {$handler_num_realargs == [expr {$handler_numargs + 1}] } {

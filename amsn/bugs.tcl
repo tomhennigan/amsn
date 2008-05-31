@@ -2,7 +2,12 @@
 ::Version::setSubversionId {$Id$}
 
 proc bgerror { args } {
-    ::bugs::bgerror $args
+	set err $::errorInfo
+	if { [catch {::bugs::bgerror $args} res ] } {
+		puts $err
+		puts $::errorInfo
+		error $res
+	}
 }
 
 namespace eval ::bugs {
