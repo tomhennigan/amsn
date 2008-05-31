@@ -132,9 +132,9 @@ int flash_window (Tcl_Interp *interp, Tcl_Obj *CONST objv1, int flash) {
 
   // If we disable flash, we make sure the UrencyHint is really disabled
   // If either the WM doesn't support DEMANDS_ATTENTION or setting it failed, we use the Urgency flag
-//  if (!demandsSuccess || !flash) {
+  if (!demandsSuccess || !flash) {
     setUrgencyHint(xdisplay, parent, flash);
-//  }
+  }
   //We return error to make the title change for really shitty/special WMs that don't support DEMANDS_ATTENTION
   //We can't get a reliable way to determine if Urgency failed so even if it was success we ensure that application will use a fallback
   return (demandsSuccess?TCL_OK:TCL_ERROR);
