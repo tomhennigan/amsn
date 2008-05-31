@@ -3902,7 +3902,7 @@ namespace eval ::MSNOIM {
 				set handler_is_snit 0
 				#snit with tcl 8.5 creates a command, but not a proc
 				if {[info command $handler] == "$handler" &&
-				    [info proc $handler] == "" } {
+				    [namespace eval :: info proc $handler] == "" } {
 					set handler_is_snit 1
 				} else {
 					set handler_realargs [info args $handler]
