@@ -1764,111 +1764,52 @@ namespace eval ::log {
 	#///////////////////////////////////////////////////////////////////////////////
 	# Sort the contact by the log size
 
-	proc sortalllog { } {
-
+	proc getcontactlogsize { email {month "."} {include_subdirs 1}} {
 		global log_dir
 
-		set contactlist [::abook::getAllContacts]
-		
-		set contactsize [list]
-
-		set months "0 January February March April May June July August September October November December"
-		
-		foreach email $contactlist {
+		set file [file join ${log_dir} ${month} ${email}.log]
 			
+		if { [file exists $file] == 1 } {
+			set size [file size $file]
+		} else {
 			set size 0
-			
-			set file "[file join ${log_dir} ${email}.log]"
-			
-			if { [file exists $file] == 1 } {
-				set size [file size $file]
+		}
+		
+		if {$include_subdirs } {
+			foreach file [glob -nocomplain -types f [file join ${log_dir} * ${email}.log]] {
+				incr size [file size $file]
 			}
+		}
 			
-			if { [::config::getKey logsbydate] == 1 } {
-				foreach date [glob -nocomplain -types f [file join ${log_dir} * ${email}.log]] {
-					set date [getfilename [file dirname $date]]
-					if { [catch { clock scan "1 $date"}] == 0 } {
-						set date [clock scan "1 $date"]
-						set month [clock format $date -format "%m"]
-						if { [string range $month 0 0] == "0" } {
-							set month [string range $month 1 1]
-						}
-						set month "[lindex $months $month]"
-						set year "[clock format $date -format "%Y"]"
-						set date "$month $year"
-						set file [file join ${log_dir} ${date} ${email}.log]
-						if { [file exists $file] } {
-							incr size [file size $file]
-						}
-					}
-				}
-			}
-			
-			set contactsize [lappend contactsize [list $email $size]]
-			
+		return $size
+	}
+
+	proc getlogsizes { {month "."} {include_subdirs 1} } {
+		set contactsize [list]
+		
+		foreach email [::abook::getAllContacts] {
+			lappend contactsize [list $email [::log::getcontactlogsize $email $month $include_subdirs]]
 		}
 		
 		set contactsize [lsort -integer -index 1 -decreasing $contactsize]
 		
 		return $contactsize
 		
+	}
+
+	proc sortalllog { } {
+		return [::log::getlogsizes]
+		
+	}
+
+	proc sortmonthlog { month } {
+		return [::log::getlogsizes $month 0]
 	}
 
 
 	proc sortthismonthlog { } {
-
-		global log_dir
-
-		set contactlist [::abook::getAllContacts]
-
-		foreach email $contactlist {
-
-			set file [file join ${log_dir} ${email}.log]
-
-			if { [file exists $file] } {
-				set size [file size $file]
-			} else {
-				set size 0
-			}
-
-			set contactsize [lappend contactsize [list $email $size]]
-
-		}
-
-		set contactsize [lsort -integer -index 1 -decreasing $contactsize]
-		
-		return $contactsize
-
+		return [::log::getlogsizes . 0]
 	}
-
-	proc sortmonthlog { month } {
-
-		global log_dir
-		
-		set contactlist [::abook::getAllContacts]
-		
-		set contactsize [list]
-		
-		foreach email $contactlist {
-			
-			set file [file join ${log_dir} ${month} ${email}.log]
-			
-			if { [file exists $file] } {
-				set size [file size $file]
-			} else {
-				set size 0
-			}
-			
-			set contactsize [lappend contactsize [list $email $size]]
-			
-		}
-		
-		set contactsize [lsort -integer -index 1 -decreasing $contactsize]
-		
-		return $contactsize
-		
-	}
-
 
 
 	proc getAllDates { } {
