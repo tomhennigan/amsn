@@ -3305,9 +3305,17 @@ namespace eval ::MSN {
 		set non_im1 [expr {[lsearch [::abook::getContactData $item1 lists] "FL"] == -1}]
 		set non_im2 [expr {[lsearch [::abook::getContactData $item2 lists] "FL"] == -1}]
 		if {$non_im1 && !$non_im2} {
-			return 1
+			if { [::config::getKey orderusersincreasing 1] } {
+				return 1
+			} else {
+				return -1
+			}
 		} elseif {!$non_im1 && $non_im2 } {
-			return -1
+			if { [::config::getKey orderusersincreasing 1] } {
+				return -1
+			} else {
+				return 1
+			}
 		} else {
 			return [string compare -nocase [::abook::getDisplayNick $item1] [::abook::getDisplayNick $item2]]
 		}
