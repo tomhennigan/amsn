@@ -870,6 +870,7 @@ sngdblclick Single click to open a new message window
 sortcontactsasc Sort Contacts Ascending
 sortcontactsdesc Sort Contacts Descending
 sortcontactsby Sort Contacts by
+sortcontactsbylogsize Sort Contacts by log size
 sortcontactgroup Sort Contacts by Group
 sortcontacthybrid Sort Contacts in Hybrid Mode
 sortcontactstatus Sort Contacts by Status

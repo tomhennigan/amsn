@@ -4388,6 +4388,9 @@ proc create_main_menu {wmenu} {
 	$view.sortcontacts add radio -label "[trans sortcontactsdesc]" -value 0 \
 	    -variable [::config::getVar orderusersincreasing] -command "::Event::fireEvent changedSorting gui"
 	$view.sortcontacts add separator
+	$view.sortcontacts add checkbutton -label "[trans sortcontactsbylogsize]"  -onvalue 1 -offvalue 0 \
+	    -variable [::config::getVar orderusersbylogsize] -command "::Event::fireEvent changedSorting gui"
+	$view.sortcontacts add separator
 	$view.sortcontacts add checkbutton -label "[trans groupcontactsbystatus]" -onvalue 1 -offvalue 0 \
 	    -variable [::config::getVar orderusersbystatus] -command "::Event::fireEvent changedSorting gui"
 	$view.sortcontacts add checkbutton -label "[trans groupnonim]" -onvalue 1 -offvalue 0 \
