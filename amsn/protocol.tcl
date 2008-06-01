@@ -3930,7 +3930,7 @@ namespace eval ::MSNOIM {
 			if {$sb_name == "::ns" } {
 				set sb_name "ns"
 			}
-			set trid [lindex $command 1]
+			set trid [lindex [split $command] 1]
 			set handler_idx [lsearch $list_cmdhnd "$sb_name $trid *"]
 			if {$handler_idx != -1} {		;# Command has a handler associated!
 				set cmd [lindex [lindex $list_cmdhnd $handler_idx] 2]
@@ -3965,7 +3965,7 @@ namespace eval ::MSNOIM {
 				if {$handler_num_realargs == [expr {$handler_numargs + 1}] } {
 					set has_payload 0
 				} elseif {$handler_num_realargs == [expr {$handler_numargs + 2}] } {
-					set length [lindex $command end]
+					set length [lindex [split $command] end]
 					if {[string is integer $length] } {
 						set has_payload 1
 					} else {
@@ -3976,7 +3976,7 @@ namespace eval ::MSNOIM {
 					status_log "We are expecting a bug here!!!!"
 				}
 
-				status_log "Found handler for command [lindex $command 0] with trid $trid : $handler with $handler_numargs args. Function needs $handler_realargs. So the command has payload : $has_payload" blue
+				status_log "Found handler for command [lindex [split $command] 0] with trid $trid : $handler with $handler_numargs args. Function needs $handler_realargs. So the command has payload : $has_payload" blue
 			} else {
 				#check for payload commands:
 				if {[lsearch {MSG NOT PAG IPG UBX GCF UBN UBM FQY} [string range $command 0 2]] != -1 ||
