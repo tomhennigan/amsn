@@ -124,7 +124,7 @@ namespace eval ::config {
 		::config::setKey orderusersbystatus 1
 		::config::setKey orderusersbylogsize 0
 
-		::config::setKey orderbygroup 0			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
+		::config::setKey orderbygroup 2			;#Order contacts by group: 0=No | 1=Groups | 2=Hybrid
 		::config::setKey ordergroupsbynormal 1		;#Order groups normal or inverted
 
 		::config::setKey dateformat MDY			;#Change date format (eg Month/Day/Year)
