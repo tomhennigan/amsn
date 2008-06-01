@@ -3197,7 +3197,8 @@ namespace eval ::MSN {
 			set last_ordering_options ""
 		}
 
-		set new_ordering_options [list [::config::getKey orderusersincreasing 1] [config::getKey orderusersbystatus 1] [config::getKey emailsincontactlist 0] [config::getKey shownonim 1] [config::getKey groupnonim 0]]
+		set new_ordering_options [list [::config::getKey orderusersincreasing 1] [config::getKey orderusersbystatus 1] [::config::getKey orderusersbylogsize 0] \
+					      [config::getKey emailsincontactlist 0] [config::getKey shownonim 1] [config::getKey groupnonim 0]]
 
 		#Don't sort list again if it's already sorted
 		if { $list_users == "" || $last_ordering_options != $new_ordering_options} {
@@ -3214,6 +3215,15 @@ namespace eval ::MSN {
 
 			if { [config::getKey orderusersbystatus 1] } {
 				set list_users [lsort -increasing -command ::MSN::CompareState $list_users]
+			}
+			if { [config::getKey orderusersbylogsize 1] } {
+				# We set the logsize as volatile data because if we get the logsize from
+				# the CompareLogSize function, we'll have to call the ::log::getcontactlogsize
+				# MANY times for the same contact, and the sorting becomes extremeley difficult.
+				foreach user $list_users {
+					::abook::setVolatileData $user logsize [::log::getcontactlogsize $user]
+				}
+				set list_users [lsort -decreasing -command ::MSN::CompareLogSize $list_users]
 			}
 			set last_ordering_options $new_ordering_options
 		}
@@ -3284,6 +3294,28 @@ namespace eval ::MSN {
 		#Clean sorted list cache
 		variable list_users
 		set list_users ""
+	}
+
+	#Compare two contacts by log size, for sorting
+	proc CompareLogSize { item1 item2 } {
+		set size1 [::abook::getVolatileData $item1 logsize]
+		set size2 [::abook::getVolatileData $item2 logsize]
+
+		set non_im1 [expr {[lsearch [::abook::getContactData $item1 lists] "FL"] == -1}]
+		set non_im2 [expr {[lsearch [::abook::getContactData $item2 lists] "FL"] == -1}]
+		if {$non_im1 && !$non_im2} {
+			return -1
+		} elseif {!$non_im1 && $non_im2 } {
+			return 1
+		} else {
+			if { $size1 < $size2 } {
+				return -1
+			} elseif { $size1 > $size2 } {
+				return 1
+			} else {
+				return 0
+			}
+		}
 	}
 
 	#Compare two states, for sorting
