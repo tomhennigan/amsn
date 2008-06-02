@@ -3213,9 +3213,6 @@ namespace eval ::MSN {
 			}
 			set list_users [lsort $order -command ::MSN::CompareNick $list_users]
 
-			if { [config::getKey orderusersbystatus 1] } {
-				set list_users [lsort -increasing -command ::MSN::CompareState $list_users]
-			}
 			if { [config::getKey orderusersbylogsize 1] } {
 				# We set the logsize as volatile data because if we get the logsize from
 				# the CompareLogSize function, we'll have to call the ::log::getcontactlogsize
@@ -3224,6 +3221,9 @@ namespace eval ::MSN {
 					::abook::setVolatileData $user logsize [::log::getcontactlogsize $user]
 				}
 				set list_users [lsort -decreasing -command ::MSN::CompareLogSize $list_users]
+			}
+			if { [config::getKey orderusersbystatus 1] } {
+				set list_users [lsort -increasing -command ::MSN::CompareState $list_users]
 			}
 			set last_ordering_options $new_ordering_options
 		}
