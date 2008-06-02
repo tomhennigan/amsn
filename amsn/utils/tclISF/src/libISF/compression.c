@@ -182,3 +182,32 @@ void encodeGorilla (
         }
     }
 }
+
+
+
+/** ------------------------------------------------------------------------ **
+ * \internal                                                                  *
+ * Apply the DeltaDelta transformation                                        *
+ *                                                                            *
+ * \param inArr        array of integers to apply the transformation          *
+ * \param outArr       array where the result of the transformation is put    *
+ * \param packetNumber size of the integer array = number of integers to      *
+ *                     encode                                                 *
+ *                                                                            *
+ * \returns nothing                                                           *
+ ** ------------------------------------------------------------------------ **/
+void transformDeltaDelta (int * inArr, int * outArr, int packetNumber)
+{
+	int curDelta = 0,
+        prevDelta = 0,
+        i, tmp;
+
+	for (i=0; i<packetNumber; i++)
+	{
+		outArr[i] = inArr[i] + prevDelta - (curDelta << 1);
+		prevDelta = curDelta;
+		curDelta = inArr[i];
+	}
+}
+
+

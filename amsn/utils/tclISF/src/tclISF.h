@@ -2,6 +2,9 @@
 #define     TCLISF_H
 
 
+extern "C" 
+{
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -9,7 +12,7 @@
 #include    <tcl.h>
 
 #include    "libISF/libISF.h"
-
+#include    "ximage.h"
 
 // Defined as described in tcl.tk compiling extension help
 #ifndef STATIC_BUILD
@@ -35,20 +38,28 @@
 #  define TCL_STORAGE_CLASS DLLEXPORT
 #endif
 
-#ifdef __cplusplus
-extern "C"
-#endif
 
 /*
  * Declaration for application-specific command procedure
  */
+
+EXTERN int Tclisf_Init _ANSI_ARGS_((Tcl_Interp *interp));
+
+
+EXTERN int tclISF_main _ANSI_ARGS_((
+        ClientData clientData,
+        Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]));
+
 EXTERN int tclISF_save _ANSI_ARGS_((
         ClientData clientData,
         Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]));
 
-EXTERN int Tclisf_Init _ANSI_ARGS_((Tcl_Interp *interp));
-
+EXTERN int tclISF_fortify _ANSI_ARGS_((
+        ClientData clientData,
+        Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]));
 
 EXTERN ISF_t * getISF_FromTclList _ANSI_ARGS_((
         Tcl_Interp *interp,
@@ -65,6 +76,12 @@ EXTERN int writeGIFFortified _ANSI_ARGS_((
 
 EXTERN unsigned int stringToAABBGGRRColor _ANSI_ARGS_((char * color_string));
 
+
+EXTERN int fortify _ANSI_ARGS_((
+            Tcl_Interp *interp,
+            TCHAR * filename));
+
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
+}
 #endif /* TCLISF_H */

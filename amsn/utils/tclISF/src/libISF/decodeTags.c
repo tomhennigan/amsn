@@ -1135,8 +1135,7 @@ int getStroke (decodeISF_t * pDecISF)
             {
                 LOG(stdout,"%lld %lld ", pStroke->X[i], pStroke->Y[i]);
             }
-            LOG(stdout,"\n");
-            LOG(stdout,"\n");
+            LOG(stdout,"\n\n");
 #endif
         }
     }

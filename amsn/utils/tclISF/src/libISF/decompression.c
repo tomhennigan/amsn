@@ -132,7 +132,7 @@ int decodeHuffman (
         unsigned char * offset)
 {
     int err = OK, /* the error code */
-    n; /* length of huffBases array */
+        n; /* length of huffBases array */
     INT64   i=0, /* current number of packets decoded */
             * huffBases;
 
@@ -200,6 +200,7 @@ int generateHuffBases (int index, int * n, INT64 ** huffBases)
     }
     return err;
 }
+
 
 /** ------------------------------------------------------------------------ **
  * \internal                                                                  *
@@ -293,6 +294,7 @@ int extractValueHuffman (
     return err;
 }
 
+
 /** ------------------------------------------------------------------------ **
  * \internal                                                                  *
  * \brief Transform an array using the DeltaDelta Inverse transform           *
@@ -333,6 +335,7 @@ int transformInverseDeltaDelta (INT64 packetNumber, INT64 * value)
 
     return OK;
 }
+
 
 /** ------------------------------------------------------------------------ **
  * \internal                                                                  *

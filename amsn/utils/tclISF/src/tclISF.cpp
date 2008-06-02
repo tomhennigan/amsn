@@ -1,5 +1,5 @@
-#include    <stdio.h>
-#include    <stdlib.h>
+#include    <cstdio>
+#include    <cstdlib>
 
 #include    "tclISF.h"
 
@@ -27,10 +27,10 @@ int Tclisf_Init(Tcl_Interp *interp)
     }
 
     /*
-     * Register the command tclISF_save
+     * Register the command tclISF_main
      * The tclISF_save command uses the object interface.
      */
-    Tcl_CreateObjCommand(interp, "tclISF_save", tclISF_save,
+    Tcl_CreateObjCommand(interp, "tclISF", tclISF_main,
             (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
     /*
@@ -38,9 +38,41 @@ int Tclisf_Init(Tcl_Interp *interp)
      * so scripts that do "package require tclISF"
      * can load the library automatically.
      */
-    Tcl_PkgProvide(interp, "tclISF", "0.2");
+    Tcl_PkgProvide(interp, "tclISF", "0.3");
     return TCL_OK;
 }
+
+/*
+ * tclISF_main --
+ * Check if the command is save or fortify and then perform the corresponding action
+ */
+int tclISF_main(ClientData clientData, Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[])
+{
+    const char * cmd = NULL;
+    int cmd_length = 0,
+        err = TCL_OK;
+
+    if (objc < 2)
+    {
+        Tcl_WrongNumArgs(interp, 1, objv, "save filename strokes_list drawingAttributes_list \n fortify filename");
+        return TCL_ERROR;
+    }
+
+    /* Get the filename */
+    cmd = Tcl_GetStringFromObj(objv[1], &cmd_length);
+    if (strcmp(cmd, "save")==0)
+        err = tclISF_save(clientData,interp,objc-1, objv+1);
+    else if (strcmp(cmd, "fortify")==0)
+        err = tclISF_fortify(clientData,interp,objc-1,objv+1);
+    else {
+        Tcl_WrongNumArgs(interp, 1, objv, "save filename strokes_list drawingAttributes_list \n fortify filename");
+        return TCL_ERROR;
+    }
+    
+    return err;
+}
+
 
 
 /*
@@ -73,7 +105,6 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
         Tcl_WrongNumArgs(interp, 1, objv, "filename strokes_list drawingAttributes_list");
         return TCL_ERROR;
     }
-
     /* Get the filename */
     filename = Tcl_GetStringFromObj(objv[1], &filename_length);
 
@@ -262,7 +293,6 @@ ISF_t * getISF_FromTclList (
  *
  * \returns TCL_ERROR or TCL_OK.
  ******************************************************************************/
-/* TODO : check fwrite errors */
 int writeGIFFortified(
         Tcl_Interp * interp,
         const char * filename,
@@ -287,9 +317,13 @@ int writeGIFFortified(
         return TCL_ERROR;
     }
 
-    /* TODO : MAY FAIL. needs improvements */
     /* check if we are at the end of the GIF file */
-    fread(&c,1,1,fp);
+    if(fread(&c,1,1,fp) != 1)
+    {
+        fclose(fp);
+        sprintf(interp->result, "Error while reading from file %s.", filename);
+        return TCL_ERROR;
+    }
     if(c != ';')
     {
         /* FILE_CORRUPTED */
@@ -299,31 +333,61 @@ int writeGIFFortified(
     }
 
     /* change the end of the file with a Comment Extension */
-    fseek(fp, -1, SEEK_CUR);
+    if (fseek(fp, -1, SEEK_CUR) != 0)
+    {
+        fclose(fp);
+        sprintf(interp->result, "Can not read the file %s. Can not make it a GIF Fortified file.", filename);
+        return TCL_ERROR;
+    }
     c = '!';
-    fwrite(&c,1,1,fp);
+    if(fwrite(&c,1,1,fp) != 1)
+    {
+        fclose(fp);
+        sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+        return TCL_ERROR;
+    }
     c = 0XFE;
-    fwrite(&c,1,1,fp);
+    if (fwrite(&c,1,1,fp) != 1)
+    {
+        fclose(fp);
+        sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+        return TCL_ERROR;
+    }
     /* write the isf struct in the comment */
     while(outputFileSize > 0)
     {   
         /* block size */
         c = MIN(outputFileSize,255);
         outputFileSize -= 255;
-        fwrite(&c,1,1,fp);
+        if (fwrite(&c,1,1,fp) != 1)
+        {
+            fclose(fp);
+            sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+            return TCL_ERROR;
+        }
         do
         {
             if ( ptrCur->cur_length - pos <= c)
             {
                 /* finish that payload_t and go to the next one */
-                fwrite(ptrCur->data+pos,1,ptrCur->cur_length - pos,fp);
+                if (fwrite(ptrCur->data+pos,1,ptrCur->cur_length - pos,fp) != (ptrCur->cur_length - pos))
+                {
+                    fclose(fp);
+                    sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+                    return TCL_ERROR;
+                }
                 c -= ptrCur->cur_length - pos;
                 /* go to the next payload_t */
                 ptrCur = ptrCur->next;
                 pos = 0;
             } else {
                 /* enough data remaining in that payload_t */
-                fwrite(ptrCur->data+pos,1,c,fp);
+                if (fwrite(ptrCur->data+pos,1,c,fp) != c)
+                {
+                    fclose(fp);
+                    sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+                    return TCL_ERROR;
+                }
                 pos += c;
                 c = 0;
             }
@@ -331,12 +395,116 @@ int writeGIFFortified(
     }
     /* block terminator */
     c = 0;
-    fwrite(&c,1,1,fp);
+    if (fwrite(&c,1,1,fp) != 1)
+    {
+        fclose(fp);
+        sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+        return TCL_ERROR;
+    }
     /* End Of File */
     c = ';';
-    fwrite(&c,1,1,fp);
+    if (fwrite(&c,1,1,fp) != 1)
+    {
+        fclose(fp);
+        sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+        return TCL_ERROR;
+    }
 
     fclose(fp);
     return TCL_OK;
 }
 
+/*
+ * tclISF_fortify --
+ * Arguments are :
+ * filename (string) : filename of the GIF file to fortify
+ */
+int tclISF_fortify(ClientData clientData, Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[])
+{
+    const char * filename = NULL;
+    int filename_length;
+
+    if (objc != 2)
+    {
+        Tcl_WrongNumArgs(interp, 1, objv, "filename");
+        return TCL_ERROR;
+    }
+
+    /* Get the filename */
+    filename = Tcl_GetStringFromObj(objv[1], &filename_length);
+
+    //Fortify!
+    return fortify(interp, (TCHAR *)filename);
+}
+
+// Don't look at that code, it's plain ugly
+int fortify(Tcl_Interp *interp, TCHAR * filename)
+{
+    int height, width;
+    ISF_t * pISF;
+    transform_t * transform = NULL;
+    payload_t * rootTag = NULL;
+    INT64 payloadSize = 0;
+    int err;
+    
+    // 1st load the image
+    CxImage image( filename, (DWORD)0);
+    
+    err = createSkeletonISF(&pISF, image.GetWidth(), image.GetHeight());
+    if (err != OK)
+    {
+        sprintf(interp->result, "libISF returned error %d while fortifying %s.", err, filename);
+        return TCL_ERROR;
+    }
+    pISF->drawAttrs->penWidth = 1;
+    pISF->drawAttrs->penHeight = 1;
+    
+    height = image.GetHeight();
+    width = image.GetWidth();
+
+    // search the non-transparent pixels in the image    
+    for(long y=0; y<height; y++)
+    {
+        for(long x=0; x<width; x++)
+        {
+            if (!image.IsTransparent(x,y))
+            {
+                err = createStroke(&(pISF->strokes),
+                        1,
+                        pISF->strokes,
+                        pISF->drawAttrs);
+                if (err != OK)
+                {
+                    freeISF(pISF);
+                    sprintf(interp->result, "libISF returned error %d while fortifying %s.", err, filename);
+                    return TCL_ERROR;
+                }
+                pISF->strokes->nPoints = 1;
+                pISF->strokes->X[0] = (INT64)x;
+                pISF->strokes->Y[0] = (INT64)(height-y);
+            }
+        }
+    }
+    err = createTransform(&transform);
+    if (err != OK)
+    {
+        freeISF(pISF);
+        sprintf(interp->result, "libISF returned error %d while fortifying %s.", err, filename);
+        return TCL_ERROR;
+    }
+    transform->m11 = transform->m22 = HIMPERPX;
+    // encode
+    err = createISF(pISF, &rootTag, transform, &payloadSize);
+    if (err != OK)
+    {
+        freeISF(pISF);
+        sprintf(interp->result, "libISF returned error %d while fortifying %s.", err, filename);
+        return TCL_ERROR;
+    }
+    // write to the file :
+    err = writeGIFFortified(interp, filename, rootTag, payloadSize);
+    freeISF(pISF);
+    freePayloads(rootTag);
+    return err;
+}

@@ -388,12 +388,22 @@ status_log "creating drawboard widget $self"
 		::picture::Save copytosend $filename cxgif
 
 		# Fortify the GIF with the strokes_list
-		if {$gifFortified && ![catch {package require tclISF 0.2}]} {
-			if {[catch {[tclISF_save $filename $strokes_list $drawAttrs_list]} err]} {
-				status_log "\[SaveDrawing\] saving to file $filename. Got Error : $err" red
-				status_log "$strokes_list" red
-				status_log "$drawAttrs_list" red
-			}
+		if {$gifFortified} {
+            if {![catch {package require tclISF 0.3}]} {
+               if {[catch {[tclISF save $filename $strokes_list $drawAttrs_list]} err]} {
+                    status_log "\[SaveDrawing\] saving to file $filename. Got Error : $err" red
+                    status_log "$strokes_list" red
+                    status_log "$drawAttrs_list" red
+                }
+            } else {
+                if {![catch {package require -exact tclISF 0.2}]} {
+                    if {[catch {[tclISF_save $filename $strokes_list $drawAttrs_list]} err]} {
+                        status_log "\[SaveDrawing\] saving to file $filename. Got Error : $err" red
+                        status_log "$strokes_list" red
+                        status_log "$drawAttrs_list" red
+                    }
+                }
+            }
 		}
 
 		image delete copytosend
