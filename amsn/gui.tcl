@@ -6248,11 +6248,11 @@ proc copy { cut w } {
 
 	set dump [$window dump -text [lindex $index 0] [lindex $index 1]]
 
-	if { [OnLinux] } {
-		foreach { text output index } $dump { clipboard append -type UTF8_STRING "$output" }
-	} else {
+	#if { [OnLinux] } {
+	#	foreach { text output index } $dump { clipboard append -type UTF8_STRING "$output" }
+	#} else {
 		foreach { text output index } $dump { clipboard append "$output" }
-	}
+	#}
 	if { $cut == "1" } { catch { $window delete sel.first sel.last } }
 }
 #///////////////////////////////////////////////////////////////////////
