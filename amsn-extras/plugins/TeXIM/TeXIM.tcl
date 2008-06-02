@@ -38,12 +38,6 @@ namespace eval ::TeXIM {
 		::skin::setPixmap buttonTex_hover tex_hover.png pixmaps [file join $directory pixmaps]
 
 		set ::TeXIM::configlist [list [list frame ::TeXIM::populateFrame ""] ]
-
-		if { [info exists ::env(TEMP) ] } {
-			file mkdir [file join $::env(TEMP) TeXIM]
-		} else {
-			file mkdir [file join /tmp TeXIM]
-		}
 	}
 	
 	proc populateFrame { win } {
@@ -179,14 +173,16 @@ namespace eval ::TeXIM {
 	# Turn the $texText into a GIF file         #
 	# Returns the path to the image             #
 	#############################################
-	proc Create_GIF_from_Tex { texText } {
+	proc Create_GIF_from_Tex { texText {fortify 0}} {
 		
 		set oldpwd [pwd]
+
 		if { [info exists ::env(TEMP) ] } {
-			set tmp [file join $::env(TEMP) TeXIM]
+			set tmp [file join $::env(TEMP) "TeXIM-[pid]"]
 		} else {
-			set tmp [file join /tmp TeXIM]
+			set tmp [file join /tmp "TeXIM-[pid]"]
 		}
+                catch {file mkdir $tmp}
 		
 		plugins_log "TeXIM" "creating a GIF with the tex code:\n$texText"
 		set fileXMLtex [open [file join $tmp "TeXIM.tex"] w]
@@ -196,8 +192,8 @@ namespace eval ::TeXIM {
 			puts $fileXMLtex [read $chan_pre]
 			close $chan_pre
 		}	
-		puts $fileXMLtex "\\begin\{document\}"
 
+		puts $fileXMLtex "\\begin\{document\} \\Huge"
 		puts $fileXMLtex "${texText}"
 		
 		puts $fileXMLtex "${::TeXIM::config(footer)}"
@@ -213,7 +209,7 @@ namespace eval ::TeXIM {
 			if { [file exists [file join $tmp TeXIM.dvi] ] }  {
 				if { [ catch { exec ${::TeXIM::config(path_dvips)} -f -E -o [file join $tmp TeXIM.ps] -q [file join $tmp TeXIM.dvi] } msg ] == 0 } { 
 					catch {file delete [file join $tmp "TeXIM.dvi"]}
-					if { [ catch { exec ${::TeXIM::config(path_convert)} -density ${::TeXIM::config(resolution)} \
+					if { [ catch { exec ${::TeXIM::config(path_convert)} -monochrome -density ${::TeXIM::config(resolution)} \
 							[file join $tmp TeXIM.ps] [file join $tmp TeXIM.gif] } msg ] == 0 } {
 						set tempimg [image create photo -file [file join $tmp TeXIM.gif]]
 						if {[image height $tempimg] > 1000} {
@@ -225,6 +221,9 @@ namespace eval ::TeXIM {
 						}
 						image delete $tempimg
 						catch {file delete [file join $tmp "TeXIM.dvi"]}
+                                                if { $fortify && [package require tclISF 0.3]} {
+                                                    tclISF fortify [file join $tmp "TeXIM.gif"]
+                                                }
 						return [file join $tmp "TeXIM.gif"]	
 					} else { append msg "\n^^Error in CONVERT" }
 				} else { append msg "\n^^Error in DVIPS" }
@@ -300,7 +299,7 @@ namespace eval ::TeXIM {
 			# Strip \tex out
 			set texText [string range $msg 4 end]
 			
-			set GifFile [::TeXIM::Create_GIF_from_Tex $texText ]
+			set GifFile [::TeXIM::Create_GIF_from_Tex $texText 1]
 			plugins_log "TeXIM" "GifFile=\n$GifFile"
 			if {$GifFile != 0 } {
 				::amsn::InkSend $win_name $GifFile
@@ -392,7 +391,7 @@ namespace eval ::TeXIM {
 		if { [string first "\\tex " $texText] == 0 } { 
 				set texText [string range $texText 4 end]
 		}
-		set GifFile [::TeXIM::Create_GIF_from_Tex $texText ]
+		set GifFile [::TeXIM::Create_GIF_from_Tex $texText 1]
 		plugins_log "TeXIM" "GifFile=$GifFile"
 		if {$GifFile != 0 } {
 			 ::amsn::InkSend $win_name $GifFile
@@ -416,7 +415,7 @@ namespace eval ::TeXIM {
 				set texText [string range $texText 4 end]
 		}
 		plugins_log "TeXIM" "$texText"
-		set GifFile [::TeXIM::Create_GIF_from_Tex $texText ]
+		set GifFile [::TeXIM::Create_GIF_from_Tex $texText 0]
 		plugins_log "TeXIM" "GifFile=$GifFile"
 		if {$GifFile != 0 } {
 			if { [winfo exists .texPreviewWin] } {
