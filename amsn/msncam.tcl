@@ -1637,14 +1637,14 @@ namespace eval ::MSNCAM {
 			if { [image width $img] != "0" || [image height $img] != "0" } {
 				$img configure -width $camwidth -height $camheight
 			} else {
-				return
+				return 0
 			}
 			
 		}
 		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "")
 		     && [catch {set data [::Webcamsn::Encode $encoder $img]} res] } {
 			status_log "Error encoding frame : $res\n"
-		    return
+		    return 0
 		} else {
 			if { ([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") } {
 				set fd [getObjOption $sock send_log_fd]
@@ -1715,6 +1715,7 @@ namespace eval ::MSNCAM {
 		    }
 		
 		}
+		return 1
 
 	}
 
@@ -2127,7 +2128,11 @@ namespace eval ::CAMGUI {
 		set socket [getObjOption $img socket]
 		set encoder [getObjOption $img encoder]
 		if { $socket == "" || $encoder == "" } { return }
-		::MSNCAM::SendFrame $socket $encoder $img
+		if {[::MSNCAM::SendFrame $socket $encoder $img] == 0 } {
+			# SendFrame returns 0 if it didn't send the frame so we need
+			# to reset the fileevent.. read comment above in Grab_Mac to know why
+			catch {fileevent $socket writable "::MSNCAM::WriteToSock $socket"}
+		}
 	}
 	
 	#We use that proc when we try to create the grabber window
