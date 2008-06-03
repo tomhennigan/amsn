@@ -691,6 +691,7 @@ namespace eval ::MSNCAM {
 				status_log "Received Data on Reflector socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 				if { $data == "CONNECTED\r" } {
 					nbgets $sock 
+					AuthSuccessfull $sid $sock
 					if { $producer } {
 						setObjOption $sock state "TSP_SEND"
 						catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
