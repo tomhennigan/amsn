@@ -2107,8 +2107,7 @@ namespace eval ::CAMGUI {
 				setObjOption $img socket $socket
 				setObjOption $img encoder $encoder
 			}
-			$grabber image ImageReady_Mac $img
-			::CAMGUI::ImageReady_Mac $grabber $img
+			$grabber image ::CAMGUI::ImageReady_Mac $img
 		} else {
 			# Ok, this is very important!! this is the famous bugfix to the infamous
 			# 'whitescreen bug'.. the problem is that if the window is not yet mapped
