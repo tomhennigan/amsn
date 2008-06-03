@@ -1673,6 +1673,10 @@ namespace eval ::guiContactList {
 			lappend stylestring [list "trunc" 1 "..."]
 		}
 
+		set evpar(nick) $parsednick
+		set evpar(login) $email
+		::plugins::PostEvent guicl_drawnick evpar
+
 		#Here we place nickname !!
 		set stylestring [concat $stylestring $parsednick]
 
