@@ -8152,6 +8152,15 @@ if { $initialize_amsn == 1 } {
 	set degt_command_window_visible 0
 }
 
+proc hexify_all { str } {
+	set out ""
+	for {set i 0} { $i < [string length $str] } { incr i} {
+		set c [string range $str $i $i]
+		binary scan $c H* h
+		append out "\[$h\]"
+	}
+	set out
+}
 proc hexify { str } {
 	set out ""
 	for {set i 0} { $i < [string length $str] } { incr i} {
