@@ -410,6 +410,8 @@ int getMetricEntry (decodeISF_t * pDecISF)
     int err = OK;
     INT64 endPayload,
           value;
+    unsigned char c;
+    float f;
 
     /**
      * The Entries' data consists of the following :
@@ -437,13 +439,16 @@ int getMetricEntry (decodeISF_t * pDecISF)
         endPayload = pDecISF->bytesRead + value;
         err = readMBSINT(pDecISF, &value);
         if (err != OK) return err;
-        LOG(stdout,"(METRIC ENTRY) value = %lld\n",value);
+        LOG(stdout,"(METRIC ENTRY) MBSINT = %lld\n",value);
         err = readMBSINT(pDecISF, &value);
         if (err != OK) return err;
-        LOG(stdout,"(METRIC ENTRY) value = %lld\n",value);
-        err = readMBUINT(pDecISF, &value);
+        LOG(stdout,"(METRIC ENTRY) MBSINT = %lld\n",value);
+        err = readByte(pDecISF, &c);
         if (err != OK) return err;
-        LOG(stdout,"(METRIC ENTRY) value = %lld\n",value);
+        LOG(stdout,"(METRIC ENTRY) BYTE = %X\n", c);
+        err = readFloat(pDecISF, &f);
+        if (err != OK) return err;
+        LOG(stdout,"(METRIC ENTRY) FLOAT = %f\n", f);
         err = finishPayload(pDecISF,"(METRIC ENTRY)",endPayload);
     }
     LOG(stdout,"-------------------\n");
