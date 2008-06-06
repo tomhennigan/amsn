@@ -8175,6 +8175,31 @@ proc hexify { str } {
 	set out
 }
 
+proc unhexify { str } {
+	set out "" 
+	for { set i 0 } { $i < [string length $str] } { incr i } {
+		if {[string range $str $i $i] == "\[" &&
+		    [string length $str] > [expr {$i + 3}]  &&
+		    [string range $str [expr {$i + 3}] [expr {$i + 3}]] == "\]" } {
+			set d1 [string range $str [expr {$i +2}] [expr {$i +2}]]
+			set d2 [string range $str [expr {$i + 2}] [expr {$i + 2 }]]
+			if {([string is digit $d1] || $d1 == "a" || $d1 == "b" ||
+			     $d1 == "c" || $d1 == "d" || $d1 == "e" || $d1 == "f") || 
+			    ([string is digit $d2] || $d2 == "a" || $d2 == "b" ||
+			     $d2 == "c" || $d2 == "d" || $d2 == "e" || $d2 == "f")} {
+				append out [binary format H* "${d1}${d2}"]
+				incr i 3
+			} else {
+				append out "\[${d1}${d2}\]"
+			}
+		} else {
+			append out [string range $str $i $i]
+		}
+	}
+	return $out
+}
+
+
 proc degt_protocol { str {colour ""}} {
 	global followtext_degt
 #	return
