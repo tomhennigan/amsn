@@ -1202,6 +1202,10 @@ namespace eval ::MSNP2P {
 					setObjOption $sid ink_message_$cId ""
 					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid $cSid $cTotalDataSize $cId $cAckId]
 					set ink_message [FromUnicode $ink_message]
+					set idx [expr {[string first "Content-Type: " $ink_message] + 14}]
+					set idx2 [expr {[string first "\r\n" $ink_message $idx] - 1}]
+					set ctype [string range $ink_message $idx $idx2]
+
 					set idx [string first "\r\n\r\n" $ink_message]
 					incr idx 4
 					if {[string first "\x00" $ink_message $idx] == $idx } {
@@ -1214,15 +1218,21 @@ namespace eval ::MSNP2P {
 					} else {
 						set data $body
 					}
+					status_log "Received an ink with content type : $ctype "
 					set user [lindex [::MSN::usersInChat $chatid] 0]
-					# don't try to display it if the image is considered as invalid
-					if {[catch {set img [image create photo [TmpImgName] -data $data]}]} {
-						status_log "(msnp2p.tcl) receiving an invalid gif from $user" red
-					} else {
-						set nick [::abook::getDisplayNick $user]
-						set p4c_enabled 0
-						status_log "got ink from $user - $nick with image $img"
-						SendMessageFIFO [list ::amsn::ShowInk $chatid $user $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+					if {$ctype == "image/gif" } {
+						# don't try to display it if the image is considered as invalid
+						if {[catch {set img [image create photo [TmpImgName] -data $data]}]} {
+							status_log "(msnp2p.tcl) receiving an invalid gif from $user" red
+						} else {
+							set nick [::abook::getDisplayNick $user]
+							set p4c_enabled 0
+							status_log "got ink from $user - $nick with image $img"
+							SendMessageFIFO [list ::amsn::ShowInk $chatid $user $nick $img ink $p4c_enabled] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+						}
+					} elseif {$ctype == "application/x-ms-ink" } {
+						# an ISF ink
+						status_log "Received an ISF ink : $body"
 					}
 				}
 
