@@ -1633,10 +1633,14 @@ proc create_dir {path} {
 
 proc PathAbsToRel { path } {
 	global HOME
+	
+	if { [string index $path 0] == "~" && $path != [PathRelToAbs $path] } {
+		set path [PathRelToAbs $path]
+	}
 
 	#Convert absolute path to a relative path
 	if { [string length $path] > [string length $HOME] && [string equal -length [string length $HOME] $HOME $path] && [string index $path [string length $HOME]] == "/"} {
-		set path "~[string range $path [string length $HOME] end]"
+		set path "[string range $path [expr [string length $HOME] + 1] end]"
 	}
 
 	return $path
@@ -1653,6 +1657,9 @@ proc PathRelToAbs { path } {
 		}
 	}
 	
+	if {[file exists [file join $HOME $path]]} {
+		return [file join $HOME $path]
+	}
 	return $path
 }
 
