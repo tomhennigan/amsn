@@ -521,7 +521,7 @@ namespace eval ::log {
 		button $wname.buttons.close -text "[trans close]" -command [list destroy $wname]
 		button $wname.buttons.find -text "[trans find]" -command [list $wname.search show]
 		button $wname.buttons.stats -text "[trans stats]" -command "::log::stats"
-		button $wname.buttons.save -text "[trans savetofile]" -command [list ::log::SaveToFile ${wname} [list ${logvar}]]
+		button $wname.buttons.save -text "[trans savetofile]" -command [list ::log::SaveToFile ${wname}]
 		button $wname.buttons.clear -text "[trans clearlog]"  -command [list ::log::ClearLogGUI ${wname}]
 		    
 
@@ -1331,7 +1331,8 @@ namespace eval ::log {
 	# wname : Log window
 	# logvar : variable containing the whole log file (sure need to setup log file limits)
 
-	proc SaveToFile { wname logvar } {
+	proc SaveToFile { wname } {
+		global logvar
 
 		set email [$wname.top.contact.list list get [$wname.top.contact.list curselection]]
 
