@@ -4264,7 +4264,7 @@ namespace eval ::MSNOIM {
 			::Event::fireEvent contactListChange protocol $username
 
 			if { $lst == "RL" && [lsearch [::abook::getContactData $username lists] "FL"] == -1} {
-				$::ab Synchronize ::MSN::ABSynchronizationDone
+				$::ab Synchronize [list ::MSN::ABSynchronizationDone 0]
 			}
 			if { $lst == "FL" || $lst == "RL" } {
 				#Don't send the event for an addition to any other list
@@ -4302,14 +4302,13 @@ namespace eval ::MSNOIM {
 
 		# Check if there are no users and we got all LSGs, then we finished the authentification
 		if {$current == $total && $loading_list_info(total) == 0} {
+			$self setInitialStatus
 			$self authenticationDone
 		}
 	}
 
 	
 	method authenticationDone {} {
-		$self setInitialStatus
-		
 		set ::contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
@@ -4414,6 +4413,7 @@ namespace eval ::MSNOIM {
 
 		#Last user in list
 		if {$current == $total} {
+			$self setInitialStatus
 			$self authenticationDone
 		}
 
@@ -6080,6 +6080,7 @@ proc cmsn_ns_handler {item {message ""}} {
 
 				# Check if there are no users and no groups, then we already finished authentification
 				if {$loading_list_info(gtotal) == 0 && $loading_list_info(total) == 0} {
+					ns setInitialStatus
 					ns authenticationDone
 				}
 			} else {
@@ -6087,6 +6088,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				foreach username [::MSN::getList "FL"] {
 					::abook::setVolatileData $username state "FLN"
 				}
+				ns setInitialStatus
 				ns authenticationDone
 			}
 			return 0
@@ -6551,7 +6553,7 @@ proc cmsn_auth {{recv ""}} {
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
 			if { [config::getKey protocol] >= 13 } {
-				$::ab Synchronize ::MSN::ABSynchronizationDone
+				$::ab Synchronize [list ::MSN::ABSynchronizationDone 1]
 			} else {
 				set list_version [::abook::getContactData contactlist list_version]
 				#If the value is invalid, we will be disconnected from server
@@ -6586,7 +6588,7 @@ proc cmsn_auth {{recv ""}} {
 }
 
 
-proc ::MSN::ABSynchronizationDone { error } {
+proc ::MSN::ABSynchronizationDone { initial error } {
 	if {$error == 0 } {
 		::MSN::contactListChanged
 
@@ -6663,6 +6665,9 @@ proc ::MSN::ABSynchronizationDone { error } {
 				newcontact $username $nickname
 			}
 		}
+		if {$initial } {
+			ns setInitialStatus
+		}
 		ns authenticationDone	
 	} elseif {$error == 2 } {
 		#ABDoesNotExist
@@ -6677,7 +6682,7 @@ proc ::MSN::ABAddDone { error } {
 	if {$error == 0 } {
 		::abook::setPersonal MFN [::config::getKey login]
 		$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] "" [list contactType Me displayName [xmlencode [::abook::getPersonal MFN]]] DisplayName
-		$::ab Synchronize ::MSN::ABSynchronizationDone
+		$::ab Synchronize [list ::MSN::ABSynchronizationDone 1]
 	} else {
 		::MSN::logout
 		::amsn::errorMsg "[trans internalerror]"
