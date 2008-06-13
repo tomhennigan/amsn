@@ -4217,20 +4217,6 @@ namespace eval ::MSNOIM {
 			::MSN::contactListChanged
 			#an event to let the GUI know a user is removed from a list
 			::Event::fireEvent contactListChange protocol $user
-			
-			if { $lst == "FL" } {
-				set affected_groups [::abook::getGroups $user]
-				::abook::emptyUserGroups $user
-				
-				#The GUID is invalid if the contact is removed from the FL list
-				set userguid [::abook::getContactData $user contactguid]
-				::abook::setContactForGuid $userguid ""
-				::abook::setContactData $user contactguid ""
-				::abook::clearVolatileData $user
-				
-				#an event to let the GUI know a user is removed from a group / the list
-				::Event::fireEvent contactRemoved protocol $user $affected_groups
-			}
 		}
 	}
 
