@@ -1739,7 +1739,7 @@ namespace eval ::MSN {
 				::abook::setContactData $email contactguid $cid
 				::abook::setContactForGuid $cid $email
 
-				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"1\" t=\"1\"/></d></ml>"
+				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"3\" t=\"1\"/></d></ml>"
 				set xmllen [string length $xml]
 				::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml" [list ns handleADLResponse]
 			
