@@ -1736,13 +1736,6 @@ namespace eval ::MSN {
 				set user [lindex $contact 0]
 				set domain [lindex $contact 1]
 				
-				::abook::setContactData $email contactguid $cid
-				::abook::setContactForGuid $cid $email
-
-				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"3\" t=\"1\"/></d></ml>"
-				set xmllen [string length $xml]
-				::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml" [list ns handleADLResponse]
-			
 				#It's a new contact so we save its guid and its nick
 				::abook::setContactData $email contactguid $cid
 				::abook::setContactForGuid $cid $email
@@ -1756,6 +1749,31 @@ namespace eval ::MSN {
 
 				::abook::addContactToList $email "FL"
 				::MSN::addToList "FL" $email
+
+				set lists [::abook::getLists $email]
+				set mask 0
+
+				if {[lsearch $lists "FL"] != -1} {
+					incr mask 1
+				}
+				if {[lsearch $lists "AL"] != -1} {
+					incr mask 2
+				}
+				if {[lsearch $lists "BL"] != -1} {
+					incr mask 4
+				}
+
+				# If the contact was on AL or BL, it stays there, if it was in neither one, then
+				# it gets automatically added to AL..
+				if {$mask == 1} {
+					::abook::addContactToList $email "AL"
+					::MSN::addToList "AL" $email
+					incr mask 2
+				}
+
+				set xml "<ml><d n=\"$domain\"><c n=\"$user\" l=\"$mask\" t=\"1\"/></d></ml>"
+				set xmllen [string length $xml]
+				::MSN::WriteSBNoNL ns "ADL" "$xmllen\r\n$xml" [list ns handleADLResponse]
 
 				::MSN::contactListChanged
 				
