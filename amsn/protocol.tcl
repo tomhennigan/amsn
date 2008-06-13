@@ -1710,7 +1710,7 @@ namespace eval ::MSN {
 		}
 		
 		if {[::config::getKey protocol] >= 13} {
-			set cid [::abook::getContactData $username contactguid]
+			set cid [::abook::getContactData $userlogin contactguid]
 			# This is the WLM bug where you add someone but he doesn't get added correctly...
 			# if you delete someone from WLM, it will mark is "isMessengerUser = false", then if you add it again
 			# instead of updating it to "isMessengerUser = true", it does an ABContactAdd which results in the error
@@ -1739,6 +1739,13 @@ namespace eval ::MSN {
 				#It's a new contact so we save its guid and its nick
 				::abook::setContactData $email contactguid $cid
 				::abook::setContactForGuid $cid $email
+
+				# If we get a 'contactalreadyexists' on an ABContactAdd, then we must do
+				# an ABContactUpdate instead.. it should work now that we saved the contact guid...
+				if {$fail == 2 && $added == 1 } {
+					::MSN::addUser $email "" $gid
+					return
+				}
 
 				::abook::addContactToGroup $email 0
 
