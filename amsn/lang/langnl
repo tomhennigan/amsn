@@ -871,6 +871,7 @@ sortcontactgroup Contacten sorteren op groep
 sortcontacthybrid Contacten sorteren in hybride modus
 sortcontactsasc Contacten oplopend sorteren
 sortcontactsby Contacten sorteren op
+sortcontactsbylogsize Contacten sorteren op logbestandsgrootte
 sortcontactsdesc Contacten aflopend sorteren
 sortcontactstatus Contacten sorteren op status
 sortgroupsasc Groepen oplopend sorteren
