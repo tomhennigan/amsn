@@ -160,10 +160,13 @@ namespace eval ::whatis {
 		if { $searchText == "" } {
 			::amsn::messageBox "No text selected for translation!" ok error 
 		} else { 
-
-			set url "http://translate.google.com/translate_t?sl=$fromLang&tl=$toLang"
-			set query [::http::formatQuery hl "en" ie "UTF8" text $searchText sl $fromLang tl $toLang]
+		#set searchText [encoding convertto utf-8 $searchText]
+		
+		set url "http://translate.google.com/translate_t?sl=$fromLang&tl=$toLang"
+		set query [::http::formatQuery hl "en" ie "UTF8" text $searchText sl $fromLang tl $toLang]
+		::http::config -useragent "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.14) Gecko/20080419 Ubuntu/8.04 (hardy) Firefox/2.0.0.14"
 		set http  [::http::geturl $url -query $query -timeout 72500]
+		::http::config -useragent "MSMSGS"
 		set html  [::http::data $http]
 		
 		# Set a language title
@@ -187,11 +190,10 @@ namespace eval ::whatis {
 		set start [expr { $start + 1 }]
 		
 		# Stript HTML after translated text
-		puts $html
 		set htmlPart [string range $html $start end]
 		set end [expr { [string first "</" $htmlPart] - 1}]
 		set translation [string range $htmlPart 0 $end]
-		set translation [encoding convertfrom utf-8 $translation]
+		#set translation [encoding convertfrom utf-8 $translation]
 				
 		# Write translated text to the chatwindow
 		
