@@ -162,7 +162,7 @@ namespace eval ::whatis {
 		} else { 
 
 			set url "http://translate.google.com/translate_t?sl=$fromLang&tl=$toLang"
-			set query [::http::formatQuery hl "en" ie "UTF8" text $searchText sl "fromLang" tl "toLang"]
+			set query [::http::formatQuery hl "en" ie "UTF8" text $searchText sl $fromLang tl $toLang]
 		set http  [::http::geturl $url -query $query -timeout 72500]
 		set html  [::http::data $http]
 		
