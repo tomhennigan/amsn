@@ -217,7 +217,6 @@ namespace eval ::whatis {
 		} else {
 			set start [expr { $start + [string length $substring]} ]
 			set direction [string range $html $start [expr { [string first "\"" $html $start] - 1}]]
-			puts $direction
 			set start [string first ">" $html $start]
 			set start [expr { $start + 1 }]
 		
