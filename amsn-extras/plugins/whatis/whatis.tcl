@@ -19,6 +19,32 @@ namespace eval ::whatis {
 			
 		plugins_log "whatis" "plugin registered"
 	}
+
+	proc manual_langpair { w } {
+		toplevel .whatislp
+		pack [label .whatislp.lbl -text "Enter from and to language codes, separated by space\n(From language code can also be \"auto\")"]
+		pack [entry .whatislp.en]
+		pack [button .whatislp.btn -text "OK"]
+		bind .whatislp.en <Return> [list ::whatis::validateAns $w]
+		bind .whatislp.btn <ButtonRelease-1> [list ::whatis::validateAns $w]
+	}
+
+	proc validateAns { w } {
+		set langpair [string trim [.whatislp.en get]]
+		if { $langpair == "" } {
+			destroy .whatislp
+			return
+		}
+		set spacepos [string first " " $langpair]
+		if { $spacepos < 0 } {
+			tk_messageBox -message "Please enter a valid language pair, separated by space" -type ok
+			return
+		}
+		set fromLang [string range $langpair 0 [expr {$spacepos - 1}]]
+		set toLang [string range $langpair [expr {$spacepos + 1}] end]
+		translateText $w $fromLang $toLang
+		destroy .whatislp
+	}
 	
 	#
 	# Get the selected text from the chatWindow
@@ -117,6 +143,7 @@ namespace eval ::whatis {
 		$copymenu.whatis.translate add command -label "Russian to English" -command "whatis::translateText $w ru en"	
 		$copymenu.whatis.translate add command -label "Greek to English" -command "whatis::translateText $w el en"
 		$copymenu.whatis.translate add command -label "Japanese to English" -command "whatis::translateText $w ja en"
+		$copymenu.whatis.translate add command -label "Other..." -command "whatis::manual_langpair $w"
 	}
 	
 	#
@@ -178,20 +205,29 @@ namespace eval ::whatis {
 				"ru" { set langTitle "Russian" }		
 				"el" { set langTitle "Greek" }
 				"ja" { set langTitle "Japanese" }
-				default { set langTitle "English" }
+				"en" { set langTitle "English" }
+				default { set langTitle "selected language" }
 		}
 		
 		# Strip HTML before translated text 
-		set substring "<div id=result_box dir=\"ltr\">"
+		set substring "<div id=result_box dir=\""
 		set start [string first $substring $html]
-		set start [string first ">" $html $start]
-		set start [expr { $start + 1 }]
+		if { $start == -1 } {
+			set translation "Problem parsing return text. Translation engine probably returned an error"
+		} else {
+			set start [expr { $start + [string length $substring]} ]
+			set direction [string range $html $start [expr { [string first "\"" $html $start] - 1}]]
+			puts $direction
+			set start [string first ">" $html $start]
+			set start [expr { $start + 1 }]
 		
-		# Stript HTML after translated text
-		set htmlPart [string range $html $start end]
-		set end [expr { [string first "</" $htmlPart] - 1}]
-		set translation [string range $htmlPart 0 $end]
-		#set translation [encoding convertfrom utf-8 $translation]
+			# Stript HTML after translated text
+			set htmlPart [string range $html $start end]
+			set end [expr { [string first "</" $htmlPart] - 1}]
+			set translation [string range $htmlPart 0 $end]
+			if { $direction == "rtl" } { set translation [string reverse $translation] }
+			#set translation [encoding convertfrom utf-8 $translation]
+		}
 				
 		# Write translated text to the chatwindow
 		
