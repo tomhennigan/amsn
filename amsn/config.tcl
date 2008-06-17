@@ -6,7 +6,7 @@
 namespace eval ::config {
 
 	proc configDefaults {} {
-		global password auto_path advanced_options custom_emotions osspecific_keys
+		global password auto_path advanced_options custom_emotions osspecific_keys locale_codes
 
 		::config::setKey nossl 0			;#Disable the use of SSL, so it doesn't requite TLS package: 0|1
 
@@ -301,8 +301,6 @@ namespace eval ::config {
 
 		::config::setKey dynamic_rate 0 				;# Use a dynamic framerate for webcam depending on the timestamps in the ML20 header
 
-		::config::setKey localecode 1033				;# Default locale-code is 1033 for en-US
-		
                 ::config::setKey no_oim_confirmation 0                          ;# Ask or not confirmation to send/read oim messages
 		::config::setKey sound_on_first_message 0			;# Play sound only on the first message received in a chat window
 
@@ -371,7 +369,6 @@ namespace eval ::config {
 			[list title MSN] \
 			[list local displayp4context bool displayp4context] \
 			[list local p4contextprefix str p4contextprefix] \
-			[list local localecode int localecode] \
 			[list title others] \
 			[list local activeautoupdate bool activeautoupdate] \
 			[list local allowbadwords bool allowbadwords] \
@@ -390,6 +387,141 @@ namespace eval ::config {
 					notifyYoffset filemanager openfilecommand usesnack \
 					wingeometry backgroundcolor dockbounce newchatwinstate \
 					newmsgwinstate psmplace mailcommand]
+
+		set locale_codes [list \
+			[list af 1078] \
+			[list ar-ae 14337] \
+			[list ar-bh 15361] \
+			[list ar-dz 5121] \
+			[list ar-eg 3073] \
+			[list ar-iq 2049] \
+			[list ar-jo 11265] \
+			[list ar-kw 13313] \
+			[list ar-lb 12289] \
+			[list ar-ly 4097] \
+			[list ar-ma 6145] \
+			[list ar-om 8193] \
+			[list ar-qa 16385] \
+			[list ar-sa 1025] \
+			[list ar-sy 10241] \
+			[list ar-tn 7169] \
+			[list ar-ye 9217] \
+			[list az-az 1068] \
+			[list az-az 2092] \
+			[list be 1059] \
+			[list bg 1026] \
+			[list ca 1027] \
+			[list cs 1029] \
+			[list da 1030] \
+			[list de-de 1031] \
+			[list de-at 3079] \
+			[list de-li 5127] \
+			[list de-lu 4103] \
+			[list de-ch 2055] \
+			[list el 1032] \
+			[list en-au 3081] \
+			[list en-bz 10249] \
+			[list en-ca 4105] \
+			[list en-cb 9225] \
+			[list en-ie 6153] \
+			[list en-jm 8201] \
+			[list en-nz 5129] \
+			[list en-ph 13321] \
+			[list en-za 7177] \
+			[list en-tt 11273] \
+			[list en-gb 2057] \
+			[list en-us 1033] \
+			[list es-es 1034] \
+			[list es-ar 11274] \
+			[list es-bo 16394] \
+			[list es-cl 13322] \
+			[list es-co 9226] \
+			[list es-cr 5130] \
+			[list es-do 7178] \
+			[list es-ec 12298] \
+			[list es-gt 4106] \
+			[list es-hn 18442] \
+			[list es-mx 2058] \
+			[list es-ni 19466] \
+			[list es-pa 6154] \
+			[list es-pe 10250] \
+			[list es-pr 20490] \
+			[list es-py 15370] \
+			[list es-sv 17418] \
+			[list es-uy 14346] \
+			[list es-ve 8202] \
+			[list et 1061] \
+			[list eu 1069] \
+			[list fa 1065] \
+			[list fi 1035] \
+			[list fo 1080] \
+			[list fr-fr 1036] \
+			[list fr-be 2060] \
+			[list fr-ca 3084] \
+			[list fr-lu 5132] \
+			[list fr-ch 4108] \
+			[list gd-ie 2108] \
+			[list gd 1084] \
+			[list he 1037] \
+			[list hi 1081] \
+			[list hr 1050] \
+			[list hy 1067] \
+			[list is 1039] \
+			[list id 1057] \
+			[list it-it 1040] \
+			[list it-ch 2064] \
+			[list ja 1041] \
+			[list ko 1042] \
+			[list lv 1062] \
+			[list lt 1063] \
+			[list mk 1071] \
+			[list ms-my 1086] \
+			[list ms-bn 2110] \
+			[list mt 1082] \
+			[list mr 1102] \
+			[list nl-nl 1043] \
+			[list nl-be 2067] \
+			[list no-no 1044] \
+			[list no-no 2068] \
+			[list pl 1045] \
+			[list pt-pt 2070] \
+			[list pt-br 1046] \
+			[list rm 1047] \
+			[list ro 1048] \
+			[list ro-mo 2072] \
+			[list ru 1049] \
+			[list ru-mo 2073] \
+			[list sa 1103] \
+			[list sb 1070] \
+			[list sl 1060] \
+			[list sk 1051] \
+			[list sq 1052] \
+			[list sr-sp 3098] \
+			[list sr-sp 2074] \
+			[list st 1072] \
+			[list sv-se 1053] \
+			[list sv-fi 2077] \
+			[list sw 1089] \
+			[list ta 1097] \
+			[list th 1054] \
+			[list tn 1074] \
+			[list tr 1055] \
+			[list ts 1073] \
+			[list tt 1092] \
+			[list uk 1058] \
+			[list ur 1056] \
+			[list uz-uz 2115] \
+			[list uz-uz 1091] \
+			[list vi 1066] \
+			[list xh 1076] \
+			[list yi 1085] \
+			[list zu 1077] \
+			[list zh-cn 2052] \
+			[list zh-hk 3076] \
+			[list zh-mo 5124] \
+			[list zh-sg 4100] \
+			[list zh-tw 1028] \
+		]
 	}
 
 	proc globalDefaults {} {

@@ -1633,6 +1633,7 @@ proc Preferences { { settings "personal"} } {
 	# _| Personal |________________________________________________
 	::skin::setPixmap prefpers prefpers.gif
 	::skin::setPixmap prefprofile prefprofile.gif
+	::skin::setPixmap preflocale globe.png
 	::skin::setPixmap preffont preffont.gif
 	::skin::setPixmap prefphone prefphone.gif
 	#set frm [Rnotebook:frame $nb $Preftabs(personal)]
@@ -1680,6 +1681,16 @@ proc Preferences { { settings "personal"} } {
 	button $lfname.bprofile -text [trans editprofile] -command "::hotmail::hotmail_profile"
 	pack $lfname.pprofile $lfname.lprofile -side left
 	pack $lfname.bprofile -side right -padx 15
+
+
+	## Internationalization Frame ##
+	set lfname [labelframe $frm.lfname2a -text [trans preflocale] -font splainf]
+	pack $frm.lfname2a -anchor n -side top -expand 1 -fill x
+	label $lfname.plocale -image [::skin::loadPixmap preflocale]
+	label $lfname.llocale -text [trans preflocale2] -padx 10
+	combobox::combobox $lfname.clocale -editable true -width 20
+	pack $lfname.plocale $lfname.llocale -side left
+	pack $lfname.clocale -side right -padx 15
 
 
 	## Chat Font Frame ##
@@ -2919,7 +2930,7 @@ proc check_int {text} {
 
 # This is where we fill in the Entries of the Preferences
 proc InitPref { {fullinit 0} } {
-	global Preftabs proxy_user proxy_pass pager
+	global Preftabs proxy_user proxy_pass pager locale_codes
 	set nb .cfg.notebook
 
 	if { $fullinit } {
@@ -3003,6 +3014,24 @@ proc InitPref { {fullinit 0} } {
 		$lfname.lfname3.2.pass insert 0 "[::config::getKey remotepassword]"
 		
 	}
+
+	#fill the locales combobox
+	set lfname [$nb.nn getframe personal]
+	set lfname "[$lfname.sw.sf getframe].lfname2a"
+	$lfname.clocale list delete 0 end
+	set loc_item_id 0
+	set loc_item_selected 0
+	foreach loc_item $locale_codes {
+		set loc_name [lindex $loc_item 0]
+		set loc_id [lindex $loc_item 1]
+		$lfname.clocale list insert end $loc_name
+		if {$loc_id == [::config::getKey localecode [::config::getKey localecode_autodetect 1033]]} {
+			set loc_item_selected $loc_item_id
+		}
+		incr loc_item_id
+	}
+	$lfname.clocale select $loc_item_selected
+	$lfname.clocale configure -editable false
 		
 	# Lets fill our profile combobox
 	#set lfname [Rnotebook:frame $nb $Preftabs(others)]
@@ -3188,7 +3217,7 @@ proc setCfgFonts {path value} {
 
 proc SavePreferences {} {
 	global auto_path HOME2 tlsinstalled
-	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls proxy_user proxy_pass pager
+	global myconfig proxy_server proxy_port list_BLP temp_BLP Preftabs libtls proxy_user proxy_pass pager locale_codes
 
 	set nb .cfg.notebook
 
@@ -3241,10 +3270,12 @@ proc SavePreferences {} {
 		::config::setKey idletime $myconfig(idletime)
 	}
 
-	# make sure country code has 4 or 5 digits, otherwise set back to 1033 (= en-US)
-	if { [string length [::config::getKey localecode]] < 4 || [string length [::config::getKey localecode]] > 5 } {
-		::config::setKey localecode 1033
-	}
+	# write correct locale code to config
+	set lfname [$nb.nn getframe personal]
+	set lfname "[$lfname.sw.sf getframe].lfname2a"
+	set loc_item_selected [$lfname.clocale curselection]
+	status_log "selected item: $loc_item_selected" red
+	::config::setKey localecode [lindex [lindex $locale_codes $loc_item_selected] 1]
 	
 	# Check and save phone numbers
         

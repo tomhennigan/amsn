@@ -38,7 +38,7 @@ namespace eval ::MSNGames {
 	
 	proc SendInvite {appId chatid} {
 		set gameName [::MSNGamesPlugins::getName $appId]
-		set localecode [::config::getKey localecode]
+		set localecode [::config::getKey localecode [::config::getKey localecode_autodetect 1033]]
 	
 		set guid "6A13AF9C-5308-4F35-923A-67E8DDA40C2F"
 		set context "$localecode$appId;1;$gameName"
