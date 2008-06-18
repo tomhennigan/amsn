@@ -696,6 +696,8 @@ preffont4 Cambiar la forma en la que veo el texto de otros usuarios en las sesio
 preffont Texto de mis mensajes
 prefft Transferencias de archivos, igual-a-igual y configuración de NAT
 preflibs Directorio para bibliotecas
+preflocale2 Selecciona tu idioma/código de país
+preflocale Ajustes del idioma
 preflog1 Mis opciones de historial y registros
 preflogevent Historial de mis eventos
 preflook Apariencia de mi aMSN
@@ -870,6 +872,7 @@ sngdblclick Un sólo clic para abrir una ventana de conversación
 sortcontactgroup Ordenar contactos por grupo
 sortcontacthybrid Ordenar contactos en modo mixto
 sortcontactsasc Orden ascendente para los contactos
+sortcontactsbylogsize Ordenar los contactos por el tamaño del historial
 sortcontactsby Ordenar los contactos por
 sortcontactsdesc Orden descendente para los contactos
 sortcontactstatus Ordenar contactos por estado
