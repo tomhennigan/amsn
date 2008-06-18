@@ -2,7 +2,7 @@
 # Shell script to get informations about the current song playing in Juk
 
 #Juk is launched ?
-JUK=`ps aux | grep juk | grep -v grep | grep -v info`
+JUK=`ps -e | grep juk | grep -v info`
 if [ -n "$JUK" ]
 then
 	#Yes so we get the info

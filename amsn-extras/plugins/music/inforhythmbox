@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-RHYTHMBOX=`ps aux | grep rhythmbox | grep -v grep | grep -v info`
+RHYTHMBOX=`ps -e | grep [r]hythmbox | grep -v info`
 if [ "$RHYTHMBOX" ]
 then
 	RCLIENT=`rhythmbox --help | grep print-playing | wc -l `

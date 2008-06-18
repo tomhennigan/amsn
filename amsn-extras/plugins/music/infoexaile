@@ -1,6 +1,6 @@
 #! /bin/bash
 
-EXAILE=`ps aux | grep exaile | grep -v grep | grep -v info`
+EXAILE=`ps -e | grep [e]xaile | grep -v info`
 if [ "$EXAILE" ]
 then
 	exaile -q 2>/dev/null | sed 's/status:\ //g' | sed 's/\ self:\ /\n/g' \
