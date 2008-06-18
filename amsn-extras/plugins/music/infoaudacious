@@ -5,6 +5,12 @@
 STATUS=$(audtool playback-status)
 VERSION=$(audtool get-version)
 
+# if that fails, then check for the new audacious 1.5.0 way
+if [ $? -ne 0 ]
+then
+	VERSION=$(audtool version)
+fi
+	
 if [ $? = 0 ]
 then
 	echo $STATUS
@@ -14,14 +20,26 @@ then
 	if [  "$MAJ" -eq "1" -a "$MIN" -ge "4" ] || [ "$MAJ" -gt "1" ] 
 	then
 		#To force \n when there isn't any information
-		echo $(audtool current-song-tuple-data title)
-		echo $(audtool current-song-tuple-data artist) 
+		#echo $(audtool current-song-tuple-data title)
+		#echo $(audtool current-song-tuple-data artist) 
+		title=$(audtool current-song-tuple-data title)
+		artist=$(audtool current-song-tuple-data artist) 
 	else
 		#To force \n when there isn't any information
-		echo $(audtool current-song-tuple-data track_name)
-		echo $(audtool current-song-tuple-data performer)
+		title=$(audtool current-song-tuple-data track_name)
+		title=$(audtool current-song-tuple-data performer)
 	fi
-audtool current-song-filename
+	file=$(audtool current-song-filename)
+
+	# oops, 'seems that the file doesn't have ID3 data, falling back to the song name
+	if [ -z "$title" -o -z "$artist" ]
+	then
+		title=$(audtool current-song)
+	fi
+	echo $title
+	# $artist returns nothing if ID3 data is missing
+	echo $artist
+	echo $file
 else
 	echo 0
 fi
