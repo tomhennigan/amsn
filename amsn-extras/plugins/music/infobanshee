@@ -1,15 +1,36 @@
 #!/bin/sh
-#needs banshee 0.10.6 and newer 
+# needs banshee 0.10.6 or newer
+#
 # By Ruben "RubenV" Vermeersch
-BANSHEE=`ps aux | grep banshee | grep -v grep | grep -v info`
-if [ -n "$BANSHEE" ]
+# Rewritten by Zoltán Nagy
+
+BANSHEE=`ps -e | grep [b]anshee | grep -v info| awk '{print $4}'`
+
+if [ -z "$BANSHEE" ]
 then
-   banshee --query-status |sed  s/^//|cut -c9-
-   banshee --query-title |sed  s/^//|cut -c8-
-   banshee --query-artist |sed  s/^//|cut -c9-
-   banshee --query-uri|sed  s/^//|cut -c6-
-   banshee --query-cover-uri |sed  s/^//|cut -c11- 
-else 
-	echo 0
+    echo "Banshee is not running"
+else
+    if [ "$BANSHEE" = "banshee" ]; then
+        version=0
+    elif [ "$BANSHEE" = "banshee-1" ]; then
+        version=1
+    fi
+
+    if [ $version = 0 ]
+    then
+        banshee --query-status |sed  s/^//|cut -c9-
+        banshee --query-title |sed  s/^//|cut -c8-
+        banshee --query-artist |sed  s/^//|cut -c9-
+        banshee --query-uri|sed  s/^//|cut -c6-
+        banshee --query-cover-uri |sed  s/^//|cut -c11-
+    elif [ $version = 1 ]
+    then
+        banshee-1 --query-current-state |sed s/^//|cut -c16-
+        banshee-1 --query-title |sed  s/^//|cut -c8-
+        banshee-1 --query-artist |sed  s/^//|cut -c9-
+        banshee-1 --query-uri|sed  s/^//|cut -c6-
+    else
+        echo 0
+    fi
 fi
-exit 0
+exit 0 
