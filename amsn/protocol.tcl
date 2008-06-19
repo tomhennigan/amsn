@@ -1187,8 +1187,8 @@ namespace eval ::MSN {
 			set currentMedia ""
 		}
 		# Check if an update is necessary.
-		if { [::abook::getPersonal currentMedia] != ${currentMedia} } {
-			::abook::setPersonal currentMedia $currentMedia
+		if { [::abook::getVolatileData myself currentMedia] != ${currentMedia} } {
+			::abook::setVolatileData myself currentMedia $currentMedia
 			sendUUXData
 		}
 	}
@@ -1231,7 +1231,7 @@ namespace eval ::MSN {
 		set psm [::sxml::xmlreplace $psm]
 		set psm [encoding convertto utf-8 $psm]
 
-		set currentMedia [::abook::getPersonal currentMedia]
+		set currentMedia [::abook::getVolatileData myself currentMedia]
 		set currentMedia [::sxml::xmlreplace $currentMedia]
 		set currentMedia [encoding convertto utf-8 $currentMedia]
 
@@ -4479,7 +4479,7 @@ namespace eval ::MSNOIM {
 			::abook::setVolatileData $contact signatureSound $signatureSound
 			if { [config::getKey login] == $contact} {
 				::abook::setPersonal PSM $psm
-				::abook::setPersonal currentMedia $currentMedia	
+				::abook::setVolatileData myself currentMedia $currentMedia	
 				::abook::setPersonal signatureSound $signatureSound
 
 				if {$payload != ""} {
