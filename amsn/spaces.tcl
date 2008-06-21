@@ -235,7 +235,36 @@ namespace eval ::MSNSPACES {
 		return $posts
 	}
 
-		
+	proc getLiveThemeColor { data } {
+		if { $data != ""} {
+			set data [join [list "#" $data] ""]
+		}
+		return $data
+	}
+
+	proc getLiveThemeData { ccard } {
+		# Should return an array with the theme colors and images
+		set path "soap:Envelope:soap:Body:GetXmlFeedResponse:GetXmlFeedResult:contactCard:liveTheme"
+		set node [GetXmlNode $ccard $path]
+		if {$node != ""} {
+			set node [GetXmlNode $ccard [join [list $path ":head"] ""]]
+			set theme(head_fg) [::MSNSPACES::getLiveThemeColor [GetXmlAttribute $node ":head" textColor]]
+			set theme(head_link) [::MSNSPACES::getLiveThemeColor [GetXmlAttribute $node ":head" linkColor]]
+			set theme(head_bg) [::MSNSPACES::getLiveThemeColor [GetXmlAttribute $node ":head" backgroundColor]]
+			set theme(head_bgimage) [GetXmlAttribute $node ":head" backgroundImage]
+			set node [GetXmlNode $ccard [join [list $path ":body"] ""]]
+			set theme(body_fg) [::MSNSPACES::getLiveThemeColor [GetXmlAttribute $node ":body" textColor]]
+			set theme(body_link) [::MSNSPACES::getLiveThemeColor [GetXmlAttribute $node ":body" linkColor]]
+			set theme(body_bg) [::MSNSPACES::getLiveThemeColor [GetXmlAttribute $node ":body" backgroundColor]]
+			set theme(body_bgimage) [GetXmlAttribute $node ":body" backgroundImage]
+			set theme(outline) [::MSNSPACES::getLiveThemeColor [GetXmlAttribute $node ":body" dividerColor]]
+			set theme(hover) [::MSNSPACES::getLiveThemeColor [GetXmlAttribute $node ":body" accordionHoverColor]]
+			return [array get theme]
+		} else {
+			return ""
+		}
+	}
+	
 	proc fetchSpace {email} {
 		#if an update is available, we'll have to fetch it
 		if {[::abook::getContactData $email spaces_info_xml [list]] == [list] } {
@@ -303,23 +332,27 @@ namespace eval ::ccard {
 
 	#This if is to have backwards-compatibility with aMSN 0.94.  Thanks to Arieh for pointing this out.
 	#Code removed... the 0.97 version should be different
-	::skin::setPixmap ccard_bg ccard_bg.gif
-	::skin::setPixmap ccard_close ccard_close.gif
-	::skin::setPixmap ccard_close_hover ccard_close_hover.gif
-	::skin::setPixmap ccard_left ccard_left.gif
-	::skin::setPixmap ccard_left_hover ccard_left_hover.gif
-	::skin::setPixmap ccard_right ccard_right.gif
-	::skin::setPixmap ccard_right_hover ccard_right_hover.gif
-	::skin::setPixmap ccard_back_line ccard_line.gif
-	::skin::setPixmap ccard_chat ccard_chat.gif
-	::skin::setPixmap ccard_chat_hover ccard_chat_hover.gif
-	::skin::setPixmap ccard_email ccard_email.gif
-	::skin::setPixmap ccard_email_hover ccard_email_hover.gif
-	::skin::setPixmap ccard_nudge ccard_nudge.gif
-	::skin::setPixmap ccard_nudge_hover ccard_nudge_hover.gif
-	::skin::setPixmap ccard_mobile ccard_mobile.gif
-	::skin::setPixmap ccard_mobile_hover ccard_mobile_hover.gif 
-	::skin::setPixmap ccard_bpborder ccard_bpborder.gif
+#	::skin::setPixmap ccard_bg ccard_bg.gif
+#	::skin::setPixmap ccard_close ccard_close.gif
+#	::skin::setPixmap ccard_close_hover ccard_close_hover.gif
+#	::skin::setPixmap ccard_left ccard_left.gif
+#	::skin::setPixmap ccard_left_hover ccard_left_hover.gif
+#	::skin::setPixmap ccard_right ccard_right.gif
+#	::skin::setPixmap ccard_right_hover ccard_right_hover.gif
+#	::skin::setPixmap ccard_back_line ccard_line.gif
+#	::skin::setPixmap ccard_chat ccard_chat.gif
+#	::skin::setPixmap ccard_chat_hover ccard_chat_hover.gif
+#	::skin::setPixmap ccard_email ccard_email.gif
+#	::skin::setPixmap ccard_email_hover ccard_email_hover.gif
+#	::skin::setPixmap ccard_nudge ccard_nudge.gif
+#	::skin::setPixmap ccard_nudge_hover ccard_nudge_hover.gif
+#	::skin::setPixmap ccard_mobile ccard_mobile.gif
+#	::skin::setPixmap ccard_mobile_hover ccard_mobile_hover.gif 
+#	::skin::setPixmap ccard_bpborder ccard_bpborder.gif
+	::skin::setPixmap ccard_x ccard_x.png
+	::skin::setPixmap ccard_x_hl ccard_x_hl.png
+	::skin::setPixmap ccard_up ccard_up.png
+	::skin::setPixmap ccard_dn ccard_dn.png
 
 
 
@@ -365,9 +398,9 @@ namespace eval ::ccard {
 			toplevel $w -background $nocolor -borderwidth 0
 
 
-			#if we draw the window for the first time, draw it at an intelligent position, with the right size (300x210)
-			set winw 300
-			set winh 210			
+			#if we draw the window for the first time, draw it at an intelligent position, with the right size (226x212)
+			set winw 226
+			set winh 212
 			set mouse_x [winfo pointerx $w]
 			set mouse_y [winfo pointery $w]
 			set xpos [expr $mouse_x - [expr $winw/2]]
@@ -400,9 +433,6 @@ namespace eval ::ccard {
 			set canvas $w.card
 			canvas $canvas -width $winw -height $winh -bg $nocolor -highlightthickness 0 -relief flat -borderwidth 0
 			
-			#draw the "backgroundpicture"
-			$canvas create image 0 0 -anchor nw -image [::skin::loadPixmap ccard_bg]
-			
 			#make it draggable
 			bind $canvas <ButtonPress-1> "::ccard::buttondown $w"
 			bind $canvas <B1-Motion> "::ccard::drag $w"
@@ -411,20 +441,19 @@ namespace eval ::ccard {
 
 		set old_email $email
 
-		#The top buttons
-		#---------------		
-		CreateTopButtons $w $canvas $email $side
-
 		#The body
 		#--------
-		drawbody $canvas $email $side 
-
-		#The bottom buttons
-		#------------------
-		CreateBottomButtons $w $canvas $email $side
+		drawCCard $canvas 0 0 $winw $winh $email
+		$canvas bind close_btn <Button-1> "::ccard::closewindow $w"
+		bind $canvas <Destroy> +"::ccard::delete_ccard_images"
 
 		#pack the canvas into the window
 		pack $canvas -side top -fill x
+		
+		#make it draggable
+		bind $canvas <ButtonPress-1> "::ccard::buttondown $w"
+		bind $canvas <B1-Motion> "::ccard::drag $w"
+		bind $canvas <ButtonRelease-1> "::ccard::release $w"
 	}
 
 	#################################################
@@ -433,7 +462,7 @@ namespace eval ::ccard {
 	#################################################
 	proc closewindow { {window ".ccardwin"} } {
 		if {[winfo exists $window]} {
-			::config::setKey ccardgeometry "300x210+[winfo rootx $window]+[winfo rooty $window]"
+			::config::setKey ccardgeometry "226x212+[winfo rootx $window]+[winfo rooty $window]"
 			kill_balloon
 			destroy $window
 		}
@@ -528,6 +557,20 @@ namespace eval ::ccard {
 
 	}
 
+
+	proc delete_ccard_images {} {
+		if {[ImageExists ccard_head_bg]} {
+			image delete ccard_head_bg
+		}
+		if {[ImageExists ccard_body_bg]} {
+			image delete ccard_body_bg
+		}
+		set count 0
+		while {[ImageExists tempspacethumb$count]} {
+			image delete tempspacethumb$count
+			incr count
+		}
+	}
 
 	##################################################
 	# drawbody( canvas email side )                  #
@@ -792,136 +835,379 @@ namespace eval ::ccard {
 		return $stylestring
 	}
 
+	proc getDefaultLiveTheme { } {
+		# Should return an array with the default theme colors and images
+		#TODO: make skinnable
+		set theme(head_fg) "#444444"
+		set theme(head_link) "#0066a7"
+		set theme(head_bg) "#f5fafc"
+		set theme(head_bgimage) ""
+		set theme(body_fg) "#444444"
+		set theme(body_link) "#0066a7"
+		set theme(body_bg) "#ffffff"
+		set theme(body_bgimage) ""
+		set theme(outline) "#e9eaf1"
+		set theme(hover) "#d6effc"
+		return [array get theme]
+	}
+
+	#///////////////////////////////////////////////////////////////////////////////
+	#Gets info of MSN Spaces and puts them into an array
+	proc getSpacesInfo { email } {
+		set xml_data [::abook::getContactData $email spaces_info_xml [list]]
+		foreach i [list SpaceTitle Blog Album Music] {
+			set spaces_info($i) [::MSNSPACES::getTitleFor $xml_data $i]
+		}
+		if {$spaces_info(Blog) != ""} {
+			set spaces_info(BlogPosts) [::MSNSPACES::getAllBlogPosts $xml_data]
+		}
+		if {$spaces_info(Album) != ""} {
+			set spaces_info(Photos) [::MSNSPACES::getAllPhotos $xml_data]
+		}
+		return [array get spaces_info]
+	}
+
+	#///////////////////////////////////////////////////////////////////////////////
+	#Gets the MSN Live Theme and puts it into an array
+	proc getLiveTheme { email } {
+		set xml_data [::abook::getContactData $email spaces_info_xml [list]]
+		set live_theme [::MSNSPACES::getLiveThemeData $xml_data]
+		if {$live_theme == ""} {
+			set live_theme [::ccard::getDefaultLiveTheme]
+		}
+		return $live_theme
+	}
+
+	#///////////////////////////////////////////////////////////////////////////////
+	#Draws the ccard on chosen coordinate on a choosen canvas
+	proc drawCCard { canvas xcoord ycoord width height email } {
+		array set live_theme [::ccard::getLiveTheme $email]
+		
+		#create the outer border
+		$canvas create rectangle 0 0 [expr {$width - 1}] [expr {$height - 1}] -outline "#999999" -tags $email
+		$canvas create rectangle 1 1 [expr {$width - 2}] [expr {$height - 2}] -outline "#ffffff" -tags $email
+
+		set head_ratio [expr {222.0 / 88.0}]
+
+		### HEAD AREA ###
+		#calculate the header area size
+		set head_w [expr {$width - 4}]
+		set head_h [expr {int(round($head_w / $head_ratio))}]
+
+		set lineheight 16
+
+		set xpos [expr {$xcoord + 2}]
+		set ypos [expr {$ycoord + 2}]
+
+		#draw the header background
+		if {[ImageExists ccard_head_bg]} {
+			image delete ccard_head_bg
+		}
+		if {$live_theme(head_bgimage) != ""} {
+			# background image
+			image create photo ccard_head_bg -width $head_w -height $head_h
+			::MSNSPACES::getAlbumImage [list ::ccard::drawSpacesImageCB ccard_head_bg] $live_theme(head_bgimage)
+			$canvas create image $xpos $ypos -anchor nw -image ccard_head_bg -tags $email
+		} else {
+			#solid background
+			$canvas create rectangle $xpos $ypos [expr {$xpos + $head_w}] [expr {$ypos + $head_h}] \
+				-outline "" -fill $live_theme(head_bg) -tags $email
+		}
+		
+		#calculate the dp frame and the dp position
+		set frame_h [image height [::skin::loadPixmap mystatus_bg]]
+		set pad [expr {int(round( ($head_h - $frame_h)/2 ))}]
+		
+		incr xpos 4
+		incr ypos $pad
+		
+		set dp_x [expr {$xpos + [::skin::getKey x_dp_top]}]
+		set dp_y [expr {$ypos + [::skin::getKey y_dp_top]}]
+		
+		#draw the dp
+		if {[getpicturefornotification $email]} {
+			$canvas create image $dp_x $dp_y -anchor nw -image displaypicture_not_$email -tags $email
+		} else {
+			if {[ImageExists displaypicture_not_none]} {
+				image create photo displaypicture_not_none -file [::skin::GetSkinFile displaypic "nopic.gif"]
+				::picture::resizeWithRatio displaypicture_not_none 50 50
+			}
+			$canvas create image $dp_x $dp_y -anchor nw -image displaypicture_not_none -tags $email
+		}
+
+		#draw the dp frame
+		$canvas create image $xpos $ypos -anchor nw -image [::skin::loadPixmap mystatus_bg] -tags $email
+
+		incr xpos [image width [::skin::loadPixmap mystatus_bg]]
+		incr xpos 4
+		set ypos $dp_y
+
+		set limit [expr {$head_w - $xpos - 6}]
+
+		#draw the nickname
+		set nick [::abook::getNick $email]
+		if {[font measure bboldf -displayof $canvas $nick] > $limit} {
+			set nick [::guiContactList::truncateText $nick $limit bboldf "..."]
+		}
+		$canvas create text $xpos $ypos -text $nick -font bboldf -justify left -anchor nw -fill $live_theme(head_fg)\
+			-tags [list $email nickname] 
+
+		incr ypos $lineheight
+
+		#draw the personal status message
+		set psm [::abook::getpsmmedia $email]
+		if {[font measure bitalf -displayof $canvas $psm] > $limit} {
+			set psm [::guiContactList::truncateText $psm $limit bitalf "..."]
+		}
+		$canvas create text $xpos $ypos -text $psm -font bitalf -justify left -anchor nw -fill $live_theme(head_fg)\
+			-tags [list $email psm]
+
+		incr ypos $lineheight
+
+		#draw the email link
+		$canvas create text $xpos $ypos	-text $email -font sitalf -anchor nw -fill $live_theme(head_link)\
+			-tags [list $email email_address clickable]
+		$canvas bind email_address <Button-1> [list launch_mailer $email]
+		
+		set xpos [expr {$xcoord + $head_w - 14}]
+		set ypos [expr {$ycoord + 8}]
+
+		#draw the close button
+		$canvas create image $xpos $ypos -anchor nw -image [::skin::loadPixmap ccard_x] \
+			-activeimage [::skin::loadPixmap ccard_x_hl] -tags [list $email close_btn clickable]
+		
+		### BODY AREA ###
+		set body_w $head_w
+		set body_h [expr {$height - $head_h - 5}]
+
+		set xpos [expr {$xcoord + 2}]
+		set ypos [expr {$ycoord + $head_h + 3}]
+		
+		#draw the body background
+		if {[ImageExists ccard_body_bg]} {
+			image delete ccard_body_bg
+		}
+		if {$live_theme(body_bgimage) != ""} {
+			# background image
+			image create photo ccard_body_bg -width $body_w -height $body_h
+			::MSNSPACES::getAlbumImage [list ::ccard::drawSpacesImageCB ccard_body_bg] $live_theme(body_bgimage)
+			$canvas create image $xpos $ypos -anchor nw -image ccard_body_bg -tags $email
+		} else {
+			#solid background
+			$canvas create rectangle $xpos $ypos [expr {$xpos + $body_w}] [expr {$ypos + $body_h}] \
+				-outline "" -fill $live_theme(body_bg) -tags $email
+		}
+		
+		#the separator reduces the amount of available body space
+		set body_h [expr {$body_h - 20}]
+
+		#draw the separator
+		set sw_btn_y1 $ypos
+		set sw_btn_y2 [expr {$ypos + $body_h + 1}]
+		$canvas create rectangle $xpos $ypos [expr {$xpos + $body_w}] [expr {$ypos + 19}] \
+			-outline "" -fill $live_theme(body_bg) -tags [list separator separator_tile clickable $email]
+		incr ypos
+		incr xpos 4
+		#the title will be added when we draw the spaces info
+		#in case of accidents, we put a fallbacl title
+		$canvas create text $xpos $ypos -text "[trans untitled_space]" -font bboldf -justify left -anchor nw -fill $live_theme(body_fg)\
+			-tags [list space_title separator clickable $email]
+
+		#draw the switch button
+		incr ypos 2
+		set xpos [expr {$xcoord + $body_w - 14}]
+		$canvas create image $xpos $ypos -anchor nw -image [::skin::loadPixmap ccard_dn] \
+			-tags [list separator switch_btn clickable $email]
+		$canvas bind separator <Button-1>  [list ::ccard::switchContent $canvas $sw_btn_y1 $sw_btn_y2]
+		$canvas bind separator <Enter> [list $canvas itemconfigure separator_tile -fill $live_theme(hover)]
+		$canvas bind separator <Leave> [list $canvas itemconfigure separator_tile -fill $live_theme(body_bg)]
+		
+		#draw the contact info
+		set xpos [expr {$xcoord + 2}]
+		set ypos [expr {$ycoord + $head_h + 3}]
+		::ccard::drawContactInfo $canvas $xpos $ypos $body_w $body_h $email [list contact_info $email]
+
+		#draw the spaces info
+		incr ypos 20
+		::ccard::drawSpacesInfo $canvas $xpos $ypos $body_w $body_h $email [list spaces_info $email]
+
+		#draw the outlines
+		set xpos [expr {$xcoord + 2}]
+		set ypos [expr {$ycoord + $head_h + 2}]
+		$canvas create line $xpos $ypos [expr {$xpos + $head_w}] $ypos \
+			-fill $live_theme(outline) -tags $email
+		incr ypos 20
+		$canvas create line $xpos $ypos [expr {$xpos + $body_w}] $ypos \
+			-fill $live_theme(outline) -tags [list spaces_info $email]
+		set ypos [expr {$ypos + $body_h - 19}]
+		$canvas create line $xpos $ypos [expr {$xpos + $body_w}] $ypos \
+			-fill $live_theme(outline) -tags [list contact_info $email]
+
+		#hide the contact info
+		$canvas itemconfigure contact_info -state hidden
+
+		#change pointer on clickables
+		$canvas bind clickable <Enter> +[list $canvas configure -cursor hand2]
+		$canvas bind clickable <Leave> +[list $canvas configure -cursor left_ptr]
+	}
+
+	proc switchContent { canvas y1 y2 } {
+		set y [lindex [$canvas coords separator] 1]
+		if {$y == $y1} {
+			$canvas move separator 0 [expr {$y2 - $y1}]
+			$canvas itemconfigure spaces_info -state hidden
+			$canvas itemconfigure contact_info -state normal
+			$canvas itemconfigure switch_btn -image [::skin::loadPixmap ccard_up]
+		} elseif {$y == $y2} {
+			$canvas move separator 0 [expr {$y1 - $y2}]
+			$canvas itemconfigure contact_info -state hidden
+			$canvas itemconfigure spaces_info -state normal
+			$canvas itemconfigure switch_btn -image [::skin::loadPixmap ccard_dn] 
+		}
+	}
+
+	#///////////////////////////////////////////////////////////////////////////////
+	#Draws info of contact on chosen coordinate on a choosen canvas
+	proc drawContactInfo { canvas xcoord ycoord width height email taglist} {
+		array set live_theme [::ccard::getLiveTheme $email]
+
+		set xpos [expr {$xcoord + 4}]
+		set ypos [expr {$ycoord + 4}]
+		set lineheight 20
+		
+		$canvas create text $xpos $ypos -text "[trans userdata]" -font bboldf -justify left -anchor nw -fill $live_theme(body_fg)\
+			-tags $taglist
+		incr ypos $lineheight
+		
+		$canvas create text $xpos $ypos -text "[trans home]:\t[::abook::getContactData $email phh]" \
+			-font bplainf -width $width -justify left -anchor nw -fill $live_theme(body_fg) -tags $taglist
+		incr ypos $lineheight
+
+		$canvas create text $xpos $ypos -text "[trans work]:\t[::abook::getContactData $email phw]" \
+			-font bplainf -width $width -justify left -anchor nw -fill $live_theme(body_fg) -tags $taglist
+		incr ypos $lineheight
+
+		$canvas create text $xpos $ypos -text "[trans mobile]:\t[::abook::getContactData $email phm]" \
+			-font bplainf -width $width -justify left -anchor nw -fill $live_theme(body_fg) -tags $taglist
+		incr ypos $lineheight
+	}
+	
 	#///////////////////////////////////////////////////////////////////////////////
 	#Draws info of MSN Spaces on chosen coordinate on a choosen canvas
-	proc drawSpacesInfo { canvas xcoord ycoord email taglist } {
-
-
-		#todo: use bbox or something to calculate height
-		set height 0
+	proc drawSpacesInfo { canvas xcoord ycoord width height email taglist } {
+		#todo: use bbox or something to calculate height
+		set xpos [expr {$xcoord + 4}]
+		set ypos [expr {$ycoord + 4}]
 		#todo: calculate height of a line the right way
-		set lineheight 12
+		set lineheight 16
 		set photooffset 0
 
 		if { [::abook::getVolatileData $email fetching_space 0] } {
 			#draw a "please wait .." message, will be replaced when fetching is done
-			$canvas create text $xcoord $ycoord -font sitalf -text [trans fetching] -tags $taglist -anchor nw -fill grey
+			$canvas create text $xpos $ypos -font sitalf -text [trans fetching] -tags $taglist -anchor nw -fill grey
 
 			#adjust $height, adding 1 line
-			set height [expr {$height + $lineheight + 4}]
+			incr ypos $lineheight
+			incr ypos 4
 
 		} else {
 			#show the data we have in abook
 
-			set ccard [::abook::getContactData $email spaces_info_xml [list]]
+			array set spaces_info [::ccard::getSpacesInfo $email]
+			array set live_theme [::ccard::getLiveTheme $email]
 
-			# Store the titles in a var
-			foreach i [list SpaceTitle Blog Album Music] {
-				set $i [::MSNSPACES::getTitleFor $ccard $i]
-#				puts "$i = [set $i]"
+			set limit [expr {$width - 18}]
+
+			if {$spaces_info(SpaceTitle) != ""} {
+				if {[font measure bboldf -displayof $canvas $spaces_info(SpaceTitle)] > $limit} {
+					set SpaceTitle [::guiContactList::truncateText $spaces_info(SpaceTitle) $limit bboldf "..."]
+				} else {
+					set SpaceTitle $spaces_info(SpaceTitle)
+				}
+				$canvas itemconfigure space_title -text $SpaceTitle				
 			}
 			
-			#First show the spaces title:
-			if {$SpaceTitle != ""} {
-				if {[font measure bboldf -displayof $canvas $SpaceTitle] > 175} {
-					set SpaceTitle [::guiContactList::truncateText $SpaceTitle 175 bboldf "..."]
-				}
-				$canvas create text $xcoord [expr {$ycoord + $height}] -font bboldf -text $SpaceTitle\
-					-tags $taglist -anchor nw -fill black
-				
-				#adjust $ychange, adding 1 line
-				set height [expr {$height + $lineheight + 4 }]
-				#set everything after this title a bit to the right
-				set xcoord [expr {$xcoord + 10}]
-			}
+			incr limit 10
 
 			#blogposts
-			if {$Blog != ""} {
+			if {$spaces_info(Blog) != ""} {
 				# seems like a blog without title doesn't exist, so we don't have to check if there are any posts
-				set blogposts [::MSNSPACES::getAllBlogPosts $ccard]
 				#add a title
-				$canvas create text $xcoord [expr {$ycoord + $height}] -font sboldf -text "$Blog" \
-					-tags $taglist -anchor nw -fill #78797e
+				$canvas create text $xpos $ypos -font sboldf -text "$spaces_info(Blog)" \
+					-tags $taglist -anchor nw -fill $live_theme(body_fg)
 				#adjust $ychange, adding 1 line
-				set height [expr {$height + $lineheight}]
+				incr ypos $lineheight
+				incr xpos 10
 
 				set count 0
-				foreach i $blogposts {
+				foreach i $spaces_info(BlogPosts) {
 					set itemtag [lindex $taglist 0]_bpost_${count}
 					#check if there's a title
 					set title [lindex $i 1]
 					if {$title != ""} {
-						if {[font measure sitalf -displayof $canvas $title] > 155} {
-							set SpaceTitle [::guiContactList::truncateText $title 155 sitalf "..."]
+						if {[font measure sitalf -displayof $canvas $title] > $limit} {
+							set title [::guiContactList::truncateText $title $limit sitalf "..."]
 						}
-						$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
+						$canvas create text $xpos $ypos \
 							-font sitalf -text $title -tags [linsert $taglist end $itemtag clickable]\
-							-anchor nw -fill black
+							-anchor nw -fill $live_theme(body_link)
 					} else {
-						$canvas create text [expr {$xcoord + 10}] [expr {$ycoord + $height} ] \
+						$canvas create text $xpos $ypos \
 							-font sitalf -text "[trans untitled]"\
-							-tags [linsert $taglist end $itemtag clickable]  -anchor nw -fill black
+							-tags [linsert $taglist end $itemtag clickable]  -anchor nw -fill $live_theme(body_link)
 					}
 					
 					$canvas bind $itemtag <Button-1> [list ::hotmail::gotSHA1URL "[lindex $i 2]" 73625]
 
 					#update ychange
-					set height [expr {$height + $lineheight}]
+					incr ypos $lineheight
 					incr count
 				}
 			}
 
+			set xpos [expr {$xpos - 10}]
 			
 			#photos
-			if {$Album != ""} {
-				set photos [::MSNSPACES::getAllPhotos $ccard]
+			if {$spaces_info(Album) != ""} {
 				#add a title
-				$canvas create text $xcoord [expr {$ycoord + $height}] -font sboldf -text "$Album" \
-					-tags $taglist -anchor nw -fill #78797e
+				$canvas create text $xpos $ypos -font sboldf -text "$spaces_info(Album)" \
+					-tags $taglist -anchor nw -fill $live_theme(body_fg)
 				#adjust $ychange, adding 1 line
-				set height [expr {$height + 4}]
+				set ypos [expr {$ypos + $lineheight + 4}]
+				incr xpos 10
 
 				set count 0
-				foreach i $photos {
+				foreach i $spaces_info(Photos) {
 					set itemtag [lindex $taglist 0]_bpost_${count}
-#puts "Photo: $i"
 					if { [lindex $i 0] != "" } {
 
 						if {[lindex $i 3] != "" } {
 							set img [image create photo tempspacethumb$count -width 35 -height 35]
 							::MSNSPACES::getAlbumImage [list ::ccard::drawSpacesImageCB $img] [lindex $i 3]
-							set imgx [expr {$xcoord + 10 + $photooffset}]
-							set imgy [expr {$ycoord + $height + $lineheight}]
-							$canvas create image $imgx $imgy -image $img \
+							$canvas create image $xpos $ypos -image $img \
 							    -tags [linsert $taglist end $itemtag clickable] -anchor nw
-							$canvas create rectangle $imgx $imgy  [expr {$imgx + 35}] [expr {$imgy + 35}] -outline #576373 -tags [linsert $taglist end $itemtag clickable]
-							set photooffset [expr {$photooffset + 25}]
-							bind $canvas <Destroy> +[list image delete tempspacethumb$count]
+							$canvas create rectangle $xpos $ypos [expr {$xpos + 35}] [expr {$ypos + 35}] \
+								-outline $live_theme(body_link) -tags [linsert $taglist end $itemtag clickable]
+							incr xpos 25
 						}
 						$canvas bind $itemtag <Button-1> \
 							[list ::hotmail::gotSHA1URL "[lindex $i 2]" 73625]
-						#update ychange
-#						set height [expr {$height + $lineheight } ]
 						incr count
 					}
 				}
-				set height [expr {$height + $lineheight } ]
+				incr ypos $lineheight
 			}
 			#for now show a message if no blogs or photos, for debugging purposes
-			if {$Blog == "" && $Album == ""} {
-				$canvas create text $xcoord [expr $ycoord + $height] -font sitalf \
+			if {$spaces_info(Blog) == "" && $spaces_info(Album) == ""} {
+				set xpos [expr {$xcoord + 4}]
+				$canvas create text $xpos $ypos -font sitalf \
 					-text [trans nospace] -tags $taglist -anchor nw -fill grey
 
 				#adjust $ychange, adding 1 line
-				set height [expr {$height + $lineheight } ]
+				incr ypos $lineheight
 			}
 		}
-		$canvas bind clickable <Enter> +[list $canvas configure -cursor hand2]
-		$canvas bind clickable <Leave> +[list $canvas configure -cursor left_ptr]
-		
-		
-			
-		return $height	
+		return [expr {$ypos - $ycoord}]
 	}
 	
 
