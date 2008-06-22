@@ -506,7 +506,6 @@ lleftconf $1 heeft de vergadering verlaten
 load Activeren
 loadcontacts Contactenlijst importeren
 loadotherdisplaypic Even geduld, de schermafbeeldingen van $1 worden geladen...	
-localecode Je 4-cijferige taal-landcode
 logbigger Het logboek mag per contact niet groter zijn dan 
 logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
@@ -696,6 +695,8 @@ preffont3 Lettertype en -grootte van aMSN's interface wijzigen
 preffont4 De weergave van berichten van mijn contacten in gespreksvensters wijzigen
 prefft Bestandsoverdracht-, peer-to-peer- en NAT-instellingen
 preflibs Zoekpad voor bibliotheken
+preflocale Landinstellingen
+preflocale2 Selecteer je taal-landcode
 preflog1 Logboeken en geschiedenis
 preflogevent Mijn gebeurtenissengeschiedenis
 preflook Weergave
