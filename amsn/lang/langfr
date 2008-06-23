@@ -528,7 +528,7 @@ logschats Enregistre les conversations
 logsin vient de se connecter
 logsmileys Afficher les émoticônes/smileys dans la fenêtre d'historique de aMSN
 logsout vient juste de se déconnecter
-logwebcam Enregistrer toutes les sessions webcam dans l'historique d'aMSN pour une visualisation ultèrieure
+logwebcam Enregistrer toutes les sessions webcam dans l'historique d'aMSN pour une visualisation ultérieure
 longnick Votre pseudonyme est supérieur à 130 caractères. Ce n'est pas supporté officiellement par le protocol MSN. Êtes-vous sûrs de vouloir le mettre ?
 longp4c Votre pseudonyme de conversation dépasse les 130 caractères. Le client MSN officiel affichera $1. Voulez-vous continuer ?
 longpsm Votre message personnel est trop long. Ce n'est pas supporté officiellement par le protocol MSN. Êtes-vous sûrs de vouloir le mettre ?
@@ -696,6 +696,8 @@ preffont4 Changer la façon dont je vois le texte des contacts dans la fenêtre de
 preffont Texte de mes messages
 prefft Configuration des transferts de fichiers, peer-to-peer et NAT
 preflibs Répertoires des bibliothèques
+preflocale Paramètres d'internationalisation
+preflocale2 Choississez votre code de langue/pays
 preflog1 Mon historique et ses options
 preflogevent Mon historique d'événements
 preflook Apparence de aMSN
@@ -871,6 +873,7 @@ sortcontactgroup Trier les contacts par leur groupe
 sortcontacthybrid Trier les contacts en mode hybride
 sortcontactsasc Trier les contacts dans l'ordre ascendant
 sortcontactsby Trier les contacts par
+sortcontactsbylogsize Trier les contacts par taille de l'historique
 sortcontactsdesc Trier les contacts dans l'ordre descendant
 sortcontactstatus Trier les contacts par statut
 sortgroupsasc Trier les groupes dans l'ordre ascendant (standard)
