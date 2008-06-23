@@ -716,10 +716,10 @@ namespace eval ::abook {
 		set psmmedia [list ]
 		if { $user_login eq "" } {
 			set psm [::abook::getVolatileData myself parsed_psm]
-        	set currentMedia [::abook::parseCurrentMedia [::abook::getVolatileData myself currentMedia]]
+			set currentMedia [::abook::parseCurrentMedia [::abook::getVolatileData myself currentMedia]]
 		} else {
-                	set psm [::abook::getVolatileData $user_login parsed_psm]
-                	set currentMedia [::abook::parseCurrentMedia [::abook::getVolatileData $user_login currentMedia]]
+			set psm [::abook::getVolatileData $user_login parsed_psm]
+			set currentMedia [::abook::parseCurrentMedia [::abook::getVolatileData $user_login currentMedia]]
 		}
 		if {$psm ne ""} {
 			set psmmedia [concat $psmmedia $psm]
