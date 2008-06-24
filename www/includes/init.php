@@ -6,7 +6,7 @@ require_once 'common.php';
 
   <head>
 
-  <title>Alvaro's Messenger</title>
+  <title>aMSN - Opening your communication</title>
 
   <link rel="stylesheet" type="text/css" media="screen" href="stylesheet.css" />
 
