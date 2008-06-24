@@ -380,6 +380,9 @@ namespace eval ::ccard {
 
 		#set the name of the window to .ccarcwin_[numeric value of adres]
 		set w .ccardwin
+		
+		set winw 226
+		set winh 210
 
 		#destroy the window if it already exists, with an animation
 		#==========================================================
@@ -391,16 +394,18 @@ namespace eval ::ccard {
 			focus $w
 			set canvas $w.card
 			$canvas delete $old_email
+			
 		} else {
 			#Define the window
 			#=================
 			set nocolor white
 			toplevel $w -background $nocolor -borderwidth 0
-
-
+			
+			if {[OnMac]} {
+				tk::unsupported::MacWindowStyle style $w floating {noTitleBar}
+			}
+			
 			#if we draw the window for the first time, draw it at an intelligent position, with the right size (226x212)
-			set winw 226
-			set winh 212
 			set mouse_x [winfo pointerx $w]
 			set mouse_y [winfo pointery $w]
 			set xpos [expr $mouse_x - [expr $winw/2]]
@@ -413,15 +418,22 @@ namespace eval ::ccard {
 			if {[expr $ypos + $winh] > [winfo vrootheight $w]} {
 				set ypos [expr [winfo vrootheight $w] - $winh -$border]
 			}
-			if {[::config::getKey rememberccardposition "1"] && [::config::isSet ccardgeometry]} {
-				wm geometry $w [::config::getKey ccardgeometry]
+			#migrate from oldstyle ccardgeometry to ccardpos.
+			if {[::config::isSet ccardgeometry]} {
+				if {[regexp {([\+|-]+)(\d+)([\+|-]+)(\d+)} [::config::getKey ccardgeometry] geo_match]} {
+					::config::setKey ccardpos $geo_match
+				}
+				::config::unsetKey ccardgeometry
+			}
+			if {[::config::getKey rememberccardposition 1] && [::config::isSet ccardpos]} {
+				wm geometry $w [::config::getKey ccardpos]
 			} else {
 				# Default geomtry is relative to the mouse position.
 				wm geometry $w ${winw}x${winh}+$xpos+$ypos
 			}
 			
 			#close the window when ESC is pressed, set focus so it can be closed with ESC
-			bind $w <<Escape>> "::ccard::closewindow $w"
+			bind $w <<Escape>> [list ::ccard::closewindow $w]
 			focus $w
 			
 			#the overrideredirect makes it have no border and not draggable etc (no wm stuff)
@@ -434,9 +446,9 @@ namespace eval ::ccard {
 			canvas $canvas -width $winw -height $winh -bg $nocolor -highlightthickness 0 -relief flat -borderwidth 0
 			
 			#make it draggable
-			bind $canvas <ButtonPress-1> "::ccard::buttondown $w"
-			bind $canvas <B1-Motion> "::ccard::drag $w"
-			bind $canvas <ButtonRelease-1> "::ccard::release $w"
+			bind $canvas <ButtonPress-1> [list ::ccard::buttondown $w]
+			bind $canvas <B1-Motion> [list ::ccard::drag $w]
+			bind $canvas <ButtonRelease-1> [list ::ccard::release $w]
 		}
 
 		set old_email $email
@@ -444,16 +456,16 @@ namespace eval ::ccard {
 		#The body
 		#--------
 		drawCCard $canvas 0 0 $winw $winh $email
-		$canvas bind close_btn <Button-1> "::ccard::closewindow $w"
-		bind $canvas <Destroy> +"::ccard::delete_ccard_images"
+		$canvas bind close_btn <Button-1> [list ::ccard::closewindow $w]
+		bind $canvas <Destroy> +[list ::ccard::delete_ccard_images]
 
 		#pack the canvas into the window
 		pack $canvas -side top -fill x
 		
 		#make it draggable
-		bind $canvas <ButtonPress-1> "::ccard::buttondown $w"
-		bind $canvas <B1-Motion> "::ccard::drag $w"
-		bind $canvas <ButtonRelease-1> "::ccard::release $w"
+		bind $canvas <ButtonPress-1> [list ::ccard::buttondown $w]
+		bind $canvas <B1-Motion> [list ::ccard::drag $w]
+		bind $canvas <ButtonRelease-1> [list ::ccard::release $w]
 	}
 
 	#################################################
@@ -462,7 +474,7 @@ namespace eval ::ccard {
 	#################################################
 	proc closewindow { {window ".ccardwin"} } {
 		if {[winfo exists $window]} {
-			::config::setKey ccardgeometry "226x212+[winfo rootx $window]+[winfo rooty $window]"
+			::config::setKey ccardpos "+[winfo x ${window}]+[winfo y ${window}]"
 			kill_balloon
 			destroy $window
 		}
@@ -673,11 +685,15 @@ namespace eval ::ccard {
 		#where is the mouse in the window ?
 		set dx [expr {$wx-$mousex}]
 		set dy [expr {$wy-$mousey}]
+		#raise the ccard
+		raise $w
 	}
 	proc release {w} {
 		variable dset
 		#set 'button is released'
 		set dset 0
+		#raise the ccard
+		raise $w
 	}
 	proc drag {w} {
 		variable dset
@@ -1095,7 +1111,8 @@ namespace eval ::ccard {
 	#///////////////////////////////////////////////////////////////////////////////
 	#Draws info of MSN Spaces on chosen coordinate on a choosen canvas
 	proc drawSpacesInfo { canvas xcoord ycoord width height email taglist } {
-		#todo: use bbox or something to calculate height
+
+		#todo: use bbox or something to calculate height
 		set xpos [expr {$xcoord + 4}]
 		set ypos [expr {$ycoord + 4}]
 		#todo: calculate height of a line the right way
