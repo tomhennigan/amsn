@@ -6434,10 +6434,20 @@ proc cmsn_auth {{recv ""}} {
 		}
 
 		v {
+		
+			if { [::config::getKey protocol] == 16 } {
+				set ver "MSNP16"
+			} elseif { [::config::getKey protocol] == 15 } {
+				set ver "MSNP15"
+			} else {
+				set ver "MSNP12"
+			}
+	
 			if {[lindex $recv 0] != "VER"} {
 				status_log "cmsn_auth: was expecting VER reply but got a [lindex $recv 0]\n" red
 				return 1
-			} elseif {[lsearch -exact $recv "CVR0"] != -1} {
+			} elseif {[lsearch -exact $recv $ver] != -1} {
+				status_log "Logged in with protocol $ver"
 				ns configure -stat "i"
 				return 0
 			} else {
