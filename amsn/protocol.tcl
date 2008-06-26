@@ -1013,6 +1013,10 @@ namespace eval ::MSN {
 			::ChatWindow::TopUpdate $chat_id
 		}
 
+		if { [::config::getKey save_password] != 1} {
+			set ::password ""
+		}
+
 		#Alert dock of status change
 		send_dock "STATUS" "FLN"
 		
