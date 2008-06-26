@@ -636,6 +636,8 @@ snit::widgetadaptor loginscreen {
 			}
 			# Blank password field
 			$pass_field delete 0 end
+			global password
+			set password ""
 		}
 	}
 
@@ -676,9 +678,13 @@ snit::widgetadaptor loginscreen {
 				$pass_field delete 0 end
 				$pass_field insert end $password
 			} else {
+				global password
+				set password ""
 				$pass_field delete 0 end
 			}
 		} else {
+			global password
+			set password ""
 			$pass_field delete 0 end
 		}
 
