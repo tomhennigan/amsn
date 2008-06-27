@@ -81,7 +81,9 @@ namespace eval ::hotmail {
 		lappend vars [list ru [urlencode_full $url]]
 		lappend vars [list rru [urlencode_full $url]]
 		lappend vars [list sru [urlencode_full $url]]
-		lappend vars [list svc mail]
+		if {$id == "2" } {
+			lappend vars [list svc mail]
+		}
 		lappend vars [list js yes]
 		# The SiteID is a value that we get from the config SOAP, it's dependant on the site you want to go to.
 		# It will determine if it uses 'ru', 'rru' or 'sru' and for 'rru's it will tell the server where to go
