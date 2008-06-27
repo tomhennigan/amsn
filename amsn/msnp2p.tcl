@@ -609,15 +609,9 @@ namespace eval ::MSNP2P {
 
 				status_log "$idx $idx2"
 
-				if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" ||
-				     $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" ||
-				     $eufguid == "E073B06B-636E-45B7-ACA4-6D4B5978C93C" ||
-				     $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" ||
-				     $eufguid == "1C9AA97E-9C05-4583-A3BD-908A196F1E92" ||
-					 $eufguid == "6A13AF9C-5308-4F35-923A-67E8DDA40C2F"} {
-					status_log "MSNP2P | $sid $dest -> Got INVITE for buddy icon, emoticon, game, or file transfer, or Wink(MSN 7)\n" red
-					# Make new data structure for this session id
-					if { $eufguid == "A4268EEC-FEC5-49E5-95C3-F126696BDBF6" } {
+				switch -- $eufguid {
+					"A4268EEC-FEC5-49E5-95C3-F126696BDBF6" {
+						status_log "MSNP2P | $sid $dest -> Got INVITE for buddy icon or emoticon\n" red
 						# Buddyicon or emoticon
 						set filenameFromContext [GetFilenameFromContext $context]
 						if { $filenameFromContext != "" } {
@@ -633,7 +627,9 @@ namespace eval ::MSNP2P {
 							SessionList set $sid [list 0 0 0 0 0 0 0 "ignore" 0 ""]
 							return
 						}
-					} elseif { $eufguid == "5D3E02AB-6190-11D3-BBBB-00C04F795683" } {
+					} 
+					"5D3E02AB-6190-11D3-BBBB-00C04F795683" {
+						status_log "MSNP2P | $sid $dest -> Got INVITE for  file transfer\n" red
 						# File transfer
 						#check if a conversation is open with that contact
 						#no need to test either a chatwindow has been created or not, because MakeFor is going to do it ! 
@@ -649,7 +645,9 @@ namespace eval ::MSNP2P {
 						::MSN6FT::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $context
 						return
 
-					} elseif { $eufguid =="E073B06B-636E-45B7-ACA4-6D4B5978C93C"} {
+					}
+					"E073B06B-636E-45B7-ACA4-6D4B5978C93C" {
+						status_log "MSNP2P | $sid $dest -> Got INVITE for a Wink\n" red
 						#We received Winks
 						status_log "####WINKS RECEIVED####\n" blue
 						set decoding [base64::decode $context]
@@ -658,8 +656,10 @@ namespace eval ::MSNP2P {
 
 						# Let's notify the user that he/she has received a Wink
 						SendMessageFIFO [list ::amsn::WinWrite $chatid "\n [trans winkreceived [::abook::getDisplayNick $chatid]]\n" black "" 0] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
-					} elseif { $eufguid == "4BD96FC0-AB17-4425-A14A-439185962DC8" ||
-						   $eufguid == "1C9AA97E-9C05-4583-A3BD-908A196F1E92" }	{
+					}
+					"4BD96FC0-AB17-4425-A14A-439185962DC8" -
+					"1C9AA97E-9C05-4583-A3BD-908A196F1E92" {
+						status_log "MSNP2P | $sid $dest -> Got INVITE for webcam\n" red
 						#check if a conversation is open with that contact
 						#no need to test either a chatwindow has been created or not, because MakeFor is going to do it ! 
 						::ChatWindow::MakeFor $chatid
@@ -694,7 +694,9 @@ namespace eval ::MSNP2P {
 
 						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 						return
-					} elseif { $eufguid == "6A13AF9C-5308-4F35-923A-67E8DDA40C2F" } {
+					}
+					"6A13AF9C-5308-4F35-923A-67E8DDA40C2F"  {
+						status_log "MSNP2P | $sid $dest -> Got INVITE for a game \n" red
 						::ChatWindow::MakeFor $chatid
 						status_log "!!! GAME INVITATION !!!" red
 
@@ -709,21 +711,40 @@ namespace eval ::MSNP2P {
 
 						return
 					}
+					"534142D5-1F2A-431F-A60C-B0CF723FDF7D" {
+						status_log "MSNP2P | $sid $dest -> Got INVITE for a shared folder\n" red
+						return
 
-					# Let's send an ACK
-					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
-					status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
+						::ChatWindow::MakeFor $chatid
+						SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 
-					# Let's make and send a 200 OK Message
-					set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
-					SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
-					status_log "MSNP2P | $sid $dest -> Sent 200 OK Message\n" red
-					
-					# Send Data Prep AFTER ACK received (set AfterAck)
-					SessionList set $sid [list -1 -1 -1 -1 "DATAPREP" -1 -1 -1 -1 -1]
-					
-					return
+						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "shared" "" "$branchuid"]
+						
+						set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid "ARAIAMzMzMxIAAAAAAAAAAEAAQAAAAAAAQAAADCwyAQCAAAASCrNBAEAAAABAAAAAgAAADwALwABAAAAAAAAAAEAAAByAFMAAgAAAAAAAAABAAAAbwA+AA=="]
+						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+
+						return
+					}
+					default {
+						status_log "MSNP2P | $sid $dest -> Got INVITE for an unknown EUF-GUID : $eufguid \n" red
+						return
+					}
 				}
+
+				
+				# Let's send an ACK
+				SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+				status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
+
+				# Let's make and send a 200 OK Message
+				set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
+				SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+				status_log "MSNP2P | $sid $dest -> Sent 200 OK Message\n" red
+					
+				# Send Data Prep AFTER ACK received (set AfterAck)
+				SessionList set $sid [list -1 -1 -1 -1 "DATAPREP" -1 -1 -1 -1 -1]
+					
+				return
 			} elseif { $ctype == "application/x-msnmsgr-transrespbody" } {
 				set idx [expr {[string first "Call-ID: \{" $data] + 10}]
 				set idx2 [expr {[string first "\}" $data $idx] -1}]
@@ -1490,6 +1511,9 @@ namespace eval ::MSNP2P {
 		} elseif { $method == "OK" } {
 			if { $contenttype == 0 } {
 				append body "SessionID: ${A}\r\n"
+				if {$B != "" } {
+					append body "Context: ${B}\r\n"
+				}
 			} else {
 				append body "Bridge: ${A}\r\nListening: ${B}\r\nNonce: \{${C}\}\r\n"
 				if {${B} == "true" } {
