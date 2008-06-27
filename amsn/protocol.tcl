@@ -826,8 +826,21 @@ namespace eval ::MSN {
 
 
 	proc reconnect { error_msg } {
+		global reconnect_timer reconnect_timer_remaining
+
+		if {![info exists reconnect_timer] || $reconnect_timer < 5000} {
+			set reconnect_timer 5000
+		} else {
+			set reconnect_timer [expr {$reconnect_timer * 2}]
+		}
+		if {$reconnect_timer > 900000 } {
+			set reconnect_timer 900000
+		}
+
+		set reconnect_timer_remaining $reconnect_timer
+
 		cmsn_draw_reconnect $error_msg
-		after 5000 ::MSN::connect
+		after $reconnect_timer ::MSN::connect
 
 	}
 	
@@ -860,8 +873,11 @@ namespace eval ::MSN {
 		}
 	}
 	proc cancelReconnect { } {
+		global reconnect_timer
+		set reconnect_timer 0
 
 		after cancel ::MSN::connect
+		after cancel cmsn_update_reconnect_timer
 		catch { unset ::oldstatus }
 		::MSN::logout
 		cmsn_draw_offline
@@ -872,6 +888,7 @@ namespace eval ::MSN {
 	proc connect { {passwd ""}} {
 		#Cancel any pending reconnect
 		after cancel ::MSN::connect
+		after cancel cmsn_update_reconnect_timer
 
 		if { [ns cget -stat] != "d" } {
 			return
@@ -946,6 +963,8 @@ namespace eval ::MSN {
 	}
 
 	proc logout {} {
+		after cancel cmsn_update_reconnect_timer
+
 		::abook::lastSeen
 
 		::log::eventlogout
@@ -4302,6 +4321,9 @@ namespace eval ::MSNOIM {
 
 	
 	method authenticationDone {} {
+		global reconnect_timer
+		set reconnect_timer 0
+
 		set ::contactlist_loaded 1
 		::abook::setConsistent
 		::abook::saveToDisk
@@ -6791,6 +6813,9 @@ proc initial_syn_handler {recv} {
 }
 
 proc msnp11_userpass_error {} {
+	global reconnect_timer
+	set reconnect_timer 0
+
 	ns configure -stat "closed"
 	::MSN::logout
 	status_log "Error: User/Password\n" red
@@ -6798,6 +6823,9 @@ proc msnp11_userpass_error {} {
 }
 
 proc msnp11_auth_error {} {
+	global reconnect_timer
+	set reconnect_timer 0
+
 	status_log "Error connecting to server\n"
 	::MSN::logout
 	::amsn::errorMsg "[trans connecterror]"

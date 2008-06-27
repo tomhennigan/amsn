@@ -5164,6 +5164,38 @@ proc cmsn_draw_offline {} {
 }
 #///////////////////////////////////////////////////////////////////////
 
+proc ms_to_timer { ms } {
+	set ts [expr {$ms / 1000}]
+	set m [expr {$ts / 60}]
+	set s [expr {$ts % 60}]
+
+	if {$m < 10} {
+		set sm "0${m}"
+	} else {
+		set sm $m
+	}
+	if {$s < 10} {
+		set ss "0${s}"
+	} else {
+		set ss $s
+	}
+
+	return "${sm}:${ss}"
+}
+proc cmsn_update_reconnect_timer { } {
+	global reconnect_timer reconnect_timer_remaining
+
+	# Now we get a lock on the contact list
+	set clcanvas [set ::guiContactList::clcanvas]
+
+	if {$reconnect_timer > 0 &&
+	    [$clcanvas type reconnect_timer] == "text"} {
+		$clcanvas itemconfigure reconnect_timer -text "[ms_to_timer $::reconnect_timer_remaining]" 
+		incr reconnect_timer_remaining -1000
+		after 1000 cmsn_update_reconnect_timer
+	}
+
+}
 
 #///////////////////////////////////////////////////////////////////////
 proc cmsn_draw_reconnect { error_msg } {
@@ -5193,7 +5225,13 @@ proc cmsn_draw_reconnect { error_msg } {
 	$clcanvas create text 0 [expr 190 + [image height $loganim]] -text "[trans reconnecting]..." -font sboldf \
 		-fill [::skin::getKey loginfg]  -tags [list signin centerx]
 
-	$clcanvas create text 0 [expr 250 + [image height $loganim]] -text "[trans cancel]" -font splainf \
+	$clcanvas create text 0 [expr 220 + [image height $loganim]] -text "" -font sboldf \
+		-fill [::skin::getKey loginfg]  -tags [list reconnect_timer centerx]
+
+	$clcanvas create text 0 [expr 260 + [image height $loganim]] -text "[trans reconnectnow]" -font splainf \
+		-fill [::skin::getKey loginurlfg] -tags [list reconnect_now centerx]
+
+	$clcanvas create text 0 [expr 320 + [image height $loganim]] -text "[trans cancel]" -font splainf \
 		-fill [::skin::getKey loginurlfg] -tags [list cancel_reconnect centerx]
 
 	$clcanvas bind cancel_reconnect <Enter> \
@@ -5205,12 +5243,25 @@ proc cmsn_draw_reconnect { error_msg } {
 	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
 		"preLogout \"::MSN::cancelReconnect\""
 
+	$clcanvas bind reconnect_now <Enter> \
+		"$clcanvas itemconfigure reconnect_now -fill [::skin::getKey loginurlfghover] -font sunderf;\
+		$clcanvas configure -cursor hand2"
+	$clcanvas bind reconnect_now <Leave> \
+		"$clcanvas itemconfigure reconnect_now -fill [::skin::getKey loginurlfg] -font splainf;\
+		$clcanvas configure -cursor left_ptr"
+	$clcanvas bind reconnect_now <Button1-ButtonRelease> {
+		after cancel ::MSN::connect
+		::MSN::connect
+	}
+
 	::guiContactList::centerItems $clcanvas
 
 	set bbox [$clcanvas bbox cancel_reconnect signin errormsg loganim]
 	$clcanvas configure -scrollregion [list 0 0 [lindex $bbox 2] [lindex $bbox 3]]
 
 	::guiContactList::semiUnlockContactList
+
+	cmsn_update_reconnect_timer
 }
 #///////////////////////////////////////////////////////////////////////
 
