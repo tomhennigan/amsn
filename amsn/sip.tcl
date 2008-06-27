@@ -1770,8 +1770,8 @@ snit::type Farsight {
 		set ice_candidates [list]
 			
 		# Host candidate
-		lappend ice_candidates [list "d4M8DKejjp0T+F59lmFoQ6tEqPU4UQz/PWWKC9x598g=" 1 "CXwpC2uyZdZMgIXekG/t1Q==" "UDP" "0.830" [::abook::getDemographicField localip] $rtp_port]
-		lappend ice_candidates [list "d4M8DKejjp0T+F59lmFoQ6tEqPU4UQz/PWWKC9x598g=" 2 "CXwpC2uyZdZMgIXekG/t1Q==" "UDP" "0.830" [::abook::getDemographicField localip] $rtcp_port]
+		lappend ice_candidates [list "d4M8DKejjp0T+F59lmFoQ6tEqPU4UQz/PWWKC9x598g=" 1 "CXwpC2uyZdZMgIXekG/t1Q==" "UDP" "0.830" [::abook::getDemographicField localip] 7078]
+		lappend ice_candidates [list "d4M8DKejjp0T+F59lmFoQ6tEqPU4UQz/PWWKC9x598g=" 2 "CXwpC2uyZdZMgIXekG/t1Q==" "UDP" "0.830" [::abook::getDemographicField localip] 7079]
 			
 		# STUN Server Reflexive candidate
 		if {$rtp_ip != [::abook::getDemographicField localip] } {
@@ -1798,7 +1798,7 @@ snit::type Farsight {
 				lappend priorities $qvalue
 			}
 		}
-		set priorities [lsort -decreasin $priorities]
+		set priorities [lsort -decreasing $priorities]
 
 		set remote_ice_candidates $remote_candidates
 
