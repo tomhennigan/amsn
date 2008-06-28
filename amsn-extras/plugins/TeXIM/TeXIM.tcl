@@ -30,9 +30,8 @@ namespace eval ::TeXIM {
 				\\pagestyle\{empty\} "	
 			path_preamble {}
 			footer "\\end\{document\}"
-			dir {}
 		}
-		set ::config(dir) $directory
+		set ::TeXIM::dir $directory
 
 		::skin::setPixmap buttonTex tex.png pixmaps [file join $directory pixmaps]
 		::skin::setPixmap buttonTex_hover tex_hover.png pixmaps [file join $directory pixmaps]
@@ -48,7 +47,7 @@ namespace eval ::TeXIM {
 		pack $win.latex -anchor w
 		label $win.latex.latexpath -text "Path to latex binary :" -padx 5 -font sboldf
 		entry $win.latex.path -bg #FFFFFF -width 45 -textvariable ::TeXIM::config(path_latex)
-		button $win.latex.browse -text [trans browse] -command "Browse_Dialog_file ::TeXIM::config(path_latex)" 
+		button $win.latex.browse -text [trans browse] -command [list Browse_Dialog_file ::TeXIM::config(path_latex)]
 
 		grid $win.latex.latexpath -row 1 -column 1 -sticky w
 		grid $win.latex.path -row 2 -column 1 -sticky w
@@ -59,7 +58,7 @@ namespace eval ::TeXIM {
 		pack $win.dvips -anchor w 
 		label $win.dvips.dvipspath -text "Path to dvips binary :" -padx 5 -font sboldf
 		entry $win.dvips.path -bg #FFFFFF -width 45 -textvariable ::TeXIM::config(path_dvips)
-		button $win.dvips.browse -text [trans browse] -command "Browse_Dialog_file ::TeXIM::config(path_dvips)"
+		button $win.dvips.browse -text [trans browse] -command [list Browse_Dialog_file ::TeXIM::config(path_dvips)]
 		grid $win.dvips.dvipspath -row 1 -column 1 -sticky w
 		grid $win.dvips.path -row 2 -column 1 -sticky w
 		grid $win.dvips.browse -row 2 -column 2 -sticky w
@@ -69,7 +68,7 @@ namespace eval ::TeXIM {
 		pack $win.convert -anchor w 
 		label $win.convert.convertpath -text "Path to convert binary :" -padx 5 -font sboldf
 		entry $win.convert.path -bg #FFFFFF -width 45 -textvariable ::TeXIM::config(path_convert)
-		button $win.convert.browse -text [trans browse] -command "Browse_Dialog_file ::TeXIM::config(path_convert)"
+		button $win.convert.browse -text [trans browse] -command [list Browse_Dialog_file ::TeXIM::config(path_convert)]
 		grid $win.convert.convertpath -row 1 -column 1 -sticky w
 		grid $win.convert.path -row 2 -column 1 -sticky w
 		grid $win.convert.browse -row 2 -column 2 -sticky w
@@ -79,7 +78,7 @@ namespace eval ::TeXIM {
 		pack $win.header -anchor w
 		label $win.header.label -text "Please enter here the header for the tex documents \n(without \"\\begin\{document\}\" )\n(add packages there) :"
 		text $win.header.text -background white -borderwidth 1 -relief ridge -width 45 -height 7 -font sboldf
-		button $win.header.default -text [trans default] -command "::TeXIM::MakeDefault $win.header.text header"
+		button $win.header.default -text [trans default] -command [list ::TeXIM::MakeDefault $win.header.text header]
 		$win.header.text insert end $::TeXIM::config(header)
 		grid $win.header.label -row 1 -column 1 -sticky w
 		grid $win.header.text -row 2 -column 1 -sticky w
@@ -90,7 +89,7 @@ namespace eval ::TeXIM {
 		pack $win.preamble -anchor w 
 		label $win.preamble.preamblepath -text "Path to a preamble file :" -padx 5 -font sboldf
 		entry $win.preamble.path -bg #FFFFFF -width 45 -textvariable ::TeXIM::config(path_preamble)
-		button $win.preamble.browse -text [trans browse] -command "Browse_Dialog_file ::TeXIM::config(path_preamble)"
+		button $win.preamble.browse -text [trans browse] -command [list Browse_Dialog_file ::TeXIM::config(path_preamble)]
 		grid $win.preamble.preamblepath -row 1 -column 1 -sticky w
 		grid $win.preamble.path -row 2 -column 1 -sticky w
 		grid $win.preamble.browse -row 2 -column 2 -sticky w
@@ -101,7 +100,7 @@ namespace eval ::TeXIM {
 		pack $win.footer -anchor w
 		label $win.footer.label -text "Please enter here the footer for the tex documents"
 		text $win.footer.text -background white -borderwidth 1 -relief ridge -width 45 -height 2 -font sboldf
-		button $win.footer.default -text [trans default] -command "::TeXIM::MakeDefault $win.footer.text footer"
+		button $win.footer.default -text [trans default] -command [list ::TeXIM::MakeDefault $win.footer.text footer]
 		$win.footer.text insert end $::TeXIM::config(footer)
 		grid $win.footer.label -row 1 -column 1 -sticky w
 		grid $win.footer.text -row 2 -column 1 -sticky w
@@ -182,7 +181,7 @@ namespace eval ::TeXIM {
 		} else {
 			set tmp [file join /tmp "TeXIM-[pid]"]
 		}
-                catch {file mkdir $tmp}
+		catch {file mkdir $tmp}
 		
 		plugins_log "TeXIM" "creating a GIF with the tex code:\n$texText"
 		set fileXMLtex [open [file join $tmp "TeXIM.tex"] w]
@@ -221,9 +220,9 @@ namespace eval ::TeXIM {
 						}
 						image delete $tempimg
 						catch {file delete [file join $tmp "TeXIM.dvi"]}
-                                                if { $fortify && [package require tclISF 0.3]} {
-                                                    tclISF fortify [file join $tmp "TeXIM.gif"]
-                                                }
+						if { $fortify && [package require tclISF 0.3]} {
+							tclISF fortify [file join $tmp "TeXIM.gif"]
+						}
 						return [file join $tmp "TeXIM.gif"]	
 					} else { append msg "\n^^Error in CONVERT" }
 				} else { append msg "\n^^Error in DVIPS" }
@@ -244,16 +243,16 @@ namespace eval ::TeXIM {
 	###############################################################
 	proc show_bug_dialog {{info ''}} {
 		set w .texim_bug
-		destroy $w
+		catch{destroy $w}
 		toplevel $w -class Dialog
 		wm title $w "TeXIM Error"
 		frame $w.f	
 		pack $w.f
 		label $w.f.msg -justify left -text "The image is too big.\nMaybe it's normal; but it can either be a bug in your TeX code" -wraplength 500 -font sboldf
 	
-		button $w.f.b1 -text "Ignore this error" -command "set ::TeXIM::kontinue 1 "
-		button $w.f.b2 -text "Don't send or preview the image" -command "set ::TeXIM::kontinue 0 "
-		button $w.f.b3 -text "Show me details" -command "::TeXIM::toggle_details "
+		button $w.f.b1 -text "Ignore this error" -command [list set ::TeXIM::kontinue 1]
+		button $w.f.b2 -text "Don't send or preview the image" -command [list set ::TeXIM::kontinue 0]
+		button $w.f.b3 -text "Show me details" -command [list ::TeXIM::toggle_details]
 		text $w.f.details -height 10 -width 10 -bg #FFFFFF
 		$w.f.details insert 0.0 $info
 		variable details
@@ -327,8 +326,8 @@ namespace eval ::TeXIM {
 		frame .texAdvWin.tex_Example
 		frame .texAdvWin.tex_Example.examples 
 		frame .texAdvWin.tex_Example.examples.list -class Amsn -borderwidth 0 
-		text .texAdvWin.tex_Example.examples.list.text  -background white -wrap word -yscrollcommand ".texAdvWin.tex_Example.examples.list.ys set" -font splainf  -width 30 -height 15
-		scrollbar .texAdvWin.tex_Example.examples.list.ys -command ".texAdvWin.tex_Example.examples.list.text yview"
+		text .texAdvWin.tex_Example.examples.list.text  -background white -wrap word -yscrollcommand [list .texAdvWin.tex_Example.examples.list.ys set] -font splainf  -width 30 -height 15
+		scrollbar .texAdvWin.tex_Example.examples.list.ys -command [list .texAdvWin.tex_Example.examples.list.text yview]
 		pack .texAdvWin.tex_Example.examples.list.ys 	-side right -fill y
 		pack .texAdvWin.tex_Example.examples.list.text -expand true -fill both -padx 1 -pady 1
 		pack .texAdvWin.tex_Example.examples.list 		-side top -expand true -fill both -padx 1 -pady 1
@@ -337,8 +336,8 @@ namespace eval ::TeXIM {
 	
 		frame .texAdvWin.tex_Example.listExamples
 		frame .texAdvWin.tex_Example.listExamples.list -class Amsn -borderwidth 0
-		text .texAdvWin.tex_Example.listExamples.list.text  -background white -wrap word -yscrollcommand ".texAdvWin.tex_Example.listExamples.list.ys set" -font splainf  -width 50 -height 15
-		scrollbar .texAdvWin.tex_Example.listExamples.list.ys -command ".texAdvWin.tex_Example.listExamples.list.text yview"
+		text .texAdvWin.tex_Example.listExamples.list.text  -background white -wrap word -yscrollcommand [list .texAdvWin.tex_Example.listExamples.list.ys set] -font splainf  -width 50 -height 15
+		scrollbar .texAdvWin.tex_Example.listExamples.list.ys -command [list .texAdvWin.tex_Example.listExamples.list.text yview]
 		pack .texAdvWin.tex_Example.listExamples.list.ys 	-side right -fill y
 		pack .texAdvWin.tex_Example.listExamples.list.text -expand true -fill both -padx 1 -pady 1
 		pack .texAdvWin.tex_Example.listExamples.list 		-side top -expand true -fill both -padx 1 -pady 1
@@ -349,21 +348,21 @@ namespace eval ::TeXIM {
 	
 		frame .texAdvWin.tex_code
 		frame .texAdvWin.tex_code.list -class Amsn -borderwidth 0
-		text .texAdvWin.tex_code.list.text  -background white -wrap word -yscrollcommand ".texAdvWin.tex_code.list.ys set" -font splainf  -width 10 -height 2
-		scrollbar .texAdvWin.tex_code.list.ys -command ".texAdvWin.tex_code.list.text yview"
+		text .texAdvWin.tex_code.list.text  -background white -wrap word -yscrollcommand [list .texAdvWin.tex_code.list.ys set] -font splainf  -width 10 -height 2
+		scrollbar .texAdvWin.tex_code.list.ys -command [list .texAdvWin.tex_code.list.text yview]
 		pack .texAdvWin.tex_code.list.ys 	-side right -fill y
 		pack .texAdvWin.tex_code.list.text -expand true -fill both -padx 1 -pady 1
 		pack .texAdvWin.tex_code.list 		-side top -expand true -fill both -padx 1 -pady 1
 		pack .texAdvWin.tex_code 			-expand true -fill both -side bottom
 	
 		#Complete the two text frames above by parsing some xml files
-		::TeXIM::ParseMenu ${::config(dir)}/datas/menu.xml .texAdvWin.tex_Example.examples.list.text .texAdvWin.tex_Example.listExamples.list.text .texAdvWin.tex_code.list.text
+		::TeXIM::ParseMenu ${::TeXIM::dir}/datas/menu.xml .texAdvWin.tex_Example.examples.list.text .texAdvWin.tex_Example.listExamples.list.text .texAdvWin.tex_code.list.text
 		
-		button .texAdvWin.close -text "Close" -command "destroy .texAdvWin"
-		bind .texAdvWin <<Escape>> "destroy .texAdvWin"
+		button .texAdvWin.close -text "Close" -command [list destroy .texAdvWin]
+		bind .texAdvWin <<Escape>> [list destroy .texAdvWin]
 		
-		button .texAdvWin.preview -text "Preview" -command "::TeXIM::MakePreview .texAdvWin.tex_code.list.text "
-		button .texAdvWin.send -text "Send" -command "::TeXIM::SendFromGUI .texAdvWin .texAdvWin.tex_code.list.text $win_name"
+		button .texAdvWin.preview -text "Preview" -command [list ::TeXIM::MakePreview .texAdvWin.tex_code.list.text ]
+		button .texAdvWin.send -text "Send" -command [list ::TeXIM::SendFromGUI .texAdvWin .texAdvWin.tex_code.list.text $win_name]
 		pack .texAdvWin.close -side right -anchor se -padx 5 -pady 3
 		pack .texAdvWin.preview -side right -anchor se -padx 5 -pady 3
 		pack .texAdvWin.send -side right -anchor se -padx 5 -pady 3
@@ -449,9 +448,9 @@ namespace eval ::TeXIM {
 			pack .texPreviewWin.preview -fill both
 		
 			pack .texPreviewWin.preview
-			button .texPreviewWin.show_errors -text "Show/Hide TeX errors" -command "::TeXIM::show_hide_error_Preview "
-			button .texPreviewWin.close -text "Close" -command "destroy .texPreviewWin"
-			bind .texPreviewWin <<Escape>> "destroy .texPreviewWin"
+			button .texPreviewWin.show_errors -text "Show/Hide TeX errors" -command [list ::TeXIM::show_hide_error_Preview ]
+			button .texPreviewWin.close -text "Close" -command [list destroy .texPreviewWin]
+			bind .texPreviewWin <<Escape>> [list destroy .texPreviewWin]
 			pack .texPreviewWin.close -side right -anchor se -padx 5 -pady 3
 			pack .texPreviewWin.show_errors -side right
 			update idletasks
@@ -489,9 +488,9 @@ namespace eval ::TeXIM {
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
 		
-		bind $texButton  <<Button1>> "::TeXIM::CreateTexWindow $newvar(window_name)"
-		bind $texButton  <Enter> "$texButton configure -image [::skin::loadPixmap buttonTex_hover]"
-		bind $texButton  <Leave> "$texButton configure -image [::skin::loadPixmap buttonTex]"	
+		bind $texButton  <<Button1>> [list ::TeXIM::CreateTexWindow $newvar(window_name)]
+		bind $texButton  <Enter> [list $texButton configure -image [::skin::loadPixmap buttonTex_hover]]
+		bind $texButton  <Leave> [list $texButton configure -image [::skin::loadPixmap buttonTex]]
 		pack $texButton -side left -padx 0 -pady 0	
 		plugins_log "TeXIM" "TeXIM button added the new window: $newvar(window_name)"
 		
@@ -530,9 +529,9 @@ namespace eval ::TeXIM {
 				set pos2 [expr [string first </TITLE> $textline] - 1]
 				set title [string range $textline $pos1 $pos2]
 				$textWidget1 tag configure $dir -foreground black -font splainf -underline true
-				$textWidget1 tag bind $dir <Enter> "$textWidget1 tag conf $dir -underline true; $textWidget1 conf -cursor hand2"
-				$textWidget1 tag bind $dir <Leave> "$textWidget1 tag conf $dir -underline false; $textWidget1 conf -cursor xterm"
-				$textWidget1 tag bind $dir <Button1-ButtonRelease> "$textWidget1 conf -cursor watch; ::TeXIM::ParseTexAndImages $dir $textWidget2 $textWidget3"
+				$textWidget1 tag bind $dir <Enter> [list $textWidget1 tag conf $dir -underline true; $textWidget1 conf -cursor hand2]
+				$textWidget1 tag bind $dir <Leave> [list $textWidget1 tag conf $dir -underline false; $textWidget1 conf -cursor xterm]
+				$textWidget1 tag bind $dir <Button1-ButtonRelease> [list ::TeXIM::ParseTexAndImages $dir $textWidget2 $textWidget3]
 				$textWidget1 insert end "$title\n" $dir
 			}
 			gets $fileXML textline
@@ -545,15 +544,15 @@ namespace eval ::TeXIM {
 	# ::TeXIM::ParseTexAndImages dir textWidget1 textWidget2         #
 	# -------------------------------------------------------------- #
 	# Complete the textWidget1 by datas parsed from the xml file :   #
-	#  ${::config(dir)}/datas/${dir}.xml                             #
+	#  ${::TeXIM::dir}/datas/${dir}.xml                             #
 	# dir is the directory where the GIF files are.                  #
 	# textWidget2 is the text widget where some datas would be added #
 	# if the user clic in the textWidget2                            #
 	# (called from ParseMenu)                                        #
 	##################################################################
-	proc ParseTexAndImages { dir textWidget1 textWidget2} {
-		set xmlfile ${::config(dir)}/datas/${dir}.xml
-		set path2dir ${::config(dir)}/datas/${dir}/
+	proc ParseTexAndImages { dir textWidget2 textWidget3} {
+		set xmlfile ${::TeXIM::dir}/datas/${dir}.xml
+		set path2dir ${::TeXIM::dir}/datas/${dir}/
 		set label {}
 		set textline {}
 		set tex {}
@@ -564,8 +563,8 @@ namespace eval ::TeXIM {
 		if {[catch {open $xmlfile "r"} fileXML]} {
 			plugins_log "TeXIM" "error when reading $xmlfile : $fileXML"
 		}
-		$textWidget1 configure -state normal
-		$textWidget1 delete 0.0 end
+		$textWidget2 configure -state normal
+		$textWidget2 delete 0.0 end
 		#1st line
 		gets $fileXML textline
 		#2nd line
@@ -575,10 +574,10 @@ namespace eval ::TeXIM {
 			set pos2 [expr [string first </label> $textline] - 1]
 			set pos1 [expr $pos1 + 7 ]
 			set label [string range $textline $pos1 $pos2]
-			$textWidget1 tag configure a_label -foreground red -font splainf -underline false
-			$textWidget1 insert end "$label\n" a_label
+			$textWidget2 tag configure a_label -foreground red -font splainf -underline false
+			$textWidget2 insert end "$label\n" a_label
 		}
-		$textWidget1 configure -font bplainf -foreground black
+		$textWidget2 configure -font bplainf -foreground black
 		while {[eof $fileXML] != 1} {
 			if {[string match *<item>* $textline]} {
 				gets $fileXML textline
@@ -590,16 +589,18 @@ namespace eval ::TeXIM {
 				set pos2 [expr [string first </img> $textline] - 1]
 				set img [string range $textline $pos1 $pos2]
 				set imagename [image create photo -file ${path2dir}${img}.gif -format gif]
-				$textWidget1 image create end -name img_$img -image $imagename -padx 0 -pady 0 
-				$textWidget1 tag configure $img -foreground black -font splainf -underline true
-				$textWidget1 tag bind $img <Enter> "$textWidget1 tag conf $img -underline true; $textWidget1 conf -cursor hand2"
-				$textWidget1 tag bind $img <Leave> "$textWidget1 tag conf $img -underline false; $textWidget1 conf -cursor xterm"
-				$textWidget1 tag bind $img <Button1-ButtonRelease> "$textWidget1 conf -cursor watch; $textWidget2 insert end {$tex}"
-				$textWidget1 insert end "  $tex\n\n" $img
+				$textWidget2 image create end -name img_$img -image $imagename -padx 0 -pady 0 
+				$textWidget2 tag configure $img -foreground black -font splainf -underline true
+				$textWidget2 tag bind $img <Enter> [list $textWidget2 tag conf $img -underline true; $textWidget2 conf -cursor hand2]
+				$textWidget2 tag bind $img <Leave> [list $textWidget2 tag conf $img -underline false; $textWidget2 conf -cursor xterm]
+				$textWidget2 tag bind $img <Button1-ButtonRelease> [list $textWidget3 insert end $tex]
+				$textWidget2 insert end "\n$tex\n" $img
+				$textWidget2 image create end -image [::skin::loadPixmap greyline]
+				$textWidget2 insert end "\n\n" $img
 			}
 			gets $fileXML textline
 		}
-		$textWidget1 configure -state disabled
+		$textWidget2 configure -state disabled
 		close $fileXML
 	}
 
