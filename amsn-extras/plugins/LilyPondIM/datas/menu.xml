@@ -1,0 +1,14 @@
+<MENU>
+	<ITEM>
+		<DIR>simple</DIR>
+		<TITLE>Simple</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>intermediate</DIR>
+		<TITLE>Intermediate</TITLE>
+	</ITEM>
+	<ITEM>
+		<DIR>advanced</DIR>
+		<TITLE>Advanced</TITLE>
+	</ITEM>
+</MENU>

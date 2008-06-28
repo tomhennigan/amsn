@@ -1,0 +1,18 @@
+<PART>
+	<item>
+		<ly>do re mi fa</ly>
+		<img>doremifa</img>
+	</item>
+	<item>
+		<ly>\times 2/3 {sol8 la si} do2.</ly>
+		<img>triolet</img>
+	</item>
+	<item>
+		<ly> < do mi sol >4*2/3 < do fa la > < do re fa si > < do mi sol do >2</ly>
+		<img>trioletsDeNoires</img>
+	</item>
+	<item>
+		<ly> \time 3/4 do4-. mi-. sol-. | do-- </ly>
+		<img>ornements</img>
+	</item>
+</PART>

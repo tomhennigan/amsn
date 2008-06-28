@@ -1,0 +1,6 @@
+<PART>
+	<item>
+		<ly> << \new Staff  { \clef treble r1 | r2.. mi'16\noBeam do } \new PianoStaff << \new Staff { \clef treble < do=' sol' do mi >8-. r < re mi sold re' >-. r < do mi la do >16 re' do si la8 r | < do, fa la do >-. < do fa la do >-. < si re sol si >-. < la si fa' la >-. < sol do mi sol >2-.  } \new Staff { \clef bass do=8-. sol'-.^\markup{\italic {Con moto}} sold-. mi-. la,-. do-. la-. sol-.  fa-. re-. sol-. si-. do-. mi-. sol-. la-.  } >> >> </ly>
+		<img>exemple1</img>
+	</item>
+</PART>

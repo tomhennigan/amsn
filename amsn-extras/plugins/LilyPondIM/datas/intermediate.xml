@@ -1,0 +1,14 @@
+<PART>
+	<item>
+		<ly> \clef bass \time 5/8 \key sib \minor do4\(\p\< sib8 solb[ fa \clef alto | mi(\> sol)\! sib] reb ~ reb\) | do'4-^ sib4. </ly>
+		<img>exemple1</img>
+	</item>
+	<item>
+		<ly> << {sol'4 do2 si4} \\ {mi,2 re} >> | < do mi sol >1</ly>
+		<img>exemple2</img>
+	</item>
+	<item>
+		<ly> \clef tenor \key la \minor la4^\ff \acciaccatura{ sold'32[ mi] } la,8-._\sfz si-.  \grace red16-> mi4 do^\trill | \times 4/5 { r16 si[ do( la mi')] } red16 mi8. < dodd fab si >2\arpeggio_\pp </ly>
+		<img>exemple3</img>
+	</item>
+</PART>

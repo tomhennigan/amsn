@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>LilyPondIM</name>
+	<author>Benoit Mortgat & Boris FAURE</author>
+	<description>Renders LilyPond if it's prepended by \ly or by using the LilyPond Advanced Window</description>
+	<amsn_version>0.95</amsn_version>
+	<plugin_version>0.9</plugin_version>
+	<plugin_file>LilyPondIM.tcl</plugin_file>
+	<plugin_namespace>LilyPondIM</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+	<cvs_version>10279</cvs_version>
+
+	<file>
+		<path>datas/menu.xml</path>
+		<version>1.1</version>
+	</file>
+
+	<file>
+		<path>datas/advanced.xml</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/advanced/exemple1.gif</path>
+		<version>1.1</version>
+	</file>
+
+	<file>
+		<path>datas/intermediate.xml</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/intermediate/exemple1.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/intermediate/exemple2.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/intermediate/exemple3.gif</path>
+		<version>1.1</version>
+	</file>
+
+	<file>
+		<path>datas/simple.xml</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/simple/doremifa.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/simple/trioletsDeNoires.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/simple/triolet.gif</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>datas/simple/ornements.gif</path>
+		<version>1.1</version>
+	</file>
+
+
+	<file>
+		<path>pixmaps/ly_hover.png</path>
+		<version>1.1</version>
+	</file>
+	<file>
+		<path>pixmaps/ly.png</path>
+		<version>1.1</version>
+	</file>
+	
+
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/LilyPondIM/LilyPondIM.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/LilyPondIM/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/LilyPondIM/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/LilyPondIM/$file</file>
+	</URL>
+
+</plugin>
