@@ -749,6 +749,7 @@ recentmsg Prevenir el cierre de la ventana de chat cuando un mensaje acaba de ll
 reconnect2 Reconectar al perder la conexión
 reconnect Esperando que $1 se reconecte
 reconnecting Reconectando al servidor
+reconnectnow Reconectar ahora
 recorderror Ocurrió un error al grabar el sonido: $1
 record Grabar
 recvwebcamaccepted $1 aceptó tu invitación para ver su cámara web. Conectando...
