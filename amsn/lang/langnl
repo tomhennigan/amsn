@@ -748,6 +748,7 @@ recentmsg Sluiten van een gespreksvenster voorkomen wanneer er net een bericht a
 reconnect Wachten tot $1 opnieuw verbindt
 reconnect2 Opnieuw verbinden als de verbinding wegvalt
 reconnecting Bezig met opnieuw verbinden met de server
+reconnectnow Nu opnieuw verbinden
 record Opnemen
 recorderror Er is een fout opgetreden tijdens het opnemen van het geluid: $1
 recvwebcamaccepted $1 heeft je verzoek om zijn/haar webcambeeld te mogen zien geaccepteerd. Bezig met verbinden...
