@@ -13,14 +13,14 @@
 	<a name="AP"></a>
 	<h3>Generic Installers</h3>
 	<dl><dt>
-            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
-	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl84.x86.package"><span class="toc_title">aMSN Installer for Tcl/Tk&nbsp;8.4</span></a>
+            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.1-1.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
+	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.1-1.tcl84.x86.package"><span class="toc_title">aMSN Installer for Tcl/Tk&nbsp;8.4</span></a>
 	</dt><dd>
 		Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.4
     </dd></dl>
 	<dl><dt>
-            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl85.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
-	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97-1.tcl85.x86.package"><span class="toc_title">aMSN Installer for Tcl/Tk&nbsp;8.5</span></a>
+            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.1-1.tcl85.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
+	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.1-1.tcl85.x86.package"><span class="toc_title">aMSN Installer for Tcl/Tk&nbsp;8.5</span></a>
 	</dt><dd>
 		Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.5 <strong>final version</strong>
     </dd></dl>
@@ -70,8 +70,8 @@
     <a name="tarball"></a>
     <h3>Source downloads</h3>
         <dl class="toc"><dt>
-        <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
-	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.tar.bz2"><span class="toc_title">aMSN Source</span></a>
+        <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.1.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
+	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.1.tar.bz2"><span class="toc_title">aMSN Source</span></a>
         </dt><dd>
           Source package to build a binary for your own distribution.
         </dd></dl>
