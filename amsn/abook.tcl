@@ -104,17 +104,7 @@ namespace eval ::abook {
 		variable demographics 
 		upvar $cdata data
 
-    		set demographics(langpreference) $data(langpreference);# 1033 = English
-		set demographics(preferredemail) $data(preferredemail)
-		set demographics(country) [string toupper $data(country)];# NL
-		set demographics(gender) [string toupper $data(gender)]
-		set demographics(kids) $data(kids);	  # Number of kids
-		set demographics(age) $data(age)
-		set demographics(mspauth) $data(mspauth); # MS Portal Authorization?
-		set demographics(kv) $data(kv)
-		set demographics(sid) $data(sid)
-		set demographics(sessionstart) $data(sessionstart)
-		set demographics(clientip) $data(clientip)
+    		array set demographics [array get data]
 		set demographics(valid) Y
 		abook::getIPConfig
 	}
@@ -133,17 +123,7 @@ namespace eval ::abook {
 		upvar $cdata d
 
 		if {[info exists d(valid)]} {
-			set d(langpreference) $demographics(langpreference);# 1033 = English
-			set d(preferredemail) $demographics(preferredemail)
-			set d(country) $demographics(country)
-			set d(gender) $demographics(gender)
-			set d(kids) $demographics(kids)
-			set d(age) $demographics(age)
-			set d(mspauth) $demographics(mspauth)
-			set d(kv) $demographics(kv)
-			set d(sid) $demographics(sid)
-			set d(sessionstart) $demographics(sessionstart)
-			set d(clientip) $demographics(clientip)
+			array set d [array get demographics]
 			set d(valid) Y
 		} else {
 			set d(valid) N

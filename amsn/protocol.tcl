@@ -6351,8 +6351,8 @@ proc cmsn_ns_msg {recv message} {
 		set d(email_enabled) [$message getHeader EmailEnabled]
 		set d(langpreference) [$message getHeader lang_preference]
 		set d(preferredemail) [$message getHeader preferredEmail]
-		set d(country) [$message getHeader country]
-		set d(gender) [$message getHeader Gender]
+		set d(country) [string toupper [$message getHeader country]]
+		set d(gender) [string toupper [$message getHeader Gender]]
 		set d(kids) [$message getHeader Kid]
 		set d(age) [$message getHeader Age]
 		#Used for authentication
