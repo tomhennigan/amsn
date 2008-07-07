@@ -8,6 +8,7 @@ Comment[fr]=MSN Messenger pour Linux
 Comment[de]=MSN Messenger für Linux
 Comment[nl]=MSN Messenger voor Linux
 Comment[no]=MSN Messenger for Linux
+Comment[es]=MSN Messenger para Linux
 Terminal=false
 Type=Application
 StartupNotify=true
