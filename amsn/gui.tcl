@@ -3900,12 +3900,10 @@ namespace eval ::amsn {
 			#no wm borders
 			wm state $w withdrawn
 
-			#To put the notify window in front of all, specific for Windows only
-			if {[OnWin]} {
-				#Some verions of tk don't support this
-				catch { wm attributes $w -topmost 1 }
-			}
-
+			#To put the notify window in front of all
+			#Some verions of tk don't support this
+			catch { wm attributes $w -topmost 1 }
+			
 
 			set xpos [::config::getKey notifyXoffset]
 			set ypos [::config::getKey notifyYoffset]
