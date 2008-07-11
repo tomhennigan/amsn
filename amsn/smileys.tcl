@@ -465,7 +465,7 @@ namespace eval ::smiley {
 			#this procedure without all smileys having been created
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
-				bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
+				bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn; event generate $text <KeyRelease>} res" 
 			}
 			
 			incr temp
@@ -483,7 +483,7 @@ namespace eval ::smiley {
 			catch { 
 				if { $emotion(reachable) == 1 } {
 					#TODO: Improve this now we know about quoting a bit more?
-					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn} res" 
+					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn; event generate $text <KeyRelease>} res" 
 				}
 				#Add binding for custom emoticons
 				if { [OnMac] } {

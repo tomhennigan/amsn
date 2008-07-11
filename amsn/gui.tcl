@@ -6567,11 +6567,13 @@ proc cmsn_change_name {} {
 	entry $w.f.nick_entry -width 40 -font splainf
 	label $w.f.nick_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
 	label $w.f.nick_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
+	label $w.f.nick_textcounter -font sboldf
 
 	label $w.f.psm_label -font sboldf -text "[trans enterpsm]:"
 	entry $w.f.psm_entry -width 40 -font splainf
 	label $w.f.psm_smiley -image [::skin::loadPixmap butsmile] -relief flat -padx 3 -highlightthickness 0
 	label $w.f.psm_newline -image [::skin::loadPixmap butnewline] -relief flat -padx 3
+	label $w.f.psm_textcounter -font sboldf
 
 	label $w.f.p4c_label -font sboldf -text "[trans friendlyname]:"
 	entry $w.f.p4c_entry -width 40 -font splainf
@@ -6582,12 +6584,14 @@ proc cmsn_change_name {} {
 	grid $w.f.nick_entry -row 0 -column 1 -sticky we
 	grid $w.f.nick_smiley -row 0 -column 2
 	grid $w.f.nick_newline -row 0 -column 3
+	grid $w.f.nick_textcounter -row 0 -column 4
 	
 	if { [::config::getKey protocol] >= 11} {
 		grid $w.f.psm_label -row 1 -column 0 -sticky w
 		grid $w.f.psm_entry -row 1 -column 1 -sticky we
 		grid $w.f.psm_smiley -row 1 -column 2
 		grid $w.f.psm_newline -row 1 -column 3
+		grid $w.f.psm_textcounter -row 1 -column 4
 	}
 	
 	grid $w.f.p4c_label -row 2 -column 0 -sticky w
@@ -6609,9 +6613,9 @@ proc cmsn_change_name {} {
 	bind $w.f.nick_entry <Return> "change_name_ok"
 	bind $w.f.psm_entry <Return> "change_name_ok"
 	bind $w.f.p4c_entry <Return> "change_name_ok"
-	bind $w.f.nick_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.nick_entry"
-	bind $w.f.psm_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.psm_entry"
-	bind $w.f.p4c_smiley  <Button1-ButtonRelease> "::smiley::smileyMenu %X %Y $w.f.p4c_entry"
+	bind $w.f.nick_smiley <Button1-ButtonRelease> "focus $w.f.nick_entry; ::smiley::smileyMenu %X %Y $w.f.nick_entry"
+	bind $w.f.psm_smiley <Button1-ButtonRelease> "focus $w.f.psm_entry; ::smiley::smileyMenu %X %Y $w.f.psm_entry"
+	bind $w.f.p4c_smiley <Button1-ButtonRelease> "focus $w.f.p4c_entry; ::smiley::smileyMenu %X %Y $w.f.p4c_entry"
 	bind $w.f.nick_newline  <Button1-ButtonRelease> "$w.f.nick_entry insert end \"\n\""
 	bind $w.f.psm_newline  <Button1-ButtonRelease> "$w.f.psm_entry insert end \"\n\""
 	bind $w.f.p4c_newline <Button1-ButtonRelease> "$w.f.p4c_entry insert end \"\n\""
@@ -6619,12 +6623,22 @@ proc cmsn_change_name {} {
 	bind $w.f.psm_entry <Tab> "focus $w.f.p4c_entry; break"
 	bind $w.f.p4c_entry <Tab> "focus $w.f.nick_entry; break"
 
+	bind $w.f.nick_entry <KeyRelease> "ChangeNameBarEdited $w nick"
+	bind $w.f.psm_entry  <KeyRelease> "ChangeNameBarEdited $w psm"
+	bind $w.f.nick_entry <Button2-ButtonRelease> "after 200 [list ::::ChangeNameBarEdited $w nick]"
+	bind $w.f.psm_entry  <Button2-ButtonRelease> "after 200 [list ::::ChangeNameBarEdited $w psm]"
+
 	# Make sure the smiley selector disappears with the window 
 	bind $w <Destroy> { if {[winfo exists .smile_selector] } { wm state .smile_selector withdrawn }}
 
-	$w.f.nick_entry insert 0 [::abook::getPersonal MFN]
-	$w.f.psm_entry insert 0 [::abook::getPersonal PSM]
+	set nick [::abook::getPersonal MFN]
+	set psm [::abook::getPersonal PSM]
+	$w.f.nick_entry insert 0 $nick
+	$w.f.psm_entry insert 0 $psm
 	$w.f.p4c_entry insert 0 [::config::getKey p4c_name]
+
+	$w.f.nick_textcounter configure -text "[string length $nick]/130" -justify left
+	$w.f.psm_textcounter configure -text "[string length $psm]/130" -justify left
 
 	catch {
 		raise $w
@@ -6635,7 +6649,13 @@ proc cmsn_change_name {} {
 
 #///////////////////////////////////////////////////////////////////////
 
-
+proc ChangeNameBarEdited {w what} {
+	if {$what == "nick"} {
+		catch {$w.f.nick_textcounter configure -text "[string length [$w.f.nick_entry get]]/130"}
+	} else {
+		catch {$w.f.psm_textcounter configure -text "[string length [$w.f.psm_entry get]]/130"}
+	}
+}
 #///////////////////////////////////////////////////////////////////////
 proc change_name_ok {} {
 	set nick_changed 0
