@@ -3895,7 +3895,7 @@ namespace eval ::amsn {
 			incr NotifID
 
 			#the window will be stretched by the canvas anyways
-			toplevel $w -width 1 -height 1
+			toplevel $w -width 1 -height 1 -borderwidth 0
 			wm group $w .
 			#no wm borders
 			wm state $w withdrawn
