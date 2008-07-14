@@ -554,7 +554,16 @@ namespace eval ::log {
 
 		set contact_list [list]
 		foreach sDir $lDirs {
-			foreach sLogFile [glob -tails -nocomplain -types f -directory ${sDir} "*.cam"] {
+			foreach sLogFile [glob -tails -nocomplain -types f -directory ${sDir} "*.cam" "*.CAM"] {
+
+				#it's possible that if we move the cam files in another file system and then we import them, every extensions can be uppercased. So we have to convert *.CAM in *.cam. The same for dat files.
+				if {[file extension $sLogFile] eq ".CAM"} {
+					set filenoext "${sDir}/"
+					append filenoext [string range $sLogFile 0 end-4]
+					catch { [file rename "${filenoext}.CAM" "${filenoext}.cam"]}
+					catch { [file rename "${filenoext}.DAT" "${filenoext}.dat"]}
+				}
+
 				set sLogFile [ string range $sLogFile 0 [ expr { [string length $sLogFile] - 5 } ] ]
 				lappend contact_list $sLogFile
 			}
