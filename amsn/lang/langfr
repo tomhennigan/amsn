@@ -351,7 +351,7 @@ failed Echec
 farsightextchecking Vérifie si l'extension Farsight est chargée...
 farsightextwarn Vous ne pourrez pas avoir d'appels Audio. Vous trouverez des informations sur Farsight sur notre Wiki :
 farsightinfook Farsight est un ensemble d'outils pour utiliser les protocols de conférences audio/vidéo. Avec Farsight, vous pouvez recevoir et émettre des appels Audio au sein d'aMSN! Vous trouverez d'autres informations sur notre Wiki : 
-faq Questions les plus fréquentes
+faq Foire aux Questions
 fetching Téléchargement des données ...
 filedoesnotexist Le fichier n'existe pas
 file Fichier
@@ -749,6 +749,7 @@ recentmsg Empêcher la fermeture d'une fenêtre de conversation lorsqu'un nouveau 
 reconnect2 Se reconnecter en cas de déconnexion
 reconnect Dans l'attente de la reconnexion de $1
 reconnecting Reconnexion au serveur
+reconnectnow Se reconnecter maintenant
 record Enregistrer
 recorderror Une erreur s'est produite lors de l'enregistrement du son : $1
 recvwebcamaccepted $1 a accepté votre invitation pour voir sa webcam. Connexion en cours.
