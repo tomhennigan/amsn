@@ -192,6 +192,7 @@ closechatwindows Baðlantý kesilmeden önce tüm sohbet pencereleri kapatýlsýn mý?
 closed $1 ile olan sohbet etkinlik olmadýðý için kapatýldý.
 closelabel Sekmeli bir sohbet penceresinde kapatma düðmesine basýlýnca
 closeonly Sadece seçili sekmeyi kapat
+closeorcall Pencereyi kapatmadan önce sesli görüþmeyi kapatmalýsýnýz.
 closeordock Ana pencereyi kapatmak aMSN'yi de kapatacak. Yalnýzca pencereyi kapatýp aMSN'yi sistem çubuðuna küçültebillirsiniz.\n\naMSN'den çýkmak istediðinizden emin misiniz?
 closeothers Tüm diðer sekmeleri kapat
 closingdocks Kapatma düðmesi küçültsün
@@ -208,10 +209,12 @@ confirmdelete $1 i silmek istediðinizden emin misiniz?
 confirmdg Bu öbeði silmek istediðinizden emin misiniz?
 confirmdu Bu kullanýcýyý silmek istediðinizden emin misiniz?
 confirmeg Bu öbeði boþaltmak istediðinizden emin misiniz?
+confirmfulldelete Windows Live Adres Defteri'nden de sil
 confirmpurge Diðer kullanýcýlardan alýnan kullanýcý resimleri (sizinkiler deðil) silinecek. Emin misiniz?
 confirmrfl Bu kullanýcýyý bu öbekten silmek istediðinizden emin misiniz?
 congrats Tebrikler
 connected þu an baglýsýnýz
+connectedat Baðlanýldý: 
 connectedwith $1 ile baðlandý
 connecterror Sunucuya baðlanýrken sorun oluþtu
 connectfirst Lütfen önce baðlanýn
@@ -346,6 +349,9 @@ failed Baþarýlamadý
 faileddelete Silinemedi
 faileddeleteperso Bu resim silinemiyor çünkü kiþisel resim dosyasý deðil. Yalnzýca sizin kimliðinize ait resimler silinebilir.
 faq SYS (Sýkça Yanýtlanan Sorular)
+farsightextchecking Farsight eklentisi kurulu mu diye bakýlýyor...
+farsightextwarn SIP aramalarý yapamayacaksýnýz. Farsight kurulumu için Wiki'mizden bilgi alabilirsiniz:
+farsightinfook Farsight, ses/video görüþmesi protokolleri için bir çerçeve yazýlýmdýr. Farsight ile aMSN özerinden SIP çaðrýlarý gönderip alabilirsiniz! Farsight için Wiki sayfamýza bakabilirsiniz:
 fetching Veri alýnýyor...
 file dosya
 filedoesnotexist Dosya bulunamadý
@@ -416,6 +422,7 @@ groupdelete Öbek Sil
 groupexists Bu öbek zâten var
 groupmissing Öbek bulunamadý
 groupnewname Yeni isim
+groupnonim Sohbet yapmayan baðlantýlarý bir öbeðe topla
 groupnotempty Öbek boþ deðil!
 groupoldname Öbeðin eski adý
 grouprename Öbeði yeniden isimlendir
@@ -499,7 +506,6 @@ lleftconf $1 konferanstan ayrýldý
 load Yükle
 loadcontacts Baðlantý listesi yükle
 loadotherdisplaypic $1 kullanýcýsýna ait resimler yükleniyor, lütfen bekleyin...
-localecode 4 haneli ülke/dil kodunuz
 logbigger Her baðlantý için kayýt dosyasý boyutu üst sýnýrý
 logeventconnect Baðlantýlarý kayda geçir
 logeventdisconnect Baðlantýdan çýkýþlarý kayda geçir
@@ -593,11 +599,13 @@ nodevices Kurulu aygýt yok
 noftpreview Dosya aktarýmlarýnda resimlerin küçük kopyalarý gösterilmesin
 nogap Öbekler arasýnda boþluk olmasýn
 nogroup Öbek dýþý
+nojavascript Javascript etkin deðil. Otomatik giriþ çalýþmayabilir.
 nologfile $1 ile sohbet kaydý yok
 nomic Mikrofon yok
 noneavailable Hiçbiri yok
 nonewmail Gelen kutusunda yeni ileti yok
 nonewver Daha yeni bir sürüm yok
+nonimgroup Sohbet yapmayan baðlantýlar öbeði
 nooimconfirmation Çevrimdýþý ileti alýrken/gönderirken onay isteme
 nopic Resim yok
 noprofileexists Henüz hiçbir kimlik yok. Eðer kimlikle baðlanmak \nisterseniz bir tane yaratmalýsýnýz. Bu penceredeki \nYeni Kimlik Ekle düðmesine týklayarak bunu yapabilirsiniz.
@@ -621,6 +629,7 @@ notifyoffset Uyarý penceresinin konumunu giriniz
 notifytimeout Uyarý penceresi kaybolmadan önce geçecek milisaniye sayýsý
 notifytyping Klavyeyi kullandýðým karþý tarafa gözüksün
 notifywin Uyarý Penceresi
+notimcontact Bu baðlantý sohbet yapmýyor
 notinlist Siz onun baðlantý listesinde deðilsiniz
 notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünmüyor. Eðer kuruluysa, tls kütüphanesi dizini Seçenekler bölümünde belirtilmelidir. Tls programýný http://tls.sf.net adresinden indirebilirsiniz.
 nottabbed Sekmesiz normal pencereler
@@ -686,6 +695,8 @@ preffont3 aMSN'in arayüz yazýtipi ve metin boyutunu deðiþtir
 preffont4 Baþkalarýnýn iletilerini baþka yazýtipiyle göster
 prefft Dosya aktarýmý, p2p ve NAT ayarlarý
 preflibs Kütüphane dizinleri
+preflocale Yerelleþtirme ayarlarý
+preflocale2 Dil/ülke kodunuzu seçiniz
 preflog1 Geçmiþ ve sohbet kayýt seçeneklerim
 preflogevent Geçmiþ Olaylarým
 preflook aMSN'imin görünüþü
@@ -737,9 +748,11 @@ recentmsg Az önce gelmiþ ileti varsa sohbet penceresinin kapatýlmasýný engelle
 reconnect $1 in yeniden baðlanmasý bekleniyor
 reconnect2 Baðlantý koparsa yeniden baðlan
 reconnecting Sunucuya yeniden baðlanýlýyor
+reconnectnow Þimdi yeniden baðlan
 record Kaydet
 recorderror Sesi kaydederken bir sorun oluþtu: $1
 recvwebcamaccepted $1 kamera görüntüsü alma isteðinizi kabul etti. Baðlantý kuruluyor...
+redirect Yeniden yönlendirilmek için buraya týklayýn
 reject Geri çevir
 rememberaccount Hesabýmý hatýrla
 rememberpass Þifreyi hatýrla
@@ -748,6 +761,8 @@ removeempty Boþ öbekleri baðlantý listesinden çýkar
 removefromgroup Öbekten çýkar
 removefromlist Bu listeden çýkar
 rename Yeniden adlandýr
+renameep Bu konumu yeniden isimlendir ($1)
+renamelocation Bu konumu yeniden isimlendir
 report Bildir
 reporting Bildiriyor
 required_version Eklenti yüklenemiyor. Bu eklenti, en az aMSN sürüm $1 gerektirir.
@@ -810,11 +825,18 @@ showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden
 showlinksinlogin Giriþ ekranýnda internet baðlantýlarýný göster
 showmailicon Yeni e-posta varsa panelde e-posta imgesi gözüksün
 showmypic Kullanýcý Resmim
+shownonim Sohbet yapmayan baðlantýlarý göster
 shownotify Belli olaylarda uyarý penceresi göster
+showofflinegroup Çevrim dýþý kullanýcýlar öbeðini göster
 showonedpframe Sohbet pencerelerinde bir tek kullanýcý resmi çerçevesi olsun
 showpicnotify Uyarý pencerelerinde kullanýcý resimleri gözüksün
+showspaces Spaces ikonunu baðlantý listesinde göster
 showuserpic $1 kullanýcýsýnýn resmi
 signinstatus Baðlanma þekli:
+signout Baðlantýyý kes
+signoutep $1 baðlantýsýný kes
+signouteverywhere Tüm baðlantýlarý kes
+signouthere Bu baðlantýyý kes ($1)
 sipcallaccepted Sesli arama kabul edildi
 sipcallback Geri ara
 sipcalldeclined Sesli arama reddedildi
@@ -833,7 +855,6 @@ sipcallsent $1 aranýyor
 sipcallunsupported Henüz desteklenmeyen bir sesli arama daveti aldýnýz. Geri arama ile yeni bir davet gönderip konuþabilirsiniz.
 sipcallyouarebusy Bir anda tek bir sesli arama yapabilirsiniz
 sipgotinvitation $1 kullanýcýsýndan sesli arama daveti aldýnýz
-smileynotavailable Gülen adam bulunmuyor!
 skin Kabuk
 skinselector Kabuk Seç
 small Küçük
@@ -843,6 +864,7 @@ smilefile Gülen adam dosya ismi
 smileintro Özel bir gülen adam yaratmak için ilgili alanlarý doldurunuz \n(yardým için SSS'a bakýnýz)
 smileintro2 Bu gülen adamý özelleþtirmek için ilgili alanlarý düzenleyiniz \n(yardým için SSS'a bakýnýz)
 smiletoobig Seçtiðiniz resim normalden daha büyük. Yeniden boyutlandýrmak ister misiniz?
+smileynotavailable Gülen adam bulunmuyor!
 snackfailed Snack yüklenemedi; varsayýlan kütüphane kullanýlacak.
 snackneeded Bu özelliði kullanabilmek için Snack kütüphanesi gerekmektedir.
 snapshot Resim çek
@@ -851,6 +873,7 @@ sortcontactgroup Baðlantýlarý öbeklerine göre sýrala
 sortcontacthybrid Baðlantýlarý melez kipte sýrala
 sortcontactsasc Artan sýrada
 sortcontactsby Baðlantýlarý sýrala
+sortcontactsbylogsize Baðlantýlarý kayýt uzunluðuna göre sýrala
 sortcontactsdesc Azalan sýrada
 sortcontactstatus Baðlantýlarý durumlarýna göre sýrala
 sortgroupsasc Öbekleri düz sýrala
@@ -897,6 +920,7 @@ stylehist aMSN Geçmiþ görünüþü
 stylelog Geçmiþinizin görünüþ þeklini seçin
 subject Konu
 subjectrequired Lütfen konuyu giriniz
+svnversion SVN Sürüm
 syntaxerror Yazým hatâsý
 tabbed Sekmeli pencereler
 tabbedglobal Tüm baðlantýlar için tek bir sekmeli pencere
@@ -999,6 +1023,7 @@ xmmscurrent Çalýnan parçayý göster
 xmmserr Birþey çalýnmýyor, ya da xmms-infopipe kurulu deðil
 xmmssend Çalýnan parçayý gönder
 xoffset X koordinatý
+xplaces $1 Yerler
 year Yýl
 yes Evet
 yesblock Evet ve engelle
