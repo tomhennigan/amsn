@@ -2502,7 +2502,7 @@ namespace eval ::amsn {
 		set idx 0
 		foreach user $users {
 			if {$show_user_labels == 1} {
-				set truncated [trunc [::abook::getDisplayNick $user] $images [expr {${max_width}-10}] sitalf]
+				set truncated [trunc [::abook::getDisplayNick $user] $images [expr {${max_width}-10}] sitalf 1]
 	
 				label $images.user_name$idx \
 				    -background [::skin::getKey chatwindowbg] \
@@ -6184,8 +6184,8 @@ proc balloon_motion {window x y msg {pic ""} {fonts ""} {mode "simple"}} {
 # If the string is too short or nchars is too small, the ellipsis is not
 # appended to the truncated string.
 #
-proc trunc {str {window ""} {maxw 0 } {font ""}} {
-	if { $window == "" || $font == "" || [::config::getKey truncatenames]!=1} {
+proc trunc {str {window ""} {maxw 0 } {font ""} {force 0}} {
+	if { $window == "" || $font == "" || ([::config::getKey truncatenames]!=1 && !$force) } {
 		return $str
 	}
 
