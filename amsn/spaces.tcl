@@ -822,7 +822,7 @@ namespace eval ::ccard {
 						if { [lindex $i 0] != "" } {
 	
 							if {[lindex $i 3] != "" } {
-								set img [image create photo tempspacethumb$count -width 35 -height 35]
+								set img [image create photo tempspacethumb$email$count -width 35 -height 35]
 								::MSNSPACES::getAlbumImage [list ::ccard::drawSpacesImageCB $img] [lindex $i 3]
 	
 								lappend stylestring [list "tag" "$itemtag"]
@@ -831,7 +831,7 @@ namespace eval ::ccard {
 	
 								lappend stylestring [list "space" 3]
 								
-								bind $canvas <Destroy> +[list image delete tempspacethumb$count]
+								bind $canvas <Destroy> +[list image delete tempspacethumb$email$count]
 							}
 							$canvas bind $itemtag <Button-1> \
 								[list ::hotmail::gotSHA1URL "[lindex $i 2]" 73625]
