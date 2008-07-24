@@ -47,7 +47,7 @@ If you have run into a bug while using aMSN, please submit it with details on re
 <li>
 <b>aMSN SVN</b><br /><br />
 If you want to be on the bleeding egde of AMSN you can download our most recent developement version directly from our sourceforge SVN. SVN
-contains new bug fixes from the previous releases. On the other hand, it might not be and probably is not stable.
+contains new bug fixes from the previous releases. On the other hand, it might not be as stable as the latest stable release.
 <br />
 </li>
 </ul>
@@ -61,35 +61,7 @@ contains new bug fixes from the previous releases. On the other hand, it might n
 
 <ul>
 <li>
-<a href="http://www.amsn-project.net/amsn_dev.tar.gz">Download SVN SnapShot</a>
-
-<!--<br /><br />You can also download this easy install script to get the latest cvs snapshot and download skins. Made by mazzaru. (Linux Only)-->
-<br /><br />
-</li>
-</ul>
-
-<!--<ul>
-<li>
-<a href="http://www.amsn-project.net/amsn_installer.tar.gz">Download easy install aMSN cvs and skins script</a>
-<br /><br />
-</li>
-</ul>-->
-
-
-
-<ul>
-<li>
-<b>aMSN Coding</b>
-<br /><br />
-Information about aMSN coding can primarily be found at the aMSN wiki, under the developer's section: 
-</li>
-</ul>
-
-<ul>
-<li>
-<a href="http://amsn.sourceforge.net/devwiki/tiki-index.php">http://amsn.sourceforge.net/devwiki/tiki-index.php</a><br /><br />
-</li>
-</ul>
+<a href="http://www.amsn-project.net/wiki/SVN">Instructions on how to install the SVN version</a>
 
 
 <ul>
@@ -103,22 +75,6 @@ If you have a translation to submit for aMSN, please visit:
 <ul>
 <li>
 <a href="translations.php">http://www.amsn-project.net/translations.php</a>
-<br /><br />
-</li>
-</ul>
-
-<ul>
-<li>
-<b>aMSN Graphics</b>
-<br /><br />
-Information about aMSN graphics can primarily be found at the aMSN wiki, under the "For graphic artists" section: 
-</li>
-</ul>
-
-
-<ul>
-<li>
-<a href="http://amsn.sourceforge.net/devwiki/tiki-index.php">http://amsn.sourceforge.net/devwiki/tiki-index.php</a>
 <br /><br />
 </li>
 </ul>

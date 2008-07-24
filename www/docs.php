@@ -22,10 +22,6 @@ Links to aMSN Documents
 <br />
 </li>
 
-<li>
-<a href="http://amsn.sourceforge.net/devwiki">Developer WIKI</a>
-</li>
-
 </ul>
 
 <?php include inc . 'footer.php'; ?>
