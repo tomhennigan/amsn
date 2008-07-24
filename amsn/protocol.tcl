@@ -6483,6 +6483,7 @@ proc cmsn_auth {{recv ""}} {
 				status_log "cmsn_auth: was expecting CVR reply but got a [lindex $recv 0]\n" red
 				return 1
 			} else {
+				ns configure -stat "u"
 				if { [::config::getKey protocol] >= 15 } {
 					if {[info exists ::sso] && $::sso != "" } {
 						$::sso destroy
@@ -6503,7 +6504,6 @@ proc cmsn_auth {{recv ""}} {
 
 					$::sso Authenticate [list sso_authenticated]
 				}
-				ns configure -stat "u"
 				return 0
 			}
 		}
