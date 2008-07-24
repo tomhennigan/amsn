@@ -1139,10 +1139,6 @@ namespace eval ::ChatWindow {
 			status_log "No config(winchatsize). Setting default size for chat window\n" red
 		}
 
-		if { [OnWin] } {
-			wm geometry $w +0+0
-		}
-
 		if { [winfo exists .bossmode] } {
 			set ::BossMode($w) "iconic"
 			wm state $w withdraw
@@ -1262,10 +1258,6 @@ namespace eval ::ChatWindow {
 			::config::setKey winchatsize 350x390
 			::config::setKey winmaximized 0
 			status_log "No config(winchatsize). Setting default size for chat window\n" red
-		}
-
-		if { [OnWin] } {
-			wm geometry $w +0+0
 		}
 
 		if { [winfo exists .bossmode] } {
