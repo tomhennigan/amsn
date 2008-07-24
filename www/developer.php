@@ -62,6 +62,9 @@ contains new bug fixes from the previous releases. On the other hand, it might n
 <ul>
 <li>
 <a href="http://www.amsn-project.net/wiki/SVN">Instructions on how to install the SVN version</a>
+</li>
+</ul>
+
 
 
 <ul>
