@@ -310,6 +310,7 @@ namespace eval ::config {
 		::config::setKey groupnonim 0					;# Group non IM contacts in a separate group in the CL
 		::config::setKey showspaces 1					;# Enable/disable showing of the spaces star in the CL
 		::config::setKey showOfflineGroup 1
+		::config::setKey no_blocked_notif 0				;# No notify windows when a user is blocked
 
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
@@ -357,6 +358,7 @@ namespace eval ::config {
 			[list local notifyemail bool notify3] \
 			[list local notifyemailother bool notify4] \
 			[list local notifytimeout int notifytimeout] \
+			[list local no_blocked_notif bool no_blocked_notif] \
 			[list local soundactive bool soundactive] \
 		        [list local autolisten_voiceclips bool autolisten_voiceclips] \
 			[list local recentmsg bool recentmsg] \
