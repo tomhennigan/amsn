@@ -592,6 +592,7 @@ next Siguiente
 nick Apodo
 nickchanged $1 ha cambiado su apodo a '$2'
 noactivity Sin actividad
+no_blocked_notif No moestrar ventanas de aviso para contactos sin admisión
 nocacheddps No hay imágenes para mostrar almacenadas para este usuario
 nocamwarn No se detectó ninguna cámara web, o la misma está en uso por otro programa (lo que significa que no puede ser usada por aMSN). Encontrará ayuda para resolver este problema en nuestro Wiki:
 nodataavailable No hay datos disponibles para $1
