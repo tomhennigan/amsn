@@ -59,7 +59,7 @@ snit::type SSOAuthentication {
 
 		set security_tokens [SecurityToken create %AUTO% -name Passport -address "http://Passport.NET/tb"]
 
-		lappend security_tokens [SecurityToken create %AUTO% -name Contacts -address "contacts.msn.com" -policy "?fs=1&id=24000&kv=7&rn=93S9SWWw&tw=0&ver=2.1.6000.1"]
+		lappend security_tokens [SecurityToken create %AUTO% -name Contacts -address "contacts.msn.com" -policy "MBI"]
 		lappend security_tokens [SecurityToken create %AUTO% -name Messenger -address "messenger.msn.com" -policy "?id=507"]
 		lappend security_tokens [SecurityToken create %AUTO% -name MessengerClear -address "messengerclear.live.com" -policy "MBI_KEY_OLD"]
 		lappend security_tokens [SecurityToken create %AUTO% -name MessengerSecure -address "messengersecure.live.com" -policy "MBI_SSL"]
@@ -213,7 +213,7 @@ snit::type SSOAuthentication {
 		append xml {<ps:BinaryVersion>4</ps:BinaryVersion>}
 		append xml {<ps:UIVersion>1</ps:UIVersion>}
 		append xml {<ps:Cookies></ps:Cookies>}
-		append xml {<ps:RequestParams>AQAAAAIAAABsYwQAAAAxMDMz</ps:RequestParams>}
+		append xml {<ps:RequestParams>AQAAAAIAAABsYwQAAAA0MTA1</ps:RequestParams>}
 		append xml {</ps:AuthInfo>}
 
 		append xml {<wsse:Security xmlns:wsse="http://schemas.xmlsoap.org/ws/2003/06/secext">}
