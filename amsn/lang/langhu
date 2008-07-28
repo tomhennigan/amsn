@@ -239,6 +239,7 @@ created Létrehozva
 credits Stáblista
 curdisplaypic Aktuális megjelenítendö kép
 currentdate Jelenlegi dátum
+currentdynrate Jelenlegi real-time sebesség (ezredmásodpercben)
 currentlanguage Ezt a nyelvet használod most
 currentnotes Jelenlegi jegyzetek
 custnotifymsg Értesítés új üzenetekről
@@ -308,6 +309,7 @@ download Letöltés
 downloadcanceled A letöltés megszakítva.
 downloadingtls TLS modul letöltése innen:\n $1
 downloadingwait Az új amsn verzió letöltése. Türelem...
+dynamicrate Dinamikus frame rate használata a real-time sebesség szimulálására
 editavsettings Hang és kép beállítások módosítása
 editcontent Töltsd ki a tárgy és a megjegyzés mezőket
 editcustomstate Saját állapot beállítása
@@ -587,6 +589,7 @@ noneavailable Nem elérhető
 no Nem
 nonewmail Nincs új üzeneted
 nonewver Nincs elérhető újabb verzió
+nooimconfirmation Nem kér megerősítést kapcsolat nélküli üzenetek küldésekor/fogadásakor
 nopic Nincs kép
 noprofileexists Nincsenek profilok. \n Létre kell hoznod egyet, hogy profillal jelentkezhess be. \nKattints az 'Új profil hozzáadása' gombra.
 noresizesmileys Ne méretezze át a beérkezett egyéni hangulatjeleket
@@ -754,6 +757,7 @@ saveotherdirectory Mentés másik könyvtárba
 savetofile Mentés fájlba
 says $1 üzenete
 sbcon Csatlakozás a kapcsolatkezelő szerverhez
+searchadvprefs Keresés a további beállításokban:
 searchdown Keresés lefelé
 searchup Keresés felfelé
 selectall Összes kijelölése
@@ -808,6 +812,7 @@ smilefile Hangulatjel fájl neve
 smileintro2 Töltsd ki a mezőket, hogy módosíthasd a saját hangulatjelet (nézd meg a FAQ -t segítségért)
 smileintro Töltsd ki a mezőket, hogy létrehozhass saját hangulatjelet (nézd meg a FAQ -t segítségért)
 smiletoobig A kiválasztott smiley nagyobb a normál méretnél. Át akarod méretezni?
+smileynotavailable A smiley nem létezik!
 snackfailed A Snack betöltése sikertelen, az alapbeállítás használata
 snackneeded A Snack függvénykönyvtárra szükség van ehhez.. A minimális verzió: 2.2.9.
 snapshot Pillanatkép
