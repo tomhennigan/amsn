@@ -1,0 +1,16 @@
+amsn_lang_version 2
+gametttgameclosed Az ellenfél bezárta a játékot.
+gametttgamesessionwith $1 $2-vel
+gametttnowinner Senki sem nyert a körben!\nAz eredmény marad $1:$2.
+gametttopponent ellenfél
+gametttopponentloading Kérlek várj, az ellenfél betölti a játékot...
+gametttopponentready Az ellenfeled készen áll a játékra, kattints az "Indítás"-ra a kezdéshez.
+gametttopponentsturn az ellenfél lépése
+gametttopponentnotready Várakozás az ellenfél "Indítás"-ra kattintására...
+gametttrestart Újraindítás
+gametttstart Indítás
+gamettttitle Tic Tac Toe
+gametttwait Kérlek várj...
+gametttwinner $1 nyerte a kört!\nAz állás most $2:$3.
+gametttyou te
+gametttyourturn a TE lépésed

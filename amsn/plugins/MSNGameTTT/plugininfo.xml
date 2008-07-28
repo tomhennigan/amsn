@@ -6,6 +6,7 @@
 	<description_de>MSN-Spiel Tic Tac Toe</description_de>
 	<description_es>Juego de las Tres en Raya de MSN.</description_es>
 	<description_fr>Jeu-MSN Tic Tac Toe</description_fr>
+	<description_hu>A Tic Tac Toe MSN-játék</description_hu>
 	<description_nl>MSN-spel Tic Tac Toe</description_nl>
 	<amsn_version>0.98</amsn_version>
 	<plugin_version>1.0</plugin_version>
@@ -29,6 +30,10 @@
 	<lang>
 		<langcode>fr</langcode>
 		<version>9680</version>
+	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>10334</version>
 	</lang>
 	<lang>
 		<langcode>nl</langcode>
