@@ -33,7 +33,7 @@ alarmstatus Alarm inschakelen voor deze gebruiker
 allfiles Alle bestanden
 allmonths Alle maanden
 allowallbutbl Iedereen die ik niet heb geblokkeerd mag contact met mij opnemen
-allowbadwords Ongecensureerde schermnamen weergeven
+allowbadwords Ongecensureerde schermnamen tonen
 allowlist [AL] Geaccepteerd
 allowonlyinal Alleen personen die ik heb geaccepteerd kunnen contact met mij opnemen
 allowseen Deze persoon toestaan om te zien of ik online ben en contact met mij op te nemen
@@ -93,7 +93,7 @@ bgcolor Achtergrondkleur van aMSN wijzigen
 blankdirect Laat leeg voor directe verbinding
 block Blokkeren
 blocked Geblokkeerd
-blockedyougroup Mensen die je geblokkeerd hebben als een aparte groep tonen
+blockedyougroup Mensen die je hebben geblokkeerd in een aparte groep tonen
 blocking Blokkeren
 blockinter1 Wanneer je status online is, om de
 blockinter2 seconden controleren, anders elke:
@@ -101,7 +101,7 @@ blockinter3 elke
 blockinter4 seconden.
 blocklist [BL] Geblokkeerd
 blockmessage Deze mensen zijn online en hebben je geblokkeerd
-blocknotifications Geen meldingsvensters weergeven
+blocknotifications Geen meldingsvensters tonen
 blocksounds Geen geluid afspelen
 blockusers Gelijktijdig controleren
 bouncedock aMSN's pictogram in het dock laten stuiteren zodra een bericht wordt ontvangen
@@ -144,15 +144,15 @@ changestate $1 heeft de status veranderd in $2
 changestatus Status wijzigen
 changevideosettings Webcaminstellingen aanpassen
 channels Kanalen
-charscounter Getypte-tekensteller in gespreksvenster
+charscounter Getyptetekensteller in gespreksvenster
 chat Gesprek
 chatack Gesprek aanvaarden van
 chatmaxmin Weergave van gespreksvenster wanneer ik word aangesproken:
 chatreq Indienen van verzoek voor gesprek
 chatsmileys Emoticons weergeven
-chatsmileys2 Emoticons weergeven in berichten
+chatsmileys2 Emoticons weergeven in gespreksvensters
 checkblocking Blijven controleren of gebruikers je blokkeren
-checkemail Het aantal berichten in je Postvak IN weergeven in de contactenlijst
+checkemail Het aantal berichten in je Postvak IN tonen in de contactenlijst
 checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Voorkeuren > Geavanceerd om dit te wijzigen.
 checkingaudio Bezig met controleren of de extensie voor geluid (Snack) is geladen...
 checkingcam Bezig met controleren of er een webcam is aangesloten...
@@ -163,7 +163,7 @@ checkonfln Controleren of een contact je heeft geblokkeerd wanneer hij offline g
 checkopenfilecommand Controleer het 'Commando voor bestand openen' in het venster 'Voorkeuren'
 checkver aMSN-versiecontrole
 choosearq Selecteer je systeem
-choosebasefont Lettertype
+choosebasefont Lettertype instellen
 choosebgcolor Achtergrondkleur instellen
 choosechannel Kies een kanaal
 choosecontact Kies een contact uit de lijst
@@ -234,7 +234,7 @@ copy Kopiëren
 copytoclipboard Kopiëren naar klembord ($1)
 copytogroup Kopiëren naar groep
 corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
-corruptstates Het aangepaste-statussenbestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
+corruptstates Het aangepastestatussenbestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 couldnotrename Het bestand $1 kon niet worden hernoemd
 countrycode Landnummer
 cprofile Profiel aanmaken
@@ -245,7 +245,7 @@ currentdate Huidige datum
 currentdynrate Huidige real-timesnelheid (in milliseconden)
 currentlanguage Deze taal gebruik je nu
 currentnotes Huidige notities
-custnotifymsg Meldingsvenster weergeven wanneer een nieuw bericht binnenkomt
+custnotifymsg Meldingsvenster weergeven wanneer een bericht van deze gebruiker binnenkomt
 custnotifyoffline Meldingsvenster weergeven wanneer dit contact offline gaat
 custnotifyonline Meldingsvenster weergeven wanneer dit contact online komt
 custnotifystatus Meldingsvenster weergeven wanneer dit contact van status verandert
@@ -306,7 +306,7 @@ dockkde KDE-systeemvak
 done Voltooid
 dontaskweek Update gedurende een week niet meer vragen
 dontdownload TLS niet downloaden, ik installeer het zelf
-dontshow Niet weergeven
+dontshow Niet tonen
 dontshowdp Dit contact niet toestaan om mijn nieuwe schermafbeeldingen te downloaden
 download Downloaden
 downloadcanceled Download geannuleerd.
@@ -323,7 +323,7 @@ editprofile Profiel bewerken
 editstate Persoonlijke status wijzigen
 editvalue Waarde wijzigen
 email E-mail
-emailsinlist E-mailadressen weergeven in de contactenlijst
+emailsinlist E-mailadressen tonen in de contactenlijst
 emoticon_steal Toevoegen aan mijn emoticons
 emotisounds Geluid bij emoticons gebruiken
 emptygroup Groep leegmaken
@@ -363,7 +363,7 @@ filetransfer Bestandsoverdracht
 filetransfercancelled Bestandsoverdracht geannuleerd
 filetransfercomplete Bestandsoverdracht voltooid
 filters Filters
-filtersselect Kies de filters die je wilt toepassen\n(N.B. Indien geen filter is gekozen, wordt alles weegegeven)
+filtersselect Kies de filters die je wilt toepassen\n(N.B. Als geen filter is gekozen wordt alles getoond)
 filtersx Filterkeuze
 find Zoeken
 findasyoutype Zoeken terwijl ik typ
@@ -435,7 +435,7 @@ help Help
 helpcontents Help-onderwerpen
 hidebuttonbar Knoppenbalk verbergen
 hidedisplaypic Schermafbeelding verbergen
-hidemenu Menu's weergeven/verbergen
+hidemenu Menu's tonen/verbergen
 hidemenumessage Weet je zeker dat je de menu's wilt verbergen?\nJe kunt ze op elk moment weer in beeld brengen met de toetsencombinatie 'Ctrl-M'.
 hiden Deze emoticon niet in het menu weergeven
 hidewindow Venster verbergen
@@ -456,7 +456,7 @@ imagefiles Afbeeldingsbestanden
 inbox Postvak IN
 insertsmiley Emoticon invoegen
 inserttextnote Vul de velden 'Onderwerp' en 'Notitie' in en klik vervolgens op 'Opslaan'
-installconvert Je moet het conversieprogramma "ImageMagick" installeren om afbeeldingen te converteren naar de indeling die door de MSN-servers wordt gebruikt. Je kunt een versie van ImageMagick voor jouw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl je het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alsjeblieft.
+installconvert Je moet het conversieprogramma ImageMagick installeren om afbeeldingen te converteren naar de indeling die door de MSN-servers wordt gebruikt. Je kunt een versie van ImageMagick voor jouw besturingssysteem downloaden van ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Als deze melding verschijnt terwijl je het al hebt geïnstalleerd, dan is er mogelijk sprake van een bug. Meld dit dan alsjeblieft.
 internalerror Interne serverfout
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidfile2 Het bestand $1 kan niet worden aangemaakt. Heb je wel de juiste toegangsrechten?
@@ -492,7 +492,7 @@ lconftopriv Vergadering veranderde in privégesprek met $1
 lconvstarted Gesprek gestart op $1
 lconvstartedOIM Offlineberichtenuitwisseling gestart op $1
 leaveblankforhotmail Laat leeg om Hotmail te gebruiken
-leavejoinsinchat In het gespreksvenster weergeven dat iemand het gesprek binnenkomt of verlaat
+leavejoinsinchat In het gespreksvenster tonen dat iemand het gesprek binnenkomt of verlaat
 leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
 lineflushlog Logbestanden bijwerken na elke regel
@@ -511,7 +511,7 @@ logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
 logeventemail In logboek vastleggen wanneer een e-mail wordt ontvangen
 logeventnick De schermnaamwijzigingen in logboek vastleggen
-logeventpsm De persoonlijk-berichtwijzigingen in logboek vastleggen
+logeventpsm De persoonlijkberichtwijzigingen in logboek vastleggen
 logeventstate In logboek vastleggen wanneer een contact van status verandert
 logfandexp Omvang van logboeken en verlopen van logs
 loggedotherlocation De verbinding is verbroken omdat je elders bent aangemeld
@@ -635,6 +635,7 @@ notls Versie 9 van het MSN-protocol vereist het pakket TLS. Dit pakket lijkt nie
 nottabbed Geen tabbladen gebruiken
 nousersinsession Geen gebruiker in sessie
 nouserspecified Geen contact geselecteerd
+no_blocked_notif Geen meldingsvensters tonen voor geblokkeerde contacten
 nudge $1 vraagt je aandacht
 offline Offline
 oim Offlineberichten
@@ -727,10 +728,10 @@ proxyconf Proxyconfiguratie
 proxyconfhttp Configuratie voor HTTP-proxyondersteuning
 proxyconnection De onderstaande proxyserver gebruiken:
 psm Persoonlijk bericht
-psmatend Persoonlijk bericht weergeven naast de schermnaam
+psmatend Persoonlijk bericht tonen naast de schermnaam
 psmchanged $1 heeft zijn persoonlijk bericht gewijzigd in '$2'
-psmdontshow Geen persoonlijk bericht weergeven, tenzij anders aangegeven in de algemene/aangepaste schermnaam
-psmnewline Persoonlijk bericht weergeven onder de schermnaam
+psmdontshow Geen persoonlijk bericht tonen, tenzij anders aangegeven in de algemene/aangepaste schermnaam
+psmnewline Persoonlijk bericht tonen onder de schermnaam
 psmplace Hoe wil je persoonlijke berichten gepositioneerd hebben?
 publishphones Mijn telefoonnummers publiceren
 purge Legen
@@ -814,22 +815,22 @@ setasmydp Instellen als mijn schermafbeelding
 setupcam Bezig met instellen van je webcam...
 setupcamfinetune Bezig met instellen van je webcam en fijnafstellen van het beeld
 shareswebcam Heeft een webcam
-showbanner aMSN-banner weergeven
-showblockedlist Lijst van mensen die je geblokkeerd hebben tonen
-showcachedpics Opgeslagen schermafbeeldingen van contacten weergeven
-show_contactdps_in_cl Verkleinde schermafbeeldingen weergeven in de contactenlijst
-showcontactemail Contacten weergeven met e-mailadres
-showcontactnick Contacten weergeven met schermnaam
+showbanner aMSN-banner tonen
+showblockedlist Lijst van mensen die je hebben geblokkeerd tonen
+showcachedpics Opgeslagen schermafbeeldingen van contacten tonen
+show_contactdps_in_cl Verkleinde schermafbeeldingen tonen in de contactenlijst
+showcontactemail Contacten tonen met e-mailadres
+showcontactnick Contacten tonen met schermnaam
 showdisplaypic Schermafbeelding tonen
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
-showonedpframe Slechts één schermafbeeldingsframe tonen in gespreksvensters
-showlinksinlogin Koppelingen weergeven in het aanmeldscherm
-showmailicon E-mailpictogram weergeven in systeemvak wanneer nieuwe e-mails binnenkomen
+showonedpframe Slechts één schermafbeeldingsframe weergeven in gespreksvensters
+showlinksinlogin Koppelingen tonen in het aanmeldscherm
+showmailicon E-mailpictogram tonen in systeemvak wanneer nieuwe e-mails binnenkomen
 showmypic Mijn afbeelding
 shownonim Niet-instant messaging-contacten tonen
-shownotify Meldingsvenster weergeven bij bepaalde gebeurtenissen
+shownotify Meldingsvenster tonen bij bepaalde gebeurtenissen
 showofflinegroup Groep Offline tonen
-showpicnotify Schermafbeelding weergeven op meldingsvensters
+showpicnotify Schermafbeelding tonen in meldingsvensters
 showspaces Spaces-pictogram tonen in de contactenlijst
 showuserpic Afbeelding van $1
 signinstatus Status na aanmelden
@@ -948,12 +949,12 @@ tools Extra
 tooltips Tooltips weergeven
 totalsize Totale grootte
 transnotexists Het opgevraagde bestand is nog niet vertaald in de gebruikte taal.
-trayicon De huidige status weergeven met een pictogram in het systeemvak
+trayicon De status tonen met een pictogram in het systeemvak
 traynotcompiled Systeemvakplug-in is niet gecompileerd. Controleer plug-ins/traydock
 triggers Teksttriggers
-truncatenames1 Schermnamen in de contactenlijst en in venstertitels afbreken als ze langer zijn dan het venster breed is
-truncatenames2 Schermnamen tijdens gesprekken afbreken als ze langer zijn dan het venster breed is
-truncatenicks Schermnamen afbreken als ze langer zijn dan het venster breed is
+truncatenames1 Schermnamen in contactenlijst en venstertitels afbreken als ze langer zijn dan de vensterbreedte
+truncatenames2 Schermnamen tijdens gesprekken afbreken als ze langer zijn dan de vensterbreedte
+truncatenicks Schermnamen afbreken als ze langer zijn dan de vensterbreedte
 twonewmail Je hebt $1 nieuwe berichten in Postvak IN
 type Type
 unblock Blokkering opheffen
