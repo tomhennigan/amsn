@@ -87,12 +87,14 @@ snit::type ContentRoaming {
 					} else {
 						::abook::setContactData $email profile_resourceid $rid
 					}
-				}
-				set nick [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayName"]
-				set last_modif [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayNameLastModified"]
-				set psm [GetXmlEntry $result "GetProfileResult:ExpressionProfile:PersonalStatus"]
+					set nick [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayName"]
+					set last_modif [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayNameLastModified"]
+					set psm [GetXmlEntry $result "GetProfileResult:ExpressionProfile:PersonalStatus"]
 
-				# TODO : DP is more complicated.. will look at it later...
+					# TODO : DP is more complicated.. will look at it later...
+				} else {
+					set fail 4
+				}
 			}
 			
 		} elseif { [$soap GetStatus] == "fault" } { 

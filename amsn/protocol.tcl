@@ -4645,7 +4645,7 @@ namespace eval ::MSNOIM {
 			ChCustomState $newstate_custom
 			send_dock "STATUS" $newstate			
 		}
-		if {$fail == 3} {
+		if {$fail == 3 || $fail == 4} {
 			# ItemDoesNotExist
 			$::roaming CreateProfile [list $self RoamingProfileCreated]
 		}
