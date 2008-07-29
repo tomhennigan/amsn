@@ -26,8 +26,8 @@ alarmonconnect Jelzés, amikor egy partner bejelentkezik
 alarmondisconnect Jelzés, amikor egy partner kijelentkezik / láthatatlan módba kapcsol
 alarmonmsg Jelzés, amikor egy partner üzenetet küld
 alarmonstatus Jelzés, amikor egy partner megváltoztatja az állapotát
-alarmpref Figyelmeztető jelzések e partnerhez
 alarmpref2 Figyelmeztető jelzések minden partnerhez
+alarmpref Figyelmeztető jelzések e partnerhez
 alarms Jelzések
 alarmstatus Figyelmeztető jelzés KI/BE kapcsolása ehhez a partnerhez
 allfiles Minden fájl
@@ -109,7 +109,7 @@ brightness Fényerő
 broughtby A fejlesztők:
 browse Böngészés
 browser Böngésző
-browserexample ( \$url lesz az URL). Pl: mozilla \$url
+browserexample ( \$url lesz az URL). Pl: firefox \$url
 bugerror Sajnálom, de hiba történt az hiba-adatbázishoz való kapcsolódás közben. Ellenőrizd az internetkapcsolatodat!
 bugnocomment Megjegyzés nélkül küldöd? Írj hozzá megjegyzést, hogy könnyebben javíthassuk a problémát.
 busy elfoglalt
@@ -183,15 +183,16 @@ clearwebcamlogs Webkamera naplók törlése
 clickhere Kattints ide
 clicktoadd Kattints a 'Hozzáadás' gombra egy új jegyzet felvételéhez
 clicktologin Kattints ide a bejelentkezéshez
-clientcaps küldj x-clientcaps csomagot más partnereknek
+clientcaps x-clientcaps csomag küldése más partnereknek
 clientname Kliens név
 closeall Minden fület bezársz az ablakban?
 closealltabs Minden fül bezárása
+closechatwindows Minden beszélgetés bezárása a kijelentkezés előtt?
 closed A beszélgetés közted és $1 között bezárult inaktivitás miatt
 close Kilépés
-closechatwindows Minden beszélgetés bezárása a kilépés előtt?
 closelabel Többfüles beszélgetés ablakon a bezárásra kattintáskor
 closeonly Csak az aktuális fül bezárása
+closeorcall Az ablak bezárása előtt le kell zárnod/törölnöd kell a hanghívást.
 closeordock Ha bezárod az ablakot, az aMSN ki fog lépni. Ha mégsem ezt szeretnéd, lecsukhatod a tálcára.\n\nBiztos ki szeretnél lépni az aMSN-ből?
 closeothers Minden más fül bezárása
 closingdocks Bezáró gombra dokkolás (minimalizálás)
@@ -208,9 +209,11 @@ confirmdelete Biztos ki akarod ezt törölni: $1?
 confirmdg Biztosan törölni akarod ezt a csoportot?
 confirmdu Biztosan törölni akarod ezt a partnert?
 confirmeg Biztosan kiüríted ezt a csoportot?
+confirmfulldelete Törlés a Windows Live címjegyzékből is
 confirmpurge Minden lementett kép (nem a saját képeid) törlődik. Biztos vagy ebben?
 confirmrfl Biztosan törölni akarod ezt a partnert ebből a csoportból?
 congrats Kész
+connectedat Csatlakozva
 connected Kapcsolat létrejött
 connectedwith Csatlakozva: $1
 connecterror Hiba a szerverhez kapcsolódás közben
@@ -305,10 +308,10 @@ dontaskweek Frissítés felajánlása egy hét múlva
 dontdownload Ne töltsd le a TLS modult, felteszem magam
 dontshowdp Ez a partnered nem töltheti le az új megjelenítendő képeidet
 dontshow Ne látszódjon
-download Letöltés
 downloadcanceled A letöltés megszakítva.
 downloadingtls TLS modul letöltése innen:\n $1
-downloadingwait Az új amsn verzió letöltése. Türelem...
+downloadingwait Az új aMSN verzió letöltése. Türelem...
+download Letöltés
 dynamicrate Dinamikus frame rate használata a real-time sebesség szimulálására
 editavsettings Hang és kép beállítások módosítása
 editcontent Töltsd ki a tárgy és a megjegyzés mezőket
@@ -346,6 +349,9 @@ faileddelete Nem sikerült törölni
 faileddeleteperso Ez a kép nem törölhető, mert nem személyes kép. Csak a saját profilodhoz tartozó képeket lehet így törölni.
 failed Sikertelen
 faq Gyakran Ismételt Kérdések
+farsightextchecking Farsight bővítmény ellenőrzése ...
+farsightextwarn Nem tudsz SIP hívásokat kezdeményezni. A Farsight telepítéséhez e wiki oldalon találsz segítséget:
+farsightinfook A Farsight egy audio/video konferencia protokollokat tartalmazó keretrendszer, amelynek segítségével SIP hívásokat kezdeményezhetsz/fogadhatsz az aMSN-nel! További információ ezen a Wiki oldalon:
 fetching Adatok vétele...
 filedoesnotexist A fájl nem jött létre
 file Fájl
@@ -371,8 +377,8 @@ firewalled Tűzfalat használsz, vagy router mögött vagy
 followtext Gördítés új bejegyzés esetén
 forget_me Fiók törlése
 forgot_pass Elfelejtettem a jelszavam
-formatctt ctt formátum
 formatcsv csv formátum
+formatctt ctt formátum
 friendlyname Baráti név
 ftacceptedby $1 elfogadta a '$2' fájl átvitelét.
 ftaccepted Fájlátvitel engedélyezve
@@ -389,6 +395,13 @@ ftrejectedby $1 nem fogadta el a fájl átviteli kérést a '$2' fájlra.
 ftrejected Fájl átvitel kész
 ftsendinvitation A kérés a '$2' fájl átvitelére ($3 byte) elküldve ide: $1.
 fullcontactlist A partnerlistád tele van. Törölnöd kell pár partnert, hogy újat vehess fel.
+gameaccepted $1 has accepted your game invitation
+gameclosedbyother $1 has canceled the game session with you.
+gameclosedbyself You have canceled the game session with $1.
+gameinvitation $1 has invited you to play $2. Do you want to accept this invitation?
+gamepluginnotfound $1 has invited you to play $2 but there is no plugin for this game currently loaded. Please activate and configure this plugin first.
+gamerejected $1 has rejected your game invitation
+gamerequest You have invited $1 to play $2
 getdisppic A partnerek megjelenítendő képeinek fogadása
 getmoreplugins Még több plugin letöltése
 getmoreskins Még több felület letöltése
@@ -409,12 +422,14 @@ groupdelete Csoport törlése
 groupexists A csoport már létezik
 groupmissing Nem találom a csoportot
 groupnewname Új név
+groupnonim Nem azonnali üzenetküldési parnerek csoportja
 groupnotempty A csoport nem üres!
 groupoldname Régi név
 grouprename Csoport átnevezése
 groups Csoportok
 groupunknown Ismeretlen csoport
 handle Kezelés
+hangup Lekapcsolódás
 havenomic Nincs mikrofonom
 helpcontents Témakörök
 help Súgó
@@ -424,8 +439,8 @@ hidemenu Menük elrejtése/megjelenítése
 hidemenumessage El akarod rejteni a menüsort?\nBármikor vissza tudod állítani a menük elrejtése/megjelenítése gyorsbillentyűvel 'Ctrl-M'.
 hiden Hangulatjel elrejtése a menüből
 hidewindow Ablak elrejtése
-history Előzmények megtekintése
 history2 Előzmények:
+history Előzmények megtekintése
 home Otthon
 howto_remove_profile A profilod ($1) törléséhez a beállítások ablakot kell megnyitnod. \n\nBiztonsági okokból a profil törlése nem engedélyezett a bejelentkező képernyőről.
 httpconnection HTTP mód használata kapcsolódáshoz (a HTTP protokollt használja a 80-as porton)
@@ -482,15 +497,15 @@ leaves $1 elhagyta a beszélgetést
 lenteredconf 1$ belépett a $2 konferenciába
 lineflushlog Előzmények törlése minden sor után
 linprivate Privátban
-listening Vétel
 listeningon Vétel e porton: $1
+listening Vétel
 listsmileys2 Hangulat- és egyéb jelek megjelenítése a partnerlistán
 listsmileys Hangulatjelek listája
 ljoinedconf $1 csatlakozott a beszélgetéshez
 lleftconf $1 elhagyta a beszélgetést
+load Betöltés
 loadcontacts Partnerlista betöltése
 loadotherdisplaypic $1 megjelenítendő képének betöltése, kérlek várj...
-load Betöltés
 logbigger A naplófájlok egyik partnerrel sem érik el a maximumot
 logeventconnect Kapcsolatok naplózása
 logeventdisconnect Kijelentkezések naplózása
@@ -506,7 +521,7 @@ login Bejelentkezés
 loging Naplózás
 logolder Csak azon beszélgetések naplózása, melyek le lettek folytatva az elmúlt
 logout Kijelentkezés
-logoutwincloselabel Beszélgetések bezárása kilépéskor
+logoutwincloselabel Beszélgetések bezárása kijelentkezéskor
 logsbydate A naplók dátum szerinti rendezése (Az előzmények betöltése gyorsabb)
 logschats csatlakozott a beszélgetéshez
 logsin bejelentkezett
@@ -576,6 +591,7 @@ next Következő
 nick Becenév
 nickchanged $1 megváltoztatta becenevét erre: '$2'
 noactivity nem vagyok itt
+no_blocked_notif Ne jelenítsen meg értesítő ablakokat a letiltott partnereknél
 nocacheddps Nincs eltárolt kép ettől a felhasználótól
 nocamwarn Nem találtam webkamerát, vagy a webkamerád már használja egy másik program (emiatt az aMSN nem tudja használni). A probléma megoldásához a Wiki oldalunkon találsz segítséget:
 nodataavailable Nincs adat róla ( $1 )
@@ -583,12 +599,14 @@ nodevices Jelenleg nincs eszköz telepítve
 noftpreview A képek mejelenítésének tiltása fájl átvitelkor.
 nogap Nincs szünet a csoportok közt
 nogroup Nincs csoport
+nojavascript Nincs engedélyezve a javascript. Az automatikus bejelentkezés nem használható.
 nologfile Nincs naplófájl tőle ( $1 )
 nomic Nincs mikrofon
 noneavailable Nem elérhető
 no Nem
 nonewmail Nincs új üzeneted
 nonewver Nincs elérhető újabb verzió
+nonimgroup Nem azonnali üzenetküldési partnerek
 nooimconfirmation Nem kér megerősítést kapcsolat nélküli üzenetek küldésekor/fogadásakor
 nopic Nincs kép
 noprofileexists Nincsenek profilok. \n Létre kell hoznod egyet, hogy profillal jelentkezhess be. \nKattints az 'Új profil hozzáadása' gombra.
@@ -612,6 +630,7 @@ notifyoffset A figyelmeztető ablak helye
 notifytimeout Az idő millisecundumban (ezredmásodperc) mielőtt eltűnik a figyelmeztető ablak
 notifytyping Figyelmeztetés küldése gépelés közben
 notifywin Értesítő ablak
+notimcontact Nem azonnali üzenetküldési partner
 notinlist Nem vagy a partner listáján
 notls Az MSN 9 protokollnak szüksége van a TLS csomagra. Ez a csomag nincs installálva ezen a gépen. Ha installálva van, a TLS csomag helye a beállításokban adható meg (pl: /opt/tls/lib). \n \n A TLS csomag letölthető innen : http://tls.sf.net.
 nottabbed Normál ablakok fülek nélkül
@@ -652,6 +671,8 @@ picfile Figyelmeztető kép fájl (GIF < 500 x 500)
 picstatus Figyelmeztető kép KI/BE kapcsolása
 playbackposition Lejátszás pozíciója
 playbackspeed Lejátszás sebessége (a képkockák közt milliszekundumokban)
+playgame Játék
+playgame2 $1 játék
 playerror Hiba történt a hang lejátszása közben: $1
 playing Lejátszás: $1
 play Lejátszás
@@ -675,6 +696,8 @@ preffont4 Mások által küldött üzenetek kinézetének megváltoztatása szá
 preffont Üzenetem
 prefft File átvitel, peer-to-peer és NAT beállítások
 preflibs Függvénykönyvtárak mappája
+preflocale Helyi beállítások
+preflocale2 Válaszd ki a nyelv-/ország kódot
 preflog1 Naplózások és előzmények beállításai
 preflogevent Az én előzményeim
 preflook aMSN kinézet
@@ -723,12 +746,14 @@ receivedoimread $1 új kapcsolat nélküli üzeneted van. Elolvasod?
 receivedvoice Hangklippet kaptál
 receivefile Fájl fogadása
 recentmsg Ablak bezárásának tiltása, ha épp új üzenet érkezett
-reconnect2 Úrjakapcsolódás leesés esetén
+reconnect2 Újrakapcsolódás leesés esetén
 reconnecting Újra kapcsolódás a szerverhez
-reconnect Várakozás a $1kapcsolódására
+reconnect Várakozás $1 kapcsolódására
+reconnectnow Újrakapcsolódás most
 recorderror Hiba lépett fel a hang felvétele közben: $1
 record Felvétel
 recvwebcamaccepted $1 elfogadta a meghívást a webkamera megmutatására. Kapcsolódás...
+redirect Kattint ide az átirányításhoz
 reject Elvet
 rememberaccount Fiók megjegyzése
 rememberpass Jelszó megjegyzése
@@ -737,6 +762,8 @@ removeempty Üres csoportok elrejtése a partnerlistából
 removefromgroup Törlés a csoportból
 removefromlist Törlés a listáról
 rename Átnevez
+renameep E hely átnevezése ($1)
+renamelocation E hely átnevezése
 reporting Jelentés
 report Jelentés
 required_version Nem tudom betölteni a plugin-t. Legalább $1 verziójú aMSN kell
@@ -749,10 +776,10 @@ rightback rögtön jövök
 saveas Mentés másként
 savechatwinsize A beszélgetés ablak átméretezésekor legyen az az alap méret
 savecontacts Partnerlista mentése
-save Mentés
 saveddefaultloc Mentés az alapértelmezett könyvtárba
-savelocation Mented a fájlt ide: $1?
 savelocationerror A fájl nem menthető ide.
+savelocation Mented a fájlt ide: $1?
+save Mentés
 saveotherdirectory Mentés másik könyvtárba
 savetofile Mentés fájlba
 says $1 üzenete
@@ -773,6 +800,7 @@ sendmail Levél küldése
 sendmobmsg Küldés mobil eszközre
 sendmsg Üzenet küldése
 sendoim Kapcsolat nélküli üzenet küldése
+sendsip Hanghívás indítása
 sendvoice Hangfelvétel küldése
 sendwebcamaccepted $1 elfogadta a meghívást a webkamerád megtekintésére. Kapcsolódás...
 sendwebcaminvite Egy partner meghívása a webkamerád megtekintésére
@@ -798,11 +826,36 @@ showdisplaypic Saját képek megjelenítése
 showlinksinlogin Linkek megjelenítése a bejelentkező képernyőn
 showmailicon Levél ikon megjelenítése a tálcán, ha új e-mail érkezik
 showmypic Saját képem
+shownonim Nem azonnali üzenetküldési partnerek megjelenítése
 shownotify Figyelmeztető üzenet megjelenítése eseménynél
 showonedpframe Csak egy képmegjelenítő keret megjelenítése a beszélgetés ablakokban
+showofflinegroup Kijelentkezett csoport megjelenítése
 showpicnotify Partnerek képeinek megjelenítése a figyelmeztető ablakokban
+showspaces Spaces ikon megjelenítése a partnerlistában
 showuserpic $1 képe
 signinstatus Bejelentkezési állapot
+signout Kijelentkezés
+signouthere Kijelentkezés innen ($1)
+signoutep Kijelentkezés innen: $1
+signouteverywhere Kijelentkezés mindenhonnan
+sipcallaccepted A hanghívás elfogadva
+sipcallback Visszahívás
+sipcalldeclined A hanghívás elutasítva
+sipcalleeaccepted A felhasználó elfogadta a hanghívást
+sipcalleebusy A felhasználó jelenleg foglalt
+sipcalleecanceled A felhasználó törölte a meghívásod hanghívásra
+sipcalleeclosed A felhasználó befejezte a hanghívásod
+sipcalleedeclined A felhasználó elutasította a meghívásod hanghívásra
+sipcalleenoanswer A felhasználó nem válaszol a hívásodra
+sipcalleeunavailable A felhasználó jelenleg nem elérhető
+sipcallended A hanghívásod befejeződött
+sipcallimpossible Nem tudsz hanghívást kezdeményezni. Telepítsd a Farsight2-t, és próbáld meg újra.
+sipcallmissed You missed an Audio Call from $1
+sipcallnosipflag A felhasználónál nincs hanghívás támogatás.
+sipcallsent $1 hívása
+sipcallunsupported Hanghívás meghívást kaptál, amely jelenleg nem támogatott. Hívd vissza egy új meghívással.
+sipcallyouarebusy Egyszerre csak egy hanghívásod lehet.
+sipgotinvitation Hanghívásra hívott meg $1
 skin Felület
 skinselector Felület kiválasztása
 smallest Legkisebb
@@ -821,6 +874,7 @@ sortcontactgroup Partnerek rendezése csoport szerint
 sortcontacthybrid Partnerek rendezése vegyesen
 sortcontactsasc Partnerek rendezése növekvő sorrendben
 sortcontactsby Partnerek rendezési szempontja
+sortcontactsbylogsize Partnerek rendezése a naplófájl mérete szerint
 sortcontactsdesc Partnerek rendezése csökkenő sorrendben
 sortcontactstatus Partnerek rendezése állapot szerint
 sortgroupsasc Partnerek rendezése növekvő sorrendben
@@ -828,10 +882,10 @@ sortgroupsdesc Partnerek rendezése csökkenő sorrendben
 sound2 Hangok lejátszása mikor valaki bejelentkezik / üzenetet küld
 soundactive Akkor is legyen hang új üzenet esetén, ha az ablak épp aktív.
 soundcommand Ez a lejátszási parancs (pl: esdplay)
+sound Eseményhangok
 soundexample ( \$sound = a hangfájl ami lejátszásra kerül) Pl: esdplay \$sound
 soundfile Figyelmeztető hang fájl
 soundfiles Hangok
-sound Eseményhangok
 soundloop Ismétlődő hang
 soundnoavail Nem található hangeszköz. Kapcsold ki azt a programot, ami használja a hangkártyát.
 soundserver Hang szerver
@@ -867,6 +921,7 @@ stylelog Válaszd ki az előzmények megtekintési formáját
 style Stílus
 subjectrequired A tárgy kitöltése kötelező
 subject Tárgy
+svnversion SVN verzió
 syntaxerror Szintaktikai hiba
 tabbed Füles ablakok
 tabbedglobal Egy füles ablak minden beszélgetésnek a listából minden partnerrel
@@ -881,7 +936,7 @@ timestamp Időbélyeg
 timestamps Időbélyeg megjelenítése a beszélgetésekben
 title aMSN
 tkerror1 A TK hibát okozott, kérlek jelentsd. A Részletek gombra kattintva további információkat kaphatsz a hibáról, vagy kattints az OK gombra az aMSN használatának folytatásához.
-tkerror TK egy hibát jelentett, hiba van az aMSN- ben, kérlek jelentsd. Küldd el a(z) $1 fájlt az amsn-bugs@lists.sf.net címre
+tkerror TK egy hibát jelentett, hiba van az aMSN-ben, kérlek jelentsd. Küldd el a(z) $1 fájlt az amsn-bugs@lists.sf.net címre
 tlsdowncompleted A $1 fájl a $2 könyvtárba lett letöltve. Ki kell tömörítened, lefordítanod (ha forrást szedtél le) és telepítened kell ide: $3.
 tlsexplain A könyvtár ahol a tcl TLS modul van. Ha az aMSN nem találja, add meg a helyét.\n(Az SSL azonosításhoz szükséges).
 tlsinstallexp Az aMSN mostantól az MSNP9-et használja, ami biztonságos SSL kapcsolatot használ. \nHogy használhasd az SSL-t, fel kell tenned a TSL nevű modult,\nami nincs feltelepítve. Ez a varázsló segít neked, hogy letölthesd és\ntelepíthetsd a TLS-t. Válaszd ki a rendszeredet, s így le tudom tölteni\na szükséges fájlokat.
@@ -945,8 +1000,8 @@ webcamextloaded Webkamera kiterjesztés betöltve
 webcamextnotloaded Webkamera kiterjesztés nincs betöltve. Előbb le kell fordítanod.
 webcamextwarn Nem fogod látni partnereid webkameráját. A kiterjesztés telepítéséhez az aMSN Wiki oldalán találsz segítséget:
 webcamfaq Webkamerás FAQ/Help
-webcamhistory Webkamerás kapcsolatok megtekintése
 webcamhistory2 Webkamerás kapcsolatok:
+webcamhistory Webkamerás kapcsolatok megtekintése
 webcaminvite $1 webkamerás csatlakozásra hív, de az aMSN ezt nem támogatja.
 webcaminvitereceived $1 felkért téged webkamerás kapcsolatra. Elfogadod?
 webcaminvitereceiving $1 felkért a webkamerája képének fogadására. Elfogadod?
@@ -969,6 +1024,7 @@ xmmscurrent Aktuális szám kiírása
 xmmserr Nem játszol le semmit, vagy nem telepítetted az xmms-infopipe -t.
 xmmssend Aktuális szám küldése
 xoffset X eltolás
+xplaces $1 helyei
 year Év
 yesblock Igen és tiltás
 yes Igen
