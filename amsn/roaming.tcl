@@ -80,21 +80,12 @@ snit::type ContentRoaming {
 
 			set result [GetXmlNode $xml "soap:Envelope:soap:Body:GetProfileResponse:GetProfileResult"]
 			if {$result != "" } {
-				set rid [GetXmlEntry $result "GetProfileResult:ResourceID"]
+				set rid [GetXmlEntry $result "GetProfileResult:ExpressionProfile:ResourceID"]
 				if {$rid != "" } {
 					if {$email == "" } {
 						::abook::setPersonal profile_resourceid $rid
 					} else {
 						::abook::setContactData $email profile_resourceid $rid
-					}
-				} else {
-					set rid [GetXmlEntry $result "GetProfileResult:ExpressionProfile:ResourceID"]
-					if {$rid != "" } {
-						if {$email == "" } {
-							::abook::setPersonal profile_resourceid $rid
-						} else {
-							::abook::setContactData $email profile_resourceid $rid
-						}
 					}
 				}
 				set nick [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayName"]
