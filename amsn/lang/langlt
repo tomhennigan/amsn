@@ -117,7 +117,7 @@ bytesymbol b
 cachedpics $1 paslėptos nuotraukos
 cachedpicsfor Paslėptos rodomos nuotraukos vartotojo
 cagreement Patikima Sutartis
-cancel Nutraukti
+cancel Atšaukti
 cancelled Nutrauktas
 cannotdeleteprofile Negali ištrinti profilio, nes, matyt, yra naudojamas aMSN sesijoje
 cantexec Negali vykdyti programos: $1. Patikrinkite nustatymus
@@ -357,7 +357,7 @@ filedoesnotexist Rinkmena neegzistuoja
 file Rinkmena
 filemanexample ( \$location buvo pakeista į aplankalą) Pvz: nautilus \$location
 fileman Rinkmenos vedlys
-filename Rinkmenos vardas
+filename Rinkmenos vardą
 filenotwritable Negalima pašalinti šios rinkmenos
 filetransfercancelled Rinkmenos persiuntimas nutrauktas
 filetransfercomplete Rinkmenos persiuntimas sėkmingas
@@ -573,7 +573,7 @@ natkeepalive Jeigu jūs dažnai atsijunginėjate, įjunkite Laikyti Gyvą
 needonline Jūs vis dar esate/matotės neprisijungęs!
 needwinico2 Reikalingas winico05.dll in the utils/windows aplankale for windows traydocking to work
 never Niekada
-new_account Sukurti sąskaitą
+new_account Sukurti abonentą
 new_ft_protocol Naudoti naują rinkmenos persiuntimo protokolą (likusios kelios klaidos)
 newchat Naujas pokalbis
 newline Nauja linija
@@ -590,6 +590,7 @@ newveravailable Galima atsisiųsti naują $1 versiją
 next Toliau
 nick Pseudonimas
 nickchanged $1 pakeitė savo pseoudonimą į '$2'
+no_blocked_notif Nerodyti pranešimo langų blokuotiems kontaktams
 noactivity Neaktyvus
 nocacheddps Nėra vartotojo nuotraukų
 nocamwarn Kamera nerasta arba jūsų kamera yra naudojama kitoje programoje (todėl kamera neveikia aMSN programoje). Jūs surasite pagalbą, kaip išspręsti šią problemą mūsų Wiki:
@@ -754,7 +755,7 @@ recorderror Klaida įvyko, bandant įrašyti garsą: $1
 recvwebcamaccepted $1 prėmė jūsų pakvietimą žiūrėti jo/jos kamerą. Jungiamasi...
 redirect Spragtelėkite čia, kad būtumėte peradresuoti
 reject Atmesti
-rememberaccount Prisiminti mano sąskaitą
+rememberaccount Prisiminti mano abonentą
 rememberpass Prisiminti slaptažodį
 remembersetting Prisiminti mano pakeitimus
 removeempty Pašalinti tuščias grupes iš kontaktų sąrašo
@@ -970,7 +971,7 @@ useother Naudoti skirtingas programas
 useralreadyonlist Vartotojas yra jau kontaktų sąraše
 userblocked Vartotojas yra prisijungęs, bet jis užblokavo jus
 userdata Vartotojo duomenys
-userdps Vartotojo nuotrauka
+userdps Vartotojo nuotraukos
 setasmydp Nustatyti kaip mano nuotrauką
 updatesaved Atlikta\n Išsaugota $1 į $2.
 usernotonline Vartotojas neprisijungęs
