@@ -8,24 +8,21 @@
 #include <winsock2.h>
 #endif
 
-static GMainLoop *loop;
-
 static void
-_new_local_candidate (FsStream *stream, FsCandidate *candidate,
-    gpointer user_data)
+_new_local_candidate (FsStream *stream, FsCandidate *candidate)
 {
 
-  g_print ("LOCAL_CANDIDATE: %s %d %s %s %d %s %d\n",
-      candidate->candidate_id == NULL ? "" : candidate->candidate_id,
+  g_print ("LOCAL_CANDIDATE: %s %d %s %s %.3f %s %d\n",
+      candidate->username == NULL ? "" : candidate->username,
       candidate->component_id,
       candidate->password == NULL ? "" : candidate->password,
       candidate->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
-      candidate->priority, candidate->ip, candidate->port);
+      (gfloat) candidate->priority / 1000, candidate->ip, candidate->port);
 
 }
 
 static void
-_local_candidates_prepared (FsStream *stream, gpointer user_data)
+_local_candidates_prepared (FsStream *stream)
 {
 
   g_print ("LOCAL_CANDIDATES_DONE\n");
@@ -38,9 +35,7 @@ static void
 _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
 {
 
-  g_object_set (sink, 
-	  "sync", FALSE,
-      NULL);
+  g_object_set (sink, "sync", FALSE, NULL);
 }
 
 
@@ -96,11 +91,13 @@ stdin_io_cb(GIOChannel *source, GIOCondition condition, gpointer data) {
   GError *error = NULL;
   gchar *line = NULL;
   static GList *remote_codecs = NULL;
+  static GList *remote_candidates = NULL;
   FsStream *stream = data;
+
 
   /* Free what was entered */
   if (g_io_channel_read_line (source, &line, &length, &term, &error) != G_IO_STATUS_NORMAL) {
-	g_main_loop_quit(loop);
+    return FALSE;
   }
   g_free (error);
 
@@ -111,9 +108,7 @@ stdin_io_cb(GIOChannel *source, GIOCondition condition, gpointer data) {
   line[term] = 0;
 
   if (strncmp (line, "REMOTE_CANDIDATE: ", 18) == 0) {
-    gboolean ret;
-    GError *error = NULL;
-    FsCandidate candidate = {0};
+    FsCandidate *candidate = g_new0 (FsCandidate, 1);
     gchar **elements = NULL;
 
     elements = g_strsplit (line + 18, " ", 0);
@@ -122,39 +117,64 @@ stdin_io_cb(GIOChannel *source, GIOCondition condition, gpointer data) {
         elements[3] && elements[4] && elements[5] &&
         elements[6] && !elements[7]);
 
-    candidate.candidate_id = g_strdup (elements[0]);
+    candidate->username = g_strdup (elements[0]);
+    candidate->foundation = g_strdup (elements[0]);
     g_assert (strlen (elements[1]) == 1);
     g_assert (elements[1][0] == '1' || elements[1][0] == '2');
-    candidate.component_id = elements[1][0] == '1' ? 1 : 2;
-    candidate.password = g_strdup (elements[2]);
+    candidate->component_id = elements[1][0] == '1' ? 1 : 2;
+    candidate->password = g_strdup (elements[2]);
     g_assert (strcmp (elements[3], "UDP") == 0 ||
         strcmp (elements[3], "TCP") == 0);
-    candidate.proto = strcmp (elements[3], "UDP") == 0 ?
+    candidate->proto = strcmp (elements[3], "UDP") == 0 ?
         FS_NETWORK_PROTOCOL_UDP : FS_NETWORK_PROTOCOL_TCP;
-    candidate.priority = g_ascii_strtoull (elements[4], NULL, 10);
-    candidate.ip = g_strdup (elements[5]);
-    candidate.port = g_ascii_strtoull (elements[6], NULL, 10);
+    candidate->priority = g_ascii_strtoull (elements[4], NULL, 10);
+    candidate->ip = g_strdup (elements[5]);
+    candidate->port = g_ascii_strtoull (elements[6], NULL, 10);
     g_strfreev(elements);
 
-    /*    g_debug ("New Remote candidate: %s %d %s %s %d %s %d\n",
-      candidate.candidate_id == NULL ? "-" : candidate.candidate_id,
-      candidate.component_id,
-      candidate.password == NULL ? "-" : candidate.password,
-      candidate.proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
-      candidate.priority, candidate.ip, candidate.port);*/
+    g_debug ("New Remote candidate: %s %d %s %s %d %s %d\n",
+      candidate->username == NULL ? "-" : candidate->username,
+      candidate->component_id,
+      candidate->password == NULL ? "-" : candidate->password,
+      candidate->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
+      candidate->priority, candidate->ip, candidate->port);
 
-    ret = fs_stream_add_remote_candidate (stream, &candidate, &error);
+    remote_candidates = g_list_append (remote_candidates, candidate);
+  } else if (strcmp (line, "REMOTE_CANDIDATES_DONE") == 0) {
+    gboolean ret;
+    GError *error = NULL;
+    GList *lp;
+    FsCandidate *c;
 
+    g_debug ("Remote candidates done 1");
+
+    ret = fs_stream_set_remote_candidates (stream, remote_candidates, &error);
+
+    g_debug ("Remote candidates done : %p", error);
     if (error) {
-      g_printerr ("Error while adding candidate: (%s:%d) %s",
+      g_printerr ("Error while adding candidates: (%s:%d) %s",
           g_quark_to_string (error->domain), error->code, error->message);
       g_assert (0);
     }
 
+    g_debug ("Remote candidates done : %d", ret);
     g_assert (ret == TRUE);
-  } else if (strcmp (line, "REMOTE_CANDIDATES_DONE") == 0) {
-    /*g_debug ("Remote candidates done");*/
-    fs_stream_remote_candidates_added (stream);
+    g_debug ("Remote candidates done");
+
+
+    /* Free list of remote candidates */
+    for (lp = remote_candidates; lp; lp = g_list_next (lp)) {
+      c = (FsCandidate *) lp->data;
+      g_free (c->foundation);
+      g_free (c->username);
+      g_free (c->password);
+      g_free (c->ip);
+      g_free (c);
+      lp->data = NULL;
+    }
+    g_list_free (remote_candidates);
+    remote_candidates = NULL;
+
   } else if (strncmp (line, "REMOTE_CODEC: ", 14) == 0) {
     FsCodec *codec = g_new0 (FsCodec, 1);
     gchar **elements = NULL;
@@ -185,7 +205,7 @@ stdin_io_cb(GIOChannel *source, GIOCondition condition, gpointer data) {
     fs_codec_list_destroy (remote_codecs);
     remote_codecs = NULL;
   } else if (strcmp (line, "EXIT") == 0) {
-    g_main_loop_quit(loop);
+    return FALSE;
   }
 
   g_free (line);
@@ -193,30 +213,62 @@ stdin_io_cb(GIOChannel *source, GIOCondition condition, gpointer data) {
   return TRUE;
 }
 
-static gboolean
+
+static GstBusSyncReply
+_bus_sync_callback (GstBus *bus, GstMessage *message, gpointer user_data)
+{
+  g_debug ("sync handler bus_callback...");
+
+}
+
+static GstBusSyncReply
 _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
 {
-
   switch (GST_MESSAGE_TYPE (message))
   {
     case GST_MESSAGE_ELEMENT:
-      if (!strcmp (gst_structure_get_name (message->structure),
-                  "farsight-error"))
       {
-        const GValue *errorvalue, *debugvalue;
-        gint errno;
+        const GstStructure *s = gst_message_get_structure (message);
+        g_debug ("bus message : %s", gst_structure_get_name (s));
+        if (gst_structure_has_name (s, "farsight-error")) {
+          const GValue *errorvalue, *debugvalue;
+          gint errno;
 
-        g_assert (gst_implements_interface_check (GST_MESSAGE_SRC (message),
-                FS_TYPE_CONFERENCE));
+          gst_structure_get_int (message->structure, "error-no", &errno);
+          errorvalue = gst_structure_get_value (message->structure, "error-msg");
+          debugvalue = gst_structure_get_value (message->structure, "debug-msg");
 
-        gst_structure_get_int (message->structure, "error-no", &errno);
-        errorvalue = gst_structure_get_value (message->structure, "error-msg");
-        debugvalue = gst_structure_get_value (message->structure, "debug-msg");
-
-	if (errno != FS_ERROR_UNKNOWN_CNAME)  {
+          if (errno != FS_ERROR_UNKNOWN_CNAME)  {
             g_debug ("Error on BUS (%d) %s .. %s", errno,
                 g_value_get_string (errorvalue),
                 g_value_get_string (debugvalue));
+          }
+          goto drop;
+        } else if (gst_structure_has_name (s, "farsight-new-local-candidate")) {
+          FsStream *stream;
+          FsCandidate *candidate;
+          const GValue *value;
+
+          value = gst_structure_get_value (s, "stream");
+          stream = g_value_get_object (value);
+
+          value = gst_structure_get_value (s, "candidate");
+          candidate = g_value_get_boxed (value);
+
+          _new_local_candidate (stream, candidate);
+          goto drop;
+        } else if (gst_structure_has_name (s,
+                "farsight-local-candidates-prepared")) {
+          FsStream *stream;
+          FsCandidate *candidate;
+          const GValue *value;
+
+          value = gst_structure_get_value (s, "stream");
+          stream = g_value_get_object (value);
+
+
+          _local_candidates_prepared (stream);
+          goto drop;
         }
       }
 
@@ -232,6 +284,7 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         g_error_free (error);
         g_free (debug);
       }
+      goto drop;
       break;
     case GST_MESSAGE_WARNING:
       {
@@ -245,12 +298,16 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         g_error_free (error);
         g_free (debug);
       }
+      goto drop;
       break;
     default:
       break;
   }
 
-  return TRUE;
+  return GST_BUS_PASS;
+ drop:
+  gst_message_unref (message);
+  return GST_BUS_DROP;
 }
 
 int main (int argc, char *argv[]) {
@@ -277,21 +334,15 @@ int main (int argc, char *argv[]) {
 
   gst_init (&argc, &argv);
 
-  if (argc != 3) {
-    return -1;
-  }
-
 #ifdef G_OS_WIN32
   WSAStartup(0x0202, &w);
 #endif
-
-  loop = g_main_loop_new (NULL, FALSE);
 
   pipeline = gst_pipeline_new ("pipeline");
   g_assert (pipeline != NULL);
 
   bus = gst_element_get_bus (pipeline);
-  gst_bus_add_watch (bus, _bus_callback, NULL);
+  gst_bus_set_sync_handler (bus, _bus_callback, NULL);
   gst_object_unref (bus);
 
   conference = gst_element_factory_make ("fsrtpconference", NULL);;
@@ -299,7 +350,7 @@ int main (int argc, char *argv[]) {
   g_assert (conference != NULL);
   g_assert (gst_bin_add (GST_BIN (pipeline), conference));
 
-  g_object_set (conference, "sdes-cname", argv[1], NULL);
+  g_object_set (conference, "sdes-cname", "", NULL);
 
   session = fs_conference_new_session (FS_CONFERENCE (conference),
       FS_MEDIA_TYPE_AUDIO, &error);
@@ -357,7 +408,7 @@ int main (int argc, char *argv[]) {
   g_print ("LOCAL_CODECS_DONE\n");
 
   participant = fs_conference_new_participant (
-      FS_CONFERENCE (conference), argv[2], &error);
+      FS_CONFERENCE (conference), "", &error);
   if (error) {
     g_printerr ("Error while creating new participant (%d): %s",
         error->code, error->message);
@@ -376,12 +427,12 @@ int main (int argc, char *argv[]) {
   g_value_init (&transmitter_params[1].value, G_TYPE_UINT);
   g_value_set_uint (&transmitter_params[1].value, 3478);
 
-  transmitter_params[2].name = "stun-timeout";
+  transmitter_params[2].name = "compatibility-mode";
   g_value_init (&transmitter_params[2].value, G_TYPE_UINT);
-  g_value_set_uint (&transmitter_params[2].value, 10);
+  g_value_set_uint (&transmitter_params[2].value, 2);
 
-  //stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH, "rawudp", 0, NULL, &error);
-  stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH, "rawudp", 3, transmitter_params, &error);
+  stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH,
+      "nice", 3, transmitter_params, &error);
   if (error) {
     g_printerr ("Error while creating new stream (%d): %s",
         error->code, error->message);
@@ -393,16 +444,11 @@ int main (int argc, char *argv[]) {
 
   g_signal_connect (stream, "src-pad-added",
       G_CALLBACK (_src_pad_added), pipeline);
-  g_signal_connect (stream, "new-local-candidate",
-      G_CALLBACK (_new_local_candidate), NULL);
-  g_signal_connect (stream, "local-candidates-prepared",
-      G_CALLBACK (_local_candidates_prepared), NULL);
-
 
   g_assert (gst_element_set_state (pipeline, GST_STATE_PLAYING) !=
       GST_STATE_CHANGE_FAILURE);
 
-  g_main_loop_run(loop);
+  while(stdin_io_cb (ioc, G_IO_IN, stream));
 
   gst_element_set_state (pipeline, GST_STATE_NULL);
 
@@ -411,7 +457,6 @@ int main (int argc, char *argv[]) {
   g_object_unref (session);
   gst_object_unref (pipeline);
 
-  g_main_loop_unref (loop);
 
 #ifdef G_OS_WIN32
    WSACleanup();
