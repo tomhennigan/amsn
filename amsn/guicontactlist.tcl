@@ -1831,9 +1831,8 @@ namespace eval ::guiContactList {
 		if { [::config::getKey tooltips] == 1 } {
 			set b_content [getBalloonMessage $email $element]
 			set b_fonts [list "sboldf" "sitalf" "splainf" "splainf"]
-			set b_pic [::skin::getDisplayPicture $email]
-			$canvas bind $main_part <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y $b_content $b_pic $b_fonts complex]
-			$canvas bind $main_part <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y $b_content $b_pic $b_fonts complex]
+			$canvas bind $main_part <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y $b_content [::skin::getDisplayPicture $email] $b_fonts complex]
+			$canvas bind $main_part <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y $b_content [::skin::getDisplayPicture $email] $b_fonts complex]
 			$canvas bind $main_part <Leave> "+set ::Bulle(first) 0; kill_balloon"
 		}
 
