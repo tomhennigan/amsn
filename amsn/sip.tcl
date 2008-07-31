@@ -1534,9 +1534,7 @@ snit::type Farsight {
 	variable pipe ""
 	variable local_codecs [list]
 	variable local_candidates [list]
-	variable ice_candidates [list]
 	variable remote_candidates [list]
-	variable remote_ice_candidates [list]
 	variable remote_codecs [list]
 	variable codecs_done 0
 	variable candidates_done 0
@@ -1544,7 +1542,6 @@ snit::type Farsight {
 	variable known_bitrates
 	option -closed -default ""
 	option -prepared -default ""
-	option -enable_ice -default 0
 	option -sipconnection -default ""
 
 	constructor { args } {
@@ -1559,7 +1556,6 @@ snit::type Farsight {
 	method Reset { } {
 		set local_codecs [list]
 		set local_candidates [list]
-		set ice_candidates [list]
 		set remote_candidates [list]
 		set remote_codecs [list]
 		set codecs_done 0
@@ -1589,9 +1585,6 @@ snit::type Farsight {
 	}
 
 	method AcceptCandidates { candidates } {
-		if {$options(-enable_ice) == 0} {
-			return [expr {[llength $candidates] == 2}]
-		}
 		return 1
 	}
 
@@ -1603,7 +1596,6 @@ snit::type Farsight {
 				lappend remote_candidates $candidate
 			}
 		}
-		$self CandidatesFromICE
 		
 	}
 
@@ -1612,11 +1604,7 @@ snit::type Farsight {
 	}
 
 	method GetLocalCandidates { } {
-		if {$options(-enable_ice)} {
-			return $ice_candidates
-		} else {
-			return $local_candidates
-		}
+		return $local_candidates
 	}
 
 	method GetLocalCodecs { } {
@@ -1676,13 +1664,6 @@ snit::type Farsight {
 
 	method Start { } {
 
-
-		if {$options(-enable_ice) == 0} {
-			set candidates $remote_candidates
-		} else {
-			set candidates $remote_ice_candidates
-		}
-
 		status_log "Farsight starting : $remote_codecs - $remote_candidates"
 
 		foreach codec $remote_codecs {
@@ -1691,9 +1672,13 @@ snit::type Farsight {
 		}
 		puts $pipe "REMOTE_CODECS_DONE"
 
-		foreach candidate $candidates {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
-			puts $pipe "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $qvalue $ip $port"
+		foreach candidate $remote_candidates {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			if {$candidate_id == "" || $password == ""} {
+				continue
+			}
+			set priority [expr {int($qvalue * 1000)}]
+			puts $pipe "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $priority $ip $port"
 		}
 		puts $pipe "REMOTE_CANDIDATES_DONE"
 		
@@ -1746,139 +1731,12 @@ snit::type Farsight {
 
 			set prepared 1
 
-			$self CandidatesToICE
-
 			if {$options(-prepared) != "" } {
 				if {[catch {eval $options(-prepared)} result]} {
 					bgerror $result
 				}
 			}
 		}
-	}
-
-	method CandidatesToICE { } {
-		foreach candidate $local_candidates {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {$component_id == 1 } {
-				set rtp_ip $ip
-				set rtp_port $port
-			} elseif {$component_id == 2 } {
-				set rtcp_ip $ip
-				set rtcp_port $port
-			}
-		}
-		set ice_candidates [list]
-			
-		# Host candidate
-		lappend ice_candidates [list "d4M8DKejjp0T+F59lmFoQ6tEqPU4UQz/PWWKC9x598g=" 1 "CXwpC2uyZdZMgIXekG/t1Q==" "UDP" "0.830" [::abook::getDemographicField localip] 7078]
-		lappend ice_candidates [list "d4M8DKejjp0T+F59lmFoQ6tEqPU4UQz/PWWKC9x598g=" 2 "CXwpC2uyZdZMgIXekG/t1Q==" "UDP" "0.830" [::abook::getDemographicField localip] 7079]
-			
-		# STUN Server Reflexive candidate
-		if {$rtp_ip != [::abook::getDemographicField localip] } {
-			lappend ice_candidates [list "n7dIOYDH4Ez9eks5lhDa4AiEir/ohyuHH/YxgOV+l7Y=" 1 "JUZOFZaDMojxN3SOIdGIJQ==" "UDP" "0.550" $rtp_ip $rtp_port]
-			lappend ice_candidates [list "n7dIOYDH4Ez9eks5lhDa4AiEir/ohyuHH/YxgOV+l7Y=" 2 "JUZOFZaDMojxN3SOIdGIJQ==" "UDP" "0.550" $rtcp_ip $rtcp_port]
-		}
-
-		# Server Reflexive candidate
-		if {$rtp_ip != [::abook::getDemographicField clientip]} {
-			lappend ice_candidates [list "5NTz7LG4dhD842wSFGqnm618QV+json8E7Zk1FnI2YQ=" 1 "UUrgoZjOk04pDwHn3qnovg==" "UDP" "0.450" [::abook::getDemographicField clientip] $rtp_port]
-			lappend ice_candidates [list "5NTz7LG4dhD842wSFGqnm618QV+json8E7Zk1FnI2YQ=" 2 "UUrgoZjOk04pDwHn3qnovg==" "UDP" "0.450" [::abook::getDemographicField clientip] $rtcp_port]
-		}
-
-	}
-
-	method CandidatesFromICE { } {
-		set priorities [list]
-		foreach candidate $remote_candidates {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {$qvalue == 1 } {
-				continue
-			}
-			if {[lsearch $priorities $qvalue] == -1} {
-				lappend priorities $qvalue
-			}
-		}
-		set priorities [lsort -decreasing $priorities]
-
-		set remote_ice_candidates $remote_candidates
-
-		# Didn't receive ICE candidates
-		if {[llength $priorities] < 2 } {
-			return
-		}
-
-		set remote_candidates [list]
-			
-		# Host candidates
-		set host_candidates [list]
-		set srflx_candidates [list]
-		set relay_candidates [list]
-			
-		foreach candidate $remote_ice_candidates {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {[lindex $priorities 0] == $qvalue} {
-				lappend host_candidates $candidate
-			} elseif {[lindex $priorities 1] == $qvalue} {
-				lappend srflx_candidates $candidate
-			} elseif {[lindex $priorities 2] == $qvalue} {
-				lappend relay_candidates $candidate
-			}
-		}
-	
-		foreach candidate $srflx_candidates {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {$component_id != 1} {
-				continue
-			}
-			if {$ip == [::abook::getDemographicField clientip]} {
-				# host is in the same local network
-				set max 0
-				set cand ""
-				set n0 [lindex [split [::abook::getDemographicField localip] "."] 0]
-				set n1 [lindex [split [::abook::getDemographicField localip] "."] 1]
-				set n2 [lindex [split [::abook::getDemographicField localip] "."] 2]
-				set n3 [lindex [split [::abook::getDemographicField localip] "."] 3]
-
-				foreach candidate2 $host_candidates {
-					foreach {candidate_id component_id password transport qvalue ip port} $candidate2 break
-					set m0 [lindex [split $ip "."] 0]
-					set m1 [lindex [split $ip "."] 1]
-					set m2 [lindex [split $ip "."] 2]
-					set m3 [lindex [split $ip "."] 3]
-					set current 0
-					if {$m0 == $n0} {
-						incr current
-						if {$m1 == $n1 } {
-							incr current
-							if {$m2 == $n2 } {
-								incr current
-								if {$m3 == $n3 } {
-									incr current
-								}
-							}
-						}
-					}
-					if {$current > $max} {
-						set max $current
-						set cand $candidate_id
-					}
-				}
-				if {$cand != "" } {
-					foreach candidate2 $host_candidates {
-						foreach {candidate_id component_id password transport qvalue ip port} $candidate2 break
-						if {$candidate_id == $cand} {
-							lappend remote_candidates $candidate2
-						}
-					}
-					break					
-				}
-			}
-		}
-
-		if {$remote_candidates == [list] } {
-			set remote_candidates $srflx_candidates
-		}
-		
 	}
 }
 
