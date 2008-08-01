@@ -920,7 +920,7 @@ snit::type SIPConnection {
 		foreach candidate $ice_candidates {
 			lappend options(-remote_candidates) $candidate
 		}
-		puts "Found remote candidates : $options(-remote_candidates)"
+
 	}
 
 }
@@ -1580,15 +1580,15 @@ snit::type Farsight {
 	}
 
 	method SetRemoteCandidates { candidates } {
-		puts "Setting remote candidates : $candidates"
 		set remote_candidates [list]
 		foreach candidate $candidates {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
-			if {$transport == "UDP" } {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			if {$candidate_id != "" &&
+			    $password != "" &&
+			    $transport == "UDP" } {
 				lappend remote_candidates $candidate
 			}
 		}
-		puts "Set remote candidates : $candidates"
 		
 	}
 

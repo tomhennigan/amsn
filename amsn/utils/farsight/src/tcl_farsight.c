@@ -104,6 +104,7 @@ static void Close ()
 
 }
 
+
 static void
 _notify_error (char *error)
 {
@@ -113,20 +114,68 @@ _notify_error (char *error)
   Tcl_Obj *error_obj = Tcl_NewStringObj (error, -1);
   Tcl_Obj *args = Tcl_NewListObj (0, NULL);
   Tcl_Obj *command[] = {eval, callback, args};
-  Tcl_Interp *interp = callback_interp;
+
+  g_debug ("An error occured : %s", error);
 
   Tcl_ListObjAppendElement(NULL, args, status);
   Tcl_ListObjAppendElement(NULL, args, error_obj);
   Tcl_ListObjAppendElement(NULL, args, error_obj);
 
-  Tcl_IncrRefCount (args);
+  if (callback && callback_interp) {
+    Tcl_Obj *c = callback;
+    Tcl_Obj *i = callback_interp;
+    Tcl_IncrRefCount (eval);
+    Tcl_IncrRefCount (args);
+    Tcl_IncrRefCount (c);
 
-  Tcl_EvalObjv(interp, 3, command, TCL_EVAL_GLOBAL);
-
-  Tcl_DecrRefCount (args);
+    g_debug ("Calling error handler %s ", Tcl_GetString (callback));
+    if (Tcl_EvalObjv(callback_interp, 3, command, TCL_EVAL_GLOBAL)
+        == TCL_ERROR) {
+      g_debug ("Error executing error handler %s : %s", Tcl_GetString (c),
+          Tcl_GetStringResult(i));
+    }
+    g_debug ("Called error handler %s : %s", Tcl_GetString (c),
+        Tcl_GetStringResult(i));
+    Tcl_DecrRefCount (c);
+    Tcl_DecrRefCount (args);
+    Tcl_DecrRefCount (eval);
+  }
 
   Close ();
 }
+
+
+typedef struct {
+  Tcl_Event header;
+  char *error;
+} FarsightErrorEvent;
+
+static int Farsight_ErrorEventProc (Tcl_Event *evPtr, int flags)
+{
+  FarsightErrorEvent *ev = (FarsightErrorEvent *) evPtr;
+  char *error = ev->error;
+
+  _notify_error (error);
+
+  return 1;
+}
+
+
+static void
+_notify_error_post (char *error)
+{
+  FarsightErrorEvent *evPtr;
+
+  evPtr = (FarsightErrorEvent *)ckalloc(sizeof(FarsightErrorEvent));
+  evPtr->header.proc = Farsight_ErrorEventProc;
+  evPtr->header.nextPtr = NULL;
+  evPtr->error = error;
+
+  Tcl_ThreadQueueEvent(main_tid, (Tcl_Event *)evPtr, TCL_QUEUE_TAIL);
+  Tcl_ThreadAlert(main_tid);
+
+}
+
 
 static void
 _notify_callback ()
@@ -163,14 +212,24 @@ _notify_callback ()
     Tcl_ListObjAppendElement(NULL, args, local_codecs);
     Tcl_ListObjAppendElement(NULL, args, local_candidates);
 
+    Tcl_IncrRefCount (eval);
     Tcl_IncrRefCount (args);
+    Tcl_IncrRefCount (callback);
+    Tcl_Obj *c = callback;
+    Tcl_Obj *i = callback_interp;
 
+    g_debug ("Calling notify handler %s ", Tcl_GetString (callback));
     if (Tcl_EvalObjv(callback_interp, 3, command, TCL_EVAL_GLOBAL)
         == TCL_ERROR) {
-      g_debug ("Error executing callback %s", Tcl_GetString (callback));
+      g_debug ("Error executing notifier handler %s : %s", Tcl_GetString (callback),
+          Tcl_GetStringResult(callback_interp));
     }
+    g_debug ("Called notify handler %s : %s", Tcl_GetString (c),
+          Tcl_GetStringResult(i));
 
+    Tcl_DecrRefCount (c);
     Tcl_DecrRefCount (args);
+    Tcl_DecrRefCount (eval);
 
   }
 }
@@ -190,7 +249,8 @@ _new_local_candidate (FsStream *stream, FsCandidate *candidate)
   elements[1] = Tcl_NewIntObj (candidate->component_id);
   elements[2] = Tcl_NewStringObj (candidate->password == NULL ?
       "" : candidate->password, -1);
-  elements[3] = Tcl_NewStringObj (FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP", -1);
+  elements[3] = Tcl_NewStringObj (candidate->proto == FS_NETWORK_PROTOCOL_UDP ?
+      "UDP" : "TCP", -1);
   elements[4] = Tcl_NewDoubleObj ((gfloat) candidate->priority / 1000);
   elements[5] = Tcl_NewStringObj (candidate->ip, -1);
   elements[6] = Tcl_NewIntObj (candidate->port);
@@ -233,7 +293,7 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   GstPadLinkReturn ret;
 
   if (sink == NULL) {
-    _notify_error ("Could not create sink");
+    _notify_error_post ("Could not create sink");
     return;
   }
 
@@ -241,20 +301,20 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
       G_CALLBACK (_sink_element_added), NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), sink) == FALSE)  {
-    _notify_error ("Could not add sink to pipeline");
+    _notify_error_post ("Could not add sink to pipeline");
     return;
   }
 
-  if (gst_bin_add (GST_BIN (pipeline), convert)) {
-    _notify_error ("Could not add converter to pipeline");
+  if (gst_bin_add (GST_BIN (pipeline), convert) == FALSE) {
+    _notify_error_post ("Could not add converter to pipeline");
     return;
   }
-  if (gst_bin_add (GST_BIN (pipeline), resample)) {
-    _notify_error ("Could not add resampler to pipeline");
+  if (gst_bin_add (GST_BIN (pipeline), resample) == FALSE) {
+    _notify_error_post ("Could not add resampler to pipeline");
     return;
   }
-  if (gst_bin_add (GST_BIN (pipeline), convert2)) {
-    _notify_error ("Could not add second converter to pipeline");
+  if (gst_bin_add (GST_BIN (pipeline), convert2) == FALSE) {
+    _notify_error_post ("Could not add second converter to pipeline");
     return;
   }
 
@@ -263,44 +323,44 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   gst_object_unref (sink_pad);
 
   if (ret != GST_PAD_LINK_OK)  {
-    _notify_error ("Could not link converter to fsrtpconference sink pad");
+    _notify_error_post ("Could not link converter to fsrtpconference sink pad");
     return;
   }
 
-  if (gst_element_link(convert, resample) != GST_PAD_LINK_OK)  {
-    _notify_error ("Could not link converter to resampler");
+  if (gst_element_link(convert, resample) == FALSE)  {
+    _notify_error_post ("Could not link converter to resampler");
     return;
   }
-  if (gst_element_link(resample, convert2) != GST_PAD_LINK_OK)  {
-    _notify_error ("Could not link resampler to second converter");
+  if (gst_element_link(resample, convert2) == FALSE)  {
+    _notify_error_post ("Could not link resampler to second converter");
     return;
   }
-  if (gst_element_link(convert2, sink) != GST_PAD_LINK_OK)  {
-    _notify_error ("Could not link sink to converter");
+  if (gst_element_link(convert2, sink) == FALSE)  {
+    _notify_error_post ("Could not link sink to converter");
     return;
   }
 
-  if (gst_element_set_state (convert, GST_STATE_PLAYING) !=
+  if (gst_element_set_state (convert, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
-    _notify_error ("Unable to set converter to PLAYING");
+    _notify_error_post ("Unable to set converter to PLAYING");
     return;
   }
 
-  if (gst_element_set_state (resample, GST_STATE_PLAYING) !=
+  if (gst_element_set_state (resample, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
-    _notify_error ("Unable to set resampler to PLAYING");
+    _notify_error_post ("Unable to set resampler to PLAYING");
     return;
   }
 
-  if (gst_element_set_state (convert2, GST_STATE_PLAYING) !=
+  if (gst_element_set_state (convert2, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
-    _notify_error ("Unable to set second converter to PLAYING");
+    _notify_error_post ("Unable to set second converter to PLAYING");
     return;
   }
 
-  if (gst_element_set_state (sink, GST_STATE_PLAYING) !=
+  if (gst_element_set_state (sink, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
-    _notify_error ("Unable to set sink to PLAYING");
+    _notify_error_post ("Unable to set sink to PLAYING");
     return;
   }
 
@@ -321,7 +381,7 @@ typedef struct {
   GstMessage *message;
 } FarsightBusEvent;
 
-static int Farsight_TclEventProc (Tcl_Event *evPtr, int flags)
+static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
 {
   FarsightBusEvent *ev = (FarsightBusEvent *) evPtr;
   GstMessage *message = ev->message;
@@ -443,7 +503,7 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
 
  drop:
   evPtr = (FarsightBusEvent *)ckalloc(sizeof(FarsightBusEvent));
-  evPtr->header.proc = Farsight_TclEventProc;
+  evPtr->header.proc = Farsight_BusEventProc;
   evPtr->header.nextPtr = NULL;
   evPtr->message = message;
 
@@ -686,11 +746,11 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
   GError *error = NULL;
-  static GList *remote_codecs = NULL;
+  GList *remote_codecs = NULL;
   FsCodec *codec = NULL;
   int total_codecs;
   Tcl_Obj **tcl_remote_codecs = NULL;
-  static GList *remote_candidates = NULL;
+  GList *remote_candidates = NULL;
   FsCandidate *candidate = NULL;
   int total_candidates;
   Tcl_Obj **tcl_remote_candidates = NULL;
