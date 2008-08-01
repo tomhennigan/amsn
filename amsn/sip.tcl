@@ -536,6 +536,9 @@ snit::type SIPConnection {
 				set local [lindex $options(-active_candidates) 0]
 				set remote [lindex $options(-active_candidates) 1]
 				set sdp [$self BuildSDP $local $remote]
+				incr call_cseq($callid)
+
+				$self Send [$self BuildResponse $callid INVITE 100]
 
 				set message [$self BuildResponse $callid INVITE 200]
 				$self Send $message "application/sdp" $sdp
