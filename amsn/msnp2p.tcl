@@ -720,7 +720,19 @@ namespace eval ::MSNP2P {
 
 						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "shared" "" "$branchuid"]
 						
-						set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid "ARAIAMzMzMxIAAAAAAAAAAEAAQAAAAAAAQAAADCwyAQCAAAASCrNBAEAAAABAAAAAgAAADwALwABAAAAAAAAAAEAAAByAFMAAgAAAAAAAAABAAAAbwA+AA=="]
+						set context [base64::decode $context]
+						set stat1 [string range $context 24 27]
+						set stat2 [string range $context 52 55]
+						set out_context "\x01\x10\x08\x00\xcc\xcc\xcc\xcc"
+						set ctx [binary format ssii 1 1 0 1]
+						append ctx $stat1
+						append ctx [binary format i 2]
+						append ctx $stat2
+						append ctx [binary format iiiiiiiiiiii 1 1 2 0 1 0 1 0 2 0 1 0]
+						append out_context [binary format w [string length $ctx]]
+						append out_context $ctx
+						set context [string map { "\n" "" } [base64::encode $out_context]]
+						set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid $context]
 						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
 
 						return
@@ -1494,7 +1506,7 @@ namespace eval ::MSNP2P {
 		set body ""
 		if { $method == "INVITE" } {
 			if { $contenttype == 0 } {
-			    append body "EUF-GUID: {${A}}\r\nSessionID: ${B}\r\nAppID: ${C}\r\nContext: ${D}\r\n"
+			    append body "EUF-GUID: {${A}}\r\nSessionID: ${B}\r\nSChannelState: 0\r\nCapabilities-Flags: 1\r\nAppID: ${C}\r\nContext: ${D}\r\n"
 			} elseif { $contenttype == 1 } {
 				append body "Bridges: ${A}\r\nNetID: ${B}\r\nConn-Type: ${C}\r\nUPnPNat: ${D}\r\nICF: ${E}\r\n"
 			} else {
@@ -1510,7 +1522,7 @@ namespace eval ::MSNP2P {
 			}
 		} elseif { $method == "OK" } {
 			if { $contenttype == 0 } {
-				append body "SessionID: ${A}\r\n"
+				append body "SessionID: ${A}\r\nSChannelState: 0\r\nCapabilities-Flags: 1\r\n"
 				if {$B != "" } {
 					append body "Context: ${B}\r\n"
 				}

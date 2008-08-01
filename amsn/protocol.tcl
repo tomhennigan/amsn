@@ -4191,9 +4191,23 @@ namespace eval ::MSNOIM {
 	method handleUBN { command message } {
 		if {$message == "goawyplzthxbye" || $message == "gtfo"} {
 			::MSN::logout
-		}
-		if {[llength $message] == 3 && [lindex $message 0] == "INVITE"} {
-			::MSNSIP::ReceivedInvite [lindex $message 1]
+		} 
+		switch -- { [lindex $command 2] } {
+			1 {
+				# XML data
+			}
+			2 {
+				# SIP INVITE
+				if {[llength $message] == 3 && [lindex $message 0] == "INVITE"} {
+					::MSNSIP::ReceivedInvite [lindex $message 1]
+				}
+			}
+			3 {
+				# MSNP2P SLP data...
+			}
+			11 {
+				# Unknown "1 1 5 134546710 0" prior to SIP invite...
+			}
 		}
 	}
 
@@ -4645,7 +4659,7 @@ namespace eval ::MSNOIM {
 			ChCustomState $newstate_custom
 			send_dock "STATUS" $newstate			
 		}
-		if {$fail == 3 || $fail == 4} {
+		if {$fail == 3} {
 			# ItemDoesNotExist
 			$::roaming CreateProfile [list $self RoamingProfileCreated]
 		}
