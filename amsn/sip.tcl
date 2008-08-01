@@ -920,6 +920,7 @@ snit::type SIPConnection {
 		foreach candidate $ice_candidates {
 			lappend options(-remote_candidates) $candidate
 		}
+		puts "Found remote candidates : $options(-remote_candidates)"
 	}
 
 }
@@ -1531,13 +1532,11 @@ snit::type SIPSocket {
 
 
 snit::type Farsight {
-	variable pipe ""
+	variable loaded 0
 	variable local_codecs [list]
 	variable local_candidates [list]
 	variable remote_candidates [list]
 	variable remote_codecs [list]
-	variable codecs_done 0
-	variable candidates_done 0
 	variable prepared 0
 	variable known_bitrates
 	option -closed -default ""
@@ -1566,7 +1565,6 @@ snit::type Farsight {
 
 	method Closed { } {
 		status_log "Farsight : Closed"
-		$self Close
 		if {$options(-closed) != "" } {
 			if {[catch {eval $options(-closed)} result]} {
 				bgerror $result
@@ -1575,20 +1573,14 @@ snit::type Farsight {
 	}
 
 	method Close { } {
-		if {$pipe != "" } {
-			catch {puts $pipe "EXIT"}
-			catch {close $pipe} res
-			status_log "Closed pipe : $res" red
+		if {$loaded } {
+			::Farsight::Stop
+			$self Reset
 		}
-		set pipe ""
-		$self Reset
-	}
-
-	method AcceptCandidates { candidates } {
-		return 1
 	}
 
 	method SetRemoteCandidates { candidates } {
+		puts "Setting remote candidates : $candidates"
 		set remote_candidates [list]
 		foreach candidate $candidates {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break			
@@ -1596,6 +1588,7 @@ snit::type Farsight {
 				lappend remote_candidates $candidate
 			}
 		}
+		puts "Set remote candidates : $candidates"
 		
 	}
 
@@ -1625,7 +1618,10 @@ snit::type Farsight {
 	}
 	
 	method IsInUse { } {
-		return [expr {$pipe != ""}]
+		if {!$loaded} {
+			return 0
+		}
+		return [::Farsight::InUse]
 	}
 
 	method Test { } {
@@ -1644,7 +1640,6 @@ snit::type Farsight {
 		if {[OnWin] } {
 			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
 			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
-			set pipe [open "| ./utils/windows/gstreamer/farsight.exe user@localhost remote@remotehost" r+]
 		} elseif { [OnMac] } {
 			if { $::tcl_platform(byteOrder) == "bigEndian" } {
 				set uname_p "powerpc"
@@ -1654,79 +1649,49 @@ snit::type Farsight {
 			set ::env(DYLD_LIBRARY_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
 			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
 			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
-			set pipe [open "| ./utils/macosx/gstreamer/farsight user@localhost remote@remotehost" r+]
-		} else {
-			set pipe [open "| ./utils/farsight/farsight user@localhost remote@remotehost" r+]
 		}
-		fconfigure $pipe -buffering line
-		fileevent $pipe readable [list $self PipeReadable]
+
+		package require Farsight
+		set loaded 1
+
+		::Farsight::Prepare [list $self FarsightReady] 64.14.48.28
 	}
 
 	method Start { } {
+		if {$loaded} {
+			status_log "Farsight starting : $remote_codecs - $remote_candidates"
 
-		status_log "Farsight starting : $remote_codecs - $remote_candidates"
-
-		foreach codec $remote_codecs {
-			foreach {encoding_name payload_type bitrate} $codec break
-			puts $pipe "REMOTE_CODEC: $payload_type $encoding_name $bitrate"
-		}
-		puts $pipe "REMOTE_CODECS_DONE"
-
-		foreach candidate $remote_candidates {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {$candidate_id == "" || $password == ""} {
-				continue
+			if {[catch {::Farsight::Start $remote_codecs $remote_candidates}] } {
+				$self Closed
 			}
-			set priority [expr {int($qvalue * 1000)}]
-			puts $pipe "REMOTE_CANDIDATE: $candidate_id $component_id $password $transport $priority $ip $port"
+			
 		}
-		puts $pipe "REMOTE_CANDIDATES_DONE"
-		
-		flush $pipe
 	}
 
-	method PipeReadable { } {
-		if { [eof $pipe] } {
-			status_log "Farsight : got eof"
+	method FarsightReady { status codecs candidates } {
+		if { $status == "ERROR" } {
+			status_log "Farsight : got error $codecs"
 			$self Closed
 			return
-		}
-
-		if { [catch {set line [gets $pipe]} res] } {
-			status_log "Farsight : read error : $res"
-			$self Closed
-			return
-		}
-
-		status_log "Farsight answering : $line"
-
-		if {[string first "LOCAL_CODEC: " $line] == 0} {
-			set codec [string range $line 13 end]
-			foreach {pt name rate} [split $codec " "] break
-			if {$name == "PCMA" || $name == "PCMU" || 
-			    $name == "SIREN" || $name == "G723" || 
-			    $name == "AAL2-G726-32" || $name == "x-msrta"} {
-				if {[info exists known_bitrates($name)] } {
-					lappend local_codecs [list $name $pt $rate "bitrate=$known_bitrates($name)"]
-				} else {
-					lappend local_codecs [list $name $pt $rate]
+		} elseif {$status == "PREPARED" } {
+			foreach codec $codecs {
+				foreach {name pt rate} $codec break
+				if {$name == "PCMA" || $name == "PCMU" || 
+				    $name == "SIREN" || $name == "G723" || 
+				    $name == "AAL2-G726-32" || $name == "x-msrta"} {
+					if {[info exists known_bitrates($name)] } {
+						lappend local_codecs [list $name $pt $rate "bitrate=$known_bitrates($name)"]
+					} else {
+						lappend local_codecs [list $name $pt $rate]
+					}
+				}
+				if {$name == "telephone-event" && $rate == "8000"} {
+					lappend local_codecs [list $name $pt $rate "0-16"]
 				}
 			}
-			if {$name == "telephone-event" && $rate == "8000"} {
-				lappend local_codecs [list $name $pt $rate "0-16"]
-			}
-		} elseif  {[string first "LOCAL_CANDIDATE: " $line] == 0} {
-			set candidate [string range $line 17 end]
-			lappend local_candidates [split $candidate " "]
-		} elseif  {$line == "LOCAL_CODECS_DONE"} {
-			set codecs_done 1
-		} elseif  {$line == "LOCAL_CANDIDATES_DONE"} {
-			set candidates_done 1
-		} else {
-			# Unknown message.. ignore
-		}
-	
-		if {$prepared == 0 && $codecs_done && $candidates_done } {
+			
+			set local_candidates $candidates
+
 			status_log "Farsight : Farsight is now prepared!"
 
 			set prepared 1
@@ -1925,27 +1890,19 @@ namespace eval ::MSNSIP {
 				$sip AnswerInvite $callid BUSY
 				destroySIP $sip
 			} else {
-				if { [$::farsight AcceptCandidates [$sip cget -remote_candidates]] } {
-					$::farsight configure -prepared [list ::MSNSIP::requestPrepared $sip $callid] -closed [list ::MSNSIP::answerClosed $sip $callid 0] -sipconnection $sip
-					if {[catch {$::farsight Prepare}] } {
-						$::farsight configure -sipconnection $sip 
-						# Signal the UI
-						::amsn::SIPCallImpossible [$sip GetCaller $callid]
-
-						$sip AnswerInvite $callid UNAVAILABLE
-						destroySIP $sip
-					} else {
-						# Reset the SipConnection because the Prepare clears it
-						$::farsight configure -sipconnection $sip 
-						$::farsight SetRemoteCandidates [$sip cget -remote_candidates]
-						$::farsight SetRemoteCodecs [$sip cget -remote_codecs]
-					}
-				} else {
+				$::farsight configure -prepared [list ::MSNSIP::requestPrepared $sip $callid] -closed [list ::MSNSIP::answerClosed $sip $callid 0] -sipconnection $sip
+				if {[catch {$::farsight Prepare}] } {
+					$::farsight configure -sipconnection $sip 
 					# Signal the UI
-					::amsn::SIPCallUnsupported [$sip GetCaller $callid]
-
+					::amsn::SIPCallImpossible [$sip GetCaller $callid]
+					
 					$sip AnswerInvite $callid UNAVAILABLE
 					destroySIP $sip
+				} else {
+					# Reset the SipConnection because the Prepare clears it
+					$::farsight configure -sipconnection $sip 
+					$::farsight SetRemoteCandidates [$sip cget -remote_candidates]
+					$::farsight SetRemoteCodecs [$sip cget -remote_codecs]
 				}
 			}
 		} elseif {$what == "CLOSED" } {
