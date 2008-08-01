@@ -27,11 +27,11 @@ else
 SHARED	:= -shared
 endif
 
-link_app	= $(CC) $(LDFLAGS) -o $@  $^ $(LDLIBS)
-link_farsight	= $(CC) $(LDFLAGS) -o $@  $^ $(LDLIBS) $(GST_LIBS) $(FARSIGHT2_LIBS)
-link_so		= $(CC) $(LDFLAGS) $(SHARED) -o $@ $^ $(LDLIBS)
+link_app	= $(CC) $(LDFLAGS) $(LDLIBS) -o $@  $^
+link_farsight	= $(CC) $(LDFLAGS) $(LDLIBS) $(GST_LIBS) $(FARSIGHT2_LIBS) $(SHARED) -o $@ $^
+link_so		= $(CC) $(LDFLAGS) $(LDLIBS) $(SHARED) -o $@ $^
 link_so_addlibs = $(link_so) $(ADDLIBS)
-link_so_cpp	= $(CXX) $(LDFLAGS) $(SHARED) -o $@ $^ $(LDLIBS) $(CXX_LIB)
+link_so_cpp	= $(CXX) $(LDFLAGS) $(LDLIBS) $(CXX_LIB) $(SHARED) -o $@ $^
 ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 
 

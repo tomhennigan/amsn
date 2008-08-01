@@ -28,7 +28,7 @@ tray_dir := $(srcdir)/utils/linux/traydock
 linflash_dir := $(srcdir)/utils/linux/linflash
 tclISF_dir := $(srcdir)/utils/tclISF
 macosx_dir := $(srcdir)/utils/macosx
-farsight_dir := $(srcdir)/utils/farsight
+tcl_farsight_dir := $(srcdir)/utils/farsight
 
 # programs
 CC		:= @CC@
@@ -134,7 +134,7 @@ LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
 
 ifeq (@HAVE_FARSIGHT@,yes)
-  FILES_TO_INSTALL += utils/farsight/farsight
+  FILES_TO_INSTALL += utils/farsight/tcl_farsight.$(SHLIB_EXTENSION)
 endif
 
 #AppMain.tcl is needed by MacOSX : do not try to simplify by moving it outside the ifeq/else.
@@ -276,7 +276,8 @@ include $(tclISF_dir)/src/libISF/Rules.mk
 include $(tclISF_dir)/src/Rules.mk
 
 ifeq (@HAVE_FARSIGHT@,yes)
-  include $(farsight_dir)/Rules.mk
+  include $(tcl_farsight_dir)/Rules.mk
+  include $(tcl_farsight_dir)/src/Rules.mk
 endif
 
 ifeq ($(FOUND_OS),linux)

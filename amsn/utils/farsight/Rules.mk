@@ -1,13 +1,10 @@
-OBJS-farsight := $(farsight_dir)/farsight.o
-TARGETS-farsight := $(farsight_dir)/farsight
+OBJS-farsight := $(tcl_farsight_dir)/src/tcl_farsight.$(SHLIB_EXTENSION)
+TARGETS-farsight := $(tcl_farsight_dir)/tcl_farsight.$(SHLIB_EXTENSION) 
 
-$(OBJS-farsight): $(farsight_dir)/farsight.c
-	@$(echo_compile_farsight)
-	@$(compile_farsight)
 
 $(TARGETS-farsight): $(OBJS-farsight)
-	@$(echo_link_farsight)
-	@$(link_farsight)
+	cp $< $@
+
 
 all:: $(TARGETS-farsight)
 
