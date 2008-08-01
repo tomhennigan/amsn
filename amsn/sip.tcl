@@ -14,6 +14,7 @@ snit::type SIPConnection {
 	option -local_candidates -default ""
 	option -remote_codecs -default ""
 	option -remote_candidates -default ""
+	option -active_candidates -default ""
 
 	delegate option {-host -port -transport
 		-proxy -proxy_host -proxy_port
@@ -463,8 +464,8 @@ snit::type SIPConnection {
 		
 	}
 
-	method RenegociateInvite { callid } {
-		set content [$self BuildSDP]
+	method SendReInvite { callid local remote} {
+		set content [$self BuildSDP $local $remote]
 		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
 		set msg [lindex [$self BuildRequest INVITE $uri [$self GetCallee $callid] $callid 1] 1]
 		append msg "Ms-Conversation-ID: f=0\r\n"
@@ -529,7 +530,17 @@ snit::type SIPConnection {
 			if {[catch {eval [linsert $options(-request_handler) end $callid CANCEL ""]} result]} {
 				bgerror $result
 			}
-		}			
+		} elseif {[$self GetCommand $headers] == "INVITE" } {
+			status_log "Received re-invite!!!!"
+			if {$options(-active_candidates) != ""} {
+				set local [lindex $options(-active_candidates) 0]
+				set remote [lindex $options(-active_candidates) 1]
+				set sdp [$self BuildSDP $local $remote]
+
+				set message [$self BuildResponse $callid INVITE 200]
+				$self Send $message "application/sdp" $sdp
+			}
+		}
 
 		
 	}
@@ -730,7 +741,22 @@ snit::type SIPConnection {
 		return $msg
 	}
 
-	method BuildSDP { } {
+
+	method BuildIceCandidates { {local ""} {remote ""} } {
+		foreach candidate $options(-local_candidates) {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			if {$candidate_id != "" && $password != "" } {
+				if {$local == "" || $candidate_id == $local} {
+					append sdp "a=candidate:$candidate_id $component_id $password $transport $qvalue $ip $port\r\n"
+				}
+			}
+		}
+		if {$remote != ""} {
+			append sdp "a=remote-candidate:$remote\r\n"
+		}
+		return $sdp
+	}
+	method BuildSDP { {local ""} {remote ""} } {
 
 		set pt_list ""
 		foreach codec $options(-local_codecs) {
@@ -759,12 +785,8 @@ snit::type SIPConnection {
 		append sdp "b=CT:100\r\n"
 		append sdp "t=0 0\r\n"
 		append sdp "m=audio $default_port RTP/AVP$pt_list\r\n"
-		foreach candidate $options(-local_candidates) {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {$candidate_id != "" && $password != "" } {
-				append sdp "a=candidate:$candidate_id $component_id $password $transport $qvalue $ip $port\r\n"
-			}
-		}
+		append sdp [$self BuildIceCandidates $local $remote]
+
 		if {$rtcp_port != 0 } {
 			append sdp "a=rtcp:$rtcp_port\r\n"
 		}
@@ -1537,10 +1559,10 @@ snit::type Farsight {
 	variable local_candidates [list]
 	variable remote_candidates [list]
 	variable remote_codecs [list]
-	variable prepared 0
 	variable known_bitrates
 	option -closed -default ""
 	option -prepared -default ""
+	option -active -default ""
 	option -sipconnection -default ""
 
 	constructor { args } {
@@ -1559,7 +1581,6 @@ snit::type Farsight {
 		set remote_codecs [list]
 		set codecs_done 0
 		set candidates_done 0
-		set prepared 0
 		set options(-sipconnection) ""
 	}
 
@@ -1625,14 +1646,14 @@ snit::type Farsight {
 	}
 
 	method Test { } {
-		if {[catch {$self Prepare}] } {
+		if {[catch {$self Prepare 1}] } {
 			return 0
 		}
 		return -1
 
 	}
 
-	method Prepare { } {
+	method Prepare { controlling } {
 		$self Close
 
 		status_log "Farsight : Preparing"
@@ -1654,7 +1675,7 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
-		::Farsight::Prepare [list $self FarsightReady] 64.14.48.28
+		::Farsight::Prepare [list $self FarsightReady] $controlling 64.14.48.28
 	}
 
 	method Start { } {
@@ -1668,12 +1689,16 @@ snit::type Farsight {
 		}
 	}
 
-	method FarsightReady { status codecs candidates } {
+	method FarsightReady { status obj1 obj2 } {
 		if { $status == "ERROR" } {
-			status_log "Farsight : got error $codecs"
+			set error $obj1
+			status_log "Farsight : got error $obj1"
 			$self Closed
 			return
 		} elseif {$status == "PREPARED" } {
+			set codecs $obj1
+			set candidates $obj2
+
 			foreach codec $codecs {
 				foreach {name pt rate} $codec break
 				if {$name == "PCMA" || $name == "PCMU" || 
@@ -1694,10 +1719,18 @@ snit::type Farsight {
 
 			status_log "Farsight : Farsight is now prepared!"
 
-			set prepared 1
-
 			if {$options(-prepared) != "" } {
 				if {[catch {eval $options(-prepared)} result]} {
+					bgerror $result
+				}
+			}
+		} elseif {$status == "ACTIVE" } {
+			status_log "Farsight : New active candidate pair"
+			set local $obj1
+			set remote $obj2
+
+			if {$options(-active) != "" } {
+				if {[catch {eval $options(-active) $local $remote} result]} {
 					bgerror $result
 				}
 			}
@@ -1749,7 +1782,7 @@ namespace eval ::MSNSIP {
 
 		if {[$::farsight cget -sipconnection] == $sip } {
 			$::farsight Close
-			$::farsight configure -sipconnection "" -closed "" -prepared ""
+			$::farsight configure -sipconnection "" -closed "" -prepared "" -active ""
 		}
 	}
 
@@ -1786,9 +1819,12 @@ namespace eval ::MSNSIP {
 	}
 
 	proc InviteUserCB { email sip } {
-		$::farsight configure -sipconnection $sip -prepared [list ::MSNSIP::invitePrepared $sip $email] -closed  [list ::MSNSIP::inviteClosed $sip $email "" -1]
+		$::farsight configure -sipconnection $sip \
+		    -prepared [list ::MSNSIP::invitePrepared $sip $email] \
+		    -closed  [list ::MSNSIP::inviteClosed $sip $email "" -1] \
+		    -active ""
 		
-		if {[catch {$::farsight Prepare}] } {
+		if {[catch {$::farsight Prepare 1}] } {
 			::amsn::SIPCallImpossible $email
 			return "IMPOSSIBLE"
 		} else {
@@ -1797,13 +1833,14 @@ namespace eval ::MSNSIP {
 			return $sip
 		}
 	}
-
 	proc invitePrepared { sip email } {
 		$sip configure -local_candidates [$::farsight GetLocalCandidates]
 		$sip configure -local_codecs [$::farsight GetLocalCodecs] 
 		set callid [$sip Invite $email [list ::MSNSIP::inviteSIPCB $sip $email]]
 
-		$::farsight configure -closed [list ::MSNSIP::inviteClosed $sip $email $callid 0]
+		$::farsight configure \
+		    -closed [list ::MSNSIP::inviteClosed $sip $email $callid 0] \
+		    -active [list ::MSNSIP::activeCandidates $sip $callid 1]
 
 		# Signal the UI
 		::amsn::SIPInviteSent $email $sip $callid
@@ -1828,6 +1865,14 @@ namespace eval ::MSNSIP {
 		}
 		destroySIP $sip
 
+	}
+
+	proc activeCandidates { sip callid send local remote } {
+		if {$send} {
+			$sip SendReInvite $callid $local $remote
+		} else {
+			$sip configure -active_candidates [list $local $remote]
+		}
 	}
 
 	proc CancelCall { sip callid } {
@@ -1890,8 +1935,15 @@ namespace eval ::MSNSIP {
 				$sip AnswerInvite $callid BUSY
 				destroySIP $sip
 			} else {
-				$::farsight configure -prepared [list ::MSNSIP::requestPrepared $sip $callid] -closed [list ::MSNSIP::answerClosed $sip $callid 0] -sipconnection $sip
-				if {[catch {$::farsight Prepare}] } {
+				$::farsight configure \
+				    -prepared [list ::MSNSIP::requestPrepared $sip $callid] \
+				    -closed [list ::MSNSIP::answerClosed $sip $callid 0] \
+				    -sipconnection $sip \
+				    -active [list ::MSNSIP::activeCandidates $sip $callid 0]
+				$sip configure -active_candidates ""
+
+
+				if {[catch {$::farsight Prepare 0}] } {
 					$::farsight configure -sipconnection $sip 
 					# Signal the UI
 					::amsn::SIPCallImpossible [$sip GetCaller $callid]
@@ -1987,7 +2039,7 @@ namespace eval ::MSNSIP {
 			}
 		}
 		
-		$::farsight configure -prepared "" -closed ""
+		$::farsight configure -prepared "" -closed "" -active ""
 		$::farsight Close
 		if {$callbk != "" } {
 			eval [linsert $callbk end 0]
@@ -2003,7 +2055,7 @@ namespace eval ::MSNSIP {
 			}
 		}
 
-		$::farsight configure -prepared "" -closed ""
+		$::farsight configure -prepared "" -closed "" -active ""
 		$::farsight Close
 
 		if {$callbk != "" } {
@@ -2014,7 +2066,10 @@ namespace eval ::MSNSIP {
 
 	proc TestFarsight { {callbk ""} } {
 		if {![$::farsight IsInUse] } {
-			$::farsight configure -prepared [list ::MSNSIP::FarsightTestSucceeded $callbk] -closed [list ::MSNSIP::FarsightTestFailed $callbk]
+			$::farsight configure \
+			    -prepared [list ::MSNSIP::FarsightTestSucceeded $callbk] \
+			    -closed [list ::MSNSIP::FarsightTestFailed $callbk] \
+			    -active ""
 			set result [$::farsight Test]
 			if { $result == 1 } {
 				::MSNSIP::FarsightTestSucceeded $callbk
