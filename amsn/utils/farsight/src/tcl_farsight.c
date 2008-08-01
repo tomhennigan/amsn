@@ -37,6 +37,7 @@ Tcl_Obj *local_candidates = NULL;
 Tcl_Obj *callback = NULL;
 Tcl_Interp *callback_interp = NULL;
 Tcl_ThreadId main_tid = 0;
+int components_selected = 0;
 
 
 static char *host2ip(char *hostname)
@@ -90,6 +91,7 @@ static void Close ()
 
   candidates_prepared = FALSE;
   codecs_ready = FALSE;
+  components_selected = 0;
 
   if (local_candidates) {
     Tcl_DecrRefCount(local_candidates);
@@ -104,42 +106,48 @@ static void Close ()
 
 }
 
+static void
+_notify_callback (char *status_msg, Tcl_Obj *obj1, Tcl_Obj *obj2)
+{
+
+  Tcl_Obj *status = Tcl_NewStringObj (status_msg, -1);
+  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
+  Tcl_Obj *args = Tcl_NewListObj (0, NULL);
+  Tcl_Obj *command[] = {eval, callback, args};
+  Tcl_Obj *interp = callback_interp;
+
+
+  Tcl_ListObjAppendElement(NULL, args, status);
+  Tcl_ListObjAppendElement(NULL, args, obj1);
+  Tcl_ListObjAppendElement(NULL, args, obj2);
+
+  if (callback && callback_interp) {
+    /* Take the callback here in case it gets Closed by the eval */
+    Tcl_Obj *cbk = callback;
+    Tcl_IncrRefCount (eval);
+    Tcl_IncrRefCount (args);
+    Tcl_IncrRefCount (cbk);
+
+    if (Tcl_EvalObjv(interp, 3, command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
+      g_debug ("Error executing %s handler : %s", status_msg,
+          Tcl_GetStringResult(interp));
+    }
+    Tcl_DecrRefCount (cbk);
+    Tcl_DecrRefCount (args);
+    Tcl_DecrRefCount (eval);
+  }
+
+}
+
 
 static void
 _notify_error (char *error)
 {
-
-  Tcl_Obj *status = Tcl_NewStringObj ("ERROR", -1);
-  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
-  Tcl_Obj *error_obj = Tcl_NewStringObj (error, -1);
-  Tcl_Obj *args = Tcl_NewListObj (0, NULL);
-  Tcl_Obj *command[] = {eval, callback, args};
+  Tcl_Obj *obj = Tcl_NewStringObj (error, -1);
 
   g_debug ("An error occured : %s", error);
 
-  Tcl_ListObjAppendElement(NULL, args, status);
-  Tcl_ListObjAppendElement(NULL, args, error_obj);
-  Tcl_ListObjAppendElement(NULL, args, error_obj);
-
-  if (callback && callback_interp) {
-    Tcl_Obj *c = callback;
-    Tcl_Obj *i = callback_interp;
-    Tcl_IncrRefCount (eval);
-    Tcl_IncrRefCount (args);
-    Tcl_IncrRefCount (c);
-
-    g_debug ("Calling error handler %s ", Tcl_GetString (callback));
-    if (Tcl_EvalObjv(callback_interp, 3, command, TCL_EVAL_GLOBAL)
-        == TCL_ERROR) {
-      g_debug ("Error executing error handler %s : %s", Tcl_GetString (c),
-          Tcl_GetStringResult(i));
-    }
-    g_debug ("Called error handler %s : %s", Tcl_GetString (c),
-        Tcl_GetStringResult(i));
-    Tcl_DecrRefCount (c);
-    Tcl_DecrRefCount (args);
-    Tcl_DecrRefCount (eval);
-  }
+  _notify_callback ("ERROR", obj, obj);
 
   Close ();
 }
@@ -178,15 +186,20 @@ _notify_error_post (char *error)
 
 
 static void
-_notify_callback ()
+_notify_active (char *local, char *remote)
+{
+  Tcl_Obj *local_candidate = Tcl_NewStringObj (local, -1);
+  Tcl_Obj *remote_candidate = Tcl_NewStringObj (remote, -1);
+
+  _notify_callback ("ACTIVE", local_candidate, remote_candidate);
+}
+
+static void
+_notify_prepared ()
 {
 
   if (codecs_ready && candidates_prepared) {
     Tcl_Obj *local_codecs = Tcl_NewListObj (0, NULL);
-    Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
-    Tcl_Obj *prepared = Tcl_NewStringObj ("PREPARED", -1);
-    Tcl_Obj *args = Tcl_NewListObj (0, NULL);
-    Tcl_Obj *command[] = {eval, callback, args};
 
     GList *codecs = NULL;
     GList *item = NULL;
@@ -208,29 +221,7 @@ _notify_callback ()
 
     fs_codec_list_destroy (codecs);
 
-    Tcl_ListObjAppendElement(NULL, args, prepared);
-    Tcl_ListObjAppendElement(NULL, args, local_codecs);
-    Tcl_ListObjAppendElement(NULL, args, local_candidates);
-
-    Tcl_IncrRefCount (eval);
-    Tcl_IncrRefCount (args);
-    Tcl_IncrRefCount (callback);
-    Tcl_Obj *c = callback;
-    Tcl_Obj *i = callback_interp;
-
-    g_debug ("Calling notify handler %s ", Tcl_GetString (callback));
-    if (Tcl_EvalObjv(callback_interp, 3, command, TCL_EVAL_GLOBAL)
-        == TCL_ERROR) {
-      g_debug ("Error executing notifier handler %s : %s", Tcl_GetString (callback),
-          Tcl_GetStringResult(callback_interp));
-    }
-    g_debug ("Called notify handler %s : %s", Tcl_GetString (c),
-          Tcl_GetStringResult(i));
-
-    Tcl_DecrRefCount (c);
-    Tcl_DecrRefCount (args);
-    Tcl_DecrRefCount (eval);
-
+    _notify_callback ("PREPARED", local_codecs, local_candidates);
   }
 }
 
@@ -268,7 +259,7 @@ _local_candidates_prepared (FsStream *stream)
   candidates_prepared = TRUE;
 
   g_debug ("CANDIDATES ARE PREPARED");
-  _notify_callback ();
+  _notify_prepared ();
 }
 
 
@@ -373,7 +364,7 @@ _codecs_ready (FsSession *session)
 
   g_debug ("CODECS ARE READY");
 
-  _notify_callback ();
+  _notify_prepared ();
 }
 
 typedef struct {
@@ -389,7 +380,6 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
 
   g_debug ("Receive bus message from the event proc : %s",
       gst_structure_get_name (message->structure));
-  g_debug ("Thread ID : %d", Tcl_GetCurrentThread());
 
   switch (GST_MESSAGE_TYPE (message))
   {
@@ -404,6 +394,11 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
           errorvalue = gst_structure_get_value (message->structure, "error-msg");
           debugvalue = gst_structure_get_value (message->structure, "debug-msg");
 
+          if (errno != FS_ERROR_UNKNOWN_CNAME)  {
+            g_debug ("Error on BUS (%d) %s .. %s", errno,
+                g_value_get_string (errorvalue),
+                g_value_get_string (debugvalue));
+          }
           if (errno != FS_ERROR_UNKNOWN_CNAME)  {
             _notify_error ("Farsight error");
           }
@@ -422,7 +417,6 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
         } else if (gst_structure_has_name (s,
                 "farsight-local-candidates-prepared")) {
           FsStream *stream;
-          FsCandidate *candidate;
           const GValue *value;
 
           value = gst_structure_get_value (s, "stream");
@@ -439,6 +433,37 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
             if (ready) {
               _codecs_ready (session);
             }
+          }
+        } else if (gst_structure_has_name (s, "farsight-new-active-candidate-pair")) {
+          FsCandidate *local;
+          FsCandidate *remote;
+          const GValue *value;
+
+
+          value = gst_structure_get_value (s, "local-candidate");
+          local = g_value_get_boxed (value);
+
+          value = gst_structure_get_value (s, "remote-candidate");
+          remote = g_value_get_boxed (value);
+
+          g_debug ("New active candidate pair : ");
+
+          g_debug ("Local candidate: %s %d %s %s %d %s %d\n",
+              local->username == NULL ? "-" : local->username,
+              local->component_id,
+              local->password == NULL ? "-" : local->password,
+              local->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
+              local->priority, local->ip, local->port);
+
+          g_debug ("Remote candidate: %s %d %s %s %d %s %d\n",
+              remote->username == NULL ? "-" : remote->username,
+              remote->component_id,
+              remote->password == NULL ? "-" : remote->password,
+              remote->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
+              remote->priority, remote->ip, remote->port);
+
+          if (++components_selected == 2) {
+            _notify_active (local->username, remote->username);
           }
         }
       }
@@ -478,7 +503,6 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
       {
         const GstStructure *s = gst_message_get_structure (message);
         g_debug ("bus message : %s", gst_structure_get_name (s));
-        g_debug ("Thread ID : %d", Tcl_GetCurrentThread());
         if (gst_structure_has_name (s, "farsight-error")) {
           goto drop;
         } else if (gst_structure_has_name (s, "farsight-new-local-candidate")) {
@@ -487,6 +511,8 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
                 "farsight-local-candidates-prepared")) {
           goto drop;
         } else if (gst_structure_has_name (s, "farsight-codecs-changed")) {
+          goto drop;
+        } else if (gst_structure_has_name (s, "farsight-new-active-candidate-pair")) {
           goto drop;
         }
       }
@@ -522,15 +548,19 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstElement *src;
   GstPad *sinkpad = NULL, *srcpad = NULL;
   GIOChannel *ioc = g_io_channel_unix_new (0);
-  GParameter transmitter_params[3];
-
+  GParameter transmitter_params[4];
+  int controlling;
   char *stun_ip = NULL;
   char *stun_hostname = NULL;
   int stun_port = 3478;
 
   // We verify the arguments
-  if( objc < 2 || objc > 4) {
-    Tcl_WrongNumArgs (interp, 1, objv, " callback ?stun_ip? stun_port?");
+  if( objc < 3 || objc > 5) {
+    Tcl_WrongNumArgs (interp, 1, objv, " callback controlling ?stun_ip? stun_port?");
+    return TCL_ERROR;
+  }
+
+  if (Tcl_GetBooleanFromObj (interp, objv[2], &controlling) != TCL_OK) {
     return TCL_ERROR;
   }
 
@@ -539,8 +569,9 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   callback_interp = interp;
   main_tid = Tcl_GetCurrentThread();
 
-  if (objc > 2) {
-    stun_hostname = Tcl_GetStringFromObj (objv[2], NULL);
+
+  if (objc > 3) {
+    stun_hostname = Tcl_GetStringFromObj (objv[3], NULL);
     stun_ip = host2ip (stun_hostname);
     if (stun_ip == NULL) {
       Tcl_AppendResult (interp, "Stun server invalid : Could not resolve hostname",
@@ -548,8 +579,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       return TCL_ERROR;
     }
   }
-  if (objc > 3) {
-    if (Tcl_GetIntFromObj (interp, objv[3], &stun_port) == TCL_ERROR) {
+  if (objc > 4) {
+    if (Tcl_GetIntFromObj (interp, objv[4], &stun_port) == TCL_ERROR) {
       Tcl_AppendResult (interp, "Stun port invalid : Expected integer" , (char *) NULL);
       return TCL_ERROR;
     }
@@ -671,27 +702,31 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
 
-  memset (transmitter_params, 0, sizeof (GParameter) * 3);
+  memset (transmitter_params, 0, sizeof (GParameter) * 4);
 
   transmitter_params[0].name = "compatibility-mode";
   g_value_init (&transmitter_params[0].value, G_TYPE_UINT);
   g_value_set_uint (&transmitter_params[0].value, 2);
 
+  transmitter_params[1].name = "controlling-mode";
+  g_value_init (&transmitter_params[1].value, G_TYPE_BOOLEAN);
+  g_value_set_boolean (&transmitter_params[1].value, controlling);
+
   if (stun_ip) {
     g_debug ("stun ip : %s : %d", stun_ip, stun_port);
-    transmitter_params[1].name = "stun-ip";
-    g_value_init (&transmitter_params[1].value, G_TYPE_STRING);
-    g_value_set_string (&transmitter_params[1].value, stun_ip);
+    transmitter_params[2].name = "stun-ip";
+    g_value_init (&transmitter_params[2].value, G_TYPE_STRING);
+    g_value_set_string (&transmitter_params[2].value, stun_ip);
 
-    transmitter_params[2].name = "stun-port";
-    g_value_init (&transmitter_params[2].value, G_TYPE_UINT);
-    g_value_set_uint (&transmitter_params[2].value, stun_port);
+    transmitter_params[3].name = "stun-port";
+    g_value_init (&transmitter_params[3].value, G_TYPE_UINT);
+    g_value_set_uint (&transmitter_params[3].value, stun_port);
 
     stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH,
-        "nice", 3, transmitter_params, &error);
+        "nice", 4, transmitter_params, &error);
   } else {
     stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH,
-        "nice", 1, transmitter_params, &error);
+        "nice", 2, transmitter_params, &error);
   }
 
   if (error) {
@@ -845,6 +880,7 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
     candidate->username = g_strdup (Tcl_GetString (elements[0]));
     candidate->foundation = g_strdup (Tcl_GetString (elements[0]));
+    candidate->foundation[32] = 0;
 
     if (Tcl_GetIntFromObj (interp, elements[1], &candidate->component_id) != TCL_OK) {
       Tcl_AppendResult (interp, "\nInvalid candidate : ",
