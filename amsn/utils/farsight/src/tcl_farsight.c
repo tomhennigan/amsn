@@ -400,7 +400,7 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
                 g_value_get_string (debugvalue));
           }
           if (errno != FS_ERROR_UNKNOWN_CNAME)  {
-            _notify_error ("Farsight error");
+            /*_notify_error ("Farsight error");*/
           }
         } else if (gst_structure_has_name (s, "farsight-new-local-candidate")) {
           FsStream *stream;
