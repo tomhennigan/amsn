@@ -68,7 +68,7 @@ namespace eval ::MSNFT {
 			return
 		}
 
-		set ipaddr [$message getField $requestdata]
+		set ipaddr [$message getField IP-Address]
 
 		#If IP field is blank, and we are sender, Send the File and requested IP (SendFile)
 		if { ($ipaddr == "") && ([getTransferType $cookie]=="send") } {
