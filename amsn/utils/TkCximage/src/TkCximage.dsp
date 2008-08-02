@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 tclstub84.lib tkstub84.lib ./png/Release/png.lib ./jpeg/Release/jpeg.lib ./zlib/Release/zlib.lib ./cximage/Release/cximage.lib /nologo /dll /machine:I386 /out:"./Release/TkCxImage.dll"
+# ADD LINK32 tclstub85.lib tkstub85.lib ./png/Release/png.lib ./jpeg/Release/jpeg.lib ./zlib/Release/zlib.lib ./cximage/Release/cximage.lib /nologo /dll /machine:I386 /out:"./Release/TkCxImage.dll"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 PostBuild_Cmds=copy .\Release\TkCxImage.dll .\TkCxImage.dll

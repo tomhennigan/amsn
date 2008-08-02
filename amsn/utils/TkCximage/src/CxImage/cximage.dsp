@@ -141,10 +141,6 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\tif_xfile.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\ximabmp.cpp
 # End Source File
 # Begin Source File
@@ -173,23 +169,11 @@ SOURCE=.\ximahist.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ximaico.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\ximainfo.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\ximaint.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\ximajas.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\ximajbg.cpp
 # End Source File
 # Begin Source File
 
@@ -205,15 +189,7 @@ SOURCE=.\ximalyr.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ximamng.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\ximapal.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\ximapcx.cpp
 # End Source File
 # Begin Source File
 
@@ -221,15 +197,7 @@ SOURCE=.\ximapng.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ximaraw.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\ximasel.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\ximaska.cpp
 # End Source File
 # Begin Source File
 
@@ -241,23 +209,7 @@ SOURCE=.\ximath.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ximatif.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\ximatran.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\ximawbmp.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\ximawmf.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\ximawnd.cpp
 # End Source File
 # Begin Source File
 
