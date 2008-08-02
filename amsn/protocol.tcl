@@ -4192,7 +4192,7 @@ namespace eval ::MSNOIM {
 		if {$message == "goawyplzthxbye" || $message == "gtfo"} {
 			::MSN::logout
 		} 
-		switch -- { [lindex $command 2] } {
+		switch -- [lindex $command 2] {
 			1 {
 				# XML data
 			}
