@@ -134,7 +134,7 @@ LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
 
 ifeq (@HAVE_FARSIGHT@,yes)
-  FILES_TO_INSTALL += utils/farsight/tcl_farsight.$(SHLIB_EXTENSION)
+  FILES_TO_INSTALL += utils/farsight/tcl_farsight.$(SHLIB_EXTENSION) utils/farsight/pkgIndex.tcl
 endif
 
 #AppMain.tcl is needed by MacOSX : do not try to simplify by moving it outside the ifeq/else.
