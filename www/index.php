@@ -44,7 +44,7 @@ echo '<br /><br />';
 
 switch(remoteOS()) {
     case 'Windows':
-    $url='http://prdownloads.sourceforge.net/amsn/aMSN-0.97.1-windows-installer.exe';
+    $url='http://prdownloads.sourceforge.net/amsn/aMSN-0.97.2-tcl85-windows-installer.exe';
     break;
     case 'Linux':
     $url='linux-downloads.php';
