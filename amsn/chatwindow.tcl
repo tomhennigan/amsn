@@ -3299,6 +3299,8 @@ namespace eval ::ChatWindow {
 		incr last_char -1
 		$top dchars text $last_char end
 
+		set Ycoord [expr {int($Ycoord)}]
+
 		$top configure -height $Ycoord
 
 		if { [GetContainerFromWindow $win_name] == "" } {
