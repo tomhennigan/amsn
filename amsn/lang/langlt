@@ -37,7 +37,7 @@ allowbadwords Uždrausti cenžūrą pseudonimuose
 allowlist Priimtų vartotojų sąrašas:
 allowonlyinal Tik vartotojai, kuriuos aš priėmiau, gali susisiekti su manim
 allowseen Leisti šiam asmeniui matyti, kada aš esu prisijungęs bei pasiekti mane
-allow_sms Leisti vartotojams pasiekti mane per mano MSN mobilųjį prietaisą
+allow_sms Leisti vartotojams pasiekti mane per mano MSN mobilųjį įrenginį
 allprofilesinuse Visi esami profiliai yra naudojami dabar
 always Visada
 animatedemoticon Šie jaustukai yra animuoti
@@ -53,15 +53,15 @@ askeachtime Klausti kiekvieną kartą
 asksendingyourwebcam prašyti rodyti savo nuosavą kamerą
 asksendoim Ar jūs norite nusiųsti šią žinutę atsijungusiam vartotojui?
 askwebcam Prašyti šio vartotojo rodyti savo kamerą
-assistantainput Pasirinkite savo įvesties prietaisą ir bandykite įrašyti su juo.
-assistantaoutput Pasirinkite savo išvesties prietaisą ir pabandykite paleisti šią rinkmeną, kad išbandytumėte tai.
+assistantainput Pasirinkite mikrofoną ir jį išbandykite.
+assistantaoutput Pasirinkite garso įrenginį ir pabandykite paleisti šią rinkmeną.
 assistantawarn Jūs negalite įrašyti savęs arba kalbėtis su savo draugais. Jūs galite rasti atsakymus, kaip įdiegti šiuos plėtinius, mūsų Wiki:
-assistantfinetunepic Pakeiskite šiuos nustatymus, kad sureguliuotumėte jūsų kameros vaizdo kokybę
+assistantfinetunepic Čia galite sureguliuoti kameros vaizdo kokybę
 assistantselectcam Pasirinkite savo kamerą iš sąrašo
-assistantstarting Paleisti padėjėją
-assistanttitle Garso ir vaizdo padėjėjas
-assistantwelcome Šis padėjėjas ves jus per sąranką jūsų garso ir vaizdo nustatymų aMSN.\n\nJis tikrins, ar reikalingas plėtinys dalyvauja ir yra pakrautas, ir jūs sugebėsite pasirinkti prietaisą ir kanalą, nustatyti paveikslo nustatymus ir raišką.
-audioconfigured Jūs pasirinkote tokius garso nustatymus:\n\nIšvesties prietaisas: $1 \nĮvesties prietaisas: $2
+assistantstarting aMSN vedlys
+assistanttitle Garso ir vaizdo vedlys
+assistantwelcome Šis vedlys padės jums susitvarkyti su aMSN garso ir vaizdo nustatymais.\n\nJis tikrins, ar reikalingas plėtinys dalyvauja ir yra įkeltas, ir jūs galėsite pasirinkti įrenginį ir kanalą, nustatyti kameros nustatymus ir raišką.
+audioconfigured Jūs pasirinkote tokius garso nustatymus:\n\nGarso įrenginys: $1 \nMikrofonas: $2
 audiovideo Garso ir vaizdo nustatymai
 author Autorius
 autoaccepted Rinkmenos persiuntimas priimtas automatiškai
@@ -158,10 +158,10 @@ checkingaudio Tikrinama ar yra užkrautas garso plėtinys (Snack)...
 checkingcam Tikrinama, ar prijungta kamera...
 checkingcapext Tikrinama, ar yra užkrautas plėtinys '$1'...
 checkingextensions Tikrinamas reikalingas vaizdo plėtinys
-chooseinputdev Pasirinkite savo įvesties prietaisą
+chooseinputdev Pasirinkite mikrofoną
 chooselocation Pasirinkite naują rinkmenos vietą
-choosemixerdev Pasirinkite savo maišytuvą
-chooseoutputdev Pasirinkite savo išvesties prietaisą
+choosemixerdev Pasirinkite maišytuvą
+chooseoutputdev Pasirinkite garso įrenginį
 checkingver Naujos versijos tikrinimas
 checkonfln Tikrinti, ar vartotojas užblokavo jus, kai jis atsijungia
 checkopenfilecommand Patikrinti atidaromų rinkmenų komandą nustatymų lange
@@ -200,9 +200,9 @@ color Spalva
 command Komanda
 commandstatus Vykdyti komanda
 configure Nustatyti
-configuremic Nustatyti jūsų mikrofoną
+configuremic Mikrofono nustatymai
 configureplugin Nustatyti įskiepį $1
-configuringaudio Nustatyti garso nustatymus
+configuringaudio Garso nustatymai
 confirm Ar tikrai įsitikinę?
 confirmbl Ar tikrai užblokuoti šį kontaktą?
 confirmdelete Ar jūs tikrai norite pašalinti $1?
@@ -239,7 +239,7 @@ couldnotrename Negalėjo pervadinti rinkmenos $1
 countrycode Mano šalis/regiono kodas
 cprofile Sukurti profilį
 created Sukurtas
-credits Kreditai
+credits Padėkos
 curdisplaypic Dabartinė nuotrauka
 currentdate Dabartinė data
 currentdynrate Dabartinis esamo laiko greitis (milisekundėmis)
@@ -273,18 +273,18 @@ deleteall Pašalinti visus
 deleteblock Ištrinti ir blokuoti
 deletecustomstate Ištrinti pasirinktas būsenas
 delete Pašalinti
-delimiters Laiko žymėjimo skirtukai:
+delimiters Laiko skirtukai:
 deliverfail Pastaroji žinutė negali pasiekti vartotojo
 delprofile2 Pasirinkite profilį, kurį norėtumėte pašalinti 
 delprofile Pašalinti profilį
 description Aprašymas
 detach Atskirti
 details Išsamiau
-devicebusy Prietaisas $1 yra užimtas
+devicebusy Įrenginys $1 yra užimtas
 devices Prietaisai
 directconnection Tiesioginis interneto ryšys (prievadas 1863)
 disabled Uždraustas
-disableprofiles Uždrausti profilius (naudinga interneto kavinėms arba bendrose aplinkose)
+disableprofiles Uždrausti profilius (naudinga interneto kavinėms arba viešose vietose)
 disablessl Uždrausti SSL
 disableuserfonts Atmesti nuotolinio vartotojo šriftą pokalbyje ir naudoti mano paties šriftą
 disconnect $1 atsijungė.
@@ -300,8 +300,8 @@ displayp4context Rodyti P4-Konteksto lauko turinį kaip žinutės siuntėją
 displaypic Rodyti paveiksliuką
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome apvalkalas
-docking Docking
-dockingoff Docking Off
+docking Prijungimas
+dockingoff Atsijungimas
 dockkde KDE apvalkalas
 done Atlikta
 dontaskweek Nepaprašykite atnaujinti vieną savaitę
@@ -313,7 +313,7 @@ downloadcanceled Siuntimas nutrauktas.
 downloadingtls Siunčia TLS modulį iš:\n $1
 downloadingwait Atsiunčiama nauja aMSN versija. Prašau palaukite...
 dynamicrate Naudoti dinaminį kadrų dažnį, kad imituotų esamo laiko greitį
-editavsettings Redaguoti garso ir vaizdo nustatymus
+editavsettings Nustatyti garsą ir vaizdą
 editcontent Koreguoti temos laukelio turinį ir pastabų laukelį
 editcustomstate Koreguoti kitas būsenas
 edit Taisa
@@ -340,7 +340,7 @@ enternick Įveskite savo pseudonimą
 enterpsm Jūsų asmeninė žinutė
 error Klaida
 errortls Klaida įdiegiant TLS modulį:
-escapeclosescw Escape mygtukas uždaro pokalbių langus
+escapeclosescw Escape mygtuku uždaryti pokalbių langus
 eventhistory Rodyti įvykių istoriją
 examples Pavyzdžiui
 exitamsn Ar tikrai išeiti?
@@ -349,7 +349,7 @@ faileddelete Neleidžiama pašalinti
 faileddeleteperso Šio paveiksliuko negalima pašalinti, nes jis yra ne jūsų profilyje. Tik paveiksliukus, priklausančius jūsų asmeniniam profiliui, galima pašalinti šiuo būdu.
 failed Neleidžiama
 faq DUK (Dažnai Užduodami Klausymai)
-farsightextchecking Tikrinama, ar užkrautas Farsight plėtinys...
+farsightextchecking Tikrinama, ar įkeltas Farsight plėtinys...
 farsightextwarn Jūs negalite priimti SIP skambučių. Jūs galite rasti atsakymus, kaip įdiegti Farsight, mūsų Wiki:
 farsightinfook Farsight yra struktūra, kuri bendrauja su garso/vaizdo protokolais. Su Farsight jūs galite siųsti arba priimti SIP skambučius su aMSN! Pažvelkite į farsight mūsų Wiki:
 fetching Renkami duomenys...
@@ -369,11 +369,11 @@ find Ieškoti
 findasyoutype Ieškoti tai, ką rašėte
 findnext Ieškoti sekantį
 findprev Ieškoti pastarąjį
-finetunesettings Sutvarkyti nuotraukos nustatymus
+finetunesettings Vaizdo nustatymai
 finish Baigti
 finish2apply Spauskite Baigti, kad pritaikytumėte šiuos nustatymus.
 firewalled Jus blokuoja ugniasienė arba esate už interneto ryšio paskirstytojo
-firewalled2 Jus blokuoja ugniasienė, patikrinikite savo Ryšio nustatymus nustatymų lange
+firewalled2 Jus blokuoja ugniasienė, patikrinikite savo ryšio nustatymus nustatymų lange
 followtext Sukti žemyn tol, kol naujas tekstas bus įvestas
 forget_me Neprisiminti manęs
 forgot_pass Aš pamiršau slaptažodį
@@ -610,12 +610,12 @@ nonimgroup Negreitų pranešimų kontaktai
 nooimconfirmation Neprašyti patvirtinimo, kada siunčiama/priimama žinutė iš atsijungusio vartotojo
 nopic Nėra paveiksliuko
 noprofileexists Dabar nėra profilių, \n jūs turite sukurti profilį, jeigu norėsite naudoti profiliuotą prisijungimą. \nNaudokite 'Pridėti naują profilį' mygtuką šiame lange, kad sukurtumėte naują profilį.
-noresizesmileys Nemažinkinti įeinančių jaustukų
+noresizesmileys Nemažinti įeinančių jaustukų
 normal Normalus
 noskins Nerastas numatytasis apvalkalas skins/ aplankale. Neįmanoma paleisti aMSN
 nosound Nepatiktas joks garsas. Įsitikinkite, kad jūsų mikrofonas tinkamai prijungtas prie kompiuterio
 nosound_or_hold Nepatiktas joks garsas. Kad nusiųstumėte garso klipą, paspauskite ir laikykite mygtuką kol kalbate, tada atleiskite jį, kad nusiųstumėte garso klipą.
-nospace Niekas nemato čia
+nospace Nuotraukų nėra
 nosystemtray Nėra sisteminio skydelio
 note Pastaba
 notificationserver Pirminė MSN pranešimų tarnybinė stotis (MSN Messenger tarnybinė stotis)
@@ -796,14 +796,14 @@ sendemail Siųsti pakeitimų pranešimus mano elektroniniu paštu
 sendfeedback Siųsti užklausą
 sendfile Siųsti rinkmeną
 sendmail Siųsti e-paštą
-sendmobmsg Siųsti į mobilų prietaisą
+sendmobmsg Siųsti į mobilųjį įrenginį
 sendmsg Siųsti žinutę
 send Siųsti
 sendoim Siųsti žinutę neprisijungusiam vartotojui
 sendsip Pradėti garso pokalbį
 sendvoice Siųsti garso klipą
 sendwebcamaccepted $1 priėmė kvietimą žiūrėti jūsų vaizdą. Jungiamasi...
-sendwebcaminvite Pakviesti vartotoją, kad matytų jūsų kamerą
+sendwebcaminvite Įjungti kamerą
 sentbytes Persiųsta $1 iš $2 baitų
 sentvoice Nusiųstas garso klipas
 serverbusy Tarnybinė stotis užimta
@@ -811,8 +811,8 @@ servergoingdown Atsijungta: Tarnybinė stotis ruošiasi atsijungti
 server Tarnybinė stotis
 serverunavailable Tarnybinė stotis neprieinama
 session Sesija
-setupcam Nustatyti jūsų kameros prietaisą
-setupcamfinetune Nustatyti kameros prietaisą ir suderinti vaizdą
+setupcam Jūsų kameros nustatymai
+setupcamfinetune Nustatyti kamerą ir suderinti vaizdą
 shareswebcam Dalinti kamerą
 showbanner Rodyti aMSN skydą
 showblockedlist Rodyti sąrašą vartotojų, kurie užblokavo jus
@@ -886,7 +886,7 @@ soundexample ( \$sound = Skambės garso rinkmena) Pvz: esdplay \$sound
 soundfile Garso rinkmena
 soundfiles Garsų rinkmenos
 soundloop Kartoti garsą
-soundnoavail Neprieinamas garso prietaisas. Sustabdykite programas, naudojančias garso prietaisą.
+soundnoavail Neprieinamas garso įrenginys. Išjunkite programas, naudojančias garso įrenginį.
 soundserver Tarnybinės stoties garsas
 soundstatus Garso signalas
 sourcecode Išvesties kodas (reikia kompiliuoti ir įdiegti)
@@ -938,7 +938,7 @@ tkerror1 TK pateikė klaidą. Tai yra klaida aMSN'e, prašau praneškti apie kla
 totalsize Visas dydis
 tkerror TK pateikė klaidą. Tai yra klaida aMSN'e, prašau praneškite apie klaidą. Siųskite rinkmeną $1 į amsn-bugs@lists.sf.net
 tlsdowncompleted Rinkmena $1 atsiųsta į aplankalą $2. Jūs turite išskleisti ją, sukurti (jeigu atsisiuntėte išvesties kodą) ir įdiegti į $3.
-tlsexplain Aplankalas, kur TLS modulis yra nustatytas. Jeigu aMSN negali rasti jo, prašau nurodyti.\n(Reikalaujama SSL autentifikacijai).
+tlsexplain Aplankalas, kur TLS modulis yra nustatytas. Jeigu aMSN negali rasti jo, prašau nurodyti.\n(Reikalinga SSL autentifikacija).
 tlsinstallexp aMSN jau naudoja MSNP9, kuris reikalauja naudoti saugų \nprisijungimą naudojant SSL. Naudojant SSL, aMSN'ui reikia įdiegti TLS modulį,\nkurio nėra jūsų sistemoje. Šis vedlys padės jums atsisiųsti ir\nįdiegti TLS. Pasirinkite jūsų sistemos tipą, tuo būdu mes galėsime automatiškai atsiųsti\nreikalingas TLS rinkmenas.
 tlsinstall TLS modulio įdiegimo vedlys
 tlsinstcompleted TLS modulio įdiegimas sėkmingas - jūs jau galėsite naudotis MSNP9. Jeigu jis neveikia, tada jūs tikriausiai nepasirinkote tinkamą modulį arba sukompiliuotas modulis nepriimtinas jūsų sistemai.
@@ -986,16 +986,16 @@ videoconversationrequest Jūs tik priėmėte prašymą video pokalbiui (dvikrypt
 viewcontactsby Rodyti kontaktus pagal
 viewprofile Rodyti profilį
 view Rodyti
-viewspace Rodyti tuščių vietų temas
+viewspace Rodyti nuotraukas
 volume Garsas
 wanttosharecam Aš noriu padaryti savo kamerą prieinama kitiems
 web Tinklas
 webcamcanceled Vaizdo sesija su $1 nutraukta
 webcamclosebefcancel Jūs turite nutraukti visas kamerų sesijas prieš uždarydami langą
 webcamconfigure Nustatyti kamerą
-webcamconfiguredLinux Jūs pasirinkote šiuos kameros nustatymus:\nKameros prietaisas: $1\nKameros kanalas: $2
-webcamconfiguredWin Jūsų pasirinktas vaizdo prietaisas: $1
-webcamconfiguredMac Jūsų vaizdo nustatymai nustatyti
+webcamconfiguredLinux Jūs pasirinkote šiuos kameros nustatymus:\nKamera: $1\nKameros kanalas: $2
+webcamconfiguredWin Jūsų pasirinktas vaizdo įrenginys: $1
+webcamconfiguredMac Jūsų vaizdas nustatytas
 webcamextchecking Tikrinama, ar įkeltas kameros plėtinys...
 webcamextloaded Webcamsn plėtinys įkeltas
 webcamextnotloaded Webcamsn plėtinys neįkeltas. Jūs turite sukompiliuoti jį.
