@@ -1,3 +1,4 @@
+amsn_lang_version 2
 abort Annulla
 aboutamsn Informazioni su Alvaro's Messenger
 about Informazioni
@@ -39,7 +40,6 @@ allowseen Permetti a questa persona di vedermi e di contattarmi quando sono conn
 allow_sms Permetti agli utenti di contattarmi sul tel. mobile specificato
 allprofilesinuse Tutti i profili esistenti sono attualmente in uso
 always Sempre
-amsn_lang_version 2
 animatedemoticon Questa emoticon è animata
 animatedsmileys Abilita emoticon animate
 animatenotify Finestra di notifica animata
