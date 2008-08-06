@@ -47,7 +47,7 @@
 	An other way to install aMSN if everything else fails, is to install the <a href="#tarball">source tarball</a>.
 	</p>
 	<div style="float:left;margin:1em;text-align:center;">
-		<a href="http://packages.debian.org/cgi-bin/search_packages.pl?keywords=amsn&amp;searchon=names&amp;version=all&amp;release=all&amp;exact=1">
+		<a href="http://packages.debian.org/search?keywords=amsn&searchon=names&suite=all&section=all">
 		<img src="images/download-debian-big.png" class="distr" alt="Debian"/><br />Debian</a>
 	</div>
 	<div style="float:left;margin:1em;text-align:center;">
