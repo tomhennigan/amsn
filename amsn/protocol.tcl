@@ -5922,7 +5922,7 @@ proc cmsn_change_state {recv} {
 			if { (([::config::getKey notifyonline] == 1 && 
 			       [::abook::getContactData $user notifyonline -1] != 0) ||
 			      [::abook::getContactData $user notifyonline -1] == 1) &&
-			     ([::config::getKey no_blocked_notif 0] == 0 || ![::MSN::userIsBlocked $email]) } {
+			     ([::config::getKey no_blocked_notif 0] == 0 || ![::MSN::userIsBlocked $user]) } {
 
 				set msg $short_name
 				lappend msg [list "newline"]
