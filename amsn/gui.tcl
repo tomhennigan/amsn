@@ -4451,7 +4451,7 @@ proc create_main_menu {wmenu} {
 	#add contact
 	$conts add command -label "[trans addacontact]..." -command cmsn_draw_addcontact -state disabled
 	#remove contact
-	$conts add command -label "[trans delete]..." -command [list ::amsn::ShowUserList [trans delete] ::amsn::deleteUser] -state disabled
+	$conts add command -label "[trans delete]..." -command [list ::amsn::ShowUserList [trans delete] ::amsn::deleteUser 1] -state disabled
 	#contact properties
 	$conts add command -label "[trans properties]..." -command [list ::amsn::ShowUserList [trans properties] ::abookGui::showUserProperties] -state disabled
 	#-------------------
