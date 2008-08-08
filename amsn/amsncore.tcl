@@ -581,3 +581,7 @@ namespace eval ::Version {
 }
 
 ::Version::setSubversionId {$Id$}
+
+
+#Try to use async resolve if available
+catch { package require asyncresolver }
