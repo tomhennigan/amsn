@@ -345,7 +345,6 @@ proc buttons2labels { } {
 			if { [info exists options(-overrelief)] } { unset options(-overrelief) }
 			set ret [eval label [list $pathName] [array get options]]
 			if { [info exists command] } {
-				puts $command
 				bind $pathName <<Button1>> "$command"
 			}
 		} else {
