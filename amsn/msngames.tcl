@@ -967,7 +967,7 @@ namespace eval ::MSNGamesGUI {
 				-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 
@@ -989,7 +989,7 @@ namespace eval ::MSNGamesGUI {
 				-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 
@@ -1018,7 +1018,7 @@ namespace eval ::MSNGamesGUI {
 				-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelgame$sid <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 
@@ -1079,14 +1079,14 @@ namespace eval ::MSNGamesGUI {
 				-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <<Button1>> ""
 
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure rejectgame$sid \
 				-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 
@@ -1108,14 +1108,14 @@ namespace eval ::MSNGamesGUI {
 				-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptgame$sid <<Button1>> ""
 
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure rejectgame$sid \
 				-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind rejectgame$sid <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 

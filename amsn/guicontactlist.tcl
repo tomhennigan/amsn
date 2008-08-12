@@ -1634,7 +1634,7 @@ namespace eval ::guiContactList {
 
 			# Binding for right click		 
 			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog \"$email\"; break;"
-			$canvas bind alarm_$email <Button1-ButtonRelease> "switch_alarm \"$email\"; \
+			$canvas bind alarm_$email <<Button1>> "switch_alarm \"$email\"; \
 				::guiContactList::switch_alarm \"$email\" \"$canvas\" \"alarm_$email\"; break"
 
 		}

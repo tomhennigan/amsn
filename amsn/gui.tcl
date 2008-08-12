@@ -255,18 +255,23 @@ if { $initialize_amsn == 1 } {
 	#On Mac OS X, there's a mistake between button2 and button3
 	if { [OnMac] } {
 		event add <<Button1>> <Button1-ButtonRelease>
+		event add <<Button1-Press>> <ButtonPress-1>
+		event add <<Button1-Motion>> <B1-Motion>
 		event add <<Button2>> <Button3-ButtonRelease>
 		event add <<Button2-Press>> <ButtonPress-3>
 		event add <<Button2-Motion>> <B3-Motion>
 		event add <<Button3>> <Control-ButtonRelease>
 		event add <<Button3>> <Button2-ButtonRelease>
 		event add <<Button3-Press>> <ButtonPress-2>
+		event add <<Button3-Motion>> <B2-Motion>
 		event add <<Escape>> <Command-w> <Command-W>
 		event add <<Paste>> <Command-v> <Command-V>
 		event add <<Copy>> <Command-c> <Command-C>
 		event add <<Cut>> <Command-x> <Command-X>
 	} else {
 		event add <<Button1>> <Button1-ButtonRelease>
+		event add <<Button1-Press>> <ButtonPress-1>
+		event add <<Button1-Motion>> <B1-Motion>
 		event add <<Button2>> <Button2-ButtonRelease>
 		event add <<Button2-Press>> <ButtonPress-2>
 		event add <<Button2-Motion>> <B2-Motion>
@@ -556,7 +561,7 @@ namespace eval ::amsn {
 
 		
 
-		bind .about.middle.url <Button1-ButtonRelease> "launch_browser $weburl"
+		bind .about.middle.url <<Button1>> "launch_browser $weburl"
 
 
 		#Bottom frame (Close button)
@@ -1070,7 +1075,7 @@ namespace eval ::amsn {
 				-foreground #808080 -font bplainf -underline false
 			[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Enter> ""
 			[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Leave> ""
-			[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <Button1-ButtonRelease> ""
+			[::ChatWindow::GetOutText ${win_name}] tag bind ftno$cookie <<Button1>> ""
 
 			[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
 		}
@@ -1261,13 +1266,13 @@ namespace eval ::amsn {
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftsaveas$cookie \
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <<Button1>> ""
 
 		DisableCancelText $cookie $chatid
 		
@@ -1327,13 +1332,13 @@ namespace eval ::amsn {
 		-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftyes$cookie <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure ftsaveas$cookie \
 		-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind ftsaveas$cookie <<Button1>> ""
 
 		DisableCancelText $cookie $chatid		
 
@@ -1695,7 +1700,7 @@ namespace eval ::amsn {
 		-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind $tag <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind $tag <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind $tag <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind $tag <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
 	}
@@ -1864,7 +1869,7 @@ namespace eval ::amsn {
 		SIPCallMessage $chatid [trans sipcalleeaccepted]
 
 		# Modify Hangup button to hangup instead of cancel call 
-		[::ChatWindow::GetOutText ${win_name}] tag bind siphangup$callid <Button1-ButtonRelease> [list ::amsn::HangupSIPCall $chatid $sip $callid]
+		[::ChatWindow::GetOutText ${win_name}] tag bind siphangup$callid <<Button1>> [list ::amsn::HangupSIPCall $chatid $sip $callid]
 		::ChatWindow::setHangupButton $chatid [list ::amsn::HangupSIPCall $chatid $sip $callid] [trans hangup]
 
 	}
@@ -2516,7 +2521,7 @@ namespace eval ::amsn {
 			    -bordercolor [::skin::getKey chat_dp_border_color] \
 			    -background [::skin::getKey chatwindowbg]
 			set pictureinner [$images.user_dp$idx getinnerframe]
-			bind $pictureinner <Button1-ButtonRelease> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
+			bind $pictureinner <<Button1>> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
 			bind $pictureinner <<Button3>> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
 #TODO: support changing cusom dp's in the drophandler
 #			::dnd bindtarget $pictureinner Files <Drop> "fileDropHandler %D setdp $user"
@@ -3684,9 +3689,9 @@ namespace eval ::amsn {
 				$textw tag bind $urlname <Leave> \
 				"$textw tag conf $urlname -underline true;\
 				$textw conf -cursor xterm"
-				$textw tag bind $urlname <Button1-ButtonRelease> \
+				$textw tag bind $urlname <<Button1>> \
 				"$textw conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
-				$textw tag bind $urlname <Button3-ButtonRelease> [list ::amsn::SelectUrl $textw $urlname]
+				$textw tag bind $urlname <<Button3>> [list ::amsn::SelectUrl $textw $urlname]
 
 				$textw rodelete $pos $endpos
 				$textw roinsert $pos "$urltext" $urlname
@@ -3764,7 +3769,7 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] tag bind $tagid <Leave> \
 		"[::ChatWindow::GetOutText ${win_name}] tag conf $tagid -underline false;\
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm"
-		[::ChatWindow::GetOutText ${win_name}] tag bind $tagid <Button1-ButtonRelease> "$command"
+		[::ChatWindow::GetOutText ${win_name}] tag bind $tagid <<Button1>> "$command"
 		[::ChatWindow::GetOutText ${win_name}] roinsert end "$txt" $tagid
 
 		if { $scrolling } { ::ChatWindow::Scroll [::ChatWindow::GetOutText ${win_name}] }
@@ -5238,7 +5243,7 @@ proc cmsn_draw_reconnect { error_msg } {
 	$clcanvas bind cancel_reconnect <Leave> \
 		"$clcanvas itemconfigure cancel_reconnect -fill [::skin::getKey loginurlfg] -font splainf;\
 		$clcanvas configure -cursor left_ptr"
-	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
+	$clcanvas bind cancel_reconnect <<Button1>> \
 		"preLogout \"::MSN::cancelReconnect\""
 
 	$clcanvas bind reconnect_now <Enter> \
@@ -5247,7 +5252,7 @@ proc cmsn_draw_reconnect { error_msg } {
 	$clcanvas bind reconnect_now <Leave> \
 		"$clcanvas itemconfigure reconnect_now -fill [::skin::getKey loginurlfg] -font splainf;\
 		$clcanvas configure -cursor left_ptr"
-	$clcanvas bind reconnect_now <Button1-ButtonRelease> {
+	$clcanvas bind reconnect_now <<Button1>> {
 		after cancel ::MSN::connect
 		::MSN::connect
 	}
@@ -5301,7 +5306,7 @@ proc cmsn_draw_signin {} {
 	$clcanvas bind cancel_reconnect <Leave> \
 		"$clcanvas itemconfigure cancel_reconnect -fill [::skin::getKey loginurlfg] -font splainf;\
 		$clcanvas configure -cursor left_ptr"
-	$clcanvas bind cancel_reconnect <Button1-ButtonRelease> \
+	$clcanvas bind cancel_reconnect <<Button1>> \
 		"preLogout \"::MSN::cancelReconnect\""
 
 	::guiContactList::centerItems $clcanvas
@@ -5611,7 +5616,7 @@ proc toggleGroup {tw name image id {padx 0} {pady 0}} {
 	$tw tag add $name $imgIdx
 	$tw tag bind $name <Enter> "$tw image configure $imgIdx -image [::skin::loadPixmap ${image}_hover]; $tw conf -cursor hand2"
 	$tw tag bind $name <Leave> "$tw image configure $imgIdx -image [::skin::loadPixmap $image]; $tw conf -cursor left_ptr"
-	$tw tag bind $name <Button1-ButtonRelease> "status_log \"$id\"; ::groups::ToggleStatus $id"
+	$tw tag bind $name <<Button1>> "status_log \"$id\"; ::groups::ToggleStatus $id"
 }
 #///////////////////////////////////////////////////////////////////////
 
@@ -5620,7 +5625,7 @@ proc clickableImage {tw name image command {padx 0} {pady 0}} {
 	set imgIdx [$tw image create end -image [::skin::loadPixmap $image] -padx $padx -pady $pady -align center]
 	$tw tag add $tw.$name $imgIdx
 
-	$tw tag bind $tw.$name <Button1-ButtonRelease> $command
+	$tw tag bind $tw.$name <<Button1>> $command
 	$tw tag bind $tw.$name <Enter> "$tw configure -cursor hand2"
 	$tw tag bind $tw.$name <Leave> "$tw configure -cursor left_ptr"
 }
@@ -5642,7 +5647,7 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 		$tw.$name bind mystatus_bg <Leave> [list $tw.$name itemconfigure mystatus_bg -image [::skin::loadPixmap mystatus_bg]]
 	}
 
-	bind $tw.$name <Button1-ButtonRelease> $command
+	bind $tw.$name <<Button1>> $command
 	# Drag and Drop setting DP
 	::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"
 
@@ -5825,7 +5830,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 					-image [::skin::loadPixmap $my_image_type] \
 					-width [image width [::skin::loadPixmap $my_image_type]] \
 					-height [image height [::skin::loadPixmap $my_image_type]]
-		bind $pgBuddyTop.bigstate <Button1-ButtonRelease> {kill_balloon; tk_popup .my_menu %X %Y}
+		bind $pgBuddyTop.bigstate <<Button1>> {kill_balloon; tk_popup .my_menu %X %Y}
 		set disppic $pgBuddyTop.bigstate
 	} else { 
 		set disppic [clickableDisplayPicture $pgBuddyTop mystatus bigstate {kill_balloon; tk_popup .my_menu %X %Y} [::skin::getKey bigstate_xpad] [::skin::getKey bigstate_ypad]]
@@ -5873,7 +5878,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 	
 		#Set up TAGS for mail notification
 		$pgBuddyTop.mail tag conf mail -fore [::skin::getKey emailfg] -underline false -font splainf
-		$pgBuddyTop.mail tag bind mail <Button1-ButtonRelease> "$pgBuddyTop.mail conf -cursor watch; ::hotmail::hotmail_login"
+		$pgBuddyTop.mail tag bind mail <<Button1>> "$pgBuddyTop.mail conf -cursor watch; ::hotmail::hotmail_login"
 		$pgBuddyTop.mail tag bind mail <Enter> "$pgBuddyTop.mail tag conf mail -under true -fore [::skin::getKey emailhover] -background [::skin::getKey emailhoverbg];$pgBuddyTop.mail conf -cursor hand2"
 		$pgBuddyTop.mail tag bind mail <Leave> "$pgBuddyTop.mail tag conf mail -under false -fore [::skin::getKey emailfg] -background [::skin::getKey topcontactlistbg];$pgBuddyTop.mail conf -cursor left_ptr"
 	
@@ -6030,13 +6035,7 @@ proc drawNick { } {
 		"[::config::getKey login]" "[trans status]: $my_state_desc"]
 	set fonts [list "sboldf" "sitalf" "splainf" "splainf"]
 
-	#Change mouse button on Mac OS X
-	if { [OnMac] } {
-		$pgBuddyTop.mystatus bind mystatus <Button2-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
-		$pgBuddyTop.mystatus bind mystatus <Control-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
-	} else {
-		$pgBuddyTop.mystatus bind mystatus <Button3-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
-	}
+	$pgBuddyTop.mystatus bind mystatus <<Button3>> "kill_balloon; tk_popup .my_menu %X %Y"
 
 	$pgBuddyTop.mystatus bind mystatus <Enter> \
 		[list ::guiContactList::underlineList $pgBuddyTop.mystatus [set underlinst(ul)] "all"]
@@ -6045,7 +6044,7 @@ proc drawNick { } {
 		+[list $pgBuddyTop.mystatus configure -cursor hand2]
 	$pgBuddyTop.mystatus bind mystatus <Leave> +[list $pgBuddyTop.mystatus configure -cursor left_ptr]
 
-	$pgBuddyTop.mystatus bind mystatus <Button1-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
+	$pgBuddyTop.mystatus bind mystatus <<Button1>> "kill_balloon; tk_popup .my_menu %X %Y"
 	$pgBuddyTop.mystatus bind mystatus <Enter> \
 		+[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
 	$pgBuddyTop.mystatus bind mystatus <Leave> "+set Bulle(first) 0; kill_balloon"
@@ -6059,7 +6058,7 @@ proc drawNick { } {
                 +[list $pgBuddyTop.mystatus configure -cursor hand2]
         $pgBuddyTop.mystatus bind mypsmmedia <Leave> +[list $pgBuddyTop.mystatus configure -cursor left_ptr]
 
-        $pgBuddyTop.mystatus bind mypsmmedia <Button1-ButtonRelease> "kill_balloon; tk_popup .my_menu %X %Y"
+        $pgBuddyTop.mystatus bind mypsmmedia <<Button1>> "kill_balloon; tk_popup .my_menu %X %Y"
         $pgBuddyTop.mystatus bind mypsmmedia <Enter> \
                 +[list balloon_enter %W %X %Y $balloon_message $pic_name $fonts complex]
         $pgBuddyTop.mystatus bind mypsmmedia <Leave> "+set Bulle(first) 0; kill_balloon"
@@ -6071,13 +6070,7 @@ proc drawNick { } {
 
 		create_places_menu .my_places_menu
 
-		#Change mouse button on Mac OS X
-		if { [OnMac] } {
-			$pgBuddyTop.mystatus bind myplaces <Button2-ButtonRelease> "kill_balloon; tk_popup .my_places_menu %X %Y"
-			$pgBuddyTop.mystatus bind myplaces <Control-ButtonRelease> "kill_balloon; tk_popup .my_places_menu %X %Y"
-		} else {
-			$pgBuddyTop.mystatus bind myplaces <Button3-ButtonRelease> "kill_balloon; tk_popup .my_places_menu %X %Y"
-		}
+		$pgBuddyTop.mystatus bind myplaces <<Button3>> "kill_balloon; tk_popup .my_places_menu %X %Y"
 
 		set ep_balloon ""
 		foreach ep [::abook::getEndPoints] {
@@ -6091,7 +6084,7 @@ proc drawNick { } {
 		    +[list $pgBuddyTop.mystatus configure -cursor hand2]
 		$pgBuddyTop.mystatus bind myplaces <Leave> +[list $pgBuddyTop.mystatus configure -cursor left_ptr]
 		
-		$pgBuddyTop.mystatus bind myplaces <Button1-ButtonRelease> "kill_balloon; tk_popup .my_places_menu %X %Y"
+		$pgBuddyTop.mystatus bind myplaces <<Button1>> "kill_balloon; tk_popup .my_places_menu %X %Y"
 		$pgBuddyTop.mystatus bind myplaces <Enter> \
 		    +[list balloon_enter %W %X %Y $ep_balloon "" $fonts simple]
 		$pgBuddyTop.mystatus bind myplaces <Leave> "+set Bulle(first) 0; kill_balloon"
@@ -6613,20 +6606,20 @@ proc cmsn_change_name {} {
 	bind $w.f.nick_entry <Return> "change_name_ok"
 	bind $w.f.psm_entry <Return> "change_name_ok"
 	bind $w.f.p4c_entry <Return> "change_name_ok"
-	bind $w.f.nick_smiley <Button1-ButtonRelease> "focus $w.f.nick_entry; ::smiley::smileyMenu %X %Y $w.f.nick_entry"
-	bind $w.f.psm_smiley <Button1-ButtonRelease> "focus $w.f.psm_entry; ::smiley::smileyMenu %X %Y $w.f.psm_entry"
-	bind $w.f.p4c_smiley <Button1-ButtonRelease> "focus $w.f.p4c_entry; ::smiley::smileyMenu %X %Y $w.f.p4c_entry"
-	bind $w.f.nick_newline  <Button1-ButtonRelease> "$w.f.nick_entry insert end \"\n\""
-	bind $w.f.psm_newline  <Button1-ButtonRelease> "$w.f.psm_entry insert end \"\n\""
-	bind $w.f.p4c_newline <Button1-ButtonRelease> "$w.f.p4c_entry insert end \"\n\""
+	bind $w.f.nick_smiley <<Button1>> "focus $w.f.nick_entry; ::smiley::smileyMenu %X %Y $w.f.nick_entry"
+	bind $w.f.psm_smiley <<Button1>> "focus $w.f.psm_entry; ::smiley::smileyMenu %X %Y $w.f.psm_entry"
+	bind $w.f.p4c_smiley <<Button1>> "focus $w.f.p4c_entry; ::smiley::smileyMenu %X %Y $w.f.p4c_entry"
+	bind $w.f.nick_newline <<Button1>> "$w.f.nick_entry insert end \"\n\""
+	bind $w.f.psm_newline <<Button1>> "$w.f.psm_entry insert end \"\n\""
+	bind $w.f.p4c_newline <<Button1>> "$w.f.p4c_entry insert end \"\n\""
 	bind $w.f.nick_entry <Tab> "focus $w.f.psm_entry; break"
 	bind $w.f.psm_entry <Tab> "focus $w.f.p4c_entry; break"
 	bind $w.f.p4c_entry <Tab> "focus $w.f.nick_entry; break"
 
 	bind $w.f.nick_entry <KeyRelease> "ChangeNameBarEdited $w nick"
 	bind $w.f.psm_entry  <KeyRelease> "ChangeNameBarEdited $w psm"
-	bind $w.f.nick_entry <Button2-ButtonRelease> "after 200 [list ::::ChangeNameBarEdited $w nick]"
-	bind $w.f.psm_entry  <Button2-ButtonRelease> "after 200 [list ::::ChangeNameBarEdited $w psm]"
+	bind $w.f.nick_entry <<Button2>> "after 200 [list ::::ChangeNameBarEdited $w nick]"
+	bind $w.f.psm_entry  <<Button2>> "after 200 [list ::::ChangeNameBarEdited $w psm]"
 
 	# Make sure the smiley selector disappears with the window 
 	bind $w <Destroy> { if {[winfo exists .smile_selector] } { wm state .smile_selector withdrawn }}

@@ -217,8 +217,8 @@ proc statusicon_proc {status} {
 			#add the icon
 			set statusicon [newti .si -tooltip offline -pixmap statustrayiconres -command "::trayicon_callback statustrayicon statustrayiconres"]
 
-			bind .si <Button1-ButtonRelease> iconify_proc
-			bind .si <Button3-ButtonRelease> "tk_popup $iconmenu %X %Y"
+			bind .si <<Button1>> iconify_proc
+			bind .si <<Button3>> "tk_popup $iconmenu %X %Y"
 		}
 	}
 

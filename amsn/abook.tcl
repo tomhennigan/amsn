@@ -1313,7 +1313,7 @@ namespace eval ::abookGui {
 		labelframe $nbIdent.fBasicInfo -relief groove -text [trans identity]
 		
 		label $nbIdent.fBasicInfo.displaypic -image [::skin::getDisplayPicture $email] -highlightthickness 2 -highlightbackground black -borderwidth 0
-		bind $nbIdent.fBasicInfo.displaypic <ButtonPress-3> \
+		bind $nbIdent.fBasicInfo.displaypic <<Button3-Press>> \
 			[list ::abookGui::dp_mypicpopup_menu %X %Y\
 			[file join $HOME displaypic cache $email [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
 		
@@ -1324,7 +1324,7 @@ namespace eval ::abookGui {
 		$nbIdent.fBasicInfo.h1 insert 0.0 $nick
 		$nbIdent.fBasicInfo.h1 configure -state disabled
 		set h1copymenu [::abook::CreateCopyMenu $nbIdent.fBasicInfo.h1]
-		bind $nbIdent.fBasicInfo.h1 <Button3-ButtonRelease> "tk_popup $h1copymenu %X %Y"
+		bind $nbIdent.fBasicInfo.h1 <<Button3>> "tk_popup $h1copymenu %X %Y"
 		
 		if { [::config::getKey protocol] >= 11 } {
 			set psm [::abook::getpsmmedia $email]
@@ -1334,7 +1334,7 @@ namespace eval ::abookGui {
 			$nbIdent.fBasicInfo.psm1 insert 0.0 $psm
 			$nbIdent.fBasicInfo.psm1 configure -state disabled
 			set psm1copymenu [::abook::CreateCopyMenu $nbIdent.fBasicInfo.psm1]
-			bind $nbIdent.fBasicInfo.psm1 <Button3-ButtonRelease> "tk_popup $psm1copymenu %X %Y"
+			bind $nbIdent.fBasicInfo.psm1 <<Button3>> "tk_popup $psm1copymenu %X %Y"
 		}
 
 		set h [expr {[string length $email]/50 +1}]
@@ -1343,7 +1343,7 @@ namespace eval ::abookGui {
 		$nbIdent.fBasicInfo.e1 insert 0.0 $email
 		$nbIdent.fBasicInfo.e1 configure -state disabled
 		set e1copymenu [::abook::CreateCopyMenu $nbIdent.fBasicInfo.e1]
-		bind $nbIdent.fBasicInfo.e1 <Button3-ButtonRelease> "tk_popup $e1copymenu %X %Y"
+		bind $nbIdent.fBasicInfo.e1 <<Button3>> "tk_popup $e1copymenu %X %Y"
 		
 		frame $nbIdent.fBasicInfo.fGroup
 		label $nbIdent.fBasicInfo.fGroup.g -text "[trans group]:" -font splainf
@@ -1613,7 +1613,7 @@ namespace eval ::abookGui {
 		# User's current display picture
 #		label $nbUserDPs.titlepic1 -text "[trans curdisplaypic]" -font bboldunderf
 #		label $nbUserDPs.displaypic -image [::skin::getDisplayPicture $email]
-#		bind $nbUserDPs.displaypic <ButtonPress-3> \
+#		bind $nbUserDPs.displaypic <<Button3-Press>> \
 			[list ::abookGui::dp_mypicpopup_menu %X %Y\
 			[file join $HOME displaypic cache $email [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
 

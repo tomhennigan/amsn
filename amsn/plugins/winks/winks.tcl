@@ -701,14 +701,14 @@ namespace eval ::winks {
 				#the winks menu for first time, the second click can launch
 				#this procedure without all winks having been created
 				catch { 
-					bind $w.c.$temp <Button1-ButtonRelease> "wm state $w withdrawn; ::MSN::ChatQueue $chatid \[list ::winks::SendWink $window_name $wink(sha1d)]"
-					bind $w.c.$temp <Button2-ButtonRelease> "::winks::PlayWink \"$wink(swf)\""
-					bind $w.c.$temp <Button3-ButtonRelease> "wm state $w withdrawn; ::winks::EditWinkDialog $chatid \"$wink(sha1d)\""
+					bind $w.c.$temp <<Button1>> "wm state $w withdrawn; ::MSN::ChatQueue $chatid \[list ::winks::SendWink $window_name $wink(sha1d)]"
+					bind $w.c.$temp <<Button2>> "::winks::PlayWink \"$wink(swf)\""
+					bind $w.c.$temp <<Button3>> "wm state $w withdrawn; ::winks::EditWinkDialog $chatid \"$wink(sha1d)\""
 				}
 				incr temp
 			}
 		}
-		bind $w.c.new_but <Button1-ButtonRelease> "wm state $w withdrawn; ::winks::AddWinkFromMCO $window_name"
+		bind $w.c.new_but <<Button1>> "wm state $w withdrawn; ::winks::AddWinkFromMCO $window_name"
 		moveinscreen $w 5
 		event generate $w <Enter>
 	

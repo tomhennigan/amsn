@@ -465,7 +465,7 @@ namespace eval ::smiley {
 			#this procedure without all smileys having been created
 			catch { 
 				#TODO: Improve this now we know about quoting a bit more?
-				bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn; event generate $text <KeyRelease>} res" 
+				bind $w.c.$temp <<Button1>> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn; event generate $text <KeyRelease>} res" 
 			}
 			
 			incr temp
@@ -483,16 +483,10 @@ namespace eval ::smiley {
 			catch { 
 				if { $emotion(reachable) == 1 } {
 					#TODO: Improve this now we know about quoting a bit more?
-					bind $w.c.$temp <Button1-ButtonRelease> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn; event generate $text <KeyRelease>} res" 
+					bind $w.c.$temp <<Button1>> "catch {[list $text insert insert $symbol]\; wm state $w withdrawn; event generate $text <KeyRelease>} res" 
 				}
 				#Add binding for custom emoticons
-				if { [OnMac] } {
-					
-					bind $w.c.$temp <Button2-ButtonRelease> [list ::smiley::editCustomEmotion $name]
-					bind $w.c.$temp <Control-ButtonRelease> [list ::smiley::editCustomEmotion $name]
-				} else {
-					bind $w.c.$temp <Button3-ButtonRelease> [list ::smiley::editCustomEmotion $name]
-				}
+				bind $w.c.$temp <<Button3>> [list ::smiley::editCustomEmotion $name]
 			}
 			
 			incr temp
@@ -775,7 +769,7 @@ namespace eval ::smiley {
 		label $w.c.custom_new -text "[trans custom_new]"  -background [$w.c cget -background] -font sboldf
 		bind $w.c.custom_new <Enter> [list $w.c.custom_new configure -relief raised]
 		bind $w.c.custom_new <Leave> [list $w.c.custom_new configure -relief flat]
-		bind $w.c.custom_new <Button1-ButtonRelease> "::smiley::newCustomEmoticonGUI; wm state $w withdrawn"
+		bind $w.c.custom_new <<Button1>> "::smiley::newCustomEmoticonGUI; wm state $w withdrawn"
 		
 		set ypos [expr {(($rows-1)*$smih + ($smih/2))}]
 		$w.c create window  0 $ypos -window $w.c.custom_new -width [expr {$x_geo - 2}] -height $smih -anchor w

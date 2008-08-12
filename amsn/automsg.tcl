@@ -430,7 +430,7 @@ proc EditNewState { mode { idx "" } } {
 	set state_blind 0
 
 	set msgcopypastemenu [CreateCopyPasteMenu $lfname.emsg]
-	bind $lfname.emsg <Button3-ButtonRelease> "tk_popup $msgcopypastemenu %X %Y"
+	bind $lfname.emsg <<Button3>> "tk_popup $msgcopypastemenu %X %Y"
 	pack .editstate.1 -expand false -fill x -side top -pady 15
 	pack .editstate.lfname -expand 1 -fill both -side top
 	grid $lfname.ldesc -row 1 -column 1 -sticky w -pady 5 -padx 5

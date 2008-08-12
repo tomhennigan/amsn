@@ -1990,7 +1990,7 @@ namespace eval ::ChatWindow {
 
 		# Do not bind copy command on button 1 on Mac OS X 
 		if { ![OnMac] } {
-			bind $textinner <Button1-ButtonRelease> "copy 0 $w"
+			bind $textinner <<Button1>> "copy 0 $w"
 		}
 
 		# When someone type something in out.text, regive the focus to in.input and insert that key,
@@ -2388,8 +2388,8 @@ namespace eval ::ChatWindow {
 		pack $fontsel $smileys $voice -side left -padx 0 -pady 0
 		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
 
-		bind $voice    <ButtonPress-1> "::ChatWindow::start_voice_clip $w"
-		bind $voice    <Button1-ButtonRelease> "::ChatWindow::stop_and_send_voice_clip $w"
+		bind $voice    <<Button1-Press>> "::ChatWindow::start_voice_clip $w"
+		bind $voice    <<Button1>> "::ChatWindow::stop_and_send_voice_clip $w"
 
 		# Create our bindings
 		bind $smileys <Enter> "$smileys configure -image [::skin::loadPixmap butsmile_hover]"
@@ -2868,11 +2868,11 @@ namespace eval ::ChatWindow {
 		# Create our bindings
 		bind $showpic <<Button1>> "::amsn::ToggleShowPicture"
 		if { [::config::getKey old_dpframe 0] == 0 } {
-			bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowPicMenu $w %X %Y\n"
+			bind $pictureinner <<Button1>> "::amsn::ShowPicMenu $w %X %Y\n"
 			bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
 			::dnd bindtarget $pictureinner Files <Drop> "fileDropHandler %D setdp self"
 		} else {
-			bind $pictureinner <Button1-ButtonRelease> "::amsn::ShowOldPicMenu $w %X %Y\n"
+			bind $pictureinner <<Button1>> "::amsn::ShowOldPicMenu $w %X %Y\n"
 			bind $pictureinner <<Button3>> "::amsn::ShowOldPicMenu $w %X %Y\n"
 		}
 

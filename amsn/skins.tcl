@@ -1055,7 +1055,7 @@ namespace eval ::skinsGUI {
 	
 		::skinsGUI::DoPreview 1
 		bind $w <Destroy> "grab release $w"
-		bind $w.main.right.box <Button1-ButtonRelease> "::skinsGUI::DoPreview"
+		bind $w.main.right.box <<Button1>> "::skinsGUI::DoPreview"
 
 		moveinscreen $w 30
 	}

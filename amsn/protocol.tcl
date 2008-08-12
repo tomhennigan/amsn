@@ -8543,14 +8543,14 @@ namespace eval ::MSNAV {
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind avyes$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind avyes$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind avyes$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind avyes$cookie <<Button1>> ""
 
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure avno$cookie \
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind avno$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind avno$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind avno$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind avno$cookie <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 
@@ -8627,14 +8627,14 @@ namespace eval ::MSNAV {
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind avyes$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind avyes$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind avyes$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind avyes$cookie <<Button1>> ""
 
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure avno$cookie \
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind avno$cookie <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind avno$cookie <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind avno$cookie <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind avno$cookie <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 

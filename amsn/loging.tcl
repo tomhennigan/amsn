@@ -682,9 +682,9 @@ namespace eval ::log {
 
 		#not using -command to avoid constantly changing while user is dragging it around
 		#interp alias {} imgseek {} ::CAMGUI::Seek $wname [file join ${webcam_dir} ${email}.cam]
-		bind $wname.position.slider <ButtonPress-1> "::CAMGUI::Pause $wname"
-		#bind $wname.position.slider <Button1-ButtonRelease> {imgseek [%W get]}
-		bind $wname.position.slider <ButtonRelease-1> [list ::CAMGUI::Resume $wname [file join ${webcam_dir} ${email}.cam]]
+		bind $wname.position.slider <<Button1-Press>> "::CAMGUI::Pause $wname"
+		#bind $wname.position.slider <<Button1>> {imgseek [%W get]}
+		bind $wname.position.slider <<Button1>> [list ::CAMGUI::Resume $wname [file join ${webcam_dir} ${email}.cam]]
 
 		
 		pack $wname.top -side top -fill x

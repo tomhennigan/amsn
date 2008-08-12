@@ -2549,8 +2549,8 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.status $lfname.allowframe -side bottom -anchor w -fill x
 	pack $lfname.allowlist $lfname.buttons $lfname.blocklist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
 
-	bind $lfname.allowlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"allow\" %X %Y"
-	bind $lfname.blocklist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"block\" %X %Y"
+	bind $lfname.allowlist.box <<Button3>> "create_users_list_popup $lfname \"allow\" %X %Y"
+	bind $lfname.blocklist.box <<Button3>> "create_users_list_popup $lfname \"block\" %X %Y"
 
 
 	# Contact/Reverse lists
@@ -2608,8 +2608,8 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.status -side bottom  -anchor w  -fill x
 	pack $lfname.contactlist $lfname.buttons $lfname.reverselist -anchor w -side left -padx 10 -pady 10 -expand 1 -fill both
 
-	bind $lfname.contactlist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"contact\" %X %Y"
-	bind $lfname.reverselist.box <Button3-ButtonRelease> "create_users_list_popup $lfname \"reverse\" %X %Y"
+	bind $lfname.contactlist.box <<Button3>> "create_users_list_popup $lfname \"contact\" %X %Y"
+	bind $lfname.reverselist.box <<Button3>> "create_users_list_popup $lfname \"reverse\" %X %Y"
 	
   
 	::Event::registerEvent contactRemoved protocol [list Fill_users_list_event $frm.lfname $frm.lfname2]

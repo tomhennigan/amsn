@@ -139,7 +139,7 @@ namespace eval ::MSNCAM {
 		if { [winfo exists $window] } {
 			wm protocol $window WM_DELETE_WINDOW "destroy $window"
 			#$window.q configure -command "destroy $window"
-			#$window.canvas bind stopbut <Button1-ButtonRelease> [list destroy $window]
+			#$window.canvas bind stopbut <<Button1>> [list destroy $window]
 			$window.canvas delete stopbut
 
 			if { [getObjOption $sid producer] } {
@@ -1791,7 +1791,7 @@ namespace eval ::CAMGUI {
 			#pack $window.paused -expand true -fill x
 			$canv create image 318 0 -anchor ne -image [::skin::loadPixmap pause] -state hidden -tags paused
 			$canv create image 318 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut
-			$canv bind stopbut <Button1-ButtonRelease> [list ::MSNCAM::CancelCam $chatid $sid]
+			$canv bind stopbut <<Button1>> [list ::MSNCAM::CancelCam $chatid $sid]
 			$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 			$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
 			$canv bind stopbut <Motion> [list balloon_motion %W %X %Y [trans stopwebcamreceive]]
@@ -1988,17 +1988,17 @@ namespace eval ::CAMGUI {
 				set confbut [$canv create image 318 240 -anchor se -image [::skin::loadPixmap confbut] -activeimage [::skin::loadPixmap confbuth] -tags confbut]
 				set stopbut [$canv create image 290 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
 				set pausebut [$canv create image 262 240 -anchor se -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
-				$canv bind stopbut <Button1-ButtonRelease> [list ::MSNCAM::CancelCam $chatid $sid]
+				$canv bind stopbut <<Button1>> [list ::MSNCAM::CancelCam $chatid $sid]
 				$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 				$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
 				$canv bind stopbut <Motion> [list balloon_motion %W %X %Y [trans stopwebcamreceive]]
 
-				$canv bind pausebut <Button1-ButtonRelease> [list ::MSNCAM::PausePlayCam $window $socket]
+				$canv bind pausebut <<Button1>> [list ::MSNCAM::PausePlayCam $window $socket]
 				$canv bind pausebut <Enter> [list balloon_enter %W %X %Y [trans pausewebcamsend]]
 				$canv bind pausebut <Leave> "set Bulle(first) 0; kill_balloon"
 				$canv bind pausebut <Motion> [list balloon_motion %W %X %Y [trans pausewebcamsend]]
 
-				$canv bind confbut <Button1-ButtonRelease> [list ::CAMGUI::ShowPropertiesPage $grabber $img]
+				$canv bind confbut <<Button1>> [list ::CAMGUI::ShowPropertiesPage $grabber $img]
 				$canv bind confbut <Enter> [list balloon_enter %W %X %Y [trans changevideosettings]]
 				$canv bind confbut <Leave> "set Bulle(first) 0; kill_balloon"
 				$canv bind confbut <Motion> [list balloon_motion %W %X %Y [trans changevideosettings]]
@@ -2359,7 +2359,7 @@ namespace eval ::CAMGUI {
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind askwebcam$chatid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind askwebcam$chatid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind askwebcam$chatid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind askwebcam$chatid <<Button1>> ""
 		
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 		
@@ -2380,7 +2380,7 @@ namespace eval ::CAMGUI {
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind sendwebcam$chatid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind sendwebcam$chatid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind sendwebcam$chatid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind sendwebcam$chatid <<Button1>> ""
 		
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 		#Send the invitation to send webcam
@@ -2399,14 +2399,14 @@ namespace eval ::CAMGUI {
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <<Button1>> ""
 
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure nowebcam$sid \
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 		
@@ -2429,14 +2429,14 @@ namespace eval ::CAMGUI {
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <<Button1>> ""
 
 
 		[::ChatWindow::GetOutText ${win_name}] tag configure nowebcam$sid \
 			-foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <<Button1>> ""
 
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 		
@@ -2460,7 +2460,7 @@ namespace eval ::CAMGUI {
 		    -foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <<Button1>> ""
 
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
@@ -2484,21 +2484,21 @@ namespace eval ::CAMGUI {
 		    -foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind cancelwebcam$sid <<Button1>> ""
 
 		# Disabling Accept Button
 		[::ChatWindow::GetOutText ${win_name}] tag configure acceptwebcam$sid \
 		    -foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind acceptwebcam$sid <<Button1>> ""
 
 		# Disabling Decline Button
 		[::ChatWindow::GetOutText ${win_name}] tag configure nowebcam$sid \
 		    -foreground #808080 -font bplainf -underline false
 		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Enter> ""
 		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Leave> ""
-		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <Button1-ButtonRelease> ""
+		[::ChatWindow::GetOutText ${win_name}] tag bind nowebcam$sid <<Button1>> ""
 
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
@@ -2767,8 +2767,8 @@ namespace eval ::CAMGUI {
 
 		pack $lists $status $preview $settings $buttons -side top
 
-		bind $devs.list <Button1-ButtonRelease> [list ::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices]
-		bind $chans.list <Button1-ButtonRelease> [list ::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $devices $preview $settings]
+		bind $devs.list <<Button1>> [list ::CAMGUI::FillChannelsLinux $devs.list $chans.list $status $devices]
+		bind $chans.list <<Button1>> [list ::CAMGUI::StartPreviewLinux $devs.list $chans.list $status $devices $preview $settings]
 
 		foreach device $devices {
 			set dev [lindex $device 0]
@@ -3167,7 +3167,7 @@ namespace eval ::CAMGUI {
 		pack $lists -side top -expand true -fill both
 		pack $status $preview $settings $buttons -side top
 
-		bind $devs.list <Button1-ButtonRelease> "::CAMGUI::StartPreviewWindows $devs.list $status $preview $settings"
+		bind $devs.list <<Button1>> "::CAMGUI::StartPreviewWindows $devs.list $status $preview $settings"
 
 		foreach device $devices {
 
