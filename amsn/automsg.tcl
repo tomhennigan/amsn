@@ -100,6 +100,10 @@ proc StateList { action { argument "" } {argument2 ""} } {
 
 		promote {
 			set temp $StatesList($argument)
+			#We check if it's a temporary state
+			if { [lindex $temp end] } {
+				return
+			}
 			for {set idx $argument} {$idx > 0} {incr idx -1} {
 				set StatesList($idx) $StatesList([expr {$idx - 1}])
 			}
@@ -288,7 +292,6 @@ proc ChCustomState { idx } {
 				set newname [string map { "\\\$nick" "\${original_nick}" } $newname]
 				set newname [subst -nocommands $newname]
 				::MSN::changeName $newname 0
-				StateList promote $idx
 			}
 			if { $newpsm != "" } {
                                 catch {
@@ -305,6 +308,7 @@ proc ChCustomState { idx } {
                                 set newpsm [subst -nocommands $newpsm]
                                 ::MSN::changePSM $newpsm "" 0
                         }
+			StateList promote $idx
 		}
 	} else {
 		set automessage "-1"
@@ -561,6 +565,8 @@ proc ButtonSaveState { lfname { idx "" } } {
 	lappend gui_info [$lfname.epsm get]
 	lappend gui_info $state_mute
 	lappend gui_info $state_blind
+	#Leave this at the end of list
+	lappend gui_info [expr { $mode == 1 }]
 
 	switch $mode {
 		0 {
@@ -675,6 +681,9 @@ proc new_state {cstack cdata saved_data cattr saved_attr args} {
         } else {
                 lappend newstate "0"
         }
+	#It's not a temporary state : leave this after all settings
+	lappend newstate 0
+
 	StateList add $newstate
 	return 0
 }
