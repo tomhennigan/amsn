@@ -174,7 +174,7 @@ proc CreateStatesMenu { path { mode "complete" } } {
 #	if { [::config::getKey docking] && [winfo exists $iconmenu] && [$iconmenu index end] != 16} {
 #		$iconmenu delete 17 end
 #	}
-    
+
 	# Create new menu
 	if { [StateList size] >= 3 } {
 		set limit 3
@@ -294,20 +294,20 @@ proc ChCustomState { idx } {
 				::MSN::changeName $newname 0
 			}
 			if { $newpsm != "" } {
-                                catch {
-                                        set psmcache [open [file join ${HOME} "psm.cache"] w]
-                                        fconfigure $psmcache -encoding utf-8
-                                        puts $psmcache $original_psm
-                                        puts $psmcache $newpsm
-                                        puts $psmcache [::abook::getPersonal login]
-                                        close $psmcache
-                                }
+				catch {
+					set psmcache [open [file join ${HOME} "psm.cache"] w]
+					fconfigure $psmcache -encoding utf-8
+					puts $psmcache $original_psm
+					puts $psmcache $newpsm
+					puts $psmcache [::abook::getPersonal login]
+					close $psmcache
+				}
 
-                                set newpsm [string map { "\\" "\\\\" "\$" "\\\$" } $newpsm]
-                                set newpsm [string map { "\\\$psm" "\${original_psm}" } $newpsm]
-                                set newpsm [subst -nocommands $newpsm]
-                                ::MSN::changePSM $newpsm "" 0
-                        }
+				set newpsm [string map { "\\" "\\\\" "\$" "\\\$" } $newpsm]
+				set newpsm [string map { "\\\$psm" "\${original_psm}" } $newpsm]
+				set newpsm [subst -nocommands $newpsm]
+				::MSN::changePSM $newpsm "" 0
+			}
 			StateList promote $idx
 		}
 	} else {
@@ -321,11 +321,11 @@ proc ChCustomState { idx } {
 				unset original_nick
 				catch { file delete [file join ${HOME} "nick.cache"] }
 			}
-                        if { [info exists original_psm] } {
-                                ::MSN::changePSM $original_psm "" 0
-                                unset original_psm
-                                catch { file delete [file join ${HOME} "psm.cache"] } 
-                        }
+			if { [info exists original_psm] } {
+				::MSN::changePSM $original_psm "" 0
+				unset original_psm
+				catch { file delete [file join ${HOME} "psm.cache"] } 
+			}
 		}
 		set new_state $idx
 	}
@@ -370,11 +370,11 @@ proc EditNewState { mode { idx "" } } {
 				return 0
 			}
 		} else {
-	    		status_log "Called EditNewState mode 2 no idx\n"
+			status_log "Called EditNewState mode 2 no idx\n"
 			return 0
 		}
 	}
-    
+
 	if {[winfo exists .editstate]} {
 		raise .editstate
 		return 0
@@ -384,7 +384,7 @@ proc EditNewState { mode { idx "" } } {
 
 	toplevel .editstate
 	#wm group .editstate .
-    
+
 	#wm geometry .editstate
 	if { $mode == 0 || $mode == 1 } {
 		wm title .editstate "[trans editnewstate]"
@@ -395,7 +395,7 @@ proc EditNewState { mode { idx "" } } {
 
 	set lfname [labelframe .editstate.lfname -text [trans stateinfo] -font splainf]
 	#pack $lfname -anchor n -side top -expand 1 -fill x
-    
+
 	frame .editstate.1 -class Degt
 	label .editstate.1.away -image [::skin::loadPixmap prefaway]
 	pack .editstate.1.away -side left -anchor nw
@@ -406,7 +406,7 @@ proc EditNewState { mode { idx "" } } {
 		label .editstate.1.laway -text [trans stateedittext] -padx 10 -justify left
 	}
 	pack .editstate.1.laway -fill both -side left
-    
+
 	label $lfname.ldesc -text "[trans statename] :" 
 	entry $lfname.edesc -font splainf -width 40
 	label $lfname.lnick -text "[trans statenick] :"
@@ -417,12 +417,12 @@ proc EditNewState { mode { idx "" } } {
 	$lfname.nickhelp.menu add separator
 	$lfname.nickhelp.menu add command -label [trans delete] -command "$lfname.enick delete 0 end"
 	label $lfname.lpsm -text "[trans statepsm] :" -font splainf
-        entry $lfname.epsm -font splainf  -width 40
-        menubutton $lfname.psmhelp -font sboldf -text "<-" -menu $lfname.psmhelp.menu
-        menu $lfname.psmhelp.menu -tearoff 0
-        $lfname.psmhelp.menu add command -label [trans psm] -command "$lfname.epsm insert insert \\\$psm"
-        $lfname.psmhelp.menu add separator
-        $lfname.psmhelp.menu add command -label [trans delete] -command "$lfname.epsm delete 0 end"
+	entry $lfname.epsm -font splainf  -width 40
+	menubutton $lfname.psmhelp -font sboldf -text "<-" -menu $lfname.psmhelp.menu
+	menu $lfname.psmhelp.menu -tearoff 0
+	$lfname.psmhelp.menu add command -label [trans psm] -command "$lfname.epsm insert insert \\\$psm"
+	$lfname.psmhelp.menu add separator
+	$lfname.psmhelp.menu add command -label [trans delete] -command "$lfname.epsm delete 0 end"
 
 	label $lfname.lstate -text "[trans state] :" -font splainf
 	combobox::combobox $lfname.statebox -editable false -highlightthickness 0 -width 37 -command ""
@@ -443,10 +443,10 @@ proc EditNewState { mode { idx "" } } {
 	grid $lfname.enick -row 2 -column 2 -sticky w -pady 5 -padx 5
 	grid $lfname.nickhelp -row 2 -column 3 -sticky w -pady 5 -padx 5
 	if { [::config::getKey protocol] >= 11 } {
-                grid $lfname.lpsm -row 3 -column 1 -sticky w -pady 5 -padx 5
-                grid $lfname.epsm -row 3 -column 2 -sticky w -pady 5 -padx 5
-                grid $lfname.psmhelp -row 3 -column 3 -sticky w -pady 5 -padx 5
-	        grid $lfname.lstate -row 4 -column 1 -sticky w -pady 5 -padx 5
+		grid $lfname.lpsm -row 3 -column 1 -sticky w -pady 5 -padx 5
+		grid $lfname.epsm -row 3 -column 2 -sticky w -pady 5 -padx 5
+		grid $lfname.psmhelp -row 3 -column 3 -sticky w -pady 5 -padx 5
+		grid $lfname.lstate -row 4 -column 1 -sticky w -pady 5 -padx 5
 		grid $lfname.statebox -row 4 -column 2 -sticky w -pady 5 -padx 5
 		grid $lfname.lmsg -row 5 -column 1 -sticky nw -pady 10 -padx 5
 		grid $lfname.emsg -row 5 -column 2 -sticky w -pady 10 -padx 5
@@ -454,11 +454,11 @@ proc EditNewState { mode { idx "" } } {
 		grid $lfname.blind -row 7  -column 2 -sticky w -pady 10 -padx 5
 	} else {
 		grid $lfname.lstate -row 3 -column 1 -sticky w -pady 5 -padx 5
-                grid $lfname.statebox -row 3 -column 2 -sticky w -pady 5 -padx 5
-                grid $lfname.lmsg -row 4 -column 1 -sticky nw -pady 10 -padx 5
-                grid $lfname.emsg -row 4 -column 2 -sticky w -pady 10 -padx 5
+		grid $lfname.statebox -row 3 -column 2 -sticky w -pady 5 -padx 5
+		grid $lfname.lmsg -row 4 -column 1 -sticky nw -pady 10 -padx 5
+		grid $lfname.emsg -row 4 -column 2 -sticky w -pady 10 -padx 5
 		grid $lfname.mute -row 5 -column 2 -sticky w -pady 10 -padx 5
-                grid $lfname.blind -row 6  -column 2 -sticky w -pady 10 -padx 5
+		grid $lfname.blind -row 6  -column 2 -sticky w -pady 10 -padx 5
 	}
 	
 	#Frame for options
@@ -476,23 +476,23 @@ proc EditNewState { mode { idx "" } } {
 	checkbutton .editstate.options.chstate -text "[trans ch_to_state]" -onvalue 1 -offvalue 0 -font sboldf
 	pack .editstate.options.chstate -anchor w -side top -padx 10 -pady 0
 	pack .editstate.options -fill both -side top
-    
+
 	# Frame for buttons
 	frame .editstate.buttons -class Degt
 	button .editstate.buttons.cancel -text [trans cancel] -command "destroy .editstate"
 
 	# Insert states in the combobox
 	eval $lfname.statebox list insert end [list [trans online] \
-					       [trans noactivity] \
-					       [trans rightback] \
-					       [trans onphone] \
-					       [trans busy] \
-					       [trans away] \
-					       [trans gonelunch]]
+						[trans noactivity] \
+						[trans rightback] \
+						[trans onphone] \
+						[trans busy] \
+						[trans away] \
+						[trans gonelunch]]
 
 	# select online in combobox by default
 	$lfname.statebox select 0
-    
+
 	# Fill all entries if editing an existing state
 	if { $mode == 2 } {
 		$lfname.edesc insert end [lindex [StateList get $idx] 0]
@@ -521,22 +521,22 @@ proc EditNewState { mode { idx "" } } {
 proc CreateCopyPasteMenu { w } {
 	set menu $w.copypaste
 
-        menu $menu -tearoff 0 -type normal
+	menu $menu -tearoff 0 -type normal
 
-        $menu add command -label [trans cut] \
-                -command "status_log cut\n;tk_textCut $w"
-        $menu add command -label [trans copy] \
-                -command "status_log copy\n;tk_textCopy $w"
-        $menu add command -label [trans paste] \
-                -command "status_log pasteHere\n;pasteHere $w"
+	$menu add command -label [trans cut] \
+		-command "status_log cut\n;tk_textCut $w"
+	$menu add command -label [trans copy] \
+		-command "status_log copy\n;tk_textCopy $w"
+	$menu add command -label [trans paste] \
+		-command "status_log pasteHere\n;pasteHere $w"
 
-        return $menu
+	return $menu
 }
 
 #///////////////////////////////////////////////////////////////////////
 proc pasteHere { w } {
-        set contents [ selection get -selection CLIPBOARD ]
-        $w insert insert $contents
+	set contents [ selection get -selection CLIPBOARD ]
+	$w insert insert $contents
 }
 
 #///////////////////////////////////////////////////////////////////////////////
@@ -586,7 +586,7 @@ proc ButtonSaveState { lfname { idx "" } } {
 				ChCustomState $idx
 			}
 		}
-	}    
+	}
 
 	# reset menus and listbox
 	CreateStatesMenu .my_menu
@@ -665,22 +665,22 @@ proc new_state {cstack cdata saved_data cattr saved_attr args} {
 	set numlines [llength [split $message "\n"]]
 	lappend newstate $numlines
 	lappend newstate $message
-        if { [info exists sdata(${cstack}:psm)] } {
-                lappend newstate "$sdata(${cstack}:psm)"
-        } else {
+	if { [info exists sdata(${cstack}:psm)] } {
+		lappend newstate "$sdata(${cstack}:psm)"
+	} else {
 		lappend newstate ""
 	}
 
-        if { [info exists sdata(${cstack}:mute)] } {
-                lappend newstate "$sdata(${cstack}:mute)"
-        } else {
-                lappend newstate "0"
-        }
-        if { [info exists sdata(${cstack}:nonotif)] } {
-                lappend newstate "$sdata(${cstack}:nonotif)"
-        } else {
-                lappend newstate "0"
-        }
+	if { [info exists sdata(${cstack}:mute)] } {
+		lappend newstate "$sdata(${cstack}:mute)"
+	} else {
+		lappend newstate "0"
+	}
+	if { [info exists sdata(${cstack}:nonotif)] } {
+		lappend newstate "$sdata(${cstack}:nonotif)"
+	} else {
+		lappend newstate "0"
+	}
 	#It's not a temporary state : leave this after all settings
 	lappend newstate 0
 
