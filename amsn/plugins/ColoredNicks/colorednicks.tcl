@@ -11,6 +11,7 @@ namespace eval ::colorednicks {
 proc init { dir } {
 	::plugins::RegisterPlugin "ColoredNicks"
 	::plugins::RegisterEvent "ColoredNicks" parse_contact parsed_nick2
+	::plugins::RegisterEvent "ColoredNicks" PluginConfigured CheckSettings
 	status_log "ColoredNicks loaded"
 
 	set langdir [file join $dir "lang"]
@@ -20,13 +21,33 @@ proc init { dir } {
 	array set ::colorednicks::config {
 		nostyle 0
 		nobg 0
+		nocw 0
 	}
 
 	set ::colorednicks::configlist [list \
 		[list bool "[trans nostyle]" nostyle] \
 		[list bool "[trans nobg]" nobg] \
+		[list bool "[trans nocw]" nocw] \
 	]
+	
+	if {$::colorednicks::config(nocw)} {
+		::config::setKey colored_text_in_cw 0
+	} else {
+		::config::setKey colored_text_in_cw 1
+	}
 }
+
+proc CheckSettings {event epvar} {
+	upvar 2 name name
+	if {$name eq "ColoredNicks"} {
+		if {$::colorednicks::config(nocw)} {
+			::config::setKey colored_text_in_cw 0
+		} else {
+			::config::setKey colored_text_in_cw 1
+		}
+	}
+}
+
 
 proc parsed_nick2 {event epvar} {
 	upvar 2 $epvar evpar
@@ -1580,6 +1601,7 @@ proc findnum {{opt 0}} {
 
 
 proc deinit {} {
+	::config::setKey colored_text_in_cw 0
 }
 
 }

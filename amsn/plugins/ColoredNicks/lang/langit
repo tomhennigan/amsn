@@ -1,4 +1,5 @@
 amsn_lang_version 2
-nobg Rimuovi lo sfondo (bisogna disconnettersi)
-nostyle Rimuovi gli stili e i colori dai nick e dai messaggi personali (bisogna disconnettersi)
+nobg Rimuovi lo sfondo (bisogna disconnettersi).
+nocw Rimuovi gli stili e i colori dal testo delle finestre di chat.
+nostyle Rimuovi gli stili e i colori dai nick e dai messaggi personali (bisogna disconnettersi).
 

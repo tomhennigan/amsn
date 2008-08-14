@@ -303,6 +303,7 @@ namespace eval ::config {
 
                 ::config::setKey no_oim_confirmation 0                          ;# Ask or not confirmation to send/read oim messages
 		::config::setKey sound_on_first_message 0			;# Play sound only on the first message received in a chat window
+		::config::setKey colored_text_in_cw 0				;# Show colored and styled text in chatwindows, the value can be changed by ColoredNicks Plugin
 
 
 		::config::setKey epname "aMSN"					;# Endpoint Name.. MSNP16+ name of your current location

@@ -3352,7 +3352,72 @@ namespace eval ::amsn {
  			unset emotions 
  		}
 
-		WinWrite $chatid "\n$customchat" "says" $customfont
+		if {[::config::getKey colored_text_in_cw] == 1} {
+			if {$p4c} {
+				set original_nick [list ]
+				lappend original_nick [list text "$nick"]
+				
+				set evpar(variable) original_nick
+				set evpar(login) $user
+				::plugins::PostEvent parse_contact evpar
+				
+			} elseif {[::abook::getPersonal login] ne $user} {
+				set original_nick [::abook::getNick $user 1]
+			} else {
+				set original_nick [::abook::getVolatileData myself parsed_mfn]
+			}
+		
+			if {[::config::getKey chatstyle] eq "msn"} {
+				set pos "[trans says __@__]"
+				if {[string first "__@__" $pos] == 0} {
+					set parsing $original_nick
+					set parsing [linsert $parsing 0 [list text "\n$tstamp "]]
+					lappend parsing [list text " [trans says]:\n"]
+				} else {
+					set parsing $original_nick
+					set parsing [linsert $parsing 0 [list text "\n$tstamp [trans says] "]]
+					lappend parsing [list text " :\n"]
+				}
+			} elseif {[::config::getKey chatstyle] eq "irc"} {
+				set parsing $original_nick
+				set parsing [linsert $parsing 0 [list text "\n$tstamp <"]]
+				lappend parsing [list text ">"]
+			} elseif {[::config::getKey chatstyle] eq "custom"} {
+				set customchatstyle__ [::config::getKey customchatstyle]
+				
+				set style [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" " " " \\__fr33s@p4ce-_ "} $customchatstyle__]
+				set parsing [list]
+				lappend parsing [list text "\n"]
+				
+				foreach x $style {
+					if {$x eq "\$nick"} {
+						set parsing [concat $parsing $original_nick]
+					} elseif { $x eq "\$tstamp"}  {
+						lappend parsing [list text $tstamp]
+					} elseif {$x eq "\$newline"} {
+						lappend parsing [list text "\n"]
+					} elseif {$x eq "\__fr33s@p4ce-_"} {
+						lappend parsing [list text " "]
+					} else {
+						lappend parsing [list text "$x"]
+					}
+				}
+			}
+
+			set customfont_original $customfont
+			    #customchat e' timestamp Giuseppe says:\n
+			    #customfont {Nimbus Sans L} {bold italic} 000000
+
+			foreach unit $parsing {
+				switch [lindex $unit 0] {
+					"text"   { WinWrite $chatid "[lindex $unit 1]" "says" $customfont }
+					"smiley" { WinWrite $chatid "[lindex $unit 2]" "says" $customfont }
+					"colour" { set customfont [lreplace $customfont end end [string range [lindex $unit 1] 1 end]] }
+				}
+			  }
+	      } else {
+		    WinWrite $chatid "\n$customchat" "says" $customfont
+	      }
 
 	 	if { [info exists emoticons_for_this_chatid] } {
  			array set emotions $emoticons_for_this_chatid
@@ -3571,7 +3636,7 @@ namespace eval ::amsn {
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
 		}
-
+		
 		#Avoid problems if the windows was closed
 		if {![winfo exists $win_name]} {
 			return
