@@ -658,7 +658,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   if (src == NULL)
     src = gst_element_factory_make ("osxaudiosrc", NULL);
   if (src == NULL)
-    src = gst_element_factory_make ("gconfuadiosrc", NULL);
+    src = gst_element_factory_make ("gconfaudiosrc", NULL);
   if (src == NULL)
     src = gst_element_factory_make ("alsasrc", NULL);
   if (src == NULL)
