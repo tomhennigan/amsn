@@ -1,7 +1,7 @@
 amsn_lang_version 2
-abort Nutraukti
+abort Atšaukti
 about Apie
-aboutamsn Apie Alvaro's Messenger
+aboutamsn Apie Alvaro Messenger
 accept Patvirtinti
 acceptfile Ar jūs norite priimti šią rinkmeną $1 (dydis $2 baitai)? Jis bus išsaugotas į $3
 account Abonentas
@@ -34,7 +34,7 @@ allfiles Visos rinkmenos
 allmonths Visi mėnesiai
 allowallbutbl Leisti visiems vartotojams pasiekti mane, išskyrus tuos, kuriuos aš užblokavau
 allowbadwords Uždrausti cenžūrą pseudonimuose
-allowlist Priimtų vartotojų sąrašas:
+allowlist Priimtų vartotojų sąrašas (AL):
 allowonlyinal Tik vartotojai, kuriuos aš priėmiau, gali susisiekti su manim
 allowseen Leisti šiam asmeniui matyti, kada aš esu prisijungęs bei pasiekti mane
 allow_sms Leisti vartotojams pasiekti mane per mano MSN mobilųjį įrenginį
@@ -117,7 +117,7 @@ bytesymbol b
 cachedpics $1 paslėptos nuotraukos
 cachedpicsfor Paslėptos rodomos nuotraukos vartotojo
 cagreement Patikima Sutartis
-cancel Atšaukti
+cancel Nutraukti
 cancelled Nutrauktas
 cannotdeleteprofile Negali ištrinti profilio, nes, matyt, yra naudojamas aMSN sesijoje
 cantexec Negali vykdyti programos: $1. Patikrinkite nustatymus
@@ -156,7 +156,7 @@ checkemail Rodyti pašto pranešimų liniją (Gauti Laiškai) kontaktų sąraše
 checkfilman Priimtos rinkmenos bus išsaugotos į $1. Patikrinti rinkmenų vedlio nustatymus.
 checkingaudio Tikrinama ar yra užkrautas garso plėtinys (Snack)...
 checkingcam Tikrinama, ar prijungta kamera...
-checkingcapext Tikrinama, ar yra užkrautas plėtinys '$1'...
+checkingcapext Tikrinama, ar yra įkeltas plėtinys '$1'...
 checkingextensions Tikrinamas reikalingas vaizdo plėtinys
 chooseinputdev Pasirinkite mikrofoną
 chooselocation Pasirinkite naują rinkmenos vietą
@@ -177,16 +177,16 @@ chooseskin Pasirinkite apvalkalą, kurį norėsite naudoti
 ch_to_state Persijungti į naują būseną
 clear Išvalyti
 clearlog2 Išvalyti istoriją iš visų jūsų kontaktų
-clearlog3 Išvalyti visus registrus
-clearlog Išvalyti registrą
-clearwebcamlogs Išvalyti kameros registrą
+clearlog3 Išvalyti visus įrašus
+clearlog Išvalyti įrašą
+clearwebcamlogs Išvalyti kameros įrašus
 clickhere Spausk čia
 clicktoadd Skauskite 'Pridėti' mygtuką, kad pridėtumėte naują pastabą
 clicktologin Spauskite čia, kad prisijungtumėte
 clientcaps Siųsti x-clientcaps paketą kitiems klientams
 clientname Kliento vardas
-closeall Uždaryti visas etiketes šiame lange?
-closealltabs Uždaryti visas etiketes
+closeall Uždaryti visas korteles šiame lange?
+closealltabs Uždaryti visas korteles
 close Uždaryti
 closechatwindows Uždaryti visus pokalbius prieš atsijungiant?
 closed Pokalbis su $1 uždarytas dėl neaktyvumo
@@ -194,7 +194,7 @@ closelabel Kai jūs paspausite uždarymo mygtuką skirsniuotame pokalbių lange
 closeonly Uždaryti tik esamą skyrelį
 closeorcall Jūs turite uždaryti/nutraukti garsinius skambučius prieš uždarydami langą.
 closeordock Uždarydami kontaktų sąrašo langą, išeisite iš aMSN. Galbūt norėsite tik uždaryti langą ir turėti aMSN veikianti skydelyje.\n\nAr tikrai norite išeiti iš aMSN?
-closeothers Uždaryti visas kitas etiketes
+closeothers Uždaryti visas kitas korteles
 closingdocks Uždarymo mygtuko mažinimas
 color Spalva
 command Komanda
@@ -224,7 +224,7 @@ connectionlost Atsijungta: Prarastas susijungimas su tarnybine stotimi
 contactadded Kontaktas pridėtas
 contact Kontaktas
 contactdoesnotexist Kontaktas neegzistuoja!
-contactlist Kontaktų sąrašas:
+contactlist Kontaktų sąrašas (FL):
 contacts Kontaktai
 continuously Tęstinai
 contrast Kontrastas
@@ -251,8 +251,8 @@ custnotifyonline Rodyti pranešimų langą, kai šis kontaktas prisijungė
 custnotifystatus Rodyti pranešimų langą, kai šis kontakatas pakeitė būseną
 customcolor Kita spalva
 customdp Kita rodoma nuotrauka
-custom_edit Koreguoti veidelius
-custom_new Pridėti naujus veidelius
+custom_edit Koreguoti jaustukus
+custom_new Pridėti naujus jaustukus
 customnick Kitas pseudonimas
 customsmileys Rodyti kitų vartotojų jaustukus
 customstyle Pakeistas stilius
@@ -324,7 +324,7 @@ editstate Koreguoti egzistuojančią auto žinutės būseną
 editvalue Koreguoti reikšmę
 email E-paštas
 emailsinlist Rodyti e-pašto adresus vietoje pseudonimų kontaktų sąraše
-emoticon_steal Pridėti prie emocinių piktogramų
+emoticon_steal Pridėti prie jaustukų
 emotisounds Groti garsus tikriems jaustukams
 emptygroup Tuščia grupė
 enabled Įjungtas
@@ -475,8 +475,8 @@ istyping $1 rašo žinutę
 joins $1 prisijungė į pokalbį
 justonce Tik kartą
 keepalive Palaikyti gyvą (NAT)
-keeplog2 Registruoti visus pokalbius į aMSN istoriją, vėlesniam peržiūrėjimui
-keeplog Saugoti pokalbių registrus
+keeplog2 Įrašyti visus pokalbius į aMSN istoriją, vėlesniam peržiūrėjimui
+keeplog Saugoti pokalbių įrašus
 language Kalba
 language_manager Kalbos vedlys
 large Didelis
@@ -495,7 +495,7 @@ leaveblankforhotmail Palikti tuščia, naudojant Hotmail
 leavejoinsinchat Rodyti pokalbių lange pranešimus apie prisijungiančius ir atsijungiančius prie pokalbio
 leaves $1 atsijungė nuo pokalbio
 lenteredconf $1 prisijungė prie konferencijos $2
-lineflushlog Įrašynėti registrus į kiekvieną eilutę
+lineflushlog Įrašynėti įrašus į kiekvieną eilutę
 linprivate ASMENINIAME POKALBYJE
 listening Kreipiamasi
 listeningon Kreipiamasi į prievadą $1
@@ -506,23 +506,23 @@ lleftconf $1 atsijungė nuo konferencijos
 loadcontacts Įkelti kontaktų sąrašą
 load Įkelti
 loadotherdisplaypic Įkeliamos nuotraukos iš $1, prašau palaukti...
-logbigger Registruoti rinkmenos dydį, kad kiekvienas kontaktas neviršytų 
-logeventconnect Registruoti prisijungimus
-logeventdisconnect Registruoti atsijungimus
-logeventemail Registruoti, kai gautas e-paštas
-logeventnick Registruoti pseudonimų pakeitimus
-logeventpsm Registruoti asmeninių žinučių pakeitimus
-logeventstate Registruoti būsenos pakeitimus
-logfandexp Registruoti rinkmenos dydžius ir istorijos galiojimo terminus
+logbigger Įrašyti rinkmenos dydį, kad kiekvienas kontaktas neviršytų 
+logeventconnect Įrašyti prisijungimus
+logeventdisconnect Įrašyti atsijungimus
+logeventemail Įrašyti, kai gautas e-paštas
+logeventnick Įrašyti pseudonimų pakeitimus
+logeventpsm Įrašyti asmeninių žinučių pakeitimus
+logeventstate Įrašyti būsenos pakeitimus
+logfandexp Įrašyti rinkmenos dydžius ir istorijos galiojimo terminus
 loggedotherlocation Atsijungė. Prisijungė į kitą vietą
 loggingin Jungiamasi
 loginas Prisijungti kaip
-loging Registras
+loging Įrašas
 login Prisijungti
-logolder Registruoti tik paskutinius pokalbius
+logolder Įrašyti tik paskutinius pokalbius
 logout Atsijungti
 logoutwincloselabel Atsijungiant, uždaryti visus pokalbius
-logsbydate Rikiuoti registrus pagal datą (peržiūrima istorija įsikels daug greičiau)
+logsbydate Rikiuoti įrašus pagal datą (peržiūrima istorija įsikels daug greičiau)
 logschats Registruoja pokalbius
 logsin prisijungė
 logsmileys Rodyti jaustukus aMSN istorijų languose
@@ -532,7 +532,7 @@ longnick Jūsų pseudonimas yra ilgesnis negu 130 simbolių. Oficialiai, MSN pro
 longp4c Jūsų draugiškasis vardas yra ilgesnis negu 130 simbolių. Draugiškas vardas, kuris matosi oficialiame MSN kliente, turi būti $1. Ar jūs tikrai norite nustatyti jį?
 longpsm Jūsų asmeninė žinutė per ilga. Oficialiai, MSN protokolas to nepalaiko. Ar jūs tikrai norite nustatyti ją?
 lowrescam Naudoti mažos raiškos kamerą
-lprivtoconf Asmeninis pokalbis perjungtas į konferencija su $1
+lprivtoconf Asmeninis pokalbis perjungtas į konferenciją su $1
 luclosedwin Jūs uždarėte langą $1
 mailerexample ( \$recipient = Gavėjas ) Palikite tuščia, naudodami Hotmail
 mailer Siuntėjas
@@ -551,7 +551,7 @@ more Daugiau
 morepersonal Daugiau būsenų ->
 move Perkelti
 movetogroup Perkelti į grupę
-msgflicker Mirksės pokalbių lango pavadinimo etiketė, kai gauta nauja žinutė nuleistame lange.
+msgflicker Mirksės pokalbių lango pavadinimo kortelė, kai gauta nauja žinutė nuleistame lange.
 msgmaxmin Kai gauta nauja žinutė, aš norėčiau, kad ji būtų:
 msg Žinutė
 msgmode Pasirinkite, kaip adresuoti pasikartojančios žinutės langus:
@@ -560,7 +560,7 @@ msnstatus MSN tinklo būsena
 msnstyle MSN stilius
 mustrestart Perkaukite programa, kad pritaikytumete pakeitimus
 myfriendlyname Mano draugiškas vardas
-myhomephone Mabo namų telefonas
+myhomephone Mano namų telefonas
 mymobilephone Mano mobilus telefonas
 mynick Mano pseudonimas
 mypic Mano nuotrauka
@@ -584,7 +584,7 @@ newmailfromother Naujas paštas kitame aplankale nuo $1 ($2)
 newmsg Nauja žinutė
 newoim Nauja neprisijungusio vartotojo žinutė
 newstate Pridėti kitą būseną
-newtabbedfeature aMSN turi naują pokalbių valdymo ypatybę. Dabar jūs galite turėti visus savo pokalbių langus iš tos pačios grupės arba iš viso kontaktų sąrašo viename su etiketėmis lange. Pasirinkite būdą, kuriuo aMSN valdytų jūsų pokalbius.
+newtabbedfeature aMSN turi naują pokalbių valdymo ypatybę. Dabar jūs galite turėti visus savo pokalbių langus iš tos pačios grupės arba iš viso kontaktų sąrašo viename su kortelėmis lange. Pasirinkite būdą, kuriuo aMSN valdytų jūsų pokalbius.
 newupdate Išleisti aMSN atnaujinimai
 newveravailable Galima atsisiųsti naują $1 versiją
 next Toliau
@@ -600,7 +600,7 @@ noftpreview Neleisti peržiūros atvaizdų siuntimą rinkmenos perdavime
 nogap Nepalikti tarpo tarp grupių
 nogroup Grupių nėra
 nojavascript Pas jus neįjungti javascript'ai. Automatinis prisijungimas gali neveikti.
-nologfile Nėra rinkmenos registro $1
+nologfile Nėra rinkmenos įrašo $1
 noneavailable Negalimas
 nonewmail Nėra naujų žinučių Gautuose Laiškuose
 nonewver Naujos versijos nėra
@@ -636,7 +636,7 @@ notls MSN protocolas 9 reikalauja TLS paketo. Šis paketas, atrodo, neįdiegtas 
 nottabbed Paprasti langai, be skirsnių
 nousersinsession Vartotojų sesijoje nėra
 nouserspecified Joks vartotojas neapibrėžtas
-nudge $1 beldžiasi
+nudge $1 kumštelėjo
 offline Atsijungęs
 oim Žinutė neprisijungusiam vartotojui
 ok Gerai
