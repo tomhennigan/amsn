@@ -53,6 +53,10 @@
 		<langcode>pt</langcode>
 		<version>4158</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 
 	<file>
 		<path>pixmaps/multiple_colors.gif</path>

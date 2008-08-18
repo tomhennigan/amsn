@@ -8,4 +8,14 @@
 	<plugin_file>SpellCheck.tcl</plugin_file>
 	<plugin_namespace>SpellCheck</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/SpellCheck/SpellCheck.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/SpellCheck/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/SpellCheck/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/SpellCheck/$file</file>
+	</URL>
 </plugin>

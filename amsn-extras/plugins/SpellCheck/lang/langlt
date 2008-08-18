@@ -1,0 +1,17 @@
+amsn_lang_version 2
+aspell_location aspell vieta
+lang_select Pasirinkite kalbą: 
+aspell_not_found Įvyko klaida paleidžiant aspell. Ji, tikriausiai, netinkamai įdiegta. Ji reikalinga, kad veiktų šis įskiepis. Jūs galite įsidiegti aspell per paketų tvarkyklę arba iš http://aspell.sourceforge.net/. Jeigu ji įdiegta, nurodykite teisingą kelią šio įskiepio nustatymų rinkmenoje. Norėtumėte tai padaryti dabar?
+not_found Nerasta
+ballon_text Tikrinti rašybą
+auto_check Automatiškai patikrinti prieš nusiunčiant?
+check_as_typing Tikrinti rašybą, kaip jūs rašote
+addword Pridėti žodį...
+showincorrect Rodyti neteisingus žodžius su: 
+background fonas
+foreground priekinis fonas
+underline pabraukimas
+example Pavyzdys
+tagwarning Klaidingų žodžių spalvos yra dabar tokios pačios, kaip numatytasis tekstas. Įsitikinkite, kad pakeitėte bent jau vieną nustatymą, kad jie pasirodytų.
+fontstyle šrifto stilius
+removecols Pašalinti spalvas

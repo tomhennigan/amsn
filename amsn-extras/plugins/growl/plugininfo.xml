@@ -51,6 +51,10 @@
 		<langcode>hu</langcode>
 		<version>8997</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/growl/growl.tcl</main>

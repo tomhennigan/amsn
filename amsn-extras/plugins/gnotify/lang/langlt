@@ -1,0 +1,21 @@
+amsn_lang_version 2
+check_minutes Tikrinti e-paštą kas ? minutes
+num_accounts Kiek abonentų jūs turite: 
+account_settings Abonento numerio nustatymai: 
+username Vartotojas:
+password Slaptažodis:
+show_notify Rodyti pranešimų langą
+open_browser Atverti naršyklę su kairiu spragtelėjimu
+click_to_check Patikrinti, kiek yra gautų žinučių
+not_checked Dar nepatikrintas
+checking Tikrinamas paštas
+error_checking Klaida priimant Gmail abonento informaciją
+wrong_pass Klaidingas Vartotojas/Slaptažodis
+account_locked Priėjimas uždraustas prie Gmail abonento
+view_inbox Žiūrėti Gautus laiškus ($1)
+check_now Tikrinti dabar
+tell_me Priminti
+options Parinktys
+receivedmail Naujas laiškas nuo: $1
+mail_info Abonento pašto informacija: $1
+gotmail Jūs gavote naują laišką $1

@@ -54,6 +54,10 @@
 		<langcode>sv</langcode>
 		<version>7018</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 	
 	<file>
 		<path>display_and_send.scpt</path>

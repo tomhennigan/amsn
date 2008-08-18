@@ -1,0 +1,35 @@
+amsn_lang_version 2
+activeautomessage Pridėti savo statistiką prie autožinutės
+activepsm Pridėti savo statistiką prie savo asmeninės žinutės
+addconfig Pridėti nustatymus
+automessage Jūsų auto žinutė su kintamaisiais (pavyzdžiui \$map)
+balloon_message Dešiniu spragtelėjimu pradėkite/baikite rodyti jūsų statistiką
+cdkey Jeigu reikalingas CDKEY, kad rodyti jūsų statistiką, įveskite jį čia: (palikite tusčia, jei nereikia įvesti CDKEY)
+check Tikrinti Qstat kelią
+choose_state Būsena, su kuria jūs būsite matomas, kai žaisite
+chooseconfig Pasirinkti nustatymus:
+configname Šių nustatymų pavadinimas, kad identifikuoti juos vėliau
+disabled Išjungti
+enabled Įjungti
+free Laisvų vietų skaičius šiame serveryje
+friendlyfire Pakeistas įjungtu, jei FriendlyFire yra įjungtas, priešingu atveju yra išjungtas
+game Jūsų žaidimas
+gamenick Jūsų pseudonimas žaidime
+ip_address Serverio IP adresas
+map Žemėlapio pavadinimas
+maxplayers Didžiausias žaidėjų skaičius šiame serveryje
+numplayers Žaidėjų skaičius šiame serveryje
+ping Jūsų delsa su serveriu
+playingTCE Ar jūs žaidžiate mod True Combat: Elite?
+psm Jūsų asmeninė žinutė su kintamaisiais (pavyzdžiui \$score)
+qstat Kelias į Qstat įvykdomąjį
+qstat_error Kelias į Qstat yra klaidingas. Patikrinkite jį, tada spragtelkite "Tikrinti Qstat kelią"
+qstat_ok Rastas Qstat. Jūs galite tęsti įskiepio formavimą
+readme Skaityk!
+removeconfig Pašalinti šiuos nustatymus
+score Jūsų rezultatas
+second Tikrinti, ar yra naujos informacijos kas ? sekundžių
+servername Serverio pavadinimas
+startplaying Pradėti žaisti $1
+stopplaying Baigti žaisti $1
+team Komandos pavadinimas, su kuria žaidžiate

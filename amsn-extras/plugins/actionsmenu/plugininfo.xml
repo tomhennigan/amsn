@@ -19,6 +19,10 @@
 		<langcode>hu</langcode>
 		<version>9064</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 	
 	<file>
 		<path>pixmaps/actions_addcontact.png</path>

@@ -34,6 +34,10 @@
 		<langcode>da</langcode>
 		<version>1.1</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/glogs/glogs.tcl</main>

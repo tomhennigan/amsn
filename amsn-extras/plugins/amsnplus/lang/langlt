@@ -1,0 +1,41 @@
+amsn_lang_version 2
+allowcommands Ar norite įjungti komandas pokalbių lange?
+allowcolours Ar norite įjungti daugiaspalviškumą pokalbių lange?
+allowquicktext Ar norite naudoti greitą teksto ypatybę?
+bold Paryškintas
+ccolor \nTeksto spalva $1
+cfont \nTeksto šriftas $1
+choosecolor Pasirinkite spalvą
+cinfo \nKontakto informacija:\n$1 \nPseudonimas: $2 \nGrupė: $3
+cleave \nJūs atsijungėte nuo šio pokalbio
+cnewnick \nJūsų naujas pseudonimas: $1
+cnewstate \nJūsų nauja būsena: $1
+cnewstatenotvalid \n$1 yra netinkamas
+cnick \nJūsų pseudonimas $1
+cnotvalid \nJūsų komanda yra netinkama
+colournicks Gal norėtumėte spalvotų pseudonimų? (ne pilnai veikia)
+cresult \nKomandos rezultatas:\n$1
+cshell \nVykdyti komandinėje eilutėje: $1
+cspecify \nJūs turite apibrėžti kontaktą
+cstatus \nJūsų būsena $1
+cstyle \nJūsų šrifto stilius $1
+deleted \nJūs pašalinote $1 iš sąrašo\nKad vėl pridėti šį kontaktą, darykite tai: /add $1
+general Pagrindinės parinktys
+groupadded \nPridėta grupė $1.
+groupdeleted \nJūs ištrynėte grupę $1 \nKad vėl pridėti šią grupę, darykite tai: /addgroup $1
+italic Pasvyrasis
+keyword Raktažodis
+localization Vieta
+multiplecolorsbutton Pridėti naują spalvą
+nosuchcommand Nėra tokios komandos.
+overstrike Viršutinis pabraukimas
+parsenicks Ar norite nagrinėti msn plius spalvų kodifikacija pseudonimuose?
+qthelp Čia galite suformuoti savo greitąjį tekstą, raktažodį ir tekstą \n Tada pokalbio lange, jei jūs parašysite /raktažodį, tai jūs pamatysite savo tekstą
+quicktext Greitasis tekstas
+reset Atstatyti stilius
+resource Ištekliai
+rusage Čia galite įdėti savo naudojamos programinės įrangos identifikatorių arba kur esate, arba bet ką, ką jūs norite. Tai bus pridedama prie jūsų pseudonimo pabaigos tarp { ir }. Taip bandoma pamėgdžioti jabber ypatybę. Kad išvengtumėte šios ypatybės, palikite šią vietą tuščią.
+text Tekstas rašymui
+underline Pabraukimas
+screenshot Siųsti ekrano nuotrauką
+screenshoterr Įvyko klaida darant ekrano nuotrauką. Įsitikinkite, kad surinkote ir galite daryti ekrano nuotraukas amsnplus aplankale, bei turite tam leidimus ir vietos.

@@ -19,6 +19,10 @@
 		<langcode>fr</langcode>
 		<version>7088</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 	
 	<file>
 		<path>README</path>

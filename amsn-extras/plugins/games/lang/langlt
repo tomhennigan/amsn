@@ -1,0 +1,133 @@
+amsn_lang_version 2
+# ================================================
+# Language keys for main Games plugin
+# ================================================
+load_game_failed Nepavyko įkelti žaidimo
+invite_sent Nusiųstas kvietimas pradėti
+accepted_invitation $1 priėmė kvietimą pradėti
+declined_invitation $1 atmetė kvietimą pradėti
+wants_to_play $1 nori žaisti
+Games Žaidimai
+TwoPlayerGames Žaidimai dviejų žaidėjų
+MultiPlayerGames Žaidimai daug-žaidėjų (konferencija)
+Dots_and_Boxes Taškai ir dėžutės
+Hangman Budelis
+Sketch Skečas
+Accept Priimti
+Reject Atmesti
+incompatible_version Dėmesio, jūs naudojate skirtingas įskiepių versijas! Jūsų versija $1, bet $2 naudoja $3 versiją.
+missing_plugin $1 tikriausiai neturi šio įskiepio įkelto arba įdiegto
+timeout Laiko pabaiga nustatyta po $1 sekundžių
+wrong_game_type Pradėti žaidimus dviejų žaidėjų privačiuose languose ir žaidimus daug-žaidėjų pradėti konferencijų languose.
+advertise 1$ pakvietė jus pažaisti aMSN žaidimą. Atrodo, kad 2$ neturi aMSN ar neturi įkelto žaidimų įskiepio. Kad sugebėtumėte žaisti su savo draugais, atsisiųskite aMSN 3$ ir įsidiekite žaidimų įskiepį, pasiekiamą iš 4$.
+# ================================================
+# Language keys used in Dots and Boxes
+# ================================================
+specify_configuration Apibrėžti žaidimo nustatymus
+select_color Kokią spalvą norite žaisti?
+select_size Kokio lango dydžio norite?
+red Raudoni
+yellow Geltoni
+random Atsitiktinis
+challenge Dvikova
+cancel Atšaukti
+wins Laimėjimai
+draws Lygiosios
+your_turn Jūsų eilė, pasirinkite savo ėjimą.
+not_your_turn Laukiamas priešininko ėjimas.
+movelist Ėjimų sąrašas
+players Žaidėjai
+status Būsena
+initializing Inicijuojama...
+game_over_win Žaidimas baigtas. Sveikiname, jūs laimėjote!
+game_over_lose Žaidimas baigtas, linkime sekmės sekantį kartą.
+game_over_draw Žaidimas baigtas, lygiosios.
+click_rematch Spragtelkit, kad atsiloštumėte
+quits $1 paliko žaidimą.
+margin_width Paraščių plotis
+margin_height Paraščių aukštis
+width_of_box Dėžutės plotis
+height_of_box Dėžutės aukštis
+dot_size Taško dydis
+space_around_dot Erdvė aplink tašką
+# ================================================
+# Language keys used in Hangman
+# ================================================
+alphabet {A Ą a ą} b {C Č c č} d {E Ę Ė e ę ė} f g h {I Į i į} y j k l m n o p r {S Š s š} t {U Ų Ū u ų ū} v {Z Ž z ž}
+send_word_to_guess Nusiųskite žodį, kurį jūsų priešininkas turi atspėti.
+wait_for_word Palaukite, kol priešininkas jums atsiųs žodį, kurį turėsite atspėti.
+click_sends_guess Siųskite savo spėjimą
+Scores Rezultatai
+round turas
+Word Žodis
+invalid_word Spėjamas žodis turi sudaryti daugiau raidžių neskaitant pabraukimų; bandykite kitą žodį.
+game_started Žaidimas prasidėjo, spėdami spragtelkite raidžių mygtukus arba rašykite raides.
+you_hang Jūs pakartas! (Priešininkas tęsia)
+word_found Žodis atspėtas! (Priešininkas tęsia)
+game_over_02 Jūs pralošėte, priešininkas atspėjo: 0-2.
+game_over_20 Jūs laimėjote, priešininkas pakartas: 2-0.
+game_over_00 Lygiosios, abu žaidėjai pakarti: 0-0.
+game_over_21 Jūs laimėjote, jūs šiek tiek mažiau suklydote: 2-1.
+game_over_12 Jūs pralošėte, priešininkas šiek tiek mažiau suklydo: 1-2.
+game_over_11 Lygiosios, vienodai suklydote: 1-1.
+fl_method Pasirinkite laisvų raidžių metodą
+fl_none Nėra laisvų raidžių
+fl_first Atverti pirmą raidę
+fl_random Atverti atsitiktinę raidę
+guesses_remaining Liko spėjimų: $1
+rematch_quick Priešininkas laukia jūsų, spragtelkite atsilošti ir pradėkite naują turą.
+# ================================================
+# Language keys used in Sketch
+# ================================================
+select_language Pasirinkite šio žaidimo kalbą
+Time Laikas
+wrong_guesses Klaidingi spėjimai
+sketch_tools Eskizo įrankiai
+Color Spalva
+Eraser Trintukas
+Clear Išvalyti
+Skip Praleisti
+Save Išsaugoti
+make_guesses Įspėti
+Send Siųsti
+Violation Pažeidimas
+wait_for_host Palaukite žaidimo šeimininko, kol jis pradės žaidimą.
+wait_for_players Laukite, kol visi prisijunks ir paskui spragtelėkite mygtuką "Pradėti" ->
+Start Pradėti
+save_drawing Išsaugoti paveikslą
+Round Turas
+you_draw jūsų eilė piešti $1.
+you_guess jūs turite atspėti nupiešto paveikslo pavadinimą; kalbos atkurimas nustatytas $1.
+correct_guess Jūs atspėjote teisingai! Žodis yra $1.
+points $1 taškai
+choose_bkgcol Pasirinkite fono spalvą
+empty_dictionary Šis žodynas neturi savyje jokių žodžių, kurie gali būti panaudoti Eskizams, pasirinkite šiam žaidimui kitą kalbą arba tinkamai užpildykite savo kalbos rinkmeną.
+hourglass_courtesy Hourglass courtesy of Bernd Breitenbach.
+# ================================================
+# Sketch word dictionary
+# -> Example Entry:
+# word_2 e-mail, email, mail
+# -> "e-mail" is the word that has to be drawn
+# -> "email" and "mail" are also full credits to the guessers
+# ================================================
+word_0 kompiuteris
+word_1 lėktuvas
+word_2 e-paštas, epaštas, paštas
+word_3 televizija, tv
+word_4 mikro-bangos, mikrobangos
+word_5 viščiukas, Tjikkun
+word_6 šachmatai
+word_7 vokas
+word_8 tortas
+word_9 žvakė
+word_10 šuo
+word_11 katė
+word_12 automobilis
+word_13 medis
+word_14 pelė
+word_15 akiniai
+word_16 mobilusis telefonas, mobilus
+word_17 megztinis
+word_18 batai
+word_19 kamera
+word_20 obuolys

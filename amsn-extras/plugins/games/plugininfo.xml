@@ -42,6 +42,10 @@ A plugin *nem* kompatíbilis az MSN Zone Games-el, csak az aMSN-nel!
 		<langcode>nl</langcode>
 		<version>6112</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 	
 	<file>
 		<path>Sketch.tcl</path>

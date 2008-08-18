@@ -1,0 +1,14 @@
+amsn_lang_version 2
+serverlabel Įveskite savo išeinančiųjų laiškų serverio informaciją.
+smtpserver SMTP serveris (pvz.: localhost, smtp.gmail.com)
+smtpport Serverio prievadas (numatytasis: 25)
+userlabel Jeigu jūsų serveris reikalauja autentifikacijos, įveskite ją sekančiame laukelyje (Gmail reikalauja to)
+smtpuser Vartotojas (pvz: mano_pastas@gmail.com)
+smtppass Slaptažodis
+sendtolabel Įveskite sekančiame laukelyje e-pašto adresą, į kurį bus siunčiami jūsų įrašai.
+sendto Siųsti įrašus į (pvz.: mano_pastas@gmail.com)
+logslabel Matomumo parinktys.
+defaultprefix aMSN pokalbis: 
+showfooter Poraštė
+htmlformat Naudoti html formatavimą (spalva, jaustukai...)
+footer _________________________________________________________________\n aMSN Messengeris http://amsn.sf.net/\n Įrašai atsiusti GLogs įskiepio.
