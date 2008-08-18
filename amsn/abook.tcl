@@ -1618,8 +1618,7 @@ namespace eval ::abookGui {
 			[file join $HOME displaypic cache $email [filenoext [::abook::getContactData $email displaypicfile ""]].png] $email]
 
 		# Other display pictures of user
-		label $nbUserDPs.titlepic2 -text "[trans otherdisplaypic]" \
-			-font bboldunder
+		label $nbUserDPs.titlepic2 -text "[trans otherdisplaypic]" 
 
 #		frame $nbUserDPs.otherdpscontainer
 #		set actions $nbUserDPs.otherdpscontainer.actions
