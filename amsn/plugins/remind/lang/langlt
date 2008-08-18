@@ -1,0 +1,11 @@
+amsn_lang_version 2
+always Visada
+beginendconversation Rodyti pokalbio pradžią ir pabaigą
+checknote Rodyti pastabas
+daysnumber Dienų skaičius
+filetransfert Rodyti rinkmenų siuntimus
+lastsentence Paskutiniai sakiniai ankstesniame pokalbyje
+nbdisplay Rodomas linijų skaičius
+noteswritten Jūs parašėte pastabas apie šį kontaktą
+talklast Jei mes kalbėjomės praėjusias x dienas
+talkwithin Jei mes nesikalbėjome praėjusias x dienas

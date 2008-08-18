@@ -58,6 +58,10 @@
 		<langcode>tr</langcode>
 		<version>8921</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 	<file>
 		<path>README.txt</path>
 		<version>8921</version>

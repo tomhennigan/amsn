@@ -43,6 +43,11 @@
 		<version>9031</version>
 	</lang>
 	
+	<lang>
+		<langcode>lt</langcode>
+		<version>10396</version>
+	</lang>
+	
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins2/remind/remind.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/remind/plugininfo.xml</plugininfo>

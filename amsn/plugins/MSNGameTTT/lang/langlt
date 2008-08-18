@@ -1,0 +1,16 @@
+amsn_lang_version 2
+gametttgameclosed Priešininkas išėjo iš žaidimo.
+gametttgamesessionwith $1 prieš $2
+gametttnowinner Turo niekas nelaimėjo!\nRezultatas yra $1:$2.
+gametttopponent priešininkas
+gametttopponentloading Būkite šalia, priešininkas įkelinėja žaidimą...
+gametttopponentready Jūsų priešininkas pasiruošęs žaisti, spragtelkite "Pradėti" žaidimą.
+gametttopponentsturn priešininko eilė
+gametttopponentnotready Laukiama, kol priešininkas spragtels "Pradėti"...
+gametttrestart Perkrauti
+gametttstart Pradėti
+gamettttitle Tic Tac Toe
+gametttwait Palaukite...
+gametttwinner $1 wins the round!\nThe score is now $2:$3.
+gametttyou jūs
+gametttyourturn JŪSŲ eilė

@@ -78,6 +78,10 @@
 		<langcode>zh-TW</langcode>
 		<version>1.2</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 
 	<file>
 		<path>nudge.wav</path>

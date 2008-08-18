@@ -39,5 +39,9 @@
 		<langcode>nl</langcode>
 		<version>0.1</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 
 </plugin>

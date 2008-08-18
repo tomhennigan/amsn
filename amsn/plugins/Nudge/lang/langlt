@@ -1,0 +1,18 @@
+amsn_lang_version 2
+shake_receive Supurtyti langą, kai priimamas kumštelėjimas
+shake_send Supurtyti langą, kai išsiunčiamas kumštelėjimas
+shake_nudge Kumštelėjus supurtyti
+popup_nudge Pranešti apie kumštelėjimus iškylančių langu
+notify_send Pranešti apie išsiųstus kumštelėjimus pokalbių lange
+notify_receive Pranešti apie priimtus kumštelėjimus pokalbių lange
+sound_send Skambėti, kai siunčiamas kumštelėjimas
+sound_receive Skambėti, kai gaunamas kumštelėjimas.
+add_button Pridėti kumštelėjimo mygtuką pokalbių lange
+add_blockbutton Pridėti blokavimo mygtuką įeinačiųjų komštelėjimų pokalbių lange
+add_clmenuitem Pridėti kontaktų sąrašo meniu
+send_nudge Siųsti kumštelėjimą
+no_nudge_support Jūs negalite nusiųsti savo kontaktui kumštelėjimo, nes jis ar ji nenaudoja kliento, kuris palaiko kumštelėjimus
+nudge_sent Jūs nusiuntėte kumštelėjimą
+limit Aktyvuoti kumštelėjimų ribojimą
+delay Minimalus liko tarpas tarp 2 kumštelėjimų nuo to pačio kontakto (sekundėmis)
+block_nudge Užblokuoti/Atblokuoti kumštelėjimus

@@ -1,0 +1,12 @@
+amsn_lang_version 2
+all Visi
+filterblocked Rodyti tik tuos, kuriuos užblokavote
+filterremovedme Rodyti tik tuos, kurie jus pašalino 
+clear Išvalyti
+nickandpsm Pseudonimas ir asmeninė žinutė
+typeheretofilter Kontaktų sąrašo filtras...
+storelastinput Atkurti paskutinį įvedimą, kai įkeliamas įskiepis
+enableoperators Naudoti paieškos operatorius (palaikomi "& " (AND) ir "| " (OR), kurie turi būti padėti prieš kablelį/tarpą atskirtais raktažodžiais)
+usewildcards Palaikyti pakaitos simbolių naudojimą: * and ?
+groupname Grupės pavadinimas
+filter Filtras

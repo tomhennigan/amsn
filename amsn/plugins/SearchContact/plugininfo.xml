@@ -34,6 +34,10 @@
 		<langcode>nl</langcode>
 		<version>9674</version>
 	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
 
 	<file>
 		<path>pixmaps/clear.png</path>
