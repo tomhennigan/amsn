@@ -1,3 +1,4 @@
 amsn_lang_version 2
 nobg Eliminar el estilo de fondo (necesita cerrar la sesión).
 nostyle Eliminar estilos y colores de los apodos y mensajes personales (necesita cerrar la sesión).
+nocw Eliminar estilos y colores del texto de las ventanas de conversación.
