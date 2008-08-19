@@ -706,7 +706,7 @@ namespace eval ::gnotify {
 		}
 	}
 
-	proc check_gmail { acnt {url "http://mail.google.com/mail/?ui=pb"}} {
+	proc check_gmail { acnt {url "https://mail.google.com/mail/?ui=pb"}} {
 		variable user_cookies
 		variable status_$acnt
 
@@ -789,7 +789,7 @@ namespace eval ::gnotify {
 				}
 			}
 			default {
-				plugins_log gnotify "Unknown error during check_gmail for $username : $meta - [::http::data $token]"
+				plugins_log gnotify "Unknown error during check_gmail for $username : [::http::ncode $token] - $meta - [::http::data $token]"
 				set status_$acnt -3
 				set info_$acnt [list errors 1 mails [list]]
 				cmsn_draw_online
