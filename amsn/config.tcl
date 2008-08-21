@@ -312,6 +312,7 @@ namespace eval ::config {
 		::config::setKey showspaces 1					;# Enable/disable showing of the spaces star in the CL
 		::config::setKey showOfflineGroup 1
 		::config::setKey no_blocked_notif 0				;# No notify windows when a user is blocked
+		::config::setKey show_detailed_view 0					;#allow to show detailed contact view in cl
 
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set

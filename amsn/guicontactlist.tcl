@@ -122,6 +122,7 @@ namespace eval ::guiContactList {
 		::skin::setPixmap away_emblem away_emblem.gif
 		::skin::setPixmap busy_emblem busy_emblem.gif
 		::skin::setPixmap blocked_emblem blocked_emblem.gif
+		::skin::setPixmap blocked_emblem_detailedview blocked_emblem_detailedview.gif
 		::skin::setPixmap notinlist_emblem notinlist_emblem.gif
 
 
@@ -981,7 +982,6 @@ namespace eval ::guiContactList {
 	}
 
 	proc renderContact { canvas main_tag maxwidth text } {
-
 		set defaultcolour #000000
 		set defaultfont splainf
 		set defaultellips ""
@@ -1013,8 +1013,13 @@ namespace eval ::guiContactList {
 						set max_height $height
 					}
 				}
-				"smiley" -
 				"image" {
+					if {$truncflag} {
+						lappend truncable [list "id" [llength $linewidth]]
+					}
+					lappend linewidth [image width [lindex $unit 1]]
+				}
+				"smiley" {
 					if {$truncflag} {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
@@ -1109,7 +1114,16 @@ namespace eval ::guiContactList {
 		set xpos 0
 		#Because anchor is w
 		set yori [expr {[lindex $linesheight 0]/2}]
-		set ypos $yori
+		set yposimage $yori
+		
+		if {![::config::getKey show_detailed_view] || $canvas eq ".main.f.top.mystatus"} {
+			set show_detailed_view 0
+			set ypos $yori
+		} else {
+			set show_detailed_view 1
+			set ypos [expr {-1 * $yori}]
+		}
+
 		set marginx 0
 		set marginy 0
 		set colour $defaultcolour
@@ -1199,14 +1213,27 @@ namespace eval ::guiContactList {
 						}
 					} else {
 						if {$i == 0} {
-							set bg_y1 0
-							set bg_y2 [lindex $linesheight $i]
-						} else {
-							set bg_y1 [lindex $linesheight 0]
-							for {set z 1} {$z < $i} {incr z} {
-								incr bg_y1 [lindex $linesheight $z]
+							if {!$show_detailed_view} {
+								set bg_y1 0
+								set bg_y2 [lindex $linesheight 0]
+							} else {
+								set bg_y1 [expr {2 * $ypos}]
+								set bg_y2 0
 							}
-							set bg_y2 [expr {[lindex $linesheight $z]+$bg_y1}]
+						} else {
+							if {!$show_detailed_view} {
+								set bg_y1 [lindex $linesheight 0]
+								for {set z 1} {$z < $i} {incr z} {
+									incr bg_y1 [lindex $linesheight $z]
+								}
+								set bg_y2 [expr {[lindex $linesheight $z]+$bg_y1}]
+							} else {
+								set bg_y1 0
+								for {set z 1} {$z < $i} {incr z} {
+									incr bg_y1 [lindex $linesheight $z]
+								}
+								set bg_y2 [expr {[lindex $linesheight $z]-$bg_y1}]
+							}
 						}
 
 						set tags [linsert $tags 0 "bg"]
@@ -1233,7 +1260,7 @@ namespace eval ::guiContactList {
 	
 					if { [image width $imagename] <= $size } {
 						# Draw the image
-						$canvas create image $xpos [expr {$ypos + $marginy}] \
+						$canvas create image $xpos [expr {$yposimage + $marginy}] \
 							-image $imagename -anchor $anchor -tags $tags
 						# Change the coords
 						incr xpos [image width $imagename]
@@ -1439,14 +1466,21 @@ namespace eval ::guiContactList {
 		################################################################
 		# Set up some vars with info we'll use
 		################################################################
+		
+		if {[::config::getKey show_detailed_view] && [::config::getKey show_contactdps_in_cl]} {
+			set show_detailed_view 1
+		} else {
+			set show_detailed_view 0
+		}
 
 		set state_code [::abook::getVolatileData $email state FLN]
 
-		set nickcolour [string tolower [::abook::getContactData $email customcolor]]
+		set nickcolour [::abook::getContactData $email customcolor]
 		if { $nickcolour != "" } {
 			if { [string index $nickcolour 0] == "#" } {
 				set nickcolour [string range $nickcolour 1 end]
 			}
+			set nickcolour [string tolower $nickcolour]
 			set nickcolour "#[string repeat 0 [expr {6-[string length $nickcolour]}]]$nickcolour"
 		}
 
@@ -1474,32 +1508,39 @@ namespace eval ::guiContactList {
 			set img [::skin::loadPixmap nonim]
 		} elseif {[::config::getKey show_contactdps_in_cl] == "1" &&
 		    !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN")} {
-			set littlepic [::skin::getLittleDisplayPictureName $email]
-			set img ${littlepic}_cl
+			set img [::skin::getLittleDisplayPictureName $email]_cl
 
-			catch { $img delete}
 			image create photo $img
 			
-			$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap plain_emblem ]]]
-			
-			# We can get a user "hidden" if you have yourself on your own CL and you use MSNP16+ with mpop
-			if { $state_code == "FLN" || $state_code == "HDN"} {
-				::picture::Colorize $img grey 0.5
-				$img copy [::skin::loadPixmap plain_emblem]
-			} elseif { $state_code == "NLN" } {
-				$img copy [::skin::loadPixmap plain_emblem]
+			if {!$show_detailed_view} {
+				$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap plain_emblem ]]]
+				
+				# We can get a user "hidden" if you have yourself on your own CL and you use MSNP16+ with mpop
+				if { $state_code == "FLN" || $state_code == "HDN"} {
+					::picture::Colorize $img grey 0.5
+					$img copy [::skin::loadPixmap plain_emblem]
+				} elseif { $state_code == "NLN" } {
+					$img copy [::skin::loadPixmap plain_emblem]
+				} else {
+					$img copy [::skin::loadPixmap [::MSN::stateToImage $state_code]_emblem]
+				}
+
+				#set the blocked emblem if the user is blocked
+				if { [::MSN::userIsBlocked $email] } {
+					$img copy [::skin::loadPixmap blocked_emblem]
+				}
+
+				# If you are not on this contact's list, show the notinlist emblem
+				if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+					$img copy [::skin::loadPixmap notinlist_emblem]
+				}
 			} else {
-				$img copy [::skin::loadPixmap [::MSN::stateToImage $state_code]_emblem]
-			}
-
-			#set the blocked emblem if the user is blocked
-			if { [::MSN::userIsBlocked $email] } {
-				$img copy [::skin::loadPixmap blocked_emblem]
-			}
-
-			# If you are not on this contact's list, show the notinlist emblem
-			if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-				$img copy [::skin::loadPixmap notinlist_emblem]
+				$img copy [::skin::getLittleDisplayPicture $email 57]
+				
+				#set the blocked emblem if the user is blocked
+				if { [::MSN::userIsBlocked $email] } {
+					$img copy [::skin::loadPixmap blocked_emblem_detailedview]
+				}
 			}
 
 		} else {
@@ -1644,7 +1685,7 @@ namespace eval ::guiContactList {
 		#----------------------------#	
 
 
-		if {!([::config::getKey show_contactdps_in_cl] == "1" && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
+		if {$show_detailed_view || (![::config::getKey show_contactdps_in_cl] && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
 			# If you are not on this contact's list, show the notification icon
 			if {![::MSN::userIsNotIM $email] && [expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 				set icon [::skin::loadPixmap notinlist]
@@ -1724,13 +1765,20 @@ namespace eval ::guiContactList {
 			lappend stylestring [list "colour" "reset"]
 			lappend stylestring [list "font" "reset"]
 			
-			if {[::config::getKey psmplace] == 1 } {
+			if {$show_detailed_view} {
+				set pos [lsearch -exact $psm [list smiley uiElement_std_note -]]
+				if {$pos != -1} {
+					set psm [linsert $psm $pos [list "newline" "\n"]]
+				}
+				set parsedpsm [linsert $psm 0 [list "newline" "\n"]]
+			} elseif {[::config::getKey psmplace] == 1 } {
 				set parsedpsm [linsert $psm 0 [list "text" " - "]]
 			} elseif {[::config::getKey psmplace] == 2 } {
 				set parsedpsm [linsert $psm 0 [list "newline" "\n"]]
 			} else {
 				set parsedpsm ""
 			}
+
 
 			#Here we place the PSM !!
 			lappend stylestring [list "tag" "psm"]
@@ -2562,6 +2610,24 @@ namespace eval ::guiContactList {
 		if { !$OnTheMove } {
 			$canvas configure -cursor $cursor
 		}
+	}
+	
+	proc DetailedView {} {
+		if {[::config::getKey show_detailed_view]} {
+			foreach element [getContactList full] {
+				if {[lindex $element 0] eq "C" } {
+					::skin::getLittleDisplayPicture [lindex $element 1] 57 1
+				}
+			}
+		} else {
+			set dim [image height [::skin::loadPixmap plain_emblem ]]
+			foreach element [getContactList full] {
+				if {[lindex $element 0] eq "C" } {
+					::skin::getLittleDisplayPicture [lindex $element 1] $dim 1
+				}
+			}
+		}
+		updateCL
 	}
 
 }

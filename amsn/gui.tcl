@@ -4480,6 +4480,10 @@ proc create_main_menu {wmenu} {
 		-variable [::config::getVar ordergroupsbynormal] -command "::Event::fireEvent changedSorting gui" -state disabled
 	#-------------------
 	$view add separator
+	$view add checkbutton -label "[trans showdetailedview]" -onvalue 1 -offvalue 0 -state disabled \
+	    -variable [::config::getVar show_detailed_view] -command "::guiContactList::DetailedView"
+	#-------------------
+	$view add separator
 	$view add checkbutton -label "[trans shownonim]" -onvalue 1 -offvalue 0 -state disabled \
 	    -variable [::config::getVar shownonim] -command "::Event::fireEvent changedSorting gui"
 	$view add checkbutton -label "[trans showspaces]" -onvalue 1 -offvalue 0  -state disabled \
@@ -4840,10 +4844,11 @@ proc loggedInGuiConf { event } {
 	set nick_idx [$menu index "[trans showcontactnick]"]
 	set asc_idx [$menu index "[trans sortgroupsasc]"]
 	set desc_idx [$menu index "[trans sortgroupsdesc]"]
+	set detview_idx [$menu index "[trans showdetailedview]"]
 	set nonim_idx [$menu index "[trans shownonim]"]
 	set spaces_idx [$menu index "[trans showspaces]"]
 	set offline_idx [$menu index "[trans showofflinegroup]"]
-	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx $nonim_idx $spaces_idx $offline_idx]
+	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx $detview_idx $nonim_idx $spaces_idx $offline_idx]
 	
 	# Actions menu
 	set menu .main_menu.actions
@@ -4918,10 +4923,11 @@ proc loggedOutGuiConf { event } {
 	set nick_idx [$menu index "[trans showcontactnick]"]
 	set asc_idx [$menu index "[trans sortgroupsasc]"]
 	set desc_idx [$menu index "[trans sortgroupsdesc]"]
+	set detview_idx [$menu index "[trans showdetailedview]"]
 	set nonim_idx [$menu index "[trans shownonim]"]
 	set spaces_idx [$menu index "[trans showspaces]"]
 	set offline_idx [$menu index "[trans showofflinegroup]"]
-	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx $nonim_idx $spaces_idx $offline_idx] 0
+	enableEntries $menu [list $contact_sorting_idx $email_idx $nick_idx $asc_idx $desc_idx $detview_idx $nonim_idx $spaces_idx $offline_idx] 0
 	
 	# Actions menu
 	set menu .main_menu.actions

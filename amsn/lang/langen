@@ -821,6 +821,7 @@ showcachedpics Show cached display pictures
 show_contactdps_in_cl Show thumbnails of contacts Display Pictures in Contact List
 showcontactemail Show Contacts with E-mail
 showcontactnick Show Contacts with Nickname
+showdetailedview Show Detailed Contacts View
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
 showonedpframe Show only one DisplayPicture frame in chat windows
