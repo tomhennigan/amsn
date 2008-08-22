@@ -1011,6 +1011,10 @@ namespace eval ::AVAssistant {
 				$contentf configure -padx 10 -pady 10
 				button $contentf.button -text [trans changevideosettings] -command "::CAMGUI::ChooseDeviceMac"
 				pack $contentf.button
+				
+				# There is no easy way to know if a cam is available OnMac so set video configured to true in all cases..
+				variable video_configured
+				set video_configured 1
 			} elseif {[OnLinux]} {
 				#OnLinux,
 				#webcam device + channel
