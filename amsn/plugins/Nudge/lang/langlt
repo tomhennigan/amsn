@@ -10,9 +10,9 @@ sound_receive Skambėti, kai gaunamas kumštelėjimas.
 add_button Pridėti kumštelėjimo mygtuką pokalbių lange
 add_blockbutton Pridėti blokavimo mygtuką įeinačiųjų komštelėjimų pokalbių lange
 add_clmenuitem Pridėti kontaktų sąrašo meniu
-send_nudge Siųsti kumštelėjimą
+send_nudge Kumštelėti
 no_nudge_support Jūs negalite nusiųsti savo kontaktui kumštelėjimo, nes jis ar ji nenaudoja kliento, kuris palaiko kumštelėjimus
-nudge_sent Jūs nusiuntėte kumštelėjimą
+nudge_sent Jūs kumštelėjote
 limit Aktyvuoti kumštelėjimų ribojimą
 delay Minimalus liko tarpas tarp 2 kumštelėjimų nuo to pačio kontakto (sekundėmis)
 block_nudge Užblokuoti/Atblokuoti kumštelėjimus
