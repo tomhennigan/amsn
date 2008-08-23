@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>Transparent</name>
+	<author>Cristofaro Del Prete</author>
+	<description>Makes contact list and chat window transparent.
+Only works on Windows 2000/Xp, Mac OS X, Compiz/Beryl and other compositing managers.
+Needs Tk 8.5 to work on Linux.</description>
+	<amsn_version>0.96</amsn_version>
+	<plugin_version>0.6</plugin_version>
+	<plugin_file>transparent.tcl</plugin_file>
+	<plugin_namespace>transparent</plugin_namespace>
+	<init_procedure>transparentStart</init_procedure>
+	<deinit_procedure>transparentStop</deinit_procedure>
+</plugin>

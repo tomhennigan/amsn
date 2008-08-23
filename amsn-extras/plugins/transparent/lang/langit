@@ -1,0 +1,7 @@
+amsn_lang_version 2
+cltransparency Transparenza della lista contatti:
+cwtransparency Trasparenza delle finestre di chat:
+cwnoactive Mantieni opaca la finestra di chat attiva
+cwopaque Rendi le finestre di chat opache al passaggio del mouse
+cwspeedin Velocita' di transizione trasparente-opaco:
+cwspeedout Velocita' di transizione opaco-trasparente:

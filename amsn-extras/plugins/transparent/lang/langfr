@@ -1,0 +1,6 @@
+amsn_lang_version 2
+cltransparency Transparence de la liste de contacts:
+cwtransparency Transparence de la fenêtre de discution:
+cwopaque Rendre la fenêtre de discution opaque au passage de la souris
+cwspeedin Vitesse de la transition transparent/opaque:
+cwspeedout Vitesse de la transition opaque/transparent:

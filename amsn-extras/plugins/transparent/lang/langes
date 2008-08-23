@@ -1,0 +1,7 @@
+amsn_lang_version 2
+cltransparency Transparencia para la lista de contactos:
+cwtransparency Transparencia para las ventanas de charla:
+cwnoactive Mantener opaca la ventana de conversación activa 
+cwopaque Hacer opacas las ventanas de charla al pasar el cursor por encima 
+cwspeedin Velocidad de la transición de transparente a opaco:
+cwspeedout Velocidad de la transición de opaco a transparente:
