@@ -11,4 +11,33 @@ Needs Tk 8.5 to work on Linux.</description>
 	<plugin_namespace>transparent</plugin_namespace>
 	<init_procedure>transparentStart</init_procedure>
 	<deinit_procedure>transparentStop</deinit_procedure>
+	<cvs_version>10412</cvs_version>
+
+	<lang>
+		<langcode>en</langcode>
+		<version>10412</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>10412</version>
+	</lang>
+	<lang>
+		<langcode>fr</langcode>
+		<version>10412</version>
+	</lang>
+	<lang>
+		<langcode>it</langcode>
+		<version>10412</version>
+	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>10413</version>
+	</lang>
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/transparent/transparent.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/transparent/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/transparent/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/transparent/$file</file>
+	</URL>
+
 </plugin>

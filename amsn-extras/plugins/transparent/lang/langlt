@@ -1,0 +1,7 @@
+amsn_lang_version 2
+cltransparency Kontaktų sąrašo permatomumas:
+cwtransparency Pokalbių langų permatomumas:
+cwnoactive Aktyvųjį pokalbių langą palikti nepermatomą
+cwopaque Užvedus pelę, padaryti pokalbio langus nepermatomus
+cwspeedin Perėjimo greitis iš permatomo į nepermatomą:
+cwspeedout Perėjimo greitis iš nepermatomo į permatomą:
