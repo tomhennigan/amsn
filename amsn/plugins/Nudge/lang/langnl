@@ -1,19 +1,19 @@
 amsn_lang_version 2
-shake_receive Het venster laten trillen als je een nudge ontvangt
-shake_send Het venster laten trillen als je een nudge verzendt
+shake_receive Het venster laten trillen bij het ontvangen van een nudge
+shake_send Het venster laten trillen bij het verzenden van een nudge
 shake_nudge Aantal trilbewegingen per nudge
-popup_nudge Een meldingsvenster weergeven als je een nudge ontvangt
+popup_nudge Een meldingsvenster weergeven bij het ontvangen van nudges
 notify_send Verzonden nudges melden in het gespreksvenster
 notify_receive Ontvangen nudges melden in het gespreksvenster
 sound_send Een geluid afspelen bij het verzenden van een nudge
 sound_receive Een geluid afspelen bij het ontvangen van een nudge
-add_button Een knop om een nudge te verzenden toevoegen aan het gespreksvenster
-add_blockbutton Een knop om inkomende nudges te blokkeren toevoegen aan het gespreksvenster
+add_button Een knop voor het verzenden van een nudge toevoegen aan het gespreksvenster
+add_blockbutton Een knop voor het blokkeren van inkomende nudges toevoegen aan het gespreksvenster
+add_clmenuitem Een item toevoegen aan het contactenlijst-contextmenu
 send_nudge Nudge verzenden
-no_nudge_support Je kan deze persoon geen nudge sturen omdat zijn of haar Messenger geen nudges ondersteunt
+no_nudge_support Je kunt deze persoon geen nudge sturen omdat zijn of haar messenger geen nudges ondersteunt
 nudge_sent Je hebt zojuist een nudge verzonden
-limit Nudge-ontvangstlimiet activeren
+limit Nudgeontvangstlimiet activeren
 delay Minimale tijd tussen 2 nudges van hetzelfde contact (in seconden)
 send_nudge Nudge verzenden
 block_nudge Nudges blokkeren/deblokkeren
-add_clmenuitem Een item toevoegen aan het contactenlijstpop-upmenu

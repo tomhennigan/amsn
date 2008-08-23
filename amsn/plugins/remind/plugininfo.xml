@@ -6,6 +6,7 @@
 	<description_es>Muestra las últimas frases de las conversaciones anteriores al abrir una nueva ventana de conversación</description_es>
 	<description_fr>Afficher les dernières phrases des précédentes conversations lors de l'ouverture de la fenêtre de conversation</description_fr>
 	<description_hu>A korábbi beszélgetések utolsó mondatainak megjelenítése új chat ablak megnyitásakor.</description_hu>
+	<description_nl>Toont de laatste zinnen van de voorgaande gesprekken bij het openen van een nieuw gespreksvenster.</description_nl>
 	<amsn_version>0.94</amsn_version>
 	<plugin_version>1.2</plugin_version>
 	<plugin_file>remind.tcl</plugin_file>
@@ -46,6 +47,11 @@
 	<lang>
 		<langcode>lt</langcode>
 		<version>10396</version>
+	</lang>
+	
+	<lang>
+		<langcode>nl</langcode>
+		<version>1.1</version>
 	</lang>
 	
 	<URL>

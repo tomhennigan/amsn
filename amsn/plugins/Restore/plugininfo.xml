@@ -6,6 +6,7 @@
 	<description_es>Vuelve a abrir las conversaciones tras un fallo</description_es>
 	<description_fr>Réouvre les conversations après une fermeture inopinée</description_fr>
 	<description_hu>Újra megnyitja a beszélgetéseket összeomlás után</description_hu>
+	<description_nl>Heropent gespreksvensters na een crash.</description_nl>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.2</plugin_version>
 	<plugin_file>restore.tcl</plugin_file>

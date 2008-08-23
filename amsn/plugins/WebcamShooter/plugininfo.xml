@@ -6,6 +6,7 @@
 	<description_fr>Avec ce plugin vous pouvez prendre des photos avec votre webcam afin de les utiliser en tant qu'avatar.</description_fr>
 	<description_es>Con este plugin puedes tomar capturas de tu cámara web para usarla como imagen para mostrar.</description_es>
 	<description_hu>A plugin segítségével felvételeket készíthetsz a saját webkamerádról, és e felvételeket megjelenítendő képként használhatod.</description_hu>
+	<description_nl>Met deze plug-in kun je foto's maken met je webcam om als schermafbeelding te gebruiken.</description_nl>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.2</plugin_version>
 	<plugin_file>camshoot.tcl</plugin_file>

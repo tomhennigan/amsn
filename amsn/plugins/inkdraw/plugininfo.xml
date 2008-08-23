@@ -10,6 +10,8 @@ Nota: Los usuarios de Windows con el cliente oficial y con MS Journal Viewer ins
 Note : Les utilisateurs Windows avec le client officiel et MS Journal Viewer installé pourraient ne pas être capables de voir vos dessins.</description_fr>
 	<description_hu>A plugin lehetővé teszi, hogy rajzolj a chat ablakba, és ezeket a rajzokat/vázlatokat elküldd a partnereidnek. Az MSN Messenger 7+ verzióban lévő ink funkció implementációja.
 Megjegyzés: Az eredeti klienst és MS Journal Viewer-t használó Windows felhasználók nem fogják látni a rajzaidat.</description_hu>
+	<description_nl>Met deze plug-in kun je tekenen in het gespreksvenster en je tekeningen/schetsen naar je contacten verzenden. Het implementeert de ink-functie in MSN Messenger 7+.
+Noot: Windows-gebruikers die de officiële client en de MS Journal Viewer hebben geïnstalleerd zien je tekeningen misschien niet.</description_nl>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>0.3</plugin_version>
 	<plugin_file>inkdraw.tcl</plugin_file>
