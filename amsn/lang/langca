@@ -175,6 +175,7 @@ closeall Tancar totes les pestanyes de la finestra?
 closed Conversa amb $1 tancada per inactivitat
 closelabel Quan fas clic al botó de tancar en una finestra de conversa amb pestanyes
 closeonly Tancar només la pestanya actual
+closeorcall Has de tancar/cancel·lar la conferència amb so abans de tancar la finestra.
 close Tancar
 closingdocks El botó tancar minimitza la finestra
 color Color
@@ -188,11 +189,13 @@ confirmdelete Estàs segur de voler eliminar a $1?
 confirmdg Segur que vols eliminar aquest grup?
 confirmdu Segur que vols eliminar aquest usuari?
 confirmeg Segur que vols buidar aquest grup?
+confirmfulldelete Elimina-ho també de la agenda de Windows Live
 confirm Estàs segur?
 confirmpurge Totes les imatges mostrades dels teus contactes (però no la teva) estan a punt de ser esborrades. N'estàs segur?
 confirmrfl Segur que vols eliminar aquest usuari d'aquest grup?
 congrats Felicitats
 connected Ara estàs connectat
+connectedat Conectat en
 connectedwith Connectat amb $1
 connecterror Error connectant amb el servidor
 connecting Connectant
@@ -313,6 +316,9 @@ faileddelete Esborrat fallit
 faileddeleteperso Aquesta imatge no pot ser esborrada perquè no és una imatge personal. D'aquesta manera, només pots eliminar les imatges del teu perfil.
 failed Fallit
 faq Preguntes més freqüents (PMF)
+farsightextchecking Comprovant si la extensió Farsight està carregada...
+farsightextwarn No pots realitzar trucades SIP. Pots trobar respostes de com instal·lar el Farsight al nostre Wiki:
+farsightinfook El Farsight és un framework per a tractar amb els protocols de conferències d'àudio/vídeo. Amb el Farsight es poden enviar o rebre trucades SIP dintre de l'aMSN! Fes una mirada al Farsight al nostre Wiki:
 filedoesnotexist El fitxer no existeix
 file Fitxer
 filemanexample (\$location serà substituïda pel directori o fitxer) Ex: nautilus \$location
@@ -366,6 +372,7 @@ groupexists El grup ja existeix
 group Grup
 groupmissing No es pot trobar el grup
 groupnewname Nom nou
+groupnonim Agrupar els contactes sense messenger
 groupnotempty El grup no està buit!
 groupoldname Nom antic
 grouprename Reanomenar un grup
@@ -514,16 +521,19 @@ newveravailable La versió $1 està disponible per baixar
 next Següent
 nick Sobrenom
 noactivity Sense activitat
+no_blocked_notif No mostrar finestres d'avís per a contactes sense admissió
 nocacheddps Cap avatar en memòria cau per aquest usuari
 nodataavailable No hi ha dades disponibles per a $1
 nodevices No hi han dispositius instal·lats
 nogap Sense espais entre els grups
 nogroup Sense grup
+nojavascript No tens javascript activat. Pot ser que no funcioni l'inici de sessió automàtic.
 nologfile No existeix fitxer d'històric per $1
 nomic No hi ha Micròfon
 noneavailable No disponible
 nonewmail No hi ha missatges nous a la bústia
 nonewver No hi ha cap versió nova per a baixar-se
+nonimgroup Contactes sense messenger
 no No
 nopic Sense imatge
 noprofileexists No hi ha perfils definits.\nN'has de crear un, si vols utilitzar-los per iniciar la sessió.\nUtilitza el botó "Afegeix un nou perfil" per afegir un nou perfil.
@@ -543,6 +553,7 @@ notifyoffset Ajusta la posició de la finestra d'avís mitjançant un desplaçament
 notifytimeout Nombre de milisegons que la finestra de notificacions restarà oberta
 notifytyping Envia notificacions als altres usuaris al teclejar
 notifywin Finestra d'avís
+notimcontact Aquest no és un contacte de missatgeria instantània
 notinlist No ets a la seva llista de contactes
 notls La versió 9 del protocol MSN necessita el paquet TLS i sembla que no està instal·lat en aquest ordinador. Si ho està, la seva ruta s'ha d'especificar a la finestra de Preferències (ex: /opt/tls/lib).\n\n Pots descarregar-te el TLS des de <a href="http://tls.sf.net" target="_blank">http://tls.sf.net</a>.
 nottabbed Finestres normals sense pestanyes
@@ -603,6 +614,8 @@ preffont4 Canvia la manera en que veig el text dels altres en les converses
 preffont Text dels meus missatges
 prefft Ajustaments de la transmissió de fitxers, P2P i NAT
 preflibs Directori de les biblioteques
+preflocale2 Selecciona el teu idioma/codi del país
+preflocale Ajustaments de l'idioma
 preflog1 Opcions de l'històric i dels registres
 preflogevent Històric dels meus events
 preflook Aparença de l'aMSN
@@ -650,8 +663,10 @@ recentmsg Prevenir el tancament de la finestra de conversa quan acabi d'arribar 
 reconnect2 Reconnectar en perdre la connexió
 reconnect Esperant a que $1 es reconnecti
 reconnecting Reconnectant amb el servidor
+reconnectnow Reconnectar ara
 record Enregistra
 recvwebcamaccepted $1 ha acceptat la teva invitació per veure el seu/la seva càmera web. Connectant...
+redirect Prem aquí­ per a ser redirigit 
 reject Rebutjar
 rememberaccount Recorda el meu compte
 rememberpass Recordar contrasenya
@@ -659,6 +674,8 @@ remembersetting Recordar aquesta característica
 removeempty Elimina els grups buits de la llista de contacte
 removefromlist Suprimeix d'aquesta llista
 rename Renombrar
+renameep Renombrar aquesta ubicació ($1)
+renamelocation Renombrar aquesta ubicació
 report Informe
 reporting Informant
 required_version Impossible carregar aquest connector, necessites com a mínim la versió $1 de l'aMSN perquè funcioni
@@ -702,10 +719,17 @@ showdisplaypic2 Mostra l'avatar quan s'obri una nova conversa
 showdisplaypic Mostra l'avatar
 showmailicon Mostrar una icona a la barra de tasques en arribar correu nou
 showmypic El meu avatar
+shownonim Mostra contactes sense messenger
 shownotify Mostra una finestra de notificació quan succeeixin diversos events
 showpicnotify Mostrar les imatges dels usuaris a les finestres d'alerta
+showspaces Mostrar la icona dels espais a la llista de contactes
+showofflinegroup Mostrar el grup "Desconnectats"
 showuserpic Avatar del contacte $1
 signinstatus Estat de l'inici de sessió
+signout Tancar la sessió
+signoutep Tancar la sessió de $1
+signouteverywhere Tancar totes les sessions
+signouthere Tancar aquesta sessió ($1)
 skin Aparença
 skinselector Selector d'aparences
 small Petit
@@ -758,6 +782,7 @@ stylehist Aparença de l'històric de l'aMSN
 stylelog Escull l'estil en que vols veure l'històric
 subject Assumpte
 subjectrequired És necessari l'assumpte
+svnversion Versió SVN
 syntaxerror Error de sintaxi
 tabbed Finestres sobreposades
 tabbedglobal Una finestra amb pestanyes per a tots els contactes
@@ -852,6 +877,7 @@ xmmscurrent Mostra la cançó actual
 xmmserr No s'està reproduint res o no tens l'xmms-infopipe instal·lat.
 xmmssend Envia la cançó actual
 xoffset Desplaçament X
+xplaces $1 ubicacions
 year Any
 yesblock Sí i bloquejar
 yes Sí
@@ -897,6 +923,7 @@ sentvoice Enviat missatge de veu
 setasmydp Establir com la meva imatge
 showcontactemail Mostra els contactes amb el seu correu electrònic
 showcontactnick Mostra els contactes amb el seu sobrenom
+showdetailedview Mostrar la vista detallada dels contactes
 snackneeded La llibreria Snack és necessària per tal d'utilitzar aquesta funcionalitat. Com a mínim es necessita la versió 2.2.9.
 sortcontactgroup Ordena els contactes per grup
 sortcontacthybrid Ordena els contactes en mode híbrid
@@ -905,7 +932,7 @@ sortgroupsasc Ordena ascendentment els grups
 sortgroupsdesc Ordena descendentment els grups
 soundnoavail El dispositiu de so no està disponible. Atura totes les aplicaciones que facin ús del dispositiu de so.
 useasregexp Interpretar com a expressió regular
-usersettings Settings
+usersettings Preferències
 voice_notimplemented The Receiving of Voice Clips is not yet implemented. Please be patient.
 voice_windows Being a Windows user, you might be able to listen to the voice clip by opening the voice clip with your media player.
 voice_windows_click Click here to do so.
@@ -940,6 +967,7 @@ showonedpframe Mostra només un marc d'imatge per a mostrar a les finestres de co
 showlinksinlogin Mostra enllaços a la pantalla de connexió
 smallest El més petit
 sortcontactsasc Ordena els contactes per ordre alabètic invers
+sortcontactsbylogsize Ordena els contactes per la mida de l'historial
 sortcontactsdesc Ordena els contactes per ordre alfabètic
 sortcontactsby Ordena els contactes per
 always Sempre
