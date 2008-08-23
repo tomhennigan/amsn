@@ -722,5 +722,11 @@
 			<text> "(mo)" </text>
 			<file> Money.png </file>
 		</emoticon>
+
+		<emoticon>
+			<name> Rabbit </name>
+			<text> "('.')" </text>
+			<file> Rabbit.png </file>
+		</emoticon>
 		
    </smileys>
