@@ -1,0 +1,45 @@
+/*! \page Index Preamble and License
+
+\author Mohamed Abderaouf Bencheraiet <kenshin@cerberus.endtheinternet.org>
+
+
+<P>Libaio is designed to make it easy to do simple audio output/input. you just need open an audio device and play/reocord sound.The libaio API abstracts the underlying device dependant complexity.
+<P/>
+To use libaio in your program, you need to follow these steps: 
+<UL>
+	<LI>Include the <aio/aio.h> header into your program.
+
+	<LI>Call #aio_initialize() to initialize the library. This loads the plugins from disk.<br>
+
+	<LI>Call  #aio_default_driver_id() with NULL as its argument to get the ID number of the first availabale output driver,
+or call it with a char** containing the names (#oss,\ref alsa "alsa" for the moment ) of the drivers to try in order
+If you want to specify a particular output driver, you may call aio_driver_id() with a string corresponding 
+to the short name of the device (i.e. "oss" ...) instead. \n
+
+If you are using the default device, no extra options are needed. However, if you wish to to pass special
+options to the driver, you will need to Create a NULL terminated array of options  of type #aio_option_t *). 
+
+Note that the options take the form of key/value pairs where supported keys are listed in the driver documentation. <br>
+
+<LI>Call #aio_open() and save the returned #aio_device_t pointer.
+
+<LI>Call #aio_play() to output each block of audio.
+
+<LI>Call #aio_close() to close the device. Note that this will automatically free the memory that was allocated for the device.<br>
+Do not attempt to free the device pointer yourself!
+
+<LI>Call #aio_shutdown() to close the library.<br>
+</UL>
+See the example  "asd" or the  \ref LIBAIO_API "api reference" for more infos.
+<H2>Documentation License</H2>
+
+<P>This documentation is free; you can redistribute it without
+any restrictions. Modifications or derived work must retain
+the copyright and list all authors.</P>
+ 
+<P>This documentation is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</P>
+
+
+*/

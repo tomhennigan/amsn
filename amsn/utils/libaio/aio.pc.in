@@ -1,0 +1,15 @@
+# libaio pkg-config source file
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: aio
+Description: aio is an audio input/output library
+Version: @VERSION@
+Requires: 
+Conflicts:
+Libs: -L${libdir} -laio @LIBS@
+Cflags: -I${includedir}
+

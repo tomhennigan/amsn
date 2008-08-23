@@ -1,0 +1,25 @@
+#!/bin/sh
+# \
+exec wish $0 $@
+
+	
+#lappend auto_path [pwd]
+lappend auto_path /usr/local/lib
+lappend auto_path /home/kenshin/coding/libao2/aio/lib/libaio
+package require Tclaio
+
+wm withdraw .
+
+proc usage { } {
+	puts "Usage $::argv0 <wav file>"
+	exit
+}
+if {[llength $argv] != 1} {
+	usage
+}
+proc Close { } {
+	exit
+}
+
+::Aio::PlayWav $argv ::Close
+
