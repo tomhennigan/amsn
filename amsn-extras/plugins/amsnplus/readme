@@ -37,6 +37,8 @@ Features:
       /login			connect with the last login
       /logout			disconnect from server
       /nick new_nick		set nick to new_nick
+	  /pm new_pm			set personal message to new_pm
+	  /pm0					clear your personal message
       /sendfile (file)		if file is set then makes an invitation, otherwise opens a box dialog to choose the file
       /shell string		executes string in the system shell (see particularities en tcl documentation for windows platform)
       /speak user_login		opens a conversation with user_login

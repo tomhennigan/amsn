@@ -1161,6 +1161,26 @@ namespace eval ::amsnplus {
 				} else {
 					::amsnplus::write_window $chatid "\nYour new nick is: $nick" 0
 				}
+			} elseif {[string equal $char "/pm"]} {
+			set msg [string replace $msg $i [expr $i + 3] ""]
+			if { [::config::getKey protocol] >= 11} {
+				if { [string length $msg] > 130} {
+					set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
+					if { $answer == "no" } {
+						set msg ""
+						return
+					}
+				}			
+				::MSN::changePSM $msg
+				::amsnplus::write_window $chatid "\n[trans newpsm $msg]" 0
+				set msg ""
+			}
+			} elseif {[string equal $char "/pm0"]} {
+			if { [::config::getKey protocol] >= 11} {
+				::MSN::changePSM ""
+				::amsnplus::write_window $chatid "\n[trans newpsmnone]" 0
+				set msg ""
+			}
 			} elseif {[string equal $char "/qtconfig"]} {
 				set msg [string replace $msg $i [expr $i + 9] ""]
 				set strlen [string length $msg]

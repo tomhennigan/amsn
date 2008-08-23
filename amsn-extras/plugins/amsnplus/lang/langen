@@ -27,6 +27,8 @@ italic Italic
 keyword Keyword
 localization Localization
 multiplecolorsbutton Add a new color
+newpsm Your new personal message is: $1
+newpsmnone Your personal message is cleared.
 nosuchcommand No such command.
 overstrike Overstrike
 parsenicks Do you want to parse the msn plus color codification in nicks?
