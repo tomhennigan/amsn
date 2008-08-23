@@ -261,7 +261,7 @@ namespace eval ::Nudge {
 		set maxw [expr {[::skin::getKey notifwidth]-20}]
 		set nickname [trunc $nick . $maxw splainf]
 		#Show the notification
-		::amsn::notifyAdd "Nudge\n[trans nudge $nickname]." "::amsn::chatUser $email" "" plugins
+		::amsn::notifyAdd [trans nudge $nickname] "::amsn::chatUser $email" "" plugins
 		::Nudge::log "Notify window created"
 	}
 
