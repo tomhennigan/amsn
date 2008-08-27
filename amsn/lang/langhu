@@ -821,6 +821,7 @@ showcachedpics Tárolt képek megjelenítése
 show_contactdps_in_cl A partnerek megjelenítendő képeinek megjelenítése bélyegképként a partnerlistában
 showcontactemail Partnerek megjelenítése e-mail címmel
 showcontactnick Partnerek megjelenítése becenévvel
+showdetailedview Részletes partnernézet megjelenítése
 showdisplaypic2 Partner képének megjelenítése egy beszélgetésablak megnyitásakor
 showdisplaypic Saját képek megjelenítése
 showlinksinlogin Linkek megjelenítése a bejelentkező képernyőn
