@@ -4390,47 +4390,46 @@ proc create_main_menu {wmenu} {
 	#log in with another profile
 	#$accnt add command -label "[trans loginas]..." -command cmsn_draw_login -state normal
 	#log out
-	$accnt add command -label "[trans logout]" -command "preLogout \"::MSN::logout\"" -state disabled
+	$accnt add command -label "[trans logout]" -command [list preLogout ::MSN::logout] -state disabled
 	#-------------------
 	$accnt add separator
 	#change status submenu
 	$accnt add cascade -label "[trans changestatus]" -menu $accnt.my_menu -state disabled
 	#change nick
-	$accnt add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
+	$accnt add command -label "[trans changenick]..." -command [list cmsn_change_name] -state disabled
 	#change dp
-	$accnt add command -label "[trans changedisplaypic]..." -command dpBrowser -state disabled
+	$accnt add command -label "[trans changedisplaypic]..." -command [list dpBrowser] -state disabled
 	#-------------------
 	$accnt add separator
 	#go to inbox
-	$accnt add command -label "[trans gotoinbox]" -command "::hotmail::hotmail_login" -state disabled
+	$accnt add command -label "[trans gotoinbox]" -command [list ::hotmail::hotmail_login] -state disabled
 	#go to my profile
-	$accnt add command -label "[trans editmyprofile]" -command "::hotmail::hotmail_profile" -state disabled
+	$accnt add command -label "[trans editmyprofile]" -command [list ::hotmail::hotmail_profile] -state disabled
 	#-------------------
 	$accnt add separator
 	#edit global alarm settings
-	$accnt add command -label "[trans cfgalarmall]..." -command "::alarms::configDialog all" -state disabled
+	$accnt add command -label "[trans cfgalarmall]..." -command [list ::alarms::configDialog all] -state disabled
 	#-------------------
 	$accnt add separator
 	#received files
-	$accnt add command -label "[trans openreceived]" -command {launch_filemanager\
-		"[::config::getKey receiveddir]"}
+	$accnt add command -label "[trans openreceived]" -command [list launch_filemanager [::config::getKey receiveddir]]
 	#events history
-	$accnt add  command -label "[trans eventhistory]" -command "::log::OpenLogWin eventlog" -state disabled
+	$accnt add  command -label "[trans eventhistory]" -command [list ::log::OpenLogWin eventlog] -state disabled
 	
 	#On mac these are in the app menu instead of here, except for minimize, which doesn't exist on mac.
 	if {![OnMac]} {
 		#-------------------
 		$accnt add separator
 #		$accnt add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]u
-		$accnt add command -label "[trans skinselector]" -command ::skinsGUI::SelectSkin
-		$accnt add command -label "[trans pluginselector]" -command ::plugins::PluginGui
+		$accnt add command -label "[trans skinselector]" -command [list ::skinsGUI::SelectSkin]
+		$accnt add command -label "[trans pluginselector]" -command [list ::plugins::PluginGui]
 		$accnt add command -label "[trans preferences]" -command Preferences -accelerator "Ctrl-P"
 		#-------------------
 		$accnt add separator
 		#Minimize to tray
-		$accnt add command -label "[trans minimize]" -command "::amsn::closeOrDock 1"
+		$accnt add command -label "[trans minimize]" -command [list ::amsn::closeOrDock 1]
 		#Terminate aMSN
-		$accnt add command -label "[trans quit]" -command "::amsn::closeOrDock 2" -accelerator "Ctrl-Q"
+		$accnt add command -label "[trans quit]" -command [list ::amsn::closeOrDock 2] -accelerator "Ctrl-Q"
 	}
 
 	###########################
@@ -4445,24 +4444,24 @@ proc create_main_menu {wmenu} {
 	menu $view.sortcontacts -tearoff 0 -type normal
 
 	$view.sortcontacts add radio -label "[trans sortcontactstatus]" -value 0 \
-	    -variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar orderbygroup] -command [list ::Event::fireEvent changedSorting gui]
 	$view.sortcontacts add radio -label "[trans sortcontactgroup]" -value 1 \
-	    -variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar orderbygroup] -command [list ::Event::fireEvent changedSorting gui]
 	$view.sortcontacts add radio -label "[trans sortcontacthybrid]" -value 2 \
-	    -variable [::config::getVar orderbygroup] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar orderbygroup] -command [list ::Event::fireEvent changedSorting gui]
 	$view.sortcontacts add separator
 	$view.sortcontacts add radio -label "[trans sortcontactsasc]" -value 1 \
-	    -variable [::config::getVar orderusersincreasing] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar orderusersincreasing] -command [list ::Event::fireEvent changedSorting gui]
 	$view.sortcontacts add radio -label "[trans sortcontactsdesc]" -value 0 \
-	    -variable [::config::getVar orderusersincreasing] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar orderusersincreasing] -command [list ::Event::fireEvent changedSorting gui]
 	$view.sortcontacts add separator
 	$view.sortcontacts add checkbutton -label "[trans sortcontactsbylogsize]"  -onvalue 1 -offvalue 0 \
-	    -variable [::config::getVar orderusersbylogsize] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar orderusersbylogsize] -command [list ::Event::fireEvent changedSorting gui]
 	$view.sortcontacts add separator
 	$view.sortcontacts add checkbutton -label "[trans groupcontactsbystatus]" -onvalue 1 -offvalue 0 \
-	    -variable [::config::getVar orderusersbystatus] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar orderusersbystatus] -command [list ::Event::fireEvent changedSorting gui]
 	$view.sortcontacts add checkbutton -label "[trans groupnonim]" -onvalue 1 -offvalue 0 \
-	    -variable [::config::getVar groupnonim] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar groupnonim] -command [list ::Event::fireEvent changedSorting gui]
 	#-------------------
 	$view add separator	
 	$view add radio -label "[trans showcontactnick]" -value 0 \
@@ -4471,25 +4470,25 @@ proc create_main_menu {wmenu} {
 		-variable [::config::getVar emailsincontactlist] -command "::Event::fireEvent changedNickDisplay gui; ::Event::fireEvent changedSorting gui" -state disabled
 	#-------------------
 	$view add separator
-	$view add command -label "[trans changeglobnick]..." -command "::abookGui::SetGlobalNick"
+	$view add command -label "[trans changeglobnick]..." -command [list ::abookGui::SetGlobalNick]
 	#-------------------
 	$view add separator
 	$view add radio -label "[trans sortgroupsasc]" -value 1 \
-		-variable [::config::getVar ordergroupsbynormal] -command "::Event::fireEvent changedSorting gui" -state disabled
+		-variable [::config::getVar ordergroupsbynormal] -command [list ::Event::fireEvent changedSorting gui] -state disabled
 	$view add radio -label "[trans sortgroupsdesc]" -value 0 \
-		-variable [::config::getVar ordergroupsbynormal] -command "::Event::fireEvent changedSorting gui" -state disabled
+		-variable [::config::getVar ordergroupsbynormal] -command [list ::Event::fireEvent changedSorting gui] -state disabled
 	#-------------------
 	$view add separator
 	$view add checkbutton -label "[trans showdetailedview]" -onvalue 1 -offvalue 0 -state disabled \
-	    -variable [::config::getVar show_detailed_view] -command "::guiContactList::DetailedView"
+	    -variable [::config::getVar show_detailed_view] -command [list ::guiContactList::DetailedView]
 	#-------------------
 	$view add separator
 	$view add checkbutton -label "[trans shownonim]" -onvalue 1 -offvalue 0 -state disabled \
-	    -variable [::config::getVar shownonim] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar shownonim] -command [list ::Event::fireEvent changedSorting gui]
 	$view add checkbutton -label "[trans showspaces]" -onvalue 1 -offvalue 0  -state disabled \
-	    -variable [::config::getVar showspaces] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar showspaces] -command [list ::Event::fireEvent changedSorting gui]
 	$view add checkbutton -label "[trans showofflinegroup]" -onvalue 1 -offvalue 0  -state disabled \
-	    -variable [::config::getVar showOfflineGroup] -command "::Event::fireEvent changedSorting gui"
+	    -variable [::config::getVar showOfflineGroup] -command [list ::Event::fireEvent changedSorting gui]
 
 	###########################
 	#Actions menu
@@ -4531,7 +4530,7 @@ proc create_main_menu {wmenu} {
 	#-------------------
 	$conts add separator
 	#Add group
-	$conts add command -label "[trans groupadd]..." -state disabled -command ::groups::dlgAddGroup
+	$conts add command -label "[trans groupadd]..." -state disabled -command [list ::groups::dlgAddGroup]
 	#remove group
 	$conts add cascade -label "[trans groupdelete]" -state disabled -menu $conts.group_list_delete
 	#rename group
@@ -4540,15 +4539,15 @@ proc create_main_menu {wmenu} {
 	#-------------------
 	$conts add separator
 	#chat history
-	$conts add command -label "[trans history]" -command ::log::OpenLogWin -state disabled
+	$conts add command -label "[trans history]" -command [list ::log::OpenLogWin] -state disabled
 	#webcam history
-	$conts add command -label "[trans webcamhistory]" -command ::log::OpenCamLogWin	-state disabled
+	$conts add command -label "[trans webcamhistory]" -command [list ::log::OpenCamLogWin] -state disabled
 	#-------------------
 	$conts add separator
 	$conts add command -label "[trans savecontacts]" \
-		-command "saveContacts" -state disabled
+		-command [list saveContacts] -state disabled
 	$conts add command -label "[trans loadcontacts]" \
-		 -command "::abook::importContact" -state disabled	
+		 -command [list ::abook::importContact] -state disabled	
 
 	###########################
 	#Help menu
@@ -4559,25 +4558,25 @@ proc create_main_menu {wmenu} {
 	if {[OnMac]} {
 		# The help menu on a mac should be given the Command-? accelerator.
 		$help add command -label "[trans onlinehelp]" \
-			-command "launch_browser $::weburl/wiki/Main_Page" \
+			-command [list launch_browser $::weburl/wiki/Main_Page] \
 			-accelerator "Command-?"
 	} else {
 		$help add command -label "[trans onlinehelp]" \
-			-command "launch_browser $::weburl/wiki/Main_Page" \
+			-command [list launch_browser $::weburl/wiki/Main_Page] \
 	}
 
 	set lang [::config::getGlobalKey language]
 	$help add command -label "[trans faq]" \
-	    -command "launch_browser \"$::weburl/faq.php?lang=$lang\""
+	    -command [list launch_browser "$::weburl/faq.php?lang=$lang"]
 	$help add separator
 	$help add command -label "[trans msnstatus]" \
-	    -command "launch_browser \"http://messenger.msn.com/Status.aspx\""
-	$help add command -label "[trans sendfeedback]" -command "launch_browser \"$::weburl/forums/index.php\""
+	    -command [list launch_browser http://messenger.msn.com/Status.aspx]
+	$help add command -label "[trans sendfeedback]" -command [list launch_browser "$::weburl/forums/index.php"]
 
 	# About is in the app menu on Mac
 	if {![OnMac]} {
 		$help add separator
-		$help add command -label "[trans about]" -command ::amsn::aboutWindow
+		$help add command -label "[trans about]" -command [list ::amsn::aboutWindow]
 	}
 
 	#add a postevent to modify the main menu
