@@ -1,55 +1,45 @@
 amsn_lang_version 2
+abort ·ÅÆú
 about ¹ØÓÚ
-aboutamsn ¹ØÓÚAlvaro's Messenger 
+aboutamsn ¹ØÓÚAlvaro's Messenger (amsn)
+accept ½ÓÊÜ
+acceptfile ÄúÏë½ÓÊÜÎÄ¼ş $1 Âğ(´óĞ¡Îª $2 bytes)? Ëü»á±£´æÔÚ $3
 account ÕÊ»§ 
+actions ĞĞÎª
 activeautoupdate ¼¤»î×Ô¶¯Éı¼¶ 
 add Ôö¼Ó
-agotinvitation ½ÓÊÜ$1 µÄÓïÒôÑûÇë 
-allmonths ËùÓĞÔÂ·İ 
-allow_sms ÔÊĞíÓÃ»§ÓÃ¹ıÎÒµÄMSNÒÆ¶¯Éè±¸ÁªÏµÎÒ
-askcam ÒªÇó½ÓÊÜÍøÂçÊÓÆµ 
-askcontactwebcam ÇëÇóÍøÂçÊÓÆµ 
-askeachtime Ã¿´Î¶¼Ñ¯ÎÊ 
-asksendingyourwebcam ÇëÇó·¢ËÍ¸øÄãÍøÂçÊÓÆµ  
-asksendoim ÄúÈ·ÈÏÒª·¢ËÍÀëÏßĞÅÏ¢Âğ£¿ 
-askwebcam ÇëÇó¸ÃÓÃ»§µÄÍøÂçÊÓÆµ  
-author ×÷Õß 
-autolisten_voiceclips ½ÓÊÕÓïÒôÆ¬¶Îºó×Ô¶¯»Ø·Å 
-autoresizedp ÖØÖÃ½ÓÊÕÍ¼Æ¬ÎªÄ¬ÈÏ´óĞ¡
-avaccepted ÒÑ½ÓÊÜÊÓÆµ»áÒé
-avcanceled ÒÑÈ¡ÏûÊÓÆµ»áÒé 
-avgotinvitation ½ÓÊÜÊÓÆµ»áÒéÑûÇë $1 
-avinitfailed ³õÊ¼»¯ÓïÒô/ÊÓÆµÊ§°Ü£¬ºô½ĞÈ¡Ïû 
-acceptfile ½ÓÊÕµµ°¸ $1, ´óĞ¡ $2 ´¢´æµ½ $3
-accept ½ÓÊÜ
-actions Ö´ĞĞ
-addacontact ĞÂÔöÁ¬ÂçÈË
-addedyou $1 ($2) ÒÑ¼ÓÈëµ½Ëû/ËıµÄÇåµ¥
-addprofiledesc ÊäÈëÄúËùÏëÒªĞÂÔöµÄ¸öÈËÉè¶¨µµÃû³Æ.\nÊ¹ÓÃ¸öÈËÉè¶¨µµµÄµÇÈë,ÔÊĞíÄúÓÚÊ¹ÓÃ¸÷¸öÉè¶¨µµÃû³ÆÖĞµÄÉè¶¨.\nÈç¹ûÃ»ÓĞÊ¹ÓÃ¸öÈËÉè¶¨ÎÄ¼ş,ÀúÊ·¼ÍÂ¼¡¢ÏÔÊ¾Í¨Öª»òÊÇÓÀÔ¶¼ÇµÃÃÜÂëµÄ¹¦ÄÜ½«ÎŞ·¨Ê¹ÓÃ.
-addprofile ĞÂÔö¸öÈËÉè¶¨µµ
-addstate ĞÂÔöĞÂµÄ×´Ì¬
-addtocontacts ¼ÓÈëÇåµ¥
-addtoo ĞÂÔöÁ¬ÂçÈËµ½ÎÒµÄÇåµ¥
+addacontact ĞÂÔöÁªÏµÈË
+addedyou $1 ($2) °ÑÄú¼ÓÈëÁËÁªÏµÈËÁĞ±í
+addprofiledesc ÊäÈëÄúËùÏëÒªĞÂÔöµÄ¸öÈËÉè¶¨Ãû³Æ.\nÊ¹ÓÃ¸öÈËÉè¶¨µÇÈë£¬ÔÊĞíÄúÊ¹ÓÃ¸÷¸öÃû³ÆÖĞµÄÉè¶¨.\nÈç¹ûÃ»ÓĞÊ¹ÓÃ¸öÈËÉè¶¨ÎÄ¼ş£¬ÀúÊ·¼ÍÂ¼¡¢ÏÔÊ¾Í¨Öª»òÊÇÓÀÔ¶¼ÇµÃÃÜÂëµÈ¹¦ÄÜ½«ÎŞ·¨Ê¹ÓÃ
+addprofile ĞÂÔö¸öÈËÉè¶¨
+addstate Ìí¼ÓĞÂµÄ×´Ì¬
+addtocontacts ¼ÓÈëµ½ÁªÏµÈËÁĞ±í
+addtoo °Ñ´ËÈË¼ÓÈëÁªÏµÈËÁĞ±í
 addto ĞÂÔöµ½ $1
-admincontacts ¹ÜÀíÁ¬ÂçÈË
+admincontacts ¹ÜÀíÁªÏµÈË
 admingroups ¹ÜÀíÈº×é
 advanced ½ø½×
 advancedprefs ½ø½×Éè¶¨
 adverts ¹ã¸æ
-alarmonconnect Á¬ÂçÈËÉÏÏßÊ±ÏÔÊ¾Í¨Öª
-alarmondisconnect Á¬ÂçÈËÏÂÏß»òÒşĞÎÊ±ÏÔÊ¾Í¨Öª
+agotinvitation ½ÓÊÜ$1 µÄÓïÒôÑûÇë 
+alarmstatus Îª´ËÓÃ»§¼¤»îÄÖÖÓ
+alarmonconnect ÁªÏµÈËÉÏÏßÊ±ÏÔÊ¾Í¨Öª
+alarmondisconnect ÁªÏµÈËÏÂÏß»òÒşĞÎÊ±ÏÔÊ¾Í¨Öª
 alarmonmsg µ±ÊÕµ½Ñ¶Ï¢Ê±ÏÔÊ¾Í¨Öª
-alarmonstatus Á¬ÂçÈË¸Ä±ä×´Ì¬Ê±ÏÔÊ¾Í¨Öª
-alarmpref Á¬ÂçÈËÍ¨ÖªÉè¶¨
-alarms ¾¯¸æ
-alarmstatus ¿ªÆô»ò¹Ø±Õ¸ÃÁ¬ÂçÈËÍ¨Öª
-allfiles ËùÓĞµµ°¸
+alarmonstatus ÁªÏµÈË¸Ä±ä×´Ì¬Ê±ÏÔÊ¾Í¨Öª
+alarmpref ÁªÏµÈËÍ¨ÖªÉè¶¨
+alarmpref2 Ã¿¸öÁªÏµÈËµÄÄÖÖÓÉè¶¨
+alarms ÄÖÖÓ
+allfiles ËùÓĞÎÄ¼ş
+allmonths ËùÓĞÔÂ·İ 
 allowallbutbl  ·âËøÇåµ¥ÒÔÍâµÄÈË¿ÉÒÔ¿´¼ûÎÒµÄ×´Ì¬ºÍ´«ËÍÑ¶Ï¢¸øÎÒ
-allowbadwords Disable censorship on nicknames 
+allowbadwords ½ûÖ¹êÇ³Æ¼ì²é
 allowlist ÎÒµÄÔÊĞíÇåµ¥ (AL):
 allowonlyinal Ö»ÓĞÔÚÔÊĞíÇåµ¥ÉÏµÄÈË¿ÉÒÔ¿´¼ûÎÒµÄ×´Ì¬ºÍ´«ËÍÑ¶Ï¢¸øÎÒ
 allowseen µ±ÄúÔÚÔÚÏßÊ±ÔÊĞíÕâ¸öÈË¿´µ½ÄúºÍÁªÂçÄú
+allow_sms ÔÊĞíÓÃ»§ÓÃ¹ıÎÒµÄMSNÒÆ¶¯Éè±¸ÁªÏµÎÒ
 allprofilesinuse ËùÓĞµÄ¸öÈËÉè¶¨µµ¶¼ÔÚÊ¹ÓÃÖĞ
+always Ê±³£
 animatedemoticon ÕâÊÇ¸ö¶¯Ì¬µÄ±íÇé·ûºÅ
 animatedsmileys Æô¶¯¶¯Ì¬±íÇé·ûºÅ
 animatenotify ¶¯»­Í¨Öª´°¿Ú
@@ -57,6 +47,23 @@ appearance Íâ¹Û
 appearoff ÒşĞÎ
 areacode ÇøÂë
 aretyping $1 ÕıÔÚÊäÈëÑ¶Ï¢
+askcam ÇëÇó½ÓÊÜÓ°Ïñ
+askcontactwebcam ÇëÇóÓ°Ïñ
+askeachtime Ã¿´Î¶¼Ñ¯ÎÊ 
+asksendingyourwebcam ÇëÇó·¢ËÍ¸øÄãÍøÂçÊÓÆµ  
+asksendoim ÄúÈ·ÈÏÒª·¢ËÍÀëÏßĞÅÏ¢Âğ£¿ 
+askwebcam ÇëÇó¸ÃÓÃ»§µÄÍøÂçÊÓÆµ  
+assistantainput Ñ¡ÔñÄãµÄÊäÈë×°ÖÃÈ»ºó³¢ÊÔÓÃËüÂ¼Òô
+assistantaoutput Ñ¡ÔñÄãµÄÊä³ö×°ÖÃÈ»ºó³¢ÊÔ´ò¿ªÕâ¸öÎÄ¼ş²âÊÔËü
+assistantawarn Äú²»ÄÜÂ¼ÖÆ×Ô¼º, »òÓëÄãµÄÅóÓÑÌ¸»°¡£Äã¿ÉÒÔÔÚÎÒÃÇµÄÍøÕ¾wiki²éÕÒ°²×°Õâ²å¼şµÄ·½·¨:
+assistantfinetunepic ¸Ä±äÒÔÏÂÉèÖÃµ÷ÕûÄãµÄÍøÂçÉãÓ°Í·µÄÍ¼ÏóËØÖÊ
+assistantselectcam ´ÓÁĞ±íÀïÑ¡ÔñÒ»¸öÉãÏñÍ·
+assistantstarting ¿ªÊ¼Ê¹ÓÃÖúÊÖ
+assistanttitle ÒôÆµÊÓÆµÖúÊÖ
+assistantwelcome ÕâÖúÀí½«Òıµ¼ÄãÍê³ÉÉèÖÃÄãµÄ aMSN ÒôÆµºÍÊÓÆµÉèÖÃ¡£\n\½«¼ì²éËùĞèµÄ²å¼şÊÇ·ñ´æÔÚ¼°¿ªÆô£¬Äã¿ÉÒÔÑ¡Ôñ×°ÖÃºÍÆµµÀ£¬µ÷ÕûÍ¼Æ¬ÉèÖÃ¡£
+audioconfigured ÄãÑ¡ÔñÏÂÃæµÄÒôÆµÉèÖÃ:\n\nÊä³öÉè±¸: $1\nÊäÈëÉè±¸: $2
+audiovideo ÒôÆµÊÓÆµÉèÖÃ
+author ×÷Õß
 autoaccepted µµ°¸´«ËÍÒÑ¾­±»×Ô¶¯½ÓÊÜ 
 autoacceptft ×Ô¶¯½ÓÊÜµµ°¸´«ËÍÒªÇó
 autoaway µ±ÎÒÏĞÖÃÊ±,½«ÎÒµÄ×´Ì¬ÏÔÊ¾Îª¡¸Àë¿ª¡¹
@@ -67,41 +74,54 @@ autodetectip ×Ô¶¯Õì²â IP µØÖ·
 autohotmaillog ×Ô¶¯µÇÈë Hotmail
 autoidle ×Ô¶¯·¢´ô
 autoip Automatic IP
+autolisten_voiceclips ½ÓÊÕÓïÒôÆ¬¶Îºó×Ô¶¯»Ø·Å 
 automessage ×Ô¶¯»Ø¸´Ñ¶Ï¢
 autonoact µ±ÎÒÏĞÖÃÊ±,½«ÎÒµÄ×´Ì¬ÏÔÊ¾Îª¡¸·¢´ô¡¹
+autoresizedp ÖØÖÃ½ÓÊÕÍ¼Æ¬ÎªÄ¬ÈÏ´óĞ¡
+avaccepted ÒÑ½ÓÊÜÊÓÆµ»áÒé
+avcanceled ÒÑÈ¡ÏûÊÓÆµ»áÒé 
+avgotinvitation ½ÓÊÜÊÓÆµ»áÒéÑûÇë $1 
+avinitfailed ³õÊ¼»¯ÓïÒô/ÊÓÆµÊ§°Ü£¬ºô½ĞÈ¡Ïû 
 avoidseen µ±ÄúÔÚÔÚÏßÊ±·âËøÕâ¸öÈË¿´µ½ÄúºÍÁªÂçÄú
 away Àë¿ª
 awaymsg1 Ã¿´ÎÑ¯ÎÊÎÒµÄÀë¿ªÑ¶Ï¢µ±ÎÒ°ÑÎÒµÄ×´Ì¬¸ü¸ÄÎª£ºÀë¿ª/ÂíÉÏ»ØÀ´/Ã¦Âµ
 awaymsg2 ÓÀ²»Ñ¯ÎÊÇÒÓÀÔ¶Ê¹ÓÃÏÂÁĞÀë¿ªÑ¶Ï¢
-badwebcam ÎŞ·¨¼ÓÔØÊÓÆµ£¬ÇëÈ·ÈÏÄúµÄÉãÏñÍ·ÕıÈ·°²×°ÉèÖÃ£¡
-brightness ÁÁ¶È 
-bugerror ¶Ô²»Æğ£¬ÎŞ·¨Á¬½Óµ½BUG·şÎñÆ÷£¬Çë¼ì²éÍøÂç£¡ 
-bugnocomment ÄúÈ·ÈÏ²»ÌîÆÀÂÛ¾Í·¢ËÍÂğ£¿ÄúµÄÆÀÂÛÓĞÖúÓÚ°ïÖúÎÒÃÇÀí½âÄúÃèÊöµÄÎÊÌâ£¡ 
+back »ØÈ¥
 baduserpass Ê¹ÓÃÕßÃû³Æ»òÃÜÂë´íÎó
+badwebcam ÎŞ·¨¼ÓÔØÊÓÆµ£¬ÇëÈ·ÈÏÄúµÄÉãÏñÍ·ÕıÈ·°²×°ÉèÖÃ£¡
 bgcolor ¸ü»»aMSNµÄ±³¾°ÑÕÉ«
 blankdirect Ô¤Áô¿Õ°×ÎªÖ±½ÓÁª»ú
 block ·âËø
 blocked ÒÑ·âËø
-blockedyougroup ½«·âËøÄúµÄÁ¬ÂçÈËÏÔÊ¾ÔÚ¶ÀÁ¢µÄÈº×é
+blockedyougroup ½«·âËøÄúµÄÁªÏµÈËÏÔÊ¾ÔÚ¶ÀÁ¢µÄÈº×é
 blocking ·âËøÖĞ
 blockinter1 µ±ÄúµÄ×´Ì¬ÎªÔÚÏßÃ¿
 blockinter2 Ãë¼ì²éÒ»´Î, ·ñÔòÃ¿
 blockinter3 Ã¿
 blockinter4 Ãë¼ì²éÒ»´Î
 blocklist ·âËøÇåµ¥ (BL): 
-blockmessage ÕâĞ©Á¬ÂçÈËÏÖÔÚÔÚÔÚÏß¶øÇÒ½«Äú·âËø
+blockmessage ÕâĞ©ÁªÏµÈËÏÖÔÚÔÚÔÚÏß¶øÇÒ½«Äú·âËø
+blocknotifications ×èÖ¹Í¨Öª´°¿Ú 
+blocksounds ¾²Òô 
 blockusers Ã¿´Î¼ì²éÊ¹ÓÃÕßÊıÄ¿
 bouncedock ÊÕµ½Ñ¶Ï¢Ê±, ÉÁ¶¯aMSNµÄiconÓÚdockÖĞ
 broughtby ×÷ÕßÈº
 browse ä¯ÀÀ
 browser ä¯ÀÀ
+brightness ÁÁ¶È 
 browserexample ( \$url ½«»á±»¸ü»»ÎªURL). Ex: mozilla \$url 
+bugerror ¶Ô²»Æğ£¬ÎŞ·¨Á¬½Óµ½BUG·şÎñÆ÷£¬Çë¼ì²éÍøÂç£¡ 
+bugnocomment ÄúÈ·ÈÏ²»ÌîÆÀÂÛ¾Í·¢ËÍÂğ£¿ÄúµÄÆÀÂÛÓĞÖúÓÚ°ïÖúÎÒÃÇÀí½âÄúÃèÊöµÄÎÊÌâ£¡ 
 busy Ã¦Âµ
+bytesymbol b
 cachedpics $1 Ôİ´æÍ¼Æ¬
+cachedpicsfor ±»Öü²ØµÄÓÃ»§ÏÔÊ¾Í¼Æ¬
 cancel È¡Ïû
 cannotdeleteprofile ²»ÄÜÉ¾³ı¸öÈËÉè¶¨µµ,ÒòÎªaMSNÕıÔÚÊ¹ÓÃËü.
+cantget ÎŞ·¨È¡µÃ $1
 cantexec ²»ÄÜÖ´ĞĞÓ¦ÓÃ³ÌĞò: $1. Çë¼ì²éÆ«ºÃÉè¶¨
 cantremoveothers ²»ÄÜÒÆ³ı "ÆäËü" Èº×é
+capturewarn Äã²»ÄÜ¿ªÆôÄãµÄÍøÂ·ÉãÓ°Í·Èç¹ûÄãÓĞ¡£Èç¹û²»ÄÜ£¬ÕâÊÇÕı³£µÄ¡£Äã¿ÉÒÔÔÚÎÒÃÇµÄÍøÕ¾²éÕÒ°²×°Õâ²å¼şµÄ½ÌÑ§
 casesensitive Ê¹ÓÃ´óĞ¡Ğ´Ãô¸Ğ´¥·¢
 cfgalarmall Éè¶¨/Ôö¼Ó/ÒÆ³ıÈ«ÓòÍ¨Öª
 cfgalarm Éè¶¨/Ôö¼Ó/ÒÆ³ıÍ¨Öª
@@ -116,25 +136,38 @@ changestate $1 ÇĞ»»×´Ì¬ÖÁ $2
 charscounter ¶Ô»°´°¿ÚÖĞ×ÖÊı
 chatack ÕıÔÚ½ÓÊÜÁÄÌì´Ó
 chat ½»Ì¸
-chatmaxmin µ±Á¬ÂçÈË¿ªÊ¼¸úÎÒÁÄÌìÎÒÏ£Íû±ä³É: 
+chatmaxmin µ±ÁªÏµÈË¿ªÊ¼¸úÎÒÁÄÌìÎÒÏ£Íû±ä³É: 
 chatreq ÑûÇë½»Ì¸
 chatsmileys2 ÏÔÊ¾±íÇé·ûºÅÓÚÁÄÌì´°¿Ú
 chatsmileys ÆôÓÃ±íÇé·ûºÅ
-checkblocking ³ÖĞø¼ì²éÊÇ·ñÓĞÁ¬ÂçÈË·âËøÄú
-checkemail ÔÚÁªÂçÈËÃûµ¥ÖĞÏÔÊ¾ÓÊ¼şÍ¨Öª(ÊÕ¼şÏ»)
+checkblocking ³ÖĞø¼ì²éÊÇ·ñÓĞÁªÏµÈË·âËøÄú
+checkemail ÔÚÁªÏµÈËÃûµ¥ÖĞÏÔÊ¾ÓÊ¼şÍ¨Öª(ÊÕ¼şÏ»)
 checkfilman ÒÑ½ÓÊÕµÄµµ°¸½«»á±»´¢´æÔÚ $1. Çë¼ì²éÆ«ºÃÉè¶¨ÖĞµÄµµ°¸¹ÜÀíÔ±Éè¶¨
+checkingaudio ÕıÔÚ¼ì²éÒôÆµ²å¼ş (Snack) ÊÇ·ñÒÑ±»¿ªÆô
+checkingcam ¼ì²éÍøÂ·ÉãÓ°Í·ÊÇ·ñÁ¬½Ó
+checkingcapext ¼ì²é'$1'²å¼şÊÇ·ñÒÑ±»¿ªÆô
+checkingextensions ¼ì²éÂ¼Òô²å¼ş
 checkingver ÕıÔÚ¼ì²éĞÂ°æ±¾
+chooseinputdev ¼ì²éÄãµÄÊäÈë×°ÖÃ
+chooselocation Ñ¡ÔñĞÂµÄÎÄ¼şÎ»ÖÃ
+choosemixerdev Ñ¡ÔñÄãµÄ»ìºÏ×°ÖÃ
+chooseoutputdev Ñ¡ÔñÄãµÄÊä³ö×°ÖÃ
+closechatwindows ÔÚµÇ³öÖ®Ç°¹Ø±ÕËùÓĞ¶Ô»°£¿
+closeothers ¹Ø±ÕËùÓĞÆäËû¶Ô»°
+configuremic ÕıÔÚÉèÖÃÄãµÄÂó¿Ë·ç
+configuringaudio ÕıÔÚ¸ü¸ÄÒôÏñÉèÖÃ
+configureplugin ÕıÔÚ¸ü¸Ä $1 ²å¼şÉèÖÃ
 checkonfln ¼ì²éÀëÏßµÄÊ¹ÓÃÕßÊÇ·ñÓĞÈË·âËøÄú
 checkver ¼ì²éĞÂ°æ±¾
 choosearq Ñ¡ÔñÄúµÄÏµÍ³¼Ü¹¹
 choosebasefont Ñ¡Ôñ×ÖĞÍ
 choosebgcolor Ñ¡Ôñ±³¾°ÑÕÉ«
-choosecontact ÇëÓÚÇåµ¥ÖĞÑ¡ÔñÒ»ÎÀÁ¬ÂçÈË
+choosecontact ÇëÓÚÇåµ¥ÖĞÑ¡ÔñÒ»ÎÀÁªÏµÈË
 choosefontcolor :  Ñ¡Ôñ×ÖĞÍÑÕÉ«
 chooseskin ÇëÑ¡ÔñÄúÏëÊ¹ÓÃµÄÃæ°å
 ch_to_state ÇĞ»»µ½ĞÂµÄ×´Ì¬
 clear Çå³ı
-clearlog2 Çå³ıËùÓĞÁ¬ÂçÈËµÄÀúÊ·¼ÍÂ¼
+clearlog2 Çå³ıËùÓĞÁªÏµÈËµÄÀúÊ·¼ÍÂ¼
 clearlog3 Çå³ıËùÓĞ¼ÇÂ¼
 clearlog Çå³ı¼ÍÂ¼
 clicktologin Çë°´ÕâÀïµÇÈë
@@ -143,6 +176,7 @@ clientname ¿Í·ş¶ËÃû³Æ
 close ¹Ø±Õ
 closed ÒòÎª·¢´ôËùÒÔÓë $1 µÄ¶Ô»°ÒÑ¾­±»¹Ø±Õ
 closingdocks ¹Ø±Õdocks´°¿Ú
+closeorcall Äú±ØĞë¶Ï¿ª»òÈ¡ÏûÍ¨»°²ÅÄÜ¹Ø±ÕÕâ¸ö´°¿Ú
 commandstatus Ö´ĞĞÃüÁî
 command Ö¸Áî
 confirm ÄãÈ·¶¨Òª£¿
@@ -150,16 +184,19 @@ confirmdelete ÄúÈ·¶¨ÒªÉ¾³ı $1?
 confirmdg ÄúÈ·¶¨ÒªÉ¾³ıÕâ¸öÈº×éÂğ?
 confirmdu ÄúÈ·¶¨ÒªÉ¾³ıÕâ¸öÊ¹ÓÃÕßÂğ?
 confirmeg ÄúÈ·¶¨ÒªÇå¿ÕÕâ¸öÈº×éÂğ?
-confirmpurge ËùÓĞÁ¬ÂçÈËµÄÍ¼Æ¬½«»á±»É¾³ı£¿ ÄãÈ·¶¨Âğ£¿
+confirmfulldelete Ò²É¾³ıWindows LiveµØÖ·²¾ÉÏµÄĞÅÏ¢
+confirmpurge ËùÓĞÁªÏµÈËµÄÍ¼Æ¬½«»á±»É¾³ı£¿ ÄãÈ·¶¨Âğ£¿
+congrats ×£ºØ
 connected ÄúÏÖÔÚÒÑ¾­Á¬½Ó³É¹¦
+connectedat Á¬½Óµ½ÁË
 connectedwith Óë$1ÒÑ¾­Áª»ú
 connecterror Á¬½áµ½·şÎñÆ÷Ê±·¢Éú´íÎó
 connecting Áª»úÖĞ
 connectionlost ¶ÏÏß: Óë·şÎñÆ÷¹Ø±ÕÁª»ú
 connection Áª»ú
-contactadded Á¬ÂçÈË±»¼ÓÈë
-contactdoesnotexist Á¬ÂçÈË²»´æÔÚ!
-contactlist Á¬ÂçÈËÇåµ¥ (FL):
+contactadded ÁªÏµÈË±»¼ÓÈë
+contactdoesnotexist ÁªÏµÈË²»´æÔÚ!
+contactlist ÁªÏµÈËÇåµ¥ (FL):
 continuously ÖØ¸´µØ
 convertexplain ImageMagickµÄCONVERTÂ·¾¶£¨ÓÃÀ´ÏÔÊ¾Í¼Æ¬ÓÃ£©.\nÈç¹ûÒÑ¾­´æÔÚÓÚpathÖĞÇë±£³Ö¿Õ°×.
 copy ¸´ÖÆ
@@ -170,13 +207,15 @@ countrycode ÎÒµÄ¹ú¼Ò/µØÇøÂë
 cprofile ½¨Á¢¸öÈËÉè¶¨µµ
 credits ÖÆ×÷ÈËÔ±
 currentdate ÏÖÔÚÈÕÆÚ
-custnotifymsg ½ÓÊÕµ½ĞÂµÄÁªÂçÈËÑ¶Ï¢Ê±ÏÔÊ¾Í¨Öª´°¿Ú
-custnotifyoffline ÁªÂçÈËÀëÏßÊ±ÏÔÊ¾Í¨Öª´°¿Ú
-custnotifyonline ÁªÂçÈËÉÏÏßÊ±ÏÔÊ¾Í¨Öª´°¿Ú
-custnotifystatus µ±ÕâÃûÁªÂçÈË¸ü»»×´Ì¬Ê±ÏÔÊ¾Í¨Öª´°¿Ú
+currentdynrate Ä¿Ç°ÊµÊ±ËÙ¶È£¨ºÁÃë£©
+custnotifymsg ½ÓÊÕµ½ĞÂµÄÁªÏµÈËÑ¶Ï¢Ê±ÏÔÊ¾Í¨Öª´°¿Ú
+custnotifyoffline ÁªÏµÈËÀëÏßÊ±ÏÔÊ¾Í¨Öª´°¿Ú
+custnotifyonline ÁªÏµÈËÉÏÏßÊ±ÏÔÊ¾Í¨Öª´°¿Ú
+custnotifystatus µ±ÕâÃûÁªÏµÈË¸ü»»×´Ì¬Ê±ÏÔÊ¾Í¨Öª´°¿Ú
 customcolor ×Ô¶©ÑÕÉ«
 custom_edit ±à¼­¸öÈË±íÇé·ûºÅ
 custom_new ĞÂÔö¸öÈË±íÇé·ûºÅ
+customdp ¸öĞÔ»¯ÏÔÊ¾Í¼Æ¬ 
 customnick ×Ô¶©êÇ³Æ
 customstyle ×Ô¶©·ç¸ñ
 cut ¼ôÏÂ
@@ -228,7 +267,10 @@ days Ìì
 dcprofile ²»Òª½¨Á¢¸öÈËÉè¶¨µµ
 defaultloginradio Ê¹ÓÃÄ¬ÈÏÖµµÇÈë
 default Ä¬ÈÏÖµ
+default2 Ä¬ÈÏ 
 defchatwinsize Ô¤ÉèµÄÁÄÌì´°¿Ú´óĞ¡ (XSIZExYSIZE) 
+deleteall É¾³ıÈ«²¿ 
+deleteblock É¾³ı²¢×èÖ¹
 deletecustomstate É¾³ı¸öÈË×´Ì¬
 delete É¾³ı
 delimiters Timestamps' delimiters: 
@@ -236,6 +278,10 @@ deliverfail ´«µİÏÂÁĞÑ¶Ï¢Ê±·¢Éú´íÎó
 delprofile2 ÇëÑ¡ÔñÄúÒªÉ¾³ıµÄ¸öÈËÉè¶¨µµ
 delprofile É¾³ı¸öÈËÉè¶¨µµ
 description ÃèÊö
+detach Detach 
+details Ï¸½Ú 
+devicebusy Éè±¸ $1 ·±Ã¦ 
+devices Éè±¸ 
 directconnection ÎÒµÄ¼ÆËã»úÖ±½ÓÁª»úµ½Internet (Ê¹ÓÃ port 1863)
 disabled ¹Ø±Õ
 disableprofiles ¹Ø±Õ¸öÈËÉè¶¨µµ (ÔÚÍø¿§»òÊÇ¹«ÓÃ¼ÆËã»úÌØ±ğÓĞÓÃ) 
@@ -244,10 +290,12 @@ disableuserfonts ½»Ì¸Ê±²»Ê¹ÓÃ¶Ô·½µÄ×ÖĞÍ,Ê¹ÓÃ×Ô¼ºÉè¶¨µÄ×ÖÌå
 disconnect $1 ÒÑ¾­¶ÏÏß.
 disconnectedfrom Óë$1ÖÕÖ¹Áª»ú
 displaychat ÏÔÊ¾ÎÄ×ÖÑ¡Ïî
-displayeventconnect ÁªÂçÈËÉÏÏßÊ±ÏÔÊ¾
-displayeventdisconnect ÁªÂçÈËÏÂÏßÊ±ÏÔÊ¾
+displayeventconnect ÁªÏµÈËÉÏÏßÊ±ÏÔÊ¾
+displayeventdisconnect ÁªÏµÈËÏÂÏßÊ±ÏÔÊ¾
 displayeventemail ½ÓÊÕµ½ĞÅ¼şÊ±ÏÔÊ¾
-displayeventstate ÁªÂçÈË¸Ä±ä×´Ì¬Ê±ÏÔÊ¾
+displayeventnick ÏÔÊ¾µ±ÁªÏµÈË¸Ä±äêÇ³Æ
+displayeventpsm ÏÔÊ¾µ±ÁªÏµÈË¸Ä±ä¸öÈËÑ¶Ï¢
+displayeventstate ÁªÏµÈË¸Ä±ä×´Ì¬Ê±ÏÔÊ¾
 displayp4context ÏÔÊ¾P4-Context×Ö¶ÎÄÚÈİÎªÑ¶Ï¢·¢ËÍÕß
 displaypic ÏÔÊ¾Í¼Æ¬
 dockfreedesktop FreeDesktop (KDE3/Gnome2) 
@@ -255,36 +303,36 @@ dockgtk Gnome Dock
 docking Docking 
 dockingoff Docking Off 
 dockkde KDE Dock 
+done Íê±Ï 
+dontaskweek ÔÚÒ»ĞÇÆÚÄÚ²»ÒªÎÊÊÇ·ñÒª¸üĞÂ
 dontdownload ²»ÒªÏÂÔØ TLS, ÎÒÒª×Ô¼º°²×°
 dontshow ²»ÒªÏÔÊ¾
-downloadingtls ÏÂÔØ TLS Ä£¿éÓÚ:\n $1 
-default2 Ä¬ÈÏ 
-deleteall É¾³ıÈ«²¿ 
-deleteblock É¾³ı²¢×èÖ¹
-detach Detach 
-details Ï¸½Ú 
-devicebusy Éè±¸ $1 ·±Ã¦ 
-devices Éè±¸ 
-done Íê±Ï 
+dontshowdp ²»ÒªÈÃÕâ¸öÓÃ»§ÏÂÔØÄãµÄĞÂÏÔÊ¾Í¼Æ¬
 download ÏÂÔØ 
+downloadcanceled ÏÂÔØÒÑ±»È¡Ïû
+downloadingtls ÏÂÔØ TLS Ä£¿éÓÚ:\n $1 
+downloadingwait ÕıÔÚÏÂÔØĞÂ°æ±¾£¬ÇëÉÔµÈ¡£¡£¡£
+dynamicrate ÀûÓÃ¶¯Ì¬Ö¡ËÙÂÊÒÔÄ£ÄâÕæÊµÊ±¼äÖÆËÙ¶È
+editavsettings ¸ü¸ÄÒôÏñºÍÂ¼Ó°ÉèÖÃ
+editcontent ±à¼­Ö÷ÌâºÍ±¸×¢ÄÚÈİÇøÓò 
 editcustomstate ±à¼­¸öÈË×´Ì¬
+editmyprofile ±à¼­MSNÅäÖÃĞÅÏ¢ 
 editnewstate ĞÂµÄ¸öÈË×Ô¶¯Ñ¶Ï¢×´Ì¬
 editprofile ±à¼­¸öÈËÉè¶¨µµ
 edit ±à¼­
 editstate ±à¼­ÒÑ¾­ÓĞµÄ×Ô¶¯Ñ¶Ï¢×´Ì¬
 editvalue Éè¶¨Öµ
 email µç×ÓÓÊ¼şĞÅÏä
-emailsinlist ÔÚÁ¬ÂçÈËÇåµ¥ÖĞÏÔÊ¾email¶ø²»ÏÔÊ¾êÇ³Æ
+emailsinlist ÔÚÁªÏµÈËÇåµ¥ÖĞÏÔÊ¾email¶ø²»ÏÔÊ¾êÇ³Æ
 emotisounds ÓÚÌØ¶¨±íÇé·ûºÅ²¥·ÅÒôĞ§
 emptygroup ¿Õ°×Èº×é
-enablebanner ÏÔÊ¾ aMSN's ¹ã¸æÁĞ (ĞèÒªÖØĞÂÆô¶¯ aMSN) 
 enabled ¿ªÆô
 enableproxy Æô¶¯ proxy
 enableremote ¿ªÆôÔ¶³ÌÒ£¿Ø
 enablesound ²¥·ÅÉùÒô
 encoding2 ¸ü¸Ä×Ö·û±àÂë·½Ê½
 encoding ±àÂë
-entercontactemail ÊäÈëÁ¬ÂçÈËµÄ e-mail
+entercontactemail ÊäÈëÁªÏµÈËµÄ e-mail
 enterfilename ÇëÊäÈëÒ»¸öÎÄ¼şÃû³Æ
 enternick ÊäÈëÄúµÄÄäÃû
 errortls °²×°TLS Ä£¿é´íÎó: 
@@ -292,12 +340,23 @@ eventhistory ÊÂ¼şÀúÊ·¼ÍÂ¼
 examples ·¶Àı
 exitamsn ÄúÈ·¶¨Òª¹Ø±Õ?
 extras ¼ÓÔØºê
-editcontent ±à¼­Ö÷ÌâºÍ±¸×¢ÄÚÈİÇøÓò 
-editmyprofile ±à¼­MSNÅäÖÃĞÅÏ¢ 
 emoticon_steal Ìí¼Óµ½±íÇé 
 enterbugdesc ÎªÄú±¨¸æBUGµÄÊäÈëÃèÊöÓï¾ä£º 
 enterpsm ÄúµÄ¸öÈËĞÅÏ¢ 
 error ´íÎó 
+escapeclosescw Esc¼üÅÌ¹Ø±ÕÁÄÌìÊÓ´°
+faileddeleteperso ´ËÍ¼Æ¬²»ÄÜ±»É¾³ıÒòÎªËü²»ÊÇ¸öÈËµÄÍ¼Æ¬ÎÄ¼ş. Ö»ÓĞÊôÓÚÄú¸öÈËÉè¶¨ÎÄ¼şµÄÍ¼Æ¬²ÅÄÜÕâÑùµÄÉ¾³ıËü.
+faileddelete É¾³ıÊ§°Ü
+failed Ê§°Ü
+faq FAQ (³£¼ûÎÊ´ğ¼¯) 
+farsightextchecking ¼ì²é Farsight ²å¼şÊÇ·ñ×°ÔØ ...
+farsightextwarn Äú»¹²»ÄÜÊ¹ÓÃ SIP Í¨»°¡£Çë°²×°Farsight£¬·½·¨ÔÚÎÒÃÇµÄ Wiki Õ¾µã:
+farsightinfook Farsight ÊÇ¸ö´¦ÀíÒôÆµÊÓÆµµÄ¿ò¼Ü¡£ÓÃÁËËü£¬Äú¿ÉÒÔÓÃ aMSN ·¢ËÍ½ÓÊÜSIPºô½Ğ£¡È¥ÎÒÃÇµÄ Wiki ¿´¿´°É:
+fetching ÕıÔÚ»ñÈ¡Êı¾İ¡£¡£¡£
+finetunesettings µ÷ÕûÍ¼Æ¬ÉèÖÃ
+finish Íê±Ï
+finish2apply µã»÷Íê±ÏÒÔÌá½»ÄÇĞ©ÉèÖÃ
+firewalled2 ÄãÒÑ±»·À»ğÇ½×èÖ¹£¬ÇëÔÚÆ«ºÃÉè¶¨ÊÓ´°Àï¼ì²éÄãµÄÁ¬½ÓÉèÖÃ
 filenotwritable ²»ÄÜÉ¾³ı¸ÃÎÄ¼ş 
 filetransfer ÎÄ¼ş´«Êä 
 filters ¹ıÂËÆ÷ 
@@ -309,11 +368,8 @@ findnext ÏÂÒ»¸ö
 findprev ÉÏÒ»¸ö 
 firewalled ÄúÎ»ÓÚ·À»ğÇ½»òÕßÂ·ÓÉÆ÷ºóÃæ 
 ftautoclose ÎÄ¼ş´«ÊäÍê±Ïºó¹Ø±Õ´°¿Ú 
+ftportpref2 ÎªÖ±½ÓÁ¬½Ó¿ªÆô¶Ë¿Ú (ÎÄ¼ş·¢ËÍºÍÍøÂçÉãÓ°Í·ĞèÒª)
 ftporttest ²âÊÔ¶Ë¿Ú
-faileddeleteperso ´ËÍ¼Æ¬²»ÄÜ±»É¾³ıÒòÎªËü²»ÊÇ¸öÈËµÄÍ¼Æ¬ÎÄ¼ş. Ö»ÓĞÊôÓÚÄú¸öÈËÉè¶¨ÎÄ¼şµÄÍ¼Æ¬²ÅÄÜÕâÑùµÄÉ¾³ıËü.
-faileddelete É¾³ıÊ§°Ü
-failed Ê§°Ü
-faq FAQ (³£¼ûÎÊ´ğ¼¯) 
 file µµ°¸
 filedoesnotexist µµ°¸²»´æÔÚ
 fileman µµ°¸¹ÜÀíÔ±
@@ -322,6 +378,10 @@ filename ÎÄ¼şÃû³Æ
 filetransfercancelled µµ°¸´«ËÍÒÑÈ¡Ïû
 filetransfercomplete µµ°¸´«ËÍÍê±Ï
 followtext ÍùÏÂ¾í,µ±ĞÂµÄÎÄ×Ö±»ÊäÈë
+forget_me Íü¼ÇÎÒ
+forgot_pass ÎÒÍüÁËÎÒµÄÃÜÂë
+formatctt CTT¸ñÊ½
+formatcsv CSV¸ñÊ½
 friendlyname ÓÑÉÆ³Æºô
 ftaccepted µµ°¸´«ËÍ±»½ÓÊÕ
 ftacceptedby $1 ½ÓÊÜÁËµµ°¸'$2'µÄµµ°¸´«ËÍÑûÇë.
@@ -334,17 +394,33 @@ ftportpref ¿ªÆôµµ°¸´«ËÍËùĞèÒªµÄÁ¬½Ó²º
 ftrejected µµ°¸´«ËÍ±»¾Ü¾ø
 ftrejectedby $1 ¾Ü¾øÁË '$2' µµ°¸µÄµµ°¸´«ËÍÒªÇó. 
 ftsendinvitation µµ°¸'$2' ($3 bytes) µÄµµ°¸´«ËÍÑûÇëÒÑ¾­ËÍµ½ $1. 
-fullcontactlist ¶Ô²»Æğ, ÄúµÄÁ¬ÂçÈËÇåµ¥ÒÑ¾­ÂúÁË. Äú±ØĞëÒÆ³ıÒ»Ğ©Á¬ÂçÈË²ÅÄÜÔö¼ÓĞÂµÄÁ¬ÂçÈË. 
+fullcontactlist ¶Ô²»Æğ, ÄúµÄÁªÏµÈËÇåµ¥ÒÑ¾­ÂúÁË. Äú±ØĞëÒÆ³ıÒ»Ğ©ÁªÏµÈË²ÅÄÜÔö¼ÓĞÂµÄÁªÏµÈË. 
+gameaccepted $1 ÒÑ½ÓÊÜÄãµÄÓÎÏ·ÑûÇë
+gameclosedbyother $1 ÒÑÈ¡ÏûÓëÄãµÄÓÎÏ·
+gameclosedbyself ÄãÒÑÈ¡ÏûÓë $1 ÓÎÏ·
+gameinvitation $1 ÑûÇëÄãÍæ $2¡£Äã½ÓÊÜÑûÇëÂğ£¿
+gamepluginnotfound $1 ÑûÇëÄãÍæ $2 µ«Ã»ÓĞÊÊºÏµÄ²å¼ş£¬Çë¿ªÆôºÍÉè¶¨²å¼şÏÈ
+gamerejected $1 ÒÑÈ¡ÏûÄãµÄÓÎÏ·ÑûÇë
+gamerequest ÄãÒÑÑûÇë $1 ÒÔÍæ $2
 getdisppic ¿ªÆô½ÓÊÕÆäËüÊ¹ÓÃÕßµÄÏÔÊ¾Í¼Æ¬
-globalnick ÇëÊäÈëÑù°åÀ´ÕûÀíÄúÁªÂçÈËµÄêÇ³Æ, Äú¿ÉÒÔÊ¹ÓÃÏÂÁĞ²ÎÊı: \$user_login ÁªÂçÈËÎ»ÖÃ, \$nick ÁªÂçÈËêÇ³ÆÒÔ¼°\$customnick Äú×Ô¶©µÄÁªÂçÈËêÇ³Æ. ÀıÈç: \$user_login is \$nick' ´ú±í 'contact@msn.com is Contact'
+getmoreplugins »ñµÃ¸ü¶à²å¼ş! 
+getmoreskins »ñµÃ¸ü¶àÆ¤·ô! 
+globalcontainer È«¾ÖÈİÆ÷ 
+globalnick ÇëÊäÈëÑù°åÀ´ÕûÀíÄúÁªÏµÈËµÄêÇ³Æ, Äú¿ÉÒÔÊ¹ÓÃÏÂÁĞ²ÎÊı: \$user_login ÁªÏµÈËÎ»ÖÃ, \$nick ÁªÏµÈËêÇ³ÆÒÔ¼°\$customnick Äú×Ô¶©µÄÁªÏµÈËêÇ³Æ. ÀıÈç: \$user_login is \$nick' ´ú±í 'contact@msn.com is Contact'
 globalnicktitle È«ÓòêÇ³Æ
 globaloverride È«ÓòêÇ³ÆÑù°åÓ¦¸Ã¸²¸Ç×Ô¶©êÇ³Æ
 gonelunch Íâ³öÓÃ²Í
+gotink $1 ¸øÄã·¢ËÍÁËÄ«¼£. 
+goto ×ªµ½ $1 
+gotoinbox ×ªµ½ÊÕ¼şÏä 
+goto_prefs_removeprofile µã»÷ÕâÀïÒÔÈ¥Æ«ºÃÉè¶¨²¢É¾³ıÄãµÄµµ°¸
+groupcontactsbystatus ÓÃ×´Ì¬ÒÔÖØ×éÁªÏµÈË
 groupadd ĞÂÔöÈº×é
 groupdelete É¾³ıÈº×é
 groupexists Èº×éÒÑ¾­´æÔÚ
 groupmissing ²»ÄÜÕÒµ½Èº×é
 groupnewname ĞÂÃû³Æ
+groupnonim °Ñ·Ç¼´Ê±ĞÅÏ¢ÁªÏµÈË±à³ÉÒ»×é
 groupnotempty Èº×é²»ÊÇ¿Õ°×!
 groupoldname ¾ÉÃû³Æ
 grouprename ÖØĞÂÃüÃûÈº×é
@@ -352,23 +428,22 @@ group Èº×é
 groups Èº×é
 groupcontacts Èº×éÁªÏµÈË
 groupunknown Î´ÖªÈº×é
-getmoreplugins »ñµÃ¸ü¶à²å¼ş! 
-getmoreskins »ñµÃ¸ü¶àÆ¤·ô! 
-globalcontainer È«¾ÖÈİÆ÷ 
-gotink $1 ¸øÄã·¢ËÍÁËÄ«¼£. 
-goto ×ªµ½ $1 
-gotoinbox ×ªµ½ÊÕ¼şÏä 
-hidemenu ÏÔÊ¾/Òş²Ø²Ëµ¥ 
-hidemenumessage ÄúÈ·¶¨ÒªÒş²Ø²Ëµ¥Âğ£¿\n Äú¿ÉÒÔÍ¨¹ıÏÔÊ¾/Òş²Ø²Ëµ¥ºÍÈÈ¼üCtrl-MÀ´»Ö¸´²Ëµ¥ 
-hue »ùµ÷ 
-huge ¾Ş´ó 
 handle ÏÔÊ¾Ãû³Æ
+hangup ¹Ò¶Ï
+havenomic ÎÒÃ»ÓĞÂó¿Ë·ç
 helpcontents ËµÃ÷Ö÷Ìâ
 help ËµÃ÷
 hidedisplaypic Òş²ØÏÔÊ¾Í¼Æ¬
 hiden Hide the ±íÇé·ûºÅÄ¿Â¼
 hidewindow Òş²Ø´°¿Ú
 history ¼ìÊÓÀúÊ·¼ÍÂ¼
+history2 ÀúÊ·
+hidemenu ÏÔÊ¾/Òş²Ø²Ëµ¥ 
+hidemenumessage ÄúÈ·¶¨ÒªÒş²Ø²Ëµ¥Âğ£¿\n Äú¿ÉÒÔÍ¨¹ıÏÔÊ¾/Òş²Ø²Ëµ¥ºÍÈÈ¼üCtrl-MÀ´»Ö¸´²Ëµ¥ 
+hidebuttonbar Òş²Ø°´Å¥ bar
+hue »ùµ÷ 
+huge ¾Ş´ó 
+howto_remove_profile Äã±ØĞë´ÓÆ«ºÃÉè¶¨É¾³ıÄãµÄµµ°¸£¨Íü¼Ç $1 )¡£\n\ÒòÎª°²È«Æğ¼û£¬´ÓµÇÂ¼ÊÓ´°É¾³ıµµ°¸ÊÇ²»ÔÊĞíµÄ
 home ×¡¼Ò
 httpconnection Ê¹ÓÃHTTPµÄ·½Ê½Á¬½Ó (Ê¹ÓÃ HTTP Í¨Ñ¶Ğ­Òé Á¬½Ó¶Ë¿Ú:80) 
 hybrid »ìºÏÄ£Ê½
@@ -403,6 +478,7 @@ keepalive ±£³ÖÁª»ú (NAT)
 keeplog2 ½«ËùÓĞµÄ¶Ô»°¼ÍÂ¼µ½aMSNµÄµÄÀúÊ·¼ÍÂ¼ÒÔ±ãÒÔºó¼ìÊÓ
 keeplog ¼ÍÂ¼ËùÓĞÁÄÌì¼ÍÂ¼
 language ÓïÑÔ
+largest ×î´ó
 lastlogin ×î½üÒ»´ÎµÇÈë
 lastlogout ×î½üÒ»´Î×¢Ïú
 lastmsgedme ×î½üÒ»´ÎÑ¶Ï¢
@@ -411,6 +487,7 @@ lastseen ÉÏ´ÎÉÏÏßÊ±¼ä
 lclosedwin $1 ÒÑ¾­ÓÚ $2 ¹Ø±Õ´°¿Ú
 lconftopriv ¹«¿ª»áÒéÒÑ¾­ÓÉ$1¸ü¸ÄÎªË½ÈËµÄÁÄÌì
 lconvstarted ¶Ô»°¿ªÊ¼ÓÚ $1 
+lconvstartedOIM ÒÑ¿ªÆô¶Ô $1 ÀëÏß¼´Ê±Í¨Ñ¶¶Ô»°
 leaveblankforhotmail Ô¤Áô¿Õ°×ÎªHotmailÍøÂçÓÊ¼ş³ÌĞò
 leavejoinsinchat ÔÚ¶Ô»°´°¿ÚÄÚÏÔÊ¾ "Àë¿ª/¼ÓÈë¶Ô»°" µÄÌáÊ¾Ñ¶Ï¢
 leaves $1 Àë¿ªÁÄÌì
@@ -418,12 +495,14 @@ lenteredconf $1ÒÑ¾­½øÈë»áÒé $2
 lineflushlog Ã¿´ÎÊäÈëºó¾Í½«¸ÃĞĞĞ´Èë¼ÍÂ¼ÎÄ¼ş
 linprivate Ë½µ×ÏÂ
 listeningon Listening on port $1
-listsmileys2 ÏÔÊ¾±íÇé·ûºÅÓÚaMSNµÄÖ÷ÒªÁ¬ÂçÈËÇåµ¥
+listsmileys2 ÏÔÊ¾±íÇé·ûºÅÓÚaMSNµÄÖ÷ÒªÁªÏµÈËÇåµ¥
 listsmileys ±íÇé·ûºÅ
 ljoinedconf $1 ÒÑ¾­¼ÓÈë»áÒé
 lleftconf $1 ÒÑ¾­Àë¿ª»áÒé
-loadcontacts »ãÈëÁ¬ÂçÈËÇåµ¥
-logbigger Ã¿Î»Á¬ÂçÈËµÄ¼ÍÂ¼µµ°¸´óĞ¡Ã»ÓĞÉÏÏŞ
+loadcontacts »ãÈëÁªÏµÈËÇåµ¥
+logbigger Ã¿Î»ÁªÏµÈËµÄ¼ÍÂ¼µµ°¸´óĞ¡Ã»ÓĞÉÏÏŞ
+logeventnick ¼ÇÔØêÇ³ÆµÄ¸Ä±ä
+logeventpsm ¼ÇÔØ¸öÈËÑ¶Ï¢µÄ¸Ä±ä
 logeventconnect ¼ÍÂ¼Áª»ú
 logeventdisconnect ¼ÍÂ¼ÀëÏß
 logeventemail ÓÊ¼ş½ÓÊÕÊ±¼ÍÂ¼
@@ -436,6 +515,7 @@ loging ¼ÍÂ¼
 login µÇÈë
 logolder Ö»¼ÇÂ¼×î½üÒ»´ÎµÄÁÄÌì¼ÍÂ¼
 logout ×¢Ïú
+logoutwincloselabel ÔÚµÇ³öÊ±¹Ø±Õ¶Ô»°
 logsbydate ÒÀÈÕÆÚÅÅÁĞ logs ¼ÍÂ¼ (¼ÓËÙ¼ÓÔØ¼ÍÂ¼ÎÄ¼şµÄËÙ¶È)
 logsin ¸ÕµÇÈë
 logsmileys ÏÔÊ¾±íÇé·ûºÅÓÚaMSNµÄÀúÊ·¼ÍÂ¼´°¿Ú
@@ -455,18 +535,19 @@ logwebcam ±£´æÍøÂçÊÓÆµ¼ÇÂ¼ÒÔ±¸½«À´²é¿´
 longpsm ÄúµÄ¸öÈËĞÅÏ¢Ì«³¤£¬MSNĞ­Òé²»Ö§³Ö£¬ÄúÈ·ÈÏÒªÕâÑùÉèÖÃÂğ£¿
 lowrescam Ê¹ÓÃÒ»¸öµÍËÙÍøÂçÉãÏñÍ· 
 maintenance ·şÎñÆ÷ÔÚ $1 ·ÖÖÓºó¹Ø±Õ£¡ 
+mailerexample ( \$recipient = ÊÕ¼şÕß ) Çë±£³Ö¿Õ°×Èç¹ûÄúÊ¹ÓÃHotmail
+mailer ÓÊ¼ş³ÌĞò
+maximised ×î´ó»¯
+medium ÖĞµÈ
+minimised ×îĞ¡»¯/Í¼Ê¾»¯
+mins ·ÖÖÓ
 minimize ×îĞ¡»¯µ½ÍĞÅÌ
 mobilegrp1 ÒÆ¶¯Èº×é
 mobilegrp2 ½«ÀëÏßÓÃ»§ÖÃÓÚ¡°ÒÆ¶¯¡±£¨°´ÕÕ×´Ì¬ÅÅĞò£©
 modified ĞŞ¸Ä 
-msnstatus MSNÍøÂç×´Ì¬
-mailerexample ( \$recipient = ÊÕ¼şÕß ) Çë±£³Ö¿Õ°×Èç¹ûÄúÊ¹ÓÃHotmail
-mailer ÓÊ¼ş³ÌĞò
-maximised ×î´ó»¯
-minimised ×îĞ¡»¯/Í¼Ê¾»¯
-mins ·ÖÖÓ
 mobile ´ó¸ç´ó
 month ÔÂ
+more ¸ü¶à
 morepersonal ¸ü¶à×´Ì¬ -> 
 move °áÒÆ
 movetogroup ÒÆÖÁÈº×é
@@ -475,6 +556,7 @@ msgmaxmin µ±ÊÕµ½ĞÂµÄÑ¶Ï¢ÎÒÏ£Íû±ä³É:
 msgmode Ñ¡ÔñÈçºÎ²Ù×İ¶à¸öÑ¶Ï¢´°¿Ú: 
 msg Ñ¶Ï¢
 msn aMSN
+msnstatus MSNÍøÂç×´Ì¬
 msnstyle MSNÁÄÌì·ç¸ñ
 mustrestart Äú±ØĞëÖØĞÂÆô¶¯³ÌĞò
 myfriendlyname ÎÒµÄÓÑÉÆêÇ³Æ
@@ -483,39 +565,51 @@ mymobilephone ĞĞ¶¯µç»°ºÅÂë
 mynick ÎÒµÄêÇ³Æ
 mypic ÎÒµÄÏÔÊ¾Í¼Æ¬: 
 mystatus ÎÒµÄ×´Ì¬
+mypics ÎÒµÄÏÔÊ¾Í¼Æ¬
 myworkphone ¹«Ë¾µç»°ºÅÂë
-natip IP detection by web page  
+natip À´×ÔÍøÒ³µÄIP¼ì²â
 natkeepalive Èç¹ûÄú»á¶¨Ê±±»¶ÏÏß, Çë¿ªÆô±£³ÖÁª»ú
 needonline Äú»¹ÊÇÔÚÀëÏßÖĞ!
-needwinico ĞèÒªwinico03.dllÓÚpluginÊı¾İ¼ĞÖĞ²ÅÄÜËõĞ¡ÓÚ¹¤¾ßÁĞ
 never ´Ó²»
+new_account ½¨Á¢ÕË»§
 newmail $1 ·âĞÂÓÊ¼şÔÚÊÕ¼şÏ»ÖĞ
 newmailfolder ÄúÔÚhotmailÆäËüµÄĞÅ¼ş¼ĞÖĞÓĞ$1·âĞÂµÄÓÊ¼ş
 newmailfromother ĞÅ¼ş¼ĞÖĞÓĞÓÉ$1 ($2)¼ÄÀ´µÄĞÂÓÊ¼ş
 newmailfrom ĞÂÓÊ¼ş´Ó $1 ($2)
 newmsg ĞÂÑ¶Ï¢
+newoim ĞÂµÄÀëÏßÑ¶Ï¢
 newstate ĞÂÔö¸öÈË×´Ì¬
+newupdate ÓĞĞÂµÄaMSNÉı¼¶
 newveravailable ÒÑÓĞ½ÏĞÂµÄ°æ±¾ $1 ¿ÉÒÔÏÂÔØ
 next ÏÂÒ»²½
 nick êÇ³Æ
+nickchanged $1 ÒÑ»»È¥ '$2' êÇ³Æ
 no ·ñ
 noactivity ÏĞÖÃ
+no_blocked_notif ²»ÏÔÊ¾±»ÆÁ±ÎÁªÏµÈËµÄÌáÊ¾´°¿Ú
+nocamwarn ÕÒ²»µ½ÍøÂçÉãÓ°Í·£¬»òÕßÊÇÒÑ±»ÆäËûÈí¼şÓÃ£¨¾ÍÊÇËµ²»ÄÜ±» aMSN ÓÃ£©¡£Äã¿ÉÒÔÔÚÎÒÃÇµÄÍøÕ¾²éÕÒÕâÎÊÌâµÄ½â¾ö·½°¸£º
 nodataavailable $1 Ã»ÓĞÈÎºÎµÄ×ÊÁÏ
 nogap Èº×é¼äÈ¡Ïû¿ÕĞĞ
 nogroup ÎŞÈº×é
+nojavascript ÄúÃ»ÓĞ´ò¿ªjavascriptÖ§³Ö¡£×Ô¶¯µÇÂ¼¹¦ÄÜÎŞ·¨Ê¹ÓÃ¡£
 nologfile $1 Ã»ÓĞÈÎºÎ¼ÍÂ¼
+nomic Ã»ÓĞÂó¿Ë·ç
 noneavailable ²»¿ÉÓÃ
 nonewmail Ã»ÓĞĞÂÓÊ¼ş
 nonewver ÕâÒÑÊÇ×îĞÂ°æ±¾
+nonimgroup ·Ç¼´Ê±ÁªÏµÈË
+nooimconfirmation ²»ÒªÇóÈ·ÈÏµ±·¢ËÍ/½ÓÊÕÀëÏßÑ¶Ï¢
 nopic Ã»ÓĞÍ¼Æ¬
 noprofileexists ÏÖÔÚÃ»ÓĞÈÎºÎµÄ¸öÈËÉè¶¨µµ, \nÄú±ØĞëĞÂÔöÒ»¸öÈç¹ûÄúÏëÊ¹ÓÃ¸öÈËÉè¶¨µµ·½Ê½µÇÈë. \nÇëµãÑ¡´°¿ÚÖĞĞÂÔö¸öÈËÉè¶¨ÎÄ¼ş°´Å¥À´ĞÂÔöÒ»¸ö.
 normal Ò»°ã
+noresizesmileys ²»Ëõ¼õÀ´Ï®¶¨ÖÆ±íÇé·ûºÅ
 noskins ÎŞ·¨ÔÚ skin/Êı¾İ¼ĞÖĞÕÒµ½Ô¤ÉèµÄÃæ°å. ÎŞ·¨Æô¶¯AMSN
+nospace ÕâÀïÃ»ÓĞ¶«Î÷¿ÉÒÔÏÔÊ¾
 nosystemtray ÎŞ·¨Ê¹ÓÃÏµÍ³×´Ì¬ÁĞ
 notificationserver ÆğÊ¼»¯MSN·şÎñÆ÷ (MSN Messenger Server) 
-notify1_5 Á¬ÂçÈËÏÂÏßÊ±ÏÔÊ¾Í¨Öª´°¿Ú
-notify1_75 Á¬ÂçÈË±ä¸ü×´Ì¬Ê±ÏÔÊ¾Í¨Öª´°¿Ú
-notify1 Á¬ÂçÈËÉÏÏßÊ±ÏÔÊ¾Í¨Öª´°¿Ú
+notify1_5 ÁªÏµÈËÏÂÏßÊ±ÏÔÊ¾Í¨Öª´°¿Ú
+notify1_75 ÁªÏµÈË±ä¸ü×´Ì¬Ê±ÏÔÊ¾Í¨Öª´°¿Ú
+notify1 ÁªÏµÈËÉÏÏßÊ±ÏÔÊ¾Í¨Öª´°¿Ú
 notify2 µ±ÊÕµ½ĞÂÑ¶Ï¢Ê±ÏÔÊ¾Í¨Öª´°¿Ú
 notify3 ÊÕµ½ĞÂµÄemailÊ±ÏÔÊ¾Í¨Öª´°¿Ú
 notify4 ÊÕµ½ĞÂÓÊ¼şÊ±ÏÔÊ¾Í¨Öª´°¿Ú
@@ -524,9 +618,11 @@ notify Í¨Öª
 notifytimeout Í¨Öª´°¿ÚÏÔÊ¾Ê±¼ä,ÒÔÇ§·ÖÖ®Ò»ÃëÎªµ¥Î»
 notifytyping ÊäÈëÊ±Í¨ÖªÆäËüµÄÊ¹ÓÃÕß
 notifywin Í¨Öª´°¿Ú
-notinlist Äú²»ÔÚ¶Ô·½µÄÁªÂçÈËÃûµ¥ÖĞ
+notimcontact ²»ÊÇ¼´Ê±ÁªÏµÈË
+notinlist Äú²»ÔÚ¶Ô·½µÄÁªÏµÈËÃûµ¥ÖĞ
 notls MSNÍ¨Ñ¶Ğ­ÒéµÚ¾Å°æĞèÒªÊ¹ÓÃTLS Ì×¼ş. Õâ¸öÌ×¼şËÆºõ»¹Ã»ÓĞ±»°²×°µ½ÕâÌ¨»úÆ÷. Èç¹ûËûÒÑ¾­±»°²×°, ÄÇ¸ÃÁ´½Ó¿âµÄÂ·¾¶Ó¦¸ÃÔÚÆ«ºÃÉè¶¨´°¿ÚÖĞ±»Ö¸¶¨ (ex: /opt/tls/lib). \n \n Äú¿ÉÒÔÓÉ´Ë´¦ http://tls.sf.net ÏÂÔØTLS°²×°.
 nousersinsession Ã»ÓĞÊ¹ÓÃÕßÔÚ¿ª»á
+nouserspecified Ã»ÓĞÖ¸¶¨ÓÃ»§
 name Ãû×Ö 
 needwinico2 ÏµÍ³Í¼±êÀ¸ĞèÒªwinico05.dllÔÚÏµÍ³Ä¿Â¼»òÕß³ÌĞòÄ¿Â¼²ÅÄÜÊ¹ÓÃ£¡ 
 new_ft_protocol Ê¹ÓÃĞÂµÄÎÄ¼ş´«ÊäĞ­Òé(»¹ÓĞĞ©bugs) 
@@ -541,22 +637,24 @@ nosound_or_hold Ã»ÓĞ¼ì²âµ½ÉùÒô.µ±Äã¿ªÊ¼Â¼ÒôµÄÊ±ºò°´×¡°´Å¥£¬ËÉ¿ª¼´¿É·¢ËÍ¸ÃÉùÒô¼ô¼
 note ±¸×¢ 
 nottabbed ÎŞTAB³£¹æ´°¿Ú 
 nudge $1 ĞèÒªÄúµÄ×¢Òâ 
-onlinehelp ÔÚÏß°ïÖú
-opendir ´ò¿ªÄ¿Â¼
-openfilecommand ´ò¿ªÎÄ¼şÃüÁî
-openfile ´ò¿ª 
-otherdisplaypic ¸ÃÓÃ»§µÄÆäËûÍ¼Æ¬ (ÓÒ¼ü²é¿´¸ü¶àÑ¡Ïî) 
+oim ÀëÏßÑ¶Ï¢
 offline ÀëÏß
 ok È·¶¨
 onenewmail 1 ·âĞÂÓÊ¼şÔÚÊÕ¼şÏ»ÖĞ
 online ÔÚÏß
+onlinehelp ÔÚÏß°ïÖú
 onphone µç»°ÖĞ
 openreceived ¿ªÆôÒÑ½ÓÊÕµÄµµ°¸
 options Ñ¡Ïî
-ordercontactsby Á¬ÂçÈËµÄÅÅĞòÒÀ¾İ
+opendir ´ò¿ªÄ¿Â¼
+openfilecommand ´ò¿ªÎÄ¼şÃüÁî
+openfile ´ò¿ª 
+ordercontactsby ÁªÏµÈËµÄÅÅĞòÒÀ¾İ
 ordergroupsby ÓÉÈº×éÅÅĞò
 original Ô­Ê¼
 other ÆäËü
+otherdisplaypic ¸ÃÓÃ»§µÄÆäËûÍ¼Æ¬ (ÓÒ¼ü²é¿´¸ü¶àÑ¡Ïî) 
+otherdps ÆäËûµÄÏÔÊ¾Í¼Æ¬
 others ÆäËü
 p4contextprefix ÓÃ´Ë×Ö·û´®ÎªP4-ContextÇ°×º·¢ËÍÕß
 pager ´«ºô»ú
@@ -568,6 +666,10 @@ phones µç»°ºÅÂë
 picbrowser ÏÔÊ¾Í¼Æ¬ä¯ÀÀÆ÷
 picfile Í¼Æ¬µµ°¸ (GIF < 500 x 500) 
 picstatus Í¼Æ¬¾¯¸æ
+playerror ·¢Éú´íÎóµ±³¢ÊÔ²¥·ÅÉùÒô : $1
+playgame ÍæÓÎÏ·
+playgame2 Íæ $1
+playtest ²¥·Å²âÊÔÎÄ¼ş
 playing ²¥·Å: $1 
 pluginselector Ñ¡Ôñ²å¼ş 
 port ¶Ë¿Ú
@@ -585,12 +687,14 @@ preffont3 ±ä¸ü aMSNµÄ½Ó¿Ú×ÖĞÍ¼°´óĞ¡
 preffont ÎÒµÄÏûÏ¢ÕıÎÄ
 prefft µµ°¸´«ËÍ, µã¶ÔµãÓë NAT Éè¶¨
 preflibs Á´½Ó¿âÄ¿Â¼
+preflocale localeÉè¶¨
+preflocale2 Ñ¡ÔñÄúµÄÓïÑÔ¹ú¼Ò´úÂë£¬¼òÌåÖĞÎÄzh_CN
 preflog1 ÎÒµÄÀúÊ·¼ÍÂ¼¼°µÇÈëÑ¡Ïî
 preflogevent ÎÒµÄÊÂ¼ş¼ÇÂ¼
 preflook ÎÒµÄ aMSN Messenger »­Ãæ
 prefmsging ÎÒµÄÑ¶Ï¢½Ó¿Ú 
 prefname ÎÒµÄ MSN Messenger ĞÕÃû/êÇ³Æ
-prefphone2 ÇëÊäÈëÄúµÄµç»°ºÅÂë,\nÈÃÄúÔÊĞíÇåµ¥ÖĞµÄÁ¬ÂçÈË¿´¼û
+prefphone2 ÇëÊäÈëÄúµÄµç»°ºÅÂë,\nÈÃÄúÔÊĞíÇåµ¥ÖĞµÄÁªÏµÈË¿´¼û
 prefphone ÎÒµÄµç»°ºÅÂë
 prefprivacy2 Ê¹ÓÃÕßµÄÁ¬Âç/±£ÁôÇåµ¥
 prefprivacy Ê¹ÓÃÕßµÄÔÊĞí/·âËøÇåµ¥
@@ -626,21 +730,13 @@ portswellconfigured ÄúµÄ¶Ë¿ÚÅäÖÃ³É¹¦
 preffont4 ¸ü¸ÄÁÄÌì¶Ô»°ÖĞÎÒ¿´µ½¶Ô·½µÄÎÄ±¾¸ñÊ½
 preview Ô¤ÀÀ 
 psmatend ÔÚêÇ³ÆÅÔÏÔÊ¾¸öÈËĞÅÏ¢ 
+psmchanged $1 ÒÑ»»PSMÈ¥ '$2'
 psmdontshow ³ı·ÇÈ«¾Ö/×Ô¶¨Òå±¸×¢·ñÔò²»ÏÔÊ¾¸öÈËĞÅÏ¢ 
 psmnewline ÔÚêÇ³ÆÏÂÏÔÊ¾¸öÈËĞÅÏ¢ 
 psm ¸öÈËĞÅÏ¢ 
 psmplace ¸öÈËĞÅÏ¢·ÅÔÚÊ²Ã´Î»ÖÃ£¿ 
 pwcdriver ÄúÕıÔÚÊ¹ÓÃPWCÉè±¸ 
 quit ÍË³ö 
-receivedvoice ÒÑ½ÓÊÕÓïÒô¼ô¼­ 
-recorderror Â¼ÒôÊÇ³ö´í : $1 
-remembersetting ¼Ç×¡Ñ¡Ôñ 
-reporting ±¨¸æÖĞ 
-report ±¨¸æ 
-required_version ²»ÄÜÔØÈë²å¼ş. ĞèÒª $1 ÒÔÉÏ°æ±¾µÄaMSN
-resetincomingfont ÖØÖÃ×ÖÌå (Ê¹ÓÃËùÑ¡×ÖÌå·¢ËÍÏûÏ¢) 
-restartforskin Note: ¿ÉÄÜĞèÒªÖØÆôaMSN²ÅÄÜ¸üºÃµØ²é¿´¸ÃÆ¤·ô! 
-raised Raised/Deiconified 
 readonlymsgbox µµ°¸´«ËÍÒÑ¾­±¶È¡ÏûÒòÎª½ÓÊÕµÄÊı¾İ¼ĞÊÇÖ»¶ÁµÄ. Çë¸üÕıÊı¾İ¼ĞÈ¨ÏŞ.
 readonlywarn ¾¯¸æ: Õâ¸öµµ°¸Ã»ÓĞÕıÈ·µÄ±»´æÈë "ÎÒÒÑ½ÓÊÕµÄÊı¾İ¼ĞÖĞ,¸ÃÄ¿Â¼ËÆºõÊÇÉè¶¨³ÉĞ´±£»¤. ÇëÔÚµµ°¸´«ËÍÇ°¼ì²éÄ¿±ê ($1) µÄÄ¿Â¼È¨ÏŞÒÑ¾­ÕıÈ·µÄ±»Éè¶¨.
 receivedbytes ÒÑÊÕµ½ $1 of $2 bytes
@@ -650,50 +746,86 @@ recentmsg ·ÀÖ¹ÓĞĞÂĞÅÏ¢À´Ê±ÒâÍâ¹Ø±Õ´°¿Ú
 reconnect µÈ´ı $1 ÖØĞÂÁ¬½á
 reconnect2 ¶ÏÏßÊ±×Ô¶¯ÖØĞÂÁª»ú
 reconnecting ÖØĞÂÁ¬½á·şÎñÆ÷
+recvwebcamaccepted $1 ÒÑÍ¬ÒâÏÔÊ¾Ëû£¯ËıµÄÍøÂçÉãÓ°Í·¡£ÕıÔÚÁ¬½Ó¡£¡£¡£
+receivedoimread ÄãÓĞ $1 ĞÂµÄÀëÏß¼´Ê±Ñ¶Ï¢¡£ÄãÒª¶ÁÂğ£¿
+receivedvoice ÒÑ½ÓÊÕÓïÒô¼ô¼­ 
+reconnectnow ÏÖÔÚÖØĞÂÁ¬½Ó
+record Â¼ÖÆ
+recorderror Â¼ÒôÊÇ³ö´í : $1 
+redirect µã»÷ÕâÀïÖØĞÂ¶¨Ïò
 reject ¾Ü¾ø
 rememberpass ´¢´æÃÜÂë
+remembersetting ¼Ç×¡Ñ¡Ôñ 
+rememberaccount ¼ÇµÃÎÒµÄÕÊ»§
 removeempty ´ÓÁªÂçÇåµ¥ÖĞÒÆ³ı¿Õ°×Èº×é
 removefromlist ´ÓÇåµ¥ÖĞÒÆ³ı
+removefromgroup ´Ó×éºÏÀïÉ¾³ı
 rename ÖØĞÂÃüÃû
+renameep ÖØÃüÃûÕâ¸öÎ»ÖÃ ($1)
+renamelocation ÖØÃüÃûÎ»ÖÃ
+reporting ±¨¸æÖĞ 
+report ±¨¸æ 
+required_version ²»ÄÜÔØÈë²å¼ş. ĞèÒª $1 ÒÔÉÏ°æ±¾µÄaMSN
+resetincomingfont ÖØÖÃ×ÖÌå (Ê¹ÓÃËùÑ¡×ÖÌå·¢ËÍÏûÏ¢) 
+restartforskin Note: ¿ÉÄÜĞèÒªÖØÆôaMSN²ÅÄÜ¸üºÃµØ²é¿´¸ÃÆ¤·ô! 
+raised Raised/Deiconified 
+retry ÔÙÊÔ
 reversed ·´Ïò
 reverselist ±£ÁôÇåµ¥ (RL): 
 rightback ÂíÉÏ»ØÀ´
 saveas Áí´æ
 save ´¢´æ
 savechatwinsize ±ä¸ü´°¿Ú´óĞ¡Ê±×Ô¶¯¼ÍÂ¼
-savecontacts ´¢´æÁ¬ÂçÈËÇåµ¥
+savecontacts ´¢´æÁªÏµÈËÇåµ¥
 savetofile ´¢´æµ½µµ°¸ÖĞ
+saveddefaultloc ´¢´æÔÚÄ¬ÈÏÎ»ÖÃ
+savelocation ÔÚ $1 ´¢´æÂğ£¿
+savelocationerror ÎÄ¼ş²»ÄÜÔÚÕâÀï´¢´æ
+saveotherdirectory ´¢´æÔÚÁíÒ»¸öÄ¿Â¼
 says $1 Ëµ
 sbcon ×ª½ÓÖĞ
+searchadvprefs ÔÚ½ø½×Æ«ºÃÉè¶¨ËÑÑ°:
+selectcontact Ñ¡ÔñÒ»¸öÁªÏµÈË
 selectplugins ÇëÑ¡ÔñÄúÏëÆô¶¯µÄ²å¼ş
 selectskin Çë´ÓÇåµ¥ÖĞÑ¡ÔñÒ»¸öÃæ°å
 send ´«ËÍ
 sendfile ´«ËÍµµ°¸
 sendmail ´«ËÍÓÊ¼ş
 sendmsg ´«ËÍÑ¶Ï¢
+sendsip ·¢ËÍÒôÆµºô½Ğ
+sendwebcamaccepted ÒÑ½ÓÊÜÄãµÄÑûÇëÒÔÏÔÊ¾ÄãµÄÍøÂçÉãÓ°Í·¡£¡£¡£
 sentbytes ´«ËÍ $1 of $2 bytes
 serverbusy ·şÎñÆ÷Ã¦Âµ
 servergoingdown ÀëÏß: Á¬½á·şÎñÆ÷Ê§°Ü
 server ·şÎñÆ÷
 serverunavailable ÎŞ·¨Á¬½Óµ½·şÎñÆ÷
 session »á»°
+setupcam ÕıÔÚÉèÁ¢ÄãµÄÍøÂçÉãÓ°Í·
+setupcamfinetune ÉèÁ¢ÊÓÑ¶Éè±¸£¬²¢Î¢µ÷Í¼Æ¬
 showbanner ÏÔÊ¾aMSNµÄ¹ã¸æ
 showblockedlist ÏÔÊ¾·âËøÄúµÄÇåµ¥
 showcachedpics ÏÔÊ¾Ôİ´æµÄÍ¼Æ¬
+showdetailedview ÏÔÊ¾ÁªÏµÈËÏ¸½Ú
 showdisplaypic2 µ±ÁÄÌì´°¿Ú¿ªÆôÊ±,×Ô¶¯ÏÔÊ¾Í¼Æ¬
 showdisplaypic ÏÔÊ¾Í¼Æ¬
+showlinksinlogin ÔÚµÇÂ¼ÊÓ´°ÏÔÊ¾Á¬½Ó
 showmypic ÎÒµÄÏÔÊ¾Í¼Æ¬
+shownonim ÏÔÊ¾·Ç¼´Ê±ÁªÏµÈË
 shownotify µ±ÊÂ¼ş·¢ÉúÊ±ÏÔÊ¾ÌáÊ¾´°¿Ú
+showonedpframe Ö»ÏÔÊ¾Ò»¸öÏÔÊ¾Í¼Æ¬ÔÚ¶Ô»°ÊÓ´°Àï
+showofflinegroup ÏÔÊ¾ÀëÏß×é
+showspaces ÔÚÁªÏµÈËÁĞ±íÖĞÏÔÊ¾¿Õ°×Í¼±ê
 showuserpic $1'µÄÏÔÊ¾Í¼Æ¬
 skin Ãæ°å
 skinselector Ñ¡ÔñÃæ°å
+smallest ×îĞ¡
 smileconfig ×Ô¶©±íÇé·ûºÅÉè¶¨
 smilefile ±íÇé·ûºÅÎÄ¼şÃû
 smileintro2 Çë±à¼­ËùĞèµÄ×Ö¶ÎÀ´×Ô¶©´Ë±íÇé·ûºÅ (Çë²Î¿¼³£¼ûÎÊ´ğ¼¯)
 smileintro ÇëÍê³ÉËùĞèµÄ×Ö¶ÎÀ´½¨Á¢ĞÂµÄ×Ô¶©±íÇé·ûºÅ (Çë²Î¿¼³£¼ûÎÊ´ğ¼¯)
 snackfailed ¼ÓÔØSnackÊ§°Ü, »Ö¸´³ÉÄ¬ÈÏÖµ
 sngdblclick µ¥»÷Êó±ê¿ªÆôÑ¶Ï¢´°¿Ú
-sound2 µ±Á¬ÂçÈËµÇÈë»ò´«ËÍÑ¶Ï¢Ê±²¥·ÅÉùÒô
+sound2 µ±ÁªÏµÈËµÇÈë»ò´«ËÍÑ¶Ï¢Ê±²¥·ÅÉùÒô
 sound ÊÂ¼şÒôĞ§
 soundactive ÔÚ¶¯×÷ÖĞµÄ´°¿ÚÊÕµ½Ñ¶Ï¢Ê±²¥·ÅÒôĞ§
 soundcommand Õâ±ØĞëÊÇ²¥·ÅµÄÖ¸Áî (ex: esdplay) 
@@ -708,6 +840,7 @@ splashstart ¿ªÊ¼
 sslwarning ¾¯¸æ!! ¹Ø±ÕSSLÁª»ú½«»á¹Ø±Õ¼ÓÃÜ, ÄúµÄÃÜÂë½«»áÒÔÃ÷ÂëÓÚÍøÂçÉÏ´«ËÍ. Ö»ÓÃÔÚ·Ç³£ÄÑ¶Ô¸¶µÄproxy·şÎñÆ÷»òÊÇÍøÂçÉè¶¨. 
 startoffline2 °²¾²Ä£Ê½µÇÈë,½«ÏÔÊ¾Îª"ÀëÏß"
 startoffline ÒÔÒşĞÎ×´Ì¬µÇÈë
+startonboot ¿ª»ú×ÔÆô¶¯aMSN
 startontray ¿ªÆôaMSNÊ±Ö»ÔÚÏµÍ³¹¤¾ßÁĞ
 stateautomsg Òª´«ËÍµÄ×Ô¶¯Ñ¶Ï¢
 statechange ×´Ì¬¸ü¸ÄÎª:
@@ -716,11 +849,18 @@ stateinfo ¸öÈË×´Ì¬Éè¶¨
 statename ¸öÈË×´Ì¬Ãû³Æ
 statenewtext ÇëÌîÈëËùĞèÒªµÄĞÅÏ¢À´½¨Á¢ÄúĞÂµÄ¸öÈË×´Ì¬ºó°´´¢´æ
 statenick ×Ô¶©êÇ³Æ(¿Õ°×´ú±í²»×÷±ä¸ü)
+statepsm ×Ô¶¨Òå¸öÈËĞÅÏ¢(Áô¿Õ²»¸Ä±ä) 
 state ÎÒÏ£ÍûÏÔÊ¾Îª
+stats Í³¼Æ 
 status ×´Ì¬
+step ²½Öè
+stop Í£Ö¹ 
 stopalarm Í£Ö¹¾¯Ê¾
+stopwebcamreceive Í£Ö¹½ÓÊÕÍøÂçÊÓÆµ
+stopwebcamsend Í£Ö¹·¢ËÍÍøÂçÊÓÆµ
 storenickname ÔÚ×Ô¶©×´Ì¬Ö¸¶¨ÌØ¶¨êÇ³Æºó»¹Ô­ÎªÔ­Ê¼êÇ³Æ
 strictfonts ÏŞÖÆËùÓĞ×ÖĞÍÎªÎÒËùÑ¡¶¨µÄ (×´Ì¬ÁĞ¼°ÆäËü)
+style ·ç¸ñ
 stylechat ÏàÍ¬ÁÄÌìÍâ¹Û
 stylehist aMSN'ÀúÊ·¼ÇÂ¼
 stylelog ÇëÑ¡ÔñÄúä¯ÀÀÀúÊ·¼ÍÂ¼Ê±ËùÏëÒªµÄ¸ñÊ½
@@ -744,25 +884,46 @@ show_contactdps_in_cl ÏÔÊ¾ÁªÏµÈËĞ¡Í¼
 showmailicon ÓÊ¼şµ½´ïÊÇÔÚÏµÍ³À¸Í¼±êÌáÊ¾ 
 showpicnotify ÔÚÍ¨ÖªÇøÓòÏÔÊ¾ÓÃ»§Í¼±ê 
 signinstatus µÇÂ¼×´Ì¬ 
+signout µÇ³ö
+signouthere ´ÓÕâÀïµÇ³ö ($1)
+signoutep ´Ó $1 µÇ³ö
+signouteverywhere ´ÓËùÓĞµØ·½µÇ³ö
+sipcallaccepted ÒôÆµÑûÇë±»½ÓÊÜ
+sipcallback »Ø²¦
+sipcalldeclined ÒôÆµÒªÇó±»¾Ü¾ø
+sipcalleeaccepted ÓÃ»§½ÓÊÜÑûÇë
+sipcalleebusy ÓÃ»§Ã¦
+sipcalleecanceled ÓÃ»§È¡ÏûÒôÆµ¶Ô»°ÑûÇë
+sipcalleeclosed ÓÃ»§½áÊøÍ¨»°
+sipcalleedeclined ÓÃ»§¾Ü¾øÄãµÄºô½Ğ
+sipcalleenoanswer ÓÃ»§Î´»Ø´ğÄãµÄºô½Ğ
+sipcalleeunavailable ÔİÊ±ĞÔµÄÓÃ»§Ã¦
+sipcallended ÄúµÄÍ¨»°½áÊø
+sipcallimpossible Çë°²×° Farsight2 ÔÙÊÔ
+sipcallmissed Äú´í¹ıÁË $1 µÄÍ¨»°ÑûÇë
+sipcallnosipflag ÓÃ»§²»Ö§³ÖÒôÆµÍ¨»°
+sipcallsent ÕıÔÚºô½Ğ $1
+sipcallunsupported Äú½ÓÊÜÁËÒ»¸öÒôÆµ¶Ô»°£¨Ä¿Ç°²»±»Ö§³Ö£©Äú¿ÉÒÔ·µ»Øºô½Ğ£¬ÕâÑùÄÜÕı³£¹¤×÷¡£
+sipcallyouarebusy ÄúÖ»ÄÜ½øĞĞË«·½Í¨»°
+sipgotinvitation  $1 ½ÓÊÜÒôÆµÑûÇë
 small Ğ¡ 
 smiletoobig ÄúÑ¡ÔñµÄ±íÇé±È¹æ¶¨µÄÒª´ó£¬ÄúÒªÖØÖÃÒ»ÏÂ´óĞ¡Âğ£¿ 
+smileynotavailable ±íÇéÎŞ·¨Ê¹ÓÃ
 snackneeded ¸ÃÌØĞÔĞèÒª2.2.9°æ±¾ÒÔÉÏµÄSnack¿â. 
 snapshot ×¥Í¼ 
+soundnoavail ÉùÒôÉè±¸²»¿ÉÓÃ,ÇëÍ£Ö¹¶ÀÕ¼µÄÓ¦ÓÃ³ÌĞò.
 sortgroupsasc °´×éÉıĞòÅÅÁĞ 
 sortgroupsdesc °´×é½µĞòÅÅÁĞ 
 sortcontactgroup °´×éÅÅÁĞ 
 sortcontacthybrid »ìĞòÅÅÁĞ  
+sortcontactsasc ÉıĞòµÄ·ÖÀàÁªÏµÈË
+sortcontactsby ·ÖÀàÁªÏµÈË
+sortcontactsbylogsize °´ÁÄÌì¼ÇÂ¼´óĞ¡·ÖÀàÁªÏµÈË
+sortcontactsdesc ½µĞò·ÖÀàÁªÏµÈË
 sortcontactstatus °´×´Ì¬ÅÅÁĞ 
-soundnoavail ÉùÒôÉè±¸²»¿ÉÓÃ,ÇëÍ£Ö¹¶ÀÕ¼µÄÓ¦ÓÃ³ÌĞò.
-startonboot ¿ª»ú×ÔÆô¶¯aMSN
-statepsm ×Ô¶¨Òå¸öÈËĞÅÏ¢(Áô¿Õ²»¸Ä±ä) 
-stats Í³¼Æ 
-stop Í£Ö¹ 
-stopwebcamreceive Í£Ö¹½ÓÊÕÍøÂçÊÓÆµ
-stopwebcamsend Í£Ö¹·¢ËÍÍøÂçÊÓÆµ
-style ·ç¸ñ
 subjectrequired ĞèÒªÖ÷Ìâ 
 subject Ö÷Ìâ
+svnversion SVN°æ±¾
 tabbedglobal ÁĞ±íÖĞËùÓĞÓÃ»§Ê¹ÓÃÏàÍ¬TAB´°¿Ú 
 tabbedgroups ÁĞ±íÖĞÏàÍ¬Èº×éÓÃ»§Ê¹ÓÃÏàÍ¬TAB´°¿Ú  
 tabtitlenick ÓÃêÇ³ÆÌæ´úTAB´°¿ÚÖĞµÄÓÊ¼şµØÖ· 
@@ -789,48 +950,54 @@ to ¸ø
 today ½ñÈÕ
 tools ¹¤¾ß
 tooltips ¿ªÆô¹¤¾ßÌáÊ¾
+totalsize ×ÜÃæ»ı
 transnotexists ËùÒªÇóµÄµµ°¸ÉĞÎ´±»·­Òë³ÉÏÖÔÚÊ¹ÓÃµÄÓïÑÔ
 traynotcompiled ³£×¤¹¤¾ßÁĞpluginÉĞÎ´±»±àÒë. Çë¼ì²é plugins/traydock 
 triggers ÎÄ×Ö´¥·¢
-truncatenames1 ½«êÇ³Æ³¬¹ı´°¿Ú±êÌâ¿í¶È¼°Á¬ÂçÈËÇåµ¥µÄ²¿·Ö½ØÈ¥
+truncatenames1 ½«êÇ³Æ³¬¹ı´°¿Ú±êÌâ¿í¶È¼°ÁªÏµÈËÇåµ¥µÄ²¿·Ö½ØÈ¥
 truncatenames2 ÓÚ¶Ô»°ÖĞ½«êÇ³Æ³¬¹ı´°¿Ú¿í¶ÈµÄ²¿·Ö½ØÈ¥
 truncatenicks ½«êÇ³Æ³¬¹ı´°¿Ú¿í¶ÈµÄ²¿·Ö½ØÈ¥
 twonewmail $1 ·âĞÂÓÊ¼şÔÚÊÕ¼şÏ»ÖĞ
+unselectall Ñ¡ÖĞÏîÈ«²¿È¡Ïû
+unblock ½â³ıÆÁ±Î
 unknown Î´Öª
 unload Ğ¶ÔØ 
-unselectall È¡ÏûÈ«²¿ 
-updateonlycurrentlanguage ½ö½ö¸üĞÂµ±Ç°Ê¹ÓÃÓïÑÔ°ü 
-update Éı¼¶ 
-updating Éı¼¶ÖĞ... 
-useasdp ÉèÖÃÎªÍ¼Ïñ
-useasregexp ×÷ÎªÕıÔò±í´ïÊ½ 
-userdps ÓÃ»§Í¼Ïñ 
-unblock ½â³ı·âËø
 uoffline ÀëÏß
 uonline ÔÚÏß
-useother Ê¹ÓÃÒ»¸ö²»Í¬³ÌĞò
-useralreadyonlist Á¬ÂçÈËÒÑ¾­ÔÚÇåµ¥ÉÏ
-userblocked ÕâÃûÁ¬ÂçÈËÊÇÔÚÔÚÏßÈ´°ÑÄú·âËø
-userdata Ê¹ÓÃÕßÊı¾İ
-user Ê¹ÓÃÕß
-usernotonline ÕâÃûÁ¬ÂçÈË²»ÔÚÔÚÏß
-userproperties Ê¹ÓÃÕß $1 ÊôĞÔ
-useryourself Äú²»¿ÉÒÔ¸ú×Ô¼ºÁÄÌì
+updateonlycurrentlanguage ½ö½ö¸üĞÂµ±Ç°Ê¹ÓÃÓïÑÔ°ü 
+update Éı¼¶ 
+updatesaved Íê±Ï\n ÒÑÔÚ$2´¢´æ$1
+updating Éı¼¶ÖĞ... 
+useasregexp ×÷ÎªÕıÔò±í´ïÊ½ 
+userdps ÓÃ»§Í¼Æ¬ 
+useasdp ×÷ÎªÏÔÊ¾Í¼Æ¬
+useother Ê¹ÓÃÆäËû³ÌĞò
+useralreadyonlist ÓÃ»§ÒÑ¾­ÔÚÁªÏµÈËÃûµ¥ÖĞÁË
+userblocked ÓÃ»§ÔÚÏßµ«ÊÇÆÁ±ÎÄã
+userdata ÓÃ»§×ÊÁÏ
+usernotonline ÓÃ»§²»ÔÚÏß
+userproperties ÓÃ»§ÉèÖÃ $1 
+user ÓÃ»§
 usesnack Ê¹ÓÃSnackÁ´½Ó¿â (Tcl internal)
 usersettings ÉèÖÃ
-videoconversationrequest ÄúÊÕµ½Ò»¸öÊÓÆµ»á»°(Ë«ÏòµÄÓïÒôºÍÊÓÆµ)ÇëÇó.¸ÃÌØĞÔAMSNÔİÊ±²»Ö§³ÖËùÒÔÒÑ¾­±»È¡Ïû.µ«ÊÇÄú¿ÉÒÔÊ¹ÓÃ±ê×¼µÄÍøÂçÊÓÆµ»á»°. 
-voice_notimplemented ÇëÄÍĞÄµÈ´ı½ÓÊÕÓïÒô¼ô¼­Íê±Ï. 
-voice_windows Èç¹ûÊÇWindowsÓÃ»§,Äã¿ÉÒÔÓÃmedia player²¥·ÅÓïÒôÎÄ¼ş. 
-voice_windows_click µã»÷´Ë´¦. 
-verifyblocked ¼ì²é·âËøÄúµÄÈË
-version °æ±¾
-view ¼ìÊÓ
-viewcontactsby ¼ìÊÓÁªÂçÈËÍ¸¹ı
+useryourself Äú²»¿ÉÒÔ¸ú×Ô¼ºÁÄÌì
 viewprofile ¼ìÊÓ¸öÈËĞÅÏ¢
-webcaminvite $1 ÑûÇëÄúÆô¶¯¼ìÊÓÍøÂçÉãÓ°»úÓ°Ïñ, µ«ÊÇaMSNÉĞÎ´Ö§³ÖÕâ¸ö¹¦ÄÜ.
-willjoin µÈ´ı $1 ¼ÓÈëÁÄÌì
-work ¹¤×÷
+verifyblocked ¼ì²éÆÁ±ÎÄãµÄÈË
+version °æ±¾
+videoconversationrequest ÄúÊÕµ½Ò»¸öÊÓÆµ»á»°(Ë«ÏòµÄÓïÒôºÍÊÓÆµ)ÇëÇó£¬¸ÃÌØĞÔAMSNÔİÊ±²»Ö§³ÖËùÒÔÒÑ¾­±»È¡Ïû¡£µ«ÊÇÄú¿ÉÒÔÊ¹ÓÃ±ê×¼µÄÍøÂçÊÓÆµ»á»°¡£
+view ²é¿´
+viewcontactsby ²éÔÄÁªÏµÈËÁĞ±í
+viewspace ÏÔÊ¾¿Õ°×ÏîÄ¿
+volume ÒôÁ¿
 wanttosharecam ÉèÖÃÎÒµÄÍøÂçÉãÏñÍ·»á»°¶ÔÆäËûÈË¿É¼û 
+web ÍøÂç
+webcam ÍøÂçÉãÏñÍ· 
+webcamconfiguredMac ÄãµÄÍøÂçÉãÓ°Í·ÉèÖÃÒÑ±»Éè¶¨
+webcamconfiguredWin ÄãÒÑÑ¡Ôñ´ËÍøÂçÉãÓ°Í· : $1
+webcamconfiguredLinux ÄãÒÑÑ¡Ôñ´ËÍøÂçÉãÓ°Í·ÉèÖÃ:\nÍøÂçÉãÓ°Í·×°ÖÃ: $1\nÍøÂçÉãÓ°Í·ÆµµÀ: $2
+webcamextchecking ¼ì²éÍøÂçÉãÓ°Í·²å¼şÊÇ·ñÒÑ±»¿ªÆô¡£¡£¡£
+webcamextwarn Äã²»ÄÜ¿´ÁªÏµÈËµÄÍøÂçÉãÓ°Í·¡£Äã¿ÉÒÔÔÚÎÒÃÇµÄÍøÕ¾²éÕÒ°²×°Õâ²å¼şµÄ½ÌÑ§£º
+webcamhistory2 ÍøÂçÉãÓ°Í·ÀúÊ·
 webcamcanceled ºÍ$1µÄÍøÂçÉãÏñÍ·»á»°ÒÑ¾­±»È¡Ïû 
 webcamclosebefcancel ¹Ø±ÕÇ°ÇëÄúÈ¡ÏûËùÓĞÍøÂçÉãÏñÍ·»á»° 
 webcamconfigure ÅäÖÃÍøÂçÉãÏñÍ· 
@@ -838,6 +1005,7 @@ webcamextloaded ÍøÂçÉãÏñÍ·À©Õ¹¿âÒÑÔØÈë
 webcamextnotloaded ÍøÂçÉãÏñÍ·À©Õ¹¿âÎ´ÔØÈë,Äã¿ÉÒÔÊÖ¹¤±àÒëËü. 
 webcamfaq ÍøÂçÉãÏñÍ·°ïÖú 
 webcamhistory ²ì¿´ÍøÂçÉãÏñÍ·»á»° 
+webcaminvite $1 ÑûÇëÄúÆô¶¯¼ìÊÓÍøÂçÉãÓ°Í·Ó°Ïñ, µ«ÊÇaMSNÉĞÎ´Ö§³ÖÕâ¸ö¹¦ÄÜ.
 webcaminvitereceived $1ÑûÇëÄú½øĞĞÍøÂçÊÓÆµ»á»°.ÄúÊÇ·ñ½ÓÊÜ»á»°? 
 webcaminvitereceiving Äú±»ÑûÇë²ì¿´ $1 µÄÊÓÆµ»á»°. ÄúÊÇ·ñ½ÓÊÜ»á»°? 
 webcaminvitesending $1 ĞèÒª²ì¿´ÄúµÄÊÓÆµ»á»°. ÄúÊÇ·ñ½ÓÊÜ»á»°? 
@@ -845,150 +1013,25 @@ webcamrejected $1 ¾Ü¾øÍøÂçÊÓÆµ»á»°ÑûÇë
 webcamrequestreceive ½ÓÊÜÍøÂçÊÓÆµ»á»°ÇëÇó  
 webcamrequestsend ·¢ËÍÍøÂçÊÓÆµ»á»°ÇëÇó  
 webcamsending ÍøÂçÊÓÆµ»á»°·¢ËÍÁĞ±í 
-webcam ÍøÂçÉãÏñÍ· 
 whatisamsn aMSN¿çÆ½Ì¨µÄMSN Messenger¿ËÂ¡³ÌĞò 
 whatsize ÄãµÄÍ¼Æ¬²»ÊÇ³£¹æ³ß´ç(96x96) ÄúÏ£ÍûÍ¼Æ¬ÏÔÊ¾Ê²Ã´³ß´ç? 
-winkreceived ÄãÊÕµ½ $1 ·¢À´µÄ¶¶¶¯. aMSNÏÖÔÚÒ²Ö§³Ö¶¶¶¯. 
-wintitlenick ÔÚTAB´°¿ÚÖĞÏÔÊ¾êÇ³Æ´úÌæÓÊ¼ş 
-wrongfields "$1", "$2" and/or "$3" ×Ö¶ÎÊÇÎŞĞ§µÄ
-wrongprofileversion ´íÎóµÄ¸öÈËÉè¶¨µµ°æ±¾. ÎªÁËÒªĞŞ¸´Ëü, ÇëÒÆ³ıÄ¿Â¼$1, »òÊÇÉı¼¶aMSN
+willjoin µÈ´ı $1 ¼ÓÈëÁÄÌì
+winkreceived ÄúÊÕµ½À´×Ô $1 µÄÉÁÆÁ¡£ Õâ»¹²»ÊÇaMSNÖ§³ÖµÄÌØĞÔ¡£
+wintitlenick ÔÚ±êÇ©Ò³´°¿ÚÖĞÏÔÊ¾êÇ³Æ´úÌæÓÊ¼ş 
+work ¹¤×÷
+wrongfields  "$1", "$2" ÒÔ¼° "$3" ÇøÓò´íÎó
+wrongprofileversion ÅäÖÃÎÄ¼ş°æ±¾³ö´í¡£ÇëÉ¾³ı $1£¬»òÕßÉı¼¶ aMSN
 xmmscurrent ÏÔÊ¾ÏÖÔÚÕıÔÚ²¥·ÅµÄ¸èÇú
 xmmserr Ã»ÓĞÔÚ²¥·Å, »òÊÇÄúÃ»ÓĞ°²×°xmms-infopipe.
 xmmssend ´«ËÍÏÖÕı²¥·ÅµÄ¸èÇú
 xoffset XÖáÎ»ÖÃ
+xplaces $1 Î»ÖÃ
 year Äê
-yes Í¬Òâ
-yesterday ×òÈÕ
-yoffset YÖáÎ»ÖÃ
-youblocked ÄãÒÑ¾­±»Ëû·âËø
+yesblock È·¶¨×èÖ¹
+yesterday ×òÌì
+yes ÊÇ
+yoffset Y Öá
+youblocked ÆÁ±ÎÄãµÄÊÇ
 yousay ÄãËµ
 youwant ÄãÒª
-yesblock È·¶¨×èÖ¹
 zoom Ëõ·Å
-blocknotifications ×èÖ¹Í¨Öª´°¿Ú 
-blocksounds ¾²Òô 
-customdp ¸öĞÔ»¯ÏÔÊ¾Í¼Æ¬ 
-nouserspecified ÎŞÖ¸¶¨µÄÓÃ»§ 
-abort ·ÅÆú
-alarmpref2 Ã¿¸öÁªÂçÈËµÄÄÖÖÓÉè¶¨
-always Ê±³£
-assistantainput Ñ¡ÔñÄãµÄÊäÈë×°ÖÃÈ»ºó³¢ÊÔÓÃËüÂ¼Òô
-assistantaoutput Ñ¡ÔñÄãµÄÊä³ö×°ÖÃÈ»ºó³¢ÊÔ´ò¿ªÕâ¸öÎÄ¼ş²âÊÔËü
-assistantawarn Äã²»ÄÜ¼ÇÂ¼×Ô¼º, »òÓëÄãµÄÅóÓÑÌ¸»°¡£Äã¿ÉÒÔÔÚÎÒÃÇµÄÍøÕ¾²éÕÒ°²×°Õâ²å¼şµÄ½ÌÑ§:
-assistantfinetunepic ¸Ä±äÒÔÏÂÉèÖÃµ÷ÕûÄãµÄÍøÂ·ÉãÓ°»úµÄÍ¼ÏóËØÖÊ
-assistantselectcam ´ÓÃûµ¥ÀïÑ¡ÔñÄúµÄÍøÂ·ÉãÓ°»ú
-assistantstarting ¿ªÆôÖúÀí
-assistanttitle ÒôÏñºÍÂ¼Ó°ÖúÀí
-audioconfigured ÄãÑ¡ÔñÁËÒÔÏÂÒôÏñÉèÖÃ:\n\nÊä³ö×°ÖÃ: $1\nÊäÈë×°ÖÃ: $2
-audiovideo ÒôÏñºÍÂ¼Ó°ÉèÖÃ
-back »ØÈ¥
-bytesymbol b
-cachedpicsfor ±»Öü²ØµÄÓÃ»§ÏÔÊ¾Í¼Æ¬
-cantget ÎŞ·¨È¡µÃ $1
-capturewarn Äã²»ÄÜ¿ªÆôÄãµÄÍøÂ·ÉãÓ°»úÈç¹ûÄãÓĞ¡£Èç¹û²»ÄÜ£¬ÕâÊÇÕı³£µÄ¡£Äã¿ÉÒÔÔÚÎÒÃÇµÄÍøÕ¾²éÕÒ°²×°Õâ²å¼şµÄ½ÌÑ§
-checkingcam ¼ì²éÍøÂ·ÉãÓ°»úÊÇ·ñÁ¬½Ó
-checkingcapext ¼ì²é'$1'²å¼şÊÇ·ñÒÑ±»¿ªÆô
-checkingextensions ¼ì²éÂ¼Òô²å¼ş
-chooseinputdev ¼ì²éÄãµÄÊäÈë×°ÖÃ
-chooselocation Ñ¡ÔñĞÂµÄÎÄ¼şÎ»ÖÃ
-choosemixerdev Ñ¡ÔñÄãµÄ»ìºÏ×°ÖÃ
-chooseoutputdev Ñ¡ÔñÄãµÄÊä³ö×°ÖÃ
-closechatwindows ÔÚµÇ³öÖ®Ç°¹Ø±ÕËùÓĞ¶Ô»°£¿
-closeothers ¹Ø±ÕËùÓĞÆäËû¶Ô»°
-configuremic ÕıÔÚÉèÖÃÄãµÄÂó¿Ë·ç
-configuringaudio ÕıÔÚ¸ü¸ÄÒôÏñÉèÖÃ
-configureplugin ÕıÔÚ¸ü¸Ä $1 ²å¼şÉèÖÃ
-congrats ×£ºØ
-currentdynrate Ä¿Ç°ÊµÊ±ËÙ¶È£¨ºÁÃë£©
-displayeventnick ÏÔÊ¾µ±ÁªÂçÈË¸Ä±äêÇ³Æ
-displayeventpsm ÏÔÊ¾µ±ÁªÂçÈË¸Ä±ä¸öÈËÑ¶Ï¢
-dontaskweek ÔÚÒ»ĞÇÆÚÄÚ²»ÒªÎÊÊÇ·ñÒª¸üĞÂ
-dontshowdp ²»ÒªÈÃÕâ¸öÓÃ»§ÏÂÔØÄãµÄĞÂÏÔÊ¾Í¼Æ¬
-downloadcanceled ÏÂÔØÒÑ±»È¡Ïû
-downloadingwait ÕıÔÚÏÂÔØĞÂ°æ±¾£¬ÇëÉÔµÈ¡£¡£¡£
-dynamicrate ÀûÓÃ¶¯Ì¬Ö¡ËÙÂÊÒÔÄ£ÄâÕæÊµÊ±¼äÖÆËÙ¶È
-editavsettings ¸ü¸ÄÒôÏñºÍÂ¼Ó°ÉèÖÃ
-escapeclosescw Esc¼üÅÌ¹Ø±ÕÁÄÌìÊÓ´°
-fetching ÕıÔÚ»ñÈ¡Êı¾İ¡£¡£¡£
-finetunesettings µ÷ÕûÍ¼Æ¬ÉèÖÃ
-finish Íê±Ï
-finish2apply µã»÷Íê±ÏÒÔÌá½»ÄÇĞ©ÉèÖÃ
-firewalled2 ÄãÒÑ±»·À»ğÇ½×èÖ¹£¬ÇëÔÚÆ«ºÃÉè¶¨ÊÓ´°Àï¼ì²éÄãµÄÁ¬½ÓÉèÖÃ
-forget_me Íü¼ÇÎÒ
-forgot_pass ÎÒÍüÁËÎÒµÄÃÜÂë
-formatctt CTT¸ñÊ½
-formatcsv CSV¸ñÊ½
-gameaccepted $1 ÒÑ½ÓÊÜÄãµÄÓÎÏ·ÑûÇë
-gameclosedbyother $1 ÒÑÈ¡ÏûÓëÄãµÄÓÎÏ·
-gameclosedbyself ÄãÒÑÈ¡ÏûÓë $1 ÓÎÏ·
-gameinvitation $1 ÑûÇëÄãÍæ $2¡£Äã½ÓÊÜÑûÇëÂğ£¿
-gamepluginnotfound $1 ÑûÇëÄãÍæ $2 µ«Ã»ÓĞÊÊºÏµÄ²å¼ş£¬Çë¿ªÆôºÍÉè¶¨²å¼şÏÈ
-gamerejected $1 ÒÑÈ¡ÏûÄãµÄÓÎÏ·ÑûÇë
-gamerequest ÄãÒÑÑûÇë $1 ÒÔÍæ $2
-goto_prefs_removeprofile µã»÷ÕâÀïÒÔÈ¥Æ«ºÃÉè¶¨²¢É¾³ıÄãµÄµµ°¸
-groupcontactsbystatus ÓÃ×´Ì¬ÒÔÖØ×éÁªÂçÈË
-havenomic ÎÒÃ»ÓĞÂó¿Ë·ç
-hidebuttonbar Òş²Ø°´Å¥ bar
-history2 ÀúÊ·
-howto_remove_profile Äã±ØĞë´ÓÆ«ºÃÉè¶¨É¾³ıÄãµÄµµ°¸£¨Íü¼Ç $1 )¡£\n\ÒòÎª°²È«Æğ¼û£¬´ÓµÇÂ¼ÊÓ´°É¾³ıµµ°¸ÊÇ²»ÔÊĞíµÄ
-largest ×î´ó
-lconvstartedOIM ÒÑ¿ªÆô¶Ô $1 ÀëÏß¼´Ê±Í¨Ñ¶¶Ô»°
-localecode ÄãµÄ4Î»ÊıÓïÑÔ£¯¹ú¼ÒºÅÂë
-logeventnick ¼ÇÔØêÇ³ÆµÄ¸Ä±ä
-logeventpsm ¼ÇÔØ¸öÈËÑ¶Ï¢µÄ¸Ä±ä
-logoutwincloselabel ÔÚµÇ³öÊ±¹Ø±Õ¶Ô»°
-medium ÖĞµÈ
-more ¸ü¶à
-mypics ÎÒµÄÏÔÊ¾Í¼Æ¬
-new_account ½¨Á¢ÕË»§
-newoim ĞÂµÄÀëÏßÑ¶Ï¢
-newupdate ÓĞĞÂµÄaMSNÉı¼¶
-nickchanged $1 ÒÑ»»È¥ '$2' êÇ³Æ
-nocamwarn ÕÒ²»µ½ÍøÂçÉãÓ°»ú£¬»òÕßÊÇÒÑ±»ÆäËûÈí¼şÓÃ£¨¾ÍÊÇËµ²»ÄÜ±» aMSN ÓÃ£©¡£Äã¿ÉÒÔÔÚÎÒÃÇµÄÍøÕ¾²éÕÒÕâÎÊÌâµÄ½â¾ö·½°¸£º
-nomic Ã»ÓĞÂó¿Ë·ç
-nooimconfirmation ²»ÒªÇóÈ·ÈÏµ±·¢ËÍ/½ÓÊÕÀëÏßÑ¶Ï¢
-noresizesmileys ²»Ëõ¼õÀ´Ï®¶¨ÖÆ±íÇé·ûºÅ
-nospace ÕâÀïÃ»ÓĞ¶«Î÷¿ÉÒÔÏÔÊ¾
-oim ÀëÏßÑ¶Ï¢
-otherdps ÆäËûµÄÏÔÊ¾Í¼Æ¬
-playerror ·¢Éú´íÎóµ±³¢ÊÔ²¥·ÅÉùÒô : $1
-playgame ÍæÓÎÏ·
-playgame2 Íæ $1
-playtest ²¥·Å²âÊÔÎÄ¼ş
-psmchanged $1 ÒÑ»»PSMÈ¥ '$2'
-receivedoimread ÄãÓĞ $1 ĞÂµÄÀëÏß¼´Ê±Ñ¶Ï¢¡£ÄãÒª¶ÁÂğ£¿
-record Â¼
-recvwebcamaccepted $1 ÒÑÍ¬ÒâÏÔÊ¾Ëû£¯ËıµÄÍøÂçÉãÓ°»ú¡£ÕıÔÚÁ¬½Ó¡£¡£¡£
-rememberaccount ¼ÇµÃÎÒµÄÕÊ»§
-removefromgroup ´Ó×éºÏÀïÉ¾³ı
-retry ÔÙÊÔ
-saveddefaultloc ´¢´æÔÚÄ¬ÈÏÎ»ÖÃ
-savelocation ÔÚ $1 ´¢´æÂğ£¿
-savelocationerror ÎÄ¼ş²»ÄÜÔÚÕâÀï´¢´æ
-saveotherdirectory ´¢´æÔÚÁíÒ»¸öÄ¿Â¼
-searchadvprefs ÔÚ½ø½×Æ«ºÃÉè¶¨ËÑÑ°:
-selectcontact Ñ¡ÔñÒ»¸öÁªÂçÈË
-sendwebcamaccepted ÒÑ½ÓÊÜÄãµÄÑûÇëÒÔÏÔÊ¾ÄãµÄÍøÂçÉãÓ°»ú¡£¡£¡£
-setupcam ÕıÔÚÉèÁ¢ÄãµÄÍøÂçÉãÓ°»ú
-setupcamfinetune ÉèÁ¢ÊÓÑ¶Éè±¸£¬²¢Î¢µ÷Í¼Æ¬
-showonedpframe Ö»ÏÔÊ¾Ò»¸öÏÔÊ¾Í¼Æ¬ÔÚ¶Ô»°ÊÓ´°Àï
-showlinksinlogin ÔÚµÇÂ¼ÊÓ´°ÏÔÊ¾Á¬½Ó
-smallest ×îĞ¡
-sortcontactsasc ÉıĞòµÄÖØ×éÁªÂçÈË
-sortcontactsdesc ½µĞòµÄÖØ×éÁªÂçÈË
-sortcontactsby ÖØ×éÁªÂçÈË
-step ²½Öè
-totalsize ×ÜÃæ»ı
-updatesaved Íê±Ï\n ÒÑÔÚ$2´¢´æ$1¡£
-viewspace ÏÔÊ¾¿Õ¼äÏîÄ¿
-volume Ìå»ı
-web ÍøÂç
-webcamconfiguredMac ÄãµÄÍøÂçÉãÓ°»úÉèÖÃÒÑ±»Éè¶¨
-webcamconfiguredWin ÄãÒÑÑ¡Ôñ´ËÍøÂçÉãÓ°»ú : $1
-webcamconfiguredLinux ÄãÒÑÑ¡Ôñ´ËÍøÂçÉãÓ°»úÉèÖÃ:\nÍøÂçÉãÓ°»ú×°ÖÃ: $1\nÍøÂçÉãÓ°»úÆµµÀ: $2
-webcamextchecking ¼ì²éÍøÂçÉãÓ°»ú²å¼şÊÇ·ñÒÑ±»¿ªÆô¡£¡£¡£
-webcamextwarn Äã²»ÄÜ¿´ÁªÂçÈËµÄÍøÂçÉãÓ°»ú¡£Äã¿ÉÒÔÔÚÎÒÃÇµÄÍøÕ¾²éÕÒ°²×°Õâ²å¼şµÄ½ÌÑ§£º
-webcamhistory2 ÍøÂçÉãÓ°»úÀúÊ·
-assistantwelcome ÕâÖúÀí½«Òıµ¼ÄãÍê³ÉÉèÖÃÄãµÄ aMSN ÒôÆµºÍÊÓÆµÉèÖÃ¡£\n\½«¼ì²éËùĞèµÄ²å¼şÊÇ·ñ´æÔÚ¼°¿ªÆô£¬Äã¿ÉÒÔÑ¡Ôñ×°ÖÃºÍÆµµÀ£¬µ÷ÕûÍ¼Æ¬ÉèÖÃ¡£
-checkingaudio ÕıÔÚ¼ì²éÒôÆµ²å¼ş (Snack) ÊÇ·ñÒÑ±»¿ªÆô
-ftportpref2 ÎªÖ±½ÓÁ¬½Ó¿ªÆô¶Ë¿Ú (ÎÄ¼ş·¢ËÍºÍÍøÂçÉãÓ°»úĞèÒª)

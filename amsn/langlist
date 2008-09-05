@@ -53,7 +53,7 @@
 		<langcode>zh-CN</langcode>
 		<name>Chinese - Simplified (中文)</name>
 		<version>1.2</version>
-		<encoding>gb2312</encoding>
+		<encoding>gb18030</encoding>
 	</lang>
 	<lang>
 		<langcode>zh-TW</langcode>
