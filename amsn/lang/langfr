@@ -660,6 +660,7 @@ others Autres
 p4contextprefix Préfixe du champ P4-Context
 pager Pager
 pass Mot de passe
+passportnotverified Votre compte doit être vérifié avant de pouvoir changer des informations personnelles (telles que le pseudonyme par exemple). Veuillez vérifier la présence dans votre boîte de réception d'un e-mail d'activation de votre compte.
 paste Coller
 pausedwebcamreceive La webcam a été mise en pause par votre contact
 pause Pause
