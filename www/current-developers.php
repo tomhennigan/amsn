@@ -16,6 +16,13 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
+<tr><td><img  title="Boris Faure - billiob" alt="Boris Faure - billiob" src="images/developer-default.png" width="168" height="147" /></td><td>
+<b>Boris Faure</b>
+		<br />Role: Developer &#8226; Internationalization
+		<br />Location:
+		<br />IRC Nick: billiob
+		<br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
+
 <tr><td><img  title="Cristofaro Del Prete" alt="Cristofaro Del Prete" src="images/developer-default.png" width="168" height="147" /></td><td>
 <b>Cristofaro Del Prete</b>
         <br />Role: Developer
@@ -109,6 +116,13 @@
         <br />IRC Nick: 
         <br /><a href="">Web site</a> &#8226; <a href="http://newandgooey.blogspot.com/">Blog</a></td></tr>
 
+<tr><td><img  title="Tom Hennigan - tomhennigan" alt="Tom Hennigan - tomhennigan" src="images/developer-tomhennigan.png" width="168" height="147" /></td><td>
+<b>Tom Hennigan</b>
+		<br />Role: Developer
+		<br />Location: London
+		<br />IRC Nick: tomhennigan
+		<br /><a href="http://www.notjustanothermacuser.com/">Web site</a> &#8226; <a href="http://www.notjustanothermacuser.com/blog/">Blog</a></td></tr>
+
 <tr><td><img  title="Vivia Nikolaidou" alt="Vivia Nikolaidou" src="images/developer-vivia.png" width="168" height="147" /></td><td>
 <b>Vivia Nikolaidou</b>
         <br />Role: Developer &#8226; Tester &#8226; Internationalization
@@ -122,13 +136,7 @@
         <br />IRC Nick: KaKaRoTo
         <br /><a href="">Web site</a> &#8226; <a href="">Blog</a></td></tr>
 
-<tr><td><img  title="Tom Hennigan - tomhennigan" alt="Tom Hennigan - tomhennigan" src="images/developer-tomhennigan.png" width="168" height="147" /></td><td>
-<b>Tom Hennigan</b>
-		<br />Role: Developer
-		<br />Location: London
-		<br />IRC Nick: tomhennigan
-		<br /><a href="http://www.notjustanothermacuser.com/">Web site</a> &#8226; <a href="http://www.notjustanothermacuser.com/blog/">Blog</a></td></tr></tbody></table><br />
-
+</tbody></table><br />
     <h3><b>Testers and contributers : </b></h3><br />
 
 
