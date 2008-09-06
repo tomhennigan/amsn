@@ -3403,18 +3403,9 @@ namespace eval ::amsn {
 					}
 				}
 			}
-
-			set customfont_original $customfont
-			    #customchat e' timestamp Giuseppe says:\n
-			    #customfont {Nimbus Sans L} {bold italic} 000000
-
-			foreach unit $parsing {
-				switch [lindex $unit 0] {
-					"text"   { WinWrite $chatid "[lindex $unit 1]" "says" $customfont }
-					"smiley" { WinWrite $chatid "[lindex $unit 2]" "says" $customfont }
-					"colour" { set customfont [lreplace $customfont end end [string range [lindex $unit 1] 1 end]] }
-				}
-			  }
+			
+			WinWrite $chatid "" "says" $customfont 1 "" $parsing
+			
 	      } else {
 		    WinWrite $chatid "\n$customchat" "says" $customfont
 	      }
@@ -3630,10 +3621,11 @@ namespace eval ::amsn {
 	# 'fontname', 'fontstyle' and 'fontcolor' as from fontformat, or 'tagname'=="says"
 	# where it will use the same format as "user" but size 11.
 	# The parameter "user" is used for smiley substitution.
-	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} {user ""}} {
+	# If lst value is empty the txt value is considered and it will be converted in lst
+	proc WinWrite {chatid txt tagname {fontformat ""} {flicker 1} {user ""} {lst ""}} {
 		set win_name [::ChatWindow::For $chatid]
 
-		if { [::ChatWindow::For $chatid] == 0} {
+		if { $win_name == 0} {
 			return 0
 		}
 		
@@ -3671,10 +3663,35 @@ namespace eval ::amsn {
 		#Check if this is first line in the text, then ignore the \n
 		#at the beginning of the line
 		if { [$textw get 1.0 2.0] == "\n" } {
-			if {[string index $txt 0] == "\n"} {
-				set txt [string range $txt 1 end]
+			if {$lst == ""} {
+				if {[string index $txt 0] == "\n"} {
+					set txt [string range $txt 1 end]
+				}
+			} else {
+				set lst [lreplace $lst 0 0]
 			}
 		}
+
+		set fontcolor_original $fontcolor
+		if {$lst == ""} {
+			set lst [list ]
+			lappend lst [list text "$txt"]
+		}
+ 
+		foreach unit $lst {
+			switch [lindex $unit 0] {
+				"text"   { set txt "[lindex $unit 1]"}
+				"smiley" { set txt "[lindex $unit 2]"}
+				"colour" { 
+					  if {[lindex $unit 1] ne "reset"} {
+						set fontcolor [string range [lindex $unit 1] 1 end]
+					  } else {
+						set fontcolor $fontcolor_original
+					  }
+					  continue
+				}
+				default { continue }
+			}
 
 		#By default tagid=tagname unless we generate a new one
 		set tagid $tagname
@@ -3770,18 +3787,24 @@ namespace eval ::amsn {
 		if {![winfo exists $win_name]} { return }
 
 		if {[::config::getKey chatsmileys]} {
-			if {([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
+			if {($tagname ne "says") && ([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
 				custom_smile_subst $chatid $textw $text_start end
 			}
-			#Replace smileys... if you're sending custom ones, replace them too (last parameter)
-			if { $user == [string tolower [::config::getKey login]] } {
-				::smiley::substSmileys $textw $text_start end 0 1
-				#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
-			} else {
-				::smiley::substSmileys $textw $text_start end 0 0
-
+			
+			#we need to call those procs only if the "txt" value is not empty (it means that we are writing in chatwindow in the old method, and so we need to parse all the "txt" value) or if the "unit 0" value is smiley (new method).
+			if {($txt ne "") || ([lindex $unit 0] eq "smiley")} {
+				#Replace smileys... if you're sending custom ones, replace them too (last parameter)
+				if { $user == [string tolower [::config::getKey login]] } {
+					::smiley::substSmileys $textw $text_start end 0 1
+					#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
+				} else {
+					::smiley::substSmileys $textw $text_start end 0 0
+				}
 			}
+			
 		}
+
+		} ;#end of foreach
 
 		if { $scrolling } { ::ChatWindow::Scroll $textw }
 		
