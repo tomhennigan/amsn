@@ -660,6 +660,7 @@ others Otras
 p4contextprefix Prefijar remitentes en P4-Context con esta cadena de caracteres
 pager Paginador
 pass Contraseña
+passportnotverified Tu cuenta pasaporte debe ser verificada antes de que puedas cambiar tu información personal (como tu apodo). Por favor, comprueba en tu bandeja de entrada que hayas recibido un correo de activación.
 paste Pegar
 pausedwebcamreceive La cámara web ha sido pausada por el otro usuario
 pause Pausa
