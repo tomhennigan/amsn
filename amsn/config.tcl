@@ -580,7 +580,9 @@ namespace eval ::config {
 	}
 
 	proc unsetKey {key} {
-		unset ::config($key)
+		if { [::config::isSet $key] } {
+			unset ::config($key)
+		}
 	}
 	
 	proc isSet {key} {
