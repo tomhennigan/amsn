@@ -4485,6 +4485,10 @@ namespace eval ::MSNOIM {
 				#Nickname change illegal.
 				msg_box [trans invalidusername]
 			}
+			715 {
+				# passport account not verified
+				msg_box [trans passportnotverified]
+			}
 			default {
 			}
 		}

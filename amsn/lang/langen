@@ -659,6 +659,7 @@ others Others
 p4contextprefix Prefix P4-Context senders with this string
 pager Pager
 pass Password
+passportnotverified Your passport account must be verified before you can change your personal information (such as your nickname). Please check your inbox for an activation email.
 paste Paste
 pausedwebcamreceive The webcam has been paused by the other user
 pause Pause
