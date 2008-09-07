@@ -27,6 +27,7 @@ tkcximage_dir := $(srcdir)/utils/TkCximage
 tray_dir := $(srcdir)/utils/linux/traydock
 linflash_dir := $(srcdir)/utils/linux/linflash
 tclISF_dir := $(srcdir)/utils/tclISF
+async_dir := $(srcdir)/utils/asyncresolver
 macosx_dir := $(srcdir)/utils/macosx
 tcl_farsight_dir := $(srcdir)/utils/farsight
 
@@ -274,6 +275,9 @@ include $(tclISF_dir)/Rules.mk
 include $(tclISF_dir)/src/Rules.mk
 include $(tclISF_dir)/src/libISF/Rules.mk
 include $(tclISF_dir)/src/Rules.mk
+
+include $(async_dir)/Rules.mk
+include $(async_dir)/src/Rules.mk
 
 ifeq (@HAVE_FARSIGHT@,yes)
   include $(tcl_farsight_dir)/Rules.mk
