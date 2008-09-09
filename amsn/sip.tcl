@@ -1188,7 +1188,7 @@ snit::type TURN {
 			incr total_size $attribute_size
 			lappend attributes [$self AttributeTypeToString $attribute_type]
 			lappend attributes $attribute_value
-			puts "Received attribute [$self AttributeTypeToString $attribute_type] : [hexify $attribute_value]"
+			puts "Received attribute [$self AttributeTypeToString $attribute_type] : [hexify_c $attribute_value]"
 		}
 
 		$self HandleResponse $id $message_type $attributes
@@ -1287,7 +1287,7 @@ snit::type TURN {
 						set ipv4 [expr {$ipv4 & 0xFFFF}]
 						set port [expr {$port & 0xFFFF}]
 
-						set server_ip " [expr {$i1 & 0xFF}]. [expr {$i2 & 0xFF}]. [expr {$i3 & 0xFF}]. [expr {$i4 & 0xFF}]"
+						set server_ip " [expr {$i1 & 0xFF}].[expr {$i2 & 0xFF}].[expr {$i3 & 0xFF}].[expr {$i4 & 0xFF}]"
 						set server_port $port
 						puts "TURN server $server_ip : $server_port"
 					}
@@ -1345,8 +1345,6 @@ snit::type TURN {
 		return [$self GenerateHex 32]
 	}
 }
-
-
 
 ###########################################
 #  SIPSocket is a socket wrapper for SIP  #
