@@ -746,6 +746,8 @@ snit::type SIPConnection {
 
 
 	method BuildIceCandidates { {local ""} {remote ""} } {
+		set sdp ""
+
 		foreach candidate $options(-local_candidates) {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
 			if {$candidate_id != "" && $password != "" } {
