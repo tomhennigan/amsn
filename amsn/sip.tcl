@@ -1348,6 +1348,11 @@ snit::type TURN {
 	}
 }
 
+proc getTURN { } {
+	return [TURN create %AUTO% -user [::config::getKey login] \
+		    -password [[$::sso GetSecurityTokenByName MessengerSecure] cget -ticket]]
+}
+
 ###########################################
 #  SIPSocket is a socket wrapper for SIP  #
 ###########################################
