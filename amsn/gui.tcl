@@ -8329,6 +8329,25 @@ proc hexify { str } {
 	}
 	set out
 }
+proc hexify_c { str } {
+	set out "{"
+	for {set i 0} { $i < [string length $str] } { incr i} {
+		set c [string range $str $i $i]
+		binary scan $c H* h
+		append out "0x$h"
+
+		if {[expr {$i+1}] < [string length $str] } {
+			append out ","
+			if {[expr {$i % 4}] == 3} {
+				append out "\n"
+			} else {
+				append out " "
+			}
+		}
+	}
+	append out "}"
+	set out
+}
 
 proc unhexify { str } {
 	set out "" 
@@ -8336,7 +8355,7 @@ proc unhexify { str } {
 		if {[string range $str $i $i] == "\[" &&
 		    [string length $str] > [expr {$i + 3}]  &&
 		    [string range $str [expr {$i + 3}] [expr {$i + 3}]] == "\]" } {
-			set d1 [string range $str [expr {$i +2}] [expr {$i +2}]]
+			set d1 [string range $str [expr {$i + 1}] [expr {$i + 1}]]
 			set d2 [string range $str [expr {$i + 2}] [expr {$i + 2 }]]
 			if {([string is digit $d1] || $d1 == "a" || $d1 == "b" ||
 			     $d1 == "c" || $d1 == "d" || $d1 == "e" || $d1 == "f") || 
