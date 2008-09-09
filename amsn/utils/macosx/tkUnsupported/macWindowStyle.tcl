@@ -4,6 +4,8 @@
 #	By Tom Hennigan (tomhennigan[at]gmail[dot]com)
 #	CF. http://wiki.tcl.tk/14518, http://wiki.tcl.tk/13428
 
+#::tk::unsupported::MacWindowStyle style . document [list closeBox verticalZoom collapseBox resizable]
+
 rename toplevel Tk_toplevel
 
 proc toplevel { pathname args } {
@@ -14,29 +16,26 @@ proc toplevel { pathname args } {
 
 namespace eval macWindowStyle {
 	# Cached variable storing the system version IE. 10.3.9, 10.4.10 or 10.5.1
-	variable macos_version [exec sw_vers -productVersion]
 	
 	proc setBrushed {w} {
-		variable macos_version
-		
-		if { [enableBrushedMetal] } {
-			catch {::tk::unsupported::MacWindowStyle style $w document {closeBox horizontalZoom verticalZoom collapseBox resizable metal}}
+		if { [systemSupportsBrushed] && [::skin::getKey usebrushedmetal 0] && [::config::getKey allowbrushedmetal 1] } {
+			catch [list ::tk::unsupported::MacWindowStyle style $w document [list closeBox horizontalZoom verticalZoom collapseBox resizable metal]]
 		}
 	}
 	
-	proc enableBrushedMetal { } {
-		variable macos_version
+	proc systemSupportsBrushed { } {
+		set r 1
+		set macos_version [exec sw_vers -productVersion]
 		
-		if {[::skin::getKey usebrushedmetal "0"] && [::config::getKey allowbrushedmetal "1"]} {
-			# Brushed style windows are buggy with 10.5, so we diable them for 10.5+
-			if {[package vcompare 10.5.0 $macos_version] == -1} {
-				return 1
-			} else {
-				status_log "::macWindowStyle::setBrushed - style disabled (os version: $macos_version)" white
-			}
+		if { [package vcompare 10.5.0 $macos_version] == -1 } {
+			status_log "::macWindowStyle::setBrushed - style disabled (os version: $macos_version)" white
+			set r 0
 		}
 		
-		# Else use aqua style windows.
-		return 0
+		# Cache the result of this call.
+		rename ::macWindowStyle::systemSupportsBrushed {}
+		proc ::macWindowStyle::systemSupportsBrushed {} [list return $r]
+		
+		return $r
 	}
 }
