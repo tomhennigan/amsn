@@ -4010,10 +4010,10 @@ namespace eval ::MSNOIM {
 					set has_payload 0
 				} elseif {$handler_num_realargs == [expr {$handler_numargs + 2}] } {
 					set length [lindex [split $command] end]
-					if {[string is integer $length] } {
+					if {[string is integer -strict $length] } {
 						set has_payload 1
 					} else {
-						status_log "We expect a payload but the length is $length. Could be an ADL OK. No payload." blue
+						status_log "We expect a payload but the length is $length. Could be an ADL OK or ILN. No payload." blue
 						set has_payload 0
 					}
 				} else {
