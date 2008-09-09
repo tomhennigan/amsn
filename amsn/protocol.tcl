@@ -4030,7 +4030,7 @@ namespace eval ::MSNOIM {
 			}
 
 			if { $has_payload } {
-				set length [lindex [split $command] end]
+				set length [lindex [split [string trimright $command]] end]
 
 				#There is a bug (#2265) where $length is not numeric
 				# report error on status_log is this occurs so we can track it down
