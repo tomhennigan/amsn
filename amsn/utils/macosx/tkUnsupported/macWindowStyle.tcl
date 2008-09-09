@@ -4,7 +4,7 @@
 #	By Tom Hennigan (tomhennigan[at]gmail[dot]com)
 #	CF. http://wiki.tcl.tk/14518, http://wiki.tcl.tk/13428
 
-#::tk::unsupported::MacWindowStyle style . document [list closeBox verticalZoom collapseBox resizable]
+::tk::unsupported::MacWindowStyle style . document [list closeBox verticalZoom collapseBox resizable]
 
 rename toplevel Tk_toplevel
 
