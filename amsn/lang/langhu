@@ -451,7 +451,7 @@ ident Azonosítás
 identity Azonosító
 ignorecontact A partner üzeneteinek figyelmen kívül hagyása
 ignoreerrors Minden egyéb aMSN hiba figyelmen kívül hagyása a munkamenetre
-ignore Letiltás
+ignore Bezárás
 imagefiles Képfájlok
 inbox Beérkező üzenetek
 insertsmiley Hangulatjel beszúrása
@@ -659,6 +659,7 @@ others Egyéb
 p4contextprefix Előjelezd a P4-tartalom küldőket ezzel
 pager Személyi hívó
 pass Jelszó
+passportnotverified A személyes információid (pl. becenév) módosítása előtt ellenőrzötté kell tenned a passport fiókod. Ellenőrizd az e-mail címed, hogy az aktivációs e-mail megérkezett-e.
 paste Beillesztés
 pausedwebcamreceive A webkamerakép küldését a partner felfüggesztette
 pause Szünet
