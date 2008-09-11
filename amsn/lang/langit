@@ -1,7 +1,7 @@
 amsn_lang_version 2
 abort Annulla
-aboutamsn Informazioni su Alvaro's Messenger
 about Informazioni
+aboutamsn Informazioni su Alvaro's Messenger
 accept Accetta
 acceptfile Accetto il file $1, dimensioni $2? Sarà salvato in $3
 account Account
@@ -25,9 +25,9 @@ agotinvitation Ricevuto invito audio da $1
 alarmonconnect Attiva l'allarme quando l'utente si connette
 alarmondisconnect Attiva l'allarme quando l'utente si sconnette o diventa invisibile
 alarmonmsg Attiva l'allarme quando l'utente ti manda un messaggio
-alarmonstatus Attiva l'allarme quando l'utente cambia il suo stato
-alarmpref2 Impostazioni dell'allarme per tutti i contatti
+alarmonstatus Attiva l'allarme quando l'utente modifica il suo stato
 alarmpref Impostazioni dell'allarme dell'utente
+alarmpref2 Impostazioni dell'allarme per tutti i contatti
 alarms Allarmi
 alarmstatus Abilita l'allarme per questo utente
 allfiles Tutti i file
@@ -83,13 +83,14 @@ avcanceled Chiamata di videoconferenza annullata
 avgotinvitation Ricevuto invito di videoconferenza da $1
 avinitfailed Inizializzazione del plugin audio/video fallita. Chiamata annullata
 avoidseen Impedisci a questa persona di vedermi e di contattarmi quando sono connesso
+away Non al computer
 awaymsg1 Chiedi di impostare un messaggio di "assente" ogni volta che cambio il mio stato in "Non al computer/Torno Subito/Occupato"
 awaymsg2 Non chiedere mai e usa sempre il messaggio di assente qui sotto
-away Non al computer
 back Indietro
 baduserpass Username o password sbagliate
 badwebcam Impossibile visualizzare l'immagine della webcam. Assicurati che sia collegata e installata.
-bgcolor Cambia il colore di sfondo di aMSN
+bgcolor Modifica il colore di sfondo di aMSN
+bytesymbol b
 blankdirect Lascia vuoto per connessioni dirette
 block Blocca
 blocked Bloccato
@@ -107,19 +108,18 @@ blockusers Numero di utenti da controllare subito
 bouncedock Fa lampeggiare l'icona di aMSN quando viene ricevuto un messaggio
 brightness Luminosità
 broughtby Sviluppato da
+browse Sfoglia
 browser Browser
 browserexample (\$url verrà rimpiazzato dall'URL). Es: firefox \$url
-browse Sfoglia
 bugerror Si è verificato un problema durante la connessione al database dei bug. Controlla la tua connessione a Internet.
 bugnocomment Inviare senza commento? I commenti ci aiutano a capire meglio che cos'è andato storto e correggere i bug più facilmente.
 busy Occupato
-bytesymbol b
 cachedpics $1 immagini memorizzate
 cachedpicsfor Immagini memorizzate per l'utente
 cagreement Accordo Confidenziale
 cancel Annulla
-cancelled Cancellato
-cannotdeleteprofile Non posso cancellare il profilo perché sembra essere usato da una sessione di aMSN
+cancelled Annullato
+cannotdeleteprofile Non posso eliminare il profilo perché sembra essere usato da una sessione di aMSN
 cantexec Non posso eseguire l'applicazione: $1. Controlla nelle preferenze
 cantget Impossibile scaricare $1
 cantloadonlineversion Non è stato possibile recuperare la lista delle lingue da Internet
@@ -129,20 +129,20 @@ captureextnotloaded L'estensione Capture -$1- non è stata caricata, devi prima c
 captureproperties Proprietà immagine webcam
 capturewarn Non potrai usare invia immagine della webcam, se ne hai una. Se non ne possiedi è normale. Puoi trovare delle indicazioni su come installare questa estensione nella nostra Wiki:
 casesensitive Usa comandi discriminanti tra maiuscole e minuscole
-cfgalarmall Configura/Aggiungi/Rimuovi l'allarme globale
-cfgalarm Configura/Aggiungi/Rimuovi l'allarme
+cfgalarmall Configura/aggiungi/rimuovi l'allarme globale
+cfgalarm Configura/aggiungi/rimuovi l'allarme
 change_account_info Modifica informazioni Account
-change Cambia
+change Modifica
 changecustomstate Passa a
-changedisplaypic Cambia l'immagine personale
-changefont Cambia font
-changeglobnick Cambia nick globale
-change_mobile Impostazioni Mobile
-changenick Cambia nick
-changesize Cambia dimensione
+changedisplaypic Modifica l'immagine personale
+changefont Modifica carattere
+changeglobnick Modifica nick globale
+change_mobile Impostazioni mobile
+changenick Modifica nick
+changesize Modifica dimensione
 changestate $1 stato: $2
 changestatus Stato
-changevideosettings Cambia le impostazioni video
+changevideosettings Modifica le impostazioni video
 channels Canali
 charscounter Contatore dei caratteri digitati nella finestra di chat
 chatack Sto accentando una chiamata da
@@ -164,7 +164,7 @@ checkopenfilecommand Per piacere controlla il comando apri file nelle Preferenze
 checkver Controlla l'esistenza di nuove versioni
 choosearq Scegli l'architettura del tuo sistema
 choosebasefont Seleziona il font
-choosebgcolor Cambia il colore di sfondo
+choosebgcolor Modifica il colore di sfondo
 choosechannel Scegli un canale
 choosecontact Per favore scegli un contatto dalla lista
 choosedevice Scegli un dispositivo
@@ -173,13 +173,13 @@ chooseinputdev Scegli la periferica di input
 chooselocation Scegli il nuovo file di destinazione
 choosemixerdev Scegli il mixer
 chooseoutputdev Scegli la periferica di output
-chooseskin Scegli la Skin che preferisci usare
+chooseskin Scegli il tema che preferisci usare
 ch_to_state Passa a nuovo stato personalizzato
-clear Cancella
-clearlog2 Cancella il diario per tutti i tuoi contatti
-clearlog3 Cancella tutti i Log
-clearlog Cancella i Log
-clearwebcamlogs Cancella tutti i Log della webcam
+clear Azzera
+clearlog2 Elimina il diario per tutti i tuoi contatti
+clearlog3 Elimina tutti i log
+clearlog Elimina i log
+clearwebcamlogs Elimina tutti i Log della webcam
 clickhere Clicca qui
 clicktoadd Clicca su Aggiungi per una nuova nota
 clicktologin Clicca qui per accedere
@@ -192,7 +192,7 @@ close Chiudi
 closed La conversazione con $1 è chiusa per inattività
 closelabel Quando clicchi sul pulsante di chiusura di una finestra con più schede:
 closeonly Chiudi solo la scheda corrente
-closeorcall Devi chiudere/annullare the la chiamata Audio prima di chiudere la finestra.
+closeorcall Devi chiudere/annullare la chiamata audio prima di chiudere la finestra.
 closeordock La chiusura della finestra della lista dei contatti chiuderà aMSN. Forse vuoi solo chiudere la finestra e vuoi avere aMSN aperto nella barra delle applicazioni.\n\nSei sicuro/a di voler chiudere aMSN?
 closeothers Chiudi le altre schede
 closingdocks Pulsante chiudi riduce a icona
@@ -204,9 +204,9 @@ configuremic Sto configuarando il tuo microfono
 configureplugin Configura il plugin $1
 configuringaudio Sto configuarando i settaggi audio
 confirmbl Sei sicuro di voler bloccare questo contatto?
-confirmdelete Sei sicuro di voler cancellare $1?
-confirmdg Sei sicuro di voler cancellare questo gruppo?
-confirmdu Sei sicuro di voler cancellare questo utente?
+confirmdelete Sei sicuro di voler eliminare $1?
+confirmdg Sei sicuro di voler eliminare questo gruppo?
+confirmdu Sei sicuro di voler eliminare questo utente?
 confirmeg Sei sicuro di voler svuotare questo gruppo?
 confirmfulldelete Rimuovi anche dalla rubrica indirizzi Windows Live
 confirmpurge Tutte le immagini salvate dei contatti eccetto le proprie saranno rimosse. Continuare?
@@ -257,11 +257,11 @@ customnick Nick Personalizzato
 customsmileys Mostra le emoticon personalizzate degli altri utenti
 customstyle Stile personalizzato
 custshowcustomsmileys Mostra le emoticon personalizzate dell'utente
+cut Taglia
 cutimageboxreset Reimposta la grandezza del\nbox di selezione a:
 cutimagebox Seleziona la parte di immagine che vuoi utilizzare ridimensionando e muovendo il box di selezione
-cut Taglia
 date Data
-dateformat Cambia il formato della data
+dateformat Modifica il formato della data
 day Giorno
 days Giorni
 dcprofile Non creare un profilo
@@ -269,14 +269,14 @@ default2 Predefinito
 default Configurazione predefinita
 defaultloginradio Entra con la configurazione predefinita
 defchatwinsize Dimensione predefinita delle finestre di chat (XSIZExYSIZE)
-deleteall Cancella tutto
-deleteblock Cancella e Blocca
-delete Cancella
+deleteall Elimina tutto
+deleteblock Elimina e blocca
 deletecustomstate Elimina stato personalizzato
+delete Elimina
 delimiters Delimitatori del campo Ora:
 deliverfail Si è verificato un problema nell'inoltro del seguente messaggio
 delprofile2 Seleziona il profilo che desideri rimuovere
-delprofile Cancella il profilo
+delprofile Elimina il profilo
 description Descrizione
 detach Stacca
 details Dettagli
@@ -293,9 +293,9 @@ displaychat Mostra le opzioni del testo
 displayeventconnect Mostra quando i contatti si connettono
 displayeventdisconnect Mostra quando i contatti si sconnettono
 displayeventemail Mostra quando si riceve Posta
-displayeventnick Mostra quando i contatti cambiano nick
-displayeventpsm Mostra quando i contatti cambiano messaggio personale
-displayeventstate Mostra quando i contatti cambiano stato
+displayeventstate Mostra quando i contatti Modificano lo stato
+displayeventnick Mostra quando i contatti modificano il nick
+displayeventpsm Mostra quando i contatti Modifica il messaggio personale
 displayp4context Visualizza il contenuto del campo P4-Context come mittente del messaggio
 displaypic Immagine personale
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -306,18 +306,18 @@ dockkde Dock KDE
 done Fatto
 dontaskweek Non richiedere ulteriori aggiornameti per una settimana
 dontdownload Non scaricare TLS, lo installerò io
-dontshowdp Impedisci a questo utente di vedere le tue nuove immagini personali
 dontshow Non mostrare
-downloadcanceled Download cancellato.
-downloadingtls Download del modulo TLS in corso da:\n$1
-downloadingwait Download in corso di una nuova versione di amsn. Attendere prego...
+dontshowdp Impedisci a questo utente di vedere le tue nuove immagini personali
 download Scarica
+downloadcanceled Download annullato.
+downloadingwait Download in corso di una nuova versione di amsn. Attendere prego...
+downloadingtls Download del modulo TLS in corso da:\n$1
 dynamicrate Uso dinamico del frame rate per simulare in tempo reale la velocità
-editavsettings Modifica i settaggi audio e video
 editcontent Modifica il contenuto del campo soggetto e del campo note
 editcustomstate Modifica Stato Personalizzato
 edit Modifica
-editmyprofile Modifica il mio Profilo MSN
+editavsettings Modifica i settaggi audio e video
+editmyprofile Modifica il mio profilo MSN
 editnewstate Nuove impostazioni personali di risposta automatica
 editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di risposta automatica esistenti
@@ -331,8 +331,8 @@ enabled Attivato
 enableproxy Proxy abilitato
 enableremote Abilita il controllo a distanza
 enablesound Emetti un suono
-encoding2 Cambia il metodo di codifica dei caratteri
-encoding Seleziona la codifica
+encoding2 Modifica il metodo di codifica dei caratteri
+encoding Seleziona codifica
 enterbugdesc Inserisci una descrizione di cosa stavi facendo per aiutarci a riprodurre il bug:
 entercontactemail Inserisci un contatto per e-mail
 enterfilename Inserisci un nome di file
@@ -348,17 +348,17 @@ extras Servizi extra
 faileddelete Eliminazione non riuscita
 faileddeleteperso Questo file non può essere rimosso perché non è un'immagine personale. Solo le immagini appartenenti al proprio profilo possono essere rimosse in questo modo.
 failed Non riuscito
-faq FAQ (Risposte alle domande più frequenti)
+faq FAQ (risposte alle domande più frequenti)
 farsightextchecking Controllando se l'estensione Farsight é caricata ...
 farsightextwarn Non potrai avere chiamate SIP. Puoi trovare risposte su come installare Farsight sul nostro Wiki:
 farsightinfook Farsight é un framework che tratta protocolli di conferenza con audio/video. Con Farsight, é possibile inviare o ricevere chiamate SIP con aMSN! Dai un'occhiata a Farsight sul nostro Wiki:
 fetching Acquisizione dati...
-file Archivio
 filedoesnotexist Il file non esiste
+file Archivio
 filemanexample ( \$location sarà rimpiazzato dalla cartella ) Es: konqueror \$location
 fileman File Manager
 filename File
-filenotwritable Questo file non può essere cancellato
+filenotwritable Questo file non può essere eliminato
 filetransfercancelled Trasferimento file annullato
 filetransfercomplete Trasferimento file completato
 filetransfer Trasferimento file
@@ -366,16 +366,16 @@ filters Filtri
 filtersselect Seleziona i filtri che vuoi utilizzare\n(Nessuna selezione significa mostra tutti)
 filtersx Selezione filtri
 findasyoutype Trova mentre digiti
+find Trova
 findnext Trova successivo
 findprev Trova precedente
-find Trova
 finetunesettings Settaggi fini dell'immagine
-finish2apply Premi Fine per applicare questi settaggi.
 finish Fine
-firewalled2 Sei dietro un firewall, per favore controlla i settaggi di Connessione nella finestra delle preferenze
+finish2apply Premi Fine per applicare questi settaggi.
 firewalled Sei dietro un firewall o un router
+firewalled2 Sei dietro un firewall, per favore controlla i settaggi di Connessione nella finestra delle preferenze
 followtext Scorri la finestra quando nuovo testo viene inserito
-forget_me (Annulla memorizzazione del profilo utente)
+forget_me (Annulla memorizzazione profilo utente)
 forgot_pass Password dimenticata?
 formatcsv Formato CSV
 formatctt Formato CTT
@@ -388,8 +388,8 @@ ftconnecterror Errore connettendosi all'utente remoto
 ftconnecting Connessione a $1 sulla porta $2
 ftconnectionlost La connessione con l'utente remoto è caduta.
 ftgotinvitation $1 vuole inviarti il file '$2' ($3 bytes). Sarà salvato nella directory $4. Vuoi ricevere questo file?
-ftportpref2 Porta iniziale per le connessioni dirette (necessaria per il trasferimento file e la webcam)
 ftportpref Porta iniziale per il trasferimento file
+ftportpref2 Porta iniziale per le connessioni dirette (necessaria per il trasferimento file e la webcam)
 ftporttest Test
 ftrejectedby $1 ha rifiutato l'invito al trasferimento del file '$2'.
 ftrejected Trasferimento del file respinto
@@ -403,17 +403,17 @@ gamepluginnotfound $1 ti ha invitato a giocare $2 ma il plugin del gioco non é c
 gamerejected $1 ha rifiutato il tuo invito al gioco
 gamerequest Hai invitato $1 a giocare $2
 getdisppic Attiva la ricezione delle immagini personali degli utenti
-getmoreplugins Preleva altri plugin!
-getmoreskins Preleva altre skin!
+getmoreplugins Scarica altri plugin!
+getmoreskins Scarica altri temi!
 globalcontainer Finestra globale
 globalnick Crea un modello per mostrare i nick dei contatti. Puoi usare queste variabili: \$user_login per la e-mail del contatto, \$nick per il nick del contatto e \$customnick per un nick personalizzato. Esempio: '\$user_login è \$nick' diventa 'contact@msn.com è Contact'
 globalnicktitle Nick globale
 globaloverride Il modello dei nick globali dovrebbe avere precedenza sui nick personalizzati
 gonelunch A pranzo
 gotink $1 ti ha inviato un ink.
-gotoinbox Cartella posta in arrivo
-goto_prefs_removeprofile Clicca qui per aprire la finestra delle preferenze e cancellare il tuo profilo
 goto Vai a $1
+gotoinbox Cartella posta in arrivo
+goto_prefs_removeprofile Clicca qui per aprire la finestra delle preferenze e eliminare il tuo profilo
 groupadd Aggiungi un gruppo
 groupcontactsbystatus Raggruppa i contatti per stato
 groupcontacts Raggruppa i contatti
@@ -431,18 +431,18 @@ groupunknown Gruppo sconosciuto
 handle Gestisci
 hangup Resta in linea
 havenomic Non ho il microfono
-help Aiuto
-helpcontents Aiuto
-hidebuttonbar Nascondi la barra dei pulsanti
+helpcontents ?
+help ?
 hidedisplaypic Nascondi l'immagine personale
+hidebuttonbar Nascondi la barra dei pulsanti
 hidemenumessage Sei sicuro di voler nascondere i menù?\nPuoi ripristinarli ogni volta che vuoi usando la scorciatoia da tastiera per mostrare/nascondere i menù 'Ctrl-M'.
 hidemenu Mostra/Nascondi i menù
 hiden Nascondi le emoticon dal menu delle faccine
 hidewindow Nascondi Finestra
-history2 Cronologia
 history Mostra la cronologia messaggi
+history2 Cronologia
 home Casa
-howto_remove_profile Devi cancellare il tuo profilo (cancella $1) dalla finestra delle preferenze. \n\nPer ragioni di sicurezza, non è permessa la rimozione dei profili dalla schermata di login.
+howto_remove_profile Devi eliminare il tuo profilo (elimina $1) dalla finestra delle preferenze. \n\nPer ragioni di sicurezza, non è permessa la rimozione dei profili dalla schermata di login.
 httpconnection Connessione usando il metodo HTTP (usa il protocollo HTTP sulla porta 80)
 hue Colore
 huge Enorme
@@ -462,11 +462,11 @@ invalidfile2 Il file $1 non può essere creato, assicurati di avere i permessi ne
 invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
 invalidgroup Gruppo non valido
 invalidparameter Errore di connessione al server: Parametro non valido
-invalidpic La foto scelta non esiste
 invalidpicsize La foto scelta è troppo grande, scegline una più piccola
+invalidpic La foto scelta non esiste
 invalidsound Il file audio scelto non esiste
 invalidusername Username non valido
-invitationcancelled L'invito è stato cancellato
+invitationcancelled L'invito è stato annullato
 invite Invita un contatto a unirsi alla conversazione
 ipaddress Indirizzo IP
 ipdetect Determina l'IP corretto per il trasferimento file usando l'HTTP
@@ -503,22 +503,22 @@ listsmileys2 Mostra emoticon nella lista contatti principale di aMSN
 listsmileys Elenco emoticon
 ljoinedconf $1 è entrato/a a far parte della conversazione
 lleftconf $1 ha lasciato la conversazione
-load Carica
 loadcontacts Carica la lista contatti
+load Carica
 loadotherdisplaypic Caricamento immagini di $1, attendere prego...
 logbigger I file delle registrazioni per ogni contatto non hanno alcun limite dimensionale
 logeventconnect Registra le connessioni
 logeventdisconnect Registra le disconnessioni
 logeventemail Registra quando si riceve posta
+logeventstate Registra i cambi di stato
 logeventnick Registra i cambi di nick
 logeventpsm Registra i cambi di messaggio personale
-logeventstate Registra i cambi di stato
 logfandexp Termine prefissato della cronologia e dimensione dei registri
 loggedotherlocation Disconnesso. E' stato effettuato l'accesso a Messenger da un altro computer
 loggingin Connessione in corso...
-login Accedi
 loginas Accedi come
 loging Diario
+login Accedi
 logolder Registra soltanto le chat che hanno dell'ultimo
 logout Disconnetti
 logoutwincloselabel Quando ti disconnetti, chiudere le conservazioni
@@ -534,8 +534,8 @@ longpsm Il tuo messaggio personale è troppo lungo. Non è ufficialmente supportat
 lowrescam Video a bassa risoluzione
 lprivtoconf Chat privata divenuta conversazione con $1
 luclosedwin Hai chiuso la finestra il $1
-mailer Client di posta
 mailerexample ( \$recipient = Destinatario ) Lasciare in bianco se si usa hotmail
+mailer Client di posta
 maintenance Il server chiuderà la connessione tra $1 minuti per manutenzione
 maximised Massimizzato
 medium Medio
@@ -588,8 +588,8 @@ newtabbedfeature Su aMSN è ora possibile gestire le varie conversazioni anche ri
 newupdate Sono disponibili nuovi aggiornamenti per aMSN
 newveravailable La nuova versione $1 è disponibile per il download
 next Prossimo
-nickchanged $1 ha cambiato il nick in '$2'
 nick nick
+nickchanged $1 ha modificato il nick in '$2'
 noactivity Nessuna attività
 no_blocked_notif Non mostrare finestre di notifica per i contatti bloccati
 nocacheddps Nessuna immagine in cache per questo utente
@@ -605,22 +605,22 @@ nomic Nessun microfono
 noneavailable Niente disponibile
 nonewmail Nessun nuovo messaggio di posta
 nonewver Non ci sono nuove versioni da scaricare
-nonimgroup Non-Instant Messaging Contacts
+nonimgroup Contatto non Instant Messaging
 no No
-nooimconfirmation Non chiedere conferma quando si inviano/ricevono Messaggi non In linea
+nooimconfirmation Non chiedere conferma quando si inviano/ricevono messaggi non in linea
 nopic Nessuna immagine
 noprofileexists Non ci sono profili correnti, \ndevi crearne uno se vuoi usare i login con il profilo. \nUsa il pulsante Aggiungi nuovo profilo su questa finestra per aggiungerne uno.
 noresizesmileys Non ridimensionare le emoticon ricevute
 normal Normale
-noskins Non sono riuscito a trovare la skin predefinita nella cartella skins/. Non posso avviare aMSN.
+nospace Qui non c'è niente da vedere
+noskins Non sono riuscito a trovare il tema predefinito nella cartella skins/. Non posso avviare aMSN.
 nosound Nessun suono rilevato, controlla che il microfono sia collegato correttamente
 nosound_or_hold Nessun suono rilevato. Per inviare un messaggio vocale devi premere e tener premuto il pulsante mentre parli, poi rilascialo per inviare il messaggio.
-nospace Qui non c'è niente da vedere
 nosystemtray System tray non disponibile
 note Nota
 notificationserver Server di notifica iniziale di MSN (Server di MSN Messenger)
 notify1_5 Mostra una finestra di notifica quando i contatti vanno fuori linea
-notify1_75 Mostra una finestra di notifica quando i contatti cambiano stato
+notify1_75 Mostra una finestra di notifica quando i contatti modificano stato
 notify1 Mostra una finestra di notifica quando i contatti vengono in linea
 notify2 Mostra una finestra di notifica quando viene ricevuto un nuovo messaggio
 notify3 Mostra una finestra di notifica quando una e-mail raggiunge la tua casella di posta
@@ -630,7 +630,7 @@ notifyoffset Seleziona la posizione della finestra di notifica dandole delle coo
 notifytimeout Tempo in millisecondi prima che la finestra di notifica scompaia
 notifytyping Invia agli altri utenti una notifica mentre digito
 notifywin Finestra di Notifica
-notimcontact Questo contatto non é un contatto Instant-Messaging
+notimcontact Questo contatto non é un contatto Instant Messaging
 notinlist Non sei presente nella sua lista contatti
 notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile trovarlo. Se è installato, è necessario specificare il percorso delle librerie nella finestra Preferenze (es: /opt/tls/lib). \n\nIl pacchetto tls può essere scaricato da http://tls.sf.net.
 nottabbed Finestre normali senza schede
@@ -641,19 +641,19 @@ offline Sconnesso
 oim Conversazione "non in linea"
 ok Ok
 onenewmail 1 nuovo messaggio di posta
-onlinehelp Aiuto in linea
+onlinehelp Guida in linea
 online In linea
 onphone Al telefono
 opendir Apri cartella
-openfile Apri
 openfilecommand Comando apri file
-openreceived Apri cartella File Ricevuti
+openfile Apri
+openreceived Apri cartella file ricevuti
 options Opzioni
 ordercontactsby Ordina i contatti per
 ordergroupsby Ordina i gruppi per
 original Originale
-other Altro
 otherdisplaypic Altre immagini di questo utente (click destro per ulteriori opzioni)
+other Altro
 otherdps Altre immagini
 others Altre impostazioni
 p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
@@ -664,18 +664,18 @@ pausedwebcamreceive La webcam è stata messa in pausa dall'altro utente
 pause Pausa
 pausewebcamsend Pausa invio webcam
 personal Personale
-phones Numeri di Telefono
 phone Telefono
+phones Numeri di Telefono
 picbrowser Mostra il selettore delle immagini personali
 picfile File dell'immagine dell'allarme (GIF < 500x500)
 picstatus Abilita l'immagine per l'allarme
+play Play
 playbackposition Posizione di riproduzione
 playbackspeed Velocità di riproduzione (millisecondi tra ogni frame)
 playerror Errore nella riproduzione del suono: $1
 playgame2 Gioca $1
 playgame Gioca
 playing Sto ascoltando: $1
-play Play
 playtest Riproduci il file di test
 playwebcamsend Riprendi invio webcam
 pluginselector Seleziona i plugin
@@ -690,13 +690,13 @@ prefblock3 Gruppo "Sei stato bloccato da"
 prefconnection Impostazioni di connessione
 prefemotic Emoticon
 preferences Preferenze
-preffont2 Cambia il modo in cui gli altri vedono il mio testo nelle chat
-preffont3 Cambia la dimensione e il tipo dei caratteri dell'interfaccia di aMSN
-preffont4 Cambia il modo in cui vedo il testo degli altri nelle chat
+preffont2 Modifica il modo in cui gli altri vedono il mio testo nelle chat
+preffont3 Modifica la dimensione e il tipo dei caratteri dell'interfaccia di aMSN
+preffont4 Modifica il modo in cui vedo il testo degli altri nelle chat
 preffont Testo del mio messaggio
 prefft Settaggi trasferimento file e NAT
 preflibs Cartelle delle librerie
-preflocale2 Seleziona la tua lingua-/-codice paese
+preflocale2 Seleziona la tua lingua / codice paese
 preflocale Impostazioni
 preflog1 Opzioni di cronologia e diario
 preflogevent Cronologia degli Eventi
@@ -723,22 +723,22 @@ profileinuse Questo profilo è già in uso da un'altra sessione di aMSN, per favor
 profileloginradio Entra usando un profilo esistente
 profiles Profili
 properties Proprietà
-proxyconf Configurazione proxy
 proxyconfhttp Configurazione supporto proxy HTTP
+proxyconf Configurazione proxy
 proxyconnection Mi connetto ad internet usando un server proxy:
 proxy Sono dietro un server proxy (HTTP o SOCKS5)
 psmatend Mostra il messaggio personale a fianco al nick
-psmchanged $1 ha cambiato il messaggio personale in '$2'
+psmchanged $1 ha modificato il messaggio personale in '$2'
 psmdontshow Non mostrare il messaggio personale, a meno che sia impostato nei nick globali/personalizzati
-psm Messaggio personale
 psmnewline Mostra il messaggio personale sotto il nick
+psm Messaggio personale
 psmplace Dove deve apparire il messaggio personale?
 publishphones Pubblica il mio numero di telefono
 purge Elimina
 pwcdriver Stai usando il driver pwc
 quit Chiudi
 raised Ingrandito
-readonlymsgbox Il trasferimento del file è stato annullato perché la directory di destinazione ha permessi di sola lettura. \nPer favore cambia i permessi.
+readonlymsgbox Il trasferimento del file è stato annullato perché la directory di destinazione ha permessi di sola lettura. \nPer favore modifica i permessi.
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la directory "File Ricevuti" sembra essere protetta in scrittura.\nPer favore assicurati che i permessi della directory ($1) siano impostati correttamente prima di trasferire il file.
 receivedbytes Ricevuti $1 byte su $2
 receiveddir Cartella file ricevuti
@@ -750,8 +750,8 @@ reconnect2 Riconnetti su disconnessione
 reconnecting Riconnessione al server
 reconnectnow Riconnetti Ora
 reconnect Sto aspettando che $1 si riconnetta
-recorderror Sì è verificato un errore durante la registrazione del suono: $1
 record Registra
+recorderror Sì è verificato un errore durante la registrazione del suono: $1
 recvwebcamaccepted $1 ha accettato il tuo invito a farti visualizzare le immagini dalla sua webcam. Connessione in corso
 redirect Clicca qui per essere reindirizzato
 reject Respingi
@@ -759,7 +759,7 @@ rememberaccount Memorizza profilo utente
 rememberpass Memorizza la password
 remembersetting Ricorda questa impostazione
 removeempty Eliminare gruppi vuoti dalla lista contatti
-removefromgroup Cancella dal gruppo
+removefromgroup Elimina dal gruppo
 removefromlist Rimuovi da questa lista
 renameep Rinominare questa località ($1)
 renamelocation Rinominare questa località
@@ -767,21 +767,21 @@ rename Rinomina
 reporting Invio del rapporto in corso
 report Rapporto
 required_version Impossibile caricare il plugin. Richiede almeno la versione $1 di aMSN
-resetincomingfont Ripristina il font (usa il font scelto dal mittente del messaggio)
-restartforskin Nota: potresti aver bisogno di riavviare aMSN per vedere la skin in maniera opportuna!
 retry Riprova
+resetincomingfont Ripristina il font (usa il font scelto dal mittente del messaggio)
+restartforskin Nota: potresti aver bisogno di riavviare aMSN per vedere il tema in maniera opportuna!
 reversed Invertito
 reverselist Invertire la lista (RL)
 rightback Torno subito
 saveas Salva come
 savechatwinsize Salva la dimensione della finestra di chat come predefinita ad ogni ridimensionamento
 savecontacts Salva la lista contatti
-saveddefaultloc Salva della posizione predefinita
-savelocationerror Il file non può essere salvato in questa posizione.
-savelocation Vuoi salvare il file in $1?
-saveotherdirectory Salva in un'altra cartella
 save Salva
+saveddefaultloc Salva della posizione predefinita
+savelocation Vuoi salvare il file in $1?
+savelocationerror Il file non può essere salvato in questa posizione.
 savetofile Salva nel file
+saveotherdirectory Salva in un'altra cartella
 says $1 dice
 sbcon Connessione a Switch Board
 searchadvprefs Cerca in preferenze avanzate:
@@ -790,17 +790,17 @@ searchup Cerca indietro
 selectall Seleziona tutto
 selectcontact Seleziona un contatto
 selectplugins Seleziona i plugin che desideri attivare
-selectskin Seleziona una skin dalla lista
+selectskin Seleziona un tema dalla lista
 sendcam Invia immagine della webcam
-sendemail Invia il mio indirizzo e-mail per avvisarmi riguardo cambiamenti
-sendfeedback Spedisci un resoconto
+sendemail Invia il mio indirizzo e-mail per avvisarmi riguardo ai cambiamenti
+sendfeedback Invia un resoconto
 sendfile Invia un singolo file
-send Invia
 sendmail Invia un messaggio di posta
 sendmobmsg Invia un messaggio ad un dispositivo mobile
 sendmsg Invia un messaggio istantaneo
 sendoim Invia un messaggio "non in linea"
-sendsip Inizia Chiamata Audio
+sendsip Inizia chiamata audio
+send Invia
 sendvoice Invia un messaggio vocale
 sendwebcamaccepted $1 ha accettato il tuo invito a visualizzare le immagini dalla tua webcam. Connessione in corso.
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
@@ -812,8 +812,8 @@ server Server
 serverunavailable Il server non è disponibile
 session Sessione
 setasmydp Usa come mia immagine
-setupcamfinetune Sto configurando la webcam, e regolando in maniera fine l'immagine
 setupcam Sto configurando la tua webcam
+setupcamfinetune Sto configurando la webcam, e regolando in maniera fine l'immagine
 shareswebcam Condividi la webcam
 showbanner Visualizza il banner di aMSN
 showblockedlist Mostra la lista delle persone che ti bloccano
@@ -826,47 +826,47 @@ showdisplaypic Mostra l'immagine personale
 showlinksinlogin Mostra i collegamenti nella schermata di login
 showmailicon Mostra icona e-mail nella Taskbar quando arrivano nuove e-mail
 showmypic Immagine personale
-shownonim Mostra contatti Non-Instant Messaging
+shownonim Mostra contatti non Instant Messaging
 shownotify Attiva finestre di notifica
 showofflinegroup Mostra Gruppo Non in linea
 showonedpframe Mostra una sola immagine personale nella finestra della chat
 showpicnotify Mostra l'immagine degli utenti nella finestra di notifica
-showspaces Visualizza Spazi icona nella lista dei contatti
+showspaces Visualizza spazi icona nella lista dei contatti
 showuserpic Immagine di $1
 signinstatus Stato
 signout Disconnetti
 signoutep Esci da $1
 signouteverywhere Esci da tutto
 signouthere Esci da qui ($1)
-sipcallaccepted Chiamata audio Accettata
+sipcallaccepted Chiamata audio accettata
 sipcallback Richiama
-sipcalldeclined Chiamata Audio Rifiutata
-sipcalleeaccepted L'utente ha accettato a tua chiamata Audio
+sipcalldeclined Chiamata audio rifiutata
+sipcalleeaccepted L'utente ha accettato a tua chiamata audio
 sipcalleebusy L'utente é momentaneamente occupato
 sipcalleecanceled L'utente ha annullato la chiamata audio
-sipcalleeclosed L'utente ha terminato la tua chiamata Audio
-sipcalleedeclined L'Utente ha rifiutato il tuo invito alla chiamata Audio
+sipcalleeclosed L'utente ha terminato la tua chiamata audio
+sipcalleedeclined L'Utente ha rifiutato il tuo invito alla chiamata audio
 sipcalleenoanswer L'utente non ha risposto alla chiamata
 sipcalleeunavailable L'utente ora non é disponibile
-sipcallended La tua chiamata Audio é finita
-sipcallimpossible Non puoi effettuare una chiamata Audio.Installa Farsight2 e prova ancora.
+sipcallended La tua chiamata audio é finita
+sipcallimpossible Non puoi effettuare una chiamata audio.Installa Farsight2 e prova ancora.
 sipcallmissed Hai perso una chiamata Audio da $1
-sipcallnosipflag L'utente non suppoorta le chiamate Audio.
+sipcallnosipflag L'utente non suppoorta le chiamate audio.
 sipcallsent Calling $1
 sipcallunsupported Hai ricevuto un invito di chiamata audio che non é attualmente supportato. é possibile richiamare con un nuovo invito. La telefonata Audio funzionerà
-sipcallyouarebusy Puoi fare solo una chiamata Audio per volta.
-sipgotinvitation Ricevuto invito chiamata Audio da $1
-skinselector Seleziona le skin
-skin Skin
-smallest Piccolissimo
+sipcallyouarebusy Puoi fare solo una chiamata audio per volta.
+sipgotinvitation Ricevuto invito chiamata audio da $1
+skinselector Seleziona il tema
+skin Tema
 small Piccolo
+smallest Piccolissimo
 smileconfig Configurazione delle emoticon personalizzate
 smilefile Nome del file dell'emoticon
 smileintro2 Per favore modifica i campi richiesti per personalizzare questa emoticon (guarda le FAQ per un aiuto)
 smileintro Per favore riempi i campi richiesti per creare una nuova emoticon personalizzata (guarda le FAQ per un aiuto)
 smiletoobig L'emoticon che hai scelto è più grande del normale. Vuoi adattarla?
 smileynotavailable Smiley non disponibili!
-snackfailed Impossibile caricare libreria Snack, torno al default
+snackfailed Impossibile caricare libreria Snack, torno al predefinito
 snackneeded La libreria Snack è necessaria per usare questa funzione. Versione minima necessaria: 2.2.9.
 snapshot Istantanea
 sngdblclick Un click per aprire una nuova finestra per i messaggi
@@ -881,8 +881,8 @@ sortgroupsasc Ordina i gruppi in ordine ascendente
 sortgroupsdesc Ordina i gruppi in ordine discendente
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
-sound Attiva suoni
 soundcommand Questo deve essere il comando per emettere il suono (es.: esdplay)
+sound Attiva suoni
 soundexample (\$sound = Suono da riprodurre) Es: esdplay \$sound
 soundfile File del suono dell'allarme
 soundfiles File audio
@@ -901,11 +901,11 @@ stateautomsg Messaggio automatico da inviare
 statechange stato:
 stateedittext Per favore modifica i campi che vorresti \nche fossero modificati e premi Salva
 stateinfo Configurazione dello stato personalizzato
+state Voglio apparire come
 statename Nome dello stato personalizzato
 statenewtext Per favore inserisci le informazioni richieste per creare \nil tuo nuovo stato personalizzato e premi Ok
 statenick Personalizza nick (lasciare vuoto per non modificarlo)
 statepsm Personalizza messaggio personale (lasciare vuoto per non modificarlo)
-state Voglio apparire come
 stats Statistiche
 status Stato
 step Passo
@@ -921,11 +921,11 @@ stylelog Seleziona il formato nel quale vorresti vedere la tua cronologia
 style Stile
 subjectrequired Soggetto richiesto
 subject Soggetto
-svnversion SVN Version
+svnversion Versione SVN
 syntaxerror Errore di sintassi
-tabbed Finestre con schede
 tabbedglobal Una finestra singola con schede per tutti gli utenti della lista contatti
 tabbedgroups Una finestra singola con schede per tutti gli utenti di uno stesso gruppo
+tabbed Finestre con schede
 tabtitlenick Mostra nick nelle schede anziché l'e-mail
 temp_state Non salvare (stato personalizzato temporaneo, si perderà alla chiusura di aMSN)
 textsize Dimensione del testo
@@ -942,11 +942,11 @@ tlsexplain Cartella in cui è localizzato il modulo TLS. Se aMSN non riesce a loc
 tlsinstallexp aMSN utilizza ora MSNP9. Questo richiede l'uso di una\nconnessione sicura con SSL. Per sfruttare SSL, aMSN necessita la presenza del modulo TLS,\nil quale non è al momento installato. Questo wizard ti guiderà nel recupero\ne nell'installazione di TLS. Per favore seleziona il tipo di sistema in uso per\npassare al download dei files richiesti.
 tlsinstall Wizard per l'installazione del modulo TLS
 tlsinstcompleted L'installazione del modulo TLS è andata a buon fine. Dovresti essere in grado di utilizzare MSNP9. Se così non fosse, probabilmente hai selezionato un modulo errato oppure non esiste un modulo precompilato per il tuo sistema.
-to A
 today Oggi
 tomobile A Mobile
 tools Strumenti
 tooltips Abilita i tooltips
+to A
 totalsize Dimensione totale
 transnotexists Il file richiesto non è ancora stato tradotto nella lingua corrente.
 trayicon Mostra un'icona di stato nell'area di notifica
@@ -963,10 +963,10 @@ unload Interrompi
 unselectall Deseleziona tutto
 uoffline Sconnesso
 uonline In linea
-update Aggiornamento
 updateonlycurrentlanguage Aggiorna soltanto la lingua in uso
-updatesaved Fatto\n $1 salvato in $2.
+update Aggiornamento
 updating Aggiornamento in corso
+updatesaved Fatto\n $1 salvato in $2.
 useasdp Usa come immagine personale
 useasregexp Usa come un'espressione regolare (regexp)
 useother Usa un altro programma
@@ -974,10 +974,10 @@ useralreadyonlist L'utente è già nella lista contatti
 userblocked L'utente è in linea ma ti ha bloccato
 userdata Dati Utente
 userdps Immagini dell'utente
-user Indirizzo di posta elettronica
 usernotonline Questo utente non è in linea
 userproperties Proprietà dell'utente $1
 usersettings Settaggi
+user Indirizzo di posta elettronica
 useryourself Non puoi chattare con te stesso
 usesnack Utilizza la libreria Snack (Tcl)
 verifyblocked Controlla le persone che ti stanno bloccando
@@ -985,23 +985,25 @@ version Versione
 videoconversationrequest Hai ricevuto una richiesta di conversazione video (audio e video bidirezionali). Questa funzionalità non è ancora supportata da aMSN e la richiesta è stata annullata. Puoi comunque utilizzare la normale conversazione con webcam.
 viewcontactsby Visualizza contatti per
 viewprofile Mostra Profilo
+view Visualizza
 viewspace Visualizza gli oggetti space
-view Visualizzazione
 volume Volume
 wanttosharecam Consenti a tutti di sapere che ho una webcam
+web Web
+webcam Webcam
 webcamcanceled La sessione webcam con $1 è stata annullata
 webcamclosebefcancel Devi interrompere tutte le sessioni webcam prima di chiudere la finestra
-webcamconfiguredLinux Hai scelto i seguenti settaggi della webcam:\nWebcam: $1\nCanale: $2
+webcamconfigure Impostazioni webcam
 webcamconfiguredMac I settaggi della tua webcam sono stati configurati
 webcamconfiguredWin Hai scelto la seguente webcam : $1
-webcamconfigure Impostazioni webcam
+webcamconfiguredLinux Hai scelto i seguenti settaggi della webcam:\nWebcam: $1\nCanale: $2
 webcamextchecking Sto verificando se l'estensione della webcam è stata caricata ...
 webcamextloaded L'estensione webcamsn è stata caricata
 webcamextnotloaded L'estensione webcamsn non è stata caricata. Devi compilarla.
 webcamextwarn Non potrai visualizzare la webcam dei tuoi contatti. Puoi trovare delle indicazioni su come installare alcune estensioni nella nostra Wiki:
-webcamfaq FAQ/Aiuto per la webcam
-webcamhistory2 Sessioni webcam
+webcamfaq FAQ/Guida per la webcam
 webcamhistory Guarda le sessioni webcam salvate
+webcamhistory2 Sessioni webcam
 webcaminvite $1 ti ha invitato/a ad una sessione webcam, ma aMSN non supporta questa funzionalità.
 webcaminvitereceived $1 ti ha invitato/a ad una sessione webcam. Desideri accettare questo invito?
 webcaminvitereceiving Sei stato/a invitato/a da $1 ad avviare visualizzazione immagine della webcam. Desideri accettare questo invito?
@@ -1010,8 +1012,6 @@ webcamrejected $1 rifiuta l'invito ad avviare invio immagine della webcam
 webcamrequestreceive Inviata la richiesta per ricevere dalla webcam
 webcamrequestsend Inviata la richiesta per inviare immagini della webcam
 webcamsending Lista delle persone a cui stai inviando immagini della webcam\nClicca per annullare
-webcam Webcam
-web Web
 whatisamsn aMSN è un clone di MSN Messenger, indipendente dalla piattaforma
 whatsize L'immagine che hai richiesto non è nel normale formato di visualizzazione immagini (96x96) In che formato vuoi che l'immagine venga visualizzata?
 willjoin Sto aspettando che $1 si unisca alla conversazione
@@ -1024,11 +1024,11 @@ xmmscurrent Mostra il brano in esecuzione
 xmmserr Non ci sono brani in ascolto o non possiedi xmms-infopipe.
 xmmssend Invia il brano in esecuzione
 xoffset Spostamento sull'asse delle X
-xplaces $1 Posti
+xplaces $1 posti
 year Anno
 yesblock Sì e blocca
-yes Sì
 yesterday Ieri
+yes Sì
 yoffset Spostamento sull'asse delle Y
 youblocked Sei stato bloccato da
 yousay Tu dici
