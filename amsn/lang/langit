@@ -659,6 +659,7 @@ others Altre impostazioni
 p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
 pager Impaginatore
 pass Password
+passportnotverified: Il tuo account passport deve essere verificato prima che tu possa cambiare i tuoi dati personali (come il nickname). Controlla la casella di posta per l'email di attivazione.
 paste Incolla
 pausedwebcamreceive La webcam è stata messa in pausa dall'altro utente
 pause Pausa
@@ -821,6 +822,7 @@ showcachedpics Visualizza le immagini memorizzate in cache
 show_contactdps_in_cl Mostra l'immagine dei contatti nella Lista Contatti
 showcontactemail Mostra i contatti con l'e-mail
 showcontactnick Mostra i contatti con il nick
+showdetailedview: Mostra Visione dettagliata Contatti
 showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
 showdisplaypic Mostra l'immagine personale
 showlinksinlogin Mostra i collegamenti nella schermata di login
