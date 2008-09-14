@@ -4893,9 +4893,15 @@ namespace eval ::MSNOIM {
 
 				for { set i 0 } { $i < [set ::MSN::split_messages(${message_id}_total_chunks)] } { incr i } {
 					append body [set ::MSN::split_messages(${message_id}_chunk_${i})]
+					unset ::MSN::split_messages(${message_id}_chunk_${i})
 				}
 
 				$message setRaw $body [set ::MSN::split_messages(${message_id}_headers)] [set ::MSN::split_messages(${message_id}_fields)]
+
+				unset ::MSN::split_messages(${message_id}_total_chunks)
+				unset ::MSN::split_messages(${message_id}_got_chunks)
+				unset ::MSN::split_messages(${message_id}_headers)
+				unset ::MSN::split_messages(${message_id}_fields)
 			} else {
 				# Ignore this message until you get the whole message
 				return
