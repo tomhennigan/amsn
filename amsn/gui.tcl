@@ -3354,13 +3354,11 @@ namespace eval ::amsn {
 
 		if {[::config::getKey colored_text_in_cw] == 1} {
 			if {$p4c} {
-				set original_nick [list ]
+				set original_nick [list]
 				lappend original_nick [list text "$nick"]
-				
 				set evpar(variable) original_nick
 				set evpar(login) $user
 				::plugins::PostEvent parse_contact evpar
-				
 			} elseif {[::abook::getPersonal login] ne $user} {
 				set original_nick [::abook::getNick $user 1]
 			} else {
@@ -3368,16 +3366,15 @@ namespace eval ::amsn {
 			}
 		
 			if {[::config::getKey chatstyle] eq "msn"} {
-				set pos "[trans says __@__]"
-				if {[string first "__@__" $pos] == 0} {
-					set parsing $original_nick
-					set parsing [linsert $parsing 0 [list text "\n$tstamp "]]
-					lappend parsing [list text " [trans says]:\n"]
-				} else {
-					set parsing $original_nick
-					set parsing [linsert $parsing 0 [list text "\n$tstamp [trans says] "]]
-					lappend parsing [list text " :\n"]
-				}
+				set str [trans says __@__]
+				set pos [string first __@__ $str]
+				incr pos -1
+				set part1 [list text [string range $str 0 $pos]]
+				incr pos 6
+				set part2 [list text [string range $str $pos end]]
+				set parsing [list [list text "\n$tstamp "] $part1]
+				set parsing [concat $parsing $original_nick]
+				lappend parsing $part2 [list text ":\n"]
 			} elseif {[::config::getKey chatstyle] eq "irc"} {
 				set parsing $original_nick
 				set parsing [linsert $parsing 0 [list text "\n$tstamp <"]]
@@ -3403,7 +3400,6 @@ namespace eval ::amsn {
 					}
 				}
 			}
-			
 			WinWrite $chatid "" "says" $customfont 1 "" $parsing
 			
 	      } else {
