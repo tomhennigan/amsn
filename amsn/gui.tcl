@@ -3633,6 +3633,8 @@ namespace eval ::amsn {
 		if {![winfo exists $win_name]} {
 			return
 		}
+		
+		
 		set textw [::ChatWindow::GetOutText ${win_name}]
 		set scrolling [::ChatWindow::getScrolling $textw]
 
@@ -3676,7 +3678,15 @@ namespace eval ::amsn {
 		if {$lst == ""} {
 			set lst [list ]
 			lappend lst [list text "$txt"]
+			set check_always_smiley 1
+		} else {
+			set check_always_smiley 0
 		}
+		
+		set evPar(tagname) tagname
+		set evPar(winname) {win_name}
+		
+		set textw [::ChatWindow::GetOutText ${win_name}]
  
 		foreach unit $lst {
 			switch [lindex $unit 0] {
@@ -3728,15 +3738,12 @@ namespace eval ::amsn {
 			}
 		}
 
-		set evPar(tagname) tagname
-		set evPar(winname) {win_name}
 		set evPar(msg) txt
 		::plugins::PostEvent WinWrite evPar
 		
-		set textw [::ChatWindow::GetOutText ${win_name}]
-		
 		$textw roinsert end "$txt" $tagid
 		
+		if {$tagname ne "says"} {
 		#TODO: Make an url_subst procedure, and improve this using regular expressions
 		variable urlcount
 		variable urlstarts
@@ -3782,7 +3789,8 @@ namespace eval ::amsn {
 				$textw tag add dont_replace_smileys ${urlname}.first ${urlname}.last
 			}
 		}
-
+		}
+		
 		#Avoid problems if the windows was closed in the middle...
 		if {![winfo exists $win_name]} { return }
 
@@ -3792,7 +3800,7 @@ namespace eval ::amsn {
 			}
 			
 			#we need to call those procs only if the "txt" value is not empty (it means that we are writing in chatwindow in the old method, and so we need to parse all the "txt" value) or if the "unit 0" value is smiley (new method).
-			if {($txt ne "") || ([lindex $unit 0] eq "smiley")} {
+			if {$check_always_smiley || ([lindex $unit 0] eq "smiley")} {
 				#Replace smileys... if you're sending custom ones, replace them too (last parameter)
 				if { $user == [string tolower [::config::getKey login]] } {
 					::smiley::substSmileys $textw $text_start end 0 1
