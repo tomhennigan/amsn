@@ -4873,7 +4873,7 @@ namespace eval ::MSNOIM {
 				set ::MSN::split_messages(${message_id}_chunk_0) [$message getBody]
 				set ::MSN::split_messages(${message_id}_headers) [$message getHeaders]
 				set ::MSN::split_messages(${message_id}_fields) [$message getFields]
-			} else {
+			} elseif {[info exists ::MSN::split_messages(${message_id}_got_chunks)]} {
 				status_log "chunked message : $chunks chunk - [$message getHeaders] - [set ::MSN::split_messages(${message_id}_headers)]" blue
 				incr ::MSN::split_messages(${message_id}_got_chunks)
 				set ::MSN::split_messages(${message_id}_chunk_${current_chunk}) [$message getBody]
@@ -4888,7 +4888,8 @@ namespace eval ::MSNOIM {
 				
 			}
 
-			if {[set ::MSN::split_messages(${message_id}_total_chunks)] == [set ::MSN::split_messages(${message_id}_got_chunks)] } {
+			if {[info exists ::MSN::split_messages(${message_id}_total_chunks)] &&
+			    [set ::MSN::split_messages(${message_id}_total_chunks)] == [set ::MSN::split_messages(${message_id}_got_chunks)] } {
 				set body ""
 
 				for { set i 0 } { $i < [set ::MSN::split_messages(${message_id}_total_chunks)] } { incr i } {
