@@ -1287,7 +1287,7 @@ proc ConfigChange { window email } {
 				if { [CheckLock $email] == -1 } {
 					status_log "ConfigChange: Profile is locked\n" blue
 
-					msg_box [trans profileinuse]
+					::amsn::messageBox [trans profileinuse] ok info "aMSN"
 					set HOME $OLDHOME
 
 					# Reselect previous element in combobox
