@@ -383,11 +383,13 @@ snit::type SIPConnection {
 					}
 				}
 			} elseif {$status == "200" } {
-				
 				$self ParseSDP $body
-				if {$callbk != "" } {
-					if {[catch {eval [linsert $callbk end $callid OK ""]} result]} {
-						bgerror $result
+				# Do not notify of the re-invite...
+				if {[string first "remote-candidate" $body] == -1} {
+					if {$callbk != "" } {
+						if {[catch {eval [linsert $callbk end $callid OK ""]} result]} {
+							bgerror $result
+						}
 					}
 				}
 			} elseif {$status == "408" } {
@@ -774,12 +776,14 @@ snit::type SIPConnection {
 		set default_port 0
 		foreach candidate $options(-local_candidates) {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {$component_id == 1 && $default_ip == 0} {
-				set default_ip $ip
-				set default_port $port
-			} elseif { $component_id == 2 && $ip == $default_ip} {
-				set rtcp_port $port
-				break
+			if {$local == "" || $candidate_id == $local} {
+				if {$component_id == 1 && $default_ip == 0} {
+					set default_ip $ip
+					set default_port $port
+				} elseif { $component_id == 2 && $ip == $default_ip} {
+					set rtcp_port $port
+					break
+				}
 			}
 		}
 
@@ -1616,7 +1620,7 @@ snit::type Farsight {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
 			if {$candidate_id != "" &&
 			    $password != "" &&
-			    $transport == "UDP" } {
+			    $transport == "UDP"} {
 				lappend remote_candidates $candidate
 			}
 		}
@@ -1727,7 +1731,7 @@ snit::type Farsight {
 			
 			set local_candidates $candidates
 
-			status_log "Farsight : Farsight is now prepared!"
+			status_log "Farsight : Farsight is now prepared!\nlocal codecs : $local_codecs\nlocal candidates : $local_candidates"
 
 			if {$options(-prepared) != "" } {
 				if {[catch {eval $options(-prepared)} result]} {
