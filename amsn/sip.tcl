@@ -1039,7 +1039,7 @@ snit::type TURN {
 	}
 
 	method Disconnect { } {
-		puts "Disconnecting"
+		#puts "Disconnecting"
 		catch {close $sock}
 		set sock ""
 	}
@@ -1062,7 +1062,7 @@ snit::type TURN {
 	}
 
 	method Connect {} {
-		puts "Connecting"
+		#puts "Connecting"
 
 		if { $options(-transport) == "tls" } {
 			package require tls
@@ -1142,7 +1142,7 @@ snit::type TURN {
 	}
 
 	method Send { data } {
-		puts "Sending [hexify $data]"
+		#puts "Sending [hexify $data]"
 		if {[catch {puts -nonewline $sock $data} res] } {
 			status_log "SIPSocket : Unable to send data : $res"
 			$self Disconnect
@@ -1166,7 +1166,7 @@ snit::type TURN {
 		}
 
 		if {![info exists header] || [string length $header] != 20 } {
-			puts "Not enough header : [string length $header]"
+			#puts "Not enough header : [string length $header]"
 			return
 		}
 
@@ -1175,7 +1175,7 @@ snit::type TURN {
 
 		set message_type [$self MessageTypeToString $message_type]
 
-		puts "Received message of type $message_type"
+		#puts "Received message of type $message_type"
 
 		if { [catch {set payload [read $sock $payload_size] } res]} {
 			status_log "TURN: Reading line got error $res"
@@ -1183,11 +1183,11 @@ snit::type TURN {
 			return
 		}
 		if {![info exists payload] || [string length $payload] != $payload_size } {
-			puts "Not enough payload : [string length $payload] != $payload_size"
+			#puts "Not enough payload : [string length $payload] != $payload_size"
 			return
 		}
 
-		puts "Received [hexify $payload]"
+		#puts "Received [hexify $payload]"
 
 		set attributes [list]
 		set total_size 0
@@ -1199,7 +1199,7 @@ snit::type TURN {
 			incr total_size $attribute_size
 			lappend attributes [$self AttributeTypeToString $attribute_type]
 			lappend attributes $attribute_value
-			puts "Received attribute [$self AttributeTypeToString $attribute_type] : [hexify_c $attribute_value]"
+			#puts "Received attribute [$self AttributeTypeToString $attribute_type] : [hexify_c $attribute_value]"
 		}
 
 		$self HandleResponse $id $message_type $attributes
@@ -1239,10 +1239,8 @@ snit::type TURN {
 		}
 		return 0
 	}
-
 	method RequestSharedSecret { {total 2} } {
 		set relay_info [list]
-
 		$self Connect
 
 		for {set i 0} { $i < $total} { incr i} {
@@ -1255,12 +1253,12 @@ snit::type TURN {
 	}
 
 	method HandleResponse { id message_type attributes } {
-		puts "Received response $message_type for id $id"
+		#puts "Received response $message_type for id $id"
 		if {[info exists messages($id)] } {
 			unset messages($id)
 			if {$message_type == "SHARED-SECRET-ERROR" } {
 				foreach {attr_type value} $attributes {
-					puts "Parsing $attr_type"
+					#puts "Parsing $attr_type"
 					if {$attr_type == "REALM" } {
 						set realm $value
 					} elseif {$attr_type == "NONCE" } {
@@ -1276,7 +1274,7 @@ snit::type TURN {
 							 [list "USERNAME" "RPS_$options(-password)\x00\x00\x00" \
 							      "REALM" $realm \
 							      "NONCE" $nonce ] 24]
-					puts "Doing integrity check ($nonce) on [hexify $message] "
+					#puts "Doing integrity check ($nonce) on [hexify $message] "
 					set message_integrity [$self BuildSharedSecretIntegrity $message $nonce]
 					
 					set message [$self BuildMessage $id \
@@ -1302,7 +1300,7 @@ snit::type TURN {
 
 						set server_ip "[expr {$i1 & 0xFF}].[expr {$i2 & 0xFF}].[expr {$i3 & 0xFF}].[expr {$i4 & 0xFF}]"
 						set server_port $port
-						puts "TURN server $server_ip : $server_port"
+						#puts "TURN server $server_ip : $server_port"
 					}
 				}
 				if {[info exists username] &&
@@ -1316,7 +1314,7 @@ snit::type TURN {
 				}
 			}
 		} else {
-			puts "Received unknown id $id"
+			#puts "Received unknown id $id"
 			return
 		}
 		if {[llength [array names messages]] == 0} {
@@ -1591,7 +1589,8 @@ snit::type Farsight {
 	variable remote_candidates [list]
 	variable remote_codecs [list]
 	variable known_bitrates
-	variable prepare_wait 0
+	variable prepare_ticket ""
+	variable prepare_relay_info ""
 
 	option -closed -default ""
 	option -prepared -default ""
@@ -1690,17 +1689,13 @@ snit::type Farsight {
 
 	method Prepare { controlling } {
 		if {[info exists ::sso] } {
+			set prepare_ticket ""
 			$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
-			set prepare_wait 0
-			while {$prepare_wait == 0 } {
-				#tkwait prepare_wait
+			if {$prepare_ticket == "" } {
+				tkwait variable [myvar prepare_ticket]
 			}
-		} else {
-			$self PrepareSSOCB $controlling ""
 		}
-	}
 
-	method PrepareSSOCB {controlling ticket} {
 		$self Close
 
 		status_log "Farsight : Preparing"
@@ -1723,31 +1718,30 @@ snit::type Farsight {
 		set loaded 1
 
 
-		if {$ticket != "" } {
+		set prepare_relay_info ""
+		if {$prepare_ticket != "" } {
 			set turn [TURN create %AUTO% -user [::config::getKey login] \
-				      -password $ticket]
+				      -password $prepare_ticket]
 			$turn configure -callback [list $self TurnPrepared $controlling $turn]
 			$turn RequestSharedSecret 2
-			set prepare_wait 0
-			#tkwait prepare_wait
-		} else {
-			$self PrepareNoTurn $controlling
+			tkwait variable [myvar prepare_relay_info]
 		}
+
+		if {[llength $prepare_relay_info] == 2 } {
+			::Farsight::Prepare [list $self FarsightReady] $controlling $prepare_relay_info
+		} else {
+			::Farsight::Prepare [list $self FarsightReady] $controlling [list] 64.14.48.28
+		}
+	}
+
+	method PrepareSSOCB {controlling ticket} {
+		set prepare_ticket $ticket
 	}
 
 	method TurnPrepared { controlling turn relay_info } {
 		after 0 [list $turn destroy]
-		set prepare_wait 2
-
-		puts "turn prepared $relay_info"
-		if {[llength $relay_info] == 2 } {
-			::Farsight::Prepare [list $self FarsightReady] $controlling $relay_info
-		} else {
-			$self PrepareNoTurn $controlling
-		}
-	}
-	method PrepareNoTurn { controlling } {
-		::Farsight::Prepare [list $self FarsightReady] $controlling [list] 64.14.48.28
+		set prepare_relay_info $relay_info
+		status_log "Turn prepared $prepare_relay_info"
 	}
 
 	method Start { } {
@@ -2148,6 +2142,17 @@ namespace eval ::MSNSIP {
 			} elseif {$result == 0 } {
 				::MSNSIP::FarsightTestFailed $callbk
 			} ;# else let the callbacks act
+		} else {
+			if { [::config::getKey protocol] >= 15 &&
+			     ([::config::getKey clientid 0] & 0x100000) == 0 } {
+				::MSN::setClientCap sip
+				if {[::MSN::myStatusIs] != "FLN" } {
+					::MSN::changeStatus [::MSN::myStatusIs]
+				}
+			}
+			if {$callbk != "" } {
+				eval [linsert $callbk end 1]
+			}
 		}
 	}
 }
