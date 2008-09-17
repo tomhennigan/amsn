@@ -155,6 +155,34 @@ namespace eval ::debug {
 			catch {flush $wchannel}
 		} }
 	}
+
+	# This will not work with upvar or uplevel!
+	# We must hook them to and increment the level!
+	proc stack_procs { } {
+		if {[info commands ::tk::proc] == "" } {
+			rename proc ::tk::proc
+		}
+		::tk::proc ::proc { name arguments body } {
+			set function [namespace tail $name]
+			set ns [string range $name 0 end-[string length $function]]
+			set new_name "${ns}wrapped_$function"
+			namespace eval [uplevel 1 {namespace current}] \
+			    [list ::tk::proc $new_name $arguments $body]
+			
+			set wrapper_body {
+				puts "Entering proc @name@ with args $args"
+				set ret [eval @new_name@ $args]
+				puts "Leaving proc @name@ with return : $ret"
+				return $ret
+			}
+			puts "[uplevel 1 {namespace current}] Hooking $name into $new_name"
+			
+			namespace eval [uplevel 1 {namespace current}] \
+			    [list ::tk::proc $name {args} [string map [list @name@ $name @new_name@ $new_name] $wrapper_body]]
+		}
+		reload_files
+	}
+
 }
 
 
