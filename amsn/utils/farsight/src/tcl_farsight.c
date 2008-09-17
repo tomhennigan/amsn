@@ -548,15 +548,23 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstElement *src;
   GstPad *sinkpad = NULL, *srcpad = NULL;
   GIOChannel *ioc = g_io_channel_unix_new (0);
-  GParameter transmitter_params[4];
+  GParameter transmitter_params[5];
   int controlling;
   char *stun_ip = NULL;
   char *stun_hostname = NULL;
   int stun_port = 3478;
+  Tcl_Obj **tcl_relay_info = NULL;
+  int total_relay_info;
+  int i;
+  GValueArray *relay_info = NULL;
+  int total_params;
 
   // We verify the arguments
-  if( objc < 3 || objc > 5) {
-    Tcl_WrongNumArgs (interp, 1, objv, " callback controlling ?stun_ip? stun_port?");
+  if( objc < 3 || objc > 6) {
+    Tcl_WrongNumArgs (interp, 1, objv, " callback controlling ?relay_info?"
+        " ?stun_ip stun_port?\n"
+        "Where relay_info is a list with each element being a list containing : "
+        "{turn_hostname turn_port turn_username turn_password}");
     return TCL_ERROR;
   }
 
@@ -571,7 +579,78 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
 
   if (objc > 3) {
-    stun_hostname = Tcl_GetStringFromObj (objv[3], NULL);
+    if (Tcl_ListObjGetElements(interp, objv[3],
+            &total_relay_info, &tcl_relay_info) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid relay info", (char *) NULL);
+      return TCL_ERROR;
+    }
+    if (total_relay_info > 0) {
+      relay_info = g_value_array_new (0);
+    }
+    for (i = 0; i < total_relay_info; i++) {
+      char *turn_ip = NULL;
+      char *turn_hostname = NULL;
+      int turn_port = 1863;
+      char *username = NULL;
+      char *password = NULL;
+      int total_elements;
+      Tcl_Obj **elements = NULL;
+      GstStructure *turn_setup = NULL;
+      GValue gvalue = { 0 };
+      g_value_init (&gvalue, GST_TYPE_STRUCTURE);
+
+      if (Tcl_ListObjGetElements(interp, tcl_relay_info[i],
+              &total_elements, &elements) != TCL_OK) {
+        g_value_array_free (relay_info);
+        Tcl_AppendResult (interp, "\nInvalid relay info element", (char *) NULL);
+        return TCL_ERROR;
+      }
+      if (total_elements != 4) {
+        g_value_array_free (relay_info);
+        Tcl_AppendResult (interp, "\nInvalid relay info element : ",
+            Tcl_GetString (tcl_relay_info[i]), (char *) NULL);
+        return TCL_ERROR;
+      }
+
+      turn_hostname = Tcl_GetStringFromObj (elements[0], NULL);
+      turn_ip = host2ip (turn_hostname);
+      if (turn_ip == NULL) {
+        g_value_array_free (relay_info);
+        Tcl_AppendResult (interp, "TURN server invalid : Could not resolve hostname",
+            (char *) NULL);
+        return TCL_ERROR;
+      }
+      if (Tcl_GetIntFromObj (interp, elements[1], &turn_port) == TCL_ERROR) {
+        g_value_array_free (relay_info);
+        Tcl_AppendResult (interp, "TURN port invalid : Expected integer" , (char *) NULL);
+        return TCL_ERROR;
+      }
+      if (turn_port == 0) {
+        turn_port = 1863;
+      }
+      username = Tcl_GetStringFromObj (elements[2], NULL);
+      password = Tcl_GetStringFromObj (elements[3], NULL);
+
+      turn_setup = gst_structure_new ("relay-info",
+          "ip", G_TYPE_STRING, turn_ip,
+          "port", G_TYPE_UINT, turn_port,
+          "username", G_TYPE_STRING, username,
+          "password", G_TYPE_STRING, password,
+          "long-term-credentials", G_TYPE_BOOLEAN, FALSE,
+          NULL);
+      if (turn_setup == NULL) {
+        g_value_array_free (relay_info);
+        Tcl_AppendResult (interp, "Unable to create relay info" , (char *) NULL);
+        return TCL_ERROR;
+      }
+      gst_value_set_structure (&gvalue, turn_setup);
+      relay_info = g_value_array_append (relay_info, &gvalue);
+      gst_structure_free (turn_setup);
+    }
+  }
+
+  if (objc > 4) {
+    stun_hostname = Tcl_GetStringFromObj (objv[4], NULL);
     stun_ip = host2ip (stun_hostname);
     if (stun_ip == NULL) {
       Tcl_AppendResult (interp, "Stun server invalid : Could not resolve hostname",
@@ -579,8 +658,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       return TCL_ERROR;
     }
   }
-  if (objc > 4) {
-    if (Tcl_GetIntFromObj (interp, objv[4], &stun_port) == TCL_ERROR) {
+  if (objc > 5) {
+    if (Tcl_GetIntFromObj (interp, objv[5], &stun_port) == TCL_ERROR) {
       Tcl_AppendResult (interp, "Stun port invalid : Expected integer" , (char *) NULL);
       return TCL_ERROR;
     }
@@ -702,7 +781,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
 
-  memset (transmitter_params, 0, sizeof (GParameter) * 4);
+  memset (transmitter_params, 0, sizeof (GParameter) * 5);
 
   transmitter_params[0].name = "compatibility-mode";
   g_value_init (&transmitter_params[0].value, G_TYPE_UINT);
@@ -712,22 +791,30 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   g_value_init (&transmitter_params[1].value, G_TYPE_BOOLEAN);
   g_value_set_boolean (&transmitter_params[1].value, controlling);
 
+  total_params = 2;
   if (stun_ip) {
     g_debug ("stun ip : %s : %d", stun_ip, stun_port);
-    transmitter_params[2].name = "stun-ip";
-    g_value_init (&transmitter_params[2].value, G_TYPE_STRING);
-    g_value_set_string (&transmitter_params[2].value, stun_ip);
+    transmitter_params[total_params].name = "stun-ip";
+    g_value_init (&transmitter_params[total_params].value, G_TYPE_STRING);
+    g_value_set_string (&transmitter_params[total_params].value, stun_ip);
 
-    transmitter_params[3].name = "stun-port";
-    g_value_init (&transmitter_params[3].value, G_TYPE_UINT);
-    g_value_set_uint (&transmitter_params[3].value, stun_port);
-
-    stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH,
-        "nice", 4, transmitter_params, &error);
-  } else {
-    stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH,
-        "nice", 2, transmitter_params, &error);
+    transmitter_params[total_params + 1].name = "stun-port";
+    g_value_init (&transmitter_params[total_params + 1].value, G_TYPE_UINT);
+    g_value_set_uint (&transmitter_params[total_params + 1].value, stun_port);
+    total_params +=2;
   }
+
+  if (relay_info) {
+    g_debug ("FS: relay info = %p - %d", relay_info, relay_info->n_values);
+    transmitter_params[total_params].name = "relay-info";
+    g_value_init (&transmitter_params[total_params].value, G_TYPE_VALUE_ARRAY);
+    g_value_set_boxed (&transmitter_params[total_params].value, relay_info);
+    total_params++;
+    g_value_array_free (relay_info);
+  }
+
+  stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH,
+      "nice", total_params, transmitter_params, &error);
 
   if (error) {
     char temp[1000];
