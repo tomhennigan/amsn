@@ -752,6 +752,9 @@ snit::type SIPConnection {
 
 		foreach candidate $options(-local_candidates) {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+
+#			if {$ip == "192.168.1.MYIP" } {continue}
+#			if {$ip == "public ip" } {continue}
 			if {$candidate_id != "" && $password != "" } {
 				if {$local == "" || $candidate_id == $local} {
 					append sdp "a=candidate:$candidate_id $component_id $password $transport $qvalue $ip $port\r\n"
@@ -976,11 +979,13 @@ snit::type TURN {
 	option -proxy_authenticate -default 0
 	option -proxy_user -default ""
 	option -proxy_password -default ""
+	option -callback -default ""
 
 	variable sock ""
 	variable message_types
 	variable attribute_types
 	variable messages
+	variable relay_info [list]
 
 	constructor { args } {
 		$self configurelist $args
@@ -1236,6 +1241,8 @@ snit::type TURN {
 	}
 
 	method RequestSharedSecret { {total 2} } {
+		set relay_info [list]
+
 		$self Connect
 
 		for {set i 0} { $i < $total} { incr i} {
@@ -1285,18 +1292,27 @@ snit::type TURN {
 			} elseif {$message_type == "SHARED-SECRET-RESPONSE" } {
 				foreach {attr_type value} $attributes {
 					if {$attr_type == "USERNAME" } {
-						set username $value
+						set username [base64::encode $value]
 					} elseif {$attr_type == "PASSWORD" } {
-						set password $value
+						set password [base64::encode $value]
 					} elseif {$attr_type == "ALTERNATE-SERVER" } {
 						binary scan $value SScccc ipv4 port i1 i2 i3 i4
 						set ipv4 [expr {$ipv4 & 0xFFFF}]
 						set port [expr {$port & 0xFFFF}]
 
-						set server_ip " [expr {$i1 & 0xFF}].[expr {$i2 & 0xFF}].[expr {$i3 & 0xFF}].[expr {$i4 & 0xFF}]"
+						set server_ip "[expr {$i1 & 0xFF}].[expr {$i2 & 0xFF}].[expr {$i3 & 0xFF}].[expr {$i4 & 0xFF}]"
 						set server_port $port
 						puts "TURN server $server_ip : $server_port"
 					}
+				}
+				if {[info exists username] &&
+				    [info exists password] &&
+				    [info exists server_ip] && 
+				    [info exists server_port] } {
+					lappend relay_info [list $server_ip \
+								$server_port \
+								$username \
+								$password]
 				}
 			}
 		} else {
@@ -1305,6 +1321,11 @@ snit::type TURN {
 		}
 		if {[llength [array names messages]] == 0} {
 			$self Disconnect
+			if {$options(-callback) != "" } {
+				if {[catch {eval [linsert $options(-callback) end $relay_info]} result]} {
+					bgerror $result
+				}
+			}
 		}
 	}
 
@@ -1354,10 +1375,6 @@ snit::type TURN {
 	}
 }
 
-proc getTURN { } {
-	return [TURN create %AUTO% -user [::config::getKey login] \
-		    -password [[$::sso GetSecurityTokenByName MessengerSecure] cget -ticket]]
-}
 
 ###########################################
 #  SIPSocket is a socket wrapper for SIP  #
@@ -1574,6 +1591,8 @@ snit::type Farsight {
 	variable remote_candidates [list]
 	variable remote_codecs [list]
 	variable known_bitrates
+	variable prepare_wait 0
+
 	option -closed -default ""
 	option -prepared -default ""
 	option -active -default ""
@@ -1618,6 +1637,8 @@ snit::type Farsight {
 		set remote_candidates [list]
 		foreach candidate $candidates {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+#			if {$ip == "192.168.1.HISIP" } {continue}
+#			if {$ip == "public ip" } {continue}
 			if {$candidate_id != "" &&
 			    $password != "" &&
 			    $transport == "UDP"} {
@@ -1668,6 +1689,18 @@ snit::type Farsight {
 	}
 
 	method Prepare { controlling } {
+		if {[info exists ::sso] } {
+			$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
+			set prepare_wait 0
+			while {$prepare_wait == 0 } {
+				#tkwait prepare_wait
+			}
+		} else {
+			$self PrepareSSOCB $controlling ""
+		}
+	}
+
+	method PrepareSSOCB {controlling ticket} {
 		$self Close
 
 		status_log "Farsight : Preparing"
@@ -1689,7 +1722,32 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
-		::Farsight::Prepare [list $self FarsightReady] $controlling 64.14.48.28
+
+		if {$ticket != "" } {
+			set turn [TURN create %AUTO% -user [::config::getKey login] \
+				      -password $ticket]
+			$turn configure -callback [list $self TurnPrepared $controlling $turn]
+			$turn RequestSharedSecret 2
+			set prepare_wait 0
+			#tkwait prepare_wait
+		} else {
+			$self PrepareNoTurn $controlling
+		}
+	}
+
+	method TurnPrepared { controlling turn relay_info } {
+		after 0 [list $turn destroy]
+		set prepare_wait 2
+
+		puts "turn prepared $relay_info"
+		if {[llength $relay_info] == 2 } {
+			::Farsight::Prepare [list $self FarsightReady] $controlling $relay_info
+		} else {
+			$self PrepareNoTurn $controlling
+		}
+	}
+	method PrepareNoTurn { controlling } {
+		::Farsight::Prepare [list $self FarsightReady] $controlling [list] 64.14.48.28
 	}
 
 	method Start { } {
