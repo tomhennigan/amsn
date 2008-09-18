@@ -548,7 +548,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstElement *src;
   GstPad *sinkpad = NULL, *srcpad = NULL;
   GIOChannel *ioc = g_io_channel_unix_new (0);
-  GParameter transmitter_params[5];
+  GParameter transmitter_params[6];
   int controlling;
   char *stun_ip = NULL;
   char *stun_hostname = NULL;
@@ -781,7 +781,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
 
-  memset (transmitter_params, 0, sizeof (GParameter) * 5);
+  memset (transmitter_params, 0, sizeof (GParameter) * 6);
 
   transmitter_params[0].name = "compatibility-mode";
   g_value_init (&transmitter_params[0].value, G_TYPE_UINT);
@@ -791,7 +791,11 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   g_value_init (&transmitter_params[1].value, G_TYPE_BOOLEAN);
   g_value_set_boolean (&transmitter_params[1].value, controlling);
 
-  total_params = 2;
+  transmitter_params[2].name = "debug";
+  g_value_init (&transmitter_params[2].value, G_TYPE_BOOLEAN);
+  g_value_set_boolean (&transmitter_params[2].value, FALSE);
+
+  total_params = 3;
   if (stun_ip) {
     g_debug ("stun ip : %s : %d", stun_ip, stun_port);
     transmitter_params[total_params].name = "stun-ip";
