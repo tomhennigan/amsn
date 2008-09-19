@@ -81,7 +81,7 @@ namespace eval ::hotmail {
 		lappend vars [list ru [urlencode_full $url]]
 		lappend vars [list rru [urlencode_full $url]]
 		lappend vars [list sru [urlencode_full $url]]
-		if {$id == "2" } {
+		if {$id == "2" || $id == "3" } {
 			lappend vars [list svc mail]
 		}
 		lappend vars [list js yes]
