@@ -35,10 +35,6 @@ tcl_farsight_dir := $(srcdir)/utils/farsight
 CC		:= @CC@
 CXX		:= @CXX@
 
-ifeq ($(STATIC),yes)
-CXX += -static-libgcc -L.
-endif
-
 # misc
 PACKAGE		:= @APPNAME@
 BASEVERSION	:= @APPVERSION@
@@ -56,7 +52,7 @@ TK_VERSION      := @TK_VERSION@
 WARN_FLAGS	:= -w
 LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
 LIB_FLAGS	:= -I. -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs
-LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tcl_siren_dir)/src -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
+LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tcl_siren_dir)/src
 LIB_FLAGS	+= -I$(tclISF_dir)/src/libISF
 LIBDIR		:= @LIBDIR@
 
@@ -98,7 +94,27 @@ CFLAGS   += $(LIB_FLAGS)
 CFLAGS   += -DPACKAGE='"$(PACKAGE)"'
 CFLAGS   += -DVERSION='"$(VERSION)"'
 CFLAGS   += -DLIBDIR='"$(LIBDIR)"'
-CXXFLAGS := $(CFLAGS)
+
+CXXFLAGS := @CXXFLAGS@
+ifeq (@DEBUG@,no)
+CXXFLAGS   += -O2
+else
+CXXFLAGS   += -g3 -DDEBUG
+endif
+
+CXXFLAGS   += $(WARN_FLAGS)
+CXXFLAGS   += $(LFS_FLAGS)
+CXXFLAGS   += ${TCL_INC_SPEC}
+CXXFLAGS   += ${TK_INC_SPEC}
+CXXFLAGS   += -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
+CXXFLAGS   += -DPACKAGE='"$(PACKAGE)"'
+CXXFLAGS   += -DVERSION='"$(VERSION)"'
+CXXFLAGS   += -DLIBDIR='"$(LIBDIR)"'
+
+ifeq ($(STATIC),yes)
+CXXFLAGS += -static-libgcc -L.
+endif
+
 
 GST_LIBS        := @GST_LIBS@
 GST_CFLAGS      := @GST_CFLAGS@
