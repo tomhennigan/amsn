@@ -2150,9 +2150,7 @@ namespace eval ::CAMGUI {
 	
 		#Add grabber to the window
 		#Show message error if it's not possible
-		if { ![catch {seqgrabber $w.seq -width $camwidth} res] } {
-			
-			catch {$w.seq configure -volume 0}
+		if { ![catch [list seqgrabber $w.seq  -audio 0 -width $camwidth] res] } {
 			pack $w.seq
 					
 			#Add button to change settings
