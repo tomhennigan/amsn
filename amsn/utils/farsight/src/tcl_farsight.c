@@ -793,7 +793,11 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   transmitter_params[2].name = "debug";
   g_value_init (&transmitter_params[2].value, G_TYPE_BOOLEAN);
+#ifdef DEBUG
+  g_value_set_boolean (&transmitter_params[2].value, TRUE);
+#else
   g_value_set_boolean (&transmitter_params[2].value, FALSE);
+#endif
 
   total_params = 3;
   if (stun_ip) {
