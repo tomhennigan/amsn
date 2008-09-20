@@ -753,8 +753,9 @@ snit::type SIPConnection {
 		foreach candidate $options(-local_candidates) {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
 
-#			if {$ip == "192.168.1.MYIP" } {continue}
-#			if {$ip == "public ip" } {continue}
+			if {[info exists ::farsight_test_turn] &&
+			    $::farsight_test_turn &&
+			    $qvalue >= "0.5" } {continue}
 			if {$candidate_id != "" && $password != "" } {
 				if {$local == "" || $candidate_id == $local} {
 					append sdp "a=candidate:$candidate_id $component_id $password $transport $qvalue $ip $port\r\n"
@@ -777,16 +778,33 @@ snit::type SIPConnection {
 		set rtcp_port 0
 		set default_ip 0
 		set default_port 0
-		foreach candidate $options(-local_candidates) {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {$local == "" || $candidate_id == $local} {
-				if {$component_id == 1 && $default_ip == 0} {
-					set default_ip $ip
-					set default_port $port
-				} elseif { $component_id == 2 && $ip == $default_ip} {
-					set rtcp_port $port
+		set lowest_qvalue 0
+		if {$local == ""} {
+			foreach candidate $options(-local_candidates) {
+				foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+				if {$qvalue < $lowest_qvalue} {
+					set lowest_qvalue $qvalue
+				}
+				if {$qvalue < "0.5"} {
+					set lowest_qvalue $qvalue
 					break
 				}
+			}
+		}
+		foreach candidate $options(-local_candidates) {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			if {($local == "" || $candidate_id == $local) &&
+			    $component_id == 1 && $default_ip == 0 &&
+			    ($lowest_qvalue == 0 || $qvalue == $lowest_qvalue)} {
+				set default_ip $ip
+				set default_port $port
+			}
+		}
+		foreach candidate $options(-local_candidates) {
+			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			if { $component_id == 2 && $ip == $default_ip} {
+				set rtcp_port $port
+				break
 			}
 		}
 
@@ -1636,8 +1654,9 @@ snit::type Farsight {
 		set remote_candidates [list]
 		foreach candidate $candidates {
 			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-#			if {$ip == "192.168.1.HISIP" } {continue}
-#			if {$ip == "public ip" } {continue}
+			if {[info exists ::farsight_test_turn] &&
+			    $::farsight_test_turn &&
+			    $qvalue >= "0.5" } {continue}
 			if {$candidate_id != "" &&
 			    $password != "" &&
 			    $transport == "UDP"} {
