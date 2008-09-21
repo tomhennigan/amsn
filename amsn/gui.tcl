@@ -3666,7 +3666,9 @@ namespace eval ::amsn {
 					set txt [string range $txt 1 end]
 				}
 			} else {
-				set lst [lreplace $lst 0 0]
+				set txtelement [lindex [lindex $lst 0] 1]
+				set txtelement [string range $txtelement 1 end]
+				set lst [lreplace $lst 0 0 [list text "$txtelement"]]
 			}
 		}
 
