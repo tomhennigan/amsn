@@ -3354,8 +3354,7 @@ namespace eval ::amsn {
 
 		if {[::config::getKey colored_text_in_cw] == 1} {
 			if {$p4c} {
-				set original_nick [list]
-				lappend original_nick [list text "$nick"]
+				set original_nick [::smiley::parseMessageToList [list [ list "text" "$nick" ]]]
 				set evpar(variable) original_nick
 				set evpar(login) $user
 				::plugins::PostEvent parse_contact evpar
