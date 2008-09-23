@@ -1401,7 +1401,7 @@ namespace eval ::log {
 					set aidx $bidx
 				} else {
 					append str [string range $logvar $aidx end]
-					puts -nonewline $fileid str
+					puts -nonewline $fileid $str
 					break
 				}
 				set str ""
