@@ -949,14 +949,14 @@ namespace eval ::MSN {
 
 	proc logoutEP { ep } {
 		set msg "goawyplzthxbye"
-		::MSN::WriteSBNoNL ns "UUN" "[::config::getKey login];$ep 1 [string length $msg]\r\n$msg"
+		::MSN::WriteSBNoNL ns "UUN" "[::config::getKey login];$ep 4 [string length $msg]\r\n$msg"
 	}
 
 	proc logoutGtfo {} {
 		set msg "gtfo"
 		foreach ep [::abook::getEndPoints] {
 			if {![string equal -nocase $ep [::config::getGlobalKey machineguid]] } {
-				::MSN::WriteSBNoNL ns "UUN" "[::config::getKey login];$ep 1 [string length $msg]\r\n$msg"
+				::MSN::WriteSBNoNL ns "UUN" "[::config::getKey login];$ep 4 [string length $msg]\r\n$msg"
 			}
 		}
 		logout
