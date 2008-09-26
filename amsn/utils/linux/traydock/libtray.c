@@ -204,9 +204,32 @@ DrawIcon (ClientData clientData)
 	int widthImg, heightImg;
 	Window r;
 	char cmdBuffer[1024];
+	XSizeHints *hints = NULL;
+	long supplied = 0;
 
 	XGetGeometry(display, Tk_WindowId(icon->win), &r, &x, &y, &w, &h, &b, &d);
 	XClearWindow(display, Tk_WindowId(icon->win));
+
+	/*
+	 * Here we get the window hints because in some cases the XGetGeometry
+	 * function returns the wrong width/height. We only check that 
+	 * min_width <= width <= max_width and min_height <= height <= max_height
+	 */
+	hints = XAllocSizeHints();
+	XGetWMNormalHints(display, Tk_WindowId(icon->win), hints, &supplied);
+	if( supplied & PMaxSize ) {
+		w = (hints->max_width < w) ? hints->max_width : w;
+		h = (hints->max_height < h) ? hints->max_height : h;
+	}
+	if( supplied & PMinSize ) {
+		w = (hints->min_width > w) ? hints->min_width : w;
+		h = (hints->min_height > h) ? hints->min_height : h;
+	}
+	if(hints) {
+		XFree(hints);
+		hints = NULL;
+	}
+
 
 	if (((icon->width != w) || (icon->height != h) || (icon->mustUpdate)) && (icon->cmdCallback[0] != '\0')) {
 		snprintf(cmdBuffer,sizeof(cmdBuffer),"%s %u %u",icon->cmdCallback,w,h);
