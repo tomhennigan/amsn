@@ -5876,7 +5876,7 @@ proc cmsn_change_state {recv} {
 			if { (([::config::getKey notifyoffline] == 1 && 
 			       [::abook::getContactData $user notifyoffline -1] != 0) ||
 			      [::abook::getContactData $user notifyoffline -1] == 1) &&
-			     ([::config::getKey no_blocked_notif 0] == 0 || ![::MSN::userIsBlocked $email])} {
+			     ([::config::getKey no_blocked_notif 0] == 0 || ![::MSN::userIsBlocked $user])} {
 				#Show notify window if globally enabled, and not locally disabled, or if just locally enabled
 				set msg $short_name
 				lappend msg [list "newline"]
@@ -5900,7 +5900,7 @@ proc cmsn_change_state {recv} {
 			if { (([::config::getKey notifystate] == 1 && 
 			       [::abook::getContactData $user notifystatus -1] != 0) ||
 			      [::abook::getContactData $user notifystatus -1] == 1)  &&
-			     ([::config::getKey no_blocked_notif 0] == 0 || ![::MSN::userIsBlocked $email])} {
+			     ([::config::getKey no_blocked_notif 0] == 0 || ![::MSN::userIsBlocked $user])} {
 
 				set msg $short_name
 				lappend msg [list "newline"]
