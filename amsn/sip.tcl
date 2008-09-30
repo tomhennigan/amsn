@@ -1057,7 +1057,7 @@ snit::type TURN {
 	}
 
 	method Disconnect { } {
-		#puts "Disconnecting"
+		status_log "TURN: Disconnecting"
 		catch {close $sock}
 		set sock ""
 	}
@@ -1080,7 +1080,7 @@ snit::type TURN {
 	}
 
 	method Connect {} {
-		#puts "Connecting"
+		status_log "TURN: Connecting"
 
 		if { $options(-transport) == "tls" } {
 			package require tls
@@ -1160,7 +1160,7 @@ snit::type TURN {
 	}
 
 	method Send { data } {
-		#puts "Sending [hexify $data]"
+		status_log "TURN: Sending [hexify $data]"
 		if {[catch {puts -nonewline $sock $data} res] } {
 			status_log "SIPSocket : Unable to send data : $res"
 			$self Disconnect
@@ -1184,7 +1184,7 @@ snit::type TURN {
 		}
 
 		if {![info exists header] || [string length $header] != 20 } {
-			#puts "Not enough header : [string length $header]"
+			status_log "TURN: Not enough header : [string length $header]"
 			return
 		}
 
@@ -1193,7 +1193,7 @@ snit::type TURN {
 
 		set message_type [$self MessageTypeToString $message_type]
 
-		#puts "Received message of type $message_type"
+		status_log "TURN: Received message of type $message_type"
 
 		if { [catch {set payload [read $sock $payload_size] } res]} {
 			status_log "TURN: Reading line got error $res"
@@ -1201,11 +1201,11 @@ snit::type TURN {
 			return
 		}
 		if {![info exists payload] || [string length $payload] != $payload_size } {
-			#puts "Not enough payload : [string length $payload] != $payload_size"
+			status_log "TURN: Not enough payload : [string length $payload] != $payload_size"
 			return
 		}
 
-		#puts "Received [hexify $payload]"
+		status_log "TURN: Received [hexify $payload]"
 
 		set attributes [list]
 		set total_size 0
@@ -1217,7 +1217,7 @@ snit::type TURN {
 			incr total_size $attribute_size
 			lappend attributes [$self AttributeTypeToString $attribute_type]
 			lappend attributes $attribute_value
-			#puts "Received attribute [$self AttributeTypeToString $attribute_type] : [hexify_c $attribute_value]"
+			status_log "TURN: Received attribute [$self AttributeTypeToString $attribute_type] : [hexify_c $attribute_value]"
 		}
 
 		$self HandleResponse $id $message_type $attributes
@@ -1271,12 +1271,12 @@ snit::type TURN {
 	}
 
 	method HandleResponse { id message_type attributes } {
-		#puts "Received response $message_type for id $id"
+		status_log "TURN: Received response $message_type for id $id"
 		if {[info exists messages($id)] } {
 			unset messages($id)
 			if {$message_type == "SHARED-SECRET-ERROR" } {
 				foreach {attr_type value} $attributes {
-					#puts "Parsing $attr_type"
+					status_log "TURN: Parsing $attr_type"
 					if {$attr_type == "REALM" } {
 						set realm $value
 					} elseif {$attr_type == "NONCE" } {
@@ -1292,7 +1292,7 @@ snit::type TURN {
 							 [list "USERNAME" "RPS_$options(-password)\x00\x00\x00" \
 							      "REALM" $realm \
 							      "NONCE" $nonce ] 24]
-					#puts "Doing integrity check ($nonce) on [hexify $message] "
+					status_log "TURN: Doing integrity check ($nonce) on [hexify $message] "
 					set message_integrity [$self BuildSharedSecretIntegrity $message $nonce]
 					
 					set message [$self BuildMessage $id \
@@ -1318,7 +1318,7 @@ snit::type TURN {
 
 						set server_ip "[expr {$i1 & 0xFF}].[expr {$i2 & 0xFF}].[expr {$i3 & 0xFF}].[expr {$i4 & 0xFF}]"
 						set server_port $port
-						#puts "TURN server $server_ip : $server_port"
+						status_log "TURN: TURN server $server_ip : $server_port"
 					}
 				}
 				if {[info exists username] &&
@@ -1332,7 +1332,7 @@ snit::type TURN {
 				}
 			}
 		} else {
-			#puts "Received unknown id $id"
+			status_log "TURN: Received unknown id $id"
 			return
 		}
 		if {[llength [array names messages]] == 0} {
@@ -1588,9 +1588,9 @@ snit::type SIPSocket {
 		}
 
 		if {$done} {
+			set state "NONE"
 			degt_protocol "<--SIP ($options(-host)) $start\n$headers\n\n$body" "sbrecv"
 			$options(-sipconnection) HandleMessage $start $headers $body
-			set state "NONE"
 		}
 	}
 
