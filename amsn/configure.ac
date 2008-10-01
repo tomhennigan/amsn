@@ -21,7 +21,7 @@ dnl compile time options
 AC_ARG_ENABLE(debug,
   [  --enable-debug          enable some debugging information],[enable_debug=$enableval],[enable_debug=no])
 
-if test "$enable_debug" == "yes" ; then
+if test "$enable_debug" = "yes" ; then
     DEBUG="yes"
 else
     DEBUG="no"
@@ -31,7 +31,7 @@ AC_SUBST(DEBUG)
 AC_ARG_ENABLE(static,
   [  --enable-static         enable static link of libstdc++],[enable_static=$enableval],[enable_static=no])
 
-if test "$enable_static" == "yes" ; then
+if test "$enable_static" = "yes" ; then
     STATIC="yes"
 else
     STATIC="no"
@@ -90,7 +90,7 @@ AC_ARG_ENABLE(version-check, [  --disable-version-check Disable checking that li
 
 OLDV=`expr $VERSION \< 8.4`
 
-if test "x${version_ok}" == "xyes" -a $OLDV == 1; then
+if test "x${version_ok}" = "xyes" -a $OLDV = 1; then
     AC_MSG_ERROR(Your current Tcl/Tk installation has a version number of $VERSION. The minimal version required for aMSN to run is Tcl/Tk 8.4)
 fi
 
@@ -102,14 +102,14 @@ dnl Checks for programs.
 AC_PROG_CC
 
 CC_INSTALLED=`which $CC`
-if test "x${CC_INSTALLED}" == "x"; then
+if test "x${CC_INSTALLED}" = "x"; then
     AC_MSG_ERROR(You need a C compiler (gcc) to compiler aMSN. Please install gcc and try again) 
 fi
 
 AC_PROG_CXX
 
 CXX_INSTALLED=`which $CXX`
-if test "x${CXX_INSTALLED}" == "x"; then
+if test "x${CXX_INSTALLED}" = "x"; then
      AC_MSG_ERROR(You need a C++ compiler (g++) to compiler aMSN. Please install g++ and try again) 
 fi
 
@@ -185,7 +185,7 @@ if test $FOUND_OS != "mac"; then
 		
 				if  test "x${TCL_INC_DIR}" != "x" -o "x${TCL_INC_SPEC}" != "x" \
 					-o "x${TCL_INCLUDE_DIR}" != "x" -o "x${TCL_INCLUDE_SPEC}" != "x"; then
-				if test "x${TCL_VERSION}" == "x${VERSION}" ; then
+				if test "x${TCL_VERSION}" = "x${VERSION}" ; then
 				TCL_LIB_DIR=`cd $i; pwd`
 				break;
 				fi
@@ -234,15 +234,15 @@ if test $FOUND_OS != "mac"; then
 	TCL_INC_DIR=$TCL_INCLUDE_SPEC
 	fi
 	
-	if test "x${TCL_INC_DIR}" == "x"; then
+	if test "x${TCL_INC_DIR}" = "x"; then
 	TCL_INC_DIR=$TCL_INCLUDE_DIR
 	fi
 	
-	if test "x${TCL_INC_DIR}" == "x" -a -f ${TCL_PREFIX}/include/tcl.h; then
+	if test "x${TCL_INC_DIR}" = "x" -a -f ${TCL_PREFIX}/include/tcl.h; then
 	TCL_INC_DIR=${TCL_PREFIX}/include
 	fi
 	
-	if test "x${TCL_INC_DIR}" == "x"; then
+	if test "x${TCL_INC_DIR}" = "x"; then
 	AC_MSG_ERROR(You dot not have a devel package of Tcl)
 	fi
 	
@@ -254,7 +254,7 @@ if test $FOUND_OS != "mac"; then
 	TCL_INC_SPEC=$TCL_INC_DIR
 	
 	framework=`echo "${TCL_BASE}" | grep -- "-framework"`
-	if test "x${framework}" == "x"; then
+	if test "x${framework}" = "x"; then
 	TCL_LIB_SPEC="-L${TCL_LIB_DIR} -l${TCL_BASE}"
 	fi
 	TCL_STUB_LIB_SPEC="-L${TCL_LIB_DIR} -l${TCL_STUB_BASE}"
@@ -324,7 +324,7 @@ if test $FOUND_OS != "mac"; then
 	
 		if  test "x${TK_INC_DIR}" != "x" -o "x${TK_INC_SPEC}" != "x" \
 				-o "x${TK_INCLUDE_DIR}" != "x" -o "x${TK_INCLUDE_SPEC}" != "x"; then
-				if test "x${TK_VERSION}" == "x${VERSION}"; then
+				if test "x${TK_VERSION}" = "x${VERSION}"; then
 			TK_LIB_DIR=`cd $i; pwd`
 			break;
 			fi
@@ -364,15 +364,15 @@ if test $FOUND_OS != "mac"; then
 	TK_INC_DIR=$TK_INCLUDE_SPEC
 	fi
 	
-	if test "x${TK_INC_DIR}" == "x"; then
+	if test "x${TK_INC_DIR}" = "x"; then
 	TK_INC_DIR=$TK_INCLUDE_DIR
 	fi
 	
-	if test "x${TK_INC_DIR}" == "x" -a -f ${TK_PREFIX}/include/tk.h; then
+	if test "x${TK_INC_DIR}" = "x" -a -f ${TK_PREFIX}/include/tk.h; then
 	TK_INC_DIR=${TK_PREFIX}/include
 	fi
 	
-	if test "x${TK_INC_DIR}" == "x"; then
+	if test "x${TK_INC_DIR}" = "x"; then
 	AC_MSG_ERROR(You dot not have a devel package of Tk)
 	fi
 	
@@ -416,7 +416,7 @@ else
    AC_MSG_RESULT("Could not find X11 devel package, traydock will not be compiled")
 fi
 
-if test "$FOUND_OS" == "solaris"; then
+if test "$FOUND_OS" = "solaris"; then
 	# If possible, build webcam support.  Otherwise, default to
 	# Linux for other goodies.
 	AC_CHECK_HEADERS(sys/videodev2.h,FOUND_OS=solaris,FOUND_OS=linux)
