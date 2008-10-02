@@ -3,3 +3,5 @@
 <a href="?show=bugs">Bugs</a>
  | 
 <a href="?show=wild">Wild Bug Reports</a>
+ |
+<a href="?show=stats">Stats</a>
