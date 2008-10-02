@@ -128,6 +128,16 @@ if(!defined('_BUG_CLASS_')) {
 	URL::js_redirect('index.php?show=bugs',5);
       }
     }
+
+    function xml_decode($txt)
+    {
+        $txt = str_replace('&amp;',		'&',	$txt);
+        $txt = str_replace('&lt;',		'<',	$txt);
+        $txt = str_replace('&gt;',		'>',	$txt);
+        $txt = str_replace('&apos;',	"'",	$txt);
+        $txt = str_replace('&quot;', 	'"',	$txt);
+        return $txt;
+    }
     
     function actions() {
       if(isset($_POST['submit'])) {
@@ -163,8 +173,8 @@ if(!defined('_BUG_CLASS_')) {
 	  $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
 	  $found=0;
 	  while($row=mysql_fetch_array($result)) {
-	    $bug_text = html_entity_decode($row['bug_text']);
-	    $bug_stack = html_entity_decode($row['bug_stack']);
+	    $bug_text = $this->xml_decode($row['bug_text']);
+	    $bug_stack = $this->xml_decode($row['bug_stack']);
 	    if(ereg($this->error_regexp,$bug_text) && ereg_mline($this->stack_regexp,$bug_stack)) {
 	      $query="UPDATE ".TBUGREPORTS. " SET bug_parent='".$this->_id."' WHERE bug_id='".$row['bug_id']."'";
 	      mysql_query($query) or die('MySQL Query Error! '.mysql_error());
@@ -182,8 +192,8 @@ if(!defined('_BUG_CLASS_')) {
 	  $found=0;
 	  $bugs=array();
 	  while($row=mysql_fetch_array($result)) {
-	    $bug_text = html_entity_decode($row['bug_text']);
-	    $bug_stack = html_entity_decode($row['bug_stack']);
+	    $bug_text = $this->xml_decode($row['bug_text']);
+	    $bug_stack = $this->xml_decode($row['bug_stack']);
 	    if(ereg($this->error_regexp,$bug_text) && ereg_mline($this->stack_regexp,$bug_stack)) {
 	      if(count($bugs)<10)
 		$bugs[]=$row['bug_id'];

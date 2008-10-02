@@ -177,12 +177,22 @@ if(!defined('_BUGREPORT_CLASS_')) {
       return true;
     }
 
+    function xml_decode($txt)
+    {
+        $txt = str_replace('&amp;',             '&',    $txt);
+        $txt = str_replace('&lt;',              '<',    $txt);
+        $txt = str_replace('&gt;',              '>',    $txt);
+        $txt = str_replace('&apos;',    "'",    $txt);
+        $txt = str_replace('&quot;',    '"',    $txt);
+        return $txt;
+    }
+
     function searchForParents() {
       $query="SELECT bug_id,bug_error_regexp,bug_stack_regexp FROM ".TBUGS;
       $result=mysql_query($query) or die('MySQL Query Error! '.mysql_error());
       while($row=mysql_fetch_array($result)) {
-        $bug_text = html_entity_decode($this->text);
-        $bug_stack = html_entity_decode($this->stack);
+        $bug_text = $this->xml_decode($this->text);
+        $bug_stack = $this->xml_decode($this->stack);
 	if(ereg($row['bug_error_regexp'],$bug_text) && ereg_mline($row['bug_stack_regexp'],$bug_stack)) {
 	  $this->bug=$row['bug_id'];
 	  return $row['bug_id'];
