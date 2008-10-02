@@ -13,15 +13,15 @@
 	<plugin_namespace>camshoot</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 
-	<cvs_version>9251</cvs_version>
+	<cvs_version>9316</cvs_version>
 
 	<lang>
 		<langcode>en</langcode>
-		<version>5378</version>
+		<version>9316</version>
 	</lang>
 	<lang>
 		<langcode>es</langcode>
-		<version>7909</version>
+		<version>9676</version>
 	</lang>
 	<lang>
 		<langcode>fi</langcode>
@@ -29,7 +29,7 @@
 	</lang>
 	<lang>
 		<langcode>fr</langcode>
-		<version>7916</version>
+		<version>9682</version>
 	</lang>
 	<lang>
 		<langcode>hu</langcode>
