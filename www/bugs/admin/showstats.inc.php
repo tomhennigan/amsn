@@ -49,6 +49,7 @@
       echo '<b>Appears in the Operating Systems : </b>';
       print_unique_count($result, 'bug_os');
       echo '<br/></td></tr>';
+      flush();
 
       mysql_free_result($result);
     }
