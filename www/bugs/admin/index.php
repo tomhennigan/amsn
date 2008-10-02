@@ -35,7 +35,7 @@ include 'show'.$show.'.inc.php';
 ?>
 </div>
 <div class="footer">
-<small>Created and owned by the <a href="http://amsn.sf.net">aMSN Project</a></small>
+<small>Created and owned by the <a href="http://amsn-project.net">aMSN Project</a></small>
 </div>
 </body>
 </html>
