@@ -854,23 +854,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   return TCL_ERROR;
 }
 
-static void fs_candidates_list_destroy (GList *candidates) {
-  GList *lp;
-  FsCandidate *c;
-
-  /* Free list of remote candidates */
-  for (lp = candidates; lp; lp = g_list_next (lp)) {
-    c = (FsCandidate *) lp->data;
-    g_free (c->foundation);
-    g_free (c->username);
-    g_free (c->password);
-    g_free (c->ip);
-    g_free (c);
-    lp->data = NULL;
-  }
-  g_list_free (candidates);
-
-}
 
 int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
@@ -908,7 +891,7 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   for (i = 0; i < total_codecs; i++) {
     int total_elements;
     Tcl_Obj **elements = NULL;
-    codec = g_new0 (FsCodec, 1);
+    codec = fs_codec_new (0, NULL, FS_MEDIA_TYPE_AUDIO, 0);
 
     if (Tcl_ListObjGetElements(interp, tcl_remote_codecs[i],
             &total_elements, &elements) != TCL_OK) {
@@ -935,8 +918,6 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       goto error_codec;
     }
 
-    codec->media_type = FS_MEDIA_TYPE_AUDIO;
-
     g_debug ("New remote codec : %d %s %d",
       codec->id, codec->encoding_name, codec->clock_rate);
     remote_codecs = g_list_append (remote_codecs, codec);
@@ -959,7 +940,7 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   for (i = 0; i < total_candidates; i++) {
     int total_elements;
     Tcl_Obj **elements = NULL;
-    candidate = g_new0 (FsCandidate, 1);
+    candidate = fs_candidate_new (NULL, 1, 0, FS_NETWORK_PROTOCOL_UDP, NULL, 0);
     double temp;
 
     if (Tcl_ListObjGetElements(interp, tcl_remote_candidates[i],
@@ -1016,20 +997,20 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         (char *) NULL);
     goto error_candidate;
   }
-  fs_candidates_list_destroy (remote_candidates);
+  fs_candidate_list_destroy (remote_candidates);
 
   return TCL_OK;
 
  error_codec:
-  g_free (codec);
+  fs_codec_destroy (codec);
  error_codecs:
   fs_codec_list_destroy (remote_codecs);
   return TCL_ERROR;
 
  error_candidate:
-  g_free (candidate);
+  fs_candidate_destroy (candidate);
  error_candidates:
-  fs_candidates_list_destroy (remote_candidates);
+  fs_candidate_list_destroy (remote_candidates);
   return TCL_ERROR;
 }
 
