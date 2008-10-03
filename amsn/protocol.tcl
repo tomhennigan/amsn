@@ -6103,7 +6103,8 @@ proc cmsn_ns_handler {item {message ""}} {
 			::MSN::clearList PL
 			::MSN::clearList EL
 
-			if { [llength $item] == 6 && [new_contact_list "[lindex $item 2]" "[lindex $item 3]"] } {
+			new_contact_list "[lindex $item 2]" "[lindex $item 3]"
+			if { [llength $item] == 6 } {
 				status_log "Going to receive contact list\n" blue
 				#First contact in list
 				::groups::Reset
