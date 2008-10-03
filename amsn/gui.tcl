@@ -3928,9 +3928,9 @@ namespace eval ::amsn {
 			#Pack frames
 			pack $w.top -pady 12 -padx 12 -side top
 			pack $w.buttons -pady 12 -padx 12 -fill x
+			bind $w <<Escape>> "destroy $w"
 
 			moveinscreen $w 30
-			bind $w <<Escape>> "destroy $w"
 		}
 	}
 	
