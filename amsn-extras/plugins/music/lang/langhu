@@ -18,7 +18,7 @@ songartist Számcím - Előadó
 artistsong Előadó - Számcím
 song Szám címe
 choose_order Válaszd ki az előadó és a számcím sorrendjét
-musicballontext Zene infó megjelenítése/elrejtése a becenevedben.
+musicballontext Zene infó megjelenítése/elrejtése
 changepic A megjelenített kép váltása a lemezborítóra, ha lehetséges
 music_mpd_ip MPD szerver IP címe
 music_mpd_port MPD szerver portja
