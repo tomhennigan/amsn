@@ -704,6 +704,8 @@ GST_CFLAGS
 GST_LIBS
 FARSIGHT2_CFLAGS
 FARSIGHT2_LIBS
+LIBV4L_CFLAGS
+LIBV4L_LIBS
 HAVE_FARSIGHT
 LIBOBJS
 LTLIBOBJS'
@@ -727,7 +729,9 @@ GLIB_LIBS
 GST_CFLAGS
 GST_LIBS
 FARSIGHT2_CFLAGS
-FARSIGHT2_LIBS'
+FARSIGHT2_LIBS
+LIBV4L_CFLAGS
+LIBV4L_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1332,6 +1336,9 @@ Some influential environment variables:
               C compiler flags for FARSIGHT2, overriding pkg-config
   FARSIGHT2_LIBS
               linker flags for FARSIGHT2, overriding pkg-config
+  LIBV4L_CFLAGS
+              C compiler flags for LIBV4L, overriding pkg-config
+  LIBV4L_LIBS linker flags for LIBV4L, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -6948,6 +6955,86 @@ echo "${ECHO_T}yes" >&6; }
 fi
     fi
   fi
+
+
+pkg_failed=no
+{ echo "$as_me:$LINENO: checking for LIBV4L" >&5
+echo $ECHO_N "checking for LIBV4L... $ECHO_C" >&6; }
+
+if test -n "$PKG_CONFIG"; then
+    if test -n "$LIBV4L_CFLAGS"; then
+        pkg_cv_LIBV4L_CFLAGS="$LIBV4L_CFLAGS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
+    libv4l2 >= 0.5.0\"") >&5
+  ($PKG_CONFIG --exists --print-errors "\
+    libv4l2 >= 0.5.0") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_LIBV4L_CFLAGS=`$PKG_CONFIG --cflags "\
+    libv4l2 >= 0.5.0" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+if test -n "$PKG_CONFIG"; then
+    if test -n "$LIBV4L_LIBS"; then
+        pkg_cv_LIBV4L_LIBS="$LIBV4L_LIBS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
+    libv4l2 >= 0.5.0\"") >&5
+  ($PKG_CONFIG --exists --print-errors "\
+    libv4l2 >= 0.5.0") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_LIBV4L_LIBS=`$PKG_CONFIG --libs "\
+    libv4l2 >= 0.5.0" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        LIBV4L_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "\
+    libv4l2 >= 0.5.0"`
+        else
+	        LIBV4L_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "\
+    libv4l2 >= 0.5.0"`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$LIBV4L_PKG_ERRORS" >&5
+
+	{ echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+                HAVE_LIBV4L=no
+elif test $pkg_failed = untried; then
+	HAVE_LIBV4L=no
+else
+	LIBV4L_CFLAGS=$pkg_cv_LIBV4L_CFLAGS
+	LIBV4L_LIBS=$pkg_cv_LIBV4L_LIBS
+        { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+	HAVE_LIBV4L=yes
+fi
 fi
 
 
@@ -7666,12 +7753,14 @@ GST_CFLAGS!$GST_CFLAGS$ac_delim
 GST_LIBS!$GST_LIBS$ac_delim
 FARSIGHT2_CFLAGS!$FARSIGHT2_CFLAGS$ac_delim
 FARSIGHT2_LIBS!$FARSIGHT2_LIBS$ac_delim
+LIBV4L_CFLAGS!$LIBV4L_CFLAGS$ac_delim
+LIBV4L_LIBS!$LIBV4L_LIBS$ac_delim
 HAVE_FARSIGHT!$HAVE_FARSIGHT$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 94; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 96; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
@@ -7690,7 +7779,7 @@ fi
 
 cat >>$CONFIG_STATUS <<_ACEOF
 cat >"\$tmp/subs-1.sed" <<\CEOF$ac_eof
-/@[a-zA-Z_][a-zA-Z_0-9]*@/!b end
+/@[a-zA-Z_][a-zA-Z_0-9]*@/!b
 _ACEOF
 sed '
 s/[,\\&]/\\&/g; s/@/@|#_!!_#|/g
@@ -7703,8 +7792,6 @@ N; s/^.*\n//; s/[,\\&]/\\&/g; s/@/@|#_!!_#|/g; b n
 ' >>$CONFIG_STATUS <conf$$subs.sed
 rm -f conf$$subs.sed
 cat >>$CONFIG_STATUS <<_ACEOF
-:end
-s/|#_!!_#|//g
 CEOF$ac_eof
 _ACEOF
 
@@ -7947,7 +8034,7 @@ s&@builddir@&$ac_builddir&;t t
 s&@abs_builddir@&$ac_abs_builddir&;t t
 s&@abs_top_builddir@&$ac_abs_top_builddir&;t t
 $ac_datarootdir_hack
-" $ac_file_inputs | sed -f "$tmp/subs-1.sed" >$tmp/out
+" $ac_file_inputs | sed -f "$tmp/subs-1.sed" | sed 's/|#_!!_#|//g' >$tmp/out
 
 test -z "$ac_datarootdir_hack$ac_datarootdir_seen" &&
   { ac_out=`sed -n '/\${datarootdir}/p' "$tmp/out"`; test -n "$ac_out"; } &&
@@ -8107,6 +8194,7 @@ compile time options summary
     DEBUG        : $DEBUG
     STATIC       : $STATIC
     FARSIGHT     : $HAVE_FARSIGHT
+    LIBV4L       : $HAVE_LIBV4L
 
 EOF
 

@@ -30,6 +30,13 @@
 
 #include "grab-ng.h"
 
+#ifdef HAVE_LIBV4L
+#include <libv4l2.h>
+#else
+#define v4l2_open open
+#define v4l2_close close
+#endif
+
 int  ng_debug          = 0;
 int  ng_log_bad_stream = 0;
 int  ng_log_resync     = 0;
@@ -863,7 +870,7 @@ int ng_chardev_open(char *device, int flags, int major, int complain)
 	    fprintf(stderr,"%s: not below /dev\n",device);
 	goto err;
     }
-    if (-1 == (fd = open(device, flags))) {
+    if (-1 == (fd = v4l2_open(device, flags))) {
 	if (complain)
 	    fprintf(stderr,"open(%s): %s\n",device,strerror(errno));
 	goto err;
@@ -889,7 +896,7 @@ int ng_chardev_open(char *device, int flags, int major, int complain)
 
  err:
     if (-1 != fd)
-	close(fd);
+	v4l2_close(fd);
     return -1;
 }
 

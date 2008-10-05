@@ -36,12 +36,23 @@
 #include "struct-dump.h"
 #include "struct-v4l2.h"
 
+#ifdef HAVE_LIBV4L
+#include <libv4l2.h>
+#else
+#define v4l2_close close
+#define v4l2_dup dup
+#define v4l2_ioctl ioctl
+#define v4l2_read read
+#define v4l2_mmap mmap
+#define v4l2_munmap munmap
+#endif  
+
 /* ---------------------------------------------------------------------- */
 
 /* open+close */
 static void*   v4l2_init(char *device);
-static int     v4l2_open(void *handle);
-static int     v4l2_close(void *handle);
+static int     v4l2_open_handle(void *handle);
+static int     v4l2_close_handle(void *handle);
 static int     v4l2_fini(void *handle);
 static struct ng_devinfo* v4l2_probe(int verbose);
 
@@ -134,8 +145,8 @@ struct ng_vid_driver v4l2_driver = {
     .priority      = 1,
 
     .init          = v4l2_init,
-    .open          = v4l2_open,
-    .close         = v4l2_close,
+    .open          = v4l2_open_handle,
+    .close         = v4l2_close_handle,
     .fini          = v4l2_fini,
     .devname       = v4l2_devname,
     .busname       = v4l2_busname,
@@ -205,7 +216,7 @@ xioctl(int fd, int cmd, void *arg, int mayfail)
 {
     int rc;
 
-    rc = ioctl(fd,cmd,arg);
+    rc = v4l2_ioctl(fd,cmd,arg);
     if (0 == rc && ng_debug < 2)
 	return rc;
     if (mayfail && errno == mayfail && ng_debug < 2)
@@ -262,7 +273,7 @@ get_device_capabilities(struct v4l2_handle *h)
     }
 
     h->streamparm.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    ioctl(h->fd,VIDIOC_G_PARM,&h->streamparm);
+    v4l2_ioctl(h->fd,VIDIOC_G_PARM,&h->streamparm);
 
     /* controls */
     for (i = 0; i < MAX_CTRL; i++) {
@@ -487,7 +498,7 @@ static void v4l2_write_attr(struct ng_attribute *attr, int value)
 /* ---------------------------------------------------------------------- */
 
 static int
-v4l2_open(void *handle)
+v4l2_open_handle(void *handle)
 {
     struct v4l2_handle *h = handle;
 
@@ -498,21 +509,21 @@ v4l2_open(void *handle)
     if (-1 == h->fd)
 	return -1;
     if (-1 == xioctl(h->fd,VIDIOC_QUERYCAP,&h->cap,EINVAL)) {
-	close(h->fd);
+	v4l2_close(h->fd);
 	return -1;
     }
     return 0;
 }
 
 static int
-v4l2_close(void *handle)
+v4l2_close_handle(void *handle)
 {
     struct v4l2_handle *h = handle;
 
     if (ng_debug)
 	fprintf(stderr, "v4l2: close\n");
     BUG_ON(h->fd == -1,"device not open");
-    close(h->fd);
+    v4l2_close(h->fd);
     h->fd = -1;
     return 0;
 }
@@ -532,7 +543,7 @@ v4l2_init(char *device)
 
     h->fd     = -1;
     h->device = strdup(device ? device : ng_dev.video);
-    if (0 != v4l2_open(h))
+    if (0 != v4l2_open_handle(h))
 	goto err;
 
     if (ng_debug)
@@ -575,12 +586,12 @@ v4l2_init(char *device)
     /* check for MPEG capabilities */
     v4l2_probe_mpeg(h);
 
-    v4l2_close(h);
+    v4l2_close_handle(h);
     return h;
 
  err:
     if (h->fd != -1)
-	close(h->fd);
+	v4l2_close(h->fd);
     if (h)
 	free(h);
     return NULL;
@@ -958,7 +969,7 @@ v4l2_start_streaming(struct v4l2_handle *h, int buffers)
 	h->buf_me[i].fmt  = h->fmt_me;
 	h->buf_me[i].size = h->buf_me[i].fmt.bytesperline *
 	    h->buf_me[i].fmt.height;
-	h->buf_me[i].data = mmap(NULL, h->buf_v4l2[i].length,
+	h->buf_me[i].data = v4l2_mmap(NULL, h->buf_v4l2[i].length,
 				 PROT_READ | PROT_WRITE, MAP_SHARED,
 				 h->fd, h->buf_v4l2[i].m.offset);
 	if (MAP_FAILED == h->buf_me[i].data) {
@@ -999,7 +1010,7 @@ v4l2_stop_streaming(struct v4l2_handle *h)
     unsigned int i;
     
     /* stop capture */
-    if (-1 == ioctl(h->fd,VIDIOC_STREAMOFF,&h->fmt_v4l2.type))
+    if (-1 == v4l2_ioctl(h->fd,VIDIOC_STREAMOFF,&h->fmt_v4l2.type))
 	perror("ioctl VIDIOC_STREAMOFF");
     
     /* free buffers */
@@ -1008,7 +1019,7 @@ v4l2_stop_streaming(struct v4l2_handle *h)
 	    ng_waiton_video_buf(&h->buf_me[i]);
 	if (ng_debug)
 	    print_bufinfo(&h->buf_v4l2[i]);
-	if (-1 == munmap(h->buf_me[i].data,h->buf_v4l2[i].length))
+	if (-1 == v4l2_munmap(h->buf_me[i].data,h->buf_v4l2[i].length))
 	    perror("munmap");
     }
     h->queue = 0;
@@ -1118,7 +1129,7 @@ v4l2_nextframe(void *handle)
 	buf->info.ts = ng_tofday_to_timestamp(&h->buf_v4l2[frame].timestamp);
     } else {
 	buf = ng_malloc_video_buf(NULL, &h->fmt_me);
-	rc = read(h->fd,buf->data,buf->size);
+	rc = v4l2_read(h->fd,buf->data,buf->size);
 	if (rc < 0) {
 	  perror("v4l2: read");
 	  ng_release_video_buf(buf);
@@ -1148,11 +1159,11 @@ v4l2_getimage(void *handle)
     BUG_ON(h->fd == -1,"device not open");
     buf = ng_malloc_video_buf(NULL, &h->fmt_me);
     if (h->cap.capabilities & V4L2_CAP_READWRITE) {
-	rc = read(h->fd,buf->data,buf->size);
+	rc = v4l2_read(h->fd,buf->data,buf->size);
 	if (-1 == rc  &&  EBUSY == errno  &&  h->ov_on) {
 	    h->ov_on = 0;
 	    xioctl(h->fd, VIDIOC_OVERLAY, &h->ov_on, 0);
-	    rc = read(h->fd,buf->data,buf->size);
+	    rc = v4l2_read(h->fd,buf->data,buf->size);
 	    h->ov_on = 1;
 	    xioctl(h->fd, VIDIOC_OVERLAY, &h->ov_on, 0);
 	}

@@ -508,6 +508,11 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
             HAVE_FARSIGHT=yes,HAVE_FARSIGHT=no)
     fi
   fi
+
+  dnl Use libv4l if we have it
+  PKG_CHECK_MODULES(LIBV4L, \
+    libv4l2 >= 0.5.0,
+    HAVE_LIBV4L=yes,HAVE_LIBV4L=no)
 fi
 
 AC_SUBST(GST_CFLAGS)
@@ -535,6 +540,7 @@ compile time options summary
     DEBUG        : $DEBUG
     STATIC       : $STATIC
     FARSIGHT     : $HAVE_FARSIGHT
+    LIBV4L       : $HAVE_LIBV4L
 
 EOF
 

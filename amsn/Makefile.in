@@ -89,6 +89,7 @@ CFLAGS   += $(WARN_FLAGS)
 CFLAGS   += $(LFS_FLAGS)
 CFLAGS	 += ${TCL_INC_SPEC}
 CFLAGS	 += ${TK_INC_SPEC}
+CFLAGS   += @LIBV4L_CFLAGS@
 CFLAGS	 += ${X_CFLAGS}
 CFLAGS   += $(LIB_FLAGS)
 CFLAGS   += -DPACKAGE='"$(PACKAGE)"'
@@ -149,6 +150,7 @@ CXX_LIB := @CXX_LIB@
 
 LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
+LDFLAGS	 += @LIBV4L_LIBS@
 
 ifeq (@HAVE_FARSIGHT@,yes)
   FILES_TO_INSTALL += utils/farsight/tcl_farsight.$(SHLIB_EXTENSION) utils/farsight/pkgIndex.tcl
