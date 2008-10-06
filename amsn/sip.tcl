@@ -758,7 +758,7 @@ snit::type SIPConnection {
 			    $qvalue >= "0.5" } {continue}
 			if {$candidate_id != "" && $password != "" } {
 				if {$local == "" || $candidate_id == $local} {
-					append sdp "a=candidate:$candidate_id $component_id $password $transport [format $.3f $qvalue] $ip $port\r\n"
+					append sdp "a=candidate:$candidate_id $component_id $password $transport [format %.3f $qvalue] $ip $port\r\n"
 				}
 			}
 		}
