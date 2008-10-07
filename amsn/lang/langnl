@@ -446,7 +446,7 @@ howto_remove_profile Om je profiel te verwijderen (oftewel: $1 vergeten) moet je
 httpconnection Verbinding maken via het HTTP-protocol
 hue Kleurtoon
 huge Extra groot
-hybrid Hybride modus
+hybrid Hybridemodus
 ident Bezig met identificeren
 identity Identiteit
 ignore Negeren
@@ -873,7 +873,7 @@ snackneeded Om deze functionaliteit te gebruiken heb je de Snack-bibliotheek (ve
 snapshot Foto
 sngdblclick Slechts eenmaal klikken om een nieuw gespreksvenster te openen
 sortcontactgroup Contacten sorteren op groep
-sortcontacthybrid Contacten sorteren in hybride modus
+sortcontacthybrid Contacten sorteren in hybridemodus
 sortcontactsasc Contacten oplopend sorteren
 sortcontactsby Contacten sorteren op
 sortcontactsbylogsize Contacten sorteren op logbestandsgrootte
