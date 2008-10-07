@@ -1369,6 +1369,9 @@ snit::type TURN {
 		set key "[binary format H* $md5][string repeat \x00 16]"
 		set len [string length $message]
 		set padding [expr {64 - ($len % 64)}]
+		if {$padding == 64} {
+			set padding 0
+		}
 		set hash [::sha1::hmac $key "$message[string repeat \x00 $padding]"]
 		return [binary format H* $hash]
 	}
