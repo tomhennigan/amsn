@@ -23,16 +23,16 @@ namespace eval ::extras::os {
         }
         
         if {[lsearch $::extras::os::supportedCompressedExtensions $ext] == -1} {
-            status_log "::extras::os::decompress: extension ($ext) not supported"
+            ::extras::log "extension ($ext) not supported" warning
             return ""
         }
         
-        status_log "::extras::os::decompress: ($ext) $file_path" red
+        ::extras::log "decompressing $ext file $file_path"
         
         if {[catch {
             set file_path [decompress${ext} $file_path]
         } res]} {
-            status_log "::extras::os::decompress: error decompressing ($ext): $res" red
+            ::extras::log "couldn't decompress ($ext): $res" error
             set file_path ""
         }
         

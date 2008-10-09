@@ -35,9 +35,10 @@ namespace eval ::extras {
         #}
         
         while {![file isdirectory $file_path]} {
+            set prev_file_path $file_path
             set file_path [::extras::os::decompress $file_path]
             if { $file_path == "" } {
-                status_log "::extras::install: error decompressing file" red
+                ::extras::log "couldn't decompress file $prev_file_path" error
                 return 0
             }
         }
@@ -45,7 +46,7 @@ namespace eval ::extras {
         if {![file exists $file_path]} {
             # The arcive was decompressed, but we can't find the unarchive dir.
             # The user should be notified that they can retry by installing the now decompressed folder.
-            status_log "::extras::install: error finding correctly decompressed archive ($file_path)" red
+            ::extras::log "couldn't find decompressed archive ($file_path)" error
             return 0
         }
         
@@ -53,8 +54,6 @@ namespace eval ::extras {
         set sop [testSkinOrPlugin $file_path]
         
         if { $sop == "invalid" } {
-            # Err, what are you doing!?
-            status_log "::extras::install: invalid pluign or skin file" red
             return 0
         }
         
@@ -68,16 +67,16 @@ namespace eval ::extras {
             # ~/.amsn/plugins
             set install_base [file join $install_base plugins]
         } else {
-            status_log "::extras::install: unhandled known type $sop \[shouldn't happen?!\]"
+            ::extras::log "unhandled known type $sop \[shouldn't happen?!\]" error
             return 0
         }
         
         # Performs the actual install.
         if {[catch {
-            status_log "::extras::install: installing $sop into $install_base"
+            ::extras::log "installing $sop into $install_base"
             [namespace current]::os::moveFolder $file_path $install_base
         } err]} {
-            status_log "::extras::install error: $err" red
+            ::extras::log "$err" error
             return 0
         }
         
@@ -103,10 +102,40 @@ namespace eval ::extras {
                 }
             }
             if { $r == 1 } {
+                ::extras::log "$folder_path is a $type"
                 return $type
             }
         }
         
+        ::extras::log "$folder_path is invalid" warning
+        
         return "invalid"
     }
+    
+    proc log { message {type normal} } {
+        set caller [get_proc_full [uplevel 1 info level \[info level\]]]
+        
+        switch -nocase $type {
+            warning {
+                status_log "$caller: warning: $message" green
+            }
+            error {
+                status_log "$caller: error: $message" red
+            }
+            default {
+                status_log "$caller: $message"
+            }
+        }
+    }
+    
+    # adapted from: http://wiki.tcl.tk/15193
+    proc get_proc_full { name {level 2} } {
+		if {![string match ::* $name]} {
+			set ns [uplevel $level namespace current]
+			if { $ns != "::" } {
+				set name "${ns}::${name}"
+			}
+		}
+		return $name
+	}
 }
