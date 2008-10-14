@@ -6085,6 +6085,20 @@ proc cmsn_ns_handler {item {message ""}} {
 
 				#Alert dock of status change
 				send_dock "STATUS" [lindex $item 2]
+
+				# If we had a new clientid change between the time we sent the CHG and
+				# the time we received the answer (in case we were FLN before),
+				# that new clientid will never get known, so we need to resend our
+				# status with new clientid (happens if farsight takes a long time to
+				# timeout the STUN discovery)
+				set clientid [lindex $item 3]
+				if {[::config::getKey protocol] >= 16} {
+					set clientid [lindex [split $clientid ":"] 0]
+				}
+
+				if { [::config::getKey clientid 0] != $clientid } {
+					::MSN::changeStatus [::MSN::myStatusIs]
+				}
 			}
 			return 0
 		}
