@@ -434,6 +434,7 @@ havenomic Je n'ai pas de microphone
 help Aide
 helpcontents Contenu de l'aide
 hidebuttonbar Cacher la barre de boutons
+hidedetails Cacher les détails
 hidedisplaypic Masquer l'avatar
 hidemenu Afficher/Masquer les menus
 hidemenumessage Etes-vous sûrs de vouloir masquer les menus ?\n Vous pouvez les afficher de nouveau à n'importe quel moment en utilisant la séquence d'affichage/masquage : Ctrl+M.
@@ -824,6 +825,7 @@ showcachedpics Afficher/Masquer les avatars cachés
 showcontactemail Voir les contacts par leur email
 showcontactnick Voir les contacts par leur pseudonyme
 showdetailedview Afficher une vue détaillée des contacts
+showdetails Afficher les détails
 showdisplaypic2 Afficher l'avatar par défaut à l'ouverture d'une fenêtre de conversation
 showdisplaypic Afficher l'avatar
 showlinksinlogin Afficher les liens dans la fenêtre de connexion

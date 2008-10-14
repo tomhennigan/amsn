@@ -433,6 +433,7 @@ hangup Hang Up
 havenomic I have no microphone
 helpcontents Help Contents
 help Help
+hidedetails Hide details
 hidedisplaypic Hide Display Picture
 hidebuttonbar Hide Button Bar
 hidemenumessage Are you sure you want to hide the menus ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
@@ -823,6 +824,7 @@ show_contactdps_in_cl Show thumbnails of contacts Display Pictures in Contact Li
 showcontactemail Show Contacts with E-mail
 showcontactnick Show Contacts with Nickname
 showdetailedview Show Detailed Contacts View
+showdetails Show details
 showdisplaypic2 Show Display Picture by default when a chat window is opened
 showdisplaypic Show Display Picture
 showonedpframe Show only one DisplayPicture frame in chat windows
