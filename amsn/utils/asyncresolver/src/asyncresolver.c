@@ -5,126 +5,117 @@
 #include <stdlib.h>
 #include <string.h>
 
-//TODO: Unix only??
-#include <pthread.h>
 #include <netdb.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
 
-int resolved_handler(ClientData clientData, Tcl_Interp *interp, int code);
-void *resolver_thread(void*);
+static void Resolver_Thread(ClientData cdata);
+static int Resolver_EventProc (Tcl_Event *evPtr, int flags);
 
 typedef struct {
-	char *host;
-	char *ip;
-	char *cmd;
-	Tcl_AsyncHandler async_handler;
-	Tcl_Interp *interp;
-} resolver_clientdata;
+  char *host;
+  char *ip;
+  Tcl_Interp *callback_interp;
+  Tcl_Obj *callback;
+  Tcl_ThreadId main_tid;
+} ResolverData;
+
+
+typedef struct {
+  Tcl_Event header;
+  ResolverData *data;
+} ResolverEvent;
 
 
 static int
-Asyncresolve_Cmd(ClientData cdata, Tcl_Interp *interp, int objc,  Tcl_Obj * CONST objv[])
+Asyncresolve_Cmd(ClientData cdata,
+		 Tcl_Interp *interp,
+		 int objc,
+		 Tcl_Obj * CONST objv[])
 {
-	resolver_clientdata *clientData = malloc(sizeof(resolver_clientdata));
-	pthread_t t;
+  ResolverData *data = NULL;
+  Tcl_ThreadId tid;
 
-	if (objc<3) {
-		Tcl_SetObjResult(interp, Tcl_NewStringObj("Use: asyncresolve host resolved_cmd", -1));		
-		return TCL_ERROR;
-	}
+  if (objc != 3) {
+    Tcl_WrongNumArgs (interp, 1, objv, "callback host");
+    return TCL_ERROR;
+  }
 
-	clientData->async_handler = Tcl_AsyncCreate(resolved_handler,clientData);
-	clientData->ip = NULL;
-	clientData->host = strdup(Tcl_GetString(objv[1]));
-	clientData->cmd = strdup( Tcl_GetString(objv[2]));
-	clientData->interp = interp;
-	pthread_create(&t, NULL, resolver_thread, clientData);
+  data = (ResolverData *) ckalloc(sizeof(ResolverData));
+  data->callback = objv[1];
+  Tcl_IncrRefCount (data->callback);
+  data->callback_interp = interp;
+  data->main_tid = Tcl_GetCurrentThread();
+  data->host = strdup(Tcl_GetString(objv[2]));
+  data->ip = strdup("");
+  Tcl_CreateThread(&tid, Resolver_Thread, data,
+		   TCL_THREAD_STACK_DEFAULT, TCL_THREAD_NOFLAGS);
 
-	return TCL_OK;
+  return TCL_OK;
+}
+static void Resolver_Thread(ClientData cdata)
+{
+
+  ResolverData *data = (ResolverData*) cdata;
+  ResolverEvent *evPtr;
+  struct addrinfo * result;
+  char * ret;
+  char ip[30];
+  int error;
+
+  error = getaddrinfo(data->host, NULL, NULL, &result);
+  if (error == 0 && result != NULL) {
+    ret = inet_ntop (AF_INET,
+		     &((struct sockaddr_in *) result->ai_addr)->sin_addr,
+		     ip, INET_ADDRSTRLEN);
+    if (ret != NULL) {
+      free(data->ip);
+      data->ip = strdup(ip);
+    }
+    freeaddrinfo(result);
+  }
+	
+
+  evPtr = (ResolverEvent *)ckalloc(sizeof(ResolverEvent));
+  evPtr->header.proc = Resolver_EventProc;
+  evPtr->header.nextPtr = NULL;
+  evPtr->data = data;
+
+  Tcl_ThreadQueueEvent(data->main_tid, (Tcl_Event *)evPtr, TCL_QUEUE_TAIL);
+  Tcl_ThreadAlert(data->main_tid);
+  
 }
 
 
-void *resolver_thread(void *args) {
-
-	resolver_clientdata *clientData = (resolver_clientdata*)args;
-	
-	struct addrinfo * result;
-	char * ret;
-	char ip[30];
-	int error;
-
-	error = getaddrinfo(clientData->host, NULL, NULL, &result);
-	if (error == 0 && result != NULL) {
-
-		/* TODO: Maybe a small mutex for inet_ntop static buffer? (non reentrant) */
-		ret = inet_ntop (AF_INET,
-			&((struct sockaddr_in *) result->ai_addr)->sin_addr,
-			ip, INET_ADDRSTRLEN);
-		if (ret != NULL) {
-			clientData->ip = strdup(ip);
-		}
-		freeaddrinfo(result);
-	}
-
-	// Tell TCL async handler can be run
-	Tcl_AsyncMark(clientData->async_handler);
-	
-	
-	//~ struct hostent he;
-	//~ struct hostent *host;
-	//~ int err_nop;
-	//~ char buf[1024];
-
-	//~ resolver_clientdata *clientData = (resolver_clientdata*)args;
-
-	//~ /* TODO: Control ERANGE error if buffer too small */
-	//~ if(!gethostbyname_r(clientData->host, &he, buf, 1024, &host, &err_nop ) && host != NULL) {
-		//~ /* TODO: Maybe a small mutex for inet_ntoa static buffer? (non reentrant) */
-		//~ clientData->ip = strdup(inet_ntoa(*(struct in_addr*)host->h_addr_list[0]));
-	//~ }
-
-	//~ // Tell TCL async handler can be run
-	//~ Tcl_AsyncMark(clientData->async_handler);
-	
-}
+static int Resolver_EventProc (Tcl_Event *evPtr, int flags)
+{
+  ResolverEvent *ev = (ResolverEvent*) evPtr;
+  ResolverData *data = (ResolverData*) ev->data;
+  Tcl_Obj *ip = Tcl_NewStringObj (data->ip, -1);
+  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
+  Tcl_Obj *command[] = {eval, data->callback, ip};
 
 
-int resolved_handler(ClientData _clientData, Tcl_Interp *interp, int code) {
+  if (data->callback && data->callback_interp) {
+    Tcl_IncrRefCount (eval);
+    Tcl_IncrRefCount (ip);
 
-	int res;
-	char buffer[1024];
-	Tcl_DString oldResult;
-	resolver_clientdata *clientData = (resolver_clientdata*)_clientData;
+    if (Tcl_EvalObjv(data->callback_interp, 3,
+		     command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
+      Tcl_BackgroundError(data->callback_interp);
+    }
+    Tcl_DecrRefCount (ip);
+    Tcl_DecrRefCount (eval);
+  }
+  free(data->ip);
+  free(data->host);
+  Tcl_DecrRefCount (data->callback);
 
-	snprintf(buffer,1024, "%s %s", clientData->cmd, clientData->ip != NULL ? clientData->ip : "");
-	//printf(buffer);
-	//printf("\n");
-	
-	/* TODO: if interp != NULL, save errorInfo and errorCode */
-	if (interp != NULL) {
-		Tcl_DStringInit(&oldResult);
-		Tcl_DStringGetResult(interp, &oldResult);
-	}
-
-	res = Tcl_Eval(clientData->interp, buffer);
-	if (res != TCL_OK) {
-		Tcl_BackgroundError(clientData->interp);
-	}
-
-	free(clientData->cmd);
-	free(clientData->host);
-	if (clientData->ip = NULL) free(clientData->ip);
-	free(clientData);
-
-	/* TODO: If interp != NULL, restore errorInfo and errorCode */
-	if (interp != NULL) {
-		Tcl_DStringResult(interp, &oldResult);
-		Tcl_DStringFree(&oldResult);
-	}
-	return code;
+  ckfree(data);
+  
+  return 1;
 }
 
 

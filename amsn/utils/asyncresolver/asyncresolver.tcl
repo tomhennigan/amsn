@@ -14,14 +14,17 @@ proc socket { args } {
 		}
 		
 		set varname ::asyncresolver_wait_$::asyncresolver_request_number
-		asyncresolve [lindex $args end-1] "asyncresolver_callback $varname"
+		asyncresolve [list asyncresolver_callback $varname] [lindex $args end-1]
 	
 		if {![info exists $varname]} {tkwait variable $varname}
 		
 		if { [set $varname] == "" } {
 			error "couldn't open socket: host is unreachable (Name or service not known)"
 		}
-		set cmd [linsert [lreplace $args end-1 end-1  [set $varname]] 0 _socket ] 
+		set cmd [linsert [lreplace $args end-1 end-1  [set $varname]] 0 _socket ]
+
+		unset $varname
+
 		return [eval $cmd]
 		
 	} else {
