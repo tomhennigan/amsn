@@ -116,6 +116,7 @@ snit::type Addressbook {
 						}
 						set k 0
 						while {1} {
+							update
 							set member [GetXmlNode $membership "Membership:Members:Member" $k]
 							incr k
 							if {$member == ""} {
@@ -203,6 +204,7 @@ snit::type Addressbook {
 
 			set i 0
 			while {1} {
+				update
 				set subxml [GetXmlNode $xml "soap:Envelope:soap:Body:ABFindAllResponse:ABFindAllResult:contacts:Contact" $i]
 				incr i
 				if  { $subxml == "" } {
