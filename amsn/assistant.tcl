@@ -2221,16 +2221,60 @@ namespace eval ::AVAssistant {
 
 	######################################################################################
 	# Step 3 : Farsight                                                                  #
-	######################################################################################	
+	######################################################################################
 	proc StepFarsight {assistant contentf} {
-		$contentf configure -padx 20 -pady 50
+		variable cf
+		set cf $contentf
+
+		$contentf configure -padx 20 -pady 20
 		label $contentf.fslabel -justify left -anchor nw -font bboldf \
 			-text [trans farsightextchecking]
 		pack $contentf.fslabel
-		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf]
+		
+		label $contentf.fsmsg -justify left -text ""
+		label $contentf.fsurl -justify left -text "" -fg blue
+
+		pack $contentf.fsmsg
+		pack $contentf.fsurl
+
+		button $contentf.details -text [trans showdetails] -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 1]
+		pack $contentf.details -pady 15
+		
+		text $contentf.ftxt -width 60 -height 6
+
+		if {[catch {package require Farsight} res]} {
+			::AVAssistant::appendFarsightDetails "$res\n"
+			::AVAssistant::StepFarsightClBk $assistant $contentf 0
+		} else {
+			::AVAssistant::appendFarsightDetails "Using package Farsight version $res\n"
+			::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf] "::AVAssistant::appendFarsightDetails"
+		}
+	}
+
+	proc ShowHideDetails {assistant contentf showOrHide} {
+		if {$showOrHide == 0} {
+			$contentf.details configure -text [trans showdetails] -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 1]
+			pack forget $contentf.ftxt
+		} else {
+			$contentf.details configure -text [trans hidedetails] -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 0]
+			pack $contentf.ftxt
+		}
+	}
+
+	proc appendFarsightDetails {txt} {
+		variable cf
+		puts $txt
+		#ensure txt ends in a newline
+		if { [string index $txt end] != "\n" } {
+			set txt "$txt\n"
+		}
+
+		$cf.ftxt insert end $txt
 	}
 
 	proc StepFarsightClBk {assistant contentf result} {
+		variable farsight_details
+
 		if {![winfo exists $contentf.fslabel]} {
 			return
 		}
@@ -2242,10 +2286,8 @@ namespace eval ::AVAssistant {
 			$contentf.fslabel configure -image [::skin::loadPixmap no-emblem] -compound right
 			set txt [trans farsightextwarn]
 		}
-		label $contentf.fsmsg -justify left -text $txt 
-		label $contentf.fsurl -justify left -text "$::weburl/wiki/Farsight" -fg blue
-		pack $contentf.fsmsg 
-		pack $contentf.fsurl
+		$contentf.fsmsg configure -justify left -text $txt 
+		$contentf.fsurl configure -justify left -text "$::weburl/wiki/Farsight" -fg blue
 
 		bind $contentf.fsurl <Enter> [list %W configure -font sunderf]
 		bind $contentf.fsurl <Leave> [list %W configure -font splainf]

@@ -1612,6 +1612,7 @@ snit::type Farsight {
 	variable known_bitrates
 	variable prepare_ticket ""
 	variable prepare_relay_info ""
+	variable logger "status_log"
 
 	option -closed -default ""
 	option -prepared -default ""
@@ -1625,6 +1626,10 @@ snit::type Farsight {
 		array set known_bitrates [list "SIREN" 16000 \
 					      "x-msrta" 12000 \
 					      "G7221" 24000]
+	}
+
+	method setLogger {newlogger} {
+		set logger $newlogger
 	}
 
 	method Reset { } {
@@ -1702,7 +1707,7 @@ snit::type Farsight {
 	}
 
 	method Test { } {
-		if {[catch {$self Prepare 1}] } {
+		if {[catch {$self Prepare 1 }] } {
 			return 0
 		}
 		return -1
@@ -1720,7 +1725,7 @@ snit::type Farsight {
 
 		$self Close
 
-		status_log "Farsight : Preparing"
+		eval $logger {"Farsight : Preparing"}
 
 		if {[OnWin] } {
 			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
@@ -1780,7 +1785,7 @@ snit::type Farsight {
 	method FarsightReady { status obj1 obj2 } {
 		if { $status == "ERROR" } {
 			set error $obj1
-			status_log "Farsight : got error $obj1"
+			eval $logger {"Farsight : got error $obj1"}
 			$self Closed
 			return
 		} elseif {$status == "PREPARED" } {
@@ -1805,7 +1810,7 @@ snit::type Farsight {
 			
 			set local_candidates $candidates
 
-			status_log "Farsight : Farsight is now prepared!\nlocal codecs : $local_codecs\nlocal candidates : $local_candidates"
+			eval $logger {"Farsight : Farsight is now prepared!\nlocal codecs : $local_codecs\nlocal candidates : $local_candidates"}
 
 			if {$options(-prepared) != "" } {
 				if {[catch {eval $options(-prepared)} result]} {
@@ -1813,7 +1818,7 @@ snit::type Farsight {
 				}
 			}
 		} elseif {$status == "ACTIVE" } {
-			status_log "Farsight : New active candidate pair"
+			eval $logger {"Farsight : New active candidate pair"}
 			set local $obj1
 			set remote $obj2
 
@@ -2127,6 +2132,7 @@ namespace eval ::MSNSIP {
 			}
 		}
 		
+		$::farsight setLogger "status_log"
 		$::farsight configure -prepared "" -closed "" -active ""
 		$::farsight Close
 		if {$callbk != "" } {
@@ -2143,6 +2149,7 @@ namespace eval ::MSNSIP {
 			}
 		}
 
+		$::farsight setLogger "status_log"
 		$::farsight configure -prepared "" -closed "" -active ""
 		$::farsight Close
 
@@ -2152,13 +2159,16 @@ namespace eval ::MSNSIP {
 	}
 
 
-	proc TestFarsight { {callbk ""} } {
+	proc TestFarsight { {callbk ""} {logger "status_log"} } {
 		if {![$::farsight IsInUse] } {
+			$::farsight setLogger $logger
 			$::farsight configure \
 			    -prepared [list ::MSNSIP::FarsightTestSucceeded $callbk] \
 			    -closed [list ::MSNSIP::FarsightTestFailed $callbk] \
 			    -active ""
+
 			set result [$::farsight Test]
+
 			if { $result == 1 } {
 				::MSNSIP::FarsightTestSucceeded $callbk
 			} elseif {$result == 0 } {
