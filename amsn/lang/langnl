@@ -434,6 +434,7 @@ havenomic Ik heb geen microfoon
 help Help
 helpcontents Help-onderwerpen
 hidebuttonbar Knoppenbalk verbergen
+hidedetails Details verbergen
 hidedisplaypic Schermafbeelding verbergen
 hidemenu Menu's tonen/verbergen
 hidemenumessage Weet je zeker dat je de menu's wilt verbergen?\nJe kunt ze op elk moment weer in beeld brengen met de toetsencombinatie 'Ctrl-M'.
@@ -823,6 +824,7 @@ show_contactdps_in_cl Verkleinde schermafbeeldingen tonen in de contactenlijst
 showcontactemail Contacten tonen met e-mailadres
 showcontactnick Contacten tonen met schermnaam
 showdetailedview Gedetailleerde contactenweergave tonen
+showdetails Details tonen
 showdisplaypic Schermafbeelding tonen
 showdisplaypic2 Schermafbeelding standaard tonen bij het openen van een gespreksvenster
 showonedpframe Slechts één schermafbeeldingsframe weergeven in gespreksvensters
