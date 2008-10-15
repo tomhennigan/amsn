@@ -1,0 +1,187 @@
+--- jkAudIO_osx.c.orig	2005-12-14 03:29:38.000000000 -0800
++++ jkAudIO_osx.c	2006-11-06 20:43:08.000000000 -0800
+@@ -30,6 +30,15 @@
+ extern void Snack_WriteLog(char *s);
+ extern void Snack_WriteLogInt(char *s, int n);
+ 
++/* Define for debugging */
++#undef SNACK_DEBUG_MACOSX
++
++#ifdef SNACK_DEBUG_MACOSX
++#define XXDEBUG(X) X
++#else
++#define XXDEBUG(X) ;
++#endif
++
+ #ifndef min
+ #define min(a,b) ((a)<(b)?(a):(b))
+ #define max(a,b) ((a)>(b)?(a):(b))
+@@ -42,7 +51,8 @@
+ #define BUFLEN (44100*2)
+ static short otmp[BUFLEN];
+ static float itmp[BUFLEN];
+-static int usageCount = 0;
++static int AIusageCount = 0;
++static int AOusageCount = 0;
+ static float rate;
+ static ADesc *AO = NULL;
+ static ADesc *AI = NULL;
+@@ -60,18 +70,18 @@
+   float *in  = inInputData->mBuffers[0].mData;
+ 
+   /*  printf("w %d r %d  %d %d\n", A->wpos, A->rpos, numFrames*2, A->nChannels);*/
+-  if (AO != NULL && AO->mode == PLAY) {
++  if (AO != NULL && AO->mode == PLAY && out != NULL) {
+     for (i = 0; i < numFrames*A->nChannels; ++i) {
+       *out++ = (float) (otmp[(A->rpos*A->nChannels + i) % BUFLEN] / 32768.0);
+-    if (A->nChannels == 1) {
+-      *out++ = (float) (otmp[(A->rpos*A->nChannels + i) % BUFLEN] / 32768.0);
+-    }
++      if (A->nChannels == 1) {
++        *out++ = (float) (otmp[(A->rpos*A->nChannels + i) % BUFLEN] / 32768.0);
++      }
+     }
+     A->rpos = (A->rpos + numFrames) % (BUFLEN/A->nChannels);
+   }
+-  /*  printf("appIOProc wpos %d   %d %d\n",
+-      A->wpos,numFrames,inInputData->mNumberBuffers);*/
+-  if (AI != NULL && AI->mode == RECORD) {
++
++  /* printf("appIOProc wpos %d   %d %d\n", A->wpos,numFrames,inInputData->mNumberBuffers); */
++  if (AI != NULL && AI->mode == RECORD && in != NULL) {
+     if (A->wpos + numFrames < BUFLEN/2) {
+       memcpy(&itmp[A->wpos*2], in, numFrames*2*sizeof(float));
+       A->wpos += numFrames;
+@@ -95,6 +105,7 @@
+   UInt32 count = sizeof(AudioDeviceID);
+   UInt32 bufferSize;
+   AudioStreamBasicDescription format;
++  int *usageCountPtr;
+ 
+   if (mode == PLAY) {
+     AO = A;
+@@ -102,29 +113,46 @@
+     A->wpos = 0;
+     A->rpos = 0;
+     A->tot = 0;
++    err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice,
++				 &count, (void *) &A->device);
++
++    count = sizeof(bufferSize);
++    err = AudioDeviceGetProperty(A->device, 0, false,
++			       kAudioDevicePropertyBufferSize,
++			       &count, &bufferSize);
++
++    count = sizeof(format);
++    err = AudioDeviceGetProperty(A->device, 0, false,
++			       kAudioDevicePropertyStreamFormat,
++			       &count, &format);
++    usageCountPtr = &AOusageCount;
++    XXDEBUG(printf("START: A->device=%d, AO, in:usageCount=%d\n", A->device, AOusageCount);)
+   } else {
+     AI = A;
+     A->rpos = 0;
+     A->wpos = 0;
+     A->tot = 0;
+-  }
+-  if (usageCount == 1) {
+-    usageCount = 2;
+-    return TCL_OK;
+-  }
+-
+-  err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice,
++    err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultInputDevice,
+ 				 &count, (void *) &A->device);
+ 
+-  count = sizeof(bufferSize);
+-  err = AudioDeviceGetProperty(A->device, 0, false,
++    count = sizeof(bufferSize);
++    err = AudioDeviceGetProperty(A->device, 0, true,
+ 			       kAudioDevicePropertyBufferSize,
+ 			       &count, &bufferSize);
+ 
+-  count = sizeof(format);
+-  err = AudioDeviceGetProperty(A->device, 0, false,
++    count = sizeof(format);
++    err = AudioDeviceGetProperty(A->device, 0, true,
+ 			       kAudioDevicePropertyStreamFormat,
+ 			       &count, &format);
++    usageCountPtr = &AIusageCount;
++    XXDEBUG(printf("START: A->device=%d, AI, in:usageCount=%d\n", A->device, AIusageCount);)
++  }
++
++  if (*usageCountPtr > 0) {
++    XXDEBUG(printf("Multiple open recorded, usageCount=%d\n", *usageCountPtr);)
++    (*usageCountPtr)++;
++    return TCL_OK;
++  }
+ 
+   if ((err = AudioDeviceAddIOProc(A->device, appIOProc, (void *)A))
+       != -kAudioHardwareNoError) {
+@@ -144,7 +172,7 @@
+   A->mode = mode;
+   A->encoding = encoding;
+   rate = (float) freq;
+-  usageCount = 1;
++  *usageCountPtr = 1;
+ 
+   switch (encoding) {
+   case LIN24:
+@@ -162,29 +190,50 @@
+ SnackAudioClose(ADesc *A)
+ {
+   OSStatus err = kAudioHardwareNoError;
++  int *usageCountPtr;
+ 
+   if (A->mode == PLAY) {
+-    AO = NULL;
++    XXDEBUG(printf("STOP: A->device=%d, AO, in:usageCount=%d\n", A->device, AOusageCount);)
++    if (AOusageCount <= 0 && AO == NULL) {
++      XXDEBUG(printf("Repeat PLAY stop!\n");)
++      return TCL_ERROR;
++    }
++    if (AOusageCount == 1) {
++      AO = NULL;
++    }
++    usageCountPtr = &AOusageCount;
+   } else {
+-    AI = NULL;
++    XXDEBUG(printf("STOP: A->device=%d, AI, in:usageCount=%d\n", A->device, AIusageCount);)
++    if (AIusageCount <= 0 && AI == NULL) {
++      XXDEBUG(printf("Repeat RECORD stop!\n");)
++      return TCL_ERROR;
++    }
++    if (AIusageCount == 1) {
++      AI = NULL;
++    }
++    usageCountPtr = &AIusageCount;
++  }
++  (*usageCountPtr)--;
++  if (*usageCountPtr < 0) {
++    XXDEBUG(printf("SnackAudioClose usageCount < 0?!\n");)
++    return TCL_ERROR;
+   }
+-  if (usageCount == 2) {
+-    usageCount = 1;
++  if (*usageCountPtr != 0) {
++    XXDEBUG(printf("SnackAudioClose usageCount > 0\n");)
+     return(0);
+   }
+-  usageCount = 0;
+ 
+-  /*  printf("SnackAudioClose\n");*/
++  XXDEBUG(printf("SnackAudioClose usageCount == 0\n");)
+     
+   if ((err = AudioDeviceStop(A->device, appIOProc))
+       != -kAudioHardwareNoError) {
+-    /*    printf("AudioDeviceStop failed\n");*/
++        XXDEBUG(printf("AudioDeviceStop failed\n");)
+     return TCL_ERROR;
+   }
+   
+   if ((err = AudioDeviceRemoveIOProc(A->device, appIOProc))
+       != -kAudioHardwareNoError) {
+-    /*    printf("AudioDeviceRemoveIOProc failed\n");*/
++        XXDEBUG(printf("AudioDeviceRemoveIOProc failed\n");)
+     return TCL_ERROR;
+   }

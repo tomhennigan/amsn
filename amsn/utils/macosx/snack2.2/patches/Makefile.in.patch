@@ -1,0 +1,44 @@
+--- Makefile.in.orig	2005-12-14 11:29:39.000000000 +0000
++++ Makefile.in	2008-10-15 22:55:34.000000000 +0100
+@@ -31,13 +31,19 @@
+ 
+ INCLUDES  = ${XINCLUDES} @TCL_INCLUDE_SPEC@ -I${TCL_INCPATH} -I${TK_INCPATH} @AINC@ @NISTINC@
+ 
+-CFLAGS    = -O @CFLAGS@ @AFLAG@ ${INCLUDES} @TCLAPI@ -I${GENERIC_DIR} @DEFS@
++UNIVERSAL = -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.3
+ 
+-LIBSO     = -lc @ALIB@ @TCL_LIB_SPEC@
++CFLAGSBASE = -O @CFLAGS@ @AFLAG@ ${INCLUDES} @TCLAPI@ -I${GENERIC_DIR} @DEFS@
+ 
+-LIBSN     = -lc @TK_LIBS@ @ALIB@ @TCL_LIB_SPEC@ @TK_LIB_SPEC@
++CFLAGS = ${CFLAGSBASE} ${UNIVERSAL}
+ 
+-SHLIB_LD     = @SHLIB_LD@
++LIBSO     = -lc @ALIB@ -framework Tcl
++
++LIBSN     = -lc @TK_LIBS@ @ALIB@ -framework Tcl -framework Tk
++
++LDFLAGS   = ${UNIVERSAL}
++
++SHLIB_LD     = @SHLIB_LD@ ${LDFLAGS}
+ SHLIB_SUFFIX = @SHLIB_SUFFIX@
+ 
+ all: libsound${SHLIB_SUFFIX} libsnack${SHLIB_SUFFIX} @DOSTUBLIB@ @LIBNIST@ @LIBOGG@ editversion
+@@ -284,7 +290,7 @@
+ 	    chmod 755 mixplay.tcl ;\
+ 	    cd ../../unix ;\
+ 	fi
+-LIBNIST = @NISTLIBS@ -lc @TCL_LIB_SPEC@ -L. @SNACK_STUB_LIB_FLAG@
++LIBNIST = @NISTLIBS@ -lc -framework Tcl -L. @SNACK_STUB_LIB_FLAG@
+ OBJNIST = SphereFile.o
+ 
+ SphereFile.o: $(GENERIC_DIR)/SphereFile.c
+@@ -293,7 +299,7 @@
+ libsnacksphere${SHLIB_SUFFIX}: ${OBJNIST}
+ 	${SHLIB_LD} ${OBJNIST} ${LIBNIST} -o libsnacksphere${SHLIB_SUFFIX}
+ 
+-LIBOGG = @OGGLIBS@ -lc @TCL_LIB_SPEC@ -L. @SNACK_STUB_LIB_FLAG@
++LIBOGG = @OGGLIBS@ -lc -framework Tcl -L. @SNACK_STUB_LIB_FLAG@
+ OBJOGG = SnackOgg.o
+ 
+ SnackOgg.o: $(GENERIC_DIR)/SnackOgg.c
