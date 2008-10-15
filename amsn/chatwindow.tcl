@@ -2330,6 +2330,7 @@ namespace eval ::ChatWindow {
 		set sendfile $buttonsinner.sendfile
 		set invite $buttonsinner.invite
 		set webcam $buttonsinner.webcam
+		set call $buttonsinner.call
 
 		# widget name from another proc
 		set input [::ChatWindow::GetInputText $w]
@@ -2382,11 +2383,19 @@ namespace eval ::ChatWindow {
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
 			-command "::ChatWindow::webcambuttonAction $w"
 		set_balloon $webcam "--command--::ChatWindow::SetWebcamText"
+		
+		#Call button
+		button $call -image [::skin::loadPixmap butcall] -relief flat -padx 0 \
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			-command "::amsn::InviteCallFromCW $w"
+		set_balloon $call "[trans sendsip]"
+
 
 
 		# Pack them
 		pack $fontsel $smileys $voice -side left -padx 0 -pady 0
-		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
+		pack $block $webcam $sendfile $invite $call -side right -padx 0 -pady 0
 
 		bind $voice    <<Button1-Press>> "::ChatWindow::start_voice_clip $w"
 		bind $voice    <<Button1>> "::ChatWindow::stop_and_send_voice_clip $w"
@@ -2407,6 +2416,8 @@ namespace eval ::ChatWindow {
 		bind $invite <Leave> "$invite configure -image [::skin::loadPixmap butinvite]"
 		bind $webcam <Enter> "$webcam configure -image [::skin::loadPixmap butwebcam_hover]"
 		bind $webcam <Leave> "$webcam configure -image [::skin::loadPixmap butwebcam]"
+		bind $call <Enter> "$call configure -image [::skin::loadPixmap butcall_hover]"
+		bind $call <Leave> "$call configure -image [::skin::loadPixmap butcall]"
 		
 		#send chatwindowbutton postevent
 		set evPar(bottom) $buttonsinner
@@ -2434,7 +2445,7 @@ namespace eval ::ChatWindow {
 		}
 	}
 	
-	proc setHangupButton {chatid cmd txt} {
+	proc setCallButton {chatid cmd txt {hangupOrCall 1}} {
 		set win [For $chatid]
 		if { $win == 0 } {
 			status_log "Oops, no CW for chatid : $chatid" red
@@ -2442,35 +2453,31 @@ namespace eval ::ChatWindow {
 		}
 		set buttons [GetButtonBarForWin $win]
 		set buttonsinner [$buttons getinnerframe]
-		set hangup $buttonsinner.hangup
+		set call $buttonsinner.call
 
-		if {[winfo exists $hangup]} {
-			$hangup configure -command ${cmd}
-			set_balloon $hangup $txt
+		if {[winfo exists $call]} {
+			$call configure -command ${cmd}
+			set_balloon $call $txt
 		} else {
 			#Hangup button
-			button $hangup -image [::skin::loadPixmap buthangup] -relief flat -padx 0 \
+			button $call -image -relief flat -padx 0 \
 				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
 				-command ${cmd}
-			set_balloon $hangup $txt
-			bind $hangup <Enter> "$hangup configure -image [::skin::loadPixmap buthangup_hover]"
-			bind $hangup <Leave> "$hangup configure -image [::skin::loadPixmap buthangup]"
+			set_balloon $call $txt
+			pack $call -side left -padx 0 -pady 0
 		}
-		pack $hangup -side left -padx 0 -pady 0			
+		if {$hangupOrCall == 1} {
+			$call configure -image [::skin::loadPixmap buthangup]
+			bind $call <Enter> "$call configure -image [::skin::loadPixmap buthangup_hover]"
+			bind $call <Leave> "$call configure -image [::skin::loadPixmap buthangup]"
+		} else {
+			$call configure -image [::skin::loadPixmap butcall]
+			bind $call <Enter> "$call configure -image [::skin::loadPixmap butcall_hover]"
+			bind $call <Leave> "$call configure -image [::skin::loadPixmap butcall]"
+		}
 	}
 
-	proc removeHangupButton { chatid } {
-		set win [For $chatid]
-		if { $win == 0 } {
-			status_log "Oops, no CW for chatid : $chatid" red
-			return
-		}
-		set buttons [GetButtonBarForWin $win]
-		set buttonsinner [$buttons getinnerframe]
-		set hangup $buttonsinner.hangup
-		catch {destroy $hangup}	
-	}
 
 	proc start_voice_clip { w } {
 		variable voice_sound

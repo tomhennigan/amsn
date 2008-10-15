@@ -989,6 +989,23 @@ namespace eval ::amsn {
 		::plugins::PostEvent chat_ink_sent evPar
 	}
 
+	proc InviteCallFromCW {win_name} {
+		if {![winfo exists $win_name] } {
+			set win_name [::amsn::chatUser $win_name]
+		}
+		set chatid [::ChatWindow::Name $win_name]
+		status_log "chatid:=$chatid" red
+
+		set users [::MSN::usersInChat $chatid]
+
+		if {[llength $users] > 1} {
+			#TODO: add a new key?
+			::amsn::errorMsg [trans sipcallyouarebusy]
+		} else {
+			::MSN::ChatQueue $chatid [list ::amsn::SIPCallInviteUser [lindex $users 0]]
+		}
+
+	}
 
 	proc FileTransferSend { win_name {filename ""} } {
 		if {![winfo exists $win_name] } {
@@ -1786,7 +1803,7 @@ namespace eval ::amsn {
 
 		::MSNSIP::AcceptInvite $sip $callid
 		AddSIPchatidToList $chatid
-		::ChatWindow::setHangupButton $chatid [list ::amsn::HangupSIPCall $chatid $sip $callid] [trans hangup]
+		::ChatWindow::setCallButton $chatid [list ::amsn::HangupSIPCall $chatid $sip $callid] [trans hangup]
 	}
 
 	proc DeclineSIPCall { chatid sip callid } {
@@ -1806,7 +1823,7 @@ namespace eval ::amsn {
 
 		::MSNSIP::DeclineInvite $sip $callid
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc HangupSIPCall { chatid sip callid } {
@@ -1816,7 +1833,7 @@ namespace eval ::amsn {
 
 		::MSNSIP::HangUp $sip $callid
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc CancelSIPCall { chatid sip callid} {
@@ -1826,7 +1843,7 @@ namespace eval ::amsn {
 
 		::MSNSIP::CancelCall $sip $callid
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPInviteSent { chatid sip callid } {
@@ -1843,7 +1860,7 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid greyline 3
 		# Can be weird to ring the phone there, but i think it's useful
 		play_sound ring.wav
-		::ChatWindow::setHangupButton $chatid [list ::amsn::CancelSIPCall $chatid $sip $callid] [trans hangup]
+		::ChatWindow::setCallButton $chatid [list ::amsn::CancelSIPCall $chatid $sip $callid] [trans hangup]
 	}
 
 	proc SIPCallEnded {chatid sip callid } {
@@ -1853,7 +1870,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCalleeAccepted { chatid sip callid } {
@@ -1870,7 +1887,7 @@ namespace eval ::amsn {
 
 		# Modify Hangup button to hangup instead of cancel call 
 		[::ChatWindow::GetOutText ${win_name}] tag bind siphangup$callid <<Button1>> [list ::amsn::HangupSIPCall $chatid $sip $callid]
-		::ChatWindow::setHangupButton $chatid [list ::amsn::HangupSIPCall $chatid $sip $callid] [trans hangup]
+		::ChatWindow::setCallButton $chatid [list ::amsn::HangupSIPCall $chatid $sip $callid] [trans hangup]
 
 	}
 
@@ -1882,7 +1899,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCalleeDeclined { chatid sip callid } {
@@ -1892,7 +1909,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCalleeClosed { chatid sip callid } {
@@ -1902,7 +1919,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCalleeNoAnswer { chatid sip callid }  {
@@ -1912,7 +1929,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCalleeUnavailable { chatid sip callid }  {
@@ -1922,7 +1939,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCallImpossible { chatid } {
@@ -1930,7 +1947,7 @@ namespace eval ::amsn {
 
 		SIPCallMessage $chatid [trans sipcallimpossible]
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCallUnsupported { chatid } {
@@ -1938,14 +1955,14 @@ namespace eval ::amsn {
 
 		SIPCallMessageCallBack $chatid [trans sipcallunsupported]
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCallNoSIPFlag { chatid } {
 		status_log "User $chatid has no SIP flag in his clientid"
 		SIPCallMessage $chatid [trans sipcallnosipflag]
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCallMissed { chatid {callid ""} } {
@@ -1957,7 +1974,7 @@ namespace eval ::amsn {
 			DisableSIPButton $chatid sipno$callid
 		}
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	proc SIPCallYouAreBusy { chatid } {
@@ -1965,7 +1982,7 @@ namespace eval ::amsn {
 
 		SIPCallMessage $chatid [trans sipcallyouarebusy]
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 
@@ -1984,7 +2001,7 @@ namespace eval ::amsn {
 
 		SIPCallMessage $chatid [trans sipcalleecanceled]
 		DelSIPchatidFromList $chatid
-		::ChatWindow::removeHangupButton $chatid
+		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
