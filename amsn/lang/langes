@@ -434,6 +434,7 @@ havenomic No tengo micrófono
 help Ayuda
 helpcontents Temas de ayuda
 hidebuttonbar Ocultar la barra de botones
+hidedetails Ocultar detalles
 hidedisplaypic Ocultar imagen para mostrar
 hidemenumessage ¿Seguro que deseas ocultar los menús?\nPuedes recuperarlos en cualquier momento usando la combinación de mostrar/ocultar menús Ctrl+M.
 hidemenu Mostrar/Ocultar menús
@@ -824,6 +825,7 @@ show_contactdps_in_cl Mostrar miniaturas de las imágenes para mostrar en la lis
 showcontactemail Mostrar el email de los contactos
 showcontactnick Mostrar el apodo de los contactos
 showdetailedview Mostrar vista detallada de los contactos
+showdetails Mostrar detalles
 showdisplaypic2 Por defecto, ver la imagen para mostrar al abrir una ventana de conversación.
 showdisplaypic Ver imagen para mostrar
 showlinksinlogin Mostrar los enlaces en la pantalla de inicio de sesión
