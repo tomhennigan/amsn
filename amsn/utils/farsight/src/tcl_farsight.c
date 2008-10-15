@@ -158,7 +158,7 @@ typedef struct {
   char *error;
 } FarsightErrorEvent;
 
-static int Farsight_ErrorEventProc (Tcl_Event *evPtr, int flags)
+static int Farsight_ErrorEventProc (Tcl_Event *evPtr, int flags) 
 {
   FarsightErrorEvent *ev = (FarsightErrorEvent *) evPtr;
   char *error = ev->error;
@@ -376,7 +376,6 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
 {
   FarsightBusEvent *ev = (FarsightBusEvent *) evPtr;
   GstMessage *message = ev->message;
-
 
   g_debug ("Receive bus message from the event proc : %s",
       gst_structure_get_name (message->structure));
@@ -871,7 +870,11 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   // We verify the arguments
   if( objc != 3) {
-    Tcl_WrongNumArgs (interp, 1, objv, " remote_codecs remote_candidates");
+    Tcl_WrongNumArgs (interp, 1, objv, " remote_codecs remote_candidates\n"
+        "Where remote_codecs is a list with each element being a list containing : "
+        "{encoding_name payload_type clock_rate}\n"
+        "And where remote_candidates is a list with each element being a list containing : "
+        "{username component_id password protocol priority ip port}");
     return TCL_ERROR;
   }
 
