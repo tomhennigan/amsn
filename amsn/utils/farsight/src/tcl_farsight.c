@@ -711,6 +711,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
+
   if (!codecs_ready) {
     gboolean ready;
     const GValue *value;
@@ -790,15 +791,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   g_value_init (&transmitter_params[1].value, G_TYPE_BOOLEAN);
   g_value_set_boolean (&transmitter_params[1].value, controlling);
 
-  transmitter_params[2].name = "debug";
-  g_value_init (&transmitter_params[2].value, G_TYPE_BOOLEAN);
-#ifdef DEBUG
-  g_value_set_boolean (&transmitter_params[2].value, TRUE);
-#else
-  g_value_set_boolean (&transmitter_params[2].value, FALSE);
-#endif
-
-  total_params = 3;
+  total_params = 2;
   if (stun_ip) {
     g_debug ("stun ip : %s : %d", stun_ip, stun_port);
     transmitter_params[total_params].name = "stun-ip";
