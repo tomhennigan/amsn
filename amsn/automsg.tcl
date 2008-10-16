@@ -234,6 +234,7 @@ proc CreateStatesMenu { path { mode "complete" } } {
 	if { $mode == "complete" } {
 		$path add separator
 		$path add command -label "[trans changenick]..." -command cmsn_change_name
+		$path add command -label "[trans changepsm]..." -command cmsn_change_name
 	
 		$path add command -label "[trans changedisplaypic]..." -command dpBrowser 
 	

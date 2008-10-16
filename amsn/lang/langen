@@ -139,6 +139,7 @@ changefont Change font
 changeglobnick Change Global Nick
 change_mobile Change Mobile settings
 changenick Change Nick
+changepsm Change personal message
 changesize Change size
 changestate $1 changes state to $2
 changestatus Change Status

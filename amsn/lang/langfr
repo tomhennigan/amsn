@@ -139,6 +139,7 @@ changefont Changer la police
 changeglobnick Changer le pseudonyme général
 change_mobile Changer les paramètres du Mobile
 changenick Changer de pseudonyme
+changepsm Changer le message personnel
 changesize Changer la taille
 changestate $1 a changé de statut : $2
 changestatus Changer de statut

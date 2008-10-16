@@ -239,6 +239,11 @@ namespace eval Preferences {
 			::MSN::changeName $nick
 		}
 	}
+	proc StorePSM { psm } {
+		if {$psm != "" && $psm != [::abook::getPersonal PSM] && [::MSN::myStatusIs] != "FLN"} {
+			::MSN::changePSM $psm
+		}
+	}
 
 }
 
@@ -1657,6 +1662,9 @@ proc Preferences { { settings "personal"} } {
 
 	label $lfname.1.name.label -text "[trans enternick] :" -font sboldf -padx 10
 	entry $lfname.1.name.entry -font splainf -width 45
+	frame $lfname.1.psm
+	label $lfname.1.psm.label -text "[trans psm] :" -font sboldf -padx 10
+	entry $lfname.1.psm.entry -font splainf -width 45
 	frame $lfname.1.p4c
 	label $lfname.1.p4c.label -text "[trans friendlyname] :" -font sboldf -padx 10
 	entry $lfname.1.p4c.entry -font splainf -width 45
@@ -1665,10 +1673,15 @@ proc Preferences { { settings "personal"} } {
 	entry $lfname.1.ep.entry -font splainf -width 45
 	pack $lfname.1 -side top -padx 0 -pady 3 -expand 1 -fill both
 	pack $lfname.1.name.label $lfname.1.name.entry -side left
+	pack $lfname.1.psm.label $lfname.1.psm.entry -side left
 	pack $lfname.1.p4c.label $lfname.1.p4c.entry -side left
 	pack $lfname.1.ep.label $lfname.1.ep.entry -side left
-	if {[::config::getKey protocol] >= 16} {
-		pack $lfname.1.name $lfname.1.p4c $lfname.1.ep -side top -anchor nw
+	if {[::config::getKey protocol] >= 11} {
+		if {[::config::getKey protocol] >= 16} {
+			pack $lfname.1.name $lfname.1.psm $lfname.1.p4c $lfname.1.ep -side top -anchor nw
+		} else {
+			pack $lfname.1.name $lfname.1.psm $lfname.1.p4c -side top -anchor nw
+		}
 	} else {
 		pack $lfname.1.name $lfname.1.p4c -side top -anchor nw
 	}
@@ -2955,6 +2968,11 @@ proc InitPref { {fullinit 0} } {
 			$lfname.lfname4.2.chgmob configure -state normal
 			$lfname.lfname4.2.person configure -state normal
 		}
+		
+		if {[::config::getKey protocol] >= 11} {
+			$lfname.lfname.1.psm.entry delete 0 end
+			$lfname.lfname.1.psm.entry insert 0 [::abook::getPersonal PSM]
+		}
 	
 		$lfname.lfname.1.p4c.entry delete 0 end
 		$lfname.lfname.1.p4c.entry insert 0 [::config::getKey p4c_name]
@@ -3330,6 +3348,12 @@ proc SavePreferences {} {
 	set new_name [$lfname.name.entry get]
 	if {$new_name != "" && $new_name != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN"} {
 		::MSN::changeName $new_name
+	}
+	if {[::config::getKey protocol] >= 11} {
+		set new_psm [$lfname.psm.entry get]
+		if {$new_psm != "" && $new_psm != [::abook::getPersonal PSM] && [::MSN::myStatusIs] != "FLN"} {
+			::MSN::changePSM $new_psm
+		}
 	}
 	::config::setKey p4c_name [$lfname.p4c.entry get]
 

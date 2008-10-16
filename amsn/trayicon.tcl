@@ -122,6 +122,7 @@ proc trayicon_init {} {
        $iconmenu add separator
  
        $iconmenu add command -label "[trans changenick]..." -command cmsn_change_name -state disabled
+       $iconmenu add command -label "[trans changepsm]..." -command cmsn_change_name -state disabled
        $iconmenu add checkbutton -label "[trans sound]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
        $iconmenu add checkbutton -label "[trans shownotify]" -onvalue 1 -offvalue 0 -variable [::config::getVar shownotify]
  #     $iconmenu add command -label "[trans preferences]..." -command Preferences
@@ -239,19 +240,21 @@ proc statusicon_proc {status} {
 				$iconmenu entryconfigure 2 -state disabled
 				#Status submenu
 				$iconmenu entryconfigure 4 -state disabled
-				#Change nick
+				#Change nick/psm
 				$iconmenu entryconfigure 6 -state disabled
+				$iconmenu entryconfigure 7 -state disabled
 
 				#Login/Logout
-				$iconmenu entryconfigure 12 -label "[trans login]" -command "::MSN::connect" -state normal
+				$iconmenu entryconfigure 13 -label "[trans login]" -command "::MSN::connect" -state normal
 
 			} else {
 
 				$iconmenu entryconfigure 2 -state normal
 				$iconmenu entryconfigure 4 -state normal
 				$iconmenu entryconfigure 6 -state normal
+				$iconmenu entryconfigure 7 -state normal
 
-				$iconmenu entryconfigure 12 -label "[trans logout]" -command "preLogout \"::MSN::logout\""
+				$iconmenu entryconfigure 13 -label "[trans logout]" -command "preLogout \"::MSN::logout\""
 
 				
 			}

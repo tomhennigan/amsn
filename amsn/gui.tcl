@@ -4442,6 +4442,8 @@ proc create_main_menu {wmenu} {
 	$accnt add cascade -label "[trans changestatus]" -menu $accnt.my_menu -state disabled
 	#change nick
 	$accnt add command -label "[trans changenick]..." -command [list cmsn_change_name] -state disabled
+	#change psm
+	$accnt add command -label "[trans changepsm]..." -command [list cmsn_change_name] -state disabled
 	#change dp
 	$accnt add command -label "[trans changedisplaypic]..." -command [list dpBrowser] -state disabled
 	#-------------------
@@ -4874,12 +4876,13 @@ proc loggedInGuiConf { event } {
 	set logout_idx [$menu index "[trans logout]"]
 	set status_idx [$menu index "[trans changestatus]"]
 	set nick_idx [$menu index "[trans changenick]..."]
+	set psm_idx [$menu index "[trans changepsm]..."]
 	set dp_idx [$menu index "[trans changedisplaypic]..."]
 	set inbox_idx [$menu index "[trans gotoinbox]"]
 	set msn_profile_idx [$menu index "[trans editmyprofile]"]
 	set global_alarm_idx [$menu index "[trans cfgalarmall]..."]
 	set event_hist_idx [$menu index "[trans eventhistory]"]
-	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $inbox_idx $msn_profile_idx $global_alarm_idx $event_hist_idx]
+	enableEntries $menu [list $logout_idx $status_idx $nick_idx $psm_idx $dp_idx $inbox_idx $msn_profile_idx $global_alarm_idx $event_hist_idx]
 
 	# View menu
 	set menu .main_menu.view
@@ -4953,12 +4956,13 @@ proc loggedOutGuiConf { event } {
 	set logout_idx [$menu index "[trans logout]"]
 	set status_idx [$menu index "[trans changestatus]"]
 	set nick_idx [$menu index "[trans changenick]..."]
+	set psm_idx [$menu index "[trans changepsm]..."]
 	set dp_idx [$menu index "[trans changedisplaypic]..."]
 	set inbox_idx [$menu index "[trans gotoinbox]"]
 	set msn_profile_idx [$menu index "[trans editmyprofile]"]
 	set global_alarm_idx [$menu index "[trans cfgalarmall]..."]
 	set event_hist_idx [$menu index "[trans eventhistory]"]
-	enableEntries $menu [list $logout_idx $status_idx $nick_idx $dp_idx $inbox_idx $msn_profile_idx $global_alarm_idx $event_hist_idx] 0
+	enableEntries $menu [list $logout_idx $status_idx $nick_idx $psm_idx $dp_idx $inbox_idx $msn_profile_idx $global_alarm_idx $event_hist_idx] 0
 
 	# View menu
 	set menu .main_menu.view
