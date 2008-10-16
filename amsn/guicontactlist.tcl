@@ -1116,12 +1116,12 @@ namespace eval ::guiContactList {
 		set yori [expr {[lindex $linesheight 0]/2}]
 		set yposimage $yori
 		
-		if {![::config::getKey show_detailed_view] || $canvas eq ".main.f.top.mystatus"} {
-			set show_detailed_view 0
-			set ypos $yori
-		} else {
+		if {[::config::getKey show_detailed_view] && [::config::getKey show_contactdps_in_cl] &&  $canvas ne ".main.f.top.mystatus"} {
 			set show_detailed_view 1
 			set ypos [expr {-1 * $yori}]
+		} else {
+			set show_detailed_view 0
+			set ypos $yori
 		}
 
 		set marginx 0
