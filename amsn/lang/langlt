@@ -292,7 +292,7 @@ disconnectedfrom Atsijungė nuo $1
 displaychat Rodyti teksto parinktis
 displayeventconnect Rodyti, kai kontaktai prisijungia
 displayeventdisconnect Rodyti, kai kontaktai atsijungia
-displayeventemail Rodyti, kai gautas e-paštas
+displayeventemail Rodyti, kai gautas el. paštas
 displayeventnick Rodyti, kada kontaktai pakeičia slapyvardį
 displayeventpsm Rodyti, kada kontaktai pakeičia asmeninį pranešimą
 displayeventstate Rodyti, kai kontaktai pakeičia būseną
@@ -316,14 +316,14 @@ dynamicrate Naudoti dinaminį kadrų dažnį, kad imituotų esamo laiko greitį
 editavsettings Nustatyti garsą ir vaizdą
 editcontent Keisti temos laukelio turinį ir pastabų laukelį
 editcustomstate Keisti kitas būsenas
-edit Keisti
+edit Taisa
 editmyprofile Keisti mano MSN profilį
 editnewstate Nauja auto žinutės būsena
 editprofile Keisti profilį
 editstate Keisti esamą auto žinutės būseną
 editvalue Keisti reikšmę
-email E-paštas
-emailsinlist Rodyti e-pašto adresus vietoje slapyvardžių kontaktų sąraše
+email El. paštas
+emailsinlist Rodyti el. pašto adresus vietoje slapyvardžių kontaktų sąraše
 emoticon_steal Pridėti prie jaustukų
 emotisounds Groti garsus tikriems jaustukams
 emptygroup Tuščia grupė
@@ -406,14 +406,14 @@ getdisppic Leisti priimti nuotraukas iš kitų vartotojų
 getmoreplugins Gauk daugiau įskiepių!
 getmoreskins Gauk daugiau apvalkalų!
 globalcontainer Bendra dėžė
-globalnick Įveskite savo visų kontaktų slapyvardžių norimą rodymo formą. Jūs galite naudoti šiuos kitamuosius: \$user_login jūsų kontaktų e-paštas, \$nick jūsų kontaktų slapyvardis ir \$customnick jūsų kontaktų pasirinktas slapyvardis. Pavyzdžiui: \$user_login yra \$nick bus \$customnick
+globalnick Įveskite savo visų kontaktų slapyvardžių norimą rodymo formą. Jūs galite naudoti šiuos kitamuosius: \$user_login jūsų kontaktų el. paštas, \$nick jūsų kontaktų slapyvardis ir \$customnick jūsų kontaktų pasirinktas slapyvardis. Pavyzdžiui: \$user_login yra \$nick bus \$customnick
 globalnicktitle Slapyvardžių rodymo forma
 globaloverride Bendras slapyvardžio pavyzdys turėtų nepaisyti kitų slapyvardžių
 gonelunch Užkandžiauju
 gotink $1 siunčia jums rašalą.
 goto_prefs_removeprofile Spragtelėkite čia, kad nueitumėte į nustatymus ir pašalintumėte jūsų profilį
 goto Eiti į $1
-gotoinbox Atverti e-paštą
+gotoinbox Atverti el. paštą
 groupadd Pridėti grupę
 groupdelete Pašalinti grupę
 groupexists Grupė jau egzistuoja
@@ -434,15 +434,16 @@ havenomic Aš neturiu mikrofono
 helpcontents Pagalbos turinys
 help Pagalba
 hidebuttonbar Slėpti mygtukų juostą
+hidedetails Nerodyti išsamiau
 hidedisplaypic Paslėpti nuotrauką
-hidemenu Rodyti/Slėpti meniu
+hidemenu Rodyti/slėpti meniu
 hidemenumessage Ar tikrai norite paslėpti meniu??\nJą galite susigrąžinti bet kada, spausdami rodyti/slėpti meniu klavišų kombinaciją 'Ctrl-M'.
 hiden Paslėpti jaustukus iš veidelių meniu
 hidewindow Paslėpti langą
 history Rodyti istoriją
 history2 Istorija
 home Namų
-howto_remove_profile Ištrinti profilį (užmiršti $1), jus turite padaryti tai per nustatymų langą. \n\nDėl saugumo, profilio ištrinimo prisijungimo lange nėra.
+howto_remove_profile Ištrinti profilį (užmiršti $1), jus turite padaryti tai per nustatymų langą.\n\nDėl saugumo, profilio ištrinimo prisijungimo lange nėra.
 httpconnection HTTP metodu (HTTP protokolas per prievadą 80)
 hue Atspalvis
 huge Milžiniškas
@@ -456,12 +457,12 @@ imagefiles Atvaizdų rinkmenos
 inbox Gauti Laiškai
 insertsmiley Jaustukai
 inserttextnote Įterpkite tekstą į temos ir pastabos laukelius, tada paspauskite 'Išsaugoti'
-installconvert Jūs turite įdiegti ImageMagick (pakeisti programą) tam, kad galėtumėte naudotis draugų jaustukais ir kitais jaustukais. Jūs galite atsisiųsti dvejetainį kodą savo operacinei sistemai ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Jeigu jau turite jį, tada tai yra klaida, prašau pranešti apie ją. Šios ypatybės bus uždraustos, jeigu įdiegsite ImageMagick vėliau ir perjungsite šias parinktis per nustatymus. 
+installconvert Jūs turite įdiegti ImageMagick (pakeisti programą) tam, kad galėtumėte naudotis draugų jaustukais ir kitais jaustukais. Jūs galite atsisiųsti dvejetainį kodą savo operacinei sistemai ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Jeigu jau turite jį, tada tai yra klaida, prašau pranešti apie ją. Šios ypatybės bus uždraustos, jeigu įdiegsite ImageMagick vėliau ir perjungsite šias parinktis per nustatymus. 
 internalerror Išorinio serverio klaida
 invalidfile2 Rinkmenos vardas $1 negali būti sukurtas. Įsitikinkite, kad turite tinkamą leidimą į šį taikinį.
 invalidfile Rinkmena $2 įvesta į laukelį "$1" neegzistuoja arba nenuskaitoma
 invalidgroup Negalima grupė
-invalidparameter Klaida jungiantis prie serverio: negalimi parametrai
+invalidparameter Klaida jungiantis prie serverio:\nnegalimi parametrai
 invalidpicsize Duotas paveiksliukas per didelis, pasirinkite mažesnį
 invalidpic Duota paveiksliuko rinkmena neegzistuoja
 invalidsound Duota garso rinkmena neegzistuoja
@@ -509,7 +510,7 @@ loadotherdisplaypic Įkeliamos nuotraukos iš $1, prašau palaukti...
 logbigger Įrašyti rinkmenos dydį, kad kiekvienas kontaktas neviršytų 
 logeventconnect Įrašyti prisijungimus
 logeventdisconnect Įrašyti atsijungimus
-logeventemail Įrašyti, kai gautas e-paštas
+logeventemail Įrašyti, kai gautas el. paštas
 logeventnick Įrašyti slapyvardžių pakeitimus
 logeventpsm Įrašyti asmeninių žinučių pakeitimus
 logeventstate Įrašyti būsenos pakeitimus
@@ -534,7 +535,7 @@ longpsm Jūsų asmeninė žinutė per ilga. Oficialiai, MSN protokolas to nepala
 lowrescam Naudoti mažos raiškos kamerą
 lprivtoconf Asmeninis pokalbis perjungtas į konferenciją su $1
 luclosedwin Jūs uždarėte langą $1
-mailerexample ( \$recipient = Gavėjas ) Palikite tuščia, naudodami Hotmail
+mailerexample (\$recipient = Gavėjas) Palikite tuščia, naudodami Hotmail
 mailer Siuntėjas
 maintenance Serveris ruošiasi atsijungti po $1 min.
 maximised Padidintas
@@ -627,12 +628,12 @@ notify3 Rodyti pranešimų langą, kai gauti nauji laiškai
 notify4 Rodyti pranešimų langą, kai gauti nauji laiškai kituose aplankaluose
 notify pranešti
 notifyoffset Nustatyti pranešimo pasirodymo poziciją
-notifytimeout Mili sekundžių skaičius, po kurių pranešimų langas pasislėps
+notifytimeout Milisekundžių skaičius, po kurių pranešimų langas pasislėps
 notifytyping Siųsti kitiems vartotojams pranešimą, kai rašote
 notifywin Pranešimų langas
 notimcontact Šis kontaktas nėra greito pranešimo kontaktas
 notinlist Jūs neesate jo/jos kontaktų sąraše
-notls MSN protocolas 9 reikalauja TLS paketo. Šis paketas, atrodo, neįdiegtas šioje mašinoje. Jeigu jis įdiegtas, kelias iki bibliotekos aplankalo turėtų būti nurodytas nustatymų lange (pvz: /opt/tls/lib). \n \n TLS įmanoma atsisiųsti iš http://tls.sf.net.
+notls MSN protocolas 9 reikalauja TLS paketo. Šis paketas, atrodo, neįdiegtas šiame kompiuteryje. Jeigu įdiegtas, kelias iki bibliotekos aplankalo turėtų būti nurodytas nustatymų lange (pvz: /opt/tls/lib).\n\nTLS įmanoma atsisiųsti iš http://tls.sf.net.
 nottabbed Paprasti langai, be kortelių
 nousersinsession Vartotojų sesijoje nėra
 nouserspecified Nepasirinktas vartotojas
@@ -640,7 +641,7 @@ nudge $1 kumštelėjo
 offline Atsijungęs
 oim Žinutė neprisijungusiam vartotojui
 ok Gerai
-onenewmail 1 nauja žinutė Gautuose Laiškuose
+onenewmail Jūs gavote el. laišką
 onlinehelp Tiesioginė pagalba
 online Prisijungęs
 onphone Kalbu telefonu
@@ -708,7 +709,7 @@ prefphone2 Įrašykite savo telefono numerius, kuriuos norėsite rodyti savo dra
 prefphone Mano telefono numeriai
 prefprivacy2 Vartotojų kontaktai/Atvirkštiniai sąrašai
 prefprivacy Priimtų/Užblokuotų vartotojų sąrašai
-prefprofile2 Sukurti arba keisti jūsų viešąjį profilį \n(jūsų aprašymas, kurį galės matyti kiti)
+prefprofile2 Sukurti arba keisti jūsų viešąjį profilį\n(jūsų aprašymas, kurį galės matyti kiti)
 prefprofile3 aMSN vartotojo profilių nustatymai
 prefprofile Mano viešasis profilis
 prefproxy Mano tarpinio serverio nustatymai
@@ -748,9 +749,9 @@ receivedvoice Priimtas garso klipas
 receivefile Priimti rinkmeną
 recentmsg Pokalbių lango uždarymo apsauga, kai yra priimta žinutė
 reconnect2 Prisijungti netekus ryšio
-reconnecting Persijungia į serverį
+reconnecting Pakartotinis jungimasis\nprie serverio bus po
 reconnect Laukiama $1, kol persijungs
-reconnectnow Persijungti dabar
+reconnectnow Jungtis dabar
 record Įrašyti
 recorderror Klaida įvyko, bandant įrašyti garsą: $1
 recvwebcamaccepted $1 prėmė jūsų pakvietimą žiūrėti jo/jos kamerą. Jungiamasi...
@@ -796,7 +797,7 @@ sendcam Siųsti kamerą
 sendemail Siųsti pakeitimų pranešimus mano elektroniniu paštu
 sendfeedback Siųsti užklausą
 sendfile Siųsti rinkmeną
-sendmail Siųsti e-paštą
+sendmail Siųsti el. paštą
 sendmobmsg Siųsti į mobilųjį įrenginį
 sendmsg Siųsti žinutę
 send Siųsti
@@ -818,9 +819,10 @@ shareswebcam Dalinasi kamera
 showbanner Rodyti aMSN skydą
 showblockedlist Rodyti sąrašą vartotojų, kurie užblokavo jus
 showcachedpics Rodyti paslėptas nuotraukas
-showcontactemail Rodyti kontaktų e-paštus
+showcontactemail Rodyti kontaktų el. paštus
 showcontactnick Rodyti kontaktų slapyvardžius
 show_contactdps_in_cl Rodyti nuotraukų piktogramas kontaktų sąraše
+showdetails Rodyti išsamiau
 showdetailedview Rodyti išsamią kontaktų peržiūrą
 showdisplaypic2 Visada rodyti nuotraukas, kai pokalbių langas yra atidarytas
 showdisplaypic Rodyti nuotrauką
@@ -884,7 +886,7 @@ sound Įvykių garsai
 sound2 Skambėti, kai kontaktas prisijungia arba siunčia žinutę
 soundactive Skambėti, kai gaunamos įeinamosios žinutės taip pat ir aktyvame lange
 soundcommand Tai turi skambėti per komandą (pvz: esdplay)
-soundexample ( \$sound = Skambės garso rinkmena) Pvz: esdplay \$sound
+soundexample (\$sound = Skambės garso rinkmena) Pvz: esdplay \$sound
 soundfile Garso rinkmena
 soundfiles Garsų rinkmenos
 soundloop Kartoti garsą
@@ -900,11 +902,11 @@ startonboot Paleisti aMSN per Windows pasikrovimą
 startontray Paleisti aMSN tik skydelyje
 stateautomsg Siųsti auto žinutę
 statechange būsena pakeista į: 
-stateedittext Pakoreguokite laukelius, kuriuos \n norėsite pakeisti ir spauskite Išsaugoti
+stateedittext Pakoreguokite laukelius, kuriuos\nnorėsite pakeisti ir spauskite Išsaugoti
 stateinfo Asmeninės būsenos nustatymas
 state Aš noriu matytis kaip
 statename Asmeninės būsenos pavadinimas
-statenewtext Užpildykite reikalingą informaciją, kad sukurtumėte \n savo asmeninę būseną ir paspauskite Gerai
+statenewtext Užpildykite reikalingą informaciją, kad sukurtumėte\nsavo asmeninę būseną ir paspauskite Gerai
 statenick Pasirinktas slapyvardis (palikite tuščią, jeigu nesiruošiate keisti)
 statepsm Pasirinkta asmeninė žinutė (palikite tuščią, jeigu nesiruošiate keisti)
 stats Statistika
@@ -927,7 +929,7 @@ syntaxerror Sintaksės klaida
 tabbedglobal Visų vartotojų skirsniuotas langas kontaktų sąraše
 tabbedgroups Tos pačios grupės vartotojų skirsniuotas langas
 tabbed Skirsniuoti langai
-tabtitlenick Rodyti slapyvardžius skirsniuose, vietoj e-pašto
+tabtitlenick Rodyti slapyvardžius skirsniuose, vietoj el. pašto
 temp_state Laikina būsena (nebus išsaugota)
 textsize Teksto dydis
 thismonth Šis mėnuo
@@ -1018,7 +1020,7 @@ whatisamsn aMSN yra MSN Messenger'io platforma - nepriklausomas MSN Messenger'io
 whatsize Atvaizdas, kurio prašėte, nėra normali nuotrauka\ndydis (96x96) Kokio dydžio norėtumėte, kad rodytų jūsų atvaizdą?
 willjoin Laukiama $1 prisijungiant prie pokalbio
 winkreceived Jūs gavote Mirktelėjimą nuo $1. Šią savybę aMSN kol kas dar nepalaiko.
-wintitlenick Rodyti slapyvardžius skyreliuose, vietoj e-pašto
+wintitlenick Rodyti slapyvardžius skyreliuose, vietoj el. pašto
 work Darbo
 wrongfields "$1", "$2" ir/arba "$3" laukeliai buvo negalimi
 wrongprofileversion Klaidinga profilio nustatymo rinkmenos versija. Kad ištaisytumėte jį, pašalinkite aplankalą $1 arba atnaujinkite aMSN
