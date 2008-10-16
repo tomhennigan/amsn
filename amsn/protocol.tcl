@@ -2309,7 +2309,7 @@ namespace eval ::MSN {
 				if { [::config::getKey reconnect] == 1 } {
 					::MSN::saveOldStatus $mystatus $old_automessage
 					if { $error_msg != "" } {
-						::MSN::reconnect "[trans connecterror]: [ns cget -error_msg]"
+						::MSN::reconnect "[trans connecterror]:\n[ns cget -error_msg]"
 					} else {
 						::MSN::reconnect "[trans connecterror]"
 					}
@@ -2317,7 +2317,7 @@ namespace eval ::MSN {
 				}
 
 				if { $error_msg != "" } {
-					msg_box "[trans connecterror]: [ns cget -error_msg]"
+					msg_box "[trans connecterror]:\n[ns cget -error_msg]"
 				} else {
 					msg_box "[trans connecterror]"
 				}
@@ -6450,11 +6450,11 @@ proc sso_authenticate {} {
 		::config::setKey start_ns_server [::config::getKey default_ns_server]
 		#Reconnect if necessary
 		if { [::config::getKey reconnect] == 1 } {
-			::MSN::reconnect "[trans connecterror]: Connection timed out"
+			::MSN::reconnect "[trans connecterror]:\nConnection timed out"
 			return
 		}
 
-		msg_box "[trans connecterror]: Connection timed out"
+		msg_box "[trans connecterror]:\nConnection timed out"
 	}
 }
 proc sso_authenticated { failed } {
@@ -6886,11 +6886,11 @@ proc msnp11_authenticate { ticket } {
 		::config::setKey start_ns_server [::config::getKey default_ns_server]
 		#Reconnect if necessary
 		if { [::config::getKey reconnect] == 1 } {
-			::MSN::reconnect "[trans connecterror]: Connection timed out"
+			::MSN::reconnect "[trans connecterror]:\nConnection timed out"
 			return
 		}
 
-		msg_box "[trans connecterror]: Connection timed out"
+		msg_box "[trans connecterror]:\nConnection timed out"
 	}
 	return
 }

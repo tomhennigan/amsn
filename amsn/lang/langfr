@@ -462,7 +462,7 @@ internalerror Erreur interne du serveur
 invalidfile2 Le fichier $1 ne peut pas être créée, assurez-vous d'avoir les permissions nécessaires.
 invalidfile Le fichier $2 entré dans le champ "$1" n'existe pas ou n'est pas lisible
 invalidgroup Groupe invalide
-invalidparameter Erreur lors de la connexion au serveur: paramètre invalide
+invalidparameter Erreur lors de la connexion au serveur:\nparamètre invalide
 invalidpic Le fichier "image" n'existe pas
 invalidpicsize La taille du fichier "image" est trop importante, choisissez un fichier de taille inférieure
 invalidsound Le fichier "son" n'existe pas
