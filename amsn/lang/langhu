@@ -137,7 +137,8 @@ changedisplaypic Saját kép megváltoztatása
 changefont Betűtípus kiválasztása
 changeglobnick Általános becenév változtatás
 change_mobile Mobil információk megváltoztatása
-changenick Becenév váltása
+changenick Becenév módosítása
+changepsm Személyes üzenet módosítása
 changesize Méret megváltoztatása
 changestate $1 megváltoztatta állapotát erre : $2
 changestatus Állapot változtatása
@@ -434,6 +435,7 @@ havenomic Nincs mikrofonom
 helpcontents Témakörök
 help Súgó
 hidebuttonbar Gombsor elrejtése
+hidedetails Részletek elrejtése
 hidedisplaypic Kép elrejtése
 hidemenu Menük elrejtése/megjelenítése
 hidemenumessage El akarod rejteni a menüsort?\nBármikor vissza tudod állítani a menük elrejtése/megjelenítése gyorsbillentyűvel 'Ctrl-M'.
@@ -461,7 +463,7 @@ internalerror Szerver hiba
 invalidfile2 A $1 fájl nem hozható létre, ellenőrizd, hogy megvannak-e a megfelelő jogaid a célon.
 invalidfile A $2 fájl, amit a "$1" mezőben adtál meg, nem létezik vagy nem olvasható
 invalidgroup Érvénytelen csoport
-invalidparameter Csatlakozási hiba: érvénytelen paraméter
+invalidparameter Csatlakozási hiba:\nérvénytelen paraméter
 invalidpic A megadott képfájl nem létezik
 invalidpicsize A megadott képfájl túl nagy, kérlek adj meg kisebbet
 invalidsound A megadott hangfájl nem létezik
@@ -823,6 +825,7 @@ show_contactdps_in_cl A partnerek megjelenítendő képeinek megjelenítése bé
 showcontactemail Partnerek megjelenítése e-mail címmel
 showcontactnick Partnerek megjelenítése becenévvel
 showdetailedview Részletes partnernézet megjelenítése
+showdetails Részletek megjelenítése
 showdisplaypic2 Partner képének megjelenítése egy beszélgetésablak megnyitásakor
 showdisplaypic Saját képek megjelenítése
 showlinksinlogin Linkek megjelenítése a bejelentkező képernyőn
