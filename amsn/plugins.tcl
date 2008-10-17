@@ -397,7 +397,7 @@ namespace eval ::plugins {
 		#<description_fr>the description in french</description_fr>
 		#The defaut description must be written in english
 		#The file should be encoded in utf-8
-		set langcode [::config::getGlobalKey language]
+		set langcode [string tolower [::config::getGlobalKey language]]
 		if { ($langcode != "en") && [info exists sdata(${cstack}:description_${langcode}) ] } {
 			set desc $sdata(${cstack}:description_${langcode})
 		} else {
