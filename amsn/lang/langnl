@@ -139,6 +139,7 @@ changefont Lettertype instellen
 changeglobnick Algemene schermnaam wijzigen
 change_mobile Instellingen voor MSN Mobiel aanpassen
 changenick Schermnaam wijzigen
+changepsm Persoonlijk bericht wijzigen
 changesize Grootte wijzigen
 changestate $1 heeft de status veranderd in $2
 changestatus Status wijzigen
