@@ -139,6 +139,7 @@ changefont Cambiar fuente
 changeglobnick Cambiar apodo personalizado globalmente
 change_mobile Cambiar la configuración del móvil
 changenick Cambiar apodo
+changepsm Cambiar mensaje personal
 changesize Cambiar tamaño
 changestate $1 cambia su estado a $2
 changestatus Cambiar estado
