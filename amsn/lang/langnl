@@ -215,7 +215,7 @@ confirmpurge Alle opgeslagen schermafbeeldingen van je contacten zullen worden v
 confirmrfl Weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
 congrats Gefeliciteerd
 connected Je bent nu verbonden
-connectedat Aangemeld om 
+connectedat Aangemeld om
 connectedwith Aangemeld als $1
 connecterror Fout bij verbinden met server
 connectfirst Maak eerst verbinding
@@ -463,7 +463,7 @@ internalerror Interne serverfout
 invalidfile Het bestand "$2", ingevoerd in het veld "$1", bestaat niet of is onleesbaar
 invalidfile2 Het bestand $1 kan niet worden aangemaakt. Heb je wel de juiste toegangsrechten?
 invalidgroup Ongeldige groep
-invalidparameter Fout bij het verbinden met de server: ongeldige parameter
+invalidparameter Fout bij het verbinden met de server:\nongeldige parameter
 invalidpic Het opgegeven afbeeldingsbestand bestaat niet
 invalidpicsize De opgegeven afbeelding is te groot, kies een kleinere
 invalidsound Het opgegeven geluidsbestand bestaat niet
