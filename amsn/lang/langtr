@@ -139,6 +139,7 @@ changefont Yazitipi deðiþtir
 changeglobnick Rumuz þablonunu deðiþtir
 change_mobile Cep ayarlarýný deðiþtir
 changenick Rumuz deðiþtir
+changepsm Kiþisel mesajý deðiþtir
 changesize Boyutu deðiþtir
 changestate $1, $2 durumuna geçti
 changestatus Durum deðiþtir
@@ -434,6 +435,7 @@ havenomic Mikrofonum yok
 help Yardým
 helpcontents Yardým içeriði
 hidebuttonbar Düðmeleri gizle
+hidedetails Detaylarý gizle
 hidedisplaypic Kullanýcý resmini gösterme
 hidemenu Menüyü göster/gizle
 hidemenumessage Menüleri gizlemek istediðinizden emin misiniz?\nMenüleri tekrar görmek için Ctrl+M kýsayolunu kullanabilirsiniz.
@@ -592,6 +594,7 @@ nick Rumuz
 nickchanged $1 rumuzunu '$2' olarak deðiþtirdi
 no Hayýr
 noactivity Etkinlik yok
+no_blocked_notif Engellenmiþ kiþilerin uyarý penceresini gösterme
 nocacheddps Bu kullanýcýya ait saklanmýþ resim yok
 nocamwarn Kamera yok ya da baþka bir program tarafýndan kullanýlýyor (kamera meþgulken aMSN tarafýndan kullanýlamaz). Bu sorun hakkýnda yardýmcý bilgileri Wiki sayfamýzda bulabilirsiniz:
 nodataavailable $1 hakkýnda bilgi yok
@@ -658,6 +661,7 @@ others Diðerleri
 p4contextprefix P4-Ýçerik göndericilerin önüne bu metni ekle
 pager Çaðrý cihazý
 pass Þifre
+passportnotverified Kiþisel bilgilerinizi deðiþtirmeden önce pasaport hesabýnýzýn doðrulanmasý gerekmektedir (kullanýcý adýnýz gibi). Etkinleþtirme e-postasý için  gelen kutunuzu kontrol edin.
 paste Yapýþtýr
 pause Dondur
 pausedwebcamreceive Alýnan kamera görüntüsünü dondur
@@ -820,6 +824,8 @@ showcachedpics Saklanmýþ kullanýcý resimlerini göster/gizle
 show_contactdps_in_cl Baðlantýlarýn küçültülmüþ kullanýcý resimleri baðlantý listesinde gözüksün
 showcontactemail Baðlantýlarý e-posta adresleriyle göster
 showcontactnick Baðlantýlarý rumuzlarýyla göster
+showdetailedview Detaylý Kiþi Listesini Göster
+showdetails Detaylarý Göster
 showdisplaypic Kullanýcý resmini göster
 showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
 showlinksinlogin Giriþ ekranýnda internet baðlantýlarýný göster
