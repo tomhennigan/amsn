@@ -1528,7 +1528,7 @@ namespace eval ::abookGui {
 		frame $nbSettings.fNick.fDispl -relief flat
 		
 		set customdp_$email [::abook::getContactData $email customdp ""] 
-		if {[set customdp_$email] ne ""} {
+		if {[set customdp_$email] ne "" && [file readable [set customdp_$email]]} {
 			image create photo customdp_img_$email -file [set customdp_$email]
 			label $nbSettings.fNick.fDispl.dp -height 96 -width 96 -image customdp_img_$email -borderwidth 0 -relief flat
 		} else {
@@ -1832,9 +1832,13 @@ namespace eval ::abookGui {
 		set customdp_$email [::abook::getContactData $email customdp ""]
 		dpBrowser $email
 		tkwait window .dpbrowser
-		catch {image delete customdp_img_$email}
-		image create photo customdp_img_$email -file [set customdp_$email]
-		$w.fNick.fDispl.dp configure -image customdp_img_$email
+		if {[file readable [set customdp_$email]} {
+			catch {image delete customdp_img_$email}
+			image create photo customdp_img_$email -file [set customdp_$email]
+			$w.fNick.fDispl.dp configure -image customdp_img_$email
+		} else {
+			status_log "Can not open file [set customdp_$email]" red
+		}
 	}
 
 
