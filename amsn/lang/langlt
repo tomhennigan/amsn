@@ -214,7 +214,7 @@ confirmfulldelete Taip pat pašalinti iš Windows Live adresų knygos
 confirmpurge Visi išsaugoti rodomi paveiksliukai iš kitų kontaktų bus ištrinti (jūsų paties bus išsaugoti). Ar tikrai įsitikinę?
 confirmrfl Ar tikrai ištrinti šį vartotoją iš šios grupės?
 congrats Sveikiname
-connectedat Prisijungta prie
+connectedat Prisijungta prie:
 connectfirst Prašau, pirmiau prisijunkite
 connectedwith Prisijungta prie $1
 connected Jūs prisijungę
@@ -842,10 +842,10 @@ signout Atsijungti
 signouthere Atsijungti iš čia ($1)
 signoutep Atsijungti nuo $1
 signouteverywhere Atsijungti iš visur
-sipcallaccepted Garsinis skambutis priimtas
+sipcallaccepted Skambutis priimtas
 sipcallback Atskambinti
-sipcalldeclined Garsinis skambutis atmestas
-sipcalleeaccepted Vartotojas priėmė jūsų garsinį skambutį
+sipcalldeclined Skambutis atmestas
+sipcalleeaccepted Vartotojas priėmė jūsų skambutį
 sipcalleebusy Vartotojas yra šiuo metu užsiėmęs
 sipcalleecanceled Vartotojas atmetė skambučio kvietimą
 sipcalleeclosed Vartotojas baigė jūsų garsinį skambutį
@@ -959,7 +959,7 @@ triggers Teksto gaidukas
 truncatenames1 Nukirsti slapyvardžius, ilgesnius negu pavadinimo lango plotis ir kontaktų sąrašas
 truncatenames2 Nukirsti slapyvardžius, ilgesnius negu pokalbių lango vidinė pusė
 truncatenicks Nukirsti slapyvardžius, ilgesnius negu lango plotis
-twonewmail $1 nauja žinutė Gautuose Laiškuose
+twonewmail $1 nauja žinutė el. pašte
 type Tipas
 unblock Atblokuoti
 unknown Nežinoma
