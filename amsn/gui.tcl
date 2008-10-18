@@ -6133,7 +6133,7 @@ proc drawNick { } {
 		lappend stylestring [list "tag" "myplaceslabel"]
 		lappend stylestring [list "colour" [::skin::getKey mystatus]]
 		lappend stylestring [list "font" [::skin::getFont "mystatuslabel" "splainf"]]
-		lappend stylestring [list "text" "[trans connectedat]: "]
+		lappend stylestring [list "text" "[trans connectedat]"]
 		lappend stylestring [list "tag" "-myplaceslabel"]
 		lappend stylestring [list "tag" "myplaces"]
 		lappend stylestring [list "default" $my_colour_state [::skin::getFont "mystatus" "bboldf"]]
