@@ -126,6 +126,7 @@ changefont Canviar font
 changeglobnick Canviar el sobrenom global
 change_mobile Canviar configuració del mòbil
 changenick Canviar el meu sobrenom
+changepsm Canviar el meu missatge personal
 changesize Canvia la mida
 changestate $1 canvia l'estat a $2
 changevideosettings Canviar preferències de vídeo
@@ -382,6 +383,7 @@ handle Sobrenom
 havenomic No tinc micròfon
 help Ajuda
 helpcontents Continguts
+hidedetails Oculta els detalls
 hidedisplaypic Oculta l'avatar
 hiden No mostris aquesta emoticona al menú d'emoticones
 hidewindow Amaga la finestra
@@ -925,6 +927,7 @@ setasmydp Establir com la meva imatge
 showcontactemail Mostra els contactes amb el seu correu electrònic
 showcontactnick Mostra els contactes amb el seu sobrenom
 showdetailedview Mostrar la vista detallada dels contactes
+showdetails Mostrar els detalls
 snackneeded La llibreria Snack és necessària per tal d'utilitzar aquesta funcionalitat. Com a mínim es necessita la versió 2.2.9.
 sortcontactgroup Ordena els contactes per grup
 sortcontacthybrid Ordena els contactes en mode híbrid
