@@ -1698,8 +1698,8 @@ namespace eval ::amsn {
 
 		if {$supports_sip } {
 			status_log "User supports SIP"
-			::MSNSIP::InviteUser $email
 			AddSIPchatidToList $email
+			::MSNSIP::InviteUser $email
 		} else {
 			status_log "User has no SIP flag"
 			SIPCallNoSIPFlag $email			
