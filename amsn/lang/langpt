@@ -1,847 +1,1041 @@
 amsn_lang_version 2
+abort Abortar
 about Acerca de
+aboutamsn Acerca de Alvaro's Messenger
 accept Aceitar
-acceptfile Aceitar o ficheiro $1, com o tamanho de $2? Guardado em $3
-actions AcÁıes
+acceptfile Deseja aceitar o ficheiro $1, com o tamanho de $2? Ser√° guardado em $3
+account Conta
+actions Ac√ß√µes
+activeautoupdate Activar actualiza√ß√µes autom√°ticas
 addacontact Adicionar um contacto
-addedyou $1 ($2) adicionou-o(a) ‡ sua lista de contactos
+add Adicionar
+addedyou $1 ($2) adicionou-o(a) √† sua lista de contactos
 addprofile Adicionar Novo Perfil
-addprofiledesc Introduza o nome de utilizador para o qual gostaria de criar um novo perfil. \nIsto permite-lhe ter diferentes configuraÁıes para cada utilizador. \nSem perfis n„o poder· usar as funÁıes de HistÛrico, Alarmes ou "Relembrar Palavra-chave".
+addprofiledesc Introduza o nome de utilizador para o qual gostaria de criar um novo perfil. \nIsto permite-lhe ter diferentes configura√ß√µes para cada utilizador. \nSem perfis n√£o poder√° usar as fun√ß√µes de Hist√≥rico, Notifica√ß√µes ou "Guardar palavra-chave".
 addstate Adicionar um Novo Estado
 addto Adicionar a $1
-addtocontacts Adicionar ‡ lista de contactos
-addtoo Adicionar esta pessoa ‡ minha lista de contactos
+addtocontacts Adicionar √† lista de contactos
+addtoo Adicionar esta pessoa √† minha lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
-advanced AvanÁado
-advancedprefs OpÁıes avanÁadas de configuraÁ„o
+advanced Avan√ßado
+advancedprefs Configura√ß√£o de op√ß√µes avan√ßadas
 adverts Publicidade
-alarmonconnect Activar o alarme quando um utilizador se liga
-alarmondisconnect Activar o alarme quando um utilizador se desliga (ou fica invisÌvel)
-alarmonmsg Activar o alarme quando um utilizador lhe envia uma mensagem
-alarmonstatus Activar o alarme quando o utilizador muda de estado
-alarmpref DefiniÁıes de alarme para o utilizador
-alarms Alarmes/NotificaÁıes
-alarmstatus Ligar/Desligar alarme para este utilizador
-allfiles Todos os ficheiros
-allowallbutbl Permitir ser contactado por todos os utilizadores excepto os da "lista de bloqueados"
+agotinvitation Recebeu um pedido √°udio de $1
+alarmonconnect Receber notifica√ß√£o quando este utilizador se liga
+alarmondisconnect Receber notifica√ß√£o quando este utilizador se desliga (ou fica invis√≠vel)
+alarmonmsg Receber notifica√ß√£o quando este utilizador lhe envia uma mensagem
+alarmonstatus Receber notifica√ß√£o quando este utilizador altera de estado
+alarmpref2 Configura√ß√µes de notifica√ß√µes para todos os contactos
+alarmpref Configura√ß√µes de notifica√ß√µes para o utilizador
+alarms Notifica√ß√µes
+alarmstatus Activar notifica√ß√£o para este utilizador
+allfiles Todos os Ficheiros
+allmonths Todos os Meses
+allowallbutbl Permitir ser contactado por todos os utilizadores excepto os da "Lista de Bloqueados"
 allowbadwords Desactivar censura nas alcunhas ("nicknames") 
 allowlist Lista de Autorizados (LA):
-allowonlyinal Permitir apenas que contactos da minha Lista de autorizados me contactem
-allowseen Permitir que esta pessoa me veja quando estiver ligado e me contacte
-allprofilesinuse Todos os perfis existentes estao a ser utilizados neste momento
-animatedemoticon Este "emoticon" È animado
-animatedsmileys Activar "smileys" animados
-animatenotify Janela de notificaÁ„o animada
-appearance AparÍncia
+allowonlyinal Permitir apenas que contactos da minha Lista de Autorizados me contactem
+allowseen Permitir que esta pessoa me veja quando eu estiver ligado e me contacte
+allow_sms Permitir que os utilizadores me contactem no meu dispositivo m√≥vel MSN
+allprofilesinuse Todos os perfis existentes est√£o presentemente em uso
+always Sempre
+animatedemoticon Este "emoticon" √© animado
+animatedsmileys Activar "emoticons" animados
+animatenotify Janela de notifica√ß√£o animada
+appearance Apar√™ncia
 appearoff Aparecer como desligado
-areacode CÛdigo postal
-aretyping $1 est„o a escrever uma mensagem
+areacode C√≥digo de √°rea
+aretyping $1 est√£o a escrever uma mensagem
+askcam Pedir para receber "webcam"
+askcontactwebcam para pedir para receber a "webcam" do seu contacto ou
+askeachtime Perguntar sempre
+asksendingyourwebcam para pedir para enviar a sua "webcam"
+asksendoim Quer enviar esta mensagem como uma mensagem "offline"?
+askwebcam Pedir a este utilizador para enviar a sua "webcam"
+assistantainput Escolha o seu dispositivo de entrada e experimente a grava√ß√£o com este.
+assistantaoutput Escolha o seu dispositivo de sa√≠da e tente reproduzir este ficheiro para o testar.
+assistantawarn N√£o conseguir√° guardar a sua imagem, ou falar com os seus amigos. Pode encontrar respostas sobre como instalar esta extens√£o na nossa Wiki:
+assistantfinetunepic Alterar as seguintes configura√ß√µes para ajustar a qualidade de imagem da sua "webcam"
+assistantselectcam Seleccione a sua "webcam" da lista
+assistantstarting A iniciar o Assistente
+assistanttitle Assistente v√≠deo e √°udio
+assistantwelcome Este assistente vai gui√°-lo(a) na configura√ß√£o do seu dispositivo √°udio ou v√≠deo para o aMSN.\n\nVai verificar que as extens√µes necess√°rias est√£o presentes e carregadas e poder√° escolher o dispositivo e o canal, configurar a imagem e alterar a resolu√ß√£o.
+audioconfigured Escolheu as seguintes configura√ß√µes √Åudio:\n\nDispositivo de Sa√≠da: $1\nDispositivo de Entrada: $2
+audiovideo Configura√ß√µes √Åudio e V√≠deo
 author Autor
-autoaccepted TransferÍncia de ficheiro aceitada automaticamente
-autoacceptft Aceitar pedido de TransferÍncia de Ficheiros automaticamente
+autoaccepted Aceitar automaticamente a transfer√™ncia de ficheiros
+autoacceptft Aceitar automaticamente pedidos de Transfer√™ncia de Ficheiros
 autoaway Mostrar-me como "Ausente" quando estiver inactivo por
-autocheckver Verificar automaticamente se existem novas versıes ao iniciar o programa
-autoconnect2 Ligar automaticamente quando aMSN È executado
-autoconnect Iniciar sess„o ao iniciar aMSN
-autodetectip Detectar endereÁo IP automaticamente
-autohotmaillog LigaÁ„o Autom·tica ao Hotmail
-autoidle Sem Actividade Autom·tica
-autoip IP Autom·tico
-automessage Mensagem autom·tica
-autonoact Mostrar-me como "N„o Activo" se estiver inactivo por
+autocheckver Verificar automaticamente actualiza√ß√µes dispon√≠veis √† aplica√ß√£o ao ser iniciada
+autoconnect2 Ligar-se automaticamente ao iniciar o aMSN
+autoconnect Iniciar sess√£o automaticamente ao iniciar o aMSN
+autodetectip Detectar endere√ßo IP automaticamente
+autohotmaillog Ligar-se automaticamente ao Hotmail
+autoidle Sem Actividade Autom√°tica
+autoip IP Autom√°tico
+autolisten_voiceclips Reproduzir automaticamente grava√ß√µes de voz ao serem recebidas
+automessage Mensagem Autom√°tica
+autonoact Mostrar-me como "N√£o Activo" se estiver inactivo por
+autoresizedp Alterar automaticamente tamanho de imagens de utilizador para valor por omiss√£o
+avaccepted Chamada para Confer√™ncia V√≠deo aceite
+avcanceled Chamada para Confer√™ncia V√≠deo cancelada
+avgotinvitation Recebeu um pedido para Confer√™ncia V√≠deo de $1
+avinitfailed A inicializa√ß√£o da Extens√£o √Åudio/V√≠deo falhou. Chamada cancelada.
 avoidseen Evitar que esta pessoa me veja e me contacte
 away Ausente
-awaymsg1 Pedir mensagem de ausÍncia sempre que eu alterar o meu estado para Ausente/Volto J·/Ocupado
-awaymsg2 Nunca perguntar e usar sempre a mesma mensagem de ausÍncia (em baixo)
+awaymsg1 Pedir mensagem de aus√™ncia sempre que eu alterar o meu estado para Ausente/Volto J√°/Ocupado
+awaymsg2 Nunca perguntar e usar sempre a mesma mensagem de aus√™ncia (em baixo)
+back Voltar
 baduserpass Palavra-chave ou nome de utilizador errado
-bgcolor Mudar a cor de fundo do aMSN
-blankdirect Deixar em branco para ligaÁ„o directa
+badwebcam N√£o √© poss√≠vel mostrar a imagem da "webcam". Verifique que o dispositivo est√° bem ligado e instalado.
+bgcolor Alterar a cor de fundo do aMSN
+blankdirect Deixar em branco para liga√ß√£o directa
 block Bloquear
 blocked Bloqueado
 blockedyougroup Mostrar um grupo separado para as pessoas que o bloquearam
 blocking A bloquear
-blockinter1 Quando seu estado for ligado verificar a cada
-blockinter2 segundos, caso contr·rio verificar a cada:
+blockinter1 Quando o seu estado for ligado verificar a cada
+blockinter2 segundos. Caso contr√°rio verificar a cada:
 blockinter3 a cada
 blockinter4 segundos.
 blocklist Lista de Bloqueados (LB):
-blockmessage Estes utilizadores est„o ligados e bloquearam-no
-blockusers N˙mero de utilizadores a verificar de uma vez
-bouncedock Animar o Ìcone do aMsn quando receber novas mensagens
-broughtby Trazido atÈ si pelos seguintes programadores
+blockmessage Estes utilizadores est√£o ligados e bloquearam-no(a)
+blocknotifications Desactivar janelas de notifica√ß√£o
+blocksounds Desactivar sons
+blockusers N√∫mero de utilizadores a verificar ao mesmo tempo
+bouncedock Animar o √≠cone do aMsn ao receber uma mensagem nova
+brightness Brilho
+broughtby Trazido at√© si pelos seguintes programadores
 browse Explorar
-browserexample (\$url ser· substituÌdo por URL). Ex: mozilla \$url
+browserexample (\$url ser√° substitu√≠do por URL). Ex: firefox \$url
 browser Explorador
+bugerror Lamentamos, mas houve um problema na liga√ß√£o √† base de dados de incorrec√ß√µes. Por favor verifique a sua liga√ß√£o √† Internet.
+bugnocomment Enviar sem coment√°rio? Comentar uma incorrec√ß√£o ajuda-nos a perceber o que aconteceu de errado e a corrigir o problema mais facilmente.
 busy Ocupado
+bytesymbol b
 cachedpics $1 imagens em cache
+cachedpicsfor Imagens de utilizador em cache para o utilizador
+cagreement Acordo de Confidencialidade
 cancel Cancelar
-cannotdeleteprofile N„o È possÌvel remover o perfil, porque ele parece estar a ser usado numa sess„o aMSN
-cantexec AplicaÁ„o n„o executada: $1. Verificar as preferÍncias
-cantremoveothers N„o È possÌvel remover o grupo "Outros"
+cancelled Cancelado
+cannotdeleteprofile N√£o √© poss√≠vel remover o perfil porque parece estar a ser usado numa sess√£o de aMSN
+cantexec N√£o √© poss√≠vel executar a aplica√ß√£o: $1. Verificar prefer√™ncias
+cantget N√£o √© poss√≠vel obter $1
+cantloadonlineversion N√£o √© poss√≠vel de recuperar a lista actualizada de idiomas, a partir da Internet
+cantremoveothers N√£o √© poss√≠vel remover o grupo "Outros"
+captureextloaded Extens√£o de captura -$1- est√° carregada
+captureextnotloaded Extens√£o de captura -$1- n√£o est√° carregada. Necessita de ser compilada antes de ser usada
+captureproperties Propriedades de imagem da "WebCam"
+capturewarn N√£o √© poss√≠vel enviar a sua "webcam", caso tenha uma. Se n√£o tiver, isto √© normal. Pode encontrar respostas sobre como instalar esta extens√£o na nossa Wiki:
 casesensitive Usar actuadores de "case-sensitive" (sensibilidade ao CAPS)
-cfgalarmall Configurar/Adicionar/Remover Alarme Global
-cfgalarm Configurar/Adicionar/Remover Alarme
+cfgalarmall Configurar/Adicionar/Remover Notifica√ß√£o Global
+cfgalarm Configurar/Adicionar/Remover Notifica√ß√£o
+change_account_info Alterar Informa√ß√£o de Conta
 change Alterar
-changecustomstate Mudar para
-changedisplaypic Mudar a imagem de utilizador
-changefont Mudar o tipo de letra
-changeglobnick Modificar a alcunha ("nickname") global
-changenick Mudar a alcunha (nickname)
-changesize Mudar o tamanho
-changestate $1 muda o estado para $2
-charscounter Caracteres escritos na janela de chat
-chatack Aceitando uma conversaÁ„o de
-chat ConversaÁ„o
+changecustomstate Alterar para
+changedisplaypic Alterar Imagem de utilizador
+changefont Alterar tipo de letra
+changeglobnick Modificar a Alcunha ("nickname") Global
+change_mobile Alterar configura√ß√µes de Dispositivo M√≥vel
+changenick Alterar Alcunha ("nickname")
+changepsm Alterar mensagem pessoal
+changesize Alterar tamanho
+changestate $1 altera estado para $2
+changestatus Alterar Estado
+changevideosettings Alterar configura√ß√µes v√≠deo
+channels Canais
+charscounter Caracteres escritos na janela de conversa√ß√£o
+chatack A aceitar conversa√ß√£o de
+chat Conversa√ß√£o
 chatmaxmin Quando um contacto quer conversar comigo eu quero que seja:
-chatreq Requisitando uma conversaÁ„o
-chatsmileys2 Mostrar "emoticons" e "smileys" nas janelas de conversaÁ„o
-chatsmileys "Smileys" de conversaÁ„o
-checkblocking Verificar continuamente se h· utilizadores a bloque·-lo
-checkemail Mostrar linha de notificaÁ„o de e-mail (A Receber) na lista de contactos
-checkfilman Os ficheiros recebidos ser„o guardados em $1. Por favor verifique o gestor de ficheiros na janela de preferÍncias.
-checkingver Procurando novas versıes
-checkonfln Verificar se um utilizador o bloqueou quando este se desliga
-checkver Procurar nova vers„o
+chatreq A requisitar uma conversa√ß√£o
+chatsmileys2 Mostrar "Emoticons" e "Smileys" nas janelas de conversa√ß√£o
+chatsmileys Mostrar "Smileys" em conversa√ß√µes
+checkblocking Verificar continuamente se h√° utilizadores a bloque√°-lo(a)
+checkemail Mostrar notifica√ß√£o de recep√ß√£o de mensagem electr√≥nica (Caixa de entrada) na lista de contactos
+checkfilman Ficheiros recebidos ser√£o guardados em $1. Por favor verifique a configura√ß√£o do gestor de ficheiros na janela de prefer√™ncias.
+checkingaudio A verificar se extens√£o √°udio (Snack) est√° carregada...
+checkingcam A verificar se uma "webcam" est√° ligada...
+checkingcapext Verificado se extens√£o '$1' est√° carregada...
+checkingextensions A verificar extens√µes v√≠deo necess√°rias
+checkingver A procurar novas vers√µes
+checkonfln Verificar se um utilizador o(a) bloqueou quando este se desliga
+checkopenfilecommand Por favor verifique o comando para abertura de ficheiros na janela de prefer√™ncias
+checkver Procurar nova vers√£o
 choosearq Escolha a arquitectura do seu sistema
 choosebasefont Escolher tipo de letra
 choosebgcolor Escolher cor de fundo
-choosecontact Por favor escolha um contacto da lista
+choosechannel Escolha um canal
+choosecontact Escolha um contacto da lista
+choosedevice Escolha o seu dispositivo
 choosefontcolor Escolher cor da letra
-chooseskin Por favor escolha o aspecto gr·fico que gostaria de usar
-ch_to_state Mudar para novo estado
-clear Apagar
-clearlog2 Apagar o histÛrico de todos o contactos
-clearlog3 Apagar todos os registos
-clearlog Apagar registo
-clicktologin Clique aqui para iniciar a sess„o
+chooseinputdev Escolha o seu dispositivo de entrada
+chooselocation Escolha nova localiza√ß√£o de ficheiro
+choosemixerdev Escolha o seu misturador de som (mixer)
+chooseoutputdev Escolha o seu dispositivo de sa√≠da
+chooseskin Por favor escolha o aspecto gr√°fico ("skin") que gostaria de usar
+ch_to_state Alterar para novo estado
+clear Limpar
+clearlog2 Limpar o hist√≥rico de todos o contactos
+clearlog3 Limpar todos os Registos
+clearlog Limpar Registo
+clearwebcamlogs Limpar todos os registos de "Webcam"
+clickhere Clique aqui
+clicktoadd Clique o bot√£o "Adicionar" para adicionar uma nova nota
+clicktologin Clique aqui para Iniciar a Sess√£o
 clientcaps Enviar pacote x-clientcaps para outros clientes?
 clientname Nome do cliente
-closed ConversaÁ„o com $1 fechada devido a inactividade
+closeall Fechar todos separadores nesta janela?
+closealltabs Fechar todas os separadores
+closechatwindows Fechar todas as conversa√ß√µes antes de Terminar a Sess√£o?
+closed A conversa√ß√£o com $1 foi fechada devido a inactividade
 close Fechar
-closingdocks Bot„o de terminar minimiza
+closelabel Quando clica no bot√£o de fechar num separador de conversa√ß√£o
+closeonly Fechar apenas o separador actual
+closeorcall Tem de fechar/cancelar a chamada √°udio antes de fechar a janela.
+closeordock Fechar a lista de contactos ir√° fechar o aMSN. Talvez quisesse apenas fechar a janela e manter o aMSN na √°rea de notifica√ß√£o.\n\nTem a certeza de que deseja sair do aMSN?
+closeothers Fechar Todas os Outros Separadores
+closingdocks Bot√£o de terminar minimiza
+color C√¥r
 command Comando
 commandstatus Executar comando
 configure Configurar
-confirmbl Tem a certeza que pretende bloquear este contacto?
-confirmdelete Tem a certeza que quer apagar $1?
-confirmdg Tem a certeza que deseja apagar este grupo?
-confirmdu Tem a certeza que deseja apagar este utilizador?
-confirmeg Tem a certeza que deseja esvaziar este grupo?
-confirmpurge Todos os retratos armazenados de outros contactos (n„o os seus retratos) ser„o apagados. Tem a certeza?
-confirmrfl Tem a certeza que deseja apagar este utilizador deste grupo?
+configuremic A configurar o seu microfone
+configureplugin Configurar extens√£o $1
+configuringaudio A configurar prefer√™ncias √°udio
+confirmbl Tem a certeza de que pretende bloquear este contacto?
+confirmdelete Tem a certeza de que quer remover $1?
+confirmdg Tem a certeza de que deseja remover este grupo?
+confirmdu Tem a certeza de que deseja remover este utilizador?
+confirmeg Tem a certeza de que deseja esvaziar este grupo?
+confirmfulldelete Remover tamb√©m da Lista de Contactos "Windows Live"
+confirmpurge Todos as imagens de utilizador armazenadas, de outros contactos ser√£o apagadas (as suas ser√£o mantidas). Tem a certeza?
+confirmrfl Tem a certeza de que deseja remover este utilizador deste grupo?
 confirm Tem a certeza?
-connected VocÍ est· ligado
+congrats Parab√©ns
+connectedat Ligado √†s:
+connected Voc√™ est√° ligado
 connectedwith Ligado com $1
-connecterror Erro ao tentar ligaÁ„o com o servidor
+connecterror Erro ao tentar liga√ß√£o com o servidor
+connectfirst Por favor ligue-se primeiro
 connecting A ligar
-connection LigaÁ„o
-connectionlost Desligado: LigaÁ„o com o servidor desligada
+connection Liga√ß√£o
+connectionlost Desligado: Liga√ß√£o com o servidor perdida
 contactadded Contacto adicionado
-contactdoesnotexist Contacto n„o existe!
+contact Contacto
+contactdoesnotexist Contacto n√£o existe!
 contactlist Lista de Contactos (LC):
+contacts Contactos
 continuously Continuadamente
-convertexplain (Necess·rio para Mostrar Imagens).\n Deixe em branco se CONVERT estiver no seu directÛrio.
+contrast Contraste
+conversationwith $1 utilizadores na conversa√ß√£o
+convertexplain Caminho para ficheiro CONVERT execut√°vel, de ImageMagick (necess√°rio para Imagens de Utilizador).\n Deixar em branco se CONVERT se encontrar no caminho
 copy Copiar
+copytoclipboard Copiar $1 para √°rea de transfer√™ncia
 copytogroup Copiar para grupo
-corruptconfig O ficheiro de configuraÁ„o est· danificado. Crie um novo. O ficheiro ser· guardado em $1. Por favor envie-o para nÛs para verificar o que aconteceu.
-corruptstates A configuraÁ„o dos estados criados por si est· danificada. Crie um novo. O ficheiro antigo ser· guardado em $1. Por favor envie-o para nÛs para verificar o que aconteceu.
-countrycode CÛdigo do meu PaÌs/Regi„o
+corruptconfig O ficheiro de configura√ß√£o est√° danificado. A criar um novo. O ficheiro anterior ser√° guardado em $1. Por favor envie-o para n√≥s para verificarmos o que aconteceu.
+corruptstates A configura√ß√£o dos estados criada por si est√° danificada. A criar uma nova. O ficheiro anterior ser√° guardado em $1. Por favor envie-o para n√≥s para verificarmos o que aconteceu.
+couldnotrename N√£o foi poss√≠vel renomear o ficheiro $1
+countrycode C√≥digo do meu Pa√≠s/Regi√£o
 cprofile Criar Perfil
-credits CrÈditos
+created Criado
+credits Cr√©ditos
+curdisplaypic Imagem de utilizador actual
 currentdate Data actual
-custnotifymsg  Mostrar janela de notificaÁ„o quando uma nova mensagem chegar
-custnotifyoffline Mostrar janela de notificaÁ„o quando este contacto terminar sess„o
-custnotifyonline Mostrar janela de notificaÁ„o quando este contacto iniciar sess„o
-custnotifystatus Mostrar janela de notificaÁ„o quando este contacto mudar de estado
-customcolor CÙr personalizada
-custom_edit Criar "smiley"
-custom_new Adicionar novos "smileys" criados
+currentdynrate Velocidade de tempo real actual (em mili-segundos)
+currentlanguage Esta √© o idioma actualmente em uso
+currentnotes Notas actuais
+custnotifymsg  Mostrar janela de notifica√ß√£o quando uma mensagem deste utilizador √© recebida
+custnotifyoffline Mostrar janela de notifica√ß√£o quando este contacto termina a sua sess√£o
+custnotifyonline Mostrar janela de notifica√ß√£o quando este contacto inicia a sua sess√£o
+custnotifystatus Mostrar janela de notifica√ß√£o quando este contacto alterar de estado
+customcolor C√¥r personalizada
+customdp Imagem de utilizador personalizada
+custom_edit Editar "smiley"
+custom_new Adicionar novos "smileys" personalizados
 customnick Alcunha ("nickname") personalizada
+customsmileys Mostrar "Emoticons" Personalizados de outros utilizadores
 customstyle Estilo personalizado
+custshowcustomsmileys Mostrar "Emoticons" Personalizados do utilizador
 cut Cortar
+cutimageboxreset Reinicializar o tamanho\nda caixa de selec√ß√£o para:
+cutimagebox Seleccionar a parte da imagem que presente usar, alterando o tamanho e movendo a caixa de selec√ß√£o
 date Data
-dateformat Mudar o formato da hora
+dateformat Alterar o formato da data
 day Dia
 days Dias
-dcprofile N„o Criar Perfil
-default ConfiguraÁ„o por defeito
-defaultloginradio Iniciar sess„o com a configuraÁ„o por defeito
-defchatwinsize Tamanho, por omiss„o, para janelas de conversaÁ„o (XTAMANHOxYTAMANHO)
-deletecustomstate Apagar o estado configurado
-delete Eliminar
-delimiters Delimitadores de carimbos de tempo:
-deliverfail Houve um problema ao entregar a seguinte mensagem
-delprofile2 Seleccione o perfil a remover
-delprofile Apagar perfil
-description DescriÁ„o
-directconnection LigaÁ„o directa ‡ Internet (usa a porta 1863)
+dcprofile N√£o Criar Perfil
+default2 Por Omiss√£o
+default Configura√ß√£o por Omiss√£o
+defaultloginradio Iniciar sess√£o com configura√ß√£o por omiss√£o
+defchatwinsize Tamanho por omiss√£o para janelas de conversa√ß√£o (XSIZExYSIZE)
+deleteall Remover todos
+deleteblock Remover e Bloquear
+deletecustomstate Remover estado personalizado
+delete Remover
+delimiters Delimitadores de hora:
+deliverfail N√£o foi poss√≠vel entregar a mensagem seguinte
+delprofile2 Seleccione o perfil que gostaria de remover
+delprofile Remover Perfil
+description Descri√ß√£o
+detach Remover
+details Detalhes
+devicebusy O dispositivo $1 est√° ocupado
+devices Dispositivos
+directconnection Tenho uma liga√ß√£o directa √† Internet (usa a porta 1863)
 disabled Desactivado
-disableprofiles Desactivar perfis (Util para cyber-cafÈs or ambientes partilhados)
+disableprofiles Desactivar perfis (√∫til para ciber-caf√©s ou ambientes partilhados)
 disablessl Desactivar SSL
-disableuserfonts Ignorar a fonte do utilizador remoto nos chats e usar a minha fonte
-disconnect $1 terminou a sess„o.
+disableuserfonts Ignorar tipo de letra de utilizador remoto nas conversa√ß√µes e utilizar o seu pr√≥prio tipo de letra
+disconnect $1 terminou a sua sess√£o.
 disconnectedfrom Desligado de $1
-displaychat Mostrar opÁıes de texto
-displayeventconnect Mostrar quando um contacto se liga
-displayeventdisconnect Mostrar quando um contacto se desliga
-displayeventemail Mostrar quando um e-mail È recebido
-displayeventstate Mostrar quando um contacto muda de estado
-displayp4context Mostrar o campo P4-Context como remetente da mensagem
+displaychat Op√ß√µes de visualiza√ß√£o de texto
+displayeventconnect Mostrar quando contactos iniciam a sua sess√£o
+displayeventdisconnect Mostrar quando contactos terminam a sua sess√£o
+displayeventemail Mostrar quando mensagem electr√≥nica √© recebida
+displayeventnick Mostrar quando contactos alteram alcunha ("nickname")
+displayeventpsm Mostrar quando contactos alteram Mensagem Pessoal
+displayeventstate Mostrar quando contactos alteram de estado
+displayp4context Mostrar conte√∫do de campo P4-Context como remetente de mensagem
 displaypic Mostrar imagem
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
-docking Atracando
-dockingoff Atracando Desligado
+docking A adicionar √† "dock"
+dockingoff Desactivar adi√ß√£o √† "dock"
 dockkde KDE Dock
-dontdownload N„o descarregar TLS, eu instalo-o
-dontshow N„o mostrar
-downloadingtls Descarregando o mÛdulo TLS a partir de:\n $1
-editcustomstate Editar
+done Conclu√≠do
+dontaskweek N√£o perguntar sobre actualiza√ß√£o durante uma semana
+dontdownload N√£o descarregar TLS, eu pr√≥prio o instalo
+dontshowdp N√£o permitir a este utilizador descarregar as minhas Imagens de Utilizador
+dontshow N√£o mostrar
+downloadcanceled Descarga cancelada.
+download Descarregar
+downloadingtls A descarregar m√≥dulo TLS a partir de:\n $1
+downloadingwait A descarregar nova vers√£o do aMSN. Por favor esperar...
+dynamicrate Usar "frame rate" din√¢mica para simular velocidade de tempo real
+editavsettings Editar propriedades √°udio e v√≠deo
+editcontent Editar o conte√∫do do campo Assunto e do campo de Notas
+editcustomstate Editar perfil personalizado
 edit Editar
+editmyprofile Editar o meu Perfil MSN
 editnewstate Novo Estado Pessoal de Automensagem
 editprofile Editar Perfil
-editstate Editar o Estado de Automensagem Existente
+editstate Editar Estado de Automensagem Existente
 editvalue Editar valor
-email Email
-emailsinlist Mostrar e-mails ao invÈs das alcunhas ("nicks") na lista de contactos
-emotisounds Reproduzir sons para certos Ìcones de emoÁ„o
+email Correio electr√≥nico
+emailsinlist Mostrar mensagens electr√≥nicas em vez de alcunhas ("nicknames") na lista de contactos
+emoticon_steal Adicionar aos "emoticons"
+emotisounds Reproduzir sons para certos "emoticons"
 emptygroup Esvaziar grupo
 enabled Activado
 enableproxy Activar "proxy"
-enableremote Activar controlo remoto
+enableremote Activar controlo √† dist√¢ncia
 enablesound Reproduzir som
-encoding2 Alterar a forma como os caracteres s„o codificados
-encoding Escolha codificaÁ„o
-entercontactemail Introduza a morada de correio electrÛnico do contacto
+encoding2 Alterar a maneira de codificar os caracteres
+encoding Escolher codifica√ß√£o
+enterbugdesc Insira uma descri√ß√£o daquilo que estava a fazer para nos ajudar a reproduzir a incorrec√ß√£o:
+entercontactemail Introduzir endere√ßo electr√≥nico de contacto
 enterfilename Por favor introduza um nome de ficheiro
-enternick Introduza a sua alcunha ("nickname")
-errortls Erro ao instalar o mÛdulo TLS:
-eventhistory Ver histÛria de eventos
+enternick Introduza a sua alcunha ("nick")
+enterpsm A sua Mensagem Pessoal
+error Erro
+errortls Erro ao instalar m√≥dulo TLS:
+escapeclosescw Tecla Escape fecha janela de conversa√ß√£o
+eventhistory Ver Hist√≥rico de Eventos
 examples Exemplos
-exitamsn Tem a certeza que deseja sair?
-extras ServiÁos Extra
-faileddelete Falhou a apagar
-faileddeleteperso Esta imagem n„o pode ser apagada porque n„o È um ficheiro pessoal. Apenas figuras pertencentes ao seu perfil pessoal podem ser removidas deste modo.
+exitamsn Tem a certeza de que deseja sair?
+extras Servi√ßos Extra
+faileddelete Falha na remo√ß√£o
+faileddeleteperso Esta imagem n√£o pode ser removida porque n√£o pertence ao seu perfil. S√≥ imagens que pertencem ao seu perfil pessoal podem ser removidas desta maneira.
 failed Falhou
-faq FAQ (Perguntas Comuns)
-filedoesnotexist Ficheiro n„o existe
+faq FAQ (Frequently Asked Questions) - Perguntas Frequentes
+farsightextchecking A verificar se extens√£o Farsight est√° carregada...
+farsightextwarn N√£o lhe ser√° permitidoter chamadas SIP. Pode procurar respostas sobre como instalar Farsight na nossa Wiki:
+farsightinfook Farsight √© uma plataforma que lida com protocolos de confer√™ncia √°udio/v√≠deo. Com Farsight, pode enviar ou receber chamadas SIP a partir do aMSN! D√™ uma olha a Farsight na nossa Wiki:
+fetching A obter dados...
+filedoesnotexist Ficheiro n√£o existe
 file Ficheiro
-filemanexample ( \$location ser· substituÌdo pela directoria ) Ex: nautilus \$location
+filemanexample (\$location ser√° substitu√≠do pela pasta) Ex: nautilus \$location
 fileman Gestor de ficheiros
-filename Nome de ficheiro
-filetransfercancelled TransferÍncia de ficheiro cancelada
-filetransfercomplete TransferÍncia de ficheiro concluÌda
-filetransfer TransferÍncia de Ficheiro
-followtext Deslizar para baixo quando novo texto È inserido
-friendlyname Nome amig·vel
-ftacceptedby $1 aceitou o pedido de transferÍncia para o ficheiro '$2'.
-ftaccepted TransferÍncia de ficheiro aceite
-ftaccepting Aceitando o pedido de transferÍncia de ficheiro
-ftconnecterror Erro de ligaÁ„o ao terminal remoto
-ftconnecting Ligando a $1 porta $2
-ftconnectionlost LigaÁ„o com o terminal remoto perdida
-ftgotinvitation $1 quer enviar-lhe o ficheiro '$2' ($3 bytes). Ser· guardado na pasta $4. Deseja receber este ficheiro?
-ftportpref Inicializando porta para transferÍncia de ficheiros
-ftrejectedby $1 rejeitou o pedido de transferÍncia para o ficheiro '$2'.
-ftrejected TransferÍncia de ficheiro rejeitada
-ftsendinvitation O pedido para transferÍncia do ficheiro '$2' ($3 bytes) foi enviado para $1.
-fullcontactlist Desculpe: a sua lista de contactos est· cheia. Necessita de remover alguns contactos para poder adicionar os novos.
-getdisppic Activar recepÁ„o das Imagens de ExibiÁ„o dos outros utilizadores
-globalnick Insere um padr„o para formar todas as alcunhas dos teus contactos. Podes utilizar as seguintes vari·veis: \$user_login para o endereÁo do teu contacto, \$nick para a alcunha do teu contacto e \$customnick para a alcunha escolhida para o teu contacto. Por exemplo: '\$user_login È o \$nick' ficar· definido como 'contacto@msn.com È o Contacto'
-globalnicktitle Alcunha ("nickname") global
-globaloverride Padrıes de alcunhas globais devem sobrepor-se as alcunhas escolhidas
-gonelunch A almoÁar
-groupadd Adicionar um grupo
-groupdelete Eliminar um grupo
-groupexists Grupo j· existe
+filename Nome de Ficheiro
+filenotwritable N√£o √© poss√≠vel remover este ficheiro
+filetransfercancelled Transfer√™ncia de ficheiro cancelada
+filetransfercomplete Transfer√™ncia de ficheiro completa
+filetransfer Transfer√™ncia de ficheiro
+filters Filtros
+filtersselect Seleccione os filtros que deseja usar\n(Nota: a n√£o selec√ß√£o de filtros significa 'mostrar todos')
+filtersx Selec√ß√£o de Filtros
+findasyoutype Procurar enquanto escreve
+find Procurar
+findnext Procurar o pr√≥ximo
+findprev Procurar o anterior
+finetunesettings Melhorar configura√ß√µes de imagens
+finish Terminar
+finish2apply Clique Terminar para aplicar estas configura√ß√µes.
+firewalled Voc√™ est√° atr√°s de uma "firewall" ou de um "router".
+firewalled2 Se est√° atr√°s de uma "firewall", por favor verifique as configura√ß√µes de Liga√ß√£o na janela de prefer√™ncias.
+followtext Deslizar para baixo quando novo texto √© inserido
+forget_me Esquecer-me
+forgot_pass Esqueci-me da minha palavra-chave
+formatctt Formato CTT
+formatcsv Formato CSV
+friendlyname Nome Amig√°vel
+ftacceptedby $1 aceitou o pedido para a transfer√™ncia do ficheiro '$2'.
+ftaccepted Transfer√™ncia de ficheiro aceite
+ftaccepting A aceitar o pedido de transfer√™ncia de ficheiro
+ftautoclose Fechar esta janela quando a transfer√™ncia de ficheiros terminar
+ftconnecterror Erro de liga√ß√£o ao terminal remoto
+ftconnecting A ligar a $1 porta $2
+ftconnectionlost Liga√ß√£o com o terminal remoto perdida
+ftgotinvitation $1 quer enviar-lhe o ficheiro '$2' ($3 bytes). Ser√° guardado na pasta $4. Deseja receber este ficheiro?
+ftportpref A inicializar porta para transfer√™ncia de ficheiros
+ftportpref2 A inicializar porta para liga√ß√£o directa (necess√°rio para transfer√™ncia de ficheiros e de "webcam")
+ftporttest Porta de teste
+ftrejectedby $1 rejeitou o pedido de transfer√™ncia para o ficheiro '$2'.
+ftrejected Transfer√™ncia de ficheiro rejeitada
+ftsendinvitation Pedido para transfer√™ncia do ficheiro '$2' ($3 bytes) enviado para $1.
+fullcontactlist Lamentamos, mas a sua lista de contactos est√° cheia. Necessita de remover alguns contactos para poder adicionar novos.
+gameaccepted $1 aceitou o seu convite para jogar
+gameclosedbyother $1 cancelou a sess√£o de jogo mantida consigo.
+gameclosedbyself Voc√™ cancelou a sess√£o de jogo mantida com $1.
+gameinvitation $1 convidou-o a jogar $2. Deseja aceitar este convite?
+gamepluginnotfound $1 convidou-o a jogar $2 mas n√£o existe nenhuma extens√£o presentemente carregada para este jogo. Por favor active e configure esta extens√£o antes de continuar.
+gamerejected $1 rejectou o seu pedido para jogar
+gamerequest Voc√™ convidou $1 para jogar $2
+getdisppic Activar recep√ß√£o de Imagens de Utilizador doe outros utilizadores
+getmoreplugins Obter mais extens√µes!
+getmoreskins Obter mais aspectos gr√°ficos ("skins")!
+globalcontainer Contentor global
+globalnick Insira um padr√£o para formar todas as alcunhas ("nicknames" dos seus contactos. Pode usar as seguintes vari√°veis: \$user_login para o endere√ßo do seu contacto, \$nick para a alcunha ("nickname") do seu contacto e \$customnick para a alcunha personalizada do seu contacto. Por exemplo: '\$user_login √© o \$nick' ficar√° definido como 'contacto@msn.com √© o Contacto'
+globalnicktitle Alcunha ("nickname") Global
+globaloverride Padr√µes de alcunhas ("nicknames") globais devem sobrep√¥r-se √†s alcunhas ("nicknames") personalizadas
+gonelunch A Almo√ßar
+gotink $1 enviou-lhe um "ink".
+goto V√° para $1
+gotoinbox V√° para a Caixa de entrada
+goto_prefs_removeprofile Clique aqui para ir para as prefer√™ncias e remover o seu perfil
+groupadd Adicionar Grupo
+groupcontacts Contactos de grupo
+groupcontactsbystatus Contactos de Grupo por Estado
+groupdelete Eliminar Grupo
+groupexists Grupo j√° existe
 group Grupo
-groupmissing Grupo n„o encontrado
+groupmissing Grupo n√£o encontrado
 groupnewname Novo nome 
-groupnotempty Grupo n„o est· vazio!
+groupnonim Agrupar Contactos de Mensageiro N√£o Instant√¢neo ("Non-Instant Messenger")
+groupnotempty Grupo n√£o est√° vazio!
 groupoldname Nome anterior
-grouprename Renomear grupo
+grouprename Renomear Grupo
 groups Grupos
 groupunknown Grupo desconhecido
 handle Manejar
+hangup Desligar
+havenomic N√£o tenho microfone
+helpcontents Conte√∫dos da Ajuda
 help Ajuda
-helpcontents Conte˙dos da ajuda
-hidedisplaypic Esconder a Imagem de ExibiÁ„o
-hiden Esconde os Ìcones de emoÁıes do menu de "smileys"
+hidedetails Esconder detalhes
+hidedisplaypic Esconder Imagem de Utilizador
+hidebuttonbar Esconder Barra de Bot√µes
+hidemenumessage Tem a certeza de que quer esconder os menus?\nPode restaur√°-los a qualquer altura usando a tecla de atalho 'Ctrl-M' para mostrar/esconder.
+hidemenu Mostrar/Esconder menus
+hiden Esconde o "emoticon" do menu de "smileys"
 hidewindow Esconder Janela
-history Ver HistÛrico
-home Casa
-httpconnection Ligar usando mÈtodo HTTP (usa o protocolo HTTP na porta 80)
-hybrid Modo hÌbrido
-ident Identificando
+history Ver Hist√≥rico
+history2 Hist√≥rico
+home In√≠cio
+howto_remove_profile Para remover o seu perfil (esquecer $1) necessita de usar a janela de prefer√™ncias. \n\nPor raz√µes de seguran√ßa, a remo√ß√£o de perfis a partir da janela de in√≠cio de sess√£o n√£o √© permitido.
+httpconnection Ligar usando m√©todo HTTP (usa o protocolo HTTP na porta 80)
+hue Matiz
+huge Enorme
+hybrid Modo h√≠brido
+ident A identificar
 identity Identidade
-ignoreerrors Ignorar todos os erros atÈ ao fim da sess„o
-imagefiles Ficheiros de imagem
+ignorecontact Ignorar todas as conversa√ß√µes deste contacto
+ignoreerrors Ignorar silenciosamente todos os outros erros do aMSN at√© ao fim da sess√£o
+ignore Ignorar
+imagefiles Ficheiros de Imagem
 inbox Caixa de entrada
 insertsmiley Inserir "emoticon"
-installconvert … necess·rio instalar o ImageMagick (programa de convers„o) para poder Ìcones "Buddy" e Ìcones de emoÁ„o criados. Pode descarregar os ficheiros bin·rios para o seu Sistema Operativo em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Se j· possuir o programa, ent„o trata-se de uma falha, por favor reporte-a. Estas caracterÌsticas ser„o agora desactivadas, se instalar ImageMagick mais tarde active-as em PreferÍncias.
+inserttextnote Inserir texto no campo Assunto e no campo de Notas, seguidamente clique em Guardar
+installconvert Deve instalar o ImageMagick (aplica√ß√£o de convers√£o) para poder usar √≠cones "Buddy" e "emoticons" personalizados. Pode descarregar os ficheiros bin√°rios para o seu Sistema Operativo em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Se j√° tem a aplica√ß√£o, ent√£o trata-se de um erro, por favor reporte-o. Estas caracter√≠sticas ser√£o agora desactivadas. Se instalar ImageMagick mais tarde active-as em a partir das Prefer√™ncias.
 internalerror Erro Interno do Servidor
-invalidfile2 Ficheiro $1 n„o pode ser criado. Verifique as permissıes
-invalidfile Ficheiro $2 do campo "$1" n„o existe ou n„o pode ser lido
-invalidgroup Grupo inv·lido
-invalidpic A ficheiro de imagem escolhido n„o existe
-invalidpicsize A imagem escolhida È demasiado grande, escolha uma mais pequena
-invalidsound O ficheiro de som escolhido n„o existe
-invalidusername Nome de utilizador inv·lido
+invalidfile2 Ficheiro $1 n√£o p√¥de ser criado. Verifique as suas permiss√µes para esta ac√ß√£o.
+invalidfile Ficheiro $2 do campo "$1" n√£o existe ou n√£o pode ser lido
+invalidgroup Grupo inv√°lido
+invalidparameter Erro ao ligar ao servidor:\npar√¢metro inv√°lido
+invalidpicsize A imagem escolhida √© demasiado grande, por favor escolha uma mais pequena
+invalidpic A ficheiro de imagem escolhido n√£o existe
+invalidsound O ficheiro de som escolhido n√£o existe
+invalidusername Nome de utilizador inv√°lido
 invitationcancelled O pedido foi cancelado
 invite Convidar
-ipaddress EndereÁo IP
-ipdetect Detectar IP correcto para TransferÍncias de Ficheiros por HTTP
-ircstyle Chat ao estilo do IRC
-istyping $1 est· a escrever uma mensagem
-joins $1 junta-se ‡ conversaÁ„o
-justonce SÛ uma vez
-keepalive Manter vivo (NAT)
-keeplog2 Registar todas as conversas no HistÛrico do aMSN para visualizaÁ„o futura
-keeplog Manter o Registo das ConversaÁıes
-language Linguagem
-lastlogin ⁄ltimo login
-lastlogout ⁄ltimo logout
-lastmsgedme ⁄ltima mensagem
-lastmsgtime ⁄ltima mensagem recebida em $1
-lastseen Ultima vez online
-lclosedwin $1 fechou a janela em $2
-lconftopriv ConferÍncia tornou-se conversaÁ„o Privada com $1
-lconvstarted ConversaÁ„o iniciada em $1
-leaveblankforhotmail Deixar vazio para usar Hotmail
-leavejoinsinchat Mostar notificaÁ„o "entradas/saÌdas na conversaÁ„o" na janela de conversaÁ„o
-leaves $1 deixa a conversaÁ„o
-lenteredconf $1 entrou numa conferÍncia em $2
-lineflushlog Limpar os ficheiros de log apÛs cada linha
+ipaddress Endere√ßo IP
+ipdetect Detectar IP correcto para Transfer√™ncias de Ficheiros por HTTP
+ircstyle Conversa√ß√£o ao estilo do IRC
+istyping $1 est√° a escrever uma mensagem
+joins $1 junta-se √† conversa√ß√£o
+justonce S√≥ uma vez
+keepalive Manter vivo (Keepalive - NAT)
+keeplog2 Registar todas as conversa√ß√µes no Hist√≥rico do aMSN para visualiza√ß√£o futura
+keeplog Manter Registo das Conversa√ß√µes
+language Idioma
+language_manager Gestor de idiomas
+large Grande
+largest O maior
+lastlogin √öltimo in√≠cio de sess√£o
+lastlogout √öltimo fim de sess√£o
+lastmsgedme √öltima mensagem
+lastmsgtime √öltima mensagem recebida √†s $1
+lastseen √öltima vez ligado(a)
+lazypicretrieval Obten√ß√£o de Imagens de Utilizador por pregui√ßa
+lclosedwin $1 fechou a janela √†s $2
+lconftopriv Confer√™ncia tornou-se Conversa√ß√£o Privada com $1
+lconvstarted Conversa√ß√£o iniciada √†s $1
+lconvstartedOIM Convers√£o Instant√¢nea Fora de Sess√£o iniciada √†s $1
+leaveblankforhotmail Deixar em branco para usar Hotmail
+leavejoinsinchat Mostrar notifica√ß√£o "entrada/sa√≠da de conversa√ß√£o" na janela de conversa√ß√£o
+leaves $1 deixa a conversa√ß√£o
+lenteredconf $1 entrou numa confer√™ncia √†s $2
+lineflushlog Limpar os ficheiros de registo ap√≥s cada linha
 linprivate EM PRIVADO
-listeningon Escutando a porta $1
+listening A escutar
+listeningon A escutar a porta $1
 listsmileys2 Mostrar "Emoticons" e "Smileys" na lista de contactos principal do aMSN
 listsmileys Listar "smileys"
-ljoinedconf $1 juntou-se ‡ conferÍncia
-lleftconf $1 abandonou a conferÍncia
+ljoinedconf $1 juntou-se √† confer√™ncia
+lleftconf $1 deixou a confer√™ncia
+loadcontacts Carregar Lista de Contactos
 load Carregar
-loadcontacts Carregar lista de contactos
-logbigger O tamanho dos ficheiros de registo para cada contacto nunca excedem
-logeventconnect Registar as ligaÁıes
-logeventdisconnect Registar as desconecÁıes.
-logeventemail Registar quando um e-mail È recebido
-logeventstate Registar as mudanÁas de estado
-logfandexp Registar os Tamanhos dos Ficheiros e a Validade do HistÛrico
-loggedotherlocation Desligado. Sess„o iniciada noutra localizaÁ„o
-loggingin Iniciando sess„o
-loginas Entrar como
-loging Entrando
-login Iniciar sess„o
-logolder Registar apenas conversaÁıes que tomaram lugar nos ˙ltimos
-logout Terminar sess„o
-logsbydate Ordenar logs por data (Ver histÛrico bastante mais r·pido)
-logsin acabou de iniciar sess„o
-logsmileys Mostrar "Emoticons" e "Smileys" nas janelas de histÛrico do aMSN
+loadotherdisplaypic A carregar imagens de utilizador de $1, por favor aguarde...
+logbigger O tamanho dos ficheiros de registo para cada contacto nunca excede
+logeventconnect Registar os in√≠cios de sess√£o
+logeventdisconnect Registar os fins de sess√£o
+logeventemail Registar recep√ß√£o de mensagens electr√≥nicas
+logeventstate Registar altera√ß√µes de estado
+logeventnick Registar altera√ß√µes de alcunha ("nickname")
+logeventpsm Registar altera√ß√µes de Mensagem Pessoal
+logfandexp Registar Tamanhos dos Ficheiros e Validade de Hist√≥rico
+loggedotherlocation Desligado. Sess√£o iniciada noutra localiza√ß√£o
+loggingin A iniciar Sess√£o
+loginas Iniciar Sess√£o como
+loging A iniciar Sess√£o
+login Iniciar Sess√£o
+logolder Registar apenas conversa√ß√µes que tenham tomado lugar nos √∫ltimos
+logout Terminar Sess√£o
+logoutwincloselabel Ao Terminar Sess√£o, fechar conversa√ß√µes
+logsbydate Ordenar registos por data (Ver Hist√≥rico carrega bastante mais rapidamente)
+logschats Est√° a registar conversa√ß√µes
+logsin acabou de iniciar sess√£o
+logsmileys Mostrar "Emoticons" e "Smileys" nas janelas de hist√≥rico do aMSN
 logsout acabou de sair
-longnick O seu "nickname" È maior que 130 caracteres. Esta funÁ„o n„o È officialmente sportada pelo protocolo MSN. Tem a certeza que o quer usar?
-longp4c O nome amig·vel que escolheu tem mais de 130 caracteres. O nome amig·vel que vai aparecer na vers„o oficial do MSN vai ser $1. Confirma este nome?
-lprivtoconf ConversaÁ„o privada tornou-se ConferÍncia com $1
-luclosedwin Fechou a janela de $1
-mailerexample (\$recipient = Recipiente ) Deixar em branco para usar Hotmail
-mailer "Mailer" (programa de envio/recepÁ„o de correio electrÛnico)
-maintenance Este servidor vai ser suspenso para manutenÁ„o dentro de $1 minuto(s)
+logwebcam Guardar todas as sess√µes de "webcam" no Hist√≥rico do aMSN para visionamento futuro
+longnick A sua alcunha ("nickname") excede os 130 caracteres. Isto n√£o √© oficialmente suportado pelo protocolo MSN. Tem a certeza de que a quer usar?
+longp4c O seu Nome Amig√°vel excede os 130 caracteres. O Nome Amig√°vel que aparecer√° na vers√£o oficial do cliente MSN ser√° $1. Tem a certeza de que o quer usar?
+longpsm A sua Mensagem Pessoal √© demasiado longa. Isso n√£o √© oficialmente suportado pelo protocolo MSN. Tem a certeza de que a quer usar?
+lowrescam Usar uma "webcam" de baixa resolu√ß√£o
+lprivtoconf Conversa√ß√£o privada tornou-se Confer√™ncia com $1
+luclosedwin Voc√™ fechou a janela de $1
+mailerexample (\$recipient = Recipiente) Deixar em branco para usar Hotmail
+mailer "Mailer" (aplica√ß√£o de envio/recep√ß√£o de correio electr√≥nico)
+maintenance Este servidor vai ser suspenso para manuten√ß√£o dentro de $1 minutos
 maximised Maximizado
+medium M√©dio
 minimised Minimizado/Iconificado
+minimize Minimizar para √°rea de notifica√ß√£o
 mins minutos
-mobile TelemÛvel
-month MÍs
+mobilegrp1 Grupo m√≥vel
+mobilegrp2 Colocar utilizadores no grupo "M√≥vel" quando estiverem desligados (e ordenados por estado)
+mobile Telem√≥vel
+modified Alterado
+month M√™s
+more Mais
 morepersonal Mais Estados ->
 move Mover
-movetogroup Mover para o grupo
-msgflicker Tremular luz duma janela que est· aberta mas n„o a ser usada, quando se recebe nova mensagem.
+movetogroup Mover para Grupo
+msgflicker Piscar t√≠tulo de janela de conversa√ß√£o quando se recebe uma mensagem numa janela diferente da actual.
 msgmaxmin Quando uma nova mensagem chegar eu quero que seja:
 msg Mensagem
-msgmode Seleccionar como gerir janelas m˙ltiplas:
+msgmode Seleccionar como gerir m√∫ltiplas janelas de conversa√ß√£o:
 msn aMSN
-msnstyle Chat ao estilo do MSN
-mustrestart Deve reiniciar o programa para aplicar as modificaÁıes
-myfriendlyname Meu nome amig·vel
-myhomephone O meu Telefone de casa
-mymobilephone O meu TelemÛvel
-mynick Minha alcunha ("nickname")
-mypic A minha Imagem de ExibiÁ„o:
+msnstatus Estado de Rede MSN
+msnstyle Conversa√ß√£o ao estilo do MSN
+mustrestart Tem de reiniciar a aplica√ß√£o para aplicar as altera√ß√µes
+myfriendlyname O meu nome amig√°vel
+myhomephone O meu Telefone de Casa
+mymobilephone O meu Telem√≥vel
+mynick A minha alcunha ("nickname")
+mypic A minha Imagem de Utilizador:
+mypics As minhas imagens de utilizador
 mystatus O meu estado
 myworkphone O meu Telefone de Trabalho
 name Nome
-natip DetecÁ„o de IP por p·gina Internet
-natkeepalive Se se encontra a desligar com frequÍncia, ligue a opÁ„o "Manter Vivo"
-needonline VocÍ ainda est·/aparece como desligado!
+natip Detec√ß√£o de IP por p√°gina Internet
+natkeepalive Se verificar que a sua sess√£o √© inesperadamente terminada com frequ√™ncia, ligue a op√ß√£o Manter Vivo ("KeepAlive")
+needonline Voc√™ ainda est√°/parece estar desligado!
+needwinico2 O ficheiro winico05.dll deve encontrar-se na pasta utils/windows para que a funcionalidade de adi√ß√£o √† "dock" funcione
 never Nunca
-new_ft_protocol Usar o novo Protocolo de TransferÍncia de ficheiros (contÈm alguns erros)
-newmail $1 novas mensagens na Caixa de Entrada
-newmailfolder Tem $1 novas mensagens noutros directÛrios Hotmail
-newmailfrom Novo correio de $1 ($2)
-newmailfromother Novo mail noutro dirÈctorio de $1 ($2)
+new_account Criar conta
+newchat Nova Conversa√ß√£o
+new_ft_protocol Usar o novo protocolo de Transfer√™ncia de Ficheiros (ainda cont√©m algumas incorrec√ß√µes)
+newline Nova linha
+newmail $1 mensagem(ns) nova(s) na Caixa de entrada
+newmailfolder Tem $1 mensagem(ns) nova(s) noutras pastas Hotmail
+newmailfrom Novo mensagem electr√≥nica de $1 ($2)
+newmailfromother Nova mensagem electr√≥nica noutra pasta de $1 ($2)
 newmsg Nova mensagem
-newstate Adicionar um estado configurado
-newveravailable Nova vers„o disponÌvel para descarga
+newoim Nova mensagem "offline"
+newstate Adicionar estado personalizado
+newtabbedfeature O aMSN tem um nova funcionalidade para gerir conversa√ß√µes. Voc√™ agora pode ter todas as janelas do mesmo grupo ou de toda a lista de contactos numa √∫nica janela com separadores. Por favor seleccione a maneira com que prefere que o aMSN fa√ßa a gest√£o das suas conversa√ß√µes
+newupdate Novas actualiza√ß√µes dispon√≠veis para o aMSN
+newveravailable Nova vers√£o $1 dispon√≠vel para descarga
 next Seguinte
-nick Nick
-noactivity Sem actividade
-nodataavailable Sem dados disponÌveis para $1
-nogap Sem espaÁos entre grupos
+nick Alcunha ("nick")
+nickchanged $1 alterou a sua alcunha ("nickname") para '$2'
+no N√£o
+noactivity N√£o Activo
+no_blocked_notif N√£o mostrar janelas de notifica√ß√£o para contactos bloqueados
+nocacheddps N√£o existem imagens de utilizador em cache para este utilizador
+nocamwarn Nenhuma "webcam" foi encontrada, ou a sua "webcam" j√° se encontra em uso por outra aplica√ß√£o (o que significa que n√£o pode ser usada pelo aMSN). Encontrar√° ajuda sobre como resolver este problema na nossa Wiki:
+nodataavailable Dados indispon√≠veis para $1
+nodevices Actualmente, n√£o existem dispositivos instalados
+noftpreview Desactivar o envio de previs√µes de imagem em transfer√™ncias de ficheiros
+nogap Sem espa√ßo entre grupos
 nogroup Sem grupo
-nologfile Sem Ficheiro de Registo para $1
-no N„o
-noneavailable Nada DisponÌvel
-nonewmail Sem mensagens novas na Caixa de Entrada
-nonewver N„o h· versıes novas para descarregar
+nojavascript Voc√™ n√£o tem "javascript" activado. O in√≠cio autom√°tico de sess√£o pode n√£o funcionar.
+nologfile Ficheiro de Registo inexistente para $1
+nomic Sem microfone
+noneavailable Nenhum Dispon√≠vel
+nonewmail Sem mensagens novas na Caixa de entrada
+nonewver N√£o h√° vers√µes novas dispon√≠veis para descarga
+nonimgroup Contactos de Mensageiro N√£o Instant√¢neo ("Non-Instant Messenger")
+nooimconfirmation N√£o pedir confirma√ß√£o para envio/recep√ß√£o de mensagens "offline"
 nopic Sem imagem
-noprofileexists De momento n„o existe nenhum perfil, \n tem de criar um se quiser usar inÌcios de sess„o perfilados. \nUse o bot„o Adicionar Novo Perfil nesta janela, para adicionar um novo perfil.
+noprofileexists De momento n√£o existem perfiis. \n Tem de criar um se quiser usar in√≠cios de sess√£o perfilados. \nUse o bot√£o Adicionar Novo Perfil nesta janela, para adicionar um novo perfil.
+noresizesmileys N√£o reduzir tamanho de "emoticons" personalizados recebidos
 normal Normal
-noskins N„o foi possÌvel encontrar o "skin" por usado por omiss„o no directÛrio skins/ . N„o È possÌvel iniciar o AMSN.      
-nosystemtray "Tray" do sistema n„o disponÌvel
-notificationserver Servidor MSN Inicial de NotificaÁ„o (Servidor de MSN Messenger)
-notify1_5 Mostrar uma janela de notificaÁ„o quando um contacto se desliga
-notify1_75 Mostrar uma janela de notificaÁ„o quando um contacto muda o seu estado
-notify1 Mostrar janela de notificaÁ„o quando s„o recebidas novas mensagens
-notify2 Mostrar janela de notificaÁ„o quando recebe novas mensagens
-notify3 Mostrar janela de notificaÁ„o quando recebe correio electrÛnico
-notify4 Mostrar janela de notificaÁ„o quando recebe novas mensagens de outros directÛrios
-notify avisar
-notifyoffset Colocar a janela de aviso por forma a ter espaÁo lateral
-notifytimeout Numero de milisegundos antes da janela de notificaÁ„o desaparecer
-notifytyping Enviar ao outros utilizadores notificaÁıes de que est· a escrever
-notifywin Janela de notificaÁ„o
-notinlist VocÍ n„o se encontra na lista de contactos dele/dela
-notls O Protocolo 9 da MSN requer o pacote TLS. Este pacote n„o parece estar instalado nesta m·quina. Se est· instalado, o caminho para a directoria da biblioteca deve ser especificado na janela de PreferÍncias (ex: /opt/tls/lib). \n \n … possÌvel descarregar o TLS em http://tls.sf.net.
-nousersinsession Sem utilizadores na sess„o
-nudge $1 solicita a sua atenÁ„o
+noskins N√£o foi poss√≠vel encontrar o aspecto gr√°fico ("skin") usado por omiss√£o na pasta skins/. N√£o √© poss√≠vel iniciar o AMSN.
+nosound N√£o foi detectado som. Por favor verifique que o seu microfone se encontra correctamente ligado
+nosound_or_hold N√£o foi detectado som. Para enviar grava√ß√µes de voz necessidade de manter pressionado o bot√£o enquanto fala e depois libert√°-lo para enviar a mensagem.
+nospace Nada para ver aqui.
+nosystemtray √Årea de notifica√ß√£o do sistema indispon√≠vel
+note Nota
+notificationserver Servidor de Notifica√ß√£o MSN Inicial (Servidor de Mensagens MSN)
+notify1_5 Mostrar janela de notifica√ß√£o quando contactos terminam a sua sess√£o
+notify1_75 Mostrar janela de notifica√ß√£o quando contactos alteram o seu estado
+notify1 Mostrar janela de notifica√ß√£o quando contactos iniciam a sua sess√£o
+notify2 Mostrar janela de notifica√ß√£o quando novas mensagens s√£o recebidas
+notify3 Mostrar janela de notifica√ß√£o quando novas mensagem electr√≥nicas s√£o recebidas
+notify4 Mostrar janela de notifica√ß√£o quando novas mensagem electr√≥nicas s√£o recebidas noutras pastas
+notify notificar
+notifyoffset Alterar posi√ß√£o da janela de notifica√ß√£o
+notifytimeout N√∫mero de mili-segundos antes da janela de notifica√ß√£o desaparecer
+notifytyping Enviar notifica√ß√µes ao outros utilizadores enquanto est√° a escrever
+notifywin Janela de Notifica√ß√£o
+notinlist Voc√™ n√£o se encontra na lista de contactos dele/dela
+notimcontact Este contacto n√£o √© do tipo Mensageiro Instant√¢neo ("Instant-Messaging")
+notls O Protocolo 9 de MSN requer o pacote TLS. Este pacote n√£o parece estar instalado nesta m√°quina. Se est√° instalado, o caminho para a pasta da biblioteca deveria encontrar-se especificado na janela de Prefer√™ncias (ex: /opt/tls/lib). \n \n O TLS pode ser descarregado em http://tls.sf.net.
+nottabbed Janela normal sem separadores
+nousersinsession Sem utilizadores na sess√£o
+nouserspecified Sem utilizador escolhido
+nudge $1 solicita a sua aten√ß√£o
 offline Desligado
+oim Envio de mensagens "offline"
 ok Ok
-onenewmail 1 mensagem nova na Caixa de Entrada
+onenewmail 1 mensagem nova na Caixa de entrada
+onlinehelp Ajuda Online
 online Ligado
-onphone Ao telefone
-openreceived Abrir ficheiros recebidos
-options OpÁıes
+onphone Ao Telefone
+opendir Abrir pasta
+openfilecommand Comando para abrir ficheiro
+openfile Abrir
+openreceived Abrir Ficheiros Recebidos
+options Op√ß√µes
 ordercontactsby Ordenar contactos por
 ordergroupsby Ordenar grupos por
 original Original
+otherdisplaypic Outras imagens de utilizador deste utilizador (clique no bot√£o direito do rato para mais op√ß√µes)
 other Outro
+otherdps Outras imagens de utilizador
 others Outros
 p4contextprefix Adicionar este prefixo aos remetentes P4-Context
 pager Pager
 pass Palavra-chave
+passportnotverified A sua conta passport tem de ser verificada antes de poder alterar a sua informa√ß√£o pessoal (como a sua alcunha - "nickname"). Por favor verifique a sua Caixa de entrada para uma mensagem electr√≥nica de activa√ß√£o.
 paste Colar
+pausedwebcamreceive Um outro utilizador fez pausa √† "webcam"
+pause Pausar
+pausewebcamsend Pausar envio de "webcam"
 personal Pessoal
-phones N˙meros de telefone
 phone Telefone
-picbrowser Mostrar explorador de Imagens
+phones N√∫meros de telefone
+picbrowser Mostrar Explorador de Imagens
 picfile Ficheiro de Imagem (GIF < 500 x 500)
-picstatus Alarme de Imagem
+picstatus Notifica√ß√£o de Imagem
+play Reproduzir
+playbackposition Posi√ß√£o de reprodu√ß√£o
+playbackspeed Velocidade de reprodu√ß√£o (mili-segundos entre cada frame)
+playerror Ocorreu um erro ao tentar reproduzir o som : $1
+playgame Jogar jogo
+playgame2 Jogar $1
 playing A jogar: $1
-pluginselector Seleccione "Plugins"
+playtest Reproduzir ficheiro de teste
+playwebcamsend Retomar envio de "webcam"
+pluginselector Seleccione extens√µes
 port Porta
+portswellconfigured As suas portas est√£o bem configuradas
 prefalerts Os Meus Sons e Alertas de Evento
-prefapps AplicaÁıes
+prefapps Aplica√ß√µes
 prefawaymsg A Minha Mensagem de Ausente
 prefblock1 Verificar ao desligar
 prefblock2 Verificar continuamente
-prefblock3 Grupo "VocÍ foi bloqueado por"
-prefconnection DefiniÁıes da ligaÁ„o
+prefblock3 Grupo "Voc√™ foi bloqueado por"
+prefconnection Configura√ß√µes de liga√ß√£o
 prefemotic "Emoticons" e "Smileys"
-preferences PreferÍncias
-preffont2 Mudar a forma como os outros visualizam o meu texto nas sessıes de conversaÁ„o
-preffont3 Mudar a fonte de interface e o tamanho do aMSN
+preferences Prefer√™ncias
+preffont2 Alterar a forma como os outros v√™em o meu texto nas sess√µes de conversa√ß√£o
+preffont3 Alterar o tamanho e o tipo de letra de interface do aMSN
+preffont4 Alterar a forma como eu vejo o texto de outras pessoas nas sess√µes de conversa√ß√£o
 preffont O Meu Texto de Mensagem
-prefft TransferÍncia de ficheiros, ponto-a-ponto e configuraÁıes NAT
-preflibs Directorias das bibliotecas
-preflog1 O Meu HistÛrico e OpÁıes de Registo
-preflogevent O meu HistÛrico de eventos
-preflook O Meu Aspecto para o aMSN
+prefft Transfer√™ncia de ficheiros, ponto-a-ponto ("peer-to-peer") e configura√ß√µes NAT
+preflibs Pastas das bibliotecas
+preflocale Configura√ß√µes de internacionaliza√ß√£o
+preflocale2 Seleccione o seu c√≥digo de idioma/pa√≠s
+preflog1 O Meu Hist√≥rico e Op√ß√µes de Registo
+preflogevent O meu Hist√≥rico de Eventos
+preflook O Meu Aspecto aMSN
 prefmsging A Minha Interface de Mensageiro
-prefname O Meu Nome/Alcunha do MSN Messenger
-prefphone2 Escreva os n˙meros de telefone que gostaria \n que fossem visÌveis ‡s pessoas da sua Lista de Autorizados \n
-prefphone Os Meus N˙meros de Telefone
+prefname O Meu Nome/Alcunha ("Nick") do MSN Messenger
+prefphone2 Escreva os n√∫meros de telefone que gostaria \n que as pessoas da sua Lista de Autorizados vissem \n
+prefphone Os Meus N√∫meros de Telefone
 prefprivacy2 Lista de Contactos/Reversos do utilizador
 prefprivacy Lista de Autorizados/Bloqueados do utilizador
-prefprofile2 Criar ou modificar o seu perfil p˙blico (a sua \n descriÁ„o que os outros podem ver)
-prefprofile3 ConfiguraÁ„o de Perfis do Utilizador aMSN
-prefprofile O meu Perfil P˙blico
-prefproxy As Minhas DefiniÁıes de "Proxy"
-prefremote PreferÍncias da LigaÁ„o Remota
-prefsession O Meu Nome de Utilizador e Estado
-prefshared LigaÁıes Partilhadas (apenas para NAT)
+prefprofile2 Criar ou alterar o seu perfil p√∫blico (a sua \n descri√ß√£o que os outros podem ver)
+prefprofile3 Configura√ß√£o de Perfis de Utilizador aMSN
+prefprofile O meu Perfil P√∫blico
+prefproxy As Minhas Configura√ß√µes de "Proxy"
+prefremote Prefer√™ncias da Liga√ß√£o Remota
+prefsession O Meu In√≠cio de Sess√£o e Estado
+prefshared Liga√ß√µes Partilhadas (apenas para NAT)
 prefsound Sons
+preview Previsualizar
 privacy Privacidade
-profiledconfig ConfiguraÁ„o de Perfil
-profileexists VocÍ n„o pode criar um perfil com este nome de utilizador \n devido a existÍncia de um outro igual. Por favor escolha outro nome.
-profileinuse Este perfil est· a ser usado por outra sess„o aMSN, por favor escolha outro
-profileloginradio Entrar usando um Perfil existente
+profiledconfig Configura√ß√£o Perfilada
+profileexists Voc√™ n√£o pode criar um perfil com este nome de utilizador \n devido a exist√™ncia de um outro igual. Por favor escolha outro nome de utilizador.
+profileinuse Este Perfil est√° a ser usado por outra sess√£o aMSN, por favor escolha outro
+profileloginradio Iniciar Sess√£o usando um Perfil existente
 profiles Perfis
 properties Propriedades
-proxyconf ConfiguraÁ„o de "proxy"
-proxyconfhttp ConfiguraÁ„o de suporte para "proxy" HTTP
-proxyconnection Eu ligo-me ‡ Internet atravÈs de um servidor "proxy":
+proxyconfhttp Configura√ß√£o de suporte para "proxy" HTTP
+proxyconf Configura√ß√£o de "proxy"
+proxyconnection Eu ligo-me √† Internet atrav√©s de um servidor "proxy":
 proxy Estou a usar um servidor "proxy" (HTTP ou SOCKS5)
-publishphones Partilhar os meus n˙meros de telefones
+psmatend Mostrar Mensagem Pessoal antes da alcunha ("nickname")
+psmchanged $1 alterou a sua Mensagem Pessoal para '$2'
+psmdontshow N√£o mostrar Mensagem Pessoal, a n√£o ser que esteja definida na alcunha ("nickname") global/personalizada.
+psmnewline Mostrar a mensagem pessoal por baixo da alcunha ("nickname")
+psm Mensagem Pessoal
+psmplace Onde deve ser colocada a Mensagem Pessoal ?
+publishphones Publicar os meus n√∫meros de telefones
 purge Esvaziar
+pwcdriver Voc√™ est√° a usar o controlador pwc
+quit Sair
 raised Maximizado
-readonlymsgbox A transferÍncia foi cancelada devido ao facto da directoria de recepÁ„o ser somente de leitura. Por favor modifique as permissıes desta directoria.
-readonlywarn AVISO: Provavelmente, o ficheiro N√O ser· guardado correctamente devido ‡ directoria "Received Files" parecer estar protegida contra escrita. Por favor assegure-se que as permissıes da directoria destino ($1) est„o correctas antes de transferir o ficheiro.
+readonlymsgbox A transfer√™ncia do ficheiro foi cancelada devido ao facto da pasta de recep√ß√£o ser somente de leitura. Por favor altere as permiss√µes desta pasta.
+readonlywarn AVISO: Provavelmente, o ficheiro N√ÉO ser√° guardado correctamente devido ap facto da pasta "Received Files" parecer estar protegida contra escrita. Por favor assegure-se de que as permiss√µes da pasta destino ($1) est√£o correctas antes de iniciar a transfer√™ncia do ficheiro.
 receivedbytes $1 bytes recebidos (de $2)
 receiveddir Pasta dos Ficheiros Recebidos
+receivedoimread Tem $1 mensagem(ns) instant√¢nea "offline". Deseja l√™-la(s) ?
+receivedvoice Grava√ß√£o de voz recebida
 receivefile Receber ficheiro
-recentmsg Impede o fecho da janela de conversaÁ„o quando chega uma nova mensagem
-reconnect2 Voltar a ligar na perda de ligaÁ„o
-reconnect Esperando que $1 volte a ligar-se
-reconnecting Ligando de novo ao servidor
+recentmsg Impedir o fecho da janela de conversa√ß√£o quando uma nova mensagem acabou de chegar
+reconnect2 Voltar a ligar automaticamente em caso de perda de liga√ß√£o
+reconnecting A ligar de novo ao servidor
+reconnect A esperar que $1 se volte a ligar
+reconnectnow Ligar-se de novo agora
+record Registar
+recorderror Ocorreu um erro ao tentar registar o som : $1
+recvwebcamaccepted $1 aceitou o seu convite para ver a sua "webcam". A iniciar liga√ß√£o...
+redirect Clique aqui para ser redireccionado
 reject Rejeitar
-rememberpass Guardar palavra-chave
+rememberaccount Relembrar a minha conta
+rememberpass Relembrar palavra-chave
+remembersetting Relembrar a minha op√ß√£o
 removeempty Remover grupos vazios da lista de contactos
+removefromgroup Remover do grupo
 removefromlist Remover desta lista
 rename Renomear
-required_version Foi impossÌvel carregar este plug-in dado que requer a vers„o $1 do aMSN (no mÌnimo)
-reversed Revertido
+renameep Renomear esta localiza√ß√£o ($1)
+renamelocation Renomear esta localiza√ß√£o
+reporting A enviar relat√≥rio
+report Envio de relat√≥rio
+required_version N√£o foi poss√≠vel carregar esta extens√£o. Ela requer, no m√≠nimo, a vers√£o $1 do aMSN
+retry Tentar de novo
+resetincomingfont Reinicializar tipo de letra (usar o tipo de letra que o remetente escolher)
+restartforskin Nota: Poder√° ser necess√°rio reiniciar o aMSN para visualizar apropriadamente o aspecto gr√°fico ("skin")!
+reversed Ordem revertida
 reverselist Lista de Reversos (LR):
-rightback Volto j·
+rightback Volto J√°
 saveas Guardar como
-savechatwinsize Guardar o tamanho da janela de conversaÁ„o, como sendo o tamanho por omiss„o quando for reajustado.
-savecontacts Guardar lista de contactos
+savechatwinsize Guardar o tamanho da janela de conversa√ß√£o como sendo o tamanho por omiss√£o quando esta √© reajustada.
+savecontacts Guardar Lista de Contactos
 save Guardar
-savetofile Guardar para o ficheiro
+saveddefaultloc Guardar em localiza√ß√£o por omiss√£o
+savelocation Deseja guardar o ficheiro em $1?
+savelocationerror O ficheiro n√£o pode ser guardado nesta localiza√ß√£o.
+saveotherdirectory Guardar numa outra pasta
+savetofile Guardar no Ficheiro
 says $1 diz
-sbcon Ligando a "Switch Board"
-selectplugins Por Favor escolha os "plugin" que quer activados
-selectskin Por favor escolha um aspecto gr·fico da lista
+sbcon A ligar a "Switch Board"
+searchadvprefs Procurar em prefer√™ncias avan√ßadas:
+searchdown Procurar abaixo
+searchup Procurar acima
+selectall Seleccionar tudo
+selectcontact Seleccionar um contacto
+selectplugins Por favor escolha as extens√µes que quer activadas
+selectskin Por favor escolha um aspecto gr√°fico ("skin") da lista
+sendcam Enviar "Webcam"
+sendemail Enviar o meu endere√ßo electr√≥nico para que altera√ß√µes me sejam notificadas
+sendfeedback Enviar Resposta
+sendfile Enviar Ficheiro
+sendmail Enviar Mensagem Electr√≥nica
+sendmobmsg Enviar para Dispositivo M√≥vel
+sendmsg Enviar Mensagem
+sendoim Enviar Mensagem "Offline"
 send Enviar
-sendfile Enviar ficheiro
-sendmail Enviar mensagem electrÛnica
-sendmsg Enviar mensagem
+sendsip Iniciar Chamada √Åudio
+sendvoice Enviar Grava√ß√£o de Voz
+sendwebcamaccepted $1 aceitou o seu convite para ver a sua "webcam". A iniciar liga√ß√£o...
+sendwebcaminvite Convidar um utilizador para ver a sua "webcam"
 sentbytes $1 de $2 bytes enviados
-serverbusy O servidor est· ocupado
-servergoingdown Desligado: O servidor est· a desligar-se
+sentvoice Grava√ß√£o de Voz Enviada
+serverbusy O servidor est√° ocupado
+servergoingdown Desligado: O Servidor est√° a desligar-se
 server Servidor
-serverunavailable O servidor n„o est· disponÌvel
-session Sess„o
-showbanner Mostrar o banner do aMSN
+serverunavailable O servidor n√£o est√° dispon√≠vel
+session Sess√£o
+setasmydp Definir como minha imagem de utilizador
+setupcam A configurar o seu dispositivo "webcam"
+setupcamfinetune A configurar o seu dispositivo "webcam" e a ajustar a imagem
+shareswebcam Partilha "webcam"
+showbanner Mostrar o logotipo do aMSN
 showblockedlist Mostra lista de utilizadores que o bloquearam
-showcachedpics Mostrar imagens em cache
-showdisplaypic2 Mostrar imagem de utilizador sempre que uma janela de conversaÁ„o for aberta
-showdisplaypic Mostrar imagem de utilizador
+showcachedpics Mostrar imagens de utilizador em cache
+show_contactdps_in_cl Mostrar miniaturas das Imagens de Utilizador dos contactos na Lista de Contactos
+showcontactemail Mostrar contactos com Endere√ßo Electr√≥nico
+showcontactnick Mostrar Contactos com Alcunha ("nickname")
+showdetailedview Mostrar Lista Detalhadas de Contactos
+showdetails Mostrar detalhes
+showdisplaypic2 Mostrar imagem de utilizador por omiss√£o sempre que uma janela de conversa√ß√£o for aberta
+showdisplaypic Mostrar Imagem de Utilizador
+showonedpframe Mostrar apenas um frame de Imagem de Utilizador nas janelas de Conversa√ß√£o
+showlinksinlogin Mostrar Atalhos na Janela de In√≠cio de Sess√£o
+shownonim Mostrar Contactos de Mensageiro N√£o Instant√¢neo ("Non-Instant Messenger")
+showmailicon Mostrar √≠cone na √°rea de notifica√ß√£o quando chega uma mensagem electr√≥nica nova
 showmypic A Minha Imagem de Utilizador
-shownotify Mostrar janela de notificaÁ„o quando acontece algum evento
+shownotify Mostrar janela de notifica√ß√£o quando acontece algum evento
+showofflinegroup Mostrar Grupo "Offline"
+showpicnotify Mostrar imagem dos utilizadores nas janelas de notifica√ß√£o
+showspaces Mostrar √≠con de Spaces na lista de contactos
 showuserpic A Imagem de Utilizador de $1
-skin Aspecto Gr·fico
-skinselector Escolha Aspecto Gr·fico
-smileconfig ConfiguraÁ„o de Ìcones de emoÁ„o criados
+signinstatus Estado de In√≠cio de Sess√£o
+signout Terminar Sess√£o
+signouthere Terminar Sess√£o a partir daqui ($1)
+signoutep Terminar Sess√£o a partir de $1
+signouteverywhere Terminar Todas as Sess√µes
+sipcallaccepted Chamada √Åudio Aceite
+sipcallback Chamar de Volta
+sipcalldeclined Chamada √Åudio Rejeitada
+sipcalleeaccepted Utilizador aceitou a sua Chamada √Åudio
+sipcalleebusy Utilizador est√° Ocupado
+sipcalleecanceled Utilizador cancelou convite para chamada √Åudio
+sipcalleeclosed Utilizador terminou a sua Chamada √Åudio
+sipcalleedeclined Utilizador Rejetou o seu convite para chamada √Åudio
+sipcalleenoanswer Utilizador n√£o respondeu √† sua Chamada
+sipcalleeunavailable Utilizador n√£o est√° dispon√≠vel neste momento
+sipcallended A sua Chamada √Åudio terminou
+sipcallimpossible Voc√™ n√£o pode fazer uma Chamada √Åudio. Por favor instale Farsight2 e tente novamente.
+sipcallmissed Voc√™ tem uma Chamada N√£o Atendida de $1
+sipcallnosipflag Utilizador n√£o tem suporte para Chamadas √Åudio.
+sipcallsent A chamar $1
+sipcallunsupported Voc√™ recebeu um convite para Chamada √Åudio que n√£o √© actualmente suportado. Voc√™ pode responder com um novo convite. A Chamada √Åudio funcionar√° nessa altura
+sipcallyouarebusy Voc√™ s√≥ pode manter uma Chamada √Åudio ao mesmo tempo.
+sipgotinvitation Convite para Chamada √Åudio recebido de $1 
+skinselector Escolha Aspecto Gr√°fico ("Skin")
+skin Aspecto Gr√°fico ("Skin")
+small Pequeno
+smallest O mais pequeno
+smileconfig Configura√ß√£o personalizada de "emoticons"
 smilefile Nome do ficheiro de "smiley"
-smileintro2 Por favor edite os campos requeridos para modificar este "smiley" (leia o FAQ para obter ajuda)
-smileintro Por favor complete os campos requeridos para criar um novo "smiley" (leia o FAQ para obter ajuda)
-snackfailed Snack falhou a carregar, voltado para o valor por defeito
-sngdblclick ⁄nico clique para abrir nova janela de mensagem
-sound2 Reproduzir sons quando os contactos iniciam sess„o ou enviam uma mensagem
-soundactive Reproduz som quando recebe mensagens mesmo na janela activa
-soundcommand Este tem de ser o comando de reproduÁ„o de som (ex: esdplay)
+smileintro2 Por favor edite os campos necess√°rios para alterar este "smiley" (leia o FAQ para obter ajuda)
+smileintro Por favor complete os campos necess√°rios para criar um novo "smiley" personalizado (leia o FAQ para obter ajuda)
+smiletoobig O "smiley" que escolheu tem dimens√µes superiores ao tamanho normal. Quer alterar-lhe o tamanho?
+smileynotavailable "Smiley" indispon√≠vel!
+snackfailed O carregamento de Snack falhou. A reverter para valor por omiss√£o
+snackneeded A biblioteca Snack √© necess√°ria para usar esta caracter√≠stica. √â necess√°ria, no m√≠nimo, a vers√£o 2.2.9.
+snapshot Captura de ecra
+sngdblclick Clique √∫nico para abrir nova janela de mensagem
+sortcontactsasc Ordenar Contactos Ascendentemente
+sortcontactsdesc Ordenar Contactos Descendentemente
+sortcontactsby Ordenar Contactos por
+sortcontactsbylogsize Ordenar Contactos por tamanho de registo
+sortcontactgroup Ordenar Contactos por Grupo
+sortcontacthybrid Ordenar Contactos em Modo H√≠brido
+sortcontactstatus Ordenar Contactos por Estado
+sortgroupsasc Ordenar Grupos Ascendentemente
+sortgroupsdesc Ordenar Grupos Descendentemente
+sound2 Reproduzir sons quando os contactos iniciam sess√£o ou enviam uma mensagem
+soundactive Reproduzir sons ao recebe mensagens mesmo na janela activa
+soundcommand Este tem de ser o comando de reprodu√ß√£o (ex: esdplay)
+sound Sons de Eventos
 soundexample (\$sound = Ficheiro de som a ser reproduzido) Ex: esdplay \$sound
 soundfile Ficheiro de Som
 soundfiles Ficheiros de Som
 soundloop Som Repetido
+soundnoavail O dispositivo de som n√£o est√° dispon√≠vel. Por favor termine qualquer aplica√ß√£o que estiver a usar o dispositivo de som.
 soundserver Servidor de Som
-sound Sons de Eventos
-soundstatus Alarme Sonoro
-sourcecode CÛdigo Fonte (necessita de compilaÁ„o e instalaÁ„o)
+soundstatus Notifica√ß√£o Sonora
+sourcecode C√≥digo Fonte (necessita de compila√ß√£o e instala√ß√£o)
 splashstart Iniciar
-sslwarning AVISO!! Desactivar o SSL ir· desactivar a encriptaÁ„o, tal que a sua palavra-chave ir· ser enviada simplesmente como texto atravÈs da rede. Usar apenas em caso de "proxies" ou configuraÁıes de rede seguras!
-startoffline2 InÌcio de sess„o silencioso ("Aparentar Desligado")
-startoffline ComeÁar Desligado
-startontray Iniciar AMSN somente no "icon-tray"
-stateautomsg Automensagem a enviar
+sslwarning AVISO!! Desactivar o SSL ir√° desactivar a encripta√ß√£o, tal que a sua palavra-chave ir√° ser enviada como texto simples atrav√©s da rede. Usar apenas em caso de "proxies" ou configura√ß√µes de rede seguras!
+startoffline2 In√≠cio de sess√£o silencioso (Aparecer como desligado)
+startoffline Iniciar Sess√£o como Desligado
+startonboot Iniciar o aMSN ao iniciar o Windows
+startontray Iniciar AMSN somente na √°rea de notifica√ß√£o
+stateautomsg Automensagem a Enviar
 statechange estado mudou para:
-stateedittext Por favor edite os campos que gostaria \n de modificar e escolha Guardar
+stateedittext Por favor edite os campos que gostaria de alterar e escolha Ok
+stateinfo Configura√ß√£o de Estado Pessoal
 state Eu quero aparecer como
-stateinfo ConfiguraÁ„o do Estado Pessoal
 statename Nome do Estado Pessoal
-statenewtext Por favor introduza a informaÁ„o necess·ria para criar \n o seu novo Estado Pessoal e escolha Guardar
-statenick Nick (deixar em branco para n„o alterar)
+statenewtext Por favor introduza a informa√ß√£o necess√°ria para criar o seu novo Estado Pessoal e escolha Ok
+statenick Alcunha ("nick") personalizada (deixar em branco para n√£o alterar)
+statepsm Mensagem Pessoal Personalizada (deixe em branco para n√£o alterar)
+stats Estat√≠sticas
 status Estado
-stopalarm Alarme para Parar
-storenickname Regressar ao nick original
-strictfonts Restringir todos os tamanhos da fonte aos que eu seleccionei (Barra de Estados e outros)
-stylechat O mesmo aspecto que nas conversaÁıes
+step Passo
+stopalarm Notifica√ß√£o para Parar
+stop Parar
+stopwebcamreceive Parar recep√ß√£o de "Webcam"
+stopwebcamsend Parar envio de "Webcam"
+storenickname Regressar √† alcunha ("nick") original ap√≥s um estado personalizado com alcunha ("nickname") personalizada
+strictfonts Restringir todos os tamanhos de letra ao que eu seleccionei (Barra de estados e outros)
+stylechat O mesmo aspecto que nas conversa√ß√µes
+stylehist O aspecto do hist√≥rico do aMSN
+stylelog Seleccionar a formato no qual gostaria de ver o seu Hist√≥rico
 style Estilo
-stylehist O aspecto do histÛrico do aMSN
-stylelog Seleccionar a forma na qual gostaria de ver o HistÛrico
+subjectrequired O assunto √© obrigat√≥rio
+subject Assunto
+svnversion Vers√£o SVN
 syntaxerror Erro de Sintaxe
-tabbed Janelas com Separadores
-temp_state N„o grava (Estado tempor·rio - desaparecer· quando o AMSN for terminado)
+tabbedglobal Uma janela com separadores para todos os utilizadores da lista de contactos
+tabbedgroups Uma janela com separadores para utilizadores do mesmo grupo
+tabbed Janelas com separadores
+tabtitlenick Mostrar alcunhas ("nicknames") nos separadors em vez dos endere√ßos electr√≥nicos
+temp_state Estado tempor√°rio (n√£o ser√° guardado)
 textsize Tamanho do Texto
+thismonth Este m√™s
+throughserver Atrav√™s do servidor
 timeremaining Tempo que falta
-timestamps Activar carimbos de tempo nas janelas de conversaÁ„o
-title Al's Messenger
-tkerror Ocorreu um erro em TK, encontrou um erro no AMSN, por favor reporte-o. Envio o ficheiro $1 para amsn-bugs@lists.sf.net
-tlsdowncompleted O ficheiro $1 foi descarregado para a directoria $2. … necess·rio descompact·-lo e fazer o 'build' (caso tenha descarregado cÛdigo fonte) e instal·-lo na directoria $3.
-tlsexplain DirectÛrio onde o modulo tcl de TLS se encontra. SE o AMSN n„o for capaz de o localizar, por favor especifique-p.\n(Necess·rio para a autentificaÁ„o SSL)
-tlsinstall Assistente de InstalaÁ„o do MÛdulo TLS
-tlsinstallexp O aMSN usa agora MSNP9, que necessita de uma ligaÁ„o\nsegura usando SSL. Para usar SSL, o aMSN necessita de instalar um mÛdulo chamado TLS,\nque n„o se encontra no seu sistema. Este assistente ir· ajud·-lo a descarregar e\na instalar o TLS. Por favor escolha o seu tipo de sistema para que possamos fazer a descarga autom·tica\n dos ficheiros TLS necess·rios.
-tlsinstcompleted A instalaÁ„o do mÛdulo TLS foi realizada com sucesso - agora deve conseguir utilizar o MSNP9. Caso n„o consiga, provavelmente n„o seleccionou o mÛdulo correcto, ou um mÛdulo compilado ainda n„o est· disponÌvel para o seu sistema.
+timestamps Activar carimbos de tempo nas janelas de conversa√ß√£o
+timestamp Carimbo de tempo
+title aMSN
+tkerror1 Ocorreu um erro no TK, existe uma incorrec√ß√£o no aMSN. Por favor envie um relat√≥rio clicando no bot√£o de Envio de relat√≥rio. Voc√™ pode clicar no bot√£o Detalhes para obter mais informa√ß√µes acerca desta incorrec√ß√£o ou clicar em Ignorar para continuar a conversar com o aMsn.
+tkerror Ocorreu um erro no TK, existe uma incorrec√ß√£o no aMSN. Por favor envie um relat√≥rio clicando no bot√£o de Envio de relat√≥rio. Envie o ficheiro $1 para amsn-bugs@lists.sf.net
+tlsdowncompleted O ficheiro $1 foi descarregado para a pasta $2. √â necess√°rio descompact√°-lo e fazer o 'build' (caso tenha descarregado c√≥digo fonte) e instal√°-lo na pasta $3.
+tlsexplain Pasta onde o m√≥dulo tcl de TLS se encontra. Se o AMSN n√£o for capaz de o encontrar, por favor encontre-o manualmente.\n(Necess√°rio para a autentifica√ß√£o SSL).
+tlsinstallexp O aMSN usa agora MSNP9, que necessita de uma liga√ß√£o\nsegura usando SSL. Para usar SSL, o aMSN necessita de instalar um m√≥dulo chamado TLS,\nque n√£o se encontra no seu sistema. Este assistente ir√° ajud√°-lo(a) a descarregar e\na instalar o TLS. Por favor escolha o seu tipo de sistema para que possamos fazer a descarga autom√°tica\n dos ficheiros TLS necess√°rios.
+tlsinstall Assistente de Instala√ß√£o do M√≥dulo TLS
+tlsinstcompleted A instala√ß√£o do m√≥dulo TLS foi realizada com sucesso - agora deve conseguir utilizar o MSNP9. Caso n√£o consiga, provavelmente n√£o seleccionou o m√≥dulo correcto, ou um m√≥dulo compilado ainda n√£o est√° dispon√≠vel para o seu sistema.
 today Hoje
+tomobile Para Telem√≥vel
 tools Ferramentas
-tooltips Activar ajudas de ferramenta
+tooltips Activar dicas de ajuda
 to Para
-transnotexists O ficheiro pretendido ainda n„o foi traduzido para o presente idioma.
-traynotcompiled "Plugin" do Ìcone da bandeja n„o est· em conformidade. Verifique "plugins"/"tray"
-triggers Dicas
-truncatenames1 Cortar nicks maiores que a largura da janela nos tÌtulos da janela e lista de contactos
-truncatenames2 Cortar nicks maiores que a largura da janela dentro das janelas de conversaÁ„o
-truncatenicks Reduzir alcunhas ("nicknames") que n„o caibam na janela
-twonewmail $1 novas mensagens na Caixa de Entrada
+totalsize Tamanho total
+transnotexists O ficheiro pedido ainda n√£o foi traduzido para o idioma actual.
+trayicon Mostrar um √≠cone de estado na √°rea de notifica√ß√£o
+traynotcompiled Extens√£o do √≠cone da √°rea de notifica√ß√£o n√£o est√° compilado. Verifique plugins/traydock
+triggers Actuadores de texto
+truncatenames1 Cortar alcunhas ("nicknames") maiores que a largura da janela nos t√≠tulos da janela e lista de contactos
+truncatenames2 Cortar alcunhas ("nicknames") maiores que a largura da janela dentro das janelas de conversa√ß√£o
+truncatenicks Cortar alcunhas ("nicknames") maiores que a janela
+twonewmail $1 mensagem(ns) nova(s) na Caixa de entrada
+type Escrever
 unblock Desbloquear
 unknown Desconhecido
 unload Descarregar
+unselectall Remover todas as selec√ß√£o
 uoffline Desligado
 uonline Ligado
-useother Usar um programa diferente
-useralreadyonlist Utilizador j· se encontra na lista de contactos
-userblocked O utilizador est· ligado mas bloqueou-o
-userdata Dados do utilizador
-usernotonline O utilizador n„o est· ligado
-userproperties Propriedades do utilizador $1
+updateonlycurrentlanguage Actualizar apenas o idioma actual
+update Actualizar
+updatesaved Terminado\n $1 foi guardado em $2.
+updating Actualizando
+useasdp Usar como Imagem de Utilizador
+useasregexp Usar como uma Express√£o Regular (regexp)
+useother Usar uma aplica√ß√£o diferente
+useralreadyonlist Utilizador j√° se encontra na lista de contactos
+userblocked O utilizador est√° ligado mas bloqueou-o
+userdata Dados do Utilizador
+userdps Imagens de Utilizador do Utilizador
+usernotonline O utilizador n√£o est√° ligado
+userproperties Propriedades de utilizador de $1
+usersettings Configura√ß√µes
 user Utilizador
-useryourself VocÍ n„o pode conversar consigo prÛprio
-usesnack Utilizar Snack Library (Tcl interna)
-verifyblocked Verificar utilizadores que o est„o a bloquear
-version Vers„o
+useryourself Voc√™ n√£o pode conversar consigo pr√≥prio
+usesnack Utilizar a biblioteca Snack (Tcl internal)
+verifyblocked Procurar utilizadores que o est√£o a bloquear
+version Vers√£o
+videoconversationrequest Voc√™ acabou de receber um pedido de conversa√ß√£o v√≠deo (√°udio e v√≠deo bidireccional). Esta caracter√≠stica ainda n√£o √© suportada pelo aMSN e foi cancelada. No entanto, voc√™ pode usar a conversa√ß√£o com "webcam" normal.
+view Ver
 viewcontactsby Visualizar contactos por
 viewprofile Ver Perfil
-view Ver
-webcaminvite $1 convidou-te para uma sess„o de vÌdeo, mas o aMsn n„o suporta esta funcionalidade
-willjoin Esperando que $1 se junte ‡ conversaÁ„o
-winkreceived Recebeu um Wink de $1. Esta funcionalidade n„o È suportada, ainda, pelo aMSN 
-work Trabalho
-wrongfields Os campos "$1", "$2" e/ou "$3" n„o eram v·lidos.
-wrongprofileversion Vers„o errada do ficheiro de configuraÁ„o do perfil. De modo a repar·-lo, por favor remova a directoria $1, ou actualize o aMSNtemp_state
-xmmscurrent Mostrar a m˙sica corrente
-xmmserr Nenhum som est· a ser reproduzido ou, ent„o, n„o tem o "xmms-infopipe" instalado.
-xmmssend Enviar m˙sica corrente
-xoffset Margem horizontal
-year Ano
-yes Sim
-yesterday Ontem
-yoffset Margem vertical
-youblocked VocÍ foi bloqueado por
-yousay VocÍ diz
-youwant VocÍ quer
-lazypicretrieval ObtenÁ„o de imagens de utilizador por necessidade
-activeautoupdate Auto-actualizaÁ„o activa
-add Adicionar
-agotinvitation Recebido convite Audio de $1
-allmonths Todos os meses
-allow_sms Permitir que os utilizadores contactem-me pelo meu telefone mÛvel MSN
-askeachtime Perguntar cada vez
-askwebcam Pedir a este utilizador para enviar a sua "webcam"
-avaccepted Chamada de conferÍncia por Video aceite
-avcanceled Chamada de conferÍncia por Video cancelada
-avgotinvitation Recebido convite de chamada de conferÍncia por Video de $1
-avinitfailed InicializaÁ„o do plugin de Audio/Video falhou. Chamada cancelada.
-cantloadonlineversion N„o foi possÌvel recuperar da Internet a lista actualizada de idiomas.
-checkopenfilecommand Por favor seleccione o comando de ficheiros abertos na janela de preferÍncias.
-clearwebcamlogs Limpar todos os logs de "webcam"
-clicktoadd Clique no adicionar para criar uma nova nota
-closeall Fechar todas as tabs da janela?
-closealltabs Fechar todas as tabs
-closelabel Quando carrega no bot„o de fechar numa janela de chat com tabs
-closeonly Fechar apenas a tab corrente
-contact Contactar
-conversationwith $1 utilizadores em conversaÁ„o
-created Criado
-currentlanguage Este È o idioma que vocÍ usa
-currentnotes Notas correntes
-deleteall Apagar tudo
-detach Desprender
-download Descarregar
-filenotwritable Este ficheiro n„o pode ser apagado
-filters Filtros
-filtersselect Seleccione os filtros que quer ver\n(Note que se n„o seleccionar nenhum significa que v„o ser mostrados todos)
-filtersx SelecÁ„o de filtros
-ftautoclose Fechar a janela quando a transferÍncia de ficheiros acabar
-globalcontainer Contentor global
-inserttextnote Inserir texto dentro do campo assunto e do campo nota, seguidamente clique em Salvar
-invalidparameter Erro ao estabelecer ligaÁ„o com o servidor: par‚metro inv·lido
-language_manager Gestor de idiomas
-logwebcam Salvar todas as secÁıes de "webcam" para a Historia do aMSN para visionamento futuro
-mobilegrp1 Grupo MÛvel
-mobilegrp2 Colocar utilizadores no grupo "MÛvel" quando estiverem desligados (e ordenados por estado)
-modified Modificado
-needwinico2 … necess·rio o ficheiro winico05.dll dentro do directÛrio utils/windows para que a funcionalidade de "traydocking" de janelas funcione
-newline Nova linha
-newtabbedfeature O aMSN tem um nova funcionalidade para gerir conversaÁıes, vocÍ agora pode ter todas as janelas do mesmo grupo ou de toda a lista de contactos numa ˙nica janela com tabs. Por favor seleccione a maneira com prefere que o aMSN gira as suas conversaÁıes
-note Nota
-nottabbed Janela normal sem tabs
-opendir Abrir directÛrio
-openfilecommand Comando de abrir ficheiro
-openfile Abrir
-pause Pausar
-play Play
-preview Previsionar
-remembersetting Guardar esta opÁ„o
-selectall Seleccionar tudo
-sendmobmsg Enviar para telemÛvel
-sendwebcaminvite Convidar um utilizador para visionar a sua "webcam"
-showpicnotify Mostrar a imagem dos utilizadores nas janelas de notificaÁ„o
-signinstatus Estado de Sign-in
-stats EstatÌsticas
-stop Parar
-subjectrequired Assunto necess·rio
-subject Assunto
-tabbedglobal Uma janela com tabs para todos os utilizadores da lista de contactos
-tabbedgroups Uma janela com tabs para utilizadores do mesmo grupo
-tabtitlenick Mostrar alcunhas ("nicknames") nos tabs em vez dos endereÁos de email
-takesnapshot Tirar fotografia
-thismonth Este mÍs
-throughserver AtravÈs do servidor
-timestamp Registo das horas
-tomobile Para telemÛvel
-update Actualizar
-updating Em actualizaÁ„o
-unselectall Remover selecÁ„o de tudo
-useasdp Usar como Imagem de ExibiÁ„o
-webcamshot Fotografia de "Webcam"
-webcamhistory Visionar as sessıes de "Webcam"
-whatsize A imagem que pediu n„o tem as dimensıes normais (96x96)\n Quer que a imagem seja mostrada com tendo que tamanho?
-wintitlenick Mostrar alcunhas ("nicknames") nas janelas com tabs em vez dos endereÁos de email
-yesblock Sim e bloquear
-zoom Zoom
-emoticon_steal Adicionar aos "emoticons"
-smiletoobig O "smiley" que escolheu tem dimensıes superiores ‡s normais. Quer alterar-lhe o tamanho?
-aboutamsn Acerca de Alvaro's Messenger
-account Conta
-askcam Pedido de recepÁ„o de "Webcam"
-askcontactwebcam Pedido de recepÁ„o de "Webcam" do contacto, ou
-asksendingyourwebcam Pedido de envio de "Webcam"
-autoresizedp Automaticamente aumentar o tamanho das imagem para o tamanho por defeito
-badwebcam N„o È possÌvel mostrar a imagem da "WebCam". Assegure-se que a sua "WebCam" est· bem ligada e instalada.
-brightness Brilho
-bugerror Desculpe, mas ouve um problema na conecÁ„o ‡ base de dados de bugs. Verifique a sua conecÁ„o a internet.
-bugnocomment Enviar sem coment·rio? Comentar em um bug ajuda-nos a desvendar o que correu mal e a corrigir o bug mais facilmente.
-cagreement Acordo Confidencial
-captureextloaded Extens„o de captaÁ„o - $1 - est· carregada.
-captureextnotloaded Extens„o de captaÁ„o -$1- n„o est· carregada, tem de compila-la primeiro
-captureproperties Propriedades de imagem da "WebCam"
-change_account_info Alterar informaÁ„o da conta.
-change_mobile Alterar definiÁıes do telemÛvel
-changestatus Alterar estado
-changevideosettings Alterar definiÁıes de vÌdeo
-channels Canais
-choosechannel Por favor seleccione um canal
-choosedevice Por favor escolha um dispositivo
-clickhere Clique aqui
-closeordock Fechar esta janela de lista de contactos implica que desligue o aMSN. Talvez o que pretendia era apenas fechar a janela e continuar a correr o aMsn na barra de tarefas (traybar).\n\nTem a certeza que deseja desligar o aMSN?
-color CÙr
-contacts Contactos
-contrast Contraste
-copytoclipboard Copiar $1 para a ·rea de transferÍncia (clipboard)
-couldnotrename N„o foi possivel renomear o ficheiro $1
-curdisplaypic Imagem actual
-customsmileys Mostrar a outros utilizadores os "emoticons" personalizados
-custshowcustomsmileys Mostar os "emoticons" personalizados dos utilizadores
-cutimageboxreset Reiniciar o tamanho da caixa de selecÁ„o ("selection-box")\npara:
-cutimagebox Seleccione a parte da imagem que pretende usar, aumentanto ou movendo a caixa de selecÁ„o ("selection-box")
-default2 Por defeito
-deleteblock Apagar e bloquear
-details Detalhes
-devicebusy O dispositivo $1 est· ocupado
-devices Dispositivos
-done ConcluÌdo
-editcontent Editar o conte˙do da ·rea do sujeito e a ·rea de apontamentos
-editmyprofile Editar o meu perfil do MSN
-enterbugdesc Insira uma descriÁ„o daquilo que estava a fazer para nos ajudar a reproduzir o bug:
-enterpsm A sua mensagem pessoal
-find Localizar
-findasyoutype Localizar enquanto tecla
-findnext Localizar o prÛximo
-findprev Localizar o anterior
-firewalled VocÍ est· sobre uma firewall ou est· a usar um router
-getmoreplugins Obter mais "plugins"!
-getmoreskins Obter mais "skins"!
-gotink $1 enviou-lhe um ink.
-goto V· para $1
-gotoinbox V· para a Caixa de Correio (Inbox)
-hidemenu Mostrar/Esconder menus
-hidemenumessage Tem a certeza que quer esconder os menus?\nVocÍ pode restaura-los a qualquer altura usando a tecla de atalho 'Ctrl-M' para o menu mostrar/esconder.
-hue Matiz
-huge Enorme
-ignorecontact Ignorar todas as conversas deste contacto
-ignore Ignorar
-large Grande
-listening Escutando
-loadotherdisplaypic Carregando DPs de DPs of $1, por favor aguarde...
-logschats Est· a registar conversas
-longpsm A sua mensagem pessoal È muito longa. Isso n„o È oficialmente suportado pelo protocolo do MSN. Tem a certeza que deseja defini-la?
-lowrescam Use uma "webcam" de baixa resoluÁ„o
-minimize Minimizar
-msnstatus Estado da rede MSN
-newchat Nova conversa
-nocacheddps N„o existe imagens na cache deste utilizador
-nodevices Actualmente, n„o existem dispositivos instalados
-noftpreview Desactivar o envio de previsıes de imagem relativamente ao envio de ficheiros
-onlinehelp Ajuda Online
-otherdisplaypic Outras imagens deste utilizador (clique no bot„o direito do rato para mais opÁıes)
-pausedwebcamreceive Foi feita uma pausa ‡ "WebCam" pelo outro utilizador
-pausewebcamsend Enviar uma pausa ‡ "Webcam"
-playbackposition PosiÁ„o de playback
-playbackspeed Velocidade de playback (millisegundos entre cada frame)
-playwebcamsend Resumir envio de "Webcam"
-portswellconfigured As suas portas est„o bem configuradas
-preffont4 Alterar a forma como vÍ o texto de outras pessoas nas sessıes de conversa
-psmatend Mostrar a mensagem pessoal atr·s da alcunha (nickname)
-psmdontshow N„o mostrar a mensagem pessoal, a n„o ser que esteja definida na alcunha (nickname) global/personalizada.
-psmnewline Mostrar a mensagem pessoal por baixo da alcunha (nickname)
-psm Mensagem pessoal
-psmplace Onde deve ser colocada a mensagem pessoal?
-pwcdriver VocÍ est· a usar controladores ("drivers") do pwc
-quit Sair
-reporting Enviando relatÛrio
-report Relatorio
-resetincomingfont Reiniciar fonte (usar a fonte que o mensageiro escolher)
-restartforskin Nota: VocÍ precisa de reiniciar o aMSN para ver a "skin" apropriadamente!
-searchdown Localizar abaixo
-searchup Localizar acima
-sendcam Enviar "Webcam"
-sendemail Enviar o meu endereÁo de email para que me notifiquem alteraÁıes
-sendfeedback Enviar "Feedback"
-shareswebcam Partilhar "Webcam"
-showcontactemail Mostrar contactos com E-mail
-showcontactnick Mostrar contactos com alcunha ("nickname")
-show_contactdps_in_cl Mostrar "thumbnails" das imagens dos contactos na lista de contactos
-showmailicon Mostrar Ìcone do correio no "traydock" quando chegar um email
-small Pequeno
-snapshot Captura de ecr„
-sortgroupsasc Ordenar grupos ascendentemente
-sortgroupsdesc Ordenar grupos descendentemente
-sortcontactgroup Ordenar contactos por grupo
-sortcontacthybrid Ordenar contactos em modo hÌbrido
-sortcontactstatus Ordenar contactos por estado
-startonboot ComeÁar o aMSN ao iniciar o Windows
-statepsm Mensagem pessoal personalizada (deixe em branco para n„o alterar nada)
-stopwebcamreceive Parar a recepÁ„o de "Webcam"
-stopwebcamsend Parar o envio de "Webcam"
-tkerror1 Ocorreu um erro no TK, existe um bug no amsn, por favor envie um relatorio clicando no bot„o de Envio de relatÛrio. VocÍ pode clicar no bot„o Detalhes para obter mais informaÁıes acerca deste bug ou clicar em Ok para continuar a conversar com o aMsn
-trayicon Mostrar um Ìcone de estado na ·rea de notificaÁ„o
-type Teclar
-updateonlycurrentlanguage Fazer Update apenas ‡ linguagem actualmente usada
-useasregexp Usar uma express„o regular (regexp)
-userdps Imagens do utilizador
-setasmydp Definir como minha imagem
-usersettings DefiniÁıes
-videoconversationrequest VocÍ acabou de receber um pedido de conversa com "webcam" (audio e video bidireccional). Esta caracterÌstica ainda n„o È suportada pelo aMSN e foi cancelada. No entanto, vocÍ pode usar conversa com "webcam" standard.
-wanttosharecam Pretendo fazer com que a minha "webcam" seja acessÌvel a outros utilizadores
-webcamcanceled A sess„o de "webcam" com $1 foi cancelada
-webcamclosebefcancel VocÍ tem de cancelar todas as "webcams" para poder fechar a janela
-webcamconfigure Configurar a "webcam"
-webcamextloaded Extens„o Webcamsn est· carregada
-webcamextnotloaded Extens„o Webcamsn n„o est· carregada. VocÍ tem que a compilar.
-webcamfaq FAQ/Ajuda para "webcam"
-webcaminvitereceived $1 convidou-lhe para iniciar uma sess„o de "webcam". Deseja aceitar o convite para esta sess„o?
-webcamrejected $1 rejeitou o convire para a sess„o de "webcam"
-webcamrequestreceive Enviado o pedido para receber a "webcam"
-webcamrequestsend Enviado o pedido para enviar a "webcam"
-webcamsending Listagem de pessoas que vocÍ est· actualmente a enviar a sua "webcam"\nClique para cancelar
+viewspace Ver itens space
+volume Volume
+wanttosharecam Pretendo disponibilizar a minha "webcam" a outros utilizadores
+web Web
 webcam "Webcam"
-whatisamsn aMSN È uma plataforma independente de um clone do MSN Messenger
-groupcontacts Contactos de grupo
+webcamcanceled A sess√£o de "webcam" com $1 foi cancelada
+webcamclosebefcancel Voc√™ tem de cancelar todas as sess√µes "webcam" antes de fechar a janela
+webcamconfigure Configurar a "webcam"
+webcamconfiguredMac As suas caracter√≠sticas de "webcam" foram configuradas
+webcamconfiguredWin Voc√™ escolheu o seguinte disposivo de "webcam" : $1
+webcamconfiguredLinux Voc√™ escolheu as seguintes caracter√≠sticas de "webcam":\nDisposito "webcam": $1\nCanal "webcam": $2
+webcamextchecking A verificar se a extens√£o "webcam" se encontra carregada...
+webcamextloaded Extens√£o "Webcamsn" est√° carregada
+webcamextnotloaded Extens√£o "Webcamsn" n√£o est√° carregada. Voc√™ tem de a compilar.
+webcamextwarn Voc√™ n√£o conseguir√° ver as "webcams" dos seus contactos. Por encontrar respostassonre como instalar algumas extens√µes na nossa Wiki:
+webcamfaq FAQ/Ajuda para "Webcam"
+webcamhistory Visualizar as sess√µes de "Webcam"
+webcamhistory2 Sess√µes de "Webcam"
+webcaminvite $1 convidou-o(a) para iniciar uma sess√£o de v√≠deo, mas o aMSN n√£o suporta esta funcionalidade
+webcaminvitereceived $1 convidou-o(a) para iniciar uma sess√£o de "webcam". Deseja aceitar esta sess√£o?
+webcaminvitereceiving Voc√™ est√° convidado a iniciar a visualiza√ß√£o da "webcam" de $1. Deseja aceitar esta sess√£o?
+webcaminvitesending $1 gostaria de ver a sua "webcam". Deseja aceitar esta sess√£o?
+webcamrejected $1 rejeitou o convite para a sess√£o de "webcam"
+webcamrequestreceive Pedido para receber a "webcam" enviado
+webcamrequestsend Pedido para enviar a "webcam" enviado
+webcamsending Lista de pessoas quem est√° actualmente a enviar a sua "webcam"\nClique para cancelar
+whatisamsn aMSN √© uma clone do MSN Messenger independente de plataforma
+whatsize A imagem que pediu n√£o tem as dimens√µes normais (96x96) Que tamanho quer que a imagem tenha ao ser mostrada?
+willjoin A esperar que $1 se junte √† conversa√ß√£o
+winkreceived Recebeu um piscar de olho de $1. Esta funcionalidade n√£o √© actualmente suportada pelo aMSN.
+wintitlenick Mostrar alcunhas ("nicks") nas janelas com separadores em vez dos endere√ßos electr√≥nicos
+work Trabalho
+wrongfields Os campos "$1", "$2" e/ou "$3" n√£o eram v√°lidos.
+wrongprofileversion Vers√£o errada do ficheiro de configura√ß√£o do perfil. De modo a repar√°-lo, por favor remova a pasta $1, ou actualize o aMSN
+xmmscurrent Mostrar a m√∫sica actual
+xmmserr Nenhum som est√° a ser reproduzido ou voc√™ n√£o tem o "xmms-infopipe" instalado.
+xmmssend Enviar m√∫sica actual
+xoffset Margem horizontal
+xplaces $1 Lugares
+year Ano
+yesblock Sim e bloquear
+yesterday Ontem
+yes Sim
+yoffset Margem vertical
+youblocked Voc√™ foi bloqueado por
+yousay Voc√™ diz
+youwant Voc√™ quer
+zoom Zoom
