@@ -215,7 +215,7 @@ confirmpurge Todas las imágenes para mostrar del resto de los contactos (no las
 confirmrfl ¿Estás seguro que deseas borrar este usuario de este grupo?
 congrats Felicitaciones
 connected Ahora estás conectado
-connectedat Conectado en 
+connectedat Conectado en:
 connectedwith Conectado como $1
 connecterror Error conectándose al servidor
 connectfirst Por favor conéctate primero
@@ -463,7 +463,7 @@ internalerror Error interno del servidor
 invalidfile2 El archivo $1 no se ha podido crear, asegúrate de que tienes los permisos apropiados para el archivo destino.
 invalidfile El archivo $2 introducido en el campo "$1" no existe o no se pudo leer
 invalidgroup Grupo no válido
-invalidparameter Error conectando al servidor: parámetro inválido
+invalidparameter Error conectando al servidor:\nparámetro inválido
 invalidpic El archivo de imagen elegido no existe
 invalidpicsize La imagen elegida es demasiado grande, por favor elige una más pequeña
 invalidsound El archivo de sonido elegido no existe
