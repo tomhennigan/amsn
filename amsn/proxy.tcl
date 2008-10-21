@@ -241,7 +241,7 @@ proc SOCKSSocket { args } {
 			set tmp_serv [lindex [$sb cget -server] 0]
 			set tmp_port [lindex [$sb cget -server] 1]
 		}
-		if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
+		if { [catch {set sock [socket -async $tmp_serv $tmp_port -timeout 1000]} res ] } {
 			$sb configure -error_msg $res
 			return -1
 		}
