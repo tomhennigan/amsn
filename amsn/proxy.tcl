@@ -256,10 +256,10 @@ proc SOCKSSocket { args } {
 			return -1
 		}
 
-		set sockErr ""
-		fileevent $sock writable [list $self checkSocketErrors $sock]
-		tkwait variable [myvar sockErr]
-		if { $sockErr == "" } {
+		#set sockErr ""
+		#fileevent $sock writable [list $self checkSocketErrors $sock]
+		#tkwait variable [myvar sockErr]
+		#if { $sockErr == "" } {
 			$sb configure -sock $sock
                 	if { [$sb cget -proxy_host] != ""} {
 	                        if { [::config::getKey proxytype] == "http"} {
@@ -282,10 +282,10 @@ proc SOCKSSocket { args } {
 	                lappend connected_command $sock
 	                fileevent $sock writable $connected_command
 			return 0
-		} else {
-			$sb configure -error_msg $sockErr
-			return -1
-		}
+		#} else {
+		#	$sb configure -error_msg $sockErr
+		#	return -1
+		#}
 	}
 
 	method ConnectHTTP {sck addr port auth user pass} {
