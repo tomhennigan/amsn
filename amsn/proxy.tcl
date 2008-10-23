@@ -186,23 +186,11 @@ proc SOCKSSocket { args } {
 
 	option -name
 	variable http_idlist
+	variable sockErr
 
-	proc createSock { serv port } {
-		return [socket -async $serv $port]
-	}
-
-	proc checkSocketErrors { sock } {
+	method checkSocketErrors { sock } {
 		fileevent $sock writable {}
-		set ::socket_error [fconfigure $sock -err]
-		return ::socket_error
-	}
-
-	proc wrapSocketErrors { } {
-		if { ! [info exists ::socket_error] } {
-			return "Error connecting to socket"
-		} else {
-			return $::socket_error
-		}
+		set sockErr [fconfigure $sock -err]
 	}
 
 	#Called to write some data to the connection
@@ -259,17 +247,15 @@ proc SOCKSSocket { args } {
 			set tmp_serv [lindex [$sb cget -server] 0]
 			set tmp_port [lindex [$sb cget -server] 1]
 		}
-		if { [catch {set sock [createSock $tmp_serv $tmp_port]} res ] } {
+		if { [catch {set sock [socket $tmp_serv $tmp_port]} res ] } {
 			$sb configure -error_msg $res
 			return -1
 		}
 
-		#WARNING: clumsy code ahead
-		fileevent $sock writable [list set tmp [checkSocketErrors $sock]]
-		after 1000 [list set ::err [wrapSocketErrors]]
-		tkwait variable err
-		unset ::socket_error
-		if { $::err == "" } {
+		set sockErr ""
+		fileevent $sock writable [list $self checkSocketErrors $sock]
+		tkwait variable [myvar sockErr]
+		if { $sockErr == "" } {
 			$sb configure -sock $sock
                 	if { [$sb cget -proxy_host] != ""} {
 	                        if { [::config::getKey proxytype] == "http"} {
@@ -293,7 +279,7 @@ proc SOCKSSocket { args } {
 	                fileevent $sock writable $connected_command
 			return 0
 		} else {
-			$sb configure -error_msg $::err
+			$sb configure -error_msg $sockErr
 			return -1
 		}
 	}
