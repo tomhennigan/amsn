@@ -6970,9 +6970,8 @@ proc setup_connection {name} {
 	$name configure -proxy [Proxy create %AUTO%]
 	if {[::config::getKey connectiontype] == "direct" } {
 		#$name configure -connection_wrapper DirectConnection
-                $name configure -proxy_host ""
-                $name configure -proxy_port ""
-
+		$name configure -proxy_host ""
+		$name configure -proxy_port ""
 	} elseif {[::config::getKey connectiontype] == "http"} {
 
 		#$name configure -connection_wrapper HTTPConnection
@@ -7028,6 +7027,8 @@ proc setup_connection {name} {
 	} else {
 		#$name configure -connection_wrapper DirectConnection
 		::config::setKey connectiontype "direct"
+		$name configure -proxy_host ""
+		$name configure -proxy_port ""
 	}
 }
 
