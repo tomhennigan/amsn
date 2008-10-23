@@ -170,10 +170,18 @@ namespace eval ::debug {
 			    [list ::tk::proc $new_name $arguments $body]
 			
 			set wrapper_body {
-				puts "Entering proc @name@ with args $args"
-				set ret [eval @new_name@ $args]
-				puts "Leaving proc @name@ with return : $ret"
-				return $ret
+				set debug_stack_procs_args $args
+				unset args
+				set debug_stack_procs_locals [uplevel 1 {info locals}]
+				foreach debug_stack_procs_l $debug_stack_procs_locals {
+					if {![info exists $debug_stack_procs_l] } {
+						upvar 1 $debug_stack_procs_l $debug_stack_procs_l
+					}
+				}
+				puts "Entering proc @name@ with args $debug_stack_procs_args"
+				set debug_stack_procs_ret [eval @new_name@ $debug_stack_procs_args]
+				puts "Leaving proc @name@ with return : $debug_stack_procs_ret"
+				return $debug_stack_procs_ret
 			}
 			puts "[uplevel 1 {namespace current}] Hooking $name into $new_name"
 			
