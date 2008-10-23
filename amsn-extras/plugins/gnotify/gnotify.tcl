@@ -687,22 +687,26 @@ namespace eval ::gnotify {
 	}
 
 	proc setup_http { } {
-		set proxy [::config::getKey proxy]
-		set proxy_host [lindex $proxy 0]
-		set proxy_port [lindex $proxy 1]
-		if {$proxy_host == "" } {
-			::http::config -proxyhost ""
-		} else {
-			if { $proxy_port == "" } {
-				set proxy_port 1080
+		if { [::config::getKey connectiontype] == "proxy" } {
+			set proxy [::config::getKey proxy]
+			set proxy_host [lindex $proxy 0]
+			set proxy_port [lindex $proxy 1]
+			if {$proxy_host == "" } {
+				::http::config -proxyhost ""
+			} else {
+				if { $proxy_port == "" } {
+					set proxy_port 1080
+				}
+				::http::config -proxyhost $proxy_host -proxyport $proxy_port
 			}
-			::http::config -proxyhost $proxy_host -proxyport $proxy_port
-		}
-		#bind the https in order to use tls
-		if { [::config::getKey proxytype] == "http"} {
-			http::register https 443 HTTPsecureSocket
+			#bind the https in order to use tls
+			if { [::config::getKey proxytype] == "http"} {
+				http::register https 443 HTTPsecureSocket
+			} else {
+				http::register https 443 SOCKSsecureSocket
+			}
 		} else {
-			http::register https 443 SOCKSsecureSocket
+			::http::config -proxyhost "" -proxyport ""	
 		}
 	}
 

@@ -4,12 +4,12 @@
 	<author>Youness Alaoui (a.k.a KaKaRoTo)</author>
 	<description>Plugin to check Gmail accounts in aMSN and notify you with the email information. A kind of "Gmail Notifer" clone for aMSN.</description>
 	<amsn_version>0.95</amsn_version>
-	<plugin_version>0.7</plugin_version>
+	<plugin_version>0.8</plugin_version>
 	<plugin_file>gnotify.tcl</plugin_file>
 	<plugin_namespace>gnotify</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>9818</cvs_version>
+	<cvs_version>10620</cvs_version>
 	<file>
 		<path>pixmaps/gnotify_empty.png</path>
 		<version>7821</version>
