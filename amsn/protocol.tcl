@@ -4664,7 +4664,7 @@ namespace eval ::MSNOIM {
 			#ChCustomState $newstate_custom
 			#send_dock "STATUS" $newstate			
 		}
-		if { [info exists newstate_server] & $newstate_server != $newstate_custom } {
+		if { [info exists newstate_server] && $newstate_server != $newstate_custom } {
 			set answer [::amsn::messageBox "[trans setbackinitialstate [trans [::MSN::stateToDescription $newstate_custom]] [trans [::MSN::stateToDescription $newstate_server]]]" yesno question "[trans confirm]"]
 			if { $answer == "no" } {
 				set newstate_custom $newstate_server
