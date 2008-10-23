@@ -110,7 +110,9 @@ proc SOCKSsecureSocket { args } {
 		set proxy_authenticate [expr [::config::getKey proxyauthenticate] == 1 ? 1 : 0]
 		set proxy_user [::config::getKey proxyuser]
 		set proxy_pass [::config::getKey proxypass]
-		set res [::Socks5::Init $socket $thost $tport $proxy_authenticate $proxy_user $proxy_pass]
+		if {[catch {set res [::Socks5::Init $socket $thost $tport $proxy_authenticate $proxy_user $proxy_pass]} res] } {
+			catch {close $socket}
+		}
 		if { $res != "OK" } {
 			return -code error $res
 		}
@@ -139,7 +141,9 @@ proc SOCKSSocket { args } {
 		set proxy_authenticate [expr [::config::getKey proxyauthenticate] == 1 ? 1 : 0]
 		set proxy_user [::config::getKey proxyuser]
 		set proxy_pass [::config::getKey proxypass]
-		set res [::Socks5::Init $socket $thost $tport $proxy_authenticate $proxy_user $proxy_pass]
+		if {[catch {set res [::Socks5::Init $socket $thost $tport $proxy_authenticate $proxy_user $proxy_pass]} res] } {
+			catch {close $socket}
+		}
 		if { $res != "OK" } {
 			return -code error $res
 		}
