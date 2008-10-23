@@ -153,7 +153,7 @@ proc SOCKSSocket { args } {
 	}
 
 	# if not proxifying, just create a socket directly
-	return [socket $thost $tport]
+	return [socket -async $thost $tport]
 }
 
 ::snit::type Proxy {
@@ -251,7 +251,7 @@ proc SOCKSSocket { args } {
 			set tmp_serv [lindex [$sb cget -server] 0]
 			set tmp_port [lindex [$sb cget -server] 1]
 		}
-		if { [catch {set sock [socket $tmp_serv $tmp_port]} res ] } {
+		if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
 			$sb configure -error_msg $res
 			return -1
 		}
