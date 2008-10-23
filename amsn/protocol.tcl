@@ -4836,7 +4836,9 @@ namespace eval ::MSNOIM {
 		set chatid [::MSN::ChatFor $self]
 
 		if { $chatid != 0} {
-			if { "$chatid" != "$desiredchatid" } {
+			if { !([::config::getKey protocol] >= 16 &&
+			       $desiredchatid == [::config::getKey login] ) && 
+			     "$chatid" != "$desiredchatid" } {
 				#Our chatid is different than the desired one!! try to change
 				status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $self\n"
 				set newchatid [::ChatWindow::Change $chatid $desiredchatid]
