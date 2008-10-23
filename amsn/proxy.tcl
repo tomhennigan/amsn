@@ -187,6 +187,24 @@ proc SOCKSSocket { args } {
 	option -name
 	variable http_idlist
 
+	proc createSock { serv port } {
+		return [socket -async $serv $port]
+	}
+
+	proc checkSocketErrors { sock } {
+		fileevent $sock writable {}
+		set ::socket_error [fconfigure $sock -err]
+		return ::socket_error
+	}
+
+	proc wrapSocketErrors { } {
+		if { ! [info exists ::socket_error] } {
+			return "Error connecting to socket"
+		} else {
+			return $::socket_error
+		}
+	}
+
 	#Called to write some data to the connection
 	method write { sb data } {
 
@@ -241,34 +259,43 @@ proc SOCKSSocket { args } {
 			set tmp_serv [lindex [$sb cget -server] 0]
 			set tmp_port [lindex [$sb cget -server] 1]
 		}
-		if { [catch {set sock [socket -async $tmp_serv $tmp_port]} res ] } {
+		if { [catch {set sock [createSock $tmp_serv $tmp_port]} res ] } {
 			$sb configure -error_msg $res
 			return -1
 		}
 
-		$sb configure -sock $sock
-		if { [$sb cget -proxy_host] != ""} {
-			if { [::config::getKey proxytype] == "http"} {
-				set res [$self ConnectHTTP $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
-				if { $res != "OK" } {
-					$sb configure -error_msg $res
-					return -1
-				}
-			} else {
-				set res [::Socks5::Init $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
-				if { $res != "OK" } {
-					$sb configure -error_msg $res
-					return -1
-				}
-			} 
+		#WARNING: clumsy code ahead
+		fileevent $sock writable [list set tmp [checkSocketErrors $sock]]
+		after 1000 [list set ::err [wrapSocketErrors]]
+		tkwait variable err
+		unset ::socket_error
+		if { $::err == "" } {
+			$sb configure -sock $sock
+                	if { [$sb cget -proxy_host] != ""} {
+	                        if { [::config::getKey proxytype] == "http"} {
+	                                set res [$self ConnectHTTP $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
+	                                if { $res != "OK" } {
+	                                        $sb configure -error_msg $res
+	                                        return -1
+	                                }
+	                        } else {
+	                                set res [::Socks5::Init $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
+	                                if { $res != "OK" } {
+	                                        $sb configure -error_msg $res
+	                                        return -1
+	                                }
+	                        }
+	                }
+	                fconfigure $sock -buffering none -translation binary -blocking 0
+	                fileevent $sock readable [list $sb receivedData]
+	                set connected_command [$sb cget -connected]
+	                lappend connected_command $sock
+	                fileevent $sock writable $connected_command
+			return 0
+		} else {
+			$sb configure -error_msg $::err
+			return -1
 		}
-		fconfigure $sock -buffering none -translation binary -blocking 0
-		fileevent $sock readable [list $sb receivedData]
-		set connected_command [$sb cget -connected]
-		lappend connected_command $sock
-		fileevent $sock writable $connected_command
-		return 0
-
 	}
 
 	method ConnectHTTP {sck addr port auth user pass} {
