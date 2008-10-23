@@ -575,7 +575,7 @@ namespace eval ::config {
 		set ::config($key) $value
 	}
 
-    proc searchKey { search_key } {
+    proc searchKeys { search_key } {
         set r [list]
         foreach key [::config::getKeys] {
             # non case-sensitive string matching
