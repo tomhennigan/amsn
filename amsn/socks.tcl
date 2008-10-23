@@ -78,13 +78,14 @@ namespace eval ::Socks5 {
 		
 		status_log "doing fconfigure now in socks5\n"	
 		fconfigure $sck -translation {binary binary} -blocking 0
-		status_log "doing fileevent now in socks5\n"
-		fileevent $sck readable "::Socks5::Readable $sck"
 		
 		status_log "writing to socket in socks5 writing : $ver$nmethods$method\n"
 		puts -nonewline $sck "$ver$nmethods$method"
 		flush $sck
 		
+		status_log "doing fileevent now in socks5\n"
+		fileevent $sck readable "::Socks5::Readable $sck"
+
 		status_log "going into tkwait\n"
 		tkwait variable ::Socks5::socks_idlist(stat,$sck)
 		set a $socks_idlist(data,$sck)
