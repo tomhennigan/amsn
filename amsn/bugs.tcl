@@ -3,11 +3,11 @@
 
 proc bgerror { args } {
 	set err $::errorInfo
-	#if { [catch {::bugs::bgerror $args} res ] } {
+	if { [catch {::bugs::bgerror $args} res ] } {
 		puts "Original stack trace :\n$err"
 		puts "\nStack trace of bgerror :\n$::errorInfo"
 		error $res
-	#}
+	}
 }
 
 namespace eval ::bugs {
