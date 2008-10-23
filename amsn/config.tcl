@@ -575,6 +575,18 @@ namespace eval ::config {
 		set ::config($key) $value
 	}
 
+    proc searchKey { search_key } {
+        set r [list]
+        foreach key [::config::getKeys] {
+            # non case-sensitive string matching
+            if { [string match -nocase "*${search_key}*" $key] } {
+                # They key matches, so append it to the return var.
+                lappend r $key
+            }
+        }
+        return $r
+    }
+
 	proc setAll {values} {
 		array set ::config $values
 	}
