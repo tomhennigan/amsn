@@ -815,6 +815,7 @@ server Server
 serverunavailable Server is unavailable
 session Session
 setasmydp Set as my display picture
+setbackinitialstate You have set aMSN to connect as $1, but you are now $2. Are you sure you want to set your status back to $1 ?
 setupcam Setting up your webcam device
 setupcamfinetune Setting up webcam device, and finetuning picture
 shareswebcam Shares webcam

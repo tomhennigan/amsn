@@ -4616,6 +4616,7 @@ namespace eval ::MSNOIM {
 	}
 
 	method setInitialNicknameCB { newstate newstate_custom nickname last_modif psm dp fail } {
+		global newstate_server
 		if {$fail == 0} {
 			status_log "GetProfile : Retrieved nickname from server : $nickname - psm : $psm"
 			::MSN::changePSM $psm $newstate 0 1
@@ -4651,8 +4652,8 @@ namespace eval ::MSNOIM {
 			}
 
 			# Change status after sending the UUX stuff
-			ChCustomState $newstate_custom
-			send_dock "STATUS" $newstate
+			#ChCustomState $newstate_custom
+			#send_dock "STATUS" $newstate
 		} else {
 			# Send our PSM to the server because it doesn't know about it!
 			::MSN::sendUUXData $newstate
@@ -4660,9 +4661,18 @@ namespace eval ::MSNOIM {
 			set_initial_nick
 
 			# Change status after sending the UUX stuff
-			ChCustomState $newstate_custom
-			send_dock "STATUS" $newstate			
+			#ChCustomState $newstate_custom
+			#send_dock "STATUS" $newstate			
 		}
+		if { [info exists newstate_server] & $newstate_server != $newstate_custom } {
+			set answer [::amsn::messageBox "[trans setbackinitialstate [trans [::MSN::stateToDescription $newstate_custom]] [trans [::MSN::stateToDescription $newstate_server]]]" yesno question "[trans confirm]"]
+			if { $answer == "no" } {
+				set newstate_custom $newstate_server
+			}
+			unset newstate_server
+		}
+		ChCustomState $newstate_custom
+		send_dock "STATUS" $newstate
 		if {$fail == 3} {
 			# ItemDoesNotExist
 			$::roaming CreateProfile [list $self RoamingProfileCreated]
@@ -5701,6 +5711,7 @@ proc cmsn_update_users {sb recv} {
 #TODO: ::abook system
 proc cmsn_change_state {recv} {
 	global remote_auth HOME
+	global newstate_server
 
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline
@@ -5742,6 +5753,10 @@ proc cmsn_change_state {recv} {
 		}
 		#Previous clientname info is now inaccurate
 		::abook::setContactData $user clientname ""
+		if {[::config::getKey protocol] >= 16 && $user == [::config::getKey login] } {
+			#ILN for ourself. We might want to change the status
+			set newstate_server $substate
+		}
 	} else {
 		#Coming online or changing state
 		set substate [lindex $recv 1]
