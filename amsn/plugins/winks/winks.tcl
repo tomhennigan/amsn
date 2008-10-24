@@ -527,20 +527,21 @@ namespace eval ::winks {
 		set buttonbar $newvar(bottom)		
 
 		set winksbut $buttonbar.winksbut
-		label $winksbut -image [::skin::loadPixmap butwinks] -relief flat -padx 0 \
+                set window $newvar(window_name)
+                set chatid [::ChatWindow::Name $window]
+                set winks_f_playing_in($chatid) 0
+
+		button $winksbut -image [::skin::loadPixmap butwinks] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg] \
+			-command "::winks::WinksMenu $window \[winfo pointerx $window\] \[winfo pointery $window\] [::ChatWindow::GetInputText $window] \"\" 0"
 		pack $winksbut -side left -padx 0 -pady 0
 
-		set window $newvar(window_name)
-		set chatid [::ChatWindow::Name $window]
-		set winks_f_playing_in($chatid) 0
-		
 		bind $winksbut <<Button2>> "::winks::WinksMenuDestroy"
 		bind $winksbut  <<Button3>> "::winks::AddWinkFromMCO $window"
 		bind $winksbut  <Enter> "$winksbut configure -image [::skin::loadPixmap butwinks_hover]"
 		bind $winksbut  <Leave> "$winksbut configure -image [::skin::loadPixmap butwinks]"	
-		bind $winksbut  <<Button1>> "::winks::WinksMenu $window \[winfo pointerx $window\] \[winfo pointery $window\] [::ChatWindow::GetInputText $window] \"\" 0"
+		#bind $winksbut  <<Button1>> "::winks::WinksMenu $window \[winfo pointerx $window\] \[winfo pointery $window\] [::ChatWindow::GetInputText $window] \"\" 0"
 	}
 	
 	

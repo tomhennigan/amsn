@@ -344,11 +344,14 @@ namespace eval ::Nudge {
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] -activebackground [::skin::getColor background2]\
 			} else {
-				label $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 0 \
+				button $nudgebutton -image [::skin::loadPixmap nudgebutton] -relief flat -padx 0 \
 				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+				-command "after 1 ::Nudge::send_via_queue $newvar(window_name)" \
 				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
 			}
-			bind $nudgebutton <<Button1>> "after 1 ::Nudge::send_via_queue $newvar(window_name)"
+			if {[::Nudge::version_094]} {
+				bind $nudgebutton <<Button1>> "after 1 ::Nudge::send_via_queue $newvar(window_name)"
+			}
 			#Configure hover button
 			bind $nudgebutton <Enter> "$nudgebutton configure -image [::skin::loadPixmap nudgebutton_hover]"
 			bind $nudgebutton <Leave> "$nudgebutton configure -image [::skin::loadPixmap nudgebutton]"
@@ -673,11 +676,14 @@ namespace eval ::Nudge {
 				-background [::skin::getColor background2] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getColor background2] -activebackground [::skin::getColor background2]\
 			} else {
-				label $nudgebutton -image [::skin::loadPixmap $nudgeimg] -relief flat -padx 0 \
+				button $nudgebutton -image [::skin::loadPixmap $nudgeimg] -relief flat -padx 0 \
 				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
+				-command  "after 1 ::Nudge::blocknudge $chatid $nudgebutton" \
 				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
 			}
-			bind $nudgebutton <<Button1>> "after 1 ::Nudge::blocknudge $chatid $nudgebutton"
+			if {[::Nudge::version_094]} {
+				bind $nudgebutton <<Button1>> "after 1 ::Nudge::blocknudge $chatid $nudgebutton"
+			}
 			
 			#Define baloon info
 			set_balloon $nudgebutton "$::Nudge::language(block_nudge)"

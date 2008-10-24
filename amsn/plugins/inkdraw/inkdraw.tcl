@@ -80,14 +80,15 @@ namespace eval ::draw {
 		set buttonbar $newvar(bottom)		
 
 		set inkswitch $buttonbar.inkswitchbut
-		label $inkswitch -image [::skin::loadPixmap butdraw] -relief flat -padx 0 \
+		set window $newvar(window_name)
+
+		button $inkswitch -image [::skin::loadPixmap butdraw] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg] \
+			-command "::draw::AddDrawboard $window $buttonbar"
 		pack $inkswitch -side left -padx 0 -pady 0
 
-		set window $newvar(window_name)	
-		
-		bind $inkswitch  <<Button1>> "::draw::AddDrawboard $window $buttonbar"
+		#bind $inkswitch  <<Button1>> "::draw::AddDrawboard $window $buttonbar"
 		bind $inkswitch  <Enter> "$inkswitch configure -image [::skin::loadPixmap butdraw_hover]"
 		bind $inkswitch  <Leave> "$inkswitch configure -image [::skin::loadPixmap butdraw]"	
 	}
