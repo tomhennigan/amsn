@@ -2,11 +2,11 @@
 === Alvaro's Messenger =================================
 === Credits  ===========================================
 
-These are the fine people who donated a very large part 
+These are the fine people who donated a very large part
 of their time and work for the project.
 
-There are also hundreds of users all around the world who 
-helped us in usability tests, sending small corrections to 
+There are also hundreds of users all around the world who
+helped us in usability tests, sending small corrections to
 code or translations and supporting us in many ways.
 
 For all of them, our sincere thanks.
@@ -28,6 +28,7 @@ Jonne Zutt - jonne_z@users.sourceforge.net
 Tom Hennigan - tomhennigan@users.sourceforge.net
 Karel Demeyer - scapor@users.sourceforge.net
 Cristofaro Del Prete - dpcris85@users.sourceforge.net
+Boris Faure - billiob@users.sourceforge.net
 
 
 ========================================================
@@ -35,12 +36,12 @@ Cristofaro Del Prete - dpcris85@users.sourceforge.net
 
 Added by Alvaro J. Iradier.
 
-The Language Management Team: 
+The Language Management Team:
 	Álvaro J. Iradier
 	Cheng-Lin Yang
 	Henrique Cesar Ulbrich (Hatredman)
 	Pavel Vávra
-	Thomas Geirhovd		   
+	Thomas Geirhovd
 
 Translations to:
 
@@ -78,7 +79,7 @@ Cymraeg (Welsh): http://www.meddal.org.uk
 
 Czech:	Landsfeld Petr
 
-Dansk (Danish):  
+Dansk (Danish):
 	Benjamin Schultzer
 	Anders Bach Nielsen
 	Thomas Petersen
@@ -302,6 +303,7 @@ Türkçe (Turkish): by Baris Cicek
 	Gurkan Bebek
 	Kemal Ilgar Eroglu
 	Oktay Dogangun
+	Murat Şenel (Pardus packager)
 
 Valencià (Valenciano): Juan Arnal Arlandis
 	Juan José García Amaya
@@ -312,13 +314,12 @@ Valencià (Valenciano): Juan Arnal Arlandis
 === Installer translators =============================
 
 Catalan: Fernando Verdu Castillo
-Deutsch: 
 Dutch: Harry Vennik
 Spanish: Daniel Lopez
 Estonian: Üllar Pajus
 Indonesian: Rai S. Regawa
 Portuguese: Filipe Defiant Gonçalves Figueiredo
-Portuguese (Brasil): Daniel Lopez 
+Portuguese (Brasil): Daniel Lopez
 Romanian: Arny - http://www.arny.ro/html/amsnro.html
 Slovenian: Janos Vidali
 Valenciano: Fernando Verdu Castillo
