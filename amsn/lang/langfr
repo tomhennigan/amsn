@@ -816,6 +816,7 @@ server Serveur
 serverunavailable Serveur non disponible
 session Session
 setasmydp Utiliser comme avatar
+setbackinitialstate Vous avez configuré aMSN pour se connecter en tant que $1, mais vous êtes déja connecté en tant que $2. Êtes-vous sûr d'utiliser le statut $1?
 setupcam Configuration de la webcam
 setupcamfinetune Configuration de la webcam et réglages avancés de l'image
 shareswebcam Possède une webcam
