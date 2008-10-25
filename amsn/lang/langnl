@@ -815,6 +815,7 @@ servergoingdown Verbinding verbroken: de server wordt uitgeschakeld
 serverunavailable Server is niet beschikbaar
 session Sessie
 setasmydp Instellen als mijn schermafbeelding
+setbackinitialstate Je hebt aMSN ingesteld om verbinding te maken als $1, maar bent nu $2. Weet je zeker dat je je status wilt terugzetten naar $1?
 setupcam Bezig met instellen van je webcam...
 setupcamfinetune Bezig met instellen van je webcam en fijnafstellen van het beeld
 shareswebcam Heeft een webcam
