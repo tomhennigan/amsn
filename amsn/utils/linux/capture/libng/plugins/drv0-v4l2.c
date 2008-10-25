@@ -217,7 +217,7 @@ xioctl(int fd, int cmd, void *arg, int mayfail)
     int rc;
 
     rc = v4l2_ioctl(fd,cmd,arg);
-    if (0 == rc && ng_debug < 2)
+    if (0 <= rc && ng_debug < 2)
 	return rc;
     if (mayfail && errno == mayfail && ng_debug < 2)
 	return rc;
@@ -1025,6 +1025,10 @@ v4l2_stop_streaming(struct v4l2_handle *h)
     h->queue = 0;
     h->waiton = 0;
 
+    /* unrequest buffers (only needed for some drivers) */
+    h->reqbufs.count = 0;
+    xioctl(h->fd, VIDIOC_REQBUFS, &h->reqbufs, EINVAL); 
+
     /* turn on preview (if needed) */
     if (h->ov_on != h->ov_enabled) {
 	h->ov_on = h->ov_enabled;
@@ -1062,6 +1066,17 @@ v4l2_setformat(void *handle, struct ng_video_fmt *fmt)
     fmt->width        = h->fmt_v4l2.fmt.pix.width;
     fmt->height       = h->fmt_v4l2.fmt.pix.height;
     fmt->bytesperline = h->fmt_v4l2.fmt.pix.bytesperline;
+    /* struct v4l2_format.fmt.pix.bytesperline is bytesperline for the
+       main plane for planar formats, where as we want it to be the total 
+       bytesperline for all planes */
+    switch (fmt->fmtid) {
+        case VIDEO_YUV422P:
+          fmt->bytesperline *= 2;
+          break;
+        case VIDEO_YUV420P:
+          fmt->bytesperline = fmt->bytesperline * 3 / 2;
+          break;
+    }
     if (0 == fmt->bytesperline)
 	fmt->bytesperline = fmt->width * ng_vfmt_to_depth[fmt->fmtid] / 8;
     h->fmt_me = *fmt;
