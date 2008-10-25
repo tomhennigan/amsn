@@ -1,691 +1,1042 @@
 amsn_lang_version 2
+abort Întrerupe
 about Despre
-accept Accepta
-acceptfile Accept fisierul $1, marime $2? Salvat in $3
-actions Actiuni
-activeautoupdate Active auto-update
-add Adauga
-addacontact Adauga o persoana noua  
-addedyou Te-a adaugat in lista lui/ei de contacte
-addprofile Adauga un profil nou
-addprofiledesc Defineste o autentificare pentru a crea un profil nou.\nAutentificarile cu profil au configuratii diferite. \nNu se pot folosi jurnalele, sunetele de alarma sau retine parolele daca nu este definit un profil.
-addstate Adauga o stare noua
-addto Adauga la $1
-addtocontacts Adauga in lista de contact
-addtoo Adauga persoana in lista  
-admincontacts Administrare nume
-admingroups Administrare grup
-advanced Setari amanuntite
-advancedprefs Configurarea optiunilor
-adverts Avertismente
-agotinvitation Invitatia Audio receptionata de la $1
-alarmonconnect Activeaza sunetele de avertizare cand cineva se autentifica
-alarmondisconnect Activeaza sunetele de avertizare cand cineva se deautentifica sau devine invizibil
-alarmonmsg Activeaza sunetele de avertizare cand cineva iti trimite un mesaj
-alarmonstatus Activeaza sunetele de avertizare cand cineva isi schimba starea
-alarmpref Setari de sunet pentru utilizator
-alarms Sunete
-alarmstatus Opreste/Porneste sunetele
-allfiles Toate fisierele
-allowallbutbl Permite tuturor sa ma contactaze in afara de cei din lista celor blocati
-allowbadwords Dezactiveaza cenzura de pe porecle
-allowlist Lista cu cei acceptati:
-allowonlyinal Numai cei din lista celor acceptati sa ma contacteze
-allowseen Permite persoanei sa ma vada autentificat si sa ma contacteze.
-allow_sms Permite utilizatorilor sa ma contacteze pe mobilul MSN
-allprofilesinuse Toate profilele existente sunt utilizate momentan
-allmonths Toate lunile
-animatedemoticon Acest semn este animat
-animatedsmileys Activeaza semnele de conversatie animate
-animatenotify Fereastra de atentionare animata
-appearance Aparente
-appearoff Neautentificat
-areacode Codul postal
-aretyping $1 scrie un mesaj
+aboutamsn Despre Alvaro's Messenger
+accept Acceptã
+acceptfile Doriþi sã acceptaþi fiºierul $1 (mãrime $2 baiþi)? Va fi salvat în $3
+account Cont
+actions Acþiuni
+activeautoupdate Activeazã auto-actualizarea programului
+addacontact Adaugã Contact
+add Adaugã
+addedyou $1 ($2) v-a adãugat la lista sa de contacte
+addprofile Adaugã Profil Nou
+addprofiledesc Introduceþi numele de utilizator pentru care doriþi sã creaþi un profil nou. \nProfilurile vã permit sã aveþi configuraþii diferite pentru fiecare nume de utilizator.\nFãrã profiluri nu puteþi utiliza Istoricul, Alarmele sau Memorarea Parolei.
+addstate Adaugã Stare Nouã
+addto Adaugã la $1
+addtocontacts Adaugã la Lista de Contacte
+addtoo Adaugã aceastã persoanã la lista mea de contacte
+admincontacts Administreazã Contactele
+admingroups Administreazã Grupurile
+advanced Avansate
+advancedprefs Configurarea Opþiunilor Avansate
+adverts Publicitãþi
+agotinvitation Aþi primit o Invitaþie Audio de la $1
+alarmonconnect Activeazã alarma cînd acest utilizator devine disponibil
+alarmondisconnect Activeazã alarma cînd acest utilizator devine neconectat/invizibil
+alarmonmsg Activeazã alarma cînd acest utilizator îmi trimite un mesaj
+alarmonstatus Activeazã alarma cînd se schimbã starea acestui utilizator
+alarmpref Setãri de alarmare specifice fiecãrui utilizator
+alarmpref2 Setãri de alarmare pentru fiecare contact
+alarms Alarme
+alarmstatus Activeazã alarma pentru acest utilizator
+allfiles Toate Fiºierele
+allmonths Toate Lunile
+allowallbutbl Permite tuturor utilizatorilor sã mã contacteze, cu excepþia celor pe care i-am blocat
+allowbadwords Dezactiveazã cenzurarea poreclelor
+allowlist Lista de Acceptaþi (AL):
+allowonlyinal Doar utilizatorilor acceptaþi le este permis sã mã contacteze
+allowseen Permite acestei persoane sã vadã cînd sînt conectat ºi sã mã contacteze
+allow_sms Permite utilizatorilor sã mã contacteze pe mobil
+allprofilesinuse Toate profilurile existente sînt actualmente în uz
+always Mereu
+animatedemoticon Aceastã emoticoniþã e animatã
+animatedsmileys Activeazã animaþia emoticoniþelor
+animatenotify Fereastrã de notificare animatã
+appearance Aspect
+appearoff Invizibil
+areacode Cod Poºtal
+aretyping $1 tasteazã un mesaj
+askcam Solicitã Vizionarea Videocamerei
+askcontactwebcam pentru a cere vizionarea videocamerei contactului, sau 
+askeachtime Întreabã-mã de fiecare datã
+asksendingyourwebcam pentru a invita la vizionarea propriei videocamere
+asksendoim Doriþi sã trimiteþi acest mesaj ca mesaj neconectat ?
+askwebcam Cere acestui utilizator sã dea drumul la videocamerã
+assistantainput Alegeþi dispozitivul de intrare ºi încercaþi sã înregistraþi cu el.
+assistantaoutput Alegeþi dispozitivul de ieºire ºi încercaþi sã redaþi fiºierul audio pentru a-l testa.
+assistantawarn Nu veþi putea sã vã înregistraþi singur sau sã vorbiþi cu prietenii. Gãsiþi rãspunsuri despre cum sã instalaþi extensia pe Wikiul nostru:
+assistantfinetunepic Modificaþi setãrile urmãtoare pentru a ajusta calitatea imaginii videocamerei dv.
+assistantselectcam Selectaþi videocamera dv. din listã
+assistantstarting Porneºte Asistentul
+assistanttitle Asistent Audio-Video 
+assistantwelcome Asistentul vã va ghida în configurarea setãrilor audio-video pentru aMSN.\n\nEl va verifica dacã extensiile necesare sînt prezente ºi încãrcate, astfel încît sã puteþi alege dispozitivul ºi canalul, ºi sã setaþi proprietãþile imaginii ºi rezoluþia.
+audioconfigured Aþi ales urmãtoarele setãri audio:\n\nDispozitiv de Ieºire: $1\nDispozitiv de Intrare: $2
+audiovideo Setãri Audio-Video
 author Autor
-autoaccepted Transferul de fisier a fost acceptat automat
-autoacceptft Accepta automat transferul de fisiere
-autoaway Arata "Plecat" cand sunt inactiv de
-autocheckver Verifica automat daca este versiune noua
-autoconnect Conectare automata la pornirea aMSN-ului
-autoconnect2 Autentificare automata la pornirea aMSN-ului
-autodetectip Detecteaza IP-ul automat
-autohotmaillog Autentificare automata la Hotmail
-autoidle mod pasiv automat
-autoip IP automat
-automessage MesajAutomat
-autonoact Arata "Fara Activitate" cand sunt inactiv de
-avaccepted Cererea pentru conferinta Video acceptata
-avcanceled Cererea pentru conferinta Video anulata
-avgotinvitation Receptionat invitatie pentru conferinta Video de la $1
-avinitfailed Initializarea pluginului Audio/Video a esuat. Cererea anulata
-avoidseen Nu permite persoanei sa ma vada autentificat si sa ma contacteze.
-away Plecat
-awaymsg1 Confirmare inainte de schimbarea starii Plecat/Revin/Ocupat
-awaymsg2 Nu intreba niciodata si foloseste intotdeuna mesajul urmator:
-baduserpass Parola sau user gresit!
-bgcolor Schimba culoarea fundalului
-blankdirect Nu complecta pentru autentificare automata
-block Blocheaza
+autoaccepted Transfer de fiºiere acceptat automat
+autoacceptft Acceptã automat cererile de transfer de fiºiere
+autoaway Schimbã starea la "Absent" cînd sînt inactiv pentru
+autocheckver Cautã automat versiuni noi la pornire
+autoconnect2 Autentificare automatã la pornirea programului
+autoconnect Autentificã Automat la Pornire 
+autodetectip Detecteazã automat adresa IP
+autohotmaillog Autentificã automat la Hotmail
+autoidle Inactivitate Automatã
+autoip IP Automat
+autolisten_voiceclips Redã automat clipurile vocale odatã ce sînt primite
+automessage Mesaj Automat
+autonoact Schimbã starea la "Inactiv" cînd sînt inactiv pentru
+autoresizedp Redimensioneazã automat avatarurile [pozele personale] la mãrimea implicitã
+avaccepted Apel de Conferinþã Video Acceptat
+avcanceled Apel de Conferinþã Video Anulat
+avgotinvitation Aþi primit o Invitaþie la o Conferinþã Video de la $1
+avinitfailed Iniþializarea Extensiei Audio/Video a eºuat. Apelul a fost anulat
+avoidseen Împiedicã aceastã persoanã sã vadã cînd sînt conectat ºi sã mã contacteze
+away Absent
+awaymsg1 Solicitã mesajul de plecare de fiecare datã cînd îmi schimb starea în Absent/Revin Imediat/Ocupat
+awaymsg2 Nu întreba niciodatã ºi foloseºte mereu mesajul de mai jos
+back Înapoi
+baduserpass Nume de utilizator sau parolã incorecte
+badwebcam Nu pot afiºa imaginea videocamerei. Asiguraþi-vã cã videocamera e bãgatã în prizã ºi are draiverul instalat.
+bgcolor Schimbã culoarea de fundal a lui aMSN 
+blankdirect Lasã gol în caz de conexiune directã
+block Blocheazã
 blocked Blocat
-blockedyougroup Afiseaza un grup separat pentru cei care te-au blocat
-blocking Blocari
-blockinter1 Cand esti online verifica la fiecare
-blockinter2 secunde, altfel verifica la fiecare:
-blockinter3 la fiecare
+blockedyougroup Aratã un grup separat format din persoanele care m-au blocat
+blocking Blochez
+blockinter1 Cînd starea e "Disponibil" cautã la fiecare 
+blockinter2 secunde, altfel verificã la fiecare:
+blockinter3 la fiecare 
 blockinter4 secunde.
-blocklist Lista celor blocati:
-blockmessage Aceste persoane sunt online si te-au blocat
-blockusers Numarul de utilizatori care sa fie verificati odata
-bouncedock La receptionarea unui mesaj nou scutura icoana aMSN minimizata
-broughtby aMSN Messenger programat de
-browse Rasfoieste
-browser Navigator
-browserexample ( \$url va fi inlocuit cu URL). Ex: mozilla \$url
+blocklist Lista de Blocaþi (BL):
+blockmessage Aceste persoane sînt conectate ºi v-au blocat
+blocknotifications Dezactiveazã afiºarea ferestrelor de notificare
+blocksounds Dezactiveazã sunetele
+blockusers Numãrul de utilizatori care trebuie verificaþi concomitent
+bouncedock Zgîlþîie iconiþa aMSN în doc cînd s-a primit un mesaj
+brightness Luminozitate
+broughtby Programul vã este oferit de urmãtorii dezvoltatori
+browse Exploreazã
+browser Explorator
+browserexample (\$url va fi înlocuit cu URL). De ex: mozilla \$url
+bugerror Scuze, a apãrut o problemã în timpul conectãrii la baza de date cu buguri. Verificaþi conexiunea la internet.
+bugnocomment Trimiteþi fãrã nici un comentariu? Comentarea unui bug ajutã la diagnosticarea ºi repararea problemei.
 busy Ocupat
-cachedpics Poza retinuta al lui $1
-cancel Renunta
-cannotdeleteprofile Nu se poate sterge profilul deoarece este folosit de o sesiune aMSN
-cantexec Nu pot executa aplicatia: $1. Verifica preferintele
-cantloadonlineversion De pe internet, nu se poate recupera lista cu actualizarile de limba
-cantremoveothers Nu pot sterge grupul "Others"
-casesensitive Foloseste declansatoarele cu majuscule semnificative
-cfgalarm Configureaza/Adauga/Sterge sunete
-cfgalarmall Configureaza/Adauga/Sterge sunetul general
-change Schimba
-changecustomstate Schimba pe
-changedisplaypic Schimba poza afisata
-changefont Schimba caracterul
-changeglobnick Schimba nick-ul global
-changenick Schimba nick-ul
-changesize Schimba marimea
-changestate $1 si-a schimbat starea in $2
-charscounter Contorul de caractere tastate in fereastra de chat.
-chat Conversatie
-chatack In curs de acceptare
-chatmaxmin Cand o persoana intra in conversatie cu mine vreau ca fereastra sa fie :
-chatreq Cerere de conversatie
-chatsmileys Semne in conversatie
-chatsmileys2 Afiseaza semnele de conversatie in fereastra de conversatie
-checkblocking Verifica permanent daca utilizatorii te blocheaza
-checkemail Afiseaza notificarile de mail (inbox) in lista de contacte
-checkfilman Fisierele primite vor fi salvate in $1. Verificati setarile in fereastra de preferinte.
-checkingver In curs de verificare
-checkonfln Verifica daca utilizatorul te-a blocat cand sa deautentificat
-checkopenfilecommand In fereastra de preferinte verifica comanda pentru deschiderea de fisiere
-checkver Verifica daca este versiune noua
-choosearq Alege arhitectura sistemului
-choosebasefont Alege caracterul
-choosebgcolor Alege culoarea
-choosecontact Alege un contact (persoana) din lista
-choosefontcolor Alege culoarea caracterului
-chooseskin Alege Skin-ul
-ch_to_state Treci intr-o noua stare
-clear Anuleaza
-clearlog Sterge jurnalul
-clearlog2 Sterge jurnalul pentru toate contactele
-clearlog3 Sterge toate jurnalele
-clicktoadd Pentru o notita noua apasa butonul "Adauga"
-clicktologin Autentificare
-clientcaps Trimite pachete x-clientcaps la alti clienti
-clientname Numele clientului
-close Inchide
-closeall Inchid toate filele din fereastra?
-closed Incheiat conversatia cu $1 pentru inactivitate
-closingdocks Minimizare in loc de inchidere
-command Commanda
-commandstatus Executa comanda
-configure Configureaza
-confirm Sunteti sigur?
-confirmbl Esti sigur ca vrei sa blochezi aceasta persoana?
-confirmdelete Sigur vrei sa stergi persoana $1?
-confirmdg Sigur vrei sa stergi acest grup?
-confirmdu Sigur vrei sa stergi acest utilizator?
-confirmeg Sigur vrei sa golesti acest grup?
-confirmpurge Toate imaginile stocate de la celelalte persoane vor fi sterse (nu si imaginile tale). Esti sigur?
-confirmrfl Esti sigur ca vrei sa stergi acest utilizator din acest grup?
-connected Conectat
-connectedwith Autentificat cu $1
-connecterror Conectarea la server a esuat
-connecting In curs de conectare
+bytesymbol b
+cachedpics $1 avataruri caºate
+cachedpicsfor Avataruri caºate ale utilizatorului
+cagreement Acord de Confidenþialitate
+cancel Anuleazã
+cancelled Anulat
+cannotdeleteprofile Nu pot ºterge profilul pentru cã pare a fi utilizat de o altã sesiune aMSN
+cantexec Nu pot executa aplicaþia: $1. Verificaþi preferinþele
+cantget Nu pot obþine $1
+cantloadonlineversion Nu pot obþine de pe internet lista de limbi actualizate
+cantremoveothers Grupul "Alþii" nu poate fi înlãturat
+captureextloaded Extensia de capturã -$1- e încãrcatã
+captureextnotloaded Extensia de capturã -$1- nu e încãrcatã, va trebui s-o compilaþi mai întîi
+captureproperties Proprietãþile imaginii videocamerei
+capturewarn Nu veþi putea trimite imagini cu videocamera, dacã aveþi una. Dacã nu aveþi, e ceva normal. Veþi gãsi detalii despre instalarea extensiei pe wikiul nostru:
+casesensitive Foloseºte texte declanºatoare sensibile la MAJ/min
+cfgalarmall Configureazã Alarma Globalã
+cfgalarm Configureazã Alarma
+change_account_info Modificã Informaþiile Contului
+change Schimbã
+changecustomstate Comutã la
+changedisplaypic Schimbã Avatarul
+changefont Selecteazã Fontul
+changeglobnick Schimbã Porecla Globalã
+change_mobile Schimbã Setãrile Modului Mobil
+changenick Schimbã Porecla Afiºatã
+changepsm Schimbã Mesajul Personal
+changesize Schimbã Mãrimea
+changestate $1 schimbã starea la $2
+changestatus Schimbã Starea
+changevideosettings Configureazã Setãrile Video 
+channels Canale
+charscounter Contor de caractere tastate în camera de taifas
+chatack Accept taifasul cu
+chat Taifas
+chatmaxmin Cînd un contact deschide o fereastrã de taifas cu mine vreau sã fie:
+chatreq Solicit Taifas
+chatsmileys2 Aratã emoticoniþele în ferestrele de taifas
+chatsmileys Aratã Emoticoniþele Inserate
+checkblocking Verificaþi continuu dacã alþi utilizatori vã blocheazã
+checkemail Aratã în lista de contacte o notificare la primirea de mesaje de poºtã electronicã
+checkfilman Fiºierele primite vor fi salvate în $1. Verificaþi setãrile administratorului de fiºiere în fereastra preferinþelor.
+checkingaudio Verific dacã extensia audio (Snack) este încãrcatã ...
+checkingcam Verific dacã o videocamerã e conectatã ...
+checkingcapext Verific dacã extensia '$1' e încãrcatã ...
+checkingextensions Verific extensiile video necesare
+checkingver Caut versiune nouã
+checkonfln Verificaþi dacã un utilizator v-a blocat cînd aþi fost neconectat
+checkopenfilecommand Verificaþi comanda de deschidere a fiºierelor în fereastra cu preferinþe
+checkver Cautã Versiune Nouã
+choosearq Alegeþi arhitectura sistemului
+choosebasefont Alegeþi Fontul
+choosebgcolor Alegeþi Culoarea de Fundal
+choosechannel Alegeþi un Canal
+choosecontact Alegeþi un Contact
+choosedevice Dispozitiv Video:
+choosefontcolor Alegeþi Culoarea Fontului
+chooseinputdev Dispozitiv de Intrare Audio:
+chooselocation Alegeþi Locul Fiºierului Nou
+choosemixerdev Mixer Audio:
+chooseoutputdev Dispozitiv de Ieºire Audio:
+chooseskin Selectaþi costumul pe care doriþi sã-l foloseascã aMSN
+ch_to_state Comutã la starea nouã
+clear Curãþã
+clearlog2 Curãþã Istoricul Contactelor
+clearlog3 Curãþã Toate Jurnalele
+clearlog Curãþã Jurnalul
+clearwebcamlogs Curãþã Jurnalul Videocamerei
+clickhere Clic Aici
+clicktoadd Clic pe butonul "Adaugã" pentru a adãuga o notã nouã
+clicktologin Clic aici pentru autentificare
+clientcaps Trimite pachet x-clientcaps la alþi clienþi
+clientname Soft
+closeall Închid toate taburile din aceastã fereastrã?
+closealltabs Închide toate taburile
+close Închide
+closechatwindows Închid toate conversaþiile înainte de dezautentificare?
+closed Conversaþia cu $1 a fost închisã: inactivitate
+closelabel La clicarea butonului de închidere al unui tab de taifas:
+closeonly Închide tabul curent
+closeorcall Trebuie sã închideþi/anulaþi Apelul Audio înainte de a închide fereastra.
+closeordock Închiderea ferestrei cu lista de contacte va duce la închiderea programului. Poate cã aþi dorit doar închiderea ferestrei ºi pãstrarea aMSN în sistaler.\n\nSigur doriþi sã închideþi aMSN?
+closeothers Închide Celelalte Taburi
+closingdocks Butonul de închidere minimizeazã
+color Culoare
+command Comandã
+commandstatus Executã Comanda Specificatã
+configure Configureazã
+configuremic Configurarea microfonului
+configuringaudio Configurarea setãrilor audio
+configureplugin Configureazã extensia $1 
+confirm Sînteþi sigur?
+confirmbl Sigur doriþi sã blocaþi acest contact?
+confirmdelete Sigur doriþi sã ºtergeþi $1?
+confirmdg Sigur doriþi sã ºtergeþi acest grup?
+confirmdu Sigur doriþi sã ºtergeþi acest utilizator?
+confirmeg Sigur doriþi sã goliþi acest grup?
+confirmpurge Toate avatarurile stocate ale contactelor vor fi ºterse (ale dv. vor fi pãstrate). Sînteþi sigur?
+confirmrfl Sigur doriþi sã ºtergeþi acest utilizator din grup?
+confirmfulldelete ªterge ºi din Agenda cu Adrese Windows Live
+congrats Felicitãri
+connected Acum sînteþi conectat
+connectedat Conectat la:
+connectedwith Conectat ca $1 
+connecterror Eroare de conectare la server
+connectfirst Mai întîi trebuie sã vã conectaþi
+connecting Mã conectez
 connection Conexiune
-connectionlost Deconectat: Conexia cu serverul sa inchis
+connectionlost Deconectat: Am pierdut conexiunea cu serverul
+contactadded Contact adãugat
 contact Contact
-contactadded Persoana adaugata
-contactdoesnotexist Persona nu exista!
-contactlist Lista contactelor (FL):
-continuously In continuu
-conversationwith $1 utilizatori in conversatie
-convertexplain Calea catre fisierul executabil CONVERT de la ImageMagick (necesar pentru Afisarea Imaginilor).\n Nu completati atunci cand CONVERT este in PATH
-copy Copiaza
-copytogroup Copieaza in grupul
-corruptconfig Fisierul de configurare este corupt. Creez unul nou. Vechiul fisier va fi salvat ca si $1. Te rog sa ni-l trimiti pentru a vedea ce s-a intamplat.
-corruptstates Configurarea starilor personalizate este corupta. Creez una noua. Vechiul fisier va fi salvat ca si $1. Te rog sa ni-l trimiti pentru a vedea ce s-a intamplat.
-countrycode Tara / Cod postal
-cprofile Creare Profil
+contactdoesnotexist Contactul nu existã!
+contactlist Lista de Contacte (FL):
+contacts Contacte
+continuously Continuu
+contrast Contrast
+conversationwith $1 utilizatori în conversaþie
+convertexplain Calea cãtre CONVERTORUL fiºierului executabil, de la ImageMagick (necesar pentru Afiºarea Avatarurilor).\n Lãsaþi gol dacã CONVERTORUL e inclus în cale
+copy Copiazã
+copytoclipboard Copiazã $1 în cliplanºetã
+copytogroup Copiazã în Grupul
+corruptconfig Fiºierul de configurare este deteriorat. Va fi creat unul nou. Fiºierul vechi va fi salvat în $1. Vã rugãm sã ni-l trimiteþi pentru a afla ce s-a întîmplat.
+corruptstates Fiºierul de configurare a stãrilor personalizate este deteriorat. Va fi creat unul nou. Fiºierul vechi va fi salvat în $1. Vã rugãm sã ni-l trimiteþi pentru a afla ce s-a întîmplat.
+couldnotrename Nu pot redenumi fiºierul $1
+countrycode Cod de Þarã/Regiune
+cprofile Creeazã Profil
 created Creat
-credits Multumiri
-currentdate Data curenta
-currentlanguage Aceasta este limba pe care o folositi
-currentnotes Notite curente
-custnotifymsg Afiseaza fereastra de avertizare cand soseste un mesaj nou de la un utilizator nou
-custnotifyoffline Afiseaza fereastra de avertizare cand partenerul de chat se deautentifica
-custnotifyonline Afiseaza fereastra de avertizare cand acest contact se autentifica
-custnotifystatus Afiseaza fereastra de avertizare cand acest contact isi schimba starea
-customcolor Culoare personalizata
-custom_edit Editeaza semnele de conversatie create
-custom_new Adauga semne de conversatie noi
-customnick Nume personalizat
-customstyle Stil personalizat
-cut Sterge
-date Data
-dateformat Schimba formatul datei
+credits Mulþumiri
+curdisplaypic Avatarul Curent
+currentdate Data Curentã
+currentdynrate Viteza curentã în timp real (în milisecunde)
+currentlanguage Aceasta e limba aflatã acum în uz
+currentnotes Note Curente
+custnotifymsg Afiºeazã fereastra de notificare cînd soseºte un mesaj de la acest utilizator
+custnotifyoffline Afiºeazã fereastra de notificare cînd acest contact devine neconectat
+custnotifyonline Afiºeazã fereastra de notificare cînd acest contact devine conectat
+custnotifystatus Afiºeazã fereastra de notificare cînd se schimbã starea acestui contact
+customcolor Culoare Personalizatã
+customdp Avatar Personalizat
+custom_edit Editeazã emoticoniþa personalizatã
+custom_new Adaugã Emoticoniþã Personalizatã
+customnick Poreclã Personalizatã
+customsmileys Afiºeazã emoticoniþele personalizate ale altor utilizatori
+customstyle Stil Personalizat
+custshowcustomsmileys Afiºeazã emoticoniþele personalizate ale utilizatorului
+cut Decupeazã
+cutimageboxreset Reseteazã mãrimea\nselecþiei la:
+cutimagebox Selectaþi partea din imagine pe care doriþi s-o utilizaþi, redimensionînd ºi mutînd caseta de selectare
+date Datã
+dateformat Formatul Datei
 day Zi
 days Zile
-dcprofile Nu crea profil
-default Configurarea implicita
-defaultloginradio Autentificare cu configuratia implicita
-defchatwinsize Dimensiune implicita pentru fereastra de chat (LATIME x INALTIME)
-delete Sterge
-deleteall Sterge tot 
-deletecustomstate Sterge stare personalizata
-delimiters Separatoarele de timp:
-deliverfail Eroare la trimiterea mesajului
-delprofile Sterge profilul
-delprofile2 Selecteaza profilul pe care vrei sa il stergi
+dcprofile Nu Crea Profilul
+default2 Implicit
+default Config. Implicitã
+defaultloginradio Autentificã cu configuraþia implicitã
+defchatwinsize Mãrimea implicitã pentru fereastra de taifas (XSIZExYSIZE)
+deleteall ªterge Tot
+deleteblock ªterge ºi Blocheazã
+deletecustomstate ªterge starea personalizatã
+delete ªterge 
+delimiters Delimitatoarele marcajelor de timp:
+deliverfail Mesajul urmãtor nu a putut fi trimis
+delprofile2 Selectaþi profilul pe care doriþi sã-l înlãturaþi 
+delprofile ªterge Profilul
 description Descriere
-detach Detaseaza
-directconnection Legatura directa cu internetul (foloseste portul 1863)
+detach Detaºeazã
+details Detalii
+devicebusy Dispozitivul $1 e ocupat
+devices Dispozitive
+directconnection Conectare directã (prin portul 1863)
 disabled Dezactivat
-disableprofiles Dezactiveaza profilele
-disablessl Dezactiveaza SSL
-disableuserfonts Foloseste fonturile proprii si ignora fonturile celui din conversatie
+disableprofiles Dezactiveazã profilurile (util pentru netcafenele sau medii partajate)
+disablessl Dezactiveazã SSL
+disableuserfonts Ignorã fontul folosit în mesaje de utilizatorul distant ºi foloseºte fontul meu
 disconnect $1 s-a deconectat.
 disconnectedfrom Deconectat de la $1
-displaychat Afiseaza optiunile de text
-displayeventconnect Afiseaza cand persoana devine autentificata
-displayeventdisconnect Afiseaza cand persoana se deautentifica
-displayeventemail Afiseaza cand soseste un e-mail
-displayeventstate Afiseaza cand persoana isi schimba starea
-displayp4context Arata continutul campului P4-Context ca si mesaj  
-displaypic Afiseaza poza
+displaychat Opþiuni de afiºare a textului
+displayeventconnect Avertizeazã cînd contactele se conecteazã
+displayeventdisconnect Avertizeazã cînd contactele se deconecteazã
+displayeventemail Avertizeazã cînd e primit un mesaj de poºtã electronicã
+displayeventstate Avertizeazã cînd contactele îºi schimbã starea
+displayeventnick Avertizeazã cînd contactele îºi schimbã porecla
+displayeventpsm Avertizeazã cînd contactele îºi schimbã mesajul personal
+displayp4context Aratã conþinutul cîmpului P4-Context ca fiind expeditorul mesajului
+displaypic Aratã Avatarul Interlocutorului
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
-dockgtk Ataseaza in Gnome
-docking Ataseaza
-dockingoff Detaseaza
-dockkde Ataseaza in KDE
-dontdownload Nu descarca TLS, O sa il instalez manual
-dontshow Nu arata
-download Descarca
-downloadingtls In curs de descarcare modulul TLS de la:\n $1
-edit Editare
-editcustomstate Editeaza stare personalizata
-editnewstate Creeaza o noua stare pentru mesajului automat
-editprofile Editeaza profilul
-editstate Editeaza starea mesajului automat existent
-editvalue Seteaza valoarea
-email Email
-emailsinlist Arata adresele email in loc de nick-uri in lista de contacte.
-emotisounds Semne in conversatie cu sunet
-emptygroup Goleste grupul
+dockgtk Doc Gnome 
+docking Andocare
+dockingoff Andocare Dezactivatã
+dockkde Doc KDE 
+done Gata
+dontaskweek Nu mã mai întreba o sãptãmînã despre actualizãri
+dontdownload Nu descãrca TLS, îl voi instala eu însumi
+dontshow Pãstratã în fundal
+dontshowdp Nu lãsa acest utilizator sã descarce noile avataruri
+download Descarcã
+downloadcanceled Descãrcare anulatã.
+downloadingtls Descarc modulul TLS de la:\n $1
+downloadingwait Descarc versiunea nouã de aMSN. Aºteptaþi...
+dynamicrate Foloseºte ratã de cadre dinamicã pentru a simula o vitezã în timp real
+editcontent Editeazã conþinutul cîmpurilor Subiect ºi Notã
+editcustomstate Editeazã starea personalizatã
+edit Editeazã
+editavsettings Configureazã Setãrile Audio ºi Video
+editmyprofile Editeazã Profilul Meu MSN 
+editnewstate Stare nouã cu mesaj automat personalizat
+editprofile Editeazã Profilul
+editstate Editeazã o stare cu mesaj automat existentã
+editvalue Editeazã valoarea
+email E-mail
+emailsinlist Aratã adrese de poºtã electronicã în loc de porecle în lista de contacte
+emoticon_steal Adaugã la emoticoniþe
+emotisounds Emite sunete pentru anumite emoticoniþe
+emptygroup Goleºte grupul
 enabled Activat
-enableproxy Activeaza proxy
-enableremote Activeaza posibilitatea de control de la distanta
-enablesound Reda sunet
-encoding Alege codul caracterului
-encoding2 Schimba tipul codului de caracter
-entercontactemail Introduce email-ul persoanei
-enterfilename Introduce fisier
-enternick Introduce nick-ul
+enableproxy Activeazã proxy
+enableremote Activeazã controlul la distanþã
+enablesound Emite sunet
+encoding2 Codarea Caracterelor
+encoding Selecteazã Codarea
+enterbugdesc Introduceþi o descriere a ceea ce fãceaþi pentru a ne ajuta sã reproducem bugul:
+entercontactemail Scrieþi adresa de poºtã electronicã a contactului
+enterfilename Scrieþi un nume de fiºier
+enternick Poreclã
+enterpsm Mesaj Personal
+escapeclosescw Tasta Esc închide ferestrele de taifas
+error Eroare
 errortls Eroare la instalarea modulului TLS:
-eventhistory Afiseaza evenimentele jurnalizate
+eventhistory Vezi Istoricul Evenimentelor
 examples Exemple
-exitamsn Sigur vrei sa inchizi?
-extras Servicii suplimentare
-failed Esuare
-faileddelete Nu am putut sterge
-faileddeleteperso Aceasta imagine nu poate fi stearsa deoarece nu este un fisier personal de imagini. Doar imaginile care apartin profilului tau pot fi sterse astfel.
-faq Intrebari puse frecvent(FAQ)
-file Fisier
-filedoesnotexist Fisierul nu exista
-fileman Manager de fisiere
-filemanexample ( \$location va fi inlocuit cu directorul ) Ex: nautilus \$location
-filename Nume fisier
-filenotwritable Fisierul nu poate fi sters
-filetransfer Transfer de fisiere
-filetransfercancelled Transfer de fisier intrerupt
-filetransfercomplete Transfer de fisier complect
+exitamsn Sigur doriþi sã închideþi programul?
+extras Servicii Suplimentare
+faileddelete ªtergerea a eºuat
+faileddeleteperso Aceastã imagine nu poate fi ºtearsã deoarece nu aparþine profilului dv. Doar imaginile care aparþin acestuia pot fi înlãturate în acest fel.
+failed Eºuat
+faq FAQ (Întrebãri Puse Frecvent)
+farsightextchecking Verific dacã extensia Farsight este încãrcatã ...
+farsightextwarn Nu veþi putea folosi apeluri SIP. Aflaþi de pe wikiul nostru cum se poate instala Farsight:
+farsightinfook Farsight e o platformã care se ocupã cu protocoalele de conferenþiere audio/video. Cu Farsight, puteþi trimite sau primi apeluri SIP dinãuntrul aMSN! Consultaþi wikiul Farsight de pe situl nostru:
+fetching Preiau datele...
+filedoesnotexist Fiºierul nu existã
+file Fiºier
+filemanexample (\$location va fi înlocuit cu dosarul) De ex: nautilus \$location
+fileman Manager de Fiºiere
+filename Numele Fiºierului
+filenotwritable Nu pot ºterge acest fiºier
+filetransfercancelled Transferul fiºierului a fost anulat
+filetransfercomplete Transferul fiºierului a fost terminat
+filetransfer Transfer de Fiºiere
 filters Filtre
-filtersselect Selectati filtrele pe care vreti sa le vedeti\n(Nota: neselectarea nici unui filtru inseamna afisearea tuturor filtrelor)
-filtersx Selecteaza filtrul
-followtext Derulare in jos cand se introduce un text nou
-friendlyname Numele real
-ftaccepted Transfer de fisier acceptat
-ftacceptedby $1 a acceptat trasnferul pentru fisierul '$2'.
-ftaccepting Transfer de fisier acceptat
-ftautoclose Inchide fereastra cand transferul de fisire s-a terminat
-ftconnecterror Eroare de conectare la calculatorul de la distanta
-ftconnecting In curs de conectare la $1 portul $2
-ftconnectionlost Conexie intrerupta
-ftgotinvitation $1 trimite fisierul '$2' ($3 bytes). Va fi salvat in directorul $4. Vrei sa primesti fisierul?
-ftportpref Foloseste acest port pentru transferurile de fisier
-ftrejected Transfer de fisier refuzat
-ftrejectedby $1 a refuzat transferul de fisier pentru fisierul '$2'.
-ftsendinvitation Inviatatia de transfer pentru fisierul '$2' ($3 bytes) a fost trimis la $1.
-fullcontactlist Din pacate lista ta de contacte este plina. Va trebui sa stergi cateva contacte pentru a putea adauga altele noi.
-getdisppic Vizualizare poza afisata de la alti utilizatori
-globalcontainer Container general
-globalnick Foloseste un model pentru toate persoanele din lista de contact. Se pot folosi urmatoarele variabile: \$user_login pentru adresa persoanei, \$nick pentru porecla persoanei si \$customnick pentru porecla personalizata. Exemplu: '\$user_login este \$nick' va deveni  'contact@msn.com este Contact'
-globalnicktitle Nick global
-globaloverride Modelul numelor globale ar trebui sa suprascrie nick-ul personalizat 
-gonelunch Sunt la masa
-group Numele grupului
-groupadd Adauga un grup
-groupdelete Sterge un grup
-groupexists Grupul exista
-groupmissing Nu pot gasi grupul
+filtersselect Selectaþi filtrele pe care doriþi sã le utilizaþi\n(Notã: nici o selectare înseamnã "aratã-le pe toate")
+filtersx Selectarea Filtrelor
+findasyoutype Gãseºte instantaneu
+find Gãseºte
+findnext Gãseºte Urmãtorul
+findprev Gãseºte Precedentul
+finetunesettings Ajusteazã setãrile imaginilor
+finish Finalizeazã
+finish2apply Apãsaþi butonul Finalizeazã pentru a aplica aceste setãri.
+firewalled Sînteþi în spatele unui paravan [firewall] sau a unui ruter
+firewalled2 Sînteþi în spatele unui paravan, verificaþi setãrile conexiunii la internet în fereastra preferinþelor
+followtext Derulaþi în jos cînd este introdus text
+forget_me Uitã-mã
+forgot_pass Parolã Pierdutã
+formatctt format CTT
+formatcsv format CSV
+friendlyname Nume Afiºat în Taifas
+ftacceptedby $1 a acceptat invitaþia la transfer pentru fiºierul '$2'.
+ftaccepted Transfer de fiºiere acceptat
+ftaccepting Accept cererea de transfer a fiºierului
+ftautoclose Închide aceastã fereastrã dupã terminarea transferului de fiºiere
+ftconnecterror Eroare în timpul conectãrii la partenerul distant
+ftconnecting Conectare la $1 portul $2
+ftconnectionlost Conexiunea la partenerul distant a fost pierdutã 
+ftgotinvitation $1 doreºte sã vã trimitã fiºierul '$2' ($3 baiþi). Va fi salvat în dosarul $4. Doriþi sã primiþi acest fiºier?
+ftportpref Portul de pornire pentru transferurile de fiºiere
+ftportpref2 Portul de pornire pentru conexiunile directe (necesar pentru transferurile de fiºiere ºi videocamerã)
+ftporttest Testare Port
+ftrejectedby $1 a respins cererea de transfer a fiºierului '$2'.
+ftrejected Transferul fiºierului a fost respins
+ftsendinvitation Invitaþia de transfer pentru fiºierul '$2' ($3 baiþi) i-a fost trimisã lui $1.
+fullcontactlist Scuze, lista dv. de contacte e plinã. Va trebui sã înlãturaþi cîteva din ele înainte de a adãuga unele noi.
+gameaccepted $1 a acceptat invitaþia dv. la joc
+gameclosedbyother $1 a anulat sesiunea de joc cu dv.
+gameclosedbyself Aþi anulat sesiunea de joc cu $1.
+gameinvitation $1 v-a invitat sã jucaþi $2. Doriþi sã acceptaþi invitaþia?
+gamepluginnotfound $1 v-a invitat sã jucaþi $2, dar actualmente nu este încãrcatã nici o extensie pentru jocuri. Activaþi ºi configuraþi o atfel de extensie mai întîi.
+gamerejected $1 a respins invitaþia dv. la joc
+gamerequest L-aþi invitat pe $1 sã joace $2
+getdisppic Activeazã primirea de avataruri de la alþi utilizatori
+getmoreplugins Luaþi mai multe extensii!
+getmoreskins Luaþi mai multe costume!
+globalcontainer Conþinãtor Global
+globalnick Scrieþi un model dupã care sã se formeze poreclele contactelor dv. Puteþi utiliza aceste variabile: \$user_login pentru adresa contactului, \$nick pentru porecla contactului ºi \$customnick pentru porecla personalizatã a contactului dv. De exemplu: '\$user_login este \$nick' va fi 'contact@msn.com este Contact'
+globalnicktitle Poreclã Globalã
+globaloverride Modelul poreclei globale are prioritate asupra poreclelor personalizate
+gonelunch Plecat la Masã
+gotink $1 v-a trimis o mîzgãliturã.
+goto Du-te la $1
+gotoinbox Deschide Cutia Poºtalã
+goto_prefs_removeprofile Clicaþi aici pentru a merge la preferinþe ca sã vã ºtergeþi profilul
+groupadd Adaugã Grup
+groupcontacts Contactele Grupului
+groupcontactsbystatus Contactele Grupului dupã Stare
+groupdelete ªterge Grupul
+groupexists Grupul existã deja
+group Grup
+groupmissing Nu pot gãsi grupul
 groupnewname Nume nou
-groupnotempty Grupul nu este gol!
-groupoldname Nume vechi
-grouprename Redenumeste un grup
+groupnonim Grupeazã la un loc contactele non-mesagerie instantanee
+groupnotempty Grupul nu e gol!
+groupoldname Numele Vechi
+grouprename Redenumeºte Grupul
 groups Grupuri
-groupunknown Grup necunoscut
-handle Nick folosit
+groupunknown Grup Necunoscut
+handle Poreclã
+hangup Închide
+havenomic Nu am microfon
+helpcontents Cuprins
 help Ajutor
-helpcontents Continut
-hidedisplaypic Ascunde poza
-hiden Ascunde semnele de conversatie
-hidewindow Ascunde fereastra
-history Vizualizeaza jurnalul
-home Acasa
-httpconnection Conectare folosind protocolul HTTP (portul 80)
-hybrid Modul Hybrid
-ident In curs de identificare
+hidedetails Ascunde Detaliile
+hidedisplaypic Ascunde Avatarul
+hidebuttonbar Ascunde Bara cu Butoane
+hidemenumessage Sigur doriþi sã ascundeþi meniurile ?\nLe puteþi restaura în orice moment folosind combinaþia rapidã 'Ctrl-M'.
+hidemenu Aratã/Ascunde Meniurile
+hiden Ascunde emoticoniþa din meniul dedicat
+hidewindow Ascunde Fereastra
+history Vezi Istoricul
+history2 Istoric
+home Acasã
+howto_remove_profile Pentru a vã ºterge profilul (sã uitaþi $1) trebuie sã o faceþi din fereastra preferinþelor. \n\nDin motive de securitate, nu este permisã ºtergerea profilului din fereastra de autentificare.
+httpconnection Conectare prin metoda HTTP (e folosit protocolul HTTP prin portul 80)
+hue Nuanþã
+huge Enorm
+hybrid Mod Hibrid 
+ident Identific
 identity Identitate
-ignoreerrors Ignora erorile aMSN pana la terminarea sesiuni curente 
-imagefiles Fisiere imagini
-inbox Casuta postala
-insertsmiley Inserare emoticon
-inserttextnote In campurile note si subiect insereaza text apoi apasa Salveaza
-installconvert Trebuie instalat ImageMagick ( program de conversie ) pentru a folosi icoanele Buddy si semnele de conversatie create. Se poate descarca de la ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ 
-internalerror Eroare interna a server-ului
-invalidfile Fisierul $2 introdus in campul "$1" nu exista sau nu poate fi citit
-invalidfile2 Fisierul $1 nu a putut fi creat. Verifica daca ai permisiile corecte.
-invalidgroup Grup invalid
-invalidparameter Parametru invalid: eroare la conectare
-invalidpic Poza aleasa nu exista.
-invalidpicsize Poza aleasa este prea mare, alege altul mai mic.
-invalidsound Fisierul de sunet ales nu exista.
-invalidusername Nume gresit
-invitationcancelled Invitattia a fost intrerupta
-invite Invita
-ipaddress Adresa IP
-ipdetect Detecteaza IP-ul pentru transferul de fisier folosind HTTP
-ircstyle Chat in stil IRC
-istyping $1 scrie un mesaj
-joins $1 incepe conversatia
-justonce Odata
-keepalive Conectiune continua (NAT)
-keeplog Pastreaza jurnalele converatlor
-keeplog2 Jurnalizeaza toate conversatiile aMSN pentru vizualizare ulterioara
-language Alege limba
-language_manager Manager de limbaj
-lastlogin Ultima autentificare
-lastlogout Ultima deautentificare
-lastmsgedme Ultimul mesaj
-lastmsgtime Ultimul mesaj a sosit la $1
-lastseen Ultima data online
-lclosedwin $1 a inchis fereatra pe $2
-lconftopriv Confeinta a devenit chat cu $1
-lconvstarted Conversatia a inceput la $1
-leaveblankforhotmail Nu complecta cimpul pentru Hotmail!
-leavejoinsinchat Arata mesajele de avertizare in cadrul ferestrei de conversatie
-leaves $1 a parasit conversatia
-lenteredconf $1 a intrat in conferinta la $2
-lineflushlog Sterge jurnalul dupa fiecare linie
-linprivate In privata
+ignorecontact Ignorã invitaþiile la conversaþie venite de la acest contact
+ignoreerrors Ignorã silenþios alte erori aMSN pînã la sfîrºitul acestei sesiuni
+ignore Ignorã
+imagefiles Fiºiere Imagine 
+inbox Cãsuþã Poºtalã
+insertsmiley Insereazã Emoticoniþã
+inserttextnote Inseraþi text în cîmpurile Subiect ºi Notã, apoi clicaþi pe butonul "Salveazã"
+installconvert Trebuie sã instalaþi ImageMagick (program de convertire) pentru a folosi Iconiþe ale Amicilor ºi Iconiþe Personalizate. Puteþi descãrca fiºierele binare pentru sistemul de operare pe care-l folosiþi de la ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Dacã le aveþi deja, atunci e vorba de un bug ºi vã rugãm sã-l raportaþi. Aceste facilitãþi vor fi acum dezactivate, iar dacã veþi instala ImageMagick mai tîrziu, va trebui sã reactivaþi opþiunile din fereastra preferinþelor. 
+internalerror Eroare Internã a Serverului
+invalidfile2 Numele de fiºier $1 nu a putut fi creat, asiguraþi-vã cã aveþi permisiunile corecte pentru þinta respectivã.
+invalidfile Fiºierul $2 introdus în cîmpul "$1" nu existã sau nu poate fi citit
+invalidgroup Grup Invalid
+invalidparameter Eroare în timpul conectãrii la server:\nparametru invalid
+invalidpicsize Imaginea aleasã e prea mare, alegeþi una mai micã
+invalidpic Fiºierul imagine indicat nu existã
+invalidsound  Fiºierul audio indicat nu existã
+invalidusername Nume de utilizator invalid
+invitationcancelled Invitaþia a fost anulatã
+invite Invitã
+ipaddress Adresã IP
+ipdetect Detecteazã adresa IP corectã pentru transferurile de fiºiere prin HTTP
+ircstyle Stil IRC 
+istyping $1 tasteazã un mesaj
+joins $1 s-a alãturat conversaþiei
+justonce O singurã datã
+keepalive Pãstreazã activ (NAT)
+keeplog2 Jurnalizeazã toate conversaþiile în istoricul aMSN pentru citire ulterioarã
+keeplog Pãstreazã Jurnale ale Taifasurilor
+language Limbã
+language_manager Managerul de Limbi
+large Mare
+largest Maxim
+lastlogin Ultima Autentificare
+lastlogout Ultima Dezautentificare
+lastmsgedme Ultimul Mesaj
+lastmsgtime Ultimul mesaj primit la $1
+lastseen Ultima Prezenþã în Reþea
+lazypicretrieval Înlãturã avatarurile nefolosite de multã vreme
+lclosedwin $1 a închis fereastra cu $2
+lconftopriv Conferinþa s-a transformat într-un taifas privat cu $1
+lconvstarted Conversaþie pornitã pe $1
+lconvstartedOIM Conversaþie de mesagerie instantanee neconectatã pornitã pe $1
+leaveblankforhotmail Lãsaþi gol pentru a folosi Hotmail
+leavejoinsinchat Aratã notificãrile "utilizatorul a pãrãsit / s-a alãturat conversaþiei" înãuntrul ferestrei de taifas [chat]
+leaves $1 a pãrãsit conversaþia
+lenteredconf $1 a intrat într-o conferinþã pe $2
+lineflushlog Curãþã fiºierele jurnal dupã fiecare linie
+linprivate MOD PRIVAT
+listening Ascult
 listeningon Ascult pe portul $1
-listsmileys Afiseaza semnele de conversatie
-listsmileys2 Afiseaza semnele de conversatie in lista principala de contacte
-ljoinedconf $1 sa alaturat conferintei
-lleftconf $1 a parasit conferinta
-load Incarca
-loadcontacts Incarca lista de contacte
-logbigger Marimea junalului pentru fiecare contact sa nu depaseasca
-logeventconnect Jurnalizeaza conexiunea
-logeventdisconnect Jurnalizeaza deconectarile
-logeventemail Jurnalizeaza cand soseste un e-mail
-logeventstate Jurnalizeaza schimbarile de stari
-logfandexp Jurnalizeaza marimile fisierului si expirarea jurnalului
-loggedotherlocation Deconectat. Autentificare de la alt calculator.
-loggingin In curs de autentificare
-login Autentificare
-loginas Autentificare cu
-loging Jurnale
-logolder Jurnalizeaza numai conversatile care au avut loc in urma cu
-logout Deautentificare
-logsbydate Sorteaza jurnalele dupa data
+listsmileys2 Afiºeazã emoticoniþele în lista principalã de contacte
+listsmileys Listeazã emoticoniþele
+ljoinedconf $1 s-a alãturat conferinþei
+lleftconf $1 a pãrãsit conferinþa
+loadcontacts Încarcã Lista de Contacte
+load Încarcã
+loadotherdisplaypic Încarc avatarurile lui $1, aºteptaþi...
+logbigger Mãrimea fiºierului jurnal pentru fiecare contact nu va depãºi 
+logeventconnect Jurnalizeazã conectãrile
+logeventdisconnect Jurnalizeazã deconectãrile
+logeventemail Jurnalizeazã primirea mesajelor de e-mail
+logeventstate Jurnalizeazã schimbarea stãrii
+logeventnick Jurnalizeazã schimbarea poreclei
+logeventpsm Jurnalizeazã schimbarea mesajului personal
+logfandexp Jurnalizeazã Mãrimea Fiºierelor ºi Expirarea Istoricului
+loggedotherlocation Deconectat. Autentificat din altã locaþie
+loggingin Autentific
+loginas Autentific ca
+loging Jurnalizare
+login Autentificã
+logolder Jurnalizeazã doar taifasurile care au avut loc în ultimele
+logout Dezautentificã
+logoutwincloselabel La dezautentificare, închide conversaþiile existente:
+logsbydate Sorteazã jurnalele dupã datã (vederea istoricului se încarcã mai uºor)
+logschats Taifasuri Jurnalizate
 logsin tocmai s-a autentificat
-logsmileys Afiseaza semnele de converatie in fereastra jurnal
-logsout tocmai s-a deautentificat
-longnick Nick-ul tau este mai lung de 130 de caractere. Aceasta nu este suportata oficial de catre protocolul MSN. Sigur vrei sa il modifici?
-longp4c Numele real contine mai mult de 130 de caractere. Numele real care va apare pe clientul oficial MSN este $1. Esti sgur ca vrei sa il folosesti ?
-lprivtoconf Conversatiile private au devenit conferinte cu $1
-luclosedwin Ai inchis fereastra pe (la) $1
-mailer Utilitar de e-mail
-mailerexample ( \$recipient = Recipient ) Nu completa pentru Hotmail
-maintenance In $1 minute serverul va fi oprit pentru mentenanta
-maximised Marit
-minimised Micsorata
-mins Minute
+logsmileys Afiºeazã emoticoniþele în fereastra istoricului in aMSN
+logsout tocmai s-a dezautentificat
+logwebcam Salveazã toate sesiunile cu videocamera în istoricul aMSN pentru vizionare ulterioarã
+longnick Porecla dv. are mai mult de 130 de caractere. Acest lucru nu e suportat oficial de protocolul MSN. Sigur doriþi sã folosiþi aceastã poreclã?
+longp4c Numele dv. are mai mult de 130 de caractere. Numele care va apare în clientul oficial MSN va fi $1. Sigur doriþi sã folosiþi acest nume?
+longpsm Mesajul dv. personal e prea lung. Acest lucru nu e suportat oficial de protocolul MSN. Sigur doriþi sã folosiþi acest mesaj personal?
+lowrescam Foloseºte o videocamerã de rezoluþie scãzutã
+lprivtoconf Taifas privat schimbat în conferinþã cu $1
+luclosedwin Fereastrã de conversaþie închisã pe $1
+mailerexample (\$recipient = Destinatar) Lãsaþi gol pentru a folosi Hotmail
+mailer Program de Poºtã Electronicã
+maintenance Serverul va fi închis pentru întreþinere în $1 minute
+maximised Maximizat
+medium Mediu
+minimised Minimizatã / Iconificatã
+minimize Minimizeazã în Sistaler 
+mins minute
+mobilegrp1 Grup Mobil
+mobilegrp2 Pune utilizatorii în grupul "Mobil" cînd sînt neconectaþi ºi sorteazã-i dupã stare
 mobile Mobil
-mobilegrp1 Grup mobil
-mobilegrp2 Muta utilizatorii in grupul "Mobile" cand sunt deautentificati (si sortat dupa stare)
 modified Modificat
-month Luna
-morepersonal Alte stari ->
-move Muta
-movetogroup Muta in grupul
+month Lunã
+more Mai multe
+morepersonal Mai Multe Stãri ->
+move Mutã
+movetogroup Mutã în Grupul
+msgflicker Licãreºte titlul ferestrei de taifas cînd soseºte un mesaj nou într-o fereastrã nefocalizatã
+msgmaxmin Cînd soseºte un mesaj nou vreau ca fereastra lui sã fie:
 msg Mesaj
-msgflicker Scutura titlul fereastrei de conversatie cand soseste un mesaj nou si fereastra nu este maximizata.
-msgmaxmin La receptionarea unui mesaj nou, vreau ca meajul sa sa fie:
-msgmode Selecteaza aranjarea mai multor ferestre:
+msgmode Ferestrele multiple de mesaje trebuie sã fie:
 msn aMSN
-msnstyle Chat in stil MSN
-mustrestart Restarteaza aplicatia ca schimbarile sa devina active.
-myfriendlyname Numele meu 
-myhomephone Telefon fix
-mymobilephone Telefon mobil
-mynick Porecla mea
-mypic Poza mea:
-mystatus Apar ca
-myworkphone Telefonul de serviciu
+msnstatus Starea Reþelei
+msnstyle Stil MSN 
+mustrestart Programul trebuie repornit pentru ca modificãrile sã devinã efective
+myfriendlyname Nume
+myhomephone Telefon Fix de Acasã
+mymobilephone Telefon Mobil
+mynick Porecla Mea
+mypic Avatarul Meu
+mypics Avatarurile Mele
+mystatus Stare
+myworkphone Telefon de la Servici
 name Nume
-natip detectie de adresa IP prin pagina de web
-natkeepalive Daca esti deconectat frecvent, activeaza MentineConexia
-needonline Esti sau apari neautentificat !
-needwinico2 Pentru functionarea minimizarii ferestrei in windows, este nevoie de winico05.dll in directorul utils/windows
-never Niciodata
-new_ft_protocol Foloseste protocolul nou de transfer fisiere.
-newmail $1 Mesaje noi in casuta postala
-newmailfolder Ai un $1 mesaj nou intr-un alt director Hotmail
-newmailfrom Ai primit e-mail nou de la $1 ($2)
-newmailfromother E-mail nou in alt director de la $1 ($2)
-newmsg Mesaj nou
-newstate Adaugare stare personalizata
-newtabbedfeature aMSN are o noua caracteristica in ceea ce priveste gestionarea conversatiilor, puteti avea toate ferestrele din acelas grup sau toata lista de contacte intr-o singura bara de fila. Alegeti modul in care aMSN va gestiona conversatiile.
-newveravailable Versiune noua de $1 este disponibil pentru descarcare.
-next Urmatorul
-nick Nick
+natip detectare IP dupã pagina web
+natkeepalive Dacã sînteþi deconectat cu regularitate, activaþi KeepAlive
+needonline Sînteþi sau apãreþi neconectat!
+needwinico2 E nevoie de winico06.dll în subdosarul \utils\windows\winico0.6 pt. ca iconiþa din sistaler sã meargã în Windows
+never Niciodatã
+new_account Creeazã Cont Nou
+newchat Taifas Nou
+new_ft_protocol Foloseºte noul protocol de transfer a fiºierelor (mai sînt cîteva buguri)
+newline Linienouã [Newline]
+newmail $1 mesaj(e) noi în Cutia Poºtalã
+newmailfolder Aveþi $1 mesaj(e) noi în alte dosare Hotmail
+newmailfrom Mesaj nou de la $1 ($2)
+newmailfromother Mesaj nou în alt dosar de la $1 ($2)
+newmsg Mesaj Nou
+newoim Mesaje Neconectate Noi
+newstate Adaugã Stare Personalizatã
+newtabbedfeature aMSN are o nouã facilitate pentru administrarea conversaþiilor, acum puteþi avea toate ferestrele din acelaºi grup sau din toatã lista de contacte într-o singurã fereastrã tabularã. Alegeþi modul în care aMSN trebuie sã vã administreze conversaþiile
+newupdate Actualizãri noi pentru aMSN
+newveravailable Versiune nouã $1 disponibilã pentru descãrcare
+next Înainte
+nick Poreclã
+nickchanged $1 ºi-a schimbat porecla în '$2'
 no Nu
-noactivity Fara activitate
-nodataavailable Nu sunt date disponibile pentru $1
-nogap Fara spatiu intre grupuri
-nogroup Nu este grup
-nologfile Nu este jurnal pentru $1
-noneavailable Nimeni disponibil
-nonewmail Nu sint mesaje noi in casuta postala
-nonewver Nu este versiune noua disponibila pentru descarcare
-nopic Fara poza
-noprofileexists Nu exista profile, \n trebuie sa creati unul daca vreti sa folositi autentificare cu profil. \nFolositi butonul "Adauga un profil nou" pentru a crea un profil nou.
+noactivity Inactiv
+no_blocked_notif Nu arãta notificãri pentru contactele blocate
+nocacheddps Nu caºa avatarurile ale acestui utilizator
+nocamwarn Nu a fost gãsitã nici o videocamerã, sau videocamera dv. e deja utilizatã de alt program (deci nu va putea fi folositã de aMSN). Gãsiþi ajutor despre cum sã rezolvaþi problema pe wiki:
+nodataavailable Nu existã date disponibile pentru $1
+nodevices Actualmente nu existã dispozitive instalate
+noftpreview Dezactiveazã trimiterea unor previzionãri ale imaginilor în transferurile de fiºiere
+nogap Fãrã spaþii între grupuri
+nogroup Nici un grup
+nojavascript Nu aveþi activat javascript. Autentificarea automatã ar putea sã nu meargã.
+nologfile Nu existã fiºier jurnal pentru $1
+nomic Nici un microfon
+noneavailable Niciunul Disponibil
+nonewmail Nu existã mesaje noi în cutia poºtalã
+nonewver Nu existã versiuni noi disponibile pentru descãrcare
+nonimgroup Contacte Non-Mesagerie Instantanee
+nooimconfirmation Nu cere confirmare la trimiterea/primirea de mesaje neconectate [offline messages]
+nopic Nici o imagine
+noprofileexists Nu existã momentan nici un profil, \n trebuie sã creaþi unul dacã doriþi sã utilizaþi profiluri de autentificare. \nFolosiþi butonul Adaugã Profil Nou din aceastã fereastrã pentru a face acest lucru.
+noresizesmileys Nu subscala emoticoniþele personalizate ale contactelor
 normal Normal
-noskins Nu am putut gasi skin in directorul skins/. Nu pot porni AMSN
-nosystemtray System tray-ul nu este disponibil
-note Nota
-notificationserver Server MSN de informare (MSN Messenger Server)
-notify Atentioneaza
-notify1 Afiseaza fereastra de atentionare cand cineva se autentifica
-notify1_5 Afiseaza fereastra de atentionare cand cineva se deautentifica
-notify1_75 Afiseaza fereastra de atentionare cand persoana isi schimba starea
-notify2 Afiseaza fereastra de atentionare cand primesc mesaje noi
-notify3 Afiseaza fereastra de atentionare cand este e-mail nou in casuta postala
-notify4 Cand soseste un e-mail nou intr-un alt director, afiseaza fereastra de atentionare
-notifyoffset Stabileste unde sa apara fereastra de avertizare folosind coordonatele
-notifytimeout Numarul de milisecunde pana cand fereastra de notificare sa dispara
-notifytyping Trimite notificare utilizatorilor cand se tasteaza
-notifywin notifica fereatra
-notinlist Nu esti in lista lui/ei de contacte
-notls Protocolul MSN 9 necesita pachetul TLS. Se pare ca acest pachet nu este instalat pe calculator. Daca este instalat, calea catre directorul cu biblioteci trebuie specificat in fereastra de Preferinte (ex: /opt/tls/lib). \n \n Se poate descarca TLS de la http://tls.sf.net.
-nottabbed Ferestere normale fara bara de file
-nousersinsession Nu sunt persoane in sesiune
-nudge $1 iti cere atentia
-offline Neautentificat
-ok Ok
-onenewmail 1 mesaj nou in casuta postala
-online Autentificat
-onphone Vorbesc la telefon
-opendir Deschide directorul
+noskins Nu am putut gãsi costumul implicit în dosarul \skins. Nu pot porni aMSN
+nosound Nu a fost detectat nici un sunet, asiguraþi-vã cã microfonul este conectat corespunzãtor la calculator
+nosound_or_hold Nu a fost detectat nici un sunet. Pentru a trimite un Clip Vocal trebuie sã înregistraþi clipul þinînd apãsat butonul cu difuzor în timp ce vorbiþi. Apoi eliberaþi butonul pentru a trimite clipul.
+nospace Nimic de vãzut aici
+nosystemtray Sistalerul nu e disponibil
+note Note
+notificationserver Serverul Iniþial de Notificare MSN (Serverul MSN Messenger)
+notify1_5 Aratã fereastra de notificare cînd contactele se deconecteazã
+notify1_75 Aratã fereastra de notificare cînd contactele îºi schimbã starea
+notify1 Aratã fereastra de notificare cînd contactele se conecteazã
+notify2 Aratã fereastra de notificare cînd sînt primite mesaje instantanee noi
+notify3 Aratã fereastra de notificare cînd sînt primite mesaje noi în cutia poºtalã [inbox]
+notify4 Aratã fereastra de notificare cînd sînt primite mesaje noi în alte dosare poºtale
+notify notificã
+notifyoffset Decalarea Poziþiei Ferestrei de Notificare
+notifytimeout Numãrul de milisecunde cît e afiºatã fereastra de notificare
+notifytyping Trimite celorlalþi utilizatori notificãri cînd tastez
+notifywin Fereastra de Notificare
+notinlist Nu sînteþi în lista sa de contacte
+notimcontact Acest contact nu este unul de Mesagerie Instantanee
+notls Protocolul 9 MSN necesitã pachetul TLS. Acesta nu pare a fi instalat pe calculator. Dacã e instalat, specificaþi calea cãtre dosarul bibliotecii în fereastra Preferinþelor (de ex: /opt/tls/lib). \n \n TLS poate fi descãrcat de la http://tls.sf.net.
+nottabbed Ferestre normale fãrã taburi
+nousersinsession Nu existã utilizatori în sesiune
+nouserspecified Nu e specificat nici un utilizator
+nudge $1 vã solicitã atenþia
+offline Neconectat
+oim Mesagerie Neconectatã
+ok OK
+onenewmail 1 mesaj nou în Cutia Poºtalã
+onlinehelp Ajutor pe Internet
+online Disponibil
+onphone Într-o Convorbire
+opendir Deschide Dosarul
+openfilecommand Comandã de Deschidere a Fiºierelor
 openfile Deschide
-openfilecommand Comanda de deschidere fisiere
-openreceived Deschide fisierul primit
-options Optiuni
-ordercontactsby Sorteaza persoanele dupa
-ordergroupsby Sorteaza grupurle dupa
+openreceived Exploreazã Fiºierele Primite
+options Opþiuni
+ordercontactsby Ordoneazã Contactele dupã
+ordergroupsby Ordoneazã Grupurile dupã
 original Original
-other Altul
-others Altele
-p4contextprefix Prefixeaza trimitatorii P4-Context cu acest string 
+otherdisplaypic Avatarurile folosite de acest utilizator (clic-dreapta pentru mai multe opþiuni)
+other Alt Contact
+otherdps Alte avataruri
+others Diverse
+p4contextprefix Prefixeazã expeditorii P4-Context cu acest ºir
 pager Pager
-pass Parola
-paste Adauga elementul(le) copiat in memorie
-personal Personal
+pass Parolã
+passportnotverified Contul de poºtã electronicã cu care aþi fãcut paºaportul MSN/Live trebuie verificat înainte de a putea sã vã schimbaþi informaþiile personale (de ex. porecla). Verificaþi cutia poºtalã ºi cãutaþi mesajul de activare.
+paste Lipeºte
+pausedwebcamreceive Videocamera a fost pauzatã de interlocutor
+pause Pauzã
+pausewebcamsend Pauzeazã transmisia videocamerei
+personal Personale
 phone Telefon
-phones Numere de telefon
-picbrowser Poze disponibile
-picfile Fisier imagine (poza) (GIF < 500 x 500)
-picstatus Inchide/Deschide avertizarea cu imagine
-playing Redare: $1
-pluginselector Selecteaza Plugin-ul
+phones Numere de Telefon
+picbrowser Exploratorul Avatarurilor
+picfile Fiºier Imagine (GIF < 500 x 500)
+picstatus Alarmã cu Avatar
+play Redã
+playbackposition Poziþia redãrii
+playbackspeed Viteza redãrii (milisecunde între fiecare cadru)
+playerror A apãrut o eroare la redarea sunetului : $1
+playgame Porneºte jocul
+playgame2 Joacã $1
+playing Redau: $1
+playtest Redã Fiºierul de Test
+playwebcamsend Reia trimiterea imaginilor prin videocamerã
+pluginselector Selecteazã Extensiile
 port Port
-prefalerts Evenimente si sunete
-prefapps Aplicatii
-prefawaymsg Mesajul meu cand sunt plecat
-prefblock1 Verifica la deconectare
-prefblock2 Verifica permanent
-prefblock3 "Ai fost blocat de" grupul
-prefconnection Setari pentru conexie
-prefemotic Semnele de conversatie
-preferences Preferinte
-preffont Textul mesajului
-preffont2 Schimba modul in care altii vad textul in conversatie
-preffont3 Schimba interfata si marimea fontului in aMSN
-prefft Trasnfer de fisier, p2p si setari de NAT
-preflibs Directorul cu biblioteci
-preflog1 Jurnal si optiuni de jurnalizare
-preflogevent Evenimentele mele jurnalizate
-preflook Setari aMSN
-prefmsging Felul in care arata un mesaj primit
-prefname  Numele sau nick-ul
-prefphone Numere de telefon
-prefphone2 Defineste numerele de telefon pe care alti sa le vada din lista celor acceptati.
-prefprivacy Lista cu cei acceptati / blocati
-prefprivacy2 Lista contactelor / celor opusi
-prefprofile Profilul public
-prefprofile2 Creaza sau modifica profilul public \n (descrierea personala pe care o pot vedea altii)
-prefprofile3 Profilul aMSN pentru configurarea utilizatorului
-prefproxy Setari proxy
-prefremote Preferintele conexiunii de la distanta
-prefsession Autentificarea si starea mea
-prefshared Conectii partajate (numai pentru NAT)
+portswellconfigured Toate porturile sînt bine configurate
+prefalerts Alerte ºi Sunete ale Evenimentelor
+prefapps Aplicaþii
+prefawaymsg Mesaj de Absenþã
+prefblock1 Verificã la deconectare
+prefblock2 Verificã încontinuu
+prefblock3 Grupul "Aþi fost blocat de"
+prefconnection Conexiunea la Internet
+prefemotic Emoticoniþe / Mutriþe 
+preferences Preferinþe
+preffont2 Modul în care vãd ceilalþi textul scris de mine în sesiunile de taifas.
+preffont3 Tipul ºi Mãrimea Fontului Interfeþei
+preffont4 Modul în care vãd eu textul scris de ceilalþi în sesiunile de taifas.
+preffont Aspect al Mesajului Instantaneu
+prefft Transfer de Fiºiere / Conexiune Partener-la-Partener / NAT
+preflibs Dosarele bibliotecilor
+preflocale Setãri de Localizare
+preflocale2 Selectaþi limba/codul de þarã
+preflog1 Opþiunile Istoricului ºi Jurnalizãrii
+preflogevent Istoricul Evenimentelor
+preflook Aspectul Programului
+prefmsging Interfaþa de Mesagerie
+prefname Identificare în Reþeaua MSN/Live
+prefphone2 Tastaþi numerele de telefon pe care doriþi \nsã le vadã cei de pe lista de persoane acceptate \n
+prefphone Numere de Telefon
+prefprivacy2 Lista de Contacte / Reciprocitãþi
+prefprivacy Lista de Acceptaþi / Blocaþi
+prefprofile2 Creaþi sau modificaþi profilul dv. public \n(descrierea personalã pe care o vãd ceilalþi)
+prefprofile3 Profiluri de Configurare a Programului
+prefprofile Profil Public
+prefproxy Setãrile Proxyului Meu
+prefremote Preferinþele Conexiunii Distante
+prefsession Autentificare ºi Stare
+prefshared Conexiuni Partajate (doar pentru NAT)
 prefsound Sunete
-preview Vizualizare
-privacy Privata
-profiledconfig Configurare profil
-profileexists Nu puteti crea acest profil cu autentificarea curenta \n deoarece exista deja. Incercati cu o alta autentificare.
-profileinuse Acest profil este folosit de o alta sesiune aMSN, alege un alt profil
-profileloginradio Autentificare cu un profil existent
-profiles Profil
-properties Proprietati
-proxy Sunt in spatele unui server Proxy (HTTP sau SOCKS5)
-proxyconf Configurare proxy
-proxyconfhttp Configurare pentru suport HTTP proxy
-proxyconnection Ma conectez la internet folosind proxy:
-publishphones Arata numerele de telefon
-purge Goleste
-raised Stearsa
-readonlymsgbox Transferul de fisier sa intrerupt datorita directorului ~/amsn_received care este protejat la scriere sau nu exista. Verificati permisiunile sau creati directorul ~/amsn_received
-readonlywarn ATENTIE: Probabil ca fisierul NU va fi salvat corect ca si "Fisiere Receptionate". Se pare ca directorul este protejat la scriere. Verificati daca permisiunile pe directorul ($1) sunt setate corect inainte de a transfera fisiere.
-receivedbytes Receptionat $1 din $2 bytes
-receiveddir Directorul fisierelor reteptionate
-receivefile Fisier receptionat
-recentmsg Previne inchiderea ferestrei de conversatie cand soseste un mesaj
-reconnect Asteapta ca $1 sa se reconecteze
-reconnect2 Reconectare in caz de deconectare
-reconnecting In curs de reconectare la server
-reject Rejectare
-rememberpass Retine parola
-removeempty Sterge grupurile goale din lista de contacte
-removefromlist Sterge de pe aceasta lista
-rename Redenumeste
-required_version Nu se poate incarca acest plugin. Este nevoie de aMSN versiunea $1 sau mai mare.
-reversed Ordine inversa
-reverselist Cei opusi:
-rightback Revin imediat
-save Salveaza
-saveas Salveaza ca
-savechatwinsize Salvare dimensiune ferestra de chat ca si dimensiune implicita la redimensionare
-savecontacts Salveaza lista
-savetofile Salveaza in fisier
-says $1 a scris
-sbcon In curs de conectare
-selectall Selecteaza tot
-selectplugins Selecteaza Plugin-urile pe care vreti sa le activati
-selectskin Alege un Skin din lista
+preview Previzioneazã
+privacy Intimitate
+profiledconfig Configurarea Profilurilor
+profileexists Nu puteþi crea un profil cu acest identificator \n deoarece existã deja unul. Alegeþi alt identificator.
+profileinuse Acest Profil e utilizat de o altã sesiune aMSN, va trebui sã alegeþi altul
+profileloginradio Autentificã folosind un Profil existent
+profiles Profiluri
+properties Proprietãþi
+proxyconfhttp Configuraþie de suport a proxyului HTTP
+proxyconf Configuraþie Proxy
+proxyconnection Conectare printr-un server proxy:
+proxy Sînt în spatele unui server proxy (HTTP sau SOCKS5)
+psmatend Aratã mesajul personal lîngã poreclã [nickname]
+psmchanged $1 ºi-a schimbat MSP în '$2'
+psmdontshow Aratã mesajul personal doar cînd e definit în poreclele globale/personalizate
+psmnewline Aratã mesajul personal sub poreclã
+psm Mesaj Personal
+psmplace Locul Mesajului Personal
+publishphones Publicã numerele mele de telefon
+purge Curãþã
+pwcdriver Foloseºte draiverul pwc
+quit Ieºi
+raised Maximizatã / Deziconificatã
+readonlymsgbox Transferul fiºierului a fost anulat deoarece dosarul de primire nu permite scrierea. Revizuiþi permisiunile de scriere/citire pentru acest dosar.
+readonlywarn ATENÞIE: Fiºierul NU va fi probabil salvat corect deoarece dosarul "Fiºiere Primite" pare a fi protejat la scriere. Asiguraþi-vã cã permisiunile sînt setate corect pentru dosarul þintã ($1) înainte de a începe transferul fiºierului.
+receivedbytes Au fost primiþi $1 din $2 baiþi
+receiveddir Dosarul Fiºierelor Primite
+receivedoimread Aveþi $1 mesaje neconectate noi. Doriþi sã le citiþi ?
+receivedvoice Clip Vocal Primit
+receivefile Primeºte Fiºierul
+recentmsg Împiedicã închiderea ferestrei de taifas dacã un mesaj tocmai a sosit
+reconnect2 Reconecteazã la întrerupere
+reconnecting Reconectez la server
+reconnect Aºtept ca $1 sã se reconecteze
+reconnectnow Reconecteazã acum
+record Înregistreazã
+recorderror A apãrut o eroare la încercarea de înregistrare a sunetului : $1
+recvwebcamaccepted $1 a acceptat invitaþia de a-i vedea videocamera. Conectez...
+redirect Clicaþi aici pentru a fi redirecþionat
+reject Respinge
+rememberaccount Memoreazã Contul
+rememberpass Memoreazã Parola
+remembersetting Memoreazã alegerea mea
+removeempty Înlãturã grupurile goale din lista de contacte
+removefromgroup ªterge din Grupul
+removefromlist ªterge din Listã
+rename Redenumeºte
+renameep Redenumeºte acest loc ($1)
+renamelocation Redenumeºte acest loc
+reporting Raportez
+report Raporteazã
+required_version Nu pot încãrca extensia. E necesarã cel puþin versiunea $1 de aMSN. 
+retry Reîncearcã
+resetincomingfont Reseteazã fontul (foloseºte fontul utilizat de expeditorul mesajului)
+restartforskin Notã: Va trebuie sã reporniþi programul pentru a vedea corect costumul!
+reversed Ordine inversã
+reverselist Lista de Reciprocitãþi (RL):
+rightback Revin Imediat
+saveas Salveazã ca
+savechatwinsize Salveazã mãrimea ferestrei de taifas ca implicitã dupã redimensionare
+savecontacts Salveazã Lista de Contacte
+save Salveazã
+saveddefaultloc Salveazã în locul implicit
+savelocation Doriþi sã salvaþi fiºierul în $1?
+savelocationerror Fiºierul nu poate fi salvat în acest loc.
+saveotherdirectory Salvaþi în alt dosar
+savetofile Salveazã în Fiºier
+says $1 zice
+sbcon Conectez la Centrala Telefonicã
+searchadvprefs Cautã în preferinþele avansate:
+searchdown Cautã în jos
+searchup Cautã în sus
+selectall Selecteazã tot
+selectcontact Selecteazã un contact
+selectplugins Selectaþi extensiile pe care le doriþi activate
+selectskin Alegeþi un costum din listã
+sendcam Porneºte Videocamera
+sendemail Include adresa mea de poºtã electronicã pentru a fi anunþat despre reparare
+sendfeedback Spuneþi-vã Pãrerea
+sendfile Trimite Fiºier
+sendmail Trimite Mesaj de Poºtã Electronicã
+sendmobmsg Trimite Mesaj la Dispozitiv Mobil
+sendmsg Trimite Mesaj Instantaneu
+sendoim Trimite Mesaj Neconectat
 send Trimite
-sendfile Trimite fisier
-sendmail Trimite e-mail
-sendmobmsg Trimite pe mobil
-sendmsg Trimite mesaj
-sentbytes Trimis $1 of $2 bytes
+sendsip Porneºte un Apel Audio
+sendvoice Trimite un Clip Vocal
+sendwebcamaccepted $1 a acceptat invitaþia de a vedea videocamera. Conectez...
+sendwebcaminvite Invitaþi un utilizator sã vã vadã videocamera
+sentbytes Au fost trimiºi $1 din $2 baiþi
+sentvoice Clip Vocal Trimis
+serverbusy Serverul e ocupat
+servergoingdown Deconectat: Serverul s-a prãbuºit
 server Server
-serverbusy Serverul este ocupat
-servergoingdown Deconectat: se inchide serverul
-serverunavailable Serverul nu este disponibil
+serverunavailable Serverul nu e disponibil
 session Sesiune
-showbanner Afiseaza banerul aMSN
-showblockedlist Arata pesoanele care te-au blocat
-showcachedpics Afiseaza pozele retinute
-showdisplaypic Arata poza
-showdisplaypic2 La deschiderea ferestrei de chat arata poza implicit
-showmypic Poza mea
-shownotify Afiseaza fereastra de atentionare cand are loc ceva eveniment
-showpicnotify In fereastra de notificare, afiseaza poza utilizatorilor
-showuserpic Poza lui $1
-signinstatus Starea autentificarii
-skin Skin
-skinselector Selecteaza Skin-ul
-smileconfig Configurarea semnelor de conversatie
-smilefile Numele fisierului
-smileintro Complecteaza campurile necesare pentru a crea un nou semn de conversatie (citeste FAQ)
-smileintro2 Editeaza campurile necesare pentru a modifica un semn de conversatie (citeste FAQ)
-snackfailed Incarcarea biblioteca Snack a esuat, se revine la cel implicit
-sngdblclick Un singur click pentru a deschide o fereastra noua de conversatie 
-sound Sunet
-sound2 Avertizare sonora cand persoanele se autentifica sau trimit mesaj
-soundactive La receptionarea unui mesaj reda sunete chiar si in fereastra de conversatie
-soundcommand Ar trebui sa fie comanda pentru redare(ex: esdplay)
-soundexample ( \$sound = Sunet care sa fie redat ) Ex: esdplay \$sound
-soundfile Fisierul de avertizare (sunet)
-soundfiles Fisiere de sunet
-soundloop Roteste sunetul
-soundserver Server de sunet
-soundstatus Inchide/Deschide avertizarile
-sourcecode Codul Sursa (Necesita compilare si instalare) 
+setasmydp Seteazã ca avatar al meu
+setbackinitialstate Aþi setat aMSN sã se conecteze cu starea $1, dar acum aveþi starea $2. Sigur doriþi sã setaþi starea înapoi la $1 ?
+setupcam Configurarea dispozitivului video
+setupcamfinetune Configurarea videocamerei ºi ajustarea finã a imaginii
+shareswebcam Partajeazã videocamera
+showbanner Aratã banerul aMSN
+showblockedlist Aratã lista de persoane care m-au blocat
+showcachedpics Aratã avatarurile caºate
+show_contactdps_in_cl Aratã miniaturile avatarurilor celor din lista de contacte
+showcontactemail Aratã Contactele cu Adresa de Poºtã Electronicã
+showcontactnick Aratã Contactele cu Poreclã
+showdetailedview Aratã Vedere Detaliatã a Contactelor
+showdetails Aratã Detalii
+showdisplaypic2 Aratã avatarul în mod implicit cînd e deschisã o fereastrã de taifas [chat]
+showdisplaypic Aratã Avatarul Meu
+showonedpframe Aratã doar un singur cadru pentru avatar în ferestrele de taifas
+showlinksinlogin Aratã legãturile în ecranul de autentificare
+shownonim Aratã contactele non-mesagerie instantanee
+showmailicon Aratã iconiþa de poºtã în sistaler cînd sosesc mesaje noi de poºtã electronicã
+showmypic Avatarul Meu
+shownotify Notificã Vizual la Evenimente
+showofflinegroup Aratã Grupul Neconectaþi
+showpicnotify Aratã avatarurile utilizatorilor în ferestrele de notificare
+showspaces Aratã iconiþa Spaþii în lista de contacte
+showuserpic Avatarul lui $1
+signinstatus Stare
+signout Dezautentificã
+signouthere Dezautentificã de aici ($1)
+signoutep Dezautentificã de la $1
+signouteverywhere Dezautentificã de oriunde
+sipcallaccepted Apel Audio Acceptat
+sipcallback Apeleazã Înapoi
+sipcalldeclined Apel Audio Respins
+sipcalleeaccepted Utilizatorul a acceptat Apelul Audio
+sipcalleebusy Utilizatorul este momentan Ocupat
+sipcalleecanceled Utilizatorul a anulat invitaþia la Apel Audio
+sipcalleeclosed Utilizatorul a încheiat Apelul Audio
+sipcalleedeclined Utilizatorul a respins invitaþia la Apel Audio
+sipcalleenoanswer Utilizatorul nu a rãspuns la Apelul dv.
+sipcalleeunavailable Utilizatorul nu e disponibil pe moment
+sipcallended Apelul Audio s-a sfîrºit
+sipcallimpossible Nu puteþi face un Apel Audio. Instalaþi Farsight2 ºi reîncercaþi.
+sipcallmissed Aþi pierdut un Apel Audio de la $1
+sipcallnosipflag Utilizatorul nu poate primi Apeluri Audio.
+sipcallsent Apelez $1
+sipcallunsupported Aþi primit o invitaþie la Apel Audio, dar acest mod nu este actualmente suportat. Va trebui sã reveniþi cu o invitaþie nouã. Apelul Audio va funcþiona atunci.
+sipcallyouarebusy Puteþi avea un singur Apel Audio într-un anumit moment.
+sipgotinvitation Aþi primit o invitaþie la Apel Audio de la $1
+skinselector Selecteazã Costumul
+skin Costum
+small Mic
+smallest Minim
+smileconfig Configurarea emoticoniþei personalizate
+smilefile Numele de fiºier al emoticoniþei
+smileintro2 Editaþi cîmpurile necesare pentru a personaliza emoticoniþa (vedeþi FAQ pt. ajutor)
+smileintro Completaþi cîmpurile necesare pentru a crea o emoticoniþã personalizatã (vedeþi FAQ pt. ajutor)
+smiletoobig Emoticoniþa aleasã e mai mare decît trebuie. Doriþi s-o redimensionaþi ?
+smileynotavailable Emoticoniþã nedisponibilã!
+snackfailed Biblioteca Snack nu s-a încãrcat, revin la implicite
+snackneeded Pentru aceastã facilitate este nevoie de biblioteca Snack. Versiunea acceptatã este 2.2.9 sau mai mare.
+snapshot Avatar
+sngdblclick Clicul simplu deschide o nouã fereastrã de mesaj
+sortcontactsasc Sorteazã Contactele Ascendent
+sortcontactsdesc Sorteazã Contactele Descendent
+sortcontactsby Sorteazã Contactele
+sortcontactsbylogsize Sorteazã Contactele dupã Mãrimea Jurnalului
+sortcontactgroup Sorteazã Contactele dupã Grup
+sortcontacthybrid Sorteazã Contactele în Mod Hibrid
+sortcontactstatus Sorteazã Contactele dupã Stare
+sortgroupsasc Sorteazã Grupurile Crescãtor
+sortgroupsdesc Sorteazã Grupurile Descrescãtor
+sound2 Emite un sunet cînd contactele se autentificã sau trimit un mesaj
+soundactive Emite sunet chiar ºi cînd sînt primite mesaje în fereastra activã
+soundcommand Aici trebuie sã fie comanda de redare (de ex: esdplay)
+sound Notificã Sonor la Evenimente
+soundexample (\$sound = fiºierul audio de redat) De ex: esdplay \$sound
+soundfile Fiºier de Sunet
+soundfiles Fiºiere de Sunet
+soundloop Bucleazã Sunetul
+soundnoavail Dispozitivul audio nu e disponibil. Opriþi orice altã aplicaþie care foloseºte dispozitivul audio.
+soundserver Server de Sunet
+soundstatus Alarmã Sonorã
+sourcecode Cod Sursã (necesitã compilare ºi instalare)
 splashstart Start
-sslwarning ATENTIE!! Nefolosirea SSL va dezactiva criptarea parolei, deci parolele vor fi trimise sub forma de text.
-startoffline Incepe neautentificat
-startoffline2 Autentificare invizibila "Apar neautentificat"
-startontray Porneste aMSN in mod minimizat
-state Vreau sa apar ca
-stateautomsg de trimis Mesaj_Automat
-statechange starea schimbata in:
-stateedittext Editeaza campurile pe care vrei sa le salvezi \n apoi apasa Salveaza
-stateinfo Configurea starii persolanale
-statename Numele starii personale
-statenewtext Introdu informatia pentru a crea \n starea personala si apasa Salveaza
-statenick Creaza un nick nou (pentru a nu schimba lasa necomplectat)
+sslwarning ATENÞIE!! Dezactivarea SSL va duce la dezactivarea criptãrii, deci parola dv. va fi trimisã ca text simplu în reþea. Folosiþi setarea doar în cazuri speciale pentru servere proxy sau configuraþii de reþea mai deosebite.
+startoffline2 Autentificã silenþios ca "Invizibil"
+startoffline Porneºte Neconectat
+startonboot Porneºte programul odatã cu sistemul de operare (SO)
+startontray Porneºte programul în sistaler [system tray]
+stateautomsg Mesaj Automat de Trimis
+statechange stare schimbatã în: 
+stateedittext Editaþi cîmpurile pe care doriþi sã le modificaþi ºi apoi apãsaþi pe OK
+stateinfo Configurarea Stãrii Personale
+state Vreau sã apar ca
+statename Numele Stãrii Personale
+statenewtext Completaþi informaþiile necesare pentru a crea noua Stare Personalã ºi apãsaþi pe OK
+statenick Poreclã Personalizatã (lãsaþi gol în caz de nemodificare)
+statepsm Mesaj Personalizat (lãsaþi gol în caz de nemodificare)
 stats Statistici
 status Stare
-stopalarm Opreste avertizarea
-storenickname Revenire la nick-ul original dupa o stare personalizata cu un nick
-strictfonts Restrictionare a tuturor marimilor fonturilor la dimensiunea selectata de mine (Bara de stare si celelalte)
+step Pasul
+stopalarm Opreºte Alarma
+stop Opreºte
+stopwebcamreceive Opreºte Recepþionarea Videocamerei
+stopwebcamsend Opreºte Difuzarea Videocamerei
+storenickname Revino la porecla originalã dupã folosirea unei stãri cu poreclã personalizatã
+strictfonts Restricþioneazã mãrimea tuturor fonturilor la cea aleasã de mine (bara de stare ºi restul)
+stylechat Acelaºi aspect ca taifasurile
+stylehist Aspectul Istoricului aMSN
+stylelog Selectaþi formatul în care aþi dori sã vedeþi Istoricul
 style Stil
-stylechat La fel ca si conversatiile
-stylehist Cum arata jurnalele
-stylelog Alege formatul in care vrei sa vizualizezi jurnalul
+subjectrequired E necesar subiectul
 subject Subiect
-subjectrequired Necesita subiect
-syntaxerror Eroare de sintaxa
-tabbed In fereastra ingrosata
-tabbedglobal O bara de file pentru toti utilizatorii in lista de contacte
-tabbedgroups O bara de file pentru utilizatorii din acelas grup
-tabtitlenick Afiseaza nickurile in bara de file in loc de email
-takesnapshot Captureaza
-temp_state Nu salva (Stare temporara, nu se va salva cand este inchis AMSN)
-textsize Marime text
-thismonth Luna aceasta
-timeremaining Timp ramas
-timestamps Activeaza delimitarile de timp in fereastra de conversatie
-title aMSN Messanger
-tkerror TK a lansat o eroare. Este un bug in aMSN - te rog anunta-l. Trimite fisierul $1 la amsn-bugs@lists.sf.net
-tlsdowncompleted Fisierul $1 a fost salvat in directorul $2. Trebuie dezarhivat, compilat (daca e codul sursa) si instalat in $3.
-tlsexplain Directorul in care se afla modulul tcl TLS. Daca AMSN nu il poate gasi, te rog specifica.\n(Necesar pentru autentificare SSL).
-tlsinstall Instalarea Modulului TLS
-tlsinstallexp aMSN necesita MSNP9, care necesita conexie \nsecurizata folosind SSL. Pentru a folosi SSL, aMSN trebuie  sa instaleze un modul numit TLS,\ncare lipseste din sistem. Acest utilitar va ajuta sa descarcati si \nsa instalati TLS. Selectati tipul sistemului pentru a putea descarca automat \nfisierele TLS.
-tlsinstcompleted Instalarea modulului TLS a reusit, acum ar trebui sa folositi MSNP9. Daca nu functioneaza MSNP9, atunci probabil nu ati selectat modulul corespunzator sistemului, sau nu exista modul compilat pentru sistemul pe care il folositi.
-to La
+svnversion Versiune SVN
+syntaxerror Eroare de Sintaxã
+tabbedglobal Fereastrã cu taburi pentru toþi utilizatorii din lista de contacte
+tabbedgroups Fereastrã cu taburi pentru utilizatorii din acelaºi grup
+tabbed Ferestre Tabulare
+tabtitlenick Afiºeazã poreclele în taburi în locul adreselor de poºtã electronicã
+temp_state Stare temporarã (nu va fi salvatã)
+textsize Mãrimea Textului
+thismonth Luna Asta
+throughserver Prin server
+timeremaining Timp rãmas
+timestamps Activeazã marcajele de timp în ferestrele de taifas [chat]
+timestamp Marcaj de Timp
+title aMSN
+tkerror1 TK a semnalat o eroare, deci existã un bug în aMSN. Vã rugãm sã-l raportaþi clicînd pe butonul Raporteazã. Puteþi sã clicaþi pe butonul Detalii pentru a vedea informaþii suplimentare despre bug sau sã clicaþi pe OK pentru a continua taifasul prin aMSN
+tkerror TK a semnalat o eroare, existã un bug în aMSN, vã rugãm sã-l raportaþi. Trimiteþi fiºierul $1 la amsn-bugs@lists.sf.net
+tlsdowncompleted Fiºierul $1 a fost descãrcat în dosarul $2. Trebuie sã-l extrageþi, apoi sã-l construiþi (dacã aþi descãrcat codul-sursã) ºi sã-l instalaþi înãuntrul lui $3.
+tlsexplain Dosarul unde este modulul tcl TLS. Dacã aMSN nu-l poate gãsi, specificaþi calea.\n(Necesar pentru autentificarea SSL).
+tlsinstallexp aMSN foloseºte acum MSNP9, care necesitã folosirea unei conexiuni\nsecurizate prin SSL. Pentru a folosi SSL, aMSN trebuie sã instaleze un modul numit TLS,\ncare lipseºte de pe sistemul dv. Acest vrãjitor vã va ajuta sã descãrcaþi\nºi sã instalaþi TLS. Alegeþi tipul de SO pentru ca sã fie descãrcate automat\nfiºierele TLS necesare.
+tlsinstall Vrãjitor de instalare a modulului TLS
+tlsinstcompleted Instalarea modulului TLS a avut succes - Acum ar trebui sã puteþi folosi MSNP9. Dacã nu merge, atunci probabil cã nu aþi selectat modulul potrivit, sau cã un modul compilat nu este disponibil pentru sistemul dv.
 today Azi
-tomobile Pe mobil
-tools Utilitare
-tooltips Porneste descrierile elementelor de control
-transnotexists Fisierul cerut nu a fost inca tradus.
-traynotcompiled Acest plugin nu este instalat. Verifica plugins/traydoc
-triggers Declansatoare de text
-truncatenames1 Truncheaza nick-urile mai lungi decat latimea feresterei in titlul ferestrei si in lista de contacte
-truncatenames2 Truncheaza nick-urile mai lungi decat latimea ferestrei in fereastra de conversatie
-truncatenicks truncheaza nick-urile mai lungi decat latimea ferestrei
-twonewmail $1 mesaje noi in casuta postala
-unblock Deblocheaza
+tomobile Cãtre Mobil
+tools Unelte
+tooltips Activeazã ponturile flotante [tooltips]
+to To
+totalsize Mãrime Totalã
+transnotexists Fiºierul solicitat nu a fost tradus încã în limba curentã.
+trayicon Aratã o iconiþã de stare în aria de notificare
+traynotcompiled Extensia pentru iconiþa din sistaler nu e compilatã. Verificaþi-o în dosarul plugins/traydock
+triggers Text Declanºator
+truncatenames1 Scurteazã poreclele mai mari decît lãþimea ferestrei din titlurile ferestrelor ºi lista de contacte
+truncatenames2 Scurteazã poreclele mai mari decît lãþimea ferestrei din conversaþii
+truncatenicks Scurteazã poreclele mai mari decît lãþimea ferestrei
+twonewmail $1 mesaje noi în cutia poºtalã
+type Tip
+unblock Deblocheazã
 unknown Necunoscut
-unload Descarca
-uoffline Neautentificat
-uonline Autentificat
+unload Dezîncarcã
+unselectall Deselecteazã tot
+uoffline Neconectaþi
+uonline Conectaþi
+updateonlycurrentlanguage Actualizeazã doar limba curentã
 update Actualizare
-updating In curs de actualizare
-useasdp Use as Display Picture
-useother Foloseste alt program
+updatesaved Realizat\n Salvat $1 în $2.
+updating Actualizez
+useasdp Foloseºte ca Avatar
+useasregexp Foloseºte ca expresie regulatã (regexp)
+useother Foloseºte un program diferit
+useralreadyonlist Utilizatorul e deja în lista de contacte
+userblocked Utilizatorul e conectat, dar v-a blocat
+userdata Datele Utilizatorului
+userdps Avatarurile Utilizatorului
+usernotonline Utilizatorul nu e conectat
+userproperties Proprietãþile utilizatorului $1
+usersettings Setãri
 user Utilizator
-useralreadyonlist Exista deja pe lista
-userblocked User-ul este autentificat dar te-a blocat
-userdata Datele utilizatorului
-usernotonline Utilzatorul nu este autentificat
-userproperties Proprietatile utilizatorului $1
-useryourself Nu poti conversa cu tine
-usesnack Foloseste bibliotecile Snack (Tcl internal)
-verifyblocked Verifica persoanele are te-au blocat
+useryourself Nu puteþi discuta cu dumneavoastrã înºivã
+usesnack Foloseºte biblioteca Snack (Tcl intern)
+verifyblocked Cãutaþi-i pe cei care vã blocheazã
 version Versiune
-view Vizualizare
-viewcontactsby Afiseaza persoanele dupa
-viewprofile Vizualizare profil
-webcaminvite $1 a initiat o sesiune de webcam, dar aMSN nu are implementat aceasta optiune
-webcamshot Poza cu webcam-ul
-whatsize Poaza ceruta nu este in limita normala (96x96)\nIn ce marime ati vrea sa fie afisata?
-willjoin Asteapta ca $1 sa se alature conversatiei
-winkreceived Ai primit o avertizare de la $1. Aceasta optiune nu este implementat in aMSN. 
-wintitlenick Afiseaza nickurile in intr-o singura fila in loc de email
-work Lucru
-wrongfields Campurile "$1", "$2" si/sau "$3" nu sunt valide
-wrongprofileversion Versiunea fisierului de configurarea a profilului este gresit. Pentru remediere sterge directorul $1 sau descarca aMSN actualizat.
-xmmscurrent Afiseaza melodia curenta
-xmmserr Nu se reda nimic, sau nu aveti instalat xmms-infopipe.
-xmmssend Trimite melodia curenta
-xoffset Coordonata X
+videoconversationrequest Tocmai aþi primit o solicitare de conversaþie bidirecþionalã audio ºi video. Aceastã facilitate nu este încã suportatã de aMSN, iar solicitarea a fost anulatã. Totuºi, puteþi folosi conversaþia standard prin videocamerã.
+view Vezi
+viewcontactsby Vezi contactele dupã
+viewprofile Vezi Profilul
+viewspace Vez Paginile Personale
+volume Volum
+wanttosharecam Doresc sã pun la dispoziþie videocamera mea pentru vizionare
+web Internet
+webcam Videocamerã
+webcamcanceled Sesiunea de videocamerã cu $1 a fost anulatã
+webcamclosebefcancel Trebuie sã anulaþi toate sesiunile de videocamerã înainte de a închide fereastra
+webcamconfigure Configureazã Videocamera
+webcamconfiguredMac Setãrile videocamerei au fost configurate
+webcamconfiguredWin Aþi ales urmãtorul dispozitiv video : $1
+webcamconfiguredLinux Aþi ales urmãtoarele setãri pentru videocamerã:\nDispozitiv: $1\nCanal: $2
+webcamextchecking Verific dacã extensia de videocamerã este încãrcatã ...
+webcamextloaded Extensia Webcamsn e încãrcatã
+webcamextnotloaded Extensia Webcamsn nu e încãrcatã. Va trebui s-o compilaþi.
+webcamextwarn Nu veþi putea vedea videocamerele contactelor. Aflaþi de pe wiki detalii despre instalarea extensiilor:
+webcamfaq FAQ/Ajutor pentru Videocamerã
+webcamhistory Sesiuni de Vizionare a Videocamerei
+webcamhistory2 Sesiuni de Videocamerã
+webcaminvite $1 v-a invitat sã porniþi o sesiune de vizionare a videocamerei, dar aMSN nu suportã aceastã facilitate.
+webcaminvitereceived $1 v-a invitat sã porniþi o sesiune de vizionare a videocamerei. Doriþi sã acceptaþi sesiunea?
+webcaminvitereceiving Sînteþi invitat sã vedeþi imagini de la videocamera lui $1. Doriþi sã acceptaþi sesiunea de vizionare?
+webcaminvitesending $1 ar dori sã vadã imagini de la videocamera dv. Doriþi sã acceptaþi sesiunea de vizionare?
+webcamrejected $1 a respins invitaþia pentru o sesiune cu videocamera
+webcamrequestreceive Solicitarea de recepþionare a imaginilor de la videocamerã a fost trimisã
+webcamrequestsend Solicitarea de difuzare a imaginilor de la videocamerã a fost trimisã
+webcamsending Lista persoanelor cãtre care difuzaþi actualmente imaginea videocamerei\nClicaþi pentru a anula
+whatisamsn aMSN este o clonã multi-platformã a lui MSN Messenger
+whatsize Imaginea solicitatã nu are mãrimea obiºnuitã(96x96)\nLa ce mãrime aþi dori sã fie afiºatã aceastã imagine?
+willjoin Aºtept ca $1 sã se alãture conversaþiei
+winkreceived Aþi primit un Clipit de la $1. Aceastã facilitate nu e actualmente suportatã de aMSN.
+wintitlenick Afiºeazã poreclele în fereastra tabularã în locul adreselor de e-mail
+work Servici
+wrongfields Cîmpurile "$1", "$2" ºi/sau "$3" nu erau valide
+wrongprofileversion Versiune greºitã a fiºierului cu profilul de configurare. Pentru a repara acest lucru, înlãturaþi dosarul $1 sau actualizaþi aMSN
+xmmscurrent Afiºeazã melodia curentã
+xmmserr Nu e redat nimic sau nu aveþi instalat xmms-infopipe.
+xmmssend Trimite melodia curentã
+xoffset Decalare X
+xplaces $1 Locuri
 year An
-yes Da
-yesblock Blocare si da
+yesblock Da ºi Blocheazã
 yesterday Ieri
-yoffset Coordonata Y
-youblocked Ai fost blocat
-yousay Tu zici
-youwant Tu vrei
-
+yes Da
+yoffset Decalare Y 
+youblocked Aþi fost blocat de
+yousay Spuneþi
+youwant Permisiuni
+zoom Panorameazã
