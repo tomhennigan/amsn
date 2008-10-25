@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+import dbus
+bus = dbus.SessionBus()
+object = bus.get_object('org.mozilla.songbird', '/org/mozilla/songbird')
+print object.getStatus()
+print object.getTitle()
+print object.getArtist()

@@ -21,3 +21,6 @@ You can also get it for your distro from the www.rpmfind.net site.
 
 Totem :
 - You need to install the last version of Totem to make sure that the functionnality is installed (Thanks to Karel and the Totem team to make it for us)
+
+Songbird:
+- Songbird needs the dbus extention available at http://addons.songbirdnest.com/addon/181

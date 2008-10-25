@@ -2,7 +2,7 @@
 <plugin>
 	<name>Music</name>
 	<author>Jerome Gagnon-Voyer, Boris Faure (billiob) and Le Philousophe</author>
-	<description>Music plugin compatible with iTunes, XMMS, Amarok and Winamp. Show current playing song in nickname and show/send current playing song from the chatwindow. Mac OS X, Linux or Windows</description>
+	<description>Music plugin compatible with iTunes, XMMS, Amarok, Winamp... Show current playing song in nickname and show/send current playing song from the chatwindow. Mac OS X, Linux or Windows</description>
 	<description_es>Plugin de música compatible con iTunes, XMMS, Amarok y Winamp. Muestra la canción en reproducción actual en el apodo y muestra/envía la canción en reproducción actual de la ventana de conversación. Mac OS X, Linux o Windows</description_es>
 	<description_fr>Le plugin Music est compatible avec plusieurs lecteurs audio (configurez le plugin pour de plus amples informations). Il affiche la chanson jouée dans le pseudonyme, et permet de l'afficher ou de l'envoyer dans la fenêtre de conversation. Fonctionne sous Mac OS X, Linux ou Windows</description_fr>
 	<description_hu>A Music plugin a következő zenelejátszó programokkal használható: Amarok, Audacious, Banshee, Exaile, JuK, Listen, MPD, QuodLibet, Rhythmbox, XMMS, iTunes, Winamp, Windows Media Player. Megjeleníti a hallgatott zeneszámot a nicknévben és a társalgás ablakban; és el is küldheted a partnerednek.</description_hu>
@@ -12,7 +12,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>10061</cvs_version>
+	<cvs_version>10634</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -92,12 +92,16 @@
 		<version>10208</version>
 	</file>
 	<file>
+		<path>infosongbird</path>
+		<version>10634</version>
+	</file>
+	<file>
 		<path>MusicWin.dll</path>
 		<version>9836</version>
 	</file>
 	<file>
 		<path>readme.txt</path>
-		<version>8521</version>
+		<version>10634</version>
 	</file>
 	<file>
 		<path>pixmaps/notesdispic.gif</path>

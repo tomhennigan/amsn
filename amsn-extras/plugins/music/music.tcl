@@ -257,6 +257,7 @@ namespace eval ::music {
 					"MPD" [list GetSongMPD return FillFrameMPD] \
 					"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
 					"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
+					"Songbird" [list GetSongSongbird TreatSongSongbird FillFrameLess] \
 					"XMMS" [list GetSongXMMS return FillFrameEmpty] \
 				]
 			} else {
@@ -1460,5 +1461,55 @@ namespace eval ::music {
 		}
 		
 		return [list $song $art "" "" ""]
+	}
+
+
+
+	###############################################
+	# ::music::TreatSongSongbird                  #
+	# ------------------------------------------- #
+	# Gets the current playing song in Amarok     #
+	###############################################
+	proc TreatSongSongbird {} {
+		after 0 {::music::exec_async [list [file join $::music::musicpluginpath "infosongbird"]] }
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongSongbird                    #
+	# ------------------------------------------- #
+	# Gets the current playing song in Amarok     #
+	###############################################
+	proc GetSongSongbird {} {
+		#actualsong is filled asynchronously in TreatSongAmarok
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		set status [lindex $tmplst 0]
+
+		if {$status != "playing"} {
+			return 0
+		} else {
+			set song [lindex $tmplst 1]
+			set art [lindex $tmplst 2]
+			set artpath ""
+
+			#Define in which  order we want to show the song (from the config)
+			#Use the separator(from the cong) betwen song and artist
+			if {$::music::config(songart) == 1} {
+				append songart $song " " $::music::config(separator) " " $art
+			} elseif {$::music::config(songart) == 2} {
+				append songart $art " " $::music::config(separator) " " $song
+			} elseif {$::music::config(songart) == 3} {
+				append songart $song
+			}
+			lappend return $songart
+			#lappend return [urldecode [string range $path 5 end]]
+			#lappend return $artpath
+		}
+		return $return
 	}
 }
