@@ -145,7 +145,7 @@ changestate $1, $2 durumuna geçti
 changestatus Durum deðiþtir
 changevideosettings Görüntü ayarlarýný deðiþtir
 channels Kanallar
-charscounter Sohbet penceresinde girilen harf sayacý
+charscounter Sohbet penceresinde girilen harf sayacýný göster
 chat Sohbet
 chatack Sohbet istemi kabul edilen kiþi
 chatmaxmin Bir baðlantým benimle sohbet penceresi açtýðýnda pencerenin þöyle olmasýný istiyorum:
@@ -463,7 +463,7 @@ internalerror Ýç sunucu hatâsý
 invalidfile "$1" alanýna girilen $2 dosyasý yok ya da okunamýyor
 invalidfile2 $1 dosyasý oluþturulamadý, yazma izniniz olduðundan emin olun.
 invalidgroup Geçersiz öbek
-invalidparameter Sunucuya baðlanýrken sorun oluþtu: Geçersiz parametre.
+invalidparameter Sunucuya baðlanýrken sorun oluþtu:\nGeçersiz parametre.
 invalidpic Belirttiðiniz resim dosyasý yok
 invalidpicsize Seçilen resim çok büyük, lütfen daha küçük bir resim seçin.
 invalidsound Belirttiðiniz ses dosyasý yok
@@ -778,7 +778,7 @@ reverselist Karþý liste
 rightback Hemen döneceðim
 save Kaydet
 saveas Farklý kaydet
-savechatwinsize Sohbet penceresinin boyutu degiþtiðinde yeni boyutu varsayýlan olarak kaydet. 
+savechatwinsize Sohbet penceresinin boyutu degiþtiðinde yeni boyutu varsayýlan olarak kaydet
 savecontacts Baðlantý listesini kaydet
 saveddefaultloc Öntanýmlý konuma kaydet
 savelocation Dosyayý $1 konumuna kaydetmek istiyor musunuz?
@@ -815,6 +815,7 @@ servergoingdown Sunucu kapanýyor: Baðlantý kesildi
 serverunavailable Sunucuya eriþilemiyor
 session Oturum
 setasmydp Bunu kullanýcý resmim yap
+setbackinitialstate aMSN'yi $1 durumunda baðlanacak þekilde ayarladýnýz; fakat, durumunuz þuan $2 olarak ayarlý. Durumunuzu tekrar $1 olarak ayarlamak istediðinize emin misiniz?
 setupcam Kamera aygýtý ayarlanýyor
 setupcamfinetune Görüntüye ince ayarlar yapýlýyor
 shareswebcam Kamera görüntüsünu paylaþýyor
@@ -918,7 +919,7 @@ stop Durdur
 stopalarm Alarmý durdur!
 stopwebcamreceive Görüntü almayý durdur
 stopwebcamsend Görüntü yollamayý durdur
-storenickname Deðiþik rumuzu olan özelleþtirilmiþ durumdan sonra asýl rumuza
+storenickname Deðiþik rumuzu olan özelleþtirilmiþ durumdan sonra asýl rumuza geç
 strictfonts Tüm metinler için (durum çubuðu ve diðerleri) yalnýzca seçtiðim yaztipi boyutunu kullan
 style Tarz
 stylechat Sohbetler ile ayný görünüþ
