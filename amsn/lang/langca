@@ -196,7 +196,7 @@ confirmpurge Totes les imatges mostrades dels teus contactes (però no la teva) e
 confirmrfl Segur que vols eliminar aquest usuari d'aquest grup?
 congrats Felicitats
 connected Ara estàs connectat
-connectedat Conectat en
+connectedat Conectat en:
 connectedwith Connectat amb $1
 connecterror Error connectant amb el servidor
 connecting Connectant
@@ -407,7 +407,7 @@ internalerror Error intern del servidor
 invalidfile2 No es pot crear el fitxer $1. Comprova que tinguis els permisos necessaris.
 invalidfile El fitxer $2 introduït al camp "$1" no existeix o no es pot llegir
 invalidgroup Grup no vàlid
-invalidparameter Error connectant amb el servidor: paràmetre invàlid
+invalidparameter Error connectant amb el servidor:\nparàmetre invàlid
 invalidpic El fitxer d'imatge no existeix.
 invalidpicsize La imatge és massa gran. Escull-ne una de més petita.
 invalidsound El fitxer de so no existeix.
@@ -924,6 +924,7 @@ sendoim Envia missatge fora de línia
 sendvoice Envia missatge de veu
 sentvoice Enviat missatge de veu
 setasmydp Establir com la meva imatge
+setbackinitialstate Has ajustat l'aMSN per conectar-se com $1, però ara ets $2. Estàs segur de que vols tornar a ajustar el teu estat a $1 ?
 showcontactemail Mostra els contactes amb el seu correu electrònic
 showcontactnick Mostra els contactes amb el seu sobrenom
 showdetailedview Mostrar la vista detallada dels contactes
