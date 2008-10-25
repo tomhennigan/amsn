@@ -816,6 +816,7 @@ server Servidor
 serverunavailable El servidor no está disponible
 session Sesión
 setasmydp Establecer como mi Imagen para Mostrar
+setbackinitialstate Has ajustado aMSN para conectarse como $1, pero ahora estás $2. ¿Estás seguro de que quieres ajustar tu estado de vuelta a $1?
 setupcam Configurando tu cámara web
 setupcamfinetune Configurando tu cámara web, y aplicando ajuste fino de imagen
 shareswebcam Usuario con cámara web
