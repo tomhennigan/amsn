@@ -215,7 +215,7 @@ confirmpurge Alle opgeslagen schermafbeeldingen van je contacten zullen worden v
 confirmrfl Weet je zeker dat je deze gebruiker uit deze groep wilt verwijderen?
 congrats Gefeliciteerd
 connected Je bent nu verbonden
-connectedat Aangemeld om
+connectedat Aangemeld om:
 connectedwith Aangemeld als $1
 connecterror Fout bij verbinden met server
 connectfirst Maak eerst verbinding
@@ -230,14 +230,14 @@ contacts Contacten
 continuously Onafgebroken
 contrast Contrast
 conversationwith $1 deelnemers aan het gesprek
-convertexplain Pad naar het programma 'convert' van ImageMagick (dit is nodig voor schermafbeeldingen). \nLaat leeg indien 'convert' binnen het zoekpad staat.
+convertexplain Pad naar het programma 'convert' van ImageMagick (dit is nodig voor schermafbeeldingen).\n Laat leeg indien 'convert' binnen het zoekpad staat.
 copy Kopiëren
 copytoclipboard Kopiëren naar klembord ($1)
 copytogroup Kopiëren naar groep
 corruptconfig Het configuratiebestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 corruptstates Het aangepastestatussenbestand is beschadigd. Er wordt een nieuw bestand aangemaakt. Het oude wordt opgeslagen in $1. Wil je het oude bestand naar ons opsturen zodat wij kunnen nagaan wat er fout is gegaan?
 couldnotrename Het bestand $1 kon niet worden hernoemd
-countrycode Landnummer
+countrycode Mijn land-/regiocode
 cprofile Profiel aanmaken
 created Gemaakt
 credits De makers
