@@ -150,8 +150,8 @@ namespace eval ::draw {
 
 		#SWITCHBUTTON
 		set inkswitch $buttonbar.inkswitchbut
-		$inkswitch configure -image [::skin::loadPixmap buttext]
-		bind $inkswitch  <<Button1>> "::draw::ResetTextInput $window $buttonbar"
+		$inkswitch configure -image [::skin::loadPixmap buttext] -command "::draw::ResetTextInput $window $buttonbar"
+		#bind $inkswitch  <<Button1>> "::draw::ResetTextInput $window $buttonbar"
 		bind $inkswitch  <Enter> "$inkswitch configure -image [::skin::loadPixmap buttext_hover]"
 		bind $inkswitch  <Leave> "$inkswitch configure -image [::skin::loadPixmap buttext]"	
 
@@ -229,8 +229,8 @@ namespace eval ::draw {
 	
 #...
 		#reconfigure inkswitch
-		$inkswitch configure -image [::skin::loadPixmap butdraw]
-		bind $inkswitch  <<Button1>> "::draw::AddDrawboard $window $buttonbar"
+		$inkswitch configure -image [::skin::loadPixmap butdraw] -command  "::draw::AddDrawboard $window $buttonbar"
+		#bind $inkswitch  <<Button1>> "::draw::AddDrawboard $window $buttonbar"
 		bind $inkswitch  <Enter> "$inkswitch configure -image [::skin::loadPixmap butdraw_hover]"
 		bind $inkswitch  <Leave> "$inkswitch configure -image [::skin::loadPixmap butdraw]"	
 	
@@ -295,10 +295,11 @@ status_log "reset sendbutton binding"
 
 	proc CreatePencilWidget { drawwidget widget } {
 		if {![winfo exists $widget]} {
-			label $widget -image [::skin::loadPixmap ink_huge] -relief flat -padx 0 \
+			button $widget -image [::skin::loadPixmap ink_huge] -relief flat -padx 0 \
 				-bg [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
-			bind $widget  <<Button1>> [list ::draw::PencilMenu $drawwidget $widget %X %Y]
+				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg] \
+				-command [list ::draw::PencilMenu $drawwidget $widget %X %Y]
+			#bind $widget  <<Button1>> [list ::draw::PencilMenu $drawwidget $widget %X %Y]
 		}
 		pack $widget -side left -padx 0 -pady 0
 	}
@@ -379,7 +380,7 @@ status_log "reset sendbutton binding"
 		if {![winfo exists $widget]} {
 			label $widget -padx 0 -width 5 -height 1 \
 				-bg black -highlightthickness 0 -borderwidth 1 \
-				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg] 
 			bind $widget  <<Button1>> [list ::draw::ChangeColor $drawwidget $widget]
 		}
 		pack $widget -side left -padx 0 -pady 0
@@ -395,11 +396,11 @@ status_log "reset sendbutton binding"
 
 	proc CreateToolButton { widget imgname command } {
 		if {![winfo exists $widget]} {
-			label $widget -image [::skin::loadPixmap ${imgname}] -relief flat -padx 0 \
+			button $widget -image [::skin::loadPixmap ${imgname}] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg] -command $command
 
-			bind $widget  <<Button1>> $command
+			#bind $widget  <<Button1>> $command
 			bind $widget  <Enter> "$widget configure -image [::skin::loadPixmap ${imgname}_hover]"
 			bind $widget  <Leave> "$widget configure -image [::skin::loadPixmap ${imgname}]"
 		}
