@@ -84,7 +84,7 @@ namespace eval ::Socks5 {
 		
 		if { [catch { flush $sck }] } {
 		    catch {close $sck}
-		    status_log "ERROR:Couldn't open Socks Server for writing!"
+		    status_log "ERROR:Couldn't flush Socks Server after writing!"
 		    return "ERROR:Couldn't flush Socks Server after writing!"
 		}
 		
