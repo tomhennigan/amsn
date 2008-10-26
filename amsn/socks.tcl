@@ -81,7 +81,12 @@ namespace eval ::Socks5 {
 		
 		status_log "writing to socket in socks5 writing : $ver$nmethods$method\n"
 		puts -nonewline $sck "$ver$nmethods$method"
-		flush $sck
+		
+		if { [catch { flush $sck }] } {
+		    catch {close $sck}
+		    status_log "ERROR:Couldn't open Socks Server for writing!"
+		    return "ERROR:Couldn't flush Socks Server after writing!"
+		}
 		
 		status_log "doing fileevent now in socks5\n"
 		fileevent $sck readable "::Socks5::Readable $sck"
