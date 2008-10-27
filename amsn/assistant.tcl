@@ -1114,6 +1114,7 @@ namespace eval ::AVAssistant {
 		variable channels
 		variable previmg
 		variable lowrescam
+		variable available_devices
 
 		##Here comes the content:##
 
@@ -1184,7 +1185,7 @@ namespace eval ::AVAssistant {
 		#get the already set device from the config (if there is one set)
 		if {![info exists selecteddevice]} {
 			set setdev [lindex [split [::config::getKey "webcamDevice"] ":"] 0]
-		} else { 
+		} else {
 			set setdev $selecteddevice
 		}
 		#set the count to see which nr this device has in the list on -1 to begin,
@@ -1194,12 +1195,13 @@ namespace eval ::AVAssistant {
 		set setdevnr 0
 		
 		#insert the device-names in the widget
-		foreach device [::Capture::ListDevices] {
+		set available_devices [::Capture::ListDevices]
+		foreach device $available_devices {
 			set dev [lindex $device 0]
 			set name [lindex $device 1]
 			
 			#it will allways set the last one, which is a bit weird to the
-			# user though if he has like /dev/video0 that come both as V4L 
+			# user though if he has like /dev/video0 that come both as V4L
 			# and V4L2 device
 			#store which nr the setdev has in the combobox
 			if { $dev == $setdev} {
@@ -1210,12 +1212,12 @@ namespace eval ::AVAssistant {
 			#if we can't get the name, show it the user
 			if {$name == "" } {
 				#TODO: is this the right cause ?
-				set name "$dev (Err: busy?)"
+				set name "(Err: busy?) $dev"
 				status_log "Webcam-Assistant: No name found for $dev ... busy ?"
 			}
 			#put the name of the device in the widget
 			$leftframe.devs list insert end $name
-			}
+		}
 		#pack the dev's combobox
 		pack $leftframe.devs -side top
 		
@@ -1228,13 +1230,13 @@ namespace eval ::AVAssistant {
 		combobox::combobox $leftframe.chans -highlightthickness 0 -width 22 -font splainf -exportselection true \
 		    -command [list ::AVAssistant::StartPreviewLinuxDelayed] -editable false -bg #FFFFFF
 
-		pack $leftframe.chans -side top 
+		pack $leftframe.chans -side top
 		
 		#Select the device if in the combobox (won't select anything if -1)
 		catch {$leftframe.devs select $setdevnr}
 
 		#now, configure the checkbutton in order to change the size of the preview when needed
-		$contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinux $leftframe.chans [$leftframe.chans get]]
+		$contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinuxDelayed $leftframe.chans [$leftframe.chans get]]
 		#end the Step1WLinux proc
 	}
 
@@ -1250,6 +1252,7 @@ namespace eval ::AVAssistant {
 		variable selecteddevicename
 		variable selectedchannel
 		variable channels
+		variable available_devices
 		
 		if { $value == "" } {
 			status_log "No device selected; CAN'T BE POSSIBLE ?!?"
@@ -1258,7 +1261,7 @@ namespace eval ::AVAssistant {
 			#get the nr of the selected device
 			set devnr [lsearch [$devswidget list get 0 end] $value]
 			#get that device out of the list and the first element is the device itself ([list /dev/foo "name"])
-			set selecteddevice [lindex [lindex [::Capture::ListDevices] $devnr] 0]
+			set selecteddevice [lindex [lindex $available_devices $devnr] 0]
 			#name is used at the end of the assistant to tell the user what he choosed
 			set selecteddevicename $value
 
@@ -1349,11 +1352,12 @@ namespace eval ::AVAssistant {
 				return
 			}
 
+			status_log "RES=[::Capture::ListResolutions]"
 			set previmg [image create photo [TmpImgName]]
 
-			$previmc create image 0 0 -image $previmg -anchor nw 
+			$previmc create image 0 0 -image $previmg -anchor nw
 
-			$previmc create text 10 10 -anchor nw -font bboldf -text "[trans preview]: $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
+			$previmc create text 10 10 -anchor nw -font bboldf -text "[trans preview]:\n$selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
 
 			after 3000 "catch { $previmc delete device }"
 
@@ -1496,8 +1500,8 @@ namespace eval ::AVAssistant {
 
 		set previmg [image create photo [TmpImgName]]
 					
-		$previmc create image 0 0 -image $previmg -anchor nw 
-		$previmc create text 10 10 -anchor nw -font bboldf -text "[trans preview]: $selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
+		$previmc create image 0 0 -image $previmg -anchor nw
+		$previmc create text 10 10 -anchor nw -font bboldf -text "[trans preview]:\n$selecteddevice:$selectedchannel" -fill #FFFFFF -anchor nw -tag device
 
 		after 3000 "catch { $previmc delete device }"
 
@@ -1550,10 +1554,10 @@ namespace eval ::AVAssistant {
 		pack $leftframe -side left -padx 10 -expand true -fill x
 
 		#set the sliders right
-		Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview $brightness
-		Properties_SetLinux $slides.c c $::CAMGUI::webcam_preview $contrast
-		Properties_SetLinux $slides.h h $::CAMGUI::webcam_preview $hue
-		Properties_SetLinux $slides.co co $::CAMGUI::webcam_preview $color
+		::AVAssistant::Properties_SetLinux $slides.b b $::CAMGUI::webcam_preview $brightness
+		::AVAssistant::Properties_SetLinux $slides.c c $::CAMGUI::webcam_preview $contrast
+		::AVAssistant::Properties_SetLinux $slides.h h $::CAMGUI::webcam_preview $hue
+		::AVAssistant::Properties_SetLinux $slides.co co $::CAMGUI::webcam_preview $color
 		
 		set semaphore ::CAMGUI::sem_$::CAMGUI::webcam_preview
 		set $semaphore 0
@@ -1564,7 +1568,7 @@ namespace eval ::AVAssistant {
 				$previmc create text 5 $errorheight -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
 				after 3000 "catch { $previmc delete errmsg }"
 			}
-			after 100 "incr $semaphore"
+			after 100 [list incr $semaphore]
 			tkwait variable $semaphore
 		}
 
@@ -1574,7 +1578,7 @@ namespace eval ::AVAssistant {
 
 	######################################################################################
 	#Step 2 Video Linux - Auxilary procs                                                 #
-	######################################################################################	
+	######################################################################################
 	###
 	# Set properties on Linux
 	proc Properties_SetLinux { w property capture_fd new_value } {
@@ -1584,8 +1588,10 @@ namespace eval ::AVAssistant {
 		variable brightness
 		variable contrast
 		variable hue
-		variable color		
+		variable color
 		
+		if { ! ([string is integer -strict $new_value] && $new_value > 0 && $new_value < 65535 ) } { return }
+
 		switch $property {
 			b {
 				::Capture::SetBrightness $capture_fd $new_value
@@ -1624,7 +1630,7 @@ namespace eval ::AVAssistant {
 
 	######################################################################################
 	# Step 1 Video for Windows:  Set device/channel                                      #
-	######################################################################################	
+	######################################################################################
 	proc Step1WWin {assistant contentf} {
 		#we should be able to alter this vars in other procs
 		variable chanswidget
@@ -1635,7 +1641,7 @@ namespace eval ::AVAssistant {
 
 		#extensions are present, we can change some settings	
 		$assistant modifyStep "Step0W" titleText [trans setupcam]
-		$assistant modifyStep "Step0W" leavingProc ::AVAssistant::stopPreviewWindows 
+		$assistant modifyStep "Step0W" leavingProc ::AVAssistant::stopPreviewWindows
 
 		##Here comes the content:##
 
