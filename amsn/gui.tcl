@@ -8313,6 +8313,7 @@ proc set_displaypic { file { email "self" } } {
 			clear_disp
 			::MSN::changeStatus [set ::MSN::myStatus]
 		}
+		::MSN::updateDP
 	} else {
 		global customdp_$email
 		set customdp_$email $file

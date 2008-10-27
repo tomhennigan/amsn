@@ -1269,6 +1269,50 @@ namespace eval ::MSN {
 		::MSN::WriteSBNoNL ns "UUX" "[string length $data]\r\n$data"
 	}
 
+	proc updateDP { {step 0} } {
+		if {[::config::getKey protocol] >= 15} {
+			set dp [::config::getKey displaypic ""]
+			if {$dp == "" || $dp == "nopic.gif"} {
+				set dp ""
+			} else {
+				set dp [::skin::GetSkinFile displaypic [PathRelToAbs $dp]]
+			}
+			
+			if {$step == 0} {
+				$::roaming GetProfile [list ns RoamingGetProfileCB 1]
+			} else {
+				set dp_resourceid [::abook::getPersonal dp_resourceid]
+				set profile_resourceid [::abook::getPersonal profile_resourceid]
+				if {$dp_resourceid != ""} {
+					#delete old DP
+					if {$step == 1} {
+						$::roaming DeleteRelationships [list ns RoamingDeleteRelationshipsCB 2] $dp_resourceid
+					} elseif {$step == 2} {
+						$::roaming DeleteRelationships [list ns RoamingDeleteRelationshipsCB 3] $dp_resourceid $profile_resourceid
+					} elseif {$step == 4} {
+						#TODO: maybe we need to create a new relationship, WLM does, but it seems to work fine without that
+					} else {
+						::abook::setPersonal dp_resourceid ""
+						set dp_resourceid ""
+					}
+				}
+				if {$dp_resourceid == ""} {
+					if {$dp != ""} {
+						#upload new DP
+						
+						#TODO: error handling
+						set fd [open $dp r]
+						fconfigure $fd -translation binary
+						set content [read $fd]
+						close $fd
+						
+						$::roaming CreateDocument [list ns RoamingCreateDocumentCB 4] [base64::encode $content]
+					}
+				}
+			}
+		}
+	}
+	
 	#Procedure called to change our status
 	proc changeStatus {new_status} {
 		global autostatuschange
@@ -4618,7 +4662,10 @@ namespace eval ::MSNOIM {
 	method setInitialNicknameCB { newstate newstate_custom nickname last_modif psm dp fail } {
 		global newstate_server
 		if {$fail == 0} {
+			status_log "GetProfile : Retrieved dp : $dp"
 			status_log "GetProfile : Retrieved nickname from server : $nickname - psm : $psm"
+			::abook::setPersonal dp_resourceid $dp
+			
 			::MSN::changePSM $psm $newstate 0 1
 
 			set lastchange [::abook::getPersonal info_lastchange]
@@ -4684,6 +4731,29 @@ namespace eval ::MSNOIM {
 		}
 		if {$rid != "" } {
 			$::roaming ShareItem [list $self RoamingItemShared] $rid
+		}
+	}
+	
+	method RoamingGetProfileCB { updateDP_step nickname last_modif psm dp fail } {
+		if {$fail == 0} {
+			status_log "GetProfile : Retrieved dp : $dp"
+			::abook::setPersonal dp_resourceid $dp
+			if {$updateDP_step > 0} {
+				::MSN::updateDP $updateDP_step
+			}
+		}
+	}
+	
+	method RoamingDeleteRelationshipsCB { updateDP_step fail } {
+		if {$fail == 0} {
+			::MSN::updateDP $updateDP_step
+		}
+	}
+	
+	method RoamingCreateDocumentCB { updateDP_step dpid fail } {
+		if {$fail == 0} {
+			::abook::setPersonal dp_resourceid $dpid
+			::MSN::updateDP $updateDP_step
 		}
 	}
 

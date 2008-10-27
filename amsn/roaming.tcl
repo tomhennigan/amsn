@@ -90,8 +90,8 @@ snit::type ContentRoaming {
 					set nick [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayName"]
 					set last_modif [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayNameLastModified"]
 					set psm [GetXmlEntry $result "GetProfileResult:ExpressionProfile:PersonalStatus"]
-
-					# TODO : DP is more complicated.. will look at it later...
+					
+					set dp [GetXmlEntry $result "GetProfileResult:ExpressionProfile:Photo:ResourceID"]
 				} else {
 					set fail 4
 				}
@@ -359,6 +359,184 @@ snit::type ContentRoaming {
 		
 		$soap destroy
 		if {[catch {eval $callbk [list $documents]} result]} {
+			bgerror $result
+		}
+	}
+
+	method CreateDocument { callbk dpfile } {
+		$::sso RequireSecurityToken Storage [list $self CreateDocumentSSOCB $callbk $dpfile]
+	}
+
+	method CreateDocumentSSOCB { callbk dpfile ticket} {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
+				 -action "http://www.msn.com/webservices/storage/w10/CreateDocument" \
+				 -header [$self getCommonHeaderXML RoamingSeed $ticket] \
+				 -body [$self getCreateDocumentBodyXML $dpfile] \
+				 -callback [list $self CreateDocumentCallback $callbk]]
+		
+		$request SendSOAPRequest
+		
+	}
+
+
+	method getCreateDocumentBodyXML { dpfile } {
+		set cid [::abook::getPersonal cid]
+		
+		append xml {<CreateDocument xmlns="http://www.msn.com/webservices/storage/w10">}
+		append xml {<parentHandle>}
+		append xml {<RelationshipName>/UserTiles</RelationshipName>}
+		append xml {<Alias>}
+		append xml {<Name>}
+		append xml $cid
+		append xml {</Name>}
+		append xml {<NameSpace>MyCidStuff</NameSpace>}
+		append xml {</Alias>}
+		append xml {</parentHandle>}
+		append xml {<document xsi:type="Photo">}
+		#TODO: use correct filename?
+		append xml {<Name>amsncrpic</Name>}
+		append xml {<DocumentStreams>}
+		append xml {<DocumentStream xsi:type="PhotoStream">}
+		append xml {<DocumentStreamType>UserTileStatic</DocumentStreamType>}
+		append xml {<MimeType>png</MimeType>}
+		append xml {<Data>}
+		append xml $dpfile
+		append xml {</Data>}
+		append xml {<DataSize>0</DataSize>}
+		append xml {</DocumentStream>}
+		append xml {</DocumentStreams>}
+		append xml {</document>}
+		append xml {<relationshipName>Messenger User Tile</relationshipName>}
+		append xml {</CreateDocument>}
+
+		return $xml
+	}
+	
+	method CreateDocumentCallback { callbk soap } {
+		set dpid ""
+		#puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			set fail 0
+			set xml [$soap GetResponse]
+			$self UpdateCacheKey $xml
+			set dpid [GetXmlEntry $xml "soap:Envelope:soap:Body:CreateDocumentResponse:CreateDocumentResult"]	
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "AccessDenied" } {
+				set fail 2
+			} else {
+				set fail 1				
+			}
+		} else {
+			set fail 1
+		}
+		
+		$soap destroy
+		if {[catch {eval $callbk [list $dpid $fail]} result]} {
+			bgerror $result
+		}
+	}
+
+	method DeleteRelationships { callbk dpid {rid ""} } {
+		if {$rid == ""} {
+			$::sso RequireSecurityToken Storage [list $self DeleteRelationships1SSOCB $callbk $dpid]
+		} else {
+			$::sso RequireSecurityToken Storage [list $self DeleteRelationships2SSOCB $callbk $dpid $rid]
+		}
+	}
+
+	method DeleteRelationships1SSOCB { callbk dpid ticket} {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
+				 -action "http://www.msn.com/webservices/storage/w10/DeleteRelationships" \
+				 -header [$self getCommonHeaderXML RoamingSeed $ticket] \
+				 -body [$self getDeleteRelationships1BodyXML $dpid] \
+				 -callback [list $self DeleteRelationshipsCallback $callbk]]
+		
+		$request SendSOAPRequest
+		
+	}
+
+	method DeleteRelationships2SSOCB { callbk dpid rid ticket} {
+		set request [SOAPRequest create %AUTO% \
+				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
+				 -action "http://www.msn.com/webservices/storage/w10/DeleteRelationships" \
+				 -header [$self getCommonHeaderXML RoamingSeed $ticket] \
+				 -body [$self getDeleteRelationships2BodyXML $dpid $rid] \
+				 -callback [list $self DeleteRelationshipsCallback $callbk]]
+		
+		$request SendSOAPRequest
+		
+	}
+
+
+	method getDeleteRelationships1BodyXML { dpid } {
+		set cid [::abook::getPersonal cid]
+		
+		append xml {<DeleteRelationships xmlns="http://www.msn.com/webservices/storage/w10">}
+		append xml {<sourceHandle>}
+		append xml {<RelationshipName>/UserTiles</RelationshipName>}
+		append xml {<Alias>}
+		append xml {<Name>}
+		append xml $cid
+		append xml {</Name>}
+		append xml {<NameSpace>MyCidStuff</NameSpace>}
+		append xml {</Alias>}
+		append xml {</sourceHandle>}
+
+		append xml {<targetHandles>}
+		append xml {<ObjectHandle>}
+		append xml {<ResourceID>}
+		append xml $dpid
+		append xml {</ResourceID>}
+		append xml {</ObjectHandle>}
+		append xml {</targetHandles>}
+		append xml {</DeleteRelationships>}
+
+		return $xml
+	}
+	
+	method getDeleteRelationships2BodyXML { dpid rid } {
+		set cid [::abook::getPersonal cid]
+		
+		append xml {<DeleteRelationships xmlns="http://www.msn.com/webservices/storage/w10">}
+		append xml {<sourceHandle>}
+		append xml {<ResourceID>}
+		append xml $rid
+		append xml {</ResourceID>}
+		append xml {</sourceHandle>}
+
+		append xml {<targetHandles>}
+		append xml {<ObjectHandle>}
+		append xml {<ResourceID>}
+		append xml $dpid
+		append xml {</ResourceID>}
+		append xml {</ObjectHandle>}
+		append xml {</targetHandles>}
+		append xml {</DeleteRelationships>}
+
+		return $xml
+	}
+	
+	method DeleteRelationshipsCallback { callbk soap } {
+		#puts [$soap GetResponse]
+		if { [$soap GetStatus] == "success" } {
+			set fail 0
+			$self UpdateCacheKey [$soap GetResponse]
+		} elseif { [$soap GetStatus] == "fault" } { 
+			set errorcode [$soap GetFaultDetail]
+			if {$errorcode == "AccessDenied" } {
+				set fail 2
+			} else {
+				set fail 1				
+			}
+		} else {
+			set fail 1
+		}
+		
+		$soap destroy
+		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
 	}
