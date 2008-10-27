@@ -550,10 +550,14 @@ namespace eval ::ChatWindow {
 		#Save size of current container
 		if { [::config::getKey savechatwinsize] } {
 			if { [wm state $window] == "zoomed" } {
-				::config::setKey winmaximized 1
+				if { [::config::getKey winmaximized] != 1 } {
+					::config::setKey winmaximized 1
+					set sizechanged 1
+				}
 			} else {
-				if { [wm state $window] == "normal" } {
+				if { [wm state $window] == "normal" && [::config::getKey winmaximized] != 0 } {
 					::config::setKey winmaximized 0
+					set sizechanged 1
 				}
 
 				::config::setKey wincontainersize  [string range $geometry 0 [expr {$pos_start-1}]]
@@ -562,7 +566,7 @@ namespace eval ::ChatWindow {
 	
 		#If the window changed size use checkfortoomanytabs
 		if { [winfo exists ${window}.bar] && $sizechanged} {
-			CheckForTooManyTabs $window 0
+			after idle [list ::ChatWindow::CheckForTooManyTabs $window 0]
 		}
 
 	}
@@ -3917,7 +3921,6 @@ namespace eval ::ChatWindow {
 		#set more_w [font measure sboldf >]
 
 		set bar_w [expr {$bar_w - $less_w - $more_w}]
-		
 
 		set max_tabs [expr int(floor($bar_w / $tab_w))]
 		set number_tabs [llength [set containerwindows($container)]]
