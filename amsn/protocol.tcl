@@ -1279,7 +1279,7 @@ namespace eval ::MSN {
 			}
 			
 			if {$step == 0} {
-				$::roaming GetProfile [list ns RoamingGetProfileCB 1]
+				$::roaming GetProfile [list ns RoamingGetProfileCB [list ::MSN::updateDP 1]]
 			} else {
 				set dp_resourceid [::abook::getPersonal dp_resourceid]
 				set profile_resourceid [::abook::getPersonal profile_resourceid]
@@ -1291,6 +1291,9 @@ namespace eval ::MSN {
 						$::roaming DeleteRelationships [list ns RoamingDeleteRelationshipsCB 3] $dp_resourceid $profile_resourceid
 					} elseif {$step == 4} {
 						#TODO: maybe we need to create a new relationship, WLM does, but it seems to work fine without that
+						
+						#update last fetched resource id because we don't want to download the DP immediately after uploading it
+						::abook::setPersonal dp_last_resourceid $dp_resourceid
 					} else {
 						::abook::setPersonal dp_resourceid ""
 						set dp_resourceid ""
@@ -1307,6 +1310,95 @@ namespace eval ::MSN {
 						close $fd
 						
 						$::roaming CreateDocument [list ns RoamingCreateDocumentCB 4] [base64::encode $content]
+					}
+				}
+			}
+		}
+	}
+	
+	proc downloadDP { {step 0} {token ""} } {
+		global HOME
+		if {[::config::getKey protocol] >= 15} {
+			if {$step == 0} {
+				status_log "downloadDP : fetching newest version of profile (GetProfile)" blue
+				$::roaming GetProfile [list ns RoamingGetProfileCB [list ::MSN::downloadDP 1]]
+			} else {
+				set dpfile [string tolower [::abook::getPersonal dp_filename]]
+				set dprid [::abook::getPersonal dp_resourceid]
+				set dpmimetype [::abook::getPersonal dp_mimetype]
+				set dplastrid [::abook::getPersonal dp_last_resourceid]
+				set dpurl [::abook::getPersonal dp_url]
+				
+				if {$dpmimetype == "image/jpeg"} {
+					set dpfile "$dpfile.jpg"
+				} else {
+					set dpfile "$dpfile.png"
+				}
+				status_log "downloadDP : comparing $dprid with $dplastrid" blue
+				
+				if {$dprid != $dplastrid} {
+					if {$dprid != ""} {
+						if {$step == 1} {
+							#download DP
+							set dpfullurl "http://byfiles.storage.msn.com"
+							append dpfullurl $dpurl
+							status_log "downloadDP : downloading $dpfile from $dpfullurl" blue
+							if {[ catch {set tok [::http::geturl $dpfullurl -command "::MSN::downloadDP 3"]} res ]} {
+								status_log "downloadDP : downloading failed" red
+								catch {::http::cleanup $tok}
+							}
+						} else {
+							if { [::http::status $token] == "ok" && [::http::ncode $token] >= 200 && [::http::ncode $token] < 300 || [::http::ncode $token] == 500} {
+								status_log "downloadDP : saving DP to file" blue
+								set dpfile "roaming-$dpfile"
+								set filename [file join $HOME displaypic $dpfile]
+								set filename2 "$filename.dat"
+								if {[file exists $filename]} {
+									#delete if file already exists
+									if {[catch {file delete $filename} res]} {
+										return
+									}
+								}
+								if {[file exists $filename2]} {
+									#delete if file already exists
+									if {[catch {file delete $filename2} res]} {
+										return
+									}
+								}
+								
+								#TODO: error handling
+								set fd [open $filename w]
+								fconfigure $fd -translation binary
+								puts -nonewline $fd [::http::data $token]
+								flush $fd
+								close $fd
+								
+								set fd [open $filename2 w]
+								puts $fd "[clock seconds]\n$dpfile"
+								close $fd
+								
+								::http::cleanup $token
+								status_log "downloadDP : saving done, now setting new DP" blue
+
+								#update last roaming file
+								::abook::setPersonal dp_last_resourceid $dprid
+								
+								#set new DP
+								::config::setKey displaypic $filename
+								load_my_pic
+								after 2000 "::MSN::changeStatus [set ::MSN::myStatus]"
+								save_config
+								
+								status_log "downloadDP : setting new DP done" blue
+							}
+						}
+					} else {
+						#update last roaming file
+						::abook::setPersonal dp_last_resourceid ""
+								
+						#remove DP
+						status_log "downloadDP : removing DP" blue
+						clear_disp
 					}
 				}
 			}
@@ -4659,12 +4751,10 @@ namespace eval ::MSNOIM {
 
 	}
 
-	method setInitialNicknameCB { newstate newstate_custom nickname last_modif psm dp fail } {
+	method setInitialNicknameCB { newstate newstate_custom nickname last_modif psm fail } {
 		global newstate_server
 		if {$fail == 0} {
-			status_log "GetProfile : Retrieved dp : $dp"
 			status_log "GetProfile : Retrieved nickname from server : $nickname - psm : $psm"
-			::abook::setPersonal dp_resourceid $dp
 			
 			::MSN::changePSM $psm $newstate 0 1
 
@@ -4701,6 +4791,9 @@ namespace eval ::MSNOIM {
 			# Change status after sending the UUX stuff
 			#ChCustomState $newstate_custom
 			#send_dock "STATUS" $newstate
+			
+			#trigger download DP
+			::MSN::downloadDP 1
 		} else {
 			# Send our PSM to the server because it doesn't know about it!
 			::MSN::sendUUXData $newstate
@@ -4734,12 +4827,10 @@ namespace eval ::MSNOIM {
 		}
 	}
 	
-	method RoamingGetProfileCB { updateDP_step nickname last_modif psm dp fail } {
+	method RoamingGetProfileCB { cmd nickname last_modif psm fail } {
 		if {$fail == 0} {
-			status_log "GetProfile : Retrieved dp : $dp"
-			::abook::setPersonal dp_resourceid $dp
-			if {$updateDP_step > 0} {
-				::MSN::updateDP $updateDP_step
+			if {$cmd != ""} {
+				catch {eval $cmd}
 			}
 		}
 	}

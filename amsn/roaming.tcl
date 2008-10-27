@@ -91,7 +91,28 @@ snit::type ContentRoaming {
 					set last_modif [GetXmlEntry $result "GetProfileResult:ExpressionProfile:DisplayNameLastModified"]
 					set psm [GetXmlEntry $result "GetProfileResult:ExpressionProfile:PersonalStatus"]
 					
-					set dp [GetXmlEntry $result "GetProfileResult:ExpressionProfile:Photo:ResourceID"]
+					#DP stuff
+					set dp_resourceid [GetXmlEntry $result "GetProfileResult:ExpressionProfile:Photo:ResourceID"]
+					::abook::setPersonal dp_resourceid $dp_resourceid
+					set dp_filename [GetXmlEntry $result "GetProfileResult:ExpressionProfile:Photo:Name"]
+					::abook::setPersonal dp_filename $dp_filename
+					set dp_url [GetXmlEntry $result "GetProfileResult:ExpressionProfile:StaticUserTilePublicURL"]
+					::abook::setPersonal dp_url $dp_url
+					set i 0
+					while {1} {
+						set subxml [GetXmlNode $result "GetProfileResult:ExpressionProfile:Photo:DocumentStreams" $i]
+						incr i
+						if  { $subxml == "" } {
+							break
+						}
+						set dsn [GetXmlEntry $subxml "DocumentStreams:DocumentStream:DocumentStreamName"]
+						if {$dsn == "UserTileStatic"} {
+							set dp_mimetype [GetXmlEntry $subxml "DocumentStreams:DocumentStream:MimeType"]
+							::abook::setPersonal dp_mimetype $dp_mimetype
+#							set dp_url [GetXmlEntry $subxml "DocumentStreams:DocumentStream:PreAuthURL"]
+#							::abook::setPersonal dp_url $dp_url
+						}
+					}
 				} else {
 					set fail 4
 				}
@@ -111,7 +132,7 @@ snit::type ContentRoaming {
 		}
 		
 		$soap destroy
-		if {[catch {eval $callbk [list $nick $last_modif $psm $dp $fail]} result]} {
+		if {[catch {eval $callbk [list $nick $last_modif $psm $fail]} result]} {
 			bgerror $result
 		}
 	}
