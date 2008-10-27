@@ -237,8 +237,12 @@ namespace eval ::skin {
 
 	proc getDisplayPicture { email {force 0}} {
 		global HOME
+		variable loaded_images
 				
 		set picName displaypicture_std_$email
+		if { [info exists loaded_images($picName)] } {
+			return $picName
+		}
 		#@@@@@@@@@ webMSN display picture (thanx to majinsoftware)
 		if { [::abook::getContactData $email client] == "Webmessenger" } { 
 			return [::skin::loadPixmap webmsn_dp]
@@ -285,6 +289,7 @@ namespace eval ::skin {
 			#Little DP exists so we have to update it
 			::skin::getLittleDisplayPicture $email $height 1
 		}
+		set loaded_images($picName) 1
 		return $picName
 	}
 	proc getLittleDisplayPictureName { email } {
