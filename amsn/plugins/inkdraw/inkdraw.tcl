@@ -295,49 +295,19 @@ status_log "reset sendbutton binding"
 
 	proc CreatePencilWidget { drawwidget widget } {
 		if {![winfo exists $widget]} {
-			button $widget -image [::skin::loadPixmap ink_huge] -relief flat -padx 0 \
+			menubutton $widget -image [::skin::loadPixmap ink_huge] -relief flat -padx 0 \
 				-bg [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
 				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg] \
-				-command [list ::draw::PencilMenu $drawwidget $widget %X %Y]
-			#bind $widget  <<Button1>> [list ::draw::PencilMenu $drawwidget $widget %X %Y]
+				-menu ${widget}.inkdrawpencilmenu
+			menu ${widget}.inkdrawpencilmenu
+			${widget}.inkdrawpencilmenu add command -image [::skin::loadPixmap ink_tiny] \
+				-command [list ::draw::ChangePencil $drawwidget 1 $widget]
+			${widget}.inkdrawpencilmenu add command -image [::skin::loadPixmap ink_normal] \
+				-command [list ::draw::ChangePencil $drawwidget 3 $widget]
+			${widget}.inkdrawpencilmenu add command -image [::skin::loadPixmap ink_huge] \
+				-command [list ::draw::ChangePencil $drawwidget 7 $widget]
 		}
 		pack $widget -side left -padx 0 -pady 0
-	}
-
-	proc PencilMenu {drawwidget pencilbutton {x 0} {y 0}} {
-		set w .pencil_selector	
-		if {[catch {[toplevel $w]} res]} {
-			destroy $w
-			toplevel $w
-		}
-		wm state $w withdrawn
-		wm geometry $w "20x30+${x}+${y}"
-		wm title $w "[trans msn]"
-		wm overrideredirect $w 1
-		wm transient $w
-
-		label $w.tiny -image [::skin::loadPixmap ink_tiny] -relief flat -padx 0 \
-				-bg [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getKey buttonbarbg] \
-				-activebackground [::skin::getKey buttonbarbg]
-		bind $w.tiny <<Button1>> [list ::draw::ChangePencil $drawwidget 1 $pencilbutton]
-
-		label $w.normal -image [::skin::loadPixmap ink_normal] -relief flat -padx 0 \
-				-bg [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getKey buttonbarbg] \
-				-activebackground [::skin::getKey buttonbarbg]
-		bind $w.normal <<Button1>> [list ::draw::ChangePencil $drawwidget 3 $pencilbutton]
-
-		label $w.huge -image [::skin::loadPixmap ink_huge] -relief flat -padx 0 \
-				-bg [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0 \
-				-highlightbackground [::skin::getKey buttonbarbg] \
-				-activebackground [::skin::getKey buttonbarbg]
-		bind $w.huge <<Button1>> [list ::draw::ChangePencil $drawwidget 7 $pencilbutton]
-		
-		pack $w.tiny $w.normal $w.huge
-
-		wm state $w normal
-		bind $w <Leave> "::draw::handleLeaveEvent $w 20 30"
 	}
 
 	#from smileys.tcl
