@@ -781,7 +781,7 @@ proc SOCKSSocket { args } {
 		if { [$sb cget -proxy_host] == ""} {
 			set proxy_host [$sb cget -force_gateway_server]
 			if {$proxy_host == "" } {
-				set proxy_host "gateway.messenger.hotmail.com"
+				set proxy_host [::config::getKey start_gateway_server]
 			}
 			
 			set proxy_port 80
@@ -842,14 +842,14 @@ proc SOCKSSocket { args } {
 		if { $options(-direct) } {
 			set tmp_data "POST /gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1\r\n"
 		} else {
-			set tmp_data "POST http://gateway.messenger.hotmail.com/gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1\r\n"
+			set tmp_data "POST http://[::config::getKey start_gateway_server]/gateway/gateway.dll?Action=open&Server=$server&IP=$remote_server HTTP/1.1\r\n"
 		}
 	
 		append tmp_data "Accept: */*\r\n"
 		append tmp_data "Content-Type: text/xml; charset=utf-8\r\n"
 		append tmp_data "Content-Length: 0\r\n"
 		append tmp_data "User-Agent: MSMSGS\r\n"
-		append tmp_data "Host: gateway.messenger.hotmail.com\r\n"
+		append tmp_data "Host: [::config::getKey start_gateway_server]\r\n"
 		append tmp_data "Proxy-Connection: Keep-Alive\r\n"
 		append tmp_data "Connection: Keep-Alive\r\n"
 		append tmp_data "Pragma: no-cache\r\n"

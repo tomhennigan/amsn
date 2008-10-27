@@ -2440,6 +2440,7 @@ namespace eval ::MSN {
 			#we have a connection error.
 			if { ("$oldstat"!="d") && ("$oldstat" !="o") && ("$oldstat" !="u") && ("$oldstat" !="closed")} {
 				::config::setKey start_ns_server [::config::getKey default_ns_server]
+				::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
@@ -2462,6 +2463,7 @@ namespace eval ::MSN {
 			#If we were connected, we have lost the connection
 			if { ("$oldstat"=="o") } {
 				::config::setKey start_ns_server [::config::getKey default_ns_server]
+				::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 				set error_msg [ns cget -error_msg]
 				#Reconnect if necessary
 				if { [::config::getKey reconnect] == 1 } {
@@ -6210,10 +6212,15 @@ proc cmsn_ns_handler {item {message ""}} {
 		}
 		XFR {
 			if {[lindex $item 2] == "NS"} {
-				::config::setKey start_ns_server [lindex $item 3]
 				set tmp_ns [split [lindex $item 3] ":"]
-				ns configure -server $tmp_ns
+				if {[::config::getKey start_ns_server] == [lindex $item 3]} {
+					::config::setKey start_gateway_server [lindex $tmp_ns 0]
+					status_log "cmsn_ns_handler: got a NS transfer to the same NS, probably a gateway transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
+				} else {
 				status_log "cmsn_ns_handler: got a NS transfer, reconnecting to [lindex $tmp_ns 0]!\n" green
+				}
+				::config::setKey start_ns_server [lindex $item 3]
+				ns configure -server $tmp_ns
 				cmsn_ns_connect [::config::getKey login] $password nosigin
 				set recon 1
 				return 0
@@ -6386,6 +6393,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				return 0
 			} else {
 				::config::setKey start_ns_server [::config::getKey default_ns_server]
+				::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 				if { [::config::getKey reconnect] == 1 } {
 					::MSN::saveOldStatus
 					::MSN::logout
@@ -6473,6 +6481,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		}
 		500 {
 			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 			if { [::config::getKey reconnect] == 1 } {
 				::MSN::saveOldStatus
 				::MSN::logout
@@ -6486,6 +6495,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		}
 		600 {
 			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 			if { [::config::getKey reconnect] == 1 } {
 				::MSN::saveOldStatus
 				::MSN::logout
@@ -6499,6 +6509,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		}
 		601 {
 			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 			if { [::config::getKey reconnect] == 1 } {
 				::MSN::saveOldStatus
 				::MSN::logout
@@ -6532,6 +6543,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		
 			status_log "Account was probably moved to a different server, NS says invalid passport, changing cached server to default"
 			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 			::MSN::saveOldStatus
 			::MSN::logout
 			::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable	
@@ -6539,6 +6551,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		931 {  ;#this server doesn't know about that account
 			status_log "Account was moved to a different server, changing cached server to default"
 			::config::setKey start_ns_server [::config::getKey default_ns_server]
+			::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 			::MSN::saveOldStatus
 			::MSN::logout
 			::MSN::reconnect "[trans serverunavailable]" ;#actually accountunavailable
@@ -6626,6 +6639,7 @@ proc sso_authenticate {} {
 		status_log "Connection timeouted : state is [ns cget -stat]\n" white
 		::MSN::logout
 		::config::setKey start_ns_server [::config::getKey default_ns_server]
+		::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 		#Reconnect if necessary
 		if { [::config::getKey reconnect] == 1 } {
 			::MSN::reconnect "[trans connecterror]:\nConnection timed out"
@@ -7062,6 +7076,7 @@ proc msnp11_authenticate { ticket } {
 		status_log "Connection timeouted : state is [ns cget -stat]\n" white
 		::MSN::logout
 		::config::setKey start_ns_server [::config::getKey default_ns_server]
+		::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 		#Reconnect if necessary
 		if { [::config::getKey reconnect] == 1 } {
 			::MSN::reconnect "[trans connecterror]:\nConnection timed out"
@@ -7237,6 +7252,7 @@ proc cmsn_ns_connected {sock} {
 	if { ($error_msg != "") || $therewaserror == 1 } {
 		ns configure -error_msg $error_msg
 		::config::setKey start_ns_server [::config::getKey default_ns_server]
+		::config::setKey start_gateway_server [::config::getKey default_gateway_server]
 		status_log "cmsn_ns_connected ERROR: $error_msg\n" red
 		::MSN::CloseSB ns
 		return

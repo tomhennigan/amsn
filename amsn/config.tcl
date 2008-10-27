@@ -238,6 +238,8 @@ namespace eval ::config {
 		::config::setKey rightdelimiter \]		;#Right Timestamps' delimiter ']' by default
 		::config::setKey default_ns_server "messenger.hotmail.com:1863"
 		::config::setKey start_ns_server "messenger.hotmail.com:1863"
+		::config::setKey default_gateway_server "gateway.messenger.hotmail.com"
+		::config::setKey start_gateway_server "gateway.messenger.hotmail.com"		
 		::config::setKey activeautoupdate 1		;#Active the auto update
 		::config::setKey allowbadwords 1		;#Disable censure on nicks
 		::config::setKey enablebanner 1		;#Show or Hide AMSN Banner (By default Show)
