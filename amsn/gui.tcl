@@ -2805,6 +2805,7 @@ namespace eval ::amsn {
 	proc listChoose {title itemlist command {other 0} {skip 1}} {
 		global userchoose_req
 		set itemcount [llength $itemlist]
+		variable itemlist_var $itemlist
 
 		#If just 1 user, and $skip flag set to one, just run command on that user
 		if { $itemcount == 1 && $skip == 1 && $other == 0} {
@@ -2834,16 +2835,20 @@ namespace eval ::amsn {
 		} else {
 			frame $wname.blueframe
 		}
-
+		
+		frame $wname.searchbar -bg white -borderwidth 1 -highlightthickness 0
+		entry $wname.searchbar.entry -relief flat -bg white -font splainf -selectbackground #b7d1ff -fg grey \
+			-highlightcolor #aaaaaa -highlightthickness 2
+		
 		frame $wname.blueframe.list -borderwidth 0
 		frame $wname.buttons
-
+		
 		listbox $wname.blueframe.list.items -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
 			-highlightthickness 0 -height 20 -width 60
 		scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.items yview" -highlightthickness 0 \
 			-borderwidth 1 -elementborderwidth 1
 
-		button  $wname.buttons.ok -text "[trans ok]" -command [list ::amsn::listChooseOk $wname $itemlist $command]
+		button  $wname.buttons.ok -text "[trans ok]" -command [list ::amsn::listChooseOk $wname $command]
 		button  $wname.buttons.cancel -text "[trans cancel]" -command [list destroy $wname]
 
 
@@ -2862,6 +2867,9 @@ namespace eval ::amsn {
 			pack $wname.buttons.cancel -padx 5 -side right
 		}
 
+		pack $wname.searchbar.entry -fill x
+		pack $wname.searchbar -fill x
+
 		pack $wname.buttons -side bottom -fill x -pady 3
 
 		foreach item $itemlist {
@@ -2869,30 +2877,71 @@ namespace eval ::amsn {
 		}
 
 
-		bind $wname.blueframe.list.items <Double-Button-1> [list ::amsn::listChooseOk $wname $itemlist $command]
+		bind $wname.blueframe.list.items <Double-Button-1> [list ::amsn::listChooseOk $wname $command]
 
 		catch {
 			raise $wname
 			focus $wname.buttons.ok
 		}
 
-
+		bind $wname.searchbar.entry <KeyRelease> [list ::amsn::::listChooseSearchBar $wname]
 		bind $wname <<Escape>> [list destroy $wname]
 		bind $wname <Return> [list ::amsn::listChooseOk $wname $itemlist $command]
 		moveinscreen $wname 30
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	proc listChooseSearchBar {wname} {
+		variable itemlist_var
+		variable original_itemlist
+		
+		if {![info exists original_itemlist]} {
+			set original_itemlist $itemlist_var
+		} else {
+			set itemlist_var $original_itemlist
+		}
+		
+		set key [string tolower [$wname.searchbar.entry get]]
+		
+		$wname.blueframe.list.items delete 0 end
+
+		if {$key eq ""} {
+			set itemlist_var $original_itemlist
+			foreach item $itemlist_var {
+				$wname.blueframe.list.items insert end [lindex $item 0]
+			}
+		} else {
+			set itemlist_temp [list]
+			foreach item $itemlist_var {
+				if {[string first $key [string tolower [lindex $item 0]]] != -1} {
+					$wname.blueframe.list.items insert end [lindex $item 0]
+					lappend itemlist_temp $item
+				}
+			}
+			set itemlist_var $itemlist_temp
+		}
+		
+	}
+
+
 	proc listChooseOther { wname title command } {
 		destroy $wname
 		cmsn_draw_otherwindow $title $command
+		variable itemlist_var
+		variable original_itemlist
+		unset itemlist_var
+		unset original_itemlist
 	}
 
-	proc listChooseOk { wname itemlist command} {
+	proc listChooseOk { wname command} {
+		variable itemlist_var
 		set sel [$wname.blueframe.list.items curselection]
 		if { $sel == "" } { return }
 		destroy $wname
-		eval "$command [lindex [lindex $itemlist $sel] 1]"
+		eval "$command [lindex [lindex $itemlist_var $sel] 1]"
+		variable original_itemlist
+		unset itemlist_var
+		unset original_itemlist
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
