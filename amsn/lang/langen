@@ -5,6 +5,7 @@ aboutamsn About Alvaro's Messenger
 accept Accept
 acceptfile Do you want to accept the file $1 (size $2 bytes)? It will be saved in $3
 account Account
+accountkid This kids account cannot be used with Messenger. You have to go to the Kiss Passport Web site and give parental consent.
 actions Actions
 activeautoupdate Activate auto-update
 addacontact Add Contact

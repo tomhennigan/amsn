@@ -6544,6 +6544,13 @@ proc cmsn_ns_handler {item {message ""}} {
 			::amsn::errorMsg "[trans baduserpass]"
 			return 0
 		}
+		927 {
+		        ns configure -stat "closed"
+                        ::MSN::logout
+                        status_log "Error: Kids account"
+			::amsn::errorMsg "[trans accountkid]"
+			return 0
+		}
 		928 {
 			# Apparently, the server said invalid passport, so this server was probably cached and your account
 			# was moved to another server (http://www.amsn-project.net/forums/viewtopic.php?p=24823)
