@@ -2337,6 +2337,10 @@ namespace eval ::MSN {
 	
 		#Send the packet
 		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
+		
+		if {[::config::getKey keep_logs]} {
+			::log::WriteLog $chatid $action
+		}
 	}
 
 	########################################################################
@@ -5303,6 +5307,10 @@ namespace eval ::MSNOIM {
 							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWriteIcon $chatid greyline 3
 							::amsn::WinWrite $chatid "\n" gray
+							if {[::config::getKey keep_logs]} {
+								::log::WriteLog $chatid $data
+							}
+
 						}
 					}
 				}
