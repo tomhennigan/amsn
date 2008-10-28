@@ -3702,6 +3702,7 @@ namespace eval ::amsn {
 		set fontname [lindex $fontformat 0]
 		set fontstyle [lindex $fontformat 1]
 		set fontcolor [lindex $fontformat 2]
+		set fontbg ""
 
 		$textw configure -font bplainf -foreground black
 
@@ -3763,6 +3764,14 @@ namespace eval ::amsn {
 					  }
 					  continue
 				}
+				"bg" { 
+					  if {[lindex $unit 1] ne "reset"} {
+						set fontbg [lindex $unit 1]
+					  } else {
+						set fontbg ""
+					  }
+					  continue
+				}
 				default { continue }
 			}
 
@@ -3795,7 +3804,7 @@ namespace eval ::amsn {
 			set tagid [::md5::md5 "$font$fontcolor"]
 
 			if { ([string length $fontname] < 3 )
-					|| ([catch {$textw tag configure $tagid -foreground #$fontcolor -font $font} res])} {
+					|| ([catch {$textw tag configure $tagid -foreground #$fontcolor -background $fontbg -font $font} res])} {
 				status_log "Font $font or color $fontcolor wrong. Using default\n" red
 				$textw tag configure $tagid -foreground black -font bplainf
 			}
