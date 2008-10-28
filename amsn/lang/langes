@@ -899,7 +899,7 @@ sound Sonido de eventos
 soundstatus Sonido para la alarma
 sourcecode Código fuente
 splashstart Comenzar
-sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva la encriptación, y tu contraseña será enviada a través de la red como texto sin encriptar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
+sslwarning ¡¡CUIDADO!! Al desactivar SSL, se desactiva el cifrado, y tu contraseña será enviada a través de la red como texto sin cifrar. Utilizar sólo si es imprescindible, como en algunos servidores proxy, o configuraciones de red muy estrictas.
 startoffline2 Conectarse sigilosamente apareciendo "Desconectado"
 startoffline Comenzar desconectado
 startonboot Comenzar aMSN al iniciar Windows
@@ -942,10 +942,10 @@ timeremaining Tiempo restante
 timestamp Marca de tiempo
 timestamps Activar hora en los mensajes
 title aMSN
-tkerror1 Ha ocurrido un error de TK, aMSN tiene un fallo. Por favor, infórmanos haciendo clic en el botón Informe. Puede hacer clic en Detalles para ver mas información sobre este error o clic en el botón OK para continuar usando aMSN
+tkerror1 Ha ocurrido un error de TK, aMSN tiene un fallo. Por favor, infórmanos haciendo clic en el botón Informe. Puedes hacer clic en Detalles para ver mas información sobre este error o clic en el botón OK para continuar usando aMSN
 tkerror Se ha producido un error de TK, hay un fallo en aMSN, por favor infórmanos. Para ello envía el archivo $1 a amsn-bugs@lists.sf.net
 tlsdowncompleted El archivo $1 se ha descargado en el directorio $2. Ahora debes descomprimirlo, compilarlo (si has bajado el código fuente) e instalarlo en $3.
-tlsexplain Carpeta donde se encuentra el módulo TLS para TCL. Si aMSN no lo encuentra,\npor favor especifícalo (necesario para la autentificación mediante SSL).
+tlsexplain Carpeta donde se encuentra el módulo TLS para TCL. Si aMSN no lo encuentra,\npor favor especifícalo (necesario para la autenticación mediante SSL).
 tlsinstall Asistente de instalación del módulo TLS
 tlsinstallexp aMSN ahora usa el protocolo MSNP9, que requiere utilizar una conexión\nsegura usando SSL. Para poder usar SSL, aMSN necesita un módulo llamado TLS,\nque no se pudo encontrar en su sistema. Este asistente le ayudará a descargar\ne instalar TLS. Por favor, elige tu tipo de Sistema Operativo para poder\ndescargar los archivos requeridos para TLS automáticamente.
 tlsinstcompleted La instalación del módulo TLS concluyó satisfactoriamente. Ya deberías poder usar MSNP9. Si no funciona, es probable que no hayas escogido el tipo de módulo correcto, o que no exista una versión compilada para tu Sistema Operativo.
