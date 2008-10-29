@@ -5,6 +5,7 @@ about À propos de...
 accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
 account Compte
+accountkid Ce compte enfant ne peut être utilisé avec Messenger. Vous devez aller sur le site web "Kids Passport" et donner l'accord parental.
 actions Actions
 activeautoupdate Activer la mise à jour automatique
 addacontact Ajouter un contact
