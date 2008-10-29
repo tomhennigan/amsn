@@ -5,6 +5,7 @@ aboutamsn Informazioni su Alvaro's Messenger
 accept Accetta
 acceptfile Accetto il file $1, dimensioni $2? Sarà salvato in $3
 account Account
+accountkid Questo Account Kids non può essere usato con Messenger. Devi andare sul sito Web di Kids Passporte dare il consenso dei genitori.
 actions Azioni
 activeautoupdate Aggiornamento automatico
 addacontact Aggiungi un contatto
@@ -139,6 +140,7 @@ changefont Modifica carattere
 changeglobnick Modifica nick globale
 change_mobile Impostazioni mobile
 changenick Modifica nick
+changepsm Cambia messaggio personale
 changesize Modifica dimensione
 changestate $1 stato: $2
 changestatus Stato
@@ -214,7 +216,7 @@ confirmrfl Sei sicuro di voler rimuovere quest'utente da questo gruppo?
 confirm Sei sicuro?
 congrats Congratulazioni
 connected Adesso sei connesso
-connectedat Collegato a
+connectedat Collegato a:
 connectedwith Connesso con $1
 connecterror Errore durante la connessione al server
 connectfirst Prima connettiti, per favore
@@ -434,6 +436,7 @@ havenomic Non ho il microfono
 helpcontents ?
 help ?
 hidedisplaypic Nascondi l'immagine personale
+hidedetails Nascondi dettagli
 hidebuttonbar Nascondi la barra dei pulsanti
 hidemenumessage Sei sicuro di voler nascondere i menù?\nPuoi ripristinarli ogni volta che vuoi usando la scorciatoia da tastiera per mostrare/nascondere i menù 'Ctrl-M'.
 hidemenu Mostra/Nascondi i menù
@@ -461,7 +464,7 @@ internalerror Errore interno del server
 invalidfile2 Il file $1 non può essere creato, assicurati di avere i permessi necessari.
 invalidfile Il file $2 inserito nel campo "$1" non esiste o non è leggibile
 invalidgroup Gruppo non valido
-invalidparameter Errore di connessione al server: Parametro non valido
+invalidparameter Errore di connessione al server:\nParametro non valido
 invalidpicsize La foto scelta è troppo grande, scegline una più piccola
 invalidpic La foto scelta non esiste
 invalidsound Il file audio scelto non esiste
@@ -659,7 +662,7 @@ others Altre impostazioni
 p4contextprefix Prefissa i mittenti nel P4-Context con questa serie di caratteri
 pager Impaginatore
 pass Password
-passportnotverified: Il tuo account passport deve essere verificato prima che tu possa cambiare i tuoi dati personali (come il nickname). Controlla la casella di posta per l'email di attivazione.
+passportnotverified Il tuo account passport deve essere verificato prima che tu possa cambiare i tuoi dati personali (come il nickname). Controlla la casella di posta per l'email di attivazione.
 paste Incolla
 pausedwebcamreceive La webcam è stata messa in pausa dall'altro utente
 pause Pausa
@@ -788,6 +791,7 @@ sbcon Connessione a Switch Board
 searchadvprefs Cerca in preferenze avanzate:
 searchdown Cerca in avanti
 searchup Cerca indietro
+setbackinitialstate Devi settare aMSN per connettersi come $1, ma adesso sei $2. Sei sicuro che vuoi impostare lo stato di nuovo a $1 ?
 selectall Seleziona tutto
 selectcontact Seleziona un contatto
 selectplugins Seleziona i plugin che desideri attivare
@@ -822,7 +826,8 @@ showcachedpics Visualizza le immagini memorizzate in cache
 show_contactdps_in_cl Mostra l'immagine dei contatti nella Lista Contatti
 showcontactemail Mostra i contatti con l'e-mail
 showcontactnick Mostra i contatti con il nick
-showdetailedview: Mostra Visione dettagliata Contatti
+showdetails Mostra dettagli
+showdetailedview Mostra Visione dettagliata Contatti
 showdisplaypic2 Mostra l'immagine personale in ogni nuova finestra di chat
 showdisplaypic Mostra l'immagine personale
 showlinksinlogin Mostra i collegamenti nella schermata di login
