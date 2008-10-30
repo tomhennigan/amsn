@@ -5,6 +5,7 @@ aboutamsn Over Alvaro's Messenger
 accept Accepteren
 acceptfile Wil je het bestand $1 (grootte: $2 bytes) accepteren? Het zal worden opgeslagen in $3
 account Account
+accountkid Deze kinderaccount kan niet worden gebruikt met Messenger. Bezoek hiervoor de Kids Passport-website en geef ouderlijke toestemming.
 actions Acties
 activeautoupdate Automatisch bijwerken inschakelen
 add Toevoegen
@@ -84,7 +85,7 @@ avgotinvitation $1 nodigt je uit voor een videoconferentie
 avinitfailed Initialisatie van de audio-/videoplug-in mislukt. Uitnodiging geannuleerd
 avoidseen Deze persoon niet toestaan om te zien of ik online ben en contact met mij op te nemen
 away Afwezig
-awaymsg1 Altijd om een afwezigheidsbericht vragen als ik mijn status verander in Afwezig/Ben zo terug/Bezet
+awaymsg1 Altijd om een afwezigheidsbericht vragen als ik mijn status wijzig in Afwezig/Ben zo terug/Bezet
 awaymsg2 Nooit vragen en altijd het onderstaande afwezigheidsbericht gebruiken
 back Vorige
 baduserpass Gebruikersnaam of wachtwoord onjuist
@@ -133,7 +134,7 @@ cfgalarm Alarminstellingen
 cfgalarmall Algemene alarminstellingen
 change Wijzigen
 change_account_info Accountinformatie wijzigen
-changecustomstate Status veranderen in
+changecustomstate Status wijzigen in
 changedisplaypic Schermafbeelding wijzigen
 changefont Lettertype instellen
 changeglobnick Algemene schermnaam wijzigen
@@ -141,7 +142,7 @@ change_mobile Instellingen voor MSN Mobiel aanpassen
 changenick Schermnaam wijzigen
 changepsm Persoonlijk bericht wijzigen
 changesize Grootte wijzigen
-changestate $1 heeft de status veranderd in $2
+changestate $1 heeft de status gewijzigd in $2
 changestatus Status wijzigen
 changevideosettings Webcaminstellingen aanpassen
 channels Kanalen
@@ -905,7 +906,7 @@ startonboot aMSN automatisch starten als Windows wordt opgestart
 startontray aMSN alleen starten als pictogram in het systeemvak
 state Weer te geven status
 stateautomsg Automatisch bericht
-statechange status is veranderd in:
+statechange status is gewijzigd in:
 stateedittext Wijzig de velden die je wilt aanpassen en klik op Ok
 stateinfo Configuratie persoonlijke status
 statename Naam voor de persoonlijke status
