@@ -5,6 +5,7 @@ aboutamsn Acerca de Alvaro's Messenger
 accept Aceptar
 acceptfile ¿Aceptar archivo $1, tamaño $2 bytes? Se guardará en $3
 account Cuenta
+accountkid Esta cuenta para niños no se puede usar con Messenger. Tienes que ir al sitio web de pasaporte para niños y dar el consentimiento paternal.
 actions Acciones
 activeautoupdate Activar actualización automática
 add Añadir
