@@ -5,6 +5,7 @@ aboutamsn Alvaro'nun Messenger'i hakkýnda
 accept Kabul et
 acceptfile $1 dosyasý aktarýlýyor; boyut $2 bayt; kaydedilen konum $3
 account Hesap
+accountkid Çocuklar için olan bu hesabý Messenger ile kullanamazsýnýz. Çocuklar için Hesap web sitesine giderek ebeveyn izni vermeniz gerekmektedir.
 actions Eylemler
 activeautoupdate Kendiliðinden güncellemeyi etkinleþtir
 add Ekle
@@ -25,7 +26,7 @@ agotinvitation $1 size sesli konuþma daveti gönderdi
 alarmonconnect Kullanýcý baðlanýnca alarm çalsýn
 alarmondisconnect Kullanýcý çýkýnca alarm çalsýn
 alarmonmsg Kullanýcý ileti gönderince alarm çalsýn
-alarmonstatus Kullanýcý durum deðiþtirince alarm çalsýn 
+alarmonstatus Kullanýcý durum deðiþtirince alarm çalsýn
 alarmpref Kullanýcýnýn alarm ayarlarý
 alarmpref2 Tüm kullanýcýlar için alarm ayarlarý
 alarms Alarmlar
@@ -72,7 +73,7 @@ autoconnect Açýlýþta kendiliðinden baðlan
 autoconnect2 aMSN baþlayýnca kendiliðinden baðlan
 autodetectip IP adresini kendiliðinden bul
 autohotmaillog Hotmail'e otomatik giriþ
-autoidle Otomatik EtkinlikYok özelliði 
+autoidle Otomatik Etkinlik Yok özelliði
 autoip Otomatik IP
 autolisten_voiceclips Ses kayýtlarýný alýnýnca hemen çal
 automessage OtoÝleti
@@ -215,7 +216,7 @@ confirmpurge Diðer kullanýcýlardan alýnan kullanýcý resimleri (sizinkiler deðil)
 confirmrfl Bu kullanýcýyý bu öbekten silmek istediðinizden emin misiniz?
 congrats Tebrikler
 connected þu an baglýsýnýz
-connectedat Baðlanýldý: 
+connectedat Baðlanýldý:
 connectedwith $1 ile baðlandý
 connecterror Sunucuya baðlanýrken sorun oluþtu
 connectfirst Lütfen önce baðlanýn
@@ -488,7 +489,7 @@ lastlogout En Son Çýkýþ
 lastmsgedme Son Ýleti
 lastmsgtime Son iletinin alýndýðý zaman: $1
 lastseen En son baðlý göründüðü saat
-lazypicretrieval Yavaþlatýlmýþ kullanýcý resmi yüklemesi 
+lazypicretrieval Yavaþlatýlmýþ kullanýcý resmi yüklemesi
 lclosedwin $1 $2 anýnda penceresini kapattý
 lconftopriv $1 ile sohbet özel görüþmeye çevrildi
 lconvstarted Sohbetin baþlama saati $1
@@ -515,7 +516,7 @@ logeventemail Gelen e-postalarý kayda geçir
 logeventnick Rumuz deðiþimlerini kayda geçir
 logeventpsm Kiþisel ileti deðiþimlerini kayda geçir
 logeventstate Durum deðiþimlerini kayda geçir
-logfandexp Kayýt dosya boyutlarý ve Geçmiþ kayýtlarýnýn silinme zamaný 
+logfandexp Kayýt dosya boyutlarý ve Geçmiþ kayýtlarýnýn silinme zamaný
 loggedotherlocation Baþka bir yerden baðlandýðýnýz için baðlantý kesildi
 loggingin Baðlanýyor
 login Baðlan
@@ -640,7 +641,7 @@ nousersinsession Ortamda kullanýcý yok
 nouserspecified Hiçbir kullanýcý belirtilmemiþ
 nudge $1 sizinle görüþmek istiyor
 offline Çevrim dýþý
-oim Çevrimdýþý sohbet 
+oim Çevrimdýþý sohbet
 ok Tamam
 onenewmail Gelen kutusunda 1 yeni ileti var
 online Çevrimiçi
@@ -710,7 +711,7 @@ prefphone Telefon numaralarým
 prefphone2 Ýzin verdiðiniz kiþilerin görmesini \n istediðiniz telefon numaralarýný girin
 prefprivacy Kullanýcýnýn ýzin Verilenler/Engellenenler listeleri
 prefprivacy2 Kullanýcýnýn Baðlantý/Karþý listeleri
-prefprofile Açýk MSN kimliðim 
+prefprofile Açýk MSN kimliðim
 prefprofile2 Açýk MSN kimliðinizi (diðerlerinin \n göreceði bilgiler) yaratýn/deðiþtirin
 prefprofile3 aMSN kullanýcý kimlikleri
 prefproxy proxy ayarlarým
@@ -721,7 +722,7 @@ prefsound Sesler
 preview Önizleme
 privacy Gizlilik
 profiledconfig Kimliðe özgü ayarlar
-profileexists Bu kullanýcý ismi için bir kimlik zâten var.\n Lütfen baþka isim seçiniz. 
+profileexists Bu kullanýcý ismi için bir kimlik zâten var.\n Lütfen baþka isim seçiniz.
 profileinuse Bu kimlik baþka bir aMSN oturumunda kullanýlýyor, lütfen baþka birini seçiniz.
 profileloginradio Var olan bir kimlik ile baðlan
 profiles Kimlikler
@@ -941,7 +942,7 @@ timeremaining Kalan süre
 timestamp Zaman kaydý
 timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title aMSN
-tkerror TK'de sorun oluþtu; aMSN'de bir hatâ var. Lütfen $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayarak hatâyý bildirin. 
+tkerror TK'de sorun oluþtu; aMSN'de bir hatâ var. Lütfen $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayarak hatâyý bildirin.
 tkerror1 TK'de sorun oluþtu. aMSN'de bir hatâ var. Lütfen Bildir düðmesine týklayarak hatâyý bildirin. Ayrýntýlar'a týklayarak daha geniþ bilgi alabilir ya da Tamam'ý týklayýp aMSN ile sohbete devam edebilirsiniz.
 tlsdowncompleted $1 dosyasý $2 dizinine kaydedildi. Sýkýþtýrýlmýþ dosyayý açýp, (kaynak kodsa) derleyip $dizinine kurunuz.
 tlsexplain Tcl TLS modülünün bulunduðu dizin. Eðer AMSN bulamazsa lütfen siz girin. \n(SSL onaylama için gerekli).
@@ -1024,7 +1025,7 @@ willjoin $1 in sohbete katýlmasý bekleniyor
 winkreceived $1 size bir "göz kýrpma" gönderdi. aMSN þu an bu özelliði desteklemiyor.
 wintitlenick Sekmeli pencerelerde e-posta adresleri yerine rumuzlarý göster
 work Ýþ
-wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz 
+wrongfields "$1", "$2" ve/veya "$3" alanlarý geçersiz
 wrongprofileversion Yanlýþ kimlik ayar dosyasý sürümü. Düzeltmek için $1 dizinini siliniz ya da aMSN'yi güncelleyiniz
 xmmscurrent Çalýnan parçayý göster
 xmmserr Birþey çalýnmýyor, ya da xmms-infopipe kurulu deðil
