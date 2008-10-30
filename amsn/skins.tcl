@@ -226,7 +226,7 @@ namespace eval ::skin {
 	# Arguments:
 	#  - skin_name => [NOT REQUIRED] Overrides the current skin.
 	proc getNoDisplayPicture { {skin_name ""} } {
-		variable loaded_images
+		global loaded_images
 		if { [info exists loaded_images(displaypicture_std_none)] } {
 			return displaypicture_std_none
 		}
@@ -237,7 +237,7 @@ namespace eval ::skin {
 
 	proc getDisplayPicture { email {force 0}} {
 		global HOME
-		variable loaded_images
+		global loaded_images
 				
 		set picName displaypicture_std_$email
 		if { [info exists loaded_images($picName)] } {
@@ -472,7 +472,7 @@ namespace eval ::skin {
 		}
 
 		# Now reload special images that need special treatment
-		variable loaded_images
+		global loaded_images
 		if {[info exists loaded_images(displaypicture_std_none)]} {
 			unset loaded_images(displaypicture_std_none)
 			::skin::getNoDisplayPicture $skin_name

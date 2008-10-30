@@ -6150,6 +6150,11 @@ proc cmsn_change_state {recv} {
 	set newPic [::MSNP2P::GetFilenameFromMSNOBJ $msnobj]
 
 	if { $oldPic != $newPic && $user != [::config::getKey login] } {
+		global loaded_images
+                if { [info exists loaded_images(displaypicture_std_$user)] } {
+                        unset loaded_images(displaypicture_std_$user)
+			#status_log "unsetting display picture"
+                }
 		::abook::setContactData $user displaypicfile $newPic
 
 		if { $newPic == "" } {
