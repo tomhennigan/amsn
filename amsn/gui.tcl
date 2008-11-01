@@ -2930,7 +2930,9 @@ namespace eval ::amsn {
 		variable itemlist_var
 		variable original_itemlist
 		unset itemlist_var
-		unset original_itemlist
+		if { [info exists original_itemlist] } {
+			unset original_itemlist
+		}
 	}
 
 	proc listChooseOk { wname command} {
@@ -2941,7 +2943,9 @@ namespace eval ::amsn {
 		eval "$command [lindex [lindex $itemlist_var $sel] 1]"
 		variable original_itemlist
 		unset itemlist_var
-		unset original_itemlist
+                if { [info exists original_itemlist] } {
+                        unset original_itemlist
+                }
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
