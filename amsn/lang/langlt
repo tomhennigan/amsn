@@ -5,6 +5,7 @@ aboutamsn Apie Alvaro Messenger
 accept Priimti
 acceptfile Ar norite priimti šią rinkmeną $1 (dydis $2 baitai)? Ji bus išsaugota į $3
 account Abonentas
+accountkid Šis vaikų abonentas negali būti naudojamas Messengeryje. Jūs turite nueiti į vaikų pasų tinklapį ir pateikti tėvų sutikimą.
 actions Veiksmai
 activeautoupdate Aktivuoti auto-atnaujinimą
 addacontact Pridėti kontaktą
@@ -560,7 +561,7 @@ msgmode Pasirinkite, kaip adresuoti žinučių langus:
 msn aMSN
 msnstatus MSN tinklo būsena
 msnstyle MSN stilius
-mustrestart Perkaukite programa, kad pritaikytumete pakeitimus
+mustrestart Perkraukite programa, kad pritaikytumete pakeitimus
 myfriendlyname Mano draugiškas vardas
 myhomephone Mano namų telefonas
 mymobilephone Mano mobilus telefonas
