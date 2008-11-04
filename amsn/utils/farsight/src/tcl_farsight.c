@@ -18,12 +18,15 @@
 
 #ifdef G_OS_WIN32
 #include <winsock2.h>
-#include <Wspiapi.h>
-#endif
-
+#include <ws2tcpip.h>
+#define snprintf _snprintf
+#define inet_ntop inet_ntop_win32
+#else
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#endif
+
 
 
 GstElement *pipeline = NULL;
@@ -39,12 +42,27 @@ Tcl_Interp *callback_interp = NULL;
 Tcl_ThreadId main_tid = 0;
 int components_selected = 0;
 
+#ifdef _WIN32
+const char *inet_ntop_win32(int af, const void *src, char *dst, socklen_t cnt)
+{
+        if (af == AF_INET) {
+                struct sockaddr_in in;
+                memset(&in, 0, sizeof(in));
+                in.sin_family = AF_INET;
+                memcpy(&in.sin_addr, src, sizeof(struct in_addr));
+                getnameinfo((struct sockaddr *)&in, sizeof(struct sockaddr_in), dst, cnt, NULL, 0, NI_NUMERICHOST);
+                return dst;
+        }
+        return NULL;
+}
+
+#endif
 
 static char *host2ip(char *hostname)
 {
     struct addrinfo * result;
     static char ip[30];
-    char * ret;
+    const char * ret;
     int error;
 
     error = getaddrinfo(hostname, NULL, NULL, &result);
@@ -114,7 +132,7 @@ _notify_callback (char *status_msg, Tcl_Obj *obj1, Tcl_Obj *obj2)
   Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
   Tcl_Obj *args = Tcl_NewListObj (0, NULL);
   Tcl_Obj *command[] = {eval, callback, args};
-  Tcl_Obj *interp = callback_interp;
+  Tcl_Interp *interp = callback_interp;
 
 
   Tcl_ListObjAppendElement(NULL, args, status);
@@ -186,7 +204,7 @@ _notify_error_post (char *error)
 
 
 static void
-_notify_active (char *local, char *remote)
+_notify_active (const char *local, const char *remote)
 {
   Tcl_Obj *local_candidate = Tcl_NewStringObj (local, -1);
   Tcl_Obj *remote_candidate = Tcl_NewStringObj (remote, -1);
@@ -228,13 +246,14 @@ _notify_prepared ()
 static void
 _new_local_candidate (FsStream *stream, FsCandidate *candidate)
 {
+  Tcl_Obj *tcl_candidate = NULL;
+  Tcl_Obj *elements[7];
 
   if (local_candidates == NULL) {
     local_candidates = Tcl_NewListObj (0, NULL);
     Tcl_IncrRefCount(local_candidates);
   }
-  Tcl_Obj *tcl_candidate = NULL;
-  Tcl_Obj *elements[7];
+
   elements[0] = Tcl_NewStringObj (candidate->username == NULL ?
       "" : candidate->username, -1);
   elements[1] = Tcl_NewIntObj (candidate->component_id);
@@ -425,7 +444,6 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
           _local_candidates_prepared (stream);
         } else if (gst_structure_has_name (s, "farsight-codecs-changed")) {
           gboolean ready;
-          const GValue *value;
 
           if (!codecs_ready) {
             g_object_get (session, "codecs-ready", &ready, NULL);
@@ -714,7 +732,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   if (!codecs_ready) {
     gboolean ready;
-    const GValue *value;
 
     g_object_get (session, "codecs-ready", &ready, NULL);
     if (ready) {
@@ -936,8 +953,9 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   for (i = 0; i < total_candidates; i++) {
     int total_elements;
     Tcl_Obj **elements = NULL;
-    candidate = fs_candidate_new (NULL, 1, 0, FS_NETWORK_PROTOCOL_UDP, NULL, 0);
     double temp;
+	int temp_port;
+    candidate = fs_candidate_new (NULL, 1, 0, FS_NETWORK_PROTOCOL_UDP, NULL, 0);
 
     if (Tcl_ListObjGetElements(interp, tcl_remote_candidates[i],
             &total_elements, &elements) != TCL_OK) {
@@ -969,14 +987,15 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       goto error_candidate;
     }
 
-    candidate->priority = temp * 1000;
+    candidate->priority = (guint32) temp * 1000;
     candidate->ip = g_strdup (Tcl_GetString (elements[5]));
 
-    if (Tcl_GetIntFromObj (interp, elements[6], &candidate->port) != TCL_OK) {
+    if (Tcl_GetIntFromObj (interp, elements[6], &temp_port) != TCL_OK) {
       Tcl_AppendResult (interp, "\nInvalid candidate : ",
           Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
       goto error_candidate;
     }
+	candidate->port = temp_port;
 
     g_debug ("New Remote candidate: %s %d %s %s %d %s %d\n",
       candidate->username == NULL ? "-" : candidate->username,
