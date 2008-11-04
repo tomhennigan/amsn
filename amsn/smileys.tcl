@@ -697,7 +697,11 @@ namespace eval ::smiley {
 			destroy $w
 			toplevel $w
 		}
-		
+
+		if {[OnWin] } {
+			catch {wm attributes $w -topmost 1}
+		}
+
 		#Calculate the total number of smileys (including custom ones)
 		set emoticon_number [llength $emotions_names]
 		incr emoticon_number [llength [array names custom_emotions]]
