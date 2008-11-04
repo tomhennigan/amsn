@@ -2248,13 +2248,7 @@ namespace eval ::AVAssistant {
 		
 		text $contentf.ftxt -width 60 -height 6
 
-		if {[catch {package require Farsight} res]} {
-			::AVAssistant::appendFarsightDetails "$res\n"
-			::AVAssistant::StepFarsightClBk $assistant $contentf 0
-		} else {
-			::AVAssistant::appendFarsightDetails "Using package Farsight version $res\n"
-			::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf] "::AVAssistant::appendFarsightDetails"
-		}
+		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf] "::AVAssistant::appendFarsightDetails"
 	}
 
 	proc ShowHideDetails {assistant contentf showOrHide} {
