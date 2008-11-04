@@ -1707,7 +1707,11 @@ snit::type Farsight {
 	}
 
 	method Test { } {
-		if {[catch {$self Prepare 1 }] } {
+		if {[catch {$self Prepare 1 } res] } {
+			if {$specialLogger != ""} {
+				catch {eval $specialLogger {"Farsight Prepare error : $res"}}
+			}
+			status_log "Farsight Prepare error : $res"
 			return 0
 		}
 		return -1
@@ -1732,6 +1736,7 @@ snit::type Farsight {
 		if {[OnWin] } {
 			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
 			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
+			append ::env(PATH) ";[file join [pwd] utils windows gstreamer]"
 		} elseif { [OnMac] } {
 			if { $::tcl_platform(byteOrder) == "bigEndian" } {
 				set uname_p "powerpc"
