@@ -240,7 +240,8 @@ namespace eval ::skin {
 		global loaded_images
 				
 		set picName displaypicture_std_$email
-		if { [info exists loaded_images($picName)] } {
+		if { [info exists loaded_images($picName)] &&
+		     ![catch {image type $picName}]} 
 			return $picName
 		}
 		#@@@@@@@@@ webMSN display picture (thanx to majinsoftware)
