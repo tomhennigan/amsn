@@ -1762,7 +1762,7 @@ snit::type Farsight {
 		}
 
 		if {[llength $prepare_relay_info] == 2 } {
-			::Farsight::Prepare [list $self FarsightReady] $controlling $prepare_relay_info
+			::Farsight::Prepare [list $self FarsightReady] $controlling $prepare_relay_info 64.14.48.28
 		} else {
 			::Farsight::Prepare [list $self FarsightReady] $controlling [list] 64.14.48.28
 		}
