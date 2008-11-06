@@ -311,10 +311,7 @@ namespace eval ::config {
 		::config::setKey epname "aMSN"					;# Endpoint Name.. MSNP16+ name of your current location
 		::config::setKey shownonim 1					;# Show non IM contacts in the contact list
 		::config::setKey groupnonim 0					;# Group non IM contacts in a separate group in the CL
-		::config::setKey showspaces 1					;# Enable/disable showing of the spaces star in the CL
-#TODO: rename the corresponding lang key to enablespaces and
-#set default to 0 for 0.98 maybe?
-#The feature is incomplete, but it's safe enough to be used
+		::config::setKey showspaces 0					;# Enable/disable showing of the spaces star in the CL
 		::config::setKey showOfflineGroup 1
 		::config::setKey no_blocked_notif 0				;# No notify windows when a user is blocked
 		::config::setKey show_detailed_view 0					;#allow to show detailed contact view in cl

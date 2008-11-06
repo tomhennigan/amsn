@@ -1832,7 +1832,7 @@ proc Preferences { { settings "personal"} } {
 	}
 
 	checkbutton $lfname.5.show_contactdps_in_cl -text "[trans show_contactdps_in_cl]" -onvalue 1 -offvalue 0 -variable [::config::getVar show_contactdps_in_cl]
-	checkbutton $lfname.5.show_spaces -text "[trans showspaces]" -onvalue 1 -offvalue 0 -variable [::config::getVar showspaces]
+	checkbutton $lfname.5.show_spaces -text "[trans enablespaces]" -onvalue 1 -offvalue 0 -variable [::config::getVar showspaces]
 	pack $lfname.5.show_contactdps_in_cl $lfname.5.show_spaces -anchor w -side top -padx 10 -pady 0
 
 	pack $lfname.5 -side top -padx 0 -pady 10 -expand 1 -fill both
