@@ -5830,7 +5830,7 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 
 	bind $tw.$name <<Button1>> $command
 	# Drag and Drop setting DP
-	::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"
+	catch {::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"}
 
 	return $tw.$name
 }
