@@ -333,6 +333,7 @@ enabled Enabled
 enableproxy Enable proxy
 enableremote Enable remote controlling
 enablesound Play sound
+enablespaces Enable Windows Live Spaces support (EXPERIMENTAL)
 encoding2 Change the way your characters are encoded
 encoding Choose encoding
 enterbugdesc Enter a description of what you were doing to help us reproduce the bug:
