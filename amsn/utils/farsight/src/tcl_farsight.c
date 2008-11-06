@@ -751,6 +751,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   src = gst_element_factory_make ("dshowaudiosrc", NULL);
   if (src == NULL)
     src = gst_element_factory_make ("directsoundsrc", NULL);
+  else
+    g_object_set(src, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
   if (src == NULL)
     src = gst_element_factory_make ("osxaudiosrc", NULL);
   if (src == NULL)
@@ -765,7 +767,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
   g_object_set(src, "blocksize", 640, NULL);
-  g_object_set(src, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
     Tcl_AppendResult (interp, "Couldn't add source to pipeline" , (char *) NULL);
