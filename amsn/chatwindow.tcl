@@ -2290,9 +2290,13 @@ namespace eval ::ChatWindow {
 		::plugins::PostEvent chatsendbutton evPar
 
 		# Drag and Drop file sending
-		catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "fileDropHandler %D sendfile $w"}
+		if {[catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "fileDropHandler %D sendfile $w"} res ]} {
+				status_log "dnd error: res"
+		}
 		#::dnd bindtarget [::ChatWindow::GetInputText $w] UniformResourceLocator <Drop> "%W insert end %D"
-		catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Text <Drop> {%W insert end %D}}
+		if {[catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Text <Drop> {%W insert end %D}} res ]} {
+				status_log "dnd error: res"
+		}
 
 		return $input
 	}
@@ -2881,7 +2885,9 @@ namespace eval ::ChatWindow {
 		if { [::config::getKey old_dpframe 0] == 0 } {
 			bind $pictureinner <<Button1>> "::amsn::ShowPicMenu $w %X %Y\n"
 			bind $pictureinner <<Button3>> "::amsn::ShowPicMenu $w %X %Y\n"
-			catch {::dnd bindtarget $pictureinner Files <Drop> "fileDropHandler %D setdp self"}
+			if {[catch {::dnd bindtarget $pictureinner Files <Drop> "fileDropHandler %D setdp self"} res]} {
+				status_log "dnd error: res"
+			}
 		} else {
 			bind $pictureinner <<Button1>> "::amsn::ShowOldPicMenu $w %X %Y\n"
 			bind $pictureinner <<Button3>> "::amsn::ShowOldPicMenu $w %X %Y\n"

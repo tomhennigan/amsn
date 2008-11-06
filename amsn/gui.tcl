@@ -5830,7 +5830,9 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 
 	bind $tw.$name <<Button1>> $command
 	# Drag and Drop setting DP
-	catch {::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"}
+	if {[catch {::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"} res]} {
+		status_log "dnd error: res"
+	}
 
 	return $tw.$name
 }
