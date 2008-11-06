@@ -19,6 +19,7 @@
 #ifdef G_OS_WIN32
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <wspiapi.h>
 #define snprintf _snprintf
 #define inet_ntop inet_ntop_win32
 #else
