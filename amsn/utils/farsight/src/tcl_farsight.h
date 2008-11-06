@@ -40,9 +40,9 @@
 
 
 #define DLL_BUILD
-#define BUILD_TCL_SIREN
+#define BUILD_TCL_FARSIGHT
 
-#ifdef BUILD_TCL_SIREN
+#ifdef BUILD_TCL_FARSIGHT
 #  undef TCL_STORAGE_CLASS
 #  define TCL_STORAGE_CLASS DLLEXPORT
 #endif

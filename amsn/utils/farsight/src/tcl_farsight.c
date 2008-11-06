@@ -1010,7 +1010,7 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   if (!fs_stream_set_remote_candidates (stream, remote_candidates, &error)) {
     Tcl_AppendResult (interp, "Could not set the remote candidates",
         (char *) NULL);
-    goto error_candidate;
+    goto error_candidates;
   }
   fs_candidate_list_destroy (remote_candidates);
 
