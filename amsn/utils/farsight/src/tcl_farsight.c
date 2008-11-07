@@ -15,6 +15,7 @@
 #include <gst/gst.h>
 #include <gst/farsight/fs-conference-iface.h>
 #include <gst/farsight/fs-stream-transmitter.h>
+#include <gst/interfaces/propertyprobe.h>
 
 #ifdef G_OS_WIN32
 #include <winsock2.h>
@@ -1062,6 +1063,82 @@ int Farsight_InUse _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   return TCL_OK;
 }
 
+int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  const gchar *elements[] = {"dshowaudiosrc", "directsoundsrc",
+                             "osxaudiosrc", "gconfaudiosrc",
+                             "alsasrc", ""};
+
+  gint n;
+  Tcl_Obj *source = NULL;
+  Tcl_Obj *temp = NULL;
+  Tcl_Obj *devices = NULL;
+  Tcl_Obj *result = NULL;
+
+  result = Tcl_NewListObj (0, NULL);
+
+  // We verify the arguments
+  if( objc != 1) {
+    Tcl_WrongNumArgs (interp, 1, objv, "");
+    return TCL_ERROR;
+  }
+
+  for (n = 0; n < G_N_ELEMENTS (elements); ++n) {
+    GstPropertyProbe *probe;
+    GValueArray *arr;
+    GstElement *element;
+    gint i;
+
+    element = gst_element_factory_make (elements[n], elements[n]);
+    if (element == NULL)
+      continue;
+
+    probe = GST_PROPERTY_PROBE(element);
+    if (probe == NULL)
+      continue;
+
+    temp = Tcl_NewStringObj (elements[n], -1);
+    source = Tcl_NewListObj (0, NULL);
+    devices = Tcl_NewListObj (0, NULL);
+
+    Tcl_ListObjAppendElement(NULL, source, temp);
+
+    arr = gst_property_probe_probe_and_get_values_name (probe, "device");
+    if (arr) {
+      for (i = 0; i < arr->n_values; ++i) {
+        const gchar *device;
+        GValue *val;
+
+        val = g_value_array_get_nth (arr, i);
+        if (val == NULL || !G_VALUE_HOLDS_STRING (val))
+          continue;
+
+        device = g_value_get_string (val);
+        if (device == NULL)
+          continue;
+
+        temp = Tcl_NewStringObj (device, -1);
+        Tcl_ListObjAppendElement(NULL, devices, temp);
+      }
+      g_value_array_free (arr);
+    } else {
+      /* no devices found */
+    }
+
+    Tcl_ListObjAppendElement(NULL, source, devices);
+    Tcl_ListObjAppendElement(NULL, result, source);
+
+    gst_object_unref (element);
+  }
+
+
+
+  Tcl_SetObjResult (interp, result);
+
+  return TCL_OK;
+}
+
 /*
   Function : Farsight_Init
 
@@ -1098,6 +1175,8 @@ int Farsight_Init (Tcl_Interp *interp) {
   Tcl_CreateObjCommand(interp, "::Farsight::Stop", Farsight_Stop,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::Farsight::InUse", Farsight_InUse,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::Probe", Farsight_Probe,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
   // end of Initialisation

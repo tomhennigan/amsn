@@ -65,6 +65,8 @@ EXTERN int Farsight_InUse _ANSI_ARGS_((ClientData clientData,
         Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Farsight_Stop _ANSI_ARGS_((ClientData clientData,
         Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
+EXTERN int Farsight_Probe _ANSI_ARGS_((ClientData clientData,
+        Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 
 
 # undef TCL_STORAGE_CLASS

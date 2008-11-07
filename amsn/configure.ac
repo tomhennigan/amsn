@@ -501,6 +501,10 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
       gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED,
       HAVE_GST=yes,HAVE_GST=no)
 
+    PKG_CHECK_MODULES(GST_INTERFACES, \
+      gstreamer-interfaces-$GST_MAJORMINOR >= $GST_REQUIRED,
+      HAVE_GST_INTERFACES=yes,HAVE_GST_INTERFACES=no)
+
     dnl Give error and exit if we don't have gstreamer
     if test "x$HAVE_GST" = "xyes"; then
          PKG_CHECK_MODULES(FARSIGHT2, \
@@ -517,6 +521,8 @@ fi
 
 AC_SUBST(GST_CFLAGS)
 AC_SUBST(GST_LIBS)
+AC_SUBST(GST_INTERFACES_CFLAGS)
+AC_SUBST(GST_INTERFACES_LIBS)
 
 AC_SUBST(FARSIGHT2_CFLAGS)
 AC_SUBST(FARSIGHT2_LIBS)
