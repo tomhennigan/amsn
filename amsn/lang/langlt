@@ -333,6 +333,7 @@ enabled Įjungtas
 enableproxy Įjungti tarpinį serverį
 enableremote Įjungti nuotolinį valdymą
 enablesound Skambėti
+enablespaces Įjungti Windows Live Spaces palaikymą (BANDOMASIS)
 encoding2 Keisti simbolių šifravimo būdą
 encoding Keisti šifrą
 enterbugdesc Apibūdinkite, ką darėte, kad galėtume atrasti klaidą:
@@ -592,14 +593,14 @@ newupdate Išleisti aMSN atnaujinimai
 newveravailable Galima atsisiųsti naują $1 versiją
 next Toliau
 nick Slapyvardis
-nickchanged $1 pakeitė savo pseoudonimą į '$2'
+nickchanged $1 pakeitė savo slapyvardį į '$2'
 no_blocked_notif Nerodyti pranešimo langų blokuotiems kontaktams
 noactivity Neaktyvus
 nocacheddps Nėra vartotojo nuotraukų
 nocamwarn Kamera nerasta arba jūsų kamera yra naudojama kitoje programoje (todėl kamera neveikia aMSN programoje). Pagalbą, kaip išspręsti šią problemą, surasite mūsų Wiki:
 nodataavailable Nėra duomenų $1
 nodevices Šiuo metu nėra įdiegtų prietaisų
-noftpreview Neleisti peržiūros atvaizdų siuntimą rinkmenos perdavime
+noftpreview Neleisti peržiūrėti nuotraukos vaizdo persiunčiant rinkmeną
 nogap Nepalikti tarpo tarp grupių
 nogroup Grupių nėra
 nojavascript Pas jus neįjungti javascript'ai. Automatinis prisijungimas gali neveikti.
