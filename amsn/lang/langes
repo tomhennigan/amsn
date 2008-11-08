@@ -333,6 +333,7 @@ enabled Activado
 enableproxy Activar proxy
 enableremote Activar servidor de control remoto
 enablesound Reproducir sonido
+enablespaces Habilitar el soporte de Espacios de Windows Live (EXPERIMENTAL)
 encoding2 Cambia la forma en la que los caracteres se codifican
 encoding Codificación de caracteres
 enterbugdesc Introduce una descripción de lo que estabas haciendo para ayudarnos a reproducir este fallo:
