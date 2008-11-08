@@ -333,6 +333,7 @@ enabled Actief
 enableproxy Proxy gebruiken
 enableremote Beheer op afstand toestaan
 enablesound Geluid afspelen
+enablespaces Windows Live Spaces-ondersteuning inschakelen (EXPERIMENTEEL)
 encoding Codering instellen
 encoding2 Tekencodering
 enterbugdesc Geef een omschrijving van wat je deed toen de fout optrad, zodat wij deze gemakkelijker kunnen reproduceren:
