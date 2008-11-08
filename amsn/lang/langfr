@@ -333,6 +333,7 @@ enabled Activé
 enableproxy Permettre de passer par un proxy
 enableremote Permettre le contrôle à distance
 enablesound Activer le son
+enablespaces Activer la fonctionnalité des Spaces de Windows Live (EXPÉRIMENTAL)
 encoding2 Changer l'encodage des caractères
 encoding Changer l'encodage
 enterbugdesc Entrez une description de ce que vous faisiez pour nous aider a reproduire le bogue :
