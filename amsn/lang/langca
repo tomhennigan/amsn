@@ -301,6 +301,7 @@ enabled Activat
 enableproxy Habilitar el servidor intermediari (proxy)
 enableremote Activar control remot
 enablesound Reproduir sons
+enablespaces Habilitar el suport dels Espais de Windows Live (EXPERIMENTAL)
 encoding2 Canvia la codificació utilitzada pels teus caràcters
 encoding Canviar la codificació
 enterbugdesc Entra la descripció del que estaves fent per ajudar-nos a reproduir l'error:
@@ -725,7 +726,7 @@ showmypic El meu avatar
 shownonim Mostra contactes sense messenger
 shownotify Mostra una finestra de notificació quan succeeixin diversos events
 showpicnotify Mostrar les imatges dels usuaris a les finestres d'alerta
-showspaces Mostrar la icona dels espais a la llista de contactes
+showspaces Mostrar la icona dels Espais a la llista de contactes
 showofflinegroup Mostrar el grup "Desconnectats"
 showuserpic Avatar del contacte $1
 signinstatus Estat de l'inici de sessió
@@ -772,7 +773,7 @@ statepsm Missatge personal personalitzat (deixa en blanc per no canviar res)
 state Vull aparèixer com
 stats Estadístiques
 status Estat
-step Esglaó
+step Pas
 stopalarm Parar l'alarma
 stop Parar
 stopwebcamreceive Parar de rebre imatges de la càmera web
