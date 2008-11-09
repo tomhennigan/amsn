@@ -29,6 +29,26 @@ typedef struct {
 } ResolverEvent;
 
 
+static void
+notify_callback(char *ip, Tcl_Interp *callback_interp, Tcl_Obj *callback)
+{
+  Tcl_Obj *ip_obj = Tcl_NewStringObj (ip, -1);
+  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
+  Tcl_Obj *command[] = {eval, callback, ip_obj};
+
+  if (callback && callback_interp) {
+    Tcl_IncrRefCount (eval);
+    Tcl_IncrRefCount (ip_obj);
+
+    if (Tcl_EvalObjv(callback_interp, 3,
+		     command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
+      Tcl_BackgroundError(callback_interp);
+    }
+    Tcl_DecrRefCount (ip_obj);
+    Tcl_DecrRefCount (eval);
+  }
+}
+
 static int
 Asyncresolve_Cmd(ClientData cdata,
 		 Tcl_Interp *interp,
@@ -96,27 +116,6 @@ static void Resolver_Thread(ClientData cdata)
   Tcl_ThreadAlert(data->main_tid);
   
 }
-
-static void
-notify_callback(char *ip, Tcl_Interp *callback_interp, Tcl_Obj *callback)
-{
-  Tcl_Obj *ip_obj = Tcl_NewStringObj (ip, -1);
-  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
-  Tcl_Obj *command[] = {eval, callback, ip_obj};
-
-  if (callback && callback_interp) {
-    Tcl_IncrRefCount (eval);
-    Tcl_IncrRefCount (ip_obj);
-
-    if (Tcl_EvalObjv(callback_interp, 3,
-		     command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
-      Tcl_BackgroundError(callback_interp);
-    }
-    Tcl_DecrRefCount (ip_obj);
-    Tcl_DecrRefCount (eval);
-  }
-}
-
 
 static int Resolver_EventProc (Tcl_Event *evPtr, int flags)
 {
