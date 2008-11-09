@@ -50,8 +50,17 @@ Asyncresolve_Cmd(ClientData cdata,
   data->main_tid = Tcl_GetCurrentThread();
   data->host = strdup(Tcl_GetString(objv[2]));
   data->ip = strdup("");
-  Tcl_CreateThread(&tid, Resolver_Thread, data,
-		   TCL_THREAD_STACK_DEFAULT, TCL_THREAD_NOFLAGS);
+  if (Tcl_CreateThread(&tid, Resolver_Thread, data,
+		       TCL_THREAD_STACK_DEFAULT, TCL_THREAD_NOFLAGS) != TCL_OK) {
+
+    notify_callback(data->host, data->callback_interp, data->callback);
+    
+    free(data->ip);
+    free(data->host);
+    Tcl_DecrRefCount (data->callback);
+
+    ckfree(data);
+  }
 
   return TCL_OK;
 }
@@ -88,27 +97,34 @@ static void Resolver_Thread(ClientData cdata)
   
 }
 
+static void
+notify_callback(char *ip, Tcl_Interp *callback_interp, Tcl_Obj *callback)
+{
+  Tcl_Obj *ip_obj = Tcl_NewStringObj (ip, -1);
+  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
+  Tcl_Obj *command[] = {eval, callback, ip_obj};
+
+  if (callback && callback_interp) {
+    Tcl_IncrRefCount (eval);
+    Tcl_IncrRefCount (ip_obj);
+
+    if (Tcl_EvalObjv(callback_interp, 3,
+		     command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
+      Tcl_BackgroundError(callback_interp);
+    }
+    Tcl_DecrRefCount (ip_obj);
+    Tcl_DecrRefCount (eval);
+  }
+}
+
 
 static int Resolver_EventProc (Tcl_Event *evPtr, int flags)
 {
   ResolverEvent *ev = (ResolverEvent*) evPtr;
   ResolverData *data = (ResolverData*) ev->data;
-  Tcl_Obj *ip = Tcl_NewStringObj (data->ip, -1);
-  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
-  Tcl_Obj *command[] = {eval, data->callback, ip};
 
+  notify_callback(data->ip, data->callback_interp, data->callback);
 
-  if (data->callback && data->callback_interp) {
-    Tcl_IncrRefCount (eval);
-    Tcl_IncrRefCount (ip);
-
-    if (Tcl_EvalObjv(data->callback_interp, 3,
-		     command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
-      Tcl_BackgroundError(data->callback_interp);
-    }
-    Tcl_DecrRefCount (ip);
-    Tcl_DecrRefCount (eval);
-  }
   free(data->ip);
   free(data->host);
   Tcl_DecrRefCount (data->callback);
