@@ -1284,7 +1284,7 @@ namespace eval ::abookGui {
 	}
 
 	proc showUserProperties { email } {
-		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email HOME customdp_img_$email dontshowdp_$email
+		global colorval_$email customdp_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email ignorecontact_$email HOME customdp_img_$email dontshowdp_$email
 		set w ".user_[::md5::md5 $email]_prop"
 		if { [winfo exists $w] } {
 			raise $w
@@ -1503,6 +1503,8 @@ namespace eval ::abookGui {
 		frame $nbSettings.fNick.fColor -relief flat
 		set colorval_$email [::abook::getContactData $email customcolor] 
 		set showcustomsmileys_$email [::abook::getContactData $email showcustomsmileys]
+		set autoacceptft_$email [::abook::getContactData $email autoacceptft]
+		set autoacceptwc_$email [::abook::getContactData $email autoacceptwc]
 		set ignorecontact_$email [::abook::getContactData $email ignored]
 		set dontshowdp_$email [::abook::getContactData $email dontshowdp]
 
@@ -1557,9 +1559,13 @@ namespace eval ::abookGui {
 		checkbutton $nbSettings.fChat.showcustomsmileys -variable showcustomsmileys_$email -text "[trans custshowcustomsmileys]" -anchor w
 		checkbutton $nbSettings.fChat.ignoreuser -variable ignorecontact_$email -text "[trans ignorecontact]" -anchor w
 		checkbutton $nbSettings.fChat.dontshowdp -variable dontshowdp_$email -text "[trans dontshowdp]" -anchor w
+		checkbutton $nbSettings.fChat.autoacceptft -variable autoacceptft_$email -text "[trans autoacceptft]" -anchor w
+		checkbutton $nbSettings.fChat.autoacceptwc -variable autoacceptwc_$email -text "[trans autoacceptwc]" -anchor w
 		pack $nbSettings.fChat.showcustomsmileys -side top -fill x
 		pack $nbSettings.fChat.ignoreuser -side top -fill x
 		pack $nbSettings.fChat.dontshowdp -side top -fill x
+		pack $nbSettings.fChat.autoacceptft -side top -fill x
+		pack $nbSettings.fChat.autoacceptwc -side top -fill x
 		
 		labelframe $nbSettings.fGroup -relief groove -text [trans groups]
 		::groups::Groupmanager $email $nbSettings.fGroup
@@ -1745,7 +1751,7 @@ namespace eval ::abookGui {
 	}
 	
 	proc PropDestroyed { email w win } {
-		global colorval_$email showcustomsmileys_$email ignorecontact_$email dontshowdp_$email
+		global colorval_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email ignorecontact_$email dontshowdp_$email
 
 		if { $w eq $win } {
 			#Clean temporal variables
@@ -1755,6 +1761,8 @@ namespace eval ::abookGui {
 			unset ::notifymsg($email)
 			catch {unset colorval_$email}
 			catch {unset showcustomsmileys_$email}
+			catch {unset autoacceptft_$email}
+			catch {unset autoacceptwc_$email}
 			catch {unset ignorecontact_$email}
 			catch {unset dontshowdp_$email}
 		}
@@ -1899,7 +1907,7 @@ namespace eval ::abookGui {
 	}
 
 	proc PropOk { email w } {
-		global colorval_$email customdp_$email showcustomsmileys_$email ignorecontact_$email dontshowdp_$email
+		global colorval_$email customdp_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email ignorecontact_$email dontshowdp_$email
 		
 		if {[::alarms::SaveAlarm $email] != 0 } {
 			return
@@ -1912,8 +1920,8 @@ namespace eval ::abookGui {
 		set old_customdp [::abook::getContactData $email customdp ""]
 
 		# Store custom display information options
-		::abook::setAtomicContactData $email [list cust_p4c_name customcolor customdp showcustomsmileys ignored dontshowdp] \
-			[list [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set ignorecontact_$email] [set dontshowdp_$email]]
+		::abook::setAtomicContactData $email [list cust_p4c_name customcolor customdp showcustomsmileys autoacceptft autoacceptwc ignored dontshowdp] \
+			[list [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set autoacceptft_$email] [set autoacceptwc_$email] [set ignorecontact_$email] [set dontshowdp_$email]]
 		
 		::abook::setContactData $email customnick [$nbSettings.fNick.customnick.ent get]
 		::abook::setContactData $email customfnick [$nbSettings.fNick.customfnick.ent get]

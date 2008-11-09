@@ -67,6 +67,7 @@ audiovideo Audio and Video settings
 author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
+autoacceptwc Automatically accept Webcam requests
 autoaway Change state to "Away" when inactive for
 autocheckver Automatically check for newer versions on startup
 autoconnect2 Sign In automatically when aMSN is launched
@@ -1014,8 +1015,11 @@ webcamhistory View Webcam Sessions
 webcamhistory2 Webcam Sessions
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 webcaminvitereceived $1 invited you to start a webcam session. Do you want to accept this session?
+webcaminvitereceivedauto $1 invited you to start a webcam session. This session is automatically accepted.
 webcaminvitereceiving You are invited to start viewing $1 's webcam. Do you want to accept this session?
+webcaminvitereceivingauto You are invited to start viewing $1 's webcam. This session is automatically accepted.
 webcaminvitesending $1 would like to view your webcam. Do you want to accept this session?
+webcaminvitesendingauto $1 would like to view your webcam. This session is automatically accepted.
 webcamrejected $1 rejected invitation for webcam session
 webcamrequestreceive Sent request to receive webcam
 webcamrequestsend Sent request to send webcam

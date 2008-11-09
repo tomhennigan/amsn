@@ -2291,28 +2291,40 @@ namespace eval ::CAMGUI {
 	}
 	#Executed when we receive a request to accept or refuse a webcam session
 	proc AcceptOrRefuseWrapped {chatid dest branchuid cseq uid sid producer} {
-		
+	
 		#Grey line
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid " \n" green
 		
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
-		#Show invitation
-		#::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceived [::abook::getDisplayNick $chatid]]" green
 
-		if { $producer == 0 } {
-			::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceiving [::abook::getDisplayNick $chatid]]" green
+		if { [::abook::getContactData $chatid autoacceptwc] == 1 } {
+			if { $producer == 0 } {
+				::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceivingauto [::abook::getDisplayNick $chatid]]\n" green
+			} else {
+				::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitesendingauto [::abook::getDisplayNick $chatid]]\n" green
+			}
+			
+			::CAMGUI::InvitationAccepted $chatid $dest $branchuid $cseq $uid $sid $producer
+			
 		} else {
-			::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitesending [::abook::getDisplayNick $chatid]]" green
-		}
+			#Show invitation
+			#::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceived [::abook::getDisplayNick $chatid]]" green
+
+			if { $producer == 0 } {
+				::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitereceiving [::abook::getDisplayNick $chatid]]" green
+			} else {
+				::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitesending [::abook::getDisplayNick $chatid]]" green
+			}
 		
-		#Accept and refuse actions
-		::amsn::WinWrite $chatid " - (" green
-		::amsn::WinWriteClickable $chatid "[trans accept]" [list ::CAMGUI::InvitationAccepted $chatid $dest $branchuid $cseq $uid $sid $producer] acceptwebcam$sid
-		::amsn::WinWrite $chatid " / " green
-		::amsn::WinWriteClickable $chatid "[trans reject]" [list ::CAMGUI::InvitationRejected $chatid $sid $branchuid $uid] nowebcam$sid
-		::amsn::WinWrite $chatid ")\n" green
+			#Accept and refuse actions
+			::amsn::WinWrite $chatid " - (" green
+			::amsn::WinWriteClickable $chatid "[trans accept]" [list ::CAMGUI::InvitationAccepted $chatid $dest $branchuid $cseq $uid $sid $producer] acceptwebcam$sid
+			::amsn::WinWrite $chatid " / " green
+			::amsn::WinWriteClickable $chatid "[trans reject]" [list ::CAMGUI::InvitationRejected $chatid $sid $branchuid $uid] nowebcam$sid
+			::amsn::WinWrite $chatid ")\n" green
+		}
 		
 		#Grey line
 		::amsn::WinWriteIcon $chatid greyline 3
