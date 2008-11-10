@@ -5867,7 +5867,12 @@ proc cmsn_update_users {sb recv} {
 			#and get a fake "user joins" message if we don't check it
 
 			#TODO: This line makes DP resize to original when user joins conv even if we had resized it
-			::MSNP2P::loadUserPic $chatid $usr_login
+			global HOME
+			set filename [::abook::getContactData $usr_login displaypicfile ""]
+                        set file "[file join $HOME displaypic cache $usr_login ${filename}].png"
+			if { $filename == "" || ![file readable "$file"] } {
+				::MSNP2P::loadUserPic $chatid $usr_login
+			}
 			#Send x-clientcaps information
 			::MSN::clientCaps $chatid
 
