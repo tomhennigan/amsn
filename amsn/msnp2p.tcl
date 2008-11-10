@@ -168,7 +168,6 @@ namespace eval ::MSNP2P {
 			status_log "::MSNP2P::GetUser: FILE [file join $HOME displaypic cache $user ${filename}] doesn't exist!!\n" white
 			image create photo user_pic_$user -file [::skin::GetSkinFile "displaypic" "loading.gif"] -format cximage
 
-
 			#if the small picture (for notifications e.g.) already exists, change it
 			if { [ImageExists displaypicture_not_$user] } {
 			
@@ -185,10 +184,6 @@ namespace eval ::MSNP2P {
 					image delete displaypicture_not_$user
 				}
 			}				
-			global loaded_images
-	                if { [info exists loaded_images(displaypicture_std_$user)] } {
-        	                unset loaded_images(displaypicture_std_$user)
-	                }
 
 			create_dir [file join $HOME displaypic]
 			create_dir [file join $HOME displaypic cache]
