@@ -238,6 +238,8 @@ namespace eval ::skin {
 	proc getDisplayPicture { email {force 0}} {
 		global HOME
 
+		set picName displaypicture_std_$email
+
 		#@@@@@@@@@ webMSN display picture (thanx to majinsoftware)
 		if { [::abook::getContactData $email client] == "Webmessenger" } { 
 			return [::skin::loadPixmap webmsn_dp]
