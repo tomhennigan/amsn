@@ -5865,6 +5865,8 @@ proc cmsn_update_users {sb recv} {
 			#so you will connect to its sb and be able to chat, but after
 			#a while the user will join your old invitation,
 			#and get a fake "user joins" message if we don't check it
+
+			#TODO: This line makes DP resize to original when user joins conv even if we had resized it
 			::MSNP2P::loadUserPic $chatid $usr_login
 			#Send x-clientcaps information
 			::MSN::clientCaps $chatid
