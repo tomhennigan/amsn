@@ -8003,10 +8003,16 @@ proc load_my_pic { } {
 	if { [::config::getKey displaypic] == "" } {
 		::config::setKey displaypic nopic.gif
 	}
-	status_log "load_my_pic: Trying to set display picture [PathRelToAbs [::config::getKey displaypic]]\n" blue
-	if {[file readable [::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]]} {
-		image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]" -format cximage
-		load_my_smaller_pic
+	set dpfilename [PathRelToAbs [::config::getKey displaypic]]
+	status_log "load_my_pic: Trying to set display picture $dpfilename\n" blue
+	if {[file readable [::skin::GetSkinFile displaypic $dpfilename]]} {
+		if { ![catch {image create photo displaypicture_std_self -file "[::skin::GetSkinFile displaypic $dpfilename]" -format cximage}] } {
+			load_my_smaller_pic
+		} else {
+			# Image corrupted on disk
+			image delete $dpfilename
+			::config::setKey displaypic nopic.gif 
+		}
 	} else {
 		status_log "load_my_pic: Picture not found!!\n" red
 		clear_disp
