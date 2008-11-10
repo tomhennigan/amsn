@@ -185,7 +185,11 @@ namespace eval ::MSNP2P {
 					image delete displaypicture_not_$user
 				}
 			}				
-			
+			global loaded_images
+	                if { [info exists loaded_images(displaypicture_std_$user)] } {
+        	                unset loaded_images(displaypicture_std_$user)
+	                }
+
 			create_dir [file join $HOME displaypic]
 			create_dir [file join $HOME displaypic cache]
 			create_dir [file join $HOME displaypic cache $user]
