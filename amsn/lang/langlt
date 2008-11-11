@@ -67,6 +67,7 @@ audiovideo Garso ir vaizdo nustatymai
 author Autorius
 autoaccepted Rinkmenos persiuntimas priimtas automatiškai
 autoacceptft Automatiškai priimti prašymus rinkmenos persiuntimui
+autoacceptwc Automatiškai priimti prašymus kamerai įjungti
 autoaway Keisti būsena į "Išėjęs", kai neaktyvus
 autocheckver Automatiškai tikrinti naujos versijos prisijungiant
 autoconnect2 Įjungus AMSN, prisijungti automatiškai
@@ -1013,8 +1014,11 @@ webcamhistory Rodyti vaizdo sesijas
 webcamhistory2 Vaizdo sesijos
 webcaminvite $1 pakvietė jus pradėti vaizdo sesiją, tačiau aMSN nepalaiko šios savybės.
 webcaminvitereceived $1 pakvietė jus pradėti vaizdo sesiją. Ar norite priimti šį pakvietimą?
+webcaminvitereceivedauto $1 pakvietė jus įjungti kamerą. Ši sesija automatiškai priimta.
 webcaminvitereceiving $1 įjungė savo kamerą. Ar norite priimti vaizdą?
+webcaminvitereceivingauto Jūs esate pakviestas žiūrėti $1 kamerą. Ši sesija automatiškai priimta.
 webcaminvitesending $1 nori matyti jus per kamerą. Ar norite priimti šį pakvietimą?
+webcaminvitesendingauto $1 norėtų žiūrėti jus per kamerą. Ši sesija automatiškai priimta.
 webcamrejected $1 atmetė vaizdo sesijos pakvietimą
 webcamrequestreceive Nusiųstas prašymas vartotojo vaizdui priimti
 webcamrequestsend Nusiųstas pakvietimas jūsų vaizdo rodymui
