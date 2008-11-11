@@ -48,12 +48,12 @@ appearance Apparence
 appearoff Apparaître déconnecté[e]
 areacode Code régional
 aretyping $1 sont en train de taper un message
-askcam Demande à visionner la webcam
-askcontactwebcam pour demander à voir la webcam de votre contact, ou
+askcam Demande à visionner par la webcam
+askcontactwebcam pour demander à voir par la webcam de votre contact, ou
 askeachtime Demander à chaque fois
-asksendingyourwebcam pour inviter votre contact à voir votre webcam
+asksendingyourwebcam pour inviter votre contact à voir par votre webcam
 asksendoim Voulez-vous envoyer ce message en tant que message différé ?
-askwebcam Demander à ce contact de voir sa webcam
+askwebcam Demander à ce contact de voir par sa webcam
 assistantainput Choisissez le périphérique de capture et essayez d'enregistrer quelque chose avec.
 assistantaoutput Choisissez le périphérique de lecture, et essayez de lire ce fichier son pour l'essayer.
 assistantawarn Vous ne pourrez pas vous enregistrer, ni parler avec vos amis. Vous trouverez peut-être le moyen d'installer cette extension sur le wiki :
@@ -67,6 +67,7 @@ audiovideo Paramètres audio et vidéo
 author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
+autoacceptwc Accepter automatiquement les invitations pour voir par la webcam.
 autoaway Me marquer "Absent[e]" quand inactif plus de
 autocheckver Vérification automatique de l'existence d'une nouvelle version d'aMSN lors du lancement
 autoconnect2 Me connecter automatiquement lorsque aMSN est lancé
@@ -128,7 +129,7 @@ cantremoveothers Impossible de supprimer le groupe "Autres".
 captureextloaded L'extension de capture -$1- est chargée
 captureextnotloaded L'extension de capture -$1- n'est pas chargée. Vous devez la compiler.
 captureproperties Propriétés concernant l'image de la webcam
-capturewarn Vos contacts ne pourront pas voir votre webcam. Si vous n'avez pas de webcam, ce message est normal. Sinon, vous trouverez peut-être comment utiliser cette extension sur le Wiki:
+capturewarn Vos contacts ne pourront pas voir par votre webcam. Si vous n'avez pas de webcam, ce message est normal. Sinon, vous trouverez peut-être comment utiliser cette extension sur le Wiki:
 casesensitive Respecter la casse
 cfgalarmall Configurer/Ajouter/Supprimer toutes les alarmes
 cfgalarm Configurer/Ajouter/Supprimer alarme
@@ -758,7 +759,7 @@ reconnecting Reconnexion au serveur
 reconnectnow Se reconnecter maintenant
 record Enregistrer
 recorderror Une erreur s'est produite lors de l'enregistrement du son : $1
-recvwebcamaccepted $1 a accepté votre invitation pour voir sa webcam. Connexion en cours.
+recvwebcamaccepted $1 a accepté votre invitation pour voir par sa webcam. Connexion en cours.
 redirect Cliquez ici pour être redirigé
 reject Refuser
 rememberaccount Enregistrer le nom de compte
@@ -808,8 +809,8 @@ sendmsg Envoyer un message
 sendoim Envoyer un message différé
 sendsip Démarrer un appel audio
 sendvoice Envoyer un message vocal
-sendwebcamaccepted $1 a accepté votre invitation pour voir votre webcam. Connexion en cours.
-sendwebcaminvite Inviter un contact à voir votre webcam
+sendwebcamaccepted $1 a accepté votre invitation pour voir par votre webcam. Connexion en cours.
+sendwebcaminvite Inviter un contact à voir par votre webcam
 sentbytes $1 sur $2 octets envoyés
 sentvoice Message vocal envoyé
 serverbusy Le serveur est occupé
@@ -1007,18 +1008,21 @@ webcamconfiguredWin Vous avez choisi la webcam suivante : $1
 webcamextchecking Vérifie si l'extension requise pour la webcam est chargée...
 webcamextloaded L'extension Webcamsn est chargée
 webcamextnotloaded L'extension Webcamsn n'est pas chargée. Vous devez la compiler.
-webcamextwarn Vous ne pourrez pas voir la webcam de vos contacts. Vous trouverez des aides pour installer les extensions sur le Wiki :
+webcamextwarn Vous ne pourrez pas voir par la webcam de vos contacts. Vous trouverez des aides pour installer les extensions sur le Wiki :
 webcamfaq FAQ/Aide à propos de la webcam
 webcamhistory Voir les sessions webcam
 webcamhistory2 Sessions webcam
 webcaminvite $1 vous invite à démarrer une conversation par Webcam, mais aMSN ne supporte pas cette option.
 webcaminvitereceived $1 vous invite à démarrer une conversation par Webcam. Voulez-vous accepter cette conversation ?
-webcaminvitereceiving Vous êtes invités à voir la webcam de $1. Acceptez-vous ?
-webcaminvitesending $1 voudrait voir votre webcam. Acceptez-vous ?
+webcaminvitereceivedauto $1 vous invite à démarrer une conversation par Webcam. Cette invitation est automatiquement acceptée.
+webcaminvitereceiving Vous êtes invités à voir par la webcam de $1. Acceptez-vous ?
+webcaminvitereceivingauto Vous êtes invités à voir par la webcam de $1. Cette invitation est automatiquement acceptée.
+webcaminvitesending $1 voudrait voir par votre webcam. Acceptez-vous ?
+webcaminvitesendingauto $1 voudrait voir par votre webcam. Cette invitation est automatiquement acceptée.
 webcamrejected $1 a refusé l'invitation de la conversation par webcam.
-webcamrequestreceive Vous avez invité votre contact à afficher sa webcam
-webcamrequestsend Vous avez invité votre contact à visionner votre webcam
-webcamsending Liste des personnes qui sont en train de voir votre webcam\nCliquez sur un nom pour annuler
+webcamrequestreceive Vous avez invité votre contact à voir par sa webcam
+webcamrequestsend Vous avez invité votre contact à visionner par votre webcam
+webcamsending Liste des personnes qui sont en train de voir par votre webcam\nCliquez sur un nom pour annuler
 webcam Webcam
 web Web
 whatisamsn aMSN un clône de MSN Messenger fonctionnant sur diverses plateformes telles que Linux, Windows, Mac OS X, *BSD ...
