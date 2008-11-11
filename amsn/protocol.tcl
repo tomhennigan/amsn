@@ -6167,6 +6167,9 @@ proc cmsn_change_state {recv} {
 
 			if { [file readable "[file join $HOME displaypic cache $user ${newPic}].png"] } {
 				#it's possible that the user set again a DP that we already have in our cache so just load it again, even if we are HDN, or the user is blocked.
+				# ::Event::fireEvent contactDPChange protocol $user
+				# this was only fired when the DP wasn't in cache already
+				# Or maybe move the event in this part of the code?
 				::MSNP2P::loadUserPic "" $user
 			} elseif { [::MSN::myStatusIs] != "FLN" && [::MSN::myStatusIs] != "HDN" &&
 				   ![::config::getKey lazypicretrieval] && ![::MSN::userIsBlocked $user]} {
