@@ -5,6 +5,7 @@ about Névjegy
 accept Elfogadás
 acceptfile Elfogadod ezt a fájlt: $1 (mérete: $2)? Ide lesz mentve: $3
 account Fiók
+accountkid Ez a gyermek fiók nem használható a Messenger-rel. Adj rá Teljes körű engedélyt a passport kezelés weboldalán.
 actions Műveletek
 activeautoupdate Automatikus frissítés aktiválása
 addacontact Partner felvétele
@@ -66,7 +67,8 @@ audiovideo Hang és kép beállítások
 author Szerző
 autoaccepted Fájl átvitele automatikusan elindítva
 autoacceptft Fájlátvitelek automatikus elfogadása
-autoaway "Nem vagyok itt" használata ha inaktív vagyok
+autoacceptwc Webkamera felkérések automatikus elfogadása
+autoaway "Nem vagyok itt" használata, ha inaktív vagyok
 autocheckver Újabb verzió automatikus keresése indításkor
 autoconnect2 Automatikus bejelentkezés az aMSN indításakor
 autoconnect Kapcsolódás az aMSN indulásakor
@@ -214,7 +216,7 @@ confirmfulldelete Törlés a Windows Live címjegyzékből is
 confirmpurge Minden lementett kép (nem a saját képeid) törlődik. Biztos vagy ebben?
 confirmrfl Biztosan törölni akarod ezt a partnert ebből a csoportból?
 congrats Kész
-connectedat Csatlakozva
+connectedat Csatlakozva:
 connected Kapcsolat létrejött
 connectedwith Csatlakozva: $1
 connecterror Hiba a szerverhez kapcsolódás közben
@@ -332,6 +334,7 @@ enabled Bekapcsolva
 enableproxy Proxy engedélyezése
 enableremote Távoli vezérlés engedélyezése
 enablesound Hang lejátszása
+enablespaces Windows Live Spaces támogatásának engedélyezése (KÍSÉRLETI)
 encoding2 Karakterkódolás megváltoztatása
 encoding Kódolás kiválasztása
 enterbugdesc Írd le pontosan mit csináltál, hogy reprodukálni tudjuk a hibát
@@ -815,6 +818,7 @@ server Szerver
 serverunavailable A szerver nem elérhető
 session Folyamatok
 setasmydp Beállítás megjelenítendő képemnek
+setbackinitialstate Az aMSN bejelentkezéskor $1 státusszal kapcsolódik, de jelenleg $2 a státuszod. Visszaállítod az eredeti státuszod ($1) ?
 setupcamfinetune Webkamera eszköz beállítása, és képének finomhangolása
 setupcam Webkamera eszközöd beállítása
 shareswebcam Van webkamerája
@@ -1009,8 +1013,11 @@ webcamhistory2 Webkamerás kapcsolatok:
 webcamhistory Webkamerás kapcsolatok megtekintése
 webcaminvite $1 webkamerás csatlakozásra hív, de az aMSN ezt nem támogatja.
 webcaminvitereceived $1 felkért téged webkamerás kapcsolatra. Elfogadod?
+webcaminvitereceivedauto $1 felkérése webkamerás kapcsolatra automatikusan elfogadva.
 webcaminvitereceiving $1 felkért a webkamerája képének fogadására. Elfogadod?
+webcaminvitereceivingauto $1 felkérése webkamerája képének fogadására automatikusan elfogadva.
 webcaminvitesending $1 szeretné látni a kamerádat. Engedélyezed?
+webcaminvitesendingauto $1 szeretné látni a kamerádat, a kérése automatikusan elfogadva.
 webcamrejected $1 elutasította a webkamerás kapcsolatot
 webcamrequestreceive Felkérés: mutasd a webkamerád
 webcamrequestsend Felkérés: nézd meg a webkamerám
