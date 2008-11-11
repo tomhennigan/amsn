@@ -1002,7 +1002,7 @@ namespace eval ::amsn {
 			#TODO: add a new key?
 			::amsn::errorMsg [trans sipcallyouarebusy]
 		} else {
-			::MSN::ChatQueue $chatid [list ::amsn::SIPCallInviteUser [lindex $users 0]]
+			::amsn::SIPCallInviteUser [lindex $users 0]
 		}
 
 	}
