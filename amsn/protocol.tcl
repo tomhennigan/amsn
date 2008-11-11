@@ -4654,6 +4654,14 @@ namespace eval ::MSNOIM {
 			set currentMedia ""
 			set signatureSound ""
 		}
+
+		if {$currentMedia != "" &&
+		    [::abook::getVolatileData $contact currentMedia] != $currentMedia} {
+			::log::eventpsm $contact $currentMedia
+		} elseif {[::abook::getVolatileData $contact PSM] != $psm} {
+			::log::eventpsm $contact $psm
+		}
+
 		::abook::setVolatileData $contact PSM $psm
 		::abook::setVolatileData $contact currentMedia $currentMedia
 
@@ -4682,12 +4690,6 @@ namespace eval ::MSNOIM {
 				}
 				cmsn_draw_online 1 1	
 			}
-		}
-
-		if {$currentMedia != "" } {
-			::log::eventpsm $contact $currentMedia
-		} else {
-			::log::eventpsm $contact $psm
 		}
 
 		foreach chat_id [::ChatWindow::getAllChatIds] {
