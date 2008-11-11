@@ -67,6 +67,7 @@ audiovideo Instellingen voor beeld en geluid
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
 autoacceptft Bestandsoverdrachten automatisch accepteren
+autoacceptwc Webcamverzoeken automatisch accepteren
 autoaway Status op "Afwezig" zetten als ik niet actief ben gedurende
 autocheckver Automatisch controleren op nieuwere versies bij het opstarten
 autoconnect Automatisch aanmelden bij opstarten
@@ -1017,8 +1018,11 @@ webcamhistory Webcamsessies bekijken
 webcamhistory2 Webcamsessies
 webcaminvite $1 wil een webcamsessie beginnen, maar deze functie wordt niet door aMSN ondersteund.
 webcaminvitereceived $1 wil een webcamsessie starten. Wil je deze sessie accepteren?
+webcaminvitereceivedauto $1 wil een webcamsessie starten. Deze sessie wordt automatisch geaccepteerd.
 webcaminvitereceiving $1 nodigt je uit om zijn/haar webcambeeld te bekijken. Wil je deze uitnodiging accepteren?
+webcaminvitereceivingauto $1 nodigt je uit om zijn/haar webcambeeld te bekijken. Deze sessie wordt automatisch geaccepteerd.
 webcaminvitesending $1 zou graag jouw webcambeeld willen zien. Wil je dat toestaan?
+webcaminvitesendingauto $1 zou graag jouw webcambeeld willen zien. Deze sessie wordt automatisch geaccepteerd.
 webcamrejected $1 heeft je verzoek voor een webcamsessie afgewezen
 webcamrequestreceive Je verzoek om webcambeeld te mogen zien is verstuurd
 webcamrequestsend Je aanbod van webcambeeld is verstuurd
