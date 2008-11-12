@@ -37,12 +37,13 @@ snit::type Addressbook {
 	}
 
 	method FindMembershipDone { callback error } {
-		set fm_done 1
 		if {$error } {
-			if {$ab_done == 0 } {
+			set fm_done -1
+			if {$ab_done != -1 } {
 				$self SynchronizeDone $callback $error
 			}
 		} else {
+			set fm_done 1
 			if {$ab_done == 1 } {
 				$self SynchronizeDone $callback $error
 			}
@@ -50,12 +51,13 @@ snit::type Addressbook {
 	}
 
 	method ABFindAllDone {callback error } {
-		set ab_done 1
 		if {$error } {
-			if {$fm_done == 0 } {
+			set ab_done -1
+			if {$fm_done != -1 } {
 				$self SynchronizeDone $callback $error
 			} 
 		} else {
+			set ab_done 1
 			if {$fm_done == 1 } {
 				$self SynchronizeDone $callback $error
 			}
