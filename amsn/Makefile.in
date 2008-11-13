@@ -12,7 +12,7 @@ doc_files	:= docs INSTALL CREDITS FAQ GNUGPL HELP README TODO AGREEMENT remote.h
 
 FILES_TO_INSTALL := *.tcl hotmlog.htm amsn amsn-remote amsn-remote-CLI amsn.desktop langlist
 FILES_TO_INSTALL += $(doc_files)
-FILES_TO_INSTALL += desktop-icons lang skins utils/base64 utils/drawboard utils/framec utils/http2.4
+FILES_TO_INSTALL += desktop-icons lang skins utils/base64 utils/drawboard utils/framec utils/http
 FILES_TO_INSTALL += utils/pixmapscroll utils/pixmapmenu utils/contentmanager
 FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit utils/bwidget1.8.0 utils/dpbrowser
 FILES_TO_INSTALL += plugins utils/sexytile

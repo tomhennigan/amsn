@@ -338,7 +338,7 @@
 				E27010980B67645E00EE2699 /* dpbrowser */,
 				E270109B0B67645E00EE2699 /* drawboard */,
 				E270109F0B67645E00EE2699 /* framec */,
-				E27010A20B67645E00EE2699 /* http2.4 */,
+				E27010A20B67645E00EE2699 /* http */,
 				E27010A50B67645E00EE2699 /* linux */,
 				E27010E40B67645F00EE2699 /* log */,
 				E27010EC0B67645F00EE2699 /* macosx */,
@@ -429,11 +429,11 @@
 			path = framec;
 			sourceTree = "<group>";
 		};
-		E27010A20B67645E00EE2699 /* http2.4 */ = {
+		E27010A20B67645E00EE2699 /* http */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = http2.4;
+			path = http;
 			sourceTree = "<group>";
 		};
 		E27010A50B67645E00EE2699 /* linux */ = {
