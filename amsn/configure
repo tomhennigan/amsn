@@ -6557,7 +6557,7 @@ echo "${ECHO_T}$USE_MMX" >&6; }
 HAVE_FARSIGHT=no
 GST_REQUIRED=0.10.20
 GST_MAJORMINOR=0.10
-FARSIGHT_REQUIRED=0.0.3.1
+FARSIGHT_REQUIRED=0.0.4
 
 # Extract the first word of "pkg-config", so it can be a program name with args.
 set dummy pkg-config; ac_word=$2
