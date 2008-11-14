@@ -540,7 +540,7 @@ namespace eval ::autoupdate {
 	}
 
 	#///////////////////////////////////////////////////////////////////////
-	package require http
+	package require -exact http 2.4.4
 
 	proc check_web_version { token } {
 		global version rcversion weburl

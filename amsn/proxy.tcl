@@ -9,7 +9,7 @@
 ::Version::setSubversionId {$Id$}
 
 package provide Proxy 0.1
-package require http
+package require -exact http 2.4.4
 
 # This should be converted to a proper package, to use with package require
 source socks.tcl	;# SOCKS5 proxy support
