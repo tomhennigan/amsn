@@ -384,16 +384,16 @@ snit::type ContentRoaming {
 		}
 	}
 
-	method CreateDocument { callbk dpfile } {
-		$::sso RequireSecurityToken Storage [list $self CreateDocumentSSOCB $callbk $dpfile]
+	method CreateDocument { callbk dpfile dpcontent } {
+		$::sso RequireSecurityToken Storage [list $self CreateDocumentSSOCB $callbk $dpfile $dpcontent]
 	}
 
-	method CreateDocumentSSOCB { callbk dpfile ticket} {
+	method CreateDocumentSSOCB { callbk dpfile dpcontent ticket} {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
 				 -action "http://www.msn.com/webservices/storage/w10/CreateDocument" \
 				 -header [$self getCommonHeaderXML RoamingSeed $ticket] \
-				 -body [$self getCreateDocumentBodyXML $dpfile] \
+				 -body [$self getCreateDocumentBodyXML $dpfile $dpcontent] \
 				 -callback [list $self CreateDocumentCallback $callbk]]
 		
 		$request SendSOAPRequest
@@ -401,7 +401,7 @@ snit::type ContentRoaming {
 	}
 
 
-	method getCreateDocumentBodyXML { dpfile } {
+	method getCreateDocumentBodyXML { dpfile dpcontent } {
 		set cid [::abook::getPersonal cid]
 		
 		append xml {<CreateDocument xmlns="http://www.msn.com/webservices/storage/w10">}
@@ -415,14 +415,15 @@ snit::type ContentRoaming {
 		append xml {</Alias>}
 		append xml {</parentHandle>}
 		append xml {<document xsi:type="Photo">}
-		#TODO: use correct filename?
-		append xml {<Name>amsncrpic</Name>}
+		append xml {<Name>}
+		append xml $dpfile
+		append xml {</Name>}
 		append xml {<DocumentStreams>}
 		append xml {<DocumentStream xsi:type="PhotoStream">}
 		append xml {<DocumentStreamType>UserTileStatic</DocumentStreamType>}
 		append xml {<MimeType>png</MimeType>}
 		append xml {<Data>}
-		append xml $dpfile
+		append xml $dpcontent
 		append xml {</Data>}
 		append xml {<DataSize>0</DataSize>}
 		append xml {</DocumentStream>}

@@ -1309,7 +1309,13 @@ namespace eval ::MSN {
 						set content [read $fd]
 						close $fd
 						
-						$::roaming CreateDocument [list ns RoamingCreateDocumentCB 4] [base64::encode $content]
+						set dpfilename [filenoext [getfilename $dp]]
+						if {[string length $dpfilename] > 8 && [string range $dpfilename 0 7] == "roaming-"} {
+							set dpfilename [string range $dpfilename 8 end]
+						}
+						status_log "updateDP : uploading dp $dpfilename" blue
+						
+						$::roaming CreateDocument [list ns RoamingCreateDocumentCB 4] $dpfilename [base64::encode $content]
 					}
 				}
 			}
@@ -1329,11 +1335,7 @@ namespace eval ::MSN {
 				set dplastrid [::abook::getPersonal dp_last_resourceid]
 				set dpurl [::abook::getPersonal dp_url]
 				
-				if {$dpmimetype == "image/jpeg"} {
-					set dpfile "$dpfile.jpg"
-				} else {
-					set dpfile "$dpfile.png"
-				}
+				set dpfile "$dpfile.png"
 				status_log "downloadDP : comparing $dprid with $dplastrid" blue
 				
 				if {$dprid != $dplastrid} {
