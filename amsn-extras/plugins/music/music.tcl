@@ -253,6 +253,7 @@ namespace eval ::music {
 					"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 					"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 					"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
+					"LastFM" [list GetSongLastFM TreatSongLastFM FillFrameLess] \
 					"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 					"MPD" [list GetSongMPD return FillFrameMPD] \
 					"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
@@ -986,6 +987,41 @@ namespace eval ::music {
 		set Uri [urldecode [string range $Uri 7 end]]
 
 		return [list $Title $Artist $Uri $CoverUri ""]
+	}
+
+	###########################################################
+	# ::music::TreatSongLastFM                                #
+	# ------------------------------------------------------- #
+	# Gets the current playing song in LastFM                 #
+	###########################################################
+	proc TreatSongLastFM {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infolastfm"]] }
+	}
+
+	###########################################################
+	# ::music::GetSongLastFM                                  #
+	# ------------------------------------------------------- #
+	# Gets the current playing song in LastFM                 #
+	###########################################################
+	proc GetSongLastFM {} {
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 4 first lines
+		set status [lindex $tmplst 0]
+		set artist [lindex $tmplst 1]
+		set song [lindex $tmplst 2]
+		
+		#$artist=="Last.fm" when lastfm is stopped
+		if { $status == "0" || ($song == "" && $artist == "Last.fm") } {	
+			return 0
+		}
+	
+		return [list $song $artist "" "" ""]
 	}
 
 	 ###########################################################
