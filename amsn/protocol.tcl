@@ -2333,6 +2333,7 @@ namespace eval ::MSN {
 	# This method sends an Action to MSNP13+ users, datacast id 4 with Data being the action message, the messages look like emotes, in grey with no '$nick says' heading
 	proc SendAction {chatid action } {
 		set sbn [::MSN::SBFor $chatid]
+		set action [encoding convertto $action]
 		
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msnmsgr-datacast\r\n\r\nID: 4\r\nData: $action\r\n\r\n"
 		set msg_len [string length $msg]
@@ -5307,7 +5308,7 @@ namespace eval ::MSNOIM {
 							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWriteIcon $chatid greyline 3
 							::amsn::WinWrite $chatid "\n" gray
-							::amsn::WinWrite $chatid $data gray
+							::amsn::WinWrite $chatid [encoding convertfrom identity $data] gray
 							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWriteIcon $chatid greyline 3
 							::amsn::WinWrite $chatid "\n" gray
