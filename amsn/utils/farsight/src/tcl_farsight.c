@@ -730,6 +730,33 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
+  /* Set codec preferences.. if this fails, then it's no big deal.. */
+  {
+    GList *codec_preferences = NULL;
+    FsCodec *x_msrta_16000 = fs_codec_new (114, "x-msrta", FS_MEDIA_TYPE_AUDIO, 16000);
+    FsCodec *siren = fs_codec_new (111, "SIREN", FS_MEDIA_TYPE_AUDIO, 16000);
+    FsCodec *g7221 = fs_codec_new (112, "G7221", FS_MEDIA_TYPE_AUDIO, 16000);
+    FsCodec *x_msrta_8000 = fs_codec_new (115, "x-msrta", FS_MEDIA_TYPE_AUDIO, 8000);
+    FsCodec *aal2 = fs_codec_new (116, "AAL2-G726-32", FS_MEDIA_TYPE_AUDIO, 8000);
+    FsCodec *g723 = fs_codec_new (4, "G723", FS_MEDIA_TYPE_AUDIO, 8000);
+    FsCodec *pcma = fs_codec_new (8, "PCMA", FS_MEDIA_TYPE_AUDIO, 8000);
+    FsCodec *pcmu = fs_codec_new (0, "PCMU", FS_MEDIA_TYPE_AUDIO, 8000);
+    FsCodec *red = fs_codec_new (97, "RED", FS_MEDIA_TYPE_AUDIO, 8000);
+
+    codec_preferences = g_list_append (codec_preferences, x_msrta_16000);
+    codec_preferences = g_list_append (codec_preferences, siren);
+    codec_preferences = g_list_append (codec_preferences, g7221);
+    codec_preferences = g_list_append (codec_preferences, x_msrta_8000);
+    codec_preferences = g_list_append (codec_preferences, aal2);
+    codec_preferences = g_list_append (codec_preferences, g723);
+    codec_preferences = g_list_append (codec_preferences, pcma);
+    codec_preferences = g_list_append (codec_preferences, pcmu);
+    codec_preferences = g_list_append (codec_preferences, red);
+
+    fs_session_set_codec_preferences (session, codec_preferences, NULL);
+
+    fs_codec_list_destroy (codec_preferences);
+  }
 
   if (!codecs_ready) {
     gboolean ready;
