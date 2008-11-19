@@ -33,6 +33,8 @@
 
 GstElement *pipeline = NULL;
 GstElement *conference = NULL;
+GstElement *volumeIn = NULL;
+GstElement *volumeOut = NULL;
 FsSession *session = NULL;
 FsParticipant *participant = NULL;
 FsStream *stream = NULL;
@@ -107,6 +109,15 @@ static void Close ()
     gst_element_set_state (pipeline, GST_STATE_NULL);
     gst_object_unref (pipeline);
     pipeline = NULL;
+  }
+
+  if (volumeIn) {
+    gst_object_unref (volumeIn);
+    volumeIn = NULL;
+  }
+  if (volumeOut) {
+    gst_object_unref (volumeOut);
+    volumeOut = NULL;
   }
 
   candidates_prepared = FALSE;
@@ -306,6 +317,9 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
 
   if (sink == NULL) {
     _notify_error_post ("Could not create sink");
+    if (convert) gst_object_unref (convert);
+    if (resample) gst_object_unref (resample);
+    if (convert2) gst_object_unref (convert2);
     return;
   }
 
@@ -314,31 +328,54 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
 
   if (gst_bin_add (GST_BIN (pipeline), sink) == FALSE)  {
     _notify_error_post ("Could not add sink to pipeline");
+    if (sink) gst_object_unref (sink);
+    if (convert) gst_object_unref (convert);
+    if (resample) gst_object_unref (resample);
+    if (convert2) gst_object_unref (convert2);
     return;
   }
 
   if (gst_bin_add (GST_BIN (pipeline), convert) == FALSE) {
     _notify_error_post ("Could not add converter to pipeline");
+    if (convert) gst_object_unref (convert);
+    if (resample) gst_object_unref (resample);
+    if (convert2) gst_object_unref (convert2);
     return;
   }
   if (gst_bin_add (GST_BIN (pipeline), resample) == FALSE) {
     _notify_error_post ("Could not add resampler to pipeline");
+    if (resample) gst_object_unref (resample);
+    if (convert2) gst_object_unref (convert2);
     return;
   }
   if (gst_bin_add (GST_BIN (pipeline), convert2) == FALSE) {
     _notify_error_post ("Could not add second converter to pipeline");
+    if (convert2) gst_object_unref (convert2);
     return;
   }
 
-  sink_pad = gst_element_get_static_pad (convert, "sink");
+  volumeOut = gst_element_factory_make ("volume", NULL);
+  gst_object_ref (volumeOut);
+
+  if (gst_bin_add (GST_BIN (pipeline), volumeOut) == FALSE) {
+    _notify_error_post ("Could not add output volume to pipeline");
+    return;
+  }
+
+
+  sink_pad = gst_element_get_static_pad (volumeOut, "sink");
   ret = gst_pad_link (pad, sink_pad);
   gst_object_unref (sink_pad);
 
   if (ret != GST_PAD_LINK_OK)  {
-    _notify_error_post ("Could not link converter to fsrtpconference sink pad");
+    _notify_error_post ("Could not link volume out to fsrtpconference sink pad");
     return;
   }
 
+  if (gst_element_link(volumeOut, convert) == FALSE)  {
+    _notify_error_post ("Could not link volume out to converter");
+    return;
+  }
   if (gst_element_link(convert, resample) == FALSE)  {
     _notify_error_post ("Could not link converter to resampler");
     return;
@@ -352,6 +389,11 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     return;
   }
 
+  if (gst_element_set_state (volumeOut, GST_STATE_PLAYING) ==
+      GST_STATE_CHANGE_FAILURE) {
+    _notify_error_post ("Unable to set volume OUT to PLAYING");
+    return;
+  }
   if (gst_element_set_state (convert, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
     _notify_error_post ("Unable to set converter to PLAYING");
@@ -375,7 +417,6 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     _notify_error_post ("Unable to set sink to PLAYING");
     return;
   }
-
 }
 
 static void
@@ -798,14 +839,27 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
     Tcl_AppendResult (interp, "Couldn't add source to pipeline" , (char *) NULL);
+    if (src) gst_object_unref (src);
     goto error;
   }
 
-  srcpad = gst_element_get_static_pad (src, "src");
+  volumeIn = gst_element_factory_make ("volume", NULL);
+  gst_object_ref (volumeIn);
+  if (gst_bin_add (GST_BIN (pipeline), volumeIn) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add input volume to pipeline",
+        (char *) NULL);
+    goto error;
+  }
+
+  srcpad = gst_element_get_static_pad (volumeIn, "src");
 
   if (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK) {
-    Tcl_AppendResult (interp, "Couldn't link the source to fsrtpconference" ,
+    Tcl_AppendResult (interp, "Couldn't link the volume to fsrtpconference" ,
         (char *) NULL);
+    goto error;
+  }
+  if (gst_element_link(src, volumeIn) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link source to volume", (char *) NULL);
     goto error;
   }
 
@@ -1089,6 +1143,150 @@ int Farsight_InUse _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   return TCL_OK;
 }
 
+static int _SetMute (GstElement *element, Tcl_Interp *interp,
+    int objc, Tcl_Obj *CONST objv[])
+{
+  gboolean mute;
+
+  // We verify the arguments
+  if( objc != 2) {
+    Tcl_WrongNumArgs (interp, 1, objv, "mute");
+    return TCL_ERROR;
+  }
+
+  if (Tcl_GetBooleanFromObj(interp, objv[1], &mute) == TCL_ERROR) {
+    return TCL_ERROR;
+  }
+
+  if (element) {
+    g_object_set (element, "mute", mute, NULL);
+  } else {
+    Tcl_AppendResult (interp, "Farsight isn't running", (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  return TCL_OK;
+}
+
+int Farsight_SetMuteIn _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  return _SetMute (volumeIn, interp, objc, objv);
+}
+
+int Farsight_SetMuteOut _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  return _SetMute (volumeOut, interp, objc, objv);
+}
+
+static int _GetMute (GstElement *element, Tcl_Interp *interp,
+    int objc, Tcl_Obj *CONST objv[])
+{
+  gboolean mute;
+
+  // We verify the arguments
+  if( objc != 1) {
+    Tcl_WrongNumArgs (interp, 1, objv, "");
+    return TCL_ERROR;
+  }
+
+  if (element) {
+    g_object_get (element, "mute", &mute, NULL);
+    Tcl_SetObjResult(interp, Tcl_NewBooleanObj(mute));
+  } else {
+    Tcl_AppendResult (interp, "Farsight isn't running", (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  return TCL_OK;
+}
+
+int Farsight_GetMuteIn _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  return _GetMute (volumeIn, interp, objc, objv);
+}
+
+int Farsight_GetMuteOut _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  return _GetMute (volumeOut, interp, objc, objv);
+}
+
+static int _SetVolume (GstElement *element, Tcl_Interp *interp,
+    int objc, Tcl_Obj *CONST objv[])
+{
+  gdouble volume;
+
+  // We verify the arguments
+  if( objc != 2) {
+    Tcl_WrongNumArgs (interp, 1, objv, "volume");
+    return TCL_ERROR;
+  }
+
+  if (Tcl_GetDoubleFromObj(interp, objv[1], &volume) == TCL_ERROR) {
+    return TCL_ERROR;
+  }
+
+  if (element) {
+    g_object_set (element, "volume", volume, NULL);
+  } else {
+    Tcl_AppendResult (interp, "Farsight isn't running", (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  return TCL_OK;
+}
+
+int Farsight_SetVolumeIn _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  return _SetVolume (volumeIn, interp, objc, objv);
+}
+
+int Farsight_SetVolumeOut _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  return _SetVolume (volumeOut, interp, objc, objv);
+}
+
+
+static int _GetVolume (GstElement *element, Tcl_Interp *interp,
+    int objc, Tcl_Obj *CONST objv[])
+{
+  gdouble volume;
+
+  // We verify the arguments
+  if( objc != 1) {
+    Tcl_WrongNumArgs (interp, 1, objv, "");
+    return TCL_ERROR;
+  }
+
+  if (element) {
+    g_object_get (element, "volume", &volume, NULL);
+    Tcl_SetObjResult(interp, Tcl_NewDoubleObj(volume));
+  } else {
+    Tcl_AppendResult (interp, "Farsight isn't running", (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  return TCL_OK;
+}
+
+int Farsight_GetVolumeIn _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  return _GetVolume (volumeIn, interp, objc, objv);
+}
+
+int Farsight_GetVolumeOut _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  return _GetVolume (volumeOut, interp, objc, objv);
+}
+
+
 int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
@@ -1206,6 +1404,22 @@ int Farsight_Init (Tcl_Interp *interp) {
   Tcl_CreateObjCommand(interp, "::Farsight::InUse", Farsight_InUse,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::Farsight::Probe", Farsight_Probe,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::SetVolumeIn", Farsight_SetVolumeIn,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::GetVolumeIn", Farsight_GetVolumeIn,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::SetVolumeOut", Farsight_SetVolumeOut,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::GetVolumeOut", Farsight_GetVolumeOut,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::SetMuteIn", Farsight_SetMuteIn,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::GetMuteIn", Farsight_GetMuteIn,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::SetMuteOut", Farsight_SetMuteOut,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::GetMuteOut", Farsight_GetMuteOut,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
   // end of Initialisation
