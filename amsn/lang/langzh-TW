@@ -1,667 +1,1034 @@
 amsn_lang_version 2
-about Ãö©ó
-accept ±µ¨ü
-acceptfile ±µ¦¬ÀÉ®× $1, ¤j¤p $2 Àx¦s¨ì $3
-actions °õ¦æ
-activeautoupdate ¦Û°Ê§ó·s
-add ·s¼W
-addacontact ·s¼W³sµ¸¤H
-addedyou $1 ($2) ¤w¥[¤J¨ì¥L/¦oªº²M³æ
-addprofile ·s¼W­Ó¤H³]©wÀÉ
-addprofiledesc ¿é¤J±z©Ò·Q­n·s¼Wªº­Ó¤H³]©wÀÉ¦WºÙ.\n¨Ï¥Î­Ó¤H³]©wÀÉªºµn¤J,¤¹³\±z©ó¨Ï¥Î¦U­Ó³]©wÀÉ¦WºÙ¤¤ªº³]©w.\n¦pªG¨S¦³¨Ï¥Î­Ó¤H³]©wÀÉ,¾ú¥v¬ö¿ı¡BÅã¥Ü³qª¾©Î¬O¥Ã»·°O±o±K½Xªº¥\¯à±NµLªk¨Ï¥Î.
-addstate ·s¼W·sªºª¬ºA
-addto ·s¼W¨ì $1
-addtocontacts ¥[¤J²M³æ
-addtoo ·s¼W³sµ¸¤H¨ì§Úªº²M³æ
-admincontacts ºŞ²z³sµ¸¤H
-admingroups ºŞ²z¸s²Õ
-advanced ¶i¶¥
-advancedprefs ¶i¶¥³]©w
-adverts ¼s§i
-agotinvitation ±µ¦¬±q$1©Òµo¥Xªº»y­µÁÜ½Ğ
-alarmonconnect ³sµ¸¤H¤W½u®ÉÅã¥Ü³qª¾
-alarmondisconnect ³sµ¸¤H¤U½u©ÎÁô§Î®ÉÅã¥Ü³qª¾
-alarmonmsg ·í¦¬¨ì°T®§®ÉÅã¥Ü³qª¾
-alarmonstatus ³sµ¸¤H§ïÅÜª¬ºA®ÉÅã¥Ü³qª¾
-alarmpref ³sµ¸¤H³qª¾³]©w
-alarms Äµ§i
-alarmstatus ¶}±Ò©ÎÃö³¬¸Ó³sµ¸¤H³qª¾
-allfiles ©Ò¦³ÀÉ®×
-allowallbutbl  «ÊÂê²M³æ¥H¥~ªº¤H¥i¥H¬İ¨£§Úªºª¬ºA©M¶Ç°e°T®§µ¹§Ú
+about é—œæ–¼
+accept æ¥å—
+acceptfile æ¥æ”¶æª”æ¡ˆ $1, å¤§å° $2 å„²å­˜åˆ° $3
+actions åŸ·è¡Œ
+activeautoupdate è‡ªå‹•æ›´æ–°
+add æ–°å¢
+addacontact æ–°å¢é€£çµ¡äºº
+addedyou $1 ($2) å·²åŠ å…¥åˆ°ä»–/å¥¹çš„æ¸…å–®
+addprofile æ–°å¢å€‹äººè¨­å®šæª”
+addprofiledesc è¼¸å…¥æ‚¨æ‰€æƒ³è¦æ–°å¢çš„å€‹äººè¨­å®šæª”åç¨±.\nä½¿ç”¨å€‹äººè¨­å®šæª”çš„ç™»å…¥,å…è¨±æ‚¨æ–¼ä½¿ç”¨å„å€‹è¨­å®šæª”åç¨±ä¸­çš„è¨­å®š.\nå¦‚æœæ²’æœ‰ä½¿ç”¨å€‹äººè¨­å®šæª”,æ­·å²ç´€éŒ„ã€é¡¯ç¤ºé€šçŸ¥æˆ–æ˜¯æ°¸é è¨˜å¾—å¯†ç¢¼çš„åŠŸèƒ½å°‡ç„¡æ³•ä½¿ç”¨.
+addstate æ–°å¢æ–°çš„ç‹€æ…‹
+addto æ–°å¢åˆ° $1
+addtocontacts åŠ å…¥æ¸…å–®
+addtoo æ–°å¢é€£çµ¡äººåˆ°æˆ‘çš„æ¸…å–®
+admincontacts ç®¡ç†é€£çµ¡äºº
+admingroups ç®¡ç†ç¾¤çµ„
+advanced é€²éš
+advancedprefs é€²éšè¨­å®š
+adverts å»£å‘Š
+agotinvitation æ¥æ”¶å¾$1æ‰€ç™¼å‡ºçš„èªéŸ³é‚€è«‹
+alarmonconnect é€£çµ¡äººä¸Šç·šæ™‚é¡¯ç¤ºé€šçŸ¥
+alarmondisconnect é€£çµ¡äººä¸‹ç·šæˆ–éš±å½¢æ™‚é¡¯ç¤ºé€šçŸ¥
+alarmonmsg ç•¶æ”¶åˆ°è¨Šæ¯æ™‚é¡¯ç¤ºé€šçŸ¥
+alarmonstatus é€£çµ¡äººæ”¹è®Šç‹€æ…‹æ™‚é¡¯ç¤ºé€šçŸ¥
+alarmpref é€£çµ¡äººé€šçŸ¥è¨­å®š
+alarms è­¦å‘Š
+alarmstatus é–‹å•Ÿæˆ–é—œé–‰è©²é€£çµ¡äººé€šçŸ¥
+allfiles æ‰€æœ‰æª”æ¡ˆ
+allowallbutbl  å°é–æ¸…å–®ä»¥å¤–çš„äººå¯ä»¥çœ‹è¦‹æˆ‘çš„ç‹€æ…‹å’Œå‚³é€è¨Šæ¯çµ¦æˆ‘
 allowbadwords Disable censorship on nicknames 
-allowlist §Úªº¤¹³\²M³æ (AL):
-allowonlyinal ¥u¦³¦b¤¹³\²M³æ¤Wªº¤H¥i¥H¬İ¨£§Úªºª¬ºA©M¶Ç°e°T®§µ¹§Ú
-allowseen ·í±z¦b½u¤W®É¤¹³\³o­Ó¤H¬İ¨ì±z©MÁpµ¸±z
-allow_sms ¤¹³\¨Ï¥ÎªÌ¨Ï¥ÎMSN Mobile¸Ë¸m¨ÓÁpµ¸§Ú
-allprofilesinuse ©Ò¦³ªº­Ó¤H³]©wÀÉ³£¦b¨Ï¥Î¤¤
-animatedemoticon ³o¬O­Ó°ÊºAªºªí±¡²Å¸¹
-animatedsmileys ±Ò°Ê°ÊºAªí±¡²Å¸¹
-animatenotify °Êµe³qª¾µøµ¡
-appearance ¥~Æ[ 
-appearoff Áô§Î
-areacode °Ï½X
-aretyping $1 ¥¿¦b¿é¤J°T®§
-author §@ªÌ
-autoaccepted ÀÉ®×¶Ç°e¤w¸g³Q¦Û°Ê±µ¨ü 
-autoacceptft ¦Û°Ê±µ¨üÀÉ®×¶Ç°e­n¨D
-autoaway ·í§Ú¶¢¸m®É,±N§Úªºª¬ºAÅã¥Ü¬°¡uÂ÷¶}¡v
-autocheckver µ{¦¡±Ò°Ê®É¦Û°ÊÀË¬d¬O§_¦³·sªºª©¥»
-autoconnect aMSN±Ò°Ê®É¦Û°Ê³s½u
-autoconnect2 ·íaMSN±Ò°Ê®É¦Û°Êµn¤J
-autodetectip ¦Û°Ê°»´ú IP ¦ì§}
-autohotmaillog ¦Û°Êµn¤J Hotmail
-autoidle ¦Û°Êµo§b
+allowlist æˆ‘çš„å…è¨±æ¸…å–® (AL):
+allowonlyinal åªæœ‰åœ¨å…è¨±æ¸…å–®ä¸Šçš„äººå¯ä»¥çœ‹è¦‹æˆ‘çš„ç‹€æ…‹å’Œå‚³é€è¨Šæ¯çµ¦æˆ‘
+allowseen ç•¶æ‚¨åœ¨ç·šä¸Šæ™‚å…è¨±é€™å€‹äººçœ‹åˆ°æ‚¨å’Œè¯çµ¡æ‚¨
+allow_sms å…è¨±ä½¿ç”¨è€…ä½¿ç”¨MSN Mobileè£ç½®ä¾†è¯çµ¡æˆ‘
+allprofilesinuse æ‰€æœ‰çš„å€‹äººè¨­å®šæª”éƒ½åœ¨ä½¿ç”¨ä¸­
+animatedemoticon é€™æ˜¯å€‹å‹•æ…‹çš„è¡¨æƒ…ç¬¦è™Ÿ
+animatedsmileys å•Ÿå‹•å‹•æ…‹è¡¨æƒ…ç¬¦è™Ÿ
+animatenotify å‹•ç•«é€šçŸ¥è¦–çª—
+appearance å¤–è§€ 
+appearoff éš±å½¢
+areacode å€ç¢¼
+aretyping $1 æ­£åœ¨è¼¸å…¥è¨Šæ¯
+author ä½œè€…
+autoaccepted æª”æ¡ˆå‚³é€å·²ç¶“è¢«è‡ªå‹•æ¥å— 
+autoacceptft è‡ªå‹•æ¥å—æª”æ¡ˆå‚³é€è¦æ±‚
+autoaway ç•¶æˆ‘é–’ç½®æ™‚,å°‡æˆ‘çš„ç‹€æ…‹é¡¯ç¤ºç‚ºã€Œé›¢é–‹ã€
+autocheckver ç¨‹å¼å•Ÿå‹•æ™‚è‡ªå‹•æª¢æŸ¥æ˜¯å¦æœ‰æ–°çš„ç‰ˆæœ¬
+autoconnect aMSNå•Ÿå‹•æ™‚è‡ªå‹•é€£ç·š
+autoconnect2 ç•¶aMSNå•Ÿå‹•æ™‚è‡ªå‹•ç™»å…¥
+autodetectip è‡ªå‹•åµæ¸¬ IP ä½å€
+autohotmaillog è‡ªå‹•ç™»å…¥ Hotmail
+autoidle è‡ªå‹•ç™¼å‘†
 autoip Automatic IP
-automessage ¦Û°Ê¦^ÂĞ°T®§
-autonoact ·í§Ú¶¢¸m®É,±N§Úªºª¬ºAÅã¥Ü¬°¡uµo§b¡v
-avaccepted µø°T³q°T³Q±µ¨ü
-avcanceled µø°T³q°T³Q©Úµ´
-avgotinvitation ±µ¦¬±q$1©Òµo¥Xªºµø°TÁÜ½Ğ
-avinitfailed »y­µ©Îµø°T®M¥óªì©l¥¢±Ñ. ©I¥s³Q²×¤î.
-avoidseen ·í±z¦b½u¤W®É«ÊÂê³o­Ó¤H¬İ¨ì±z©MÁpµ¸±z
-away Â÷¶}
-awaymsg1 ¨C¦¸¸ß°İ§ÚªºÂ÷¶}°T®§·í§Ú§â§Úªºª¬ºA§ó§ï¬°¡GÂ÷¶}/°¨¤W¦^¨Ó/¦£¸L
-awaymsg2 ¥Ã¤£¸ß°İ¥B¥Ã»·¨Ï¥Î¤U¦CÂ÷¶}°T®§
-baduserpass ¨Ï¥ÎªÌ¦WºÙ©Î±K½X¿ù»~
-bgcolor §ó´«aMSNªº­I´ºÃC¦â
-blankdirect ¹w¯dªÅ¥Õ¬°ª½±µ³s½u
-block «ÊÂê
-blocked ¤w«ÊÂê
-blockedyougroup ±N«ÊÂê±zªº³sµ¸¤HÅã¥Ü¦b¿W¥ßªº¸s²Õ
-blocking «ÊÂê¤¤
-blockinter1 ·í±zªºª¬ºA¬°½u¤W¨C
-blockinter2 ¬íÀË¬d¤@¦¸, §_«h¨C
-blockinter3 ¨C
-blockinter4 ¬íÀË¬d¤@¦¸
-blocklist «ÊÂê²M³æ (BL): 
-blockmessage ³o¨Ç³sµ¸¤H²{¦b¦b½u¤W¦Ó¥B±N±z«ÊÂê
-blockusers ¨C¦¸ÀË¬d¨Ï¥ÎªÌ¼Æ¥Ø
-bouncedock ¦¬¨ì°T®§®É, °{°ÊaMSNªºicon©ódock¤¤
-broughtby §@ªÌ¸s
-browse ÂsÄı
-browser ÂsÄı
-browserexample ( \$url ±N·|³Q§ó´«¬°URL). Ex: mozilla \$url 
-busy ¦£¸L
-cachedpics $1 ¼È¦s¹Ï¤ù
-cancel ¨ú®ø
-cannotdeleteprofile ¤£¯à§R°£­Ó¤H³]©wÀÉ,¦]¬°aMSN¥¿¦b¨Ï¥Î¥¦.
-cantexec ¤£¯à°õ¦æÀ³¥Îµ{¦¡: $1. ½ĞÀË¬d°¾¦n³]©w
-cantremoveothers ¤£¯à²¾°£ "¨ä¥L" ¸s²Õ
-casesensitive ¨Ï¥Î¤j¤p¼g±Ó·PÄ²µo
-cfgalarm ³]©w/¼W¥[/²¾°£³qª¾
-cfgalarmall ³]©w/¼W¥[/²¾°£¥ş°ì³qª¾
-change ÅÜ§ó
-changecustomstate ¤Á´«¨ì
-changedisplaypic ÅÜ§óÅã¥Ü¹Ï¤ù
-changefont ÅÜ§ó¦r«¬
-changeglobnick §ó§ï¥ş°ì¼ÊºÙ
-changenick §ó§ï¼ÊºÙ
-changesize ÅÜ§ó¤Ø¤o
-changestate $1 ¤Á´«ª¬ºA¦Ü $2 
-charscounter ¹ï¸Üµøµ¡¤¤¦r¼Æ
-chat ¥æ½Í
-chatack ¥¿¦b±µ¨ü²á¤Ñ±q
-chatmaxmin ·í³sµ¸¤H¶}©l¸ò§Ú²á¤Ñ§Ú§Æ±æÅÜ¦¨: 
-chatreq ÁÜ½Ğ¥æ½Í
-chatsmileys ±Ò¥Îªí±¡²Å¸¹
-chatsmileys2 Åã¥Üªí±¡²Å¸¹©ó²á¤Ñµøµ¡
-checkblocking «ùÄòÀË¬d¬O§_¦³³sµ¸¤H«ÊÂê±z
-checkemail ¦bÁpµ¸¤H¦W³æ¤¤Åã¥Ü¶l¥ó³qª¾(¦¬¥ó§X)
-checkfilman ¤w±µ¦¬ªºÀÉ®×±N·|³QÀx¦s¦b $1. ½ĞÀË¬d°¾¦n³]©w¤¤ªºÀÉ®×ºŞ²z­û³]©w
-checkingver ¥¿¦bÀË¬d·sª©¥»
-checkonfln ÀË¬dÂ÷½uªº¨Ï¥ÎªÌ¬O§_¦³¤H«ÊÂê±z
-checkver ÀË¬d·sª©¥»
-choosearq ¿ï¾Ü±zªº¨t²Î¬[ºc
-choosebasefont ¿ï¾Ü¦r«¬
-choosebgcolor ¿ï¾Ü­I´ºÃC¦â
-choosecontact ½Ğ©ó²M³æ¤¤¿ï¾Ü¤@½Ã³sµ¸¤H
-choosefontcolor :  ¿ï¾Ü¦r«¬ÃC¦â
-chooseskin ½Ğ¿ï¾Ü±z·Q¨Ï¥Îªº­±ªO
-ch_to_state ¤Á´«¨ì·sªºª¬ºA
-clear ²M°£
-clearlog ²M°£¬ö¿ı
-clearlog2 ²M°£©Ò¦³³sµ¸¤Hªº¾ú¥v¬ö¿ı
-clearlog3 ²M°£©Ò¦³°O¿ı
-clicktoadd ÂI¿ï·s¼W«ö¶s¨Ó¼W¥[·sªºµuºà
-clicktologin ½Ğ«ö³o¸Ìµn¤J
-clientcaps ¶Ç°ex-clientcaps«Ê¥]µ¹¨ä¥L«ÈªAºİ
-clientname «ÈªAºİ¦WºÙ
-close Ãö³¬
-closed ¦]¬°µo§b©Ò¥H»P $1 ªº¹ï¸Ü¤w¸g³QÃö³¬
-closingdocks Ãö³¬docksµøµ¡
-command «ü¥O
-commandstatus °õ¦æ©R¥O
-configure ³]¸m
-confirm §A½T©w­n¡H
-confirmbl ±z½T©w­n«ÊÂê¸Ó¦W¨Ï¥ÎªÌ?
-confirmdelete ±z½T©w­n§R°£ $1?
-confirmdg ±z½T©w­n§R°£³o­Ó¸s²Õ¶Ü?
-confirmdu ±z½T©w­n§R°£³o­Ó¨Ï¥ÎªÌ¶Ü?
-confirmeg ±z½T©w­n²MªÅ³o­Ó¸s²Õ¶Ü?
-confirmpurge ©Ò¦³³sµ¸¤Hªº¹Ï¤ù±N·|³Q§R°£¡H §A½T©w¶Ü¡H
-confirmrfl ±z½T©w­n±q¥»¸s²Õ¤¤§R°£³o¦WÁpµ¸¤H¶Ü?
-connected ±z²{¦b¤w¸g³s±µ¦¨¥\
-connectedwith »P$1¤w¸g³s½u
-connecterror ³sµ²¨ì¦øªA¾¹®Éµo¥Í¿ù»~
-connecting ³s½u¤¤
-connection ³s½u
-connectionlost Â_½u: »P¦øªA¾¹Ãö³¬³s½u
-contact ³sµ¸¤H
-contactadded ³sµ¸¤H³Q¥[¤J
-contactdoesnotexist ³sµ¸¤H¤£¦s¦b!
-contactlist ³sµ¸¤H²M³æ (FL):
-continuously ­«ÂĞ¦a
-conversationwith $1¦ì¨Ï¥ÎªÌ¦b¹ï¸Ü¤¤
-convertexplain ImageMagickªºCONVERT¸ô®|¡]¥Î¨ÓÅã¥Ü¹Ï¤ù¥Î¡^.\n¦pªG¤w¸g¦s¦b©ópath¤¤½Ğ«O«ùªÅ¥Õ.
-copy ½Æ»s
-copytogroup ½Æ»s¨ì¸s²Õ
-corruptconfig ³]©wÀÉ¤w¥¢®Ä.«Ø¥ß¤@­Ó·sªº.ÂÂªºÀÉ®×±N·|³QÀx¦s©ó$1.½Ğ±N¥L±Hµ¹§Ú­ÌÅı§Ú­ÌÀË¬d¿ù»~­ì¦].
-corruptstates ­Ó¤Hª¬ºA³]©wÀÉ¤w¥¢®Ä.«Ø¥ß¤@­Ó·sªº.ÂÂªºÀÉ®×±N·|³QÀx¦s©ó$1.½Ğ±N¥L±Hµ¹§Ú­ÌÅı§Ú­ÌÀË¬d¿ù»~­ì¦].
-countrycode §Úªº°ê®a/¦a°Ï½X 
-cprofile «Ø¥ß­Ó¤H³]©wÀÉ
-created «Ø¥ß
-credits »s§@¤H­û
-currentdate ²{¦b¤é´Á
-currentlanguage ³o¬O±z²{¦b©Ò¨Ï¥Îªº»y¨tÀÉ
-currentnotes ²{¦bªºµuºà
-custnotifymsg ±µ¦¬¨ì·sªºÁpµ¸¤H°T®§®ÉÅã¥Ü³qª¾µøµ¡
-custnotifyoffline Ápµ¸¤HÂ÷½u®ÉÅã¥Ü³qª¾µøµ¡
-custnotifyonline Ápµ¸¤H¤W½u®ÉÅã¥Ü³qª¾µøµ¡
-custnotifystatus ·í³o¦WÁpµ¸¤H§ó´«ª¬ºA®ÉÅã¥Ü³qª¾µøµ¡
-customcolor ¦Û­qÃC¦â
-custom_edit ½s¿è­Ó¤Hªí±¡²Å¸¹
-custom_new ·s¼W­Ó¤Hªí±¡²Å¸¹
-customnick ¦Û­q¼ÊºÙ
-customstyle ¦Û­q­·®æ
-cut °Å¤U
-date ¤é´Á
-dateformat §ó§ï¤é´Á®æ¦¡
-day ¤é
-days ¤Ñ
-dcprofile ¤£­n«Ø¥ß­Ó¤H³]©wÀÉ
-default ¹w³]­È
-defaultloginradio ¨Ï¥Î¹w³]­Èµn¤J
-defchatwinsize ¹w³]ªº²á¤Ñµøµ¡¤j¤p (XSIZExYSIZE) 
-delete §R°£
-deletecustomstate §R°£­Ó¤Hª¬ºA
+automessage è‡ªå‹•å›è¦†è¨Šæ¯
+autonoact ç•¶æˆ‘é–’ç½®æ™‚,å°‡æˆ‘çš„ç‹€æ…‹é¡¯ç¤ºç‚ºã€Œç™¼å‘†ã€
+avaccepted è¦–è¨Šé€šè¨Šè¢«æ¥å—
+avcanceled è¦–è¨Šé€šè¨Šè¢«æ‹’çµ•
+avgotinvitation æ¥æ”¶å¾$1æ‰€ç™¼å‡ºçš„è¦–è¨Šé‚€è«‹
+avinitfailed èªéŸ³æˆ–è¦–è¨Šå¥—ä»¶åˆå§‹å¤±æ•—. å‘¼å«è¢«çµ‚æ­¢.
+avoidseen ç•¶æ‚¨åœ¨ç·šä¸Šæ™‚å°é–é€™å€‹äººçœ‹åˆ°æ‚¨å’Œè¯çµ¡æ‚¨
+away é›¢é–‹
+awaymsg1 æ¯æ¬¡è©¢å•æˆ‘çš„é›¢é–‹è¨Šæ¯ç•¶æˆ‘æŠŠæˆ‘çš„ç‹€æ…‹æ›´æ”¹ç‚ºï¼šé›¢é–‹/é¦¬ä¸Šå›ä¾†/å¿™ç¢Œ
+awaymsg2 æ°¸ä¸è©¢å•ä¸”æ°¸é ä½¿ç”¨ä¸‹åˆ—é›¢é–‹è¨Šæ¯
+baduserpass ä½¿ç”¨è€…åç¨±æˆ–å¯†ç¢¼éŒ¯èª¤
+bgcolor æ›´æ›aMSNçš„èƒŒæ™¯é¡è‰²
+blankdirect é ç•™ç©ºç™½ç‚ºç›´æ¥é€£ç·š
+block å°é–
+blocked å·²å°é–
+blockedyougroup å°‡å°é–æ‚¨çš„é€£çµ¡äººé¡¯ç¤ºåœ¨ç¨ç«‹çš„ç¾¤çµ„
+blocking å°é–ä¸­
+blockinter1 ç•¶æ‚¨çš„ç‹€æ…‹ç‚ºç·šä¸Šæ¯
+blockinter2 ç§’æª¢æŸ¥ä¸€æ¬¡, å¦å‰‡æ¯
+blockinter3 æ¯
+blockinter4 ç§’æª¢æŸ¥ä¸€æ¬¡
+blocklist å°é–æ¸…å–® (BL): 
+blockmessage é€™äº›é€£çµ¡äººç¾åœ¨åœ¨ç·šä¸Šè€Œä¸”å°‡æ‚¨å°é–
+blockusers æ¯æ¬¡æª¢æŸ¥ä½¿ç”¨è€…æ•¸ç›®
+bouncedock æ”¶åˆ°è¨Šæ¯æ™‚, é–ƒå‹•aMSNçš„iconæ–¼dockä¸­
+broughtby ä½œè€…ç¾¤
+browse ç€è¦½
+browser ç€è¦½
+browserexample ( \$url å°‡æœƒè¢«æ›´æ›ç‚ºURL). Ex: mozilla \$url 
+busy å¿™ç¢Œ
+cachedpics $1 æš«å­˜åœ–ç‰‡
+cancel å–æ¶ˆ
+cannotdeleteprofile ä¸èƒ½åˆªé™¤å€‹äººè¨­å®šæª”,å› ç‚ºaMSNæ­£åœ¨ä½¿ç”¨å®ƒ.
+cantexec ä¸èƒ½åŸ·è¡Œæ‡‰ç”¨ç¨‹å¼: $1. è«‹æª¢æŸ¥åå¥½è¨­å®š
+cantremoveothers ä¸èƒ½ç§»é™¤ "å…¶ä»–" ç¾¤çµ„
+casesensitive ä½¿ç”¨å¤§å°å¯«æ•æ„Ÿè§¸ç™¼
+cfgalarm è¨­å®š/å¢åŠ /ç§»é™¤é€šçŸ¥
+cfgalarmall è¨­å®š/å¢åŠ /ç§»é™¤å…¨åŸŸé€šçŸ¥
+change è®Šæ›´
+changecustomstate åˆ‡æ›åˆ°
+changedisplaypic è®Šæ›´é¡¯ç¤ºåœ–ç‰‡
+changefont è®Šæ›´å­—å‹
+changeglobnick æ›´æ”¹å…¨åŸŸæš±ç¨±
+changenick æ›´æ”¹æš±ç¨±
+changesize è®Šæ›´å°ºå¯¸
+changestate $1 åˆ‡æ›ç‹€æ…‹è‡³ $2 
+charscounter å°è©±è¦–çª—ä¸­å­—æ•¸
+chat äº¤è«‡
+chatack æ­£åœ¨æ¥å—èŠå¤©å¾
+chatmaxmin ç•¶é€£çµ¡äººé–‹å§‹è·Ÿæˆ‘èŠå¤©æˆ‘å¸Œæœ›è®Šæˆ: 
+chatreq é‚€è«‹äº¤è«‡
+chatsmileys å•Ÿç”¨è¡¨æƒ…ç¬¦è™Ÿ
+chatsmileys2 é¡¯ç¤ºè¡¨æƒ…ç¬¦è™Ÿæ–¼èŠå¤©è¦–çª—
+checkblocking æŒçºŒæª¢æŸ¥æ˜¯å¦æœ‰é€£çµ¡äººå°é–æ‚¨
+checkemail åœ¨è¯çµ¡äººåå–®ä¸­é¡¯ç¤ºéƒµä»¶é€šçŸ¥(æ”¶ä»¶åŒ£)
+checkfilman å·²æ¥æ”¶çš„æª”æ¡ˆå°‡æœƒè¢«å„²å­˜åœ¨ $1. è«‹æª¢æŸ¥åå¥½è¨­å®šä¸­çš„æª”æ¡ˆç®¡ç†å“¡è¨­å®š
+checkingver æ­£åœ¨æª¢æŸ¥æ–°ç‰ˆæœ¬
+checkonfln æª¢æŸ¥é›¢ç·šçš„ä½¿ç”¨è€…æ˜¯å¦æœ‰äººå°é–æ‚¨
+checkver æª¢æŸ¥æ–°ç‰ˆæœ¬
+choosearq é¸æ“‡æ‚¨çš„ç³»çµ±æ¶æ§‹
+choosebasefont é¸æ“‡å­—å‹
+choosebgcolor é¸æ“‡èƒŒæ™¯é¡è‰²
+choosecontact è«‹æ–¼æ¸…å–®ä¸­é¸æ“‡ä¸€è¡›é€£çµ¡äºº
+choosefontcolor :  é¸æ“‡å­—å‹é¡è‰²
+chooseskin è«‹é¸æ“‡æ‚¨æƒ³ä½¿ç”¨çš„é¢æ¿
+ch_to_state åˆ‡æ›åˆ°æ–°çš„ç‹€æ…‹
+clear æ¸…é™¤
+clearlog æ¸…é™¤ç´€éŒ„
+clearlog2 æ¸…é™¤æ‰€æœ‰é€£çµ¡äººçš„æ­·å²ç´€éŒ„
+clearlog3 æ¸…é™¤æ‰€æœ‰è¨˜éŒ„
+clicktoadd é»é¸æ–°å¢æŒ‰éˆ•ä¾†å¢åŠ æ–°çš„çŸ­ç®‹
+clicktologin è«‹æŒ‰é€™è£¡ç™»å…¥
+clientcaps å‚³é€x-clientcapså°åŒ…çµ¦å…¶ä»–å®¢æœç«¯
+clientname å®¢æœç«¯åç¨±
+close é—œé–‰
+closed å› ç‚ºç™¼å‘†æ‰€ä»¥èˆ‡ $1 çš„å°è©±å·²ç¶“è¢«é—œé–‰
+closingdocks é—œé–‰docksè¦–çª—
+command æŒ‡ä»¤
+commandstatus åŸ·è¡Œå‘½ä»¤
+configure è¨­ç½®
+confirm ä½ ç¢ºå®šè¦ï¼Ÿ
+confirmbl æ‚¨ç¢ºå®šè¦å°é–è©²åä½¿ç”¨è€…?
+confirmdelete æ‚¨ç¢ºå®šè¦åˆªé™¤ $1?
+confirmdg æ‚¨ç¢ºå®šè¦åˆªé™¤é€™å€‹ç¾¤çµ„å—?
+confirmdu æ‚¨ç¢ºå®šè¦åˆªé™¤é€™å€‹ä½¿ç”¨è€…å—?
+confirmeg æ‚¨ç¢ºå®šè¦æ¸…ç©ºé€™å€‹ç¾¤çµ„å—?
+confirmpurge æ‰€æœ‰é€£çµ¡äººçš„åœ–ç‰‡å°‡æœƒè¢«åˆªé™¤ï¼Ÿ ä½ ç¢ºå®šå—ï¼Ÿ
+confirmrfl æ‚¨ç¢ºå®šè¦å¾æœ¬ç¾¤çµ„ä¸­åˆªé™¤é€™åè¯çµ¡äººå—?
+connected æ‚¨ç¾åœ¨å·²ç¶“é€£æ¥æˆåŠŸ
+connectedwith èˆ‡$1å·²ç¶“é€£ç·š
+connecterror é€£çµåˆ°ä¼ºæœå™¨æ™‚ç™¼ç”ŸéŒ¯èª¤
+connecting é€£ç·šä¸­
+connection é€£ç·š
+connectionlost æ–·ç·š: èˆ‡ä¼ºæœå™¨é—œé–‰é€£ç·š
+contact é€£çµ¡äºº
+contactadded é€£çµ¡äººè¢«åŠ å…¥
+contactdoesnotexist é€£çµ¡äººä¸å­˜åœ¨!
+contactlist é€£çµ¡äººæ¸…å–® (FL):
+continuously é‡è¦†åœ°
+conversationwith $1ä½ä½¿ç”¨è€…åœ¨å°è©±ä¸­
+convertexplain ImageMagickçš„CONVERTè·¯å¾‘ï¼ˆç”¨ä¾†é¡¯ç¤ºåœ–ç‰‡ç”¨ï¼‰.\nå¦‚æœå·²ç¶“å­˜åœ¨æ–¼pathä¸­è«‹ä¿æŒç©ºç™½.
+copy è¤‡è£½
+copytogroup è¤‡è£½åˆ°ç¾¤çµ„
+corruptconfig è¨­å®šæª”å·²å¤±æ•ˆ.å»ºç«‹ä¸€å€‹æ–°çš„.èˆŠçš„æª”æ¡ˆå°‡æœƒè¢«å„²å­˜æ–¼$1.è«‹å°‡ä»–å¯„çµ¦æˆ‘å€‘è®“æˆ‘å€‘æª¢æŸ¥éŒ¯èª¤åŸå› .
+corruptstates å€‹äººç‹€æ…‹è¨­å®šæª”å·²å¤±æ•ˆ.å»ºç«‹ä¸€å€‹æ–°çš„.èˆŠçš„æª”æ¡ˆå°‡æœƒè¢«å„²å­˜æ–¼$1.è«‹å°‡ä»–å¯„çµ¦æˆ‘å€‘è®“æˆ‘å€‘æª¢æŸ¥éŒ¯èª¤åŸå› .
+countrycode æˆ‘çš„åœ‹å®¶/åœ°å€ç¢¼ 
+cprofile å»ºç«‹å€‹äººè¨­å®šæª”
+created å»ºç«‹
+credits è£½ä½œäººå“¡
+currentdate ç¾åœ¨æ—¥æœŸ
+currentlanguage é€™æ˜¯æ‚¨ç¾åœ¨æ‰€ä½¿ç”¨çš„èªç³»æª”
+currentnotes ç¾åœ¨çš„çŸ­ç®‹
+custnotifymsg æ¥æ”¶åˆ°æ–°çš„è¯çµ¡äººè¨Šæ¯æ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+custnotifyoffline è¯çµ¡äººé›¢ç·šæ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+custnotifyonline è¯çµ¡äººä¸Šç·šæ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+custnotifystatus ç•¶é€™åè¯çµ¡äººæ›´æ›ç‹€æ…‹æ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+customcolor è‡ªè¨‚é¡è‰²
+custom_edit ç·¨è¼¯å€‹äººè¡¨æƒ…ç¬¦è™Ÿ
+custom_new æ–°å¢å€‹äººè¡¨æƒ…ç¬¦è™Ÿ
+customnick è‡ªè¨‚æš±ç¨±
+customstyle è‡ªè¨‚é¢¨æ ¼
+cut å‰ªä¸‹
+date æ—¥æœŸ
+dateformat æ›´æ”¹æ—¥æœŸæ ¼å¼
+day æ—¥
+days å¤©
+dcprofile ä¸è¦å»ºç«‹å€‹äººè¨­å®šæª”
+default é è¨­å€¼
+defaultloginradio ä½¿ç”¨é è¨­å€¼ç™»å…¥
+defchatwinsize é è¨­çš„èŠå¤©è¦–çª—å¤§å° (XSIZExYSIZE) 
+delete åˆªé™¤
+deletecustomstate åˆªé™¤å€‹äººç‹€æ…‹
 delimiters Timestamps' delimiters: 
-deliverfail ¶Ç»¼¤U¦C°T®§®Éµo¥Í¿ù»~
-delprofile §R°£­Ó¤H³]©wÀÉ
-delprofile2 ½Ğ¿ï¾Ü±z­n§R°£ªº­Ó¤H³]©wÀÉ
-description ´y­z
-directconnection §Úªº¹q¸£ª½±µ³s½u¨ìInternet (¨Ï¥Î port 1863)
-disabled Ãö³¬
-disableprofiles Ãö³¬­Ó¤H³]©wÀÉ (¦bºô©@©Î¬O¤½¥Î¹q¸£¯S§O¦³¥Î) 
-disablessl Ãö³¬SSL³s½u
-disableuserfonts ¥æ½Í®É¤£¨Ï¥Î¹ï¤èªº¦r«¬,¨Ï¥Î¦Û¤v³]©wªº¦rÅé
-disconnect $1 ¤w¸gÂ_½u.
-disconnectedfrom »P$1²×¤î³s½u
-displaychat Åã¥Ü¤å¦r¿ï¶µ
-displayeventconnect Ápµ¸¤H¤W½u®ÉÅã¥Ü
-displayeventdisconnect Ápµ¸¤H¤U½u®ÉÅã¥Ü
-displayeventemail ±µ¦¬¨ì«H¥ó®ÉÅã¥Ü
-displayeventstate Ápµ¸¤H§ïÅÜª¬ºA®ÉÅã¥Ü
-displayp4context Åã¥ÜP4-ContextÄæ¦ì¤º®e¬°°T®§µo°eªÌ
-displaypic Åã¥Ü¹Ï¤ù
+deliverfail å‚³éä¸‹åˆ—è¨Šæ¯æ™‚ç™¼ç”ŸéŒ¯èª¤
+delprofile åˆªé™¤å€‹äººè¨­å®šæª”
+delprofile2 è«‹é¸æ“‡æ‚¨è¦åˆªé™¤çš„å€‹äººè¨­å®šæª”
+description æè¿°
+directconnection æˆ‘çš„é›»è…¦ç›´æ¥é€£ç·šåˆ°Internet (ä½¿ç”¨ port 1863)
+disabled é—œé–‰
+disableprofiles é—œé–‰å€‹äººè¨­å®šæª” (åœ¨ç¶²å’–æˆ–æ˜¯å…¬ç”¨é›»è…¦ç‰¹åˆ¥æœ‰ç”¨) 
+disablessl é—œé–‰SSLé€£ç·š
+disableuserfonts äº¤è«‡æ™‚ä¸ä½¿ç”¨å°æ–¹çš„å­—å‹,ä½¿ç”¨è‡ªå·±è¨­å®šçš„å­—é«”
+disconnect $1 å·²ç¶“æ–·ç·š.
+disconnectedfrom èˆ‡$1çµ‚æ­¢é€£ç·š
+displaychat é¡¯ç¤ºæ–‡å­—é¸é …
+displayeventconnect è¯çµ¡äººä¸Šç·šæ™‚é¡¯ç¤º
+displayeventdisconnect è¯çµ¡äººä¸‹ç·šæ™‚é¡¯ç¤º
+displayeventemail æ¥æ”¶åˆ°ä¿¡ä»¶æ™‚é¡¯ç¤º
+displayeventstate è¯çµ¡äººæ”¹è®Šç‹€æ…‹æ™‚é¡¯ç¤º
+displayp4context é¡¯ç¤ºP4-Contextæ¬„ä½å…§å®¹ç‚ºè¨Šæ¯ç™¼é€è€…
+displaypic é¡¯ç¤ºåœ–ç‰‡
 dockfreedesktop FreeDesktop (KDE3/Gnome2) 
 dockgtk Gnome Dock 
 docking Docking 
 dockingoff Docking Off 
 dockkde KDE Dock 
-dontdownload ¤£­n¤U¸ü TLS, §Ú­n¦Û¤v¦w¸Ë
-dontshow ¤£­nÅã¥Ü
-download ¤U¸ü
-downloadingtls ¤U¸ü TLS ¼Ò²Õ©ó:\n $1 
-edit ½s¿è
-editcustomstate ½s¿è­Ó¤Hª¬ºA
-editnewstate ·sªº­Ó¤H¦Û°Ê°T®§ª¬ºA
-editprofile ½s¿è­Ó¤H³]©wÀÉ
-editstate ½s¿è¤w¸g¦³ªº¦Û°Ê°T®§ª¬ºA
-editvalue ³]©w­È
-email ¹q¤l¶l¥ó«H½c
-emailsinlist ¦b³sµ¸¤H²M³æ¤¤Åã¥Üemail¦Ó¤£Åã¥Ü¼ÊºÙ
-emotisounds ©ó¯S©wªí±¡²Å¸¹¼½©ñ­µ®Ä
-emptygroup ªÅ¥Õ¸s²Õ
-enabled ¶}±Ò
-enableproxy ±Ò°Ê proxy
-enableremote ¶}±Ò»·ºİ»»±±
-enablesound ¼½©ñÁn­µ
-encoding ½s½X
-encoding2 §ó§ï¦r¤¸½s½X¤è¦¡
-entercontactemail ¿é¤J³sµ¸¤Hªº e-mail
-enterfilename ½Ğ¿é¤J¤@­ÓÀÉ®×¦WºÙ
-enternick ¿é¤J±zªº°Î¦W
-errortls ¦w¸ËTLS ¼Ò²Õ¿ù»~: 
-eventhistory ¨Æ¥ó¾ú¥v¬ö¿ı
-examples ½d¨Ò
-exitamsn ±z½T©w­nÃö³¬?
-extras ¼W¯q¶°
-failed ¥¢±Ñ
-faileddelete §R°£¥¢±Ñ
-faileddeleteperso ¦¹¹Ï¤ù¤£¯à³Q§R°£¦]¬°¥¦¤£¬O­Ó¤Hªº¹Ï¤ùÀÉ. ¥u¦³Äİ©ó±z­Ó¤H³]©wÀÉªº¹Ï¤ù¤~¯à³o¼Ëªº§R°£¥¦.
-faq FAQ (±`¨£°İµª¶°) 
-file ÀÉ®×
-filedoesnotexist ÀÉ®×¤£¦s¦b
-fileman ÀÉ®×ºŞ²z­û
-filemanexample ( \$location ±N·|¨ú¥N¬°¥Ø¿ı ) Ex: nautilus \$location
-filename ÀÉ®×¦WºÙ
-filenotwritable ³o­ÓÀÉ®×µLªk³Q§R°£
-filetransfer ÀÉ®×¶Ç°e
-filetransfercancelled ÀÉ®×¶Ç°e¤w¨ú®ø
-filetransfercomplete ÀÉ®×¶Ç°e§¹²¦
-filters ¹LÂo¾¹
-filtersselect ¿ï¾Ü±z·Q­n¬İ¨£ªº¹LÂo¾¹\n(¦pªG¨S¦³¥ô¦ó¿ï¾Ü«hªí¥ÜÅã¥Ü¥ş³¡)
-filtersx ¹LÂo¾¹¿ï¾Ü
-followtext ©¹¤U±²,·í·sªº¤å¦r³Q¿é¤J
-friendlyname ¤Íµ½ºÙ©I
-ftaccepted ÀÉ®×¶Ç°e³Q±µ¦¬
-ftacceptedby $1 ±µ¨ü¤FÀÉ®×'$2'ªºÀÉ®×¶Ç°eÁÜ½Ğ.
-ftaccepting ¥¿¦b±µ¦¬ÀÉ®×¶Ç°eÁÜ½Ğ
-ftautoclose ·íÀÉ®×¶Ç°e§¹²¦®ÉÃö³¬µøµ¡
-ftconnecterror ³s½u¨ì»·ºİ¸`ÂIµo¥Í¿ù»~
-ftconnecting ³s½u¨ì $1 port $2 
-ftconnectionlost »P»·ºİ¸`ÂI³s½u¿ò¥¢
-ftgotinvitation $1 ·Q­n¶Ç°e '$2' µ¹±z($3 bytes). ¥¦±N·|³QÀx¦s¨ì $4. ±z·Q­n±µ¦¬³o­ÓÀÉ®×¶Ü?
-ftportpref ¶}±ÒÀÉ®×¶Ç°e©Ò»İ­nªº³s±µ°ğ
-ftrejected ÀÉ®×¶Ç°e³Q©Úµ´
-ftrejectedby $1 ©Úµ´¤F '$2' ÀÉ®×ªºÀÉ®×¶Ç°e­n¨D. 
-ftsendinvitation ÀÉ®×'$2' ($3 bytes) ªºÀÉ®×¶Ç°eÁÜ½Ğ¤w¸g°e¨ì $1. 
-fullcontactlist ¹ï¤£°_, ±zªº³sµ¸¤H²M³æ¤w¸gº¡¤F. ±z¥²¶·²¾°£¤@¨Ç³sµ¸¤H¤~¯à¼W¥[·sªº³sµ¸¤H. 
-getdisppic ¶}±Ò±µ¦¬¨ä¥L¨Ï¥ÎªÌªºÅã¥Ü¹Ï¤ù
-globalcontainer ¥ş°ì®e¾¹
-globalnick ½Ğ¿é¤J¼ËªO¨Ó¾ã²z±zÁpµ¸¤Hªº¼ÊºÙ, ±z¥i¥H¨Ï¥Î¤U¦C°Ñ¼Æ: \$user_login Ápµ¸¤H¦ì¸m, \$nick Ápµ¸¤H¼ÊºÙ¥H¤Î\$customnick ±z¦Û­qªºÁpµ¸¤H¼ÊºÙ. ¨Ò¦p: \$user_login is \$nick' ¥Nªí 'contact@msn.com is Contact'
-globalnicktitle ¥ş°ì¼ÊºÙ
-globaloverride ¥ş°ì¼ÊºÙ¼ËªOÀ³¸ÓÂĞ»\¦Û­q¼ÊºÙ
-gonelunch ¥~¥X¥ÎÀ\
-group ¸s²Õ
-groupadd ·s¼W¸s²Õ
-groupdelete §R°£¸s²Õ
-groupexists ¸s²Õ¤w¸g¦s¦b
-groupmissing ¤£¯à§ä¨ì¸s²Õ
-groupnewname ·s¦WºÙ
-groupnotempty ¸s²Õ¤£¬OªÅ¥Õ!
-groupoldname ÂÂ¦WºÙ
-grouprename ­«·s©R¦W¸s²Õ
-groups ¸s²Õ
-groupunknown ¥¼ª¾¸s²Õ
-handle Åã¥Ü¦WºÙ
-help »¡©ú
-helpcontents »¡©ú¥DÃD
-hidedisplaypic ÁôÂÃÅã¥Ü¹Ï¤ù
-hiden Hide the ªí±¡²Å¸¹¥Ø¿ı
-hidewindow ÁôÂÃµøµ¡
-history ÀËµø¾ú¥v¬ö¿ı
-home ¦í®a
-httpconnection ¨Ï¥ÎHTTPªº¤è¦¡³s±µ (¨Ï¥Î HTTP ³q°T¨ó©w ³s±µ°ğ:80) 
-hybrid ²V¦X¼Ò¦¡
-ident ¥¿¦b½T»{
-identity ¨­¥÷
-ignoreerrors ²¤¹L©Ò¦³¨ä¥LªºAMSN¿ù»~ª½¨ìsessionµ²§ô
-imagefiles ¹Ï¤ùÀÉ
-inbox ¦¬¥ó§X
-insertsmiley ´¡¤Jªí±¡²Å¸¹
-inserttextnote ¼W¥[¤å¦r©ó¥D¦®Äæ¥H¤ÎµuºàÄæ, ¤§«áÂI¿ïÀx¦s
-installconvert ±z¥²¶·¦w¸Ë ImageMagick (convert program) ¤~¯à°÷¨Ï¥Î Buddy ¹Ï¥Ü ¥H¤Î­Ó¤Hªºªí±¡²Å¸¹. ±z¥i¥H±q ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ ¤U¸ü¾A¦X±z§@·~¨t²ÎªºBinaryÀÉ. ¦pªG±z¤w¸g¦w¸Ë, ¨º³oÀ³¸Ó¬O­Óbug, ½Ğ¦^³øµ¹§Ú­Ì. ³o­Ó¥\¯à²{¦b±N·|³QÃö³¬, µ¥±z¦w¸Ë¦nImageMagick«á½Ğ¨ì°¾¦n³]©w¤¤°µ³]©w.
-internalerror ¤º³¡¦øªA¾¹µo¥Í¿ù»~
-invalidfile ©óÄæ¦ì "$1" ¤¤¿é¤JªºÀÉ®× $2 ¨Ã¤£¦s¦b©Î¬O¥¦¤£¥i³QÅª¨ú
-invalidfile2 ¥Ø¼ĞµLªk²£¥Í $1 ªºÀÉ¦W¡C½Ğ½T©w±zªºÅv­­¡C
-invalidgroup µL®Äªº¸s²Õ
-invalidpic «ü©wªº¹Ï¤ùÀÉ®×¤£¦s¦b
-invalidpicsize «ü©wªº¹Ï¤ù¤Ó¤j¡A½Ğ¿ï¾Ü¸û¤pªº¹Ï¤ù
-invalidsound «ü©wªº­µ®ÄÀÉ®×¤£¦s¦b
-invalidusername ¨Ï¥ÎªÌ¦WºÙµL®Ä
-invitationcancelled ÁÜ½Ğ¤w¸g³Q¨ú®ø
-invite ÁÜ½Ğ
-ipaddress IP ¦ì§}
-ipdetect ¨Ï¥ÎHTTP°»´úÀÉ®×¶Ç°e®Éªº¥¿½Tip
-ircstyle IRC²á¤Ñ­·®æ
-istyping $1 ¥¿¦b¿é¤J°T®§
-joins $1 ¥[¤J¥æ½Í
-justonce ¶È¦¹¤@¦¸
-keepalive «O«ù³s½u (NAT) 
-keeplog ¬ö¿ı©Ò¦³²á¤Ñ¬ö¿ı
-keeplog2 ±N©Ò¦³ªº¹ï¸Ü¬ö¿ı¨ìaMSNªºªº¾ú¥v¬ö¿ı¥H«K¥H«áÀËµø
-language »y¨¥
-language_manager »y¨tÀÉºŞ²z­û
-lastlogin ³Ìªñ¤@¦¸µn¤J
-lastlogout ³Ìªñ¤@¦¸µn¥X
-lastmsgedme ³Ìªñ¤@¦¸°T®§
-lastmsgtime ³Ì«á°T®§®É¶¡ $1
-lastseen ¤W¦¸¤W½u®É¶¡
-lclosedwin $1 ¤w¸g©ó $2 Ãö³¬µøµ¡
-lconftopriv ¤½¶}·|Ä³¤w¸g¥Ñ$1§ó§ï¬°¨p¤Hªº²á¤Ñ
-lconvstarted ¹ï¸Ü¶}©l©ó $1 
-leaveblankforhotmail ¹w¯dªÅ¥Õ¬°Hotmailºô¸ô¶l¥óµ{¦¡
-leavejoinsinchat ¦b¹ï¸Üµøµ¡¤ºÅã¥Ü "Â÷¶}/¥[¤J¹ï¸Ü" ªº´£¥Ü°T®§
-leaves $1 Â÷¶}²á¤Ñ
-lenteredconf $1¤w¸g¶i¤J·|Ä³ $2
-lineflushlog ¨C¦¸¿é¤J«á´N±N¸Ó¦æ¼g¤J¬ö¿ıÀÉ
-linprivate ¨p©³¤U
+dontdownload ä¸è¦ä¸‹è¼‰ TLS, æˆ‘è¦è‡ªå·±å®‰è£
+dontshow ä¸è¦é¡¯ç¤º
+download ä¸‹è¼‰
+downloadingtls ä¸‹è¼‰ TLS æ¨¡çµ„æ–¼:\n $1 
+edit ç·¨è¼¯
+editcustomstate ç·¨è¼¯å€‹äººç‹€æ…‹
+editnewstate æ–°çš„å€‹äººè‡ªå‹•è¨Šæ¯ç‹€æ…‹
+editprofile ç·¨è¼¯å€‹äººè¨­å®šæª”
+editstate ç·¨è¼¯å·²ç¶“æœ‰çš„è‡ªå‹•è¨Šæ¯ç‹€æ…‹
+editvalue è¨­å®šå€¼
+email é›»å­éƒµä»¶ä¿¡ç®±
+emailsinlist åœ¨é€£çµ¡äººæ¸…å–®ä¸­é¡¯ç¤ºemailè€Œä¸é¡¯ç¤ºæš±ç¨±
+emotisounds æ–¼ç‰¹å®šè¡¨æƒ…ç¬¦è™Ÿæ’­æ”¾éŸ³æ•ˆ
+emptygroup ç©ºç™½ç¾¤çµ„
+enabled é–‹å•Ÿ
+enableproxy å•Ÿå‹• proxy
+enableremote é–‹å•Ÿé ç«¯é™æ§
+enablesound æ’­æ”¾è²éŸ³
+encoding ç·¨ç¢¼
+encoding2 æ›´æ”¹å­—å…ƒç·¨ç¢¼æ–¹å¼
+entercontactemail è¼¸å…¥é€£çµ¡äººçš„ e-mail
+enterfilename è«‹è¼¸å…¥ä¸€å€‹æª”æ¡ˆåç¨±
+enternick è¼¸å…¥æ‚¨çš„åŒ¿å
+errortls å®‰è£TLS æ¨¡çµ„éŒ¯èª¤: 
+eventhistory äº‹ä»¶æ­·å²ç´€éŒ„
+examples ç¯„ä¾‹
+exitamsn æ‚¨ç¢ºå®šè¦é—œé–‰?
+extras å¢ç›Šé›†
+failed å¤±æ•—
+faileddelete åˆªé™¤å¤±æ•—
+faileddeleteperso æ­¤åœ–ç‰‡ä¸èƒ½è¢«åˆªé™¤å› ç‚ºå®ƒä¸æ˜¯å€‹äººçš„åœ–ç‰‡æª”. åªæœ‰å±¬æ–¼æ‚¨å€‹äººè¨­å®šæª”çš„åœ–ç‰‡æ‰èƒ½é€™æ¨£çš„åˆªé™¤å®ƒ.
+faq FAQ (å¸¸è¦‹å•ç­”é›†) 
+file æª”æ¡ˆ
+filedoesnotexist æª”æ¡ˆä¸å­˜åœ¨
+fileman æª”æ¡ˆç®¡ç†å“¡
+filemanexample ( \$location å°‡æœƒå–ä»£ç‚ºç›®éŒ„ ) Ex: nautilus \$location
+filename æª”æ¡ˆåç¨±
+filenotwritable é€™å€‹æª”æ¡ˆç„¡æ³•è¢«åˆªé™¤
+filetransfer æª”æ¡ˆå‚³é€
+filetransfercancelled æª”æ¡ˆå‚³é€å·²å–æ¶ˆ
+filetransfercomplete æª”æ¡ˆå‚³é€å®Œç•¢
+filters éæ¿¾å™¨
+filtersselect é¸æ“‡æ‚¨æƒ³è¦çœ‹è¦‹çš„éæ¿¾å™¨\n(å¦‚æœæ²’æœ‰ä»»ä½•é¸æ“‡å‰‡è¡¨ç¤ºé¡¯ç¤ºå…¨éƒ¨)
+filtersx éæ¿¾å™¨é¸æ“‡
+followtext å¾€ä¸‹æ²,ç•¶æ–°çš„æ–‡å­—è¢«è¼¸å…¥
+friendlyname å‹å–„ç¨±å‘¼
+ftaccepted æª”æ¡ˆå‚³é€è¢«æ¥æ”¶
+ftacceptedby $1 æ¥å—äº†æª”æ¡ˆ'$2'çš„æª”æ¡ˆå‚³é€é‚€è«‹.
+ftaccepting æ­£åœ¨æ¥æ”¶æª”æ¡ˆå‚³é€é‚€è«‹
+ftautoclose ç•¶æª”æ¡ˆå‚³é€å®Œç•¢æ™‚é—œé–‰è¦–çª—
+ftconnecterror é€£ç·šåˆ°é ç«¯ç¯€é»ç™¼ç”ŸéŒ¯èª¤
+ftconnecting é€£ç·šåˆ° $1 port $2 
+ftconnectionlost èˆ‡é ç«¯ç¯€é»é€£ç·šéºå¤±
+ftgotinvitation $1 æƒ³è¦å‚³é€ '$2' çµ¦æ‚¨($3 bytes). å®ƒå°‡æœƒè¢«å„²å­˜åˆ° $4. æ‚¨æƒ³è¦æ¥æ”¶é€™å€‹æª”æ¡ˆå—?
+ftportpref é–‹å•Ÿæª”æ¡ˆå‚³é€æ‰€éœ€è¦çš„é€£æ¥åŸ 
+ftrejected æª”æ¡ˆå‚³é€è¢«æ‹’çµ•
+ftrejectedby $1 æ‹’çµ•äº† '$2' æª”æ¡ˆçš„æª”æ¡ˆå‚³é€è¦æ±‚. 
+ftsendinvitation æª”æ¡ˆ'$2' ($3 bytes) çš„æª”æ¡ˆå‚³é€é‚€è«‹å·²ç¶“é€åˆ° $1. 
+fullcontactlist å°ä¸èµ·, æ‚¨çš„é€£çµ¡äººæ¸…å–®å·²ç¶“æ»¿äº†. æ‚¨å¿…é ˆç§»é™¤ä¸€äº›é€£çµ¡äººæ‰èƒ½å¢åŠ æ–°çš„é€£çµ¡äºº. 
+getdisppic é–‹å•Ÿæ¥æ”¶å…¶ä»–ä½¿ç”¨è€…çš„é¡¯ç¤ºåœ–ç‰‡
+globalcontainer å…¨åŸŸå®¹å™¨
+globalnick è«‹è¼¸å…¥æ¨£æ¿ä¾†æ•´ç†æ‚¨è¯çµ¡äººçš„æš±ç¨±, æ‚¨å¯ä»¥ä½¿ç”¨ä¸‹åˆ—åƒæ•¸: \$user_login è¯çµ¡äººä½ç½®, \$nick è¯çµ¡äººæš±ç¨±ä»¥åŠ\$customnick æ‚¨è‡ªè¨‚çš„è¯çµ¡äººæš±ç¨±. ä¾‹å¦‚: \$user_login is \$nick' ä»£è¡¨ 'contact@msn.com is Contact'
+globalnicktitle å…¨åŸŸæš±ç¨±
+globaloverride å…¨åŸŸæš±ç¨±æ¨£æ¿æ‡‰è©²è¦†è“‹è‡ªè¨‚æš±ç¨±
+gonelunch å¤–å‡ºç”¨é¤
+group ç¾¤çµ„
+groupadd æ–°å¢ç¾¤çµ„
+groupdelete åˆªé™¤ç¾¤çµ„
+groupexists ç¾¤çµ„å·²ç¶“å­˜åœ¨
+groupmissing ä¸èƒ½æ‰¾åˆ°ç¾¤çµ„
+groupnewname æ–°åç¨±
+groupnotempty ç¾¤çµ„ä¸æ˜¯ç©ºç™½!
+groupoldname èˆŠåç¨±
+grouprename é‡æ–°å‘½åç¾¤çµ„
+groups ç¾¤çµ„
+groupunknown æœªçŸ¥ç¾¤çµ„
+handle é¡¯ç¤ºåç¨±
+help èªªæ˜
+helpcontents èªªæ˜ä¸»é¡Œ
+hidedisplaypic éš±è—é¡¯ç¤ºåœ–ç‰‡
+hiden Hide the è¡¨æƒ…ç¬¦è™Ÿç›®éŒ„
+hidewindow éš±è—è¦–çª—
+history æª¢è¦–æ­·å²ç´€éŒ„
+home ä½å®¶
+httpconnection ä½¿ç”¨HTTPçš„æ–¹å¼é€£æ¥ (ä½¿ç”¨ HTTP é€šè¨Šå”å®š é€£æ¥åŸ :80) 
+hybrid æ··åˆæ¨¡å¼
+ident æ­£åœ¨ç¢ºèª
+identity èº«ä»½
+ignoreerrors ç•¥éæ‰€æœ‰å…¶ä»–çš„AMSNéŒ¯èª¤ç›´åˆ°sessionçµæŸ
+imagefiles åœ–ç‰‡æª”
+inbox æ”¶ä»¶åŒ£
+insertsmiley æ’å…¥è¡¨æƒ…ç¬¦è™Ÿ
+inserttextnote å¢åŠ æ–‡å­—æ–¼ä¸»æ—¨æ¬„ä»¥åŠçŸ­ç®‹æ¬„, ä¹‹å¾Œé»é¸å„²å­˜
+installconvert æ‚¨å¿…é ˆå®‰è£ ImageMagick (convert program) æ‰èƒ½å¤ ä½¿ç”¨ Buddy åœ–ç¤º ä»¥åŠå€‹äººçš„è¡¨æƒ…ç¬¦è™Ÿ. æ‚¨å¯ä»¥å¾ ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ ä¸‹è¼‰é©åˆæ‚¨ä½œæ¥­ç³»çµ±çš„Binaryæª”. å¦‚æœæ‚¨å·²ç¶“å®‰è£, é‚£é€™æ‡‰è©²æ˜¯å€‹bug, è«‹å›å ±çµ¦æˆ‘å€‘. é€™å€‹åŠŸèƒ½ç¾åœ¨å°‡æœƒè¢«é—œé–‰, ç­‰æ‚¨å®‰è£å¥½ImageMagickå¾Œè«‹åˆ°åå¥½è¨­å®šä¸­åšè¨­å®š.
+internalerror å…§éƒ¨ä¼ºæœå™¨ç™¼ç”ŸéŒ¯èª¤
+invalidfile æ–¼æ¬„ä½ "$1" ä¸­è¼¸å…¥çš„æª”æ¡ˆ $2 ä¸¦ä¸å­˜åœ¨æˆ–æ˜¯å®ƒä¸å¯è¢«è®€å–
+invalidfile2 ç›®æ¨™ç„¡æ³•ç”¢ç”Ÿ $1 çš„æª”åã€‚è«‹ç¢ºå®šæ‚¨çš„æ¬Šé™ã€‚
+invalidgroup ç„¡æ•ˆçš„ç¾¤çµ„
+invalidpic æŒ‡å®šçš„åœ–ç‰‡æª”æ¡ˆä¸å­˜åœ¨
+invalidpicsize æŒ‡å®šçš„åœ–ç‰‡å¤ªå¤§ï¼Œè«‹é¸æ“‡è¼ƒå°çš„åœ–ç‰‡
+invalidsound æŒ‡å®šçš„éŸ³æ•ˆæª”æ¡ˆä¸å­˜åœ¨
+invalidusername ä½¿ç”¨è€…åç¨±ç„¡æ•ˆ
+invitationcancelled é‚€è«‹å·²ç¶“è¢«å–æ¶ˆ
+invite é‚€è«‹
+ipaddress IP ä½å€
+ipdetect ä½¿ç”¨HTTPåµæ¸¬æª”æ¡ˆå‚³é€æ™‚çš„æ­£ç¢ºip
+ircstyle IRCèŠå¤©é¢¨æ ¼
+istyping $1 æ­£åœ¨è¼¸å…¥è¨Šæ¯
+joins $1 åŠ å…¥äº¤è«‡
+justonce åƒ…æ­¤ä¸€æ¬¡
+keepalive ä¿æŒé€£ç·š (NAT) 
+keeplog ç´€éŒ„æ‰€æœ‰èŠå¤©ç´€éŒ„
+keeplog2 å°‡æ‰€æœ‰çš„å°è©±ç´€éŒ„åˆ°aMSNçš„çš„æ­·å²ç´€éŒ„ä»¥ä¾¿ä»¥å¾Œæª¢è¦–
+language èªè¨€
+language_manager èªç³»æª”ç®¡ç†å“¡
+lastlogin æœ€è¿‘ä¸€æ¬¡ç™»å…¥
+lastlogout æœ€è¿‘ä¸€æ¬¡ç™»å‡º
+lastmsgedme æœ€è¿‘ä¸€æ¬¡è¨Šæ¯
+lastmsgtime æœ€å¾Œè¨Šæ¯æ™‚é–“ $1
+lastseen ä¸Šæ¬¡ä¸Šç·šæ™‚é–“
+lclosedwin $1 å·²ç¶“æ–¼ $2 é—œé–‰è¦–çª—
+lconftopriv å…¬é–‹æœƒè­°å·²ç¶“ç”±$1æ›´æ”¹ç‚ºç§äººçš„èŠå¤©
+lconvstarted å°è©±é–‹å§‹æ–¼ $1 
+leaveblankforhotmail é ç•™ç©ºç™½ç‚ºHotmailç¶²è·¯éƒµä»¶ç¨‹å¼
+leavejoinsinchat åœ¨å°è©±è¦–çª—å…§é¡¯ç¤º "é›¢é–‹/åŠ å…¥å°è©±" çš„æç¤ºè¨Šæ¯
+leaves $1 é›¢é–‹èŠå¤©
+lenteredconf $1å·²ç¶“é€²å…¥æœƒè­° $2
+lineflushlog æ¯æ¬¡è¼¸å…¥å¾Œå°±å°‡è©²è¡Œå¯«å…¥ç´€éŒ„æª”
+linprivate ç§åº•ä¸‹
 listeningon Listening on port $1
-listsmileys ªí±¡²Å¸¹
-listsmileys2 Åã¥Üªí±¡²Å¸¹©óaMSNªº¥D­n³sµ¸¤H²M³æ
-ljoinedconf $1 ¤w¸g¥[¤J·|Ä³
-lleftconf $1 ¤w¸gÂ÷¶}·|Ä³
-load ¸ü¤J
-loadcontacts ¶×¤J³sµ¸¤H²M³æ
-logbigger ¨C¦ì³sµ¸¤Hªº¬ö¿ıÀÉ®×¤j¤p¨S¦³¤W­­
-logeventconnect ¬ö¿ı³s½u
-logeventdisconnect ¬ö¿ıÂ÷½u
-logeventemail ¶l¥ó±µ¦¬®É¬ö¿ı
-logeventstate ¨Ï¥ÎªÌª¬ºAÅÜ§ó®É°O¿ı
-logfandexp ¬ö¿ıÀÉ¹L¤j©Î¬O¾ú¥v¬ö¿ı¹L´Á
-loggedotherlocation Â÷½u. ¤w©ó¨ä¥L¹q¸£µn¤J
-loggingin ¥¿¦bµn¤J
-login µn¤J
-loginas ¥H¤£¦P±b¸¹µn¤J
-loging ¬ö¿ı
-logolder ¥u°O¿ı³Ìªñ¤@¦¸ªº²á¤Ñ¬ö¿ı
-logout µn¥X
-logsbydate ¨Ì¤é´Á±Æ¦C logs ¬ö¿ı (¥[³t¸ü¤J¬ö¿ıÀÉªº³t«×)
-logsin ­èµn¤J
-logsmileys Åã¥Üªí±¡²Å¸¹©óaMSNªº¾ú¥v¬ö¿ıµøµ¡
-logsout ­è¦nµn¥X
-longnick ±zªº¼ÊºÙªø«×¶W¹L130­Ó¦r¤¸²Õ. ³o¤£³Q©x¤èªºMSN³q°T¨ó©w©Ò±µ¨ü. ±z½T©w­n³]©w¶Ü? 
-longp4c ±zªº¤Íµ½ºÙ©I¤w¸g¶W¹L130­Ó¦r¤¸. ¤Íµ½ºÙ©I±N·|³QÅã¥Ü¦b¥¿¦¡ªºMSN¤¤³QÅã¥Ü¬° $1. ±z½T©w­n³]©w¶Ü?
-lprivtoconf ¨p¤Hªº²á¤Ñ¥Ñ $1 §ó§ï¬°¤½¶}ªº·|Ä³
-luclosedwin ±z¤w¸g©ó $1 Ãö³¬µøµ¡
-mailer ¶l¥óµ{¦¡
-mailerexample ( \$recipient = ¦¬¥óªÌ ) ½Ğ«O«ùªÅ¥Õ¦pªG±z¨Ï¥ÎHotmail
-maintenance ¦øªA¾¹±N·|¼È°±ªA°È$1¤ÀÄÁ¶i¦æºû­×,
-maximised ³Ì¤j¤Æ
-minimised ³Ì¤p¤Æ/¹Ï¥Ü¤Æ
-mins ¤ÀÄÁ
-mobile ¤j­ô¤j
-modified ¤w­×§ï
-month ¤ë
-morepersonal §ó¦hª¬ºA -> 
-move ·h²¾
-movetogroup ²¾¦Ü¸s²Õ
-msg °T®§
-msgflicker ·í«DµJÂIµøµ¡¦¬¨ì·sªº°T®§°{Ã{²á¤Ñµøµ¡ªº¼ĞÃD¦C. 
-msgmaxmin ·í¦¬¨ì·sªº°T®§§Ú§Æ±æÅÜ¦¨: 
-msgmode ¿ï¾Ü¦p¦ó¾ŞÁa¦h­Ó°T®§µøµ¡: 
+listsmileys è¡¨æƒ…ç¬¦è™Ÿ
+listsmileys2 é¡¯ç¤ºè¡¨æƒ…ç¬¦è™Ÿæ–¼aMSNçš„ä¸»è¦é€£çµ¡äººæ¸…å–®
+ljoinedconf $1 å·²ç¶“åŠ å…¥æœƒè­°
+lleftconf $1 å·²ç¶“é›¢é–‹æœƒè­°
+load è¼‰å…¥
+loadcontacts åŒ¯å…¥é€£çµ¡äººæ¸…å–®
+logbigger æ¯ä½é€£çµ¡äººçš„ç´€éŒ„æª”æ¡ˆå¤§å°æ²’æœ‰ä¸Šé™
+logeventconnect ç´€éŒ„é€£ç·š
+logeventdisconnect ç´€éŒ„é›¢ç·š
+logeventemail éƒµä»¶æ¥æ”¶æ™‚ç´€éŒ„
+logeventstate ä½¿ç”¨è€…ç‹€æ…‹è®Šæ›´æ™‚è¨˜éŒ„
+logfandexp ç´€éŒ„æª”éå¤§æˆ–æ˜¯æ­·å²ç´€éŒ„éæœŸ
+loggedotherlocation é›¢ç·š. å·²æ–¼å…¶ä»–é›»è…¦ç™»å…¥
+loggingin æ­£åœ¨ç™»å…¥
+login ç™»å…¥
+loginas ä»¥ä¸åŒå¸³è™Ÿç™»å…¥
+loging ç´€éŒ„
+logolder åªè¨˜éŒ„æœ€è¿‘ä¸€æ¬¡çš„èŠå¤©ç´€éŒ„
+logout ç™»å‡º
+logsbydate ä¾æ—¥æœŸæ’åˆ— logs ç´€éŒ„ (åŠ é€Ÿè¼‰å…¥ç´€éŒ„æª”çš„é€Ÿåº¦)
+logsin å‰›ç™»å…¥
+logsmileys é¡¯ç¤ºè¡¨æƒ…ç¬¦è™Ÿæ–¼aMSNçš„æ­·å²ç´€éŒ„è¦–çª—
+logsout å‰›å¥½ç™»å‡º
+longnick æ‚¨çš„æš±ç¨±é•·åº¦è¶…é130å€‹å­—å…ƒçµ„. é€™ä¸è¢«å®˜æ–¹çš„MSNé€šè¨Šå”å®šæ‰€æ¥å—. æ‚¨ç¢ºå®šè¦è¨­å®šå—? 
+longp4c æ‚¨çš„å‹å–„ç¨±å‘¼å·²ç¶“è¶…é130å€‹å­—å…ƒ. å‹å–„ç¨±å‘¼å°‡æœƒè¢«é¡¯ç¤ºåœ¨æ­£å¼çš„MSNä¸­è¢«é¡¯ç¤ºç‚º $1. æ‚¨ç¢ºå®šè¦è¨­å®šå—?
+lprivtoconf ç§äººçš„èŠå¤©ç”± $1 æ›´æ”¹ç‚ºå…¬é–‹çš„æœƒè­°
+luclosedwin æ‚¨å·²ç¶“æ–¼ $1 é—œé–‰è¦–çª—
+mailer éƒµä»¶ç¨‹å¼
+mailerexample ( \$recipient = æ”¶ä»¶è€… ) è«‹ä¿æŒç©ºç™½å¦‚æœæ‚¨ä½¿ç”¨Hotmail
+maintenance ä¼ºæœå™¨å°‡æœƒæš«åœæœå‹™$1åˆ†é˜é€²è¡Œç¶­ä¿®,
+maximised æœ€å¤§åŒ–
+minimised æœ€å°åŒ–/åœ–ç¤ºåŒ–
+mins åˆ†é˜
+mobile å¤§å“¥å¤§
+modified å·²ä¿®æ”¹
+month æœˆ
+morepersonal æ›´å¤šç‹€æ…‹ -> 
+move æ¬ç§»
+movetogroup ç§»è‡³ç¾¤çµ„
+msg è¨Šæ¯
+msgflicker ç•¶éç„¦é»è¦–çª—æ”¶åˆ°æ–°çš„è¨Šæ¯é–ƒçˆèŠå¤©è¦–çª—çš„æ¨™é¡Œåˆ—. 
+msgmaxmin ç•¶æ”¶åˆ°æ–°çš„è¨Šæ¯æˆ‘å¸Œæœ›è®Šæˆ: 
+msgmode é¸æ“‡å¦‚ä½•æ“ç¸±å¤šå€‹è¨Šæ¯è¦–çª—: 
 msn aMSN
-msnstyle MSN²á¤Ñ­·®æ
-mustrestart ±z¥²¶·­«·s±Ò°Êµ{¦¡
-myfriendlyname §Úªº¤Íµ½¼ÊºÙ
-myhomephone ¦í®a¹q¸Ü¸¹½X
-mymobilephone ¦æ°Ê¹q¸Ü¸¹½X
-mynick §Úªº¼ÊºÙ
-mypic §ÚªºÅã¥Ü¹Ï¤ù: 
-mystatus §Úªºª¬ºA
-myworkphone ¤½¥q¹q¸Ü¸¹½X
-name ©m¦W
+msnstyle MSNèŠå¤©é¢¨æ ¼
+mustrestart æ‚¨å¿…é ˆé‡æ–°å•Ÿå‹•ç¨‹å¼
+myfriendlyname æˆ‘çš„å‹å–„æš±ç¨±
+myhomephone ä½å®¶é›»è©±è™Ÿç¢¼
+mymobilephone è¡Œå‹•é›»è©±è™Ÿç¢¼
+mynick æˆ‘çš„æš±ç¨±
+mypic æˆ‘çš„é¡¯ç¤ºåœ–ç‰‡: 
+mystatus æˆ‘çš„ç‹€æ…‹
+myworkphone å…¬å¸é›»è©±è™Ÿç¢¼
+name å§“å
 natip IP detection by web page  
-natkeepalive ¦pªG±z·|©w®É³QÂ_½u, ½Ğ¶}±Ò«O«ù³s½u
-needonline ±zÁÙ¬O¦bÂ÷½u¤¤!
-needwinico2 »İ­nwinico05.dll©óutils/windows¸ê®Æ§¨¤¤¤~¯àÁY¤p©ó¤u¨ã¦C
-never ±q¤£
-new_ft_protocol ¨Ï¥Î·sªºÀÉ®×¶Ç¿é¨ó©w(¥Ø«e¤´¦³bug)
-newmail $1 «Ê·s¶l¥ó¦b¦¬¥ó§X¤¤
-newmailfolder ±z¦bhotmail¨ä¥Lªº«H¥ó§¨¤¤¦³$1«Ê·sªº¶l¥ó
-newmailfrom ·s¶l¥ó±q $1 ($2)
-newmailfromother «H¥ó§¨¤¤¦³¥Ñ$1 ($2)±H¨Óªº·s¶l¥ó
-newmsg ·s°T®§
-newstate ·s¼W­Ó¤Hª¬ºA
-newtabbedfeature aMSN´£¨Ñ·sªº¥\¯à¨ÓºŞ²z©Ò¦³ªº¹ï¸Ü, ±z²{¦b¥i¥H±NÄİ©ó¬Û¦P¸s²Õªºµøµ¡©Î¾ã­ÓÁpµ¸¤H²M³æ©ñ¶i³æ¤@­Ó¤À­¶µøµ¡. ½Ğ¨Ï¥Î³o­Ó¤èªkÅıaMSN¨ÓºŞ²z±zªº¹ï¸Ü
-newveravailable ¤w¦³¸û·sªºª©¥» $1 ¥i¥H¤U¸ü
-next ¤U¤@¨B
-nick ¼ÊºÙ
-no §_
-noactivity ¶¢¸m
-nodataavailable $1 ¨S¦³¥ô¦óªº¸ê®Æ
-nogap ¸s²Õ¶¡¨ú®øªÅ¦æ
-nogroup µL¸s²Õ
-nologfile $1 ¨S¦³¥ô¦ó¬ö¿ı
+natkeepalive å¦‚æœæ‚¨æœƒå®šæ™‚è¢«æ–·ç·š, è«‹é–‹å•Ÿä¿æŒé€£ç·š
+needonline æ‚¨é‚„æ˜¯åœ¨é›¢ç·šä¸­!
+needwinico2 éœ€è¦winico05.dllæ–¼utils/windowsè³‡æ–™å¤¾ä¸­æ‰èƒ½ç¸®å°æ–¼å·¥å…·åˆ—
+never å¾ä¸
+new_ft_protocol ä½¿ç”¨æ–°çš„æª”æ¡ˆå‚³è¼¸å”å®š(ç›®å‰ä»æœ‰bug)
+newmail $1 å°æ–°éƒµä»¶åœ¨æ”¶ä»¶åŒ£ä¸­
+newmailfolder æ‚¨åœ¨hotmailå…¶ä»–çš„ä¿¡ä»¶å¤¾ä¸­æœ‰$1å°æ–°çš„éƒµä»¶
+newmailfrom æ–°éƒµä»¶å¾ $1 ($2)
+newmailfromother ä¿¡ä»¶å¤¾ä¸­æœ‰ç”±$1 ($2)å¯„ä¾†çš„æ–°éƒµä»¶
+newmsg æ–°è¨Šæ¯
+newstate æ–°å¢å€‹äººç‹€æ…‹
+newtabbedfeature aMSNæä¾›æ–°çš„åŠŸèƒ½ä¾†ç®¡ç†æ‰€æœ‰çš„å°è©±, æ‚¨ç¾åœ¨å¯ä»¥å°‡å±¬æ–¼ç›¸åŒç¾¤çµ„çš„è¦–çª—æˆ–æ•´å€‹è¯çµ¡äººæ¸…å–®æ”¾é€²å–®ä¸€å€‹åˆ†é è¦–çª—. è«‹ä½¿ç”¨é€™å€‹æ–¹æ³•è®“aMSNä¾†ç®¡ç†æ‚¨çš„å°è©±
+newveravailable å·²æœ‰è¼ƒæ–°çš„ç‰ˆæœ¬ $1 å¯ä»¥ä¸‹è¼‰
+next ä¸‹ä¸€æ­¥
+nick æš±ç¨±
+no å¦
+noactivity é–’ç½®
+nodataavailable $1 æ²’æœ‰ä»»ä½•çš„è³‡æ–™
+nogap ç¾¤çµ„é–“å–æ¶ˆç©ºè¡Œ
+nogroup ç„¡ç¾¤çµ„
+nologfile $1 æ²’æœ‰ä»»ä½•ç´€éŒ„
 noneavailable None Available 
-nonewmail ¨S¦³·s¶l¥ó
-nonewver ³o¤w¬O³Ì·sª©¥»
-nopic ¨S¦³¹Ï¤ù
-noprofileexists ²{¦b¨S¦³¥ô¦óªº­Ó¤H³]©wÀÉ, \n±z¥²¶··s¼W¤@­Ó¦pªG±z·Q¨Ï¥Î­Ó¤H³]©wÀÉ¤è¦¡µn¤J. \n½ĞÂI¿ïµøµ¡¤¤·s¼W­Ó¤H³]©wÀÉ«ö¶s¨Ó·s¼W¤@­Ó.
-normal ¤@¯ë
-noskins µLªk¦b skin/¸ê®Æ§¨¤¤§ä¨ì¹w³]ªº­±ªO. µLªk±Ò°ÊAMSN
-nosystemtray µLªk¨Ï¥Î¨t²Îª¬ºA¦C
-note µuºà
-notificationserver °_©l¤ÆMSN¦øªA¾¹ (MSN Messenger Server) 
-notify ³qª¾
-notify1 ³sµ¸¤H¤W½u®ÉÅã¥Ü³qª¾µøµ¡
-notify1_5 ³sµ¸¤H¤U½u®ÉÅã¥Ü³qª¾µøµ¡
-notify1_75 ³sµ¸¤HÅÜ§óª¬ºA®ÉÅã¥Ü³qª¾µøµ¡
-notify2 ·í¦¬¨ì·s°T®§®ÉÅã¥Ü³qª¾µøµ¡
-notify3 ¦¬¨ì·sªºemail®ÉÅã¥Ü³qª¾µøµ¡
-notify4 ¦¬¨ì·s¶l¥ó®ÉÅã¥Ü³qª¾µøµ¡
-notifyoffset ¸õ¥X«¬³qª¾µøµ¡¦ì¸m
-notifytimeout ³qª¾µøµ¡Åã¥Ü®É¶¡,¥H¤d¤À¤§¤@¬í¬°³æ¦ì
-notifytyping ¿é¤J®É³qª¾¨ä¥Lªº¨Ï¥ÎªÌ
-notifywin ³qª¾µøµ¡
-notinlist ±z¤£¦b¹ï¤èªºÁpµ¸¤H¦W³æ¤¤
-notls MSN³q°T¨ó©w²Ä¤Eª©»İ­n¨Ï¥ÎTLS ®M¥ó. ³o­Ó®M¥ó¦ü¥GÁÙ¨S¦³³Q¦w¸Ë¨ì³o¥x¾÷¾¹. ¦pªG¥L¤w¸g³Q¦w¸Ë, ¨º¸Óµ{¦¡®wªº¸ô®|À³¸Ó¦b°¾¦n³]©wµøµ¡¤¤³Q«ü©w (ex: /opt/tls/lib). \n \n ±z¥i¥H¥Ñ¦¹³B http://tls.sf.net ¤U¸üTLS¦w¸Ë.
-nottabbed ¤@¯ëµøµ¡¤£¨Ï¥Î¤À­¶
-nousersinsession ¨S¦³¨Ï¥ÎªÌ¦b¶}·|
-nudge $1 ­n¨D±zªº¥X®u
-offline Â÷½u
-ok ½T©w
-onenewmail 1 «Ê·s¶l¥ó¦b¦¬¥ó§X¤¤
-online ½u¤W
-onphone ¹q¸Ü¤¤
-openreceived ¶}±Ò¤w±µ¦¬ªºÀÉ®×
-options ¿ï¶µ
-ordercontactsby ³sµ¸¤Hªº±Æ§Ç¨Ì¾Ú
-ordergroupsby ¥Ñ¸s²Õ±Æ§Ç
-original ­ì©l
-other ¨ä¥L
-others ¨ä¥L
-p4contextprefix ¥Î¦¹¦r¦ê¬°P4-Context¦r­ºµo°eªÌ
-pager ¶Ç©I¾÷
-pass ±K½X
-paste ¶K¤W
-personal ­Ó¤H
-phone ¹q¸Ü
-phones ¹q¸Ü¸¹½X
-picbrowser Åã¥Ü¹Ï¤ùÂsÄı¾¹
-picfile ¹Ï¤ùÀÉ®× (GIF < 500 x 500) 
-picstatus ¹Ï¤ùÄµ§i
-playing ¼½©ñ: $1 
-pluginselector ¿ï¾Ü Plugins 
+nonewmail æ²’æœ‰æ–°éƒµä»¶
+nonewver é€™å·²æ˜¯æœ€æ–°ç‰ˆæœ¬
+nopic æ²’æœ‰åœ–ç‰‡
+noprofileexists ç¾åœ¨æ²’æœ‰ä»»ä½•çš„å€‹äººè¨­å®šæª”, \næ‚¨å¿…é ˆæ–°å¢ä¸€å€‹å¦‚æœæ‚¨æƒ³ä½¿ç”¨å€‹äººè¨­å®šæª”æ–¹å¼ç™»å…¥. \nè«‹é»é¸è¦–çª—ä¸­æ–°å¢å€‹äººè¨­å®šæª”æŒ‰éˆ•ä¾†æ–°å¢ä¸€å€‹.
+normal ä¸€èˆ¬
+noskins ç„¡æ³•åœ¨ skin/è³‡æ–™å¤¾ä¸­æ‰¾åˆ°é è¨­çš„é¢æ¿. ç„¡æ³•å•Ÿå‹•AMSN
+nosystemtray ç„¡æ³•ä½¿ç”¨ç³»çµ±ç‹€æ…‹åˆ—
+note çŸ­ç®‹
+notificationserver èµ·å§‹åŒ–MSNä¼ºæœå™¨ (MSN Messenger Server) 
+notify é€šçŸ¥
+notify1 é€£çµ¡äººä¸Šç·šæ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+notify1_5 é€£çµ¡äººä¸‹ç·šæ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+notify1_75 é€£çµ¡äººè®Šæ›´ç‹€æ…‹æ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+notify2 ç•¶æ”¶åˆ°æ–°è¨Šæ¯æ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+notify3 æ”¶åˆ°æ–°çš„emailæ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+notify4 æ”¶åˆ°æ–°éƒµä»¶æ™‚é¡¯ç¤ºé€šçŸ¥è¦–çª—
+notifyoffset è·³å‡ºå‹é€šçŸ¥è¦–çª—ä½ç½®
+notifytimeout é€šçŸ¥è¦–çª—é¡¯ç¤ºæ™‚é–“,ä»¥åƒåˆ†ä¹‹ä¸€ç§’ç‚ºå–®ä½
+notifytyping è¼¸å…¥æ™‚é€šçŸ¥å…¶ä»–çš„ä½¿ç”¨è€…
+notifywin é€šçŸ¥è¦–çª—
+notinlist æ‚¨ä¸åœ¨å°æ–¹çš„è¯çµ¡äººåå–®ä¸­
+notls MSNé€šè¨Šå”å®šç¬¬ä¹ç‰ˆéœ€è¦ä½¿ç”¨TLS å¥—ä»¶. é€™å€‹å¥—ä»¶ä¼¼ä¹é‚„æ²’æœ‰è¢«å®‰è£åˆ°é€™å°æ©Ÿå™¨. å¦‚æœä»–å·²ç¶“è¢«å®‰è£, é‚£è©²ç¨‹å¼åº«çš„è·¯å¾‘æ‡‰è©²åœ¨åå¥½è¨­å®šè¦–çª—ä¸­è¢«æŒ‡å®š (ex: /opt/tls/lib). \n \n æ‚¨å¯ä»¥ç”±æ­¤è™• http://tls.sf.net ä¸‹è¼‰TLSå®‰è£.
+nottabbed ä¸€èˆ¬è¦–çª—ä¸ä½¿ç”¨åˆ†é 
+nousersinsession æ²’æœ‰ä½¿ç”¨è€…åœ¨é–‹æœƒ
+nudge $1 è¦æ±‚æ‚¨çš„å‡ºå¸­
+offline é›¢ç·š
+ok ç¢ºå®š
+onenewmail 1 å°æ–°éƒµä»¶åœ¨æ”¶ä»¶åŒ£ä¸­
+online ç·šä¸Š
+onphone é›»è©±ä¸­
+openreceived é–‹å•Ÿå·²æ¥æ”¶çš„æª”æ¡ˆ
+options é¸é …
+ordercontactsby é€£çµ¡äººçš„æ’åºä¾æ“š
+ordergroupsby ç”±ç¾¤çµ„æ’åº
+original åŸå§‹
+other å…¶ä»–
+others å…¶ä»–
+p4contextprefix ç”¨æ­¤å­—ä¸²ç‚ºP4-Contextå­—é¦–ç™¼é€è€…
+pager å‚³å‘¼æ©Ÿ
+pass å¯†ç¢¼
+paste è²¼ä¸Š
+personal å€‹äºº
+phone é›»è©±
+phones é›»è©±è™Ÿç¢¼
+picbrowser é¡¯ç¤ºåœ–ç‰‡ç€è¦½å™¨
+picfile åœ–ç‰‡æª”æ¡ˆ (GIF < 500 x 500) 
+picstatus åœ–ç‰‡è­¦å‘Š
+playing æ’­æ”¾: $1 
+pluginselector é¸æ“‡ Plugins 
 port Port
-prefalerts §Úªº¨Æ¥óÄµ¥Ü¤ÎÁn­µ
-prefapps µ{¦¡
-prefawaymsg §ÚªºÂ÷¶}°T®§
-prefblock1 Â_½u®ÉÀË¬d
-prefblock2 «ùÄòÀË¬d
-prefblock3 "§A¤w¸g³Q«ÊÂê" ¸s²Õ
-prefconnection ³s½u³]©w
-prefemotic ªí±¡²Å¸¹
-preferences °¾¦n³]©w
-preffont §Úªº°T®§¤å¦r
-preffont2 ²á¤Ñ®É§ïÅÜ§O¤H©Ò¬İ¨ì¤å¦r¤è¦¡
-preffont3 ÅÜ§ó aMSNªº¤¶­±¦r«¬¤Î¤j¤p 
-prefft ÀÉ®×¶Ç°e, ÂI¹ïÂI»P NAT ³]©w
-preflibs µ{¦¡®w¥Ø¿ı
-preflog1 §Úªº¾ú¥v¬ö¿ı¤Îµn¤J¿ï¶µ
-preflogevent §Úªº¨Æ¥ó°O¿ı
-preflook §Úªº aMSN Messenger µe­±
-prefmsging §Úªº°T®§¤¶­± 
-prefname §Úªº MSN Messenger ©m¦W/¼ÊºÙ
-prefphone §Úªº¹q¸Ü¸¹½X
-prefphone2 ½Ğ¿é¤J±zªº¹q¸Ü¸¹½X,\nÅı±z¤¹³\²M³æ¤¤ªº³sµ¸¤H¬İ¨£
-prefprivacy ¨Ï¥ÎªÌªº¤¹³\/«ÊÂê²M³æ
-prefprivacy2 ¨Ï¥ÎªÌªº³sµ¸/«O¯d²M³æ
-prefprofile §Úªº¤½¶}­Ó¤H¸ê°T
-prefprofile2 «Ø¥ß©Î­×§ï±zªº¤½¶}¸ê°T (´y­z§A¦Û¤vÅı¤j®a³£¥i¥H¬İ¨ì)
+prefalerts æˆ‘çš„äº‹ä»¶è­¦ç¤ºåŠè²éŸ³
+prefapps ç¨‹å¼
+prefawaymsg æˆ‘çš„é›¢é–‹è¨Šæ¯
+prefblock1 æ–·ç·šæ™‚æª¢æŸ¥
+prefblock2 æŒçºŒæª¢æŸ¥
+prefblock3 "ä½ å·²ç¶“è¢«å°é–" ç¾¤çµ„
+prefconnection é€£ç·šè¨­å®š
+prefemotic è¡¨æƒ…ç¬¦è™Ÿ
+preferences åå¥½è¨­å®š
+preffont æˆ‘çš„è¨Šæ¯æ–‡å­—
+preffont2 èŠå¤©æ™‚æ”¹è®Šåˆ¥äººæ‰€çœ‹åˆ°æ–‡å­—æ–¹å¼
+preffont3 è®Šæ›´ aMSNçš„ä»‹é¢å­—å‹åŠå¤§å° 
+prefft æª”æ¡ˆå‚³é€, é»å°é»èˆ‡ NAT è¨­å®š
+preflibs ç¨‹å¼åº«ç›®éŒ„
+preflog1 æˆ‘çš„æ­·å²ç´€éŒ„åŠç™»å…¥é¸é …
+preflogevent æˆ‘çš„äº‹ä»¶è¨˜éŒ„
+preflook æˆ‘çš„ aMSN Messenger ç•«é¢
+prefmsging æˆ‘çš„è¨Šæ¯ä»‹é¢ 
+prefname æˆ‘çš„ MSN Messenger å§“å/æš±ç¨±
+prefphone æˆ‘çš„é›»è©±è™Ÿç¢¼
+prefphone2 è«‹è¼¸å…¥æ‚¨çš„é›»è©±è™Ÿç¢¼,\nè®“æ‚¨å…è¨±æ¸…å–®ä¸­çš„é€£çµ¡äººçœ‹è¦‹
+prefprivacy ä½¿ç”¨è€…çš„å…è¨±/å°é–æ¸…å–®
+prefprivacy2 ä½¿ç”¨è€…çš„é€£çµ¡/ä¿ç•™æ¸…å–®
+prefprofile æˆ‘çš„å…¬é–‹å€‹äººè³‡è¨Š
+prefprofile2 å»ºç«‹æˆ–ä¿®æ”¹æ‚¨çš„å…¬é–‹è³‡è¨Š (æè¿°ä½ è‡ªå·±è®“å¤§å®¶éƒ½å¯ä»¥çœ‹åˆ°)
 prefprofile3 aMSN's User Configuration Profiles 
-prefproxy §ÚªºProxy³]©w
-prefremote »·ºİ³s½u°¾¦n³]©w
-prefsession §Úªºµn¤J¤Îª¬ºA
-prefshared ¤À¨É³s½u (only for NAT) 
-prefsound Án­µ
-preview ¹wÄı
-privacy Áô¨p
-profiledconfig ­Ó¤H³]©wÀÉ³]©w
-profileexists ±z¤£¯à¦b³o­Óµn¤J«Ø¥ß­Ó¤H³]©wÀÉ \n ¦]¬°¤w¸g¦³¤@­Ó¦s¦b¤F. ½Ğ¿ï¾Ü¨ä¥Lªºµn¤J.
-profileinuse ³o­Ó­Ó¤H³]©wÀÉ³Q¨ä¥LªºaMSN¨Ï¥Î¤¤, ½Ğ¿ï¾Ü¨ä¥Lªº
-profileloginradio ¨Ï¥Î¤w¸g¦s¦bªº­Ó¤H³]©wÀÉµn¤J
-profiles ­Ó¤H³]©wÀÉ
-properties ¤º®e
-proxy §Ú¦bproxy¦øªA¾¹¤§«á (HTTP or SOCKS5) 
-proxyconf Proxy ³]©w
-proxyconfhttp HTTP proxy ³]©w
-proxyconnection §Ú¨Ï¥Îproxy¦øªA¾¹³s±µ¨ìInternet: 
-publishphones ¤½§G§Úªº¹q¸Ü¸¹½X
-purge ²M°£
+prefproxy æˆ‘çš„Proxyè¨­å®š
+prefremote é ç«¯é€£ç·šåå¥½è¨­å®š
+prefsession æˆ‘çš„ç™»å…¥åŠç‹€æ…‹
+prefshared åˆ†äº«é€£ç·š (only for NAT) 
+prefsound è²éŸ³
+preview é è¦½
+privacy éš±ç§
+profiledconfig å€‹äººè¨­å®šæª”è¨­å®š
+profileexists æ‚¨ä¸èƒ½åœ¨é€™å€‹ç™»å…¥å»ºç«‹å€‹äººè¨­å®šæª” \n å› ç‚ºå·²ç¶“æœ‰ä¸€å€‹å­˜åœ¨äº†. è«‹é¸æ“‡å…¶ä»–çš„ç™»å…¥.
+profileinuse é€™å€‹å€‹äººè¨­å®šæª”è¢«å…¶ä»–çš„aMSNä½¿ç”¨ä¸­, è«‹é¸æ“‡å…¶ä»–çš„
+profileloginradio ä½¿ç”¨å·²ç¶“å­˜åœ¨çš„å€‹äººè¨­å®šæª”ç™»å…¥
+profiles å€‹äººè¨­å®šæª”
+properties å…§å®¹
+proxy æˆ‘åœ¨proxyä¼ºæœå™¨ä¹‹å¾Œ (HTTP or SOCKS5) 
+proxyconf Proxy è¨­å®š
+proxyconfhttp HTTP proxy è¨­å®š
+proxyconnection æˆ‘ä½¿ç”¨proxyä¼ºæœå™¨é€£æ¥åˆ°Internet: 
+publishphones å…¬ä½ˆæˆ‘çš„é›»è©±è™Ÿç¢¼
+purge æ¸…é™¤
 raised Raised/Deiconified 
-readonlymsgbox ÀÉ®×¶Ç°e¤w¸g­¿¨ú®ø¦]¬°±µ¦¬ªº¸ê®Æ§¨¬O°ßÅªªº. ½Ğ§ó¥¿¸ê®Æ§¨Åv­­.
-readonlywarn Äµ§i: ³o­ÓÀÉ®×¨S¦³¥¿½Tªº³Q¦s¤J "§Ú¤w±µ¦¬ªº¸ê®Æ§¨¤¤,¸Ó¥Ø¿ı¦ü¥G¬O³]©w¦¨¨¾¼g. ½Ğ¦bÀÉ®×¶Ç°e«eÀË¬d¥Ø¼Ğ ($1) ªº¥Ø¿ıÅv­­¤w¸g¥¿½Tªº³Q³]©w.
-receivedbytes ¤w¦¬¨ì $1 of $2 bytes
-receiveddir §Ú¤w±µ¦¬ªºÀÉ®×¸ê®Æ§¨
-receivefile ±µ¦¬ÀÉ®×
-recentmsg ¨¾¤î¦³·s«H®§¨Ó®É·N¥~Ãö³¬µøµ¡
-reconnect µ¥«İ $1 ­«·s³sµ²
-reconnect2 Â_½u®É¦Û°Ê­«·s³s½u
-reconnecting ­«·s³sµ²¦øªA¾¹
-reject ©Úµ´
-rememberpass Àx¦s±K½X
-removeempty ±qÁpµ¸²M³æ¤¤²¾°£ªÅ¥Õ¸s²Õ
-removefromlist ±q²M³æ¤¤²¾°£
-rename ­«·s©R¦W
-required_version µLªk¸ü¤J³o­Óplugin,¥¦»İ­n¦Ü¤ÖaMSN $1¥H¤Wªºª©¥»¤~¯à°õ¦æ
-reversed ¤Ï¦V
-reverselist «O¯d²M³æ (RL): 
-rightback °¨¤W¦^¨Ó
-save Àx¦s
-saveas ¥t¦s
-savechatwinsize ÅÜ§óµøµ¡¤j¤p®É¦Û°Ê¬ö¿ı
-savecontacts Àx¦s³sµ¸¤H²M³æ
-savetofile Àx¦s¨ìÀÉ®×¤¤
-says $1 »¡
-sbcon Âà±µ¤¤
-selectplugins ½Ğ¿ï¾Ü±z·Q±Ò°ÊªºPlugins
-selectskin ½Ğ±q²M³æ¤¤¿ï¾Ü¤@­Ó­±ªO
-send ¶Ç°e
-sendfile ¶Ç°eÀÉ®×
-sendmail ¶Ç°e¶l¥ó
-sendmobmsg ¶Ç°e¨ìMSN Mobile¸Ë¸m
-sendmsg ¶Ç°e°T®§
-sentbytes ¶Ç°e $1 of $2 bytes
-server ¦øªA¾¹
-serverbusy ¦øªA¾¹¦£¸L
-servergoingdown Â÷½u: ³sµ²¦øªA¾¹¥¢±Ñ
-serverunavailable µLªk³s±µ¨ì¦øªA¾¹
+readonlymsgbox æª”æ¡ˆå‚³é€å·²ç¶“å€å–æ¶ˆå› ç‚ºæ¥æ”¶çš„è³‡æ–™å¤¾æ˜¯å”¯è®€çš„. è«‹æ›´æ­£è³‡æ–™å¤¾æ¬Šé™.
+readonlywarn è­¦å‘Š: é€™å€‹æª”æ¡ˆæ²’æœ‰æ­£ç¢ºçš„è¢«å­˜å…¥ "æˆ‘å·²æ¥æ”¶çš„è³‡æ–™å¤¾ä¸­,è©²ç›®éŒ„ä¼¼ä¹æ˜¯è¨­å®šæˆé˜²å¯«. è«‹åœ¨æª”æ¡ˆå‚³é€å‰æª¢æŸ¥ç›®æ¨™ ($1) çš„ç›®éŒ„æ¬Šé™å·²ç¶“æ­£ç¢ºçš„è¢«è¨­å®š.
+receivedbytes å·²æ”¶åˆ° $1 of $2 bytes
+receiveddir æˆ‘å·²æ¥æ”¶çš„æª”æ¡ˆè³‡æ–™å¤¾
+receivefile æ¥æ”¶æª”æ¡ˆ
+recentmsg é˜²æ­¢æœ‰æ–°ä¿¡æ¯ä¾†æ™‚æ„å¤–é—œé–‰è¦–çª—
+reconnect ç­‰å¾… $1 é‡æ–°é€£çµ
+reconnect2 æ–·ç·šæ™‚è‡ªå‹•é‡æ–°é€£ç·š
+reconnecting é‡æ–°é€£çµä¼ºæœå™¨
+reject æ‹’çµ•
+rememberpass å„²å­˜å¯†ç¢¼
+removeempty å¾è¯çµ¡æ¸…å–®ä¸­ç§»é™¤ç©ºç™½ç¾¤çµ„
+removefromlist å¾æ¸…å–®ä¸­ç§»é™¤
+rename é‡æ–°å‘½å
+required_version ç„¡æ³•è¼‰å…¥é€™å€‹plugin,å®ƒéœ€è¦è‡³å°‘aMSN $1ä»¥ä¸Šçš„ç‰ˆæœ¬æ‰èƒ½åŸ·è¡Œ
+reversed åå‘
+reverselist ä¿ç•™æ¸…å–® (RL): 
+rightback é¦¬ä¸Šå›ä¾†
+save å„²å­˜
+saveas å¦å­˜
+savechatwinsize è®Šæ›´è¦–çª—å¤§å°æ™‚è‡ªå‹•ç´€éŒ„
+savecontacts å„²å­˜é€£çµ¡äººæ¸…å–®
+savetofile å„²å­˜åˆ°æª”æ¡ˆä¸­
+says $1 èªª
+sbcon è½‰æ¥ä¸­
+selectplugins è«‹é¸æ“‡æ‚¨æƒ³å•Ÿå‹•çš„Plugins
+selectskin è«‹å¾æ¸…å–®ä¸­é¸æ“‡ä¸€å€‹é¢æ¿
+send å‚³é€
+sendfile å‚³é€æª”æ¡ˆ
+sendmail å‚³é€éƒµä»¶
+sendmobmsg å‚³é€åˆ°MSN Mobileè£ç½®
+sendmsg å‚³é€è¨Šæ¯
+sentbytes å‚³é€ $1 of $2 bytes
+server ä¼ºæœå™¨
+serverbusy ä¼ºæœå™¨å¿™ç¢Œ
+servergoingdown é›¢ç·š: é€£çµä¼ºæœå™¨å¤±æ•—
+serverunavailable ç„¡æ³•é€£æ¥åˆ°ä¼ºæœå™¨
 session Session
-showbanner Åã¥ÜaMSNªº¼s§i
-showblockedlist Åã¥Ü«ÊÂê±zªº²M³æ
-showcachedpics Åã¥Ü¼È¦sªº¹Ï¤ù
-showdisplaypic Åã¥Ü¹Ï¤ù
-showdisplaypic2 ·í²á¤Ñµøµ¡¶}±Ò®É,¦Û°ÊÅã¥Ü¹Ï¤ù
-showmypic §ÚªºÅã¥Ü¹Ï¤ù
-shownotify ·í¨Æ¥óµo¥Í®ÉÅã¥Ü´£¥Üµøµ¡
-showuserpic $1'ªºÅã¥Ü¹Ï¤ù
-skin ­±ªO
-skinselector ¿ï¾Ü­±ªO
-smileconfig ¦Û­qªí±¡²Å¸¹³]©w
-smilefile ªí±¡²Å¸¹ÀÉ¦W
-smileintro ½Ğ§¹¦¨©Ò»İªºÄæ¦ì¨Ó«Ø¥ß·sªº¦Û­qªí±¡²Å¸¹ (½Ğ°Ñ¦Ò±`¨£°İµª¶°)
-smileintro2 ½Ğ½s¿è©Ò»İªºÄæ¦ì¨Ó¦Û­q¦¹ªí±¡²Å¸¹ (½Ğ°Ñ¦Ò±`¨£°İµª¶°)
-snackfailed ¸ü¤JSnack¥¢±Ñ, «ì´_¦¨¹w³]­È
-sngdblclick ³æÀ»·Æ¹«¶}±Ò°T®§µøµ¡
-sound ¨Æ¥ó­µ®Ä
-sound2 ·í³sµ¸¤Hµn¤J©Î¶Ç°e°T®§®É¼½©ñÁn­µ
-soundactive ¦b°Ê§@¤¤ªºµøµ¡¦¬¨ì°T®§®É¼½©ñ­µ®Ä
-soundcommand ³o¥²¶·¬O¼½©ñªº«ü¥O (ex: esdplay) 
-soundexample ( \$sound = ³Q¼½©ñªºÁn­µÀÉ) Ex: esdplay \$sound 
-soundfile Án­µÀÉ
-soundfiles Án­µÀÉ
-soundloop ­«½Æ¼½©ñ
-soundserver Án­µ¦øªA¾¹
-soundstatus Án­µÄµ¥Ü
-sourcecode ­ì©lµ{¦¡½X (»İ­n½sÄ¶¤Î¦w¸Ë)
-splashstart ¶}©l
-sslwarning Äµ§i!! Ãö³¬SSL³s½u±N·|Ãö³¬¥[±K, ±zªº±K½X±N·|¥H©ú½X©óºô¸ô¤W¶Ç°e. ¥u¥Î¦b«D±`Ãø¹ï¥Iªºproxy¦øªA¾¹©Î¬Oºô¸ô³]©w. 
-startoffline ¥HÁô§Îª¬ºAµn¤J
-startoffline2 ¦wÀR¼Ò¦¡µn¤J,±NÅã¥Ü¬°"Â÷½u"
-startontray ¶}±ÒaMSN®É¥u¦b¨t²Î¤u¨ã¦C
-state §Ú§Æ±æÅã¥Ü¬°
-stateautomsg ­n¶Ç°eªº¦Û°Ê°T®§
-statechange ª¬ºA§ó§ï¬°:
-stateedittext ½Ğ½s¿è±z©Ò·Q­n­×§ïªºÄæ¦ì«á«öÀx¦s
-stateinfo ­Ó¤Hª¬ºA³]©w
-statename ­Ó¤Hª¬ºA¦WºÙ
-statenewtext ½Ğ¶ñ¤J©Ò»İ­nªº¸ê°T¨Ó«Ø¥ß±z·sªº­Ó¤Hª¬ºA«á«öÀx¦s
-statenick ¦Û­q¼ÊºÙ(ªÅ¥Õ¥Nªí¤£§@ÅÜ§ó)
-status ª¬ºA
-stopalarm °±¤îÄµ¥Ü
-storenickname ¦b¦Û­qª¬ºA«ü©w¯S©w¼ÊºÙ«áÁÙ­ì¬°­ì©l¼ÊºÙ
-strictfonts ­­¨î©Ò¦³¦r«¬¬°§Ú©Ò¿ï©wªº (ª¬ºA¦C¤Î¨ä¥L)
-style ­·®æ
+showbanner é¡¯ç¤ºaMSNçš„å»£å‘Š
+showblockedlist é¡¯ç¤ºå°é–æ‚¨çš„æ¸…å–®
+showcachedpics é¡¯ç¤ºæš«å­˜çš„åœ–ç‰‡
+showdisplaypic é¡¯ç¤ºåœ–ç‰‡
+showdisplaypic2 ç•¶èŠå¤©è¦–çª—é–‹å•Ÿæ™‚,è‡ªå‹•é¡¯ç¤ºåœ–ç‰‡
+showmypic æˆ‘çš„é¡¯ç¤ºåœ–ç‰‡
+shownotify ç•¶äº‹ä»¶ç™¼ç”Ÿæ™‚é¡¯ç¤ºæç¤ºè¦–çª—
+showuserpic $1'çš„é¡¯ç¤ºåœ–ç‰‡
+skin é¢æ¿
+skinselector é¸æ“‡é¢æ¿
+smileconfig è‡ªè¨‚è¡¨æƒ…ç¬¦è™Ÿè¨­å®š
+smilefile è¡¨æƒ…ç¬¦è™Ÿæª”å
+smileintro è«‹å®Œæˆæ‰€éœ€çš„æ¬„ä½ä¾†å»ºç«‹æ–°çš„è‡ªè¨‚è¡¨æƒ…ç¬¦è™Ÿ (è«‹åƒè€ƒå¸¸è¦‹å•ç­”é›†)
+smileintro2 è«‹ç·¨è¼¯æ‰€éœ€çš„æ¬„ä½ä¾†è‡ªè¨‚æ­¤è¡¨æƒ…ç¬¦è™Ÿ (è«‹åƒè€ƒå¸¸è¦‹å•ç­”é›†)
+snackfailed è¼‰å…¥Snackå¤±æ•—, æ¢å¾©æˆé è¨­å€¼
+sngdblclick å–®æ“Šæ»‘é¼ é–‹å•Ÿè¨Šæ¯è¦–çª—
+sound äº‹ä»¶éŸ³æ•ˆ
+sound2 ç•¶é€£çµ¡äººç™»å…¥æˆ–å‚³é€è¨Šæ¯æ™‚æ’­æ”¾è²éŸ³
+soundactive åœ¨å‹•ä½œä¸­çš„è¦–çª—æ”¶åˆ°è¨Šæ¯æ™‚æ’­æ”¾éŸ³æ•ˆ
+soundcommand é€™å¿…é ˆæ˜¯æ’­æ”¾çš„æŒ‡ä»¤ (ex: esdplay) 
+soundexample ( \$sound = è¢«æ’­æ”¾çš„è²éŸ³æª”) Ex: esdplay \$sound 
+soundfile è²éŸ³æª”
+soundfiles è²éŸ³æª”
+soundloop é‡è¤‡æ’­æ”¾
+soundserver è²éŸ³ä¼ºæœå™¨
+soundstatus è²éŸ³è­¦ç¤º
+sourcecode åŸå§‹ç¨‹å¼ç¢¼ (éœ€è¦ç·¨è­¯åŠå®‰è£)
+splashstart é–‹å§‹
+sslwarning è­¦å‘Š!! é—œé–‰SSLé€£ç·šå°‡æœƒé—œé–‰åŠ å¯†, æ‚¨çš„å¯†ç¢¼å°‡æœƒä»¥æ˜ç¢¼æ–¼ç¶²è·¯ä¸Šå‚³é€. åªç”¨åœ¨éå¸¸é›£å°ä»˜çš„proxyä¼ºæœå™¨æˆ–æ˜¯ç¶²è·¯è¨­å®š. 
+startoffline ä»¥éš±å½¢ç‹€æ…‹ç™»å…¥
+startoffline2 å®‰éœæ¨¡å¼ç™»å…¥,å°‡é¡¯ç¤ºç‚º"é›¢ç·š"
+startontray é–‹å•ŸaMSNæ™‚åªåœ¨ç³»çµ±å·¥å…·åˆ—
+state æˆ‘å¸Œæœ›é¡¯ç¤ºç‚º
+stateautomsg è¦å‚³é€çš„è‡ªå‹•è¨Šæ¯
+statechange ç‹€æ…‹æ›´æ”¹ç‚º:
+stateedittext è«‹ç·¨è¼¯æ‚¨æ‰€æƒ³è¦ä¿®æ”¹çš„æ¬„ä½å¾ŒæŒ‰å„²å­˜
+stateinfo å€‹äººç‹€æ…‹è¨­å®š
+statename å€‹äººç‹€æ…‹åç¨±
+statenewtext è«‹å¡«å…¥æ‰€éœ€è¦çš„è³‡è¨Šä¾†å»ºç«‹æ‚¨æ–°çš„å€‹äººç‹€æ…‹å¾ŒæŒ‰å„²å­˜
+statenick è‡ªè¨‚æš±ç¨±(ç©ºç™½ä»£è¡¨ä¸ä½œè®Šæ›´)
+status ç‹€æ…‹
+stopalarm åœæ­¢è­¦ç¤º
+storenickname åœ¨è‡ªè¨‚ç‹€æ…‹æŒ‡å®šç‰¹å®šæš±ç¨±å¾Œé‚„åŸç‚ºåŸå§‹æš±ç¨±
+strictfonts é™åˆ¶æ‰€æœ‰å­—å‹ç‚ºæˆ‘æ‰€é¸å®šçš„ (ç‹€æ…‹åˆ—åŠå…¶ä»–)
+style é¢¨æ ¼
 stylechat Same look as chats
 stylehist aMSN's history look
-stylelog ½Ğ¿ï¾Ü±zÂsÄı¾ú¥v¬ö¿ı®É©Ò·Q­nªº®æ¦¡
-subject ¥D¦®
-subjectrequired ¥D¦®¤£¯à¬°ªÅ¥Õ
-syntaxerror  ¥yªk¿ù»~
-tabbed ¤À­¶µøµ¡
-tabbedglobal ¤@­Ó¤À­¶µøµ¡µ¹©Ò¦³¦bÁpµ¸¤H²M³æ¤¤ªº¨Ï¥ÎªÌ
-tabbedgroups ¤@­Ó¤À­¶µøµ¡µ¹©Ò¦³¦ì©ó¬Û¦P¸s²Õªº¨Ï¥ÎªÌ
-tabtitlenick ¦b¤À­¶¤¤Åã¥Ü¼ÊºÙ¦Ó«Demail
-temp_state ¤£­nÀx¦s (¼È®Éªºª¬ºA, ¦bAMSNÃö³¬«á§Y·|®ø¥¢)
-textsize ¦r«¬¤j¤p
-timeremaining ³Ñ¾l®É¶¡
-timestamps ¦b²á¤Ñµøµ¡¶}±Ò®É¶¡ÂW¦L
+stylelog è«‹é¸æ“‡æ‚¨ç€è¦½æ­·å²ç´€éŒ„æ™‚æ‰€æƒ³è¦çš„æ ¼å¼
+subject ä¸»æ—¨
+subjectrequired ä¸»æ—¨ä¸èƒ½ç‚ºç©ºç™½
+syntaxerror  å¥æ³•éŒ¯èª¤
+tabbed åˆ†é è¦–çª—
+tabbedglobal ä¸€å€‹åˆ†é è¦–çª—çµ¦æ‰€æœ‰åœ¨è¯çµ¡äººæ¸…å–®ä¸­çš„ä½¿ç”¨è€…
+tabbedgroups ä¸€å€‹åˆ†é è¦–çª—çµ¦æ‰€æœ‰ä½æ–¼ç›¸åŒç¾¤çµ„çš„ä½¿ç”¨è€…
+tabtitlenick åœ¨åˆ†é ä¸­é¡¯ç¤ºæš±ç¨±è€Œéemail
+temp_state ä¸è¦å„²å­˜ (æš«æ™‚çš„ç‹€æ…‹, åœ¨AMSNé—œé–‰å¾Œå³æœƒæ¶ˆå¤±)
+textsize å­—å‹å¤§å°
+timeremaining å‰©é¤˜æ™‚é–“
+timestamps åœ¨èŠå¤©è¦–çª—é–‹å•Ÿæ™‚é–“æˆ³å°
 title Al's Messenger
-tkerror TKµo¥Í¿ù»~, amsnµo¥Í¤@­Óbug, ½Ğ¦^³ø¥¦. ½Ğ§âÀÉ®× $1 ±H¨ì amsn-bugs@lists.sf.net
-tlsdowncompleted ÀÉ®× $1 ¤w¸g³Q¤U¸ü¨ì $2. ±z¥²¶·¸ÑÀ£ÁY¨Ã¥B½sÄ¶¥¦ (¦pªG±z¤U¸üªº¬Oµ{¦¡­ì©l½X) ¦Ó¥B³Q¦w¸Ë¨ì $3.
-tlsexplain tcl TLS¼Ò²Õ¤w¸g³Q³]©w. ¦pªGAMSNµLªk¦Û°Ê³]©w¥¦, ½Ğ¦Û¦æ«ü©w.\n(»İ­nSSL»{ÃÒ).
-tlsinstall TLS¼Ò²Õ¦w¸ËºëÆF
-tlsinstallexp aMSN²{¦b¨Ï¥ÎMSN³q°T¨ó©w²Ä¤Eª©, ¸Ó¨ó©w»İ­n¨Ï¥ÎSSL¦w¥ş³s½u.\n ¬°¤F¯à°÷¨Ï¥ÎSSL, aMSN¥²¶·¦w¸Ë¤@­Ó¦W¬°TLSªº¼Ò²Õ,\n¦Ó±zªº¨t²Î«o¨S¦³¦w¸Ë. ¥»¦w¸ËºëÆF±N·|¨ó§U±z¤U¸ü¨Ã¥B\n¦w¸ËTLS¼Ò²Õ. ½Ğ¿ï¾Ü±zªº¨t²Î«¬ºA¥H«K©ó¦Û°Ê¤U¸ü©Ò»İªºTLSÀÉ®×. 
-tlsinstcompleted TLS ¼Ò²Õ¦w¸Ë¦¨¥\ - ±z²{¦bÀ³¸Ó¥i¥H¶¶§Q¨Ï¥ÎMSN³q°T¨ó©w²Ä¤Eª©. ¦pªGÁÙ¬O¤£¦æ, ¨º±z¤j·§¬O¨S¦³¦w¸Ë¥¿½Tªº¼Ò²Õ, ©Î¬O¸Ó¼Ò²Õ¤£¾A¦X±zªº¨t²Î.
-to µ¹
-today ¤µ¤é
-tools ¤u¨ã
-tooltips ¶}±Ò¤u¨ã´£¥Ü
-transnotexists ©Ò­n¨DªºÀÉ®×©|¥¼³QÂ½Ä¶¦¨²{¦b¨Ï¥Îªº»y¨¥
-traynotcompiled ±`¾n¤u¨ã¦Cplugin©|¥¼³Q½sÄ¶. ½ĞÀË¬d plugins/traydock 
-triggers ¤å¦rÄ²µo
-truncatenames1 ±N¼ÊºÙ¶W¹Lµøµ¡¼ĞÃD¼e«×¤Î³sµ¸¤H²M³æªº³¡¤ÀºI¥h
-truncatenames2 ©ó¹ï¸Ü¤¤±N¼ÊºÙ¶W¹Lµøµ¡¼e«×ªº³¡¤ÀºI¥h
-truncatenicks ±N¼ÊºÙ¶W¹Lµøµ¡¼e«×ªº³¡¤ÀºI¥h
-twonewmail $1 «Ê·s¶l¥ó¦b¦¬¥ó§X¤¤
-unblock ¸Ñ°£«ÊÂê
-unknown ¥¼ª¾
-unload ¨ø°£
-uoffline Â÷½u
-uonline ½u¤W
-update §ó·s
-useother ¨Ï¥Î¤@­Ó¤£¦Pµ{¦¡
-user ¨Ï¥ÎªÌ
-useralreadyonlist ³sµ¸¤H¤w¸g¦b²M³æ¤W
-userblocked ³o¦W³sµ¸¤H¬O¦b½u¤W«o§â±z«ÊÂê
-userdata ¨Ï¥ÎªÌ¸ê®Æ
-usernotonline ³o¦W³sµ¸¤H¤£¦b½u¤W
-userproperties ¨Ï¥ÎªÌ $1 Äİ©Ê
-useryourself ±z¤£¥i¥H¸ò¦Û¤v²á¤Ñ
-usesnack ¨Ï¥ÎSnackµ{¦¡®w (Tcl internal)
-verifyblocked ÀË¬d«ÊÂê±zªº¤H
-version ª©¥»
-view ÀËµø
-viewcontactsby ÀËµøÁpµ¸¤H³z¹L
-viewprofile ÀËµø­Ó¤H¸ê°T
-webcaminvite $1 ÁÜ½Ğ±z±Ò°ÊÀËµøºô¸ôÄá¼v¾÷¼v¹³, ¦ı¬OaMSN©|¥¼¤ä´©³o­Ó¥\¯à.
-willjoin µ¥«İ $1 ¥[¤J²á¤Ñ
-winkreceived ±z¤w¸g±q$1¦¬¨ì¤@­Ówink,¥Ø«eaMSN©|¥¼¤ä´©¸Ó¥\¯à
-wintitlenick ¦b³æ¤@¤À­¶µøµ¡¤¤Åã¥Ü¼ÊºÙ¦Ó«Demail
-work ¤u§@
-wrongfields "$1", "$2" and/or "$3" Äæ¦ì¬OµL®Äªº
-wrongprofileversion ¿ù»~ªº­Ó¤H³]©wÀÉª©¥». ¬°¤F­n­×´_¥¦, ½Ğ²¾°£¥Ø¿ı$1, ©Î¬O¤É¯ÅaMSN
-xmmscurrent Åã¥Ü²{¦b¥¿¦b¼½©ñªººq¦±
-xmmserr ¨S¦³¦b¼½©ñ, ©Î¬O±z¨S¦³¦w¸Ëxmms-infopipe.
-xmmssend ¶Ç°e²{¥¿¼½©ñªººq¦±
-xoffset X¶b¦ì¸m
-year ¦~
-yes ¦P·N
-yesblock ½T©w¨Ã¥B«ÊÂê
-yesterday ¬Q¤é
-yoffset Y¶b¦ì¸m
-youblocked §A¤w¸g³Q¥L«ÊÂê
-yousay ±z»¡
-youwant ±z­n
+tkerror TKç™¼ç”ŸéŒ¯èª¤, amsnç™¼ç”Ÿä¸€å€‹bug, è«‹å›å ±å®ƒ. è«‹æŠŠæª”æ¡ˆ $1 å¯„åˆ° amsn-bugs@lists.sf.net
+tlsdowncompleted æª”æ¡ˆ $1 å·²ç¶“è¢«ä¸‹è¼‰åˆ° $2. æ‚¨å¿…é ˆè§£å£“ç¸®ä¸¦ä¸”ç·¨è­¯å®ƒ (å¦‚æœæ‚¨ä¸‹è¼‰çš„æ˜¯ç¨‹å¼åŸå§‹ç¢¼) è€Œä¸”è¢«å®‰è£åˆ° $3.
+tlsexplain tcl TLSæ¨¡çµ„å·²ç¶“è¢«è¨­å®š. å¦‚æœAMSNç„¡æ³•è‡ªå‹•è¨­å®šå®ƒ, è«‹è‡ªè¡ŒæŒ‡å®š.\n(éœ€è¦SSLèªè­‰).
+tlsinstall TLSæ¨¡çµ„å®‰è£ç²¾éˆ
+tlsinstallexp aMSNç¾åœ¨ä½¿ç”¨MSNé€šè¨Šå”å®šç¬¬ä¹ç‰ˆ, è©²å”å®šéœ€è¦ä½¿ç”¨SSLå®‰å…¨é€£ç·š.\n ç‚ºäº†èƒ½å¤ ä½¿ç”¨SSL, aMSNå¿…é ˆå®‰è£ä¸€å€‹åç‚ºTLSçš„æ¨¡çµ„,\nè€Œæ‚¨çš„ç³»çµ±å»æ²’æœ‰å®‰è£. æœ¬å®‰è£ç²¾éˆå°‡æœƒå”åŠ©æ‚¨ä¸‹è¼‰ä¸¦ä¸”\nå®‰è£TLSæ¨¡çµ„. è«‹é¸æ“‡æ‚¨çš„ç³»çµ±å‹æ…‹ä»¥ä¾¿æ–¼è‡ªå‹•ä¸‹è¼‰æ‰€éœ€çš„TLSæª”æ¡ˆ. 
+tlsinstcompleted TLS æ¨¡çµ„å®‰è£æˆåŠŸ - æ‚¨ç¾åœ¨æ‡‰è©²å¯ä»¥é †åˆ©ä½¿ç”¨MSNé€šè¨Šå”å®šç¬¬ä¹ç‰ˆ. å¦‚æœé‚„æ˜¯ä¸è¡Œ, é‚£æ‚¨å¤§æ¦‚æ˜¯æ²’æœ‰å®‰è£æ­£ç¢ºçš„æ¨¡çµ„, æˆ–æ˜¯è©²æ¨¡çµ„ä¸é©åˆæ‚¨çš„ç³»çµ±.
+to çµ¦
+today ä»Šæ—¥
+tools å·¥å…·
+tooltips é–‹å•Ÿå·¥å…·æç¤º
+transnotexists æ‰€è¦æ±‚çš„æª”æ¡ˆå°šæœªè¢«ç¿»è­¯æˆç¾åœ¨ä½¿ç”¨çš„èªè¨€
+traynotcompiled å¸¸é§å·¥å…·åˆ—pluginå°šæœªè¢«ç·¨è­¯. è«‹æª¢æŸ¥ plugins/traydock 
+triggers æ–‡å­—è§¸ç™¼
+truncatenames1 å°‡æš±ç¨±è¶…éè¦–çª—æ¨™é¡Œå¯¬åº¦åŠé€£çµ¡äººæ¸…å–®çš„éƒ¨åˆ†æˆªå»
+truncatenames2 æ–¼å°è©±ä¸­å°‡æš±ç¨±è¶…éè¦–çª—å¯¬åº¦çš„éƒ¨åˆ†æˆªå»
+truncatenicks å°‡æš±ç¨±è¶…éè¦–çª—å¯¬åº¦çš„éƒ¨åˆ†æˆªå»
+twonewmail $1 å°æ–°éƒµä»¶åœ¨æ”¶ä»¶åŒ£ä¸­
+unblock è§£é™¤å°é–
+unknown æœªçŸ¥
+unload å¸é™¤
+uoffline é›¢ç·š
+uonline ç·šä¸Š
+update æ›´æ–°
+useother ä½¿ç”¨ä¸€å€‹ä¸åŒç¨‹å¼
+user ä½¿ç”¨è€…
+useralreadyonlist é€£çµ¡äººå·²ç¶“åœ¨æ¸…å–®ä¸Š
+userblocked é€™åé€£çµ¡äººæ˜¯åœ¨ç·šä¸Šå»æŠŠæ‚¨å°é–
+userdata ä½¿ç”¨è€…è³‡æ–™
+usernotonline é€™åé€£çµ¡äººä¸åœ¨ç·šä¸Š
+userproperties ä½¿ç”¨è€… $1 å±¬æ€§
+useryourself æ‚¨ä¸å¯ä»¥è·Ÿè‡ªå·±èŠå¤©
+usesnack ä½¿ç”¨Snackç¨‹å¼åº« (Tcl internal)
+verifyblocked æª¢æŸ¥å°é–æ‚¨çš„äºº
+version ç‰ˆæœ¬
+view æª¢è¦–
+viewcontactsby æª¢è¦–è¯çµ¡äººé€é
+viewprofile æª¢è¦–å€‹äººè³‡è¨Š
+webcaminvite $1 é‚€è«‹æ‚¨å•Ÿå‹•æª¢è¦–ç¶²è·¯æ”å½±æ©Ÿå½±åƒ, ä½†æ˜¯aMSNå°šæœªæ”¯æ´é€™å€‹åŠŸèƒ½.
+willjoin ç­‰å¾… $1 åŠ å…¥èŠå¤©
+winkreceived æ‚¨å·²ç¶“å¾$1æ”¶åˆ°ä¸€å€‹wink,ç›®å‰aMSNå°šæœªæ”¯æ´è©²åŠŸèƒ½
+wintitlenick åœ¨å–®ä¸€åˆ†é è¦–çª—ä¸­é¡¯ç¤ºæš±ç¨±è€Œéemail
+work å·¥ä½œ
+wrongfields "$1", "$2" and/or "$3" æ¬„ä½æ˜¯ç„¡æ•ˆçš„
+wrongprofileversion éŒ¯èª¤çš„å€‹äººè¨­å®šæª”ç‰ˆæœ¬. ç‚ºäº†è¦ä¿®å¾©å®ƒ, è«‹ç§»é™¤ç›®éŒ„$1, æˆ–æ˜¯å‡ç´šaMSN
+xmmscurrent é¡¯ç¤ºç¾åœ¨æ­£åœ¨æ’­æ”¾çš„æ­Œæ›²
+xmmserr æ²’æœ‰åœ¨æ’­æ”¾, æˆ–æ˜¯æ‚¨æ²’æœ‰å®‰è£xmms-infopipe.
+xmmssend å‚³é€ç¾æ­£æ’­æ”¾çš„æ­Œæ›²
+xoffset Xè»¸ä½ç½®
+year å¹´
+yes åŒæ„
+yesblock ç¢ºå®šä¸¦ä¸”å°é–
+yesterday æ˜¨æ—¥
+yoffset Yè»¸ä½ç½®
+youblocked ä½ å·²ç¶“è¢«ä»–å°é–
+yousay æ‚¨èªª
+youwant æ‚¨è¦
+abort æ”¾æ£„
+aboutamsn é—œæ–¼ Alvaro's Messenger
+account å¸³è™Ÿ
+alarmpref2 æ‰€æœ‰è¯çµ¡äººçš„é¬§éˆ´è¨­å®š
+allmonths 
+always ç¸½æ˜¯
+askcam è¦æ±‚æ¥æ”¶ç¶²è·¯æ”å½±æ©Ÿ
+askeachtime æ¯æ¬¡éƒ½å•æˆ‘
+asksendingyourwebcam è¦æ±‚ç™¼é€è‡ªå·±çš„ç¶²è·¯æ”å½±æ©Ÿ
+asksendoim ä½ æƒ³å°‡æ­¤è¨Šæ¯ä»¥é›¢ç·šæ–¹å¼ç™¼é€å—ï¼Ÿ
+askwebcam è¦æ±‚é€™å€‹ä½¿ç”¨è€…ç™¼é€ä»–/å¥¹çš„ç¶²è·¯æ”å½±æ©Ÿ
+assistantainput é¸æ“‡ä½ çš„è¼¸å…¥è£ç½®ï¼Œä¸¦è©¦è‘—ä»¥å®ƒéŒ„å½±ã€‚
+assistantaoutput é¸æ“‡ä½ çš„è¼¸å‡ºè£ç½®ï¼Œä¸¦è©¦è‘—æ’­æ”¾é€™å€‹æª”æ¡ˆä¾†æ¸¬è©¦å®ƒã€‚
+assistantawarn ä½ å°‡ç„¡æ³•éŒ„å–å½±åƒã€æˆ–èˆ‡ä½ çš„æœ‹å‹èªéŸ³äº¤è«‡ã€‚ä½ ä¹Ÿè¨±èƒ½åœ¨æˆ‘å€‘çš„ wiki ä¸Šæ‰¾åˆ°å¦‚ä½•å®‰è£æ­¤æ“´å……ä»¶çš„èªªæ˜ï¼š
+assistantfinetunepic æ”¹è®Šä»¥ä¸‹è¨­å®šä¾†èª¿æ•´ä½ ç¶²è·¯æ”å½±æ©Ÿçš„å“è³ª
+assistantselectcam å¾æ¸…å–®é¸æ“‡ä½ çš„ç¶²è·¯æ”å½±æ©Ÿ
+assistantstarting å•Ÿå‹•è¨­å®šåŠ©æ‰‹
+assistanttitle èªéŸ³åŠå½±åƒåŠ©æ‰‹
+assistantwelcome é€™å€‹åŠ©æ‰‹å°‡ä¸€æ­¥ä¸€æ­¥å°å¼•ä½ è¨­å®šä½ çš„ aMSN èªéŸ³åŠå½±åƒè¨­å®šã€‚\n\nå®ƒæœƒæª¢æŸ¥å¿…é ˆçš„æ“´å……ä»¶æ˜¯å¦å·²ç¶“å®‰è£ï¼Œè®“ä½ é¸æ“‡è£ç½®åŠé€šé“ï¼Œä¸¦ä¸”è¨­å®šå½±åƒå’Œè§£æåº¦ã€‚
+audioconfigured ä½ é¸æ“‡äº†ä»¥ä¸‹çš„èªéŸ³è¨­å®šï¼š\n\nè¼¸å‡ºè£ç½®ï¼š$1\nè¼¸å…¥è£ç½®ï¼š$2
+audiovideo èªéŸ³åŠå½±åƒè¨­å®š
+autoacceptwc è‡ªå‹•æ¥å—ç¶²è·¯æ”å½±æ©Ÿè¦æ±‚
+autolisten_voiceclips è‡ªå‹•æ’­æ”¾æ”¶åˆ°çš„èªéŸ³
+autoresizedp è‡ªå‹•å°‡åœ–ç‰‡ç¸®æ”¾åˆ°é è¨­å¤§å°
+back ä¸Šä¸€æ­¥
+badwebcam ç„¡æ³•é¡¯ç¤ºç¶²è·¯æ”å½±æ©Ÿçš„å½±åƒï¼Œè«‹ç¢ºèªä½ çš„è£ç½®å·²å¦¥å–„è£å¥½ã€‚
+blocknotifications é—œé–‰é€šçŸ¥æç¤ºè¦–çª—
+blocksounds é—œé–‰è²éŸ³
+brightness äº®åº¦
+bugerror æŠ±æ­‰ï¼Œé€£ç¹«è‡­èŸ²è³‡æ–™åº«æ™‚å‡ºç¾å•é¡Œã€‚è«‹ç¢ºèªä½ çš„ç¶²è·¯é€£ç·šã€‚
+bugnocomment ä¸åŠ è¨»è§£å‚³é€ï¼Ÿè¨»è§£èƒ½å¹«åŠ©æˆ‘å€‘ç†è§£å‡ºäº†ä»€éº¼å•é¡Œï¼Œä¸¦ä¸”æ›´å®¹æ˜“æ”¹å–„å®ƒã€‚
+cachedpicsfor ä½¿ç”¨è€…çš„å·²å­˜åœ–ç‰‡
+cagreement ä¿å¯†å”å®š
+cancelled å–æ¶ˆäº†
+cantloadonlineversion ç„¡æ³•å¾ç¶²è·¯ä¸Šç²å–æ›´æ–°çš„èªè¨€æ¸…å–®
+captureproperties ç¶²è·¯æ”å½±æ©Ÿå½±åƒå±¬æ€§
+capturewarn å¦‚æœä½ æ²’æœ‰ç¶²è·¯æ”å½±æ©Ÿå°±ç„¡æ³•å‚³é€å½±åƒï¼Œé€™å¾ˆæ­£å¸¸ã€‚ä½ ä¹Ÿè¨±èƒ½åœ¨æˆ‘å€‘çš„ wiki ä¸Šæ‰¾åˆ°ç­”æ¡ˆï¼š
+change_account_info æ›´æ”¹å¸³è™Ÿè³‡è¨Š
+change_mobile æ›´æ”¹è¡Œå‹•è¨­å‚™è¨­å®š
+changepsm æ›´æ”¹å€‹äººè¨Šæ¯
+changestatus æ”¹è®Šç‹€æ…‹
+changevideosettings æ›´æ”¹å½±åƒè¨­å®š
+channels é »é“
+checkingaudio æ­£æª¢æŸ¥èªéŸ³æ“´å……ä»¶ (Snack) æ˜¯å¦å·²è¼‰å…¥â€¦
+checkingcam æ­£æª¢æŸ¥æ˜¯å¦å·²æœ‰ç¶²è·¯æ”å½±æ©Ÿé€£æ¥â€¦
+checkingcapext æ­£æª¢æŸ¥ '$1' æ“´å……ä»¶æ˜¯å¦å·²è¼‰å…¥â€¦
+checkingextensions æ­£æª¢æŸ¥å¿…è¦çš„å½±åƒæ“´å……ä»¶
+checkopenfilecommand è«‹æª¢æŸ¥åœ¨åå¥½è¨­å®šä¸­çš„é–‹å•Ÿæª”æ¡ˆå‘½ä»¤
+choosechannel é¸æ“‡ä¸€å€‹é »é“
+choosedevice é¸æ“‡ä½ çš„è£ç½®
+chooseinputdev é¸æ“‡ä½ çš„è¼¸å…¥è£ç½®
+chooselocation é¸æ“‡æ–°æª”æ¡ˆä½ç½®
+choosemixerdev é¸æ“‡ä½ çš„æ··éŸ³å™¨
+chooseoutputdev é¸æ“‡ä½ çš„è¼¸å‡ºè£ç½®
+clearwebcamlogs æ¸…é™¤æ‰€æœ‰ç¶²è·¯æ”å½±æ©Ÿç´€éŒ„
+clickhere æŒ‰é€™è£¡
+closeall é—œé–‰è¦–çª—å…§çš„æ‰€æœ‰åˆ†é ï¼Ÿ
+closealltabs é—œé–‰æ‰€æœ‰åˆ†é 
+closechatwindows ç™»å‡ºå‰é—œé–‰æ‰€æœ‰è«‡è©±ï¼Ÿ
+closelabel ç•¶ä½ åœ¨åˆ†é è¦–çª—å…§æŒ‰ä¸‹é—œé–‰éˆ•æ™‚
+closeonly åªé—œé–‰ç›®å‰çš„åˆ†é 
+closeorcall ä½ å¿…é ˆåœ¨é—œé–‰è¦–çª—å‰é—œé–‰æˆ–å–æ¶ˆèªéŸ³å‘¼å«ã€‚
+closeordock é—œé–‰è¯çµ¡äººæ¸…å–®ç­‰æ–¼é›¢é–‹ aMSNã€‚ä¹Ÿè¨±ä½ åªæƒ³è¦ç¸®å°æ¸…å–®åˆ°ç³»çµ±å·¥å…·åˆ—ï¼Ÿ\n\nä½ ç¢ºå®šä½ è¦é›¢é–‹ aMSNï¼Ÿ
+closeothers é—œé–‰æ‰€æœ‰å…¶ä»–åˆ†é 
+color è‰²å½©
+configuremic é…ç½®ä½ çš„éº¥å…‹é¢¨
+configuringaudio é…ç½®èªéŸ³è¨­å®š
+configureplugin é…ç½®æ’ä»¶ $1
+confirmfulldelete ä¹Ÿå¾ Windows Live é€šè¨ŠéŒ„ä¸­ç§»é™¤
+congrats æ­å–œ
+connectedat å·²é€£ç·šæ–¼
+connectfirst è«‹å…ˆé€£ç·š
+contacts è¯çµ¡äºº
+contrast å°æ¯”
+copytoclipboard æ‹·è² $1 è‡³å‰ªè²¼ç°¿ä¸­
+couldnotrename ç„¡æ³•é‡æ–°å‘½åæª”æ¡ˆ $1
+curdisplaypic ç›®å‰é¡¯ç¤ºåœ–ç‰‡
+currentdynrate ç›®å‰å¯¦æ™‚é€Ÿåº¦ï¼ˆåƒåˆ†ä¹‹ä¸€ç§’ï¼‰
+customdp è‡ªè¨‚é¡¯ç¤ºåœ–ç‰‡
+customsmileys é¡¯ç¤ºå…¶ä»–ä½¿ç”¨è€…è‡ªè¨‚çš„è¡¨æƒ…åœ–ç¤º
+custshowcustomsmileys ç§€å‡ºä½¿ç”¨è€…è‡ªè¨‚çš„è¡¨æƒ…åœ–ç¤º
+cutimageboxreset é‡è¨­é¸æ“‡å€åŸŸ\å¤§å°è‡³ï¼š
+cutimagebox é¸æ“‡ä½ å½±åƒä¸­è¦ä½¿ç”¨çš„éƒ¨ä»½ï¼Œç¸®æ”¾ä¸¦ç§»å‹•é¸æ“‡å€å¡Š
+default2 é è¨­
+deleteall å…¨éƒ¨åˆªé™¤
+deleteblock åˆªé™¤ä¸¦å°é–
+detach åˆ†é–‹
+details è©³æƒ…
+devicebusy è£ç½® $1 å¿™ç¢Œä¸­
+devices è£ç½®
+displayeventnick ç•¶è¯çµ¡äººæ”¹è®Šæš±ç¨±æ™‚é¡¯ç¤º
+displayeventpsm ç•¶è¯çµ¡äººæ”¹è®Šå€‹äººè¨Šæ¯æ™‚é¡¯ç¤º
+done å®Œæˆ
+dontaskweek åœ¨ä¸€é€±å…§åˆ¥å†å•æˆ‘æ˜¯å¦æ›´æ–°
+dontshowdp ä¸è®“é€™å€‹ä½¿ç”¨è€…ä¸‹è¼‰ä½ çš„æ–°é¡¯ç¤ºåœ–ç‰‡
+downloadcanceled ä¸‹è¼‰å·²å–æ¶ˆ
+downloadingwait æ­£åœ¨ä¸‹è¼‰æ–°ç‰ˆçš„ aMSNï¼Œè«‹ç¨å¾…â€¦
+dynamicrate ä½¿ç”¨å‹•æ…‹æ¥¨ç‡ä¾†æ¨¡æ“¬å¯¦æ™‚é€Ÿåº¦
+editcontent ç·¨è¼¯ä¸»é¡Œæ¡†åŠç­†è¨˜æ¡†å…§å®¹
+editavsettings ç·¨è¼¯èªéŸ³åŠå½±åƒè¨­å®š
+editmyprofile ç·¨è¼¯æˆ‘çš„ MSN æª”æ¡ˆ
+emoticon_steal åŠ è‡³æˆ‘çš„è¡¨æƒ…ç¬¦è™Ÿ
+enablespaces å•Ÿå‹• Windows Live ç©ºé–“æœå‹™ï¼ˆå¯¦é©—æ€§ï¼‰
+enterbugdesc æè¿°ä½ å‰›åœ¨åšä»€éº¼ï¼Œä»¥å¹«åŠ©æˆ‘å€‘æ¸›å°‘ç¨‹å¼è‡­èŸ²ï¼š
+enterpsm ä½ çš„å€‹äººè¨Šæ¯
+escapeclosescw ESC éµé—œé–‰èŠå¤©è¦–çª—
+error éŒ¯èª¤
+farsightextchecking æ­£æª¢æŸ¥ Farsight æ“´å……ä»¶æ˜¯å¦å·²è¼‰å…¥â€¦
+fetching æŠ“å–è³‡æ–™ä¸­â€¦
+findasyoutype éš¨æ‰“å³æ‰¾
+find å°‹æ‰¾
+findnext å°‹æ‰¾ä¸‹ä¸€å€‹
+findprev å°‹æ‰¾å‰ä¸€å€‹
+finetunesettings å„ªåŒ–å½±åƒè¨­å®š
+finish å®Œæˆ
+finish2apply æŒ‰ä¸‹å®Œæˆä»¥å¥—ç”¨é€™äº›è¨­å®šã€‚
+firewalled ä½ è¢«é˜²ç«ç‰†æˆ–è·¯ç”±å™¨é˜»æ“‹ã€‚
+firewalled2 ä½ è¢«é˜²ç«ç‰†é˜»æ“‹ï¼Œè«‹å¾åå¥½è¦–çª—ä¸­æª¢æŸ¥ä½ çš„é€£ç·šè¨­å®š
+forget_me å¿˜è¨˜æˆ‘
+forgot_pass æˆ‘å¿˜äº†æˆ‘çš„å¯†ç¢¼
+formatctt CTT æ ¼å¼
+formatcsv CSV æ ¼å¼
+ftportpref2 å•Ÿå‹•ç›´æ¥é€£ç·šç”¨ portï¼ˆå‚³æª”åŠä½¿ç”¨ç¶²è·¯æ”å½±æ©Ÿå¿…è¦ï¼‰
+ftporttest æ¸¬è©¦ port
+gameaccepted $1 å·²æ¥å—ä½ çš„éŠæˆ²é‚€è«‹
+gameclosedbyother $1 å–æ¶ˆäº†èˆ‡ä½ çš„éŠæˆ²ã€‚
+gameclosedbyself ä½ å·²å–æ¶ˆèˆ‡ $1 çš„éŠæˆ²ã€‚
+gameinvitation $1 é‚€è«‹ä½ ä¸€èµ·ç© $2ï¼Œä½ æƒ³æ¥å—å—ï¼Ÿ
+gamepluginnotfound $1 é‚€è«‹ä½ ä¸€èµ·ç© $2ï¼Œä½†æ‰¾ä¸åˆ°é€™å€‹éŠæˆ²çš„æ’ä»¶ã€‚è«‹å…ˆå•Ÿå‹•ä¸¦è¨­å®šé€™å€‹æ’ä»¶ã€‚
+gamerejected $1 æ‹’çµ•äº†ä½ çš„éŠæˆ²é‚€è«‹
+gamerequest ä½ é‚€è«‹äº† $1 ä¸€èµ·ç© $2
+getmoreplugins å–å¾—æ›´å¤šæ’ä»¶ï¼
+gotink $1 é€çµ¦ä½ ä¸€ç“¶å¢¨æ°´ã€‚
+goto è‡³ $1
+gotoinbox è‡³æ”¶ä»¶åŒ£
+goto_prefs_removeprofile æŒ‰é€™è£¡é€²å…¥åå¥½è¨­å®šä¸¦åˆªé™¤ä½ çš„æª”æ¡ˆ
+groupcontacts ç·¨åˆè¯çµ¡äºº
+groupcontactsbystatus ä»¥ç‹€æ…‹ç·¨åˆè¯çµ¡äºº
+groupnonim å°‡éå³æ™‚è¨Šæ¯è¯çµ¡äººç·¨åˆèµ·ä¾†
+hangup æ›æ–·
+havenomic æˆ‘æ²’æœ‰éº¥å…‹é¢¨
+hidedetails éš±è—ç´°ç¯€
+hidebuttonbar éš±è—æŒ‰éˆ•åˆ—
+hidemenumessage ä½ ç¢ºå®šä½ è¦éš±è—åŠŸèƒ½è¡¨ï¼Ÿ\nä½ èƒ½ä½¿ç”¨ç†±éµ 'Ctrl-M' å†æ‰“é–‹å®ƒã€‚
+hidemenu é¡¯ç¤º/éš±è—åŠŸèƒ½è¡¨
+history2 æ­·å²
+howto_remove_profile æƒ³è¦åˆªé™¤ä½ çš„æª”æ¡ˆï¼ˆå¿˜è¨˜ $1ï¼‰å¿…é ˆå¾åå¥½è¨­å®šè¦–çª—ä¸­åŸ·è¡Œã€‚\n\nå‡ºæ–¼å®‰å…¨åŸå› ï¼Œå¾ç™»å…¥ç•«é¢åˆªé™¤æ˜¯ä¸å…è¨±çš„ã€‚
+hue è‰²èª¿
+huge å·¨å¤§
+ignorecontact å¿½ç•¥é€™å€‹è¯çµ¡äººçš„è«‡è©±
+ignore å¿½ç•¥
+invalidparameter é€£åˆ°ä¼ºæœå™¨æ™‚éŒ¯èª¤ï¼š\nç„¡æ•ˆçš„åƒæ•¸
+large å¤§
+largest æœ€å¤§
+lazypicretrieval  Lazy Display Pictures retrieval
+lconvstartedOIM èˆ‡ $1 é–‹å§‹é€²è¡Œé›¢ç·šäº¤è«‡
+listening 
+loadotherdisplaypic è¼‰å…¥ $1 çš„é¡¯ç¤ºåœ–ç‰‡ä¸­ï¼Œè«‹ç¨å€™â€¦
+logeventnick è¨˜éŒ„æš±ç¨±çš„æ”¹è®Š
+logeventpsm è¨˜éŒ„å€‹äººè¨Šæ¯çš„æ”¹è®Š
+logoutwincloselabel ç•¶ç™»å‡ºæ™‚é—œé–‰äº¤è«‡
+logschats æ­£åœ¨è¨˜éŒ„äº¤è«‡
+logwebcam å„²å­˜æ‰€æœ‰ç¶²è·¯æ”å½±æ©Ÿå½±åƒåˆ° aMSN æ­·å²ä¸­
+longpsm ä½ çš„å€‹äººè¨Šæ¯å¤ªé•·äº†ã€‚é€™ä¸¦æœªè¢«å®˜æ–¹ MSN å”å®šæ‰€æ”¯æ´ï¼Œç¢ºå®šä½ è¦è¨­å®šç‚ºæ­¤ï¼Ÿ
+lowrescam ä½¿ç”¨ä½è§£æåº¦çš„ç¶²è·¯æ”å½±æ©Ÿ
+medium ä¸­ç­‰
+minimize ç¸®å°è‡³å·¥å…·åˆ—
+mobilegrp1 è¡Œå‹•ç¾¤çµ„
+mobilegrp2 ç•¶é›¢ç·šæ™‚å°‡ä½¿ç”¨è€…æ”¾åœ¨ã€Œè¡Œå‹•ã€ç¾¤çµ„ä¸­ï¼ˆä¸¦ä»¥ç‹€æ…‹æ’åˆ—ï¼‰
+more æ›´å¤š
+msnstatus MSN ç¶²è·¯ç‹€æ…‹
+mypics æˆ‘çš„é¡¯ç¤ºåœ–ç‰‡
+new_account å‰µå»ºå¸³è™Ÿ
+newchat æ–°çš„èŠå¤©
+newline é–‹æ–°è¡Œ
+newoim æ–°çš„é›¢ç·šè¨Šæ¯
+newupdate aMSN æœ‰æ›´æ–°å¯ä¾›ä¸‹è¼‰
+nickchanged $1 å°‡æš±ç¨±æ”¹ç‚º '$2' äº†
+no_blocked_notif ä¸è¦ç‚ºå°é–çš„è¯çµ¡äººè·³å‡ºæé†’è¦–çª—
+nocacheddps é€™å€‹ä½¿ç”¨è€…æ²’æœ‰å·²å­˜çš„é¡¯ç¤ºåœ–ç‰‡
+nocamwarn æ²’æœ‰æ‰¾åˆ°ä»»ä½•ç¶²è·¯æ”å½±æ©Ÿï¼Œæˆ–è€…ä½ çš„ç¶²è·¯æ”å½±æ©Ÿå·²ç¶“è¢«å¦ä¸€å€‹ç¨‹å¼æ‰€ç”¨ï¼ˆé‚£å°‡ä½¿ aMSN ç„¡æ³•ä½¿ç”¨å®ƒï¼‰ã€‚ä½ èƒ½åœ¨æˆ‘å€‘çš„ wiki ä¸Šå°‹æ‰¾å¹«åŠ©ï¼š
+nodevices ç›®å‰æ²’æœ‰è£ç½®å·²ç¶“å®‰è£
+noftpreview ä¸è¦åœ¨å‚³é€åœ–æª”æ™‚å…ˆæä¾›é è¦½
+nojavascript ä½ çš„ javascript æ”¯æ´æœªé–‹å•Ÿã€‚è‡ªå‹•ç™»å…¥ä¹Ÿè¨±ç„¡æ³•æˆåŠŸã€‚
+nomic æ²’æœ‰éº¥å…‹é¢¨
+nonimgroup éå³æ™‚çš„è¯çµ¡äºº
+nooimconfirmation ç•¶æ”¶ç™¼é›¢ç·šè¨Šæ¯æ™‚ä¸éœ€è¦ç¢ºèª
+noresizesmileys ä¸è¦ç¸®å°æ”¶åˆ°çš„è‡ªè¨‚è¡¨æƒ…ç¬¦è™Ÿ
+nosound æ²’æœ‰åµæ¸¬åˆ°è²éŸ³ï¼Œç¢ºèªä½ çš„éº¥å…‹é¢¨å·²é€£æ¥å¥½
+nosound_or_hold æ²’æœ‰åµæ¸¬åˆ°è²éŸ³ã€‚è¦å‚³é€èªéŸ³è¨Šæ¯ä½ å¿…é ˆæŒ‰ä½æŒ‰éˆ•ï¼Œç›´åˆ°ä½ èªªå®Œè©±å†æ”¾é–‹å®ƒã€‚
+nospace æ²’ä»€éº¼å¥½çœ‹çš„
+notimcontact é€™å€‹è¯çµ¡äººä¸¦ä¸ä½¿ç”¨å³æ™‚é€šè¨Š
+nouserspecified æœªæŒ‡å®šä»»ä½•ä½¿ç”¨è€…
+oim é›¢ç·šè¨Šæ¯
+onlinehelp ç·šä¸Šå”åŠ©
+opendir æ‰“é–‹ç›®éŒ„
+openfilecommand é–‹å•Ÿæª”æ¡ˆå‘½ä»¤
+openfile é–‹å•Ÿ
+otherdisplaypic æ­¤ä½¿ç”¨è€…çš„å…¶ä»–é¡¯ç¤ºåœ–ç‰‡ï¼ˆæŒ‰å³éµæ›´å¤šé¸é …ï¼‰
+otherdps å…¶ä»–é¡¯ç¤ºåœ–ç‰‡
+passportnotverified ä½ çš„ passport å¸³è™Ÿå¿…é ˆå…ˆé©—è­‰æ‰èƒ½æ”¹è®Šå€‹äººè³‡è¨Šï¼ˆä¾‹å¦‚æš±ç¨±ï¼‰ ã€‚è«‹æª¢æŸ¥ä½ çš„æ”¶ä»¶åŒ£ä¸­æ˜¯å¦æ”¶åˆ°å…§å«å•Ÿå‹•ç¢¼çš„ emailã€‚
+pausedwebcamreceive ç¶²è·¯æ”å½±æ©Ÿå½±åƒè¢«å°æ–¹æš«åœ
+pause æš«åœ
+pausewebcamsend æš«åœå‚³é€ç¶²è·¯æ”å½±æ©Ÿå½±åƒ
+play æ’­æ”¾
+playbackposition æ’­æ”¾ä½ç½®
+playbackspeed æ’­æ”¾é€Ÿåº¦ï¼ˆæ¯æ¥¨ä¹‹é–“ç‚ºåƒåˆ†ä¹‹ä¸€ç§’ï¼‰
+playerror å˜—è©¦æ’­æ”¾éŸ³æ•ˆæ™‚å‡ºç¾éŒ¯èª¤ï¼š$1
+playgame ç©éŠæˆ²
+playgame2 ç© $1
+playtest æ’­æ”¾æ¸¬è©¦æª”
+playwebcamsend å›å¾©ç¶²è·¯æ”å½±æ©Ÿå½±åƒå‚³é€
+portswellconfigured ä½ çš„ port å·²è¨­å®šå¥½
+preffont4 æ”¹è®Šåœ¨èŠå¤©è¦–çª—ä¸­å…¶ä»–äººæ–‡å­—çš„æ•ˆæœ
+preflocale èªç³»è¨­å®š
+preflocale2 é¸æ“‡ä½ çš„èªè¨€/åœ‹å®¶ç¢¼
+psmatend å°‡å€‹äººè¨Šæ¯æ“ºåœ¨æš±ç¨±æ—
+psmchanged $1 æ›´æ–°äº†å€‹äººè¨Šæ¯ï¼š'$2'
+psmdontshow ä¸è¦é¡¯ç¤ºå€‹äººè¨Šæ¯ï¼Œé™¤éåœ¨å»£åŸŸ/è‡ªè¨‚è¨­å®šä¸­å¦æœ‰æŒ‡å®š
+psmnewline å°‡å€‹äººè¨Šæ¯æ“ºåœ¨æš±ç¨±ä¹‹ä¸‹
+psm å€‹äººè¨Šæ¯
+psmplace è¦å°‡å€‹äººè¨Šæ¯æ“ºåœ¨å“ªè£¡ï¼Ÿ
+pwcdriver ä½ æ­£ä½¿ç”¨ pwc é©…å‹•ç¨‹å¼
+quit é›¢é–‹
+receivedoimread ä½ æœ‰ $1 æ¢é›¢ç·šè¨Šæ¯ï¼Œæƒ³è®€å—ï¼Ÿ
+receivedvoice æ”¶åˆ°èªéŸ³è¨Šæ¯
+reconnectnow é¦¬ä¸Šé‡é€£
+record éŒ„å–
+recorderror å˜—è©¦éŒ„éŸ³æ™‚ç™¼ç”ŸéŒ¯èª¤ï¼š$1
+recvwebcamaccepted $1 æ¥å—äº†ä½ çš„ç¶²è·¯æ”å½±æ©Ÿè¦æ±‚ï¼Œæ­£åœ¨é€£ç·šâ€¦
+redirect æŒ‰é€™è£¡é‡æ–°å°å‘
+rememberaccount è¨˜ä½æˆ‘çš„å¸³æˆ¶
+remembersetting è¨˜ä½æˆ‘çš„é¸æ“‡
+removefromgroup å¾ç¾¤çµ„ä¸­ç§»é™¤
+renameep é‡æ–°å‘½åé€™å€‹ä½ç½®ï¼ˆ$1ï¼‰
+renamelocation é‡æ–°å‘½åé€™å€‹ä½ç½®
+reporting å›å ±ä¸­
+report å›å ±
+retry é‡è©¦
+resetincomingfont é‡è¨­å­—å‹ï¼ˆä½¿ç”¨å‚³è¨Šè€…çš„æŒ‡å®šå­—å‹ï¼‰
+restartforskin æ³¨æ„ï¼šä½ ä¹Ÿè¨±è¦é‡å•Ÿ aMSN æ‰èƒ½æ­£å¸¸çœ‹è¦‹æ–°é¢æ¿ï¼
+saveddefaultloc å„²å­˜åœ¨é è¨­ä½ç½®ä¸­
+savelocation ä½ æƒ³å­˜æª”åœ¨ $1 å—ï¼Ÿ
+savelocationerror æª”æ¡ˆä¸èƒ½å­˜åœ¨é€™å€‹ä½ç½®ã€‚
+saveotherdirectory å­˜åœ¨å¦ä¸€å€‹ç›®éŒ„ä¸­
+searchadvprefs åœ¨é€²éšé¸é …ä¸­æœå°‹ï¼š
+searchdown å¾€ä¸‹æ‰¾
+searchup å¾€ä¸Šæ‰¾
+selectall å…¨é¸
+selectcontact é¸æ“‡ä¸€å€‹è¯çµ¡äºº
+sendcam å‚³é€ç¶²è·¯æ”å½±æ©Ÿå½±åƒ
+sendemail ä»¥ email æé†’æˆ‘æ–°çš„æ”¹è®Š
+sendfeedback å‚³é€å›é¥‹
+sendoim å‚³é€é›¢ç·šè¨Šæ¯
+sendsip é–‹å§‹èªéŸ³å°è©±
+sendvoice å‚³é€èªéŸ³è¨Šæ¯
+sendwebcamaccepted $1 æ¥å—äº†è§€çœ‹ä½ çš„ç¶²è·¯æ”å½±æ©Ÿçš„é‚€è«‹ï¼Œé€£ç·šä¸­â€¦
+sendwebcaminvite é‚€è«‹ä½¿ç”¨è€…è§€çœ‹ä½ çš„ç¶²è·¯æ”å½±æ©Ÿ
+sentvoice èªéŸ³è¨Šæ¯å·²å‚³é€
+setasmydp è¨­ç‚ºæˆ‘çš„é¡¯ç¤ºåœ–ç‰‡
+setbackinitialstate ä½ å·²ç¶“è¨­å®šä»¥ $1 ç‹€æ…‹ç™»å…¥ï¼Œä½†ä½ ç¾åœ¨æ˜¯ $2ã€‚ç¢ºå®šè¦å°‡ä½ çš„ç‹€æ…‹æ”¹å› $1ï¼Ÿ
+setupcam è¨­å®šä½ çš„ç¶²è·¯æ”å½±æ©Ÿè£ç½®
+setupcamfinetune è¨­å®šç¶²è·¯æ”å½±æ©Ÿè£ç½®ä¸¦æ ¡èª¿ç•«é¢
+shareswebcam åˆ†äº«ç¶²è·¯æ”å½±æ©Ÿ
+show_contactdps_in_cl åœ¨è¯çµ¡äººæ¸…å–®ä¸­é¡¯ç¤ºè¯çµ¡äººçš„ç¸®å°åœ–
+showcontactemail ä»¥ E-mail é¡¯ç¤ºè¯çµ¡äºº
+showcontactnick ä»¥æš±ç¨±é¡¯ç¤ºè¯çµ¡äºº
+showdetailedview é¡¯ç¤ºè¯çµ¡äººçš„ç´°ç¯€
+showdetails é¡¯ç¤ºç´°ç¯€
+showonedpframe åœ¨èŠå¤©è¦–çª—ä¸­åªé¡¯ç¤ºä¸€å¼µé ­åƒ
+showlinksinlogin åœ¨ç™»å…¥è¦–çª—ä¸­é¡¯ç¤ºè¶…é€£çµ
+shownonim é¡¯ç¤ºéå³æ™‚é€šè¨Šä½¿ç”¨è€…
+showmailicon åœ¨ç³»çµ±å·¥å…·åˆ—æ”¾å…¥éƒµä»¶åœ–ç¤ºä»¥æé†’æˆ‘æ–°éƒµä»¶
+showofflinegroup é¡¯ç¤ºé›¢ç·šç¾¤çµ„
+showpicnotify åœ¨æé†’çª—ä¸­é¡¯ç¤ºä½¿ç”¨è€…çš„é ­åƒ
+signinstatus ç™»å…¥ç‹€æ…‹
+signout ç™»å‡º
+signouthere åœ¨æ­¤ç™»å‡ºï¼ˆ$1ï¼‰
+signoutep åœ¨ $1 ç™»å‡º
+signouteverywhere åœ¨ä»»ä½•åœ°æ–¹ç™»å‡º
+sipcallaccepted èªéŸ³å°è©±å·²æ¥å—
+sipcallback æ‰“çµ¦å°æ–¹
+sipcalldeclined èªéŸ³å°è©±å·²æ‹’çµ•
+sipcalleeaccepted ä½¿ç”¨è€…æ¥å—äº†ä½ çš„èªéŸ³å°è©±
+sipcalleebusy ä½¿ç”¨è€…ç›®å‰å¿™ç¢Œä¸­
+sipcalleecanceled ä½¿ç”¨è€…å–æ¶ˆäº†èªéŸ³å°è©±çš„é‚€è«‹
+sipcalleeclosed ä½¿ç”¨è€…é—œé–‰äº†ä½ çš„èªéŸ³å°è©±
+sipcalleedeclined ä½¿ç”¨è€…æ‹’çµ•äº†ä½ çš„èªéŸ³å°è©±é‚€è«‹
+sipcalleenoanswer ä½¿ç”¨è€…ç„¡å›æ‡‰
+sipcalleeunavailable ä½¿ç”¨è€…ç›®å‰æ²’ç©º
+sipcallended ä½ çš„èªéŸ³å°è©±å·²çµæŸ
+sipcallimpossible ä½ ç„¡æ³•ä½œèªéŸ³å°è©±ã€‚è«‹å®‰è£ Farsight2 ä¹‹å¾Œå†è©¦ä¸€æ¬¡ã€‚
+sipcallmissed ä½ éŒ¯éäº† $1 æ‰“ä¾†çš„èªéŸ³å°è©±
+sipcallnosipflag ä½¿ç”¨è€…ä¸æ”¯æ´èªéŸ³å°è©±ã€‚
+sipcallsent å‘¼å« $1 ä¸­
+sipcallunsupported æ”¶åˆ°èªéŸ³å°è©±é‚€è«‹ï¼Œä½†ç›®å‰ä¸æ”¯æ´é€™ç¨®æ–¹å¼ã€‚ä½ å¯ä»¥ç¨å¾Œæ‰“å›çµ¦å°æ–¹ï¼ŒèªéŸ³å°è©±å°±èƒ½æ­£å¸¸å·¥ä½œã€‚
+sipcallyouarebusy ä¸€æ¬¡åªèƒ½æœ‰ä¸€å€‹èªéŸ³å°è©±ã€‚
+sipgotinvitation æ”¶åˆ°å¾ $1 å‚³ä¾†çš„èªéŸ³å°è©±é‚€è«‹
+small å°
+smallest æœ€å°
+smiletoobig ä½ é¸æ“‡çš„åœ–ç‰‡å¤§æ–¼ä¸€èˆ¬å°ºå¯¸ï¼Œä½ è¦ç¸®å°å®ƒå—ï¼Ÿ
+smileynotavailable Smiley not available!
+snackneeded è¦ä½¿ç”¨é€™å€‹åŠŸèƒ½å¿…é ˆæœ‰ Snack å‡½å¼åº«ï¼ˆé«˜æ–¼ 2.2.9 ç‰ˆæœ¬ï¼‰ã€‚
+snapshot æ”åœ–
+sortcontactsasc éå¢æ–¹å¼æ’åˆ—è¯çµ¡äºº
+sortcontactsdesc éæ¸›æ–¹å¼æ’åˆ—è¯çµ¡äºº
+sortcontactsby æ’åˆ—è¯çµ¡äººä»¥â€¦
+sortcontactsbylogsize ä»¥è¨˜éŒ„å¤šå¯¡æ’åˆ—è¯çµ¡äºº
+sortcontactgroup ä»¥ç¾¤çµ„æ’åˆ—è¯çµ¡äºº
+sortcontacthybrid æ··åˆæ’åˆ—æ¨¡å¼
+sortcontactstatus ä»¥ç‹€æ…‹æ’åˆ—è¯çµ¡äºº
+sortgroupsasc éå¢ç¾¤çµ„æ’åˆ—
+sortgroupsdesc éæ¸›ç¾¤çµ„æ’åˆ—
+soundnoavail éŸ³æ•ˆè£ç½®ç„¡æ³•ä½¿ç”¨ï¼Œè«‹å…ˆåœæ­¢å…¶ä»–ä½¿ç”¨éŸ³æ•ˆçš„æ‡‰ç”¨ç¨‹å¼ã€‚
+startonboot é–‹æ©Ÿå°±å•Ÿå‹• aMSN
+statepsm è‡ªè¨‚å€‹äººè¨Šæ¯ï¼ˆç©ºç™½å‰‡ç„¡æ”¹è®Šï¼‰
+stats çµ±è¨ˆ
+step æ­¥é©Ÿ
+stop åœæ­¢
+stopwebcamreceive åœæ­¢æ¥æ”¶ç¶²è·¯æ”å½±æ©Ÿ
+stopwebcamsend åœæ­¢å‚³é€ç¶²è·¯æ”å½±æ©Ÿ
+svnversion SVN ç‰ˆæœ¬
+thismonth é€™å€‹æœˆ
+throughserver é€šéä¼ºæœå™¨
+timestamp æ™‚é–“æ¨™ç±¤
+tkerror1 TK æŠ“åˆ°ä¸€å€‹éŒ¯èª¤ï¼Œé€™è¡¨ç¤º aMSN ç¨‹å¼ä¸­æœ‰ bugï¼Œè«‹æŒ‰ä¸‹å›å ±éˆ•å›å ±ã€‚ä½ ä¹Ÿå¯ä»¥é€²å…¥è©³æƒ…è¦–çª—çœ‹é—œæ–¼ bug çš„æ›´å¤šè³‡è¨Šï¼Œæˆ–è€…æŒ‰å¿½ç•¥ç¹¼çºŒä½¿ç”¨ aMSNã€‚
+totalsize ç¸½å¤§å°
+trayicon åœ¨ç³»çµ±å·¥å…·åˆ—é¡¯ç¤ºç‹€æ…‹åœ–ç¤º
+type é¡å‹
+unselectall å–æ¶ˆé¸æ“‡å…¨éƒ¨
+updateonlycurrentlanguage åªæ›´æ–°ç›®å‰çš„èªè¨€
+updatesaved å®Œæˆ\nå·²å°‡ $1 å­˜åœ¨ $2ã€‚
+updating æ›´æ–°ä¸­
+useasdp ç”¨ä½œé ­åƒ
+useasregexp ä½¿ç”¨æ­£è¦è¡¨é”å¼ (regexp)
+userdps ä½¿ç”¨è€…é ­åƒ
+usersettings è¨­å®š
+videoconversationrequest å‰›å‰›æ”¶åˆ°ä¸€å€‹éŸ³åƒè«‡è©±çš„é‚€è«‹ï¼ˆèªéŸ³èˆ‡å½±åƒï¼‰ã€‚é€™å€‹åŠŸèƒ½å°šæœªè¢« aMSN æ”¯æ´ä¸¦å·²ç¶“å–æ¶ˆè©²é‚€è«‹ã€‚ä¸éï¼Œä½ ä»ç„¶å¯ä»¥ä½¿ç”¨æ¨™æº–ç¶²è·¯æ”å½±æ©Ÿæºé€šã€‚
+volume éŸ³é‡
+wanttosharecam æˆ‘æƒ³åˆ†äº«æˆ‘çš„ç¶²è·¯æ”å½±æ©Ÿçµ¦å…¶ä»–äºº
+web ç¶²è·¯
+webcamcanceled èˆ‡ $1 ä¹‹é–“çš„ç¶²è·¯æ”å½±æ©Ÿé€£ç·šå·²ç¶“å–æ¶ˆ
+webcamclosebefcancel ä½ å¿…é ˆå…ˆé—œé–‰æ‰€æœ‰ç¶²è·¯æ”å½±æ©Ÿé€£ç·šï¼Œæ‰èƒ½é—œé–‰è¦–çª—
+webcamconfigure è¨­å®šç¶²è·¯æ”å½±æ©Ÿ
+webcamconfiguredMac ä½ çš„ç¶²è·¯æ”å½±æ©Ÿå·²ç¶“è¨­å®šå¥½
+webcamconfiguredWin ä½ é¸æ“‡äº†ä»¥ä¸‹çš„ç¶²è·¯æ”å½±æ©Ÿè£ç½®ï¼š$1
+webcamconfiguredLinux ä½ é¸æ“‡äº†ä»¥ä¸‹çš„ç¶²è·¯æ”å½±æ©Ÿè¨­å®šï¼š\nè£ç½®ï¼š$1\né€šé“ï¼š$2
+webcamextchecking æª¢æŸ¥ç¶²è·¯æ”å½±æ©Ÿæ“´å……ä»¶æ˜¯å¦å·²ç¶“è¼‰å…¥â€¦
+webcamextloaded Webcamsn æ“´å……ä»¶å·²ç¶“è¼‰å…¥
+webcamextnotloaded Webcamsn æ“´å……ä»¶å°šæœªè¼‰å…¥ï¼Œä½ å¿…é ˆç·¨è­¯å®ƒã€‚
+webcamextwarn ä½ å°‡ç„¡æ³•çœ‹è¦‹å°æ–¹çš„ç¶²è·¯æ”å½±æ©Ÿï¼Œè«‹åˆ°æˆ‘å€‘çš„ wiki å°‹æ±‚æ“´å……ä»¶å”åŠ©ï¼š
+webcamfaq ç¶²è·¯æ”å½±æ©Ÿ FAQ åŠå¹«åŠ©
+webcamhistory è§€çœ‹ç¶²è·¯æ”å½±æ©Ÿæ­·å²
+webcamhistory2 ç¶²è·¯æ”å½±æ©Ÿæ­·å²
+webcaminvitereceived $1 é‚€è«‹ä½ é–‹å•Ÿä¸€å€‹ç¶²è·¯æ”å½±æ©Ÿé€£ç·šï¼Œä½ è¦æ¥å—å—ï¼Ÿ
+webcaminvitereceivedauto $1 è¦æ±‚ä½ é–‹å•Ÿä¸€å€‹ç¶²è·¯æ”å½±æ©Ÿé€£ç·šï¼Œç¨‹å¼å·²è‡ªå‹•æ¥å—äº†
+webcaminvitereceiving $1 é‚€è«‹ä½ è§€çœ‹ä»–çš„ç¶²è·¯æ”å½±æ©Ÿï¼Œä½ è¦æ¥å—å—ï¼Ÿ
+webcaminvitereceivingauto $1 è¦æ±‚ä½ è§€çœ‹ä»–çš„ç¶²è·¯æ”å½±æ©Ÿï¼Œç¨‹å¼å·²è‡ªå‹•æ¥æ”¶äº†
+webcaminvitesending $1 æƒ³çœ‹çœ‹ä½ çš„ç¶²è·¯æ”å½±æ©Ÿå½±åƒï¼Œä½ è¦æ¥å—å—ï¼Ÿ
+webcaminvitesendingauto $1 è¦æ±‚çœ‹çœ‹ä½ çš„ç¶²è·¯æ”å½±æ©Ÿå½±åƒï¼Œç¨‹å¼å·²è‡ªå‹•æ¥å—äº†
+webcamrejected $1 æ‹’çµ•äº†ç¶²è·¯æ”å½±æ©Ÿé€£ç·š
+webcamrequestreceive è§€çœ‹ç¶²è·¯æ”å½±æ©Ÿçš„è¦æ±‚
+webcamsending ä½ æ­£å‚³é€ç¶²è·¯æ”å½±æ©Ÿçš„æ¥æ”¶äººæ¸…å–®
+whatisamsn aMSN æ˜¯éå®˜æ–¹çš„è·¨å¹³å° MSN å³æ™‚é€šè¨Šè»Ÿé«”
+whatsize ä½ æ‰€è¦æ±‚çš„é ­åƒéæ­£å¸¸å°ºå¯¸ (96x96)\nä½ æƒ³å°‡æ­¤åœ–ç‰‡é¡¯ç¤ºç‚ºä»€éº¼å¤§å°ï¼Ÿ
+xplaces $1 å€‹åœ°æ–¹
+zoom æ”¾å¤§
