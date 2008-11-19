@@ -1,0 +1,1048 @@
+amsn_lang_version 2
+abort Jê Bavêje
+about Dermafê aMSN
+aboutamsn Dermafê Alvaro's Messenger
+accept Bipejirîne
+acceptfile Tu dixwazî vê pelê bipejirînî $1 (mezinahî $2 bytes)? Wê li vir bê tomarkirin $3
+account Hesab
+accountkid Ev hesabê zarokan nikare bi Messenger bê bikaranîn. Divê hûn herin malpera Pasaportên Zarokan û destûr bistînin.
+actions Çalakî
+activeautoupdate Rojanekirina jixweber çalak bike
+addacontact Kesek lê zêdeke
+add Lê zêdeke
+addedyou $1 ($2) we wekî heval li lîsteya xwe zêde kir
+addprofile Profîlek nû lê zêdeke
+addprofiledesc Ji bo profîla ku hûn dixwazin biafirînin, têketinê bikin. \nProfîl destûr dide ku di her têketinê de mîhengên uda bên bikaranîn.\nBêyî profîlek hûn nikarin van taybetiyan bi kar bînin, Dîrok, Alarm an jî "Bibîranîna Şîfreyê"
+addstate Rewşek nû lê zêdeke
+addto Zêde bike li $1
+addtocontacts Li lîsteya kesan zêdeke
+addtoo Vî/Vê kesî li lîsteya min zêdeke
+admincontacts Kesên Rêvebir
+admingroups Komên Rêvebir
+advanced Pêşketî
+advancedprefs Mîhengên Taybetiyên Pêşketî
+adverts Reklam
+agotinvitation Daxwaza dengê hat kirin ji $1
+alarmonconnect Dema ev bikarhêner bû girêdayî alarmê çalak bike
+alarmondisconnect Dema ev bikarhêner bû negirêdayî/veşartî alarmê çalak bike
+alarmonmsg Dema vî bikarhênerî peyam şand te
+alarmonstatus Dema ev bikarhêner rewş guhert alarmê çalak bike
+alarmpref Mîhengên dengê yên taybet ji bo bikarhêner
+alarmpref2 Mîhengên alarmê ji bo hemû kesên lîsteyê
+alarms Alarm
+alarmstatus Ji bo vî bikarhênerî alarmê çalak bike
+allfiles Hemû Pel
+allmonths Hemû Meh
+allowallbutbl Destûr dide bikarhêneran ku bigihin min, ji xeynî yên astengkirî
+allowbadwords Sansûra nîckan rake
+allowlist Lîsteya Pejirandî ya bikarhêneran (LP):
+allowonlyinal Tenê bikarhênerên ku min pejirandine dikarin bigihin min
+allowseen Destûr bide vî bikarhênerî ku dema ez girêdayî me, min bibîne û bigihe min
+allow_sms Destûr bide bikarhêneran ku ku bi amûra min a MSN mobile bigihin min
+allprofilesinuse Hemû profîlên heyî niha tên bikaranîn
+always Herdem
+animatedemoticon Ev hest anîmasyon e
+animatedsmileys Hestên anîmasyon çalak bike
+animatenotify Paceya Agahiyê ya anîmasyon
+appearance Xuyanî
+appearoff Veşartî
+areacode Kode Heremê
+aretyping $1 peyam dinivîse
+askcam Daxwaza Webcamê bike
+askcontactwebcam to ask for your contact's webcam, or 
+askeachtime Her carê bipirse
+asksendingyourwebcam to ask for sending your own webcam
+asksendoim Tu dixwazî vê peyamê wekî peyamek negirêdayî bişînî ?
+askwebcam Ji vî/vê bikarhênerî daxwaza webcamê bike
+assistantainput Amûra xwe ya têxistinê hilbijêre û tomarkirinê bi wê biceribîne.
+assistantaoutput Amûra xwe ya derxistinê hilbijêre û ji bo kontrolê lêdana vê pelê biceribîne.
+assistantawarn Hûn ê nekarin dengê xwe tomar bikin an jî bi hevalê xwe re biaxivin. Divê hûn riya sazkirina vê pêvekê ji Wikiya me hîn bibin:
+assistantfinetunepic Ji bo diyarkirina qalîteya wêneyê ya webcama xwe van mîhengan biguherînin
+assistantselectcam Webcama xwe ji lîsteyê hilbijêrin
+assistantstarting Alîkar tê detpêkirin
+assistanttitle Alîkarê Deng û Vîdyo
+assistantwelcome Ev rêber wê di sazkirina mîhengên we yên Vîdyo û Dengê de bibe alîkarê we.\n\nEw wê lê bigere û kontrol bike ka pêvekên pêwist di pergala we de amade ne û ka hûn ê bikarin amûr û qenal hilbijêrin, taybetî û rezolûsyona wêneyan biguherînin.
+audioconfigured We ji bo Deng van mîhengan bijart:\n\nAmûra Output: $1\nAmûra Input: $2
+audiovideo Mîhengên Deng û Vîdyo
+author Nivîskar
+autoaccepted Veguheztina pelê jixweber hat pejirandin
+autoacceptft Veguheztina pelan jixweber bipejirîne
+autoacceptwc Daxwazên webcamê jixweber bipejirîne
+autoaway Rewşê bike li "Dûr e" dema çalakî tunebe ji bo
+autocheckver Di destpêkê de jixweber li guhertoya nû venêre
+autoconnect2 Dema aMSN hat destpêkirin jixweber têkeve
+autoconnect Dema aMSN vebû jixweber têkeve
+autodetectip Navnîşana IP jixweber diyar bike
+autohotmaillog Jixweber têkeve Hotmail
+autoidle Jixweber ÇalakîTune
+autoip IPya Jixweber
+autolisten_voiceclips Dema hat standin DengKlîpan jixweber lê bide
+automessage PeyamaJixweber
+autonoact Rewşê bike "Betal" dema çalakî tunebe ji bo
+autoresizedp Automatically resize display pictures to default size
+avaccepted Video Conference call accepted
+avcanceled Video Conference call canceled
+avgotinvitation Received Video Conference invitation from $1
+avinitfailed Initialization of the Audio/Video Plugin failed. Call Canceled
+avoidseen Prevent this person from seeing when I'm online and contacting me
+away Dûr e
+awaymsg1 Her cara ku ez rewşa xwe bikim Dûr e/BRB/Mijûl, pirsa peyama negirêdayî bike
+awaymsg2 Qet pirs neke û bersiva li jêr bi kar bîne
+back Vegere
+baduserpass Nav an jî şîfre çewt e
+badwebcam Wêneya webcamê nayê nîşandan. Pê bawer be ku webcam rast hatiye têxistin û sazkirin.
+bgcolor Rengê rûerdê aMSN biguherîne 
+blankdirect Ji bo girêdana rasterast, vala bihêle
+block Asteng Bike
+blocked Astengkirî
+blockedyougroup Ji bo kesên ku ez asteng kirime, komek cuda nîşan bide
+blocking Astengkirin
+blockinter1 Dema hûn girêdayî ne kontrol bike her 
+blockinter2 çirke, an kontrol bike her:
+blockinter3 her 
+blockinter4 çirke.
+blocklist lîsteya astengkiriyan (LA):
+blockmessage Ev kes girêdayî ne û we asteng kirine
+blocknotifications Nîşandana paceyên agahiyê neçalak bike
+blocksounds Dengan neçalak bike
+blockusers Ji bo kontrola carekê de, hejmara bikarhêneran 
+bouncedock Dema peyam hat, bila îkona aMSN hilbavêje
+brightness Çirûsîn
+broughtby Kesên ku pêşde birine
+browse Bibîne
+browser Geroka Webê
+browserexample (\$url wê bi URL bê guhertin) Mînak: firefox \$url
+bugerror Xemgîn im, di girêdana li gel danegeha bug'an de pirsgirêk derket. Ji kerema xwe re girêdanê bieribînin.
+bugnocomment Bê şîrove bişîne? Şandina bugan dihêle ku em işta ku çewt e fêhm bikin û rastkin.
+busy Mijûl
+bytesymbol b
+cachedpics $1 cached pics
+cachedpicsfor Wêneyên tomarkirî ji bo nîşandana li bikarhêneran
+cagreement Peymana Ewlekariyê
+cancel Betal
+cancelled Hat Betalkirin
+cannotdeleteprofile Profîl nehat jêbirin lewra xuya ye ku ji aliyê danişîneka aMSN ve tê bikaranîn
+cantexec Sepan nehat meşandin: $1. Vebijêrkan kontrol bikin
+cantget Nehat standin: $1
+cantloadonlineversion Lîsteya rojanekirî ya zimanan ji înternetê bistîne
+cantremoveothers Koma "Yên Din" nikare bê jêbirin
+captureextloaded Pêveka Kamerayê -$1- hat barkirin
+captureextnotloaded Pêveka kamerayê -$1- ne barkirî ye, divê hûn pêşîn wê rast bikin
+captureproperties Taybetiyên nîşandana Webcamê
+capturewarn Hûn ê nekarin webcama xwe bişînin ger hebe. Ger tune be, normal e. Hûn dikarin agahiya sazkirina wê ji Wikiya me hîn bibin:
+casesensitive Use case-sensitive triggers
+cfgalarmall Alarmên Global Rastke/Lê zêdeke/Rake
+cfgalarm Alarman Rastke/Lê zêdeke/Rake
+change_account_info Agahiyên hesabê biguherîne
+change Biguherîne
+changecustomstate Vegerîne li
+changedisplaypic Wêneya xwe biguherîne
+changefont Font biguherîne
+changeglobnick Nîcka giştî biguherîne
+change_mobile Mîhengên mobile biguherîne
+changenick Nick Biguherîne
+changepsm Peyama kesane biguherîne
+changesize Mezinahiyê biguherîne
+changestate $1 rewş diguhrîne li $2
+changestatus Rewş Biguhere
+changevideosettings Mîhengên vîdyoyê biguherîne
+channels Qenal
+charscounter Hejmarkera tîpên nivîsandî yên di paceya axaftinê de
+chatack Chaê dipejirine ji
+chat Chat
+chatmaxmin Dema kesek bi min re axaftinê bide destpêkirin, dixwazim wisa bibînim:
+chatreq hat tê xwestin
+chatsmileys2 Di paceya axaftinê de Hestan û Smileyan nîşan bide
+chatsmileys Di chatê de smileyan nîşan bide
+checkblocking Continuously check if users are blocking you
+checkemail Rêzika hişyariya mailê nîşan bide di lîsteya kesan de
+checkfilman Pelên hatine standin tomar dibin li $1. Di paceya vebijêrkan mîhengên rêvebirê pelan kontrol bikin.
+checkingaudio Checking if audio extension (Snack) is loaded ...
+checkingcam Dinêre ka tu webcam girêdayî ye ...
+checkingcapext Dinêre ka pêveka '$1' barkirî ye ...
+checkingextensions Pêvekên ji bo vîdyoyê pêwist kontrol dike
+checkingver Li guhertoya nû digere
+checkonfln Kontrol dike ka tu kesî dema dibe negirêdayî we asteng kiriye
+checkopenfilecommand Di paceya vebijêrkan fermana Pelê Veke kontrol bikin
+checkver Ji bo guhertoya nû venêre
+choosearq Mîmariya pergala xwe hilbijêrin
+choosebasefont Cureya fontê hilbijêrin
+choosebgcolor Rengê rûerdê hilbijêrin
+choosechannel Qenalek hilbijêrin
+choosecontact Ji lîsteyê kesek hilbijêrin
+choosedevice Amûra xwe hilbijêrin
+choosefontcolor Rengê fontê hilbijêrin
+chooseinputdev Amûra xwe ya input hilbijêrin
+chooselocation ihê nû ya pelê hilbijêrin
+choosemixerdev Choose your mixer
+chooseoutputdev Amûra xwe ya output hilbijêrin
+chooseskin Dirba ku hûn dixwazin bi kar bînin, hilbijêrin
+ch_to_state Vegerîne rewşek nû
+clear Paqij Bike
+clearlog2 Dîroka hemû kesên lîsteyê paqij bike
+clearlog3 Hemû qeydan paqij bike
+clearlog Qeydê paqij bike
+clearwebcamlogs Hemû qeydên webcamê paqij bike
+clickhere Li vir bitikin
+clicktoadd Ji bo notek nû pêl 'lê zêdeke' bikin
+clicktologin Ji bo têketinê bitikin
+clientcaps Pakêta x-clientcaps bişîne daxwazkera yên din
+clientname Navê daxwazkerê
+closeall Hemû hilpekînên vê paceyê bigire?
+closealltabs Hemû hilpekînan bigire
+close Bigire
+closechatwindows Beriya derketinê hemû paceyên axaftinê bigire?
+closed Axaftina bi $1 hat girtin ji ber ku çalakî tunebû
+closelabel Dema ku we li bişkojka bigire kir, di paceyek bi hilpekîn de
+closeonly Tenê hilpekîna heyî bigire
+closeorcall Beriya girtina paceyê divê hûn Axaftina Dengê bigirin/betalkin.
+closeordock Girtina paceya lîsteya kesan wê ji aMSNyê bigire. Belkî we xwestibe tenê pace bê girtin lê aMSN di trayê de bixebite.\n\nJi dil dixwazî ji aMSN derkevî?
+closeothers Hemû paceyên din bigire
+closingdocks Bişkojka girtinê bila biçûk bike
+color Reng
+command Ferman
+commandstatus Ferman bixebitîne
+configure Mîheng
+configuremic Mîkrofona we mîheng dike
+configuringaudio Mîhengên dengê çêdike
+configureplugin Pêvekê mîheng bike $1
+confirm Tu ji dil dixwazî?
+confirmbl Ji dil dixwazî vî kesî asteng bikî?
+confirmdelete Ji dil dixwazî $1 jê bibî?
+confirmdg Ji dil dixwazî vê komê jê bibî?
+confirmdu Ji dil dixwazî vî bikarhênerî jê bibî?
+confirmeg Ji dil dixwazî vê komê vala bikî?
+confirmpurge Hemû wêneyê kesên hevalên we wê bên jêbirin (ya we wê bê parastin). Ji dil dixwazî?
+confirmrfl Ji dil dixwazî vî bikarhênerî ji vê komê jêbibî?
+confirmfulldelete Her wiha ji Windows Live Address Bookê jî jêbibe
+congrats Serkeftin..!
+connected Hûn niha girêdayî ne
+connectedat Hat girêdan di:
+connectedwith Hat girêdan ji bo $1
+connecterror Di girêdana pêşkêşker de çewtî
+connectfirst Pêşîn girêdanê bikin
+connecting Girê dide
+connection Girêdan
+connectionlost Girêdan çû: Girêdana pêşkêşker wendabû
+contactadded Kes lê zêdebû
+contact Kes
+contactdoesnotexist Kesek wisa tune!
+contactlist Lîsteya Kesan (LK):
+contacts Lîsteya Kesan
+continuously Domdar
+contrast Kontrast
+conversationwith $1 bikarhêner di axaftinê de ye
+convertexplain Path to CONVERT executable file, from ImageMagick (required for Display Pictures).\n Leave blank if CONVERT is in the path
+copy Ji ber bigire
+copytoclipboard $1 kopî bike li clipboard
+copytogroup Li komê kopî bike
+corruptconfig Pela mîhengan xerab e. Yeke nû çêdike. Ya kevin wê li vir bê tomarkirin $1. Ji me re bişînin ku em bibînin sedem çi bû.
+corruptstates Mîhengên rewşa taybet xerab e. Yeke nû diafirîne. Ya kevin wê li vir bê tomarkirin $1. Ji me re bişînin ku em bibînin sedem çi bû.
+couldnotrename Navê $1 neguherî
+countrycode Welatê Min/Koda Heremê
+cprofile Profîlek Biafirîne
+created Hat afirandin
+credits Çêker
+curdisplaypic Wêneya Heyî
+currentdate Dîroka heyî
+currentdynrate Current real-time speed (in milliseconds)
+currentlanguage Ev zimanê ku tê bikaranîn e
+currentnotes Notên heyî
+custnotifymsg Dema peyamek ji vî bikarhênerî hat paceya agahiyê nîşan bide
+custnotifyoffline Dema ev bikarhêner bû negirêdayî paceya agahiyê nîşan bide
+custnotifyonline Dema ev bikarhêner bû girêdayî paceya agahiyê nîşan bide
+custnotifystatus Dema ev bikarhêner rewş biguherîne paceya agahiyê nîşan bide
+customcolor Renga Taybet
+customdp Wêneya Taybet
+custom_edit Smiley a Taybet Rastke
+custom_new Smileyek Taybet Lê Zêdeke
+customnick Nicka Kesane
+customsmileys Hestên Taybet ên bikarhênerên din nîşan bide
+customstyle Teşeya Guherandî
+custshowcustomsmileys Hestên Taybet ên bikarhêneran nîşan bide
+cut Jêke
+cutimageboxreset Qûtika bijartî bike wekî berê\nmezinahî bike:
+cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
+date Dîrok
+dateformat Formata dîrokê biguherîne
+day Roj
+days Roj
+dcprofile Profîlê Neafirîne
+default2 Jixweber
+default Mîhengên Jixweber
+defaultloginradio Bi mîhengên jixweber têkeve
+defchatwinsize Mezinahiya standart ji bo paceyên chatê (XSIZExYSIZE)
+deleteall Hemûyan Jê Bibe
+deleteblock Jê Bibe û Asteng Bike
+deletecustomstate Rewşa Taybet Jê Bibe
+delete Jê Bibe
+delimiters Timestamp delimiters:
+deliverfail Ev peyam nehat şandin
+delprofile2 Profîla ku hûn dixwazin jê bibin, hilbijêrin 
+delprofile Profîlê Jê Bibe
+description Ravekirin
+detach Jêke
+details Berfirehî
+devicebusy Amûra $1 mijûl e
+devices Amûr
+directconnection Girêdana min a internetê rasterast e (bi porta 1863)
+disabled Hat Neçalakkirin
+disableprofiles Profîlan Neçalak Bike (Useful for cyber-cafes or shared environments)
+disablessl SSL neçalak bike
+disableuserfonts Di axaftinan de guh nede fonta kesên pêşber, ya xwe bi kar bîne
+disconnect $1 bû negirêdayî.
+disconnectedfrom Girêdana bi $1 çû
+displaychat Vebijêrkên nivîsê nîşande
+displayeventconnect Dema kes bûn girêdayî nîşande
+displayeventdisconnect Dema kes bûn negirêdayî nîşande
+displayeventemail Dema e-peyam hat standin nîşande
+displayeventstate Dema kesan rewş guhert nîşande
+displayeventnick Dema kesan navê nick guhert nîşande
+displayeventpsm Dema kesan peyama profîlê guhert nîşande
+displayp4context Naveroka qada P4-Context wekî şandyar nîşande
+displaypic Wêneyê Nîşande
+dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockgtk Gnome Dock
+docking Docking
+dockingoff Docking Girtî
+dockkde KDE Dock
+done Çêbû
+dontaskweek Ji bo heftiyek qala rojanekirinê neke
+dontdownload TLSyê danexe, ez ê wê bixwe sazkim
+dontshow Nîşan Nede
+dontshowdp Nehêle ev bikarhêner wêneya te ya profîlê daxe
+download Daxe
+downloadcanceled Daxistin Hat Betalkirin.
+downloadingtls Modûla TLS tê daxistin ji:\n $1
+downloadingwait Guhertoya nû ya aMSN tê daxistin. Li bendê be...
+dynamicrate Use dynamic frame rate to simulate the real-time speed 
+editcontent Edit the content of the subject field and the note field
+editcustomstate Rewşa taybet sererastke
+edit Sererast Bike
+editavsettings Mîhengên Deng û Vîdyoyê Rastke
+editmyprofile Profîla min a MSN sererastke
+editnewstate Rewşa nû ya peyama kesane ya otomatîk
+editprofile Profîlê Sererastke
+editstate Rewşa peyama otomatîk a heyî sererastke
+editvalue Nirxê sererastke
+email Epeyam
+emailsinlist Şûna navê nick epeyaman nîşan bide
+emoticon_steal Li hestan zêdeke
+emotisounds Ji bo hestên esseh dengan lê bide
+emptygroup Koma vala
+enabled Hat Çalakkirin
+enableproxy Proxy çalak bike
+enableremote Kontrola ji dûr çalak bike
+enablesound Dengan lê bide
+enablespaces Enable Windows Live Spaces support (EXPERIMENTAL)
+encoding2 Awayê kodkirina tîpan biguherîne
+encoding Kodkirinê hilbijêre
+enterbugdesc Enter a description of what you were doing to help us reproduce the bug:
+entercontactemail E-peyama bikarhêner binivîsin
+enterfilename Navê pelê binivîsin
+enternick Nicka xwe binivîse
+enterpsm Peyama we ya kesane
+escapeclosescw Escape key closes chat windows
+error Çewtî
+errortls Error installing TLS module:
+eventhistory Dîroka Bûyeran Bibîne
+examples Examples
+exitamsn Ji dil dixwazî derkevî?
+extras Extra Services
+faileddelete Failed to delete
+faileddeleteperso This picture cannot be deleted because it does not belong to your profile. Only pictures that belong to your personal profile can be removed this way.
+failed Failed
+faq PPTP (Pirsên Pir Tên Pirsîn)
+farsightextchecking Checking if Farsight extension is loaded ...
+farsightextwarn You won't be able to have SIP calls. You may find answers on how to install Farsight on our Wiki:
+farsightinfook Farsight is a framework to deal with audio/video conferencing protocols. With Farsight, you can send or receive SIP calls within aMSN! Have a look at farsight on our Wiki:
+fetching Fetching data...
+filedoesnotexist File does not exist
+file Pel
+filemanexample (\$location will be replaced with the directory) Ex: nautilus \$location
+fileman Rêvebiriya pelan
+filename NavêPelê
+filenotwritable Pel nayê jêbirin
+filetransfercancelled Veguheztina pelê hat betalkirin
+filetransfercomplete Veguheztina pelê qediya
+filetransfer Veguheztina Pel
+filters Fîltre
+filtersselect Fîltreya hûn dixwazin bi kar bînin hilbijêrin\n(Not: wateya hilnebijartinê 'hemûyan nîşande' ye)
+filtersx Bijartina Fîltre
+findasyoutype Find as you type
+find Bibîne
+findnext Ya pêre bibîne
+findprev Ya berê bibîne
+finetunesettings Mîhengên hûr ên wêneyê
+finish Biqedîne
+finish2apply Ji bo sepandina guhertinan pêl biqedîne bikin.
+firewalled Hûn li pişt dîwarê ewlehiyê an jî routerê ne
+firewalled2 Hûn li pişt dîwarê ewlehiyê ne, di paceya vebijêrkan de Mîhengên Girêdanê kontrol bikin
+followtext Dema nivîsek nû hat nivîsandin were jêr
+forget_me Min ji bîr bike
+forgot_pass Min şîfre ji bîr kir
+formatctt CTT format
+formatcsv CSV format
+friendlyname Nicka di axaftinê de
+ftacceptedby $1 vehuheztina pela '$2' pejirand.
+ftaccepted Veguheztina pelê hat pejirandin
+ftaccepting Veguheztina pelê dipejirîne
+ftautoclose Dema veguheztina pelê qediya paceyê bigire
+ftconnecterror Error connecting to remote peer
+ftconnecting Tê girêdan li $1 port $2
+ftconnectionlost Connection with remote peer lost
+ftgotinvitation $1 dixwaze pelek bişîne we '$2' ($3 byte). Wê li vir bê tomarkirin $4. Tu dixwazî pelê bistînî?
+ftportpref Ji bo veguheztina pelê port tê destpêkirin
+ftportpref2 Port tê destpêkirin ji bo girêdana rasterast (ji bo veguheztina pelan û webcamê pêwist e)
+ftporttest Portê test bike
+ftrejectedby $1 veguheztin '$2' nepejirand.
+ftrejected Veguheztina pelê nehat pejirandin
+ftsendinvitation Daxwaza veguheztina pela '$2' ($3 byte) hat şandin ji $1 re.
+fullcontactlist Xemgîn im, lîsteya we ya kesan tije ye. Ji bo lêzêdekirina yeke nû divê hûn yekê jê bibin.
+gameaccepted $1 daxwaza we ya lîstokê pejirand
+gameclosedbyother $1 danişîna lîstokê ya bi we re betal kir.
+gameclosedbyself danişîna lîstokê ya ligel $1 betal kir.
+gameinvitation $1 we ji bo lîstina $2 vexwend. Tu dixwazî vê daxwazê bipejirînî?
+gamepluginnotfound $1 we ji bo lîstina $2 vexwend lê ji bo vê lîstokê pêveka barkirî tune. Pêşîn vê pêvekê bar bike û saz bike.
+gamerejected $1 daxwaza we ya lîstokê nepejirand
+gamerequest We $1 vexwend ji bo lîstina $2
+getdisppic Standina Wêneyê ya ji kesên din çalak bike
+getmoreplugins Zêdetir pêvek bistîne!
+getmoreskins Zêdetir dirb bistîne!
+globalcontainer Paceya Global
+globalnick Insert a pattern to form all your contacts' nicknames. You can use these variables: \$user_login for you contacts' address, \$nick for your contacts' nickname and \$customnick for your contacts' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contact'
+globalnicktitle Global Nickname
+globaloverride Global nickname pattern should override custom nicknames
+gonelunch Xwarinê Dixwe
+gotink $1 sent you an ink.
+goto Here $1
+gotoinbox Here Inbox (Qûtika Peyamên Hatine)
+goto_prefs_removeprofile Click here to go to preferences and delete your profile
+groupadd Li komê zêdeke
+groupcontacts Kesên komê
+groupcontactsbystatus Kesên koman li gor rewşê
+groupdelete Komê jê bibe
+groupexists Group already exists
+group Kom
+groupmissing Kom nayê dîtin
+groupnewname Navek nû
+groupnonim Group Non-Instant Messaging Contacts Together
+groupnotempty Group is not empty!
+groupoldname Navê kevin
+grouprename Navê komê biguherîne
+groups Kom
+groupunknown Koma Nenas
+handle Handle
+hangup Hang Up
+havenomic I have no microphone
+helpcontents Naveroka alîkariyê
+help Alîkarî
+hidedetails Hide details
+hidedisplaypic Hide Display Picture
+hidebuttonbar Hide Button Bar
+hidemenumessage Ji dil dixwazî ku menû bên veşartin ?\nHûn herdem dikarin vê çalakiyê vegerînî bi bişkojka 'Ctrl-M'.
+hidemenu Menûyan Nîşande/Veşêre
+hiden Hestan ji menûya smileyan veşêre
+hidewindow Paceyê Veşêre
+history Dîrokê Bibîne
+history2 Dîrok
+home Mal
+howto_remove_profile To delete your profile (forget $1) you need to do so from the preferences window. \n\nFor security reasons, profile deletion from the login screen is not allowed.
+httpconnection Girêdana bikaranîna metoda HTTP (Protokola HTTP bi kar tîne ji porta 80)
+hue Hue
+huge Hût
+hybrid Moda Yekkirî
+ident Identifying
+identity Identity
+ignorecontact Ignore the conversations from the contact
+ignoreerrors Silently ignore other aMSN errors until the end of session
+ignore Nepejirîne
+imagefiles Image Files
+inbox Yên Hatî
+insertsmiley Insert emoticon
+inserttextnote Insert text into the subject field and the note field, then click 'Save'
+installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagick later on reenable these options from the Preferences. 
+internalerror Internal Server Error
+invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
+invalidfile File $2 entered in field "$1" does not exist or is not readable
+invalidgroup Koma Nederbasdar
+invalidparameter Di girêdana ligel pêşkêşker de çewtî:\ninparametreya nederbasdar
+invalidpicsize Wênaya hatiye dayîn pir mezin e, yeke biçûktir hilbijêrin
+invalidpic Pela wêne a hatiye dayîn tune
+invalidsound Pela deng a hatiye dayîn tune
+invalidusername Navê bikarhêner çewt e
+invitationcancelled Daxwazî hat betalkirin
+invite Vexwîne
+ipaddress Navnîşana IP
+ipdetect Detect correct IP for File Transfers using HTTP
+ircstyle Stîla IRC
+istyping $1 peyam dinivîse
+joins $1 têdikeve konferansê
+justonce Tenê carek
+keepalive Keepalive (NAT)
+keeplog2 Hemû konferanssan qeyd bike
+keeplog Qeyda axaftianan bigire
+language Ziman
+language_manager Rêvebiriya Zimên
+large Fireh
+largest Herî Fireh
+lastlogin Têketina Dawîn
+lastlogout Derketina Dawîn
+lastmsgedme Peyama Dawîn
+lastmsgtime Peyama Dawîn a Standî $1
+lastseen Girêdayîbûna Dawîn
+lazypicretrieval Lazy Display Pictures retrieval
+lclosedwin $1 paceyê girt li $2
+lconftopriv Konferans vegeriya axaftina taybet bi $1
+lconvstarted Konferans destpê kir di $1 de
+lconvstartedOIM Started an Offline Instant Messaging conversation on $1
+leaveblankforhotmail Ji bi Hotmailê vala bihêlin
+leavejoinsinchat Di binê paceya axaftinê hişyariya "têdikeve/derdikeve (ji) konferansê" nîşande
+leaves $1 ji konferansê derdikeve
+lenteredconf $1 têket konferansê di $2 de
+lineflushlog Flush log files after each line
+linprivate TAYBET
+listening Guhdar dike
+listeningon Listening on port $1
+listsmileys2 Di lîsteya sereke ya aMSNyê de Hest û Smileyan nîşande
+listsmileys List smileys
+ljoinedconf $1 tevlî konferansê bû
+lleftconf $1 ji konferansê derket
+loadcontacts Lîsteya kesan barke
+load Barke
+loadotherdisplaypic Wêne $1 tên barkirin, li bendê bin...
+logbigger Log file sizes for each contact never exceeds 
+logeventconnect Girêdanan qeyd bike
+logeventdisconnect Qûtbûnên girêdanê qeyd bike
+logeventemail Dema e-peyamek hat qeydê bigire
+logeventstate Guhertinên rewşê qeyd bike
+logeventnick Guhertinên navê nick qeyd bike
+logeventpsm Guhertinên peyama kesane qeyd bike
+logfandexp Mezinahiya pelan qey bike û Dema Jêbirina Qeydan
+loggedotherlocation Girêdan çû. Ji cihek din têket
+loggingin Têdikeve
+loginas Têkeve wekî
+loging Têketin
+login Têkeve
+logolder Tenê van axaftinan qeyd bike, yên beriya
+logout Hesabê Bigire
+logoutwincloselabel Dema tê derketin, paceyan bigire
+logsbydate Rêz bike li gor dîrokê (Dîrok wisa leztir tê barkirin)
+logschats Têdikeve chatan
+logsin aniha têket
+logsmileys Di paeyên dîroka aMSNyê de Hest û Smileyan nîşande
+logsout aniha derket
+logwebcam Ji bo nîşandana di pêşerojê de hemû danişînên webamê ya aMSNê tomar bike
+longnick Navê we yê nick ji 130 tîpan dirêjtir e. Ev wekî fermî ji aliyê protokola MSN ve nayê pejirandin. Hûn ji dil dixwazin?
+longp4c Navê we yê di axaftinê de ji 130 tîpan dirêjtir e. Wê navê we di daxwazkera fermî ya MSNyê de wisa xuya bike $1. ûn ji dil dixwazin?
+longpsm Peyama we ya kesane pir dirêj e. Ev wekî fermî ji aliyê protokola MSN ve nayê pejirandin. Hûn ji dil dixwazin?
+lowrescam Webamek bi rezolûsyona hindik bi kar bîne
+lprivtoconf hata taybet bû konferansa ligel $1
+luclosedwin We paceya li $1 girt
+mailerexample (\$recipient = Recipient) Ji bo bikaranîna Hotmailê vala bihêlin
+mailer Sepanê E-peyamê
+maintenance The server is going down for maintenance in $1 minutes
+maximised Mezintirin
+medium Navincî
+minimised Biçûktirin/Îkon
+minimize Têxe Tray
+mins xulek
+mobilegrp1 Koma Mobile
+mobilegrp2 Dema negirêdayî bin têxe koma "Mobile" (û rêkirina li gor rewşê)
+mobile Mobile
+modified Guhertî
+month Meh
+more Zêdetir
+morepersonal Zêdetir Rewş ->
+move Veguheze
+movetogroup Veguheze vê komê
+msgflicker Dema peyamek nû hat bila paceyên girtî vêxin/vemirin.
+msgmaxmin Dema peyamek nû ha dixwazim wisa be:
+msg Peyam
+msgmode Awayê rêvebirina paceyên pirhêjmar hilbijêrin:
+msn aMSN
+msnstatus Rewşa MSN Network
+msnstyle Cureya MSN
+mustrestart Ji sepandina guhertinan divê hûn bernameyê ji nû ve bidin destpêkirin
+myfriendlyname Navê min ê di axaftinê de
+myhomephone Nimroya min a mal
+mymobilephone Telefona min a berikan
+mynick Nîcka min
+mypic Wêneyê Min
+mypics Wêneyên Min ê Nîşandanê
+mystatus Rewşa Min
+myworkphone Telefona min a Kar
+name Nav
+natip Kontrola IP ji aliyê rûpela webê 
+natkeepalive Ger hûn tim dibin negirêdayî, KeepAlive çalak bikin
+needonline Hûn hê negirêdayî xuya dikin!
+needwinico2 Need winico05.dll in the utils/windows directory for windows traydocking to work
+never Tu Caran
+new_account Hesabek Biafirîne
+newchat Chata Nû
+new_ft_protocol Protokola nû ya Veguheztina Pelan bi kar bîne (hê hinek çewtî hene)
+newline Rêzikek nû
+newmail $1 peyamê nû heye
+newmailfolder Di peldankên Hotmailê de $1 peyamê we heye
+newmailfrom E-peyamek nû ji $1 ($2)
+newmailfromother Di peldanka sin de e-peyamek nû ji $1 ($2)
+newmsg Peyama nû
+newoim Peyamên nû yên negirêdayî
+newstate Rewşa taybet lê zêdeke
+newtabbedfeature Taybetiyeke nû ya aMSN heye ji bo rêvebirina axaftinan, hûn dikarin paceyên hemû kesan an jî paceyên komekê di yek paceyeka bi hilpekîn de bihewînin. Awayê rêvebirina paceyên axaftinê hilbijêrin
+newupdate Ji aMSNyê rojanekirinên nû hene
+newveravailable Guhertoya nû $1 ji bo daxistinê amade ye
+next Pêş
+nick Nick
+nickchanged $1 navê xwe yê nick kir '$2'
+no Na
+noactivity Betal
+no_blocked_notif Ji bo kesên astengkirî paceyên hişyariyê nîşan nede
+nocacheddps Ji bo vî bikarhênerî di arşîvê de wêne tune
+nocamwarn Tu webcam nehat dîtin, an jî webcama we ji aliyê bernameyek din tê bikaranîn (Ango hûn ê nekarin bi kar bînin). Di Wikiya me de hûn ê çareseriyê bibînin:
+nodataavailable Daneya amade tune ji bo $1
+nodevices Aniha, tu amûr nehatiye sazkirin
+noftpreview Şandina pêşdîtina wêneyek pêk nehat
+nogap Navbera koman de valahî tune
+nogroup Kom tune
+nojavascript We javascript çalak nekiriye. Têketina jixweber belkî nexebite.
+nologfile Pela qeydê tune ji bo $1
+nomic Mîkrofon tune
+noneavailable Yek jî ne amade ye
+nonewmail Peyama nû tune
+nonewver Guhertoya nûtir tune
+nonimgroup Non-Instant Messaging Contacts
+nooimconfirmation Di şandin/standina peyamên negirêdayî de erêkirinê nexwaze
+nopic Wêne Tune
+noprofileexists Tu profîla heyî tune, \n ji bo têkeina bi profîl divê hûn profîlen biafirînin. \nJi bo çêkirina profîlek nû pêl bişkojka Profîlek Nû Lê Zêdeke bikin.
+noresizesmileys Hestên taybet ên tên standin biçûk neke
+normal Asayî
+noskins Di peldanka dirban de dirba jixweber nehat dîtin. aMSN nikare destpê bike
+nosound Tu deng nehat dîtin, jê ewle be ku mîkrofona we bi komputera we ve rast haiye girêdan
+nosound_or_hold Tu deng nehat dîtin. Ji bo şandina Kliba Deng ber axaftinê re pêl bişkojkê bikin û pêlêkirî bisekinin û paşê bişînin.
+nospace Li vir tiştek tune
+nosystemtray Tray ne pêkan e
+note Not
+notificationserver Initial MSN Notification Server (MSN Messenger Server)
+notify1_5 Dema kesek bû negirêdayî paceya hişyariyê nîşande
+notify1_75 Dema kesek rewşa xwe guhert paceya hişyariyê nîşande
+notify1 Dema kesek bû girêdayî paceya hişyariyê nîşande
+notify2 Dema peyam hat standin paceya hişyariyê nîşande
+notify3 Dema e-peyam hat standin paceya hişyariyê nîşande
+notify4 Dema e-peyam hat peldankek din paceya hişyariyê nîşande
+notify hişyarî
+notifyoffset Pozisyona pop-up a hişyariyan
+notifytimeout Number of milliseconds before notify window disappears
+notifytyping Dema ez dinivîsim bila haya kesê hemberê min jê hebe
+notifywin Paceya Hişyariyê
+notinlist Hûn ne di lîsteya wî/wê de ne
+notimcontact This contact is not an Instant-Messaging contact
+notls Ji bo MSN Protocol 9 pakêta TLS pêwist e. Di vê komputerê de jî xuya ye ku ne sazkirî ye. If it's installed, the path to the library directory should be specified in the Preferences window (ex: /opt/tls/lib). \n \n It's possible to download TLS from http://tls.sf.net.
+nottabbed Paceya normal a bê hilpekîn
+nousersinsession Di danişînê de kes tune
+nouserspecified Tu bikarhêner nehatiye diyarkirin
+nudge $1 dixwaze bi we re biaxive
+offline Negirêdayî
+oim Peyamşandina Negirêdayî
+ok Temam
+onenewmail 1 peyama nû heye
+onlinehelp Alîkariya Zindî
+online Girêdayî
+onphone Bi telefonê diaxive
+opendir Peldankê veke
+openfilecommand Fermana Vekirina Pelê
+openfile Pelê Veke
+openreceived Pelên hatî standin veke
+options Vebijêrk
+ordercontactsby Rêzkirina kesan li gor
+ordergroupsby Rêzkirina koman li gor
+original Resen
+otherdisplaypic Wêneya din a bikarhêner (Ji bo vebijêrkên zêdetir, rast bitikin )
+other Other
+otherdps Wêneyên Din
+others Yên Din
+p4contextprefix Prefix P4-Context senders with this string
+pager Pager
+pass Nasnav
+passportnotverified Pasaporta we divê bê erêkirin ku hûn bikarin agahiyên xwe yên kesane biguherînin (mînak navê nick). Inbox a xwe kontrol bikin ka e-peyamek hatiye.
+paste Pêveke
+pausedwebcamreceive Webcam ji aliyê bikarhênerê din hat rawestandin
+pause Raweste
+pausewebcamsend Şandina webcamê rawestîne
+personal Kesane
+phone Telefon
+phones Nimroyên telefonê
+picbrowser Geroka Wêneyan Nîşande
+picfile Pela Wêneyê (GIF < 500 x 500)
+picstatus Alarma Wêneyê
+play Lê Bide
+playbackposition Pozîsyona Playback
+playbackspeed Leza Playback (milliseconds between each frame)
+playerror Pirsgirêk derket di lêdana : $1
+playgame Lîstokê bilîze
+playgame2 Lê bide $1
+playing Lê dide: $1
+playtest Pela ceribandinê lê bide
+playwebcamsend Şandina webcamê bidomîne
+pluginselector Pêvek Hilbijêre
+port Port
+portswellconfigured Portên we baş hatine mîhengkirin
+prefalerts Alarmên min ên bûyeran û Deng
+prefapps Sepan
+prefawaymsg Peyama min a dûr
+prefblock1 Di derketinê de venêre
+prefblock2 Kontrola domdar
+prefblock3 Koma "Hûn hatin astengkirin ji aliyê"
+prefconnection Mîhengên Girêdanê
+prefemotic Îconên hestan û Smileys 
+preferences Vebijêrk
+preffont2 Awayê dîtina nivîsa min a ji aliyê yên din, biguherîne
+preffont3 Fonta navrûyê û mezinahiya wê ya aMSNê biguherîne
+preffont4 Awayê dîtina nivîsê yên din biguherîne
+preffont Nivîsa Min
+prefft Veguheztina pel, peer-to-peer and NAT settings
+preflibs Peldankên pirtûkxaneyan
+preflocale Mîhengên Heremî
+preflocale2 Zimanê xwe-/koda welatê xwe biguherînin
+preflog1 Dîroka Min û Vebijêrkên Têketinê
+preflogevent Dîroka Bûyerên Min
+preflook Xuyaniya aMSNya min
+prefmsging Navrûya Peyamşandina Min
+prefname Nav/Nicka min a MSN
+prefphone2 Nimroyên telefonên ku hûn dixwazin binivîsin ku wê ji aliyê mirovên,  \n Lîsteya we ya Serbest bê dîtin \n
+prefphone Nimroyên min ên telefonê
+prefprivacy2 User's Contact/Reverse lists
+prefprivacy Lîsteyên Bikarhêner ên Destûrdayî/Astengkirî
+prefprofile2 Profîla xwe ya fermî biafirîne an jî biguherîne (agahiyên te ku ji aliyê yên din tê dîtin)
+prefprofile3 aMSN's User Configuration Profiles
+prefprofile Profîla min a fermî
+prefproxy Mîhengên min ên proxy
+prefremote Vebijêrkên kontrola ji dûr
+prefsession Têketina min û Rewş
+prefshared Girêdanên Parvekirî (tenê ji bo NAT)
+prefsound Deng
+preview Pêşdîtin
+privacy Ewlekarî
+profiledconfig Mîhengên Profîlkirî
+profileexists Bi vê têketinê hûn nikarin profîlek biafirînin \n lewra jixwe yek heye. Têketinek din hilbijêrin.
+profileinuse Ev profîl ji aliyê danişîneke din a sMSN tê bikaranîn, yeke din hilbijêrin
+profileloginradio Bi profîlek heyî têkeve
+profiles Profîl
+properties Taybetî
+proxyconfhttp Mîhengên piştgiriya HTTP proxy
+proxyconf Mîhengên Proxy
+proxyconnection Ez bi vê pêşkêşkera proxy dikevim înternetê:
+proxy Ez di bin pêşkêşkereka proxy de me (HTTP an jî SOCKS5)
+psmatend Peyama Kesane nîşande li gel navê nick
+psmchanged $1 PSMa xwe kir '$2'
+psmdontshow Peyama Kesane nîşan nede, heta ku di di mîhengên nickê de nehatibe pejirandin
+psmnewline Peyama Kesane nîşan de bin navê nick
+psm Peyama Kesane
+psmplace Cihê ku Peyama Kesane bê bicîkirin ?
+publishphones Nimroyên min ê telefonê biweşîne
+purge Rake
+pwcdriver Hûn ajokera pwc bi kar tînin
+quit Derkeve
+raised Raised/Deiconified
+readonlymsgbox Veguheztina pelê hat betalkirin ji ber ku peldanka hedef nikare bê nivîsandin. Destûrên vê peldankê rast bikin.
+readonlywarn HIŞYARÎ: Wê pel rast neyê tomarkirin lwra peldanka "Pelên Standî" nayê nivîsandin. Ji kerema xwe re destûrên vê peldanka hedef ($1) rast bikin.
+receivedbytes Hat standin $1 ji $2 byte
+receiveddir Peldanka Pelên Standî
+receivedoimread $1 peyama negirêdayî heye. Hûn dixwazin bixwînin ?
+receivedvoice KlibaDeng ên Standî
+receivefile Pelê Bistîne
+recentmsg Nehêle ku paceyek bê girtin dema ku peyamek nû-nû hat
+reconnect2 Di têkçûnê de dîsa girêde
+reconnecting Girêdana pêşkêşker dîsa tê kirin
+reconnect Li benda $1 ye ji bo dîsa girêdanê
+reconnectnow Niha dîsa girêde
+record Tomarke
+recorderror Di tomarkirina dengê de çewtiyek derket : $1
+recvwebcamaccepted $1 daxwaza we ya dîtina webcama wî/wê pejirand. Tê girêdan...
+redirect Ji bo beralîkirinê li vir bitikin
+reject Derxe
+rememberaccount Hesabê min bi bîr bîne
+rememberpass Şîfreyê bi bîr bîne
+remembersetting Hilbijartina min bi bîr bîne
+removeempty Komên vala ji lîsteya kesan bavêje
+removefromgroup Ji komê derxe
+removefromlist Ji lîsteyê rake
+rename Nav biguhere
+renameep Navê vê cihê biguherîne ($1)
+renamelocation Navê vê cihê biguherîne
+reporting Rapor dike
+report Rapor Bike
+required_version Ev pêvek nehat barkirin. Herî kên versiya $1 a aMSNyê pêwist e
+retry Dîsa Biceribîne
+resetincomingfont Fontê Betalke (hilbijartina şandyar bi kar bîne)
+restartforskin Not: Ji bo rast dîtina dirbê belkî ji nû ve destpêkirina aMSN pêwist be!
+reversed Rêzkirina vajî
+reverselist Lîsteyê vajî bike (RL):
+rightback Wê aniha were
+saveas Tomarke wekî
+savechatwinsize Dema meinahiya paceya chatê bê guhertin, bike ya standart
+savecontacts Lîsteya kesan tomarke
+save Tomarke
+saveddefaultloc Li cihê jixweber tomar bike
+savelocation Dixwazî pelê tomar bikî li $1?
+savelocationerror Pel li vir nayê tomarkirin.
+saveotherdirectory Li peldankek din tomarke
+savetofile Li pelê tomarke
+says $1 dibêje
+sbcon Girê dide ligel Switch Board
+searchadvprefs Di vebijêrkên pêşketî de lê bigere:
+searchdown Lêgerîna ber jêr
+searchup Lêgerîna ber jor
+selectall Hemûyan Hilbijêre
+selectcontact Kesek Hilbijêre
+selectplugins Pêveka ku dixwazî çalak bikî, hilbijêre
+selectskin Ji lîsteyê dirbek hilbijêrin
+sendcam Webcam Bişîne
+sendemail Ji bo agahiya guhertinan e-peyamek bişîna maila min
+sendfeedback Feedback bîşîne
+sendfile Pel Bişîne
+sendmail E-Peyam bişîne
+sendmobmsg Bişîne amûra Mobile
+sendmsg Peyam Bişîne
+sendoim Peyamek Negirêdayî Bişîne
+send Bişîne
+sendsip Axaftina bi Deng Bide Destpêkirin
+sendvoice Klîba Deng Bişîne
+sendwebcamaccepted $1 daxwaza we ya dîtina webcama wî/wê pejirand. Tê girêdan...
+sendwebcaminvite Ji bo ku webcama te bibîne bikarhênerek vexwîne
+sentbytes Hat şandin $1 ji $2 byte
+sentvoice Kliba Deng Bişîne
+serverbusy Pêşkêşker mijûl e
+servergoingdown Girêdan çû: Server is going down
+server Pêşkêşker
+serverunavailable Pêşkêşker ne amade ye
+session Danişîn
+setasmydp Bike wêneya min a kesana
+setbackinitialstate We aMSNyê mîheng kir ku wekî $1 têkeve, lê hûn niha $2 ne. Hûn dixwazin rewşa xwe vegerînin $1 ?
+setupcam Amûra we ya webcamê mîheng dike
+setupcamfinetune Webamê mîheng dike û, xuyaniyê baştir dike
+shareswebcam Webcamê Parve dike
+showbanner Banera aMNS nîşan bide
+showblockedlist Lîsteya kesên ku we asteng kirine nîşande
+showcachedpics Wêneyên di arşîvê de nîşande
+show_contactdps_in_cl SDi lîsteya kesan de WêneyaBiçûk nîşande
+showcontactemail Kesan bi E-Peyaman nîşan bide
+showcontactnick Kesan bi nîckan nîşan bide
+showdetailedview Kesan bi agahiyên berfiref nîşan bide
+showdetails Berfirehiyan nîşan bide
+showdisplaypic2 Dema paceya axaftinê vebû wêneyê jixweber nîşande
+showdisplaypic Wêneyê Nîşande
+showonedpframe Di paceya axaftinê de tenê yek çarqûncika wêneyê nîşande
+showlinksinlogin Di navrûya êketinê de girêdanan nîşande
+shownonim Show Non-Instant Messaging Contacts
+showmailicon Dema epeyam hat îkona wê nîşan bide di tray de
+showmypic Wêneya Min
+shownotify Dema hinek bûyer çêbûn paceya hişyariyê nîşande
+showofflinegroup Komên negirêdayî nîşande
+showpicnotify Show users' pictures on notify windows
+showspaces Show Spaces icon in the contact list
+showuserpic Wêneya $1
+signinstatus Rewşa Têketinê
+signout Derkeve
+signouthere Hesabê li vir bigire ($1)
+signoutep Derkeve ji $1
+signouteverywhere Hesabê ji herderî bigire
+sipcallaccepted Axaftina bi Deng hat pejirandin
+sipcallback Dîsa Bigere
+sipcalldeclined Axaftina bi Deng nehat pejirandin
+sipcalleeaccepted Bikarhêner daxwaza we ya axaftina bi Deng pejirand
+sipcalleebusy Bikarhêner mijûl e
+sipcalleecanceled Bikarhêner Axaftina Deng betal kir
+sipcalleeclosed Bikarhêner axaftina Deng qedand
+sipcalleedeclined Bikarhêner Axaftina Deng nepejirand
+sipcalleenoanswer Bikarhêner bersiv neda we
+sipcalleeunavailable Bikarhêner aniha ne amade ye
+sipcallended Axaftina we ya Deng qediya
+sipcallimpossible Hûn nikarin Axaftina Deng bikin. Pêşîn Farsight2 daxin û dîsa biceribînin.
+sipcallmissed We Axaftina Deng wenda kir ji $1
+sipcallnosipflag Bikarhêner piştgirî nade Axaftina Deng.
+sipcallsent Lê digere $1
+sipcallunsupported Daxwaza Axaftina Deng hat ku hê jê re piştgirî tune. Hûn dikari bi daxwazek hember, bersiv bidin. Wê demê wê Axaftina Deng bixebite
+sipcallyouarebusy Di carekê de hûn dikarin bi kesekî re Axaftina Dengê bikin.
+sipgotinvitation Daxwaza Axaftina Deng hat standin ji $1
+skinselector Dirb Hilbijêre
+skin Dirb
+small Biçûk
+smallest Herî Biçûk
+smileconfig Mîhengên hestên kesane
+smilefile Navê Pela Smiley
+smileintro2 Ji bo kesanekirina vê smileyê qadên pêwist tije bikin (ji bo alikariyê PPTP bibînin)
+smileintro Ji bo afirandina smileya nû ya kesane qadên pêwist tije bikin (ji bo alikariyê PPTP bibînin)
+smiletoobig Smileya ku we bijartiye ji normalê mezintir e. Dixwazî mezinahiyê biguherî ?
+smileynotavailable Smiley ne amade ye!
+snackfailed Snack nehat barkirin, vedigere default
+snackneeded Pirtûkxaneya Snack ji bo bikaranîna di pêşerojê de pêwist e. Herî kêm guhertoya 2.2.9 pêwist e.
+snapshot WêneBikişîne
+sngdblclick Ji bo vekirina paceya axaftinê tenê carek bitike
+sortcontactsasc Rêz bike ber jor
+sortcontactsdesc Rêz bike ber jêr
+sortcontactsby Kesan rêz bike li gor
+sortcontactsbylogsize Kesan rêz bike li gor mezinahiya qeydê
+sortcontactgroup Rêz bike li gor koman
+sortcontacthybrid Rêz bike bi awayekî yekkirî
+sortcontactstatus Rêz bike li gor rewşê
+sortgroupsasc Koman rêz bike ber jor
+sortgroupsdesc Koman rêz bike ber jêr
+sound2 Dema kesek têket an jî peyam şand, dengan lê bide
+soundactive Dema peyamek hat, pace çalak be jî dengan lê bide
+soundcommand Divê ev fermana lêdanê be (mînak: esdplay)
+sound Dengên Bûyeran
+soundexample (\$sound = Pela dengê ya lêdanê) Mînak: esdplay \$sound
+soundfile Pela Deng
+soundfiles Pelên Deng
+soundloop Dengê Dubareker
+soundnoavail Amûra Dengê ne amade ye. Hemû bernameyên ku amûra dengê bi kar tîne, bigirin.
+soundserver Sound Server
+soundstatus Alarma Deng
+sourcecode Koda Çavkanî (pêwistiya berhevkirinê(compile) û sazkirinê heye)
+splashstart Destpêke
+sslwarning HIŞYARÎ!! Neçalakkirina SSL wê şîfrekirinê betal bike, wê şîfre wekî pela nivîsê bê şandin. Ger bi rastî ne pêwist be bi kar neynin.
+startoffline2 Hêdîka wekî "Veşartî" têkeve
+startoffline Negirêdayî destpêke
+startonboot Bila aMSN di destpêka Windowsê de vebe
+startontray Bila aMSN tenê di tray de destpê bike
+stateautomsg PeyamaOtomatîk a ji bo şandinê
+statechange rewş guherî, bû: 
+stateedittext Qadên ku hûn dixwazin biguherînin, sererast bikin û pêl Temam bikin
+stateinfo Mîhengên Rewşa Kesane
+state Dixwazim xuya bikim wekî
+statename Navê rewşa kesane
+statenewtext Ji bo afirandina Rewşa Kesane agahiyên pêwist tije bikin û pêl Temam bikin
+statenick Nicka Kesane (ji bo neyê guhertin vala bihêlin)
+statepsm Peyama Kesane ya Taybet (ji bo neyê guhertin vala bihêlin)
+stats Îstatîk
+status Rewş
+step Gava
+stopalarm Alarmê Bisekinîne
+stop Bisekine
+stopwebcamreceive Standina Webcamê Bisekinîne
+stopwebcamsend Şandina Webcamê Bisekinîne
+storenickname Piştî rewşek kesane û nickek kesane vegere nicka orjînal
+strictfonts Hemû mezinahiyên fontan bike yek û wekî hilbijartina min (Şiva rewşê û yên din)
+stylechat Heman xuyaniya wekî chatê
+stylehist Xuyaniya dîroka aMSN
+stylelog Formata nîşandana dîroka we hilbijêrin
+style Teşe
+subjectrequired Mijar Pêwist e
+subject Mijar
+svnversion Guhertoya SVN
+syntaxerror Çewtiya Syntax
+tabbedglobal ji bo hemû bikarhêneran paceyek bi hilpekîn
+tabbedgroups Ji bo kesên ji yek komê paceyek bi hilpekîn
+tabbed Paceyên bi Hilpekîn
+tabtitlenick Di hilpekînan de şûna epeyaman nick nîşande
+temp_state Rewşa Ne Mayînde (wê neyê tomarkirin)
+textsize Mezinahiya Nivîsê
+thismonth Vê mehê
+throughserver di pêşkêşker re
+timeremaining Dema maye
+timestamps QeydaDemê di paceya axaftinê de çalakke
+timestamp QeydaDemê
+title aMSN
+tkerror1 TK has brought an error, there is a bug in aMSN, please report it by clicking the Report button. You can click Details to see more informations about the bug or click Ignore to continue chatting with aMSN.
+tkerror TK has brought an error, there is a bug in aMSN, please report it. Send the file $1 to amsn-bugs@lists.sf.net
+tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
+tlsexplain Folder where the tcl TLS module is located. If aMSN can't locate it, please specify.\n(Required for SSL authentication).
+tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
+tlsinstall TLS Module installation wizard
+tlsinstcompleted TLS module installation was successful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
+today Îro
+tomobile To Mobile
+tools Amûr
+tooltips Kurterêyan Çalak Bike
+to li
+totalsize Mezinahiya giştî
+transnotexists Pela tê xwestin hê li zimanê heyî nehatiye wergerandin.
+trayicon Di qada hişyarkirinê de îkonek nîşande
+traynotcompiled Pêveka îkona Tray ne pêkan e. Venêre plugins/traydock
+triggers Text triggers
+truncatenames1 Di lîsteya kesan û di sernavê paceyan de nickên ku zêde dirêj in kurt bike
+truncatenames2 Di paceyên axaftinê de nickên ku zêde dirêj in kurt bike
+truncatenicks Nickên ji paceyê firehtir kurt bike
+twonewmail $1 e-peyama nû heye
+type Cure
+unblock Asteng neke
+unknown Nenas
+unload Barnekirî
+unselectall Yekê jî hilnebijêre
+uoffline Ne girêdayî
+uonline Girêdayî
+updateonlycurrentlanguage Tenê zimanê heyî rojane bike
+update Rojane bike
+updatesaved Çêbû\n Tomar bû $1 di $2 de.
+updating Rojane dike
+useasdp Wekî wêneya nîşandanê hilbijêre
+useasregexp Use as a Regular Expression (regexp)
+useother Bernameyek din hilbijêre
+useralreadyonlist Bikarhêner jixwe di lîsteya we de ye
+userblocked Bikarhêner girêdayî ye lê we asteng kiriye
+userdata Daneyên Bikarhêner
+userdps Wêneyên Bikarhêner
+usernotonline Bikarhêner ne girêdayî ye
+userproperties Taybetiyên bikarhêner ên $1
+usersettings Mîheng
+user Bikarhêner
+useryourself Ma mirov bi xwe re diaxive?
+usesnack Pirtûkxaneya Snack bi kar bîne(Tcl internal)
+verifyblocked Li kesên ku we asteng kirine bigere
+version Guherto
+videoconversationrequest We aniha daxwaza axaftina vîdeo stand (deng û vîdyoya dualî). Ev taybetî hê di aMSNyê de tune û hat betalkirin Lê hûn hê jî dikarin axaftina bi webcamê bi kar bînin.
+view Xuyanî
+viewcontactsby Kesan bibîne li gor
+viewprofile Profîlê Bibîne
+viewspace View space items
+volume Deng
+wanttosharecam Dixwazim webcama xwe ji bo kesên din vekim
+web Web
+webcam Webcam
+webcamcanceled Danişina webcamê ya ligel $1 hat betalkirin
+webcamclosebefcancel Beriya girtina paceyê divê hûn hemû danişînên webcamê betal bikin
+webcamconfigure Webcam Mîheng Bike
+webcamconfiguredMac Mîhengên we yên webcamê hat kirin
+webcamconfiguredWin We vê amûra webcamê hilbijart : $1
+webcamconfiguredLinux We van mîhengên webcamê bijart:\nAmûrê Webcam: $1\nQenalê Webcam: $2
+webcamextchecking Dinêre ka pêveka webcam barkirî ye ...
+webcamextloaded Pêveka Webcamsn hat barkirin
+webcamextnotloaded Pêveka Webcamsn ne barkirî ye. Divê hûn berhev(compile) bikin.
+webcamextwarn Hûn dixwazin webcamê kesên di lîsteya xwe de bibînin. Hûn dikarin agahiyan di Wikiya me de bibînin:
+webcamfaq Alîkarî ji bo Webcam
+webcamhistory Danişînên Webcamê bibîne
+webcamhistory2 Danişînên Webcamê
+webcaminvite $1 ji we daxwaza danişîna webcamê dike, lê aMSN piştgirî nade vê taybetiyê.
+webcaminvitereceived $1 ji we daxwaza danişîna webcamê dike. Hûn dixwazin danişînê bipejirînin?
+webcaminvitereceivedauto $1 ji we daxwaza danişîna webcamê dike. Ev danişîn jixweber hat pejirandin.
+webcaminvitereceiving Hûn hatin vexwendin ji bo dîtina webcama $1. Hûn dixwazin danişînê bipejirînin?
+webcaminvitereceivingauto Hûn hatin vexwendin ji bo dîtina webcama $1. Ev danişîn jixweber hat pejirandin.
+webcaminvitesending $1 dixwaze webcama we bibîne. Hûn dixwazin danişînê bipejirînin?
+webcaminvitesendingauto $1 dixwaze webcama we bibîne. Ev danişîi jixweber hat pejirandin.
+webcamrejected $1 daxwaza danişîna webcamê nepejirand
+webcamrequestreceive Ji bo dîtina webcamê daxwazek bişîne
+webcamrequestsend Ji bo şandina webcamê daxwazek bişîne
+webcamsending Lîsteya mirovên ku hûn niha webcam dişînin\nJi bo betalkirinê birikin
+whatisamsn aMSN bernameyeke paltform-azad a klona MSN messenger e
+whatsize Wêneya ku we xwestiye ne wêneyek normal a ji bo nîşandanê ye\nmezinahî (96x96) Hûn dixwazin wêne çawa bê nîşandan?
+willjoin Li benda $1 ye ku beşdarî axaftinê bibe
+winkreceived We çav-qusandinek stand ji $1. Ev taybetê hê di sMSNyê de tune.
+wintitlenick Di paceyek bi hilpekînd de şûna e-peyaman nick nîşande
+work Kar
+wrongfields The "$1", "$2" and/or "$3" fields were not valid
+wrongprofileversion Guhertoya çewt a pela mîhengên profîlê. Ji bo rastkirinê, peldankê jê bibin $1, an jî aMSNyê rojane bikin
+xmmscurrent Strana niha nîşan bide
+xmmserr Tu tişt lê nade, an jî we xmms-infopipe saz nekiriye.
+xmmssend Strana niha bişîne
+xoffset X Offset
+xplaces $1 Cih
+year Sal
+yesblock Erê û asteng bike
+yesterday Duh
+yes Erê
+yoffset Y Offset
+youblocked Hûn hatin qedexekirin ji aliyê
+yousay Hûn dibêjin
+youwant Hûn dixwazin
+zoom Nêzik
