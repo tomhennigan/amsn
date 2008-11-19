@@ -1043,3 +1043,7 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
+autoacceptwc Aceptar peticiones de camara web automáticamente
+webcaminvitereceivedauto $1 te ha invitado a iniciar una sesion de camara web. Esta sesión es aceptada automaticamente.
+webcaminvitereceivingauto Has sido invitado a ver la web cam de $1. Esta sesión es aceptada automaticamente.
+webcaminvitesendingauto $1 Quiere ver tu web cam. Esta sesión es aceptada automaticamente.
