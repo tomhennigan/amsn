@@ -1094,7 +1094,7 @@ int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 {
   const gchar *elements[] = {"dshowaudiosrc", "directsoundsrc",
                              "osxaudiosrc", "gconfaudiosrc",
-                             "alsasrc", ""};
+                             "alsasrc", "osssrc"};
 
   gint n;
   Tcl_Obj *source = NULL;
@@ -1120,7 +1120,10 @@ int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     if (element == NULL)
       continue;
 
-    probe = GST_PROPERTY_PROBE(element);
+    if (!GST_IS_PROPERTY_PROBE (element))
+      continue;
+
+    probe = GST_PROPERTY_PROBE (element);
     if (probe == NULL)
       continue;
 
