@@ -407,20 +407,19 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
       {
         const GstStructure *s = gst_message_get_structure (message);
         if (gst_structure_has_name (s, "farsight-error")) {
-          const GValue *errorvalue, *debugvalue;
-          gint errno;
+          const GValue *errorvalue, *debugvalue, *error_no;
 
-          gst_structure_get_int (message->structure, "error-no", &errno);
+          error_no = gst_structure_get_value (message->structure, "error-no");
           errorvalue = gst_structure_get_value (message->structure, "error-msg");
           debugvalue = gst_structure_get_value (message->structure, "debug-msg");
 
-          if (errno != FS_ERROR_UNKNOWN_CNAME)  {
-            g_debug ("Error on BUS (%d) %s .. %s", errno,
+          if (g_value_get_enum (error_no) != FS_ERROR_UNKNOWN_CNAME)  {
+            g_debug ("Error on BUS (%d) %s .. %s", g_value_get_enum (error_no),
                 g_value_get_string (errorvalue),
                 g_value_get_string (debugvalue));
           }
-          if (errno != FS_ERROR_UNKNOWN_CNAME)  {
-            /*_notify_error ("Farsight error");*/
+          if (g_value_get_enum (error_no) != FS_ERROR_UNKNOWN_CNAME)  {
+            _notify_error ("Farsight error");
           }
         } else if (gst_structure_has_name (s, "farsight-new-local-candidate")) {
           FsStream *stream;
