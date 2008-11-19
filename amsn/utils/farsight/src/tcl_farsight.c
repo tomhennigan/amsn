@@ -695,7 +695,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           "port", G_TYPE_UINT, turn_port,
           "username", G_TYPE_STRING, username,
           "password", G_TYPE_STRING, password,
-          "long-term-credentials", G_TYPE_BOOLEAN, FALSE,
+          "component", G_TYPE_UINT, i+1,
           NULL);
       if (turn_setup == NULL) {
         g_value_array_free (relay_info);
