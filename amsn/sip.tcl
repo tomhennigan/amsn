@@ -1944,6 +1944,7 @@ namespace eval ::MSNSIP {
 		} else {
 			# Reset the SipConnection because the Prepare clears it
 			$::farsight configure -sipconnection $sip 
+			::amsn::SIPPreparing $email $sip ""
 			return $sip
 		}
 	}
@@ -1954,7 +1955,7 @@ namespace eval ::MSNSIP {
 
 		$::farsight configure \
 		    -closed [list ::MSNSIP::inviteClosed $sip $email $callid 0] \
-		    -active [list ::MSNSIP::activeCandidates $sip $callid 1]
+		    -active [list ::MSNSIP::activeCandidates $email $sip $callid 1]
 
 		# Signal the UI
 		::amsn::SIPInviteSent $email $sip $callid
@@ -1981,12 +1982,13 @@ namespace eval ::MSNSIP {
 
 	}
 
-	proc activeCandidates { sip callid send local remote } {
+	proc activeCandidates { email sip callid send local remote } {
 		if {$send} {
 			$sip SendReInvite $callid $local $remote
 		} else {
 			$sip configure -active_candidates [list $local $remote]
 		}
+		after 1000 [list ::amsn::SIPCallConnected $email $sip $callid]
 	}
 
 	proc CancelCall { sip callid } {
@@ -2049,18 +2051,20 @@ namespace eval ::MSNSIP {
 				$sip AnswerInvite $callid BUSY
 				destroySIP $sip
 			} else {
+				set caller [$sip GetCaller $callid]
+
 				$::farsight configure \
 				    -prepared [list ::MSNSIP::requestPrepared $sip $callid] \
 				    -closed [list ::MSNSIP::answerClosed $sip $callid 0] \
 				    -sipconnection $sip \
-				    -active [list ::MSNSIP::activeCandidates $sip $callid 0]
+				    -active [list ::MSNSIP::activeCandidates $caller $sip $callid 0]
 				$sip configure -active_candidates ""
 
 
 				if {[catch {$::farsight Prepare 0}] } {
 					$::farsight configure -sipconnection $sip 
 					# Signal the UI
-					::amsn::SIPCallImpossible [$sip GetCaller $callid]
+					::amsn::SIPCallImpossible $caller
 					
 					$sip AnswerInvite $callid UNAVAILABLE
 					destroySIP $sip
@@ -2069,6 +2073,8 @@ namespace eval ::MSNSIP {
 					$::farsight configure -sipconnection $sip 
 					$::farsight SetRemoteCandidates [$sip cget -remote_candidates]
 					$::farsight SetRemoteCodecs [$sip cget -remote_codecs]
+
+					::amsn::SIPPreparing $caller $sip $callid
 				}
 			}
 		} elseif {$what == "CLOSED" } {

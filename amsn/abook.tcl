@@ -106,7 +106,7 @@ namespace eval ::abook {
 
     		array set demographics [array get data]
 		set demographics(valid) Y
-		abook::getIPConfig
+		after 0 {::abook::getIPConfig}
 	}
 
 	proc getDemographicField { field } {

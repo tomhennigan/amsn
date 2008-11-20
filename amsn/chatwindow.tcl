@@ -160,7 +160,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetOutDisplayPicturesFrame { window } {
-		return [GetOutFrame $window].dps
+		return [GetOutFrame $window].f.dps
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -171,7 +171,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetInDisplayPictureFrame { window } {
-		return [GetInFrame $window].pic
+		return [GetInFrame $window].f.pic
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -791,7 +791,7 @@ namespace eval ::ChatWindow {
 
 			::ChatWindow::TopUpdate $chatid
 
-			if { [winfo exists $win_name.f.out.dps] } {
+			if { [winfo exists $win_name.f.out.f.dps] } {
 				::amsn::ShowOrHidePicture
 				::amsn::ShowOrHideTopPicture
 				::amsn::UpdatePictures $win_name
@@ -1955,13 +1955,11 @@ namespace eval ::ChatWindow {
 		    -padx [::skin::getKey chat_output_padx] \
 		    -pady [::skin::getKey chat_output_pady]
 		
-		if { [::config::getKey old_dpframe 0] == 0 } {
-			set picture [CreateDisplayPicturesFrame $w $paned]
+		set picture [CreateDisplayPicturesFrame $w $paned]
 			
-			pack $picture -side right -expand false -fill y -anchor ne \
-			    -padx [::skin::getKey chat_dp_padx] \
-			    -pady [::skin::getKey chat_dp_pady]
-		}
+		pack $picture -side right -expand false -fill y -anchor ne \
+		    -padx [::skin::getKey chat_dp_padx] \
+		    -pady [::skin::getKey chat_dp_pady]
 	}
 
 	proc CreateOutputFrame { w fr } {
@@ -2013,12 +2011,18 @@ namespace eval ::ChatWindow {
 	
 	proc CreateDisplayPicturesFrame { w fr } {
 		# Name our widgets
-		set frame $fr.dps
+		set f $fr.f
+		set frame $f.dps
+		set voip $f.voip
 		set showpic $frame.showpic
 
 		# Create them
+		frame $f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
+		    -relief solid -background [::skin::getKey chatwindowbg]
 		frame $frame -class Amsn -borderwidth 0 -padx 0 -pady 0 \
 			-relief solid -background [::skin::getKey chatwindowbg]
+		frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
+		    -relief solid -background [::skin::getKey chatwindowbg]
 		
 		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical -borderwidth 0
 		ScrollableFrame $frame.sw.sf -width 0 -bg [::skin::getKey chatwindowbg] 
@@ -2032,15 +2036,21 @@ namespace eval ::ChatWindow {
 		set_balloon $showpic [trans showdisplaypic]
 
 		# Pack them 
-		pack $frame.sw -side left -fill y -expand false -anchor ne
-		pack $showpic -side right -anchor ne
+		if { [::config::getKey old_dpframe 0] == 0 } {
+			pack $frame -side top -padx 0 -pady 0 -anchor ne
+			pack $voip -side bottom -before $frame -padx 0 -pady 0 -anchor ne
+			pack $frame.sw -side left -expand false -anchor ne
+			pack $showpic -side right -anchor ne
+		} else {
+			pack $voip -side bottom -padx 0 -pady 0 -anchor ne
+		}
 
 
 		# Create our bindings
 		bind $showpic <<Button1>> [list ::amsn::ToggleShowTopPicture]
 			
 		::amsn::ShowOrHideTopPicture
-		return $frame	
+		return $f	
 	}
 
 	#pasteToInput -- text pasted in output window goes to input window
@@ -2452,6 +2462,148 @@ namespace eval ::ChatWindow {
 			::AVAssistant::AVAssistant
 		}
 	}
+
+	proc AddVoipControls {chatid {sip ""} {callid ""}} {
+		set window [::ChatWindow::For $chatid]
+
+		set frame_in [GetInFrame $window].f.voip
+		set frame_out [GetOutFrame $window].f.voip
+
+		status_log "Creating CW Voip controls"
+		scale $frame_in.volume -label "Volume" -from 0.0 -to 1.0 \
+		    -resolution 0.05 -showvalue 1 -orient horizontal \
+		    -width 10 -sliderlength 10  -variable ::ChatWindow::voip_volume_in \
+		    -command [list ::ChatWindow::VolumeIn $frame_in]
+		scale $frame_in.amplifier -label "Amplification" -from 1 -to 10 \
+		    -resolution 1 -showvalue 1 -orient horizontal \
+		    -width 7 -sliderlength 10 -variable ::ChatWindow::voip_amplification_in \
+		    -command [list ::ChatWindow::VolumeIn $frame_in]
+		checkbutton $frame_in.mute -text "Mute" -variable ::ChatWindow::voip_mute_in \
+		    -command [list ::ChatWindow::MuteIn $frame_in.mute]
+
+		scale $frame_out.volume -label "Volume" -from 0.0 -to 1.0 \
+		    -resolution 0.05 -showvalue 1 -orient horizontal \
+		    -width 10 -sliderlength 10  -variable ::ChatWindow::voip_volume_out \
+		    -command [list ::ChatWindow::VolumeOut $frame_out]
+		scale $frame_out.amplifier -label "Amplification" -from 1 -to 10 \
+		    -resolution 1 -showvalue 1 -orient horizontal \
+		    -width 7 -sliderlength 10 -variable ::ChatWindow::voip_amplification_out \
+		    -command [list ::ChatWindow::VolumeOut $frame_out]
+		checkbutton $frame_out.mute -text "Mute" -variable ::ChatWindow::voip_mute_out \
+		    -command [list ::ChatWindow::MuteOut $frame_out.mute]
+		button $frame_out.hangup -text "End call" -state disabled
+
+		UpdateVoipControls $chatid $sip $callid
+
+		pack $frame_in.volume $frame_in.amplifier $frame_in.mute \
+		    -side top -padx 0 -pady 0 -expand true -fill x -anchor nw
+		pack $frame_out.volume $frame_out.amplifier $frame_out.mute $frame_out.hangup \
+		    -side top -padx 0 -pady 0 -expand true -fill x -anchor nw
+
+
+	}
+
+	proc UpdateVoipControls {chatid {sip ""} {callid ""}} {
+		set window [::ChatWindow::For $chatid]
+
+		set frame_in [GetInFrame $window].f.voip
+		set frame_out [GetOutFrame $window].f.voip
+
+		status_log "Updating CW Voip controls"
+
+		if {[catch {set volume [::Farsight::GetVolumeIn]} ] } {
+			$frame_in.amplifier configure -state disabled
+			$frame_in.volume configure -state disabled
+		} else {
+			set ::ChatWindow::voip_amplification_in [expr {int($volume) - 1}]
+			set ::ChatWindow::voip_volume_in [expr {$volume - $::ChatWindow::voip_amplification_in}]
+			$frame_in.amplifier configure -state normal
+			$frame_in.volume configure -state normal
+		}
+		if {[catch {set mute [::Farsight::GetMuteIn]} ] } {
+			$frame_in.mute configure -state disabled
+		} else {
+			set ::ChatWindow::voip_mute_in $mute
+			$frame_in.mute configure -state normal
+		}
+
+		if {[catch {set volume [::Farsight::GetVolumeOut]} ] } {
+			$frame_out.amplifier configure -state disabled
+			$frame_out.volume configure -state disabled
+		} else {
+			set ::ChatWindow::voip_amplification_out [expr {int($volume) - 1}]
+			set ::ChatWindow::voip_volume_out [expr {$volume - $::ChatWindow::voip_amplification_out}]
+			$frame_out.amplifier configure -state normal
+			$frame_out.volume configure -state normal
+		}
+		if {[catch {set mute [::Farsight::GetMuteOut]} ] } {
+			$frame_out.mute configure -state disabled
+		} else {
+			set ::ChatWindow::voip_mute_out $mute
+			$frame_out.mute configure -state normal
+		}
+
+		if {$sip != "" && $callid != ""} {
+			$frame_out.hangup configure -state normal -command [list ::amsn::HangupSIPCall $chatid $sip $callid]
+		} else {
+			$frame_out.hangup configure -state disabled
+		}
+	}
+
+	proc RemoveVoipControls {chatid} {
+		set window [::ChatWindow::For $chatid]
+
+		set frame_in [GetInFrame $window].f.voip
+		set frame_out [GetOutFrame $window].f.voip
+
+		status_log "Removing CW Voip controls"
+
+		destroy $frame_in.volume
+		destroy $frame_in.amplifier
+		destroy $frame_in.mute
+		destroy $frame_out.volume
+		destroy $frame_out.amplifier
+		destroy $frame_out.mute
+		destroy $frame_out.hangup
+
+		catch {
+			unset ::ChatWindow::voip_mute_in
+			unset ::ChatWindow::voip_amplification_in
+			unset ::ChatWindow::voip_volume_in
+			unset ::ChatWindow::voip_mute_out
+			unset ::ChatWindow::voip_amplification_out
+			unset ::ChatWindow::voip_volume_out
+		}
+	}
+
+	proc MuteIn {w } {
+		if {[catch {::Farsight::SetMuteIn $::ChatWindow::voip_mute_in}]} {
+			$w configure -state disabled
+		}
+	}
+
+	proc VolumeIn {frame  val } {
+		if {[catch {::Farsight::SetVolumeIn [expr {$::ChatWindow::voip_amplification_in - 1 + \
+							       $::ChatWindow::voip_volume_in}]}]} {
+			$frame.amplifier configure -state disabled
+			$frame.volume configure -state disabled
+			
+		}
+	}
+	proc MuteOut {w } {
+		if {[catch {::Farsight::SetMuteOut $::ChatWindow::voip_mute_out}]} {
+			$w configure -state disabled
+		}
+	}
+
+	proc VolumeOut { frame val } {
+		if {[catch {::Farsight::SetVolumeOut [expr {$::ChatWindow::voip_amplification_out - 1 + \
+						   $::ChatWindow::voip_volume_out}]}]} {
+			$frame.amplifier configure -state disabled
+			$frame.volume configure -state disabled
+			
+		}
+	}
 	
 	proc setCallButton {chatid cmd txt {hangupOrCall 1}} {
 		set win [For $chatid]
@@ -2856,12 +3008,17 @@ namespace eval ::ChatWindow {
 
 		status_log "Creating picture frame\n"
 		# Name our widgets
-		set frame $bottom.pic
+		set f $bottom.f
+		set frame $f.pic
+		set voip $f.voip
 		set picture $frame.image
 		set showpic $frame.showpic
 
 		# Create them
+		frame $f -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
 		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
+		frame $voip -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
+
 		framec $picture -type label -relief solid -image [::skin::getNoDisplayPicture] \
 				-borderwidth [::skin::getKey chat_dp_border] \
 				-bordercolor [::skin::getKey chat_dp_border_color] \
@@ -2878,6 +3035,7 @@ namespace eval ::ChatWindow {
 
 		# Pack them 
 		#pack $picture -side left -padx 0 -pady [::skin::getKey chatpady] -anchor w
+		pack $frame $voip -side top -padx 0 -pady 0 -anchor ne -expand true
 		pack $showpic -side right -padx 0 -pady 0 -anchor ne
 
 		# Create our bindings
@@ -2898,7 +3056,7 @@ namespace eval ::ChatWindow {
 			bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
 		}
 		::amsn::ShowOrHidePicture
-		return $frame
+		return $f
 
 	}
 
@@ -4291,7 +4449,7 @@ namespace eval ::ChatWindow {
 		::ChatWindow::TopUpdate $chatid
 
 		set usr_name [lindex [::MSN::usersInChat $chatid] 0]
-		if { [winfo exists $win_name.f.out.dps]} {
+		if { [winfo exists $win_name.f.out.f.dps]} {
 			::amsn::ShowOrHidePicture
 			::amsn::ShowOrHideTopPicture
 			::amsn::UpdatePictures $win_name
