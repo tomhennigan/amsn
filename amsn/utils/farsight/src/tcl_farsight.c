@@ -355,27 +355,30 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   }
 
   volumeOut = gst_element_factory_make ("volume", NULL);
-  gst_object_ref (volumeOut);
+  if (volumeOut) {
+    gst_object_ref (volumeOut);
 
-  if (gst_bin_add (GST_BIN (pipeline), volumeOut) == FALSE) {
-    _notify_error_post ("Could not add output volume to pipeline");
-    return;
+    if (gst_bin_add (GST_BIN (pipeline), volumeOut) == FALSE) {
+      _notify_error_post ("Could not add output volume to pipeline");
+      return;
+    }
+
+    if (gst_element_link(volumeOut, convert) == FALSE)  {
+      _notify_error_post ("Could not link volume out to converter");
+      return;
+    }
+    sink_pad = gst_element_get_static_pad (volumeOut, "sink");
+  } else {
+    sink_pad = gst_element_get_static_pad (convert, "sink");
   }
-
-
-  sink_pad = gst_element_get_static_pad (volumeOut, "sink");
   ret = gst_pad_link (pad, sink_pad);
   gst_object_unref (sink_pad);
 
   if (ret != GST_PAD_LINK_OK)  {
-    _notify_error_post ("Could not link volume out to fsrtpconference sink pad");
+    _notify_error_post ("Could not link volume/sink to fsrtpconference sink pad");
     return;
   }
 
-  if (gst_element_link(volumeOut, convert) == FALSE)  {
-    _notify_error_post ("Could not link volume out to converter");
-    return;
-  }
   if (gst_element_link(convert, resample) == FALSE)  {
     _notify_error_post ("Could not link converter to resampler");
     return;
@@ -623,7 +626,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     Tcl_WrongNumArgs (interp, 1, objv, " callback controlling ?relay_info?"
         " ?stun_ip stun_port?\n"
         "Where relay_info is a list with each element being a list containing : "
-        "{turn_hostname turn_port turn_username turn_password}");
+        "{turn_hostname turn_port turn_username turn_password component type}");
     return TCL_ERROR;
   }
 
@@ -650,8 +653,10 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       char *turn_ip = NULL;
       char *turn_hostname = NULL;
       int turn_port = 1863;
+      int component = 0;
       char *username = NULL;
       char *password = NULL;
+      char *type = NULL;
       int total_elements;
       Tcl_Obj **elements = NULL;
       GstStructure *turn_setup = NULL;
@@ -664,7 +669,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         Tcl_AppendResult (interp, "\nInvalid relay info element", (char *) NULL);
         return TCL_ERROR;
       }
-      if (total_elements != 4) {
+      if (total_elements != 6) {
         g_value_array_free (relay_info);
         Tcl_AppendResult (interp, "\nInvalid relay info element : ",
             Tcl_GetString (tcl_relay_info[i]), (char *) NULL);
@@ -689,6 +694,12 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       }
       username = Tcl_GetStringFromObj (elements[2], NULL);
       password = Tcl_GetStringFromObj (elements[3], NULL);
+      if (Tcl_GetIntFromObj (interp, elements[4], &component) == TCL_ERROR) {
+        g_value_array_free (relay_info);
+        Tcl_AppendResult (interp, "TURN component invalid : Expected integer" , (char *) NULL);
+        return TCL_ERROR;
+      }
+      type = Tcl_GetStringFromObj (elements[5], NULL);
 
       turn_setup = gst_structure_new ("relay-info",
           "ip", G_TYPE_STRING, turn_ip,
@@ -696,6 +707,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           "username", G_TYPE_STRING, username,
           "password", G_TYPE_STRING, password,
           "component", G_TYPE_UINT, i+1,
+          "relay-type", G_TYPE_STRING, type,
           NULL);
       if (turn_setup == NULL) {
         g_value_array_free (relay_info);
@@ -844,22 +856,26 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
   volumeIn = gst_element_factory_make ("volume", NULL);
-  gst_object_ref (volumeIn);
-  if (gst_bin_add (GST_BIN (pipeline), volumeIn) == FALSE) {
-    Tcl_AppendResult (interp, "Could not add input volume to pipeline",
-        (char *) NULL);
-    goto error;
-  }
+  if (volumeIn) {
+    gst_object_ref (volumeIn);
+    if (gst_bin_add (GST_BIN (pipeline), volumeIn) == FALSE) {
+      Tcl_AppendResult (interp, "Could not add input volume to pipeline",
+          (char *) NULL);
+      goto error;
+    }
 
-  srcpad = gst_element_get_static_pad (volumeIn, "src");
+    srcpad = gst_element_get_static_pad (volumeIn, "src");
+    if (gst_element_link(src, volumeIn) == FALSE)  {
+      Tcl_AppendResult (interp, "Could not link source to volume", (char *) NULL);
+      goto error;
+    }
+  } else {
+    srcpad = gst_element_get_static_pad (src, "src");
+  }
 
   if (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK) {
-    Tcl_AppendResult (interp, "Couldn't link the volume to fsrtpconference" ,
+    Tcl_AppendResult (interp, "Couldn't link the volume/src to fsrtpconference" ,
         (char *) NULL);
-    goto error;
-  }
-  if (gst_element_link(src, volumeIn) == FALSE)  {
-    Tcl_AppendResult (interp, "Could not link source to volume", (char *) NULL);
     goto error;
   }
 
