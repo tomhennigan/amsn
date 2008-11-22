@@ -12,7 +12,7 @@ addacontact Pridėti kontaktą
 add Pridėti
 addedyou $1 ($2) pridėjo jus į savo kontaktų sąrašą
 addprofile Pridėti naują profilį
-addprofiledesc Įveskite prisijungimo duomenis, kuriais norėsite sukurti naują profilį. \nProfiliai leis jums turėti skirtingus nustatymus atskiruose prisijungimuose.\nBe profilių, negalėsite naudotis istorija, garsais ir "Prisiminti slaptažodį" funkcijomis.
+addprofiledesc Įveskite prisijungimo duomenis, kuriais norėsite sukurti naują profilį. \nProfiliai leis jums turėti skirtingus nustatymus atskiruose prisijungimuose.\nBe profilių, negalėsite naudotis istorija, garsais ir „Prisiminti slaptažodį“ funkcijomis.
 addstate Pridėti naują būseną
 addto Pridėti į $1
 addtocontacts Pridėti į kontaktų sąrašą
@@ -33,10 +33,10 @@ alarms Garsai
 alarmstatus Aktyvuoti skambėjimą šiam vartotojui
 allfiles Visos rinkmenos
 allmonths Visi mėnesiai
-allowallbutbl Leisti visiems vartotojams pasiekti mane, išskyrus tuos, kuriuos aš užblokavau
+allowallbutbl Leisti visiems vartotojams pasiekti mane, išskyrus tuos, kurie užblokuoti
 allowbadwords Uždrausti cenžūrą slapyvardžiuose
 allowlist Priimtų vartotojų sąrašas (AL):
-allowonlyinal Tik vartotojai, kuriuos aš priėmiau, gali susisiekti su manim
+allowonlyinal Su manim gali susisiekti tik tie vartotojai, kuriuos aš priėmiau
 allowseen Leisti šiam asmeniui matyti, kada aš esu prisijungęs bei pasiekti mane
 allow_sms Leisti vartotojams pasiekti mane per mano MSN mobilųjį įrenginį
 allprofilesinuse Visi esami profiliai yra naudojami dabar
@@ -68,7 +68,7 @@ author Autorius
 autoaccepted Rinkmenos persiuntimas priimtas automatiškai
 autoacceptft Automatiškai priimti prašymus rinkmenos persiuntimui
 autoacceptwc Automatiškai priimti prašymus kamerai įjungti
-autoaway Keisti būsena į "Išėjęs", kai neaktyvus
+autoaway Keisti būsena į „Išėjęs“, kai neaktyvus
 autocheckver Automatiškai tikrinti naujos versijos prisijungiant
 autoconnect2 Įjungus AMSN, prisijungti automatiškai
 autoconnect Prisijungti, kai aMSN pasileidžia
@@ -78,7 +78,7 @@ autoidle Auto Neaktyvus
 autoip Automatinis IP
 autolisten_voiceclips Automatiškai leisti garso iškarpas, kai jos priimtos
 automessage Auto Žinutė
-autonoact Keisti būsena į "Neaktyvus", kai neaktyvus
+autonoact Keisti būsena į „Neaktyvus“, kai neaktyvus
 autoresizedp Automatiškai sumažinti nuotraukas į numatytą dydį
 avaccepted Video konferencijos skambutis priimtas
 avcanceled Video konferencijos skambutis nutrauktas
@@ -86,7 +86,7 @@ avgotinvitation Priimtas video konferencijos pakvietimas iš $1
 avinitfailed Audio/Video įskiepių parengimas nebaigtas. Skambutis nutrauktas
 avoidseen Uždrausti šiam asmeniui matyti mane, kai aš esu prisijungęs, bei neleisti susisiekti su manim
 away Išėjęs
-awaymsg1 Klausti žinutės "Išėjęs" kiekvieną kartą, kai aš pakeičiu būsena į Išėjęs/Dar sugrįšiu/Užimtas
+awaymsg1 Klausti žinutės „Išėjęs“ kiekvieną kartą, kai aš pakeičiu būsena į Išėjęs/Dar sugrįšiu/Užimtas
 awaymsg2 Neklausti ir visada naudoti žemiau esančią žinutę
 back Grįžti
 baduserpass Klaidingas vartotojo vardas arba slaptažodis
@@ -125,7 +125,7 @@ cannotdeleteprofile Negali ištrinti profilio, nes, matyt, yra naudojamas aMSN s
 cantexec Negali vykdyti programos: $1. Patikrinkite nustatymus
 cantget Negali gauti $1
 cantloadonlineversion Negali atstatyti kalbų atnaujinimo sąrašo iš interneto
-cantremoveothers "Kiti" grupė negali būti pašalinta
+cantremoveothers „Kiti“ grupė negali būti pašalinta
 captureextloaded Pasirinktas plėtinys -$1- yra užkrautas
 captureextnotloaded Pasirinktas plėtinys -$1- nėra užkrautas, pirmiau jūs turite sukompiliuoti jį
 captureproperties Kameros vaizdo ypatybės
@@ -232,7 +232,7 @@ contacts Kontaktai
 continuously Tęstinai
 contrast Kontrastas
 conversationwith $1 vartotojai pokalbyje
-convertexplain Kelias PAKEISTI vykdomą rinkmeną iš ImageMagick (reikalaujama rodomiems paveiksliukams).\n Palikti tuščią, jeigu pakeitimas yra kelyje
+convertexplain Kelias PAKEISTI vykdomą rinkmeną iš ImageMagick (reikalaujama rodomiems paveiksliukams).\nPalikti tuščią, jeigu pakeitimas yra kelyje
 copy Kopijuoti
 copytoclipboard Kopijuoti $1 į iškarpų krepšį
 copytogroup Kopijuoti į grupę
@@ -261,7 +261,7 @@ customsmileys Rodyti kitų vartotojų jaustukus
 customstyle Pakeistas stilius
 custshowcustomsmileys Rodyti vartotojo jaustukus
 cut Iškirpti
-cutimageboxreset Atstatyti žymėjimą \ndydis į:
+cutimageboxreset Atstatyti žymėjimą\ndydis į:
 cutimagebox Pasirinkite atvaizdo dalį, kurią norėsite naudoti, keisti dydį arba perkelti žymėjimą
 date Data
 dateformat Datos formatas
@@ -313,7 +313,7 @@ dontshow Nerodyti
 dontshowdp Neleisti šiam vartotojui atsisiųsti jūsų naujas rodomas nuotraukas
 download Atsisiųsti
 downloadcanceled Siuntimas nutrauktas.
-downloadingtls Siunčia TLS modulį iš:\n $1
+downloadingtls Siunčia TLS modulį iš:\n$1
 downloadingwait Atsiunčiama nauja aMSN versija. Prašau palaukite...
 dynamicrate Naudoti dinaminį kadrų dažnį, kad imituotų esamo laiko greitį
 editavsettings Nustatyti garsą ir vaizdą
@@ -381,8 +381,8 @@ firewalled2 Jus blokuoja ugniasienė, patikrinikite savo ryšio nustatymus nusta
 followtext Sukti žemyn tol, kol naujas tekstas bus įvestas
 forget_me Neprisiminti manęs
 forgot_pass Aš pamiršau slaptažodį
-formatctt CTT formatas
-formatcsv CSV formatas
+formatctt CTT formatu
+formatcsv CSV formatu
 friendlyname Draugiškasis vardas
 ftacceptedby $1 priėmė rinkmenos persiuntimo pakvietimą rinkmenai '$2'.
 ftaccepted Rinkmenos persiuntimas priimtas
@@ -410,7 +410,7 @@ getdisppic Leisti priimti nuotraukas iš kitų vartotojų
 getmoreplugins Gauk daugiau įskiepių!
 getmoreskins Gauk daugiau apvalkalų!
 globalcontainer Bendra dėžė
-globalnick Įveskite savo visų kontaktų slapyvardžių norimą rodymo formą. Jūs galite naudoti šiuos kitamuosius: \$user_login jūsų kontaktų el. paštas, \$nick jūsų kontaktų slapyvardis ir \$customnick jūsų kontaktų pasirinktas slapyvardis. Pavyzdžiui: \$user_login yra \$nick bus \$customnick
+globalnick Įveskite savo visų kontaktų slapyvardžių norimą vaizdavimo formą. Jūs galite naudoti šiuos kitamuosius: \$user_login jūsų kontaktų el. paštas, \$nick jūsų kontaktų slapyvardis ir \$customnick jūsų kontaktų pasirinktas slapyvardis. Pavyzdžiui: \$user_login yra \$nick bus \$customnick
 globalnicktitle Slapyvardžių rodymo forma
 globaloverride Bendras slapyvardžio pavyzdys turėtų nepaisyti kitų slapyvardžių
 gonelunch Pietauju
@@ -548,7 +548,7 @@ minimised Sumažintas/Piktograma
 minimize Nuleisti į skydelį
 mins min.
 mobilegrp1 Mobili grupė
-mobilegrp2 Perkelti vartotojus į "Mobilią" grupę, kai jie atsijungę (ir surikiuoti pagal būseną)
+mobilegrp2 Perkelti vartotojus į „Mobilią“ grupę, kai jie atsijungę (ir surikiuoti pagal būseną)
 mobile Mobilus
 modified Pakeistas
 month Mėnuo
@@ -632,7 +632,7 @@ notify3 Rodyti pranešimų langą, kai gauti nauji laiškai
 notify4 Rodyti pranešimų langą, kai gauti nauji laiškai kituose aplankaluose
 notify pranešti
 notifyoffset Nustatyti pranešimo pasirodymo poziciją
-notifytimeout Milisekundžių skaičius, po kurių pranešimų langas pasislėps
+notifytimeout Laikas milisekunėmis, per kurį pranešimų langas pasislėps
 notifytyping Siųsti kitiems vartotojams pranešimą, kai rašote
 notifywin Pranešimų langas
 notimcontact Šis kontaktas nėra greito pranešimo kontaktas
@@ -677,7 +677,7 @@ picfile Fono rinkmena (GIF < 500 x 500)
 picstatus Rodyti foną
 play Paleisti
 playbackposition Leisties vieta
-playbackspeed Leisties greitis (mili sekundžių tarp kadrų)
+playbackspeed Leisties greitis (milisekundžių tarp kadrų)
 playerror Klaida įvyko, bandant paleisti garsą: $1
 playgame Pradėti žaidimą
 playgame2 Žaisti $1
@@ -745,13 +745,13 @@ pwcdriver Jūs naudojate pwc tvarkykles
 quit Išeiti
 raised Pakeltas/Be piktogramų
 readonlymsgbox Rinkmenos siuntimas nutrauktas dėl to, kad priėmimo aplankalas yra tik skaitymui. Nustatykite leidimus šiam aplankalui.
-readonlywarn DĖMESIO: Ši rinkmena, tikriausiai, NEBUS išsaugota teisingai į "Gautos rinkmenos". Aplankalas, atrodo, yra su įrašymo apsauga. Įsitikinkite, kad leidimas yra tinkamai nustatytas prieš persiunčiant rinkmeną į nurodytą aplankalą ($1).
+readonlywarn DĖMESIO: Ši rinkmena, tikriausiai, NEBUS išsaugota teisingai į „Gautos rinkmenos“. Aplankalas, atrodo, yra su įrašymo apsauga. Įsitikinkite, kad leidimas yra tinkamai nustatytas prieš persiunčiant rinkmeną į nurodytą aplankalą ($1).
 receivedbytes Gauta $1 iš $2 baitų
 receiveddir Gautų rinkmenų aplankalas
 receivedoimread Jūs turite $1 neperskaitytas žinutes. Ar norite perskaityti?
 receivedvoice Priimtas garso klipas
 receivefile Priimti rinkmeną
-recentmsg Pokalbių lango uždarymo apsauga, kai yra priimta žinutė
+recentmsg Neleisti uždaryti pokalbių lango, kai yra priimta žinutė
 reconnect2 Prisijungti netekus ryšio
 reconnecting Pakartotinis jungimasis\nprie serverio bus po
 reconnect Laukiama $1, kol persijungs
@@ -901,7 +901,7 @@ soundstatus Garso signalas
 sourcecode Išvesties kodas (reikia kompiliuoti ir įdiegti)
 splashstart Pradėti
 sslwarning Dėmesio! Uždrausdami SSL, uždrausite šifravimą, todėl jūsų slaptažodį siųs per tinklą paprastu tekstu. Naudokite tik tikrai saugius tarpinius serverius bei tinklo nustatymus.
-startoffline2 Prisijungti tyliai kaip "Nematomas"
+startoffline2 Prisijungti tyliai kaip „Nematomas“
 startoffline Paleisti Neprisijungus
 startonboot Paleisti aMSN per Windows pasikrovimą
 startontray Paleisti aMSN tik skydelyje
@@ -1024,7 +1024,7 @@ webcamrequestreceive Nusiųstas prašymas vartotojo vaizdui priimti
 webcamrequestsend Nusiųstas pakvietimas jūsų vaizdo rodymui
 webcamsending Vartotojų sąrašas, kuriems rodote savo kamerą\nSpausti, kad nutraukti
 webcam Kamera
-whatisamsn aMSN yra MSN Messenger'io platforma - nepriklausomas MSN Messenger'io klonas
+whatisamsn aMSN yra MSN Messengerio platforma - nepriklausomas MSN Messengerio klonas
 whatsize Atvaizdas, kurio prašėte, nėra normali nuotrauka\ndydis (96x96) Kokio dydžio norėtumėte, kad rodytų jūsų atvaizdą?
 willjoin Laukiama $1 prisijungiant prie pokalbio
 winkreceived Jūs gavote Mirktelėjimą nuo $1. Šią savybę aMSN kol kas dar nepalaiko.
