@@ -59,6 +59,7 @@ audiovideo Opcions de Vídeo i Àudio
 author Autor
 autoaccepted Transferència del fitxer acceptada automàticament
 autoacceptft Accepta automàticament les transferències de fitxers
+autoacceptwc Accepta automàticament les peticions de càmera web
 autoaway Mostra'm en l'estat "Absent" quan no hi hagi activitat en
 autocheckver Busca una nova versió a l'inici
 autoconnect2 Connectar-se automàticament al iniciar l'aMSN
@@ -865,6 +866,9 @@ webcamfaq PMQ/Ajuda per la càmera web
 webcamhistory Veure les sessions de càmera web
 webcaminvite $1 t'ha convidat a iniciar una conversa amb càmera web però l'aMSN encara no ho suporta.
 webcaminvitereceived $1 t'ha convidat a iniciar una sessió de càmera web. Vols acceptar aquesta sessió?
+webcaminvitereceivedauto $1 t'ha convidat a iniciar una sessió de càmera web. Aquesta sessió es acceptada automàticament.
+webcaminvitereceivingauto Has estat invitat a veure la càmera web de $1. Aquesta sessió es acceptada automàticament.
+webcaminvitesendingauto $1 vol veure la teva càmera web. Aquesta sessió es acceptada automàticament.
 webcamrejected $1 ha rebutjat la invitació per iniciar una sessió de càmera web
 webcamrequestreceive Enviar petició per veure la seva càmera web
 webcamrequestsend Enviar invitació per veure la teva càmera web
@@ -940,9 +944,6 @@ sortgroupsdesc Ordena descendentment els grups
 soundnoavail El dispositiu de so no està disponible. Atura totes les aplicaciones que facin ús del dispositiu de so.
 useasregexp Interpretar com a expressió regular
 usersettings Preferències
-voice_notimplemented The Receiving of Voice Clips is not yet implemented. Please be patient.
-voice_windows Being a Windows user, you might be able to listen to the voice clip by opening the voice clip with your media player.
-voice_windows_click Click here to do so.
 connectfirst Sisplau, connecteu primer
 ftporttest Prova el port
 blocknotifications Deshabilita mostrar finestres de notificació
@@ -1021,7 +1022,6 @@ gamepluginnotfound $1 us ha convidat a jugar a $2 però no hi ha cap complement p
 gamerejected En/na $1 ha rebutjat la vostra invitació per jugar
 gamerequest Heu convidat en/na $1 a jugar a $2
 hangup Penja
-localecode El vostre codi de país o idioma de 4 dígits
 nooimconfirmation No em demanis confirmació en enviar o rebre missatges desconnectat
 playgame Inicia joc
 playgame2 Jugueu a $1
