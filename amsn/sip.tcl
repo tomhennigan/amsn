@@ -1257,7 +1257,7 @@ snit::type TURN {
 		}
 		return 0
 	}
-	method RequestSharedSecret { {total 2} } {
+	method RequestSharedSecret { {total 4} } {
 		set relay_info [list]
 		$self Connect
 
@@ -1761,11 +1761,7 @@ snit::type Farsight {
 			tkwait variable [myvar prepare_relay_info]
 		}
 
-		if {[llength $prepare_relay_info] == 2 } {
-			::Farsight::Prepare [list $self FarsightReady] $controlling $prepare_relay_info 64.14.48.28
-		} else {
-			::Farsight::Prepare [list $self FarsightReady] $controlling [list] 64.14.48.28
-		}
+		::Farsight::Prepare [list $self FarsightReady] $controlling $prepare_relay_info 64.14.48.28
 	}
 
 	method PrepareSSOCB {controlling ticket} {
@@ -1774,7 +1770,18 @@ snit::type Farsight {
 
 	method TurnPrepared { controlling turn relay_info } {
 		after 0 [list $turn destroy]
-		set prepare_relay_info $relay_info
+		set prepare_relay_info [list]
+		set component 1
+		set type "udp"
+		foreach relay $relay_info {
+			foreach {ip port user pass} $relay break
+			lappend prepare_relay_info [list $ip $port $user $pass $component $type]
+			incr component
+			if {$component > 2} {
+				set type "tcp"
+				set component 1
+			}
+		}
 		status_log "Turn prepared $prepare_relay_info"
 	}
 
