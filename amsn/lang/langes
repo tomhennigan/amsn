@@ -67,6 +67,7 @@ audiovideo Configuración de Audio y Video
 author Autor
 autoaccepted Transferencia de archivo aceptada automáticamente
 autoacceptft Aceptar archivos automáticamente en transferencias
+autoacceptwc Aceptar peticiones de camara web automáticamente
 autoaway Mostrarme "Ausente" cuando no hay actividad en
 autocheckver Buscar automáticamente nuevas versiones al iniciar aMSN
 autoconnect2 Conectarse automáticamente cuando se inicie aMSN
@@ -201,6 +202,7 @@ closingdocks Botón de cerrar iconifica la ventana
 color Color
 command Comando
 commandstatus Ejecutar comando
+compactstyle Estilo compacto
 configure Configurar
 configuremic Configurando tu micrófono
 configureplugin Configurar plug-in $1
@@ -1014,8 +1016,11 @@ webcamhistory2 Sesiones de cámera web
 webcamhistory Ver sesiones de cámara web
 webcaminvite $1 te ha invitado a una sesión de videoconferencia, pero aMSN todavía no soporta esta característica.
 webcaminvitereceived $1 Te ha invitado para iniciar una sesión de cámara web. ¿Quieres aceptar esta invitación?
+webcaminvitereceivedauto $1 te invitó a iniciar una sesión de cámara web. Esta sesión se acepta automáticamente.
+webcaminvitereceivingauto Estás invitado a comenzar a ver la cámara web de $1. Esta sesión se acepta automáticamente.
 webcaminvitereceiving Estás invitado a ver la cámara web de $1. ¿Deseas aceptar la invitación?
 webcaminvitesending $1 quiere ver tu cámara web. ¿Deseas aceptar la invitación?
+webcaminvitesendingauto A $1 le gustaría ver tu cámara web. Esta sesión se acepta automáticamente.
 webcamrejected $1 ha rechazado la invitación para la sesión de cámara web 
 webcamrequestreceive Invitar para iniciar una sesión de cámara web  
 webcamrequestsend Invitar para que vean mi cámara web
@@ -1043,7 +1048,3 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
-autoacceptwc Aceptar peticiones de camara web automáticamente
-webcaminvitereceivedauto $1 te ha invitado a iniciar una sesion de camara web. Esta sesión es aceptada automaticamente.
-webcaminvitereceivingauto Has sido invitado a ver la web cam de $1. Esta sesión es aceptada automaticamente.
-webcaminvitesendingauto $1 Quiere ver tu web cam. Esta sesión es aceptada automaticamente.
