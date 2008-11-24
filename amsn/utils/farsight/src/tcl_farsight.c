@@ -143,14 +143,22 @@ _notify_callback (char *status_msg, Tcl_Obj *obj1, Tcl_Obj *obj2)
 
   Tcl_Obj *status = Tcl_NewStringObj (status_msg, -1);
   Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
+  Tcl_Obj *empty = Tcl_NewListObj (0, NULL);
   Tcl_Obj *args = Tcl_NewListObj (0, NULL);
   Tcl_Obj *command[] = {eval, callback, args};
   Tcl_Interp *interp = callback_interp;
 
 
   Tcl_ListObjAppendElement(NULL, args, status);
-  Tcl_ListObjAppendElement(NULL, args, obj1);
-  Tcl_ListObjAppendElement(NULL, args, obj2);
+  if (obj1)
+    Tcl_ListObjAppendElement(NULL, args, obj1);
+  else
+    Tcl_ListObjAppendElement(NULL, args, empty);
+
+  if (obj2)
+    Tcl_ListObjAppendElement(NULL, args, obj2);
+  else
+    Tcl_ListObjAppendElement(NULL, args, empty);
 
   if (callback && callback_interp) {
     /* Take the callback here in case it gets Closed by the eval */
