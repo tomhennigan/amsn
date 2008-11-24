@@ -487,6 +487,8 @@ namespace eval ::ChatWindow {
 		
 		
 		::MSN::leaveChat $chatid
+		
+		catch { unset ::amsn::lastchatwith(${chatid}) }
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -1563,6 +1565,8 @@ namespace eval ::ChatWindow {
 			-value "msn" -variable [::config::getVar chatstyle]
 		$stylemenu add radiobutton -label "[trans ircstyle]" \
 			-value "irc" -variable [::config::getVar chatstyle]
+		$stylemenu add radiobutton -label "[trans compactstyle]" \
+			-value "windbag" -variable [::config::getVar chatstyle]
 		$stylemenu add radiobutton -label "[trans customstyle]..." \
 			-value "custom" -variable [::config::getVar chatstyle] \
 			-command "::amsn::enterCustomStyle"

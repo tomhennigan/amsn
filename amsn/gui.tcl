@@ -3390,19 +3390,39 @@ namespace eval ::amsn {
 	}
 
 	proc PutMessageWrapped { chatid user nick msg type fontformat {p4c 0 }} {
+		variable lastchatwith
+		
+		set chatstyle [::config::getKey chatstyle]
+		
 		if { [::config::getKey showtimestamps] } {
 			set tstamp [timestamp]
 		} else {
 			set tstamp ""
 		}
+		
+		set lastchat 0
+		if {[info exists lastchatwith($chatid)]} {
+			if {$user eq $lastchatwith($chatid)} {
+				if {$chatstyle eq "compact"} {
+					set nick ""
+					set lastchat 1
+				}
+			} else {
+				array set lastchatwith [list $chatid $user]
+			}
+		} else {
+			array set lastchatwith [list $chatid $user]
+		}
 
-		switch [::config::getKey chatstyle] {
+		switch $chatstyle {
 			msn {
 				::config::setKey customchatstyle "\$tstamp [trans says \$nick]: \$newline"
 			}
-
 			irc {
 				::config::setKey customchatstyle "\$tstamp <\$nick> "
+			}
+			compact {
+				::config::setKey customchatstyle "[trans says \$nick]: \$newline \$tstamp"
 			}
 			- {
 			}
@@ -3455,7 +3475,8 @@ namespace eval ::amsn {
  		}
 
 		if {[::config::getKey colored_text_in_cw] == 1} {
-			if {$p4c} {
+			if {$lastchat} {
+			} elseif {$p4c} {
 				set original_nick [::smiley::parseMessageToList [list [ list "text" "$nick" ]]]
 				set evpar(variable) original_nick
 				set evpar(login) $user
@@ -3465,8 +3486,8 @@ namespace eval ::amsn {
 			} else {
 				set original_nick [::abook::getVolatileData myself parsed_mfn]
 			}
-		
-			if {[::config::getKey chatstyle] eq "msn"} {
+
+			if {$chatstyle eq "msn"} {
 				set str [trans says __@__]
 				set pos [string first __@__ $str]
 				incr pos -1
@@ -3476,11 +3497,25 @@ namespace eval ::amsn {
 				set parsing [list [list text "\n$tstamp "] $part1]
 				set parsing [concat $parsing $original_nick]
 				lappend parsing $part2 [list text ":\n"]
-			} elseif {[::config::getKey chatstyle] eq "irc"} {
+			} elseif {$chatstyle eq "irc"} {
 				set parsing $original_nick
 				set parsing [linsert $parsing 0 [list text "\n$tstamp <"]]
 				lappend parsing [list text ">"]
-			} elseif {[::config::getKey chatstyle] eq "custom"} {
+			} elseif {$chatstyle eq "compact" } {
+				if {!$lastchat} {
+					set str [trans says __@__]
+					set pos [string first __@__ $str]
+					incr pos -1
+					set part1 [list text "\n\n[string range $str 0 $pos]"]
+					incr pos 6
+					set part2 [list text [string range $str $pos end]]
+					set parsing [list $part1]
+					set parsing [concat $parsing $original_nick]
+					lappend parsing $part2 [list text ":\n$tstamp "]
+				} else {
+					set parsing [list [list text "\n$tstamp "]]
+				}
+			} elseif {$chatstyle eq "custom"} {
 				set customchatstyle__ [::config::getKey customchatstyle]
 				
 				set style [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" " " " \\__fr33s@p4ce-_ "} $customchatstyle__]
@@ -3536,7 +3571,6 @@ namespace eval ::amsn {
 		::plugins::PostEvent chat_msg_received evPar
 	}
 	#///////////////////////////////////////////////////////////////////////////////
-
 
 
 	#///////////////////////////////////////////////////////////////////////////////

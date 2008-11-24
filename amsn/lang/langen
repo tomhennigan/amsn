@@ -202,6 +202,7 @@ closingdocks Close button minimizes
 color Color
 command Command
 commandstatus Execute command
+compactstyle Compact Style
 configure Configure
 configuremic Configuring your microphone
 configuringaudio Configuring audio settings
