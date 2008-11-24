@@ -1566,7 +1566,7 @@ namespace eval ::ChatWindow {
 		$stylemenu add radiobutton -label "[trans ircstyle]" \
 			-value "irc" -variable [::config::getVar chatstyle]
 		$stylemenu add radiobutton -label "[trans compactstyle]" \
-			-value "windbag" -variable [::config::getVar chatstyle]
+			-value "compact" -variable [::config::getVar chatstyle]
 		$stylemenu add radiobutton -label "[trans customstyle]..." \
 			-value "custom" -variable [::config::getVar chatstyle] \
 			-command "::amsn::enterCustomStyle"
