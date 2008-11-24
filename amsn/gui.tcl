@@ -22,6 +22,12 @@ if { $initialize_amsn == 1 } {
 		proc dnd { args } {}
 		proc shape { args } {}
 	}
+
+	if { [version_vcompare [info patchlevel] 8.4.13] >= 0} {
+		package require snit
+	} else {
+		source utils/snit/snit.tcl
+	}
 	
 	#package require pixmapbutton
 	if { [OnMac] } {
@@ -8933,66 +8939,62 @@ namespace eval ::OIM_GUI {
 }
 
 
-if { $initialize_amsn == 1 } {
 
-	if { [version_vcompare [info patchlevel] 8.4.13] >= 0} {
-		package require snit
-	} else {
-		source utils/snit/snit.tcl
+#///////////////////////////////////////////////////////////////////////////////
+# if a button has a -image, -relief flat but not -overrelief, it will actually be created as a label
+# this is a workaround for platforms like macos and tileqt which have a problem with buttons (like
+# not honouring "-relief flat" (tileqt) or not supporting alpha transparancy(macos))
+# TODO: add a bind that works as -command on a button (mousebutton press, move away, release does not trigger)
+# apply buttons2labels on Mac, because there seem to be problems with buttons there
+# TODO: as soon as it is fixed in tk on mac, make it version-conditional
+snit::widgetadaptor buttonlabel {
+	option -command -default ""
+	option -overrelief -default ""
+	option -repeatdelay -default ""
+	option -repeatinterval -default ""
+	option -default -default ""
+		
+	delegate option * to hull
+
+	constructor {args} {
+		installhull using label
+		$self configurelist $args
+
+		bind $self <<Button1>> [list $self _LabelClicked]
 	}
 
-	#///////////////////////////////////////////////////////////////////////////////
-	# if a button has a -image, -relief flat but not -overrelief, it will actually be created as a label
-	# this is a workaround for platforms like macos and tileqt which have a problem with buttons (like
-	# not honouring "-relief flat" (tileqt) or not supporting alpha transparancy(macos))
-	# TODO: add a bind that works as -command on a button (mousebutton press, move away, release does not trigger)
-	# apply buttons2labels on Mac, because there seem to be problems with buttons there
-	# TODO: as soon as it is fixed in tk on mac, make it version-conditional
-	snit::widgetadaptor buttonlabel {
-		option -command -default ""
-		option -overrelief -default ""
-		option -repeatdelay -default ""
-		option -repeatinterval -default ""
-		option -default -default ""
-		
-		delegate option * to hull
-
-		constructor {args} {
-			installhull using label
-			$self configurelist $args
-			
-			bind $self <<Button1>> [list $self _LabelClicked]
-		}
-		
-		method _LabelClicked { } {
-			return [$self invoke]
-		}
-
-		method invoke { } {
-			if {[$self cget -state] != "disabled" } {
-				eval $options(-command)
-			} else {
-				return ""
-			}
-		}
-		method flash { } {
-			
-		}
+	method _LabelClicked { } {
+		return [$self invoke]
 	}
 	
-	proc buttons2labels { } {
-		if { [info commands ::tk::button2] == "" } { rename button ::tk::button2 }
-		proc button { pathName args } {
-			array set options $args
-			if { [info exists options(-image)] &&
-			     [info exists options(-relief)] && $options(-relief) == "flat" } {
-				eval buttonlabel [list $pathName] [array get options]
-			} else {
-				eval ::tk::button2 [list $pathName] $args
-			}
+	method invoke { } {
+		if {[$self cget -state] != "disabled" } {
+			eval $options(-command)
+		} else {
+			return ""
 		}
 	}
+	method flash { } {
+		
+	}
+}
+	
+proc buttons2labels { } {
+	if { [info commands ::tk::button2] == "" } {
+		rename button ::tk::button2
+	}
+	proc button { pathName args } {
+		array set options $args
+		if { [info exists options(-image)] &&
+		     [info exists options(-relief)] && $options(-relief) == "flat" } {
+			eval buttonlabel [list $pathName] [array get options]
+		} else {
+			eval ::tk::button2 [list $pathName] $args
+		}
+	}
+}
 
+if { $initialize_amsn == 1 } {
 	if {[OnMac] } {
 		buttons2labels
 	}
