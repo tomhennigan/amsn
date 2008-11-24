@@ -202,6 +202,7 @@ closingdocks Le bouton Fermer ancre l'application
 color Couleur
 command Commande
 commandstatus Exécuter la commande
+compactstyle Style compact
 configure Configurer
 configuremic Configuration du micro
 configureplugin Configurer le plugin $1
