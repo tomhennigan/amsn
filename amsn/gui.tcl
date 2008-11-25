@@ -3563,8 +3563,16 @@ namespace eval ::amsn {
 		::plugins::PostEvent chat_msg_receive evPar
 
 		if {![string equal $msg ""]} {
-			WinWrite $chatid "$message" $type $fontformat 1 $user
-
+			if {[::config::getKey colored_text_in_cw] == 1} {
+				set msg_parsing [::smiley::parseMessageToList [list [ list "text" "$message" ]]]
+				set evpar(variable) msg_parsing
+				set evpar(login) $user
+				::plugins::PostEvent parse_contact evpar
+				WinWrite $chatid "$message" $type $fontformat 1 $user $msg_parsing
+			} else {
+				WinWrite $chatid "$message" $type $fontformat 1 $user
+			}
+			
 			if {[::config::getKey keep_logs]} {
 				::log::PutLog $chatid $nick $msg $fontformat
 			}
