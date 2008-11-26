@@ -123,7 +123,7 @@ snit::type SOAPRequest {
 
 		# Catch it in case we have no internet.. 
 		# TODO : maybe fix this somehow since we'll never get the callback...
-		if { ![catch { set http_req [http::geturl $options(-url) -timeout 30000 -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] }] } {
+		if { ![catch { set http_req [http::geturl $options(-url) -timeout 120000 -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] }] } {
 			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
 			if {[info exists ::soap_debug] && $::soap_debug != ""} {
 				set filename "[$self GetDebugFilename]_req.xml"
