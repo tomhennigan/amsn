@@ -3956,7 +3956,7 @@ namespace eval ::amsn {
 			}
 			
 			#we need to call those procs only if the "txt" value is not empty (it means that we are writing in chatwindow in the old method, and so we need to parse all the "txt" value) or if the "unit 0" value is smiley (new method).
-			if {$check_always_smiley || ([lindex $unit 0] eq "smiley")} {
+			if {$check_always_smiley || $user == [string tolower [::config::getKey login]] ||([lindex $unit 0] eq "smiley") } {
 				#Replace smileys... if you're sending custom ones, replace them too (last parameter)
 				if { $user == [string tolower [::config::getKey login]] } {
 					::smiley::substSmileys $textw $text_start end 0 1
