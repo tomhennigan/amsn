@@ -183,6 +183,7 @@ closingdocks El botó tancar minimitza la finestra
 color Color
 command Reproductor
 commandstatus Executar comanda
+compactstyle Estil Compacte
 configure Configurar
 configuremic Configurant el teu micròfon
 configuringaudio Configurant les opcions de àudio
@@ -974,9 +975,9 @@ selectcontact Selecciona un contacte
 showonedpframe Mostra només un marc d'imatge per a mostrar a les finestres de conversa
 showlinksinlogin Mostra enllaços a la pantalla de connexió
 smallest El més petit
-sortcontactsasc Ordena els contactes per ordre alabètic invers
+sortcontactsasc Ordena els contactes per ordre alabètic
 sortcontactsbylogsize Ordena els contactes per la mida de l'historial
-sortcontactsdesc Ordena els contactes per ordre alfabètic
+sortcontactsdesc Ordena els contactes per ordre alfabètic invers
 sortcontactsby Ordena els contactes per
 always Sempre
 cantget No s'ha pogut obtenir $1
