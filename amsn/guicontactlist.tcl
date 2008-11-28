@@ -1840,7 +1840,7 @@ namespace eval ::guiContactList {
 		##Rendering !! ##
 		#---------------#
 
-		trimInfo stylestring
+	#	trimInfo stylestring
 		set renderInfo [renderContact $canvas [list $tag "contact"] $maxwidth $stylestring]
 		array set underlinst $renderInfo
 
