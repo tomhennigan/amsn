@@ -1632,6 +1632,17 @@ snit::type Farsight {
 		set specialLogger $newSpecialLogger
 	}
 
+	method Debug {msg} {
+		if {$specialLogger != ""} {
+			catch {eval $specialLogger {"Farsight debug : $msg"}}
+		}
+		status_log "Farsight debug : $msg"
+	}
+
+	method Level {direction value} {
+		puts "Your $direction volume is at $value"
+	}
+
 	method Reset { } {
 		set local_codecs [list]
 		set local_candidates [list]
@@ -1673,6 +1684,7 @@ snit::type Farsight {
 		}
 		
 	}
+
 
 	method SetRemoteCodecs { codecs } {
 		set remote_codecs $codecs
@@ -1751,6 +1763,7 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
+		::Farsight::Config -level [list $self Level] -debug [list $self Debug]
 
 		set prepare_relay_info ""
 		if {$prepare_ticket != "" } {

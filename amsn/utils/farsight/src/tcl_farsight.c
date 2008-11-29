@@ -159,13 +159,19 @@ static void
 _notify_debug (gchar *format, ...)
 {
 
-  Tcl_Obj *f = Tcl_NewStringObj (format, -1);
+  Tcl_Obj *msg = NULL;
   Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
   Tcl_Obj *args = Tcl_NewListObj (0, NULL);
   Tcl_Obj *command[] = {eval, debug_callback, args};
   Tcl_Interp *interp = debug_callback_interp;
+  gchar *message;
+  va_list ap;
+  va_start (ap, format);
+  message = g_strdup_vprintf (format, ap);
+  va_end (ap);
 
-  Tcl_ListObjAppendElement(NULL, args, f);
+  msg = Tcl_NewStringObj (message, -1);
+  Tcl_ListObjAppendElement(NULL, args, msg);
 
   if (debug_callback && debug_callback_interp) {
     /* Take the callback here in case it gets Closed by the eval */
@@ -175,14 +181,15 @@ _notify_debug (gchar *format, ...)
     Tcl_IncrRefCount (cbk);
 
     if (Tcl_EvalObjv(interp, 3, command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
-      g_debug ("Error executing debug handler : %s",
-          Tcl_GetStringResult(interp));
+      g_debug ("Error executing debug handler : %s --- %s",
+          Tcl_GetStringResult(interp), msg);
     }
     Tcl_DecrRefCount (cbk);
     Tcl_DecrRefCount (args);
     Tcl_DecrRefCount (eval);
   }
 
+  g_free (message);
 }
 
 static void
@@ -1632,6 +1639,8 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         Tcl_Panic("Tcl_SocketObjCmd: bad option index to SocketOptions");
     }
   }
+
+  return TCL_OK;
 }
 
 
