@@ -31,10 +31,18 @@
 
 
 
+Tcl_Obj *level_callback = NULL;
+Tcl_Interp *level_callback_interp = NULL;
+Tcl_Obj *debug_callback = NULL;
+Tcl_Interp *debug_callback_interp = NULL;
+char *source = NULL;
+char *device = NULL;
 GstElement *pipeline = NULL;
 GstElement *conference = NULL;
 GstElement *volumeIn = NULL;
 GstElement *volumeOut = NULL;
+GstElement *levelIn = NULL;
+GstElement *levelOut = NULL;
 FsSession *session = NULL;
 FsParticipant *participant = NULL;
 FsStream *stream = NULL;
@@ -45,6 +53,7 @@ Tcl_Obj *callback = NULL;
 Tcl_Interp *callback_interp = NULL;
 Tcl_ThreadId main_tid = 0;
 int components_selected = 0;
+
 
 #ifdef _WIN32
 const char *inet_ntop_win32(int af, const void *src, char *dst, socklen_t cnt)
@@ -134,6 +143,45 @@ static void Close ()
     callback = NULL;
     callback_interp = NULL;
   }
+  if (source) {
+    g_free (source);
+    source = NULL;
+  }
+  if (device) {
+    g_free (device);
+    device = NULL;
+  }
+
+}
+
+
+static void
+_notify_debug (gchar *format, ...)
+{
+
+  Tcl_Obj *f = Tcl_NewStringObj (format, -1);
+  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
+  Tcl_Obj *args = Tcl_NewListObj (0, NULL);
+  Tcl_Obj *command[] = {eval, debug_callback, args};
+  Tcl_Interp *interp = debug_callback_interp;
+
+  Tcl_ListObjAppendElement(NULL, args, f);
+
+  if (debug_callback && debug_callback_interp) {
+    /* Take the callback here in case it gets Closed by the eval */
+    Tcl_Obj *cbk = debug_callback;
+    Tcl_IncrRefCount (eval);
+    Tcl_IncrRefCount (args);
+    Tcl_IncrRefCount (cbk);
+
+    if (Tcl_EvalObjv(interp, 3, command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
+      g_debug ("Error executing debug handler : %s",
+          Tcl_GetStringResult(interp));
+    }
+    Tcl_DecrRefCount (cbk);
+    Tcl_DecrRefCount (args);
+    Tcl_DecrRefCount (eval);
+  }
 
 }
 
@@ -168,7 +216,7 @@ _notify_callback (char *status_msg, Tcl_Obj *obj1, Tcl_Obj *obj2)
     Tcl_IncrRefCount (cbk);
 
     if (Tcl_EvalObjv(interp, 3, command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
-      g_debug ("Error executing %s handler : %s", status_msg,
+      _notify_debug ("Error executing %s handler : %s", status_msg,
           Tcl_GetStringResult(interp));
     }
     Tcl_DecrRefCount (cbk);
@@ -178,13 +226,44 @@ _notify_callback (char *status_msg, Tcl_Obj *obj1, Tcl_Obj *obj2)
 
 }
 
+static void
+_notify_level (char *direction, gfloat level)
+{
+
+  Tcl_Obj *dir = Tcl_NewStringObj (direction, -1);
+  Tcl_Obj *eval = Tcl_NewStringObj ("eval", -1);
+  Tcl_Obj *args = Tcl_NewListObj (0, NULL);
+  Tcl_Obj *command[] = {eval, level_callback, args};
+  Tcl_Interp *interp = level_callback_interp;
+
+
+  Tcl_ListObjAppendElement(NULL, args, dir);
+  Tcl_ListObjAppendElement(NULL, args, Tcl_NewDoubleObj (level));
+
+  if (level_callback && level_callback_interp) {
+    /* Take the callback here in case it gets Closed by the eval */
+    Tcl_Obj *cbk = level_callback;
+    Tcl_IncrRefCount (eval);
+    Tcl_IncrRefCount (args);
+    Tcl_IncrRefCount (cbk);
+
+    if (Tcl_EvalObjv(interp, 3, command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
+      _notify_debug ("Error executing level handler : %s",
+          Tcl_GetStringResult(interp));
+    }
+    Tcl_DecrRefCount (cbk);
+    Tcl_DecrRefCount (args);
+    Tcl_DecrRefCount (eval);
+  }
+}
+
 
 static void
 _notify_error (char *error)
 {
   Tcl_Obj *obj = Tcl_NewStringObj (error, -1);
 
-  g_debug ("An error occured : %s", error);
+  _notify_debug ("An error occured : %s", error);
 
   _notify_callback ("ERROR", obj, obj);
 
@@ -298,7 +377,7 @@ _local_candidates_prepared (FsStream *stream)
 
   candidates_prepared = TRUE;
 
-  g_debug ("CANDIDATES ARE PREPARED");
+  _notify_debug ("CANDIDATES ARE PREPARED");
   _notify_prepared ();
 }
 
@@ -379,6 +458,32 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   } else {
     sink_pad = gst_element_get_static_pad (convert, "sink");
   }
+
+  levelOut = gst_element_factory_make ("level", NULL);
+  if (levelOut) {
+    GstPad *levelsrc;
+
+    gst_object_ref (levelOut);
+
+    if (gst_bin_add (GST_BIN (pipeline), levelOut) == FALSE) {
+      gst_object_unref (sink_pad);
+      _notify_error_post ("Could not add output level to pipeline");
+      return;
+    }
+    g_object_set (G_OBJECT (levelOut), "message", TRUE, NULL);
+
+    levelsrc = gst_element_get_static_pad (levelOut, "src");
+    if (gst_pad_link (levelsrc, sink_pad) != GST_PAD_LINK_OK) {
+      gst_object_unref (levelsrc);
+      gst_object_unref (sink_pad);
+      _notify_error_post ("Couldn't link the volume/src to level");
+      return;
+    }
+
+    gst_object_unref (sink_pad);
+    sink_pad = gst_element_get_static_pad (levelOut, "sink");
+  }
+
   ret = gst_pad_link (pad, sink_pad);
   gst_object_unref (sink_pad);
 
@@ -435,7 +540,7 @@ _codecs_ready (FsSession *session)
 {
   codecs_ready = TRUE;
 
-  g_debug ("CODECS ARE READY");
+  _notify_debug ("CODECS ARE READY");
 
   _notify_prepared ();
 }
@@ -450,9 +555,6 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
   FarsightBusEvent *ev = (FarsightBusEvent *) evPtr;
   GstMessage *message = ev->message;
 
-  g_debug ("Receive bus message from the event proc : %s",
-      gst_structure_get_name (message->structure));
-
   switch (GST_MESSAGE_TYPE (message))
   {
     case GST_MESSAGE_ELEMENT:
@@ -466,7 +568,7 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
           debugvalue = gst_structure_get_value (message->structure, "debug-msg");
 
           if (g_value_get_enum (error_no) != FS_ERROR_UNKNOWN_CNAME)  {
-            g_debug ("Error on BUS (%d) %s .. %s", g_value_get_enum (error_no),
+            _notify_debug ("Error on BUS (%d) %s .. %s", g_value_get_enum (error_no),
                 g_value_get_string (errorvalue),
                 g_value_get_string (debugvalue));
           }
@@ -516,16 +618,16 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
           value = gst_structure_get_value (s, "remote-candidate");
           remote = g_value_get_boxed (value);
 
-          g_debug ("New active candidate pair : ");
+          _notify_debug ("New active candidate pair : ");
 
-          g_debug ("Local candidate: %s %d %s %s %d %s %d\n",
+          _notify_debug ("Local candidate: %s %d %s %s %d %s %d\n",
               local->username == NULL ? "-" : local->username,
               local->component_id,
               local->password == NULL ? "-" : local->password,
               local->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
               local->priority, local->ip, local->port);
 
-          g_debug ("Remote candidate: %s %d %s %s %d %s %d\n",
+          _notify_debug ("Remote candidate: %s %d %s %s %d %s %d\n",
               remote->username == NULL ? "-" : remote->username,
               remote->component_id,
               remote->password == NULL ? "-" : remote->password,
@@ -534,6 +636,33 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
 
           if (++components_selected == 2) {
             _notify_active (local->username, remote->username);
+          }
+        } else if (gst_structure_has_name (s, "level")) {
+          gint channels;
+          gdouble rms_dB;
+          gdouble rms;
+          const GValue *list;
+          const GValue *value;
+          gint i;
+
+          /* we can get the number of channels as the length of any of the value
+           * lists */
+          list = gst_structure_get_value (s, "rms");
+          channels = gst_value_list_get_size (list);
+
+          rms = 0;
+          for (i = 0; i < channels; ++i) {
+            list = gst_structure_get_value (s, "rms");
+            value = gst_value_list_get_value (list, i);
+            rms_dB = g_value_get_double (value);
+
+            /* converting from dB to normal gives us a value between 0.0 and 1.0 */
+            rms += pow (10, rms_dB / 20);
+          }
+          if (GST_MESSAGE_SRC (message) == levelIn) {
+            _notify_level ("IN", rms / channels);
+          } else if (GST_MESSAGE_SRC (message) == levelOut) {
+            _notify_level ("OUT", rms / channels);
           }
         }
       }
@@ -545,7 +674,7 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
         gchar *debug = NULL;
         gst_message_parse_error (message, &error, &debug);
 
-        g_debug ("Got an error on the BUS (%d): %s (%s)", error->code,
+        _notify_debug ("Got an error on the BUS (%d): %s (%s)", error->code,
             error->message, debug);
         g_error_free (error);
         g_free (debug);
@@ -572,7 +701,6 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
     case GST_MESSAGE_ELEMENT:
       {
         const GstStructure *s = gst_message_get_structure (message);
-        g_debug ("bus message : %s", gst_structure_get_name (s));
         if (gst_structure_has_name (s, "farsight-error")) {
           goto drop;
         } else if (gst_structure_has_name (s, "farsight-new-local-candidate")) {
@@ -583,6 +711,8 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         } else if (gst_structure_has_name (s, "farsight-codecs-changed")) {
           goto drop;
         } else if (gst_structure_has_name (s, "farsight-new-active-candidate-pair")) {
+          goto drop;
+        } else if (gst_structure_has_name (s, "level")) {
           goto drop;
         }
       }
@@ -881,8 +1011,35 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     srcpad = gst_element_get_static_pad (src, "src");
   }
 
+  levelIn = gst_element_factory_make ("level", NULL);
+  if (levelIn) {
+    GstPad *levelsink;
+
+    gst_object_ref (levelIn);
+    if (gst_bin_add (GST_BIN (pipeline), levelIn) == FALSE) {
+      Tcl_AppendResult (interp, "Could not add input level to pipeline",
+          (char *) NULL);
+      goto error;
+    }
+    g_object_set (G_OBJECT (levelIn), "message", TRUE, NULL);
+
+    levelsink = gst_element_get_static_pad (levelIn, "sink");
+    if (gst_pad_link (srcpad, levelsink) != GST_PAD_LINK_OK) {
+      gst_object_unref (levelsink);
+      gst_object_unref (srcpad);
+      Tcl_AppendResult (interp, "Couldn't link the volume/src to level" ,
+          (char *) NULL);
+      goto error;
+    }
+
+    gst_object_unref (srcpad);
+    srcpad = gst_element_get_static_pad (levelIn, "src");
+  }
+
   if (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK) {
-    Tcl_AppendResult (interp, "Couldn't link the volume/src to fsrtpconference" ,
+    gst_object_unref (sinkpad);
+    gst_object_unref (srcpad);
+    Tcl_AppendResult (interp, "Couldn't link the volume/level/src to fsrtpconference" ,
         (char *) NULL);
     goto error;
   }
@@ -890,7 +1047,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   gst_object_unref (sinkpad);
   gst_object_unref (srcpad);
 
-  participant = fs_conference_new_participant ( FS_CONFERENCE (conference),
+  participant = fs_conference_new_participant (FS_CONFERENCE (conference),
       "", &error);
   if (error) {
     char temp[1000];
@@ -917,7 +1074,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   total_params = 2;
   if (stun_ip) {
-    g_debug ("stun ip : %s : %d", stun_ip, stun_port);
+    _notify_debug ("stun ip : %s : %d", stun_ip, stun_port);
     transmitter_params[total_params].name = "stun-ip";
     g_value_init (&transmitter_params[total_params].value, G_TYPE_STRING);
     g_value_set_string (&transmitter_params[total_params].value, stun_ip);
@@ -929,7 +1086,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
   if (relay_info) {
-    g_debug ("FS: relay info = %p - %d", relay_info, relay_info->n_values);
+    _notify_debug ("FS: relay info = %p - %d", relay_info, relay_info->n_values);
     transmitter_params[total_params].name = "relay-info";
     g_value_init (&transmitter_params[total_params].value, G_TYPE_VALUE_ARRAY);
     g_value_set_boxed (&transmitter_params[total_params].value, relay_info);
@@ -1038,12 +1195,11 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       goto error_codec;
     }
 
-    g_debug ("New remote codec : %d %s %d",
+    _notify_debug ("New remote codec : %d %s %d",
       codec->id, codec->encoding_name, codec->clock_rate);
     remote_codecs = g_list_append (remote_codecs, codec);
   }
 
-  /*g_debug ("Setting remote codecs");*/
   if (!fs_stream_set_remote_codecs (stream, remote_codecs, &error)) {
     Tcl_AppendResult (interp, "Could not set the remote codecs", (char *) NULL);
     goto error_codecs;
@@ -1104,7 +1260,7 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
 	candidate->port = temp_port;
 
-    g_debug ("New Remote candidate: %s %d %s %s %d %s %d\n",
+    _notify_debug ("New Remote candidate: %s %d %s %s %d %s %d\n",
       candidate->username == NULL ? "-" : candidate->username,
       candidate->component_id,
       candidate->password == NULL ? "-" : candidate->password,
@@ -1390,6 +1546,95 @@ int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   return TCL_OK;
 }
 
+
+int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  static const char *farsightOptions[] = {
+    "-level", "-debug", "-source", "-device", NULL
+  };
+  enum farsightOptions {
+    FS_LEVEL, FS_DEBUG, FS_SOURCE, FS_DEVICE
+  };
+  int optionIndex, a;
+  char *level = NULL, *source = NULL, *device = NULL;
+
+  for (a = 1; a < objc; a++) {
+    const char *arg = Tcl_GetString(objv[a]);
+
+    if (Tcl_GetIndexFromObj(interp, objv[a], farsightOptions, "option",
+            TCL_EXACT, &optionIndex) != TCL_OK) {
+      return TCL_ERROR;
+    }
+    switch ((enum farsightOptions) optionIndex) {
+      case FS_LEVEL:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -level option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (level_callback) {
+          Tcl_DecrRefCount (level_callback);
+          level_callback = NULL;
+          level_callback_interp = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          level_callback = objv[a];
+          Tcl_IncrRefCount (level_callback);
+          level_callback_interp = interp;
+        }
+        break;
+      case FS_DEBUG:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -debug option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (debug_callback) {
+          Tcl_DecrRefCount (debug_callback);
+          debug_callback = NULL;
+          debug_callback_interp = NULL;
+        }
+
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          debug_callback = objv[a];
+          Tcl_IncrRefCount (debug_callback);
+          debug_callback_interp = interp;
+        }
+        break;
+      case FS_SOURCE:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -source option", NULL);
+          return TCL_ERROR;
+        }
+
+        source = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_DEVICE: {
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -myport option", NULL);
+          return TCL_ERROR;
+        }
+        device = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      }
+      default:
+        Tcl_Panic("Tcl_SocketObjCmd: bad option index to SocketOptions");
+    }
+  }
+}
+
+
 /*
   Function : Farsight_Init
 
@@ -1444,6 +1689,8 @@ int Farsight_Init (Tcl_Interp *interp) {
   Tcl_CreateObjCommand(interp, "::Farsight::SetMuteOut", Farsight_SetMuteOut,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::Farsight::GetMuteOut", Farsight_GetMuteOut,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::Config", Farsight_Config,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
   // end of Initialisation
