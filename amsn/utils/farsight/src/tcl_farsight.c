@@ -466,31 +466,6 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     sink_pad = gst_element_get_static_pad (convert, "sink");
   }
 
-  levelOut = gst_element_factory_make ("level", NULL);
-  if (levelOut) {
-    GstPad *levelsrc;
-
-    gst_object_ref (levelOut);
-
-    if (gst_bin_add (GST_BIN (pipeline), levelOut) == FALSE) {
-      gst_object_unref (sink_pad);
-      _notify_error_post ("Could not add output level to pipeline");
-      return;
-    }
-    g_object_set (G_OBJECT (levelOut), "message", TRUE, NULL);
-
-    levelsrc = gst_element_get_static_pad (levelOut, "src");
-    if (gst_pad_link (levelsrc, sink_pad) != GST_PAD_LINK_OK) {
-      gst_object_unref (levelsrc);
-      gst_object_unref (sink_pad);
-      _notify_error_post ("Couldn't link the volume/src to level");
-      return;
-    }
-
-    gst_object_unref (sink_pad);
-    sink_pad = gst_element_get_static_pad (levelOut, "sink");
-  }
-
   ret = gst_pad_link (pad, sink_pad);
   gst_object_unref (sink_pad);
 
@@ -507,9 +482,32 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     _notify_error_post ("Could not link resampler to second converter");
     return;
   }
-  if (gst_element_link(convert2, sink) == FALSE)  {
-    _notify_error_post ("Could not link sink to converter");
-    return;
+
+  levelOut = gst_element_factory_make ("level", NULL);
+  if (levelOut) {
+    GstPad *levelsrc;
+
+    gst_object_ref (levelOut);
+
+    if (gst_bin_add (GST_BIN (pipeline), levelOut) == FALSE) {
+      _notify_error_post ("Could not add output level to pipeline");
+      return;
+    }
+    g_object_set (G_OBJECT (levelOut), "message", TRUE, NULL);
+
+    if (gst_element_link(convert2, levelOut) == FALSE)  {
+      _notify_error_post ("Could not link level out to converter");
+      return;
+    }
+    if (gst_element_link(levelOut, sink) == FALSE)  {
+      _notify_error_post ("Could not link sink to level out");
+      return;
+    }
+  } else {
+    if (gst_element_link(convert2, sink) == FALSE)  {
+      _notify_error_post ("Could not link sink to converter");
+      return;
+    }
   }
 
   if (gst_element_set_state (volumeOut, GST_STATE_PLAYING) ==
@@ -539,6 +537,13 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
       GST_STATE_CHANGE_FAILURE) {
     _notify_error_post ("Unable to set sink to PLAYING");
     return;
+  }
+  if (levelOut) {
+    if (gst_element_set_state (levelOut, GST_STATE_PLAYING) ==
+        GST_STATE_CHANGE_FAILURE) {
+      _notify_error_post ("Unable to set sink to PLAYING");
+      return;
+    }
   }
 }
 
