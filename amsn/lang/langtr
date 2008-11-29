@@ -67,6 +67,7 @@ audiovideo Ses ve görüntü ayarlarý
 author Yazan
 autoaccepted Dosya aktarýmý otomatikman kabul edildi
 autoacceptft Dosya aktarým istemlerini otomatikman kabul et
+autoacceptwc Web kamerasý isteklerini otomatik olarak kabul et
 autoaway Bu süre kadar eylemsiz kalýrsam beni diþarýda göster:
 autocheckver Açýlýþta kendiliðinden yeni sürüm ara
 autoconnect Açýlýþta kendiliðinden baðlan
@@ -201,6 +202,7 @@ closingdocks Kapatma düðmesi küçültsün
 color Renk
 command Komut
 commandstatus Komutu çalýþtýr
+compactstyle Compact Stili
 configure Ayarla
 configuremic Mikrofon ayarlanýyor
 configureplugin $1 eklentisini ayarla
@@ -333,6 +335,7 @@ enabled Etkin
 enableproxy proxy ayarlarýný etkinleþtir
 enableremote Uzaktan denetimi etkinleþtir
 enablesound Sesi aç
+enablespaces Windows Live Spaces desteðini etkinleþtir (DENEYSEL)
 encoding Alfabe seçimi
 encoding2 Alfabe deðiþtirin
 enterbugdesc Hatâyý tekrar canlandýrabilmemiz için hatâ oluþmadan önce yaptýklarýnýzý lütfen anlatýnýz:
@@ -1013,8 +1016,11 @@ webcamhistory Kamera oturumlarýný gör
 webcamhistory2 Kamera oturumlarý
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
 webcaminvitereceived $1 sizi kamera oturumu açmaya davet etti. Kabul ediyor musunuz?
+webcaminvitereceivedauto $1 web kamerasý oturumu baþlatmak için sizi davet etti. Bu oturum otomatik olarak kabul edildi.
 webcaminvitereceiving $1 size kamera görüntüsünü yollamak istiyor. Kabul ediyor musunuz?
+webcaminvitereceivingauto $1 isimli kiþi web kamerasýný görebilmeniz için sizi davet etti. Bu oturum otomatik olarak kabul edildi.
 webcaminvitesending $1 sizin kamera görüntünüzü görmek istiyor. Kabul ediyor musunuz?
+webcaminvitesendingauto $1 adlý kiþi web kameranýzý görüntülemek istiyor. Bu oturum otomatik olarak kabul edildi.
 webcamrejected $1 kamera oturumu davetinizi geri çevirdi.
 webcamrequestreceive Kamera görüntüsü almak için davet gönder
 webcamrequestsend Kamera görüntüsü yollamak için davet gönder
