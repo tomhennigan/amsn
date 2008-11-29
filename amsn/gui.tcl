@@ -3856,6 +3856,9 @@ namespace eval ::amsn {
 					  }
 					  continue
 				}
+				"newline" {
+					set txt "\n"
+				}
 				default { continue }
 			}
 
