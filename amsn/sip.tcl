@@ -1640,6 +1640,13 @@ snit::type Farsight {
 	}
 
 	method Level {direction value} {
+		set w .level_$direction
+		if {![winfo exists $w] } {
+			toplevel $w
+			wm geometry $w 250x50
+			pack [::dkfprogress::Progress $w.level] -fill x -expand 0 -padx 5 -pady 5 -side top
+		}
+		::dkfprogress::SetProgress $w.level $value 1.0
 		puts "Your $direction volume is at $value"
 	}
 
