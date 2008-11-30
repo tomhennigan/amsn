@@ -5222,12 +5222,20 @@ namespace eval ::MSNOIM {
 			}
 			application/x-msnmsgrp2p {
 				set dest [$message getHeader "P2P-Dest"]
+				set semic [string first ";" $dest]
+				set destid ""
+				if { $semic > 0 } {
+					set destid [string range $dest [expr { $semic + 1}] end]
+					set dest [string range $dest 0 [expr {$semic - 1}]]
+				}
 				if { [string compare -nocase $dest [::config::getKey login]] == 0 } {
-					set p2pmessage [P2PMessage create %AUTO%]
-					$p2pmessage createFromMessage $message
-					::MSNP2P::ReadData $p2pmessage $chatid
-					#status_log [$p2pmessage toString 1]
-					catch { $p2pmessage destroy }
+					if { $destid == "" || $destid == [::config::getGlobalKey machineguid] } {
+						set p2pmessage [P2PMessage create %AUTO%]
+						$p2pmessage createFromMessage $message
+						::MSNP2P::ReadData $p2pmessage $chatid
+						#status_log [$p2pmessage toString 1]
+						catch { $p2pmessage destroy }
+					}
 				}
 			}
 
