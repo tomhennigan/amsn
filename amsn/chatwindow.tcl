@@ -2014,46 +2014,51 @@ namespace eval ::ChatWindow {
 	}
 	
 	proc CreateDisplayPicturesFrame { w fr } {
-		# Name our widgets
-		set f $fr.f
-		set frame $f.dps
-		set voip $f.voip
-		set showpic $frame.showpic
-
-		# Create them
-		frame $f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
-		    -relief solid -background [::skin::getKey chatwindowbg]
-		frame $frame -class Amsn -borderwidth 0 -padx 0 -pady 0 \
-			-relief solid -background [::skin::getKey chatwindowbg]
-		frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
-		    -relief solid -background [::skin::getKey chatwindowbg]
-		
-		ScrolledWindow $frame.sw -scrollbar vertical -auto vertical -borderwidth 0
-		ScrollableFrame $frame.sw.sf -width 0 -bg [::skin::getKey chatwindowbg] 
-		$frame.sw setwidget $frame.sw.sf
-
-		label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
-			-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
-			-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
-		bind $showpic <Enter> "$showpic configure -image [::skin::loadPixmap imgshow_hover]"
-		bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
-		set_balloon $showpic [trans showdisplaypic]
 
 		# Pack them 
 		if { [::config::getKey old_dpframe 0] == 0 } {
+ 	               # Name our widgets
+	                set f $fr.f
+	                set frame $f.dps
+	                set voip $f.voip
+	                set showpic $frame.showpic
+	
+	                # Create them
+	                frame $f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
+	                    -relief solid -background [::skin::getKey chatwindowbg]
+	                frame $frame -class Amsn -borderwidth 0 -padx 0 -pady 0 \
+	                        -relief solid -background [::skin::getKey chatwindowbg]
+	                frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
+	                    -relief solid -background [::skin::getKey chatwindowbg]
+	
+	                ScrolledWindow $frame.sw -scrollbar vertical -auto vertical -borderwidth 0
+	                ScrollableFrame $frame.sw.sf -width 0 -bg [::skin::getKey chatwindowbg]
+	                $frame.sw setwidget $frame.sw.sf
+	
+	                label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
+	                        -bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
+	                        -highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
+	                bind $showpic <Enter> "$showpic configure -image [::skin::loadPixmap imgshow_hover]"
+	                bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
+	                set_balloon $showpic [trans showdisplaypic]
+
 			pack $frame -side top -padx 0 -pady 0 -anchor ne
 			pack $voip -side bottom -before $frame -padx 0 -pady 0 -anchor ne
 			pack $frame.sw -side left -expand false -anchor ne
 			pack $showpic -side right -anchor ne
+
+			bind $showpic <<Button1>> [list ::amsn::ToggleShowTopPicture]
+			::amsn::ShowOrHideTopPicture
 		} else {
+			set f $fr.f
+			set voip $f.voip
+			frame $f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
+				-relief solid -background [::skin::getKey chatwindowbg]
+			frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
+				-relief solid -background [::skin::getKey chatwindowbg]
 			pack $voip -side bottom -padx 0 -pady 0 -anchor ne
 		}
 
-
-		# Create our bindings
-		bind $showpic <<Button1>> [list ::amsn::ToggleShowTopPicture]
-			
-		::amsn::ShowOrHideTopPicture
 		return $f	
 	}
 
