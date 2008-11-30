@@ -202,6 +202,7 @@ closingdocks Minimaliseren i.p.v. sluiten
 color Kleur
 command Commando
 commandstatus Commandoregel uitvoeren
+compactstyle Compacte stijl
 configure Configureren
 configuremic Microfoon wordt geconfigureerd
 configureplugin Plug-in $1 configureren
@@ -1038,8 +1039,8 @@ wrongprofileversion Verkeerde versie profielconfiguratiebestand. Gelieve de map 
 xmmscurrent Weergeven welke muziek je afspeelt
 xmmserr Er wordt niks afgespeeld of "xmms-infopipe" is niet geïnstalleerd
 xmmssend Huidige nummer verzenden
-xplaces $1 plaatsen
 xoffset Horizontaal
+xplaces $1 plaatsen
 year Jaar
 yes Ja
 yesblock Ja, en blokkeren
