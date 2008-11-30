@@ -1959,11 +1959,13 @@ namespace eval ::ChatWindow {
 		    -padx [::skin::getKey chat_output_padx] \
 		    -pady [::skin::getKey chat_output_pady]
 		
-		set picture [CreateDisplayPicturesFrame $w $paned]
+		if { [::config::getKey old_dpframe 0] == 0 } {
+			set picture [CreateDisplayPicturesFrame $w $paned]
 			
-		pack $picture -side right -expand false -fill y -anchor ne \
-		    -padx [::skin::getKey chat_dp_padx] \
-		    -pady [::skin::getKey chat_dp_pady]
+			pack $picture -side right -expand false -fill y -anchor ne \
+			    -padx [::skin::getKey chat_dp_padx] \
+			    -pady [::skin::getKey chat_dp_pady]
+		}
 	}
 
 	proc CreateOutputFrame { w fr } {
