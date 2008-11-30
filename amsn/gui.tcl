@@ -1181,6 +1181,11 @@ namespace eval ::amsn {
 			return 0
 		}
 
+                set semic [string first ";" $dest]
+                if { $semic > 0 } {
+                        set dest [string range $dest 0 [expr {$semic - 1}]]
+                }
+
 		set fromname [::abook::getDisplayNick $dest]
 		set txt [trans ftgotinvitation $fromname '$filename' [::amsn::sizeconvert $filesize] [::config::getKey receiveddir]]
 		set win_name [::ChatWindow::MakeFor $chatid $txt $dest]
@@ -1222,6 +1227,11 @@ namespace eval ::amsn {
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
 			return 0
+		}
+
+		set semic [string first ";" $fromlogin]
+		if { $semic > 0 } {
+			set fromlogin [string range $fromlogin 0 [expr {$semic - 1}]]
 		}
 
 		set fromname [::abook::getDisplayNick $fromlogin]
