@@ -11,6 +11,7 @@
 #include "tcl_farsight.h"
 
 #include <string.h>
+#include <math.h>
 
 #include <gst/gst.h>
 #include <gst/farsight/fs-conference-iface.h>
@@ -485,8 +486,6 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
 
   levelOut = gst_element_factory_make ("level", NULL);
   if (levelOut) {
-    GstPad *levelsrc;
-
     gst_object_ref (levelOut);
 
     if (gst_bin_add (GST_BIN (pipeline), levelOut) == FALSE) {
@@ -671,11 +670,11 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
             /* converting from dB to normal gives us a value between 0.0 and 1.0 */
             rms += pow (10, rms_dB / 20);
           }
-          if (GST_MESSAGE_SRC (message) == levelIn) {
-            _notify_level ("IN", rms / channels);
-          } else if (GST_MESSAGE_SRC (message) == levelOut) {
-            _notify_level ("OUT", rms / channels);
-          }
+          if (GST_MESSAGE_SRC (message) == GST_OBJECT(levelIn)) {
+            _notify_level ("IN", (gfloat) (rms / channels));
+          } else if (GST_MESSAGE_SRC (message) == GST_OBJECT(levelOut)) {
+            _notify_level ("OUT", (gfloat) (rms / channels));
+		  }
         }
       }
 
@@ -1504,7 +1503,7 @@ int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     GstPropertyProbe *probe;
     GValueArray *arr;
     GstElement *element;
-    gint i;
+    guint i;
 
     element = gst_element_factory_make (elements[n], elements[n]);
     if (element == NULL)
