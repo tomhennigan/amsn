@@ -3,7 +3,7 @@
 if {[package vcompare [info tclversion] 8.4] < 0} return
 
 # TEMP! fix for ppc macs while they aren't supported will be removed soon.
-if { [OnMac] } {
+if { ![catch {tk windowingsystem} wsystem] && $wsystem == "aqua" } {
     if { $::tcl_platform(byteOrder) == "bigEndian" } {
         set dir [file join $dir "disabled_on_ppc"]
     }

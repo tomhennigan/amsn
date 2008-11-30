@@ -1959,13 +1959,11 @@ namespace eval ::ChatWindow {
 		    -padx [::skin::getKey chat_output_padx] \
 		    -pady [::skin::getKey chat_output_pady]
 		
-		if { [::config::getKey old_dpframe 0] == 0 } {
-			set picture [CreateDisplayPicturesFrame $w $paned]
+		set picture [CreateDisplayPicturesFrame $w $paned]
 			
-			pack $picture -side right -expand false -fill y -anchor ne \
-			    -padx [::skin::getKey chat_dp_padx] \
-			    -pady [::skin::getKey chat_dp_pady]
-		}
+		pack $picture -side right -expand false -fill y -anchor ne \
+		    -padx [::skin::getKey chat_dp_padx] \
+		    -pady [::skin::getKey chat_dp_pady]
 	}
 
 	proc CreateOutputFrame { w fr } {
@@ -2470,6 +2468,8 @@ namespace eval ::ChatWindow {
 	}
 
 	proc AddVoipControls {chatid {sip ""} {callid ""}} {
+		if { [OnMac] } { return; }
+		
 		set window [::ChatWindow::For $chatid]
 
 		set frame_in [GetInFrame $window].f.voip
@@ -2510,6 +2510,8 @@ namespace eval ::ChatWindow {
 	}
 
 	proc UpdateVoipControls {chatid {sip ""} {callid ""}} {
+		if { [OnMac] } { return; }
+		
 		set window [::ChatWindow::For $chatid]
 
 		set frame_in [GetInFrame $window].f.voip
@@ -2557,6 +2559,8 @@ namespace eval ::ChatWindow {
 	}
 
 	proc RemoveVoipControls {chatid} {
+		if { [OnMac] } { return; }
+		
 		set window [::ChatWindow::For $chatid]
 
 		set frame_in [GetInFrame $window].f.voip
