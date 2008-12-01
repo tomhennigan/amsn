@@ -38,6 +38,7 @@ Tcl_Obj *debug_callback = NULL;
 Tcl_Interp *debug_callback_interp = NULL;
 char *source = NULL;
 char *device = NULL;
+char *source_pipeline = NULL;
 GstElement *pipeline = NULL;
 GstElement *conference = NULL;
 GstElement *volumeIn = NULL;
@@ -1478,18 +1479,98 @@ int Farsight_GetVolumeOut _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *inter
 }
 
 
+static gboolean
+klass_contains (const gchar *klass, const gchar *needle)
+{
+  gchar *found = strstr (klass, needle);
+
+  if(!found)
+    return FALSE;
+  if (found != klass && *(found-1) != '/')
+    return FALSE;
+  if (found[strlen (needle)] != 0 &&
+      found[strlen (needle)] != '/')
+    return FALSE;
+  return TRUE;
+}
+
+static gboolean
+is_source (GstElementFactory *factory)
+{
+  const gchar *klass = gst_element_factory_get_klass (factory);
+  /* we might have some sources that provide a non raw stream */
+  return (klass_contains (klass, "Audio") &&
+          klass_contains (klass, "Source"));
+}
+
+static gboolean
+is_sink (GstElementFactory *factory)
+{
+  const gchar *klass = gst_element_factory_get_klass (factory);
+  /* we might have some sinks that provide decoding */
+  return (klass_contains (klass, "Audio") &&
+          klass_contains (klass, "Sink"));
+}
+
+/* function used to sort element features */
+/* Copy-pasted from decodebin */
+static gint
+compare_ranks (GstPluginFeature * f1, GstPluginFeature * f2)
+{
+  gint diff;
+  const gchar *rname1, *rname2;
+
+  diff =  gst_plugin_feature_get_rank (f2) - gst_plugin_feature_get_rank (f1);
+  if (diff != 0)
+    return diff;
+
+  rname1 = gst_plugin_feature_get_name (f1);
+  rname2 = gst_plugin_feature_get_name (f2);
+
+  diff = strcmp (rname2, rname1);
+
+  return diff;
+}
+
+static GList *
+get_plugins_filtered (gboolean source)
+{
+  GList *walk, *registry, *result = NULL;
+  GstElementFactory *factory;
+  gchar *klass = NULL;
+
+  registry = gst_registry_get_feature_list (gst_registry_get_default (),
+          GST_TYPE_ELEMENT_FACTORY);
+
+  registry = g_list_sort (registry, (GCompareFunc) compare_ranks);
+
+  for (walk = registry; walk; walk = g_list_next (walk)) {
+    factory = GST_ELEMENT_FACTORY (walk->data);
+
+    if ((source && is_source (factory)) ||
+        (!source && is_sink (factory))) {
+      result = g_list_append (result, factory);
+      gst_object_ref (factory);
+    }
+
+  }
+
+  gst_plugin_feature_list_free (registry);
+
+  return result;
+}
+
+
 int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
-  const gchar *elements[] = {"dshowaudiosrc", "directsoundsrc",
-                             "osxaudiosrc", "gconfaudiosrc",
-                             "alsasrc", "osssrc"};
-
-  gint n;
   Tcl_Obj *source = NULL;
   Tcl_Obj *temp = NULL;
+  Tcl_Obj *type = NULL;
   Tcl_Obj *devices = NULL;
   Tcl_Obj *result = NULL;
+  GList *sources, *sinks, *walk, *list;
+  gint si;
 
   result = Tcl_NewListObj (0, NULL);
 
@@ -1499,58 +1580,85 @@ int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     return TCL_ERROR;
   }
 
-  for (n = 0; n < G_N_ELEMENTS (elements); ++n) {
-    GstPropertyProbe *probe;
-    GValueArray *arr;
-    GstElement *element;
-    guint i;
+  sources = get_plugins_filtered (TRUE);
+  sinks = get_plugins_filtered (FALSE);
 
-    element = gst_element_factory_make (elements[n], elements[n]);
-    if (element == NULL)
-      continue;
-
-    if (!GST_IS_PROPERTY_PROBE (element))
-      continue;
-
-    probe = GST_PROPERTY_PROBE (element);
-    if (probe == NULL)
-      continue;
-
-    temp = Tcl_NewStringObj (elements[n], -1);
-    source = Tcl_NewListObj (0, NULL);
-    devices = Tcl_NewListObj (0, NULL);
-
-    Tcl_ListObjAppendElement(NULL, source, temp);
-
-    arr = gst_property_probe_probe_and_get_values_name (probe, "device");
-    if (arr) {
-      for (i = 0; i < arr->n_values; ++i) {
-        const gchar *device;
-        GValue *val;
-
-        val = g_value_array_get_nth (arr, i);
-        if (val == NULL || !G_VALUE_HOLDS_STRING (val))
-          continue;
-
-        device = g_value_get_string (val);
-        if (device == NULL)
-          continue;
-
-        temp = Tcl_NewStringObj (device, -1);
-        Tcl_ListObjAppendElement(NULL, devices, temp);
-      }
-      g_value_array_free (arr);
+  for (si = 0; si < 2; si++) {
+    if (si == 0) {
+      list = sources;
+      type = Tcl_NewStringObj ("source", -1);
     } else {
-      /* no devices found */
+      list = sinks;
+      type = Tcl_NewStringObj ("sink", -1);
     }
+    for (walk = list; walk; walk = g_list_next (walk)) {
+      GstPropertyProbe *probe;
+      GValueArray *arr;
+      GstElement *element;
+      GstElementFactory *factory = GST_ELEMENT_FACTORY(walk->data);
 
-    Tcl_ListObjAppendElement(NULL, source, devices);
-    Tcl_ListObjAppendElement(NULL, result, source);
+      element = gst_element_factory_create (factory, NULL);
+      if (element == NULL)
+        continue;
 
-    gst_object_unref (element);
+      source = Tcl_NewListObj (0, NULL);
+      devices = Tcl_NewListObj (0, NULL);
+
+      Tcl_ListObjAppendElement(NULL, source, type);
+      temp = Tcl_NewStringObj (GST_PLUGIN_FEATURE_NAME(factory), -1);
+      Tcl_ListObjAppendElement(NULL, source, temp);
+      temp = Tcl_NewStringObj (gst_element_factory_get_longname (factory), -1);
+      Tcl_ListObjAppendElement(NULL, source, temp);
+      temp = Tcl_NewStringObj (gst_element_factory_get_description (factory), -1);
+      Tcl_ListObjAppendElement(NULL, source, temp);
+
+      if (GST_IS_PROPERTY_PROBE (element)) {
+        probe = GST_PROPERTY_PROBE (element);
+        if (probe) {
+          arr = gst_property_probe_probe_and_get_values_name (probe, "device");
+          if (arr) {
+            guint i;
+            for (i = 0; i < arr->n_values; ++i) {
+              const gchar *device;
+              GValue *val;
+
+              val = g_value_array_get_nth (arr, i);
+              if (val == NULL || !G_VALUE_HOLDS_STRING (val))
+                continue;
+
+              device = g_value_get_string (val);
+              if (device == NULL)
+                continue;
+
+              temp = Tcl_NewStringObj (device, -1);
+              Tcl_ListObjAppendElement(NULL, devices, temp);
+            }
+            g_value_array_free (arr);
+
+            Tcl_ListObjAppendElement(NULL, source, devices);
+          } else {
+            /* no devices found */
+            _notify_debug ("No devices found for element %s",
+                GST_PLUGIN_FEATURE_NAME(factory));
+          }
+        } else {
+            _notify_debug ("Unable to cast element %s to GST_PROPERTY_PROBE",
+                GST_PLUGIN_FEATURE_NAME(factory));
+        }
+      } else {
+        _notify_debug ("Element %s doesn't implement GST_PROPERTY_PROBE",
+            GST_PLUGIN_FEATURE_NAME(factory));
+      }
+      Tcl_ListObjAppendElement(NULL, result, source);
+
+      gst_object_unref (element);
+    }
+    for (walk = list; walk; walk = g_list_next (walk)) {
+      if (walk->data)
+        gst_object_unref (GST_ELEMENT_FACTORY (walk->data));
+    }
+    g_list_free (list);
   }
-
-
 
   Tcl_SetObjResult (interp, result);
 
@@ -1562,17 +1670,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
   static const char *farsightOptions[] = {
-    "-level", "-debug", "-source", "-device", NULL
+    "-level", "-debug", "-source", "-device", "-source-pipeline", NULL
   };
   enum farsightOptions {
-    FS_LEVEL, FS_DEBUG, FS_SOURCE, FS_DEVICE
+    FS_LEVEL, FS_DEBUG, FS_SOURCE, FS_DEVICE, FS_SRC_PIPELINE
   };
   int optionIndex, a;
-  char *level = NULL, *source = NULL, *device = NULL;
 
   for (a = 1; a < objc; a++) {
-    const char *arg = Tcl_GetString(objv[a]);
-
     if (Tcl_GetIndexFromObj(interp, objv[a], farsightOptions, "option",
             TCL_EXACT, &optionIndex) != TCL_OK) {
       return TCL_ERROR;
@@ -1627,7 +1732,21 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
+        if (source)
+          g_free (source);
         source = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_SRC_PIPELINE:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -source-pipeline option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (source_pipeline)
+          g_free (source_pipeline);
+        source_pipeline = g_strdup (Tcl_GetString(objv[a]));
         break;
       case FS_DEVICE: {
         a++;
@@ -1636,11 +1755,17 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
               "no argument given for -myport option", NULL);
           return TCL_ERROR;
         }
+
+        if (device)
+          g_free (device);
         device = g_strdup (Tcl_GetString(objv[a]));
         break;
       }
       default:
-        Tcl_Panic("Tcl_SocketObjCmd: bad option index to SocketOptions");
+          Tcl_AppendResult(interp,
+              "bad option to ::Farsight::Config", NULL);
+          return TCL_ERROR;
+        break;
     }
   }
 
