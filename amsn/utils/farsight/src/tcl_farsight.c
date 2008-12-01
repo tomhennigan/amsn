@@ -757,7 +757,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 {
   GError *error = NULL;
   GstBus *bus = NULL;
-  GstElement *src;
+  GstElement *src = NULL;
   GstPad *sinkpad = NULL, *srcpad = NULL;
   GIOChannel *ioc = g_io_channel_unix_new (0);
   GParameter transmitter_params[6];
@@ -979,7 +979,35 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
-  src = gst_element_factory_make ("dshowaudiosrc", NULL);
+  if (source_pipeline) {
+    GstPad *pad = NULL;
+    GstBin *bin;
+    gchar *desc;
+
+    /* parse the pipeline to a bin */
+    desc = g_strdup_printf ("bin.( %s ! queue )", source_pipeline);
+    bin = (GstBin *) gst_parse_launch (desc, &error);
+    g_free (desc);
+
+    if (bin) {
+      /* find pads and ghost them if necessary */
+      if ((pad = gst_bin_find_unlinked_pad (bin, GST_PAD_SRC))) {
+        gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("src", pad));
+        gst_object_unref (pad);
+      }
+      src = GST_ELEMENT (bin);
+    }
+    if (error) {
+      _notify_debug ("Error while creating source pipeline (%d): %s",
+          error->code, error->message);
+    }
+  } else if (source) {
+    src = gst_element_factory_make (source, NULL);
+    if (src && device)
+      g_object_set(src, "device", device, NULL);
+  }
+  if (src == NULL)
+    src = gst_element_factory_make ("dshowaudiosrc", NULL);
   if (src == NULL)
     src = gst_element_factory_make ("directsoundsrc", NULL);
   else
