@@ -37,8 +37,11 @@ Tcl_Interp *level_callback_interp = NULL;
 Tcl_Obj *debug_callback = NULL;
 Tcl_Interp *debug_callback_interp = NULL;
 char *source = NULL;
-char *device = NULL;
+char *source_device = NULL;
 char *source_pipeline = NULL;
+char *sink = NULL;
+char *sink_device = NULL;
+char *sink_pipeline = NULL;
 GstElement *pipeline = NULL;
 GstElement *conference = NULL;
 GstElement *volumeIn = NULL;
@@ -149,9 +152,25 @@ static void Close ()
     g_free (source);
     source = NULL;
   }
-  if (device) {
-    g_free (device);
-    device = NULL;
+  if (source_device) {
+    g_free (source_device);
+    source_device = NULL;
+  }
+  if (source_pipeline) {
+    g_free (source_pipeline);
+    source_pipeline = NULL;
+  }
+  if (sink) {
+    g_free (sink);
+    sink = NULL;
+  }
+  if (sink_device) {
+    g_free (sink_device);
+    sink_device = NULL;
+  }
+  if (sink_pipeline) {
+    g_free (sink_pipeline);
+    sink_pipeline = NULL;
   }
 
 }
@@ -404,14 +423,46 @@ static void
 _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
 {
   GstElement *pipeline = user_data;
-  GstElement *sink = gst_element_factory_make ("autoaudiosink", NULL);
+  GstElement *snk = NULL;
   GstElement *convert = gst_element_factory_make ("audioconvert", NULL);
   GstElement *resample = gst_element_factory_make ("audioresample", NULL);
   GstElement *convert2 = gst_element_factory_make ("audioconvert", NULL);
   GstPad *sink_pad = NULL;
   GstPadLinkReturn ret;
 
-  if (sink == NULL) {
+
+  if (sink_pipeline) {
+    GstPad *pad = NULL;
+    GstBin *bin;
+    gchar *desc;
+    GError *error;
+
+    /* parse the pipeline to a bin */
+    desc = g_strdup_printf ("bin.( %s ! queue )", sink_pipeline);
+    bin = (GstBin *) gst_parse_launch (desc, &error);
+    g_free (desc);
+
+    if (bin) {
+      /* find pads and ghost them if necessary */
+      if ((pad = gst_bin_find_unlinked_pad (bin, GST_PAD_SINK))) {
+        gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("sink", pad));
+        gst_object_unref (pad);
+      }
+      snk = GST_ELEMENT (bin);
+    }
+    if (error) {
+      _notify_debug ("Error while creating sink pipeline (%d): %s",
+          error->code, error->message);
+    }
+  } else if (sink) {
+    snk = gst_element_factory_make (sink, NULL);
+    if (snk && sink_device)
+      g_object_set(snk, "device", sink_device, NULL);
+  }
+  if (snk == NULL)
+    snk = gst_element_factory_make ("autoaudiosink", NULL);
+
+  if (snk == NULL) {
     _notify_error_post ("Could not create sink");
     if (convert) gst_object_unref (convert);
     if (resample) gst_object_unref (resample);
@@ -419,12 +470,12 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     return;
   }
 
-  g_signal_connect (sink, "element-added",
+  g_signal_connect (snk, "element-added",
       G_CALLBACK (_sink_element_added), NULL);
 
-  if (gst_bin_add (GST_BIN (pipeline), sink) == FALSE)  {
+  if (gst_bin_add (GST_BIN (pipeline), snk) == FALSE)  {
     _notify_error_post ("Could not add sink to pipeline");
-    if (sink) gst_object_unref (sink);
+    if (snk) gst_object_unref (snk);
     if (convert) gst_object_unref (convert);
     if (resample) gst_object_unref (resample);
     if (convert2) gst_object_unref (convert2);
@@ -499,12 +550,12 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
       _notify_error_post ("Could not link level out to converter");
       return;
     }
-    if (gst_element_link(levelOut, sink) == FALSE)  {
+    if (gst_element_link(levelOut, snk) == FALSE)  {
       _notify_error_post ("Could not link sink to level out");
       return;
     }
   } else {
-    if (gst_element_link(convert2, sink) == FALSE)  {
+    if (gst_element_link(convert2, snk) == FALSE)  {
       _notify_error_post ("Could not link sink to converter");
       return;
     }
@@ -533,7 +584,7 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     return;
   }
 
-  if (gst_element_set_state (sink, GST_STATE_PLAYING) ==
+  if (gst_element_set_state (snk, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
     _notify_error_post ("Unable to set sink to PLAYING");
     return;
@@ -1003,8 +1054,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
   } else if (source) {
     src = gst_element_factory_make (source, NULL);
-    if (src && device)
-      g_object_set(src, "device", device, NULL);
+    if (src && source_device)
+      g_object_set(src, "device", source_device, NULL);
   }
   if (src == NULL)
     src = gst_element_factory_make ("dshowaudiosrc", NULL);
@@ -1698,10 +1749,12 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
   static const char *farsightOptions[] = {
-    "-level", "-debug", "-source", "-device", "-source-pipeline", NULL
+    "-level", "-debug", "-source", "-source-device", "-source-pipeline",
+    "-sink", "-sink-device", "-sink-pipeline", NULL
   };
   enum farsightOptions {
-    FS_LEVEL, FS_DEBUG, FS_SOURCE, FS_DEVICE, FS_SRC_PIPELINE
+    FS_LEVEL, FS_DEBUG, FS_SOURCE, FS_SRC_DEVICE, FS_SRC_PIPELINE,
+    FS_SINK, FS_SINK_DEVICE, FS_SINK_PIPELINE
   };
   int optionIndex, a;
 
@@ -1764,6 +1817,19 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           g_free (source);
         source = g_strdup (Tcl_GetString(objv[a]));
         break;
+      case FS_SRC_DEVICE: {
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -myport option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (source_device)
+          g_free (source_device);
+        source_device = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      }
       case FS_SRC_PIPELINE:
         a++;
         if (a >= objc) {
@@ -1776,7 +1842,19 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           g_free (source_pipeline);
         source_pipeline = g_strdup (Tcl_GetString(objv[a]));
         break;
-      case FS_DEVICE: {
+      case FS_SINK:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -source option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (sink)
+          g_free (sink);
+        sink = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_SINK_DEVICE: {
         a++;
         if (a >= objc) {
           Tcl_AppendResult(interp,
@@ -1784,11 +1862,23 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (device)
-          g_free (device);
-        device = g_strdup (Tcl_GetString(objv[a]));
+        if (sink_device)
+          g_free (sink_device);
+        sink_device = g_strdup (Tcl_GetString(objv[a]));
         break;
       }
+      case FS_SINK_PIPELINE:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -source-pipeline option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (sink_pipeline)
+          g_free (sink_pipeline);
+        sink_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        break;
       default:
           Tcl_AppendResult(interp,
               "bad option to ::Farsight::Config", NULL);
