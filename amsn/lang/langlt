@@ -35,7 +35,7 @@ allfiles Visos rinkmenos
 allmonths Visi mėnesiai
 allowallbutbl Leisti visiems vartotojams pasiekti mane, išskyrus tuos, kurie užblokuoti
 allowbadwords Uždrausti cenžūrą slapyvardžiuose
-allowlist Priimtų vartotojų sąrašas (AL):
+allowlist Priimtųjų sąrašas (AL):
 allowonlyinal Su manim gali susisiekti tik tie vartotojai, kuriuos aš priėmiau
 allowseen Leisti šiam asmeniui matyti, kada aš esu prisijungęs bei pasiekti mane
 allow_sms Leisti vartotojams pasiekti mane per mano MSN mobilųjį įrenginį
@@ -101,12 +101,12 @@ blockinter1 Kai jūsų būsena yra prisijungęs, tikrinti kas
 blockinter2 sekundžių, arba tikrinti kas:
 blockinter3 kas 
 blockinter4 sekundžių.
-blocklist Blokuotų vartotojų sąrašas (BL):
+blocklist Juodasis sąrašas (BL):
 blockmessage Šie vartotojai yra prisijungę ir užblokavę jus
 blocknotifications Nerodyti informacinių langų
 blocksounds Išjungti garsus
 blockusers Vartotojų skaičius tikrinamu iš karto 
-bouncedock Šokinėjanti aMSN piktograma skydelyje, kai yra gauta žinutė
+bouncedock Šokinėjanti aMSN piktograma dėkle, kai yra gauta žinutė
 brightness Ryškumas
 broughtby Šie kūrėjai stengėsi dėl jūsų
 browse Naršyti
@@ -196,12 +196,13 @@ closed Pokalbis su $1 uždarytas dėl pasyvumo
 closelabel Kai jūs paspausite uždarymo mygtuką pokalbių lange su kortelėmis
 closeonly Uždaryti tik esamą kortelę
 closeorcall Jūs, prieš uždarydami langą, turite pabaigti/nutraukti skambučius.
-closeordock Uždarydami kontaktų sąrašo langą, išeisite iš aMSN. Galbūt norėsite tik uždaryti langą ir turėti aMSN veikianti skydelyje.\n\nAr tikrai norite išeiti iš aMSN?
+closeordock Uždarydami kontaktų sąrašo langą, išeisite iš aMSN. Galbūt norėsite tik uždaryti langą ir turėti veikiantį aMSN dėkle.\n\nAr tikrai norite išeiti iš aMSN?
 closeothers Uždaryti visas kitas korteles
 closingdocks Uždarymo mygtuko mažinimas
 color Spalva
 command Komanda
 commandstatus Vykdyti komanda
+compactstyle Suglaustas stilius
 configure Nustatyti
 configuremic Mikrofono nustatymai
 configureplugin Nustatyti įskiepį $1
@@ -255,7 +256,7 @@ custnotifystatus Rodyti pranešimų langą, kai šis kontakatas pakeitė būsen�
 customcolor Kita spalva
 customdp Kita rodoma nuotrauka
 custom_edit Keisti jaustukus
-custom_new Pridėti naujus jaustukus
+custom_new Pridėti pasirinktą jaustuką
 customnick Pasirinktas slapyvardis
 customsmileys Rodyti kitų vartotojų jaustukus
 customstyle Pakeistas stilius
@@ -352,7 +353,7 @@ extras Extra Tarnybos
 faileddelete Neleidžiama pašalinti
 faileddeleteperso Šio paveiksliuko negalima pašalinti, nes jis yra ne jūsų profilyje. Tik paveiksliukus, priklausančius jūsų asmeniniam profiliui, galima pašalinti šiuo būdu.
 failed Neleidžiama
-faq DUK (Dažnai Užduodami Klausymai)
+faq DUK (Dažnai Užduodami Klausimai)
 farsightextchecking Tikrinama, ar įkeltas Farsight plėtinys...
 farsightextwarn Jūs negalite priimti SIP skambučių. Atsakymus, kaip įdiegti Farsight, galite rasti mūsų Wiki:
 farsightinfook Farsight yra struktūra, kuri bendrauja su garso/vaizdo protokolais. Su Farsight galite siųsti arba priimti SIP skambučius su aMSN! Pažvelkite į farsight mūsų Wiki:
@@ -545,7 +546,7 @@ maintenance Serveris ruošiasi atsijungti po $1 min.
 maximised Padidintas
 medium Vidutinis
 minimised Sumažintas/Piktograma
-minimize Nuleisti į skydelį
+minimize Mažinti į dėklą
 mins min.
 mobilegrp1 Mobili grupė
 mobilegrp2 Perkelti vartotojus į „Mobilią“ grupę, kai jie atsijungę (ir surikiuoti pagal būseną)
@@ -556,7 +557,7 @@ more Daugiau
 morepersonal Daugiau būsenų ->
 move Perkelti
 movetogroup Perkelti į grupę
-msgflicker Mirksės pokalbių lango pavadinimo kortelė, kai gauta nauja žinutė nuleistame lange.
+msgflicker Mirksės pokalbių lango pavadinimo kortelė, kai gauta nauja žinutė sumažintame lange.
 msgmaxmin Kai gauta nauja žinutė, aš norėčiau, kad ji būtų:
 msg Žinutė
 msgmode Pasirinkite, kaip adresuoti žinučių langus:
@@ -621,7 +622,7 @@ noskins Nerastas numatytasis apvalkalas skins/ aplankale. Neįmanoma paleisti aM
 nosound Neaptiktas joks garsas. Įsitikinkite, kad mikrofonas tinkamai prijungtas prie kompiuterio
 nosound_or_hold Nepatiktas joks garsas. Kad nusiųstumėte garso klipą, paspauskite ir laikykite mygtuką kol kalbate, tada atleiskite jį, kad nusiųstumėte garso klipą.
 nospace Nuotraukų nėra
-nosystemtray Nėra sisteminio skydelio
+nosystemtray Nėra sisteminio dėklo
 note Pastaba
 notificationserver Pirminis MSN pranešimų serveris (MSN Messenger serveris)
 notify1_5 Rodyti pranešimų langą, kai kontaktai atsijungia
@@ -631,7 +632,7 @@ notify2 Rodyti pranešimų langą, kai gautos naujos žinutės
 notify3 Rodyti pranešimų langą, kai gauti nauji laiškai
 notify4 Rodyti pranešimų langą, kai gauti nauji laiškai kituose aplankaluose
 notify pranešti
-notifyoffset Nustatyti pranešimo pasirodymo poziciją
+notifyoffset Nustatyti pranešimo pasirodymo vietą
 notifytimeout Laikas milisekunėmis, per kurį pranešimų langas pasislėps
 notifytyping Siųsti kitiems vartotojams pranešimą, kai rašote
 notifywin Pranešimų langas
@@ -763,7 +764,7 @@ redirect Spragtelėkite čia, kad būtumėte peradresuoti
 reject Atmesti
 rememberaccount Prisiminti mano abonentą
 rememberpass Prisiminti slaptažodį
-remembersetting Prisiminti mano pakeitimus
+remembersetting Prisiminti mano pasirinkimą
 removeempty Pašalinti tuščias grupes iš kontaktų sąrašo
 removefromgroup Pašalinti iš grupės
 removefromlist Pašalinti iš šio sąrašo
@@ -821,7 +822,7 @@ setbackinitialstate Jūs nustatėte aMSN jungtis kaip $1, bet jūs dabar esate $
 setupcam Jūsų kameros nustatymai
 setupcamfinetune Nustatyti kamerą ir suderinti vaizdą
 shareswebcam Dalinasi kamera
-showbanner Rodyti aMSN skydą
+showbanner Rodyti aMSN reklamjuostę
 showblockedlist Rodyti sąrašą vartotojų, kurie užblokavo jus
 showcachedpics Rodyti paslėptas nuotraukas
 showcontactemail Rodyti kontaktų el. paštus
@@ -832,7 +833,7 @@ showdetailedview Rodyti išsamią kontaktų peržiūrą
 showdisplaypic2 Visada rodyti nuotraukas, kai pokalbių langas yra atidarytas
 showdisplaypic Rodyti nuotrauką
 showlinksinlogin Rodyti nuorodas į prisijungimo langą
-showmailicon Rodyti pašto piktogramą skydelyje, kai gauti nauji laiškai
+showmailicon Rodyti pašto piktogramą dėkle, kai gauti nauji laiškai
 showmypic Mano nuotrauka
 showonedpframe Rodyti tik vieną rodomos nuotraukos kadrą pokalbių languose
 shownonim Rodyti negreitų pranešimų kontaktus
@@ -904,7 +905,7 @@ sslwarning Dėmesio! Uždrausdami SSL, uždrausite šifravimą, todėl jūsų sl
 startoffline2 Prisijungti tyliai kaip „Nematomas“
 startoffline Paleisti Neprisijungus
 startonboot Paleisti aMSN per Windows pasikrovimą
-startontray Paleisti aMSN tik skydelyje
+startontray Paleisti aMSN tik dėkle
 stateautomsg Siųsti auto žinutę
 statechange būsena pakeista į: 
 stateedittext Pakoreguokite laukelius, kuriuos\nnorėsite pakeisti ir spauskite Išsaugoti
@@ -958,7 +959,7 @@ tooltips Įjungti patartis
 to Kam
 transnotexists Reikalaujama rinkmena dar neišversta į esamą kalbą.
 trayicon Rodyti būsenos piktogramą pranešimų laukelyje
-traynotcompiled Skydelio piktogramos įskiepis nesurinktas. Patikrinkite įskiepius/skydelį
+traynotcompiled Dėklo piktogramos įskiepis nesurinktas. Patikrinkite įskiepius/dėklą
 triggers Teksto gaidukas
 truncatenames1 Nukirsti slapyvardžius, ilgesnius negu pavadinimo lango plotis ir kontaktų sąrašas
 truncatenames2 Nukirsti slapyvardžius, ilgesnius negu pokalbių lango vidinė pusė

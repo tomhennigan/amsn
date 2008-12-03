@@ -1,0 +1,728 @@
+Dažnai Užduodami Klausimai
+Šio DUK vėliausią versiją galite rasti adresu http://amsn-project.net/faq.php
+
+DUK 2.1.0 
+
+Turinys
+1 Kas yra aMSN? 
+1.1 Kas yra aMSN?
+1.2 Ko reikia aMSN paleidimui??
+2 Kur aš galiu gauti aMSN?
+3 Trikčių diagnostika
+3.1 Kodėl arabiški šriftai rodomi iš kairės į dešinę, o ne iš dešinės į kairę?
+3.2 Aš įjungiau dėklo piktogramą, bet kai aš sumažinu aMSN, ji vis dar rodoma ir programų juostoje, ir dėkle. Kaip aš galiu padaryti, kad ji būtų rodoma tiktais dėkle?
+3.3 Kai aš uždarau aMSN langą, aMSN išsijungia vietoj susimažinus į dėklą
+3.4 Aš nematau dėklo, net tada, kai aš įjungiu jį, kokia tai problema?
+3.5 Ar aMSN veikia 64-bitų sistemose?
+3.6 Kada iškyla pranešimų langas, langų užduočių juosta iš dalies uždengia jį, ar galima ištaisyti tai?
+3.7 Ar aš galiu matyti, kas mane užblokavo?
+3.8 Mano jpeg kamera šiuo metu neveikia, ar mano jpeg kamera veiks ateityje (pavyzdžiui: D-link dsb-c310)?
+3.9 Kodėl aš negaliu priimti kokybiško vaizdo iš savo kontaktų, naudodamas aMSN?
+3.10 Aš negaliu perskaityti kinų arba japonų kalbos su aMSN, net po teksto kodavimo keitimo. Kur aš galiu surasti pagalbą?
+3.11 Kaip man užfiksuoti pranešimą apie klaidos informacija iš segmentacija klaidos? (LINUX)
+3.12 Aš norėčiau pranešti apie klaidą, kaip man atverti būsenos įrašus ir protokolo derintuvę?
+3.13 Kai aš dukart spragteliu „amsn“ rinkmeną per grafinę rinkmenų naršyklę, kaip Konqueror ar Nautilus, tai man atidaro tekstų rengyklę, užuot paleidę aMSN. Ką aš turiu padaryti (Linux)?
+3.14 Kartais aMSN „pakimba“, kodėl taip atsitinka?
+3.15 Aš bandau paleisti amsn, tačiau gaunu šią klaidą:
+3.16 Ar aš galiu naudoti aMSN per tarpinį serverį?
+3.17 Aš naudoju aMSN su ugniasiene arba naudoju IP maskuote. Rinkmenų siuntimas neveikia, ar aš galiu sutvarkyti tai?
+3.18 Su 0,94 versija aš galėjau matyti, kada kas atverdavo pokalbių langą su manim, bet nuo 0,95 versijos daugiau neberodo, kodėl?
+3.19 Man patiko XXXX apvalkalas, kai naudojau ankstesnę versiją, bet pasirodo, jis nepritaikytas veikti su naujesne versija... Kada jis bus pritaikytas?
+3.20 Kai tik aš bandau prisijungti ar pakeisti aMSN kalbą, tai aMSN nulūžta su šia žinute: X Error of failed request: BadValue (integer parameter out of range for operation), Major opcode of failed request: 45 (X_OpenFont)
+3.21 Aš bandau paleisti aMSN ir gaunu šią klaidą: Error in startup script: time value too large/small to represent while executing [...] procedure "ConvertLocalToUTC".
+4 aMSN naudojimas
+4.1 Kokie yra klaviatūros šaukiniai?
+4.2 Ką reiškia piktograma, esanti dešnėje jūsų bičiulių?
+4.3 Ar aš galiu nukopijuoti kontakto adresą į iškarpų krepšį?
+4.4 Ar aš galiu nukopijuoti ar atverti tinklapio adresą, esantį kontakto slapyvardyje/asmeninėje žinutėje?
+4.5 Ar aš galiu nustatyti savo asmeninę žinutę kaip ir MSN7?
+4.6 Kaip aš galiu gauti prieigą prie žinučių istorijos, kurias aš nusiunčiau savo pokalbių languose?
+4.7 Ką reiškia šie keturi sąrašai, nustatymų privatumo kortelėje?
+4.8 Ką reiškia skirtingų spalvų kontaktai, nustatymų privatumo kortelėje?
+4.9 Aš noriu pridėti savo pasirinktus jaustukus, kaip tai galiu padaryti?
+4.10 Slapyvardžiai yra nukirsti. Ar įmanoma sugrįžti prie pilnų slapyvardžių?
+4.11 Kaip aš galiu naršyti per savo kameros įrašus ir paversti .cam (cam įrašus) į kino filmo rinkmeną tokią kaip .mpeg?
+4.12 Kaip aš galiu patikrinti, ar veikia kamera?
+4.13 Kur yra išsaugotos „dingusios“ rodomos nuotraukos?
+4.14 Kaip aš galiu pakeisti aplankalą, kuriame saugoma profilių informacija?
+5 Veikimas Linux sistemoje
+5.1 Kaip aš galiu naudoti aMSN glotnius šriftus?
+5.2 Kaip man sukurti aMSN šaukinį ant darbalakio Linux sistemoje?
+5.3 Kaip man atverti prievadą rinkmenos persiuntimui SUSE Linux sistemoje?
+5.4 Mano aMSN garsiniai pranešimai neskamba tol, kol aš nebaigiu klausyti muzikos. Kaip man padaryti, kad aš galėčiau girdėti visus garsus vienu metu?
+5.5 Kai aš bandau paleisti aMSN, aš gaunu klaidą „unknown color Black“. Kaip aš galiu ištaisyti tai?
+5.6 TLS atrodo neveikia ir aš turiu tcl/tk 8.5. Kaip aš galiu ištaisyti tai?
+5.7 Atrodo, aMSN nedirba teisingai su kai kuriomis rinkmenomis, ypač rinkmenomis, kurias sudaro simbolis ` (galinės kabutės). Kaip tai pataisyti?
+6 Veikimas Windows sistemoje
+6.1 Kaip aš galiu leisti/neleisti aMSN įsijungimą per Windows įkeltį?
+6.2 Kad ir kada aš einu į Nustatymai -> Sesija, „Įjungus aMSN, prisijungti automatiškai“ yra išjungtas, net jei aMSN kraunasi per Windows krovimasį!
+7 Veikimas Mac OS X sistemoje
+7.1 Aš turiu klausimą apie Mac OS X, kur man ieškoti atsakymų?
+7.2 Kodėl kai kurie simboliai, esantys aMSN kontaktų sąraše, yra kvadratėliai?
+7.3 Kodėl aš negaliu naudoti šaukinį Command-Space, kad perjungčiau klaviatūros sluoksnius?
+7.4 Kaip man prisijungti prie daugiau negu vieno abonento su Mac aMSN?
+7.5 aMSN yra labai lėtas ant mano naujo Intel Mac, ką aš galiu padaryti, kad pagreitinčiau veikimą?
+7.6 Kamera neveikia mano Intel Mac sistemoje!
+7.7 Kaip man atnaujinti aMSN iki naujausios kūriamosios versijos Mac sistemoje?
+7.8 Aš noriu ištrinti aMSN, bet negaliu išvalyti Šiukšlinės!
+7.9 Kur saugomos aMSN nustatymų rinkmenos Mac sistemoje?
+8 Kiti klausimai
+8.1 Aš pastebėjau, kad aMSN atidaro kai kuriuos prievadus virš 60000 prievado. Tai normalu? Tai yra backdoor? Kodėl tai vyksta?
+8.2 Kas yra garso ir vaizdo vedlys?
+8.3 Kaip visiškai pašalinti aMSN?
+8.4 Laiško piktograma vis nedingsta iš sisteminio dėklo, kaip man jos atsikratyti?
+8.5 Aš įjungiau aMSN pokalbių įrašymą, bet aš negaliu rasti įrašų rinkmenų. Kur jos yra saugomos?
+8.6 Ar aš galiu išjungti pasirinktus ir/arba animuotus jaustukus?
+8.7 Kodėl aMSN nepalaiko garso / Kodėl aMSN sustabdė linphone palaikymą?
+8.8 Aš turiu kitokį klausimą, ar galite padėti man?
+
+
+=== Kas yra aMSN?  ===
+
+== Kas yra aMSN? == 
+
+aMSN yra Microsoft Messengerio klonas. It allows you to keep in touch with your friends and exchange instant messages and files. 
+
+
+
+== Ko reikia aMSN paleidimui? == 
+Windows ir Mac OS X. aMSN veiks iš karto, jeigu jūs atsisiųsite oficialius paketus, kuriuos rasite tinklapyje http://amsn.sourceforge.net/download.php. 
+Linux. Jums reikės Tcl 8.4 / Tk 8.4 arba naujesnės versijos, kad paleistumėte aMSN. Šie du paketai (Tcl ir Tk) yra paprastai įdiegti daugelyje distributyvų. Tie paketai taip pat gali būti įdiegti kaip priklausomi, jei jūsų pakavimo sistema palaiko juos (rpm, deb, ir t. t.). Jei dėl kai kurių priežasčių jūsų distributyvas šiuo metu neteikiamas kartu su Tcl 8.4 arba Tk 8.4, jūs galite atsisiųsti juos ir pagal instrukcijas įsidiegti iš http://tcl.tk. 
+
+
+
+== Kur aš galiu gauti aMSN? == 
+
+Jūs galite atsisiųsti aMSN paketus iš http://amsn.sourceforge.net/download.php. 
+
+Linux vartotojams: Jūs taip pat galite gauti aMSN naudodami savo distributyvo paketų valdymo sistema (apt-get install amsn pavyzdžiui debian/ubuntu). 
+
+
+
+=== Trikčių diagnostika === 
+
+== Kodėl arabiški šriftai rodomi iš kairės į dešinę, o ne iš dešinės į kairę? == 
+Windows: Eikite į „Control Panel“ > „Regional and Language Options“ > Languages kortelę ir įjunkite parinktį „Install files for complex scripts and right-to-left languages“ 
+Linux: Arabiškos lokalės įdiegimas turėtų išspręsti šią problemą. 
+
+
+
+== Aš įjungiau dėklo piktogramą, bet kai aš sumažinu aMSN, ji vis dar rodoma ir programų juostoje, ir dėkle. Kaip aš galiu padaryti, kad ji būtų rodoma tiktais dėkle? ==
+
+Pirmą kartą jūs uždarykite aMSN su „X“ mygtuku pagrindinio lango rėmelyje. Tada jūsų turi paklausti, ar jūs norite išeiti, ar mažinti į dėklą. Jūs turėtumėte pasirinkti „Mažinti į dėklą“, jei jūs norite, kad kortelė dingtų iš programų juostos.
+
+Antraip, jūs galite taip pat spragtelėti, „Mažinti į dėklą“ pasirinkdami tai per meniu „Abonentas“.
+
+
+
+== Kai aš uždarau aMSN langą, aMSN išsijungia vietoj susimažinus į dėklą == 
+
+Pirmą kartą jūs uždarykite aMSN su „X“ mygtuku pagrindinio lango rėmelyje. Ji paklaus, ar jūs norite išeiti ar sumažinti ją į dėklą. Jūs turite pasirinkti „Mažinti į dėklą“, jeigu norite, kad programa sumažėtų į dėklą. 
+
+Jei jūs pasirinksite „Išeiti“ ir pažymėsite „Prisiminti mano pasirinkimą“, ji visada išeis ir daugiau neklaus. Jei jūs norėsite pakeisti šią elgseną ir norėsite, kad ji vėl jūsų paklaustų, taigi jūs galite pakeisti savo pasirinkimą, jūs turėsite padaryti šią procedūrą:
+
+Spauskite Ctrl-Shift-C pagrindiniame aMSN lange ir atsiras naujas langas pavadinimu „Console“, kuriame jūs galėsite rašyti komandas. Įveskite sekančią komandą ir paspauskite enter:
+  ::config::setKey closingdocks 0
+
+Jūs dabar galite uždaryti šį „Console“ langą ir sekantį kartą uždarant pagrindinį aMSN langą, jūsų vėl paklaus dėl pasirinkimo. 
+
+
+
+== Aš nematau dėklo, net tada, kai aš įjungiu jį, kokia tai problema? ==
+
+Linux: Įsitikinkite, ar egzistuoja msn/utils/linux/traydock/libtray.so rinkmena. Jei jos nėra, įsitikinkite, ar jūs atsisiųntėte oficialų aMSN paketą iš: http://amsn-project.net/download.php 
+
+Jei jūs patys surinkote aMSN, įsitikinkite, kad jūs turite įdiegtus X11 kūriamuosius paketus ir pagal šį puslapį surinkote aMSN teisingai: http://amsn-project.net/wiki/Compiling_aMSN
+
+PASTABA: Mac OS X sistemoje nėra dėklo piktogramos
+
+ 
+
+== Ar aMSN veikia 64-bitų sistemose? == 
+
+Taip, dauguma vartotojų gali paleisti aMSN ant 64-bitų architektūros. Tačiau jūs patys turėsite surinkti tcltls. Jūs nerasite paketų x84_64 aMSN puslapyje, taigi jums reikės juos atsisiųsti iš: [1] 
+
+ 
+== Kada iškyla pranešimų langas, langų užduočių juosta iš dalies uždengia jį, ar galima ištaisyti tai? ==
+
+Taip, jūs galite perkelti langą X taškų į kairę ir Y taškų į viršų. Jūs galite pasirinkti tai keisdami „X nustatymas“ ir „Y nustatymas“ reikšmes įeidami per meniu „Abonentas“ > „Nustatymai“ > „Pažangiems“ > „Nustatyti pranešimo pasirodymo vietą“ ir spragtekite „Išsaugoti“, kad išsaugotumėte pakeitimus. 
+
+
+
+== Ar aš galiu matyti, kas mane užblokavo? == 
+
+Ne, ši ypatybė nėra daugiau palaikoma, nes užblokavimo aptikimo klaida, kuri buvo Microsoft serveryje, yra jau ištaisyta. 
+
+Nėra JOKIO saugaus būdo sužinoti, ar kažkas blokavo jus. 
+
+
+
+== Mano jpeg kamera šiuo metu neveikia, ar mano jpeg kamera veiks ateityje (pavyzdžiui: D-link dsb-c310)? ==
+
+JPEG kameros palaikomos jau nuo aMSN 0,97 versijos. 
+
+Jei jūs naudojate senesnę negu 0,97, tai atsinaujinkite iki naujausios aMSN versijos. 
+
+
+
+== Kodėl aš negaliu priimti kokybiško vaizdo iš savo kontaktų, naudodamas aMSN? == 
+
+Jei vaizdas yra prastos kokybės, tai yra turbūt todėl, kad kito vartotojo kamera yra prastos kokybės. aMSN kameros kokybė yra ta pati kaip ir oficialaus msn kliento. 
+
+
+== Aš negaliu perskaityti kinų arba japonų kalbos su aMSN, net po teksto kodavimo keitimo. Kur aš galiu surasti pagalbą? == 
+
+Prašau perskaitykite dokumentaciją apie SCIM veikimą su aMSN (http://amsn-project.net/wiki/SCIM_Input)
+
+
+
+== Kaip man užfiksuoti pranešimą apie klaidos informacija iš segmentacija klaidos? (LINUX) ==
+
+Įsitikinkite, kad aMSN buvo surinkta su derinimo simboliais, jei jūs įdiegėte ją naudodami dvejetainio kodo paketą, tai jūs turėtumėte tikriausiai atsisiųsti programinį kodą ir perinkti aMSN. Kad įjungtumėte derintuvo simbolius, suformuokite juos su: ./configure --enable-debug Jei jūs negalite surinkti tai, tada jūs galite tiesiog atsiųsti mums informaciją be derinimo simbolių. Kai tik tai surinksite/įdiegsite, nueikite į aplankalą, kur jūs įdiegėte aMSN (pavyzdžiui: /usr/share/amsn arba /home/yourusername/amsn-0.95/), rašydami: 
+ $ gdb --args wish amsn
+ (gdb) run
+ [tada, kai bus segmentacija klaidos, rašykite]
+ (gdb) bt
+ (gdb) bt full
+
+Kai jūs gausite klaidos pranešimo informaciją, prašome praneškite šią informaciją į forumą: http://amsn-project.net/forums 
+ĮSITIKINKITE PIRMIAU IEŠKODAMI FORUME, KAD PAMATYTUMĖTE, AR TAI NEBUVO JAU PRANEŠTA
+
+
+
+== Aš norėčiau pranešti apie klaidą, kaip man atverti būsenos įrašus ir protokolo derintuvę? == 
+
+Atverkite savo kontaktų sąrašą ir spauskite toliau nurodytas mygtukų kombinacijas: 
+
+būsenos įrašai: ctrl + s (Command-S Mac OS X sistemoje) protokolo derintuvė: ctrl + d (Command-D Mac OS X sistemoje) 
+
+
+
+== Kai aš dukart spragteliu „amsn“ rinkmeną per grafinę rinkmenų naršyklę, kaip Konqueror ar Nautilus, tai man atidaro tekstų rengyklę, užuot paleidę aMSN. Ką aš turiu padaryti (Linux)? == 
+
+aMSN yra parašytas su Tcl/Tk interpretuojamąją kalba, taigi „amsn“ rinkmena yra tik tekstinė rinkmena su programiniu kodu. Rinkmenų vedlys gali pagalvoti, kad tai yra tekstinė rinkmena, todėl ji paleis teksto rengyklę. 
+
+Konqueror (KDE) arba Nautilus (Gnome), Paleisti aMSN galite spraktelėdami dešiniu mygtuku ant „amsn“ rinkmenos ir pasirinkdami „Open with...“ (ant Konqueror) arba „Launch with...“ (ant Gnome), priklausomai nuo rinkmenų naršyklės. 
+
+Rašykite „wish“. Tai paleis „amsn“ senarijų. 
+
+Jeigu jūs sakote, kad „wish“ komanda neegzistuoja, tai jums reikia įdiegti Tcl/Tk.
+
+
+
+== Kartais aMSN „pakimba“, kodėl taip atsitinka? == 
+
+Kada aMSN pakimba, tai paprastai yra problema su garso nustatymais. Galbūt jūs leidžiate garsus, bet garso plokštė yra užblokuota ir paleidimo komanda sustabdoma iki tol, kol garso plokštė bus pasiekiama. Bandykite išjungti garsą ir pakeiskite garso komandos nustatymus. 
+
+Jei aMSN tiesiog pakimba ir jūs naudojate 2.6.x kernelį, pabandykite paleisti aMSN su: 
+  export LD_ASSUME_KERNEL=2.2.5 && amsn
+
+Ši komanda pasakys dinamiškai nuorodai panaudoti seną žingsnio modelį. Daugiau informacijos apie šią problemą ieškokite adresu: http://people.redhat.com/drepper/assumekernel.html 
+
+Jei jūs esate Mac OS X sistemoje, tai dažnai įvyksta, kai jūs priimate jaustuką pokalbių lange, tai žinoma problema. 
+
+
+
+== Aš bandau paleisti amsn, tačiau gaunu šią klaidą: ==
+  bash: ./amsn: bad interpreter: No such file or directory
+
+Jums reikia įdiegti tcl/tk paketus, nes jums reikia wish interpretatoriaus. Jei jūs manote, kad turite jį, bandykite rašyti: 
+  wish /usr/share/amsn/amsn
+
+vietoj: 
+  amsn
+
+Jei tai veikia, pataisykite /usr/share/amsn/amsn ir pakeiskite pirmą eilutę į: 
+  #!/usr/bin/wish
+
+kur /usr/bin/wish turėtų būti wish interpretatoriaus vieta. Jūs galite sužinoti „wish“ interpretatoriaus vietą rašydami: 
+  which wish
+
+
+
+== Ar aš galiu naudoti aMSN per tarpinį serverį? ==
+
+Taip, aMSN palaiko HTTP ir SOCKS5 tarpinius serverius. 
+
+
+
+== Aš naudoju aMSN su ugniasiene arba naudoju IP maskuote. Rinkmenų siuntimas neveikia, ar aš galiu sutvarkyti tai? ==
+
+Šiuo atveju, ugniasienė gali blokuoti įeinančius prisijungimus. Rinkmenos persiuntimas veikia šiuo būdu: Kada jūs norite nusiųsti kam nors rinkmeną, tai jūs nusiunčiate pakvietimą su savo IP adresu ir prievado numeriu. Tada nutolęs klientas turi prisijungti prie jūsų IP:prievado, kad pradėtų siuntimą. 
+
+Paprastai naudojamas prievadas 6891, 6892 ir t. t. (pirmas persiuntimas yra per 6891 prievadą, bet jei jūs norite persiųsti kitą rinkmeną, kol dar nenusisiuntė pirmoji, tada naudojamas 6892 ir t. t.). 
+
+Jei jūs naudojate ugniasienę, tai jūs turite įsitikinti, kad ji leidžia įeinančius prisijungimus per prievadą 6891 (bei iš eilės kitus prievadus, jei jūs norite vykdyti daugiau negu vieną persiuntimą tuo pačiu metu). 
+
+Jei jūs esate už interneto ryšio paskirstytojo, įjunkite prievadų persiuntimą prievadams nuo 6891 iki 6900 į savo AK išorinio IP adreso. 
+
+Jūs galite keisti prievado reikšmę „Ryšys“ kortelėje „Nustatymai“ lange. 
+
+
+
+== Su 0,94 versija aš galėjau matyti, kada kas atverdavo pokalbių langą su manim, bet nuo 0,95 versijos daugiau neberodo, kodėl? == 
+
+Vartotojai su MSN7 ir naujesniomis MSN versijomis automatiškai atidarys pokalbių langą su jumis, kai tik jūs (ar jie) jungiasi. Tai padaryta automatiškai todėl, kad jie bando atsisiųsti jūsų rodomą nuotrauką. Taigi, kai tik kažkas jungiasi, ekranas buvo užlietas langais nuo žmonių, kurie bandė tik atsisiųsti rodomą nuotrauką. Tai erzino, todėl ypatybė buvo pašalinta.
+
+Pažymėtina ir tai, kad nuo Windows Live Messenger 8.0, vartotojas neprisijungia prie pokalbio tol, kol jis nesiunčia pirmos žinutės, todėl tai yra antra priežastis, kodėl tai nėra įmanoma daugiau.
+
+
+
+== Man patiko XXXX apvalkalas, kai naudojau ankstesnę versiją, bet pasirodo, jis nepritaikytas veikti su naujesne versija... Kada jis bus pritaikytas? ==
+
+Mes nežinome, apsilankykite apvalkalo tinkapyje arba susisiekite su apvalkalo autoriumi, kad gautumėte daugiau informacijos arba pasakykite jam, kad atnaujintų savo apvalkalą, kad geriau veiktų su nauja versija. 
+
+
+
+== Kai tik aš bandau prisijungti ar pakeisti aMSN kalbą, tai aMSN nulūžta su šia žinute: X Error of failed request: BadValue (integer parameter out of range for operation), Major opcode of failed request: 45 (X_OpenFont) ==
+
+Visų pirma, tai gali būti šrifto problema: bandykite paleisti aMSN su skirtingais šriftais (per Abonentas -> Nustatymai -> Išvaizda). 
+
+Antra, jums reikia paleisti aMSN naudojant skirtingus kodavimus (per Abonentas -> Nustatymai -> Išvaizda vėl, utf-8 yra saugus pasirinkimas). 
+
+Trečia, bandykite išvalyti savo šrifto spartinančiąją atmintį su komanda: 
+  fc-cache -fv
+
+Tada, įsitikinkite, ar jūsų lokalė (jūsų LC_ALL arba LC_CTYPE aplinkos kintamieji) yra įdiegta jūsų sistemoje: 
+  set | grep LC_ 
+
+ir įsitikinkite, kad atitinkami aplankalai (po =) egzistuoja šiuo keliu /usr/lib/locale . Jei ne, įdiekite juos pagal savo distributyvą. 
+
+Galiausiai, jei nė vienas iš minėtų atvejų nepadėjo, bandykite išjungti kai kuriuos šrifto kelius per /etc/X11/XF86Config arba /etc/X11/Xorg.conf iki tol, kol sužinosite, kuris šrifto kelias sudaro problematiškus šriftus ir perkurkite fonts.cache , fonts.dir ir fonts.scale tuose aplankaluose. 
+
+
+
+== Aš bandau paleisti aMSN ir gaunu šią klaidą: Error in startup script: time value too large/small to represent while executing [...] procedure "ConvertLocalToUTC". ==
+
+Įsitikinkite, kad rinkmena /etc/localtime egzistuoja. Jei ne, tai nurodykite ją į /usr/share/zoneinfo/YOUR/TIME/ZONE ir iš naujo paleiskite aMSN. Rinkmenos sukurimas Linux sistemoje: ln -s /usr/share/zoneinfo/YOUR/TIME/ZONE /etc/localtime 
+
+
+
+=== aMSN naudojimas ===
+
+== Kokie yra klaviatūros šaukiniai? ==
+
+Naujausias klaviatūros šaukinių sąrašas yra puslapyje adresu: http://amsn-project.net/wiki/Shortcuts . 
+
+
+
+== Ką reiškia piktograma, esanti dešnėje jūsų bičiulių? ==
+
+Piktograma [baltas X raudoname apvaliame fone] kontaktų sąraše reiškia, kad atitinkamas kontaktas neturi jūsų savo sąraše. 
+
+
+
+== Ar aš galiu nukopijuoti kontakto adresą į iškarpų krepšį? ==
+
+Taip, spragtelkite dešininiu mygtuku ant kontakto vardo kontaktų sąraše, po to pasirinkite „Ypatybės“. Naujame lange, jūs galėsite kopijuoti vartotojo el. paštą/slapyvardį/asmeninę žinutę. 
+
+
+== Ar aš galiu nukopijuoti ar atverti tinklapio adresą, esantį kontakto slapyvardyje/asmeninėje žinutėje? ==
+
+Taip, spragtelkite dešininiu mygtuku ant kontakto vardo kontaktų sąraše, po to, iššokusiame meniu, jūs turėsite pasirinkimą kopijuoti ar atverti tinklapį, esantį kontakto slapyvardyje ar asmeninėje žinutėje. 
+
+
+
+== Ar aš galiu nustatyti savo asmeninę žinutę kaip ir MSN7? ==
+
+Asmeninė Žinutė (AŽ) yra tekstas, matomas po jūsų slapyvardžiu. Ši ypatybė dabar galima nuo aMSN 0.96. 
+
+Nustatinėjant savo AŽ, jums reikia spragtelti ant meniu „Abonentas“, po to „Keisti slapyvardį...“, ten rasite laukelį, kuriame galėsite pakeisti AŽ. 
+
+
+
+== Kaip aš galiu gauti prieigą prie žinučių istorijos, kurias aš nusiunčiau savo pokalbių languose? ==
+
+Jei jūs norite prie ankstesnių žinučių, kurias siuntėte pokalbių languose, jums reikia naudoti tik Control mygtuką su rodyklėmis. Tai veikia taip pat kaip ir komandinėje eilutėje, taigi  Ctrl-Up (Command-Up Mac OS X sistemoje) duoda ankstesnes žinutes ir Ctrl-Down(Command-Down Mac OS X sistemoje) duoda vėlesnes žinutes. 
+
+Visą sąrašą klaviatūros šaukinių galite pamatyti puslapyje adresu: http://amsn-project.net/wiki/Shortcuts 
+
+
+
+== Ką reiškia šie keturi sąrašai, nustatymų privatumo kortelėje? ==
+
+Keturi sąrašai, žinomi kaip: 
+
+Priimtųjų sąrašas (AL), juodasis sąrašas (BL), kontaktų sąrašas (FL) ir atvirkštinis sąrašas (RL). 
+
+AL: Šis sąrašas rodo žmonių el. pašto adresus, kuriems leidžiama pamatyti jus, kada jūs prisijungiate prie aMSN, ir jie gali taip pat kalbėtis su jumis.
+
+BL: Tai yra juodasis sąrašas, kas reiškia, kad jį sudaro žmonių sąrašas, kuriuos jūs užblokavote. Taigi reiškia, kad jie negali pamatyti jūsų, kai jūs esate prisijungęs prie aMSN, ir jie negali kalbėtis su jumis.
+
+FL: Šis sąrašas sudaro visus kontaktus, kurie rodomi jūsų kontaktų sąraše. 
+
+RL: Tai yra atvirkštinis sąrašas, kurį sydaro žmonių elektroninio pašto adresai, kurie turi jus savo sąraše. 
+
+
+
+== Ką reiškia skirtingų spalvų kontaktai, nustatymų privatumo kortelėje? ==
+
+Jūs turite atkreipti dėmesį į sąrašų antraščių spalvas:
+Priimtųjų sąrašas: žalias šriftas 
+Juodasis sąrašas: raudonas šriftas 
+Kontaktų sąrašas: raudonas fonas 
+Atvirkštinis sąrašas: geltonas fonas
+
+Kontaktas bet kokiame sąraše paims skirtingą spalvą, priklausančiuose sąrašuose, ant kurių kontaktas sudarys:
+Jeigu tai yra priimtųjų sąrašas, tai jis turės žalią šriftą.
+Jeigu tai yra juodasis sąrašas, tai jis turės raudoną šriftą.
+Jeigu tai yra kontaktų ir atvirkštinis sąrašas, tai jie turės baltą foną.
+Jeigu tai yra kontaktų sąraše, bet ne atvirkštiniame sąraše, tai jis turės raudoną foną.
+Jeigu tai yra atvirkštiniame sąraše, bet ne kontaktų sąraše, tai jis turės geltoną foną.
+Jeigu tai nėra nė kontaktų, nė atvirkštiniame sąraše, tai jis turės juodą foną.
+
+Daugiau ypatybių:
+Žalias šriftas: kontaktas gali susisiekti su jumis.
+Raudonas šriftas: kontaktas NEGALI susisiekti su jumis (UŽBLOKUOTAS).
+Baltas fonas: kontakas turi jus savo sąraše ir jis yra jūsų sąraše.
+Geltonas fonas: kontakas turi jus savo kontaktų sąraše, bet jūs jo neturite savajame sąraše.
+Raudonas fonas: kontaktas yra jūsų sąraše, bet jūs neesate kontakto sąraše.
+Juodas fonas: kontaktas ištrynė jus iš savo kontaktų sąrašo ir jūs ištrynėtę jį iš savojo sąrašo.
+
+
+
+== Aš noriu pridėti savo pasirinktus jaustukus, kaip tai galiu padaryti? ==
+
+Jūs galite pridėti pasirinktus jaustukus atliekant šiuos žingsnius:
+Atverkite bet kokio kontakto pokalbių langą 
+Spragtelkite mygtuką „Jaustukai“, kuris yra pokalbių lange (Momentinė nuotrauka 5.1)
+
+Spragtelkite „Pridėti pasirinktą jaustuką“ mygtuką (Momentinė nuotrauka 5.2)
+
+Įrašykite savo jaustuko aprašymą laukelyje „Aprašymas“ (Momentinė nuotrauka 5.3)
+
+Įrašykite teksto gaiduką savo jaustukui laukelyje „Teksto gaidukas“. Teksto gaidukas yra gaidukas, kuris parodo jaustuką, kai parašomas įrašytas užrašas ir pasaudžiamas Enter. (Momentinė nuotrauka 5.3)
+pavydžiui: (test)
+
+Kai pokalbių lange parašysite (test) ir paspausite Enter, jaustukas susietas su teksto gaiduku (test) bus parodytas ekrane.
+
+Ieškodami naujo jaustuko, kurį norėsite naudoti, spragtelkite ant „Naršyti“ mygtuko, kuris yra dešinėje jaustuko rinkmenos pavadinimo laukelio ir pasirinkite paveikslėlį arba jaustuką, kurį norėsite naudoti. Spragtelkite „Atverti“. (Momentinė nuotrauka 5.4)
+
+Jeigu paveikslėlis yra didesnis negu normalus jaustukas, jūs pamatysite žinutę „Jaustukas, kurį pasirinkote, yra didesnis negu normalus dydis. Ar norite sumažinti jį?“ Jei jūs norite savo paveikslėlį ar jaustuką sumažinti, kad jūs galėtumėte naudoti kaip jaustuką, tai tiesiog spragtekite „Taip“. (Momentinė nuotrauka 5.5) 
+
+Sprakteldami „Taip“, jūsų paveikslėlis gali būti sumažintas ir rodmas iškraipytai. 
+Sprakteldami mygtuką „Jaustukai“, kuris yra pokalbių lange. Jūs dabar matysite savo pasirinktą jaustuką, kuris pridėtas jaustukų parinktuvėje. (Momentinė nuotrauka 5.6) 
+
+
+
+== Slapyvardžiai yra nukirsti. Ar įmanoma sugrįžti prie pilnų slapyvardžių? ==
+
+Taip. Norėdami matyti slapyvardžius visu ilgiu kontaktų sąraše, įspėjimuose ir pokalbių lange, eikite į „Abonentas“ > „Nustatymai“ > „Pažengusiems“ kortelę ir atžymėkite parinktį pavadinimu „Nukirsti slapyvardžius, ilgesnius negu pavadinimo lango plotis ir kontaktų sąrašas“. (Momentinė nuotrauka 5.7)
+
+Tas pats gali būti padaryta slapyvardžiams, esantiems pokalbių lange, atžymėjus parinktį „Nukirsti slapyvardžius, ilgesnius negu pokalbių lango vidinė pusė“. (Momentinė nuotrauka 5.7)
+
+
+
+== Kaip aš galiu naršyti per savo kameros įrašus ir paversti .cam (cam įrašus) į kino filmo rinkmeną tokią kaip .mpeg? ==
+
+Šių .cam rinkmenų formatas yra tiesiog krūva duomenų lizde, kurie pateikiami MS nuosavu formatu. Dėl šios priežasties, nėra grotuvų, kurie galėtų paleisti šias rinkmenas, tik amsn.
+
+Iš tikrųjų yra priemonė tai padaryti, kurį išleido Hyriand (tik linux). Žiūrėti http://amsn-project.net/forums/viewtopic.php?t=2954
+
+
+
+== Kaip aš galiu patikrinti, ar veikia kamera? ==
+
+Jei jūsų kamera neveikia su aMSN, prašau įsitikinkite, kad jūsų kamera yra prijungta, įjungta bei paruošta naudojimui.
+
+Keletas programų, su kuriomis galima išbanyti, ar jūsų kamera gerai veikia su Linux:
+
+XawTv
+
+GnomeMeeting
+
+V4L
+
+Mac sistemoje jūs galite išbandyti macam projektą, jei jūs neturite Apple iSight 
+
+ 
+
+== Kur yra išsaugotos „dingusios“ rodomos nuotraukos? ==
+
+Windows: C:\Documents andSettings\MyWindowsUsername\amsn\youremail_profile\displaypic\cache 
+Linux: /home/yourusername/.amsn/yourusername@youremail.com/displaypic/cache 
+Mac OS X: Home / Library / Application Support / your_email_profile / displaypic / cache 
+
+Jūs taip pat galite rasti visas vartotojo vėliau rodytas nuotraukas per:
+Kontaktų ypatybių puslapį
+Per parinktį „Keisti nuotrauką“
+
+
+
+== Kaip aš galiu pakeisti aplankalą, kuriame saugoma profilių informacija? == 
+
+Tam nėra jokių parinkčių, kad padaryti tai. Jūs turite pakeisti aMSN kodą, bet tai nėra sunku. aMSN aplankale suraskite amsn (/usr/share/amsn/amsn) rinkmeną ir atverkite ją taisymui su savo mėgstamiausia tekstų rengykle. Ieškokite tokio kodo: 
+  } elseif {$tcl_platform(platform) == "windows"} {
+    if {[info exists env(USERPROFILE)]} {
+       set HOME "[file join $env(USERPROFILE) amsn]"
+       set files_dir "[file join $env(USERPROFILE) amsn_received]"
+    } else {
+     set HOME "[file join [pwd] amsn_config]"
+     set files_dir "[file join [pwd] amsn_received]"
+    }
+
+ir pakeiskite į šį
+  } elseif {$tcl_platform(platform) == "windows"} {
+     set HOME "[file join [pwd] amsn_config]"
+     set files_dir "[file join [pwd] amsn_received]"</nowiki>
+
+siekdami išsaugoti rinkmenas aplankale, kur paleidžiate aMSN. 
+
+
+
+=== Veikimas Linux sistemoje ===
+
+== Kaip aš galiu naudoti aMSN glotnius šriftus? ==
+
+Naudokite distributyvą, kuris turi tcl/tk 8.5 ar aukštesnį, arba žvilgtelkite į: http://amsn-project.net/wiki/Enabling_antialiasing
+Šis puslapis parodys, kaip perinkti Tk, ka palaikytų glotnius šriftus. 
+
+
+
+== Kaip man sukurti aMSN šaukinį ant darbalakio Linux sistemoje? == 
+KDE 
+Spragtelkite dešiniu mygtuku ant K-meniu ir pasirodys Panel Menu, kaip parodyta momentinėje nuotraukoje žemiau: 
+
+
+Spragtelkite ant Add Non-KDE Application 
+Pamatysite A Non-KDE Application Configuration dialogą 
+Įveskite tekstą, kuris parodytas žemiau: 
+
+
+Spragtelite „Gerai“ ir aMSN piktograma bus pridėta į jūsų kicker meniu:
+Jei jūs norite pakeisti piktogramą ar kitus nustatymus, paprastai spragtelkite dešiniu mygtuku ant naujo aMSN mygtuko ir pasirodys meniu. Spragtelkite  „Configure aMSN Button...“ ir pasirodys Non-KDE Application Configuration.
+
+
+
+== Kaip man atverti prievadą rinkmenos persiuntimui SUSE Linux sistemoje? ==
+
+(Už gidą dėkojame John Hillier) 
+Atverkite „YaST“ -> „Security and Users“ -> „Firewall“ -> „Firewall Configuration“. 
+Spragtelkite ant „Expert“, kurį rasite per „Additional Services“, ir pridėkite prievadą 6891. 
+
+
+
+== Mano aMSN garsiniai pranešimai neskamba tol, kol aš nebaigiu klausyti muzikos. Kaip man padaryti, kad aš galėčiau girdėti visus garsus vienu metu? ==
+
+KDE: Jūs galite suformuoti XMMS, amaroK ir t. t., kad paleistumėte garsą per arts ir naudodamiesi artsplay, kaip aMSN garso paleidimo komandą, kuri gali maišyti garsus. 
+Gnome: Jūs galite naudoti esdplay ir, paleidimui per ESD, suformuoti XMMS. 
+
+
+
+== Kai aš bandau paleisti aMSN, aš gaunu klaidą „unknown color Black“. Kaip aš galiu ištaisyti tai? ==
+
+Ši problema ateina ne iš aMSN, tai yra Xorg įdiegimo klaida. Jūs tikriausiai turite blogus Xorg nustatymus rinkmenai rgb.txt (ypač su kai kuriomis Xgl versijomis). 
+
+Jei jūs naudojate xgl, tai labiausiai tikėtina, kad turite rinkmeną rgb.txt aplankale /etc/X11 . Ubuntu Dapper sistemoje Xgl yra paprastai blobai suformuotas ir ieškokite rinkmenos aplankale /usr/share/X11 . Padarykite nuorodą į jį aplankale /usr/share/X11 ir restartuokite savo X serverį. 
+
+Jei jūs nenaudojate xgl, atverkite savo /etc/X11/xorg.conf ir ieškokite šių eilučių: 
+
+
+  Section "Files"
+       RgbPath      "/etc/X11/rgb"
+
+
+Jei RgbPath eilutė neegzistuoja visai, pridėkite ją po Section "Files". Tada įsitikinkite, kad rinkmena egzisuoja aplankale, kurį apibrėžia RgbPath (šiuo atveju /etc/X11/). Jums gali prireikti nukopijuoti jį į kitą vietą savo kompiuteryje arba jūs galite atsisiųsti tai iš http://amsn.sourceforge.net/rgb.txt . Jūs taip pat turite restartuoti savo X serverį, kad įsigaliotų pakeitimai. PRAŠOME ĮSIDĖMĖTI: eilutė xorg.conf NETURI rinkmenos plėtinio!!! 
+
+
+
+== TLS atrodo neveikia ir aš turiu tcl/tk 8.5. Kaip aš galiu ištaisyti tai? ==
+
+TLS 1.5 sugedo. Kad ištaisyti tai, jūs turite sužinoti, kur yra jūsų TLS kopija su:
+ locate tls.tcl
+
+arba jei jūs nenaudojate, nustatykite vietą:
+ find / -name tls.tcl
+
+Šios komandos turėtų duoti jums kažką panašaus į /usr/lib/tls1.50/tls.tcl. Tame pačiame aplankale, jūs turėtumėte rasti rinkmeną pavadinimu pkgIndex.tcl. Pataisykite šią rinkmeną su savo mėgstamiauia tekstų rengykle (vi, emacs, nano/pico ir t. t.):
+ vi /usr/lib/tls1.50/pkgIndex.tcl
+
+ir pakeiskite eilutę:
+ package ifneeded tls 1.5
+
+į:
+ package ifneeded tls 1.50
+
+TLS turėtų dabar veikti gerai. Jei tai ne ta priežastis, prašome praneškite mums į forumą
+
+
+
+== Atrodo, aMSN nedirba teisingai su kai kuriomis rinkmenomis, ypač rinkmenomis, kurias sudaro simbolis ` (galinės kabutės). Kaip tai pataisyti? ==
+
+aMSN negali tvarkyti rinkmenų, kurios turi simbolį ` (galinės kabutės) jų kelyje. Būdas išspręsti šią problemą yra prijungti skirsnį sudarančią rinkmeną su šiuo simboliu ir „utf8“ parinktimi. Kreipkitės į savo skirsnio versijos pagrindinį puslapį, kad surastumėte teisingą pasirinkimą jūsų rinkmenų sistemai.
+
+
+
+=== Veikimas Windows sistemoje ===
+
+== Kaip aš galiu leisti/neleisti aMSN įsijungimą per Windows įkeltį? ==
+
+Jūs galite padaryti tai pažymėdami „Įjungus aMSN, prisijungti automatiškai“ per Abonentas -> Nustatymai -> Sesija
+
+
+
+== Kad ir kada aš einu į Nustatymai -> Sesija, „Įjungus aMSN, prisijungti automatiškai“ yra išjungtas, net jei aMSN kraunasi per Windows krovimasį! ==
+
+Mes negalime nustatyti, ar aMSN įsijungia per Windows įkeltį, todėl parinktis nepažymėta. Vis dėlto, į pakeitimą bus atsižvelgta, jei jūs pakeitę reikšmę ir paspausite mygtuką „Išsaugoti“.
+
+
+
+=== Veikimas Mac OS X sistemoje ===
+
+== Aš turiu klausimą apie Mac OS X, kur man ieškoti atsakymų? == 
+
+Jūs galite gauti atsakymus į klausimus apie Mac OS X apsilankę aMSN Mac forume, kurį rasite adresu: http://forums.cocoaforge.com/viewforum.php?f=14 
+
+== Kodėl kai kurie simboliai, esantys aMSN kontaktų sąraše, yra kvadratėliai? ==
+
+Tai yra Unikodo simboliai. Mac OS X Unikodo palaikymas buvo pridėtas nuo aMSN 0.96 versijos.
+
+== Kodėl aš negaliu naudoti šaukinį Command-Space, kad perjungčiau klaviatūros sluoksnius? ==
+
+Atrodo, tai yra problema su Tcl/Tk struktūromis, nuo kurių priklauso aMSN. Į tai šiuo metu kreipiamas dėmesys.
+
+== Kaip man prisijungti prie daugiau negu vieno abonento su Mac aMSN? ==
+
+Jums reikia sudvigubinti aMSN programą ir tada paleisti abi kopijas. Lengviausias būdas padaryti tam yra surasti programą per Finder ir paspausti Command-D, kad sudvigubintumėte programą. 
+
+== aMSN yra labai lėtas ant mano naujo Intel Mac, ką aš galiu padaryti, kad pagreitinčiau veikimą? ==
+
+aMSN 0.96 yra pirma universali dviguba aMSN versija, prašom atnaujinti į bent jau tą versiją. Jūs galite toliau pagreitinti aMSN, išjungdamas jaustukus kontakto sąraše (parinktis rasite aMSN nustatymuose, kortelėje „Išvaizda“) ir taip pat galite atskirti savo atsijungusiųjų grupę.
+
+== Kamera neveikia mano Intel Mac sistemoje! == 
+
+Atnaujinkite aMSN iki naujausios versijos (0,97 ar aukštesnės) ir jūs galėsite tada naudotis kamera! 
+
+== Kaip man atnaujinti aMSN iki naujausios kūriamosios versijos Mac sistemoje? ==
+
+Instrukcijas, kai atnaujinti, rasite wiki puslapyje adresu: http://amsn-project.net/wiki/SVN wiki page. 
+
+== Aš noriu ištrinti aMSN, bet negaliu išvalyti Šiukšlinės! ==
+
+Jūs galite gauti klaidą kaip šį „libtls.dylib is in use“. Kad ištrintumėte šias rinkmenas, jums reikia paleisti iš naujo kompiuterį ir tada galėsite ištrinti rinkmenas.
+
+== Kur saugomos aMSN nustatymų rinkmenos Mac sistemoje? == 
+
+Jos saugomos: Jūsų Home Folder -> Library -> Application Support -> amsn . 
+
+
+
+=== Kiti klausimai === 
+
+== Aš pastebėjau, kad aMSN atidaro kai kuriuos prievadus virš 60000 prievado. Tai normalu? Tai yra backdoor? Kodėl tai vyksta? ==
+
+Tai yra normalu. aMSN naudoja lizdus kaip užrakinimo sistemą, kad išvengtų dviejų aMSN pavyzdžių, panaujančių tą patį profilį vienu metu (kuris galėjo sukelti bėdą). Tai yra geresnė platforma nepriklausoma užrakinimo sistema, kurią mes suradome.
+
+Jei jūs patikrinsite ~/.amsn/profiles, jūs galėsite pamatyti, koks prievadas yra panaudotas kiekvienam profiliui. 
+
+
+
+== Kas yra garso ir vaizdo vedlys? ==
+
+Garso ir vaizdo vedliu galima lengvai formuoti ir valdyti jūsų kamerą taip pat, kaip ir jūsų garso įvestį (mikrofoną). Garso ir vaizdo vedlys tiekia parinktis maksimizuoti jūsų kameros siuntimo kokybę. 
+
+Garso ir vaizdo vedlys gali būti paleistas per pokalbių langą spragtelėjus „Taisa“ > „Nustatyti garsą ir vaizdą“. Pasirodys kameros formavimo dialogas. Jūs galite pakeisti savo vaizdo nustatymus spragteldami mygtuką „Keisti vaizdo nustatymus“. 
+
+Jūs taip pat galite paleisti vedlį naudodami Ctrl-N šaukinį pagrindiniame lange. Remkitės http://amsn-project.net/wiki/Shortcuts puslapiu, kuriame rasite naujausius klaviatūros šaukinių sąrašą. 
+
+
+
+== Kaip visiškai pašalinti aMSN? ==
+
+Po aMSN išdiegimo, jūsų profiliai (abonento nustatymai, įrašų rinkmenos ir t. t.) yra vis dar pasilikę jūsų sistemoje. Jūs galite pašalinti tą informaciją per šias paprastas procedūras:
+
+Linux:
+ rm -rf ~/.amsn
+
+Windows:
+Ištrinti C:\Documents and Settings\$VARTOTOJAS\amsn kur $VARTOTOJAS yra jūsų vartotojo vardas.
+
+Mac OS X:
+Pašalinti aMSN programą. Pašalinkite šį aplankalą: Home / Library / Application Support / aMSN
+
+
+
+== Laiško piktograma vis nedingsta iš sisteminio dėklo, kaip man jos atsikratyti? ==
+
+Jūs turite perskaityti savo neperskaitytus laiškus, kad dėklo piktogramą dingtų.
+
+
+
+== Aš įjungiau aMSN pokalbių įrašymą, bet aš negaliu rasti įrašų rinkmenų. Kur jos yra saugomos? ==
+
+Jei jūs norite įjungti įrašinėjimą, tai jums pirmiau reikia sukurti profilį. Tai galima padaryti per aMSN prisijungimo langą, pažymint parinktį „Prisiminti mane“. 
+
+
+Tada jūs galėsite rasti įrašą čia: 
+Linux: ~/.amsn/jūsų_el.pašto_profilis/logs
+
+Windows: %VARTOTOJOPROFILIS%\amsn\jūsų_el.pašto_profilis\logs Kur %VARTOTOJOPROFILIS% yra paprastai
+C:\Documents and Settings\%vartotojas% kur %vartotojas% yra Windows abonento vartotojo vardas.
+
+Mac OS X: /Home / Library / Application Support / aMSN / your_email_profile / logs 
+
+
+
+== Ar aš galiu išjungti pasirinktus ir/arba animuotus jaustukus? ==
+
+Pasirinkite „Nustatymai“ iš meniu „Abonentas“, tada spragtelkite ant kortelės „Išvaizda“. Čia jūs galėsite nustatyti įvairias jaustukų patinktis. 
+
+
+
+== Kodėl aMSN nepalaiko garso / Kodėl aMSN sustabdė linphone palaikymą? ==
+
+Linphone palaikymas aMSN'e nuvo nutrauktas prieš kurį laiką, nes jis buvo nepabaigtas ir sunkiai prižiūrimas. Be to, tik vienas asmuo buvo gabus prižiūrėti veikimą ir atnaujinti jo vystymą, taigi šis aMSN vystimas buvo neaktyvus, todėl palaikymas buvo nutrauktas. Dabar aMSN palaiko kameros vaizdą (tačiau ne vaizdo konferenciją), šis palaikymas yra užbaigtas, stabilus ir lengvai prižiūrimas. 
+Garso palaikymas uždelsiamas iki sekančios versijos. Farsight projektas, kurį kuria Burgerman, duos aMSN garso palaikymą, mes tik laukiame stabilios versijos. 
+
+
+
+== Aš turiu kitokį klausimą, ar galite padėti man? == 
+
+Taip, mes galime. Bet prieš užduodami klausimus, ieškokite savo klausimo šiame wiki. Jei jūs negalite rasti atsakymo, tada pažiūrėkite į aMSN forumus, kuriuos rasite tinklapyje: http://amsn-project.net/forums 
+
+Prieš pateikdami klausimą forume, pasinaudokite PAIEŠKA
+
+Labiausiai tikėtina, kad jūsų klausimas yra jau atsakytas. Jūs taip pat galite surasti daugiau informacijos aMSN sourceforge projekto tinklapyje šiuo adresu: http://sourceforge.net/projects/amsn 
+
+Prieš pateikdami klaidos pranešimą ar palaikymo prašymą, prašome dokumentuoti tolimesnę informaciją:
+
+aMSN versija:
+Tcl ir Tk versija:
+Kernel versija:
+Distributyvas:
+Sistemos architektūra (32-bitų, PPC, 64-bitų, ir t. t.):
+Pateiktos klaidos dėklo įrašas (jei yra):
+Paskutinės klaidų žinutės derintuvų languose (Ctrl+D ir Ctrl+S kontaktų sąraše): 
+Galimi būdai, kaip pakartoti klaidą: 
+
+Čia yra vartotojo dokumentacijos pavyzdys: 
+aMSN versija: 0.96 
+Tcl ir Tk versija: 8.4.16 
+Kernel versija: Linux 2.6.12-8-386 (Surastas rašant: uname -s -r in an xterm) 
+Distributyvas: Debian 
+Sistemos architektūra (32-bitų, PPC, 64-bitų, ir t. t.): 32-bitų 
+Pateiktos klaidos dėklo įrašas (jeigu yra): NA (nėra) 
+Paskutinės klaidų žinutės derintuvų languose (Ctrl+D ir Ctrl+S kontaktų sąraše): 
+Galimi būdai, kaip pakartoti klaidą: Atidarykite pokalbių langą ir nusiųskite animuotą jaustuką msn 7.5 vartotojui. 
+
+Nusiųskite šią informaciją su savo klaidos pranešimu, kad mes galėtume toliau ištirti iškilusią problemą. 
+
+
+Jei jūs vis dar turite klausimą, kuris nebuvo aptartas šiame DUK, jūs galite aplankyti aMSN forumą adresu: http://amsn-project.net/forums arba susisiekite su mumis per IRC (Internet Relay Chat): 
+
+serveris: irc.freenode.net kanalas: #amsn 
+
+
+Kanale yra paieškos serveris, kuris gali jums pateikti keletą požymių, jei naudosite žemiau pateiktas komandas: 
+amsn install 
+amsn version 
+amsn download 
+amsn tcl/tk version 
+amsn libstd 
+amsn svn 
+
+...ir keletas kitų 
+
+Tuo atveju, jei jūs turite šiokių tokių bėdų jungiantis prie mūsų IRC kanalo dėl tinklo politikos, jūs galite pabandyti šį http://cgiirc.blitzed.org/ 
+ 
+Mėgaukitės naudodamiesi aMSN!

@@ -1,0 +1,26 @@
+amsn pagalbos rinkmena
+
+Reikalavimai:
+Amsn yra parašytas su tcl/tk, taigi jums reikės veikiančio tcl/tk interpretatoriaus,
+8.4 arba vėlesnės versijos. Jūs galite jį atsisiųsti iš http://tcl.sourceforge.net.
+Interpretatorių galima gauti linux, windows ir macintosh operacinėms sistemoms.
+Kai kurios papildomos ypatybės gali reikalauti papildomų programų ar bibliotekų,
+kaip docking icon, Rodomos nuotraukos arba SSL ryšiui MSN protokolui 9.
+
+Įdiegimo gidas:
+Atsisiųskite amsn-x_xx.tar.gz rinkmeną. Išarchyvuokite ją su komanda:
+  gzip -d amsn-x_xx.tar.gz
+  tar xvf amsn-x_xx.tar
+Ji sukurs amsn/ aplankalą ir amsn bus įdiegta bei paruošta paleidimui.
+Norėdami paleisti, rašykite:
+  cd msn
+  ./amsn
+arba, jeigu tai neveikia, bandykite
+  wish amsn
+Jeigu wist komanda neegzistuoja, tuomet jūs esate neteisingai įdiegę tcl/tk.
+Jeigu „wist amsn“ veikia, o „./amsn“ neveikia, tai pataisykite „amsn“ rinkmeną
+ir nustatykite teisingą kelią iki „wist“ pirmoje eilutėje.
+Pagal nutylėjimą, kelias yra:
+/usr/bin/wish
+
+Jeigu vis tiek turite problemų, bandykite naudotis DUK.
