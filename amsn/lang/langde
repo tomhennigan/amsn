@@ -4,6 +4,7 @@ aboutamsn Über Alvaros Messenger
 about Über
 accept Akzeptieren
 acceptfile Datei $1 (Größe: $2) annehmen? In $3 gespeichert
+accountkid Dieses Kinder-Konto kann nicht mit dem Messenger benutzt werden. Sie müssen auf der Passport-Seite für Kinder eine Zustimmung der Eltern abgeben.
 account Konto
 actions Aktionen
 activeautoupdate Automatisches Update aktivieren
@@ -26,8 +27,8 @@ alarmonconnect Benachrichtigung, wenn der Kontakt sich anmeldet
 alarmondisconnect Benachrichtigung, wenn der Kontakt sich abmeldet
 alarmonmsg Benachrichtigung, wenn der Kontakt mir eine Nachricht sendet
 alarmonstatus Benachrichtigung, wenn der Kontakt seinen Status ändert
-alarmpref Benachrichtigung für diesen Kontakt konfigurieren
 alarmpref2 Benachrichtigungseinstellungen für alle Kontakte
+alarmpref Benachrichtigung für diesen Kontakt konfigurieren
 alarms Benachrichtigungen
 alarmstatus Benachrichtigung für diesen Kontakt an-/ausschalten
 allfiles Alle Dateien
@@ -66,6 +67,7 @@ audiovideo Audio- und Video-Setup
 author Autor
 autoaccepted Dateitransfer automatisch akzeptiert
 autoacceptft Dateianfragen automatisch akzeptieren
+autoacceptwc Webcamanfragen automatisch akzeptieren
 autoaway Setze mich "Abwesend" nach Inaktivität von
 autocheckver Beim Start automatisch auf neue Version prüfen
 autoconnect2 Automatisch anmelden, wenn aMSN gestartet wird
@@ -139,6 +141,7 @@ changeglobnick Globalen Spitznamen ändern
 change_mobile Mobileinstellungen ändern
 change Ändern
 changenick Namen ändern
+changepsm Persönliche Nachricht ändern
 changesize Größe verändern
 changestate $1 geändert in $2
 changestatus Status ändern
@@ -191,6 +194,7 @@ closechatwindows Alle Unterhaltungen vor dem Abmelden schließen?
 closed Geschlossen
 closelabel Beim Klicken des Schließen-Knopfs in einem Chatfenster, das Tabs enthält
 closeonly Nur den aktuellen Tab schließen
+closeorcall Sie müssen die Audio-Unterhaltung zuerst beenden, bevor Sie das Fenster schließen können.
 closeordock Das Schließen des Kontaktlisten-Fensters beendet aMSN. Eventuell möchten Sie nur dieses Fenster schließen und aMSN als Systemicon weiterlaufen lassen.\n\nSind Sie sich sicher, dass Sie aMSN beenden möchten?
 closeothers Alle anderen Tabs schließen
 close Schließen
@@ -198,6 +202,7 @@ closingdocks Schaltfläche "Schließen" koppelt Fenster
 color Farbe
 command Befehl
 commandstatus Befehl ausführen
+compactstyle Kompaktes Layout
 configure Einstellen
 configuremic Mikrofon einrichten
 configureplugin Einstellungen von '$1'-Plugin
@@ -207,10 +212,12 @@ confirmdelete $1 wirklich löschen?
 confirmdg Wollen Sie diese Gruppe wirklich löschen?
 confirmdu Wollen Sie diesen Kontakt wirklich löschen?
 confirmeg Wollen Sie diese Gruppe wirklich leeren?
+confirmfulldelete Auch aus dem Windows Live Adressbuch löschen
 confirmpurge Alle gespeicherten Bilder von anderen Kontakten (Nicht Ihre) werden eliminiert. Sind Sie sicher?
 confirmrfl Wollen Sie diesen Kontakt wirklich aus der Gruppe löschen?
 confirm Sind Sie sicher?
 congrats Glückwunsch
+connectedat Verbunden von:
 connected Sie sind jetzt verbunden
 connectedwith Verbunden mit $1
 connecterror Verbindungsaufbau zum Server fehlgeschlagen!
@@ -252,7 +259,7 @@ custom_edit Bearbeite eigenes Emoticon
 custom_new Neues Emoticon hinzufügen
 customnick Benutzerdefinierter Spitzname
 customsmileys Eigene Emoticons anderer Nutzer anzeigen
-customstyle Angepasstes Design
+customstyle Angepasstes Layout
 custshowcustomsmileys Eigene Emoticons des Kontaktes anzeigen
 cut Ausschneiden
 cutimageboxreset Die Größe der Auswahlbox\nzurücksetzen auf:
@@ -305,8 +312,8 @@ dontaskweek Update-Benachrichtigung eine Woche deaktivieren
 dontdownload TLS nicht herunterladen, ich installiere es selbst
 dontshowdp Das eigene Anzeigebild für diesen Kontakt sperren
 dontshow Nicht anzeigen
-download Herunterladen
 downloadcanceled Herunterladen abgebrochen.
+download Herunterladen
 downloadingtls Lade TLS Modul herunter:\n $1
 downloadingwait Lade eine neue Version von aMSN herunter. Bitte warten...
 dynamicrate Dynamische Bildrate zur Simulaton der Echtzeit-Geschwindigkeit verwenden
@@ -328,6 +335,7 @@ enabled Aktiviert
 enableproxy Proxy aktivieren
 enableremote Aktiviere Fernkontrolle
 enablesound Klänge aktivieren
+enablespaces Unterstützung für Windows Live Spaces aktivieren (EXPERIMENTELL)
 encoding2 Zeichenkodierung ändern
 encoding Zeichenkodierung auswählen
 enterbugdesc Geben Sie eine Beschreibung dessen ein, was Sie getan haben, um uns zu helfen, den Bug zu reproduzieren:
@@ -346,6 +354,9 @@ faileddelete Löschen schlug fehl
 faileddeleteperso Dieses Bild konnte nicht gelöscht werden, da es keine persönliche Bilddatei ist. Auf diese Weise können nur Bilder entfernt werden, die zu Ihrem persönlichen Profil gehören
 failed Fehlgeschlagen
 faq Häufig gestellte Fragen
+farsightextchecking Prüfe, ob die Programmerweiterung für Farsight geladen ist ...
+farsightextwarn Sie können keine SIP-Anrufe (Audio-Unterhaltung) tätigen. Eine Anleitung zum Installieren der benötigten Programmerweiterung könnten Sie in unserem Wiki (auf Englisch) finden:
+farsightinfook Farsight ist eine Schnittstelle für Audio-/Video-Konferenz-Protokolle. Mit Farsight können Sie SIP-Anrufe (Audio-Unterhaltung) in aMSN tätigen! Werfen Sie einen Blick auf unser Wiki (auf Englisch) zum Thema Farsight:
 fetching Lade Daten ...
 file Datei
 filedoesnotexist Datei nicht vorhanden
@@ -371,8 +382,8 @@ firewalled Sie sind hinter einer Firewall oder einem Router
 followtext Herunterrollen wenn neuer Text eingegeben wird
 forget_me (Anmeldeinformationen löschen)
 forgot_pass Kennwort vergessen?
-formatctt CTT-Format
 formatcsv CSV-Format
+formatctt CTT-Format
 friendlyname Spitzname innerhalb von Unterhaltungen
 ftaccepted Übertragung angenommen
 ftacceptedby $1 akzeptiert die Einladung zum Transfer der Datei "$2"
@@ -416,23 +427,26 @@ groupexists Gruppe bereits vorhanden
 group Gruppe
 groupmissing Gruppe kann nicht gefunden werden
 groupnewname Neuer Name
+groupnonim Nicht-Messenger-Kontakte gruppieren
 groupnotempty Gruppe ist nicht leer
 groupoldname Alter Name
 grouprename Gruppe umbenennen
 groups Gruppen
 groupunknown Unbekannte Gruppe
 handle Handle
+hangup Auflegen
 havenomic Ich habe kein Mikrofon
 helpcontents Hilfe - Inhalt
 help Hilfe
 hidebuttonbar Verstecke Symbolleise
+hidedetails Details ausblenden
 hidedisplaypic Anzeigebild verstecken
 hidemenu Menüs zeigen / verstecken
 hidemenumessage Sind Sie sich sicher, dass Sie die Menüs verstecken möchten?\nSie können sie jederzeit mit dem Zeigen/Verstecken-Shortcut 'Strg+M' wiederherstellen.
 hiden Emoticons aus dem Emoticon-Menü verbergen
 hidewindow Fenster verbergen
-history Verlauf ansehen
 history2 Verlauf
+history Verlauf ansehen
 home Start
 howto_remove_profile Das Löschen Ihres Profils (Anmeldeinformationen von $1 löschen) ist nur über die Einstellungen möglich.\n\nAus Sicherheitsgründen können Profile nicht über das Login-Fenster gelöscht werden.
 httpconnection Verbinde mit der HTTP-Methode (verwendet das HTTP Protokoll mit Port 80)
@@ -453,7 +467,7 @@ internalerror Interner Server Fehler
 invalidfile2 Dateiname "$1" kann nicht erstellt werden. Stellen Sie sicher, dass Sie die erforderlichen Berechtigungen besitzen
 invalidfile Die Datei "$2", die im Feld "$1" eingegeben wurde, existiert nicht oder ist nicht lesbar
 invalidgroup Gruppe ungültig
-invalidparameter Fehler beim Verbinden mit Server: Ungültige Parameter
+invalidparameter Fehler beim Verbinden mit Server:\nUngültige Parameter
 invalidpic Die angegebene Bilddatei existiert nicht
 invalidpicsize Das angegebene Bild ist zu groß. Bitte wählen Sie ein anderes
 invalidsound Die angegebene Klangdatei existiert nicht
@@ -462,7 +476,7 @@ invitationcancelled Die Einladung wurde abgebrochen
 invite Einladen
 ipaddress IP-Adresse
 ipdetect Korrekte IP für Dateiübertragung durch HTTP feststellen
-ircstyle Chat à la IRC
+ircstyle IRC-Layout
 istyping $1 gibt eine Nachricht ein
 joins $1 wurde der Unterhaltung hinzugefügt
 justonce Nur einmal
@@ -498,7 +512,6 @@ lleftconf $1 hat die Konferenz verlassen
 loadcontacts Kontaktliste laden
 load Lade
 loadotherdisplaypic Anzeigebilder von $1 werden geladen, bitte warten...
-localecode Ihr 4-stelliger Sprach-/Ländercode
 logbigger Maximale Größe der Protokolldatei für einen Kontakt
 logeventconnect Verbindungen protokollieren
 logeventdisconnect Abmeldungen protokollieren
@@ -550,7 +563,7 @@ msgmode Wie sollen mehrere Nachrichtenfenster verwaltet werden:
 msg Nachricht
 msn aMSN
 msnstatus MSN Netzwerk Status
-msnstyle Chat à la MSN
+msnstyle MSN-Layout
 mustrestart Änderungen werden erst nach einem Neustart übernommen
 myfriendlyname Mein Name innerhalb von Unterhaltungen
 myhomephone Meine Festnetznummer
@@ -581,9 +594,10 @@ newtabbedfeature aMSN hat ein neues Feature zum Verwalten von Unterhaltungen: Es
 newupdate Neue Updates sind für aMSN verfügbar
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
-nick Spitzname
 nickchanged $1 hat seinen Spitznamen in '$2' geändert
+nick Spitzname
 noactivity Inaktiv
+no_blocked_notif Benachrichtigungsfenster bei blockierten Kontakten nicht zeigen
 nocacheddps Keine Anzeigebilder dieses Kontaktes im Speicher
 nocamwarn Es wurde keine Webcam gefunden, oder die Webcam wird bereits von einem anderen Programm verwendet (weswegen sie nicht von aMSN verwendet werden kann). Eine Lösung zu dem Problem finden Sie in unserem Wiki (auf Englisch)
 nodataavailable Keine Daten verfügbar für $1
@@ -591,12 +605,15 @@ nodevices Derzeit sind keine Geräte installiert
 noftpreview Senden von Vorschaubildern bei Dateiübertragungen deaktivieren
 nogap Keine Lücke zwischen Gruppen
 nogroup Keine Gruppe
+nojavascript Sie haben Javascript deaktiviert, die automatische Anmeldung wird voraussichtlich nicht funktionieren.
 nologfile Keine Protokolldatei für $1
 nomic Kein Mikrofon
 noneavailable Nicht verfügbar
 no Nein
 nonewmail Keine neuen Nachrichten im Posteingang
 nonewver Zurzeit keine neue Version verfügbar
+nonimgroup Nicht-Messenger-Kontakte
+nooimconfirmation Keine Bestätigung zum Senden/Empfangen von Offline-Nachrichten.
 nopic Kein Bild
 noprofileexists Im Moment existieren keine Profile. \n Sie müssen eines erstellen, wenn Sie sich mit einem Profil einloggen wollen. \nBenutzen Sie den "Neues Profil hinzufügen"-Button in diesem Fenster, um ein neues Profil hinzuzufügen
 noresizesmileys Eingehende eigene Emoticons anderer Benutzer nicht verkleinern
@@ -619,6 +636,7 @@ notifyoffset Setzt die Position des Nachrichtenfensters durch Angabe der Positio
 notifytimeout Einblendungszeit des Benachrichtigungsfensters
 notifytyping Anderen Nutzern Benachrichtigung beim Eingeben einer Nachricht senden
 notifywin Benachrichtigungsfenster
+notimcontact Dieser Kontakt ist kein Messenger-Kontakt
 notinlist Sie sind nicht in ihrer/seinem Adressbuch
 notls Das MSN Protokoll 9 erfordert das TLS-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im "Einstellungen" Fenster eingegeben werden (Bsp.: /opt/tls/lib). \n \n Sie können TLS von der Seite http://tls.sf.net zu herunterladen
 nottabbed Normale Fenster ohne Tabs
@@ -647,6 +665,7 @@ others Andere
 p4contextprefix Zeige diese Einleitung, für "P4-Context"-Dender
 pager Pager
 pass Passwort
+passportnotverified Ihr Passport-Konto muss erst verifiziert werden, bevor Sie ihre persönlichen Daten (z.B. Anzeigename) ändern können. Bitte prüfen Sie Ihren Posteingang nach einer Aktivierungs-Email.
 paste Einfügen
 pausedwebcamreceive Die Webcam wurde vom Kontakt angehalten
 pause Pause
@@ -661,8 +680,8 @@ play Abspielen
 playbackposition Abspielposition
 playbackspeed Abspieltempo (Millisekunden zwischen jedem Frame)
 playerror Es ist ein Fehler beim Abspielen des Sounds aufgetreten : $1
-playgame Spiel starten
 playgame2 $1 spielen
+playgame Spiel starten
 playing Abgespielt wird: $1
 playtest Testdatei abspielen
 playwebcamsend Webcamübertragung fortsetzen
@@ -684,6 +703,8 @@ preffont4 Textformatierung für andere Kontakte in Unterhaltungen ändern
 preffont Schriftart
 prefft Dateiübertragung, p2p und NAT Einstellungen
 preflibs Bibliotheken Verzeichnisse
+preflocale2 Bitte wählen Sie Ihren Sprach-/Ländercode
+preflocale Gebietseinstellungen
 preflog1 Verlauf und Protokoll-Optionen
 preflogevent Protokoll meiner Ereignisse
 preflook aMSN Messenger Aussehen
@@ -734,10 +755,12 @@ receivefile Datei empfangen
 recentmsg Verhindere das Schließen des Chat-Fensters, wenn gerade eine neue Nachricht eingetroffen ist
 reconnect2 Nach Verbindungsabbruch automatisch wiederverbinden
 reconnecting Erneute Anmeldung beim Server
+reconnectnow Jetzt wiederverbinden
 reconnect Warte, bis $1 wieder angemeldet ist
 record Aufnehmen
 recorderror Ein Fehler trat beim Aufnehmen des Sounds auf: $1
 recvwebcamaccepted $1 hat die Einladung zum Senden seiner/ihrer Webcam angenommen. Verbinde ...
+redirect Hier klicken um weitergeleitet zu werden
 reject Abweisen
 rememberaccount Benutzer speichern
 rememberpass Passwort speichern
@@ -745,6 +768,8 @@ remembersetting Einstellung beibehalten
 removeempty Leere Gruppen aus der Kontaktliste entfernen
 removefromgroup Entferne aus Gruppe
 removefromlist Aus dieser Liste entfernen
+renameep Diesen Ort ($1) umbenennen
+renamelocation Diesen Ort umbenennen
 rename Umbenennen
 report Berichten
 reporting Berichten
@@ -759,10 +784,10 @@ saveas Speichern unter
 savechatwinsize Chat-Fenstergröße speichern wenn die Fenstergröße verändert wird
 savecontacts Kontaktliste speichern
 saveddefaultloc Standard-Verzeichnis verwenden
-save Speichern
-savelocation Soll die Datei nach $1 gespeichert werden?
 savelocationerror Die Datei kann hier nicht gespeichert werden!
+savelocation Soll die Datei nach $1 gespeichert werden?
 saveotherdirectory In einem anderen Verzeichnis speichern
+save Speichern
 savetofile Speichern unter
 says $1 sagt
 sbcon Verbinde mit Server
@@ -782,6 +807,7 @@ sendmobmsg An Mobilgerät senden
 sendmsg Nachricht senden
 sendoim Offline-Nachricht senden
 send Senden
+sendsip Kontakt anrufen
 sendvoice Sprachclip senden
 sendwebcamaccepted $1 hat die Einladung zum Empfang Ihrer Webcam angenommen. Verbinde ...
 sendwebcaminvite Einen Kontakt zum Betrachten Ihres Webcambilds einladen
@@ -793,6 +819,7 @@ server Server
 serverunavailable Server ist nicht erreichbar
 session Sitzung
 setasmydp Als mein Anzeigebild übernehmen
+setbackinitialstate Sie haben eingestellt, dass sich aMSN als $1 verbindet, aber Sie sind derzeit $2. Sind Sie sicher, dass Sie den Zustand zurück auf $1 setzen wollen?
 setupcamfinetune Webcam einrichten, Feineinstellung
 setupcam Webcam einrichten
 shareswebcam Besitzt Webcam
@@ -802,16 +829,43 @@ showcachedpics Zeige zwischengespeicherte Bilder
 show_contactdps_in_cl Vorschau der Anzeigebilder der Kontakte in der Kontaktliste anzeigen
 showcontactemail Kontakte mit E-Mail anzeigen
 showcontactnick Kontakte mit Spitznamen anzeigen
+showdetailedview Kontaktdetails in der Kontaktliste anzeigen
+showdetails Details anzeigen
 showdisplaypic2 Anzeigebild beim Öffnen eines Chatfensters anzeigen
 showdisplaypic Anzeigebild anzeigen
 showlinksinlogin Zeige Verknüpfungen im Login-Fenster
 showmailicon Mail-Systemicon anzeigen, sobald neue E-Mails ankommen
 showmypic Mein Anzeigebild
+shownonim Nicht-Messenger-Kontakte anzeigen
 shownotify Bei Ereignissen Hinweisfenster anzeigen
+showofflinegroup Offline-Gruppe anzeigen
 showonedpframe Das eigene Anzeigebild nicht im Chat-Fenster zeigen
 showpicnotify Anzeigebilder der Nutzer in Hinweisfenstern anzeigen
+showspaces Spaces-Symbol in der Kontaktliste anzeigen
 showuserpic Anzeigebild von $1
 signinstatus Status nach Anmeldung
+signout Abmelden
+signoutep Von $1 abmelden
+signouteverywhere Von überall abmelden
+signouthere Von diesem Ort ($1) abmelden
+sipcallaccepted Anruf angenommen
+sipcallback Zurückrufen
+sipcalldeclined Anruf abgewiesen
+sipcalleeaccepted Der Kontakt hat den Anruf angenommen
+sipcalleebusy Der Kontakt kann den Anruf nicht entgegennehmen
+sipcalleecanceled Der Kontakt hat den Anruf zu Ihnen abgebrochen
+sipcalleeclosed Der Kontakt hat Ihren Anruf beendet
+sipcalleedeclined Der Kontakt hat Ihren Anruf abgelehnt
+sipcalleenoanswer Der Kontakt hat Ihren Anruf nicht entgegengenommen
+sipcalleeunavailable Der Kontakt ist gerade nicht verfügbar
+sipcallended Ihr Anruf ist beendet
+sipcallimpossible Sie können nicht anrufen. Bitte installieren Sie Farsight2 und probieren Sie es erneut.
+sipcallmissed Sie haben einen Anruf von $1 verpasst
+sipcallnosipflag Der Kontakt unterstützt keine Anrufe.
+sipcallsent Rufe $1 an
+sipcallunsupported Sie haben eine Einladung für einen Anruf erhalten, leider wird dies aber derzeich nicht unterstützt. Sie können aber mit einer neuen Einladung zurückrufen. Der Anruf wird dann funktionieren.
+sipcallyouarebusy Sie können nur einen Anruf zur gleichen Zeit tätigen.
+sipgotinvitation Anruf-Einladung von $1 erhalten
 skinselector Skin auswählen
 skin Skin
 smallest Sehr klein
@@ -821,6 +875,7 @@ smilefile Dateiname
 smileintro2 Bitte editieren Sie die erforderlichen Felder, um das Emoticon nach Ihren Bedürfnissen anzupassen\n(sehen Sie sich bei Bedarf die FAQ an)
 smileintro Bitte füllen Sie die erforderlichen Felder aus, um ein neues eigenes Emoticon zu erzeugen\n(sehen Sie sich bei Bedarf die FAQ an)
 smiletoobig Die Größe des gewählten Emoticons überschreitet die Normalgröße. Möchten Sie ihn verkleinern?
+smileynotavailable Smiley nicht verfügbar!
 snackfailed Kann Snack nicht laden, benutze die Vorgabe
 snackneeded Die Snack-Bibliothek wird benötigt, um dieses Feature zu benutzen. Eine Version ab 2.2.9 ist erforderlich.
 snapshot Foto
@@ -829,6 +884,7 @@ sortcontactgroup Gruppe
 sortcontacthybrid Gruppe und Status
 sortcontactsasc Aufsteigend
 sortcontactsby Kontakte sortieren nach
+sortcontactsbylogsize Kontakte nach Größe des Verlaufs sortieren
 sortcontactsdesc Absteigend
 sortcontactstatus Status
 sortgroupsasc Gruppen aufsteigend sortieren
@@ -871,10 +927,11 @@ storenickname Nach einem benutzerdefinierten Status mit benutzerdefiniertem Spit
 strictfonts Alle Schriftgrößen auf die gewählte beschränken (Statuszeile etc.)
 stylechat Wie in den Chats
 stylehist Aussehen des aMSN Protokolls
+style Layout
 stylelog Format auswählen in dem das Protokoll angezeigt werden soll
-style Stil
 subject Betreff
 subjectrequired Betreff erforderlich
+svnversion SVN-Version
 syntaxerror Syntaxfehler
 tabbedglobal Ein Fenster mit Tabs für alle Kontakte in der Kontaktliste
 tabbedgroups Ein Fenster mit Tabs für alle Kontakte derselben Gruppe
@@ -917,17 +974,17 @@ unselectall Nichts auswählen
 uoffline Offline
 uonline Online
 updateonlycurrentlanguage Nur die aktuelle Sprache updaten
-update Updaten
 updatesaved Fertig\n $1 im Verzeichnis $2 gespeichert.
+update Updaten
 updating Update wird ausgeführt
 useasdp Als Anzeigebild verwenden
 useasregexp Als regulären Ausdruck verwenden (Regexp)
 useother Ein anderes Programm benutzen
 useralreadyonlist Dieser Kontakt ist bereits in der Kontaktliste
+user Benutzer
 userblocked Der Kontakt ist Online aber er blockt Sie
 userdata Benutzerdaten
 userdps Anzeigebilder des Kontaktes
-user Benutzer
 usernotonline Kontakt ist nicht online
 userproperties Eigenschaften des Kontaktes $1
 usersettings Einstellungen
@@ -939,7 +996,7 @@ videoconversationrequest Sie haben soeben eine Anforderung zu einer Videounterha
 view Ansicht
 viewcontactsby Kontakte filtern nach
 viewprofile Profil ansehen
-viewspace Space anzeigen
+viewspace Spaces-Inhalte anzeigen
 volume Lautstärke
 wanttosharecam Ich möchte meine Webcam anderen zugänglich machen
 webcamcanceled Die Webcam-Sitzung mit $1 wurde abgebrochen
@@ -953,15 +1010,18 @@ webcamextloaded Webcamsn-Erweiterung ist geladen
 webcamextnotloaded Webcamsn-Erweiterung ist nicht geladen. Sie müssen sie kompilieren.
 webcamextwarn Sie werden keine Webcam-Übertragungen Ihrer Kontakte sehen können. Eine Anleitung zum Installieren der benötigten Programmerweiterung könnten Sie in unserem Wiki (auf Englisch) finden:
 webcamfaq FAQ/Hilfe zur Webcam
-webcamhistory Webcam-Sitzungen anzeigen
 webcamhistory2 Webcam-Sitzungen
-webcaminvite $1 hat Sie zu einer Webcam Sitzung eingeladen. Leider unterstützt aMSN diese Funktion nicht
-webcaminvitereceived $1 hat Sie eingeladen, eine Webcam-Sitzung zu starten. Möchten Sie diese Einladung akzeptieren?
-webcaminvitereceiving Sie wurden eingeladen, das Webcam-Bild von $1 zu empfangen. Möchten Sie diese Sitzung akzeptieren?
-webcaminvitesending $1 möchte Ihr Webcam-Bild empfangen. Möchten Sie diese Sitzung akzeptieren?
+webcamhistory Webcam-Sitzungen anzeigen
+webcaminvite $1 hat Sie zu einer Webcam-Sitzung eingeladen. Leider unterstützt aMSN diese Funktion nicht
+webcaminvitereceived $1 hat Sie eingeladen, eine Webcam-Sitzung zu starten. Möchten Sie diese Einladung annehmen?
+webcaminvitereceivedauto $1 hat Sie eingeladen, eine Webcam-Sitzung zu starten. Die Einladung wird automatisch angenommen.
+webcaminvitereceivingauto Sie wurden eingeladen, das Webcam-Bild von $1 zu empfangen. Die Einladung wird automatisch angenommen.
+webcaminvitereceiving Sie wurden eingeladen, das Webcam-Bild von $1 zu empfangen. Möchten Sie diese Einladung annehmen?
+webcaminvitesending $1 möchte Ihr Webcam-Bild empfangen. Möchten Sie diese Anfrage akzeptieren?
+webcaminvitesendingauto $1 möchte Ihr Webcam-Bild empfangen. Die Anfrage wird automatisch akzeptiert.
 webcamrejected $1 hat die Einladung zu einer Webcam-Sitzung abgelehnt
-webcamrequestreceive Anforderung zum Empfang des Webcambildes gesendet
-webcamrequestsend Anforderung zum Senden des Webcambildes gesendet
+webcamrequestreceive Anfrage zum Empfang des Webcambildes gesendet
+webcamrequestsend Anfrage zum Senden des Webcambildes gesendet
 webcamsending Liste der Leute, die momentan Ihr Webcambild empfangen\nKlicken um abzubrechen
 webcam Webcam
 web Web
@@ -977,6 +1037,7 @@ xmmscurrent Momentanes Musikstück anzeigen
 xmmserr Es wird nichts abgespielt, oder xmms-infopipe ist nicht installiert
 xmmssend Momentanes Musikstück senden
 xoffset X-Offset
+xplaces $1 Orte
 year Jahr
 yesblock Ja, Kontakt zusätzlich blockieren
 yes Ja
