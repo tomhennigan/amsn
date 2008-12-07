@@ -4,6 +4,7 @@ aboutamsn O Alvarovem Messengerju
 about O programu
 acceptfile Ali sprejme¹ datoteko $1, njena velikost je $2? Shranjena bo v $3
 accept Sprejmi
+accountkid  Ta otro¹ki raèun ne more biti uporabljen z Messengerjem. Pojdite na Kids Password spletno stran in dajte star¹evsko dovoljenje.
 account Raèun
 actions Akcije
 activeautoupdate Avtomatsko posodabljanje
@@ -66,6 +67,7 @@ audiovideo Avdio in Video nastavitve
 author Avtor
 autoaccepted Prenos datoteke avtomatièno sprejet
 autoacceptft Avtomatièno sprejmi prihajajoèe datoteke
+autoacceptwc Avtomatsko sprejmi zahteve spletne kamere. 
 autoaway Prika¾i me kot odsotnega, ko sem neaktiven
 autocheckver Samodejno preveri za novo razlièico
 autoconnect2 Prijavi se ob zagonu aMSN
@@ -138,6 +140,7 @@ changefont Zamenjaj pisavo
 changeglobnick Spremeni globalni vzdevek
 change_mobile Spremeni nastavitve mobilnih naprav
 changenick Zamenjaj vzdevek
+changepsm Spremeni osebno sporoèilo
 changesize Spremeni velikost
 changestate $1 je spremenil/a stanje na $2
 changestatus Spremeni Status
@@ -191,6 +194,7 @@ closechatwindows Zapri vsa pogovorna okna pred izhodom?
 closed Povezava z $1 zaprta zaradi neaktivnosti
 closelabel Ko klikne¹ na gumb za zaprtje v oknu z zavihki
 closeonly Zapri samo trenutni zavihek
+closeorcall Zapreti ali preklicati morate avdio klic preden zaprete okno.
 closeordock Zapiranje okna kontaktne liste bo zaprlo aMSN.Mogoèe si hotel samo zapreti okno in pustiti aMSN odprt na pultu.\n\nSi preprièan da hoèe¹ zapreti aMSN?
 closeothers Zapri vse ostale zavihke
 close Zapri
@@ -198,6 +202,7 @@ closingdocks Gumb za zaprtje pomanj¹a okno
 color Barva
 commandstatus Izvedi ukaz
 command Ukaz
+compactstyle Kompaktni Stil
 configuremic Nastavi vhodno zvoèno napravo
 configure Nastavi
 configureplugin Konfiguriraj vstavek $1
@@ -208,9 +213,11 @@ confirmdelete Ali si preprièan, da ¾eli¹ zbrisati $1?
 confirmdg Ali si preprièan, da ¾eli¹ zbrisati to skupino?
 confirmdu Ali si preprièan, da ¾eli¹ zbrisati ta stik?
 confirmeg Ali si preprièan, da ¾eli¹ izprazniti to skupino?
+confirmfulldelete Odstrani tudi iz Windows Live adresarja.
 confirmpurge Vse shranjene slike drugih stikov (tvoje bodo ostale) bodo izbrisane. Si preprièan?
 confirmrfl Ali si preprièan, da ¾eli¹ ta stik odstraniti iz te skupine?
 congrats Èestitam
+connectedat Povezan ob:
 connectedwith Povezan z $1
 connected Zdaj si povezan
 connecterror Napaka pri povezavi na stre¾nik
@@ -328,6 +335,7 @@ enabled Vkljuèeno
 enableproxy Omogoèi proxy
 enableremote Omogoèi nadzor na daljavo
 enablesound Igraj zvok
+enablespaces Omogoèi Windows Live Spaces podporo (EKSPERIMENTALNO).
 encoding2 Spremeni naèin kodiranja znakov
 encoding Izberi kodiranje
 enterbugdesc Vnesi opis tvojega poèetja, da nam pomaga¹ reproducirati hro¹è:
@@ -346,6 +354,9 @@ faileddelete Izbris ni uspel
 faileddeleteperso Te slike ni mogoèe izbrisati, ker ne pripada tvojemu raèunu. Samo slike, ki pripadajo tvojemu osebnemu raèunu, lahko tako izbri¹e¹.
 failed Neuspe¹no
 faq FAQ (Pogosta vpra¹anja)
+farsightextchecking Preverjanje ali je Farsight2 raz¹iritev name¹èena...
+farsightextwarn Sprejem SIP klicev ni mogoè. Odgovore kako se namesti Farsight se dobi na Wiki strani:
+farsightinfook Farsight je framework za avdio/video konferenène protokole. Z Farsightom lahko sprejemate in po¹iljate SIP klice znotraj aMSN-ja. Poglejte kaj je Farsight na Wiki strani:
 fetching Sprejemam podatke...
 file Datoteka
 filedoesnotexist Datoteka ne obstaja
@@ -415,6 +426,7 @@ groupdelete Izbri¹i skupino
 groupexists Skupina ¾e obstaja
 groupmissing Ne morem najti skupine
 groupnewname Novo ime
+groupnonim Zdru¾i vse stike, ki ne uporabljajo IM. 
 groupnotempty Skupina ni prazna!
 groupoldname Staro ime
 grouprename Preimenuj skupino
@@ -422,10 +434,12 @@ group Skupina
 groups Skupine
 groupunknown Neznana skupina
 handle Ime
+hangup Odlo¾i klic.
 havenomic Nimam mikrofona
 helpcontents Vsebina pomoèi
 help Pomoè
 hidebuttonbar Skrij pasico z gumbi
+hidedetails Skrij podrobnosti.
 hidedisplaypic Skrij prikazno sliko
 hidemenumessage Si preprièan da hoèe¹ skriti menuje?\nNazaj jih lahko poka¾e¹ z Skrij/Prika¾i tipkovnièno blji¾nico 'Ctrl-M'.
 hidemenu Skrij/Prika¾i menije
@@ -498,7 +512,6 @@ lleftconf $1 je zapustil/a konferenco
 loadcontacts Nalo¾i seznam stikov
 load Nalo¾i
 loadotherdisplaypic Nalagam osebne slike od $1, prosim poèakaj...
-localecode Va¹e  4-mestna koda jezika / dr¾ave
 logbigger Dnevni¹ka datoteka za vsak stik je lahko velika najveè
 logeventconnect Bele¾i prijave
 logeventdisconnect Bele¾i odjave
@@ -584,6 +597,7 @@ next Naslednji
 nickchanged $1 je spremenil/a vzdevek v '$2
 nick Vzdevek
 noactivity Neaktiven
+no_blocked_notif Ne prikazuj opozorilnih oken za blokirane kontakte. 
 nocacheddps Brez prikaznih slik v hranjenju za tega uporabnika
 nocamwarn Spletna kamera ni bila najdena ali pa jo uporablja drug program (kar pomeni da jo aMSN ne more uporabljati).Kako re¹iti ta problem dobi¹ na Wiki strani:
 nodataavailable Ni podatkov za $1
@@ -591,12 +605,14 @@ nodevices Trenutno ni name¹èena nobena naprava
 noftpreview Onemogoèi po¹iljanje predogleda slik pri prenosu datotek
 nogap Brez praznega prostora med skupinami
 nogroup Brez skupine
+nojavascript Javascript ni omogoèen.Avtomatski vpis verjetno ne bo deloval.
 nologfile Brez dnevnika za $1
 nomic Ni mikrofona
 no Ne
 noneavailable Noben ni na voljo
 nonewmail Ni novih sporoèil v Inboxu
 nonewver Ni novih razlièic na voljo za prenos
+nonimgroup  Kontakti brez IM skupaj
 nooimconfirmation Ne zahtevaj potrdila pri po¹iljanju/sprejemanju Sporoèil brez povezave
 nopic Brez slike
 noprofileexists Trenutno ni raèunov.\nUstvari nov raèun\nz gumbom dodaj raèun.
@@ -620,6 +636,7 @@ notifyoffset Nastavitve polo¾aja obvestilnega okna
 notifytimeout Èas prikaza obvestila v milisekundah
 notifytyping Po¹iljaj sogovornikom obvestilo o tipkanju
 notifywin Obvestila
+notimcontact Ta kontakt ni IM kontakt.
 notinlist Nisi na njegovem/njenem seznamu stikov
 notls MSN protokol 9 potrebuje tls. Zgleda, da ni name¹èen na tem raèunalniku. èe je, vnesi pot do njegovega imenika v nastavitvah (npr.: /opt/tls/lib).\n\ntls lahko pobere¹ s http://tls.sf.net.
 nottabbed Navadna okna brez zavihkov
@@ -648,6 +665,7 @@ others Ostalo
 p4contextprefix Predpona konteksta P4
 pager Klicni opozorilnik(pager)
 pass Geslo
+passportnotverified Va¹ raèun mora biti preverjen preden lahko spreminjate osebne podatke (kot je vzdevek).Preveri Inbox za aktivacijski email.
 paste Prilepi
 pausedwebcamreceive Uporabnik je pavziral video
 pause Pavza
@@ -685,6 +703,8 @@ preffont4 Spremeni pisavo za vse sogovornike
 preffont Sporoèila
 prefft Nastavitve prenosa datotek, P2P in NAT
 preflibs Imenik s knji¾icami
+preflocale2 Nastavi jezik/kodo dr¾ave
+preflocale Lokalne nastavitve.
 preflog1 Zgodovina in dnevnik
 preflogevent Zgodovina dogodkov
 preflook Izgled uporabni¹kega vmesnika
@@ -736,9 +756,11 @@ recentmsg Prepreèi zapiranje okna s pogovorom takoj po prejemu sporoèila
 reconnect2 Ponovna prijava ob prekinitvi povezave
 reconnect èakam, da se $1 ponovno pove¾e
 reconnecting Povezujem se s stre¾nikom
+reconnectnow Ponovno se pove¾i
 recorderror Napaka se je pojavila med posku¹anjem snemanja zvoka : $1
 record Snemaj
 recvwebcamaccepted $1 je sprejel/a tvoje povabilo za ogled kamere.Povezujem...
+redirect Klikni tu za prevezavo
 reject zavrni
 rememberaccount Zapomni si moj raèun
 rememberpass Shrani geslo
@@ -746,6 +768,8 @@ remembersetting Zapomni si to nastavitev
 removeempty Odstrani prazne skupine iz seznama stikov
 removefromgroup Odstrani iz skupine
 removefromlist Zbri¹i s tega seznama
+renameep Preimenuj to lokacijo ($1)
+renamelocation Preimenuj to lokacijo
 rename Preimenuj
 reporting Poroèam
 report Javi napako
@@ -783,6 +807,7 @@ sendmobmsg Po¹lji sporoèilo na prenosno napravo
 sendmsg Po¹lji sporoèilo
 sendoim Po¹lji sporoèilo v naèinu brez povezave
 send Po¹lji
+sendsip Zaèni Avdio klic
 sendvoice Po¹lji Zvoèno sporoèilo
 sendwebcamaccepted $1 je sprejel/a tvoje povabilo za po¹iljanje spletne kamere.Povezujem...
 sendwebcaminvite Poka¾i sliko tvoje spletne kamere stiku
@@ -794,6 +819,7 @@ server Stre¾nik
 serverunavailable Stre¾nik ni dosegljiv
 session Seja
 setasmydp Nastavi za mojo prikazno sliko
+setbackinitialstate Nastavili ste aMSN za povezavo kot $1, ampak sedaj ste $2. Ste preprièani da hoèete nastaviti status na $1?
 setupcamfinetune Nastavljam kamero in popravljam sliko
 setupcam Nastavljam video napravo kot spletno kamero
 shareswebcam Ima spletno kamero
@@ -803,16 +829,43 @@ showcachedpics Poka¾i shranjene osebne slike
 show_contactdps_in_cl Prika¾i pomanj¹ane osebne slike v seznamu stikov
 showcontactemail Prika¾i kontakte z E-mail naslovi
 showcontactnick Prika¾i kontakte z vzdevkom
+showdetailedview Poka¾i podrobno predstavitev kontaktov.
+showdetails Poka¾i podrobnosti.
 showdisplaypic2 Prika¾i prikazno sliko, ko se odpre pogovor
 showdisplaypic Prika¾i prikazno sliko
 showlinksinlogin Prika¾i povezave v prijavnem oknu
 showmailicon Prika¾i ikono v opravilni vrstici, ko prejme¹ po¹to
 showmypic Moja prikazna slika
+shownonim Poka¾i kontakte, ki ne uporabljajo IM.
 shownotify Poka¾i obvestilo ob nekaterih dogodkih
+showofflinegroup Poka¾i skupino brez povezave
 showonedpframe Prika¾i samo en okvir za prikazne slike v pogovornih oknih
 showpicnotify Prika¾i prikazno sliko v obvestilnem oknu
+showspaces Poka¾i Spaces ikono v listi kontaktov
 showuserpic Prikazna slika uporabnika $1
 signinstatus Status ob vpisu
+signoutep Odjavi se iz $1
+signouteverywhere Povsod se odjavi
+signouthere Odjavi se od tu ($1)
+signout Odjavi se
+sipcallaccepted Avdio klic sprejet
+sipcallback Poklièi nazaj
+sipcalldeclined Avdio klic zavrnjen
+sipcalleeaccepted Uporabnik je sprejel va¹ Avdio klic
+sipcalleebusy Uporabnik je trenutno Zaseden
+sipcalleecanceled Uporabnik je preklical povabilo za Avdio klic
+sipcalleeclosed Uporabnik je konèal Avdio klic
+sipcalleedeclined Uporabnik je Preklical povabilo za Avdio klic.
+sipcalleenoanswer Uporabnik se ni javil na va¹ klic.
+sipcalleeunavailable Uporabnik trenutno ni dosegljiv
+sipcallended Va¹ Avdio klic se je zakljuèil
+sipcallimpossible Avdio klic ni mogoè. Prosimo instalirajte Farsight2 in poskusite ponovno.
+sipcallmissed Zgre¹ili ste Avdio klic od $1
+sipcallnosipflag Uporabnik nima podprtih Avdio klicev.
+sipcallsent Klièem $1
+sipcallunsupported Sprejeli ste povabilo za Avdio klic, ki trenutno ni podprt. Poklièete lahko nazaj z novim povabilom za klic. Avdio klic bo potem delal.
+sipcallyouarebusy Lahko imate samo en Avdio klic in ne veè v istem trenutku.
+sipgotinvitation Sprejel sem povabilo za Avdio klic od $1
 skin Preobleka
 skinselector Izberi videz
 smallest Najmanj¹i
@@ -822,6 +875,7 @@ smilefile Datoteka
 smileintro2 Uredi potrebna polja, èe ¾eli¹ spremeniti tega sme¹ka (poglej v FAQ za pomoè)
 smileintro Izpolni potrebna polja, èe ¾eli¹ ustvariti novega lastnega sme¹ka (poglej v FAQ za pomoè)
 smiletoobig Izbrani sme¹ko je veèji kot obièajni. Ga ¾eli¹ zmanj¹ati?
+smileynotavailable   Sme¹ko ni na voljo!
 snackfailed Snack se ni uspel nalo¾iti, ponastavljam
 snackneeded Potrebujem Snack knji¾nico verzija > 2.2.9 za uporabo te funkcije.
 snapshot Posnetek/Snapshot
@@ -829,6 +883,7 @@ sngdblclick Enojni klik odpre okno s pogovorom
 sortcontactgroup Razporedi kontakte po Skupini
 sortcontacthybrid Razporedi kontakte Hibridno
 sortcontactsasc Razvrsti kontakte nara¹èajoèe
+sortcontactsbylogsize Sortiraj kontakte po velikosti zgodovine pogovorov
 sortcontactsby Razvrsti kontakte po
 sortcontactsdesc Razvrsti kontakte padajoèe
 sortcontactstatus Razporedi kontakte po Statusu
@@ -876,6 +931,7 @@ stylelog Izberi zapis, v katerem ¾eli¹ videti zgodovino
 style Naèin pogovora
 subject Naslov
 subjectrequired Naslov je potreben
+svnversion SVN razlièica
 syntaxerror Napaka v sintaksi
 tabbedglobal Okno z zavihki za vse stike
 tabbedgroups Okno z zavihki za stike iz iste skupine
@@ -958,8 +1014,11 @@ webcamhistory2 Seje spletne kamere
 webcamhistory Predvajaj zgodovino video posnetkov za stik
 webcaminvite $1 te je povabil/a na videokonferenco, a aMSN tega ne podpira.
 webcaminvitereceived $1 te vabi na ogled preko spletne kamere. Sprejme¹ povabilo?
+webcaminvitereceivedauto $1 vas je povabil pogovor z spletno kamero. Pogovor je avtomatièno sprejet.
+webcaminvitereceivingauto Povabljen si za ogled $1 kamere. Ta seja je avtomatsko sprejeta.
 webcaminvitereceiving Povabljen si da si ogleda¹ spletno kamero od $1 .Sprejmem povabilo?
 webcaminvitesending $1 bi rad/a gledal/a tvojo spletno kamero. Sprejmem povabilo?
+webcaminvitesendingauto $1 bi rad gledal tvojo kamero. Ta seja je avtomatsko sprejeta.
 webcamrejected $1 je zavrnil/a povabilo za ogled preko spletne kamere.
 webcamrequestreceive Poslal si pro¹njo za ogled stikove spletne kamere
 webcamrequestsend Poslal si povabilo za ogled tvoje spletne kamere
@@ -978,6 +1037,7 @@ xmmscurrent Poka¾i trenutno pesem
 xmmserr Niè se ne igra ali nima¹ name¹èenega xmms-infopipe.
 xmmssend Po¹lji trenutno pesem
 xoffset X odstopanje
+xplaces $1 Places 
 year Leto
 yesblock Ja in blokiraj
 yes Da
