@@ -7,12 +7,12 @@
 	<description_fr>Le plugin Music est compatible avec plusieurs lecteurs audio (configurez le plugin pour de plus amples informations). Il affiche la chanson jouée dans le pseudonyme, et permet de l'afficher ou de l'envoyer dans la fenêtre de conversation. Fonctionne sous Mac OS X, Linux ou Windows</description_fr>
 	<description_hu>A Music plugin a következő zenelejátszó programokkal használható: Amarok, Audacious, Banshee, Exaile, JuK, Listen, MPD, QuodLibet, Rhythmbox, XMMS, iTunes, Winamp, Windows Media Player. Megjeleníti a hallgatott zeneszámot a nicknévben és a társalgás ablakban; és el is küldheted a partnerednek.</description_hu>
 	<amsn_version>0.95</amsn_version>
-	<plugin_version>1.5</plugin_version>
+	<plugin_version>1.6</plugin_version>
 	<plugin_file>music.tcl</plugin_file>
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>10634</cvs_version>
+	<cvs_version>10794</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>

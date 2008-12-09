@@ -288,12 +288,20 @@ namespace eval ::pop3 {
 	}
 	
 	proc ::pop3::encrypt { password } {
-		binary scan [::des::encrypt pasencky "${password}\n"] h* encpass
+		if {[info proc "::DES::des"] == "::DES::des"} {
+			binary scan [::DES::des -mode ecb -dir encrypt -key pasencky "${password}\n"] h* encpass
+		} else {
+			binary scan [::des::encrypt pasencky "${password}\n"] h* encpass
+		}
 		return $encpass
 	}
 
 	proc ::pop3::decrypt { key } {
-		set password [::des::decrypt pasencky [binary format h* $key]]
+		if {[info proc "::DES::des"] == "::DES::des"} {
+			set password [::DES::des -mode ecb -dir decrypt -key pasencky [binary format h* $key]]
+		} else {
+			set password [::des::decrypt pasencky [binary format h* $key]]
+		}
 		set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
 		return $password
 	}

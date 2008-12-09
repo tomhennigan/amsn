@@ -6,12 +6,12 @@
 	<description_es>Plugin para comprobar las cuentas POP3 en aMSN de la misma forma que las de hotmail.</description_es>
 	<description_fr>Ce plugin vous permet d'afficher vos comptes mails (par pop3) comme s'ils étaient sur hotmail.</description_fr>
 	<amsn_version>0.95</amsn_version>
-	<plugin_version>2.3</plugin_version>
+	<plugin_version>2.4</plugin_version>
 	<plugin_file>pop3.tcl</plugin_file>
 	<plugin_namespace>pop3</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>6976</cvs_version>
+	<cvs_version>10794</cvs_version>
 	<file>
 		<path>pixmaps/pop3_mailpic.gif</path>
 		<version>4135</version>
