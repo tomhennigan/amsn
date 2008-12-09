@@ -21,7 +21,7 @@ all:: $(TARGETS-plugins)
 clean:: clean-plugins
 
 clean-plugins:
-	rm -f $(TARGETS-plugins)
+	rm -f $(TARGETS-plugins) $(capture_dir)/libng/plugins/*.o
 
 $(capture_dir)/libng/plugins/sn9c10x.so: $(capture_dir)/libng/plugins/sn9c10x.o
 

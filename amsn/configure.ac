@@ -517,6 +517,9 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
   PKG_CHECK_MODULES(LIBV4L, \
     libv4l2 >= 0.5.0,
     HAVE_LIBV4L=yes,HAVE_LIBV4L=no)
+
+  AC_SUBST(HAVE_LIBV4L)
+
 fi
 
 AC_SUBST(GST_CFLAGS)

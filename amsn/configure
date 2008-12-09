@@ -708,6 +708,7 @@ FARSIGHT2_CFLAGS
 FARSIGHT2_LIBS
 LIBV4L_CFLAGS
 LIBV4L_LIBS
+HAVE_LIBV4L
 HAVE_FARSIGHT
 LIBOBJS
 LTLIBOBJS'
@@ -7123,6 +7124,9 @@ else
 echo "${ECHO_T}yes" >&6; }
 	HAVE_LIBV4L=yes
 fi
+
+
+
 fi
 
 
@@ -7847,8 +7851,8 @@ FARSIGHT2_CFLAGS!$FARSIGHT2_CFLAGS$ac_delim
 FARSIGHT2_LIBS!$FARSIGHT2_LIBS$ac_delim
 LIBV4L_CFLAGS!$LIBV4L_CFLAGS$ac_delim
 LIBV4L_LIBS!$LIBV4L_LIBS$ac_delim
+HAVE_LIBV4L!$HAVE_LIBV4L$ac_delim
 HAVE_FARSIGHT!$HAVE_FARSIGHT$ac_delim
-LIBOBJS!$LIBOBJS$ac_delim
 _ACEOF
 
   if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
@@ -7890,10 +7894,11 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
+LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 1; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 2; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
