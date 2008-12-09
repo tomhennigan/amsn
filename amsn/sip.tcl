@@ -1649,7 +1649,7 @@ snit::type Farsight {
 			$w.warn insert end "This is SVN. This is temporary and just for testing (your microphone volume), so don't worry about this window and just close it"
 		}
 		::dkfprogress::SetProgress $w.level $value 1.0
-		puts "Your $direction volume is at $value"
+		#puts "Your $direction volume is at $value"
 	}
 
 	method Reset { } {

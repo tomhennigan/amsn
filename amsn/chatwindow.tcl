@@ -2528,8 +2528,8 @@ namespace eval ::ChatWindow {
 			$frame_in.amplifier configure -state disabled
 			$frame_in.volume configure -state disabled
 		} else {
-			set ::ChatWindow::voip_amplification_in [expr {int($volume) - 1}]
-			set ::ChatWindow::voip_volume_in [expr {$volume - $::ChatWindow::voip_amplification_in}]
+			set ::ChatWindow::voip_amplification_in [expr {int($volume)}]
+			set ::ChatWindow::voip_volume_in [expr {$volume - ($::ChatWindow::voip_amplification_in - 1)}]
 			$frame_in.amplifier configure -state normal
 			$frame_in.volume configure -state normal
 		}
@@ -2544,8 +2544,8 @@ namespace eval ::ChatWindow {
 			$frame_out.amplifier configure -state disabled
 			$frame_out.volume configure -state disabled
 		} else {
-			set ::ChatWindow::voip_amplification_out [expr {int($volume) - 1}]
-			set ::ChatWindow::voip_volume_out [expr {$volume - $::ChatWindow::voip_amplification_out}]
+			set ::ChatWindow::voip_amplification_out [expr {int($volume)}]
+			set ::ChatWindow::voip_volume_out [expr {$volume - ($::ChatWindow::voip_amplification_out - 1)}]
 			$frame_out.amplifier configure -state normal
 			$frame_out.volume configure -state normal
 		}
