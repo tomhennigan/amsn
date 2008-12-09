@@ -8,9 +8,7 @@
 proc require_snack { } {
 	if {[package provide snack] != ""} {
 		return
-	} elseif {[OnLinux] } {
-		package require snack
-	} elseif {[OnWin] } {
+	}  elseif {[OnWin] } {
 		if { [catch {
 			load [file join utils windows snack2.2 libsnack.dll]
 			source [file join utils windows snack2.2 snack.tcl]
@@ -28,6 +26,8 @@ proc require_snack { } {
 			}
 			source [file join utils macosx snack2.2 snack.tcl]
 		}
+	} else {
+		package require snack
 	}
 	
 	# If snack didn't get loaded, then an error would have been thrown out and we wouldn't be here setting SnackSettings...
