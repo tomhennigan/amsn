@@ -1,6 +1,8 @@
 
 ::Version::setSubversionId {$Id$}
 
+package require des
+
 snit::type SecurityToken {
 	option -name -default ""
 	option -address -default ""
@@ -271,7 +273,7 @@ snit::type MBIAuthentication {
 		set iv [MBIAuthentication rand 8]
 		set des_message $nonce
 		append des_message [string repeat "\x08" [expr {72 - [string length $nonce]}]]
-		set cipher [::des::des $key3 $des_message 1 1 $iv]
+		set cipher [::DES::des -mode cbc -dir encrypt -key $key3 -iv $iv $des_message]
 
 
 		set header [binary format iiH8H8iii 28 1 03660000 04800000 [string length $iv] [string length $hash] [string length $cipher]]
