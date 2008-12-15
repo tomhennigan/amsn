@@ -797,6 +797,7 @@ proc save_config {} {
 	close $file_id
 	
 	#writing was successful, so move config.xml.temp to config.xml
+	file delete -force [file join ${HOME} config.xml]
 	file rename -force [file join ${HOME} config.xml.temp] [file join ${HOME} config.xml]
 
 	# re-rename os-specific keys
