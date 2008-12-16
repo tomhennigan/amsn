@@ -1840,7 +1840,7 @@ namespace eval ::abookGui {
 		set customdp_$email [::abook::getContactData $email customdp ""]
 		dpBrowser $email
 		tkwait window .dpbrowser
-		if {[file readable [set customdp_$email]} {
+		if {[file readable [set customdp_$email]]} {
 			catch {image delete customdp_img_$email}
 			image create photo customdp_img_$email -file [set customdp_$email]
 			$w.fNick.fDispl.dp configure -image customdp_img_$email
