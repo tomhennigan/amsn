@@ -286,7 +286,7 @@ namespace eval ::amsnplus {
 		if {[string equal $newstate "online"]} { return "NLN" }
 		if {[string equal $newstate "away"]} { return "AWY" }
 		if {[string equal $newstate "busy"]} { return "BSY" }
-		if {[string equal $newstate "rightback"]} { return "BSY" }
+		if {[string equal $newstate "rightback"]} { return "BRB" }
 		if {[string equal $newstate "onphone"]} { return "PHN" }
 		if {[string equal $newstate "gonelunch"]} { return "LUN" }
 		if {[string equal $newstate "appearoff"]} { return "HDN" }

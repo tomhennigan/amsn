@@ -37,12 +37,13 @@ Features:
       /login			connect with the last login
       /logout			disconnect from server
       /nick new_nick		set nick to new_nick
-	  /pm new_pm			set personal message to new_pm
-	  /pm0					clear your personal message
+      /pm new_pm		set personal message to new_pm
+      /pm0		clear your personal message
       /sendfile (file)		if file is set then makes an invitation, otherwise opens a box dialog to choose the file
       /shell string		executes string in the system shell (see particularities en tcl documentation for windows platform)
       /speak user_login		opens a conversation with user_login
       /state new_state		sets your state to new_state
+		 available states are: "online", "away", "busy", "rightback", "onphone",	"gonelunch", "appearoff"
       /text string		it shows string without parsing it
       /unblock user_login	unblocks user_login
       /whois user_login		gives information about a contact specified by the user_login

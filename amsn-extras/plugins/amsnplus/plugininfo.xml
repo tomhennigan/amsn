@@ -13,7 +13,7 @@
 	<init_procedure>amsnplusStart</init_procedure>
 	<deinit_procedure>amsnplusStop</deinit_procedure>
 
-	<cvs_version>10409</cvs_version>
+	<cvs_version>10799</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
@@ -65,7 +65,7 @@
 
 	<file>
 		<path>readme</path>
-		<version>10409</version>
+		<version>10799</version>
 	</file>
 	
 	<file>
