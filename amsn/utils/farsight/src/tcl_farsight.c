@@ -418,19 +418,59 @@ _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
   g_object_set (sink, "sync", FALSE, NULL);
 }
 
-
-static void
-_src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
+static GstElement * _create_source ()
 {
-  GstElement *pipeline = user_data;
+  GstElement *src = NULL;
+
+  if (source_pipeline) {
+    GstPad *pad = NULL;
+    GstBin *bin;
+    gchar *desc;
+    GError *error;
+
+    /* parse the pipeline to a bin */
+    desc = g_strdup_printf ("bin.( %s ! queue )", source_pipeline);
+    bin = (GstBin *) gst_parse_launch (desc, &error);
+    g_free (desc);
+
+    if (bin) {
+      /* find pads and ghost them if necessary */
+      if ((pad = gst_bin_find_unlinked_pad (bin, GST_PAD_SRC))) {
+        gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("src", pad));
+        gst_object_unref (pad);
+      }
+      src = GST_ELEMENT (bin);
+    }
+    if (error) {
+      _notify_debug ("Error while creating source pipeline (%d): %s",
+          error->code, error->message);
+    }
+  } else if (source) {
+    src = gst_element_factory_make (source, NULL);
+    if (src && source_device)
+      g_object_set(src, "device", source_device, NULL);
+  }
+  if (src == NULL)
+    src = gst_element_factory_make ("dshowaudiosrc", NULL);
+  if (src == NULL)
+    src = gst_element_factory_make ("directsoundsrc", NULL);
+  else
+    g_object_set(src, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
+  if (src == NULL)
+    src = gst_element_factory_make ("osxaudiosrc", NULL);
+  if (src == NULL)
+    src = gst_element_factory_make ("gconfaudiosrc", NULL);
+  if (src == NULL)
+    src = gst_element_factory_make ("alsasrc", NULL);
+  if (src == NULL)
+    src = gst_element_factory_make ("osssrc", NULL);
+
+  return src;
+}
+
+static GstElement * _create_sink ()
+{
   GstElement *snk = NULL;
-  GstElement *convert = gst_element_factory_make ("audioconvert", NULL);
-  GstElement *resample = gst_element_factory_make ("audioresample", NULL);
-  GstElement *convert2 = gst_element_factory_make ("audioconvert", NULL);
-  GstPad *sink_pad = NULL;
-  GstPadLinkReturn ret;
-
-
   if (sink_pipeline) {
     GstPad *pad = NULL;
     GstBin *bin;
@@ -462,6 +502,21 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   if (snk == NULL)
     snk = gst_element_factory_make ("autoaudiosink", NULL);
 
+  return snk;
+}
+
+static void
+_src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
+{
+  GstElement *pipeline = user_data;
+  GstElement *snk = NULL;
+  GstElement *convert = gst_element_factory_make ("audioconvert", NULL);
+  GstElement *resample = gst_element_factory_make ("audioresample", NULL);
+  GstElement *convert2 = gst_element_factory_make ("audioconvert", NULL);
+  GstPad *sink_pad = NULL;
+  GstPadLinkReturn ret;
+
+  snk = _create_sink ();
   if (snk == NULL) {
     _notify_error_post ("Could not create sink");
     if (convert) gst_object_unref (convert);
@@ -1030,47 +1085,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
-  if (source_pipeline) {
-    GstPad *pad = NULL;
-    GstBin *bin;
-    gchar *desc;
-
-    /* parse the pipeline to a bin */
-    desc = g_strdup_printf ("bin.( %s ! queue )", source_pipeline);
-    bin = (GstBin *) gst_parse_launch (desc, &error);
-    g_free (desc);
-
-    if (bin) {
-      /* find pads and ghost them if necessary */
-      if ((pad = gst_bin_find_unlinked_pad (bin, GST_PAD_SRC))) {
-        gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("src", pad));
-        gst_object_unref (pad);
-      }
-      src = GST_ELEMENT (bin);
-    }
-    if (error) {
-      _notify_debug ("Error while creating source pipeline (%d): %s",
-          error->code, error->message);
-    }
-  } else if (source) {
-    src = gst_element_factory_make (source, NULL);
-    if (src && source_device)
-      g_object_set(src, "device", source_device, NULL);
-  }
-  if (src == NULL)
-    src = gst_element_factory_make ("dshowaudiosrc", NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("directsoundsrc", NULL);
-  else
-    g_object_set(src, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("osxaudiosrc", NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("gconfaudiosrc", NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("alsasrc", NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("osssrc", NULL);
+  src = _create_source ();
   if (src == NULL) {
     Tcl_AppendResult (interp, "Couldn't create audio source" , (char *) NULL);
     goto error;
