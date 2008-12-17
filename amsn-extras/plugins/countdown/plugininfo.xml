@@ -6,6 +6,7 @@
 	<description_fr>Affiche un décompte vers une date spécifique</description_fr>
 	<description_es>Muestra una cuenta atrás para una fecha específica</description_es>
 	<description_hu>Visszaszámlálás egy megadott időpontig</description_hu>
+	<description_fi>Näyttää tiettyyn päivämäärään kuluvan ajan</description_fi>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.3</plugin_version>
 	<plugin_file>countdown.tcl</plugin_file>
@@ -26,6 +27,16 @@
 
         <lang>
                 <langcode>es</langcode>
+                <version>1.1</version>
+        </lang>
+
+        <lang>
+                <langcode>fi</langcode>
+                <version>1.1</version>
+        </lang>
+
+        <lang>
+                <langcode>it</langcode>
                 <version>1.1</version>
         </lang>
 

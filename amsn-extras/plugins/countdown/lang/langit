@@ -1,0 +1,16 @@
+amsn_lang_version 2 
+date Il Giorno/Ora per il conteggio 
+howtoshow1 Seleziona come visualizzare il contatore. 
+howtoshow2 se giorni e ore sono selezionati, le ore saranno visualizzate solo l'ultimo giorno (lo stesso per i minuti). 
+showdays Visualizza i giorni rimanenti 
+showhours Visualizza le ore rimanenti 
+showminutes Visualizza i minuti rimanenti 
+prefixd Prefisso per il contatore in giorni 
+suffixd Suffisso per il contatore in giorni 
+prefixh Prefisso per il contatore in ore 
+suffixh Suffisso per il contatore in ore 
+prefixm Suffisso per il contatore in minuti 
+suffixm Suffisso per il contatore in minuti 
+after Messaggio al termine delc onteggio 
+invaliddate La data/ore che hai inserito non è valida. 
+invalidshow Le opzioni 'Visualizza' non sono valide. Verranno abillitate tutte.

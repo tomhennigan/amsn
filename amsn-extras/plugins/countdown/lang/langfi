@@ -1,0 +1,16 @@
+amsn_lang_version 2 
+date Laskettava päivämäärä/aika 
+howtoshow1 Valitse miten laskenta näytetään. 
+howtoshow2 jos päivät ja tunnit ovat valittuna, tunnit näytetään ainoastaan viimeisenä päivänä (sama minuuteille). 
+showdays Näytä jäljellä olevat päivät 
+showhours Näytä jäljellä olevat tunnit 
+showminutes Näytä jäljellä olevat minuutit 
+prefixd Etuliite laskurille päivissä 
+suffixd Loppuliite laskurille päivissä 
+prefixh Etuliite laskurille tunneissa 
+suffixh Loppuliite laskurille tunneissa 
+prefixm Etuliite laskurille minuuteissa 
+suffixm Loppuliite laskurille minuuteissa 
+after Viesti kun laskenta on päättynyt 
+invaliddate Syöttämäsi päivämäärä/aika on viallinen. 
+invalidshow 'Näyttö' valinnat ovat viallisia. Kytketään kaikki päälle.
