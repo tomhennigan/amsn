@@ -77,7 +77,6 @@ proc HTTPsecureSocket { args } {
 		}
 
 		set result [lindex $reply 0]
-		set code [lindex [split $result { }] 1]
 
 		# be sure there's a valid response code
 		# We use a regexp because of some (or maybe only one) proxy returning "HTTP/1.0  200 .." with two spaces, 
