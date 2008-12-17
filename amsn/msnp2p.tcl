@@ -36,7 +36,10 @@
 		#			array set headers [list [string range $header 0 [expr $idx -1]] \
 		    #					  [string range $header [expr $idx +2] end]]
 		#		}
-		binary scan [string range $body 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
+		set ret [binary scan [string range $body 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2]
+		if {$ret != 12} {
+			error "Not enough data to scan header"
+		}
 		set body [string range $body 48 end]
 		set options(-sessionid) $cSid
 		set options(-identifier) $cId

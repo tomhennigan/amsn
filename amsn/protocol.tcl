@@ -5231,9 +5231,12 @@ namespace eval ::MSNOIM {
 				if { [string compare -nocase $dest [::config::getKey login]] == 0 } {
 					if { $destid == "" || $destid == [::config::getGlobalKey machineguid] } {
 						set p2pmessage [P2PMessage create %AUTO%]
-						$p2pmessage createFromMessage $message
-						::MSNP2P::ReadData $p2pmessage $chatid
-						#status_log [$p2pmessage toString 1]
+						if {[catch {$p2pmessage createFromMessage $message}] } {
+							status_log "ouch.. invalid data for p2p.. might be a WLM beta bug.."
+						} else {
+							::MSNP2P::ReadData $p2pmessage $chatid
+							#status_log [$p2pmessage toString 1]
+						}
 						catch { $p2pmessage destroy }
 					}
 				}
@@ -8293,13 +8296,15 @@ namespace eval ::MSN6FT {
 					$message setRaw $data
 	
 					set p2pmessage [P2PMessage create %AUTO%]
-					$p2pmessage createFromMessage $message
-				
-					if { [$p2pmessage cget -offset] == 0 } {
-						degt_protocol "<--DC-MSNP2P ([getObjOption $sid chatid]) $data" "sbrecv"
-					}
+					if {[catch {$p2pmessage createFromMessage $message}] } {
+						status_log "ouch.. invalid data for p2p.. might be a WLM beta bug.."
+					} else {
+						if { [$p2pmessage cget -offset] == 0 } {
+							degt_protocol "<--DC-MSNP2P ([getObjOption $sid chatid]) $data" "sbrecv"
+						}
 
-					::MSNP2P::ReadData $p2pmessage [getObjOption $sid chatid]
+						::MSNP2P::ReadData $p2pmessage [getObjOption $sid chatid]
+					}
 					catch { $p2pmessage destroy }
 					catch { $message destroy }
 					#if { [lindex [::MSNP2P::SessionList get $sid] 7] == "filetransfersuccessfull" } {
