@@ -422,11 +422,13 @@ static GstElement * _create_source ()
 {
   GstElement *src = NULL;
 
+  _notify_debug ("Creating source : %s  --- %s -- %s", source_pipeline, source, source_device);
+
   if (source_pipeline) {
     GstPad *pad = NULL;
     GstBin *bin;
     gchar *desc;
-    GError *error;
+    GError *error  = NULL;
 
     /* parse the pipeline to a bin */
     desc = g_strdup_printf ("bin.( %s ! queue )", source_pipeline);
@@ -475,7 +477,7 @@ static GstElement * _create_sink ()
     GstPad *pad = NULL;
     GstBin *bin;
     gchar *desc;
-    GError *error;
+    GError *error  = NULL;
 
     /* parse the pipeline to a bin */
     desc = g_strdup_printf ("bin.( %s ! queue )", sink_pipeline);
@@ -561,16 +563,22 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     gst_object_ref (volumeOut);
 
     if (gst_bin_add (GST_BIN (pipeline), volumeOut) == FALSE) {
-      _notify_error_post ("Could not add output volume to pipeline");
-      return;
+      _notify_debug ("Could not add output volume to pipeline");
+      gst_object_unref (volumeOut);
+      volumeOut = NULL;
+      goto no_volume;
     }
 
     if (gst_element_link(volumeOut, convert) == FALSE)  {
-      _notify_error_post ("Could not link volume out to converter");
-      return;
+      _notify_debug ("Could not link volume out to converter");
+      gst_bin_remove (GST_BIN (pipeline), volumeOut);
+      gst_object_unref (volumeOut);
+      volumeOut = NULL;
+      goto no_volume;
     }
     sink_pad = gst_element_get_static_pad (volumeOut, "sink");
   } else {
+  no_volume:
     sink_pad = gst_element_get_static_pad (convert, "sink");
   }
 
@@ -596,20 +604,30 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     gst_object_ref (levelOut);
 
     if (gst_bin_add (GST_BIN (pipeline), levelOut) == FALSE) {
-      _notify_error_post ("Could not add output level to pipeline");
-      return;
+      _notify_debug ("Could not add output level to pipeline");
+      gst_object_unref (levelOut);
+      levelOut = NULL;
+      goto no_level;
     }
     g_object_set (G_OBJECT (levelOut), "message", TRUE, NULL);
 
     if (gst_element_link(convert2, levelOut) == FALSE)  {
-      _notify_error_post ("Could not link level out to converter");
-      return;
+      _notify_debug ("Could not link level out to converter");
+      gst_bin_remove (GST_BIN (pipeline), levelOut);
+      gst_object_unref (levelOut);
+      levelOut = NULL;
+      goto no_level;
     }
     if (gst_element_link(levelOut, snk) == FALSE)  {
-      _notify_error_post ("Could not link sink to level out");
-      return;
+      _notify_debug ("Could not link sink to level out");
+      gst_element_unlink(convert2, levelOut)
+      gst_bin_remove (GST_BIN (pipeline), levelOut);
+      gst_object_unref (levelOut);
+      levelOut = NULL;
+      goto no_level;
     }
   } else {
+  no_level:
     if (gst_element_link(convert2, snk) == FALSE)  {
       _notify_error_post ("Could not link sink to converter");
       return;
@@ -1103,17 +1121,22 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   if (volumeIn) {
     gst_object_ref (volumeIn);
     if (gst_bin_add (GST_BIN (pipeline), volumeIn) == FALSE) {
-      Tcl_AppendResult (interp, "Could not add input volume to pipeline",
-          (char *) NULL);
-      goto error;
+      _notify_debug ("Could not add input volume to pipeline");
+      gst_object_unref (volumeIn);
+      volumeIn = NULL;
+      goto no_volume;
     }
 
     srcpad = gst_element_get_static_pad (volumeIn, "src");
     if (gst_element_link(src, volumeIn) == FALSE)  {
-      Tcl_AppendResult (interp, "Could not link source to volume", (char *) NULL);
-      goto error;
+      _notify_debug ("Could not link source to volume");
+      gst_bin_remove (GST_BIN (pipeline), volumeIn);
+      gst_object_unref (volumeIn);
+      volumeIn = NULL;
+      goto no_volume;
     }
   } else {
+  no_volume:
     srcpad = gst_element_get_static_pad (src, "src");
   }
 
@@ -1123,8 +1146,9 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
     gst_object_ref (levelIn);
     if (gst_bin_add (GST_BIN (pipeline), levelIn) == FALSE) {
-      Tcl_AppendResult (interp, "Could not add input level to pipeline",
-          (char *) NULL);
+      _notify_debug ("Could not add input level to pipeline");
+      gst_object_unref (levelIn);
+      levelIn = NULL;
       goto error;
     }
     g_object_set (G_OBJECT (levelIn), "message", TRUE, NULL);
@@ -1133,14 +1157,17 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     if (gst_pad_link (srcpad, levelsink) != GST_PAD_LINK_OK) {
       gst_object_unref (levelsink);
       gst_object_unref (srcpad);
-      Tcl_AppendResult (interp, "Couldn't link the volume/src to level" ,
-          (char *) NULL);
-      goto error;
+      _notify_debug ("Couldn't link the volume/src to level");
+      gst_bin_remove (GST_BIN (pipeline), levelIn);
+      gst_object_unref (levelIn);
+      levelIn = NULL;
+      goto no_level;
     }
 
     gst_object_unref (srcpad);
     srcpad = gst_element_get_static_pad (levelIn, "src");
   }
+ no_level:
 
   if (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK) {
     gst_object_unref (sinkpad);
