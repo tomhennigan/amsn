@@ -620,7 +620,7 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     }
     if (gst_element_link(levelOut, snk) == FALSE)  {
       _notify_debug ("Could not link sink to level out");
-      gst_element_unlink(convert2, levelOut)
+      gst_element_unlink(convert2, levelOut);
       gst_bin_remove (GST_BIN (pipeline), levelOut);
       gst_object_unref (levelOut);
       levelOut = NULL;
