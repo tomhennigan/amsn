@@ -4377,15 +4377,7 @@ namespace eval ::amsn {
 			#add the close button
 			$w.c create image [::skin::getKey x_notifyclose] [::skin::getKey y_notifyclose] -anchor nw -image [::skin::loadPixmap notifclose] -tag close
 
-			set after_id [after [::config::getKey notifytimeout] [list ::amsn::KillNotify $w $ypos]]
-
-			$w.c bind bg <Enter> "$w.c configure -cursor hand2"
-			$w.c bind bg <Leave> "$w.c configure -cursor left_ptr"
-			$w.c bind bg <ButtonRelease-1> "after cancel $after_id; [list ::amsn::KillNotify $w $ypos $command]"
-			$w.c bind bg <ButtonRelease-3> "after cancel $after_id; [list ::amsn::KillNotify $w $ypos]"
-			$w.c bind close <Enter> "$w.c configure -cursor hand2"
-			$w.c bind close <Leave> "$w.c configure -cursor left_ptr"
-			$w.c bind close <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos"		
+			::amsn::leaveNotify $w $ypos $command
 
 			wm overrideredirect $w 1
 
@@ -4405,6 +4397,24 @@ namespace eval ::amsn {
 				after 50 "::amsn::growNotify $w $xpos [expr {$ypos-100}] $ypos"
 			}
 		}
+	}
+
+	proc enterNotify { w after_id } {
+		$w.c configure -cursor hand2
+		after cancel $after_id
+	}
+
+	proc leaveNotify { w ypos command } {
+		$w.c configure -cursor left_ptr
+		set after_id [after [::config::getKey notifytimeout] [list ::amsn::KillNotify $w $ypos]]
+
+		$w.c bind bg <Enter> [list ::amsn::enterNotify $w $after_id]
+		$w.c bind bg <Leave> [list ::amsn::leaveNotify $w $ypos $command]
+		$w.c bind bg <ButtonRelease-1> "after cancel $after_id; [list ::amsn::KillNotify $w $ypos $command]"
+		$w.c bind bg <ButtonRelease-3> "after cancel $after_id; [list ::amsn::KillNotify $w $ypos]"
+		$w.c bind close <Enter> [list ::amsn::enterNotify $w $after_id]
+		$w.c bind close <Leave> [list ::amsn::leaveNotify $w $ypos $command]
+		$w.c bind close <ButtonRelease-1> "after cancel $after_id; ::amsn::KillNotify $w $ypos"	
 	}
 
 	proc growNotify { w xpos currenty finaly } {
