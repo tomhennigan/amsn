@@ -2200,7 +2200,7 @@ namespace eval ::guiContactList {
 		if {[::MSN::userIsNotIM $email] } {
 			lappend balloon_message "[trans notimcontact]"
 		} else {
-			lappend balloon_message "[trans status] : [trans [::MSN::stateToDescription $state_code]]"
+			lappend balloon_message "[trans status]: [trans [::MSN::stateToDescription $state_code]]"
 			if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 				lappend balloon_message "[trans notinlist]"
 			}

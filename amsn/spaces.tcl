@@ -624,7 +624,7 @@ namespace eval ::ccard {
 
 						
 			drawSpacesInfo $canvas 114 70 $email [list $email space_info contact]
-			tooltip $canvas tt "$email\n[trans status] : [trans [::MSN::stateToDescription [::abook::getVolatileData $email state]]]\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
+			tooltip $canvas tt "$email\n[trans status]: [trans [::MSN::stateToDescription [::abook::getVolatileData $email state]]]\n[trans lastmsgedme] : [::abook::dateconvert "[::abook::getContactData $email last_msgedme]"]"
 
 		} else {
 		#=========================
