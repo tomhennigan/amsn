@@ -146,7 +146,7 @@ namespace eval ::ChatWindow {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::GetOutText (window)
-	# Returns the path to the output text widget in a given window 
+	# Returns the path to the output text widget in a given window
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetOutText { window } {
@@ -156,18 +156,18 @@ namespace eval ::ChatWindow {
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::GetDisplayPicturesFrame (window)
-	# Returns the path to the output DP frame in a given window 
+	# Returns the path to the output DP frame in a given window
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetOutDisplayPicturesFrame { window } {
-		return [GetOutFrame $window].f.dps
+		return [[GetOutFrame $window].f.sw.sf getframe]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::GetInputDP (window)
-	# Returns the path to the input DP in a given window 
+	# Returns the path to the input DP in a given window
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetInDisplayPictureFrame { window } {
@@ -793,7 +793,7 @@ namespace eval ::ChatWindow {
 
 			::ChatWindow::TopUpdate $chatid
 
-			if { [winfo exists $win_name.f.out.f.dps] } {
+			if { [winfo exists [GetOutDisplayPicturesFrame $win_name]] } {
 				::amsn::ShowOrHidePicture
 				::amsn::ShowOrHideTopPicture
 				::amsn::UpdatePictures $win_name
@@ -2015,51 +2015,67 @@ namespace eval ::ChatWindow {
 	
 	proc CreateDisplayPicturesFrame { w fr } {
 
-		# Pack them 
+		# Pack them
 		if { [::config::getKey old_dpframe 0] == 0 } {
- 	               # Name our widgets
-	                set f $fr.f
-	                set frame $f.dps
-	                set voip $f.voip
-	                set showpic $frame.showpic
-	
-	                # Create them
-	                frame $f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
-	                    -relief solid -background [::skin::getKey chatwindowbg]
-	                frame $frame -class Amsn -borderwidth 0 -padx 0 -pady 0 \
-	                        -relief solid -background [::skin::getKey chatwindowbg]
-	                frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
-	                    -relief solid -background [::skin::getKey chatwindowbg]
-	
-	                ScrolledWindow $frame.sw -scrollbar vertical -auto vertical -borderwidth 0
-	                ScrollableFrame $frame.sw.sf -width 0 -bg [::skin::getKey chatwindowbg]
-	                $frame.sw setwidget $frame.sw.sf
-	
-	                label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
-	                        -bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
-	                        -highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
-	                bind $showpic <Enter> "$showpic configure -image [::skin::loadPixmap imgshow_hover]"
-	                bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
-	                set_balloon $showpic [trans showdisplaypic]
 
-			pack $frame -side top -padx 0 -pady 0 -anchor ne
-			pack $voip -side bottom -before $frame -padx 0 -pady 0 -anchor ne
-			pack $frame.sw -side left -expand false -anchor ne
+			# Create them
+			frame $fr.f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
+	                    -relief solid -background [::skin::getKey chatwindowbg]
+			ScrolledWindow $fr.f.sw -scrollbar vertical -auto vertical -borderwidth 0
+			ScrollableFrame $fr.f.sw.sf -width 0 -bg [::skin::getKey chatwindowbg]
+			$fr.f.sw setwidget $fr.f.sw.sf
+			
+			# Name our widgets
+			set f [$fr.f.sw.sf getframe]
+			set dpsframe $f.dps
+			set images $dpsframe.imgs
+			set voip $f.voip
+			set showpic $dpsframe.showpic
+
+			frame $dpsframe -class Amsn -borderwidth 0 -padx 0 -pady 0 \
+					-relief solid -background [::skin::getKey chatwindowbg]
+			frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
+				-relief solid -background [::skin::getKey chatwindowbg]
+			frame $images -class Amsn -borderwidth 0 -padx 0 -pady 0 \
+				-relief solid -background [::skin::getKey chatwindowbg]
+
+
+			label $showpic -bd 0 -padx 0 -pady 0 -image [::skin::loadPixmap imgshow] \
+					-bg [::skin::getKey chatwindowbg] -highlightthickness 0 -font splainf \
+					-highlightbackground [::skin::getKey chatwindowbg] -activebackground [::skin::getKey chatwindowbg]
+			bind $showpic <Enter> "$showpic configure -image [::skin::loadPixmap imgshow_hover]"
+			bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
+			set_balloon $showpic [trans showdisplaypic]
+
+			pack $fr.f.sw -fill y -anchor ne
+			pack $dpsframe -side top -padx 0 -pady 0 -anchor ne
+			pack $voip -side bottom -padx 0 -pady 0 -anchor ne
+			pack $images -side left -anchor ne
 			pack $showpic -side right -anchor ne
 
 			bind $showpic <<Button1>> [list ::amsn::ToggleShowTopPicture]
 			::amsn::ShowOrHideTopPicture
 		} else {
-			set f $fr.f
+			# Create them
+			frame $fr.f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
+	                    -relief solid -background [::skin::getKey chatwindowbg]
+			ScrolledWindow $fr.f.sw -scrollbar vertical -auto vertical -borderwidth 0
+			ScrollableFrame $fr.f.sw.sf -width 0 -bg [::skin::getKey chatwindowbg]
+			$fr.f.sw setwidget $fr.f.sw.sf
+			
+			# Name our widgets
+			set f [$fr.f.sw.sf getframe]
 			set voip $f.voip
-			frame $f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
-				-relief solid -background [::skin::getKey chatwindowbg]
+
 			frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
 				-relief solid -background [::skin::getKey chatwindowbg]
+
+			pack $fr.f.sw -fill y -anchor ne
 			pack $voip -side bottom -padx 0 -pady 0 -anchor ne
 		}
 
-		return $f	
+		return $fr.f
+
 	}
 
 	#pasteToInput -- text pasted in output window goes to input window
@@ -2475,10 +2491,10 @@ namespace eval ::ChatWindow {
 	proc AddVoipControls {chatid {sip ""} {callid ""}} {
 		if { [OnMac] } { return; }
 		
-		set window [::ChatWindow::For $chatid]
+		set win_name [::ChatWindow::For $chatid]
 
-		set frame_in [GetInFrame $window].f.voip
-		set frame_out [GetOutFrame $window].f.voip
+		set frame_in [GetInFrame $win_name].f.voip
+		set frame_out [GetOutDisplayPicturesFrame $win_name].voip
 
 		status_log "Creating CW Voip controls"
 		scale $frame_in.volume -label "Volume" -from 0.0 -to 1.0 \
@@ -2511,6 +2527,11 @@ namespace eval ::ChatWindow {
 		pack $frame_out.volume $frame_out.amplifier $frame_out.mute $frame_out.hangup \
 		    -side top -padx 0 -pady 0 -expand true -fill x -anchor nw
 
+		#Redraw the frames correctly
+		::amsn::ShowOrHidePicture
+		if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name].dps] } {
+				::amsn::ShowOrHideTopPicture
+		}
 
 	}
 
@@ -2520,7 +2541,7 @@ namespace eval ::ChatWindow {
 		set window [::ChatWindow::For $chatid]
 
 		set frame_in [GetInFrame $window].f.voip
-		set frame_out [GetOutFrame $window].f.voip
+		set frame_out [GetOutDisplayPicturesFrame $window].voip
 
 		status_log "Updating CW Voip controls"
 
@@ -2566,10 +2587,10 @@ namespace eval ::ChatWindow {
 	proc RemoveVoipControls {chatid} {
 		if { [OnMac] } { return; }
 		
-		set window [::ChatWindow::For $chatid]
+		set win_name [::ChatWindow::For $chatid]
 
-		set frame_in [GetInFrame $window].f.voip
-		set frame_out [GetOutFrame $window].f.voip
+		set frame_in [GetInFrame $win_name].f.voip
+		set frame_out [GetOutDisplayPicturesFrame $win_name].voip
 
 		status_log "Removing CW Voip controls"
 
@@ -2588,6 +2609,15 @@ namespace eval ::ChatWindow {
 			unset ::ChatWindow::voip_mute_out
 			unset ::ChatWindow::voip_amplification_out
 			unset ::ChatWindow::voip_volume_out
+		}
+
+		$frame_in configure -height 0
+		$frame_out configure -height 0
+
+		#Redraw the frames correctly
+		::amsn::ShowOrHidePicture
+		if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name].dps] } {
+				::amsn::ShowOrHideTopPicture
 		}
 	}
 
@@ -4464,7 +4494,7 @@ namespace eval ::ChatWindow {
 		::ChatWindow::TopUpdate $chatid
 
 		set usr_name [lindex [::MSN::usersInChat $chatid] 0]
-		if { [winfo exists $win_name.f.out.f.dps]} {
+		if { [winfo exists [$win_name.f.out.sw.sf getframe]]} {
 			::amsn::ShowOrHidePicture
 			::amsn::ShowOrHideTopPicture
 			::amsn::UpdatePictures $win_name

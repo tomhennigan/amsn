@@ -2250,7 +2250,7 @@ namespace eval ::amsn {
 			::ChatWindow::Status [ ::ChatWindow::For $chatid ] $statusmsg minijoins
 			::ChatWindow::TopUpdate $chatid
 
-			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name]] } {
+			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name].dps] } {
 				::amsn::ShowOrHidePicture
 				::amsn::ShowOrHideTopPicture
 				::amsn::UpdatePictures $win_name
@@ -2316,7 +2316,7 @@ namespace eval ::amsn {
 			set icon minileaves
 		}
 
-		if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name]] } {
+		if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name].dps] } {
 			::amsn::UpdatePictures $win_name
 		} else {
 			#Check if the image that is currently showing is
@@ -2538,15 +2538,15 @@ namespace eval ::amsn {
 		foreach chat $chatids {
 			set win [::ChatWindow::For $chat]
 			
-			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]]} {
-				::amsn::UpdatePictures $win 
+			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win].dps]} {
+				::amsn::UpdatePictures $win
 			}
 		}	
 	}
 
-	proc UpdatePictures { win } {	
-		set frame [::ChatWindow::GetOutDisplayPicturesFrame $win]
-		set images [$frame.sw.sf getframe]
+	proc UpdatePictures { win } {
+		set f  [::ChatWindow::GetOutDisplayPicturesFrame $win]
+		set images $f.dps.imgs
 		set chatid [::ChatWindow::Name $win]
 		set users [::MSN::usersInChat $chatid]
 
@@ -2596,7 +2596,22 @@ namespace eval ::amsn {
 
 			incr idx
 		}
-		$frame.sw.sf configure -width [expr {$max_width + (2 * [::skin::getKey chat_dp_border])}]
+
+		#compute the size ouf the frame
+		if {[::config::getKey ShowTopPicture 0] == 1 } {
+			if {[winfo exists $f.voip.volume] && $max_width <100} {
+				set max_width 100
+			}
+			incr max_width [image width [::skin::loadPixmap imghide]]
+		} else {
+			set max_width 0
+			if {[winfo exists $f.voip.volume] && $max_width <100} {
+				set max_width 100
+			}
+			incr max_width [image width [::skin::loadPixmap imgshow]]
+		}
+		set width [expr {$max_width + (2 * [::skin::getKey chat_dp_border])}]
+		[winfo parent [::ChatWindow::GetOutDisplayPicturesFrame $win]] configure -width $width
 	}
 
 	proc HidePicture { win } {
@@ -2621,7 +2636,7 @@ namespace eval ::amsn {
 			
 			if { $win != 0 } {
 				if { [::config::getKey showdisplaypic 1] == 1} {
-					if {[winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]] } {
+					if {[winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win].dps] } {
 						::amsn::ChangePicture $win displaypicture_std_self [trans mypic]
 					} else {
 						::amsn::ChangePicture $win [[::ChatWindow::GetInDisplayPictureFrame $win].image cget -image] ""
@@ -2650,7 +2665,7 @@ namespace eval ::amsn {
 			set win [::ChatWindow::For $chat]
 		
 			if { $win != 0 } {
-				if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win]] } {
+				if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win].dps] } {
 					if { [::config::getKey ShowTopPicture 1] == 1} {
 						ShowTopPicture $win
 					} else {
@@ -2664,16 +2679,23 @@ namespace eval ::amsn {
 
 
 	proc ShowTopPicture {win } {
-		set frame [::ChatWindow::GetOutDisplayPicturesFrame $win]
+		set f [::ChatWindow::GetOutDisplayPicturesFrame $win]
+		set frame $f.dps
 		set scrolling [::ChatWindow::getScrolling [::ChatWindow::GetOutText $win]]
-
-		pack $frame.sw -side left -fill y -expand false -anchor ne
+		pack $frame.imgs -side left -expand false -anchor ne
 
 		$frame.showpic configure -image [::skin::loadPixmap imghide]
 		bind $frame.showpic <Enter> [list $frame.showpic configure -image [::skin::loadPixmap imghide_hover]]
 		bind $frame.showpic <Leave> [list $frame.showpic configure -image [::skin::loadPixmap imghide]]
 		change_balloon $frame.showpic [trans hidedisplaypic]
 		
+		#UGLY:
+		set width [expr {96 + (2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imghide]])}]
+		if {[winfo exists $f.voip.volume] && $width <100} {
+			set width 100
+		}
+		[winfo parent $f] configure -width $width
+
 		if { $scrolling } {
 			update idletasks
 			::ChatWindow::Scroll [::ChatWindow::GetOutText $win]
@@ -2681,9 +2703,11 @@ namespace eval ::amsn {
 	}
 
 	proc HideTopPicture { win } {
-		set frame [::ChatWindow::GetOutDisplayPicturesFrame $win]
+		set f [::ChatWindow::GetOutDisplayPicturesFrame $win]
+		set frame $f.dps
+		pack forget $frame.imgs
 
-		pack forget $frame.sw
+
 
 		#Change here to change the icon, instead of text
 		$frame.showpic configure -image [::skin::loadPixmap imgshow]
@@ -2691,6 +2715,12 @@ namespace eval ::amsn {
 		bind $frame.showpic <Leave> [list $frame.showpic configure -image [::skin::loadPixmap imgshow]]
 
 		change_balloon $frame.showpic [trans showdisplaypic]
+
+		set width [expr {2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imgshow]]}]
+		if {[winfo exists $f.voip.volume] && $width <100} {
+			set width 100
+		}
+		[winfo parent $f] configure -width $width
 
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3686,7 +3716,7 @@ namespace eval ::amsn {
 			set evPar(usr_name) $user
 			::plugins::PostEvent new_conversation evPar
 
-			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name]] } {
+			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win_name].dps] } {
 				::amsn::ShowOrHidePicture
 				::amsn::ShowOrHideTopPicture
 				::amsn::UpdatePictures $win_name
