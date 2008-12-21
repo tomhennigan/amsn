@@ -2500,24 +2500,37 @@ namespace eval ::ChatWindow {
 		scale $frame_in.volume -label "Volume" -from 0.0 -to 1.0 \
 		    -resolution 0.05 -showvalue 1 -orient horizontal \
 		    -width 10 -sliderlength 10  -variable ::ChatWindow::voip_volume_in \
-		    -command [list ::ChatWindow::VolumeIn $frame_in]
+		    -command [list ::ChatWindow::VolumeIn $frame_in]\
+		    -background [::skin::getKey chatwindowbg]\
+		    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
 		scale $frame_in.amplifier -label "Amplification" -from 1 -to 10 \
 		    -resolution 1 -showvalue 1 -orient horizontal \
 		    -width 7 -sliderlength 10 -variable ::ChatWindow::voip_amplification_in \
-		    -command [list ::ChatWindow::VolumeIn $frame_in]
+		    -command [list ::ChatWindow::VolumeIn $frame_in]\
+		    -background [::skin::getKey chatwindowbg]\
+		    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
 		checkbutton $frame_in.mute -text "Mute" -variable ::ChatWindow::voip_mute_in \
-		    -command [list ::ChatWindow::MuteIn $frame_in.mute]
+		    -command [list ::ChatWindow::MuteIn $frame_in.mute]\
+		    -background [::skin::getKey chatwindowbg]\
+		    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
+
 
 		scale $frame_out.volume -label "Volume" -from 0.0 -to 1.0 \
 		    -resolution 0.05 -showvalue 1 -orient horizontal \
 		    -width 10 -sliderlength 10  -variable ::ChatWindow::voip_volume_out \
-		    -command [list ::ChatWindow::VolumeOut $frame_out]
+		    -command [list ::ChatWindow::VolumeOut $frame_out]\
+		    -background [::skin::getKey chatwindowbg]\
+		    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
 		scale $frame_out.amplifier -label "Amplification" -from 1 -to 10 \
 		    -resolution 1 -showvalue 1 -orient horizontal \
 		    -width 7 -sliderlength 10 -variable ::ChatWindow::voip_amplification_out \
-		    -command [list ::ChatWindow::VolumeOut $frame_out]
+		    -command [list ::ChatWindow::VolumeOut $frame_out]\
+		    -background [::skin::getKey chatwindowbg]\
+		    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
 		checkbutton $frame_out.mute -text "Mute" -variable ::ChatWindow::voip_mute_out \
-		    -command [list ::ChatWindow::MuteOut $frame_out.mute]
+		    -command [list ::ChatWindow::MuteOut $frame_out.mute]\
+		    -background [::skin::getKey chatwindowbg]\
+		    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
 		button $frame_out.hangup -text "End call" -state disabled
 
 		UpdateVoipControls $chatid $sip $callid
@@ -2612,7 +2625,11 @@ namespace eval ::ChatWindow {
 		}
 
 		$frame_in configure -height 0
-		$frame_out configure -height 0
+		destroy $frame_out
+		frame $frame_out -class Amsn -borderwidth 0 -padx 0 -pady 0 \
+				-relief solid -background [::skin::getKey chatwindowbg]
+		pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne
+
 
 		#Redraw the frames correctly
 		::amsn::ShowOrHidePicture
@@ -3078,7 +3095,7 @@ namespace eval ::ChatWindow {
 		bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
 		set_balloon $showpic [trans showdisplaypic]
 
-		# Pack them 
+		# Pack them
 		#pack $picture -side left -padx 0 -pady [::skin::getKey chatpady] -anchor w
 		pack $frame $voip -side top -padx 0 -pady 0 -anchor ne -expand true
 		pack $showpic -side right -padx 0 -pady 0 -anchor ne

@@ -2584,7 +2584,8 @@ namespace eval ::amsn {
 			framec $images.user_dp$idx -type label -relief solid -image [::skin::getDisplayPicture $user] \
 			    -borderwidth [::skin::getKey chat_dp_border] \
 			    -bordercolor [::skin::getKey chat_dp_border_color] \
-			    -background [::skin::getKey chatwindowbg]
+			    -background [::skin::getKey chatwindowbg]\
+			    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
 			set pictureinner [$images.user_dp$idx getinnerframe]
 			bind $pictureinner <<Button1>> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
 			bind $pictureinner <<Button3>> [list ::amsn::ShowTopPicMenu $win $user %X %Y]
@@ -2646,7 +2647,6 @@ namespace eval ::amsn {
 				}
 			}
 		}
-
 	}
 
 	proc ToggleShowTopPicture { } {
