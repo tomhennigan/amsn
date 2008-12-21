@@ -2323,7 +2323,7 @@ namespace eval ::amsn {
 			#from the user that left. Then, change it
 			set current_image ""
 			#Catch it, because the window might be closed
-			catch {set current_image [[::ChatWindow::GetInDisplayPictureFrame $win_name].image cget -image]}
+			catch {set current_image [[::ChatWindow::GetInDisplayPictureFrame $win_name].pic.image cget -image]}
 			if { [string compare $current_image [::skin::getDisplayPicture $usr_name]]==0} {
 				set users_in_chat [::MSN::usersInChat $chatid]
 				set new_user [lindex $users_in_chat 0]
@@ -2479,7 +2479,7 @@ namespace eval ::amsn {
 				-command "::amsn::ChangePicture $win \[::skin::getDisplayPicture $user\] \[trans showuserpic $user\]"
 		}
 
-		set user [[::ChatWindow::GetInDisplayPictureFrame $win].image cget -image]
+		set user [[::ChatWindow::GetInDisplayPictureFrame $win].pic.image cget -image]
 		if { $user != "[::skin::getNoDisplayPicture]" && $user != "displaypicture_std_self" } {
 			#made easy for if we would change the image names
 			set user [string range $user [string length "displaypicture_std_"] end]
@@ -2506,23 +2506,24 @@ namespace eval ::amsn {
 
 
 		#Get the path to the image
-		set pictureinner [[::ChatWindow::GetInDisplayPictureFrame $win].image getinnerframe]
+		set f [::ChatWindow::GetInDisplayPictureFrame $win]
+		set pictureinner [$f.pic.image getinnerframe]
 		if { $balloontext != "" } {
 			#TODO: Improve this!!! Use some kind of abstraction!
 			change_balloon $pictureinner $balloontext
 			#change_balloon [::ChatWindow::GetInDisplayPictureFrame $win].image $balloontext
 		}
-		if { [catch {[::ChatWindow::GetInDisplayPictureFrame $win].image configure -image $picture}] } {
+		if { [catch {[::ChatWindow::GetInDisplayPictureFrame $win].pic.image configure -image $picture}] } {
 			status_log "Failed to set picture, using [::skin::getNoDisplayPicture]\n" red
-			[::ChatWindow::GetInDisplayPictureFrame $win].image configure -image [::skin::getNoDisplayPicture]
+			[::ChatWindow::GetInDisplayPictureFrame $win].pic.image configure -image [::skin::getNoDisplayPicture]
 			#change_balloon [::ChatWindow::GetInDisplayPictureFrame $win].image [trans nopic]
 			change_balloon $pictureinner [trans nopic]
 		} elseif { $nopack == "" } {
-			pack [::ChatWindow::GetInDisplayPictureFrame $win].image -side left -padx 0 -pady 0 -anchor w
-			[::ChatWindow::GetInDisplayPictureFrame $win].showpic configure -image [::skin::loadPixmap imghide]
-			bind [::ChatWindow::GetInDisplayPictureFrame $win].showpic <Enter> "[::ChatWindow::GetInDisplayPictureFrame $win].showpic configure -image [::skin::loadPixmap imghide_hover]"
-			bind [::ChatWindow::GetInDisplayPictureFrame $win].showpic <Leave> "[::ChatWindow::GetInDisplayPictureFrame $win].showpic configure -image [::skin::loadPixmap imghide]"
-			change_balloon [::ChatWindow::GetInDisplayPictureFrame $win].showpic [trans hidedisplaypic]
+			pack [::ChatWindow::GetInDisplayPictureFrame $win].pic.image -side left -padx 0 -pady 0 -anchor w
+			[::ChatWindow::GetInDisplayPictureFrame $win].pic.showpic configure -image [::skin::loadPixmap imghide]
+			bind [::ChatWindow::GetInDisplayPictureFrame $win].pic.showpic <Enter> "[::ChatWindow::GetInDisplayPictureFrame $win].pic.showpic configure -image [::skin::loadPixmap imghide_hover]"
+			bind [::ChatWindow::GetInDisplayPictureFrame $win].pic.showpic <Leave> "[::ChatWindow::GetInDisplayPictureFrame $win].pic.showpic configure -image [::skin::loadPixmap imghide]"
+			change_balloon [::ChatWindow::GetInDisplayPictureFrame $win].pic.showpic [trans hidedisplaypic]
 			::config::setKey showdisplaypic 1
 		}
 
@@ -2530,6 +2531,22 @@ namespace eval ::amsn {
 			update idletasks
 			::ChatWindow::Scroll [::ChatWindow::GetOutText $win]
 		}
+		#compute the size of the frame
+		if {[::config::getKey showdisplaypic 1] == 1 } {
+			set max_width [image width $picture]
+			if {[winfo exists $f.voip.volume] && $max_width <100} {
+				set max_width 100
+			}
+			incr max_width [image width [::skin::loadPixmap imghide]]
+		} else {
+			set max_width 0
+			if {[winfo exists $f.voip.volume] && $max_width <100} {
+				set max_width 100
+			}
+			incr max_width [image width [::skin::loadPixmap imgshow]]
+		}
+		set width [expr {$max_width + (2 * [::skin::getKey chat_dp_border])}]
+		[winfo parent $f] configure -width $width
 	}
 
 	proc UpdateAllPictures { } {
@@ -2598,7 +2615,7 @@ namespace eval ::amsn {
 			incr idx
 		}
 
-		#compute the size ouf the frame
+		#compute the size of the frame
 		if {[::config::getKey ShowTopPicture 0] == 1 } {
 			if {[winfo exists $f.voip.volume] && $max_width <100} {
 				set max_width 100
@@ -2612,11 +2629,12 @@ namespace eval ::amsn {
 			incr max_width [image width [::skin::loadPixmap imgshow]]
 		}
 		set width [expr {$max_width + (2 * [::skin::getKey chat_dp_border])}]
-		[winfo parent [::ChatWindow::GetOutDisplayPicturesFrame $win]] configure -width $width
+		[winfo parent $f] configure -width $width
 	}
 
 	proc HidePicture { win } {
-		set dpframe [::ChatWindow::GetInDisplayPictureFrame $win]
+		set f [::ChatWindow::GetInDisplayPictureFrame $win]
+		set dpframe $f.pic
 		pack forget $dpframe.image
 
 		#grid [::ChatWindow::GetInDisplayPictureFrame $win].showpic -row 0 -column 1 -padx 0 -pady 0 -rowspan 2
@@ -2627,6 +2645,11 @@ namespace eval ::amsn {
 
 		change_balloon $dpframe.showpic [trans showdisplaypic]
 
+		set width [expr {2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imgshow]]}]
+		if {[winfo exists $f.voip.volume] && $width <100} {
+			set width 100
+		}
+		[winfo parent $f] configure -width $width
 	}
 
 	proc ShowOrHidePicture { } {
@@ -2640,7 +2663,7 @@ namespace eval ::amsn {
 					if {[winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win].dps] } {
 						::amsn::ChangePicture $win displaypicture_std_self [trans mypic]
 					} else {
-						::amsn::ChangePicture $win [[::ChatWindow::GetInDisplayPictureFrame $win].image cget -image] ""
+						::amsn::ChangePicture $win [[::ChatWindow::GetInDisplayPictureFrame $win].pic.image cget -image] ""
 					}
 				} else {
 					::amsn::HidePicture $win

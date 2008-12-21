@@ -171,7 +171,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetInDisplayPictureFrame { window } {
-		return [GetInFrame $window].f.pic
+		return [[GetInFrame $window].f.sw.sf getframe]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -2493,7 +2493,7 @@ namespace eval ::ChatWindow {
 		
 		set win_name [::ChatWindow::For $chatid]
 
-		set frame_in [GetInFrame $win_name].f.voip
+		set frame_in [GetInDisplayPictureFrame $win_name].voip
 		set frame_out [GetOutDisplayPicturesFrame $win_name].voip
 
 		status_log "Creating CW Voip controls"
@@ -2553,7 +2553,7 @@ namespace eval ::ChatWindow {
 		
 		set window [::ChatWindow::For $chatid]
 
-		set frame_in [GetInFrame $window].f.voip
+		set frame_in [GetInDisplayPictureFrame $window].voip
 		set frame_out [GetOutDisplayPicturesFrame $window].voip
 
 		status_log "Updating CW Voip controls"
@@ -2602,7 +2602,7 @@ namespace eval ::ChatWindow {
 		
 		set win_name [::ChatWindow::For $chatid]
 
-		set frame_in [GetInFrame $win_name].f.voip
+		set frame_in [GetInDisplayPictureFrame $win_name].voip
 		set frame_out [GetOutDisplayPicturesFrame $win_name].voip
 
 		status_log "Removing CW Voip controls"
@@ -3069,15 +3069,20 @@ namespace eval ::ChatWindow {
 	proc CreatePictureFrame { w bottom } {
 
 		status_log "Creating picture frame\n"
-		# Name our widgets
-		set f $bottom.f
+
+		frame $bottom.f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
+	                    -relief solid -background [::skin::getKey chatwindowbg]
+		ScrolledWindow $bottom.f.sw -scrollbar vertical -auto vertical -borderwidth 0
+		ScrollableFrame $bottom.f.sw.sf -width 0 -bg [::skin::getKey chatwindowbg]
+		$bottom.f.sw setwidget $bottom.f.sw.sf
+
+		set f [$bottom.f.sw.sf getframe]
 		set frame $f.pic
 		set voip $f.voip
 		set picture $frame.image
 		set showpic $frame.showpic
 
 		# Create them
-		frame $f -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
 		frame $frame -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
 		frame $voip -class Amsn -borderwidth 0 -relief solid -background [::skin::getKey chatwindowbg]
 
@@ -3097,6 +3102,7 @@ namespace eval ::ChatWindow {
 
 		# Pack them
 		#pack $picture -side left -padx 0 -pady [::skin::getKey chatpady] -anchor w
+		pack $bottom.f.sw -fill y -anchor ne
 		pack $frame $voip -side top -padx 0 -pady 0 -anchor ne -expand true
 		pack $showpic -side right -padx 0 -pady 0 -anchor ne
 
@@ -3118,7 +3124,7 @@ namespace eval ::ChatWindow {
 			bind $picture <Configure> "::ChatWindow::ImageResized $w %h [::skin::getKey chat_dp_pady]"
 		}
 		::amsn::ShowOrHidePicture
-		return $f
+		return $bottom.f
 
 	}
 
@@ -3179,7 +3185,7 @@ namespace eval ::ChatWindow {
 	#  - padding => Is the padding around the image
 	proc ImageResized { win height padding} {
 		#TODO: need to remove hard coding here
-		set picheight [image height [[GetInDisplayPictureFrame $win].image cget -image]]
+		set picheight [image height [[GetInDisplayPictureFrame $win].pic.image cget -image]]
 		if { $height < $picheight } {
 			set height $picheight
 		}
@@ -4386,7 +4392,7 @@ namespace eval ::ChatWindow {
 		unset ::ChatWindow::recent_message(${win})
 
 		#Delete images if not in use
-		catch {destroy [GetInDisplayPictureFrame $win]}
+		catch {destroy [GetInDisplayPictureFrame $win].pic}
 
 		CloseTab $tab 1
 
