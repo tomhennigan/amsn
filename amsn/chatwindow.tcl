@@ -793,7 +793,7 @@ namespace eval ::ChatWindow {
 
 			::ChatWindow::TopUpdate $chatid
 
-			if { [winfo exists [GetOutDisplayPicturesFrame $win_name]] } {
+			if { [winfo exists [GetOutDisplayPicturesFrame $win_name].dps] } {
 				::amsn::ShowOrHidePicture
 				::amsn::ShowOrHideTopPicture
 				::amsn::UpdatePictures $win_name
