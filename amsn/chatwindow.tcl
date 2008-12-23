@@ -3103,7 +3103,7 @@ namespace eval ::ChatWindow {
 		# Pack them
 		#pack $picture -side left -padx 0 -pady [::skin::getKey chatpady] -anchor w
 		pack $bottom.f.sw -fill y -anchor ne
-		pack $frame $voip -side top -padx 0 -pady 0 -anchor ne -expand true
+		pack $voip $frame -side top -padx 0 -pady 0 -anchor ne -expand true
 		pack $showpic -side right -padx 0 -pady 0 -anchor ne
 
 		# Create our bindings
