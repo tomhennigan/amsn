@@ -1343,7 +1343,8 @@ namespace eval ::music {
 			set songlength [lindex $tmplst 3]
 		}
 		
-		if {$songlength == "-1"} {
+		#$song=="Not playing" if rhythmbox has reached the end of the playlist
+		if {$songlength == "-1" || $song == "Not playing"} {
 			return 0
 		}
 		
