@@ -42,8 +42,11 @@ namespace eval ::movewin {
 		upvar 2 $epvar vars
 
 		set w [winfo toplevel $vars(win)]
+		after idle [list ::movewin::move_delayed $w]
+	}
 
-		if { [::movewin::on] } {
+	proc ::movewin::move_delayed {w } {
+		if { [winfo exists $w] && [::movewin::on] } {
 			wm geometry $w +$::movewin::config(x)+$::movewin::config(y)
 			if { $::movewin::config(make_normal) } {
 				wm state $w normal

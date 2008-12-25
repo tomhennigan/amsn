@@ -4,12 +4,12 @@
 	<author>lio_lion (Arieh Schneier)</author>
 	<description>Move chat windows when they are created.</description>
 	<amsn_version>0.94</amsn_version>
-	<plugin_version>0.2</plugin_version>
+	<plugin_version>0.3</plugin_version>
 	<plugin_file>movewin.tcl</plugin_file>
 	<plugin_namespace>movewin</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	
-	<cvs_version>8309</cvs_version>
+	<cvs_version>10814</cvs_version>
 
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/movewin/movewin.tcl</main>
