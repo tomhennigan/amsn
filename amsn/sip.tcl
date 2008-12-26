@@ -1639,19 +1639,6 @@ snit::type Farsight {
 		status_log "Farsight debug : $msg"
 	}
 
-	method Level {direction value} {
-		set w .level_$direction
-		if {![winfo exists $w] } {
-			toplevel $w
-			wm geometry $w 250x100
-			pack [::dkfprogress::Progress $w.level] -fill x -expand 0 -padx 5 -pady 5 -side top
-			pack [text $w.warn -wrap word] -fill x -expand 0 -padx 5 -pady 5 -side top
-			$w.warn insert end "This is SVN. This is temporary and just for testing (your microphone volume), so don't worry about this window and just close it"
-		}
-		::dkfprogress::SetProgress $w.level $value 1.0
-		#puts "Your $direction volume is at $value"
-	}
-
 	method Reset { } {
 		set local_codecs [list]
 		set local_candidates [list]
@@ -1772,7 +1759,7 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
-		::Farsight::Config -level [list $self Level] -debug [list $self Debug]
+		::Farsight::Config -level "" -debug [list $self Debug]
 
 		set prepare_relay_info ""
 		if {$prepare_ticket != "" } {
@@ -2011,13 +1998,28 @@ namespace eval ::MSNSIP {
 
 	}
 
+	proc Level {chatid sip callid direction value} {
+		set window [::ChatWindow::For $chatid]
+		if {$window != 0} {
+			if {$direction == "IN" } {
+				set frame [::ChatWindow::GetInDisplayPictureFrame $window].voip
+			} else {
+				set frame [::ChatWindow::GetOutDisplayPicturesFrame $window].voip
+			}
+			if {[winfo exists $frame.level] } {
+				::ChatWindow::UpdateVoipControls $chatid $sip $callid
+				::dkfprogress::SetProgress $frame.level $value 1.0
+			}
+		}
+	}
 	proc activeCandidates { email sip callid send local remote } {
 		if {$send} {
 			$sip SendReInvite $callid $local $remote
 		} else {
 			$sip configure -active_candidates [list $local $remote]
 		}
-		after 1000 [list ::amsn::SIPCallConnected $email $sip $callid]
+		::amsn::SIPCallConnected $email $sip $callid
+		::Farsight::Config -level [list ::MSNSIP::Level $email $sip $callid]
 	}
 
 	proc CancelCall { sip callid } {

@@ -862,7 +862,7 @@ namespace eval ::ChatWindow {
 					}
 				}
 			}
-		} elseif { $msg == "" } {
+		} elseif { $::ChatWindow::first_message($win_name) == 1 && $msg == "" } {
 			#If it's not a message event, then it's a window creation (user joins to chat)
 			if { [::config::getKey newchatwinstate] == 0 } {
 				if { [winfo exists .bossmode] } {
@@ -2497,6 +2497,7 @@ namespace eval ::ChatWindow {
 		set frame_out [GetOutDisplayPicturesFrame $win_name].voip
 
 		status_log "Creating CW Voip controls"
+		::dkfprogress::Progress $frame_in.level
 		scale $frame_in.volume -label "Volume" -from 0.0 -to 1.0 \
 		    -resolution 0.05 -showvalue 1 -orient horizontal \
 		    -width 10 -sliderlength 10  -variable ::ChatWindow::voip_volume_in \
@@ -2514,7 +2515,7 @@ namespace eval ::ChatWindow {
 		    -background [::skin::getKey chatwindowbg]\
 		    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
 
-
+		::dkfprogress::Progress $frame_out.level
 		scale $frame_out.volume -label "Volume" -from 0.0 -to 1.0 \
 		    -resolution 0.05 -showvalue 1 -orient horizontal \
 		    -width 10 -sliderlength 10  -variable ::ChatWindow::voip_volume_out \
@@ -2533,11 +2534,20 @@ namespace eval ::ChatWindow {
 		    -foreground [::skin::getKey statusbartext]; #TODO: add skin key
 		button $frame_out.hangup -text "End call" -state disabled
 
+
+		set ::ChatWindow::voip_volume_in 1.0
+		set ::ChatWindow::voip_amplification_in 1
+		set ::ChatWindow::voip_mute_in 0
+
+		set ::ChatWindow::voip_volume_out 1.0
+		set ::ChatWindow::voip_amplification_out 1
+		set ::ChatWindow::voip_mute_out 0
+
 		UpdateVoipControls $chatid $sip $callid
 
-		pack $frame_in.volume $frame_in.amplifier $frame_in.mute \
+		pack $frame_in.level $frame_in.volume $frame_in.amplifier $frame_in.mute \
 		    -side top -padx 0 -pady 0 -expand true -fill x -anchor nw
-		pack $frame_out.volume $frame_out.amplifier $frame_out.mute $frame_out.hangup \
+		pack $frame_out.level $frame_out.volume $frame_out.amplifier $frame_out.mute $frame_out.hangup \
 		    -side top -padx 0 -pady 0 -expand true -fill x -anchor nw
 
 		#Redraw the frames correctly
@@ -2607,9 +2617,11 @@ namespace eval ::ChatWindow {
 
 		status_log "Removing CW Voip controls"
 
+		destroy $frame_in.level
 		destroy $frame_in.volume
 		destroy $frame_in.amplifier
 		destroy $frame_in.mute
+		destroy $frame_out.level
 		destroy $frame_out.volume
 		destroy $frame_out.amplifier
 		destroy $frame_out.mute
