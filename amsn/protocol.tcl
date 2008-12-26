@@ -8655,10 +8655,12 @@ namespace eval ::MSN6FT {
 	proc CancelFT { chatid sid } {
 		set session_data [::MSNP2P::SessionList get $sid]
 		set user_login [lindex $session_data 3]
+		set fd [lindex [::MSNP2P::SessionList get $sid] 6]
+		catch {close $fd}
 
 		status_log "MSNP2P | $sid -> User canceled FT, sending BYE to chatid : $chatid and SB : [::MSN::SBFor $chatid]\n" red
 		# Change sid type to canceledft
-		::MSNP2P::SessionList set $sid [list -1 0 0 -1 "BYE" -1 -1 "ftcanceled" -1 -1]
+		::MSNP2P::SessionList set $sid [list -1 0 0 -1 "BYE" -1 0 "ftcanceled" -1 -1]
 		#Make packet shouldn't get from the sessionlist the fileds so I pass to it a null sid
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] "19A50529-4196-4DE9-A561-D68B0BF1E83F" 0 [lindex $session_data 5] 0 0] 1]
 		::amsn::FTProgress ca $sid [lindex [::MSNP2P::SessionList get $sid] 6]
