@@ -1206,6 +1206,7 @@ namespace eval ::log {
 
 		set loglines [split $logvar "\n"]
 		set result [list]
+		set color grey
 		foreach line $loglines {
 			incr nbline
 			set aidx 0
@@ -1236,8 +1237,8 @@ namespace eval ::log {
 							set aidx $sidx
 							incr aidx 1
 						} else {
-						set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
-						incr aidx 6
+							set color [string range $line [expr {$aidx + 3}] [expr {$aidx + 5}]]
+							incr aidx 6
 						}
 					}
 					set bidx [string first "\|\"L" $line $aidx]
