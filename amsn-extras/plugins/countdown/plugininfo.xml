@@ -7,6 +7,7 @@
 	<description_es>Muestra una cuenta atrás para una fecha específica</description_es>
 	<description_hu>Visszaszámlálás egy megadott időpontig</description_hu>
 	<description_fi>Näyttää tiettyyn päivämäärään kuluvan ajan</description_fi>
+	<description_it>Visualizza nel messaggio personale un conto alla rovescia rispetto alla data specificata</description_it>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.3</plugin_version>
 	<plugin_file>countdown.tcl</plugin_file>
@@ -37,7 +38,7 @@
 
         <lang>
                 <langcode>it</langcode>
-                <version>1.1</version>
+                <version>1.2</version>
         </lang>
 
         <URL>

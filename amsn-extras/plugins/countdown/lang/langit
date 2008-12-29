@@ -11,6 +11,6 @@ prefixh Prefisso per il contatore in ore
 suffixh Suffisso per il contatore in ore 
 prefixm Suffisso per il contatore in minuti 
 suffixm Suffisso per il contatore in minuti 
-after Messaggio al termine delc onteggio 
+after Messaggio al termine del conteggio 
 invaliddate La data/ore che hai inserito non è valida. 
 invalidshow Le opzioni 'Visualizza' non sono valide. Verranno abillitate tutte.
