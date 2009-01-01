@@ -1385,6 +1385,7 @@ proc SwitchToDefaultProfile { } {
 	::config::setKey save_password 0
 	::config::setKey connectas $connectas
 	::config::setKey keep_logs 0
+	::config::setKey webcamlogs 0
 	::config::setKey log_event_connect 0
 	::config::setKey log_event_disconnect 0
 	::config::setKey log_event_email 0

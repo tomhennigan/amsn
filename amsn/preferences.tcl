@@ -3083,6 +3083,7 @@ proc InitPref { {fullinit 0} } {
 		set lfname [$lfname.sw.sf getframe]
 		set lfname "$lfname.lfname"
 		$lfname.log configure -state disabled
+		$lfname.camlog configure -state disabled
 		set lfname [$nb.nn getframe loging]
 		set lfname [$lfname.sw.sf getframe]
 		set lfname "$lfname.lfname3"
