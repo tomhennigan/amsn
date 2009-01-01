@@ -2752,20 +2752,26 @@ proc Fill_users_list_event { path1 path2 args} {
         Fill_users_list $path1 $path2
 }
 
+
 proc getTaskbarHeight {{w .taskBarSize}} {
 	global taskbarHeight 
 
-	return 30
+	return [list 30 0 0 0]
 
 	catch {destroy $w}
-	# the -bg {} is used as a trick, it's some kind of bug with tk, where 
-	toplevel $w -bg {}
+	# the -bg {} is used as a trick, it's some kind of bug with tk, where the background of the window becomes transparent
+	toplevel $w
+	wm attributes $w -alpha 0 -disabled 1
 	wm state $w zoomed
-	update
-	set taskbarHeight [expr {[winfo screenheight $w]-[winfo height $w]}]
-	destroy $w
+ 	update
+ 	set taskbarBottom [expr {[winfo screenheight $w] - [winfo height $w] - [winfo rooty $w]}]
+ 	set taskbarRight [expr {[winfo screenwidth $w] - [winfo width $w] - [winfo rootx $w]}]
+
+ 	set taskbarTop [expr {[winfo y $w] + 4}]
+ 	set taskbarLeft [expr {[winfo x $w] + 4}]
+ 	destroy $w
 	
-	return $taskbarHeight
+ 	return [list $taskbarTop $taskbarRight $taskbarBottom $taskbarLeft]
 }
 
 
@@ -2785,9 +2791,11 @@ proc moveinscreen {window {mindist 0}} {
 	set scrx [winfo screenwidth .]
 	set scry [winfo screenheight .]
 
-	if {[OnWin] } {
-		incr scry -[getTaskbarHeight]
-	}
+ 	if {[OnWin] } {
+ 		set tb [getTaskbarHeight]
+ 		set scry [expr {$scry - [lindex $tb 0] - [lindex $tb 2]}]
+ 		set scrx [expr {$scrx - [lindex $tb 1] - [lindex $tb 3]}]
+ 	}
 
 	#set wi_geometry [winfo geometry $window]
 	#scan $wi_geometry "%dx%d+%d+%d" winx winy winpx winpy
