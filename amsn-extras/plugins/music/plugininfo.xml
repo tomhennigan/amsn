@@ -12,7 +12,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>10794</cvs_version>
+	<cvs_version>10822</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -74,6 +74,10 @@
 	<file>
 		<path>infobanshee</path>
 		<version>10208</version>
+	</file>
+	<file>
+		<path>infocog.scpt</path>
+		<version>10822</version>
 	</file>
 	<file>
 		<path>infoexaile</path>
