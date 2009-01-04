@@ -244,6 +244,7 @@ namespace eval ::music {
 		if {[OnMac]} {
 			array set playersarray [list \
 				"ITunes" [list GetSongITunes TreatSongITunes FillFrameComplete] \
+				"Cog" [list GetSongCog TreatSongCog FillFrameLess] \
 			]
 		} else {
 			if {[OnUnix]} {
@@ -1556,5 +1557,42 @@ namespace eval ::music {
 			#lappend return $artpath
 		}
 		return $return
+	}
+
+
+	################################################
+	# ::music::TreatSongCog                        #
+	# -------------------------------------------  #
+	# Execute the applescript to get actual song   #
+	# Osascript: Command to execute AppleScript    #
+	# Find where's the plugin directory(by getKey) #
+	################################################
+	proc TreatSongCog {} {
+		after 0 {::music::exec_async_mac [file join $::music::musicpluginpath infocog.scpt]}
+	}
+
+	###############################################
+	# ::music::GetSongCog                         #
+	# ------------------------------------------- #
+	# Gets the current playing song in Cog        #
+	###############################################
+	proc GetSongCog {} {
+
+		#Get the variable we get in exec_async_mac and separate in multi lines
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			::music::log "Actualsong isn't yet defined by asynchronous exec"
+			return 0
+		}
+
+		set status [lindex $tmplst 0]
+		set song [lindex $tmplst 1]
+		set art [lindex $tmplst 2]
+
+		if {$status == "0"} {
+			::music::log "Status is 0"
+			return 0
+		}
+
+		return [list $song $art ""]
 	}
 }
