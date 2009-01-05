@@ -112,7 +112,7 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
 	if ( Tcl_ListObjGetElements(interp, objv[2], &strokes_counter, &strokes_vector) != TCL_OK )
 	{
 		/* wrong args */
-		sprintf(interp->result, "Wrong arguments given.\nThe second parameter must be a list");
+		Tcl_WrongNumArgs(interp, 0, 0, "Wrong arguments given.\nThe second parameter must be a list");
 		return TCL_ERROR;
 	}
 
@@ -120,14 +120,14 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
 	if ( Tcl_ListObjGetElements(interp, objv[3], &drawAttrs_counter, &drawAttrs_vector) != TCL_OK )
 	{
 		/* wrong args */
-		sprintf(interp->result, "Wrong arguments given.\nThe third parameter must be a list");
+		Tcl_WrongNumArgs(interp, 0, 0, "Wrong arguments given.\nThe third parameter must be a list");
 		return TCL_ERROR;
 	}
 
 	if (drawAttrs_counter != strokes_counter )
 	{
 		/* wrong args */
-		sprintf(interp->result, "Wrong arguments given.\n strokes_list and drawingAttributes_list must have the same length. (%d!=%d)",drawAttrs_counter,strokes_counter);
+		Tcl_AppendResult(interp, "Wrong arguments given.\n strokes_list and drawingAttributes_list must have the same length.", 0);
 		return TCL_ERROR;
 	}
 
@@ -142,9 +142,11 @@ int tclISF_save(ClientData clientData, Tcl_Interp *interp,
 	err = createISF(pISF, &rootTag, NULL, &payloadSize);
 	if (err != OK)
 	{
+        char buffer[15]; //should be enough
 		freeISF(pISF);
 		freePayloads(rootTag);
-		sprintf(interp->result, "Got error %d (from createISF) while encoding to ISF to the file %s.", err, filename);
+        sprintf(buffer,"%s", err);
+		Tcl_AppendResult(interp, "Got error ", buffer," (from createISF) while encoding to ISF to the file ",filename, 0);
 		return TCL_ERROR;
 	}
 
@@ -208,7 +210,7 @@ ISF_t * getISF_FromTclList (
 		if (Tcl_ListObjGetElements(interp, drawAttrs_vector[i], &tmp, &curDrawAttrs_vector) != TCL_OK)
 		{
 			freeISF(pISF);
-			sprintf(interp->result, "Wrong arguments. The drawingAttributes_list is a list of lists");
+			Tcl_WrongNumArgs(interp, 0, 0, "Wrong arguments. The drawingAttributes_list is a list of lists");
 			return NULL;
 		}
 		Tcl_GetIntFromObj(interp, curDrawAttrs_vector[0], &tmp);
@@ -245,15 +247,17 @@ ISF_t * getISF_FromTclList (
 		if (Tcl_ListObjGetElements(interp, strokes_vector[i], &llength, &coords_vector) != TCL_OK)
 		{
 			freeISF(pISF);
-			sprintf(interp->result, "Wrong arguments. The strokes_list is a list of lists");
+			Tcl_WrongNumArgs(interp, 0, 0, "Wrong arguments. The strokes_list is a list of lists");
 			return NULL;
 		}
 		llength >>= 1;
 		err = createStroke(&pStroke, llength, NULL, curDA);
 		if (err != OK)
 		{
+            char buffer[15];
 			freeISF(pISF);
-			sprintf(interp->result, "Got error %d (from createStroke)", err);
+            sprintf(buffer, "%d", err);
+			Tcl_AppendResult(interp, "Got error ",buffer," (from createStroke)", 0);
 			return NULL;
 		}
 		for (j=0; j<llength; j++)
@@ -307,13 +311,13 @@ int writeGIFFortified(
 	if (!fp)
 	{
 		/* OPEN_ERROR */
-		sprintf(interp->result, "Can not open the file %s. Can not make it a GIF Fortified file.", filename);
+		Tcl_AppendResult(interp, "Can not open the file ", filename, ". Can not make it a GIF Fortified file.", 0);
 		return TCL_ERROR;
 	}
 	if (fseek(fp, -1, SEEK_END) != 0)
 	{
 		fclose(fp);
-		sprintf(interp->result, "Can not read the file %s. Can not make it a GIF Fortified file.", filename);
+		Tcl_AppendResult(interp, "Can not read the file ",filename,". Can not make it a GIF Fortified file.", 0);
 		return TCL_ERROR;
 	}
 
@@ -321,14 +325,14 @@ int writeGIFFortified(
 	if(fread(&c,1,1,fp) != 1)
 	{
 		fclose(fp);
-		sprintf(interp->result, "Error while reading from file %s.", filename);
+		Tcl_AppendResult(interp, "Error while reading from file ", filename, 0);
 		return TCL_ERROR;
 	}
 	if(c != ';')
 	{
 		/* FILE_CORRUPTED */
 		fclose(fp);
-		sprintf(interp->result, "The file %s seems corrupted. Can not make it a GIF Fortified file.", filename);
+		Tcl_AppendResult(interp, "The file ",filename," seems corrupted. Can not make it a GIF Fortified file.", 0);
 		return TCL_ERROR;
 	}
 
@@ -336,21 +340,21 @@ int writeGIFFortified(
 	if (fseek(fp, -1, SEEK_CUR) != 0)
 	{
 		fclose(fp);
-		sprintf(interp->result, "Can not read the file %s. Can not make it a GIF Fortified file.", filename);
+		Tcl_AppendResult(interp, "Can not read the file ",filename,". Can not make it a GIF Fortified file.", 0);
 		return TCL_ERROR;
 	}
 	c = '!';
 	if(fwrite(&c,1,1,fp) != 1)
 	{
 		fclose(fp);
-		sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+		Tcl_AppendResult(interp, "Error while writing to file ", filename,". Can not make it a GIF Fortified file.", 0);
 		return TCL_ERROR;
 	}
 	c = 0XFE;
 	if (fwrite(&c,1,1,fp) != 1)
 	{
 		fclose(fp);
-		sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+		Tcl_AppendResult(interp, "Error while writing to file ", filename,". Can not make it a GIF Fortified file.", 0);
 		return TCL_ERROR;
 	}
 	/* write the isf struct in the comment */
@@ -362,7 +366,7 @@ int writeGIFFortified(
 		if (fwrite(&c,1,1,fp) != 1)
 		{
 			fclose(fp);
-			sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+		    Tcl_AppendResult(interp, "Error while writing to file ", filename,". Can not make it a GIF Fortified file.", 0);
 			return TCL_ERROR;
 		}
 		do
@@ -373,7 +377,7 @@ int writeGIFFortified(
 				if (fwrite(ptrCur->data+pos,1,ptrCur->cur_length - pos,fp) != (ptrCur->cur_length - pos))
 				{
 					fclose(fp);
-					sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+		            Tcl_AppendResult(interp, "Error while writing to file ", filename,". Can not make it a GIF Fortified file.", 0);
 					return TCL_ERROR;
 				}
 				c -= ptrCur->cur_length - pos;
@@ -385,7 +389,7 @@ int writeGIFFortified(
 				if (fwrite(ptrCur->data+pos,1,c,fp) != c)
 				{
 					fclose(fp);
-					sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+		            Tcl_AppendResult(interp, "Error while writing to file ", filename,". Can not make it a GIF Fortified file.", 0);
 					return TCL_ERROR;
 				}
 				pos += c;
@@ -398,7 +402,7 @@ int writeGIFFortified(
 	if (fwrite(&c,1,1,fp) != 1)
 	{
 		fclose(fp);
-		sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+		Tcl_AppendResult(interp, "Error while writing to file ", filename,". Can not make it a GIF Fortified file.", 0);
 		return TCL_ERROR;
 	}
 	/* End Of File */
@@ -406,7 +410,7 @@ int writeGIFFortified(
 	if (fwrite(&c,1,1,fp) != 1)
 	{
 		fclose(fp);
-		sprintf(interp->result, "Error while writing to file %s. Can not make it a GIF Fortified file.", filename);
+		Tcl_AppendResult(interp, "Error while writing to file ", filename,". Can not make it a GIF Fortified file.", 0);
 		return TCL_ERROR;
 	}
 
@@ -454,7 +458,9 @@ int fortify(Tcl_Interp *interp, TCHAR * filename)
 	err = createSkeletonISF(&pISF, image.GetWidth(), image.GetHeight());
 	if (err != OK)
 	{
-		sprintf(interp->result, "libISF returned error %d while fortifying %s.", err, filename);
+        char buffer[15];
+        sprintf(buffer, "%d", err);
+		Tcl_AppendResult(interp, "libISF returned error ", buffer," while fortifying ", filename, 0);
 		return TCL_ERROR;
 	}
 	pISF->drawAttrs->penWidth = 1;
@@ -477,8 +483,10 @@ int fortify(Tcl_Interp *interp, TCHAR * filename)
 				pISF->drawAttrs->nStrokes++;
 				if (err != OK)
 				{
+                    char buffer[15];
 					freeISF(pISF);
-					sprintf(interp->result, "libISF returned error %d while fortifying %s.", err, filename);
+                    sprintf(buffer, "%d", err);
+            		Tcl_AppendResult(interp, "libISF returned error ", buffer," while fortifying ", filename, 0);
 					return TCL_ERROR;
 				}
 				pISF->strokes->nPoints = 1;
@@ -499,8 +507,10 @@ int fortify(Tcl_Interp *interp, TCHAR * filename)
 	err = createTransform(&transform);
 	if (err != OK)
 	{
+        char buffer[15];
 		freeISF(pISF);
-		sprintf(interp->result, "libISF returned error %d while fortifying %s.", err, filename);
+        sprintf(buffer, "%d", err);
+		Tcl_AppendResult(interp, "libISF returned error ", buffer," while fortifying ", filename, 0);
 		return TCL_ERROR;
 	}
 	transform->m11 = transform->m22 = HIMPERPX;
@@ -508,8 +518,10 @@ int fortify(Tcl_Interp *interp, TCHAR * filename)
 	err = createISF(pISF, &rootTag, transform, &payloadSize);
 	if (err != OK)
 	{
+        char buffer[15];
 		freeISF(pISF);
-		sprintf(interp->result, "libISF returned error %d while fortifying %s.", err, filename);
+        sprintf(buffer, "%d", err);
+		Tcl_AppendResult(interp, "libISF returned error ", buffer," while fortifying ", filename, 0);
 		return TCL_ERROR;
 	}
 	// write to the file :

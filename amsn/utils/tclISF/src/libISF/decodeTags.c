@@ -434,21 +434,22 @@ int getMetricEntry (decodeISF_t * pDecISF)
     /* Check the payload size */
     if (err == OK && value != 0)
     {
+        
         LOG(stdout,"METRIC ENTRY\n");
         LOG(stdout,"payload size = %lld\n", value);
         endPayload = pDecISF->bytesRead + value;
         err = readMBSINT(pDecISF, &value);
         if (err != OK) return err;
-        LOG(stdout,"(METRIC ENTRY) MBSINT = %lld\n",value);
+        LOG(stdout,"(METRIC ENTRY) Logical Min = %lld\n",value);
         err = readMBSINT(pDecISF, &value);
         if (err != OK) return err;
-        LOG(stdout,"(METRIC ENTRY) MBSINT = %lld\n",value);
+        LOG(stdout,"(METRIC ENTRY) Logical Max = %lld\n",value);
         err = readByte(pDecISF, &c);
         if (err != OK) return err;
-        LOG(stdout,"(METRIC ENTRY) BYTE = %X\n", c);
+        LOG(stdout,"(METRIC ENTRY) BYTE|Units = %X\n", c);
         err = readFloat(pDecISF, &f);
         if (err != OK) return err;
-        LOG(stdout,"(METRIC ENTRY) FLOAT = %f\n", f);
+        LOG(stdout,"(METRIC ENTRY) FLOAT|Resolution = %f\n", f);
         err = finishPayload(pDecISF,"(METRIC ENTRY)",endPayload);
     }
     LOG(stdout,"-------------------\n");
