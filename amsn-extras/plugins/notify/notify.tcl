@@ -263,6 +263,12 @@ namespace eval ::notify {
 		#upvar 2 oldsubstate oldsubstate
 		#log "userChangeState lvl 2.1 old substate: $oldsubstate"
 
+		# Ignore user if blocked and we don't want blocked notifs
+		if {[::config::getKey no_blocked_notif 0] == 1 &&
+		    [::MSN::userIsBlocked $user]} {
+			return
+		}
+
 		# yeah, getting old state !
 		# Should be FLN for disconnected
 		set oldstate [::abook::getVolatileData $user state]

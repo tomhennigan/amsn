@@ -6,12 +6,12 @@
 	<description_fr>Utilisation de libnotify1 à la place du système actuel de amsn (Linux seulement). Vous devez avoir les paquets "libnotify-bin" et "libnotify1" d'installés.</description_fr>
 	<description>Use of libnotify1 instead of aMSN's own notifications (Linux only). You need both "libnotify-bin" and "libnotify1" packages</description>
 	<amsn_version>0.98b</amsn_version>
-	<plugin_version>1.3</plugin_version>
+	<plugin_version>1.4</plugin_version>
 	<plugin_file>notify.tcl</plugin_file>
 	<plugin_namespace>notify</plugin_namespace>
 	<init_procedure>initPlugin</init_procedure>
 	<deinit_procedure>deInit</deinit_procedure>
-	<cvs_version>10605</cvs_version>
+	<cvs_version>10825</cvs_version>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/notifyc/notify.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/notify/plugininfo.xml</plugininfo>
