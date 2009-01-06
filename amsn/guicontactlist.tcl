@@ -19,6 +19,566 @@ namespace eval ::guiContactList {
 		variable clcanvas
 		drawList $clcanvas
 	}
+
+	proc updatecontactsz { w } {
+		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
+		
+		after cancel [list ::guiContactList::update_CL $w]
+		after 2000 [list ::guiContactList::update_CL $w]
+	}
+
+	proc update_CL { w } {
+		variable countgroup 0
+		global horizontal
+		
+		$w dchars txt 0 end
+		$w delete img bg
+
+		variable max_x 0
+		variable y 1
+		#only for ipod
+		variable x 1
+		variable group_y [list ]
+
+		set cl [filter [::guiContactList::getContactList full]]
+
+		set groupID "offline"
+		foreach element $cl {
+			if {[lindex $element 0] ne "C"} {
+				lappend group_y [list [lindex $element 0] $y]
+				set groupID [lindex $element 0]
+			}
+			
+			draw $element $w $groupID
+		}
+		
+		drawskin $w
+
+		$w configure -scrollregion [list 0 0 $max_x $y]
+		unset y
+		unset max_x
+
+		pack $w
+	}
+
+	proc filter { cl } {
+		set new_cl [list ]
+		
+		set drawOfflineGroup [::config::getKey showOfflineGroup 1]
+		if {!$drawOfflineGroup} {
+			set ignore 0
+			foreach element $cl {
+				if {[lindex $element 0] eq "offline"} {
+					set ignore 1
+				} elseif {$ignore == 0} {
+					lappend new_cl $element
+				}
+			}
+		} else {
+			set new_cl $cl
+		}
+		
+		set emptygroup 0
+		set cl [list ]
+		
+		foreach element $new_cl {
+			if {[lindex $element 0] eq "C"} {
+				lappend cl $element
+				set emptygroup 0
+			} else {
+				if {$emptygroup} {
+					set cl [lreplace $cl end end $element]
+				} else {
+					lappend cl $element
+					set emptygroup 1
+				}
+			}
+		}
+		if {[lindex [lindex $cl end] 0] ne "C"} {
+			set cl [lreplace $cl end end]
+		}
+		
+		set new_cl $cl
+		
+		set cl [list ]
+		set group_closed 0
+		foreach element $new_cl {
+			if {[lindex $element 0] eq "C"} {
+				if {!$group_closed} {
+					lappend cl $element
+				}
+			} else {
+				if {[::groups::IsExpanded [lindex $element 0]] } {
+					set group_closed 1
+				} else {
+					set group_closed 0
+				}
+				lappend cl $element
+			}
+		}
+
+		return $cl
+	}
+
+	proc draw {lst w groupID} {
+		variable y
+		variable max_x
+		variable countgroup
+
+		set x 1
+		set incr_y [font metrics bplainf -displayof $w -linespace]
+		set y_half [expr $incr_y / 2]
+		
+		if {[::config::getKey show_detailed_view] && [::config::getKey show_contactdps_in_cl]} {
+			set show_detailed_view 1
+		} else {
+			set show_detailed_view 0
+		}
+		
+		set group 0
+		set grId $groupID
+
+		set max_y $incr_y
+
+		if {[lindex $lst 0] eq "C"} {
+			set email [lindex $lst 1]
+			set tag [list [list tag $email]]
+			incr x [font measure bplainf -displayof $w "  "]
+			
+			
+			set state_code [::abook::getVolatileData $email state FLN]
+			
+			set nickcolour [::abook::getContactData $email customcolor]
+			if { $nickcolour != "" } {
+				if { [string index $nickcolour 0] == "#" } {
+					set nickcolour [string range $nickcolour 1 end]
+				}
+				set nickcolour [string tolower $nickcolour]
+				set nickcolour "#[string repeat 0 [expr {6-[string length $nickcolour]}]]$nickcolour"
+			}
+
+			if { $nickcolour == "" || $nickcolour == "#" } {
+				if { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y" } {
+					set nickcolour [::skin::getKey "contact_mobile"]
+					set statecolour [::skin::getKey "state_mobile" $nickcolour]
+				} else {
+					set nickcolour [::MSN::stateToColor $state_code "contact"]
+					set statecolour [::MSN::stateToColor $state_code "state"]
+				}
+				set force_colour 0
+			} else {
+				if { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y" } {
+					set statecolour [::skin::getKey "state_mobile" [::skin::getKey "contact_mobile"]]
+				} else {
+					set statecolour [::MSN::stateToColor $state_code "state"]
+				}
+				set force_colour 1
+			}
+			
+			set showspaces [::config::getKey showspaces 1]
+			if {$showspaces} {
+
+				#this is when there is an update and we should show a star
+				set space_update [::abook::getVolatileData $email space_updated 0]
+				
+				#is the space shown or not ?
+				set space_shown [::abook::getVolatileData $email SpaceShowed 0]
+
+				set update_img [::skin::loadPixmap space_update]
+				set noupdate_img [::skin::loadPixmap space_noupdate]
+
+				# Check if we need an icon to show an updated space/blog, and draw one if we do
+				# We must create the icon and hide after else, the status icon will stick the border
+				    # it's surely due to anchor parameter
+				if { [::MSNSPACES::hasSpace $email] } {
+					if { $space_update } {
+						set spaceicon [list [list tag spaceicon] [list image $update_img]]
+					} else {
+						set spaceicon [list [list tag spaceicon] [list image $noupdate_img]]
+					}
+				} else {
+					# TODO : uncomment this line to get back the space needed for the support of MSN spaces.
+					set spaceicon [list [list incrx [image width $noupdate_img]]]
+				}
+				
+			}
+			
+			lappend spaceicon [list tag $email]
+			
+			set default_colour $nickcolour
+			set colour $default_colour
+			
+			if {[::MSN::userIsNotIM $email]} {
+				set img [::skin::loadPixmap nonim]
+			} elseif {[::config::getKey show_contactdps_in_cl] == "1" &&
+			    !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN")} {
+				set img [::skin::getLittleDisplayPictureName $email]_cl
+
+				image create photo $img
+				
+				if {!$show_detailed_view} {
+					$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap plain_emblem ]]]
+					
+					# We can get a user "hidden" if you have yourself on your own CL and you use MSNP16+ with mpop
+					if { $state_code == "FLN" || $state_code == "HDN"} {
+						::picture::Colorize $img grey 0.5
+						$img copy [::skin::loadPixmap plain_emblem]
+					} elseif { $state_code == "NLN" } {
+						$img copy [::skin::loadPixmap plain_emblem]
+					} else {
+						$img copy [::skin::loadPixmap [::MSN::stateToImage $state_code]_emblem]
+					}
+
+					#set the blocked emblem if the user is blocked
+					if { [::MSN::userIsBlocked $email] } {
+						$img copy [::skin::loadPixmap blocked_emblem]
+					}
+
+					# If you are not on this contact's list, show the notinlist emblem
+					if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+						$img copy [::skin::loadPixmap notinlist_emblem]
+					}
+				} else {
+					$img copy [::skin::getLittleDisplayPicture $email 57]
+					
+					#set the blocked emblem if the user is blocked
+					if { [::MSN::userIsBlocked $email] } {
+						$img copy [::skin::loadPixmap blocked_emblem_detailedview]
+					}
+				}
+
+			} else {
+
+				if { [::MSN::userIsBlocked $email] } {
+					if { $state_code == "FLN" } { 
+						set img [::skin::loadPixmap blocked_off] 
+					} else {
+						set img [::skin::loadPixmap blocked] 
+					}
+				} elseif { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } {
+					#Show webMSN buddy icon
+					set img [::skin::loadPixmap webmsn]
+				} elseif { [::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"} {
+					set img [::skin::loadPixmap mobile]
+				} else {
+					set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
+				}
+			}
+			
+			set dp [list [list image $img] [list incrx 2]]
+
+			#----------------------------#
+			###Not-on-reverse-list icon###
+			#----------------------------#	
+
+
+			if {$show_detailed_view || (![::config::getKey show_contactdps_in_cl] && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
+				# If you are not on this contact's list, show the notification icon
+				if {![::MSN::userIsNotIM $email] && [expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+					set icon [::skin::loadPixmap notinlist]
+					lappend dp [list "image" "$icon"]
+				}
+			}
+
+			set parsednick [::abook::getDisplayNick $email 1]
+			set evpar(nick) $parsednick
+			set evpar(login) $email
+			::plugins::PostEvent guicl_drawnick evpar
+			
+			set nickstatespacing 5
+			if { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } { 
+				set statetext "\([trans web]\/[trans [::MSN::stateToDescription $state_code]]\)"
+			} else {
+				set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
+				if {$state_code == "NLN" || $state_code == "FLN"} {
+					set nickstatespacing 0
+					set statetext ""
+				}
+				if {$grId == "mobile"} {
+					set statetext "\([trans mobile]\)"
+				}
+			}
+			set statetext [list [list incrx $nickstatespacing] [list colour $statecolour] [list text $statetext]]
+			
+			set def_col [list [list colour $default_colour]]
+			set psm [::abook::getpsmmedia $email 1]
+
+			set maxw [expr [winfo width $w] - 55]
+			set thingstodraw [concat $spaceicon $dp $parsednick $statetext $def_col $psm]
+			set thingstodraw [trunc_list $thingstodraw $w $maxw sboldf]
+			
+		} else {
+			incr countgroup
+			set email "group${countgroup}"
+			set tag [list [list tag $email]]
+			set gid gid_[lindex $lst 0]
+			# Let's setup the right image (expanded or contracted)
+			if { [::groups::IsExpanded [lindex $lst 0]] } {
+				# Set padding between image and text
+				set xpad [::skin::getKey expand_xpad]
+				set img [::skin::loadPixmap expand]
+				set img_hover [::skin::loadPixmap expand_hover]
+				set groupcolor [::skin::getKey groupcolorcontract]
+			} else {
+				# Set padding between image and text
+				set xpad [::skin::getKey contract_xpad]
+				set img [::skin::loadPixmap contract]
+				set img_hover [::skin::loadPixmap contract_hover] ;#TODO
+				set groupcolor [::skin::getKey groupcolorextend]
+			}
+			
+			set xpad [list [list incrx $xpad] [list colour $groupcolor]]
+			set img [list [list image $img]]
+			
+			set name [list [list textg "[lindex $lst 1]"]]
+			set thingstodraw [concat $tag $img $xpad $name]
+
+			set group 1
+		}
+
+		set bg_x ""
+		set bg_cl ""
+
+		foreach el $thingstodraw {
+			switch [lindex $el 0] {
+				"smiley" -
+				"image" {
+					set imagename [lindex $el 1]
+					if {[image height $imagename] > $max_y} {
+						set max_y [image height $imagename]
+					}
+				}
+			}
+		}
+
+		if {$max_y > $incr_y} {
+			set y [expr {$y + ($max_y / 2) - ($max_y / 4) + ($max_y / 6) - 1}]
+		}
+
+		if {$group && $email ne "group1"} {
+			incr y [expr {$max_y/2} + 3 + 0] ;# second value it's a fix, the third value is the space between groups TODO
+			variable group_y
+			set gid [lindex [lindex $group_y end] 0]
+			set group_y [lreplace $group_y end end [list $gid $y]]
+		}
+
+
+		foreach el $thingstodraw {
+			switch [lindex $el 0] {
+				"text" {
+					$w create text $x $y -fill $colour -state normal -font bplainf -text "[lindex $el 1]" -anchor nw -tag "$tag txt"
+					
+					incr x [font measure bplainf -displayof $w "[lindex $el 1]"]
+				}
+				"textg" {
+					$w create text $x $y -fill $colour -state normal -font bplainf -text "[lindex $el 1]" -anchor nw -tag "$email txt"
+					
+					incr x [font measure bplainf -displayof $w "[lindex $el 1]"]
+				}
+				"colour" {
+					if {[lindex $el 1] ne "reset"} {
+						set colour [lindex $el 1]
+					} else {
+						set colour $default_colour
+					}
+				}
+				"smiley" {
+					set imagename [lindex $el 1]
+					$w create image $x [expr {$y + $y_half}] -image $imagename -anchor w -tags "$tag img"
+					
+					incr x [image width $imagename]
+
+					if {[image height $imagename] > $max_y} {
+						set max_y [image height $imagename]
+					}
+				}
+				"image" {
+					set imagename [lindex $el 1]
+					$w create image $x [expr {$y + $y_half}] -image $imagename -anchor w -tags "$tag img"
+					
+					incr x [image width $imagename]
+				}
+				"incrx" {
+					incr x [lindex $el 1]
+				}
+				"tag" {
+					set tag [lindex $el 1]
+					if {$tag eq "spaceicon"} {
+						set tag spaceicon$email
+					}
+				}
+				"bg" {
+					if {$bg_x eq ""} {
+						if {[lindex $el 1] ne "reset"} {
+							set bg_x $x
+							set bg_cl [lindex $el 1]
+						}
+					} else {
+						if {!$show_detailed_view} {
+							set bg_y1 $y
+							set bg_y2 [expr {$incr_y+$bg_y1}]
+						} else {
+							set bg_y1 $y
+							set bg_y2 [expr {$incr_y+$bg_y1}]
+						}
+
+						$w create rect $bg_x $bg_y1 $x $bg_y2 -fill $bg_cl -outline "" -tag "bg"
+
+						set bg_cl [lindex $el 1]
+						if {$bg_cl eq "reset"} {
+							set bg_x ""
+						} else {
+							set bg_x $x
+						}
+							
+						$w lower bg "txt"
+					}
+				}
+			}
+		}
+		
+		if {!$group} {
+			cleanBindings $w $email
+			cleanBindings $w spaceicon$email
+			
+			# Add binding for balloon
+			if { 0 && [::config::getKey tooltips] == 1 } {
+				set b_content [getBalloonMessage $email $lst]
+				set b_fonts [list "sboldf" "sitalf" "splainf" "splainf"]
+				$w bind $email <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y $b_content [::skin::getDisplayPicture $email] $b_fonts complex]
+				$w bind $email <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y $b_content [::skin::getDisplayPicture $email] $b_fonts complex]
+				$w bind $email <Leave> "+set ::Bulle(first) 0; kill_balloon"
+			}
+			
+			# Binding for left (double)click
+			if {[::MSN::userIsNotIM $email] } {
+				# If the user is a non IM user, send email.
+				$w bind $email <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
+					"set ::guiContactList::displayCWAfterId \
+					\[after 0 \[list launch_mailer \"$email\"\]\]" $email %X %Y %t]
+			} elseif { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y"} {
+				# If the user is offline and support mobile (SMS)
+				$w bind $email <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
+					"set ::guiContactList::displayCWAfterId \
+					\[after 0 \[list ::MSNMobile::OpenMobileWindow \"$email\"\]\]" $email %X %Y %t]
+			} else {
+				$w bind $email <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
+					"set ::guiContactList::displayCWAfterId \
+					\[after 0 \[list ::amsn::chatUser \"$email\"\]\]" $email %X %Y %t]
+			}
+
+			# Binding for right click		 
+			$w bind $email <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
+			if {[OnMac]} {
+				# Control click also acts as a right click.
+				$w bind $email <Control-ButtonPress-1> [list show_umenu "$email" "$grId" %X %Y]
+			}
+			
+			# Bindings for dragging : applies to all elements even the star
+			$w bind $email <ButtonPress-1> [list ::guiContactList::contactPress $email $w %s %x %y]
+
+			#cursor change bindings
+			if { [::skin::getKey changecursor_contact] } {
+				$w bind $email <Enter> +[list ::guiContactList::configureCursor $w hand2]
+				$w bind $email <Leave> +[list ::guiContactList::configureCursor $w left_ptr]
+			}
+			
+			if {$showspaces && $space_shown} {
+				$w bind spaceicon$email <Button-1> [list ::guiContactList::toggleSpaceShown $email]
+				# balloon bindings
+				if { [::config::getKey tooltips] == 1 } {
+					$w bind spaceicon$email <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y [trans viewspace] ]
+					$w bind spaceicon$email <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y [trans viewspace] ]
+					$w bind spaceicon$email <Leave> "+set ::Bulle(first) 0; kill_balloon"
+				}
+			}
+			
+		} else {
+			cleanBindings $w group${countgroup}
+			
+			$w bind group${countgroup} <ButtonRelease-1> +[list ::guiContactList::toggleGroup $lst $w]
+			$w bind group${countgroup} <ButtonRelease-1> +[list ::guiContactList::update_CL $w]
+			
+			#cursor change bindings
+			if { [::skin::getKey changecursor_group] } {
+				$w bind group${countgroup} <Enter> +[list ::guiContactList::configureCursor $w hand2]
+				$w bind group${countgroup} <Leave> +[list ::guiContactList::configureCursor $w left_ptr]
+			}
+			
+			$w bind group${countgroup} <<Button3>> +[list ::groups::GroupMenu [lindex $lst 0] %X %Y]
+		}
+		
+
+		
+		if {$max_y > $incr_y} { ;#max_y is > or equal to incr_y, and never < of incr_y
+			incr y [expr {$max_y / 2} + {$max_y / 4} - ($max_y / 6) + 2]
+		} else {
+			if {$group} {
+				incr y $max_y
+			} else {
+				incr y [expr $max_y + 0] ;# the second value is the space between contacts TODO
+			}
+		}
+	}
+
+	proc drawskin {w} {
+		variable group_y
+		
+		set max_w [winfo width $w]
+		set max_h [winfo height $w]
+		if {$max_w < 10} { set max_w 300} ;#TODO
+		
+		set wsize_upright [image width [::skin::loadPixmap upright]]
+		set wsize_up [image width [::skin::loadPixmap up]]
+		set wsize_upleft [image width [::skin::loadPixmap upleft]]
+		set hsize_upright [image height [::skin::loadPixmap upright]]
+		set hsize_up [image height [::skin::loadPixmap up]]
+		set hsize_upleft [image height [::skin::loadPixmap upleft]]
+		
+		image create photo topcontainer -height $hsize_up -width $max_w
+		topcontainer copy [::skin::loadPixmap upleft] -to 0 0 $wsize_upleft $hsize_upleft
+		topcontainer copy [::skin::loadPixmap up] -to $wsize_upleft 0 [expr {$max_w - $wsize_upright}] $hsize_up
+		topcontainer copy [::skin::loadPixmap upright] -to [expr {$max_w - $wsize_upright}] 0 $max_w $hsize_upright
+		
+		set margin_y 10
+		foreach y $group_y {
+			$w create image 0 [expr [lindex $y 1] + $margin_y] -image topcontainer -anchor w -tags "bg"
+		}
+		
+		set wsize_right [image width [::skin::loadPixmap right]]
+		set wsize_body [image width [::skin::loadPixmap body]]
+		set wsize_left [image width [::skin::loadPixmap left]]
+		set hsize_right [image height [::skin::loadPixmap right]]
+		set hsize_body [image height [::skin::loadPixmap body]]
+		set hsize_left [image height [::skin::loadPixmap left]]
+		
+		set container_height [list ]
+		set y 0
+		foreach g $group_y {
+			if {$y != 0} {
+				set t [expr {[lindex $g 1] - $y}]
+				lappend container_height [expr $t - $hsize_up]
+			}
+			set y [expr [lindex $g 1]]
+		}
+	#	set t [expr $max_h - $y]
+		lappend container_height $max_h
+	#	set group_y [lreplace $group_y end end]
+		
+		foreach y $group_y h $container_height {
+			if {![::groups::IsExpanded [lindex $y 0]]} {
+				set y [lindex $y 1]
+				image create photo container$y -width $max_w -height $h
+				container$y copy [::skin::loadPixmap left] -to 0 0 $wsize_left $h
+				container$y copy [::skin::loadPixmap body] -to $wsize_left 0 [expr {$max_w - $wsize_right}] $h
+				container$y copy [::skin::loadPixmap right] -to [expr {$max_w - $wsize_right}] 0 $max_w $h
+				$w create image 0 [expr $y + $hsize_up - 3] -image container$y -anchor nw -tags "bg"
+			}
+		}
+		
+		$w lower bg txt
+	}
+
 			
 	#/////////////////////////////////////////////////////////////////////
 	# Function that draws a window where it embeds our contactlist canvas 
@@ -142,7 +702,7 @@ namespace eval ::guiContactList {
 
 		drawBG $clcanvas 1
 		
-		after 0 ::guiContactList::drawList $clcanvas
+	#	after 0 ::guiContactList::updatecontactsz $clcanvas $clcanvas
 
 		# Register events
 		::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
@@ -264,8 +824,7 @@ namespace eval ::guiContactList {
 #If, within 500 ms, another event for redrawing comes in, we redraw 'm together
 		catch {after cancel $resizeAfterId}		
 		set resizeAfterId [after 500 "::guiContactList::drawBG $clcanvas 0; \
-			::guiContactList::drawContacts $clcanvas; \
-			::guiContactList::organiseList $clcanvas \[::guiContactList::getContactList\];"]
+			::guiContactList::updatecontactsz $clcanvas"]
 		::guiContactList::centerItems $clcanvas
 	}
 
@@ -274,10 +833,8 @@ namespace eval ::guiContactList {
 	#/////////////////////////////////////////////////////////////////////
 	proc drawList {canvas} {
 		if { ${::guiContactList::external_lock} } { return }
-
-		::guiContactList::drawGroups $canvas
-		::guiContactList::drawContacts $canvas
-		::guiContactList::organiseList $canvas [getContactList]
+		updatecontactsz $canvas
+	#	::guiContactList::drawGroups $canvas
 	}
 	
 
@@ -291,36 +848,8 @@ namespace eval ::guiContactList {
 
 
 	proc drawGroups { canvas } {
-
 		if { ${::guiContactList::external_lock} } { return }
-
-		# Now let's get the actual whole contact list (also not shown users)
-		set contactList [getContactList full]
-
-		foreach element $contactList {
-			# We check the type, and call the appropriate draw function
-			if {[lindex $element 0] != "C" } {
-				# Draw the group title
-				drawGroup $canvas $element
-			}
-		}
-	}
-
-
-	proc drawContacts { canvas } {
-
-		if { ${::guiContactList::external_lock} } { return }
-		#if a contact is found before a group, assign it to "offline"; this shouldn't happen though, I think
-		set groupID "offline"
-		foreach element [getContactList full] {
-			# We check the type, and call the appropriate draw function
-			if {[lindex $element 0] == "C" } {
-				# Draw the contact
-				drawContact $canvas $element $groupID
-			} else {
-				set groupID [lindex $element 0]
-			}
-		}
+		drawList $clcanvas
 	}
 
 	proc drawBG { canvas create} {
@@ -433,7 +962,7 @@ namespace eval ::guiContactList {
 	proc groupRemoved { eventused gid } {
 		variable clcanvas
 		if { [winfo exists $clcanvas] } {
-			::guiContactList::organiseList $clcanvas [getContactList]
+			updatecontactsz $canvas
 		}
 	}
 
@@ -554,282 +1083,15 @@ namespace eval ::guiContactList {
 	
 	
 	
-	proc redrawFromQueue {} {
+	proc redrawFromQueue {} { ;#TODO check this proc
+		if { $::guiContactList::external_lock } { return }
 		variable clcanvas
-		variable external_lock
-		
-		variable GroupsRedrawQueue
-		variable ContactsRedrawQueue
-		variable NickReparseQueue
-		
-		#copy queues and reset 'm so they can be filled again while the 
-		#  redrawing is still busy : that's safer
-
-		set contacts $ContactsRedrawQueue
-		set groups $GroupsRedrawQueue
-
-		set ContactsRedrawQueue [list]
-		set GroupsRedrawQueue [list]
-
-		if { $external_lock } { return }
-
-		#redraw contacts
-		foreach contact $contacts {
-			set groupslist [getGroupId $contact]
-			foreach group $groupslist {
-				set contactelement [list "C" $contact]
-				::guiContactList::drawContact $clcanvas $contactelement $group
-			}
-		}
-		foreach group $groups {
-			switch $group {
-				"all" {
-					::guiContactList::drawGroups $clcanvas
-				}
-				default {
-					::guiContactList::drawGroup $clcanvas [list $group [::groups::GetName $group]]
-				}
-			}
-		}
-		
-		#reorganise list
-		::guiContactList::organiseList $clcanvas [getContactList]
-#		status_log "contactChanged :: List redrawn for contacts $contacts, groups $groups, $nicks reparsed" green
-					
+		::guiContactList::drawList $clcanvas
 	}
 
 	proc toggleGroup { element canvas } {
 		::groups::ToggleStatus [lindex $element 0]
-		# Redraw group as it's state changed
-		::guiContactList::drawGroup $canvas $element 
-		::guiContactList::organiseList $canvas [getContactList]
-	}
-
-
-	# Move 'm to the right place
-	proc organiseList { canvas contactList } {
-		variable Xbegin
-		variable Ybegin
-		variable nickheightArray
-
-		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
-
-		#We remove the underline
-		$canvas delete uline
-
-		# First we move all the canvas items
-		$canvas addtag items withtag group
-		$canvas addtag items withtag contact
-		# Make sure we move 'm to an invisible place first
-		$canvas move items 100000 100000
-		$canvas delete box
-
-		# Let's draw each element of this list
-		set curPos [list $Xbegin $Ybegin]
-
-		################################
-		#  First line for the "boxes"  #
-		set DrawingFirstGroup 1
-		################################
-
-		foreach element $contactList {
-			# We check the type, and call the appropriate draw function, these can be extended	
-			# We got a contact
-			if { [lindex $element 0] == "C" } {
-				# Move it to it's place an set the new curPos
-				set email [lindex $element 1]
-				set gid $groupDrawn
-				set tag "_$gid"; set tag $email$tag
-				set currentPos [$canvas bbox $tag]
-				#status_log "MOVING CONTACT WITH TAG: $tag ;  currentpos: $currentPos  ; curPos: $curPos"
-
-				if { $currentPos == [list ] } {
-					status_log "WARNING: contact NOT moved: $email"
-					return
-				}
-
-				set xpad [::skin::getKey buddy_xpad]
-				set ypad [::skin::getKey buddy_ypad]
-
-				$canvas move $tag [expr [lindex $curPos 0] - [lindex $currentPos 0] + $xpad] \
-					[expr [lindex $curPos 1] - [lindex $currentPos 1] + $ypad]
-
-				set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1] + $nickheightArray($email) + $ypad}] ]
-			} else {
-				# It must be a group title
-				if { [::groups::IsExpanded [lindex $element 0]] } {
-					set xpad [::skin::getKey contract_xpad]
-					set ypad [::skin::getKey contract_ypad]
-				} else {
-					set xpad [::skin::getKey expand_xpad]
-					set ypad [::skin::getKey expand_ypad]
-				}
-
-				set maxwidth [winfo width $canvas]
-				set boXpad $Xbegin
-				set width [expr {$maxwidth - ($boXpad*2)}]
-				if {$width <= 30} {set width 300}
-
-				# If we're not drawing the first group, we should draw the end of the box of the \
-				# group before here and change the curPos
-				if {!$DrawingFirstGroup} {
-					set bodYend [expr {[lindex $curPos 1] + [::skin::getKey buddy_ypad]}]
-					# Here we should draw the body
-					set height [expr {$bodYend - $bodYbegin}]
-					if {$height > [::skin::getKey buddy_ypad]} {
-						image create photo boxbodysmall_$groupDrawn -height \
-							[image height [::skin::loadPixmap left]] -width $width
-						boxbodysmall_$groupDrawn copy [::skin::loadPixmap left] -to 0 0 \
-							[image width [::skin::loadPixmap left]] \
-							[image height [::skin::loadPixmap left]]
-						boxbodysmall_$groupDrawn copy [::skin::loadPixmap body] -to \
-							[image width [::skin::loadPixmap left]] 0 \
-							[expr {$width -  [image width [::skin::loadPixmap right]]}] \
-							[image height [::skin::loadPixmap body]]
-						boxbodysmall_$groupDrawn copy [::skin::loadPixmap right] -to \
-							[expr {$width - [image width [::skin::loadPixmap right]]}] 0 \
-							$width [image height [::skin::loadPixmap right]]
-
-						image create photo boxbody_$groupDrawn -height $height -width $width
-						boxbody_$groupDrawn copy boxbodysmall_$groupDrawn -to 0 0 $width $height
-						image delete boxbodysmall_$groupDrawn
-					
-						# Draw it
-						$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn \
-							-anchor nw -tags [list box box_body $gid]
-					} else {
-						set bodYend $bodYbegin
-					}
-
-					# Create endbar of the box
-					image create photo boxdownbar_$groupDrawn \
-						-height [image height [::skin::loadPixmap down]] -width $width
-					boxdownbar_$groupDrawn copy [::skin::loadPixmap downleft] -to 0 0 \
-						[image width [::skin::loadPixmap downleft]] \
-						[image height [::skin::loadPixmap downleft]]
-					boxdownbar_$groupDrawn copy [::skin::loadPixmap down] -to \
-						[image width [::skin::loadPixmap downleft]] 0 \
-						[expr {$width -  [image width [::skin::loadPixmap downright]]}] \
-						[image height [::skin::loadPixmap down]]
-					boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to \
-						[expr {$width - [image width [::skin::loadPixmap downright]]}] 0 \
-						$width [image height [::skin::loadPixmap downright]]
-					$canvas create image $boXpad $bodYend -image boxdownbar_$groupDrawn -anchor nw \
-						-tags [list box box_downbar $gid]
-
-					set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1]+ $ypad}] ]
-				} else {
-					#set curPos [list [lindex $curPos 0] [lindex $curPos 1] ]
-				}
-
-				# Move it to it's place an set the new curPos
-				set gid [lindex $element 0]
-				set groupDrawn $gid
-				set tag "gid_"; set tag $tag$gid
-				set currentPos [$canvas coords $tag]
-
-				if { $currentPos == "" } {
-					status_log "WARNING: group NOT moved: $gid"
-					return
-				}
-
-				# Create upbar of the box
-				image create photo boxupbar_$groupDrawn -height [image height [::skin::loadPixmap up]] \
-					-width $width
-				boxupbar_$groupDrawn copy [::skin::loadPixmap upleft] -to 0 0 \
-					[image width [::skin::loadPixmap upleft]] \
-					[image height [::skin::loadPixmap upleft]]
-				boxupbar_$groupDrawn copy [::skin::loadPixmap up] -to \
-					[image width [::skin::loadPixmap upleft]] 0 \
-					[expr {$width -  [image width [::skin::loadPixmap upright]]}] \
-					[image height [::skin::loadPixmap up]]
-				boxupbar_$groupDrawn copy [::skin::loadPixmap upright] -to \
-					[expr {$width - [image width [::skin::loadPixmap upright]]}] 0 \
-					$width [image height [::skin::loadPixmap upright]]
-
-				# Draw it
-				set topYbegin [lindex $curPos 1]
-				$canvas create image $boXpad $topYbegin -image boxupbar_$groupDrawn -anchor nw \
-					-tags [list box box_upbar $gid]
-
-				# Save the endypos for next body drawing
-				set bodYbegin [expr {$topYbegin + [image height [::skin::loadPixmap up]]}]
-
-				set grpBbox [$canvas bbox $tag]
-				#Here we center the group text in the up pixmap
-				set ypos [expr {[lindex $curPos 1]+([image height [::skin::loadPixmap up]])/2 \
-				- ([lindex $grpBbox 3] - [lindex $grpBbox 1])/2 }]
-			
-				$canvas move $tag [expr {[lindex $curPos 0] - [lindex $currentPos 0] + $xpad}] \
-					[expr {$ypos - [lindex $currentPos 1]}]
-
-				set curPos [list [lindex $curPos 0] \
-					[expr {[lindex $curPos 1] + [image height [::skin::loadPixmap up]]}]]
-				# 	as we already drew a group, the next won't be the first anymore
-				set DrawingFirstGroup 0
-
-				# END the "else it's a group"
-			}
-			# END of foreach
-		}
-
-		if { [llength $contactList] > 0 } {
-			# Now do the body and the end for the last group:
-			set bodYend [expr {[lindex $curPos 1] + [::skin::getKey buddy_ypad]}]
-	
-			# Here we should draw the body
-			set height [expr {$bodYend - $bodYbegin}]
-	
-			if {$height > [::skin::getKey buddy_ypad]} {
-				image create photo boxbodysmall_$groupDrawn \
-					-height [image height [::skin::loadPixmap left]] -width $width
-				boxbodysmall_$groupDrawn copy [::skin::loadPixmap left] -to 0 0 \
-					[image width [::skin::loadPixmap left]] \
-					[image height [::skin::loadPixmap left]]
-				boxbodysmall_$groupDrawn copy [::skin::loadPixmap body] -to \
-					[image width [::skin::loadPixmap left]] 0 \
-					[expr {$width -  [image width [::skin::loadPixmap right]]}] \
-					[image height [::skin::loadPixmap body]]
-				boxbodysmall_$groupDrawn copy [::skin::loadPixmap right] -to \
-					[expr {$width - [image width [::skin::loadPixmap right]]}] 0 \
-					$width  [image height [::skin::loadPixmap right]]
-				image create photo boxbody_$groupDrawn -height $height -width $width
-				boxbody_$groupDrawn copy boxbodysmall_$groupDrawn -to 0 0 $width $height
-				image delete boxbodysmall_$groupDrawn
-					
-				# Draw it
-				$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn -anchor nw \
-					-tags [list box box_body $gid]
-			} else {
-				set bodYend $bodYbegin
-			}
-	
-			# Create endbar of the box
-			image create photo boxdownbar_$groupDrawn \
-				-height [image height [::skin::loadPixmap down]] -width $width
-			boxdownbar_$groupDrawn copy [::skin::loadPixmap downleft] -to 0 0 \
-				[image width [::skin::loadPixmap downleft]] \
-				[image height [::skin::loadPixmap downleft]]
-			boxdownbar_$groupDrawn copy [::skin::loadPixmap down] -to \
-				[image width [::skin::loadPixmap downleft]] 0 \
-				[expr {$width -  [image width [::skin::loadPixmap downright]]}] \
-				[image height [::skin::loadPixmap down]]
-			boxdownbar_$groupDrawn copy [::skin::loadPixmap downright] -to \
-				[expr {$width - [image width [::skin::loadPixmap downright]]}] 0 \
-				$width [image height [::skin::loadPixmap downright]]
-
-			$canvas create image $boXpad $bodYend -image boxdownbar_$groupDrawn -anchor nw \
-				-tags [list box box_downbar $gid]
-	
-				# Get the group-boxes behind the groups and contacts
-			$canvas lower box items
-		}
-
-		# Set height of canvas
-		set canvaslength [expr {[lindex $curPos 1] + 20}]
-		$canvas configure -scrollregion [list 0 0 2000 $canvaslength]
-			# Make sure after redrawing the bgimage is on the right place
-		$canvas coords backgroundimage 0 [expr {int([expr {[lindex [$canvas yview] 0] * $canvaslength}])}]
+		drawList $canvas
 	}
 
 	#/////////////////////////////////////////////////////////////////////////
@@ -1435,495 +1697,8 @@ namespace eval ::guiContactList {
 	# Function that draws a contact 
 	#/////////////////////////////////////////////////////////////////////////
 	proc drawContact { canvas element groupID } {
-		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
-	
-		# We are gonna store the height of the nicknames
-		variable nickheightArray
-
-		#Xbegin is the padding between the beginning of the contact and the left edge of the CL
-		variable Xbegin
-
-		set stylestring [list ]
-
-		set email [lindex $element 1]
-		set grId $groupID
-
-		################################################################
-		# Set up names for tags to be put on different elements 
-		################################################################
-
-		# The tag can't be just $email as users can be in more then one group
-		#$tag is a tag applied to all elements of the contact
-		set tag "_$grId"; set tag "$email$tag"
-		#$main_part is a tag applied to all elements that make a chatwindow open
-		# if they are clicked
-		set main_part "${tag}_click"
-		#space_icon is a tag for the icon showing if the contact's MSN Space is updated
-		set space_icon "${tag}_space_icon"
-		set undock_space "${tag}_undock_space"
-		set space_info "${tag}_space_info"
-
-		################################################################
-		# Set up some vars with info we'll use
-		################################################################
-		
-		if {[::config::getKey show_detailed_view] && [::config::getKey show_contactdps_in_cl]} {
-			set show_detailed_view 1
-		} else {
-			set show_detailed_view 0
-		}
-
-		set state_code [::abook::getVolatileData $email state FLN]
-
-		set nickcolour [::abook::getContactData $email customcolor]
-		if { $nickcolour != "" } {
-			if { [string index $nickcolour 0] == "#" } {
-				set nickcolour [string range $nickcolour 1 end]
-			}
-			set nickcolour [string tolower $nickcolour]
-			set nickcolour "#[string repeat 0 [expr {6-[string length $nickcolour]}]]$nickcolour"
-		}
-
-		if { $nickcolour == "" || $nickcolour == "#" } {
-			if { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y" } {
-				set nickcolour [::skin::getKey "contact_mobile"]
-				set statecolour [::skin::getKey "state_mobile" $nickcolour]
-			} else {
-				set nickcolour [::MSN::stateToColor $state_code "contact"]
-				set statecolour [::MSN::stateToColor $state_code "state"]
-			}
-			set force_colour 0
-		} else {
-			if { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y" } {
-				set statecolour [::skin::getKey "state_mobile" [::skin::getKey "contact_mobile"]]
-			} else {
-				set statecolour [::MSN::stateToColor $state_code "state"]
-			}
-			set force_colour 1
-		}
-
-		set psm [::abook::getpsmmedia $email 1]
-
-		if {[::MSN::userIsNotIM $email]} {
-			set img [::skin::loadPixmap nonim]
-		} elseif {[::config::getKey show_contactdps_in_cl] == "1" &&
-		    !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN")} {
-			set img [::skin::getLittleDisplayPictureName $email]_cl
-
-			image create photo $img
-			
-			if {!$show_detailed_view} {
-				$img copy [::skin::getLittleDisplayPicture $email [image height [::skin::loadPixmap plain_emblem ]]]
-				
-				# We can get a user "hidden" if you have yourself on your own CL and you use MSNP16+ with mpop
-				if { $state_code == "FLN" || $state_code == "HDN"} {
-					::picture::Colorize $img grey 0.5
-					$img copy [::skin::loadPixmap plain_emblem]
-				} elseif { $state_code == "NLN" } {
-					$img copy [::skin::loadPixmap plain_emblem]
-				} else {
-					$img copy [::skin::loadPixmap [::MSN::stateToImage $state_code]_emblem]
-				}
-
-				#set the blocked emblem if the user is blocked
-				if { [::MSN::userIsBlocked $email] } {
-					$img copy [::skin::loadPixmap blocked_emblem]
-				}
-
-				# If you are not on this contact's list, show the notinlist emblem
-				if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-					$img copy [::skin::loadPixmap notinlist_emblem]
-				}
-			} else {
-				$img copy [::skin::getLittleDisplayPicture $email 57]
-				
-				#set the blocked emblem if the user is blocked
-				if { [::MSN::userIsBlocked $email] } {
-					$img copy [::skin::loadPixmap blocked_emblem_detailedview]
-				}
-			}
-
-		} else {
-
-			if { [::MSN::userIsBlocked $email] } {
-				if { $state_code == "FLN" } { 
-					set img [::skin::loadPixmap blocked_off] 
-				} else {
-					set img [::skin::loadPixmap blocked] 
-				}
-			} elseif { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } {
-				#Show webMSN buddy icon
-				set img [::skin::loadPixmap webmsn]
-			} elseif { [::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"} {
-				set img [::skin::loadPixmap mobile]
-			} else {
-				set img [::skin::loadPixmap [::MSN::stateToImage $state_code]]
-			}
-		}
-		
-
-		# TODO: hovers for the status-icons
-		# 	with a pixmap border and also status-emblem overlay in bottom right corner		
-		set parsednick [::abook::getDisplayNick $email 1]
-		#the padding between nickname and state
-		set nickstatespacing 5
-
-		if { [::abook::getContactData $email client] == "Webmessenger" && $state_code != "FLN" } { 
-			set statetext "\([trans web]\/[trans [::MSN::stateToDescription $state_code]]\)"
-		} else {
-			set statetext "\([trans [::MSN::stateToDescription $state_code]]\)"
-			if {$state_code == "NLN" || $state_code == "FLN"} {
-				set nickstatespacing 0
-				set statetext ""
-			}
-			if {$grId == "mobile"} {
-				set nickstatespacing 5
-				set statetext "\([trans mobile]\)"
-			}
-		}
-		
-		set maxwidth [expr {[winfo width $canvas] - 2*$Xbegin - [::skin::getKey buddy_xpad] - 5}]
-
-		################################################################
-		# Beginning of the drawing
-		################################################################
-
-		set marginx 0
-		set marginy 0
-
-		#Delete elements of the contact if they still exist
-		$canvas delete $tag
-
-		lappend stylestring [list "underline" "ul"]
-		lappend stylestring [list "default" $nickcolour splainf]
-		lappend stylestring [list "colour" "reset"]
-		lappend stylestring [list "font" "reset"]
-
-		#To mark the begin of the bbox
-		lappend stylestring [list "mark" ""]
-
-		lappend stylestring [list "tag" "icon"]
-		#--------------#
-		###Space icon###
-		#--------------#
-		
-		set showspaces [::config::getKey showspaces 1]
-		if {$showspaces} {
-
-			#this is when there is an update and we should show a star
-			set space_update [::abook::getVolatileData $email space_updated 0]
-			
-			#is the space shown or not ?
-			set space_shown [::abook::getVolatileData $email SpaceShowed 0]
-
-			set update_img [::skin::loadPixmap space_update]
-			set noupdate_img [::skin::loadPixmap space_noupdate]
-
-			# Check if we need an icon to show an updated space/blog, and draw one if we do
-			# We must create the icon and hide after else, the status icon will stick the border
-			    # it's surely due to anchor parameter
-			if { [::MSNSPACES::hasSpace $email] } {
-				lappend stylestring [list "tag" "$space_icon"]
-				if { $space_update } {
-					lappend stylestring [list "image" "$update_img" "w"]
-				} else {
-					lappend stylestring [list "image" "$noupdate_img" "w"]
-				}
-				lappend stylestring [list "tag" "-$space_icon"]
-			} else {
-				# TODO : uncomment this line to get back the space needed for the support of MSN spaces.
-				lappend stylestring [list "space" [image width $noupdate_img]]
-			}
-
-			incr marginx [image width $noupdate_img]
-		}
-		
-		#---------------#
-		###Status icon###
-		#---------------#
-
-		# Draw status-icon
-		lappend stylestring [list "margin" $marginx $marginy]
-		lappend stylestring [list "tag" "$main_part"]
-		lappend stylestring [list "image" "$img" "w"]
-		lappend stylestring [list "space" 2]
-		incr marginx [expr {2+[image width $img]}]
-
-# TODO: skin setting to draw buddypicture; statusicon should become icon + status overlay
-# 	like:	draw icon or small buddypicture overlay it with the status-emblem
-
-		#--------------#
-		###Alarm icon###
-		#--------------#
-
-		#Draw alarm icon if alarm is set
-		if { [::alarms::isEnabled $email] != ""} {
-	
-			if { [::alarms::isEnabled $email] } {
-				set icon [::skin::loadPixmap bell]
-			} else {
-				set icon [::skin::loadPixmap belloff]
-			}
-			
-			lappend stylestring [list "tag" "-$main_part"]
-			lappend stylestring [list "tag" "alarm_$email"]
-			lappend stylestring [list "image" "$icon" "w"]
-			lappend stylestring [list "tag" "-alarm_$email"]
-			lappend stylestring [list "tag" "$main_part"]
-
-			incr marginx [image width $icon]
-
-			# Binding for right click		 
-			$canvas bind alarm_$email <<Button3>> "::alarms::configDialog \"$email\"; break;"
-			$canvas bind alarm_$email <<Button1>> "switch_alarm \"$email\"; \
-				::guiContactList::switch_alarm \"$email\" \"$canvas\" \"alarm_$email\"; break"
-
-		}
-
-		#----------------------------#
-		###Not-on-reverse-list icon###
-		#----------------------------#	
-
-
-		if {$show_detailed_view || (![::config::getKey show_contactdps_in_cl] && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
-			# If you are not on this contact's list, show the notification icon
-			if {![::MSN::userIsNotIM $email] && [expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-				set icon [::skin::loadPixmap notinlist]
-				lappend stylestring [list "image" "$icon" "w"]
-				incr marginx [image width $icon]
-			}
-		}
-
-		lappend stylestring [list "space" 3]
-		incr marginx 3
-
-		# Now we're gonna draw the nickname itself
-		lappend stylestring [list "tag" "-icon"]
-		#-----------------#
-		###Draw Nickname###
-		#-----------------#
-		lappend stylestring [list "margin" $marginx $marginy]
-
-		if {$force_colour} {
-			lappend stylestring [list "colour" "ignore"]
-		}
-
-		lappend stylestring [list "tag" "nick"]
-
-		if { [::config::getKey truncatenames] } {
-			lappend stylestring [list "trunc" 1 "..."]
-		}
-
-		set evpar(nick) $parsednick
-		set evpar(login) $email
-		::plugins::PostEvent guicl_drawnick evpar
-
-		#Here we place nickname !!
-		set stylestring [concat $stylestring $parsednick]
-
-		if { [::config::getKey truncatenames] } {
-			lappend stylestring [list "trunc" 0]
-		}
-
-		lappend stylestring [list "tag" "-nick"]
-		#--------------------#
-		###Draw Status-name###
-		#--------------------#
-
-		if { $statetext != "" } {
-
-			lappend stylestring [list "space" $nickstatespacing]
-
-			if {$force_colour} {
-				lappend stylestring [list "colour" "unignore"]
-			}
-
-			lappend stylestring [list "colour" $statecolour]
-			lappend stylestring [list "font" "reset"]
-
-			lappend stylestring [list "tag" "state"]
-			lappend stylestring [list "text" $statetext]
-			lappend stylestring [list "tag" "-state"]
-
-		#	lappend stylestring [list "colour" "reset"]
-
-			if {$force_colour} {
-				lappend stylestring [list "colour" "ignore"]
-			}
-
-		}
-		
-		#------------#
-		###Draw PSM###
-		#------------#
-
-		if {[::abook::removeStyles $psm] != "" && [::config::getKey emailsincontactlist] == 0 } {
-
-			lappend stylestring [list "default" [::skin::getKey buddypsmcolor $nickcolour] \
-				[::skin::getFont buddypsmfont "sitalf"]]
-
-			lappend stylestring [list "colour" "reset"]
-			lappend stylestring [list "font" "reset"]
-			
-			if {$show_detailed_view} {
-				set pos [lsearch -exact $psm [list smiley uiElement_std_note -]]
-				if {$pos != -1} {
-					set psm [linsert $psm $pos [list "newline" "\n"]]
-				}
-				set parsedpsm [linsert $psm 0 [list "newline" "\n"]]
-			} elseif {[::config::getKey psmplace] == 1 } {
-				set parsedpsm [linsert $psm 0 [list "text" " - "]]
-			} elseif {[::config::getKey psmplace] == 2 } {
-				set parsedpsm [linsert $psm 0 [list "newline" "\n"]]
-			} else {
-				set parsedpsm ""
-			}
-
-
-			#Here we place the PSM !!
-			lappend stylestring [list "tag" "psm"]
-
-			if { [::config::getKey truncatenames] } {
-				lappend stylestring [list "trunc" 1 "..."]
-			}
-
-			set stylestring [concat $stylestring $parsedpsm]
-			
-			lappend stylestring [list "font" "reset"]
-			lappend stylestring [list "colour" "reset"]
-			
-			if { [::config::getKey truncatenames] } {
-				lappend stylestring [list "trunc" 0]
-			}
-			lappend stylestring [list "tag" "-psm"]
-
-		}
-
-		lappend stylestring [list "tag" "-$main_part"]
-
-		if {$force_colour} {
-			lappend stylestring [list "colour" "unignore"]
-		}
-
-		#----------------------------------#
-		##Controversial inline spaces info##
-		#----------------------------------#
-
-		#This is a technology demo, the default is not unchangeable
-		# values for this variable can be "inline", "ccard" or "disabled"
-		if {$showspaces && $space_shown && \
-			([::config::getKey spacesinfo "inline"] == "inline" || \
-			[::config::getKey spacesinfo "inline"] == "both") } {
-
-			lappend stylestring [list "newline" "\n"]
-			if {[::config::getKey spacesinfo "inline"] == "both" } {
-				#image to show the ccard
-				lappend stylestring [list "tag" "icon"]
-				lappend stylestring [list "tag" "$undock_space"]
-				lappend stylestring [list "image" [::skin::loadPixmap spaces_undock] "w"]
-				lappend stylestring [list "tag" "-$undock_space"]
-				lappend stylestring [list "tag" "-icon"]
-			}
-
-			lappend stylestring [list "tag" "$space_info"]
-			lappend stylestring [list "tag" "space_info"]
-
-			set stylestring [concat $stylestring [::ccard::drawSpacesCL $canvas $email $tag \
-				$marginx $marginy]]
-
-			lappend stylestring [list "tag" "-space_info"]
-			lappend stylestring [list "tag" "-$space_info"]
-		}
-
-		#---------------#
-		##Rendering !! ##
-		#---------------#
-
-	#	trimInfo stylestring
-		set renderInfo [renderContact $canvas [list $tag "contact"] $maxwidth $stylestring]
-		array set underlinst $renderInfo
-
-
-		#-----------#
-		##Bindings###
-		#-----------#
-
-		# First, remove previous bindings
-		cleanBindings $canvas $tag
-		cleanBindings $canvas $main_part
-		cleanBindings $canvas $space_icon
-
-		#Click binding for the "star" image for spaces
-		$canvas bind $space_icon <Button-1> [list ::guiContactList::toggleSpaceShown $email]
-
-		$canvas bind $undock_space <Button-1> [list ::ccard::drawwindow $email 1]
-		##TODO# not sure about this one:
-		$canvas bind $undock_space <Button-1> +[list ::guiContactList::toggleSpaceShown $email]
-
-		# balloon bindings
-		if { [::config::getKey tooltips] == 1 } {
-			$canvas bind $space_icon <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y [trans viewspace] ]
-			$canvas bind $space_icon <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y [trans viewspace] ]
-			$canvas bind $space_icon <Leave> "+set ::Bulle(first) 0; kill_balloon"
-		}
-
-		# Add binding for underline if the skinner use it
-		if {[::skin::getKey underline_contact]} {
-			$canvas bind $main_part <Enter> \
-				+[list ::guiContactList::underlineList $canvas [set underlinst(ul)] "$tag"]
-			$canvas bind $main_part <Leave> +[list $canvas delete "uline_$tag"]
-		}
-		
-		# Add binding for balloon
-		if { [::config::getKey tooltips] == 1 } {
-			set b_content [getBalloonMessage $email $element]
-			set b_fonts [list "sboldf" "sitalf" "splainf" "splainf"]
-			$canvas bind $main_part <Enter> +[list ::guiContactList::balloon_enter_CL %W %X %Y $b_content [::skin::getDisplayPicture $email] $b_fonts complex]
-			$canvas bind $main_part <Motion> +[list ::guiContactList::balloon_motion_CL %W %X %Y $b_content [::skin::getDisplayPicture $email] $b_fonts complex]
-			$canvas bind $main_part <Leave> "+set ::Bulle(first) 0; kill_balloon"
-		}
-
-
-		# Binding for left (double)click
-		if {[::MSN::userIsNotIM $email] } {
-			# If the user is a non IM user, send email.
-			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
-				"set ::guiContactList::displayCWAfterId \
-				\[after 0 \[list launch_mailer \"$email\"\]\]" $main_part %X %Y %t]
-		} elseif { $state_code == "FLN" && [::abook::getContactData $email MOB] == "Y"} {
-			# If the user is offline and support mobile (SMS)
-			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
-				"set ::guiContactList::displayCWAfterId \
-				\[after 0 \[list ::MSNMobile::OpenMobileWindow \"$email\"\]\]" $main_part %X %Y %t]
-		} else {
-			$canvas bind $main_part <ButtonRelease-1> [list ::guiContactList::contactCheckDoubleClick \
-				"set ::guiContactList::displayCWAfterId \
-				\[after 0 \[list ::amsn::chatUser \"$email\"\]\]" $main_part %X %Y %t]
-		}
-
-		# Binding for right click		 
-		$canvas bind $main_part <<Button3>> [list show_umenu "$email" "$grId" %X %Y]
-		if {[OnMac]} {
-			# Control click also acts as a right click.
-			$canvas bind $main_part <Control-ButtonPress-1> [list show_umenu "$email" "$grId" %X %Y]
-		}
-		
-		# Bindings for dragging : applies to all elements even the star
-		$canvas bind $tag <ButtonPress-1> [list ::guiContactList::contactPress $tag $canvas %s %x %y]
-
-		#cursor change bindings
-		if { [::skin::getKey changecursor_contact] } {
-			$canvas bind $tag <Enter> +[list ::guiContactList::configureCursor $canvas hand2]
-			$canvas bind $tag <Leave> +[list ::guiContactList::configureCursor $canvas left_ptr]
-		}
-
-		# Now store the nickname [and] height in the nickarray
-		if {[llength [$canvas find withtag $tag]] > 0 } {
-			set bbox [$canvas bbox $tag]
-			set nickheightArray($email) [expr {[lindex $bbox 3]-[lindex $bbox 1]}]
-		} else {
-			set nickheightArray($email) 0
-		}
+		updatecontactsz $canvas
+		return
 	}
 
 	proc cleanBindings {canvas tag} {
@@ -1933,7 +1708,7 @@ namespace eval ::guiContactList {
 	}
 	
 	proc toggleSpaceShown {email} {
-		if { [::config::getKey spacesinfo "inline"] == "inline" || [::config::getKey spacesinfo "inline"] == "both" } {
+		if {0  && [::config::getKey spacesinfo "inline"] == "inline" || [::config::getKey spacesinfo "inline"] == "both" } {
 			if {[::abook::getVolatileData $email SpaceShowed 0]} {
 				::abook::setVolatileData $email SpaceShowed 0
 			} else {
@@ -1941,7 +1716,7 @@ namespace eval ::guiContactList {
 				::abook::setVolatileData $email SpaceShowed 1
 			}
 			::guiContactList::contactChanged "toggleSpaceShown" $email
-		} elseif { [::config::getKey spacesinfo "inline"] == "ccard" } {
+		} elseif {1 || [::config::getKey spacesinfo "inline"] == "ccard" } {
 			::MSNSPACES::fetchSpace $email
 			::ccard::drawwindow $email 1
 		}
@@ -2525,7 +2300,7 @@ namespace eval ::guiContactList {
 
 			if { $newgrId == $oldgrId || !$newgrIdV || !$oldgrIdV } {
 				#if the contact was dragged to the group of origin or is from/to an fake group, just move it back
-				::guiContactList::organiseList $canvas [getContactList]
+				::guiContactList::drawList $canvas
 			} else {
 				if { $::guiContactList::modeCopy } {
 					# Copy the contact between the groups if Ctrl key is pressed

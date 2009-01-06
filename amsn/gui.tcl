@@ -3911,6 +3911,10 @@ namespace eval ::amsn {
 					  }
 					  continue
 				}
+				"font" {
+					plugins_log AM [lindex $unit 1]
+					continue
+				}
 				"bg" { 
 					  if {[lindex $unit 1] ne "reset"} {
 						set fontbg [lindex $unit 1]
@@ -6074,8 +6078,17 @@ proc trunc_list {str {window ""} {maxw 0 } {font ""}} {
 				set maxw [expr {$maxw - [font measure $font -displayof $window $txt]}]
 				lappend buffer $elt
 		}
-		smiley {
+		smiley -
+		image {
 				set maxw [expr {$maxw - [image width [lindex $elt 1]]}]
+				if {$maxw <= 0 } {
+					lappend buffer [list colour reset] [list bg reset] [list font reset] [list text "..."]
+					return $buffer
+				}
+				lappend buffer $elt
+		}
+		incrx {
+				set maxw [expr {$maxw - [lindex $elt 1]}]
 				if {$maxw <= 0 } {
 					lappend buffer [list colour reset] [list bg reset] [list font reset] [list text "..."]
 					return $buffer
