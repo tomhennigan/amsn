@@ -148,31 +148,6 @@ static void Close ()
     callback = NULL;
     callback_interp = NULL;
   }
-  if (source) {
-    g_free (source);
-    source = NULL;
-  }
-  if (source_device) {
-    g_free (source_device);
-    source_device = NULL;
-  }
-  if (source_pipeline) {
-    g_free (source_pipeline);
-    source_pipeline = NULL;
-  }
-  if (sink) {
-    g_free (sink);
-    sink = NULL;
-  }
-  if (sink_device) {
-    g_free (sink_device);
-    sink_device = NULL;
-  }
-  if (sink_pipeline) {
-    g_free (sink_pipeline);
-    sink_pipeline = NULL;
-  }
-
 }
 
 
@@ -1863,7 +1838,7 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         a++;
         if (a >= objc) {
           Tcl_AppendResult(interp,
-              "no argument given for -myport option", NULL);
+              "no argument given for -source-device option", NULL);
           return TCL_ERROR;
         }
 
@@ -1888,7 +1863,7 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         a++;
         if (a >= objc) {
           Tcl_AppendResult(interp,
-              "no argument given for -source option", NULL);
+              "no argument given for -sink option", NULL);
           return TCL_ERROR;
         }
 
@@ -1900,7 +1875,7 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         a++;
         if (a >= objc) {
           Tcl_AppendResult(interp,
-              "no argument given for -myport option", NULL);
+              "no argument given for -sink-device option", NULL);
           return TCL_ERROR;
         }
 
