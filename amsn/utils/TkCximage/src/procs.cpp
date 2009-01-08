@@ -158,7 +158,7 @@ int Tk_Resize (ClientData clientData,
   int alpha = 0;
   int width = 0;
   int height = 0;
-#ifdef ANIMATE_GIFS
+#if ANIMATE_GIFS
   GifInfo* item = NULL;
 #endif
 
@@ -182,7 +182,7 @@ int Tk_Resize (ClientData clientData,
     return TCL_ERROR;
   }
 
-#ifdef ANIMATE_GIFS
+#if ANIMATE_GIFS
   item = TkCxImage_lstGetItem(Photo);
   if ( item != NULL ) {
     for(unsigned int i=0; i< item->NumFrames; i++) {
