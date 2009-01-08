@@ -135,18 +135,8 @@ if test $FOUND_OS != "mac"; then
 	
 	AC_MSG_CHECKING(tcl build dir)
 	TCL_LIB_DIR=$exec_prefix/lib
-	dirs="	/usr/lib/tcl8.4a* \
-		/usr/local/lib/tcl8.4a* \
-		/usr/lib/tcl8.4b* \
-		/usr/local/lib/tcl8.4b* \
-		/usr/lib/tcl8.4 \
-		/usr/lib/tcl8.4.* \
-		/usr/local/lib/tcl8.4 \
-		/usr/local/lib/tcl8.4.* \
-		/usr/lib/tcl8.5 \
-		/usr/lib/tcl8.5.* \
-		/usr/local/lib/tcl8.5 \
-		/usr/local/lib/tcl8.5.* \
+	dirs="	/usr/lib/tcl8.* \
+		/usr/local/lib/tcl8.* \
 		/Library/Frameworks/Tcl.framework \
 		~/Library/Frameworks/Tcl.framework \
 		/Network/Library/Frameworks/Tcl.framework \
@@ -155,18 +145,8 @@ if test $FOUND_OS != "mac"; then
 		/usr/lib \
 		/usr/local/lib64 \
 		/usr/lib64 \
-		/usr/lib64/tcl8.4a* \
-		/usr/local/lib64/tcl8.4a* \
-		/usr/lib64/tcl8.4b* \
-		/usr/local/lib64/tcl8.4b* \
-		/usr/lib64/tcl8.4 \
-		/usr/lib64/tcl8.4.* \
-		/usr/local/lib64/tcl8.4 \
-		/usr/local/lib64/tcl8.4.* \
-		/usr/lib64/tcl8.5 \
-		/usr/lib64/tcl8.5.* \
-		/usr/local/lib64/tcl8.5 \
-		/usr/local/lib64/tcl8.5.* \
+		/usr/lib64/tcl8.* \
+		/usr/local/lib64/tcl8.* \
 		`locate tclConfig.sh`"
 	
 	for i in $dirs ; do
@@ -273,18 +253,8 @@ if test $FOUND_OS != "mac"; then
 		TK_LIB_DIR=$TCL_LIB_DIR
 	else
 		TK_LIB_DIR=$prefix/lib
-		dirs="/usr/lib/tk8.4a* \
-		/usr/local/lib/tk8.4a* \
-		/usr/lib/tk8.4b* \
-		/usr/local/lib/tk8.4b* \
-		/usr/lib/tk8.4 \
-		/usr/lib/tk8.4.* \
-		/usr/local/lib/tk8.4 \
-		/usr/local/lib/tk8.4.* \
-		/usr/lib/tk8.5 \
-		/usr/lib/tk8.5.* \
-		/usr/local/lib/tk8.5 \
-		/usr/local/lib/tk8.5.* \
+		dirs="/usr/lib/tk8.* \
+		/usr/local/lib/tk8.* \
 		/Library/Frameworks/Tk.framework \
 		~/Library/Frameworks/Tk.framework \
 		/Network/Library/Frameworks/Tk.framework \
@@ -293,18 +263,8 @@ if test $FOUND_OS != "mac"; then
 		/usr/lib \
 		/usr/local/lib64 \
 		/usr/lib64 \
-		/usr/lib64/tk8.4a* \
-		/usr/local/lib64/tk8.4a* \
-		/usr/lib64/tk8.4b* \
-		/usr/local/lib64/tk8.4b* \
-		/usr/lib64/tk8.4 \
-		/usr/lib64/tk8.4.* \
-		/usr/local/lib64/tk8.4 \
-		/usr/local/lib64/tk8.4.* \
-		/usr/lib64/tk8.5 \
-		/usr/lib64/tk8.5.* \
-		/usr/local/lib64/tk8.5 \
-		/usr/local/lib64/tk8.5.* \
+		/usr/lib64/tk8.* \
+		/usr/local/lib64/tk8.* \
 		`locate tkConfig.sh`"
 	
 	
