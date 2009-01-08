@@ -292,8 +292,14 @@ int PlaceHook(Tcl_Interp *interp){
 		return TCL_ERROR;
 	}
 	const char *name = Tcl_GetStringResult(interp);
+	const Tk_ImageType *ctypePhotoPtr = NULL;
 	Tk_ImageType *typePhotoPtr = NULL;
+#if TK_MINOR_VERSION >= 6
+	Tk_GetImageMasterData(interp, name, &ctypePhotoPtr);
+        typePhotoPtr = (Tk_ImageType *) ctypePhotoPtr;
+#else
 	Tk_GetImageMasterData(interp, name, &typePhotoPtr);
+#endif
 	if (PhotoDisplayOriginal == NULL) {
 		PhotoDisplayOriginal = typePhotoPtr->displayProc;
 		typePhotoPtr->displayProc = (Tk_ImageDisplayProc *) PhotoDisplayProcHook;
