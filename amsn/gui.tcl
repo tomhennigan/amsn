@@ -3569,7 +3569,7 @@ namespace eval ::amsn {
 			} elseif {$chatstyle eq "irc"} {
 				set parsing $original_nick
 				set parsing [linsert $parsing 0 [list text "\n$tstamp <"]]
-				lappend parsing [list text ">"]
+				lappend parsing [list text "> "]
 			} elseif {$chatstyle eq "compact" } {
 				if {!$lastchat} {
 					set str [trans says __@__]
