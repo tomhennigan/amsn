@@ -3,13 +3,23 @@
 	<name>Colorize</name>
 	<author>Karol Krizka</author>
 	<description>Change the color of your text from either a predefined list or randomly.</description>
-	<amsn_version>0.94</amsn_version>
+	<description_hu>Saját üzenetek színének változtatása előre definiált listából vagy véletlenszerűen.</description_hu>
+	<amsn_version>0.97</amsn_version>
 	<plugin_version>1.0</plugin_version>
 	<plugin_file>colorize.tcl</plugin_file>
 	<plugin_namespace>colorize</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
-	<cvs_version>1.3</cvs_version>
+	<cvs_version>10835</cvs_version>
 
+	<lang>
+		<langcode>en</langcode>
+		<version>10835</version>
+	</lang>
+
+	<lang>
+		<langcode>hu</langcode>
+		<version>10835</version>
+	</lang>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/colorize/colorize.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/colorize/plugininfo.xml</plugininfo>

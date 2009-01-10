@@ -1,0 +1,7 @@
+amsn_lang_version 2
+random Random colors
+invalid_t Invalid color!
+invalid_m You didn't enter a valid color! It has to be in the format: RRGGBB. For example red would be FF0000
+dup_t Duplicate color!
+dup_m already exists in the list!
+

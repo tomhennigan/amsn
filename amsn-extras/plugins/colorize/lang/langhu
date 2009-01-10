@@ -1,0 +1,6 @@
+amsn_lang_version 2
+random Véletlen színek
+invalid_t Érvénytelen szín!
+invalid_m Érvénytelen színt adtál meg! A helyes formátum: RRGGBB. Pl. a vörös FF0000
+dup_t Dupla szín!
+dup_m már szerepel a listában!

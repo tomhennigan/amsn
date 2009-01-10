@@ -1,20 +1,28 @@
 namespace eval ::colorize {
     variable config
     variable configlist
+    variable language
     variable at 0
     
     proc InitPlugin { dir } {
 	variable configlist
+	variable language
 	plugins_log gename "Welcome to Colorize!\n"
 	::plugins::RegisterPlugin Colorize
 	::plugins::RegisterEvent Colorize chat_msg_sent rotateColor
+
+	set langdir [file join $dir "lang"]
+	set lang [::config::getGlobalKey language]
+	load_lang en $langdir
+	load_lang $lang $langdir
+
 	array set ::colorize::config [list \
 					  colors [list "FF0000" "00FF00" "0000FF" ] \
 					  random 1 \
 					 ]
 	set configlist [list \
 			    [list frame ::colorize::build_config] \
-			    [list bool "Random colors" random] \
+			    [list bool "[trans random]" random] \
 			   ]
     }
     
@@ -59,11 +67,11 @@ namespace eval ::colorize {
     proc add {from} {
 	set color [$from get]
 	if {[string length $color]!=6} {
-	    tk_messageBox -type ok -title "Invalid color!" -message "You didn't enter a valid color! It has to be in the format: RRGGBB. For example red would be FF0000" -icon error
+	    tk_messageBox -type ok -title "[trans invalid_t]" -message "[trans invalid_m]" -icon error
 	    return
 	}
 	if {[lsearch -exact $::colorize::config(colors) $color] >= 0} {
-	    tk_messageBox -type ok -title "Duplicate color!" -message "$color already exists in the list!" -icon error
+	    tk_messageBox -type ok -title "[trans dup_t]" -message "$color [trans dup_m]" -icon error
 	    return
 	}
 	lappend ::colorize::config(colors) $color
@@ -72,9 +80,9 @@ namespace eval ::colorize {
 
     proc build_config {w} {
 	listbox $w.colors -listvariable ::colorize::config(colors)
-	button $w.rem -text "Remove" -command "::colorize::remove $w.colors"
+	button $w.rem -text "[trans delete]" -command "::colorize::remove $w.colors"
 	entry $w.newcolor -text "#RRGGBB"
-	button $w.add -text "Add" -command "::colorize::add $w.newcolor"
+	button $w.add -text "[trans add]" -command "::colorize::add $w.newcolor"
 	pack $w.colors -fill x
 	pack $w.rem -expand 1 -fill x
 	pack $w.newcolor $w.add -side left -fill y
