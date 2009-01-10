@@ -3,6 +3,7 @@
 	<name>gnotify</name>
 	<author>Youness Alaoui (a.k.a KaKaRoTo)</author>
 	<description>Plugin to check Gmail accounts in aMSN and notify you with the email information. A kind of "Gmail Notifer" clone for aMSN.</description>
+	<description_hu>Ellenőrzi a Gmail fiókokat, és értesít az e-mail információkkal. A "Gmail Notifer" klónja az aMSN-hez.</description_hu>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>0.9</plugin_version>
 	<plugin_file>gnotify.tcl</plugin_file>
