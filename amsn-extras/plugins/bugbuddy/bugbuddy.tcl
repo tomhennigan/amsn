@@ -2,19 +2,25 @@ namespace eval ::bugbuddy {
     variable timer ""
     variable config
     variable configlist
+    variable language
     proc InitPlugin { dir } {
 	variable configlist
+	variable language
 	array set ::bugbuddy::config {
             user {}
 	    message {Hi}
             timeout {5000}
         }
+	set langdir [file join $dir "lang"]
+	set lang [::config::getGlobalKey language]
+	load_lang en $langdir
+	load_lang $lang $langdir
 	::plugins::RegisterPlugin "bugbuddy" 
         set configlist [list \
-                            [list str "User" user] \
-			    [list str "Message" message] \
-                            [list str "Timeout" timeout] \
-			    [list ext "Start/Stop" activate] \
+                            [list str "[trans user]" user] \
+			    [list str "[trans message]" message] \
+                            [list str "[trans timeout]" timeout] \
+			    [list ext "[trans activate]" activate] \
                            ]
     }
 

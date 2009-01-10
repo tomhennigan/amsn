@@ -3,25 +3,31 @@
         <name>bugbuddy</name>
         <author>Karol Krizka</author>
         <description>A plugin for sending automatic messages to friends.</description>
-        <amsn_version>0.94</amsn_version>
+        <description_hu>Automatikus üzenetküldés a barátoknak.</description_hu>
+        <amsn_version>0.97</amsn_version>
         <plugin_version>1.0</plugin_version>
         <plugin_file>bugbuddy.tcl</plugin_file>
         <plugin_namespace>bugbuddy</plugin_namespace>
         <init_procedure>InitPlugin</init_procedure>
         <deinit_procedure>DeInitPlugin</deinit_procedure>
-        
-        <cvs_version>1.1</cvs_version>
-        
-     <file>
+        <cvs_version>10836</cvs_version>
+        <file>
 		<path>CREDITS</path>
 		<version>1.1</version>
 	</file>
+	<lang>
+		<langcode>en</langcode>
+		<version>10836</version>
+	</lang>
 
+	<lang>
+		<langcode>hu</langcode>
+		<version>10836</version>
+	</lang>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/bugbuddy/bugbuddy.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/bugbuddy/plugininfo.xml</plugininfo>
 		<lang>http://www.amsn-project.net/autoupdater/plugins/bugbuddy/lang/lang$langcode</lang>
 		<file>http://www.amsn-project.net/autoupdater/plugins/bugbuddy/$file</file>
 	</URL>
-	
 </plugin>
