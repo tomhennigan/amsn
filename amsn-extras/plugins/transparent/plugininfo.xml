@@ -5,6 +5,9 @@
 	<description>Makes contact list and chat window transparent.
 Only works on Windows 2000/Xp, Mac OS X, Compiz/Beryl and other compositing managers.
 Needs Tk 8.5 to work on Linux.</description>
+	<description_hu>Átlátszóvá teszi a kapcsolatlistát és a beszélgetések ablakát.
+Csak Windows 2000/Xp, Mac OS X, Compiz/Beryl és más composit manager-ekkel működik.
+Linuxon Tk 8.5 kell a működéséhez.</description_hu>
 	<amsn_version>0.96</amsn_version>
 	<plugin_version>0.6</plugin_version>
 	<plugin_file>transparent.tcl</plugin_file>
@@ -32,6 +35,10 @@ Needs Tk 8.5 to work on Linux.</description>
 	<lang>
 		<langcode>lt</langcode>
 		<version>10413</version>
+	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>10840</version>
 	</lang>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/transparent/transparent.tcl</main>

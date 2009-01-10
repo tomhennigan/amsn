@@ -1,0 +1,7 @@
+amsn_lang_version 2
+cltransparency Kapcsolatlista átlátszósága:
+cwtransparency Beszélgetések ablakának átlátszósága:
+cwnoactive Az aktív beszélgetés ablaka ne legyen átlátszó
+cwopaque A beszélgetések ablakai ne legyenek átlátszóak, ha az egér felettük van
+cwspeedin Az átlátszó - nem átlátszó váltás sebessége:
+cwspeedout A nem átlátszó - átlátszó váltás sebessége:
