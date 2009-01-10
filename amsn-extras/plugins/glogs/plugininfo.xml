@@ -3,6 +3,7 @@
 	<name>GLogs</name>
 	<author>Ignacio Larrain</author>
 	<description>Send logs of conversations to your email. It was made to take advantage of GMail features, but can be used with any mail account.</description>
+	<description_hu>Beszélgetések naplójának elküldése e-mailben. Eredetileg a GMail-hez készült, de bármely e-mail címmel használható.</description_hu>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>1</plugin_version>
 	<plugin_file>glogs.tcl</plugin_file>
@@ -37,6 +38,10 @@
 	<lang>
 		<langcode>lt</langcode>
 		<version>10397</version>
+	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>10839</version>
 	</lang>
 
 	<URL>

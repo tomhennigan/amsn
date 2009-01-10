@@ -1,0 +1,14 @@
+amsn_lang_version 2
+serverlabel Add meg a kimenő levelek szerverének adatait...
+smtpserver SMTP szerver (pl.: localhost, smtp.gmail.com)
+smtpport Szerver port (alapértelmezett: 25)
+userlabel Ha a szerver megköveteli az azonosítást, add meg a szükséges adatokat a következő mezőkben)
+smtpuser Felhasználónév (pl.: my_mail@gmail.com)
+smtppass Jelszó
+sendtolabel A következő mezőben add meg azt az e-mail címet, ahova a naplófájlokat küldeni szeretnéd.
+sendto Naplófájlok küldése e címre (pl.: my_mail@gmail.com)
+logslabel E-mail formázási opciók
+defaultprefix aMSN beszélgetés: 
+showfooter Lábléc
+htmlformat HTML formázás használata (szín, emotikonok...)
+footer _________________________________________________________________\n aMSN Messenger http://amsn.sf.net/\n Logs sent by GLogs plugin.
