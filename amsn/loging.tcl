@@ -839,7 +839,7 @@ namespace eval ::log {
 
 	proc wname {email} {
 
-		set wname [split $email "@ ."]
+		set wname [split $email "@ .:"]
 		set wname [join $wname "_"]
 		set wname ".${wname}_hist"
 		return $wname
