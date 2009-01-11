@@ -392,7 +392,8 @@ namespace eval ::config {
 		set osspecific_keys [list receiveddir soundcommand browser notifyXoffset \
 					notifyYoffset filemanager openfilecommand usesnack \
 					wingeometry backgroundcolor dockbounce newchatwinstate \
-					newmsgwinstate psmplace mailcommand]
+					newmsgwinstate psmplace mailcommand \
+					webcamDevice snackInputDevice snackMixerDevice snackOutputDevice]
 
 		set locale_codes [list \
 			[list af 1078] \
