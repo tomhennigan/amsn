@@ -78,7 +78,7 @@ snit::type Addressbook {
 
 	method FindMembershipSSOCB {callbk ticket} {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/FindMembership" \
 				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getFindMembershipBodyXML] \
@@ -172,7 +172,7 @@ snit::type Addressbook {
 
 	method ABFindAllSSOCB { callbk ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABFindAll" \
 				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getABFindAllBodyXML] \
@@ -460,7 +460,7 @@ snit::type Addressbook {
 
 	method ABAddSSOCB { callbk email ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABAdd" \
 				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getABAddBodyXML $email] \
@@ -515,7 +515,7 @@ snit::type Addressbook {
 
 	method ABContactAddSSOCB { callbk email yahoo ticket} {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABContactAdd" \
 				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getABContactAddBodyXML $email $yahoo] \
@@ -607,7 +607,7 @@ snit::type Addressbook {
 
 	method ABContactDeleteSSOCB { callbk email ticket} {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
 				 -header [$self getCommonHeaderXML Timer $ticket] \
 				 -body [$self getABContactDeleteBodyXML $email] \
@@ -664,7 +664,7 @@ snit::type Addressbook {
 
 	method ABContactUpdateSSOCB { callbk email changes properties ticket} {
 		set request [SOAPRequest create %AUTO% \
-				-url "https://contacts.msn.com/abservice/abservice.asmx" \
+				-url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				-action "http://www.msn.com/webservices/AddressBook/ABContactUpdate" \
 				-header [$self getCommonHeaderXML BlockUnblock $ticket] \
 				-body [$self getABContactUpdateBodyXML $email $changes $properties] \
@@ -721,7 +721,7 @@ snit::type Addressbook {
 
 	method AddMemberSSOCB { callbk scenario email role ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/AddMember" \
 				 -header [$self getCommonHeaderXML $scenario $ticket] \
 				 -body [$self getAddMemberBodyXML $email $role] \
@@ -809,7 +809,7 @@ snit::type Addressbook {
 
 	method DeleteMemberSSOCB { callbk scenario email role ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/DeleteMember" \
 				 -header [$self getCommonHeaderXML $scenario $ticket] \
 				 -body [$self getDeleteMemberBodyXML $email $role] \
@@ -898,7 +898,7 @@ snit::type Addressbook {
 
 	method UpdateMemberSSOCB { callbk contactid role cstate deleted ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://contacts.msn.com/abservice/SharingService.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/SharingService.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/UpdateMember" \
 				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getUpdateMemberBodyXML $contactid $role $cstate $deleted] \
@@ -954,7 +954,7 @@ snit::type Addressbook {
 
 	method ABGroupAddSSOCB { callbk groupname ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupAdd" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupAddBodyXML $groupname] \
@@ -1019,7 +1019,7 @@ snit::type Addressbook {
 
 	method ABGroupDeleteSSOCB { callbk gid ticket} {
 		set request [SOAPRequest create %AUTO% \
-				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupDelete" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupDeleteBodyXML $gid] \
@@ -1072,7 +1072,7 @@ snit::type Addressbook {
 
 	method ABGroupUpdateSSOCB { callbk gid newname ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupUpdate" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupUpdateBodyXML $gid $newname] \
@@ -1129,7 +1129,7 @@ snit::type Addressbook {
 
 	method ABGroupContactAddSSOCB { callbk gid cid ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactAdd" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupContactAddBodyXML $gid $cid] \
@@ -1188,7 +1188,7 @@ snit::type Addressbook {
 
 	method ABGroupContactDeleteSSOCB { callbk gid cid ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "http://contacts.msn.com/abservice/abservice.asmx" \
+				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactDelete" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupContactDeleteBodyXML $gid $cid] \
