@@ -202,6 +202,7 @@ closingdocks Bezáró gombra dokkolás (minimalizálás)
 color Szín
 command Parancs
 commandstatus Parancs futtatása
+compactstyle Kompakt stílus
 configure Beállítás
 configuremic A mikrofon beállítása
 configureplugin $1 plugin beállítása
@@ -229,6 +230,7 @@ contactdoesnotexist A kapcsolat nem jött létre!
 contactlist Partnerlista (PL):
 contact Partner
 contacts Partnerek
+contentroamingsetting Megjelenítendő kép tárolása a szerveren
 continuously Folyamatosan
 contrast Kontraszt
 conversationwith $1 partner a beszélgetésben
