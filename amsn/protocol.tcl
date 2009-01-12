@@ -1270,7 +1270,7 @@ namespace eval ::MSN {
 	}
 
 	proc updateDP { {step 0} } {
-		if {[::config::getKey protocol] >= 15} {
+		if {[::config::getKey protocol] >= 15 && [::config::getKey contentroaming 1] == 1} {
 			set dp [::config::getKey displaypic ""]
 			if {$dp == "" || $dp == "nopic.gif"} {
 				set dp ""
@@ -1324,7 +1324,7 @@ namespace eval ::MSN {
 	
 	proc downloadDP { {step 0} {token ""} } {
 		global HOME
-		if {[::config::getKey protocol] >= 15} {
+		if {[::config::getKey protocol] >= 15 && [::config::getKey contentroaming 1] == 1} {
 			if {$step == 0} {
 				status_log "downloadDP : fetching newest version of profile (GetProfile)" blue
 				$::roaming GetProfile [list ns RoamingGetProfileCB [list ::MSN::downloadDP 1]]
