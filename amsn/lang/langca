@@ -904,6 +904,7 @@ autolisten_voiceclips Reprodueix automàticament els videoclips rebuts
 changestatus Canvia l'estat
 closeordock Tancant la llista de contactes, sortireu de l'aMSN. Potser només voleu tancar la finestra i que l'aMSN continuï a la safata del sistema.\n\nEstàs segur de voler sortir de l'aMSN?
 contacts Contactes
+contentroamingsetting Emmagatzemar imatge per a mostrar en el servidor 
 deleteblock Eliminar i bloquejar
 findasyoutype Cerca mentre escrius
 gotoinbox Anar a la safata d'entrada
