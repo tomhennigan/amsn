@@ -230,6 +230,7 @@ contactadded Contact toegevoegd
 contactdoesnotexist Contact bestaat niet!
 contactlist [FL] Contactenlijst
 contacts Contacten
+contentroamingsetting Schermafbeelding opslaan op de server
 continuously Onafgebroken
 contrast Contrast
 conversationwith $1 deelnemers aan het gesprek
@@ -290,7 +291,7 @@ directconnection Directe verbinding met het internet (gebruikt poort 1863)
 disabled Uitgeschakeld
 disableprofiles Profielen uitschakelen (handig voor internetcafés en gedeelde omgevingen)
 disablessl SSL niet gebruiken
-disableuserfonts Lettertype-instelling van degene met wie je chat negeren, en je eigen lettertype gebruiken
+disableuserfonts Lettertype van gesprekspartner negeren en het eigen lettertype gebruiken
 disconnect $1 is offline gegaan
 disconnectedfrom Verbinding van $1 verbroken
 displaychat Discussies
