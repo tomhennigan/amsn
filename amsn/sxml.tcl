@@ -972,7 +972,7 @@ proc xml2list xml {
 	if [llength $stack] {error "unresolved: $stack"}
 
 	# Unescape chars and accolades
-	string map {"\} \}" "\}\}" "&amp;" "&" "&lt;" "<" "&gt;" ">" "&apos;" "\'" "&quot;" "\"" "&right_accolade;" "\\\{" "&left_accolade;" "\\\}" "&escape_char;" "\\\\"} [lindex $res 0]
+	string map {"\} \}" "\}\}" "&right_accolade;" "\\\{" "&left_accolade;" "\\\}" "&escape_char;" "\\\\"} [xmldecode [lindex $res 0]]
 }
 
 proc list2xml {list {depth -1}} {
@@ -1217,5 +1217,18 @@ proc xmlencode {string} {
 }
 
 proc xmldecode {string} {
-	return [string map { "&lt;" "<" "&gt;" ">" "&amp;" "&" "&quot;" "\"" "&apos;" "'" } $string]
+	set parsed ""
+	while {[set pos [string first "&#x" $string]] != -1 } {
+		append parsed [string range $string 0 [expr {$pos - 1}]]
+		incr pos 3
+		set byte ""
+		while {[set char [string range $string $pos $pos]] != ";" } {
+			append byte $char
+			incr pos
+		}
+		append parsed [binary format H* $byte]
+		set string [string range $string [expr {$pos + 1}] end]
+	}
+	append parsed $string
+	return [string map { "&lt;" "<" "&gt;" ">" "&amp;" "&" "&quot;" "\"" "&apos;" "'" } $parsed]
 }
