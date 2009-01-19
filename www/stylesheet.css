@@ -468,7 +468,7 @@ select.dlselector
   width: 300px;
 }
 
-a#jronline
+a#oxilion
 {
   display: block;
   width: 138px;
@@ -489,12 +489,12 @@ a#jronline
   margin-top: 5px;
 }
 
-a#jronline:hover
+a#oxilion:hover
 {
   color: #ffffff;
 }
 
-a#jronline:active
+a#oxilion:active
 {
   color: #ffffff;
   border-bottom: 3px solid #4285CD;
