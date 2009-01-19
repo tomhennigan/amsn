@@ -1,3 +1,3 @@
 <div> 
-<a href="http://www.jronline.nl" id="jronline">Hosted by JR Online</a>
+<a href="http://www.oxilion.nl" id="oxilion">Hosted by Oxilion</a>
 </div>
