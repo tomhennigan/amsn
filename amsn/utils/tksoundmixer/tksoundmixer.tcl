@@ -3,7 +3,6 @@
 package require snit
 package provide tksoundmixer 0.1
 
-#TODO: use components
 #TODO: be able to change the mixer position if the var pointed by "-variable" change
 
 snit::widget tksoundmixer {
@@ -18,14 +17,13 @@ snit::widget tksoundmixer {
 	option -to -default 100
 	option -orient -default "vertical" -configuremethod SetOrient
 
-	option -width -default 15 -configuremethod SetWidth
 	option -levelsize -default 5 -configuremethod SetLevelSize
-	option -height -default 150 -configuremethod SetHeight
 	option -variable -default {}
 
+	delegate option * to hull
+
 	constructor {args} {
-		set frame [frame ${win}.mainframe]
-		pack $frame
+		set frame ${win}
 
 		$self configurelist $args
 
@@ -100,26 +98,6 @@ snit::widget tksoundmixer {
 			${frame}.level configure -height $value
 		} else {
 			${frame}.level configure -width $value
-		}
-	}
-
-	method SetWidth {option value} {
-		set options($option) $value
-		${frame} configure -width $value
-		#update
-		if {[winfo exists ${frame}.level]} {
-			$self Motion
-			$self SetVolume $volumePercent $volumeRange
-		}
-	}
-
-	method SetHeight {option value} {
-		set options($option) $value
-		${frame} configure -height $value
-		#update
-		if {[winfo exists ${frame}.level]} {
-			$self Motion
-			$self SetVolume $volumePercent $volumeRange
 		}
 	}
 

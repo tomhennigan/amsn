@@ -17,7 +17,7 @@ set var2 0.75
 tksoundmixer .sm -variable var -width 10 -height 100
 tksoundmixer .sm2 -variable var2 -width 100 -height 10 -orient "horizontal"
 
-pack .sm -expand 1 -fill both
+pack .sm
 pack .sm2 -expand 1 -fill both
 
 
