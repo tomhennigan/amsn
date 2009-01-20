@@ -5,13 +5,14 @@ aboutamsn Acerca de Alvaro's Messenger
 accept Aceitar
 acceptfile Deseja aceitar o ficheiro $1, com o tamanho de $2? Será guardado em $3
 account Conta
+accountkid Esta conta de criança não pode pode ser usada com o Messenger. Deve usar a página de Kids Passport e dar consentimento parental.
 actions Acções
 activeautoupdate Activar actualizações automáticas
 addacontact Adicionar um contacto
 add Adicionar
 addedyou $1 ($2) adicionou-o(a) à sua lista de contactos
 addprofile Adicionar Novo Perfil
-addprofiledesc Introduza o nome de utilizador para o qual gostaria de criar um novo perfil. \nIsto permite-lhe ter diferentes configurações para cada utilizador. \nSem perfis não poderá usar as funções de Histórico, Notificações ou "Guardar palavra-chave".
+addprofiledesc Introduza o nome de utilizador para o qual gostaria de criar um novo perfil.\nIsto permite-lhe ter diferentes configurações para cada utilizador.\nSem perfis não poderá usar as funções de Histórico, Notificações ou "Guardar palavra-chave".
 addstate Adicionar um Novo Estado
 addto Adicionar a $1
 addtocontacts Adicionar à lista de contactos
@@ -21,30 +22,30 @@ admingroups Administrar grupos
 advanced Avançado
 advancedprefs Configuração de opções avançadas
 adverts Publicidade
-agotinvitation Recebeu um pedido áudio de $1
-alarmonconnect Receber notificação quando este utilizador se liga
-alarmondisconnect Receber notificação quando este utilizador se desliga (ou fica invisível)
-alarmonmsg Receber notificação quando este utilizador lhe envia uma mensagem
-alarmonstatus Receber notificação quando este utilizador altera de estado
+agotinvitation Você recebeu um pedido áudio de $1
+alarmonconnect Receber uma notificação quando este utilizador se liga
+alarmondisconnect Receber uma notificação quando este utilizador se desliga (ou fica invisível)
+alarmonmsg Receber uma notificação quando este utilizador lhe envia uma mensagem
+alarmonstatus Receber uma notificação quando este utilizador altera de estado
 alarmpref2 Configurações de notificações para todos os contactos
 alarmpref Configurações de notificações para o utilizador
 alarms Notificações
 alarmstatus Activar notificação para este utilizador
 allfiles Todos os Ficheiros
 allmonths Todos os Meses
-allowallbutbl Permitir ser contactado por todos os utilizadores excepto os da "Lista de Bloqueados"
+allowallbutbl Permitir ser contactado(a) por todos os utilizadores excepto os da "Lista de Bloqueados"
 allowbadwords Desactivar censura nas alcunhas ("nicknames") 
 allowlist Lista de Autorizados (LA):
 allowonlyinal Permitir apenas que contactos da minha Lista de Autorizados me contactem
-allowseen Permitir que esta pessoa me veja quando eu estiver ligado e me contacte
-allow_sms Permitir que os utilizadores me contactem no meu dispositivo móvel MSN
+allowseen Permitir que esta pessoa me veja quando eu estiver ligado(a) e me contacte
+allow_sms Permitir que os utilizadores me contactem para o meu dispositivo móvel MSN
 allprofilesinuse Todos os perfis existentes estão presentemente em uso
 always Sempre
 animatedemoticon Este "emoticon" é animado
 animatedsmileys Activar "emoticons" animados
 animatenotify Janela de notificação animada
 appearance Aparência
-appearoff Aparecer como desligado
+appearoff Aparentar estar desligado(a)
 areacode Código de área
 aretyping $1 estão a escrever uma mensagem
 askcam Pedir para receber "webcam"
@@ -66,6 +67,7 @@ audiovideo Configurações Áudio e Vídeo
 author Autor
 autoaccepted Aceitar automaticamente a transferência de ficheiros
 autoacceptft Aceitar automaticamente pedidos de Transferência de Ficheiros
+autoacceptwc Aceitar automaticamente pedidos de "webcam"
 autoaway Mostrar-me como "Ausente" quando estiver inactivo por
 autocheckver Verificar automaticamente actualizações disponíveis à aplicação ao ser iniciada
 autoconnect2 Ligar-se automaticamente ao iniciar o aMSN
@@ -80,7 +82,7 @@ autonoact Mostrar-me como "Não Activo" se estiver inactivo por
 autoresizedp Alterar automaticamente tamanho de imagens de utilizador para valor por omissão
 avaccepted Chamada para Conferência Vídeo aceite
 avcanceled Chamada para Conferência Vídeo cancelada
-avgotinvitation Recebeu um pedido para Conferência Vídeo de $1
+avgotinvitation Você recebeu um pedido para Conferência Vídeo de $1
 avinitfailed A inicialização da Extensão Áudio/Vídeo falhou. Chamada cancelada.
 avoidseen Evitar que esta pessoa me veja e me contacte
 away Ausente
@@ -95,7 +97,7 @@ block Bloquear
 blocked Bloqueado
 blockedyougroup Mostrar um grupo separado para as pessoas que o bloquearam
 blocking A bloquear
-blockinter1 Quando o seu estado for ligado verificar a cada
+blockinter1 Quando o seu estado for Ligado(a) verificar a cada
 blockinter2 segundos. Caso contrário verificar a cada:
 blockinter3 a cada
 blockinter4 segundos.
@@ -104,14 +106,14 @@ blockmessage Estes utilizadores estão ligados e bloquearam-no(a)
 blocknotifications Desactivar janelas de notificação
 blocksounds Desactivar sons
 blockusers Número de utilizadores a verificar ao mesmo tempo
-bouncedock Animar o ícone do aMsn ao receber uma mensagem nova
+bouncedock Animar o ícone do aMSN ao receber uma mensagem nova
 brightness Brilho
 broughtby Trazido até si pelos seguintes programadores
 browse Explorar
 browserexample (\$url será substituído por URL). Ex: firefox \$url
 browser Explorador
 bugerror Lamentamos, mas houve um problema na ligação à base de dados de incorrecções. Por favor verifique a sua ligação à Internet.
-bugnocomment Enviar sem comentário? Comentar uma incorrecção ajuda-nos a perceber o que aconteceu de errado e a corrigir o problema mais facilmente.
+bugnocomment Enviar sem comentário? Comentar uma incorrecção ajuda-nos a perceber o que se passou de errado e a corrigir o problema mais facilmente.
 busy Ocupado
 bytesymbol b
 cachedpics $1 imagens em cache
@@ -157,7 +159,7 @@ checkemail Mostrar notificação de recepção de mensagem electrónica (Caixa d
 checkfilman Ficheiros recebidos serão guardados em $1. Por favor verifique a configuração do gestor de ficheiros na janela de preferências.
 checkingaudio A verificar se extensão áudio (Snack) está carregada...
 checkingcam A verificar se uma "webcam" está ligada...
-checkingcapext Verificado se extensão '$1' está carregada...
+checkingcapext A verificar se extensão '$1' está carregada...
 checkingextensions A verificar extensões vídeo necessárias
 checkingver A procurar novas versões
 checkonfln Verificar se um utilizador o(a) bloqueou quando este se desliga
@@ -200,6 +202,7 @@ closingdocks Botão de terminar minimiza
 color Côr
 command Comando
 commandstatus Executar comando
+compactstyle Estilo Compacto
 configure Configurar
 configuremic A configurar o seu microfone
 configureplugin Configurar extensão $1
@@ -214,9 +217,9 @@ confirmpurge Todos as imagens de utilizador armazenadas, de outros contactos ser
 confirmrfl Tem a certeza de que deseja remover este utilizador deste grupo?
 confirm Tem a certeza?
 congrats Parabéns
-connectedat Ligado às:
-connected Você está ligado
-connectedwith Ligado com $1
+connectedat Ligado(a) às:
+connected Está ligado(a)
+connectedwith Ligado(a) com $1
 connecterror Erro ao tentar ligação com o servidor
 connectfirst Por favor ligue-se primeiro
 connecting A ligar
@@ -227,10 +230,11 @@ contact Contacto
 contactdoesnotexist Contacto não existe!
 contactlist Lista de Contactos (LC):
 contacts Contactos
+contentroamingsetting Guardar imagens de apresentação no servidor
 continuously Continuadamente
 contrast Contraste
 conversationwith $1 utilizadores na conversação
-convertexplain Caminho para ficheiro CONVERT executável, de ImageMagick (necessário para Imagens de Utilizador).\n Deixar em branco se CONVERT se encontrar no caminho
+convertexplain Caminho para ficheiro CONVERT executável, de ImageMagick (necessário para Imagens de Utilizador).\nDeixar em branco se CONVERT se encontrar no caminho
 copy Copiar
 copytoclipboard Copiar $1 para área de transferência
 copytogroup Copiar para grupo
@@ -289,7 +293,7 @@ disableprofiles Desactivar perfis (útil para ciber-cafés ou ambientes partilha
 disablessl Desactivar SSL
 disableuserfonts Ignorar tipo de letra de utilizador remoto nas conversações e utilizar o seu próprio tipo de letra
 disconnect $1 terminou a sua sessão.
-disconnectedfrom Desligado de $1
+disconnectedfrom Desligado(a) de $1
 displaychat Opções de visualização de texto
 displayeventconnect Mostrar quando contactos iniciam a sua sessão
 displayeventdisconnect Mostrar quando contactos terminam a sua sessão
@@ -311,7 +315,7 @@ dontshowdp Não permitir a este utilizador descarregar as minhas Imagens de Util
 dontshow Não mostrar
 downloadcanceled Descarga cancelada.
 download Descarregar
-downloadingtls A descarregar módulo TLS a partir de:\n $1
+downloadingtls A descarregar módulo TLS a partir de:\n$1
 downloadingwait A descarregar nova versão do aMSN. Por favor esperar...
 dynamicrate Usar "frame rate" dinâmica para simular velocidade de tempo real
 editavsettings Editar propriedades áudio e vídeo
@@ -332,6 +336,7 @@ enabled Activado
 enableproxy Activar "proxy"
 enableremote Activar controlo à distância
 enablesound Reproduzir som
+enablespaces Permitir suporte a Windows Live Spaces (EXPERIMENTAL)
 encoding2 Alterar a maneira de codificar os caracteres
 encoding Escolher codificação
 enterbugdesc Insira uma descrição daquilo que estava a fazer para nos ajudar a reproduzir a incorrecção:
@@ -351,7 +356,7 @@ faileddeleteperso Esta imagem não pode ser removida porque não pertence ao seu
 failed Falhou
 faq FAQ (Frequently Asked Questions) - Perguntas Frequentes
 farsightextchecking A verificar se extensão Farsight está carregada...
-farsightextwarn Não lhe será permitidoter chamadas SIP. Pode procurar respostas sobre como instalar Farsight na nossa Wiki:
+farsightextwarn Não lhe será permitido ter chamadas SIP. Pode procurar respostas sobre como instalar Farsight na nossa Wiki:
 farsightinfook Farsight é uma plataforma que lida com protocolos de conferência áudio/vídeo. Com Farsight, pode enviar ou receber chamadas SIP a partir do aMSN! Dê uma olha a Farsight na nossa Wiki:
 fetching A obter dados...
 filedoesnotexist Ficheiro não existe
@@ -398,11 +403,11 @@ ftsendinvitation Pedido para transferência do ficheiro '$2' ($3 bytes) enviado 
 fullcontactlist Lamentamos, mas a sua lista de contactos está cheia. Necessita de remover alguns contactos para poder adicionar novos.
 gameaccepted $1 aceitou o seu convite para jogar
 gameclosedbyother $1 cancelou a sessão de jogo mantida consigo.
-gameclosedbyself Você cancelou a sessão de jogo mantida com $1.
-gameinvitation $1 convidou-o a jogar $2. Deseja aceitar este convite?
-gamepluginnotfound $1 convidou-o a jogar $2 mas não existe nenhuma extensão presentemente carregada para este jogo. Por favor active e configure esta extensão antes de continuar.
-gamerejected $1 rejectou o seu pedido para jogar
-gamerequest Você convidou $1 para jogar $2
+gameclosedbyself Cancelou a sessão de jogo mantida com $1.
+gameinvitation $1 convidou-o(a) a jogar $2. Deseja aceitar este convite?
+gamepluginnotfound $1 convidou-o(a) a jogar $2 mas não existe nenhuma extensão presentemente carregada para este jogo. Por favor active e configure esta extensão antes de continuar.
+gamerejected $1 rejeitou o seu pedido para jogar
+gamerequest convidou $1 para jogar $2
 getdisppic Activar recepção de Imagens de Utilizador doe outros utilizadores
 getmoreplugins Obter mais extensões!
 getmoreskins Obter mais aspectos gráficos ("skins")!
@@ -444,7 +449,7 @@ hidewindow Esconder Janela
 history Ver Histórico
 history2 Histórico
 home Início
-howto_remove_profile Para remover o seu perfil (esquecer $1) necessita de usar a janela de preferências. \n\nPor razões de segurança, a remoção de perfis a partir da janela de início de sessão não é permitido.
+howto_remove_profile Para remover o seu perfil (esquecer $1) necessita de usar a janela de preferências.\n\nPor razões de segurança, a remoção de perfis a partir da janela de início de sessão não é permitido.
 httpconnection Ligar usando método HTTP (usa o protocolo HTTP na porta 80)
 hue Matiz
 huge Enorme
@@ -611,7 +616,7 @@ nonewver Não há versões novas disponíveis para descarga
 nonimgroup Contactos de Mensageiro Não Instantâneo ("Non-Instant Messenger")
 nooimconfirmation Não pedir confirmação para envio/recepção de mensagens "offline"
 nopic Sem imagem
-noprofileexists De momento não existem perfiis. \n Tem de criar um se quiser usar inícios de sessão perfilados. \nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil.
+noprofileexists De momento não existem perfis.\nTem de criar um se quiser usar inícios de sessão perfilados.\nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil.
 noresizesmileys Não reduzir tamanho de "emoticons" personalizados recebidos
 normal Normal
 noskins Não foi possível encontrar o aspecto gráfico ("skin") usado por omissão na pasta skins/. Não é possível iniciar o AMSN.
@@ -634,7 +639,7 @@ notifytyping Enviar notificações ao outros utilizadores enquanto está a escre
 notifywin Janela de Notificação
 notinlist Você não se encontra na lista de contactos dele/dela
 notimcontact Este contacto não é do tipo Mensageiro Instantâneo ("Instant-Messaging")
-notls O Protocolo 9 de MSN requer o pacote TLS. Este pacote não parece estar instalado nesta máquina. Se está instalado, o caminho para a pasta da biblioteca deveria encontrar-se especificado na janela de Preferências (ex: /opt/tls/lib). \n \n O TLS pode ser descarregado em http://tls.sf.net.
+notls O Protocolo 9 de MSN requer o pacote TLS. Este pacote não parece estar instalado nesta máquina. Se está instalado, o caminho para a pasta da biblioteca deveria encontrar-se especificado na janela de Preferências (ex: /opt/tls/lib).\n\nO TLS pode ser descarregado em http://tls.sf.net.
 nottabbed Janela normal sem separadores
 nousersinsession Sem utilizadores na sessão
 nouserspecified Sem utilizador escolhido
@@ -706,11 +711,11 @@ preflogevent O meu Histórico de Eventos
 preflook O Meu Aspecto aMSN
 prefmsging A Minha Interface de Mensageiro
 prefname O Meu Nome/Alcunha ("Nick") do MSN Messenger
-prefphone2 Escreva os números de telefone que gostaria \n que as pessoas da sua Lista de Autorizados vissem \n
+prefphone2 Escreva os números de telefone que gostaria\nque as pessoas da sua Lista de Autorizados vissem\n
 prefphone Os Meus Números de Telefone
 prefprivacy2 Lista de Contactos/Reversos do utilizador
 prefprivacy Lista de Autorizados/Bloqueados do utilizador
-prefprofile2 Criar ou alterar o seu perfil público (a sua \n descrição que os outros podem ver)
+prefprofile2 Criar ou alterar o seu perfil público (a sua\ndescrição que os outros podem ver)
 prefprofile3 Configuração de Perfis de Utilizador aMSN
 prefprofile O meu Perfil Público
 prefproxy As Minhas Configurações de "Proxy"
@@ -721,7 +726,7 @@ prefsound Sons
 preview Previsualizar
 privacy Privacidade
 profiledconfig Configuração Perfilada
-profileexists Você não pode criar um perfil com este nome de utilizador \n devido a existência de um outro igual. Por favor escolha outro nome de utilizador.
+profileexists Você não pode criar um perfil com este nome de utilizador\ndevido a existência de um outro igual. Por favor escolha outro nome de utilizador.
 profileinuse Este Perfil está a ser usado por outra sessão aMSN, por favor escolha outro
 profileloginradio Iniciar Sessão usando um Perfil existente
 profiles Perfis
@@ -742,7 +747,7 @@ pwcdriver Você está a usar o controlador pwc
 quit Sair
 raised Maximizado
 readonlymsgbox A transferência do ficheiro foi cancelada devido ao facto da pasta de recepção ser somente de leitura. Por favor altere as permissões desta pasta.
-readonlywarn AVISO: Provavelmente, o ficheiro NÃO será guardado correctamente devido ap facto da pasta "Received Files" parecer estar protegida contra escrita. Por favor assegure-se de que as permissões da pasta destino ($1) estão correctas antes de iniciar a transferência do ficheiro.
+readonlywarn AVISO: Provavelmente, o ficheiro NãO será guardado correctamente devido ao facto da pasta "Received Files" parecer estar protegida contra escrita. Por favor assegure-se de que as permissões da pasta destino ($1) estão correctas antes de iniciar a transferência do ficheiro.
 receivedbytes $1 bytes recebidos (de $2)
 receiveddir Pasta dos Ficheiros Recebidos
 receivedoimread Tem $1 mensagem(ns) instantânea "offline". Deseja lê-la(s) ?
@@ -815,6 +820,7 @@ server Servidor
 serverunavailable O servidor não está disponível
 session Sessão
 setasmydp Definir como minha imagem de utilizador
+setbackinitialstate Configurou o aMSN para se ligar no estado $1, mas neste momento encontra-se no estado $2. Tem a certeza de querer reverter o seu estado para $1?
 setupcam A configurar o seu dispositivo "webcam"
 setupcamfinetune A configurar o seu dispositivo "webcam" e a ajustar a imagem
 shareswebcam Partilha "webcam"
@@ -850,7 +856,7 @@ sipcalleeaccepted Utilizador aceitou a sua Chamada Áudio
 sipcalleebusy Utilizador está Ocupado
 sipcalleecanceled Utilizador cancelou convite para chamada Áudio
 sipcalleeclosed Utilizador terminou a sua Chamada Áudio
-sipcalleedeclined Utilizador Rejetou o seu convite para chamada Áudio
+sipcalleedeclined Utilizador Rejeitou o seu convite para chamada Áudio
 sipcalleenoanswer Utilizador não respondeu à sua Chamada
 sipcalleeunavailable Utilizador não está disponível neste momento
 sipcallended A sua Chamada Áudio terminou
@@ -931,7 +937,7 @@ syntaxerror Erro de Sintaxe
 tabbedglobal Uma janela com separadores para todos os utilizadores da lista de contactos
 tabbedgroups Uma janela com separadores para utilizadores do mesmo grupo
 tabbed Janelas com separadores
-tabtitlenick Mostrar alcunhas ("nicknames") nos separadors em vez dos endereços electrónicos
+tabtitlenick Mostrar alcunhas ("nicknames") nos separadores em vez dos endereços electrónicos
 temp_state Estado temporário (não será guardado)
 textsize Tamanho do Texto
 thismonth Este mês
@@ -940,11 +946,11 @@ timeremaining Tempo que falta
 timestamps Activar carimbos de tempo nas janelas de conversação
 timestamp Carimbo de tempo
 title aMSN
-tkerror1 Ocorreu um erro no TK, existe uma incorrecção no aMSN. Por favor envie um relatório clicando no botão de Envio de relatório. Você pode clicar no botão Detalhes para obter mais informações acerca desta incorrecção ou clicar em Ignorar para continuar a conversar com o aMsn.
+tkerror1 Ocorreu um erro no TK, existe uma incorrecção no aMSN. Por favor envie um relatório clicando no botão de Envio de relatório. Você pode clicar no botão Detalhes para obter mais informações acerca desta incorrecção ou clicar em Ignorar para continuar a conversar com o aMSN.
 tkerror Ocorreu um erro no TK, existe uma incorrecção no aMSN. Por favor envie um relatório clicando no botão de Envio de relatório. Envie o ficheiro $1 para amsn-bugs@lists.sf.net
 tlsdowncompleted O ficheiro $1 foi descarregado para a pasta $2. É necessário descompactá-lo e fazer o 'build' (caso tenha descarregado código fonte) e instalá-lo na pasta $3.
-tlsexplain Pasta onde o módulo tcl de TLS se encontra. Se o AMSN não for capaz de o encontrar, por favor encontre-o manualmente.\n(Necessário para a autentificação SSL).
-tlsinstallexp O aMSN usa agora MSNP9, que necessita de uma ligação\nsegura usando SSL. Para usar SSL, o aMSN necessita de instalar um módulo chamado TLS,\nque não se encontra no seu sistema. Este assistente irá ajudá-lo(a) a descarregar e\na instalar o TLS. Por favor escolha o seu tipo de sistema para que possamos fazer a descarga automática\n dos ficheiros TLS necessários.
+tlsexplain Pasta onde o módulo tcl de TLS se encontra. Se o AMSN não for capaz de o encontrar, por favor encontre-o manualmente.\n(Necessário para a autenticação SSL).
+tlsinstallexp O aMSN usa agora MSNP9, que necessita de uma ligação\nsegura usando SSL. Para usar SSL, o aMSN necessita de instalar um módulo chamado TLS,\nque não se encontra no seu sistema. Este assistente irá ajudá-lo(a) a descarregar e\na instalar o TLS. Por favor escolha o seu tipo de sistema para que possamos fazer a descarga automática\ndos ficheiros TLS necessários.
 tlsinstall Assistente de Instalação do Módulo TLS
 tlsinstcompleted A instalação do módulo TLS foi realizada com sucesso - agora deve conseguir utilizar o MSNP9. Caso não consiga, provavelmente não seleccionou o módulo correcto, ou um módulo compilado ainda não está disponível para o seu sistema.
 today Hoje
@@ -970,13 +976,13 @@ uoffline Desligado
 uonline Ligado
 updateonlycurrentlanguage Actualizar apenas o idioma actual
 update Actualizar
-updatesaved Terminado\n $1 foi guardado em $2.
+updatesaved Terminado\n$1 foi guardado em $2.
 updating Actualizando
 useasdp Usar como Imagem de Utilizador
 useasregexp Usar como uma Expressão Regular (regexp)
 useother Usar uma aplicação diferente
 useralreadyonlist Utilizador já se encontra na lista de contactos
-userblocked O utilizador está ligado mas bloqueou-o
+userblocked O utilizador está ligado mas bloqueou-o(a)
 userdata Dados do Utilizador
 userdps Imagens de Utilizador do Utilizador
 usernotonline O utilizador não está ligado
@@ -1005,14 +1011,17 @@ webcamconfiguredLinux Você escolheu as seguintes características de "webcam":\
 webcamextchecking A verificar se a extensão "webcam" se encontra carregada...
 webcamextloaded Extensão "Webcamsn" está carregada
 webcamextnotloaded Extensão "Webcamsn" não está carregada. Você tem de a compilar.
-webcamextwarn Você não conseguirá ver as "webcams" dos seus contactos. Por encontrar respostassonre como instalar algumas extensões na nossa Wiki:
+webcamextwarn Você não conseguirá ver as "webcams" dos seus contactos. Pode encontrar respostas sobre como instalar algumas extensões na nossa Wiki:
 webcamfaq FAQ/Ajuda para "Webcam"
 webcamhistory Visualizar as sessões de "Webcam"
 webcamhistory2 Sessões de "Webcam"
 webcaminvite $1 convidou-o(a) para iniciar uma sessão de vídeo, mas o aMSN não suporta esta funcionalidade
 webcaminvitereceived $1 convidou-o(a) para iniciar uma sessão de "webcam". Deseja aceitar esta sessão?
-webcaminvitereceiving Você está convidado a iniciar a visualização da "webcam" de $1. Deseja aceitar esta sessão?
+webcaminvitereceivedauto $1 convidou-o(a) para iniciar uma sessão de "webcam". Esta sessão é aceite automaticamente.
+webcaminvitereceiving Você está convidado(a) a iniciar a visualização da "webcam" de $1. Deseja aceitar esta sessão?
+webcaminvitereceivingauto Você foi convidado(a) para ver a "webcam" de $1. Esta sessão é aceite automaticamente.
 webcaminvitesending $1 gostaria de ver a sua "webcam". Deseja aceitar esta sessão?
+webcaminvitesendingauto $1 gostaria de ver a sua "webcam". Esta sessão é aceite automaticamente.
 webcamrejected $1 rejeitou o convite para a sessão de "webcam"
 webcamrequestreceive Pedido para receber a "webcam" enviado
 webcamrequestsend Pedido para enviar a "webcam" enviado
@@ -1035,7 +1044,7 @@ yesblock Sim e bloquear
 yesterday Ontem
 yes Sim
 yoffset Margem vertical
-youblocked Você foi bloqueado por
+youblocked Você foi bloqueado(a) por
 yousay Você diz
 youwant Você quer
 zoom Zoom
