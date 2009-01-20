@@ -5,6 +5,7 @@ about Sobre
 accept Aceitar
 acceptfile Aceitar arquivo $1 ($2 bytes de tamanho)? Será gravado em $3
 account Conta
+accountkid Esta conta infantil não pode acessar o Messenger. Você deve ir ao site de contas infantis e autorizar o uso.
 actions Ações
 activeautoupdate Ativar auto-atualização
 addacontact Adicionar contato
@@ -66,6 +67,7 @@ audiovideo Configuração de Audio e Video
 author Autor
 autoaccepted Transferência de arquivo aceita automaticamente
 autoacceptft Aceitar automaticamente pedidos de transferência de arquivo
+autoacceptwc Aceitar automaticamente pedidos de uso da webcam
 autoaway Mudar estado para "Ausente" quando inativo por
 autocheckver Verificar automaticamente por novas versões ao iniciar
 autoconnect2 Logar-me automaticamente quando o aMSN iniciar
@@ -139,6 +141,7 @@ changefont Mudar a fonte
 changeglobnick Mudar o apelido global
 change_mobile Alterar opções de telefonia móvel
 changenick Mudar apelido
+changepsm Mudar mensagem pessoal
 changesize Alterar tamanho
 changestate $1 mudou o estado para $2
 changestatus Mudar status
@@ -199,6 +202,7 @@ closingdocks Botão de fechar minimiza janela
 color Cor
 command Comando
 commandstatus Executar comando
+compactstyle Modo compacto
 configure Configurar
 configuremic Configurando seu microfone
 configureplugin Configurar plugin $1
@@ -226,6 +230,7 @@ contact Contato
 contactdoesnotexist O contato não existe!
 contactlist Contatos que eu adicionei (FL):
 contacts Contatos
+contentroamingsetting Armazenar o foto no servidor
 continuously Continuamente
 contrast Contraste
 conversationwith $1 usuários na conversa
@@ -331,6 +336,7 @@ enabled Habilitado
 enableproxy Habilitar proxy
 enableremote Ativar controle remoto
 enablesound Tocar som
+enablespaces Ativar suporte ao Windows Live Spaces (EXPERIMENTAL)
 encoding2 Alterar codificação de caracteres
 encoding Escolher codificação
 enterbugdesc Entre uma descrição do que você estava fazendo para nos ajudar a reproduzir o bug:
@@ -432,6 +438,7 @@ handle Manipular
 hangup Desligar
 havenomic Eu não tenho microfone
 help Ajuda
+hidedetails Esconder detalhes
 helpcontents Conteúdo da ajuda
 hidebuttonbar Esconder barra de botões
 hidedisplaypic Esconder Imagem de Exibição
@@ -591,6 +598,7 @@ next Próximo
 nick Apelido
 nickchanged $1 Mudou o nick para '$2'
 noactivity Sem atividade
+no_blocked_notif Esconder notificações de contatos bloqueados
 nocacheddps Não mostrar figuras em cache para esse usuário
 nocamwarn Nenhuma webcam foi encontrada, ou sua webcam já está em uso por outro programa (o que significa que não pode ser usado pelo aMSN). Você pode encontrar ajuda de como resolver esse problema no nosso Wiki:
 nodataavailable Sem dados disponíveis para $1
@@ -658,6 +666,7 @@ others Outros
 p4contextprefix Adicionar este prefixo ao campo de Contexto-P4 do remetente
 pager Pager
 pass Senha
+passportnotverified Sua conta precisa ser verificada antes que você possa alterar dados pessoais (como o apelido). Verifique se há algum e-mail de ativação em sua caixa de entrada.
 paste Colar
 pausedwebcamreceive A câmera foi pausada por outro usuário
 pause Pausar
@@ -811,6 +820,7 @@ server Servidor
 serverunavailable Servidor não disponível
 session Sessão
 setasmydp Setar como minha imagem de exibição
+setbackinitialstate Você configurou o aMSN para conectar como $1, mas agora você está $2. Deseja mudar seu status para $1 ?
 setupcamfinetune Setar as opções da sua webcam, e sintonia fina de imagem
 setupcam Setar opções do dispositivo da sua webcam
 shareswebcam Compartilhar webcam
@@ -820,6 +830,8 @@ showcachedpics Mostrar imagens de exibição armazenadas
 show_contactdps_in_cl Mostrar miniaturas das imagens de exibição dos contatos na lista de contatos
 showcontactemail Exibir contatos pelo endereço de e-mail
 showcontactnick Exibir contatos pelo apelido
+showdetailedview Exibir detalhes dos contatos
+showdetails Exibir detalhes
 showdisplaypic2 Mostrar imagem de exibição automaticamente quando uma janela de conversa é aberta
 showdisplaypic Mostrar imagem de exibição
 showlinksinlogin Mostrar Links na tela de login
@@ -1002,9 +1014,12 @@ webcamfaq FAQ/Ajuda para Webcam
 webcamhistory2 Sessões de Webcam
 webcamhistory Ver conversas antigas com a webcam
 webcaminvite $1 convidou você a iniciar uma sessão com webcam, mas o aMSN não suporta este recurso
-webcaminvitereceived $1 te convidou para iniciar uma sessão de webcam. Voce quer aceitar a sessão?
+webcaminvitereceived $1 te convidou para iniciar uma sessão de webcam. Quer aceitar?
+webcaminvitereceivedauto $1 te convidou para iniciar uma sessão de webcam. Esta sessão é aceita automaticamente.
 webcaminvitereceiving Você foi convidado pra iniciar uma webcam com $1 . Quer aceitar?
+webcaminvitereceivingauto Você foi convidado para ver a webcam de $1. Esta sessão é aceita automaticamente.
 webcaminvitesending $1 gostaria de ver sua webcam. Quer aceitar?
+webcaminvitesendingauto $1 gostaria de ver sua webcam. Esta sessão é aceita automaticamente.
 webcamrejected $1 rejeitou seu convite para a sessão de webcam
 webcamrequestreceive Enviar um pedido para receber imagem da webcam
 webcamrequestsend Enviar pedido para enviar imagem da webcam
