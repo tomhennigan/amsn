@@ -857,7 +857,7 @@ namespace eval ::MSNCAM {
 
 		set sid [getObjOption $sock sid]
 
-		set sending [getObjOption $sock sending]
+		set sending [getObjOption $sock producer]
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
 		set producer [getObjOption $sid producer]
@@ -3319,8 +3319,7 @@ namespace eval ::CAMGUI {
 		set fd [open $filename r]
 		fconfigure $fd -encoding binary -translation binary
 		#close $fd
-	
-	
+
 		set decoder [::Webcamsn::NewDecoder]
 
 		while { [set ::seek_val($img)] < [file size $filename] } {
@@ -3351,7 +3350,7 @@ namespace eval ::CAMGUI {
 			set data [read $fd 24]
 			set next_timestamp [::MSNCAM::GetCamDataTimestamp $data] 
 			seek $fd -24 current
-			if {$next_timestamp < 0} {
+			if {$next_timestamp == -1} {
 				continue
 			}
 			set diff  [expr {$next_timestamp - $timestamp}]
