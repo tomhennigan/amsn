@@ -1232,7 +1232,7 @@ proc xmldecode {string {escape 0}} {
 				set value "\\\{"
 			} elseif {$value == "\}" } {
 				set value "\\\}"
-			} elseif {$value = "\\" } {
+			} elseif {$value == "\\" } {
 				set value "\\\\"
 			}
 		}
