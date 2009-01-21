@@ -1226,7 +1226,15 @@ proc xmldecode {string} {
 			append byte $char
 			incr pos
 		}
-		append parsed [binary format H* $byte]
+		set value [binary format H* $byte]
+		if {$value == "\{" } {
+			set value "\\\{"
+		} elseif {$value == "\}" } {
+			set value "\\\}"
+		} elseif {$value = "\\" } {
+			set value "\\\\"
+		}
+		append parsed $value
 		set string [string range $string [expr {$pos + 1}] end]
 	}
 	append parsed $string
