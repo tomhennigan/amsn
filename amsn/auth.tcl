@@ -76,9 +76,11 @@ snit::type SSOAuthentication {
 			foreach token $security_tokens {
 				$token destroy
 			}
+			set security_tokens ""
 		}
 		if { $soap_req != "" } {
 			catch { $soap_req destroy }
+			set soap_req ""
 		}
 		
 	}
@@ -187,6 +189,7 @@ snit::type SSOAuthentication {
 			}
 		} else {
 			$soap destroy
+			set soap_req ""
 			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
 			}
