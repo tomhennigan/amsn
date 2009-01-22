@@ -250,10 +250,12 @@ namespace eval ::music {
 			if {[OnUnix]} {
 				array set playersarray [list \
 					"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
+					"Amarok2" [list GetSongAmarok2 TreatSongAmarok2 FillFrameComplete] \
 					"Audacious" [list GetSongAudacious TreatSongAudacious FillFrameLess] \
 					"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 					"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 					"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
+					"Juk-KDE4" [list GetSongJuk2 TreatSongJuk2 FillFrameLess] \
 					"LastFM" [list GetSongLastFM TreatSongLastFM FillFrameLess] \
 					"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 					"MPD" [list GetSongMPD return FillFrameMPD] \
@@ -874,6 +876,43 @@ namespace eval ::music {
 
 	}
 
+	################################################
+	# ::music::TreatSongAmarok 2                   #
+	# -------------------------------------------  #
+	# Gets the current playing song in Amarok 2    #
+	################################################
+	proc TreatSongAmarok2 {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infoamarok2"]] }
+	}
+	
+	################################################
+	# ::music::GetSongAmarok2                      #
+	# -------------------------------------------  #
+	# Gets the current playing song in Amarok2     #
+	################################################
+	proc GetSongAmarok2 {} {
+
+		#actualsong is filled asynchronously in TreatSongAmarok
+		#Split the lines into a list and set the variables as appropriate
+		
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the information
+		set status [lindex $tmplst 0]
+		set art [lindex $tmplst 1]
+		set song [lindex $tmplst 2]
+		
+		if {$status == "0"} {
+			return 0
+		}
+
+		return [list $song $art]
+	}
+
 	###############################################
 	# ::music::TreatSongAmarok                    #
 	# ------------------------------------------- #
@@ -1032,6 +1071,48 @@ namespace eval ::music {
 	
 		return [list $song $artist "" "" ""]
 	}
+
+	  ###########################################################
+	  # ::music::TreatSongJuk2                                  #
+	  # ------------------------------------------------------- #
+	  # Gets the current playing song in KDE4 version of Juk    #
+	  ###########################################################
+	  proc TreatSongJuk2 {} {
+		  #Grab the information asynchronously : thanks to copyleft
+		  after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infojuk2"]] }
+	  }
+	  
+	  ###########################################################
+	  # ::music::GetSongJuk2                                    #
+	  # ------------------------------------------------------- #
+	  # Gets the current playing song in KDE4 version of Juk    #
+	  ###########################################################
+	  proc GetSongJuk2 {} {
+		  #Split the lines into a list and set the variables as appropriate
+		  if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			  #actualsong isn't yet defined by asynchronous exec
+			  return 0
+		  }
+
+		  #Get the 4 first lines
+		  set status [lindex $tmplst 0]
+		  set artist [lindex $tmplst 1]
+		  set title [lindex $tmplst 2]
+		  
+		  if {$status == "0"} {
+			  return 0
+		  }
+		  if {$status == "1"} {
+			  append title " (Paused)"
+		  }
+
+		  # !!! Was this unneeded in the first place?
+		  #append newPath "file://" $path ;
+		  #lappend return  [urldecode [string range $newPath 5 end]]
+
+		  # !!! This is bad.
+		  return [list $title $artist]
+	  }
 
 	 ###########################################################
 	 # ::music::TreatSongJuk                                   #

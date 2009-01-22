@@ -1,0 +1,23 @@
+#! /bin/bash
+# Shell script to get informations about the current song playing in Juk
+
+#Juk is launched ?
+JUK=`ps -e | grep juk | grep -v info`
+if [ -n "$JUK" ]
+then
+	#Yes so we get the info
+	status=`qdbus org.kde.juk /Player status`
+	echo $status
+	if [ $status != "0" ]
+	then
+	  full=`qdbus org.kde.juk /Player playingString`
+	  mark=`expr index "$full" -`
+	  echo ${full:0:(mark-1)}
+	  echo ${full:(mark+1)}
+	fi
+else
+	#No so we set to state stopped
+	echo 0
+fi
+
+exit 0

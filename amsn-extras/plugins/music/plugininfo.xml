@@ -68,6 +68,10 @@
 		<version>10208</version>
 	</file>
 	<file>
+		<path>infoamarok2</path>
+		<version>10866</version>
+	</file>
+	<file>
 		<path>infoaudacious</path>
 		<version>10208</version>
 	</file>
@@ -86,6 +90,10 @@
 	<file>
 		<path>infojuk</path>
 		<version>10208</version>
+	</file>
+	<file>
+		<path>infojuk2</path>
+		<version>10866</version>
 	</file>
 	<file>
 		<path>infolastfm</path>

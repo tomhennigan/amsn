@@ -1,0 +1,26 @@
+#! /bin/bash
+# Shell script to get informations about the current song playing in Amarok
+
+#Amarok is launched ?
+AMAROK=`ps -e | grep [a]marok`
+if [ -n "$AMAROK" ]
+then
+	#Yes so we get the info
+	artist=`qdbus org.kde.amarok /Player GetMetadata | grep artist`
+	title=`qdbus org.kde.amarok /Player GetMetadata | grep title`
+	position=`qdbus org.kde.amarok /Player PositionGet`
+	if [ $position == 0 ]
+	then
+	  status=0
+	else
+	  status=1
+	fi
+	echo $status
+	echo ${artist/"artist: "/""}
+	echo ${title/"title: "/""}
+else
+	#No so we set to state stopped
+	echo 0
+fi
+
+exit 0
