@@ -1,0 +1,9 @@
+Minimal skin for aMSN 0.98b by Raf Godart (raf.godart@gmail.com)
+
+This skin contains elements of Pidgin IM and existing aMSN skins. So credits go to:
+
+- Hylke Bons (Pidgin designer) & Pidgin team
+- Raphael Galvao (Simple Ubuntu Blue)
+- Some_Person (Sam's Human Skin)
+- mejogid (Gnome theme)
+- logon animation created with http://ajaxload.info/
