@@ -614,7 +614,7 @@ int ng_dev_open(struct ng_devstate *dev);
 int ng_dev_close(struct ng_devstate *dev);
 int ng_dev_users(struct ng_devstate *dev);
 
-int ng_chardev_open(char *device, int flags, int major, int complain);
+int ng_chardev_open(char *device, int flags, int major, int complain, int is_v4l2);
 
 struct ng_reader* ng_find_reader_magic(char *filename);
 struct ng_reader* ng_find_reader_name(char *name);

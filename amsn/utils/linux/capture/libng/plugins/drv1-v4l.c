@@ -334,10 +334,10 @@ v4l_open(void *handle)
 	fprintf(stderr, "v4l: open\n");
     BUG_ON(h->fd != -1,"device is open");
     h->rw = 1;
-    h->fd = ng_chardev_open(h->device, O_RDWR, 81, 1);
+    h->fd = ng_chardev_open(h->device, O_RDWR, 81, 1, 0);
     if (-1 == h->fd) {
       h->rw = 0;
-      h->fd = ng_chardev_open(h->device, O_RDONLY, 81, 1);
+      h->fd = ng_chardev_open(h->device, O_RDONLY, 81, 1, 0);
        if (-1 == h->fd)
 	 return -1;
     }
@@ -570,7 +570,7 @@ static struct ng_devinfo* v4l_probe(int verbose)
     n = 0;
     for (i = 0; NULL != ng_dev.video_scan[i]; i++) {
 	fd = ng_chardev_open(ng_dev.video_scan[i], O_RDONLY | O_NONBLOCK,
-			     81, verbose);
+			     81, verbose, 0);
 	if (-1 == fd)
 	    continue;
 	if (-1 == xioctl(fd,VIDIOCGCAP,&cap)) {

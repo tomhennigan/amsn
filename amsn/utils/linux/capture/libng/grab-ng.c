@@ -860,7 +860,7 @@ int ng_dev_users(struct ng_devstate *dev)
     return dev->refcount;
 }
 
-int ng_chardev_open(char *device, int flags, int major, int complain)
+int ng_chardev_open(char *device, int flags, int major, int complain, int is_v4l2)
 {
     struct stat st;
     int fd = -1;
@@ -870,14 +870,22 @@ int ng_chardev_open(char *device, int flags, int major, int complain)
 	    fprintf(stderr,"%s: not below /dev\n",device);
 	goto err;
     }
-    if (-1 == (fd = v4l2_open(device, flags))) {
-	if (complain)
-	    fprintf(stderr,"open(%s): %s\n",device,strerror(errno));
-	goto err;
+    if (1 == is_v4l2) {
+	if (-1 == (fd = v4l2_open(device, flags))) {
+		if (complain)
+		    fprintf(stderr,"open(%s): %s\n",device,strerror(errno));
+		goto err;
+	    }
+    } else {
+        if (-1 == (fd = open(device, flags))) {
+                if (complain)
+                    fprintf(stderr,"open(%s): %s\n",device,strerror(errno));
+                goto err;
+            }
     }
     if (-1 == fstat(fd,&st)) {
 	if (complain)
-	    fprintf(stderr,"fstat(%s): %s\n",device,strerror(errno));
+	    	fprintf(stderr,"fstat(%s): %s\n",device,strerror(errno));
 	goto err;
     }
     if (!S_ISCHR(st.st_mode)) {
@@ -896,7 +904,10 @@ int ng_chardev_open(char *device, int flags, int major, int complain)
 
  err:
     if (-1 != fd)
-	v4l2_close(fd);
+	if (1 == is_v4l2)
+		v4l2_close(fd);
+	else
+		close(fd);
     return -1;
 }
 

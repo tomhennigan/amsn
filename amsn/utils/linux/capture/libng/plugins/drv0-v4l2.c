@@ -505,7 +505,7 @@ v4l2_open_handle(void *handle)
     if (ng_debug)
 	fprintf(stderr, "v4l2: open\n");
     BUG_ON(h->fd != -1,"device is open");
-    h->fd = ng_chardev_open(h->device, O_RDWR, MAJOR_NUM, 1);
+    h->fd = ng_chardev_open(h->device, O_RDWR, MAJOR_NUM, 1, 1);
     if (-1 == h->fd)
 	return -1;
     if (-1 == xioctl(h->fd,VIDIOC_QUERYCAP,&h->cap,EINVAL)) {
@@ -633,7 +633,7 @@ static struct ng_devinfo* v4l2_probe(int verbose)
     n = 0;
     for (i = 0; NULL != ng_dev.video_scan[i]; i++) {
 	fd = ng_chardev_open(ng_dev.video_scan[i], O_RDONLY | O_NONBLOCK,
-			     MAJOR_NUM, verbose);
+			     MAJOR_NUM, verbose, 1);
 	if (-1 == fd)
 	    continue;
 	if (-1 == xioctl(fd,VIDIOC_QUERYCAP,&cap,EINVAL)) {
