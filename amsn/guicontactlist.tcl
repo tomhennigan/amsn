@@ -2244,13 +2244,20 @@ namespace eval ::guiContactList {
 		# status_log "poslist: $lines"
 		variable OnTheMove
 
+		#if we are using the detailed view
+		if {[lindex [lindex $lines 0] 1] < 0} {
+			set margin_y [expr {[lindex [lindex $lines 0] 1] * -2 + 1}]
+		} else {
+			set margin_y 0
+		}
+
 		if {!$OnTheMove} {
 			foreach line $lines {
 				$canvas create line\
 					[expr { [lindex $line 0] + $xpos } ] \
-					[expr { [lindex $line 1] + $ypos } ] \
+					[expr { [lindex $line 1] + $ypos + $margin_y} ] \
 					[expr { [lindex $line 0] + [lindex $line 2] + $xpos } ]\
-					[expr { [lindex $line 1] + $ypos } ] \
+					[expr { [lindex $line 1] + $ypos + $margin_y} ] \
 					-fill [lindex $line 3]\
 					-tags [list uline_$nicktag $nicktag uline]
 			}
