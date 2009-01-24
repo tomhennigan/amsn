@@ -1130,6 +1130,10 @@ namespace eval ::guiContactList {
 		set colourignore 0
 		set bg_x ""
 		set bg_cl ""
+		set underline_yes 0
+		set list_underline [list ]
+		set overstrike_yes 0
+		set list_overstrike [list ]
 		set font_attr [font configure $defaultfont]
 		#The text is placed at the middle of coords because anchor is w so we use only the half of the size
 		set textheight [expr {[font metrics $font_attr -displayof $canvas -linespace]/2}]
@@ -1175,6 +1179,17 @@ namespace eval ::guiContactList {
 							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
 							lappend underlinearr($underlinename) \
 								[list $xpos $yunderline $textwidth $colour]
+						}
+						
+						if {$underline_yes} {
+							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							lappend list_underline [list $xpos $yunderline $textwidth $colour]
+						}
+
+						if {$overstrike_yes} {
+							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							set yunderline [expr { $yunderline / 2}]
+							lappend list_overstrike [list $xpos $yunderline $textwidth $colour]
 						}
 
 						# Change the coords
@@ -1326,9 +1341,29 @@ namespace eval ::guiContactList {
 				}
 				"font" {
 					set nosize 1
+
+					if {[lindex [lindex $unit 1] 0] eq "-underline"} {
+						if {[lindex [lindex $unit 1] 1] == 1} {
+							set underline_yes 1
+						} else {
+							set underline_yes 0
+						}
+					}
+					
+					if {[lindex [lindex $unit 1] 0] eq "-overstrike"} {
+						if {[lindex [lindex $unit 1] 1] == 1} {
+							set overstrike_yes 1
+						} else {
+							set overstrike_yes 0
+						}
+					}
+					
+					
 					if { [llength [lindex $unit 1]] == 1 } {
 						if { [lindex $unit 1] == "reset" } {
 							set font_attr [font configure $defaultfont]
+							set underline_yes 0
+							set overstrike_yes 0
 						} else {
 							set font_attr [font configure [lindex $unit 1]]
 						}
@@ -1396,6 +1431,15 @@ namespace eval ::guiContactList {
 			}
 		#END the foreach loop
 		}
+
+		if {$list_underline ne ""} {
+			underline_overstrike $canvas $list_underline $main_tag "un"
+		}
+
+		if {$list_overstrike ne ""} {
+			underline_overstrike $canvas $list_overstrike $main_tag "ov"
+		}
+		
 		return [array get underlinearr]
 	}
 
@@ -2233,6 +2277,48 @@ namespace eval ::guiContactList {
 	
 	}
 
+
+	#######################################################
+	# Procedure that draws horizontal lines from this list
+	# of [list xcoord xcoord linelength] lists
+	proc underline_overstrike { canvas lines nicktag opt} {
+	
+		set poslist [$canvas coords [lindex $nicktag 0]]
+		set xpos [lindex $poslist 0]
+		if {$opt eq "ov"} {
+			if {$nicktag ne "all"} {
+				set ypos [expr {[lindex $poslist 1] / 2} ]
+			} else {
+				set ypos [expr {[lindex $poslist 1] + 5} ]
+			}
+		} else {
+			set ypos [expr {[lindex $poslist 1] - 2}]
+		}
+		# status_log "poslist: $lines"
+
+		if {$opt ne "ov"} {
+			#if we are using the detailed view
+			if {[lindex [lindex $lines 0] 1] < 0} {
+				set margin_y [expr {[lindex [lindex $lines 0] 1] * -2 + 1}]
+			} else {
+				set margin_y 0
+			}
+		} else {
+			set margin_y 0
+		}
+
+		foreach line $lines {
+			$canvas create line\
+				[expr { [lindex $line 0] + $xpos } ] \
+				[expr { [lindex $line 1] + $ypos + $margin_y} ] \
+				[expr { [lindex $line 0] + [lindex $line 2] + $xpos} ]\
+				[expr { [lindex $line 1] + $ypos + $margin_y} ] \
+				-fill [lindex $line 3] \
+				-tags $nicktag
+		}
+
+		#$canvas lower unline_$nicktag $nicktag
+	}
 
 	#######################################################
 	# Procedure that draws horizontal lines from this list
