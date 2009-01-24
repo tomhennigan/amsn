@@ -3,11 +3,10 @@
 package require snit
 package provide tksoundmixer 0.1
 
-#TODO: be able to change the mixer position if the var pointed by "-variable" change
+#TODO: mute/unmute?
 
 snit::widget tksoundmixer {
 
-	variable frame
 	variable volumePercent
 	variable volumeRange
 	variable deltaY
@@ -18,48 +17,67 @@ snit::widget tksoundmixer {
 	option -orient -default "vertical" -configuremethod SetOrient
 
 	option -levelsize -default 5 -configuremethod SetLevelSize
-	option -variable -default {}
+	option -levelvariable -default {}
 
 	delegate option * to hull
 
 	constructor {args} {
-		set frame ${win}
 
 		$self configurelist $args
 
-		frame ${frame}.fill
-		place ${frame}.fill -x 0 -y 0 -relheight 1 -relwidth 1
+		frame ${win}.fill
+		place ${win}.fill -x 0 -y 0 -relheight 1 -relwidth 1
 
-		frame ${frame}.level -background black
-		if {[info exists ::$options(-variable)] && [set ::$options(-variable)]<1 && [set ::$options(-variable)] >0} {
+		frame ${win}.level -background black
+		if {[info exists ::$options(-levelvariable)] && [set ::$options(-levelvariable)]<1 && [set ::$options(-levelvariable)] >0} {
 			if { $options(-orient) == "vertical" } {
-				place ${frame}.level -relx 0 -rely [expr {1-[set ::$options(-variable)]}] -relwidth 1 -height $options(-levelsize)
+				place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-levelvariable)]}] -relwidth 1 -height $options(-levelsize)
 			} else {
-				place ${frame}.level -rely 0 -relx [set ::$options(-variable)] -relheight 1 -width $options(-levelsize)
+				place ${win}.level -rely 0 -relx [set ::$options(-levelvariable)] -relheight 1 -width $options(-levelsize)
 			}
 		} else {
 			if { $options(-orient) == "vertical" } {
-				place ${frame}.level -relx 0 -rely 0.5 -relwidth 1 -height $options(-levelsize)
+				place ${win}.level -relx 0 -rely 0.5 -relwidth 1 -height $options(-levelsize)
 			} else {
-				place ${frame}.level -rely 0 -relx 0.5 -relheight 1 -width $options(-levelsize)
+				place ${win}.level -rely 0 -relx 0.5 -relheight 1 -width $options(-levelsize)
 			}
 		}
 
-		bind ${frame}.level <B1-Motion> "$self Motion"
+		bind ${win}.level <B1-Motion> "$self Motion"
+
+		if {![catch {tk windowingsystem} wsystem] && $wsystem != "x11"} {
+			bind ${win} <MouseWheel> "$self MouseWheel"
+			bind ${win}.fill <MouseWheel> "$self MouseWheel"
+			bind ${win}.level <MouseWheel> "$self MouseWheel"
+		} else {
+			bind ${win} <ButtonPress-5> "$self MoveLevel 0"
+			bind ${win}.fill <ButtonPress-5> "$self MoveLevel 0"
+			bind ${win}.level <ButtonPress-5> "$self MoveLevel 0"
+			bind ${win} <ButtonPress-4> "$self MoveLevel 1"
+			bind ${win}.fill <ButtonPress-4> "$self MoveLevel 1"
+			bind ${win}.level <ButtonPress-4> "$self MoveLevel 1"
+		}
+
 	}
 
 	destructor {
 	}
 
-	method Motion {} {
+	method MoveLevel {{up 1}} {
+		puts $up
 		if { $options(-orient) == "vertical" } {
-			set size [winfo height ${frame}]
+			set size [winfo height ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [expr {double([winfo pointery ${frame}] - [winfo rooty ${frame}])/double(${size})}]
+			set rel [expr {1-[set ::$options(-levelvariable)]}]
 		} else {
-			set size [winfo width ${frame}]
+			set size [winfo width ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [expr {double([winfo pointerx ${frame}] - [winfo rootx ${frame}])/double(${size})}]
+			set rel [set ::$options(-levelvariable)]
+		}
+		if {$up == 1} {
+			set rel [expr {$rel + 0.1}]
+		} else {
+			set rel [expr {$rel - 0.1}]
 		}
 		if {$rel > $max} {
 			set rel $max
@@ -69,15 +87,54 @@ snit::widget tksoundmixer {
 			}
 		}
 		if { $options(-orient) == "vertical" } {
-			place configure ${frame}.level -rely $rel
+			place configure ${win}.level -rely $rel
 		} else {
-			place configure ${frame}.level -relx $rel
+			place configure ${win}.level -relx $rel
 		}
-		if {[info exists ::$options(-variable)]} {
+		if {[info exists ::$options(-levelvariable)]} {
 			if { $options(-orient) == "vertical" } {
-				set ::$options(-variable) [expr {1-$rel/$max}]
+				set ::$options(-levelvariable) [expr {1-$rel/$max}]
 			} else {
-				set ::$options(-variable) [expr {$rel/$max}]
+				set ::$options(-levelvariable) [expr {$rel/$max}]
+			}
+		}
+	}
+
+	method MouseWheel {} {
+		if {%D>0} {
+			$self MoveLevel 1
+		} else {
+			$self MoveLevel 0
+		}
+	}
+
+	method Motion {} {
+		if { $options(-orient) == "vertical" } {
+			set size [winfo height ${win}]
+			set max [expr {1-double($options(-levelsize))/double(${size})}]
+			set rel [expr {double([winfo pointery ${win}] - [winfo rooty ${win}])/double(${size})}]
+		} else {
+			set size [winfo width ${win}]
+			set max [expr {1-double($options(-levelsize))/double(${size})}]
+			set rel [expr {double([winfo pointerx ${win}] - [winfo rootx ${win}])/double(${size})}]
+		}
+		if {$rel > $max} {
+			set rel $max
+		} else {
+			if {$rel < 0} {
+				set rel 0
+			}
+		}
+		if { $options(-orient) == "vertical" } {
+			place configure ${win}.level -rely $rel
+		} else {
+			place configure ${win}.level -relx $rel
+		}
+		if {[info exists ::$options(-levelvariable)]} {
+			if { $options(-orient) == "vertical" } {
+				set ::$options(-levelvariable) [expr {1-$rel/$max}]
+			} else {
+				set ::$options(-levelvariable) [expr {$rel/$max}]
 			}
 		}
 	}
@@ -95,9 +152,9 @@ snit::widget tksoundmixer {
 	method SetLevelSize {option value} {
 		set options($option) $value
 		if { $options(-orient) == "vertical" } {
-			${frame}.level configure -height $value
+			${win}.level configure -height $value
 		} else {
-			${frame}.level configure -width $value
+			${win}.level configure -width $value
 		}
 	}
 
@@ -106,10 +163,10 @@ snit::widget tksoundmixer {
 		set volumePercent $value
 		set volumeRange $range
 		if { $options(-orient) == "vertical" } {
-			place conf $frame.fill -relheight $relsize
-			place conf $frame.fill -rely [expr {1-$relsize}]
+			place conf $win.fill -relheight $relsize
+			place conf $win.fill -rely [expr {1-$relsize}]
 		} else {
-			place conf $frame.fill -relwidth $relsize
+			place conf $win.fill -relwidth $relsize
 		}
 		
 		if {[expr $relsize > 0.5]} {
@@ -120,7 +177,7 @@ snit::widget tksoundmixer {
 			binary scan [binary format i [expr {int(2*$relsize*225)}]] H2 R
 		}
 		set B 00
-		${frame}.fill configure -background \#${R}${G}${B}
+		${win}.fill configure -background \#${R}${G}${B}
     }
 }
 
