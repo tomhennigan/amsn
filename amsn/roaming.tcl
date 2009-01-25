@@ -30,6 +30,7 @@ snit::type ContentRoaming {
 
 	method GetProfile { callbk {email ""}} {
 		$::sso RequireSecurityToken Storage [list $self GetProfileSSOCB $callbk $email]
+		#TODO: s/Storage/MessengerSecure ?
 	}
 
 	method GetProfileSSOCB { callbk email ticket} {

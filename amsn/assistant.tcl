@@ -1590,7 +1590,7 @@ namespace eval ::AVAssistant {
 		variable hue
 		variable color
 		
-		if { ! ([string is integer -strict $new_value] && $new_value > 0 && $new_value < 65535 ) } { return }
+		if { ! ([string is integer -strict $new_value] && $new_value > 0 && $new_value < 65535 ) } { set new_value 1 }
 
 		switch $property {
 			b {
