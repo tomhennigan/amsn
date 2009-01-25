@@ -44,6 +44,7 @@ char *sink = NULL;
 char *sink_device = NULL;
 char *sink_pipeline = NULL;
 GstElement *pipeline = NULL;
+GstElement *test_pipeline = NULL;
 GstElement *conference = NULL;
 GstElement *volumeIn = NULL;
 GstElement *volumeOut = NULL;
@@ -124,6 +125,11 @@ static void Close ()
     gst_element_set_state (pipeline, GST_STATE_NULL);
     gst_object_unref (pipeline);
     pipeline = NULL;
+  }
+  if (test_pipeline) {
+    gst_element_set_state (test_pipeline, GST_STATE_NULL);
+    gst_object_unref (test_pipeline);
+    test_pipeline = NULL;
   }
 
   if (volumeIn) {
@@ -547,6 +553,7 @@ static GstElement * _create_source ()
     if (element == NULL)
       continue;
 
+    _notify_debug ("Using source %s", *test_source);
     src = element;
     break;
   }
@@ -565,6 +572,7 @@ static GstElement * _create_source ()
     if (element == NULL)
       continue;
 
+    _notify_debug ("Using source %s", *test_source);
     src = element;
     break;
   }
@@ -633,7 +641,6 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
     if (convert2) gst_object_unref (convert2);
     return;
   }
-
   g_signal_connect (snk, "element-added",
       G_CALLBACK (_sink_element_added), NULL);
 
@@ -983,6 +990,259 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
 }
 
 
+int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  GstBus *bus = NULL;
+  GstElement *src = NULL;
+  GstPad *sinkpad = NULL, *srcpad = NULL;
+  GstElement *snk = NULL;
+  GstElement *convert = NULL;
+  GstElement *resample = NULL;
+  GstElement *convert2 = NULL;
+  GstPadLinkReturn ret;
+  gint state = 0;
+
+  // We verify the arguments
+  if( objc != 1) {
+    Tcl_WrongNumArgs (interp, 1, objv, "");
+    return TCL_ERROR;
+  }
+
+  main_tid = Tcl_GetCurrentThread();
+
+  if (pipeline != NULL) {
+    Tcl_AppendResult (interp, "Already started" , (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  if (test_pipeline != NULL) {
+    Tcl_AppendResult (interp, "Already testing" , (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  test_pipeline = gst_pipeline_new ("pipeline");
+  if (test_pipeline == NULL) {
+    Tcl_AppendResult (interp, "Couldn't create gstreamer pipeline" , (char *) NULL);
+    goto error;
+  }
+
+  bus = gst_element_get_bus (test_pipeline);
+  gst_bus_set_sync_handler (bus, _bus_callback, NULL);
+  gst_object_unref (bus);
+
+  src = _create_source ();
+  if (src == NULL) {
+    _notify_debug ("Couldn't create audio source, using audiotestsrc");
+    src = gst_element_factory_make ("audiotestsrc", NULL);
+  }
+
+  g_object_set(src, "blocksize", 640, NULL);
+
+  if (gst_bin_add (GST_BIN (test_pipeline), src) == FALSE) {
+    _notify_debug ("Couldn't add source to pipeline");
+    gst_object_unref (src);
+    src = NULL;
+    goto no_source;
+  }
+
+  volumeIn = gst_element_factory_make ("volume", NULL);
+  if (volumeIn) {
+    gst_object_ref (volumeIn);
+    if (gst_bin_add (GST_BIN (test_pipeline), volumeIn) == FALSE) {
+      _notify_debug ("Could not add input volume to pipeline");
+      gst_object_unref (volumeIn);
+      volumeIn = NULL;
+      goto no_volume_in;
+    }
+
+    srcpad = gst_element_get_static_pad (volumeIn, "src");
+    if (gst_element_link(src, volumeIn) == FALSE)  {
+      _notify_debug ("Could not link source to volume");
+      gst_bin_remove (GST_BIN (test_pipeline), volumeIn);
+      gst_object_unref (volumeIn);
+      volumeIn = NULL;
+      goto no_volume_in;
+    }
+  } else {
+    _notify_debug ("Couldn't create volume In elemnt");
+  no_volume_in:
+    srcpad = gst_element_get_static_pad (src, "src");
+  }
+
+  levelIn = gst_element_factory_make ("level", NULL);
+  if (levelIn) {
+    GstPad *levelsink;
+
+    gst_object_ref (levelIn);
+    if (gst_bin_add (GST_BIN (test_pipeline), levelIn) == FALSE) {
+      _notify_debug ("Could not add input level to pipeline");
+      gst_object_unref (levelIn);
+      levelIn = NULL;
+      goto no_level_in;
+    }
+    g_object_set (G_OBJECT (levelIn), "message", TRUE, NULL);
+
+    levelsink = gst_element_get_static_pad (levelIn, "sink");
+    if (gst_pad_link (srcpad, levelsink) != GST_PAD_LINK_OK) {
+      gst_object_unref (levelsink);
+      gst_object_unref (srcpad);
+      _notify_debug ("Couldn't link the volume/src to level");
+      gst_bin_remove (GST_BIN (test_pipeline), levelIn);
+      gst_object_unref (levelIn);
+      levelIn = NULL;
+      goto no_level_in;
+    }
+
+    gst_object_unref (srcpad);
+    srcpad = gst_element_get_static_pad (levelIn, "src");
+  } else {
+  no_level_in:
+    _notify_debug ("Couldn't create level In elemnt");
+  }
+
+
+ no_source:
+  /* TODO: add a capsfilter with audio/x-raw */
+
+  snk = _create_sink ();
+  if (snk == NULL) {
+    Tcl_AppendResult (interp, "Could not create sink",
+        (char *) NULL);
+    goto error;
+  }
+  g_signal_connect (snk, "element-added",
+      G_CALLBACK (_sink_element_added), NULL);
+
+  if (gst_bin_add (GST_BIN (test_pipeline), snk) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not add sink to pipeline",
+        (char *) NULL);
+    gst_object_unref (snk);
+    goto error;
+  }
+
+  convert = gst_element_factory_make ("audioconvert", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), convert) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add converter to pipeline",
+        (char *) NULL);
+    gst_object_unref (convert);
+    goto error;
+  }
+
+  resample = gst_element_factory_make ("audioresample", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), resample) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add resampler to pipeline",
+        (char *) NULL);
+    gst_object_unref (resample);
+    goto error;
+  }
+
+  convert2 = gst_element_factory_make ("audioconvert", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), convert2) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add second converter to pipeline",
+        (char *) NULL);
+    gst_object_unref (convert2);
+    goto error;
+  }
+
+  volumeOut = gst_element_factory_make ("volume", NULL);
+  if (volumeOut) {
+    gst_object_ref (volumeOut);
+
+    if (gst_bin_add (GST_BIN (test_pipeline), volumeOut) == FALSE) {
+      _notify_debug ("Could not add output volume to pipeline");
+      gst_object_unref (volumeOut);
+      volumeOut = NULL;
+      goto no_volume_out;
+    }
+
+    if (gst_element_link(volumeOut, convert) == FALSE)  {
+      _notify_debug ("Could not link volume out to converter");
+      gst_bin_remove (GST_BIN (test_pipeline), volumeOut);
+      gst_object_unref (volumeOut);
+      volumeOut = NULL;
+      goto no_volume_out;
+    }
+    sinkpad = gst_element_get_static_pad (volumeOut, "sink");
+  } else {
+    _notify_debug ("Couldn't create volume OUT elemnt");
+  no_volume_out:
+    sinkpad = gst_element_get_static_pad (convert, "sink");
+  }
+
+  ret = gst_pad_link (srcpad, sinkpad);
+  gst_object_unref (sinkpad);
+  gst_object_unref (srcpad);
+
+  if (ret != GST_PAD_LINK_OK)  {
+    Tcl_AppendResult (interp, "Could not link src to sink",
+        (char *) NULL);
+    goto error;
+  }
+
+  if (gst_element_link(convert, resample) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link converter to resampler",
+        (char *) NULL);
+    goto error;
+  }
+  if (gst_element_link(resample, convert2) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link resampler to second converter",
+        (char *) NULL);
+    goto error;
+  }
+
+  levelOut = gst_element_factory_make ("level", NULL);
+  if (levelOut) {
+    gst_object_ref (levelOut);
+
+    if (gst_bin_add (GST_BIN (test_pipeline), levelOut) == FALSE) {
+      _notify_debug ("Could not add output level to pipeline");
+      gst_object_unref (levelOut);
+      levelOut = NULL;
+      goto no_level_out;
+    }
+    g_object_set (G_OBJECT (levelOut), "message", TRUE, NULL);
+
+    if (gst_element_link(convert2, levelOut) == FALSE)  {
+      _notify_debug ("Could not link level out to converter");
+      gst_bin_remove (GST_BIN (test_pipeline), levelOut);
+      gst_object_unref (levelOut);
+      levelOut = NULL;
+      goto no_level_out;
+    }
+    if (gst_element_link(levelOut, snk) == FALSE)  {
+      _notify_debug ("Could not link sink to level out");
+      gst_element_unlink(convert2, levelOut);
+      gst_bin_remove (GST_BIN (test_pipeline), levelOut);
+      gst_object_unref (levelOut);
+      levelOut = NULL;
+      goto no_level_out;
+    }
+  } else {
+    _notify_debug ("Could not create level out element");
+  no_level_out:
+    if (gst_element_link(convert2, snk) == FALSE)  {
+      Tcl_AppendResult (interp, "Could not link sink to converter",
+          (char *) NULL);
+      goto error;
+    }
+  }
+
+  if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
+      GST_STATE_CHANGE_FAILURE) {
+    Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
+        (char *) NULL);
+    goto error;
+  }
+
+  return TCL_OK;
+
+ error:
+  Close ();
+
+  return TCL_ERROR;
+}
+
 int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
@@ -990,7 +1250,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstBus *bus = NULL;
   GstElement *src = NULL;
   GstPad *sinkpad = NULL, *srcpad = NULL;
-  GIOChannel *ioc = g_io_channel_unix_new (0);
   GParameter transmitter_params[6];
   int controlling;
   char *stun_ip = NULL;
@@ -1122,6 +1381,10 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     return TCL_ERROR;
   }
 
+  if (test_pipeline != NULL) {
+    Close ();
+  }
+
   candidates_prepared = FALSE;
   codecs_ready = FALSE;
 
@@ -1212,14 +1475,14 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   src = _create_source ();
   if (src == NULL) {
-    Tcl_AppendResult (interp, "Couldn't create audio source" , (char *) NULL);
+    _notify_debug ("Couldn't create audio source");
     goto no_source;
   }
 
   g_object_set(src, "blocksize", 640, NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
-    Tcl_AppendResult (interp, "Couldn't add source to pipeline" , (char *) NULL);
+    _notify_debug ("Couldn't add source to pipeline");
     if (src) gst_object_unref (src);
     goto no_source;
   }
@@ -1279,8 +1542,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   if (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK) {
     gst_object_unref (sinkpad);
     gst_object_unref (srcpad);
-    Tcl_AppendResult (interp, "Couldn't link the volume/level/src to"
-        " fsrtpconference" , (char *) NULL);
+    _notify_debug ("Couldn't link the volume/level/src to fsrtpconference");
     goto no_source;
   }
 
@@ -2097,6 +2359,9 @@ int Farsight_Init (Tcl_Interp *interp) {
   Tcl_CreateObjCommand(interp, "::Farsight::GetMuteOut", Farsight_GetMuteOut,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::Farsight::Config", Farsight_Config,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+
+  Tcl_CreateObjCommand(interp, "::Farsight::Test", Farsight_Test,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
   // end of Initialisation
