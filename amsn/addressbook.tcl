@@ -7,6 +7,14 @@ snit::type Addressbook {
 	variable ab_done 0
 	variable fm_done 0
 	variable soap_requests [list]
+	variable ABServiceURL "https://byrdr.omega.contacts.msn.com/abservice/abservice.asmx"
+	variable SharingServiceURL "https://byrdr.omega.contacts.msn.com/abservice/SharingService.asmx"
+
+	constructor { args } {
+		$self configurelist $args
+
+		$self _setURLs
+	}
 
 	destructor {
 		foreach soap_req $soap_requests {
@@ -22,6 +30,48 @@ snit::type Addressbook {
 		if {$idx >= 0} {
 			set soap_requests [lreplace $soap_requests $idx $idx]
 		}
+	}
+
+	method CheckPreferredServer { soap } {
+		if { [$soap GetStatus] == "success" } {
+			set preferred_host [GetXmlEntry $xml "soap:Envelope:soap:Header:ServiceHeader:PreferredHostName"]
+			if {$preferred_host != "" } {
+				::config::setKey ABPreferredHost $preferred_host
+			}
+			$self _setURLs
+			return 0
+		} else {
+			::config::setKey ABPreferredHost "byrdr.omega.contacts.msn.com"
+			$self _setURLs
+			if {[string first "SharingService.asmx" [$soap cget -url]] != -1} {
+				if {[$soap cget -url] != $SharingServiceURL} {
+					$soap configure -url $SharingServiceURL
+					$soap SendSOAPRequest
+					return 1
+				}
+			} else if {[string first "abservice.asmx" [$soap cget -url]] != -1 } {
+				if {[$soap cget -url] != $ABServiceURL} {
+					$soap configure -url $ABServiceURL
+					$soap SendSOAPRequest
+					return 1
+				}	
+			} else {
+				status_log "unknown SOAP url.. can't decide.."
+				return 0
+			}
+			return 0
+		}
+	}
+
+
+	method _setURLs { } {
+		set host [::config::getKey ABPreferredHost ""]
+		if {$host == "" } {
+			set host "byrdr.omega.contacts.msn.com"
+			::config::setKey ABPreferredHost $host
+		}
+		set ABServiceURL "https://$host/abservice/abservice.asmx"
+		set SharingServiceURL "https://$host/abservice/SharingService.asmx"
 	}
 
 	method Synchronize { callback } {
@@ -95,7 +145,7 @@ snit::type Addressbook {
 
 	method FindMembershipSSOCB {callbk ticket} {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/SharingService.asmx" \
+				 -url $SharingServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/FindMembership" \
 				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getFindMembershipBodyXML] \
@@ -107,6 +157,8 @@ snit::type Addressbook {
 
 	method FindMembershipCallback { callbk soap } {
 		status_log "FindMembership Callback called : [$soap GetStatus] - [$soap GetLastError]"
+		if {[$self CheckPreferredServer $soap] } return
+		
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
 			set i 0
@@ -192,7 +244,7 @@ snit::type Addressbook {
 
 	method ABFindAllSSOCB { callbk ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABFindAll" \
 				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getABFindAllBodyXML] \
@@ -204,6 +256,7 @@ snit::type Addressbook {
 
 	method ABFindAllCallback { callbk soap } {
 		status_log "ABFindALL Callback called : [$soap GetStatus] - [$soap GetLastError]"
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
 
@@ -481,7 +534,7 @@ snit::type Addressbook {
 
 	method ABAddSSOCB { callbk email ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABAdd" \
 				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getABAddBodyXML $email] \
@@ -509,6 +562,7 @@ snit::type Addressbook {
 	}
 	
 	method ABAddCallback { callbk soap} {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -537,7 +591,7 @@ snit::type Addressbook {
 
 	method ABContactAddSSOCB { callbk email yahoo ticket} {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABContactAdd" \
 				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getABContactAddBodyXML $email $yahoo] \
@@ -592,6 +646,7 @@ snit::type Addressbook {
 	}
 
 	method ABContactAddCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		set guid ""
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
@@ -630,7 +685,7 @@ snit::type Addressbook {
 
 	method ABContactDeleteSSOCB { callbk email ticket} {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABContactDelete" \
 				 -header [$self getCommonHeaderXML Timer $ticket] \
 				 -body [$self getABContactDeleteBodyXML $email] \
@@ -659,6 +714,7 @@ snit::type Addressbook {
 	}
 		
 	method ABContactDeleteCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -688,7 +744,7 @@ snit::type Addressbook {
 
 	method ABContactUpdateSSOCB { callbk email changes properties ticket} {
 		set request [SOAPRequest create %AUTO% \
-				-url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				-url $ABServiceURL \
 				-action "http://www.msn.com/webservices/AddressBook/ABContactUpdate" \
 				-header [$self getCommonHeaderXML BlockUnblock $ticket] \
 				-body [$self getABContactUpdateBodyXML $email $changes $properties] \
@@ -724,6 +780,7 @@ snit::type Addressbook {
 	}
 	
 	method ABContactUpdateCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			$self _destroySoapReq $soap
 			if {[catch {eval $callbk [list 0]} result]} {
@@ -746,7 +803,7 @@ snit::type Addressbook {
 
 	method AddMemberSSOCB { callbk scenario email role ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/SharingService.asmx" \
+				 -url $SharingServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/AddMember" \
 				 -header [$self getCommonHeaderXML $scenario $ticket] \
 				 -body [$self getAddMemberBodyXML $email $role] \
@@ -808,6 +865,7 @@ snit::type Addressbook {
 	}
 	
 	method AddMemberCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -835,7 +893,7 @@ snit::type Addressbook {
 
 	method DeleteMemberSSOCB { callbk scenario email role ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/SharingService.asmx" \
+				 -url $SharingServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/DeleteMember" \
 				 -header [$self getCommonHeaderXML $scenario $ticket] \
 				 -body [$self getDeleteMemberBodyXML $email $role] \
@@ -897,6 +955,7 @@ snit::type Addressbook {
 	}
 	
 	method DeleteMemberCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -925,7 +984,7 @@ snit::type Addressbook {
 
 	method UpdateMemberSSOCB { callbk contactid role cstate deleted ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/SharingService.asmx" \
+				 -url $SharingServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/UpdateMember" \
 				 -header [$self getCommonHeaderXML ContactSave $ticket] \
 				 -body [$self getUpdateMemberBodyXML $contactid $role $cstate $deleted] \
@@ -966,6 +1025,7 @@ snit::type Addressbook {
 	}
 	
 	method UpdateMemberCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			$callbk $contactid
 			$self _destroySoapReq $soap
@@ -982,7 +1042,7 @@ snit::type Addressbook {
 
 	method ABGroupAddSSOCB { callbk groupname ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupAdd" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupAddBodyXML $groupname] \
@@ -1019,6 +1079,7 @@ snit::type Addressbook {
 	}
 	
 	method ABGroupAddCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		set guid ""
 		if { [$soap GetStatus] == "success" } {
 			set xml [$soap GetResponse]
@@ -1049,7 +1110,7 @@ snit::type Addressbook {
 
 	method ABGroupDeleteSSOCB { callbk gid ticket} {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupDelete" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupDeleteBodyXML $gid] \
@@ -1077,6 +1138,7 @@ snit::type Addressbook {
 	}
 	
 	method ABGroupDeleteCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -1104,7 +1166,7 @@ snit::type Addressbook {
 
 	method ABGroupUpdateSSOCB { callbk gid newname ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupUpdate" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupUpdateBodyXML $gid $newname] \
@@ -1137,6 +1199,7 @@ snit::type Addressbook {
 	}
 	
 	method ABGroupUpdateCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -1163,7 +1226,7 @@ snit::type Addressbook {
 
 	method ABGroupContactAddSSOCB { callbk gid cid ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactAdd" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupContactAddBodyXML $gid $cid] \
@@ -1196,6 +1259,7 @@ snit::type Addressbook {
 	}
 	
 	method ABGroupContactAddCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 
@@ -1224,7 +1288,7 @@ snit::type Addressbook {
 
 	method ABGroupContactDeleteSSOCB { callbk gid cid ticket } {
 		set request [SOAPRequest create %AUTO% \
-				 -url "https://omega.contacts.msn.com/abservice/abservice.asmx" \
+				 -url $ABServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/ABGroupContactDelete" \
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupContactDeleteBodyXML $gid $cid] \
@@ -1257,6 +1321,7 @@ snit::type Addressbook {
 	}
 	
 	method ABGroupContactDeleteCallback { callbk soap } {
+		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set fail 0
 		} elseif { [$soap GetStatus] == "fault" } { 

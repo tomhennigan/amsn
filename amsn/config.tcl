@@ -317,6 +317,9 @@ namespace eval ::config {
 		::config::setKey no_blocked_notif 0				;# No notify windows when a user is blocked
 		::config::setKey show_detailed_view 0					;#allow to show detailed contact view in cl
 
+		::config::setKey ABPreferredHost "byrdr.omega.contacts.msn.com"
+
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
