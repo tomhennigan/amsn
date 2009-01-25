@@ -11,8 +11,6 @@ snit::type Addressbook {
 	variable SharingServiceURL "https://byrdr.omega.contacts.msn.com/abservice/SharingService.asmx"
 
 	constructor { args } {
-		$self configurelist $args
-
 		$self _setURLs
 	}
 
@@ -34,6 +32,7 @@ snit::type Addressbook {
 
 	method CheckPreferredServer { soap } {
 		if { [$soap GetStatus] == "success" } {
+			set xml  [$soap GetResponse]
 			set preferred_host [GetXmlEntry $xml "soap:Envelope:soap:Header:ServiceHeader:PreferredHostName"]
 			if {$preferred_host != "" } {
 				::config::setKey ABPreferredHost $preferred_host
