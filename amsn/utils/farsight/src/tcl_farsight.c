@@ -31,6 +31,7 @@
 #endif
 
 
+static GList * get_plugins_filtered (gboolean source);
 
 Tcl_Obj *level_callback = NULL;
 Tcl_Interp *level_callback_interp = NULL;
@@ -279,7 +280,7 @@ typedef struct {
   char *error;
 } FarsightErrorEvent;
 
-static int Farsight_ErrorEventProc (Tcl_Event *evPtr, int flags) 
+static int Farsight_ErrorEventProc (Tcl_Event *evPtr, int flags)
 {
   FarsightErrorEvent *ev = (FarsightErrorEvent *) evPtr;
   char *error = ev->error;
@@ -396,6 +397,7 @@ _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
 static GstElement * _create_source ()
 {
   GstElement *src = NULL;
+  GList *sources, *walk;
 
   _notify_debug ("Creating source : %s  --- %s -- %s", source_pipeline, source, source_device);
 
@@ -422,11 +424,53 @@ static GstElement * _create_source ()
       _notify_debug ("Error while creating source pipeline (%d): %s",
           error->code, error->message);
     }
+    return src;
   } else if (source) {
     src = gst_element_factory_make (source, NULL);
     if (src && source_device)
       g_object_set(src, "device", source_device, NULL);
+    return src;
   }
+
+  sources = get_plugins_filtered (TRUE);
+
+  for (walk = sources; walk; walk = g_list_next (walk)) {
+    GstElement *element;
+    GstElementFactory *factory = GST_ELEMENT_FACTORY(walk->data);
+    GstStateChangeReturn state_ret;
+
+    element = gst_element_factory_create (factory, NULL);
+    if (element == NULL)
+      continue;
+
+    if (GST_PLUGIN_FEATURE_NAME(factory) == "directsoundsrc")
+      g_object_set(element, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
+
+    state_ret = gst_element_set_state (element, GST_STATE_READY);
+    if (state_ret == GST_STATE_CHANGE_ASYNC) {
+      _notify_debug ("Waiting for %s to go to state READY",
+          GST_PLUGIN_FEATURE_NAME(factory));
+      state_ret = gst_element_get_state (element, NULL, NULL,
+          GST_CLOCK_TIME_NONE);
+    }
+
+    if (state_ret == GST_STATE_CHANGE_FAILURE) {
+      gst_object_unref (element);
+      continue;
+    }
+    src = element;
+    break;
+  }
+  for (walk = sources; walk; walk = g_list_next (walk)) {
+    if (walk->data)
+      gst_object_unref (GST_ELEMENT_FACTORY (walk->data));
+  }
+  g_list_free (sources);
+
+  return src;
+}
+
+/*
   if (src == NULL)
     src = gst_element_factory_make ("dshowaudiosrc", NULL);
   if (src == NULL)
@@ -445,6 +489,7 @@ static GstElement * _create_source ()
   return src;
 }
 
+*/
 static GstElement * _create_sink ()
 {
   GstElement *snk = NULL;
@@ -1081,7 +1126,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   src = _create_source ();
   if (src == NULL) {
     Tcl_AppendResult (interp, "Couldn't create audio source" , (char *) NULL);
-    goto error;
+    goto no_source;
   }
 
   g_object_set(src, "blocksize", 640, NULL);
@@ -1089,7 +1134,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
     Tcl_AppendResult (interp, "Couldn't add source to pipeline" , (char *) NULL);
     if (src) gst_object_unref (src);
-    goto error;
+    goto no_source;
   }
 
   volumeIn = gst_element_factory_make ("volume", NULL);
@@ -1124,7 +1169,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       _notify_debug ("Could not add input level to pipeline");
       gst_object_unref (levelIn);
       levelIn = NULL;
-      goto error;
+      goto no_level;
     }
     g_object_set (G_OBJECT (levelIn), "message", TRUE, NULL);
 
@@ -1147,14 +1192,15 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   if (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK) {
     gst_object_unref (sinkpad);
     gst_object_unref (srcpad);
-    Tcl_AppendResult (interp, "Couldn't link the volume/level/src to fsrtpconference" ,
-        (char *) NULL);
-    goto error;
+    Tcl_AppendResult (interp, "Couldn't link the volume/level/src to"
+        " fsrtpconference" , (char *) NULL);
+    goto no_source;
   }
 
   gst_object_unref (sinkpad);
   gst_object_unref (srcpad);
 
+ no_source:
   participant = fs_conference_new_participant (FS_CONFERENCE (conference),
       "", &error);
   if (error) {
