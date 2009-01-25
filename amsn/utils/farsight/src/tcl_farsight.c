@@ -394,18 +394,103 @@ _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
   g_object_set (sink, "sync", FALSE, NULL);
 }
 
+
+static GstElement * _test_source (gchar *name)
+{
+  GstPropertyProbe *probe;
+  GstElement *element;
+  GstStateChangeReturn state_ret;
+  GValueArray *arr;
+
+  if (name == "dtmfsrc" || name == "audiotestsrc")
+    return NULL;
+
+  element = gst_element_factory_make (name, NULL);
+
+  if (element == NULL)
+    return NULL;
+
+  if (name == "directsoundsrc")
+    g_object_set(element, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
+
+  state_ret = gst_element_set_state (element, GST_STATE_READY);
+  if (state_ret == GST_STATE_CHANGE_ASYNC) {
+    _notify_debug ("Waiting for %s to go to state READY", name);
+    state_ret = gst_element_get_state (element, NULL, NULL,
+        GST_CLOCK_TIME_NONE);
+  }
+
+  if (state_ret != GST_STATE_CHANGE_FAILURE) {
+    return element;
+  }
+
+  if (GST_IS_PROPERTY_PROBE (element)) {
+    probe = GST_PROPERTY_PROBE (element);
+    if (probe) {
+      arr = gst_property_probe_probe_and_get_values_name (probe, "device");
+      if (arr && arr->n_values > 0) {
+        guint i;
+        for (i = 0; i < arr->n_values; ++i) {
+          const gchar *device;
+          GValue *val;
+
+          val = g_value_array_get_nth (arr, i);
+          if (val == NULL || !G_VALUE_HOLDS_STRING (val))
+            continue;
+
+          device = g_value_get_string (val);
+          if (device == NULL)
+            continue;
+
+          g_object_set(element, "device", device, NULL);
+
+          state_ret = gst_element_set_state (element, GST_STATE_READY);
+          if (state_ret == GST_STATE_CHANGE_ASYNC) {
+            _notify_debug ("Waiting for %s to go to state READY", name);
+            state_ret = gst_element_get_state (element, NULL, NULL,
+                GST_CLOCK_TIME_NONE);
+          }
+
+          if (state_ret != GST_STATE_CHANGE_FAILURE) {
+            g_value_array_free (arr);
+            return element;
+          }
+        }
+        g_value_array_free (arr);
+      }
+    }
+  }
+
+  gst_object_unref (element);
+  return NULL;
+}
+
+
 static GstElement * _create_source ()
 {
   GstElement *src = NULL;
   GList *sources, *walk;
+  gchar *priority_sources[] = {"dshowaudiosrc",
+                               "directsoundsrc",
+                               "osxaudiosrc",
+                               "gconfaudiosrc",
+                               "pulsesrc",
+                               "alsasrc",
+                               "oss4src",
+                               "osssrc",
+                               NULL};
+  gchar **test_source = NULL;
+  int i;
 
-  _notify_debug ("Creating source : %s  --- %s -- %s", source_pipeline, source, source_device);
+  _notify_debug ("Creating source : %s  --- %s -- %s",
+      source_pipeline, source, source_device);
 
   if (source_pipeline) {
     GstPad *pad = NULL;
     GstBin *bin;
     gchar *desc;
     GError *error  = NULL;
+    GstStateChangeReturn state_ret;
 
     /* parse the pipeline to a bin */
     desc = g_strdup_printf ("bin.( %s ! queue )", source_pipeline);
@@ -424,40 +509,62 @@ static GstElement * _create_source ()
       _notify_debug ("Error while creating source pipeline (%d): %s",
           error->code, error->message);
     }
+
+    state_ret = gst_element_set_state (src, GST_STATE_READY);
+    if (state_ret == GST_STATE_CHANGE_ASYNC) {
+      _notify_debug ("Waiting for source_pipeline to go to state READY");
+      state_ret = gst_element_get_state (src, NULL, NULL,
+          GST_CLOCK_TIME_NONE);
+    }
+
+    if (state_ret == GST_STATE_CHANGE_FAILURE) {
+      gst_object_unref (src);
+      return NULL;
+    }
     return src;
   } else if (source) {
+    GstStateChangeReturn state_ret;
     src = gst_element_factory_make (source, NULL);
     if (src && source_device)
       g_object_set(src, "device", source_device, NULL);
+
+    state_ret = gst_element_set_state (src, GST_STATE_READY);
+    if (state_ret == GST_STATE_CHANGE_ASYNC) {
+      _notify_debug ("Waiting for %s to go to state READY", source);
+      state_ret = gst_element_get_state (src, NULL, NULL,
+          GST_CLOCK_TIME_NONE);
+    }
+
+    if (state_ret == GST_STATE_CHANGE_FAILURE) {
+      gst_object_unref (src);
+      return NULL;
+    }
     return src;
   }
+
+  for (test_source = priority_sources; *test_source; test_source++) {
+    GstElement *element = _test_source (*test_source);
+    if (element == NULL)
+      continue;
+
+    src = element;
+    break;
+  }
+
+  if (src)
+    return src;
 
   sources = get_plugins_filtered (TRUE);
 
   for (walk = sources; walk; walk = g_list_next (walk)) {
     GstElement *element;
     GstElementFactory *factory = GST_ELEMENT_FACTORY(walk->data);
-    GstStateChangeReturn state_ret;
 
-    element = gst_element_factory_create (factory, NULL);
+    element = _test_source (GST_PLUGIN_FEATURE_NAME(factory));
+
     if (element == NULL)
       continue;
 
-    if (GST_PLUGIN_FEATURE_NAME(factory) == "directsoundsrc")
-      g_object_set(element, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
-
-    state_ret = gst_element_set_state (element, GST_STATE_READY);
-    if (state_ret == GST_STATE_CHANGE_ASYNC) {
-      _notify_debug ("Waiting for %s to go to state READY",
-          GST_PLUGIN_FEATURE_NAME(factory));
-      state_ret = gst_element_get_state (element, NULL, NULL,
-          GST_CLOCK_TIME_NONE);
-    }
-
-    if (state_ret == GST_STATE_CHANGE_FAILURE) {
-      gst_object_unref (element);
-      continue;
-    }
     src = element;
     break;
   }
@@ -470,26 +577,6 @@ static GstElement * _create_source ()
   return src;
 }
 
-/*
-  if (src == NULL)
-    src = gst_element_factory_make ("dshowaudiosrc", NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("directsoundsrc", NULL);
-  else
-    g_object_set(src, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("osxaudiosrc", NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("gconfaudiosrc", NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("alsasrc", NULL);
-  if (src == NULL)
-    src = gst_element_factory_make ("osssrc", NULL);
-
-  return src;
-}
-
-*/
 static GstElement * _create_sink ()
 {
   GstElement *snk = NULL;
