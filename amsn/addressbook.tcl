@@ -48,7 +48,7 @@ snit::type Addressbook {
 					$soap SendSOAPRequest
 					return 1
 				}
-			} else if {[string first "abservice.asmx" [$soap cget -url]] != -1 } {
+			} elseif {[string first "abservice.asmx" [$soap cget -url]] != -1 } {
 				if {[$soap cget -url] != $ABServiceURL} {
 					$soap configure -url $ABServiceURL
 					$soap SendSOAPRequest
