@@ -1000,6 +1000,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstElement *convert = NULL;
   GstElement *resample = NULL;
   GstElement *convert2 = NULL;
+  GstElement *capsfilter = NULL;
   GstPadLinkReturn ret;
   gint state = 0;
 
@@ -1086,7 +1087,6 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     levelsink = gst_element_get_static_pad (levelIn, "sink");
     if (gst_pad_link (srcpad, levelsink) != GST_PAD_LINK_OK) {
       gst_object_unref (levelsink);
-      gst_object_unref (srcpad);
       _notify_debug ("Couldn't link the volume/src to level");
       gst_bin_remove (GST_BIN (test_pipeline), levelIn);
       gst_object_unref (levelIn);
@@ -1103,7 +1103,37 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
 
  no_source:
-  /* TODO: add a capsfilter with audio/x-raw */
+  capsfilter = gst_element_factory_make ("capsfilter", "capsfilter");
+  if (capsfilter) {
+    GstPad *caps_sink;
+    GstCaps *caps;
+
+    if (gst_bin_add (GST_BIN (test_pipeline), capsfilter) == FALSE) {
+      _notify_debug ("Could not add capsfilter to pipeline");
+      gst_object_unref (capsfilter);
+      goto no_capsfilter;
+    }
+
+    caps_sink = gst_element_get_static_pad (capsfilter, "sink");
+    if (gst_pad_link (srcpad, caps_sink) != GST_PAD_LINK_OK) {
+      gst_object_unref (caps_sink);
+      _notify_debug ("Couldn't link the volume/level/src to capsfilter");
+      gst_bin_remove (GST_BIN (test_pipeline), capsfilter);
+      goto no_capsfilter;
+    }
+
+
+    caps = gst_caps_new_simple ("audio/x-raw-int",
+        "rate", G_TYPE_INT, 16000,
+        NULL);
+    g_object_set (capsfilter, "caps", caps, NULL);
+
+    gst_object_unref (srcpad);
+    srcpad = gst_element_get_static_pad (capsfilter, "src");
+  } else {
+    _notify_debug ("couldn't create capsfilter");
+  }
+ no_capsfilter:
 
   snk = _create_sink ();
   if (snk == NULL) {
