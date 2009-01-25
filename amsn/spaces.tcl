@@ -13,6 +13,7 @@ namespace eval ::MSNSPACES {
 		if { [$soap GetStatus ] == "success" } {
 			set xml [$soap GetResponse]
 			$soap destroy
+			
 			::abook::setContactData $email spaces_info_xml $xml
 
 			#now we'll set the space as "read"

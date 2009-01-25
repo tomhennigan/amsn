@@ -6,6 +6,23 @@ snit::type Addressbook {
 	variable groups [list]
 	variable ab_done 0
 	variable fm_done 0
+	variable soap_requests [list]
+
+	destructor {
+		foreach soap_req $soap_requests {
+			catch { $soap_req destroy }
+		}
+		set soap_requests [list]
+		
+	}
+
+	method _destroySoapReq { soap } {
+		$soap destroy
+		set idx [lsearch $soap_requests $soap]
+		if {$idx >= 0} {
+			set soap_requests [lreplace $soap_requests $idx $idx]
+		}
+	}
 
 	method Synchronize { callback } {
 		global contactlist_loaded
@@ -83,6 +100,8 @@ snit::type Addressbook {
 				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getFindMembershipBodyXML] \
 				 -callback [list $self FindMembershipCallback $callbk]]
+
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}	
 
@@ -139,25 +158,26 @@ snit::type Addressbook {
 				}
 			}
 
-			$soap destroy
+			$self _destroySoapReq $soap
 			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
 			}
 		} elseif { [$soap GetStatus] == "fault" } { 
 			set errorcode [$soap GetFaultDetail]
 			if {$errorcode == "ABDoesNotExist" } {
-				$soap destroy
+				$self _destroySoapReq $soap
+
 				if {[catch {eval $callbk [list 2]} result]} {
 					bgerror $result
 				}
 			} else {
-				$soap destroy
+				$self _destroySoapReq $soap
 				if {[catch {eval $callbk [list 1]} result]} {
 					bgerror $result
 				}
 			}
 		} else { 
-			$soap destroy
+			$self _destroySoapReq $soap
 			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
 			}
@@ -178,6 +198,7 @@ snit::type Addressbook {
 				 -body [$self getABFindAllBodyXML] \
 				 -callback [list $self ABFindAllCallback $callbk]]
 
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 
@@ -394,7 +415,7 @@ snit::type Addressbook {
 				::Event::fireEvent contactSpaceChange protocol $users_with_space
 			}
 
-			$soap destroy
+			$self _destroySoapReq $soap
 			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
 			}
@@ -402,18 +423,18 @@ snit::type Addressbook {
 		} elseif { [$soap GetStatus] == "fault" } { 
 			set errorcode [$soap GetFaultDetail]
 			if {$errorcode == "ABDoesNotExist" } {
-				$soap destroy
+				$self _destroySoapReq $soap
 				if {[catch {eval $callbk [list 2]} result]} {
 					bgerror $result
 				}
 			} else {
-				$soap destroy
+				$self _destroySoapReq $soap
 				if {[catch {eval $callbk [list 1]} result]} {
 					bgerror $result
 				}
 			}
 		} else {
-			$soap destroy
+			$self _destroySoapReq $soap
 			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
 			}
@@ -466,6 +487,7 @@ snit::type Addressbook {
 				 -body [$self getABAddBodyXML $email] \
 				 -callback [list $self ABAddCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	
 		
@@ -500,7 +522,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -521,6 +543,7 @@ snit::type Addressbook {
 				 -body [$self getABContactAddBodyXML $email $yahoo] \
 				 -callback [list $self ABContactAddCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	
 		
@@ -593,7 +616,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $guid $fail]} result]} {
 			bgerror $result
 		}
@@ -613,6 +636,7 @@ snit::type Addressbook {
 				 -body [$self getABContactDeleteBodyXML $email] \
 				 -callback [list $self ABContactDeleteCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 		
 	}
@@ -648,7 +672,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -670,6 +694,7 @@ snit::type Addressbook {
 				-body [$self getABContactUpdateBodyXML $email $changes $properties] \
 				-callback [list $self ABContactUpdateCallback $callbk]]
 
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 	
@@ -700,12 +725,12 @@ snit::type Addressbook {
 	
 	method ABContactUpdateCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
-			$soap destroy
+			$self _destroySoapReq $soap
 			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
 			}
 		} else { 
-			$soap destroy
+			$self _destroySoapReq $soap
 			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
 			}
@@ -727,6 +752,7 @@ snit::type Addressbook {
 				 -body [$self getAddMemberBodyXML $email $role] \
 				 -callback [list $self AddMemberCallback $callbk]]
 
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 	
@@ -795,7 +821,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -815,6 +841,7 @@ snit::type Addressbook {
 				 -body [$self getDeleteMemberBodyXML $email $role] \
 				 -callback [list $self DeleteMemberCallback $callbk]]
 
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 	
@@ -883,7 +910,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -904,6 +931,7 @@ snit::type Addressbook {
 				 -body [$self getUpdateMemberBodyXML $contactid $role $cstate $deleted] \
 				 -callback [list $self UpdateMemberCallback $callbk]]
 
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 	
@@ -940,9 +968,9 @@ snit::type Addressbook {
 	method UpdateMemberCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
 			$callbk $contactid
-			$soap destroy
+			$self _destroySoapReq $soap
 		} else {
-			$soap destroy
+			$self _destroySoapReq $soap
 		}
 	}
 
@@ -959,6 +987,8 @@ snit::type Addressbook {
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupAddBodyXML $groupname] \
 				 -callback [list $self ABGroupAddCallback $callbk]]
+
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 	
@@ -1007,7 +1037,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $guid $fail]} result]} {
 			bgerror $result
 		}
@@ -1024,6 +1054,8 @@ snit::type Addressbook {
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupDeleteBodyXML $gid] \
 				 -callback [list $self ABGroupDeleteCallback $callbk]]
+
+		lappend soap_requests $request
 		$request SendSOAPRequest
 		
 	}
@@ -1058,7 +1090,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -1077,6 +1109,8 @@ snit::type Addressbook {
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupUpdateBodyXML $gid $newname] \
 				 -callback [list $self ABGroupUpdateCallback $callbk]]
+
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 	
@@ -1116,7 +1150,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -1134,6 +1168,8 @@ snit::type Addressbook {
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupContactAddBodyXML $gid $cid] \
 				 -callback [list $self ABGroupContactAddCallback $callbk]]
+
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 	
@@ -1175,7 +1211,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -1193,6 +1229,8 @@ snit::type Addressbook {
 				 -header [$self getCommonHeaderXML GroupSave $ticket] \
 				 -body [$self getABGroupContactDeleteBodyXML $gid $cid] \
 				 -callback [list $self ABGroupContactDeleteCallback $callbk]]
+
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 	
@@ -1234,7 +1272,7 @@ snit::type Addressbook {
 			set fail 1
 		}
 
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}

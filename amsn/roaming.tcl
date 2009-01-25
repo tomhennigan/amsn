@@ -9,6 +9,24 @@ snit::type ContentRoaming {
 	# url : "https://storage.msn.com/storageservice/SchematizedStore.asmx"
 
 	variable affinity_cache ""
+	variable soap_requests [list]
+
+	destructor {
+		foreach soap_req $soap_requests {
+			catch { $soap_req destroy }
+		}
+		set soap_requests [list]
+		
+	}
+
+	method _destroySoapReq { soap } {
+		$soap destroy
+		set idx [lsearch $soap_requests $soap]
+		if {$idx >= 0} {
+			set soap_requests [lreplace $soap_requests $idx $idx]
+		}
+	}
+
 
 	method GetProfile { callbk {email ""}} {
 		$::sso RequireSecurityToken Storage [list $self GetProfileSSOCB $callbk $email]
@@ -22,6 +40,7 @@ snit::type ContentRoaming {
 				 -body [$self getGetProfileBodyXML $email] \
 				 -callback [list $self GetProfileCallback $callbk $email]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 		
 	}
@@ -131,7 +150,7 @@ snit::type ContentRoaming {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $nick $last_modif $psm $fail]} result]} {
 			bgerror $result
 		}
@@ -155,6 +174,7 @@ snit::type ContentRoaming {
 					 -body [$self getUpdateProfileBodyXML $rid $nickname $psm] \
 					 -callback [list $self UpdateProfileCallback $callbk]]
 			
+			lappend soap_requests $request
 			$request SendSOAPRequest
 		}
 		
@@ -198,7 +218,7 @@ snit::type ContentRoaming {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -217,6 +237,7 @@ snit::type ContentRoaming {
 				 -body [$self getCreateProfileBodyXML] \
 				 -callback [list $self CreateProfileCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 		
 	}
@@ -257,7 +278,7 @@ snit::type ContentRoaming {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $rid $fail]} result]} {
 			bgerror $result
 		}
@@ -275,6 +296,7 @@ snit::type ContentRoaming {
 				 -body [$self getShareItemBodyXML $rid] \
 				 -callback [list $self ShareItemCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 		
 	}
@@ -300,7 +322,7 @@ snit::type ContentRoaming {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
@@ -319,6 +341,7 @@ snit::type ContentRoaming {
 				 -body [$self getFindDocumentsBodyXML] \
 				 -callback [list $self FindDocumentsCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 	}
 
@@ -378,7 +401,7 @@ snit::type ContentRoaming {
 			set documents [list]
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $documents]} result]} {
 			bgerror $result
 		}
@@ -396,6 +419,7 @@ snit::type ContentRoaming {
 				 -body [$self getCreateDocumentBodyXML $dpfile $dpcontent] \
 				 -callback [list $self CreateDocumentCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 		
 	}
@@ -454,7 +478,7 @@ snit::type ContentRoaming {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $dpid $fail]} result]} {
 			bgerror $result
 		}
@@ -476,6 +500,7 @@ snit::type ContentRoaming {
 				 -body [$self getDeleteRelationships1BodyXML $dpid] \
 				 -callback [list $self DeleteRelationshipsCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 		
 	}
@@ -488,6 +513,7 @@ snit::type ContentRoaming {
 				 -body [$self getDeleteRelationships2BodyXML $dpid $rid] \
 				 -callback [list $self DeleteRelationshipsCallback $callbk]]
 		
+		lappend soap_requests $request
 		$request SendSOAPRequest
 		
 	}
@@ -557,7 +583,7 @@ snit::type ContentRoaming {
 			set fail 1
 		}
 		
-		$soap destroy
+		$self _destroySoapReq $soap
 		if {[catch {eval $callbk [list $fail]} result]} {
 			bgerror $result
 		}
