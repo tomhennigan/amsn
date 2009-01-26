@@ -1506,7 +1506,9 @@ namespace eval ::MSN {
 				voice  { set clientid [expr {$clientid | 0x040000} ] }
 				secure { set clientid [expr {$clientid | 0x080000} ] }
 				sip    { set clientid [expr {$clientid | 0x100000} ] }
+				unknown1    { set clientid [expr {$clientid | 0x200000} ] }
 				shared { set clientid [expr {$clientid | 0x400000} ] }
+				unknown2    { set clientid [expr {$clientid | 0x02000000} ] }
 				uun    { set clientid [expr {$clientid | 0x04000000} ] }
 				msnc1  { set clientid [expr {$clientid | 0x10000000} ] }
 				msnc2  { set clientid [expr {$clientid | 0x20000000} ] }
@@ -1517,6 +1519,7 @@ namespace eval ::MSN {
 				msnc7  { set clientid [expr {$clientid | 0x70000000} ] }
 				msnc8  { set clientid [expr {$clientid | 0x80000000} ] }
 				msnc9  { set clientid [expr {$clientid | 0x90000000} ] }
+				msnc10  { set clientid [expr {$clientid | 0xA0000000} ] }
 			}
 		} else {
 			switch -- $cap {
@@ -1538,7 +1541,9 @@ namespace eval ::MSN {
 				voice  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x040000)} ] }
 				secure { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x080000)} ] }
 				sip    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x100000)} ] }
+				unknown1    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x200000)} ] }
 				shared { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x400000)} ] }
+				unknown2    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x01000000)} ] }
 				uun    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x04000000)} ] }
 				msnc1  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x10000000)} ] }
 				msnc2  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x20000000)} ] }
@@ -1549,6 +1554,7 @@ namespace eval ::MSN {
 				msnc7  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x70000000)} ] }
 				msnc8  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x80000000)} ] }
 				msnc9  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x90000000)} ] }
+				msnc10  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0xA0000000)} ] }
 			}
 		}
 		::config::setKey clientid $clientid
