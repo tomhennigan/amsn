@@ -3,9 +3,48 @@
 package require snit
 package provide tksoundmixer 0.1
 
-#TODO: mute/unmute?
+
 
 snit::widget tksoundmixer {
+
+	option -amplificationvariable -default {}
+	option -amplificationcommand -default {}
+
+	option -width
+	option -height
+
+	component volumeframe
+	component mutecheckbox
+
+	delegate option -mutevariable to mutecheckbox as -variable
+	delegate option -mutecommand to mutecheckbox as -command
+
+	delegate option -from to volumeframe
+	delegate option -to to volumeframe
+	delegate option -orient to volumeframe
+	delegate option -levelsize to volumeframe
+	delegate option -volumevariable to volumeframe
+	delegate option -volumecommand to volumeframe
+
+	delegate method setVolume to volumeframe
+
+	delegate option * to hull
+
+	constructor {args} {
+
+		set volumeframe [tksoundmixervolume ${win}.volumeframe]
+
+		$self configurelist $args
+		
+		set mutecheckbox [checkbutton ${win}.mute -text "Mute"]
+
+		pack ${win}.mute
+		pack ${win}.volumeframe -expand true -fill both
+
+	}
+}
+
+snit::widget tksoundmixervolume {
 
 	variable volumePercent
 	variable volumeRange
@@ -59,7 +98,6 @@ snit::widget tksoundmixer {
 			bind ${win}.fill <ButtonPress-4> "$self MoveLevel 1"
 			bind ${win}.level <ButtonPress-4> "$self MoveLevel 1"
 		}
-
 	}
 
 	destructor {
@@ -174,7 +212,7 @@ snit::widget tksoundmixer {
 		}
 	}
 
-	method SetVolume {value {range 100}} {
+	method setVolume {value {range 100}} {
 		set relsize [expr {double($value)/double($range)}]
 		set volumePercent $value
 		set volumeRange $range
