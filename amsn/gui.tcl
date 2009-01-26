@@ -211,7 +211,7 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey balloonborder #000000
 	::skin::setKey balloonalpha 0.9
 
-	::skin::setKey assistanttitleheight 50
+	::skin::setKey assistanttitleheight 30
 	::skin::setKey assistanttitlefg #FFFFFF
 	::skin::setKey assistanttitlebg #565672
 

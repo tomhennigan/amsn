@@ -142,7 +142,7 @@ snit::widget assistant {
 	option -winname -default "Assistant" -cgetmethod getOption -configuremethod setWinName
 	
 	option -winwidth -default 650 -cgetmethod getOption -configuremethod resize
-	option -winheight -default 550 -cgetmethod getOption -configuremethod resize
+	option -winheight -default 460 -cgetmethod getOption -configuremethod resize
 
 
 	###########################################################################
@@ -1140,14 +1140,15 @@ namespace eval ::AVAssistant {
 		if {![info exists lowrescam]} {
 			set lowrescam [::config::getKey lowrescam]
 		}
-		checkbutton $contentf.lowrescam -text "[trans lowrescam]" -font sboldf -variable \
-			::AVAssistant::lowrescam -onvalue 1 -offvalue 0
-		pack $contentf.lowrescam -pady 10
 		
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
 		frame $leftframe -bd 0
 		pack $leftframe -side left -padx 10
+
+		checkbutton $leftframe.lowrescam -text "[trans lowrescam]" -font sboldf -variable \
+			::AVAssistant::lowrescam -onvalue 1 -offvalue 0
+		pack $leftframe.lowrescam -pady 10
 
 		#create the 'rightframe' canvas where the preview-image will be shown
 		set rightframe $contentf.right
@@ -1236,7 +1237,7 @@ namespace eval ::AVAssistant {
 		catch {$leftframe.devs select $setdevnr}
 
 		#now, configure the checkbutton in order to change the size of the preview when needed
-		$contentf.lowrescam configure -command [list ::AVAssistant::StartPreviewLinuxDelayed $leftframe.chans [$leftframe.chans get]]
+		$leftframe.lowrescam configure -command [list ::AVAssistant::StartPreviewLinuxDelayed $leftframe.chans [$leftframe.chans get]]
 		#end the Step1WLinux proc
 	}
 
