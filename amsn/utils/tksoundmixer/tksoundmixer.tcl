@@ -17,7 +17,9 @@ snit::widget tksoundmixer {
 	option -orient -default "vertical" -configuremethod SetOrient
 
 	option -levelsize -default 5 -configuremethod SetLevelSize
-	option -levelvariable -default {}
+
+	option -volumevariable -default {}
+	option -volumecommand -default {}
 
 	delegate option * to hull
 
@@ -29,11 +31,11 @@ snit::widget tksoundmixer {
 		place ${win}.fill -x 0 -y 0 -relheight 1 -relwidth 1
 
 		frame ${win}.level -background black
-		if {[info exists ::$options(-levelvariable)] && [set ::$options(-levelvariable)]<1 && [set ::$options(-levelvariable)] >0} {
+		if {[info exists ::$options(-volumevariable)] && [set ::$options(-volumevariable)]<1 && [set ::$options(-volumevariable)] >0} {
 			if { $options(-orient) == "vertical" } {
-				place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-levelvariable)]}] -relwidth 1 -height $options(-levelsize)
+				place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-volumevariable)]}] -relwidth 1 -height $options(-levelsize)
 			} else {
-				place ${win}.level -rely 0 -relx [set ::$options(-levelvariable)] -relheight 1 -width $options(-levelsize)
+				place ${win}.level -rely 0 -relx [set ::$options(-volumevariable)] -relheight 1 -width $options(-levelsize)
 			}
 		} else {
 			if { $options(-orient) == "vertical" } {
@@ -68,11 +70,11 @@ snit::widget tksoundmixer {
 		if { $options(-orient) == "vertical" } {
 			set size [winfo height ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [expr {1-[set ::$options(-levelvariable)]}]
+			set rel [expr {1-[set ::$options(-volumevariable)]}]
 		} else {
 			set size [winfo width ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [set ::$options(-levelvariable)]
+			set rel [set ::$options(-volumevariable)]
 		}
 		if {$up == 1} {
 			set rel [expr {$rel + 0.1}]
@@ -91,14 +93,22 @@ snit::widget tksoundmixer {
 		} else {
 			place configure ${win}.level -relx $rel
 		}
-		if {[info exists ::$options(-levelvariable)]} {
+
+		if {[info exists ::$options(-volumevariable)]} {
 			if { $options(-orient) == "vertical" } {
-				set ::$options(-levelvariable) [expr {1-$rel/$max}]
+				set ::$options(-volumevariable) [expr {1-$rel/$max}]
+				if { $options(-volumecommand) != {} } {
+					eval $options(-volumecommand) [expr {1-$rel/$max}]
+				}
 			} else {
-				set ::$options(-levelvariable) [expr {$rel/$max}]
+				set ::$options(-volumevariable) [expr {$rel/$max}]
+				if { $options(-volumecommand) != {} } {
+					eval $options(-volumecommand) [expr {$rel/$max}]
+				}
 			}
 		}
 	}
+
 
 	method MouseWheel {} {
 		if {%D>0} {
@@ -130,11 +140,17 @@ snit::widget tksoundmixer {
 		} else {
 			place configure ${win}.level -relx $rel
 		}
-		if {[info exists ::$options(-levelvariable)]} {
+		if {[info exists ::$options(-volumevariable)]} {
 			if { $options(-orient) == "vertical" } {
-				set ::$options(-levelvariable) [expr {1-$rel/$max}]
+				set ::$options(-volumevariable) [expr {1-$rel/$max}]
+				if { $options(-volumecommand) != {} } {
+					eval $options(-volumecommand) [expr {1-$rel/$max}]
+				}
 			} else {
-				set ::$options(-levelvariable) [expr {$rel/$max}]
+				set ::$options(-volumevariable) [expr {$rel/$max}]
+				if { $options(-volumecommand) != {} } {
+					eval $options(-volumecommand) [expr {$rel/$max}]
+				}
 			}
 		}
 	}

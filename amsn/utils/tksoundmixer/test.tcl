@@ -14,8 +14,12 @@ variable var
 set var 0.75
 set var2 0.75
 
-tksoundmixer .sm -levelvariable var -width 10 -height 100
-tksoundmixer .sm2 -levelvariable var2 -width 100 -height 10 -orient "horizontal"
+proc showValue {value} {
+	puts "value=$value"
+}
+
+tksoundmixer .sm -volumevariable var -volumecommand [list showValue] -width 10 -height 100
+tksoundmixer .sm2 -volumevariable var2 -width 100 -height 10 -orient "horizontal"
 
 pack .sm
 pack .sm2 -expand 1 -fill both
