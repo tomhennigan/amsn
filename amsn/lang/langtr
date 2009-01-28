@@ -947,7 +947,7 @@ timestamp Zaman kaydý
 timestamps Sohbet pencerelerinde zaman kaydý düþülsün
 title aMSN
 tkerror TK'de sorun oluþtu; aMSN'de bir hatâ var. Lütfen $1 dosyasýný amsn-bugs@lists.sf.net adresine yollayarak hatâyý bildirin.
-tkerror1 TK'de sorun oluþtu. aMSN'de bir hatâ var. Lütfen Bildir düðmesine týklayarak hatâyý bildirin. Ayrýntýlar'a týklayarak daha geniþ bilgi alabilir ya da Tamam'ý týklayýp aMSN ile sohbete devam edebilirsiniz.
+tkerror1 TK'de sorun oluþtu. aMSN'de bir hatâ var. Lütfen Bildir düðmesine týklayarak hatâyý bildirin. Ayrýntýlar'a týklayarak daha geniþ bilgi alabilir ya da Gözardý Et'i týklayýp aMSN ile sohbete devam edebilirsiniz.
 tlsdowncompleted $1 dosyasý $2 dizinine kaydedildi. Sýkýþtýrýlmýþ dosyayý açýp, (kaynak kodsa) derleyip $dizinine kurunuz.
 tlsexplain Tcl TLS modülünün bulunduðu dizin. Eðer AMSN bulamazsa lütfen siz girin. \n(SSL onaylama için gerekli).
 tlsinstall TLS kütüphanesi kurulum sihirbazý
