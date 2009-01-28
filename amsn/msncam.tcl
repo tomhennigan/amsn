@@ -137,16 +137,26 @@ namespace eval ::MSNCAM {
 		}
 
 		if { [winfo exists $window] } {
-			wm protocol $window WM_DELETE_WINDOW "destroy $window"
-			#$window.q configure -command "destroy $window"
-			#$window.canvas bind stopbut <<Button1>> [list destroy $window]
-			$window.canvas delete stopbut
-
-			if { [getObjOption $sid producer] } {
-				#We disable the button which show the properties
-				#$window.settings configure -state disable -command ""
-				$window.canvas delete confbut
-				$window.canvas delete pausebut
+			if { [winfo toplevel $window] eq $window } {
+				wm protocol $window WM_DELETE_WINDOW "destroy $window"
+				#$window.q configure -command "destroy $window"
+				#$window.canvas bind stopbut <<Button1>> [list destroy $window]
+				$window.canvas delete stopbut
+	
+				if { [getObjOption $sid producer] } {
+					#We disable the button which show the properties
+					#$window.settings configure -state disable -command ""
+					$window.canvas delete confbut
+					$window.canvas delete pausebut
+				}
+			} else {
+				destroy $window.canvas
+				if { [winfo exists $window.dps] } {
+					pack $window.dps
+				} elseif { [winfo exists $window.pic] } {
+					pack $window.pic
+				}
+				::amsn::UpdateAllPictures
 			}
 		}
 
@@ -1777,20 +1787,32 @@ namespace eval ::CAMGUI {
 
 		if { $window == "" } {
 			set window .webcam_$sid
-			toplevel $window -class AmsnWebcam
 			set chatid [getObjOption $sid chatid]
-			wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
-			wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			set img [image create photo [TmpImgName]]
-			canvas $window.canvas -width 320 -height 240
+			if { [::config::getKey cam_in_cw] } {
+                                set win_name [::ChatWindow::For $chatid]
+                                set window [::ChatWindow::GetOutDisplayPicturesFrame $win_name]
+                                pack forget $window.dps
+				canvas $window.canvas -width 160 -height 120
+				set wwidth 158
+				set wheight 120
+				[winfo parent $window] configure -width [expr {160 +  [image width [::skin::loadPixmap imghide]] + (2 * [::skin::getKey chat_dp_border])} ]
+			} else {
+                                toplevel $window -class AmsnWebcam
+                                wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
+                                wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
+				canvas $window.canvas -width 320 -height 240
+				set wwidth 318
+				set wheight 240
+			}
 			set canv $window.canvas
 			$canv create image 0 0 -anchor nw -image $img
 			pack $canv
 			bind $canv <Destroy> "image delete $img"
 			#label $window.paused -fg red -text ""
 			#pack $window.paused -expand true -fill x
-			$canv create image 318 0 -anchor ne -image [::skin::loadPixmap pause] -state hidden -tags paused
-			$canv create image 318 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut
+			$canv create image $wwidth 0 -anchor ne -image [::skin::loadPixmap pause] -state hidden -tags paused
+			$canv create image $wwidth $wheight -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut
 			$canv bind stopbut <<Button1>> [list ::MSNCAM::CancelCam $chatid $sid]
 			$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 			$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
@@ -1806,6 +1828,9 @@ namespace eval ::CAMGUI {
 
 
 		catch {::Webcamsn::Decode $decoder $img $data}
+		if { [winfo toplevel $window] != $window } {
+			catch {::picture::Resize $img 160 120}
+		}
 
 	}
 	
@@ -1978,16 +2003,29 @@ namespace eval ::CAMGUI {
 
 			} else {
 				set img [image create photo [TmpImgName]]
-				toplevel $window -class AmsnWebcam
-				wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
-				canvas $window.canvas -width 320 -height 240
+				if { [::config::getKey cam_in_cw]} {
+					set win_name [::ChatWindow::For $chatid]
+					set window [::ChatWindow::GetInDisplayPictureFrame $win_name]
+					pack forget $window.pic
+	                                canvas $window.canvas -width 160 -height 120
+        	                        set wwidth 158
+                	                set wheight 120
+					[winfo parent $window] configure -width [expr {160 +  [image width [::skin::loadPixmap imghide]] + (2 * [::skin::getKey chat_dp_border])} ]
+				} else {
+					toplevel $window -class AmsnWebcam
+					wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
+					wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
+					canvas $window.canvas -width 320 -height 240
+	                                set wwidth 318
+        	                        set wheight 240
+				}
 				set canv $window.canvas
 				$canv create image 0 0 -anchor nw -image $img
 				pack $canv
 				bind $canv <Destroy> "image delete $img"
-				set confbut [$canv create image 318 240 -anchor se -image [::skin::loadPixmap confbut] -activeimage [::skin::loadPixmap confbuth] -tags confbut]
-				set stopbut [$canv create image 290 240 -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
-				set pausebut [$canv create image 262 240 -anchor se -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
+				set confbut [$canv create image $wwidth $wheight -anchor se -image [::skin::loadPixmap confbut] -activeimage [::skin::loadPixmap confbuth] -tags confbut]
+				set stopbut [$canv create image [expr {$wwidth - 28}] $wheight -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
+				set pausebut [$canv create image [expr {$wwidth - 56}] $wheight -anchor se -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
 				$canv bind stopbut <<Button1>> [list ::MSNCAM::CancelCam $chatid $sid]
 				$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 				$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
@@ -2003,7 +2041,6 @@ namespace eval ::CAMGUI {
 				$canv bind confbut <Leave> "set Bulle(first) 0; kill_balloon"
 				$canv bind confbut <Motion> [list balloon_motion %W %X %Y [trans changevideosettings]]
 
-				wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 			}
 
 			if { [OnDarwin] } {
@@ -2051,6 +2088,10 @@ namespace eval ::CAMGUI {
 		if {[catch {$grab_proc $grabber $socket $encoder $img} res]} {
 			status_log "Trying to call the grabber but get an error $res\n" red
 		} 
+                if { [winfo toplevel $window] != $window } {
+                        catch {::picture::Resize $img 160 120}
+                }
+
 
 	}
 
