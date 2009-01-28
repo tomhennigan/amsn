@@ -274,6 +274,20 @@ if { $initialize_amsn == 1 } {
 		event add <<Paste>> <Command-v> <Command-V>
 		event add <<Copy>> <Command-c> <Command-C>
 		event add <<Cut>> <Command-x> <Command-X>
+	} elseif { [OnMaemo] } {
+                event add <<Button1>> <Button1-ButtonRelease>
+                event add <<Button1-Press>> <ButtonPress-1>
+                event add <<Button1-Motion>> <B1-Motion>
+                event add <<Button2>> <Button2-ButtonRelease>
+                event add <<Button2-Press>> <ButtonPress-2>
+                event add <<Button2-Motion>> <B2-Motion>
+		event add <<Button3>> <Control-ButtonRelease>
+		event add <<Button3-Press>> <Control-ButtonPress>
+		event add <<Button3-Motion>> <B3-Motion>
+                event add <<Escape>> <Escape>
+                event add <<Paste>> <Control-v> <Control-V>
+                event add <<Copy>> <Control-c> <Control-C>
+                event add <<Cut>> <Control-x> <Control-X>
 	} else {
 		event add <<Button1>> <Button1-ButtonRelease>
 		event add <<Button1-Press>> <ButtonPress-1>
@@ -295,6 +309,10 @@ if { $initialize_amsn == 1 } {
 		bind Entry <Terminate_Server> [bind Entry <BackSpace>]
 		bind Text <Terminate_Server> [bind Text <BackSpace>]
 	}
+
+	#This proc bugs anyway
+	rename ::tk::FirstMenu ::tk::Original_FirstMenu
+	proc ::tk::FirstMenu { args } { }
 
 	#To avoid a bug inside panedwindow, by Youness
 	rename ::tk::panedwindow::Cursor ::tk::panedwindow::Original_Cursor

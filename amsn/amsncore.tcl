@@ -209,6 +209,16 @@ proc OnX11 {} {
 	}
 }
 
+#Test for Maemo (770/N800/N810)
+proc OnMaemo {} {
+	global tcl_platform
+	if { [string first "arm" $tcl_platform(machine)] == 0 } {
+		return 1
+	} else {
+		return 0
+	}
+}
+
 proc GetPlatformModifier {} {
 	if {[OnMac]} {
 		return "Command"
