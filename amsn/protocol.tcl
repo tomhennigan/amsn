@@ -1603,7 +1603,7 @@ namespace eval ::MSN {
 				}
 			}
 			if {$users_to_add != [list] } {
-				$::ab AddMember [list ::MSN::blockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Block"
+				$::ab DeleteMember [list ::MSN::blockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Allow"
 			} elseif {$users_to_delete != [list] } {
 				$::ab DeleteMember [list ::MSN::blockUserDeleteCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_delete "Allow"
 			}
@@ -1620,7 +1620,7 @@ namespace eval ::MSN {
 
 	proc blockUserAddCB { users_to_delete users_added fail } {
 		if {$fail == 0 || $fail == 2} {
-			$::ab DeleteMember [list ::MSN::blockUserDeleteCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Allow"
+			$::ab AddMember [list ::MSN::blockUserDeleteCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Block"
 		} else {
 			set blocked_users [concat $users_to_delete $users_added]
 			set blocked_users [lsort -unique $blocked_users]
@@ -1697,7 +1697,7 @@ namespace eval ::MSN {
 				}
 			}
 			if {$users_to_add != [list] } {
-				$::ab AddMember [list ::MSN::unblockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Allow"
+				$::ab DeleteMember [list ::MSN::unblockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Block"
 			} elseif {$users_to_delete != [list] } {
 				$::ab DeleteMember [list ::MSN::unblockUserDeleteCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_delete "Block"
 			}
@@ -1714,7 +1714,7 @@ namespace eval ::MSN {
 
 	proc unblockUserAddCB { users_to_delete users_added fail } {
 		if {$fail == 0 || $fail == 2} {
-			$::ab DeleteMember [list ::MSN::unblockUserDeleteCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Block"
+			$::ab AddMember [list ::MSN::unblockUserDeleteCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Allow"
 		} else {
 			set unblocked_users [concat $users_to_delete $users_added]
 			set unblocked_users [lsort -unique $unblocked_users]
