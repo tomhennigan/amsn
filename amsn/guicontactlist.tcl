@@ -1130,6 +1130,7 @@ namespace eval ::guiContactList {
 		set colourignore 0
 		set bg_x ""
 		set bg_cl ""
+		set list_bg [list ]
 		set underline_yes 0
 		set list_underline [list ]
 		set overstrike_yes 0
@@ -1227,45 +1228,14 @@ namespace eval ::guiContactList {
 							set bg_cl [lindex $unit 1]
 						}
 					} else {
-						if {$i == 0} {
-							if {!$show_detailed_view} {
-								set bg_y1 0
-								set bg_y2 [lindex $linesheight 0]
-							} else {
-								set bg_y1 [expr {2 * $ypos}]
-								set bg_y2 0
-							}
-						} else {
-							if {!$show_detailed_view} {
-								set bg_y1 [lindex $linesheight 0]
-								for {set z 1} {$z < $i} {incr z} {
-									incr bg_y1 [lindex $linesheight $z]
-								}
-								set bg_y2 [expr {[lindex $linesheight $z]+$bg_y1}]
-							} else {
-								set bg_y1 0
-								for {set z 1} {$z < $i} {incr z} {
-									incr bg_y1 [lindex $linesheight $z]
-								}
-								set bg_y2 [expr {[lindex $linesheight $z]-$bg_y1}]
-							}
-						}
-
-						set tags [linsert $tags 0 "bg"]
-
-						$canvas create rect $bg_x $bg_y1 $xpos $bg_y2 -fill $bg_cl -outline "" -tag $tags
-
-						set tags [lreplace $tags 0 0]
+						set yunder [expr {$ypos - $yori + $marginy + $textheight}]
+						lappend list_bg [list $bg_x $ypos $xpos $yunder $textheight $bg_cl]
 
 						set bg_cl [lindex $unit 1]
 						if {$bg_cl eq "reset"} {
 							set bg_x ""
 						} else {
 							set bg_x $xpos
-						}
-
-						foreach tag $tags {
-							$canvas lower bg $tag
 						}
 					}
 				}
@@ -1438,6 +1408,10 @@ namespace eval ::guiContactList {
 
 		if {$list_overstrike ne ""} {
 			underline_overstrike $canvas $list_overstrike $main_tag "ov"
+		}
+		
+		if {$list_bg ne ""} {
+			background_text $canvas $list_bg $main_tag
 		}
 		
 		return [array get underlinearr]
@@ -2275,6 +2249,37 @@ namespace eval ::guiContactList {
 		}
 		return "$shortened$ellipsis"
 	
+	}
+
+
+	proc background_text { canvas lines nicktag} {
+		set poslist [$canvas coords [lindex $nicktag 0]]
+		set xpos [lindex $poslist 0]
+		set ypos [lindex $poslist 1]
+
+		#if we are using the detailed view
+		if {[lindex [lindex $lines 0] 1] < 0} {
+			set margin_y [expr {[lindex [lindex $lines 0] 1] * -2 + 1}]
+		} else {
+			set margin_y 0
+		}
+
+		set tag [lindex $nicktag 0]
+		set bgtag "bg$tag"
+		
+		foreach line $lines {
+			set textheight [lindex $line 4]
+			$canvas create rect\
+				[expr { [lindex $line 0] + $xpos } ] \
+				[expr { [lindex $line 1] - ($textheight*2) + $ypos + $margin_y} ] \
+				[lindex $line 2]\
+				[expr { [lindex $line 3] + $ypos + $margin_y} ] \
+				-fill [lindex $line 5] \
+				-outline "" \
+				-tags [list $bgtag $tag contact]
+		}
+		
+		$canvas lower $bgtag "$tag"
 	}
 
 

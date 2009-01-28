@@ -3431,18 +3431,22 @@ namespace eval ::ChatWindow {
 			set font_attr [font configure $defaultfont]
 			set bg_x ""
 			set bg_cl ""
+			set underline_yes 0
+			set list_underline [list ]
+			set overstrike_yes 0
+			set list_overstrike [list ]
 
 			foreach unit $nicktxt {
 				switch [lindex $unit 0] {
 					"text" {
 						set textpart [lindex $unit 1]
 						$top create text $usrsX $Ycoord -text $textpart \
-							-anchor nw -fill $colour -font $font_attr -tags text2
+							-anchor nw -fill $colour -font $font_attr -tags "text2 $user_login"
 						set textwidth [font measure $font_attr -displayof $top $textpart]
 						incr usrsX $textwidth
 					}
 					"smiley" {
-						$top create image $usrsX $Ycoord -image [lindex $unit 1] -anchor nw -state normal -tags img2
+						$top create image $usrsX $Ycoord -image [lindex $unit 1] -anchor nw -state normal -tags "img2 $user_login"
 						set textwidth [image width [lindex $unit 1]]
 						incr usrsX $textwidth
 					}
@@ -3457,9 +3461,27 @@ namespace eval ::ChatWindow {
 						}
 					}
 					"font" {
+						if {[lindex [lindex $unit 1] 0] eq "-underline"} {
+							if {[lindex [lindex $unit 1] 1] == 1} {
+								set underline_yes 1
+							} else {
+								set underline_yes 0
+							}
+						}
+					
+						if {[lindex [lindex $unit 1] 0] eq "-overstrike"} {
+							if {[lindex [lindex $unit 1] 1] == 1} {
+								set overstrike_yes 1
+							} else {
+								set overstrike_yes 0
+							}
+						}
+					
 						if { [llength [lindex $unit 1]] == 1 } {
 							if { [lindex $unit 1] == "reset" } {
 								set font_attr [font configure $defaultfont]
+								set underline_yes 0
+								set overstrike_yes 0
 							} else {
 								set font_attr [font configure [lindex $unit 1]]
 							}
@@ -3503,6 +3525,14 @@ namespace eval ::ChatWindow {
 						status_log "Unknown item in parsed nickname: $unit"
 					}
 				}
+			}
+			
+			if {$list_underline ne ""} {
+				underline_overstrike $top $list_underline $user_login "un"
+			}
+
+			if {$list_overstrike ne ""} {
+				underline_overstrike $top $list_overstrike $user_login "ov"
 			}
 
 			if { $user_name_str != "" } {
