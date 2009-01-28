@@ -1,0 +1,151 @@
+Index: debian/control.in
+===================================================================
+--- debian/control.in	(revision 10893)
++++ debian/control.in	(working copy)
+@@ -1,5 +1,5 @@
+ Source: amsn
+-Section: x11
++Section: user/x11
+ Priority: optional
+ Maintainer: Theodore Karkoulis <bilbo@debian.org>
+ Build-Depends: debhelper (>> 4.0.0), tcl#TCL_VERSION#-dev, tk#TK_VERSION#-dev, libpng12-dev, libjpeg62-dev
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 10893)
++++ configure.ac	(working copy)
+@@ -357,7 +357,7 @@
+ dnl do some OS specific stuff here
+ 
+ dnl Check for libstdc++
+-AC_CHECK_LIB(stdc++,main,CXX_LIB="-lstdc++", AC_MSG_ERROR(stdc++ library not found) )
++#AC_CHECK_LIB(stdc++,main,CXX_LIB="-lstdc++", AC_MSG_ERROR(stdc++ library not found) )
+ AC_SUBST(CXX_LIB)
+ 
+ AC_SUBST(LDLIBS)
+Index: amsn
+===================================================================
+--- amsn	(revision 10893)
++++ amsn	(working copy)
+@@ -1,6 +1,5 @@
+-#!/bin/sh
+-# \
+-exec wish $0 $@
++#!/usr/bin/wish
++# 
+ 
+ ###
+ ###
+Index: configure
+===================================================================
+--- configure	(revision 10893)
++++ configure	(working copy)
+@@ -3534,79 +3534,17 @@
+ 
+ 
+ 
++#AC_CHECK_LIB(stdc++,main,CXX_LIB="-lstdc++", AC_MSG_ERROR(stdc++ library not found) )
+ 
+-{ echo "$as_me:$LINENO: checking for main in -lstdc++" >&5
+-echo $ECHO_N "checking for main in -lstdc++... $ECHO_C" >&6; }
+-if test "${ac_cv_lib_stdcpp_main+set}" = set; then
+-  echo $ECHO_N "(cached) $ECHO_C" >&6
+-else
+-  ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lstdc++  $LIBS"
+-cat >conftest.$ac_ext <<_ACEOF
+-/* confdefs.h.  */
+-_ACEOF
+-cat confdefs.h >>conftest.$ac_ext
+-cat >>conftest.$ac_ext <<_ACEOF
+-/* end confdefs.h.  */
+ 
+ 
+-int
+-main ()
+-{
+-return main ();
+-  ;
+-  return 0;
+-}
+-_ACEOF
+-rm -f conftest.$ac_objext conftest$ac_exeext
+-if { (ac_try="$ac_link"
+-case "(($ac_try" in
+-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+-  *) ac_try_echo=$ac_try;;
+-esac
+-eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+-  (eval "$ac_link") 2>conftest.er1
+-  ac_status=$?
+-  grep -v '^ *+' conftest.er1 >conftest.err
+-  rm -f conftest.er1
+-  cat conftest.err >&5
+-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+-  (exit $ac_status); } && {
+-	 test -z "$ac_c_werror_flag" ||
+-	 test ! -s conftest.err
+-       } && test -s conftest$ac_exeext &&
+-       $as_test_x conftest$ac_exeext; then
+-  ac_cv_lib_stdcpp_main=yes
+-else
+-  echo "$as_me: failed program was:" >&5
+-sed 's/^/| /' conftest.$ac_ext >&5
+ 
+-	ac_cv_lib_stdcpp_main=no
+-fi
+ 
+-rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+-      conftest$ac_exeext conftest.$ac_ext
+-LIBS=$ac_check_lib_save_LIBS
+-fi
+-{ echo "$as_me:$LINENO: result: $ac_cv_lib_stdcpp_main" >&5
+-echo "${ECHO_T}$ac_cv_lib_stdcpp_main" >&6; }
+-if test $ac_cv_lib_stdcpp_main = yes; then
+-  CXX_LIB="-lstdc++"
+-else
+-  { { echo "$as_me:$LINENO: error: stdc++ library not found" >&5
+-echo "$as_me: error: stdc++ library not found" >&2;}
+-   { (exit 1); exit 1; }; }
+-fi
+-
+-
+-
+-
+-
+-
+ FOUND_X11="no"
+ 
+ 
+ 
++
+ ac_ext=c
+ ac_cpp='$CPP $CPPFLAGS'
+ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+Index: config.tcl
+===================================================================
+--- config.tcl	(revision 10893)
++++ config.tcl	(working copy)
+@@ -85,8 +85,8 @@
+ 
+ 			::config::setKey os "mac"
+ 		} elseif { [OnUnix] } {
+-			::config::setKey soundcommand "play \$sound"
+-			::config::setKey browser "xdg-open \$url"
++			::config::setKey soundcommand "play-sound \$sound"
++			::config::setKey browser "dbus-send --system --type=method_call --dest=com.nokia.osso_browser /com/nokia/osso_browser com.nokia.osso_browser.load_url \"string:\$url\""
+ 			::config::setKey notifyXoffset 0
+ 			::config::setKey notifyYoffset 0
+ 			::config::setKey filemanager "xdg-open \$location"
+Index: utils/linux/capture/capture.c
+===================================================================
+--- utils/linux/capture/capture.c	(revision 10893)
++++ utils/linux/capture/capture.c	(working copy)
+@@ -1032,6 +1032,8 @@
+     ng_debug = 0;
+ # endif
+   ng_init();
++
++  yuv2rgb_init();
+   
+   // End of Initialisation
+   return TCL_OK;
