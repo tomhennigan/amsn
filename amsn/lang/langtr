@@ -5,7 +5,7 @@ aboutamsn Alvaro'nun Messenger'i hakkýnda
 accept Kabul et
 acceptfile $1 dosyasý aktarýlýyor; boyut $2 bayt; kaydedilen konum $3
 account Hesap
-accountkid Çocuklar için olan bu hesabý Messenger ile kullanamazsýnýz. Çocuklar için Hesap web sitesine giderek ebeveyn izni vermeniz gerekmektedir.
+accountkid Çocuklar için olan bu hesabý Messenger ile kullanamazsýnýz. Çocuklar için Çocuk Hesabý internet sayfasýna giderek ebeveyn izni vermeniz gerekmektedir.
 actions Eylemler
 activeautoupdate Kendiliðinden güncellemeyi etkinleþtir
 add Ekle
@@ -67,7 +67,7 @@ audiovideo Ses ve görüntü ayarlarý
 author Yazan
 autoaccepted Dosya aktarýmý otomatikman kabul edildi
 autoacceptft Dosya aktarým istemlerini otomatikman kabul et
-autoacceptwc Web kamerasý isteklerini otomatik olarak kabul et
+autoacceptwc Kamera isteklerini kendiliðinden kabul et
 autoaway Bu süre kadar eylemsiz kalýrsam beni diþarýda göster:
 autocheckver Açýlýþta kendiliðinden yeni sürüm ara
 autoconnect Açýlýþta kendiliðinden baðlan
@@ -141,7 +141,7 @@ changefont Yazitipi deðiþtir
 changeglobnick Rumuz þablonunu deðiþtir
 change_mobile Cep ayarlarýný deðiþtir
 changenick Rumuz deðiþtir
-changepsm Kiþisel mesajý deðiþtir
+changepsm Kiþisel iletiyi deðiþtir
 changesize Boyutu deðiþtir
 changestate $1, $2 durumuna geçti
 changestatus Durum deðiþtir
@@ -202,7 +202,7 @@ closingdocks Kapatma düðmesi küçültsün
 color Renk
 command Komut
 commandstatus Komutu çalýþtýr
-compactstyle Compact Stili
+compactstyle Sade tarz
 configure Ayarla
 configuremic Mikrofon ayarlanýyor
 configureplugin $1 eklentisini ayarla
@@ -230,7 +230,7 @@ contactadded Baðlantý eklendi
 contactdoesnotexist Böyle bir baðlantý yok!
 contactlist Baðlantý listesi:
 contacts Baðlantýlar
-contentroamingsetting Görüntü resmini sunucuda sakla
+contentroamingsetting Kullanýcý resmini sunucuda sakla
 continuously Sürekli
 contrast Kontrast
 conversationwith Sohbette $1 kiþi var
@@ -440,7 +440,7 @@ havenomic Mikrofonum yok
 help Yardým
 helpcontents Yardým içeriði
 hidebuttonbar Düðmeleri gizle
-hidedetails Detaylarý gizle
+hidedetails Ayrýntýlarý gizle
 hidedisplaypic Kullanýcý resmini gösterme
 hidemenu Menüyü göster/gizle
 hidemenumessage Menüleri gizlemek istediðinizden emin misiniz?\nMenüleri tekrar görmek için Ctrl+M kýsayolunu kullanabilirsiniz.
@@ -599,7 +599,7 @@ nick Rumuz
 nickchanged $1 rumuzunu '$2' olarak deðiþtirdi
 no Hayýr
 noactivity Etkinlik yok
-no_blocked_notif Engellenmiþ kiþilerin uyarý penceresini gösterme
+no_blocked_notif Engellenmiþ baðlantýlarýn uyarý penceresini gösterme
 nocacheddps Bu kullanýcýya ait saklanmýþ resim yok
 nocamwarn Kamera yok ya da baþka bir program tarafýndan kullanýlýyor (kamera meþgulken aMSN tarafýndan kullanýlamaz). Bu sorun hakkýnda yardýmcý bilgileri Wiki sayfamýzda bulabilirsiniz:
 nodataavailable $1 hakkýnda bilgi yok
@@ -666,7 +666,7 @@ others Diðerleri
 p4contextprefix P4-Ýçerik göndericilerin önüne bu metni ekle
 pager Çaðrý cihazý
 pass Þifre
-passportnotverified Kiþisel bilgilerinizi deðiþtirmeden önce pasaport hesabýnýzýn doðrulanmasý gerekmektedir (kullanýcý adýnýz gibi). Etkinleþtirme e-postasý için  gelen kutunuzu kontrol edin.
+passportnotverified Kiþisel bilgilerinizi deðiþtirmeden önce pasaport hesabýnýzýn doðrulanmasý gerekmektedir (kullanýcý adýnýz gibi). Etkinleþtirme e-postasý için gelen kutunuzu kontrol edin.
 paste Yapýþtýr
 pause Dondur
 pausedwebcamreceive Alýnan kamera görüntüsünü dondur
@@ -820,7 +820,7 @@ servergoingdown Sunucu kapanýyor: Baðlantý kesildi
 serverunavailable Sunucuya eriþilemiyor
 session Oturum
 setasmydp Bunu kullanýcý resmim yap
-setbackinitialstate aMSN'yi $1 durumunda baðlanacak þekilde ayarladýnýz; fakat, durumunuz þuan $2 olarak ayarlý. Durumunuzu tekrar $1 olarak ayarlamak istediðinize emin misiniz?
+setbackinitialstate aMSN'yi $1 durumunda baðlanacak þekilde ayarladýnýz; fakat durumunuz þu an $2 olarak ayarlý. Durumunuzu tekrar $1 yapmak istediðinize emin misiniz?
 setupcam Kamera aygýtý ayarlanýyor
 setupcamfinetune Görüntüye ince ayarlar yapýlýyor
 shareswebcam Kamera görüntüsünu paylaþýyor
@@ -830,8 +830,8 @@ showcachedpics Saklanmýþ kullanýcý resimlerini göster/gizle
 show_contactdps_in_cl Baðlantýlarýn küçültülmüþ kullanýcý resimleri baðlantý listesinde gözüksün
 showcontactemail Baðlantýlarý e-posta adresleriyle göster
 showcontactnick Baðlantýlarý rumuzlarýyla göster
-showdetailedview Detaylý Kiþi Listesini Göster
-showdetails Detaylarý Göster
+showdetailedview Ayrýntýlý Kiþi Listesini Göster
+showdetails Ayrýntýlarý Göster
 showdisplaypic Kullanýcý resmini göster
 showdisplaypic2 Bir sohbet penceresi açýldýðýnda kullanýcý resmini kendiliðinden göster
 showlinksinlogin Giriþ ekranýnda internet baðlantýlarýný göster
@@ -907,7 +907,7 @@ sslwarning UYARI!!! SSL'yi kapatmak þifrelemeyi engeller, þifreniz düz metin ola
 startoffline Çevrim dýþý olarak baþla
 startoffline2 Çevrim dýþý görünerek sessizce baðlan
 startonboot aMSN Windows açýldýðýnda baþlasýn
-startontray AMSN'i sistem çubuðunda baþlat
+startontray asMSN'yi sistem çubuðunda baþlat
 state Böyle görünmek istiyorum
 stateautomsg Gönderilecek Otomatik Ýleti
 statechange Yeni durum:
@@ -925,7 +925,7 @@ stopalarm Alarmý durdur!
 stopwebcamreceive Görüntü almayý durdur
 stopwebcamsend Görüntü yollamayý durdur
 storenickname Deðiþik rumuzu olan özelleþtirilmiþ durumdan sonra asýl rumuza geç
-strictfonts Tüm metinler için (durum çubuðu ve diðerleri) yalnýzca seçtiðim yaztipi boyutunu kullan
+strictfonts Tüm metinler için (durum çubuðu ve diðerleri) yalnýzca seçtiðim yazýtipi boyutunu kullan
 style Tarz
 stylechat Sohbetler ile ayný görünüþ
 stylehist aMSN Geçmiþ görünüþü
@@ -1017,11 +1017,11 @@ webcamhistory Kamera oturumlarýný gör
 webcamhistory2 Kamera oturumlarý
 webcaminvite $1 sizi kamera kullanmaya davet etti; ancak aMSN'de bu iþlev yok.
 webcaminvitereceived $1 sizi kamera oturumu açmaya davet etti. Kabul ediyor musunuz?
-webcaminvitereceivedauto $1 web kamerasý oturumu baþlatmak için sizi davet etti. Bu oturum otomatik olarak kabul edildi.
+webcaminvitereceivedauto $1 sizi kamera oturumu açmaya davet etti. Bu davet kendiliðinden kabul edildi.
 webcaminvitereceiving $1 size kamera görüntüsünü yollamak istiyor. Kabul ediyor musunuz?
-webcaminvitereceivingauto $1 isimli kiþi web kamerasýný görebilmeniz için sizi davet etti. Bu oturum otomatik olarak kabul edildi.
+webcaminvitereceivingauto $1 sizi kamerasýný izlemeye davet etti. Bu davet kendiliðinden kabul edildi.
 webcaminvitesending $1 sizin kamera görüntünüzü görmek istiyor. Kabul ediyor musunuz?
-webcaminvitesendingauto $1 adlý kiþi web kameranýzý görüntülemek istiyor. Bu oturum otomatik olarak kabul edildi.
+webcaminvitesendingauto $1 sizden kamera görüntünüzü istiyor. Bu ýstek kendiliðinden kabul edildi.
 webcamrejected $1 kamera oturumu davetinizi geri çevirdi.
 webcamrequestreceive Kamera görüntüsü almak için davet gönder
 webcamrequestsend Kamera görüntüsü yollamak için davet gönder
