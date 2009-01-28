@@ -153,6 +153,10 @@ namespace eval ::MSNCAM {
 				destroy $window.canvas
 				if { [winfo exists $window.dps] } {
 					pack $window.dps
+	                               	if { [::config::getKey old_dpframe 0] == 1 } {
+        	                                pack $window
+                                }
+
 				} elseif { [winfo exists $window.pic] } {
 					pack $window.pic
 				}
@@ -1797,6 +1801,9 @@ namespace eval ::CAMGUI {
 				set wwidth 158
 				set wheight 120
 				[winfo parent $window] configure -width [expr {160 +  [image width [::skin::loadPixmap imghide]] + (2 * [::skin::getKey chat_dp_border])} ]
+				if { [::config::getKey old_dpframe 0] == 1 } {
+					pack $window
+				}
 			} else {
                                 toplevel $window -class AmsnWebcam
                                 wm title $window "$chatid - [::abook::getDisplayNick $chatid]"

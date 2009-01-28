@@ -1797,6 +1797,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.4
 	frame $lfname.5
 	frame $lfname.6
+	frame $lfname.7
 
 #	button $lfname.0.skinbutton -text [trans skinselector]  -command ::skinsGUI::SelectSkin
 #	pack $lfname.0.skinbutton -side left
@@ -1844,6 +1845,9 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.6.atend -text "[trans psmatend]" -value 1 -variable [::config::getVar psmplace]
 	radiobutton $lfname.6.newline -text "[trans psmnewline]" -value 2 -variable [::config::getVar psmplace]
 	pack $lfname.6.dontshow $lfname.6.atend $lfname.6.newline -anchor w -side top -padx 10
+	checkbutton $lfname.7.cam_in_cw -text "[trans cam_in_cw]" -onvalue 1 -offvalue 0 -variable [::config::getVar cam_in_cw]
+	pack $lfname.7 -side top -padx 0 -pady 0 -expand 1 -fill both
+	pack $lfname.7.cam_in_cw -anchor w -side top -padx 10
 
 
 	## Emoticons Frame ##
