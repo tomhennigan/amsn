@@ -1835,7 +1835,7 @@ namespace eval ::CAMGUI {
 
 
 		catch {::Webcamsn::Decode $decoder $img $data}
-		if { [winfo toplevel $window] != $window } {
+		if { [winfo exists $window] && [winfo toplevel $window] != $window } {
 			catch {::picture::Resize $img 160 120}
 		}
 
@@ -2095,7 +2095,7 @@ namespace eval ::CAMGUI {
 		if {[catch {$grab_proc $grabber $socket $encoder $img} res]} {
 			status_log "Trying to call the grabber but get an error $res\n" red
 		} 
-                if { [winfo toplevel $window] != $window } {
+                if { [winfo exists $window] && [winfo toplevel $window] != $window } {
                         catch {::picture::Resize $img 160 120}
                 }
 
