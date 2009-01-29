@@ -763,6 +763,10 @@ namespace eval ::ChatWindow {
 
 		set new_window 0
 
+		if { [::MSN::usersInChat $chatid] == $chatid } {
+			set usr_name $chatid
+		}
+
 		# If there wasn't a window created and assigned to $chatid, let's create one
 		# through ::ChatWindow::Open and assign it to $chatid with ::ChatWindow::SetFor
 		if { $win_name == 0 } {
