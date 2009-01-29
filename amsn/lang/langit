@@ -67,6 +67,7 @@ audiovideo Settaggi Audio e Video
 author Autore
 autoaccepted Traferimento file accettato automaticamente
 autoacceptft Accetta automaticamente le richieste di trasferimento file
+autoacceptwc Accetta automaticamente le richieste di accesso alla webcam
 autoaway Mostrami come "Non al computer" quando sono inattivo per
 autocheckver Controlla automaticamente all'avvio se ci sono nuove versioni
 autoconnect2 Accedi automaticamente quando aMSN viene lanciato
@@ -118,6 +119,7 @@ busy Occupato
 cachedpics $1 immagini memorizzate
 cachedpicsfor Immagini memorizzate per l'utente
 cagreement Accordo Confidenziale
+cam_in_cw Mostra i video delle webcam all'interno delle finestre di chat
 cancel Annulla
 cancelled Annullato
 cannotdeleteprofile Non posso eliminare il profilo perché sembra essere usato da una sessione di aMSN
@@ -201,6 +203,7 @@ closingdocks Pulsante chiudi riduce a icona
 color Colore
 command Comando
 commandstatus Esegui comando
+compactstyle Stile Compatto
 configure Configura
 configuremic Sto configuarando il tuo microfono
 configureplugin Configura il plugin $1
@@ -228,6 +231,7 @@ contact Contatto
 contactdoesnotexist Il contatto non esiste
 contactlist Lista dei contatti:
 contacts Contatti
+contentroamingsetting Conserva l'immagine personale sul server
 continuously Continuamente
 contrast Contrasto
 conversationwith $1 utenti in conversazione
@@ -333,6 +337,7 @@ enabled Attivato
 enableproxy Proxy abilitato
 enableremote Abilita il controllo a distanza
 enablesound Emetti un suono
+enablespaces Abilita il supporto a Windows Live Spaces (SPERIMENTALE)
 encoding2 Modifica il metodo di codifica dei caratteri
 encoding Seleziona codifica
 enterbugdesc Inserisci una descrizione di cosa stavi facendo per aiutarci a riprodurre il bug:
@@ -1013,8 +1018,11 @@ webcamhistory Guarda le sessioni webcam salvate
 webcamhistory2 Sessioni webcam
 webcaminvite $1 ti ha invitato/a ad una sessione webcam, ma aMSN non supporta questa funzionalità.
 webcaminvitereceived $1 ti ha invitato/a ad una sessione webcam. Desideri accettare questo invito?
+webcaminvitereceivedauto $1 ti ha invitato/a ad una sessione webcam. L'invito è accettato automaticamente.
 webcaminvitereceiving Sei stato/a invitato/a da $1 ad avviare visualizzazione immagine della webcam. Desideri accettare questo invito?
+webcaminvitereceivingauto Sei stato/a invitato/a da $1 ad avviare visualizzazione immagine della webcam. L'invito è stato accettato automaticamente.
 webcaminvitesending Sei stato/a invitato/a da $1 ad avviare invio immagine della webcam. Desideri accettare questo invito?
+webcaminvitesendingauto Sei stato/a invitato/a da $1 ad avviare invio immagine della webcam. L'invito è stato accettato automaticamente.
 webcamrejected $1 rifiuta l'invito ad avviare invio immagine della webcam
 webcamrequestreceive Inviata la richiesta per ricevere dalla webcam
 webcamrequestsend Inviata la richiesta per inviare immagini della webcam
