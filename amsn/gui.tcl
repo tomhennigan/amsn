@@ -2785,7 +2785,8 @@ namespace eval ::amsn {
 		}
 
 		if {$show_nonim} {
-			lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
+		# TODO
+		#	lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
 		}
 		::amsn::listChoose $title $userlist $command 1 1
 	}
