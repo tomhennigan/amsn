@@ -1634,7 +1634,7 @@ namespace eval ::MSNCAM {
 	proc SendFrame { sock encoder img } {
 		#If the img is not at the right size, don't encode (crash issue..)
 
-		if { [::config::getKey lowrescam] == 1 && [OnLinux] } {
+		if { [::config::getKey lowrescam] == 1 && ([OnLinux] || [OnBSD]) } {
 			set camwidth 160
 			set camheight 120
                 } else {
@@ -1748,7 +1748,7 @@ namespace eval ::CAMGUI {
 		if { ! $::capture_loaded } { return }
 		#Now we are sure that both webcamsn and capture are loaded
 		set campresent 0
-		if { [OnLinux] } {
+		if { [OnLinux] || [OnBSD] } {
                         if { [llength [::Capture::ListDevices]] > 0 } {
                                 set campresent 1
                         }
@@ -1867,7 +1867,7 @@ namespace eval ::CAMGUI {
 		set encoder [getObjOption $socket codec]
 		set source [getObjOption $sid source]
 
-		if { [OnLinux] } {
+		if { [OnLinux]  || [OnBSD]} {
 			if {$source == "0" } { set source "/dev/video0:0" }
 			set pos [string last ":" $source]
 			set dev [string range $source 0 [expr {$pos-1}]]
@@ -1888,7 +1888,7 @@ namespace eval ::CAMGUI {
 				}
 			} elseif { [OnDarwin] } {
 				set grabber .grabber.seq
-			} elseif { [OnLinux] } {
+			} elseif { [OnLinux] || [OnBSD] } {
 				set grabber [::Capture::GetGrabber $dev $channel]
 			}
 		}
@@ -1926,7 +1926,7 @@ namespace eval ::CAMGUI {
 				}
 				setObjOption $sid grab_proc "Grab_Mac"
 
-			} elseif { [OnLinux] } {
+			} elseif { [OnLinux] || [OnBSD] } {
 				set pos [string last ":" $source]
 				set dev [string range $source 0 [expr {$pos-1}]]
 				set channel [string range $source [expr {$pos+1}] end]
@@ -2081,7 +2081,7 @@ namespace eval ::CAMGUI {
 			} elseif { [OnDarwin] } {
 				setObjOption $sid grab_proc "Grab_Mac"
 
-			} elseif { [OnLinux] } {
+			} elseif { [OnLinux] || [OnBSD] } {
 				setObjOption $sid grab_proc "Grab_Linux"
 
 			} else {
@@ -2244,7 +2244,7 @@ namespace eval ::CAMGUI {
 
 		if { [OnWin] || [OnDarwin] } {
 			return [winfo exists $grabber]
-		} elseif { [OnLinux] } {
+		} elseif { [OnLinux] || [OnBSD] } {
 			return [::Capture::IsValid $grabber]
 		} else {
 			return 0
@@ -2271,7 +2271,7 @@ namespace eval ::CAMGUI {
 
 		if { [llength $windows] > 0 } { return }
 
-		if { [OnLinux] } {
+		if { [OnLinux] || [OnBSD] } {
 			::Capture::Close $grabber
 		} elseif { [OnDarwin] } {
 			destroy $grabber
@@ -2290,7 +2290,7 @@ namespace eval ::CAMGUI {
 			set extension "tkvideo"
 		} elseif { [OnDarwin] } {
 			set extension "QuickTimeTcl"
-		} elseif { [OnLinux] } {
+		} elseif { [OnLinux] || [OnBSD] } {
 			set extension "capture"
 		} else {
 			set ::capture_loaded 0
@@ -2657,7 +2657,7 @@ namespace eval ::CAMGUI {
 			set extension "tkvideo"
 		} elseif { [OnDarwin] } {
 			set extension "QuickTimeTcl"
-		} elseif { [OnLinux] } {
+		} elseif { [OnLinux] || [OnBSD] } {
 			set extension "capture"
 		} else {
 			set extension "[trans unknown]"
@@ -2675,7 +2675,7 @@ namespace eval ::CAMGUI {
 		pack $w.wanttosharecam
 
 		checkbutton $w.lowrescam -text "[trans lowrescam]" -font sboldf -variable [::config::getVar lowrescam] -onvalue 1 -offvalue 0 -state active 
-		if { [OnLinux] } {
+		if { [OnLinux] || [OnBSD] } {
 			pack $w.lowrescam
 		}
 
@@ -2723,7 +2723,7 @@ namespace eval ::CAMGUI {
 		if { ! [info exists ::capture_loaded] } { CaptureLoaded }
 		if { ! $::capture_loaded } { return }
 
-		if { [OnLinux] } {
+		if { [OnLinux]  || [OnBSD]} {
 			ChooseDeviceLinux
 		} elseif { [OnDarwin] } {
 			ChooseDeviceMac
@@ -2737,7 +2737,7 @@ namespace eval ::CAMGUI {
 		if { ! $::capture_loaded } { return }
 		if { ![IsGrabberValid $grabber] } { return }
 		
-		if { [OnLinux] } {
+		if { [OnLinux] || [OnBSD] } {
 			ShowPropertiesPageLinux $grabber $img
 		} elseif { [OnDarwin] } {
 			return

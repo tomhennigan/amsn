@@ -989,7 +989,7 @@ namespace eval ::AVAssistant {
 		set capextname "grab"
 		if { [OnWin] } { set capextname "tkvideo"}\
 		 elseif { [OnDarwin] } { set capextname "QuickTimeTcl"}\
-		 elseif { [OnLinux] } { set capextname "capture" }
+		 elseif { [OnLinux] || [OnBSD] } { set capextname "capture" }
 		
 		#check if loaded
 		if {[::CAMGUI::CaptureLoaded]} {
@@ -1015,7 +1015,7 @@ namespace eval ::AVAssistant {
 				# There is no easy way to know if a cam is available OnMac so set video configured to true in all cases..
 				variable video_configured
 				set video_configured 1
-			} elseif {[OnLinux]} {
+			} elseif {[OnLinux] || [OnBSD]} {
 				#OnLinux,
 				#webcam device + channel
 				
@@ -2318,7 +2318,7 @@ namespace eval ::AVAssistant {
 			} elseif {[OnWin]} {
 				set text [trans webcamconfiguredWin $selecteddevicename]
 				set sharecamState "normal"
-			} elseif {[OnLinux]} {
+			} elseif {[OnLinux] || [OnBSD]} {
 				set text [trans webcamconfiguredLinux $selecteddevicename $selectedchannelname]
 				set sharecamState "normal"
 			} else {
@@ -2393,7 +2393,7 @@ namespace eval ::AVAssistant {
 		#video settings has been configured
 		if {$video_configured} {
 			#currently, only useful for linux users
-			if {[OnLinux]} {
+			if {[OnLinux] || [OnBSD]} {
 				#saving device + channel
 				variable selecteddevice
 				variable selectedchannel
