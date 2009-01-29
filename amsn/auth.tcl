@@ -179,8 +179,11 @@ snit::type SSOAuthentication {
 				set url [GetXmlEntry $xml "S:Envelope:S:Fault:psf:redirectUrl"]
 				status_log "SSO Authentication redirected to $url"
 				$soap configure -url $url
-				$soap SendSOAPRequest
-				return
+				if {[catch {$soap SendSOAPRequest} ] } {
+					set error 3
+				} else {
+					return
+				}
 			} else {
 				set error 1
 			}

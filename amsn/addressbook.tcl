@@ -45,14 +45,20 @@ snit::type Addressbook {
 			if {[string first "SharingService.asmx" [$soap cget -url]] != -1} {
 				if {[$soap cget -url] != $SharingServiceURL} {
 					$soap configure -url $SharingServiceURL
-					$soap SendSOAPRequest
-					return 1
+					if {[catch {$soap SendSOAPRequest}] } {
+						return 0
+					} else {
+						return 1
+					}
 				}
 			} elseif {[string first "abservice.asmx" [$soap cget -url]] != -1 } {
 				if {[$soap cget -url] != $ABServiceURL} {
 					$soap configure -url $ABServiceURL
-					$soap SendSOAPRequest
-					return 1
+					if {[catch {$soap SendSOAPRequest}] } {
+						return 0
+					} else {
+						return 1
+					}
 				}	
 			} else {
 				status_log "unknown SOAP url.. can't decide.."

@@ -13,6 +13,7 @@ snit::type SOAPRequest {
 	option -headers [list]
 	option -header ""
 	option -body ""
+	option -ttl 5
 
 	variable wait 0
 	variable status ""
@@ -23,6 +24,7 @@ snit::type SOAPRequest {
 	variable xml ""
 	variable redirected 0
 	variable http_req ""
+	variable ttl 0
 
 	destructor {
 		set status "canceled"
@@ -34,6 +36,9 @@ snit::type SOAPRequest {
 	}
 
 	method SendSOAPRequest { } {
+		if {$ttl > $options(-ttl)} {
+			error "Too many retried"
+		}
 		if { $options(-url) == "" || ($options(-xml) == "" && ($options(-header) == "" || $options(-body) == "")) } {
 			error "SOAPRequest incomplete"
 		}
@@ -136,6 +141,7 @@ snit::type SOAPRequest {
 			}
 		}
 
+		incr ttl
 		return $self
 	}
 
@@ -145,6 +151,7 @@ snit::type SOAPRequest {
 		if {[info exists ::soap_debug] && $::soap_debug != ""} {
 			set filename "[$self GetDebugFilename]_resp.xml"
 			catch {set fd [open [file join $::soap_debug $filename] w]}
+			#catch {puts $fd [$self configure]}
 			catch {puts $fd [xml2prettyxml [::http::data $token]]}
 			catch {close $fd}
 		}
@@ -186,8 +193,12 @@ snit::type SOAPRequest {
 				::http::cleanup $token
 
 				set redirected 1
-				$self SendSOAPRequest
-				return
+				if {[catch {$self SendSOAPRequest} err] } {
+					set last_error $err
+					set status [::http::ncode $token]	
+				} else {
+					return
+				}
 			} else {
 				set last_error [::http::code $token]
 				set status [::http::ncode $token]
