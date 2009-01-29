@@ -119,6 +119,7 @@ bytesymbol b
 cachedpics $1 cached pics
 cachedpicsfor Cached display pictures for user
 cagreement Confidentiality Agreement
+cam_in_cw Show webcam streams embedded in the chatwindows
 cancel Cancel
 cancelled Cancelled
 cannotdeleteprofile Cannot delete profile because it seems to be in use by an aMSN session
