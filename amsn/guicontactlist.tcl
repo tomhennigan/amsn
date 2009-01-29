@@ -2276,7 +2276,7 @@ namespace eval ::guiContactList {
 				[expr { [lindex $line 3] + $ypos + $margin_y} ] \
 				-fill [lindex $line 5] \
 				-outline "" \
-				-tags [list $bgtag $tag contact]
+				-tags [list $bgtag $tag contact bg]
 		}
 		
 		$canvas lower $bgtag "$tag"
@@ -2319,7 +2319,7 @@ namespace eval ::guiContactList {
 				[expr { [lindex $line 0] + [lindex $line 2] + $xpos} ]\
 				[expr { [lindex $line 1] + $ypos + $margin_y} ] \
 				-fill [lindex $line 3] \
-				-tags $nicktag
+				-tags "$nicktag $opt"
 		}
 
 		#$canvas lower unline_$nicktag $nicktag
