@@ -246,6 +246,53 @@ proc TmpImgName {} {
 ################################################
 # Other added/update commands for tcl/tk       #
 ################################################
+if { [info commands ::tk::grab] == "" } {
+	rename grab ::tk::grab
+	proc grab { args } {
+		if {[llength $args] == 1} {
+			set command "set"
+			set window [lindex $args 0]
+			set global 0
+		} elseif {[llength $args] == 2} {
+			set command [lindex $args 0]
+			set window [lindex $args 1]
+			set global 0
+			if {$command == "-global" } {
+				set command "set"
+				set global 1
+			}
+		} elseif {[llength $args] == 3} {
+			set command [lindex $args 0]
+			set window [lindex $args 2]
+			set global 1
+			if {$command == "set" &&
+			    [lindex $args 2] == "-global" } {
+				set global 1
+			    }
+		} else {
+			set command "unknown"
+		}
+		if {$command != "set"  } {
+			eval [linsert $args 0 ::tk::grab]
+		} else  {
+			set retries 5
+			while { $retries > 0 } {
+				catch {focus -force $window}
+				if {$global} {
+					if {[catch {grab set -global $window}] } {
+						break
+					}
+				} else {
+					if {[catch {grab set $window}] } {
+						break
+					}
+				}
+				after 100
+				incr retries -1
+			}
+		}
+	}
+}
 
 # Find out what has the focus and assing it to $w, then after $w is
 # destroyed, focus the original.
