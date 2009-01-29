@@ -1032,8 +1032,6 @@ int Capture_Init (Tcl_Interp *interp )
     ng_debug = 0;
 # endif
   ng_init();
-
-  yuv2rgb_init();
   
   // End of Initialisation
   return TCL_OK;
