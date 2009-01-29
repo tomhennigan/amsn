@@ -1,6 +1,6 @@
 Index: debian/control.in
 ===================================================================
---- debian/control.in	(revision 10893)
+--- debian/control.in	(revision 10906)
 +++ debian/control.in	(working copy)
 @@ -1,5 +1,5 @@
  Source: amsn
@@ -11,7 +11,7 @@ Index: debian/control.in
  Build-Depends: debhelper (>> 4.0.0), tcl#TCL_VERSION#-dev, tk#TK_VERSION#-dev, libpng12-dev, libjpeg62-dev
 Index: configure.ac
 ===================================================================
---- configure.ac	(revision 10893)
+--- configure.ac	(revision 10906)
 +++ configure.ac	(working copy)
 @@ -357,7 +357,7 @@
  dnl do some OS specific stuff here
@@ -24,7 +24,7 @@ Index: configure.ac
  AC_SUBST(LDLIBS)
 Index: amsn
 ===================================================================
---- amsn	(revision 10893)
+--- amsn	(revision 10906)
 +++ amsn	(working copy)
 @@ -1,6 +1,5 @@
 -#!/bin/sh
@@ -37,7 +37,7 @@ Index: amsn
  ###
 Index: configure
 ===================================================================
---- configure	(revision 10893)
+--- configure	(revision 10906)
 +++ configure	(working copy)
 @@ -3534,79 +3534,17 @@
  
@@ -123,8 +123,17 @@ Index: configure
  ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 Index: config.tcl
 ===================================================================
---- config.tcl	(revision 10893)
+--- config.tcl	(revision 10906)
 +++ config.tcl	(working copy)
+@@ -56,7 +56,7 @@
+ 
+ 		::config::setKey playbackspeed 100
+ 
+-		::config::setKey cam_in_cw 0
++		::config::setKey cam_in_cw 1
+ 
+ 		#Dir for received files
+ 		if { [OnDarwin] } {
 @@ -85,8 +85,8 @@
  
  			::config::setKey os "mac"
@@ -138,7 +147,7 @@ Index: config.tcl
  			::config::setKey filemanager "xdg-open \$location"
 Index: utils/linux/capture/capture.c
 ===================================================================
---- utils/linux/capture/capture.c	(revision 10893)
+--- utils/linux/capture/capture.c	(revision 10906)
 +++ utils/linux/capture/capture.c	(working copy)
 @@ -1032,6 +1032,8 @@
      ng_debug = 0;
