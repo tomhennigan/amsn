@@ -119,6 +119,7 @@ bytesymbol o
 cachedpics $1 avatars masqués
 cachedpicsfor Avatars en mémoire pour :
 cagreement Déclaration de confidentialité
+cam_in_cw Afficher la webcam dans la fenêtre de conversation.
 cancel Annuler
 cancelled Annulé
 cannotdeleteprofile le profil ne peut être supprimé car il semble être utilisé par une session aMSN
