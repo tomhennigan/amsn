@@ -272,19 +272,19 @@ if { [info commands ::tk::grab] == "" } {
 		} else {
 			set command "unknown"
 		}
-		if {$command != "set"  } {
+ 		if {$command != "set"  } {
 			eval [linsert $args 0 ::tk::grab]
 		} else  {
 			set retries 5
 			while { $retries > 0 } {
 				catch {focus -force $window}
 				if {$global} {
-					if {[catch {::tk::grab set -global $window}] } {
-						break
+					if {![catch {::tk::grab set -global $window} ret] } {
+						return $ret
 					}
 				} else {
-					if {[catch {::tk::grab set $window}] } {
-						break
+					if {![catch {::tk::grab set $window} ret] } {
+						return $ret
 					}
 				}
 				after 100
