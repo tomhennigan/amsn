@@ -279,11 +279,11 @@ if { [info commands ::tk::grab] == "" } {
 			while { $retries > 0 } {
 				catch {focus -force $window}
 				if {$global} {
-					if {[catch {grab set -global $window}] } {
+					if {[catch {::tk::grab set -global $window}] } {
 						break
 					}
 				} else {
-					if {[catch {grab set $window}] } {
+					if {[catch {::tk::grab set $window}] } {
 						break
 					}
 				}
