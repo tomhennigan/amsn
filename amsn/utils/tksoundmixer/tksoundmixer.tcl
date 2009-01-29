@@ -10,9 +10,6 @@ snit::widget tksoundmixer {
 	option -amplificationvariable -default {}
 	option -amplificationcommand -default {}
 
-	option -width
-	option -height
-
 	component volumeframe
 	component mutecheckbox
 
@@ -21,7 +18,6 @@ snit::widget tksoundmixer {
 
 	delegate option -from to volumeframe
 	delegate option -to to volumeframe
-	delegate option -orient to volumeframe
 	delegate option -levelsize to volumeframe
 	delegate option -volumevariable to volumeframe
 	delegate option -volumecommand to volumeframe
@@ -38,9 +34,9 @@ snit::widget tksoundmixer {
 		
 		set mutecheckbox [checkbutton ${win}.mute -text "Mute"]
 
+
 		pack ${win}.mute
 		pack ${win}.volumeframe -expand true -fill both
-
 	}
 }
 
@@ -53,7 +49,6 @@ snit::widget tksoundmixervolume {
 
 	option -from -default 0
 	option -to -default 100
-	option -orient -default "vertical" -configuremethod SetOrient
 
 	option -levelsize -default 5 -configuremethod SetLevelSize
 
@@ -67,21 +62,13 @@ snit::widget tksoundmixervolume {
 		$self configurelist $args
 
 		frame ${win}.fill
-		place ${win}.fill -x 0 -y 0 -relheight 1 -relwidth 1
+		place ${win}.fill -relheight 1 -relwidth 1
 
 		frame ${win}.level -background black
 		if {[info exists ::$options(-volumevariable)] && [set ::$options(-volumevariable)]<1 && [set ::$options(-volumevariable)] >0} {
-			if { $options(-orient) == "vertical" } {
-				place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-volumevariable)]}] -relwidth 1 -height $options(-levelsize)
-			} else {
-				place ${win}.level -rely 0 -relx [set ::$options(-volumevariable)] -relheight 1 -width $options(-levelsize)
-			}
+			place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-volumevariable)]}] -relwidth 1 -height $options(-levelsize)
 		} else {
-			if { $options(-orient) == "vertical" } {
-				place ${win}.level -relx 0 -rely 0.5 -relwidth 1 -height $options(-levelsize)
-			} else {
-				place ${win}.level -rely 0 -relx 0.5 -relheight 1 -width $options(-levelsize)
-			}
+			place ${win}.level -relx 0 -rely 0.5 -height $options(-levelsize) -relwidth 1
 		}
 
 		bind ${win}.level <B1-Motion> "$self Motion"
@@ -105,15 +92,9 @@ snit::widget tksoundmixervolume {
 
 	method MoveLevel {{up 1}} {
 		puts $up
-		if { $options(-orient) == "vertical" } {
-			set size [winfo height ${win}]
-			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [expr {1-[set ::$options(-volumevariable)]}]
-		} else {
-			set size [winfo width ${win}]
-			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [set ::$options(-volumevariable)]
-		}
+		set size [winfo height ${win}]
+		set max [expr {1-double($options(-levelsize))/double(${size})}]
+		set rel [expr {1-[set ::$options(-volumevariable)]}]
 		if {$up == 1} {
 			set rel [expr {$rel + 0.1}]
 		} else {
@@ -126,23 +107,12 @@ snit::widget tksoundmixervolume {
 				set rel 0
 			}
 		}
-		if { $options(-orient) == "vertical" } {
 			place configure ${win}.level -rely $rel
-		} else {
-			place configure ${win}.level -relx $rel
-		}
 
 		if {[info exists ::$options(-volumevariable)]} {
-			if { $options(-orient) == "vertical" } {
-				set ::$options(-volumevariable) [expr {1-$rel/$max}]
-				if { $options(-volumecommand) != {} } {
-					eval $options(-volumecommand) [expr {1-$rel/$max}]
-				}
-			} else {
-				set ::$options(-volumevariable) [expr {$rel/$max}]
-				if { $options(-volumecommand) != {} } {
-					eval $options(-volumecommand) [expr {$rel/$max}]
-				}
+			set ::$options(-volumevariable) [expr {1-$rel/$max}]
+			if { $options(-volumecommand) != {} } {
+				eval $options(-volumecommand) [expr {1-$rel/$max}]
 			}
 		}
 	}
@@ -157,15 +127,9 @@ snit::widget tksoundmixervolume {
 	}
 
 	method Motion {} {
-		if { $options(-orient) == "vertical" } {
-			set size [winfo height ${win}]
-			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [expr {double([winfo pointery ${win}] - [winfo rooty ${win}])/double(${size})}]
-		} else {
-			set size [winfo width ${win}]
-			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [expr {double([winfo pointerx ${win}] - [winfo rootx ${win}])/double(${size})}]
-		}
+		set size [winfo height ${win}]
+		set max [expr {1-double($options(-levelsize))/double(${size})}]
+		set rel [expr {double([winfo pointery ${win}] - [winfo rooty ${win}])/double(${size})}]
 		if {$rel > $max} {
 			set rel $max
 		} else {
@@ -173,55 +137,26 @@ snit::widget tksoundmixervolume {
 				set rel 0
 			}
 		}
-		if { $options(-orient) == "vertical" } {
-			place configure ${win}.level -rely $rel
-		} else {
-			place configure ${win}.level -relx $rel
-		}
+		place configure ${win}.level -rely $rel
 		if {[info exists ::$options(-volumevariable)]} {
-			if { $options(-orient) == "vertical" } {
-				set ::$options(-volumevariable) [expr {1-$rel/$max}]
-				if { $options(-volumecommand) != {} } {
-					eval $options(-volumecommand) [expr {1-$rel/$max}]
-				}
-			} else {
-				set ::$options(-volumevariable) [expr {$rel/$max}]
-				if { $options(-volumecommand) != {} } {
-					eval $options(-volumecommand) [expr {$rel/$max}]
-				}
+			set ::$options(-volumevariable) [expr {1-$rel/$max}]
+			if { $options(-volumecommand) != {} } {
+				eval $options(-volumecommand) [expr {1-$rel/$max}]
 			}
-		}
-	}
-
-	method SetOrient {option value} {
-		set options($option) $value
-		if { ($options(-orient) == "v") || ($options(-orient) == "vert") } {
-			set options(-orient) "vertical"
-		}
-		if { ($options(-orient) == "h") || ($options(-orient) == "hori") } {
-			set options(-orient) "horizontal"
 		}
 	}
 
 	method SetLevelSize {option value} {
 		set options($option) $value
-		if { $options(-orient) == "vertical" } {
-			${win}.level configure -height $value
-		} else {
-			${win}.level configure -width $value
-		}
+		${win}.level configure -height $value
 	}
 
 	method setVolume {value {range 100}} {
 		set relsize [expr {double($value)/double($range)}]
 		set volumePercent $value
 		set volumeRange $range
-		if { $options(-orient) == "vertical" } {
-			place conf $win.fill -relheight $relsize
-			place conf $win.fill -rely [expr {1-$relsize}]
-		} else {
-			place conf $win.fill -relwidth $relsize
-		}
+		place conf $win.fill -relheight $relsize
+		place conf $win.fill -rely [expr {1-$relsize}]
 		
 		if {[expr $relsize > 0.5]} {
 			set R e1

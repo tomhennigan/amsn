@@ -18,10 +18,15 @@ proc showValue {value} {
 	puts "value=$value"
 }
 
-tksoundmixer .sm -volumevariable var -volumecommand [list showValue] -width 10 -height 100
+tksoundmixer .sm -volumevariable var -volumecommand [list showValue]
 
-pack .sm
+place .sm -width 10 -relheight 1
 
+update
+
+puts "[winfo width .sm] [winfo height .sm]"
+puts "[winfo width .sm.volumeframe] [winfo height .sm.volumeframe]"
+puts "[winfo width .sm.mute] [winfo height .sm.mute]"
 
 proc timer {sm limit delay {value 0}} {
 	variable var
