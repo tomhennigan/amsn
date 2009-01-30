@@ -1602,10 +1602,10 @@ namespace eval ::MSN {
 					lappend users_to_add $user
 				}
 			}
-			if {$users_to_add != [list] } {
-				$::ab DeleteMember [list ::MSN::blockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Allow"
-			} elseif {$users_to_delete != [list] } {
+			if {$users_to_delete != [list] } {
 				$::ab DeleteMember [list ::MSN::blockUserDeleteCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_delete "Allow"
+			} elseif {$users_to_add != [list] } {
+				$::ab AddMember [list ::MSN::blockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Block"
 			}
 		} else {
 			::MSN::WriteSB ns REM "AL $userlogin"
@@ -1618,9 +1618,9 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc blockUserAddCB { users_to_delete users_added fail } {
+	proc blockUserDeleteCB { users_to_delete users_added fail } {
 		if {$fail == 0 || $fail == 2} {
-			$::ab AddMember [list ::MSN::blockUserDeleteCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Block"
+			$::ab AddMember [list ::MSN::blockUserAddCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Block"
 		} else {
 			set blocked_users [concat $users_to_delete $users_added]
 			set blocked_users [lsort -unique $blocked_users]
@@ -1639,7 +1639,7 @@ namespace eval ::MSN {
 		after 100 [list ::MSN::blockUserGroupChained $users]
 	}
 
-	proc blockUserDeleteCB { users_deleted users_added fail } {
+	proc blockUserAddCB { users_deleted users_added fail } {
 		if {$fail == 0 || $fail == 2} {
 			foreach userlogin $users_deleted {
 				set contact [split $userlogin "@"]
@@ -1696,10 +1696,10 @@ namespace eval ::MSN {
 					lappend users_to_add $user
 				}
 			}
-			if {$users_to_add != [list] } {
-				$::ab DeleteMember [list ::MSN::unblockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Block"
-			} elseif {$users_to_delete != [list] } {
+			if {$users_to_delete != [list] } {
 				$::ab DeleteMember [list ::MSN::unblockUserDeleteCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_delete "Block"
+			} elseif {$users_to_add != [list] } {
+				$::ab AddMember [list ::MSN::unblockUserAddCB $users_to_delete $users_to_add] "BlockUnblock" $users_to_add "Allow"
 			}
 		} else {
 			::MSN::WriteSB ns REM "BL $userlogin"
@@ -1712,9 +1712,9 @@ namespace eval ::MSN {
 		}
 	}
 
-	proc unblockUserAddCB { users_to_delete users_added fail } {
+	proc unblockUserDeleteCB { users_to_delete users_added fail } {
 		if {$fail == 0 || $fail == 2} {
-			$::ab AddMember [list ::MSN::unblockUserDeleteCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Allow"
+			$::ab AddMember [list ::MSN::unblockUserAddCB $users_to_delete $users_added] "BlockUnblock" $users_to_delete "Allow"
 		} else {
 			set unblocked_users [concat $users_to_delete $users_added]
 			set unblocked_users [lsort -unique $unblocked_users]
@@ -1734,7 +1734,7 @@ namespace eval ::MSN {
 	}
 
 
-	proc unblockUserDeleteCB { users_deleted users_added fail } {
+	proc unblockUserAddCB { users_deleted users_added fail } {
 		if {$fail == 0 || $fail == 2} {
 			foreach userlogin $users_deleted {
 				set contact [split $userlogin "@"]
