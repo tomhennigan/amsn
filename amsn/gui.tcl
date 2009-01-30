@@ -2961,7 +2961,7 @@ namespace eval ::amsn {
 		canvas $canv.ca -width 100 -height 200 -bg white -yscrollcommand "$canv.ys set"
 		scrollbar $canv.ys -orient vertical -command "$canv.ca yview"
 
-		frame $w.searchbar -bg white -borderwidth 1 -highlightthickness 0
+		frame $w.searchbar -bg [::skin::getKey mainwindowbg] -borderwidth 2 -highlightthickness 0
 		entry $w.searchbar.entry -relief flat -bg white -font splainf -selectbackground #b7d1ff -fg grey \
 			-highlightcolor #aaaaaa -highlightthickness 2
 
@@ -3000,6 +3000,38 @@ namespace eval ::amsn {
 			after 500 [list ::amsn::listChooseSearchBar $w $canv.ca $command]"
 		bind $w <<Escape>> [list destroy $w]
 		bind $w <Return> [list ::amsn::listChooseOk $w $itemlist $command 0]
+		
+		if {[OnMac]} {
+			bind $canv.ca <MouseWheel> {
+				%W yview scroll [expr {- (%D)}] units;
+
+				::guiContactList::moveBGimage $::guiContactList::clcanvas
+			}
+		} elseif {$::tcl_platform(platform) == "windows"} {
+			#TODO: test it with tcl8.5
+			if {$::tcl_version >= 8.5} {
+				bind $canv.ca <MouseWheel> {
+					if {%D >= 0} {
+						::guiContactList::scrollCL $canv.ca up
+					} else {
+						::guiContactList::scrollCL $canv.ca down
+					}
+				}
+			} else {
+				bind [winfo toplevel $canv.ca] <MouseWheel> {
+					if {%D >= 0} {
+						::guiContactList::scrollCL $canv.ca up
+					} else {
+						::guiContactList::scrollCL $canv.ca down
+					}
+				}
+			}
+		} else {
+			# We're on X11! (I suppose ;))
+			bind $canv.ca <ButtonPress-5> [list ::guiContactList::scrollCL $canv.ca down]
+			bind $canv.ca <ButtonPress-4> [list ::guiContactList::scrollCL $canv.ca up]
+		}
+		
 		moveinscreen $w 30
 		
 	}
@@ -3008,7 +3040,7 @@ namespace eval ::amsn {
 	proc draw_listChoose { w window itemlist command} {
 
 		$w dchars list_choose 0 end
-		$w delete list_choose bg un ov
+		$w delete list_choose bg un ov bg_selection
 
 		foreach element $itemlist {
 			set user_login [lindex $element 1]
@@ -3024,7 +3056,7 @@ namespace eval ::amsn {
 			}
 			lappend lst [list tag -list_choose]
 			::guiContactList::renderContact $w $tag 1000 $lst
-			$w bind $tag <Button-1> [list ::amsn::listChooseSelect $tag]
+			$w bind $tag <Button-1> [list ::amsn::listChooseSelect $w $tag]
 			$w bind $tag <Double-Button-1> [list ::amsn::listChooseOk $window $tag $command 0]
 		}
 		
@@ -3033,7 +3065,7 @@ namespace eval ::amsn {
 		foreach element $itemlist {
 			set tag [lindex $element 1]
 			set pos [$w bbox $tag] ;#x1 y1 x2 y2
-			incr y [expr {[lindex $pos 1] * -1}]
+			incr y [expr {([lindex $pos 1] * -1) + 2}]
 			$w move $tag 0 $y
 		}
 
@@ -3055,8 +3087,17 @@ namespace eval ::amsn {
 		destroy $wname
 	}
 
-	proc listChooseSelect {tag} {
+	proc listChooseSelect {w tag} {
 		variable listchooseselect $tag
+		
+		$w delete bg_selection
+		
+		set color [::skin::getKey menuactivebackground]
+		
+		set pos [$w bbox $tag]
+		$w create rect [lindex $pos 0] [lindex $pos 1] [lindex $pos 2] [lindex $pos 3] \
+			-fill $color -outline "" -tag bg_selection
+		$w lower bg_selection $tag
 	}
 
 	proc listChooseSearchBar {w wcanv command} {
@@ -3080,6 +3121,7 @@ namespace eval ::amsn {
 					lappend itemlist_temp $item
 				}
 			}
+			set itemlist_var $itemlist_temp
 		}
 		draw_listChoose $wcanv $w $itemlist_var $command
 	}
