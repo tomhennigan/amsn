@@ -408,6 +408,8 @@ static GstElement * _test_source (gchar *name)
   GstStateChangeReturn state_ret;
   GValueArray *arr;
 
+  _notify_debug("Testing source %s", name);
+
   if (name == "dtmfsrc" || name == "audiotestsrc")
     return NULL;
 
@@ -486,7 +488,6 @@ static GstElement * _create_source ()
                                "osssrc",
                                NULL};
   gchar **test_source = NULL;
-  int i;
 
   _notify_debug ("Creating source : %s  --- %s -- %s",
 	  source_pipeline ? source_pipeline : "(null)",
