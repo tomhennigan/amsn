@@ -127,8 +127,7 @@ snit::type SOAPRequest {
 		set xml [encoding convertto utf-8 $xml]
 
 		# Catch it in case we have no internet.. 
-		# TODO : maybe fix this somehow since we'll never get the callback...
-		if { ![catch { set http_req [http::geturl $options(-url) -timeout 600000 -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] }] } {
+		if { ![catch { set http_req [http::geturl $options(-url) -timeout 600000 -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] } res] } {
 			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
 			if {[info exists ::soap_debug] && $::soap_debug != ""} {
 				set filename "[$self GetDebugFilename]_req.xml"
@@ -140,6 +139,20 @@ snit::type SOAPRequest {
 			if { $options(-callback) == "" && $redirected } {
 				tkwait variable [myvar wait]
 			}
+		} else if {[catch {$self configure}] == 0} {
+			# In case of an error, report it back.. make sure that our object wasn't destroyed...
+			set status "PostFailed"
+			set last_error $res
+			status_log "Failed to send SOAP request to $options(-url) with action $options(-action) : ..." green
+			status_log "... status=$status, LastError=$last_error" green
+			if {$options(-callback) != "" } {
+				if {[catch {eval $options(-callback) $self} result]} {
+					bgerror $result
+				}
+			}
+		} else {
+			# If our object was destroyed, don't return our name.
+			return ""
 		}
 
 		return $self
