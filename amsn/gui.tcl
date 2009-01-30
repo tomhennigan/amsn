@@ -2918,15 +2918,11 @@ namespace eval ::amsn {
 	}
 
 
-	#///////////////////////////////////////////////////////////////////////////////
-	#title: Title of the window
-	#itemlist: Array,or list, with two columns and N rows. Column 0 is the one to be
-	#shown in the list. Column 1 is the use used to parameter to the command
 	proc listChoose {title itemlist command {other 0} {skip 1}} {
 		global userchoose_req
 		set itemcount [llength $itemlist]
 		variable itemlist_var $itemlist
-
+		
 		#If just 1 user, and $skip flag set to one, just run command on that user
 		if { $itemcount == 1 && $skip == 1 && $other == 0} {
 			eval $command [lindex [lindex $itemlist 0] 1]
@@ -2934,84 +2930,136 @@ namespace eval ::amsn {
 		}
 
 		if { [focus] == ""  || [focus] =="." } {
-			set wname "._listchoose"
+			set w "._listchoose"
 		} else {
-			set wname "[focus]._listchoose"
+			set w "[focus]._listchoose"
 		}
-
-		if { [catch {toplevel $wname -borderwidth 0 -highlightthickness 0 } res ] } {
-			raise $wname
-			focus $wname
+		
+		if { [catch {toplevel $w -borderwidth 0 -highlightthickness 0 } res ] } {
+			raise $w
+			focus $w
 			return 0
 		} else {
 			set wname $res
 		}
-		
-		wm title $wname $title
 
+		wm title $w $title
+		
 		#No ugly blue frame on Mac OS X, system already use a border around window
 		if { [OnMac] } {
-			frame $wname.blueframe -background [::skin::getKey topcontactlistbg]
+			frame $w.blueframe -background [::skin::getKey topcontactlistbg]
 		} else {
-			frame $wname.blueframe
+			frame $w.blueframe
 		}
 		
-		frame $wname.searchbar -bg white -borderwidth 1 -highlightthickness 0
-		entry $wname.searchbar.entry -relief flat -bg white -font splainf -selectbackground #b7d1ff -fg grey \
+		wm geometry $w =350x400
+
+		set canv $w.canv
+
+		frame $canv -background white
+		
+		canvas $canv.ca -width 100 -height 200 -bg white -yscrollcommand "$canv.ys set"
+		scrollbar $canv.ys -orient vertical -command "$canv.ca yview"
+
+		frame $w.searchbar -bg white -borderwidth 1 -highlightthickness 0
+		entry $w.searchbar.entry -relief flat -bg white -font splainf -selectbackground #b7d1ff -fg grey \
 			-highlightcolor #aaaaaa -highlightthickness 2
+
+		pack $canv.ys -side right -fill y
+		pack $canv.ca -side left -fill both -expand true
+		pack $canv -side top -fill both -expand true
+
+		draw_listChoose $canv.ca $w $itemlist $command
+
+		frame $w.buttons
+		button  $w.buttons.ok -text "[trans ok]" -command [list ::amsn::listChooseOk $w "" $command 1]
+		button  $w.buttons.cancel -text "[trans cancel]" -command [list destroy $wname]
 		
-		frame $wname.blueframe.list -borderwidth 0
-		frame $wname.buttons
-		
-		listbox $wname.blueframe.list.items -yscrollcommand "$wname.blueframe.list.ys set" -font splainf \
-			-highlightthickness 0 -height 20 -width 60
-		scrollbar $wname.blueframe.list.ys -command "$wname.blueframe.list.items yview" -highlightthickness 0 \
-			-borderwidth 1 -elementborderwidth 1
-
-		button  $wname.buttons.ok -text "[trans ok]" -command [list ::amsn::listChooseOk $wname $command]
-		button  $wname.buttons.cancel -text "[trans cancel]" -command [list destroy $wname]
-
-
-		pack $wname.blueframe.list.ys -side right -fill y
-		pack $wname.blueframe.list.items -side left -expand true -fill both
-		pack $wname.blueframe.list -side top -expand true -fill both -padx 4 -pady 4
-		pack $wname.blueframe -side top -expand true -fill both
-
 		if { $other == 1 } {
-			button  $wname.buttons.other -text "[trans other]..." -command [list ::amsn::listChooseOther $wname $title $command]
-			pack $wname.buttons.ok -padx 5 -side right
-			pack $wname.buttons.cancel -padx 5 -side right
-			pack $wname.buttons.other -padx 5 -side left
+			button  $w.buttons.other -text "[trans other]..." -command [list ::amsn::listChooseOther $w $title $command]
+			pack $w.buttons.ok -padx 5 -side right
+			pack $w.buttons.cancel -padx 5 -side right
+			pack $w.buttons.other -padx 5 -side left
 		} else {
-			pack $wname.buttons.ok -padx 5 -side right
-			pack $wname.buttons.cancel -padx 5 -side right
+			pack $w.buttons.ok -padx 5 -side right
+			pack $w.buttons.cancel -padx 5 -side right
 		}
+		
+		pack $w.buttons -side bottom -fill x -pady 3
 
-		pack $wname.searchbar.entry -fill x
-		pack $wname.searchbar -fill x
-
-		pack $wname.buttons -side bottom -fill x -pady 3
-
-		foreach item $itemlist {
-			$wname.blueframe.list.items insert end [lindex $item 0]
-		}
-
-
-		bind $wname.blueframe.list.items <Double-Button-1> [list ::amsn::listChooseOk $wname $command]
-
+		pack $w.searchbar.entry -fill x -side bottom
+		pack $w.searchbar -fill x -side bottom
+		
 		catch {
-			raise $wname
-			focus $wname.buttons.ok
+			raise $w
+			focus $w.buttons.ok
 		}
 
-		bind $wname.searchbar.entry <KeyRelease> [list ::amsn::::listChooseSearchBar $wname]
-		bind $wname <<Escape>> [list destroy $wname]
-		bind $wname <Return> [list ::amsn::listChooseOk $wname $itemlist $command]
-		moveinscreen $wname 30
+		bind $w.searchbar.entry <KeyRelease> \
+			"after cancel [list ::amsn::listChooseSearchBar $w $canv.ca $command]; \
+			after 500 [list ::amsn::listChooseSearchBar $w $canv.ca $command]"
+		bind $w <<Escape>> [list destroy $w]
+		bind $w <Return> [list ::amsn::listChooseOk $w $itemlist $command 0]
+		moveinscreen $w 30
+		
 	}
-	#///////////////////////////////////////////////////////////////////////////////
 
-	proc listChooseSearchBar {wname} {
+
+	proc draw_listChoose { w window itemlist command} {
+
+		$w dchars list_choose 0 end
+		$w delete list_choose bg un ov
+
+		foreach element $itemlist {
+			set user_login [lindex $element 1]
+			set tag $user_login
+			set lst [list ]
+			lappend lst [list tag list_choose]
+			set lst [concat $lst [::abook::getDisplayNick $user_login 1]]
+			set user_state_code [::abook::getVolatileData $user_login state FLN]
+			if { $user_state_code != "NLN" } {
+				lappend lst [list text " ($user_login) - ([trans [::MSN::stateToDescription $user_state_code]])"]
+			} else {
+				lappend lst [list text " ($user_login)"]
+			}
+			lappend lst [list tag -list_choose]
+			::guiContactList::renderContact $w $tag 1000 $lst
+			$w bind $tag <Button-1> [list ::amsn::listChooseSelect $tag]
+			$w bind $tag <Double-Button-1> [list ::amsn::listChooseOk $window $tag $command 0]
+		}
+		
+		set y 0
+		
+		foreach element $itemlist {
+			set tag [lindex $element 1]
+			set pos [$w bbox $tag] ;#x1 y1 x2 y2
+			incr y [expr {[lindex $pos 1] * -1}]
+			$w move $tag 0 $y
+		}
+
+		$w configure -scrollregion [list 0 0 0 $y]
+
+
+		pack $w
+	}
+
+	proc listChooseOk { wname user command fromlist} {
+		variable listchooseselect
+		if {$fromlist} {
+			if {[catch {set user $listchooseselect}]} {
+				return
+			}
+		}
+		catch {unset listchooseselect}
+		eval "$command $user"
+		destroy $wname
+	}
+
+	proc listChooseSelect {tag} {
+		variable listchooseselect $tag
+	}
+
+	proc listChooseSearchBar {w wcanv command} {
 		variable itemlist_var
 		variable original_itemlist
 		
@@ -3021,26 +3069,19 @@ namespace eval ::amsn {
 			set itemlist_var $original_itemlist
 		}
 		
-		set key [string tolower [$wname.searchbar.entry get]]
-		
-		$wname.blueframe.list.items delete 0 end
+		set key [string tolower [$w.searchbar.entry get]]
 
 		if {$key eq ""} {
 			set itemlist_var $original_itemlist
-			foreach item $itemlist_var {
-				$wname.blueframe.list.items insert end [lindex $item 0]
-			}
 		} else {
 			set itemlist_temp [list]
 			foreach item $itemlist_var {
 				if {[string first $key [string tolower [lindex $item 0]]] != -1} {
-					$wname.blueframe.list.items insert end [lindex $item 0]
 					lappend itemlist_temp $item
 				}
 			}
-			set itemlist_var $itemlist_temp
 		}
-		
+		draw_listChoose $wcanv $w $itemlist_var $command
 	}
 
 
@@ -3053,19 +3094,6 @@ namespace eval ::amsn {
 		if { [info exists original_itemlist] } {
 			unset original_itemlist
 		}
-	}
-
-	proc listChooseOk { wname command} {
-		variable itemlist_var
-		set sel [$wname.blueframe.list.items curselection]
-		if { $sel == "" } { return }
-		destroy $wname
-		eval "$command [lindex [lindex $itemlist_var $sel] 1]"
-		variable original_itemlist
-		unset itemlist_var
-                if { [info exists original_itemlist] } {
-                        unset original_itemlist
-                }
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
