@@ -489,7 +489,9 @@ static GstElement * _create_source ()
   int i;
 
   _notify_debug ("Creating source : %s  --- %s -- %s",
-      source_pipeline, source, source_device);
+	  source_pipeline ? source_pipeline : "(null)",
+	  source ? source : "(null)",
+	  source_device ? source_device : "(null)");
 
   if (source_pipeline) {
     GstPad *pad = NULL;
@@ -513,7 +515,7 @@ static GstElement * _create_source ()
     }
     if (error) {
       _notify_debug ("Error while creating source pipeline (%d): %s",
-          error->code, error->message);
+		  error->code, error->message? error->message : "(null)");
     }
 
     state_ret = gst_element_set_state (src, GST_STATE_READY);
@@ -609,7 +611,7 @@ static GstElement * _create_sink ()
     }
     if (error) {
       _notify_debug ("Error while creating sink pipeline (%d): %s",
-          error->code, error->message);
+		  error->code, error->message ? error->message : "(null)");
     }
   } else if (sink) {
     snk = gst_element_factory_make (sink, NULL);
