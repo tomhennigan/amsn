@@ -139,7 +139,7 @@ snit::type SOAPRequest {
 			if { $options(-callback) == "" && $redirected } {
 				tkwait variable [myvar wait]
 			}
-		} else if {[catch {$self configure}] == 0} {
+		} elseif {[catch {$self configure}] == 0} {
 			# In case of an error, report it back.. make sure that our object wasn't destroyed...
 			set status "PostFailed"
 			set last_error $res
