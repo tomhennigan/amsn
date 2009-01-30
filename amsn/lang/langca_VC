@@ -5,6 +5,7 @@ about Sobre
 accept Acceptar
 acceptfile Acceptar arxiu $1, tamany $2 bytes? Es guardarà en $3
 account Compte
+accountkid Este compte per a xiquets no es pot utilitzar amb el Messenger. Has d'anar al lloc web de passaport per a xiquets i donar el consentiment paternal.
 actions Accions
 activeautoupdate Activar actualització automàtica
 addacontact Afegir un contacte
@@ -66,6 +67,7 @@ audiovideo Opcions de vídeo i àudio
 author Autor
 autoaccepted Transferència d'arxius acceptada automàticament
 autoacceptft Acceptar transferències d'arxius automàticament
+autoacceptwc Accepta automàticament les peticions de càmera web
 autoaway Mostrar-me com "absent" quan no hi ha activitat en
 autocheckver Buscar noves versions automàticament a l'iniciar aMSN
 autoconnect2 Connectar-se automàticament quan s'inicia aMSN
@@ -137,6 +139,7 @@ changecustomstate Canviar a
 changedisplaypic Canviar la imatge a mostrar (avatar)
 changefont Canviar font
 changeglobnick Canviar el sobrenom global
+changepsm Canviar el meu missatge personal
 change_mobile Canviar la configuració del mòvil
 changenick Canviar sobrenom
 changesize Canviar el tamany
@@ -192,13 +195,14 @@ closechatwindows Vols tancar totes les converses abans de tancar sessió?
 closed Conversa amb $1 tancada per inactivitat
 closelabel Quan fas clic al botó de tancar en una finestra de conversa amb pestanyes
 closeonly Tancar només la pestanya actual
-closeorcall Has de tancar/cancel·lar la conversa d'audio abans de tancar la finestra
+closeorcall Has de tancar/cancel·lar la conversa d'àudio abans de tancar la finestra
 closeordock El tancar la llista de contactes tancará aMSN. Potser només vols tancar la finestra i que aMSN continue a l'àrea de notificació.\n\nEstàs segur que vols eixir d'aMSN?
 closeothers Tancar les altres pestanyes
 closingdocks Botó de tancar minimitza la finestra
 color Color
 command Ordre
 commandstatus Executar ordre
+compactstyle Estil Compacte
 configure Configurar
 configuremic Configurant el teu micròfon
 configureplugin Configurar plug-in $1
@@ -208,13 +212,13 @@ confirmdelete Segur que vols esborrar a $1?
 confirmdg Segur que vols eliminar este grup?
 confirmdu Segur que vols eliminar este usuari?
 confirmeg Segur que vols buidar este grup?
-confirmfulldelete Eliminar a més de l'agenda de contactes de Windows Live
+confirmfulldelete A més, eliminar de l'agenda de contactes de Windows Live
 confirm Estàs segur?
 confirmpurge Totes les imatges de mostra d'altres contactes (no les teues) seran esborrades. Estàs segur?
 confirmrfl Segur que vols eliminar este usuari d'este grup?
 congrats Felicitats
 connected Ara estàs connectat
-connectedat Conectat en
+connectedat Connectat en
 connectedwith Connectat amb $1
 connecterror Error connectant-se al servidor
 connectfirst Per favor, connectat primer
@@ -226,6 +230,7 @@ contact Contacte
 contactdoesnotexist El contacte no existix!
 contactlist Llista de contactes (LC):
 contacts Contactes
+contentroamingsetting Emmagatzemar imatge per a mostrar en el servidor
 continuously Contínuament
 contrast Contrast
 conversationwith $1 usuaris en la conversa
@@ -331,6 +336,7 @@ enabled Activat
 enableproxy Activar proxy
 enableremote Activar control remot
 enablesound Reproduir sons
+enablespaces Habilitar el suport dels Espais de Windows Live (EXPERIMENTAL)
 encoding2 Canvia la forma amb la qual es codifiquen els caràcters
 encoding Codificació de caràcters
 enterbugdesc Escriu una descripció del que estàves fent per a ajudar-nos a reproduir l'errada:
@@ -349,6 +355,9 @@ faileddelete No s'ha pogut esborrar
 faileddeleteperso Esta imatge no es pot esborrar perquè no és una imatge personal per a mostrar. Només les imatges que pertanyen al teu perfil personal poden ser eliminades aixina.
 failed Fallit
 faq Preguntes més freqüents (FAQ)
+farsightextchecking Comprovant si la extensió Farsight està carregada...
+farsightextwarn No pots realitzar cridades SIP. Pots trobar respostes de com instal·lar el Farsight al nostre Wiki:
+farsightinfook El Farsight és un framework per a tractar amb els protocols de conferències d'àudio/vídeo. Amb el Farsight es poden enviar o rebre cridades SIP dins de l'aMSN! Fes una mirada al Farsight al nostre Wiki:
 fetching Obtenint dades...
 file Arxiu
 filedoesnotexist L'arxiu no existix
@@ -393,7 +402,7 @@ ftrejected Transferència d'arxiu cancel·lada
 ftsendinvitation La invitació per a transferir l'arxiu '$2' ($3 bytes) s'ha enviat a $1.
 fullcontactlist La teua llista de contactes està plena. Necessitarà eliminar algun contacte per a poder afegir-ne nous.
 gameaccepted $1 ha acceptat la invitació al joc
-gameclosedbyother $1 ha cancel·lat la sessió de joc amb tú.
+gameclosedbyother $1 ha cancel·lat la sessió de joc amb tu.
 gameclosedbyself Has cancel·lat la sessió de joc amb $1.
 gameinvitation $1 t'ha convidat a jugar a $2. Vols acceptar la invitació?
 gamepluginnotfound $1 t'ha convidat a jugar a $2 però no hi ha cap plug-in carregat per a este joc. Per favor, activa i configura este plug-in primer.
@@ -431,6 +440,7 @@ havenomic No tinc micròfon
 help Ajuda
 helpcontents Temes d'ajuda
 hidebuttonbar Ocultar la barra de ferramentes
+hidedetails Oculta els detalls
 hidedisplaypic Ocultar la imatge de mostra
 hidemenumessage Segur que vols amagar els menús?\nPots recuperar-hos en qualsevol moment amb la combinació Ctrl-M de mostrar/amagar menús.
 hidemenu Mostra/Amaga menus
@@ -589,6 +599,7 @@ next Següent
 nick Sobrenom
 nickchanged $1 ha canviat el seu sobrenom a '$2'
 no No
+no_blocked_notif No mostrar finestres d'avís per a contactes sense admissió
 noactivity Inactivitat
 nocacheddps Cap imatge de mostra en caché per a este usuari
 nocamwarn No s'ha trobat cap càmera web, el problema pot ser també perquè la teua càmera web ja està sent utilitzada per un altre programa (la qual cosa significa que no pot ser utilitzada per aMSN). Trobaràs ajuda per solucionar este obstacle al nostre Wiki:
@@ -597,6 +608,7 @@ nodevices No hi ha dispositius instal·lats
 noftpreview Desactiva l'enviament de la previsualització en les transferències de fixers.
 nogap Sense espai entre els grups
 nogroup Sense grup
+nojavascript No tens javascript activat. Pot ser que no funcione l'inici de sessió automàtic.
 nologfile No hi ha arxiu de registre per a $1
 nomic No hi ha micròfon
 noneavailable Cap disponible
@@ -655,6 +667,7 @@ others Altres
 p4contextprefix Prefixar remitents en P4-Context en esta cadena de caràcters
 pager Paginador
 pass Contrasenya
+passportnotverified El teu compte passport ha de ser verificat abans de que pugues canviar la teua informació personal (com el teu sobrenom). Per favor, comprova a la teua safata d'entrada que hages rebut un missatge d'activació.
 paste Pegar
 pausedwebcamreceive L'altre usuari ha pausat la càmera web  
 pause Pausa
@@ -692,6 +705,8 @@ preffont4 Canvia la manera en què veig el text dels altres en sessions de conver
 preffont Text dels meus missatges
 prefft Transferències d'arxius, P2P i configuració de NAT
 preflibs Directoris de llibreries
+preflocale Ajustaments de l'idioma
+preflocale2 Selecciona el teu idioma/codi del país
 preflog1 Les meues opcions d'Historial i registres
 preflogevent El meu historial d'events
 preflook Apariència del meu aMSN Messenger
@@ -743,9 +758,11 @@ recentmsg Previndre el tancament de la finestra de conversa quan un missatge aca
 reconnect2 Reconnectar en perdre la connexió
 reconnect Esperant que $1 es reconnecte
 reconnecting Reconnectant al servidor
+reconnectnow Reconnectar ara
 record Enregistra
 recorderror S'ha produït un error quan s'intentava gravar el so : $1
 recvwebcamaccepted $1 ha acceptat la teua invitació a vore la seua càmera web. Connectant...
+redirect Polsa ací per a ser redirigit
 reject Denegar
 rememberaccount Recorda el meu compte
 rememberpass Recordar contrasenya
@@ -804,6 +821,7 @@ server Servidor
 serverunavailable El servidor no es troba disponible
 session Sessió
 setasmydp Establir com la meua imatge de mostra
+setbackinitialstate Has ajustat l'aMSN per connectar-se com $1, però ara eres $2. Estàs segur de que vols tornar a ajustar el teu estat a $1 ?
 setupcam Engegant el teu dispositiu de càmera web
 setupcamfinetune Engegant el teu dispositiu de càmera web i imatge per a ajustament fi
 shareswebcam Compartix la càmera web
@@ -813,6 +831,8 @@ showcachedpics Mostrar imatges de mostra guardades
 show_contactdps_in_cl Mostrar miniatures dels avatars dels contactes en la llista
 showcontactemail Mostra el correu dels contactes
 showcontactnick Mostra el sobrenom dels contactes
+showdetailedview Mostrar la vista detallada dels contactes
+showdetails Mostrar els detalls
 showdisplaypic2 Vore la imatge de mostra predeterminada quan s'obri una finestra de conversa
 showdisplaypic Vore imatge de mostra
 showlinksinlogin Mostra enllaços en la finestra de connexió
@@ -820,6 +840,7 @@ showmailicon Mostrar un icon en l'àrea de notificació en arribar correu nou
 showmypic La meua imatge de mostra
 shownonim Mostrar contactes sense messenger
 shownotify Mostrar finestra d'avís al produïr-se diferents events
+showofflinegroup Mostrar el grup "Desconnectats"
 showonedpframe En les finestres de conversa mostrar un únic marc per a imatges de mostra
 showpicnotify Mostrar les imatges dels usuaris en les finestres d'alerta
 showspaces Mostrar l'icon d'espais en la lista de contactes
@@ -865,6 +886,7 @@ sortcontactgroup Ordena contactes per grup
 sortcontacthybrid Ordena contactes en mode mixt
 sortcontactsasc Ordena els contactes ascendentment
 sortcontactsby Ordena els contactes per
+sortcontactsbylogsize Ordena els contactes per la mida de l'historial
 sortcontactsdesc Ordena els contactes descendentment
 sortcontactstatus Ordena contactes per estat
 sortgroupsasc Ordena ascendentment els grups
@@ -911,6 +933,7 @@ stylehist apariència de l'historial de aMSN
 stylelog Tria l'estil en el que vols vore l'historial
 subject Assumpte
 subjectrequired Assumpte requerit
+svnversion Versió SVN
 syntaxerror Error de sintaxi
 tabbed Finestres amb pestanyes
 tabbedglobal Una finestra amb pestanyes per a tots els contactes
@@ -994,8 +1017,11 @@ webcamhistory Vore les sessions de càmera web
 webcamhistory2 Sessions de càmera web
 webcaminvite $1 t'ha convidat a iniciar una conversa amb càmera web però aMSN encara no ho suporta.
 webcaminvitereceived $1 t'ha convidat a iniciar una sessió de càmera web. Vols acceptar esta sessió?
+webcaminvitereceivedauto $1 t'ha convidat a iniciar una sessió de càmera web. Esta sessió s'accepta automàticament.
 webcaminvitereceiving Estàs convidat a vore la càmera web de $1. Estàs d'acord?
+webcaminvitereceivingauto Estàs convidat a vore la càmera web de $1. Esta sessió s'accepta automàticament.
 webcaminvitesending $1 voldria vore la teua càmera web. Vols acceptar esta sessió?
+webcaminvitesendingauto $1 voldria vore la teua càmera web. Esta sessió s'accepta automàticament.
 webcamrejected $1 ha rebutjat la invitació per a iniciar una sessió de càmera web
 webcamrequestreceive Enviar petició per a vore la seua càmera web
 webcamrequestsend Enviar invitació per a vore la teua càmera web
