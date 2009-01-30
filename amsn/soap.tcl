@@ -136,12 +136,12 @@ snit::type SOAPRequest {
 				catch {puts $fd [xml2prettyxml $xml]}
 				catch {close $fd}
 			}
+			incr ttl
 			if { $options(-callback) == "" && $redirected } {
 				tkwait variable [myvar wait]
 			}
 		}
 
-		incr ttl
 		return $self
 	}
 
