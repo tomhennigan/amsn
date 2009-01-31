@@ -981,7 +981,7 @@ namespace eval ::guiContactList {
 		return $linewidth
 	}
 
-	proc renderContact { canvas main_tag maxwidth text } {
+	proc renderContact { canvas main_tag maxwidth text detailed_view} {
 		set defaultcolour #000000
 		set defaultfont splainf
 		set defaultellips ""
@@ -1116,11 +1116,9 @@ namespace eval ::guiContactList {
 		set yori [expr {[lindex $linesheight 0]/2}]
 		set yposimage $yori
 		
-		if {[::config::getKey show_detailed_view] && [::config::getKey show_contactdps_in_cl] &&  $canvas ne ".main.f.top.mystatus"} {
-			set show_detailed_view 1
+		if {$detailed_view} {
 			set ypos [expr {-1 * $yori}]
 		} else {
-			set show_detailed_view 0
 			set ypos $yori
 		}
 
@@ -1858,7 +1856,7 @@ namespace eval ::guiContactList {
 		#---------------#
 
 	#	trimInfo stylestring
-		set renderInfo [renderContact $canvas [list $tag "contact"] $maxwidth $stylestring]
+		set renderInfo [renderContact $canvas [list $tag "contact"] $maxwidth $stylestring $show_detailed_view]
 		array set underlinst $renderInfo
 
 

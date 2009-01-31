@@ -3054,7 +3054,7 @@ namespace eval ::amsn {
 				lappend lst [list text " ($user_login)"]
 			}
 			lappend lst [list tag -list_choose]
-			::guiContactList::renderContact $w $tag 1000 $lst
+			::guiContactList::renderContact $w $tag 1000 $lst 0
 			$w bind $tag <Button-1> [list ::amsn::listChooseSelect $w $tag]
 			$w bind $tag <Double-Button-1> [list ::amsn::listChooseOk $window $tag $command 0]
 		}
@@ -3063,9 +3063,9 @@ namespace eval ::amsn {
 		
 		foreach element $itemlist {
 			set tag [lindex $element 1]
-			set pos [$w bbox $tag] ;#x1 y1 x2 y2
-			incr y [expr {([lindex $pos 1] * -1) + 2}]
+			set pos [$w bbox $tag]
 			$w move $tag 0 $y
+			incr y [expr {[lindex $pos 3] + 2}]
 		}
 
 		$w configure -scrollregion [list 0 0 0 $y]
@@ -6454,7 +6454,7 @@ proc drawNick { } {
 	}
 
 	::guiContactList::trimInfo stylestring
-	set renderInfo [::guiContactList::renderContact $pgBuddyTop.mystatus "all" $maxw $stylestring]
+	set renderInfo [::guiContactList::renderContact $pgBuddyTop.mystatus "all" $maxw $stylestring 0]
 	array set underlinst $renderInfo
 	
 	set balloon_message [list "[string map {"%" "%%"} [::abook::removeStyles $my_name]]" \
