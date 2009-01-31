@@ -1837,7 +1837,7 @@ namespace eval ::CAMGUI {
 		catch {::Webcamsn::Decode $decoder $img $data}
 		if { [winfo exists $window] && [winfo toplevel $window] != $window } {
 			catch {::picture::Resize $img 160 120}
-                } elseif { ![winfo exists window] && ![OnDarwin] } {
+                } elseif { ![winfo exists $window] && ![OnDarwin] } {
                         ::MSNCAM::CancelCam $chatid $sid
                 }
 
@@ -2100,7 +2100,7 @@ namespace eval ::CAMGUI {
 		} 
                 if { [winfo exists $window] && [winfo toplevel $window] != $window } {
                         catch {::picture::Resize $img 160 120}
-                } elseif { ![winfo exists window] && ![OnDarwin] } {
+                } elseif { ![winfo exists $window] && ![OnDarwin] } {
 			::MSNCAM::CancelCam $chatid $sid
 		}
 
