@@ -2819,7 +2819,8 @@ namespace eval ::amsn {
 	proc ShowInviteList { title win_name } {
 
 		set userlist [list]
-		set chatusers [::MSN::usersInChat [::ChatWindow::Name $win_name]]
+		set chatid [::ChatWindow::Name $win_name]
+		set chatusers [::MSN::usersInChat $chatid]
 
 		foreach user_login [::MSN::sortedContactList] {
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
@@ -2834,12 +2835,10 @@ namespace eval ::amsn {
 			}
 		}
 
-		set chatid [::ChatWindow::Name $win_name]
-
 		if { [llength $userlist] > 0 } {
-			::amsn::listChoose $title $userlist "::amsn::queueinviteUser [::ChatWindow::Name $win_name]" 1 0
+			::amsn::listChoose $title $userlist "::amsn::queueinviteUser $chatid" 1 0
 		} else {
-			cmsn_draw_otherwindow $title "::amsn::queueinviteUser [::ChatWindow::Name $win_name]"
+			cmsn_draw_otherwindow $title "::amsn::queueinviteUser $chatid"
 		}
 	}
 
