@@ -763,7 +763,7 @@ namespace eval ::ChatWindow {
 
 		set new_window 0
 
-		if { [::MSN::usersInChat $chatid] == $chatid } {
+		if { [::MSN::usersInChat $chatid] == $chatid && $usr_name == "" } {
 			set usr_name $chatid
 		}
 
