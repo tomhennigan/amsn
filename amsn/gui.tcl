@@ -4186,11 +4186,6 @@ namespace eval ::amsn {
 		variable NotifPos [list]
 	}
 
-	proc closeAmsnMac {} {
-		set answer [::amsn::messageBox [trans exitamsn] yesno question [trans title]]
-		if { $answer == "yes"} { exit }
-	}
-
 	###
 	### $closingdocks: 0 / unexistant = ask
 	###                1 = dock
@@ -5061,7 +5056,9 @@ proc cmsn_draw_main {} {
 
 	#Set the wm close button action
 	if { [OnMac] } {
-		wm protocol . WM_DELETE_WINDOW { ::amsn::closeAmsnMac }
+		# Default behaviour on OS X is to hide the main window, and open again when the dock icon is clicked.
+		proc ::tk::mac::ReopenApplication {} { wm state . normal }
+		wm protocol . WM_DELETE_WINDOW { wm state . withdrawn }
 	} else {
 		wm protocol . WM_DELETE_WINDOW {::amsn::closeOrDock [::config::getKey closingdocks]}
 	}
