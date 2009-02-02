@@ -5056,6 +5056,7 @@ proc cmsn_draw_main {} {
 
 	#Set the wm close button action
 	if { [OnMac] } {
+		bind . <$modifier-w> { wm state . withdrawn }
 		# Default behaviour on OS X is to hide the main window, and open again when the dock icon is clicked.
 		proc ::tk::mac::ReopenApplication {} { wm state . normal }
 		wm protocol . WM_DELETE_WINDOW { wm state . withdrawn }
