@@ -1675,7 +1675,15 @@ snit::type Farsight {
 			if {$candidate_id != "" &&
 			    $password != "" &&
 			    $transport == "UDP"} {
-				lappend remote_candidates $candidate
+				if {[string length [base64::decode $candidate_id]] != 32 &&
+				    [string range $candidate_id end end] != "="} {
+					append candidate_id "="
+				}
+				if {[string length [base64::decode $password]] != 16 &&
+				    [string range $password end end] != "="} {
+					append password "=="
+				}
+				lappend remote_candidates [list $candidate_id $component_id $password $transport $qvalue $ip $port]
 			}
 		}
 		
