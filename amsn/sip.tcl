@@ -40,14 +40,14 @@ snit::type SIPConnection {
 	variable timeout_afterid
 
 	constructor { args } {
+		install socket using SIPSocket %AUTO%
 		$self configurelist $args
 
-		if {$options(-socket) == ""} {
-			install socket using SIPSocket %AUTO% -sipconnection $self
-		} else {
+		if {$options(-socket) != ""} {
+			$socket destroy
 			set socket $options(-socket)
-			$socket configure -sipconnection $self
 		}
+		$socket configure -sipconnection $self
 
 		if {$options(-tunneled) } {
 			set options(-registered_host) ""
@@ -1002,11 +1002,6 @@ snit::type SIPConnection {
 
 
 
-
-###########################################
-#  SIPSocket is a socket wrapper for SIP  #
-###########################################
-
 snit::type TURN {
 	option -user -default ""
 	option -password -default ""
@@ -1184,7 +1179,7 @@ snit::type TURN {
 	method Send { data } {
 		status_log "TURN: Sending [hexify $data]"
 		if {[catch {puts -nonewline $sock $data} res] } {
-			status_log "SIPSocket : Unable to send data : $res"
+			status_log "TURN : Unable to send data : $res"
 			$self Disconnect
 			return 0
 		} else {
@@ -1431,7 +1426,7 @@ snit::type SIPSocket {
 	option -proxy_authenticate -default 0
 	option -proxy_user -default ""
 	option -proxy_password -default ""
-	option -sipconnection
+	option -sipconnection -default ""
 
 	variable sock ""
 	variable state "NONE"
@@ -1449,7 +1444,9 @@ snit::type SIPSocket {
 	method Disconnect { } {
 		catch {close $sock}
 		set sock ""
-		$options(-sipconnection) Disconnected
+		if {$options(-sipconnection) != "" } {
+			$options(-sipconnection) Disconnected
+		}
 		set state "NONE"
 	}
 
