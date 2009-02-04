@@ -1464,7 +1464,7 @@ namespace eval ::MSN {
 	#define CapabilityRendersIsf 0x00000008
 	#define CapabilityWebCamDetected 0x00000010
 	#define CapabilitySupportsChunking 0x00000020
-	#define IsMobileEnabled 0x00000040
+	#define CapabilityWebIMClient 0x00000040
 	#// FIXME: the canonical meaning of 0x00000080 is missing
 	#define CapabilityWebIMClient 0x00000200
 	#define CapabiltiyConnectedViaTGW 0x00000800
@@ -1477,6 +1477,7 @@ namespace eval ::MSN {
 	#define CapabilitySupportsVoiceIM 0x00040000
 	#define CapabilitySupportsSChannel 0x00080000
 	#define CapabilitySupportsSipInvite 0x00100000
+	#define CapabilitySupportsTunneledSip 0x00100000
 	#define CapabilitySupportsSDrive 0x00400000
 	#define CapabilityHasOnecare 0x01000000
 	#define CapabilityP2PSupportsTurn 0x02000000
@@ -1506,9 +1507,9 @@ namespace eval ::MSN {
 				voice  { set clientid [expr {$clientid | 0x040000} ] }
 				secure { set clientid [expr {$clientid | 0x080000} ] }
 				sip    { set clientid [expr {$clientid | 0x100000} ] }
-				unknown1    { set clientid [expr {$clientid | 0x200000} ] }
+				tunnelsip { set clientid [expr {$clientid | 0x200000} ] }
 				shared { set clientid [expr {$clientid | 0x400000} ] }
-				unknown2    { set clientid [expr {$clientid | 0x02000000} ] }
+				rtcvideo    { set clientid [expr {$clientid | 0x02000000} ] }
 				uun    { set clientid [expr {$clientid | 0x04000000} ] }
 				msnc1  { set clientid [expr {$clientid | 0x10000000} ] }
 				msnc2  { set clientid [expr {$clientid | 0x20000000} ] }
@@ -1541,9 +1542,9 @@ namespace eval ::MSN {
 				voice  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x040000)} ] }
 				secure { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x080000)} ] }
 				sip    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x100000)} ] }
-				unknown1    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x200000)} ] }
+				tunnelsip { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x200000)} ] }
 				shared { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x400000)} ] }
-				unknown2    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x01000000)} ] }
+				rtcvideo { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x01000000)} ] }
 				uun    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x04000000)} ] }
 				msnc1  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x10000000)} ] }
 				msnc2  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x20000000)} ] }
@@ -4358,6 +4359,10 @@ namespace eval ::MSNOIM {
 			}
 			11 {
 				# Unknown "1 1 5 134546710 0" prior to SIP invite...
+			}
+			12 {
+				# Tunneled SIP INVITE
+				::MSNSIP::ReceivedTunneledSIP [lindex $command 1] $message
 			}
 		}
 	}

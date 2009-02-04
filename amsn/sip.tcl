@@ -15,6 +15,9 @@ snit::type SIPConnection {
 	option -remote_codecs -default ""
 	option -remote_candidates -default ""
 	option -active_candidates -default ""
+	option -tunneled -default 0
+	option -socket -default  ""
+
 
 	delegate option {-host -port -transport
 		-proxy -proxy_host -proxy_port
@@ -37,10 +40,20 @@ snit::type SIPConnection {
 	variable timeout_afterid
 
 	constructor { args } {
-		install socket using SIPSocket %AUTO% -sipconnection $self
 		$self configurelist $args
 
-		set options(-registered_host) [$socket cget -host]
+		if {$options(-socket) == ""} {
+			install socket using SIPSocket %AUTO% -sipconnection $self
+		} else {
+			set socket $options(-socket)
+			$socket configure -sipconnection $self
+		}
+
+		if {$options(-tunneled) } {
+			set options(-registered_host) ""
+		} else {
+			set options(-registered_host) [$socket cget -host]
+		}
 
 		array set compact_form [list "call-id" "i" \
 					    "contact" "m" \
@@ -155,11 +168,13 @@ snit::type SIPConnection {
 	}
 
 	method KeepAlive { } {
-		status_log "SIP Keepalive" green
-		if { [$socket Send "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"] } {
-			after 20000 [list $self KeepAlive]
-		} else {
-			$self Disconnect
+		if {$options(-tunneled) == 0} {
+			status_log "SIP Keepalive" green
+			if { [$socket Send "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"] } {
+				after 20000 [list $self KeepAlive]
+			} else {
+				$self Disconnect
+			}
 		}
 
 	}
@@ -244,6 +259,9 @@ snit::type SIPConnection {
 	########################################
 
 	method Register { {callbk ""} } {
+		if {$options(-tunneled)} {
+			set state "REGISTERED"
+		}
 		$self Connect
 
 		status_log "SIP : Registering : $state"
@@ -312,6 +330,10 @@ snit::type SIPConnection {
 
 
 	method Unregister { } {
+		if {$options(-tunneled)} {
+			return
+		}
+
 		status_log "SIP : Unregistering"
 
 		set auth "$options(-user):$options(-password)"
@@ -682,7 +704,7 @@ snit::type SIPConnection {
 		}
 
 		set msg "$request sip:$uri SIP/2.0\r\n"
-		append msg "v: SIP/2.0/TLS [lindex $sockname 0]:[lindex $sockname 2]\r\n"
+		append msg "v: SIP/2.0/[string toupper [$socket cget -transport]] [lindex $sockname 0]:[lindex $sockname 2]\r\n"
 		append msg "Max-Forwards: 70\r\n"
 		# Switch the from/to only if we send a new invite of an existing
 		# call, where we were the original recipient..
@@ -698,10 +720,10 @@ snit::type SIPConnection {
 		append msg "CSeq: $cseq $request\r\n"
 		if {$request == "REGISTER"} {
 			append msg "m: <sip:[lindex $sockname 0]:[lindex $sockname 2];"
-			append msg "transport=tls>;proxy=replace\r\n"
+			append msg "transport=[$socket cget -transport]>;proxy=replace\r\n"
 		} elseif { $request == "INVITE" } {
 			append msg "m: \"0\" <sip:$options(-user):[lindex $sockname 2];"
-			append msg "maddr=[lindex $sockname 0];transport=tls>;proxy=replace\r\n"
+			append msg "maddr=[lindex $sockname 0];transport=[$socket cget -transport]>;proxy=replace\r\n"
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
 		if {$new_request} {
@@ -739,7 +761,7 @@ snit::type SIPConnection {
 		append msg "CSeq: $call_cseq($callid) $request\r\n"
 		if {$request == "INVITE" && $status == 200} {
 			append msg "m: \"0\" <sip:$options(-user):[lindex $sockname 2];"
-			append msg "maddr=[lindex $sockname 0];transport=tls>;proxy=replace\r\n"
+			append msg "maddr=[lindex $sockname 0];transport=[$socket cget -transport]>;proxy=replace\r\n"
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
 
@@ -1603,6 +1625,69 @@ snit::type SIPSocket {
 }
 
 
+
+snit::type TunneledSIPSocket {
+	option -sipconnection
+	option -destination
+	option -transport -default "tcp"
+
+	variable call_ids [list]
+
+	destructor {
+		foreach cid $call_ids {
+			::MSNSIP::TunneledSIPDestroyed $cid
+		}
+	}
+	method Disconnect { } {
+	}
+
+	method IsConnected { } {
+		return 1
+	}
+
+
+	method Connect {} {
+		return 1
+	}
+
+	method Send { data } {
+		set call_id [$options(-sipconnection) GetHeader $data "Call-ID"]
+
+		if {[lsearch $call_ids $call_id] == -1 } {
+			lappend call_ids $call_id
+			::MSNSIP::TunneledSIPCreated $call_id $self
+		}
+
+		set msg "<sip e=\"base64\" fid=\"0\" i=\"$call_id\"><msg>[base64::encode $data]</msg></sip>"
+		set msg [string map {"\n" "\r\n"} [string map {"\r\n" "\n"} $msg]]
+
+		degt_protocol "-->SIP (Tunneled) $data"
+		::MSN::WriteSBNoNL ns "UUN" "$options(-destination) 12 [string length $msg]\r\n$msg"
+		return 1
+	}
+
+	method GotData { data } {
+		set xml [xml2list $data]
+		set msg [base64::decode [GetXmlEntry $xml "sip:msg"]]
+		set idx [string first "\r\n\r\n" $msg]
+		set head [string range $msg 0 [expr {$idx - 1}]]
+		set body [string range $msg [expr {$idx + 4}] end]
+		set idx [string first "\r\n" $head]
+		set status [string range $head 0 [expr {$idx - 1}]]
+		set headers [string range $head [expr {$idx + 2}] end]
+
+		degt_protocol "<--SIP (Tunneled) $status\n$headers\n\n$body"
+		$options(-sipconnection) HandleMessage $status $headers $body
+	}
+
+	method GetInfo { } {
+		return "127.0.0.1 kakaroto 12345"
+		#"[lindex [fconfigure [ns cget -sock] -sockname] 2]"
+	}
+}
+
+
+
 snit::type Farsight {
 	variable loaded 0
 	variable local_codecs [list]
@@ -1735,7 +1820,7 @@ snit::type Farsight {
 	}
 
 	method Prepare { controlling } {
-		if {[info exists ::sso] } {
+		if {[info exists ::sso] && $::sso != ""} {
 			set prepare_ticket ""
 			$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
 			if {$prepare_ticket == "" } {
@@ -1877,9 +1962,10 @@ snit::type Farsight {
 }
 
 namespace eval ::MSNSIP {
-	namespace export ReceivedInvite InviteUser AcceptInvite DeclineInvite HangUp CancelCall
+	namespace export ReceivedTunneledSIP ReceivedInvite InviteUser AcceptInvite DeclineInvite HangUp CancelCall
 
 	variable sipconnections [list]
+	variable tunneled_sips [list]
 
 	proc createSIP {callbk {host "vp.sip.messenger.msn.com"}} {
 		$::sso RequireSecurityToken MessengerSecure [list ::MSNSIP::createSIPSSOCB $callbk $host]
@@ -1924,6 +2010,57 @@ namespace eval ::MSNSIP {
 		}
 	}
 
+	proc GetTunneledSIP { cid } {
+		variable tunneled_sips
+		
+		for {set i 0 } {$i < [llength $tunneled_sips] } {incr i} {
+			set v [lindex $tunneled_sips $i]
+			if {[lindex $v 0] == $cid} {
+				return [lindex $v 1]
+			}
+		}
+		return ""
+	}
+	proc TunneledSIPDestroyed { cid } {
+		variable tunneled_sips
+
+		for {set i 0 } {$i < [llength $tunneled_sips] } {incr i} {
+			set v [lindex $tunneled_sips $i]
+			if {[lindex $v 0] == $cid} {
+				set tunneled_sips [lreplace $tunneled_sips $i $i]
+				return
+			}
+		}
+	}
+
+	proc TunneledSIPCreated { cid sip } {
+		variable tunneled_sips
+
+		lappend tunneled_sips [list $cid $sip]
+	}
+
+	proc ReceivedTunneledSIP { from msg } {
+		variable sipconnections
+
+		status_log "Got Tunneled SIP invite from $from"
+		set cid [GetXmlAttribute [xml2list $msg] "sip" "i"]
+		set sock ""
+		if {$cid != "" } {
+			set sock [GetTunneledSIP $cid]
+		} else {
+			status_log "NO CID FOUND!" red
+		}
+
+		if {$sock == "" } {
+			set sock [TunneledSIPSocket create %AUTO% -destination $from]
+			set sip [SIPConnection create %AUTO% -user [::config::getKey login] -tunneled 1 -socket $sock]
+			$sip configure -error_handler [list ::MSNSIP::errorSIP $sip] -request_handler [list ::MSNSIP::requestSIP $sip]
+			lappend sipconnections $sip
+			status_log "MSNSIP : SIP connection created : $sip"
+		}
+		$sock GotData $msg
+	}
+
 	proc ReceivedInvite { ip } {
 		variable sipconnections
 
@@ -1946,11 +2083,20 @@ namespace eval ::MSNSIP {
 	}
 
 	proc InviteUser { email } {
+		variable sipconnections
+
 		status_log "MSNSIP : Inviting user $email to a SIP call"
 		if {[$::farsight IsInUse] } {
 			# Signal the UI
 			::amsn::SIPCallYouAreBusy $email
 			return "BUSY"
+		} elseif {[::abook::getContactData $email clientid] & [expr 0x200000]} {
+			status_log "Sending Tunneled SIP invite to $email"
+			set sock [TunneledSIPSocket create %AUTO% -destination $email]
+			set sip [SIPConnection create %AUTO% -user [::config::getKey login] -tunneled 1 -socket $sock]
+			$sip configure -error_handler [list ::MSNSIP::errorSIP $sip] -request_handler [list ::MSNSIP::requestSIP $sip]
+			lappend sipconnections $sip
+			InviteUserCB $email $sip
 		} else {
 			createSIP [list ::MSNSIP::InviteUserCB $email]
 		}
@@ -2191,8 +2337,10 @@ namespace eval ::MSNSIP {
 
 
 	proc FarsightTestFailed { callbk } {
-		if { ([::config::getKey clientid 0] & 0x100000) != 0 } {
+		if { ([::config::getKey clientid 0] & 0x100000) != 0 ||
+		     ([::config::getKey clientid 0] & 0x200000) != 0 } {
 			::MSN::setClientCap sip 0
+			::MSN::setClientCap tunnelsip 0
 			if {[::MSN::myStatusIs] != "FLN" } {
 				::MSN::changeStatus [::MSN::myStatusIs]
 			}
@@ -2207,9 +2355,19 @@ namespace eval ::MSNSIP {
 	}
 
 	proc FarsightTestSucceeded { callbk } {
+		set changed 0
 		if { [::config::getKey protocol] >= 15 &&
-		     ([::config::getKey clientid 0] & 0x100000) == 0 } {
+		     ([::config::getKey clientid 0] & 0x100000) == 0} {
 			::MSN::setClientCap sip
+			set changed 1
+		}
+		if { [::config::getKey protocol] >= 16 &&
+		     ([::config::getKey clientid 0] & 0x200000) == 0 } {
+			::MSN::setClientCap tunnelsip
+			set changed 1
+		}
+		
+		if {$changed } {
 			if {[::MSN::myStatusIs] != "FLN" } {
 				::MSN::changeStatus [::MSN::myStatusIs]
 			}
@@ -2241,9 +2399,19 @@ namespace eval ::MSNSIP {
 				::MSNSIP::FarsightTestFailed $callbk
 			} ;# else let the callbacks act
 		} else {
+			set changed 0
 			if { [::config::getKey protocol] >= 15 &&
-			     ([::config::getKey clientid 0] & 0x100000) == 0 } {
+			     ([::config::getKey clientid 0] & 0x100000) == 0} {
 				::MSN::setClientCap sip
+				set changed 1
+			}
+			if { [::config::getKey protocol] >= 16 &&
+			     ([::config::getKey clientid 0] & 0x200000) == 0 } {
+				::MSN::setClientCap tunnelsip
+				set changed 1
+			}
+
+			if {$changed } {
 				if {[::MSN::myStatusIs] != "FLN" } {
 					::MSN::changeStatus [::MSN::myStatusIs]
 				}
