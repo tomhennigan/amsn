@@ -973,6 +973,7 @@ unblock Unblock
 unknown Unknown
 unload Unload
 unselectall Unselect all
+unvailablecountryserver The server for your country is temporarily unavailable. Try again later. You may also fix this issue by changing the country setting on your passport account on http://www.passport.net .
 uoffline Offline
 uonline Online
 updateonlycurrentlanguage Update only the current language

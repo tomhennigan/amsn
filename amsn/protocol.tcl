@@ -6523,6 +6523,10 @@ proc cmsn_ns_handler {item {message ""}} {
 			#status_log "Warning: Invalid group" red
 			msg_box "[trans invalidgroup]"
 		}
+		416 {
+			msg_box [trans unvailablecountryserver]
+			return 0
+		}
 		500 {
 			::config::setKey start_ns_server [::config::getKey default_ns_server]
 			::config::setKey start_gateway_server [::config::getKey default_gateway_server]
