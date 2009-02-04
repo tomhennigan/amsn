@@ -2090,7 +2090,8 @@ namespace eval ::MSNSIP {
 			# Signal the UI
 			::amsn::SIPCallYouAreBusy $email
 			return "BUSY"
-		} elseif {[::abook::getContactData $email clientid] & [expr 0x200000]} {
+		} elseif {[::config::getKey protocol] >= 16 &&
+			  [::abook::getContactData $email clientid] & [expr 0x200000]} {
 			status_log "Sending Tunneled SIP invite to $email"
 			set sock [TunneledSIPSocket create %AUTO% -destination $email]
 			set sip [SIPConnection create %AUTO% -user [::config::getKey login] -tunneled 1 -socket $sock]
