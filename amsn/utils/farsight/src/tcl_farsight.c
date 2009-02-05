@@ -999,10 +999,14 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstBus *bus = NULL;
   GstElement *src = NULL;
   GstPad *sinkpad = NULL, *srcpad = NULL;
+  GstPad *tempsink;
   GstElement *snk = NULL;
-  GstElement *convert = NULL;
-  GstElement *resample = NULL;
-  GstElement *convert2 = NULL;
+  GstElement *src_convert = NULL;
+  GstElement *src_resample = NULL;
+  GstElement *src_convert2 = NULL;
+  GstElement *sink_convert = NULL;
+  GstElement *sink_resample = NULL;
+  GstElement *sink_convert2 = NULL;
   GstElement *capsfilter = NULL;
   GstPadLinkReturn ret;
   gint state = 0;
@@ -1027,7 +1031,8 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   test_pipeline = gst_pipeline_new ("pipeline");
   if (test_pipeline == NULL) {
-    Tcl_AppendResult (interp, "Couldn't create gstreamer pipeline" , (char *) NULL);
+    Tcl_AppendResult (interp, "Couldn't create gstreamer pipeline" ,
+        (char *) NULL);
     goto error;
   }
 
@@ -1105,7 +1110,53 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
 
- no_source:
+  src_convert = gst_element_factory_make ("audioconvert", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), src_convert) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add src converter to pipeline",
+        (char *) NULL);
+    gst_object_unref (src_convert);
+    goto error;
+  }
+
+  src_resample = gst_element_factory_make ("audioresample", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), src_resample) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add src resampler to pipeline",
+        (char *) NULL);
+    gst_object_unref (src_resample);
+    goto error;
+  }
+
+  src_convert2 = gst_element_factory_make ("audioconvert", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), src_convert2) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add second src converter to pipeline",
+        (char *) NULL);
+    gst_object_unref (src_convert2);
+    goto error;
+  }
+
+  tempsink = gst_element_get_static_pad (src_convert, "sink");
+  if (gst_pad_link (srcpad, tempsink) != GST_PAD_LINK_OK) {
+    gst_object_unref (tempsink);
+    _notify_debug ("Couldn't link the src to converter");
+    gst_bin_remove (GST_BIN (test_pipeline), src_convert);
+    gst_object_unref (src_convert);
+    goto error;
+  }
+
+  gst_object_unref (srcpad);
+
+  if (gst_element_link(src_convert, src_resample) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link converter to resampler",
+        (char *) NULL);
+    goto error;
+  }
+  if (gst_element_link(src_resample, src_convert2) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link resampler to second converter",
+        (char *) NULL);
+    goto error;
+  }
+  srcpad = gst_element_get_static_pad (src_convert2, "src");
+
   capsfilter = gst_element_factory_make ("capsfilter", "capsfilter");
   if (capsfilter) {
     GstPad *caps_sink;
@@ -1136,6 +1187,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   } else {
     _notify_debug ("couldn't create capsfilter");
   }
+ no_source:
  no_capsfilter:
 
   snk = _create_sink ();
@@ -1154,27 +1206,27 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
-  convert = gst_element_factory_make ("audioconvert", NULL);
-  if (gst_bin_add (GST_BIN (test_pipeline), convert) == FALSE) {
+  sink_convert = gst_element_factory_make ("audioconvert", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), sink_convert) == FALSE) {
     Tcl_AppendResult (interp, "Could not add converter to pipeline",
         (char *) NULL);
-    gst_object_unref (convert);
+    gst_object_unref (sink_convert);
     goto error;
   }
 
-  resample = gst_element_factory_make ("audioresample", NULL);
-  if (gst_bin_add (GST_BIN (test_pipeline), resample) == FALSE) {
+  sink_resample = gst_element_factory_make ("audioresample", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), sink_resample) == FALSE) {
     Tcl_AppendResult (interp, "Could not add resampler to pipeline",
         (char *) NULL);
-    gst_object_unref (resample);
+    gst_object_unref (sink_resample);
     goto error;
   }
 
-  convert2 = gst_element_factory_make ("audioconvert", NULL);
-  if (gst_bin_add (GST_BIN (test_pipeline), convert2) == FALSE) {
+  sink_convert2 = gst_element_factory_make ("audioconvert", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), sink_convert2) == FALSE) {
     Tcl_AppendResult (interp, "Could not add second converter to pipeline",
         (char *) NULL);
-    gst_object_unref (convert2);
+    gst_object_unref (sink_convert2);
     goto error;
   }
 
@@ -1189,7 +1241,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       goto no_volume_out;
     }
 
-    if (gst_element_link(volumeOut, convert) == FALSE)  {
+    if (gst_element_link(volumeOut, sink_convert) == FALSE)  {
       _notify_debug ("Could not link volume out to converter");
       gst_bin_remove (GST_BIN (test_pipeline), volumeOut);
       gst_object_unref (volumeOut);
@@ -1200,7 +1252,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   } else {
     _notify_debug ("Couldn't create volume OUT elemnt");
   no_volume_out:
-    sinkpad = gst_element_get_static_pad (convert, "sink");
+    sinkpad = gst_element_get_static_pad (sink_convert, "sink");
   }
 
   ret = gst_pad_link (srcpad, sinkpad);
@@ -1213,12 +1265,12 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
-  if (gst_element_link(convert, resample) == FALSE)  {
+  if (gst_element_link(sink_convert, sink_resample) == FALSE)  {
     Tcl_AppendResult (interp, "Could not link converter to resampler",
         (char *) NULL);
     goto error;
   }
-  if (gst_element_link(resample, convert2) == FALSE)  {
+  if (gst_element_link(sink_resample, sink_convert2) == FALSE)  {
     Tcl_AppendResult (interp, "Could not link resampler to second converter",
         (char *) NULL);
     goto error;
@@ -1236,7 +1288,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
     g_object_set (G_OBJECT (levelOut), "message", TRUE, NULL);
 
-    if (gst_element_link(convert2, levelOut) == FALSE)  {
+    if (gst_element_link(sink_convert2, levelOut) == FALSE)  {
       _notify_debug ("Could not link level out to converter");
       gst_bin_remove (GST_BIN (test_pipeline), levelOut);
       gst_object_unref (levelOut);
@@ -1245,7 +1297,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
     if (gst_element_link(levelOut, snk) == FALSE)  {
       _notify_debug ("Could not link sink to level out");
-      gst_element_unlink(convert2, levelOut);
+      gst_element_unlink(sink_convert2, levelOut);
       gst_bin_remove (GST_BIN (test_pipeline), levelOut);
       gst_object_unref (levelOut);
       levelOut = NULL;
@@ -1254,7 +1306,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   } else {
     _notify_debug ("Could not create level out element");
   no_level_out:
-    if (gst_element_link(convert2, snk) == FALSE)  {
+    if (gst_element_link(sink_convert2, snk) == FALSE)  {
       Tcl_AppendResult (interp, "Could not link sink to converter",
           (char *) NULL);
       goto error;
@@ -1283,6 +1335,10 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstBus *bus = NULL;
   GstElement *src = NULL;
   GstPad *sinkpad = NULL, *srcpad = NULL;
+  GstPad *tempsink;
+  GstElement *src_convert = NULL;
+  GstElement *src_resample = NULL;
+  GstElement *src_convert2 = NULL;
   GParameter transmitter_params[6];
   int controlling;
   char *stun_ip = NULL;
@@ -1571,6 +1627,53 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     srcpad = gst_element_get_static_pad (levelIn, "src");
   }
  no_level:
+
+  src_convert = gst_element_factory_make ("audioconvert", NULL);
+  if (gst_bin_add (GST_BIN (pipeline), src_convert) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add src converter to pipeline",
+        (char *) NULL);
+    gst_object_unref (src_convert);
+    goto error;
+  }
+
+  src_resample = gst_element_factory_make ("audioresample", NULL);
+  if (gst_bin_add (GST_BIN (pipeline), src_resample) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add src resampler to pipeline",
+        (char *) NULL);
+    gst_object_unref (src_resample);
+    goto error;
+  }
+
+  src_convert2 = gst_element_factory_make ("audioconvert", NULL);
+  if (gst_bin_add (GST_BIN (pipeline), src_convert2) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add second src converter to pipeline",
+        (char *) NULL);
+    gst_object_unref (src_convert2);
+    goto error;
+  }
+
+  tempsink = gst_element_get_static_pad (src_convert, "sink");
+  if (gst_pad_link (srcpad, tempsink) != GST_PAD_LINK_OK) {
+    gst_object_unref (tempsink);
+    _notify_debug ("Couldn't link the src to converter");
+    gst_bin_remove (GST_BIN (pipeline), src_convert);
+    gst_object_unref (src_convert);
+    goto error;
+  }
+
+  gst_object_unref (srcpad);
+
+  if (gst_element_link(src_convert, src_resample) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link converter to resampler",
+        (char *) NULL);
+    goto error;
+  }
+  if (gst_element_link(src_resample, src_convert2) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link resampler to second converter",
+        (char *) NULL);
+    goto error;
+  }
+  srcpad = gst_element_get_static_pad (src_convert2, "src");
 
   if (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK) {
     gst_object_unref (sinkpad);

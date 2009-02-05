@@ -931,7 +931,6 @@ proc load_config {} {
 		::config::setKey protocol 15
 	}
 
-	# TODO : msnc7 support in clientid for MSNP12+.. remove if causes bugs.
 	if {[config::getKey protocol] >= 16} {
 		::MSN::setClientCap msnc10
 	} else {
