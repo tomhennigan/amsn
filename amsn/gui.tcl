@@ -7445,7 +7445,7 @@ proc msg_box {msg} { ::amsn::infoMsg "$msg" }
 
 #///////////////////////////////////////////////////////////////////////
 # launch_browser(url)
-# Launches the configured file manager
+# Launches the configured browser
 proc launch_browser { url {local 0}} {
 	if { ![regexp ^\[\[:alnum:\]\]+:// $url] && $local != 1 } {
 		set url "http://$url"

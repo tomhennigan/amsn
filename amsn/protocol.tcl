@@ -6524,7 +6524,7 @@ proc cmsn_ns_handler {item {message ""}} {
 			msg_box "[trans invalidgroup]"
 		}
 		416 {
-			msg_box [trans unvailablecountryserver]
+			msg_box [trans unavailablecountryserver]
 			return 0
 		}
 		500 {
