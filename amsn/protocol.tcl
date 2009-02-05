@@ -5240,7 +5240,8 @@ namespace eval ::MSNOIM {
 					set dest [string range $dest 0 [expr {$semic - 1}]]
 				}
 				if { [string compare -nocase $dest [::config::getKey login]] == 0 } {
-					if { $destid == "" || $destid == [::config::getGlobalKey machineguid] } {
+					if { $destid == "" ||
+					     [string compare -nocase $destid [::config::getGlobalKey machineguid]] == 0 } {
 						set p2pmessage [P2PMessage create %AUTO%]
 						if {[catch {$p2pmessage createFromMessage $message}] } {
 							status_log "ouch.. invalid data for p2p.. might be a WLM beta bug.."
@@ -5249,7 +5250,10 @@ namespace eval ::MSNOIM {
 							#status_log [$p2pmessage toString 1]
 						}
 						catch { $p2pmessage destroy }
-					}
+					} else {
+						status_log "Received an MSNP2P message not addressed to us... ignoring"
+                                        }
+
 				}
 			}
 
