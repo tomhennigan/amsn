@@ -3570,7 +3570,7 @@ namespace eval ::amsn {
 		} else {
 			array set lastchatwith [list $chatid $user]
 		}
-
+		
 		switch $chatstyle {
 			msn {
 				::config::setKey customchatstyle "\$tstamp [trans says \$nick]: \$newline"
@@ -3695,9 +3695,27 @@ namespace eval ::amsn {
 			}
 			WinWrite $chatid "" "says" $customfont 1 "" $parsing
 			
-	      } else {
-		    WinWrite $chatid "\n$customchat" "says" $customfont
-	      }
+		} else {
+			if {$chatstyle eq "compact"} {
+				if {$lastchat} {
+					if {$tstamp != ""} {
+						set customchat "$tstamp "
+					} else {
+						set customchat ""
+					}
+				} else {
+					if {$customchat ne ""} {
+						set pos [string first "\n" $customchat]
+						if {$pos > -1} {
+							incr pos
+							set customchat [string replace $customchat $pos $pos]
+						}
+						set customchat "\n$customchat "
+					}
+				}
+			}
+			WinWrite $chatid "\n$customchat" "says" $customfont
+		}
 
 	 	if { [info exists emoticons_for_this_chatid] } {
  			array set emotions $emoticons_for_this_chatid
