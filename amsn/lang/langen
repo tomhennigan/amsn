@@ -446,6 +446,7 @@ hidebuttonbar Hide Button Bar
 hidemenumessage Are you sure you want to hide the menus ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
 hidemenu Show/Hide menus
 hiden Hide the emoticon from the smileys menu
+hideuserscw Hide users in this chat window.
 hidewindow Hide Window
 history View History
 history2 History
@@ -845,6 +846,7 @@ showofflinegroup Show Offline Group
 showpicnotify Show users' pictures on notify windows
 showspaces Show Spaces icon in the contact list
 showuserpic $1's Display Picture
+showuserscw There are $1 users in this conversation. If you want to see or hide them click here.
 signinstatus Sign-in status
 signout Sign out
 signouthere Sign out from here ($1)

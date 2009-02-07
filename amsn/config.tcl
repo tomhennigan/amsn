@@ -320,6 +320,8 @@ namespace eval ::config {
 		::config::setKey show_detailed_view 0					;#allow to show detailed contact view in cl
 
 		::config::setKey ABPreferredHost "byrdr.omega.contacts.msn.com"
+		
+		::config::setKey hide_users_in_cw 1	;#in a multichat don't show users in the topcw
 
 
 		#Advanced options, not in preferences window

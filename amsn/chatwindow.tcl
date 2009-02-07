@@ -3321,11 +3321,54 @@ namespace eval ::ChatWindow {
 			font delete $f
 		}
 
-		set default_incr_y $incr_y
-
+		set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans to]:"] + 5}]
 		set Ycoord [lindex [$top coords text] 1]
+		#Calculate maximum string width
+		set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - [expr {int([lindex [$top coords text] 0])} ] } ]
+		
+		set default_incr_y $incr_y
+		set default_usrsX $usrsX
+		set default_maxw $maxw
+		
+		set firstline 1
 
+		if {[llength $user_list] > 3 && [::config::getKey hide_users_in_cw]} {
+			$top dchars txt 0 end
+			set len [llength $user_list]
+
+			set txt [list ]
+			lappend txt [list font sboldf] [list text "[trans showuserscw $len]"]
+			
+			::guiContactList::renderContact $top "txt" $maxw $txt 0
+			$top configure -state normal 
+			$top move txt $usrsX $Ycoord
+			
+			set Ycoord [expr {$Ycoord + $incr_y + 2}]
+
+			$top bind txt <Button-1> "::ChatWindow::ShowHideUsers"
+			$top bind txt <Enter> "$top configure -cursor hand2"
+			$top bind txt <Leave> "$top configure -cursor left_ptr"
+			
+		} else {
 		foreach user_login $user_list {
+			if {$firstline && [llength $user_list] > 3} {
+				$top dchars txt 0 end
+				
+				set txt [list ]
+				lappend txt [list font sboldf] [list text "[trans hideuserscw]"]
+				
+				::guiContactList::renderContact $top "txt" $maxw $txt 0
+				$top configure -state normal 
+				$top move txt $usrsX $Ycoord
+				
+				set Ycoord [expr {$Ycoord + $incr_y + 2}]
+				set firstline 0
+				
+				$top bind txt <Button-1> "::ChatWindow::ShowHideUsers"
+				$top bind txt <Enter> "$top configure -cursor hand2"
+				$top bind txt <Leave> "$top configure -cursor left_ptr"
+				
+			}
 			set shares_cam [::abook::getContactData $user_login webcam_shared]
 			
 			if { [::config::getKey emailsincontactlist] == 1 } {
@@ -3350,10 +3393,11 @@ namespace eval ::ChatWindow {
 				set user_state [::MSN::stateToDescription $state_code]
 			}
 
-			if {[::config::getKey truncatenames]} {
+			set usrsX $default_usrsX
+			set maxw $default_maxw
 
-				#Calculate maximum string width
-				set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - [expr {int([lindex [$top coords text] 0])} ] } ]
+			if {[::config::getKey truncatenames]} {
+			
 				if { $shares_cam == 1} {
 					incr maxw [expr { 0 - [image width $camicon] - 10 }]
 				}
@@ -3399,7 +3443,6 @@ namespace eval ::ChatWindow {
 				lappend nicktxt [list text $statetxt]
 			}
 			
-			set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans to]:"] + 5}]
 			set incr_y $default_incr_y
 
 			#get the default colour for the specific state
@@ -3571,11 +3614,14 @@ namespace eval ::ChatWindow {
 
 			set Ycoord [expr {$Ycoord + $incr_y + 2}]
 		}
+		}
 
 		bind $top <Configure> [list ::ChatWindow::TopUpdate $chatid]
 
-		#Change color of top background by the status of the contact
-		ChangeColorState $user_list $user_state $state_code ${win_name}
+		if {[llength $user_list] < 3 && [::config::getKey hide_users_in_cw]} {
+			#Change color of top background by the status of the contact
+			ChangeColorState $user_list $user_state $state_code ${win_name}
+		}
 
 		set title [EscapeTitle [string replace $title end-1 end " - [trans chat]"]]
 
@@ -3627,6 +3673,18 @@ namespace eval ::ChatWindow {
 		}
 
 		after cancel [list ::ChatWindow::TopUpdate $chatid]
+	}
+	
+	proc ShowHideUsers {} {
+		if {[::config::getKey hide_users_in_cw]} {
+			::config::setKey hide_users_in_cw 0
+		} else {
+			::config::setKey hide_users_in_cw 1
+		}
+		
+		foreach chat_id [getAllChatIds] {
+			TopUpdate $chat_id
+		}
 	}
 
 	
