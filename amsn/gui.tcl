@@ -2126,7 +2126,10 @@ namespace eval ::amsn {
 		#if customfnick exists replace the nick with customfnick
 		set customfnick [::abook::getVolatileData $user parsed_customfnick]
 
-		if { $customfnick != "" } {
+		if { [::abook::removeStyles $customfnick] eq "" } {
+			set customfnick [::abook::getVolatileData $user parsed_customnick] ;# it's different for the previous it was parsed_custom"F"nick, this one is parsed_customnick !
+		}
+		if { [::abook::removeStyles $customfnick] ne "" } {
 			set nick [::abook::getNick $user 1]
 			set customnick [::abook::getVolatileData $user parsed_customnick]
 			set nick [::abook::removeStyles [::abook::parseCustomNickStyled $customfnick $nick $user $customnick]]
