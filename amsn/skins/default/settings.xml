@@ -84,6 +84,7 @@
 			<state_offline>#333333</state_offline>
 			<groupcolorextend>#333333</groupcolorextend>
 			<groupcolorcontract>#666666</groupcolorcontract>
+			<groupcolorborder></groupcolorborder> <!-- if it's empty it means use the skin images -->
 		</Colors>
 		 <Options>
 			<mainwindowrelief>flat</mainwindowrelief> <!-- Available options are:  flat/raised/sunken/ridge/groove -->

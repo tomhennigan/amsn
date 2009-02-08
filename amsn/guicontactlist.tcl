@@ -616,6 +616,7 @@ namespace eval ::guiContactList {
 
 		#We remove the underline
 		$canvas delete uline
+		$canvas delete border
 
 		# First we move all the canvas items
 		$canvas addtag items withtag group
@@ -697,8 +698,15 @@ namespace eval ::guiContactList {
 						# Draw it
 						$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn \
 							-anchor nw -tags [list box box_body $gid]
+							
+						set x1 $boXpad
+						set y1 $bodYbegin
+						set x2 $width
+						set y2 [expr {$bodYbegin + $height}]
+						
 					} else {
 						set bodYend $bodYbegin
+						set x1 0
 					}
 
 					# Create endbar of the box
@@ -718,6 +726,10 @@ namespace eval ::guiContactList {
 						-tags [list box box_downbar $gid]
 
 					set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1]+ $ypad}] ]
+					
+					if {$x1 != 0 && [::skin::getKey "groupcolorborder"] ne ""} {
+						$canvas create rect $x1 $y1 $x2 $y2 -outline [::skin::getKey "groupcolorborder"] -width 3 -tags [list box box_body $gid border]
+					}
 				} else {
 					#set curPos [list [lindex $curPos 0] [lindex $curPos 1] ]
 				}
@@ -762,6 +774,7 @@ namespace eval ::guiContactList {
 			
 				$canvas move $tag [expr {[lindex $curPos 0] - [lindex $currentPos 0] + $xpad}] \
 					[expr {$ypos - [lindex $currentPos 1]}]
+					
 
 				set curPos [list [lindex $curPos 0] \
 					[expr {[lindex $curPos 1] + [image height [::skin::loadPixmap up]]}]]
