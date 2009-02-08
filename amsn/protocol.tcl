@@ -8589,7 +8589,8 @@ namespace eval ::MSN6FT {
 		}
 		setObjOption $sid chatid $chatid
 
-		status_log "context : $context \n size : $size \n filesize : $filesize \n nopreview : $nopreview \nfilename : $filename\n"
+		#status_log "context : $context \n size : $size \n filesize : $filesize \n nopreview : $nopreview \nfilename : $filename\n"
+		status_log "size : $size \n filesize : $filesize \n nopreview : $nopreview \nfilename : $filename\n"
 		::MSNFT::invitationReceived $filename $filesize $sid $chatid $dest 1
 		SendMessageFIFO [list ::amsn::GotFileTransferRequest $chatid $dest $branchuid $cseq $uid $sid $filename $filesize] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
