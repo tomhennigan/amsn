@@ -1721,18 +1721,14 @@ namespace eval ::amsn {
 
 
 	proc SIPCallInviteUser { email } {
-		set supports_sip 0
 
 		status_log "CallInviteUser $email"
 
 		set clientid [::abook::getContactData $email clientid]
 		if { $clientid == "" } { set clientid 0 }
-		set msnc [expr 0x100000]
-		if { ($clientid & $msnc) != 0 } {
-			set supports_sip 1
-		}
-
-		if {$supports_sip } {
+		
+		if {[::MSN::hasCapability $clientid sip] ||
+		    [::MSN::hasCapability $clientid tunnelsip] } {
 			status_log "User $email supports SIP"
 			AddSIPchatidToList $email
 			::MSNSIP::InviteUser $email
@@ -3357,8 +3353,9 @@ namespace eval ::amsn {
 			foreach user [::MSN::usersInChat $chatid] {
 				set clientid [::abook::getContactData $user clientid]
 				if { $clientid == "" } { set clientid 0 }
-				set msnc [expr 0xF0000000]
-				if { ($clientid & $msnc) < 6 } {
+				if { ![::MSN::hasCapability $clientid msnc6] &&
+				     ![::MSN::hasCapability $clientid msnc7] &&
+				     ![::MSN::hasCapability $clientid msnc8] } {
 					set supports_actions 0
 					break
 				}

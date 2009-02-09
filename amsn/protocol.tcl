@@ -463,9 +463,8 @@ namespace eval ::MSNFT {
 			return 1
 		}
 
-		set msnc [expr 0xF0000000]
 
-		if { ($clientid & $msnc) !=  0 } {
+		if { [::MSN::hasCapability $clientid p2paware]} {
 			return 1
 		}
 
@@ -1239,7 +1238,7 @@ namespace eval ::MSN {
 			set epname [::sxml::xmlreplace $epname]
 			set epname [encoding convertto utf-8 $epname]
 
-			set endpoint "<EndpointData><Capabilities>[::config::getKey clientid]:0</Capabilities></EndpointData>"
+			set endpoint "<EndpointData><Capabilities>[::config::getKey clientid]</Capabilities></EndpointData>"
 			set privateep "<PrivateEndpointData><EpName>$epname</EpName><Idle>$idle</Idle><State>$state</State></PrivateEndpointData>"
 
 			::MSN::WriteSBNoNL ns "UUX" "[string length $endpoint]\r\n$endpoint"
@@ -1420,6 +1419,10 @@ namespace eval ::MSN {
 			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid]"
 		}
 
+		if {[::config::getKey protocol] >= 16 } {
+			::MSN::sendUUXData
+		}
+
 		#Reset automatic status change to 0
 		set autostatuschange 0
 	}
@@ -1484,82 +1487,119 @@ namespace eval ::MSN {
 	#define CapabilityP2PBootstrapViaUUN 0x04000000
 	#define CapabilityMsgrVersion 0xf0000000
 	#define CapabilityP2PAware(id) ((id & CapabilityMsgrVersion) != 0)
+	proc getCapabilityFlag { cap } {
+		set flag 0
+		set extra 0
+		switch -- $cap {
+			mobile { set flag 0x000001 }
+			inkgif { set flag 0x000004 }
+			inkisf { set flag 0x000008 }
+			webcam { set flag 0x000010 }
+			multip { set flag 0x000020 }
+			paging { set flag 0x000040 }
+			drctpg { set flag 0x000080 }
+			webmsn { set flag 0x000200 }
+			tgw    { set flag 0x000800 }
+			space  { set flag 0x001000 }
+			mce    { set flag 0x002000 }
+			direct { set flag 0x004000 }
+			winks  { set flag 0x008000 }
+			search { set flag 0x010000 }
+			bot    { set flag 0x020000 }
+			voice  { set flag 0x040000 }
+			secure { set flag 0x080000 }
+			sip    { set flag 0x100000 }
+			tunnelsip { set flag 0x200000 }
+			shared { set flag 0x400000 }
+			unknown    { set flag 0x02000000 }
+			uun    { set flag 0x04000000 }
+			msnc1  { set flag 0x10000000 }
+			msnc2  { set flag 0x20000000 }
+			msnc3  { set flag 0x30000000 }
+			msnc4  { set flag 0x40000000 }
+			msnc5  { set flag 0x50000000 }
+			msnc6  { set flag 0x60000000 }
+			msnc7  { set flag 0x70000000 }
+			msnc8  { set flag 0x80000000 }
+			msnc9  { set flag 0x90000000 }
+			msnc10  { set flag 0xA0000000 }
+			p2paware  { set flag 0xF0000000 }
+			rtcvideo { set extra 0x00000010 }
+			unknown { set extra 0x00000020 }
+		}
+
+		return [list $flag $extra]
+	}
 	proc setClientCap { cap { switch 1 } } {
 		set clientid [::config::getKey clientid 0]
+		set extra 0
+		if {[config::getKey protocol] >= 16} {
+			set clientid [split $clientid ":"]
+			set extra [lindex $clientid 1]
+			set clientid [lindex $clientid 0]
+		}
+		if {$clientid == "" } {set clientid 0}
+		if {$extra == "" } { set extra 0}
+		
+		set flags [getCapabilityFlag $cap]
+		set flag [lindex $flags 0]
+		set extra_flag [lindex $flags 1]
 
-		if $switch {
-			switch -- $cap {
-				mobile { set clientid [expr {$clientid | 0x000001} ] }
-				inkgif { set clientid [expr {$clientid | 0x000004} ] }
-				inkisf { set clientid [expr {$clientid | 0x000008} ] }
-				webcam { set clientid [expr {$clientid | 0x000010} ] }
-				multip { set clientid [expr {$clientid | 0x000020} ] }
-				paging { set clientid [expr {$clientid | 0x000040} ] }
-				drctpg { set clientid [expr {$clientid | 0x000080} ] }
-				webmsn { set clientid [expr {$clientid | 0x000200} ] }
-				tgw    { set clientid [expr {$clientid | 0x000800} ] }
-				space  { set clientid [expr {$clientid | 0x001000} ] }
-				mce    { set clientid [expr {$clientid | 0x002000} ] }
-				direct { set clientid [expr {$clientid | 0x004000} ] }
-				winks  { set clientid [expr {$clientid | 0x008000} ] }
-				search { set clientid [expr {$clientid | 0x010000} ] }
-				bot    { set clientid [expr {$clientid | 0x020000} ] }
-				voice  { set clientid [expr {$clientid | 0x040000} ] }
-				secure { set clientid [expr {$clientid | 0x080000} ] }
-				sip    { set clientid [expr {$clientid | 0x100000} ] }
-				tunnelsip { set clientid [expr {$clientid | 0x200000} ] }
-				shared { set clientid [expr {$clientid | 0x400000} ] }
-				rtcvideo    { set clientid [expr {$clientid | 0x02000000} ] }
-				uun    { set clientid [expr {$clientid | 0x04000000} ] }
-				msnc1  { set clientid [expr {$clientid | 0x10000000} ] }
-				msnc2  { set clientid [expr {$clientid | 0x20000000} ] }
-				msnc3  { set clientid [expr {$clientid | 0x30000000} ] }
-				msnc4  { set clientid [expr {$clientid | 0x40000000} ] }
-				msnc5  { set clientid [expr {$clientid | 0x50000000} ] }
-				msnc6  { set clientid [expr {$clientid | 0x60000000} ] }
-				msnc7  { set clientid [expr {$clientid | 0x70000000} ] }
-				msnc8  { set clientid [expr {$clientid | 0x80000000} ] }
-				msnc9  { set clientid [expr {$clientid | 0x90000000} ] }
-				msnc10  { set clientid [expr {$clientid | 0xA0000000} ] }
-			}
+		# WLM uses :
+		# inkgif, inkisf, multip, direct, winks, voice, secure,
+		# sip, tunnelsip, shared, rtcvideo, msnc10
+		# we are missing : inkisf, direct, secure, shared, rtcvideo
+		if { $switch } {
+			set clientid [expr {$clientid | $flag}]
+			set extra [expr {$extra | $extra_flag} ]
 		} else {
-			switch -- $cap {
-				mobile { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000001)} ] }
-				inkgif { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000004)} ] }
-				inkisf { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000008)} ] }
-				webcam { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000010)} ] }
-				multip { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000020)} ] }
-				paging { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000040)} ] }
-				drctpg { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000080)} ] }
-				webmsn { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000200)} ] }
-				tgw    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x000800)} ] }
-				space  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x001000)} ] }
-				mce    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x002000)} ] }
-				direct { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x004000)} ] }
-				winks  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x008000)} ] }
-				search { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x010000)} ] }
-				bot    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x020000)} ] }
-				voice  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x040000)} ] }
-				secure { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x080000)} ] }
-				sip    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x100000)} ] }
-				tunnelsip { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x200000)} ] }
-				shared { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x400000)} ] }
-				rtcvideo { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x01000000)} ] }
-				uun    { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x04000000)} ] }
-				msnc1  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x10000000)} ] }
-				msnc2  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x20000000)} ] }
-				msnc3  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x30000000)} ] }
-				msnc4  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x40000000)} ] }
-				msnc5  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x50000000)} ] }
-				msnc6  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x60000000)} ] }
-				msnc7  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x70000000)} ] }
-				msnc8  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x80000000)} ] }
-				msnc9  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0x90000000)} ] }
-				msnc10  { set clientid [expr {$clientid & (0xFFFFFFFF ^ 0xA0000000)} ] }
-			}
+			set clientid [expr {$clientid & (0xFFFFFFFF ^ $flag)} ]
+			set extra [expr {$extra & (0xFFFFFFFF ^ $extra_flag)} ]
 		}
 		::config::setKey clientid $clientid
+		if {[config::getKey protocol] >= 16} {
+			::config::setKey clientid "$clientid:$extra"
+		}
+		
 		return $clientid
+	}
+
+	proc hasCapability { clientid cap } {
+		set extra 0
+		if {[config::getKey protocol] >= 16} {
+			set clientid [split $clientid ":"]
+			set extra [lindex $clientid 1]
+			set clientid [lindex $clientid 0]
+		}
+		if {$clientid == "" } {set clientid 0}
+		if {$extra == "" } { set extra 0}
+		
+		set flags [getCapabilityFlag $cap]
+		set flag [lindex $flags 0]
+		set extra_flag [lindex $flags 1]
+
+		if {$cap == "p2paware"} {
+			if {($clientid & $flag) != 0} {
+				return 1
+			} else {
+				return 0
+			}
+		}
+
+		if {$flag != 0} {
+			if {($clientid & $flag) == $flag} {
+				return 1
+			} else {
+				return 0
+			}
+		} elseif {$extra_flag != 0} {
+			if {($extra & $extra_flag) == $extra_flag} {
+				return 1
+			} else {
+				return 0
+			}
+		}
+		
 	}
 
 	proc myStatusIs {} {
@@ -5822,9 +5862,6 @@ proc cmsn_update_users {sb recv} {
 
 			if {[config::getKey protocol] >= 15 } {
 				set clientid [lindex $recv 6]
-				if {[config::getKey protocol] >= 16 } {
-					set clientid [lindex [split $clientid ":"] 0]
-				}
 				add_Clientid $usr_login $clientid
 			}
 
@@ -5852,9 +5889,6 @@ proc cmsn_update_users {sb recv} {
 
 			if {[config::getKey protocol] >= 15 } {
 				set clientid [lindex $recv 3]
-				if {[config::getKey protocol] >= 16 } {
-					set clientid [lindex [split $clientid ":"] 0]
-				}
 				add_Clientid $usr_login $clientid
 			}
 
@@ -5950,9 +5984,6 @@ proc cmsn_change_state {recv} {
 		incr idx
 		#Add clientID to abook
 		set clientid [lindex $recv $idx]
-		if {[::config::getKey protocol] >= 16} {
-			set clientid [lindex [split $clientid ":"] 0]
-		}
 		add_Clientid $user  $clientid
 		incr idx
 		set msnobj [urldecode [lindex $recv $idx]]
@@ -5983,9 +6014,6 @@ proc cmsn_change_state {recv} {
 		incr idx
 		#Add clientID to abook
 		set clientid [lindex $recv $idx]
-		if {[::config::getKey protocol] >= 16} {
-			set clientid [lindex [split $clientid ":"] 0]
-		}
 		add_Clientid $user $clientid
 		incr idx
 		set msnobj [urldecode [lindex $recv $idx]]
@@ -6325,9 +6353,6 @@ proc cmsn_ns_handler {item {message ""}} {
 				# status with new clientid (happens if farsight takes a long time to
 				# timeout the STUN discovery)
 				set clientid [lindex $item 3]
-				if {[::config::getKey protocol] >= 16} {
-					set clientid [lindex [split $clientid ":"] 0]
-				}
 
 				if { [::config::getKey clientid 0] != $clientid } {
 					::MSN::changeStatus [::MSN::myStatusIs]
@@ -7673,69 +7698,40 @@ proc add_Clientid {chatid clientid} {
 	::abook::setContactData $chatid clientid $clientid
 
 	##Find out how the client-program is called
-	switch -- [expr {$clientid & 0xF0000000}] {
-		268435456 {
-			# 0x10000000
-			set clientname "MSN 6.0"
-		}
-		536870912 {
-			# 0x20000000
-			set clientname "MSN 6.1"
-		}
-		805306368 {
-			# 0x30000000
-			set clientname "MSN 6.2"
-		}
-		1073741824 {
-			# 0x40000000
-			set clientname "MSN 7.0"
-		}
-		1342177280 {
-			# 0x50000000
-			set clientname "MSN 7.5"
-		}
-		1610612736 {
-			# 0x60000000
-			set clientname "Windows Live Messenger 8.0"
-		}
-		1879048192 {
-			# 0x70000000
-			set clientname "Windows Live Messenger 8.1"
-		}
-		2147483648 {
-			# 0x80000000
-			set clientname "Windows Live Messenger 8.5"
-		}
-		default {
-			if {($clientid & 0x200) == [expr {0x200}]} {
-					set clientname "Webmessenger"
-			} elseif {($clientid & 0x800) == [expr {0x800}]} {
-					set clientname "Microsoft Office gateway"
-			} else {
-					set clientname "[trans unknown]"
-			}
-		}
-	}	
+	if {[::MSN::hasCapability $clientid msnc1] } {
+		set clientname "MSN 6.0"
+	} elseif {[::MSN::hasCapability $clientid msnc2] } {
+		set clientname "MSN 6.1"
+	} elseif {[::MSN::hasCapability $clientid msnc3] } {
+		set clientname "MSN 6.2"
+	} elseif {[::MSN::hasCapability $clientid msnc4] } {
+		set clientname "MSN 7.0"
+	} elseif {[::MSN::hasCapability $clientid msnc5] } {
+		set clientname "MSN 7.5"
+	} elseif {[::MSN::hasCapability $clientid msnc6] } {
+		set clientname "Windows Live Messenger 8.0"
+	} elseif {[::MSN::hasCapability $clientid msnc7] } {
+		set clientname "Windows Live Messenger 8.1"
+	} elseif {[::MSN::hasCapability $clientid msnc8] } {
+		set clientname "Windows Live Messenger 8.5"
+	} elseif {[::MSN::hasCapability $clientid msnc9] } {
+		set clientname "Windows Live Messenger 9 beta"
+	} elseif {[::MSN::hasCapability $clientid msnc10] } {
+		set clientname "Windows Live Messenger 2009"
+	} elseif {[::MSN::hasCapability $clientid webmsn] } {
+		set clientname "Webmessenger"
+	} elseif {[::MSN::hasCapability $clientid tgw] } {
+		set clientname "Microsoft Office gateway"
+	} else {
+		set clientname "[trans unknown]"
+	}
+	
 
 	##Store the name of the client this user uses in the adressbook
 	::abook::setContactData $chatid client $clientname
 
-
-
 	##Set the capability flags for this user##
-
-	set flags [list [list 1 mobile_device] [list 4 receive_ink] [list 8 sendnreceive_ink] [list 16 webcam_shared] [list 32 multi_packet] [list 64 msn_mobile] [list 128 msn_direct] [list 16384 directIM ] [list 32768 winks] ]
-	
-	foreach flag $flags {
-		set bit [lindex $flag 0]
-		set flagname [lindex $flag 1]
-		#check if this bit is on in the clientid, ifso set it's flag
-		if {($clientid & $bit) == $bit} {
-			::abook::setContactData $chatid $flagname 1
-		} else {
-			::abook::setContactData $chatid $flagname 0
-		}
-	}		
+	::abook::setContactData $chatid webcam_shared [::MSN::hasCapability $clientid webcam]
 
 }
 
