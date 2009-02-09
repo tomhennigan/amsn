@@ -73,6 +73,7 @@
 			<contact_busy>#f80000</contact_busy>
 			<contact_gonelunch>#364fce</contact_gonelunch>
 			<contact_offline>#555753</contact_offline>
+			<contact_hover_box></contact_hover_box> <!-- if it's empty it means don't use it -->
 			<state_online>#333333</state_online>
 			<state_away>#333333</state_away>
 			<state_noactivity>#333333</state_noactivity>

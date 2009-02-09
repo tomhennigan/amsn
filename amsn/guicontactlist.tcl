@@ -1945,6 +1945,12 @@ namespace eval ::guiContactList {
 			$canvas bind $tag <Enter> +[list ::guiContactList::configureCursor $canvas hand2]
 			$canvas bind $tag <Leave> +[list ::guiContactList::configureCursor $canvas left_ptr]
 		}
+		
+		#create mouse hover bind to select the background and showing a background selector
+		if { [::skin::getKey contact_hover_box] ne "" } {
+			$canvas bind $tag <Enter> +[list ::guiContactList::user_background $canvas "$tag" $maxwidth ]
+			$canvas bind $tag <Leave> +[list $canvas delete contact_box ]
+		}
 
 		# Now store the nickname [and] height in the nickarray
 		if {[llength [$canvas find withtag $tag]] > 0 } {
@@ -1953,6 +1959,18 @@ namespace eval ::guiContactList {
 		} else {
 			set nickheightArray($email) 0
 		}
+	}
+	
+	proc user_background {canvas tag maxwidth} {
+		set bbox [$canvas bbox $tag]
+		set coords [$canvas coords $tag]
+		$canvas create rect \
+			[expr { [lindex $bbox 0] + [lindex $coords 0] - [::skin::getKey contactlist_xpad] - (2* [::skin::getKey buddy_xpad])}] \
+			[lindex $bbox 1] \
+			[expr { $maxwidth + [::skin::getKey contactlist_xpad] + [::skin::getKey buddy_xpad] + 4}] \
+			[lindex $bbox 3] \
+			-fill [::skin::getKey contact_hover_box] -tags [list contact_box$tag contact_box]
+		$canvas lower contact_box$tag $tag
 	}
 
 	proc cleanBindings {canvas tag} {
