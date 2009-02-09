@@ -2088,7 +2088,7 @@ namespace eval ::MSNSIP {
 			::amsn::SIPCallYouAreBusy $email
 			return "BUSY"
 		} elseif {[::config::getKey protocol] >= 16 &&
-			  [::abook::getContactData $email clientid] & [expr 0x200000]} {
+			  [::MSN::hasCapability [::abook::getContactData $email clientid] tunnelsip]} {
 			status_log "Sending Tunneled SIP invite to $email"
 			set sock [TunneledSIPSocket create %AUTO% -destination $email]
 			set sip [SIPConnection create %AUTO% -user [::config::getKey login] -tunneled 1 -socket $sock]
@@ -2335,8 +2335,8 @@ namespace eval ::MSNSIP {
 
 
 	proc FarsightTestFailed { callbk } {
-		if { ([::config::getKey clientid 0] & 0x100000) != 0 ||
-		     ([::config::getKey clientid 0] & 0x200000) != 0 } {
+		if {[::MSN::hasCapability [::config::getKey clientid 0] sip] ||
+		    [::MSN::hasCapability [::config::getKey clientid 0] tunnelsip] } {
 			::MSN::setClientCap sip 0
 			::MSN::setClientCap tunnelsip 0
 			if {[::MSN::myStatusIs] != "FLN" } {
@@ -2355,12 +2355,12 @@ namespace eval ::MSNSIP {
 	proc FarsightTestSucceeded { callbk } {
 		set changed 0
 		if { [::config::getKey protocol] >= 15 &&
-		     ([::config::getKey clientid 0] & 0x100000) == 0} {
+		     ![::MSN::hasCapability [::config::getKey clientid 0] sip]} {
 			::MSN::setClientCap sip
 			set changed 1
 		}
 		if { [::config::getKey protocol] >= 16 &&
-		     ([::config::getKey clientid 0] & 0x200000) == 0 } {
+		     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip] } {
 			::MSN::setClientCap tunnelsip
 			set changed 1
 		}
@@ -2399,12 +2399,12 @@ namespace eval ::MSNSIP {
 		} else {
 			set changed 0
 			if { [::config::getKey protocol] >= 15 &&
-			     ([::config::getKey clientid 0] & 0x100000) == 0} {
+			     ![::MSN::hasCapability [::config::getKey clientid 0] sip]} {
 				::MSN::setClientCap sip
 				set changed 1
 			}
 			if { [::config::getKey protocol] >= 16 &&
-			     ([::config::getKey clientid 0] & 0x200000) == 0 } {
+			     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip]} {
 				::MSN::setClientCap tunnelsip
 				set changed 1
 			}
