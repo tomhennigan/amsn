@@ -17,6 +17,7 @@
 #include <gst/farsight/fs-conference-iface.h>
 #include <gst/farsight/fs-stream-transmitter.h>
 #include <gst/interfaces/propertyprobe.h>
+#include <gst/interfaces/xoverlay.h>
 
 #ifdef G_OS_WIN32
 #include <winsock2.h>
@@ -44,19 +45,26 @@ typedef enum {
   RTP_AUDIO_VIDEO_ICE19 = (RTP_AUDIO | RTP_VIDEO | RTP_ICE19),
 } FsCallType;
 
-static GList * get_plugins_filtered (gboolean source);
+static GList * get_plugins_filtered (gboolean source, gboolean audio);
 
 FsCallType call_type;
 Tcl_Obj *level_callback = NULL;
 Tcl_Interp *level_callback_interp = NULL;
 Tcl_Obj *debug_callback = NULL;
 Tcl_Interp *debug_callback_interp = NULL;
-char *source = NULL;
-char *source_device = NULL;
-char *source_pipeline = NULL;
-char *sink = NULL;
-char *sink_device = NULL;
-char *sink_pipeline = NULL;
+char *audio_source = NULL;
+char *audio_source_device = NULL;
+char *audio_source_pipeline = NULL;
+char *audio_sink = NULL;
+char *audio_sink_device = NULL;
+char *audio_sink_pipeline = NULL;
+char *video_source = NULL;
+char *video_source_device = NULL;
+gulong video_preview_xid = NULL;
+char *video_source_pipeline = NULL;
+char *video_sink = NULL;
+gulong video_sink_xid = NULL;
+char *video_sink_pipeline = NULL;
 GstElement *pipeline = NULL;
 GstElement *test_pipeline = NULL;
 GstElement *conference = NULL;
@@ -64,12 +72,17 @@ GstElement *volumeIn = NULL;
 GstElement *volumeOut = NULL;
 GstElement *levelIn = NULL;
 GstElement *levelOut = NULL;
-FsSession *session = NULL;
 FsParticipant *participant = NULL;
-FsStream *stream = NULL;
-gboolean candidates_prepared = FALSE;
-gboolean codecs_ready = FALSE;
-Tcl_Obj *local_candidates = NULL;
+FsSession *audio_session = NULL;
+FsStream *audio_stream = NULL;
+FsSession *video_session = NULL;
+FsStream *video_stream = NULL;
+gboolean audio_candidates_prepared = FALSE;
+gboolean audio_codecs_ready = FALSE;
+Tcl_Obj *audio_local_candidates = NULL;
+gboolean video_candidates_prepared = FALSE;
+gboolean video_codecs_ready = FALSE;
+Tcl_Obj *video_local_candidates = NULL;
 Tcl_Obj *callback = NULL;
 Tcl_Interp *callback_interp = NULL;
 Tcl_ThreadId main_tid = 0;
@@ -120,19 +133,29 @@ static char *host2ip(char *hostname)
 
 static void Close ()
 {
-  if (stream) {
-    g_object_unref (stream);
-    stream = NULL;
-  }
-
   if (participant) {
     g_object_unref (participant);
     participant = NULL;
   }
 
-  if (session) {
-    g_object_unref (session);
-    session = NULL;
+  if (audio_stream) {
+    g_object_unref (audio_stream);
+    audio_stream = NULL;
+  }
+
+  if (audio_session) {
+    g_object_unref (audio_session);
+    audio_session = NULL;
+  }
+
+  if (video_stream) {
+    g_object_unref (video_stream);
+    video_stream = NULL;
+  }
+
+  if (video_session) {
+    g_object_unref (video_session);
+    video_session = NULL;
   }
 
   if (pipeline) {
@@ -154,14 +177,29 @@ static void Close ()
     gst_object_unref (volumeOut);
     volumeOut = NULL;
   }
+  if (levelIn) {
+    gst_object_unref (levelIn);
+    levelIn = NULL;
+  }
+  if (levelOut) {
+    gst_object_unref (levelOut);
+    levelOut = NULL;
+  }
 
-  candidates_prepared = FALSE;
-  codecs_ready = FALSE;
+  audio_candidates_prepared = FALSE;
+  audio_codecs_ready = FALSE;
+  video_candidates_prepared = FALSE;
+  video_codecs_ready = FALSE;
   components_selected = 0;
 
-  if (local_candidates) {
-    Tcl_DecrRefCount(local_candidates);
-    local_candidates = NULL;
+  if (audio_local_candidates) {
+    Tcl_DecrRefCount(audio_local_candidates);
+    audio_local_candidates = NULL;
+  }
+
+  if (video_local_candidates) {
+    Tcl_DecrRefCount(video_local_candidates);
+    video_local_candidates = NULL;
   }
 
   if (callback) {
@@ -327,6 +365,7 @@ _notify_error_post (char *error)
 }
 
 
+/* TODO */
 static void
 _notify_active (const char *local, const char *remote)
 {
@@ -336,34 +375,48 @@ _notify_active (const char *local, const char *remote)
   _notify_callback ("ACTIVE", local_candidate, remote_candidate);
 }
 
+static void _notify_prepared (gchar *msg, FsSession *session,
+    Tcl_Obj *local_candidates)
+{
+  Tcl_Obj *local_codecs = Tcl_NewListObj (0, NULL);
+  GList *codecs = NULL;
+  GList *item = NULL;
+
+  g_object_get (session, "codecs", &codecs, NULL);
+
+  for (item = g_list_first (codecs); item; item = g_list_next (item))
+  {
+    FsCodec *codec = item->data;
+    Tcl_Obj *tcl_codec = NULL;
+    Tcl_Obj *elements[3];
+    elements[0] = Tcl_NewStringObj (codec->encoding_name, -1);
+    elements[1] = Tcl_NewIntObj (codec->id);
+    elements[2] = Tcl_NewIntObj (codec->clock_rate);
+
+    tcl_codec = Tcl_NewListObj (3, elements);
+    Tcl_ListObjAppendElement(NULL, local_codecs, tcl_codec);
+  }
+
+  fs_codec_list_destroy (codecs);
+
+  _notify_callback (msg, local_codecs, local_candidates);
+}
+
 static void
-_notify_prepared ()
+_notify_audio_prepared ()
 {
 
-  if (codecs_ready && candidates_prepared) {
-    Tcl_Obj *local_codecs = Tcl_NewListObj (0, NULL);
+  if (audio_codecs_ready && audio_candidates_prepared) {
+    _notify_prepared ("PREPARED_AUDIO", audio_session, audio_local_candidates);
+  }
+}
 
-    GList *codecs = NULL;
-    GList *item = NULL;
+static void
+_notify_video_prepared ()
+{
 
-    g_object_get (session, "codecs", &codecs, NULL);
-
-    for (item = g_list_first (codecs); item; item = g_list_next (item))
-    {
-      FsCodec *codec = item->data;
-      Tcl_Obj *tcl_codec = NULL;
-      Tcl_Obj *elements[3];
-      elements[0] = Tcl_NewStringObj (codec->encoding_name, -1);
-      elements[1] = Tcl_NewIntObj (codec->id);
-      elements[2] = Tcl_NewIntObj (codec->clock_rate);
-
-      tcl_codec = Tcl_NewListObj (3, elements);
-      Tcl_ListObjAppendElement(NULL, local_codecs, tcl_codec);
-    }
-
-    fs_codec_list_destroy (codecs);
-
-    _notify_callback ("PREPARED", local_codecs, local_candidates);
+  if (video_codecs_ready && video_candidates_prepared) {
+    _notify_prepared ("PREPARED_VIDEO", video_session, video_local_candidates);
   }
 }
 
@@ -393,10 +446,16 @@ _new_local_candidate (FsStream *stream, FsCandidate *candidate)
 {
   Tcl_Obj *tcl_candidate = NULL;
   Tcl_Obj *elements[11];
+  Tcl_Obj **local_candidates = NULL;
 
-  if (local_candidates == NULL) {
-    local_candidates = Tcl_NewListObj (0, NULL);
-    Tcl_IncrRefCount(local_candidates);
+  if (stream == audio_stream)
+    local_candidates = &audio_local_candidates;
+  else
+    local_candidates = &video_local_candidates;
+
+  if (*local_candidates == NULL) {
+    *local_candidates = Tcl_NewListObj (0, NULL);
+    Tcl_IncrRefCount(*local_candidates);
   }
 
   elements[0] = Tcl_NewStringObj (candidate->foundation == NULL ?
@@ -422,7 +481,7 @@ _new_local_candidate (FsStream *stream, FsCandidate *candidate)
       "" : candidate->password, -1);
   tcl_candidate = Tcl_NewListObj (11, elements);
 
-  Tcl_ListObjAppendElement(NULL, local_candidates, tcl_candidate);
+  Tcl_ListObjAppendElement(NULL, *local_candidates, tcl_candidate);
 
 }
 
@@ -430,10 +489,15 @@ static void
 _local_candidates_prepared (FsStream *stream)
 {
 
-  candidates_prepared = TRUE;
-
-  _notify_debug ("CANDIDATES ARE PREPARED");
-  _notify_prepared ();
+  if (stream == audio_stream) {
+    audio_candidates_prepared = TRUE;
+    _notify_debug ("AUDIO CANDIDATES ARE PREPARED");
+    _notify_audio_prepared ();
+  } else {
+    video_candidates_prepared = TRUE;
+    _notify_debug ("VIDEO CANDIDATES ARE PREPARED");
+    _notify_video_prepared ();
+  }
 }
 
 
@@ -445,7 +509,6 @@ _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
   g_object_set (sink, "sync", FALSE, NULL);
 }
 
-
 static GstElement * _test_source (gchar *name)
 {
   GstPropertyProbe *probe;
@@ -455,7 +518,7 @@ static GstElement * _test_source (gchar *name)
 
   _notify_debug("Testing source %s", name);
 
-  if (name == "dtmfsrc" || name == "audiotestsrc")
+  if (name == "dtmfsrc" || name == "audiotestsrc" || name == "videotestsrc")
     return NULL;
 
   element = gst_element_factory_make (name, NULL);
@@ -519,7 +582,7 @@ static GstElement * _test_source (gchar *name)
 }
 
 
-static GstElement * _create_source ()
+static GstElement * _create_audio_source ()
 {
   GstElement *src = NULL;
   GList *sources, *walk;
@@ -534,12 +597,12 @@ static GstElement * _create_source ()
                                NULL};
   gchar **test_source = NULL;
 
-  _notify_debug ("Creating source : %s  --- %s -- %s",
-	  source_pipeline ? source_pipeline : "(null)",
-	  source ? source : "(null)",
-	  source_device ? source_device : "(null)");
+  _notify_debug ("Creating audio_source : %s  --- %s -- %s",
+	  audio_source_pipeline ? audio_source_pipeline : "(null)",
+	  audio_source ? audio_source : "(null)",
+	  audio_source_device ? audio_source_device : "(null)");
 
-  if (source_pipeline) {
+  if (audio_source_pipeline) {
     GstPad *pad = NULL;
     GstBin *bin;
     gchar *desc;
@@ -547,7 +610,7 @@ static GstElement * _create_source ()
     GstStateChangeReturn state_ret;
 
     /* parse the pipeline to a bin */
-    desc = g_strdup_printf ("bin.( %s ! queue )", source_pipeline);
+    desc = g_strdup_printf ("bin.( %s ! queue )", audio_source_pipeline);
     bin = (GstBin *) gst_parse_launch (desc, &error);
     g_free (desc);
 
@@ -560,13 +623,13 @@ static GstElement * _create_source ()
       src = GST_ELEMENT (bin);
     }
     if (error) {
-      _notify_debug ("Error while creating source pipeline (%d): %s",
+      _notify_debug ("Error while creating audio_source pipeline (%d): %s",
 		  error->code, error->message? error->message : "(null)");
     }
 
     state_ret = gst_element_set_state (src, GST_STATE_READY);
     if (state_ret == GST_STATE_CHANGE_ASYNC) {
-      _notify_debug ("Waiting for source_pipeline to go to state READY");
+      _notify_debug ("Waiting for audio_source_pipeline to go to state READY");
       state_ret = gst_element_get_state (src, NULL, NULL,
           GST_CLOCK_TIME_NONE);
     }
@@ -576,15 +639,15 @@ static GstElement * _create_source ()
       return NULL;
     }
     return src;
-  } else if (source) {
+  } else if (audio_source) {
     GstStateChangeReturn state_ret;
-    src = gst_element_factory_make (source, NULL);
-    if (src && source_device)
-      g_object_set(src, "device", source_device, NULL);
+    src = gst_element_factory_make (audio_source, NULL);
+    if (src && audio_source_device)
+      g_object_set(src, "device", audio_source_device, NULL);
 
     state_ret = gst_element_set_state (src, GST_STATE_READY);
     if (state_ret == GST_STATE_CHANGE_ASYNC) {
-      _notify_debug ("Waiting for %s to go to state READY", source);
+      _notify_debug ("Waiting for %s to go to state READY", audio_source);
       state_ret = gst_element_get_state (src, NULL, NULL,
           GST_CLOCK_TIME_NONE);
     }
@@ -601,7 +664,7 @@ static GstElement * _create_source ()
     if (element == NULL)
       continue;
 
-    _notify_debug ("Using source %s", *test_source);
+    _notify_debug ("Using audio_source %s", *test_source);
     src = element;
     break;
   }
@@ -609,7 +672,7 @@ static GstElement * _create_source ()
   if (src)
     return src;
 
-  sources = get_plugins_filtered (TRUE);
+  sources = get_plugins_filtered (TRUE, TRUE);
 
   for (walk = sources; walk; walk = g_list_next (walk)) {
     GstElement *element;
@@ -620,7 +683,7 @@ static GstElement * _create_source ()
     if (element == NULL)
       continue;
 
-    _notify_debug ("Using source %s", *test_source);
+    _notify_debug ("Using audio_source %s", *test_source);
     src = element;
     break;
   }
@@ -633,17 +696,17 @@ static GstElement * _create_source ()
   return src;
 }
 
-static GstElement * _create_sink ()
+static GstElement * _create_audio_sink ()
 {
   GstElement *snk = NULL;
-  if (sink_pipeline) {
+  if (audio_sink_pipeline) {
     GstPad *pad = NULL;
     GstBin *bin;
     gchar *desc;
     GError *error  = NULL;
 
     /* parse the pipeline to a bin */
-    desc = g_strdup_printf ("bin.( %s ! queue )", sink_pipeline);
+    desc = g_strdup_printf ("bin.( %s ! queue )", audio_sink_pipeline);
     bin = (GstBin *) gst_parse_launch (desc, &error);
     g_free (desc);
 
@@ -656,13 +719,13 @@ static GstElement * _create_sink ()
       snk = GST_ELEMENT (bin);
     }
     if (error) {
-      _notify_debug ("Error while creating sink pipeline (%d): %s",
+      _notify_debug ("Error while creating audio_sink pipeline (%d): %s",
 		  error->code, error->message ? error->message : "(null)");
     }
-  } else if (sink) {
-    snk = gst_element_factory_make (sink, NULL);
-    if (snk && sink_device)
-      g_object_set(snk, "device", sink_device, NULL);
+  } else if (audio_sink) {
+    snk = gst_element_factory_make (audio_sink, NULL);
+    if (snk && audio_sink_device)
+      g_object_set(snk, "device", audio_sink_device, NULL);
   }
   if (snk == NULL)
     snk = gst_element_factory_make ("autoaudiosink", NULL);
@@ -670,8 +733,10 @@ static GstElement * _create_sink ()
   return snk;
 }
 
+/* TODO */
 static void
-_src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
+_audio_src_pad_added (FsStream *self, GstPad *pad,
+    FsCodec *codec, gpointer user_data)
 {
   GstElement *pipeline = user_data;
   GstElement *snk = NULL;
@@ -681,9 +746,9 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   GstPad *sink_pad = NULL;
   GstPadLinkReturn ret;
 
-  snk = _create_sink ();
+  snk = _create_audio_sink ();
   if (snk == NULL) {
-    _notify_error_post ("Could not create sink");
+    _notify_error_post ("Could not create audio_sink");
     if (convert) gst_object_unref (convert);
     if (resample) gst_object_unref (resample);
     if (convert2) gst_object_unref (convert2);
@@ -693,7 +758,7 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
       G_CALLBACK (_sink_element_added), NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), snk) == FALSE)  {
-    _notify_error_post ("Could not add sink to pipeline");
+    _notify_error_post ("Could not add audio_sink to pipeline");
     if (snk) gst_object_unref (snk);
     if (convert) gst_object_unref (convert);
     if (resample) gst_object_unref (resample);
@@ -781,7 +846,7 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
       goto no_level;
     }
     if (gst_element_link(levelOut, snk) == FALSE)  {
-      _notify_debug ("Could not link sink to level out");
+      _notify_debug ("Could not link audio_sink to level out");
       gst_element_unlink(convert2, levelOut);
       gst_bin_remove (GST_BIN (pipeline), levelOut);
       gst_object_unref (levelOut);
@@ -791,7 +856,7 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
   } else {
   no_level:
     if (gst_element_link(convert2, snk) == FALSE)  {
-      _notify_error_post ("Could not link sink to converter");
+      _notify_error_post ("Could not link audio_sink to converter");
       return;
     }
   }
@@ -821,26 +886,176 @@ _src_pad_added (FsStream *self, GstPad *pad, FsCodec *codec, gpointer user_data)
 
   if (gst_element_set_state (snk, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
-    _notify_error_post ("Unable to set sink to PLAYING");
+    _notify_error_post ("Unable to set audio_sink to PLAYING");
     return;
   }
   if (levelOut) {
     if (gst_element_set_state (levelOut, GST_STATE_PLAYING) ==
         GST_STATE_CHANGE_FAILURE) {
-      _notify_error_post ("Unable to set sink to PLAYING");
+      _notify_error_post ("Unable to set audio_sink to PLAYING");
       return;
     }
   }
 }
 
+
+static GstElement * _create_video_source ()
+{
+  GstElement *src = NULL;
+  GList *sources, *walk;
+  gchar *priority_sources[] = {"gconfv4l2src",
+                               "v4l2src",
+                               "v4lsrc",
+                               NULL};
+  gchar **test_source = NULL;
+
+  _notify_debug ("Creating video_source : %s  --- %s -- %s",
+	  video_source_pipeline ? video_source_pipeline : "(null)",
+	  video_source ? video_source : "(null)",
+	  video_source_device ? video_source_device : "(null)");
+
+  if (video_source_pipeline) {
+    GstPad *pad = NULL;
+    GstBin *bin;
+    gchar *desc;
+    GError *error  = NULL;
+    GstStateChangeReturn state_ret;
+
+    /* parse the pipeline to a bin */
+    desc = g_strdup_printf ("bin.( %s ! queue )", video_source_pipeline);
+    bin = (GstBin *) gst_parse_launch (desc, &error);
+    g_free (desc);
+
+    if (bin) {
+      /* find pads and ghost them if necessary */
+      if ((pad = gst_bin_find_unlinked_pad (bin, GST_PAD_SRC))) {
+        gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("src", pad));
+        gst_object_unref (pad);
+      }
+      src = GST_ELEMENT (bin);
+    }
+    if (error) {
+      _notify_debug ("Error while creating video_source pipeline (%d): %s",
+		  error->code, error->message? error->message : "(null)");
+    }
+
+    state_ret = gst_element_set_state (src, GST_STATE_READY);
+    if (state_ret == GST_STATE_CHANGE_ASYNC) {
+      _notify_debug ("Waiting for video_source_pipeline to go to state READY");
+      state_ret = gst_element_get_state (src, NULL, NULL,
+          GST_CLOCK_TIME_NONE);
+    }
+
+    if (state_ret == GST_STATE_CHANGE_FAILURE) {
+      gst_object_unref (src);
+      return NULL;
+    }
+    return src;
+  } else if (video_source) {
+    GstStateChangeReturn state_ret;
+    src = gst_element_factory_make (video_source, NULL);
+    if (src && video_source_device)
+      g_object_set(src, "device", video_source_device, NULL);
+
+    state_ret = gst_element_set_state (src, GST_STATE_READY);
+    if (state_ret == GST_STATE_CHANGE_ASYNC) {
+      _notify_debug ("Waiting for %s to go to state READY", video_source);
+      state_ret = gst_element_get_state (src, NULL, NULL,
+          GST_CLOCK_TIME_NONE);
+    }
+
+    if (state_ret == GST_STATE_CHANGE_FAILURE) {
+      gst_object_unref (src);
+      return NULL;
+    }
+    return src;
+  }
+
+  for (test_source = priority_sources; *test_source; test_source++) {
+    GstElement *element = _test_source (*test_source);
+    if (element == NULL)
+      continue;
+
+    _notify_debug ("Using video_source %s", *test_source);
+    src = element;
+    break;
+  }
+
+  if (src)
+    return src;
+
+  sources = get_plugins_filtered (TRUE, FALSE);
+
+  for (walk = sources; walk; walk = g_list_next (walk)) {
+    GstElement *element;
+    GstElementFactory *factory = GST_ELEMENT_FACTORY(walk->data);
+
+    element = _test_source (GST_PLUGIN_FEATURE_NAME(factory));
+
+    if (element == NULL)
+      continue;
+
+    _notify_debug ("Using video_source %s", *test_source);
+    src = element;
+    break;
+  }
+  for (walk = sources; walk; walk = g_list_next (walk)) {
+    if (walk->data)
+      gst_object_unref (GST_ELEMENT_FACTORY (walk->data));
+  }
+  g_list_free (sources);
+
+  return src;
+}
+
+static GstElement * _create_video_sink ()
+{
+  GstElement *snk = NULL;
+  if (video_sink_pipeline) {
+    GstPad *pad = NULL;
+    GstBin *bin;
+    gchar *desc;
+    GError *error  = NULL;
+
+    /* parse the pipeline to a bin */
+    desc = g_strdup_printf ("bin.( %s ! queue )", video_sink_pipeline);
+    bin = (GstBin *) gst_parse_launch (desc, &error);
+    g_free (desc);
+
+    if (bin) {
+      /* find pads and ghost them if necessary */
+      if ((pad = gst_bin_find_unlinked_pad (bin, GST_PAD_SINK))) {
+        gst_element_add_pad (GST_ELEMENT (bin), gst_ghost_pad_new ("sink", pad));
+        gst_object_unref (pad);
+      }
+      snk = GST_ELEMENT (bin);
+    }
+    if (error) {
+      _notify_debug ("Error while creating video_sink pipeline (%d): %s",
+		  error->code, error->message ? error->message : "(null)");
+    }
+  } else if (video_sink) {
+    snk = gst_element_factory_make (video_sink, NULL);
+  }
+  if (snk == NULL)
+    snk = gst_element_factory_make ("autovideosink", NULL);
+
+  return snk;
+}
+
+
 static void
 _codecs_ready (FsSession *session)
 {
-  codecs_ready = TRUE;
-
-  _notify_debug ("CODECS ARE READY");
-
-  _notify_prepared ();
+  if (session == audio_session) {
+    audio_codecs_ready = TRUE;
+    _notify_debug ("AUDIO CODECS ARE READY");
+    _notify_audio_prepared ();
+  } else {
+    video_codecs_ready = TRUE;
+    _notify_debug ("VIDEO CODECS ARE READY");
+    _notify_video_prepared ();
+  }
 }
 
 typedef struct {
@@ -898,10 +1113,10 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
         } else if (gst_structure_has_name (s, "farsight-codecs-changed")) {
           gboolean ready;
 
-          if (!codecs_ready) {
-            g_object_get (session, "codecs-ready", &ready, NULL);
+          if (!audio_codecs_ready) {
+            g_object_get (audio_session, "codecs-ready", &ready, NULL);
             if (ready) {
-              _codecs_ready (session);
+              _codecs_ready (audio_session);
             }
           }
         } else if (gst_structure_has_name (s, "farsight-new-active-candidate-pair")) {
@@ -974,6 +1189,12 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
           } else if (GST_MESSAGE_SRC (message) == GST_OBJECT(levelOut)) {
             _notify_level ("OUT", (gfloat) (rms / channels));
 		  }
+        } else if (gst_structure_has_name (s, "prepare-xwindow-id")) {
+          GstXOverlay *xov = GST_MESSAGE_SRC (message);
+
+          /* TODO : need to differenciate between preview and sink */
+          _notify_debug ("Setting window id %d on sink", video_sink_xid);
+          gst_x_overlay_set_xwindow_id (xov, video_sink_xid);
         }
       }
 
@@ -1024,6 +1245,8 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
           goto drop;
         } else if (gst_structure_has_name (s, "level")) {
           goto drop;
+        } else if (gst_structure_has_name (s, "prepare-xwindow-id")) {
+          goto drop;
         }
       }
 
@@ -1050,7 +1273,8 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
 }
 
 
-int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+
+int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
   GstBus *bus = NULL;
@@ -1097,7 +1321,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   gst_bus_set_sync_handler (bus, _bus_callback, NULL);
   gst_object_unref (bus);
 
-  src = _create_source ();
+  src = _create_audio_source ();
   if (src == NULL) {
     _notify_debug ("Couldn't create audio source, using audiotestsrc");
     src = gst_element_factory_make ("audiotestsrc", NULL);
@@ -1106,10 +1330,10 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   g_object_set(src, "blocksize", 640, NULL);
 
   if (gst_bin_add (GST_BIN (test_pipeline), src) == FALSE) {
-    _notify_debug ("Couldn't add source to pipeline");
+    _notify_debug ("Couldn't add audio_source to pipeline");
     gst_object_unref (src);
     src = NULL;
-    goto no_source;
+    goto error;
   }
 
   volumeIn = gst_element_factory_make ("volume", NULL);
@@ -1124,7 +1348,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
     srcpad = gst_element_get_static_pad (volumeIn, "src");
     if (gst_element_link(src, volumeIn) == FALSE)  {
-      _notify_debug ("Could not link source to volume");
+      _notify_debug ("Could not link audio_source to volume");
       gst_bin_remove (GST_BIN (test_pipeline), volumeIn);
       gst_object_unref (volumeIn);
       volumeIn = NULL;
@@ -1244,12 +1468,11 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   } else {
     _notify_debug ("couldn't create capsfilter");
   }
- no_source:
  no_capsfilter:
 
-  snk = _create_sink ();
+  snk = _create_audio_sink ();
   if (snk == NULL) {
-    Tcl_AppendResult (interp, "Could not create sink",
+    Tcl_AppendResult (interp, "Could not create audio_sink",
         (char *) NULL);
     goto error;
   }
@@ -1353,7 +1576,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       goto no_level_out;
     }
     if (gst_element_link(levelOut, snk) == FALSE)  {
-      _notify_debug ("Could not link sink to level out");
+      _notify_debug ("Could not link audio_sink to level out");
       gst_element_unlink(sink_convert2, levelOut);
       gst_bin_remove (GST_BIN (test_pipeline), levelOut);
       gst_object_unref (levelOut);
@@ -1364,7 +1587,7 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     _notify_debug ("Could not create level out element");
   no_level_out:
     if (gst_element_link(sink_convert2, snk) == FALSE)  {
-      Tcl_AppendResult (interp, "Could not link sink to converter",
+      Tcl_AppendResult (interp, "Could not link audio_sink to converter",
           (char *) NULL);
       goto error;
     }
@@ -1384,6 +1607,189 @@ int Farsight_Test _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   return TCL_ERROR;
 }
+
+int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  GstBus *bus = NULL;
+  GstElement *src = NULL;
+  GstPad *sinkpad = NULL, *srcpad = NULL;
+  GstPad *tempsink;
+  GstElement *snk = NULL;
+  GstElement *src_colorspace = NULL;
+  GstElement *sink_colorspace = NULL;
+  GstElement *capsfilter = NULL;
+  GstElement *videoscale = NULL;
+  GstPadLinkReturn ret;
+  gint state = 0;
+
+  // We verify the arguments
+  if( objc != 1) {
+    Tcl_WrongNumArgs (interp, 1, objv, "");
+    return TCL_ERROR;
+  }
+
+  main_tid = Tcl_GetCurrentThread();
+
+  if (pipeline != NULL) {
+    Tcl_AppendResult (interp, "Already started" , (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  if (test_pipeline != NULL) {
+    Tcl_AppendResult (interp, "Already testing" , (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  test_pipeline = gst_pipeline_new ("pipeline");
+  if (test_pipeline == NULL) {
+    Tcl_AppendResult (interp, "Couldn't create gstreamer pipeline" ,
+        (char *) NULL);
+    goto error;
+  }
+
+  bus = gst_element_get_bus (test_pipeline);
+  gst_bus_set_sync_handler (bus, _bus_callback, NULL);
+  gst_object_unref (bus);
+
+  src = _create_video_source ();
+  if (src == NULL) {
+    _notify_debug ("Couldn't create video source, using videotestsrc");
+    src = gst_element_factory_make ("videotestsrc", NULL);
+  }
+
+  if (gst_bin_add (GST_BIN (test_pipeline), src) == FALSE) {
+    _notify_debug ("Couldn't add video_source to pipeline");
+    gst_object_unref (src);
+    src = NULL;
+    goto error;
+  }
+
+  srcpad = gst_element_get_static_pad (src, "src");
+
+  src_colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), src_colorspace) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add source colorspace to pipeline",
+        (char *) NULL);
+    gst_object_unref (src_colorspace);
+    goto error;
+  }
+
+  tempsink = gst_element_get_static_pad (src_colorspace, "sink");
+  if (gst_pad_link (srcpad, tempsink) != GST_PAD_LINK_OK) {
+    gst_object_unref (tempsink);
+    _notify_debug ("Couldn't link the src to converter");
+    gst_bin_remove (GST_BIN (test_pipeline), src_colorspace);
+    gst_object_unref (src_colorspace);
+    goto error;
+  }
+
+  gst_object_unref (srcpad);
+
+  videoscale = gst_element_factory_make ("videoscale", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), videoscale) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add videoscale to pipeline",
+        (char *) NULL);
+    gst_object_unref (videoscale);
+    goto error;
+  }
+
+  if (gst_element_link(src_colorspace, videoscale) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link source colorspace to videoscale",
+        (char *) NULL);
+    goto error;
+  }
+  srcpad = gst_element_get_static_pad (videoscale, "src");
+
+  capsfilter = gst_element_factory_make ("capsfilter", "capsfilter");
+  if (capsfilter) {
+    GstPad *caps_sink;
+    GstCaps *caps;
+
+    if (gst_bin_add (GST_BIN (test_pipeline), capsfilter) == FALSE) {
+      _notify_debug ("Could not add capsfilter to pipeline");
+      gst_object_unref (capsfilter);
+      goto no_capsfilter;
+    }
+
+    caps_sink = gst_element_get_static_pad (capsfilter, "sink");
+    if (gst_pad_link (srcpad, caps_sink) != GST_PAD_LINK_OK) {
+      gst_object_unref (caps_sink);
+      _notify_debug ("Couldn't link the volume/level/src to capsfilter");
+      gst_bin_remove (GST_BIN (test_pipeline), capsfilter);
+      goto no_capsfilter;
+    }
+
+
+    caps = gst_caps_new_simple ("video/x-raw-rgb",
+        "width", G_TYPE_INT, 320,
+        "height", G_TYPE_INT, 240,
+        NULL);
+    g_object_set (capsfilter, "caps", caps, NULL);
+
+    gst_object_unref (srcpad);
+    srcpad = gst_element_get_static_pad (capsfilter, "src");
+  } else {
+    _notify_debug ("couldn't create capsfilter");
+  }
+ no_capsfilter:
+
+  snk = _create_video_sink ();
+  if (snk == NULL) {
+    Tcl_AppendResult (interp, "Could not create video_sink",
+        (char *) NULL);
+    goto error;
+  }
+  g_signal_connect (snk, "element-added",
+      G_CALLBACK (_sink_element_added), NULL);
+
+  if (gst_bin_add (GST_BIN (test_pipeline), snk) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not add sink to pipeline",
+        (char *) NULL);
+    gst_object_unref (snk);
+    goto error;
+  }
+
+  sink_colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
+  if (gst_bin_add (GST_BIN (test_pipeline), sink_colorspace) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add sink colorspace to pipeline",
+        (char *) NULL);
+    gst_object_unref (sink_colorspace);
+    goto error;
+  }
+
+  if (gst_element_link(sink_colorspace, snk) == FALSE)  {
+    Tcl_AppendResult (interp, "Could not link colorspace to sink", (char *) NULL);
+    goto error;
+  }
+
+  sinkpad = gst_element_get_static_pad (sink_colorspace, "sink");
+
+  ret = gst_pad_link (srcpad, sinkpad);
+  gst_object_unref (sinkpad);
+  gst_object_unref (srcpad);
+
+  if (ret != GST_PAD_LINK_OK)  {
+    Tcl_AppendResult (interp, "Could not link src to sink",
+        (char *) NULL);
+    goto error;
+  }
+
+  if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
+      GST_STATE_CHANGE_FAILURE) {
+    Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
+        (char *) NULL);
+    goto error;
+  }
+
+  return TCL_OK;
+
+ error:
+  Close ();
+
+  return TCL_ERROR;
+}
+
 
 int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
@@ -1556,8 +1962,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     Close ();
   }
 
-  candidates_prepared = FALSE;
-  codecs_ready = FALSE;
+  audio_candidates_prepared = FALSE;
+  audio_codecs_ready = FALSE;
 
   pipeline = gst_pipeline_new ("pipeline");
   if (pipeline == NULL) {
@@ -1584,17 +1990,17 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   g_object_set (conference, "sdes-cname", "", NULL);
 
-  session = fs_conference_new_session (FS_CONFERENCE (conference),
+  audio_session = fs_conference_new_session (FS_CONFERENCE (conference),
       FS_MEDIA_TYPE_AUDIO, &error);
   if (error) {
     char temp[1000];
-    snprintf (temp, 1000, "Error while creating new session (%d): %s",
+    snprintf (temp, 1000, "Error while creating new audio_session (%d): %s",
         error->code, error->message);
     Tcl_AppendResult (interp, temp, (char *) NULL);
     goto error;
   }
-  if (session == NULL) {
-    Tcl_AppendResult (interp, "Couldn't create new session" , (char *) NULL);
+  if (audio_session == NULL) {
+    Tcl_AppendResult (interp, "Couldn't create new audio_session" , (char *) NULL);
     goto error;
   }
 
@@ -1621,41 +2027,41 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     codec_preferences = g_list_append (codec_preferences, pcmu);
     codec_preferences = g_list_append (codec_preferences, red);
 
-    fs_session_set_codec_preferences (session, codec_preferences, NULL);
+    fs_session_set_codec_preferences (audio_session, codec_preferences, NULL);
 
     fs_codec_list_destroy (codec_preferences);
   }
 
-  if (!codecs_ready) {
+  if (!audio_codecs_ready) {
     gboolean ready;
 
-    g_object_get (session, "codecs-ready", &ready, NULL);
+    g_object_get (audio_session, "codecs-ready", &ready, NULL);
     if (ready) {
-      _codecs_ready (session);
+      _codecs_ready (audio_session);
     }
   }
 
-  g_object_set (session, "no-rtcp-timeout", 0, NULL);
+  g_object_set (audio_session, "no-rtcp-timeout", 0, NULL);
 
-  g_object_get (session, "sink-pad", &sinkpad, NULL);
+  g_object_get (audio_session, "sink-pad", &sinkpad, NULL);
 
   if (sinkpad == NULL) {
     Tcl_AppendResult (interp, "Couldn't get sink pad" , (char *) NULL);
     goto error;
   }
 
-  src = _create_source ();
+  src = _create_audio_source ();
   if (src == NULL) {
-    _notify_debug ("Couldn't create audio source");
-    goto no_source;
+    _notify_debug ("Couldn't create audio audio_source");
+    goto no_audio_source;
   }
 
   g_object_set(src, "blocksize", 640, NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
-    _notify_debug ("Couldn't add source to pipeline");
+    _notify_debug ("Couldn't add audio_source to pipeline");
     if (src) gst_object_unref (src);
-    goto no_source;
+    goto no_audio_source;
   }
 
   volumeIn = gst_element_factory_make ("volume", NULL);
@@ -1670,7 +2076,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
     srcpad = gst_element_get_static_pad (volumeIn, "src");
     if (gst_element_link(src, volumeIn) == FALSE)  {
-      _notify_debug ("Could not link source to volume");
+      _notify_debug ("Could not link audio_source to volume");
       gst_bin_remove (GST_BIN (pipeline), volumeIn);
       gst_object_unref (volumeIn);
       volumeIn = NULL;
@@ -1761,13 +2167,13 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     gst_object_unref (sinkpad);
     gst_object_unref (srcpad);
     _notify_debug ("Couldn't link the volume/level/src to fsrtpconference");
-    goto no_source;
+    goto no_audio_source;
   }
 
   gst_object_unref (sinkpad);
   gst_object_unref (srcpad);
 
- no_source:
+ no_audio_source:
   participant = fs_conference_new_participant (FS_CONFERENCE (conference),
       "", &error);
   if (error) {
@@ -1823,23 +2229,23 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     g_value_array_free (relay_info);
   }
 
-  stream = fs_session_new_stream (session, participant, FS_DIRECTION_BOTH,
+  audio_stream = fs_session_new_stream (audio_session, participant, FS_DIRECTION_BOTH,
       "nice", total_params, transmitter_params, &error);
 
   if (error) {
     char temp[1000];
-    snprintf (temp, 1000, "Error while creating new stream (%d): %s",
+    snprintf (temp, 1000, "Error while creating new audio_stream (%d): %s",
         error->code, error->message);
     Tcl_AppendResult (interp, temp, (char *) NULL);
     goto error;
   }
-  if (stream == NULL) {
-    Tcl_AppendResult (interp, "Couldn't create new stream" , (char *) NULL);
+  if (audio_stream == NULL) {
+    Tcl_AppendResult (interp, "Couldn't create new audio_stream" , (char *) NULL);
     goto error;
   }
 
-  g_signal_connect (stream, "src-pad-added",
-      G_CALLBACK (_src_pad_added), pipeline);
+  g_signal_connect (audio_stream, "src-pad-added",
+      G_CALLBACK (_audio_src_pad_added), pipeline);
 
   if (gst_element_set_state (pipeline, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
@@ -1930,7 +2336,7 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     remote_codecs = g_list_append (remote_codecs, codec);
   }
 
-  if (!fs_stream_set_remote_codecs (stream, remote_codecs, &error)) {
+  if (!fs_stream_set_remote_codecs (audio_stream, remote_codecs, &error)) {
     Tcl_AppendResult (interp, "Could not set the remote codecs", (char *) NULL);
     goto error_codecs;
   }
@@ -2052,7 +2458,7 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     remote_candidates = g_list_append (remote_candidates, candidate);
   }
 
-  if (!fs_stream_set_remote_candidates (stream, remote_candidates, &error)) {
+  if (!fs_stream_set_remote_candidates (audio_stream, remote_candidates, &error)) {
     Tcl_AppendResult (interp, "Could not set the remote candidates",
         (char *) NULL);
     goto error_candidates;
@@ -2265,7 +2671,7 @@ klass_contains (const gchar *klass, const gchar *needle)
 }
 
 static gboolean
-is_source (GstElementFactory *factory)
+is_audio_source (GstElementFactory *factory)
 {
   const gchar *klass = gst_element_factory_get_klass (factory);
   /* we might have some sources that provide a non raw stream */
@@ -2274,11 +2680,30 @@ is_source (GstElementFactory *factory)
 }
 
 static gboolean
-is_sink (GstElementFactory *factory)
+is_audio_sink (GstElementFactory *factory)
 {
   const gchar *klass = gst_element_factory_get_klass (factory);
   /* we might have some sinks that provide decoding */
   return (klass_contains (klass, "Audio") &&
+          klass_contains (klass, "Sink"));
+}
+
+
+static gboolean
+is_video_source (GstElementFactory *factory)
+{
+  const gchar *klass = gst_element_factory_get_klass (factory);
+  /* we might have some sources that provide a non raw stream */
+  return (klass_contains (klass, "Video") &&
+          klass_contains (klass, "Source"));
+}
+
+static gboolean
+is_video_sink (GstElementFactory *factory)
+{
+  const gchar *klass = gst_element_factory_get_klass (factory);
+  /* we might have some sinks that provide decoding */
+  return (klass_contains (klass, "Video") &&
           klass_contains (klass, "Sink"));
 }
 
@@ -2303,7 +2728,7 @@ compare_ranks (GstPluginFeature * f1, GstPluginFeature * f2)
 }
 
 static GList *
-get_plugins_filtered (gboolean source)
+get_plugins_filtered (gboolean source, gboolean audio)
 {
   GList *walk, *registry, *result = NULL;
   GstElementFactory *factory;
@@ -2317,10 +2742,18 @@ get_plugins_filtered (gboolean source)
   for (walk = registry; walk; walk = g_list_next (walk)) {
     factory = GST_ELEMENT_FACTORY (walk->data);
 
-    if ((source && is_source (factory)) ||
-        (!source && is_sink (factory))) {
-      result = g_list_append (result, factory);
-      gst_object_ref (factory);
+    if (audio) {
+      if ((source && is_audio_source (factory)) ||
+          (!source && is_audio_sink (factory))) {
+        result = g_list_append (result, factory);
+        gst_object_ref (factory);
+      }
+    } else {
+      if ((source && is_video_source (factory)) ||
+          (!source && is_video_sink (factory))) {
+        result = g_list_append (result, factory);
+        gst_object_ref (factory);
+      }
     }
 
   }
@@ -2339,7 +2772,7 @@ int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   Tcl_Obj *type = NULL;
   Tcl_Obj *devices = NULL;
   Tcl_Obj *result = NULL;
-  GList *sources, *sinks, *walk, *list;
+  GList *audio_sources, *audio_sinks, *video_sources, *video_sinks, *walk, *list;
   gint si;
 
   result = Tcl_NewListObj (0, NULL);
@@ -2350,16 +2783,31 @@ int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     return TCL_ERROR;
   }
 
-  sources = get_plugins_filtered (TRUE);
-  sinks = get_plugins_filtered (FALSE);
+  audio_sources = get_plugins_filtered (TRUE, TRUE);
+  audio_sinks = get_plugins_filtered (FALSE, TRUE);
+  video_sources = get_plugins_filtered (TRUE, FALSE);
+  video_sinks = get_plugins_filtered (FALSE, FALSE);
 
-  for (si = 0; si < 2; si++) {
-    if (si == 0) {
-      list = sources;
-      type = Tcl_NewStringObj ("source", -1);
-    } else {
-      list = sinks;
-      type = Tcl_NewStringObj ("sink", -1);
+  for (si = 0; si < 4; si++) {
+    switch (si) {
+      case 0:
+        list = audio_sources;
+        type = Tcl_NewStringObj ("audiosource", -1);
+        break;
+      case 1:
+        list = audio_sinks;
+        type = Tcl_NewStringObj ("audiosink", -1);
+        break;
+      case 2:
+        list = video_sources;
+        type = Tcl_NewStringObj ("videosource", -1);
+        break;
+      case 3:
+        list = video_sinks;
+        type = Tcl_NewStringObj ("videosink", -1);
+        break;
+      default:
+        break;
     }
     for (walk = list; walk; walk = g_list_next (walk)) {
       GstPropertyProbe *probe;
@@ -2440,12 +2888,18 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
   static const char *farsightOptions[] = {
-    "-level", "-debug", "-source", "-source-device", "-source-pipeline",
-    "-sink", "-sink-device", "-sink-pipeline", NULL
+    "-level", "-debug", "-audio-source", "-audio-source-device",
+    "-audio-source-pipeline", "-audio-sink", "-audio-sink-device",
+    "-audio-sink-pipeline", "-video-source", "-video-source-device",
+    "-video-preview-xid", "-video-source-pipeline", "-video-sink",
+    "-video-sink-xid", "-video-sink-pipeline", NULL
   };
   enum farsightOptions {
-    FS_LEVEL, FS_DEBUG, FS_SOURCE, FS_SRC_DEVICE, FS_SRC_PIPELINE,
-    FS_SINK, FS_SINK_DEVICE, FS_SINK_PIPELINE
+    FS_LEVEL, FS_DEBUG, FS_AUDIO_SOURCE, FS_AUDIO_SRC_DEVICE,
+    FS_AUDIO_SRC_PIPELINE, FS_AUDIO_SINK, FS_AUDIO_SINK_DEVICE,
+    FS_AUDIO_SINK_PIPELINE, FS_VIDEO_SOURCE, FS_VIDEO_SRC_DEVICE,
+    FS_VIDEO_PREVIEW_XID, FS_VIDEO_SRC_PIPELINE, FS_VIDEO_SINK,
+    FS_VIDEO_SINK_XID, FS_VIDEO_SINK_PIPELINE
   };
   int optionIndex, a;
 
@@ -2496,79 +2950,172 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           debug_callback_interp = interp;
         }
         break;
-      case FS_SOURCE:
+      case FS_AUDIO_SOURCE:
         a++;
         if (a >= objc) {
           Tcl_AppendResult(interp,
-              "no argument given for -source option", NULL);
+              "no argument given for -audio-source option", NULL);
           return TCL_ERROR;
         }
 
-        if (source)
-          g_free (source);
-        source = g_strdup (Tcl_GetString(objv[a]));
+        if (audio_source)
+          g_free (audio_source);
+        audio_source = g_strdup (Tcl_GetString(objv[a]));
         break;
-      case FS_SRC_DEVICE: {
+      case FS_AUDIO_SRC_DEVICE: {
         a++;
         if (a >= objc) {
           Tcl_AppendResult(interp,
-              "no argument given for -source-device option", NULL);
+              "no argument given for -audio-source-device option", NULL);
           return TCL_ERROR;
         }
 
-        if (source_device)
-          g_free (source_device);
-        source_device = g_strdup (Tcl_GetString(objv[a]));
-        break;
-      }
-      case FS_SRC_PIPELINE:
-        a++;
-        if (a >= objc) {
-          Tcl_AppendResult(interp,
-              "no argument given for -source-pipeline option", NULL);
-          return TCL_ERROR;
-        }
-
-        if (source_pipeline)
-          g_free (source_pipeline);
-        source_pipeline = g_strdup (Tcl_GetString(objv[a]));
-        break;
-      case FS_SINK:
-        a++;
-        if (a >= objc) {
-          Tcl_AppendResult(interp,
-              "no argument given for -sink option", NULL);
-          return TCL_ERROR;
-        }
-
-        if (sink)
-          g_free (sink);
-        sink = g_strdup (Tcl_GetString(objv[a]));
-        break;
-      case FS_SINK_DEVICE: {
-        a++;
-        if (a >= objc) {
-          Tcl_AppendResult(interp,
-              "no argument given for -sink-device option", NULL);
-          return TCL_ERROR;
-        }
-
-        if (sink_device)
-          g_free (sink_device);
-        sink_device = g_strdup (Tcl_GetString(objv[a]));
+        if (audio_source_device)
+          g_free (audio_source_device);
+        audio_source_device = g_strdup (Tcl_GetString(objv[a]));
         break;
       }
-      case FS_SINK_PIPELINE:
+      case FS_AUDIO_SRC_PIPELINE:
         a++;
         if (a >= objc) {
           Tcl_AppendResult(interp,
-              "no argument given for -source-pipeline option", NULL);
+              "no argument given for -audio-source-pipeline option", NULL);
           return TCL_ERROR;
         }
 
-        if (sink_pipeline)
-          g_free (sink_pipeline);
-        sink_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        if (audio_source_pipeline)
+          g_free (audio_source_pipeline);
+        audio_source_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_AUDIO_SINK:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -audio-sink option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (audio_sink)
+          g_free (audio_sink);
+        audio_sink = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_AUDIO_SINK_DEVICE: {
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -audio-sink-device option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (audio_sink_device)
+          g_free (audio_sink_device);
+        audio_sink_device = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      }
+      case FS_AUDIO_SINK_PIPELINE:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -audio-sink-pipeline option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (audio_sink_pipeline)
+          g_free (audio_sink_pipeline);
+        audio_sink_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_VIDEO_SOURCE:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -video-source option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (video_source)
+          g_free (video_source);
+        video_source = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_VIDEO_SRC_DEVICE: {
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -video-source-device option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (video_source_device)
+          g_free (video_source_device);
+        video_source_device = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      }
+      case FS_VIDEO_PREVIEW_XID: {
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -video-preview-xid option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (video_preview_xid)
+          g_free (video_preview_xid);
+
+        if (Tcl_GetLongFromObj (interp, objv[a], &video_preview_xid) != TCL_OK) {
+          return TCL_ERROR;
+        }
+        break;
+      }
+      case FS_VIDEO_SRC_PIPELINE:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -video-source-pipeline option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (video_source_pipeline)
+          g_free (video_source_pipeline);
+        video_source_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_VIDEO_SINK:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -video-sink option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (video_sink)
+          g_free (video_sink);
+        video_sink = g_strdup (Tcl_GetString(objv[a]));
+        break;
+      case FS_VIDEO_SINK_XID: {
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -video-sink-xid option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (video_sink_xid)
+          g_free (video_sink_xid);
+
+        if (Tcl_GetLongFromObj (interp, objv[a], &video_sink_xid) != TCL_OK) {
+          return TCL_ERROR;
+        }
+        break;
+      }
+      case FS_VIDEO_SINK_PIPELINE:
+        a++;
+        if (a >= objc) {
+          Tcl_AppendResult(interp,
+              "no argument given for -video-sink-pipeline option", NULL);
+          return TCL_ERROR;
+        }
+
+        if (video_sink_pipeline)
+          g_free (video_sink_pipeline);
+        video_sink_pipeline = g_strdup (Tcl_GetString(objv[a]));
         break;
       default:
           Tcl_AppendResult(interp,
@@ -2640,7 +3187,9 @@ int Farsight_Init (Tcl_Interp *interp) {
   Tcl_CreateObjCommand(interp, "::Farsight::Config", Farsight_Config,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
-  Tcl_CreateObjCommand(interp, "::Farsight::Test", Farsight_Test,
+  Tcl_CreateObjCommand(interp, "::Farsight::TestAudio", Farsight_TestAudio,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::TestVideo", Farsight_TestVideo,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
   // end of Initialisation
