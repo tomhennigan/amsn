@@ -17,6 +17,7 @@ snit::type SIPConnection {
 	option -active_candidates -default ""
 	option -tunneled -default 0
 	option -socket -default  ""
+	option -ice 6
 
 
 	delegate option {-host -port -transport
@@ -771,21 +772,54 @@ snit::type SIPConnection {
 
 	method BuildIceCandidates { {local ""} {remote ""} } {
 		set sdp ""
+		set first_line 1
 
 		foreach candidate $options(-local_candidates) {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 
-			if {[info exists ::farsight_test_turn] &&
-			    $::farsight_test_turn &&
-			    $qvalue >= "0.5" } {continue}
-			if {$candidate_id != "" && $password != "" } {
-				if {$local == "" || $candidate_id == $local} {
-					append sdp "a=candidate:$candidate_id $component_id $password $transport [format %.3f $qvalue] $ip $port\r\n"
+			if {$options(-ice) == 6} {
+				if {[info exists ::farsight_test_turn] &&
+				    $::farsight_test_turn &&
+				    $priority >= "0.5" } {continue}
+				if {$username != "" && $password != "" } {
+					if {$local == "" || $candidate_id == $local} {
+						append sdp "a=candidate:$username $component_id $password $transport [format %.3f $priority] $ip $port\r\n"
+					}
+				}
+			} else {
+				if {[info exists ::farsight_test_turn] &&
+				    $::farsight_test_turn &&
+				    $type != "relay" } {continue}
+				if {$foundation != "" && $username != "" && $password != "" } {
+					if {$first_line} {
+						append sdp "a=ice-ufrag:$username\r\n"
+						append sdp "a=ice-pwd:$password\r\n"
+						set first_line 0
+					}
+					if {$local == "" || $foundation == $local} {
+						append sdp "a=candidate:$foundation $component_id $transport $priority $ip $port"
+						if {$type != "" } {
+							append sdp " typ $type"
+							if {$type != "host" } {
+								if {$base_ip != "" &&
+								    $base_port != 0 } {
+									append sdp " raddr $base_ip rport $base_port"
+								}
+							}
+						}
+						append sdp "\r\n"
+					}
 				}
 			}
 		}
 		if {$remote != ""} {
-			append sdp "a=remote-candidate:$remote\r\n"
+			foreach candidate $options(-remote_candidates) {
+				foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
+				if {$remote == "" || $foundation == $remote} {
+					append sdp "a=remote-candidate:$username\r\n"
+					break
+				}
+			}
 		}
 		return $sdp
 	}
@@ -800,30 +834,38 @@ snit::type SIPConnection {
 		set rtcp_port 0
 		set default_ip 0
 		set default_port 0
-		set lowest_qvalue 0
+		set lowest_priority 0
 		if {$local == ""} {
 			foreach candidate $options(-local_candidates) {
-				foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-				if {$qvalue < $lowest_qvalue} {
-					set lowest_qvalue $qvalue
+				foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
+				if {$transport != "UDP" } { continue }
+				if {$priority < $lowest_priority} {
+					set lowest_priority $priority
 				}
-				if {$qvalue < "0.5"} {
-					set lowest_qvalue $qvalue
-					break
+				if {$options(-ice) == 6 } {
+					if {$priority < "0.5"} {
+						set lowest_priority $priority
+						break
+					}
+				} elseif {$options(-ice) == 19 } {
+					if {$type == "relay" } {
+						set lowest_priority $priority
+						break
+					}
 				}
 			}
 		}
 		foreach candidate $options(-local_candidates) {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {($local == "" || $candidate_id == $local) &&
+			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
+			if {($local == "" || $foundation == $local) &&
 			    $component_id == 1 && $default_ip == 0 &&
-			    ($lowest_qvalue == 0 || $qvalue == $lowest_qvalue)} {
+			    ($lowest_priority == 0 || $priority == $lowest_priority)} {
 				set default_ip $ip
 				set default_port $port
 			}
 		}
 		foreach candidate $options(-local_candidates) {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
+			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 			if { $component_id == 2 && $ip == $default_ip} {
 				set rtcp_port $port
 				break
@@ -837,7 +879,9 @@ snit::type SIPConnection {
 		append sdp "b=CT:100\r\n"
 		append sdp "t=0 0\r\n"
 		append sdp "m=audio $default_port RTP/AVP$pt_list\r\n"
-		append sdp [$self BuildIceCandidates $local $remote]
+		if {$options(-ice) > 0} {
+			append sdp [$self BuildIceCandidates $local $remote]
+		}
 
 		if {$rtcp_port != 0 } {
 			append sdp "a=rtcp:$rtcp_port\r\n"
@@ -947,6 +991,8 @@ snit::type SIPConnection {
 		set options(-remote_codecs) [list]
 		set ice_candidates [list]
 		set rtcp_port 0
+		set ufrag ""
+		set pwd ""
 
 		foreach line [split $body "\n"] {
 			set line [string trim $line]
@@ -965,6 +1011,12 @@ snit::type SIPConnection {
 					set attr [string range $value [expr {[string length $attribute] +1}] end]
 					#puts "$attribute -- $attr"
 					switch -- $attribute {
+						"ice-ufrag" {
+							set ufrag $attr
+						}
+						"ice-pwd" {
+							set pwd $attr
+						}
 						"candidate" {
 							lappend ice_candidates [split $attr " "]
 						}
@@ -988,11 +1040,53 @@ snit::type SIPConnection {
 			incr rtcp_port
 		}
 		set options(-remote_candidates) [list]
-		lappend options(-remote_candidates) [list "" 1 "" UDP 1 $ip $port]
-		lappend options(-remote_candidates) [list "" 2 "" UDP 1 $ip $rtcp_port]
+		if {$ice_candidates == [list] } {
+			set options(-ice) 0
+			lappend options(-remote_candidates) [list "" 1 $ip $port "" 0 "UDP" 1 "host" "" ""]
+			lappend options(-remote_candidates) [list "" 2 $ip $rtcp_port "" 0 "UDP" 1 "host" "" ""]
+		}
 		
 		foreach candidate $ice_candidates {
-			lappend options(-remote_candidates) $candidate
+			if {$ufrag != "" && $pwd != "" } {
+				set options(-ice) 19
+
+				set base_ip ""
+				set base_port 0
+				set type ""
+				for {set i 0 } { $i < [llength $candidate] } { incr i } {
+					if {$i == 0 } {
+						set foundation [lindex $candidate $i]
+					} elseif {$i == 1 } {
+						set component_id [lindex $candidate $i]
+					} elseif {$i == 2 } {
+						set transport [lindex $candidate $i]
+					} elseif {$i == 3 } {
+						set priority [lindex $candidate $i]
+					} elseif {$i == 4 } {
+						set ip [lindex $candidate $i]
+					} elseif {$i == 5 } {
+						set port [lindex $candidate $i]
+					} else {
+						if {[lindex $candidate $i] == "typ" } {
+							incr i
+							set type [lindex $candidate $i]
+						} elseif {[lindex $candidate $i] == "raddr" } {
+							incr i
+							set base_ip [lindex $candidate $i]
+						} elseif {[lindex $candidate $i] == "rport" } {
+							incr i
+							set base_port [lindex $candidate $i]
+						} 
+					} 
+				}
+				lappend options(-remote_candidates) [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $ufrag $pwd]
+			} else {
+				set options(-ice) 6
+				foreach {username component_id password transport priority ip port} $candidate break
+				set foundation [string range $username 0 32]
+				lappend options(-remote_candidates) [list $foundation $component_id $ip $port "" 0 $transport $priority "" $username $password]
+
+			}
 		}
 
 	}
@@ -1695,6 +1789,7 @@ snit::type Farsight {
 	variable prepare_ticket ""
 	variable prepare_relay_info ""
 	variable specialLogger ""
+	variable call_type ""
 
 	option -closed -default ""
 	option -prepared -default ""
@@ -1750,22 +1845,35 @@ snit::type Farsight {
 	method SetRemoteCandidates { candidates } {
 		set remote_candidates [list]
 		foreach candidate $candidates {
-			foreach {candidate_id component_id password transport qvalue ip port} $candidate break
-			if {[info exists ::farsight_test_turn] &&
-			    $::farsight_test_turn &&
-			    $qvalue >= "0.5" } {continue}
-			if {$candidate_id != "" &&
-			    $password != "" &&
-			    $transport == "UDP"} {
-				if {[string length [base64::decode $candidate_id]] != 32 &&
-				    [string range $candidate_id end end] != "="} {
-					append candidate_id "="
+			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
+			if {$call_type == "A6" } {
+				if {[info exists ::farsight_test_turn] &&
+				    $::farsight_test_turn &&
+				    $priority >= "0.5" } {continue}
+				if {$candidate_id != "" &&
+				    $password != "" &&
+				    $transport == "UDP"} {
+					if {[string length [base64::decode $username]] != 32 &&
+					    [string range $username end end] != "="} {
+						append username "="
+					}
+					if {[string length [base64::decode $password]] != 16 &&
+					    [string range $password end end] != "="} {
+						append password "=="
+					}
+					set foundation [string range $username 0 32]
+					lappend remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
 				}
-				if {[string length [base64::decode $password]] != 16 &&
-				    [string range $password end end] != "="} {
-					append password "=="
+			} elseif {$call_type == "A19" } {
+				if {[info exists ::farsight_test_turn] &&
+				    $::farsight_test_turn &&
+				    $type != "relay" } {continue}
+				if {$foundation != "" &&
+				    $username != "" &&
+				    $password != "" &&
+				    $transport == "UDP"} {
+					lappend remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
 				}
-				lappend remote_candidates [list $candidate_id $component_id $password $transport $qvalue $ip $port]
 			}
 		}
 		
@@ -1805,7 +1913,7 @@ snit::type Farsight {
 	}
 
 	method Test { } {
-		if {[catch {$self Prepare 1 } res] } {
+		if {[catch {$self Prepare 1} res] } {
 			if {$specialLogger != ""} {
 				catch {eval $specialLogger {"Farsight Prepare error : $res"}}
 			}
@@ -1816,7 +1924,7 @@ snit::type Farsight {
 
 	}
 
-	method Prepare { controlling } {
+	method Prepare { controlling {mode "A6"} } {
 		if {[info exists ::sso] && $::sso != ""} {
 			set prepare_ticket ""
 			$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
@@ -1826,6 +1934,9 @@ snit::type Farsight {
 		}
 
 		$self Close
+
+		set call_type $mode
+
 		if {$specialLogger != ""} {
 			catch {eval $specialLogger {"Farsight : Preparing"}}
 		}
@@ -1860,7 +1971,7 @@ snit::type Farsight {
 			tkwait variable [myvar prepare_relay_info]
 		}
 
-		::Farsight::Prepare [list $self FarsightReady] $controlling $prepare_relay_info 64.14.48.28
+		::Farsight::Prepare [list $self FarsightReady] $controlling $mode $prepare_relay_info 64.14.48.28
 	}
 
 	method PrepareSSOCB {controlling ticket} {
@@ -2091,7 +2202,7 @@ namespace eval ::MSNSIP {
 			  [::MSN::hasCapability [::abook::getContactData $email clientid] tunnelsip]} {
 			status_log "Sending Tunneled SIP invite to $email"
 			set sock [TunneledSIPSocket create %AUTO% -destination $email]
-			set sip [SIPConnection create %AUTO% -user [::config::getKey login] -tunneled 1 -socket $sock]
+			set sip [SIPConnection create %AUTO% -user [::config::getKey login] -tunneled 1 -socket $sock -ice 19]
 			$sip configure -error_handler [list ::MSNSIP::errorSIP $sip] -request_handler [list ::MSNSIP::requestSIP $sip]
 			lappend sipconnections $sip
 			InviteUserCB $email $sip
@@ -2106,7 +2217,12 @@ namespace eval ::MSNSIP {
 		    -closed  [list ::MSNSIP::inviteClosed $sip $email "" -1] \
 		    -active ""
 		
-		if {[catch {$::farsight Prepare 1}] } {
+		if {[$sip cget -ice] == 19} {
+			set mode "A19"
+		} else {
+			set mode "A6"
+		}
+		if {[catch {$::farsight Prepare 1 $mode}] } {
 			::amsn::SIPCallImpossible $email
 			return "IMPOSSIBLE"
 		} else {
@@ -2195,7 +2311,7 @@ namespace eval ::MSNSIP {
 			$::farsight SetRemoteCandidates [$sip cget -remote_candidates]
 			$::farsight SetRemoteCodecs [$sip cget -remote_codecs]
 			$::farsight Start
-			$::farsight configure -closed [list ::MSNSIP::inviteClosed $sip $callid 1]
+			$::farsight configure -closed [list ::MSNSIP::inviteClosed $sip $email $callid 1]
 		} elseif {$status == "BUSY"} {
 			# Signal the UI
 			::amsn::SIPCalleeBusy $email $sip $callid
@@ -2244,7 +2360,12 @@ namespace eval ::MSNSIP {
 				$sip configure -active_candidates ""
 
 
-				if {[catch {$::farsight Prepare 0}] } {
+				if {[$sip cget -ice] == 19} {
+					set mode "A19"
+				} else {
+					set mode "A6"
+				}
+				if {[catch {$::farsight Prepare 0 $mode}] } {
 					$::farsight configure -sipconnection $sip 
 					# Signal the UI
 					::amsn::SIPCallImpossible $caller

@@ -1561,7 +1561,7 @@ namespace eval ::MSN {
 			::config::setKey clientid "$clientid:$extra"
 		}
 		
-		return $clientid
+		return "$clientid:$extra"
 	}
 
 	proc hasCapability { clientid cap } {

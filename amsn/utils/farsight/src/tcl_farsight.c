@@ -30,9 +30,23 @@
 #include <sys/socket.h>
 #endif
 
+#define OLD_AUDIO_CALL "A6"
+#define NEW_AUDIO_CALL "A19"
+#define NEW_AUDIO_VIDEO_CALL "AV"
+
+typedef enum {
+  RTP_AUDIO = 1,
+  RTP_VIDEO = 2,
+  RTP_ICE6 = 4,
+  RTP_ICE19 = 8,
+  RTP_AUDIO_ICE6 = (RTP_AUDIO | RTP_ICE6),
+  RTP_AUDIO_ICE19 = (RTP_AUDIO | RTP_ICE19),
+  RTP_AUDIO_VIDEO_ICE19 = (RTP_AUDIO | RTP_VIDEO | RTP_ICE19),
+} FsCallType;
 
 static GList * get_plugins_filtered (gboolean source);
 
+FsCallType call_type;
 Tcl_Obj *level_callback = NULL;
 Tcl_Interp *level_callback_interp = NULL;
 Tcl_Obj *debug_callback = NULL;
@@ -353,29 +367,60 @@ _notify_prepared ()
   }
 }
 
+static const char * _fs_candidate_type_to_string (FsCandidateType type)
+{
+  switch (type) {
+    case FS_CANDIDATE_TYPE_HOST:
+      return "host";
+      break;
+    case FS_CANDIDATE_TYPE_SRFLX:
+      return "srflx";
+      break;
+    case FS_CANDIDATE_TYPE_PRFLX:
+      return "prflx";
+      break;
+    case FS_CANDIDATE_TYPE_RELAY:
+      return "relay";
+      break;
+    default:
+      return "";
+      break;
+  }
+}
+
 static void
 _new_local_candidate (FsStream *stream, FsCandidate *candidate)
 {
   Tcl_Obj *tcl_candidate = NULL;
-  Tcl_Obj *elements[7];
+  Tcl_Obj *elements[11];
 
   if (local_candidates == NULL) {
     local_candidates = Tcl_NewListObj (0, NULL);
     Tcl_IncrRefCount(local_candidates);
   }
 
-  elements[0] = Tcl_NewStringObj (candidate->username == NULL ?
-      "" : candidate->username, -1);
+  elements[0] = Tcl_NewStringObj (candidate->foundation == NULL ?
+      "" : candidate->foundation, -1);
   elements[1] = Tcl_NewIntObj (candidate->component_id);
-  elements[2] = Tcl_NewStringObj (candidate->password == NULL ?
-      "" : candidate->password, -1);
-  elements[3] = Tcl_NewStringObj (candidate->proto == FS_NETWORK_PROTOCOL_UDP ?
+  elements[2] = Tcl_NewStringObj (candidate->ip, -1);
+  elements[3] = Tcl_NewIntObj (candidate->port);
+  elements[4] = Tcl_NewStringObj (candidate->base_ip, -1);
+  elements[5] = Tcl_NewIntObj (candidate->base_port);
+  elements[6] = Tcl_NewStringObj (candidate->proto == FS_NETWORK_PROTOCOL_UDP ?
       "UDP" : "TCP", -1);
-  elements[4] = Tcl_NewDoubleObj ((gfloat) candidate->priority / 1000);
-  elements[5] = Tcl_NewStringObj (candidate->ip, -1);
-  elements[6] = Tcl_NewIntObj (candidate->port);
+  if (call_type & RTP_ICE6)
+    elements[7] = Tcl_NewDoubleObj ((gfloat) candidate->priority / 1000);
+  else
+    elements[7] = Tcl_NewIntObj (candidate->priority);
 
-  tcl_candidate = Tcl_NewListObj (7, elements);
+  elements[8] = Tcl_NewStringObj (
+      _fs_candidate_type_to_string (candidate->type), -1);
+
+  elements[9] = Tcl_NewStringObj (candidate->username == NULL ?
+      "" : candidate->username, -1);
+  elements[10] = Tcl_NewStringObj (candidate->password == NULL ?
+      "" : candidate->password, -1);
+  tcl_candidate = Tcl_NewListObj (11, elements);
 
   Tcl_ListObjAppendElement(NULL, local_candidates, tcl_candidate);
 
@@ -873,22 +918,34 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
 
           _notify_debug ("New active candidate pair : ");
 
-          _notify_debug ("Local candidate: %s %d %s %s %d %s %d\n",
-              local->username == NULL ? "-" : local->username,
+          _notify_debug ("Local candidate: %s %d %s %d %s %d %s %d %s %s %s\n",
+              local->foundation == NULL ? "-" : local->foundation,
               local->component_id,
-              local->password == NULL ? "-" : local->password,
+              local->ip,
+              local->port,
+              local->base_ip == NULL ? "-" : local->base_ip,
+              local->base_port,
               local->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
-              local->priority, local->ip, local->port);
+              local->priority,
+              _fs_candidate_type_to_string (local->type),
+              local->username == NULL ? "-" : local->username,
+              local->password == NULL ? "-" : local->password);
 
-          _notify_debug ("Remote candidate: %s %d %s %s %d %s %d\n",
-              remote->username == NULL ? "-" : remote->username,
+          _notify_debug ("Remote candidate: %s %d %s %d %s %d %s %d %s %s %s\n",
+              remote->foundation == NULL ? "-" : remote->foundation,
               remote->component_id,
-              remote->password == NULL ? "-" : remote->password,
+              remote->ip,
+              remote->port,
+              remote->base_ip == NULL ? "-" : remote->base_ip,
+              remote->base_port,
               remote->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
-              remote->priority, remote->ip, remote->port);
+              remote->priority,
+              _fs_candidate_type_to_string (remote->type),
+              remote->username == NULL ? "-" : remote->username,
+              remote->password == NULL ? "-" : remote->password);
 
           if (++components_selected == 2) {
-            _notify_active (local->username, remote->username);
+            _notify_active (local->foundation, remote->foundation);
           }
         } else if (gst_structure_has_name (s, "level")) {
           gint channels;
@@ -1349,11 +1406,15 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   int i;
   GValueArray *relay_info = NULL;
   int total_params;
+  char *mode = NULL;
 
   // We verify the arguments
-  if( objc < 3 || objc > 6) {
-    Tcl_WrongNumArgs (interp, 1, objv, " callback controlling ?relay_info?"
+  if( objc < 4 || objc > 7) {
+    Tcl_WrongNumArgs (interp, 1, objv, " callback controlling mode ?relay_info?"
         " ?stun_ip stun_port?\n"
+        "Where mode can be either : "
+        OLD_AUDIO_CALL ", " NEW_AUDIO_CALL " or "
+        NEW_AUDIO_VIDEO_CALL "\n"
         "Where relay_info is a list with each element being a list containing : "
         "{turn_hostname turn_port turn_username turn_password component type}");
     return TCL_ERROR;
@@ -1363,14 +1424,29 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     return TCL_ERROR;
   }
 
+  mode = Tcl_GetStringFromObj (objv[3], NULL);
+  if (strcmp (mode, OLD_AUDIO_CALL) == 0) {
+    call_type = RTP_AUDIO_ICE6;
+  } else if (strcmp (mode, NEW_AUDIO_CALL) == 0) {
+    call_type = RTP_AUDIO_ICE19;
+  } else if (strcmp (mode, NEW_AUDIO_VIDEO_CALL) == 0) {
+    call_type = RTP_AUDIO_VIDEO_ICE19;
+    Tcl_AppendResult (interp, "Call mode not supported yet", (char *) NULL);
+    return TCL_ERROR;
+  } else {
+    Tcl_AppendResult (interp, "Invalid call mode, must be either : ",
+        OLD_AUDIO_CALL, ", ", NEW_AUDIO_CALL, " or ",
+        NEW_AUDIO_VIDEO_CALL, (char *) NULL);
+    return TCL_ERROR;
+  }
+
   callback = objv[1];
   Tcl_IncrRefCount (callback);
   callback_interp = interp;
   main_tid = Tcl_GetCurrentThread();
 
-
-  if (objc > 3) {
-    if (Tcl_ListObjGetElements(interp, objv[3],
+  if (objc > 4) {
+    if (Tcl_ListObjGetElements(interp, objv[4],
             &total_relay_info, &tcl_relay_info) != TCL_OK) {
       Tcl_AppendResult (interp, "\nInvalid relay info", (char *) NULL);
       return TCL_ERROR;
@@ -1435,22 +1511,28 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           "port", G_TYPE_UINT, turn_port,
           "username", G_TYPE_STRING, username,
           "password", G_TYPE_STRING, password,
-          "component", G_TYPE_UINT, component,
           "relay-type", G_TYPE_STRING, type,
           NULL);
+
       if (turn_setup == NULL) {
         g_value_array_free (relay_info);
         Tcl_AppendResult (interp, "Unable to create relay info" , (char *) NULL);
         return TCL_ERROR;
       }
+
+      if (call_type & RTP_ICE6) {
+        gst_structure_set (turn_setup,
+            "component", G_TYPE_UINT, component, NULL);
+      }
+
       gst_value_set_structure (&gvalue, turn_setup);
       relay_info = g_value_array_append (relay_info, &gvalue);
       gst_structure_free (turn_setup);
     }
   }
 
-  if (objc > 4) {
-    stun_hostname = Tcl_GetStringFromObj (objv[4], NULL);
+  if (objc > 5) {
+    stun_hostname = Tcl_GetStringFromObj (objv[5], NULL);
     stun_ip = host2ip (stun_hostname);
     if (stun_ip == NULL) {
       Tcl_AppendResult (interp, "Stun server invalid : Could not resolve hostname",
@@ -1458,8 +1540,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       return TCL_ERROR;
     }
   }
-  if (objc > 5) {
-    if (Tcl_GetIntFromObj (interp, objv[5], &stun_port) == TCL_ERROR) {
+  if (objc > 6) {
+    if (Tcl_GetIntFromObj (interp, objv[6], &stun_port) == TCL_ERROR) {
       Tcl_AppendResult (interp, "Stun port invalid : Expected integer" , (char *) NULL);
       return TCL_ERROR;
     }
@@ -1703,25 +1785,33 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   memset (transmitter_params, 0, sizeof (GParameter) * 6);
 
-  transmitter_params[0].name = "compatibility-mode";
-  g_value_init (&transmitter_params[0].value, G_TYPE_UINT);
-  g_value_set_uint (&transmitter_params[0].value, 2);
+  total_params = 0;
+  transmitter_params[total_params].name = "compatibility-mode";
+  g_value_init (&transmitter_params[total_params].value, G_TYPE_UINT);
 
-  transmitter_params[1].name = "controlling-mode";
-  g_value_init (&transmitter_params[1].value, G_TYPE_BOOLEAN);
-  g_value_set_boolean (&transmitter_params[1].value, controlling);
+  if (call_type & RTP_ICE6) {
+    g_value_set_uint (&transmitter_params[total_params].value, 2);
+  } else {
+    g_value_set_uint (&transmitter_params[total_params].value, 3);
+  }
+  total_params++;
 
-  total_params = 2;
+  transmitter_params[total_params].name = "controlling-mode";
+  g_value_init (&transmitter_params[total_params].value, G_TYPE_BOOLEAN);
+  g_value_set_boolean (&transmitter_params[total_params].value, controlling);
+  total_params++;
+
   if (stun_ip) {
     _notify_debug ("stun ip : %s : %d", stun_ip, stun_port);
     transmitter_params[total_params].name = "stun-ip";
     g_value_init (&transmitter_params[total_params].value, G_TYPE_STRING);
     g_value_set_string (&transmitter_params[total_params].value, stun_ip);
+    total_params++;
 
-    transmitter_params[total_params + 1].name = "stun-port";
-    g_value_init (&transmitter_params[total_params + 1].value, G_TYPE_UINT);
-    g_value_set_uint (&transmitter_params[total_params + 1].value, stun_port);
-    total_params +=2;
+    transmitter_params[total_params].name = "stun-port";
+    g_value_init (&transmitter_params[total_params].value, G_TYPE_UINT);
+    g_value_set_uint (&transmitter_params[total_params].value, stun_port);
+    total_params++;
   }
 
   if (relay_info) {
@@ -1787,7 +1877,8 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         "Where remote_codecs is a list with each element being a list containing : "
         "{encoding_name payload_type clock_rate}\n"
         "And where remote_candidates is a list with each element being a list containing : "
-        "{username component_id password protocol priority ip port}");
+        "{foundation component_id ip port base_ip base_port protocol "
+        "priority type username password}");
     return TCL_ERROR;
   }
 
@@ -1855,8 +1946,9 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   for (i = 0; i < total_candidates; i++) {
     int total_elements;
     Tcl_Obj **elements = NULL;
-    double temp;
-	int temp_port;
+    double temp_d;
+    int temp_i;
+    char *temp_s;
     candidate = fs_candidate_new (NULL, 1, 0, FS_NETWORK_PROTOCOL_UDP, NULL, 0);
 
     if (Tcl_ListObjGetElements(interp, tcl_remote_candidates[i],
@@ -1864,47 +1956,98 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       Tcl_AppendResult (interp, "\nInvalid candidate", (char *) NULL);
       goto error_candidate;
     }
-    if (total_elements != 7) {
+    if (total_elements != 11) {
       Tcl_AppendResult (interp, "Invalid candidate : ",
           Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
       goto error_candidate;
     }
 
-    candidate->username = g_strdup (Tcl_GetString (elements[0]));
+    /* Foundation */
     candidate->foundation = g_strdup (Tcl_GetString (elements[0]));
-    candidate->foundation[32] = 0;
 
+    /* Component id*/
     if (Tcl_GetIntFromObj (interp, elements[1], &candidate->component_id) != TCL_OK) {
       Tcl_AppendResult (interp, "\nInvalid candidate : ",
           Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
       goto error_candidate;
     }
-    candidate->password = g_strdup (Tcl_GetString (elements[2]));
-    candidate->proto = strcmp (Tcl_GetString (elements[3]), "UDP") == 0 ?
+
+    /* IP */
+    candidate->ip = g_strdup (Tcl_GetString (elements[2]));
+
+    /* port */
+    if (Tcl_GetIntFromObj (interp, elements[3], &temp_i) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid candidate : ",
+          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+      goto error_candidate;
+    }
+    candidate->port = temp_i;
+
+    /* base IP */
+    if (Tcl_GetString (elements[4]) != NULL &&
+        Tcl_GetString (elements[4])[0] != 0) {
+      candidate->base_ip = g_strdup (Tcl_GetString (elements[4]));
+
+      /* base port */
+      if (Tcl_GetIntFromObj (interp, elements[5], &temp_i) != TCL_OK) {
+        Tcl_AppendResult (interp, "\nInvalid candidate : ",
+            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+        goto error_candidate;
+      }
+      candidate->base_port = temp_i;
+    }
+
+    /* Protocol */
+    candidate->proto = strcmp (Tcl_GetString (elements[6]), "UDP") == 0 ?
         FS_NETWORK_PROTOCOL_UDP : FS_NETWORK_PROTOCOL_TCP;
 
-    if (Tcl_GetDoubleFromObj (interp, elements[4], &temp) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid candidate : ",
-          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
-      goto error_candidate;
+    /* Priority */
+    if (call_type & RTP_ICE6) {
+      if (Tcl_GetDoubleFromObj (interp, elements[7], &temp_d) != TCL_OK) {
+        Tcl_AppendResult (interp, "\nInvalid candidate : ",
+            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+        goto error_candidate;
+      }
+
+      candidate->priority = (guint32) temp_d * 1000;
+    } else {
+      if (Tcl_GetIntFromObj (interp, elements[7], &temp_i) != TCL_OK) {
+        Tcl_AppendResult (interp, "\nInvalid candidate : ",
+            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+        goto error_candidate;
+      }
+      candidate->priority = temp_i;
     }
 
-    candidate->priority = (guint32) temp * 1000;
-    candidate->ip = g_strdup (Tcl_GetString (elements[5]));
+    /* Type */
+    temp_s = Tcl_GetString (elements[8]);
 
-    if (Tcl_GetIntFromObj (interp, elements[6], &temp_port) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid candidate : ",
-          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
-      goto error_candidate;
+    if (strcmp (temp_s, "host") == 0) {
+      candidate->type = FS_CANDIDATE_TYPE_HOST;
+    } else if (strcmp (temp_s, "srflx") == 0) {
+      candidate->type = FS_CANDIDATE_TYPE_SRFLX;
+    } else if (strcmp (temp_s, "prflx") == 0) {
+      candidate->type = FS_CANDIDATE_TYPE_PRFLX;
+    } else if (strcmp (temp_s, "relay") == 0) {
+      candidate->type = FS_CANDIDATE_TYPE_RELAY;
     }
-	candidate->port = temp_port;
 
-    _notify_debug ("New Remote candidate: %s %d %s %s %d %s %d\n",
-      candidate->username == NULL ? "-" : candidate->username,
-      candidate->component_id,
-      candidate->password == NULL ? "-" : candidate->password,
-      candidate->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
-      candidate->priority, candidate->ip, candidate->port);
+    /* Username/Password */
+    candidate->username = g_strdup (Tcl_GetString (elements[9]));
+    candidate->password = g_strdup (Tcl_GetString (elements[10]));
+
+    _notify_debug ("New Remote candidate: %s %d %s %d %s %d %s %d %s %s %s\n",
+        candidate->foundation == NULL ? "-" : candidate->foundation,
+        candidate->component_id,
+        candidate->ip,
+        candidate->port,
+        candidate->base_ip == NULL ? "-" : candidate->base_ip,
+        candidate->base_port,
+        candidate->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
+        candidate->priority,
+        _fs_candidate_type_to_string (candidate->type),
+        candidate->username == NULL ? "-" : candidate->username,
+        candidate->password == NULL ? "-" : candidate->password);
 
     remote_candidates = g_list_append (remote_candidates, candidate);
   }
