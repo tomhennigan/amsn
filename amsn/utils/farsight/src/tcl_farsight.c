@@ -518,7 +518,8 @@ static GstElement * _test_source (gchar *name)
 
   _notify_debug("Testing source %s", name);
 
-  if (name == "dtmfsrc" || name == "audiotestsrc" || name == "videotestsrc")
+  if (!strcmp (name, "dtmfsrc") || !strcmp (name, "audiotestsrc") ||
+      !strcmp (name, "videotestsrc") || !strcmp (name, "gconfv4l2src"))
     return NULL;
 
   element = gst_element_factory_make (name, NULL);
@@ -903,8 +904,7 @@ static GstElement * _create_video_source ()
 {
   GstElement *src = NULL;
   GList *sources, *walk;
-  gchar *priority_sources[] = {"gconfv4l2src",
-                               "v4l2src",
+  gchar *priority_sources[] = {"v4l2src",
                                "v4lsrc",
                                NULL};
   gchar **test_source = NULL;
@@ -1678,7 +1678,7 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   tempsink = gst_element_get_static_pad (src_colorspace, "sink");
   if (gst_pad_link (srcpad, tempsink) != GST_PAD_LINK_OK) {
     gst_object_unref (tempsink);
-    _notify_debug ("Couldn't link the src to converter");
+    _notify_debug ("Couldn't link the src to collorspace");
     gst_bin_remove (GST_BIN (test_pipeline), src_colorspace);
     gst_object_unref (src_colorspace);
     goto error;
