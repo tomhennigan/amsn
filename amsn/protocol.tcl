@@ -2226,6 +2226,7 @@ namespace eval ::MSN {
 			set userguid [::abook::getContactData $userlogin contactguid]
 			::abook::setContactForGuid $userguid ""
 			::abook::setContactData $userlogin contactguid ""
+			::abook::setContactData $userlogin cid ""
 
 			#an event to let the GUI know a user is removed from a group / the list
 			::Event::fireEvent contactRemoved protocol $userlogin $affected_groups
