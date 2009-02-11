@@ -3057,9 +3057,6 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (video_preview_xid)
-          g_free (video_preview_xid);
-
         if (Tcl_GetLongFromObj (interp, objv[a], &video_preview_xid) != TCL_OK) {
           return TCL_ERROR;
         }
@@ -3096,9 +3093,6 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
               "no argument given for -video-sink-xid option", NULL);
           return TCL_ERROR;
         }
-
-        if (video_sink_xid)
-          g_free (video_sink_xid);
 
         if (Tcl_GetLongFromObj (interp, objv[a], &video_sink_xid) != TCL_OK) {
           return TCL_ERROR;
