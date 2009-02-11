@@ -446,6 +446,7 @@ hidedisplaypic Masquer l'avatar
 hidemenu Afficher/Masquer les menus
 hidemenumessage Etes-vous sûrs de vouloir masquer les menus ?\n Vous pouvez les afficher de nouveau à n'importe quel moment en utilisant la séquence d'affichage/masquage : Ctrl+M.
 hiden Cacher cette émoticône/smiley du menu
+hideuserscw Masquer les contacts de cette fenêtre de conversation.
 hidewindow Masquer la fenêtre
 history Voir l'historique
 history2 Historique
@@ -846,6 +847,7 @@ showofflinegroup Montrer le groupe des contacts Déconnectés
 showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
 showspaces Afficher les icônes des pages personnelles dans la liste de contacts
 showuserpic Icône de $1
+showuserscw Il y a $1 contacts dans cette conversation. Si vous voulez les voir/masquer, cliquez ici.
 signinstatus Statut lors de la connexion
 signout Se déconnecter 
 signoutep Se déconnecter de $1
