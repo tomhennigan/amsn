@@ -2305,16 +2305,6 @@ namespace eval ::CAMGUI {
 			set ::capture_loaded 0
 			return 0
 		} else {
-			
-			#Verify for that pwc_driver
-			if { [OnLinux] }  {
-				catch { exec /sbin/lsmod } pwc_driver
-				if {[string first $pwc_driver "pwc"] != -1 } {
-					set ::pwc_driver 1
-				} else {
-					set ::pwc_driver 0
-				}
-			}
 			set ::capture_loaded 1
 			array set ::grabbers {}
 			return 1
@@ -2690,12 +2680,6 @@ namespace eval ::CAMGUI {
 
 		button $w.settings -command "::CAMGUI::ChooseDevice" -text "[trans changevideosettings]"
 		#Add button to change settings
-		if { ![info exists ::pwc_driver] || $::pwc_driver == 0} {
-			#Nothing
-		} else {
-			label $w.pwc -text "[trans pwcdriver]" -font sboldf -foreground red
-			pack $w.pwc
-		}
 		pack $w.settings
 		#Add button to open link to the wiki
 		set lang [::config::getGlobalKey language]
