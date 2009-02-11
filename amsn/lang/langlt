@@ -447,6 +447,7 @@ hidemenu Rodyti/slėpti meniu
 hidemenumessage Ar tikrai norite paslėpti meniu??\nJą galite susigrąžinti bet kada, spausdami rodyti/slėpti meniu klavišų kombinaciją 'Ctrl-M'.
 hiden Paslėpti jaustukus iš veidelių meniu
 hidewindow Paslėpti langą
+hideuserscw Paslėpti vartotojai šiame pokalbių lange.
 history Rodyti istoriją
 history2 Istorija
 home Namų
@@ -844,6 +845,7 @@ showofflinegroup Rodyti atsijungusių kontaktų grupę
 showpicnotify Rodyti vartotojų nuotraukas pranešimų languose
 showspaces Rodyti tuščias piktogramas kontaktų sąraše
 showuserpic $1'o nuotrauka
+showuserscw $1 vartotojai dalyvauja pokalbyje. Jei norite pamatyti arba paslėpti juos, spauskite čia.
 signinstatus Prisijungimo būsena
 signout Atsijungti
 signouthere Atsijungti iš čia ($1)
@@ -968,6 +970,7 @@ truncatenames2 Nukirsti slapyvardžius, ilgesnius negu pokalbių lango vidinė p
 truncatenicks Nukirsti slapyvardžius, ilgesnius negu lango plotis
 twonewmail $1 nauja žinutė el. pašte
 type Tipas
+unavailablecountryserver Jūsų šalies serveris yra laikinai nepasiekiamas. Bandykite vėliau. Jūs galite išspręsti šią problemą pakeistdami šalies nustatymus savo abonento pase per http://www.passport.net.
 unblock Atblokuoti
 unknown Nežinoma
 unload Iškelti
