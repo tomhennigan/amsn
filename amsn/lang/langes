@@ -446,6 +446,7 @@ hidedisplaypic Ocultar imagen para mostrar
 hidemenumessage ¿Seguro que deseas ocultar los menús?\nPuedes recuperarlos en cualquier momento usando la combinación de mostrar/ocultar menús Ctrl+M.
 hidemenu Mostrar/Ocultar menús
 hiden No mostrar en el menú de emoticonos
+hideuserscw Ocultar usuarios en esta ventana de conversación.
 hidewindow Ocultar ventana
 history2 Historial
 history Ver historial
@@ -846,6 +847,7 @@ showonedpframe Mostrar un único marco con la imagen para mostrar en las ventana
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
 showspaces Mostrar el icono de espacios en la lista de contactos
 showuserpic Imagen de $1
+showuserscw Hay $1 usuarios en esta conversación. Si quieres verlos u ocultarlos haga clic aquí.
 signinstatus Estado inicial
 signout Cerrar la sesión
 signoutep Cerrar la sesión de $1
@@ -970,11 +972,11 @@ truncatenames2 Cortar apodos más largos que el ancho de la ventana en las conve
 truncatenicks Truncar apodos más largos que el ancho de la ventana
 twonewmail $1 mensajes nuevos en bandeja de entrada
 type Tipo
+unavailablecountryserver El servidor para tu país está temporalmente no disponible. Inténtalo más tarde. Puedes además corregir este problema cambiando el ajuste del país en tu cuenta Passport en http://www.passport.net.
 unblock Admitir
 unknown Desconocido
 unload Deshabilitar
 unselectall Deseleccionar todo
-unavailablecountryserver El servidor para tu país está temporalmente no disponible. Inténtalo más tarde. Puedes además corregir este problema cambiando el ajuste del país en tu cuenta Passport en http://www.passport.net.
 uoffline Desconectados
 uonline Conectados
 update Actualizar
