@@ -5,7 +5,7 @@ about Névjegy
 accept Elfogadás
 acceptfile Elfogadod ezt a fájlt: $1 (mérete: $2)? Ide lesz mentve: $3
 account Fiók
-accountkid Ez a gyermek fiók nem használható a Messenger-rel. Adj rá Teljes körű engedélyt a passport kezelés weboldalán.
+accountkid Ez a gyermek fiók nem használható a Messenger-rel. Adj rá teljes körű engedélyt a passport kezelés weboldalán.
 actions Műveletek
 activeautoupdate Automatikus frissítés aktiválása
 addacontact Partner felvétele
@@ -37,7 +37,7 @@ allowallbutbl A letiltottak listáján szereplő felhasználók is beszélgethes
 allowbadwords Nevek cenzúrázásának kikapcsolása
 allowlist Engedélyezettek listája (AL):
 allowonlyinal Csak az engedélyezettek listáján szereplő partnerek beszélhessenek velem
-allowseen Ez a személy mindig láthat ha bejelentkezem
+allowseen Ez a személy mindig láthat, ha bejelentkezem
 allow_sms Engedélyezem, hogy az MSN mobil készülékemen is elérhessenek.
 allprofilesinuse Minden létező profil használatban van
 always Mindig
@@ -84,13 +84,13 @@ avaccepted Video konferencia felkérés elfogadva
 avcanceled Video konferencia felkérés elutasítva
 avgotinvitation Video konferencia felkérés érkezett: $1
 avinitfailed Audio/Video Plugin elindítása sikertelen. Hívás visszavonva
-avoidseen Ez a személy nem láthat ha bejelentkeztem
+avoidseen Ez a személy nem láthat, ha bejelentkeztem
 awaymsg1 "Nem vagyok itt" üzenet kérése mindig, az állapotom Nem vagyok itt/Elfoglalt -ra állításakor.
 awaymsg2 Mindig a lenti távolléti üzenetet használja, kérdés nélkül
 away nincs a gépnél
 back Vissza
 baduserpass Rossz felhasználónév vagy jelszó
-badwebcam Nem lehet megjeleníteni a webkamera képét. Nézz utána, hogy a webkamerád be van-e dugva és installálva van-e.
+badwebcam Nem lehet megjeleníteni a webkamera képét. Nézz utána, hogy a webkamerád be van-e dugva és telepítve van-e.
 bgcolor Az aMSN háttérszínének megváltoztatása
 blankdirect Hagyd üresen a közvetlen kapcsolathoz
 blocked letiltva
@@ -119,6 +119,7 @@ bytesymbol b
 cachedpics $1 tárolt képei
 cachedpicsfor Partnerek tárolt megjelenített képei
 cagreement Titoktartási nyilatkozat
+cam_in_cw Webkamerák képeinek megjelenítése a társalgások ablakaiban
 cancelled Elutasítva
 cancel Mégsem
 cannotdeleteprofile A profil használatban van, nem törölhető
@@ -279,7 +280,7 @@ deleteblock Törlés és tiltás
 deletecustomstate Saját állapot törlése
 delete Törlés
 delimiters Időbélyeg beállítása:
-deliverfail Néhány hiba fordult elő az üzenet kézbesítése közben
+deliverfail Hiba az üzenet kézbesítése közben
 delprofile2 Jelöld ki azt a profilt, amit törölni szeretnél
 delprofile Profil törlése
 description Leírás
@@ -299,7 +300,7 @@ displayeventconnect Megjelenítés, ha egy partner csatlakozik
 displayeventdisconnect Megjelenítés, ha egy partner lecsatlakozik
 displayeventemail Megjelenítés, ha egy e-mail érkezett
 displayeventnick Megjelenítés, ha egy partner becenevet vált
-displayeventpsm Megjelenítés, ha  egy partner személyes üzenetet vált
+displayeventpsm Megjelenítés, ha egy partner személyes üzenetet vált
 displayeventstate Megjelenítés, ha egy partner állapotot vált
 displayp4context P4 tartalom mező megjelenítése, mint üzenetküldő
 displaypic Kép megjelenítése
@@ -401,13 +402,13 @@ ftrejectedby $1 nem fogadta el a fájl átviteli kérést a '$2' fájlra.
 ftrejected Fájl átvitel kész
 ftsendinvitation A kérés a '$2' fájl átvitelére ($3 byte) elküldve ide: $1.
 fullcontactlist A partnerlistád tele van. Törölnöd kell pár partnert, hogy újat vehess fel.
-gameaccepted $1 has accepted your game invitation
-gameclosedbyother $1 has canceled the game session with you.
-gameclosedbyself You have canceled the game session with $1.
-gameinvitation $1 has invited you to play $2. Do you want to accept this invitation?
-gamepluginnotfound $1 has invited you to play $2 but there is no plugin for this game currently loaded. Please activate and configure this plugin first.
-gamerejected $1 has rejected your game invitation
-gamerequest You have invited $1 to play $2
+gameaccepted $1 elfogadta a játékmeghívásodat
+gameclosedbyother $1 visszavonta a játékot.
+gameclosedbyself Visszavontad a játékot vele: $1.
+gameinvitation $1 meghívott $2 játékra. Elfogadod a meghívást?
+gamepluginnotfound $1 meghívott $2 játékra, de jelenleg nincs betöltött plugin e játékhoz. Először aktiváld és állítsd be a plugint.
+gamerejected $1 elutasította a játékmeghívásodat
+gamerequest Meghítad őt: $1 e játékra: $2
 getdisppic A partnerek megjelenítendő képeinek fogadása
 getmoreplugins Még több plugin letöltése
 getmoreskins Még több felület letöltése
@@ -445,6 +446,7 @@ hidedisplaypic Kép elrejtése
 hidemenu Menük elrejtése/megjelenítése
 hidemenumessage El akarod rejteni a menüsort?\nBármikor vissza tudod állítani a menük elrejtése/megjelenítése gyorsbillentyűvel 'Ctrl-M'.
 hiden Hangulatjel elrejtése a menüből
+hideuserscw Partnerek elrejtése a társalgás ablakban.
 hidewindow Ablak elrejtése
 history2 Előzmények:
 history Előzmények megtekintése
@@ -652,7 +654,7 @@ online elérhető
 onlinehelp Online Help
 onphone telefonál
 opendir Mappa megnyitása
-openfilecommand File megnyitási parancs
+openfilecommand Fájl megnyitási parancs
 openfile Megnyitás
 openreceived Beérkezett fájlok megnyitása
 options Beállítások
@@ -844,6 +846,7 @@ showofflinegroup Kijelentkezett csoport megjelenítése
 showpicnotify Partnerek képeinek megjelenítése a figyelmeztető ablakokban
 showspaces Spaces ikon megjelenítése a partnerlistában
 showuserpic $1 képe
+showuserscw $1 felhasználó van a társalgásban. Megjelenítésükhöz / elrejtésükhöz kattints ide.
 signinstatus Bejelentkezési állapot
 signout Kijelentkezés
 signouthere Kijelentkezés innen ($1)
@@ -861,7 +864,7 @@ sipcalleenoanswer A felhasználó nem válaszol a hívásodra
 sipcalleeunavailable A felhasználó jelenleg nem elérhető
 sipcallended A hanghívásod befejeződött
 sipcallimpossible Nem tudsz hanghívást kezdeményezni. Telepítsd a Farsight2-t, és próbáld meg újra.
-sipcallmissed You missed an Audio Call from $1
+sipcallmissed Elmulasztott hanghívás tőle: $1
 sipcallnosipflag A felhasználónál nincs hanghívás támogatás.
 sipcallsent $1 hívása
 sipcallunsupported Hanghívás meghívást kaptál, amely jelenleg nem támogatott. Hívd vissza egy új meghívással.
@@ -878,7 +881,7 @@ smileintro Töltsd ki a mezőket, hogy létrehozhass saját hangulatjelet (nézd
 smiletoobig A kiválasztott smiley nagyobb a normál méretnél. Át akarod méretezni?
 smileynotavailable A smiley nem létezik!
 snackfailed A Snack betöltése sikertelen, az alapbeállítás használata
-snackneeded A Snack függvénykönyvtárra szükség van ehhez.. A minimális verzió: 2.2.9.
+snackneeded Ehhez szükség van a Snack függvénykönyvtárra. A minimális verzió: 2.2.9.
 snapshot Pillanatkép
 sngdblclick Új üzenet ablak megnyitása egy kattintással
 sortcontactgroup Partnerek rendezése csoport szerint
@@ -949,7 +952,7 @@ title aMSN
 tkerror1 A TK hibát okozott, kérlek jelentsd. A Részletek gombra kattintva további információkat kaphatsz a hibáról, vagy kattints az OK gombra az aMSN használatának folytatásához.
 tkerror TK egy hibát jelentett, hiba van az aMSN-ben, kérlek jelentsd. Küldd el a(z) $1 fájlt az amsn-bugs@lists.sf.net címre
 tlsdowncompleted A $1 fájl a $2 könyvtárba lett letöltve. Ki kell tömörítened, lefordítanod (ha forrást szedtél le) és telepítened kell ide: $3.
-tlsexplain A könyvtár ahol a tcl TLS modul van. Ha az aMSN nem találja, add meg a helyét.\n(Az SSL azonosításhoz szükséges).
+tlsexplain A könyvtár, ahol a tcl TLS modul van. Ha az aMSN nem találja, add meg a helyét.\n(Az SSL azonosításhoz szükséges).
 tlsinstallexp Az aMSN mostantól az MSNP9-et használja, ami biztonságos SSL kapcsolatot használ. \nHogy használhasd az SSL-t, fel kell tenned a TSL nevű modult,\nami nincs feltelepítve. Ez a varázsló segít neked, hogy letölthesd és\ntelepíthetsd a TLS-t. Válaszd ki a rendszeredet, s így le tudom tölteni\na szükséges fájlokat.
 tlsinstall TLS modul telepítő
 tlsinstcompleted TLS modul sikeresen feltelepítve - mostantól használhatod az MSNP9-et. Ha nem működik, akkor vagy rossz modult választottál ki, vagy a lefordított modul nem jó a te rendszeredhez.
@@ -972,6 +975,7 @@ unblock Tiltás feloldása
 unknown Ismeretlen
 unload Eltávolítás
 unselectall Összes kijelölés törlése
+unavailablecountryserver Az országodhoz tartozó szerver átmenetileg nem elérhető. Próbáld meg újra később. Esetleg módosítsd az ország beállítást a Passport fiókodban a http://www.passport.net címen.
 uoffline Kijelentkezve
 uonline Elérhető
 update Frissítés
@@ -979,7 +983,7 @@ updateonlycurrentlanguage Csak a jelenlegi nyelv frissítése
 updatesaved Kész\n $1 elmentve ide: $2.
 updating Frissítés
 useasdp Kijelző kép használata
-useasregexp Regurális kifejezésként használd (regexp)
+useasregexp Reguláris kifejezésként használd (regexp)
 useother Más program használata
 useralreadyonlist A felhasználó már szerepel a listádban
 userblocked A felhasználó bejelentkezett, de letiltott téged.
@@ -989,7 +993,7 @@ user Felhasználónév
 usernotonline A felhasználó nincs bejelentkezve
 userproperties $1 adatai
 usersettings Beállítások
-useryourself Nem beszélgethetsz saját magaddal..
+useryourself Nem beszélgethetsz saját magaddal...
 usesnack A Snack függvénykönyvtár használata (Tcl internal)
 verifyblocked Letiltások ellenőrzése
 version Verzió
