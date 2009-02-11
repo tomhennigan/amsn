@@ -446,6 +446,7 @@ hidedisplaypic Nascondi l'immagine personale
 hidemenumessage Sei sicuro di voler nascondere i menù?\nPuoi ripristinarli ogni volta che vuoi usando la scorciatoia da tastiera per mostrare/nascondere i menù 'Ctrl-M'.
 hidemenu Mostra/Nascondi i menù
 hiden Nascondi le emoticon dal menu delle faccine
+hideuserscw Nascondi gli utenti in questa finestra di chat.
 hidewindow Nascondi Finestra
 history2 Cronologia
 history Mostra la cronologia messaggi
@@ -845,6 +846,7 @@ showonedpframe Mostra una sola immagine personale nella finestra della chat
 showpicnotify Mostra l'immagine degli utenti nella finestra di notifica
 showspaces Visualizza spazi icona nella lista dei contatti
 showuserpic Immagine di $1
+showuserscw Ci sono $1 utenti in questa conversazione. Se vuoi mostrarli o nasconderli clicca qui.
 signinstatus Stato
 signout Disconnetti
 signoutep Esci da $1
