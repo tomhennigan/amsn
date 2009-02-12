@@ -611,12 +611,11 @@ namespace eval ::guiContactList {
 		variable Xbegin
 		variable Ybegin
 		variable nickheightArray
-
+	
 		if { ${::guiContactList::external_lock} || !$::contactlist_loaded } { return }
 
-		#We remove the underline
-		$canvas delete uline
-		$canvas delete border
+		#We remove the underline and others things
+		$canvas delete uline border backgnd
 
 		# First we move all the canvas items
 		$canvas addtag items withtag group
@@ -628,11 +627,42 @@ namespace eval ::guiContactList {
 		# Let's draw each element of this list
 		set curPos [list $Xbegin $Ybegin]
 		
-		
 		set maxwidth [winfo width $canvas]
 		set boXpad $Xbegin
 		set width [expr {$maxwidth - ($boXpad*2)}]
 		if {$width <= 30} {set width 300}
+		
+		if {[::skin::getKey topgroupbg] ne "" } {
+			package require scalable-bg
+			
+			set topimg [image create photo [TmpImgName]] ;#gets destroyed
+			set style [::skin::getKey topgroupbg_style]
+			if {$style eq "light"} {
+				$topimg copy [::skin::loadPixmap grouptopback_light]
+			} elseif {$style eq "dark"} {
+				$topimg copy [::skin::loadPixmap grouptopback_dark]
+			} else {
+				::skin::setKey topgroupbg ""
+				organiseList $canvas [getContactList]
+				return
+			}
+			::picture::Colorize $topimg [::skin::getKey topgroupbg]
+			
+			set bg topgroupsbg
+			
+			scalable-bg $bg -source $topimg \
+				-n [::skin::getKey topbarpady] -e [::skin::getKey topbarpadx] \
+				-s [::skin::getKey topbarpady] -w [::skin::getKey topbarpadx] \
+				-width $width -height [image height [::skin::loadPixmap up]] \
+				-resizemethod [::skin::getKey chat_top_resize "tile"]
+			
+			set bg_name [$bg name]
+			
+			set topimg [image create photo [TmpImgName]]
+			$topimg copy $bg_name
+			
+			rename $bg {}
+		}
 
 		################################
 		#  First line for the "boxes"  #
@@ -759,11 +789,26 @@ namespace eval ::guiContactList {
 				boxupbar_$groupDrawn copy [::skin::loadPixmap upright] -to \
 					[expr {$width - [image width [::skin::loadPixmap upright]]}] 0 \
 					$width [image height [::skin::loadPixmap upright]]
-
-				# Draw it
+					
 				set topYbegin [lindex $curPos 1]
-				$canvas create image $boXpad $topYbegin -image boxupbar_$groupDrawn -anchor nw \
+					
+				set x1 $boXpad
+				set y1 $topYbegin
+				set x2 $width
+				set y2 [expr {$topYbegin + [image height [::skin::loadPixmap up]]}]
+				$canvas create rect $x1 $y1 $x2 $y2 -outline [::skin::getKey "groupcolorborder"] -width 3 -tags [list box box_body $gid border]
+				
+				
+				if {[::skin::getKey topgroupbg] ne "" } {
+					$canvas create image $x1 $y1 -image $topimg -anchor nw -tag backgnd
+					
+					$canvas lower backgnd box
+					$canvas lower backgnd toggleimg
+				} else {
+					;# Draw boxupbar_$groupDrawn image
+					$canvas create image $boXpad $topYbegin -image boxupbar_$groupDrawn -anchor nw \
 					-tags [list box box_upbar $gid]
+				}
 
 				# Save the endypos for next body drawing
 				set bodYbegin [expr {$topYbegin + [image height [::skin::loadPixmap up]]}]

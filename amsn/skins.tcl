@@ -818,7 +818,9 @@ namespace eval ::skin {
 		::skin::setPixmap contract_hover contract_hover.gif
 		::skin::setPixmap expand expand.gif
 		::skin::setPixmap expand_hover expand_hover.gif
-	
+		::skin::setPixmap grouptopback_dark grouptopback_dark.gif
+		::skin::setPixmap grouptopback_light grouptopback_light.gif
+		
 		::skin::setPixmap globe globe.gif
 		::skin::setPixmap download download.gif
 		::skin::setPixmap warning warning.gif
