@@ -627,6 +627,12 @@ namespace eval ::guiContactList {
 
 		# Let's draw each element of this list
 		set curPos [list $Xbegin $Ybegin]
+		
+		
+		set maxwidth [winfo width $canvas]
+		set boXpad $Xbegin
+		set width [expr {$maxwidth - ($boXpad*2)}]
+		if {$width <= 30} {set width 300}
 
 		################################
 		#  First line for the "boxes"  #
@@ -666,11 +672,6 @@ namespace eval ::guiContactList {
 					set ypad [::skin::getKey expand_ypad]
 				}
 
-				set maxwidth [winfo width $canvas]
-				set boXpad $Xbegin
-				set width [expr {$maxwidth - ($boXpad*2)}]
-				if {$width <= 30} {set width 300}
-
 				# If we're not drawing the first group, we should draw the end of the box of the \
 				# group before here and change the curPos
 				if {!$DrawingFirstGroup} {
@@ -699,14 +700,11 @@ namespace eval ::guiContactList {
 						$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn \
 							-anchor nw -tags [list box box_body $gid]
 							
-						set x1 $boXpad
-						set y1 $bodYbegin
-						set x2 $width
-						set y2 [expr {$bodYbegin + $height}]
+						set y2 "body"
 						
 					} else {
 						set bodYend $bodYbegin
-						set x1 0
+						set y2 ""
 					}
 
 					# Create endbar of the box
@@ -727,8 +725,11 @@ namespace eval ::guiContactList {
 
 					set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1]+ $ypad}] ]
 					
-					if {$x1 != 0 && [::skin::getKey "groupcolorborder"] ne ""} {
-						$canvas create rect $x1 $y1 $x2 $y2 -outline [::skin::getKey "groupcolorborder"] -width 3 -tags [list box box_body $gid border]
+					if {$y2 ne "" && [::skin::getKey "groupcolorborder"] ne ""} {
+						$canvas create rect \
+							$boXpad $bodYbegin $width [expr {$bodYbegin + $height}] \
+							-outline [::skin::getKey "groupcolorborder"] -width 3 \
+							-tags [list box box_body $gid border]
 					}
 				} else {
 					#set curPos [list [lindex $curPos 0] [lindex $curPos 1] ]
