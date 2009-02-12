@@ -106,6 +106,7 @@ bugnocomment Enviar-ho sense cap comentari? Comentar els errors ens ajuda a loca
 busy Ocupat
 cachedpics $1 imatges agafades
 cagreement Acord de privacitat
+cam_in_cw Mostra els fluxos de la càmera web incorporats a les converses
 cancel Cancel·la
 cancelled Cancel·lat
 cannotdeleteprofile No es pot eliminar el perfil, sembla que s'està utilitzant en una altra sessió aMSN
@@ -389,6 +390,7 @@ helpcontents Continguts
 hidedetails Oculta els detalls
 hidedisplaypic Oculta l'avatar
 hiden No mostris aquesta emoticona al menú d'emoticones
+hideuserscw Oculta usuaris en aquesta conversació.
 hidewindow Amaga la finestra
 history Mostrar històric
 home Casa
@@ -729,6 +731,7 @@ shownonim Mostra contactes sense messenger
 shownotify Mostra una finestra de notificació quan succeeixin diversos events
 showpicnotify Mostrar les imatges dels usuaris a les finestres d'alerta
 showspaces Mostrar la icona dels Espais a la llista de contactes
+showuserscw Hi ha $1 usuaris en aquesta conversació. Si vols veure'ls o ocultar-los fes clic aquí­.
 showofflinegroup Mostrar el grup "Desconnectats"
 showuserpic Avatar del contacte $1
 signinstatus Estat de l'inici de sessió
@@ -827,6 +830,7 @@ unblock Desbloquejar
 unknown Desconegut
 unload Descarregar
 unselectall Desseleccionar-ho tot
+unavailablecountryserver El servidor del seu país no està disponible temporalment. Torneu a provar-ho més tard. També pot resoldre aquest problema canviant la configuració del seu país al seu compte de Passport en http://www.passport.net.
 uoffline Desconnectats
 uonline Connectats
 update Actualització
