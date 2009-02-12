@@ -4319,7 +4319,7 @@ namespace eval ::amsn {
 			incr NotifID
 
 			#the window will be stretched by the canvas anyways
-			toplevel $w -width 1 -height 1 -borderwidth 0
+			toplevel $w -width 1 -height 1 -borderwidth 0; wm overrideredirect $w 1
 			wm group $w .
 			#no wm borders
 			wm state $w withdrawn
@@ -4533,7 +4533,7 @@ namespace eval ::amsn {
 
 			::amsn::leaveNotify $w $ypos $command
 
-			wm overrideredirect $w 1
+			#wm overrideredirect $w 1
 
 			#now show it
 			wm state $w normal
