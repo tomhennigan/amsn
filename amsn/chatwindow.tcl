@@ -2570,7 +2570,7 @@ namespace eval ::ChatWindow {
 		set frame_in [GetInDisplayPictureFrame $window].voip
 		set frame_out [GetOutDisplayPicturesFrame $window].voip
 
-		status_log "Updating CW Voip controls"
+		#status_log "Updating CW Voip controls"
 
 		if {[catch {set volume [::Farsight::GetVolumeIn]} ] } {
 			$frame_in.amplifier configure -state disabled
