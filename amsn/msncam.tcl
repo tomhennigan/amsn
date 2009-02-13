@@ -1746,6 +1746,8 @@ namespace eval ::CAMGUI {
 		if { ! $::webcamsn_loaded } { status_log "Error when trying to load Webcamsn extension" red; return }
 		if { ! [info exists ::capture_loaded] } { ::CAMGUI::CaptureLoaded }
 		if { ! $::capture_loaded } { return }
+		return 0
+
 		#Now we are sure that both webcamsn and capture are loaded
 		set campresent 0
 		if { [OnLinux] || [OnBSD] } {

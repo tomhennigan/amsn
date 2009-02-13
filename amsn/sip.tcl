@@ -1,3 +1,4 @@
+
 #SIP : vp.sip.messenger.msn.com
 #TURN : relay.voice.messenger.msn.com
 
@@ -10,11 +11,16 @@ snit::type SIPConnection {
 	option -error_handler -default ""
 	option -user_agent -default "aTSC/0.1"
 	option -registered_host -default ""
-	option -local_codecs -default ""
-	option -local_candidates -default ""
-	option -remote_codecs -default ""
-	option -remote_candidates -default ""
-	option -active_candidates -default ""
+	option -local_audio_codecs -default ""
+	option -local_audio_candidates -default ""
+	option -local_video_codecs -default ""
+	option -local_video_candidates -default ""
+	option -remote_audio_codecs -default ""
+	option -remote_audio_candidates -default ""
+	option -remote_video_codecs -default ""
+	option -remote_video_candidates -default ""
+	option -active_audio_candidates -default "" -configuremethod ActiveCandidatesChanged
+	option -active_video_candidates -default "" -configuremethod ActiveCandidatesChanged
 	option -tunneled -default 0
 	option -socket -default  ""
 	option -ice 6
@@ -39,6 +45,7 @@ snit::type SIPConnection {
 	variable call_via
 	variable trying_afterid
 	variable timeout_afterid
+	variable respond_reinvite 0
 
 	constructor { args } {
 		install socket using SIPSocket %AUTO%
@@ -489,11 +496,10 @@ snit::type SIPConnection {
 		
 	}
 
-	method SendReInvite { callid local remote} {
-		set content [$self BuildSDP $local $remote]
+	method SendReInvite { callid {local_audio ""} {remote_audio ""} {local_video ""} {remote_video ""}} {
+		set content [$self BuildSDP $local_audio $remote_audio $local_video $remote_video]
 		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
 		set msg [lindex [$self BuildRequest INVITE $uri [$self GetCallee $callid] $callid 1] 1]
-		append msg "Ms-Conversation-ID: f=0\r\n"
 		
 		$self Send $msg "application/sdp" $content
 	}
@@ -557,20 +563,46 @@ snit::type SIPConnection {
 			}
 		} elseif {[$self GetCommand $headers] == "INVITE" } {
 			status_log "Received re-invite!!!!"
-			if {$options(-active_candidates) != ""} {
-				set local [lindex $options(-active_candidates) 0]
-				set remote [lindex $options(-active_candidates) 1]
-				set sdp [$self BuildSDP $local $remote]
+			$self Send [$self BuildResponse $callid INVITE 100]
+
+			if {$options(-active_audio_candidates) != "" &&
+			    $options(-active_video_candidates) != ""} {
+				set local_audio [lindex $options(-active_audio_candidates) 0]
+				set remote_audio [lindex $options(-active_audio_candidates) 1]
+				set local_video [lindex $options(-active_video_candidates) 0]
+				set remote_video [lindex $options(-active_video_candidates) 1]
+				set sdp [$self BuildSDP $local_audio $remote_audio $local_video $remote_audio]
 				incr call_cseq($callid)
 
-				$self Send [$self BuildResponse $callid INVITE 100]
 
 				set message [$self BuildResponse $callid INVITE 200]
 				$self Send $message "application/sdp" $sdp
+				set respond_reinvite 0
+			} else {
+				set respond_reinvite 1
 			}
 		}
 
 		
+	}
+
+	method ActiveCandidatesChanged { } {
+		if {$respond_reinvite &&
+		    $options(-active_audio_candidates) != "" &&
+		    $options(-active_video_candidates) != ""} {
+			set local_audio [lindex $options(-active_audio_candidates) 0]
+			set remote_audio [lindex $options(-active_audio_candidates) 1]
+			set local_video [lindex $options(-active_video_candidates) 0]
+			set remote_video [lindex $options(-active_video_candidates) 1]
+			set sdp [$self BuildSDP $local_audio $remote_audio $local_video $remote_audio]
+			incr call_cseq($callid)
+
+
+			set message [$self BuildResponse $callid INVITE 200]
+			$self Send $message "application/sdp" $sdp
+			
+			set respond_reinvite 0
+		}
 	}
 
 	method AnswerInvite { callid status } {
@@ -748,7 +780,8 @@ snit::type SIPConnection {
 		foreach via $call_via($callid) {
 			append msg "v: $via\r\n"
 		}
-		if {$request == "INVITE" && $status >= 180} {
+		if {$request == "INVITE" && $status >= 180 &&
+		    [info exists call_route($callid)]} {
 			append msg "Record-Route: $call_route($callid)\r\n"
 		}
 		if {$status != 100 &&
@@ -770,11 +803,11 @@ snit::type SIPConnection {
 	}
 
 
-	method BuildIceCandidates { {local ""} {remote ""} } {
+	method BuildIceCandidates { local_candidates remote_candidates {local ""} {remote ""} } {
 		set sdp ""
 		set first_line 1
 
-		foreach candidate $options(-local_candidates) {
+		foreach candidate $local_candidates {
 			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 
 			if {$options(-ice) == 6} {
@@ -813,20 +846,35 @@ snit::type SIPConnection {
 			}
 		}
 		if {$remote != ""} {
-			foreach candidate $options(-remote_candidates) {
+			foreach candidate $remote_candidates {
 				foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 				if {$remote == "" || $foundation == $remote} {
-					append sdp "a=remote-candidate:$username\r\n"
+					if {$options(-ice) == 6 } {
+						append sdp "a=remote-candidate:$username\r\n"
+					} else {
+						append sdp "a=remote-candidate:$foundation $component_id $transport $priority $ip $port"
+						if {$type != "" } {
+							append sdp " typ $type"
+							if {$type != "host" } {
+								if {$base_ip != "" &&
+								    $base_port != 0 } {
+									append sdp " raddr $base_ip rport $base_port"
+								}
+							}
+						}
+						append sdp "\r\n"
+					}					
 					break
 				}
 			}
 		}
 		return $sdp
 	}
-	method BuildSDP { {local ""} {remote ""} } {
+
+	method BuildMedia {media local_codecs local_candidates remote_candidates {local ""} {remote ""}} {
 
 		set pt_list ""
-		foreach codec $options(-local_codecs) {
+		foreach codec $local_codecs {
 			foreach {encoding_name payload_type bitrate fmtp} $codec break
 			append pt_list " $payload_type"
 		}
@@ -836,7 +884,7 @@ snit::type SIPConnection {
 		set default_port 0
 		set lowest_priority 0
 		if {$local == ""} {
-			foreach candidate $options(-local_candidates) {
+			foreach candidate $local_candidates {
 				foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 				if {$transport != "UDP" } { continue }
 				if {$priority < $lowest_priority} {
@@ -855,7 +903,7 @@ snit::type SIPConnection {
 				}
 			}
 		}
-		foreach candidate $options(-local_candidates) {
+		foreach candidate $local_candidates {
 			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 			if {($local == "" || $foundation == $local) &&
 			    $component_id == 1 && $default_ip == 0 &&
@@ -864,7 +912,7 @@ snit::type SIPConnection {
 				set default_port $port
 			}
 		}
-		foreach candidate $options(-local_candidates) {
+		foreach candidate $local_candidates {
 			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 			if { $component_id == 2 && $ip == $default_ip} {
 				set rtcp_port $port
@@ -872,22 +920,29 @@ snit::type SIPConnection {
 			}
 		}
 
-		set sdp "v=0\n"
-		append sdp "o=- 0 0 IN IP4 $default_ip\r\n"
-		append sdp "s=session\r\n"
-		append sdp "c=IN IP4 $default_ip\r\n"
-		append sdp "b=CT:100\r\n"
-		append sdp "t=0 0\r\n"
-		append sdp "m=audio $default_port RTP/AVP$pt_list\r\n"
+		if {$media == "audio" } {
+			set sdp "v=0\n"
+			append sdp "o=- 0 0 IN IP4 $default_ip\r\n"
+			append sdp "s=session\r\n"
+			append sdp "b=CT:100\r\n"
+			append sdp "t=0 0\r\n"
+			append sdp "m=$media $default_port RTP/AVP$pt_list\r\n"
+			append sdp "c=IN IP4 $default_ip\r\n"
+		} else {
+			set sdp "m=$media $default_port RTP/AVP$pt_list\r\n"
+			append sdp "c=IN IP4 $default_ip\r\n"
+			append sdp "a=x-caps:34 65537:352:288:15.0:256000:1;131074:176:144:15.0:180000:1\r\n"
+		} 
+
 		if {$options(-ice) > 0} {
-			append sdp [$self BuildIceCandidates $local $remote]
+			append sdp [$self BuildIceCandidates $local_candidates $remote_candidates $local $remote]
 		}
 
 		if {$rtcp_port != 0 } {
 			append sdp "a=rtcp:$rtcp_port\r\n"
 		}
 
-		foreach codec $options(-local_codecs) {
+		foreach codec $local_codecs {
 			foreach {encoding_name payload_type bitrate fmtp} $codec break
 			append sdp "a=rtpmap:$payload_type $encoding_name/$bitrate\r\n"
 			if { $fmtp != "" } {
@@ -895,6 +950,25 @@ snit::type SIPConnection {
 			}
 		}
 		append sdp "a=encryption:rejected\r\n"
+
+		return $sdp
+	}
+
+	method BuildSDP { {local_audio ""} {remote_audio ""} {local_video ""} {remote_video ""}} {
+
+		set sdp [$self BuildMedia "audio" \
+				$options(-local_audio_codecs) \
+				$options(-local_audio_candidates) \
+				$options(-remote_audio_candidates) \
+				$local_audio $remote_audio]
+		if { $options(-local_video_codecs) != "" &&
+		     $options(-local_video_candidates) != "" } {
+			append sdp [$self BuildMedia "video" \
+					$options(-local_video_codecs) \
+					$options(-local_video_candidates) \
+					$options(-remote_video_candidates) \
+					$local_video $remote_video]
+		}
 
 		return $sdp
 	}
@@ -988,11 +1062,23 @@ snit::type SIPConnection {
 	}
 
 	method ParseSDP { body } {
-		set options(-remote_codecs) [list]
-		set ice_candidates [list]
-		set rtcp_port 0
-		set ufrag ""
-		set pwd ""
+		set media "audio"
+
+		set options(-remote_audio_codecs) [list]
+		set audio_ice_candidates [list]
+		set audio_ip ""
+		set audio_port ""
+		set audio_rtcp_port 0
+		set audio_ufrag ""
+		set audio_pwd ""
+
+		set options(-remote_video_codecs) [list]
+		set video_ufrag ""
+		set video_pwd ""
+		set video_ip ""
+		set video_port ""
+		set video_rtcp_port 0
+		set video_ice_candidates [list]
 
 		foreach line [split $body "\n"] {
 			set line [string trim $line]
@@ -1000,11 +1086,20 @@ snit::type SIPConnection {
 			set value [string range $line 2 end]
 
 			switch -- $field {
-				"c" {
-					set ip [lindex [split $value " "] 2]
-				}
 				"m" {
-					set port [lindex [split $value " "] 1]
+					set media [lindex [split $value " "] 0]
+					if {$media == "audio" } {
+						set audio_port [lindex [split $value " "] 1]
+					} else {
+						set video_port [lindex [split $value " "] 1]
+					}
+				}
+				"c" {
+					if {$media == "audio" } {
+						set audio_ip [lindex [split $value " "] 2]
+					} else {
+						set video_ip [lindex [split $value " "] 2]
+					}
 				}
 				"a" {
 					set attribute [lindex [split $value ":"] 0]
@@ -1012,16 +1107,32 @@ snit::type SIPConnection {
 					#puts "$attribute -- $attr"
 					switch -- $attribute {
 						"ice-ufrag" {
-							set ufrag $attr
+							if {$media == "audio" } {
+								set audio_ufrag $attr
+							} else {
+								set video_ufrag $attr
+							}
 						}
 						"ice-pwd" {
-							set pwd $attr
+							if {$media == "audio" } {
+								set audio_pwd $attr
+							} else {
+								set video_pwd $attr
+							}
 						}
 						"candidate" {
-							lappend ice_candidates [split $attr " "]
+							if {$media == "audio" } {
+								lappend audio_ice_candidates [split $attr " "]
+							} else {
+								lappend video_ice_candidates [split $attr " "]
+							}
 						}
 						"rtcp" {
-							set rtcp_port $attr
+
+							if {$media == "audio" } {
+								set audio_rtcp_port $attr
+							} else {
+								set video_rtcp_port $attr							}
 						}
 						"rtpmap" {
 							set pt [lindex $attr 0]
@@ -1029,25 +1140,42 @@ snit::type SIPConnection {
 							set encoding_name [lindex [split $codec "/"] 0]
 							set bitrate [lindex [split $codec "/"] 1]
 							
-							lappend options(-remote_codecs) [list $encoding_name $pt $bitrate]
+							if {$media == "audio" } {
+								lappend options(-remote_audio_codecs) [list $encoding_name $pt $bitrate]
+							} else {
+								lappend options(-remote_video_codecs) [list $encoding_name $pt $bitrate]
+							}
 						}
 					}
 				}
 			}
 		}
-		if {$rtcp_port == 0 } {
-			set rtcp_port $port
-			incr rtcp_port
+		if {$audio_rtcp_port == 0 } {
+			set audio_rtcp_port $audio_port
+			incr audio_rtcp_port
 		}
-		set options(-remote_candidates) [list]
-		if {$ice_candidates == [list] } {
-			set options(-ice) 0
-			lappend options(-remote_candidates) [list "" 1 $ip $port "" 0 "UDP" 1 "host" "" ""]
-			lappend options(-remote_candidates) [list "" 2 $ip $rtcp_port "" 0 "UDP" 1 "host" "" ""]
+		if {$video_rtcp_port == 0 && $video_port != ""} {
+			set video_rtcp_port $video_port
+			incr video_rtcp_port
 		}
 		
-		foreach candidate $ice_candidates {
-			if {$ufrag != "" && $pwd != "" } {
+		set options(-remote_audio_candidates) [list]
+		if {$audio_ice_candidates == [list] } {
+			set options(-ice) 0
+			lappend options(-remote_audio_candidates) [list "" 1 $audio_ip $audio_port "" 0 "UDP" 1 "host" "" ""]
+			lappend options(-remote_audio_candidates) [list "" 2 $audio_ip $audio_rtcp_port "" 0 "UDP" 1 "host" "" ""]
+		}
+		
+		set options(-remote_video_candidates) [list]
+		if {$video_ice_candidates == [list] && $video_ip != "" } {
+			set options(-ice) 0
+			lappend options(-remote_video_candidates) [list "" 1 $video_ip $video_port "" 0 "UDP" 1 "host" "" ""]
+			lappend options(-remote_video_candidates) [list "" 2 $video_ip $video_rtcp_port "" 0 "UDP" 1 "host" "" ""]
+		}
+		
+
+		foreach candidate $audio_ice_candidates {
+			if {$audio_ufrag != "" && $audio_pwd != "" } {
 				set options(-ice) 19
 
 				set base_ip ""
@@ -1079,15 +1207,65 @@ snit::type SIPConnection {
 						} 
 					} 
 				}
-				lappend options(-remote_candidates) [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $ufrag $pwd]
+				lappend options(-remote_audio_candidates) [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $audio_ufrag $audio_pwd]
 			} else {
 				set options(-ice) 6
 				foreach {username component_id password transport priority ip port} $candidate break
 				set foundation [string range $username 0 32]
-				lappend options(-remote_candidates) [list $foundation $component_id $ip $port "" 0 $transport $priority "" $username $password]
+				lappend options(-remote_audio_candidates) [list $foundation $component_id $ip $port "" 0 $transport $priority "" $username $password]
 
 			}
 		}
+
+		if {$video_ice_candidates != [list] && 
+		    ($video_ufrag == "" || $video_pwd == "") &&
+		    $options(-ice) == 19} {
+			return
+		}
+
+		foreach candidate $video_ice_candidates {
+			if {$video_ufrag != "" && $video_pwd != "" } {
+				set options(-ice) 19
+
+				set base_ip ""
+				set base_port 0
+				set type ""
+				for {set i 0 } { $i < [llength $candidate] } { incr i } {
+					if {$i == 0 } {
+						set foundation [lindex $candidate $i]
+					} elseif {$i == 1 } {
+						set component_id [lindex $candidate $i]
+					} elseif {$i == 2 } {
+						set transport [lindex $candidate $i]
+					} elseif {$i == 3 } {
+						set priority [lindex $candidate $i]
+					} elseif {$i == 4 } {
+						set ip [lindex $candidate $i]
+					} elseif {$i == 5 } {
+						set port [lindex $candidate $i]
+					} else {
+						if {[lindex $candidate $i] == "typ" } {
+							incr i
+							set type [lindex $candidate $i]
+						} elseif {[lindex $candidate $i] == "raddr" } {
+							incr i
+							set base_ip [lindex $candidate $i]
+						} elseif {[lindex $candidate $i] == "rport" } {
+							incr i
+							set base_port [lindex $candidate $i]
+						} 
+					} 
+				}
+				lappend options(-remote_video_candidates) [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $video_ufrag $video_pwd]
+			} else {
+				set options(-ice) 6
+				foreach {username component_id password transport priority ip port} $candidate break
+				set foundation [string range $username 0 32]
+				lappend options(-remote_video_candidates) [list $foundation $component_id $ip $port "" 0 $transport $priority "" $username $password]
+
+			}
+		}
+
 
 	}
 
@@ -1721,6 +1899,14 @@ snit::type TunneledSIPSocket {
 	option -sipconnection
 	option -destination
 	option -transport -default "tcp"
+	option -host -default ""
+	option -port -default ""
+	option -proxy -default ""
+	option -proxy_host -default ""
+	option -proxy_port -default ""
+	option -proxy_authenticate -default 0
+	option -proxy_user -default ""
+	option -proxy_password -default ""
 
 	variable call_ids [list]
 
@@ -1781,10 +1967,14 @@ snit::type TunneledSIPSocket {
 
 snit::type Farsight {
 	variable loaded 0
-	variable local_codecs [list]
-	variable local_candidates [list]
-	variable remote_candidates [list]
-	variable remote_codecs [list]
+	variable audio_local_codecs [list]
+	variable audio_local_candidates [list]
+	variable audio_remote_candidates [list]
+	variable audio_remote_codecs [list]
+	variable video_local_codecs [list]
+	variable video_local_candidates [list]
+	variable video_remote_candidates [list]
+	variable video_remote_codecs [list]
 	variable known_bitrates
 	variable prepare_ticket ""
 	variable prepare_relay_info ""
@@ -1817,12 +2007,14 @@ snit::type Farsight {
 	}
 
 	method Reset { } {
-		set local_codecs [list]
-		set local_candidates [list]
-		set remote_candidates [list]
-		set remote_codecs [list]
-		set codecs_done 0
-		set candidates_done 0
+		set audio_local_codecs [list]
+		set audio_local_candidates [list]
+		set audio_remote_candidates [list]
+		set audio_remote_codecs [list]
+		set video_local_codecs [list]
+		set video_local_candidates [list]
+		set video_remote_candidates [list]
+		set video_remote_codecs [list]
 		set options(-sipconnection) ""
 	}
 
@@ -1842,8 +2034,8 @@ snit::type Farsight {
 		}
 	}
 
-	method SetRemoteCandidates { candidates } {
-		set remote_candidates [list]
+	method SetRemoteAudioCandidates { candidates} {
+		set audio_remote_candidates [list]
 		foreach candidate $candidates {
 			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 			if {$call_type == "A6" } {
@@ -1862,9 +2054,9 @@ snit::type Farsight {
 						append password "=="
 					}
 					set foundation [string range $username 0 32]
-					lappend remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
+					lappend audio_remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
 				}
-			} elseif {$call_type == "A19" } {
+			} else {
 				if {[info exists ::farsight_test_turn] &&
 				    $::farsight_test_turn &&
 				    $type != "relay" } {continue}
@@ -1872,7 +2064,7 @@ snit::type Farsight {
 				    $username != "" &&
 				    $password != "" &&
 				    $transport == "UDP"} {
-					lappend remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
+					lappend audio_remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
 				}
 			}
 		}
@@ -1880,25 +2072,86 @@ snit::type Farsight {
 	}
 
 
-	method SetRemoteCodecs { codecs } {
-		set remote_codecs $codecs
+	method SetRemoteVideoCandidates { candidates} {
+		set video_remote_candidates [list]
+		foreach candidate $candidates {
+			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
+			if {$call_type == "A6" } {
+				if {[info exists ::farsight_test_turn] &&
+				    $::farsight_test_turn &&
+				    $priority >= "0.5" } {continue}
+				if {$candidate_id != "" &&
+				    $password != "" &&
+				    $transport == "UDP"} {
+					if {[string length [base64::decode $username]] != 32 &&
+					    [string range $username end end] != "="} {
+						append username "="
+					}
+					if {[string length [base64::decode $password]] != 16 &&
+					    [string range $password end end] != "="} {
+						append password "=="
+					}
+					set foundation [string range $username 0 32]
+					lappend video_remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
+				}
+			} else {
+				if {[info exists ::farsight_test_turn] &&
+				    $::farsight_test_turn &&
+				    $type != "relay" } {continue}
+				if {$foundation != "" &&
+				    $username != "" &&
+				    $password != "" &&
+				    $transport == "UDP"} {
+					lappend video_remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
+				}
+			}
+		}
+		
 	}
 
-	method GetLocalCandidates { } {
-		return $local_candidates
+
+	method SetRemoteAudioCodecs { codecs } {
+		set audio_remote_codecs $codecs
+	}
+	method SetRemoteVideoCodecs { codecs } {
+		set video_remote_codecs $codecs
 	}
 
-	method GetLocalCodecs { } {
-		return [lsort -decreasing -command [list $self CompareCodecs] $local_codecs]
+	method GetLocalAudioCandidates { } {
+		return $audio_local_candidates
+	}
+	method GetLocalVideoCandidates { } {
+		return $video_local_candidates
+	}
+
+	method GetLocalAudioCodecs { } {
+		return [lsort -decreasing -command [list $self CompareAudioCodecs] $audio_local_codecs]
+	}
+
+	method GetLocalVideoCodecs { } {
+		return [lsort -decreasing -command [list $self CompareVideoCodecs] $video_local_codecs]
 	}
 	
-	method CompareCodecs {codec1 codec2} {
+	method CompareAudioCodecs {codec1 codec2} {
 		foreach {name1 payload_type bitrate} $codec1 break
 		foreach {name2 payload_type bitrate} $codec2 break
 		
 		if {$name1 == "SIREN" } {
 			return 1
 		} elseif {$name2 == "SIREN" } {
+			return -1
+		}
+		return 0
+		
+	}
+	
+	method CompareVideoCodecs {codec1 codec2} {
+		foreach {name1 payload_type bitrate} $codec1 break
+		foreach {name2 payload_type bitrate} $codec2 break
+		
+		if {$name1 == "H263" } {
+			return 1
+		} elseif {$name2 == "H263" } {
 			return -1
 		}
 		return 0
@@ -1913,7 +2166,7 @@ snit::type Farsight {
 	}
 
 	method Test { } {
-		if {[catch {$self Prepare 1} res] } {
+		if {[catch {$self Prepare 1 } res] } {
 			if {$specialLogger != ""} {
 				catch {eval $specialLogger {"Farsight Prepare error : $res"}}
 			}
@@ -1927,10 +2180,10 @@ snit::type Farsight {
 	method Prepare { controlling {mode "A6"} } {
 		if {[info exists ::sso] && $::sso != ""} {
 			set prepare_ticket ""
-			$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
-			if {$prepare_ticket == "" } {
-				tkwait variable [myvar prepare_ticket]
-			}
+			#$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
+			#if {$prepare_ticket == "" } {
+			#	tkwait variable [myvar prepare_ticket]
+			#}
 		}
 
 		$self Close
@@ -1960,7 +2213,7 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
-		::Farsight::Config -level "" -debug [list $self Debug]
+		::Farsight::Config -video-source-pipeline "videotestsrc is-live=TRUE ! ffmpegcolorspace ! videoscale ! video/x-raw-rgb,width=352,height=288" -level "" -debug [list $self Debug]
 
 		set prepare_relay_info ""
 		if {$prepare_ticket != "" } {
@@ -1988,7 +2241,6 @@ snit::type Farsight {
 			lappend prepare_relay_info [list $ip $port $user $pass $component $type]
 			incr component
 			if {$component > 2} {
-				set type "tcp"
 				set component 1
 			}
 		}
@@ -1997,13 +2249,24 @@ snit::type Farsight {
 
 	method Start { } {
 		if {$loaded} {
-			status_log "Farsight starting : $remote_codecs - $remote_candidates"
+			status_log "Farsight starting : $audio_remote_codecs - $audio_remote_candidates -- $video_remote_codecs - $video_remote_candidates"
 
-			if {[catch {::Farsight::Start $remote_codecs $remote_candidates}] } {
-				$self Closed
+			if {$call_type == "AV" } {
+				if {[catch {::Farsight::Start $audio_remote_codecs $audio_remote_candidates $video_remote_codecs $video_remote_candidates} res] } {
+					status_log "Farsight::Start Error : $res"
+					$self Closed
+					return 0
+				}
+			} else {
+				if {[catch {::Farsight::Start $audio_remote_codecs $audio_remote_candidates} res] } {
+					status_log "Farsight::Start Error : $res"
+					$self Closed
+					return 0
+				}
 			}
-			
+			return 1
 		}
+		return 0
 	}
 
 	method FarsightReady { status obj1 obj2 } {
@@ -2017,7 +2280,7 @@ snit::type Farsight {
 
 			$self Closed
 			return
-		} elseif {$status == "PREPARED" } {
+		} elseif {$status == "PREPARED_AUDIO" } {
 			set codecs $obj1
 			set candidates $obj2
 
@@ -2027,41 +2290,83 @@ snit::type Farsight {
 				    $name == "SIREN" || $name == "G723" || 
 				    $name == "AAL2-G726-32" || $name == "x-msrta"} {
 					if {[info exists known_bitrates($name)] } {
-						lappend local_codecs [list $name $pt $rate "bitrate=$known_bitrates($name)"]
+						lappend audio_local_codecs [list $name $pt $rate "bitrate=$known_bitrates($name)"]
 					} else {
-						lappend local_codecs [list $name $pt $rate]
+						lappend audio_local_codecs [list $name $pt $rate]
 					}
 				}
 				if {$name == "telephone-event" && $rate == "8000"} {
-					lappend local_codecs [list $name $pt $rate "0-16"]
+					lappend audio_local_codecs [list $name $pt $rate "0-16"]
 				}
 			}
 			
-			set local_candidates $candidates
+			set audio_local_candidates $candidates
 
 			if {$specialLogger != ""} {
-				catch {eval $specialLogger {"Farsight : Farsight is now prepared!\nlocal codecs : $local_codecs\nlocal candidates : $local_candidates"}}
+				catch {eval $specialLogger {"Farsight : Farsight Audio is now prepared!\nlocal codecs : $audio_local_codecs\nlocal candidates : $audio_local_candidates"}}
 			}
-			status_log "Farsight : Farsight is now prepared!\nlocal codecs : $local_codecs\nlocal candidates : $local_candidates"
+			status_log "Farsight : Farsight audio is now prepared!\nlocal codecs : $audio_local_codecs\nlocal candidates : $audio_local_candidates"
 
+			if {$call_type != "AV" || $video_local_candidates != [list] } {
+				if {$options(-prepared) != "" } {
+					if {[catch {eval $options(-prepared)} result]} {
+						bgerror $result
+					}
+				}
+			} else {
+				if {$specialLogger != ""} {
+					catch {eval $specialLogger {"Fasight :Waiting for video preparation"}}
+				}
+				status_log "Fasight :Waiting for video preparation"
+			}
+		} elseif {$status == "PREPARED_VIDEO" } {
+			set codecs $obj1
+			set candidates $obj2
 
-			if {$options(-prepared) != "" } {
-				if {[catch {eval $options(-prepared)} result]} {
-					bgerror $result
+			foreach codec $codecs {
+				foreach {name pt rate} $codec break
+				if {$name == "H263" || $name == "x-rtvc1"} {
+					lappend video_local_codecs [list $name $pt $rate]
 				}
 			}
-		} elseif {$status == "ACTIVE" } {
+			
+			set video_local_candidates $candidates
 
 			if {$specialLogger != ""} {
-				catch {eval $specialLogger {"Farsight : New active candidate pair"}}
+				catch {eval $specialLogger {"Farsight : Farsight Video is now prepared!\nlocal codecs : $video_local_codecs\nlocal candidates : $video_local_candidates"}}
 			}
-			status_log "Farsight : New active candidate pair"
+			status_log "Farsight : Farsight Video is now prepared!\nlocal codecs : $video_local_codecs\nlocal candidates : $video_local_candidates"
+
+			if {$audio_local_candidates != [list] } {
+				if {$options(-prepared) != "" } {
+					if {[catch {eval $options(-prepared)} result]} {
+						bgerror $result
+					}
+				}
+			} else {
+				if {$specialLogger != ""} {
+					catch {eval $specialLogger {"Fasight :Waiting for audio preparation"}}
+				}
+				status_log "Fasight :Waiting for audio preparation"
+			}
+		} elseif {$status == "AUDIO_ACTIVE" || 
+			  $status == "VIDEO_ACTIVE"} {
+
+			if {$specialLogger != ""} {
+				catch {eval $specialLogger {"Farsight : New $status active candidate pair"}}
+			}
+			status_log "Farsight : New $status active candidate pair"
 
 			set local $obj1
 			set remote $obj2
+			if {$status == "AUDIO_ACTIVE" } {
+				set media "audio"
+			} else {
+				set media "video"
+			}
 
 			if {$options(-active) != "" } {
-				if {[catch {eval $options(-active) $local $remote} result]} {
+				if {[catch {eval $options(-active) $media $local $remote} result]} {
 					bgerror $result
 				}
 			}
@@ -2218,7 +2523,7 @@ namespace eval ::MSNSIP {
 		    -active ""
 		
 		if {[$sip cget -ice] == 19} {
-			set mode "A19"
+			set mode "AV"
 		} else {
 			set mode "A6"
 		}
@@ -2233,8 +2538,10 @@ namespace eval ::MSNSIP {
 		}
 	}
 	proc invitePrepared { sip email } {
-		$sip configure -local_candidates [$::farsight GetLocalCandidates]
-		$sip configure -local_codecs [$::farsight GetLocalCodecs] 
+		$sip configure -local_audio_candidates [$::farsight GetLocalAudioCandidates]
+		$sip configure -local_audio_codecs [$::farsight GetLocalAudioCodecs] 
+		$sip configure -local_video_candidates [$::farsight GetLocalVideoCandidates]
+		$sip configure -local_video_codecs [$::farsight GetLocalVideoCodecs]
 		set callid [$sip Invite $email [list ::MSNSIP::inviteSIPCB $sip $email]]
 
 		$::farsight configure \
@@ -2280,12 +2587,37 @@ namespace eval ::MSNSIP {
 			}
 		}
 	}
-	proc activeCandidates { email sip callid send local remote } {
-		if {$send} {
-			$sip SendReInvite $callid $local $remote
-		} else {
-			$sip configure -active_candidates [list $local $remote]
+	proc activeCandidates { email sip callid send media local remote } {
+		if {$media == "audio" } {
+			$sip configure -active_audio_candidates [list $local $remote]
+		} elseif {$media == "video" } {
+			$sip configure -active_video_candidates [list $local $remote]
 		}
+
+		if {$send && [$sip cget -ice] == 6} {
+			$sip SendReInvite $callid $local $remote
+		} elseif {$send &&
+			  [$sip cget -active_audio_candidates] != "" &&
+			  [$sip cget -active_video_candidates] != ""} {
+			
+			set local_audio [lindex [$sip cget -active_audio_candidates] 0]
+			set remote_audio [lindex [$sip cget -active_audio_candidates] 1]
+			set local_video [lindex [$sip cget -active_video_candidates] 0]
+			set remote_video [lindex [$sip cget -active_video_candidates] 1]
+			$sip SendReInvite $callid $local_audio $remote_audio $local_video $remote_video
+		} elseif {[$sip cget -active_audio_candidates] != "" &&
+			  [$sip cget -active_video_candidates] != ""} {
+			set local_audio [lindex $options(-active_audio_candidates) 0]
+			set remote_audio [lindex $options(-active_audio_candidates) 1]
+			set local_video [lindex $options(-active_video_candidates) 0]
+			set remote_video [lindex $options(-active_video_candidates) 1]
+			set sdp [$self BuildSDP $local_audio $remote_audio $local_video $remote_audio]
+			incr call_cseq($callid)
+
+			set message [$self BuildResponse $callid INVITE 200]
+			$self Send $message "application/sdp" $sdp
+		}
+
 		::amsn::SIPCallConnected $email $sip $callid
 		::Farsight::Config -level [list ::MSNSIP::Level $email $sip $callid]
 	}
@@ -2308,10 +2640,12 @@ namespace eval ::MSNSIP {
 			# Signal the UI
 			::amsn::SIPCalleeAccepted $email $sip $callid
 
-			$::farsight SetRemoteCandidates [$sip cget -remote_candidates]
-			$::farsight SetRemoteCodecs [$sip cget -remote_codecs]
-			$::farsight Start
 			$::farsight configure -closed [list ::MSNSIP::inviteClosed $sip $email $callid 1]
+			$::farsight SetRemoteAudioCandidates [$sip cget -remote_audio_candidates]
+			$::farsight SetRemoteAudioCodecs [$sip cget -remote_audio_codecs]
+			$::farsight SetRemoteVideoCandidates [$sip cget -remote_video_candidates]
+			$::farsight SetRemoteVideoCodecs [$sip cget -remote_video_codecs]
+			$::farsight Start
 		} elseif {$status == "BUSY"} {
 			# Signal the UI
 			::amsn::SIPCalleeBusy $email $sip $callid
@@ -2357,11 +2691,15 @@ namespace eval ::MSNSIP {
 				    -closed [list ::MSNSIP::answerClosed $sip $callid 0] \
 				    -sipconnection $sip \
 				    -active [list ::MSNSIP::activeCandidates $caller $sip $callid 0]
-				$sip configure -active_candidates ""
+				$sip configure -active_audio_candidates "" -active_video_candidates ""
 
 
 				if {[$sip cget -ice] == 19} {
-					set mode "A19"
+					if {[$sip cget -remote_video_candidates] != "" } {
+						set mode "AV"
+					} else {
+						set mode "A19"
+					}
 				} else {
 					set mode "A6"
 				}
@@ -2375,8 +2713,10 @@ namespace eval ::MSNSIP {
 				} else {
 					# Reset the SipConnection because the Prepare clears it
 					$::farsight configure -sipconnection $sip 
-					$::farsight SetRemoteCandidates [$sip cget -remote_candidates]
-					$::farsight SetRemoteCodecs [$sip cget -remote_codecs]
+					$::farsight SetRemoteAudioCandidates [$sip cget -remote_audio_candidates]
+					$::farsight SetRemoteAudioCodecs [$sip cget -remote_audio_codecs]
+					$::farsight SetRemoteVideoCandidates [$sip cget -remote_video_candidates]
+					$::farsight SetRemoteVideoCodecs [$sip cget -remote_video_codecs]
 
 					::amsn::SIPPreparing $caller $sip $callid
 				}
@@ -2441,11 +2781,14 @@ namespace eval ::MSNSIP {
 		status_log "MSNSIP: Accepting invite"
 
 		# no prepare since it's already done before it started RINGING
-		$::farsight Start
-		$sip configure -local_candidates [$::farsight GetLocalCandidates]
-		$sip configure -local_codecs [$::farsight GetLocalCodecs]
+		$sip configure -local_audio_candidates [$::farsight GetLocalAudioCandidates]
+		$sip configure -local_audio_codecs [$::farsight GetLocalAudioCodecs]
+		$sip configure -local_video_candidates [$::farsight GetLocalVideoCandidates]
+		$sip configure -local_video_codecs [$::farsight GetLocalVideoCodecs]
 		$sip AnswerInvite $callid OK
+
 		$::farsight configure -closed [list ::MSNSIP::answerClosed $sip $callid 1]
+		$::farsight Start
 	}
 
 	proc errorSIP { sip reason } {
@@ -2460,6 +2803,7 @@ namespace eval ::MSNSIP {
 		    [::MSN::hasCapability [::config::getKey clientid 0] tunnelsip] } {
 			::MSN::setClientCap sip 0
 			::MSN::setClientCap tunnelsip 0
+			::MSN::setClientCap rtcvideo 0
 			if {[::MSN::myStatusIs] != "FLN" } {
 				::MSN::changeStatus [::MSN::myStatusIs]
 			}
@@ -2483,6 +2827,12 @@ namespace eval ::MSNSIP {
 		if { [::config::getKey protocol] >= 16 &&
 		     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip] } {
 			::MSN::setClientCap tunnelsip
+			set changed 1
+		}
+		
+		if { [::config::getKey protocol] >= 16 &&
+		     ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
+			::MSN::setClientCap rtcvideo
 			set changed 1
 		}
 		
@@ -2527,6 +2877,11 @@ namespace eval ::MSNSIP {
 			if { [::config::getKey protocol] >= 16 &&
 			     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip]} {
 				::MSN::setClientCap tunnelsip
+				set changed 1
+			}
+			if { [::config::getKey protocol] >= 16 &&
+			     ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo]} {
+				::MSN::setClientCap rtcvideo
 				set changed 1
 			}
 

@@ -86,7 +86,8 @@ Tcl_Obj *video_local_candidates = NULL;
 Tcl_Obj *callback = NULL;
 Tcl_Interp *callback_interp = NULL;
 Tcl_ThreadId main_tid = 0;
-int components_selected = 0;
+int audio_components_selected = 0;
+int video_components_selected = 0;
 
 
 #ifdef _WIN32
@@ -190,7 +191,8 @@ static void Close ()
   audio_codecs_ready = FALSE;
   video_candidates_prepared = FALSE;
   video_codecs_ready = FALSE;
-  components_selected = 0;
+  audio_components_selected = 0;
+  video_components_selected = 0;
 
   if (audio_local_candidates) {
     Tcl_DecrRefCount(audio_local_candidates);
@@ -367,12 +369,12 @@ _notify_error_post (char *error)
 
 /* TODO */
 static void
-_notify_active (const char *local, const char *remote)
+_notify_active (const char *msg, const char *local, const char *remote)
 {
   Tcl_Obj *local_candidate = Tcl_NewStringObj (local, -1);
   Tcl_Obj *remote_candidate = Tcl_NewStringObj (remote, -1);
 
-  _notify_callback ("ACTIVE", local_candidate, remote_candidate);
+  _notify_callback (msg, local_candidate, remote_candidate);
 }
 
 static void _notify_prepared (gchar *msg, FsSession *session,
@@ -734,7 +736,6 @@ static GstElement * _create_audio_sink ()
   return snk;
 }
 
-/* TODO */
 static void
 _audio_src_pad_added (FsStream *self, GstPad *pad,
     FsCodec *codec, gpointer user_data)
@@ -1043,6 +1044,64 @@ static GstElement * _create_video_sink ()
   return snk;
 }
 
+static void
+_video_src_pad_added (FsStream *self, GstPad *pad,
+    FsCodec *codec, gpointer user_data)
+{
+  GstElement *pipeline = user_data;
+  GstElement *snk = NULL;
+  GstElement *colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
+  GstPad *sink_pad = NULL;
+  GstPadLinkReturn ret;
+
+  snk = _create_video_sink ();
+  if (snk == NULL) {
+    _notify_error_post ("Could not create video_sink");
+    if (colorspace) gst_object_unref (colorspace);
+    return;
+  }
+  g_signal_connect (snk, "element-added",
+      G_CALLBACK (_sink_element_added), NULL);
+
+  if (gst_bin_add (GST_BIN (pipeline), snk) == FALSE)  {
+    _notify_error_post ("Could not add video_sink to pipeline");
+    if (snk) gst_object_unref (snk);
+    if (colorspace) gst_object_unref (colorspace);
+    return;
+  }
+
+  if (gst_bin_add (GST_BIN (pipeline), colorspace) == FALSE) {
+    _notify_error_post ("Could not add colorspace to pipeline");
+    if (colorspace) gst_object_unref (colorspace);
+    return;
+  }
+  sink_pad = gst_element_get_static_pad (colorspace, "sink");
+
+  ret = gst_pad_link (pad, sink_pad);
+  gst_object_unref (sink_pad);
+
+  if (ret != GST_PAD_LINK_OK)  {
+    _notify_error_post ("Could not link colorspace to fsrtpconference sink pad");
+    return;
+  }
+
+  if (gst_element_link(colorspace, snk) == FALSE)  {
+    _notify_error_post ("Could not link converter to resampler");
+    return;
+  }
+
+  if (gst_element_set_state (colorspace, GST_STATE_PLAYING) ==
+      GST_STATE_CHANGE_FAILURE) {
+    _notify_error_post ("Unable to set converter to PLAYING");
+    return;
+  }
+
+  if (gst_element_set_state (snk, GST_STATE_PLAYING) ==
+      GST_STATE_CHANGE_FAILURE) {
+    _notify_error_post ("Unable to set audio_sink to PLAYING");
+    return;
+  }
+}
 
 static void
 _codecs_ready (FsSession *session)
@@ -1122,6 +1181,7 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
         } else if (gst_structure_has_name (s, "farsight-new-active-candidate-pair")) {
           FsCandidate *local;
           FsCandidate *remote;
+          FsStream *stream;
           const GValue *value;
 
 
@@ -1131,7 +1191,11 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
           value = gst_structure_get_value (s, "remote-candidate");
           remote = g_value_get_boxed (value);
 
-          _notify_debug ("New active candidate pair : ");
+          value = gst_structure_get_value (s, "stream");
+          stream = g_value_get_object (value);
+
+          _notify_debug ("New active candidate pair (%s) : ",
+              stream == audio_stream ? "audio" : "video");
 
           _notify_debug ("Local candidate: %s %d %s %d %s %d %s %d %s %s %s\n",
               local->foundation == NULL ? "-" : local->foundation,
@@ -1159,8 +1223,14 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
               remote->username == NULL ? "-" : remote->username,
               remote->password == NULL ? "-" : remote->password);
 
-          if (++components_selected == 2) {
-            _notify_active (local->foundation, remote->foundation);
+          if (stream == audio_stream) {
+            if (++audio_components_selected == 2) {
+              _notify_active ("AUDIO_ACTIVE", local->foundation, remote->foundation);
+            }
+          } else {
+            if (++video_components_selected == 2) {
+              _notify_active ("VIDEO_ACTIVE", local->foundation, remote->foundation);
+            }
           }
         } else if (gst_structure_has_name (s, "level")) {
           gint channels;
@@ -1679,12 +1749,11 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   if (gst_pad_link (srcpad, tempsink) != GST_PAD_LINK_OK) {
     gst_object_unref (tempsink);
     _notify_debug ("Couldn't link the src to collorspace");
-    gst_bin_remove (GST_BIN (test_pipeline), src_colorspace);
-    gst_object_unref (src_colorspace);
     goto error;
   }
 
   gst_object_unref (srcpad);
+  gst_object_unref (tempsink);
 
   videoscale = gst_element_factory_make ("videoscale", NULL);
   if (gst_bin_add (GST_BIN (test_pipeline), videoscale) == FALSE) {
@@ -1802,6 +1871,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstElement *src_convert = NULL;
   GstElement *src_resample = NULL;
   GstElement *src_convert2 = NULL;
+  GstElement *src_colorspace = NULL;
   GParameter transmitter_params[6];
   int controlling;
   char *stun_ip = NULL;
@@ -1837,13 +1907,20 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     call_type = RTP_AUDIO_ICE19;
   } else if (strcmp (mode, NEW_AUDIO_VIDEO_CALL) == 0) {
     call_type = RTP_AUDIO_VIDEO_ICE19;
-    Tcl_AppendResult (interp, "Call mode not supported yet", (char *) NULL);
-    return TCL_ERROR;
   } else {
     Tcl_AppendResult (interp, "Invalid call mode, must be either : ",
         OLD_AUDIO_CALL, ", ", NEW_AUDIO_CALL, " or ",
         NEW_AUDIO_VIDEO_CALL, (char *) NULL);
     return TCL_ERROR;
+  }
+
+  if (pipeline != NULL) {
+    Tcl_AppendResult (interp, "Already prepared/in preparation" , (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  if (test_pipeline != NULL) {
+    Close ();
   }
 
   callback = objv[1];
@@ -1915,6 +1992,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       turn_setup = gst_structure_new ("relay-info",
           "ip", G_TYPE_STRING, turn_ip,
           "port", G_TYPE_UINT, turn_port,
+          "component", G_TYPE_UINT, component,
           "username", G_TYPE_STRING, username,
           "password", G_TYPE_STRING, password,
           "relay-type", G_TYPE_STRING, type,
@@ -1924,11 +2002,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         g_value_array_free (relay_info);
         Tcl_AppendResult (interp, "Unable to create relay info" , (char *) NULL);
         return TCL_ERROR;
-      }
-
-      if (call_type & RTP_ICE6) {
-        gst_structure_set (turn_setup,
-            "component", G_TYPE_UINT, component, NULL);
       }
 
       gst_value_set_structure (&gvalue, turn_setup);
@@ -1953,17 +2026,10 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
   }
 
-  if (pipeline != NULL) {
-    Tcl_AppendResult (interp, "Already prepared/in preparation" , (char *) NULL);
-    return TCL_ERROR;
-  }
-
-  if (test_pipeline != NULL) {
-    Close ();
-  }
-
   audio_candidates_prepared = FALSE;
   audio_codecs_ready = FALSE;
+  video_candidates_prepared = FALSE;
+  video_codecs_ready = FALSE;
 
   pipeline = gst_pipeline_new ("pipeline");
   if (pipeline == NULL) {
@@ -1989,6 +2055,21 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
   g_object_set (conference, "sdes-cname", "", NULL);
+
+
+  participant = fs_conference_new_participant (FS_CONFERENCE (conference),
+      "", &error);
+  if (error) {
+    char temp[1000];
+    snprintf (temp, 1000, "Error while creating new participant (%d): %s",
+        error->code, error->message);
+    Tcl_AppendResult (interp, temp, (char *) NULL);
+    goto error;
+  }
+  if (participant == NULL) {
+    Tcl_AppendResult (interp, "Couldn't create new participant" , (char *) NULL);
+    goto error;
+  }
 
   audio_session = fs_conference_new_session (FS_CONFERENCE (conference),
       FS_MEDIA_TYPE_AUDIO, &error);
@@ -2052,7 +2133,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   src = _create_audio_source ();
   if (src == NULL) {
-    _notify_debug ("Couldn't create audio audio_source");
+    _notify_debug ("Couldn't create audio source");
     goto no_audio_source;
   }
 
@@ -2143,13 +2224,13 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   tempsink = gst_element_get_static_pad (src_convert, "sink");
   if (gst_pad_link (srcpad, tempsink) != GST_PAD_LINK_OK) {
     gst_object_unref (tempsink);
+    gst_object_unref (srcpad);
     _notify_debug ("Couldn't link the src to converter");
-    gst_bin_remove (GST_BIN (pipeline), src_convert);
-    gst_object_unref (src_convert);
     goto error;
   }
 
   gst_object_unref (srcpad);
+  gst_object_unref (tempsink);
 
   if (gst_element_link(src_convert, src_resample) == FALSE)  {
     Tcl_AppendResult (interp, "Could not link converter to resampler",
@@ -2174,21 +2255,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   gst_object_unref (srcpad);
 
  no_audio_source:
-  participant = fs_conference_new_participant (FS_CONFERENCE (conference),
-      "", &error);
-  if (error) {
-    char temp[1000];
-    snprintf (temp, 1000, "Error while creating new participant (%d): %s",
-        error->code, error->message);
-    Tcl_AppendResult (interp, temp, (char *) NULL);
-    goto error;
-  }
-  if (participant == NULL) {
-    Tcl_AppendResult (interp, "Couldn't create new participant" , (char *) NULL);
-    goto error;
-  }
-
-
   memset (transmitter_params, 0, sizeof (GParameter) * 6);
 
   total_params = 0;
@@ -2226,7 +2292,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     g_value_init (&transmitter_params[total_params].value, G_TYPE_VALUE_ARRAY);
     g_value_set_boxed (&transmitter_params[total_params].value, relay_info);
     total_params++;
-    g_value_array_free (relay_info);
   }
 
   audio_stream = fs_session_new_stream (audio_session, participant, FS_DIRECTION_BOTH,
@@ -2247,6 +2312,155 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   g_signal_connect (audio_stream, "src-pad-added",
       G_CALLBACK (_audio_src_pad_added), pipeline);
 
+
+
+  /* Setup video pipeline */
+  if (call_type & RTP_VIDEO) {
+    video_session = fs_conference_new_session (FS_CONFERENCE (conference),
+        FS_MEDIA_TYPE_VIDEO, &error);
+    if (error) {
+      char temp[1000];
+      snprintf (temp, 1000, "Error while creating new video_session (%d): %s",
+          error->code, error->message);
+      Tcl_AppendResult (interp, temp, (char *) NULL);
+      goto error;
+    }
+    if (video_session == NULL) {
+      Tcl_AppendResult (interp, "Couldn't create new video_session" , (char *) NULL);
+      goto error;
+    }
+
+    /* Set codec preferences.. if this fails, then it's no big deal.. */
+    {
+      GList *codec_preferences = NULL;
+      FsCodec *x_rtvc1 = fs_codec_new (121, "x-rtvc1", FS_MEDIA_TYPE_VIDEO, 90000);
+      FsCodec *h263 = fs_codec_new (34, "H263", FS_MEDIA_TYPE_VIDEO, 90000);
+
+      codec_preferences = g_list_append (codec_preferences, x_rtvc1);
+      codec_preferences = g_list_append (codec_preferences, h263);
+
+      fs_session_set_codec_preferences (video_session, codec_preferences, NULL);
+
+      fs_codec_list_destroy (codec_preferences);
+    }
+
+    if (!video_codecs_ready) {
+      gboolean ready;
+
+      g_object_get (video_session, "codecs-ready", &ready, NULL);
+      if (ready) {
+        _codecs_ready (video_session);
+      }
+    }
+
+    g_object_set (video_session, "no-rtcp-timeout", 0, NULL);
+
+    g_object_get (video_session, "sink-pad", &sinkpad, NULL);
+
+    if (sinkpad == NULL) {
+      Tcl_AppendResult (interp, "Couldn't get sink pad" , (char *) NULL);
+      goto error;
+    }
+
+    src = _create_video_source ();
+    if (src == NULL) {
+      _notify_debug ("Couldn't create video_source");
+      goto no_video_source;
+    }
+
+    if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
+      _notify_debug ("Couldn't add video source to pipeline");
+      if (src) gst_object_unref (src);
+      goto no_video_source;
+    }
+
+    src_colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
+    if (gst_bin_add (GST_BIN (pipeline), src_colorspace) == FALSE) {
+      Tcl_AppendResult (interp, "Could not add src colorspace to pipeline",
+          (char *) NULL);
+      gst_object_unref (src_colorspace);
+      goto error;
+    }
+
+
+    if (gst_element_link(src, src_colorspace) == FALSE)  {
+      Tcl_AppendResult (interp, "Could not link src to colorspace",
+          (char *) NULL);
+      goto error;
+    }
+
+    srcpad = gst_element_get_static_pad (src_colorspace, "src");
+
+    if (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK) {
+      gst_object_unref (sinkpad);
+      gst_object_unref (srcpad);
+      _notify_debug ("Couldn't link the colorspace to fsrtpconference");
+      goto no_video_source;
+    }
+
+    gst_object_unref (sinkpad);
+    gst_object_unref (srcpad);
+
+  no_video_source:
+    memset (transmitter_params, 0, sizeof (GParameter) * 6);
+
+    total_params = 0;
+    transmitter_params[total_params].name = "compatibility-mode";
+    g_value_init (&transmitter_params[total_params].value, G_TYPE_UINT);
+
+    if (call_type & RTP_ICE6) {
+      g_value_set_uint (&transmitter_params[total_params].value, 2);
+    } else {
+      g_value_set_uint (&transmitter_params[total_params].value, 3);
+    }
+    total_params++;
+
+    transmitter_params[total_params].name = "controlling-mode";
+    g_value_init (&transmitter_params[total_params].value, G_TYPE_BOOLEAN);
+    g_value_set_boolean (&transmitter_params[total_params].value, controlling);
+    total_params++;
+
+    if (stun_ip) {
+      _notify_debug ("stun ip : %s : %d", stun_ip, stun_port);
+      transmitter_params[total_params].name = "stun-ip";
+      g_value_init (&transmitter_params[total_params].value, G_TYPE_STRING);
+      g_value_set_string (&transmitter_params[total_params].value, stun_ip);
+      total_params++;
+
+      transmitter_params[total_params].name = "stun-port";
+      g_value_init (&transmitter_params[total_params].value, G_TYPE_UINT);
+      g_value_set_uint (&transmitter_params[total_params].value, stun_port);
+      total_params++;
+    }
+
+    /* Must have different audio/video relay info */
+    if (relay_info) {
+      _notify_debug ("FS: relay info = %p - %d", relay_info, relay_info->n_values);
+      transmitter_params[total_params].name = "relay-info";
+      g_value_init (&transmitter_params[total_params].value, G_TYPE_VALUE_ARRAY);
+      g_value_set_boxed (&transmitter_params[total_params].value, relay_info);
+      total_params++;
+    }
+
+    video_stream = fs_session_new_stream (video_session, participant,
+        FS_DIRECTION_BOTH, "nice", total_params, transmitter_params, &error);
+
+    if (error) {
+      char temp[1000];
+      snprintf (temp, 1000, "Error while creating new video_stream (%d): %s",
+          error->code, error->message);
+      Tcl_AppendResult (interp, temp, (char *) NULL);
+      goto error;
+    }
+    if (video_stream == NULL) {
+      Tcl_AppendResult (interp, "Couldn't create new video_stream" , (char *) NULL);
+      goto error;
+    }
+
+    g_signal_connect (video_stream, "src-pad-added",
+        G_CALLBACK (_video_src_pad_added), pipeline);
+  }
+
   if (gst_element_set_state (pipeline, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
     Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
@@ -2254,57 +2468,30 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
+  if (relay_info)
+    g_value_array_free (relay_info);
   return TCL_OK;
 
  error:
   Close ();
 
+  if (relay_info)
+    g_value_array_free (relay_info);
+
   return TCL_ERROR;
 }
 
-
-int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
-        int objc, Tcl_Obj *CONST objv[]))
+static int
+_tcl_codecs_to_fscodecs (Tcl_Interp *interp, Tcl_Obj **tcl_remote_codecs,
+    int total_codecs, GList **remote_codecs, FsMediaType media_type)
 {
-  GError *error = NULL;
-  GList *remote_codecs = NULL;
   FsCodec *codec = NULL;
-  int total_codecs;
-  Tcl_Obj **tcl_remote_codecs = NULL;
-  GList *remote_candidates = NULL;
-  FsCandidate *candidate = NULL;
-  int total_candidates;
-  Tcl_Obj **tcl_remote_candidates = NULL;
   int i;
-
-  // We verify the arguments
-  if( objc != 3) {
-    Tcl_WrongNumArgs (interp, 1, objv, " remote_codecs remote_candidates\n"
-        "Where remote_codecs is a list with each element being a list containing : "
-        "{encoding_name payload_type clock_rate}\n"
-        "And where remote_candidates is a list with each element being a list containing : "
-        "{foundation component_id ip port base_ip base_port protocol "
-        "priority type username password}");
-    return TCL_ERROR;
-  }
-
-
-  if (pipeline == NULL) {
-    Tcl_AppendResult (interp, "Farsight needs to be prepared first",
-        (char *) NULL);
-    return TCL_ERROR;
-  }
-
-  if (Tcl_ListObjGetElements(interp, objv[1],
-          &total_codecs, &tcl_remote_codecs) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid codec list", (char *) NULL);
-      return TCL_ERROR;
-  }
 
   for (i = 0; i < total_codecs; i++) {
     int total_elements;
     Tcl_Obj **elements = NULL;
-    codec = fs_codec_new (0, NULL, FS_MEDIA_TYPE_AUDIO, 0);
+    codec = fs_codec_new (0, NULL, media_type, 0);
 
     if (Tcl_ListObjGetElements(interp, tcl_remote_codecs[i],
             &total_elements, &elements) != TCL_OK) {
@@ -2331,23 +2518,29 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       goto error_codec;
     }
 
-    _notify_debug ("New remote codec : %d %s %d",
-      codec->id, codec->encoding_name, codec->clock_rate);
-    remote_codecs = g_list_append (remote_codecs, codec);
+    _notify_debug ("New remote %s codec : %d %s %d",
+        media_type == FS_MEDIA_TYPE_AUDIO ? "audio" : "video",
+        codec->id, codec->encoding_name, codec->clock_rate);
+    *remote_codecs = g_list_append (*remote_codecs, codec);
   }
 
-  if (!fs_stream_set_remote_codecs (audio_stream, remote_codecs, &error)) {
-    Tcl_AppendResult (interp, "Could not set the remote codecs", (char *) NULL);
-    goto error_codecs;
-  }
-  fs_codec_list_destroy (remote_codecs);
+  return TCL_OK;
+
+ error_codec:
+  fs_codec_destroy (codec);
+ error_codecs:
+  fs_codec_list_destroy (*remote_codecs);
+  *remote_codecs = NULL;
+  return TCL_ERROR;
+}
 
 
-  if (Tcl_ListObjGetElements(interp, objv[2],
-          &total_candidates, &tcl_remote_candidates) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid candidates list", (char *) NULL);
-      return TCL_ERROR;
-  }
+static int
+_tcl_candidates_to_fscandidates (Tcl_Interp *interp, Tcl_Obj **tcl_remote_candidates,
+    int total_candidates, GList **remote_candidates)
+{
+  FsCandidate *candidate = NULL;
+  int i;
 
   for (i = 0; i < total_candidates; i++) {
     int total_elements;
@@ -2455,28 +2648,158 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         candidate->username == NULL ? "-" : candidate->username,
         candidate->password == NULL ? "-" : candidate->password);
 
-    remote_candidates = g_list_append (remote_candidates, candidate);
+    *remote_candidates = g_list_append (*remote_candidates, candidate);
   }
-
-  if (!fs_stream_set_remote_candidates (audio_stream, remote_candidates, &error)) {
-    Tcl_AppendResult (interp, "Could not set the remote candidates",
-        (char *) NULL);
-    goto error_candidates;
-  }
-  fs_candidate_list_destroy (remote_candidates);
 
   return TCL_OK;
-
- error_codec:
-  fs_codec_destroy (codec);
- error_codecs:
-  fs_codec_list_destroy (remote_codecs);
-  return TCL_ERROR;
 
  error_candidate:
   fs_candidate_destroy (candidate);
  error_candidates:
-  fs_candidate_list_destroy (remote_candidates);
+  fs_candidate_list_destroy (*remote_candidates);
+  *remote_candidates = NULL;
+
+  return TCL_ERROR;
+}
+
+int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+  GError *error = NULL;
+  GList *audio_remote_codecs = NULL;
+  GList *video_remote_codecs = NULL;
+  int total_codecs;
+  Tcl_Obj **tcl_remote_codecs = NULL;
+
+  GList *audio_remote_candidates = NULL;
+  GList *video_remote_candidates = NULL;
+  int total_candidates;
+  Tcl_Obj **tcl_remote_candidates = NULL;
+  // We verify the arguments
+  if( objc != 3 && objc != 5) {
+    Tcl_WrongNumArgs (interp, 1, objv, " remote_audio_codecs remote_audio_candidates"
+        " ?remote_video_codecs remote_video_candidates?\n"
+        "Where remote_codecs is a list with each element being a list containing : "
+        "{encoding_name payload_type clock_rate}\n"
+        "And where remote_candidates is a list with each element being a list containing : "
+        "{foundation component_id ip port base_ip base_port protocol "
+        "priority type username password}");
+    return TCL_ERROR;
+  }
+
+
+  if (pipeline == NULL) {
+    Tcl_AppendResult (interp, "Farsight needs to be prepared first",
+        (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  /* Get audio codecs */
+  if (Tcl_ListObjGetElements(interp, objv[1],
+          &total_codecs, &tcl_remote_codecs) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid codec list", (char *) NULL);
+      return TCL_ERROR;
+  }
+  if (_tcl_codecs_to_fscodecs (interp, tcl_remote_codecs, total_codecs,
+          &audio_remote_codecs, FS_MEDIA_TYPE_AUDIO) != TCL_OK) {
+    goto error;
+  }
+
+  /* Get video codecs */
+  if (objc == 5) {
+    if (Tcl_ListObjGetElements(interp, objv[3],
+            &total_codecs, &tcl_remote_codecs) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid codec list", (char *) NULL);
+      return TCL_ERROR;
+    }
+    if (_tcl_codecs_to_fscodecs (interp, tcl_remote_codecs, total_codecs,
+            &video_remote_codecs, FS_MEDIA_TYPE_VIDEO) != TCL_OK) {
+      goto error;
+    }
+  }
+
+  /* Get audio candidates */
+  if (Tcl_ListObjGetElements(interp, objv[2],
+          &total_candidates, &tcl_remote_candidates) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid candidates list", (char *) NULL);
+      return TCL_ERROR;
+  }
+
+  if (_tcl_candidates_to_fscandidates (interp, tcl_remote_candidates,
+          total_candidates, &audio_remote_candidates) != TCL_OK) {
+    goto error;
+  }
+
+  /* Get video candidates */
+  if (objc == 5) {
+    if (Tcl_ListObjGetElements(interp, objv[4],
+            &total_candidates, &tcl_remote_candidates) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid candidates list", (char *) NULL);
+      return TCL_ERROR;
+    }
+
+    if (_tcl_candidates_to_fscandidates (interp, tcl_remote_candidates,
+            total_candidates, &video_remote_candidates) != TCL_OK) {
+      goto error;
+    }
+  }
+
+  /* Set audio codecs */
+  if (audio_remote_codecs) {
+    if (!fs_stream_set_remote_codecs (audio_stream, audio_remote_codecs, &error)) {
+      Tcl_AppendResult (interp, "Could not set the audio remote codecs",
+          (char *) NULL);
+      goto error;
+    }
+    fs_codec_list_destroy (audio_remote_codecs);
+    audio_remote_codecs = NULL;
+  }
+  /* Set video codecs */
+  if (video_remote_codecs && video_stream) {
+    if (!fs_stream_set_remote_codecs (video_stream, video_remote_codecs, &error)) {
+      Tcl_AppendResult (interp, "Could not set the video remote codecs",
+          (char *) NULL);
+      goto error;
+    }
+    fs_codec_list_destroy (video_remote_codecs);
+    video_remote_codecs = NULL;
+  }
+
+  g_debug ("Remote candidates : %p - %p", audio_remote_candidates, video_remote_candidates);
+
+  /* Set audio candidates */
+  if (audio_remote_candidates) {
+    if (!fs_stream_set_remote_candidates (audio_stream, audio_remote_candidates,
+            &error)) {
+      Tcl_AppendResult (interp, "Could not set the audio remote candidates",
+          (char *) NULL);
+      goto error;
+    }
+    g_debug ("Set audio remote candidates %p", error);
+    fs_candidate_list_destroy (audio_remote_candidates);
+    audio_remote_candidates = NULL;
+  }
+  /* Set video candidates */
+  if (video_remote_candidates && video_stream) {
+    if (!fs_stream_set_remote_candidates (video_stream, video_remote_candidates,
+            &error)) {
+      Tcl_AppendResult (interp, "Could not set the video remote candidates",
+          (char *) NULL);
+      goto error;
+    }
+    g_debug ("Set video remote candidates %p", error);
+    fs_candidate_list_destroy (video_remote_candidates);
+    video_remote_candidates = NULL;
+  }
+
+  return TCL_OK;
+
+ error:
+  g_debug ("Error : %p", error);
+  fs_codec_list_destroy (audio_remote_codecs);
+  fs_codec_list_destroy (video_remote_codecs);
+  fs_candidate_list_destroy (audio_remote_candidates);
+  fs_candidate_list_destroy (video_remote_candidates);
   return TCL_ERROR;
 }
 
