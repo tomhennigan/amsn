@@ -446,6 +446,7 @@ hidedisplaypic Kullanýcý resmini gösterme
 hidemenu Menüyü göster/gizle
 hidemenumessage Menüleri gizlemek istediðinizden emin misiniz?\nMenüleri tekrar görmek için Ctrl+M kýsayolunu kullanabilirsiniz.
 hiden Gülen adamý menüden çýkar
+hideuserscw Bu sohbet penceresindeki kiþileri gizle.
 hidewindow Pencereyi gizle
 history Geçmiþi göster
 history2 Geçmiþ
@@ -845,6 +846,7 @@ showonedpframe Sohbet pencerelerinde bir tek kullanýcý resmi çerçevesi olsun
 showpicnotify Uyarý pencerelerinde kullanýcý resimleri gözüksün
 showspaces Spaces ikonunu baðlantý listesinde göster
 showuserpic $1 kullanýcýsýnýn resmi
+showuserscw Bu sohbette $1 kiþi var. Eðer, bu kiþileri gizlemek veya göstermek istiyorsanýz, burayý týklayýnýz.
 signinstatus Baðlanma þekli:
 signout Baðlantýyý kes
 signoutep $1 baðlantýsýný kes
