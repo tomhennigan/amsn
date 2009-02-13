@@ -446,6 +446,7 @@ hidedisplaypic Schermafbeelding verbergen
 hidemenu Menu's tonen/verbergen
 hidemenumessage Weet je zeker dat je de menu's wilt verbergen?\nJe kunt ze op elk moment weer in beeld brengen met de toetsencombinatie 'Ctrl-M'.
 hiden Deze emoticon niet in het menu weergeven
+hideuserscw Gebruikers in dit gespreksvenster verbergen
 hidewindow Venster verbergen
 history Geschiedenis bekijken
 history2 Geschiedenis
@@ -845,6 +846,7 @@ showofflinegroup Groep Offline tonen
 showpicnotify Schermafbeelding tonen in meldingsvensters
 showspaces Spaces-pictogram tonen in de contactenlijst
 showuserpic Afbeelding van $1
+showuserscw Er zijn $1 gebruikers in dit gesprek. Klik hier als je ze wilt zien of verbergen.
 signinstatus Status na aanmelden
 signout Afmelden
 signouthere Hier afmelden ($1)
