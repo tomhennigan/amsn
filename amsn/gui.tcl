@@ -1839,10 +1839,10 @@ namespace eval ::amsn {
 		WinWrite $chatid ")\n" green
 		WinWriteIcon $chatid greyline 3
 
-		::MSNSIP::AcceptInvite $sip $callid
 		AddSIPchatidToList $chatid
 		::ChatWindow::setCallButton $chatid [list ::amsn::HangupSIPCall $chatid $sip $callid] [trans hangup]
 		::ChatWindow::UpdateVoipControls $chatid $sip $callid
+		::MSNSIP::AcceptInvite $sip $callid
 	}
 
 	proc DeclineSIPCall { chatid sip callid } {
