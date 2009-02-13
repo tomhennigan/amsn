@@ -1745,15 +1745,14 @@ namespace eval ::CAMGUI {
 		if { ! [info exists ::webcamsn_loaded] } { ::CAMGUI::ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { status_log "Error when trying to load Webcamsn extension" red; return }
 		if { ! [info exists ::capture_loaded] } { ::CAMGUI::CaptureLoaded }
-		if { ! $::capture_loaded } { return }
-		return 0
+		if { ! $::capture_loaded } { return 0 }
 
 		#Now we are sure that both webcamsn and capture are loaded
 		set campresent 0
 		if { [OnLinux] || [OnBSD] } {
-                        if { [llength [::Capture::ListDevices]] > 0 } {
-                                set campresent 1
-                        }
+			if { [llength [::Capture::ListDevices]] > 0 } {
+				set campresent 1
+			}
 		} elseif { [OnWin] } {
 			destroy .webcam_preview
 			tkvideo .webcam_preview
