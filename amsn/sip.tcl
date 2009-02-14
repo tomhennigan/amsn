@@ -376,7 +376,13 @@ snit::type SIPConnection {
 		set request [$self BuildRequest INVITE $destination $destination]
 		set callid [lindex $request 0]
 		set msg [lindex $request 1]
-		append msg "Ms-Conversation-ID: f=0\r\n"
+		if {[info exists ::crash_wlm] && $::crash_wlm } {
+                       append msg "Ms-Conversation-ID: f=12345\r\n"
+               } elseif { $options(-tunneled) } {
+                       append msg "Ms-Conversation-ID: f=1\r\n"
+               } else {
+                       append msg "Ms-Conversation-ID: f=0\r\n"
+               }
 
 		set callid_handler($callid) [list $self InviteResponse $callid $callbk]
 
@@ -459,6 +465,7 @@ snit::type SIPConnection {
 					}
 				}
 			} else {
+				$self Bye $callid
 				# TODO : Maybe some other messages are not errors..
 				if {$callbk != "" } {
 					if {[catch {eval [linsert $callbk end $callid ERROR [lrange $response 1 end]]} result]} {
@@ -847,26 +854,28 @@ snit::type SIPConnection {
 			}
 		}
 		if {$remote != ""} {
+			set components [list]
 			foreach candidate $remote_candidates {
 				foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
-				if {$remote == "" || $foundation == $remote} {
-					if {$options(-ice) == 6 } {
+				if {$options(-ice) == 6 } {
+					if {$remote == "" || $foundation == $remote} {
 						append sdp "a=remote-candidate:$username\r\n"
-					} else {
-						append sdp "a=remote-candidate:$foundation $component_id $transport $priority $ip $port"
-						if {$type != "" } {
-							append sdp " typ $type"
-							if {$type != "host" } {
-								if {$base_ip != "" &&
-								    $base_port != 0 } {
-									append sdp " raddr $base_ip rport $base_port"
-								}
-							}
+						break;
+					}
+				} elseif {$options(-ice) == 19 } {
+					if {[lsearch $components $component_id] == -1} {
+						if {$components == [list] } {
+							append sdp "a=remote-candidates:"
+						} else {
+							append sdp " "
 						}
-						append sdp "\r\n"
-					}					
-					break
+						append sdp "$component_id $ip $port"
+						lappend components $component_id
+					}	
 				}
+			}
+			if {$components != [list] } {
+				append sdp "\r\n"
 			}
 		}
 		return $sdp
@@ -925,7 +934,7 @@ snit::type SIPConnection {
 			set sdp "v=0\n"
 			append sdp "o=- 0 0 IN IP4 $default_ip\r\n"
 			append sdp "s=session\r\n"
-			append sdp "b=CT:100\r\n"
+			append sdp "b=CT:99980\r\n"
 			append sdp "t=0 0\r\n"
 			append sdp "m=$media $default_port RTP/AVP$pt_list\r\n"
 			append sdp "c=IN IP4 $default_ip\r\n"
@@ -2606,17 +2615,6 @@ namespace eval ::MSNSIP {
 			set local_video [lindex [$sip cget -active_video_candidates] 0]
 			set remote_video [lindex [$sip cget -active_video_candidates] 1]
 			$sip SendReInvite $callid $local_audio $remote_audio $local_video $remote_video
-		} elseif {[$sip cget -active_audio_candidates] != "" &&
-			  [$sip cget -active_video_candidates] != ""} {
-			set local_audio [lindex $options(-active_audio_candidates) 0]
-			set remote_audio [lindex $options(-active_audio_candidates) 1]
-			set local_video [lindex $options(-active_video_candidates) 0]
-			set remote_video [lindex $options(-active_video_candidates) 1]
-			set sdp [$self BuildSDP $local_audio $remote_audio $local_video $remote_audio]
-			incr call_cseq($callid)
-
-			set message [$self BuildResponse $callid INVITE 200]
-			$self Send $message "application/sdp" $sdp
 		}
 
 		::amsn::SIPCallConnected $email $sip $callid
