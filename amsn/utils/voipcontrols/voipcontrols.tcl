@@ -14,7 +14,7 @@ snit::widget voipcontrol {
 	option -orient -default "vertical" -readonly yes
 
 	option -volumeframesize -default 10 -readonly yes
-	option -buttonframesize -default 15 -readonly yes
+	option -buttonframesize -default 22 -readonly yes
 
 	component volumeframe
 	component mutecheckbutton
@@ -24,9 +24,10 @@ snit::widget voipcontrol {
 	delegate option -endcallcommand to endcallbutton as -command
 	delegate option -endcallstate to endcallbutton as -state
 
-	delegate option -muteimage to mutecheckbutton as -image
-	delegate option -mutevariable to mutecheckbutton as -variable
-	delegate option -mutecommand to mutecheckbutton as -command
+	delegate option -muteimage to mutecheckbutton
+	delegate option -unmuteimage to mutecheckbutton
+	delegate option -mutevariable to mutecheckbutton
+	delegate option -mutecommand to mutecheckbutton
 	delegate option -mutestate to mutecheckbutton as -state
 
 	delegate option -from to volumeframe
@@ -41,16 +42,16 @@ snit::widget voipcontrol {
 
 	constructor {args} {
 
-		set volumeframe [tksoundmixervolume ${win}.volumeframe]
+		set volumeframe [soundmixervolume ${win}.volumeframe]
 		set buttonframe [frame ${win}.buttonframe]
-		set mutecheckbutton [checkbutton ${buttonframe}.mute]
+		set mutecheckbutton [mutecheckbutton ${buttonframe}.mute]
 		set endcallbutton [button ${buttonframe}.endcall]
 		set amplificationbutton [button ${buttonframe}.amplification]
 
 		$self configurelist $args
 		#creating volumeframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
 		destroy $volumeframe
-		set volumeframe [tksoundmixervolume ${win}.volumeframe -orient $options(-orient)]
+		set volumeframe [soundmixervolume ${win}.volumeframe -orient $options(-orient)]
 		$self configurelist $args
 
 		if { $options(-orient) == "vertical" } {
@@ -66,11 +67,68 @@ snit::widget voipcontrol {
 
 }
 
+snit::widgetadaptor mutecheckbutton {
+
+	variable muted
+
+	option -muteimage -default {} -configuremethod SetImage
+	option -unmuteimage -default {} -configuremethod SetImage
+	option -mutevariable -default {}
+	option -mutecommand -default {}
+
+    delegate option * to hull
+	delegate method * to hull
+
+	constructor {args} {
+
+		installhull using button -relief flat
+
+		$self configurelist $args
+		
+		set muted 1
+
+		if {[info exists ::$options(-mutevariable)]} {
+			set muted [set ::$options(-mutevariable)]
+		}
+		puts "unmuteimage=$options(-unmuteimage)"
+		$self configure -image $options(-unmuteimage)
+	}
+
+	method SetImage {option value} {
+		set options($option) $value
+		if {$muted} {
+			$self configure -image $options(-unmuteimage)
+			set muted 0
+		} else {
+			$self configure -image $options(-muteimage)
+			set muted 1
+		}
+	}
+
+
+	method invoke {} {
+		puts "ooooooo"
+		if {$muted} {
+			$self configure -image $options(-unmuteimage)
+			set muted 0
+		} else {
+			$self configure -image $options(-muteimage)
+			set muted 1
+		}
+
+		if {[info exists ::$options(-mutevariable)]} {
+			set ::$options(-mutevariable) $muted
+		}
+		if { $options(-mutecommand) != {} } {
+			eval $options(-mutecommand)
+		}
+	}
+}
 
 
 
 
-snit::widget tksoundmixervolume {
+snit::widget soundmixervolume {
 
 	variable volumePercent
 	variable volumeRange
@@ -81,7 +139,7 @@ snit::widget tksoundmixervolume {
 	option -to -default 100
 
 
-	option -levelimage -configuremethod SetLevelImage; #TODO
+	#option -levelimage -configuremethod SetLevelImage; #TODO
 	option -levelsize -default 5 -configuremethod SetLevelSize
 
 	option -volumevariable -default {}

@@ -2509,19 +2509,23 @@ namespace eval ::ChatWindow {
 		status_log "Creating CW Voip controls"
 		if {$::ChatWindow::usingnewvoipcontrols} {
 			voipcontrol $frame_in -orient vertical \
+				-muteimage [::skin::loadPixmap mute] \
+				-unmuteimage [::skin::loadPixmap unmute] \
 				-mutecommand [list ::ChatWindow::MuteIn $frame_in] \
 				-mutevariable ::ChatWindow::voip_mute_in \
-				-volumecommand [list ::ChatWind?ow::VolumeIn $frame_in] \
+				-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
 				-volumevariable ::ChatWindow::voip_volume_in
 			voipcontrol $frame_out.control -orient horizontal \
+				-muteimage [::skin::loadPixmap mute] \
+				-unmuteimage [::skin::loadPixmap unmute] \
 				-mutecommand [list ::ChatWindow::MuteOut $frame_out] \
 				-mutevariable ::ChatWindow::voip_mute_out \
 				-volumecommand [list ::ChatWindow::VolumeOut $frame_out] \
 				-volumevariable ::ChatWindow::voip_volume_out
-			$frame_in configure -width 25
+			$frame_in configure -width 32
 			pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
 			#place $frame_in -width 25 -relheight 1
-			place $frame_out.control -height 25 -relwidth 1
+			place $frame_out.control -height 32 -relwidth 1
 		} else {
 			::dkfprogress::Progress $frame_in.level
 			scale $frame_in.volume -label "Volume" -from 0.0 -to 1.0 \
