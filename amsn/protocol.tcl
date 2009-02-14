@@ -5640,7 +5640,7 @@ proc cmsn_connected_sb {sb recv} {
 	set invite [$sb cget -invite]
 
 	if {$invite != ""} {
-		if {[::config:getKey protocol] >= 18 } {
+		if {[::config::getKey protocol] >= 18 } {
 			cmsn_invite_user $sb [::config::getKey login]
 		}
 		cmsn_invite_user $sb $invite
@@ -5671,7 +5671,7 @@ proc cmsn_reconnect { sb } {
 			$sb configure -time [clock seconds]
 			$sb configure -stat "i"
 
-			if {[::config:getKey protocol] >= 18 } {
+			if {[::config::getKey protocol] >= 18 } {
 				cmsn_invite_user $sb [::config::getKey login]
 			}
 			cmsn_invite_user $sb [$sb cget -last_user]
