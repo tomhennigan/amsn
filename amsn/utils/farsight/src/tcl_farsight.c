@@ -60,10 +60,10 @@ char *audio_sink_device = NULL;
 char *audio_sink_pipeline = NULL;
 char *video_source = NULL;
 char *video_source_device = NULL;
-gulong video_preview_xid = NULL;
+gulong video_preview_xid = 0;
 char *video_source_pipeline = NULL;
 char *video_sink = NULL;
-gulong video_sink_xid = NULL;
+gulong video_sink_xid = 0;
 char *video_sink_pipeline = NULL;
 GstElement *pipeline = NULL;
 GstElement *test_pipeline = NULL;
@@ -369,7 +369,7 @@ _notify_error_post (char *error)
 
 /* TODO */
 static void
-_notify_active (const char *msg, const char *local, const char *remote)
+_notify_active (char *msg, const char *local, const char *remote)
 {
   Tcl_Obj *local_candidate = Tcl_NewStringObj (local, -1);
   Tcl_Obj *remote_candidate = Tcl_NewStringObj (remote, -1);
@@ -996,7 +996,7 @@ static GstElement * _create_video_source ()
     if (element == NULL)
       continue;
 
-    _notify_debug ("Using video_source %s", *test_source);
+    _notify_debug ("Using video_source %s", GST_PLUGIN_FEATURE_NAME(factory));
     src = element;
     break;
   }
@@ -1260,7 +1260,7 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
             _notify_level ("OUT", (gfloat) (rms / channels));
 		  }
         } else if (gst_structure_has_name (s, "prepare-xwindow-id")) {
-          GstXOverlay *xov = GST_MESSAGE_SRC (message);
+          GstXOverlay *xov = GST_X_OVERLAY(GST_MESSAGE_SRC (message));
 
           /* TODO : need to differenciate between preview and sink */
           _notify_debug ("Setting window id %d on sink", video_sink_xid);
@@ -2528,7 +2528,6 @@ _tcl_codecs_to_fscodecs (Tcl_Interp *interp, Tcl_Obj **tcl_remote_codecs,
 
  error_codec:
   fs_codec_destroy (codec);
- error_codecs:
   fs_codec_list_destroy (*remote_codecs);
   *remote_codecs = NULL;
   return TCL_ERROR;
@@ -2655,7 +2654,6 @@ _tcl_candidates_to_fscandidates (Tcl_Interp *interp, Tcl_Obj **tcl_remote_candid
 
  error_candidate:
   fs_candidate_destroy (candidate);
- error_candidates:
   fs_candidate_list_destroy (*remote_candidates);
   *remote_candidates = NULL;
 
