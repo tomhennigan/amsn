@@ -586,7 +586,8 @@ snit::type SIPConnection {
 		
 	}
 
-	method ActiveCandidatesChanged { } {
+	method ActiveCandidatesChanged {option value} {
+		set options($option) $value
 		if {$respond_reinvite &&
 		    $options(-active_audio_candidates) != "" &&
 		    $options(-active_video_candidates) != ""} {
@@ -2042,7 +2043,7 @@ snit::type Farsight {
 				if {[info exists ::farsight_test_turn] &&
 				    $::farsight_test_turn &&
 				    $priority >= "0.5" } {continue}
-				if {$candidate_id != "" &&
+				if {$candidate != "" &&
 				    $password != "" &&
 				    $transport == "UDP"} {
 					if {[string length [base64::decode $username]] != 32 &&
