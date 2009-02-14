@@ -1,11 +1,11 @@
 #!/usr/bin/env wish
 
 lappend auto_path "../"
-package require tksoundmixer
+package require voipcontrol
 
 
 #wm attributes
-wm title . "tksoundmixer test"
+wm title . "voipcontrol test"
 wm geometry . 200x200
 update
 
@@ -18,8 +18,8 @@ proc showValue {value} {
 	puts "value=$value"
 }
 
-tksoundmixer .sm -volumevariable var -volumecommand [list showValue]
-tksoundmixer .sm2 -orient horizontal -height 25
+voipcontrol .sm -volumevariable var -volumecommand [list showValue]
+voipcontrol .sm2 -orient horizontal -height 25
 
 place .sm -width 25 -relheight 1
 place .sm2 -height 25 -relwidth 1 -width -25 -x 25

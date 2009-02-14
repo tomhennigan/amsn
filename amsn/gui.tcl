@@ -2548,22 +2548,6 @@ namespace eval ::amsn {
 			update idletasks
 			::ChatWindow::Scroll [::ChatWindow::GetOutText $win]
 		}
-		#compute the size of the frame
-		if {[::config::getKey showdisplaypic 1] == 1 } {
-			set max_width [image width $picture]
-			if {[winfo exists $f.voip.volume] && $max_width <100} {
-				set max_width 100
-			}
-			incr max_width [image width [::skin::loadPixmap imghide]]
-		} else {
-			set max_width 0
-			if {[winfo exists $f.voip.volume] && $max_width <100} {
-				set max_width 100
-			}
-			incr max_width [image width [::skin::loadPixmap imgshow]]
-		}
-		set width [expr {$max_width + (2 * [::skin::getKey chat_dp_border])}]
-		[winfo parent $f] configure -width $width
 	}
 
 	proc UpdateAllPictures { } {
@@ -2661,12 +2645,6 @@ namespace eval ::amsn {
 		bind $dpframe.showpic <Leave> "$dpframe.showpic configure -image [::skin::loadPixmap imgshow]"
 
 		change_balloon $dpframe.showpic [trans showdisplaypic]
-
-		set width [expr {2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imgshow]]}]
-		if {[winfo exists $f.voip.volume] && $width <100} {
-			set width 100
-		}
-		[winfo parent $f] configure -width $width
 	}
 
 	proc ShowOrHidePicture { } {
