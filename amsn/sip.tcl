@@ -2503,7 +2503,7 @@ namespace eval ::MSNSIP {
 			# Signal the UI
 			::amsn::SIPCallYouAreBusy $email
 			return "BUSY"
-		} elseif {[::config::getKey protocol] >= 16 &&
+		} elseif {[::config::getKey protocol] >= 18 &&
 			  [::MSN::hasCapability [::abook::getContactData $email clientid] tunnelsip]} {
 			status_log "Sending Tunneled SIP invite to $email"
 			set sock [TunneledSIPSocket create %AUTO% -destination $email]
@@ -2824,13 +2824,13 @@ namespace eval ::MSNSIP {
 			::MSN::setClientCap sip
 			set changed 1
 		}
-		if { [::config::getKey protocol] >= 16 &&
+		if { [::config::getKey protocol] >= 18 &&
 		     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip] } {
 			::MSN::setClientCap tunnelsip
 			set changed 1
 		}
 		
-		if { [::config::getKey protocol] >= 16 &&
+		if { [::config::getKey protocol] >= 18 &&
 		     ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
 			::MSN::setClientCap rtcvideo
 			set changed 1
@@ -2874,12 +2874,12 @@ namespace eval ::MSNSIP {
 				::MSN::setClientCap sip
 				set changed 1
 			}
-			if { [::config::getKey protocol] >= 16 &&
+			if { [::config::getKey protocol] >= 18 &&
 			     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip]} {
 				::MSN::setClientCap tunnelsip
 				set changed 1
 			}
-			if { [::config::getKey protocol] >= 16 &&
+			if { [::config::getKey protocol] >= 18 &&
 			     ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo]} {
 				::MSN::setClientCap rtcvideo
 				set changed 1

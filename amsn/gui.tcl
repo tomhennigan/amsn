@@ -5797,7 +5797,7 @@ proc SSLToggled {} {
 # cmsn_draw_login {}
 #
 proc cmsn_draw_login {} {
-	global password loginmode HOME HOME2 protocol
+	global password loginmode HOME HOME2
 
 	if {[winfo exists .login]} {
 		raise .login

@@ -143,7 +143,7 @@ namespace eval ::MSNP2P {
 			status_log "Display Pics disabled, exiting loadUserPic\n" red
 			return
 		} 
-		# For MSNP16, don't get our own DP since opening an SB with ourselves is now possible
+		# For MSNP18, don't get our own DP since opening an SB with ourselves is now possible
 		if {$user == [::config::getKey login] } {
 			status_log "Trying to download DP from ourself.. skipping" red
 			return

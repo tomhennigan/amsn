@@ -1266,7 +1266,7 @@ namespace eval ::plugins {
 	# none
 	#
 	proc load_config {} {
-		global HOME password protocol
+		global HOME password
 		variable loadedplugins
 		foreach {plugin} $loadedplugins {
 			::plugins::UnLoadPlugin $plugin

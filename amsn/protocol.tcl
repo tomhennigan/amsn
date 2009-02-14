@@ -1177,8 +1177,10 @@ namespace eval ::MSN {
 		if { $force  || [::abook::getPersonal PSM] != $newpsm } {
 			::abook::setPersonal PSM $newpsm
 			
-			if {$update && [info exists ::roaming] && [::config::getKey protocol] >= 15 } {
-				$::roaming UpdateProfile [list ns updateProfileCB] [::abook::getPersonal MFN] [::abook::getPersonal PSM]
+			if {$update && [info exists ::roaming] &&
+			    [::config::getKey protocol] >= 15 } {
+				$::roaming UpdateProfile [list ns updateProfileCB] \
+				    [::abook::getPersonal MFN] [::abook::getPersonal PSM]
 			}
 			
 			# We catch because we might have a plugin changing
@@ -1186,7 +1188,9 @@ namespace eval ::MSN {
 			# if amsn hasn't finished loading
 			# We also can't check if the state is != "FLN" since we need to send
 			# the UUX data before the initial CHG
-			catch {sendUUXData $state}
+			if {[::MSN::myStatusIs] != "FLN" } {
+				catch {sendUUXData $state}
+			}
 
 			save_config
 			::abook::saveToDisk
@@ -1207,7 +1211,9 @@ namespace eval ::MSN {
 		# Check if an update is necessary.
 		if { [::abook::getVolatileData myself currentMedia] != ${currentMedia} } {
 			::abook::setVolatileData myself currentMedia $currentMedia
-			sendUUXData
+			if {[::MSN::myStatusIs] != "FLN" } {
+				catch {sendUUXData}
+			}
 		}
 	}
 
@@ -1222,7 +1228,7 @@ namespace eval ::MSN {
 
 	proc sendUUXData { {state ""} } {
 		# Send Endpoint data
-		if {[::config::getKey protocol] >= 16 } {
+		if {[::config::getKey protocol] >= 18 } {
 			global idletime
 			if {$idletime >= [expr {[::config::getKey idletime] * 60}]} {
 				set idle "true"
@@ -1238,8 +1244,18 @@ namespace eval ::MSN {
 			set epname [::sxml::xmlreplace $epname]
 			set epname [encoding convertto utf-8 $epname]
 
+			# ClientType info :
+			# 1 : Computer
+			# 2 : Website
+			# 3 : Mobile Device
+			# 4 : Xbox
+			# none, 0 or >= 5 : Other Device
+			set clienttype 1
+			if {[OnMaemo] } {
+				set clienttype 3
+			}
 			set endpoint "<EndpointData><Capabilities>[::config::getKey clientid]</Capabilities></EndpointData>"
-			set privateep "<PrivateEndpointData><EpName>$epname</EpName><Idle>$idle</Idle><State>$state</State></PrivateEndpointData>"
+			set privateep "<PrivateEndpointData><EpName>$epname</EpName><Idle>$idle</Idle><State>$state</State><ClientType>$clienttype</ClientType></PrivateEndpointData>"
 
 			::MSN::WriteSBNoNL ns "UUX" "[string length $endpoint]\r\n$endpoint"
 			::MSN::WriteSBNoNL ns "UUX" "[string length $privateep]\r\n$privateep"
@@ -1257,7 +1273,7 @@ namespace eval ::MSN {
 		set machineguid [::sxml::xmlreplace $machineguid]
 
 		set data "<Data><PSM>$psm</PSM><CurrentMedia>$currentMedia</CurrentMedia><MachineGuid>$machineguid</MachineGuid>"
-		if {[::config::getKey protocol] >= 16} {
+		if {[::config::getKey protocol] >= 18} {
 			set signatureSound [::abook::getPersonal signatureSound]
 			set signatureSound [::sxml::xmlreplace $signatureSound]
 			set signatureSound [encoding convertto utf-8 $signatureSound]
@@ -1269,7 +1285,8 @@ namespace eval ::MSN {
 	}
 
 	proc updateDP { {step 0} } {
-		if {[::config::getKey protocol] >= 15 && [::config::getKey contentroaming 1] == 1} {
+		if {[::config::getKey protocol] >= 15 &&
+		    [::config::getKey contentroaming 1] == 1} {
 			set dp [::config::getKey displaypic ""]
 			if {$dp == "" || $dp == "nopic.gif"} {
 				set dp ""
@@ -1323,7 +1340,8 @@ namespace eval ::MSN {
 	
 	proc downloadDP { {step 0} {token ""} } {
 		global HOME
-		if {[::config::getKey protocol] >= 15 && [::config::getKey contentroaming 1] == 1} {
+		if {[::config::getKey protocol] >= 15 && 
+		    [::config::getKey contentroaming 1] == 1} {
 			if {$step == 0} {
 				status_log "downloadDP : fetching newest version of profile (GetProfile)" blue
 				$::roaming GetProfile [list ns RoamingGetProfileCB [list ::MSN::downloadDP 1]]
@@ -1413,14 +1431,15 @@ namespace eval ::MSN {
 		if {[::config::getKey displaypic] == "" } {
 			::config::setKey displaypic nopic.gif
 		}
+
+		if {[::config::getKey protocol]  >= 18 } {
+			::MSN::sendUUXData $new_status
+		}
+
 		if { [::config::getKey displaypic] != "nopic.gif" } {
 			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid] [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]]]"
 		} else {
 			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid]"
-		}
-
-		if {[::config::getKey protocol] >= 16 } {
-			::MSN::sendUUXData
 		}
 
 		#Reset automatic status change to 0
@@ -1533,7 +1552,7 @@ namespace eval ::MSN {
 	proc setClientCap { cap { switch 1 } } {
 		set clientid [::config::getKey clientid 0]
 		set extra 0
-		if {[config::getKey protocol] >= 16} {
+		if {[config::getKey protocol] >= 18} {
 			set clientid [split $clientid ":"]
 			set extra [lindex $clientid 1]
 			set clientid [lindex $clientid 0]
@@ -1557,7 +1576,7 @@ namespace eval ::MSN {
 			set extra [expr {$extra & (0xFFFFFFFF ^ $extra_flag)} ]
 		}
 		::config::setKey clientid $clientid
-		if {[config::getKey protocol] >= 16} {
+		if {[config::getKey protocol] >= 18} {
 			::config::setKey clientid "$clientid:$extra"
 		}
 		
@@ -1566,7 +1585,7 @@ namespace eval ::MSN {
 
 	proc hasCapability { clientid cap } {
 		set extra 0
-		if {[config::getKey protocol] >= 16} {
+		if {[config::getKey protocol] >= 18} {
 			set clientid [split $clientid ":"]
 			set extra [lindex $clientid 1]
 			set clientid [lindex $clientid 0]
@@ -4697,6 +4716,13 @@ namespace eval ::MSNOIM {
 
 	method handleUBX { command payload } {
 		set contact [lindex $command 1]
+		if {[::config::getKey protocol] >= 18} {
+			set temp [split $contact ":"]
+			set network [lindex $temp 0]
+			set contact [lindex $temp 1]
+			unset temp
+		}
+
 		if {$payload != ""} {
 			if { [catch { set xml [xml2list $payload] } ] } {
 				return
@@ -4720,7 +4746,7 @@ namespace eval ::MSNOIM {
 		::abook::setVolatileData $contact PSM $psm
 		::abook::setVolatileData $contact currentMedia $currentMedia
 
-		if {[config::getKey protocol] >= 16} {
+		if {[config::getKey protocol] >= 18} {
 			::abook::setVolatileData $contact signatureSound $signatureSound
 			if { [config::getKey login] == $contact} {
 				::abook::setPersonal PSM $psm
@@ -4802,9 +4828,6 @@ namespace eval ::MSNOIM {
 		if {[::config::getKey protocol] >= 15 } {
 			$::roaming GetProfile [list $self setInitialNicknameCB $newstate $newstate_custom]
 		} else {
-			# Send our PSM to the server because it doesn't know about it!
-			::MSN::sendUUXData $newstate
-
 			set_initial_nick
 
 			# Change status after sending the UUX stuff
@@ -4858,9 +4881,6 @@ namespace eval ::MSNOIM {
 			#trigger download DP
 			::MSN::downloadDP 1
 		} else {
-			# Send our PSM to the server because it doesn't know about it!
-			::MSN::sendUUXData $newstate
-
 			set_initial_nick
 
 			# Change status after sending the UUX stuff
@@ -5070,7 +5090,7 @@ namespace eval ::MSNOIM {
 		set chatid [::MSN::ChatFor $self]
 
 		if { $chatid != 0} {
-			if { !([::config::getKey protocol] >= 16 &&
+			if { !([::config::getKey protocol] >= 18 &&
 			       $desiredchatid == [::config::getKey login] ) && 
 			     "$chatid" != "$desiredchatid" } {
 				#Our chatid is different than the desired one!! try to change
@@ -5464,7 +5484,7 @@ proc cmsn_rng {recv} {
 		$sb configure -force_gateway_server [lindex [split [lindex $recv 2] ":"]]
 	}
 	set auth_username [::config::getKey login]
-	if {[::config::getKey protocol] >= 16 } {
+	if {[::config::getKey protocol] >= 18 } {
 		append auth_username ";[::config::getGlobalKey machineguid]"
 	}
 	$sb configure -stat ""
@@ -5516,7 +5536,7 @@ proc cmsn_open_sb {sb recv} {
 		$sb configure -force_gateway_server [lindex [split [lindex $recv 3] ":"]]
 	}
 	set auth_username [::config::getKey login]
-	if {[::config::getKey protocol] >= 16 } {
+	if {[::config::getKey protocol] >= 18 } {
 		append auth_username ";[::config::getGlobalKey machineguid]"
 	}
 	$sb configure -server [split [lindex $recv 3] ":"]
@@ -5600,9 +5620,10 @@ proc cmsn_connected_sb {sb recv} {
 	$sb configure -time [clock seconds]
 	$sb configure -stat "i"
 
-set invite [$sb cget -invite]
+	set invite [$sb cget -invite]
 
 	if {$invite != ""} {
+		cmsn_invite_user $sb [::config::getKey login]
 		cmsn_invite_user $sb $invite
 		::amsn::chatStatus [::MSN::ChatFor $sb] "[trans willjoin $invite]...\n" miniinfo ready
 	} else {
@@ -5631,6 +5652,7 @@ proc cmsn_reconnect { sb } {
 			$sb configure -time [clock seconds]
 			$sb configure -stat "i"
 
+			cmsn_invite_user $sb [::config::getKey login]
 			cmsn_invite_user $sb [$sb cget -last_user]
 
 			::amsn::chatStatus [::MSN::ChatFor $sb] \
@@ -5752,7 +5774,7 @@ proc cmsn_update_users {sb recv} {
 
 			set leaves [$sb search -users "[lindex $recv 1]"]
 
-			# Ignore double BYEs for protocol MSNP16
+			# Ignore double BYEs for protocol MSNP18
 			if {$leaves == -1 } {
 				return 0
 			}
@@ -5845,9 +5867,9 @@ proc cmsn_update_users {sb recv} {
 			set usr_login [string tolower [lindex $recv 4]]
 			set usr_name [urldecode [lindex $recv 5]]
 			
-			# Ignore our own user when on MSNP16
+			# Ignore our own user when on MSNP18
 			# And ignore duplicate users
-			if {[config::getKey protocol] >= 16 } {
+			if {[config::getKey protocol] >= 18 } {
 				foreach {usr_login machineguid} [split $usr_login ";"] break
 				if {$usr_login == [::config::getKey login] ||
 				    [$sb search -users $usr_login] >= 0} {
@@ -5874,9 +5896,9 @@ proc cmsn_update_users {sb recv} {
 			set usr_login [string tolower [lindex $recv 1]]
 			set usr_name [urldecode [lindex $recv 2]]
 
-			# Ignore our own user when on MSNP16
+			# Ignore our own user when on MSNP18
 			# And ignore duplicate users
-			if {[config::getKey protocol] >= 16 } {
+			if {[config::getKey protocol] >= 18 } {
 				foreach {usr_login machineguid} [split $usr_login ";"] break
 				if {$usr_login == [::config::getKey login] ||
 				    [$sb search -users $usr_login] >= 0} {
@@ -5957,12 +5979,18 @@ proc cmsn_change_state {recv} {
 	global remote_auth HOME
 	global newstate_server
 
+	set initial_status 0
 	if {[lindex $recv 0] == "FLN"} {
 		#User is going offline
 		set user [lindex $recv 1]
 		set evpar(user) user
 
-		if {[::config::getKey protocol] >= 14} {
+		if {[::config::getKey protocol] >= 18} {
+			set temp [split $user ":"]
+			set network [lindex $temp 0]
+			set user [lindex $temp 1]
+			unset temp
+		} elseif {[::config::getKey protocol] >= 14} {
 			set network  [lindex $recv 2]
 		} 
 		set user_name ""
@@ -5971,12 +5999,18 @@ proc cmsn_change_state {recv} {
 		set msnobj [::abook::getVolatileData $user msnobj ""]
 #		status_log "contactStateChange in protocol cmsn_change_state FLN"
 	} elseif {[lindex $recv 0] == "ILN"} {
+		set initial_status 1
 		#Initial status when we log in
 		set substate [lindex $recv 2]
 		set user [lindex $recv 3]
 
 		set idx 4
-		if {[::config::getKey protocol] >= 14} {
+		if {[::config::getKey protocol] >= 18} {
+			set temp [split $user ":"]
+			set network [lindex $temp 0]
+			set user [lindex $temp 1]
+			unset temp
+		} elseif {[::config::getKey protocol] >= 14} {
 			set network  [lindex $recv 4]
 			incr idx
 		} 
@@ -5989,12 +6023,13 @@ proc cmsn_change_state {recv} {
 		incr idx
 		set msnobj [urldecode [lindex $recv $idx]]
 		incr idx
-		if {[::config::getKey protocol] >= 16} {
+		if {[::config::getKey protocol] >= 18} {
 			set unknown_machineguid [lindex $recv $idx]
 		}
 		#Previous clientname info is now inaccurate
 		::abook::setContactData $user clientname ""
-		if {[::config::getKey protocol] >= 16 && $user == [::config::getKey login] } {
+		if {[::config::getKey protocol] >= 18 &&
+		    $user == [::config::getKey login] } {
 			#ILN for ourself. We might want to change the status
 			set newstate_server $substate
 		}
@@ -6006,7 +6041,12 @@ proc cmsn_change_state {recv} {
 		set evpar(user) user
 
 		set idx 3
-		if {[::config::getKey protocol] >= 14} {
+		if {[::config::getKey protocol] >= 18} {
+			set temp [split $user ":"]
+			set network [lindex $temp 0]
+			set user [lindex $temp 1]
+			unset temp
+		} elseif {[::config::getKey protocol] >= 14} {
 			set network  [lindex $recv 3]
 			incr idx
 		} 
@@ -6019,7 +6059,7 @@ proc cmsn_change_state {recv} {
 		incr idx
 		set msnobj [urldecode [lindex $recv $idx]]
 		incr idx
-		if {[::config::getKey protocol] >= 16} {
+		if {[::config::getKey protocol] >= 18} {
 			set unknown_machineguid [lindex $recv $idx]
 		}
 #		status_log "contactStateChange in protocol cmsn_change_state $user"
@@ -6072,7 +6112,7 @@ proc cmsn_change_state {recv} {
 	set custom_user_name [::abook::getDisplayNick $user]
 
 
-	if {[lindex $recv 0] != "ILN" && $state_changed} {
+	if {!$initial_status && $state_changed} {
 
 		::plugins::PostEvent ChangeState evpar
 
@@ -6099,7 +6139,8 @@ proc cmsn_change_state {recv} {
 
 	# Write remote the nick change if the state didn't change
 	if {$remote_auth == 1 && $nick_changed && !$state_changed && 
-	    $substate != "FLN" && [::abook::getVolatileData $user state FLN] != "FLN" && [lindex $recv 0] != "ILN"  } {
+	    $substate != "FLN" && [::abook::getVolatileData $user state FLN] != "FLN" &&
+	    !$initial_status  } {
 		set nameToWriteRemote "$user_name ($user)"
 		write_remote "** [trans changestate $nameToWriteRemote [trans [::MSN::stateToDescription $substate]]]" event
 	}
@@ -6141,7 +6182,8 @@ proc cmsn_change_state {recv} {
 
 			# User was online before, so it's just a status change, and it's not
 			# an initial state notification
-		} elseif {[::abook::getVolatileData $user state FLN] != "FLN" && [lindex $recv 0] != "ILN"  } {
+		} elseif {[::abook::getVolatileData $user state FLN] != "FLN" && 
+			  !$initial_status} {
 
 			#Notify in the events
 			::log::event state $custom_user_name [::MSN::stateToDescription $substate]
@@ -6324,7 +6366,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		FLN -
 		ILN -
 		NLN {
-			if {[::config::getKey protocol] >= 16 &&
+			if {[::config::getKey protocol] >= 18 &&
 			    [lindex $item 2] == [::config::getKey login] &&
 			    [lindex $item 0] == "NLN" &&
 			    [lindex $item 1] != "IDL" } {
@@ -6713,7 +6755,7 @@ proc sso_authenticate {} {
 			eval [ns cget -autherror_handler]
 			return
 		}
-		if {[::config::getKey protocol] >= 16} {
+		if {[::config::getKey protocol] >= 18} {
 			::MSN::WriteSB ns "USR" "SSO S $ticket $mbi [::config::getGlobalKey machineguid]"
 		} else {
 			::MSN::WriteSB ns "USR" "SSO S $ticket $mbi"
@@ -6755,9 +6797,9 @@ proc cmsn_auth {{recv ""}} {
 	switch -- [ns cget -stat] {
 		a {
 			#Send three first commands at same time, to be faster
-			if { [::config::getKey protocol] == 16 } {
-				::MSN::WriteSB ns "VER" "MSNP16 MSNP15 CVR0"
-				::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 WLMSGRBETA 9.0.1407 msmsgs [::config::getKey login]"
+			if { [::config::getKey protocol] == 18 } {
+				::MSN::WriteSB ns "VER" "MSNP18 CVR0"
+				::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 14.0.8050.1202 msmsgs [::config::getKey login]"
 			} elseif { [::config::getKey protocol] == 15 } {
 				::MSN::WriteSB ns "VER" "MSNP15 CVR0"
 				::MSN::WriteSB ns "CVR" "0x0409 winnt 5.1 i386 MSNMSGR 8.0.0812 msmsgs [::config::getKey login]"
@@ -6777,8 +6819,8 @@ proc cmsn_auth {{recv ""}} {
 
 		v {
 		
-			if { [::config::getKey protocol] == 16 } {
-				set ver "MSNP16"
+			if { [::config::getKey protocol] == 18 } {
+				set ver "MSNP18"
 			} elseif { [::config::getKey protocol] == 15 } {
 				set ver "MSNP15"
 			} else {

@@ -311,7 +311,7 @@ namespace eval ::config {
 		::config::setKey colored_text_in_cw 0				;# Show colored and styled text in chatwindows, the value can be changed by ColoredNicks Plugin
 
 
-		::config::setKey epname "aMSN"					;# Endpoint Name.. MSNP16+ name of your current location
+		::config::setKey epname "aMSN"					;# Endpoint Name.. MSNP18+ name of your current location
 		::config::setKey shownonim 1					;# Show non IM contacts in the contact list
 		::config::setKey groupnonim 0					;# Group non IM contacts in a separate group in the CL
 		::config::setKey showspaces 0					;# Enable/disable showing of the spaces star in the CL
@@ -834,7 +834,7 @@ proc new_config_entry  {cstack cdata saved_data cattr saved_attr args} {
 }
 
 proc load_config {} {
-	global HOME password protocol osspecific_keys
+	global HOME password osspecific_keys
 
 	#Create custom smileys folder
 	create_dir "[file join ${HOME} smileys]"
@@ -928,12 +928,17 @@ proc load_config {} {
 		#puts "Password is: [::config::getKey remotepassword]\nHi\n"
 	}
 
+	if {[::config::getKey protocol] != 15 &&
+	    [::config::getKey protocol] != 18} {
+		::config::setKey protocol 11
+	}
+
 	::config::setKey clientid 0
 	if {[::config::getKey protocol] < 15 } {
 		::config::setKey protocol 15
 	}
 
-	if {[config::getKey protocol] >= 16} {
+	if {[config::getKey protocol] >= 18} {
 		::MSN::setClientCap msnc10
 	} else {
 		::MSN::setClientCap msnc7

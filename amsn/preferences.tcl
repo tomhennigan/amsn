@@ -1677,7 +1677,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1.p4c.label $lfname.1.p4c.entry -side left
 	pack $lfname.1.ep.label $lfname.1.ep.entry -side left
 	if {[::config::getKey protocol] >= 11} {
-		if {[::config::getKey protocol] >= 16} {
+		if {[::config::getKey protocol] >= 18} {
 			pack $lfname.1.name $lfname.1.psm $lfname.1.p4c $lfname.1.ep -side top -anchor nw
 		} else {
 			pack $lfname.1.name $lfname.1.psm $lfname.1.p4c -side top -anchor nw
@@ -2989,7 +2989,7 @@ proc InitPref { {fullinit 0} } {
 		$lfname.lfname.1.p4c.entry delete 0 end
 		$lfname.lfname.1.p4c.entry insert 0 [::config::getKey p4c_name]
 		
-		if {[::config::getKey protocol] >= 16} {
+		if {[::config::getKey protocol] >= 18} {
 			$lfname.lfname.1.ep.entry delete 0 end
 			$lfname.lfname.1.ep.entry insert 0 [::config::getKey epname aMSN]
 		}
@@ -3370,7 +3370,7 @@ proc SavePreferences {} {
 	}
 	::config::setKey p4c_name [$lfname.p4c.entry get]
 
-	if {[::config::getKey protocol] >= 16} {
+	if {[::config::getKey protocol] >= 18} {
 		::MSN::changeEndPointName [$lfname.ep.entry get]
 	}
 
