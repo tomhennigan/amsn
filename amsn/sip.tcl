@@ -816,7 +816,7 @@ snit::type SIPConnection {
 				    $::farsight_test_turn &&
 				    $priority >= "0.5" } {continue}
 				if {$username != "" && $password != "" } {
-					if {$local == "" || $candidate_id == $local} {
+					if {$local == "" || $foundation == $local} {
 						append sdp "a=candidate:$username $component_id $password $transport [format %.3f $priority] $ip $port\r\n"
 					}
 				}
@@ -2043,7 +2043,7 @@ snit::type Farsight {
 				if {[info exists ::farsight_test_turn] &&
 				    $::farsight_test_turn &&
 				    $priority >= "0.5" } {continue}
-				if {$candidate != "" &&
+				if {$username != "" &&
 				    $password != "" &&
 				    $transport == "UDP"} {
 					if {[string length [base64::decode $username]] != 32 &&
@@ -2081,7 +2081,7 @@ snit::type Farsight {
 				if {[info exists ::farsight_test_turn] &&
 				    $::farsight_test_turn &&
 				    $priority >= "0.5" } {continue}
-				if {$candidate_id != "" &&
+				if {$username != "" &&
 				    $password != "" &&
 				    $transport == "UDP"} {
 					if {[string length [base64::decode $username]] != 32 &&
