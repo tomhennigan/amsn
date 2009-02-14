@@ -2501,13 +2501,13 @@ namespace eval ::ChatWindow {
 		
 		set frame_out [GetOutDisplayPicturesFrame $win].voip
 
-		if {![catch {package require voipcontrol}]} {
-			set ::ChatWindow::usingnewvoipcontrol 1
+		if {![catch {package require voipcontrols}]} {
+			set ::ChatWindow::usingnewvoipcontrols 1
 		} else {
-			set ::ChatWindow::usingnewvoipcontrol 0
+			set ::ChatWindow::usingnewvoipcontrols 0
 		}
 		status_log "Creating CW Voip controls"
-		if {$::ChatWindow::usingnewvoipcontrol} {
+		if {$::ChatWindow::usingnewvoipcontrols} {
 			voipcontrol $frame_in -orient vertical \
 				-mutecommand [list ::ChatWindow::MuteIn $frame_in] \
 				-mutevariable ::ChatWindow::voip_mute_in \
@@ -2596,7 +2596,7 @@ namespace eval ::ChatWindow {
 
 		#IN
 		if {[catch {set volume [::Farsight::GetVolumeIn]} ] } {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				#TODO!!
 			} else {
 				$frame_in.amplifier configure -state disabled
@@ -2605,7 +2605,7 @@ namespace eval ::ChatWindow {
 		} else {
 			set ::ChatWindow::voip_amplification_in [expr {int($volume)}]
 			set ::ChatWindow::voip_volume_in [expr {$volume - ($::ChatWindow::voip_amplification_in - 1)}]
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				#TODO!!
 			} else {
 				$frame_in.amplifier configure -state normal
@@ -2613,14 +2613,14 @@ namespace eval ::ChatWindow {
 			}
 		}
 		if {[catch {set mute [::Farsight::GetMuteIn]} ] } {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				$frame_in configure -mutestate disabled
 			} else {
 				$frame_in.mute configure -state disabled
 			}
 		} else {
 			set ::ChatWindow::voip_mute_in $mute
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				$frame_in configure -mutestate normal
 			} else {
 				$frame_in.mute configure -state normal
@@ -2629,7 +2629,7 @@ namespace eval ::ChatWindow {
 
 		#OUT
 		if {[catch {set volume [::Farsight::GetVolumeOut]} ] } {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				#TODO!!
 			} else {
 				$frame_out.amplifier configure -state disabled
@@ -2638,7 +2638,7 @@ namespace eval ::ChatWindow {
 		} else {
 			set ::ChatWindow::voip_amplification_out [expr {int($volume)}]
 			set ::ChatWindow::voip_volume_out [expr {$volume - ($::ChatWindow::voip_amplification_out - 1)}]
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				#TODO!!
 			} else {
 				$frame_out.amplifier configure -state normal
@@ -2646,14 +2646,14 @@ namespace eval ::ChatWindow {
 			}
 		}
 		if {[catch {set mute [::Farsight::GetMuteOut]} ] } {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				$frame_out.control configure -mutestate disabled
 			} else {
 				$frame_out.mute configure -state disabled
 			}
 		} else {
 			set ::ChatWindow::voip_mute_out $mute
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				$frame_out.control configure -state normal
 			} else {
 				$frame_out.mute configure -state normal
@@ -2661,14 +2661,14 @@ namespace eval ::ChatWindow {
 		}
 
 		if {$sip != "" && $callid != ""} {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				$frame_out.control configure -endcallstate normal\
 				    -endcallcommand [list ::amsn::HangupSIPCall $chatid $sip $callid]
 			} else {
 				$frame_out.hangup configure -state normal -command [list ::amsn::HangupSIPCall $chatid $sip $callid]
 			}
 		} else {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				$frame_out.control configure -endcallstate disabled
 			} else {
 				$frame_out.hangup configure -state disabled
@@ -2686,7 +2686,7 @@ namespace eval ::ChatWindow {
 
 		status_log "Removing CW Voip controls"
 		catch {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				destroy $frame_in
 				destroy $frame_out.control
 			} else {
@@ -2724,7 +2724,7 @@ namespace eval ::ChatWindow {
 
 	proc MuteIn {w } {
 		if {[catch {::Farsight::SetMuteIn $::ChatWindow::voip_mute_in}]} {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				$w configure -mutestate disabled
 			} else {
 				$w configure -state disabled
@@ -2735,7 +2735,7 @@ namespace eval ::ChatWindow {
 	proc VolumeIn {frame  val } {
 		if {[catch {::Farsight::SetVolumeIn [expr {$::ChatWindow::voip_amplification_in - 1 + \
 							       $::ChatWindow::voip_volume_in}]}]} {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				#TODO!!
 			} else {
 				$frame.amplifier configure -state disabled
@@ -2745,7 +2745,7 @@ namespace eval ::ChatWindow {
 	}
 	proc MuteOut {w } {
 		if {[catch {::Farsight::SetMuteOut $::ChatWindow::voip_mute_out}]} {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				$w configure -mutestate disabled
 			} else {
 				$w configure -state disabled
@@ -2756,7 +2756,7 @@ namespace eval ::ChatWindow {
 	proc VolumeOut { frame val } {
 		if {[catch {::Farsight::SetVolumeOut [expr {$::ChatWindow::voip_amplification_out - 1 + \
 						   $::ChatWindow::voip_volume_out}]}]} {
-			if {$::ChatWindow::usingnewvoipcontrol} {
+			if {$::ChatWindow::usingnewvoipcontrols} {
 				#TODO!!
 			} else {
 				$frame.amplifier configure -state disabled

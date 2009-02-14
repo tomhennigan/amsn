@@ -1,33 +1,25 @@
 
 
 package require snit
-package provide voipcontrol 0.1
-
-#TODO: -bg/fg
+package provide tksoundmixer 0.1
 
 
-snit::widget voipcontrol {
+
+snit::widget tksoundmixer {
 
 	option -amplificationvariable -default {}
 	option -amplificationcommand -default {}
 
+	option -muteimage
+	option -unmuteimage
+
 	option -orient -default "vertical" -readonly yes
 
-	option -volumeframesize -default 10 -readonly yes
-	option -buttonframesize -default 15 -readonly yes
-
 	component volumeframe
-	component mutecheckbutton
-	component endcallbutton
+	component mutecheckbox
 
-	delegate option -endcallimage to endcallbutton as -image
-	delegate option -endcallcommand to endcallbutton as -command
-	delegate option -endcallstate to endcallbutton as -state
-
-	delegate option -muteimage to mutecheckbutton as -image
-	delegate option -mutevariable to mutecheckbutton as -variable
-	delegate option -mutecommand to mutecheckbutton as -command
-	delegate option -mutestate to mutecheckbutton as -state
+	delegate option -mutevariable to mutecheckbox as -variable
+	delegate option -mutecommand to mutecheckbox as -command
 
 	delegate option -from to volumeframe
 	delegate option -to to volumeframe
@@ -40,27 +32,28 @@ snit::widget voipcontrol {
 	delegate option * to hull
 
 	constructor {args} {
+		puts [array names options]
+		puts "-orient=$options(-orient)"
 
 		set volumeframe [tksoundmixervolume ${win}.volumeframe]
-		set buttonframe [frame ${win}.buttonframe]
-		set mutecheckbutton [checkbutton ${buttonframe}.mute]
-		set endcallbutton [button ${buttonframe}.endcall]
-		set amplificationbutton [button ${buttonframe}.amplification]
-
 		$self configurelist $args
 		#creating volumeframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
 		destroy $volumeframe
 		set volumeframe [tksoundmixervolume ${win}.volumeframe -orient $options(-orient)]
-		$self configurelist $args
+		set buttonframe [frame ${win}.buttonframe]
 
+		$self configurelist $args
+		
+		set mutecheckbox [checkbutton ${buttonframe}.mute]
+
+
+		pack $mutecheckbox
 		if { $options(-orient) == "vertical" } {
-			pack $mutecheckbutton $endcallbutton $amplificationbutton
-			place $volumeframe -width $options(-volumeframesize) -relheight 1
-			place $buttonframe -x $options(-volumeframesize) -width $options(-buttonframesize) -relheight 1
+			place $volumeframe -width 10 -relheight 1
+			place $buttonframe -x 10 -width 15 -relheight 1
 		} else {
-			pack $mutecheckbutton $endcallbutton $amplificationbutton -side right
-			place $volumeframe -height $options(-volumeframesize) -relwidth 1
-			place $buttonframe -y $options(-volumeframesize) -height $options(-buttonframesize) -relwidth 1
+			place $volumeframe -height 10 -relwidth 1
+			place $buttonframe -y 10 -height 15 -relwidth 1
 		}
 	}
 
@@ -80,8 +73,6 @@ snit::widget tksoundmixervolume {
 	option -from -default 0
 	option -to -default 100
 
-
-	option -levelimage -configuremethod SetLevelImage; #TODO
 	option -levelsize -default 5 -configuremethod SetLevelSize
 
 	option -volumevariable -default {}
@@ -94,6 +85,7 @@ snit::widget tksoundmixervolume {
 	constructor {args} {
 
 		$self configurelist $args
+		puts "-orient=$options(-orient)"
 
 		frame ${win}.fill
 		place ${win}.fill -relheight 1 -relwidth 1
