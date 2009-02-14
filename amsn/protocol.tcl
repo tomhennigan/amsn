@@ -5640,7 +5640,9 @@ proc cmsn_connected_sb {sb recv} {
 	set invite [$sb cget -invite]
 
 	if {$invite != ""} {
-		cmsn_invite_user $sb [::config::getKey login]
+		if {[::config:getKey protocol] >= 18 } {
+			cmsn_invite_user $sb [::config::getKey login]
+		}
 		cmsn_invite_user $sb $invite
 		::amsn::chatStatus [::MSN::ChatFor $sb] "[trans willjoin $invite]...\n" miniinfo ready
 	} else {
@@ -5669,7 +5671,9 @@ proc cmsn_reconnect { sb } {
 			$sb configure -time [clock seconds]
 			$sb configure -stat "i"
 
-			cmsn_invite_user $sb [::config::getKey login]
+			if {[::config:getKey protocol] >= 18 } {
+				cmsn_invite_user $sb [::config::getKey login]
+			}
 			cmsn_invite_user $sb [$sb cget -last_user]
 
 			::amsn::chatStatus [::MSN::ChatFor $sb] \
