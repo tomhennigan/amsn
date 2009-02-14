@@ -79,7 +79,7 @@ snit::type Addressbook {
 		set SharingServiceURL "https://$host/abservice/SharingService.asmx"
 	}
 
-	method Synchronize { callback } {
+	method Synchronize { callback {services {ab membership}}} {
 		global contactlist_loaded
 		set contactlist_loaded 0
 		#Make list unconsistent while receiving contact lists
@@ -87,24 +87,45 @@ snit::type Addressbook {
 
 		status_log "Going to receive contact list\n" blue
 		#First contact in list
-		::MSN::clearList FL
-		::MSN::clearList EL
-		::MSN::clearList BL
-		::MSN::clearList RL
-		::MSN::clearList AL
-		::groups::Reset
-		::groups::Set 0 [trans nogroup]
 
-		foreach username [::abook::getAllContacts] {
-			#Remove user from all lists while receiving List data
-			::abook::setContactData $username lists ""
+		if {[lsearch $services "membership"] == -1 } {
+			set fm_done 1
+		} else {
+			set fm_done 0
+		}
+		if {[lsearch $services "ab"] == -1 } {
+			set ab_done 1
+		} else {
+			set ab_done 0
 		}
 
-		set ab_done 0
-		set fm_done 0
+		if {$ab_done == 0 } {
+			::MSN::clearList FL
+			::MSN::clearList EL
+			foreach username [::abook::getAllContacts] {
+				::abook::removeContactFromList $username "FL"
+				::abook::removeContactFromList $username "EL"
+			}
+			::groups::Reset
+			::groups::Set 0 [trans nogroup]
 
-		$self FindMembership [list $self FindMembershipDone $callback]
-		$self ABFindAll [list $self ABFindAllDone $callback]
+			$self ABFindAll [list $self ABFindAllDone $callback]
+		}
+		if {$fm_done == 0 } {
+			::MSN::clearList BL
+			::MSN::clearList RL
+			::MSN::clearList AL
+			foreach username [::abook::getAllContacts] {
+				#Remove user from all lists while receiving List data
+				::abook::removeContactFromList $username "AL"
+				::abook::removeContactFromList $username "BL"
+				::abook::removeContactFromList $username "RL"
+			}
+			$self FindMembership [list $self FindMembershipDone $callback]
+		}
+		if {$fm_done && $ab_done } {
+			$self SynchronizeDone $callback 0			
+		}
 
 	}
 
@@ -405,7 +426,8 @@ snit::type Addressbook {
 				}
 				
 				::abook::setContactData $username group $groups
-				if {[::abook::getVolatileData $username state] == ""} {
+				if {!$is_in_fl ||
+				    [::abook::getVolatileData $username state] == ""} {
 					::abook::setVolatileData $username state "FLN"
 				}
 

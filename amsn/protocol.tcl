@@ -4417,6 +4417,23 @@ namespace eval ::MSNOIM {
 			3 {
 				# MSNP2P SLP data...
 			}
+			5 {
+				# Closed a CW?
+			}
+			6 {
+				# resynchronize..
+				# <Service type="ab/membership">
+				# reason 1 : added/deleted/blocked/whatever
+				# reason 3 : added to favorites
+				set service1 [set service2 ""]
+				catch {
+					set xml [xml2list $message]
+					set service1 [GetXmlAttribute [GetXmlNode $xml "State:Service" 0] "Service" "type"]
+					set service2 [GetXmlAttribute [GetXmlNode $xml "State:Service" 1] "Service" "type"]
+				}
+				status_log "Other account did something $message, we must resynchronize services : $service1 - $service2"
+				$::ab Synchronize [list ::MSN::ABSynchronizationDone 0] [list $service1 $service2]
+			}
 			11 {
 				# Unknown "1 1 5 134546710 0" prior to SIP invite...
 			}
