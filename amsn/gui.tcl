@@ -2709,7 +2709,7 @@ namespace eval ::amsn {
 		
 		#UGLY:
 		set width [expr {96 + (2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imghide]])}]
-		if {[winfo exists $f.voip.volume] && $width <100} {
+		if {[winfo exists $f.voip] && $width <100} {
 			set width 100
 		}
 		[winfo parent $f] configure -width $width
@@ -2725,8 +2725,6 @@ namespace eval ::amsn {
 		set frame $f.dps
 		pack forget $frame.imgs
 
-
-
 		#Change here to change the icon, instead of text
 		$frame.showpic configure -image [::skin::loadPixmap imgshow]
 		bind $frame.showpic <Enter> [list $frame.showpic configure -image [::skin::loadPixmap imgshow_hover]]
@@ -2735,7 +2733,7 @@ namespace eval ::amsn {
 		change_balloon $frame.showpic [trans showdisplaypic]
 
 		set width [expr {2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imgshow]]}]
-		if {[winfo exists $f.voip.volume] && $width <100} {
+		if {[winfo exists $f.voip] && $width <100} {
 			set width 100
 		}
 		[winfo parent $f] configure -width $width

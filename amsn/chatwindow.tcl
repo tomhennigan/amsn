@@ -2033,13 +2033,10 @@ namespace eval ::ChatWindow {
 			set f [$fr.f.sw.sf getframe]
 			set dpsframe $f.dps
 			set images $dpsframe.imgs
-			set voip $f.voip
 			set showpic $dpsframe.showpic
 
 			frame $dpsframe -class Amsn -borderwidth 0 -padx 0 -pady 0 \
 					-relief solid -background [::skin::getKey chatwindowbg]
-			frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
-				-relief solid -background [::skin::getKey chatwindowbg]
 			frame $images -class Amsn -borderwidth 0 -padx 0 -pady 0 \
 				-relief solid -background [::skin::getKey chatwindowbg]
 
@@ -2053,7 +2050,6 @@ namespace eval ::ChatWindow {
 
 			pack $fr.f.sw -fill y -anchor ne
 			pack $dpsframe -side top -padx 0 -pady 0 -anchor ne
-			pack $voip -side bottom -padx 0 -pady 0 -anchor ne
 			pack $images -side left -anchor ne
 			pack $showpic -side right -anchor ne
 
@@ -2069,13 +2065,7 @@ namespace eval ::ChatWindow {
 			
 			# Name our widgets
 			set f [$fr.f.sw.sf getframe]
-			set voip $f.voip
-
-			frame $voip -class Amsn -borderwidth 0 -padx 0 -pady 0 \
-				-relief solid -background [::skin::getKey chatwindowbg]
-
 			pack $fr.f.sw -fill y -anchor ne
-			pack $voip -side bottom -padx 0 -pady 0 -anchor ne
 		}
 
 		return $fr.f
@@ -2088,7 +2078,7 @@ namespace eval ::ChatWindow {
 		focus -force [::ChatWindow::GetInputText $w]
 	}
 
-	#lastkeytyped 
+	#lastkeytyped
 	#Force the focus to the input text box when someone try to write something in the output
 	proc lastKeytyped {typed keysym w} {
 		if {[regexp {^[ -~]$} $typed]} {
@@ -2508,6 +2498,7 @@ namespace eval ::ChatWindow {
 		}
 		status_log "Creating CW Voip controls"
 		if {$::ChatWindow::usingnewvoipcontrols} {
+			#TODO: new skin key for endcallimage
 			voipcontrol $frame_in -orient vertical \
 				-bg [::skin::getKey chatwindowbg]\
 				-endcallimage [::skin::loadPixmap buthangup] \
@@ -2518,7 +2509,12 @@ namespace eval ::ChatWindow {
 				-mutevariable ::ChatWindow::voip_mute_in \
 				-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
 				-volumevariable ::ChatWindow::voip_volume_in
-			voipcontrol $frame_out.control -orient horizontal \
+			if { [::config::getKey old_dpframe 0] == 0 } {
+				set orient "horizontal"
+			} else {
+				set orient "vertical"
+			}
+			voipcontrol $frame_out -orient $orient \
 				-bg [::skin::getKey chatwindowbg]\
 				-endcallimage [::skin::loadPixmap buthangup] \
 				-endcallstate disabled \
@@ -2530,8 +2526,14 @@ namespace eval ::ChatWindow {
 				-volumevariable ::ChatWindow::voip_volume_out
 			$frame_in configure -width 32
 			pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
-			#place $frame_in -width 25 -relheight 1
-			place $frame_out.control -height 32 -relwidth 1
+			if { [::config::getKey old_dpframe 0] == 0 } {
+				$frame_out configure -height 32
+				pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne -fill x
+			} else {
+				$frame_out configure -width 32
+				$frame_out configure -height 150
+				pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne
+			}
 		} else {
 			::dkfprogress::Progress $frame_in.level
 			scale $frame_in.volume -label "Volume" -from 0.0 -to 1.0 \
@@ -2657,14 +2659,14 @@ namespace eval ::ChatWindow {
 		}
 		if {[catch {set mute [::Farsight::GetMuteOut]} ] } {
 			if {$::ChatWindow::usingnewvoipcontrols} {
-				$frame_out.control configure -mutestate disabled
+				$frame_out configure -mutestate disabled
 			} else {
 				$frame_out.mute configure -state disabled
 			}
 		} else {
 			set ::ChatWindow::voip_mute_out $mute
 			if {$::ChatWindow::usingnewvoipcontrols} {
-				$frame_out.control configure -state normal
+				$frame_out configure -state normal
 			} else {
 				$frame_out.mute configure -state normal
 			}
@@ -2674,7 +2676,7 @@ namespace eval ::ChatWindow {
 			if {$::ChatWindow::usingnewvoipcontrols} {
 				$frame_in configure -endcallstate normal\
 				    -endcallcommand [list ::amsn::HangupSIPCall $chatid $sip $callid]
-				$frame_out.control configure -endcallstate normal\
+				$frame_out configure -endcallstate normal\
 				    -endcallcommand [list ::amsn::HangupSIPCall $chatid $sip $callid]
 
 			} else {
@@ -2683,7 +2685,7 @@ namespace eval ::ChatWindow {
 		} else {
 			if {$::ChatWindow::usingnewvoipcontrols} {
 				$frame_in configure -endcallstate disabled
-				$frame_out.control configure -endcallstate disabled
+				$frame_out configure -endcallstate disabled
 			} else {
 				$frame_out.hangup configure -state disabled
 			}
@@ -2702,7 +2704,7 @@ namespace eval ::ChatWindow {
 		catch {
 			if {$::ChatWindow::usingnewvoipcontrols} {
 				destroy $frame_in
-				destroy $frame_out.control
+				destroy $frame_out
 			} else {
 				destroy $frame_in.level
 				destroy $frame_in.volume
@@ -2724,10 +2726,6 @@ namespace eval ::ChatWindow {
 			unset ::ChatWindow::voip_amplification_out
 			unset ::ChatWindow::voip_volume_out
 		}
-		destroy $frame_out
-		frame $frame_out -class Amsn -borderwidth 0 -padx 0 -pady 0 \
-				-relief solid -background [::skin::getKey chatwindowbg]
-		pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne
 
 		#Redraw the frames correctly
 		::amsn::ShowOrHidePicture
