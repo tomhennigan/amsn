@@ -69,7 +69,6 @@ snit::widget voipcontrol {
 
 	method SetBackground {option value} {
 		set options($option) $value
-		puts "value=$value"
 		$win configure -background $value
 		$volumeframe configure -background $value
 		$win.buttonframe configure -background $value

@@ -2508,7 +2508,6 @@ namespace eval ::ChatWindow {
 		}
 		status_log "Creating CW Voip controls"
 		if {$::ChatWindow::usingnewvoipcontrols} {
-
 			voipcontrol $frame_in -orient vertical \
 				-bg [::skin::getKey chatwindowbg]\
 				-endcallimage [::skin::loadPixmap buthangup] \
@@ -2673,13 +2672,17 @@ namespace eval ::ChatWindow {
 
 		if {$sip != "" && $callid != ""} {
 			if {$::ChatWindow::usingnewvoipcontrols} {
+				$frame_in configure -endcallstate normal\
+				    -endcallcommand [list ::amsn::HangupSIPCall $chatid $sip $callid]
 				$frame_out.control configure -endcallstate normal\
 				    -endcallcommand [list ::amsn::HangupSIPCall $chatid $sip $callid]
+
 			} else {
 				$frame_out.hangup configure -state normal -command [list ::amsn::HangupSIPCall $chatid $sip $callid]
 			}
 		} else {
 			if {$::ChatWindow::usingnewvoipcontrols} {
+				$frame_in configure -endcallstate disabled
 				$frame_out.control configure -endcallstate disabled
 			} else {
 				$frame_out.hangup configure -state disabled
