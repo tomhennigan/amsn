@@ -3,8 +3,6 @@
 package require snit
 package provide voipcontrols 0.1
 
-#TODO: -bg/fg
-
 
 snit::widget voipcontrol {
 
@@ -15,6 +13,9 @@ snit::widget voipcontrol {
 
 	option -volumeframesize -default 10 -readonly yes
 	option -buttonframesize -default 22 -readonly yes
+
+	option -bg -default white -configuremethod SetBackground
+	option -state -default normal -configuremethod SetState
 
 	component volumeframe
 	component mutecheckbutton
@@ -45,7 +46,7 @@ snit::widget voipcontrol {
 		set volumeframe [soundmixervolume ${win}.volumeframe]
 		set buttonframe [frame ${win}.buttonframe]
 		set mutecheckbutton [mutecheckbutton ${buttonframe}.mute]
-		set endcallbutton [button ${buttonframe}.endcall]
+		set endcallbutton [button ${buttonframe}.endcall -relief flat]
 		set amplificationbutton [button ${buttonframe}.amplification]
 
 		$self configurelist $args
@@ -65,6 +66,22 @@ snit::widget voipcontrol {
 		}
 	}
 
+
+	method SetBackground {option value} {
+		set options($option) $value
+		puts "value=$value"
+		$win configure -background $value
+		$volumeframe configure -background $value
+		$win.buttonframe configure -background $value
+		$mutecheckbutton configure -background $value
+		$win.buttonframe.endcall configure -background $value
+		$win.buttonframe.amplification configure -background $value
+	}
+
+	method SetState {option value} {
+		set options($option) $value
+		#TODO
+	}
 }
 
 snit::widgetadaptor mutecheckbutton {
@@ -90,7 +107,6 @@ snit::widgetadaptor mutecheckbutton {
 		if {[info exists ::$options(-mutevariable)]} {
 			set muted [set ::$options(-mutevariable)]
 		}
-		puts "unmuteimage=$options(-unmuteimage)"
 		$self configure -image $options(-unmuteimage)
 	}
 
@@ -107,7 +123,6 @@ snit::widgetadaptor mutecheckbutton {
 
 
 	method invoke {} {
-		puts "ooooooo"
 		if {$muted} {
 			$self configure -image $options(-unmuteimage)
 			set muted 0

@@ -2508,7 +2508,11 @@ namespace eval ::ChatWindow {
 		}
 		status_log "Creating CW Voip controls"
 		if {$::ChatWindow::usingnewvoipcontrols} {
+
 			voipcontrol $frame_in -orient vertical \
+				-bg [::skin::getKey chatwindowbg]\
+				-endcallimage [::skin::loadPixmap buthangup] \
+				-endcallstate disabled \
 				-muteimage [::skin::loadPixmap mute] \
 				-unmuteimage [::skin::loadPixmap unmute] \
 				-mutecommand [list ::ChatWindow::MuteIn $frame_in] \
@@ -2516,6 +2520,9 @@ namespace eval ::ChatWindow {
 				-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
 				-volumevariable ::ChatWindow::voip_volume_in
 			voipcontrol $frame_out.control -orient horizontal \
+				-bg [::skin::getKey chatwindowbg]\
+				-endcallimage [::skin::loadPixmap buthangup] \
+				-endcallstate disabled \
 				-muteimage [::skin::loadPixmap mute] \
 				-unmuteimage [::skin::loadPixmap unmute] \
 				-mutecommand [list ::ChatWindow::MuteOut $frame_out] \
