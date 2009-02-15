@@ -6388,7 +6388,7 @@ proc cmsn_ns_handler {item {message ""}} {
 		ILN -
 		NLN {
 			if {[::config::getKey protocol] >= 18 &&
-			    [lindex $item 2] == [::config::getKey login] &&
+			    [lindex [split [lindex $item 2] ":"] 1] == [::config::getKey login] &&
 			    [lindex $item 0] == "NLN" &&
 			    [lindex $item 1] != "IDL" } {
 				::abook::setPersonal MFN [urldecode [lindex $item 4]]
