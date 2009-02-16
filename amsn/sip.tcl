@@ -573,7 +573,8 @@ snit::type SIPConnection {
 			$self Send [$self BuildResponse $callid INVITE 100]
 
 			if {$options(-active_audio_candidates) != "" &&
-			    $options(-active_video_candidates) != ""} {
+			    ($options(-local_video_candidates) == "" ||
+			     $options(-active_video_candidates) != "")} {
 				set local_audio [lindex $options(-active_audio_candidates) 0]
 				set remote_audio [lindex $options(-active_audio_candidates) 1]
 				set local_video [lindex $options(-active_video_candidates) 0]
@@ -597,7 +598,8 @@ snit::type SIPConnection {
 		set options($option) $value
 		if {$respond_reinvite &&
 		    $options(-active_audio_candidates) != "" &&
-		    $options(-active_video_candidates) != ""} {
+		    ($options(-local_video_candidates) == "" ||
+		     $options(-active_video_candidates) != "")} {
 			set local_audio [lindex $options(-active_audio_candidates) 0]
 			set remote_audio [lindex $options(-active_audio_candidates) 1]
 			set local_video [lindex $options(-active_video_candidates) 0]
@@ -2612,7 +2614,8 @@ namespace eval ::MSNSIP {
 			$sip SendReInvite $callid $local $remote
 		} elseif {$send &&
 			  [$sip cget -active_audio_candidates] != "" &&
-			  [$sip cget -active_video_candidates] != ""} {
+			  ([$sip cget -local_video_candidates] == "" ||
+			   [$sip cget -active_video_candidates] != "")} {
 			
 			set local_audio [lindex [$sip cget -active_audio_candidates] 0]
 			set remote_audio [lindex [$sip cget -active_audio_candidates] 1]
