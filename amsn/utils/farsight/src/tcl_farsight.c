@@ -2763,8 +2763,6 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     video_remote_codecs = NULL;
   }
 
-  g_debug ("Remote candidates : %p - %p", audio_remote_candidates, video_remote_candidates);
-
   /* Set audio candidates */
   if (audio_remote_candidates) {
     if (!fs_stream_set_remote_candidates (audio_stream, audio_remote_candidates,
@@ -2773,7 +2771,6 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           (char *) NULL);
       goto error;
     }
-    g_debug ("Set audio remote candidates %p", error);
     fs_candidate_list_destroy (audio_remote_candidates);
     audio_remote_candidates = NULL;
   }
@@ -2785,7 +2782,6 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           (char *) NULL);
       goto error;
     }
-    g_debug ("Set video remote candidates %p", error);
     fs_candidate_list_destroy (video_remote_candidates);
     video_remote_candidates = NULL;
   }
@@ -2793,7 +2789,6 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   return TCL_OK;
 
  error:
-  g_debug ("Error : %p", error);
   fs_codec_list_destroy (audio_remote_codecs);
   fs_codec_list_destroy (video_remote_codecs);
   fs_candidate_list_destroy (audio_remote_candidates);
