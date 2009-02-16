@@ -2600,9 +2600,9 @@ proc Preferences { { settings "personal"} } {
 
 	frame $lfname.adding
 	entry $lfname.adding.enter
-	button $lfname.adding.addal -text "[trans addto AL]" -command "Add_To_List $lfname AL"
-	button $lfname.adding.addbl -text "[trans addto BL]" -command "Add_To_List $lfname BL"
-	button $lfname.adding.addfl -text "[trans addto FL]" -command "Add_To_List $lfname FL" 
+	button $lfname.adding.addal -text "[trans addtoal]" -command "Add_To_List $lfname AL"
+	button $lfname.adding.addbl -text "[trans addtobl]" -command "Add_To_List $lfname BL"
+	button $lfname.adding.addfl -text "[trans addtofl]" -command "Add_To_List $lfname FL" 
 	pack $lfname.adding.addal $lfname.adding.addbl $lfname.adding.addfl -side left
 	pack $lfname.adding.enter -side top
 

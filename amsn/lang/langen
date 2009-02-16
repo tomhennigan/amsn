@@ -15,6 +15,9 @@ addprofile Add New Profile
 addprofiledesc Enter the login which you would like to create a new profile for. \nProfiles allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" functions.
 addstate Add New State
 addto Add to $1
+addtoal Add to AL
+addtobl Add to BL
+addtofl Add to FL
 addtocontacts Add to Contact List
 addtoo Add this person to my contact list
 admincontacts Admin contacts
