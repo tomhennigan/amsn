@@ -6391,7 +6391,7 @@ proc cmsn_ns_handler {item {message ""}} {
 			    [lindex [split [lindex $item 2] ":"] 1] == [::config::getKey login] &&
 			    [lindex $item 0] == "NLN" &&
 			    [lindex $item 1] != "IDL" } {
-				::abook::setPersonal MFN [urldecode [lindex $item 4]]
+				::abook::setPersonal MFN [urldecode [lindex $item 3]]
 
 				::MSN::setMyStatus [lindex $item 1]
 				cmsn_draw_online 1 1
