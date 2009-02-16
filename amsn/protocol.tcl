@@ -4436,6 +4436,12 @@ namespace eval ::MSNOIM {
 			}
 			11 {
 				# Unknown "1 1 5 134546710 0" prior to SIP invite...
+				# Unknown "1 3 5 234889074 0 3 0" after sending a 'busy' response
+				# Unknown "2 3 5 234889074 0 3 0" before a tunneled SIP invite that never got through
+				# WLM sends UUN 11 : "4 1 $callid $email 3" 
+				# to itself followed by UUN 11 : "2 3 5 234889074 0 3 0"
+				# send to the peer after it receives the ACK for
+				# a decline it did on an inbound invite.
 			}
 			12 {
 				# Tunneled SIP INVITE
@@ -7762,26 +7768,28 @@ proc add_Clientid {chatid clientid} {
 	::abook::setContactData $chatid clientid $clientid
 
 	##Find out how the client-program is called
-	if {[::MSN::hasCapability $clientid msnc1] } {
-		set clientname "MSN 6.0"
-	} elseif {[::MSN::hasCapability $clientid msnc2] } {
-		set clientname "MSN 6.1"
-	} elseif {[::MSN::hasCapability $clientid msnc3] } {
-		set clientname "MSN 6.2"
-	} elseif {[::MSN::hasCapability $clientid msnc4] } {
-		set clientname "MSN 7.0"
-	} elseif {[::MSN::hasCapability $clientid msnc5] } {
-		set clientname "MSN 7.5"
-	} elseif {[::MSN::hasCapability $clientid msnc6] } {
-		set clientname "Windows Live Messenger 8.0"
-	} elseif {[::MSN::hasCapability $clientid msnc7] } {
-		set clientname "Windows Live Messenger 8.1"
-	} elseif {[::MSN::hasCapability $clientid msnc8] } {
-		set clientname "Windows Live Messenger 8.5"
+	# We must start with the newer versions since the msnc10 capability will
+	# also succeed with msnc2 check for example
+	if {[::MSN::hasCapability $clientid msnc10] } {
+		set clientname "Windows Live Messenger 2009"
 	} elseif {[::MSN::hasCapability $clientid msnc9] } {
 		set clientname "Windows Live Messenger 9 beta"
-	} elseif {[::MSN::hasCapability $clientid msnc10] } {
-		set clientname "Windows Live Messenger 2009"
+	} elseif {[::MSN::hasCapability $clientid msnc8] } {
+		set clientname "Windows Live Messenger 8.5"
+	} elseif {[::MSN::hasCapability $clientid msnc7] } {
+		set clientname "Windows Live Messenger 8.1"
+	} elseif {[::MSN::hasCapability $clientid msnc6] } {
+		set clientname "Windows Live Messenger 8.0"
+	} elseif {[::MSN::hasCapability $clientid msnc5] } {
+		set clientname "MSN 7.5"
+	} elseif {[::MSN::hasCapability $clientid msnc4] } {
+		set clientname "MSN 7.0"
+	} elseif {[::MSN::hasCapability $clientid msnc3] } {
+		set clientname "MSN 6.2"
+	} elseif {[::MSN::hasCapability $clientid msnc2] } {
+		set clientname "MSN 6.1"
+	} elseif {[::MSN::hasCapability $clientid msnc1] } {
+		set clientname "MSN 6.0"
 	} elseif {[::MSN::hasCapability $clientid webmsn] } {
 		set clientname "Webmessenger"
 	} elseif {[::MSN::hasCapability $clientid tgw] } {
