@@ -15,7 +15,10 @@ addprofile Añadir un perfil
 addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
 addstate Añadir nuevo estado
 addto Añadir a $1
+addtoal Añadir a AL
+addtobl Añadir a BL
 addtocontacts Añadir a contactos
+addtofl Añadir a FL
 addtoo Añadir esta persona a mi lista de contactos
 admincontacts Administrar contactos
 admingroups Administrar grupos
