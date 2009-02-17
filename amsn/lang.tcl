@@ -205,6 +205,12 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
 		}
 	}
 	close $file_id
+	#load translations for BWidgets
+	if {[info exists ::BWIDGET::LIBRARY]} {
+		catch {option read [file join $::BWIDGET::LIBRARY lang ${langcode}.rc]}
+	} else {
+		catch {option read [file join utils bwidget1.8.0 lang ${langcode}.rc]}
+	}
 	return 0
 }
 
