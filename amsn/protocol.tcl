@@ -4442,6 +4442,8 @@ namespace eval ::MSNOIM {
 				# to itself followed by UUN 11 : "2 3 5 234889074 0 3 0"
 				# send to the peer after it receives the ACK for
 				# a decline it did on an inbound invite.
+				#
+				# the 134546710 or 234889074 seems to be the value of "AppVersion" from the registry..
 			}
 			12 {
 				# Tunneled SIP INVITE
