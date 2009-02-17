@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <plugin>
-	<name>Emoticon Importer</name>
+	<name>Emoticons Importer</name>
 	<author>Youness Alaoui (a.k.a KaKaRoTo)</author>
 	<description>Plugin that allows you to batch import multiple emoticons into aMSN in one shot.</description>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>0.1</plugin_version>
-	<plugin_file>emoticon_importer.tcl</plugin_file>
-	<plugin_namespace>emoticon_importer</plugin_namespace>
+	<plugin_file>emoticons_importer.tcl</plugin_file>
+	<plugin_namespace>emoticons_importer</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 	<cvs_version>10794</cvs_version>
 	<URL>

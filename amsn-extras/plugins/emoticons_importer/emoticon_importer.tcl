@@ -5,7 +5,7 @@
 #                                                                 #
 ###################################################################
 
-namespace eval ::emoticon_importer {
+namespace eval ::emoticons_importer {
 	variable config
 	variable configlist
 
@@ -19,7 +19,7 @@ namespace eval ::emoticon_importer {
 		variable config
 		variable configlist
 
-		::plugins::RegisterPlugin emoticon_importer
+		::plugins::RegisterPlugin emoticons_importer
 
 		array set config {}
 
@@ -29,10 +29,69 @@ namespace eval ::emoticon_importer {
 		load_lang en $langdir
 		load_lang $lang $langdir
 
-		set configlist [list [list frame ::emoticon_importer::populateframe ""] ]
+		set configlist [list [list frame ::emoticons_importer::populateframe ""] ]
 	}
 	proc populateframe { win } {
 		# Show some kind of UI for choosing a directory and importing from it.
+	}
+
+
+	# Return value
+	# 0 : success
+	# -1 : directory not found or file not a directory
+	proc importSmileys { directory } {
+		if { ![file exists $directory]  || ![file isdirectory $directory] } {
+			return -1
+		}
+
+		# Check for a kopete compatible emoticon pack
+		if {[file exists [file join $directory emoticons.xml]]  &&
+		    [file readable [file join $directory emoticons.xml]]} {
+			if {[catch {
+				set xml_fd [open [file join $directory emoticons.xml]]
+				set xml [xml2list [read $xml_fd]]
+				close $xml_fd
+
+				puts "Found an emoticons.xml file in $directory"
+				set i 0
+				while { 1 } {
+					set node [GetXmlNode $xml "messaging-emoticon-map:emoticon" $i]
+					if {$node == "" } {
+						break
+					}
+					incr i
+
+					set file [GetXmlAttribute $node "emoticon" "file"]
+					set triggers [list]
+					set j 0
+					while { 1 } {
+						set string [GetXmlEntry $node "emoticon:string" $j]
+						if {$string == "" } {
+							break
+						}
+						incr j
+						append triggers "$string "
+					}
+
+					set name [file rootname $file]
+					set r [AddNewCustomEmoticon $name [file join $directory $file] $triggers]
+					puts "Added custom emoticon : $name $file '$triggers' : $r"
+				}
+			} res ] } {
+				puts "Error importing : $res"
+			} else {
+				return 0
+			}
+		}
+		puts "Globing for files in $directory"
+		set files [glob -nocomplain -tails -type f -directory $directory *]
+		foreach file $files {
+			set name [file rootname $file]
+			set triggers "\[$name\]"
+			set r [AddNewCustomEmoticon $name [file join $directory $file] $triggers]
+			puts "Added custom emoticon : $name $file '$triggers' : $r"
+		}
+		return 0
 	}
 
 	# Return value :
