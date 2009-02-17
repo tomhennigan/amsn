@@ -2,13 +2,13 @@
 <plugin>
 	<name>Emoticons Importer</name>
 	<author>Youness Alaoui (a.k.a KaKaRoTo)</author>
-	<description>Plugin that allows you to batch import multiple emoticons into aMSN in one shot.</description>
-	<amsn_version>0.95</amsn_version>
-	<plugin_version>0.1</plugin_version>
+	<description>Plugin that allows you to batch import multiple emoticons into aMSN in one shot. Compatible with kopete emoticon packs.</description>
+	<amsn_version>0.97</amsn_version>
+	<plugin_version>0.2</plugin_version>
 	<plugin_file>emoticons_importer.tcl</plugin_file>
 	<plugin_namespace>emoticons_importer</plugin_namespace>
 	<init_procedure>Init</init_procedure>
-	<cvs_version>10794</cvs_version>
+	<cvs_version>11004</cvs_version>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/emoticon_importer/emoticon_imporer.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/emoticon_importer/plugininfo.xml</plugininfo>

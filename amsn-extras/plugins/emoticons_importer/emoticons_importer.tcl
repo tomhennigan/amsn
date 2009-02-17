@@ -32,14 +32,34 @@ namespace eval ::emoticons_importer {
 		set configlist [list [list frame ::emoticons_importer::populateframe ""] ]
 	}
 	proc populateframe { win } {
+		set ::emoticons_importer::importdir ""
 		# Show some kind of UI for choosing a directory and importing from it.
+		frame $win.1
+		frame $win.2
+		pack $win.1 $win.2 -anchor w -side top -padx 0 -pady 5 -fill none
+		label $win.1.path -text "[trans importdir] :" -padx 5 -font sboldf
+		entry $win.1.importdir -width 45  -textvariable ::emoticons_importer::importdir
+		button $win.1.browse -text [trans browse] -command "Browse_Dialog_dir ::emoticons_importer::importdir"
+
+		grid $win.1.path -row 1 -column 1 -sticky w
+		grid $win.1.importdir -row 1 -column 2 -sticky w
+		grid $win.1.browse -row 1 -column 3 -sticky w
+
+		button $win.2.import -text [trans import] -command "::emoticons_importer::importSmileys"
+		pack $win.2.import -anchor w -side top -padx 0 -pady 5 -fill none
 	}
 
+
+	proc importSmileys { } {
+		if {[info exists ::emoticons_importer::importdir] } {
+			importSmileysFromDir $::emoticons_importer::importdir
+		}
+	}
 
 	# Return value
 	# 0 : success
 	# -1 : directory not found or file not a directory
-	proc importSmileys { directory } {
+	proc importSmileysFromDir { directory } {
 		if { ![file exists $directory]  || ![file isdirectory $directory] } {
 			return -1
 		}
