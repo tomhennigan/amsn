@@ -850,7 +850,7 @@ showonedpframe Mostrar un único marco con la imagen para mostrar en las ventana
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
 showspaces Mostrar el icono de espacios en la lista de contactos
 showuserpic Imagen de $1
-showuserscw Hay $1 usuarios en esta conversación. Si quieres verlos u ocultarlos haga clic aquí.
+showuserscw Hay $1 usuarios en esta conversación. Si quiere verlos u ocultarlos haga clic aquí.
 signinstatus Estado inicial
 signout Cerrar la sesión
 signoutep Cerrar la sesión de $1
