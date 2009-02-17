@@ -178,8 +178,8 @@
 	<lang>
 		<langcode>ja</langcode>
 		<name>Japanese (日本語)</name>
-		<version>1.16</version>
-		<encoding>euc-jp</encoding>
+		<version>1.2</version>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>ko</langcode>
