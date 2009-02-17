@@ -15,7 +15,10 @@ addprofile Aggiungi un nuovo profilo
 addprofiledesc Inserisci il login per il quale vorresti creare un nuovo profilo. \nI login con un profilo ti permettono di avere differenti configurazioni per ogni login.\nSenza profili non puoi usare la cronologia, gli Allarmi o ricordare le password.
 addstate Nuovo stato personalizzato
 addto Aggiungi a $1
+addtoal Aggiungi a AL
+addtobl Aggiungi a BL
 addtocontacts Aggiungi questo contatto alla Lista Contatti
+addtofl Aggiungi a FL
 addtoo Aggiungi questa persona alla mia Lista Contatti
 admincontacts Amministrazione contatti
 admingroups Amministrazione gruppi
@@ -971,11 +974,11 @@ truncatenames2 Tronca i nick troppo lunghi nelle conversazioni
 truncatenicks Tronca i nick che eccedono la larghezza della finestra
 twonewmail $1 nuovi messaggi di posta
 type Tipo
+unavailablecountryserver Il server del tuo Paese non è disponibile al momento. Riprova tra poco. Puoi risolvere questo problema anche cambiando le impostazioni del tuo account Passport relative al tuo Paese su http://www.passport.net .
 unblock Sblocca
 unknown Sconosciuto
 unload Interrompi
 unselectall Deseleziona tutto
-unavailablecountryserver Il server del tuo Paese non è disponibile al momento. Riprova tra poco. Puoi risolvere questo problema anche cambiando le impostazioni del tuo account Passport relative al tuo Paese su http://www.passport.net .
 uoffline Sconnesso
 uonline In linea
 update Aggiornamento
