@@ -52,7 +52,7 @@ namespace eval ::emoticons_importer {
 				set xml [xml2list [read $xml_fd]]
 				close $xml_fd
 
-				puts "Found an emoticons.xml file in $directory"
+				plugins_log emoticons_importer "Found an emoticons.xml file in $directory"
 				set i 0
 				while { 1 } {
 					set node [GetXmlNode $xml "messaging-emoticon-map:emoticon" $i]
@@ -75,21 +75,21 @@ namespace eval ::emoticons_importer {
 
 					set name [file rootname $file]
 					set r [AddNewCustomEmoticon $name [file join $directory $file] $triggers]
-					puts "Added custom emoticon : $name $file '$triggers' : $r"
+					plugins_log emoticons_importer "Added custom emoticon : $name $file '$triggers' : $r"
 				}
 			} res ] } {
-				puts "Error importing : $res"
+				plugins_log emoticons_importer "Error importing from emoticons.xml : $res"
 			} else {
 				return 0
 			}
 		}
-		puts "Globing for files in $directory"
+		plugins_log emoticons_importer "Globing for files in $directory"
 		set files [glob -nocomplain -tails -type f -directory $directory *]
 		foreach file $files {
 			set name [file rootname $file]
 			set triggers "\[$name\]"
 			set r [AddNewCustomEmoticon $name [file join $directory $file] $triggers]
-			puts "Added custom emoticon : $name $file '$triggers' : $r"
+			plugins_log emoticons_importer "Added custom emoticon : $name $file '$triggers' : $r"
 		}
 		return 0
 	}
@@ -208,8 +208,9 @@ namespace eval ::emoticons_importer {
 		if {[info exists ::smiley::sortedemotions]} { unset ::smiley::sortedemotions }
 		
 				
-		#Immediately save settings.xml
+		#Immediately save settings.xml and update the UI
 		save_config
+		update
 
 		return 0
 	}
