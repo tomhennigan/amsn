@@ -15,6 +15,9 @@ addprofile Yeni kimlik ekle
 addprofiledesc Ekleyeceðiniz yeni kimliðin kullanýcý ismini giriniz.\nKullanýcýlar kimlikler kullanarak deðiþik ayarlar yapabilirler.\nKimlik olmazsa Geçmiþ, Alarmlar ve þifre hatýrlama özelliklerini kullanamazsýnýz.
 addstate Yeni durum ekle
 addto $1'ye ekle
+addtoal ÝV'ye Ekle
+addtobl EL'ye Ekle
+addtofl BL'ye ekle
 addtocontacts Baðlantý listesine ekle
 addtoo Bu kiþiyi baðlantý listesine ekle
 admincontacts Baðlantýlarý düzenle
@@ -35,7 +38,7 @@ allfiles Tüm Dosyalar
 allmonths Tüm aylar
 allowallbutbl Engellenenler dýþýnda herkesin bana ulaþmasýna izin ver
 allowbadwords Kullanýcý isimlerinde sansürü kaldýr
-allowlist ýzin verilenler
+allowlist Ýzin Verilenler (ÝV)
 allowonlyinal Yalnýzca izin verilenler listesindekiler bana ulaþabilsin
 allowseen Bu kiþi ben çevrim içiyken beni görebilsin ve bana yazabilsin
 allow_sms Kullanýcýlar benimle MSN taþýnabilir aygýtým üzerinden baðlantý kurabilsin
@@ -101,7 +104,7 @@ blockinter1 Durumunuz "çevrimiçi" iken her
 blockinter2 saniyede bir, yoksa her:
 blockinter3 her
 blockinter4 saniyede bir denetle
-blocklist Engellenenler listesi
+blocklist Engellenenler Listesi (EL)
 blockmessage þu kiþiler baðlý ve sizi engellemiþ durumdalar
 blocknotifications Uyarý pencerelerini engelle
 blocksounds Sesleri engelle
@@ -229,7 +232,7 @@ connectionlost Baðlantý koptu: Sunucuyla baðlantý kesildi
 contact Baðlantý
 contactadded Baðlantý eklendi
 contactdoesnotexist Böyle bir baðlantý yok!
-contactlist Baðlantý listesi:
+contactlist Baðlantý Listesi (BL)
 contacts Baðlantýlar
 contentroamingsetting Kullanýcý resmini sunucuda sakla
 continuously Sürekli
@@ -781,7 +784,7 @@ resetincomingfont Yazýtipi ayarýný sýfýrla (iletiyi gönderenin kullandýðý yazýti
 restartforskin Not: Kabuðu düzgünce görebilmek için aMSN'yi yeniden baþlatmanýz gerekebilir.
 retry Yeniden dene
 reversed ters
-reverselist Karþý liste
+reverselist Karþý Liste
 rightback Hemen döneceðim
 save Kaydet
 saveas Farklý kaydet
