@@ -15,6 +15,9 @@ addprofile Ajouter un nouveau profil
 addprofiledesc \nLes profils vous permettent d'avoir des configurations différentes pour chaque compte.\nSans les profils, vous ne pourrez pas utiliser l'historique, les alarmes et les recupérations de mot de passe.
 addstate Ajouter un nouveau statut
 addto Ajouter à $1
+addtoal Ajouter à LA
+addtobl Ajouter à LB
+addtofl Ajouter à LC
 addtocontacts Ajouter à mes contacts
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
@@ -35,7 +38,7 @@ allfiles Tous les fichiers
 allmonths Tous les mois
 allowallbutbl Autoriser tout le monde à me contacter sauf les personnes que j'ai bloquées
 allowbadwords Désactiver la censure des pseudonymes
-allowlist Liste des personnes autorisées:
+allowlist Liste des personnes autorisées (LA):
 allowonlyinal N'autoriser que les contacts de ma liste des personnes autorisées à me contacter
 allowseen Autoriser cette personne à me voir et à me contacter quand je suis en ligne
 allow_sms Autoriser mes contacts à me téléphoner sur mon mobile
@@ -101,7 +104,7 @@ blockinter1 Lorsque vous êtes en ligne, vérifier à chaque
 blockinter2 seconde(s), sinon vérifier à chaque:
 blockinter3 à chaque
 blockinter4 secondes.
-blocklist Liste des personnes bloquées :
+blocklist Liste des personnes bloquées (LB):
 blockmessage Ces personnes sont en ligne mais vous bloquent
 blocknotifications Désactiver l'affichage de la fenêtre d'annonces
 blocksounds Désactiver les sons
@@ -229,7 +232,7 @@ connectionlost Déconnecté[e] : la connexion avec le serveur a été perdue
 contactadded Contact ajouté
 contact Contact
 contactdoesnotexist Personne introuvable
-contactlist Liste de contacts :
+contactlist Liste de contacts (LC):
 contacts Contacts
 contentroamingsetting Héberger l'avatar sur les serveurs pour pouvoir l'utiliser n'importe où
 continuously Continuellement
@@ -716,7 +719,7 @@ prefmsging Mes fenêtres de conversation
 prefname Mon nom/pseudonyme MSN Messenger
 prefphone2 Entrer les numéros de téléphone visibles par la liste des personnes autorisées\n
 prefphone Mes numéros de téléphone
-prefprivacy2 Listes de contacts/à l'envers
+prefprivacy2 Listes de contacts/inversée
 prefprivacy Listes des personnes autorisées/bloquées
 prefprofile2 Créer ou modifier votre profil public (votre description visible par les autres)
 prefprofile3 Profils de configuration des utilisateurs d'aMSN
@@ -782,7 +785,7 @@ resetincomingfont Mettre à zéro : Utiliser la police que le contact a choisi.
 restartforskin Note : Il se peut que vous ayez à redémarrer aMSN pour que l'apparence fonctionne au mieux.
 retry Recommencer
 reversed Ordre inversé
-reverselist Liste inversée :
+reverselist Liste inversée (LI) :
 rightback Bientôt de retour
 saveas Enregistrer sous
 savechatwinsize Sauvegarder en tant que taille par défaut la taille de la fenêtre de conversation quand elle est changée.
