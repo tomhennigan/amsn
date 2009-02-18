@@ -1,0 +1,16 @@
+msn_lang_version 2
+gametttgameclosed Karþý taraf oyunu kapattý.
+gametttgamesessionwith $2 ile $1
+gametttnowinner Turu kimse kazanamadý!\nSkor $1:$2.
+gametttopponent rakip
+gametttopponentloading Lütfen bekleyin, karþý taraf oyunu yüklüyor...
+gametttopponentready Rakibiniz oyun için hazýr, baþlamak için "Baþlat"ý týklayýn.
+gametttopponentsturn rakibin sýrasý
+gametttopponentnotready Rakibin "Baþlat"ý týklamasý bekleniyor...
+gametttrestart Yeniden Baþlat
+gametttstart Baþlat
+gamettttitle Tic Tac Toe
+gametttwait Lütfen bekleyin...
+gametttwinner $1 turu kazandý!\nYeni skor $2:$3.
+gametttyou siz
+gametttyourturn SÝZÝN sýranýz

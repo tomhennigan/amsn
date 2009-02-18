@@ -49,6 +49,10 @@
 		<langcode>pt_BR</langcode>
 		<version>1.0</version>
 	</lang>
+	<lang>
+		<langcode>tr</langcode>
+		<version>11019</version>
+	</lang>
 
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/colorednicks.tcl</main>

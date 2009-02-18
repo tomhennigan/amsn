@@ -43,5 +43,42 @@
 		<langcode>lt</langcode>
 		<version>10397</version>
 	</lang>
+	<lang>
+		<langcode>tr</langcode>
+		<version>11019</version>
+	</lang>
+
+	<file>
+		<path>pixmaps/background.png</path>
+		<version>11019</version>
+	</file>
+	<file>
+		<path>pixmaps/empty_normal.png</path>
+		<version>11019</version>
+	</file>
+	<file>
+		<path>pixmaps/o_hover.png</path>
+		<version>11019</version>
+	</file>
+	<file>
+		<path>pixmaps/o_normal.png</path>
+		<version>11019</version>
+	</file>
+	<file>
+		<path>pixmaps/x_hover.png</path>
+		<version>11019</version>
+	</file>
+	<file>
+		<path>pixmaps/x_normal.png</path>
+		<version>11019</version>
+	</file>
+
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins2/MSNGameTTT/GameTTT.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/MSNGameTTT/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins2/MSNGameTTT/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins2/MSNGameTTT/$file</file>
+	</URL>
+
 
 </plugin>

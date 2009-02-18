@@ -40,6 +40,10 @@
 		<version>7652</version>
 	</lang>
 	<lang>
+		<langcode>lt</langcode>
+		<version>10407</version>
+	</lang>
+	<lang>
 		<langcode>nl</langcode>
 		<version>5519</version>
 	</lang>
@@ -52,8 +56,8 @@
 		<version>7016</version>
 	</lang>
 	<lang>
-		<langcode>lt</langcode>
-		<version>10407</version>
+		<langcode>tr</langcode>
+		<version>11019</version>
 	</lang>
 
 	<URL>

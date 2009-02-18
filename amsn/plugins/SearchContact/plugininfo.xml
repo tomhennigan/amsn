@@ -38,6 +38,10 @@
 		<langcode>lt</langcode>
 		<version>10397</version>
 	</lang>
+	<lang>
+		<langcode>tr</langcode>
+		<version>11019</version>
+	</lang>
 
 	<file>
 		<path>pixmaps/clear.png</path>
