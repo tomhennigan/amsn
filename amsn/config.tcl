@@ -439,6 +439,7 @@ namespace eval ::config {
 			[list en-bz 10249] \
 			[list en-ca 4105] \
 			[list en-cb 9225] \
+			[list en-gb 2057] \
 			[list en-ie 6153] \
 			[list en-jm 8201] \
 			[list en-nz 5129] \
@@ -481,6 +482,7 @@ namespace eval ::config {
 			[list he 1037] \
 			[list hi 1081] \
 			[list hr 1050] \
+			[list hu 1038] \
 			[list hy 1067] \
 			[list is 1039] \
 			[list id 1057] \
@@ -497,7 +499,7 @@ namespace eval ::config {
 			[list mr 1102] \
 			[list nl-nl 1043] \
 			[list nl-be 2067] \
-			[list no-no 1044] \
+			[list no-nb 1044] \
 			[list no-no 2068] \
 			[list pl 1045] \
 			[list pt-pt 2070] \
