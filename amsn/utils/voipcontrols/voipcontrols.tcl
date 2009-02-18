@@ -3,11 +3,9 @@
 package require snit
 package provide voipcontrols 0.1
 
-
+#TODO: add smthg to show we're changing the amplification. label on top/side with 100%/1000% ?
 snit::widget voipcontrol {
-
-	option -amplificationvariable -default {}
-	option -amplificationcommand -default {}
+	variable volumeshown
 
 	option -orient -default "vertical" -readonly yes
 
@@ -18,8 +16,14 @@ snit::widget voipcontrol {
 	option -state -default normal -configuremethod SetState
 
 	component volumeframe
+	component amplificationframe
 	component mutecheckbutton
 	component endcallbutton
+	component amplificationbutton
+
+	delegate option -amplificationvariable to amplificationframe as -variable
+	delegate option -amplificationcommand to amplificationbutton as -command
+	delegate option -amplificationimage to amplificationbutton as -state
 
 	delegate option -endcallimage to endcallbutton as -image
 	delegate option -endcallcommand to endcallbutton as -command
@@ -34,8 +38,8 @@ snit::widget voipcontrol {
 	delegate option -from to volumeframe
 	delegate option -to to volumeframe
 	delegate option -levelimage to volumeframe
-	delegate option -volumevariable to volumeframe
-	delegate option -volumecommand to volumeframe
+	delegate option -volumevariable to volumeframe as -variable
+	delegate option -volumecommand to volumeframe as -command
 
 	delegate method setVolume to volumeframe
 
@@ -44,16 +48,22 @@ snit::widget voipcontrol {
 	constructor {args} {
 
 		set volumeframe [soundmixervolume ${win}.volumeframe]
+		set amplificationframe [soundmixervolume ${win}.amplificationframe]
 		set buttonframe [frame ${win}.buttonframe]
 		set mutecheckbutton [mutecheckbutton ${buttonframe}.mute]
-		set endcallbutton [button ${buttonframe}.endcall -relief flat]
-		set amplificationbutton [button ${buttonframe}.amplification]
+		set endcallbutton [button ${buttonframe}.endcall]
+		set amplificationbutton [button ${buttonframe}.amplification -command "$self ToggleVolumeAmplification"]
 
 		$self configurelist $args
 		#creating volumeframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
 		destroy $volumeframe
+		destroy $amplificationframe
 		set volumeframe [soundmixervolume ${win}.volumeframe -orient $options(-orient)]
+		set amplificationframe [soundmixervolume ${win}.amplificationframe -orient $options(-orient)]
 		$self configurelist $args
+
+		pack forget ${win}.amplificationframe
+		set volumeshown 1
 
 		if { $options(-orient) == "vertical" } {
 			pack $mutecheckbutton $endcallbutton $amplificationbutton
@@ -71,6 +81,7 @@ snit::widget voipcontrol {
 		set options($option) $value
 		$win configure -background $value
 		$volumeframe configure -background $value
+		$amplificationframe configure -background $value
 		$win.buttonframe configure -background $value
 		$mutecheckbutton configure -background $value
 		$win.buttonframe.endcall configure -background $value
@@ -81,7 +92,28 @@ snit::widget voipcontrol {
 		set options($option) $value
 		#TODO
 	}
+
+	method ToggleVolumeAmplification {} {
+		if {$volumeshown} {
+			place forget $win.volumeframe
+			if {$options(-orient) == "vertical"} {
+				place $amplificationframe -width $options(-volumeframesize) -relheight 1
+			} else {
+				place $amplificationframe -height $options(-volumeframesize) -relwidth 1
+			}
+			set volumeshown 0
+		} else {
+			place forget $win.amplificationframe
+			if {$options(-orient) == "vertical"} {
+				place $volumeframe -width $options(-volumeframesize) -relheight 1
+			} else {
+				place $volumeframe -height $options(-volumeframesize) -relwidth 1
+			}
+			set volumeshown 1
+		}
+	}
 }
+
 
 snit::widgetadaptor mutecheckbutton {
 
@@ -92,7 +124,7 @@ snit::widgetadaptor mutecheckbutton {
 	option -mutevariable -default {}
 	option -mutecommand -default {}
 
-    delegate option * to hull
+	delegate option * to hull
 	delegate method * to hull
 
 	constructor {args} {
@@ -156,8 +188,8 @@ snit::widget soundmixervolume {
 	#option -levelimage -configuremethod SetLevelImage; #TODO
 	option -levelsize -default 5 -configuremethod SetLevelSize
 
-	option -volumevariable -default {}
-	option -volumecommand -default {}
+	option -variable -default {}
+	option -command -default {}
 
 	option -orient -default "vertical" -readonly yes
 
@@ -172,11 +204,11 @@ snit::widget soundmixervolume {
 
 		frame ${win}.level -background black
 
-		if {[info exists ::$options(-volumevariable)] && [set ::$options(-volumevariable)]<1 && [set ::$options(-volumevariable)] >0} {
+		if {[info exists ::$options(-variable)] && [set ::$options(-variable)]<1 && [set ::$options(-variable)] >0} {
 			if { $options(-orient) == "vertical" } {
-				place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-volumevariable)]}] -relwidth 1 -height $options(-levelsize)
+				place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-variable)]}] -relwidth 1 -height $options(-levelsize)
 			} else {
-				place ${win}.level -rely 0 -relx [set ::$options(-volumevariable)] -relheight 1 -width $options(-levelsize)
+				place ${win}.level -rely 0 -relx [set ::$options(-variable)] -relheight 1 -width $options(-levelsize)
 			}
 		} else {
 			if { $options(-orient) == "vertical" } {
@@ -209,11 +241,11 @@ snit::widget soundmixervolume {
 		if { $options(-orient) == "vertical" } {
 			set size [winfo height ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [expr {1-[set ::$options(-volumevariable)]}]
+			set rel [expr {1-[set ::$options(-variable)]}]
 		} else {
 			set size [winfo width ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [set ::$options(-volumevariable)]
+			set rel [set ::$options(-variable)]
 		}
 		if {$up == 1} {
 			set rel [expr {$rel + 0.1}]
@@ -233,16 +265,16 @@ snit::widget soundmixervolume {
 			place configure ${win}.level -relx $rel
 		}
 
-		if {[info exists ::$options(-volumevariable)]} {
+		if {[info exists ::$options(-variable)]} {
 			if { $options(-orient) == "vertical" } {
-				set ::$options(-volumevariable) [expr {1-$rel/$max}]
-				if { $options(-volumecommand) != {} } {
-					eval $options(-volumecommand) [expr {1-$rel/$max}]
+				set ::$options(-variable) [expr {1-$rel/$max}]
+				if { $options(-command) != {} } {
+					eval $options(-command) [expr {1-$rel/$max}]
 				}
 			} else {
-				set ::$options(-volumevariable) [expr {$rel/$max}]
-				if { $options(-volumecommand) != {} } {
-					eval $options(-volumecommand) [expr {$rel/$max}]
+				set ::$options(-variable) [expr {$rel/$max}]
+				if { $options(-command) != {} } {
+					eval $options(-command) [expr {$rel/$max}]
 				}
 			}
 		}
@@ -283,16 +315,16 @@ snit::widget soundmixervolume {
 			place configure ${win}.level -relx $rel
 		}
 
-		if {[info exists ::$options(-volumevariable)]} {
+		if {[info exists ::$options(-variable)]} {
 			if { $options(-orient) == "vertical" } {
-				set ::$options(-volumevariable) [expr {1-$rel/$max}]
-				if { $options(-volumecommand) != {} } {
-					eval $options(-volumecommand) [expr {1-$rel/$max}]
+				set ::$options(-variable) [expr {1-$rel/$max}]
+				if { $options(-command) != {} } {
+					eval $options(-command) [expr {1-$rel/$max}]
 				}
 			} else {
-				set ::$options(-volumevariable) [expr {$rel/$max}]
-				if { $options(-volumecommand) != {} } {
-					eval $options(-volumecommand) [expr {$rel/$max}]
+				set ::$options(-variable) [expr {$rel/$max}]
+				if { $options(-command) != {} } {
+					eval $options(-command) [expr {$rel/$max}]
 				}
 			}
 		}

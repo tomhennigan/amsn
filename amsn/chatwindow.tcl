@@ -2499,6 +2499,8 @@ namespace eval ::ChatWindow {
 		status_log "Creating CW Voip controls"
 		if {$::ChatWindow::usingnewvoipcontrols} {
 			#TODO: new skin key for endcallimage
+			#TODO: skin key for amplificationimage, maybe 2 (one pressed...)
+			#TODO: skin key for mute/unmute speakers/microphone
 			voipcontrol $frame_in -orient vertical \
 				-bg [::skin::getKey chatwindowbg]\
 				-endcallimage [::skin::loadPixmap buthangup] \
