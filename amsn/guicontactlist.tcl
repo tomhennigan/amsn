@@ -1065,6 +1065,7 @@ namespace eval ::guiContactList {
 		set truncable [list [list "size" [font measure $font_attr -displayof $canvas $ellips]]]
 		set tofill [list ]
 		set max_height [expr {[font metrics $font_attr -linespace]+$marginy}]
+		set max_height_image 0
 
 		lappend text [list "newline" "\n"]
 		foreach unit $text {
@@ -1084,6 +1085,10 @@ namespace eval ::guiContactList {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
 					lappend linewidth [image width [lindex $unit 1]]
+					set height [image height [lindex $unit 1]]
+					if {$height > $max_height_image} {
+						set max_height_image $height
+					}
 				}
 				"smiley" {
 					if {$truncflag} {
@@ -1181,9 +1186,9 @@ namespace eval ::guiContactList {
 		#Because anchor is w
 		set yori [expr {[lindex $linesheight 0]/2}]
 		set yposimage $yori
-		
+
 		if {$detailed_view} {
-			set ypos [expr {-1 * $yori}]
+			set ypos [expr {[lindex $linesheight 0] - ($max_height_image/2)}]
 		} else {
 			set ypos $yori
 		}
@@ -1617,7 +1622,7 @@ namespace eval ::guiContactList {
 					$img copy [::skin::loadPixmap notinlist_emblem]
 				}
 			} else {
-				$img copy [::skin::getLittleDisplayPicture $email 57]
+				$img copy [::skin::getLittleDisplayPicture $email 60]
 				
 				#set the blocked emblem if the user is blocked
 				if { [::MSN::userIsBlocked $email] } {
@@ -2795,7 +2800,7 @@ namespace eval ::guiContactList {
 		if {[::config::getKey show_detailed_view]} {
 			foreach element [getContactList full] {
 				if {[lindex $element 0] eq "C" } {
-					::skin::getLittleDisplayPicture [lindex $element 1] 57 1
+					::skin::getLittleDisplayPicture [lindex $element 1] 60 1
 				}
 			}
 		} else {
