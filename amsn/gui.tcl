@@ -2618,14 +2618,16 @@ namespace eval ::amsn {
 
 		#compute the size of the frame
 		if {[::config::getKey ShowTopPicture 0] == 1 } {
-			if {[winfo exists $f.voip.volume] && $max_width <100} {
+			if {[winfo exists $f.voip] && $max_width <100} {
 				set max_width 100
+				$f.voip configure -width 100
 			}
 			incr max_width [image width [::skin::loadPixmap imghide]]
 		} else {
 			set max_width 0
-			if {[winfo exists $f.voip.volume] && $max_width <100} {
+			if {[winfo exists $f.voip] && $max_width <100} {
 				set max_width 100
+				$f.voip configure -width 100
 			}
 			incr max_width [image width [::skin::loadPixmap imgshow]]
 		}
@@ -2711,6 +2713,7 @@ namespace eval ::amsn {
 		set width [expr {96 + (2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imghide]])}]
 		if {[winfo exists $f.voip] && $width <100} {
 			set width 100
+			$f.voip configure -width 100
 		}
 		[winfo parent $f] configure -width $width
 
@@ -2735,6 +2738,7 @@ namespace eval ::amsn {
 		set width [expr {2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imgshow]]}]
 		if {[winfo exists $f.voip] && $width <100} {
 			set width 100
+			$f.voip configure -width 100
 		}
 		[winfo parent $f] configure -width $width
 
