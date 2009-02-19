@@ -203,8 +203,6 @@ namespace eval ::smiley {
 			#error loading emoticon, just flag it as unreachable
 			set emotion(reachable) 0
 		} else {
-			set emotion(preview) [image create photo emoticonCustom_preview_$emotion(text)]
-			$emotion(preview) copy emoticonCustom_std_$emotion(text)
 			set emotion(reachable) 1
 
 			# Make sure the smiley is max 50x50
@@ -760,7 +758,7 @@ namespace eval ::smiley {
 			set animated [expr {$emotion(animated) && [::config::getKey animatedsmileys 0]}]
 			
 			CreateSmileyInMenu $w.c $cols $rows $smiw $smih \
-				$emot_num $name [lindex $emotion(text) 0] $emotion(preview) [PathRelToAbs $emotion(file)] $animated $emotion(reachable)
+				$emot_num $name [lindex $emotion(text) 0] $emotion(image_name) [PathRelToAbs $emotion(file)] $animated $emotion(reachable)
 	
 			incr emot_num
 		}
@@ -1125,8 +1123,6 @@ namespace eval ::smiley {
 		
 		
 		set emotion(image_name) [image create photo emoticonCustom_std_$emotion(text) -file $emotion(file) -format cximage]
-		set emotion(preview) [image create photo emoticonCustom_preview_$emotion(text)]
-		$emotion(preview) copy emoticonCustom_std_$emotion(text)
 
 		set custom_emotions($name) [array get emotion]
 
