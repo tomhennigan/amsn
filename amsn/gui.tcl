@@ -4011,127 +4011,125 @@ namespace eval ::amsn {
 				default { continue }
 			}
 
-		#By default tagid=tagname unless we generate a new one
-		set tagid $tagname
+			#By default tagid=tagname unless we generate a new one
+			set tagid $tagname
 
-		if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
+			if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
 
-			if { $tagid == "says" && [::config::getKey strictfonts] == 0 } {
-				set size [lindex [::config::getGlobalKey basefont] 1]
-			} else {
-				set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
+				if { $tagid == "says" && [::config::getKey strictfonts] == 0 } {
+					set size [lindex [::config::getGlobalKey basefont] 1]
+				} else {
+					set size [expr {[lindex [::config::getGlobalKey basefont] 1]+[::config::getKey textsize]}]
+				}
+
+				# We'd rather avoid letting the system use 'fixed' whenever the font is not available, because it's THE ugliest...
+				# 7:44 <@azbridge> <Cameron> So, in the short term, you're rather stuck with [font families].  Maybe you can help make a better answer for a future release of Tk, though.
+				if { $tagid == "user" } {
+					set fontname [urldecode $fontname]
+					set font "bplainf"
+					foreach listed_font [string trim [split $fontname ","]] {
+						if { [info exists ::allfonts([string tolower $listed_font])] } {
+							#status_log "font $listed_font found!"
+							set font "\"$listed_font\" $size $fontstyle"
+							break
+						}
+					}
+				} else {
+					set font "\"$fontname\" $size $fontstyle"
+				}
+				set tagid [::md5::md5 "$font$fontcolor"]
+
+				if { ([string length $fontname] < 3 ) ||
+				     ([catch {$textw tag configure $tagid -foreground "#$fontcolor" -background $fontbg -font $font} res])} {
+					status_log "Font $font or color $fontcolor wrong. Using default\n" red
+					$textw tag configure $tagid -foreground black -font bplainf
+				}
 			}
 
-			# We'd rather avoid letting the system use 'fixed' whenever the font is not available, because it's THE ugliest...
-			# 7:44 <@azbridge> <Cameron> So, in the short term, you're rather stuck with [font families].  Maybe you can help make a better answer for a future release of Tk, though.
-			if { $tagid == "user" } {
-				set fontname [urldecode $fontname]
-				set font "bplainf"
-				foreach listed_font [string trim [split $fontname ","]] {
-					if { [info exists ::allfonts([string tolower $listed_font])] } {
-						#status_log "font $listed_font found!"
-						set font "\"$listed_font\" $size $fontstyle"
-						break
+			set evPar(msg) txt
+			::plugins::PostEvent WinWrite evPar
+		
+			$textw roinsert end "$txt" $tagid
+		
+			if {$tagname ne "says"} {
+				#TODO: Make an url_subst procedure, and improve this using regular expressions
+				variable urlcount
+				variable urlstarts
+				
+				set endpos $text_start
+				foreach url $urlstarts {
+					while { $endpos != [$textw index end] && [set pos [$textw search -forward -exact -nocase \
+											       $url $endpos end]] != "" } {
+						
+						set urltext [$textw get $pos end]
+								 
+						set final 0
+						set caracter [string range $urltext $final $final]
+						while { $caracter != " " && $caracter != "\n" } {
+							set final [expr {$final+1}]
+							set caracter [string range $urltext $final $final]
+						}
+						
+						set urltext [string range $urltext 0 [expr {$final-1}]]
+						
+						set posyx [split $pos "."]
+						set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $final}]"
+						
+						set urlcount "[expr {$urlcount+1}]"
+						set urlname "url_$urlcount"
+						
+						$textw tag configure $urlname \
+						    -foreground "#000080" -font splainf -underline true
+						$textw tag bind $urlname <Enter> \
+						    "$textw tag conf $urlname -underline false; $textw conf -cursor hand2"
+						$textw tag bind $urlname <Leave> \
+						    "$textw tag conf $urlname -underline true; $textw conf -cursor xterm"
+						$textw tag bind $urlname <<Button1>> \
+						    "$textw conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
+						$textw tag bind $urlname <<Button3>> [list ::amsn::SelectUrl $textw $urlname]
+								 
+						$textw rodelete $pos $endpos
+						$textw roinsert $pos "$urltext" $urlname
+
+						#Don't replace smileys in URLs
+						$textw tag add dont_replace_smileys ${urlname}.first ${urlname}.last
 					}
 				}
-			} else {
-				set font "\"$fontname\" $size $fontstyle"
-			}
-			set tagid [::md5::md5 "$font$fontcolor"]
-
-			if { ([string length $fontname] < 3 )
-					|| ([catch {$textw tag configure $tagid -foreground #$fontcolor -background $fontbg -font $font} res])} {
-				status_log "Font $font or color $fontcolor wrong. Using default\n" red
-				$textw tag configure $tagid -foreground black -font bplainf
-			}
-		}
-
-		set evPar(msg) txt
-		::plugins::PostEvent WinWrite evPar
-		
-		$textw roinsert end "$txt" $tagid
-		
-		if {$tagname ne "says"} {
-		#TODO: Make an url_subst procedure, and improve this using regular expressions
-		variable urlcount
-		variable urlstarts
-
-		set endpos $text_start
-		foreach url $urlstarts {
-			while { $endpos != [$textw index end] && [set pos [$textw search -forward -exact -nocase \
-				$url $endpos end]] != "" } {
-
-				set urltext [$textw get $pos end]
-
-				set final 0
-				set caracter [string range $urltext $final $final]
-				while { $caracter != " " && $caracter != "\n" } {
-					set final [expr {$final+1}]
-					set caracter [string range $urltext $final $final]
-				}
-
-				set urltext [string range $urltext 0 [expr {$final-1}]]
-
-				set posyx [split $pos "."]
-				set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $final}]"
-
-				set urlcount "[expr {$urlcount+1}]"
-				set urlname "url_$urlcount"
-
-				$textw tag configure $urlname \
-				-foreground #000080 -font splainf -underline true
-				$textw tag bind $urlname <Enter> \
-				"$textw tag conf $urlname -underline false;\
-				$textw conf -cursor hand2"
-				$textw tag bind $urlname <Leave> \
-				"$textw tag conf $urlname -underline true;\
-				$textw conf -cursor xterm"
-				$textw tag bind $urlname <<Button1>> \
-				"$textw conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
-				$textw tag bind $urlname <<Button3>> [list ::amsn::SelectUrl $textw $urlname]
-
-				$textw rodelete $pos $endpos
-				$textw roinsert $pos "$urltext" $urlname
-
-				#Don't replace smileys in URLs
-				$textw tag add dont_replace_smileys ${urlname}.first ${urlname}.last
-			}
-		}
-		}
-		
-		#Avoid problems if the windows was closed in the middle...
-		if {![winfo exists $win_name]} { return }
-
-		if {[::config::getKey chatsmileys]} {
-			if {($tagname ne "says") && ([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
-				custom_smile_subst $chatid $textw $text_start end
 			}
 			
-			#we need to call those procs only if the "txt" value is not empty (it means that we are writing in chatwindow in the old method, and so we need to parse all the "txt" value) or if the "unit 0" value is smiley (new method).
-			if {$check_always_smiley || $user == [string tolower [::config::getKey login]] ||([lindex $unit 0] eq "smiley") } {
-				#Replace smileys... if you're sending custom ones, replace them too (last parameter)
-				if { $user == [string tolower [::config::getKey login]] } {
-					::smiley::substSmileys $textw $text_start end 0 1
-					#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
-				} else {
-					::smiley::substSmileys $textw $text_start end 0 0
+			#Avoid problems if the windows was closed in the middle...
+			if {![winfo exists $win_name]} { return }
+
+			if {[::config::getKey chatsmileys]} {
+				if {($tagname ne "says") && ([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
+					custom_smile_subst $chatid $textw $text_start end
 				}
+				
+				#we need to call those procs only if the "txt" value is not empty (it means that we are writing in chatwindow in the old method, and so we need to parse all the "txt" value) or if the "unit 0" value is smiley (new method).
+				if {$check_always_smiley || $user == [string tolower [::config::getKey login]] ||([lindex $unit 0] eq "smiley") } {
+					#Replace smileys... if you're sending custom ones, replace them too (last parameter)
+					if { $user == [string tolower [::config::getKey login]] } {
+						::smiley::substSmileys $textw $text_start end 0 1
+						#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
+					} else {
+						::smiley::substSmileys $textw $text_start end 0 0
+					}
+				}
+				
 			}
 			
-		}
-
 		} ;#end of foreach
 
 		if { $scrolling } { ::ChatWindow::Scroll $textw }
-		
+				     
 		if { $flicker } {
 			::ChatWindow::Flicker $chatid
 		}
-
+				     
 		after cancel [list set ::ChatWindow::recent_message($win_name) 0]
 		set ::ChatWindow::recent_message(${win_name}) 1
 		after 2000 [list set ::ChatWindow::recent_message($win_name) 0]
-
+				     
 		::plugins::PostEvent WinWritten evPar
 	}
 	#///////////////////////////////////////////////////////////////////////////////
