@@ -3713,7 +3713,7 @@ namespace eval ::amsn {
 
 		if {![string equal $msg ""]} {
 			if {[::config::getKey colored_text_in_cw] == 1} {
-				set msg_parsing [::smiley::parseMessageToList [list [ list "text" "$message" ]]]
+				set msg_parsing [::smiley::parseMessageToList [list [ list "text" "$message" ]] 0 1 1]
 				set evpar(variable) msg_parsing
 				set evpar(login) $user
 				::plugins::PostEvent parse_contact evpar

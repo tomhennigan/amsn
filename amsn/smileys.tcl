@@ -510,13 +510,14 @@ namespace eval ::smiley {
 
 	#//////////////////////////////////////////////////////////////////
 	#proc that changes a string into a list with seperated text/smileys
-	proc parseMessageToList { name {contact_list 0} {include_custom 0} } {
+	# TODO : WTF! This is a copy paste of substSmiley.. code should NOT be duplicated!
+	# TODO : contact_list variable is about playing sound, not about including smileys..
+	proc parseMessageToList { name {contact_list 0} {play_sounds 0} {include_custom 0} } {
 		global emotions
 		global custom_emotions
 		variable sortedemotions
 
-		#This is a poor place for sort smileys should be done only when adding new smileys to the list?
-		#SortSmileys
+		SortSmileys
 
 		set llength [llength $name]
 		set l $name
@@ -525,7 +526,6 @@ namespace eval ::smiley {
 		set foreachlist [list ]
 
 		if { [::config::getKey listsmileys] || !$contact_list } {
-			SortSmileys
 			set foreachlist [concat $foreachlist $sortedemotions]
 		}
 
@@ -555,13 +555,13 @@ namespace eval ::smiley {
 					}
 					
 					if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)]} {
-						set nocase "-exact"
+						set nocase 0
 					} else {
-						set nocase "-nocase"
+						set nocase 1
 					}
 		
 					set animated [expr {[info exists emotion(animated)] && [is_true $emotion(animated)]}]
-					if { $contact_list == 0 && [info exists emotion(sound)] && $emotion(sound) != "" } {
+					if { $play_sounds && [info exists emotion(sound)] && $emotion(sound) != "" } {
 						set sound [PathRelToAbs $emotion(sound)]
 					} else {
 						set sound ""
@@ -591,7 +591,7 @@ namespace eval ::smiley {
 				}
 	
 				set animated [ValueForSmiley $emotion_name animated 1]
-				if { $contact_list == 0 && [ValueForSmiley $emotion_name sound] != "" } {
+				if { $play_sounds && [ValueForSmiley $emotion_name sound] != "" } {
 					set sound [ValueForSmiley $emotion_name sound]
 				} else {
 					set sound ""
