@@ -1604,6 +1604,13 @@ namespace eval ::MSN {
 				return 0
 			}
 		}
+		if {$cap == "p2pv2" } {
+			if {[llength [split $clientid ":"]] > 1} {
+				return 1
+			} else {
+				return 0
+			}
+		}
 
 		if {$flag != 0} {
 			if {($clientid & $flag) == $flag} {
