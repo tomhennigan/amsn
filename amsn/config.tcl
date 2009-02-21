@@ -1079,18 +1079,22 @@ proc LoadLoginList {{trigger 0}} {
 		set temp_data [split $tmp_data]
 
 		set user_login [lindex $tmp_data 0]
+		set dirname [string map {"@" "_" "." "_"} $user_login]
 		set locknum [lindex $tmp_data 1]
 		if {[string first "@" $user_login] == -1} {
 			status_log "Profile $user_login is wrong!! Fixing\n" red
 			#Profile is wrong, fix it from config file
 			set oldHOME $HOME
-			set dirname [string map {"@" "_" "." "_"} $user_login]
-			set HOME [file join $HOMEE $dirname]
+			set HOME [file join $HOME2 $dirname]
 			load_config
 			set user_login [::config::getKey login]
 			set HOME $oldHOME
 		}
 
+		if {![file exists [file join $HOME2 $dirname]] || ![file isdirectory [file join $HOME2 $dirname]] || ![file exists [file join $HOME2 $dirname config.xml]]} {
+			#skip login if profile dir doesn't exist or config.xml is missing
+			continue
+		}
 
 #	    puts "temp data : $temp_data"
 		if { $locknum == "" } {
@@ -1484,35 +1488,71 @@ proc CreateProfile { email } {
 	#set dirname [split $email "@ ."]
 	#set dirname [join $dirname "_"]
 	set HOME "[file join $HOME2 $dirname]"
-	create_dir $HOME
-	set log_dir "[file join ${HOME} logs]"
-	create_dir $log_dir
-	set webcam_dir "[file join ${HOME} webcam]"
-	create_dir $webcam_dir
+	if {![file exists $HOME] || ![file exists [file join $HOME config.xml]]} {
+		status_log "profile doesn't exist -> create it!" blue
 
-	# Load default config initially
-	# file copy -force [file join $HOME2 config.xml] $newHOMEdir
+		create_dir $HOME
+		set log_dir "[file join ${HOME} logs]"
+		create_dir $log_dir
+		set webcam_dir "[file join ${HOME} webcam]"
+		create_dir $webcam_dir
 
-	set oldpassword $password
-	set oldsavepwd [::config::getKey save_password]
-	set oldautoconnect [::config::getKey autoconnect 0]
+		# Load default config initially
+		# file copy -force [file join $HOME2 config.xml] $newHOMEdir
 
-	# set all config keys to default
-	::config::configDefaults
+		set oldpassword $password
+		set oldsavepwd [::config::getKey save_password]
+		set oldautoconnect [::config::getKey autoconnect 0]
 
-	# re-set login, password an remember password value before saving
-	::config::setKey login $email
-	set password $oldpassword
-	::config::setKey save_password $oldsavepwd
-	::config::setKey autoconnect $oldautoconnect
-	save_config
+		# set all config keys to default
+		::config::configDefaults
 
-	unset oldpassword
-	unset oldsavepwd
-	unset oldautoconnect
+		# re-set login, password an remember password value before saving
+		::config::setKey login $email
+		set password $oldpassword
+		::config::setKey save_password $oldsavepwd
+		::config::setKey autoconnect $oldautoconnect
+		save_config
+
+		unset oldpassword
+		unset oldsavepwd
+		unset oldautoconnect
+	} else {
+		status_log "profile already exists -> skip creating!" blue
+
+		set oldpassword $password
+		set oldsavepwd [::config::getKey save_password]
+		set oldautoconnect [::config::getKey autoconnect 0]
+
+		# set all config keys to default
+		::config::configDefaults
+
+		#load settings
+		load_config
+
+		set password $oldpassword
+		::config::setKey save_password $oldsavepwd
+		::config::setKey autoconnect $oldautoconnect
+		save_config
+
+		unset oldpassword
+		unset oldsavepwd
+		unset oldautoconnect
+	}
 
 	# Add to login list
 	LoginList add 0 $email 0
+
+	# Make sure we delete old lock
+	if { [info exists lockSock] } {
+		if { $lockSock != 0 } {
+			close $lockSock
+			unset lockSock
+		}
+	}
+
+	#Lock profile
+	LockProfile $email
 	SaveLoginList
 
 	# Fire event
