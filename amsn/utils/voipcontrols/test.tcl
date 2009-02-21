@@ -1,7 +1,7 @@
 #!/usr/bin/env wish
 
 lappend auto_path "../"
-package require voipcontrol
+package require voipcontrols
 
 
 #wm attributes
