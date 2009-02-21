@@ -1079,10 +1079,6 @@ namespace eval ::guiContactList {
 						lappend truncable [list "id" [llength $linewidth]]
 					}
 					lappend linewidth [font measure $font_attr -displayof $canvas [lindex $unit 1]]
-					set height [expr {[font metrics $font_attr -linespace] + $marginy}]
-					if {$height > $max_height} {
-						set max_height $height
-					}
 				}
 				"image" {
 					if {$truncflag} {
@@ -1123,26 +1119,33 @@ namespace eval ::guiContactList {
 					#background
 				}
 				"font" {
-					#We add to the list the size of ellipsis for last format
-					lappend truncable [list "size" [font measure $font_attr -displayof $canvas $ellips]]
-					#We must take in account fonts as they modifies the width of text
-					if { [llength [lindex $unit 1]] == 1 } {
-						if { [lindex $unit 1] == "reset" } {
-							set font_attr [font configure $defaultfont]
-						} else {
-							set font_attr [font configure [lindex $unit 1]]
-						}
-					} else {
-						array set current_format $font_attr
-						array set modifications [lindex $unit 1]
-						foreach key [array names modifications] {
-							set current_format($key) [set modifications($key)]
-							if { [set current_format($key)] == "reset" } {
-								set current_format($key) \
-									[font configure $defaultfont $key]
+					if {[lindex [lindex $unit 1] 0] ne "-underline" && [lindex [lindex $unit 1] 0] ne "-overstrike"} {
+						#We add to the list the size of ellipsis for last format
+						lappend truncable [list "size" [font measure $font_attr -displayof $canvas $ellips]]
+						#We must take in account fonts as they modifies the width of text
+						if { [llength [lindex $unit 1]] == 1 } {
+							if { [lindex $unit 1] == "reset" } {
+								set font_attr [font configure $defaultfont]
+							} else {
+								set font_attr [font configure [lindex $unit 1]]
 							}
+						} else {
+							array set current_format $font_attr
+							array set modifications [lindex $unit 1]
+							foreach key [array names modifications] {
+								set current_format($key) [set modifications($key)]
+								if { [set current_format($key)] == "reset" } {
+									set current_format($key) \
+										[font configure $defaultfont $key]
+								}
+							}
+							set font_attr [array get current_format]
 						}
-						set font_attr [array get current_format]
+						
+						set height [expr {[font metrics $font_attr -linespace] + $marginy}]
+						if {$height > $max_height} {
+							set max_height $height
+						}
 					}
 				}
 				"default" {
@@ -1220,6 +1223,8 @@ namespace eval ::guiContactList {
 		set j 1
 
 		set linewidth [lindex $lineswidth $i]
+		
+		incr ypos $marginy
 
 		foreach unit $text {
 			set size [lindex $linewidth $j]
@@ -1232,36 +1237,38 @@ namespace eval ::guiContactList {
 					# Check if it's really containing text or has a good size, if not, do nothing
 					if {$textpart != "" && $size != 0} {
 	
+						set textwidth [font measure $font_attr -displayof $canvas $textpart]
+	
 						# Check if text is not too long and should be truncated, then
 						# first truncate it and restore it in $textpart and set the linefull
-						if {[font measure $font_attr -displayof $canvas $textpart] > $size} {
+						if {$textwidth > $size} {
 							set textpart [::guiContactList::truncateText $textpart \
 								[expr {$size-[font measure $font_attr -displayof $canvas $ellips]}] \
 								$font_attr]
 
 							set textpart "$textpart$ellips"
+							
+							set textwidth [font measure $font_attr -displayof $canvas $textpart]
 						}
 	
 						# Draw the text
-						$canvas create text $xpos [expr {$ypos + $marginy}] -text $textpart \
+						$canvas create text $xpos $ypos -text $textpart \
 							-anchor w -fill $colour -font $font_attr -tags $tags
-
-						set textwidth [font measure $font_attr -displayof $canvas $textpart]
-
+						
 						if {$underlinename != ""} {
 							# Append underline coords
-							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							set yunderline [expr {$ypos - $yori + $textheight + 1}]
 							lappend underlinearr($underlinename) \
 								[list $xpos $yunderline $textwidth $colour]
 						}
 						
 						if {$underline_yes} {
-							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							set yunderline [expr {$ypos - $yori + $textheight + 1}]
 							lappend list_underline [list $xpos $yunderline $textwidth $colour]
 						}
 
 						if {$overstrike_yes} {
-							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							set yunderline [expr {$ypos - $yori + $textheight + 1}]
 							set yunderline [expr { $yunderline / 2}]
 							lappend list_overstrike [list $xpos $yunderline $textwidth $colour]
 						}
@@ -1274,18 +1281,18 @@ namespace eval ::guiContactList {
 					set imagename [lindex $unit 1]
 					if { [image width $imagename] <= $size } {
 						# Draw the image
-						$canvas create image $xpos [expr {$ypos + $marginy}] \
+						$canvas create image $xpos $ypos \
 							-image $imagename -anchor w -tags $tags
 						# Change the coords
 						incr xpos [image width $imagename]
 					} elseif { $size > 0 } {
-						$canvas create text $xpos [expr {$ypos + $marginy}] -text $ellips \
+						$canvas create text $xpos $ypos -text $ellips \
 							-anchor w -fill $colour -font $font_attr -tags $tags
 						set textwidth [font measure $font_attr -displayof $canvas $ellips]
 
 						if {$underlinename != ""} {
 							# Append underline coords
-							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							set yunderline [expr {$ypos - $yori + $textheight + 1}]
 							lappend underlinearr($underlinename) \
 								[list $xpos $yunderline $textwidth $colour]
 						}
@@ -1301,7 +1308,7 @@ namespace eval ::guiContactList {
 							set bg_cl [lindex $unit 1]
 						}
 					} else {
-						set yunder [expr {$ypos - $yori + $marginy + $textheight}]
+						set yunder [expr {$ypos - $yori + $textheight}]
 						lappend list_bg [list $bg_x $ypos $xpos $yunder $textheight $bg_cl]
 
 						set bg_cl [lindex $unit 1]
@@ -1323,13 +1330,13 @@ namespace eval ::guiContactList {
 						# Change the coords
 						incr xpos [image width $imagename]
 					} elseif { $size > 0 } {
-						$canvas create text $xpos [expr {$ypos + $marginy}] -text $ellips \
+						$canvas create text $xpos $ypos -text $ellips \
 							-anchor w -fill $colour -font $font_attr -tags $tags
 						set textwidth [font measure $font_attr -displayof $canvas $ellips]
 
 						if {$underlinename != ""} {
 							# Append underline coords
-							set yunderline [expr {$ypos - $yori + $marginy + $textheight + 1}]
+							set yunderline [expr {$ypos - $yori + $textheight + 1}]
 							lappend underlinearr($underlinename) \
 								[list $xpos $yunderline $textwidth $colour]
 						}
@@ -1391,39 +1398,36 @@ namespace eval ::guiContactList {
 						} else {
 							set underline_yes 0
 						}
-					}
-					
-					if {[lindex [lindex $unit 1] 0] eq "-overstrike"} {
+					} elseif {[lindex [lindex $unit 1] 0] eq "-overstrike"} {
 						if {[lindex [lindex $unit 1] 1] == 1} {
 							set overstrike_yes 1
 						} else {
 							set overstrike_yes 0
 						}
-					}
-					
-					
-					if { [llength [lindex $unit 1]] == 1 } {
-						if { [lindex $unit 1] == "reset" } {
-							set font_attr [font configure $defaultfont]
-							set underline_yes 0
-							set overstrike_yes 0
-						} else {
-							set font_attr [font configure [lindex $unit 1]]
-						}
 					} else {
-						array set current_format $font_attr
-						array set modifications [lindex $unit 1]
-						foreach key [array names modifications] {
-							set current_format($key) [set modifications($key)]
-							if { [set current_format($key)] == "reset" } {
-								set current_format($key) \
-									[font configure $defaultfont $key]
+						if { [llength [lindex $unit 1]] == 1 } {
+							if { [lindex $unit 1] == "reset" } {
+								set font_attr [font configure $defaultfont]
+								set underline_yes 0
+								set overstrike_yes 0
+							} else {
+								set font_attr [font configure [lindex $unit 1]]
 							}
+						} else {
+							array set current_format $font_attr
+							array set modifications [lindex $unit 1]
+							foreach key [array names modifications] {
+								set current_format($key) [set modifications($key)]
+								if { [set current_format($key)] == "reset" } {
+									set current_format($key) \
+										[font configure $defaultfont $key]
+								}
+							}
+							set font_attr [array get current_format]
 						}
-						set font_attr [array get current_format]
+						#The text is placed at the middle of coords because anchor is w so we use only the half of the size
+						set textheight [expr {[font metrics $font_attr -displayof $canvas -linespace]/2}]
 					}
-					#The text is placed at the middle of coords because anchor is w so we use only the half of the size
-					set textheight [expr {[font metrics $font_attr -displayof $canvas -linespace]/2}]
 				}
 				"default" {
 					set nosize 1
@@ -1449,10 +1453,11 @@ namespace eval ::guiContactList {
 					set nosize 1
 					set marginx [lindex $unit 1]
 					set marginy [lindex $unit 2]
+					incr ypos $marginy
 				}
 				"mark" {
 					set nosize 1
-					$canvas create text $xpos [expr {$ypos + $marginy}] -anchor w -tags $tags
+					$canvas create text $xpos $ypos -anchor w -tags $tags
 				}
 				"newline" {
 					set nosize 1
