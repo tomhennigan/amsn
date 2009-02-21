@@ -15,7 +15,10 @@ addprofile Nieuw profiel toevoegen
 addprofiledesc Geef de aanmeldingsnaam waarvoor je een nieuw profiel wilt aanmaken.\nProfielen maken het mogelijk verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kun je geen wachtwoorden bewaren, gesprekken opslaan in logboeken of alarmen instellen.
 addstate Nieuwe status toevoegen
 addto Toevoegen aan $1
+addtoal Toevoegen aan AL
+addtobl Toevoegen aan BL
 addtocontacts Toevoegen aan contactenlijst
+addtofl Toevoegen aan FL
 addtoo Deze persoon toevoegen als nieuw contact
 admincontacts Contacten beheren
 admingroups Groepen beheren
@@ -33,12 +36,12 @@ alarms Alarmen
 alarmstatus Alarm inschakelen voor deze gebruiker
 allfiles Alle bestanden
 allmonths Alle maanden
-allowallbutbl Iedereen die ik niet heb geblokkeerd mag contact met mij opnemen
+allowallbutbl Alle gebruikers die ik niet heb geblokkeerd mogen contact met mij opnemen
 allowbadwords Ongecensureerde schermnamen tonen
 allowlist [AL] Geaccepteerd
-allowonlyinal Alleen personen die ik heb geaccepteerd kunnen contact met mij opnemen
-allowseen Deze persoon toestaan om te zien of ik online ben en contact met mij op te nemen
-allow_sms Anderen toestaan mij een SMS-bericht te sturen
+allowonlyinal Alleen personen die ik heb geaccepteerd mogen contact met mij opnemen
+allowseen Deze persoon mag zien of ik online ben en contact met mij opnemen
+allow_sms Anderen mogen mij een SMS-bericht sturen
 allprofilesinuse Alle bestaande profielen zijn op dit moment in gebruik
 always Altijd
 animatedemoticon Dit is een bewegende emoticon
@@ -84,7 +87,7 @@ avaccepted Videoconferentie-uitnodiging geaccepteerd
 avcanceled Videoconferentie-uitnodiging geannuleerd
 avgotinvitation $1 nodigt je uit voor een videoconferentie
 avinitfailed Initialisatie van de audio-/videoplug-in mislukt. Uitnodiging geannuleerd
-avoidseen Deze persoon niet toestaan om te zien of ik online ben en contact met mij op te nemen
+avoidseen Deze persoon mag niet zien of ik online ben en geen contact met mij opnemen
 away Afwezig
 awaymsg1 Altijd om een afwezigheidsbericht vragen als ik mijn status wijzig in Afwezig/Ben zo terug/Bezet
 awaymsg2 Nooit vragen en altijd het onderstaande afwezigheidsbericht gebruiken
@@ -313,7 +316,7 @@ done Voltooid
 dontaskweek Update gedurende een week niet meer vragen
 dontdownload TLS niet downloaden, ik installeer het zelf
 dontshow Niet tonen
-dontshowdp Dit contact niet toestaan om mijn nieuwe schermafbeeldingen te downloaden
+dontshowdp Dit contact mag geen nieuwe schermafbeeldingen van mij downloaden
 download Downloaden
 downloadcanceled Download geannuleerd.
 downloadingtls Bezig met downloaden van TLS vanaf:\n $1
