@@ -1308,8 +1308,7 @@ namespace eval ::guiContactList {
 							set bg_cl [lindex $unit 1]
 						}
 					} else {
-						set yunder [expr {$ypos - $yori + $textheight}]
-						lappend list_bg [list $bg_x $ypos $xpos $yunder $textheight $bg_cl]
+						lappend list_bg [list $bg_x $ypos $xpos $bg_cl]
 
 						set bg_cl [lindex $unit 1]
 						if {$bg_cl eq "reset"} {
@@ -1489,7 +1488,7 @@ namespace eval ::guiContactList {
 		}
 		
 		if {$list_bg ne ""} {
-			background_text $canvas $list_bg $main_tag
+			background_text $canvas $list_bg $textheight $main_tag
 		}
 		
 		return [array get underlinearr]
@@ -2362,30 +2361,17 @@ namespace eval ::guiContactList {
 	}
 
 
-	proc background_text { canvas lines nicktag} {
-		set poslist [$canvas coords [lindex $nicktag 0]]
-		set xpos [lindex $poslist 0]
-		set ypos [lindex $poslist 1]
-
-		#if we are using the detailed view
-		if {[lindex [lindex $lines 0] 1] < 0} {
-			set margin_y [expr {[lindex [lindex $lines 0] 1] * -2 + 1}]
-		} else {
-			set margin_y 0
-		}
-
+	proc background_text { canvas lines textheight nicktag} {
 		set tag [lindex $nicktag 0]
 		set bgtag "bg$tag"
 		
 		foreach line $lines {
-			set textheight [lindex $line 4]
 			$canvas create rect\
-				[expr { [lindex $line 0] + $xpos } ] \
-				[expr { [lindex $line 1] - ($textheight*2) + $ypos + $margin_y} ] \
+				[lindex $line 0] \
+				[expr { [lindex $line 1] - $textheight} ] \
 				[lindex $line 2]\
-				[expr { [lindex $line 3] + $ypos + $margin_y} ] \
-				-fill [lindex $line 5] \
-				-outline "" \
+				[expr { [lindex $line 1] + $textheight} ] \
+				-fill [lindex $line 3] -outline "" \
 				-tags [list $bgtag $tag contact bg]
 		}
 		
@@ -2414,7 +2400,7 @@ namespace eval ::guiContactList {
 		if {$opt ne "ov"} {
 			#if we are using the detailed view
 			if {[lindex [lindex $lines 0] 1] < 0} {
-				set margin_y [expr {[lindex [lindex $lines 0] 1] * -2 + 1}]
+				set margin_y [expr {-$ypos - ([lindex [lindex $lines 0] 1] * 2)  + 1}]
 			} else {
 				set margin_y 0
 			}
