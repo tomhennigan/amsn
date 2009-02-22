@@ -15,6 +15,9 @@ addprofile Pridėti naują profilį
 addprofiledesc Įveskite prisijungimo duomenis, kuriais norėsite sukurti naują profilį. \nProfiliai leis jums turėti skirtingus nustatymus atskiruose prisijungimuose.\nBe profilių, negalėsite naudotis istorija, garsais ir „Prisiminti slaptažodį“ funkcijomis.
 addstate Pridėti naują būseną
 addto Pridėti į $1
+addtoal Pridėti į PS
+addtobl Pridėti į JS
+addtofl Pridėti į KS
 addtocontacts Pridėti į kontaktų sąrašą
 addtoo Pridėti šį asmenį į mano kontaktų sąrašą
 admincontacts Admino kontaktai
@@ -35,7 +38,7 @@ allfiles Visos rinkmenos
 allmonths Visi mėnesiai
 allowallbutbl Leisti visiems vartotojams pasiekti mane, išskyrus tuos, kurie užblokuoti
 allowbadwords Uždrausti cenžūrą slapyvardžiuose
-allowlist Priimtųjų sąrašas (AL):
+allowlist Priimtųjų sąrašas (PS):
 allowonlyinal Su manim gali susisiekti tik tie vartotojai, kuriuos aš priėmiau
 allowseen Leisti šiam asmeniui matyti, kada aš esu prisijungęs bei pasiekti mane
 allow_sms Leisti vartotojams pasiekti mane per mano MSN mobilųjį įrenginį
@@ -101,7 +104,7 @@ blockinter1 Kai jūsų būsena yra prisijungęs, tikrinti kas
 blockinter2 sekundžių, arba tikrinti kas:
 blockinter3 kas 
 blockinter4 sekundžių.
-blocklist Juodasis sąrašas (BL):
+blocklist Juodasis sąrašas (JS):
 blockmessage Šie vartotojai yra prisijungę ir užblokavę jus
 blocknotifications Nerodyti informacinių langų
 blocksounds Išjungti garsus
@@ -229,7 +232,7 @@ connectionlost Atsijungta: Prarastas susijungimas su serveriu
 contactadded Kontaktas pridėtas
 contact Kontaktas
 contactdoesnotexist Kontaktas neegzistuoja!
-contactlist Kontaktų sąrašas (FL):
+contactlist Kontaktų sąrašas (KS):
 contacts Kontaktai
 contentroamingsetting Išsaugoti rodomą nuotrauką serveryje
 continuously Tęstinai
