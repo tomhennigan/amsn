@@ -759,12 +759,14 @@ namespace eval ::guiContactList {
 					# Here we should draw the body
 					set height [expr {$bodYend - $bodYbegin}]
 					if {$height > [::skin::getKey buddy_ypad]} {
-						image create photo boxbody_$groupDrawn -height $height -width $width
-						boxbody_$groupDrawn copy boxbodysmall -to 0 0 $width $height
-					
-						# Draw it
-						$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn \
-							-anchor nw -tags [list box box_body $gid]
+						if {[::skin::getKey groupbox] != 0 } {
+							image create photo boxbody_$groupDrawn -height $height -width $width
+							boxbody_$groupDrawn copy boxbodysmall -to 0 0 $width $height
+						
+							# Draw it
+							$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn \
+								-anchor nw -tags [list box box_body $gid]
+						}
 							
 						set y2 "body"
 						
