@@ -1269,7 +1269,7 @@ namespace eval ::guiContactList {
 
 						if {$overstrike_yes} {
 							set yunderline [expr {$ypos - $yori + $textheight + 1}]
-							set yunderline [expr { $yunderline / 2}]
+						#	set yunderline [expr { $yunderline / 2}]
 							lappend list_overstrike [list $xpos $yunderline $textwidth $colour]
 						}
 
@@ -1480,11 +1480,11 @@ namespace eval ::guiContactList {
 		}
 
 		if {$list_underline ne ""} {
-			underline_overstrike $canvas $list_underline $main_tag "un"
+			underline_overstrike $canvas $list_underline $textheight $main_tag "un"
 		}
 
 		if {$list_overstrike ne ""} {
-			underline_overstrike $canvas $list_overstrike $main_tag "ov"
+			underline_overstrike $canvas $list_overstrike $textheight $main_tag "ov"
 		}
 		
 		if {$list_bg ne ""} {
@@ -2382,38 +2382,19 @@ namespace eval ::guiContactList {
 	#######################################################
 	# Procedure that draws horizontal lines from this list
 	# of [list xcoord xcoord linelength] lists
-	proc underline_overstrike { canvas lines nicktag opt} {
-	
-		set poslist [$canvas coords [lindex $nicktag 0]]
-		set xpos [lindex $poslist 0]
-		if {$opt eq "ov"} {
-			if {$nicktag ne "all"} {
-				set ypos [expr {[lindex $poslist 1] / 2} ]
-			} else {
-				set ypos [expr {[lindex $poslist 1] + 5} ]
-			}
-		} else {
-			set ypos [expr {[lindex $poslist 1] - 2}]
-		}
-		# status_log "poslist: $lines"
-
-		if {$opt ne "ov"} {
-			#if we are using the detailed view
-			if {[lindex [lindex $lines 0] 1] < 0} {
-				set margin_y [expr {-$ypos - ([lindex [lindex $lines 0] 1] * 2)  + 1}]
-			} else {
-				set margin_y 0
-			}
+	proc underline_overstrike { canvas lines textheight nicktag opt} {
+		if {$opt eq "un"} {
+			set margin_y $textheight
 		} else {
 			set margin_y 0
 		}
 
 		foreach line $lines {
 			$canvas create line\
-				[expr { [lindex $line 0] + $xpos } ] \
-				[expr { [lindex $line 1] + $ypos + $margin_y} ] \
-				[expr { [lindex $line 0] + [lindex $line 2] + $xpos} ]\
-				[expr { [lindex $line 1] + $ypos + $margin_y} ] \
+				[lindex $line 0] \
+				[expr { [lindex $line 1] + $margin_y} ] \
+				[expr { [lindex $line 0] + [lindex $line 2] } ] \
+				[expr { [lindex $line 1] + $margin_y} ] \
 				-fill [lindex $line 3] \
 				-tags "$nicktag $opt"
 		}
