@@ -1,12 +1,12 @@
 amsn_lang_version 2
-all TÃ¼mÃ¼
-filterblocked Sadece engellediklerimi gÃ¶ster
-filterremovedme Sadece beni silenleri gÃ¶ster
+all Tümü
+filterblocked Sadece engellediklerimi göster
+filterremovedme Sadece beni silenleri göster
 clear Temizle
-nickandpsm Rumuz ve KiÃ¾isel Ãleti
-typeheretofilter BaÃ°lantÃ½ listesinde ara...
-storelastinput Eklenti yÃ¼klenirken son girdiyi geri yÃ¼kle
-enableoperators Arama iÃ§in operatÃ¶r kullan (virgÃ¼k/boÃ¾luk ile ayrÃ½lmÃ½Ã¾ anahtar kelimelerden Ã¶nce kullanÃ½labilecek operatÃ¶rler "& " ()VE ve "| " (VEYA))
-usewildcards Ã–zel sembol kullanÃ½mÃ½nÃ½ destekle: * ve ?
-groupname Grup adÃ½
+nickandpsm Rumuz ve Kişisel İleti
+typeheretofilter Bağlantı listesinde ara...
+storelastinput Eklenti yüklenirken son girdiyi geri yükle
+enableoperators Arama için operatör kullan (virgük/boşluk ile ayrılmış anahtar kelimelerden önce kullanılabilecek operatörler "& " ()VE ve "| " (VEYA))
+usewildcards Özel sembol kullanımını destekle: * ve ?
+groupname Grup adı
 filter Ara

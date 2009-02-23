@@ -1,16 +1,17 @@
-msn_lang_version 2
-gametttgameclosed KarÃ¾Ã½ taraf oyunu kapattÃ½.
+amsn_lang_version 2
+gametttgameclosed Karşı taraf oyunu kapattı.
 gametttgamesessionwith $2 ile $1
-gametttnowinner Turu kimse kazanamadÃ½!\nSkor $1:$2.
+gametttnowinner Turu kimse kazanamadı!\nSkor $1:$2.
 gametttopponent rakip
-gametttopponentloading LÃ¼tfen bekleyin, karÃ¾Ã½ taraf oyunu yÃ¼klÃ¼yor...
-gametttopponentready Rakibiniz oyun iÃ§in hazÃ½r, baÃ¾lamak iÃ§in "BaÃ¾lat"Ã½ tÃ½klayÃ½n.
-gametttopponentsturn rakibin sÃ½rasÃ½
-gametttopponentnotready Rakibin "BaÃ¾lat"Ã½ tÃ½klamasÃ½ bekleniyor...
-gametttrestart Yeniden BaÃ¾lat
-gametttstart BaÃ¾lat
+gametttopponentloading Lütfen bekleyin, karşı taraf oyunu yüklüyor...
+gametttopponentready Rakibiniz oyun için hazır, başlamak için "Başlat"ı tıklayın.
+gametttopponentsturn rakibin sırası
+gametttopponentnotready Rakibin "Başlat"ı tıklaması bekleniyor...
+gametttrestart Yeniden Başlat
+gametttstart Başlat
 gamettttitle Tic Tac Toe
-gametttwait LÃ¼tfen bekleyin...
-gametttwinner $1 turu kazandÃ½!\nYeni skor $2:$3.
+gametttwait Lütfen bekleyin...
+gametttwinner $1 turu kazandı!\nYeni skor $2:$3.
 gametttyou siz
-gametttyourturn SÃZÃN sÃ½ranÃ½z
+gametttyourturn SİZİN sıranız
+
