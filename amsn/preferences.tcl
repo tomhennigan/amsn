@@ -2725,7 +2725,7 @@ proc Preferences { { settings "personal"} } {
 	# This should raise the settings tab depending on the arg..
 	catch {$nb.nn raise $settings}
     
-    bind .cfg <Destroy> "UnregisterPrivacyEvents; RestorePreferences %W; array unset myconfig"
+    bind .cfg <Destroy> "UnregisterPrivacyEvents; RestorePreferences %W"
 
     wm state .cfg normal
 
@@ -3452,6 +3452,7 @@ proc RestorePreferences { {win ".cfg"} } {
 	global myconfig proxy_server proxy_port
 	
 	::config::setAll [array get myconfig]
+	array unset myconfig
 
 	# Save configuration.
 	save_config
