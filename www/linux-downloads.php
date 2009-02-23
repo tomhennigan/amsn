@@ -64,6 +64,12 @@
 	</div>
 	<div style="clear:left"></div>
 <br />
+	<div style="float:left;margin:1em;text-align:center;">
+		<a href="http://paketler.pardus.org.tr/info/devel/source/amsn.html">
+		<img src="images/download-pardus-big.png" class="distr" alt="Pardus (page in turkish)"/><br />Ubuntu</a>
+	</div>
+	<div style="clear:left"></div>
+<br />
 <hr style="width:200px;" />
 <br />
 
