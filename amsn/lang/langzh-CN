@@ -5,21 +5,24 @@ aboutamsn 关于Alvaro's Messenger (amsn)
 accept 接受
 acceptfile 您想接受文件 $1 吗(大小为 $2 bytes)? 它会保存在 $3
 account 帐户 
-actions 行为
+actions 操作
 activeautoupdate 激活自动升级 
 add 增加
 addacontact 新增联系人
 addedyou $1 ($2) 把您加入了联系人列表
-addprofiledesc 输入您所想要新增的个人设定名称.\n使用个人设定登入，允许您使用各个名称中的设定.\n如果没有使用个人设定文件，历史纪录、显示通知或是永远记得密码等功能将无法使用
+addprofiledesc 输入您所想要新增的个人设定名称.\n使用个人设定登陆，允许您使用各个名称中的设定.\n如果没有使用个人设定文件，历史纪录、显示通知或是永远记得密码等功能将无法使用
 addprofile 新增个人设定
 addstate 添加新的状态
 addtocontacts 加入到联系人列表
 addtoo 把此人加入联系人列表
 addto 新增到 $1
+addtoal 加入我的白名单
+addtobl 加入我的黑名单
+addtofl 加入我的联系人名单
 admincontacts 管理联系人
 admingroups 管理群组
-advanced 进阶
-advancedprefs 进阶设定
+advanced 高级
+advancedprefs 高级设定
 adverts 广告
 agotinvitation 接受$1 的语音邀请 
 alarmstatus 为此用户激活闹钟
@@ -34,8 +37,8 @@ allfiles 所有文件
 allmonths 所有月份 
 allowallbutbl  封锁清单以外的人可以看见我的状态和传送讯息给我
 allowbadwords 禁止昵称检查
-allowlist 我的允许清单 (AL):
-allowonlyinal 只有在允许清单上的人可以看见我的状态和传送讯息给我
+allowlist 我的白名单 (AL):
+allowonlyinal 只有在白名单上的人可以看见我的状态和传送讯息给我
 allowseen 当您在在线时允许这个人看到您和联络您
 allow_sms 允许用户用过我的MSN移动设备联系我
 allprofilesinuse 所有的个人设定档都在使用中
@@ -66,12 +69,13 @@ audiovideo 音频视频设置
 author 作者
 autoaccepted 档案传送已经被自动接受 
 autoacceptft 自动接受档案传送要求
+autoacceptwc 自动接受网络视频请求
 autoaway 当我闲置时,将我的状态显示为「离开」
 autocheckver 程序启动时自动检查是否有新的版本
-autoconnect2 当aMSN启动时自动登入
+autoconnect2 当aMSN启动时自动登陆
 autoconnect aMSN启动时自动联机
 autodetectip 自动侦测 IP 地址
-autohotmaillog 自动登入 Hotmail
+autohotmaillog 自动登陆 Hotmail
 autoidle 自动发呆
 autoip Automatic IP
 autolisten_voiceclips 接收语音片段后自动回放 
@@ -86,7 +90,7 @@ avoidseen 当您在在线时封锁这个人看到您和联络您
 away 离开
 awaymsg1 每次询问我的离开讯息当我把我的状态更改为：离开/马上回来/忙碌
 awaymsg2 永不询问且永远使用下列离开讯息
-back 回去
+back 返回
 baduserpass 使用者名称或密码错误
 badwebcam 无法加载视频，请确认您的摄像头正确安装设置！
 bgcolor 更换aMSN的背景颜色
@@ -116,6 +120,7 @@ busy 忙碌
 bytesymbol b
 cachedpics $1 暂存图片
 cachedpicsfor 被贮藏的用户显示图片
+cam_in_cw 在聊天窗口显示摄像头
 cancel 取消
 cannotdeleteprofile 不能删除个人设定档,因为aMSN正在使用它.
 cantget 无法取得 $1
@@ -131,6 +136,7 @@ changedisplaypic 变更显示图片
 changefont 变更字型
 changeglobnick 更改全域昵称
 changenick 更改昵称
+changepsm 修改个人信息
 changesize 变更尺寸
 changestate $1 切换状态至 $2 
 charscounter 对话窗口中字数
@@ -170,7 +176,7 @@ clear 清除
 clearlog2 清除所有联系人的历史纪录
 clearlog3 清除所有记录
 clearlog 清除纪录
-clicktologin 请按这里登入
+clicktologin 请按这里登陆
 clientcaps 传送x-clientcaps封包给其它客服端
 clientname 客服端名称
 close 关闭
@@ -179,6 +185,7 @@ closingdocks 关闭docks窗口
 closeorcall 您必须断开或取消通话才能关闭这个窗口
 commandstatus 执行命令
 command 指令
+compactstyle 紧凑风格
 confirm 你确定要？
 confirmdelete 您确定要删除 $1?
 confirmdg 您确定要删除这个群组吗?
@@ -265,7 +272,7 @@ dateformat 更改日期格式
 day 日
 days 天
 dcprofile 不要建立个人设定档
-defaultloginradio 使用默认值登入
+defaultloginradio 使用默认值登陆
 default 默认值
 default2 默认 
 defchatwinsize 预设的聊天窗口大小 (XSIZExYSIZE) 
@@ -382,7 +389,7 @@ forget_me 忘记我
 forgot_pass 我忘了我的密码
 formatctt CTT格式
 formatcsv CSV格式
-friendlyname 友善称呼
+friendlyname 昵称
 ftaccepted 档案传送被接收
 ftacceptedby $1 接受了档案'$2'的档案传送邀请.
 ftaccepting 正在接收档案传送邀请
@@ -436,7 +443,7 @@ help 说明
 hidedisplaypic 隐藏显示图片
 hiden Hide the 表情符号目录
 hidewindow 隐藏窗口
-history 检视历史纪录
+history 查看历史纪录
 history2 历史
 hidemenu 显示/隐藏菜单 
 hidemenumessage 您确定要隐藏菜单吗？\n 您可以通过显示/隐藏菜单和热键Ctrl-M来恢复菜单 
@@ -475,11 +482,11 @@ istyping $1 正在输入讯息
 joins $1 加入交谈
 justonce 仅此一次
 keepalive 保持联机 (NAT) 
-keeplog2 将所有的对话纪录到aMSN的的历史纪录以便以后检视
+keeplog2 将所有的对话纪录到aMSN的的历史纪录以便以后查看
 keeplog 纪录所有聊天纪录
 language 语言
 largest 最大
-lastlogin 最近一次登入
+lastlogin 最近一次登陆
 lastlogout 最近一次注销
 lastmsgedme 最近一次讯息
 lastmsgtime 最后讯息时间 $1
@@ -508,20 +515,20 @@ logeventdisconnect 纪录离线
 logeventemail 邮件接收时纪录
 logeventstate 使用者状态变更时记录
 logfandexp 纪录文件过大或是历史纪录过期
-loggedotherlocation 离线. 已于其它计算机登入
-loggingin 正在登入
-loginas 以不同账号登入
+loggedotherlocation 离线. 已于其它计算机登陆
+loggingin 正在登陆
+loginas 以不同账号登陆
 loging 纪录
-login 登入
+login 登陆
 logolder 只记录最近一次的聊天纪录
 logout 注销
 logoutwincloselabel 在登出时关闭对话
 logsbydate 依日期排列 logs 纪录 (加速加载纪录文件的速度)
-logsin 刚登入
+logsin 刚登陆
 logsmileys 显示表情符号于aMSN的历史纪录窗口
 logsout 刚好注销
 longnick 您的昵称长度超过130个字符组. 这不被官方的MSN通讯协议所接受. 您确定要设定吗? 
-longp4c 您的友善称呼已经超过130个字符. 友善称呼将会被显示在正式的MSN中被显示为 $1. 您确定要设定吗?
+longp4c 您的昵称已经超过130个字符. 昵称将会被显示在正式的MSN中被显示为 $1. 您确定要设定吗?
 lprivtoconf 私人的聊天由 $1 更改为公开的会议
 luclosedwin 您已经于 $1 关闭窗口
 language_manager 多语言管理
@@ -545,7 +552,7 @@ minimize 最小化到托盘
 mobilegrp1 移动群组
 mobilegrp2 将离线用户置于“移动”（按照状态排序）
 modified 修改 
-mobile 大哥大
+mobile 移动设备
 month 月
 more 更多
 morepersonal 更多状态 -> 
@@ -561,7 +568,7 @@ msnstyle MSN聊天风格
 mustrestart 您必须重新启动程序
 myfriendlyname 我的友善昵称
 myhomephone 住家电话号码
-mymobilephone 行动电话号码
+mymobilephone 我的手机号码
 mynick 我的昵称
 mypic 我的显示图片: 
 mystatus 我的状态
@@ -600,7 +607,7 @@ nonewver 这已是最新版本
 nonimgroup 非即时联系人
 nooimconfirmation 不要求确认当发送/接收离线讯息
 nopic 没有图片
-noprofileexists 现在没有任何的个人设定档, \n您必须新增一个如果您想使用个人设定档方式登入. \n请点选窗口中新增个人设定文件按钮来新增一个.
+noprofileexists 现在没有任何的个人设定档, \n您必须新增一个如果您想使用个人设定档方式登陆. \n请点选窗口中新增个人设定文件按钮来新增一个.
 normal 一般
 noresizesmileys 不缩减来袭定制表情符号
 noskins 无法在 skin/数据夹中找到预设的面板. 无法启动AMSN
@@ -689,12 +696,12 @@ prefft 档案传送, 点对点与 NAT 设定
 preflibs 链接库目录
 preflocale locale设定
 preflocale2 选择您的语言国家代码，简体中文zh_CN
-preflog1 我的历史纪录及登入选项
+preflog1 我的历史纪录及登陆选项
 preflogevent 我的事件记录
 preflook 我的 aMSN Messenger 画面
 prefmsging 我的讯息接口 
 prefname 我的 MSN Messenger 姓名/昵称
-prefphone2 请输入您的电话号码,\n让您允许清单中的联系人看见
+prefphone2 请输入您的电话号码,\n让您白名单中的联系人看见
 prefphone 我的电话号码
 prefprivacy2 使用者的连络/保留清单
 prefprivacy 使用者的允许/封锁清单
@@ -703,14 +710,14 @@ prefprofile3 aMSN's User Configuration Profiles
 prefprofile 我的公开个人信息
 prefproxy 我的Proxy设定
 prefremote 远程联机偏好设定
-prefsession 我的登入及状态
+prefsession 我的登陆及状态
 prefshared 分享联机 (only for NAT) 
 prefsound 声音
 privacy 隐私
 profiledconfig 个人设定档设定
-profileexists 您不能在这个登入建立个人设定档 \n 因为已经有一个存在了. 请选择其它的登入.
+profileexists 您不能在这个登陆建立个人设定档 \n 因为已经有一个存在了. 请选择其它的登陆.
 profileinuse 这个个人设定档被其它的aMSN使用中, 请选择其它的
-profileloginradio 使用已经存在的个人设定档登入
+profileloginradio 使用已经存在的个人设定档登陆
 profiles 个人设定档
 properties 内容
 proxyconfhttp HTTP proxy 设定
@@ -784,7 +791,7 @@ savelocationerror 文件不能在这里储存
 saveotherdirectory 储存在另一个目录
 says $1 说
 sbcon 转接中
-searchadvprefs 在进阶偏好设定搜寻:
+searchadvprefs 在高级偏好设定搜寻:
 selectcontact 选择一个联系人
 selectplugins 请选择您想启动的插件
 selectskin 请从清单中选择一个面板
@@ -825,7 +832,7 @@ smileintro2 请编辑所需的字段来自订此表情符号 (请参考常见问答集)
 smileintro 请完成所需的字段来建立新的自订表情符号 (请参考常见问答集)
 snackfailed 加载Snack失败, 恢复成默认值
 sngdblclick 单击鼠标开启讯息窗口
-sound2 当联系人登入或传送讯息时播放声音
+sound2 当联系人登陆或传送讯息时播放声音
 sound 事件音效
 soundactive 在动作中的窗口收到讯息时播放音效
 soundcommand 这必须是播放的指令 (ex: esdplay) 
@@ -838,8 +845,8 @@ soundstatus 声音警示
 sourcecode 原始程序代码 (需要编译及安装)
 splashstart 开始
 sslwarning 警告!! 关闭SSL联机将会关闭加密, 您的密码将会以明码于网络上传送. 只用在非常难对付的proxy服务器或是网络设定. 
-startoffline2 安静模式登入,将显示为"离线"
-startoffline 以隐形状态登入
+startoffline2 安静模式登陆,将显示为"离线"
+startoffline 以隐形状态登陆
 startonboot 开机自启动aMSN
 startontray 开启aMSN时只在系统工具列
 stateautomsg 要传送的自动讯息
@@ -968,7 +975,7 @@ updateonlycurrentlanguage 仅仅更新当前使用语言包
 update 升级 
 updatesaved 完毕\n 已在$2储存$1
 updating 升级中... 
-useasregexp 作为正则表达式 
+useasregexp 使用正则表达式 
 userdps 用户图片 
 useasdp 作为显示图片
 useother 使用其他程序
@@ -981,7 +988,7 @@ user 用户
 usesnack 使用Snack链接库 (Tcl internal)
 usersettings 设置
 useryourself 您不可以跟自己聊天
-viewprofile 检视个人信息
+viewprofile 查看个人信息
 verifyblocked 检查屏蔽你的人
 version 版本
 videoconversationrequest 您收到一个视频会话(双向的语音和视频)请求，该特性AMSN暂时不支持所以已经被取消。但是您可以使用标准的网络视频会话。
@@ -1005,7 +1012,7 @@ webcamextloaded 网络摄像头扩展库已载入
 webcamextnotloaded 网络摄像头扩展库未载入,你可以手工编译它. 
 webcamfaq 网络摄像头帮助 
 webcamhistory 察看网络摄像头会话 
-webcaminvite $1 邀请您启动检视网络摄影头影像, 但是aMSN尚未支持这个功能.
+webcaminvite $1 邀请您启动网络视频会话, 但是aMSN尚未支持这个功能.
 webcaminvitereceived $1邀请您进行网络视频会话.您是否接受会话? 
 webcaminvitereceiving 您被邀请察看 $1 的视频会话. 您是否接受会话? 
 webcaminvitesending $1 需要察看您的视频会话. 您是否接受会话? 
