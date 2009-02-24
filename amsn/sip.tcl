@@ -770,7 +770,13 @@ snit::type SIPConnection {
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
 		if {$new_request} {
-			append msg "Route: $call_contact($callid)\r\n"	
+			if {[string first ">;+" $call_contact($callid)] != -1} {
+				set idx [string first ">;+" $call_contact($callid)]
+				set route [string range $call_contact($callid) 0 $idx]
+			} else {
+				set route $call_contact($callid)
+			}
+			append msg "Route: $route\r\n"	
 		}
 
 		return [list $callid $msg]
