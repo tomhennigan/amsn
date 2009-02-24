@@ -473,11 +473,22 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
     fi
   fi
 
-  dnl Use libv4l if we have it
-  PKG_CHECK_MODULES(LIBV4L, \
-    libv4l2 >= 0.5.0,
-    HAVE_LIBV4L=yes,HAVE_LIBV4L=no)
+  AC_ARG_ENABLE([libv4l],
+        AC_HELP_STRING([--disable-libv4l], [Disable libv4l support]),
+        [case "${enableval}" in
+            yes) WANT_V4L=yes ;;
+            no)  WANT_V4L=no ;;
+            *) AC_MSG_ERROR(bad value ${enableval} for --enable-libv4l) ;;
+        esac],
+        WANT_V4L=test)
 
+  HAVE_LIBV4L=no
+  if test "x$WANT_V4L" != "xno"; then
+    dnl Use libv4l if we have it
+    PKG_CHECK_MODULES(LIBV4L, \
+      libv4l2 >= 0.5.0,
+      HAVE_LIBV4L=yes,HAVE_LIBV4L=no)
+  fi
   AC_SUBST(HAVE_LIBV4L)
 
 fi

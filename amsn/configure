@@ -1312,6 +1312,7 @@ Optional Features:
   --enable-debug          enable some debugging information
   --enable-static         enable static link of libstdc++
   --disable-version-check Disable checking that linked tcl/tk version is the same version that bin program tclsh
+  --disable-libv4l        Disable libv4l support
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -7005,6 +7006,22 @@ fi
     fi
   fi
 
+  # Check whether --enable-libv4l was given.
+if test "${enable_libv4l+set}" = set; then
+  enableval=$enable_libv4l; case "${enableval}" in
+            yes) WANT_V4L=yes ;;
+            no)  WANT_V4L=no ;;
+            *) { { echo "$as_me:$LINENO: error: bad value ${enableval} for --enable-libv4l" >&5
+echo "$as_me: error: bad value ${enableval} for --enable-libv4l" >&2;}
+   { (exit 1); exit 1; }; } ;;
+        esac
+else
+  WANT_V4L=test
+fi
+
+
+  HAVE_LIBV4L=no
+  if test "x$WANT_V4L" != "xno"; then
 
 pkg_failed=no
 { echo "$as_me:$LINENO: checking for LIBV4L" >&5
@@ -7016,14 +7033,14 @@ if test -n "$PKG_CONFIG"; then
     else
         if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
-    libv4l2 >= 0.5.0\"") >&5
+      libv4l2 >= 0.5.0\"") >&5
   ($PKG_CONFIG --exists --print-errors "\
-    libv4l2 >= 0.5.0") 2>&5
+      libv4l2 >= 0.5.0") 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
   pkg_cv_LIBV4L_CFLAGS=`$PKG_CONFIG --cflags "\
-    libv4l2 >= 0.5.0" 2>/dev/null`
+      libv4l2 >= 0.5.0" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -7037,14 +7054,14 @@ if test -n "$PKG_CONFIG"; then
     else
         if test -n "$PKG_CONFIG" && \
     { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\\
-    libv4l2 >= 0.5.0\"") >&5
+      libv4l2 >= 0.5.0\"") >&5
   ($PKG_CONFIG --exists --print-errors "\
-    libv4l2 >= 0.5.0") 2>&5
+      libv4l2 >= 0.5.0") 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
   pkg_cv_LIBV4L_LIBS=`$PKG_CONFIG --libs "\
-    libv4l2 >= 0.5.0" 2>/dev/null`
+      libv4l2 >= 0.5.0" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -7064,10 +7081,10 @@ else
 fi
         if test $_pkg_short_errors_supported = yes; then
 	        LIBV4L_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "\
-    libv4l2 >= 0.5.0"`
+      libv4l2 >= 0.5.0"`
         else
 	        LIBV4L_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "\
-    libv4l2 >= 0.5.0"`
+      libv4l2 >= 0.5.0"`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$LIBV4L_PKG_ERRORS" >&5
@@ -7084,7 +7101,7 @@ else
 echo "${ECHO_T}yes" >&6; }
 	HAVE_LIBV4L=yes
 fi
-
+  fi
 
 
 fi
