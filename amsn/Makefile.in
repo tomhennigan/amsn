@@ -30,6 +30,7 @@ tclISF_dir := $(srcdir)/utils/tclISF
 async_dir := $(srcdir)/utils/asyncresolver
 macosx_dir := $(srcdir)/utils/macosx
 tcl_farsight_dir := $(srcdir)/utils/farsight
+gupnp_dir := $(srcdir)/utils/gupnp
 
 # programs
 CC		:= @CC@
@@ -93,6 +94,9 @@ CFLAGS   += @LIBV4L_CFLAGS@
 ifeq (@HAVE_LIBV4L@,yes)
   CFLAGS += -DHAVE_LIBV4L
 endif
+ifeq (@HAVE_GUPNP@,yes)
+  CFLAGS += @GUPNP_CFLAGS@
+endif
 CFLAGS	 += ${X_CFLAGS}
 CFLAGS   += $(LIB_FLAGS)
 CFLAGS   += -DPACKAGE='"$(PACKAGE)"'
@@ -154,6 +158,11 @@ CXX_LIB := @CXX_LIB@
 LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
 LDFLAGS	 += ${TK_STUB_LIB_SPEC}
 LDFLAGS	 += @LIBV4L_LIBS@
+
+ifeq (@HAVE_GUPNP@,yes)
+  LDFLAGS += @GUPNP_LIBS@
+  FILES_TO_INSTALL += utils/gupnp/gupnp.$(SHLIB_EXTENSION) utils/gupnp/pkgIndex.tcl
+endif
 
 ifeq (@HAVE_FARSIGHT@,yes)
   FILES_TO_INSTALL += utils/farsight/tcl_farsight.$(SHLIB_EXTENSION) utils/farsight/pkgIndex.tcl
@@ -303,6 +312,10 @@ include $(async_dir)/src/Rules.mk
 ifeq (@HAVE_FARSIGHT@,yes)
   include $(tcl_farsight_dir)/Rules.mk
   include $(tcl_farsight_dir)/src/Rules.mk
+endif
+
+ifeq (@HAVE_GUPNP@,yes)
+  include $(gupnp_dir)/Rules.mk
 endif
 
 ifeq ($(FOUND_OS),linux)

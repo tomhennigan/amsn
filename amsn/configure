@@ -709,7 +709,10 @@ FARSIGHT2_LIBS
 LIBV4L_CFLAGS
 LIBV4L_LIBS
 HAVE_LIBV4L
+GUPNP_CFLAGS
+GUPNP_LIBS
 HAVE_FARSIGHT
+HAVE_GUPNP
 LIBOBJS
 LTLIBOBJS'
 ac_subst_files=''
@@ -736,7 +739,9 @@ GST_INTERFACES_LIBS
 FARSIGHT2_CFLAGS
 FARSIGHT2_LIBS
 LIBV4L_CFLAGS
-LIBV4L_LIBS'
+LIBV4L_LIBS
+GUPNP_CFLAGS
+GUPNP_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1349,6 +1354,9 @@ Some influential environment variables:
   LIBV4L_CFLAGS
               C compiler flags for LIBV4L, overriding pkg-config
   LIBV4L_LIBS linker flags for LIBV4L, overriding pkg-config
+  GUPNP_CFLAGS
+              C compiler flags for GUPNP, overriding pkg-config
+  GUPNP_LIBS  linker flags for GUPNP, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -7107,6 +7115,79 @@ fi
 fi
 
 
+pkg_failed=no
+{ echo "$as_me:$LINENO: checking for GUPNP" >&5
+echo $ECHO_N "checking for GUPNP... $ECHO_C" >&6; }
+
+if test -n "$PKG_CONFIG"; then
+    if test -n "$GUPNP_CFLAGS"; then
+        pkg_cv_GUPNP_CFLAGS="$GUPNP_CFLAGS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \" gupnp-igd-1.0 \"") >&5
+  ($PKG_CONFIG --exists --print-errors " gupnp-igd-1.0 ") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_GUPNP_CFLAGS=`$PKG_CONFIG --cflags " gupnp-igd-1.0 " 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+if test -n "$PKG_CONFIG"; then
+    if test -n "$GUPNP_LIBS"; then
+        pkg_cv_GUPNP_LIBS="$GUPNP_LIBS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \" gupnp-igd-1.0 \"") >&5
+  ($PKG_CONFIG --exists --print-errors " gupnp-igd-1.0 ") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_GUPNP_LIBS=`$PKG_CONFIG --libs " gupnp-igd-1.0 " 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GUPNP_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors " gupnp-igd-1.0 "`
+        else
+	        GUPNP_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors " gupnp-igd-1.0 "`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GUPNP_PKG_ERRORS" >&5
+
+	{ echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+                 HAVE_GUPNP=no
+elif test $pkg_failed = untried; then
+	 HAVE_GUPNP=no
+else
+	GUPNP_CFLAGS=$pkg_cv_GUPNP_CFLAGS
+	GUPNP_LIBS=$pkg_cv_GUPNP_LIBS
+        { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+	 HAVE_GUPNP=yes
+fi
+
+
+
 
 
 
@@ -7829,7 +7910,7 @@ FARSIGHT2_LIBS!$FARSIGHT2_LIBS$ac_delim
 LIBV4L_CFLAGS!$LIBV4L_CFLAGS$ac_delim
 LIBV4L_LIBS!$LIBV4L_LIBS$ac_delim
 HAVE_LIBV4L!$HAVE_LIBV4L$ac_delim
-HAVE_FARSIGHT!$HAVE_FARSIGHT$ac_delim
+GUPNP_CFLAGS!$GUPNP_CFLAGS$ac_delim
 _ACEOF
 
   if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
@@ -7871,11 +7952,14 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
+GUPNP_LIBS!$GUPNP_LIBS$ac_delim
+HAVE_FARSIGHT!$HAVE_FARSIGHT$ac_delim
+HAVE_GUPNP!$HAVE_GUPNP$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 2; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 5; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
@@ -8312,6 +8396,7 @@ compile time options summary
     STATIC       : $STATIC
     FARSIGHT     : $HAVE_FARSIGHT
     LIBV4L       : $HAVE_LIBV4L
+    GUPNP-IGD    : $HAVE_GUPNP
 
 EOF
 

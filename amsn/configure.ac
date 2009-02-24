@@ -493,6 +493,10 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
 
 fi
 
+PKG_CHECK_MODULES(GUPNP, [ gupnp-igd-1.0 ],
+    [ HAVE_GUPNP=yes ],
+    [ HAVE_GUPNP=no ])
+
 AC_SUBST(GST_CFLAGS)
 AC_SUBST(GST_LIBS)
 AC_SUBST(GST_INTERFACES_CFLAGS)
@@ -502,6 +506,7 @@ AC_SUBST(FARSIGHT2_CFLAGS)
 AC_SUBST(FARSIGHT2_LIBS)
 
 AC_SUBST(HAVE_FARSIGHT)
+AC_SUBST(HAVE_GUPNP)
 
 dnl ---------------------------------------------------------------------
 dnl write out stuff
@@ -521,6 +526,7 @@ compile time options summary
     STATIC       : $STATIC
     FARSIGHT     : $HAVE_FARSIGHT
     LIBV4L       : $HAVE_LIBV4L
+    GUPNP-IGD    : $HAVE_GUPNP
 
 EOF
 
