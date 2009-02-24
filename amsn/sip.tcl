@@ -855,12 +855,13 @@ snit::type SIPConnection {
 				}
 			}
 		}
+
 		if {$remote != ""} {
 			set components [list]
 			foreach candidate $remote_candidates {
 				foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 				if {$options(-ice) == 6 } {
-					if {$remote == "" || $foundation == $remote} {
+					if {$foundation == $remote} {
 						append sdp "a=remote-candidate:$username\r\n"
 						break;
 					}
@@ -1223,7 +1224,7 @@ snit::type SIPConnection {
 			} else {
 				set options(-ice) 6
 				foreach {username component_id password transport priority ip port} $candidate break
-				set foundation [string range $username 0 32]
+				set foundation [string range $username 0 31]
 				lappend options(-remote_audio_candidates) [list $foundation $component_id $ip $port "" 0 $transport $priority "" $username $password]
 
 			}
@@ -1272,7 +1273,7 @@ snit::type SIPConnection {
 			} else {
 				set options(-ice) 6
 				foreach {username component_id password transport priority ip port} $candidate break
-				set foundation [string range $username 0 32]
+				set foundation [string range $username 0 31]
 				lappend options(-remote_video_candidates) [list $foundation $component_id $ip $port "" 0 $transport $priority "" $username $password]
 
 			}
@@ -1947,7 +1948,7 @@ snit::type TunneledSIPSocket {
 			::MSNSIP::TunneledSIPCreated $call_id $self
 		}
 
-		set msg "<sip e=\"base64\" fid=\"0\" i=\"$call_id\"><msg>[base64::encode $data]</msg></sip>"
+		set msg "<sip e=\"base64\" fid=\"1\" i=\"$call_id\"><msg>[base64::encode $data]</msg></sip>"
 		set msg [string map {"\n" "\r\n"} [string map {"\r\n" "\n"} $msg]]
 
 		degt_protocol "-->SIP (Tunneled) $data"
@@ -2065,7 +2066,7 @@ snit::type Farsight {
 					    [string range $password end end] != "="} {
 						append password "=="
 					}
-					set foundation [string range $username 0 32]
+					set foundation [string range $username 0 31]
 					lappend audio_remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
 				}
 			} else {
@@ -2103,7 +2104,7 @@ snit::type Farsight {
 					    [string range $password end end] != "="} {
 						append password "=="
 					}
-					set foundation [string range $username 0 32]
+					set foundation [string range $username 0 31]
 					lappend video_remote_candidates [list $foundation $component_id $ip $port $base_ip $base_port $transport $priority $type $username $password]
 				}
 			} else {
