@@ -1790,7 +1790,7 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
 
 
-    caps = gst_caps_new_simple ("video/x-raw-rgb",
+    caps = gst_caps_new_simple ("video/x-raw-yuv",
         "width", G_TYPE_INT, 320,
         "height", G_TYPE_INT, 240,
         NULL);
