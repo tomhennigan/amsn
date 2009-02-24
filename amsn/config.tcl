@@ -930,25 +930,6 @@ proc load_config {} {
 		#puts "Password is: [::config::getKey remotepassword]\nHi\n"
 	}
 
-	if {[::config::getKey protocol] != 15 &&
-	    [::config::getKey protocol] != 18} {
-		::config::setKey protocol 11
-	}
-
-	::config::setKey clientid 0
-	if {[::config::getKey protocol] < 15 } {
-		::config::setKey protocol 15
-	}
-
-	if {[config::getKey protocol] >= 18} {
-		::MSN::setClientCap msnc10
-	} else {
-		::MSN::setClientCap msnc7
-	}
-	::MSN::setClientCap inkgif
-	::MSN::setClientCap multip
-	::MSN::setClientCap voice
-
 	# Load up the personal states
 	LoadStateList
 	if { [winfo exists .my_menu] } {CreateStatesMenu .my_menu}

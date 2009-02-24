@@ -903,6 +903,26 @@ namespace eval ::MSN {
 			return
 		}
 
+		if {[::config::getKey protocol] != 15 &&
+		    [::config::getKey protocol] != 18} {
+			::config::setKey protocol 11
+		}
+
+
+		::config::setKey clientid 0
+		if {[::config::getKey protocol] < 15 } {
+			::config::setKey protocol 15
+		}
+
+		if {[config::getKey protocol] >= 18} {
+			::MSN::setClientCap msnc10
+		} else {
+			::MSN::setClientCap msnc7
+		}
+		::MSN::setClientCap inkgif
+		::MSN::setClientCap multip
+		::MSN::setClientCap voice
+
 		if {[::config::getKey protocol] >= 15} {
 			global sso
 			if {[info exists sso] && $sso != "" } {
