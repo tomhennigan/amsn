@@ -1626,7 +1626,6 @@ namespace eval ::MSN {
 			}
 		}
 
-		puts "$clientid - $flag"
 		if {$flag != 0} {
 			if {($clientid & $flag) == $flag} {
 				return 1
