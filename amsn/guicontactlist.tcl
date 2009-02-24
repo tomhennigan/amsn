@@ -639,7 +639,7 @@ namespace eval ::guiContactList {
 		if {[::skin::getKey topgroupbg] ne "" } {
 			package require scalable-bg
 			
-			set topimg [image create photo [TmpImgName]] ;#gets destroyed
+			set topimg [image create photo boxupbar_0]
 			set style [::skin::getKey topgroupbg_style]
 			if {$style eq "light"} {
 				$topimg copy [::skin::loadPixmap grouptopback_light]
@@ -662,7 +662,7 @@ namespace eval ::guiContactList {
 			
 			set bg_name [$bg name]
 			
-			set topimg [image create photo [TmpImgName]]
+			set topimg [image create photo boxupbar_1]
 			$topimg copy $bg_name
 			
 			rename $bg {}
