@@ -660,10 +660,12 @@ namespace eval ::MSNCAM {
 		set my_rid [getObjOption $sid my_rid]
 		set rid [getObjOption $sid rid]
 		set session [getObjOption $sid session]
+		set chatid [getObjOption $sid chatid]
 
 	 	if { [eof $sock] } {
  			status_log "WebCam Socket $sock closed\n"
  			close $sock
+			CancelCam $chatid $sid
  			return
  		}
 
@@ -766,6 +768,8 @@ namespace eval ::MSNCAM {
 						} elseif { $size != 0 } {
 							setObjOption $sock state "END"
 							status_log "ERROR1 : $header - invalid data received" red
+							catch { close $sock }
+							CancelCam $chatid $sid
 						} else {
 							::CAMGUI::GotPausedFrame $sid
 						}
@@ -773,11 +777,15 @@ namespace eval ::MSNCAM {
 					} else {
 						setObjOption $sock state "END"
 						status_log "ERROR2 : $data - [nbgets $sock] - [nbgets $sock]\n" red
+						catch { close $sock }
+						CancelCam $chatid $sid
 					}
 
 				} else {
 					setObjOption $sock state "END"
 					status_log "ERROR3 : [nbgets $sock] - should never received data on state $state when we're the client\n" red
+					catch { close $sock }
+					CancelCam $chatid $sid
 				}
 			}
 			"TSP_SEND" 
@@ -790,6 +798,8 @@ namespace eval ::MSNCAM {
 				} else {
 					setObjOption $sock state "END"
 					status_log "ERROR4 : Received $data from socket on state TSP_SEND \n" red
+					catch { close $sock }
+					CancelCam $chatid $sid
 				}
 			}
 			"TSP_PAUSED"
@@ -798,6 +808,8 @@ namespace eval ::MSNCAM {
 				if { $data != "\xd2\x04\x00\x00" } {
 					setObjOption $sock state "END"
 					status_log "ERROR4 : Received $data from socket on state TSP_PAUSED \n" red
+					catch { close $sock }
+					CancelCam $chatid $sid
 				}
 			}
 			"TSP_RECEIVE" -
@@ -835,6 +847,8 @@ namespace eval ::MSNCAM {
 					#AuthFailed $sid $sock
 					setObjOption $sock state "END"
 					status_log "ERROR5 : $data - invalid data received" red
+					catch { close $sock }
+					CancelCam $chatid $sid
 
 				} else {
 					::CAMGUI::GotPausedFrame $sid
@@ -843,7 +857,6 @@ namespace eval ::MSNCAM {
 			}
 			"END"
 			{
-				set chatid [getObjOption $sid chatid]
 				status_log "Closing socket $sock because it's in END state\n" red
 				catch { close $sock }
 				CancelCam $chatid $sid
@@ -854,6 +867,7 @@ namespace eval ::MSNCAM {
 				status_log "option $state of socket $sock : [getObjOption $sock state] not defined.. receiving data [nbgets $sock]... closing \n" red
 				setObjOption $sock state "END"
 				catch { close $sock }
+				CancelCam $chatid $sid
 			}
 
 		}
