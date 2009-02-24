@@ -1551,12 +1551,9 @@ namespace eval ::MSN {
 	}
 	proc setClientCap { cap { switch 1 } } {
 		set clientid [::config::getKey clientid 0]
-		set extra 0
-		if {[config::getKey protocol] >= 18} {
-			set clientid [split $clientid ":"]
-			set extra [lindex $clientid 1]
-			set clientid [lindex $clientid 0]
-		}
+		set clientid [split $clientid ":"]
+		set extra [lindex $clientid 1]
+		set clientid [lindex $clientid 0]
 		if {$clientid == "" } {set clientid 0}
 		if {$extra == "" } { set extra 0}
 		
@@ -1579,17 +1576,14 @@ namespace eval ::MSN {
 		if {[config::getKey protocol] >= 18} {
 			::config::setKey clientid "$clientid:$extra"
 		}
-		
 		return "$clientid:$extra"
+		
 	}
 
-	proc hasCapability { clientid cap } {
-		set extra 0
-		if {[config::getKey protocol] >= 18} {
-			set clientid [split $clientid ":"]
-			set extra [lindex $clientid 1]
-			set clientid [lindex $clientid 0]
-		}
+	proc hasCapability { clientcaps cap } {
+		set clientid [split $clientcaps ":"]
+		set extra [lindex $clientid 1]
+		set clientid [lindex $clientid 0]
 		if {$clientid == "" } {set clientid 0}
 		if {$extra == "" } { set extra 0}
 		
@@ -1605,13 +1599,14 @@ namespace eval ::MSN {
 			}
 		}
 		if {$cap == "p2pv2" } {
-			if {[llength [split $clientid ":"]] > 1} {
+			if {[llength [split $clientcaps ":"]] > 1} {
 				return 1
 			} else {
 				return 0
 			}
 		}
 
+		puts "$clientid - $flag"
 		if {$flag != 0} {
 			if {($clientid & $flag) == $flag} {
 				return 1
