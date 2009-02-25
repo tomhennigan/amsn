@@ -1452,7 +1452,7 @@ namespace eval ::MSN {
 			::config::setKey displaypic nopic.gif
 		}
 
-		if {[::config::getKey protocol]  >= 18 } {
+		if {[::MSN::myStatusIs] == "FLN" || [::config::getKey protocol]  >= 18 } {
 			::MSN::sendUUXData $new_status
 		}
 
