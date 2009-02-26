@@ -3369,7 +3369,6 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - chatid => Is the chat id of the window, the passport account of the buddy
 	proc TopUpdate { chatid } {
-
 		if { [::ChatWindow::For $chatid] == 0 } {
 			return 0
 		}
@@ -3388,18 +3387,11 @@ namespace eval ::ChatWindow {
 			}
 		}
 
-		set win_name [::ChatWindow::For $chatid]	
+		set win_name [::ChatWindow::For $chatid]
 		set top [::ChatWindow::GetTopFrame ${win_name}]
-
 		set scrolling [getScrolling [::ChatWindow::GetOutText ${win_name}]]
 
-		$top dchars text 0 end
-		$top dchars text2 0 end
-		#remove the camicon(s) and default icons
-		$top delete camicon img2 bg
-
 		set camicon [::skin::loadPixmap camicon]
-
 		set toX [::skin::getKey topbarpadx]
 
 		set font [$top itemcget text -font]
@@ -3413,52 +3405,39 @@ namespace eval ::ChatWindow {
 
 		set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans to]:"] + 5}]
 		set Ycoord [lindex [$top coords text] 1]
-		#Calculate maximum string width
 		set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - [expr {int([lindex [$top coords text] 0])} ] } ]
-		
 		set default_incr_y $incr_y
-		set default_usrsX $usrsX
 		set default_maxw $maxw
+		set defaultfont sboldf
 		
-		set firstline 1
+		$top dchars text 0 end
+		$top dchars cw_txt 0 end
+		$top delete camicon cw_txt bg ;#remove the camicon(s) and default icons
 
-		if {[llength $user_list] > 3 && [::config::getKey hide_users_in_cw]} {
+		#this code is for multichat with more then 3 users
+		if {[llength $user_list] > 3} {
 			$top dchars txt 0 end
-			set len [llength $user_list]
-
 			set txt [list ]
-			lappend txt [list font sboldf] [list text "[trans showuserscw $len]"]
+			if {[::config::getKey hide_users_in_cw]} {
+				set len [llength $user_list]
+				set user_list ""
 			
+				lappend txt [list font sboldf] [list text "[trans showuserscw $len]"]
+			} else {
+				lappend txt [list font sboldf] [list text "[trans hideuserscw]"]
+			}
 			::guiContactList::renderContact $top "txt" $maxw $txt 0
 			$top configure -state normal 
 			$top move txt $usrsX $Ycoord
 			
-			set Ycoord [expr {$Ycoord + $incr_y + 2}]
-
 			$top bind txt <Button-1> "::ChatWindow::ShowHideUsers"
 			$top bind txt <Enter> "$top configure -cursor hand2"
 			$top bind txt <Leave> "$top configure -cursor left_ptr"
 			
-		} else {
+			set Ycoord [expr {$Ycoord + $incr_y + 2}]
+		}
+		
 		foreach user_login $user_list {
-			if {$firstline && [llength $user_list] > 3} {
-				$top dchars txt 0 end
-				
-				set txt [list ]
-				lappend txt [list font sboldf] [list text "[trans hideuserscw]"]
-				
-				::guiContactList::renderContact $top "txt" $maxw $txt 0
-				$top configure -state normal 
-				$top move txt $usrsX $Ycoord
-				
-				set Ycoord [expr {$Ycoord + $incr_y + 2}]
-				set firstline 0
-				
-				$top bind txt <Button-1> "::ChatWindow::ShowHideUsers"
-				$top bind txt <Enter> "$top configure -cursor hand2"
-				$top bind txt <Leave> "$top configure -cursor left_ptr"
-				
-			}
 			set shares_cam [::abook::getContactData $user_login webcam_shared]
 			
 			if { [::config::getKey emailsincontactlist] == 1 } {
@@ -3483,202 +3462,81 @@ namespace eval ::ChatWindow {
 				set user_state [::MSN::stateToDescription $state_code]
 			}
 
-			set usrsX $default_usrsX
 			set maxw $default_maxw
-
-			if {[::config::getKey truncatenames]} {
+			set incr_y $default_incr_y
 			
-				if { $shares_cam == 1} {
-					incr maxw [expr { 0 - [image width $camicon] - 10 }]
-				}
-
-				if { "$user_state" != "" && "$user_state" != "online"} {
-					incr maxw [expr { 0 - [font measure sboldf -displayof $top " \([trans $user_state]\)"] } ]
-				}
-
-				incr maxw [expr { 0 - [font measure sboldf -displayof $top " <${user_login}>"] } ]
-
-				set user_name_dim 0
-				foreach elt $user_name  {
-					switch [lindex $elt 0] {
-					text {
-						incr user_name_dim [expr { 0 + [font measure sboldf -displayof $top [lindex $elt 1]]}]
+			set user_name_dim $usrsX
+			foreach unit $user_name {
+				switch [lindex $unit 0] {
+					"text" {
+						incr user_name_dim [font measure sboldf -displayof $top [lindex $unit 1]]
 					}
-					smiley {
-						incr user_name_dim [expr { 0 + [image width [lindex $elt 1]]}]
+					"smiley" {
+						if {[image height [lindex $unit 1]] > $incr_y} {
+							set incr_y [image height [lindex $unit 1]]
+						}
+						incr user_name_dim [image width [lindex $unit 1]]
 					}
-					newline {}
-					}
+					"newline" {}
 				}
-
-				if { $user_name_dim > $maxw } {
-					set nicktxt "[trunc_list ${user_name} ${win_name} $maxw sboldf]"
-					lappend nicktxt [list text " <${user_login}>"]
-				} else {
-					incr maxw [expr { 0 - [font measure sboldf -displayof $top " "] } ]
-					incr maxw [expr { 0 - $user_name_dim}]
-				 	set nicktxt "${user_name}"
-					lappend nicktxt [list text " <${user_login}> "]
-					set nicktxt [concat $nicktxt [trunc_list ${psmmedia} ${win_name} $maxw sboldf]]
-				}
-			} else {
-				set nicktxt $user_name 
-				lappend nicktxt [list text " <${user_login}> "]
-				set nicktxt [concat $nicktxt $psmmedia]
 			}
+			#to be sure there is a < and a > more
+			incr user_name_dim [font measure sboldf -displayof $top " <<${user_login}>> "]
+
 
 			if { "$user_state" != "" && "$user_state" != "online" } {
-		#There is a free space before status name so it doesn't stick next to the psm
+				#There is a free space before status name so it doesn't stick next to the psm
 				set statetxt " \([trans $user_state]\)"
-				lappend nicktxt [list text $statetxt]
+			} else {
+				set statetxt ""
 			}
 			
-			set incr_y $default_incr_y
+			if { $shares_cam == 1} {
+				incr maxw [expr { 0 - [image width $camicon] - 10 }]
+			}
+
+			set nicktxt [list ]
+			set truncatenames [::config::getKey truncatenames]
+			lappend nicktxt [list trunc $truncatenames] 
+			set nicktxt [concat $nicktxt $user_name]
+			
+			if {!$truncatenames} {
+				set maxw 2000
+			}
+			
+			if {$user_name_dim >= $maxw && $truncatenames} {
+				lappend nicktxt [list trunc 0] [list text " <${user_login}> $statetxt"] [list trunc 1]
+			} else {
+				lappend nicktxt [list text " <${user_login}> "]
+				set nicktxt [concat $nicktxt $psmmedia]
+				lappend nicktxt [list trunc 0] [list text $statetxt] [list trunc 1]
+			}
 
 			#get the default colour for the specific state
 			set defaultcolour [::skin::getKey topbartext]
 			if { ([llength $user_list] == 1) && ( "$user_state" != "" ) } {
-				if { $state_code == "IDL" } {
-					set defaultcolour [::skin::getKey topbaridletext]
-				} elseif { $state_code == "BRB" } {
-					set defaultcolour [::skin::getKey topbarbrbtext]
-				} elseif { $state_code == "AWY" } {
-					set defaultcolour [::skin::getKey topbarawaytext]
-				} elseif { $state_code == "LUN" } {
-					set defaultcolour [::skin::getKey topbarlunchtext]
-				} elseif { $state_code == "PHN" } {
-					set defaultcolour [::skin::getKey topbarphonetext]
-				} elseif { $state_code == "BSY" } {
-					set defaultcolour [::skin::getKey topbarbusytext]
-				} elseif { ($state_code == "FLN") } {
-					set defaultcolour [::skin::getKey topbarofflinetext]
+				switch $state_code {
+					"IDL" { set defaultcolour [::skin::getKey topbaridletext] }
+					"BRB" { set defaultcolour [::skin::getKey topbarbrbtext] }
+					"AWY" { set defaultcolour [::skin::getKey topbarawaytext] }
+					"LUN" { set defaultcolour [::skin::getKey topbarlunchtext] }
+					"PHN" { set defaultcolour [::skin::getKey topbarphonetext] }
+					"BSY" { set defaultcolour [::skin::getKey topbarbusytext] }
+					"FLN" { set defaultcolour [::skin::getKey topbarofflinetext] }
 				}
 			}
 
-			foreach unit $nicktxt {
-				if {[lindex $unit 0] eq "smiley"} {
-					if {[image height [lindex $unit 1]] > $incr_y} {
-						set incr_y [image height [lindex $unit 1]]
-					}
-				}
-			}
-
-			set defaultfont sboldf
-			set colour $defaultcolour
-			set font_attr [font configure $defaultfont]
-			set bg_x ""
-			set bg_cl ""
-			set underline_yes 0
-			set list_underline [list ]
-			set overstrike_yes 0
-			set list_overstrike [list ]
-
-			foreach unit $nicktxt {
-				switch [lindex $unit 0] {
-					"text" {
-						set textpart [lindex $unit 1]
-						$top create text $usrsX $Ycoord -text $textpart \
-							-anchor nw -fill $colour -font $font_attr -tags "text2 $user_login"
-						set textwidth [font measure $font_attr -displayof $top $textpart]
-						incr usrsX $textwidth
-					}
-					"smiley" {
-						$top create image $usrsX $Ycoord -image [lindex $unit 1] -anchor nw -state normal -tags "img2 $user_login"
-						set textwidth [image width [lindex $unit 1]]
-						incr usrsX $textwidth
-					}
-					"colour" {
-						switch -exact [lindex $unit 1] {
-							"reset" {
-								set colour $defaultcolour
-							}
-							default {
-								set colour [lindex $unit 1]
-							}
-						}
-					}
-					"font" {
-						if {[lindex [lindex $unit 1] 0] eq "-underline"} {
-							if {[lindex [lindex $unit 1] 1] == 1} {
-								set underline_yes 1
-							} else {
-								set underline_yes 0
-							}
-						}
-					
-						if {[lindex [lindex $unit 1] 0] eq "-overstrike"} {
-							if {[lindex [lindex $unit 1] 1] == 1} {
-								set overstrike_yes 1
-							} else {
-								set overstrike_yes 0
-							}
-						}
-					
-						if { [llength [lindex $unit 1]] == 1 } {
-							if { [lindex $unit 1] == "reset" } {
-								set font_attr [font configure $defaultfont]
-								set underline_yes 0
-								set overstrike_yes 0
-							} else {
-								set font_attr [font configure [lindex $unit 1]]
-							}
-							array set current_format $font_attr
-						} else {
-							array set current_format $font_attr
-							array set modifications [lindex $unit 1]
-							foreach key [array names modifications] {
-								set current_format($key) [set modifications($key)]
-								if { [set current_format($key)] == "reset" } {
-									set current_format($key) \
-										[font configure $defaultfont $key]
-								}
-							}
-							set font_attr [array get current_format]
-						}
-					}
-					"bg" {
-						if {$bg_x eq ""} {
-							if {[lindex $unit 1] ne "reset"} {
-								set bg_x $usrsX
-								set bg_cl [lindex $unit 1]
-							}
-						} else {
-							$top create rect $bg_x $Ycoord $usrsX [expr {$Ycoord + $incr_y}] -fill $bg_cl -outline "" -tag bg
-
-							foreach tag [list "text2" "img"] {
-								$top lower bg $tag
-							}
-
-							set bg_x $usrsX
-							set bg_cl [lindex $unit 1]
-							if {$bg_cl eq "reset"} {
-								set bg_x ""
-							}
-						}
-					}
-					"newline" {
-					}
-					default {
-						status_log "Unknown item in parsed nickname: $unit"
-					}
-				}
-			}
+			set list_1  [list [list default $defaultcolour $defaultfont] [list font $defaultfont]]
+			set nicktxt [concat $list_1 $nicktxt]
+			::guiContactList::renderContact $top [list cw_${user_login} cw_txt] $maxw $nicktxt 0
 			
-			if {$list_underline ne ""} {
-				underline_overstrike $top $list_underline $user_login "un"
-			}
-
-			if {$list_overstrike ne ""} {
-				underline_overstrike $top $list_overstrike $user_login "ov"
-			}
+			$top move cw_${user_login} $usrsX $Ycoord
 
 			if { $user_name_str != "" } {
 				set title "${title}${user_name_str}, "
 			} else {
 				set title "${title}${user_login}, "
 			}
-
-			$top insert text end "\n"
 			
 			if { $shares_cam == 1 } {
 				if {[image height $camicon] > $incr_y} {
@@ -3696,7 +3554,7 @@ namespace eval ::ChatWindow {
 				#add the balloon-binding
 				$top bind camicon <Enter> [list balloon_enter %W %X %Y "[trans askwebcam]"]
 				$top bind camicon <Motion> [list balloon_motion %W %X %Y "[trans askwebcam]"]
-				$top bind camicon <Leave> "set Bulle(first) 0; kill_balloon"				
+				$top bind camicon <Leave> "set Bulle(first) 0; kill_balloon"
 				#change the cursor
 				$top bind camicon <Enter> "+$top configure -cursor hand2"
 				$top bind camicon <Leave> "+$top configure -cursor left_ptr"
@@ -3704,28 +3562,18 @@ namespace eval ::ChatWindow {
 
 			set Ycoord [expr {$Ycoord + $incr_y + 2}]
 		}
-		}
 
 		bind $top <Configure> [list ::ChatWindow::TopUpdate $chatid]
 
-		if {[llength $user_list] < 3 && [::config::getKey hide_users_in_cw]} {
+		if {[llength $user_list] > 0 && ![::config::getKey hide_users_in_cw]} {
 			#Change color of top background by the status of the contact
 			ChangeColorState $user_list $user_state $state_code ${win_name}
 		}
 
 		set title [EscapeTitle [string replace $title end-1 end " - [trans chat]"]]
-
-		#Calculate number of lines, and set top text size
-
 		set ::ChatWindow::titles(${win_name}) ${title}
-		
-		# delete the last newline...
-		set last_char [$top index text end]
-		incr last_char -1
-		$top dchars text $last_char end
 
 		set Ycoord [expr {int($Ycoord)}]
-
 		$top configure -height $Ycoord
 
 		if { [GetContainerFromWindow $win_name] == "" } {
