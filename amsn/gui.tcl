@@ -2974,8 +2974,8 @@ namespace eval ::amsn {
 		}
 
 		bind $w.searchbar.entry <KeyRelease> \
-			"after cancel [list ::amsn::listChooseSearchBar $w $canv.ca $command]; \
-			after 500 [list ::amsn::listChooseSearchBar $w $canv.ca $command]"
+			"after cancel [list ::amsn::listChooseSearchBar $w $canv.ca [list $command]]; \
+			after 500 [list ::amsn::listChooseSearchBar $w $canv.ca [list $command]]"
 		bind $w <<Escape>> [list destroy $w]
 		bind $w <Return> [list ::amsn::listChooseOk $w $itemlist $command 0]
 		
