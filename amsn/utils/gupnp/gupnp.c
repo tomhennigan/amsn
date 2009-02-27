@@ -147,7 +147,7 @@ int Gupnp_New _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   g_free(name);
 
-  return TCL_ERROR;
+  return TCL_OK;
 }
 
 
