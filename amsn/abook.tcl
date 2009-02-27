@@ -24,7 +24,6 @@
 }
 
 
-
 namespace eval ::abook {
 #::abook namespace is used to store all information related to users
 #and contact lists.
@@ -39,6 +38,7 @@ namespace eval ::abook {
 		#saved to disk without breaking anything
 		
 		variable consistent 0
+		variable upnp
 
 		# This list stores the names of the fields about the visual representation of the buddy.
 		# When this fields gets changed, we fire an event to redraw that contact on our CL.
@@ -135,7 +135,55 @@ namespace eval ::abook {
 	################################################################################################################################
 	############## MOVE ALL PROTOCOL/IP CHECK RELATED PROCEDURES OUT OF ABOOK!! ABOOK SHOULD CARE ONLY ABOUT #######################
 	############## DATA STORAGE, NOT ABOUT SERVERS/IPS/CONNECTIONS OR WHATEVER !!                            #######################
-	
+
+	proc OpenUPnPPort { port } {
+		variable upnp
+
+
+		if {![catch {package require gupnp}] } {
+			proc ::gupnp::MappedExternalPort {protocol external_ip replaces_external_ip external_port local_ip local_port description} {
+				status_log "UPnP MappedExternalPort ($description): $external_ip:$external_port --> $local_ip:$local_port ($protocol)"
+				::abook::MappedExternalPort $external_ip $external_port $local_ip $local_port
+			}
+		} else {
+			status_log "UPnP package unavailable" red
+			return
+		}
+
+		# In case we already created a upnp port for this, then free it
+		# We need a new object because if we changed network or we had upnp disabled
+		# then we enabled it, it wouldn't work with an old upnp object, we must create
+		# a new one
+		CloseUPnPPort $port
+
+		set local_ip [getLocalIP]
+		if {$local_ip != "" } {
+			set upnp($port) [::gupnp::New]
+			status_log "Trying to open a UPnP port for $port with $upnp($port)"
+			::gupnp::AddPort $upnp($port) "TCP" [getLocalIP] $port $port 6000 "aMSN"
+		} else {
+			status_log "Can't open upnp port because we are not connected"
+		}
+	}
+
+	proc CloseUPnPPort { port } {
+		variable upnp
+
+		if {[info exists upnp($port)] } {
+			::gupnp::RemovePort $upnp($port) "TCP" $port
+			::gupnp::Free $upnp($port)
+			unset upnp($port)
+		}
+		
+	}
+
+	proc MappedUpnpPort {external_ip external_port local_ip local_port } {
+		variable demographics
+
+		set demographics(upnpnat) "true"
+		set demographics(has_upnp) "true"
+	}
+
 	# This proc will configure all ip settings, get private ip, see if firewalled or not, and set netid
 	proc getIPConfig { } {
 		variable demographics
@@ -144,7 +192,8 @@ namespace eval ::abook {
 		set demographics(localip) [getLocalIP]
 		status_log "Finished\n"
 		set demographics(upnpnat) "false"
-		if { [getDemographicField localip] eq ""  && [getDemographicField clientip] eq "" } {
+		set demographics(has_upnp) "false"
+		if { [getDemographicField localip] eq ""  || [getDemographicField clientip] eq "" } {
 			#Not connected
 			set demographics(conntype) ""
 			return
@@ -156,10 +205,12 @@ namespace eval ::abook {
 			set demographics(upnpnat) "false"
 		} else {
 			set demographics(netid) [GetNetID [getDemographicField clientip]]
-			if { [getFirewalled [::config::getKey initialftport]] eq "Firewall" } {
-				set demographics(upnpnat) "false"
-			} else {
-				set demographics(upnpnat) "true"	
+			# Used to test the upnp.
+			if { [getFirewalled [::config::getKey initialftport]] eq "Direct-Connect" &&
+			     [set demographics(upnpnat)] == "false"} {
+				# If there is no upnp, but the connection succeeded, then we might have
+				# opened our ports manually, in which case, consider us direct-connect
+				set demographics(conntype) "Direct-Connect"
 			}
 		}
 
@@ -181,9 +232,6 @@ namespace eval ::abook {
 	# This will return the connection type : ip-restrict-nat, direct-connect or firewall
 	proc getConnectionType { localip clientip } {
  
-		if { $localip eq "" || $clientip eq "" } { 
-			return [getFirewalled [::config::getKey initialftport]]
-		} 
 		if { $localip ne $clientip } {
 			return "IP-Restrict-NAT"
 		} else { 
@@ -211,6 +259,7 @@ namespace eval ::abook {
 			incr port
 		}
 		status_log "::abook::getFirewalled: Connecting to [getDemographicField clientip] port $port\n" blue
+		OpenUPnPPort $port
 		
 		#Need this timeout thing to avoid the socket blocking...
 		set connection_success -2
@@ -236,6 +285,7 @@ namespace eval ::abook {
 		
 		status_log "::abook::getFirewalled: connection_success ($connection_success)\n" blue
 		catch {close $sock}
+		CloseUPnPPort $port
 
 		if { $connection_success == 1 } {
 			return "Direct-Connect"
