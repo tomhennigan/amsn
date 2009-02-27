@@ -1218,9 +1218,17 @@ namespace eval ::smiley {
 
 		unset custom_emotions
 	}
+	proc PurgeUnreachables { } {
+		global custom_emotions
+		foreach name [array names custom_emotions] {
+			array set emotion [set custom_emotions($name)]
+			if {$emotion(reachable) == 0 } {
+				::smiley::NewCustomEmoticonGUI_Delete $name
+			}
+		}
+	}
 
 }
-
 
 
 
