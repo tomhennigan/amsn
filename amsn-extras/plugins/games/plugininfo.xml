@@ -8,6 +8,12 @@ With this plugin you can play any number of (possibly different) games versus an
 
 Notice this plugin is *not* compatible with MSN Zone Games, aMSN only!  However, one day someone might implement the same protocol for other MSN clients (e.g. by developing an MSN Plus! plugin that uses the same protocol as this plugin). You could be that hero!
 	</description>
+	<description_es> Juega con aMSN.
+
+Con este complemento puedes jugar a un número de juegos (posiblemente diferentes) contra cualquier número de personas (posiblemente diferentes de tu lista de contactos.
+
+Este complemento NO es compatible con MSN Zone Games, ¡sólo aMSN!
+	</description_es>
 	<description_hu> Játssz az aMSN segítségével.
 
 A plugin segítségével bármennyi játékot játszhatsz bármennyi partnereddel (akár több játékot több partnerrel).

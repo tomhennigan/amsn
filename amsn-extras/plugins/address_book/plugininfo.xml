@@ -3,25 +3,40 @@
 	<name>Address Book</name>
 	<author>Tom Hennigan</author>
 	<description>Integrates aMSN with the Mac OS X address book. It requires Tclx (which is installed by default on os x). The addressbook extension was written by Bernard Desgraupes, and is released under the same license as Tcl/Tk (http://www.tcl.tk/software/tcltk/license.html).</description>
-	<description_fr>Intégration d'aMSN avec le carnet d'adresse de MAC OS X. Cela nécessite Tclx (qui est installé par défaut sous MAC OS X). L'extension du carnet d'adresse a été écrit par Bernard Desgraupes, et est diffusé sous la même licence que Tcl/Tk (http://www.tcl.tk/software/tcltk/license.html).</description_fr>
+	<description_es>Integra aMSN con la libreta de direcciones de Mac OS X. Requiere Tclx (que estÃ¡ instalado por defecto en MAC OS X). La extensiÃ³n de libreta de direcciones fue escrita por Bernard Desgraupes, y estÃ¡ liberada bajo la misma licencia que Tcl/Tk (http://www.tcl.tk/software/tcltk/license.html).</description_es>
+	<description_fr>Int?gration d'aMSN avec le carnet d'adresse de MAC OS X. Cela n?cessite Tclx (qui est install? par d?faut sous MAC OS X). L'extension du carnet d'adresse a ?t? ?crit par Bernard Desgraupes, et est diffus? sous la m?me licence que Tcl/Tk (http://www.tcl.tk/software/tcltk/license.html).</description_fr>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>1.2</plugin_version>
 	<plugin_file>addressbook.tcl</plugin_file>
 	<plugin_namespace>macabook</plugin_namespace>
 	<init_procedure>init</init_procedure>
 	<deinit_procedure>deinit</deinit_procedure>
-</plugin>
-<cvs_version>9316</cvs_version>
+	<cvs_version>9316</cvs_version>
 
-<file>
+	<lang>
+		<langcode>en</langcode>
+		<version>11059</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>11059</version>
+	</lang>
+	<lang>
+		<langcode>fr</langcode>
+		<version>11059</version>
+	</lang>
+
+	<file>
 		<path>utils/addressbook/pkgIndex.tcl</path>
 		<version>8184</version>
 		<path>utils/addressbook/addressbook1.1.dylib</path>
 		<version>8184</version>
-</file>
+	</file>
 	
-<URL>
-	<main>http://www.amsn-project.net/autoupdater/plugins/address_book/addressbook.tcl</main>
-	<plugininfo>http://www.amsn-project.net/autoupdater/plugins/address_book/plugininfo.xml</plugininfo>
-	<file>http://www.amsn-project.net/autoupdater/plugins/address_book/$file</file>
-</URL>
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/address_book/addressbook.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/address_book/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/address_book/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/address_book/$file</file>
+	</URL>
+</plugin>

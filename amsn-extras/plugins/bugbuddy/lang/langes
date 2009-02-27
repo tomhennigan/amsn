@@ -1,0 +1,5 @@
+amsn_lang_version 2
+activate Iniciar/Parar
+user Usuario
+message Mensaje
+timeout Tiempo de espera

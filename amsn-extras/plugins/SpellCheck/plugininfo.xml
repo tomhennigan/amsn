@@ -3,11 +3,21 @@
 	<name>SpellCheck</name>
 	<author>William Bowling</author>
 	<description>Spell Checker for the chat window. Requires aspell http://aspell.sourceforge.net/</description>
+	<description_es>Corrector ortográfico para la ventana de conversación. Requiere aspell http://aspell.sourceforge.net/</description_es>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>7</plugin_version>
 	<plugin_file>SpellCheck.tcl</plugin_file>
 	<plugin_namespace>SpellCheck</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
+	<cvs_version>11059</cvs_version>
+	<lang>
+		<langcode>en</langcode>
+		<version>11059</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>11059</version>
+	</lang>
 	<lang>
 		<langcode>lt</langcode>
 		<version>10397</version>

@@ -3,6 +3,7 @@
 	<name>growl</name>
 	<author>Jerome Gagnon-Voyer</author>
 	<description>Support Growl notification on Mac OS X http://growl.info/</description>
+	<description_es>Soporte para notificaciones Growl en Mac OS X http://growl.info/</description_es>
 	<description_fr>Supporter les notifications Growl sur MAC OS X http://growl.info</description_fr>
 	<description_hu>Growl figyelmeztetések támogatása Mac OS X-en. http://growl.info/</description_hu>
 	<amsn_version>0.94</amsn_version>
@@ -46,6 +47,10 @@
 	<lang>
 		<langcode>en</langcode>
 		<version>5703</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>11059</version>
 	</lang>
 	<lang>
 		<langcode>hu</langcode>

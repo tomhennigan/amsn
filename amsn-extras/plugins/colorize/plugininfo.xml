@@ -3,6 +3,7 @@
 	<name>Colorize</name>
 	<author>Karol Krizka</author>
 	<description>Change the color of your text from either a predefined list or randomly.</description>
+	<description_es>Cambia el color de tu texto desde o bien una lista predeterminada o aleatoriamente.</description_es>
 	<description_hu>Saját üzenetek színének változtatása előre definiált listából vagy véletlenszerűen.</description_hu>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>1.0</plugin_version>
@@ -11,11 +12,15 @@
 	<init_procedure>InitPlugin</init_procedure>
 	<cvs_version>10835</cvs_version>
 
+
 	<lang>
 		<langcode>en</langcode>
 		<version>10835</version>
 	</lang>
-
+	<lang>
+		<langcode>es</langcode>
+		<version>11059</version>
+	</lang>
 	<lang>
 		<langcode>hu</langcode>
 		<version>10835</version>

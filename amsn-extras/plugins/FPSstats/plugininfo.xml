@@ -3,6 +3,7 @@
 	<name>FPSstats</name>
 	<author>Boris FAURE (billiob)</author>
 	<description>FPSstats Plugin - Requires qstat. Show your current statistics in a game you're playing (such as Enemy Territory, UT2004, CS ...) in your personal message and in an auto-message.</description>
+	<description_es>Complemento FPSstats - Requiere qstat. Muestra tus estadísticas actuales en el juego que estás jugando (como Enemy Territory, UT2004, CS ...) en tu mensaje personal y en un mensaje automático.</description_es>
 	<amsn_version>0.96</amsn_version>
 	<plugin_version>0.9</plugin_version>
 	<plugin_file>FPSstats.tcl</plugin_file>
@@ -14,6 +15,10 @@
 	<lang>
 		<langcode>en</langcode>
 		<version>7062</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>11059</version>
 	</lang>
 	<lang>
 		<langcode>fr</langcode>

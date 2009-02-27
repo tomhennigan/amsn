@@ -1,0 +1,4 @@
+amsn_lang_version 2
+installstyle Instalar estilo $1
+growl_lastmessage_outside Mostrar notificación para el último mensaje recibido sólo si el foco está fuerda de aMSN
+removeamsnnotification Eliminar notificaciones aMSN mientras use Growl

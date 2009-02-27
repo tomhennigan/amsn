@@ -1,29 +1,43 @@
 amsn_lang_version 2
-allowcommands Quieres permitir el uso de comandos en la conversaci�n?
-allowcolours Quieres permitir el uso de multiples colores en la conversaci�n?
+allowcolours Quieres permitir el uso de multiples colores en la conversación?
+allowcommands Quieres permitir el uso de comandos en la conversación?
+allowquicktext ¿Quiere usar la característica de texto rápido?
 bold Negrita
 ccolor \nTu color de texto es $1.
 cfont \nTu fuente es $1.
 choosecolor Escoge un color
 cinfo \nInformacion sobre $1: \nNick: $2 \nGrupo: $3.
-cleave \nHas dejado esta conversaci�n.
+cleave \nHas dejado esta conversación.
 cnewnick \nTu nuevo nick es: $1.
+cnewstatenotvalid \n$1 no es válido.
 cnewstate \nTu nuevo estado es: $1.
-cnewstatenotvalid \n$1 no es v�lido.
 cnick \nTu nick es $1.
-cnotvalid \nTu comando no es v�lido.
+cnotvalid \nTu comando no es válido.
 colournicks Quieres colorear los nicks? (no completado)
 cresult \nResultado del comando:\n$1
 cshell \nEjecutando en la consola: $1
 cspecify \nTienes que especificar un contacto.
 cstatus \nTu estado es $1.
 cstyle \nTu estilo de fuente es $1.
-deleted \nHas eliminado $1 de la lista de contactos\nPara a�adirlo de nuevo: /add $1.
-groupadded \nA�adido el grupo $1.
-groupdeleted \nHas eliminado el grupo $1 \nPara a�adirlo de nuevo: /addgroup $1.
+deleted \nHas eliminado $1 de la lista de contactos\nPara añadirlo de nuevo: /add $1.
+general Opciones generales
+groupadded \nAñadido el grupo $1.
+groupdeleted \nHas eliminado el grupo $1 \nPara añadirlo de nuevo: /addgroup $1.
 italic Cursiva
-multiplecolorsbutton A�ade un nuevo color
+keyword Palabra clave
+localization Localización
+multiplecolorsbutton Añade un nuevo color
+nosuchcommand No existe el comando.
 overstrike Tachado
-parsenicks Quieres filtrar la codificaci�n del messenger plus en los nicks?
+parsenicks Quieres filtrar la codificación del messenger plus en los nicks?
+qthelp Aquí deberías configurar tus textos rápidos, la palabra clave y el texto.\nDespués, en la ventana de conversación, si escribes /palabra_clave, verás el texto asociado
+quicktext Textos rápidos
 reset Limpiar formatos
+resource Recurso
+rusage Aquí puedes insertar una identificación del software que estás usando o dónde estás o cualquier cosa que quieras. Se añadirá al final de tu apodo entre { y }. Intenta emular la característica de jabber. Para evitar esta característica, déjalo en blanco.
+screenshot Enviar una captura de pantalla
+screenshoterr Hubo un error haciendo la captura de pantalla. Comprueba que has compilado y tienes el archivo ejecutable 'screenshot' en la carpeta de amsnplus y tienes los permisos y espacio para crearlo.
+text Texto a escribir
 underline Subrayado
+newpsm Tu nuevo mensaje personal es: $1
+newpsmnone Se ha borrado tu mensaje personal.

@@ -1,0 +1,35 @@
+amsn_lang_version 2
+activeautomessage Añadir tus estadísticas a un mensaje automático
+activepsm Añadir tus estadísticas a tu mensaje personal
+addconfig Añadir una configuración
+automessage Tu mensaje automático con las variables en (\$map por ejemplo)
+balloon_message Clic derecho para iniciar/parar la muestra de tus estadísticas
+cdkey Si se necesita CDKEY para mostrar tus estadísticas, introdúcelo aquí : (dejar un espacio en blanco si no se necesita colocar el CDKEY)
+check Comprobar ruta de Qstat
+choose_state El estado con el que aparecerías al jugar
+chooseconfig Elegir la configuración :
+configname Nombre de esta configuración para identificarla posteriormente
+disabled Deshabilitada
+enabled Habilitada
+free Número de lugares libres en este servidor
+friendlyfire Reemplzar con Habilitada si está habilitado FriendlyFire, si no Deshabilitada
+game Nombre del juego
+gamenick Apodo en el juego
+ip_address Dirección IP del servidor
+map Nombre del mapa
+maxplayers El número más alto de jugadores en este servidor
+numplayers Número de jugadores en el servidor
+ping Tu ping al servidor
+playingTCE ¿Juegas al mod True Combat : Elite ?
+psm Tu mensaje personal con las variables en (\$score por ejemplo)
+qstat Ruta del ejecutable Qstat
+qstat_error La ruta de Qstat es errónea. Por favor, compruébala y después haz clic en "Comprobar ruta de Qstat"
+qstat_ok Qstat encontrado. Puedes continuar configurando el complemento
+readme ¡Léeme!
+removeconfig Eliminar esta configuración
+score Tu puntuación
+second Comprobar si hay nuevas informaciones cada ? segundos
+servername Nombre del servidor
+startplaying Comenzar a jugar a $1
+stopplaying Parar de jugar a $1
+team Nombre del equipo con el que estás jugando

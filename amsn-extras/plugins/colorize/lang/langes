@@ -1,0 +1,7 @@
+amsn_lang_version 2
+random Colores aleatorios
+invalid_t ¡Color no válido!
+invalid_m ¡No introdujiste un color válido! Tiene que estar en el formato: RRGGBB. Por ejemplo rojo sería FF0000
+dup_t ¡Color duplicado!
+dup_m ¡ya existe en la lista!already exists in the list!
+

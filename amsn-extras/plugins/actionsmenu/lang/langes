@@ -1,15 +1,17 @@
 amsn_lang_version 2
 iwantto Quiero
-addacontact A�adir un contacto
+addacontact Añadir un contacto
 searchcontact Buscar un contacto
 search Buscar
 show Mostrar
-ok Ok
+ok Aceptar
 nick Apodo
-email Correo electr�nico
-all Todos
-nocontact No se han encontrado contactos
-copycontact Copie el contacto
-startconf Actions Menu comience :
-minimized Contrato
-maximized Mostrado
+email Correo electrónico
+all Todo
+nocontact Ningún contacto encontrado
+copycontact Copiar contacto
+startconf Inicio del menú de acciones:
+minimized Minimizado
+maximized Maximizado
+searchdefault Búsqueda predeterminada
+showdefault Mostrar predeterminado

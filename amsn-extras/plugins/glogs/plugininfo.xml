@@ -3,6 +3,7 @@
 	<name>GLogs</name>
 	<author>Ignacio Larrain</author>
 	<description>Send logs of conversations to your email. It was made to take advantage of GMail features, but can be used with any mail account.</description>
+	<description_es>Envía registros de conversaciones a tu correo electrónico. Fue realizado aprovechando las características de GMail, pero usarse con cualquier cuenta de correo.</description_es>
 	<description_hu>Beszélgetések naplójának elküldése e-mailben. Eredetileg a GMail-hez készült, de bármely e-mail címmel használható.</description_hu>
 	<amsn_version>0.95</amsn_version>
 	<plugin_version>1</plugin_version>
@@ -24,7 +25,7 @@
 
 	<lang>
 		<langcode>es</langcode>
-		<version>1.1</version>
+		<version>11059</version>
 	</lang>
 
 	<lang>

@@ -1,0 +1,17 @@
+amsn_lang_version 2
+aspell_location Lugar de aspell
+lang_select Selecciona un idioma: 
+aspell_not_found Hubo un error ejecutando aspell. Esto es probablemente porque no fue instalado correctamente y se requiere para que funcione este complemento. Puedes instalarlo desde el gestor de paquetes de tu distribución, o desde http://aspell.sourceforge.net/. Si está instalado, por favor proporciona la ruta correcta en las configuraciones del complemento. ¿Te gustaría hacerlo ahora?
+not_found No encontrado
+ballon_text Pinche aquí para comprobar tu ortografía
+auto_check ¿Comprobar automáticamente antes de enviar?
+check_as_typing Comprobar ortografía mientras se escribe
+addword Añadir palabra...
+showincorrect Mostrar las palabras incorrectas con: 
+background fondo
+foreground primer plano
+underline subrayado
+example Ejemplo
+tagwarning Los colores de las palabras incorrectas son ahora las mismas que el texto predeterminado. Asegúrate de que has cambiado al menos un ajuste para que aparezcan.
+fontstyle estilo de fuente
+removecols Eliminar colores

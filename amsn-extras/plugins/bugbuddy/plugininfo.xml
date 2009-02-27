@@ -3,6 +3,7 @@
         <name>bugbuddy</name>
         <author>Karol Krizka</author>
         <description>A plugin for sending automatic messages to friends.</description>
+		<description_es>Un complemento para enviar mensajes automáticos a amigos.</description_es>
         <description_hu>Automatikus üzenetküldés a barátoknak.</description_hu>
         <amsn_version>0.97</amsn_version>
         <plugin_version>1.0</plugin_version>
@@ -11,15 +12,19 @@
         <init_procedure>InitPlugin</init_procedure>
         <deinit_procedure>DeInitPlugin</deinit_procedure>
         <cvs_version>10836</cvs_version>
-        <file>
+    <file>
 		<path>CREDITS</path>
 		<version>1.1</version>
 	</file>
+
 	<lang>
 		<langcode>en</langcode>
 		<version>10836</version>
 	</lang>
-
+	<lang>
+		<langcode>es</langcode>
+		<version>11059</version>
+	</lang>
 	<lang>
 		<langcode>hu</langcode>
 		<version>10836</version>

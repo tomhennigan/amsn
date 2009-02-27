@@ -3,6 +3,7 @@
 	<name>ActionsMenu</name>
 	<author>Originally written by Karel Demeyer 2005 fixed and improved by Aureliano Di Marco (Takeshi) and Giuseppe Bottiglieri (Square87) , 2007</author>
 	<description>This plugin implements a "Actions Menu" on the bottom of the contact list with Add Contact and Search Contact function. Key shortcut are ctrl+g for search window. Configuration allow to choose input/output presets and ability to start minimized or maximized. </description>
+	<description_es>Este complemento implementa un "Menú de acciones" en la parte inferior de la lista de contactos con funciones de "Añadir contacto" y "Buscar contacto". El atajo del teclado para la ventana de búsqueda es Ctrl+G. La configuración permite elegir preprogramado de entrada/salida y la capacidad de comenzar iniciado o maximizado. </description_es>
 	<description_hu>A plugin egy "Akciómenü"-t ad a partnerlista aljához partner keresés és hozzáadás funkcióval. A keresőablak a ctrl+g billentyűkkel aktiválható. Beállíthatóak a keresési feltételek, és az indítás módja. </description_hu>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.3.1</plugin_version>
@@ -12,16 +13,44 @@
 	<deinit_procedure>DeInit</deinit_procedure>
 	<cvs_version>9002</cvs_version>
 	<lang>
+		<langcode>de</langcode>
+		<version>11059</version>
+	</lang>
+	<lang>
 		<langcode>en</langcode>
 		<version>9002</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>11059</version>
+	</lang>
+	<lang>
+		<langcode>fr</langcode>
+		<version>11059</version>
 	</lang>
 	<lang>
 		<langcode>hu</langcode>
 		<version>9064</version>
 	</lang>
 	<lang>
+		<langcode>it</langcode>
+		<version>11059</version>
+	</lang>
+	<lang>
 		<langcode>lt</langcode>
 		<version>10397</version>
+	</lang>
+	<lang>
+		<langcode>nl</langcode>
+		<version>11059</version>
+	</lang>
+	<lang>
+		<langcode>pt_BR</langcode>
+		<version>11059</version>
+	</lang>
+	<lang>
+		<langcode>tr</langcode>
+		<version>11059</version>
 	</lang>
 	
 	<file>

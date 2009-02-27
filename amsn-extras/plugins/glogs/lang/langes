@@ -8,7 +8,6 @@ smtppass Contraseña
 sendtolabel Ingrese a continuación la cuenta de e-mail donde quiere\n guardar sus registros.
 sendto E-mail de destino (Ej: mi_mail@gmail.com)
 logslabel Opciones de presentación de los mensajes.
-presubject Prefijo de asunto
 defaultprefix Conversación en aMSN: 
 showfooter Firma al pie
 htmlformat Usar formateado html (color, emoticons...)
