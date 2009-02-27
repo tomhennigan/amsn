@@ -1,0 +1,19 @@
+amsn_lang_version 2
+shake_receive 收到闪屏振动时抖动窗口
+shake_send 送出闪屏振动时抖动窗口
+shake_nudge 每次闪屏振动都抖动窗口
+popup_nudge 收到闪屏振动时弹出提示
+notify_send 发送闪屏振动时在聊天窗口中提示
+notify_receive 收到闪屏振动时在聊天窗口中提示
+sound_send 发送闪屏振动时播放音效
+sound_receive 收到闪屏振动时播放音效
+add_button 在聊天窗口增加闪屏振动按钮
+add_blockbutton 在聊天窗口增加闪屏振动的屏蔽按钮
+add_clmenuitem 添加到联系人列表的右键菜单
+send_nudge 发送闪屏振动
+no_nudge_support 由于对方的客户端不支持,你无法发送闪屏振动给对方
+nudge_sent 你刚刚发送了一个闪屏振动
+limit 启用闪屏振动接收限制
+delay 从同一联系人收到的闪屏振动最小时间间隔 (秒)
+send_nudge 发送闪屏振动
+block_nudge 屏蔽/解除 闪屏振动

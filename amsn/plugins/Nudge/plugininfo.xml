@@ -56,6 +56,10 @@
 		<version>9013</version>
 	</lang>
 	<lang>
+		<langcode>lt</langcode>
+		<version>10407</version>
+	</lang>
+	<lang>
 		<langcode>nl</langcode>
 		<version>10405</version>
 	</lang>
@@ -80,8 +84,8 @@
 		<version>1.2</version>
 	</lang>
 	<lang>
-		<langcode>lt</langcode>
-		<version>10407</version>
+		<langcode>zh-CN</langcode>
+		<version>11059</version>
 	</lang>
 
 	<file>
