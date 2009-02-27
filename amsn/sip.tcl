@@ -45,7 +45,7 @@ snit::type SIPConnection {
 	variable call_via
 	variable trying_afterid
 	variable timeout_afterid
-	variable respond_reinvite 0
+	variable respond_reinvite ""
 
 	constructor { args } {
 		install socket using SIPSocket %AUTO%
@@ -585,9 +585,9 @@ snit::type SIPConnection {
 
 				set message [$self BuildResponse $callid INVITE 200]
 				$self Send $message "application/sdp" $sdp
-				set respond_reinvite 0
+				set respond_reinvite ""
 			} else {
-				set respond_reinvite 1
+				set respond_reinvite $callid
 			}
 		}
 
@@ -596,7 +596,7 @@ snit::type SIPConnection {
 
 	method ActiveCandidatesChanged {option value} {
 		set options($option) $value
-		if {$respond_reinvite &&
+		if {$respond_reinvite != "" &&
 		    $options(-active_audio_candidates) != "" &&
 		    ($options(-local_video_candidates) == "" ||
 		     $options(-active_video_candidates) != "")} {
@@ -605,13 +605,15 @@ snit::type SIPConnection {
 			set local_video [lindex $options(-active_video_candidates) 0]
 			set remote_video [lindex $options(-active_video_candidates) 1]
 			set sdp [$self BuildSDP $local_audio $remote_audio $local_video $remote_audio]
+			set callid $respond_reinvite
+
 			incr call_cseq($callid)
 
 
 			set message [$self BuildResponse $callid INVITE 200]
 			$self Send $message "application/sdp" $sdp
 			
-			set respond_reinvite 0
+			set respond_reinvite ""
 		}
 	}
 
@@ -770,8 +772,8 @@ snit::type SIPConnection {
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
 		if {$new_request} {
-			if {[string first ">;+" $call_contact($callid)] != -1} {
-				set idx [string first ">;+" $call_contact($callid)]
+			if {[string first ">;" $call_contact($callid)] != -1} {
+				set idx [string first ">;" $call_contact($callid)]
 				set route [string range $call_contact($callid) 0 $idx]
 			} else {
 				set route $call_contact($callid)
@@ -2010,7 +2012,7 @@ snit::type Farsight {
 		$self Reset
 
 		array set known_bitrates [list "SIREN" 16000 \
-					      "x-msrta" 12000 \
+					      "x-msrta" 29000 \
 					      "G7221" 24000]
 	}
 
@@ -2155,6 +2157,11 @@ snit::type Farsight {
 		foreach {name1 payload_type bitrate} $codec1 break
 		foreach {name2 payload_type bitrate} $codec2 break
 		
+		if {$name1 == "x-msrta" } {
+			return 1
+		} elseif {$name2 == "x-msrta" } {
+			return -1
+		}
 		if {$name1 == "SIREN" } {
 			return 1
 		} elseif {$name2 == "SIREN" } {
@@ -2232,7 +2239,7 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
-		::Farsight::Config -video-source-pipeline "videotestsrc is-live=TRUE ! ffmpegcolorspace ! videoscale ! video/x-raw-rgb,width=352,height=288" -level "" -debug [list $self Debug]
+		::Farsight::Config -video-source-pipeline "videotestsrc pattern=4 is-live=TRUE ! ffmpegcolorspace ! video/x-raw-yuv,width=352,height=288" -level "" -debug [list $self Debug]
 
 		set prepare_relay_info ""
 		if {$prepare_ticket != "" } {
@@ -2307,7 +2314,7 @@ snit::type Farsight {
 				foreach {name pt rate} $codec break
 				if {$name == "PCMA" || $name == "PCMU" || 
 				    $name == "SIREN" || $name == "G723" || 
-				    $name == "AAL2-G726-32" || $name == "x-msrta"} {
+				    $name == "AAL2-G726-32" } {
 					if {[info exists known_bitrates($name)] } {
 						lappend audio_local_codecs [list $name $pt $rate "bitrate=$known_bitrates($name)"]
 					} else {
