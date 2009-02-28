@@ -1,0 +1,16 @@
+amsn_lang_version 2
+gametttgameclosed 相手がゲームを終了させました
+gametttgamesessionwith $1 を $2 にする
+gametttnowinner この試合は引き分けです!\n得点は $1:$2 です
+gametttopponent 相手
+gametttopponentloading 相手がゲームの準備中です...
+gametttopponentready 相手の準備ができました。開始ボタンを押してください。
+gametttopponentsturn 相手の番です
+gametttopponentnotready 相手が開始ボタンを押すのを待っています...
+gametttrestart やり直し
+gametttstart 開始
+gamettttitle Tic Tac Toe
+gametttwait お待ちください...
+gametttwinner $1 が勝ちました!\n得点は $2:$3 です
+gametttyou あなた
+gametttyourturn あなたの番です

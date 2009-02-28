@@ -43,7 +43,10 @@
 		<langcode>hu</langcode>
 		<version>9031</version>
 	</lang>
-	
+	<lang>
+		<langcode>ja</langcode>
+		<version>11067</version>
+	</lang>
 	<lang>
 		<langcode>lt</langcode>
 		<version>10396</version>

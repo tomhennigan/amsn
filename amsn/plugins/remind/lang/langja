@@ -1,0 +1,11 @@
+amsn_lang_version 2
+always 常に
+beginendconversation 変換前と変換後に表示する
+checknote メモがあれば表示する
+daysnumber 日数
+filetransfert ファイル転送を表示
+lastsentence 前回の会話の最後の語句
+nbdisplay 表示する行数
+noteswritten このメンバについてのメモを書きました
+talklast 最近会話をしていたら
+talkwithin 最近会話をしていなかったら

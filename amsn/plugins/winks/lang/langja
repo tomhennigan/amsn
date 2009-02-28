@@ -1,0 +1,32 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu ウィンクメニューに「新しいウィンクを追加」を表示
+winks_close_menu_on_mouse_leave マウスを離したらウィンクメニューを閉じる
+winks_cabextract_command キャビネット展開コマンド:
+winks_use_extrac32 cabextractではなくextrac32(WinXP添付)を使用
+winks_swf_player_command Swf 再生コマンド:
+winks_swf_player_arguments Swf プレイヤ引数:
+winks_add_new_wink 新しいウィンクを追加...
+winks_introduce_new_wink_name 新しいウィンクの名前:
+winks_cant_open 開けません
+winks_received_wink 受信したウィンク:
+winks_unknown_wink_waiting_for_it 不明なウィンク、受信しています...
+winks_wink_transfer_complete ウィンクの転送が完了しました:
+winks_play_animation アニメーションを再生...
+winks_add_to_winks_menu ウィンクメニューに追加
+winks_sending_wink ウィンクの送信中...
+winks_sent_wink 送信したウィンク:
+winks_wink_added ウィンクが追加されました!
+winks_the_wink_is_already_in_winks_menu ウィンクは既にメニューに登録されています!
+winks_play_wink_immediatly_when_recived 受信後、すぐにウィンクを再生する
+winks_wink_deleted ウィンクを削除しました
+winks_wink_renamed ウィンクの名前を変更しました
+winks_cant_add_now_wait_thumbnail ウィンクのサムネイルを表示するまで、しばらくお待ちください
+winks_cant_play_now_wait_thumbnail ウィンクのサムネイルを表示するまで、しばらくお待ちください
+winks_yourcontact_winks ウィンク:
+winks_yourcontact_amsn_client_doesnt_supports_winks はウィンクをサポートしていないソフトを使用しています
+winks_play_embed 会話ウィンドウ内でウィンクを再生(gnashのみ) 
+winks_notify_in_one_line ウィンク受信を通知する
+winks_play 再生
+winks_use_queque_out 会話ウィンドウの外でウィンクを再生するときに再生キューを使用する
+winks_use_queque_in 会話ウィンドウ内でウィンクを再生するときに再生キューを使用する
+winks_file_is_not_a_wink ファイルにウィンクが含まれていません

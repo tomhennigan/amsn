@@ -1,0 +1,12 @@
+amsn_lang_version 2
+all 全て
+filterblocked ブロックしたメンバのみ表示
+filterremovedme 私を削除したメンバのみ表示
+clear 解除
+nickandpsm ニックネームとパーソナルメッセージ
+typeheretofilter メンバリストの絞り込み...
+storelastinput プラグインのロード中に、最後に入力したものを復元
+enableoperators 検索に式を利用する(コンマやスペースでキーワードを区切るときに、"& " (AND) と "| " (OR)が利用できます)
+usewildcards ワイルドカード(*と?)を利用する
+groupname グループ名
+filter フィルタ
