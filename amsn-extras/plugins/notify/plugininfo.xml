@@ -11,7 +11,7 @@
 	<plugin_namespace>notify</plugin_namespace>
 	<init_procedure>initPlugin</init_procedure>
 	<deinit_procedure>deInit</deinit_procedure>
-	<cvs_version>10825</cvs_version>
+	<cvs_version>11069</cvs_version>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/notifyc/notify.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/notify/plugininfo.xml</plugininfo>

@@ -21,6 +21,11 @@
 #		* Added "dash hack", thanks to nico@nc - http://www.amsn-project.net/forums/profile.php?mode=viewprofile&u=5798
 #		* Re-enable sounds on events: http://www.amsn-project.net/forums/viewtopic.php?t=5824&postdays=0&postorder=asc&start=15 , thanks to nico@nc too
 #		* bumped to version 1.3
+#	2009-03-01 :
+#		* Don't show the event if the user is bloqued (and the "don't show blocked user notification" config is set)
+#		* Added OS Check
+#		* Code cleaning
+#		* Bumped to version 1.4
 #
 
 
@@ -34,17 +39,21 @@ namespace eval ::notify {
 	proc initPlugin { dir } {
 		#log "::notify::initPlugin"
 		# register the plugin
-		::plugins::RegisterPlugin "Notify"
+		if { [::OnLinux] || [::OnBSD] || [::OnX11] || [::OnUnix] } {
+			::plugins::RegisterPlugin "Notify"
 
-		# register events
-		::notify::registerEvents
+			# register events
+			::notify::registerEvents
 
-		::config::setKey notifyonlysound 1
+			::config::setKey notifyonlysound 1
 
-		# set the default values for config
-		::notify::configArray
-		checkForBin "notify-send"
-	        log "Plugin Notify activated" 1
+			# set the default values for config
+			::notify::configArray
+			checkForBin "notify-send"
+			log "Plugin Notify activated" 1
+		} else {
+			tk_messageBox -parent .main -title "Warning" -icon warning -type ok -message "This plugin is not aviable on this platform."
+		}
 	}
 
 	proc deInit { } {
@@ -84,7 +93,7 @@ namespace eval ::notify {
 		variable config
 		if { $config(debug) == 1 || $force == 1} {
 			plugins_log Notify $mess
-			status_log $mess
+			#status_log "Notify: $mess"
 			# TODO: when finished, remove status_log, just keep plugins_log
 		}
 	}
@@ -111,7 +120,7 @@ namespace eval ::notify {
 	proc exec_notify { txt {email ""} {urgency "normal"} {expire -1} {category "im.received"} {hint ""} } {
 		global HOME
 		variable config
-		log "exec_notify lvl 1"
+		#log "exec_notify lvl 1"
         
 	        set status [::MSN::myStatusIs]
 	        if { $status == "BSY" && $config(notify_busy) != 1} {
@@ -130,7 +139,7 @@ namespace eval ::notify {
 
 		set nopreview 0
 		set icon 0
-		log "exec_notify lvl 2"
+		#log "exec_notify lvl 2"
 		if { $email != "" } {
 			# see protocol.tcl line ~6500 for this code
 			set filename [::abook::getContactData $email displaypicfile ""]
@@ -141,10 +150,10 @@ namespace eval ::notify {
 				#continue;
 				# TODO: try to find out why there's no DP, and set the NoDP pic
 			} else {
-				log "email check 1: icon is $icon"
+				#log "email check 1: icon is $icon"
 
 				set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-				log "email check 1.1"
+				#log "email check 1.1"
 				
 				if { [catch {set filesize [file size $icon]} res] } {
 					log "oops, set filesize returned $res, continue-ing"
@@ -153,54 +162,54 @@ namespace eval ::notify {
 					#continue
 				} else {
 					#log "catch set filesize returned: $res"
-					log "email check 1.2"
+					#log "email check 1.2"
 					set context "[binary format i 574][binary format i 2][binary format i $filesize][binary format i 0][binary format i $nopreview]"
-					log "email check 2"
+					#log "email check 2"
 					set file [ToUnicode [getfilename $icon]]
 
 					set file [binary format a550 $file]
 					set context "${context}${file}\xFF\xFF\xFF\xFF"
-					log "email check 3"
+					#log "email check 3"
 
 					#Here we resize the picture and save it in /FT/cache for the preview (we send it and we see it)
 					create_dir [file join [set ::HOME] notify cache]
 					if {[catch {set image [image create photo [TmpImgName] -file $icon]}]} {
 						set image [::skin::getNoDisplayPicture]
 					}
-					log "email check 4"
+					#log "email check 4"
 
 					if {[catch {::picture::ResizeWithRatio $image $config(pic_size) $config(pic_size)} res]} {
-						status_log "$res"
+						#status_log "$res"
 					}
-					log "email check 5"
+					#log "email check 5"
 
 					set file  "[file join [set ::HOME] notify cache ${callid}.png]"
 					if {[catch {::picture::Save $image $file cxpng} res] } {
-						status_log "$res"
+						#status_log "$res"
 					}
-					log "email check 6"
+					#log "email check 6"
 
 					if {$image != "displaypicture_std_none"} {
 						image delete $image
 					}
-					log "email check 7"
+					#log "email check 7"
 
 					::skin::setPixmap ${callid}.png $file
 
-					log "email check 8"
+					#log "email check 8"
 					if { [catch { open $file} fd] == 0 } {
 						fconfigure $fd -translation {binary binary }
 						set context "$context[read $fd]"
 						close $fd
 					}
-					log "email check 9"
+					#log "email check 9"
 
 					set icon	"--icon=$file"
-					log "email check 10"
+					#log "email check 10"
 				}
 			}
 		}
-		log "exec_notify after email check"
+		#log "exec_notify after email check"
 		if { "$category" != "" } {
 			set category	"--category=$category"
 		}
@@ -212,7 +221,7 @@ namespace eval ::notify {
 			set config(notify_header) "aMSN"
 		}
 		set title [ string map [list "%email" "$email" ] $config(notify_header) ]
-	        log "plop 1"
+	        #log "plop 1"
 
 	        #log "plop 2"
 		#set txt   [ string map { "[" "\\[" "]" "\\]" "(" "\\(" ")" "\\)" "\$" "\\\$" "-" "\\\\-" ">" "\\\\>" "<" "\\\\<" } $txt ]
@@ -221,18 +230,18 @@ namespace eval ::notify {
         	set title [ ::notify::protect $title ]
 		#log "plop 3"
 		# libnotify WANTS them to be in utf8
-		log "We are in ${::env(LANG)}"
+		#log "We are in ${::env(LANG)}"
 		if { [string match "*UTF*" $::env(LANG) ] == 0 } {
 			set txt [encoding convertto utf-8 $txt]
 			set title [encoding convertto utf-8 $title]
 			#log "Converted to UTF8, because we are in ${::env(LANG)}"
 		}
-		log "plop 4"
+		#log "plop 4"
 	
 		# thanks music plugin
 	        set cmd [concat [list "exec" $notify $urgency $expire $icon $category "--" "$title" "$txt"  ]]
 	        #log "executing $notify $urgency $expire $icon $category $hint \"$title\" \"$txt\""
-	        log "executing $notify $cmd"
+			#log "executing $notify $cmd"
 	        #if { [catch { eval [concat [list "exec"] $notify $urgency $expire $icon $category $hint "\"$title\"" "\"$txt\"" ]} result ] } {}
 	        if { [catch { eval $cmd } result ] } {
 			log "Error lauching $notify : $result"
@@ -249,7 +258,7 @@ namespace eval ::notify {
 	}
 
 	proc userChangeState { event epvar } {
-		log "userChangeState called"
+		#log "userChangeState called"
 		#upvar 2 $epvar args
 		#log "userChangeState lvl 1"
 		#upvar 2 $args(user) user
@@ -257,15 +266,16 @@ namespace eval ::notify {
 		#upvar 2 $args(substate) substate
 		#log "userChangeState lvl 3"
 		upvar 2 user user
-		log "userChangeState lvl 1"
+		#log "userChangeState lvl 1"
 		upvar 2 substate substate
-		log "userChangeState lvl 2"
+		#log "userChangeState lvl 2"
 		#upvar 2 oldsubstate oldsubstate
 		#log "userChangeState lvl 2.1 old substate: $oldsubstate"
 
 		# Ignore user if blocked and we don't want blocked notifs
-		if {[::config::getKey no_blocked_notif 0] == 1 &&
-		    [::MSN::userIsBlocked $user]} {
+		log "Checking if $user is blocked"
+		if {[::config::getKey no_blocked_notif 0] == 1 && [::MSN::userIsBlocked $user]} {
+			log "User $user is blocked !"
 			return
 		}
 
@@ -279,7 +289,7 @@ namespace eval ::notify {
 
 		set state [::MSN::stateToDescription $substate]
 		set state [ trans $state ]
-		log "userChangeState email: $email, username: $username, state: $state ($substate)"
+		#log "userChangeState email: $email, username: $username, state: $state ($substate)"
 		
 		switch -- $substate {
 			"FLN" {
@@ -306,7 +316,7 @@ namespace eval ::notify {
 				}
 			}
 		}
-		log "going to exec"
+		#log "going to exec"
 		exec_notify "$txt" "$email"
 	}
 
