@@ -1184,7 +1184,7 @@ namespace eval ::guiContactList {
 		set colourignore 0
 		set bg_x ""
 		set bg_cl ""
-		set list_bg [list ]
+		set list_bg [list newline]
 		set underline_yes 0
 		set list_underline [list ]
 		set overstrike_yes 0
@@ -1241,14 +1241,11 @@ namespace eval ::guiContactList {
 						}
 						
 						if {$underline_yes} {
-							set yunderline [expr {$ypos - $yori + $textheight + 1}]
-							lappend list_underline [list $xpos $yunderline $textwidth $colour]
+							lappend list_underline [list $xpos $ypos $textwidth $colour]
 						}
 
 						if {$overstrike_yes} {
-							set yunderline [expr {$ypos - $yori + $textheight + 1}]
-						#	set yunderline [expr { $yunderline / 2}]
-							lappend list_overstrike [list $xpos $yunderline $textwidth $colour]
+							lappend list_overstrike [list $xpos $ypos $textwidth $colour]
 						}
 
 						# Change the coords
@@ -1446,6 +1443,8 @@ namespace eval ::guiContactList {
 					incr i
 					set linewidth [lindex $lineswidth $i]
 					set j 1
+					
+					lappend list_bg [list newline]
 				}
 				default {
 					set nosize 1
@@ -1466,7 +1465,7 @@ namespace eval ::guiContactList {
 		}
 		
 		if {$list_bg ne ""} {
-			background_text $canvas $list_bg $textheight $main_tag
+			background_text $canvas $list_bg $linesheight $main_tag
 		}
 		
 		return [array get underlinearr]
@@ -2339,18 +2338,25 @@ namespace eval ::guiContactList {
 	}
 
 
-	proc background_text { canvas lines textheight nicktag} {
+	proc background_text { canvas list_bg linesheight nicktag} {
 		set tag [lindex $nicktag 0]
 		set bgtag "bg$tag"
+		set t 0
+		set maxheight 0
 		
-		foreach line $lines {
-			$canvas create rect\
-				[lindex $line 0] \
-				[expr { [lindex $line 1] - $textheight} ] \
-				[lindex $line 2]\
-				[expr { [lindex $line 1] + $textheight} ] \
-				-fill [lindex $line 3] -outline "" \
-				-tags [list $bgtag $tag contact bg]
+		foreach x $list_bg {
+			if {$x ne "newline"} {
+				$canvas create rect\
+					[lindex $x 0] \
+					[expr { [lindex $x 1] - $maxheight} ] \
+					[lindex $x 2]\
+					[expr { [lindex $x 1] + $maxheight} ] \
+					-fill [lindex $x 3] -outline "" \
+					-tags [list $bgtag $tag contact bg]
+			} else {
+				set maxheight [expr {[lindex $linesheight $t]/2}]
+				incr t
+			}
 		}
 		
 		$canvas lower $bgtag "$tag"
