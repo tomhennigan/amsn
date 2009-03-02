@@ -882,11 +882,6 @@ namespace eval ::skin {
 		::skin::setPixmap recordbut recordbut.gif
 		::skin::setPixmap recordbuth recordbuth.gif
 		::skin::setPixmap pause pause.gif
-
-		::skin::setPixmap button button.gif
-		::skin::setPixmap button_hover button_hover.gif
-		::skin::setPixmap button_pressed button_pressed.gif
-		::skin::setPixmap button_disabled button_disabled.gif
 	
 		::skin::setPixmap ring ring.gif
 		::skin::setPixmap ring_disabled ring_disabled.gif
