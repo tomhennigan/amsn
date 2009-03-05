@@ -323,7 +323,6 @@ namespace eval ::config {
 		
 		::config::setKey hide_users_in_cw 1	;#in a multichat don't show users in the topcw
 
-
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
@@ -550,6 +549,7 @@ namespace eval ::config {
 		setGlobalKey skin "default"			;#AMSN skin
 		setGlobalKey disableprofiles 0 ;#Disable profiles (useful for cybercafes or similar)
 
+
 		#Specific configs for Mac OS X (Aqua) first, and for others systems after
 		if { [OnMac] } {
 			setGlobalKey basefont [list {Lucida Grande} 12 normal]	;#AMSN Mac OS X base font
@@ -558,6 +558,7 @@ namespace eval ::config {
 		} else {
 			setGlobalKey basefont [list Helvetica 11 normal]	;#AMSN base font
 		}
+		setGlobalKey dpi 0	;# The screen's DPI if we want to force it. 0 to let it use default
 	}
 
 	proc get {key} {

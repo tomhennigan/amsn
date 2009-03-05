@@ -302,6 +302,11 @@ set size [lindex [::config::getGlobalKey basefont] 1]
 ::themes::Init
 if { $family == "" } { set family "Helvetica"}
 if { $size == "" } { set size "11"}
+
+if {[::config::getGlobalKey dpi] > 0} {
+	tk scaling [expr {[::config::getGlobalKey dpi] / 72.0}]
+}
+
 ::amsn::initLook $family $size [::config::getKey backgroundcolor]
 foreach font [font families] {
 	set allfonts([string tolower $font]) $font
