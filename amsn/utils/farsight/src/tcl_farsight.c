@@ -2097,6 +2097,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     FsCodec *pcma = fs_codec_new (8, "PCMA", FS_MEDIA_TYPE_AUDIO, 8000);
     FsCodec *pcmu = fs_codec_new (0, "PCMU", FS_MEDIA_TYPE_AUDIO, 8000);
     FsCodec *red = fs_codec_new (97, "RED", FS_MEDIA_TYPE_AUDIO, 8000);
+    FsCodec *telephone_event = fs_codec_new (101, "telephone-event",
+        FS_MEDIA_TYPE_AUDIO, 8000);
 
     codec_preferences = g_list_append (codec_preferences, x_msrta_16000);
     codec_preferences = g_list_append (codec_preferences, siren);
@@ -2107,6 +2109,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     codec_preferences = g_list_append (codec_preferences, pcma);
     codec_preferences = g_list_append (codec_preferences, pcmu);
     codec_preferences = g_list_append (codec_preferences, red);
+    codec_preferences = g_list_append (codec_preferences, telephone_event);
+
 
     fs_session_set_codec_preferences (audio_session, codec_preferences, NULL);
 
