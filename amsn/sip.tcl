@@ -2206,10 +2206,10 @@ snit::type Farsight {
 	method Prepare { controlling {mode "A6"} } {
 		if {[info exists ::sso] && $::sso != ""} {
 			set prepare_ticket ""
-			#$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
-			#if {$prepare_ticket == "" } {
-			#	tkwait variable [myvar prepare_ticket]
-			#}
+			$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
+			if {$prepare_ticket == "" } {
+				tkwait variable [myvar prepare_ticket]
+			}
 		}
 
 		$self Close
