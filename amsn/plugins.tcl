@@ -1210,6 +1210,9 @@ namespace eval ::plugins {
 
 		#save the loaded plugins
 		foreach {plugin} $loadedplugins {
+			if { [array names ::plugins::plugins ${plugin}_name] eq "" } {
+				continue
+			}
 			set namespace [getInfo $plugin plugin_namespace]
 			puts $file_id "\t<plugin>"
 			puts $file_id "\t\t<name>${plugin}</name>"
@@ -1233,6 +1236,9 @@ namespace eval ::plugins {
 		
 		#save the other plugins
 		foreach {plugin} [array names ::plugins::config] {
+			if { [array names ::plugins::plugins ${plugin}_name] eq "" } {
+				continue
+			}
 			puts $file_id "\t<plugin>"
 			puts $file_id "\t\t<name>${plugin}</name>"
 			puts $file_id "\t\t<loaded>false</loaded>"
