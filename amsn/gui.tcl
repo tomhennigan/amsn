@@ -4101,7 +4101,7 @@ namespace eval ::amsn {
 			if {![winfo exists $win_name]} { return }
 
 			if {[::config::getKey chatsmileys]} {
-				if {($tagname ne "says") && ([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
+				if {($tagname ne "says") && [lindex $unit 0] ne "smiley" && ([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
 					custom_smile_subst $chatid $textw $text_start end
 				}
 				
