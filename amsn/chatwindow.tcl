@@ -36,7 +36,6 @@ namespace eval ::ChatWindow {
 		variable containercurrent
 		variable containerid 0
 		variable scrolling
-
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -2501,6 +2500,9 @@ namespace eval ::ChatWindow {
 			#TODO: new skin key for endcallimage
 			#TODO: skin key for amplificationimage, maybe 2 (one pressed...)
 			#TODO: skin key for mute/unmute speakers/microphone
+			set buttonframeheight 0
+			set buttonframewidth 0
+#...
 			voipcontrol $frame_in -orient vertical \
 				-bg [::skin::getKey chatwindowbg]\
 				-endcallimage [::skin::loadPixmap buthangup] \
@@ -2526,13 +2528,13 @@ namespace eval ::ChatWindow {
 				-mutevariable ::ChatWindow::voip_mute_out \
 				-volumecommand [list ::ChatWindow::VolumeOut $frame_out] \
 				-volumevariable ::ChatWindow::voip_volume_out
-			$frame_in configure -width 32
+			$frame_in configure -width [$frame_in getSize]
 			pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
 			if { [::config::getKey old_dpframe 0] == 0 } {
-				$frame_out configure -height 32
+				$frame_out configure -height [$frame_out getSize]
 				pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne -fill x
 			} else {
-				$frame_out configure -width 32
+				$frame_out configure -width [$frame_out getSize]
 				$frame_out configure -height 150
 				pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne
 			}

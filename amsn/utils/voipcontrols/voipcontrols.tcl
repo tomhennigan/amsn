@@ -112,6 +112,11 @@ snit::widget voipcontrol {
 			set volumeshown 1
 		}
 	}
+	method getSize {} {
+		set size $options(-volumeframesize)
+		incr size $options(-buttonframesize)
+		return $size
+	}
 }
 
 
@@ -184,6 +189,7 @@ snit::widget soundmixervolume {
 	option -from -default 0
 	option -to -default 100
 
+	option -isAmplification -default 0 -readonly yes; #TODO
 
 	#option -levelimage -configuremethod SetLevelImage; #TODO
 	option -levelsize -default 5 -configuremethod SetLevelSize
