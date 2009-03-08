@@ -156,39 +156,66 @@ namespace eval ::debug {
 		} }
 	}
 
+	# adapted from: http://wiki.tcl.tk/15193
+	proc get_proc_full { name {level 2} } {
+		if {![string match ::* $name]} {
+			set ns [uplevel $level namespace current]
+			if { $ns != "::" } {
+				set name "${ns}::${name}"
+			}
+		}
+		return $name
+	}
+
+	proc stack_procs_enter { args } {
+		puts "Enter: [lindex $args 0]"
+	}
+	
+	proc stack_procs_leave { args } {
+		set ret [lindex $args 2]
+		if { $ret ==  {} } {
+			set ret "{}"
+		}
+		puts "Leave: $ret <- [lindex $args 0]"
+	}
+
+	proc enable_hook {} {
+		rename proc ::tk::proc
+		uplevel #0 {
+			::tk::proc proc { name args body } {
+				set name [::debug::get_proc_full $name]
+				
+				::tk::proc $name $args $body 
+				
+				trace add execution $name enter ::debug::stack_procs_enter
+				trace add execution $name leave ::debug::stack_procs_leave
+			}
+		}
+	}
+
+	proc disable_hook {} {
+		uplevel #0 {
+			catch {
+				rename proc {}
+				rename ::tk::proc proc
+			}
+		}
+	}
+
 	# This will not work with upvar or uplevel!
 	# We must hook them to and increment the level!
-	proc stack_procs { } {
-		if {[info commands ::tk::proc] == "" } {
-			rename proc ::tk::proc
-		}
-		::tk::proc ::proc { name arguments body } {
-			set function [namespace tail $name]
-			set ns [string range $name 0 end-[string length $function]]
-			set new_name "${ns}wrapped_$function"
-			namespace eval [uplevel 1 {namespace current}] \
-			    [list ::tk::proc $new_name $arguments $body]
-			
-			set wrapper_body {
-				set debug_stack_procs_args $args
-				unset args
-				set debug_stack_procs_locals [uplevel 1 {info locals}]
-				foreach debug_stack_procs_l $debug_stack_procs_locals {
-					if {![info exists $debug_stack_procs_l] } {
-						upvar 1 $debug_stack_procs_l $debug_stack_procs_l
-					}
-				}
-				puts "Entering proc @name@ with args $debug_stack_procs_args"
-				set debug_stack_procs_ret [eval @new_name@ $debug_stack_procs_args]
-				puts "Leaving proc @name@ with return : $debug_stack_procs_ret"
-				return $debug_stack_procs_ret
+	proc stack_procs { {filename {}} } {
+		::debug::enable_hook
+		if { [catch {
+			if { $filename == {} } {
+				reload_files
+			} else {
+				source $filename
 			}
-			puts "[uplevel 1 {namespace current}] Hooking $name into $new_name"
-			
-			namespace eval [uplevel 1 {namespace current}] \
-			    [list ::tk::proc $name {args} [string map [list @name@ $name @new_name@ $new_name] $wrapper_body]]
+		} res ] } {
+			puts "Error when loading files: $res"
 		}
-		reload_files
+		::debug::disable_hook
 	}
 
 }
