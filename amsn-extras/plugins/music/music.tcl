@@ -905,12 +905,17 @@ namespace eval ::music {
 		set status [lindex $tmplst 0]
 		set art [lindex $tmplst 1]
 		set song [lindex $tmplst 2]
-		
+	        set path [lindex $tmplst 3]
+		set artpath [lindex $tmplst 4]
+		set album [lindex $tmplst 5]
+		if {[string first "nocover" [file tail $artpath]] != -1} {set artpath "" }	
 		if {$status == "0"} {
 			return 0
 		}
 
-		return [list $song $art]
+
+
+		return [list $song $art $path $artpath $album]
 	}
 
 	###############################################

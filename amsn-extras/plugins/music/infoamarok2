@@ -6,8 +6,12 @@ AMAROK=`ps -e | grep [a]marok`
 if [ -n "$AMAROK" ]
 then
 	#Yes so we get the info
-	artist=`qdbus org.kde.amarok /Player GetMetadata | grep artist`
+	#artist=`qdbus org.kde.amarok /Player GetMetadata | grep artist`
 	title=`qdbus org.kde.amarok /Player GetMetadata | grep title`
+	artist=`qdbus org.kde.amarok /Player GetMetadata | grep artist`
+	path=`qdbus org.kde.amarok /Player GetMetadata | grep location | sed -e s/%20/\ /g`
+	artpath=`qdbus org.kde.amarok /Player GetMetadata | grep arturl | sed -e s/%20/\ /g`
+	album=`qdbus org.kde.amarok /Player GetMetadata | grep album:`
 	position=`qdbus org.kde.amarok /Player PositionGet`
 	if [ $position == 0 ]
 	then
@@ -15,9 +19,19 @@ then
 	else
 	  status=1
 	fi
+	
+	#regsub -all "%20" "what%20ever" tata blabla
+	#set test [string map { "%20" "ta" } $path]
+ 	#bla="allo"	
+	#regsub -all (jni) $path {!\1!} bla
+
 	echo $status
 	echo ${artist/"artist: "/""}
+	#echo ${path/"location: "/""}
 	echo ${title/"title: "/""}
+	echo ${path/"location: file:"/""}
+	echo ${artpath/"arturl: file:"/""}
+	echo ${album/"album: "/""}
 else
 	#No so we set to state stopped
 	echo 0
