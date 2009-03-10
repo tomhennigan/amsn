@@ -767,12 +767,8 @@ namespace eval ::guiContactList {
 							$canvas create image $boXpad $bodYbegin -image boxbody_$groupDrawn \
 								-anchor nw -tags [list box box_body $gid]
 						}
-							
-						set y2 "body"
-						
 					} else {
 						set bodYend $bodYbegin
-						set y2 ""
 					}
 
 					$canvas create image $boXpad $bodYend -image boxdownbar -anchor nw \
@@ -780,7 +776,7 @@ namespace eval ::guiContactList {
 
 					set curPos [list [lindex $curPos 0] [expr {[lindex $curPos 1]+ $ypad}] ]
 					
-					if {$y2 ne "" && [::skin::getKey "groupcolorborder"] ne ""} {
+					if {[::skin::getKey "groupcolorborder"] ne ""} {
 						$canvas create rect \
 							$boXpad $bodYbegin $width [expr {$bodYbegin + $height}] \
 							-outline [::skin::getKey "groupcolorborder"] -width 3 \
@@ -861,6 +857,13 @@ namespace eval ::guiContactList {
 				}
 			} else {
 				set bodYend $bodYbegin
+			}
+			
+			if {[::skin::getKey "groupcolorborder"] ne ""} {
+				$canvas create rect \
+					$boXpad $bodYbegin $width [expr {$bodYbegin + $height}] \
+					-outline [::skin::getKey "groupcolorborder"] -width 3 \
+					-tags [list box box_body $gid border]
 			}
 	
 			# Create endbar of the box
@@ -2020,9 +2023,8 @@ namespace eval ::guiContactList {
 	
 	proc user_background {canvas tag maxwidth} {
 		set bbox [$canvas bbox $tag]
-		set coords [$canvas coords $tag]
 		$canvas create rect \
-			[expr { [lindex $bbox 0] + [lindex $coords 0] - [::skin::getKey contactlist_xpad] - (2* [::skin::getKey buddy_xpad])}] \
+			[::skin::getKey contactlist_xpad] \
 			[lindex $bbox 1] \
 			[expr { $maxwidth + [::skin::getKey contactlist_xpad] + [::skin::getKey buddy_xpad] + 4}] \
 			[lindex $bbox 3] \
