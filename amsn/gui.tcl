@@ -3713,7 +3713,7 @@ namespace eval ::amsn {
 
 		if {![string equal $msg ""]} {
 			if {[::config::getKey colored_text_in_cw] == 1} {
-				set msg_parsing [::smiley::parseMessageToList [list [ list "text" "$message" ]] 0 1 1]
+				set msg_parsing [list [list "text" $message]]
 				set evpar(variable) msg_parsing
 				set evpar(login) $user
 				::plugins::PostEvent parse_contact evpar
@@ -3975,9 +3975,6 @@ namespace eval ::amsn {
 		if {$lst == ""} {
 			set lst [list ]
 			lappend lst [list text "$txt"]
-			set check_always_smiley 1
-		} else {
-			set check_always_smiley 0
 		}
 		
 		set evPar(tagname) tagname
@@ -3987,8 +3984,8 @@ namespace eval ::amsn {
  
 		foreach unit $lst {
 			switch [lindex $unit 0] {
-				"text"   { set txt "[lindex $unit 1]"}
-				"smiley" { set txt "[lindex $unit 2]"}
+				"text"   { set txt "[lindex $unit 1]" }
+				"smiley" { set txt "[lindex $unit 2" }
 				"colour" { 
 					  if {[lindex $unit 1] ne "reset"} {
 						set fontcolor [string range [lindex $unit 1] 1 end]
@@ -4005,9 +4002,7 @@ namespace eval ::amsn {
 					  }
 					  continue
 				}
-				"newline" {
-					set txt "\n"
-				}
+				"newline" { set txt "\n" }
 				default { continue }
 			}
 
@@ -4099,26 +4094,22 @@ namespace eval ::amsn {
 			
 			#Avoid problems if the windows was closed in the middle...
 			if {![winfo exists $win_name]} { return }
-
-			if {[::config::getKey chatsmileys]} {
-				if {($tagname ne "says") && ([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
-					custom_smile_subst $chatid $textw $text_start end
-				}
-				
-				#we need to call those procs only if the "txt" value is not empty (it means that we are writing in chatwindow in the old method, and so we need to parse all the "txt" value) or if the "unit 0" value is smiley (new method).
-				if {$check_always_smiley || $user == [string tolower [::config::getKey login]] ||([lindex $unit 0] eq "smiley") } {
-					#Replace smileys... if you're sending custom ones, replace them too (last parameter)
-					if { $user == [string tolower [::config::getKey login]] } {
-						::smiley::substSmileys $textw $text_start end 0 1
-						#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
-					} else {
-						::smiley::substSmileys $textw $text_start end 0 0
-					}
-				}
-				
-			}
 			
 		} ;#end of foreach
+		
+		if {[::config::getKey chatsmileys]} {
+			if {($tagname ne "says") && ([::config::getKey customsmileys] && [::abook::getContactData $user showcustomsmileys] != 0) } {
+				custom_smile_subst $chatid $textw $text_start end
+			}
+				
+			#Replace smileys... if you're sending custom ones, replace them too (last parameter)
+			if { $user == [string tolower [::config::getKey login]] } {
+				::smiley::substSmileys $textw $text_start end 0 1
+				#::smiley::substYourSmileys [::ChatWindow::GetOutText ${win_name}] $text_start end 0
+			} else {
+				::smiley::substSmileys $textw $text_start end 0 0
+			}
+		}
 
 		if { $scrolling } { ::ChatWindow::Scroll $textw }
 				     
