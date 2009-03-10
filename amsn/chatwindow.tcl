@@ -3528,7 +3528,7 @@ namespace eval ::ChatWindow {
 				}
 			}
 
-			set list_1  [list [list default $defaultcolour $defaultfont] [list font $defaultfont]]
+			set list_1  [list [list default $defaultcolour $defaultfont] [list colour reset] [list font reset] [list font $defaultfont]]
 			set nicktxt [concat $list_1 $nicktxt]
 			::guiContactList::renderContact $top [list cw_${user_login} cw_txt] $maxw $nicktxt 0
 			
