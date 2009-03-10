@@ -167,6 +167,10 @@ namespace eval ::MSNCAM {
 		set listening [getObjOption $sid listening_socket]
 		if { $listening != "" } {
 			catch { close $listening }
+			set port [getObjOption $sid listening_port]
+			if {$port != ""} {
+				::abook::CloseUPnPPort $port
+			}
 		}
 
 
@@ -506,7 +510,9 @@ namespace eval ::MSNCAM {
 		while { [catch {set sock [socket -server "::MSNCAM::handleMsnCam $sid" $port] } ] } {
 			incr port
 		}
+		::abook::OpenUPnPPort $port
 		setObjOption $sid listening_socket $sock
+		setObjOption $sid listening_port $port
 		status_log "Opening server on port $port\n" red
 		return $port
 	}

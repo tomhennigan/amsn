@@ -571,11 +571,12 @@ namespace eval ::MSNFT {
 		while {[catch {set sockid [socket -server "::MSNFT::AcceptConnection $cookie $authcookie" $port]} res]} {
 			incr port
 		}
+		::abook::OpenUPnPPort $port
 
 		#TODO: More than one transfer? Don't create one listening socket for every person, just one for all,
 		# but that makes the authcookie thing difficult...
 		lappend filedata($oldcookie) $sockid
-		after 300000 "catch {close $sockid}"
+		after 300000 "catch {close $sockid}; ::abook::CloseUPnPPort $port"
 
 		set msg "MIME-Version: 1.0\r\nContent-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 		set msg "${msg}Invitation-Command: ACCEPT\r\n"
@@ -8117,8 +8118,9 @@ namespace eval ::MSN6FT {
 		while { [catch {set sock [socket -server "::MSN6FT::handleMsnFT $nonce $sid $sending" $port] } ] } {
 			incr port
 		}
+		::abook::OpenUPnPPort $port
 		# TODO the server socket should be closed as soon as the user authenticated or whatever... 
-		after 300000 "catch {close $sock}"
+		after 300000 "catch {close $sock}; ::abook::CloseUPnPPort $port"
 
 		::amsn::FTProgress w $sid "" $port
 		status_log "Opening server on port $port\n" red
