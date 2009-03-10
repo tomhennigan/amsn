@@ -3985,7 +3985,7 @@ namespace eval ::amsn {
 		foreach unit $lst {
 			switch [lindex $unit 0] {
 				"text"   { set txt "[lindex $unit 1]" }
-				"smiley" { set txt "[lindex $unit 2" }
+				"smiley" { set txt "[lindex $unit 2]" }
 				"colour" { 
 					  if {[lindex $unit 1] ne "reset"} {
 						set fontcolor [string range [lindex $unit 1] 1 end]
