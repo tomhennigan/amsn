@@ -3468,20 +3468,25 @@ namespace eval ::ChatWindow {
 			set incr_y $default_incr_y
 			
 			set user_name_dim $usrsX
+			set new_temp_list [list ]
 			foreach unit $user_name {
 				switch [lindex $unit 0] {
 					"text" {
 						incr user_name_dim [font measure sboldf -displayof $top [lindex $unit 1]]
+						lappend new_temp_list [lindex $unit]
 					}
 					"smiley" {
 						if {[image height [lindex $unit 1]] > $incr_y} {
 							set incr_y [image height [lindex $unit 1]]
 						}
 						incr user_name_dim [image width [lindex $unit 1]]
+						lappend new_temp_list [lindex $unit]
 					}
 					"newline" {}
+					default { lappend new_temp_list [lindex $unit] }
 				}
 			}
+			set user_name $new_temp_list
 			#to be sure there is a < and a > more
 			incr user_name_dim [font measure sboldf -displayof $top " <<${user_login}>> "]
 
