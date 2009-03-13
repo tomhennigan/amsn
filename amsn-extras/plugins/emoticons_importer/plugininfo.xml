@@ -4,6 +4,7 @@
 	<author>Youness Alaoui (a.k.a KaKaRoTo)</author>
 	<description>Plugin that allows you to batch import multiple emoticons into aMSN in one shot. Compatible with kopete emoticon packs.</description>
 	<description_es>Complemento que te permite importar un grupo de múltiples emoticonos en aMSN de un golpe. Compatible con los paquetes de emoticonos de kopete.</description_es>
+	<description_hu>Több smiley egyidejű importálása az aMSN-be. Jelenleg a kopete smiley készletei támogatottak.</description_hu> 
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.2</plugin_version>
 	<plugin_file>emoticons_importer.tcl</plugin_file>
@@ -18,6 +19,9 @@
 		<langcode>es</langcode>
 		<version>11059</version>
 	</lang>
+	<lang>
+		<langcode>hu</langcode>
+		<version>11094</version>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/emoticon_importer/emoticon_imporer.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/emoticon_importer/plugininfo.xml</plugininfo>

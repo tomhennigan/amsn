@@ -25,3 +25,4 @@ music_mpd_port MPD szerver portja
 music_mpd_password MPD szerver jelszava (ha szükséges)
 lasterror Utolsó hiba
 noerror Nincs hiba
+style Megjelenítési forma
