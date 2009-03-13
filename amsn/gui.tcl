@@ -3970,6 +3970,11 @@ namespace eval ::amsn {
 					set txtelement [string range $txtelement 1 end]
 					set lst [lreplace $lst 0 0 [list text "$txtelement"]]
 				}
+				# Compact style has 2 newlines, no 1, so we need to remove both.
+				if {[string index $txtelement 0] == "\n"} { 
+					set txtelement [string range $txtelement 1 end]
+					set lst [lreplace $lst 0 0 [list text "$txtelement"]]
+				}
 			}
 		}
 
