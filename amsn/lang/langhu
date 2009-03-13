@@ -16,6 +16,9 @@ addprofile Új profil hozzáadása
 addstate Saját állapot hozzáadása
 addtocontacts Hozzáadás a partnerlistához
 addto hozzáadás ehhez: $1
+addtoal Hozzáadás : AL
+addtobl Hozzáadás : BL
+addtofl Hozzáadás : FL
 addtoo Felvétel a partnerlistára
 admincontacts Partnerek szerkesztése
 admingroups Csoportok szerkesztése
