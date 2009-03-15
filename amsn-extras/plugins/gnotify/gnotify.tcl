@@ -1227,6 +1227,17 @@ namespace eval ::gnotify {
 
 					plugins_log gnotify "Unknown key 0xC2 of size : $size"
 				}
+				392 {
+					# 0x188 Unknown??? it's new!
+					set value [GetMultiByte data]
+					plugins_log gnotify "Unknown key 0x188 has value : $value"
+					
+				}
+				400 {
+					# 0x190 Unknown??? it's new!
+					set value [GetMultiByte data]
+					plugins_log gnotify "Unknown key 0x190 has value : $value"
+				}
 				default {
 					plugins_log gnotify "Unknown key : $key"
 					incr info(errors)
