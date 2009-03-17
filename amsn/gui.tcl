@@ -3654,8 +3654,7 @@ namespace eval ::amsn {
 				}
 			} elseif {$chatstyle eq "custom"} {
 				set customchatstyle__ [::config::getKey customchatstyle]
-				
-				set style [string map {"\\" "\\\\" "\$" "\\\$" "\(" "\\\(" " " " \\__fr33s@p4ce-_ "} $customchatstyle__]
+				set style [string map { "\\" "\\\\" "\$nick" " \\\$nick " "\$tstamp" " \\\$tstamp " "\$newline" " \\\$newline " "\(" "\\\(" " " " \\__fr33s@p4ce-_ "} $customchatstyle__]
 				set parsing [list]
 				lappend parsing [list text "\n"]
 				
