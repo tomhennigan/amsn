@@ -15,6 +15,9 @@ snit::widget voipcontrol {
 	option -bg -default white -configuremethod SetBackground
 	option -state -default normal -configuremethod SetState
 
+	option -amplificationimage
+	option -amplificationpressedimage
+
 	component volumeframe
 	component amplificationframe
 	component mutecheckbutton
@@ -23,7 +26,6 @@ snit::widget voipcontrol {
 
 	delegate option -amplificationvariable to amplificationframe as -variable
 	delegate option -amplificationcommand to amplificationbutton as -command
-	delegate option -amplificationimage to amplificationbutton as -state
 
 	delegate option -endcallimage to endcallbutton as -image
 	delegate option -endcallcommand to endcallbutton as -command
@@ -189,7 +191,7 @@ snit::widget soundmixervolume {
 	option -from -default 0
 	option -to -default 100
 
-	option -isAmplification -default 0 -readonly yes; #TODO
+	option -isamplification -default 0 -readonly yes; #TODO
 
 	#option -levelimage -configuremethod SetLevelImage; #TODO
 	option -levelsize -default 5 -configuremethod SetLevelSize

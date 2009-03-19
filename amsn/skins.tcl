@@ -931,8 +931,12 @@ namespace eval ::skin {
 		
 		::skin::setPixmap voice_icon voice.gif
 
-		::skin::setPixmap mute mute.gif
-		::skin::setPixmap unmute unmute.gif
+		::skin::setPixmap ampli ampli.gif
+		::skin::setPixmap ampli_pressed ampli_pressed.gif
+		::skin::setPixmap mic mic.gif
+		::skin::setPixmap mic_muted mic_muted.gif
+		::skin::setPixmap speaker speaker.gif
+		::skin::setPixmap speaker_muted speaker_muted.gif
 
 		::skin::setPixmap nullimage null
 		#set the nullimage transparent
