@@ -53,8 +53,8 @@ snit::widget voipcontrol {
 		set amplificationframe [soundmixervolume ${win}.amplificationframe]
 		set buttonframe [frame ${win}.buttonframe]
 		set mutecheckbutton [mutecheckbutton ${buttonframe}.mute]
-		set endcallbutton [button ${buttonframe}.endcall]
-		set amplificationbutton [button ${buttonframe}.amplification -command "$self ToggleVolumeAmplification"]
+		set endcallbutton [button ${buttonframe}.endcall -relief flat]
+		set amplificationbutton [button ${buttonframe}.amplification -command "$self ToggleVolumeAmplification" -relief flat]
 
 		$self configurelist $args
 		#creating volumeframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
@@ -65,6 +65,7 @@ snit::widget voipcontrol {
 		$self configurelist $args
 
 		pack forget ${win}.amplificationframe
+		$amplificationbutton configure -image $options(-amplificationimage)
 		set volumeshown 1
 
 		if { $options(-orient) == "vertical" } {
@@ -104,6 +105,7 @@ snit::widget voipcontrol {
 				place $amplificationframe -height $options(-volumeframesize) -relwidth 1
 			}
 			set volumeshown 0
+			$amplificationbutton configure -image $options(-amplificationpressedimage)
 		} else {
 			place forget $win.amplificationframe
 			if {$options(-orient) == "vertical"} {
@@ -112,6 +114,7 @@ snit::widget voipcontrol {
 				place $volumeframe -height $options(-volumeframesize) -relwidth 1
 			}
 			set volumeshown 1
+			$amplificationbutton configure -image $options(-amplificationimage)
 		}
 	}
 	method getSize {} {

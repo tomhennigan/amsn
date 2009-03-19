@@ -2498,21 +2498,18 @@ namespace eval ::ChatWindow {
 		status_log "Creating CW Voip controls"
 		if {$::ChatWindow::usingnewvoipcontrols} {
 			#TODO: new skin key for endcallimage
-			#TODO: skin key for amplificationimage, maybe 2 (one pressed...)
-			#TODO: skin key for mute/unmute speakers/microphone
-			set buttonframeheight 0
-			set buttonframewidth 0
-#...
 			voipcontrol $frame_in -orient vertical \
 				-bg [::skin::getKey chatwindowbg]\
 				-endcallimage [::skin::loadPixmap buthangup] \
 				-endcallstate disabled \
-				-muteimage [::skin::loadPixmap mute] \
-				-unmuteimage [::skin::loadPixmap unmute] \
+				-muteimage [::skin::loadPixmap mic] \
+				-unmuteimage [::skin::loadPixmap mic_muted] \
 				-mutecommand [list ::ChatWindow::MuteIn $frame_in] \
 				-mutevariable ::ChatWindow::voip_mute_in \
 				-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
-				-volumevariable ::ChatWindow::voip_volume_in
+				-volumevariable ::ChatWindow::voip_volume_in \
+				-amplificationimage [::skin::loadPixmap ampli] \
+				-amplificationpressedimage [::skin::loadPixmap ampli_pressed]
 			if { [::config::getKey old_dpframe 0] == 0 } {
 				set orient "horizontal"
 			} else {
@@ -2522,12 +2519,14 @@ namespace eval ::ChatWindow {
 				-bg [::skin::getKey chatwindowbg]\
 				-endcallimage [::skin::loadPixmap buthangup] \
 				-endcallstate disabled \
-				-muteimage [::skin::loadPixmap mute] \
-				-unmuteimage [::skin::loadPixmap unmute] \
+				-muteimage [::skin::loadPixmap speaker] \
+				-unmuteimage [::skin::loadPixmap speaker_muted] \
 				-mutecommand [list ::ChatWindow::MuteOut $frame_out] \
 				-mutevariable ::ChatWindow::voip_mute_out \
 				-volumecommand [list ::ChatWindow::VolumeOut $frame_out] \
-				-volumevariable ::ChatWindow::voip_volume_out
+				-volumevariable ::ChatWindow::voip_volume_out \
+				-amplificationimage [::skin::loadPixmap ampli] \
+				-amplificationpressedimage [::skin::loadPixmap ampli_pressed]
 			$frame_in configure -width [$frame_in getSize]
 			pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
 			if { [::config::getKey old_dpframe 0] == 0 } {
