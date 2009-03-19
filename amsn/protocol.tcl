@@ -4367,7 +4367,11 @@ namespace eval ::MSNOIM {
 				set done [eval $cmd]
 			}
 			if {$done} {
-				set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
+				# The list_cmdhnd might have been modified by the callback
+				set idx [lsearch $list_cmdhnd "ns $ret_trid *"]
+				if {$idx != -1 } {
+					set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]
+				}
 			}
 
 			return 0
@@ -5046,7 +5050,11 @@ namespace eval ::MSNOIM {
 			set cmd "[lindex [lindex $list_cmdhnd $idx] 2] {$command}"
 			#status_log "command is $cmd"
 			if {[eval $cmd] } {
-				set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]				
+				# The list_cmdhnd might have been modified by the callback
+				set idx [lsearch $list_cmdhnd "$self $ret_trid *"]
+				if {$idx != -1} {
+					set list_cmdhnd [lreplace $list_cmdhnd $idx $idx]				
+				}
 			}
 		} else {
 			switch -- [lindex $command 0] {
