@@ -177,29 +177,13 @@ namespace eval ::guiContactList {
 
 		# MacOS Classic/OSX and Windows
 		if {[OnMac]} {
-			bind $clcanvas <MouseWheel> {
-				%W yview scroll [expr {- (%D)}] units;
-
-				::guiContactList::moveBGimage $::guiContactList::clcanvas
-			}
+			bind $clcanvas <MouseWheel> [list ::amsn::scrollCanvas $clcanvas %W %D]
 		} elseif {$tcl_platform(platform) == "windows"} {
 			#TODO: test it with tcl8.5
 			if {$::tcl_version >= 8.5} {
-				bind $clcanvas <MouseWheel> {
-					if {%D >= 0} {
-						::guiContactList::scrollCL $::guiContactList::clcanvas up
-					} else {
-						::guiContactList::scrollCL $::guiContactList::clcanvas down
-					}
-				}
+				bind $clcanvas <MouseWheel> [list ::amsn::scrollCanvas $clcanvas %W %D]
 			} else {
-				bind [winfo toplevel $clcanvas] <MouseWheel> {
-					if {%D >= 0} {
-						::guiContactList::scrollCL $::guiContactList::clcanvas up
-					} else {
-						::guiContactList::scrollCL $::guiContactList::clcanvas down
-					}
-				}
+				bind [winfo toplevel $clcanvas] <MouseWheel> [list ::amsn::scrollCanvas $clcanvas %W %D]
 			}
 		} else {
 			# We're on X11! (I suppose ;))

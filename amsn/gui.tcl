@@ -2895,6 +2895,18 @@ namespace eval ::amsn {
 
 	}
 
+	proc scrollCanvas { canvas w d} {
+		if {[OnMac]} {
+			$w yview scroll [expr {- ($d)}] units
+			::guiContactList::moveBGimage $canvas
+		} elseif {[OnWin] } {
+			if {$d >= 0} {
+				::guiContactList::scrollCL $canvas up
+			} else {
+				::guiContactList::scrollCL $canvas down
+			}
+		}
+	}
 
 	proc listChoose {title itemlist command {other 0} {skip 1}} {
 		global userchoose_req
@@ -2980,29 +2992,13 @@ namespace eval ::amsn {
 		bind $w <Return> [list ::amsn::listChooseOk $w $itemlist $command 0]
 		
 		if {[OnMac]} {
-			bind $canv.ca <MouseWheel> {
-				%W yview scroll [expr {- (%D)}] units;
-
-				::guiContactList::moveBGimage $::guiContactList::clcanvas
-			}
+			bind $canv.ca <MouseWheel> [list ::amsn::scrollCanvas $canv.ca %W %D]
 		} elseif {$::tcl_platform(platform) == "windows"} {
 			#TODO: test it with tcl8.5
 			if {$::tcl_version >= 8.5} {
-				bind $canv.ca <MouseWheel> {
-					if {%D >= 0} {
-						::guiContactList::scrollCL $canv.ca up
-					} else {
-						::guiContactList::scrollCL $canv.ca down
-					}
-				}
+				bind $canv.ca <MouseWheel> [list ::amsn::scrollCanvas $canv.ca %W %D]
 			} else {
-				bind [winfo toplevel $canv.ca] <MouseWheel> {
-					if {%D >= 0} {
-						::guiContactList::scrollCL $canv.ca up
-					} else {
-						::guiContactList::scrollCL $canv.ca down
-					}
-				}
+				bind [winfo toplevel $canv.ca] <MouseWheel> [list ::amsn::scrollCanvas $canv.ca %W %D]
 			}
 		} else {
 			# We're on X11! (I suppose ;))
