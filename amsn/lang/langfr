@@ -603,7 +603,7 @@ newveravailable Une nouvelle version est disponible ($1)
 next Suivant
 nick Pseudonyme
 nickchanged $1 a son pseudonyme en "$2"
-no_blocked_notif Ne pas afficher de fenêtre de notificiation pour les contacts bloqués.
+no_blocked_notif Ne pas afficher de fenêtre de notification pour les contacts bloqués.
 noactivity Inactif
 nocacheddps Il n'y a pas d'avatars enregistrés pour cet utilisateur
 nocamwarn Aucune webcam n'a été trouvée, ou bien votre webcam est utilisée par un autre programme (elle ne peut dans ce cas pas être utilisée par aMSN). Vous trouverez de l'aide pour résoubre ce problème sur le Wiki:
