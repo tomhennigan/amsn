@@ -867,15 +867,14 @@ int Capture_SetAttribute _ANSI_ARGS_((ClientData clientData,
     return TCL_OK;
   }
   
-  if (new_value > 65535 || new_value < 0) {
-//    Tcl_SetResult(interp, "Invalid value. It should be between 0 and 65535" , TCL_STATIC);
-//    return TCL_ERROR;
-    return TCL_OK;
-  }
-  
   // Get the ng_attribute struct from the attribute id
   attr = ng_attr_byid(&(capItem->dev), attribute);
   
+  if (new_value > attr->max || new_value < attr->min) {
+    Tcl_SetResult(interp, "Value out of range" , TCL_STATIC);
+    return TCL_ERROR;
+  }
+
   // Set attribute value using attribute->write proc...
   if (attr != NULL) {
       if (new_value != -1)
