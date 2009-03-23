@@ -44,20 +44,13 @@ namespace eval ::autoupdate {
 		pack .tlsdown.caption -side top -expand true -fill x -padx 10 -pady 10
 		pack .tlsdown.choose -side top -anchor w -padx 10 -pady 10
 
-		radiobutton .tlsdown.linuxx86 -text "Linux-x86" -variable tlsplatform -value "linuxx86" -font splainf
-		radiobutton .tlsdown.linuxx86_64 -text "Linux-x86_64" -variable tlsplatform -value "linuxx86_64" -font splainf
-		radiobutton .tlsdown.linuxppc -text "Linux-PowerPC" -variable tlsplatform -value "linuxppc" -font splainf
-		radiobutton .tlsdown.linuxsparc -text "Linux-SPARC" -variable tlsplatform -value "linuxsparc" -font splainf
-		radiobutton .tlsdown.netbsdx86 -text "NetBSD-x86" -variable tlsplatform -value "netbsdx86" -font splainf
-		radiobutton .tlsdown.netbsdsparc64 -text "NetBSD-SPARC64" -variable tlsplatform -value "netbsdsparc64" -font splainf
-		radiobutton .tlsdown.freebsdx86 -text "FreeBSD-x86" -variable tlsplatform -value "freebsdx86" -font splainf
-		radiobutton .tlsdown.solaris26 -text "Solaris 2.6 SPARC" -variable tlsplatform -value "solaris26" -font splainf
-		radiobutton .tlsdown.solaris28 -text "Solaris 2.8 SPARC" -variable tlsplatform -value "solaris28" -font splainf
-		radiobutton .tlsdown.win32 -text "Windows" -variable tlsplatform -value "win32" -font splainf
-		radiobutton .tlsdown.mac -text "Mac OS X" -variable tlsplatform -value "mac" -font splainf
-		radiobutton .tlsdown.src -text "[trans sourcecode]" -variable tlsplatform -value "src" -font splainf
-		radiobutton .tlsdown.nodown -text "[trans dontdownload]" -variable tlsplatform -value "nodown" -font splainf
-
+		combobox::combobox .tlsdown.os -editable false -width 60 -command ::autoupdate::TLS_OS_choosed
+		.tlsdown.os list delete 0 end
+		set trans_sourcecode [trans sourcecode]
+		set trans_dontdownload [trans dontdownload]
+		set list_os_name [list Linux-x86 Linux-x86_64 Linux-PowerPC Linux-SPARC NetBSD-x86 NetBSD-SPARC64 FreeBSD-x86 "Solaris 2.6 SPARC" "Solaris 2.8 SPARC" Windows "Mac OS X" $trans_sourcecode $trans_dontdownload ]
+		eval .tlsdown.os list insert end $list_os_name
+		.tlsdown.os select 0
 
 		frame .tlsdown.f
 
@@ -67,19 +60,7 @@ namespace eval ::autoupdate {
 		pack .tlsdown.f.cancel -side right -padx 10 -pady 10
 		pack .tlsdown.f.ok -side right -padx 10 -pady 10
 
-		pack .tlsdown.linuxx86 -side top -anchor w -padx 15
-		pack .tlsdown.linuxx86_64 -side top -anchor w -padx 15
-		pack .tlsdown.linuxppc -side top -anchor w -padx 15
-		pack .tlsdown.linuxsparc -side top -anchor w -padx 15
-		pack .tlsdown.netbsdx86 -side top -anchor w -padx 15
-		pack .tlsdown.netbsdsparc64 -side top -anchor w -padx 15
-		pack .tlsdown.freebsdx86 -side top -anchor w -padx 15
-		pack .tlsdown.solaris26 -side top -anchor w -padx 15
-		pack .tlsdown.solaris28 -side top -anchor w -padx 15
-		pack .tlsdown.mac -side top -anchor w -padx 15
-		pack .tlsdown.win32 -side top -anchor w -padx 15
-		pack .tlsdown.src -side top -anchor w -padx 15
-		pack .tlsdown.nodown -side top -anchor w -padx 15
+		pack .tlsdown.os
 
 		pack .tlsdown.f -side top
 
@@ -90,6 +71,21 @@ namespace eval ::autoupdate {
 		}
 
 		catch {grab .tlsdown}
+	}
+
+	proc TLS_OS_choosed {w value} {
+		global tlsplatform
+		set trans_sourcecode [trans sourcecode]
+		set trans_dontdownload [trans dontdownload]
+		set list_os_name [list Linux-x86 Linux-x86_64 Linux-PowerPC Linux-SPARC NetBSD-x86 NetBSD-SPARC64 FreeBSD-x86 "Solaris 2.6 SPARC" "Solaris 2.8 SPARC" Windows "Mac OS X" $trans_sourcecode $trans_dontdownload ]
+		set list_os_value [list linuxx86 linuxx86_64 linuxppc linuxsparc netbsdx86 netbsdsparc64 freebsdx86 solaris26 solaris28 win32 mac src nodown]
+		set t 0
+		foreach x $list_os_name {
+			if {$value eq $x} {
+				set tlsplatform [lindex $list_os_value $t]
+			}
+			incr t
+		}
 	}
 
 	proc downloadTLS {} {
