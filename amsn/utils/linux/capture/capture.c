@@ -870,15 +870,10 @@ int Capture_SetAttribute _ANSI_ARGS_((ClientData clientData,
   // Get the ng_attribute struct from the attribute id
   attr = ng_attr_byid(&(capItem->dev), attribute);
   
-  if (new_value > attr->max || new_value < attr->min) {
-    Tcl_SetResult(interp, "Value out of range" , TCL_STATIC);
-    return TCL_ERROR;
-  }
-
   // Set attribute value using attribute->write proc...
   if (attr != NULL) {
-      if (new_value != -1)
-        attr->write(attr, new_value);
+    if (new_value >= attr->min && new_value <= attr->max)
+      attr->write(attr, new_value);
   }
   
   return TCL_OK;
