@@ -3899,7 +3899,7 @@ namespace eval ::ChatWindow {
 		set tab_width [expr {$tabbar_width / $number_tabs}]
 		TabsWidth $container set $tab_width
 
-		if {$tab_width < 2} {
+		if {$tab_width < 2 && $number_tabs != 1} {
 			set tab_width 100
 			set enable_after 1
 		} else {
