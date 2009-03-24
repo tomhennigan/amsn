@@ -22,6 +22,7 @@
 	<lang>
 		<langcode>hu</langcode>
 		<version>11094</version>
+	</lang>
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins/emoticon_importer/emoticon_imporer.tcl</main>
 		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/emoticon_importer/plugininfo.xml</plugininfo>
