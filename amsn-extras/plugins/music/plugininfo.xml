@@ -12,7 +12,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>11089</cvs_version>
+	<cvs_version>11105</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>

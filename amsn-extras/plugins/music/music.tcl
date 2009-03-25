@@ -1195,7 +1195,7 @@ namespace eval ::music {
 		# Path not available in exile
 		#append newPath "file://" $path
 		
-		if {$status != "playing"} {
+		if {$status != "playing" && $status != "paused"} {
 			return 0
 		}
 		
