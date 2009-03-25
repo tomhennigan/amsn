@@ -4733,7 +4733,7 @@ proc create_main_menu {wmenu} {
 	#change nick
 	$accnt add command -label "[trans changenick]..." -command [list cmsn_change_name] -state disabled
 	#change psm
-	$accnt add command -label "[trans changepsm]..." -command [list cmsn_change_name] -state disabled
+	$accnt add command -label "[trans changepsm]..." -command [list cmsn_change_name 1] -state disabled
 	#change dp
 	$accnt add command -label "[trans changedisplaypic]..." -command [list dpBrowser] -state disabled
 	#-------------------
@@ -6958,7 +6958,7 @@ proc newcontact_ok { w x0 x1 } {
 
 
 #///////////////////////////////////////////////////////////////////////
-proc cmsn_change_name {} {
+proc cmsn_change_name {{changepsm 0}} {
 	set w .change_name
 	if {[winfo exists $w]} {
 		raise $w
@@ -7049,7 +7049,11 @@ proc cmsn_change_name {} {
 
 	catch {
 		raise $w
-		focus -force $w.f.nick_entry
+		if {$changepsm} {
+			focus -force $w.f.psm_entry
+		} else {
+			focus -force $w.f.nick_entry
+		}
 	}
 	moveinscreen $w 30
 }
