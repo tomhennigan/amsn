@@ -42,7 +42,7 @@ namespace eval ::abook {
 
 		# This list stores the names of the fields about the visual representation of the buddy.
 		# When this fields gets changed, we fire an event to redraw that contact on our CL.
-		variable VisualData [list nick customnick customfnick cust_p4c_name customcolor customdp]
+		variable VisualData [list nick abnick customnick customfnick cust_p4c_name customcolor customdp]
 
 		global pgc pcc
 	}
@@ -433,7 +433,8 @@ namespace eval ::abook {
 			set user_data($field) $data
 		}
 		
-		if { $field eq "nick" || $field eq "mfn" || $field eq "psm" || $field eq "customnick" || $field eq "customfnick" } {
+		if { $field eq "nick" || $field eq "abnick" || $field eq "mfn" ||
+		     $field eq "psm" || $field eq "customnick" || $field eq "customfnick" } {
 			set data [::smiley::parseMessageToList [list [ list "text" "$data" ]] 1]
 			set evpar(variable) data
 			set evpar(login) $user_login

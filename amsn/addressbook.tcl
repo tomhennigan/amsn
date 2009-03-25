@@ -374,24 +374,29 @@ snit::type Addressbook {
 					}
 				}
 			       
-				if {$contacttype == "Me" } {
-					set j 0
-					while { 1 } {
-						set annotation_k [GetXmlEntry $subxml "Contact:contactInfo:annotations:Annotation:Name" $j]
-						set annotation_v [GetXmlEntry $subxml "Contact:contactInfo:annotations:Annotation:Value" $j]
-						incr j
-						if {$annotation_k == "" } {
-							break
-						}
+				set j 0
+				while { 1 } {
+					set annotation_k [GetXmlEntry $subxml "Contact:contactInfo:annotations:Annotation:Name" $j]
+					set annotation_v [GetXmlEntry $subxml "Contact:contactInfo:annotations:Annotation:Value" $j]
+					incr j
+					if {$annotation_k == "" } {
+						break
+					}
 
+					if {$contacttype == "Me" } {
 						if {$annotation_k == "MSN.IM.BLP" } {
 							global list_BLP
 							set list_BLP annotation_v
 						} elseif {$annotation_k == "MSN.IM.MPOP" } {
 							::abook::setPersonal MPOP $annotation_v
 						}
+					} else {
+						if {$annotation_k == "AB.NickName" } {
+							::abook::setContactData $username abnick $annotation_v
+						}
 					}
 				}
+				
 			       
 				if {$contacttype == "Me" } {
 					::abook::setPersonal info_lastchange [GetXmlEntry $subxml "Contact:lastChange"]
