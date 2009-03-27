@@ -3314,8 +3314,8 @@ namespace eval ::CAMGUI {
 
 	proc getNextKeyframeOffset { filename {offset 0} } {
 		set fd [open $filename r]
-		seek $fd $offset
 		fconfigure $fd -encoding binary -translation binary
+		seek $fd $offset
 		set data [read $fd 1024000]
 		# we need to start looking at least after the 12th char otherwise the $advance -12 will give us a negative value in our data.
 		set advance [string first "ML20" $data 12]
