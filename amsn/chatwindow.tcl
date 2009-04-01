@@ -3881,6 +3881,10 @@ namespace eval ::ChatWindow {
 		variable win2tab
 		
 		set tabbar_width [winfo width $container.bar]
+		if { $::tcl_version >= 8.4 } {
+			set tabbar_width [expr {$tabbar_width - ([::skin::getKey chat_tabbar_padx]*2)}]
+		}
+		if {$tabbar_width < 1} { set tabbar_width 1 }
 
 		if {[array names containerwindows] ne ""} {
 			set container_names [array names containerwindows]
@@ -3918,6 +3922,7 @@ namespace eval ::ChatWindow {
 				$tab create rect 0 0 $tab_width 33 -tag tab_bg -outline [::skin::getKey tabbarbg] -width 5
 
 				$tab create image $tab_width $tab_close_y -image [::skin::loadPixmap tab_close] -anchor nw -tags "tab_close tab_text"
+				
 				$tab create image 0 0 -image $topimg -anchor nw -tags tab_bg
 			}
 			
@@ -3943,11 +3948,11 @@ namespace eval ::ChatWindow {
 		variable tab2win
 		variable win2tab
 		
-		set tab_width [TabsWidth $container get]
 		set w [string map { "." "_"} $win]
 		set tab $container.bar.$w
 
 		RecreateTabs $container 1
+		set tab_width [TabsWidth $container get]
 		
 		set topimg [CreateTabbg $container 1]
 
@@ -3984,6 +3989,8 @@ namespace eval ::ChatWindow {
 	
 	proc CreateTabbg {container tab_on} {
 		set tab_width [TabsWidth $container get]
+		if {$tab_width > 5 } { incr tab_width -5 }
+		
 		set container [string map { "." "_"} $container]
 		
 		set topimg [image create photo tabchat_0]
