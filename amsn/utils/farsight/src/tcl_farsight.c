@@ -1178,6 +1178,12 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
               _codecs_ready (audio_session);
             }
           }
+          if (video_session != NULL && !video_codecs_ready) {
+            g_object_get (video_session, "codecs-ready", &ready, NULL);
+            if (ready) {
+              _codecs_ready (video_session);
+            }
+          }
         } else if (gst_structure_has_name (s, "farsight-new-active-candidate-pair")) {
           FsCandidate *local;
           FsCandidate *remote;
