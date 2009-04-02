@@ -1,0 +1,15 @@
+amsn_lang_version 2
+old_behav Blocked users must switch to Online state \n to get unblocked (the old behaviour).
+pblist Permanently blocked:
+palist Permanently allowed:
+rempb Remove from permanently blocked
+rempa Remove from permanently allowed
+addpb Add to permanently blocked list
+addpa Add to permanently allowed list
+allcont All contacts:
+waittext Waiting time (in ms) after login\n(to start unblocking allowed online contatcs).
+invconfirmbl Do you want Invisibility plugin to add this user to its permanent block list?
+invconfirmunbl Do you want Invisibility plugin to remove this user from its permanent block list?
+invblock Invisibility permanent block list
+otomat Blocked/unblocked contacts are automatically\nadded to/removed from Invisibiliy permanent block list.
+

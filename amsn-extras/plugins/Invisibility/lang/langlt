@@ -1,0 +1,15 @@
+amsn_lang_version 2
+old_behav Užblokuoti vartotojai turi persijungti į prisijungusiųjų būseną,\n kad būtų atblokuoti (sena elgsena).
+pblist Ilgam užblokuoti:
+palist Ilgam priimti:
+rempb Pašalinti iš ilgam užblokuotųjų
+rempa Pašalinti iš ilgam priimtųjų
+addpb Pridėti į ilgam užblokuotųjų sąrašą
+addpa Pridėti į ilgam priimtųjų sąrašą
+allcont Visus kontaktus:
+waittext Laukimo laikas (ms) po prisijungimo\n(pradėti atblokuoti priimtus prisijungusius kontaktus).
+invconfirmbl Ar norite, kad Invisibility įskiepis pridėtų šį vartotoją į savo ilgalaikį blokavimo sąrašą?
+invconfirmunbl Ar norite, kad Invisibility įskiepis pašalintų šį vartotoją iš savo ilgalaikio blokavimo sąrašo?
+invblock Invisibility ilgalaikio blokavimo sąrašas
+otomat Užblokuoti/atblokuoti kontaktai yra automatiškai\npridedami arba pašalinami iš Invisibility ilgalaikio blokavimo sąrašo.
+

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>Invisibility</name>
+	<author>Anto Cvitic, Kemal Ilgar Eroğlu</author>
+	<description>This plugin will block contacts going offline and unblock when status changes to online</description>
+	<description_lt>Šis įskiepis užblokuos kontaktus, kai pakeisite būseną į Atsijungęs ir atblokuos, kai pakeisite būseną į Prisijungęs.</description_lt>
+	<description_tr>Bu eklenti ile çevrimiçi görünmeyen bağlantıları engelleyip çevrimiçi olduklarında engellerini kaldırabilirsiniz. Böylece yalnızca sizin görebildiğiniz bağlantıların sizi görmesine izin vermiş olursunuz.</description_tr>
+	<amsn_version>0.98</amsn_version>
+	<plugin_version>0.5</plugin_version>
+	<plugin_file>Invisibility.tcl</plugin_file>
+	<plugin_namespace>Invisibility</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>deInit</deinit_procedure>
+	<cvs_version>11121</cvs_version>
+
+	<lang>
+		<langcode>en</langcode>
+		<version>11121</version>
+	</lang>	
+	<lang>
+		<langcode>lt</langcode>
+		<version>1.0</version>
+	</lang>	
+	<lang>
+		<langcode>tr</langcode>
+		<version>11121</version>
+	</lang>
+
+	<file>
+		<path>Changelog</path>
+		<version>7949</version>
+	</file>
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/Invisibility/invisibility.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/Invisibility/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/Invisibility/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/Invisibility/$file</file>
+	</URL>
+	
+</plugin>

@@ -1,0 +1,12 @@
+22/09/2007 Kemal Ilgar Eroglu <ilgar_eroglu@yahoo.com>
+	* Version 0.5
+	* Fix bug with unblockneutrals not running at login
+	* Other minor changes
+	* Works with pre-0.98 SVN (0.4 is broken since ::MSN::(Un)blockUser API changed)
+	* Added Lithuanian translation. Thanks to Tadas Masiulionis.
+
+26/12/2007 Kemal Ilgar Eroglu <ilgar_eroglu@yahoo.com>
+	* Version 0.4.
+	* Added option to adjust the waiting time before unblockneutrals.
+	* Block/unblock automatically add/removes the contact in the permanent
+	 block list, but this can be turned off to as for explicit confirmation.

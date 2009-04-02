@@ -1,0 +1,14 @@
+amsn_lang_version 2
+old_behav Engellenmiþ kullanýcýlar ancak Çevrimiçi durumuna geçtiklerinde \n engelleri kalksýn (eski davranýþ).
+pblist Her zaman engellenenler:
+palist Her zaman izin verilenler:
+rempb Kalýcý engeli kaldýr
+rempa Kalýcý izni kaldýr
+addpb Her zaman engelle
+addpa Her zaman izin ver
+allcont Tüm baðlantýlar:
+waittext Baðlandýtan sonra izin verilen baðlantýlarýn engelini\nkaldýrmadan önce bekleme süresi (ms olarak).
+invconfirmbl Invisibility eklentisi bu kiþiyi her zaman engellenenler listesine eklesin mi?
+invconfirmunbl Invisibility eklentisi bu kiþiyi her zaman engellenenler listesinden çýkarsýn mý?
+invblock Invisibility her zaman engellenenler listesi
+otomat Engellenen/engeli kaldýrýlan kullanýcýlar otomatik olarak Invisibility\n"her zaman engellenenler" listesine alýnsýn/listesinden çýkarýlsýn.
