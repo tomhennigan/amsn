@@ -143,7 +143,7 @@ namespace eval ::abook {
 		if {![catch {package require gupnp}] } {
 			proc ::gupnp::MappedExternalPort {protocol external_ip replaces_external_ip external_port local_ip local_port description} {
 				status_log "UPnP MappedExternalPort ($description): $external_ip:$external_port --> $local_ip:$local_port ($protocol)"
-				::abook::MappedExternalPort $external_ip $external_port $local_ip $local_port
+				::abook::MappedUPnpPort $external_ip $external_port $local_ip $local_port
 			}
 		} else {
 			status_log "UPnP package unavailable" red
@@ -177,7 +177,7 @@ namespace eval ::abook {
 		
 	}
 
-	proc MappedUpnpPort {external_ip external_port local_ip local_port } {
+	proc MappedUPnpPort {external_ip external_port local_ip local_port } {
 		variable demographics
 
 		set demographics(upnpnat) "true"
