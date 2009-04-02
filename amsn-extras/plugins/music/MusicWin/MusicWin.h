@@ -3,6 +3,7 @@
 
 // Include files, must include windows.h before tk.h and tcl.h before tk.h
 #include <windows.h>
+#include <tlhelp32.h>
 
 #include <tcl.h>
 

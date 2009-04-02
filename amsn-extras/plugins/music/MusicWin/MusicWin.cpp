@@ -275,6 +275,26 @@ static int GetWMPInfo(ClientData clientData,
 	return TCL_OK;
 }
 
+bool IsiTunesRunning()
+{
+	bool bProcessFound = false;
+	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	PROCESSENTRY32* processInfo = new PROCESSENTRY32;
+	processInfo->dwSize = sizeof(PROCESSENTRY32);
+
+	while(Process32Next(hSnapShot,processInfo) != FALSE)
+	{
+		if(_stricmp(processInfo->szExeFile, "iTunes.exe") == 0)
+		{
+			bProcessFound = true;
+			break;
+		}
+	}
+
+	CloseHandle(hSnapShot);
+	return bProcessFound;
+}
+
 static int GetiTunesInfo(ClientData clientData,
 					Tcl_Interp *interp,
 					int objc,
@@ -291,6 +311,12 @@ static int GetiTunesInfo(ClientData clientData,
 
 	Tcl_Obj *output = Tcl_NewListObj(0,NULL);
 	Tcl_SetObjResult(interp,output);
+
+	if(!IsiTunesRunning())
+	{
+		Tcl_ListObjAppendElement(interp,output,Tcl_NewIntObj(0));
+		return TCL_OK;
+	}
 
 	CoInitialize(0);
 
