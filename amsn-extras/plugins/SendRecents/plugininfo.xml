@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>SendRecents</name>
+	<author>MurDoK &lt;murdok.lnx at gmail&gt;</author>
+	<description>Adds a cascade menu into Actions of your chatwindow so that you can send recent files easily.</description>
+	<amsn_version>0.97</amsn_version>
+	<plugin_version>1.1a</plugin_version>
+	<plugin_file>sendrecents.tcl</plugin_file>
+	<plugin_namespace>sendrecents</plugin_namespace>
+	<init_procedure>init</init_procedure>
+	<cvs_version>11120</cvs_version>
+	<lang>
+		<langcode>en</langcode>
+		<version>11120</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>11120</version>
+	</lang>
+	<lang>
+		<langcode>it</langcode>
+		<version>11120</version>
+	</lang>
+	<lang>
+		<langcode>lt</langcode>
+		<version>11120</version>
+	</lang>
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/SendRecents/sendrecents.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/SendRecents/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/SendRecents/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/SendRecents/$file</file>
+	</URL>
+</plugin>
