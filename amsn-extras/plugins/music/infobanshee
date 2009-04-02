@@ -3,6 +3,7 @@
 #
 # By Ruben "RubenV" Vermeersch
 # Rewritten by Zoltán Nagy
+# Speed improvements by João Vale
 
 BANSHEE=`ps -e | grep [b]anshee | grep -v info| awk '{print $4}'`
 
@@ -25,10 +26,7 @@ else
         banshee --query-cover-uri |sed  s/^//|cut -c11-
     elif [ $version = 1 ]
     then
-        banshee-1 --query-current-state |sed s/^//|cut -c16-
-        banshee-1 --query-title |sed  s/^//|cut -c8-
-        banshee-1 --query-artist |sed  s/^//|cut -c9-
-        banshee-1 --query-uri|sed  s/^//|cut -c6-
+		banshee-1 --query-current-state --query-title --query-artist --query-uri | sed -e 's/\(.*\): \(.*\)/\2/'
     else
         echo 0
     fi
