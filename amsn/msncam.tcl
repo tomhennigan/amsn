@@ -3326,7 +3326,8 @@ namespace eval ::CAMGUI {
 		incr advance -12
 		set keyframe 0
 		set not_keyframe 1
-		while { $keyframe == 0 && $advance < [file size $filename]} {
+		while { $keyframe == 0 && [expr {$advance + $offset}] < [file size $filename] &&
+			[expr {$advance + 24}] < [string length $data]} {
 			binary scan $data @${advance}c@[expr {$advance + 8}]i h_size p_size
 			binary scan $data @[expr {$advance + 24 + 12}]c not_keyframe
 			if { $h_size == 24 && $not_keyframe == 0 } {
@@ -3338,6 +3339,9 @@ namespace eval ::CAMGUI {
 		}
 
 		close $fd
+		if {$keyframe == 0} {
+			return [file size $filename]
+		}
 		incr offset $advance
 		return $offset
 
@@ -3385,7 +3389,19 @@ namespace eval ::CAMGUI {
 			set size [::MSNCAM::GetCamDataSize $data] 
 			set timestamp [::MSNCAM::GetCamDataTimestamp $data] 
 			if {$size < 0} {
-				set ::seek_val($img) [getNextKeyframeOffset $filename $::seek_val($img)]
+				set new_offset [getNextKeyframeOffset $filename $::seek_val($img)]
+				set ::seek_val($img) $new_offset
+				# Special use case here, if you play webcam log at the same time as having
+				# a webcam session, then the next keyframe might be > file size at the start
+				# of the play. Since the scale has an upper limit, it will force the
+				# value of the seek to that upper limit, and we'll get into an infinite loop
+				if {$::seek_val($img) != $new_offset} {
+					$w.position.slider configure -to [file size $filename]
+					set ::seek_val($img) $new_offset
+					if {$::seek_val($img) != $new_offset} {
+						break
+					}
+				}
 				continue
 			}
 			append data [read $fd $size]
