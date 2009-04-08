@@ -1426,7 +1426,7 @@ namespace eval ::MSN {
 								#set new DP
 								::config::setKey displaypic $filename
 								load_my_pic
-								after 2000 "::MSN::changeStatus [set ::MSN::myStatus]"
+								::MSN::changeStatus [::MSN::myStatusIs]
 								save_config
 								
 								status_log "downloadDP : setting new DP done" blue
@@ -1448,10 +1448,16 @@ namespace eval ::MSN {
 	#Procedure called to change our status
 	proc changeStatus {new_status} {
 		global autostatuschange
+		variable chg_last_dp
 
+		if { $new_status == "FLN" } {
+			return
+		}
+		
 		if {[::config::getKey displaypic] == "" } {
 			::config::setKey displaypic nopic.gif
 		}
+		set chg_last_dp [::config::getKey displaypic]
 
 		if {[::MSN::myStatusIs] == "FLN" || [::config::getKey protocol]  >= 18 } {
 			::MSN::sendUUXData $new_status
@@ -6371,6 +6377,7 @@ proc cmsn_change_state {recv} {
 
 proc cmsn_ns_handler {item {message ""}} {
 	global password
+	variable chg_last_dp
 
 	switch -- [lindex $item 0] {
 		MSG {
@@ -6456,7 +6463,7 @@ proc cmsn_ns_handler {item {message ""}} {
 				# timeout the STUN discovery)
 				set clientid [lindex $item 3]
 
-				if { [::config::getKey clientid 0] != $clientid } {
+				if { [::config::getKey clientid 0] != $clientid || ![info exists chg_last_dp] || [::config::getKey displaypic] != $chg_last_dp } {
 					::MSN::changeStatus [::MSN::myStatusIs]
 				}
 			}
