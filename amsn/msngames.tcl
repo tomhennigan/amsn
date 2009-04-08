@@ -235,8 +235,10 @@ namespace eval ::MSNGames {
 			incr port
 		}
 		
+		::abook::OpenUPnPPort $port
+
 		# close server socket after 5 minutes
-		after 300000 "catch {close $sock}"
+		after 300000 "catch {close $sock}; ::abook::CloseUPnPPort $port"
 
 		status_log "Opening server on port $port for games\n" red
 		return $port
