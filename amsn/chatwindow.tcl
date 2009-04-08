@@ -511,10 +511,8 @@ namespace eval ::ChatWindow {
 		if { [::config::getKey savechatwinsize] } {
 			if { [wm state $window] == "zoomed" } {
 				::config::setKey winmaximized 1
-			} else {
-				if { [wm state $window] == "normal" } {
-					::config::setKey winmaximized 0
-				}
+			} elseif { [wm state $window] == "normal" } {
+				::config::setKey winmaximized 0
 
 				set geometry [wm geometry $window]
 				set pos_start [string first "+" $geometry]
@@ -555,8 +553,8 @@ namespace eval ::ChatWindow {
 					::config::setKey winmaximized 1
 					set sizechanged 1
 				}
-			} else {
-				if { [wm state $window] == "normal" && [::config::getKey winmaximized] != 0 } {
+			} elseif { [wm state $window] == "normal" } {
+				if { [::config::getKey winmaximized] != 0 } {
 					::config::setKey winmaximized 0
 					set sizechanged 1
 				}
