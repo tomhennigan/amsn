@@ -367,7 +367,6 @@ _notify_error_post (char *error)
 }
 
 
-/* TODO */
 static void
 _notify_active (char *msg, const char *local, const char *remote)
 {
@@ -2752,26 +2751,6 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
   }
 
-  /* Set audio codecs */
-  if (audio_remote_codecs) {
-    if (!fs_stream_set_remote_codecs (audio_stream, audio_remote_codecs, &error)) {
-      Tcl_AppendResult (interp, "Could not set the audio remote codecs",
-          (char *) NULL);
-      goto error;
-    }
-    fs_codec_list_destroy (audio_remote_codecs);
-    audio_remote_codecs = NULL;
-  }
-  /* Set video codecs */
-  if (video_remote_codecs && video_stream) {
-    if (!fs_stream_set_remote_codecs (video_stream, video_remote_codecs, &error)) {
-      Tcl_AppendResult (interp, "Could not set the video remote codecs",
-          (char *) NULL);
-      goto error;
-    }
-    fs_codec_list_destroy (video_remote_codecs);
-    video_remote_codecs = NULL;
-  }
 
   /* Set audio candidates */
   if (audio_remote_candidates) {
@@ -2794,6 +2773,27 @@ int Farsight_Start _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
     fs_candidate_list_destroy (video_remote_candidates);
     video_remote_candidates = NULL;
+  }
+
+  /* Set audio codecs */
+  if (audio_remote_codecs) {
+    if (!fs_stream_set_remote_codecs (audio_stream, audio_remote_codecs, &error)) {
+      Tcl_AppendResult (interp, "Could not set the audio remote codecs",
+          (char *) NULL);
+      goto error;
+    }
+    fs_codec_list_destroy (audio_remote_codecs);
+    audio_remote_codecs = NULL;
+  }
+  /* Set video codecs */
+  if (video_remote_codecs && video_stream) {
+    if (!fs_stream_set_remote_codecs (video_stream, video_remote_codecs, &error)) {
+      Tcl_AppendResult (interp, "Could not set the video remote codecs",
+          (char *) NULL);
+      goto error;
+    }
+    fs_codec_list_destroy (video_remote_codecs);
+    video_remote_codecs = NULL;
   }
 
   return TCL_OK;
