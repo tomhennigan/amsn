@@ -1478,6 +1478,8 @@ proc CreateProfile { email } {
 		create_dir $log_dir
 		set webcam_dir "[file join ${HOME} webcam]"
 		create_dir $webcam_dir
+		set displaypic_dir "[file join ${HOME} displaypic]"
+		create_dir $displaypic_dir
 
 		# Load default config initially
 		# file copy -force [file join $HOME2 config.xml] $newHOMEdir
