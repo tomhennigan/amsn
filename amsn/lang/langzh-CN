@@ -5,6 +5,7 @@ aboutamsn 关于Alvaro's Messenger (amsn)
 accept 接受
 acceptfile 您想接受文件 $1 吗(大小为 $2 bytes)? 它会保存在 $3
 account 帐户 
+accountkid 儿童账号不能使用。必须由监护人去网站给予证明。
 actions 操作
 activeautoupdate 激活自动升级 
 add 增加
@@ -163,6 +164,7 @@ closeothers 关闭所有其他对话
 configuremic 正在设置你的麦克风
 configuringaudio 正在更改音像设置
 configureplugin 正在更改 $1 插件设置
+contentroamingsetting 保存服务器显示的图片
 checkonfln 检查离线的使用者是否有人封锁您
 checkver 检查新版本
 choosearq 选择您的系统架构
@@ -1042,3 +1044,14 @@ youblocked 屏蔽你的是
 yousay 你说
 youwant 你要
 zoom 缩放
+enablespaces 开启Windows Live Spaces支持 (试验性的)
+hidedetails 隐藏细节
+hideuserscw 在聊天窗口隐藏用户
+passportnotverified 您的passport account必须随着您的个人信息变动(如昵称)。检查收件箱等待激活。
+setbackinitialstate 设置aMSN为 $1，可是现在你用的是 $2。确定要把设置变回 $1 ？
+showdetails 显示细节
+showuserscw 有 $1 用户通话中。如果要查看或隐藏他们请点击这里。
+unavailablecountryserver 为您的国家准备的服务器暂时不可用。等会儿再试。或许改变国家设定可以有效── http://www.passport.net.
+webcaminvitereceivedauto $1 邀请使用摄像头。自动接受。
+webcaminvitereceivingauto 要请 $1 摄像头图像。 自动接受。
+webcaminvitesendingauto $1想要查看你的摄像头。自动接受。
