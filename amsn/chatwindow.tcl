@@ -4762,12 +4762,16 @@ namespace eval ::ChatWindow {
 	}
 
 	proc SaveToFile { w } {
-		set user [::ChatWindow::Name $w]
-		if {$user == 0 } {
-			set user "Untitled"
+		set chatid [::ChatWindow::Name $w]
+		if {$chatid == 0 } {
+			set filename "Untitled.log"
+		} elseif {[llength [::MSN::usersInChat $chatid]] > 1} {
+			set filename "[trans chat]_[llength [::MSN::usersInChat $chatid]].log"
+		} else {
+			set filename "${chatid}.log"
 		}
 		set txtw [::ChatWindow::GetOutText $w]
-		set file [chooseFileDialog "$user.log" [trans save] $w "" save]
+		set file [chooseFileDialog $filename [trans save] $w "" save]
 		
 		if { $file != "" } {
 			if { [catch {set fd [open $file w] }] } {
