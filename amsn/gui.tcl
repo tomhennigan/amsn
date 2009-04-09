@@ -6387,6 +6387,16 @@ proc drawNick { } {
 		lappend stylestring [list "tag" "-mystatuslabel2"]
 	}
 
+	if {[::config::getKey emailVerified 1] == 0} {
+		#TODO: improvement necessary (maybe red color?)
+		lappend stylestring [list "newline" "\n"]
+		lappend stylestring [list "tag" "myemailwarning"]
+		lappend stylestring [list "colour" "reset"]
+		lappend stylestring [list "font" "reset"]
+		lappend stylestring [list "text" [trans emailnotverified]]
+		lappend stylestring [list "tag" "-myemailwarning"]
+	}
+
 	lappend stylestring [list "newline" "\n"]
 	lappend stylestring [list "underline" "ul"]
 	lappend stylestring [list "trunc" 1 "..."]
@@ -7017,28 +7027,35 @@ proc cmsn_change_name {{changepsm 0}} {
 	pack $w.f $w.fb -side top -fill x -expand true -padx 5
 		
 	bind $w <<Escape>> "destroy $w"
-	bind $w.f.nick_entry <Return> "change_name_ok"
 	bind $w.f.psm_entry <Return> "change_name_ok"
 	bind $w.f.p4c_entry <Return> "change_name_ok"
-	bind $w.f.nick_smiley <<Button1>> "focus $w.f.nick_entry; ::smiley::smileyMenu %X %Y $w.f.nick_entry"
 	bind $w.f.psm_smiley <<Button1>> "focus $w.f.psm_entry; ::smiley::smileyMenu %X %Y $w.f.psm_entry"
 	bind $w.f.p4c_smiley <<Button1>> "focus $w.f.p4c_entry; ::smiley::smileyMenu %X %Y $w.f.p4c_entry"
-	bind $w.f.nick_newline <<Button1>> "$w.f.nick_entry insert end \"\n\""
 	bind $w.f.psm_newline <<Button1>> "$w.f.psm_entry insert end \"\n\""
 	bind $w.f.p4c_newline <<Button1>> "$w.f.p4c_entry insert end \"\n\""
-	bind $w.f.nick_entry <Tab> "focus $w.f.psm_entry; break"
 	bind $w.f.psm_entry <Tab> "focus $w.f.p4c_entry; break"
 	bind $w.f.p4c_entry <Tab> "focus $w.f.nick_entry; break"
 
-	bind $w.f.nick_entry <KeyRelease> "ChangeNameBarEdited $w nick"
 	bind $w.f.psm_entry  <KeyRelease> "ChangeNameBarEdited $w psm"
-	bind $w.f.nick_entry <<Button2>> "after 200 [list ::::ChangeNameBarEdited $w nick]"
 	bind $w.f.psm_entry  <<Button2>> "after 200 [list ::::ChangeNameBarEdited $w psm]"
+
+	if {[::config::getKey emailVerified 1] == 1} {
+		bind $w.f.nick_entry <Return> "change_name_ok"
+		bind $w.f.nick_smiley <<Button1>> "focus $w.f.nick_entry; ::smiley::smileyMenu %X %Y $w.f.nick_entry"
+		bind $w.f.nick_newline <<Button1>> "$w.f.nick_entry insert end \"\n\""
+		bind $w.f.nick_entry <Tab> "focus $w.f.psm_entry; break"
+
+		bind $w.f.nick_entry <KeyRelease> "ChangeNameBarEdited $w nick"
+		bind $w.f.nick_entry <<Button2>> "after 200 [list ::::ChangeNameBarEdited $w nick]"
+	}
 
 	# Make sure the smiley selector disappears with the window 
 	bind $w <Destroy> { if {[winfo exists .smile_selector] } { wm state .smile_selector withdrawn }}
 
 	set nick [::abook::getPersonal MFN]
+	if {[::config::getKey emailVerified 1] == 0} {
+		set nick "$nick [trans emailnotverified]"
+	}
 	set psm [::abook::getPersonal PSM]
 	$w.f.nick_entry insert 0 $nick
 	$w.f.psm_entry insert 0 $psm
@@ -7046,6 +7063,13 @@ proc cmsn_change_name {{changepsm 0}} {
 
 	$w.f.nick_textcounter configure -text "[string length $nick]/130" -justify left
 	$w.f.psm_textcounter configure -text "[string length $psm]/130" -justify left
+
+	if {[::config::getKey emailVerified 1] == 0} {
+		#disable nick change (email not yet verified)
+		$w.f.nick_entry configure -state disabled
+		$w.f.nick_smiley configure -state disabled
+		$w.f.nick_newline configure -state disabled
+	}
 
 	catch {
 		raise $w
@@ -7056,6 +7080,11 @@ proc cmsn_change_name {{changepsm 0}} {
 		}
 	}
 	moveinscreen $w 30
+
+	if {[::config::getKey emailVerified 1] == 0 && $changepsm == 0} {
+		#remind user of verification
+		msg_box [trans passportnotverified]
+	}
 }
 
 #///////////////////////////////////////////////////////////////////////
@@ -7096,7 +7125,7 @@ proc change_name_ok {} {
 	if {$psm_changed } {
 		::MSN::changePSM $new_psm [expr {!$nick_changed}]
 	}
-	if {$nick_changed } {
+	if {$nick_changed && [::config::getKey emailVerified 1] == 1} {
 		::MSN::changeName $new_name
 	}
 

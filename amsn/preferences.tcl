@@ -235,7 +235,7 @@ namespace eval Preferences {
 	}
 
 	proc StoreNick { nick } {
-		if {$nick != "" && $nick != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN"} {
+		if {$nick != "" && $nick != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN" && [::config::getKey emailVerified 1] == 1} {
 			::MSN::changeName $nick
 		}
 	}
@@ -2972,9 +2972,19 @@ proc InitPref { {fullinit 0} } {
 			$lfname.lfname4.2.chgmob configure -state disabled
 			$lfname.lfname4.2.person configure -state disabled
 		} else {
-			$lfname.lfname.1.name.entry configure -state normal
+			set nick [::abook::getPersonal MFN]
+			if {[::config::getKey emailVerified 1] == 0} {
+				set nick "$nick [trans emailnotverified]"
+			}
+
 			$lfname.lfname.1.name.entry delete 0 end
-			$lfname.lfname.1.name.entry insert 0 [::abook::getPersonal MFN]
+			$lfname.lfname.1.name.entry insert 0 $nick
+			if {[::config::getKey emailVerified 1] == 0} {
+				#disable nick change (email not yet verified)
+				$lfname.lfname.1.name.entry configure -state disabled
+			} else {
+				$lfname.lfname.1.name.entry configure -state normal
+			}
 
 
 			$lfname.lfname4.2.chgmob configure -state normal
@@ -3359,7 +3369,7 @@ proc SavePreferences {} {
 	set lfname [$lfname.sw.sf getframe]
 	set lfname "$lfname.lfname.1"
 	set new_name [$lfname.name.entry get]
-	if {$new_name != "" && $new_name != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN"} {
+	if {$new_name != "" && $new_name != [::abook::getPersonal MFN] && [::MSN::myStatusIs] != "FLN" && [::config::getKey emailVerified 1] == 1} {
 		::MSN::changeName $new_name
 	}
 	if {[::config::getKey protocol] >= 11} {

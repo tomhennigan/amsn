@@ -332,6 +332,7 @@ editprofile Edit Profile
 editstate Edit Existing Automessage State
 editvalue Edit value
 email Email
+emailnotverified (Email not verified yet!)
 emailsinlist Show emails instead of nicknames in the contact list
 emoticon_steal Add to emoticons
 emotisounds Play sounds for certain emoticons

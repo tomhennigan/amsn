@@ -1187,9 +1187,13 @@ namespace eval ::MSN {
 
 	#Change a users nickname
 	proc changeName { newname {update 1}} {
+		#if email is not yet verified simply ignore the call
+		if {[::config::getKey emailVerified 1] == 0} {
+			return
+		}
+
 		set name [urlencode $newname]
 		::MSN::WriteSB ns "PRP" "MFN $name" [list ns handlePRPResponse "$name" $update]
-
 	}
 
 	#Change a users personal message
@@ -7002,6 +7006,7 @@ proc cmsn_auth {{recv ""}} {
 			}
 			
 			::abook::setPersonal login [lindex $recv 3]
+			::config::setKey emailVerified [lindex $recv 4]
 			
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
