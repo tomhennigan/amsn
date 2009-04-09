@@ -4505,12 +4505,7 @@ namespace eval ::ChatWindow {
 	}
 
 	proc getCurrentTab { win } {
-		variable containercurrent
-
-		if { [::config::getKey tabbedchat] == 0 } {
-			return $win
-		}
-		return $containercurrent($win)
+		return [GetCurrentWindow $win]
 	}
 
 	proc createRightTabMenu { tab x y} {
