@@ -1451,8 +1451,7 @@ namespace eval ::MSN {
 	
 	#Procedure called to change our status
 	proc changeStatus {new_status} {
-		global autostatuschange
-		variable chg_last_dp
+		global autostatuschange chg_last_dp
 
 		if { $new_status == "FLN" } {
 			return
@@ -6380,8 +6379,7 @@ proc cmsn_change_state {recv} {
 
 
 proc cmsn_ns_handler {item {message ""}} {
-	global password
-	variable chg_last_dp
+	global password chg_last_dp
 
 	switch -- [lindex $item 0] {
 		MSG {
