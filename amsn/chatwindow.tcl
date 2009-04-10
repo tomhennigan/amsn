@@ -4758,12 +4758,24 @@ namespace eval ::ChatWindow {
 
 	proc SaveToFile { w } {
 		set chatid [::ChatWindow::Name $w]
-		if {$chatid == 0 } {
-			set filename "Untitled.log"
-		} elseif {[llength [::MSN::usersInChat $chatid]] > 1} {
-			set filename "[trans chat]_[llength [::MSN::usersInChat $chatid]].log"
+
+		switch -- [::config::getKey dateformat] {
+			"MDY" {
+				set date [clock format [clock seconds] -format "%m%d%Y"]
+			}
+			"DMY" {
+				set date [clock format [clock seconds] -format "%d%m%Y"]
+			}
+			"YMD" -
+			default {
+				set date [clock format [clock seconds] -format "%Y%m%d"]
+			}
+		}
+
+		if {$chatid == 0 || [llength [::MSN::usersInChat $chatid]] > 1} {
+			set filename "[trans chat]_${date}.log"
 		} else {
-			set filename "${chatid}.log"
+			set filename "${chatid}_${date}.log"
 		}
 		set txtw [::ChatWindow::GetOutText $w]
 		set file [chooseFileDialog $filename [trans save] $w "" save]
