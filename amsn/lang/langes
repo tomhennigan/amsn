@@ -332,6 +332,7 @@ editprofile Editar perfil
 editstate Editar mensaje automático para estado personalizado
 editvalue Editar valor
 email  Correo electrónico
+emailnotverified (¡Email aún sin verificar!)
 emailsinlist Mostrar dirección de correo electrónico en lugar de apodos en la lista de contactos
 emoticon_steal Añadir a los emoticonos
 emotisounds Reproducir sonidos asociados a ciertos emoticonos
