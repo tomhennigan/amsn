@@ -802,7 +802,10 @@ namespace eval ::MSNGames {
 					::MSNP2P::SendPacket [::MSN::SBFor $chatid] "$theader$data"
 				} else {
 					set sock [getObjOption $sid sock 0]
-					puts -nonewline $sock $data
+					if { [catch { puts -nonewline $sock $data } ] } {
+						#did our sock get closed?
+						catch {close $sock}
+					}
 				}
 			}
 		}
