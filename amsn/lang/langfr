@@ -332,6 +332,7 @@ editprofile Modifier profil
 editstate Editer un statut existant avec message automatique
 editvalue Editer la valeur
 email E-Mail
+emailnotverified L'email n'a pas encore été vérifié!
 emailsinlist Afficher l'email au lieu du pseudonyme dans la liste de contact.
 emoticon_steal Ajouter aux émoticônes/smileys
 emotisounds Jouer un son pour certaines émoticônes/smileys
