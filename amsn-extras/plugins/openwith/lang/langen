@@ -1,0 +1,10 @@
+amsn_lang_version 2
+config_lbl1 Enter a name for the program on the left and a\ncommand on the right. Put \$url where the selected\ntext or link will be in the command line.\nExample: Opera Browser | opera \$url\n(Or just use the Browse button)
+config_bool Keep the first one outside the submenu
+config_lbl2 Note: These changes will only apply to new\nconversation windows. The plugin might not work\ncorrectly in existing ones.
+config_progl Program name
+config_cmdl Command line
+open_with Open with
+not_found_error The program you chose was not found. Make sure you typed it correctly and entered its full path if needed.
+browse Browse
+prog_select Select program

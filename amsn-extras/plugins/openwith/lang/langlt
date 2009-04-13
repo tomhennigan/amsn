@@ -1,0 +1,9 @@
+amsn_lang_version 2
+config_lbl1 Įveskite programos pavadinimą kairėje, o\nkomandą - dešinėje. Įrašykite \$url kur pasirinktas\ntekstas arba nuoroda būtų komandinėje eilutėje.\nPavyzdžiui: Opera naršyklė | opera \$url
+config_winlbl Pastaba Windows vartotojams: Įveskite pilną kelią\niki vykdomosios rinkmenos tarp kabučių (") ir\npakeisti visus \\ į / .
+config_bool Sulaikykite pirmą už submeniu
+config_lbl2 Pastaba: Šie pakeitimai bus pritaikyti tik naujų\n pokalbių languose. Įskiepis gali neveikti\n jau esančiuose languose.
+config_progl Programos pavadinimas
+config_cmdl Komandinė eilutė
+open_with Atverti su
+not_found_error Programa, kurią pasirinkote, nerasta. Įsitikinkite, kad parašėte teisingai ir, jei reikia, įvedėte pilną jos kelią.
