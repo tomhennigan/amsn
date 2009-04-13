@@ -1,0 +1,10 @@
+amsn_lang_version 2
+config_lbl1 Introduce un nombre para el programa en la izquierda y un\ncomando en la derecha. Coloca \$url donde el texto o enlace\nseleccionado estará en el comando.\nEjemplo: Navegador Opera | opera \$url\n(O solo usar el botón Explorar)
+config_bool Mantener la primera fuera del submenú
+config_lbl2 Nota: Estos cambios sólo se aplicarán a las nuevas\nventanas de conversación. El complemente puede no funcionar\ncorrectamente en las ya existentes.
+config_progl Nombre del programa
+config_cmdl Línea de comandos
+open_with Abrir con
+not_found_error No se encontró el programa elegido. Asegúrate de haberlo escrito correctamente e introducido su ruta completa en caso necesario.
+browse Explorar
+prog_select Seleccionar programa 

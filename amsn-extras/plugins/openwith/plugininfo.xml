@@ -4,6 +4,7 @@
 	<author>Yorghos (Zalbor)</author>
 	<description>aMSN plugin to open links and more with several programs</description>
 	<description_el>Προσθήκη για το aMSN για το άνοιγμα συνδέσμων και όχι μόνο με διάφορα προγράμματα</description_el>
+	<description_es>Complemento de aMSN para abrir enlaces y más con distintos programas</description_es>
 	<amsn_version>0.97</amsn_version>
 	<plugin_version>0.3</plugin_version>
 	<plugin_file>openwith.tcl</plugin_file>
