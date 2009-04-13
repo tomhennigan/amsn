@@ -1,0 +1,18 @@
+Description:
+
+Jake is a chatbot plugin with some additional functions, like
+searching in google, searching for the meaning of a word, etc.
+It also can learn, it has a dictionary where every phrase & response
+that you tell him to store is saved and after that, used.
+
+Created by:
+
+Alexander Nestorov
+
+Version:
+
+0.5.0
+
+Platform/OS: All
+
+Requires: aMSN 0.97

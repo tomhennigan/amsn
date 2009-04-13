@@ -1,0 +1,47 @@
+amsn_lang_version 2
+state Active
+name Bot's name
+helptext Message for !help
+nresults Number of results from searches in Google
+msgon I'm on.
+msgoff I'm off.
+msgonoff Only mi creator can turn me on or off.
+cmdstate state
+cmdhelp help
+cmdon on
+cmdoff off
+cmdgoogle google
+mrgoogle word/s
+cmddefine define
+mrdefine word/s
+cmdhour hour
+cmddate date
+cmdlearn learn
+mrlearn \"phrase\" \"response\"
+cmdforget forget
+mdforget \"phrase\"
+txtcommands Available commands:
+txthelp Shows this message.
+txtconveron Turn's on the bot's speak capabilities.
+txtconveroff Turn's off the bot's speak capabilities.
+txtgoogle Search in google the word/s that you typed and will show the results in the chat window.
+txtdefine Will try to explain you the best he can the meaning of a word.
+txthour Show's the current time.
+txtdate Show's the current date.
+txtstate Will show the actual state of the bot.
+txtlearn Phrase and response will be added to the dictionary of
+txtforget Phrase will be deleted from the dictionary of
+rsphour The time is
+rspdate The date is
+errgoogle Impossible to connect to Google.
+txtregadd Phrase added succesfully. There are
+txtreg phrases
+cmderror Syntaxis error.
+txthelplearn The right syntaxis for adding phrases is:
+txtneedhelp I think I don't understand you. If you want to know how do I work, type !help
+txtchangestate Change state to
+txtlogactivated activated!
+txtlogdesactivated deactivated!
+txtregdel Deleted
+txtdic phrases from the dictionary.
+txthelpforget The right syntaxis for deleting phrases is:

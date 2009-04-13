@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>jake</name>
+	<author>Alexander Nestorov (alex_vip_1@hotmail.com)</author>
+	<description>Chatbot made in Tcl. Really usefull, a lot of options. To see the help, type !help</description>
+	<amsn_version>0.97</amsn_version>
+	<plugin_version>0.5.0</plugin_version>
+	<plugin_file>jake.tcl</plugin_file>
+	<plugin_namespace>jake</plugin_namespace>
+	<init_procedure>jakeStart</init_procedure>
+	<cvs_version>11140</cvs_version>
+
+	<lang>
+		<langcode>en</langcode>
+		<version>11140</version>
+	</lang>
+	<lang>
+		<langcode>es</langcode>
+		<version>11140</version>
+	</lang>
+
+	<file>
+		<path>README</path>
+		<version>11140</version>
+	</file>
+
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/jake/jake.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/jake/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/jake/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/jake/$file</file>
+	</URL>
+</plugin>
