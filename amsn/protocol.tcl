@@ -4479,6 +4479,8 @@ namespace eval ::MSNOIM {
 				# a decline it did on an inbound invite.
 				#
 				# the 134546710 or 234889074 seems to be the value of "AppVersion" from the registry..
+				# WLM sends UUN 11 : "5 1 1" after acking the 200 OK... it apparently means
+				# "Supports VGA resolution" or something like that...
 			}
 			12 {
 				# Tunneled SIP INVITE

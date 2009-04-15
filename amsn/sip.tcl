@@ -46,6 +46,7 @@ snit::type SIPConnection {
 	variable trying_afterid
 	variable timeout_afterid
 	variable respond_reinvite ""
+	variable sip_instance "0E04CFC3-0272-5A5C-B7C3-6FBE8DA71EAD"
 
 	constructor { args } {
 		install socket using SIPSocket %AUTO%
@@ -376,13 +377,14 @@ snit::type SIPConnection {
 		set request [$self BuildRequest INVITE $destination $destination]
 		set callid [lindex $request 0]
 		set msg [lindex $request 1]
+
 		if {[info exists ::crash_wlm] && $::crash_wlm } {
-                       append msg "Ms-Conversation-ID: f=12345\r\n"
-               } elseif { $options(-tunneled) } {
-                       append msg "Ms-Conversation-ID: f=1\r\n"
-               } else {
-                       append msg "Ms-Conversation-ID: f=0\r\n"
-               }
+			append msg "Ms-Conversation-ID: f=0\r\n"
+		} elseif { $options(-tunneled) } {
+			append msg "Ms-Conversation-ID: f=1\r\n"
+		} else {
+			append msg "Ms-Conversation-ID: f=0\r\n"
+		}
 
 		set callid_handler($callid) [list $self InviteResponse $callid $callbk]
 
@@ -665,7 +667,12 @@ snit::type SIPConnection {
 
 
 	method SendACK { callid } {
-		$self Send [lindex [$self BuildRequest ACK [$self GetCallee $callid] [$self GetCallee $callid] $callid] 1]
+		if {[info exists call_route($callid)] } {
+			set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
+		} else {
+			set uri [$self GetCallee $callid]
+		}
+		$self Send [lindex [$self BuildRequest ACK $uri [$self GetCallee $callid] $callid] 1]
 	}
 
 	########################################
@@ -721,8 +728,9 @@ snit::type SIPConnection {
 		set sockname [$socket GetInfo]
 
 		if {$new_request} {
+			# TODO: this is BS, fix it correctly!
 			if { ![info exists cseqs($request)] } {
-				set cseqs($request) 2
+				set cseqs($request) 3
 			} else {
 				incr cseqs($request)
 			}
@@ -742,7 +750,11 @@ snit::type SIPConnection {
 				} else {
 					set name "\"0\" "
 				}
-				set call_from($callid) "$name<sip:$options(-user)>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
+				if { $options(-tunneled) } {
+					set call_from($callid) "<sip:$options(-user);mepid=[$self GetMepid]>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
+				} else {
+					set call_from($callid) "$name<sip:$options(-user)>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
+				}
 				set call_to($callid) "<sip:$to>"
 			}
 			set cseq $call_cseq($callid)
@@ -767,18 +779,27 @@ snit::type SIPConnection {
 			append msg "m: <sip:[lindex $sockname 0]:[lindex $sockname 2];"
 			append msg "transport=[$socket cget -transport]>;proxy=replace\r\n"
 		} elseif { $request == "INVITE" } {
-			append msg "m: \"0\" <sip:$options(-user):[lindex $sockname 2];"
-			append msg "maddr=[lindex $sockname 0];transport=[$socket cget -transport]>;proxy=replace\r\n"
+			if { $options(-tunneled) } {
+				append msg "m: <sip:$options(-user);mepid=[$self GetMepid]>;"
+				append msg "proxy=replace;+sip.instance=\"<urn:uuid:$sip_instance>\"\r\n"
+			} else {
+				append msg "m: \"0\" <sip:$options(-user):[lindex $sockname 2];"
+				append msg "maddr=[lindex $sockname 0];transport=[$socket cget -transport]>;proxy=replace\r\n"
+			}
+			append msg "Record-Route: <sip:127.0.0.1:50930;transport=tcp>\r\n"
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
-		if {$new_request} {
+		if {$new_request == 1 } {
+
 			if {[string first ">;" $call_contact($callid)] != -1} {
 				set idx [string first ">;" $call_contact($callid)]
 				set route [string range $call_contact($callid) 0 $idx]
 			} else {
 				set route $call_contact($callid)
 			}
-			append msg "Route: $route\r\n"	
+			append msg "Route: $route\r\n"
+			append msg "k: ms-dialog-route-set-update\r\n"
+
 		}
 
 		return [list $callid $msg]
@@ -804,7 +825,11 @@ snit::type SIPConnection {
 		}
 		if {$status != 100 &&
 		    $call_to($callid) == "<sip:$options(-user)>" } {
-			set call_to($callid) "\"0\" <sip:$options(-user)>;tag=[$self GenerateTag]"
+			if {$options(-tunneled) } {
+				set call_to($callid) "\"\" <sip:$options(-user);mepid=[$self GetMepid]>;tag=[$self GenerateTag]"
+			} else {
+				set call_to($callid) "\"0\" <sip:$options(-user)>;tag=[$self GenerateTag]"
+			}
 		}
 		append msg "Max-Forwards: 70\r\n"
 		append msg "f: $call_from($callid)\r\n"
@@ -812,8 +837,13 @@ snit::type SIPConnection {
 		append msg "i: $callid\r\n"
 		append msg "CSeq: $call_cseq($callid) $request\r\n"
 		if {$request == "INVITE" && $status == 200} {
-			append msg "m: \"0\" <sip:$options(-user):[lindex $sockname 2];"
-			append msg "maddr=[lindex $sockname 0];transport=[$socket cget -transport]>;proxy=replace\r\n"
+			if { $options(-tunneled) } {
+				append msg "m: <sip:$options(-user);mepid=[$self GetMepid]>;"
+				append msg "proxy=replace;+sip.instance=\"<urn:uuid:$sip_instance>\"\r\n"
+			} else {
+				append msg "m: \"0\" <sip:$options(-user):[lindex $sockname 2];"
+				append msg "maddr=[lindex $sockname 0];transport=[$socket cget -transport]>;proxy=replace\r\n"
+			}
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
 
@@ -1069,7 +1099,13 @@ snit::type SIPConnection {
 		}
 		return $res
 	}
-	
+
+	method GetMepid { } {
+		set guid [::config::getGlobalKey machineguid]
+		set mepid [string map {"{" "" "}" "" "-" ""} $guid]
+		return [string toupper $mepid]
+	}
+
 	method GenerateEpid { } {
 		return [$self GenerateHex 10]
 	}
@@ -1910,7 +1946,8 @@ snit::type SIPSocket {
 	}
 
 	method GetInfo { } {
-		return [fconfigure $sock -sockname]
+		return "127.0.0.1 kakaroto 50390"
+		#return [fconfigure $sock -sockname]
 	}
 }
 
@@ -1979,7 +2016,7 @@ snit::type TunneledSIPSocket {
 	}
 
 	method GetInfo { } {
-		return "127.0.0.1 kakaroto 12345"
+		return "127.0.0.1 kakaroto 50390"
 		#"[lindex [fconfigure [ns cget -sock] -sockname] 2]"
 	}
 }
@@ -2239,7 +2276,14 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
-		::Farsight::Config -video-source-pipeline "videotestsrc pattern=4 is-live=TRUE ! ffmpegcolorspace ! video/x-raw-yuv,width=352,height=288" -level "" -debug [list $self Debug]
+		::Farsight::Config -video-source-pipeline {videotestsrc is-live=true ! video/x-raw-yuv,width=352,height=288 ! ffmpegcolorspace ! tee name="t" t. ! autovideosink t. ! identity} -level "" -debug [list $self Debug]
+
+		if {$mode == "AV" } {
+			::MSN::setClientCap webcam
+			if {[::MSN::myStatusIs] != "FLN" } {
+				::MSN::changeStatus [::MSN::myStatusIs]
+			}
+		}
 
 		set prepare_relay_info ""
 		if {$prepare_ticket != "" } {
