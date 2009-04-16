@@ -4,10 +4,10 @@ about Apie
 aboutamsn Apie Alvaro Messenger
 accept Priimti
 acceptfile Ar norite priimti šią rinkmeną $1 (dydis $2 baitai)? Ji bus išsaugota į $3
-account Abonentas
-accountkid Šis vaikų abonentas negali būti naudojamas Messengeryje. Jūs turite nueiti į vaikų pasų tinklapį ir pateikti tėvų sutikimą.
+account Paskyra
+accountkid Ši vaikų paskyra negali būti naudojama Messengeryje. Jūs turite nueiti į vaikų pasų tinklapį ir pateikti tėvų sutikimą.
 actions Veiksmai
-activeautoupdate Aktivuoti auto-atnaujinimą
+activeautoupdate Aktivuoti automatinį atnaujinimą
 addacontact Pridėti kontaktą
 add Pridėti
 addedyou $1 ($2) pridėjo jus į savo kontaktų sąrašą
@@ -75,7 +75,7 @@ autoaway Keisti būsena į „Išėjęs“, kai neaktyvus
 autocheckver Automatiškai tikrinti naujos versijos prisijungiant
 autoconnect2 Įjungus AMSN, prisijungti automatiškai
 autoconnect Prisijungti, kai aMSN pasileidžia
-autodetectip Nustatyti IP adresą automatiškai
+autodetectip Automatiškai nustatyti IP adresą
 autohotmaillog Automatiškai prisijungti prie Hotmail
 autoidle Auto Neaktyvus
 autoip Automatinis IP
@@ -137,7 +137,7 @@ capturewarn Jūs negalite nusiųsti savo webcam, jei jūs turėsite tai. Jei ne,
 casesensitive Naudoti atvejui jautrius gaidukus
 cfgalarmall Nustatyti/Pridėti/Pašalinti bendrą garsą
 cfgalarm Nustatyti/Pridėti/Pašalinti garsą
-change_account_info Keisti abonento informaciją
+change_account_info Keisti paskyros informaciją
 change Keisti
 changecustomstate Perjungti į
 changedisplaypic Keisti nuotrauką
@@ -248,7 +248,7 @@ couldnotrename Negalėjo pervadinti rinkmenos $1
 countrycode Mano šalis/regiono kodas
 cprofile Sukurti profilį
 created Sukurtas
-credits Padėkos
+credits Autoriai
 curdisplaypic Dabartinė nuotrauka
 currentdate Dabartinė data
 currentdynrate Dabartinis esamo laiko greitis (milisekundėmis)
@@ -332,6 +332,7 @@ editprofile Keisti profilį
 editstate Keisti esamą auto žinutės būseną
 editvalue Keisti reikšmę
 email El. paštas
+emailnotverified (El. paštas nepatvirtintas!)
 emailsinlist Rodyti el. pašto adresus vietoje slapyvardžių kontaktų sąraše
 emoticon_steal Pridėti prie jaustukų
 emotisounds Groti garsus tikriems jaustukams
@@ -579,13 +580,13 @@ mypic Mano nuotrauka
 mypics Mano rodomos nuotraukos
 mystatus Mano būsena
 myworkphone Mano darbo telefonas
-name Vardas
+name Pavadinimas
 natip IP radimas per tinklalapį 
 natkeepalive Jeigu dažnai atsijunginėjate, įjunkite Laikyti Gyvą
 needonline Jūs vis dar esate/matotės neprisijungęs!
 needwinico2 Reikalingas winico05.dll in the utils/windows aplankale for windows traydocking to work
 never Niekada
-new_account Sukurti abonentą
+new_account Sukurti paskyrą
 new_ft_protocol Naudoti naują rinkmenos persiuntimo protokolą (likusios kelios klaidos)
 newchat Naujas pokalbis
 newline Nauja linija
@@ -671,7 +672,7 @@ others Kita informacija
 p4contextprefix Priešdėlio P4-konteksto siuntėjai su šia eile
 pager Pranešimų gaviklis
 pass Slaptažodis
-passportnotverified Jūsų paso abonentas turi būti pirmiau patvirtintas, kad galėtumėte vėliau keisti savo asmeninius duomenis (tokius kaip jūsų pravardė). Prašom patikrinti savo elektroninį paštą dėl aktyvacijos.
+passportnotverified Jūsų paso paskyra turi būti pirmiau patvirtinta, kad galėtumėte vėliau keisti savo asmeninius duomenis (tokius kaip jūsų pravardė). Prašom patikrinti savo elektroninį paštą dėl aktyvacijos.
 paste Įterpti
 pausedwebcamreceive Kamera pristabdyta kito vartotojo
 pause Pristabdyti
@@ -742,7 +743,7 @@ proxyconnection Internetas per tarpinį serverį:
 proxy Aš esu už tarpinio serverio (HTTP arba SOCKS5)
 psmatend Rodyti asmeninę žinutę prie slapyvardžio
 psmdontshow Nerodyti asmeninės žinutės, nebent bendrai/kitais slapyvardžiais
-psmnewline Rodyti asmeninę žinutę žemiau slapyvardžio
+psmnewline Rodyti asmeninę žinutę po slapyvardžiu
 psm Asmeninė žinutė
 psmchanged $1 pakeitė savo žinutę į '$2'
 psmplace Kur rodyti asmeninę žinutę?
@@ -768,7 +769,7 @@ recorderror Klaida įvyko, bandant įrašyti garsą: $1
 recvwebcamaccepted Jūsų prašymu, $1 įjungė savo kamerą.
 redirect Spragtelėkite čia, kad būtumėte peradresuoti
 reject Atmesti
-rememberaccount Prisiminti mano abonentą
+rememberaccount Prisiminti mano paskyrą
 rememberpass Prisiminti slaptažodį
 remembersetting Prisiminti mano pasirinkimą
 removeempty Pašalinti tuščias grupes iš kontaktų sąrašo
@@ -784,7 +785,7 @@ renameep Pervadinti šią vietą ($1)
 renamelocation Pervadinti šią vietą
 retry Pakartoti
 reversed Atvirkštinis būdas
-reverselist Atvirkštinis sąrašas (RL):
+reverselist Atvirkštinis sąrašas (AS):
 rightback Greitai grįšiu
 save Išsaugoti
 saveas Išsaugoti kaip
@@ -973,7 +974,7 @@ truncatenames2 Nukirsti slapyvardžius, ilgesnius negu pokalbių lango vidinė p
 truncatenicks Nukirsti slapyvardžius, ilgesnius negu lango plotis
 twonewmail $1 nauja žinutė el. pašte
 type Tipas
-unavailablecountryserver Jūsų šalies serveris yra laikinai nepasiekiamas. Bandykite vėliau. Jūs galite išspręsti šią problemą pakeistdami šalies nustatymus savo abonento pase per http://www.passport.net.
+unavailablecountryserver Jūsų šalies serveris yra laikinai nepasiekiamas. Bandykite vėliau. Jūs galite išspręsti šią problemą pakeistdami šalies nustatymus savo paskyros pase per http://www.passport.net.
 unblock Atblokuoti
 unknown Nežinoma
 unload Iškelti
@@ -1003,7 +1004,7 @@ version Versija
 videoconversationrequest Jūs tik priėmėte prašymą video pokalbiui (dvikryptį audio ir video). aMSN dar nepalaiko šios savybės, todėl ji buvo nutraukta. Nepaisant to, galite naudoti standartinius kameros pokalbius.
 viewcontactsby Rodyti kontaktus pagal
 viewprofile Rodyti profilį
-view Rodyti
+view Rodymas
 viewspace Rodyti nuotraukas
 volume Garsas
 wanttosharecam Aš noriu padaryti savo kamerą prieinama kitiems
