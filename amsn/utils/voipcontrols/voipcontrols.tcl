@@ -18,6 +18,7 @@ snit::widget voipcontrol {
 	option -amplificationimage
 	option -amplificationpressedimage
 
+
 	component volumeframe
 	component amplificationframe
 	component mutecheckbutton
@@ -26,6 +27,7 @@ snit::widget voipcontrol {
 
 	delegate option -amplificationvariable to amplificationframe as -variable
 	delegate option -amplificationcommand to amplificationbutton as -command
+	delegate option -amplificationstate to amplificationframe as -state
 
 	delegate option -endcallimage to endcallbutton as -image
 	delegate option -endcallcommand to endcallbutton as -command
@@ -42,6 +44,7 @@ snit::widget voipcontrol {
 	delegate option -levelimage to volumeframe
 	delegate option -volumevariable to volumeframe as -variable
 	delegate option -volumecommand to volumeframe as -command
+	delegate option -volumestate to volumeframe as -state
 
 	delegate method setVolume to volumeframe
 
@@ -203,6 +206,8 @@ snit::widget soundmixervolume {
 	option -command -default {}
 
 	option -orient -default "vertical" -readonly yes
+
+	option -state -default normal; #TODO
 
 	delegate option * to hull
 
