@@ -1,0 +1,47 @@
+amsn_lang_version 2
+state Attivo
+name Nome del Chat Bot
+helptext Messaggio per !help
+nresults Numero di risultati per le ricerche in Google
+msgon Sono attivo.
+msgoff Sono disattivo.
+msgonoff Solo il mio creatore può attivarmi o disattivarmi.
+cmdstate state
+cmdhelp help
+cmdon on
+cmdoff off
+cmdgoogle google
+mrgoogle word/s
+cmddefine define
+mrdefine word/s
+cmdhour hour
+cmddate date
+cmdlearn learn
+mrlearn \"phrase\" \"response\"
+cmdforget forget
+mdforget \"phrase\"
+txtcommands Comandi disponibili:
+txthelp Visualizza questo messaggio.
+txtconveron Avvia il Chat Bot.
+txtconveroff Arresta il Chat Bot.
+txtgoogle Cerca in Google le parole che hai digitato e visualizza i risultati nella finestra di chat.
+txtdefine Cerca di spiegare il meglio possibile il significato di una parola.
+txthour Visualizza l'ora corrente.
+txtdate Visualizza la data corrente.
+txtstate Visualizza lo stato attuale del Chat Bot.
+txtlearn Aggiunge una frase e la risposta risposta al dizionario di
+txtforget Elimina una frase dal dizionario di
+rsphour L'ora è
+rspdate La data è
+errgoogle Impossibile connettersi a Google.
+txtregadd Frase aggiunta con successo. Ci sono
+txtreg frasi
+cmderror Errore di sintassi.
+txthelplearn La giusta sintassi per aggiungere una frase è:
+txtneedhelp Non riesco a comprenderti. Se vuoi sapere come funziono digita !help
+txtchangestate Cambia lo stato in
+txtlogactivated Attivato!
+txtlogdesactivated Disattivato!
+txtregdel Eliminate
+txtdic frasi dal dizionario
+txthelpforget La giusta sintassi per eliminare una frase è: 

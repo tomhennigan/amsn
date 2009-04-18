@@ -1,25 +1,38 @@
 amsn_lang_version 2
+
 state Active
+
 name Bot's name
+
 helptext Message for !help
+
 nresults Number of results from searches in Google
+
 msgon I'm on.
 msgoff I'm off.
 msgonoff Only mi creator can turn me on or off.
+
 cmdstate state
 cmdhelp help
 cmdon on
 cmdoff off
 cmdgoogle google
-mrgoogle word/s
 cmddefine define
-mrdefine word/s
 cmdhour hour
 cmddate date
 cmdlearn learn
-mrlearn \"phrase\" \"response\"
 cmdforget forget
-mdforget \"phrase\"
+cmdyoutube youtube
+cmderror Syntaxis error.   
+cmdexpr expr
+
+cmdargsdefine word/s
+cmdargsgoogle word/s
+cmdargslearn \"phrase\" \"response\"
+cmdargsforget \"phrase\"
+cmdargsyoutube word/s
+cmdargsexpr Any math expression.
+
 txtcommands Available commands:
 txthelp Shows this message.
 txtconveron Turn's on the bot's speak capabilities.
@@ -31,12 +44,8 @@ txtdate Show's the current date.
 txtstate Will show the actual state of the bot.
 txtlearn Phrase and response will be added to the dictionary of
 txtforget Phrase will be deleted from the dictionary of
-rsphour The time is
-rspdate The date is
-errgoogle Impossible to connect to Google.
 txtregadd Phrase added succesfully. There are
 txtreg phrases
-cmderror Syntaxis error.
 txthelplearn The right syntaxis for adding phrases is:
 txtneedhelp I think I don't understand you. If you want to know how do I work, type !help
 txtchangestate Change state to
@@ -45,3 +54,11 @@ txtlogdesactivated deactivated!
 txtregdel Deleted
 txtdic phrases from the dictionary.
 txthelpforget The right syntaxis for deleting phrases is:
+txtyoutube Will search in YouTuBe for a video.
+txtexpr This will give the answer for a math expression. To see the math expressions that you can use, type \"!expr help\"
+txtsolution The solution is:
+txtexprhelp abs( x ) - Absolute value (negate if negative.)\n acos( x ) - Inverse cosine (result in radians.)\n asin( x ) - Inverse sine (result in radians.)\n atan( x ) - Inverse tangent (result in radians.)\n atan2( y , x ) - Inverse tangent (result in radians.)\n ceil( x ) - Ceiling (defined over floating point numbers.)\n cos( x ) - Cosine (input in radians.)\n cosh( x ) - Hyperbolic cosine.\n double( x ) - Convert number to floating point.\n exp( x ) - Exponential function.\n floor( x ) - Floor (defined over floating point numbers.)\n fmod( x ) - Floating point remainder.\n hypot( x , y ) - Hypotenuse calculator.\n int( x ) - Convert number to integer by truncation.\n log( x ) - Natural logarithm.\n log10( x ) - Logarithm with respect to base 10.\n pow( x , y ) - Power function.\n rand( ) - Random number. Uses uniform distribution over the range [0,1].\n round( x ) - Round to nearest whole number.\n sin( x ) - Sine (input in radians.)\n sinh( x ) - Hyperbolic sine.\n sqrt( x ) - Square root.\n srand( x ) - Seeds the random number generator with the given value.\n tan( x ) - Tangent (input in radians.)\n tanh( x ) - Hyperbolic tangent.
+
+
+rsphour The time is
+rspdate The date is

@@ -11,16 +11,16 @@ proc jakeStart { dir } {
 	::plugins::RegisterEvent jake chat_msg_received answer
 	::plugins::RegisterEvent jake ChangeMyState online
 
-	set langdir [file join $mydir "lang"]
-	set lang [::config::getGlobalKey language]
-	load_lang en $langdir
-	load_lang $lang $langdir
+	set langdir [file join $mydir "lang"]       
+	set lang [::config::getGlobalKey language]    
+	load_lang en $langdir                       
+	load_lang $lang $langdir                    
 
 	array set ::jake::config {
-		botname {jake}
-		mystate {1}
-		helptxt {I'm $botname, an AI bot.}
-		nresults {5}
+		botname {jake}                      
+		mystate {1}                          
+		helptxt {I'm $botname, an AI bot.}  
+		nresults {5}                         
 	}
 
 	set ::jake::configlist [list \
@@ -50,7 +50,6 @@ proc stringDistance {a b} {
 	set c($n,$m)
 }
 
-
 if {[catch {
 	package require Tcl 8.5
 	namespace path {tcl::mathfunc tcl::mathop}
@@ -69,24 +68,35 @@ proc rand {m {n 0}} {
 	expr {int(($m-$n)*rand()+$n)}
 }
 
-proc answer {event epvar} {
+proc getPage {url} {
+  package require http
+  ::http::config -useragent "Monkey cmdline tool (OpenBSD; en)"
+  if {[catch {set tokr [::http::geturl $url]} msg]} {
+     return "Error: $msg"
+  } else {
+     set data [::http::data $tokr]
+  }
+  return $data
+}
 
+proc answer {event epvar} {
+	
 	global mydir
 	upvar 2 $epvar args
-	upvar 2 $args(msg) msg
-	upvar 2 $args(chatid) chatid
-	upvar 2 $args(user) user
-	set me [::abook::getPersonal login]
-	set window [::ChatWindow::For $chatid]
+	upvar 2 $args(msg) msg                           
+	upvar 2 $args(chatid) chatid                      
+	upvar 2 $args(user) user                         
+	set me [::abook::getPersonal login]               
+	set window [::ChatWindow::For $chatid]            
 	set botname $::jake::config(botname)
 	set mystate $::jake::config(mystate)
 	set nresults $::jake::config(nresults)
 	set language [::config::getGlobalKey language]
 
-	if { $user==$me && $msg == "![trans cmdon]" } {
+	if { $user==$me && $msg == "![trans cmdon]" } {   
 		set ::jake::config(mystate) 1
 		plugins_log jake "Plugin Jake activado!"
-		set first 1
+		#set first 1
 		::amsn::MessageSend $window 0 "$botname: [trans msgon]"
 	} elseif { $user==$me && $msg == "![trans cmdoff]" } {
 		set ::jake::config(mystate) 0
@@ -106,101 +116,111 @@ proc answer {event epvar} {
 		![trans cmdhelp] - [trans txthelp]\n\
 		![trans cmdon] - [trans txtconveron]\n\
 		![trans cmdoff] - [trans txtconveroff]\n\
-		![trans cmdgoogle] [trans mrgoogle] - [trans txtgoogle]\n\
-		![trans cmddefine] [trans mrdefine] - [trans txtdefine]\n\
+		![trans cmdgoogle] [trans cmdargsgoogle] - [trans txtgoogle]\n\
+		![trans cmddefine] [trans cmdargsdefine] - [trans txtdefine]\n\
 		![trans cmdhour] - [trans txthour]\n\
 		![trans cmddate] - [trans txtdate]\n\
 		![trans cmdstate] - [trans txtstate]\n\
-		![trans cmdlearn] [trans mrlearn] - [trans txtlearn] $botname\n\
-		![trans cmdforget] [trans mrforget] - [trans txtforget] $botname"
+		![trans cmdlearn] [trans cmdargslearn] - [trans txtlearn] $botname\n\
+		![trans cmdforget] [trans cmdargsforget] - [trans txtforget] $botname\n\
+		![trans cmdyoutube] [trans cmdargsyoutube] - [trans txtyoutube]\n\
+		![trans cmdexpr] [trans cmdargsexpr] - [trans txtexpr]"
 	} elseif { $msg == "![trans cmdhour]" } {
 		::amsn::MessageSend $window 0 "$botname: [trans rsphour] [clock format [clock seconds] -format {%H:%M:%S}]"
 	} elseif { $msg == "![trans cmddate]" } {
 		::amsn::MessageSend $window 0 "$botname: [trans rspdate] [clock format [clock seconds] -format {%d/%m/%Y}]"
-	} elseif { [string first "![trans cmdgoogle] " $msg] == 0 } {
-		regsub -all { +} [string range $msg 8 end] "+" msg
-		if [catch {set sock [socket www.google.com 80]} err] {
-			#TODO: show an error message to the user?
-			plugins_log "jake" "[trans errgoogle]"
-			exit
-		}
+	} elseif { [string first "![trans cmdgoogle] " $msg] == 0 } {   
+		regsub -all { +} [string range $msg [expr [string length [trans cmdgoogle]] + 2] end] "+" msg     
 		set link "www.google.com/search?hl="
 		append link $language&num=$nresults&q=$msg
-		puts $sock "GET $link HTTP/1.0"
-		puts $sock "Connection: Keep-Alive"
-		puts $sock "User-Agent: Monkey cmdline tool (OpenBSD; $language)"
-		puts $sock "Host: www.google.com:80"
-		puts $sock "Accept-Encoding: gzip"
-		puts $sock "Accept-Language: $language"
-		puts $sock "Accept-Charset: iso-8859-1,utf-8"
-		puts $sock "\n"
-		flush $sock
-		set salida [read $sock]
-		close $sock
-		set matches [regexp -all -inline {(<li class=g>.*<a [^>]*>.*</a>)+?} $salida]
-		set count 0
-		set bool 0
-		foreach m $matches {
-			regexp {href="([^"]*)[^>]*>(.*)</a>} $m => url title
-			regsub -all {/url\?q=} $url "" url
-			regsub -all {<em>} $title "" title
-			regsub -all {</em>} $title "" title
-			regsub -all {<b>} $title "" title
-			regsub -all {</b>} $title "" title
-			regsub -all {&quot;} $title "" title
-			regsub -all {&gt;} $title "" title
-			if { $bool == 0 && $count < $nresults } {
-				incr count
-				append final $count.\ $title " - " $url \n\n
-				set bool 1
-			} else {
-				set bool 0
+		set salida [ getPage $link ]
+		if { [string first "Error: " $salida] != 0 } {
+			set matches [regexp -all -inline {(<li class=g>.*<a [^>]*>.*</a>)+?} $salida]
+			set count 0
+			set bool 0
+			foreach m $matches {
+				regexp {href="([^"]*)[^>]*>(.*)</a>} $m => url title
+				regsub -all {/url\?q=} $url "" url
+				regsub -all {<em>} $title "" title
+				regsub -all {</em>} $title "" title
+				regsub -all {<b>} $title "" title
+				regsub -all {</b>} $title "" title
+				regsub -all {&quot;} $title "" title
+				regsub -all {&gt;} $title "" title
+				if { $bool == 0 && $count < $nresults } {
+					incr count
+					append final $count.\ $title " - " $url \n\n
+					set bool 1
+				} else {
+					set bool 0
+				}
 			}
+			::amsn::MessageSend $window 0 "$botname: \n\n$final"
+		} else {
+			::amns::MessageSend $window 0 "$botname: Error: $salida"
 		}
-		::amsn::MessageSend $window 0 "$botname: \n\n$final"
-	} elseif { [string first "![trans cmddefine] " $msg] == 0 } {
-		regsub -all { +} [string range $msg 8 end] "+" msg
-		if [catch {set sock [socket www.google.com 80]} err] {
-			#TODO: show an error message to the user?
-			plugins_log "jake" "[trans errgoogle]"
-			exit
+	} elseif { [string first "![trans cmdyoutube] " $msg] == 0 } {   
+		regsub -all { +} [string range $msg [expr [string length [trans cmdyoutube]] + 2] end] "+" msg       
+		set link "http://www.youtube.com/results?search_type=&search_query="
+		append link $msg
+		set salida [ getPage $link ]
+		if { [string first "Error: " $salida] != 0 } {
+			set matches [regexp -all -inline {(<div class="v120WrapperInner">.* src)+?} $salida]
+			set count 0
+			set bool 0
+			foreach m $matches {
+				regexp {href="([^"]*).*title="([^"]*)} $m => url title
+				regsub -all {/url\?q=} $url "" url
+				regsub -all {<em>} $title "" title
+				regsub -all {</em>} $title "" title
+				regsub -all {<b>} $title "" title
+				regsub -all {</b>} $title "" title
+				regsub -all {&quot;} $title "" title
+				regsub -all {&gt;} $title "" title
+				if { $bool == 0 && $count < $nresults } {
+					incr count
+					append final $count.\ $title " - www.youtube.com" $url \n\n
+					set bool 1
+				} else {
+					set bool 0
+				}
+			}
+			::amsn::MessageSend $window 0 "$botname: \n\n$final"
+		} else {
+			::amns::MessageSend $window 0 "$botname: Error: $salida"
 		}
+	} elseif { [string first "![trans cmddefine] " $msg] == 0 } {  
+		regsub -all { +} [string range $msg [expr [string length [trans cmddefine]] + 2] end] "+" msg       
 		set link "www.google.com/search?hl="
 		append link $language&q=define:$msg
-		puts $sock "GET $link HTTP/1.0"
-		puts $sock "Connection: Keep-Alive"
-		puts $sock "User-Agent: Monkey cmdline tool (OpenBSD; $language)"
-		puts $sock "Host: www.google.com:80"
-		puts $sock "Accept-Encoding: gzip"
-		puts $sock "Accept-Language: $language"
-		puts $sock "Accept-Charset: iso-8859-1,utf-8"
-		puts $sock "\n"
-		flush $sock
-		set salida [read $sock]
-		close $sock
-		set matches [regexp -all -inline {(<li>.*<br><a href=.*><font)+?} $salida]
-		set count 0
-		set bool 0
-		foreach m $matches {
-			regexp {<li>([^<]*)(.*)><font} $m => title url
-			regsub -all {<br>.*q=} $url "" url
-			regsub -all {\"} $url "" url
-			regsub -all {<em>} $title "" title
-			regsub -all {</em>} $title "" title
-			regsub -all {<b>} $title "" title
-			regsub -all {</b>} $title "" title
-			regsub -all {&quot;} $title "" title
-			if { $bool == 0 && $count < $nresults } {
-				incr count
-				append final $count.\ $title " - " $url \n\n
-				set bool 1
-			} else {
-				set bool 0
+		set salida [ getPage $link ]
+		if { [string first "Error: " $salida] != 0 } {
+			set matches [regexp -all -inline {(<li>.*<br><a href=.*><font)+?} $salida]
+			set count 0
+			set bool 0
+			foreach m $matches {
+				regexp {<li>([^<]*)(.*)><font} $m => title url
+				regsub -all {<br>.*q=} $url "" url
+				regsub -all {\"} $url "" url
+				regsub -all {<em>} $title "" title
+				regsub -all {</em>} $title "" title
+				regsub -all {<b>} $title "" title
+				regsub -all {</b>} $title "" title
+				regsub -all {&quot;} $title "" title
+				if { $bool == 0 && $count < $nresults } {
+					incr count
+					append final $count.\ $title " - " $url \n\n
+					set bool 1
+				} else {
+					set bool 0
+				}
 			}
+			::amsn::MessageSend $window 0 "$botname: \n\n$final"
+		} else {
+			::amns::MessageSend $window 0 "$botname: Error: $salida"
 		}
-		::amsn::MessageSend $window 0 "$botname: \n\n$final"
-	} elseif { [string first "![trans cmdlearn] " $msg] == 0 } {
-		set msg [string range $msg 9 end]
+	} elseif { [string first "![trans cmdlearn] " $msg] == 0 } {   
+		set msg [string range $msg [expr [string length [trans cmdlearn]] + 2] end]      
 		if { [regexp -- {^"[^"]*" "[^"]*"$} $msg] } {
 			set msg [string range $msg 1 end]
 			regsub -all {\" \"} $msg ")\" \"" msg
@@ -211,10 +231,10 @@ proc answer {event epvar} {
 			::amsn::MessageSend $window 0 "$botname: [trans txtregadd] [array size diccionario] [trans txtreg]"
 		} else {
 			::amsn::MessageSend $window 0 "$botname: [trans cmderror]\n\
-				[trans txthelplearn] ![trans cmdlearn] [trans mrlearn]"
+				[trans txthelplearn] ![trans cmdlearn] [trans cmdargslearn]"
 		}
-	} elseif { [string first "![trans cmdforget] " $msg] == 0 } {
-		set msg [string range $msg 8 end]
+	} elseif { [string first "![trans cmdforget] " $msg] == 0 } {   
+		set msg [string range $msg [expr [string length [trans cmdforget]] + 2] end]        
 		if { [regexp -- {^".*"$} $msg] } {
 			if { [array exists diccionario] == 0 } {
 				source [file join $::HOME diccionario.dic]
@@ -237,7 +257,15 @@ proc answer {event epvar} {
 			::amsn::MessageSend $window 0 "$botname: [trans txtregdel] [expr {$oldsize - [array size diccionario]}] [trans txtdic]"
 		} else {
 			::amsn::MessageSend $window 0 "$botname: [trans cmderror]\n\
-				[trans txthelpforget] ![cmdforget] [trans mrforget]"
+				[trans txthelpforget] ![cmdforget] [trans cmdargsforget]"
+		}
+	} elseif { [string first "![trans cmdexpr ]" $msg] == 0 } {
+		set msg [string range $msg [expr [string length [trans cmdexpr]] + 2] end]
+		if { [string first "[trans cmdhelp]" $msg] == 0 } {
+			::amsn::MessageSend $window 0 "$botname: \n\n\
+			[trans txtexprhelp]"
+		} else {
+		::amsn::MessageSend $window 0 "$botname: [trans txtsolution] [expr $msg]"
 		}
 	} elseif { $mystate == 1 } {
 		if { $user != $me } {
@@ -254,7 +282,9 @@ proc answer {event epvar} {
 			if { $i > 1 } {
 				::amsn::MessageSend $window 0 "$botname: $respuesta([rand [array size respuesta] 1])"
 			} else {
-				::amsn::MessageSend $window 0 "$botname: [trans txtneedhelp]"
+				if { [rand 5 1] == 1 } {
+					::amsn::MessageSend $window 0 "$botname: [trans txtneedhelp]"
+				}
 			}
 		}
 	}
@@ -275,3 +305,5 @@ proc online {event epvar} {
 }
 
 }
+
+
