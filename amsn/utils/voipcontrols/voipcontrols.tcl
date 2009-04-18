@@ -25,6 +25,8 @@ snit::widget voipcontrol {
 	component endcallbutton
 	component amplificationbutton
 
+	delegate option -amplificationfrom to amplificationframe as -from
+	delegate option -amplificationto to amplificationframe as -to
 	delegate option -amplificationvariable to amplificationframe as -variable
 	delegate option -amplificationcommand to amplificationbutton as -command
 	delegate option -amplificationstate to amplificationframe as -state
@@ -39,8 +41,8 @@ snit::widget voipcontrol {
 	delegate option -mutecommand to mutecheckbutton
 	delegate option -mutestate to mutecheckbutton as -state
 
-	delegate option -from to volumeframe
-	delegate option -to to volumeframe
+	delegate option -volumefrom to volumeframe as -from
+	delegate option -volumeto to volumeframe as -to
 	delegate option -levelimage to volumeframe
 	delegate option -volumevariable to volumeframe as -variable
 	delegate option -volumecommand to volumeframe as -command
@@ -193,17 +195,11 @@ snit::widgetadaptor mutecheckbutton {
 
 snit::widget soundmixervolume {
 
-	variable volumePercent
-	variable volumeRange
-	variable deltaY
-	variable varname
-
 	option -from -default 0
-	option -to -default 100
+	option -to -default 1
 
 	option -isamplification -default 0 -readonly yes; #TODO
 
-	#option -levelimage -configuremethod SetLevelImage; #TODO
 	option -levelsize -default 5 -configuremethod SetLevelSize
 
 	option -variable -default {}
@@ -224,18 +220,17 @@ snit::widget soundmixervolume {
 
 		frame ${win}.level -background black
 
-		if {[info exists ::$options(-variable)] && [set ::$options(-variable)]<1 && [set ::$options(-variable)] >0} {
-			if { $options(-orient) == "vertical" } {
-				place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-variable)]}] -relwidth 1 -height $options(-levelsize)
-			} else {
-				place ${win}.level -rely 0 -relx [set ::$options(-variable)] -relheight 1 -width $options(-levelsize)
-			}
+		if {![info exists ::$options(-variable)]
+			|| [set ::$options(-variable)] > $options(-to)
+			|| [set ::$options(-variable)] < $options(-from)} {
+			set ::$options(-variable) [expr {$options(-from) + 0.5 * (double($options(-to)) - double($options(-from)))}]
+		}
+		set val [expr {double([set ::$options(-variable)]) - double($options(-from))}]
+		set val [expr {$val / (double($options(-to)) - double($options(-from)))}]
+		if { $options(-orient) == "vertical" } {
+			place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-variable)]}] -relwidth 1 -height $options(-levelsize)
 		} else {
-			if { $options(-orient) == "vertical" } {
-				place ${win}.level -relx 0 -rely 0.5 -relwidth 1 -height $options(-levelsize)
-			} else {
-				place ${win}.level -rely 0 -relx 0.5 -relheight 1 -width $options(-levelsize)
-			}
+			place ${win}.level -rely 0 -relx [set ::$options(-variable)] -relheight 1 -width $options(-levelsize)
 		}
 
 		bind ${win}.level <B1-Motion> "$self Motion"
@@ -261,14 +256,16 @@ snit::widget soundmixervolume {
 	method MoveLevel {{up 1}} {
 		if { $options(-state) != "normal"} {return}
 
+		set val [expr {double([set ::$options(-variable)]) - double($options(-from))}]
+		set val [expr {$val / (double($options(-to)) - double($options(-from)))}]
 		if { $options(-orient) == "vertical" } {
 			set size [winfo height ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [expr {1-[set ::$options(-variable)]}]
+			set rel [expr {1-$val}]
 		} else {
 			set size [winfo width ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
-			set rel [set ::$options(-variable)]
+			set rel $val
 		}
 		if {$up == 1} {
 			set rel [expr {$rel + 0.1}]
@@ -290,14 +287,18 @@ snit::widget soundmixervolume {
 
 		if {[info exists ::$options(-variable)]} {
 			if { $options(-orient) == "vertical" } {
-				set ::$options(-variable) [expr {1-$rel/$max}]
+				set val [expr {1-$rel/$max}]
+				set val [expr {$options(-from) + $val * ($options(-to) - $options(-from))}]
+				set ::$options(-variable) $val
 				if { $options(-command) != {} } {
-					eval $options(-command) [expr {1-$rel/$max}]
+					eval $options(-command) $val
 				}
 			} else {
-				set ::$options(-variable) [expr {$rel/$max}]
+				set val [expr {$rel/$max}]
+				set val [expr {$options(-from) + $val * ($options(-to) - $options(-from))}]
+				set ::$options(-variable) $val
 				if { $options(-command) != {} } {
-					eval $options(-command) [expr {$rel/$max}]
+					eval $options(-command) $val
 				}
 			}
 		}
@@ -341,14 +342,18 @@ snit::widget soundmixervolume {
 
 		if {[info exists ::$options(-variable)]} {
 			if { $options(-orient) == "vertical" } {
-				set ::$options(-variable) [expr {1-$rel/$max}]
+				set val [expr {1-$rel/$max}]
+				set val [expr {$options(-from) + $val * ($options(-to) - $options(-from))}]
+				set ::$options(-variable) $val
 				if { $options(-command) != {} } {
-					eval $options(-command) [expr {1-$rel/$max}]
+					eval $options(-command) $val
 				}
 			} else {
-				set ::$options(-variable) [expr {$rel/$max}]
+				set val [expr {$rel/$max}]
+				set val [expr {$options(-from) + $val * ($options(-to) - $options(-from))}]
+				set ::$options(-variable) $val
 				if { $options(-command) != {} } {
-					eval $options(-command) [expr {$rel/$max}]
+					eval $options(-command) $val
 				}
 			}
 		}
@@ -364,12 +369,11 @@ snit::widget soundmixervolume {
 	}
 
 
-	method setVolume {value {range 100}} {
+	method setVolume {value} {
 		if { $options(-state) != "normal"} {return}
 
-		set relsize [expr {double($value)/double($range)}]
-		set volumePercent $value
-		set volumeRange $range
+		set relsize [expr {double($value) - double($options(-from))}]
+		set relsize [expr {$relsize / (double($options(-to)) - double($options(-from)))}]
 
 		if { $options(-orient) == "vertical" } {
 			place conf $win.fill -relheight $relsize

@@ -2503,6 +2503,9 @@ namespace eval ::ChatWindow {
 			-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
 			-volumevariable ::ChatWindow::voip_volume_in \
 			-amplificationimage [::skin::loadPixmap ampli] \
+			-amplificationcommand [list ::ChatWindow::AmplificationIn $frame_in] \
+			-amplificationvariable ::ChatWindow::voip_amplification_in \
+			-amplificationto 10 \
 			-amplificationpressedimage [::skin::loadPixmap ampli_pressed]
 		if { [::config::getKey old_dpframe 0] == 0 } {
 			set orient "horizontal"
@@ -2520,6 +2523,9 @@ namespace eval ::ChatWindow {
 			-volumecommand [list ::ChatWindow::VolumeOut $frame_out] \
 			-volumevariable ::ChatWindow::voip_volume_out \
 			-amplificationimage [::skin::loadPixmap ampli] \
+			-amplificationcommand [list ::ChatWindow::AmplificationOut $frame_out] \
+			-amplificationvariable ::ChatWindow::voip_amplification_out \
+			-amplificationto 10 \
 			-amplificationpressedimage [::skin::loadPixmap ampli_pressed]
 		$frame_in configure -width [$frame_in getSize]
 		pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
@@ -2642,8 +2648,12 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	proc VolumeIn {frame  val } {
-		if {[catch {::Farsight::SetVolumeIn [expr {$::ChatWindow::voip_amplification_in - 1 + \
+	proc AmplificationIn {frame val } {
+		VolumeIn $frame $val
+	}
+	proc VolumeIn {frame val } {
+		#TODO: improve the formula
+		if {[catch {::Farsight::SetVolumeIn [expr {$::ChatWindow::voip_amplification_in * \
 							       $::ChatWindow::voip_volume_in}]}]} {
 			$frame configure -amplificationstate disabled
 			$frame configure -volumestate disabled
@@ -2655,8 +2665,12 @@ namespace eval ::ChatWindow {
 		}
 	}
 
+	proc AmplificationOut {frame val } {
+		VolumeOut $frame $val
+	}
 	proc VolumeOut { frame val } {
-		if {[catch {::Farsight::SetVolumeOut [expr {$::ChatWindow::voip_amplification_out - 1 + \
+		#TODO: improve the formula
+		if {[catch {::Farsight::SetVolumeOut [expr {$::ChatWindow::voip_amplification_out * \
 						   $::ChatWindow::voip_volume_out}]}]} {
 			$frame configure -amplificationstate disabled
 			$frame configure -volumestate disabled
