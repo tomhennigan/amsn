@@ -6388,11 +6388,10 @@ proc drawNick { } {
 	}
 
 	if {[::config::getKey emailVerified 1] == 0} {
-		#TODO: improvement necessary (maybe red color?)
 		lappend stylestring [list "newline" "\n"]
 		lappend stylestring [list "tag" "myemailwarning"]
-		lappend stylestring [list "colour" "reset"]
-		lappend stylestring [list "font" "reset"]
+		lappend stylestring [list "colour" [::skin::getKey myemailwarning]]
+		lappend stylestring [list "font" [::skin::getFont "mystatus" "bboldf"]]
 		lappend stylestring [list "text" [trans emailnotverified]]
 		lappend stylestring [list "tag" "-myemailwarning"]
 	}

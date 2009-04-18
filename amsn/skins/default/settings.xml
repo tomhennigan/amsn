@@ -65,6 +65,7 @@
 			<contactlistborderbg>#ffffff</contactlistborderbg>
 			<bannerbg>#ffffff</bannerbg>
 			<mystatus>#666666</mystatus>
+			<myemailwarning>#f80000</myemailwarning>
 			<contact_online>#638000</contact_online>
 			<contact_away>#964b27</contact_away>
 			<contact_noactivity>#4c3269</contact_noactivity>
