@@ -96,7 +96,11 @@ snit::widget voipcontrol {
 
 	method SetState {option value} {
 		set options($option) $value
-		#TODO
+		$volumeframe configure -state $value
+		$amplificationframe configure -state $value
+		$endcallbutton configure -state $value
+		$amplificationbutton configure -state $value
+		$mutecheckbutton configure -state $value
 	}
 
 	method ToggleVolumeAmplification {} {
@@ -207,7 +211,7 @@ snit::widget soundmixervolume {
 
 	option -orient -default "vertical" -readonly yes
 
-	option -state -default normal; #TODO
+	option -state -default normal
 
 	delegate option * to hull
 
@@ -253,7 +257,10 @@ snit::widget soundmixervolume {
 	destructor {
 	}
 
+
 	method MoveLevel {{up 1}} {
+		if { $options(-state) != "normal"} {return}
+
 		if { $options(-orient) == "vertical" } {
 			set size [winfo height ${win}]
 			set max [expr {1-double($options(-levelsize))/double(${size})}]
@@ -306,6 +313,7 @@ snit::widget soundmixervolume {
 	}
 
 	method Motion {} {
+		if { $options(-state) != "normal"} {return}
 
 		if { $options(-orient) == "vertical" } {
 			set size [winfo height ${win}]
@@ -357,6 +365,8 @@ snit::widget soundmixervolume {
 
 
 	method setVolume {value {range 100}} {
+		if { $options(-state) != "normal"} {return}
+
 		set relsize [expr {double($value)/double($range)}]
 		set volumePercent $value
 		set volumeRange $range
