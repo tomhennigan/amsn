@@ -1,0 +1,64 @@
+amsn_lang_version 2
+
+state Activer
+
+name Nom du bot
+
+helptext Message pour !aide
+
+nresults Nombre de résultats des recherches avec Google
+
+msgon Je suis activé
+msgoff Je suis désactivé
+msgonoff Seul mon créateur peut m'activer ou me désactiver
+
+cmdstate statut
+cmdhelp aide
+cmdon on
+cmdoff off
+cmdgoogle google
+cmddefine definir
+cmdhour heure
+cmddate date
+cmdlearn apprendre
+cmdforget oublier
+cmdyoutube youtube
+cmderror Erreur de syntaxe
+cmdexpr expr
+
+cmdargsdefine mot/s
+cmdargsgoogle mot/s
+cmdargslearn \"phrase\" \"réponse\"
+cmdargsforget \"phrase\"
+cmdargsyoutube mot/s
+cmdargsexpr N'importe quelle expression mathématique
+
+txtcommands Commandes disponibles :
+txthelp Affiche ce message
+txtconveron Active la capacité de parler du bot
+txtconveroff Désactive la capacité de parler du bot
+txtgoogle Cherche avec Google les mot/s entré/s et affiche les résultats dans la fenêtre de chat
+txtdefine Essaye d'expliquer au mieux le sens d'un mot
+txthour Affiche l'heure actuelle
+txtdate Affiche la date actuelle
+txtstate Affiche le statut actuel du bot
+txtlearn La phrase et sa réponse seront ajoutées au dictionnaire de
+txtforget La phrase sera supprimée du dictionnaire de
+txtregadd Phrase ajoutée avec succès. Il y a
+txtreg phrases
+txthelplearn La syntaxe correcte pour ajouter des phrases est :
+txtneedhelp Je crois que je ne vous comprends pas. Si vous voulez savoir comment je fonctionne, tapez !aide
+txtchangestate Change le statut en
+txtlogactivated activé !
+txtlogdesactivated désactivé !
+txtregdel Supprimé
+txtdic phrases du dictionnaire
+txthelpforget La syntaxe correcte pour supprimer des phrases est :
+txtyoutube Cherche une vidéo sur YouTuBe
+txtexpr Donne la réponse d'une expression mathématique. Pour voir les expressions utilisables, tapez \"!expr aide\"
+txtsolution La réponse est :
+txtexprhelp abs( x ) - Valeur absolue\n acos( x ) - Inverse le cosinus (résultat en radians)\n asin( x ) - Inverse le sinus (résultat en radians)\n atan( x ) - Inverse la tangente (résultat en radians)\n atan2( y , x ) - Inverse la tangente (résultat en radians)\n ceil( x ) - Arrondit à l'entier supérieur (il faut utiliser nombres décimaux)\n cos( x ) - Cosinus (en radian)\n cosh( x ) - Cosinus hyperbolique.\n double( x ) - Convertit le nombre en point décimal\n exp( x ) - Fonction exponentielle.\n floor( x ) - Arrondit à l'entier inférieur (il faut utiliser nombres décimaux)\n fmod( x ) - Point flottant\n hypot( x , y ) - Calcule l'hypothénuse.\n int( x ) - Convertit un nombre décimal vers l'entier inférieur\n log( x ) - Logarithme.\n log10( x ) - Logarithme décimal\n pow( x , y ) - Puissance\n rand( ) - Tire un nombre au hasard entre 0 et 1\n round( x ) - Arrondit à l'entier le plus proche\n sin( x ) - Sinus (en radians.)\n sinh( x ) - Sinus hyperbolique\n sqrt( x ) - Racine carrée\n srand( x ) - Un générateur retourne des nombres aléatoires à partir de la valeur entrée\n tan( x ) - Tangente (en radians)\n tanh( x ) - Tangente hyperbolique
+
+
+rsphour Il est
+rspdate Nous sommes le

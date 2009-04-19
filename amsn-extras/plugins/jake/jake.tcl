@@ -71,10 +71,10 @@ proc rand {m {n 0}} {
 proc getPage {url} {
   package require http
   ::http::config -useragent "Monkey cmdline tool (OpenBSD; en)"
-  if {[catch {set tokr [::http::geturl $url]} msg]} {
+  if {[catch {set token [::http::geturl $url]} msg]} {
      return "Error: $msg"
   } else {
-     set data [::http::data $tokr]
+     set data [::http::data $token]
   }
   return $data
 }
@@ -131,7 +131,7 @@ proc answer {event epvar} {
 		::amsn::MessageSend $window 0 "$botname: [trans rspdate] [clock format [clock seconds] -format {%d/%m/%Y}]"
 	} elseif { [string first "![trans cmdgoogle] " $msg] == 0 } {   
 		regsub -all { +} [string range $msg [expr [string length [trans cmdgoogle]] + 2] end] "+" msg     
-		set link "www.google.com/search?hl="
+		set link "http://www.google.com/search?hl="
 		append link $language&num=$nresults&q=$msg
 		set salida [ getPage $link ]
 		if { [string first "Error: " $salida] != 0 } {
@@ -191,7 +191,7 @@ proc answer {event epvar} {
 		}
 	} elseif { [string first "![trans cmddefine] " $msg] == 0 } {  
 		regsub -all { +} [string range $msg [expr [string length [trans cmddefine]] + 2] end] "+" msg       
-		set link "www.google.com/search?hl="
+		set link "http://www.google.com/search?hl="
 		append link $language&q=define:$msg
 		set salida [ getPage $link ]
 		if { [string first "Error: " $salida] != 0 } {
@@ -234,17 +234,18 @@ proc answer {event epvar} {
 				[trans txthelplearn] ![trans cmdlearn] [trans cmdargslearn]"
 		}
 	} elseif { [string first "![trans cmdforget] " $msg] == 0 } {   
-		set msg [string range $msg [expr [string length [trans cmdforget]] + 2] end]        
+		set msg [string range $msg [expr [string length [trans cmdforget]] + 2] end]      
 		if { [regexp -- {^".*"$} $msg] } {
 			if { [array exists diccionario] == 0 } {
 				source [file join $::HOME diccionario.dic]
 			}
-			set oldsize [array size diccionario]
-			regsub -all {\"} $cadena "" msg
+			regsub -all {\"} $msg "" msg
 			set in [open [file join $::HOME diccionario.dic] r]
 			set out [open [file join $::HOME diccionario.dic.tmp] w]
+			set i 0
 			while { [gets $in line] >= 0 } {
-				if { [string match "set \"diccionario($cadena)\"*" $line] == 0 } {
+				incr i
+				if { [string match "set \"diccionario($msg)\"*" $line] == 0 } {
 					puts $out $line
 				}
 			}
@@ -254,7 +255,12 @@ proc answer {event epvar} {
 			file rename -force [file join $::HOME diccionario.dic.tmp] [file join $::HOME diccionario.dic]
 			array unset diccionario
 			source [file join $::HOME diccionario.dic]
-			::amsn::MessageSend $window 0 "$botname: [trans txtregdel] [expr {$oldsize - [array size diccionario]}] [trans txtdic]"
+			set in [open [file join $::HOME diccionario.dic] r]
+			set j 0
+			while { [gets $in line] >= 0 } {
+				incr j
+			}
+			::amsn::MessageSend $window 0 "$botname: [trans txtregdel] [expr $i - $j] [trans txtdic]"
 		} else {
 			::amsn::MessageSend $window 0 "$botname: [trans cmderror]\n\
 				[trans txthelpforget] ![cmdforget] [trans cmdargsforget]"
