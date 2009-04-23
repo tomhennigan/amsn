@@ -2482,6 +2482,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   return TCL_OK;
 
  error:
+  _notify_debug ("Error: %s", Tcl_GetStringResult(interp));
   Close ();
 
   if (relay_info)
