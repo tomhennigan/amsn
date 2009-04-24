@@ -28,7 +28,7 @@ snit::widget voipcontrol {
 	delegate option -amplificationfrom to amplificationframe as -from
 	delegate option -amplificationto to amplificationframe as -to
 	delegate option -amplificationvariable to amplificationframe as -variable
-	delegate option -amplificationcommand to amplificationbutton as -command
+	delegate option -amplificationcommand to amplificationframe as -command
 	delegate option -amplificationstate to amplificationframe as -state
 
 	delegate option -endcallimage to endcallbutton as -image
@@ -59,7 +59,7 @@ snit::widget voipcontrol {
 		set buttonframe [frame ${win}.buttonframe]
 		set mutecheckbutton [mutecheckbutton ${buttonframe}.mute]
 		set endcallbutton [button ${buttonframe}.endcall -relief flat]
-		set amplificationbutton [button ${buttonframe}.amplification -command "$self ToggleVolumeAmplification" -relief flat]
+		set amplificationbutton [button ${buttonframe}.amplification -command [list $self ToggleVolumeAmplification] -relief flat]
 
 		$self configurelist $args
 		#creating volumeframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
@@ -106,7 +106,7 @@ snit::widget voipcontrol {
 	}
 
 	method ToggleVolumeAmplification {} {
-		if {$volumeshown} {
+		if {$volumeshown  == 1} {
 			place forget $win.volumeframe
 			if {$options(-orient) == "vertical"} {
 				place $amplificationframe -width $options(-volumeframesize) -relheight 1
@@ -152,10 +152,14 @@ snit::widgetadaptor mutecheckbutton {
 
 		$self configurelist $args
 		
-		set muted 1
+		set muted 0
 
 		if {[info exists ::$options(-mutevariable)]} {
-			set muted [set ::$options(-mutevariable)]
+			if {[set ::$options(-mutevariable)]} {
+				set muted 1
+			} else {
+				set muted 0
+			}
 		}
 		$self configure -image $options(-unmuteimage)
 	}

@@ -2559,7 +2559,7 @@ namespace eval ::amsn {
 			if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win].dps]} {
 				::amsn::UpdatePictures $win
 			}
-		}	
+		}
 	}
 
 	proc UpdatePictures { win } {

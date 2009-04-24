@@ -159,7 +159,11 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetOutDisplayPicturesFrame { window } {
-		return [[GetOutFrame $window].f.sw.sf getframe]
+		if { [::config::getKey old_dpframe 0] == 0 } {
+			return [[GetOutFrame $window].f.sw.sf getframe]
+		} else {
+			return [GetOutFrame $window].f
+		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -1962,7 +1966,7 @@ namespace eval ::ChatWindow {
 		
 		set picture [CreateDisplayPicturesFrame $w $paned]
 			
-		pack $picture -side right -expand false -fill y -anchor ne \
+		pack $picture -side right -fill y -anchor ne \
 		    -padx [::skin::getKey chat_dp_padx] \
 		    -pady [::skin::getKey chat_dp_pady]
 	}
@@ -2056,13 +2060,6 @@ namespace eval ::ChatWindow {
 			# Create them
 			frame $fr.f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
 	                    -relief solid -background [::skin::getKey chatwindowbg]
-			ScrolledWindow $fr.f.sw -scrollbar vertical -auto vertical -borderwidth 0
-			ScrollableFrame $fr.f.sw.sf -width 0 -bg [::skin::getKey chatwindowbg]
-			$fr.f.sw setwidget $fr.f.sw.sf
-			
-			# Name our widgets
-			set f [$fr.f.sw.sf getframe]
-			pack $fr.f.sw -fill y -anchor ne
 		}
 
 		return $fr.f
@@ -2623,9 +2620,16 @@ namespace eval ::ChatWindow {
 		status_log "Removing CW Voip controls"
 		catch {
 			destroy $frame_in
+		}
+		catch {
 			destroy $frame_out
 		}
-
+		
+		if { [::config::getKey old_dpframe 0] != 0 } {
+			#WTF IS THIS NOT WORKING?????
+			[GetOutDisplayPicturesFrame $win] configure -width 0
+			[winfo parent [GetOutDisplayPicturesFrame $win]] configure -width 0
+		}
 		catch {
 			unset ::ChatWindow::voip_mute_in
 			unset ::ChatWindow::voip_amplification_in
@@ -2648,15 +2652,17 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	proc AmplificationIn {frame val } {
-		VolumeIn $frame $val
+	proc AmplificationIn {widget {val unused}} {
+		puts "A>widget='$widget' val='$val'"
+		VolumeIn $widget
 	}
-	proc VolumeIn {frame val } {
+	proc VolumeIn {widget {val unused}} {
+		puts "V>widget='$widget' val='$val'"
 		#TODO: improve the formula
 		if {[catch {::Farsight::SetVolumeIn [expr {$::ChatWindow::voip_amplification_in * \
 							       $::ChatWindow::voip_volume_in}]}]} {
-			$frame configure -amplificationstate disabled
-			$frame configure -volumestate disabled
+			$widget configure -amplificationstate disabled
+			$widget configure -volumestate disabled
 		}
 	}
 	proc MuteOut {w } {

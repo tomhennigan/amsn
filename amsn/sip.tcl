@@ -2597,7 +2597,8 @@ namespace eval ::MSNSIP {
 		} else {
 			set mode "A6"
 		}
-		if {[catch {$::farsight Prepare 1 $mode}] } {
+		if {[catch {$::farsight Prepare 1 $mode} err] } {
+			status_log "Call is impossible : err"
 			::amsn::SIPCallImpossible $email
 			return "IMPOSSIBLE"
 		} else {
@@ -2651,14 +2652,7 @@ namespace eval ::MSNSIP {
 			} else {
 				set frame [::ChatWindow::GetOutDisplayPicturesFrame $window].voip
 			}
-			if {[winfo exists $frame.level] } {
-				::ChatWindow::UpdateVoipControls $chatid $sip $callid
-				::dkfprogress::SetProgress $frame.level $value 1.0
-			} else {
-				if {$::ChatWindow::usingnewvoipcontrols} {
-					$frame setVolume $value 1.0
-				}
-			}
+			$frame setVolume $value
 		}
 	}
 	proc activeCandidates { email sip callid send media local remote } {
