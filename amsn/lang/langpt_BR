@@ -15,6 +15,9 @@ addprofile Adicionar Novo Perfil
 addprofiledesc Entre com o endereço de e-mail para o qual você gostaria de criar um novo perfil.\nPerfis de endereço de e-mail permitem que você tenha diferentes configurações para cada endereço.\nSem os Perfis você não poderá usar o histórico, Alarmes ou "Lembrar Senhas".
 addstate Adicionar Novo Estado
 addto Adicionar a $1
+addtoal Adicionar em AL
+addtobl Adicionar em BL
+addtofl Adicionar em FL
 addtocontacts Adicionar à Lista de Contatos
 addtoo Adicionar esta pessoa à minha lista de contatos
 admincontacts Gerenciar contatos
@@ -119,6 +122,7 @@ bytesymbol b
 cachedpics $1 figuras em cache
 cachedpicsfor Imagens arquivadas para o usuário
 cagreement Aceitação de Privacidade
+cam_in_cw Exibir a camera junto a janela de conversação
 cancel Cancelar
 cancelled Cancelado 
 cannotdeleteprofile Impossível apagar este perfil pois ele está sendo usado por uma sessão do aMSN.
@@ -329,6 +333,7 @@ editstate Editar o estado de automensagem existente
 editvalue Editar valor
 email E-mail
 emailsinlist Exibir endereços de e-mail ao invés de apelidos na lista de contatos
+emailnotverified (Email não verificado!)
 emoticon_steal Adicionar aos seus emoticons
 emotisounds Reproduzir sons com certos emoticons
 emptygroup Esvaziar grupo
@@ -445,7 +450,8 @@ hidedisplaypic Esconder Imagem de Exibição
 hidemenumessage Você tem certeza que quer esconder os menus?\nVocê pode restaurá-los a qualquer momento usando a teclado de atalho para mostrar/esconder 'Ctrl-M'.
 hidemenu Mostrar/Econder menu
 hiden Esconde os emoticons do menu de Smileys
-hidewindow Esconder a Janela
+hidewindow Esconder Janela
+hideuserscw Esconder usuários na janela de conversação.
 history2 Histórico
 history Ver histórico
 home Casa
@@ -844,6 +850,7 @@ showonedpframe Mostrar apenas 1 imagem de exibição na janela de chat
 showpicnotify Mostrar figuras do usuário na janela de notificação
 showspaces Mostrar icones do Spaces na lista de contato
 showuserpic Figura do usuário $1
+showuserscw Existe $1 usuarios nesta conversa. Para ver ou esconder clique aqui.
 signinstatus Status da conexão
 signout Deslogar
 signoutep Logar de $1
@@ -968,6 +975,7 @@ truncatenames2 Truncar apelidos maiores que a largura da janela dentro da janela
 truncatenicks Truncar apelidos maiores que a largura da janela
 twonewmail $1 nova(s) mensagem(ns) na Caixa de Entrada
 type Tipo
+unavailablecountryserver O servidor de seu país está temporariamente fora do ar.Tente novamente mais tarde. Você pode tentar reparar este erro mudando seu país nas configurações de sua conta Passport em http://www.passport.net 
 unblock Desbloquear
 unknown Desconhecido
 unload Descarregar
