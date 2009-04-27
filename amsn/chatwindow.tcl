@@ -3652,40 +3652,41 @@ namespace eval ::ChatWindow {
 			}
 		}
 
-		after cancel "::ChatWindow::FlickerTab $win 0"
-		if { $new == 1 || ![info exists winflicker($win)]} {
-			set winflicker($win) 0
-		}
-
-		set count [set winflicker($win)]
-
-		$tab delete tab_bg
-		if { [expr {$count % 2}] == 0 } {
-			set topimg [CreateTabbg $container 0]
+		if { [::picture::IsAnimated [::skin::GetSkinFile pixmaps tab_flicker.gif]] } {
+			ConfigureTab $tab "tab_flicker"
 		} else {
-			set topimg [CreateTabbg $container 1]
-		}
-		$tab create image 0 0 -image $topimg -anchor nw -tags tab_bg
-		$tab lower tab_bg tab_text
-		$tab bind tab_bg <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
-
-		incr winflicker($win)
-
-		#if { $count > 10 } {
-		#	$tab configure -image [::skin::loadPixmap tab_flicker]
-		#	return
-		#}
-
-		#Check if the container window lost focus, then make it flicker:
-		set container [GetContainerFromWindow $win]
-		if { $container != "" } {
-			if { ![info exists ::ChatWindow::new_message_on(${container})] &&
-			     [string first $container [focus]] != 0 } {
-				Flicker $container
+			after cancel "::ChatWindow::FlickerTab $win 0"
+			if { $new == 1 || ![info exists winflicker($win)]} {
+				set winflicker($win) 0
 			}
+
+			set count [set winflicker($win)]
+
+			if { [expr {$count % 2}] == 0 } {
+				ConfigureTab $tab "tab_flicker"
+			} else {
+				ConfigureTab $tab "tab"	
+			}
+
+			incr winflicker($win)
+
+			#if { $count > 10 } {
+			#	$tab configure -image [::skin::loadPixmap tab_flicker]
+			#	return
+			#}
+
+			#Check if the container window lost focus, then make it flicker:
+			set container [GetContainerFromWindow $win]
+			if { $container != "" } {
+				if { ![info exists ::ChatWindow::new_message_on(${container})] &&
+				     [string first $container [focus]] != 0 } {
+					Flicker $container
+				}	
+			}
+			
+			
+			after 300 "::ChatWindow::FlickerTab $win 0"
 		}
-		
-		after 400 "::ChatWindow::FlickerTab $win 0"
 	}
 
 	proc GetContainerFor { user } {
@@ -3764,87 +3765,16 @@ namespace eval ::ChatWindow {
 
 	}
 	
-	proc TabsWidth { container opt {value 0}} {
-		variable tab_width
-		if {$opt eq "get"} {
-			if {[info exists tab_width($container)]} {
-				return $tab_width($container)
-			} else {
-				return 120
-			}
-		} elseif {$opt eq "set"} {
-			array set tab_width [list $container $value]
-		}
+	proc TabsWidth {} {
+		return [image width [::skin::loadPixmap tab]]
 	}
 
-	proc RecreateTabs { container newtab} {
-		if {![winfo exists $container.bar]} { return }
-		
-		variable containerwindows
-		variable win2tab
-		
-		set tabbar_width [winfo width $container.bar]
-		if { $::tcl_version >= 8.4 } {
-			set tabbar_width [expr {$tabbar_width - ([::skin::getKey chat_tabbar_padx]*2)}]
-		}
-		if {$tabbar_width < 1} { set tabbar_width 1 }
-
-		if {[array names containerwindows] ne ""} {
-			set container_names [array names containerwindows]
-			if {[lsearch $container_names $container] != -1} {
-				set number_tabs [llength [set containerwindows($container)]]
-				if {$newtab} {
-					incr number_tabs
-				}
-			} else {
-				return
-			}
-		} else {
-			set number_tabs 1
-		}
-		
-		set tab_width [expr {$tabbar_width / $number_tabs}]
-		TabsWidth $container set $tab_width
-
-		if {$tab_width < 2 && $number_tabs != 1} {
-			set tab_width 100
-			set enable_after 1
-		} else {
-			set enable_after 0
-		}
-
-		set topimg [CreateTabbg $container 1]
-
-		set tab ""
-		if {[array names containerwindows] ne ""} {
-			set tab_close_y [::skin::getKey tab_close_y]
-			foreach x [set containerwindows($container)] {
-				set tab [set win2tab($x)]
-				$tab configure -width $tab_width
-				$tab delete tab_bg tab_close
-				$tab create rect 0 0 $tab_width 33 -tag tab_bg -outline [::skin::getKey tabbarbg] -width 5
-
-				$tab create image $tab_width $tab_close_y -image [::skin::loadPixmap tab_close] -anchor nw -tags "tab_close tab_text"
-				
-				$tab create image 0 0 -image $topimg -anchor nw -tags tab_bg
-			}
-			
-			foreach chat_id [getAllChatIds] {
-				TopUpdate $chat_id
-			}
-		}
-		
-		bind $tab <Configure> [list ::ChatWindow::RecreateTabsConfigure $container]
-
-		if {$enable_after} {
-			after 300 "::ChatWindow::RecreateTabs $container 0"
-		}
+	proc ConfigureTab {tab img} {
+		$tab delete tab_bg
+		$tab create image 1 0 -image [::skin::loadPixmap $img] -anchor nw -tags tab_bg
+		$tab lower tab_bg tab_text
 	}
 	
-	proc RecreateTabsConfigure { container } {
-		after cancel "::ChatWindow::RecreateTabs $container 0"
-		after 200 "::ChatWindow::RecreateTabs $container 0"
-	}
 
 	proc CreateTabButton { container win} {
 		variable containerwindows
@@ -3854,25 +3784,20 @@ namespace eval ::ChatWindow {
 		set w [string map { "." "_"} $win]
 		set tab $container.bar.$w
 
-		RecreateTabs $container 1
-		set tab_width [TabsWidth $container get]
-		
-		set topimg [CreateTabbg $container 1]
-
-		#New canvas-based tab
-		canvas $tab -bg [::skin::getKey tabbarbg] -relief flat -width $tab_width -height 33
-		$tab create rect 0 0 $tab_width 33 -tag tab_bg -outline [::skin::getKey tabbarbg] -width 5
+		set tab_width [image width [::skin::loadPixmap tab]]
+		set tab_height [image height [::skin::loadPixmap tab]]
 
 		set nick [string trim $win] ;# to avoid havng a blank tab if the user has  a nick like "\n\n\n my nick"
-		set idx [string first "\n" $nick]
-		if { $idx != -1 } {
-		        set nick [string range $nick 0 [expr {$idx -1}]]
-		}
+	#	set idx [string first "\n" $nick]
+	#	if { $idx != -1 } {
+	#	        set nick [string range $nick 0 [expr {$idx -1}]]
+	#	}
 
 		set nick [list [list text $nick]]
+		canvas $tab -bg [::skin::getKey tabbarbg] -width $tab_width -height $tab_height
 		::guiContactList::renderContact $tab tab_text $tab_width $nick 0
 		$tab create image $tab_width [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -anchor nw -tags tab_close
-		$tab create image 0 0 -image $topimg -anchor nw -tags [list tab_bg]
+		$tab create image 1 0 -image [::skin::loadPixmap tab] -anchor nw -tags [list tab_bg]
 
 
 		bind $tab <Enter> "::ChatWindow::TabEntered $tab $win"
@@ -3888,37 +3813,6 @@ namespace eval ::ChatWindow {
 		bind $tab <<Button3>> [list ::ChatWindow::createRightTabMenu $tab %X %Y]
 
 		return $tab
-	}
-	
-	proc CreateTabbg {container tab_on} {
-		set tab_width [TabsWidth $container get]
-		if {$tab_width > 5 } { incr tab_width -5 }
-		
-		set container [string map { "." "_"} $container]
-		
-		set topimg [image create photo tabchat_0]
-		if {$tab_on} {
-			$topimg copy [::skin::loadPixmap cwtopback]
-		} else {
-			$topimg copy [::skin::loadPixmap grouptopback_light]
-		}
-		::picture::Colorize $topimg [::skin::getKey topbarbg]
-		
-		set bg tabsbg
-		
-		scalable-bg $bg -source $topimg \
-			-n [::skin::getKey topbarpady] -e [::skin::getKey topbarpadx] \
-			-s [::skin::getKey topbarpady] -w [::skin::getKey topbarpadx] \
-			-width $tab_width -height 33 \
-			-resizemethod [::skin::getKey chat_top_resize "tile"]
-			
-		set bg_name [$bg name]
-		
-		set topimg [image create photo tabchat_${container}_${tab_on}]
-		$topimg copy $bg_name
-		
-		rename $bg {}
-		return $topimg
 	}
 
 	proc CloseOtherTabs { tokeep } {
@@ -3983,33 +3877,29 @@ namespace eval ::ChatWindow {
 		        ChatWindowDestroyed $container
 		} else {
 			SwitchToTab $container $newwin
-			RecreateTabs $container 0
 		}
 		
 	}
 
 	proc TabEntered { tab win } {
 		after cancel "::ChatWindow::FlickerTab $win"; 
-		set container [GetContainerFromWindow $win]
-		set topimg [CreateTabbg $container 1]
-		$tab delete tab_bg
-		$tab create image 0 0 -image $topimg -anchor nw -tags tab_bg
-		$tab lower tab_bg tab_text
+		ConfigureTab $tab "tab_hover"
+	#TODO	$tab itemconfigure tab_text -fill [::skin::getKey tabfg_hover]
 	}
 	
 	proc TabLeft {tab } {
 		if { [info exists ::ChatWindow::oldpixmap($tab)] } { 
 			set image [set ::ChatWindow::oldpixmap($tab)]
 		} else {
-			set image [::skin::loadPixmap tab]
+			set image tab
 		}
 
 		set win [set ::ChatWindow::tab2win($tab)]
 		if { $win == [GetCurrentWindow [winfo toplevel $win]] } { 
-			set image [::skin::loadPixmap tab_current]
+			set image tab_current
 		}
-
-	#TODO	$tab itemconfigure tab_bg -image $image
+		
+		ConfigureTab $tab $image
 	#TODO	$tab itemconfigure tab_text -fill [::skin::getKey tabfg]
 	 }
 
@@ -4023,7 +3913,7 @@ namespace eval ::ChatWindow {
 		set container [GetContainerFromWindow $win]
 		
 
-		set tab_width [TabsWidth $container get]
+		set tab_width [TabsWidth]
 		set tab [set win2tab($win)]
 		set users [::MSN::usersInChat $chatid]
 		# We have two ways of changing a tab button text
@@ -4055,7 +3945,7 @@ namespace eval ::ChatWindow {
 		}
 		
 		::guiContactList::renderContact $tabvar tab_text $tab_width $txt 0
-		incr tab_width 5
+		incr tab_width 10
 		$tabvar create image $tab_width [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -anchor ne -tags tab_close
 		
 		::ChatWindow::UpdateContainerTitle [winfo toplevel $win]
@@ -4094,11 +3984,9 @@ namespace eval ::ChatWindow {
 			set containerprevious($container) $w
 			if { [info exists win2tab($w)] } {
 				set tab $win2tab($w)
-	#TODO			$tab itemconfigure tab_bg -image [::skin::loadPixmap tab]
+				ConfigureTab $tab "tab"
 			}
 		}
-		
-
 		
 		set  containercurrent($container) $win
 		pack $win -side bottom -expand true -fill both
@@ -4113,12 +4001,8 @@ namespace eval ::ChatWindow {
 		}
 
 		if { [info exists win2tab($win)] } {
-			#this is for the current tab
 			set tab $win2tab($win)
-			set topimg [CreateTabbg $container 1]
-			$tab delete tab_bg
-			$tab create image 0 0 -image $topimg -anchor nw -tags tab_bg
-			$tab lower tab_bg tab_text
+			ConfigureTab $tab "tab_current"
 		}
 
 		::ChatWindow::UpdateContainerTitle $container
