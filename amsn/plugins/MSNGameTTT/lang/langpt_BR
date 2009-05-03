@@ -1,0 +1,16 @@
+amsn_lang_version 2
+gametttgameclosed O seu adversário fechou o jogo.
+gametttgamesessionwith $1 vs $2
+gametttnowinner Ninguém venceu a rodada!\nO resultado permanece $1:$2.
+gametttopponent Adversário
+gametttopponentloading Por favor, aguarde! Adversário carrengando o jogo...
+gametttopponentready O seu adversário está pronto para jogar, clique em "Iniciar" para começar.
+gametttopponentsturn opponent's turn
+gametttopponentnotready Waiting for opponent to click "Start"...
+gametttrestart Reiniciar
+gametttstart Iniciar
+gamettttitle Tic Tac Toe
+gametttwait Por Favor, aguarde...
+gametttVecendor $1 rodadas vencidas!\nA pontuacao agora é: $2:$3.
+gametttyou você
+gametttyourturn Sua vez
