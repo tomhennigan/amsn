@@ -2499,11 +2499,8 @@ namespace eval ::ChatWindow {
 			-mutevariable ::ChatWindow::voip_mute_in \
 			-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
 			-volumevariable ::ChatWindow::voip_volume_in \
-			-amplificationimage [::skin::loadPixmap ampli] \
-			-amplificationcommand [list ::ChatWindow::AmplificationIn $frame_in] \
-			-amplificationvariable ::ChatWindow::voip_amplification_in \
-			-amplificationto 10 \
-			-amplificationpressedimage [::skin::loadPixmap ampli_pressed]
+			-volumefrom 0 \
+			-volumeto 20
 		if { [::config::getKey old_dpframe 0] == 0 } {
 			set orient "horizontal"
 		} else {
@@ -2519,11 +2516,8 @@ namespace eval ::ChatWindow {
 			-mutevariable ::ChatWindow::voip_mute_out \
 			-volumecommand [list ::ChatWindow::VolumeOut $frame_out] \
 			-volumevariable ::ChatWindow::voip_volume_out \
-			-amplificationimage [::skin::loadPixmap ampli] \
-			-amplificationcommand [list ::ChatWindow::AmplificationOut $frame_out] \
-			-amplificationvariable ::ChatWindow::voip_amplification_out \
-			-amplificationto 10 \
-			-amplificationpressedimage [::skin::loadPixmap ampli_pressed]
+			-volumefrom -20 \
+			-volumeto 0
 		$frame_in configure -width [$frame_in getSize]
 		pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
 		if { [::config::getKey old_dpframe 0] == 0 } {
@@ -2535,12 +2529,10 @@ namespace eval ::ChatWindow {
 			pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne
 		}
 
-		set ::ChatWindow::voip_volume_in 1.0
-		set ::ChatWindow::voip_amplification_in 1
+		set ::ChatWindow::voip_volume_in -10 ;# -10dB
 		set ::ChatWindow::voip_mute_in 0
 
-		set ::ChatWindow::voip_volume_out 1.0
-		set ::ChatWindow::voip_amplification_out 1
+		set ::ChatWindow::voip_volume_out -10 ;# -10dB
 		set ::ChatWindow::voip_mute_out 0
 
 		UpdateVoipControls $chatid $sip $callid
@@ -2566,12 +2558,9 @@ namespace eval ::ChatWindow {
 
 		#IN
 		if {[catch {set volume [::Farsight::GetVolumeIn]} ] } {
-			$frame_in configure -amplificationstate disabled
 			$frame_in configure -volumestate disabled
 		} else {
-			set ::ChatWindow::voip_amplification_in [expr {int($volume)}]
-			set ::ChatWindow::voip_volume_in [expr {$volume - ($::ChatWindow::voip_amplification_in - 1)}]
-			$frame_in configure -amplificationstate normal
+			set ::ChatWindow::voip_volume_in $volume
 			$frame_in configure -volumestate normal
 		}
 		if {[catch {set mute [::Farsight::GetMuteIn]} ] } {
@@ -2583,12 +2572,9 @@ namespace eval ::ChatWindow {
 
 		#OUT
 		if {[catch {set volume [::Farsight::GetVolumeOut]} ] } {
-			$frame_out configure -amplificationstate disabled
 			$frame_out configure -volumestate disabled
 		} else {
-			set ::ChatWindow::voip_amplification_out [expr {int($volume)}]
-			set ::ChatWindow::voip_volume_out [expr {$volume - ($::ChatWindow::voip_amplification_out - 1)}]
-			$frame_out configure -amplificationstate normal
+			set ::ChatWindow::voip_volume_out $volume
 			$frame_out configure -volumestate normal
 		}
 		if {[catch {set mute [::Farsight::GetMuteOut]} ] } {
@@ -2632,10 +2618,14 @@ namespace eval ::ChatWindow {
 		}
 		catch {
 			unset ::ChatWindow::voip_mute_in
-			unset ::ChatWindow::voip_amplification_in
+		}
+		catch {
 			unset ::ChatWindow::voip_volume_in
+		}
+		catch {
 			unset ::ChatWindow::voip_mute_out
-			unset ::ChatWindow::voip_amplification_out
+		}
+		catch {
 			unset ::ChatWindow::voip_volume_out
 		}
 
@@ -2652,16 +2642,8 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	proc AmplificationIn {widget {val unused}} {
-		puts "A>widget='$widget' val='$val'"
-		VolumeIn $widget
-	}
 	proc VolumeIn {widget {val unused}} {
-		puts "V>widget='$widget' val='$val'"
-		#TODO: improve the formula
-		if {[catch {::Farsight::SetVolumeIn [expr {$::ChatWindow::voip_amplification_in * \
-							       $::ChatWindow::voip_volume_in}]}]} {
-			$widget configure -amplificationstate disabled
+		if {[catch {::Farsight::SetVolumeIn $::ChatWindow::voip_volume_in}]} {
 			$widget configure -volumestate disabled
 		}
 	}
@@ -2671,14 +2653,8 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	proc AmplificationOut {frame val } {
-		VolumeOut $frame $val
-	}
 	proc VolumeOut { frame val } {
-		#TODO: improve the formula
-		if {[catch {::Farsight::SetVolumeOut [expr {$::ChatWindow::voip_amplification_out * \
-						   $::ChatWindow::voip_volume_out}]}]} {
-			$frame configure -amplificationstate disabled
+		if {[catch {::Farsight::SetVolumeOut $::ChatWindow::voip_volume_out}]} {
 			$frame configure -volumestate disabled
 		}
 	}

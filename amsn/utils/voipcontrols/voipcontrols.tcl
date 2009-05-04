@@ -3,9 +3,7 @@
 package require snit
 package provide voipcontrols 0.1
 
-#TODO: add smthg to show we're changing the amplification. label on top/side with 100%/1000% ?
 snit::widget voipcontrol {
-	variable volumeshown
 
 	option -orient -default "vertical" -readonly yes
 
@@ -15,21 +13,11 @@ snit::widget voipcontrol {
 	option -bg -default white -configuremethod SetBackground
 	option -state -default normal -configuremethod SetState
 
-	option -amplificationimage
-	option -amplificationpressedimage
-
 
 	component volumeframe
-	component amplificationframe
 	component mutecheckbutton
 	component endcallbutton
-	component amplificationbutton
 
-	delegate option -amplificationfrom to amplificationframe as -from
-	delegate option -amplificationto to amplificationframe as -to
-	delegate option -amplificationvariable to amplificationframe as -variable
-	delegate option -amplificationcommand to amplificationframe as -command
-	delegate option -amplificationstate to amplificationframe as -state
 
 	delegate option -endcallimage to endcallbutton as -image
 	delegate option -endcallcommand to endcallbutton as -command
@@ -55,30 +43,22 @@ snit::widget voipcontrol {
 	constructor {args} {
 
 		set volumeframe [soundmixervolume ${win}.volumeframe]
-		set amplificationframe [soundmixervolume ${win}.amplificationframe]
 		set buttonframe [frame ${win}.buttonframe]
 		set mutecheckbutton [mutecheckbutton ${buttonframe}.mute]
 		set endcallbutton [button ${buttonframe}.endcall -relief flat]
-		set amplificationbutton [button ${buttonframe}.amplification -command [list $self ToggleVolumeAmplification] -relief flat]
 
 		$self configurelist $args
 		#creating volumeframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
 		destroy $volumeframe
-		destroy $amplificationframe
 		set volumeframe [soundmixervolume ${win}.volumeframe -orient $options(-orient)]
-		set amplificationframe [soundmixervolume ${win}.amplificationframe -orient $options(-orient)]
 		$self configurelist $args
 
-		pack forget ${win}.amplificationframe
-		$amplificationbutton configure -image $options(-amplificationimage)
-		set volumeshown 1
-
 		if { $options(-orient) == "vertical" } {
-			pack $mutecheckbutton $endcallbutton $amplificationbutton
+			pack $mutecheckbutton $endcallbutton
 			place $volumeframe -width $options(-volumeframesize) -relheight 1
 			place $buttonframe -x $options(-volumeframesize) -width $options(-buttonframesize) -relheight 1
 		} else {
-			pack $mutecheckbutton $endcallbutton $amplificationbutton -side right
+			pack $mutecheckbutton $endcallbutton -side right
 			place $volumeframe -height $options(-volumeframesize) -relwidth 1
 			place $buttonframe -y $options(-volumeframesize) -height $options(-buttonframesize) -relwidth 1
 		}
@@ -89,43 +69,18 @@ snit::widget voipcontrol {
 		set options($option) $value
 		$win configure -background $value
 		$volumeframe configure -background $value
-		$amplificationframe configure -background $value
 		$win.buttonframe configure -background $value
 		$mutecheckbutton configure -background $value
 		$win.buttonframe.endcall configure -background $value
-		$win.buttonframe.amplification configure -background $value
 	}
 
 	method SetState {option value} {
 		set options($option) $value
 		$volumeframe configure -state $value
-		$amplificationframe configure -state $value
 		$endcallbutton configure -state $value
-		$amplificationbutton configure -state $value
 		$mutecheckbutton configure -state $value
 	}
 
-	method ToggleVolumeAmplification {} {
-		if {$volumeshown  == 1} {
-			place forget $win.volumeframe
-			if {$options(-orient) == "vertical"} {
-				place $amplificationframe -width $options(-volumeframesize) -relheight 1
-			} else {
-				place $amplificationframe -height $options(-volumeframesize) -relwidth 1
-			}
-			set volumeshown 0
-			$amplificationbutton configure -image $options(-amplificationpressedimage)
-		} else {
-			place forget $win.amplificationframe
-			if {$options(-orient) == "vertical"} {
-				place $volumeframe -width $options(-volumeframesize) -relheight 1
-			} else {
-				place $volumeframe -height $options(-volumeframesize) -relwidth 1
-			}
-			set volumeshown 1
-			$amplificationbutton configure -image $options(-amplificationimage)
-		}
-	}
 	method getSize {} {
 		set size $options(-volumeframesize)
 		incr size $options(-buttonframesize)
@@ -201,8 +156,6 @@ snit::widget soundmixervolume {
 
 	option -from -default 0
 	option -to -default 1
-
-	option -isamplification -default 0 -readonly yes; #TODO
 
 	option -levelsize -default 5 -configuremethod SetLevelSize
 
