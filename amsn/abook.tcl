@@ -160,7 +160,7 @@ namespace eval ::abook {
 		if {$local_ip != "" } {
 			set upnp($port) [::gupnp::New]
 			status_log "Trying to open a UPnP port for $port with $upnp($port)"
-			::gupnp::AddPort $upnp($port) "TCP" [getLocalIP] $port $port 6000 "aMSN"
+			::gupnp::AddPort $upnp($port) "TCP" $local_ip $port $port 6000 "aMSN"
 		} else {
 			status_log "Can't open upnp port because we are not connected"
 		}
