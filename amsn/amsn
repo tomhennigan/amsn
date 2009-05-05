@@ -40,6 +40,15 @@ exec wish $0 $@
 ###
 ###
 
+rename exec ::tk::exec
+proc exec { args } {
+  set ::env(LC_ALL) $::LC_ALL
+  set ret [eval [linsert $args 0 ::tk::exec]]
+  set ::env(LC_ALL) "C"
+  set ret
+}
+
+set ::LC_ALL $::env(LC_ALL)
 set ::env(LC_ALL) "C"
 
 
