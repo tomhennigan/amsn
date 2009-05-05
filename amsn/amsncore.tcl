@@ -246,7 +246,7 @@ proc TmpImgName {} {
 ################################################
 # Other added/update commands for tcl/tk       #
 ################################################
-if { [info commands ::tk::grab] == "" } {
+if { [info commands ::tk::grab] == ""  && [info commands grab] == "grab" } {
 	rename grab ::tk::grab
 	proc grab { args } {
 		if {[llength $args] == 1} {
