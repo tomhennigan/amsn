@@ -6,5 +6,5 @@ all:: $(TARGETS-gupnp)
 clean:: clean-gupnp
 
 clean-gupnp::
-	rm -f $(TARGETS-gupnp) $(OBJS-tcl_gupnp)
+	rm -f $(TARGETS-gupnp) $(OBJS-gupnp)
 
