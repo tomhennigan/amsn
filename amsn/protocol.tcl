@@ -931,6 +931,9 @@ namespace eval ::MSN {
 				set sso ""
 			}
 		}
+
+		::config::setKey start_ns_server [::config::getKey default_ns_server]
+
 		ns configure -stat "d" -sock "" \
 			-server [split [::config::getKey start_ns_server] ":"]
 
