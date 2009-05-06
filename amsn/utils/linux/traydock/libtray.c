@@ -248,8 +248,8 @@ IconEvent (ClientData clientData, register XEvent *eventPtr)
 
 	if ((eventPtr->type == Expose) && (eventPtr->xexpose.count == 0)) {
 		if (icon->win != NULL)
-			/*horrible hack to redraw the icon when dragging the dock aroun the panels*/
-			Tcl_CreateTimerHandler(500, DrawIcon, icon);
+                  /*horrible hack to redraw the icon when dragging the dock aroun the panels*/
+                  Tcl_DoWhenIdle (DrawIcon, icon);
 		goto redraw;
 
 	} else if (eventPtr->type == ConfigureNotify || eventPtr->type == ResizeRequest) {
@@ -659,7 +659,8 @@ Tk_RemoveIcon (ClientData clientData,
 	iconlist->pixmap = NULL;
 	Tk_DestroyWindow(iconlist->win);
 	iconlist->win = NULL;
-	
+	Tcl_CancelIdleCall (DrawIcon, iconlist);
+
 	/* Remove it from the list */
 	if (iconlist->next == NULL && iconlist->prev == NULL)
 	{
