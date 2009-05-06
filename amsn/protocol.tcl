@@ -1972,7 +1972,8 @@ namespace eval ::MSN {
 			# if you delete someone from WLM, it will mark is "isMessengerUser = false", then if you add it again
 			# instead of updating it to "isMessengerUser = true", it does an ABContactAdd which results in the error
 			# ContactAlreadyExists.
-			if {$cid == "" } {
+			if {[lsearch [::abook::getContactData $userlogin lists] "FL"] == -1  &&
+			    [lsearch [::abook::getContactData $userlogin lists] "EL"] == -1 } {
 				$::ab ABContactAdd [list ::MSN::addUserCB $userlogin $gid 1] $userlogin
 			} else {
 				$::ab ABContactUpdate [list ::MSN::addUserCB $userlogin $gid 0 $cid] $userlogin [list isMessengerUser true] IsMessengerUser
