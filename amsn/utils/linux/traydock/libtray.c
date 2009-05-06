@@ -162,6 +162,9 @@ DrawIcon (ClientData clientData)
 	XSizeHints *hints = NULL;
 	long supplied = 0;
 
+	if( icon->win == NULL ) {
+		return;
+	}
 	XGetGeometry(display, Tk_WindowId(icon->win), &r, &x, &y, &w, &h, &b, &d);
 	XClearWindow(display, Tk_WindowId(icon->win));
 
@@ -653,7 +656,9 @@ Tk_RemoveIcon (ClientData clientData,
 	}
 
 	Tk_FreeImage(iconlist->pixmap);
+	iconlist->pixmap = NULL;
 	Tk_DestroyWindow(iconlist->win);
+	iconlist->win = NULL;
 	
 	/* Remove it from the list */
 	if (iconlist->next == NULL && iconlist->prev == NULL)
