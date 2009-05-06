@@ -48,7 +48,11 @@ proc exec { args } {
   set ret
 }
 
-set ::LC_ALL $::env(LC_ALL)
+if {[info exists ::env(LC_ALL)] } {
+  set ::LC_ALL $::env(LC_ALL)
+} else {
+  set ::LC_ALL ""
+}
 set ::env(LC_ALL) "C"
 
 
