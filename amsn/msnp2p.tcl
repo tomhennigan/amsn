@@ -12,30 +12,11 @@
 	option -ackid
 	option -ackuid
 	option -acksize
-	variable headers
 	variable body ""
-
-	constructor {args} {
-		#TODO: remove me when object is destroyed in the right place
-		#DONE (hopefully)
-		#after 30000 $self destroy
-	}
 
 	#creates a P2PMessage object from a normal Message object
 	method createFromMessage { message } {
-		#		array set headers [$message getHeaders]
-		#		set data [$message getBody]
-		#		set idx [string first "\r\n\r\n" $data]
-		#		set head [string range $data 0 [expr $idx -1]]
-		##		set body [string range $data [expr $idx +4] end]
 		set body [$message getBody]
-		#		set head [string map {"\r" ""} $head]
-		#		set heads [split $head "\n"]
-		#		foreach header $heads {
-		#			set idx [string first ": " $header]
-		#			array set headers [list [string range $header 0 [expr $idx -1]] \
-		    #					  [string range $header [expr $idx +2] end]]
-		#		}
 		set ret [binary scan [string range $body 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2]
 		if {$ret != 12} {
 			error "Not enough data to scan header"
@@ -54,10 +35,6 @@
 
 	method toString { {humanReadable 0} } {
 		set str ""
-		foreach { header info } [array get headers] {
-			set str "$str$header: $info\r\n"
-		}
-		set str "$str\r\n\r\n"
 		if { $humanReadable } {
 			set str "${str}sessionid: $options(-sessionid)\n"
 			set str "${str}identifier: $options(-identifier)\n"
@@ -75,58 +52,63 @@
 		return $str
 	}
 
+	method getBody { } {
+		return $body
+	}
 
-	#	proc ReadData { message chatid } {
-	#		variable chunkedData
-	#		# Get values from the header
-	##		set idx [expr [string first "\r\n\r\n" $data] + 4]
-	##		set headend [expr $idx + 48]
-	#		set data [$message getBody]
-	#
-	#	        binary scan [string range $data 0 48] iiiiiiiiiiii cSid cId cOffset1 cOffset2 cTotalDataSize1 cTotalDataSize2 cMsgSize cFlags cAckId cAckUID cAckSize1 cAckSize2
-	#
-	#	        set cOffset [int2word $cOffset1 $cOffset2]
-	#	        set cTotalDataSize [int2word $cTotalDataSize1 $cTotalDataSize2]
-	#   	        set cAckSize [int2word $cAckSize1 $cAckSize2]
-	#
-	#		#status_log "Read header : $cSid $cId $cOffset $cTotalDataSize $cMsgSize $cFlags $cAckId $cAckUID $cAckSize\n" red
-	#		#status_log "Sid : $cSid -> " red
-	#
-	#		if {$cSid == "0" && $cMsgSize != "0" && $cMsgSize != $cTotalDataSize } {
-	#
-	#			if { ![info exists chunkedData($cId)] } {
-	#				set chunkedData($cId) "[string range $data 48 end-4]"
-	#			} else {
-	#				set chunkedData($cId) "$chunkedData($cId)[string range $data 48 end-4]"
-	#			}
-	#			#status_log "Data is now : $chunkedData($cId)\n\n";
-	#
-	#			if { $cTotalDataSize != [string length $chunkedData($cId)] } {
-	#				return
-	#			} else {
-	#				set data $chunkedData($cId)
-	#				set headend 0
-	#				set cMsgSize $cTotalDataSize
-	#			}
-	#
-	#		}
-	#	}
+}
 
 
 
+::snit::type P2PV2Message {
 
+	option -sessionid
+	option -transport_operation
+	option -data_operation
+	option -transport_seq
+	option -data_seq
+	option -transport_tlvs
+	option -data_tlvs
+	variable body ""
 
+	#creates a P2PMessage object from a normal Message object
+	method createFromMessage { message } {
+		set body [$message getBody]
+		set ret [binary scan $body ccsi tl to len tseq]
+		if {$ret != 4} {
+			error "Not enough data to scan header"
+		}
+		set ttlvs [list]
+		# TODO read TLVs
 
+		set ret [binary scan $body @${tl}ccsi dl do dseq sid]
+		if {$ret != 4} {
+			error "Not enough data to scan header"
+		}
+		set dtlvs [list]
+		# TODO read TLVs
+
+		set body [string range $body [expr {$tl + $dl}] end]
+		set options(-sessionid) $sid
+		set options(-transport_operation) $to
+		set options(-data_operation) $do
+		set options(-transport_seq) $tseq
+		set options(-data_seq) $dseq
+		set options(-transport_tlvs) $ttlvs
+		set options(-data_tlvs) $dtlvs
+	}
+
+	method toString { } {
+		return $body
+	}
 
 
 	method getBody { } {
 		return $body
 	}
-
-	method getHeader { name } {
-		return [lindex [array get headers $name] 1]
-	}
 }
+
+
 
 namespace eval ::MSNP2P {
 	namespace export loadUserPic SessionList ReadData MakePacket MakeACK MakeSLP
