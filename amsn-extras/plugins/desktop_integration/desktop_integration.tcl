@@ -466,7 +466,11 @@ namespace eval ::desktop_integration {
 			set dlg_blocked 1
 		}
 
+		if {[info exists ::LC_ALL]} {
+		  set ::env(LC_ALL) $::LC_ALL
+		}
 		set fileId [open "|${execline} 2>/dev/null" r] 
+		set ::env(LC_ALL) "C"
 		
 		fileevent $fileId readable "::desktop_integration::dialog_event $fileId"
 		
@@ -491,7 +495,11 @@ namespace eval ::desktop_integration {
 		}
 
 
+		if {[info exists ::LC_ALL]} {
+		  set ::env(LC_ALL) $::LC_ALL
+		}
 		set fileId [open "|${execline}" r]					
+		set ::env(LC_ALL) "C"
 		fileevent $fileId readable "::desktop_integration::question_event $fileId"
 
 		tkwait variable ::desktop_integration::answer
