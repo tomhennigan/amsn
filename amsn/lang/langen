@@ -602,7 +602,7 @@ newupdate New updates available for aMSN
 newveravailable Newer version $1 available for download
 next Next
 nick Nick
-nickchanged $1 Changed his nickname to '$2'
+nickchanged $1 Changed nickname to '$2'
 no No
 noactivity Idle
 no_blocked_notif Do not show notification windows for blocked contacts
@@ -742,7 +742,7 @@ proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
 proxy I am behind a proxy server (HTTP or SOCKS5)
 psmatend Show Personal Message beside the nickname
-psmchanged $1 Changed his PSM to '$2'
+psmchanged $1 Changed PSM to '$2'
 psmdontshow Don't show Personal Message, unless otherwise defined in global/custom nicks
 psmnewline Show Personal Message below the nickname
 psm Personal Message
