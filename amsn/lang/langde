@@ -9,7 +9,7 @@ account Konto
 actions Aktionen
 activeautoupdate Automatisches Update aktivieren
 addacontact Kontakt hinzufügen
-addedyou $1 ($2) hat Sie ihrer/seiner Kontaktliste hinzugefügt
+addedyou $1 ($2) hat Sie zur Kontaktliste hinzugefügt
 add Hinzufügen
 addprofiledesc Bitte geben Sie das Login ein, für das Sie ein neues Profil erstellen wollen. \nLogins mit einem Profil erlauben Ihnen verschiedene Konfigurationen für jedes Login. \nOhne ein Profil können Sie den Verlauf, Benachrichtigungen, oder gespeicherte Passwörter nicht benutzen
 addprofile Neues Profil hinzufügen
@@ -594,7 +594,7 @@ newtabbedfeature aMSN hat ein neues Feature zum Verwalten von Unterhaltungen: Es
 newupdate Neue Updates sind für aMSN verfügbar
 newveravailable Neuere Version $1 steht zur Verfügung
 next Weiter
-nickchanged $1 hat seinen Spitznamen in '$2' geändert
+nickchanged $1 hat den Spitznamen in '$2' geändert
 nick Spitzname
 noactivity Inaktiv
 no_blocked_notif Benachrichtigungsfenster bei blockierten Kontakten nicht zeigen
@@ -637,7 +637,7 @@ notifytimeout Einblendungszeit des Benachrichtigungsfensters
 notifytyping Anderen Nutzern Benachrichtigung beim Eingeben einer Nachricht senden
 notifywin Benachrichtigungsfenster
 notimcontact Dieser Kontakt ist kein Messenger-Kontakt
-notinlist Sie sind nicht in ihrer/seinem Adressbuch
+notinlist Sie sind nicht in seinem/ihrem Adressbuch
 notls Das MSN Protokoll 9 erfordert das TLS-Paket. Dieses Paket scheint auf Ihrem System nicht installiert zu sein. Wenn es installiert ist, dann sollte der Pfad zum Bibliotheken-Verzeichnis im "Einstellungen" Fenster eingegeben werden (Bsp.: /opt/tls/lib). \n \n Sie können TLS von der Seite http://tls.sf.net zu herunterladen
 nottabbed Normale Fenster ohne Tabs
 nousersinsession Keine Kontakte in einer Sitzung
@@ -735,7 +735,7 @@ proxyconf Proxy-Konfiguration
 proxyconnection Ich verbinde mit dem Internet über einen Proxy-Server:
 proxy Ich bin hinter einem Proxy Server (HTTP oder SOCKS5)
 psmatend Persönliche Nachricht neben Spitznamen anzeigen
-psmchanged $1 hat seine persönliche Nachricht in '$2' geändert
+psmchanged $1 hat die persönliche Nachricht in '$2' geändert
 psmdontshow Persönliche Nachricht nicht zeigen, außer wenn in globalen / benutzerdefinierten Spitznamen definiert
 psmnewline Persönliche Nachricht unterhalb des Spitznamen anzeigen
 psm Persönliche Nachricht
