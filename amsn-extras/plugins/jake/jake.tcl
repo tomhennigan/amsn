@@ -124,7 +124,8 @@ proc answer {event epvar} {
 		![trans cmdlearn] [trans cmdargslearn] - [trans txtlearn] $botname\n\
 		![trans cmdforget] [trans cmdargsforget] - [trans txtforget] $botname\n\
 		![trans cmdyoutube] [trans cmdargsyoutube] - [trans txtyoutube]\n\
-		![trans cmdexpr] [trans cmdargsexpr] - [trans txtexpr]"
+		![trans cmdexpr] [trans cmdargsexpr] - [trans txtexpr]\n\
+		![trans cmdmegaupload] [trans cmdargsmegaupload] - [trans txtmegaupload]"
 	} elseif { $msg == "![trans cmdhour]" } {
 		::amsn::MessageSend $window 0 "$botname: [trans rsphour] [clock format [clock seconds] -format {%H:%M:%S}]"
 	} elseif { $msg == "![trans cmddate]" } {
@@ -150,6 +151,37 @@ proc answer {event epvar} {
 				if { $bool == 0 && $count < $nresults } {
 					incr count
 					append final $count.\ $title " - " $url \n\n
+					set bool 1
+				} else {
+					set bool 0
+				}
+			}
+			::amsn::MessageSend $window 0 "$botname: \n\n$final"
+		} else {
+			::amns::MessageSend $window 0 "$botname: Error: $salida"
+		}
+	} elseif { [string first "![trans cmdmegaupload] " $msg] == 0 } {   
+		regsub -all { +} [string range $msg [expr [string length [trans cmdmegaupload]] + 2] end] "+" msg       
+		set link "http://4megaupload.com/index.php?q="
+		append link $msg
+		set salida [ getPage $link ]
+		if { [string first "Error: " $salida] != 0 } {
+			set matches [regexp -all -inline {(<td bgcolor="#ECF7FF" rowspan="4".*</font>)+?} $salida]
+			set count 0
+			set bool 0
+			foreach m $matches {
+				regexp {href="([^"]*).*title='([^']*).*>(.*)</font>} $m => url title size
+				regsub -all {/url\?q=} $url "" url
+				regsub -all { +} $url "" url
+				regsub -all {<em>} $title "" title
+				regsub -all {</em>} $title "" title
+				regsub -all {<b>} $title "" title
+				regsub -all {</b>} $title "" title
+				regsub -all {&quot;} $title "" title
+				regsub -all {&gt;} $title "" title
+				if { $bool == 0 && $count < $nresults } {
+					incr count
+					append final $count.\ $title " - [string trim $size] - http://4megaupload.com/" $url \n\n
 					set bool 1
 				} else {
 					set bool 0
@@ -233,7 +265,7 @@ proc answer {event epvar} {
 			::amsn::MessageSend $window 0 "$botname: [trans cmderror]\n\
 				[trans txthelplearn] ![trans cmdlearn] [trans cmdargslearn]"
 		}
-	} elseif { [string first "![trans cmdforget] " $msg] == 0 } {   
+	} elseif { [string first "![trans cmdforget] " $msg] == 0 } {  
 		set msg [string range $msg [expr [string length [trans cmdforget]] + 2] end]      
 		if { [regexp -- {^".*"$} $msg] } {
 			if { [array exists diccionario] == 0 } {
@@ -263,7 +295,7 @@ proc answer {event epvar} {
 			::amsn::MessageSend $window 0 "$botname: [trans txtregdel] [expr $i - $j] [trans txtdic]"
 		} else {
 			::amsn::MessageSend $window 0 "$botname: [trans cmderror]\n\
-				[trans txthelpforget] ![cmdforget] [trans cmdargsforget]"
+				[trans txthelpforget] ![trans cmdforget] [trans cmdargsforget]"
 		}
 	} elseif { [string first "![trans cmdexpr ]" $msg] == 0 } {
 		set msg [string range $msg [expr [string length [trans cmdexpr]] + 2] end]

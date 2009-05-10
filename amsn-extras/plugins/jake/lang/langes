@@ -25,12 +25,15 @@ cmdforget olvida
 cmdyoutube youtube
 cmderror Error en la sintaxis del comando.
 cmdexpr expr
+cmdmegaupload megaupload
+
 cmdargsgoogle palabra/s
 cmdargsdefine palabra/s
 cmdargslearn \"frase\" \"respuesta\" 
 cmdargsforget \"frase\"
 cmdargsyoutube palabra/s
 cmdargsexpr Cualquiera expresion matematica.
+cmdargsmegaupload archivo/s
 
 txtcommands Comandos disponibles:
 txthelp Muestra este mensaje.
@@ -57,7 +60,7 @@ txtyoutube Buscara en YouTuBe para videos.
 txtexpr Respondera diciendo la respuesta a la expresion matematica. Para ver las expresiones que puedes utilizar escribe \"!expr ayuda\"
 txtsolution La solucion es:
 txtexprhelp abs( x ) - Valor absoluto (negativo si es negativo.)\n acos( x ) - Arcocoseno (resultado en radianes.)\n asin( x ) - Arcoseno (resultado en radianes.)\n atan( x ) - Arcotangente (resultado en radianes.)\n atan2( y , x ) - Arcotangente (resultado en radianes.)\n ceil( x ) - Redondeo a la alta (se debe usar con numeros decimales.)\n cos( x ) - Coseno (se debe usar con radianes.)\n cosh( x ) - Coseno hiperbolico.\n double( x ) - Convierte enteros a decimales.\n exp( x ) - Funccion exponencial.\n floor( x ) - Redondeo a la baja (se debe usar con numeros decimales.)\n fmod( x ) - Punto flotante.\n hypot( x , y ) - Calculador de la hipotenusa.\n int( x ) - Convierte numeros a enteros, sin redondear.\n log( x ) - Logaritmo.\n log10( x ) - Logaritmo en base 10.\n pow( x , y ) - Potencia.\n rand( ) - Numero aleatorio. Aleatoriaridad en el rango [0,1].\n round( x ) - Redondea.\n sin( x ) - Seno (se debe usar con radianes.)\n sinh( x ) - Seno hiperbolico.\n sqrt( x ) - Raiz cuadrada.\n srand( x ) - Numero aleatorio.\n tan( x ) - Tangente (se debe usar con radianes.)\n tanh( x ) - Tangente hiperbolico.
-
+txtmegaupload Busca en la base de MegaUpload.
 
 rsphour La hora es
 rspdate La fecha es

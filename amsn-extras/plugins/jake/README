@@ -1,18 +1,8 @@
-Description:
+This was created by Alexander Nestorov (alexandernst@gmail.com)
 
-Jake is a chatbot plugin with some additional functions, like
-searching in google, searching for the meaning of a word, etc.
-It also can learn, it has a dictionary where every phrase & response
-that you tell him to store is saved and after that, used.
+Current version: 0.6.2
 
-Created by:
+You can view the main thread in amsn's forums: http://www.amsn-project.net/forums/viewtopic.php?t=6456
 
-Alexander Nestorov
-
-Version:
-
-0.5.0
-
-Platform/OS: All
-
-Requires: aMSN 0.97
+Dic file is stored in your profile's folder, in ~/.amsn (eg: /home/alexandernst/.amsn/alexandernst@gmail.com/)
+ 

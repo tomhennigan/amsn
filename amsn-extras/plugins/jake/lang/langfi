@@ -1,0 +1,64 @@
+amsn_lang_version 2
+
+state Aktiivinen
+
+name Botin nimi
+
+helptext Viesti !helpille
+
+nresults Googlen hakutulosten lukumäärä
+
+msgon Olen päällä.
+msgoff Olen pois päältä.
+msgonoff Vain omistajani voi laittaa minut päälle tai pois.
+
+cmdstate tila
+cmdhelp help
+cmdon on
+cmdoff off
+cmdgoogle google
+cmddefine selitä
+cmdhour aika
+cmddate päivä
+cmdlearn opeta
+cmdforget unohda
+cmdyoutube youtube
+cmderror Muodostusvirhe.   
+cmdexpr laske
+
+cmdargsdefine sana/t
+cmdargsgoogle sana/t
+cmdargslearn \"sanonta\" \"vastaus\"
+cmdargsforget \"sanonta\"
+cmdargsyoutube sana/t
+cmdargsexpr Laskettava lauseke.
+
+txtcommands Mahdollisia komentoja:
+txthelp Näyttää tämän viestin.
+txtconveron Laittaa botin puhumiskyvyn päälle.
+txtconveroff Ottaa botin puhumiskyvyn pois.
+txtgoogle Etsii Googlesta sana/t joita kirjoitit ja näyttää tulokset keskusteluikkunassa.
+txtdefine Yrittää mahdollisimman hyvin selittää sanan.
+txthour Näyttää nykyisen ajan.
+txtdate Näyttää nykyisen päivämäärän.
+txtstate Näyttää botin tilan.
+txtlearn Sanonta ja vastaus lisätään sanakirjaan
+txtforget Sanonta poistetaan sanakirjasta
+txtregadd Sanonta lisätty onnistuneesti. Sanontoja tunnetaan nyt
+txtreg .
+txthelplearn Oikea muodostus sanonnan lisäämiseen:
+txtneedhelp En taida ymmärtää sinua. Jos haluat tietää kuinka toimin, kirjoita !help
+txtchangestate Muuta tila
+txtlogactivated aktivoitu!
+txtlogdesactivated epäaktivoitu!
+txtregdel Poistettu
+txtdic sanontaa sanakirjasta.
+txthelpforget Oikea muodostus sanonnan poistamiseen:
+txtyoutube Etsii YouTubesta videoita.
+txtexpr Tämä kertoo vastauksen laskuun. Nähdäksesi mitä kaikkea voit tehdä, kirjoita \"!laske help\"
+txtsolution Vastaus on:
+txtexprhelp abs( x ) - Itseisarvo (kielteinen jos negatiivinen.)\n acos( x ) - Käänteinen kosini (tulos radiaaneissa.)\n asin( x ) - Käänteinen sini (tulos radiaaneissa.)\n atan( x ) - Käänteinen tangentti (tulos radiaaneissa.)\n atan2( y , x ) - Käänteinen tangentti  (tulos radiaaneissa.)\n ceil( x ) - Kattofunktio (määritelty liukuluvuista.)\n cos( x ) - Kosini (syöttö radiaaneissa.)\n cosh( x ) - Hyperbolinen kosini.\n double( x ) - Muunna numero liukuluvuksi.\n exp( x ) - Eksponentaalinen funktio.\n floor( x ) - Lattiafunktio (määritelty liukuluvuista.)\n fmod( x ) - Liukulukujäännös.\n hypot( x , y ) - Hypotenuusalaskin.\n int( x ) - Muunna numero kokonaisluvuksi lyhentämällä.\n log( x ) - Luonnollinen logaritmi.\n log10( x ) - Logaritmi suhteessa kantaan 10.\n pow( x , y ) - Potenssifunktio.\n rand( ) - Satunnainen luku. Käyttää yhdenmukaista distribuutiota yli arvojoukon [0,1].\n round( x ) - Pyöristä lähimpään kokonaiseen lukuun.\n sin( x ) - Sini (syöttö radiaaneissa.)\n sinh( x ) - Hyperbolinen sini.\n sqrt( x ) - Neliöjuuri.\n srand( x ) - Aseta satunnaislukugeneraattori annetulla arvolla.\n tan( x ) - Tangentti (syöttö radiaaneissa.)\n tanh( x ) - Hyperbolinen tangentti.
+
+
+rsphour Kello on
+rspdate Tänään on  
