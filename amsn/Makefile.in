@@ -42,7 +42,7 @@ BASEVERSION	:= @APPVERSION@
 ifeq (@APPSTABLE@,yes)
 RELEASEVERSION	:= @APPRELEASE@
 else
-RELEASEVERSION  := svn`which svnversion > /dev/null && svnversion`
+RELEASEVERSION  := svn`which svnversion > /dev/null && svnversion ||  true`
 endif
 VERSION		:= $(BASEVERSION)-$(RELEASEVERSION)
 TCL_VERSION     := @TCL_VERSION@
