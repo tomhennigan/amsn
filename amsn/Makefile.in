@@ -155,12 +155,12 @@ endif
 X_LIBS  := @X_LIBS@
 CXX_LIB := @CXX_LIB@
 
-LDFLAGS	 += ${TCL_STUB_LIB_SPEC}
-LDFLAGS	 += ${TK_STUB_LIB_SPEC}
-LDFLAGS	 += @LIBV4L_LIBS@
+LDLIBS	 += ${TCL_STUB_LIB_SPEC}
+LDLIBS	 += ${TK_STUB_LIB_SPEC}
+LDLIBS	 += @LIBV4L_LIBS@
 
 ifeq (@HAVE_GUPNP@,yes)
-  LDFLAGS += @GUPNP_LIBS@
+  LDLIBS += @GUPNP_LIBS@
   FILES_TO_INSTALL += utils/gupnp/gupnp.$(SHLIB_EXTENSION) utils/gupnp/pkgIndex.tcl
 endif
 

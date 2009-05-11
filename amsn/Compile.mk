@@ -13,7 +13,7 @@
 ########################################################################
 
 # verbose yes/no
-verbose		?= no
+verbose		?= yes
 
 # dependency files
 
@@ -27,11 +27,11 @@ else
 SHARED	:= -shared
 endif
 
-link_app	= $(CC) $(LDFLAGS) $(LDLIBS) -o $@  $^
-link_farsight	= $(CC) $(LDFLAGS) $(LDLIBS) $(GST_LIBS) $(FARSIGHT2_LIBS) $(SHARED) -o $@ $^
-link_so		= $(CC) $(LDFLAGS) $(LDLIBS) $(SHARED) -o $@ $^
+link_app	= $(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+link_farsight	= $(CC) $(LDFLAGS) $^ $(LDLIBS) $(GST_LIBS) $(FARSIGHT2_LIBS) $(SHARED) -o $@
+link_so		= $(CC) $(LDFLAGS) $^ $(LDLIBS) $(SHARED) -o $@
 link_so_addlibs = $(link_so) $(ADDLIBS)
-link_so_cpp	= $(CXX) $(LDFLAGS) $(LDLIBS) $(CXX_LIB) $(SHARED) -o $@ $^
+link_so_cpp	= $(CXX) $(LDFLAGS) $^ $(LDLIBS) $(CXX_LIB) $(SHARED) -o $@
 ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 
 
