@@ -7127,6 +7127,9 @@ proc ::MSN::ABSynchronizationDone { initial error } {
 				newcontact $username $nickname
 			}
 		}
+
+		::groups::Enable
+
 		if {$initial } {
 			ns setInitialStatus
 		}
