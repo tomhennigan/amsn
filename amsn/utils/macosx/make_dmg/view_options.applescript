@@ -1,5 +1,5 @@
 tell application "Finder"
-	tell disk "aMSN 0.97.2"
+	tell disk "aMSN 0.98ß"
 		
 		-- Set the window up how we want
 		open
