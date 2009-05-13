@@ -5033,8 +5033,6 @@ proc cmsn_draw_main {} {
 
 		bind all <$modifier-m> "catch {wm state %W normal; carbon::processHICommand mini %W}"
 		bind all <$modifier-M> "catch {wm state %W normal; carbon::processHICommand mini %W}"
-		bind all <$modifier-quoteleft> "catch {carbon::processHICommand rotw %W}"
-		bind all <$modifier-asciitilde> "catch {carbon::processHICommand rotb %W}"
 		# Webcam bindings
 	} else {
 		#Plugins log
