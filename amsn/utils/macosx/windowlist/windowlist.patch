@@ -1,0 +1,31 @@
+Only in windowlist/: .svn
+diff -u /Users/tom/Desktop/windowlist-orig/windowlist.tcl windowlist/windowlist.tcl
+--- /Users/tom/Desktop/windowlist-orig/windowlist.tcl	2008-07-31 17:43:32.000000000 +0100
++++ windowlist/windowlist.tcl	2009-05-13 11:36:45.000000000 +0100
+@@ -22,7 +22,7 @@
+ 	$mainmenu add cascade -label "Window" -menu $mainmenu.window
+ 	
+ 	#bind the window menu to update whenever a new window is added, on menu selection
+-	bind all <<MenuSelect>> [list [namespace current]::updateWindowMenu $mainmenu.window]
++	bind all <<MenuSelect>> +[list [namespace current]::updateWindowMenu $mainmenu.window]
+ 
+ 
+     }
+@@ -30,6 +30,8 @@
+     
+     #update the window menu with windows
+     proc updateWindowMenu {windowmenu} {
++	# If the window gets destroyed, the windowmenu no longer exists.
++	if { [winfo exists $windowmenu] == 0 } { return }
+ 
+ 	set windowlist [wm stackorder .]
+ 	if {$windowlist == {}} {
+@@ -37,7 +39,7 @@
+ 	} else {
+ 	    $windowmenu delete 4 end	    
+ 	    foreach item $windowlist {
+-		$windowmenu add command -label "[wm title $item]"  -command "raise $item"
++		$windowmenu add command -label "[wm title $item]"  -command [list raise $item]
+ 
+ 	    }
+ 	}

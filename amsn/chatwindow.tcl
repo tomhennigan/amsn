@@ -1391,6 +1391,11 @@ namespace eval ::ChatWindow {
 		$mainmenu add cascade -label "[trans view]" -menu $viewmenu
 		$mainmenu add cascade -label "[trans actions]" -menu $actionsmenu		
 		$mainmenu add cascade -label "[trans contact]" -menu $contactmenu
+		if { [OnMac] } {
+			# Add a window menu as required by Apple's HIG.
+			package require windowlist
+			set window [windowlist::windowMenu $mainmenu]
+		}
 		$mainmenu add cascade -label "[trans help]" -menu $helpmenu
 
 		return $mainmenu

@@ -4689,6 +4689,11 @@ proc create_main_menu {wmenu} {
 	.main_menu add cascade -label "[trans view]" -menu .main_menu.view
 	.main_menu add cascade -label "[trans actions]" -menu .main_menu.actions
 	.main_menu add cascade -label "[trans contacts]" -menu .main_menu.contacts
+	if { [OnMac] } {
+		# Add a window menu as required by Apple's HIG.
+		package require windowlist
+		set window [windowlist::windowMenu {.main_menu}]
+	}
 	.main_menu add cascade -label "[trans help]" -menu .main_menu.helpmenu
 		
 
