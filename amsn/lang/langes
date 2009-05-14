@@ -111,6 +111,7 @@ blocksounds Deshabilitar sonidos
 blockusers Comprobar continuamente 
 bouncedock Animación del icono aMSN cuando se recibe un mensaje
 brightness Brillo
+bringtofront Traer todo al frente
 broughtby Traído para ti por los siguientes programadores
 browse Examinar
 browserexample ( \$url se sustituirá por la dirección). Ej: firefox \$url
@@ -269,6 +270,7 @@ custshowcustomsmileys Mostrar emoticonos personalizados del usuario
 cut Cortar
 cutimageboxreset Reinicia el \ntamaño de la caja de selección a:
 cutimagebox  Selecciona la parte de la imagen que quieres usar, redimensionándola y moviendo la caja de selección
+cyclewindows Ciclo a través de las ventanas
 date Fecha
 dateformat Cambiar formato de la fecha
 day Día
@@ -555,6 +557,7 @@ maximised Maximizada
 medium Medio
 minimised Minimizada/Iconificada
 minimize Minimizar a la bandeja
+minimizeplain Minimizar
 mins minutos
 mobilegrp1 Grupo "Móviles"
 mobilegrp2 Poner usuarios en el grupo "Móviles" cuando están desconectados (y lista ordenada por estado)
