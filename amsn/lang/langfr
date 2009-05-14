@@ -111,6 +111,7 @@ blocksounds Désactiver les sons
 blockusers Nombre de contacts à cocher à la fois
 bouncedock Faire rebondir l'icone de aMSN dans le dock lorsque vous recevez un message
 brightness Luminosité
+bringtofront Afficher tout au premier plan
 broughtby Développé pour vous par
 browse Parcourir
 browserexample (\$url sera remplacée par l'URL) Ex: firefox \$url
@@ -269,6 +270,7 @@ custshowcustomsmileys Afficher les émoticônes/smileys de ce contact
 cut Couper
 cutimageboxreset Mettre à zéro la boîte de sélection\ntaille:
 cutimagebox Sélectionnez la partie de l'image qui vous intéresse en redimensionnant et/ou en déplaçant la boîte de sélection
+cyclewindows Naviguer entre les fenêtres
 date Date
 dateformat Changer le format de la date
 day Jour
@@ -555,6 +557,7 @@ maximised Maximisée
 medium Moyen
 minimised Minimisée/Icônifiée
 minimize Minimiser aMSN
+minimizeplain Minimiser
 mins minutes
 mobilegrp1 Groupe Mobile
 mobilegrp2 Mettre les contacts dans le groupe "Mobile" quand vous êtes hors connexion (et les trier par statut)
