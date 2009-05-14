@@ -1,3 +1,4 @@
+
 #windowlist.tcl: provides routines for managing windows from menu, i.e. minimize, raise, bring all to front; standard menu item on Mac OS X. 
 
 #(c) 2009 WordTech Communications LLC. License: standard Tcl license, http://www.tcl.tk/software/tcltk/license.html
@@ -15,18 +16,18 @@ namespace eval windowlist {
 
 	menu $mainmenu.window
 
-	$mainmenu.window add command -label "Minimize" -command [namespace current]::minimizeFrontWindow
+	$mainmenu.window add command -label [trans minimizeplain] -command [namespace current]::minimizeFrontWindow
 	$mainmenu.window add separator
-	$mainmenu.window add command -label "Bring All to Front" -command [namespace current]::raiseAllWindows
+	$mainmenu.window add command -label [trans bringtofront] -command [namespace current]::raiseAllWindows
 	$mainmenu.window add separator
-	$mainmenu.window add command -label "Cycle Through Windows" \
+	$mainmenu.window add command -label [trans cyclewindows] \
 	    -command  {raise [lindex [wm stackorder .] 0]} \
 	    -accelerator "Command-`"
        	bind all <Command-quoteleft> {raise [lindex [wm stackorder .] 0]}
 	$mainmenu.window add separator
 	$mainmenu.window add separator
 	
-	$mainmenu add cascade -label "Window" -menu $mainmenu.window
+	$mainmenu add cascade -label [string totitle [trans window]] -menu $mainmenu.window
 	
         #bind the window menu to update whenever a new window is added, on menu selection
        	bind all <<MenuSelect>> +[list [namespace current]::updateWindowMenu $mainmenu.window]
@@ -99,8 +100,8 @@ namespace eval windowlist {
 	. configure -menu .mb
 
 	menu .mb.file 
-	.mb.file add command -label "Quit" -command exit
-	.mb add cascade -label "File" -menu .mb.file
+	.mb.file add command -label [trans quit] -command exit
+	.mb add cascade -label [trans file] -menu .mb.file
    
 	[namespace current]::windowMenu .mb
 

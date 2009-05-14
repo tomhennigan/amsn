@@ -111,6 +111,7 @@ blocksounds Disable sounds
 blockusers Number of users to check at once 
 bouncedock Bounce aMSN's icon in the dock when a message is received
 brightness Brightness
+bringtofront Bring All to Front
 broughtby Brought to you by the following developers
 browse Browse
 browser Browser
@@ -269,6 +270,7 @@ custshowcustomsmileys Show user's Custom Emoticons
 cut Cut
 cutimageboxreset Reset the selection box\nsize to:
 cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
+cyclewindows Cycle Through Windows
 date Date
 dateformat Change date format 
 day Day
@@ -554,6 +556,7 @@ maximised Maximised
 medium Medium
 minimised Minimised/Iconified
 minimize Minimize to Tray
+minimizeplain Minimize
 mins minutes
 mobilegrp1 Mobile group
 mobilegrp2 Put users in "Mobile" group when offline (and sorted by status)
