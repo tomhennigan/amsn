@@ -2598,7 +2598,7 @@ namespace eval ::MSNSIP {
 			set mode "A6"
 		}
 		if {[catch {$::farsight Prepare 1 $mode} err] } {
-			status_log "Call is impossible : err"
+			status_log "Call is impossible : $err"
 			::amsn::SIPCallImpossible $email
 			return "IMPOSSIBLE"
 		} else {
