@@ -329,8 +329,8 @@ snit::widget soundmixervolume {
 	method setVolume {value} {
 		if { $options(-state) != "normal"} {return}
 
-		set relsize [expr {double($value) - double($options(-from))}]
-		set relsize [expr {$relsize / (double($options(-to)) - double($options(-from)))}]
+		set relsize [expr {double($value) - double(-20)}]
+		set relsize [expr {$relsize / (double(0) - double(-20))}]
 
 		if { $options(-orient) == "vertical" } {
 			place conf $win.fill -relheight $relsize

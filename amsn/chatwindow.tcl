@@ -2504,8 +2504,8 @@ namespace eval ::ChatWindow {
 			-mutevariable ::ChatWindow::voip_mute_in \
 			-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
 			-volumevariable ::ChatWindow::voip_volume_in \
-			-volumefrom 0 \
-			-volumeto 20
+			-volumefrom -25 \
+			-volumeto 15
 		if { [::config::getKey old_dpframe 0] == 0 } {
 			set orient "horizontal"
 		} else {
@@ -2521,8 +2521,8 @@ namespace eval ::ChatWindow {
 			-mutevariable ::ChatWindow::voip_mute_out \
 			-volumecommand [list ::ChatWindow::VolumeOut $frame_out] \
 			-volumevariable ::ChatWindow::voip_volume_out \
-			-volumefrom -20 \
-			-volumeto 0
+			-volumefrom -25 \
+			-volumeto 15
 		$frame_in configure -width [$frame_in getSize]
 		pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
 		if { [::config::getKey old_dpframe 0] == 0 } {
@@ -2534,10 +2534,10 @@ namespace eval ::ChatWindow {
 			pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne
 		}
 
-		set ::ChatWindow::voip_volume_in -10 ;# -10dB
+		set ::ChatWindow::voip_volume_in 0 ;# -10dB
 		set ::ChatWindow::voip_mute_in 0
 
-		set ::ChatWindow::voip_volume_out -10 ;# -10dB
+		set ::ChatWindow::voip_volume_out 0 ;# -10dB
 		set ::ChatWindow::voip_mute_out 0
 
 		UpdateVoipControls $chatid $sip $callid
