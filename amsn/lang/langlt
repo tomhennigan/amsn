@@ -111,6 +111,7 @@ blocksounds Išjungti garsus
 blockusers Vartotojų skaičius tikrinamu iš karto 
 bouncedock Šokinėjanti aMSN piktograma dėkle, kai yra gauta žinutė
 brightness Ryškumas
+bringtofront Iškelti viską į priekį
 broughtby Šie kūrėjai stengėsi dėl jūsų
 browse Naršyti
 browser Naršyklė
@@ -269,6 +270,7 @@ custshowcustomsmileys Rodyti vartotojo jaustukus
 cut Iškirpti
 cutimageboxreset Atstatyti žymėjimą\ndydis į:
 cutimagebox Pasirinkite atvaizdo dalį, kurią norėsite naudoti, keisti dydį arba perkelti žymėjimą
+cyclewindows Ciklas per langus
 date Data
 dateformat Datos formatas
 day Diena
@@ -553,6 +555,7 @@ maintenance Serveris ruošiasi atsijungti po $1 min.
 maximised Padidintas
 medium Vidutinis
 minimised Sumažintas/Piktograma
+minimizeplain Sumažinti
 minimize Mažinti į dėklą
 mins min.
 mobilegrp1 Mobili grupė
