@@ -111,6 +111,7 @@ blocksounds Geen geluid afspelen
 blockusers Gelijktijdig controleren
 bouncedock aMSN's pictogram in het dock laten stuiteren zodra een bericht wordt ontvangen
 brightness Helderheid
+bringtofront Alles naar voren brengen
 broughtby Aangeboden door de volgende ontwikkelaars
 browse Verkennen
 browser Webbrowser
@@ -269,6 +270,7 @@ custshowcustomsmileys Aangepaste emoticons van dit contact weergeven
 cut Knippen
 cutimagebox Selecteer het deel van de foto dat je wilt gebruiken door de selectierechthoek van grootte te veranderen en deze te verplaatsen
 cutimageboxreset Grootte van de selectierechthoek\nterugzetten op:
+cyclewindows Wisselen tussen vensters
 date Datum
 dateformat Datumnotatie wijzigen
 day Dag
@@ -554,6 +556,7 @@ maximised Gemaximaliseerd
 medium Gemiddeld
 minimised Gespreksvenster niet activeren
 minimize Minimaliseren naar systeemvak
+minimizeplain Minimaliseren
 mins minuten
 mobile Mobiel
 mobilegrp1 Groep Mobiel
