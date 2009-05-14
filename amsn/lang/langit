@@ -111,6 +111,7 @@ blocksounds Disattiva i suoni
 blockusers Numero di utenti da controllare subito
 bouncedock Fa lampeggiare l'icona di aMSN quando viene ricevuto un messaggio
 brightness Luminosità
+bringtofront Porta tutto in primo piano
 broughtby Sviluppato da
 browser Browser
 browserexample (\$url verrà rimpiazzato dall'URL). Es: firefox \$url
@@ -269,6 +270,7 @@ custshowcustomsmileys Mostra le emoticon personalizzate dell'utente
 cutimageboxreset Reimposta la grandezza del\nbox di selezione a:
 cutimagebox Seleziona la parte di immagine che vuoi utilizzare ridimensionando e muovendo il box di selezione
 cut Taglia
+cyclewindows Scorri tra le finestre
 date Data
 dateformat Modifica il formato della data
 day Giorno
@@ -332,8 +334,8 @@ editprofile Modifica il Profilo
 editstate Modifica delle impostazioni di risposta automatica esistenti
 editvalue Modifica valore
 email E-mail
-emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
 emailnotverified (Email non ancora verificata!)
+emailsinlist Mostra indirizzi e-mail al posto dei nicks nella lista contatti
 emoticon_steal Aggiungi alle emoticon
 emotisounds Emetti un suono per alcune emoticon
 emptygroup Svuota gruppo
@@ -553,6 +555,7 @@ maintenance Il server chiuderà la connessione tra $1 minuti per manutenzione
 maximised Massimizzato
 medium Medio
 minimised Ridotto ad icona
+minimizeplain Minimizza
 minimize Riduci ad icona
 mins minuti
 mobilegrp1 Gruppo utenti "Mobile"
