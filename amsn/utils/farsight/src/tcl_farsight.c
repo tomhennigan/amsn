@@ -1256,8 +1256,7 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
             value = gst_value_list_get_value (list, i);
             rms_dB = g_value_get_double (value);
 
-            /* converting from dB to normal gives us a value between 0.0 and 1.0 */
-            rms += pow (10, rms_dB / 20);
+            rms += rms_dB;
           }
           if (GST_MESSAGE_SRC (message) == GST_OBJECT(levelIn)) {
             _notify_level ("IN", (gfloat) (rms / channels));
@@ -2923,6 +2922,8 @@ static int _SetVolume (GstElement *element, Tcl_Interp *interp,
   if (Tcl_GetDoubleFromObj(interp, objv[1], &volume) == TCL_ERROR) {
     return TCL_ERROR;
   }
+
+  volume = pow (10, volume / 20);
 
   if (element) {
     g_object_set (element, "volume", volume, NULL);
