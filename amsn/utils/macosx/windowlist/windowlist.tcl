@@ -54,7 +54,7 @@ namespace eval windowlist {
     #make all windows visible
     proc raiseAllWindows {} {
 	#blacklist certain windows
-	set blacklist [list .#BWidget .plugins_log .fake .status .degt .nscmd]
+	set blacklist [list .#BWidget .plugins_log .fake .status .degt .nscmd .balloon]
 	
 	#use [winfo children .] here to get windows that are minimized
 	foreach item [winfo children .] {
