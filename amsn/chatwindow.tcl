@@ -2498,14 +2498,12 @@ namespace eval ::ChatWindow {
 			-bg [::skin::getKey chatwindowbg]\
 			-endcallimage [::skin::loadPixmap buthangup] \
 			-endcallstate disabled \
-			-muteimage [::skin::loadPixmap mic] \
-			-unmuteimage [::skin::loadPixmap mic_muted] \
+			-mutedimage [::skin::loadPixmap mic_muted] \
+			-unmutedimage [::skin::loadPixmap mic] \
 			-mutecommand [list ::ChatWindow::MuteIn $frame_in] \
 			-mutevariable ::ChatWindow::voip_mute_in \
 			-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
-			-volumevariable ::ChatWindow::voip_volume_in \
-			-volumefrom -25 \
-			-volumeto 15
+			-volumevariable ::ChatWindow::voip_volume_in
 		if { [::config::getKey old_dpframe 0] == 0 } {
 			set orient "horizontal"
 		} else {
@@ -2515,14 +2513,12 @@ namespace eval ::ChatWindow {
 			-bg [::skin::getKey chatwindowbg]\
 			-endcallimage [::skin::loadPixmap buthangup] \
 			-endcallstate disabled \
-			-muteimage [::skin::loadPixmap speaker] \
-			-unmuteimage [::skin::loadPixmap speaker_muted] \
+			-mutedimage [::skin::loadPixmap speaker_muted] \
+			-unmutedimage [::skin::loadPixmap speaker] \
 			-mutecommand [list ::ChatWindow::MuteOut $frame_out] \
 			-mutevariable ::ChatWindow::voip_mute_out \
 			-volumecommand [list ::ChatWindow::VolumeOut $frame_out] \
-			-volumevariable ::ChatWindow::voip_volume_out \
-			-volumefrom -25 \
-			-volumeto 15
+			-volumevariable ::ChatWindow::voip_volume_out
 		$frame_in configure -width [$frame_in getSize]
 		pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
 		if { [::config::getKey old_dpframe 0] == 0 } {
@@ -2558,6 +2554,9 @@ namespace eval ::ChatWindow {
 
 		set frame_in [GetInDisplayPictureFrame $window].voip
 		set frame_out [GetOutDisplayPicturesFrame $window].voip
+		if {![winfo exists $frame_in] || ![winfo exists $frame_out]} {
+			return
+		}
 
 		#status_log "Updating CW Voip controls"
 
@@ -2648,6 +2647,7 @@ namespace eval ::ChatWindow {
 	}
 
 	proc VolumeIn {widget {val unused}} {
+		puts "VolumeIn=${::ChatWindow::voip_volume_out}"
 		if {[catch {::Farsight::SetVolumeIn $::ChatWindow::voip_volume_in}]} {
 			$widget configure -volumestate disabled
 		}
@@ -2658,9 +2658,10 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	proc VolumeOut { frame val } {
+	proc VolumeOut {widget {val unused}} {
+		puts "VolumeOut=${::ChatWindow::voip_volume_out}"
 		if {[catch {::Farsight::SetVolumeOut $::ChatWindow::voip_volume_out}]} {
-			$frame configure -volumestate disabled
+			$widget configure -volumestate disabled
 		}
 	}
 	

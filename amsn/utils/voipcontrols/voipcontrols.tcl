@@ -7,14 +7,14 @@ snit::widget voipcontrol {
 
 	option -orient -default "vertical" -readonly yes
 
-	option -volumeframesize -default 10 -readonly yes
+	option -mixerframesize -default 10 -readonly yes
 	option -buttonframesize -default 22 -readonly yes
 
 	option -bg -default white -configuremethod SetBackground
 	option -state -default normal -configuremethod SetState
 
 
-	component volumeframe
+	component mixerframe
 	component mutecheckbutton
 	component endcallbutton
 
@@ -23,44 +23,48 @@ snit::widget voipcontrol {
 	delegate option -endcallcommand to endcallbutton as -command
 	delegate option -endcallstate to endcallbutton as -state
 
-	delegate option -muteimage to mutecheckbutton
-	delegate option -unmuteimage to mutecheckbutton
+	delegate option -mutedimage to mutecheckbutton
+	delegate option -unmutedimage to mutecheckbutton
 	delegate option -mutevariable to mutecheckbutton
 	delegate option -mutecommand to mutecheckbutton
 	delegate option -mutestate to mutecheckbutton as -state
 
-	delegate option -volumefrom to volumeframe as -from
-	delegate option -volumeto to volumeframe as -to
-	delegate option -levelimage to volumeframe
-	delegate option -volumevariable to volumeframe as -variable
-	delegate option -volumecommand to volumeframe as -command
-	delegate option -volumestate to volumeframe as -state
+	delegate option -volumefrom to mixerframe
+	delegate option -volumeto to mixerframe
+	delegate option -levelfrom to mixerframe
+	delegate option -levelto to mixerframe
+	delegate option -volumevariable to mixerframe as -variable
+	delegate option -volumecommand to mixerframe as -command
+	delegate option -volumestate to mixerframe as -state
 
-	delegate method setVolume to volumeframe
+	delegate method setLevel to mixerframe
+
+	delegate method Mute to mutecheckbutton
+	delegate method UnMute to mutecheckbutton
 
 	delegate option * to hull
 
 	constructor {args} {
 
-		set volumeframe [soundmixervolume ${win}.volumeframe]
+		set mixerframe [voipmixer ${win}.mixerframe]
 		set buttonframe [frame ${win}.buttonframe]
 		set mutecheckbutton [mutecheckbutton ${buttonframe}.mute]
 		set endcallbutton [button ${buttonframe}.endcall -relief flat]
 
 		$self configurelist $args
-		#creating volumeframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
-		destroy $volumeframe
-		set volumeframe [soundmixervolume ${win}.volumeframe -orient $options(-orient)]
+		#creating mixerframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
+		destroy $mixerframe
+		set mixerframe [voipmixer ${win}.mixerframe -orient $options(-orient) -mutecheckbutton $mutecheckbutton]
 		$self configurelist $args
 
 		if { $options(-orient) == "vertical" } {
 			pack $mutecheckbutton $endcallbutton
-			place $volumeframe -width $options(-volumeframesize) -relheight 1
-			place $buttonframe -x $options(-volumeframesize) -width $options(-buttonframesize) -relheight 1
+			place $mixerframe -width $options(-mixerframesize) -relheight 1
+			place $buttonframe -x $options(-mixerframesize) -width $options(-buttonframesize) -relheight 1
 		} else {
 			pack $mutecheckbutton $endcallbutton -side right
-			place $volumeframe -height $options(-volumeframesize) -relwidth 1
-			place $buttonframe -y $options(-volumeframesize) -height $options(-buttonframesize) -relwidth 1
+			place $mixerframe -height $options(-mixerframesize) -relwidth 1
+			place $buttonframe -y $options(-mixerframesize) -height $options(-buttonframesize) -relwidth 1
 		}
 	}
 
@@ -68,7 +72,7 @@ snit::widget voipcontrol {
 	method SetBackground {option value} {
 		set options($option) $value
 		$win configure -background $value
-		$volumeframe configure -background $value
+		$mixerframe configure -background $value
 		$win.buttonframe configure -background $value
 		$mutecheckbutton configure -background $value
 		$win.buttonframe.endcall configure -background $value
@@ -76,13 +80,13 @@ snit::widget voipcontrol {
 
 	method SetState {option value} {
 		set options($option) $value
-		$volumeframe configure -state $value
+		$mixerframe configure -state $value
 		$endcallbutton configure -state $value
 		$mutecheckbutton configure -state $value
 	}
 
 	method getSize {} {
-		set size $options(-volumeframesize)
+		set size $options(-mixerframesize)
 		incr size $options(-buttonframesize)
 		return $size
 	}
@@ -93,8 +97,8 @@ snit::widgetadaptor mutecheckbutton {
 
 	variable muted
 
-	option -muteimage -default {} -configuremethod SetImage
-	option -unmuteimage -default {} -configuremethod SetImage
+	option -mutedimage -default {} -configuremethod SetImage
+	option -unmutedimage -default {} -configuremethod SetImage
 	option -mutevariable -default {}
 	option -mutecommand -default {}
 
@@ -116,27 +120,54 @@ snit::widgetadaptor mutecheckbutton {
 				set muted 0
 			}
 		}
-		$self configure -image $options(-unmuteimage)
+		$self configure -image $options(-unmutedimage)
 	}
 
 	method SetImage {option value} {
 		set options($option) $value
 		if {$muted} {
-			$self configure -image $options(-unmuteimage)
+			$self configure -image $options(-unmutedimage)
 			set muted 0
 		} else {
-			$self configure -image $options(-muteimage)
+			$self configure -image $options(-mutedimage)
 			set muted 1
 		}
 	}
 
+	method Mute {} {
+		if {!$muted} {
+			$self configure -image $options(-mutedimage)
+			set muted 1
+
+			if {[info exists ::$options(-mutevariable)]} {
+				set ::$options(-mutevariable) $muted
+			}
+			if { $options(-mutecommand) != {} } {
+				eval $options(-mutecommand)
+			}
+		}
+	}
+
+	method UnMute {} {
+		if {$muted} {
+			$self configure -image $options(-unmutedimage)
+			set muted 0
+
+			if {[info exists ::$options(-mutevariable)]} {
+				set ::$options(-mutevariable) $muted
+			}
+			if { $options(-mutecommand) != {} } {
+				eval $options(-mutecommand)
+			}
+		}
+	}
 
 	method invoke {} {
 		if {$muted} {
-			$self configure -image $options(-unmuteimage)
+			$self configure -image $options(-unmutedimage)
 			set muted 0
 		} else {
-			$self configure -image $options(-muteimage)
+			$self configure -image $options(-mutedimage)
 			set muted 1
 		}
 
@@ -152,12 +183,15 @@ snit::widgetadaptor mutecheckbutton {
 
 
 
-snit::widget soundmixervolume {
+snit::widget voipmixer {
 
-	option -from -default 0
-	option -to -default 1
+	option -mutecheckbutton -readonly yes
+	option -volumefrom -default -25
+	option -volumeto -default 15
+	option -levelfrom -default -20
+	option -levelto -default 0
 
-	option -levelsize -default 5 -configuremethod SetLevelSize
+	option -selectsize -default 5 -configuremethod SetSelectSize
 
 	option -variable -default {}
 	option -command -default {}
@@ -175,53 +209,51 @@ snit::widget soundmixervolume {
 		frame ${win}.fill
 		place ${win}.fill -relheight 1 -relwidth 1
 
-		frame ${win}.level -background black
+		frame ${win}.select -background black
 
 		if {![info exists ::$options(-variable)]
-			|| [set ::$options(-variable)] > $options(-to)
-			|| [set ::$options(-variable)] < $options(-from)} {
-			set ::$options(-variable) [expr {$options(-from) + 0.5 * (double($options(-to)) - double($options(-from)))}]
-		}
-		set val [expr {double([set ::$options(-variable)]) - double($options(-from))}]
-		set val [expr {$val / (double($options(-to)) - double($options(-from)))}]
-		if { $options(-orient) == "vertical" } {
-			place ${win}.level -relx 0 -rely [expr {1-[set ::$options(-variable)]}] -relwidth 1 -height $options(-levelsize)
-		} else {
-			place ${win}.level -rely 0 -relx [set ::$options(-variable)] -relheight 1 -width $options(-levelsize)
+			|| [set ::$options(-variable)] > $options(-volumeto)
+			|| [set ::$options(-variable)] < $options(-volumefrom)} {
+			set ::$options(-variable) [expr {$options(-volumefrom) + 0.5 * (double($options(-volumeto)) - double($options(-volumefrom)))}]
 		}
 
-		bind ${win}.level <B1-Motion> "$self Motion"
+		set val [expr {double([set ::$options(-variable)]) - double($options(-volumefrom))}]
+		set val [expr {$val / (double($options(-volumeto)) - double($options(-volumefrom)))}]
+		if { $options(-orient) == "vertical" } {
+			place ${win}.select -relx 0 -rely [expr {1-[set ::$options(-variable)]}] -relwidth 1 -height $options(-selectsize)
+		} else {
+			place ${win}.select -rely 0 -relx [set ::$options(-variable)] -relheight 1 -width $options(-selectsize)
+		}
+
+		bind ${win}.select <B1-Motion> "$self Motion"
 
 		if {![catch {tk windowingsystem} wsystem] && $wsystem != "x11"} {
 			bind ${win} <MouseWheel> "$self MouseWheel"
 			bind ${win}.fill <MouseWheel> "$self MouseWheel"
-			bind ${win}.level <MouseWheel> "$self MouseWheel"
+			bind ${win}.select <MouseWheel> "$self MouseWheel"
 		} else {
-			bind ${win} <ButtonPress-5> "$self MoveLevel 0"
-			bind ${win}.fill <ButtonPress-5> "$self MoveLevel 0"
-			bind ${win}.level <ButtonPress-5> "$self MoveLevel 0"
-			bind ${win} <ButtonPress-4> "$self MoveLevel 1"
-			bind ${win}.fill <ButtonPress-4> "$self MoveLevel 1"
-			bind ${win}.level <ButtonPress-4> "$self MoveLevel 1"
+			bind ${win} <ButtonPress-5> "$self MoveSelect 0"
+			bind ${win}.fill <ButtonPress-5> "$self MoveSelect 0"
+			bind ${win}.select <ButtonPress-5> "$self MoveSelect 0"
+			bind ${win} <ButtonPress-4> "$self MoveSelect 1"
+			bind ${win}.fill <ButtonPress-4> "$self MoveSelect 1"
+			bind ${win}.select <ButtonPress-4> "$self MoveSelect 1"
 		}
 	}
 
-	destructor {
-	}
 
-
-	method MoveLevel {{up 1}} {
+	method MoveSelect {{up 1}} {
 		if { $options(-state) != "normal"} {return}
 
-		set val [expr {double([set ::$options(-variable)]) - double($options(-from))}]
-		set val [expr {$val / (double($options(-to)) - double($options(-from)))}]
+		set val [expr {double([set ::$options(-variable)]) - double($options(-volumefrom))}]
+		set val [expr {$val / (double($options(-volumeto)) - double($options(-volumefrom)))}]
 		if { $options(-orient) == "vertical" } {
 			set size [winfo height ${win}]
-			set max [expr {1-double($options(-levelsize))/double(${size})}]
+			set max [expr {1-double($options(-selectsize))/double(${size})}]
 			set rel [expr {1-$val}]
 		} else {
 			set size [winfo width ${win}]
-			set max [expr {1-double($options(-levelsize))/double(${size})}]
+			set max [expr {1-double($options(-selectsize))/double(${size})}]
 			set rel $val
 		}
 		if {$up == 1} {
@@ -236,23 +268,38 @@ snit::widget soundmixervolume {
 				set rel 0
 			}
 		}
+
 		if { $options(-orient) == "vertical" } {
-			place configure ${win}.level -rely $rel
+			if {$rel >= 0.95} {
+				$options(-mutecheckbutton) Mute
+			} else {
+				$options(-mutecheckbutton) UnMute
+			}
 		} else {
-			place configure ${win}.level -relx $rel
+			if {$rel <= 0.05} {
+				$options(-mutecheckbutton) Mute
+			} else {
+				$options(-mutecheckbutton) UnMute
+			}
+		}
+
+		if { $options(-orient) == "vertical" } {
+			place configure ${win}.select -rely $rel
+		} else {
+			place configure ${win}.select -relx $rel
 		}
 
 		if {[info exists ::$options(-variable)]} {
 			if { $options(-orient) == "vertical" } {
 				set val [expr {1-$rel/$max}]
-				set val [expr {$options(-from) + $val * ($options(-to) - $options(-from))}]
+				set val [expr {$options(-volumefrom) + $val * ($options(-volumeto) - $options(-volumefrom))}]
 				set ::$options(-variable) $val
 				if { $options(-command) != {} } {
 					eval $options(-command) $val
 				}
 			} else {
 				set val [expr {$rel/$max}]
-				set val [expr {$options(-from) + $val * ($options(-to) - $options(-from))}]
+				set val [expr {$options(-volumefrom) + $val * ($options(-volumeto) - $options(-volumefrom))}]
 				set ::$options(-variable) $val
 				if { $options(-command) != {} } {
 					eval $options(-command) $val
@@ -264,9 +311,9 @@ snit::widget soundmixervolume {
 
 	method MouseWheel {} {
 		if {%D>0} {
-			$self MoveLevel 1
+			$self MoveSelect 1
 		} else {
-			$self MoveLevel 0
+			$self MoveSelect 0
 		}
 	}
 
@@ -275,11 +322,11 @@ snit::widget soundmixervolume {
 
 		if { $options(-orient) == "vertical" } {
 			set size [winfo height ${win}]
-			set max [expr {1-double($options(-levelsize))/double(${size})}]
+			set max [expr {1-double($options(-selectsize))/double(${size})}]
 			set rel [expr {double([winfo pointery ${win}] - [winfo rooty ${win}])/double(${size})}]
 		} else {
 			set size [winfo width ${win}]
-			set max [expr {1-double($options(-levelsize))/double(${size})}]
+			set max [expr {1-double($options(-selectsize))/double(${size})}]
 			set rel [expr {double([winfo pointerx ${win}] - [winfo rootx ${win}])/double(${size})}]
 		}
 
@@ -292,22 +339,36 @@ snit::widget soundmixervolume {
 		}
 
 		if { $options(-orient) == "vertical" } {
-			place configure ${win}.level -rely $rel
+			if {$rel >= 0.95} {
+				$options(-mutecheckbutton) Mute
+			} else {
+				$options(-mutecheckbutton) UnMute
+			}
 		} else {
-			place configure ${win}.level -relx $rel
+			if {$rel <= 0.05} {
+				$options(-mutecheckbutton) Mute
+			} else {
+				$options(-mutecheckbutton) UnMute
+			}
+		}
+
+		if { $options(-orient) == "vertical" } {
+			place configure ${win}.select -rely $rel
+		} else {
+			place configure ${win}.select -relx $rel
 		}
 
 		if {[info exists ::$options(-variable)]} {
 			if { $options(-orient) == "vertical" } {
 				set val [expr {1-$rel/$max}]
-				set val [expr {$options(-from) + $val * ($options(-to) - $options(-from))}]
+				set val [expr {$options(-volumefrom) + $val * ($options(-volumeto) - $options(-volumefrom))}]
 				set ::$options(-variable) $val
 				if { $options(-command) != {} } {
 					eval $options(-command) $val
 				}
 			} else {
 				set val [expr {$rel/$max}]
-				set val [expr {$options(-from) + $val * ($options(-to) - $options(-from))}]
+				set val [expr {$options(-volumefrom) + $val * ($options(-volumeto) - $options(-volumefrom))}]
 				set ::$options(-variable) $val
 				if { $options(-command) != {} } {
 					eval $options(-command) $val
@@ -316,21 +377,21 @@ snit::widget soundmixervolume {
 		}
 	}
 
-	method SetLevelSize {option value} {
+	method SetSelectSize {option value} {
 		set options($option) $value
 		if { $options(-orient) == "vertical" } {
-			${win}.level configure -height $value
+			${win}.select configure -height $value
 		} else {
-			${win}.level configure -width $value
+			${win}.select configure -width $value
 		}
 	}
 
 
-	method setVolume {value} {
+	method setLevel {value} {
 		if { $options(-state) != "normal"} {return}
 
-		set relsize [expr {double($value) - double(-20)}]
-		set relsize [expr {$relsize / (double(0) - double(-20))}]
+		set relsize [expr {double($value) - double($options(-levelfrom))}]
+		set relsize [expr {$relsize / (double($options(-levelto)) - double($options(-levelto)))}]
 
 		if { $options(-orient) == "vertical" } {
 			place conf $win.fill -relheight $relsize

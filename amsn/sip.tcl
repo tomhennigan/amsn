@@ -2652,7 +2652,7 @@ namespace eval ::MSNSIP {
 			} else {
 				set frame [::ChatWindow::GetOutDisplayPicturesFrame $window].voip
 			}
-			$frame setVolume $value
+			$frame setLevel $value
 		}
 	}
 	proc activeCandidates { email sip callid send media local remote } {
