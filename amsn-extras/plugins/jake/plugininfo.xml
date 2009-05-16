@@ -2,7 +2,7 @@
 <plugin>
 	<name>jake</name>
 	<author>Alexander Nestorov (alex_vip_1@hotmail.com)</author>
-	<description_en>Chatbot made in Tcl. Really usefull, a lot of options. To see the help, type !help</description_en>
+	<description>Chatbot made in Tcl. Really usefull, a lot of options. To see the help, type !help</description>
 	<description_es>Chat Bot hecho en Tcl. Muy util, con muchas opciones. Para ver la ayuda escribe !help</description_es> 
 	<description_it>Chat Bot realizzato in Tcl. Veramente utile, con molte opzioni. Per visulizzare l'aiuto digita !help</description_it> 
 	<description_fr>Chatbot réalisé en Tcl. Très utile et plein d'options. Pour afficher l'aide, tapez !aide</description_fr>
