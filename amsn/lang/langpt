@@ -108,6 +108,7 @@ blocksounds Desactivar sons
 blockusers Número de utilizadores a verificar ao mesmo tempo
 bouncedock Animar o ícone do aMSN ao receber uma mensagem nova
 brightness Brilho
+bringtofront Colocar Tudo em Primeiro Plano
 broughtby Trazido até si pelos seguintes programadores
 browse Explorar
 browserexample (\$url será substituído por URL). Ex: firefox \$url
@@ -265,6 +266,7 @@ custshowcustomsmileys Mostrar "Emoticons" Personalizados do utilizador
 cut Cortar
 cutimageboxreset Reinicializar o tamanho\nda caixa de selecção para:
 cutimagebox Seleccionar a parte da imagem que presente usar, alterando o tamanho e movendo a caixa de selecção
+cyclewindows Rodar Entre Janelas
 date Data
 dateformat Alterar o formato da data
 day Dia
@@ -548,6 +550,7 @@ maximised Maximizado
 medium Médio
 minimised Minimizado/Iconificado
 minimize Minimizar para área de notificação
+minimizeplain Minimizar
 mins minutos
 mobilegrp1 Grupo móvel
 mobilegrp2 Colocar utilizadores no grupo "Móvel" quando estiverem desligados (e ordenados por estado)
