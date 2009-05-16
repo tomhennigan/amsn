@@ -27,24 +27,20 @@ place .sm2 -height 25 -relwidth 1 -width -25 -x 25
 update
 
 puts "[winfo width .sm] [winfo height .sm]"
-puts "[winfo width .sm.volumeframe] [winfo height .sm.volumeframe]"
-puts "[winfo width .sm.buttonframe] [winfo height .sm.buttonframe]"
 puts "============"
 puts "[winfo width .sm2] [winfo height .sm2]"
-puts "[winfo width .sm2.volumeframe] [winfo height .sm2.volumeframe]"
-puts "[winfo width .sm2.buttonframe] [winfo height .sm2.buttonframe]"
 
 proc timer {sm limit delay {value 0}} {
 	variable var
 	variable var2
 	puts "var=$var\tvar2=$var2"
-	$sm setVolume $value $limit
+	$sm setLevel $value 
 	incr value
-	if {$value >= $limit} {set value 0}
+	if {$value >= $limit} {set value -20}
 	after $delay [list timer $sm $limit $delay $value]
 }
 
-timer .sm  100 200
-timer .sm2 100 200
+timer .sm  0 200 -20
+timer .sm2 0 200 -20
 
 
