@@ -111,6 +111,7 @@ blocksounds Sesleri engelle
 blockusers Bir seferde denetlenecek kullanýcý sayýsý
 bouncedock Ýleti gelince aMSN görev çubuðu simgesi zýplasýn
 brightness Parlaklýk
+bringtofront Hepsini Öne Getir
 broughtby Yazýlýmý geliþtirenler
 browse Gözat
 browser Ýnternet tarayýcý
@@ -269,6 +270,7 @@ custshowcustomsmileys Kullanýcýnýn özel gülen adamlarýný göster
 cut Kes
 cutimagebox Seçme kutusunu taþýyýp yeniden boyutlandýrarak görüntünün kullanacaðýnýz kýsmýný seçiniz
 cutimageboxreset Seçme kutusunu ilk boyutuna\ngeri döndür:
+cyclewindows Pencereleri Sýrayla Göster
 date Tarih
 dateformat Tarih biçemini degiþtir
 day Gün
@@ -554,6 +556,7 @@ maximised Büyütülmüþ
 medium Ortam
 minimised Küçültülmüþ
 minimize Sistem çubuðuna küçült
+minimizeplain Küçült
 mins dakika
 mobile Cep
 mobilegrp1 Cep Öbeði
