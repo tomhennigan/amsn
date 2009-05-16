@@ -391,7 +391,7 @@ snit::widget voipmixer {
 		if { $options(-state) != "normal"} {return}
 
 		set relsize [expr {double($value) - double($options(-levelfrom))}]
-		set relsize [expr {$relsize / (double($options(-levelto)) - double($options(-levelto)))}]
+		set relsize [expr {$relsize / (double($options(-levelto)) - double($options(-levelfrom)))}]
 
 		if { $options(-orient) == "vertical" } {
 			place conf $win.fill -relheight $relsize
