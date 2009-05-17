@@ -48,6 +48,7 @@ namespace eval ::winks {
 		::plugins::RegisterEvent Winks chatwindowbutton AddWinksButton
 		::plugins::RegisterEvent Winks DataCastPacketReceived ReceiveSomething
 		::plugins::RegisterEvent Winks PacketReceived ReceiveSomething
+		::plugins::RegisterEvent Winks OnConnecting OnConnecting
 
 		# load plugin pixmaps
 		::skin::setPixmap unknown_wink unknown_wink.png pixmaps [file join $dir pixmaps]
@@ -117,6 +118,13 @@ namespace eval ::winks {
 		::plugins::save_config
 		status_log $::winks::config(flashplayer) 
 		status_log "Winks Loaded OK.\n" green
+	}
+
+	#----------------------------------------------------------------------------------
+	proc OnConnecting { event evpar } {
+		# With the SVN version (current 0.98b) the clientcap is reset to 0 everytime you try to connect
+		# so we need to set our clientcap here now...
+		::MSN::setClientCap winks
 	}
 
 

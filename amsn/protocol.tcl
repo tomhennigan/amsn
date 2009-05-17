@@ -924,6 +924,7 @@ namespace eval ::MSN {
 		::MSN::setClientCap multip
 		::MSN::setClientCap voice
 
+
 		if {[::config::getKey protocol] >= 15} {
 			global sso
 			if {[info exists sso] && $sso != "" } {
@@ -940,6 +941,7 @@ namespace eval ::MSN {
 		#Setup the conection
 		setup_connection ns
 
+		::plugins::PostEvent OnConnecting evPar
 
 		global tlsinstalled
 		#Check if we need to install the TLS module
