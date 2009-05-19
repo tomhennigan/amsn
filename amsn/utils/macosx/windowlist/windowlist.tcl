@@ -37,7 +37,9 @@ namespace eval windowlist {
     
     #update the window menu with windows
     proc updateWindowMenu {windowmenu} {
-
+	# If the window gets destroyed, the windowmenu no longer exists.
+	if { [winfo exists $windowmenu] == 0 } { return }
+	
 	set windowlist [wm stackorder .]
 	if {$windowlist == {}} {
 	    return
