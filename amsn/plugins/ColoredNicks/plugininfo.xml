@@ -42,12 +42,16 @@
 		<version>11067</version>
 	</lang>
 	<lang>
+		<langcode>lt</langcode>
+		<version>10407</version>
+	</lang>
+	<lang>
 		<langcode>nl</langcode>
 		<version>10405</version>
 	</lang>
 	<lang>
-		<langcode>lt</langcode>
-		<version>10407</version>
+		<langcode>no</langcode>
+		<version>11209</version>
 	</lang>
 	<lang>
 		<langcode>pt_BR</langcode>
