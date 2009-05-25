@@ -1,0 +1,32 @@
+amsn_lang_version 2
+winks_show_add_new_wink_in_menu Vis \"Legg til en ny wink\" i winks menyen.
+winks_close_menu_on_mouse_leave Lukk winks meny på musen forlates.
+winks_cabextract_command CabExtract Kommando:
+winks_use_extrac32 Bruk extrac32 (sett for WinXP) insteden for cabextract.
+winks_swf_player_command Swf player kommando:
+winks_swf_player_arguments Swf spiller argumenter:
+winks_add_new_wink Legg til ny wink...
+winks_introduce_new_wink_name Ny wink navn:
+winks_cant_open Kan ikke åpne
+winks_received_wink Motatt wink:
+winks_unknown_wink_waiting_for_it Ukjent wink, venter på denne...
+winks_wink_transfer_complete Wink overføring fullført:
+winks_play_animation Spill av animasjoner...
+winks_add_to_winks_menu legg til winks meny
+winks_sending_wink Sender wink...
+winks_sent_wink Sendt wink:
+winks_wink_added Wink lagt til!
+winks_the_wink_is_already_in_winks_menu winken er allerede i winks meny!
+winks_play_wink_immediatly_when_recived Spill av wink umiddelbart nå den er mottatt.
+winks_wink_deleted Denne wink ble slettet.
+winks_wink_renamed Denne wink har endret navnet.
+winks_cant_add_now_wait_thumbnail Vennligst vent til du ser winkens thumbnail for å legge til denne.
+winks_cant_play_now_wait_thumbnail Vennligst vent til du ser wink thumbnail for å spille av denne.
+winks_yourcontact_winks winks:
+winks_yourcontact_amsn_client_doesnt_supports_winks kjører på messenger klient som ikke støtter winks.
+winks_play_embed Spill av wink i samtalevinduet (bare for gnash).
+winks_notify_in_one_line Notify received winks in one line.
+winks_play Spill av
+winks_use_queque_out Use a playing queque when playing winks outside the chat window.
+winks_use_queque_in Use a playing queque when playing winks inside the chat window.
+winks_file_is_not_a_wink Filen inneholder ikke noen wink.

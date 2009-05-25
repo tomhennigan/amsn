@@ -7,12 +7,12 @@ notify_send Varsle om sente nudges i chattevinduet
 notify_receive Varsle om mottatte nudges i chattevinduet
 sound_send Spill av en lyd når du sender en nudge
 sound_receive Spill av en lyd når du mottar en nudge.
-add_button Legg til en knapp for å sende nudges i chattevinduet
+add_button Legg til en knapp for å sende nudges i samtalevinduet
+add_blockbutton Legg til en knapp for å blokkere innkommende nudges i samtalevinduet
+add_clmenuitem Legg tin kontaktliste meny enhet
 send_nudge Send nudge
 no_nudge_support Du kan ikke sende en nudge til kontakten, fordi han eller henne ikke bruker en klient som støtter nudges
 nudge_sent Du har akkurat sent en nudge
-limit Activate Nudge receive limitation
-delay Minimum time between 2 nudge from the same contact (in seconds)
-send_nudge Send nudge
-no_nudge_support You cannot sent a nudge to your contact because he or she doesn't use a client that supports nudges
-block_nudge Block/Unblock nudges
+limit Activate Nudge motta begrensninger
+delay Minimum tid mellom 2 nudge fra samme kontakt (i sekunder)
+block_nudge Blokk/fjern blokkering av nudges

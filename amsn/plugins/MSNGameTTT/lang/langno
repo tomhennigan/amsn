@@ -1,0 +1,16 @@
+amsn_lang_version 2
+gametttgameclosed The motstander har lukket spillet.
+gametttgamesessionwith $1 med $2
+gametttnowinner Ingen vinner denne !\nPoenget gjenstår $1:$2.
+gametttopponent motstander
+gametttopponentloading Vennligst vent, motstander laster spillet...
+gametttopponentready Din motstander er klar for å spille, trykk "Start" for å begynne.
+gametttopponentsturn motstander sin tur
+gametttopponentnotready Venter på at motstander trykker på "Start"...
+gametttrestart Start på nytt
+gametttstart Start
+gamettttitle Tic Tac Toe
+gametttwait Venligst vent...
+gametttwinner $1 vinner runden!\nPoenget er nå $2:$3.
+gametttyou du
+gametttyourturn DIN tur

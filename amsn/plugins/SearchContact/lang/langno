@@ -1,0 +1,12 @@
+amsn_lang_version 2
+all Alle
+filterblocked Vis bare de jeg har blokkert
+filterremovedme Vis bare de som har fjernet
+clear Fjern
+nickandpsm Kallenavn og personlige melding
+typeheretofilter Skriv her for å filtere kontaktlisten...
+storelastinput Gjenopprett den sisten innenheten når man laster denne utvidelsen
+enableoperators Bruk operators for å søke (støttet er "& " (AND) og "| " (OR), for å bli plassert før comma/space seperat tastatur ord)
+usewildcards Støttet bruker av wildcards: * og ?
+groupname Gruppenavn
+filter Filtere

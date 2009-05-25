@@ -56,6 +56,10 @@
 		<langcode>nl</langcode>
 		<version>1.1</version>
 	</lang>
+	<lang>
+		<langcode>no</langcode>
+		<version>11209</version>
+	</lang>
 	
 	<URL>
 		<main>http://www.amsn-project.net/autoupdater/plugins2/remind/remind.tcl</main>
