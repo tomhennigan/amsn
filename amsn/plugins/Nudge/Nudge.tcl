@@ -578,7 +578,10 @@ namespace eval ::Nudge {
 	proc check_clientid {email} {
 		::Nudge::log "Verify if contact is using MSN 7.0 protocol"
 
-		set clientid [::abook::getContactData $email clientid]
+		set clientcaps [::abook::getContactData $email clientid]
+		set clientcaps [split $clientcaps ":"]
+		set clientid [lindex $clientid 0]
+		# set extra [lindex $clientid 1]
 
 		::Nudge::log "Clientid is $clientid"
 
