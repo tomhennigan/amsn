@@ -5,7 +5,7 @@ aboutamsn Om Alvaro's Messenger
 accept Aksepter
 acceptfile Ønsker du å godta at fil $1 (størrelse $2 byte)? vil lagres i $3
 account Konto
-accountkid This kids account cannot be used with Messenger. You have to go to the Kids Passport Web site and give parental consent.
+accountkid Denne barnekontoen kan ikke bli brukt med messenger. Du trenger å gå til barne pass internettside og parental consent.
 actions Hendelser
 activeautoupdate Aktivere automatisk-oppdatering
 addacontact Legg til en kontakt
@@ -111,7 +111,7 @@ blocksounds Deaktivere lyder
 blockusers Nummeret av brukere som sjekkes på en gang
 bouncedock La aMSN's ikon hoppe i docken når en beskjed er mottatt
 brightness Lyshet
-bringtofront Bring All to Front
+bringtofront Sett alle på fremsiden
 broughtby Gitt til deg av følgende utviklere
 browse Bla gjennom
 browser Nettleser
@@ -120,10 +120,10 @@ bugerror Beklager, det oppsto et problem med å koble til feil-databasen. Sjekk i
 bugnocomment Sende uten en kommentar? Å kommentere programfeil hjelper oss med å finne ut hva som er galt og derfor får ordnet det enklere.
 busy Opptatt
 bytesymbol b
-cachedpics $1 lagrede bilder
-cachedpicsfor Cached display pictures for user
+cachedpics $1 Lagret bilder
+cachedpicsfor Midligtidig visningsbilder for bruker
 cagreement Konfidensiell avtale
-cam_in_cw Show webcam streams embedded in the chatwindows
+cam_in_cw Vis kamera stream innlagt i pratevinduet
 cancel Avbryt
 cancelled Avbrytet
 cannotdeleteprofile Kan ikke slette profilen, den ser ut til \nå allerede være i bruk av en annen aMSN-sessjon
@@ -135,7 +135,7 @@ captureextloaded Oppstaksutvidelsen -$1- er lastet
 captureextnotloaded Opptaksutvidelsen -$1- er ikke lasten, du må kompilere den først
 captureproperties Bildeinstillinger for kamera
 capturewarn Du vil ikke være tilgjengelig å dele ditt kamera hvis du har et. Hvis den ikke er vanlig. Du kan finne svar på hvordan du kan installere denne utvidelsen på vår Wiki:
-casesensitive Use case-sensitive triggers
+casesensitive Bruk eske-sensitiv utløser
 cfgalarmall Konfigurer/legg til/fjern global alarm
 cfgalarm Konfiguer/legg til/fjern alarm
 change_account_info Endre konto informasjon
@@ -144,7 +144,7 @@ changecustomstate Bytt til
 changedisplaypic Endre personlig bilde
 changefont Bytt skrifttype
 changeglobnick Endre globalt kallenavn
-change_mobile Endre Mobile instillinger
+change_mobile Endre mobil instillinger
 changenick Endre kallenavn
 changepsm Endre personligmelding
 changesize Endre størrelse
@@ -235,7 +235,7 @@ contact Kontakt
 contactdoesnotexist Kontakten eksisterer ikke!
 contactlist Kontaktliste (FL):
 contacts Kontakter
-contentroamingsetting Store display picture on the server
+contentroamingsetting Lagre visningbilder på serveren
 continuously Kontinuerlig
 contrast Kontrast
 conversationwith $1 brukere i samtalen
@@ -270,7 +270,7 @@ custshowcustomsmileys Vis brukeres personlige fjesinger
 cut Klipp ut
 cutimageboxreset Still markørboksen sin\nstørrelse til:
 cutimagebox Velg delen du vil bruke av bilde ved å skalere og flytte på markørboksen
-cyclewindows Cycle Through Windows
+cyclewindows Sirkeler gjennom vinduene
 date Dato
 dateformat Endre datoformat
 day Dag
@@ -309,10 +309,10 @@ displayeventnick Vis når kontakter endrer kallenavn
 displayeventpsm Vis når kontakter endrer personlige melding
 displayp4context Vis P4-kontekstfeltsinnhold som avsender
 displaypic Vis bilde
-dockfreedesktop FreeDesktop (KDE3/Gnome2)
+dockfreedesktop Ledig-skrivebord (KDE3/Gnome2)
 dockgtk Gnome-dokk
-docking Docking
-dockingoff Docking av
+docking Dokking
+dockingoff Dokking av
 dockkde KDE-dokk
 done Ferdig
 dontaskweek Ikke spør etter oppdatering igjen for en uke
@@ -323,8 +323,8 @@ download Last ned
 downloadcanceled Nedlasting er avbryttet.
 downloadingtls Laster ned TLS-modul fra:\n $1
 downloadingwait Laster ned en ny aMSN versjon. Vennligst vent...
-dynamicrate Use dynamic frame rate to simulate the real-time speed 
-editcontent Edit the content of the subject field and the note field
+dynamicrate Bruk dynamisk form hastighet for å simulere ekte-tids hastighet 
+editcontent Rediger innhold av evne felt og notering 
 editcustomstate Rediger tilpasset tilstand
 edit Rediger
 editavsettings Rediger lyd og bilde innstillinger
@@ -362,10 +362,10 @@ faileddelete Sletting feilet
 faileddeleteperso Dette bildet kan ikke slettes fordi det ikke er en personlig bilde-fil. Kun bilder som tilhører din personlige profil kan slettes på denne måten.
 failed Mislykkes
 faq OSS (Ofte stilte spørsmål)
-farsightextchecking Checking if Farsight extension is loaded ...
-farsightextwarn You won't be able to have SIP calls. You may find answers on how to install Farsight on our Wiki:
-farsightinfook Farsight is a framework to deal with audio/video conferencing protocols. With Farsight, you can send or receive SIP calls within aMSN! Have a look at farsight on our Wiki:
-fetching Fetching data...
+farsightextchecking Sjekker om Farsight utvidelser er lastet...
+farsightextwarn Du vil ikke være tilgjengelig å ha SIP samtale. Du kan finne svar på hvordan å installere Farsight på vår Wiki:
+farsightinfook Farsight er et struktur for å avtale med lyd/bilde konferanse  protokoll. Med Farsight, kan du sende eller motta SIP samtaler inne i aMSN! Se farsight på vår Wiki:
+fetching Inntagende data...
 filedoesnotexist Filen eksisterer ikke
 file Fil
 filemanexample (\$plassering vil bli byttet ut med mappe ny) F.eks: nautilus \$plassering
@@ -378,11 +378,11 @@ filetransfer Filoverføring
 filters Filtere
 filtersselect Velg filter du vil bruke\n(OBS: ingen valgt betyr 'vis alle')
 filtersx Valg av filtere
-findasyoutype Find as you type
+findasyoutype Finn som din type
 find Finn
 findnext Finn neste
 findprev Finn siste
-finetunesettings Finetune picture settings
+finetunesettings Finjustere bildeinnstillinger
 finish Fullført
 finish2apply Trykk på fullført for å godta disse innstillingene.
 firewalled Du er bak en brannmur eller router
@@ -390,8 +390,8 @@ firewalled2 Du er blokkert av en brannmur, vennligst sjekk din tilkobling innsti
 followtext Bla nedover når ny tekst blir skrevet inn
 forget_me Glem meg
 forgot_pass Jeg har glemt mitt passord
-formatctt CTT format
-formatcsv CSV format
+formatctt CTT formattering
+formatcsv CSV formattering
 friendlyname Kallenavn
 ftacceptedby $1 aksepterte invitasjonen til filoverfring av '$2'.
 ftaccepted Sending av fil akseptert
@@ -403,17 +403,17 @@ ftconnectionlost Forbindelsen med verten ble brutt
 ftgotinvitation $1 vil sende deg '$2' ($3 bytes). Den vil bli lagret i mappen $4. ønsker du å motta filen?
 ftportpref åpner port for filoverføring
 ftportpref2 Starter port for direkte tilkobling (nødvendig for filoverføring og kamera)
-ftporttest Test port
+ftporttest Testeport
 ftrejectedby $1 avviste filoverføring av $2.
-ftrejectedSending av fil avslått
+ftrejected Sending av fil avslått
 ftsendinvitation Filoverføring for fil '$2' ($3 bytes) har blitt sendt til $1.
 fullcontactlist Beklager, men kontaktlisten din er full. Du må fjerne noen gamle kontakter for å kunne legge inn nye.
 gameaccepted $1 har godtatt din spill invitasjon
 gameclosedbyother $1 har avbrytet spill sesjon med deg.
 gameclosedbyself Du har avbrytt spill sesjon med $1.
-gameinvitation $1 has invited you to play $2. Do you want to accept this invitation?
-gamepluginnotfound $1 has invited you to play $2 but there is no plugin for this game currently loaded. Please activate and configure this plugin first.
-gamerejected $1 has rejected your game invitation
+gameinvitation $1 har invitert deg å spille $2. Ønsker du å godta denne invitasjonen?
+gamepluginnotfound $1 har invitert deg å spille $2 men det er ikke noen utvidelse for dette spillet som er lastet. Vennligst konfigurer denne utvidelsen først.
+gamerejected $1 har avvist din spill invitasjon
 gamerequest Du har invitert $1 til å spille $2
 getdisppic Aktiver mottak av personlige bilder fra andre brukere
 getmoreplugins Skaff flere pluginer!
@@ -435,30 +435,29 @@ groupexists Gruppen eksisterer allerede
 group Grupper
 groupmissing Finner ikke gruppen
 groupnewname Nytt navn
-groupnotempty Gruppen er ikke tom!
-groupnonim Group Non-Instant Messaging Contacts Together
+groupnonim Gruppe ingen-øyeblikkelig melding kontakter sammen
 groupnotempty Gruppen er ikke tom!
 groupoldname Gammelt navn
 grouprename Gi nytt navn til en gruppe
 groups Grupper
 groupunknown Ukjent gruppe
-handle Handle
-hangup Hang Up
+handle ordne opp i
+hangup legg på
 havenomic Jeg har ingen mikrofon
 helpcontents Hjelp innhold
 help Hjelp
 hidedetails Skjul detaljer
 hidedisplaypic Skjul personlig bilde
-hidebuttonbar Hide Button Bar
-hidemenumessage Are you sure you want to hide the menus ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
+hidebuttonbar Skjul knappelinjen 
+hidemenumessage Er du sikker på at du ønsker å skjule menyen?\nDu kan gjenopprette de ved å bruke vis/skjul meny tast 'Ctrl-M'.
 hidemenu Vis/skjul menyer
-hiden Hide the emoticon from the smileys menu
-hideuserscw Hide users in this chat window.
+hiden Skjul uttrykks-ikon fra smileansikt menyen
+hideuserscw Skjul brukere i samtalevinduet.
 hidewindow Skjul vindu
 history Vis historie
 history2 Historie
 home Hjem
-howto_remove_profile To delete your profile (forget $1) you need to do so from the preferences window. \n\nFor security reasons, profile deletion from the login screen is not allowed.
+howto_remove_profile For å slette din profil (glem $1) vil du trenge å gjøre dette fra innstillinger vinduet. \n\nFor sikkerhet grunn, profil sletting fra påloggingskjerm er ikke tilatt.
 httpconnection Koble til via HTTP (bruker HTTP via port 80)
 hue Farge
 huge Gigantisk
@@ -533,7 +532,7 @@ logfandexp Loggfilstørrelse og sletting av historie
 loggedotherlocation Frakoblet, logget inn et annet sted
 loggingin Logger på
 loginas Logger på som
-loging Logging
+loging Samtalelogg
 login Logg på
 logolder Logg kun samtaler fra de siste samtalene
 logout Logg av
@@ -557,7 +556,7 @@ maximised Maksimert
 medium Middels
 minimised Minimert/Ikon tilpasset
 minimize Minimer til oppgavelinje
-minimizeplain Minimize
+minimizeplain Minimasert
 mins minutter
 mobilegrp1 Mobil gruppe
 mobilegrp2 Sett brukere inn i "Mobilgruppen" når de er frakoblet (og sortert etter status)
@@ -609,30 +608,30 @@ nick Kallenavn
 nickchanged $1 har endret kallenavn til '$2'
 no Nei
 noactivity Ingen aktivitet
-no_blocked_notif Do not show notification windows for blocked contacts
+no_blocked_notif Ikke vis melding vinduet for blokket kontakter 
 nocacheddps Ingen personlige bilder i minne fra denne brukeren
-nocamwarn No webcam were found, or your webcam is already in use by another program (which means it cannot be used by aMSN). You will find help on how to solve this issue on our Wiki:
+nocamwarn Ingen kamera funnet, eller så er kamera ditt i bruk i et annet program (som betyr at det ikke kan bli brukt ved bruk av aMSN). You will find help on how to solve this issue on our Wiki:
 nodataavailable Ingen data tilgjengelig for $1
 nodevices Du har ingen enheter installert
-noftpreview Disable sending a preview of images in file transfers
+noftpreview Deaktiver sending av forhåndvisning av bilder i filoverføring
 nogap Ikke noe tomrom mellom gruppene
 nogroup Ingen gruppe
-nojavascript You do not have javascript enabled. Automatic signin might not work.
+nojavascript Du har ikke javascript aktivert. Automatisk pålogging vil ikke fungere.
 nologfile Det finnes ingen loggfil for $1
 nomic Ingen mikrofon
 noneavailable Ingen tilgjengelig
 nonewmail Ingen nye meldinger i innboksen
 nonewver Det er ingen nyere versjoner tilgjengelig for nedlasting
-nonimgroup Non-Instant Messaging Contacts
+nonimgroup Ingen-øyeblikkelig melding kontakter
 nooimconfirmation Ikke spør etter bekreftelse når man sender/mottar frakoblet meldinger
 nopic Ingen bilder
-noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
+noprofileexists Det er for øyeblikket ingen profiler, \n du må opprette en hvis du ønsker å bruke profil påloggging. \nBruk legg til ny profil knappen i denne vinduet for å legge til en ny profil.
 noresizesmileys Ikke nedskalere innkommende tilpasset uttrykks-ikon
-normal Normal
-noskins Finner ikke standardutseende i skins/-katalogen. Kan ikke starte aMSN
-nosound No sound was detected, make sure your microphone has been connected to your computer properly
-nosound_or_hold No sound was detected. To send a Voice Clip you need to press and hold down the button while speaking then release it to send the message.
-nospace Nothing to see here
+normal Vanlig
+noskins Finner ikke standardutseende i skins/-katalogen. Kan ikke starte AMSN
+nosound Ingen lyder har blitt oppdaget, vær sikker på at din mikrofon har blit koblet på riktig måte til datamaskinen. 
+nosound_or_hold Ingen lyder har blitt oppdaget. For å sende et stemmeklipp trenger du å trykke på og holde nede knappen mens du snakker også ettergi den for å sende meldingen.
+nospace Ingenting å se 
 nosystemtray System menyen er ikke tilgjengelig
 note Notat
 notificationserver Første MSN-notifikasjon tjener (MSN Messenger-tjener)
@@ -648,7 +647,7 @@ notifytimeout Millisekunder fra informasjonvindu forsvinner
 notifytyping Send melding til andre brukere når du skriver
 notifywin Visningsvindu
 notinlist Du er ikke på hans/hennes kontaktliste
-notimcontact This contact is not an Instant-Messaging contact
+notimcontact Denne kontakten er ikke en øyeblikkelig-melding kontakt
 notls MSN-protokoll 9 krever pakken TLS. Det ser ikke ut til at TLS har blitt installert på denne maskinen. Om TLS er installert, så bør stien til bibliotekfilene spesifiseres i innstillingene (eksempelvis: /opt/tls/lib). \n \n Du kan laste ned TLS her
 nottabbed Normale vindu uten arkfaner
 nousersinsession Ingen brukere i sesjonen
@@ -668,15 +667,15 @@ openreceived Åpne mottatt filer
 options Valg
 ordercontactsby Sortere kontakter etter
 ordergroupsby Sortere grupper etter
-original Original
-otherdisplaypic Other display pictures of this user (right-click for more options)
+original Vanlig
+otherdisplaypic Andre visningsbilde av denne (høyre-trykk for mere valg)
 other Andre
-otherdps Other display pictures
+otherdps Andre visningsbilder
 others Andre
 p4contextprefix Prefiks P4-Context avsendere med denne strengen
-pager Pager
+pager personsøker
 pass Passord
-passportnotverified Your passport account must be verified before you can change your personal information (such as your nickname). Please check your inbox for an activation email.
+passportnotverified Din passport konto må bli vertifisert før du kan endre din personlige informasjon (som ditt kallenavn). Vennligst sjekk din innboks for en aktivering melding.
 paste Lim inn
 pausedwebcamreceive Kameraet er satt i pause av en annen bruker
 pause Pause
@@ -684,13 +683,13 @@ pausewebcamsend Pause i sendingen av kamera
 personal Personlig
 phone Telefon
 phones Telefonnummer
-picbrowser Display Pictures Browser
+picbrowser Vis bilder utforsker
 picfile Bildefil (GIF < 500 x 500)
 picstatus Skru av eller på bildealarm
 play Spill av
 playbackposition Avspillings posisjon
 playbackspeed Avspillings hastighet (millisekunder mellom hver ramme)
-playerror An error occured when trying to play the sound : $1
+playerror En feil har oppstått ved forsøk på å spille av lyden: $1
 playgame Spill spillet
 playgame2 Spill $1
 playing Spiller: $1
@@ -752,10 +751,10 @@ psmnewline Vis personlig beskjed under kallenavnet
 psm Personlige melding
 psmplace Hvor skal den personlig beskjeden plasseres?
 publishphones Publiser mine telefonnummer
-purge Purge
+purge Utrensking
 pwcdriver Du bruker pwc-driveren
 quit Avslutt
-raised Raised/Deiconified
+raised Hevet/Deiconified
 readonlymsgbox Filoverføringen har blitt avbrytt på grunn av at du kun har lese-tilgang til katalogen filen skal lagres i. Endre rettighetene på katalogen.
 readonlywarn ADVARSEL: Filen vil mest sannsynlig IKKE bli lagret ettersom katalogen den skal lagres til ser ut til å være skrivebeskyttet. Vennligst sørg for at det er satt riktige tilganger på katalogen før du overfører filer.
 receivedbytes Mottatt $1 av $2 bytes
@@ -771,7 +770,7 @@ reconnectnow Prøv å koble til på nytt nå
 record Ta opp lyd
 recorderror En feil har oppstått ved forsøk på å ta opp lyden : $1
 recvwebcamaccepted $1 har godtatt invitasjon for å aktivere hans/hennes kamera. Kobler til...
-redirect Click here to get redirected
+redirect Trykk her for å bli omadressert
 reject Avslå
 rememberaccount Husk min konto
 rememberpass Husk passord
@@ -795,10 +794,10 @@ saveas Lagre som
 savechatwinsize Lage samtalevindustørrelse som ny standard om du endrer størrelsen
 savecontacts Lagre kontaktlisten
 save Lagre
-saveddefaultloc Save in default location
-savelocation Do you want to save file on $1?
-savelocationerror File can't be saved at this place.
-saveotherdirectory Save in another directory
+saveddefaultloc Lagre i standard plassering
+savelocation Ønsker du å lagre fil på $1?
+savelocationerror Filen kan ikke bli lagret på denne plasseringen.
+saveotherdirectory Lagre i en annen mappe
 savetofile Lagre til fil
 says $1 sier
 sbcon Kobler til koblingstavle
@@ -806,7 +805,7 @@ searchadvprefs Søk i avansert egenskaper:
 searchdown Søk nedover
 searchup Søk oppover
 selectall Velg alt
-selectcontact Select a contact
+selectcontact Velg en kontakt
 selectplugins Vennligst velg tilleggsprogramvare som du ønsker å bruke
 selectskin Velg et utseende fra listen
 sendcam Vis kamera
@@ -818,9 +817,9 @@ sendmobmsg Sende til mobil enhet
 sendmsg Sende melding
 sendoim Sende en frakoblet melding
 send Send
-sendsip Start Audio Call
+sendsip Start en lydsamtale
 sendvoice Send et stemme klipp
-sendwebcamaccepted $1 accepted your invitation to view your webcam. Connecting...
+sendwebcamaccepted $1 har godtatt din invitasjon om å vise ditt kamera. Kobler til...
 sendwebcaminvite Inviter en bruker til å starte ditt kamera
 sentbytes Sendt $1 av $2 byte
 sentvoice Send stemme klipp
@@ -829,10 +828,10 @@ servergoingdown Frakoblet: Tjeneren går ned
 server Tjener
 serverunavailable Serveren er ikke tilgjengelig
 session Sesjon
-setasmydp Set as my display picture
-setbackinitialstate You have set aMSN to connect as $1, but you are now $2. Are you sure you want to set your status back to $1 ?
-setupcam Setting up your webcam device
-setupcamfinetune Setting up webcam device, and finetuning picture
+setasmydp Sett min visningsbilde
+setbackinitialstate Du har satt at aMSN skal koble til som $1, men du er nå $2. Er du sikker på at du vil sette din status tilbake til $1 ?
+setupcam Setter opp ditt kamera enhet
+setupcamfinetune Setter opp kamera enhet, og finjustering bilde
 shareswebcam Deler kamera
 showbanner Vis aMSN's banner
 showblockedlist Vis liste over brukere som har blokkert deg
@@ -840,44 +839,44 @@ showcachedpics Vis lagrede personlige bilder
 show_contactdps_in_cl Vis miniatyrbilder av kontakters utstillingsbilde i kontakt listen
 showcontactemail Vis kontakter med e-post adresse
 showcontactnick Vis kontakter med kallenavn
-showdetailedview Show Detailed Contacts View
+showdetailedview Vis detaljer kontaktvisning
 showdetails Vis detaljer
 showdisplaypic2 Vis personlig bilde som standard når et samtalevindu blir åpnet
 showdisplaypic Vis personlig bilde
 showonedpframe Vis bare et visningsbilde i en samtalevindu
 showlinksinlogin Vis lenker i påloggingskjermen
-shownonim Show Non-Instant Messaging Contacts
-showmailicon Vis e-mail ikon i oppgavelinjen når nye e-poster kommer
+shownonim Vis ingen kontakt-øyeblikkelig melding kontakt
+showmailicon Vis e-post ikon i oppgavelinjen når nye e-poster kommer
 showmypic Mitt personlige bilde
 shownotify Bruk visningsvinduet ved enkelte hendelser
-showofflinegroup Show Offline Group
+showofflinegroup Vis frakoblet gruppe
 showpicnotify Vis brukerbilder i varselvinduet
-showspaces Show Spaces icon in the contact list
+showspaces Vis Space ikon i kontaktlisten
 showuserpic $1's personlige bilde
-showuserscw There are $1 users in this conversation. If you want to see or hide them click here.
+showuserscw Det er $1 brukere i denne samtalen. Hvis du ønsker å se eller skjule de trykk her.
 signinstatus Tilkobling status
 signout Logg av
-signouthere Sign out from here ($1)
-signoutep Sign out from $1
-signouteverywhere Sign out from everywhere
-sipcallaccepted Audio Call Accepted
+signouthere Logg ut herfra ($1)
+signoutep Logg ut fra $1
+signouteverywhere Logg av fra overalt
+sipcallaccepted Lydsamtale godtatt
 sipcallback Ring tilbake
-sipcalldeclined Audio Call Rejected
-sipcalleeaccepted User accepted your Audio Call
-sipcalleebusy User is currently Busy
-sipcalleecanceled User has canceled the Audio call Invitation
-sipcalleeclosed User has ended your Audio Call
-sipcalleedeclined User Declined your Audio Call invitation
-sipcalleenoanswer User did not answer your Call
-sipcalleeunavailable User is not available right now
-sipcallended Your Audio Call has ended
-sipcallimpossible You cannot make an Audio Call. Please install Farsight2 and try again.
-sipcallmissed You missed an Audio Call from $1
-sipcallnosipflag User does not support Audio Calls.
-sipcallsent Calling $1
-sipcallunsupported You have received an Audio Call invitation that is not currently supported. You may call back with a new invitation. The Audio Call will then work
-sipcallyouarebusy You can only have one Audio Call at a time.
-sipgotinvitation Received Audio Call invitation from $1
+sipcalldeclined Lydsamtale avvist
+sipcalleeaccepted Brukeren har godtatt din lydsamtale
+sipcalleebusy Brukeren er for øyeblikket oppdtatt
+sipcalleecanceled Brukeren har avbrutt lydsamtale invitasjon
+sipcalleeclosed Brukeren har avsluttet din lydsamtale
+sipcalleedeclined Brukeren avslod din lydsamtale invitasjon
+sipcalleenoanswer Brukeren ville ikke svare på din samtale
+sipcalleeunavailable Brukeren er ikke tilgjengelig akkurat nå
+sipcallended Din lydsamtale har sluttet
+sipcallimpossible Du kan ikke lage en lydsamtale. Vennligst installere Farsight2 og prøv igjen.
+sipcallmissed Du har gått glipp av en lydsamtale fra $1
+sipcallnosipflag Brukeren støtter ikke lydsamtale
+sipcallsent Kontakter $1
+sipcallunsupported Du har mottatt en lydsamtale invitasjon som ikke ennå er støtte. Du trenger å kontakte tilbake med en ny invitasjon. Lydsamtalen vil så virke igjen.
+sipcallyouarebusy Du kan bare ha en lydsamtale av gangen.
+sipgotinvitation Mottatt lydsamtale invitasjon fra $1
 skinselector Velg utsendet
 skin Utseende
 small Liten
@@ -887,9 +886,9 @@ smilefile Filnavn for uttrykksikon
 smileintro2 Vennligst fyll ut de påkrevde felt for å endre dette uttrykksikonet (se OSS for hjelp)
 smileintro Vennligst fyll ut de påkrevde felt for å lage et nytt egendefinert uttrykksikon (se OSS for hjelp)
 smiletoobig Uttrykksikonet du valgte er større enn normal størrelse. Vil du nedskalere det?
-smileynotavailable Smiley not available!
+smileynotavailable Smilefjes er ikke tilgjengelig!
 snackfailed Lunne ikke laste Snack, går tilbake til standard
-snackneeded The Snack library is needed in order to use this feature. A minimal version of 2.2.9 is necessary.
+snackneeded Snack biblotek trengs for å kunne bruke denne funksjonen. En minimal versjon av 2.2.9 er nødvendig.
 snapshot Skjermbilde
 sngdblclick Enkeltklikk for å åpne et nytt meldingsvindu
 sortcontactsasc Sorter kontakter stigende
@@ -905,11 +904,11 @@ sound2 Spill av lyder når kontakter logger inn eller sender en melding
 soundactive Spill av en lyd når det kommer inn meldinger i aktive samtalevinduer
 soundcommand Dette er kommando for å spille av en lyd (eksempelvis: esdplay)
 sound Hendelseslyd
-soundexample ( \$sound = Sound file to be played) Eksempelvis: esdplay \$sound
+soundexample ( \$sound = Lydfil som skal spilles) Eksempelvis: esdplay \$sound
 soundfile Handlingslyd
 soundfiles Lydfiler
 soundloop lydloop
-soundnoavail The audio device is not available. Please stop any application using the sound device.
+soundnoavail The audio device is not available. Please stop any application bruk lydenhet.
 soundserver Lokal lydtjener 
 soundstatus lydalarm
 sourcecode Kildekode (krever kompilering og installasjon)
@@ -927,10 +926,10 @@ state Jeg vil ha status som
 statename Navn på den personlige (egendefinerte) statusen
 statenewtext Vennligst fyll inn den nødvendige informasjonen for å lage \n din nye personlige (egendefinerte) status og trykk lagre
 statenick Egendefinert kallenavn (la stå blank for å ikke gjøre endringer)
-statepsm Egendefinert Personlig Beskjed (la stå blank for å ikke gjøre endringer)
+statepsm Egendefinert personlig beskjed (la stå blank for å ikke gjøre endringer)
 stats Statistikker
 status Status
-step Step
+step steg
 stopalarm Stopp alarm
 stop Stopp
 stopwebcamreceive Slutt å motta kamera
@@ -983,7 +982,7 @@ unblock Ta bort blokkering
 unknown Ukjent
 unload Skru av
 unselectall Fravelg alt
-unavailablecountryserver The server for your country is temporarily unavailable. Try again later. You may also fix this issue by changing the country setting on your Passport account on http://www.passport.net.
+unavailablecountryserver Tjeneren for ditt land er midligtidig utilgjengelig. Prøv igjen senere. Du kan også fikse denne ved å endre land innstilling på din Passport konto på http://www.passport.net.
 uoffline Frakoblet
 uonline Tilkoblet
 updateonlycurrentlanguage Oppdater kun gjeldende språk?
@@ -1000,7 +999,7 @@ userdps Bruker visningsbilde
 usernotonline Brukeren er ikke logget på
 userproperties Egenskaper for bruker $1
 usersettings Innstillinger
-user E-post adresse
+user E-post
 useryourself Du kan ikke snakke med deg selv
 usesnack Bruk Snack-biblioteket (Tcl's innebygde)
 verifyblocked Se etter folk som blokkerer deg
@@ -1019,21 +1018,21 @@ webcamclosebefcancel Du må avslutte alle kamerasamtalene før du lukker vinduet
 webcamconfigure Konfigurer kamera
 webcamconfiguredMac Din kamera innstilling har blitt configurert
 webcamconfiguredWin Du valgte følgende kamera enhet : $1
-webcamconfiguredLinux You chose the following webcam settings:\nWebcam device: $1\nWebcam channel: $2
-webcamextchecking Checking if webcam extension is loaded ...
+webcamconfiguredLinux Du valgte følgende kamera innstillinger:\n kamera enhet: $1\nkamera kanal: $2
+webcamextchecking Sjekk hvis kamera utviselse er lastet...
 webcamextloaded Webcamsn-tillegg er lastet
 webcamextnotloaded Webcamsn-tillegg er ikke lastet. Du må kompilere det først.
-webcamextwarn You won't be able to view your contacts' webcams. You may find answers on how to install some extensions on our Wiki:
+webcamextwarn Du vil ikke bli tilgjengelig å vise din kontakt' sitt kamera. Du kan finne svar på hvordan du installerer noen utvidelser på vår Wiki:
 webcamfaq OSS/Hjelp for Kamera
 webcamhistory Vis kamera sesjon
 webcamhistory2 Se kamera-samtalen
 webcaminvite $1 inviterte deg til å starte en webkameraakt, men aMSN sttter ikke denne funksjonen.
 webcaminvitereceived $1 har invitert deg til å starte en kamera-samtale. Godtar du denne samtalen?
-webcaminvitereceivedauto $1 invited you to start a webcam session. This session is automatically accepted.
-webcaminvitereceiving You are invited to start viewing $1 's webcam. Do you want to accept this session?
-webcaminvitereceivingauto You are invited to start viewing $1 's webcam. This session is automatically accepted.
-webcaminvitesending $1 would like to view your webcam. Do you want to accept this session?
-webcaminvitesendingauto $1 would like to view your webcam. This session is automatically accepted.
+webcaminvitereceivedauto $1 har invitert deg å starte en kamera sesjon. Denne sesjonen er automatisk godtatt.
+webcaminvitereceiving Du har blitt invitert å starte vis $1 's kamera. Vil du godta denne sesjonen?
+webcaminvitereceivingauto Du har blit invitert å starte visning av $1 's sitt kamera. Denne sesjonen er automatisk godtatt.
+webcaminvitesending $1 vil vise ditt kamera. Vil du godta denne sesjonen?
+webcaminvitesendingauto $1 vil vise ditt kamera. Denne sesjonen blir automatisk godtatt.
 webcamrejected $1 avslo invitasjonen til en kamera-samtale
 webcamrequestreceive Sendte ønske om å aktivere kamera
 webcamrequestsend Sendte ønske om å aktivere kamera
@@ -1050,7 +1049,7 @@ xmmscurrent Vis gjeldende sangtittel
 xmmserr Ingenting blir spilt, eller så har du ikke installert xmms-infopipe.
 xmmssend  Send gjeldende sang
 xoffset X-koordinat
-xplaces $1 Places
+xplaces $1 Plasseringer
 year År
 yesblock Ja og blokker
 yesterday I går
