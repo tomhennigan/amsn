@@ -672,7 +672,7 @@ snit::type SIPConnection {
 		} else {
 			set uri [$self GetCallee $callid]
 		}
-		$self Send [lindex [$self BuildRequest ACK $uri [$self GetCallee $callid] $callid] 1]
+		$self Send [lindex [$self BuildRequest ACK $uri [$self GetCallee $callid] $callid 1] 1]
 	}
 
 	########################################
