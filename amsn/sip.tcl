@@ -1869,7 +1869,7 @@ snit::type SIPSocket {
 		}
 
 		set state "NONE"
-		fconfigure $sock -buffering none -translation {crlf binary}
+		fconfigure $sock -buffering none -translation {crlf binary} -blocking 0
 		fileevent $sock readable [list $self SocketReadable]
 
 		return 1
@@ -1899,18 +1899,15 @@ snit::type SIPSocket {
 		if {$state == "BODY" } {
 			set content_length [$options(-sipconnection) GetHeader $headers "Content-Length"]
 			status_log "Going to Read : $content_length"
-			set body ""
-			while { [string length $body] < $content_length } {
-				if { [catch {set line [gets $sock]} res]} {
-					status_log "SIPSocket: Reading Body got error $res"
-					$self Disconnect
-					return
-				}
-				append body "$line\r\n"
+			set body [nbread $sock $content_length]
+			if {$body == "" } {
+				status_log "SIPSocket: Error reading Body"
+				$self Disconnect
+				return
 			}
 			set done 1
 		} else {
-			if { [catch {gets $sock line} res]} {
+			if { [catch {nbgets $sock line} res]} {
 				status_log "SIPSocket: Reading line got error $res"
 				$self Disconnect
 				return
