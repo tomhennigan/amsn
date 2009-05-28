@@ -580,8 +580,8 @@ namespace eval ::Nudge {
 
 		set clientcaps [::abook::getContactData $email clientid]
 		set clientcaps [split $clientcaps ":"]
-		set clientid [lindex $clientid 0]
-		# set extra [lindex $clientid 1]
+		set clientid [lindex $clientcaps 0]
+		# set extra [lindex $clientcaps 1]
 
 		::Nudge::log "Clientid is $clientid"
 
