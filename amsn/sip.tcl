@@ -1869,7 +1869,7 @@ snit::type SIPSocket {
 		}
 
 		set state "NONE"
-		fconfigure $sock -buffering none -translation {crlf binary} -blocking 0
+		fconfigure $sock -buffering none -translation binary -blocking 0
 		fileevent $sock readable [list $self SocketReadable]
 
 		return 1
