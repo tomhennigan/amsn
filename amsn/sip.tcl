@@ -789,7 +789,7 @@ snit::type SIPConnection {
 			append msg "Record-Route: <sip:127.0.0.1:50930;transport=tcp>\r\n"
 		}
 		append msg "User-Agent: $options(-user_agent)\r\n"
-		if {$new_request == 1 } {
+		if {$new_request == 1 && [info exists call_contact($callid)] } {
 
 			if {[string first ">;" $call_contact($callid)] != -1} {
 				set idx [string first ">;" $call_contact($callid)]
