@@ -111,6 +111,7 @@ blocksounds Desabilitar som
 blockusers Número de usuários para marcar de uma vez
 bouncedock Alterar o ícone do aMSN quando receber uma mensagem
 brightness Brilho
+bringtofront Trazer para frente
 broughtby Desenvolvido para você pelos seguintes programadores
 browse Pesquisar
 browserexample (\$url será substituída pela URL). Ex: mozilla \$url
@@ -269,6 +270,7 @@ custshowcustomsmileys Mostrar emoticons personalizados
 cutimageboxreset Restaure o tamanho da caixa\nde seleção para:
 cutimagebox Selecione a parte da imagem que deseja usar, redimensionando e movendo a caixa de seleção
 cut Recortar
+cyclewindows Ciclar pelas Janelas
 date Data
 dateformat Alterar formato da data
 day Dia
@@ -554,6 +556,7 @@ maximised Maximizado
 medium Médio
 minimised Minimizado
 minimize Minimizar na bandeja do sistema
+minimizeplain Minimizar
 mins minutos
 mobile Celular
 mobilegrp1 Grupo Celular
