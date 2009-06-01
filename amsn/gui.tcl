@@ -5008,6 +5008,8 @@ proc cmsn_draw_main {} {
 	set modifier [GetPlatformModifier]
 	#Status log
 	bind . <$modifier-s> toggle_status
+	# Protocol log
+	bind . <$modifier-d> { degt_protocol_win_toggle }
 	#Console
 	bind . <$modifier-Shift-C> "load_console; console show"
 	#Quit
@@ -8811,7 +8813,6 @@ proc degt_protocol_win { } {
 
 	pack .degt.top .degt.mid .degt.follow .degt.bot -side top
 
-	bind . <Control-d> { degt_protocol_win_toggle }
 	wm protocol .degt WM_DELETE_WINDOW { degt_protocol_win_toggle }
 }
 
