@@ -15,7 +15,10 @@ addprofile Lägg till ny profil
 addprofiledesc Skriv in användarnamnet som du vill skapa en ny profil för. \nProfiler gör att du kan ha olika inställningar för varje användare som använder aMSN på datorn. \nUtan profiler kan du ej använda meddelandehistorik, larm eller spara lösenord.
 addstate Lägg till nytt statusläge
 addto Lägg till i $1
+addtoal Lägg till i AK
+addtobl Lägg till i BL
 addtocontacts Lägg till på kontaktlistan
+addtofl Lägg till i KL
 addtoo Lägg till denna person på kontaktlistan
 admincontacts Administrera kontakter
 admingroups Administrera grupper
@@ -36,7 +39,7 @@ allmonths Alla månader
 allow_sms Låt användare kontakta mig på min mobila enhet
 allowallbutbl Acceptera alla inkommande konversationsförfrågningar (bortsett från blockerade kontakter)
 allowbadwords Deaktivera censur på smeknamn
-allowlist Anförtrodda kontakter (AL):
+allowlist Anförtrodda kontakter (AK):
 allowonlyinal Acceptera endast inkommande konversationsförfrågningar från anförtrodda kontakter
 allowseen Tillåt denna person att se när jag är ansluten och kontakta mig
 allprofilesinuse Alla existerande profiler används för närvarande
@@ -108,6 +111,7 @@ blocksounds Stäng av ljud
 blockusers Antal kontakter som ska kontrolleras samtidigt
 bouncedock Studsa aMSNs ikon i docken när ett nytt meddelande har tagits emot
 brightness Ljusstyrka
+bringtofront Placera samtliga fönster i förgrunden
 broughtby Tack till dessa programmerare för att ha skapat aMSN
 browse Bläddra
 browser Webbläsare
@@ -119,6 +123,7 @@ bytesymbol b
 cachedpics $1 lagrade bilder
 cachedpicsfor Lagrade visningsbilder för användaren
 cagreement Konfidentialitetsöverenskommelse
+cam_in_cw Visa webbkamera-strömmar inbäddat i konversationsfönstret
 cancel Avbryt
 cancelled Avbruten
 cannotdeleteprofile Kan inte radera profilen eftersom den verkar användas av en aMSN-session
@@ -202,6 +207,7 @@ closingdocks Stängknappen minimerar programmet till systemfältet
 color Färg
 command Kommando
 commandstatus Kör kommando vid larm
+compactstyle Kompakt utseende
 configure Konfigurera
 configuremic Konfigurerar din mikrofon
 configureplugin Konfigurera plugin $1
@@ -227,8 +233,9 @@ connectionlost Ej ansluten: kunde inte kommunicera med servern
 contact Kontakt
 contactadded Har nu lagt till kontakten i kontaktlistan
 contactdoesnotexist Kunde inte finna kontakten, försök igen.
-contactlist Kontaktlista (FL):
+contactlist Kontaktlista (KL):
 contacts Kontakter
+contentroamingsetting Lagra visningsbilder på servern
 continuously Kontinuerligt
 contrast Kontrast
 conversationwith $1 användare i konversationen
@@ -263,6 +270,7 @@ custshowcustomsmileys Visa användarens personliga smileys.
 cut Klipp ut
 cutimagebox Välj vilken del av bilden du vill ha genom att flytta och byta storlek på markeringen
 cutimageboxreset Återställ markeringensstorlek\ntill:
+cyclewindows Byt mellan fönster
 date Datum
 dateformat Datumformat:
 day Dag
@@ -326,6 +334,7 @@ editprofile Redigera profil
 editstate Ändra det aktiva autosvarsmeddelandet
 editvalue Ändra värde
 email E-post
+emailnotverified (E-post adressen är inte verifierad än!)
 emailsinlist Visa e-postadresser istället för smeknamn i kontaktlistan
 emoticon_steal Lägg till i smileys
 emotisounds Spela upp ljud för vissa smileys
@@ -443,6 +452,7 @@ hidedisplaypic Dölj visningsbild
 hidemenu Visa/dölj menyer
 hidemenumessage Är du säker på att du vill dölja menyerna?\nDu kan återställa dem när du vill genom att trycka 'Ctrl-M'.
 hiden Dölj ikonen från smiley-menyn
+hideuserscw Dölj användare i detta konversationsfönster.
 hidewindow Dölj fönster
 history Visa historik
 history2 Historia
@@ -546,6 +556,7 @@ maximised Maximerad
 medium Mellan
 minimised Minimerad
 minimize Minimera till systemfältet
+minimizeplain Minimera
 mins minuter
 mobile Mobil
 mobilegrp1 Mobilgrupp
@@ -842,6 +853,7 @@ showonedpframe Visa endast en ruta för visningsbilder i konversationsfönster
 showpicnotify Visa användarnas bilder i meddelandefönstren
 showspaces Visa Spaces iconen i kontaktlistan
 showuserpic $1:s visningsbild
+showuserscw Det finns $1 användare i denna konversationen. Tryck här om du vill dölja eller visa dessa användare.
 signinstatus Status vid inloggning
 signout Logga ut
 signoutep Logga ut från $1
@@ -966,6 +978,7 @@ truncatenames2 Förkorta smeknamn längre än fönstrets bredd inuti konversationer
 truncatenicks Förkorta smeknamn längre än fönstrets bredd 
 twonewmail $1 nya meddelanden i inkorgen
 type Typ
+unavailablecountryserver Server för ditt land är tillfälligt inte tillgänglig. Försök igen senare. Du kan även lösa detta problemet genom att ändra inställningarna för ditt land i ditt Passport konto på http://www.passport.net.
 unblock Ta bort blockering
 unknown Okänd
 unload Deaktivera
