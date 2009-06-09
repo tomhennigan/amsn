@@ -498,6 +498,8 @@ snit::type SIPConnection {
 					}				
 				}
 			} elseif { [lindex $response 1] == "500"} {
+				# Stale CSeq, change it...
+				incr call_cseq($callid)
 				$self Bye $callid
 			}
 		} elseif {[$self GetCommand $headers] == "CANCEL"} {
