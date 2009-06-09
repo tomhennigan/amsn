@@ -35,7 +35,6 @@ snit::type SIPConnection {
 	variable reasons
 
 	variable state ""
-	variable cseqs
 	variable callid_handler
 	variable call_from
 	variable call_to
@@ -47,6 +46,7 @@ snit::type SIPConnection {
 	variable timeout_afterid
 	variable respond_reinvite ""
 	variable sip_instance "0E04CFC3-0272-5A5C-B7C3-6FBE8DA71EAD"
+	variable register_callid ""
 
 	constructor { args } {
 		install socket using SIPSocket %AUTO%
@@ -222,9 +222,7 @@ snit::type SIPConnection {
 			set call_contact($callid) $contact
 		}
 		
-		if {![info exists call_cseq($callid)] } {
-			set call_cseq($callid) [lindex [$self GetHeader $headers "CSeq"] 0]
-		}
+		set call_cseq($callid) [lindex [$self GetHeader $headers "CSeq"] 0]
 
 		if {$type == "status" } {
 			if { ![info exists callid_handler($callid)] } {
@@ -286,8 +284,12 @@ snit::type SIPConnection {
 		set auth "msmsgs:RPS_$options(-password)"
 		set auth [string map {"\n" "" } [base64::encode $auth]]
 
-		set request [$self BuildRequest REGISTER [lindex [split $options(-user) @] 1] $options(-user) ]
+		if {[info exists call_cseq($register_callid)] } {
+			incr call_cseq($register_callid)
+		}
+		set request [$self BuildRequest REGISTER [lindex [split $options(-user) @] 1] $options(-user) $register_callid]
 		set callid [lindex $request 0]
+		set register_callid $callid
 
 		set msg [lindex $request 1]
 		append msg "ms-keep-alive: UAC;hop-hop=yes\r\n"
@@ -348,9 +350,13 @@ snit::type SIPConnection {
 		set auth "$options(-user):$options(-password)"
 		set auth [string map {"\n" "" } [base64::encode $auth]]
 
-		set request [$self BuildRequest REGISTER [lindex [split $options(-user) @] 1] $options(-user) ]
+		if {[info exists call_cseq($register_callid)] } {
+			incr call_cseq($register_callid)
+		}
+		set request [$self BuildRequest REGISTER [lindex [split $options(-user) @] 1] $options(-user) $register_callid]
 		set callid [lindex $request 0]
-		
+		set register_callid $callid
+
 		set msg [lindex $request 1]
 		append msg "ms-keep-alive: UAC;hop-hop=yes\r\n"
 		append msg "Expires: 0\r\n"
@@ -508,6 +514,8 @@ snit::type SIPConnection {
 	method SendReInvite { callid {local_audio ""} {remote_audio ""} {local_video ""} {remote_video ""}} {
 		set content [$self BuildSDP $local_audio $remote_audio $local_video $remote_video]
 		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
+
+		incr call_cseq($callid)
 		set msg [lindex [$self BuildRequest INVITE $uri [$self GetCallee $callid] $callid 1] 1]
 		
 		$self Send $msg "application/sdp" $content
@@ -582,7 +590,6 @@ snit::type SIPConnection {
 				set local_video [lindex $options(-active_video_candidates) 0]
 				set remote_video [lindex $options(-active_video_candidates) 1]
 				set sdp [$self BuildSDP $local_audio $remote_audio $local_video $remote_audio]
-				incr call_cseq($callid)
 
 
 				set message [$self BuildResponse $callid INVITE 200]
@@ -608,9 +615,6 @@ snit::type SIPConnection {
 			set remote_video [lindex $options(-active_video_candidates) 1]
 			set sdp [$self BuildSDP $local_audio $remote_audio $local_video $remote_audio]
 			set callid $respond_reinvite
-
-			incr call_cseq($callid)
-
 
 			set message [$self BuildResponse $callid INVITE 200]
 			$self Send $message "application/sdp" $sdp
@@ -707,6 +711,7 @@ snit::type SIPConnection {
 
 		set uri [string range $call_route($callid) [expr {[string first "<sip:" $call_route($callid)] + 5}] [expr {[string first ">" $call_route($callid)] - 1}]]
 
+		incr call_cseq($callid)
 		set msg [lindex [$self BuildRequest BYE $uri [$self GetCallee $callid] $callid 1] 1]
 		
 		$self Send $msg
@@ -727,37 +732,23 @@ snit::type SIPConnection {
 
 		set sockname [$socket GetInfo]
 
-		if {$new_request} {
-			# TODO: this is BS, fix it correctly!
-			if { ![info exists cseqs($request)] } {
-				set cseqs($request) 3
-			} else {
-				incr cseqs($request)
-			}
-			set cseq $cseqs($request)
-		} else {
-			if { ![info exists cseqs($request)] } {
-				set cseqs($request) 1
-			} else {
-				incr cseqs($request)
-			}
 
-			if {$callid == "" } {
-				set callid [$self GenerateCallID]
-				set call_cseq($callid) $cseqs($request)
-				if {$request == "REGISTER" } {
-					set name ""
-				} else {
-					set name "\"0\" "
-				}
-				if { $options(-tunneled) } {
-					set call_from($callid) "<sip:$options(-user);mepid=[$self GetMepid]>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
-				} else {
-					set call_from($callid) "$name<sip:$options(-user)>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
-				}
-				set call_to($callid) "<sip:$to>"
+		if {$callid == "" } {
+			set callid [$self GenerateCallID]
+			if {$request == "REGISTER" } {
+				set name ""
+			} else {
+				set name "\"0\" "
 			}
-			set cseq $call_cseq($callid)
+			if { $options(-tunneled) } {
+				set call_from($callid) "<sip:$options(-user);mepid=[$self GetMepid]>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
+			} else {
+				set call_from($callid) "$name<sip:$options(-user)>;tag=[$self GenerateTag];epid=[$self GenerateEpid]"
+			}
+			set call_to($callid) "<sip:$to>"
+		}
+		if {![info exists call_cseq($callid)] } {
+			set call_cseq($callid) 1
 		}
 
 		set msg "$request sip:$uri SIP/2.0\r\n"
@@ -774,7 +765,7 @@ snit::type SIPConnection {
 			append msg "t: $call_to($callid)\r\n"
 		}
 		append msg "i: $callid\r\n"
-		append msg "CSeq: $cseq $request\r\n"
+		append msg "CSeq: $call_cseq($callid) $request\r\n"
 		if {$request == "REGISTER"} {
 			append msg "m: <sip:[lindex $sockname 0]:[lindex $sockname 2];"
 			append msg "transport=[$socket cget -transport]>;proxy=replace\r\n"
