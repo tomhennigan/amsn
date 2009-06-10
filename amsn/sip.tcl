@@ -965,7 +965,7 @@ snit::type SIPConnection {
 		}
 
 		if {$media == "audio" } {
-			set sdp "v=0\n"
+			set sdp "v=0\r\n"
 			append sdp "o=- 0 0 IN IP4 $default_ip\r\n"
 			append sdp "s=session\r\n"
 			append sdp "b=CT:99980\r\n"
