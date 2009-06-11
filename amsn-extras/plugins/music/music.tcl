@@ -253,6 +253,7 @@ namespace eval ::music {
 					"Amarok2" [list GetSongAmarok2 TreatSongAmarok2 FillFrameComplete] \
 					"Audacious" [list GetSongAudacious TreatSongAudacious FillFrameLess] \
 					"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+					"Decibel" [list GetSongDecibel FillFrameLess] \
 					"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 					"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 					"Juk-KDE4" [list GetSongJuk2 TreatSongJuk2 FillFrameLess] \
@@ -1668,5 +1669,28 @@ namespace eval ::music {
 		}
 
 		return [list $song $art ""]
+	}
+
+	proc GetSongDecibel {} {
+		if { [catch {open ~/.config/decibel-audio-player/now-playing.txt "r"} file_]} {
+			plugins_log music "\nerror: $file_\n"
+			return 0
+		}
+		set Title ""
+		set Artist ""
+		set File ""
+		set textline ""
+		gets $file_ nowplaying
+		if {[eof $file_] && $nowplaying == ""} {
+			return 0
+		}
+		gets $file_ by
+
+		set Title [ string map {"Now playing " ""} $nowplaying]
+		set Artist [ string map {"by " ""} $by]
+		close $file_
+		
+		return [list $Title $Artist "" "" ""]
+
 	}
 }
