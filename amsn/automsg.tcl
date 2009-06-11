@@ -489,7 +489,8 @@ proc EditNewState { mode { idx "" } } {
 						[trans onphone] \
 						[trans busy] \
 						[trans away] \
-						[trans gonelunch]]
+						[trans gonelunch] \
+						[trans appearoff]]
 
 	# select online in combobox by default
 	$lfname.statebox select 0
