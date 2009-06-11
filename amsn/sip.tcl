@@ -460,6 +460,8 @@ snit::type SIPConnection {
 						bgerror $result
 					}
 				}
+			} elseif {$status == "488" && [lindex [$self GetHeader $headers "CSeq"] 0] == "2" } {
+				# Ignore not acceptable here if it's as an answer to a reinvite
 			} elseif {$status == "603" } {
 				if {$callbk != "" } {
 					if {[catch {eval [linsert $callbk end $callid DECLINED ""]} result]} {
