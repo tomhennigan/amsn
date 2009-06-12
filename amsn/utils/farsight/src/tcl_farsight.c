@@ -685,7 +685,7 @@ static GstElement * _create_audio_source ()
     if (element == NULL)
       continue;
 
-    _notify_debug ("Using audio_source %s", *test_source);
+    _notify_debug ("Using audio_source %s", GST_PLUGIN_FEATURE_NAME(factory));
     src = element;
     break;
   }
