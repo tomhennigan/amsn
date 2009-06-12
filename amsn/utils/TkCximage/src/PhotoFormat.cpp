@@ -387,9 +387,10 @@ void AnimateGif(ClientData data) {
 			if(Info->CurrentFrame >= Info->NumFrames || Info->image->GetFrame(Info->CurrentFrame) == NULL)
 				Info->CurrentFrame = 0;
 			CxImage *image = Info->image->GetFrame(Info->CurrentFrame);
-			Tk_ImageChanged(Info->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
-		
-			Info->timerToken = NULL;
+			if (image) {
+			  Tk_ImageChanged(Info->ImageMaster, 0, 0, image->GetWidth(), image->GetHeight(), image->GetWidth(), image->GetHeight());
+			  Info->timerToken = NULL;
+			}
 		} else {
 			LOG("Image destroyed, deleting... Image Master was : ");
 			APPENDLOG( master );
