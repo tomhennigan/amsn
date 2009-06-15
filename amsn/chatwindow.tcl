@@ -2493,7 +2493,6 @@ namespace eval ::ChatWindow {
 		package require voipcontrols
 		status_log "Creating CW Voip controls"
 
-		#TODO: new skin key for endcallimage
 		voipcontrol $frame_in -orient vertical \
 			-bg [::skin::getKey chatwindowbg]\
 			-endcallimage [::skin::loadPixmap buthangup] \
@@ -3783,7 +3782,7 @@ namespace eval ::ChatWindow {
 
 
 		bind $tab <Enter> "::ChatWindow::TabEntered $tab $win"
-		bind $tab <Leave> "::ChatWindow::TabLeft $tab"
+		bind $tab <Leave> "::ChatWindow::TabLeft $tab $win"
 		bind $tab <<Button2>> "::ChatWindow::CloseTab $tab"
 		$tab bind tab_close <ButtonRelease-1> [list after 0 "::ChatWindow::CloseTab $tab"]
 		$tab bind tab_bg <ButtonRelease-1> "::ChatWindow::SwitchToTab $container $win"
@@ -3866,10 +3865,11 @@ namespace eval ::ChatWindow {
 	proc TabEntered { tab win } {
 		after cancel "::ChatWindow::FlickerTab $win"; 
 		ConfigureTab $tab "tab_hover"
-	#TODO	$tab itemconfigure tab_text -fill [::skin::getKey tabfg_hover]
+		set chatid [::ChatWindow::Name $win]
+		NameTabButton $win $chatid 1
 	}
 	
-	proc TabLeft {tab } {
+	proc TabLeft {tab win} {
 		if { [info exists ::ChatWindow::oldpixmap($tab)] } { 
 			set image [set ::ChatWindow::oldpixmap($tab)]
 		} else {
@@ -3882,17 +3882,15 @@ namespace eval ::ChatWindow {
 		}
 		
 		ConfigureTab $tab $image
-	#TODO	$tab itemconfigure tab_text -fill [::skin::getKey tabfg]
+		set chatid [::ChatWindow::Name $win]
+		NameTabButton $win $chatid 0
 	 }
 
 	#///////////////////////////////////////////////////////////////////////////////////
 	# NameTabButton $win $chatid
 	# This proc changes the name of the tab
-	proc NameTabButton { win chatid } {
+	proc NameTabButton { win chatid {hovered 0}} {
 		variable win2tab
-	#	variable containerwindows
-		
-		set container [GetContainerFromWindow $win]
 		
 
 		set tab_width [TabsWidth]
@@ -3911,7 +3909,14 @@ namespace eval ::ChatWindow {
 		
 		$tabvar dchars tab_text 0 end
 		$tabvar delete tab_text
-		set style [list [list space 10] [list margin 0 8]]
+		if {$hovered} {
+			set tabfg [::skin::getKey tabfg_hover]
+		} else {
+			set tabfg [::skin::getKey tabfg]
+		}
+
+		set style [list [list space 10] [list margin 0 8] \
+			       [list default $tabfg splainf] [list colour reset]]
 		
 		if { $users == "" || [llength $users] == 1} {
 			set nick [::abook::getDisplayNick $chatid 1]
