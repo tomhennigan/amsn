@@ -2509,7 +2509,7 @@ proc Preferences { { settings "personal"} } {
 	pack $path.2.delimiters $path.2.ldelimiter $path.2.example $path.2.rdelimiter -side left
 
 	$nb.nn compute_size
-	$lfname.sw.sf compute_width
+	$lfname.sw.sf compute_size
 	
 	
 	#  .---------.
