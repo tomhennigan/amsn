@@ -2495,7 +2495,7 @@ namespace eval ::ChatWindow {
 
 		voipcontrol $frame_in -orient vertical \
 			-bg [::skin::getKey chatwindowbg]\
-			-endcallimage [::skin::loadPixmap buthangup] \
+			-endcallimage [::skin::loadPixmap buthangup_mini] \
 			-endcallstate disabled \
 			-mutedimage [::skin::loadPixmap mic_muted] \
 			-unmutedimage [::skin::loadPixmap mic] \
@@ -2510,7 +2510,7 @@ namespace eval ::ChatWindow {
 		}
 		voipcontrol $frame_out -orient $orient \
 			-bg [::skin::getKey chatwindowbg]\
-			-endcallimage [::skin::loadPixmap buthangup] \
+			-endcallimage [::skin::loadPixmap buthangup_mini] \
 			-endcallstate disabled \
 			-mutedimage [::skin::loadPixmap speaker_muted] \
 			-unmutedimage [::skin::loadPixmap speaker] \
