@@ -220,9 +220,9 @@ snit::widget voipmixer {
 		set val [expr {double([set ::$options(-variable)]) - double($options(-volumefrom))}]
 		set val [expr {$val / (double($options(-volumeto)) - double($options(-volumefrom)))}]
 		if { $options(-orient) == "vertical" } {
-			place ${win}.select -relx 0 -rely [expr {1-[set ::$options(-variable)]}] -relwidth 1 -height $options(-selectsize)
+			place ${win}.select -relx 0 -rely ${val} -relwidth 1 -height $options(-selectsize)
 		} else {
-			place ${win}.select -rely 0 -relx [set ::$options(-variable)] -relheight 1 -width $options(-selectsize)
+			place ${win}.select -rely 0 -relx ${val} -relheight 1 -width $options(-selectsize)
 		}
 
 		bind ${win}.select <B1-Motion> "$self Motion"
@@ -353,9 +353,9 @@ snit::widget voipmixer {
 		}
 
 		if { $options(-orient) == "vertical" } {
-			place configure ${win}.select -rely $rel
+			place configure ${win}.select -rely ${rel}
 		} else {
-			place configure ${win}.select -relx $rel
+			place configure ${win}.select -relx ${rel}
 		}
 
 		if {[info exists ::$options(-variable)]} {
