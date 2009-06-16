@@ -3984,8 +3984,8 @@ namespace eval ::MSNOIM {
 				bgerror $result
 			}
 		} else {
-			$soap destroy
 			status_log "error deleting OIMS : [$soap GetResponse]" red
+			$soap destroy
 			if {[catch {eval $callbk [list 0]} result]} {
 				bgerror $result
 			}
