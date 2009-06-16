@@ -3693,7 +3693,6 @@ namespace eval ::MSN {
 		set soap [SOAPRequest create %AUTO% -url "http://config.messenger.msn.com/Config/MsgrConfig.asmx" -action "http://www.msn.com/webservices/Messenger/Client/GetClientConfig" -xml [::MSN::getClientConfigXml]]
 		$soap SendSOAPRequest
 		if {[$soap GetStatus] == "success" } {
-			#Under some odd conditions, we might receive the same OIM twice, and this will try to delete it twice. The following line bugged - would just catching it make sense? An [info exists] looks funny in this context
 			set ret [$soap GetResponse]
 		} else {
 			set ret [$soap GetLastError]
