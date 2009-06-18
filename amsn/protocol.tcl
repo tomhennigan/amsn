@@ -915,11 +915,7 @@ namespace eval ::MSN {
 			::config::setKey protocol 15
 		}
 
-		if {[config::getKey protocol] >= 18} {
-			::MSN::setClientCap msnc10
-		} else {
-			::MSN::setClientCap msnc7
-		}
+		::MSN::setClientCap msnc10
 		::MSN::setClientCap inkgif
 		::MSN::setClientCap multip
 		::MSN::setClientCap voice
@@ -1584,6 +1580,8 @@ namespace eval ::MSN {
 
 		return [list $flag $extra]
 	}
+
+
 	proc setClientCap { cap { switch 1 } } {
 		set clientid [::config::getKey clientid 0]
 		set clientid [split $clientid ":"]
@@ -1607,10 +1605,9 @@ namespace eval ::MSN {
 			set clientid [expr {$clientid & (0xFFFFFFFF ^ $flag)} ]
 			set extra [expr {$extra & (0xFFFFFFFF ^ $extra_flag)} ]
 		}
-		::config::setKey clientid $clientid
-		if {[config::getKey protocol] >= 18} {
-			::config::setKey clientid "$clientid:$extra"
-		}
+
+		::config::setKey clientid "$clientid:$extra"
+
 		return "$clientid:$extra"
 		
 	}
@@ -1627,11 +1624,7 @@ namespace eval ::MSN {
 		set extra_flag [lindex $flags 1]
 
 		if {$cap == "p2paware"} {
-			if {($clientid & $flag) != 0} {
-				return 1
-			} else {
-				return 0
-			}
+			return [expr {[clientCapsVersion $clientid] > 0}]
 		}
 		if {$cap == "p2pv2" } {
 			if {[llength [split $clientcaps ":"]] > 1} {
@@ -1655,6 +1648,15 @@ namespace eval ::MSN {
 			}
 		}
 		
+	}
+
+	proc clientCapsVersion { clientid } {
+		set clientid [split $clientid ":"]
+		set extra [lindex $clientid 1]
+		set clientid [lindex $clientid 0]
+		if {$clientid == "" } {set clientid 0}
+		if {$extra == "" } { set extra 0}
+		return [expr {($clientid & 0xF0000000) >> 28}]
 	}
 
 	proc myStatusIs {} {
@@ -7836,27 +7838,26 @@ proc add_Clientid {chatid clientid} {
 	::abook::setContactData $chatid clientid $clientid
 
 	##Find out how the client-program is called
-	# We must start with the newer versions since the msnc10 capability will
-	# also succeed with msnc2 check for example
-	if {[::MSN::hasCapability $clientid msnc10] } {
+	set version [::MSN::clientCapsVersion $clientid]
+	if {$version == 10} {
 		set clientname "Windows Live Messenger 2009"
-	} elseif {[::MSN::hasCapability $clientid msnc9] } {
+	} elseif {$version == 9} {
 		set clientname "Windows Live Messenger 9 beta"
-	} elseif {[::MSN::hasCapability $clientid msnc8] } {
+	} elseif {$version == 8} {
 		set clientname "Windows Live Messenger 8.5"
-	} elseif {[::MSN::hasCapability $clientid msnc7] } {
+	} elseif {$version == 7} {
 		set clientname "Windows Live Messenger 8.1"
-	} elseif {[::MSN::hasCapability $clientid msnc6] } {
+	} elseif {$version == 6} {
 		set clientname "Windows Live Messenger 8.0"
-	} elseif {[::MSN::hasCapability $clientid msnc5] } {
+	} elseif {$version == 5} {
 		set clientname "MSN 7.5"
-	} elseif {[::MSN::hasCapability $clientid msnc4] } {
+	} elseif {$version == 4} {
 		set clientname "MSN 7.0"
-	} elseif {[::MSN::hasCapability $clientid msnc3] } {
+	} elseif {$version == 3} {
 		set clientname "MSN 6.2"
-	} elseif {[::MSN::hasCapability $clientid msnc2] } {
+	} elseif {$version == 2} {
 		set clientname "MSN 6.1"
-	} elseif {[::MSN::hasCapability $clientid msnc1] } {
+	} elseif {$version == 1} {
 		set clientname "MSN 6.0"
 	} elseif {[::MSN::hasCapability $clientid webmsn] } {
 		set clientname "Webmessenger"
