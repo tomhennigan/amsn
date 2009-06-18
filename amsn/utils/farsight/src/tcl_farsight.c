@@ -32,8 +32,9 @@
 #endif
 
 #define OLD_AUDIO_CALL "A6"
+#define OLD_AUDIO_VIDEO_CALL "AV6"
 #define NEW_AUDIO_CALL "A19"
-#define NEW_AUDIO_VIDEO_CALL "AV"
+#define NEW_AUDIO_VIDEO_CALL "AV19"
 
 typedef enum {
   RTP_AUDIO = 1,
@@ -42,6 +43,7 @@ typedef enum {
   RTP_ICE19 = 8,
   RTP_AUDIO_ICE6 = (RTP_AUDIO | RTP_ICE6),
   RTP_AUDIO_ICE19 = (RTP_AUDIO | RTP_ICE19),
+  RTP_AUDIO_VIDEO_ICE6 = (RTP_AUDIO | RTP_VIDEO | RTP_ICE6),
   RTP_AUDIO_VIDEO_ICE19 = (RTP_AUDIO | RTP_VIDEO | RTP_ICE19),
 } FsCallType;
 
@@ -1893,8 +1895,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     Tcl_WrongNumArgs (interp, 1, objv, " callback controlling mode ?relay_info?"
         " ?stun_ip stun_port?\n"
         "Where mode can be either : "
-        OLD_AUDIO_CALL ", " NEW_AUDIO_CALL " or "
-        NEW_AUDIO_VIDEO_CALL "\n"
+        OLD_AUDIO_CALL ", " OLD_AUDIO_VIDEO_CALL ", "
+        NEW_AUDIO_CALL " or " NEW_AUDIO_VIDEO_CALL "\n"
         "Where relay_info is a list with each element being a list containing : "
         "{turn_hostname turn_port turn_username turn_password component type}");
     return TCL_ERROR;
@@ -1907,6 +1909,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   mode = Tcl_GetStringFromObj (objv[3], NULL);
   if (strcmp (mode, OLD_AUDIO_CALL) == 0) {
     call_type = RTP_AUDIO_ICE6;
+  } else if (strcmp (mode, OLD_AUDIO_VIDEO_CALL) == 0) {
+    call_type = RTP_AUDIO_VIDEO_ICE6;
   } else if (strcmp (mode, NEW_AUDIO_CALL) == 0) {
     call_type = RTP_AUDIO_ICE19;
   } else if (strcmp (mode, NEW_AUDIO_VIDEO_CALL) == 0) {
