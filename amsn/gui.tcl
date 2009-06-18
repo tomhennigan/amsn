@@ -2140,19 +2140,34 @@ namespace eval ::amsn {
 		#if { ([::config::getKey notifymsg] == 1) && ([string first ${win_name} [focus]] != 0)} {
 		#	notifyAdd "[trans says $nickt]:\n$msg" "::amsn::chatUser $chatid"
 		#}
+		set fontformat [list $fontfamily $style $fontcolor]
+
 		set tmsg "[trans says $nickt]:\n$msg"
 
-		set win_name [::ChatWindow::MakeFor $chatid $tmsg $user]
+		#Postevent for pre_msg_receive
+		set evPar(chatid) chatid
+		set evPar(user) user
+		set evPar(nick) nick
+		set evPar(msg) msg
+		set evPar(type) type
+		set evPar(fontformat) fontformat
+		set evPar(p4c) p4c
+		set evPar(tmsg) tmsg
+		::plugins::PostEvent pre_msg_receive evPar
 
-		if { $remote_auth == 1 } {
-			if { "$user" != "$chatid" } {
-				write_remote "To $chatid : $msg" msgsent
-			} else {
-				write_remote "From $chatid : $msg" msgrcv
+		if {$msg != "" || $tmsg != ""} {
+			set win_name [::ChatWindow::MakeFor $chatid $tmsg $user]
+
+			if { $remote_auth == 1 } {
+				if { "$user" != "$chatid" } {
+					write_remote "To $chatid : $msg" msgsent
+				} else {
+					write_remote "From $chatid : $msg" msgrcv
+				}
 			}
-		}
 
-		PutMessage $chatid $user $nick $msg $type [list $fontfamily $style $fontcolor] $p4c
+			PutMessage $chatid $user $nick $msg $type $fontformat $p4c
+		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 

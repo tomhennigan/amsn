@@ -2835,10 +2835,16 @@ namespace eval ::MSN {
 	#seconds.
 	proc addSBTyper { sb typer } {
 
+		set chatid [::MSN::ChatFor $sb]
+
 		set idx [$sb search -typers $typer]
 		if {$idx == -1} {
 			#Add if not already typing
 			$sb addTyper $typer
+
+			set evPar(typer) typer
+			set evPar(chatid) chatid
+			::plugins::PostEvent add_typer evPar
 		}
 
 		#Cancel last DelSBTyper timer
@@ -2847,7 +2853,6 @@ namespace eval ::MSN {
 		after 6000 [list ::MSN::DelSBTyper $sb $typer]
 
 		#TODO: Call CHAT layer instead of GUI layer
-		set chatid [::MSN::ChatFor $sb]
 		if { $chatid != "" } {
 			if {[::ChatWindow::For $chatid] == 0} {
 				#Chat window not yet created so we make it and signal to the user that a contact has joined the convo
@@ -2863,10 +2868,16 @@ namespace eval ::MSN {
 	proc DelSBTyper {sb typer} {
 		after cancel [list ::MSN::DelSBTyper $sb $typer]
 		catch {
+			set chatid [::MSN::ChatFor $sb]
+
 			set idx [$sb search -typers $typer]
 			$sb delTyper $idx
+
+			set evPar(typer) typer
+			set evPar(chatid) chatid
+			::plugins::PostEvent remove_typer evPar
+
 			#TODO: Call CHAT layer instead of GUI layer
-			set chatid [::MSN::ChatFor $sb]
 			if { $chatid != "" } {
 				::amsn::updateTypers $chatid
 			}
@@ -6623,7 +6634,11 @@ proc cmsn_ns_handler {item {message ""}} {
 					if {$subxml == "" } {
 						break
 					}
-					status_log "Found new censored regexp : [base64::decode [GetXmlAttribute $subxml imtext value]]"
+					set censored_word [base64::decode [GetXmlAttribute $subxml imtext value]]
+					status_log "Found new censored regexp : $censored_word"
+
+					set evPar(regex) $censored_word
+					::plugins::PostEvent new_censored_regexp evPar
 				}
 			}
 			return 0
