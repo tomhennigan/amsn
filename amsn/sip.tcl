@@ -385,8 +385,9 @@ snit::type SIPConnection {
 		set msg [lindex $request 1]
 
 		if {[info exists ::crash_wlm] && $::crash_wlm } {
-			append msg "Ms-Conversation-ID: f=0\r\n"
-		} elseif { $options(-tunneled) } {
+			append msg "Ms-Conversation-ID: f=12345\r\n"
+		} elseif { $options(-local_video_codecs) != "" &&
+			   $options(-local_video_candidates) != "" } {
 			append msg "Ms-Conversation-ID: f=1\r\n"
 		} else {
 			append msg "Ms-Conversation-ID: f=0\r\n"
