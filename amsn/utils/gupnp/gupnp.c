@@ -133,12 +133,12 @@ int Gupnp_New _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   if (igd == NULL) {
     Tcl_AppendResult (interp, "Error creating the upnp object", (char *) NULL);
-    return TCL_ERROR;    
+    return TCL_ERROR;
   }
 
   g_signal_connect (igd, "mapped-external-port",
             G_CALLBACK (_upnp_mapped_external_port), interp);
-  
+
   hPtr = Tcl_CreateHashEntry(_igds, name, &newHash);
   Tcl_SetHashValue(hPtr, (ClientData) igd);
 
