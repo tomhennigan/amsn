@@ -246,8 +246,23 @@ snit::type SIPConnection {
 				if {[$self GetCommand $headers] == "INVITE" } {
 					$self SendTrying $callid
 					$self ParseSDP $body
+					if {$options(-ice) == 6} {
+						if {$options(-remote_video_codecs) != "" &&
+						    $options(-remote_video_candidates) != "" } {
+							set mode "AV6"
+						} else {
+							set mode "A6"
+						}
+					} else {
+						if {$options(-remote_video_codecs) != "" &&
+						    $options(-remote_video_candidates) != "" } {
+							set mode "AV19"
+						} else {
+							set mode "A19"
+						}
+					}
 					set callid_handler($callid) [list $self InviteRequestHandler $callid]
-					eval [linsert $options(-request_handler) end $callid INVITE ""]
+					eval [linsert $options(-request_handler) end $callid INVITE $mode]
 				} else {
 					status_log "SIP ERROR: Received non-INVITE Request" red
 					if {$options(-error_handler) != "" } {
@@ -2089,7 +2104,7 @@ snit::type Farsight {
 		set audio_remote_candidates [list]
 		foreach candidate $candidates {
 			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
-			if {$call_type == "A6" } {
+			if {$call_type == "A6" || $call_type == "AV6" } {
 				if {[info exists ::farsight_test_turn] &&
 				    $::farsight_test_turn &&
 				    $priority >= "0.5" } {continue}
@@ -2127,7 +2142,7 @@ snit::type Farsight {
 		set video_remote_candidates [list]
 		foreach candidate $candidates {
 			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
-			if {$call_type == "A6" } {
+			if {$call_type == "A6" || $call_type == "AV6"  } {
 				if {[info exists ::farsight_test_turn] &&
 				    $::farsight_test_turn &&
 				    $priority >= "0.5" } {continue}
@@ -2221,6 +2236,14 @@ snit::type Farsight {
 		return [::Farsight::InUse]
 	}
 
+	method IsVideo { } {
+		if {$call_type == "AV6" || $call_type == "AV19" } {
+			return 1
+		} else {
+			return 0
+		}
+	}
+
 	method Test { } {
 		if {[catch {$self Prepare 1 } res] } {
 			if {$specialLogger != ""} {
@@ -2271,7 +2294,7 @@ snit::type Farsight {
 
 		::Farsight::Config -video-source-pipeline {videotestsrc is-live=true ! video/x-raw-yuv,width=352,height=288 ! ffmpegcolorspace ! tee name="t" t. ! autovideosink t. ! identity} -level "" -debug [list $self Debug]
 
-		if {$mode == "AV" } {
+		if {$mode == "AV6" || $mode == "AV19" } {
 			::MSN::setClientCap webcam
 			if {[::MSN::myStatusIs] != "FLN" } {
 				::MSN::changeStatus [::MSN::myStatusIs]
@@ -2314,7 +2337,7 @@ snit::type Farsight {
 		if {$loaded} {
 			status_log "Farsight starting : $audio_remote_codecs - $audio_remote_candidates -- $video_remote_codecs - $video_remote_candidates"
 
-			if {$call_type == "AV" } {
+			if {$call_type == "AV6" || $call_type == "AV19" } {
 				if {[catch {::Farsight::Start $audio_remote_codecs $audio_remote_candidates $video_remote_codecs $video_remote_candidates} res] } {
 					status_log "Farsight::Start Error : $res"
 					$self Closed
@@ -2370,7 +2393,7 @@ snit::type Farsight {
 			}
 			status_log "Farsight : Farsight audio is now prepared!\nlocal codecs : $audio_local_codecs\nlocal candidates : $audio_local_candidates"
 
-			if {$call_type != "AV" || $video_local_candidates != [list] } {
+			if {($call_type == "A6" || $call_type == "A19") || $video_local_candidates != [list] } {
 				if {$options(-prepared) != "" } {
 					if {[catch {eval $options(-prepared)} result]} {
 						bgerror $result
@@ -2558,7 +2581,7 @@ namespace eval ::MSNSIP {
 		$sip Register
 	}
 
-	proc InviteUser { email } {
+	proc InviteUser { email video} {
 		variable sipconnections
 
 		status_log "MSNSIP : Inviting user $email to a SIP call"
@@ -2573,22 +2596,30 @@ namespace eval ::MSNSIP {
 			set sip [SIPConnection create %AUTO% -user [::config::getKey login] -tunneled 1 -socket $sock -ice 19]
 			$sip configure -error_handler [list ::MSNSIP::errorSIP $sip] -request_handler [list ::MSNSIP::requestSIP $sip]
 			lappend sipconnections $sip
-			InviteUserCB $email $sip
+			InviteUserCB $email $video $sip
 		} else {
-			createSIP [list ::MSNSIP::InviteUserCB $email]
+			createSIP [list ::MSNSIP::InviteUserCB $email $video]
 		}
 	}
 
-	proc InviteUserCB { email sip } {
+	proc InviteUserCB { email video sip } {
 		$::farsight configure -sipconnection $sip \
-		    -prepared [list ::MSNSIP::invitePrepared $sip $email] \
-		    -closed  [list ::MSNSIP::inviteClosed $sip $email "" -1] \
+		    -prepared [list ::MSNSIP::invitePrepared $sip $video $email] \
+		    -closed  [list ::MSNSIP::inviteClosed $sip $video $email "" -1] \
 		    -active ""
 		
 		if {[$sip cget -ice] == 19} {
-			set mode "AV"
+			if {$video} {
+				set mode "AV19"
+			} else {
+				set mode "A19"
+			}
 		} else {
-			set mode "A6"
+			if {$video} {
+				set mode "AV6"
+			} else {
+				set mode "A6"
+			}
 		}
 		if {[catch {$::farsight Prepare 1 $mode} err] } {
 			status_log "Call is impossible : $err"
@@ -2601,7 +2632,8 @@ namespace eval ::MSNSIP {
 			return $sip
 		}
 	}
-	proc invitePrepared { sip email } {
+
+	proc invitePrepared { sip video email } {
 		$sip configure -local_audio_candidates [$::farsight GetLocalAudioCandidates]
 		$sip configure -local_audio_codecs [$::farsight GetLocalAudioCodecs] 
 		$sip configure -local_video_candidates [$::farsight GetLocalVideoCandidates]
@@ -2609,7 +2641,7 @@ namespace eval ::MSNSIP {
 		set callid [$sip Invite $email [list ::MSNSIP::inviteSIPCB $sip $email]]
 
 		$::farsight configure \
-		    -closed [list ::MSNSIP::inviteClosed $sip $email $callid 0] \
+		    -closed [list ::MSNSIP::inviteClosed $sip $video $email $callid 0] \
 		    -active [list ::MSNSIP::activeCandidates $email $sip $callid 1]
 
 		# Signal the UI
@@ -2617,18 +2649,18 @@ namespace eval ::MSNSIP {
 	}
 
 
-	proc inviteClosed { sip email callid {started 0}} {
+	proc inviteClosed { sip video email callid {started 0}} {
 		status_log "MSNSIP : InviteClosed $sip $email $callid $started"
 		if {$started == 1} {
 			$sip Bye $callid
 
 			# Signal the UI
-			::amsn::SIPCallEnded $email $sip $callid
+			::amsn::SIPCallEnded $video $email $sip $callid
 		} elseif {$started == 0 } {
 			$sip Cancel $callid
 			
 			# Signal the UI
-			::amsn::SIPCallEnded $email $sip $callid
+			::amsn::SIPCallEnded $video $email $sip $callid
 		} else {
 			# Signal the UI
 			::amsn::SIPCallImpossible $email
@@ -2655,9 +2687,7 @@ namespace eval ::MSNSIP {
 			$sip configure -active_video_candidates [list $local $remote]
 		}
 
-		if {$send && [$sip cget -ice] == 6} {
-			$sip SendReInvite $callid $local $remote
-		} elseif {$send &&
+		if {$send &&
 			  [$sip cget -active_audio_candidates] != "" &&
 			  ([$sip cget -local_video_candidates] == "" ||
 			   [$sip cget -active_video_candidates] != "")} {
@@ -2669,7 +2699,7 @@ namespace eval ::MSNSIP {
 			$sip SendReInvite $callid $local_audio $remote_audio $local_video $remote_video
 		}
 
-		::amsn::SIPCallConnected $email $sip $callid
+		::amsn::SIPCallConnected [$::farsight IsVideo] $email $sip $callid
 		::Farsight::Config -level [list ::MSNSIP::Level $email $sip $callid]
 	}
 
@@ -2689,9 +2719,9 @@ namespace eval ::MSNSIP {
 		status_log "MSNSIP : inviteSIPCB : $sip $email $callid $status $detail" green
 		if { $status == "OK" } {
 			# Signal the UI
-			::amsn::SIPCalleeAccepted $email $sip $callid
+			::amsn::SIPCalleeAccepted [$::farsight IsVideo] $email $sip $callid
 
-			$::farsight configure -closed [list ::MSNSIP::inviteClosed $sip $email $callid 1]
+			$::farsight configure -closed [list ::MSNSIP::inviteClosed $sip [$::farsight IsVideo] $email $callid 1]
 			$::farsight SetRemoteAudioCandidates [$sip cget -remote_audio_candidates]
 			$::farsight SetRemoteAudioCodecs [$sip cget -remote_audio_codecs]
 			$::farsight SetRemoteVideoCandidates [$sip cget -remote_video_candidates]
@@ -2702,13 +2732,13 @@ namespace eval ::MSNSIP {
 			::amsn::SIPCalleeBusy $email $sip $callid
 		} elseif {$status == "DECLINED"} {
 			# Signal the UI
-			::amsn::SIPCalleeDeclined $email $sip $callid
+			::amsn::SIPCalleeDeclined [$::farsight IsVideo] $email $sip $callid
 		} elseif {$status == "CLOSED"} {
 			# Signal the UI
 			if {$detail == "LOCAL_BYE" } {
-				::amsn::SIPCallEnded $email $sip $callid
+				::amsn::SIPCallEnded [$::farsight IsVideo] $email $sip $callid
 			} elseif {$detail == "REMOTE_BYE" } {
-				::amsn::SIPCalleeClosed $email $sip $callid
+				::amsn::SIPCalleeClosed [$::farsight IsVideo] $email $sip $callid
 			}
 		} elseif {$status == "UNAVAILABLE"} {
 			# Signal the UI
@@ -2718,7 +2748,7 @@ namespace eval ::MSNSIP {
 			::amsn::SIPCalleeNoAnswer $email $sip $callid
 		} elseif {$status != "TRYING" && $status != "RINGING" && $status != "CANCEL"} {
 			# Signal the UI
-			::amsn::SIPCallEnded $email $sip $callid
+			::amsn::SIPCallEnded [$::farsight IsVideo] $email $sip $callid
 		}
 		if {$status != "OK" && $status != "TRYING" && $status != "RINGING"}  {
 			destroySIP $sip
@@ -2730,7 +2760,7 @@ namespace eval ::MSNSIP {
 		if {$what == "INVITE" } {
 			if {[$::farsight IsInUse] } {
 				# Signal the UI
-				::amsn::SIPCallMissed [$sip GetCaller $callid]
+				::amsn::SIPCallMissed [expr {[$sip cget -remote_video_candidates] != ""}] [$sip GetCaller $callid]
 
 				$sip AnswerInvite $callid BUSY
 				destroySIP $sip
@@ -2747,12 +2777,16 @@ namespace eval ::MSNSIP {
 
 				if {[$sip cget -ice] == 19} {
 					if {[$sip cget -remote_video_candidates] != "" } {
-						set mode "AV"
+						set mode "AV19"
 					} else {
 						set mode "A19"
 					}
 				} else {
-					set mode "A6"
+					if {[$sip cget -remote_video_candidates] != "" } {
+						set mode "AV6"
+					} else {
+						set mode "A6"
+					}
 				}
 				if {[catch {$::farsight Prepare 0 $mode}] } {
 					$::farsight configure -sipconnection $sip 
@@ -2775,20 +2809,20 @@ namespace eval ::MSNSIP {
 		} elseif {$what == "CLOSED" } {
 			# Signal the UI
 			if {$detail == "REMOTE_BYE" } {
-				::amsn::SIPCalleeClosed [$sip GetCaller $callid] $sip $callid
+				::amsn::SIPCalleeClosed [$::farsight IsVideo] [$sip GetCaller $callid] $sip $callid
 			} elseif {$detail == "LOCAL_BYE" } {
-				::amsn::SIPCallEnded [$sip GetCaller $callid] $sip $callid
+				::amsn::SIPCallEnded [$::farsight IsVideo] [$sip GetCaller $callid] $sip $callid
 			}
 
 			destroySIP $sip
 		} elseif {$what == "CANCEL" } {
 			# Signal the UI
-			::amsn::SIPCalleeCanceled [$sip GetCaller $callid] $sip $callid
+			::amsn::SIPCalleeCanceled [$::farsight IsVideo] [$sip GetCaller $callid] $sip $callid
 
 			destroySIP $sip
 		} elseif {$what == "TIMEOUT" } {
 			# Signal the UI
-			::amsn::SIPCallMissed [$sip GetCaller $callid] $callid
+			::amsn::SIPCallMissed [$::farsight IsVideo] [$sip GetCaller $callid] $callid
 
 			destroySIP $sip
 		}
@@ -2800,7 +2834,7 @@ namespace eval ::MSNSIP {
 		status_log "MSNSIP: answerClosed : $sip $callid $started"
 		if {$started } {
 			# Signal the UI
-			::amsn::SIPCallEnded [$sip GetCaller $callid] $sip $callid
+			::amsn::SIPCallEnded [$::farsight IsVideo] [$sip GetCaller $callid] $sip $callid
 
 			$sip Bye $callid
 		} else {
@@ -2816,7 +2850,7 @@ namespace eval ::MSNSIP {
 		status_log "MSNSIP : request Prepared for $sip $callid"
 
 		# Signal the UI
-		::amsn::SIPCallReceived [$sip GetCaller $callid] $sip $callid
+		::amsn::SIPCallReceived [$::farsight IsVideo] [$sip GetCaller $callid] $sip $callid
 
 		$sip AnswerInvite $callid RINGING
 	}
@@ -2875,17 +2909,17 @@ namespace eval ::MSNSIP {
 			::MSN::setClientCap sip
 			set changed 1
 		}
+		if {[::config::getKey protocol] >= 15 &&
+		    ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
+			::MSN::setClientCap rtcvideo
+			set changed 1
+		}
 		if { [::config::getKey protocol] >= 18 &&
 		     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip] } {
 			::MSN::setClientCap tunnelsip
 			set changed 1
 		}
 		
-		if { [::config::getKey protocol] >= 18 &&
-		     ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
-			::MSN::setClientCap rtcvideo
-			set changed 1
-		}
 		
 		if {$changed } {
 			if {[::MSN::myStatusIs] != "FLN" } {

@@ -201,6 +201,7 @@ closed Conversation with $1 has been closed due to inactivity
 closelabel When you click the close button in a tabbed chat window
 closeonly Close only the current tab
 closeorcall You have to close/cancel the Audio Call before closing the window.
+closeorcallvideo You have to close/cancel the Video Call before closing the window.
 closeordock Closing the contact list window will quit aMSN. Maybe you meant to just close the window and have aMSN stay alive in the tray.\n\nAre you sure you want to quit aMSN?
 closeothers Close All Other Tabs
 closingdocks Close button minimizes
@@ -818,6 +819,7 @@ sendmsg Send Message
 sendoim Send an Offline Message
 send Send
 sendsip Start Audio Call
+sendvideosip Start Video Call
 sendvoice Send a Voice Clip
 sendwebcamaccepted $1 accepted your invitation to view your webcam. Connecting...
 sendwebcaminvite Invite a user to see your webcam
@@ -861,6 +863,7 @@ signoutep Sign out from $1
 signouteverywhere Sign out from everywhere
 sipcallaccepted Audio Call Accepted
 sipcallback Call Back
+sipcallconnected Your audio call is now connected!
 sipcalldeclined Audio Call Rejected
 sipcalleeaccepted User accepted your Audio Call
 sipcalleebusy User is currently Busy
@@ -870,13 +873,23 @@ sipcalleedeclined User Declined your Audio Call invitation
 sipcalleenoanswer User did not answer your Call
 sipcalleeunavailable User is not available right now
 sipcallended Your Audio Call has ended
-sipcallimpossible You cannot make an Audio Call. Please install Farsight2 and try again.
+sipcallimpossible2 You cannot make an Audio or Video Call. Please install Farsight2 and try again.
 sipcallmissed You missed an Audio Call from $1
 sipcallnosipflag User does not support Audio Calls.
 sipcallsent Calling $1
-sipcallunsupported You have received an Audio Call invitation that is not currently supported. You may call back with a new invitation. The Audio Call will then work
-sipcallyouarebusy You can only have one Audio Call at a time.
+sipcallyouarebusy2 You can only have one Audio or Video Call at a time.
 sipgotinvitation Received Audio Call invitation from $1
+sipvideocallaccepted Video Call Accepted
+sipvideocalldeclined Video Call Rejected
+sipvideocallconnected Your Video call is now connected!
+sipvideocalleeaccepted User accepted your Video Call
+sipvideocalleecanceled User has canceled the Video call Invitation
+sipvideocalleeclosed User has ended your Video Call
+sipvideocalleedeclined User Declined your Video Call invitation
+sipvideocallended Your Video Call has ended
+sipvideocallmissed You missed a Video Call from $1
+sipvideocallnosipflag User does not support Video Calls.
+sipvideogotinvitation Received Video Call invitation from $1
 skinselector Select Skin
 skin Skin
 small Small

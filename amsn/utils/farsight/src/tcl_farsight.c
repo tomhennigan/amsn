@@ -314,8 +314,8 @@ _notify_level (char *direction, gfloat level)
     Tcl_IncrRefCount (cbk);
 
     if (Tcl_EvalObjv(interp, 3, command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
-      _notify_debug ("Error executing level handler : %s",
-          Tcl_GetStringResult(interp));
+      _notify_debug ("Error executing level handler (%s, %f) : %s",
+          direction, level, Tcl_GetStringResult(interp));
     }
     Tcl_DecrRefCount (cbk);
     Tcl_DecrRefCount (args);
@@ -2620,7 +2620,7 @@ _tcl_candidates_to_fscandidates (Tcl_Interp *interp, Tcl_Obj **tcl_remote_candid
         goto error_candidate;
       }
 
-      candidate->priority = (guint32) temp_d * 1000;
+      candidate->priority = (guint32) (temp_d * 1000);
     } else {
       if (Tcl_GetIntFromObj (interp, elements[7], &temp_i) != TCL_OK) {
         Tcl_AppendResult (interp, "\nInvalid candidate : ",

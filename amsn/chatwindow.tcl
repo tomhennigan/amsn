@@ -1607,7 +1607,10 @@ namespace eval ::ChatWindow {
 
 		
 		$actionsmenu add command -label "[trans sendsip]..." \
-			-command "::amsn::ShowChatList \"[trans sendsip]\" \[::ChatWindow::getCurrentTab $w\] ::amsn::SIPCallInviteUser"
+		    -command "::amsn::ShowChatList \"[trans sendsip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 0\""
+
+		$actionsmenu add command -label "[trans sendvideosip]..." \
+		    -command "::amsn::ShowChatList \"[trans sendvideosip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 1\""
 
 
 		$actionsmenu add separator
@@ -2646,7 +2649,7 @@ namespace eval ::ChatWindow {
 	}
 
 	proc VolumeIn {widget {val unused}} {
-		puts "VolumeIn=${::ChatWindow::voip_volume_out}"
+		puts "VolumeIn=${::ChatWindow::voip_volume_in}"
 		if {[catch {::Farsight::SetVolumeIn $::ChatWindow::voip_volume_in}]} {
 			$widget configure -volumestate disabled
 		}
@@ -3825,7 +3828,11 @@ namespace eval ::ChatWindow {
 		set win [set tab2win($tab)]
 		if {[::amsn::SIPchatidExistsInList [Name $win]]} {
 			status_log " we can't close, there's a sip call running ..." green
-			::amsn::infoMsg [trans closeorcall]
+			if {[$::farsight IsVideo] } {
+				::amsn::infoMsg [trans closeorcallvideo]
+			} else {
+				::amsn::infoMsg [trans closeorcall]
+			}
 			return
 		}
 		set container [winfo toplevel $win]

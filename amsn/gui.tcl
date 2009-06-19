@@ -1024,11 +1024,11 @@ namespace eval ::amsn {
 
 		if {[llength $users] > 1} {
 			#TODO: add a new key?
-			::amsn::errorMsg [trans sipcallyouarebusy]
+			::amsn::errorMsg [trans sipcallyouarebusy2]
 		} elseif {[llength $users] == 1} {
-			::amsn::SIPCallInviteUser [lindex $users 0]
+			::amsn::SIPCallInviteUser 0 [lindex $users 0]
 		} else {
-			::amsn::SIPCallInviteUser $chatid
+			::amsn::SIPCallInviteUser 0 $chatid
 		}
 
 	}
@@ -1720,21 +1720,36 @@ namespace eval ::amsn {
 	}
 
 
-	proc SIPCallInviteUser { email } {
+	proc SIPCallInviteUser { video email } {
 
 		status_log "CallInviteUser $email"
 
 		set clientid [::abook::getContactData $email clientid]
 		if { $clientid == "" } { set clientid 0 }
 		
-		if {[::MSN::hasCapability $clientid sip] ||
-		    [::MSN::hasCapability $clientid tunnelsip] } {
-			status_log "User $email supports SIP"
-			AddSIPchatidToList $email
-			::MSNSIP::InviteUser $email
-		} else {
-			status_log "User $email has no SIP flag"
-			SIPCallNoSIPFlag $email			
+		if {$video } {
+			if { ([::config::getKey protocol] >= 18 &&
+			      [::MSN::hasCapability $clientid rtcvideo]) ||
+			     ([::config::getKey protocol] < 18 &&
+			      [::MSN::hasCapability $clientid sip] &&
+			      [::MSN::hasCapability $clientid msnc10]) } {
+				status_log "User $email supports SIP"
+				AddSIPchatidToList $email
+				::MSNSIP::InviteUser $email $video
+			} else {
+				status_log "User $email has no SIP flag"
+				SIPCallNoSIPFlag $video $email		
+			}
+		} else { 
+			if {[::MSN::hasCapability $clientid sip] ||
+			    [::MSN::hasCapability $clientid tunnelsip] } {
+				status_log "User $email supports SIP"
+				AddSIPchatidToList $email
+				::MSNSIP::InviteUser $email $video
+			} else {
+				status_log "User $email has no SIP flag"
+				SIPCallNoSIPFlag $video $email			
+			}
 		}
 	}
 
@@ -1760,12 +1775,12 @@ namespace eval ::amsn {
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor xterm
 	}
 
-	proc SIPCallBack { email} {
+	proc SIPCallBack { video email} {
 		DisableSIPButton $email sipcallback$email
-		SIPCallInviteUser $email
+		SIPCallInviteUser $video $email
 	}
 
-	proc SIPCallMessageCallBack { chatid txt} {
+	proc SIPCallMessageCallBack { video chatid txt} {
 		::ChatWindow::MakeFor $chatid
 
 		DisableSIPButton $chatid sipcallback$chatid
@@ -1776,7 +1791,7 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid sipicon 3 2
 		WinWrite $chatid " $txt\n" green
 		WinWrite $chatid " (" green
-		WinWriteClickable $chatid "[trans sipcallback]" [list ::amsn::SIPCallBack $chatid] sipcallback$chatid
+		WinWriteClickable $chatid "[trans sipcallback]" [list ::amsn::SIPCallBack $video $chatid] sipcallback$chatid
 		WinWrite $chatid ")\n" green
 		WinWriteIcon $chatid greyline 3
 
@@ -1794,10 +1809,14 @@ namespace eval ::amsn {
 
 	}
 
-	proc SIPCallReceived { chatid sip callid} {
+	proc SIPCallReceived { video chatid sip callid} {
 
 		set fromname [::abook::getDisplayNick $chatid]
-		set txt [trans sipgotinvitation $fromname]
+		if {$video} {
+			set txt [trans sipvideogotinvitation $fromname]
+		} else {
+			set txt [trans sipgotinvitation $fromname]
+		}
 		set win_name [::ChatWindow::MakeFor $chatid $txt $chatid]
 
 		WinWrite $chatid "\n" green
@@ -1807,16 +1826,16 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid sipicon 3 2
 		WinWrite $chatid $txt green
 		WinWrite $chatid " - (" green
-		WinWriteClickable $chatid "[trans accept]" [list ::amsn::AcceptSIPCall $chatid $sip $callid] sipyes$callid
+		WinWriteClickable $chatid "[trans accept]" [list ::amsn::AcceptSIPCall $video $chatid $sip $callid] sipyes$callid
 		WinWrite $chatid " / " green
-		WinWriteClickable $chatid "[trans reject]" [list ::amsn::DeclineSIPCall $chatid $sip $callid] sipno$callid
+		WinWriteClickable $chatid "[trans reject]" [list ::amsn::DeclineSIPCall $video $chatid $sip $callid] sipno$callid
 		WinWrite $chatid ")\n" green
 		WinWriteIcon $chatid greyline 3
 		# The phone is ringing!!
 		play_sound ring.wav
 	}
 
-	proc AcceptSIPCall { chatid sip callid } {
+	proc AcceptSIPCall { video chatid sip callid } {
 
 		status_log "Accepting SIP call from $chatid"
 
@@ -1833,7 +1852,11 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid greyline 3
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid sipicon 3 2
-		WinWrite $chatid " [trans sipcallaccepted]\n" green
+		if {$video} {
+			WinWrite $chatid " [trans sipvideocallaccepted]\n" green
+		} else {
+			WinWrite $chatid " [trans sipcallaccepted]\n" green
+		}
 		WinWrite $chatid " (" green
 		WinWriteClickable $chatid "[trans hangup]" [list ::amsn::HangupSIPCall $chatid $sip $callid] siphangup$callid
 		WinWrite $chatid ")\n" green
@@ -1845,7 +1868,7 @@ namespace eval ::amsn {
 		::MSNSIP::AcceptInvite $sip $callid
 	}
 
-	proc DeclineSIPCall { chatid sip callid } {
+	proc DeclineSIPCall { video chatid sip callid } {
 
 		status_log "Rejecting SIP call from $chatid"
 
@@ -1857,8 +1880,11 @@ namespace eval ::amsn {
 		DisableSIPButton $chatid sipyes$callid 
 		DisableSIPButton $chatid sipno$callid 
 
-
-		SIPCallMessage $chatid [trans sipcalldeclined]
+		if {$video} {
+			SIPCallMessage $chatid [trans sipvideocalldeclined]
+		} else {
+			SIPCallMessage $chatid [trans sipcalldeclined]
+		}
 
 		::MSNSIP::DeclineInvite $sip $callid
 		DelSIPchatidFromList $chatid
@@ -1869,7 +1895,7 @@ namespace eval ::amsn {
 	proc HangupSIPCall { chatid sip callid } {
 		status_log "Hanging up SIP call"
 
-		SIPCallEnded $chatid $sip $callid
+		SIPCallEnded [$::farsight IsVideo] $chatid $sip $callid
 
 		::MSNSIP::HangUp $sip $callid
 		DelSIPchatidFromList $chatid
@@ -1906,10 +1932,14 @@ namespace eval ::amsn {
 		::ChatWindow::UpdateVoipControls $chatid $sip $callid
 	}
 
-	proc SIPCallEnded {chatid sip callid } {
+	proc SIPCallEnded { video chatid sip callid } {
 		status_log "SIP call ended"
 
-		SIPCallMessage $chatid [trans sipcallended]
+		if {$video} {
+			SIPCallMessage $chatid [trans sipvideocallended]
+		} else {
+			SIPCallMessage $chatid [trans sipcallended]
+		}
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
@@ -1917,7 +1947,7 @@ namespace eval ::amsn {
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCalleeAccepted { chatid sip callid } {
+	proc SIPCalleeAccepted { video chatid sip callid } {
 		::ChatWindow::MakeFor $chatid
 
 		status_log "SIP callee accepted our call"
@@ -1927,7 +1957,11 @@ namespace eval ::amsn {
 			return 0
 		}
 
-		SIPCallMessage $chatid [trans sipcalleeaccepted]
+		if {$video} {
+			SIPCallMessage $chatid [trans sipvideocalleeaccepted]
+		} else {
+			SIPCallMessage $chatid [trans sipcalleeaccepted]
+		}
 
 		# Modify Hangup button to hangup instead of cancel call 
 		[::ChatWindow::GetOutText ${win_name}] tag bind siphangup$callid <<Button1>> [list ::amsn::HangupSIPCall $chatid $sip $callid]
@@ -1935,9 +1969,14 @@ namespace eval ::amsn {
 		::ChatWindow::UpdateVoipControls $chatid $sip $callid
 
 	}
-	proc SIPCallConnected { chatid sip callid } {
+	proc SIPCallConnected { video chatid sip callid } {
 		::ChatWindow::MakeFor $chatid
-		::ChatWindow::Status [ ::ChatWindow::For $chatid ] "Your audio call is now connected!"
+		if {$video} {
+			::ChatWindow::Status [ ::ChatWindow::For $chatid ] [trans sipvideocallconnected]
+		} else {
+			::ChatWindow::Status [ ::ChatWindow::For $chatid ] [trans sipcallconnected]
+		}
+
 		::ChatWindow::UpdateVoipControls $chatid $sip $callid
 
 	}
@@ -1954,10 +1993,14 @@ namespace eval ::amsn {
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCalleeDeclined { chatid sip callid } {
+	proc SIPCalleeDeclined { video chatid sip callid } {
 		status_log "SIP callee declined our call"
 
-		SIPCallMessage $chatid [trans sipcalleedeclined]
+		if {$video} {
+			SIPCallMessage $chatid [trans sipvideocalleedeclined]
+		} else {
+			SIPCallMessage $chatid [trans sipcalleedeclined]
+		}
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
@@ -1965,10 +2008,14 @@ namespace eval ::amsn {
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCalleeClosed { chatid sip callid } {
+	proc SIPCalleeClosed { video chatid sip callid } {
 		status_log "SIP callee closed the call"
 
-		SIPCallMessage $chatid [trans sipcalleeclosed]
+		if {$video} {
+			SIPCallMessage $chatid [trans sipvideocalleeclosed]
+		} else {
+			SIPCallMessage $chatid [trans sipcalleeclosed]
+		}
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
@@ -2001,33 +2048,32 @@ namespace eval ::amsn {
 	proc SIPCallImpossible { chatid } {
 		status_log "SIP call is impossible.. no farsight utility found/working"
 
-		SIPCallMessage $chatid [trans sipcallimpossible]
+		SIPCallMessage $chatid [trans sipcallimpossible2]
 		DelSIPchatidFromList $chatid
 		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCallUnsupported { chatid } {
-		status_log "Received unsupported SIP call from $chatid"
-
-		SIPCallMessageCallBack $chatid [trans sipcallunsupported]
-		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
-		::ChatWindow::RemoveVoipControls $chatid
-	}
-
-	proc SIPCallNoSIPFlag { chatid } {
+	proc SIPCallNoSIPFlag { video chatid } {
 		status_log "User $chatid has no SIP flag in his clientid"
-		SIPCallMessage $chatid [trans sipcallnosipflag]
+		if {$video} {
+			SIPCallMessage $chatid [trans sipvideocallnosipflag]
+		} else {
+			SIPCallMessage $chatid [trans sipcallnosipflag]
+		}
 		DelSIPchatidFromList $chatid
 		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCallMissed { chatid {callid ""} } {
+	proc SIPCallMissed { video chatid {callid ""} } {
 		status_log "We missed a SIP call from $chatid"
 
-		SIPCallMessageCallBack $chatid [trans sipcallmissed [::abook::getDisplayNick $chatid]]
+		if {$video} {
+			SIPCallMessageCallBack $video $chatid [trans sipvideocallmissed [::abook::getDisplayNick $chatid]]
+		} else {
+			SIPCallMessageCallBack $video $chatid [trans sipcallmissed [::abook::getDisplayNick $chatid]]
+		}
 		if {$callid != "" } {
 			DisableSIPButton $chatid sipyes$callid
 			DisableSIPButton $chatid sipno$callid
@@ -2040,14 +2086,14 @@ namespace eval ::amsn {
 	proc SIPCallYouAreBusy { chatid } {
 		status_log "Trying to make multiple SIP calls"
 
-		SIPCallMessage $chatid [trans sipcallyouarebusy]
+		SIPCallMessage $chatid [trans sipcallyouarebusy2]
 		DelSIPchatidFromList $chatid
 		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
 
-	proc SIPCalleeCanceled { chatid sip callid } {
+	proc SIPCalleeCanceled { video chatid sip callid } {
 
 		status_log "SIP callee canceled his invite"
 
@@ -2060,7 +2106,11 @@ namespace eval ::amsn {
 		DisableSIPButton $chatid sipno$callid 
 
 
-		SIPCallMessage $chatid [trans sipcalleecanceled]
+		if {$video} {
+			SIPCallMessage $chatid [trans sipvideocalleecanceled]
+		} else {
+			SIPCallMessage $chatid [trans sipcalleecanceled]
+		}
 		DelSIPchatidFromList $chatid
 		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
 		::ChatWindow::RemoveVoipControls $chatid
