@@ -1449,7 +1449,7 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     src = gst_element_factory_make ("audiotestsrc", NULL);
   }
 
-  g_object_set(src, "blocksize", 640, NULL);
+  //g_object_set(src, "blocksize", 640, NULL);
 
   if (gst_bin_add (GST_BIN (test_pipeline), src) == FALSE) {
     _notify_debug ("Couldn't add audio_source to pipeline");
@@ -2201,7 +2201,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto no_audio_source;
   }
 
-  g_object_set(src, "blocksize", 640, NULL);
+  //g_object_set(src, "blocksize", 640, NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
     _notify_debug ("Couldn't add audio_source to pipeline");
