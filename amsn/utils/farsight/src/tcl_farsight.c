@@ -51,51 +51,51 @@ typedef enum {
 
 static GList * get_plugins_filtered (gboolean source, gboolean audio);
 
-FsCallType call_type;
-Tcl_Obj *level_callback = NULL;
-Tcl_Interp *level_callback_interp = NULL;
-Tcl_Obj *debug_callback = NULL;
-Tcl_Interp *debug_callback_interp = NULL;
-char *audio_source = NULL;
-char *audio_source_device = NULL;
-char *audio_source_pipeline = NULL;
-char *audio_sink = NULL;
-char *audio_sink_device = NULL;
-char *audio_sink_pipeline = NULL;
-char *video_source = NULL;
-char *video_source_device = NULL;
-gulong video_preview_xid = 0;
-char *video_source_pipeline = NULL;
-char *video_sink = NULL;
-gulong video_sink_xid = 0;
-char *video_sink_pipeline = NULL;
-GstElement *pipeline = NULL;
-GstElement *test_pipeline = NULL;
-GstElement *conference = NULL;
-GstElement *volumeIn = NULL;
-GstElement *volumeOut = NULL;
-GstElement *levelIn = NULL;
-GstElement *levelOut = NULL;
-FsParticipant *participant = NULL;
-FsSession *audio_session = NULL;
-FsStream *audio_stream = NULL;
-FsSession *video_session = NULL;
-FsStream *video_stream = NULL;
-gboolean audio_candidates_prepared = FALSE;
-gboolean audio_codecs_ready = FALSE;
-Tcl_Obj *audio_local_candidates = NULL;
-gboolean video_candidates_prepared = FALSE;
-gboolean video_codecs_ready = FALSE;
-Tcl_Obj *video_local_candidates = NULL;
-Tcl_Obj *callback = NULL;
-Tcl_Interp *callback_interp = NULL;
-Tcl_ThreadId main_tid = 0;
-int audio_components_selected = 0;
-int video_components_selected = 0;
-FsElementAddedNotifier *fsnotifier = NULL;
+static FsCallType call_type;
+static Tcl_Obj *level_callback = NULL;
+static Tcl_Interp *level_callback_interp = NULL;
+static Tcl_Obj *debug_callback = NULL;
+static Tcl_Interp *debug_callback_interp = NULL;
+static char *audio_source = NULL;
+static char *audio_source_device = NULL;
+static char *audio_source_pipeline = NULL;
+static char *audio_sink = NULL;
+static char *audio_sink_device = NULL;
+static char *audio_sink_pipeline = NULL;
+static char *video_source = NULL;
+static char *video_source_device = NULL;
+static gulong video_preview_xid = 0;
+static char *video_source_pipeline = NULL;
+static char *video_sink = NULL;
+static gulong video_sink_xid = 0;
+static char *video_sink_pipeline = NULL;
+static GstElement *pipeline = NULL;
+static GstElement *test_pipeline = NULL;
+static GstElement *conference = NULL;
+static GstElement *volumeIn = NULL;
+static GstElement *volumeOut = NULL;
+static GstElement *levelIn = NULL;
+static GstElement *levelOut = NULL;
+static FsParticipant *participant = NULL;
+static FsSession *audio_session = NULL;
+static FsStream *audio_stream = NULL;
+static FsSession *video_session = NULL;
+static FsStream *video_stream = NULL;
+static gboolean audio_candidates_prepared = FALSE;
+static gboolean audio_codecs_ready = FALSE;
+static Tcl_Obj *audio_local_candidates = NULL;
+static gboolean video_candidates_prepared = FALSE;
+static gboolean video_codecs_ready = FALSE;
+static Tcl_Obj *video_local_candidates = NULL;
+static Tcl_Obj *callback = NULL;
+static Tcl_Interp *callback_interp = NULL;
+static Tcl_ThreadId main_tid = 0;
+static int audio_components_selected = 0;
+static int video_components_selected = 0;
+static FsElementAddedNotifier *fsnotifier = NULL;
 
 #ifdef _WIN32
-const char *inet_ntop_win32(int af, const void *src, char *dst, socklen_t cnt)
+static const char *inet_ntop_win32(int af, const void *src, char *dst, socklen_t cnt)
 {
         if (af == AF_INET) {
                 struct sockaddr_in in;
@@ -385,7 +385,8 @@ _notify_active (char *msg, const char *local, const char *remote)
   _notify_callback (msg, local_candidate, remote_candidate);
 }
 
-static void _notify_prepared (gchar *msg, FsSession *session,
+static void
+_notify_prepared (gchar *msg, FsSession *session,
     Tcl_Obj *local_candidates)
 {
   Tcl_Obj *local_codecs = Tcl_NewListObj (0, NULL);
@@ -430,7 +431,8 @@ _notify_video_prepared ()
   }
 }
 
-static const char * _fs_candidate_type_to_string (FsCandidateType type)
+static const char *
+_fs_candidate_type_to_string (FsCandidateType type)
 {
   switch (type) {
     case FS_CANDIDATE_TYPE_HOST:
@@ -593,7 +595,8 @@ static GstElement * _test_source (gchar *name)
 }
 
 
-static GstElement * _create_audio_source ()
+static GstElement *
+_create_audio_source ()
 {
   GstElement *src = NULL;
   GList *sources, *walk;
@@ -707,7 +710,8 @@ static GstElement * _create_audio_source ()
   return src;
 }
 
-static GstElement * _create_audio_sink ()
+static GstElement *
+_create_audio_sink ()
 {
   GstElement *snk = NULL;
   if (audio_sink_pipeline) {
@@ -909,7 +913,8 @@ _audio_src_pad_added (FsStream *self, GstPad *pad,
 }
 
 
-static GstElement * _create_video_source ()
+static GstElement *
+_create_video_source ()
 {
   GstElement *src = NULL;
   GList *sources, *walk;
@@ -1017,7 +1022,8 @@ static GstElement * _create_video_source ()
   return src;
 }
 
-static GstElement * _create_video_sink ()
+static GstElement *
+_create_video_sink ()
 {
   GstElement *snk = NULL;
   if (video_sink_pipeline) {
