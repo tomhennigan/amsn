@@ -1757,6 +1757,7 @@ namespace eval ::amsn {
 		::ChatWindow::MakeFor $email
 
 		::ChatWindow::AddVoipControls $email $sip $callid
+		::ChatWindow::setCallButton $email [list ::amsn::CancelSIPCall $email $sip $callid] [trans hangup]
 	}
 
 	proc DisableSIPButton { chatid tag } {
