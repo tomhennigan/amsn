@@ -2621,6 +2621,9 @@ namespace eval ::MSNSIP {
 				set mode "A6"
 			}
 		}
+
+		::amsn::SIPPreparing $email $sip ""
+
 		if {[catch {$::farsight Prepare 1 $mode} err] } {
 			status_log "Call is impossible : $err"
 			::amsn::SIPCallImpossible $email
@@ -2628,7 +2631,6 @@ namespace eval ::MSNSIP {
 		} else {
 			# Reset the SipConnection because the Prepare clears it
 			$::farsight configure -sipconnection $sip 
-			::amsn::SIPPreparing $email $sip ""
 			return $sip
 		}
 	}
@@ -2788,6 +2790,8 @@ namespace eval ::MSNSIP {
 						set mode "A6"
 					}
 				}
+
+				::amsn::SIPPreparing $caller $sip $callid
 				if {[catch {$::farsight Prepare 0 $mode}] } {
 					$::farsight configure -sipconnection $sip 
 					# Signal the UI
@@ -2802,8 +2806,6 @@ namespace eval ::MSNSIP {
 					$::farsight SetRemoteAudioCodecs [$sip cget -remote_audio_codecs]
 					$::farsight SetRemoteVideoCandidates [$sip cget -remote_video_candidates]
 					$::farsight SetRemoteVideoCodecs [$sip cget -remote_video_codecs]
-
-					::amsn::SIPPreparing $caller $sip $callid
 				}
 			}
 		} elseif {$what == "CLOSED" } {
