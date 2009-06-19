@@ -19,6 +19,8 @@
 #include <gst/interfaces/propertyprobe.h>
 #include <gst/interfaces/xoverlay.h>
 
+#include <gst/farsight/fs-element-added-notifier.h>
+
 #ifdef G_OS_WIN32
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -90,7 +92,7 @@ Tcl_Interp *callback_interp = NULL;
 Tcl_ThreadId main_tid = 0;
 int audio_components_selected = 0;
 int video_components_selected = 0;
-
+FsElementAddedNotifier *fsnotifier = NULL;
 
 #ifdef _WIN32
 const char *inet_ntop_win32(int af, const void *src, char *dst, socklen_t cnt)
@@ -211,6 +213,11 @@ static void Close ()
     callback = NULL;
     callback_interp = NULL;
   }
+
+  if (fsnotifier != NULL) {
+    g_object_unref (fsnotifier);
+  }
+  fsnotifier = NULL;
 }
 
 
@@ -1103,6 +1110,39 @@ _video_src_pad_added (FsStream *self, GstPad *pad,
     return;
   }
 }
+
+
+static void
+_conference_element_added (FsElementAddedNotifier *notifier,
+    GstBin *bin,
+    GstElement *element,
+    gpointer user_data)
+{
+  GstElementFactory *factory;
+  const gchar *name;
+
+  factory = gst_element_get_factory (element);
+  name = gst_plugin_feature_get_name (GST_PLUGIN_FEATURE (factory));
+
+  if (strcmp (name, "ffenc_h263") == 0) {
+    /* Ensure that the encoder works with rtp */
+    g_object_set (element,
+        "rtp-payload-size", 1,
+        NULL);
+  } else if (strcmp (name, "rtph263pay") == 0) {
+    /* Only mode A in h263 payloading is supported by WLM */
+    g_object_set (element,
+        "modea-only", TRUE,
+        NULL);
+  } else if (strcmp (name, "gstrtpbin") == 0) {
+    /* Lower the jitterbuffer latency to make it more suitable for video
+     * conferencing */
+    g_object_set (element,
+        "latency", 100,
+        NULL);
+  }
+}
+
 
 static void
 _codecs_ready (FsSession *session)
@@ -2064,6 +2104,12 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   g_object_set (conference, "sdes-cname", "", NULL);
 
+
+  fsnotifier = fs_element_added_notifier_new ();
+  fs_element_added_notifier_add (fsnotifier, GST_BIN (conference));
+
+  g_signal_connect (fsnotifier, "element-added",
+      G_CALLBACK (_conference_element_added), NULL);
 
   participant = fs_conference_new_participant (FS_CONFERENCE (conference),
       "", &error);
