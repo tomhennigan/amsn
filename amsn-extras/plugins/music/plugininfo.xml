@@ -58,6 +58,10 @@
 		<langcode>lt</langcode>
 		<version>10397</version>
 	</lang>
+	<lang>
+		<langcode>pt_BR</langcode>
+		<version>11257</version>
+	</lang>
 	
 	<file>
 		<path>display_and_send.scpt</path>
