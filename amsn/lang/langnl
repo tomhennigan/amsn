@@ -201,6 +201,7 @@ closed Het gesprek met $1 is wegens inactiviteit afgesloten
 closelabel Bij het klikken op de sluitknop van een venster met tabbladen
 closeonly Alleen het zichtbare tabblad sluiten
 closeorcall Je moet het audiogesprek sluiten/annuleren alvorens het venster te sluiten.
+closeorcallvideo Je moet het videogesprek sluiten/annuleren alvorens het venster te sluiten.
 closeordock Als je de contactenlijst sluit, wordt aMSN afgesloten. Wellicht wilde je enkel het venster sluiten en aMSN actief houden in het systeemvak.\n\nWil je aMSN werkelijk afsluiten?
 closeothers Alle overige tabbladen sluiten
 closingdocks Minimaliseren i.p.v. sluiten
@@ -818,6 +819,7 @@ sendmobmsg Bericht verzenden naar mobiel
 sendmsg Bericht verzenden
 sendoim Offlinebericht verzenden
 sendsip Audiogesprek starten
+sendvideosip Videogesprek starten
 sendvoice Voiceclip verzenden
 sendwebcamaccepted $1 heeft je uitnodiging om je webcambeeld te bekijken geaccepteerd. Bezig met verbinden...
 sendwebcaminvite Dit contact uitnodigen om je webcambeeld te bekijken
@@ -861,6 +863,7 @@ signoutep Afmelden bij $1
 signouteverywhere Overal afmelden
 sipcallaccepted Audiogesprek geaccepteerd
 sipcallback Terugbellen
+sipcallconnected Je audiogesprek is nu geopend!
 sipcalldeclined Audiogesprek geweigerd
 sipcalleeaccepted Gebruiker heeft je audiogespreksoproep geaccepteerd
 sipcalleebusy Gebruiker is momenteel bezet
@@ -870,13 +873,23 @@ sipcalleedeclined Gebruiker heeft je uitnodiging voor een audiogesprek geweigerd
 sipcalleenoanswer Gebruiker heeft je gespreksoproep niet beantwoord
 sipcalleeunavailable Gebruiker is momenteel niet beschikbaar
 sipcallended Je audiogesprek is beëindigd
-sipcallimpossible Je kunt geen audiogesprek starten. Installeer Farsight2 en probeer het opnieuw.
+sipcallimpossible2 Je kunt geen audio- of videogesprek starten. Installeer Farsight2 en probeer het opnieuw.
 sipcallmissed Je hebt een audiogespreksoproep van $1 gemist
 sipcallnosipflag Gebruiker ondersteunt geen audiogesprekken.
 sipcallsent $1 bellen
-sipcallunsupported Je hebt een uitnodiging voor een audiogesprek ontvangen dat momenteel niet wordt ondersteund. Je kunt terugbellen met een nieuwe uitnodiging. Het audiogesprek zal dan werken.
-sipcallyouarebusy Je kunt slechts één audiogesprek tegelijk voeren.
+sipcallyouarebusy2 Je kunt slechts één audio- of videogesprek tegelijk voeren.
 sipgotinvitation Uitnodiging voor audiogesprek ontvangen van $1
+sipvideocallaccepted Videogesprek geaccepteerd
+sipvideocalldeclined Videogesprek geweigerd
+sipvideocallconnected Je videogesprek is nu geopend!
+sipvideocalleeaccepted Gebruiker heeft je videogespreksoproep geaccepteerd
+sipvideocalleecanceled Gebruiker heeft de uitnodiging voor een videogesprek geannuleerd
+sipvideocalleeclosed Gebruiker heeft je videogesprek beëindigd
+sipvideocalleedeclined Gebruiker heeft je uitnodiging voor een videogesprek geweigerd
+sipvideocallended Je videogesprek is beëindigd
+sipvideocallmissed Je hebt een videogespreksoproep van $1 gemist
+sipvideocallnosipflag Gebruiker ondersteunt geen videogesprekken.
+sipvideogotinvitation Uitnodiging voor videogesprek ontvangen van $1
 skin Skin
 skinselector Skin selecteren
 small Klein
@@ -1009,9 +1022,6 @@ view Beeld
 viewcontactsby Contacten weergeven met
 viewprofile Profiel bekijken
 viewspace Space-items bekijken
-voice_notimplemented Het ontvangen van voiceclips is nog niet geïmplementeerd. Nog even geduld...
-voice_windows Als Windows-gebruiker kun je de voiceclip mogelijk beluisteren door deze te openen in Media Player.
-voice_windows_click Klik hier om dat te proberen.
 volume Volume
 wanttosharecam Ik wil mijn webcam beschikbaar maken voor anderen
 web Web
