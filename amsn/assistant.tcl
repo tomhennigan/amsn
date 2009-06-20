@@ -694,7 +694,7 @@ snit::widget assistant {
 				if { $id != 1 } {
 					incr steps_l_i -1
 				}
-				GoToStepId $steps_l_i
+				$self goToStepId $steps_l_i
 			}
 		}
 	}
@@ -926,6 +926,9 @@ namespace eval ::AVAssistant {
 	######################################################################################
 	proc AVAssistant {} {
 
+		variable firsttime
+		set firsttime 1
+
 		#set the name of the window
 		set assistant [assistant create .%AUTO% -winname [trans assistanttitle]]
 		#introduction
@@ -943,7 +946,7 @@ namespace eval ::AVAssistant {
 		$assistant addStepEnd $Step
 
 		#check for audio extensions, and configure it
-		set Step [list "StepFarsight" 1 ::AVAssistant::StepFarsight "" "" "" ""  "Farsight" assistant_audio 1 1]
+		set Step [list "StepFarsightAudio" 1 ::AVAssistant::StepFarsightAudio "" "" "" ""  "Farsight" assistant_audio 1 1]
 		$assistant addStepEnd $Step
 
 		#Finishing, greetings
@@ -2229,12 +2232,14 @@ namespace eval ::AVAssistant {
 
 
 	######################################################################################
-	# Step 3 : Farsight                                                                  #
+	# Step 3 : Farsight Audio                                                            #
 	######################################################################################
-	proc StepFarsight {assistant contentf} {
+	proc StepFarsightAudio {assistant contentf} {
 		variable fs_details
 		variable cf
 		set cf $contentf
+
+		set is_audio 1
 
 		set fs_details ""
 
@@ -2249,14 +2254,10 @@ namespace eval ::AVAssistant {
 		pack $contentf.fsmsg
 		pack $contentf.fsurl
 
-		button $contentf.details -text [trans showdetails] -command [list ::AVAssistant::ShowFSDetails]
-		pack $contentf.details -pady 10
-
-		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf] "::AVAssistant::appendFarsightDetails"
+		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
 	}
 
 	proc ShowFSDetails {} {
-		puts "ooo"
 		variable fs_details
 
 		if {[winfo exists .fsdetails]} {
@@ -2293,103 +2294,220 @@ namespace eval ::AVAssistant {
 		append fs_details $txt
 	}
 
-	proc setFSAudioSource { w val } {
-		variable fsaudiosrcs
-		variable selectedaudiosrc
+	proc setFSSource { contentf is_audio w val } {
+		if {$is_audio} {
+			variable fsaudiosrcs
+			variable selectedaudiosrc
 
-		foreach src $fsaudiosrcs {
-			if {$val == "[lindex $src 2] [lindex $src 3]"} {
-				set selectedaudiosrc [lindex $src 0]
-				break
+			foreach src $fsaudiosrcs {
+				if {$val == [lindex $src 2]} {
+					set selectedaudiosrc [lindex $src 1]
+					$contentf.in.a1.c.desc configure -text [lindex $src 3]
+					break
+				}
+			}
+		} else {
+			variable fsvideosrcs
+			variable selectedvideosrc
+
+			foreach src $fsvideosrcs {
+				if {$val == [lindex $src 2]} {
+					set selectedvideosrc [lindex $src 1]
+					$contentf.in.a1.c.desc configure -text [lindex $src 3]
+					break
+				}
 			}
 		}
 	}
-	proc setFSAudioSink { w val } {
-		variable fsaudiosinks
-		variable selectedaudiosink
 
-		foreach sink $fsaudiosinks {
-			if {$val == "[lindex $sink 2] [lindex $sink 3]"} {
-				set selectedaudiosink [lindex $sink 0]
-				break
+	proc setFSSink { contentf is_audio w val } {
+		if {$is_audio} {
+			variable fsaudiosinks
+			variable selectedaudiosink
+
+			foreach sink $fsaudiosinks {
+				if {$val == [lindex $sink 2]} {
+					set selectedaudiosink [lindex $sink 1]
+					$contentf.out.a1.c.desc configure -text [lindex $src 3]
+					break
+				}
+			}
+		} else {
+			variable fsvideosinks
+			variable selectedvideosink
+
+			foreach sink $fsvideosinks {
+				if {$val == [lindex $sink 2]} {
+					set selectedvideosink [lindex $sink 1]
+					$contentf.out.a1.c.desc configure -text [lindex $src 3]
+					break
+				}
 			}
 		}
 	}
-	proc StepFarsightClBk {assistant contentf result} {
+	proc StepFarsightClBk {assistant contentf is_audio result} {
+		variable firsttime
 		variable farsight_details
 		variable fs_configured
 		variable fsaudiosrcs
 		variable fsaudiosinks
+		variable fsvideosrcs
+		variable fsvideosinks
 		variable selectedaudiosrc
 		variable selectedaudiosink
+		variable selectedvideosrc
+		variable selectedvideosink
 
 		if {![winfo exists $contentf.fslabel]} {
 			return
 		}
 		if { $result == 1} {
 			set fs_configured 1
+			if {$is_audio && $firsttime} {
+				set firsttime 0
+				set Step [list "StepFarsightVideo" 1 ::AVAssistant::StepFarsightVideo "" "" "" "" "Farsight" assistant_webcam 1 1]
+				$assistant insertStepAfter $Step "StepFarsightAudio"
+			}
 
 			$contentf.fslabel configure -image [::skin::loadPixmap yes-emblem] -compound right
-			set txt [trans farsightinfook]
 
-			set probe [::Farsight::Probe]
-			set fsaudiosrcs [list]
-			set fsaudiosinks [list]
-			foreach p $probe {
-				puts "[lindex $p 0]"
-				if {[lindex $p 0] == "audiosource"} {
-					lappend fsaudiosrcs $p
-				} else {
-					if {[lindex $p 0] == "audiosink"} {
+			if {$firsttime} {
+				set probe [::Farsight::Probe]
+				set fsaudiosrcs [list]
+				set fsaudiosinks [list]
+				set fsvideosrcs [list]
+				set fsvideosinks [list]
+				foreach p $probe {
+					switch [lindex $p 0] {
+					  "audiosource" {
+						lappend fsaudiosrcs $p
+					  }
+					  "audiosink" {
 						lappend fsaudiosinks $p
+					  }
+					  "videosrc" {
+						lappend fsvideosrcs $p
+					  }
+					  "videosink" {
+						lappend fsvideosinks $p
+					  }
 					}
 				}
 			}
 
-			if {![info exists selectedaudiosrc]} {
-				set selectedaudiosrc [::config::getKey fsaudiosrc]
-			}
-			if {![info exists selectedaudiosink]} {
-				set selectedaudiosink [::config::getKey fsaudiosink]
-			}
-			
-			puts $probe
 
-			combobox::combobox $contentf.audiosrc -highlightthickness 0 -width 130\
-				-bg #FFFFFF -font splainf \
-				-exportselection true -editable false \
-				-command [list ::AVAssistant::setFSAudioSource]
-			$contentf.audiosrc list delete 0 end
-			foreach src $fsaudiosrcs {
-				set str "[lindex $src 2] [lindex $src 3]"
-				$contentf.audiosrc list insert end $str
-				if {$str == $selectedaudiosrc} {
-					catch {$contentf.audiosrc select $str}
+
+			if {$is_audio} {
+				if {![info exists selectedaudiosrc]} {
+					set selectedaudiosrc [::config::getKey fsaudiosrc]
+				}
+				if {![info exists selectedaudiosink]} {
+					set selectedaudiosink [::config::getKey fsaudiosink]
+				}
+				set choosesrc [trans chooseaudiosrc]
+				set choosesink [trans chooseaudiosink]
+				set srcs $fsaudiosrcs
+				set sinks $fsaudiosinks
+				set selectedsrc $selectedaudiosrc
+				set selectedsink $selectedaudiosink
+			} else {
+				if {![info exists selectedvideosrc]} {
+					set selectedaudiosrc [::config::getKey fsvideosrc]
+				}
+				if {![info exists selectedvideosink]} {
+					set selectedaudiosink [::config::getKey fsvideosink]
+				}
+				set choosesrc [trans chooseaudiosrc]
+				set choosesink [trans choosevideosink]
+				set srcs $fsvideosrcs
+				set sinks $fsvideosinks
+				set selectedsrc $selectedvideosrc
+				set selectedsink $selectedvideosink
+			}
+
+
+			###
+			# IN
+			###
+
+			frame $contentf.in
+			frame $contentf.in.a1
+			frame $contentf.in.a1.l
+			label $contentf.in.a1.l.txt -text $choosesrc
+			combobox::combobox $contentf.in.a1.l.src               \
+				-bg #FFFFFF -font splainf                       \
+				-exportselection true -editable false           \
+				-command [list ::AVAssistant::setFSSource $contentf $is_audio]
+			foreach src $srcs {
+				set str [lindex $src 2]
+				$contentf.in.a1.l.src list insert end $str
+				if {$str == $selectedsrc} {
+					catch {$contentf.in.a1.l.src select $str}
 				}
 			}
+			combobox::combobox $contentf.in.a1.l.dev
+			frame $contentf.in.a1.c
+			label $contentf.in.a1.c.desc
+			button $contentf.in.a1.c.test -text [trans test]
+			frame $contentf.in.r
+			package require voipcontrols
+			voipmixer $contentf.in.r.mixer -orient "vertical" -height 100 -width 10
 
-			label $contentf.audiosrctxt -text "\n[trans chooseaudiosrc]"
-			pack $contentf.audiosrctxt -side top
-			pack $contentf.audiosrc -side top
+			pack $contentf.in -fill x -expand 1
+			pack $contentf.in.a1 -side left -fill both -expand 1
+			pack $contentf.in.a1.l -side left -expand 0
+			pack $contentf.in.a1.l.txt
+			pack $contentf.in.a1.l.src
+			pack $contentf.in.a1.l.dev
+			pack $contentf.in.a1.c -expand 1 -fill both -anchor center
+			pack $contentf.in.a1.c.desc -side top -anchor center
+			pack $contentf.in.a1.c.test -side right -anchor se
+			pack $contentf.in.r -side right -expand 0 -fill both -anchor center
+			pack $contentf.in.r.mixer
 
-			combobox::combobox $contentf.audiosink -highlightthickness 0 -width 130\
-				-bg #FFFFFF -font splainf \
-				-exportselection true -editable false \
-				-command [list ::AVAssistant::setFSAudioSink]
-			$contentf.audiosink list delete 0 end
-			foreach sink $fsaudiosinks {
-				set str "[lindex $sink 2] [lindex $sink 3]"
-				$contentf.audiosink list insert end $str
-				if {$str == $selectedaudiosink} {
-					catch {$contentf.audiosink select $str}
+			###
+			# OUT
+			###
+
+			frame $contentf.out
+			frame $contentf.out.a1
+			frame $contentf.out.a1.l
+			label $contentf.out.a1.l.txt -text $choosesink
+			combobox::combobox $contentf.out.a1.l.sink          \
+				-bg #FFFFFF -font splainf                       \
+				-exportselection true -editable false           \
+				-command [list ::AVAssistant::setFSSink $contentf $is_audio]
+			foreach sink $sinks {
+				set str [lindex $sink 2]
+				$contentf.out.a1.l.sink list insert end $str
+				if {$str == $selectedsink} {
+					catch {$contentf.out.a1.l.sink select $str}
 				}
 			}
+			combobox::combobox $contentf.out.a1.l.dev
+			frame $contentf.out.a1.c
+			label $contentf.out.a1.c.desc
+			button $contentf.out.a1.c.test -text [trans test]
+			frame $contentf.out.r
+			if {$is_audio} {
+				package require voipcontrols
+				voipmixer $contentf.out.r.d -orient "vertical" -height 100 -width 10
+			} else {
+				frame $contentf.out.r.d -bg black
+			}
 
-			label $contentf.audiosinktxt -text "\n[trans chooseaudiosink]"
-			pack $contentf.audiosinktxt -side top
-			pack $contentf.audiosink -side top
+			pack $contentf.out -fill x -expand 1
+			pack $contentf.out.a1 -side left -fill both -expand 1
+			pack $contentf.out.a1.l -side left -expand 0
+			pack $contentf.out.a1.l.txt
+			pack $contentf.out.a1.l.sink
+			pack $contentf.out.a1.l.dev
+			pack $contentf.out.a1.c -expand 1 -fill both -anchor center
+			pack $contentf.out.a1.c.desc -side top -anchor center
+			pack $contentf.out.a1.c.test -side right -anchor se
+			pack $contentf.out.r -side right -expand 0 -fill both -anchor center
+			pack $contentf.out.r.d
 
-			#TODO: custom audio
 
 			
 		} else {
@@ -2397,17 +2515,43 @@ namespace eval ::AVAssistant {
 			#display error message
 			$contentf.fslabel configure -image [::skin::loadPixmap no-emblem] -compound right
 			set txt [trans farsightextwarn]
-		}
-		$contentf.fsmsg configure -justify left -text $txt
-		$contentf.fsurl configure -justify left -text "$::weburl/wiki/Farsight" -fg blue
+			$contentf.fsmsg configure -justify left -text $txt
+			$contentf.fsurl configure -justify left -text "$::weburl/wiki/Farsight" -fg blue
 
-		bind $contentf.fsurl <Enter> [list %W configure -font sunderf]
-		bind $contentf.fsurl <Leave> [list %W configure -font splainf]
-		bind $contentf.fsurl <ButtonRelease> [list launch_browser "$::weburl/wiki/Farsight"]
-		#to get a nice wrapping
-		bind $contentf.fsmsg <Configure> [list %W configure -wraplength %w]
+			bind $contentf.fsurl <Enter> [list %W configure -font sunderf]
+			bind $contentf.fsurl <Leave> [list %W configure -font splainf]
+			bind $contentf.fsurl <ButtonRelease> [list launch_browser "$::weburl/wiki/Farsight"]
+			#to get a nice wrapping
+			bind $contentf.fsmsg <Configure> [list %W configure -wraplength %w]
+		}
 	}
 
+	######################################################################################
+	# Step 3 : Farsight Video                                                            #
+	######################################################################################
+	proc StepFarsightVideo {assistant contentf} {
+		variable fs_details
+		variable cf
+		set cf $contentf
+
+		set is_audio 0
+
+		set fs_details ""
+
+		$contentf configure -padx 20 -pady 20
+		label $contentf.fslabel -justify left -anchor nw -font bboldf \
+			-text [trans farsightextchecking] -image [::skin::loadPixmap yes-emblem] \
+			-compound right
+		pack $contentf.fslabel
+		
+		label $contentf.fsmsg -justify left -text ""
+		label $contentf.fsurl -justify left -text "" -fg blue
+
+		pack $contentf.fsmsg
+		pack $contentf.fsurl
+
+		::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio 1
+	}
 
 
 	######################################################################################
