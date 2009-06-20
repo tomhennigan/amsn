@@ -201,6 +201,7 @@ closed La conversazione con $1 è chiusa per inattività
 closelabel Quando clicchi sul pulsante di chiusura di una finestra con più schede:
 closeonly Chiudi solo la scheda corrente
 closeorcall Devi chiudere/annullare la chiamata audio prima di chiudere la finestra.
+closeorcallvideo Devi chiudere/annullare la videochiamata prima di chiudere la finestra.
 closeordock La chiusura della finestra della lista dei contatti chiuderà aMSN. Forse vuoi solo chiudere la finestra e vuoi avere aMSN aperto nella barra delle applicazioni.\n\nSei sicuro/a di voler chiudere aMSN?
 closeothers Chiudi le altre schede
 closingdocks Pulsante chiudi riduce a icona
@@ -818,6 +819,7 @@ sendmobmsg Invia un messaggio ad un dispositivo mobile
 sendmsg Invia un messaggio istantaneo
 sendoim Invia un messaggio "non in linea"
 sendsip Inizia chiamata audio
+sendvideosip Avvia una videochiamata
 sendvoice Invia un messaggio vocale
 sendwebcamaccepted $1 ha accettato il tuo invito a visualizzare le immagini dalla tua webcam. Connessione in corso.
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
@@ -861,6 +863,7 @@ signouteverywhere Esci da tutto
 signouthere Esci da qui ($1)
 sipcallaccepted Chiamata audio accettata
 sipcallback Richiama
+sipcallconnected La tua chiamata audio è ora connessa!
 sipcalldeclined Chiamata audio rifiutata
 sipcalleeaccepted L'utente ha accettato a tua chiamata audio
 sipcalleebusy L'utente é momentaneamente occupato
@@ -870,13 +873,23 @@ sipcalleedeclined L'Utente ha rifiutato il tuo invito alla chiamata audio
 sipcalleenoanswer L'utente non ha risposto alla chiamata
 sipcalleeunavailable L'utente ora non é disponibile
 sipcallended La tua chiamata audio é finita
-sipcallimpossible Non puoi effettuare una chiamata audio.Installa Farsight2 e prova ancora.
+sipcallimpossible2 Non puoi effettuare una chiamata audio o video. Installa Farsight2 e prova ancora.
 sipcallmissed Hai perso una chiamata Audio da $1
 sipcallnosipflag L'utente non suppoorta le chiamate audio.
-sipcallsent Calling $1
-sipcallunsupported Hai ricevuto un invito di chiamata audio che non é attualmente supportato. é possibile richiamare con un nuovo invito. La telefonata Audio funzionerà
-sipcallyouarebusy Puoi fare solo una chiamata audio per volta.
+sipcallsent Chiamando $1
+sipcallyouarebusy2 Puoi fare solo una chiamata audio o video alla volta.
 sipgotinvitation Ricevuto invito chiamata audio da $1
+sipvideocallaccepted Videochiamata accettata
+sipvideocallconnected La tua videochiamata è ora connessa!
+sipvideocalldeclined Videochiamata rifiutata
+sipvideocalleeaccepted L'utente ha accettato la tua richiesta di videochiamata
+sipvideocalleecanceled L'utente ha rifiutato la tua richiesta di videochiamata
+sipvideocalleeclosed L'utente ha terminato la tua videochiamata
+sipvideocalleedeclined L'utente ha declinato la tua richiesta di videochiamata
+sipvideocallended La tua videochiamata è terminata
+sipvideocallmissed Hai perso una videochiamata da $1
+sipvideocallnosipflag L'utente non supporta le videochiamate.
+sipvideogotinvitation Hai ricevuto una richiesta di videochiamata da $1
 skinselector Seleziona il tema
 skin Tema
 smallest Piccolissimo
