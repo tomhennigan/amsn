@@ -915,7 +915,7 @@ namespace eval ::MSN {
 			::config::setKey protocol 15
 		}
 
-		::MSN::setClientCap msnc10
+		::MSN::setClientCap msnc7
 		::MSN::setClientCap inkgif
 		::MSN::setClientCap multip
 		::MSN::setClientCap voice

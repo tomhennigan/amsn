@@ -2891,6 +2891,8 @@ namespace eval ::MSNSIP {
 			::MSN::setClientCap sip 0
 			::MSN::setClientCap tunnelsip 0
 			::MSN::setClientCap rtcvideo 0
+			::MSN::setClientCap p2paware 0
+			::MSN::setClientCap msnc7
 			if {[::MSN::myStatusIs] != "FLN" } {
 				::MSN::changeStatus [::MSN::myStatusIs]
 			}
@@ -2914,6 +2916,12 @@ namespace eval ::MSNSIP {
 		if {[::config::getKey protocol] >= 15 &&
 		    ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
 			::MSN::setClientCap rtcvideo
+			set changed 1
+		}
+		if {[::config::getKey protocol] >= 15 &&
+		    ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
+			::MSN::setClientCap p2paware 0
+			::MSN::setClientCap msnc10
 			set changed 1
 		}
 		if { [::config::getKey protocol] >= 18 &&
