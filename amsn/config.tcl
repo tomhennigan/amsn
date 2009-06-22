@@ -974,6 +974,9 @@ proc load_config {} {
 	# We now want to force the NAT Keep alive to enabled
 	::config::setKey keepalive 1
 
+	# Disable MSN spaces - disabled in the servers
+	::config::setKey showspaces 0
+
 	# We loaded the config, we will now load the DP pictures.. 
 	load_my_pic
 	
