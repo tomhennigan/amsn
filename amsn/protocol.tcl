@@ -905,15 +905,13 @@ namespace eval ::MSN {
 		}
 
 		if {[::config::getKey protocol] != 15 &&
-		    [::config::getKey protocol] != 18} {
-			::config::setKey protocol 11
+		    [::config::getKey protocol] != 18 &&
+		    [::config::getKey protocol] != 11} {
+			::config::setKey protocol 15
 		}
 
 
 		::config::setKey clientid 0
-		if {[::config::getKey protocol] < 15 } {
-			::config::setKey protocol 15
-		}
 
 		::MSN::setClientCap msnc10
 		::MSN::setClientCap inkgif
