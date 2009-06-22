@@ -2306,7 +2306,11 @@ snit::type Farsight {
 			set turn [TURN create %AUTO% -user [::config::getKey login] \
 				      -password $prepare_ticket]
 			$turn configure -callback [list $self TurnPrepared $controlling $turn]
-			$turn RequestSharedSecret 2
+			if {$mode == "AV6" || $mode == "AV19" } {
+				$turn RequestSharedSecret 4
+			} else {
+				$turn RequestSharedSecret 2
+			}
 			tkwait variable [myvar prepare_relay_info]
 		}
 
@@ -2321,13 +2325,15 @@ snit::type Farsight {
 		after 0 [list $turn destroy]
 		set prepare_relay_info [list]
 		set component 1
+		set stream 1
 		set type "udp"
 		foreach relay $relay_info {
 			foreach {ip port user pass} $relay break
-			lappend prepare_relay_info [list $ip $port $user $pass $component $type]
+			lappend prepare_relay_info [list $ip $port $user $pass $stream $component $type]
 			incr component
 			if {$component > 2} {
 				set component 1
+				set stream 2
 			}
 		}
 		status_log "Turn prepared $prepare_relay_info"

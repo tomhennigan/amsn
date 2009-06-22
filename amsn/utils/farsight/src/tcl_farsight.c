@@ -1912,6 +1912,282 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 }
 
 
+static int
+_tcl_codecs_to_fscodecs (Tcl_Interp *interp, Tcl_Obj **tcl_remote_codecs,
+    int total_codecs, GList **remote_codecs, FsMediaType media_type)
+{
+  FsCodec *codec = NULL;
+  int i;
+
+  for (i = 0; i < total_codecs; i++) {
+    int total_elements;
+    Tcl_Obj **elements = NULL;
+    codec = fs_codec_new (0, NULL, media_type, 0);
+
+    if (Tcl_ListObjGetElements(interp, tcl_remote_codecs[i],
+            &total_elements, &elements) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid codec", (char *) NULL);
+      goto error_codec;
+    }
+    if (total_elements != 3) {
+      Tcl_AppendResult (interp, "\nInvalid codec : ",
+          Tcl_GetString (tcl_remote_codecs[i]), (char *) NULL);
+      goto error_codec;
+    }
+
+    codec->encoding_name = g_strdup (Tcl_GetStringFromObj (elements[0], NULL));
+
+    if (Tcl_GetIntFromObj (interp, elements[1], &codec->id) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid codec : ",
+          Tcl_GetString (tcl_remote_codecs[i]), (char *) NULL);
+      goto error_codec;
+    }
+
+    if (Tcl_GetIntFromObj (interp, elements[2], &codec->clock_rate) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid codec : ",
+          Tcl_GetString (tcl_remote_codecs[i]), (char *) NULL);
+      goto error_codec;
+    }
+
+    _notify_debug ("New remote %s codec : %d %s %d",
+        media_type == FS_MEDIA_TYPE_AUDIO ? "audio" : "video",
+        codec->id, codec->encoding_name, codec->clock_rate);
+    *remote_codecs = g_list_append (*remote_codecs, codec);
+  }
+
+  return TCL_OK;
+
+ error_codec:
+  fs_codec_destroy (codec);
+  fs_codec_list_destroy (*remote_codecs);
+  *remote_codecs = NULL;
+  return TCL_ERROR;
+}
+
+
+static int
+_tcl_candidates_to_fscandidates (Tcl_Interp *interp, Tcl_Obj **tcl_remote_candidates,
+    int total_candidates, GList **remote_candidates)
+{
+  FsCandidate *candidate = NULL;
+  int i;
+
+  for (i = 0; i < total_candidates; i++) {
+    int total_elements;
+    Tcl_Obj **elements = NULL;
+    double temp_d;
+    int temp_i;
+    char *temp_s;
+    candidate = fs_candidate_new (NULL, 1, 0, FS_NETWORK_PROTOCOL_UDP, NULL, 0);
+
+    if (Tcl_ListObjGetElements(interp, tcl_remote_candidates[i],
+            &total_elements, &elements) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid candidate", (char *) NULL);
+      goto error_candidate;
+    }
+    if (total_elements != 11) {
+      Tcl_AppendResult (interp, "Invalid candidate : ",
+          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+      goto error_candidate;
+    }
+
+    /* Foundation */
+    candidate->foundation = g_strdup (Tcl_GetString (elements[0]));
+
+    /* Component id*/
+    if (Tcl_GetIntFromObj (interp, elements[1], &candidate->component_id) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid candidate : ",
+          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+      goto error_candidate;
+    }
+
+    /* IP */
+    candidate->ip = g_strdup (Tcl_GetString (elements[2]));
+
+    /* port */
+    if (Tcl_GetIntFromObj (interp, elements[3], &temp_i) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid candidate : ",
+          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+      goto error_candidate;
+    }
+    candidate->port = temp_i;
+
+    /* base IP */
+    if (Tcl_GetString (elements[4]) != NULL &&
+        Tcl_GetString (elements[4])[0] != 0) {
+      candidate->base_ip = g_strdup (Tcl_GetString (elements[4]));
+
+      /* base port */
+      if (Tcl_GetIntFromObj (interp, elements[5], &temp_i) != TCL_OK) {
+        Tcl_AppendResult (interp, "\nInvalid candidate : ",
+            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+        goto error_candidate;
+      }
+      candidate->base_port = temp_i;
+    }
+
+    /* Protocol */
+    candidate->proto = strcmp (Tcl_GetString (elements[6]), "UDP") == 0 ?
+        FS_NETWORK_PROTOCOL_UDP : FS_NETWORK_PROTOCOL_TCP;
+
+    /* Priority */
+    if (call_type & RTP_ICE6) {
+      if (Tcl_GetDoubleFromObj (interp, elements[7], &temp_d) != TCL_OK) {
+        Tcl_AppendResult (interp, "\nInvalid candidate : ",
+            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+        goto error_candidate;
+      }
+
+      candidate->priority = (guint32) (temp_d * 1000);
+    } else {
+      if (Tcl_GetIntFromObj (interp, elements[7], &temp_i) != TCL_OK) {
+        Tcl_AppendResult (interp, "\nInvalid candidate : ",
+            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
+        goto error_candidate;
+      }
+      candidate->priority = temp_i;
+    }
+
+    /* Type */
+    temp_s = Tcl_GetString (elements[8]);
+
+    if (strcmp (temp_s, "host") == 0) {
+      candidate->type = FS_CANDIDATE_TYPE_HOST;
+    } else if (strcmp (temp_s, "srflx") == 0) {
+      candidate->type = FS_CANDIDATE_TYPE_SRFLX;
+    } else if (strcmp (temp_s, "prflx") == 0) {
+      candidate->type = FS_CANDIDATE_TYPE_PRFLX;
+    } else if (strcmp (temp_s, "relay") == 0) {
+      candidate->type = FS_CANDIDATE_TYPE_RELAY;
+    }
+
+    /* Username/Password */
+    candidate->username = g_strdup (Tcl_GetString (elements[9]));
+    candidate->password = g_strdup (Tcl_GetString (elements[10]));
+
+    _notify_debug ("New Remote candidate: %s %d %s %d %s %d %s %d %s %s %s\n",
+        candidate->foundation == NULL ? "-" : candidate->foundation,
+        candidate->component_id,
+        candidate->ip,
+        candidate->port,
+        candidate->base_ip == NULL ? "-" : candidate->base_ip,
+        candidate->base_port,
+        candidate->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
+        candidate->priority,
+        _fs_candidate_type_to_string (candidate->type),
+        candidate->username == NULL ? "-" : candidate->username,
+        candidate->password == NULL ? "-" : candidate->password);
+
+    *remote_candidates = g_list_append (*remote_candidates, candidate);
+  }
+
+  return TCL_OK;
+
+ error_candidate:
+  fs_candidate_destroy (candidate);
+  fs_candidate_list_destroy (*remote_candidates);
+  *remote_candidates = NULL;
+
+  return TCL_ERROR;
+}
+
+static int
+_tcl_relay_info_to_gvalue_array (Tcl_Interp *interp, Tcl_Obj **tcl_relay_info,
+    int total_relay_info, GValueArray **audio_relay_info, GValueArray **video_relay_info)
+{
+
+  int i;
+  for (i = 0; i < total_relay_info; i++) {
+    char *turn_ip = NULL;
+    char *turn_hostname = NULL;
+    int turn_port = 1863;
+    int stream = 0;
+    int component = 0;
+    char *username = NULL;
+    char *password = NULL;
+    char *type = NULL;
+    int total_elements;
+    Tcl_Obj **elements = NULL;
+    GstStructure *turn_setup = NULL;
+    GValue gvalue = { 0 };
+    g_value_init (&gvalue, GST_TYPE_STRUCTURE);
+
+    if (Tcl_ListObjGetElements(interp, tcl_relay_info[i],
+            &total_elements, &elements) != TCL_OK) {
+      Tcl_AppendResult (interp, "\nInvalid relay info element", (char *) NULL);
+      return TCL_ERROR;
+    }
+    if (total_elements != 7) {
+      Tcl_AppendResult (interp, "\nInvalid relay info element : ",
+          Tcl_GetString (tcl_relay_info[i]), (char *) NULL);
+      return TCL_ERROR;
+    }
+
+    turn_hostname = Tcl_GetStringFromObj (elements[0], NULL);
+    turn_ip = host2ip (turn_hostname);
+    if (turn_ip == NULL) {
+      Tcl_AppendResult (interp, "TURN server invalid : Could not resolve hostname",
+          (char *) NULL);
+      return TCL_ERROR;
+    }
+    if (Tcl_GetIntFromObj (interp, elements[1], &turn_port) == TCL_ERROR) {
+      Tcl_AppendResult (interp, "TURN port invalid : Expected integer" , (char *) NULL);
+      return TCL_ERROR;
+    }
+    if (turn_port == 0) {
+      turn_port = 1863;
+    }
+    username = Tcl_GetStringFromObj (elements[2], NULL);
+    password = Tcl_GetStringFromObj (elements[3], NULL);
+
+    if (Tcl_GetIntFromObj (interp, elements[4], &stream) == TCL_ERROR) {
+      Tcl_AppendResult (interp, "TURN stream invalid : Expected integer" , (char *) NULL);
+      return TCL_ERROR;
+    }
+
+    if (Tcl_GetIntFromObj (interp, elements[5], &component) == TCL_ERROR) {
+      Tcl_AppendResult (interp, "TURN component invalid : Expected integer" , (char *) NULL);
+      return TCL_ERROR;
+    }
+    type = Tcl_GetStringFromObj (elements[6], NULL);
+
+    turn_setup = gst_structure_new ("relay-info",
+        "ip", G_TYPE_STRING, turn_ip,
+        "port", G_TYPE_UINT, turn_port,
+        "component", G_TYPE_UINT, component,
+        "username", G_TYPE_STRING, username,
+        "password", G_TYPE_STRING, password,
+        "relay-type", G_TYPE_STRING, type,
+        NULL);
+
+    if (turn_setup == NULL) {
+      Tcl_AppendResult (interp, "Unable to create relay info" , (char *) NULL);
+      return TCL_ERROR;
+    }
+
+    gst_value_set_structure (&gvalue, turn_setup);
+    if (stream == 1) {
+      if (*audio_relay_info == NULL) {
+        *audio_relay_info = g_value_array_new (0);
+      }
+      *audio_relay_info = g_value_array_append (*audio_relay_info, &gvalue);
+    } else if (stream == 2) {
+      if (*video_relay_info == NULL) {
+        *video_relay_info = g_value_array_new (0);
+      }
+      *video_relay_info = g_value_array_append (*video_relay_info, &gvalue);
+    } else {
+      gst_structure_free (turn_setup);
+      Tcl_AppendResult (interp, "Invalid stream id" , (char *) NULL);
+      return TCL_ERROR;
+    }
+    gst_structure_free (turn_setup);
+  }
+
+  return TCL_OK;
+}
+
+
 int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
 {
@@ -1932,7 +2208,8 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   Tcl_Obj **tcl_relay_info = NULL;
   int total_relay_info;
   int i;
-  GValueArray *relay_info = NULL;
+  GValueArray *audio_relay_info = NULL;
+  GValueArray *video_relay_info = NULL;
   int total_params;
   char *mode = NULL;
 
@@ -1944,7 +2221,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         OLD_AUDIO_CALL ", " OLD_AUDIO_VIDEO_CALL ", "
         NEW_AUDIO_CALL " or " NEW_AUDIO_VIDEO_CALL "\n"
         "Where relay_info is a list with each element being a list containing : "
-        "{turn_hostname turn_port turn_username turn_password component type}");
+        "{turn_hostname turn_port turn_username turn_password stream component type}");
     return TCL_ERROR;
   }
 
@@ -1988,79 +2265,9 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       Tcl_AppendResult (interp, "\nInvalid relay info", (char *) NULL);
       return TCL_ERROR;
     }
-    if (total_relay_info > 0) {
-      relay_info = g_value_array_new (0);
-    }
-    for (i = 0; i < total_relay_info; i++) {
-      char *turn_ip = NULL;
-      char *turn_hostname = NULL;
-      int turn_port = 1863;
-      int component = 0;
-      char *username = NULL;
-      char *password = NULL;
-      char *type = NULL;
-      int total_elements;
-      Tcl_Obj **elements = NULL;
-      GstStructure *turn_setup = NULL;
-      GValue gvalue = { 0 };
-      g_value_init (&gvalue, GST_TYPE_STRUCTURE);
-
-      if (Tcl_ListObjGetElements(interp, tcl_relay_info[i],
-              &total_elements, &elements) != TCL_OK) {
-        g_value_array_free (relay_info);
-        Tcl_AppendResult (interp, "\nInvalid relay info element", (char *) NULL);
-        return TCL_ERROR;
-      }
-      if (total_elements != 6) {
-        g_value_array_free (relay_info);
-        Tcl_AppendResult (interp, "\nInvalid relay info element : ",
-            Tcl_GetString (tcl_relay_info[i]), (char *) NULL);
-        return TCL_ERROR;
-      }
-
-      turn_hostname = Tcl_GetStringFromObj (elements[0], NULL);
-      turn_ip = host2ip (turn_hostname);
-      if (turn_ip == NULL) {
-        g_value_array_free (relay_info);
-        Tcl_AppendResult (interp, "TURN server invalid : Could not resolve hostname",
-            (char *) NULL);
-        return TCL_ERROR;
-      }
-      if (Tcl_GetIntFromObj (interp, elements[1], &turn_port) == TCL_ERROR) {
-        g_value_array_free (relay_info);
-        Tcl_AppendResult (interp, "TURN port invalid : Expected integer" , (char *) NULL);
-        return TCL_ERROR;
-      }
-      if (turn_port == 0) {
-        turn_port = 1863;
-      }
-      username = Tcl_GetStringFromObj (elements[2], NULL);
-      password = Tcl_GetStringFromObj (elements[3], NULL);
-      if (Tcl_GetIntFromObj (interp, elements[4], &component) == TCL_ERROR) {
-        g_value_array_free (relay_info);
-        Tcl_AppendResult (interp, "TURN component invalid : Expected integer" , (char *) NULL);
-        return TCL_ERROR;
-      }
-      type = Tcl_GetStringFromObj (elements[5], NULL);
-
-      turn_setup = gst_structure_new ("relay-info",
-          "ip", G_TYPE_STRING, turn_ip,
-          "port", G_TYPE_UINT, turn_port,
-          "component", G_TYPE_UINT, component,
-          "username", G_TYPE_STRING, username,
-          "password", G_TYPE_STRING, password,
-          "relay-type", G_TYPE_STRING, type,
-          NULL);
-
-      if (turn_setup == NULL) {
-        g_value_array_free (relay_info);
-        Tcl_AppendResult (interp, "Unable to create relay info" , (char *) NULL);
-        return TCL_ERROR;
-      }
-
-      gst_value_set_structure (&gvalue, turn_setup);
-      relay_info = g_value_array_append (relay_info, &gvalue);
-      gst_structure_free (turn_setup);
+    if (_tcl_relay_info_to_gvalue_array (interp, tcl_relay_info,
+            total_relay_info, &audio_relay_info, &video_relay_info) != TCL_OK) {
+      goto error;
     }
   }
 
@@ -2350,11 +2557,11 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     total_params++;
   }
 
-  if (relay_info) {
-    _notify_debug ("FS: relay info = %p - %d", relay_info, relay_info->n_values);
+  if (audio_relay_info) {
+    _notify_debug ("FS: relay info = %p - %d", audio_relay_info, audio_relay_info->n_values);
     transmitter_params[total_params].name = "relay-info";
     g_value_init (&transmitter_params[total_params].value, G_TYPE_VALUE_ARRAY);
-    g_value_set_boxed (&transmitter_params[total_params].value, relay_info);
+    g_value_set_boxed (&transmitter_params[total_params].value, audio_relay_info);
     total_params++;
   }
 
@@ -2497,12 +2704,12 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       total_params++;
     }
 
-    /* Must have different audio/video relay info */
-    if (relay_info) {
-      _notify_debug ("FS: relay info = %p - %d", relay_info, relay_info->n_values);
+    /* TODO: Must have different audio/video relay info */
+    if (video_relay_info) {
+      _notify_debug ("FS: relay info = %p - %d", video_relay_info, video_relay_info->n_values);
       transmitter_params[total_params].name = "relay-info";
       g_value_init (&transmitter_params[total_params].value, G_TYPE_VALUE_ARRAY);
-      g_value_set_boxed (&transmitter_params[total_params].value, relay_info);
+      g_value_set_boxed (&transmitter_params[total_params].value, video_relay_info);
       total_params++;
     }
 
@@ -2532,195 +2739,21 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
-  if (relay_info)
-    g_value_array_free (relay_info);
+  if (audio_relay_info)
+    g_value_array_free (audio_relay_info);
+  if (video_relay_info)
+    g_value_array_free (video_relay_info);
+
   return TCL_OK;
 
  error:
   _notify_debug ("Error: %s", Tcl_GetStringResult(interp));
   Close ();
 
-  if (relay_info)
-    g_value_array_free (relay_info);
-
-  return TCL_ERROR;
-}
-
-static int
-_tcl_codecs_to_fscodecs (Tcl_Interp *interp, Tcl_Obj **tcl_remote_codecs,
-    int total_codecs, GList **remote_codecs, FsMediaType media_type)
-{
-  FsCodec *codec = NULL;
-  int i;
-
-  for (i = 0; i < total_codecs; i++) {
-    int total_elements;
-    Tcl_Obj **elements = NULL;
-    codec = fs_codec_new (0, NULL, media_type, 0);
-
-    if (Tcl_ListObjGetElements(interp, tcl_remote_codecs[i],
-            &total_elements, &elements) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid codec", (char *) NULL);
-      goto error_codec;
-    }
-    if (total_elements != 3) {
-      Tcl_AppendResult (interp, "\nInvalid codec : ",
-          Tcl_GetString (tcl_remote_codecs[i]), (char *) NULL);
-      goto error_codec;
-    }
-
-    codec->encoding_name = g_strdup (Tcl_GetStringFromObj (elements[0], NULL));
-
-    if (Tcl_GetIntFromObj (interp, elements[1], &codec->id) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid codec : ",
-          Tcl_GetString (tcl_remote_codecs[i]), (char *) NULL);
-      goto error_codec;
-    }
-
-    if (Tcl_GetIntFromObj (interp, elements[2], &codec->clock_rate) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid codec : ",
-          Tcl_GetString (tcl_remote_codecs[i]), (char *) NULL);
-      goto error_codec;
-    }
-
-    _notify_debug ("New remote %s codec : %d %s %d",
-        media_type == FS_MEDIA_TYPE_AUDIO ? "audio" : "video",
-        codec->id, codec->encoding_name, codec->clock_rate);
-    *remote_codecs = g_list_append (*remote_codecs, codec);
-  }
-
-  return TCL_OK;
-
- error_codec:
-  fs_codec_destroy (codec);
-  fs_codec_list_destroy (*remote_codecs);
-  *remote_codecs = NULL;
-  return TCL_ERROR;
-}
-
-
-static int
-_tcl_candidates_to_fscandidates (Tcl_Interp *interp, Tcl_Obj **tcl_remote_candidates,
-    int total_candidates, GList **remote_candidates)
-{
-  FsCandidate *candidate = NULL;
-  int i;
-
-  for (i = 0; i < total_candidates; i++) {
-    int total_elements;
-    Tcl_Obj **elements = NULL;
-    double temp_d;
-    int temp_i;
-    char *temp_s;
-    candidate = fs_candidate_new (NULL, 1, 0, FS_NETWORK_PROTOCOL_UDP, NULL, 0);
-
-    if (Tcl_ListObjGetElements(interp, tcl_remote_candidates[i],
-            &total_elements, &elements) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid candidate", (char *) NULL);
-      goto error_candidate;
-    }
-    if (total_elements != 11) {
-      Tcl_AppendResult (interp, "Invalid candidate : ",
-          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
-      goto error_candidate;
-    }
-
-    /* Foundation */
-    candidate->foundation = g_strdup (Tcl_GetString (elements[0]));
-
-    /* Component id*/
-    if (Tcl_GetIntFromObj (interp, elements[1], &candidate->component_id) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid candidate : ",
-          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
-      goto error_candidate;
-    }
-
-    /* IP */
-    candidate->ip = g_strdup (Tcl_GetString (elements[2]));
-
-    /* port */
-    if (Tcl_GetIntFromObj (interp, elements[3], &temp_i) != TCL_OK) {
-      Tcl_AppendResult (interp, "\nInvalid candidate : ",
-          Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
-      goto error_candidate;
-    }
-    candidate->port = temp_i;
-
-    /* base IP */
-    if (Tcl_GetString (elements[4]) != NULL &&
-        Tcl_GetString (elements[4])[0] != 0) {
-      candidate->base_ip = g_strdup (Tcl_GetString (elements[4]));
-
-      /* base port */
-      if (Tcl_GetIntFromObj (interp, elements[5], &temp_i) != TCL_OK) {
-        Tcl_AppendResult (interp, "\nInvalid candidate : ",
-            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
-        goto error_candidate;
-      }
-      candidate->base_port = temp_i;
-    }
-
-    /* Protocol */
-    candidate->proto = strcmp (Tcl_GetString (elements[6]), "UDP") == 0 ?
-        FS_NETWORK_PROTOCOL_UDP : FS_NETWORK_PROTOCOL_TCP;
-
-    /* Priority */
-    if (call_type & RTP_ICE6) {
-      if (Tcl_GetDoubleFromObj (interp, elements[7], &temp_d) != TCL_OK) {
-        Tcl_AppendResult (interp, "\nInvalid candidate : ",
-            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
-        goto error_candidate;
-      }
-
-      candidate->priority = (guint32) (temp_d * 1000);
-    } else {
-      if (Tcl_GetIntFromObj (interp, elements[7], &temp_i) != TCL_OK) {
-        Tcl_AppendResult (interp, "\nInvalid candidate : ",
-            Tcl_GetString (tcl_remote_candidates[i]), (char *) NULL);
-        goto error_candidate;
-      }
-      candidate->priority = temp_i;
-    }
-
-    /* Type */
-    temp_s = Tcl_GetString (elements[8]);
-
-    if (strcmp (temp_s, "host") == 0) {
-      candidate->type = FS_CANDIDATE_TYPE_HOST;
-    } else if (strcmp (temp_s, "srflx") == 0) {
-      candidate->type = FS_CANDIDATE_TYPE_SRFLX;
-    } else if (strcmp (temp_s, "prflx") == 0) {
-      candidate->type = FS_CANDIDATE_TYPE_PRFLX;
-    } else if (strcmp (temp_s, "relay") == 0) {
-      candidate->type = FS_CANDIDATE_TYPE_RELAY;
-    }
-
-    /* Username/Password */
-    candidate->username = g_strdup (Tcl_GetString (elements[9]));
-    candidate->password = g_strdup (Tcl_GetString (elements[10]));
-
-    _notify_debug ("New Remote candidate: %s %d %s %d %s %d %s %d %s %s %s\n",
-        candidate->foundation == NULL ? "-" : candidate->foundation,
-        candidate->component_id,
-        candidate->ip,
-        candidate->port,
-        candidate->base_ip == NULL ? "-" : candidate->base_ip,
-        candidate->base_port,
-        candidate->proto == FS_NETWORK_PROTOCOL_UDP ? "UDP" : "TCP",
-        candidate->priority,
-        _fs_candidate_type_to_string (candidate->type),
-        candidate->username == NULL ? "-" : candidate->username,
-        candidate->password == NULL ? "-" : candidate->password);
-
-    *remote_candidates = g_list_append (*remote_candidates, candidate);
-  }
-
-  return TCL_OK;
-
- error_candidate:
-  fs_candidate_destroy (candidate);
-  fs_candidate_list_destroy (*remote_candidates);
-  *remote_candidates = NULL;
+  if (audio_relay_info)
+    g_value_array_free (audio_relay_info);
+  if (video_relay_info)
+    g_value_array_free (video_relay_info);
 
   return TCL_ERROR;
 }
