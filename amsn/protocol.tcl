@@ -6485,9 +6485,17 @@ proc cmsn_ns_handler {item {message ""}} {
 				# status with new clientid (happens if farsight takes a long time to
 				# timeout the STUN discovery)
 				set clientid [lindex $item 3]
+				set myclientid [::config::getKey clientid 0]
+				if { [::config::getKey protocol] < 18} {
+					set myclientid [lindex [split $myclientid ":"] 0]
+				}
 
-				if { [::config::getKey clientid 0] != $clientid || ![info exists chg_last_dp] || [::config::getKey displaypic] != $chg_last_dp } {
+				if { $myclientid != $clientid ||
+				     ![info exists chg_last_dp] || [::config::getKey displaypic] != $chg_last_dp } {
+					global autostatuschange
+					set tmp $autostatuschange
 					::MSN::changeStatus [::MSN::myStatusIs]
+					set autostatuschange $tmp
 				}
 			}
 			return 0
