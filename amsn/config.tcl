@@ -58,6 +58,8 @@ namespace eval ::config {
 
 		::config::setKey cam_in_cw 0
 
+		::config::setKey protocoloverride 0
+
 		#Dir for received files
 		if { [OnDarwin] } {
 		        ::config::setKey receiveddir "[file join $::env(HOME) Desktop]"
