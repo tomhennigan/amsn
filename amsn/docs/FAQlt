@@ -111,7 +111,7 @@ Linux: Arabiškos lokalės įdiegimas turėtų išspręsti šią problemą.
 
 Pirmą kartą jūs uždarykite aMSN su „X“ mygtuku pagrindinio lango rėmelyje. Tada jūsų turi paklausti, ar jūs norite išeiti, ar mažinti į dėklą. Jūs turėtumėte pasirinkti „Mažinti į dėklą“, jei jūs norite, kad kortelė dingtų iš programų juostos.
 
-Antraip, jūs galite taip pat spragtelėti, „Mažinti į dėklą“ pasirinkdami tai per meniu „Abonentas“.
+Antraip, jūs galite taip pat spragtelėti, „Mažinti į dėklą“ pasirinkdami tai per meniu „Paskyra“.
 
 
 
@@ -145,7 +145,7 @@ Taip, dauguma vartotojų gali paleisti aMSN ant 64-bitų architektūros. Tačiau
  
 == Kada iškyla pranešimų langas, langų užduočių juosta iš dalies uždengia jį, ar galima ištaisyti tai? ==
 
-Taip, jūs galite perkelti langą X taškų į kairę ir Y taškų į viršų. Jūs galite pasirinkti tai keisdami „X nustatymas“ ir „Y nustatymas“ reikšmes įeidami per meniu „Abonentas“ > „Nustatymai“ > „Pažangiems“ > „Nustatyti pranešimo pasirodymo vietą“ ir spragtekite „Išsaugoti“, kad išsaugotumėte pakeitimus. 
+Taip, jūs galite perkelti langą X taškų į kairę ir Y taškų į viršų. Jūs galite pasirinkti tai keisdami „X nustatymas“ ir „Y nustatymas“ reikšmes įeidami per meniu „Paskyra“ > „Nustatymai“ > „Pažangiems“ > „Nustatyti pranešimo pasirodymo vietą“ ir spragtekite „Išsaugoti“, kad išsaugotumėte pakeitimus. 
 
 
 
@@ -276,9 +276,9 @@ Mes nežinome, apsilankykite apvalkalo tinkapyje arba susisiekite su apvalkalo a
 
 == Kai tik aš bandau prisijungti ar pakeisti aMSN kalbą, tai aMSN nulūžta su šia žinute: X Error of failed request: BadValue (integer parameter out of range for operation), Major opcode of failed request: 45 (X_OpenFont) ==
 
-Visų pirma, tai gali būti šrifto problema: bandykite paleisti aMSN su skirtingais šriftais (per Abonentas -> Nustatymai -> Išvaizda). 
+Visų pirma, tai gali būti šrifto problema: bandykite paleisti aMSN su skirtingais šriftais (per Paskyra -> Nustatymai -> Išvaizda). 
 
-Antra, jums reikia paleisti aMSN naudojant skirtingus kodavimus (per Abonentas -> Nustatymai -> Išvaizda vėl, utf-8 yra saugus pasirinkimas). 
+Antra, jums reikia paleisti aMSN naudojant skirtingus kodavimus (per Paskyra -> Nustatymai -> Išvaizda vėl, utf-8 yra saugus pasirinkimas). 
 
 Trečia, bandykite išvalyti savo šrifto spartinančiąją atmintį su komanda: 
   fc-cache -fv
@@ -327,7 +327,7 @@ Taip, spragtelkite dešininiu mygtuku ant kontakto vardo kontaktų sąraše, po 
 
 Asmeninė Žinutė (AŽ) yra tekstas, matomas po jūsų slapyvardžiu. Ši ypatybė dabar galima nuo aMSN 0.96. 
 
-Nustatinėjant savo AŽ, jums reikia spragtelti ant meniu „Abonentas“, po to „Keisti slapyvardį...“, ten rasite laukelį, kuriame galėsite pakeisti AŽ. 
+Nustatinėjant savo AŽ, jums reikia spragtelti ant meniu „Paskyra“, po to „Keisti slapyvardį...“, ten rasite laukelį, kuriame galėsite pakeisti AŽ. 
 
 
 
@@ -343,15 +343,15 @@ Visą sąrašą klaviatūros šaukinių galite pamatyti puslapyje adresu: http:/
 
 Keturi sąrašai, žinomi kaip: 
 
-Priimtųjų sąrašas (AL), juodasis sąrašas (BL), kontaktų sąrašas (FL) ir atvirkštinis sąrašas (RL). 
+Priimtųjų sąrašas (PS), juodasis sąrašas (JS), kontaktų sąrašas (KS) ir atvirkštinis sąrašas (AS). 
 
-AL: Šis sąrašas rodo žmonių el. pašto adresus, kuriems leidžiama pamatyti jus, kada jūs prisijungiate prie aMSN, ir jie gali taip pat kalbėtis su jumis.
+PS: Šis sąrašas rodo žmonių el. pašto adresus, kuriems leidžiama pamatyti jus, kada jūs prisijungiate prie aMSN, ir jie gali taip pat kalbėtis su jumis.
 
-BL: Tai yra juodasis sąrašas, kas reiškia, kad jį sudaro žmonių sąrašas, kuriuos jūs užblokavote. Taigi reiškia, kad jie negali pamatyti jūsų, kai jūs esate prisijungęs prie aMSN, ir jie negali kalbėtis su jumis.
+JS: Tai yra juodasis sąrašas, kas reiškia, kad jį sudaro žmonių sąrašas, kuriuos jūs užblokavote. Taigi reiškia, kad jie negali pamatyti jūsų, kai jūs esate prisijungęs prie aMSN, ir jie negali kalbėtis su jumis.
 
-FL: Šis sąrašas sudaro visus kontaktus, kurie rodomi jūsų kontaktų sąraše. 
+KS: Šis sąrašas sudaro visus kontaktus, kurie rodomi jūsų kontaktų sąraše. 
 
-RL: Tai yra atvirkštinis sąrašas, kurį sydaro žmonių elektroninio pašto adresai, kurie turi jus savo sąraše. 
+AS: Tai yra atvirkštinis sąrašas, kurį sydaro žmonių elektroninio pašto adresai, kurie turi jus savo sąraše. 
 
 
 
@@ -407,7 +407,7 @@ Sprakteldami mygtuką „Jaustukai“, kuris yra pokalbių lange. Jūs dabar mat
 
 == Slapyvardžiai yra nukirsti. Ar įmanoma sugrįžti prie pilnų slapyvardžių? ==
 
-Taip. Norėdami matyti slapyvardžius visu ilgiu kontaktų sąraše, įspėjimuose ir pokalbių lange, eikite į „Abonentas“ > „Nustatymai“ > „Pažengusiems“ kortelę ir atžymėkite parinktį pavadinimu „Nukirsti slapyvardžius, ilgesnius negu pavadinimo lango plotis ir kontaktų sąrašas“. (Momentinė nuotrauka 5.7)
+Taip. Norėdami matyti slapyvardžius visu ilgiu kontaktų sąraše, įspėjimuose ir pokalbių lange, eikite į „Paskyra“ > „Nustatymai“ > „Pažengusiems“ kortelę ir atžymėkite parinktį pavadinimu „Nukirsti slapyvardžius, ilgesnius negu pavadinimo lango plotis ir kontaktų sąrašas“. (Momentinė nuotrauka 5.7)
 
 Tas pats gali būti padaryta slapyvardžiams, esantiems pokalbių lange, atžymėjus parinktį „Nukirsti slapyvardžius, ilgesnius negu pokalbių lango vidinė pusė“. (Momentinė nuotrauka 5.7)
 
@@ -557,7 +557,7 @@ aMSN negali tvarkyti rinkmenų, kurios turi simbolį ` (galinės kabutės) jų k
 
 == Kaip aš galiu leisti/neleisti aMSN įsijungimą per Windows įkeltį? ==
 
-Jūs galite padaryti tai pažymėdami „Įjungus aMSN, prisijungti automatiškai“ per Abonentas -> Nustatymai -> Sesija
+Jūs galite padaryti tai pažymėdami „Įjungus aMSN, prisijungti automatiškai“ per Paskyra -> Nustatymai -> Sesija
 
 
 
@@ -665,7 +665,7 @@ Mac OS X: /Home / Library / Application Support / aMSN / your_email_profile / lo
 
 == Ar aš galiu išjungti pasirinktus ir/arba animuotus jaustukus? ==
 
-Pasirinkite „Nustatymai“ iš meniu „Abonentas“, tada spragtelkite ant kortelės „Išvaizda“. Čia jūs galėsite nustatyti įvairias jaustukų patinktis. 
+Pasirinkite „Nustatymai“ iš meniu „Paskyra“, tada spragtelkite ant kortelės „Išvaizda“. Čia jūs galėsite nustatyti įvairias jaustukų patinktis. 
 
 
 

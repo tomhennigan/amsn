@@ -1,25 +1,25 @@
 amsn_lang_version 2
 abort Atšaukti
-about Apie
 aboutamsn Apie Alvaro Messenger
-accept Priimti
+about Apie
 acceptfile Ar norite priimti šią rinkmeną $1 (dydis $2 baitai)? Ji bus išsaugota į $3
-account Paskyra
+accept Priimti
 accountkid Ši vaikų paskyra negali būti naudojama Messengeryje. Jūs turite nueiti į vaikų pasų tinklapį ir pateikti tėvų sutikimą.
+account Paskyra
 actions Veiksmai
 activeautoupdate Aktivuoti automatinį atnaujinimą
 addacontact Pridėti kontaktą
-add Pridėti
 addedyou $1 ($2) pridėjo jus į savo kontaktų sąrašą
-addprofile Pridėti naują profilį
+add Pridėti
 addprofiledesc Įveskite prisijungimo duomenis, kuriais norėsite sukurti naują profilį. \nProfiliai leis jums turėti skirtingus nustatymus atskiruose prisijungimuose.\nBe profilių, negalėsite naudotis istorija, garsais ir „Prisiminti slaptažodį“ funkcijomis.
+addprofile Pridėti naują profilį
 addstate Pridėti naują būseną
-addto Pridėti į $1
 addtoal Pridėti į PS
 addtobl Pridėti į JS
-addtofl Pridėti į KS
 addtocontacts Pridėti į kontaktų sąrašą
+addtofl Pridėti į KS
 addtoo Pridėti šį asmenį į mano kontaktų sąrašą
+addto Pridėti į $1
 admincontacts Admino kontaktai
 admingroups Admino grupės
 advanced Pažengusiems
@@ -30,8 +30,8 @@ alarmonconnect Skambėti, kai šis vartotojas prisijungia
 alarmondisconnect Skambėti, kai šis vartotojas atsijungia/nematomas 
 alarmonmsg Skambėti, kai šis vartotojas siunčia jums žinutę
 alarmonstatus Skambėti, kai šis vartotojas pakeičia būseną
-alarmpref Vartotojo specifiniai garso nustatymai
 alarmpref2 Visų kontaktų įspėjamųjų garsų nustatymai
+alarmpref Vartotojo specifiniai garso nustatymai
 alarms Garsai
 alarmstatus Aktyvuoti skambėjimą šiam vartotojui
 allfiles Visos rinkmenos
@@ -83,10 +83,10 @@ autolisten_voiceclips Automatiškai leisti garso iškarpas, kai jos priimtos
 automessage Auto Žinutė
 autonoact Keisti būsena į „Neaktyvus“, kai neaktyvus
 autoresizedp Automatiškai sumažinti nuotraukas į numatytą dydį
-avaccepted Video konferencijos skambutis priimtas
-avcanceled Video konferencijos skambutis nutrauktas
-avgotinvitation Priimtas video konferencijos pakvietimas iš $1
-avinitfailed Audio/Video įskiepių parengimas nebaigtas. Skambutis nutrauktas
+avaccepted Vaizdo konferencijos skambutis priimtas
+avcanceled Vaizdo konferencijos skambutis nutrauktas
+avgotinvitation Priimtas vaizdo konferencijos pakvietimas iš $1
+avinitfailed Garso/vaizdo įskiepių parengimas nebaigtas. Skambutis nutrauktas
 avoidseen Uždrausti šiam asmeniui matyti mane, kai aš esu prisijungęs, bei neleisti susisiekti su manim
 away Išėjęs
 awaymsg1 Klausti žinutės „Išėjęs“ kiekvieną kartą, kai aš pakeičiu būsena į Išėjęs/Dar sugrįšiu/Užimtas
@@ -96,7 +96,6 @@ baduserpass Klaidingas vartotojo vardas arba slaptažodis
 badwebcam Negali rodyti kameros atvaizdų. Įsitikinkite, kad jūsų kamera tikrai gerai pajungta ir įdiegta.
 bgcolor Keisti aMSN fono spalvą 
 blankdirect Tiesioginiam susijungimui palikite tuščia
-block Užblokuoti
 blocked Užblokuotas
 blockedyougroup Rodyti atskirą grupę vartotojų, kurie užblokavo jus
 blocking Blokavimas
@@ -108,14 +107,15 @@ blocklist Juodasis sąrašas (JS):
 blockmessage Šie vartotojai yra prisijungę ir užblokavę jus
 blocknotifications Nerodyti informacinių langų
 blocksounds Išjungti garsus
+block Užblokuoti
 blockusers Vartotojų skaičius tikrinamu iš karto 
 bouncedock Šokinėjanti aMSN piktograma dėkle, kai yra gauta žinutė
 brightness Ryškumas
 bringtofront Iškelti viską į priekį
 broughtby Šie kūrėjai stengėsi dėl jūsų
 browse Naršyti
-browser Naršyklė
 browserexample (\$url bus pakeista į URL). Pvz: mozilla \$url
+browser Naršyklė
 bugerror Atsiprašome, bet yra problemų jungiantis į klaidų duomenų bazę. Patikrinkite interneto ryšį.
 bugnocomment Siųsti be komentaro? Komentavimas klaidos padės mums lengviau surasti, kas įvyko klaidingai, ir ištaisyti.
 busy Užimtas
@@ -139,11 +139,11 @@ casesensitive Naudoti atvejui jautrius gaidukus
 cfgalarmall Nustatyti/Pridėti/Pašalinti bendrą garsą
 cfgalarm Nustatyti/Pridėti/Pašalinti garsą
 change_account_info Keisti paskyros informaciją
-change Keisti
 changecustomstate Perjungti į
 changedisplaypic Keisti nuotrauką
 changefont Šriftas
 changeglobnick Keisti visų slapyvardžių rodymą
+change Keisti
 change_mobile Keisti mobilaus nustatymus
 changenick Keisti slapyvardį
 changepsm Keisti asmeninę žinutę
@@ -154,8 +154,8 @@ changevideosettings Keisti vaizdo nustatymus
 channels Kanalai
 charscounter Parašytų simbolių skaičiuoklis pokalbių lange
 chatack Priimamas pokalbis iš
-chat Pokalbis
 chatmaxmin Kai kontaktas atidaro pokalbį su manimi, aš noriu, kad jis būtų:
+chat Pokalbis
 chatreq Pokalbio prašymas
 chatsmileys2 Rodyti jaustukus pokalbių languose
 chatsmileys Rodyti jaustukus
@@ -166,10 +166,6 @@ checkingaudio Tikrinama ar yra užkrautas garso plėtinys (Snack)...
 checkingcam Tikrinama, ar prijungta kamera...
 checkingcapext Tikrinama, ar yra įkeltas plėtinys '$1'...
 checkingextensions Tikrinamas reikalingas vaizdo plėtinys
-chooseinputdev Pasirinkite mikrofoną
-chooselocation Pasirinkite naują rinkmenos vietą
-choosemixerdev Pasirinkite maišytuvą
-chooseoutputdev Pasirinkite garso įrenginį
 checkingver Naujos versijos tikrinimas
 checkonfln Tikrinti, ar vartotojas užblokavo jus, kai jis atsijungia
 checkopenfilecommand Patikrinti atidaromų rinkmenų komandą nustatymų lange
@@ -181,6 +177,10 @@ choosechannel Pasirinkite kanalą
 choosecontact Pasirinkite kontaktą iš sąrašo
 choosedevice Pasirinkite vaizdo įrenginį
 choosefontcolor Pasirinkite šrifo spalvą
+chooseinputdev Pasirinkite mikrofoną
+chooselocation Pasirinkite naują rinkmenos vietą
+choosemixerdev Pasirinkite maišytuvą
+chooseoutputdev Pasirinkite garso įrenginį
 chooseskin Pasirinkite apvalkalą, kurį norėsite naudoti
 ch_to_state Persijungti į naują būseną
 clear Išvalyti
@@ -193,23 +193,24 @@ clicktoadd Skauskite 'Pridėti' mygtuką, kad pridėtumėte naują pastabą
 clicktologin Spauskite čia, kad prisijungtumėte
 clientcaps Siųsti x-clientcaps paketą kitiems klientams
 clientname Kliento vardas
-closeall Uždaryti visas korteles šiame lange?
 closealltabs Uždaryti visas korteles
-close Uždaryti
+closeall Uždaryti visas korteles šiame lange?
 closechatwindows Uždaryti visus pokalbius prieš atsijungiant?
 closed Pokalbis su $1 uždarytas dėl pasyvumo
 closelabel Kai jūs paspausite uždarymo mygtuką pokalbių lange su kortelėmis
 closeonly Uždaryti tik esamą kortelę
 closeorcall Jūs, prieš uždarydami langą, turite pabaigti/nutraukti skambučius.
+closeorcallvideo Jūs privalote uždaryti/nutraukti vaizdo skambutį prieš uždarydami langą.
 closeordock Uždarydami kontaktų sąrašo langą, išeisite iš aMSN. Galbūt norėsite tik uždaryti langą ir turėti veikiantį aMSN dėkle.\n\nAr tikrai norite išeiti iš aMSN?
 closeothers Uždaryti visas kitas korteles
+close Uždaryti
 closingdocks Uždarymo mygtuko mažinimas
 color Spalva
 command Komanda
 commandstatus Vykdyti komanda
 compactstyle Suglaustas stilius
-configure Nustatyti
 configuremic Mikrofono nustatymai
+configure Nustatyti
 configureplugin Nustatyti įskiepį $1
 configuringaudio Garso nustatymai
 confirm Ar tikrai įsitikinę?
@@ -223,16 +224,16 @@ confirmpurge Visi išsaugoti rodomi paveiksliukai iš kitų kontaktų bus ištri
 confirmrfl Ar tikrai ištrinti šį vartotoją iš šios grupės?
 congrats Sveikiname
 connectedat Prisijungta prie:
-connectfirst Prašau, pirmiau prisijunkite
-connectedwith Prisijungta prie $1
 connected Jūs prisijungę
+connectedwith Prisijungta prie $1
 connecterror Klaida jungiantis prie serverio
+connectfirst Prašau, pirmiau prisijunkite
 connecting Jungiamasi
-connection Ryšys
 connectionlost Atsijungta: Prarastas susijungimas su serveriu
+connection Ryšys
 contactadded Kontaktas pridėtas
-contact Kontaktas
 contactdoesnotexist Kontaktas neegzistuoja!
+contact Kontaktas
 contactlist Kontaktų sąrašas (KS):
 contacts Kontaktai
 contentroamingsetting Išsaugoti rodomą nuotrauką serveryje
@@ -268,8 +269,8 @@ customsmileys Rodyti kitų vartotojų jaustukus
 customstyle Pakeistas stilius
 custshowcustomsmileys Rodyti vartotojo jaustukus
 cut Iškirpti
-cutimageboxreset Atstatyti žymėjimą\ndydis į:
 cutimagebox Pasirinkite atvaizdo dalį, kurią norėsite naudoti, keisti dydį arba perkelti žymėjimą
+cutimageboxreset Atstatyti žymėjimą\ndydis į:
 cyclewindows Ciklas per langus
 date Data
 dateformat Datos formatas
@@ -277,8 +278,8 @@ day Diena
 days Dienos
 dcprofile Nekurti profilio
 default2 Numatytasis
-default Numatytasis nustatymas
 defaultloginradio Prisijungti su numatytais nustatymais
+default Numatytasis nustatymas
 defchatwinsize Pokalbių lango numatytasis dydis (X dydis x Y dydis)
 deleteall Pašalinti visus
 deleteblock Ištrinti ir blokuoti
@@ -311,14 +312,14 @@ displayp4context Rodyti P4-Konteksto lauko turinį kaip žinutės siuntėją
 displaypic Rodyti paveiksliuką
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome apvalkalas
-docking Prijungimas
 dockingoff Atsijungimas
+docking Prijungimas
 dockkde KDE apvalkalas
 done Atlikta
 dontaskweek Nepaprašykite atnaujinti vieną savaitę
 dontdownload Nesiųsti TLS, aš įsidiegsiu pats
-dontshow Nerodyti
 dontshowdp Neleisti šiam vartotojui atsisiųsti jūsų naujas rodomas nuotraukas
+dontshow Nerodyti
 download Atsisiųsti
 downloadcanceled Siuntimas nutrauktas.
 downloadingtls Siunčia TLS modulį iš:\n$1
@@ -327,11 +328,11 @@ dynamicrate Naudoti dinaminį kadrų dažnį, kad imituotų esamo laiko greitį
 editavsettings Nustatyti garsą ir vaizdą
 editcontent Keisti temos laukelio turinį ir pastabų laukelį
 editcustomstate Keisti kitas būsenas
-edit Taisa
 editmyprofile Keisti mano MSN profilį
 editnewstate Nauja auto žinutės būsena
 editprofile Keisti profilį
 editstate Keisti esamą auto žinutės būseną
+edit Taisa
 editvalue Keisti reikšmę
 email El. paštas
 emailnotverified (El. paštas nepatvirtintas!)
@@ -367,31 +368,31 @@ farsightextwarn Jūs negalite priimti SIP skambučių. Atsakymus, kaip įdiegti 
 farsightinfook Farsight yra struktūra, kuri bendrauja su garso/vaizdo protokolais. Su Farsight galite siųsti arba priimti SIP skambučius su aMSN! Pažvelkite į farsight mūsų Wiki:
 fetching Renkami duomenys...
 filedoesnotexist Rinkmena neegzistuoja
-file Rinkmena
 filemanexample (\$location bus pakeista į aplankalą) Pvz: nautilus \$location
 fileman Rinkmenos vedlys
 filename Rinkmenos vardas
 filenotwritable Negalima pašalinti šios rinkmenos
+file Rinkmena
 filetransfercancelled Rinkmenos siuntimas nutrauktas
 filetransfercomplete Rinkmenos persiuntimas sėkmingas
 filetransfer Rinkmenos persiuntimas
 filters Filtrai
 filtersselect Pasirinkite filtrus, kuriuos norite naudoti\n(Pastaba: nieko nepasirinkus, reiškia 'rodyti viską')
 filtersx Filtrų pasirinkimai
-find Ieškoti
 findasyoutype Ieškoti tai, ką rašėte
+find Ieškoti
 findnext Ieškoti toliau
 findprev Ieškoti atgal
 finetunesettings Vaizdo nustatymai
-finish Baigti
 finish2apply Spauskite Baigti, kad pritaikytumėte šiuos nustatymus.
-firewalled Jus blokuoja ugniasienė arba esate už interneto ryšio paskirstytojo
+finish Baigti
 firewalled2 Jus blokuoja ugniasienė, patikrinikite savo ryšio nustatymus nustatymų lange
+firewalled Jus blokuoja ugniasienė arba esate už interneto ryšio paskirstytojo
 followtext Sukti žemyn tol, kol naujas tekstas bus įvestas
 forget_me Neprisiminti manęs
 forgot_pass Aš pamiršau slaptažodį
-formatctt CTT formatu
 formatcsv CSV formatu
+formatctt CTT formatu
 friendlyname Draugiškasis vardas
 ftacceptedby $1 priėmė rinkmenos persiuntimo pakvietimą rinkmenai '$2'.
 ftaccepted Rinkmenos persiuntimas priimtas
@@ -401,8 +402,8 @@ ftconnecterror Klaida jungiantis prie nuotolinio taško
 ftconnecting Jungiamasi į $1 prievadas $2
 ftconnectionlost Prarastas ryšys su nuotoliniu tašku
 ftgotinvitation $1 nori persiųsti jums rinkmeną '$2' ($3 baitų). Ji išsisaugos aplankale $4. Ar norite priimti šią rinkmeną?
-ftportpref Pradinis prievadas rinkmenos persiuntimui
 ftportpref2 Paleidžiamas prievadas tiesioginiams ryšiams (būtinas rinkmenos perdavimui ir kamerai)
+ftportpref Pradinis prievadas rinkmenos persiuntimui
 ftporttest Prievado testas
 ftrejectedby $1 atmetė siuntimo prašymą rinkmenai '$2'.
 ftrejected Rinkmenos siuntimas nutrauktas
@@ -419,20 +420,20 @@ getdisppic Leisti priimti nuotraukas iš kitų vartotojų
 getmoreplugins Gauk daugiau įskiepių!
 getmoreskins Gauk daugiau apvalkalų!
 globalcontainer Bendra dėžė
-globalnick Įveskite savo visų kontaktų slapyvardžių norimą vaizdavimo formą. Jūs galite naudoti šiuos kitamuosius: \$user_login jūsų kontaktų el. paštas, \$nick jūsų kontaktų slapyvardis ir \$customnick jūsų kontaktų pasirinktas slapyvardis. Pavyzdžiui: \$user_login yra \$nick bus \$customnick
 globalnicktitle Slapyvardžių rodymo forma
+globalnick Įveskite savo visų kontaktų slapyvardžių norimą vaizdavimo formą. Jūs galite naudoti šiuos kitamuosius: \$user_login jūsų kontaktų el. paštas, \$nick jūsų kontaktų slapyvardis ir \$customnick jūsų kontaktų pasirinktas slapyvardis. Pavyzdžiui: \$user_login yra \$nick bus \$customnick
 globaloverride Bendras slapyvardžio pavyzdys turėtų nepaisyti kitų slapyvardžių
 gonelunch Pietauju
 gotink $1 siunčia jums rašalą.
-goto_prefs_removeprofile Spragtelėkite čia, kad nueitumėte į nustatymus ir pašalintumėte jūsų profilį
 goto Eiti į $1
 gotoinbox Atverti el. paštą
+goto_prefs_removeprofile Spragtelėkite čia, kad nueitumėte į nustatymus ir pašalintumėte jūsų profilį
 groupadd Pridėti grupę
+groupcontactsbystatus Grupuoti kontaktus pagal būseną
+groupcontacts Grupės kontaktai
 groupdelete Pašalinti grupę
 groupexists Grupė jau egzistuoja
 group Grupė
-groupcontacts Grupės kontaktai
-groupcontactsbystatus Grupuoti kontaktus pagal būseną
 groupmissing Nėra tokios grupės
 groupnewname Naujas vardas
 groupnonim Grupuoti negreitų pranešimų kontaktus kartu
@@ -449,24 +450,24 @@ help Pagalba
 hidebuttonbar Slėpti mygtukų juostą
 hidedetails Nerodyti išsamiau
 hidedisplaypic Paslėpti nuotrauką
-hidemenu Rodyti/slėpti meniu
 hidemenumessage Ar tikrai norite paslėpti meniu??\nJą galite susigrąžinti bet kada, spausdami rodyti/slėpti meniu klavišų kombinaciją 'Ctrl-M'.
+hidemenu Rodyti/slėpti meniu
 hiden Paslėpti jaustukus iš veidelių meniu
-hidewindow Paslėpti langą
 hideuserscw Paslėpti vartotojai šiame pokalbių lange.
-history Rodyti istoriją
+hidewindow Paslėpti langą
 history2 Istorija
+history Rodyti istoriją
 home Namų
 howto_remove_profile Ištrinti profilį (užmiršti $1), jus turite padaryti tai per nustatymų langą.\n\nDėl saugumo, profilio ištrinimo prisijungimo lange nėra.
 httpconnection HTTP metodu (HTTP protokolas per prievadą 80)
 hue Atspalvis
 huge Milžiniškas
 hybrid Hybridinis rėžimas
-ident Nustatinėjama tapatybė
 identity Tapatybė
+ident Nustatinėjama tapatybė
+ignore Atmesti
 ignorecontact Atmesti kontakto pokalbius
 ignoreerrors Tyliai atmesti kitas aMSN klaidas iki sesijos pabaigos
-ignore Atmesti
 imagefiles Atvaizdų rinkmenos
 inbox Gauti Laiškai
 insertsmiley Jaustukai
@@ -477,8 +478,8 @@ invalidfile2 Rinkmenos vardas $1 negali būti sukurtas. Įsitikinkite, kad turit
 invalidfile Rinkmena $2 įvesta į laukelį "$1" neegzistuoja arba nenuskaitoma
 invalidgroup Negalima grupė
 invalidparameter Klaida jungiantis prie serverio:\nnegalimi parametrai
-invalidpicsize Duotas paveiksliukas per didelis, pasirinkite mažesnį
 invalidpic Duota paveiksliuko rinkmena neegzistuoja
+invalidpicsize Duotas paveiksliukas per didelis, pasirinkite mažesnį
 invalidsound Duota garso rinkmena neegzistuoja
 invalidusername Negalimas vartotojo vardas
 invitationcancelled Pakvietimas buvo atšauktas
@@ -504,8 +505,8 @@ lastseen Paskutinis prisijungimo laikas
 lazypicretrieval Tingus nuotraukų atstatymas
 lclosedwin $1 uždarė langą $2
 lconftopriv Konferencija perjungta į asmeninį pokalbį su $1
-lconvstarted Pokalbis pradėtas $1
 lconvstartedOIM Pradėta neprisijungusio vartotojo pokalbis per $1
+lconvstarted Pokalbis pradėtas $1
 leaveblankforhotmail Palikti tuščia, naudojant Hotmail
 leavejoinsinchat Rodyti pokalbių lange pranešimus apie prisijungiančius ir atsijungiančius prie pokalbio
 leaves $1 atsijungė nuo pokalbio
@@ -549,14 +550,14 @@ longpsm Jūsų asmeninė žinutė per ilga. Oficialiai, MSN protokolas to nepala
 lowrescam Naudoti mažos raiškos kamerą
 lprivtoconf Asmeninis pokalbis perjungtas į konferenciją su $1
 luclosedwin Jūs uždarėte langą $1
-mailerexample (\$recipient = Gavėjas) Palikite tuščia, naudodami Hotmail
+mailerexample (\$recipient = Gavėjas) Palikite tuščia naudodami Hotmail
 mailer Siuntėjas
 maintenance Serveris ruošiasi atsijungti po $1 min.
 maximised Padidintas
 medium Vidutinis
 minimised Sumažintas/Piktograma
-minimizeplain Sumažinti
 minimize Mažinti į dėklą
+minimizeplain Sumažinti
 mins min.
 mobilegrp1 Mobili grupė
 mobilegrp2 Perkelti vartotojus į „Mobilią“ grupę, kai jie atsijungę (ir surikiuoti pagal būseną)
@@ -568,8 +569,8 @@ morepersonal Daugiau būsenų ->
 move Perkelti
 movetogroup Perkelti į grupę
 msgflicker Mirksės pokalbių lango pavadinimo kortelė, kai gauta nauja žinutė sumažintame lange.
-msgmaxmin Kai gauta nauja žinutė, aš norėčiau, kad ji būtų:
 msg Žinutė
+msgmaxmin Kai gauta nauja žinutė, aš norėčiau, kad ji būtų:
 msgmode Pasirinkite, kaip adresuoti žinučių langus:
 msn aMSN
 msnstatus MSN tinklo būsena
@@ -590,8 +591,8 @@ needonline Jūs vis dar esate/matotės neprisijungęs!
 needwinico2 Reikalingas winico05.dll in the utils/windows aplankale for windows traydocking to work
 never Niekada
 new_account Sukurti paskyrą
-new_ft_protocol Naudoti naują rinkmenos persiuntimo protokolą (likusios kelios klaidos)
 newchat Naujas pokalbis
+new_ft_protocol Naudoti naują rinkmenos persiuntimo protokolą (likusios kelios klaidos)
 newline Nauja linija
 newmail $1 nauja žinutė(s) el. pašte
 newmailfolder Jūs gavote $1 naują žinutę(es) kituose Hotmail aplankaluose
@@ -604,10 +605,10 @@ newtabbedfeature aMSN turi naują pokalbių valdymo ypatybę. Dabar galite turė
 newupdate Išleisti aMSN atnaujinimai
 newveravailable Galima atsisiųsti naują $1 versiją
 next Toliau
-nick Slapyvardis
 nickchanged $1 pakeitė savo slapyvardį į '$2'
-no_blocked_notif Nerodyti pranešimo langų blokuotiems kontaktams
+nick Slapyvardis
 noactivity Neaktyvus
+no_blocked_notif Nerodyti pranešimo langų blokuotiems kontaktams
 nocacheddps Nėra vartotojo nuotraukų
 nocamwarn Kamera nerasta arba jūsų kamera yra naudojama kitoje programoje (todėl kamera neveikia aMSN programoje). Pagalbą, kaip išspręsti šią problemą, surasite mūsų Wiki:
 nodataavailable Nėra duomenų $1
@@ -617,11 +618,11 @@ nogap Nepalikti tarpo tarp grupių
 nogroup Grupių nėra
 nojavascript Pas jus neįjungti javascript'ai. Automatinis prisijungimas gali neveikti.
 nologfile Nėra rinkmenos įrašo $1
+nomic Nėra mikrofono
+no Ne
 noneavailable Negalimas
 nonewmail Nėra naujų žinučių el. pašte
 nonewver Naujos versijos nėra
-no Ne
-nomic Nėra mikrofono
 nonimgroup Negreitų pranešimų kontaktai
 nooimconfirmation Neprašyti patvirtinimo, kada siunčiama/priimama žinutė iš atsijungusio vartotojo
 nopic Nėra paveiksliuko
@@ -641,8 +642,8 @@ notify1 Rodyti pranešimų langą, kai kontaktai prisijungia
 notify2 Rodyti pranešimų langą, kai gautos naujos žinutės
 notify3 Rodyti pranešimų langą, kai gauti nauji laiškai
 notify4 Rodyti pranešimų langą, kai gauti nauji laiškai kituose aplankaluose
-notify pranešti
 notifyoffset Nustatyti pranešimo pasirodymo vietą
+notify pranešti
 notifytimeout Laikas milisekunėmis, per kurį pranešimų langas pasislėps
 notifytyping Siųsti kitiems vartotojams pranešimą, kai rašote
 notifywin Pranešimų langas
@@ -661,38 +662,38 @@ onlinehelp Tiesioginė pagalba
 online Prisijungęs
 onphone Kalbu telefonu
 opendir Atverti aplankalą
-openfilecommand Komanda atverti rinkmenai
 openfile Atverti
+openfilecommand Komanda atverti rinkmenai
 openreceived Atverti gautų rinkmenų aplankalą
 options Parinktys
 ordercontactsby Tvarkyti kontaktus pagal
 ordergroupsby Tvarkyti grupes pagal
 original Pirminis
 otherdisplaypic Kitos šio vartotojo nuotraukos (daugiau parinkčių rasite paspaudę dešinį pelės klavišą)
-other kiti
 otherdps Visų rodomos nuotraukos
+other kiti
 others Kita informacija
 p4contextprefix Priešdėlio P4-konteksto siuntėjai su šia eile
 pager Pranešimų gaviklis
-pass Slaptažodis
 passportnotverified Jūsų paso paskyra turi būti pirmiau patvirtinta, kad galėtumėte vėliau keisti savo asmeninius duomenis (tokius kaip jūsų pravardė). Prašom patikrinti savo elektroninį paštą dėl aktyvacijos.
+pass Slaptažodis
 paste Įterpti
 pausedwebcamreceive Kamera pristabdyta kito vartotojo
 pause Pristabdyti
 pausewebcamsend Pristabdyti kameros rodymą
 personal Asmeninis
-phone Telefonas
 phones Telefono numeriai
+phone Telefonas
 picbrowser Nuotraukos naršyklė
 picfile Fono rinkmena (GIF < 500 x 500)
 picstatus Rodyti foną
-play Paleisti
 playbackposition Leisties vieta
 playbackspeed Leisties greitis (milisekundžių tarp kadrų)
 playerror Klaida įvyko, bandant paleisti garsą: $1
-playgame Pradėti žaidimą
 playgame2 Žaisti $1
+playgame Pradėti žaidimą
 playing Leidžiamas: $1
+play Paleisti
 playtest Paleisti bandomąją rinkmeną
 playwebcamsend Tęsti kameros rodymą
 pluginselector Pasirinkti įskiepius
@@ -713,8 +714,8 @@ preffont4 Nustatyti, kaip aš matysių kitų vartotojų tekstą pokalbiuose
 preffont Mano žinutės tekstas
 prefft Rinkmenos persiuntimas, taškas-į-tašką ir NAT nustatymai
 preflibs Bibliotekų aplankalai
-preflocale Vietovės nustatymai
 preflocale2 Pasirinkite savo kalbą/šalies kodą
+preflocale Vietovės nustatymai
 preflog1 Mano istorijos ir įrašų parinktys
 preflogevent Mano įvykių istorija
 preflook aMSN Messenger išvaizda
@@ -740,15 +741,15 @@ profileinuse Šis profilis yra naudojamas kitoje aMSN sesijoje, pasirinkti kitą
 profileloginradio Prisijungti naudojant esamą profilį
 profiles Profiliai
 properties Ypatybės
+proxy Aš esu už tarpinio serverio (HTTP arba SOCKS5)
 proxyconfhttp HTTP tarpinio serverio palaikomi nustatymai
 proxyconf Tarpinio serverio nustatymai
 proxyconnection Internetas per tarpinį serverį:
-proxy Aš esu už tarpinio serverio (HTTP arba SOCKS5)
+psm Asmeninė žinutė
 psmatend Rodyti asmeninę žinutę prie slapyvardžio
+psmchanged $1 pakeitė savo žinutę į '$2'
 psmdontshow Nerodyti asmeninės žinutės, nebent bendrai/kitais slapyvardžiais
 psmnewline Rodyti asmeninę žinutę po slapyvardžiu
-psm Asmeninė žinutė
-psmchanged $1 pakeitė savo žinutę į '$2'
 psmplace Kur rodyti asmeninę žinutę?
 publishphones Publikuoti mano telefonų numerius
 purge Išvalyti
@@ -767,8 +768,8 @@ reconnect2 Prisijungti netekus ryšio
 reconnecting Pakartotinis jungimasis\nprie serverio bus po
 reconnect Laukiama $1, kol persijungs
 reconnectnow Jungtis dabar
-record Įrašyti
 recorderror Klaida įvyko, bandant įrašyti garsą: $1
+record Įrašyti
 recvwebcamaccepted Jūsų prašymu, $1 įjungė savo kamerą.
 redirect Spragtelėkite čia, kad būtumėte peradresuoti
 reject Atmesti
@@ -778,23 +779,23 @@ remembersetting Prisiminti mano pasirinkimą
 removeempty Pašalinti tuščias grupes iš kontaktų sąrašo
 removefromgroup Pašalinti iš grupės
 removefromlist Pašalinti iš šio sąrašo
+renameep Pervadinti šią vietą ($1)
+renamelocation Pervadinti šią vietą
 rename Pervadinti
 reporting Raportavimas
 report Raportas
 required_version Neįmanoma įkelti šio įskiepio. Jis reikalauja ne vėlėsnės aMSN $1 versijos.
 resetincomingfont Atstatyti šriftą (naudoti žinutės siuntėjo pasirinktą šriftą)
 restartforskin Pastaba: Jums gali prireikti perkrauti aMSN, kad tinkamai pamatytumėte apvalkalą!
-renameep Pervadinti šią vietą ($1)
-renamelocation Pervadinti šią vietą
 retry Pakartoti
 reversed Atvirkštinis būdas
 reverselist Atvirkštinis sąrašas (AS):
 rightback Greitai grįšiu
-save Išsaugoti
 saveas Išsaugoti kaip
 savechatwinsize Išsaugoti pokalbių lango dydį kaip numatytą, kai pakeičiate jį
 savecontacts Išsaugoti kontaktų sąrašą
 saveddefaultloc Iššsaugoti numatytoje vietoje
+save Išsaugoti
 savelocation Ar norite išsaugoti rinkmeną į $1?
 savelocationerror Rinkmenos negalima išsaugoti šioje vietoje.
 saveotherdirectory Išsaugoti kitame aplankale
@@ -815,9 +816,10 @@ sendfile Siųsti rinkmeną
 sendmail Siųsti el. laišką
 sendmobmsg Siųsti į mobilųjį įrenginį
 sendmsg Siųsti žinutę
-send Siųsti
 sendoim Siųsti žinutę neprisijungusiam vartotojui
 sendsip Skambinti
+send Siųsti
+sendvideosip Pradėti vaizdo pokalbį
 sendvoice Garso klipai
 sendwebcamaccepted $1 priėmė kvietimą matyti jus per kamerą
 sendwebcaminvite Įjungti kamerą
@@ -828,38 +830,40 @@ servergoingdown Atsijungta: Serveris ruošiasi atsijungti
 server Serveris
 serverunavailable Serveris neprieinamas
 session Sesija
+setasmydp Nustatyti kaip mano nuotrauką
 setbackinitialstate Jūs nustatėte aMSN jungtis kaip $1, bet jūs dabar esate $2. Ar tikrai norite nustatyti savo būseną atgal į $1?
-setupcam Jūsų kameros nustatymai
 setupcamfinetune Nustatyti kamerą ir suderinti vaizdą
+setupcam Jūsų kameros nustatymai
 shareswebcam Dalinasi kamera
 showbanner Rodyti aMSN reklamjuostę
 showblockedlist Rodyti sąrašą vartotojų, kurie užblokavo jus
 showcachedpics Rodyti paslėptas nuotraukas
+show_contactdps_in_cl Rodyti nuotraukų piktogramas kontaktų sąraše
 showcontactemail Rodyti kontaktų el. paštus
 showcontactnick Rodyti kontaktų slapyvardžius
-show_contactdps_in_cl Rodyti nuotraukų piktogramas kontaktų sąraše
-showdetails Rodyti išsamiau
 showdetailedview Rodyti išsamią kontaktų peržiūrą
+showdetails Rodyti išsamiau
 showdisplaypic2 Visada rodyti nuotraukas, kai pokalbių langas yra atidarytas
 showdisplaypic Rodyti nuotrauką
 showlinksinlogin Rodyti nuorodas į prisijungimo langą
 showmailicon Rodyti pašto piktogramą dėkle, kai gauti nauji laiškai
 showmypic Mano nuotrauka
-showonedpframe Rodyti tik vieną rodomos nuotraukos kadrą pokalbių languose
 shownonim Rodyti negreitų pranešimų kontaktus
 shownotify Rodyti pranešimų langą, kai įvyksta kokie įvykiai
 showofflinegroup Rodyti atsijungusių kontaktų grupę
+showonedpframe Rodyti tik vieną rodomos nuotraukos kadrą pokalbių languose
 showpicnotify Rodyti vartotojų nuotraukas pranešimų languose
 showspaces Rodyti tuščias piktogramas kontaktų sąraše
 showuserpic $1'o nuotrauka
 showuserscw $1 vartotojai dalyvauja pokalbyje. Jei norite pamatyti arba paslėpti juos, spauskite čia.
 signinstatus Prisijungimo būsena
 signout Atsijungti
-signouthere Atsijungti iš čia ($1)
 signoutep Atsijungti nuo $1
 signouteverywhere Atsijungti iš visur
+signouthere Atsijungti iš čia ($1)
 sipcallaccepted Skambutis priimtas
 sipcallback Atskambinti
+sipcallconnected Jūsų garso skambutis sujungtas!
 sipcalldeclined Skambutis atmestas
 sipcalleeaccepted Vartotojas priėmė jūsų skambutį
 sipcalleebusy Vartotojas yra šiuo metu užsiėmęs
@@ -869,17 +873,29 @@ sipcalleedeclined Vartotojas atmetė jūsų skambučio kvietimą
 sipcalleenoanswer Vartotojas neatsakė į jūsų skambutį
 sipcalleeunavailable Vartotojas pasiekiamas šiuo momentu
 sipcallended Jūsų skambutis baigtas
+sipcallimpossible2 Nėra galimybės sukurti garso ir vaizdo pokalbį. Įdiekite Farsight2 ir bandykite dar kartą.
 sipcallimpossible Nėra galimybės skambinti. Įdiekite Farsight2 ir bandykite dar kartą.
 sipcallmissed Jūs praleidote $1 skambutį 
 sipcallnosipflag Vartotojas negali priimti skambučių.
 sipcallsent Skambina $1
-sipcallunsupported Jūs priėmėte garsinio skambučio pakvietimą, kuris nepalaikomas šiuo metu. Jūs galite vėl paskambinti su nauju kvietimu. Tada garsinis skambutis veiks
-sipcallyouarebusy Jūs galite turėti tik vieną garsinį skambutį vienu metu.
+sipcallunsupported Jūs priėmėte garsinio skambučio pakvietimą, kuris nepalaikomas šiuo metu. Jūs galite vėl paskambinti su nauju kvietimu. Tada garsinis skambutis veiks.
+sipcallyouarebusy2 Jūs galite turėti tik vieną garso ar vaizdo pokalbį vienu metu.
+sipcallyouarebusy Jūs galite turėti tik vieną garso pokalbį vienu metu.
 sipgotinvitation Priimtas garsinio skambučio pakvietimas iš $1
-skinselector Pasirinkti apvalkalą
+sipvideocallaccepted Vaizdo pokalbis priimtas
+sipvideocallconnected Jūsų vaizdo pokalbis sujungtas!
+sipvideocalldeclined Vaizdo pokalbis atmestas
+sipvideocalleecanceled Vartotojas atšaukė vaizdo pokalbio pakvietimą
+sipvideocalleeclosed Vartotojas baigė savo vaizdo pokalbį
+sipvideocalleedeclined Vartotojas atmetė jūsų vaizdo pokalbio pakvietimą
+sipvideocallended Jūsų vaizdo pokalbis baigtas
+sipvideocallmissed Jūs praleidote vaizdo pokalbį su $1
+sipvideocallnosipflag Vartotojas neturi galimybės pradėti vaizdo pokalbį.
+sipvideogotinvitation Priimtas vaizdo pokalbio pakvietimas iš $1
 skin Apvalkalas
-small Mažas
+skinselector Pasirinkti apvalkalą
 smallest Mažiausias
+small Mažas
 smileconfig Jaustuko nustatymai
 smilefile Jaustuko rinkmena
 smileintro2 Pakoreguokite reikiamus laukelius, kad pakeistumėte šį jaustuką (pagalbos ieškoti DUK)
@@ -887,19 +903,18 @@ smileintro Užpildykite reikiamus laukelius, kad sukurtumėte naują jaustuką (
 smiletoobig Jaustukas, kurį pasirinkote, yra didesnis negu normalus dydis. Ar norite sumažinti jį?
 smileynotavailable Jautukas negalimas!
 snackfailed Sausainukai negalėjo įsikelti, sugrįžtama į numatytą padėtį
-snackneeded Snack biblioteka yra būtina, kad panaudotumėte šią ypatybę. Reikalinga nežemesnė versija 2.2.9.
+snackneeded Snack biblioteka yra būtina, kad panaudotumėte šią ypatybę. Reikalinga ne žemesnė 2.2.9 versija.
 snapshot Momentinė nuotrauka
 sngdblclick Vieną kartą paspaudus, atsidaryti naujos žinutės langą
-sortgroupsasc Rikiuoti grupes didėjančia tvarka
-sortgroupsdesc Rikiuoti grupes mažėjančia tvarka
-sortcontactsby Rikiuoti kontaktus pagal
-sortcontactsbylogsize Rikiuoti kontaktus pagal įrašytų pokalbių dydį
 sortcontactgroup Rikiuoti kontaktus pagal grupes
 sortcontacthybrid Rikiuoti kontaktus hibridiniu rėžimu
 sortcontactsasc Rikiuoti kontaktus didėjančia tvarka
+sortcontactsbylogsize Rikiuoti kontaktus pagal įrašytų pokalbių dydį
+sortcontactsby Rikiuoti kontaktus pagal
 sortcontactsdesc Rikiuoti kontaktus mažėjančia tvarka
 sortcontactstatus Rikiuoti kontaktus pagal būseną
-sound Įvykių garsai
+sortgroupsasc Rikiuoti grupes didėjančia tvarka
+sortgroupsdesc Rikiuoti grupes mažėjančia tvarka
 sound2 Skambėti, kai kontaktas prisijungia arba siunčia žinutę
 soundactive Skambėti, kai gaunamos įeinamosios žinutės taip pat ir aktyvame lange
 soundcommand Tai turi skambėti per komandą (pvz: esdplay)
@@ -910,6 +925,7 @@ soundloop Kartoti garsą
 soundnoavail Neprieinamas garso įrenginys. Išjunkite programas, naudojančias garso įrenginį.
 soundserver Serverio garsas
 soundstatus Garso signalas
+sound Įvykių garsai
 sourcecode Išvesties kodas (reikia kompiliuoti ir įdiegti)
 splashstart Pradėti
 sslwarning Dėmesio! Uždrausdami SSL, uždrausite šifravimą, todėl jūsų slaptažodį siųs per tinklą paprastu tekstu. Naudokite tik tikrai saugius tarpinius serverius bei tinklo nustatymus.
@@ -917,11 +933,11 @@ startoffline2 Prisijungti tyliai kaip „Nematomas“
 startoffline Paleisti Neprisijungus
 startonboot Paleisti aMSN per Windows pasikrovimą
 startontray Paleisti aMSN tik dėkle
+state Aš noriu matytis kaip
 stateautomsg Siųsti auto žinutę
 statechange būsena pakeista į: 
 stateedittext Pakoreguokite laukelius, kuriuos\nnorėsite pakeisti ir spauskite Išsaugoti
 stateinfo Asmeninės būsenos nustatymas
-state Aš noriu matytis kaip
 statename Asmeninės būsenos pavadinimas
 statenewtext Užpildykite reikalingą informaciją, kad sukurtumėte\nsavo asmeninę būseną ir paspauskite Gerai
 statenick Pasirinktas slapyvardis (palikite tuščią, jeigu nesiruošiate keisti)
@@ -935,7 +951,7 @@ stopwebcamreceive Išjungti kamerą
 stopwebcamsend Sustabdyti vaizdo siuntimą
 storenickname Sugrįžti prie pradinio slapyvardžio po pasirinktos būsenos ir slapyvardžio
 strictfonts Apriboti visų šriftų dydį į vieną, kurį aš pasirinkęs (būsenos juostoje ir kitur)
-stylechat Kaip mirkas
+stylechat Kaip IRC pokalbiai
 stylehist aMSN istorija atrodo
 stylelog Pasirinkite formatą, kuriuo norėsite žiūrėti savo istoriją
 style Stilius
@@ -952,11 +968,10 @@ textsize Teksto dydis
 thismonth Šis mėnuo
 throughserver Per serverį
 timeremaining Likęs laikas
-timestamps Įjungti laiko žymėjimą pokalbių languose
 timestamp Laiko žymėjimą
+timestamps Įjungti laiko žymėjimą pokalbių languose
 title aMSN
 tkerror1 TK pateikė klaidą. Tai yra klaida aMSN'e, prašau praneškti apie klaidą spausdami ant Raporto mygtuko. Jūs galite spausti Išsamiau, kad pamatytumėte daugiau informacijos apie klaidą arba Gerai, kad tęstumėte pokalbį toliau aMSN'e
-totalsize Visas dydis
 tkerror TK pateikė klaidą. Tai yra klaida aMSN'e, prašau praneškite apie klaidą. Siųskite rinkmeną $1 į amsn-bugs@lists.sf.net
 tlsdowncompleted Rinkmena $1 atsiųsta į aplankalą $2. Jūs turite išskleisti ją, sukurti (jeigu atsisiuntėte išvesties kodą) ir įdiegti į $3.
 tlsexplain Aplankalas, kur TLS modulis yra nustatytas. Jeigu aMSN negali rasti jo, prašau nurodyti.\n(Reikalinga SSL autentifikacija).
@@ -964,10 +979,11 @@ tlsinstallexp aMSN jau naudoja MSNP9, kuris reikalauja naudoti saugų \nprisijun
 tlsinstall TLS modulio įdiegimo vedlys
 tlsinstcompleted TLS modulio įdiegimas sėkmingas - jūs jau galėsite naudotis MSNP9. Jeigu jis neveikia, tada tikriausiai pasirinkote netinkamą modulį arba sukompiliuotas modulis nepriimtinas jūsų sistemai.
 today Šiandien
+to Kam
 tomobile Į mobilų
 tools Įrankiai
 tooltips Įjungti patartis
-to Kam
+totalsize Visas dydis
 transnotexists Reikalaujama rinkmena dar neišversta į esamą kalbą.
 trayicon Rodyti būsenos piktogramą pranešimų laukelyje
 traynotcompiled Dėklo piktogramos įskiepis nesurinktas. Patikrinkite įskiepius/dėklą
@@ -982,10 +998,12 @@ unblock Atblokuoti
 unknown Nežinoma
 unload Iškelti
 unselectall Atžymėti visus
+untitled_space Be pavadinimo
 uoffline Atsijungę
 uonline Prisijungę
-updateonlycurrentlanguage Atnaujinti tik esamą kalbą
 update Atnaujinti
+updateonlycurrentlanguage Atnaujinti tik esamą kalbą
+updatesaved Atlikta\n Išsaugota $1 į $2.
 updating Atnaujina
 useasdp Naudoti kaip nuotrauką
 useasregexp Naudoti kaip paprastą išsireiškimą (regexp)
@@ -994,37 +1012,34 @@ useralreadyonlist Vartotojas yra jau kontaktų sąraše
 userblocked Vartotojas yra prisijungęs, bet jis užblokavo jus
 userdata Vartotojo duomenys
 userdps Vartotojo nuotraukos
-setasmydp Nustatyti kaip mano nuotrauką
-updatesaved Atlikta\n Išsaugota $1 į $2.
 usernotonline Vartotojas neprisijungęs
 userproperties Vartotojo $1 ypatybės
 usersettings Nustatymai
 user Vartotojas
 useryourself Jūs negalite kalbėtis su savim
 usesnack Naudokite Snack biblioteką (vidinį Tcl)
-verifyblocked Patikrinti vartotojus, kurie užblokavo jus
+verifyblocked Patikrinti vartotojus, kurie jus užblokavo
 version Versija
-videoconversationrequest Jūs tik priėmėte prašymą video pokalbiui (dvikryptį audio ir video). aMSN dar nepalaiko šios savybės, todėl ji buvo nutraukta. Nepaisant to, galite naudoti standartinius kameros pokalbius.
+videoconversationrequest Jūs tik priėmėte prašymą vaizdo pokalbiui (dvikryptį garso ir vaizdo). aMSN dar nepalaiko šios savybės, todėl ji buvo nutraukta. Nepaisant to, galite naudoti standartinius kameros pokalbius.
 viewcontactsby Rodyti kontaktus pagal
 viewprofile Rodyti profilį
 view Rodymas
 viewspace Rodyti nuotraukas
 volume Garsas
 wanttosharecam Aš noriu padaryti savo kamerą prieinama kitiems
-web Tinklas
 webcamcanceled Vaizdo sesija su $1 atmesta
 webcamclosebefcancel Jūs turite nutraukti visas kamerų sesijas prieš uždarydami langą
-webcamconfigure Nustatyti kamerą
 webcamconfiguredLinux Jūs pasirinkote šiuos kameros nustatymus:\nKamera: $1\nKameros kanalas: $2
-webcamconfiguredWin Jūsų pasirinktas vaizdo įrenginys: $1
 webcamconfiguredMac Jūsų vaizdas nustatytas
+webcamconfiguredWin Jūsų pasirinktas vaizdo įrenginys: $1
+webcamconfigure Nustatyti kamerą
 webcamextchecking Tikrinama, ar įkeltas kameros plėtinys...
 webcamextloaded Webcamsn plėtinys įkeltas
 webcamextnotloaded Webcamsn plėtinys neįkeltas. Turite sukompiliuoti jį.
 webcamextwarn Jūs negalite matyti savo kontaktų kamerų. Atsakymus, kaip įdiegti kai kuriuos plėtinius, galite rasti mūsų Wiki:
 webcamfaq DUK/Pagalba kamerai
-webcamhistory Rodyti vaizdo sesijas
 webcamhistory2 Vaizdo sesijos
+webcamhistory Rodyti vaizdo sesijas
 webcaminvite $1 pakvietė jus pradėti vaizdo sesiją, tačiau aMSN nepalaiko šios savybės.
 webcaminvitereceived $1 pakvietė jus pradėti vaizdo sesiją. Ar norite priimti šį pakvietimą?
 webcaminvitereceivedauto $1 pakvietė jus įjungti kamerą. Ši sesija automatiškai priimta.
@@ -1032,11 +1047,12 @@ webcaminvitereceiving $1 įjungė savo kamerą. Ar norite priimti vaizdą?
 webcaminvitereceivingauto Jūs esate pakviestas žiūrėti $1 kamerą. Ši sesija automatiškai priimta.
 webcaminvitesending $1 nori matyti jus per kamerą. Ar norite priimti šį pakvietimą?
 webcaminvitesendingauto $1 norėtų žiūrėti jus per kamerą. Ši sesija automatiškai priimta.
+webcam Kamera
 webcamrejected $1 atmetė vaizdo sesijos pakvietimą
 webcamrequestreceive Nusiųstas prašymas vartotojo vaizdui priimti
 webcamrequestsend Nusiųstas pakvietimas jūsų vaizdo rodymui
 webcamsending Vartotojų sąrašas, kuriems rodote savo kamerą\nSpausti, kad nutraukti
-webcam Kamera
+web Tinklas
 whatisamsn aMSN yra MSN Messengerio platforma - nepriklausomas MSN Messengerio klonas
 whatsize Atvaizdas, kurio prašėte, nėra normali nuotrauka\ndydis (96x96) Kokio dydžio norėtumėte, kad rodytų jūsų atvaizdą?
 willjoin Laukiama $1 prisijungiant prie pokalbio
@@ -1051,8 +1067,8 @@ xmmssend Siųsti šią dainą
 xoffset X nustatymas
 xplaces $1 vietos
 year Metai
-yes Taip
 yesblock Kartu ir užblokuoti
+yes Taip
 yesterday Vakar
 yoffset Y nustatymas
 youblocked Jus užblokavo
