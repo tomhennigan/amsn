@@ -185,7 +185,7 @@ snit::widgetadaptor mutecheckbutton {
 
 snit::widget voipmixer {
 
-	option -mutecheckbutton -readonly yes
+	option -mutecheckbutton -readonly yes -default ""
 	option -volumefrom -default -25
 	option -volumeto -default 15
 	option -levelfrom -default -20
@@ -269,17 +269,19 @@ snit::widget voipmixer {
 			}
 		}
 
-		if { $options(-orient) == "vertical" } {
-			if {$rel >= 0.95} {
-				$options(-mutecheckbutton) Mute
+		if { $options(-mutecheckbutton) != ""} {
+			if { $options(-orient) == "vertical" } {
+				if {$rel >= 0.95} {
+					$options(-mutecheckbutton) Mute
+				} else {
+					$options(-mutecheckbutton) UnMute
+				}
 			} else {
-				$options(-mutecheckbutton) UnMute
-			}
-		} else {
-			if {$rel <= 0.05} {
-				$options(-mutecheckbutton) Mute
-			} else {
-				$options(-mutecheckbutton) UnMute
+				if {$rel <= 0.05} {
+					$options(-mutecheckbutton) Mute
+				} else {
+					$options(-mutecheckbutton) UnMute
+				}
 			}
 		}
 
@@ -338,17 +340,20 @@ snit::widget voipmixer {
 			}
 		}
 
-		if { $options(-orient) == "vertical" } {
-			if {$rel >= 0.95} {
-				$options(-mutecheckbutton) Mute
+
+		if { $options(-mutecheckbutton) != "" } {
+			if { $options(-orient) == "vertical" } {
+				if {$rel >= 0.95} {
+					$options(-mutecheckbutton) Mute
+				} else {
+					$options(-mutecheckbutton) UnMute
+				}
 			} else {
-				$options(-mutecheckbutton) UnMute
-			}
-		} else {
-			if {$rel <= 0.05} {
-				$options(-mutecheckbutton) Mute
-			} else {
-				$options(-mutecheckbutton) UnMute
+				if {$rel <= 0.05} {
+					$options(-mutecheckbutton) Mute
+				} else {
+					$options(-mutecheckbutton) UnMute
+				}
 			}
 		}
 
