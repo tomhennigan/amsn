@@ -4473,7 +4473,7 @@ namespace eval ::ChatWindow {
 		::ChatWindow::TopUpdate $chatid
 
 		set usr_name [lindex [::MSN::usersInChat $chatid] 0]
-		if { [winfo exists [$win_name.f.out.sw.sf getframe]]} {
+		if { [winfo exists [GetOutDisplayPicturesFrame $win_name].dps] } {
 			::amsn::ShowOrHidePicture
 			::amsn::ShowOrHideTopPicture
 			::amsn::UpdatePictures $win_name
