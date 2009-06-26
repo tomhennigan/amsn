@@ -2364,7 +2364,6 @@ namespace eval ::AVAssistant {
 		if { $result == 1} {
 			set fs_configured 1
 			if {$is_audio && $firsttime} {
-				set firsttime 0
 				set Step [list "StepFarsightVideo" 1 ::AVAssistant::StepFarsightVideo "" "" "" "" "Farsight" assistant_webcam 1 1]
 				$assistant insertStepAfter $Step "StepFarsightAudio"
 			}
@@ -2372,6 +2371,7 @@ namespace eval ::AVAssistant {
 			$contentf.fslabel configure -image [::skin::loadPixmap yes-emblem] -compound right
 
 			if {$firsttime} {
+				set firsttime 0
 				set probe [::Farsight::Probe]
 				set fsaudiosrcs [list]
 				set fsaudiosinks [list]
