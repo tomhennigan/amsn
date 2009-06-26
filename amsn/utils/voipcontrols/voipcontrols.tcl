@@ -341,7 +341,7 @@ snit::widget voipmixer {
 		}
 
 
-		if { $options(-mutecheckbutton) != "" } {
+		if { $options(-mutecheckbutton) != "" } {
 			if { $options(-orient) == "vertical" } {
 				if {$rel >= 0.95} {
 					$options(-mutecheckbutton) Mute
