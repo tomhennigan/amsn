@@ -25,6 +25,7 @@ cmdforget unohda
 cmdyoutube youtube
 cmderror Muodostusvirhe.   
 cmdexpr laske
+cmdmegaupload megaupload
 
 cmdargsdefine sana/t
 cmdargsgoogle sana/t
@@ -32,6 +33,7 @@ cmdargslearn \"sanonta\" \"vastaus\"
 cmdargsforget \"sanonta\"
 cmdargsyoutube sana/t
 cmdargsexpr Laskettava lauseke.
+cmdargsmegaupload sana/t
 
 txtcommands Mahdollisia komentoja:
 txthelp Näyttää tämän viestin.
@@ -58,6 +60,7 @@ txtyoutube Etsii YouTubesta videoita.
 txtexpr Tämä kertoo vastauksen laskuun. Nähdäksesi mitä kaikkea voit tehdä, kirjoita \"!laske help\"
 txtsolution Vastaus on:
 txtexprhelp abs( x ) - Itseisarvo (kielteinen jos negatiivinen.)\n acos( x ) - Käänteinen kosini (tulos radiaaneissa.)\n asin( x ) - Käänteinen sini (tulos radiaaneissa.)\n atan( x ) - Käänteinen tangentti (tulos radiaaneissa.)\n atan2( y , x ) - Käänteinen tangentti  (tulos radiaaneissa.)\n ceil( x ) - Kattofunktio (määritelty liukuluvuista.)\n cos( x ) - Kosini (syöttö radiaaneissa.)\n cosh( x ) - Hyperbolinen kosini.\n double( x ) - Muunna numero liukuluvuksi.\n exp( x ) - Eksponentaalinen funktio.\n floor( x ) - Lattiafunktio (määritelty liukuluvuista.)\n fmod( x ) - Liukulukujäännös.\n hypot( x , y ) - Hypotenuusalaskin.\n int( x ) - Muunna numero kokonaisluvuksi lyhentämällä.\n log( x ) - Luonnollinen logaritmi.\n log10( x ) - Logaritmi suhteessa kantaan 10.\n pow( x , y ) - Potenssifunktio.\n rand( ) - Satunnainen luku. Käyttää yhdenmukaista distribuutiota yli arvojoukon [0,1].\n round( x ) - Pyöristä lähimpään kokonaiseen lukuun.\n sin( x ) - Sini (syöttö radiaaneissa.)\n sinh( x ) - Hyperbolinen sini.\n sqrt( x ) - Neliöjuuri.\n srand( x ) - Aseta satunnaislukugeneraattori annetulla arvolla.\n tan( x ) - Tangentti (syöttö radiaaneissa.)\n tanh( x ) - Hyperbolinen tangentti.
+txtmegaupload Etsii tiedostoja MegaUploadin tietokannasta.
 
 
 rsphour Kello on

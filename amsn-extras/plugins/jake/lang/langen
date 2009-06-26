@@ -10,7 +10,6 @@ nresults Number of results from searches in Google
 
 msgon I'm on.
 msgoff I'm off.
-msgonoff Only mi creator can turn me on or off.
 
 cmdstate state
 cmdhelp help
@@ -26,6 +25,9 @@ cmdyoutube youtube
 cmderror Syntaxis error.   
 cmdexpr expr
 cmdmegaupload megaupload
+cmdmp3 song
+cmddownloadyoutube download youtube
+cmdtranslate translate to
 
 cmdargsdefine word/s
 cmdargsgoogle word/s
@@ -34,6 +36,8 @@ cmdargsforget \"phrase\"
 cmdargsyoutube word/s
 cmdargsexpr Any math expression.
 cmdargsmegaupload file/s
+cmdargsmp3 Artist and/or title.
+cmdargstranslate language text
 
 txtcommands Available commands:
 txthelp Shows this message.
@@ -61,6 +65,76 @@ txtexpr This will give the answer for a math expression. To see the math express
 txtsolution The solution is:
 txtexprhelp abs( x ) - Absolute value (negate if negative.)\n acos( x ) - Inverse cosine (result in radians.)\n asin( x ) - Inverse sine (result in radians.)\n atan( x ) - Inverse tangent (result in radians.)\n atan2( y , x ) - Inverse tangent (result in radians.)\n ceil( x ) - Ceiling (defined over floating point numbers.)\n cos( x ) - Cosine (input in radians.)\n cosh( x ) - Hyperbolic cosine.\n double( x ) - Convert number to floating point.\n exp( x ) - Exponential function.\n floor( x ) - Floor (defined over floating point numbers.)\n fmod( x ) - Floating point remainder.\n hypot( x , y ) - Hypotenuse calculator.\n int( x ) - Convert number to integer by truncation.\n log( x ) - Natural logarithm.\n log10( x ) - Logarithm with respect to base 10.\n pow( x , y ) - Power function.\n rand( ) - Random number. Uses uniform distribution over the range [0,1].\n round( x ) - Round to nearest whole number.\n sin( x ) - Sine (input in radians.)\n sinh( x ) - Hyperbolic sine.\n sqrt( x ) - Square root.\n srand( x ) - Seeds the random number generator with the given value.\n tan( x ) - Tangent (input in radians.)\n tanh( x ) - Hyperbolic tangent.
 txtmegaupload Search files in MegaUpload's base.
+txtmp3 Search for a direct link to listen/download the searched song.
+txtdownloadlink Download link:
+txthelpdownload To download, once opened your web browser, go to File -> Save as... and save the file.
+txttranslate Translate a given text to another language.
+txtuptime Started since: 
+txtlifetime Alive since: 
+txtyears years
+txtmonths months
+txtdays days
+txthours hours
+txtminutes minutes
+txtseconds seconds
+txtversion Version: 
+txtdictionarysize Size of dictionary: 
 
 rsphour The time is
 rspdate The date is
+
+errlng Sorry, but I don't know
+erradd The word was not added because there are already the maximum possible answers for the length of the word.
+
+lngalbanian albanian
+lngarabic arabic
+lngarmenian armenian
+lngbasque basque
+lngbelarusian belarusian
+lngbengali bengali
+lngbosnian bosnian
+lngbreton breton
+lngbulgarian bulgarian
+lngcatalan catalan
+lngchinese-simplified chinese-simplified
+lngchinese-traditional chinese-traditional
+lngcroatian croatian
+lngczech czech
+lngdanish danish
+lngdutch dutch
+lngenglish english
+lngesperanto esperanto
+lngfilipino filipino
+lngfinnish finnish
+lngfrench french
+lnggalician galician
+lnggerman german
+lnggreek greek
+lnghebrew hebrew
+lnghungarian hungarian
+lngirish irish
+lngitalian italian
+lngjapanese japanese
+lngkorean korean
+lnglatin latin
+lnglithuanian lithuanian
+lngmacedonian macedonian
+lngmongolian mongolian
+lngnorwegian norwegian
+lngpersian persian
+lngpolish polish
+lngportuguese-brazil portuguese-brazil
+lngportuguese-portugal portuguese
+lngromanian romanian
+lngrussian russian
+lngscots escots
+lngserbian serbian
+lngserbo-croatian serbo-croatian
+lngslovak eslovaK
+lngslovenian eslovenian
+lngspanish spanish
+lngswedish swedish
+lngturkish turkish
+lngukrainian ukrainian
+lngvietnamese vietnamese
+lngwelsh welsh

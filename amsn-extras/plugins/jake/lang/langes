@@ -10,7 +10,6 @@ nresults Numero de resultados de la busqueda en Google
 
 msgon Estoy activado.
 msgoff Estoy desactivado.
-msgonoff Solo mi credor puede activarme y desactivarme.
 
 cmdstate estado
 cmdhelp ayuda
@@ -26,6 +25,8 @@ cmdyoutube youtube
 cmderror Error en la sintaxis del comando.
 cmdexpr expr
 cmdmegaupload megaupload
+cmdmp3 cancion
+cmdtranslate traduce a
 
 cmdargsgoogle palabra/s
 cmdargsdefine palabra/s
@@ -34,6 +35,8 @@ cmdargsforget \"frase\"
 cmdargsyoutube palabra/s
 cmdargsexpr Cualquiera expresion matematica.
 cmdargsmegaupload archivo/s
+cmdargsmp3 Artista y/o titulo.
+cmdargstranslate idioma texto
 
 txtcommands Comandos disponibles:
 txthelp Muestra este mensaje.
@@ -61,6 +64,77 @@ txtexpr Respondera diciendo la respuesta a la expresion matematica. Para ver las
 txtsolution La solucion es:
 txtexprhelp abs( x ) - Valor absoluto (negativo si es negativo.)\n acos( x ) - Arcocoseno (resultado en radianes.)\n asin( x ) - Arcoseno (resultado en radianes.)\n atan( x ) - Arcotangente (resultado en radianes.)\n atan2( y , x ) - Arcotangente (resultado en radianes.)\n ceil( x ) - Redondeo a la alta (se debe usar con numeros decimales.)\n cos( x ) - Coseno (se debe usar con radianes.)\n cosh( x ) - Coseno hiperbolico.\n double( x ) - Convierte enteros a decimales.\n exp( x ) - Funccion exponencial.\n floor( x ) - Redondeo a la baja (se debe usar con numeros decimales.)\n fmod( x ) - Punto flotante.\n hypot( x , y ) - Calculador de la hipotenusa.\n int( x ) - Convierte numeros a enteros, sin redondear.\n log( x ) - Logaritmo.\n log10( x ) - Logaritmo en base 10.\n pow( x , y ) - Potencia.\n rand( ) - Numero aleatorio. Aleatoriaridad en el rango [0,1].\n round( x ) - Redondea.\n sin( x ) - Seno (se debe usar con radianes.)\n sinh( x ) - Seno hiperbolico.\n sqrt( x ) - Raiz cuadrada.\n srand( x ) - Numero aleatorio.\n tan( x ) - Tangente (se debe usar con radianes.)\n tanh( x ) - Tangente hiperbolico.
 txtmegaupload Busca en la base de MegaUpload.
+txtmp3 Busca un enlace directo para escuchar/descargar el mp3 buscado.
+txtdownloadlink Link de descarga:
+txthelpdownload Para descargar, una vez abierto el navegador, haz click en Archivo -> Guardar como... y guarda el archivo.
+txthelptranslate Error en la sintaxis del comando. La forma correcta de usar el traductor es: !traduce xx-yy texto, donde xx es el idioma actual e yy es el idioma al que se quiere traducir. Idiomas soportados: en (Ingles), es (Español), fr (Frances), it (Italiano), gr (Aleman)
+txttranslate Traducir un texto dado a otro idioma.
+txtuptime Iniciado hace:
+txtlifetime Vivo desde hace: 
+txtyears años
+txtmonths meses
+txtdays dias
+txthours horas
+txtminutes minutos
+txtseconds secundos
+txtversion Version: 
+txtdictionarysize Tamaño del diccionario: 
 
 rsphour La hora es
 rspdate La fecha es
+
+errlng Lo siento, pero no se
+erradd No se ha podido agregar la palabra porque ya se han alcanzado el maximo numero de posibles respuestas para la longitud de dicha palabra.
+
+lngalbanian albanes
+lngarabic arabe
+lngarmenian armenio
+lngbasque vasco
+lngbelarusian bielorruso
+lngbengali bengali
+lngbosnian bosnio
+lngbreton breton
+lngbulgarian bulgaro
+lngcatalan catalan
+lngchinese-simplified chino-simplificado
+lngchinese-traditional chino-tradicional
+lngcroatian croata
+lngczech checo
+lngdanish danes
+lngdutch holandes
+lngenglish ingles
+lngesperanto esperanto
+lngfilipino filipino
+lngfinnish finlandes
+lngfrench frances
+lnggalician gallego
+lnggerman aleman
+lnggreek griego
+lnghebrew hebreo
+lnghungarian hungaro
+lngirish irlandes
+lngitalian italiano
+lngjapanese japones
+lngkorean coreano
+lnglatin latin
+lnglithuanian lituano
+lngmacedonian macedonio
+lngmongolian mongol
+lngnorwegian noruego
+lngpersian persa
+lngpolish polaco
+lngportuguese-brazil portugues-brazil
+lngportuguese-portugal portugues
+lngromanian rumano
+lngrussian ruso
+lngscots escoces
+lngserbian serbio
+lngserbo-croatian serbocroata
+lngslovak eslovaco
+lngslovenian esloveno
+lngspanish español
+lngswedish sueco
+lngturkish turco
+lngukrainian ucraniano
+lngvietnamese vietnamita
+lngwelsh gales
