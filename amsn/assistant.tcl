@@ -2385,7 +2385,7 @@ namespace eval ::AVAssistant {
 					  "audiosink" {
 						lappend fsaudiosinks $p
 					  }
-					  "videosrc" {
+					  "videosource" {
 						lappend fsvideosrcs $p
 					  }
 					  "videosink" {
@@ -2412,12 +2412,12 @@ namespace eval ::AVAssistant {
 				set selectedsink $selectedaudiosink
 			} else {
 				if {![info exists selectedvideosrc]} {
-					set selectedaudiosrc [::config::getKey fsvideosrc]
+					set selectedvideosrc [::config::getKey fsvideosrc]
 				}
 				if {![info exists selectedvideosink]} {
-					set selectedaudiosink [::config::getKey fsvideosink]
+					set selectedvideosink [::config::getKey fsvideosink]
 				}
-				set choosesrc [trans chooseaudiosrc]
+				set choosesrc [trans choosevideosrc]
 				set choosesink [trans choosevideosink]
 				set srcs $fsvideosrcs
 				set sinks $fsvideosinks
