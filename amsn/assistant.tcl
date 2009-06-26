@@ -2328,7 +2328,7 @@ namespace eval ::AVAssistant {
 			foreach sink $fsaudiosinks {
 				if {$val == [lindex $sink 2]} {
 					set selectedaudiosink [lindex $sink 1]
-					$contentf.out.a1.c.desc configure -text [lindex $src 3]
+					$contentf.out.a1.c.desc configure -text [lindex $sink 3]
 					break
 				}
 			}
@@ -2339,7 +2339,7 @@ namespace eval ::AVAssistant {
 			foreach sink $fsvideosinks {
 				if {$val == [lindex $sink 2]} {
 					set selectedvideosink [lindex $sink 1]
-					$contentf.out.a1.c.desc configure -text [lindex $src 3]
+					$contentf.out.a1.c.desc configure -text [lindex $sink 3]
 					break
 				}
 			}
