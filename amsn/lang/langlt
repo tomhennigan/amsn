@@ -874,23 +874,21 @@ sipcalleenoanswer Vartotojas neatsakė į jūsų skambutį
 sipcalleeunavailable Vartotojas pasiekiamas šiuo momentu
 sipcallended Jūsų skambutis baigtas
 sipcallimpossible2 Nėra galimybės sukurti garso ir vaizdo pokalbį. Įdiekite Farsight2 ir bandykite dar kartą.
-sipcallimpossible Nėra galimybės skambinti. Įdiekite Farsight2 ir bandykite dar kartą.
 sipcallmissed Jūs praleidote $1 skambutį 
 sipcallnosipflag Vartotojas negali priimti skambučių.
 sipcallsent Skambina $1
-sipcallunsupported Jūs priėmėte garsinio skambučio pakvietimą, kuris nepalaikomas šiuo metu. Jūs galite vėl paskambinti su nauju kvietimu. Tada garsinis skambutis veiks.
 sipcallyouarebusy2 Jūs galite turėti tik vieną garso ar vaizdo pokalbį vienu metu.
-sipcallyouarebusy Jūs galite turėti tik vieną garso pokalbį vienu metu.
 sipgotinvitation Priimtas garsinio skambučio pakvietimas iš $1
 sipvideocallaccepted Vaizdo pokalbis priimtas
 sipvideocallconnected Jūsų vaizdo pokalbis sujungtas!
 sipvideocalldeclined Vaizdo pokalbis atmestas
+sipvideocalleeaccepted Vartotojas priėmė jūsų vaizdo pokalbį
 sipvideocalleecanceled Vartotojas atšaukė vaizdo pokalbio pakvietimą
 sipvideocalleeclosed Vartotojas baigė savo vaizdo pokalbį
 sipvideocalleedeclined Vartotojas atmetė jūsų vaizdo pokalbio pakvietimą
 sipvideocallended Jūsų vaizdo pokalbis baigtas
 sipvideocallmissed Jūs praleidote vaizdo pokalbį su $1
-sipvideocallnosipflag Vartotojas neturi galimybės pradėti vaizdo pokalbį.
+sipvideocallnosipflag Vartotojas neturi galimybės pradėti vaizdo pokalbį
 sipvideogotinvitation Priimtas vaizdo pokalbio pakvietimas iš $1
 skin Apvalkalas
 skinselector Pasirinkti apvalkalą
