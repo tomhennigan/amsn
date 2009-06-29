@@ -11,7 +11,7 @@
 		<langcode>ast</langcode>
 		<name>Asturian</name>
 		<version>1.3</version>
-		<encoding>iso8859-1</encoding>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>eu</langcode>
