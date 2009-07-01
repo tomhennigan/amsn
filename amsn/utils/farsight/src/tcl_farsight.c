@@ -52,6 +52,7 @@ typedef enum {
 static GList * get_plugins_filtered (gboolean source, gboolean audio);
 
 static FsCallType call_type;
+/* Options, does not need to be freed */
 static Tcl_Obj *level_callback = NULL;
 static Tcl_Interp *level_callback_interp = NULL;
 static Tcl_Obj *debug_callback = NULL;
@@ -69,6 +70,8 @@ static char *video_source_pipeline = NULL;
 static char *video_sink = NULL;
 static gulong video_sink_xid = 0;
 static char *video_sink_pipeline = NULL;
+
+
 static GstElement *pipeline = NULL;
 static GstElement *test_pipeline = NULL;
 static GstElement *conference = NULL;
@@ -76,6 +79,7 @@ static GstElement *volumeIn = NULL;
 static GstElement *volumeOut = NULL;
 static GstElement *levelIn = NULL;
 static GstElement *levelOut = NULL;
+static GstElement *preview = NULL;
 static FsParticipant *participant = NULL;
 static FsSession *audio_session = NULL;
 static FsStream *audio_stream = NULL;
@@ -174,6 +178,10 @@ static void Close ()
     test_pipeline = NULL;
   }
 
+  /* freed by the pipeline */
+  conference = NULL;
+
+
   if (volumeIn) {
     gst_object_unref (volumeIn);
     volumeIn = NULL;
@@ -189,6 +197,11 @@ static void Close ()
   if (levelOut) {
     gst_object_unref (levelOut);
     levelOut = NULL;
+  }
+
+  if (preview) {
+    gst_object_unref (preview);
+    preview = NULL;
   }
 
   audio_candidates_prepared = FALSE;
@@ -922,6 +935,9 @@ _create_video_source ()
                                "v4lsrc",
                                NULL};
   gchar **test_source = NULL;
+  GstElement *tee = NULL;
+  GstBin *video_bin = NULL;
+  GstPad *bin_pad = NULL;
 
   _notify_debug ("Creating video_source : %s  --- %s -- %s",
 	  video_source_pipeline ? video_source_pipeline : "(null)",
@@ -964,7 +980,7 @@ _create_video_source ()
       gst_object_unref (src);
       return NULL;
     }
-    return src;
+    goto add_preview;
   } else if (video_source) {
     GstStateChangeReturn state_ret;
     src = gst_element_factory_make (video_source, NULL);
@@ -982,7 +998,7 @@ _create_video_source ()
       gst_object_unref (src);
       return NULL;
     }
-    return src;
+    goto add_preview;
   }
 
   for (test_source = priority_sources; *test_source; test_source++) {
@@ -996,7 +1012,7 @@ _create_video_source ()
   }
 
   if (src)
-    return src;
+    goto add_preview;
 
   sources = get_plugins_filtered (TRUE, FALSE);
 
@@ -1019,7 +1035,63 @@ _create_video_source ()
   }
   g_list_free (sources);
 
-  return src;
+ add_preview:
+
+  tee = gst_element_factory_make ("tee", NULL);
+  video_bin = gst_bin_new ("video_bin");
+
+  if (video_bin == NULL) {
+    _notify_debug ("Could not create video bin");
+    return NULL;
+  }
+  if (gst_bin_add (GST_BIN (video_bin), src) == FALSE) {
+    _notify_debug ("Could not add video source to video bin");
+    if (tee) gst_object_unref (tee);
+    gst_object_unref (src);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+  if (gst_bin_add (GST_BIN (video_bin), tee) == FALSE) {
+    _notify_debug ("Could not add tee to video bin");
+    if (tee) gst_object_unref (tee);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  if (gst_element_link(src, tee) == FALSE)  {
+    _notify_debug ("Could not link video source to tee");
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  preview = gst_element_factory_make ("autovideosink", NULL);
+
+  if (preview == NULL) {
+    _notify_debug ("Could not create preview window");
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+  gst_object_ref (preview);
+  if (gst_bin_add (GST_BIN (video_bin), preview) == FALSE) {
+    _notify_debug ("Could not add preview to video bin");
+    if (preview) gst_object_unref (preview);
+    preview = NULL;
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  if (gst_element_link(tee, preview) == FALSE)  {
+    _notify_debug ("Could not link preview to video source");
+    if (preview) gst_object_unref (preview);
+    preview = NULL;
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+  bin_pad = gst_element_get_request_pad (tee, "src%d");
+  gst_element_add_pad (GST_ELEMENT (video_bin), gst_ghost_pad_new ("src", bin_pad));
+  gst_object_unref (bin_pad);
+
+  return video_bin;
 }
 
 static GstElement *
@@ -1139,6 +1211,7 @@ _conference_element_added (FsElementAddedNotifier *notifier,
     /* Only mode A in h263 payloading is supported by WLM */
     g_object_set (element,
         "modea-only", TRUE,
+        "mtu", 1024,
         NULL);
   } else if (strcmp (name, "gstrtpbin") == 0) {
     /* Lower the jitterbuffer latency to make it more suitable for video
@@ -1173,6 +1246,10 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
 {
   FarsightBusEvent *ev = (FarsightBusEvent *) evPtr;
   GstMessage *message = ev->message;
+
+  /* If we destroy the pipeline in an async operation, we must ignore the messages */
+  if (pipeline == NULL)
+    goto done;
 
   switch (GST_MESSAGE_TYPE (message))
   {
@@ -1311,12 +1388,6 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
           } else if (GST_MESSAGE_SRC (message) == GST_OBJECT(levelOut)) {
             _notify_level ("OUT", (gfloat) (rms / channels));
 		  }
-        } else if (gst_structure_has_name (s, "prepare-xwindow-id")) {
-          GstXOverlay *xov = GST_X_OVERLAY(GST_MESSAGE_SRC (message));
-
-          /* TODO : need to differenciate between preview and sink */
-          _notify_debug ("Setting window id %d on sink", video_sink_xid);
-          gst_x_overlay_set_xwindow_id (xov, video_sink_xid);
         }
       }
 
@@ -1339,10 +1410,30 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
       break;
   }
 
+ done:
   gst_message_unref (message);
   return 1;
 }
 
+
+struct xid_data
+{
+  GstElement *src;
+  gulong window_id;
+  gboolean found;
+};
+
+static void
+set_window_xid (gpointer data, gpointer user_data)
+{
+  GstXOverlay *xov = GST_X_OVERLAY (data);
+  struct xid_data *xiddata = (struct xid_data *) user_data;
+
+  if (GST_ELEMENT_CAST(xov) == xiddata->src) {
+      gst_x_overlay_set_xwindow_id (xov, xiddata->window_id);
+      xiddata->found = TRUE;
+  }
+}
 
 static GstBusSyncReply
 _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
@@ -1368,7 +1459,23 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         } else if (gst_structure_has_name (s, "level")) {
           goto drop;
         } else if (gst_structure_has_name (s, "prepare-xwindow-id")) {
-          goto drop;
+          struct xid_data xiddata;
+          GstIterator *it = NULL;
+
+          xiddata.src = GST_ELEMENT (GST_MESSAGE_SRC (message));
+          xiddata.window_id = video_preview_xid;
+          xiddata.found = FALSE;
+
+          it = gst_bin_iterate_all_by_interface (GST_BIN (preview),
+              GST_TYPE_X_OVERLAY);
+          while (gst_iterator_foreach (it, set_window_xid, &xiddata) ==
+              GST_ITERATOR_RESYNC)
+            gst_iterator_resync (it);
+          gst_iterator_free (it);
+
+          if (xiddata.found == FALSE) {
+            gst_x_overlay_set_xwindow_id (GST_X_OVERLAY (xiddata.src), video_sink_xid);
+          }
         }
       }
 
@@ -2704,7 +2811,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       total_params++;
     }
 
-    /* TODO: Must have different audio/video relay info */
     if (video_relay_info) {
       _notify_debug ("FS: relay info = %p - %d", video_relay_info, video_relay_info->n_values);
       transmitter_params[total_params].name = "relay-info";

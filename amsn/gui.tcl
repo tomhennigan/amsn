@@ -1754,7 +1754,10 @@ namespace eval ::amsn {
 	}
 
 	proc SIPPreparing {email sip callid} {
-		::ChatWindow::MakeFor $email
+		set win_name [::ChatWindow::MakeFor $email]
+
+		$::farsight configure -video-preview-xid [winfo id [[::ChatWindow::GetInDisplayPictureFrame $win_name].pic.image getinnerframe]]
+		#    -video-sink-xid [winfo id [::ChatWindow::GetOutDisplayPicturesFrame $win_name].dps.imgs.**something**]
 
 		::ChatWindow::AddVoipControls $email $sip $callid
 		::ChatWindow::setCallButton $email [list ::amsn::CancelSIPCall $email $sip $callid] [trans hangup]

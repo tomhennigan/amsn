@@ -2051,6 +2051,8 @@ snit::type Farsight {
 	option -prepared -default ""
 	option -active -default ""
 	option -sipconnection -default ""
+	option -video-preview-xid -default 0
+	option -video-sink-xid -default 0
 
 	constructor { args } {
 		$self configurelist $args
@@ -2292,7 +2294,8 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
-		::Farsight::Config -video-source-pipeline {videotestsrc is-live=true ! video/x-raw-yuv,width=352,height=288 ! ffmpegcolorspace ! tee name="t" t. ! autovideosink t. ! identity} -level "" -debug [list $self Debug]
+		::Farsight::Config -level "" -debug [list $self Debug] \
+		    -video-preview-xid $options(-video-preview-xid) -video-sink-xid $options(-video-sink-xid)
 
 		if {$mode == "AV6" || $mode == "AV19" } {
 			::MSN::setClientCap webcam
