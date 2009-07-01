@@ -866,7 +866,7 @@ snit::type SIPConnection {
 		set sdp ""
 		set first_line 1
 
-		foreach candidate $local_candidates {
+		foreach candidate [lsort $local_candidates] {
 			foreach {foundation component_id ip port base_ip base_port transport priority type username password} $candidate break
 
 			if {$options(-ice) == 6} {
