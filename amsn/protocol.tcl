@@ -3449,6 +3449,7 @@ namespace eval ::MSN {
 			after cancel "unset typing($sbn)"
 			unset typing($sbn)
 		}
+		$sbn configure -lastspoke [clock seconds]
 
 	}
 
@@ -5034,6 +5035,7 @@ namespace eval ::MSNOIM {
 	option -auth_cmd ""
 	option -auth_param ""
 	option -last_activity 0
+	option -lastspoke 0
 
 	constructor {args} {
 		install connection using Connection %AUTO% -name $self
@@ -5258,6 +5260,7 @@ namespace eval ::MSNOIM {
 
 				::amsn::messageFrom $chatid $typer $nick $message user $p4c_enabled
 				catch {set options(-lastmsgtime) [clock format [clock seconds] -format %H:%M:%S]}
+				catch {set options(-lastspoke) [clock seconds]}
 				::abook::setContactData $typer last_msgedme [clock format [clock seconds] -format "%D - %H:%M:%S"]
 				#if alarm_onmsg is on run it
 				if { ( [::alarms::isEnabled $typer] == 1 )&& ( [::alarms::getAlarmItem $typer onmsg] == 1) } {
@@ -5437,7 +5440,7 @@ namespace eval ::MSNOIM {
 			#kopete sends this to keep the SB open all time when the window is open, every 50 seconds.  Generates a lot of network traffic + handling cpu power for nothing.
 
 				#if we didn't receive any message on this SB, close it
-				if {[$self cget -lastmsgtime] == 0} {
+				if {[$self cget -lastspoke] == 0} {
 					status_log "Closing the SB for an aggresive Kopete user: $chatid" white
 					::MSN::CloseSB $self
 				}			
@@ -5760,6 +5763,7 @@ proc cmsn_reconnect { sb } {
 			$sb configure -typers [list]
 			$sb configure -title [trans chat]
 			$sb configure -lastmsgtime 0
+			$sb configure -lastspoke 0
 
 			$sb configure -stat "c"
 			$sb configure -invite [$sb cget -last_user]
