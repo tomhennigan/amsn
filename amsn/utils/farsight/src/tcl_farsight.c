@@ -74,7 +74,6 @@ static char *video_sink_pipeline = NULL;
 
 static GstElement *pipeline = NULL;
 static GstElement *test_pipeline = NULL;
-static GstElement *conference = NULL;
 static GstElement *volumeIn = NULL;
 static GstElement *volumeOut = NULL;
 static GstElement *levelIn = NULL;
@@ -177,10 +176,6 @@ static void Close ()
     gst_object_unref (test_pipeline);
     test_pipeline = NULL;
   }
-
-  /* freed by the pipeline */
-  conference = NULL;
-
 
   if (volumeIn) {
     gst_object_unref (volumeIn);
@@ -2303,6 +2298,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstElement *src = NULL;
   GstPad *sinkpad = NULL, *srcpad = NULL;
   GstPad *tempsink;
+  GstElement *conference = NULL;
   GstElement *src_convert = NULL;
   GstElement *src_resample = NULL;
   GstElement *src_convert2 = NULL;
