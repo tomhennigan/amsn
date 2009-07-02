@@ -736,8 +736,8 @@ prefsound Geluiden
 preview Voorbeeld
 privacy Privacy
 profiledconfig Profielconfiguratie
-profileexists Je kunt geen profiel aanmaken met deze aanmeldingsnaam omdat er al een bestaat. Gelieve een andere aanmeldingsnaam te kiezen.
-profileinuse Dit profiel wordt momenteel gebruikt door een andere aMSN-sessie, kies een andere
+profileexists Je kunt geen profiel aanmaken met deze aanmeldingsnaam omdat er al een bestaat. Kies een andere aanmeldingsnaam.
+profileinuse Dit profiel wordt momenteel gebruikt door een andere aMSN-sessie, kies een ander
 profileloginradio Aanmelden met een bestaand profiel
 profiles Profielen
 properties Eigenschappen
@@ -996,6 +996,7 @@ unblock Blokkering opheffen
 unknown Onbekend
 unload Deactiveren
 unselectall Alles deselecteren
+untitled_space Zonder titel
 uoffline Offline
 uonline Online
 update Bijwerken
@@ -1057,7 +1058,7 @@ winkreceived Je hebt een knipoog ontvangen van $1. Deze functie wordt niet door 
 wintitlenick Schermnamen weergeven op vensters met tabbladen
 work Werk
 wrongfields De velden "$1", "$2" en/of "$3" waren ongeldig
-wrongprofileversion Verkeerde versie profielconfiguratiebestand. Gelieve de map $1 te verwijderen of aMSN bij te werken om dit te repareren
+wrongprofileversion Verkeerde versie profielconfiguratiebestand. Verwijder de map $1 of werk aMSN bij om dit te repareren
 xmmscurrent Weergeven welke muziek je afspeelt
 xmmserr Er wordt niks afgespeeld of "xmms-infopipe" is niet geïnstalleerd
 xmmssend Huidige nummer verzenden
