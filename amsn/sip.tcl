@@ -2688,7 +2688,13 @@ namespace eval ::MSNSIP {
 			} else {
 				set frame [::ChatWindow::GetOutDisplayPicturesFrame $window].voip
 			}
-			$frame setLevel $value
+			if {[winfo exists $frame]} {
+				if {$direction == "OUT" &&
+				    [$frame cget -volumestate] == "disabled" } {
+					::ChatWindow::UpdateVoipControls $chatid $sid $callid
+				}
+				$frame setLevel $value
+			}
 		}
 	}
 	proc activeCandidates { email sip callid send media local remote } {
