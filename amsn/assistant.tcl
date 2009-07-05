@@ -2257,32 +2257,6 @@ namespace eval ::AVAssistant {
 		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
 	}
 
-	proc ShowFSDetails {} {
-		variable fs_details
-
-		if {[winfo exists .fsdetails]} {
-			destroy .fsdetails
-		}
-
-		toplevel .fsdetails
-		wm title .fsdetails [trans fsdetails]
-		wm state .fsdetails withdraw
-		set out .fsdetails.scroll
-		set text $out.text
-
-		ScrolledWindow $out -auto vertical -scrollbar vertical -ipad 0
-		framec $text -type ::ChatWindow::rotext -relief solid -foreground white \
-			-background [::skin::getKey chat_output_back_color] \
-			-highlightthickness 0
-		$out setwidget $text
-
-		
-		# Configure our widgets
-		$text configure -state normal
-		$text insert end $fs_details
-		pack $out
-	}
-
 	proc appendFarsightDetails {txt} {
 		variable fs_details
 
@@ -2345,6 +2319,24 @@ namespace eval ::AVAssistant {
 			}
 		}
 	}
+
+
+	proc ShowHideDetails {assistant contentf showOrHide} {
+		variable fs_details
+		if {$showOrHide == 0} {
+			$contentf.fsdetailsbutton configure -text [trans showdetails] -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 1]
+			pack forget $contentf.fsdetails
+		} else {
+			$contentf.fsdetailsbutton configure -text [trans hidedetails] -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 0]
+
+			set text $contentf.fsdetails.scroll.text
+			$text configure -state normal
+			$text delete 0.0 end
+			$text ins end $fs_details
+			pack $contentf.fsdetails
+		}
+	}
+
 	proc StepFarsightClBk {assistant contentf is_audio result} {
 		variable firsttime
 		variable farsight_details
@@ -2361,7 +2353,7 @@ namespace eval ::AVAssistant {
 		if {![winfo exists $contentf.fslabel]} {
 			return
 		}
-		if { $result == 1} {
+		if {$result == 1} {
 			set fs_configured 1
 			if {$is_audio && $firsttime} {
 				set Step [list "StepFarsightVideo" 1 ::AVAssistant::StepFarsightVideo "" "" "" "" "Farsight" assistant_webcam 1 1]
@@ -2508,8 +2500,6 @@ namespace eval ::AVAssistant {
 			pack $contentf.out.r -side right -expand 0 -fill both -anchor center
 			pack $contentf.out.r.d
 
-
-			
 		} else {
 			set fs_configured 0
 			#display error message
@@ -2517,6 +2507,19 @@ namespace eval ::AVAssistant {
 			set txt [trans farsightextwarn]
 			$contentf.fsmsg configure -justify left -text $txt
 			$contentf.fsurl configure -justify left -text "$::weburl/wiki/Farsight" -fg blue
+			button $contentf.fsdetailsbutton -text [trans showdetails] \
+				-command [list ::AVAssistant::ShowHideDetails $assistant $contentf 1]
+			pack $contentf.fsdetailsbutton
+
+			frame $contentf.fsdetails
+			set out $contentf.fsdetails.scroll
+			set text $out.text
+
+			ScrolledWindow $out -auto vertical -scrollbar vertical -ipad 0
+			framec $text -type ::ChatWindow::rotext -relief solid \
+				-foreground black -background white -highlightthickness 0
+			$out setwidget $text
+			pack $out
 
 			bind $contentf.fsurl <Enter> [list %W configure -font sunderf]
 			bind $contentf.fsurl <Leave> [list %W configure -font splainf]
