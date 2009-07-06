@@ -545,7 +545,8 @@ static GstElement * _test_source (gchar *name)
   _notify_debug("Testing source %s", name);
 
   if (!strcmp (name, "dtmfsrc") || !strcmp (name, "audiotestsrc") ||
-      !strcmp (name, "videotestsrc"))
+      !strcmp (name, "autoaudiosrc") || !strcmp (name, "autovideosrc") ||
+      !strcmp (name, "videotestsrc") || !strcmp (name, "ximagesrc"))
     return NULL;
 
   element = gst_element_factory_make (name, NULL);
@@ -1028,7 +1029,9 @@ _create_video_source ()
 {
   GstElement *src = NULL;
   GList *sources, *walk;
-  gchar *priority_sources[] = {"v4l2src",
+  gchar *priority_sources[] = {"gconfvideosrc",
+                               "gconfv4l2src",
+                               "v4l2src",
                                "v4lsrc",
                                NULL};
   gchar **test_source = NULL;
