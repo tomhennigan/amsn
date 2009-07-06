@@ -531,15 +531,21 @@ _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
 
 static GstElement * _test_source (gchar *name)
 {
-  GstPropertyProbe *probe;
-  GstElement *element;
+  GstPropertyProbe *probe = NULL;
+  GstElement *element = NULL;
+  GstElement *tee = NULL;
+  GstElement *queue = NULL;
+  GstElement *fakesink = NULL;
+  GstBin *bin = NULL;
+  GstPad *bin_pad = NULL;
+  GstPad *ghostpad = NULL;
   GstStateChangeReturn state_ret;
   GValueArray *arr;
 
   _notify_debug("Testing source %s", name);
 
   if (!strcmp (name, "dtmfsrc") || !strcmp (name, "audiotestsrc") ||
-      !strcmp (name, "videotestsrc") || !strcmp (name, "gconfv4l2src"))
+      !strcmp (name, "videotestsrc"))
     return NULL;
 
   element = gst_element_factory_make (name, NULL);
@@ -550,15 +556,101 @@ static GstElement * _test_source (gchar *name)
   if (name == "directsoundsrc")
     g_object_set(element, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
 
-  state_ret = gst_element_set_state (element, GST_STATE_READY);
+  /* Build a bin and put the element in it with a tee ! fakesink */
+  bin = gst_bin_new ("source_bin");
+  if (bin == NULL) {
+    _notify_debug ("Could not create source bin");
+    gst_object_unref (element);
+    return NULL;
+  }
+
+  if (gst_bin_add (GST_BIN (bin), element) == FALSE) {
+    _notify_debug ("Could not add source to source bin");
+    gst_object_unref (element);
+    gst_object_unref (bin);
+    return NULL;
+  }
+  tee = gst_element_factory_make ("tee", NULL);
+  if (tee == NULL || gst_bin_add (GST_BIN (bin), tee) == FALSE) {
+    _notify_debug ("Could not add tee to source bin");
+    if (tee) gst_object_unref (tee);
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  if (gst_element_link(element, tee) == FALSE)  {
+    _notify_debug ("Could not link source to tee");
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  queue = gst_element_factory_make ("queue", NULL);
+  if (queue == NULL ||
+      gst_bin_add (GST_BIN (bin), queue) == FALSE) {
+    _notify_debug ("Could not add queue to source bin");
+    gst_object_unref (queue);
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  if (gst_element_link(tee, queue) == FALSE)  {
+    _notify_debug ("Could not link tee to queue");
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  fakesink = gst_element_factory_make ("fakesink", NULL);
+  if (fakesink == NULL) {
+    _notify_debug ("Could not create fakesink in source bin");
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  if (gst_bin_add (GST_BIN (bin), fakesink) == FALSE) {
+    _notify_debug ("Could not add fakesink to source bin");
+    gst_object_unref (fakesink);
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  if (gst_element_link(queue, fakesink) == FALSE)  {
+    _notify_debug ("Could not link fakesink to source");
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  queue = gst_element_factory_make ("queue", NULL);
+  if (queue == NULL ||
+      gst_bin_add (GST_BIN (bin), queue) == FALSE) {
+    _notify_debug ("Could not add second queue to source bin");
+    gst_object_unref (queue);
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  if (gst_element_link(tee, queue) == FALSE)  {
+    _notify_debug ("Could not link tee to second queue");
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+
+  /* Test the source */
+  state_ret = gst_element_set_state (bin, GST_STATE_PAUSED);
   if (state_ret == GST_STATE_CHANGE_ASYNC) {
-    _notify_debug ("Waiting for %s to go to state READY", name);
-    state_ret = gst_element_get_state (element, NULL, NULL,
+    _notify_debug ("Waiting for %s to go to state PAUSED", name);
+    state_ret = gst_element_get_state (bin, NULL, NULL,
         GST_CLOCK_TIME_NONE);
   }
 
   if (state_ret != GST_STATE_CHANGE_FAILURE) {
-    return element;
+    bin_pad = gst_element_get_static_pad (queue, "src");
+    gst_pad_set_active (bin_pad, TRUE);
+    ghostpad = gst_ghost_pad_new ("src", bin_pad);
+    gst_pad_set_active (ghostpad, TRUE);
+    gst_element_add_pad (GST_ELEMENT (bin), ghostpad);
+    gst_object_unref (bin_pad);
+    return bin;
   }
 
   if (GST_IS_PROPERTY_PROBE (element)) {
@@ -581,16 +673,23 @@ static GstElement * _test_source (gchar *name)
 
           g_object_set(element, "device", device, NULL);
 
-          state_ret = gst_element_set_state (element, GST_STATE_READY);
+          state_ret = gst_element_set_state (bin, GST_STATE_PAUSED);
           if (state_ret == GST_STATE_CHANGE_ASYNC) {
-            _notify_debug ("Waiting for %s to go to state READY", name);
-            state_ret = gst_element_get_state (element, NULL, NULL,
+            _notify_debug ("Waiting for %s to go to state PAUSED", name);
+            state_ret = gst_element_get_state (bin, NULL, NULL,
                 GST_CLOCK_TIME_NONE);
           }
 
           if (state_ret != GST_STATE_CHANGE_FAILURE) {
             g_value_array_free (arr);
-            return element;
+            bin_pad = gst_element_get_static_pad (queue, "src");
+            gst_pad_set_active (bin_pad, TRUE);
+            ghostpad = gst_ghost_pad_new ("src", bin_pad);
+            gst_pad_set_active (ghostpad, TRUE);
+            gst_element_add_pad (GST_ELEMENT (bin), ghostpad);
+            gst_object_unref (bin_pad);
+
+            return bin;
           }
         }
         g_value_array_free (arr);
@@ -598,7 +697,8 @@ static GstElement * _test_source (gchar *name)
     }
   }
 
-  gst_object_unref (element);
+  gst_element_set_state (bin, GST_STATE_NULL);
+  gst_object_unref (bin);
   return NULL;
 }
 
@@ -750,8 +850,12 @@ _create_audio_sink ()
     if (snk && audio_sink_device)
       g_object_set(snk, "device", audio_sink_device, NULL);
   }
-  if (snk == NULL)
+  if (snk == NULL) {
     snk = gst_element_factory_make ("autoaudiosink", NULL);
+
+    g_signal_connect (snk, "element-added",
+        G_CALLBACK (_sink_element_added), NULL);
+  }
 
   return snk;
 }
@@ -776,8 +880,6 @@ _audio_src_pad_added (FsStream *self, GstPad *pad,
     if (convert2) gst_object_unref (convert2);
     return;
   }
-  g_signal_connect (snk, "element-added",
-      G_CALLBACK (_sink_element_added), NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), snk) == FALSE)  {
     _notify_error_post ("Could not add audio_sink to pipeline");
@@ -931,6 +1033,11 @@ _create_video_source ()
                                NULL};
   gchar **test_source = NULL;
   GstElement *tee = NULL;
+  GstElement *colorspace = NULL;
+  GstElement *capsfilter = NULL;
+  GstElement *videoscale = NULL;
+  GstElement *queue = NULL;
+  GstCaps *caps = NULL;
   GstBin *video_bin = NULL;
   GstPad *bin_pad = NULL;
 
@@ -1032,57 +1139,177 @@ _create_video_source ()
 
  add_preview:
 
-  tee = gst_element_factory_make ("tee", NULL);
   video_bin = gst_bin_new ("video_bin");
 
   if (video_bin == NULL) {
     _notify_debug ("Could not create video bin");
+    gst_element_set_state (src, GST_STATE_NULL);
+    gst_object_unref (src);
     return NULL;
   }
   if (gst_bin_add (GST_BIN (video_bin), src) == FALSE) {
     _notify_debug ("Could not add video source to video bin");
-    if (tee) gst_object_unref (tee);
+    gst_element_set_state (src, GST_STATE_NULL);
     gst_object_unref (src);
     gst_object_unref (video_bin);
     return NULL;
   }
-  if (gst_bin_add (GST_BIN (video_bin), tee) == FALSE) {
+
+  colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
+  if (colorspace == NULL ||
+      gst_bin_add (GST_BIN (video_bin), colorspace) == FALSE) {
+    _notify_debug ("Could not add colorspace to video bin");
+    gst_object_unref (colorspace);
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  if (gst_element_link(src, colorspace) == FALSE)  {
+    _notify_debug ("Could not link video source to colorspace");
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  videoscale = gst_element_factory_make ("videoscale", NULL);
+  if (videoscale == NULL ||
+      gst_bin_add (GST_BIN (video_bin), videoscale) == FALSE) {
+    _notify_debug ("Could not add videoscale to video bin");
+    gst_object_unref (videoscale);
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  if (gst_element_link(colorspace, videoscale) == FALSE)  {
+    _notify_debug ("Could not link colorspace to videoscale");
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  capsfilter = gst_element_factory_make ("capsfilter", "capsfilter");
+  if (capsfilter == NULL ||
+      gst_bin_add (GST_BIN (video_bin), capsfilter) == FALSE) {
+    _notify_debug ("Could not add capsfilter to video bin");
+    gst_object_unref (capsfilter);
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  if (gst_element_link(videoscale, capsfilter) == FALSE)  {
+    _notify_debug ("Could not link videoscale to capsfilter");
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  caps = gst_caps_new_simple ("video/x-raw-yuv",
+      "width", G_TYPE_INT, 352,
+      "height", G_TYPE_INT, 288,
+      NULL);
+  g_object_set (capsfilter, "caps", caps, NULL);
+
+
+  tee = gst_element_factory_make ("tee", NULL);
+  if (tee == NULL || gst_bin_add (GST_BIN (video_bin), tee) == FALSE) {
     _notify_debug ("Could not add tee to video bin");
     if (tee) gst_object_unref (tee);
+    gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
   }
 
-  if (gst_element_link(src, tee) == FALSE)  {
-    _notify_debug ("Could not link video source to tee");
+  if (gst_element_link(capsfilter, tee) == FALSE)  {
+    _notify_debug ("Could not link capsfilter to tee");
+    gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
   }
+
+  queue = gst_element_factory_make ("queue", NULL);
+  if (queue == NULL ||
+      gst_bin_add (GST_BIN (video_bin), queue) == FALSE) {
+    _notify_debug ("Could not add preview queue to video bin");
+    gst_object_unref (queue);
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  if (gst_element_link(tee, queue) == FALSE)  {
+    _notify_debug ("Could not link tee to preview queue");
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
+  if (colorspace == NULL ||
+      gst_bin_add (GST_BIN (video_bin), colorspace) == FALSE) {
+    _notify_debug ("Could not add colorspace to video bin");
+    gst_object_unref (colorspace);
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  if (gst_element_link(queue, colorspace) == FALSE)  {
+    _notify_debug ("Could not link preview queue to colorspace");
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
 
   preview = gst_element_factory_make ("autovideosink", NULL);
-
   if (preview == NULL) {
     _notify_debug ("Could not create preview window");
+    gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
   }
-  gst_object_ref (preview);
   if (gst_bin_add (GST_BIN (video_bin), preview) == FALSE) {
     _notify_debug ("Could not add preview to video bin");
     if (preview) gst_object_unref (preview);
     preview = NULL;
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+  g_signal_connect (preview, "element-added",
+      G_CALLBACK (_sink_element_added), NULL);
+
+  gst_object_ref (preview);
+  if (gst_element_link(colorspace, preview) == FALSE)  {
+    _notify_debug ("Could not link preview to video source");
+    if (preview) gst_object_unref (preview);
+    preview = NULL;
+    gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
   }
 
-  if (gst_element_link(tee, preview) == FALSE)  {
-    _notify_debug ("Could not link preview to video source");
-    if (preview) gst_object_unref (preview);
-    preview = NULL;
+  queue = gst_element_factory_make ("queue", NULL);
+  if (queue == NULL ||
+      gst_bin_add (GST_BIN (video_bin), queue) == FALSE) {
+    _notify_debug ("Could not add video queue to video bin");
+    gst_object_unref (queue);
+    gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
   }
-  bin_pad = gst_element_get_request_pad (tee, "src%d");
+
+  if (gst_element_link(tee, queue) == FALSE)  {
+    _notify_debug ("Could not link tee to video queue");
+    gst_element_set_state (video_bin, GST_STATE_NULL);
+    gst_object_unref (video_bin);
+    return NULL;
+  }
+
+  bin_pad = gst_element_get_static_pad (queue, "src");
   gst_element_add_pad (GST_ELEMENT (video_bin), gst_ghost_pad_new ("src", bin_pad));
   gst_object_unref (bin_pad);
 
@@ -1119,8 +1346,12 @@ _create_video_sink ()
   } else if (video_sink) {
     snk = gst_element_factory_make (video_sink, NULL);
   }
-  if (snk == NULL)
+  if (snk == NULL) {
     snk = gst_element_factory_make ("autovideosink", NULL);
+
+    g_signal_connect (snk, "element-added",
+        G_CALLBACK (_sink_element_added), NULL);
+  }
 
   return snk;
 }
@@ -1141,8 +1372,6 @@ _video_src_pad_added (FsStream *self, GstPad *pad,
     if (colorspace) gst_object_unref (colorspace);
     return;
   }
-  g_signal_connect (snk, "element-added",
-      G_CALLBACK (_sink_element_added), NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), snk) == FALSE)  {
     _notify_error_post ("Could not add video_sink to pipeline");
@@ -1700,8 +1929,6 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         (char *) NULL);
     goto error;
   }
-  g_signal_connect (snk, "element-added",
-      G_CALLBACK (_sink_element_added), NULL);
 
   if (gst_bin_add (GST_BIN (test_pipeline), snk) == FALSE)  {
     Tcl_AppendResult (interp, "Could not add sink to pipeline",
@@ -1837,15 +2064,7 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 {
   GstBus *bus = NULL;
   GstElement *src = NULL;
-  GstPad *sinkpad = NULL, *srcpad = NULL;
-  GstPad *tempsink;
-  GstElement *snk = NULL;
-  GstElement *src_colorspace = NULL;
-  GstElement *sink_colorspace = NULL;
-  GstElement *capsfilter = NULL;
-  GstElement *videoscale = NULL;
-  GstPadLinkReturn ret;
-  gint state = 0;
+  GstElement *fakesink = NULL;
 
   // We verify the arguments
   if( objc != 1) {
@@ -1884,117 +2103,21 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
   if (gst_bin_add (GST_BIN (test_pipeline), src) == FALSE) {
     _notify_debug ("Couldn't add video_source to pipeline");
+    gst_element_set_state (test_pipeline, GST_STATE_NULL);
     gst_object_unref (src);
     src = NULL;
     goto error;
   }
 
-  srcpad = gst_element_get_static_pad (src, "src");
-
-  src_colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
-  if (gst_bin_add (GST_BIN (test_pipeline), src_colorspace) == FALSE) {
-    Tcl_AppendResult (interp, "Could not add source colorspace to pipeline",
-        (char *) NULL);
-    gst_object_unref (src_colorspace);
+  fakesink = gst_element_factory_make ("fakesink", NULL);
+  if (fakesink == NULL || gst_bin_add (GST_BIN (test_pipeline), fakesink) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add fakesink to source bin", (char *) NULL);
+    if (fakesink) gst_object_unref (fakesink);
     goto error;
   }
 
-  tempsink = gst_element_get_static_pad (src_colorspace, "sink");
-  if (gst_pad_link (srcpad, tempsink) != GST_PAD_LINK_OK) {
-    gst_object_unref (tempsink);
-    _notify_debug ("Couldn't link the src to collorspace");
-    goto error;
-  }
-
-  gst_object_unref (srcpad);
-  gst_object_unref (tempsink);
-
-  videoscale = gst_element_factory_make ("videoscale", NULL);
-  if (gst_bin_add (GST_BIN (test_pipeline), videoscale) == FALSE) {
-    Tcl_AppendResult (interp, "Could not add videoscale to pipeline",
-        (char *) NULL);
-    gst_object_unref (videoscale);
-    goto error;
-  }
-
-  if (gst_element_link(src_colorspace, videoscale) == FALSE)  {
-    Tcl_AppendResult (interp, "Could not link source colorspace to videoscale",
-        (char *) NULL);
-    goto error;
-  }
-  srcpad = gst_element_get_static_pad (videoscale, "src");
-
-  capsfilter = gst_element_factory_make ("capsfilter", "capsfilter");
-  if (capsfilter) {
-    GstPad *caps_sink;
-    GstCaps *caps;
-
-    if (gst_bin_add (GST_BIN (test_pipeline), capsfilter) == FALSE) {
-      _notify_debug ("Could not add capsfilter to pipeline");
-      gst_object_unref (capsfilter);
-      goto no_capsfilter;
-    }
-
-    caps_sink = gst_element_get_static_pad (capsfilter, "sink");
-    if (gst_pad_link (srcpad, caps_sink) != GST_PAD_LINK_OK) {
-      gst_object_unref (caps_sink);
-      _notify_debug ("Couldn't link the volume/level/src to capsfilter");
-      gst_bin_remove (GST_BIN (test_pipeline), capsfilter);
-      goto no_capsfilter;
-    }
-
-
-    caps = gst_caps_new_simple ("video/x-raw-yuv",
-        "width", G_TYPE_INT, 320,
-        "height", G_TYPE_INT, 240,
-        NULL);
-    g_object_set (capsfilter, "caps", caps, NULL);
-
-    gst_object_unref (srcpad);
-    srcpad = gst_element_get_static_pad (capsfilter, "src");
-  } else {
-    _notify_debug ("couldn't create capsfilter");
-  }
- no_capsfilter:
-
-  snk = _create_video_sink ();
-  if (snk == NULL) {
-    Tcl_AppendResult (interp, "Could not create video_sink",
-        (char *) NULL);
-    goto error;
-  }
-  g_signal_connect (snk, "element-added",
-      G_CALLBACK (_sink_element_added), NULL);
-
-  if (gst_bin_add (GST_BIN (test_pipeline), snk) == FALSE)  {
-    Tcl_AppendResult (interp, "Could not add sink to pipeline",
-        (char *) NULL);
-    gst_object_unref (snk);
-    goto error;
-  }
-
-  sink_colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
-  if (gst_bin_add (GST_BIN (test_pipeline), sink_colorspace) == FALSE) {
-    Tcl_AppendResult (interp, "Could not add sink colorspace to pipeline",
-        (char *) NULL);
-    gst_object_unref (sink_colorspace);
-    goto error;
-  }
-
-  if (gst_element_link(sink_colorspace, snk) == FALSE)  {
-    Tcl_AppendResult (interp, "Could not link colorspace to sink", (char *) NULL);
-    goto error;
-  }
-
-  sinkpad = gst_element_get_static_pad (sink_colorspace, "sink");
-
-  ret = gst_pad_link (srcpad, sinkpad);
-  gst_object_unref (sinkpad);
-  gst_object_unref (srcpad);
-
-  if (ret != GST_PAD_LINK_OK)  {
-    Tcl_AppendResult (interp, "Could not link src to sink",
-        (char *) NULL);
+  if (gst_element_link(src, fakesink) == FALSE)  {
+    _notify_debug ("Could not link fakesink to source");
     goto error;
   }
 
