@@ -957,7 +957,7 @@ namespace eval ::MSN {
 		# version used, or change profile, etc...
 		# Do it only if necessary (protocol >= 13)
 		if { [::config::getKey protocol] >= 13 } {
-			::MSNSIP::TestFarsight
+			after 0 [list ::MSNSIP::TestFarsight]
 		}
 
 		cmsn_ns_connect $username $passwd
