@@ -763,23 +763,28 @@ _create_audio_source ()
     }
     return src;
   } else if (audio_source) {
-    GstStateChangeReturn state_ret;
-    src = gst_element_factory_make (audio_source, NULL);
-    if (src && audio_source_device)
-      g_object_set(src, "device", audio_source_device, NULL);
-
-    state_ret = gst_element_set_state (src, GST_STATE_READY);
-    if (state_ret == GST_STATE_CHANGE_ASYNC) {
-      _notify_debug ("Waiting for %s to go to state READY", audio_source);
-      state_ret = gst_element_get_state (src, NULL, NULL,
-          GST_CLOCK_TIME_NONE);
-    }
-
-    if (state_ret == GST_STATE_CHANGE_FAILURE) {
-      gst_object_unref (src);
+    if (strcmp (audio_source, "-") == 0) {
+      /* User disabled audio*/
       return NULL;
+    } else {
+      GstStateChangeReturn state_ret;
+      src = gst_element_factory_make (audio_source, NULL);
+      if (src && audio_source_device)
+        g_object_set(src, "device", audio_source_device, NULL);
+
+      state_ret = gst_element_set_state (src, GST_STATE_READY);
+      if (state_ret == GST_STATE_CHANGE_ASYNC) {
+        _notify_debug ("Waiting for %s to go to state READY", audio_source);
+        state_ret = gst_element_get_state (src, NULL, NULL,
+            GST_CLOCK_TIME_NONE);
+      }
+
+      if (state_ret == GST_STATE_CHANGE_FAILURE) {
+        gst_object_unref (src);
+        return NULL;
+      }
+      return src;
     }
-    return src;
   }
 
   for (test_source = priority_sources; *test_source; test_source++) {
@@ -1087,23 +1092,28 @@ _create_video_source ()
     }
     goto add_preview;
   } else if (video_source) {
-    GstStateChangeReturn state_ret;
-    src = gst_element_factory_make (video_source, NULL);
-    if (src && video_source_device)
-      g_object_set(src, "device", video_source_device, NULL);
-
-    state_ret = gst_element_set_state (src, GST_STATE_READY);
-    if (state_ret == GST_STATE_CHANGE_ASYNC) {
-      _notify_debug ("Waiting for %s to go to state READY", video_source);
-      state_ret = gst_element_get_state (src, NULL, NULL,
-          GST_CLOCK_TIME_NONE);
-    }
-
-    if (state_ret == GST_STATE_CHANGE_FAILURE) {
-      gst_object_unref (src);
+    if (strcmp (audio_source, "-") == 0) {
+      /* User disabled video */
       return NULL;
+    } else {
+      GstStateChangeReturn state_ret;
+      src = gst_element_factory_make (video_source, NULL);
+      if (src && video_source_device)
+        g_object_set(src, "device", video_source_device, NULL);
+
+      state_ret = gst_element_set_state (src, GST_STATE_READY);
+      if (state_ret == GST_STATE_CHANGE_ASYNC) {
+        _notify_debug ("Waiting for %s to go to state READY", video_source);
+        state_ret = gst_element_get_state (src, NULL, NULL,
+            GST_CLOCK_TIME_NONE);
+      }
+
+      if (state_ret == GST_STATE_CHANGE_FAILURE) {
+        gst_object_unref (src);
+        return NULL;
+      }
+      goto add_preview;
     }
-    goto add_preview;
   }
 
   for (test_source = priority_sources; *test_source; test_source++) {
