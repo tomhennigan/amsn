@@ -1521,6 +1521,11 @@ snit::type TURN {
 		if {[catch {puts -nonewline $sock $data} res] } {
 			status_log "TURN : Unable to send data : $res"
 			$self Disconnect
+			if {$options(-callback) != "" } {
+				if {[catch {eval [linsert $options(-callback) end [list]]} result]} {
+					bgerror $result
+				}
+			}
 			return 0
 		} else {
 			return 1
@@ -1531,12 +1536,22 @@ snit::type TURN {
 		if { [eof $sock] } {
 			status_log "TURN: $sock reached eof"
 			$self Disconnect
+			if {$options(-callback) != "" } {
+				if {[catch {eval [linsert $options(-callback) end [list]]} result]} {
+					bgerror $result
+				}
+			}
 			return
 		}
 
 		if { [catch {set header [read $sock 20] } res]} {
 			status_log "TURN: Reading line got error $res"
 			$self Disconnect
+			if {$options(-callback) != "" } {
+				if {[catch {eval [linsert $options(-callback) end [list]]} result]} {
+					bgerror $result
+				}
+			}
 			return
 		}
 
@@ -1555,6 +1570,11 @@ snit::type TURN {
 		if { [catch {set payload [read $sock $payload_size] } res]} {
 			status_log "TURN: Reading line got error $res"
 			$self Disconnect
+			if {$options(-callback) != "" } {
+				if {[catch {eval [linsert $options(-callback) end [list]]} result]} {
+					bgerror $result
+				}
+			}
 			return
 		}
 		if {![info exists payload] || [string length $payload] != $payload_size } {
