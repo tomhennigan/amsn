@@ -2875,12 +2875,18 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     src = _create_video_source ();
     if (src == NULL) {
       _notify_debug ("Couldn't create video_source");
+      if (!video_codecs_ready) {
+        _codecs_ready (video_session);
+      }
       goto no_video_source;
     }
 
     if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
       _notify_debug ("Couldn't add video source to pipeline");
       if (src) gst_object_unref (src);
+      if (!video_codecs_ready) {
+        _codecs_ready (video_session);
+      }
       goto no_video_source;
     }
 
@@ -2905,6 +2911,9 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       gst_object_unref (sinkpad);
       gst_object_unref (srcpad);
       _notify_debug ("Couldn't link the colorspace to fsrtpconference");
+      if (!video_codecs_ready) {
+        _codecs_ready (video_session);
+      }
       goto no_video_source;
     }
 
