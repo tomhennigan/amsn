@@ -1510,7 +1510,7 @@ snit::type TURN {
 		}
 
 		set state "NONE"
-		fconfigure $sock -buffering none -translation binary
+		fconfigure $sock -buffering none -translation binary -blocking 0
 		fileevent $sock readable [list $self SocketReadable]
 
 		return 1
