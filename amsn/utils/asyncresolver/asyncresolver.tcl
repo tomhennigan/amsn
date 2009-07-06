@@ -3,38 +3,57 @@ load [file join $dir libasyncresolver[info sharedlibextension]]
 
 rename socket _socket
 
-proc socket { args } {
-	
-	if { [ lsearch $args -server ] == -1} {
-		
-		if { ![info exists ::asyncresolver_request_number]} {
-			set ::asyncresolver_request_number 0
-		} else {
-			incr ::asyncresolver_request_number
-		}
-		
-		set varname ::asyncresolver_wait_$::asyncresolver_request_number
-		asyncresolve [list asyncresolver_callback $varname] [lindex $args end-1]
-	
-		if {![info exists $varname]} {tkwait variable $varname}
-		
-		if { [set $varname] == "" } {
-			error "couldn't open socket: host is unreachable (Name or service not known)"
-		}
-		set cmd [linsert [lreplace $args end-1 end-1  [set $varname]] 0 _socket ]
+package require tls
 
-		unset $varname
-
-		return [eval $cmd]
-		
-	} else {
-	
-		return [eval [linsert $args 0 _socket ] ]
-		
+if {[info commands ::tls::socket] == "::tls::socket"} {
+	rename ::tls::socket ::tls::_socket
+	proc ::tls::socket { args } {
+		return [::asyncresolver::resolve ::tls::_socket $args]	
 	}
-	
+
 }
 
-proc asyncresolver_callback { var {ip ""} } {
-	set $var $ip
+proc socket { args } {
+	return [::asyncresolver::resolve _socket $args]	
+}
+
+
+namespace eval ::asyncresolver {
+	
+	variable request_number 0
+
+	proc resolve { original arguments } {
+		variable request_number
+
+		if { [ lsearch $arguments -server ] == -1} {
+			incr request_number
+		
+			puts "Resolving $arguments for $original"
+
+			set varname ::asyncresolver::_wait_$request_number
+			asyncresolve [list ::asyncresolver::_resolve_callback $varname] [lindex $arguments end-1]
+	
+			if {![info exists $varname]} {tkwait variable $varname}
+		
+			if { [set $varname] == "" } {
+				error "couldn't open socket: host is unreachable (Name or service not known)"
+			}
+			set cmd [linsert [lreplace $arguments end-1 end-1  [set $varname]] 0 $original ]
+
+			unset $varname
+
+			return [eval $cmd]
+		
+		} else {
+			puts "Server"
+			return [eval [linsert $arguments 0 $original ] ]
+		}
+	
+	}
+
+	proc _resolve_callback { var {ip ""} } {
+		puts "Resolve callback $var : $ip"
+		set $var $ip
+	}
+
 }

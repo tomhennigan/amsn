@@ -105,7 +105,6 @@ static void Resolver_Thread(ClientData cdata)
     }
     freeaddrinfo(result);
   }
-	
 
   evPtr = (ResolverEvent *)ckalloc(sizeof(ResolverEvent));
   evPtr->header.proc = Resolver_EventProc;
@@ -114,7 +113,6 @@ static void Resolver_Thread(ClientData cdata)
 
   Tcl_ThreadQueueEvent(data->main_tid, (Tcl_Event *)evPtr, TCL_QUEUE_TAIL);
   Tcl_ThreadAlert(data->main_tid);
-  
 }
 
 static int Resolver_EventProc (Tcl_Event *evPtr, int flags)
@@ -129,7 +127,7 @@ static int Resolver_EventProc (Tcl_Event *evPtr, int flags)
   Tcl_DecrRefCount (data->callback);
 
   ckfree(data);
-  
+
   return 1;
 }
 
