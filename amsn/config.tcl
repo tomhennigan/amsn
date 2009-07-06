@@ -1640,7 +1640,7 @@ proc CheckLock { email } {
 		if { [OnWinVista] || [catch {socket -server phony $Port} newlockSock] != 0 } {
 			#status_log "CheckLock Port is already in use: $newlockSock\n" red
 			# port is taken, let's make sure it's a profile lock
-			foreach {local_host} { localhost "[info hostname]" 127.0.0.1 } {
+			foreach {local_host} [list localhost [info hostname] 127.0.0.1] {
 				if {[catch {socket $local_host $Port} clientSock] == 0 } {
 					status_log "CheckLock: Can connect to port. Sending PING\n" blue
 					fileevent $clientSock readable "lockcltHdl $clientSock"
@@ -1662,7 +1662,7 @@ proc CheckLock { email } {
 						# other non amsn program is using the lock port, we better reset the lock to 0
 						LoginList changelock 0 $email 0
 					}
-				break
+					break
 				}
 			}
 		} else {
