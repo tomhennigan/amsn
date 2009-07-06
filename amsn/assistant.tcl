@@ -946,7 +946,7 @@ namespace eval ::AVAssistant {
 		$assistant addStepEnd $Step
 
 		#check for audio extensions, and configure it
-		set Step [list "StepFarsightAudio" 1 ::AVAssistant::StepFarsightAudio "" "" "" ""  "Farsight" assistant_audio 1 1]
+		set Step [list "StepFarsightAudio" 1 ::AVAssistant::StepFarsightAudio ::AVAssistant::StopFarsight "" "" ""  "Farsight" assistant_audio 1 1]
 		$assistant addStepEnd $Step
 
 		#Finishing, greetings
@@ -1285,7 +1285,6 @@ namespace eval ::AVAssistant {
 			} else {
 				set setchan $selectedchannel
 			}
-			
 
 			set count 0
 			set setchannr 0
@@ -2268,52 +2267,119 @@ namespace eval ::AVAssistant {
 		append fs_details $txt
 	}
 
+	proc setFSSourceDev { contenf is_audio w val } {
+		#TODO: change the volume control and the test button
+		::Farsight::Close
+	}
+
 	proc setFSSource { contentf is_audio w val } {
 		if {$is_audio} {
 			variable fsaudiosrcs
 			variable selectedaudiosrc
+			variable selectedaudiosrcdev
+			variable fssrcdevlist
 
 			foreach src $fsaudiosrcs {
 				if {$val == [lindex $src 2]} {
 					set selectedaudiosrc [lindex $src 1]
 					$contentf.in.a1.c.desc configure -text [lindex $src 3]
+					$contentf.in.a1.l.dev list delete 0 end
+					set fssrcdevlist [lindex $src 4]
+					set nr 0
+					set count 0
+					foreach dev $fssrcdevlist {
+						$contentf.in.a1.l.dev list insert end $dev
+						if {$dev == $selectedaudiosrcdev} {
+							set nr $count
+						}
+						incr count
+					}
+					catch {$contentf.in.a1.l.dev select $nr}
 					break
 				}
 			}
 		} else {
 			variable fsvideosrcs
 			variable selectedvideosrc
+			variable selectedvideosrcdev
+			variable fssrcdevlist
 
 			foreach src $fsvideosrcs {
 				if {$val == [lindex $src 2]} {
 					set selectedvideosrc [lindex $src 1]
 					$contentf.in.a1.c.desc configure -text [lindex $src 3]
+					$contentf.in.a1.l.dev list delete 0 end
+					set fssrcdevlist [lindex $src 4]
+					set nr 0
+					set count 0
+					foreach dev [lindex $src 4] {
+						$contentf.in.a1.l.dev list insert end $dev
+						if {$dev == $selectedvideosrcdev} {
+							set nr $count
+						}
+						incr count
+					}
+					catch {$contentf.in.a1.l.dev select $nr}
 					break
 				}
 			}
 		}
 	}
 
+	proc setFSSinkDev { contenf is_audio w val } {
+		#Stop the playback if there's one
+		::Farsight::Close
+		#TODO: change the volume control and the test button
+	}
+
 	proc setFSSink { contentf is_audio w val } {
 		if {$is_audio} {
 			variable fsaudiosinks
 			variable selectedaudiosink
+			variable selectedaudiosinkdev
+			variable fssinkdevlist
 
 			foreach sink $fsaudiosinks {
 				if {$val == [lindex $sink 2]} {
 					set selectedaudiosink [lindex $sink 1]
 					$contentf.out.a1.c.desc configure -text [lindex $sink 3]
+					$contentf.out.a1.l.dev list delete 0 end
+					set fssinkdevlist [lindex $sink 4]
+					set count 0
+					set nr 0
+					foreach dev $fssinkdevlist {
+						$contentf.out.a1.l.dev list insert end $dev
+						if {$dev == $selectedaudiosinkdev} {
+							set nr $count
+						}
+						incr count
+					}
+					catch {$contentf.out.a1.l.dev select $nr}
 					break
 				}
 			}
 		} else {
 			variable fsvideosinks
 			variable selectedvideosink
+			variable selectedvideosinkdev
+			variable fssinkdevlist
 
 			foreach sink $fsvideosinks {
 				if {$val == [lindex $sink 2]} {
 					set selectedvideosink [lindex $sink 1]
 					$contentf.out.a1.c.desc configure -text [lindex $sink 3]
+					$contentf.out.a1.l.dev list delete 0 end
+					set fssinkdevlist [lindex $sink 4]
+					set count 0
+					set nr 0
+					foreach dev $fssinkdevlist {
+						$contentf.out.a1.l.dev list insert end $dev
+						if {$dev == $selectedvideosinkdev} {
+							set nr $count
+						}
+						incr count
+					}
+					catch {$contentf.out.a1.l.dev select $nr}
 					break
 				}
 			}
@@ -2337,18 +2403,28 @@ namespace eval ::AVAssistant {
 		}
 	}
 
+	proc StopFarsight {assistant contentf} {
+		catch {::Farsight::Close}
+	}
+
 	proc StepFarsightClBk {assistant contentf is_audio result} {
 		variable firsttime
 		variable farsight_details
 		variable fs_configured
 		variable fsaudiosrcs
 		variable fsaudiosinks
+		variable fssinkdevlist
+		variable fssrcdevlist
 		variable fsvideosrcs
 		variable fsvideosinks
 		variable selectedaudiosrc
+		variable selectedaudiosrcdev
 		variable selectedaudiosink
+		variable selectedaudiosinkdev
 		variable selectedvideosrc
+		variable selectedvideosrcdev
 		variable selectedvideosink
+		variable selectedvideosinkdev
 
 		if {![winfo exists $contentf.fslabel]} {
 			return
@@ -2356,7 +2432,7 @@ namespace eval ::AVAssistant {
 		if {$result == 1} {
 			set fs_configured 1
 			if {$is_audio && $firsttime} {
-				set Step [list "StepFarsightVideo" 1 ::AVAssistant::StepFarsightVideo "" "" "" "" "Farsight" assistant_webcam 1 1]
+				set Step [list "StepFarsightVideo" 1 ::AVAssistant::StepFarsightVideo ::AVAssistant::StopFarsight "" "" "" "Farsight" assistant_webcam 1 1]
 				$assistant insertStepAfter $Step "StepFarsightAudio"
 			}
 
@@ -2387,14 +2463,21 @@ namespace eval ::AVAssistant {
 				}
 			}
 
-
+			set fssinkdevlist [list]
+			set fssrcdevlist [list]
 
 			if {$is_audio} {
 				if {![info exists selectedaudiosrc]} {
 					set selectedaudiosrc [::config::getKey fsaudiosrc]
 				}
+				if {![info exists selectedaudiosrcdev]} {
+					set selectedaudiosrcdev [::config::getKey fsaudiosrcdev]
+				}
 				if {![info exists selectedaudiosink]} {
 					set selectedaudiosink [::config::getKey fsaudiosink]
+				}
+				if {![info exists selectedaudiosinkdev]} {
+					set selectedaudiosinkdev [::config::getKey fsaudiosinkdev]
 				}
 				set choosesrc [trans chooseaudiosrc]
 				set choosesink [trans chooseaudiosink]
@@ -2406,8 +2489,14 @@ namespace eval ::AVAssistant {
 				if {![info exists selectedvideosrc]} {
 					set selectedvideosrc [::config::getKey fsvideosrc]
 				}
+				if {![info exists selectedvideosrcdev]} {
+					set selectedvideosrcdev [::config::getKey fsvideosrcdev]
+				}
 				if {![info exists selectedvideosink]} {
 					set selectedvideosink [::config::getKey fsvideosink]
+				}
+				if {![info exists selectedvideosinkdev]} {
+					set selectedvideosinkdev [::config::getKey fsvideosinkdev]
 				}
 				set choosesrc [trans choosevideosrc]
 				set choosesink [trans choosevideosink]
@@ -2430,18 +2519,25 @@ namespace eval ::AVAssistant {
 				-bg #FFFFFF -font splainf                       \
 				-exportselection true -editable false           \
 				-command [list ::AVAssistant::setFSSource $contentf $is_audio]
+			set nr 0
+			set count 0
 			foreach src $srcs {
 				set str [lindex $src 2]
 				$contentf.in.a1.l.src list insert end $str
 				if {$str == $selectedsrc} {
-					catch {$contentf.in.a1.l.src select $str}
+					set nr $count
 				}
+				incr count
 			}
-			combobox::combobox $contentf.in.a1.l.dev
+			catch {$contentf.in.a1.l.src select $nr}
+			combobox::combobox $contentf.in.a1.l.dev \
+				-bg #FFFFFF -font splainf \
+				-exportselection true -editable false \
+				-command [list ::AVAssistant::setFSSourceDev $contentf $is_audio]
 			frame $contentf.in.a1.c
 			label $contentf.in.a1.c.desc
 			button $contentf.in.a1.c.test -text [trans test]
-			frame $contentf.in.r
+			frame $contentf.in.r -borderwidth 1 -bg black
 			package require voipcontrols
 			voipmixer $contentf.in.r.mixer -orient "vertical" -height 100 -width 10
 
@@ -2469,18 +2565,25 @@ namespace eval ::AVAssistant {
 				-bg #FFFFFF -font splainf                       \
 				-exportselection true -editable false           \
 				-command [list ::AVAssistant::setFSSink $contentf $is_audio]
+			set nr 0
+			set count 0
 			foreach sink $sinks {
 				set str [lindex $sink 2]
 				$contentf.out.a1.l.sink list insert end $str
 				if {$str == $selectedsink} {
-					catch {$contentf.out.a1.l.sink select $str}
+					set nr $count
 				}
+				incr count
 			}
-			combobox::combobox $contentf.out.a1.l.dev
+			catch {$contentf.out.a1.l.sink select $nr}
+			combobox::combobox $contentf.out.a1.l.dev \
+				-bg #FFFFFF -font splainf                       \
+				-exportselection true -editable false           \
+				-command [list ::AVAssistant::setFSSinkDev $contentf $is_audio]
 			frame $contentf.out.a1.c
 			label $contentf.out.a1.c.desc
 			button $contentf.out.a1.c.test -text [trans test]
-			frame $contentf.out.r
+			frame $contentf.out.r -borderwidth 1 -bg black
 			if {$is_audio} {
 				package require voipcontrols
 				voipmixer $contentf.out.r.d -orient "vertical" -height 100 -width 10
@@ -2625,7 +2728,7 @@ namespace eval ::AVAssistant {
 		}
 
 		if {$fs_configured} {
-			#TODO
+			#TODO: save configuration for farsight
 		}
 
 		#click on the finish button to save settings.
