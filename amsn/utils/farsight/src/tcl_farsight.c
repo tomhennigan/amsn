@@ -1150,6 +1150,9 @@ _create_video_source ()
   }
   g_list_free (sources);
 
+  if (src == NULL)
+    return NULL;
+
  add_preview:
 
   video_bin = gst_bin_new ("video_bin");
