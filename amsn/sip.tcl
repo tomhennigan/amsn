@@ -1057,6 +1057,10 @@ snit::type SIPConnection {
 	######### Helper Functions #############
 	########################################
 
+	method GetCallids { } {
+		return [array names call_from]
+	}
+
 	method GetHeader { headers name} {
 		return [lindex [$self GetHeaders $headers $name] 0]
 	}
@@ -2913,9 +2917,23 @@ namespace eval ::MSNSIP {
 		$::farsight Start
 	}
 
+
 	proc errorSIP { sip reason } {
 		status_log "MSNSIP: Got an error"
-		# TODO : what use case where we need to signal the UI?
+		# This could happen if we loose the connection to the SIP server,
+		# in which case, farsight gets closed, and the UI needs to be updated
+		foreach callid [$sip GetCallids] {
+			set caller [$sip GetCaller $callid]
+			set callee [$sip GetCaller $callid]
+			if {$caller != [::config::getKey login]} {
+				set chatid $caller
+			} else {
+				set chatid $callee
+			}
+			if { [::amsn::SIPchatidExistsInList $chatid] } {
+				::amsn::SIPCallEnded [$::farsight IsVideo] $chatid $sip $callid
+			}
+		}
 		destroySIP $sip
 	}
 
