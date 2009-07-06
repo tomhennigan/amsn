@@ -2,6 +2,7 @@
 load [file join $dir libasyncresolver[info sharedlibextension]]
 
 rename socket _socket
+rename fconfigure _fconfigure
 
 package require tls
 
@@ -17,6 +18,16 @@ proc socket { args } {
 	return [::asyncresolver::resolve _socket $args]	
 }
 
+proc fconfigure { channel args } {
+	if { [llength $args] == 1 && [lindex $args 0] == "-sockname" } {
+		set sockname [::asyncresolver::sockname $channel]
+		foreach {ip port} $sockname break
+		return [list $ip [info hostname] $port]
+	} else {
+		return [eval [linsert $args 0 _fconfigure $channel] ]
+	}
+}
+
 
 namespace eval ::asyncresolver {
 	
@@ -28,10 +39,8 @@ namespace eval ::asyncresolver {
 		if { [ lsearch $arguments -server ] == -1} {
 			incr request_number
 		
-			puts "Resolving $arguments for $original"
-
 			set varname ::asyncresolver::_wait_$request_number
-			asyncresolve [list ::asyncresolver::_resolve_callback $varname] [lindex $arguments end-1]
+			::asyncresolver::asyncresolve [list ::asyncresolver::_resolve_callback $varname] [lindex $arguments end-1]
 	
 			if {![info exists $varname]} {tkwait variable $varname}
 		
@@ -45,14 +54,12 @@ namespace eval ::asyncresolver {
 			return [eval $cmd]
 		
 		} else {
-			puts "Server"
 			return [eval [linsert $arguments 0 $original ] ]
 		}
 	
 	}
 
 	proc _resolve_callback { var {ip ""} } {
-		puts "Resolve callback $var : $ip"
 		set $var $ip
 	}
 

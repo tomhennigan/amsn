@@ -132,6 +132,69 @@ static int Resolver_EventProc (Tcl_Event *evPtr, int flags)
 }
 
 
+static int
+Sockname_Cmd(ClientData cdata,
+		 Tcl_Interp *interp,
+		 int objc,
+		 Tcl_Obj * CONST objv[])
+{
+#ifdef _WIN32
+    SOCKET sock;
+    SOCKADDR_IN sockname;
+    LPSOCKADDR pSockname = (LPSOCKADDR) &sockname;
+    int size = sizeof(SOCKADDR_IN);
+#else
+    int sock;
+    struct sockaddr_in sockname;
+    struct sockaddr * pSockname = (struct sockaddr *) &sockname;
+    socklen_t size = sizeof(struct sockaddr_in);
+#endif
+
+    Tcl_Channel *channel = NULL;
+    char *channelName = NULL;
+    int mode;
+
+    if (objc != 2) {
+      Tcl_WrongNumArgs (interp, 1, objv, "socket");
+      return TCL_ERROR;
+    }
+
+    channelName = Tcl_GetString (objv[1]);
+
+    channel = Tcl_GetChannel (interp, channelName, &mode);
+
+    if (channel == NULL) {
+      return TCL_ERROR;
+    }
+    if (Tcl_GetChannelHandle (channel, mode, &sock) == TCL_OK) {
+	if (getsockname(sock, pSockname, &size) >= 0) {
+          Tcl_Obj *result = NULL;
+          Tcl_Obj *ip = NULL;
+          Tcl_Obj *port = NULL;
+
+          result = Tcl_NewListObj (0, NULL);
+          ip = Tcl_NewStringObj (inet_ntoa(sockname.sin_addr), -1);
+          Tcl_ListObjAppendElement(interp, result, ip);
+
+          port = Tcl_NewIntObj (ntohs(sockname.sin_port));
+          Tcl_ListObjAppendElement(interp, result, port);
+
+          Tcl_SetObjResult (interp, result);
+
+          return TCL_OK;
+	} else {
+          Tcl_AppendResult(interp, "can't get sockname: ", Tcl_PosixError(interp), NULL);
+          return TCL_ERROR;
+	}
+    } else {
+      Tcl_AppendResult (interp, "Could not get channel handle", (char *) NULL);
+      return TCL_ERROR;
+    }
+
+    return TCL_OK;
+}
+
+
 int DLLEXPORT
 Asyncresolver_Init(Tcl_Interp *interp)
 {
@@ -142,6 +205,7 @@ Asyncresolver_Init(Tcl_Interp *interp)
     if (Tcl_PkgProvide(interp, "asyncresolver", "0.1") == TCL_ERROR) {
 	return TCL_ERROR;
     }
-    Tcl_CreateObjCommand(interp, "asyncresolve", Asyncresolve_Cmd, NULL, NULL);
+    Tcl_CreateObjCommand(interp, "::asyncresolver::asyncresolve", Asyncresolve_Cmd, NULL, NULL);
+    Tcl_CreateObjCommand(interp, "::asyncresolver::sockname", Sockname_Cmd, NULL, NULL);
     return TCL_OK;
  }
