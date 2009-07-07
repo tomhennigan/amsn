@@ -1092,7 +1092,7 @@ _create_video_source ()
     }
     goto add_preview;
   } else if (video_source) {
-    if (strcmp (audio_source, "-") == 0) {
+    if (strcmp (video_source, "-") == 0) {
       /* User disabled video */
       return NULL;
     } else {
