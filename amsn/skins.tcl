@@ -860,8 +860,12 @@ namespace eval ::skin {
 		::skin::setPixmap butwebcam_hover butwebcam_hover.gif
 		::skin::setPixmap butcall butcall.gif
 		::skin::setPixmap butcall_hover butcall_hover.gif
+		::skin::setPixmap butcallvideo butcallvideo.gif
+		::skin::setPixmap butcallvideo_hover butcallvideo_hover.gif
 		::skin::setPixmap buthangup buthangup.gif
 		::skin::setPixmap buthangup_hover buthangup_hover.gif
+		::skin::setPixmap buthangupvideo buthangupvideo.gif
+		::skin::setPixmap buthangupvideo_hover buthangupvideo_hover.gif
 		::skin::setPixmap buthangup_mini buthangup_mini.gif
 		::skin::setPixmap butnewline newline.gif
 		::skin::setPixmap loginbutton loginbut.gif

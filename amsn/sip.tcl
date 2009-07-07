@@ -2620,7 +2620,7 @@ namespace eval ::MSNSIP {
 		status_log "MSNSIP : Inviting user $email to a SIP call"
 		if {[$::farsight IsInUse] } {
 			# Signal the UI
-			::amsn::SIPCallYouAreBusy $email
+			::amsn::SIPCallYouAreBusy $video $email
 			return "BUSY"
 		} elseif {[::config::getKey protocol] >= 18 &&
 			  [::MSN::hasCapability [::abook::getContactData $email clientid] tunnelsip]} {
@@ -2655,11 +2655,11 @@ namespace eval ::MSNSIP {
 			}
 		}
 
-		::amsn::SIPPreparing $email $sip ""
+		::amsn::SIPPreparing $video $email $sip ""
 
 		if {[catch {$::farsight Prepare 1 $mode} err] } {
 			status_log "Call is impossible : $err"
-			::amsn::SIPCallImpossible $email
+			::amsn::SIPCallImpossible $video $email
 			return "IMPOSSIBLE"
 		} else {
 			# Reset the SipConnection because the Prepare clears it
@@ -2680,7 +2680,7 @@ namespace eval ::MSNSIP {
 		    -active [list ::MSNSIP::activeCandidates $email $sip $callid 1]
 
 		# Signal the UI
-		::amsn::SIPInviteSent $email $sip $callid
+		::amsn::SIPInviteSent $video $email $sip $callid
 	}
 
 
@@ -2698,7 +2698,7 @@ namespace eval ::MSNSIP {
 			::amsn::SIPCallEnded $video $email $sip $callid
 		} else {
 			# Signal the UI
-			::amsn::SIPCallImpossible $email
+			::amsn::SIPCallImpossible $video $email
 		}
 		destroySIP $sip
 
@@ -2770,7 +2770,7 @@ namespace eval ::MSNSIP {
 			$::farsight Start
 		} elseif {$status == "BUSY"} {
 			# Signal the UI
-			::amsn::SIPCalleeBusy $email $sip $callid
+			::amsn::SIPCalleeBusy [$::farsight IsVideo] $email $sip $callid
 		} elseif {$status == "DECLINED"} {
 			# Signal the UI
 			::amsn::SIPCalleeDeclined [$::farsight IsVideo] $email $sip $callid
@@ -2783,10 +2783,10 @@ namespace eval ::MSNSIP {
 			}
 		} elseif {$status == "UNAVAILABLE"} {
 			# Signal the UI
-			::amsn::SIPCalleeUnavailable $email $sip $callid
+			::amsn::SIPCalleeUnavailable [$::farsight IsVideo] $email $sip $callid
 		} elseif {$status == "NOANSWER"} {
 			# Signal the UI
-			::amsn::SIPCalleeNoAnswer $email $sip $callid
+			::amsn::SIPCalleeNoAnswer [$::farsight IsVideo] $email $sip $callid
 		} elseif {$status != "TRYING" && $status != "RINGING" && $status != "CANCEL"} {
 			# Signal the UI
 			::amsn::SIPCallEnded [$::farsight IsVideo] $email $sip $callid
@@ -2819,22 +2819,26 @@ namespace eval ::MSNSIP {
 				if {[$sip cget -ice] == 19} {
 					if {[$sip cget -remote_video_candidates] != "" } {
 						set mode "AV19"
+						set video 1
 					} else {
 						set mode "A19"
+						set video 0
 					}
 				} else {
 					if {[$sip cget -remote_video_candidates] != "" } {
 						set mode "AV6"
+						set video 1
 					} else {
 						set mode "A6"
+						set video 0
 					}
 				}
 
-				::amsn::SIPPreparing $caller $sip $callid
+				::amsn::SIPPreparing $video $caller $sip $callid
 				if {[catch {$::farsight Prepare 0 $mode}] } {
 					$::farsight configure -sipconnection $sip 
 					# Signal the UI
-					::amsn::SIPCallImpossible $caller
+					::amsn::SIPCallImpossible $video $caller
 					
 					$sip AnswerInvite $callid UNAVAILABLE
 					destroySIP $sip
@@ -2880,7 +2884,7 @@ namespace eval ::MSNSIP {
 			$sip Bye $callid
 		} else {
 			# Signal the UI
-			::amsn::SIPCallImpossible [$sip GetCaller $callid]
+			::amsn::SIPCallImpossible [$::farsight IsVideo] [$sip GetCaller $callid]
 
 			$sip AnswerInvite $callid UNAVAILABLE
 		}

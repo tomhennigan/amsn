@@ -1013,7 +1013,7 @@ namespace eval ::amsn {
 		::plugins::PostEvent chat_ink_sent evPar
 	}
 
-	proc InviteCallFromCW {win_name} {
+	proc InviteCallFromCW {win_name video} {
 		if {![winfo exists $win_name] } {
 			set win_name [::amsn::chatUser $win_name]
 		}
@@ -1026,11 +1026,10 @@ namespace eval ::amsn {
 			#TODO: add a new key?
 			::amsn::errorMsg [trans sipcallyouarebusy2]
 		} elseif {[llength $users] == 1} {
-			::amsn::SIPCallInviteUser 0 [lindex $users 0]
+			::amsn::SIPCallInviteUser $video [lindex $users 0]
 		} else {
-			::amsn::SIPCallInviteUser 0 $chatid
+			::amsn::SIPCallInviteUser $video $chatid
 		}
-
 	}
 
 	proc FileTransferSend { win_name {filename ""} } {
@@ -1753,14 +1752,14 @@ namespace eval ::amsn {
 		}
 	}
 
-	proc SIPPreparing {email sip callid} {
+	proc SIPPreparing {video email sip callid} {
 		set win_name [::ChatWindow::MakeFor $email]
 
 		$::farsight configure -video-preview-xid [winfo id [[::ChatWindow::GetInDisplayPictureFrame $win_name].pic.image getinnerframe]]
 		#    -video-sink-xid [winfo id [::ChatWindow::GetOutDisplayPicturesFrame $win_name].dps.imgs.**something**]
 
-		::ChatWindow::AddVoipControls $email $sip $callid
-		::ChatWindow::setCallButton $email [list ::amsn::CancelSIPCall $email $sip $callid] [trans hangup]
+		::ChatWindow::AddVoipControls $email $video $sip $callid
+		::ChatWindow::setCallButton $email "cancel" $video $sip $callid
 	}
 
 	proc DisableSIPButton { chatid tag } {
@@ -1862,13 +1861,13 @@ namespace eval ::amsn {
 			WinWrite $chatid " [trans sipcallaccepted]\n" green
 		}
 		WinWrite $chatid " (" green
-		WinWriteClickable $chatid "[trans hangup]" [list ::amsn::HangupSIPCall $chatid $sip $callid] siphangup$callid
+		WinWriteClickable $chatid "[trans hangup]" [list ::amsn::HangupSIPCall $video $chatid $sip $callid] siphangup$callid
 		WinWrite $chatid ")\n" green
 		WinWriteIcon $chatid greyline 3
 
 		AddSIPchatidToList $chatid
-		::ChatWindow::setCallButton $chatid [list ::amsn::HangupSIPCall $chatid $sip $callid] [trans hangup]
-		::ChatWindow::UpdateVoipControls $chatid $sip $callid
+		::ChatWindow::setCallButton $chatid "hangup" $video $sip $callid
+		::ChatWindow::UpdateVoipControls $chatid $video $sip $callid
 		::MSNSIP::AcceptInvite $sip $callid
 	}
 
@@ -1892,33 +1891,35 @@ namespace eval ::amsn {
 
 		::MSNSIP::DeclineInvite $sip $callid
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc HangupSIPCall { chatid sip callid } {
+	proc HangupSIPCall { video chatid sip callid } {
 		status_log "Hanging up SIP call"
 
 		SIPCallEnded [$::farsight IsVideo] $chatid $sip $callid
 
 		::MSNSIP::HangUp $sip $callid
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc CancelSIPCall { chatid sip callid} {
+	proc CancelSIPCall { video chatid sip callid} {
 		status_log "Canceling SIP invite"
 
-		DisableSIPButton $chatid siphangup$callid 
+		if {$callid != ""} {
+			DisableSIPButton $chatid siphangup$callid
+			::MSNSIP::CancelCall $sip $callid
+		}
 
-		::MSNSIP::CancelCall $sip $callid
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPInviteSent { chatid sip callid } {
+	proc SIPInviteSent { video chatid sip callid } {
 		status_log "SIP invite sent"
 
 		WinWrite $chatid "\n" green
@@ -1927,13 +1928,13 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid sipicon 3 2
 		WinWrite $chatid " [trans sipcallsent [::abook::getDisplayNick $chatid]]\n" green
 		WinWrite $chatid " (" green
-		WinWriteClickable $chatid "[trans hangup]" [list ::amsn::CancelSIPCall $chatid $sip $callid] siphangup$callid
+		WinWriteClickable $chatid "[trans hangup]" [list ::amsn::CancelSIPCall $video $chatid $sip $callid] siphangup$callid
 		WinWrite $chatid ")\n" green
 		WinWriteIcon $chatid greyline 3
 		# Can be weird to ring the phone there, but i think it's useful
 		play_sound ring.wav
-		::ChatWindow::setCallButton $chatid [list ::amsn::CancelSIPCall $chatid $sip $callid] [trans hangup]
-		::ChatWindow::UpdateVoipControls $chatid $sip $callid
+		::ChatWindow::setCallButton $chatid "cancel" $video $sip $callid
+		::ChatWindow::UpdateVoipControls $chatid $video $sip $callid
 	}
 
 	proc SIPCallEnded { video chatid sip callid } {
@@ -1947,7 +1948,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
@@ -1968,9 +1969,9 @@ namespace eval ::amsn {
 		}
 
 		# Modify Hangup button to hangup instead of cancel call 
-		[::ChatWindow::GetOutText ${win_name}] tag bind siphangup$callid <<Button1>> [list ::amsn::HangupSIPCall $chatid $sip $callid]
-		::ChatWindow::setCallButton $chatid [list ::amsn::HangupSIPCall $chatid $sip $callid] [trans hangup]
-		::ChatWindow::UpdateVoipControls $chatid $sip $callid
+		[::ChatWindow::GetOutText ${win_name}] tag bind siphangup$callid <<Button1>> [list ::amsn::HangupSIPCall $video $chatid $sip $callid]
+		::ChatWindow::setCallButton $chatid "hangup" $video $sip $callid
+		::ChatWindow::UpdateVoipControls $chatid $video $sip $callid
 
 	}
 	proc SIPCallConnected { video chatid sip callid } {
@@ -1981,11 +1982,11 @@ namespace eval ::amsn {
 			::ChatWindow::Status [ ::ChatWindow::For $chatid ] [trans sipcallconnected]
 		}
 
-		::ChatWindow::UpdateVoipControls $chatid $sip $callid
+		::ChatWindow::UpdateVoipControls $chatid $video $sip $callid
 
 	}
 
-	proc SIPCalleeBusy { chatid sip callid } {
+	proc SIPCalleeBusy { video chatid sip callid } {
 
 		status_log "SIP callee is busy"
 
@@ -1993,7 +1994,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
@@ -2008,7 +2009,7 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
@@ -2023,38 +2024,38 @@ namespace eval ::amsn {
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCalleeNoAnswer { chatid sip callid }  {
+	proc SIPCalleeNoAnswer { video chatid sip callid }  {
 		status_log "SIP user did not answer our call"
 
 		SIPCallMessage $chatid [trans sipcalleenoanswer]
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCalleeUnavailable { chatid sip callid }  {
+	proc SIPCalleeUnavailable { video chatid sip callid }  {
 		status_log "SIP user is currently unavailable"
 
 		SIPCallMessage $chatid [trans sipcalleeunavailable]
 
 		DisableSIPButton $chatid siphangup$callid 
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCallImpossible { chatid } {
+	proc SIPCallImpossible { video chatid } {
 		status_log "SIP call is impossible.. no farsight utility found/working"
 
 		SIPCallMessage $chatid [trans sipcallimpossible2]
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
@@ -2066,7 +2067,7 @@ namespace eval ::amsn {
 			SIPCallMessage $chatid [trans sipcallnosipflag]
 		}
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
@@ -2083,16 +2084,16 @@ namespace eval ::amsn {
 			DisableSIPButton $chatid sipno$callid
 		}
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
-	proc SIPCallYouAreBusy { chatid } {
+	proc SIPCallYouAreBusy { video chatid } {
 		status_log "Trying to make multiple SIP calls"
 
 		SIPCallMessage $chatid [trans sipcallyouarebusy2]
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 
@@ -2116,7 +2117,7 @@ namespace eval ::amsn {
 			SIPCallMessage $chatid [trans sipcalleecanceled]
 		}
 		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "::amsn::InviteCallFromCW [::ChatWindow::For $chatid]" [trans sendsip] 0
+		::ChatWindow::setCallButton $chatid "invite" $video
 		::ChatWindow::RemoveVoipControls $chatid
 	}
 

@@ -2370,6 +2370,7 @@ namespace eval ::ChatWindow {
 		set invite $buttonsinner.invite
 		set webcam $buttonsinner.webcam
 		set call $buttonsinner.call
+		set callv $buttonsinner.callv
 
 		# widget name from another proc
 		set input [::ChatWindow::GetInputText $w]
@@ -2427,14 +2428,20 @@ namespace eval ::ChatWindow {
 		button $call -image [::skin::loadPixmap butcall] -relief flat -padx 0 \
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
-			-command "::amsn::InviteCallFromCW $w"
+			-command "::amsn::InviteCallFromCW $w 0"
 		set_balloon $call "[trans sendsip]"
 
+		#Video button
+		button $callv -image [::skin::loadPixmap butcallvideo] -relief flat -padx 0 \
+			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			-command "::amsn::InviteCallFromCW $w 1"
+		set_balloon $call "[trans sendvideosip]"
 
 
 		# Pack them
 		pack $fontsel $smileys $voice -side left -padx 0 -pady 0
-		pack $block $webcam $sendfile $invite $call -side right -padx 0 -pady 0
+		pack $block $webcam $sendfile $invite $call $callv -side right -padx 0 -pady 0
 
 		bind $voice    <<Button1-Press>> "::ChatWindow::start_voice_clip $w"
 		bind $voice    <<Button1>> "::ChatWindow::stop_and_send_voice_clip $w"
@@ -2457,6 +2464,8 @@ namespace eval ::ChatWindow {
 		bind $webcam <Leave> "$webcam configure -image [::skin::loadPixmap butwebcam]"
 		bind $call <Enter> "$call configure -image [::skin::loadPixmap butcall_hover]"
 		bind $call <Leave> "$call configure -image [::skin::loadPixmap butcall]"
+		bind $callv <Enter> "$callv configure -image [::skin::loadPixmap butcallvideo_hover]"
+		bind $callv <Leave> "$callv configure -image [::skin::loadPixmap butcallvideo]"
 		
 		#send chatwindowbutton postevent
 		set evPar(bottom) $buttonsinner
@@ -2484,7 +2493,7 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	proc AddVoipControls {chatid {sip ""} {callid ""}} {
+	proc AddVoipControls {chatid video {sip ""} {callid ""}} {
 		if { [OnMac] } { return; }
 		
 		set win [::ChatWindow::For $chatid]
@@ -2538,7 +2547,7 @@ namespace eval ::ChatWindow {
 		set ::ChatWindow::voip_volume_out 0 ;# -10dB
 		set ::ChatWindow::voip_mute_out 0
 
-		UpdateVoipControls $chatid $sip $callid
+		UpdateVoipControls $chatid $video $sip $callid
 
 
 		#Redraw the frames correctly
@@ -2549,7 +2558,7 @@ namespace eval ::ChatWindow {
 
 	}
 
-	proc UpdateVoipControls {chatid {sip ""} {callid ""}} {
+	proc UpdateVoipControls {chatid video {sip ""} {callid ""}} {
 		if { [OnMac] } { return; }
 		
 		set window [::ChatWindow::For $chatid]
@@ -2592,9 +2601,9 @@ namespace eval ::ChatWindow {
 
 		if {$sip != "" && $callid != ""} {
 			$frame_in configure -endcallstate normal\
-			    -endcallcommand [list ::amsn::HangupSIPCall $chatid $sip $callid]
+			    -endcallcommand [list ::amsn::HangupSIPCall $video $chatid $sip $callid]
 			$frame_out configure -endcallstate normal\
-			    -endcallcommand [list ::amsn::HangupSIPCall $chatid $sip $callid]
+			    -endcallcommand [list ::amsn::HangupSIPCall $video $chatid $sip $callid]
 		} else {
 			$frame_in configure -endcallstate disabled
 			$frame_out configure -endcallstate disabled
@@ -2667,7 +2676,7 @@ namespace eval ::ChatWindow {
 		}
 	}
 	
-	proc setCallButton {chatid cmd txt {hangupOrCall 1}} {
+	proc setCallButton {chatid type video {sip ""} {callid ""}} {
 		set win [For $chatid]
 		if { $win == 0 } {
 			status_log "Oops, no CW for chatid : $chatid" red
@@ -2675,28 +2684,59 @@ namespace eval ::ChatWindow {
 		}
 		set buttons [GetButtonBarForWin $win]
 		set buttonsinner [$buttons getinnerframe]
-		set call $buttonsinner.call
-
-		if {[winfo exists $call]} {
-			$call configure -command ${cmd}
-			set_balloon $call $txt
+		if {$video } {
+			set button $buttonsinner.callv
+			set otherbutton $buttonsinner.call
+			set txt [trans sendvideosip]
 		} else {
-			#Hangup button
-			button $call -image -relief flat -padx 0 \
-				-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-				-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
-				-command ${cmd}
-			set_balloon $call $txt
-			pack $call -side left -padx 0 -pady 0
+			set button $buttonsinner.call
+			set otherbutton $buttonsinner.callv
+			set txt [trans sendsip]
 		}
-		if {$hangupOrCall == 1} {
-			$call configure -image [::skin::loadPixmap buthangup]
-			bind $call <Enter> "$call configure -image [::skin::loadPixmap buthangup_hover]"
-			bind $call <Leave> "$call configure -image [::skin::loadPixmap buthangup]"
+		if {$type == "invite" } {
+			set cmd [list ::amsn::InviteCallFromCW [::ChatWindow::For $chatid] $video]
+			set disable 0
+		} elseif {$type == "hangup" } {
+			set cmd [list ::amsn::HangupSIPCall $video $chatid $sip $callid] 
+			set disable 1
+			set txt [trans hangup]
+		} elseif {$type == "cancel" } {
+			set cmd [list ::amsn::CancelSIPCall $video $chatid $sip $callid]
+			set disable 1
+			set txt [trans hangup]
 		} else {
-			$call configure -image [::skin::loadPixmap butcall]
-			bind $call <Enter> "$call configure -image [::skin::loadPixmap butcall_hover]"
-			bind $call <Leave> "$call configure -image [::skin::loadPixmap butcall]"
+			return
+		}
+
+		if {[winfo exists $button]} {
+			$button configure -command ${cmd}
+			set_balloon $button $txt
+		} else {
+			return
+		}
+
+		if {$type == "hangup" || $type == "cancel"} {
+			if {$video} {
+				$button configure -image [::skin::loadPixmap buthangupvideo]
+				bind $button <Enter> "$button configure -image [::skin::loadPixmap buthangupvideo_hover]"
+				bind $button <Leave> "$button configure -image [::skin::loadPixmap buthangupvideo]"
+			} else {
+				$button configure -image [::skin::loadPixmap buthangup]
+				bind $button <Enter> "$button configure -image [::skin::loadPixmap buthangup_hover]"
+				bind $button <Leave> "$button configure -image [::skin::loadPixmap buthangup]"
+			}
+			$otherbutton configure -state disabled
+		} else {
+			if {$video} {
+				$button configure -image [::skin::loadPixmap butcallvideo]
+				bind $button <Enter> "$button configure -image [::skin::loadPixmap butcallvideo_hover]"
+				bind $button <Leave> "$button configure -image [::skin::loadPixmap butcallvideo]"
+			} else {
+				$button configure -image [::skin::loadPixmap butcall]
+				bind $button <Enter> "$button configure -image [::skin::loadPixmap butcall_hover]"
+				bind $button <Leave> "$button configure -image [::skin::loadPixmap butcall]"
+			}
+			$otherbutton configure -state normal
 		}
 	}
 
