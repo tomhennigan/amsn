@@ -3625,9 +3625,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (audio_source)
+        if (audio_source) {
           g_free (audio_source);
-        audio_source = g_strdup (Tcl_GetString(objv[a]));
+          audio_source = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          audio_source = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       case FS_AUDIO_SRC_DEVICE: {
         a++;
@@ -3637,9 +3642,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (audio_source_device)
+        if (audio_source_device) {
           g_free (audio_source_device);
-        audio_source_device = g_strdup (Tcl_GetString(objv[a]));
+          audio_source_device = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          audio_source_device = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       }
       case FS_AUDIO_SRC_PIPELINE:
@@ -3650,9 +3660,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (audio_source_pipeline)
+        if (audio_source_pipeline) {
           g_free (audio_source_pipeline);
-        audio_source_pipeline = g_strdup (Tcl_GetString(objv[a]));
+          audio_source_pipeline = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          audio_source_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       case FS_AUDIO_SINK:
         a++;
@@ -3662,9 +3677,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (audio_sink)
+        if (audio_sink) {
           g_free (audio_sink);
-        audio_sink = g_strdup (Tcl_GetString(objv[a]));
+          audio_sink = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          audio_sink = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       case FS_AUDIO_SINK_DEVICE: {
         a++;
@@ -3674,9 +3694,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (audio_sink_device)
+        if (audio_sink_device) {
           g_free (audio_sink_device);
-        audio_sink_device = g_strdup (Tcl_GetString(objv[a]));
+          audio_sink_device = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          audio_sink_device = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       }
       case FS_AUDIO_SINK_PIPELINE:
@@ -3687,9 +3712,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (audio_sink_pipeline)
+        if (audio_sink_pipeline) {
           g_free (audio_sink_pipeline);
-        audio_sink_pipeline = g_strdup (Tcl_GetString(objv[a]));
+          audio_sink_pipeline = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          audio_sink_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       case FS_VIDEO_SOURCE:
         a++;
@@ -3699,9 +3729,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (video_source)
+        if (video_source) {
           g_free (video_source);
-        video_source = g_strdup (Tcl_GetString(objv[a]));
+          video_source = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          video_source = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       case FS_VIDEO_SRC_DEVICE: {
         a++;
@@ -3711,9 +3746,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (video_source_device)
+        if (video_source_device) {
           g_free (video_source_device);
-        video_source_device = g_strdup (Tcl_GetString(objv[a]));
+          video_source_device = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          video_source_device = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       }
       case FS_VIDEO_PREVIEW_XID: {
@@ -3737,9 +3777,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (video_source_pipeline)
+        if (video_source_pipeline) {
           g_free (video_source_pipeline);
-        video_source_pipeline = g_strdup (Tcl_GetString(objv[a]));
+          video_source_pipeline = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          video_source_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       case FS_VIDEO_SINK:
         a++;
@@ -3749,9 +3794,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (video_sink)
+        if (video_sink) {
           g_free (video_sink);
-        video_sink = g_strdup (Tcl_GetString(objv[a]));
+          video_sink = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          video_sink = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       case FS_VIDEO_SINK_XID: {
         a++;
@@ -3774,9 +3824,14 @@ int Farsight_Config _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
           return TCL_ERROR;
         }
 
-        if (video_sink_pipeline)
+        if (video_sink_pipeline) {
           g_free (video_sink_pipeline);
-        video_sink_pipeline = g_strdup (Tcl_GetString(objv[a]));
+          video_sink_pipeline = NULL;
+        }
+        if (Tcl_GetString (objv[a]) != NULL &&
+            Tcl_GetString (objv[a])[0] != 0) {
+          video_sink_pipeline = g_strdup (Tcl_GetString(objv[a]));
+        }
         break;
       default:
           Tcl_AppendResult(interp,
