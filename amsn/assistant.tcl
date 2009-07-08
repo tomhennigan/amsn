@@ -2248,11 +2248,6 @@ namespace eval ::AVAssistant {
 			-text [trans farsightextchecking]
 		pack $contentf.fslabel
 		
-		label $contentf.fsmsg -justify left -text ""
-		label $contentf.fsurl -justify left -text "" -fg blue
-
-		pack $contentf.fsmsg
-		pack $contentf.fsurl
 
 		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
 	}
@@ -2637,6 +2632,9 @@ namespace eval ::AVAssistant {
 				frame $contentf.out.r.d -bg black
 			}
 
+			label $contentf.err -fg red
+			pack $contentf.err -fill x -expand 1
+			bind $contentf.err <Configure> [list %W configure -wraplength %w]
 			pack $contentf.out -fill x -expand 1
 			pack $contentf.out.a1 -side left -fill both -expand 1
 			pack $contentf.out.a1.l -side left -expand 0
@@ -2656,11 +2654,15 @@ namespace eval ::AVAssistant {
 			set fs_configured 0
 			#display error message
 			$contentf.fslabel configure -image [::skin::loadPixmap no-emblem] -compound right
+
+
 			set txt [trans farsightextwarn]
-			$contentf.fsmsg configure -justify left -text $txt
-			$contentf.fsurl configure -justify left -text "$::weburl/wiki/Farsight" -fg blue
+			label $contentf.fsmsg configure -justify left -text $txt
+			label $contentf.fsurl configure -justify left -text "$::weburl/wiki/Farsight" -fg blue
 			button $contentf.fsdetailsbutton -text [trans showdetails] \
 				-command [list ::AVAssistant::ShowHideDetails $assistant $contentf 1]
+			pack $contentf.fsmsg
+			pack $contentf.fsurl
 			pack $contentf.fsdetailsbutton
 
 			frame $contentf.fsdetails
