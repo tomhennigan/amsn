@@ -1127,7 +1127,7 @@ namespace eval ::AVAssistant {
 			
 # +-------------------------+
 # |       descrition        |
-# |+----------+ +---------+ |--innerframe ($contenf)
+# |+----------+ +---------+ |--innerframe ($contentf)
 # ||          | |         | |
 # ||          | |         | |
 # ||          | |         |----rightframe (a canvas $rightframe))
@@ -1138,7 +1138,7 @@ namespace eval ::AVAssistant {
 # +-------------------------+
 
 		label $contentf.desc -justify left -text [trans assistantselectcam]
-		pack $contentf.desc -pady 20 
+		pack $contentf.desc -pady 20
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
 
@@ -1149,11 +1149,12 @@ namespace eval ::AVAssistant {
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
 		frame $leftframe -bd 0
-		pack $leftframe -side left -padx 10
+		pack $leftframe -side left -padx 10 -expand 0 -fill none
 
 		checkbutton $leftframe.lowrescam -text "[trans lowrescam]" -font sboldf -variable \
 			::AVAssistant::lowrescam -onvalue 1 -offvalue 0
 		pack $leftframe.lowrescam -pady 10
+		bind $leftframe.lowrescam <Configure> [list %W configure -wraplength %w]
 
 		#create the 'rightframe' canvas where the preview-image will be shown
 		set rightframe $contentf.right
@@ -1168,7 +1169,7 @@ namespace eval ::AVAssistant {
 
 		#this is a canvas so we can have a border and put some OSD-like text on it too
 		canvas $rightframe -background #000000 -width $camwidth -height $camheight -bd 0
-		pack $rightframe -side right -padx 10
+		pack $rightframe -side right -padx 10 -fill x -expand 1
 
 		#draw the border image that will be layed ON the preview-img
 		$rightframe create image 0 0 -image [::skin::loadPixmap camempty] -anchor nw -tag border
@@ -1654,7 +1655,7 @@ namespace eval ::AVAssistant {
 			
 # +-------------------------+
 # |       descrition        |
-# |+----------+ +---------+ |--innerframe ($contenf)
+# |+----------+ +---------+ |--innerframe ($contentf)
 # ||          | |         | |
 # ||          | |         | |
 # ||          | |         |----rightframe (a canvas $rightframe))
@@ -2267,9 +2268,17 @@ namespace eval ::AVAssistant {
 		append fs_details $txt
 	}
 
-	proc setFSSourceDev { contenf is_audio w val } {
-		#TODO: change the volume control and the test button
-		::Farsight::Close
+	proc setFSSourceDev { contentf is_audio w val } {
+		variable selectedaudiosrc
+
+		::Farsight::Stop
+		if {$is_audio} {
+			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
+			    -audio-source $selectedaudiosrc -audio-source-device $val
+			::Farsight::TestAudio
+		} else {
+			#TODO
+		}
 	}
 
 	proc setFSSource { contentf is_audio w val } {
@@ -2282,7 +2291,7 @@ namespace eval ::AVAssistant {
 			foreach src $fsaudiosrcs {
 				if {$val == [lindex $src 2]} {
 					set selectedaudiosrc [lindex $src 1]
-					$contentf.in.a1.c.desc configure -text [lindex $src 3]
+					$contentf.in.a1.c.lf.desc configure -text [lindex $src 3]
 					$contentf.in.a1.l.dev list delete 0 end
 					set fssrcdevlist [lindex $src 4]
 					set nr 0
@@ -2307,7 +2316,7 @@ namespace eval ::AVAssistant {
 			foreach src $fsvideosrcs {
 				if {$val == [lindex $src 2]} {
 					set selectedvideosrc [lindex $src 1]
-					$contentf.in.a1.c.desc configure -text [lindex $src 3]
+					$contentf.in.a1.c.lf.desc configure -text [lindex $src 3]
 					$contentf.in.a1.l.dev list delete 0 end
 					set fssrcdevlist [lindex $src 4]
 					set nr 0
@@ -2326,10 +2335,33 @@ namespace eval ::AVAssistant {
 		}
 	}
 
-	proc setFSSinkDev { contenf is_audio w val } {
-		#Stop the playback if there's one
-		::Farsight::Close
-		#TODO: change the volume control and the test button
+	proc FSSetVolume {is_out val} {
+		if {$is_out} {
+			catch {::Farsight::SetVolumeOut $val}
+		} else {
+			catch {::Farsight::SetVolumeIn $val}
+		}
+	}
+	proc UpdateLevel {contentf direction value} {
+		puts "value=$value"
+		if {$direction == "IN" } {
+			$contentf.in.r.d setLevel $value
+		} else {
+			if {$direction == "OUT" } {
+				$contentf.out.r.d dsetLevel $value
+			}
+		}
+	}
+
+	proc setFSSinkDev { contentf is_audio w val } {
+		variable selectedaudiosink
+
+		::Farsight::Stop
+		if {$is_audio} {
+			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
+			    -audio-sink $selectedaudiosink -audio-sink-device $val
+			::Farsight::TestAudio
+		}
 	}
 
 	proc setFSSink { contentf is_audio w val } {
@@ -2342,7 +2374,7 @@ namespace eval ::AVAssistant {
 			foreach sink $fsaudiosinks {
 				if {$val == [lindex $sink 2]} {
 					set selectedaudiosink [lindex $sink 1]
-					$contentf.out.a1.c.desc configure -text [lindex $sink 3]
+					$contentf.out.a1.c.lf.desc configure -text [lindex $sink 3]
 					$contentf.out.a1.l.dev list delete 0 end
 					set fssinkdevlist [lindex $sink 4]
 					set count 0
@@ -2367,7 +2399,7 @@ namespace eval ::AVAssistant {
 			foreach sink $fsvideosinks {
 				if {$val == [lindex $sink 2]} {
 					set selectedvideosink [lindex $sink 1]
-					$contentf.out.a1.c.desc configure -text [lindex $sink 3]
+					$contentf.out.a1.c.lf.desc configure -text [lindex $sink 3]
 					$contentf.out.a1.l.dev list delete 0 end
 					set fssinkdevlist [lindex $sink 4]
 					set count 0
@@ -2408,6 +2440,7 @@ namespace eval ::AVAssistant {
 	}
 
 	proc StepFarsightClBk {assistant contentf is_audio result} {
+		# oh, way too many variables
 		variable firsttime
 		variable farsight_details
 		variable fs_configured
@@ -2535,23 +2568,33 @@ namespace eval ::AVAssistant {
 				-exportselection true -editable false \
 				-command [list ::AVAssistant::setFSSourceDev $contentf $is_audio]
 			frame $contentf.in.a1.c
-			label $contentf.in.a1.c.desc
+			labelframe $contentf.in.a1.c.lf -text [trans description]
+			label $contentf.in.a1.c.lf.desc
 			button $contentf.in.a1.c.test -text [trans test]
 			frame $contentf.in.r -borderwidth 1 -bg black
-			package require voipcontrols
-			voipmixer $contentf.in.r.mixer -orient "vertical" -height 100 -width 10
+			if {$is_audio} {
+				package require voipcontrols
+				voipmixer $contentf.in.r.d -orient "vertical" \
+					-height 100 -width 10 \
+					-command [list ::AVAssistant::FSSetVolume 0]
+			} else {
+				frame $contentf.in.r.d -bg black
+			}
 
 			pack $contentf.in -fill x -expand 1
 			pack $contentf.in.a1 -side left -fill both -expand 1
 			pack $contentf.in.a1.l -side left -expand 0
 			pack $contentf.in.a1.l.txt
+			bind $contentf.in.a1.l.txt <Configure> [list %W configure -wraplength %w]
 			pack $contentf.in.a1.l.src
 			pack $contentf.in.a1.l.dev
 			pack $contentf.in.a1.c -expand 1 -fill both -anchor center
-			pack $contentf.in.a1.c.desc -side top -anchor center
+			pack $contentf.in.a1.c.lf -expand 1 -fill both -anchor center
+			pack $contentf.in.a1.c.lf.desc -side top -anchor center -expand 1 -fill both
+			bind $contentf.in.a1.c.lf.desc <Configure> [list %W configure -wraplength %w]
 			pack $contentf.in.a1.c.test -side right -anchor se
-			pack $contentf.in.r -side right -expand 0 -fill both -anchor center
-			pack $contentf.in.r.mixer
+			pack $contentf.in.r -side right -expand 0 -fill none -anchor center
+			pack $contentf.in.r.d
 
 			###
 			# OUT
@@ -2581,12 +2624,15 @@ namespace eval ::AVAssistant {
 				-exportselection true -editable false           \
 				-command [list ::AVAssistant::setFSSinkDev $contentf $is_audio]
 			frame $contentf.out.a1.c
-			label $contentf.out.a1.c.desc
+			labelframe $contentf.out.a1.c.lf -text [trans description]
+			label $contentf.out.a1.c.lf.desc
 			button $contentf.out.a1.c.test -text [trans test]
 			frame $contentf.out.r -borderwidth 1 -bg black
 			if {$is_audio} {
 				package require voipcontrols
-				voipmixer $contentf.out.r.d -orient "vertical" -height 100 -width 10
+				voipmixer $contentf.out.r.d -orient "vertical" \
+					-height 100 -width 10 \
+					-command [list ::AVAssistant::FSSetVolume 1]
 			} else {
 				frame $contentf.out.r.d -bg black
 			}
@@ -2595,12 +2641,15 @@ namespace eval ::AVAssistant {
 			pack $contentf.out.a1 -side left -fill both -expand 1
 			pack $contentf.out.a1.l -side left -expand 0
 			pack $contentf.out.a1.l.txt
+			bind $contentf.out.a1.l.txt <Configure> [list %W configure -wraplength %w]
 			pack $contentf.out.a1.l.sink
 			pack $contentf.out.a1.l.dev
 			pack $contentf.out.a1.c -expand 1 -fill both -anchor center
-			pack $contentf.out.a1.c.desc -side top -anchor center
+			pack $contentf.out.a1.c.lf -expand 1 -fill both -anchor center
+			pack $contentf.out.a1.c.lf.desc -side top -anchor center -expand 1 -fill both
+			bind $contentf.out.a1.c.lf.desc <Configure> [list %W configure -wraplength %w]
 			pack $contentf.out.a1.c.test -side right -anchor se
-			pack $contentf.out.r -side right -expand 0 -fill both -anchor center
+			pack $contentf.out.r -side right -expand 0 -fill none -anchor center
 			pack $contentf.out.r.d
 
 		} else {

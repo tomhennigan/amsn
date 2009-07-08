@@ -2747,7 +2747,7 @@ namespace eval ::MSNSIP {
 	proc CancelCall { sip callid } {
 		status_log "MSNSIP : Canceling SIP call"
 		$sip Cancel $callid
-		destroySIP $sip		
+		destroySIP $sip
 	}
 
 	proc HangUp { sip callid } {

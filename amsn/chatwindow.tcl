@@ -2670,7 +2670,6 @@ namespace eval ::ChatWindow {
 	}
 
 	proc VolumeOut {widget {val unused}} {
-		puts "VolumeOut=${::ChatWindow::voip_volume_out}"
 		if {[catch {::Farsight::SetVolumeOut $::ChatWindow::voip_volume_out}]} {
 			$widget configure -volumestate disabled
 		}
