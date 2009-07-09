@@ -1488,7 +1488,7 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
   GstMessage *message = ev->message;
 
   /* If we destroy the pipeline in an async operation, we must ignore the messages */
-  if (pipeline == NULL)
+  if (pipeline == NULL && test_pipeline == NULL)
     goto done;
 
   switch (GST_MESSAGE_TYPE (message))
