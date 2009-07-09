@@ -2269,14 +2269,17 @@ namespace eval ::AVAssistant {
 	}
 
 	proc setFSSourceDev { contentf is_audio w val } {
-		variable selectedaudiosrc
 
 		::Farsight::Stop
 		if {$is_audio} {
-			puts "TESTING AUDIO SOURCE $selectedaudiosrc $val"
+			variable selectedaudiosrc
 			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-source $selectedaudiosrc -audio-source-device $val
-			::Farsight::TestAudio
+			if {[catch {set res [::Farsight::TestAudio]} err]} {
+				$contentf.err configure -text $err
+			} else {
+				FSCheckSinkSource $contentf $is_audio [lindex $res 0] [lindex $res 1]
+			}
 		} else {
 			#TODO
 		}
@@ -2354,19 +2357,39 @@ namespace eval ::AVAssistant {
 	}
 
 	proc setFSSinkDev { contentf is_audio w val } {
-		variable selectedaudiosink
 
 		::Farsight::Stop
 		if {$is_audio} {
-			puts "TESTING AUDIO SINK $selectedaudiosink $val"
+			variable selectedaudiosink
 			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-sink $selectedaudiosink -audio-sink-device $val
 			if {[catch {set res [::Farsight::TestAudio]} err]} {
 				$contentf.err configure -text $err
 			} else {
-				#TODO: check the source/sink used
+				FSCheckSinkSource $contentf $is_audio [lindex $res 0] [lindex $res 1]
 			}
+		} else {
 		}
+	}
+
+	proc FSCheckSinkSource {contentf is_audio src sink} {
+		set txt ""
+		if {$is_audio} {
+			variable selectedaudiosink
+			variable selectedaudiosrc
+			if {$src != $selectedaudiosrc} {
+				set txt [trans curfssrcnotworking]
+			}
+			if {$sink != $selectedaudiosink} {
+				if {$txt == ""} {
+					set txt [trans curfssinknotworking]
+				} else {
+					append txt "\n[trans curfssinknotworking]"
+				}
+			}
+		} else {
+		}
+		$contentf.err configure -text $txt
 	}
 
 	proc setFSSink { contentf is_audio w val } {
