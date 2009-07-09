@@ -2344,12 +2344,11 @@ namespace eval ::AVAssistant {
 		}
 	}
 	proc UpdateLevel {contentf direction value} {
-		puts "value=$value"
 		if {$direction == "IN" } {
 			$contentf.in.r.d setLevel $value
 		} else {
 			if {$direction == "OUT" } {
-				$contentf.out.r.d dsetLevel $value
+				$contentf.out.r.d setLevel $value
 			}
 		}
 	}
@@ -2444,7 +2443,7 @@ namespace eval ::AVAssistant {
 	}
 
 	proc StopFarsight {assistant contentf} {
-		catch {::Farsight::Close}
+		catch {::Farsight::Stop}
 	}
 
 	proc StepFarsightClBk {assistant contentf is_audio result} {
