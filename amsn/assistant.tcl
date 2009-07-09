@@ -2577,7 +2577,6 @@ namespace eval ::AVAssistant {
 			frame $contentf.in.a1.c
 			labelframe $contentf.in.a1.c.lf -text [trans description]
 			label $contentf.in.a1.c.lf.desc
-			button $contentf.in.a1.c.test -text [trans test]
 			frame $contentf.in.r -borderwidth 1 -bg black
 			if {$is_audio} {
 				package require voipcontrols
@@ -2599,7 +2598,6 @@ namespace eval ::AVAssistant {
 			pack $contentf.in.a1.c.lf -expand 1 -fill both -anchor center
 			pack $contentf.in.a1.c.lf.desc -side top -anchor center -expand 1 -fill both
 			bind $contentf.in.a1.c.lf.desc <Configure> [list %W configure -wraplength %w]
-			pack $contentf.in.a1.c.test -side right -anchor se
 			pack $contentf.in.r -side right -expand 0 -fill none -anchor center
 			pack $contentf.in.r.d
 
@@ -2712,12 +2710,6 @@ namespace eval ::AVAssistant {
 			-text [trans farsightextchecking] -image [::skin::loadPixmap yes-emblem] \
 			-compound right
 		pack $contentf.fslabel
-		
-		label $contentf.fsmsg -justify left -text ""
-		label $contentf.fsurl -justify left -text "" -fg blue
-
-		pack $contentf.fsmsg
-		pack $contentf.fsurl
 
 		::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio 1
 	}
