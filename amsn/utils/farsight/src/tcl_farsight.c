@@ -651,6 +651,7 @@ static GstElement * _test_source (gchar *name)
     gst_pad_set_active (ghostpad, TRUE);
     gst_element_add_pad (GST_ELEMENT (bin), ghostpad);
     gst_object_unref (bin_pad);
+    GST_OBJECT_FLAG_UNSET (bin, GST_ELEMENT_IS_SINK);
     return bin;
   }
 
@@ -689,7 +690,7 @@ static GstElement * _test_source (gchar *name)
             gst_pad_set_active (ghostpad, TRUE);
             gst_element_add_pad (GST_ELEMENT (bin), ghostpad);
             gst_object_unref (bin_pad);
-
+            GST_OBJECT_FLAG_UNSET (bin, GST_ELEMENT_IS_SINK);
             return bin;
           }
         }
@@ -761,6 +762,7 @@ _create_audio_source ()
       gst_object_unref (src);
       return NULL;
     }
+    GST_OBJECT_FLAG_UNSET (src, GST_ELEMENT_IS_SINK);
     return src;
   } else if (audio_source) {
     if (strcmp (audio_source, "-") == 0) {
@@ -783,6 +785,7 @@ _create_audio_source ()
         gst_object_unref (src);
         return NULL;
       }
+      GST_OBJECT_FLAG_UNSET (src, GST_ELEMENT_IS_SINK);
       return src;
     }
   }
@@ -797,8 +800,10 @@ _create_audio_source ()
     break;
   }
 
-  if (src)
+  if (src) {
+    GST_OBJECT_FLAG_UNSET (src, GST_ELEMENT_IS_SINK);
     return src;
+  }
 
   sources = get_plugins_filtered (TRUE, TRUE);
 
@@ -821,6 +826,7 @@ _create_audio_source ()
   }
   g_list_free (sources);
 
+  GST_OBJECT_FLAG_UNSET (src, GST_ELEMENT_IS_SINK);
   return src;
 }
 
@@ -1156,7 +1162,6 @@ _create_video_source ()
  add_preview:
 
   video_bin = gst_bin_new ("video_bin");
-
   if (video_bin == NULL) {
     _notify_debug ("Could not create video bin");
     gst_element_set_state (src, GST_STATE_NULL);
@@ -1329,6 +1334,7 @@ _create_video_source ()
   gst_element_add_pad (GST_ELEMENT (video_bin), gst_ghost_pad_new ("src", bin_pad));
   gst_object_unref (bin_pad);
 
+  GST_OBJECT_FLAG_UNSET (video_bin, GST_ELEMENT_IS_SINK);
   return video_bin;
 }
 
@@ -1670,8 +1676,8 @@ set_window_xid (gpointer data, gpointer user_data)
   struct xid_data *xiddata = (struct xid_data *) user_data;
 
   if (GST_ELEMENT_CAST(xov) == xiddata->src) {
-      gst_x_overlay_set_xwindow_id (xov, xiddata->window_id);
-      xiddata->found = TRUE;
+    gst_x_overlay_set_xwindow_id (xov, xiddata->window_id);
+    xiddata->found = TRUE;
   }
 }
 
@@ -1706,12 +1712,14 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
           xiddata.window_id = video_preview_xid;
           xiddata.found = FALSE;
 
-          it = gst_bin_iterate_all_by_interface (GST_BIN (preview),
-              GST_TYPE_X_OVERLAY);
-          while (gst_iterator_foreach (it, set_window_xid, &xiddata) ==
-              GST_ITERATOR_RESYNC)
-            gst_iterator_resync (it);
-          gst_iterator_free (it);
+          if (preview) {
+            it = gst_bin_iterate_all_by_interface (GST_BIN (preview),
+                GST_TYPE_X_OVERLAY);
+            while (gst_iterator_foreach (it, set_window_xid, &xiddata) ==
+                GST_ITERATOR_RESYNC)
+              gst_iterator_resync (it);
+            gst_iterator_free (it);
+          }
 
           if (xiddata.found == FALSE) {
             gst_x_overlay_set_xwindow_id (GST_X_OVERLAY (xiddata.src), video_sink_xid);
@@ -1742,6 +1750,81 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
 }
 
 
+static GstElement *_find_source (GstElement *src)
+{
+  GstElement *source = NULL;
+
+
+  if (GST_IS_BIN (src)) {
+    GstIterator *it = gst_bin_iterate_sources (src);
+    gboolean done = FALSE;
+    GstElement *item = NULL;
+
+    while (!done) {
+      switch (gst_iterator_next (it, &item)) {
+        case GST_ITERATOR_OK:
+          source = item;
+          gst_object_unref (item);
+          done = TRUE;
+          break;
+        case GST_ITERATOR_RESYNC:
+          gst_iterator_resync (it);
+          break;
+        case GST_ITERATOR_ERROR:
+          done = TRUE;
+          break;
+        case GST_ITERATOR_DONE:
+          done = TRUE;
+          break;
+      }
+    }
+    gst_iterator_free (it);
+
+    if (source == NULL)
+      return src;
+
+  } else {
+    return src;
+  }
+  return _find_source (source);
+}
+
+static GstElement *_find_sink (GstElement *snk)
+{
+  GstElement *sink = NULL;
+
+  if (GST_IS_BIN (snk)) {
+    GstIterator *it = gst_bin_iterate_sinks (snk);
+    gboolean done = FALSE;
+    GstElement *item = NULL;
+
+    while (!done) {
+      switch (gst_iterator_next (it, &item)) {
+        case GST_ITERATOR_OK:
+          sink = item;
+          gst_object_unref (item);
+          done = TRUE;
+          break;
+        case GST_ITERATOR_RESYNC:
+          gst_iterator_resync (it);
+          break;
+        case GST_ITERATOR_ERROR:
+          done = TRUE;
+          break;
+        case GST_ITERATOR_DONE:
+          done = TRUE;
+          break;
+      }
+    }
+    gst_iterator_free (it);
+
+    if (sink == NULL)
+      return snk;
+  } else {
+    return snk;
+  }
+  return _find_sink (sink);
+}
 
 int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]))
@@ -1760,6 +1843,10 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GstElement *capsfilter = NULL;
   GstPadLinkReturn ret;
   gint state = 0;
+  Tcl_Obj *source = NULL;
+  Tcl_Obj *sink = NULL;
+  Tcl_Obj *result = NULL;
+  GstElementFactory *factory = NULL;
 
   // We verify the arguments
   if( objc != 1) {
@@ -2067,6 +2154,17 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
+  result = Tcl_NewListObj (0, NULL);
+  factory = gst_element_get_factory (_find_source (src));
+  source = Tcl_NewStringObj (GST_PLUGIN_FEATURE_NAME(factory), -1);
+
+  factory = gst_element_get_factory (_find_sink (snk));
+  sink = Tcl_NewStringObj (GST_PLUGIN_FEATURE_NAME(factory), -1);
+
+  Tcl_ListObjAppendElement(interp, result, source);
+  Tcl_ListObjAppendElement(interp, result, sink);
+
+  Tcl_SetObjResult (interp, result);
   return TCL_OK;
 
  error:
@@ -2080,7 +2178,11 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 {
   GstBus *bus = NULL;
   GstElement *src = NULL;
-  GstElement *fakesink = NULL;
+  GstElement *snk = NULL;
+  Tcl_Obj *source = NULL;
+  Tcl_Obj *sink = NULL;
+  Tcl_Obj *result = NULL;
+  GstElementFactory *factory = NULL;
 
   // We verify the arguments
   if( objc != 1) {
@@ -2125,15 +2227,20 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
-  fakesink = gst_element_factory_make ("fakesink", NULL);
-  if (fakesink == NULL || gst_bin_add (GST_BIN (test_pipeline), fakesink) == FALSE) {
-    Tcl_AppendResult (interp, "Could not add fakesink to source bin", (char *) NULL);
-    if (fakesink) gst_object_unref (fakesink);
+  snk = _create_video_sink ();
+  if (snk == NULL) {
+    Tcl_AppendResult (interp, "Could not create video sink", (char *) NULL);
     goto error;
   }
 
-  if (gst_element_link(src, fakesink) == FALSE)  {
-    _notify_debug ("Could not link fakesink to source");
+  if (gst_bin_add (GST_BIN (test_pipeline), snk) == FALSE) {
+    Tcl_AppendResult (interp, "Could not add video sink to pipeline", (char *) NULL);
+    if (snk) gst_object_unref (snk);
+    goto error;
+  }
+
+  if (gst_element_link(src, snk) == FALSE)  {
+    _notify_debug ("Could not link source to sink");
     goto error;
   }
 
@@ -2144,6 +2251,18 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
+  result = Tcl_NewListObj (0, NULL);
+
+  factory = gst_element_get_factory (_find_source (src));
+  source = Tcl_NewStringObj (GST_PLUGIN_FEATURE_NAME(factory), -1);
+
+  factory = gst_element_get_factory (_find_sink (snk));
+  sink = Tcl_NewStringObj (GST_PLUGIN_FEATURE_NAME(factory), -1);
+
+  Tcl_ListObjAppendElement(interp, result, source);
+  Tcl_ListObjAppendElement(interp, result, sink);
+
+  Tcl_SetObjResult (interp, result);
   return TCL_OK;
 
  error:
