@@ -448,6 +448,12 @@ snit::widget assistant {
 	#    Called when the cancel button is pressed
 	# Returns nothing
 	method cancel {} {
+		#leavingProc
+		set procToCall [lindex [lindex $steps_l $steps_l_i] 3]
+		if { $procToCall != "" } {
+			eval $procToCall $self $contentf
+		}
+
 		foreach procedure $cancelProcs {
 			eval [lindex $procedure 1] $self $contentf
 		}
@@ -2247,7 +2253,6 @@ namespace eval ::AVAssistant {
 		label $contentf.fslabel -justify left -anchor nw -font bboldf \
 			-text [trans farsightextchecking]
 		pack $contentf.fslabel
-		
 
 		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
 	}
@@ -2268,6 +2273,7 @@ namespace eval ::AVAssistant {
 
 		::Farsight::Stop
 		if {$is_audio} {
+			puts "TESTING AUDIO SOURCE $selectedaudiosrc $val"
 			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-source $selectedaudiosrc -audio-source-device $val
 			::Farsight::TestAudio
@@ -2353,9 +2359,14 @@ namespace eval ::AVAssistant {
 
 		::Farsight::Stop
 		if {$is_audio} {
+			puts "TESTING AUDIO SINK $selectedaudiosink $val"
 			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-sink $selectedaudiosink -audio-sink-device $val
-			::Farsight::TestAudio
+			if {[catch {set res [::Farsight::TestAudio]} err]} {
+				$contentf.err configure -text $err
+			} else {
+				#TODO: check the source/sink used
+			}
 		}
 	}
 
@@ -2417,10 +2428,12 @@ namespace eval ::AVAssistant {
 	proc ShowHideDetails {assistant contentf showOrHide} {
 		variable fs_details
 		if {$showOrHide == 0} {
-			$contentf.fsdetailsbutton configure -text [trans showdetails] -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 1]
+			$contentf.fsdetailsbutton configure -text [trans showdetails] \
+			    -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 1]
 			pack forget $contentf.fsdetails
 		} else {
-			$contentf.fsdetailsbutton configure -text [trans hidedetails] -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 0]
+			$contentf.fsdetailsbutton configure -text [trans hidedetails] \
+			    -command [list ::AVAssistant::ShowHideDetails $assistant $contentf 0]
 
 			set text $contentf.fsdetails.scroll.text
 			$text configure -state normal
@@ -2635,6 +2648,7 @@ namespace eval ::AVAssistant {
 			label $contentf.err -fg red
 			pack $contentf.err -fill x -expand 1
 			bind $contentf.err <Configure> [list %W configure -wraplength %w]
+
 			pack $contentf.out -fill x -expand 1
 			pack $contentf.out.a1 -side left -fill both -expand 1
 			pack $contentf.out.a1.l -side left -expand 0
@@ -2655,10 +2669,9 @@ namespace eval ::AVAssistant {
 			#display error message
 			$contentf.fslabel configure -image [::skin::loadPixmap no-emblem] -compound right
 
-
 			set txt [trans farsightextwarn]
-			label $contentf.fsmsg configure -justify left -text $txt
-			label $contentf.fsurl configure -justify left -text "$::weburl/wiki/Farsight" -fg blue
+			label $contentf.fsmsg -justify left -text $txt
+			label $contentf.fsurl -justify left -text "$::weburl/wiki/Farsight" -fg blue
 			button $contentf.fsdetailsbutton -text [trans showdetails] \
 				-command [list ::AVAssistant::ShowHideDetails $assistant $contentf 1]
 			pack $contentf.fsmsg
