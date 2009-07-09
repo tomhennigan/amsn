@@ -2251,7 +2251,9 @@ namespace eval ::AVAssistant {
 
 		$contentf configure -padx 20 -pady 20
 		label $contentf.fslabel -justify left -anchor nw -font bboldf \
-			-text [trans farsightextchecking]
+		    -text [trans farsightextchecking] \
+		    -image [::skin::loadPixmap smallanim] -compound right
+
 		pack $contentf.fslabel
 
 		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
@@ -2499,7 +2501,7 @@ namespace eval ::AVAssistant {
 				$assistant insertStepAfter $Step "StepFarsightAudio"
 			}
 
-			$contentf.fslabel configure -image [::skin::loadPixmap yes-emblem] -compound right
+			$contentf.fslabel configure -image [::skin::loadPixmap yes-emblem]
 
 			if {$firsttime} {
 				set firsttime 0
