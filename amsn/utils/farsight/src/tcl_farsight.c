@@ -3057,9 +3057,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     src = _create_video_source ();
     if (src == NULL) {
       _notify_debug ("Couldn't create video_source");
-      if (!video_codecs_ready) {
-        _codecs_ready (video_session);
-      }
       goto no_video_source;
     }
 
@@ -3172,6 +3169,10 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     gst_element_set_locked_state (source_bin, FALSE);
     gst_object_unref (source_bin);
     source_bin = NULL;
+  }
+
+  if (!video_codecs_ready) {
+    _codecs_ready (video_session);
   }
 
   if (audio_relay_info)
