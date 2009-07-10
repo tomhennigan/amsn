@@ -2070,6 +2070,7 @@ snit::type Farsight {
 	variable prepare_relay_info ""
 	variable specialLogger ""
 	variable call_type ""
+	variable preparing 0
 
 	option -closed -default ""
 	option -prepared -default ""
@@ -2108,6 +2109,7 @@ snit::type Farsight {
 		set video_remote_candidates [list]
 		set video_remote_codecs [list]
 		set options(-sipconnection) ""
+		set preparing 0
 	}
 
 	method Closed { } {
@@ -2256,6 +2258,9 @@ snit::type Farsight {
 	}
 	
 	method IsInUse { } {
+		if {$preparing} {
+			return 1
+		}
 		if {!$loaded} {
 			return 0
 		}
@@ -2283,6 +2288,7 @@ snit::type Farsight {
 	}
 
 	method Prepare { controlling {mode "A6"} } {
+		set preparing 1
 		if {[info exists ::sso] && $::sso != ""} {
 			set prepare_ticket ""
 			$::sso RequireSecurityToken MessengerSecure [list $self PrepareSSOCB $controlling]
@@ -2292,6 +2298,8 @@ snit::type Farsight {
 		}
 
 		$self Close
+
+		set preparing 1
 
 		set call_type $mode
 
@@ -2341,6 +2349,7 @@ snit::type Farsight {
 			tkwait variable [myvar prepare_relay_info]
 		}
 
+		set preparing 0
 		::Farsight::Prepare [list $self FarsightReady] $controlling $mode $prepare_relay_info 64.14.48.28
 	}
 
