@@ -2270,22 +2270,32 @@ namespace eval ::AVAssistant {
 		append fs_details $txt
 	}
 
-	proc setFSSourceDev { contentf is_audio w val } {
-
-		::Farsight::Stop
+	proc TestFSDelayed { contentf is_audio } {
 		if {$is_audio} {
-			variable selectedaudiosrc
-			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
-			    -audio-source $selectedaudiosrc -audio-source-device $val
 			if {[catch {set res [::Farsight::TestAudio]} err]} {
 				$contentf.err configure -text $err
 			} else {
 				FSCheckSinkSource $contentf $is_audio [lindex $res 0] [lindex $res 1]
 			}
 		} else {
+			# TODO
+		}
+	}
+
+	proc setFSSourceDev { contentf is_audio w val } {
+		after cancel [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
+		::Farsight::Stop
+
+		if {$is_audio} {
+			variable selectedaudiosrc
+			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
+			    -audio-source $selectedaudiosrc -audio-source-device $val
+			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
+		} else {
 			#TODO
 		}
 	}
+
 
 	proc setFSSource { contentf is_audio w val } {
 		if {$is_audio} {
@@ -2359,18 +2369,16 @@ namespace eval ::AVAssistant {
 	}
 
 	proc setFSSinkDev { contentf is_audio w val } {
+		after cancel [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
 
 		::Farsight::Stop
 		if {$is_audio} {
 			variable selectedaudiosink
 			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-sink $selectedaudiosink -audio-sink-device $val
-			if {[catch {set res [::Farsight::TestAudio]} err]} {
-				$contentf.err configure -text $err
-			} else {
-				FSCheckSinkSource $contentf $is_audio [lindex $res 0] [lindex $res 1]
-			}
+			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
 		} else {
+			# TODO
 		}
 	}
 
