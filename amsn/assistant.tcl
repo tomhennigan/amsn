@@ -2589,7 +2589,7 @@ namespace eval ::AVAssistant {
 			foreach src $srcs {
 				set str [lindex $src 2]
 				$contentf.in.a1.l.src list insert end $str
-				if {$str == $selectedsrc} {
+				if {[lindex $src 1] == $selectedsrc} {
 					set nr $count
 				}
 				incr count
@@ -2643,7 +2643,7 @@ namespace eval ::AVAssistant {
 			foreach sink $sinks {
 				set str [lindex $sink 2]
 				$contentf.out.a1.l.sink list insert end $str
-				if {$str == $selectedsink} {
+				if {[lindex $sink 1] == $selectedsink} {
 					set nr $count
 				}
 				incr count
