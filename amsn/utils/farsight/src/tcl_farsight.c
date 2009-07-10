@@ -1,5 +1,5 @@
 /*
-  File : tcl_farishgt.c
+  File : tcl_farsight.c
 
   Description :	Contains all functions for accessing farsight 2
 
@@ -74,6 +74,7 @@ static char *video_sink_pipeline = NULL;
 
 static GstElement *pipeline = NULL;
 static GstElement *test_pipeline = NULL;
+static GstElement *source_bin = NULL;
 static GstElement *volumeIn = NULL;
 static GstElement *volumeOut = NULL;
 static GstElement *levelIn = NULL;
@@ -197,6 +198,12 @@ static void Close ()
   if (preview) {
     gst_object_unref (preview);
     preview = NULL;
+  }
+
+  if (source_bin) {
+    gst_element_set_state (source_bin, GST_STATE_NULL);
+    gst_object_unref (source_bin);
+    source_bin = NULL;
   }
 
   audio_candidates_prepared = FALSE;
@@ -526,7 +533,7 @@ static void
 _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
 {
 
-  g_object_set (sink, "sync", FALSE, NULL);
+  //g_object_set (sink, "sync", FALSE, NULL);
 }
 
 static GstElement * _test_source (gchar *name)
@@ -645,6 +652,9 @@ static GstElement * _test_source (gchar *name)
   }
 
   if (state_ret != GST_STATE_CHANGE_FAILURE) {
+    gst_element_set_locked_state (bin, TRUE);
+    source_bin = bin;
+    gst_object_ref (bin);
     bin_pad = gst_element_get_static_pad (queue, "src");
     gst_pad_set_active (bin_pad, TRUE);
     ghostpad = gst_ghost_pad_new ("src", bin_pad);
@@ -684,6 +694,10 @@ static GstElement * _test_source (gchar *name)
 
           if (state_ret != GST_STATE_CHANGE_FAILURE) {
             g_value_array_free (arr);
+            gst_element_set_locked_state (bin, TRUE);
+            source_bin = bin;
+            gst_object_ref (bin);
+
             bin_pad = gst_element_get_static_pad (queue, "src");
             gst_pad_set_active (bin_pad, TRUE);
             ghostpad = gst_ghost_pad_new ("src", bin_pad);
@@ -1180,6 +1194,7 @@ _create_video_source ()
   if (colorspace == NULL ||
       gst_bin_add (GST_BIN (video_bin), colorspace) == FALSE) {
     _notify_debug ("Could not add colorspace to video bin");
+    gst_element_set_locked_state (src, FALSE);
     gst_object_unref (colorspace);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
@@ -1188,6 +1203,7 @@ _create_video_source ()
 
   if (gst_element_link(src, colorspace) == FALSE)  {
     _notify_debug ("Could not link video source to colorspace");
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1198,6 +1214,7 @@ _create_video_source ()
       gst_bin_add (GST_BIN (video_bin), videoscale) == FALSE) {
     _notify_debug ("Could not add videoscale to video bin");
     gst_object_unref (videoscale);
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1205,6 +1222,7 @@ _create_video_source ()
 
   if (gst_element_link(colorspace, videoscale) == FALSE)  {
     _notify_debug ("Could not link colorspace to videoscale");
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1215,6 +1233,7 @@ _create_video_source ()
       gst_bin_add (GST_BIN (video_bin), capsfilter) == FALSE) {
     _notify_debug ("Could not add capsfilter to video bin");
     gst_object_unref (capsfilter);
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1222,6 +1241,7 @@ _create_video_source ()
 
   if (gst_element_link(videoscale, capsfilter) == FALSE)  {
     _notify_debug ("Could not link videoscale to capsfilter");
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1238,6 +1258,7 @@ _create_video_source ()
   if (tee == NULL || gst_bin_add (GST_BIN (video_bin), tee) == FALSE) {
     _notify_debug ("Could not add tee to video bin");
     if (tee) gst_object_unref (tee);
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1245,6 +1266,7 @@ _create_video_source ()
 
   if (gst_element_link(capsfilter, tee) == FALSE)  {
     _notify_debug ("Could not link capsfilter to tee");
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1255,6 +1277,7 @@ _create_video_source ()
       gst_bin_add (GST_BIN (video_bin), queue) == FALSE) {
     _notify_debug ("Could not add preview queue to video bin");
     gst_object_unref (queue);
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1262,6 +1285,7 @@ _create_video_source ()
 
   if (gst_element_link(tee, queue) == FALSE)  {
     _notify_debug ("Could not link tee to preview queue");
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1272,6 +1296,7 @@ _create_video_source ()
       gst_bin_add (GST_BIN (video_bin), colorspace) == FALSE) {
     _notify_debug ("Could not add colorspace to video bin");
     gst_object_unref (colorspace);
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1279,6 +1304,7 @@ _create_video_source ()
 
   if (gst_element_link(queue, colorspace) == FALSE)  {
     _notify_debug ("Could not link preview queue to colorspace");
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1288,6 +1314,7 @@ _create_video_source ()
   preview = gst_element_factory_make ("autovideosink", NULL);
   if (preview == NULL) {
     _notify_debug ("Could not create preview window");
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1296,6 +1323,7 @@ _create_video_source ()
     _notify_debug ("Could not add preview to video bin");
     if (preview) gst_object_unref (preview);
     preview = NULL;
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1308,6 +1336,7 @@ _create_video_source ()
     _notify_debug ("Could not link preview to video source");
     if (preview) gst_object_unref (preview);
     preview = NULL;
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1318,6 +1347,7 @@ _create_video_source ()
       gst_bin_add (GST_BIN (video_bin), queue) == FALSE) {
     _notify_debug ("Could not add video queue to video bin");
     gst_object_unref (queue);
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1325,6 +1355,7 @@ _create_video_source ()
 
   if (gst_element_link(tee, queue) == FALSE)  {
     _notify_debug ("Could not link tee to video queue");
+    gst_element_set_locked_state (src, FALSE);
     gst_element_set_state (video_bin, GST_STATE_NULL);
     gst_object_unref (video_bin);
     return NULL;
@@ -1847,6 +1878,7 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   Tcl_Obj *sink = NULL;
   Tcl_Obj *result = NULL;
   GstElementFactory *factory = NULL;
+  GstStateChangeReturn state_ret;
 
   // We verify the arguments
   if( objc != 1) {
@@ -2147,6 +2179,22 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
   }
 
+  state_ret = gst_element_set_state (test_pipeline, GST_STATE_READY);
+  if (state_ret == GST_STATE_CHANGE_ASYNC) {
+    _notify_debug ("Waiting for test pipeline to go to state PAUSED");
+    state_ret = gst_element_get_state (test_pipeline, NULL, NULL,
+        GST_CLOCK_TIME_NONE);
+  } else if (state_ret == GST_STATE_CHANGE_FAILURE) {
+    Tcl_AppendResult (interp, "Unable to set test pipeline to READY",
+        (char *) NULL);
+    goto error;
+  }
+  if (source_bin) {
+    gst_element_set_locked_state (source_bin, FALSE);
+    gst_object_unref (source_bin);
+    source_bin = NULL;
+  }
+
   if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
     Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
@@ -2183,6 +2231,7 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   Tcl_Obj *sink = NULL;
   Tcl_Obj *result = NULL;
   GstElementFactory *factory = NULL;
+  GstStateChangeReturn state_ret;
 
   // We verify the arguments
   if( objc != 1) {
@@ -2242,6 +2291,22 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   if (gst_element_link(src, snk) == FALSE)  {
     _notify_debug ("Could not link source to sink");
     goto error;
+  }
+
+  state_ret = gst_element_set_state (test_pipeline, GST_STATE_READY);
+  if (state_ret == GST_STATE_CHANGE_ASYNC) {
+    _notify_debug ("Waiting for test pipeline to go to state PAUSED");
+    state_ret = gst_element_get_state (test_pipeline, NULL, NULL,
+        GST_CLOCK_TIME_NONE);
+  } else if (state_ret == GST_STATE_CHANGE_FAILURE) {
+    Tcl_AppendResult (interp, "Unable to set test pipeline to READY",
+        (char *) NULL);
+    goto error;
+  }
+  if (source_bin) {
+    gst_element_set_locked_state (source_bin, FALSE);
+    gst_object_unref (source_bin);
+    source_bin = NULL;
   }
 
   if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
@@ -2573,6 +2638,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   GValueArray *video_relay_info = NULL;
   int total_params;
   char *mode = NULL;
+  GstStateChangeReturn state_ret;
 
   // We verify the arguments
   if( objc < 4 || objc > 7) {
@@ -3099,6 +3165,22 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 
     g_signal_connect (video_stream, "src-pad-added",
         G_CALLBACK (_video_src_pad_added), pipeline);
+  }
+
+  state_ret = gst_element_set_state (pipeline, GST_STATE_READY);
+  if (state_ret == GST_STATE_CHANGE_ASYNC) {
+    _notify_debug ("Waiting for pipeline to go to state PAUSED");
+    state_ret = gst_element_get_state (pipeline, NULL, NULL,
+        GST_CLOCK_TIME_NONE);
+  } else if (state_ret == GST_STATE_CHANGE_FAILURE) {
+    Tcl_AppendResult (interp, "Unable to set pipeline to READY",
+        (char *) NULL);
+    goto error;
+  }
+  if (source_bin) {
+    gst_element_set_locked_state (source_bin, FALSE);
+    gst_object_unref (source_bin);
+    source_bin = NULL;
   }
 
   if (gst_element_set_state (pipeline, GST_STATE_PLAYING) ==
