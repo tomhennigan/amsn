@@ -533,7 +533,8 @@ static void
 _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
 {
 
-  //g_object_set (sink, "sync", FALSE, NULL);
+  g_object_set (sink, "async", FALSE, NULL);
+  g_object_set (sink, "sync", FALSE, NULL);
 }
 
 static GstElement * _test_source (gchar *name)
@@ -542,10 +543,10 @@ static GstElement * _test_source (gchar *name)
   GstElement *element = NULL;
   GstElement *tee = NULL;
   GstElement *queue = NULL;
+  GstElement *valve = NULL;
   GstElement *fakesink = NULL;
   GstBin *bin = NULL;
   GstPad *bin_pad = NULL;
-  GstPad *ghostpad = NULL;
   GstStateChangeReturn state_ret;
   GValueArray *arr;
 
@@ -613,6 +614,8 @@ static GstElement * _test_source (gchar *name)
     gst_object_unref (bin);
     return NULL;
   }
+  g_object_set (fakesink, "async", FALSE, NULL);
+  g_object_set (fakesink, "sync", FALSE, NULL);
 
   if (gst_bin_add (GST_BIN (bin), fakesink) == FALSE) {
     _notify_debug ("Could not add fakesink to source bin");
@@ -642,11 +645,32 @@ static GstElement * _test_source (gchar *name)
     return NULL;
   }
 
+  valve = gst_element_factory_make ("valve", "hack_valve");
+  if (valve == NULL ||
+      gst_bin_add (GST_BIN (bin), valve) == FALSE) {
+    _notify_debug ("Could not add valve to source bin");
+    gst_object_unref (valve);
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  if (gst_element_link(queue, valve) == FALSE)  {
+    _notify_debug ("Could not link queue to valve");
+    gst_object_unref (bin);
+    return NULL;
+  }
+
+  g_object_set (valve, "drop", TRUE, NULL);
+
+  bin_pad = gst_element_get_static_pad (valve, "src");
+  gst_element_add_pad (GST_ELEMENT (bin),  gst_ghost_pad_new ("src", bin_pad));
+  gst_object_unref (bin_pad);
+  GST_OBJECT_FLAG_UNSET (bin, GST_ELEMENT_IS_SINK);
 
   /* Test the source */
-  state_ret = gst_element_set_state (bin, GST_STATE_PAUSED);
+  state_ret = gst_element_set_state (bin, GST_STATE_PLAYING);
   if (state_ret == GST_STATE_CHANGE_ASYNC) {
-    _notify_debug ("Waiting for %s to go to state PAUSED", name);
+    _notify_debug ("Waiting for %s to go to state PLAYING", name);
     state_ret = gst_element_get_state (bin, NULL, NULL,
         GST_CLOCK_TIME_NONE);
   }
@@ -655,13 +679,6 @@ static GstElement * _test_source (gchar *name)
     gst_element_set_locked_state (bin, TRUE);
     source_bin = bin;
     gst_object_ref (bin);
-    bin_pad = gst_element_get_static_pad (queue, "src");
-    gst_pad_set_active (bin_pad, TRUE);
-    ghostpad = gst_ghost_pad_new ("src", bin_pad);
-    gst_pad_set_active (ghostpad, TRUE);
-    gst_element_add_pad (GST_ELEMENT (bin), ghostpad);
-    gst_object_unref (bin_pad);
-    GST_OBJECT_FLAG_UNSET (bin, GST_ELEMENT_IS_SINK);
     return bin;
   }
 
@@ -685,9 +702,9 @@ static GstElement * _test_source (gchar *name)
 
           g_object_set(element, "device", device, NULL);
 
-          state_ret = gst_element_set_state (bin, GST_STATE_PAUSED);
+          state_ret = gst_element_set_state (bin, GST_STATE_PLAYING);
           if (state_ret == GST_STATE_CHANGE_ASYNC) {
-            _notify_debug ("Waiting for %s to go to state PAUSED", name);
+            _notify_debug ("Waiting for %s to go to state PLAYING", name);
             state_ret = gst_element_get_state (bin, NULL, NULL,
                 GST_CLOCK_TIME_NONE);
           }
@@ -697,14 +714,6 @@ static GstElement * _test_source (gchar *name)
             gst_element_set_locked_state (bin, TRUE);
             source_bin = bin;
             gst_object_ref (bin);
-
-            bin_pad = gst_element_get_static_pad (queue, "src");
-            gst_pad_set_active (bin_pad, TRUE);
-            ghostpad = gst_ghost_pad_new ("src", bin_pad);
-            gst_pad_set_active (ghostpad, TRUE);
-            gst_element_add_pad (GST_ELEMENT (bin), ghostpad);
-            gst_object_unref (bin_pad);
-            GST_OBJECT_FLAG_UNSET (bin, GST_ELEMENT_IS_SINK);
             return bin;
           }
         }
@@ -1319,6 +1328,7 @@ _create_video_source ()
     gst_object_unref (video_bin);
     return NULL;
   }
+
   if (gst_bin_add (GST_BIN (video_bin), preview) == FALSE) {
     _notify_debug ("Could not add preview to video bin");
     if (preview) gst_object_unref (preview);
@@ -2179,27 +2189,19 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     }
   }
 
-  state_ret = gst_element_set_state (test_pipeline, GST_STATE_READY);
-  if (state_ret == GST_STATE_CHANGE_ASYNC) {
-    _notify_debug ("Waiting for test pipeline to go to state PAUSED");
-    state_ret = gst_element_get_state (test_pipeline, NULL, NULL,
-        GST_CLOCK_TIME_NONE);
-  } else if (state_ret == GST_STATE_CHANGE_FAILURE) {
-    Tcl_AppendResult (interp, "Unable to set test pipeline to READY",
-        (char *) NULL);
-    goto error;
-  }
-  if (source_bin) {
-    gst_element_set_locked_state (source_bin, FALSE);
-    gst_object_unref (source_bin);
-    source_bin = NULL;
-  }
 
   if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
     Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
         (char *) NULL);
     goto error;
+  }
+
+  if (source_bin) {
+    gst_child_proxy_set (source_bin, "hack_valve::drop", FALSE, NULL);
+    gst_element_set_locked_state (source_bin, FALSE);
+    gst_object_unref (source_bin);
+    source_bin = NULL;
   }
 
   result = Tcl_NewListObj (0, NULL);
@@ -2293,21 +2295,6 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
-  state_ret = gst_element_set_state (test_pipeline, GST_STATE_READY);
-  if (state_ret == GST_STATE_CHANGE_ASYNC) {
-    _notify_debug ("Waiting for test pipeline to go to state PAUSED");
-    state_ret = gst_element_get_state (test_pipeline, NULL, NULL,
-        GST_CLOCK_TIME_NONE);
-  } else if (state_ret == GST_STATE_CHANGE_FAILURE) {
-    Tcl_AppendResult (interp, "Unable to set test pipeline to READY",
-        (char *) NULL);
-    goto error;
-  }
-  if (source_bin) {
-    gst_element_set_locked_state (source_bin, FALSE);
-    gst_object_unref (source_bin);
-    source_bin = NULL;
-  }
 
   if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
@@ -2315,6 +2302,13 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         (char *) NULL);
     goto error;
   }
+  if (source_bin) {
+    gst_child_proxy_set (source_bin, "hack_valve::drop", FALSE, NULL);
+    gst_element_set_locked_state (source_bin, FALSE);
+    gst_object_unref (source_bin);
+    source_bin = NULL;
+  }
+
 
   result = Tcl_NewListObj (0, NULL);
 
@@ -3167,27 +3161,17 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
         G_CALLBACK (_video_src_pad_added), pipeline);
   }
 
-  state_ret = gst_element_set_state (pipeline, GST_STATE_READY);
-  if (state_ret == GST_STATE_CHANGE_ASYNC) {
-    _notify_debug ("Waiting for pipeline to go to state PAUSED");
-    state_ret = gst_element_get_state (pipeline, NULL, NULL,
-        GST_CLOCK_TIME_NONE);
-  } else if (state_ret == GST_STATE_CHANGE_FAILURE) {
-    Tcl_AppendResult (interp, "Unable to set pipeline to READY",
-        (char *) NULL);
-    goto error;
-  }
-  if (source_bin) {
-    gst_element_set_locked_state (source_bin, FALSE);
-    gst_object_unref (source_bin);
-    source_bin = NULL;
-  }
-
   if (gst_element_set_state (pipeline, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
     Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
         (char *) NULL);
     goto error;
+  }
+  if (source_bin) {
+    gst_child_proxy_set (source_bin, "hack_valve::drop", FALSE, NULL);
+    gst_element_set_locked_state (source_bin, FALSE);
+    gst_object_unref (source_bin);
+    source_bin = NULL;
   }
 
   if (audio_relay_info)
