@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<plugin>
+  <name>Kryptonite</name>
+  <author>Cristian Orellana E.</author>
+  <description>MSN GnuPG Encryption</description>
+  <amsn_version>0.98</amsn_version>
+  <plugin_version>0.1b</plugin_version>
+  <plugin_file>kryptonite.tcl</plugin_file>
+  <plugin_namespace>Kryptonite</plugin_namespace>
+  <init_procedure>Init</init_procedure>
+  <deinit_procedure>DeInit</deinit_procedure>
+  <cvs_version>11323</cvs_version>
+
+  <lang>
+    <langcode>en</langcode>
+    <version>11323</version>
+  </lang>
+  <lang>
+    <langcode>es</langcode>
+    <version>11323</version>
+  </lang>
+  <file>
+    <path>pixmaps/secure.gif</path>
+    <version>11323</version>
+  </file>
+  <URL>
+    <main>http://www.amsn-project.net/autoupdater/plugins/Kryptonite/kryptonite.tcl</main>
+    <plugininfo>http://www.amsn-project.net/autoupdater/plugins/Kryptonite/plugininfo.xml</plugininfo>
+    <lang>http://www.amsn-project.net/autoupdater/plugins/Kryptonite/lang/lang$langcode</lang>
+    <file>http://www.amsn-project.net/autoupdater/plugins/Kryptonite/$file</file>
+  </URL>
+</plugin>

@@ -1,0 +1,87 @@
+amsn_lang_version 2
+
+loading Cargando plugin Kryptonite ...
+
+unloading Plugin Kryptonite descargado.
+
+errorupdate Error al actualizar la clave pública de
+
+failedexec Error al ejecutar
+
+erroropen Error al abrir el archivo
+
+erroread Error al leer el archivo
+
+errorclose Error al cerrar el archivo
+
+errordelete Error al eliminar clave pública
+
+of de
+
+errorfinger Error al obtener el fingerprint local
+
+errorkeygen Kryptonite no puede ser cargado por la siguiente razón: Necesitas generar un par de claves para
+
+nokey No existe un par de claves para
+
+expiredkey La clave pública de $1 ha caducado. No es posible seguir utilizando Kryptonite hasta que generes una nueva clave pública.
+
+logexpiredkey Clave pública de $1 caducada    
+
+badkey Kryptonite no puede ser cargado porque el fingerprint está malformado. Es necesario generar un nuevo par de claves para
+
+logbadkey Fingerprint malformado
+
+novalidkey No posees una clave pública válida. Para utilizar Kryptonite, debes generar un nuevo par de claves con un algoritmo que permita cifrar y firmar, como DSA ElGamal.
+
+errgetfinger Error al obtener el fingerprint remoto para
+
+compaterror Esta conversación no podrá cifrarse debido a que la versión de Kryptonite que estás utilizando ($1) no es compatible con la que utiliza $2 ($3). Visita $4 para verificar que tengas instalada la última versión de Kryptonite.
+
+exporterror Error al exportar clave pública personal
+
+gpgerror Kryptonite no puede ser cargado por las siguientes razones: \n\n GnuPG (http://www.gnupg.org) no está instalado en el sistema.
+
+errorwrite Error al escribir en el archivo
+
+cryptcon Esta conversación está cifrada
+
+conftransferauto Habilitar la transferencia automática de claves públicas
+
+keyproblem El contacto $1 no posee clave pública, o tiene un problema con ésta.
+
+transferproblem La conversación no podrá cifrarse debido a que $1 no posee una versión actualizada de tu clave pública, y no puede ser transferida debido a que tienes deshabilitada la opción de transferencia automática de claves públicas. Si deseas cifrar las conversaciones con $1, habilita dicha opción en la configuración de $2 o envía tu clave pública a $1 por otro medio.
+
+importerror Error al importar clave pública
+
+validateerror Error al validar clave pública de
+
+IDnotcorrespond ID $1 NO corresponde al mail de MSN 
+
+malformedkey Clave recibida de $1 malformada
+
+malformedmsg mensaje malformado
+
+decrypterror Error al descifrar el mensaje de 
+
+krr_error La conversación no podrá cifrarse porque $1 no posee tu clave pública, o bien no la tiene actualizada. La conversación continuará sin cifrarse hasta que $1 habilite la opción de transferencia automática de claves públicas en la configuración de $2 u obtenga tu clave pública por otro medio.
+
+ksr_error La conversación no podrá cifrarse porque no posees una versión actualizada de la clave pública de $1. La conversación continuará sin cifrarse hasta que $1 habilite la opción de transferencia automática de claves públicas en la configuración de $2 o te la envíe por otro medio.
+
+aun_error La conversación ya no podrá cifrarse, debido a que $1 ha deshabilitado $2.
+
+rpe_error ha tenido problemas al enviarte un mensaje cifrado. Por esta razón, la conversación ya no será cifrada.
+
+rre_error no ha podido descifrar un mensaje que tú le has enviado. Por esta razón, la conversación ya no será cifrada.
+
+toobad  MUY MAL!!! No pudiste tomar un id de contacto!
+
+send_error Error al enviar mensaje 
+
+decrypt_error No se ha podido descifrar un mensaje enviado por $1 debido al siguiente error: $2. Por esta razón, la conversación ya no será cifrada.
+
+default_error Esta conversación no podrá ser cifrada debido al siguiente error
+
+question ¿Deseas enviar el mensaje sin cifrar?
+
+ultimately_error $1 ha intentado transferir su clave pública debido a que actualmente no posees una versión actualizada de ésta, pero ha sido imposible importarla debido a que tienes deshabilitada la opción de transferencia automática de claves públicas. Por esta razón, la conversación no podrá cifrarse hasta que habilites dicha opción en la configuración de $2 u obtengas la clave pública de $1 por otro medio.

@@ -1,0 +1,20 @@
+amsn_lang_version 2
+errorkeygen Kryptonite can't be loaded because of the following reason: \n\n You need to generate a pair of keys for 
+expiredkey Your public key has expired. You must generate a new public key for '$1' to continue using Kryptonite.
+badkey Kryptonite can't be loaded because the fingerprint is malformed. You must generate a new key pair for '$1'  
+novalidkey You don't have a valid public key. In order to use Kryptonite, you must generate a new keys pair with an algorithm that allow to encrypt and sign, as DSA ElGamal.
+compaterror This conversation will not be encrypted because the Kryptonite version that you are using ($1) is not compatible with the version that $2 uses ($3). Visit $4 to verify that you have installed the last Kryptonite version.
+gpgerror Kryptonite can't be loaded because of the following reason : \n\n GnuPG (http://www.gnupg.org) is not installed in the system.
+cryptcon This conversation is encrypted
+conftransferauto Enable the automatic transfer of public keys
+transferproblem The conversation will not be encrypted because $1 doesn't have a updated version of your public key, and it can't be transfered since you have disabled the option of automatic transfer of public keys. If you wish to encrypt your conversations with $1, enable this option in the configuration of Kryptonite or send your public key to $1 using other means.
+krr_error The conversation can't be encrypted because $1 doesn't have your up-to-date public key. The conversation will continue without encryption until $1 enables the option of automatic public key transfer in the Kryptonite configuration or gets your public key using other means
+ksr_error The conversation can't be encrypted because you don't have a updated version of $1's public key. The conversation will continue without encryption until $1 enable the option of automatic public key transfer in the Kryptonite configuration or you get $1's public key using other means
+aun_error The conversation will no longer be encrypted, because $1 has disabled Kryptonite..
+rpe_error $1 was not able to send you an encrypted message. Therefore, the conversation will no longer be encrypted.
+rre_error $1 was not able to decrypt a message that you sent him/her. Therefore, the conversation will no longer be encrypted.
+send_noencrypt Do you wish to send the message without encryption?
+encrypt_error Encryption error
+decrypt_error The message sent by $1 can't be decrypted due the following error: $2. Therefore, the conversation will no longer be encrypted.
+default_error This conversation can't be encrypted due the following error: $1.
+ultimately_error $1 tried to transfer his public key since you currently don't have an updated version of it, but you have disabled the option of automatic public key transfer. Therefore, the conversation can't be encrypted until you enable that option in the Kryptonite configuration or get $1's public key using other means.
