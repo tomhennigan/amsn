@@ -2522,6 +2522,9 @@ namespace eval ::AVAssistant {
 						lappend fsvideosrcs $p
 					  }
 					  "videosink" {
+						if {[lindex $p 1] == "xvimagesink"} {
+							set p [lreplace $p 2 2 "XV Video Sink"]
+						}
 						lappend fsvideosinks $p
 					  }
 					}
