@@ -1461,7 +1461,7 @@ namespace eval ::MSN {
 		}
 		set chg_last_dp [::config::getKey displaypic]
 
-		if {[::MSN::myStatusIs] == "FLN" || [::config::getKey protocol]  >= 18 } {
+		if {[::MSN::myStatusIs] == "FLN" || [::MSN::myStatusIs] == "HDN" || [::config::getKey protocol]  >= 18 } {
 			::MSN::sendUUXData $new_status
 		}
 
