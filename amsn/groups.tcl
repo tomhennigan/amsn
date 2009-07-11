@@ -815,6 +815,28 @@ namespace eval ::groups {
 		::Event::fireEvent groupRemoved groups $gid
 	}
 
+	proc GetSortedList {{opt ""}} {
+		set glist [list] 
+		foreach gid [::groups::GetList $opt] { 
+		set sortedlist [list]
+			if ![string compare $gid "0"] { 
+				lappend sortedlist [list $gid [::groups::GetName $gid]]
+			} else { 
+				lappend glist [list $gid [::groups::GetName $gid]]
+			} 
+		} 
+		if {[::config::getKey ordergroupsbynormal]} {
+			set sortedlist [concat $sortedlist [lsort -increasing -dictionary -index 1 $glist]]
+		} else {
+			set sortedlist [concat $sortedlist [lsort -decreasing -dictionary -index 1 $glist]]
+		}
+		set result [list]
+		foreach group $sortedlist {
+			lappend result [lindex $group 0]
+		}
+		return $result
+	}
+
 	proc GetList {{opt ""}} {
 		#variable groups
 		array set groups [abook::getContactData contactlist groups]

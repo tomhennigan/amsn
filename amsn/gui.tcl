@@ -6853,7 +6853,7 @@ proc cmsn_draw_addcontact {} {
 
 	frame .addcontact.group
 	combobox::combobox .addcontact.group.list -editable false -highlightthickness 0 -width 22 -font splainf -exportselection false
-	set groups [::groups::GetList]
+	set groups [::groups::GetSortedList]
 	foreach gid $groups {
 		.addcontact.group.list list insert end "[::groups::GetName $gid]"
 	}
@@ -6887,7 +6887,7 @@ proc cmsn_draw_addcontact {} {
 # Check if the "add contact" window is open and then re-make the group list
 proc cmsn_draw_grouplist {} {
 	.addcontact.group.list list delete 0 end
-	set groups [::groups::GetList]
+	set groups [::groups::GetSortedList]
 	foreach gid $groups {
 		.addcontact.group.list list insert end "[::groups::GetName $gid]"
 	}
@@ -6900,7 +6900,7 @@ proc addcontact_next {} {
 	set tmp_email [.addcontact.email get]
 	if { $tmp_email != ""} {
 		set group [.addcontact.group.list curselection]
-		set gid [lindex [::groups::GetList] $group]
+		set gid [lindex [::groups::GetSortedList] $group]
 		::MSN::addUser "$tmp_email" "" $gid
 		catch {grab release .addcontact}
 		destroy .addcontact
@@ -7861,7 +7861,7 @@ proc urlParserString { str } {
 		lappend list2return [lindex $url_indices 0] $pos
 	}
 	set pos 0
-	while { [regexp -start $pos -indices {www.([\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $str url_indices ] } {
+	while { [regexp -start $pos -indices {www\.([\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $str url_indices ] } {
 		set pos [lindex $url_indices 1]
 		set pos_start [lindex $url_indices 0]
 		#check if the url was not found before
