@@ -545,7 +545,7 @@ static GstElement * _test_source (gchar *name)
   GstElement *queue = NULL;
   GstElement *valve = NULL;
   GstElement *fakesink = NULL;
-  GstBin *bin = NULL;
+  GstElement *bin = NULL;
   GstPad *bin_pad = NULL;
   GstStateChangeReturn state_ret;
   GValueArray *arr;
@@ -1075,7 +1075,7 @@ _create_video_source ()
   GstElement *videoscale = NULL;
   GstElement *queue = NULL;
   GstCaps *caps = NULL;
-  GstBin *video_bin = NULL;
+  GstElement *video_bin = NULL;
   GstPad *bin_pad = NULL;
 
   _notify_debug ("Creating video_source : %s  --- %s -- %s",
@@ -1797,7 +1797,7 @@ static GstElement *_find_source (GstElement *src)
 
 
   if (GST_IS_BIN (src)) {
-    GstIterator *it = gst_bin_iterate_sources (src);
+    GstIterator *it = gst_bin_iterate_sources (GST_BIN(src));
     gboolean done = FALSE;
     GstElement *item = NULL;
 
@@ -1835,7 +1835,7 @@ static GstElement *_find_sink (GstElement *snk)
   GstElement *sink = NULL;
 
   if (GST_IS_BIN (snk)) {
-    GstIterator *it = gst_bin_iterate_sinks (snk);
+    GstIterator *it = gst_bin_iterate_sinks (GST_BIN(snk));
     gboolean done = FALSE;
     GstElement *item = NULL;
 
@@ -1888,7 +1888,6 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   Tcl_Obj *sink = NULL;
   Tcl_Obj *result = NULL;
   GstElementFactory *factory = NULL;
-  GstStateChangeReturn state_ret;
 
   // We verify the arguments
   if( objc != 1) {
@@ -2198,7 +2197,7 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
   if (source_bin) {
-    gst_child_proxy_set (source_bin, "hack_valve::drop", FALSE, NULL);
+    gst_child_proxy_set (GST_OBJECT(source_bin), "hack_valve::drop", FALSE, NULL);
     gst_element_set_locked_state (source_bin, FALSE);
     gst_object_unref (source_bin);
     source_bin = NULL;
@@ -2233,7 +2232,6 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   Tcl_Obj *sink = NULL;
   Tcl_Obj *result = NULL;
   GstElementFactory *factory = NULL;
-  GstStateChangeReturn state_ret;
 
   // We verify the arguments
   if( objc != 1) {
@@ -2303,7 +2301,7 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
   if (source_bin) {
-    gst_child_proxy_set (source_bin, "hack_valve::drop", FALSE, NULL);
+    gst_child_proxy_set (GST_OBJECT(source_bin), "hack_valve::drop", FALSE, NULL);
     gst_element_set_locked_state (source_bin, FALSE);
     gst_object_unref (source_bin);
     source_bin = NULL;
@@ -2627,12 +2625,10 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   int stun_port = 3478;
   Tcl_Obj **tcl_relay_info = NULL;
   int total_relay_info;
-  int i;
   GValueArray *audio_relay_info = NULL;
   GValueArray *video_relay_info = NULL;
   int total_params;
   char *mode = NULL;
-  GstStateChangeReturn state_ret;
 
   // We verify the arguments
   if( objc < 4 || objc > 7) {
@@ -3165,7 +3161,7 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
   if (source_bin) {
-    gst_child_proxy_set (source_bin, "hack_valve::drop", FALSE, NULL);
+    gst_child_proxy_set (GST_OBJECT(source_bin), "hack_valve::drop", FALSE, NULL);
     gst_element_set_locked_state (source_bin, FALSE);
     gst_object_unref (source_bin);
     source_bin = NULL;
