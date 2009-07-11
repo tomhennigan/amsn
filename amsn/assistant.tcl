@@ -1157,8 +1157,8 @@ namespace eval ::AVAssistant {
 		frame $leftframe -bd 0
 		pack $leftframe -side left -padx 10 -expand 0 -fill none
 
-		checkbutton $leftframe.lowrescam -text "[trans lowrescam]" -font sboldf -variable \
-			::AVAssistant::lowrescam -onvalue 1 -offvalue 0
+		checkbutton $leftframe.lowrescam -text "[trans lowrescam]" -font sboldf \
+		    -variable ::AVAssistant::lowrescam -onvalue 1 -offvalue 0
 		pack $leftframe.lowrescam -pady 10
 		bind $leftframe.lowrescam <Configure> [list %W configure -wraplength %w]
 
@@ -2374,6 +2374,7 @@ namespace eval ::AVAssistant {
 		::Farsight::Stop
 		if {$is_audio} {
 			variable selectedaudiosink
+
 			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-sink $selectedaudiosink -audio-sink-device $val
 			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
@@ -2510,6 +2511,7 @@ namespace eval ::AVAssistant {
 			}
 
 			$contentf.fslabel configure -image [::skin::loadPixmap yes-emblem]
+			update
 
 			if {$firsttime} {
 				set firsttime 0
@@ -2605,7 +2607,7 @@ namespace eval ::AVAssistant {
 				}
 				incr count
 			}
-			catch {$contentf.in.a1.l.src select $nr}
+
 			combobox::combobox $contentf.in.a1.l.dev \
 				-bg #FFFFFF -font splainf \
 				-exportselection true -editable false \
@@ -2637,6 +2639,8 @@ namespace eval ::AVAssistant {
 			pack $contentf.in.r -side right -expand 0 -fill none -anchor center
 			pack $contentf.in.r.d
 
+			catch {$contentf.in.a1.l.src select $nr}
+
 			###
 			# OUT
 			###
@@ -2659,7 +2663,7 @@ namespace eval ::AVAssistant {
 				}
 				incr count
 			}
-			catch {$contentf.out.a1.l.sink select $nr}
+
 			combobox::combobox $contentf.out.a1.l.dev \
 				-bg #FFFFFF -font splainf                       \
 				-exportselection true -editable false           \
@@ -2696,6 +2700,8 @@ namespace eval ::AVAssistant {
 			pack $contentf.out.a1.c.test -side right -anchor se
 			pack $contentf.out.r -side right -expand 0 -fill none -anchor center
 			pack $contentf.out.r.d
+
+			catch {$contentf.out.a1.l.sink select $nr}
 
 		} else {
 			set fs_configured 0
@@ -2819,7 +2825,7 @@ namespace eval ::AVAssistant {
 		}
 
 		if {$fs_configured} {
-			#TODO: save configuration for farsight
+			#TODO: display configuration to be saved for farsight?
 		}
 
 		#click on the finish button to save settings.
@@ -2896,10 +2902,22 @@ namespace eval ::AVAssistant {
 
 		if {$fs_configured} {
 			variable selectedaudiosrc
+			variable selectedaudiosrcdev
 			variable selectedaudiosink
+			variable selectedaudiosinkdev
+			variable selectedvideosrc
+			variable selectedvideosrcdev
+			variable selectedvideosink
+			variable selectedvideosinkdev
 
 			::config::setKey fsaudiosrc $selectedaudiosrc
+			::config::setKey fsaudiosrcdev $selectedaudiosrcdev
 			::config::setKey fsaudiosink $selectedaudiosink
+			::config::setKey fsaudiosrc $selectedaudiosrc
+			::config::setKey fsvideosrcdev $selectedvideosrcdev
+			::config::setKey fsvideosink $selectedvideosink
+			::config::setKey fsvideosinkdev $selectedvideosinkdev
+			::config::setKey fsvideosinkdev $selectedvideosinkdev
 		}
 
 		#save the configs
