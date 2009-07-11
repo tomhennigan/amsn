@@ -2288,6 +2288,15 @@ snit::type Farsight {
 	}
 
 	method Prepare { controlling {mode "A6"} } {
+		if {[catch {$self Prepare2 $controlling $mode } res] } {
+			set preparing 0
+			return -code error $res
+		} else {
+			return $res
+		}
+	}
+
+	method Prepare2 { controlling {mode "A6"} } {
 		set preparing 1
 		if {[info exists ::sso] && $::sso != ""} {
 			set prepare_ticket ""
