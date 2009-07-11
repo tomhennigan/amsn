@@ -7869,6 +7869,15 @@ proc urlParserString { str } {
 			lappend list2return $pos_start $pos
 		}
 	}
+	while { [regexp -start $pos -indices {(\w+)\.(org|com|net)} $str url_indices ] } {
+		set pos [lindex $url_indices 1]
+		set pos_start [lindex $url_indices 0]
+		#check if the url was not found before
+		if { ![regexp :// [string range $str [expr {$pos_start - 3}] $pos ] ] &&
+		     ![regexp {^www\. } [string range $str [expr {$pos_start - 4}] $pos ]]} {
+			lappend list2return $pos_start $pos
+		}
+	}
 	return $list2return
 }
 
