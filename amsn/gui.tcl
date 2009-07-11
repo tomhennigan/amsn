@@ -2082,10 +2082,10 @@ namespace eval ::amsn {
 		if {$callid != "" } {
 			DisableSIPButton $chatid sipyes$callid
 			DisableSIPButton $chatid sipno$callid
+			DelSIPchatidFromList $chatid
+			::ChatWindow::setCallButton $chatid "invite" $video
+			::ChatWindow::RemoveVoipControls $chatid
 		}
-		DelSIPchatidFromList $chatid
-		::ChatWindow::setCallButton $chatid "invite" $video
-		::ChatWindow::RemoveVoipControls $chatid
 	}
 
 	proc SIPCallYouAreBusy { video chatid } {
