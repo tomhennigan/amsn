@@ -849,7 +849,9 @@ _create_audio_source ()
   }
   g_list_free (sources);
 
-  GST_OBJECT_FLAG_UNSET (src, GST_ELEMENT_IS_SINK);
+  if (src)
+    GST_OBJECT_FLAG_UNSET (src, GST_ELEMENT_IS_SINK);
+
   return src;
 }
 
