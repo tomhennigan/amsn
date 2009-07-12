@@ -1065,7 +1065,9 @@ _create_video_source ()
 {
   GstElement *src = NULL;
   GList *sources, *walk;
-  gchar *priority_sources[] = {"gconfvideosrc",
+  gchar *priority_sources[] = {"dshowvideosrc",
+                               "ksvideosrc",
+                               "gconfvideosrc",
                                "gconfv4l2src",
                                "v4l2src",
                                "v4lsrc",
@@ -2229,6 +2231,7 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
 {
   GstBus *bus = NULL;
   GstElement *src = NULL;
+  GstElement *colorspace = NULL;
   GstElement *snk = NULL;
   Tcl_Obj *source = NULL;
   Tcl_Obj *sink = NULL;
@@ -2271,12 +2274,26 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
   if (gst_bin_add (GST_BIN (test_pipeline), src) == FALSE) {
-    _notify_debug ("Couldn't add video_source to pipeline");
+    _notify_debug ("Couldn't add video_source to test pipeline");
     gst_element_set_state (test_pipeline, GST_STATE_NULL);
     gst_object_unref (src);
     src = NULL;
     goto error;
   }
+
+  colorspace = gst_element_factory_make ("ffmpegcolorspace", NULL);
+  if (colorspace == NULL ||
+      gst_bin_add (GST_BIN (test_pipeline), colorspace) == FALSE) {
+    _notify_debug ("Could not add colorspace to test pipeline");
+    gst_object_unref (colorspace);
+    goto error;
+  }
+
+  if (gst_element_link(src, colorspace) == FALSE)  {
+    _notify_debug ("Could not link source to colorspace");
+    goto error;
+  }
+
 
   snk = _create_video_sink ();
   if (snk == NULL) {
@@ -2290,8 +2307,8 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
-  if (gst_element_link(src, snk) == FALSE)  {
-    _notify_debug ("Could not link source to sink");
+  if (gst_element_link(colorspace, snk) == FALSE)  {
+    _notify_debug ("Could not link colorspace to sink");
     goto error;
   }
 
