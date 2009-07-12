@@ -6886,11 +6886,18 @@ proc cmsn_draw_addcontact {} {
 #///////////////////////////////////////////////////////////////////////
 # Check if the "add contact" window is open and then re-make the group list
 proc cmsn_draw_grouplist {} {
-	.addcontact.group.list list delete 0 end
-	set groups [::groups::GetSortedList]
-	foreach gid $groups {
-		.addcontact.group.list list insert end "[::groups::GetName $gid]"
-	}
+	set groupsel [.addcontact.group.list get] 
+	set selection 0
+	.addcontact.group.list list delete 0 end 
+	set groups [::groups::GetSortedList] 
+	foreach gid $groups { 
+		if { $groupsel == [::groups::GetName $gid] } { 
+			set selection [.addcontact.group.list list index end] 
+		} 
+		.addcontact.group.list list insert end "[::groups::GetName $gid]" 
+	} 
+	catch {.addcontact.group.list select $selection }
+
 }
 #///////////////////////////////////////////////////////////////////////
 

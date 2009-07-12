@@ -647,7 +647,7 @@ namespace eval ::groups {
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
-			after 500 cmsn_draw_grouplist
+			after 2000 cmsn_draw_grouplist
 		}
 
 		return 1
@@ -696,7 +696,7 @@ namespace eval ::groups {
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
-			after 500 cmsn_draw_grouplist
+			after 2000 cmsn_draw_grouplist
 		}
 		return 1
 	}
@@ -780,7 +780,7 @@ namespace eval ::groups {
 
 		# If an "add contact" window is open, actualise the group list
 		if { [winfo exists .addcontact] == 1 } {
-			after 500 cmsn_draw_grouplist
+			after 2000 cmsn_draw_grouplist
 		}
 
 		return 1
@@ -817,8 +817,8 @@ namespace eval ::groups {
 
 	proc GetSortedList {{opt ""}} {
 		set glist [list] 
-		foreach gid [::groups::GetList $opt] { 
 		set sortedlist [list]
+		foreach gid [::groups::GetList $opt] { 
 			if ![string compare $gid "0"] { 
 				lappend sortedlist [list $gid [::groups::GetName $gid]]
 			} else { 
