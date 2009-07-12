@@ -1469,8 +1469,14 @@ snit::type TURN {
 				}
 
 				# now add tls to the socket and return it
-				fconfigure $socket -blocking 0 -buffering none -translation binary
+				fconfigure $socket -blocking 1 -buffering none -translation binary
 				set sock [::tls::import $socket]
+
+				# We need to foce the handshake while the socket is blocking
+				# for tls to actually work
+				::tls::handshake $sock
+		
+				fconfigure $sock -blocking 0 -buffering none -translation binary
 
 			}
 			"http" {
@@ -1505,8 +1511,14 @@ snit::type TURN {
 				}
 
 				# now add tls to the socket and return it
-				fconfigure $socket -blocking 0 -buffering none -translation binary
+				fconfigure $socket -blocking 1 -buffering none -translation binary
 				set sock [::tls::import $socket]
+
+				# We need to foce the handshake while the socket is blocking
+				# for tls to actually work
+				::tls::handshake $sock
+		
+				fconfigure $sock -blocking 0 -buffering none -translation binary
 			}
 			default {
 				error "Unkwown proxy method : $options(-proxy)"
@@ -1859,8 +1871,14 @@ snit::type SIPSocket {
 				}
 
 				# now add tls to the socket and return it
-				fconfigure $socket -blocking 0 -buffering none -translation binary
+				fconfigure $socket -blocking 1 -buffering none -translation binary
 				set sock [::tls::import $socket]
+
+				# We need to foce the handshake while the socket is blocking
+				# for tls to actually work
+				::tls::handshake $sock
+		
+				fconfigure $sock -blocking 0 -buffering none -translation binary
 
 			}
 			"http" {
@@ -1895,8 +1913,14 @@ snit::type SIPSocket {
 				}
 
 				# now add tls to the socket and return it
-				fconfigure $socket -blocking 0 -buffering none -translation binary
+				fconfigure $socket -blocking 1 -buffering none -translation binary
 				set sock [::tls::import $socket]
+
+				# We need to foce the handshake while the socket is blocking
+				# for tls to actually work
+				::tls::handshake $sock
+		
+				fconfigure $sock -blocking 0 -buffering none -translation binary
 			}
 			default {
 				error "Unkwown proxy method : $options(-proxy)"

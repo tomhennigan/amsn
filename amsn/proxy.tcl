@@ -87,8 +87,16 @@ proc HTTPsecureSocket { args } {
 		}
 
 		# now add tls to the socket and return it
+		fconfigure $socket -blocking 1 -buffering none -translation binary
+
+		::tls::import $socket
+
+		# We need to foce the handshake while the socket is blocking for tls to actually work
+		::tls::handshake $socket
+		
 		fconfigure $socket -blocking 0 -buffering none -translation binary
-		return [::tls::import $socket]
+		return $socket
+
 	}
 
 	# if not proxifying, just create a tls socket directly
@@ -117,8 +125,15 @@ proc SOCKSsecureSocket { args } {
 		}
 
 		# now add tls to the socket and return it
+		fconfigure $socket -blocking 1 -buffering none -translation binary
+
+		::tls::import $socket
+
+		# We need to foce the handshake while the socket is blocking for tls to actually work
+		::tls::handshake $socket
+		
 		fconfigure $socket -blocking 0 -buffering none -translation binary
-		return [::tls::import $socket]
+		return $socket
 
 	}
 
