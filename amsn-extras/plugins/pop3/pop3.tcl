@@ -43,6 +43,7 @@ namespace eval ::pop3 {
 		for {set acntn 0} {$acntn<10} {incr acntn} {
 			array set ::pop3::config [ list \
 				host_[set acntn] {your.mailserver.here} \
+				ssl_[set acntn] {0} \
 				user_[set acntn] {user_login@here} \
 				passe_[set acntn] [::pop3::encrypt ""] \
 				port_[set acntn] {110} \
@@ -112,6 +113,12 @@ namespace eval ::pop3 {
 		pack $f.host.label -side left -anchor w
 		pack $f.host.entry -side left -anchor w
 		pack $f.host -anchor w
+
+		#ssl
+		frame $f.ssl
+		checkbutton $f.ssl.check -text "Use SSL" -variable ::pop3::config(ssl_0) -bg white
+		pack $f.ssl.check -side left -anchor w
+		pack $f.ssl -anchor w
 
 		#user name
 		frame $f.user
@@ -185,6 +192,7 @@ namespace eval ::pop3 {
 
 		$f.host.entry configure -textvariable ::pop3::config(host_$val)
 		$f.user.entry configure -textvariable ::pop3::config(user_$val)
+		$f.ssl.check configure -variable ::pop3::config(ssl_$val)
 		$f.pass.entry configure -validate none
 		$f.pass.entry configure -validatecommand "set ::pop3::config(passe_$val) \[::pop3::encrypt %P\]; return 1"
 		$f.pass.entry delete 0 end
@@ -347,80 +355,52 @@ namespace eval ::pop3 {
 	#	If the channel is ready (open) it sets ::pop3::chanopen_$chan to 1
 	#	If the there was a problem opening then it sets ::pop3::chanopen_$chan to -1
 	#	May throw errors from the server.
-	proc ::pop3::open {args} {
-		array set cstate {msex 0 retr_mode retr limit {}}
-
-		while {[set err [getopt args {msex.arg retr-mode.arg} opt arg]]} {
-			if {$err < 0} {
-				return -code error "::pop3::open : $arg"
-			}
-			switch -exact -- $opt {
-				msex {
-					if {![string is boolean $arg]} {
-						return -code error \
-						":pop3::open : Argument to -msex has to be boolean"
-					}
-					set cstate(msex) $arg
-				}
-				
-				retr-mode {
-					switch -exact -- $arg {
-						retr - list - slow {
-							set cstate(retr_mode) $arg
-						}
-						default {
-							return -code error \
-							":pop3::open : Argument to -retr-mode has to be one of retr, list or slow"
-						}
-					}
-				}
-				default {
-					# Can't happen
-				}
-			}
-		}
-	
-		if {[llength $args] > 4} {
-			return "Too many arguments to ::pop3::open"
-		}
-		if {[llength $args] < 3} {
-			return "Not enough arguments to ::pop3::open"
-		}
-		foreach {host user password port} $args break
+	proc ::pop3::open {host port ssl user password } {
 		if {$port == {}} {
-			set port 110
+			if {$ssl} {
+				set port 995
+			} else {
+				set port 110
+			}
 		}
 	
 		# Argument processing is finally complete, now open the channel
-	
 		set chan [socket -async $host $port]
-		fconfigure $chan -buffering none
-	
-		if {$cstate(msex)} {
-			# We are talking to MS Exchange. Work around its quirks.
-			fconfigure $chan -translation binary
-		} else {
-			fconfigure $chan -translation {binary crlf}
-		}
-
-		fconfigure $chan -blocking 0
+		
 		set ::pop3::chanopen_$chan 0
 
 		#give it a chance to open then call rest
-		fileevent $chan writable [list ::pop3::Open2 $chan $user $password]
-		
+		fileevent $chan writable [list ::pop3::Open2 $chan $ssl $user $password]
+
+
 		#wait till chan is open before returning
-		vwait ::pop3::chanopen_$chan
+		tkwait variable ::pop3::chanopen_$chan
+
 
 		return $chan
 	}
 	#continuation of open when the channel is ready
-	proc ::pop3::Open2 {chan user password} {
+	proc ::pop3::Open2 {chan ssl user password} {
 		fileevent $chan writable ""
+		if {$ssl} {
+			if {[catch {
+				package require tls
+				::tls::import $chan
+				fconfigure $chan -buffering none -translation binary -blocking 1
+				::tls::handshake $chan
+			}]} {
+				::close $chan
+				set ::pop3::chanopen_$chan -1
+				return
+			}
+
+		}
+		fconfigure $chan -buffering none -translation {binary crlf} -blocking 0
+
 
 		if {[catch {
 			#test for end of file
-			if { [eof $chan] } {
+			if { [eof $chan] || [fconfigure $chan -error] != ""} {
 				plugins_log pop3 "ERROR : EOF reached in open(2)\n"
 				error "EOF in ::pop3::Open2"
 			}
@@ -463,7 +443,7 @@ namespace eval ::pop3 {
 
 		set ::pop3::chanreturn_$chan "somethingtodelete"
 		fileevent $chan readable [list ::pop3::send2 $chan]
-		vwait ::pop3::chanreturn_$chan
+		tkwait variable ::pop3::chanreturn_$chan
 
 		set popRet [set ::pop3::chanreturn_$chan]
 		unset ::pop3::chanreturn_$chan
@@ -477,13 +457,13 @@ namespace eval ::pop3 {
 			set popRet ""
 
 			#test for end of file
-			if { [eof $chan] } {
+			if { [eof $chan]  || [fconfigure $chan -error] != ""} {
 				set popRet "xxx EOF reached in send(2)"
 				error
 			}
 
 			#get result
-			set popRet [string trim [gets $chan]]
+			set popRet [string trim [nbgets $chan]]
 
 			#check for non completed read, already tested for eof above
 			if { $popRet == "" } {
@@ -546,7 +526,7 @@ namespace eval ::pop3 {
 			set ::pop3::chanreturn_subject_$chan ""
 			set ::pop3::chanreturn_complete_$chan "somethingtodelete"
 			fileevent $chan readable [list ::pop3::getinfo2 $chan]
-			vwait ::pop3::chanreturn_complete_$chan
+			tkwait variable ::pop3::chanreturn_complete_$chan
 
 			set from [set ::pop3::chanreturn_from_$chan]
 			unset ::pop3::chanreturn_from_$chan
@@ -571,7 +551,7 @@ namespace eval ::pop3 {
 			}
 
 			#get the next line line
-			set line [string trimright [gets $chan] \r]
+			set line [string trimright [nbgets $chan] \r]
 
 			#check for non completed read, already tested for eof above
 			if { $line == "" } {
@@ -701,7 +681,11 @@ namespace eval ::pop3 {
 			if { [string match *@gmail.com* $::pop3::config(user_$acntn) ] } {
 				::pop3::Check_gmail $acntn
 			} else {
-				set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [pop3::decrypt $::pop3::config(passe_$acntn)] [set ::pop3::config(port_$acntn)]]
+				set chan [::pop3::open [set ::pop3::config(host_$acntn)] \
+					      [set ::pop3::config(port_$acntn)] \
+					      [set ::pop3::config(ssl_$acntn)] \
+					      [set ::pop3::config(user_$acntn)] \
+					      [pop3::decrypt $::pop3::config(passe_$acntn)]]
 				#check that it opened properly
 				if { [set ::pop3::chanopen_$chan] == 1 } {
 					set mails [::pop3::status $chan]
@@ -968,12 +952,16 @@ namespace eval ::pop3 {
 		if { $answer == "yes" } {
 			#dont run check during delete
 			if { $::pop3::checkingnow == 1} {
-				vwait ::pop3::checkingnow
+				tkwait variable ::pop3::checkingnow
 			}
 			after cancel ::pop3::check
 			set failed 0
 
-			set chan [::pop3::open [set ::pop3::config(host_$acntn)] [set ::pop3::config(user_$acntn)] [pop3::decrypt $::pop3::config(passe_$acntn)] [set ::pop3::config(port_$acntn)]]
+			set chan [::pop3::open [set ::pop3::config(host_$acntn)] \
+				      [set ::pop3::config(port_$acntn)] \
+				      [set ::pop3::config(ssl_$acntn)] \
+				      [set ::pop3::config(user_$acntn)] \
+				      [pop3::decrypt $::pop3::config(passe_$acntn)]]
 
 			#check that it opened properly
 			if { [set ::pop3::chanopen_$chan] == 1 } {
