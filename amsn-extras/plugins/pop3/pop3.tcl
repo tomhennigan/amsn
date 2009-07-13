@@ -4,7 +4,6 @@
 #                                                                 #
 #                With small contributions from:                   #
 #             Alberto Díaz and Jonas De Meulenaere                #
-#                 Boris Faure (Gmail support)                     #
 #       POP3 Code originally from Tclib project (modified)        #
 ###################################################################
 
@@ -56,8 +55,13 @@ namespace eval ::pop3 {
 			]
 		}
 
+		set langdir [file join $dir "lang"]
+		set lang [::config::getGlobalKey language]
+		load_lang en $langdir
+		load_lang $lang $langdir
+
 		set ::pop3::configlist [list \
-			[list str "Check for new messages every ? minutes" minute] \
+			[list str [trans checkingperiod] minute] \
 			[list frame ::pop3::populateframe ""] \
 		]
 
@@ -78,7 +82,7 @@ namespace eval ::pop3 {
 	proc populateframe { win } {
 		#total number of accounts
 		frame $win.num
-		label $win.num.label -text "How many accounts do you have: "
+		label $win.num.label -text [trans accountsnbr]
 		combobox::combobox $win.num.accounts -editable false -highlightthickness 0 -width 3 -bg #FFFFFF -font splainf -textvariable ::pop3::config(accounts)
 		for { set i 1 } { $i < 11 } { incr i } {
 			$win.num.accounts list insert end $i
@@ -96,7 +100,7 @@ namespace eval ::pop3 {
 
 		#current selection box
 		frame $f.num
-		label $f.num.label -text "Settings for accunt number: "
+		label $f.num.label -text [trans chooseaccsettings]
 		combobox::combobox $f.num.account -editable false -highlightthickness 0 -width 3 -bg #FFFFFF -font splainf
 		for { set i 1 } { $i < 11 } { incr i } {
 			$f.num.account list insert end $i
@@ -108,7 +112,7 @@ namespace eval ::pop3 {
 
 		#server
 		frame $f.host
-		label $f.host.label -text "POP3 Server"
+		label $f.host.label -text [trans pop3server]
 		entry $f.host.entry -textvariable ::pop3::config(host_0) -bg white
 		pack $f.host.label -side left -anchor w
 		pack $f.host.entry -side left -anchor w
@@ -116,13 +120,13 @@ namespace eval ::pop3 {
 
 		#ssl
 		frame $f.ssl
-		checkbutton $f.ssl.check -text "Use SSL" -variable ::pop3::config(ssl_0) -bg white
+		checkbutton $f.ssl.check -text [trans usessl] -variable ::pop3::config(ssl_0) -bg white
 		pack $f.ssl.check -side left -anchor w
 		pack $f.ssl -anchor w
 
 		#user name
 		frame $f.user
-		label $f.user.label -text "Your user login"
+		label $f.user.label -text [trans userlogin]
 		entry $f.user.entry -textvariable ::pop3::config(user_0) -bg white
 		pack $f.user.label -side left -anchor w
 		pack $f.user.entry -side left -anchor w
@@ -130,7 +134,7 @@ namespace eval ::pop3 {
 
 		#password
 		frame $f.pass
-		label $f.pass.label -text "Your password"
+		label $f.pass.label -text [trans passwd]
 		entry $f.pass.entry -show "*" -bg white -validate all \
 		-validatecommand {
 			set ::pop3::config(passe_0) [::pop3::encrypt %P]
@@ -143,39 +147,39 @@ namespace eval ::pop3 {
 
 		#port
 		frame $f.port
-		label $f.port.label -text "Port (optional)"
+		label $f.port.label -text [trans port]
 		entry $f.port.entry -textvariable ::pop3::config(port_0) -bg white
 		pack $f.port.label -side left -anchor w
 		pack $f.port.entry -side left -anchor w
 		pack $f.port -anchor w
 
 		#Show notify
-		checkbutton $f.notify -text "Show notify window" -variable ::pop3::config(notify_0)
+		checkbutton $f.notify -text [trans shownotif] -variable ::pop3::config(notify_0)
 		pack $f.notify -anchor w
 
 		#load mail program
-		checkbutton $f.loadMailProg -text "Load mail program on left click" -variable ::pop3::config(loadMailProg_0)
+		checkbutton $f.loadMailProg -text [trans loadmailpgrm] -variable ::pop3::config(loadMailProg_0)
 		pack $f.loadMailProg -anchor w
 
 		#mail program
 		frame $f.mailProg
-		label $f.mailProg.label -text "          Mail Program"
+		label $f.mailProg.label -text [trans mailpgrm]
 		entry $f.mailProg.entry -textvariable ::pop3::config(mailProg_0) -bg white
 		pack $f.mailProg.label -side left -anchor w
 		pack $f.mailProg.entry -side left -anchor w
 		pack $f.mailProg -anchor w
 
 		#rightdeletemenu
-		checkbutton $f.rightdeletemenu -text "Load delete menu on right click" -variable ::pop3::config(rightdeletemenu_0)
+		checkbutton $f.rightdeletemenu -text [trans delmenurightclick] -variable ::pop3::config(rightdeletemenu_0)
 		pack $f.rightdeletemenu -anchor w
 
 		#leavemails
-		checkbutton $f.leavemails -text "Your mail program leaves mails on server" -variable ::pop3::config(leavemails_0)
+		checkbutton $f.leavemails -text [trans mailstayonserv] -variable ::pop3::config(leavemails_0)
 		pack $f.leavemails -anchor w
 
 		#caption
 		frame $f.caption
-		label $f.caption.label -text "Display name"
+		label $f.caption.label -text [trans displayname]
 		entry $f.caption.entry -textvariable ::pop3::config(caption_0) -bg white
 		pack $f.caption.label -side left -anchor w
 		pack $f.caption.entry -side left -anchor w
@@ -609,7 +613,7 @@ namespace eval ::pop3 {
 	proc ::pop3::getfroms {chan first last} {
 		set balloontext ""
 		if {$first <= $last} {
-			set balloontext "\n\nNew mail from:"
+			set balloontext "\n\n[trans newmailfrom]"
 			for {set x $first} {$x <= $last} {incr x} {
 				set info [::pop3::getinfo $chan $x]
 				if { $info != "-1 -1" } {
@@ -677,46 +681,41 @@ namespace eval ::pop3 {
 	proc ::pop3::check_no { acntn } {
 		catch {
 			plugins_log pop3 "Checking messages now for account $acntn\n"
-			#check if the account is a gmail account
-			if { [string match *@gmail.com* $::pop3::config(user_$acntn) ] } {
-				::pop3::Check_gmail $acntn
-			} else {
-				set chan [::pop3::open [set ::pop3::config(host_$acntn)] \
-					      [set ::pop3::config(port_$acntn)] \
-					      [set ::pop3::config(ssl_$acntn)] \
-					      [set ::pop3::config(user_$acntn)] \
-					      [pop3::decrypt $::pop3::config(passe_$acntn)]]
-				#check that it opened properly
-				if { [set ::pop3::chanopen_$chan] == 1 } {
-					set mails [::pop3::status $chan]
+			set chan [::pop3::open [set ::pop3::config(host_$acntn)] \
+					  [set ::pop3::config(port_$acntn)] \
+					  [set ::pop3::config(ssl_$acntn)] \
+					  [set ::pop3::config(user_$acntn)] \
+					  [pop3::decrypt $::pop3::config(passe_$acntn)]]
+			#check that it opened properly
+			if { [set ::pop3::chanopen_$chan] == 1 } {
+				set mails [::pop3::status $chan]
 
-					plugins_log pop3 "POP3 ($acntn) messages: $mails\n"
-					set dontnotifythis 1
-					if { [set ::pop3::emails_$acntn] != $mails } {
-						set dontnotifythis 0
-						if { [set ::pop3::config(leavemails_$acntn)] == 1 } {
-							if { [set ::pop3::emails_$acntn] < $mails } {
-								set ::pop3::newMails_$acntn [expr { [set pop3::newMails_$acntn] + $mails - [set ::pop3::emails_$acntn] } ]
-							} else {
-								set dontnotifythis 1
-							}
+				plugins_log pop3 "POP3 ($acntn) messages: $mails\n"
+				set dontnotifythis 1
+				if { [set ::pop3::emails_$acntn] != $mails } {
+					set dontnotifythis 0
+					if { [set ::pop3::config(leavemails_$acntn)] == 1 } {
+						if { [set ::pop3::emails_$acntn] < $mails } {
+							set ::pop3::newMails_$acntn [expr { [set pop3::newMails_$acntn] + $mails - [set ::pop3::emails_$acntn] } ]
 						} else {
-							set ::pop3::newMails_$acntn $mails
+							set dontnotifythis 1
 						}
-						set ::pop3::emails_$acntn $mails
-
-						set ::pop3::balloontext_$acntn [::pop3::getfroms $chan [expr {$mails-[set ::pop3::newMails_$acntn]+1}] $mails]
+					} else {
+						set ::pop3::newMails_$acntn $mails
 					}
-					::pop3::close $chan
+					set ::pop3::emails_$acntn $mails
 
-					if { $dontnotifythis == 0 } {
-						cmsn_draw_online
-						::pop3::notify $acntn
-					}
-				} else {
-					plugins_log pop3 "POP3 failed to open\n"
-					unset ::pop3::chanopen_$chan
+					set ::pop3::balloontext_$acntn [::pop3::getfroms $chan [expr {$mails-[set ::pop3::newMails_$acntn]+1}] $mails]
 				}
+				::pop3::close $chan
+
+				if { $dontnotifythis == 0 } {
+					cmsn_draw_online
+					::pop3::notify $acntn
+				}
+			} else {
+				plugins_log pop3 "POP3 failed to open\n"
+				unset ::pop3::chanopen_$chan
 			}
 		}
 	}
@@ -783,10 +782,7 @@ namespace eval ::pop3 {
 	# Arguments:
 	#	acntn ->  The number of the account to load teh default mail program for
 	proc loadDefaultEmail { acntn } {
-		#check if the account is a gmail account
-		if { [string match *@gmail.com* $::pop3::config(user_$acntn) ] } {
-			launch_browser [string map {% %%} [list http://mail.google.com]]
-		} elseif { $::tcl_platform(platform) == "windows" } {
+		if { $::tcl_platform(platform) == "windows" } {
 			package require WinUtils
 			eval WinLoadFile [set ::pop3::config(mailProg_$acntn)]
 		} elseif { [catch {eval "exec [set ::pop3::config(mailProg_$acntn)]"} res] } {
@@ -839,7 +835,7 @@ namespace eval ::pop3 {
 		}
 		$textb configure -font "{} -$mailheight"
 
-		set balloon_message "Click here to check the number of messages now."
+		set balloon_message [trans checknow]
 		$textb tag bind $textb.popmailpic_$acntn <Enter> +[list balloon_enter %W %X %Y $balloon_message]
 		$textb tag bind $textb.popmailpic_$acntn <Leave> "+set ::Bulle(first) 0; kill_balloon;"
 		$textb tag bind $textb.popmailpic_$acntn <Motion> +[list balloon_motion %W %X %Y $balloon_message]
@@ -923,9 +919,9 @@ namespace eval ::pop3 {
 		menu $rmenu -tearoff 0 -type normal
 
 		if { [set ::pop3::config(rightdeletemenu_$acntn)] } {
-			$rmenu add command -label "Select an email to delete"
+			$rmenu add command -label [trans selectmailtodel]
 		}
-		$rmenu add command -label "Check for new email" -command ::pop3::check
+		$rmenu add command -label [trans checknewmail] -command ::pop3::check
 		$rmenu add separator
 
 		if { [set ::pop3::config(rightdeletemenu_$acntn)] } {
@@ -948,7 +944,7 @@ namespace eval ::pop3 {
 	#	index        -> index of the email to delete
 	#	namesubject  -> the name/subject as displayed in the balloon
 	proc deletemail { acntn index namesubject } {
-		set answer [::amsn::messageBox "Are you sure you want to delete the email:\n$namesubject" yesno question "Delete"]
+		set answer [::amsn::messageBox [trans askdel $namesubject] yesno question "Delete"]
 		if { $answer == "yes" } {
 			#dont run check during delete
 			if { $::pop3::checkingnow == 1} {
@@ -982,195 +978,17 @@ namespace eval ::pop3 {
 
 				::pop3::close $chan
 			} else {
-				msg_box "Failed to open a connection, please try again later"
+				msg_box [trans connfailed]
 			}
 
 			after 1 ::pop3::check
 
 			if { $failed == 1 } {
-				msg_box "Delete failed\nYour email may have changed since last update\nUpdating now."
+				msg_box [trans delfailed]
 			}
 		}
 	}
 
-	# ::pop3::Check_gmail
-	# Description:
-	#	catch the "Unreads" information about the gmail account by acting as a browser, with cookies support, but no javascript.
-	#(i wrote a proc which "enables" javascript, which gives us the beginning of new messages, the email of the authors,
-	#but there is more http::geturl procedures, and the "regexp" part is very complex.
-	#	create the balloon (this is not working for the moment)
-	# Arguments:
-	#	acntn        -> The number of the gmail account to check
-	#TODO : add the balloon support.
-	#TODO : remove some regexp ?
-	#
-	# i would like to thanks the Live http Headers project (http://livehttpheaders.mozdev.org/), it's a really good extension to firefox to see all headers while browsing.
-	# 
-	proc Check_gmail {acntn} {
-		plugins_log "pop3" "checking for gmail account : $::pop3::config(user_$acntn)"
-		package require http
-		package require tls
-		#bind the https in order to use tls
-		http::register https 443 ::tls::socket
-			
-		#this the array where i put all the variables (i should change that)
-		set unreads 0
-
-		#remove the quotes around the login if they exists
-		if {[string equal [string index $::pop3::config(user_$acntn) 0] "\"" ] && [string equal [string index $::pop3::config(user_$acntn) end] "\""]} {
-			set ::pop3::config(user_$acntn) [string range $::pop3::config(user_$acntn) 1 end-1]
-		}
-
-		#here we go to the page created for mobiles :)
-		set headers [list "Host" "gmail.com" ]
-		set url "http://m.gmail.com/"
-		set token [http::geturl $url -headers $headers -validate 0 ]
-		set data [array get $token]
-		http::cleanup $token
-#plugins_log "pop3" "data1:=$data"
-		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ } $data -> url
-#plugins_log "pop3" "(GMAIL)Location1:=$url"
-		
-		#we're redirected	
-		set headers [list "Host" "mail.google.com"]
-		set token [http::geturl $url -headers $headers -validate 0 ]
-		set data [array get $token]
-#plugins_log "pop3" "data2:=$data"
-		set purl $url
-		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ } $data -> url
-		http::cleanup $token
-#plugins_log "pop3" "(GMAIL)Location2:=$url"
-
-
-		#and again
-		set headers [list "Host" "mail.google.com"]
-		set token [http::geturl $url -headers $headers -validate 0 ]
-		set data [array get $token]
-#plugins_log "pop3" "data3:=$data"
-		set purl $url
-
-		#making the query
-		set query ""
-		set body [::http::data $token]
-		http::cleanup $token
-		set pos2 1
-		set name ""
-		set value ""
-		set type ""
-		for {set i 1} {$i<=[regexp -all {input } $body]} {incr i} {
-			set pos1 [expr {[string first "<input" $body $pos2] + 6}]
-			set pos2 [expr {[string first ">" $body $pos1] -1}]
-			set input [string range $body $pos1 $pos2]
-#plugins_log "pop3" "input:=$input"
-			regexp {type=\"(\w+)\"} $input -> type
-#plugins_log "pop3" "type:=$type"
-			switch $type {
-				hidden {
-					regexp {name=\"(\w+)\"} $input -> name
-					regexp {value=\"([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\"} $input -> value
-					if {$query != ""} {
-						append query "&"
-					}
-					append query $name = [urlencode $value]
-				}
-				text {
-					#here, we fill the login
-					regexp {name=\"(\w+)\"} $input -> name
-					if {$query != ""} {
-						append query "&"
-					}
-					append query $name = [urlencode $::pop3::config(user_$acntn)]
-				}
-				password {
-					#here, we fill the password :)
-					regexp {name=\"(\w+)\"} $input -> name
-					if {$query != ""} {
-						append query "&"
-					}
-					append query $name = [urlencode [pop3::decrypt $::pop3::config(passe_$acntn)]]
-				}
-				checkbox {
-					regexp {name=\"(\w+)\"} $input -> name
-					regexp {value=\"(\w+)\"} $input -> value
-					if {$query != ""} {
-						append query "&"
-					}
-					append query $name = $value
-				}
-				submit {}
-				default {}
-			}
-		}
-#plugins_log "pop3" "(GMAIL)query:=$query"
-#plugins_log "pop3" "(GMAIL)purl:=$purl"
-		
-
-		#sending login + pass
-		set headers [list "Host" "www.google.com" "Referer" "$purl"]
-		#TODO : don't harcode $url
-		set url https://www.google.com/accounts/ServiceLoginAuth
-		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
-		set data [array get $token]
-#plugins_log "pop3" "data4:=$data"
-		regexp {Location\ ([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)\ Content-Type} $data -> url
-#plugins_log "pop3" "(GMAIL)Location3:=$url"
-
-		#redirected to a page where it checks the cookies
-		upvar \#0 $token state
-		#gets the invitations to create a cookie by parsing $state
-		array set cookies {}
-		foreach {name value} $state(meta) {
-			if { $name eq "Set-Cookie" } {
-				regexp {(\w+)=([\/\$\*\~\%\,\!\'\#\.\@\+\-\=\?\:\^\_[:alnum:]]+)\;} $value -> name value
-				set cookies($name) $value
-			}
-		}
-		http::cleanup $token
-		set cookies_header [list LSID=$cookies(LSID) SID=$cookies(SID) ]
-		set headers [list "Host" "www.google.com" "Referer" "$purl" "Cookie" [join $cookies_header {;}]]
-		set token [http::geturl $url -query $query -headers $headers -validate 0 ]
-		set data [array get $token]
-		http::cleanup $token
-#plugins_log "pop3" "data5:=$data"
-		
-		#getting the next url
-		set pos1 [expr [string first "<meta content=\"0\;" $data)] + 22]
-		set pos2 [expr [string first "\" http-equiv=\"refresh\"" $data $pos1] -1]
-		set url [string range $data $pos1 $pos2]
-		set url [string map { &amp; & &quot; "" } $url]
-		set url [string map { &amp; & &quot; "" } $url]
-		if {[string equal [string index $url 0] "'" ] && [string equal [string index $url end] "'"]} {
-			set url [string range $url 1 end-1]
-		}
-#plugins_log "pop3" "(GMAIL)url6:=$url"
-		
-		#that will be the latest page
-		set cookies_header [list SID=$cookies(SID) ]
-#plugins_log "pop3" "(GMAIL)[array names cookies]"
-		set headers [list "Host" "mail.google.com" "Cookie" [join $cookies_header {;}]]
-		set token [http::geturl $url -headers $headers -validate 0 ]
-		set data [array get $token]
-#plugins_log "pop3" "data6:=$data"
-		set body [::http::data $token]
-		http::cleanup $token
-
-		#find the amount of unread messages
-		regexp {Inbox&nbsp;\((\d+)\)} $body -> unreads
-
-		plugins_log pop3 "POP3 ($acntn) messages: $unreads\n"
-		set dontnotifythis 1
-		if { [set ::pop3::emails_$acntn] != $unreads } {
-			set dontnotifythis 0
-			set ::pop3::newMails_$acntn $unreads
-			set ::pop3::emails_$acntn $unreads
-		}
-
-		if { $dontnotifythis == 0 } {
-			cmsn_draw_online
-			::pop3::notify $acntn
-		}
-		array unset gmail
-	}
 }
 
 

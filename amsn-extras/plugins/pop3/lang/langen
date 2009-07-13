@@ -1,0 +1,23 @@
+amsn_lang_version 2
+checkingperiod Check for new messages every ? minutes
+accountsnbr How many accounts do you have:
+chooseaccsettings Settings for account number:
+pop3server POP3 Server
+usessl Use SSL
+userlogin Your user login:
+passwd Your password
+port Port (optional)
+shownotif Show notify window
+loadmailpgrm Load mail program on left click
+mailpgrm Mail Program
+delmenurightclick Load delete menu on right click
+mailstayonserv Your mail program leaves mails on server
+displayname Display name
+newmailfrom New mail from:
+checknow Click here to check the number of messages now.
+selectmailtodel Select an email to delete
+checknewmail Check for new email
+askdel Are you sure you want to delete the email:\n$1
+delete Delete
+connfailed Failed to open a connection, please try again later
+delfailed Delete failed\nYour email may have changed since last update\nUpdating now.
