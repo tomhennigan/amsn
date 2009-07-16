@@ -158,7 +158,7 @@ namespace eval ::music {
 	}
 
 	#####################################################
-	# ::music::LoadLangFiles dir                        #
+	# ::music::LoadPixmaps dir                          #
 	# ------------------------------------------------- #
 	# Load pixmaps files                                #
 	#####################################################
@@ -1246,8 +1246,9 @@ namespace eval ::music {
 			close $chan
 			return 0
 		}
+
 		if {[string range $line 0 1] != "OK" } {
-			plugins_log Music "error : [MPD] no OK found "
+			plugins_log Music "error : \[MPD\] no OK found "
 			close $chan
 			return 0
 		}
