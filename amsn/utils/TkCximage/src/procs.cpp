@@ -188,7 +188,7 @@ int Tk_Resize (ClientData clientData,
     for(unsigned int i=0; i< item->NumFrames; i++) {
       /* an image could have X frames but not all of them could have been decoded */
       if (item->image->GetFrame(i) != NULL) {
-        item->image->GetFrame(i)->Resample(width, height, 1);
+        item->image->GetFrame(i)->Resample(width, height, 0);
       }
     }
 
@@ -239,20 +239,7 @@ int Tk_Resize (ClientData clientData,
 		0 - Bilinear (Slow[er])
 		1 - Nearest Pixel (Fast[er])
 		2 - Bicubic Spline (Accurate) */
-	int resampleMode = 0;
-	#if SMART_RESIZE == 1
-	if(image.GetWidth() <= 800 && image.GetHeight() <= 800) {
-		// Use a higher quality resample for small/medium images.
-		resampleMode = 0;
-	} else if(image.GetWidth() >= 1024 && image.GetHeight() >= 1024) {
-		// Fastest mode for large images.
-		resampleMode = 1;
-	} else {
-		// Fast but accurate for medium images.
-		resampleMode = 2;
-	}
-	#endif
-    if(!image.Resample(width, height, resampleMode)) {
+    if(!image.Resample(width, height, 0)) {
       Tcl_AppendResult(interp, image.GetLastError(), NULL);
       return TCL_ERROR;
     }
