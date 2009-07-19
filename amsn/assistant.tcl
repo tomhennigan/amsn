@@ -2388,18 +2388,18 @@ namespace eval ::AVAssistant {
 		if {$is_audio} {
 			variable selectedaudiosink
 			variable selectedaudiosrc
-			if { $selectedaudiosrc == "audiotestsrc"} {
-				set txt [trans fsaudiotestsrcchosen $src]
+			if { $selectedaudiosrc == "autoaudiosrc"} {
+				set txt [trans fsautoaudiosrcchosen $src]
 			} else {
 				if {$src != $selectedaudiosrc} {
 					set txt [trans curfssrcnotworking]
 				}
 			}
-			if { $selectedaudiosink == "audiotestsink"} {
+			if { $selectedaudiosink == "autoaudiosink"} {
 					if {$txt == ""} {
-						set txt [trans fsaudiotestsinkchosen $src]
+						set txt [trans fsautoaudiosinkchosen $src]
 					} else {
-						append txt "\n[trans fsaudiotestsinkchosen $src]"
+						append txt "\n[trans fsautoaudiosinkchosen $src]"
 					}
 			} else {
 				if {$sink != $selectedaudiosink} {
