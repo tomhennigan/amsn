@@ -9166,7 +9166,18 @@ namespace eval ::OIM_GUI {
 		set customchatstyle [subst -nocommands $customchatstyle]
 		
 		set custommsg "\n${customchatstyle}${msg}"
-		SendMessageFIFO [list ::amsn::WinWrite $chatid "$custommsg" user] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+
+		if { [::config::getKey disableuserfonts] } {	 
+			# If user wants incoming and outgoing messages to have the same font
+			set fontformat [::config::getKey mychatfont]
+		} elseif { [::config::getKey theirchatfont] != "" } {
+			# If user wants to specify a font for incoming messages (to override that user's font)
+			set fontformat [::config::getKey theirchatfont]
+		} else {
+			set fontformat ""
+		}
+
+		SendMessageFIFO [list ::amsn::WinWrite $chatid "$custommsg" user $fontformat] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 
 		#We	should add an event for sending message
 		#loging
