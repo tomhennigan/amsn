@@ -1,0 +1,23 @@
+amsn_lang_version 2
+checkingperiod Comprobar nuevos mensajes cada ? minutos
+accountsnbr Cuántas cuentas tienes:
+chooseaccsettings Ajustes para el número de cuenta:
+pop3server Servidor POP3
+usessl Usar SSL
+userlogin Login de usuario:
+passwd Contraseña
+port Puerto (opcional)
+shownotif Mostrar ventana de notificación
+loadmailpgrm Cargar programa de correo en clic izquierdo del ratón
+mailpgrm Programa de correo
+delmenurightclick Cargar menú borrado en clic derecho del ratón
+mailstayonserv Tu programa de correo deja los correos en el servidor
+displayname Nombre a mostrar
+newmailfrom Nuevo correo de:
+checknow Clic aquí para comprobar el número de mensajes ahora.
+selectmailtodel Seleccionar un correo a eliminar
+checknewmail Comprobar nuevos correos
+askdel ¿Estás seguro de que quieres eliminar el correo:\n$1
+delete Eliminar
+connfailed Falló al abrir una conexión, por favor inténtelo más tarde
+delfailed Falló la eliminación\nTu correo puede haber cambiado desde la última actualización\nActualizando ahora.
