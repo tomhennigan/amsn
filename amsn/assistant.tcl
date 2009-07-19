@@ -2388,17 +2388,30 @@ namespace eval ::AVAssistant {
 		if {$is_audio} {
 			variable selectedaudiosink
 			variable selectedaudiosrc
-			if {$src != $selectedaudiosrc} {
-				set txt [trans curfssrcnotworking]
+			if { $selectedaudiosrc == "audiotestsrc"} {
+				set txt [trans fsaudiotestsrcchosen $src]
+			} else {
+				if {$src != $selectedaudiosrc} {
+					set txt [trans curfssrcnotworking]
+				}
 			}
-			if {$sink != $selectedaudiosink} {
-				if {$txt == ""} {
-					set txt [trans curfssinknotworking]
-				} else {
-					append txt "\n[trans curfssinknotworking]"
+			if { $selectedaudiosink == "audiotestsink"} {
+					if {$txt == ""} {
+						set txt [trans fsaudiotestsinkchosen $src]
+					} else {
+						append txt "\n[trans fsaudiotestsinkchosen $src]"
+					}
+			} else {
+				if {$sink != $selectedaudiosink} {
+					if {$txt == ""} {
+						set txt [trans curfssinknotworking]
+					} else {
+						append txt "\n[trans curfssinknotworking]"
+					}
 				}
 			}
 		} else {
+			#TODO
 		}
 		$contentf.err configure -text $txt
 	}
@@ -2781,7 +2794,7 @@ namespace eval ::AVAssistant {
 				set text [trans webcamconfiguredLinux $selecteddevicename $selectedchannelname]
 				set sharecamState "normal"
 			} else {
-#TODO: translation ??? (for freebsd users)
+				#TODO: translation ???
 				set text "hum, i don't know how you reached that step :), but i hope you have configured your webcam."
 			}
 
