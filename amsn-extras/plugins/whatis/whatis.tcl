@@ -178,6 +178,16 @@ namespace eval ::whatis {
 				::amsn::WinWriteIcon [::ChatWindow::Name $w] greyline 3 
 		} 
 	}
+
+	#Thanks to the Translate plugin for this one!
+        proc convert {string} {
+
+                set x [string length $string]
+                for {set i 0} {$i<$x} {incr i} {
+                        append output "&#[scan [string range $string $i $i] %c];"
+                }
+                return $output
+        }
 	
 	#
 	# This proc will translate a text 
@@ -190,7 +200,7 @@ namespace eval ::whatis {
 		#set searchText [encoding convertto utf-8 $searchText]
 		
 		set url "http://translate.google.com/translate_t?sl=$fromLang&tl=$toLang"
-		set query [::http::formatQuery hl "en" ie "UTF8" text $searchText sl $fromLang tl $toLang]
+		set query [::http::formatQuery hl "en" ie "UTF8" text [convert $searchText] sl $fromLang tl $toLang]
 		set http  [::http::geturl $url -query $query -timeout 72500 -headers {User-Agent "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.14) Gecko/20080419 Ubuntu/8.04 (hardy) Firefox/2.0.0.14"}]
 		set html  [::http::data $http]
 		
