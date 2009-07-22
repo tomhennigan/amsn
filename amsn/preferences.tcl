@@ -2010,9 +2010,9 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.3.tabbedgroups -text [trans tabbedgroups] -value 2 -variable [::config::getVar tabbedchat] -padx 17
 	
 	label $lfname.4.containermode -text [trans closelabel]
-	radiobutton $lfname.4.containerask -text [trans askeachtime] -value 0 -variable [::config::getVar ContainerCloseAction] -padx 17
-	radiobutton $lfname.4.containercloseall -text [trans closealltabs] -value 1 -variable [::config::getVar ContainerCloseAction] -padx 17
-	radiobutton $lfname.4.containerclosetab -text [trans closeonly] -value 2 -variable [::config::getVar ContainerCloseAction] -padx 17
+	radiobutton $lfname.4.containerask -text [trans askeachtime] -value 0 -variable [::config::getVar closeChatWindowWithTabs] -padx 17
+	radiobutton $lfname.4.containercloseall -text [trans closealltabs] -value 1 -variable [::config::getVar closeChatWindowWithTabs] -padx 17
+	radiobutton $lfname.4.containerclosetab -text [trans closeonly] -value 2 -variable [::config::getVar closeChatWindowWithTabs] -padx 17
 	
 	label $lfname.5.logoutwinclosemode -text [trans logoutwincloselabel]
 	radiobutton $lfname.5.logoutwincloseask -text [trans askeachtime] -value 0 -variable [::config::getVar closeChatWindowsAfterLogout] -padx 17

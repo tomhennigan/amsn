@@ -265,7 +265,7 @@ namespace eval ::ChatWindow {
 		if {[::config::getKey closeChatWindowWithTabs 0] == 1} {
 			::ChatWindow::CloseAll $window
 			destroy $window
-		} elseif {[::config::isSet closeChatWindowWithTabs]} {
+		} elseif {[::config::getKey closeChatWindowWithTabs 0] == 2} {
 			::ChatWindow::CloseTab $currenttab
 		} else {
 			set result [::amsn::customMessageBox [trans closeall] yesnocancel question [trans title] $window 1 1 "ContainerClose"]

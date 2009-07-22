@@ -217,9 +217,9 @@ namespace eval ::config {
 		::config::setKey logsbydate 1
 		::config::setKey p4c_name ""
 		::config::setKey tabbedchat 2
-		::config::setKey ContainerCloseAction 0
+		::config::setKey closeChatWindowWithTabs 0
 		::config::setKey showMobileGroup 1
-		::config::setKey chatWindowsCloseAfterLogout 0
+		::config::setKey closeChatWindowsAfterLogout 0
 
 		::config::setKey noftpreview 0
 
