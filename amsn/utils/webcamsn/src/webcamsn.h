@@ -25,8 +25,6 @@
 #include <tcl.h>
 #include <tk.h>
 
-#include <tkPlatDecls.h>
-
 
 // Defined as described in tcl.tk compiling extension help
 #ifndef STATIC_BUILD
