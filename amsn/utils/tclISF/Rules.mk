@@ -1,4 +1,4 @@
-OBJS-tclISF := $(tclISF_dir)/src/tclISF.$(SHLIB_EXTENSION)
+OBJS-tclISF := $(tclISF_dir)/src/tclISF.cpp.$(SHLIB_EXTENSION)
 TARGETS-tclISF := $(tclISF_dir)/tclISF.$(SHLIB_EXTENSION) 
 
 
