@@ -63,10 +63,10 @@
 	</lang>
 
 	<URL>
-		<main>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/colorednicks.tcl</main>
-		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/plugininfo.xml</plugininfo>
-		<lang>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/lang/lang$langcode</lang>
-		<file>http://www.amsn-project.net/autoupdater/plugins/ColoredNicks/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins2/ColoredNicks/colorednicks.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/ColoredNicks/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins2/ColoredNicks/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins2/ColoredNicks/$file</file>
 	</URL>
 
 </plugin>
