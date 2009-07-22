@@ -990,11 +990,12 @@ namespace eval ::MSN {
 
 		::log::eventlogout
 
+		ns configure -stat "d"
+
 		::MSN::WriteSBRaw ns "OUT\r\n";
 
 		set proxy [ns cget -proxy]
 		$proxy finish ns
-		ns configure -stat "d"
 
 		CloseSB ns
 
