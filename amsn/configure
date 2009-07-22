@@ -1948,11 +1948,11 @@ case `uname -s` in
 
 		# Directories in which the Tcl core can be found
 		TCL_INC_SPEC="-I/Library/Frameworks/Tcl.framework/Headers -DUSE_TCL_STUBS"
-		TCL_STUB_LIB_SPEC="-framework Tcl"
+		TCL_STUB_LIB_SPEC="-L/Library/Frameworks/Tcl.framework -ltclstub8.5"
 
 		# Directories in which the Tk core can be found
 		TK_INC_SPEC="-I/Library/Frameworks/Tk.framework/Headers -DUSE_TK_STUBS"
-		TK_STUB_LIB_SPEC="-framework Tk"
+		TK_STUB_LIB_SPEC="-L/Library/Frameworks/Tk.framework -ltkstub8.5"
 		;;
 	SunOS)
 		FOUND_OS=solaris
