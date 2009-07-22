@@ -59,7 +59,7 @@ case `uname -s` in
 		FOUND_OS="mac"
 		CFLAGS="$CFLAGS -DMAC_OSX_TK=1 -I${prefix}/include -L${prefix}/lib"
 		CXXFLAGS="$CXXFLAGS -I${prefix}/include -L${prefix}/lib"
-		LDFLAGS="$LDFLAGS -I${prefix}/include -L${prefix}/lib"
+		LDFLAGS="$LDFLAGS -I${prefix}/include -L/usr/lib -L${prefix}/lib"
 		
 		# Directories in which the Tcl core can be found
 		TCL_INC_SPEC="-I/Library/Frameworks/Tcl.framework/Headers -DUSE_TCL_STUBS"

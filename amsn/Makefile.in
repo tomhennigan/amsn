@@ -138,7 +138,11 @@ CFLAGS   += -fPIC
 CXXFLAGS += -fPIC
 
 # libraries
-LDLIBS  := @LDLIBS@ -lpng -lz -lm -ljpeg
+ifeq (@FOUND_OS@,mac)
+  LDLIBS  := @LDLIBS@ -lz -lm
+else
+  LDLIBS  := @LDLIBS@ -lpng -lz -lm -ljpeg
+endif
 LDFLAGS := @LDFLAGS@
 
 ifeq (@FOUND_OS@,mac)
