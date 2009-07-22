@@ -346,6 +346,12 @@ else
 	#include $(macosx_dir)/tclCarbon/src/Rules.mk
 	#include $(macosx_dir)/macDock/Rules.mk
 	#include $(macosx_dir)/macDock/src/Rules.mk
+
+.PHONY: finishbuild
+finishbuild:
+	./utils/macosx/finishbuild.sh
+all:: finishbuild
+
   endif
   ifeq ($(FOUND_OS),bsd)
     ifeq ($(FOUND_X11),yes)
