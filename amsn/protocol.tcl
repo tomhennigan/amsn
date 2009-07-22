@@ -960,9 +960,11 @@ namespace eval ::MSN {
 			after 0 [list ::MSNSIP::TestFarsight]
 		}
 
-		cmsn_ns_connect $username $passwd
-
+		# Because of asyncresolver, the 'connect' could block but keep the UI updated,
+		# so we need to put the login screen into 'loggingIn' mode before...
 		::Event::fireEvent loggingIn protocol
+
+		cmsn_ns_connect $username $passwd
 	}
 
 
