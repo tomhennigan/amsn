@@ -22,7 +22,7 @@ compile_farsight = $(CC) $(CFLAGS) $(GST_CFLAGS) $(FARSIGHT2_CFLAGS) -c -o $@ $<
 compile_cc	 = $(CXX) $(CXXFLAGS)  -c -o $@ $<
 
 ifeq ($(FOUND_OS),mac)
-SHARED	:= -dynamiclib -fno-common -Wl,-single_module
+SHARED	:= -dynamiclib -fno-common -Wl,-single_module -static-libgcc
 else
 SHARED	:= -shared
 endif
