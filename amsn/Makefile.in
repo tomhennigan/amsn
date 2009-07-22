@@ -344,8 +344,8 @@ else
 	include $(macosx_dir)/growl1.0/src/Rules.mk
 	#include $(macosx_dir)/tclCarbon/Rules.mk
 	#include $(macosx_dir)/tclCarbon/src/Rules.mk
-	#include $(macosx_dir)/macDock/Rules.mk
-	#include $(macosx_dir)/macDock/src/Rules.mk
+	include $(macosx_dir)/macDock/Rules.mk
+	include $(macosx_dir)/macDock/src/Rules.mk
 
 .PHONY: finishbuild
 finishbuild:
