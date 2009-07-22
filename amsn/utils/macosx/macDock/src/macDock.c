@@ -8,7 +8,7 @@ This file is part of "aMSN".
 You should have received a copy of the GNU General Public License along with "aMSN"; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
 
-#include "aMSN.h"
+#include "macDock.h"
 
 int Macdock_Init(Tcl_Interp *interp)
 {
