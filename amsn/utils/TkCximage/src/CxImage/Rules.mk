@@ -7,7 +7,7 @@ OBJS-Cximage := $(tkcximage_dir)/src/CxImage/ximadsp.cpp.o  $(tkcximage_dir)/src
 		$(tkcximage_dir)/src/CxImage/ximahist.cpp.o $(tkcximage_dir)/src/CxImage/ximaint.cpp.o   \
 		$(tkcximage_dir)/src/CxImage/ximalpha.cpp.o $(tkcximage_dir)/src/CxImage/ximapal.cpp.o   \
 		$(tkcximage_dir)/src/CxImage/ximasel.cpp.o  $(tkcximage_dir)/src/CxImage/ximath.cpp.o    \
-		$(tkcximage_dir)/src/CxImage/xmemfile.cpp.o 
+		$(tkcximage_dir)/src/CxImage/xmemfile.cpp.o
 
 TARGETS-Cximage := $(tkcximage_dir)/src/CxImage/libCxImage.a
 

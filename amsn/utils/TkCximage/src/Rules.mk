@@ -1,12 +1,17 @@
 OBJS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.o $(tkcximage_dir)/src/PhotoFormat.cpp.o \
 		  $(tkcximage_dir)/src/procs.cpp.o $(tkcximage_dir)/src/CxImage/libCxImage.a
+
 ifeq ($(STATIC),yes)
 OBJS-TkCximage += libstdc++.a
 endif
 
+ifeq ($(FOUND_OS),mac)
+  EXTRAOBJS-TkCximage := /opt/local/lib/libpng.a /opt/local/lib/libjpeg.a
+endif
+
 TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.$(SHLIB_EXTENSION)
 
-$(TARGETS-TkCximage):: $(OBJS-TkCximage)
+$(TARGETS-TkCximage):: $(OBJS-TkCximage) $(EXTRAOBJS-TkCximage)
 
 all:: $(TARGETS-TkCximage)
 

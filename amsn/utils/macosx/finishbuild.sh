@@ -34,7 +34,7 @@ fi
 
 # Fix bindings to aMSN internal Tcl/Tk versions.
 echo "Fixing bindings to use embedded tcltk."
-for file in `find ${UTILS_PATH} -name *.dylib`
+for file in `find ${UTILS_PATH} -name *.dylib` utils/macosx/sndplay
 do
         install_name_tool -change /Library/Frameworks/Tk.framework/Versions/8.4/Tk \
                 @executable_path/../Frameworks/Tk.framework/Versions/8.4/Tk "$file"
