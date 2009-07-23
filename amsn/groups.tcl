@@ -656,6 +656,8 @@ namespace eval ::groups {
 	proc ABRenameGroupCB { gid gname fail} {
 		if {$fail == 0} {
 			RenameGroupCB $gname $gid
+		} else {
+			msg_box "[trans invalidgroup]"
 		}
 	} 
 
@@ -704,6 +706,8 @@ namespace eval ::groups {
 	proc ABAddGroupCB { gname gid fail} {
 		if {$fail == 0 || $fail == 2} {
 			AddGroupCB $gname $gid
+		} else {
+			msg_box "[trans invalidgroup]"
 		}
 	} 
 

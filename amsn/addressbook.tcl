@@ -1123,6 +1123,8 @@ snit::type Addressbook {
 				set xml [$soap GetResponse]
 				set guid [string tolower [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:additionalDetails:conflictObjectId"]]
 				set fail 2
+			} elseif {$errorcode == "BadArgumentLength" } {
+				set fail 3
 			} else {
 				set fail 1
 			}
@@ -1238,6 +1240,8 @@ snit::type Addressbook {
 			set errorcode [$soap GetFaultDetail]
 			if {$errorcode == "GroupDoesNotExist" } {
 				set fail 2
+			} elseif {$errorcode == "BadArgumentLength" } {
+				set fail 3
 			} else {
 				set fail 1
 			}
