@@ -2494,7 +2494,6 @@ namespace eval ::ChatWindow {
 	}
 
 	proc AddVoipControls {chatid video {sip ""} {callid ""}} {
-		if { [OnMac] } { return; }
 		
 		set win [::ChatWindow::For $chatid]
 
@@ -2559,7 +2558,6 @@ namespace eval ::ChatWindow {
 	}
 
 	proc UpdateVoipControls {chatid video {sip ""} {callid ""}} {
-		if { [OnMac] } { return; }
 		
 		set window [::ChatWindow::For $chatid]
 
@@ -2611,7 +2609,6 @@ namespace eval ::ChatWindow {
 	}
 
 	proc RemoveVoipControls {chatid} {
-		if { [OnMac] } { return; }
 		
 		set win [::ChatWindow::For $chatid]
 
