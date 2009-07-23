@@ -23,6 +23,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <title>Redirect...</title>
 </head>
 <body>
-Your web browser should have redirected you automaticly. If not, please <a href="<?php echo $file; ?>">click here</a>.
+Your web browser should have redirected you automatically. If not, please <a href="<?php echo $file; ?>">click here</a>.
 </body>
 </html>
