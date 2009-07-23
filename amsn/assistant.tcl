@@ -2536,23 +2536,41 @@ namespace eval ::AVAssistant {
 				foreach p $probe {
 					switch [lindex $p 0] {
 					  "audiosource" {
-						lappend fsaudiosrcs $p
+						if {[lindex $p 1] != "autoaudiosrc"} {
+							lappend fsaudiosrcs $p
+						}
 					  }
 					  "audiosink" {
-						lappend fsaudiosinks $p
+						if {[lindex $p 1] != "autoaudiosink"} {
+							lappend fsaudiosinks $p
+						}
 					  }
 					  "videosource" {
-						lappend fsvideosrcs $p
+						if {[lindex $p 1] != "autovideosrc"} {
+							lappend fsvideosrcs $p
+						}
 					  }
 					  "videosink" {
-						if {[lindex $p 1] == "xvimagesink"} {
-							set p [lreplace $p 2 2 "XV Video Sink"]
+						if {[lindex $p 1] != "autovideosink"} {
+							if {[lindex $p 1] == "xvimagesink"} {
+								set p [lreplace $p 2 2 "XV Video Sink"]
+							}
+							lappend fsvideosinks $p
 						}
-						lappend fsvideosinks $p
 					  }
 					}
 				}
 			}
+
+			lappend fsaudiosrc  [list "audiosource" [trans automaticsrc]  "" [trans autoaudiosrcdesc]]
+			lappend fsaudiosink [list "audiosink"   [trans automaticsink] "" [trans autoaudiosinkdesc]]
+			lappend fsvideosrc  [list "videosource" [trans automaticsrc]  "" [trans autovideosrcdesc]]
+			lappend fsvideosink [list "videosink"   [trans automaticsink] "" [trans autovideosinkdesc]]
+
+			lappend fsaudiosrc  [list "audiosource" [trans disabled] "-" [trans disabledaudiosrcdesc]]
+			lappend fsaudiosink [list "audiosink"   [trans disabled] "-" [trans disabledaudiosinkdesc]]
+			lappend fsvideosrc  [list "videosource" [trans disabled] "-" [trans disabledvideosrcdesc]]
+			lappend fsvideosink [list "videosink"   [trans disabled] "-" [trans disabledvideosinkdesc]]
 
 			set fssinkdevlist [list]
 			set fssrcdevlist [list]
