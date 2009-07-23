@@ -2536,22 +2536,22 @@ namespace eval ::AVAssistant {
 				foreach p $probe {
 					switch [lindex $p 0] {
 					  "audiosource" {
-						if {[lindex $p 1] != "autoaudiosrc"} {
+						if {[lindex $p 1] != "autoaudiosrc"} {
 							lappend fsaudiosrcs $p
 						}
 					  }
 					  "audiosink" {
-						if {[lindex $p 1] != "autoaudiosink"} {
+						if {[lindex $p 1] != "autoaudiosink"} {
 							lappend fsaudiosinks $p
 						}
 					  }
 					  "videosource" {
-						if {[lindex $p 1] != "autovideosrc"} {
+						if {[lindex $p 1] != "autovideosrc"} {
 							lappend fsvideosrcs $p
 						}
 					  }
 					  "videosink" {
-						if {[lindex $p 1] != "autovideosink"} {
+						if {[lindex $p 1] != "autovideosink"} {
 							if {[lindex $p 1] == "xvimagesink"} {
 								set p [lreplace $p 2 2 "XV Video Sink"]
 							}
