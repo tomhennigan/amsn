@@ -2397,9 +2397,9 @@ namespace eval ::AVAssistant {
 			}
 			if { $selectedaudiosink == "autoaudiosink"} {
 					if {$txt == ""} {
-						set txt [trans fsautoaudiosinkchosen $src]
+						set txt [trans fsautoaudiosinkchosen $sink]
 					} else {
-						append txt "\n[trans fsautoaudiosinkchosen $src]"
+						append txt "\n[trans fsautoaudiosinkchosen $sink]"
 					}
 			} else {
 				if {$sink != $selectedaudiosink} {
