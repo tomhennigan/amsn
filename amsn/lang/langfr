@@ -1,6 +1,6 @@
 amsn_lang_version 2
 abort Interrompre
-aboutamsn A propos de Alvaro's Messenger
+aboutamsn À propos de Alvaro's Messenger
 about À propos de...
 accept Accepter
 acceptfile Accepter le fichier $1 (taille = $2)? enregistré dans $3
@@ -213,14 +213,14 @@ configure Configurer
 configuremic Configuration du micro
 configureplugin Configurer le plugin $1
 configuringaudio Configuration des paramètres audio
-confirmbl Etes-vous sûr de vouloir bloquer ce contact ?
+confirmbl Êtes-vous sûr de vouloir bloquer ce contact ?
 confirmdelete Confirmer la suppression
-confirmdg Etes-vous sûr de vouloir supprimer ce groupe ?
-confirmdu Etes-vous sûr de vouloir supprimer ce contact ?
-confirmeg Etes-vous sûr de vouloir vider ce groupe ?
+confirmdg Êtes-vous sûr de vouloir supprimer ce groupe ?
+confirmdu Êtes-vous sûr de vouloir supprimer ce contact ?
+confirmeg Êtes-vous sûr de vouloir vider ce groupe ?
 confirmfulldelete Aussi supprimer du carnet d'adresse de Windows Live
 confirmpurge Toutes les avatars de vos contacts vont être supprimés. Etes-vous sur de vouloir le faire ?
-confirmrfl Etes-vous sûr de vouloir effacer ce contact de ce groupe ?
+confirmrfl Êtes-vous sûr de vouloir effacer ce contact de ce groupe ?
 confirm Êtes-vous sûr ?
 congrats Félicitations
 connectedat Connecté[e] depuis :
@@ -262,7 +262,7 @@ custnotifyonline Annoncer quand un de vos contact se connecte
 custnotifystatus Annoncer quand un de vos contact change de statut
 customcolor Couleur personnalisée
 customdp Avatar personnalisé
-custom_edit Editer une émoticône/smiley personnalisée
+custom_edit Éditer une émoticône/smiley personnalisée
 custom_new Créer une émoticône/smiley personnalisée
 customnick Pseudo personnalisé
 customsmileys Afficher les émoticônes/smileys des contacts
@@ -327,13 +327,13 @@ download Télécharger
 dynamicrate Utiliser le rendu dynamique pour simuler la vitesse en temps réél
 editavsettings Modifier les paramètres audio et vidéo
 editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregistrer
-editcustomstate Editer le statut personnel
-edit Edition
+editcustomstate Éditer le statut personnel
+edit Édition
 editmyprofile Modifier mon profil MSN
 editnewstate Nouveau statut avec message automatique personnalisé
 editprofile Modifier profil
-editstate Editer un statut existant avec message automatique
-editvalue Editer la valeur
+editstate Éditer un statut existant avec message automatique
+editvalue Éditer la valeur
 email E-Mail
 emailnotverified L'email n'a pas encore été vérifié!
 emailsinlist Afficher l'email au lieu du pseudonyme dans la liste de contact.
@@ -354,14 +354,14 @@ enternick Mon pseudonyme
 enterpsm Mon Message personnel
 error Erreur
 errortls Erreur lors de l'installation du module TLS :
-escapeclosescw La touche Echap ferme la fenêtre de conversations
+escapeclosescw La touche Échap ferme la fenêtre de conversations
 eventhistory Voir l'historique des événements
 examples Exemples
-exitamsn Etes-vous sûr de vouloir quitter aMSN ?
+exitamsn Êtes-vous sûr de vouloir quitter aMSN ?
 extras Services Additionnels
-faileddelete Echec de l'effacement
+faileddelete Échec de l'effacement
 faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seules les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
-failed Echec
+failed Échec
 faq Foire aux Questions
 farsightextchecking Vérifie si l'extension Farsight est chargée...
 farsightextwarn Vous ne pourrez pas avoir d'appels Audio. Vous trouverez des informations sur Farsight sur notre Wiki :
@@ -451,7 +451,7 @@ hidebuttonbar Cacher la barre de boutons
 hidedetails Cacher les détails
 hidedisplaypic Masquer l'avatar
 hidemenu Afficher/Masquer les menus
-hidemenumessage Etes-vous sûrs de vouloir masquer les menus ?\n Vous pouvez les afficher de nouveau à n'importe quel moment en utilisant la séquence d'affichage/masquage : Ctrl+M.
+hidemenumessage Êtes-vous sûrs de vouloir masquer les menus ?\n Vous pouvez les afficher de nouveau à n'importe quel moment en utilisant la séquence d'affichage/masquage : Ctrl+M.
 hiden Cacher cette émoticône/smiley du menu
 hideuserscw Masquer les contacts de cette fenêtre de conversation.
 hidewindow Masquer la fenêtre
@@ -461,7 +461,7 @@ home Domicile
 howto_remove_profile Pour supprimer un profil (Oublier $1), vous devez le faire à partir de la fenêtre des Préférences. \n\nPour des raisons de sécurité, supprimer un profil depuis la fenêtre de connexion n'est pas possible.
 httpconnection Connexion par la méthode HTTP (utilisation du protocole HTTP par le port 80)
 hue Tonalité
-huge Enorme
+huge Énorme
 hybrid Mode mixte
 ident Identification
 identity Identité
@@ -511,10 +511,10 @@ leaveblankforhotmail Laisser vide pour un compte Hotmail
 leavejoinsinchat Annoncer les "Départ/Arrivées dans la conversation" au sein de la fenêtre de conversation
 leaves Départ de $1
 lenteredconf $1 a rejoint la conférence sur $2
-lineflushlog Ecrire l'historique à chaque ligne
+lineflushlog Écrire l'historique à chaque ligne
 linprivate En privé
-listening A l'écoute
-listeningon A l'écoute sur le port $1
+listening À l'écoute
+listeningon À l'écoute sur le port $1
 listsmileys2 Afficher les émoticônes/smileys dans la liste de contacts principale d'aMSN
 listsmileys Liste des émoticônes/smileys
 ljoinedconf $1 a rejoint la conférence
@@ -573,7 +573,7 @@ msgmaxmin Quand un nouveau message arrive, je veux qu'il soit
 msg Message
 msgmode Choisissez comment manier plusieurs fenêtres de messages :
 msn aMSN
-msnstatus Etat du service MSN
+msnstatus État du service MSN
 msnstyle Chat de type MSN
 mustrestart Vous devez redémarrer aMSN pour que les changements prennent effet
 myfriendlyname Mon pseudonyme de conversation
@@ -706,10 +706,10 @@ prefblock1 Verification lors de déconnexion
 prefblock2 Vérifier continuellement
 prefblock3 Groupe "Vous avez été bloqué par"
 prefconnection Préférences de connexion
-prefemotic Emoticônes
+prefemotic Émoticônes
 preferences Préférences
 preffont2 Changer la façon dont les autres voient mon texte dans les conversations
-preffont3 Changer la police et la taille de l'interface d'aMSN
+preffont3 Changer la police et la taille de l'interface de aMSN
 preffont4 Changer la façon dont je vois le texte des contacts dans la fenêtre de conversation
 preffont Texte de mes messages
 prefft Configuration des transferts de fichiers, peer-to-peer et NAT
@@ -726,7 +726,7 @@ prefphone Mes numéros de téléphone
 prefprivacy2 Listes de contacts/inversée
 prefprivacy Listes des personnes autorisées/bloquées
 prefprofile2 Créer ou modifier votre profil public (votre description visible par les autres)
-prefprofile3 Profils de configuration des utilisateurs d'aMSN
+prefprofile3 Profils de configuration des utilisateurs de aMSN
 prefprofile Mon profil public
 prefproxy Ma configuration Proxy
 prefremote Contrôle à distance
@@ -860,7 +860,7 @@ signinstatus Statut lors de la connexion
 signoutep Se déconnecter de $1
 signouteverywhere Se déconnecter partout
 signouthere Se déconnecter de cet emplacement ($1)
-signout Se déconnecter 
+signout Se déconnecter
 sipcallaccepted Appel audio accepté
 sipcallback Rappeler
 sipcallconnected Votre appel audio est maintenant connecté!
@@ -901,7 +901,7 @@ smileintro Veuillez remplir les champs obligatoires pour créer un nouvelle émoti
 smiletoobig L'émoticône/smiley que vous avez choisie est plus grande que la taille normale. Voulez-vous la redimensionner ?
 smileynotavailable Émoticône/smiley non disponible!
 snackfailed Snack n'a pas pu se lancer, retour à la valeur par défaut
-snackneeded Vous devez avoir la librarie Snack pour utiliser cette fonctionnalité. Une version minimale de 2.2.9 est necessaire.
+snackneeded Vous devez avoir la bibliothèque Snack pour utiliser cette fonctionnalité. Une version minimale de 2.2.9 est necessaire.
 snapshot Garder l'image
 sngdblclick Un clic simple ouvre une nouvelle fenêtre de conversation
 sortcontactgroup Trier les contacts par leur groupe
@@ -916,17 +916,17 @@ sortgroupsdesc Trier les groupes dans l'ordre descendant (inversé)
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
-sound Evénements sonores
+sound Événements sonores
 soundexample (\$sound = fichier audio qui sera joué) Ex: esdplay \$sound
 soundfile Fichier son associé à l'alarme
 soundfiles Fichiers son
 soundloop Jouer le son en boucle
-soundnoavail Le périphérique audio n'est pas disponible. Veuillez fermer tous les programmes qui utilisent ce périfiphérique audio.
+soundnoavail Le périphérique audio n'est pas disponible. Veuillez fermer tous les programmes qui utilisent ce périphérique audio.
 soundserver Serveur de Sons
 soundstatus Activer/Désactiver l'alarme sonore
 sourcecode Code source (requiert une compilation et une installation)
 splashstart Démarrage
-sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptage, votre mot de passe sera alors envoyé en clair sur le réseau. A n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
+sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptiona, votre mot de passe sera alors envoyé en clair sur le réseau. À n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
 startoffline2 Se connecter directement en : "Apparaître déconnecté[e]"
 startoffline Démarrer déconnecté[e]
 startonboot Lancer aMSN au démarrage de windows
@@ -942,7 +942,7 @@ statenick pseudonyme personnalisé (laisser vierge pour aucun changement)
 statepsm Message personnel (laisser vide pour qu'il n'y ait aucun changement)
 stats Statistiques
 status Statut
-step Etape
+step Étape
 stopalarm Arrêter l'alarme
 stop Arrêter
 stopwebcamreceive Arrêter la réception de la webcam
@@ -976,7 +976,7 @@ tlsexplain Dossier où se trouve le module TLS. Si aMSN ne peut le trouver, veuil
 tlsinstall Assistant d'installation du module TLS
 tlsinstallexp aMSN utilise maintenant le protocole 9 de MSN, qui requiert l'utilisation d'une connexion\nsécurisée utilisant SSL. Pour utiliser SSL, aMSN a besoin d'installer un module nommé TLS,\nqui est manquant sur votre système. Cet assistant va vous aider à télécharger et à\ninstaller TLS. Veuillez choisir votre type de système pour que nous puissions télécharger automatiquement\nles fichiers TLS requis.
 tlsinstcompleted L'installation du module TLS a été réussie, vous pouvez maintenant utiliser le protocole 9 de MSN. S'il ne fonctionne pas, alors vous n'avez probablement pas sélectionné le bon module, ou un module compilé n'est pas disponible pour votre système.
-to A
+to À
 today Aujourd'hui
 tomobile Au mobile
 tools Outils
@@ -1015,7 +1015,7 @@ userproperties Propriétés du contact $1
 usersettings Paramètres
 user Utilisateur
 useryourself Vous ne pouvez pas dialoguer avec vous-même
-usesnack Utiliser la librairie Snack (interne à Tcl)
+usesnack Utiliser la bibliothèque Snack (interne à Tcl)
 verifyblocked Contrôler les personnes qui vous ont bloqué
 version Version
 videoconversationrequest Vous venez de recevoir une invitation pour une conversation vidéo (conversation audio/video). Cette fonctionnalité n'est pas encore disponible dans aMSN et a donc été annulée. Vous pouvez cependant toujours utiliser la conversation par webcam.
