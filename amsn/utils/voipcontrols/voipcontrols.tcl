@@ -49,7 +49,7 @@ snit::widget voipcontrol {
 		set mixerframe [voipmixer ${win}.mixerframe]
 		set buttonframe [frame ${win}.buttonframe]
 		set mutecheckbutton [mutecheckbutton ${buttonframe}.mute]
-		set endcallbutton [button ${buttonframe}.endcall -relief flat]
+		set endcallbutton [button ${buttonframe}.endcall -relief flat -image {}]
 
 		$self configurelist $args
 		#creating mixerframe again since $options(-orient) is not set yet and the component must exist when configurelist is called...
@@ -107,7 +107,7 @@ snit::widgetadaptor mutecheckbutton {
 
 	constructor {args} {
 
-		installhull using button -relief flat
+		installhull using button -relief flat -image {}
 
 		$self configurelist $args
 		
