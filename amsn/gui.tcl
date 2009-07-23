@@ -5176,6 +5176,17 @@ proc cmsn_draw_main {} {
 	if {[OnMac]} {
 		# There is a menu bar running accross the top of the screen that is 22px high..
 		set t_min 22
+		set r_min 2
+	}
+
+	# Check that the window isn't too small...
+	if {$width < 100} {
+		set modified 1
+		set width 300
+	}
+	if {$height < 200} {
+		set modified 1
+		set height 600
 	}
 	
 	# Check the top.
@@ -5187,13 +5198,13 @@ proc cmsn_draw_main {} {
 	# Check the right.
 	if {[expr {$x + $width}] > [expr {[winfo screenwidth .] - $r_min}]} {
 		set modified 1
-		set x [expr {[winfo screenwidth .] - $width - $r_min}]
+		set x [expr {[winfo screenwidth .] - $width - $r_min - $l_min}]
 	}
 	
 	# Check the bottom.
 	if {[expr {$y + $height}] > [expr {[winfo screenheight .] - $b_min}]} {
 		set modified 1
-		set y [expr {[winfo screenheight .] - $height - $b_min}]
+		set y [expr {[winfo screenheight .] - $height - $b_min - $t_min}]
 	}
 	
 	# Check the left.
