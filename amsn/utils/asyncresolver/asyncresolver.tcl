@@ -1,34 +1,6 @@
 
 load [file join $dir libasyncresolver[info sharedlibextension]]
 
-rename socket _socket
-rename fconfigure _fconfigure
-
-package require tls
-
-if {[info commands ::tls::socket] == "::tls::socket"} {
-	rename ::tls::socket ::tls::_socket
-	proc ::tls::socket { args } {
-		return [::asyncresolver::resolve ::tls::_socket $args]	
-	}
-
-}
-
-proc socket { args } {
-	return [::asyncresolver::resolve _socket $args]	
-}
-
-proc fconfigure { channel args } {
-	if { [llength $args] == 1 && [lindex $args 0] == "-sockname" } {
-		set sockname [::asyncresolver::sockname $channel]
-		foreach {ip port} $sockname break
-		return [list $ip [info hostname] $port]
-	} else {
-		return [eval [linsert $args 0 _fconfigure $channel] ]
-	}
-}
-
-
 namespace eval ::asyncresolver {
 	
 	variable request_number 0
@@ -61,6 +33,33 @@ namespace eval ::asyncresolver {
 
 	proc _resolve_callback { var {ip ""} } {
 		set $var $ip
+	}
+
+}
+
+
+rename socket _socket
+proc socket { args } {
+	return [::asyncresolver::resolve _socket $args]	
+}
+
+
+rename fconfigure _fconfigure
+proc fconfigure { channel args } {
+	if { [llength $args] == 1 && [lindex $args 0] == "-sockname" } {
+		set sockname [::asyncresolver::sockname $channel]
+		foreach {ip port} $sockname break
+		return [list $ip [info hostname] $port]
+	} else {
+		return [eval [linsert $args 0 _fconfigure $channel] ]
+	}
+}
+
+package require tls
+if {[info commands ::tls::socket] == "::tls::socket"} {
+	rename ::tls::socket ::tls::_socket
+	proc ::tls::socket { args } {
+		return [::asyncresolver::resolve ::tls::_socket $args]	
 	}
 
 }
