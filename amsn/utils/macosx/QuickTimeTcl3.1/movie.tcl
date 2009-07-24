@@ -66,7 +66,6 @@ bind Movie <space> {
 	}
     }
 }
-bind Movie <Button-1> {
-    focus %W
-}
+
+
 
