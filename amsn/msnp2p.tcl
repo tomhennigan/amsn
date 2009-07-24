@@ -1657,12 +1657,12 @@ namespace eval ::MSNP2P {
 		set filesize [lindex [SessionList get $sid] 1]
 
 		if { $offset == "" } {
-			close $fd
+			catch {close $fd}
 			return
 		}
 
 		if { [lindex [::MSNP2P::SessionList get $sid] 7] == "ftcanceled" } {
-			close $fd
+			catch {close $fd}
 			return
 		}
 
@@ -1706,7 +1706,7 @@ namespace eval ::MSNP2P {
 
 			set msgId [expr {[lindex [SessionList get $sid] 0] + 1}]
 			SessionList set $sid [list $msgId -1 0 -1 DATASENT -1 0 -1 -1 -1]
-			close $fd
+			catch {close $fd}
 			unset fd
 
 			::amsn::FTProgress fs $sid ""
