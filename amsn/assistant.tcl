@@ -2516,6 +2516,13 @@ namespace eval ::AVAssistant {
 		if {![winfo exists $contentf.fslabel]} {
 			return
 		}
+		set stepname [$assistant getName]
+		if {($is_audio && $stepname != "StepFarsightAudio")
+		||  (!$is_audio && $stepname != "StepFarsightVideo")} {
+			return
+		}
+		unset stepname
+
 		if {$result == 1} {
 			set fs_configured 1
 			if {$is_audio && $firsttime} {
