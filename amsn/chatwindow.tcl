@@ -743,6 +743,10 @@ namespace eval ::ChatWindow {
 		if { $x_pos > $x_max } {
 			set x_pos [expr {$x_pos - [winfo width $window]}]
 		}
+
+		if { $x_pos < 2 } {
+			set x_pos 2
+		}
 						
  		#Replace the window to the new position on the screen 	
  		wm geometry $window +${x_pos}+${y_pos}
