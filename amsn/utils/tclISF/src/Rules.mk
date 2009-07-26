@@ -1,7 +1,7 @@
 OBJS-tclISF := $(tclISF_dir)/src/tclISF.cpp.o $(tclISF_dir)/src/libISF/libISF.a $(tkcximage_dir)/src/CxImage/libCxImage.a
 
 ifeq ($(FOUND_OS),mac)
-  EXTRAOBJS-tclISF := /opt/local/lib/libpng.a /opt/local/lib/libjpeg.a
+  EXTRAOBJS-tclISF := $(prefix)/lib/libpng.a $(prefix)/lib/libjpeg.a
 endif
 
 

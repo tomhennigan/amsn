@@ -6,7 +6,7 @@ OBJS-TkCximage += libstdc++.a
 endif
 
 ifeq ($(FOUND_OS),mac)
-  EXTRAOBJS-TkCximage := /opt/local/lib/libpng.a /opt/local/lib/libjpeg.a
+  EXTRAOBJS-TkCximage := $(prefix)/lib/libpng.a $(prefix)/lib/libjpeg.a
 endif
 
 TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.$(SHLIB_EXTENSION)
