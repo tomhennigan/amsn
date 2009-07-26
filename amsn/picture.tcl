@@ -29,6 +29,8 @@ namespace eval ::picture {
 
 		}
 		#puts "Picture.tcl: TkCximage not loaded\n$err"
+                tk_messageBox -default ok -message "There's a problem loading a module of aMSN (TkCxImage) : $err" -icon warning
+
 		return 0
 		
 	}
