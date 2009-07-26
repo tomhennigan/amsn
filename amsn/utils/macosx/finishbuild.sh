@@ -32,6 +32,48 @@ if [ -f ${UTILS_PATH}/tclISF/tclISF.so ]; then
 		${UTILS_PATH}/tclISF/tclISF.dylib
 fi
 
+remaplib() {
+
+  if [ -z "$1" -o -z "$2" -o -z "$3" ]; then
+    echo "usage: remaplib lib old_path new_path";
+    return;
+  fi
+
+  lib="$1"
+  old="$2"
+  new="$3"
+
+  for file in `otool -L "$lib" | tail -n+3 | awk '{print$1}' | grep $old`; do
+    base=`basename $file`
+    install_name_tool -change "$file" "${new}${base}" "$lib"
+  done
+}
+
+for file in `find ${UTILS_PATH}/macosx/gstreamer/ -name *.dylib`; do
+    remaplib $file "/opt/local/lib/gstreamer-0.10" "@executable_path/../gstreamer/"
+    remaplib $file "/opt/local/lib/farsight2-0.0" "@executable_path/../gstreamer/"
+    remaplib $file "/opt/local/lib/" "@executable_path/../gstreamer/"
+done
+
+for file in `find ${UTILS_PATH}/macosx/gstreamer/ -name *.so`; do
+    remaplib $file "/opt/local/lib/gstreamer-0.10" "@executable_path/../gstreamer/"
+    remaplib $file "/opt/local/lib/farsight2-0.0" "@executable_path/../gstreamer/"
+    remaplib $file "/opt/local/lib/" "@executable_path/../gstreamer/"
+done
+
+find_missing_libs() {
+  lib="$1"
+  missing=""
+
+  for file in `otool -L "$lib" | tail -n+3 | awk '{print$1}' `; do
+    base=`basename $file`
+    if [ ! -f $file ]; then
+         missing="$missing\n$file"
+    fi
+  done
+
+}
+
 # Fix bindings to aMSN internal Tcl/Tk versions.
 echo "Fixing bindings to use embedded tcltk."
 for file in `find ${UTILS_PATH} -name *.dylib` utils/macosx/sndplay
