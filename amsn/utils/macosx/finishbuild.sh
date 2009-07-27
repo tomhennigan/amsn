@@ -8,30 +8,6 @@ else
 	UTILS_PATH=".."
 fi
 
-# Copy the built in the files to the right places.
-echo "Renaming built libraries to have correct extension."
-if [ -f ${UTILS_PATH}/webcamsn/webcamsn.so ]; then
-	echo "Moving webcamsn."
-	mv ${UTILS_PATH}/webcamsn/webcamsn.so \
-		${UTILS_PATH}/webcamsn/webcamsn.dylib
-fi
-if [ -f ${UTILS_PATH}/TkCximage/TkCximage.so ]; then
-	echo "Moving TkCximage."
-	mv ${UTILS_PATH}/TkCximage/TkCximage.so \
-		${UTILS_PATH}/TkCximage/TkCximage.dylib
-fi
-if [ -f ${UTILS_PATH}/tcl_siren/tcl_siren.so ]; then
-	echo "Renaming tcl_siren."
-	mv ${UTILS_PATH}/tcl_siren/tcl_siren.so \
-		${UTILS_PATH}/tcl_siren/tcl_siren.dylib
-fi
-
-if [ -f ${UTILS_PATH}/tclISF/tclISF.so ]; then
-	echo "Renaming tclISF."
-	mv ${UTILS_PATH}/tclISF/tclISF.so \
-		${UTILS_PATH}/tclISF/tclISF.dylib
-fi
-
 remaplib() {
 
   if [ -z "$1" -o -z "$2" -o -z "$3" ]; then
@@ -43,58 +19,68 @@ remaplib() {
   old="$2"
   new="$3"
 
-  for file in `otool -L "$lib" | tail -n+3 | awk '{print$1}' | grep $old`; do
+  if [ `otool -D "$lib" | wc -l ` == "2" ]; then n=3; else n=2; fi
+
+  for file in `otool -L "$lib" | tail -n+${n} | awk '{print$1}' | grep $old`; do
     base=`basename $file`
     install_name_tool -change "$file" "${new}${base}" "$lib"
   done
 }
 
-for file in `find ${UTILS_PATH}/macosx/gstreamer/ -name *.dylib`; do
-    remaplib $file "/opt/local/lib/gstreamer-0.10" "@executable_path/../gstreamer/"
-    remaplib $file "/opt/local/lib/farsight2-0.0" "@executable_path/../gstreamer/"
-    remaplib $file "/opt/local/lib/" "@executable_path/../gstreamer/"
-done
-
-for file in `find ${UTILS_PATH}/macosx/gstreamer/ -name *.so`; do
-    remaplib $file "/opt/local/lib/gstreamer-0.10" "@executable_path/../gstreamer/"
-    remaplib $file "/opt/local/lib/farsight2-0.0" "@executable_path/../gstreamer/"
-    remaplib $file "/opt/local/lib/" "@executable_path/../gstreamer/"
-done
-
 find_missing_libs() {
   lib="$1"
   missing=""
 
-  for file in `otool -L "$lib" | tail -n+3 | awk '{print$1}' `; do
-    base=`basename $file`
+  if [ `otool -D "$lib" | wc -l ` == "2" ]; then n=3; else n=2; fi
+
+  for file in `otool -L "$lib" | tail -n+${n} | awk '{print$1}' `; do
+    file=`echo "$file" | sed 's/@executable_path/\/Applications\/aMSN.app\/Contents\/MacOS\//'`
     if [ ! -f $file ]; then
-         missing="$missing\n$file"
+         missing="$missing\n$lib : $file"
     fi
   done
 
+ echo $missing 
 }
 
 # Fix bindings to aMSN internal Tcl/Tk versions.
 echo "Fixing bindings to use embedded tcltk."
-for file in `find ${UTILS_PATH} -name *.dylib` utils/macosx/sndplay
-do
-        install_name_tool -change /Library/Frameworks/Tk.framework/Versions/8.4/Tk \
-                @executable_path/../Frameworks/Tk.framework/Versions/8.4/Tk "$file"
-        install_name_tool -change /System/Library/Frameworks/Tk.framework/Versions/8.4/Tk \
-                @executable_path/../Frameworks/Tk.framework/Versions/8.4/Tk "$file"
-        install_name_tool -change /Library/Frameworks/Tcl.framework/Versions/8.4/Tcl \
-                @executable_path/../Frameworks/Tcl.framework/Versions/8.4/Tcl "$file"
-        install_name_tool -change /System/Library/Frameworks/Tcl.framework/Versions/8.4/Tcl \
-                @executable_path/../Frameworks/Tcl.framework/Versions/8.4/Tcl "$file"
 
-		install_name_tool -change /Library/Frameworks/Tk.framework/Versions/8.5/Tk \
-		        @executable_path/../Frameworks/Tk.framework/Versions/8.5/Tk "$file"
-		install_name_tool -change /System/Library/Frameworks/Tk.framework/Versions/8.5/Tk \
-		        @executable_path/../Frameworks/Tk.framework/Versions/8.5/Tk "$file"
-		install_name_tool -change /Library/Frameworks/Tcl.framework/Versions/8.5/Tcl \
-		        @executable_path/../Frameworks/Tcl.framework/Versions/8.5/Tcl "$file"
-		install_name_tool -change /System/Library/Frameworks/Tcl.framework/Versions/8.5/Tcl \
-		        @executable_path/../Frameworks/Tcl.framework/Versions/8.5/Tcl "$file"
+files=`find ${UTILS_PATH}/ -name *.dylib`
+files="$files `find ${UTILS_PATH}/macosx/gstreamer/ -name *.so`"
+for file in $files ; do
+    install_name_tool -change /opt/local/lib/libz.dylib /usr/lib/libz.dylib $file
+    install_name_tool -change /opt/local/lib/libz.1.dylib /usr/lib/libz.1.dylib $file
+    install_name_tool -change /opt/local/lib/libz.1.2.3.dylib /usr/lib/libz.1.2.3.dylib $file
+    install_name_tool -change /usr/lib/libxml2.2.dylib @executable_path/../gstreamer/libxml2.2.dylib $file
+    install_name_tool -change /usr/lib/libiconv.2.dylib @executable_path/../gstreamer/libiconv.2.dylib $file
+
+    remaplib $file "/opt/local/lib/gstreamer-0.10" "@executable_path/../gstreamer/"
+    remaplib $file "/opt/local/lib/farsight2-0.0" "@executable_path/../gstreamer/"
+    remaplib $file "/opt/local/lib/" "@executable_path/../gstreamer/"
 done
+
+echo "Looking for unused libs"
+unused=""
+for lib in `find ${UTILS_PATH}/macosx/gstreamer/ -name *.dylib`; do
+    found=""
+    base=`basename $lib`
+    for file in $files; do 
+       if [ `otool -D "$file" | wc -l ` == "2" ]; then n=3; else n=2; fi
+       found="${found}$(otool -L $file | tail -n+${n} | grep $base)"
+    done
+    if [ "x$found" == "x" ]; then
+         unused="$unused\n$lib"
+    fi
+done
+echo "Unused libs : $unused"
+
+echo "Looking for missing libs"
+missing=""
+for file in $files; do
+    missing="$missing\n$(find_missing_libs $file)"
+done
+
+echo "Missing libs : $(echo "$missing" | sort | uniq)"
 
 echo "Done."
