@@ -2346,14 +2346,8 @@ snit::type Farsight {
 			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils windows gstreamer]
 			set ::env(PATH) "[file join [pwd] utils windows gstreamer];[set ::env(PATH)]"
 		} elseif { [OnMac] } {
-			if { $::tcl_platform(byteOrder) == "bigEndian" } {
-				set uname_p "powerpc"
-			} else {
-				set uname_p "i386"
-			}
-			set ::env(DYLD_LIBRARY_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
-			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
-			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils macosx gstreamer ${uname_p}]
+			set ::env(GST_PLUGIN_PATH) [file join [pwd] utils macosx gstreamer]
+			set ::env(FS_PLUGIN_PATH) [file join [pwd] utils macosx gstreamer]
 		}
 
 		package require Farsight
