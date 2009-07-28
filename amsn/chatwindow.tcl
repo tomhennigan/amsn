@@ -20,21 +20,23 @@ namespace eval ::ChatWindow {
 	# it at the first time, to avoid problems with proc
 	# reload_files wich will cause some bugs related to
 	# winid being 0 after some windows have been created.
-	variable chat_ids
-	variable first_message
-	variable msg_windows
-	variable new_message_on
-	variable recent_message
-	variable titles
-	variable windows [list]
-	variable winid 0
-	variable containers
-	variable containerwindows
-	variable tab2win
-	variable win2tab
-	variable containercurrent
-	variable containerid 0
-	variable scrolling
+	if { $initialize_amsn == 1  } {
+		variable chat_ids
+		variable first_message
+		variable msg_windows
+		variable new_message_on
+		variable recent_message
+		variable titles
+		variable windows [list]
+		variable winid 0
+		variable containers
+		variable containerwindows
+		variable tab2win
+		variable win2tab
+		variable containercurrent
+		variable containerid 0
+		variable scrolling
+	}
 	#///////////////////////////////////////////////////////////////////////////////
 
 
