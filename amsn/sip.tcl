@@ -2163,12 +2163,10 @@ snit::type Farsight {
 				if {$username != "" &&
 				    $password != "" &&
 				    $transport == "UDP"} {
-					if {[string length [base64::decode $username]] != 32 &&
-					    [string range $username end end] != "="} {
+					if {[string range $username end end] != "="} {
 						append username "="
 					}
-					if {[string length [base64::decode $password]] != 16 &&
-					    [string range $password end end] != "="} {
+					if {[string range $password end end] != "="} {
 						append password "=="
 					}
 					set foundation [string range $username 0 31]
@@ -2201,12 +2199,10 @@ snit::type Farsight {
 				if {$username != "" &&
 				    $password != "" &&
 				    $transport == "UDP"} {
-					if {[string length [base64::decode $username]] != 32 &&
-					    [string range $username end end] != "="} {
+					if {[string range $username end end] != "="} {
 						append username "="
 					}
-					if {[string length [base64::decode $password]] != 16 &&
-					    [string range $password end end] != "="} {
+					if {[string range $password end end] != "="} {
 						append password "=="
 					}
 					set foundation [string range $username 0 31]
