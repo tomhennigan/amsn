@@ -20,23 +20,21 @@ namespace eval ::ChatWindow {
 	# it at the first time, to avoid problems with proc
 	# reload_files wich will cause some bugs related to
 	# winid being 0 after some windows have been created.
-	if { $initialize_amsn == 1  } {
-		variable chat_ids
-		variable first_message
-		variable msg_windows
-		variable new_message_on
-		variable recent_message
-		variable titles
-		variable windows [list]
-		variable winid 0
-		variable containers
-		variable containerwindows
-		variable tab2win
-		variable win2tab
-		variable containercurrent
-		variable containerid 0
-		variable scrolling
-	}
+	variable chat_ids
+	variable first_message
+	variable msg_windows
+	variable new_message_on
+	variable recent_message
+	variable titles
+	variable windows [list]
+	variable winid 0
+	variable containers
+	variable containerwindows
+	variable tab2win
+	variable win2tab
+	variable containercurrent
+	variable containerid 0
+	variable scrolling
 	#///////////////////////////////////////////////////////////////////////////////
 
 
@@ -261,6 +259,18 @@ namespace eval ::ChatWindow {
 			::ChatWindow::CloseTab $currenttab
 			return
 		}
+		# Check for on-going SIP call
+		foreach win [set containerwindows($current)] {
+			if {[::amsn::SIPchatidExistsInList [Name $win]]} {
+				status_log " we can't close, there's a sip call running ..." green
+				if {[$::farsight IsVideo] } {
+					::amsn::infoMsg [trans closeorcallvideo]
+				} else {
+					::amsn::infoMsg [trans closeorcall]
+				}
+				return
+			}
+		}
 		
 		if {[::config::getKey closeChatWindowWithTabs 0] == 1} {
 			::ChatWindow::CloseAll $window
@@ -288,24 +298,6 @@ namespace eval ::ChatWindow {
 				::ChatWindow::CloseTab $currenttab
 			}
 		}
-	}
-	
-	#Action to do when someone chooses yes/or inside ContainerClose
-	proc ContainerCloseAction {action window w} {
-		
-		if {$action == "yes"} {
-			::ChatWindow::CloseAll $window; destroy $window; destroy $w
-		        ChatWindowDestroyed $window
-			if {[::config::getKey remember]} {
-				::config::setKey ContainerCloseAction 1
-			}
-		} else {
-			::ChatWindow::CloseTab $window; destroy $w
-			if {[::config::getKey remember]} {
-				::config::setKey ContainerCloseAction 2
-			}
-		}	
-	
 	}
 
 	proc DetachAll { w } {
@@ -433,8 +425,6 @@ namespace eval ::ChatWindow {
 				unset containers($key)
 			}
 		}
-		
-		
 	}
 
 	#///////////////////////////////////////////////////////////////////////////////
