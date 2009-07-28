@@ -4059,8 +4059,8 @@ int Farsight_Init (Tcl_Interp *interp) {
   WSADATA w;
 #endif
 
-  //Check Tcl version is 8.3 or higher
-  if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
+  //Check Tcl version is 8.4 or higher
+  if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
     return TCL_ERROR;
   }
 
