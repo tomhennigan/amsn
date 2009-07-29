@@ -647,7 +647,29 @@ namespace eval ::ChatWindow {
 					bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""
 					return
 				}
+			} elseif { [OnMac] } {
+				#Dock Bouncing on Mac OS X
+
+				# Bounce unlimited of time when we are not in aMSN and receive a
+				# message, until we re-click on aMSN icon (or get back to aMSN)
+				if { [::config::getKey dockbounce] == "unlimited" } {
+					if {[catch {carbon::notification "" 1} res]} {
+						status_log $res
+					}
+				}
+
+				# Bounce then stop bouncing after 1 second, when we are not
+				# in aMSN and receive a message (default)
+				if { [::config::getKey dockbounce] == "once"} {
+					if {[catch {carbon::notification "" 1} res]} {
+						status_log $res
+					}
+					after 1000 [list catch [list carbon::endNotification]]
+				}
+
+				bind $window <FocusIn> "carbon::endNotification; bind $window <FocusIn> \"\""	
 			}
+		
 
 			set count  [expr {( $count +1 ) % 2}]
 
@@ -902,28 +924,6 @@ namespace eval ::ChatWindow {
 			if { (([::config::getKey soundactive] == "1" && $usr_name != [::config::getKey login]) || \
 				  [string first ${win_name} [focus]] != 0) && ($msg != "" || [::config::getKey sound_on_first_message 0] == 1)} {
 				play_sound type.wav
-			}
-		}
-
-		#Dock Bouncing on Mac OS X
-		if { [OnMac] } {
-			# Bounce unlimited of time when we are not in aMSN and receive a
-			# message, until we re-click on aMSN icon (or get back to aMSN)
-			if { (([::config::getKey dockbounce] == "unlimited" && $usr_name != [::config::getKey login]) \
-				&& [focus] == "") && $msg != "" } {
-				if {[catch {carbon::notification "" 1} res]} {
-					status_log $res
-				}
-			}
-
-			# Bounce then stop bouncing after 1 second, when we are not
-			# in aMSN and receive a message (default)
-			if { (([::config::getKey dockbounce] == "once" && $usr_name != [::config::getKey login]) \
-				&& [focus] == "") && $msg != "" } {
-				if {[catch {carbon::notification "" 1} res]} {
-					status_log $res
-				}
-				after 1000 [list catch [list carbon::endNotification]]
 			}
 		}
 
