@@ -696,12 +696,12 @@ int Webcamsn_Init (Tcl_Interp *interp ) {
 	
 
   //Check Tcl version is 8.3 or higher
-  if (Tcl_InitStubs(interp, TCL_VERSION, 0) == NULL) {
+  if (Tcl_InitStubs(interp, TCL_VERSION, 1) == NULL) {
     return TCL_ERROR;
   }
 
   //Check TK version is 8.3 or higher
-  if (Tk_InitStubs(interp, TK_VERSION, 0) == NULL) {
+  if (Tk_InitStubs(interp, TK_VERSION, 1) == NULL) {
     return TCL_ERROR;
   }
 

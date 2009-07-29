@@ -22,7 +22,7 @@ int Tclisf_Init(Tcl_Interp *interp)
 	/*
 	 * Initialize the stub table interface
 	 */
-	if (Tcl_InitStubs(interp, TCL_VERSION, 1) == NULL) {
+	if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
 		return TCL_ERROR;
 	}
 
