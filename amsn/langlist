@@ -325,4 +325,10 @@
 		<version>0.1</version>
 		<encoding>utf-8</encoding>
 	</lang>
+	<lang>
+		<langcode>vn</langcode>
+		<name>Vietnamese (tiếng Việt)</name>
+		<version>0.1</version>
+		<encoding>utf-8</encoding>
+	</lang>
 </version>
