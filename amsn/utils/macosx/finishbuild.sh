@@ -83,4 +83,19 @@ done
 
 echo "Missing libs : $(echo "$missing" | sort | uniq)"
 
+echo "Looking for non universal libs"
+nonfat=""
+ppc7400=""
+for file in $files; do
+    if [ "x$(lipo -info $file | grep -o "Non-fat")" == "xNon-fat" ]; then
+       nonfat="$nonfat\n$file"
+    fi
+    if [ "x$(lipo -info $file | grep -o "ppc7400")" == "xppc7400" ]; then
+       ppc7400="$ppc7400\n$file"
+    fi
+done
+
+echo "Non universal binaries : $(echo $nonfat | sort | uniq)"
+echo "PPC7400 binaries : $(echo $ppc7400 | sort | uniq)"
+
 echo "Done."
