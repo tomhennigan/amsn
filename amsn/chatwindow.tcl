@@ -668,6 +668,7 @@ namespace eval ::ChatWindow {
 				}
 
 				bind $window <FocusIn> "carbon::endNotification; bind $window <FocusIn> \"\""	
+				return
 			}
 		
 
