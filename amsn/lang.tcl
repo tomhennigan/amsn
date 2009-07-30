@@ -209,7 +209,7 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
 	if {[info exists ::BWIDGET::LIBRARY]} {
 		catch {option read [file join $::BWIDGET::LIBRARY lang ${langcode}.rc]}
 	} else {
-		catch {option read [file join utils bwidget1.8.0 lang ${langcode}.rc]}
+		catch {option read [file join utils BWidget-1.9.0 lang ${langcode}.rc]}
 	}
 	return 0
 }
