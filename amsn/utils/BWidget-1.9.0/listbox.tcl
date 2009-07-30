@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------
 #  listbox.tcl
 #  This file is part of Unifix BWidget Toolkit
-#  $Id: listbox.tcl,v 1.23 2006/03/23 23:32:12 dev_null42a Exp $
+#  $Id: listbox.tcl,v 1.29 2009/06/30 16:17:37 oehhar Exp $
 # ----------------------------------------------------------------------------
 #  Index of commands:
 #     - ListBox::create
@@ -91,7 +91,7 @@ namespace eval ListBox {
         {-redraw           Boolean 1  0}
         {-multicolumn      Boolean 0  0}
         {-dropovermode     Flag    "wpi" 0 "wpi"}
-	{-selectmode       Enum none 1 {none single multiple}}
+        {-selectmode       Enum none 0 {none single multiple}}
         {-fg               Synonym -foreground}
         {-bg               Synonym -background}
         {-dropcmd          String  "ListBox::_drag_and_drop" 0}
@@ -176,32 +176,69 @@ proc ListBox::create { path args } {
     bind $path.c <Key-Up> {ListBox::_keyboard_navigation [winfo parent %W] -1}
     bind $path.c <Key-Down> {ListBox::_keyboard_navigation [winfo parent %W] 1}
 
-    switch -exact -- [Widget::getoption $path -selectmode] {
-	single {
-	    $path bindText  <Button-1> [list ListBox::_mouse_select $path set]
-	    $path bindImage <Button-1> [list ListBox::_mouse_select $path set]
-	}
-	multiple {
-	    set cmd ListBox::_multiple_select
-	    $path bindText <Button-1>          [list $cmd $path n %x %y]
-	    $path bindText <Shift-Button-1>    [list $cmd $path s %x %y]
-	    $path bindText <Control-Button-1>  [list $cmd $path c %x %y]
-
-	    $path bindImage <Button-1>         [list $cmd $path n %x %y]
-	    $path bindImage <Shift-Button-1>   [list $cmd $path s %x %y]
-	    $path bindImage <Control-Button-1> [list $cmd $path c %x %y]
-	}
-    }
+    _configureSelectmode $path [Widget::getoption $path -selectmode]
 
     return $path
 }
 
 
 # ----------------------------------------------------------------------------
+#  Command ListBox::_configureSelectmode
+# ----------------------------------------------------------------------------
+# Configure the selectmode
+proc ListBox::_configureSelectmode { path selectmode {previous none} } {
+    # clear current binding
+    switch -exact -- $previous {
+        single {
+            $path bindText  <Button-1> ""
+            $path bindImage <Button-1> ""
+        }
+        multiple {
+            $path bindText <Button-1>          ""
+            $path bindText <Shift-Button-1>    ""
+            $path bindText <Control-Button-1>  ""
+
+            $path bindImage <Button-1>         ""
+            $path bindImage <Shift-Button-1>   ""
+            $path bindImage <Control-Button-1> ""
+        }
+    }
+    # set new bindings
+    switch -exact -- $selectmode {
+        single {
+            $path bindText  <Button-1> [list ListBox::_mouse_select $path set]
+            $path bindImage <Button-1> [list ListBox::_mouse_select $path set]
+            if {1 < [llength [ListBox::selection $path get]]} {
+                ListBox::selection $path clear
+            }
+        }
+        multiple {
+            set cmd ListBox::_multiple_select
+            $path bindText <Button-1>          [list $cmd $path n %x %y]
+            $path bindText <Shift-Button-1>    [list $cmd $path s %x %y]
+            $path bindText <Control-Button-1>  [list $cmd $path c %x %y]
+
+            $path bindImage <Button-1>         [list $cmd $path n %x %y]
+            $path bindImage <Shift-Button-1>   [list $cmd $path s %x %y]
+            $path bindImage <Control-Button-1> [list $cmd $path c %x %y]
+        }
+        default {
+            if {0 < [llength [ListBox::selection $path get]]} {
+                ListBox::selection $path clear
+            }
+        }
+    }
+}
+# ----------------------------------------------------------------------------
 #  Command ListBox::configure
 # ----------------------------------------------------------------------------
 proc ListBox::configure { path args } {
+    set selectmodePrevious [Widget::getoption $path -selectmode]
     set res [Widget::configure $path $args]
+
+    if { [Widget::hasChanged $path -selectmode selectmode] } {
+        _configureSelectmode $path $selectmode $selectmodePrevious
+    }
 
     set ch1 [expr {[Widget::hasChanged $path -deltay dy]  |
                    [Widget::hasChanged $path -padx val]   |
@@ -264,13 +301,14 @@ proc ListBox::insert { path index item args } {
 
     set item [Widget::nextIndex $path $item]
 
-    if { [lsearch -exact $data(items) $item] != -1 } {
+    if {[info exists data(exists,$item)]} {
         return -code error "item \"$item\" already exists"
     }
 
     Widget::init ListBox::Item $path.$item $args
 
     set data(items) [linsert $data(items) $index $item]
+    set data(exists,$item) 1
     set data(upd,create,$item) $item
 
     _redraw_idle $path 2
@@ -306,10 +344,10 @@ proc ListBox::multipleinsert { path index args } {
 
     set count 0
     foreach {item iargs} $args {
-	if { [lsearch -exact $data(items) $item] != -1 } {
+	if {[info exists data(exists,$item)]} {
 	    return -code error "item \"$item\" already exists"
 	}
-	
+
 	if {$count==0} {
 	    Widget::init ListBox::Item $path.$item $iargs
 	    set firstpath $path.$item
@@ -318,6 +356,7 @@ proc ListBox::multipleinsert { path index args } {
 	}
 
 	set data(items) [linsert $data(items) $index $item]
+	set data(exists,$item) 1
 	set data(upd,create,$item) $item
 
 	incr count
@@ -462,6 +501,9 @@ proc ListBox::delete { path args } {
                 set data(items) [lreplace $data(items) $idx $idx]
                 array unset help $item
                 Widget::destroy $path.$item
+		if { [info exists data(exists,$item)] } {
+		    unset data(exists,$item)
+		}
                 if { [info exists data(upd,create,$item)] } {
                     unset data(upd,create,$item)
                 } else {
@@ -996,6 +1038,7 @@ proc ListBox::_redraw_items { path } {
     set x0   4
     set x1   [expr {$x0+$padx}]
     set nitem 0
+    set width 0
     set drawn {}
     set data(xlist) {}
     if { [Widget::cget $path -multicolumn] } {
@@ -1021,22 +1064,26 @@ proc ListBox::_redraw_items { path } {
             $path.c coords n:$item [expr {$x1+$indent}] $y0
             $path.c coords i:$item [expr {$x0+$indent}] $y0
         }
+	set font [_getoption $path $item -font]
+	set text [Widget::getoption $path.$item -text]
+	set tw [font measure $font $text]
+	if {$tw > $width} { set width $tw }
         incr y0 $dy
         incr nitem
         lappend drawn n:$item
         if { $nitem == $nrows } {
+	    set x2    [expr {$x1 + $width}]
             set y0    [expr {$dy/2}]
-            set bbox  [eval [linsert $drawn 0 $path.c bbox]]
             set drawn {}
-            set x0    [expr {[lindex $bbox 2]+$dx}]
+            set x0    [expr {$x2+$dx}]
             set x1    [expr {$x0+$padx}]
             set nitem 0
-            lappend data(xlist) [lindex $bbox 2]
+            lappend data(xlist) $x2
+	    set width 0
         }
     }
     if { $nitem && $nitem < $nrows } {
-        set bbox  [eval [linsert $drawn 0 $path.c bbox]]
-        lappend data(xlist) [lindex $bbox 2]
+        lappend data(xlist) [expr {$x1 + $width}]
     }
     set data(upd,delete) {}
     $path.c configure -cursor $cursor
@@ -1056,8 +1103,10 @@ proc ListBox::_redraw_selection { path } {
     set multi   [Widget::getoption $path -multicolumn]
     foreach id [$path.c find withtag sel] {
         set item [string range [lindex [$path.c gettags $id] 1] 2 end]
-        $path.c itemconfigure "n:$item" \
-            -fill [_getoption $path $item -foreground]
+        if {-1 == [lsearch -exact $data(upd,delete) $item]} {
+            $path.c itemconfigure "n:$item" \
+                -fill [_getoption $path $item -foreground]
+        }
     }
     $path.c delete sel
     if {$selfill && !$multi} {
@@ -1074,7 +1123,10 @@ proc ListBox::_redraw_selection { path } {
             set tags [list sel s:$item click]
             set id [$path.c create rectangle $bbox \
                 -fill $selbg -outline $selbg -tags $tags]
-            $path.c itemconfigure "n:$item" -fill $selfg
+	    if {$selfg != ""} {
+		# Don't allow an empty fill - that would be transparent
+		$path.c itemconfigure "n:$item" -fill $selfg
+	    }
             $path.c lower $id
             $path.c lower b:$item
         }
@@ -1454,7 +1506,7 @@ proc ListBox::_multiple_select { path mode x y idx } {
 	    set data(sel_anchor) {}
 	}
 	c {
-	    set l [_mouse_select $path get]
+	    set l [$path selection get]
 	    if { [lsearch -exact $l $idx] >= 0 } {
 		_mouse_select $path remove $idx
 	    } else {
@@ -1493,15 +1545,16 @@ proc ListBox::_multiple_select { path mode x y idx } {
 # ----------------------------------------------------------------------------
 #  Command ListBox::_scroll
 # ----------------------------------------------------------------------------
-proc ListBox::_scroll { path cmd dir } {
+proc ListBox::_scroll { path scroll} {
     variable $path
     upvar 0  $path data
-
+    set cmd [lindex $scroll 0]
+    set dir [lindex $scroll 1]
     if { ($dir == -1 && [lindex [$path.c $cmd] 0] > 0) ||
          ($dir == 1  && [lindex [$path.c $cmd] 1] < 1) } {
         $path $cmd scroll $dir units
         set data(dnd,afterid) \
-	    [after 100 [list ListBox::_scroll $path $cmd $dir]]
+	    [after 50 [list ListBox::_scroll $path $scroll]]
     } else {
         set data(dnd,afterid) ""
         DropSite::setcursor dot
@@ -1603,9 +1656,11 @@ proc ListBox::_drag_and_drop { path from endItem operation type startItem } {
         "position" {
             set idx $i
         } 
-
         "item" {
             set idx [$path index $i]
+        }
+        "widget" {
+            set idx [llength $items]
         }
     }
 
