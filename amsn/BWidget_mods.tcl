@@ -31,11 +31,11 @@ proc Widget::create { class path {rename 1} } {
 
 ScrollableFrame::use
 proc ::ScrollableFrame::compute_width { path } {
-		$path configure -width [winfo reqwidth [$path getframe]]
+	$path configure -width [winfo reqwidth [$path getframe]]
 }
 
 proc ::ScrollableFrame::compute_height { path } {
-		$path configure -height [winfo reqheight [$path getframe]]
+	$path configure -height [winfo reqheight [$path getframe]]
 }
 
 proc ::ScrollableFrame::compute_size { path } {
@@ -43,7 +43,9 @@ proc ::ScrollableFrame::compute_size { path } {
 	$path compute_height
 }
 
-
-proc ::ScrollableFrame::_frameConfigure {canvas frame width height} {
-    $canvas:cmd configure -scrollregion [$canvas:cmd bbox all]
+# This bug was fixed in BWidget 1.9
+if {[package require BWidget] == "1.8" } {
+	proc ::ScrollableFrame::_frameConfigure {canvas frame width height} {
+		$canvas:cmd configure -scrollregion [$canvas:cmd bbox all]
+	}
 }
