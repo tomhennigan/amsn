@@ -4084,3 +4084,20 @@ int Tcl_farsight_Init (Tcl_Interp *interp) {
 int Tcl_farsight_SafeInit (Tcl_Interp *interp) {
   return Farsight_Init(interp);
 }
+
+int Farsight_Unload (Tcl_Interp *interp) {
+  Close();
+  return TCL_OK;
+}
+
+int Farsight_SafeUnload (Tcl_Interp *interp) {
+  return Farsight_Unload(interp);
+}
+
+int Tcl_farsight_SafeUnload (Tcl_Interp *interp) {
+  return Farsight_SafeUnload(interp);
+}
+
+int Tcl_farsight_Unload (Tcl_Interp *interp) {
+  return Farsight_Unload(interp);
+}
