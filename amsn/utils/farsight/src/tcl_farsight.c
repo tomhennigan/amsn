@@ -774,6 +774,17 @@ _create_audio_source ()
 		  error->code, error->message? error->message : "(null)");
     }
 
+    state_ret = gst_element_set_state (src, GST_STATE_READY);
+    if (state_ret == GST_STATE_CHANGE_ASYNC) {
+      _notify_debug ("Waiting for audio_source_pipeline to go to state READY");
+      state_ret = gst_element_get_state (src, NULL, NULL,
+          GST_CLOCK_TIME_NONE);
+    }
+
+    if (state_ret == GST_STATE_CHANGE_FAILURE) {
+      gst_object_unref (src);
+      return NULL;
+    }
     GST_OBJECT_FLAG_UNSET (src, GST_ELEMENT_IS_SINK);
     return src;
   } else if (audio_source) {
@@ -788,6 +799,17 @@ _create_audio_source ()
       if (src && audio_source_device)
         g_object_set(src, "device", audio_source_device, NULL);
 
+      state_ret = gst_element_set_state (src, GST_STATE_READY);
+      if (state_ret == GST_STATE_CHANGE_ASYNC) {
+        _notify_debug ("Waiting for %s to go to state READY", audio_source);
+        state_ret = gst_element_get_state (src, NULL, NULL,
+            GST_CLOCK_TIME_NONE);
+      }
+
+      if (state_ret == GST_STATE_CHANGE_FAILURE) {
+        gst_object_unref (src);
+        return NULL;
+      }
       GST_OBJECT_FLAG_UNSET (src, GST_ELEMENT_IS_SINK);
       return src;
     }
@@ -1092,6 +1114,17 @@ _create_video_source ()
 		  error->code, error->message? error->message : "(null)");
     }
 
+    state_ret = gst_element_set_state (src, GST_STATE_READY);
+    if (state_ret == GST_STATE_CHANGE_ASYNC) {
+      _notify_debug ("Waiting for video_source_pipeline to go to state READY");
+      state_ret = gst_element_get_state (src, NULL, NULL,
+          GST_CLOCK_TIME_NONE);
+    }
+
+    if (state_ret == GST_STATE_CHANGE_FAILURE) {
+      gst_object_unref (src);
+      return NULL;
+    }
     goto add_preview;
   } else if (video_source) {
     if (strcmp (video_source, "-") == 0) {
@@ -1105,6 +1138,17 @@ _create_video_source ()
       if (src && video_source_device)
         g_object_set(src, "device", video_source_device, NULL);
 
+      state_ret = gst_element_set_state (src, GST_STATE_READY);
+      if (state_ret == GST_STATE_CHANGE_ASYNC) {
+        _notify_debug ("Waiting for %s to go to state READY", video_source);
+        state_ret = gst_element_get_state (src, NULL, NULL,
+            GST_CLOCK_TIME_NONE);
+      }
+
+      if (state_ret == GST_STATE_CHANGE_FAILURE) {
+        gst_object_unref (src);
+        return NULL;
+      }
       goto add_preview;
     }
   }
@@ -4101,3 +4145,4 @@ int Tcl_farsight_SafeUnload (Tcl_Interp *interp) {
 int Tcl_farsight_Unload (Tcl_Interp *interp) {
   return Farsight_Unload(interp);
 }
+
