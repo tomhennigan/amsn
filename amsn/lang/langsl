@@ -14,8 +14,11 @@ addedyou $1 ($2) vas je dodal/a na svoj seznam stikov
 addprofiledesc Vpi¹i uporabni¹ko ime, ki ga bo uporabljal ta profil. \nProfili omogoèajo razliène nastavitve za razliène prijave.\nBrez profilov ni mogoèe uporabljati zgodovine, alarmov ali shraniti gesla.
 addprofile Dodaj profil
 addstate Dodaj novo stanje
+addtoal Dodaj v AL
+addtobl Dodaj v BL
 addtocontacts Dodaj na seznam stikov
 addto Dodaj na $1
+addtofl Dodaj v FL
 addtoo Dodaj to osebo na moj seznam stikov
 admincontacts Uredi stike
 admingroups Uredi skupine
@@ -108,6 +111,7 @@ blocksounds Onemogoèi zvoke
 blockusers Hkrati preveri
 bouncedock aMSNjeva ikona v opravilni vrstici naj utripa ob prejetem sporoèilu
 brightness Svetlost
+bringtofront Prika¾i vse spredaj
 broughtby Naredili naslednji programerji
 browse Prebrskaj
 browser Brskalnik
@@ -119,6 +123,7 @@ bytesymbol b
 cachedpics $1 shranjenih slik
 cachedpicsfor Shranjene osebne slike uporabnika
 cagreement Izjava o zaupnosti
+cam_in_cw Prika¾i spletno kamero vdelano v oknih za klepet
 cancelled Preklicano
 cancel Preklièi
 cannotdeleteprofile Ne morem izbrisati raèuna, ker je v Amsn seji
@@ -194,6 +199,7 @@ closechatwindows Zapri vsa pogovorna okna pred izhodom?
 closed Povezava z $1 zaprta zaradi neaktivnosti
 closelabel Ko klikne¹ na gumb za zaprtje v oknu z zavihki
 closeonly Zapri samo trenutni zavihek
+closeorcallvideo Potrebno je zapreti/konèati Video klic preden zaprete  okno.
 closeorcall Zapreti ali preklicati morate avdio klic preden zaprete okno.
 closeordock Zapiranje okna kontaktne liste bo zaprlo aMSN.Mogoèe si hotel samo zapreti okno in pustiti aMSN odprt na pultu.\n\nSi preprièan da hoèe¹ zapreti aMSN?
 closeothers Zapri vse ostale zavihke
@@ -230,6 +236,7 @@ contactdoesnotexist Stik ne obstaja!
 contactlist Seznam stikov
 contacts Stiki
 contact Stik
+contentroamingsetting Shrani prikazno sliko na stre¾niku.
 continuously Neprestano
 contrast Kontrast
 conversationwith $1 uporabnikov v pogovoru
@@ -264,6 +271,7 @@ custshowcustomsmileys Prika¾i uporabnikove poljubne sme¹ke
 cutimagebox Izberi del slike, ki ga hoèe¹ uporabiti
 cutimageboxreset Ponastavi velikost\nizbirnega polja na:
 cut Izre¾i
+cyclewindows Kro¾i po oknih
 date Datum
 dateformat Spremeni obliko datuma
 day Dan
@@ -327,6 +335,7 @@ editstate Uredi obstojeèe stanje za avtomatsko sporoèilo
 edit Uredi
 editvalue Uredi vrednost
 email E-po¹ta
+emailnotverified (Email ¹e ni preverjen)
 emailsinlist Poka¾i po¹tne naslove namesto vzdevkov v seznamu stikov
 emoticon_steal Dodaj med emotikone
 emotisounds Igraj zvok na doloèene emotikone
@@ -444,6 +453,7 @@ hidedisplaypic Skrij prikazno sliko
 hidemenumessage Si preprièan da hoèe¹ skriti menuje?\nNazaj jih lahko poka¾e¹ z Skrij/Prika¾i tipkovnièno blji¾nico 'Ctrl-M'.
 hidemenu Skrij/Prika¾i menije
 hiden Ne poka¾i emotikona v meniju sme¹kov
+hideuserscw Skrij uporabnike v tem oknu s klepetom
 hidewindow Skrij okno
 history2 Zgodovina
 history Prika¾i zgodovino
@@ -546,6 +556,7 @@ maintenance Stre¾nik èez $1 minut ne changestatus Change Statusbo veè dostopen z
 maximised Maksimiran
 medium Srednji
 minimised V pomanj¹anem oknu
+minimizeplain Pomanj¹aj
 minimize Pomanj¹aj okno v ikono na pultu
 mins minut
 mobilegrp1 Skupina uporabnikov prenosnih naprav
@@ -808,6 +819,7 @@ sendmsg Po¹lji sporoèilo
 sendoim Po¹lji sporoèilo v naèinu brez povezave
 send Po¹lji
 sendsip Zaèni Avdio klic
+sendvideosip Zaèni video klic
 sendvoice Po¹lji Zvoèno sporoèilo
 sendwebcamaccepted $1 je sprejel/a tvoje povabilo za po¹iljanje spletne kamere.Povezujem...
 sendwebcaminvite Poka¾i sliko tvoje spletne kamere stiku
@@ -843,6 +855,7 @@ showonedpframe Prika¾i samo en okvir za prikazne slike v pogovornih oknih
 showpicnotify Prika¾i prikazno sliko v obvestilnem oknu
 showspaces Poka¾i Spaces ikono v listi kontaktov
 showuserpic Prikazna slika uporabnika $1
+showuserscw V tem pogovoru je trenutno $1 oseb/klepetulj. Èe bi jih rad prikazal ali skril klikni tu.
 signinstatus Status ob vpisu
 signoutep Odjavi se iz $1
 signouteverywhere Povsod se odjavi
@@ -850,6 +863,7 @@ signouthere Odjavi se od tu ($1)
 signout Odjavi se
 sipcallaccepted Avdio klic sprejet
 sipcallback Poklièi nazaj
+sipcallconnected Tvoj avdio klic je sedaj povezan!
 sipcalldeclined Avdio klic zavrnjen
 sipcalleeaccepted Uporabnik je sprejel va¹ Avdio klic
 sipcalleebusy Uporabnik je trenutno Zaseden
@@ -859,13 +873,23 @@ sipcalleedeclined Uporabnik je Preklical povabilo za Avdio klic.
 sipcalleenoanswer Uporabnik se ni javil na va¹ klic.
 sipcalleeunavailable Uporabnik trenutno ni dosegljiv
 sipcallended Va¹ Avdio klic se je zakljuèil
-sipcallimpossible Avdio klic ni mogoè. Prosimo instalirajte Farsight2 in poskusite ponovno.
+sipcallimpossible2 Avdio ali Video klic ni mogoè. Instalira Farsight2 in poskusi ponovno.
 sipcallmissed Zgre¹ili ste Avdio klic od $1
 sipcallnosipflag Uporabnik nima podprtih Avdio klicev.
 sipcallsent Klièem $1
-sipcallunsupported Sprejeli ste povabilo za Avdio klic, ki trenutno ni podprt. Poklièete lahko nazaj z novim povabilom za klic. Avdio klic bo potem delal.
-sipcallyouarebusy Lahko imate samo en Avdio klic in ne veè v istem trenutku.
+sipcallyouarebusy2 Lahko ima¹ samo en Audio ali Video klic na enkrat.
 sipgotinvitation Sprejel sem povabilo za Avdio klic od $1
+sipvideocallaccepted Video klic sprejet
+sipvideocallconnected Vodep klic je sedaj povezan!
+sipvideocalldeclined Video klic zavrnjen
+sipvideocalleeaccepted Uporabnik je sprejel tvoj Video klic
+sipvideocalleecanceled Uporabnik je preklical povabilo na Video klic
+sipvideocalleeclosed Uporabnik je konèal tvoj Video klic
+sipvideocalleedeclined Uporabnik je zavrnil tvoje povabilo za Video klic
+sipvideocallended Tvoj Video klic se je konèal
+sipvideocallmissed Zgre¹il si Video klic $1
+sipvideocallnosipflag Uporabnik nima podpore za Video klice
+sipvideogotinvitation Dobil si povabilo za video klic od $1
 skin Preobleka
 skinselector Izberi videz
 smallest Najmanj¹i
@@ -967,10 +991,12 @@ truncatenames2 Skraj¹aj vzdevke, ki ne stojijo v oknu s pogovorom
 truncatenicks Skraj¹aj vzdevke, ki ne stojijo v oknu
 twonewmail 2 novi sporoèili v Inboxu
 type Tip
+unavailablecountryserver Stre¾nik za tvojo dr¾avo trenutno ni na voljo. Poskusi kasneje. Ta problem lahko re¹i¹ tudi z spremembo nastavitve dr¾ave v tvojem Passport raèunu na www.passport.net . 
 unblock Odblokiraj
 unknown Neznan
 unload Ustavi
 unselectall Odznaèi vse
+untitled_space brez naslova
 uoffline Neprijavljeni
 uonline Prijavljeni
 updateonlycurrentlanguage Posodabljaj samo trenutni jezik
