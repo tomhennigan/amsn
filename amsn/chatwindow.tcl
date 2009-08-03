@@ -262,7 +262,7 @@ namespace eval ::ChatWindow {
 			return
 		}
 		# Check for on-going SIP call
-		foreach win [set containerwindows($current)] {
+		foreach win [set containerwindows($window)] {
 			if {[::amsn::SIPchatidExistsInList [Name $win]]} {
 				status_log " we can't close, there's a sip call running ..." green
 				if {[$::farsight IsVideo] } {
