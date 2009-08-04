@@ -257,10 +257,7 @@ proc reload_files { } {
 	source soap.tcl
 
 	if { [OnDarwin] } {
-		# Disable with 8.5...
-		if { [version_vcompare [info patchlevel] 8.5.0] == -1 } {
-			source [file join utils macosx applescript ae.tcl];#AppleEvent support
-		}
+		source [file join utils macosx applescript ae.tcl];#AppleEvent support
 	}
 	
 	source alarm.tcl	;# Alarms code (Burger)
