@@ -253,6 +253,7 @@ namespace eval ::ChatWindow {
 
 	proc ContainerClose { window } {
 		variable win2tab
+		variable containerwindows
 
 		set current [GetCurrentWindow $window]
 		set currenttab [set win2tab($current)]
