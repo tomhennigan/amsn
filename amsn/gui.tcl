@@ -323,7 +323,12 @@ if { $initialize_amsn == 1 } {
 	#For proc WinWrite
 	namespace eval ::amsn {
 		variable urlcount 0
-		set urlstarts { "http://" "https://" "ftp://" "www." }
+		variable urlregexps
+		set urlregexps {
+			{\w+://[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+}
+			{www\.[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+}
+			{[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+\.(?:org|com|net)}
+		}
 	}
 
 	#For idle checking
@@ -4119,29 +4124,21 @@ namespace eval ::amsn {
 			$textw roinsert end "$txt" $tagid
 		
 			if {$tagname ne "says"} {
-				#TODO: Make an url_subst procedure, and improve this using regular expressions
 				variable urlcount
-				variable urlstarts
+				variable urlregexps
 				
 				set endpos $text_start
-				foreach url $urlstarts {
-					while { $endpos != [$textw index end] && [set pos [$textw search -forward -exact -nocase \
-											       $url $endpos end]] != "" } {
-						
-						set urltext [$textw get $pos end]
-								 
-						set final 0
-						set caracter [string range $urltext $final $final]
-						while { $caracter != " " && $caracter != "\n" } {
-							set final [expr {$final+1}]
-							set caracter [string range $urltext $final $final]
-						}
-						
-						set urltext [string range $urltext 0 [expr {$final-1}]]
-						
-						set posyx [split $pos "."]
-						set endpos "[lindex $posyx 0].[expr {[lindex $posyx 1] + $final}]"
-						
+				foreach url $urlregexps {
+					set text_data [$textw get $text_start end]
+					foreach match [regexp -line -nocase -indices -all -inline -- $url $text_data] {
+						set start [lindex $match 0]
+						set end [lindex $match 1]
+						puts "$text_data - $match"
+
+						set pos [$textw index ${text_start}+${start}c]
+						set endpos [$textw index ${text_start}+[expr {${end} +1}]c]
+						set urltext [$textw get $pos ${endpos}]
+
 						set urlcount "[expr {$urlcount+1}]"
 						set urlname "url_$urlcount"
 						
@@ -4160,6 +4157,7 @@ namespace eval ::amsn {
 
 						#Don't replace smileys in URLs
 						$textw tag add dont_replace_smileys ${urlname}.first ${urlname}.last
+
 					}
 				}
 			}
@@ -7888,7 +7886,7 @@ proc urlParserString { str } {
 			lappend list2return $pos_start $pos
 		}
 	}
-	while { [regexp -start $pos -indices {(\w+)\.(org|com|net)} $str url_indices ] } {
+	while { [regexp -start $pos -indices {[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]\.(org|com|net)} $str url_indices ] } {
 		set pos [lindex $url_indices 1]
 		set pos_start [lindex $url_indices 0]
 		#check if the url was not found before
