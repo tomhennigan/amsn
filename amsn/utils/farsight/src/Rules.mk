@@ -1,6 +1,10 @@
 OBJS-tcl_farsight := $(tcl_farsight_dir)/src/tcl_farsight.o
 TARGETS-tcl_farsight := $(tcl_farsight_dir)/src/tcl_farsight.$(SHLIB_EXTENSION) 
 
+ifeq ($(FOUND_OS),mac)
+LDFLAGS += -framework Cocoa
+endif
+
 $(OBJS-tcl_farsight): $(tcl_farsight_dir)/src/tcl_farsight.c
 	@$(echo_compile_farsight)
 	@$(compile_farsight)

@@ -98,6 +98,57 @@ static int audio_components_selected = 0;
 static int video_components_selected = 0;
 static FsElementAddedNotifier *fsnotifier = NULL;
 
+
+#ifdef __APPLE__
+
+static Tcl_TimerToken cocoa_event_timer = NULL;
+static NSAutoreleasePool *cocoa_pool = NULL;
+
+@implementation FarsightAppDelegate : NSObject
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+    // destroy stuff here!
+    return NSTerminateNow;
+}
+@end
+
+
+
+/* cocoa event loop - needed to handle the window */
+/* FIXME : This is crap because Tk uses Carbon which eats our events
+   so it's either Carbon or Cocoa who gets the event, and it's all screwed up */
+static void
+cocoa_event_loop (ClientData dummy)
+{
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+  while (TRUE) {
+    unsigned int masks = NSLeftMouseDownMask |
+			 NSLeftMouseUpMask | 
+			 NSLeftMouseDraggedMask | 
+			 NSMouseEnteredMask |
+			 NSMouseExitedMask |
+			 NSAppKitDefinedMask | /* To handle move window */
+			 NSSystemDefinedMask /* To handle resize window */;
+    NSEvent *event = [NSApp nextEventMatchingMask:masks
+                           untilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]
+                           inMode:NSDefaultRunLoopMode dequeue:YES];
+    if ( event == nil ) {
+      break;
+    } else {
+      [NSApp sendEvent:event];
+      // loop
+    }
+  }
+  [pool release];
+
+  cocoa_event_timer = Tcl_CreateTimerHandler(100, cocoa_event_loop, NULL);
+
+}
+
+#endif
+
+
 #ifdef _WIN32
 static const char *inet_ntop_win32(int af, const void *src, char *dst, socklen_t cnt)
 {
@@ -233,6 +284,15 @@ static void Close ()
     g_object_unref (fsnotifier);
   }
   fsnotifier = NULL;
+
+#ifdef __APPLE__
+  if (cocoa_event_timer != NULL) {
+    Tcl_DeleteTimerHandler(cocoa_event_timer);
+  }
+  if (cocoa_pool != NULL) {
+     [cocoa_pool release];
+  }
+#endif
 }
 
 
@@ -1328,7 +1388,19 @@ _create_video_source ()
   }
 
 
+#ifdef __APPLE__
+  preview = gst_element_factory_make ("osxvideosink", NULL);
+  if (preview) {
+    g_object_set (preview, "async", FALSE, NULL);
+    g_object_set (preview, "sync", FALSE, NULL);
+  }
+#else
   preview = gst_element_factory_make ("autovideosink", NULL);
+  if (preview) {
+    g_signal_connect (preview, "element-added",
+        G_CALLBACK (_sink_element_added), NULL);
+  }
+#endif
   if (preview == NULL) {
     _notify_debug ("Could not create preview window");
     gst_element_set_locked_state (src, FALSE);
@@ -1346,8 +1418,6 @@ _create_video_source ()
     gst_object_unref (video_bin);
     return NULL;
   }
-  g_signal_connect (preview, "element-added",
-      G_CALLBACK (_sink_element_added), NULL);
 
   gst_object_ref (preview);
   if (gst_element_link(colorspace, preview) == FALSE)  {
@@ -1418,10 +1488,20 @@ _create_video_sink ()
     snk = gst_element_factory_make (video_sink, NULL);
   }
   if (snk == NULL) {
+#ifdef __APPLE__
+    snk = gst_element_factory_make ("osxvideosink", NULL);
+    if (snk) {
+      g_object_set (snk, "async", FALSE, NULL);
+      g_object_set (snk, "sync", FALSE, NULL);
+    }
+#else
     snk = gst_element_factory_make ("autovideosink", NULL);
+    if (snk) {
+      g_signal_connect (snk, "element-added",
+          G_CALLBACK (_sink_element_added), NULL);
+    }
+#endif
 
-    g_signal_connect (snk, "element-added",
-        G_CALLBACK (_sink_element_added), NULL);
   }
 
   return snk;
@@ -1682,9 +1762,53 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
             _notify_level ("IN", (gfloat) (rms / channels));
           } else if (GST_MESSAGE_SRC (message) == GST_OBJECT(levelOut)) {
             _notify_level ("OUT", (gfloat) (rms / channels));
-		  }
+	  }
         }
+#ifdef __APPLE__
+        else if (gst_structure_has_name (s, "have-ns-view")) {
+    	  NSWindow * win = nil;
+          NSView *nsview = nil;
+          NSRect rect;
+          unsigned int mask =  NSResizableWindowMask         |
+                               NSTexturedBackgroundWindowMask |
+                               NSMiniaturizableWindowMask;
+
+          nsview = (NSView *)g_value_get_pointer(gst_structure_get_value (s, "nsview"));
+          if (nsview) {
+            if (cocoa_pool == NULL) {
+              cocoa_pool = [[NSAutoreleasePool alloc] init];
+            }
+            rect.origin.x = 100.0;
+            rect.origin.y = 100.0;
+            rect.size.width = 352.0 ;
+            rect.size.height = 288.0;
+
+            [NSApplication sharedApplication];
+
+            win =[[NSWindow alloc]
+                            initWithContentRect: rect
+                            styleMask: mask
+                            backing: NSBackingStoreBuffered
+                            defer: NO
+                            screen: nil];
+
+            [win setContentView:nsview];
+
+            [win autorelease];
+            [NSApplication sharedApplication];
+            [win makeKeyAndOrderFront:NSApp];
+
+            [NSApp finishLaunching];
+            [NSApp setDelegate:[[FarsightAppDelegate alloc] init]];
+
+            if (cocoa_event_timer == NULL) {
+              cocoa_event_timer = Tcl_CreateTimerHandler(100, cocoa_event_loop, NULL);
+            }
+          }
+        }
+#endif
       }
+
 
       break;
     case GST_MESSAGE_ERROR:
@@ -1774,6 +1898,11 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
             gst_x_overlay_set_xwindow_id (GST_X_OVERLAY (xiddata.src), video_sink_xid);
           }
         }
+#ifdef __APPLE__
+	else if (gst_structure_has_name (s, "have-ns-view")) {
+	  goto drop;
+	}
+#endif
       }
 
       break;
@@ -1925,6 +2054,13 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   bus = gst_element_get_bus (test_pipeline);
   gst_bus_set_sync_handler (bus, _bus_callback, NULL);
   gst_object_unref (bus);
+
+  if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
+      GST_STATE_CHANGE_FAILURE) {
+    Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
+        (char *) NULL);
+    goto error;
+  }
 
   src = _create_audio_source ();
   if (src == NULL) {
@@ -2270,6 +2406,15 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   bus = gst_element_get_bus (test_pipeline);
   gst_bus_set_sync_handler (bus, _bus_callback, NULL);
   gst_object_unref (bus);
+
+
+  if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
+      GST_STATE_CHANGE_FAILURE) {
+    Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
+        (char *) NULL);
+    goto error;
+  }
+
 
   src = _create_video_source ();
   if (src == NULL) {
@@ -2741,6 +2886,13 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   bus = gst_element_get_bus (pipeline);
   gst_bus_set_sync_handler (bus, _bus_callback, NULL);
   gst_object_unref (bus);
+
+  if (gst_element_set_state (pipeline, GST_STATE_PLAYING) ==
+      GST_STATE_CHANGE_FAILURE) {
+    Tcl_AppendResult (interp, "Unable to set pipeline to PLAYING",
+        (char *) NULL);
+    goto error;
+  }
 
   conference = gst_element_factory_make ("fsrtpconference", NULL);
 

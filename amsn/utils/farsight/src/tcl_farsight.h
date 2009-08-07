@@ -68,6 +68,15 @@ EXTERN int Farsight_Stop _ANSI_ARGS_((ClientData clientData,
 EXTERN int Farsight_Probe _ANSI_ARGS_((ClientData clientData,
         Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 
+#ifdef __APPLE__
+
+#include <Cocoa/Cocoa.h>
+
+@interface FarsightAppDelegate : NSObject
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
+@end
+
+#endif
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
