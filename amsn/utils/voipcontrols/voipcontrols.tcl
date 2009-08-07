@@ -107,7 +107,7 @@ snit::widgetadaptor mutecheckbutton {
 
 	constructor {args} {
 
-		installhull using button -relief flat -image {}
+		installhull using button -relief flat -image {} -command [list $self invoke]
 
 		$self configurelist $args
 		
