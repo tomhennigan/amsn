@@ -2747,7 +2747,7 @@ namespace eval ::MSNSIP {
 			if {[winfo exists $frame]} {
 				if {$direction == "OUT" &&
 				    [$frame cget -volumestate] == "disabled" } {
-					::ChatWindow::UpdateVoipControls [$::farsight IsVideo] $chatid $sip $callid
+					::ChatWindow::UpdateVoipControls $chatid [$::farsight IsVideo] $sip $callid
 				}
 				$frame setLevel $value
 			}
