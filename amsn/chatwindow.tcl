@@ -2579,6 +2579,11 @@ namespace eval ::ChatWindow {
 		} else {
 			set ::ChatWindow::voip_mute_in $mute
 			$frame_in configure -mutestate normal
+			if {$mute} {
+				$frame_in Mute
+			} else {
+				$frame_in UnMute
+			}
 		}
 
 		#OUT
@@ -2593,6 +2598,11 @@ namespace eval ::ChatWindow {
 		} else {
 			set ::ChatWindow::voip_mute_out $mute
 			$frame_out configure -mutestate normal
+			if {$mute} {
+				$frame_out Mute
+			} else {
+				$frame_out UnMute
+			}
 		}
 
 		if {$sip != "" && $callid != ""} {

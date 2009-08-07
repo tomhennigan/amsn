@@ -126,11 +126,9 @@ snit::widgetadaptor mutecheckbutton {
 	method SetImage {option value} {
 		set options($option) $value
 		if {$muted} {
-			$self configure -image $options(-unmutedimage)
-			set muted 0
-		} else {
 			$self configure -image $options(-mutedimage)
-			set muted 1
+		} else {
+			$self configure -image $options(-unmutedimage)
 		}
 	}
 
