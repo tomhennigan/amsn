@@ -291,6 +291,7 @@ static void Close ()
   }
   if (cocoa_pool != NULL) {
      [cocoa_pool release];
+     cocoa_pool = NULL;
   }
 #endif
 }
@@ -1794,9 +1795,8 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
 
             [win setContentView:nsview];
 
-            [win autorelease];
-            [NSApplication sharedApplication];
             [win makeKeyAndOrderFront:NSApp];
+            [win autorelease];
 
             [NSApp finishLaunching];
             [NSApp setDelegate:[[FarsightAppDelegate alloc] init]];
