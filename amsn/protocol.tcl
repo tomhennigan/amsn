@@ -8088,6 +8088,33 @@ namespace eval ::MSN6FT {
 	}
 
 
+	proc SharePhoto { chatid filename filesize} {
+		global HOME
+
+		status_log "Sending File $filename with size $filesize to $chatid\n"
+
+		set sid [expr {int(rand() * 1000000000)%125000000 + 4}]
+		# Generate BranchID and CallID
+		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		set callid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+
+		set dest [lindex [::MSN::usersInChat $chatid] 0]
+
+		::MSNP2P::SessionList set $sid [list 0 $filesize 0 $dest 0 $callid 0 "photo" "$filename" "$branchid"]
+		setObjOption $sid chatid $chatid
+
+		status_log "branchid : [lindex [::MSNP2P::SessionList get $sid] 9]\n"
+
+		# Create and send our packet
+		set slpdata [::MSNP2P::MakeMSNSLP "INVITE" $dest [::config::getKey login] $branchid 0 $callid 0 0 "41D3E74E-04A2-4B37-96F8-08ACDB610874" $sid 35]
+		::MSNP2P::SendPacketExt [::MSN::SBFor $chatid] $sid $slpdata 1
+		status_log "Sent an INVITE to [::MSN::usersInChat $chatid]  on chatid $chatid for filetransfer of filename $filename\n" red
+		
+		#added a return to be able to fetch sid...
+		return $sid
+
+	}
+
 
 	proc SendFTInvite { sid chatid} {
 		# Remote user has just accepted our FT invitation

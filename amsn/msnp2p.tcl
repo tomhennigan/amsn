@@ -575,20 +575,23 @@ namespace eval ::MSNP2P {
 				set idx [expr {[string first "Context:" $data] + 9}]
 				set idx2 [expr {[string first "\r\n" $data $idx] - 1}]
 
-				if { $idx == 8 || $idx2 == -2 } {
-					# Let's send an ACK
-					SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
-					status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
-
-					# Send a 500 Internal Error in case tehre is no context field sent...
-					set slpdata [MakeMSNSLP "ERROR" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
-					SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
-					status_log "MSNP2P | $sid $dest -> Sent 500 Internal error.. No Context field in request\n" red
-
-					# Avoid it entering the next if processing...
-					set eufguid ""
-				} else {
-					set context [string range $data $idx $idx2]
+				# Photo sharing has no Context
+				if {$eufguid != "41D3E74E-04A2-4B37-96F8-08ACDB610874" } {
+					if { $idx == 8 || $idx2 == -2 } {
+						# Let's send an ACK
+						SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
+						
+						# Send a 500 Internal Error in case tehre is no context field sent...
+						set slpdata [MakeMSNSLP "ERROR" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
+						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+						status_log "MSNP2P | $sid $dest -> Sent 500 Internal error.. No Context field in request\n" red
+						
+						# Avoid it entering the next if processing...
+						set eufguid ""
+					} else {
+						set context [string range $data $idx $idx2]
+					}
 				}
 
 				status_log "$idx $idx2"
@@ -719,6 +722,21 @@ namespace eval ::MSNP2P {
 						set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid $context]
 						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
 
+						return
+					}
+					"41D3E74E-04A2-4B37-96F8-08ACDB610874" {
+						status_log "MSNP2P | $sid Received a Photo Sharing invitation from $dest\n" red
+						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "phot" "" ""]
+
+						# Let's send an ACK
+						SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
+						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
+
+						# Let's make and send a 200 OK Message
+						set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
+						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+						status_log "MSNP2P | $sid $dest -> Sent 200 OK Message\n" red
+										
 						return
 					}
 					default {
@@ -1490,7 +1508,10 @@ namespace eval ::MSNP2P {
 		set body ""
 		if { $method == "INVITE" } {
 			if { $contenttype == 0 } {
-			    append body "EUF-GUID: {${A}}\r\nSessionID: ${B}\r\nSChannelState: 0\r\nCapabilities-Flags: 1\r\nAppID: ${C}\r\nContext: ${D}\r\n"
+				append body "EUF-GUID: {${A}}\r\nSessionID: ${B}\r\nSChannelState: 0\r\nCapabilities-Flags: 1\r\nAppID: ${C}\r\n"
+				if {$D != "" } {
+					append body "Context: ${D}\r\n"
+				}
 			} elseif { $contenttype == 1 } {
 				append body "Bridges: ${A}\r\nNetID: ${B}\r\nConn-Type: ${C}\r\nUPnPNat: ${D}\r\nICF: ${E}\r\n"
 			} else {
