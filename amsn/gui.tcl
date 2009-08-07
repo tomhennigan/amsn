@@ -1764,7 +1764,11 @@ namespace eval ::amsn {
 		#    -video-sink-xid [winfo id [::ChatWindow::GetOutDisplayPicturesFrame $win_name].dps.imgs.**something**]
 
 		::ChatWindow::AddVoipControls $email $video $sip $callid
-		::ChatWindow::setCallButton $email "cancel" $video $sip $callid
+		if {$callid != "" } {
+			::ChatWindow::setCallButton $email "decline" $video $sip $callid
+		} else {
+			::ChatWindow::setCallButton $email "cancel" $video $sip $callid
+		}
 	}
 
 	proc DisableSIPButton { chatid tag } {

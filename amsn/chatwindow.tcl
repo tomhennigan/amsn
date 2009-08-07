@@ -2708,6 +2708,10 @@ namespace eval ::ChatWindow {
 			set cmd [list ::amsn::CancelSIPCall $video $chatid $sip $callid]
 			set disable 1
 			set txt [trans hangup]
+		} elseif {$type == "decline" } {
+			set cmd [list ::amsn::DeclineSIPCall $video $chatid $sip $callid]
+			set disable 1
+			set txt [trans reject]
 		} else {
 			return
 		}
@@ -2719,7 +2723,7 @@ namespace eval ::ChatWindow {
 			return
 		}
 
-		if {$type == "hangup" || $type == "cancel"} {
+		if {$disable} {
 			if {$video} {
 				$button configure -image [::skin::loadPixmap buthangupvideo]
 				bind $button <Enter> "$button configure -image [::skin::loadPixmap buthangupvideo_hover]"
