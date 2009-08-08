@@ -327,6 +327,8 @@ if { $initialize_amsn == 1 } {
 		# MAKE SURE that none of the regexps have a capturing group!
 		# use (?:regexp) if you need to use the parenthesis..
 		# like for (?:org|com|net)...
+
+		#this regexp is a bit complex, but it reaches all URLs as specified in the RFC 1738 on http://www.ietf.org/rfc/rfc1738.txt
 		set urlregexps {
 			{\w+://[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+}
 			{www\.[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+}
@@ -4136,40 +4138,34 @@ namespace eval ::amsn {
 				variable urlregexps
 				
 				set text_data [$textw get $text_start end]
-				foreach url $urlregexps {
-					foreach match [regexp -line -nocase -indices -all -inline -- $url $text_data] {
-						set start [lindex $match 0]
-						set end [lindex $match 1]
+				foreach match [urlParserString $text_data] {
+					set start [lindex $match 0]
+					set end [lindex $match 1]
 
-						set pos [$textw index ${text_start}+${start}c]
-						set endpos [$textw index ${text_start}+[expr {${end} +1}]c]
-						set urltext [$textw get $pos ${endpos}]
+					set pos [$textw index ${text_start}+${start}c]
+					set endpos [$textw index ${text_start}+[expr {${end} +1}]c]
+					set urltext [$textw get $pos ${endpos}]
 
-						if {[regexp {url_\d+} [$textw tag get $pos]} {
-							# Make sure not to url replace the same url twice if it matches 2 regexps
-							continue
-						}
 
-						set urlcount "[expr {$urlcount+1}]"
-						set urlname "url_$urlcount"
+					set urlcount "[expr {$urlcount+1}]"
+					set urlname "url_$urlcount"
 						
-						$textw tag configure $urlname \
-						    -foreground "#000080" -font splainf -underline true
-						$textw tag bind $urlname <Enter> \
-						    "$textw tag conf $urlname -underline false; $textw conf -cursor hand2"
-						$textw tag bind $urlname <Leave> \
-						    "$textw tag conf $urlname -underline true; $textw conf -cursor xterm"
-						$textw tag bind $urlname <<Button1>> \
-						    "$textw conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
-						$textw tag bind $urlname <<Button3>> [list ::amsn::SelectUrl $textw $urlname]
+					$textw tag configure $urlname \
+					    -foreground "#000080" -font splainf -underline true
+					$textw tag bind $urlname <Enter> \
+					    "$textw tag conf $urlname -underline false; $textw conf -cursor hand2"
+					$textw tag bind $urlname <Leave> \
+					    "$textw tag conf $urlname -underline true; $textw conf -cursor xterm"
+					$textw tag bind $urlname <<Button1>> \
+					    "$textw conf -cursor watch; launch_browser [string map {% %%} [list $urltext]]"
+					$textw tag bind $urlname <<Button3>> [list ::amsn::SelectUrl $textw $urlname]
 								 
-						$textw rodelete $pos $endpos
-						$textw roinsert $pos "$urltext" $urlname
+					$textw rodelete $pos $endpos
+					$textw roinsert $pos "$urltext" $urlname
 
-						#Don't replace smileys in URLs
-						$textw tag add dont_replace_smileys ${urlname}.first ${urlname}.last
-
-					}
+					#Don't replace smileys in URLs
+					$textw tag add dont_replace_smileys ${urlname}.first ${urlname}.last
+					
 				}
 			}
 			
@@ -7878,35 +7874,33 @@ proc setColor {w button name options} {
 
 
 
-#given a string, this proc returns, as a list, the positions (first and end) of any URL in this string.
+# Given a string, this proc returns a list where each element is a list containing
+# the positions (first and end) of any URL in this string.
 proc urlParserString { str } {
-	set list2return [list]
-	set pos 0
-	set url_indices {}
-	#this regexp is a bit complex, but it reaches all URLs as specified in the RFC 1738 on http://www.ietf.org/rfc/rfc1738.txt
-	while { [regexp -start $pos -indices {(\w+)://([\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $str url_indices ] } {
-		set pos [lindex $url_indices 1]
-		lappend list2return [lindex $url_indices 0] $pos
-	}
-	set pos 0
-	while { [regexp -start $pos -indices {www\.([\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+)} $str url_indices ] } {
-		set pos [lindex $url_indices 1]
-		set pos_start [lindex $url_indices 0]
-		#check if the url was not found before
-		if { ![regexp :// [string range $str [expr {$pos_start - 3}] $pos ] ]} {
-			lappend list2return $pos_start $pos
+	set matches [list]
+
+	foreach url $::amsn::urlregexps {
+		foreach match [regexp -line -nocase -indices -all -inline -- $url $str] {
+			set start [lindex $match 0]
+			set end [lindex $match 1]
+			set duplicate 0
+
+			# Make sure not to match the same url twice if it matches 2 regexps
+			foreach m $matches {
+				set s [lindex $m 0]
+				set e [lindex $m 1]
+				if {$s <= $start && $e >= $end} {
+					set duplicate 1
+					break
+				}
+			}
+			if {!$duplicate} {
+				lappend matches [list $start $end]
+			}
 		}
 	}
-	while { [regexp -start $pos -indices {[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]\.(org|com|net)} $str url_indices ] } {
-		set pos [lindex $url_indices 1]
-		set pos_start [lindex $url_indices 0]
-		#check if the url was not found before
-		if { ![regexp :// [string range $str [expr {$pos_start - 3}] $pos ] ] &&
-		     ![regexp {^www\. } [string range $str [expr {$pos_start - 4}] $pos ]]} {
-			lappend list2return $pos_start $pos
-		}
-	}
-	return $list2return
+
+	return $matches
 }
 
 
@@ -7980,10 +7974,9 @@ proc show_umenu {user_login grId x y} {
 	#parse nick and PSM in the same time.
 	set nickpsm "${the_nick} ${the_psm}"
 	set url_indices [urlParserString "$nickpsm"]
-	for {set i 0} {$i<[llength $url_indices]} {incr i} {
-		set pos_start [lindex $url_indices $i ]
-		incr i
-		set pos [lindex $url_indices $i ]
+	foreach match $url_indices {
+		set pos_start [lindex $match 0]
+		set pos [lindex $match 1 ]
 		set urltext [string range $nickpsm $pos_start $pos]
 		.user_menu add command -label "[trans goto ${urltext} ] " \
 		-command "launch_browser [list $urltext]"
