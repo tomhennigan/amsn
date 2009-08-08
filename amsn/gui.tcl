@@ -324,10 +324,14 @@ if { $initialize_amsn == 1 } {
 	namespace eval ::amsn {
 		variable urlcount 0
 		variable urlregexps
+		# MAKE SURE that none of the regexps have a capturing group!
+		# use (?:regexp) if you need to use the parenthesis..
+		# like for (?:org|com|net)...
 		set urlregexps {
 			{\w+://[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+}
 			{www\.[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+}
 			{[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+\.(?:org|com|net)}
+			{spotify:(?:track|album|artist|search|playlist|user|radio):[^<>\s]+}
 		}
 	}
 
@@ -4131,17 +4135,20 @@ namespace eval ::amsn {
 				variable urlcount
 				variable urlregexps
 				
-				set endpos $text_start
+				set text_data [$textw get $text_start end]
 				foreach url $urlregexps {
-					set text_data [$textw get $text_start end]
 					foreach match [regexp -line -nocase -indices -all -inline -- $url $text_data] {
 						set start [lindex $match 0]
 						set end [lindex $match 1]
-						puts "$text_data - $match"
 
 						set pos [$textw index ${text_start}+${start}c]
 						set endpos [$textw index ${text_start}+[expr {${end} +1}]c]
 						set urltext [$textw get $pos ${endpos}]
+
+						if {[regexp {url_\d+} [$textw tag get $pos]} {
+							# Make sure not to url replace the same url twice if it matches 2 regexps
+							continue
+						}
 
 						set urlcount "[expr {$urlcount+1}]"
 						set urlname "url_$urlcount"
