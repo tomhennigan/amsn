@@ -2312,6 +2312,7 @@ namespace eval ::AVAssistant {
 				if {$val == [lindex $src 2]} {
 					set selectedaudiosrc [lindex $src 1]
 					$contentf.in.a1.c.lf.desc configure -text [lindex $src 3]
+					$contentf.in.a1.l.dev configure -state normal
 					$contentf.in.a1.l.dev list delete 0 end
 					set fssrcdevlist [lindex $src 4]
 					if {[llength $fssrcdevlist] > 0} {
@@ -2344,6 +2345,7 @@ namespace eval ::AVAssistant {
 				if {$val == [lindex $src 2]} {
 					set selectedvideosrc [lindex $src 1]
 					$contentf.in.a1.c.lf.desc configure -text [lindex $src 3]
+					$contentf.in.a1.l.dev configure -state normal
 					$contentf.in.a1.l.dev list delete 0 end
 					set fssrcdevlist [lindex $src 4]
 					if {[llength $fssrcdevlist] > 0} {
@@ -2486,6 +2488,7 @@ namespace eval ::AVAssistant {
 				if {$val == [lindex $sink 2]} {
 					set selectedvideosink [lindex $sink 1]
 					$contentf.out.a1.c.lf.desc configure -text [lindex $sink 3]
+					$contentf.out.a1.l.dev configure -state normal
 					$contentf.out.a1.l.dev list delete 0 end
 					set fssinkdevlist [lindex $sink 4]
 					if {[llength $fssinkdevlist] > 0} {
