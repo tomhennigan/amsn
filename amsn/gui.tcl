@@ -7776,6 +7776,9 @@ proc exit {} {
 
 	close_dock    ;# Close down the dock socket
 	catch {file delete [file join $HOME hotlog.htm]} res
+
+        $::farsight Close
+
 	# As suggested by Joe English, letting the idler do the exit is better since it lets the C stack unwind
 	# into a safer state.. would resolve possible segfaults on exit.. 
 	# other alternative is to use 'destroy .' instead of 'exit'.. especially when it's called from a -command option of a menu entry
