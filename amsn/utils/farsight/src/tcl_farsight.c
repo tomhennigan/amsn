@@ -98,11 +98,8 @@ static int audio_components_selected = 0;
 static int video_components_selected = 0;
 static FsElementAddedNotifier *fsnotifier = NULL;
 
-
 #ifdef __APPLE__
-
-static NSAutoreleasePool *cocoa_pool = NULL;
-
+static GList *cocoa_windows = NULL;
 #endif
 
 
@@ -150,6 +147,10 @@ static char *host2ip(char *hostname)
 
 static void Close ()
 {
+#ifdef __APPLE__
+  GList *i = NULL;
+#endif
+
   if (participant) {
     g_object_unref (participant);
     participant = NULL;
@@ -243,11 +244,14 @@ static void Close ()
   fsnotifier = NULL;
 
 #ifdef __APPLE__
-  if (cocoa_pool != NULL) {
-     [cocoa_pool release];
-     cocoa_pool = NULL;
+  for (i = g_list_first(cocoa_windows); i; ) {
+    NSWindow *win = (NSWindow *) i->data;
+    i = g_list_next(i);
+    cocoa_windows = g_list_remove(cocoa_windows, win);
+    [win close];
   }
 #endif
+
 }
 
 
@@ -1727,12 +1731,10 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
           unsigned int mask =  NSResizableWindowMask         |
                                NSTexturedBackgroundWindowMask |
                                NSMiniaturizableWindowMask;
+          NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
           nsview = (NSView *)g_value_get_pointer(gst_structure_get_value (s, "nsview"));
           if (nsview) {
-            if (cocoa_pool == NULL) {
-              cocoa_pool = [[NSAutoreleasePool alloc] init];
-            }
             rect.origin.x = 100.0;
             rect.origin.y = 100.0;
             rect.size.width = 352.0 ;
@@ -1750,9 +1752,10 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
             [win setContentView:nsview];
 
             [win makeKeyAndOrderFront:nil];
-            [win autorelease];
 
+            cocoa_windows = g_list_append(cocoa_windows, win);
           }
+          [pool release];
         }
 #endif
       }
