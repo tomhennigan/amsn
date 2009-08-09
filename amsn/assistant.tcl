@@ -2709,7 +2709,6 @@ namespace eval ::AVAssistant {
 			frame $contentf.out.a1.c
 			labelframe $contentf.out.a1.c.lf -text [trans description]
 			label $contentf.out.a1.c.lf.desc
-			button $contentf.out.a1.c.test -text [trans test]
 			frame $contentf.out.r -borderwidth 1 -bg black
 			if {$is_audio} {
 				package require voipcontrols
@@ -2735,7 +2734,6 @@ namespace eval ::AVAssistant {
 			pack $contentf.out.a1.c.lf -expand 1 -fill both -anchor center
 			pack $contentf.out.a1.c.lf.desc -side top -anchor center -expand 1 -fill both
 			bind $contentf.out.a1.c.lf.desc <Configure> [list %W configure -wraplength %w]
-			pack $contentf.out.a1.c.test -side right -anchor se
 			pack $contentf.out.r -side right -expand 0 -fill none -anchor center
 			pack $contentf.out.r.d
 
