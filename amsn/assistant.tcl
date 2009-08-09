@@ -2288,6 +2288,10 @@ namespace eval ::AVAssistant {
 
 		if {$is_audio} {
 			variable selectedaudiosrc
+			variable selectedaudiosrcdev
+
+			set selectedaudiosrcdev $val
+
 			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-source $selectedaudiosrc -audio-source-device $val
 			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
@@ -2310,16 +2314,23 @@ namespace eval ::AVAssistant {
 					$contentf.in.a1.c.lf.desc configure -text [lindex $src 3]
 					$contentf.in.a1.l.dev list delete 0 end
 					set fssrcdevlist [lindex $src 4]
-					set nr 0
-					set count 0
-					foreach dev $fssrcdevlist {
-						$contentf.in.a1.l.dev list insert end $dev
-						if {$dev == $selectedaudiosrcdev} {
-							set nr $count
+					if {[llength $fssrcdevlist] > 0} {
+						set nr 0
+						set count 0
+						foreach dev $fssrcdevlist {
+							$contentf.in.a1.l.dev list insert end $dev
+							if {$dev == $selectedaudiosrcdev} {
+								set nr $count
+							}
+							incr count
 						}
-						incr count
+						catch {$contentf.in.a1.l.dev select $nr}
+					} else {
+						$contentf.in.a1.l.dev list insert end [trans fsnodevfound]
+						catch {$contentf.in.a1.l.dev select 0}
+						$contentf.in.a1.l.dev configure -state disabled
+						setFSSourceDev $contentf $is_audio $w ""
 					}
-					catch {$contentf.in.a1.l.dev select $nr}
 					break
 				}
 			}
@@ -2335,16 +2346,23 @@ namespace eval ::AVAssistant {
 					$contentf.in.a1.c.lf.desc configure -text [lindex $src 3]
 					$contentf.in.a1.l.dev list delete 0 end
 					set fssrcdevlist [lindex $src 4]
-					set nr 0
-					set count 0
-					foreach dev [lindex $src 4] {
-						$contentf.in.a1.l.dev list insert end $dev
-						if {$dev == $selectedvideosrcdev} {
-							set nr $count
+					if {[llength $fssrcdevlist] > 0} {
+						set nr 0
+						set count 0
+						foreach dev [lindex $src 4] {
+							$contentf.in.a1.l.dev list insert end $dev
+							if {$dev == $selectedvideosrcdev} {
+								set nr $count
+							}
+							incr count
 						}
-						incr count
+						catch {$contentf.in.a1.l.dev select $nr}
+					} else {
+						$contentf.in.a1.l.dev list insert end [trans fsnodevfound]
+						catch {$contentf.in.a1.l.dev select 0}
+						$contentf.in.a1.l.dev configure -state disabled
+						setFSSourceDev $contentf $is_audio $w ""
 					}
-					catch {$contentf.in.a1.l.dev select $nr}
 					break
 				}
 			}
@@ -2374,6 +2392,9 @@ namespace eval ::AVAssistant {
 		::Farsight::Stop
 		if {$is_audio} {
 			variable selectedaudiosink
+			variable selectedaudiosinkdev
+
+			set selectedaudiosinkdev $val
 
 			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-sink $selectedaudiosink -audio-sink-device $val
@@ -2388,14 +2409,18 @@ namespace eval ::AVAssistant {
 		if {$is_audio} {
 			variable selectedaudiosink
 			variable selectedaudiosrc
-			if { $selectedaudiosrc == "autoaudiosrc"} {
+			if { $selectedaudiosrc == "autoaudiosrc" ||
+			     $selectedaudiosrc == ""} {
 				set txt [trans fsautoaudiosrcchosen $src]
 			} else {
-				if {$src != $selectedaudiosrc} {
+				if {$selectedaudiosrc == "-" } {
+					set txt [trans fssrcdisabledusing "audiotestsrc"]
+				} elseif {$src != $selectedaudiosrc} {
 					set txt [trans curfssrcnotworking]
 				}
 			}
-			if { $selectedaudiosink == "autoaudiosink"} {
+			if { $selectedaudiosink == "autoaudiosink" ||
+			     $selectedaudiosink == "" } {
 					if {$txt == ""} {
 						set txt [trans fsautoaudiosinkchosen $sink]
 					} else {
@@ -2427,18 +2452,27 @@ namespace eval ::AVAssistant {
 				if {$val == [lindex $sink 2]} {
 					set selectedaudiosink [lindex $sink 1]
 					$contentf.out.a1.c.lf.desc configure -text [lindex $sink 3]
+					$contentf.out.a1.l.dev configure -state normal
 					$contentf.out.a1.l.dev list delete 0 end
 					set fssinkdevlist [lindex $sink 4]
-					set count 0
-					set nr 0
-					foreach dev $fssinkdevlist {
-						$contentf.out.a1.l.dev list insert end $dev
-						if {$dev == $selectedaudiosinkdev} {
-							set nr $count
+					if {[llength $fssinkdevlist] > 0} {
+						set count 0
+						set nr 0
+						foreach dev $fssinkdevlist {
+							$contentf.out.a1.l.dev list insert end $dev
+							if {$dev == $selectedaudiosinkdev} {
+								set nr $count
+							}
+							incr count
 						}
-						incr count
+						catch {$contentf.out.a1.l.dev select $nr}
+					} else {
+						$contentf.out.a1.l.dev list insert end [trans fsnodevfound]
+						catch {$contentf.out.a1.l.dev select 0}
+						$contentf.out.a1.l.dev configure -state disabled
+						setFSSinkDev $contentf $is_audio $w ""
 					}
-					catch {$contentf.out.a1.l.dev select $nr}
+
 					break
 				}
 			}
@@ -2454,16 +2488,23 @@ namespace eval ::AVAssistant {
 					$contentf.out.a1.c.lf.desc configure -text [lindex $sink 3]
 					$contentf.out.a1.l.dev list delete 0 end
 					set fssinkdevlist [lindex $sink 4]
-					set count 0
-					set nr 0
-					foreach dev $fssinkdevlist {
-						$contentf.out.a1.l.dev list insert end $dev
-						if {$dev == $selectedvideosinkdev} {
-							set nr $count
+					if {[llength $fssinkdevlist] > 0} {
+						set count 0
+						set nr 0
+						foreach dev $fssinkdevlist {
+							$contentf.out.a1.l.dev list insert end $dev
+							if {$dev == $selectedvideosinkdev} {
+								set nr $count
+							}
+							incr count
 						}
-						incr count
+						catch {$contentf.out.a1.l.dev select $nr}
+					} else {
+						$contentf.out.a1.l.dev list insert end [trans fsnodevfound]
+						catch {$contentf.out.a1.l.dev select 0}
+						$contentf.out.a1.l.dev configure -state disabled
+						setFSSinkDev $contentf $is_audio $w ""
 					}
-					catch {$contentf.out.a1.l.dev select $nr}
 					break
 				}
 			}
@@ -2540,6 +2581,15 @@ namespace eval ::AVAssistant {
 				set fsaudiosinks [list]
 				set fsvideosrcs [list]
 				set fsvideosinks [list]
+
+				lappend fsaudiosrcs  [list "audiosource" "-" [trans disabled] [trans disabledaudiosrcdesc]]
+				lappend fsvideosrcs  [list "videosource" "-" [trans disabled] [trans disabledvideosrcdesc]]
+
+				lappend fsaudiosrcs  [list "audiosource" "" [trans automaticsrc]  [trans autoaudiosrcdesc]]
+				lappend fsaudiosinks [list "audiosink"   "" [trans automaticsink] [trans autoaudiosinkdesc]]
+				lappend fsvideosrcs  [list "videosource" "" [trans automaticsrc]  [trans autovideosrcdesc]]
+				lappend fsvideosinks [list "videosink"   "" [trans automaticsink] [trans autovideosinkdesc]]
+
 				foreach p $probe {
 					switch [lindex $p 0] {
 					  "audiosource" {
@@ -2568,16 +2618,6 @@ namespace eval ::AVAssistant {
 					}
 				}
 			}
-
-			lappend fsaudiosrc  [list "audiosource" [trans automaticsrc]  "" [trans autoaudiosrcdesc]]
-			lappend fsaudiosink [list "audiosink"   [trans automaticsink] "" [trans autoaudiosinkdesc]]
-			lappend fsvideosrc  [list "videosource" [trans automaticsrc]  "" [trans autovideosrcdesc]]
-			lappend fsvideosink [list "videosink"   [trans automaticsink] "" [trans autovideosinkdesc]]
-
-			lappend fsaudiosrc  [list "audiosource" [trans disabled] "-" [trans disabledaudiosrcdesc]]
-			lappend fsaudiosink [list "audiosink"   [trans disabled] "-" [trans disabledaudiosinkdesc]]
-			lappend fsvideosrc  [list "videosource" [trans disabled] "-" [trans disabledvideosrcdesc]]
-			lappend fsvideosink [list "videosink"   [trans disabled] "-" [trans disabledvideosinkdesc]]
 
 			set fssinkdevlist [list]
 			set fssrcdevlist [list]
@@ -2949,10 +2989,10 @@ namespace eval ::AVAssistant {
 			::config::setKey fsaudiosrc $selectedaudiosrc
 			::config::setKey fsaudiosrcdev $selectedaudiosrcdev
 			::config::setKey fsaudiosink $selectedaudiosink
-			::config::setKey fsaudiosrc $selectedaudiosrc
+			::config::setKey fsaudiosinkdev $selectedaudiosinkdev
+			::config::setKey fsvideosrcv $selectedvideosrc
 			::config::setKey fsvideosrcdev $selectedvideosrcdev
 			::config::setKey fsvideosink $selectedvideosink
-			::config::setKey fsvideosinkdev $selectedvideosinkdev
 			::config::setKey fsvideosinkdev $selectedvideosinkdev
 		}
 
