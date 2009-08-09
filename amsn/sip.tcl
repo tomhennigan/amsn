@@ -3044,31 +3044,7 @@ namespace eval ::MSNSIP {
 				::MSNSIP::FarsightTestFailed $callbk
 			} ;# else let the callbacks act
 		} else {
-			set changed 0
-			if { [::config::getKey protocol] >= 15 &&
-			     ![::MSN::hasCapability [::config::getKey clientid 0] sip]} {
-				::MSN::setClientCap sip
-				set changed 1
-			}
-			if { [::config::getKey protocol] >= 18 &&
-			     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip]} {
-				::MSN::setClientCap tunnelsip
-				set changed 1
-			}
-			if { [::config::getKey protocol] >= 18 &&
-			     ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo]} {
-				::MSN::setClientCap rtcvideo
-				set changed 1
-			}
-
-			if {$changed } {
-				if {[::MSN::myStatusIs] != "FLN" } {
-					::MSN::changeStatus [::MSN::myStatusIs]
-				}
-			}
-			if {$callbk != "" } {
-				eval [linsert $callbk end 1]
-			}
+			::MSNSIP::FarsightTestSucceeded $callbk
 		}
 	}
 }
