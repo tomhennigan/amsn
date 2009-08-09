@@ -918,6 +918,10 @@ namespace eval ::MSN {
 		::MSN::setClientCap multip
 		::MSN::setClientCap voice
 
+                if { [::config::getKey wanttosharecam] && [::CAMGUI::camPresent] == 1 } {
+                        ::MSN::setClientCap webcam
+                }
+
 
 		if {[::config::getKey protocol] >= 15} {
 			global sso

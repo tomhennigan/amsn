@@ -3567,8 +3567,3 @@ namespace eval ::CAMGUI {
 
 }
 
-if { $initialize_amsn == 1 } {
-	if { [::config::getKey wanttosharecam] && [::CAMGUI::camPresent] == 1 } {
-		::MSN::setClientCap webcam
-	}
-}
