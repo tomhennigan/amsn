@@ -907,6 +907,11 @@ _create_audio_sink ()
     snk = gst_element_factory_make (audio_sink, NULL);
     if (snk && audio_sink_device)
       g_object_set(snk, "device", audio_sink_device, NULL);
+    if (snk) {
+      g_object_set(snk, "sync", FALSE, NULL);
+      g_object_set(snk, "async", FALSE, NULL);
+    }
+ 
   }
   if (snk == NULL) {
     snk = gst_element_factory_make ("autoaudiosink", NULL);
@@ -1445,6 +1450,10 @@ _create_video_sink ()
     }
   } else if (video_sink) {
     snk = gst_element_factory_make (video_sink, NULL);
+    if (snk) {
+      g_object_set (snk, "async", FALSE, NULL);
+      g_object_set (snk, "sync", FALSE, NULL);
+    }
   }
   if (snk == NULL) {
 #ifdef __APPLE__
