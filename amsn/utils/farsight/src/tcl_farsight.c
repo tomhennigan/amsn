@@ -101,50 +101,7 @@ static FsElementAddedNotifier *fsnotifier = NULL;
 
 #ifdef __APPLE__
 
-static Tcl_TimerToken cocoa_event_timer = NULL;
 static NSAutoreleasePool *cocoa_pool = NULL;
-
-@implementation FarsightAppDelegate : NSObject
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
-{
-    // destroy stuff here!
-    return NSTerminateNow;
-}
-@end
-
-
-
-/* cocoa event loop - needed to handle the window */
-/* FIXME : This is crap because Tk uses Carbon which eats our events
-   so it's either Carbon or Cocoa who gets the event, and it's all screwed up */
-static void
-cocoa_event_loop (ClientData dummy)
-{
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-  while (TRUE) {
-    unsigned int masks = NSLeftMouseDownMask |
-			 NSLeftMouseUpMask | 
-			 NSLeftMouseDraggedMask | 
-			 NSMouseEnteredMask |
-			 NSMouseExitedMask |
-			 NSAppKitDefinedMask | /* To handle move window */
-			 NSSystemDefinedMask /* To handle resize window */;
-    NSEvent *event = [NSApp nextEventMatchingMask:masks
-                           untilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]
-                           inMode:NSDefaultRunLoopMode dequeue:YES];
-    if ( event == nil ) {
-      break;
-    } else {
-      [NSApp sendEvent:event];
-      // loop
-    }
-  }
-  [pool release];
-
-  cocoa_event_timer = Tcl_CreateTimerHandler(100, cocoa_event_loop, NULL);
-
-}
 
 #endif
 
@@ -286,9 +243,6 @@ static void Close ()
   fsnotifier = NULL;
 
 #ifdef __APPLE__
-  if (cocoa_event_timer != NULL) {
-    Tcl_DeleteTimerHandler(cocoa_event_timer);
-  }
   if (cocoa_pool != NULL) {
      [cocoa_pool release];
      cocoa_pool = NULL;
@@ -1784,7 +1738,7 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
             rect.size.width = 352.0 ;
             rect.size.height = 288.0;
 
-            [NSApplication sharedApplication];
+            NSApplicationLoad();
 
             win =[[NSWindow alloc]
                             initWithContentRect: rect
@@ -1795,15 +1749,9 @@ static int Farsight_BusEventProc (Tcl_Event *evPtr, int flags)
 
             [win setContentView:nsview];
 
-            [win makeKeyAndOrderFront:NSApp];
+            [win makeKeyAndOrderFront:nil];
             [win autorelease];
 
-            [NSApp finishLaunching];
-            [NSApp setDelegate:[[FarsightAppDelegate alloc] init]];
-
-            if (cocoa_event_timer == NULL) {
-              cocoa_event_timer = Tcl_CreateTimerHandler(100, cocoa_event_loop, NULL);
-            }
           }
         }
 #endif
