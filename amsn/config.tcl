@@ -325,6 +325,18 @@ namespace eval ::config {
 		
 		::config::setKey hide_users_in_cw 1	;#in a multichat don't show users in the topcw
 
+		# Farsight config
+                ::config::setKey fsaudiosrc ""
+                ::config::setKey fsaudiosrcdev ""
+                ::config::setKey fsaudiosink ""
+                ::config::setKey fsaudiosinkdev ""
+                ::config::setKey fsvideosrc ""
+                ::config::setKey fsvideosrcdev ""
+                ::config::setKey fsvideosink ""
+                ::config::setKey fsvideosinkdev ""
+
+
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
