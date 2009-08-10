@@ -3495,6 +3495,24 @@ int Farsight_InUse _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   return TCL_OK;
 }
 
+int Farsight_DumpPipeline _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]))
+{
+
+  // We verify the arguments
+  if( objc != 2) {
+    Tcl_WrongNumArgs (interp, 1, objv, "filename");
+    return TCL_ERROR;
+  }
+
+  if (pipeline)
+    GST_DEBUG_BIN_TO_DOT_FILE (pipeline, GST_DEBUG_GRAPH_SHOW_ALL, Tcl_GetString (objv[1]));
+  if (test_pipeline)
+    GST_DEBUG_BIN_TO_DOT_FILE (test_pipeline, GST_DEBUG_GRAPH_SHOW_ALL, Tcl_GetString (objv[1]));
+
+  return TCL_OK;
+}
+
 static int _SetMute (GstElement *element, Tcl_Interp *interp,
     int objc, Tcl_Obj *CONST objv[])
 {
@@ -4225,6 +4243,8 @@ int Farsight_Init (Tcl_Interp *interp) {
   Tcl_CreateObjCommand(interp, "::Farsight::TestAudio", Farsight_TestAudio,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
   Tcl_CreateObjCommand(interp, "::Farsight::TestVideo", Farsight_TestVideo,
+		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+  Tcl_CreateObjCommand(interp, "::Farsight::DumpPipeline", Farsight_DumpPipeline,
 		       (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
 
   // end of Initialisation
