@@ -393,8 +393,8 @@ snit::widget voipmixer {
 	method setLevel {value} {
 		if { $options(-state) != "normal"} {return}
 
-		if {[expr {$value == -inf}] ||
-		    [expr {$value == inf}] } { 
+		if {[expr {$value == "-inf"}] ||
+		    [expr {$value == "inf"}] } { 
 			set value $options(-levelfrom) 
 		}
 

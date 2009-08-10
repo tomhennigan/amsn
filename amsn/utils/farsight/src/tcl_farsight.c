@@ -343,6 +343,8 @@ _notify_level (char *direction, gfloat level)
   Tcl_Obj *command[] = {eval, level_callback, args};
   Tcl_Interp *interp = level_callback_interp;
 
+  if (level < -1000)
+	  level = -1000;
 
   Tcl_ListObjAppendElement(NULL, args, dir);
   Tcl_ListObjAppendElement(NULL, args, Tcl_NewDoubleObj (level));
