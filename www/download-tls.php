@@ -1,10 +1,10 @@
 <?php
 switch ($_GET["arch"]) {
 	case "linuxx86":
-		$filename = "tls-1.5.0-linux-x86.tar.gz";
+		$filename = "tls-1.6-linux-x86.tar.gz";
 		break;
 	case "linuxx86_64":
-		$filename = "tls1.5-linux-x86_64.tar.gz";
+		$filename = "tls-1.6-linux-x86_64.tar.gz";
 		break;
 	case "linuxppc":
 		$filename = "tls1.4.1-linux-ppc.tar.gz";
