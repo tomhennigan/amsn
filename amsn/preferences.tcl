@@ -3631,7 +3631,7 @@ proc choose_basefont { } {
 # When the menu item is pressed, it calls ::tk::mac::ShowPreferences.
 if {[OnMac] && [version_vcompare [info patchlevel] 8.4.14] >= 0 } {
     proc ::tk::mac::ShowPreferences {} {
-        after 0 { [list Preferences] }
+        after 0 [list Preferences]
     }
 }
 #///////////////////////////////////////////////////////////////////////
