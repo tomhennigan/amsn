@@ -36,6 +36,7 @@ namespace eval ::ChatWindow {
 		variable containercurrent
 		variable containerid 0
 		variable scrolling
+		variable macbouncewindows [list]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -567,6 +568,63 @@ namespace eval ::ChatWindow {
 
 	}
 
+	proc MacKeepBouncing { } {
+		if {[catch {::carbon::notification "" 1} res]} {
+			status_log $res
+		}
+		after 2000 ::ChatWindow::MacKeepBouncing
+	}
+
+	proc MacBounce { } {
+		if { [::config::getKey dockbounce] == "never" } {
+			return
+		}
+
+		set found 0
+		foreach after_id [after info] {
+			set cmd [lindex [after info $after_id] 0]
+			if {$cmd == "::ChatWindow::MacKeepBouncing" } {
+				set found 1
+				break
+			}
+		}
+
+		if {$found == 0 } {
+			MacKeepBouncing
+		}
+		if { [::config::getKey dockbounce] == "once" } {
+			MacBounceStop
+		}
+	}
+
+	proc MacBounceStop { } {
+		after cancel ::ChatWindow::MacKeepBouncing
+		catch {::carbon::endNotification}
+	}
+
+	proc MacBounceStart { window } {
+		variable macbouncewindows
+                set idx [lsearch [set macbouncewindows] $window]
+                if {$idx == -1 } {
+			lappend macbouncewindows $window
+			MacBounce
+		}
+	}
+
+	proc MacBounceDone { window } {
+		variable macbouncewindows
+                set idx [lsearch [set macbouncewindows] $window]
+		if {$idx >= 0 } {
+	                set macbouncewindows [lreplace [set macbouncewindows] $idx $idx]
+		}
+		if {[llength $macbouncewindows] > 0 } {
+			MacBounce
+		} else {
+			MacBounceStop
+		}
+	}
+
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Flicker (chatid, [count])
 	# Called when a window must flicker, and called by itself to produce the flickering
@@ -601,6 +659,9 @@ namespace eval ::ChatWindow {
 				catch {wm title ${window} "*$::ChatWindow::titles($window)"} res
 				set ::ChatWindow::new_message_on(${window}) "asterisk"
 				bind ${window} <FocusIn> "::ChatWindow::GotFocus ${window}"
+				if {[OnMac]} {
+					MacBounceStart $window
+				}
 			}
 			return 0
 		}
@@ -650,26 +711,8 @@ namespace eval ::ChatWindow {
 				}
 			} elseif { [OnMac] } {
 				#Dock Bouncing on Mac OS X
+				MacBounceStart $window
 
-				# Bounce unlimited of time when we are not in aMSN and receive a
-				# message, until we re-click on aMSN icon (or get back to aMSN)
-				if { [::config::getKey dockbounce] == "unlimited" } {
-					if {[catch {carbon::notification "" 1} res]} {
-						status_log $res
-					}
-				}
-
-				# Bounce then stop bouncing after 1 second, when we are not
-				# in aMSN and receive a message (default)
-				if { [::config::getKey dockbounce] == "once"} {
-					if {[catch {carbon::notification "" 1} res]} {
-						status_log $res
-					}
-					after 1000 [list catch [list carbon::endNotification]]
-				}
-
-				bind $window <FocusIn> "carbon::endNotification; bind $window <FocusIn> \"\""	
-				return
 			}
 		
 
@@ -690,7 +733,9 @@ namespace eval ::ChatWindow {
 
 			catch {wm title ${window} "$::ChatWindow::titles($window)"} res
 			catch {unset ::ChatWindow::new_message_on(${window})}
-			
+			if {[OnMac]} {
+				MacBounceDone $window
+			}
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -722,6 +767,9 @@ namespace eval ::ChatWindow {
 			unset ::ChatWindow::new_message_on(${window})
 			catch {wm title ${window} "[EscapeTitle $::ChatWindow::titles(${window})]"} res
 			bind ${window} <FocusIn> ""
+			if {[OnMac]} {
+				MacBounceDone $window
+			}
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -3661,7 +3709,7 @@ namespace eval ::ChatWindow {
 				set visible 0
 				foreach winvisible [set visibletabs($container)] {
 					if { ![string equal $window $winvisible] } {
-					if { !$visible && [string equal $window $win] } {
+						if { !$visible && [string equal $window $win] } {
 							set right 0
 						} elseif { [string equal $window $win] } {
 							set right 1
