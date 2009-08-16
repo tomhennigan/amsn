@@ -625,6 +625,20 @@ namespace eval ::ChatWindow {
 	}
 
 
+	proc MacRaiseWindows { } {
+                variable macbouncewindows
+
+		if {[llength $macbouncewindows] > 0 } {
+			set win [lindex $macbouncewindows 0]
+                        wm state $win normal
+                        raise $win
+			return 1
+		} else {
+			return 0
+		}
+	}
+
+
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::Flicker (chatid, [count])
 	# Called when a window must flicker, and called by itself to produce the flickering
