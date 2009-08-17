@@ -2411,7 +2411,11 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
   }
 
 
-  snk = _create_video_sink ();
+  /* Uncomment once we want to have a TestView that also tests the video sink */
+  if (preview)
+    snk = gst_element_factory_make ("fakesink", NULL);
+  else
+    snk = _create_video_sink ();
   if (snk == NULL) {
     Tcl_AppendResult (interp, "Could not create video sink", (char *) NULL);
     goto error;
@@ -2428,6 +2432,10 @@ int Farsight_TestVideo _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     goto error;
   }
 
+  if (preview == NULL) {
+    preview = snk;
+    gst_object_ref (preview);
+  }
 
   if (gst_element_set_state (test_pipeline, GST_STATE_PLAYING) ==
       GST_STATE_CHANGE_FAILURE) {
