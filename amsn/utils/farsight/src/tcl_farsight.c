@@ -1821,6 +1821,7 @@ static GstBusSyncReply
 _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
 {
   FarsightBusEvent *evPtr;
+  GstBusSyncReply ret = GST_BUS_PASS;
 
   switch (GST_MESSAGE_TYPE (message))
   {
@@ -1860,6 +1861,7 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
           if (xiddata.found == FALSE) {
             gst_x_overlay_set_xwindow_id (GST_X_OVERLAY (xiddata.src), video_sink_xid);
           }
+          ret = GST_BUS_DROP;
         }
 #ifdef __APPLE__
 	else if (gst_structure_has_name (s, "have-ns-view")) {
@@ -1876,9 +1878,11 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
       break;
   }
 
-  return GST_BUS_PASS;
+  return ret;
 
  drop:
+  ret = GST_BUS_DROP;
+
   evPtr = (FarsightBusEvent *)ckalloc(sizeof(FarsightBusEvent));
   evPtr->header.proc = Farsight_BusEventProc;
   evPtr->header.nextPtr = NULL;
@@ -1887,7 +1891,7 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
   Tcl_ThreadQueueEvent(main_tid, (Tcl_Event *)evPtr, TCL_QUEUE_TAIL);
   Tcl_ThreadAlert(main_tid);
 
-  return GST_BUS_DROP;
+  return ret;
 }
 
 
