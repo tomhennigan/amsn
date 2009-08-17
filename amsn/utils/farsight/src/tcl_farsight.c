@@ -575,7 +575,8 @@ static GstElement * _test_source (gchar *name)
 
   if (!strcmp (name, "dtmfsrc") || !strcmp (name, "audiotestsrc") ||
       !strcmp (name, "autoaudiosrc") || !strcmp (name, "autovideosrc") ||
-      !strcmp (name, "videotestsrc") || !strcmp (name, "ximagesrc"))
+      !strcmp (name, "videotestsrc") || !strcmp (name, "ximagesrc") ||
+      !strcmp (name, "dx9screencapsrc") || !strcmp (name, "gdiscreencapsrc"))
     return NULL;
 
   element = gst_element_factory_make (name, NULL);
