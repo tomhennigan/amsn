@@ -2096,12 +2096,25 @@ snit::type Farsight {
 	variable call_type ""
 	variable preparing 0
 
+	option -audio-source -default "" -configuremethod ConfigureFarsight
+	option -audio-source-device -default "" -configuremethod ConfigureFarsight
+	option -audio-source-pipeline -default "" -configuremethod ConfigureFarsight
+	option -audio-sink -default "" -configuremethod ConfigureFarsight
+	option -audio-sink-device -default "" -configuremethod ConfigureFarsight
+	option -audio-sink-pipeline -default "" -configuremethod ConfigureFarsight
+	option -video-source -default "" -configuremethod ConfigureFarsight
+	option -video-source-device -default "" -configuremethod ConfigureFarsight
+	option -video-source-pipeline -default "" -configuremethod ConfigureFarsight
+	option -video-preview-xid -default 0 -configuremethod ConfigureFarsight
+	option -video-sink -default "" -configuremethod ConfigureFarsight
+	option -video-sink-xid -default 0 -configuremethod ConfigureFarsight
+	option -video-sink-pipeline -default "" -configuremethod ConfigureFarsight
+	option -level -default "" -configuremethod ConfigureFarsight
+
 	option -closed -default ""
 	option -prepared -default ""
 	option -active -default ""
 	option -sipconnection -default ""
-	option -video-preview-xid -default 0
-	option -video-sink-xid -default 0
 
 	constructor { args } {
 		$self configurelist $args
@@ -2111,6 +2124,14 @@ snit::type Farsight {
 					      "x-msrta" 29000 \
 					      "G7221" 24000]
 	}
+
+	method ConfigureFarsight {option value} {
+		set options($option) $value
+		if {$loaded} {
+			::Farsight::Config $option $value
+		}
+	}
+
 
 	method setSpecialLogger {newSpecialLogger} {
 		set specialLogger $newSpecialLogger
@@ -2349,8 +2370,22 @@ snit::type Farsight {
 		package require Farsight
 		set loaded 1
 
-		::Farsight::Config -level "" -debug [list $self Debug] \
-		    -video-preview-xid $options(-video-preview-xid) -video-sink-xid $options(-video-sink-xid)
+		::Farsight::Config  \
+		    -audio-source $options(-audio-source) \
+		    -audio-source-device $options(-audio-source-device) \
+		    -audio-source-pipeline $options(-audio-source-pipeline) \
+		    -audio-sink $options(-audio-sink) \
+		    -audio-sink-device $options(-audio-sink-device) \
+		    -audio-sink-pipeline $options(-audio-sink-pipeline) \
+		    -video-source $options(-video-source) \
+		    -video-source-device $options(-video-source-device) \
+		    -video-source-pipeline $options(-video-source-pipeline) \
+		    -video-preview-xid $options(-video-preview-xid) \
+		    -video-sink $options(-video-sink) \
+		    -video-sink-xid $options(-video-sink-xid) \
+		    -video-sink-pipeline $options(-video-sink-pipeline) \
+		    -level $options(-level) \
+		    -debug [list $self Debug] \
 
 		if {$mode == "AV6" || $mode == "AV19" } {
 			::MSN::setClientCap webcam
@@ -2773,7 +2808,7 @@ namespace eval ::MSNSIP {
 		}
 
 		::amsn::SIPCallConnected [$::farsight IsVideo] $email $sip $callid
-		::Farsight::Config -level [list ::MSNSIP::Level $email $sip $callid]
+		$farsight configure -level [list ::MSNSIP::Level $email $sip $callid]
 	}
 
 	proc CancelCall { sip callid } {

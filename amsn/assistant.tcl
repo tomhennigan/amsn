@@ -2292,7 +2292,7 @@ namespace eval ::AVAssistant {
 
 			set selectedaudiosrcdev $val
 
-			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
+			$::farsight configure -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-source $selectedaudiosrc -audio-source-device $val
 			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
 		} else {
@@ -2398,7 +2398,7 @@ namespace eval ::AVAssistant {
 
 			set selectedaudiosinkdev $val
 
-			::Farsight::Config -level [list ::AVAssistant::UpdateLevel $contentf] \
+			$::farsight configure -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-sink $selectedaudiosink -audio-sink-device $val
 			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
 		} else {
@@ -2535,6 +2535,7 @@ namespace eval ::AVAssistant {
 
 	proc StopFarsight {assistant contentf} {
 		catch {::Farsight::Stop}
+		$::farsight configure -level ""
 	}
 
 	proc StepFarsightClBk {assistant contentf is_audio result} {
