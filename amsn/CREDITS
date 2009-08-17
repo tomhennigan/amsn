@@ -402,4 +402,4 @@ Wim Taymans and the Gstreamer team for their work on Gstreamer and the rtpmanage
 Collabora Ltd. and Olivier Crete (a.k.a Tester) for their work on Farsight 2.
 Ole Andre Vadla Ravnas (once again) for his work on OABuild for building the gstreamer/farsight binaries for windows.
 Stephane Bisinger (kjir) for his patches on libtray for a better compatibility with fluxbox/stalonetray
-
+Andoni Morales: for his great help in providing us with the windows binaries for gstreamer/farsight/libnice.
