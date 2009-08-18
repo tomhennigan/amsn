@@ -325,15 +325,6 @@ namespace eval ::config {
 		
 		::config::setKey hide_users_in_cw 1	;#in a multichat don't show users in the topcw
 
-		# Farsight config
-                ::config::setGlobalKey fsaudiosrc ""
-                ::config::setGlobalKey fsaudiosrcdev ""
-                ::config::setGlobalKey fsaudiosink ""
-                ::config::setGlobalKey fsaudiosinkdev ""
-                ::config::setGlobalKey fsvideosrc ""
-                ::config::setGlobalKey fsvideosrcdev ""
-
-
 
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
@@ -571,6 +562,15 @@ namespace eval ::config {
 			setGlobalKey basefont [list Helvetica 11 normal]	;#AMSN base font
 		}
 		setGlobalKey dpi 0	;# The screen's DPI if we want to force it. 0 to let it use default
+
+		# Farsight config
+                setGlobalKey fsaudiosrc ""
+                setGlobalKey fsaudiosrcdev ""
+                setGlobalKey fsaudiosink ""
+                setGlobalKey fsaudiosinkdev ""
+                setGlobalKey fsvideosrc ""
+                setGlobalKey fsvideosrcdev ""
+
 	}
 
 	proc get {key} {
