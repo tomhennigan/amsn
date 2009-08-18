@@ -141,8 +141,8 @@ snit::widget assistant {
 
 	option -winname -default "Assistant" -cgetmethod getOption -configuremethod setWinName
 	
-	option -winwidth -default 650 -cgetmethod getOption -configuremethod resize
-	option -winheight -default 460 -cgetmethod getOption -configuremethod resize
+	option -winwidth -default 750 -cgetmethod getOption -configuremethod resize
+	option -winheight -default 600 -cgetmethod getOption -configuremethod resize
 
 
 	###########################################################################
@@ -2278,7 +2278,11 @@ namespace eval ::AVAssistant {
 				FSCheckSinkSource $contentf $is_audio [lindex $res 0] [lindex $res 1]
 			}
 		} else {
-			# TODO
+			if {[catch {set res [::Farsight::TestVideo]} err]} {
+				$contentf.err configure -text $err
+			} else {
+				FSCheckSinkSource $contentf $is_audio [lindex $res 0] [lindex $res 1]
+			}
 		}
 	}
 
@@ -2296,7 +2300,14 @@ namespace eval ::AVAssistant {
 			    -audio-source $selectedaudiosrc -audio-source-device $val
 			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
 		} else {
-			#TODO
+			variable selectedvideosrc
+			variable selectedvideosrcdev
+
+			set selectedvideosrcdev $val
+
+			$::farsight configure -video-source $selectedvideosrc -video-source-device $val \
+			    -video-preview-xid [winfo id $contentf.prev]
+			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
 		}
 	}
 
@@ -2402,7 +2413,7 @@ namespace eval ::AVAssistant {
 			    -audio-sink $selectedaudiosink -audio-sink-device $val
 			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
 		} else {
-			# TODO
+			# TODO: no sink selection for video
 		}
 	}
 
@@ -2438,7 +2449,17 @@ namespace eval ::AVAssistant {
 				}
 			}
 		} else {
-			#TODO
+			variable selectedvideosrc
+			if { $selectedvideosrc == "autovideosrc" ||
+			     $selectedvideosrc == ""} {
+				set txt [trans fsautovideosrcchosen $src]
+			} else {
+				if {$selectedvideosrc == "-" } {
+					set txt [trans fssrcdisabledusing "videotestsrc"]
+				} elseif {$src != $selectedvideosrc} {
+					set txt [trans curfssrcnotworking]
+				}
+			}
 		}
 		$contentf.err configure -text $txt
 	}
@@ -2483,7 +2504,7 @@ namespace eval ::AVAssistant {
 			variable selectedvideosink
 			variable selectedvideosinkdev
 			variable fssinkdevlist
-
+			# TODO
 			foreach sink $fsvideosinks {
 				if {$val == [lindex $sink 2]} {
 					set selectedvideosink [lindex $sink 1]
@@ -2548,22 +2569,19 @@ namespace eval ::AVAssistant {
 		variable fssinkdevlist
 		variable fssrcdevlist
 		variable fsvideosrcs
-		variable fsvideosinks
 		variable selectedaudiosrc
 		variable selectedaudiosrcdev
 		variable selectedaudiosink
 		variable selectedaudiosinkdev
 		variable selectedvideosrc
 		variable selectedvideosrcdev
-		variable selectedvideosink
-		variable selectedvideosinkdev
 
 		if {![winfo exists $contentf.fslabel]} {
 			return
 		}
 		set stepname [$assistant getName]
 		if {($is_audio && $stepname != "StepFarsightAudio")
-		||  (!$is_audio && $stepname != "StepFarsightVideo")} {
+		    ||(!$is_audio && $stepname != "StepFarsightVideo")} {
 			return
 		}
 		unset stepname
@@ -2653,11 +2671,8 @@ namespace eval ::AVAssistant {
 					set selectedvideosrcdev [::config::getGlobalKey fsvideosrcdev]
 				}
 				set choosesrc [trans choosevideosrc]
-				set choosesink [trans choosevideosink]
 				set srcs $fsvideosrcs
-				set sinks $fsvideosinks
 				set selectedsrc $selectedvideosrc
-				set selectedsink $selectedvideosink
 			}
 
 
@@ -2691,14 +2706,14 @@ namespace eval ::AVAssistant {
 			frame $contentf.in.a1.c
 			labelframe $contentf.in.a1.c.lf -text [trans description]
 			label $contentf.in.a1.c.lf.desc
-			frame $contentf.in.r -borderwidth 1 -bg black
 			if {$is_audio} {
 				package require voipcontrols
+				frame $contentf.in.r -borderwidth 1 -bg black
 				voipmixer $contentf.in.r.d -orient "vertical" \
 					-height 100 -width 10 \
 					-command [list ::AVAssistant::FSSetVolume 0]
 			} else {
-				frame $contentf.in.r.d -bg black
+				frame $contentf.prev -bg black -width 352 -height 288
 			}
 
 			pack $contentf.in -fill x -expand 1
@@ -2712,70 +2727,73 @@ namespace eval ::AVAssistant {
 			pack $contentf.in.a1.c.lf -expand 1 -fill both -anchor center
 			pack $contentf.in.a1.c.lf.desc -side top -anchor center -expand 1 -fill both
 			bind $contentf.in.a1.c.lf.desc <Configure> [list %W configure -wraplength %w]
-			pack $contentf.in.r -side right -expand 0 -fill none -anchor center
-			pack $contentf.in.r.d
+			if {$is_audio} {
+				pack $contentf.in.r -side right -expand 0 -fill none -anchor center
+				pack $contentf.in.r.d
+			} elseif {![OnMac] } {
+				pack $contentf.prev -side bottom  -expand 0 -fill none -anchor center
+			}
 
 			catch {$contentf.in.a1.l.src select $nr}
 
 			###
 			# OUT
 			###
-
-			frame $contentf.out
-			frame $contentf.out.a1
-			frame $contentf.out.a1.l
-			label $contentf.out.a1.l.txt -text $choosesink
-			combobox::combobox $contentf.out.a1.l.sink          \
-				-bg #FFFFFF -font splainf                       \
-				-exportselection true -editable false           \
-				-command [list ::AVAssistant::setFSSink $contentf $is_audio]
-			set nr 0
-			set count 0
-			foreach sink $sinks {
-				set str [lindex $sink 2]
-				$contentf.out.a1.l.sink list insert end $str
-				if {[lindex $sink 1] == $selectedsink} {
-					set nr $count
-				}
-				incr count
-			}
-
-			combobox::combobox $contentf.out.a1.l.dev \
-				-bg #FFFFFF -font splainf                       \
-				-exportselection true -editable false           \
-				-command [list ::AVAssistant::setFSSinkDev $contentf $is_audio]
-			frame $contentf.out.a1.c
-			labelframe $contentf.out.a1.c.lf -text [trans description]
-			label $contentf.out.a1.c.lf.desc
-			frame $contentf.out.r -borderwidth 1 -bg black
 			if {$is_audio} {
-				package require voipcontrols
+				frame $contentf.out
+				frame $contentf.out.a1
+				frame $contentf.out.a1.l
+				label $contentf.out.a1.l.txt -text $choosesink
+				combobox::combobox $contentf.out.a1.l.sink          \
+				    -bg #FFFFFF -font splainf                       \
+				    -exportselection true -editable false           \
+				    -command [list ::AVAssistant::setFSSink $contentf $is_audio]
+				set nr 0
+				set count 0
+				foreach sink $sinks {
+					set str [lindex $sink 2]
+					$contentf.out.a1.l.sink list insert end $str
+					if {[lindex $sink 1] == $selectedsink} {
+						set nr $count
+					}
+					incr count
+				}
+
+				combobox::combobox $contentf.out.a1.l.dev \
+				    -bg #FFFFFF -font splainf                       \
+				    -exportselection true -editable false           \
+				    -command [list ::AVAssistant::setFSSinkDev $contentf $is_audio]
+				frame $contentf.out.a1.c
+				labelframe $contentf.out.a1.c.lf -text [trans description]
+				label $contentf.out.a1.c.lf.desc
+				frame $contentf.out.r -borderwidth 1 -bg black
+
 				voipmixer $contentf.out.r.d -orient "vertical" \
-					-height 100 -width 10 \
-					-command [list ::AVAssistant::FSSetVolume 1]
-			} else {
-				frame $contentf.out.r.d -bg black
+				    -height 100 -width 10 \
+				    -command [list ::AVAssistant::FSSetVolume 1]
 			}
 
 			label $contentf.err -fg red
 			pack $contentf.err -fill x -expand 1
 			bind $contentf.err <Configure> [list %W configure -wraplength %w]
 
-			pack $contentf.out -fill x -expand 1
-			pack $contentf.out.a1 -side left -fill both -expand 1
-			pack $contentf.out.a1.l -side left -expand 0
-			pack $contentf.out.a1.l.txt
-			bind $contentf.out.a1.l.txt <Configure> [list %W configure -wraplength %w]
-			pack $contentf.out.a1.l.sink
-			pack $contentf.out.a1.l.dev
-			pack $contentf.out.a1.c -expand 1 -fill both -anchor center
-			pack $contentf.out.a1.c.lf -expand 1 -fill both -anchor center
-			pack $contentf.out.a1.c.lf.desc -side top -anchor center -expand 1 -fill both
-			bind $contentf.out.a1.c.lf.desc <Configure> [list %W configure -wraplength %w]
-			pack $contentf.out.r -side right -expand 0 -fill none -anchor center
-			pack $contentf.out.r.d
+			if {$is_audio} {
+				pack $contentf.out -fill x -expand 1
+				pack $contentf.out.a1 -side left -fill both -expand 1
+				pack $contentf.out.a1.l -side left -expand 0
+				pack $contentf.out.a1.l.txt
+				bind $contentf.out.a1.l.txt <Configure> [list %W configure -wraplength %w]
+				pack $contentf.out.a1.l.sink
+				pack $contentf.out.a1.l.dev
+				pack $contentf.out.a1.c -expand 1 -fill both -anchor center
+				pack $contentf.out.a1.c.lf -expand 1 -fill both -anchor center
+				pack $contentf.out.a1.c.lf.desc -side top -anchor center -expand 1 -fill both
+				bind $contentf.out.a1.c.lf.desc <Configure> [list %W configure -wraplength %w]
+				pack $contentf.out.r -side right -expand 0 -fill none -anchor center
+				pack $contentf.out.r.d
 
-			catch {$contentf.out.a1.l.sink select $nr}
+				catch {$contentf.out.a1.l.sink select $nr}
+			}
 
 		} else {
 			set fs_configured 0
