@@ -2317,6 +2317,7 @@ snit::type Farsight {
 	}
 
 	method Test { } {
+		$self configure -audio-source "-" -video-source "-"
 		if {[catch {$self Prepare 1} res] } {
 			if {$specialLogger != ""} {
 				catch {eval $specialLogger {"Farsight Prepare error : $res"}}
