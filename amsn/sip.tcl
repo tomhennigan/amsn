@@ -3012,7 +3012,7 @@ namespace eval ::MSNSIP {
 		# in which case, farsight gets closed, and the UI needs to be updated
 		foreach callid [$sip GetCallids] {
 			set caller [$sip GetCaller $callid]
-			set callee [$sip GetCaller $callid]
+			set callee [$sip GetCallee $callid]
 			if {$caller != [::config::getKey login]} {
 				set chatid $caller
 			} else {
