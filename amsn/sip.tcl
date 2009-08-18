@@ -2817,7 +2817,7 @@ namespace eval ::MSNSIP {
 		}
 
 		::amsn::SIPCallConnected [$::farsight IsVideo] $email $sip $callid
-		$farsight configure -level [list ::MSNSIP::Level $email $sip $callid]
+		$::farsight configure -level [list ::MSNSIP::Level $email $sip $callid]
 	}
 
 	proc CancelCall { sip callid } {
