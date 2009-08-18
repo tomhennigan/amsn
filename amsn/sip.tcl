@@ -2317,7 +2317,7 @@ snit::type Farsight {
 	}
 
 	method Test { } {
-		if {[catch {$self Prepare 1 } res] } {
+		if {[catch {$self Prepare 1} res] } {
 			if {$specialLogger != ""} {
 				catch {eval $specialLogger {"Farsight Prepare error : $res"}}
 			}
@@ -2724,6 +2724,14 @@ namespace eval ::MSNSIP {
 
 		::amsn::SIPPreparing $video $email $sip ""
 
+		$::farsight configure  \
+		    -audio-source [::config::getGlobalKey fsaudiosrc] \
+		    -audio-source-device [::config::getGlobalKey fsaudiosrcdev] \
+		    -audio-sink [::config::getGlobalKey fsaudiosink] \
+		    -audio-sink-device [::config::getGlobalKey fsaudiosinkdev] \
+		    -video-source [::config::getGlobalKey fsvideosrc] \
+		    -video-source-device [::config::getGlobalKey fsvideosrcdev]
+
 		if {[catch {$::farsight Prepare 1 $mode} err] } {
 			status_log "Call is impossible : $err"
 			::amsn::SIPCallImpossible $video $email
@@ -2902,6 +2910,14 @@ namespace eval ::MSNSIP {
 				}
 
 				::amsn::SIPPreparing $video $caller $sip $callid
+				$::farsight configure  \
+				    -audio-source [::config::getGlobalKey fsaudiosrc] \
+				    -audio-source-device [::config::getGlobalKey fsaudiosrcdev] \
+				    -audio-sink [::config::getGlobalKey fsaudiosink] \
+				    -audio-sink-device [::config::getGlobalKey fsaudiosinkdev] \
+				    -video-source [::config::getGlobalKey fsvideosrc] \
+				    -video-source-device [::config::getGlobalKey fsvideosrcdev]
+
 				if {[catch {$::farsight Prepare 0 $mode}] } {
 					$::farsight configure -sipconnection $sip 
 					# Signal the UI
