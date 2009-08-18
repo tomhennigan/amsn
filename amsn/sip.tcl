@@ -2318,7 +2318,7 @@ snit::type Farsight {
 
 	method Test { } {
 		$self configure -audio-source "-" -video-source "-"
-		if {[catch {$self Prepare 1 "AV19"} res] } {
+		if {[catch {$self Prepare 1} res] } {
 			if {$specialLogger != ""} {
 				catch {eval $specialLogger {"Farsight Prepare error : $res"}}
 			}
@@ -3045,7 +3045,7 @@ namespace eval ::MSNSIP {
 		}
 	}
 
-	proc FarsightTestSucceeded { callbk {force_video 0}} {
+	proc FarsightTestSucceeded { callbk {force_video 1}} {
 		set changed 0
 		if { [::config::getKey protocol] >= 15 &&
 		     ![::MSN::hasCapability [::config::getKey clientid 0] sip]} {
