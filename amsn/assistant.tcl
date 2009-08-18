@@ -2988,6 +2988,7 @@ namespace eval ::AVAssistant {
 			::config::setGlobalKey fsaudiosinkdev $selectedaudiosinkdev
 			::config::setGlobalKey fsvideosrcv $selectedvideosrc
 			::config::setGlobalKey fsvideosrcdev $selectedvideosrcdev
+		}
 
 		#save the configs
 		if {$audio_configured || $video_configured || $fs_configured} {

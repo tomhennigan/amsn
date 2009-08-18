@@ -2318,7 +2318,7 @@ snit::type Farsight {
 
 	method Test { } {
 		$self configure -audio-source "-" -video-source "-"
-		if {[catch {$self Prepare 1} res] } {
+		if {[catch {$self Prepare 1 "AV19"} res] } {
 			if {$specialLogger != ""} {
 				catch {eval $specialLogger {"Farsight Prepare error : $res"}}
 			}
@@ -3045,17 +3045,28 @@ namespace eval ::MSNSIP {
 		}
 	}
 
-	proc FarsightTestSucceeded { callbk } {
+	proc FarsightTestSucceeded { callbk {force_video 0}} {
 		set changed 0
 		if { [::config::getKey protocol] >= 15 &&
 		     ![::MSN::hasCapability [::config::getKey clientid 0] sip]} {
 			::MSN::setClientCap sip
 			set changed 1
 		}
-		if {[::config::getKey protocol] >= 15 &&
-		    ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
-			::MSN::setClientCap rtcvideo
-			set changed 1
+		if {$force_video ||
+		    ( [$::farsight GetLocalVideoCandidates] != "" &&
+		      [$::farsight GetLocalVideoCodecs] != "") } {
+			if {[::config::getKey protocol] >= 15 &&
+			    ![::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
+				::MSN::setClientCap rtcvideo
+				set changed 1
+			}
+		} else {
+			if {[::config::getKey protocol] >= 15 &&
+			    [::MSN::hasCapability [::config::getKey clientid 0] rtcvideo] } {
+				::MSN::setClientCap rtcvideo 0
+				set changed 1
+			}
+
 		}
 		if { [::config::getKey protocol] >= 18 &&
 		     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip] } {
@@ -3090,13 +3101,11 @@ namespace eval ::MSNSIP {
 
 			set result [$::farsight Test]
 
-			if { $result == 1 } {
-				::MSNSIP::FarsightTestSucceeded $callbk
-			} elseif {$result == 0 } {
+			if {$result == 0 } {
 				::MSNSIP::FarsightTestFailed $callbk
 			} ;# else let the callbacks act
 		} else {
-			::MSNSIP::FarsightTestSucceeded $callbk
+			::MSNSIP::FarsightTestSucceeded $callbk 1
 		}
 	}
 }
