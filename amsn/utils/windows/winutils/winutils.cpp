@@ -74,7 +74,7 @@ static int Tk_WinLoadFile (ClientData clientData,
 	}
 
 	// Get the first argument string (file)
-	file = Tcl_GetUnicode(objv[1]);
+	file = (WCHAR *)Tcl_GetUnicode(objv[1]);
 
 	if (objc >= 3) {
 		argsObj = Tcl_NewStringObj("", 0);
@@ -84,15 +84,15 @@ static int Tk_WinLoadFile (ClientData clientData,
 			Tcl_AppendObjToObj(argsObj, objv[i]);
 			if (i == objc-1) Tcl_AppendToObj(argsObj," ",-1);
 		}
-		argsStr = Tcl_GetUnicode(argsObj);
+		argsStr = (WCHAR *)Tcl_GetUnicode(argsObj);
 	}
 
 	res = (int) ShellExecute(NULL, L"open", file, argsStr, NULL, SW_SHOWNORMAL);
 	if (res <= 32) {
 		Tcl_Obj *result = Tcl_NewStringObj("Unable to open file : ", strlen("Unable to open file : "));
-		Tcl_AppendUnicodeToObj(result, file, lstrlen(file));
+		Tcl_AppendUnicodeToObj(result, (Tcl_UniChar *)file, lstrlen(file));
 		Tcl_AppendToObj(result, " " , strlen(" "));
-		Tcl_AppendUnicodeToObj(result, argsStr, lstrlen(argsStr));
+		Tcl_AppendUnicodeToObj(result, (Tcl_UniChar *)argsStr, lstrlen(argsStr));
 		Tcl_AppendToObj(result, " : " , strlen(" : "));
 		Tcl_AppendObjToObj(result, Tcl_NewIntObj(res));
 
@@ -118,7 +118,7 @@ static int Tk_WinPlaySound (ClientData clientData,
 	}
 
 	// Get the first argument string (file)
-	file = Tcl_GetUnicode(objv[1]);
+	file = (WCHAR *)Tcl_GetUnicode(objv[1]);
 
 	PlaySound(file, NULL, SND_ASYNC | SND_NODEFAULT);
 
@@ -140,14 +140,11 @@ static int Tk_WinSayit (ClientData clientData,
 	}
 
 	// Get the first argument string (file)
-	text=Tcl_GetUnicode(objv[1]);
+	text = (WCHAR *)Tcl_GetUnicode(objv[1]);
 
     ISpVoice * pVoice = NULL;
 
-    if (FAILED(::CoInitialize(NULL))){
-		Tcl_AppendResult (interp, "Failed to run ::CoInitialize" , (char *) NULL);
-		return TCL_ERROR;
-	}
+    CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
     HRESULT hr = CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, (void **)&pVoice);
     if( SUCCEEDED( hr ) )
@@ -157,7 +154,6 @@ static int Tk_WinSayit (ClientData clientData,
         pVoice = NULL;
     }
 
-    ::CoUninitialize();
 	return TCL_OK;
 }
 
