@@ -2646,16 +2646,16 @@ namespace eval ::AVAssistant {
 
 			if {$is_audio} {
 				if {![info exists selectedaudiosrc]} {
-					set selectedaudiosrc [::config::getGlobalKey fsaudiosrc]
+					set selectedaudiosrc [::config::getKey fsaudiosrc]
 				}
 				if {![info exists selectedaudiosrcdev]} {
-					set selectedaudiosrcdev [::config::getGlobalKey fsaudiosrcdev]
+					set selectedaudiosrcdev [::config::getKey fsaudiosrcdev]
 				}
 				if {![info exists selectedaudiosink]} {
-					set selectedaudiosink [::config::getGlobalKey fsaudiosink]
+					set selectedaudiosink [::config::getKey fsaudiosink]
 				}
 				if {![info exists selectedaudiosinkdev]} {
-					set selectedaudiosinkdev [::config::getGlobalKey fsaudiosinkdev]
+					set selectedaudiosinkdev [::config::getKey fsaudiosinkdev]
 				}
 				set choosesrc [trans chooseaudiosrc]
 				set choosesink [trans chooseaudiosink]
@@ -2665,10 +2665,10 @@ namespace eval ::AVAssistant {
 				set selectedsink $selectedaudiosink
 			} else {
 				if {![info exists selectedvideosrc]} {
-					set selectedvideosrc [::config::getGlobalKey fsvideosrc]
+					set selectedvideosrc [::config::getKey fsvideosrc]
 				}
 				if {![info exists selectedvideosrcdev]} {
-					set selectedvideosrcdev [::config::getGlobalKey fsvideosrcdev]
+					set selectedvideosrcdev [::config::getKey fsvideosrcdev]
 				}
 				set choosesrc [trans choosevideosrc]
 				set srcs $fsvideosrcs
@@ -3000,17 +3000,16 @@ namespace eval ::AVAssistant {
 			variable selectedvideosrc
 			variable selectedvideosrcdev
 
-			::config::setGlobalKey fsaudiosrc $selectedaudiosrc
-			::config::setGlobalKey fsaudiosrcdev $selectedaudiosrcdev
-			::config::setGlobalKey fsaudiosink $selectedaudiosink
-			::config::setGlobalKey fsaudiosinkdev $selectedaudiosinkdev
-			::config::setGlobalKey fsvideosrc $selectedvideosrc
-			::config::setGlobalKey fsvideosrcdev $selectedvideosrcdev
-			::config::saveGlobal
+			::config::setKey fsaudiosrc $selectedaudiosrc
+			::config::setKey fsaudiosrcdev $selectedaudiosrcdev
+			::config::setKey fsaudiosink $selectedaudiosink
+			::config::setKey fsaudiosinkdev $selectedaudiosinkdev
+			::config::setKey fsvideosrc $selectedvideosrc
+			::config::setKey fsvideosrcdev $selectedvideosrcdev
 		}
 
 		#save the configs
-		if {$audio_configured || $video_configured} {
+		if {$audio_configured || $video_configured || $fs_configured} {
 			save_config
 		}
 	}

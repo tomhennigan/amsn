@@ -2726,12 +2726,12 @@ namespace eval ::MSNSIP {
 		::amsn::SIPPreparing $video $email $sip ""
 
 		$::farsight configure  \
-		    -audio-source [::config::getGlobalKey fsaudiosrc] \
-		    -audio-source-device [::config::getGlobalKey fsaudiosrcdev] \
-		    -audio-sink [::config::getGlobalKey fsaudiosink] \
-		    -audio-sink-device [::config::getGlobalKey fsaudiosinkdev] \
-		    -video-source [::config::getGlobalKey fsvideosrc] \
-		    -video-source-device [::config::getGlobalKey fsvideosrcdev]
+		    -audio-source [::config::getKey fsaudiosrc] \
+		    -audio-source-device [::config::getKey fsaudiosrcdev] \
+		    -audio-sink [::config::getKey fsaudiosink] \
+		    -audio-sink-device [::config::getKey fsaudiosinkdev] \
+		    -video-source [::config::getKey fsvideosrc] \
+		    -video-source-device [::config::getKey fsvideosrcdev]
 
 		if {[catch {$::farsight Prepare 1 $mode} err] } {
 			status_log "Call is impossible : $err"
@@ -2912,12 +2912,12 @@ namespace eval ::MSNSIP {
 
 				::amsn::SIPPreparing $video $caller $sip $callid
 				$::farsight configure  \
-				    -audio-source [::config::getGlobalKey fsaudiosrc] \
-				    -audio-source-device [::config::getGlobalKey fsaudiosrcdev] \
-				    -audio-sink [::config::getGlobalKey fsaudiosink] \
-				    -audio-sink-device [::config::getGlobalKey fsaudiosinkdev] \
-				    -video-source [::config::getGlobalKey fsvideosrc] \
-				    -video-source-device [::config::getGlobalKey fsvideosrcdev]
+				    -audio-source [::config::getKey fsaudiosrc] \
+				    -audio-source-device [::config::getKey fsaudiosrcdev] \
+				    -audio-sink [::config::getKey fsaudiosink] \
+				    -audio-sink-device [::config::getKey fsaudiosinkdev] \
+				    -video-source [::config::getKey fsvideosrc] \
+				    -video-source-device [::config::getKey fsvideosrcdev]
 
 				if {[catch {$::farsight Prepare 0 $mode}] } {
 					$::farsight configure -sipconnection $sip 
