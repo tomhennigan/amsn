@@ -558,6 +558,17 @@ _sink_element_added (GstBin *bin, GstElement *sink, gpointer user_data)
   g_object_set (sink, "sync", FALSE, NULL);
 }
 
+
+static gchar *
+get_device_property_name (gchar *plugin_name)
+{
+  if (!strcmp (plugin_name, "dshowaudiosrc") ||
+	  !strcmp (plugin_name, "dshowvideosrc"))
+    return "device-name";
+  else
+    return "device";
+}
+
 static GstElement * _test_source (gchar *name)
 {
   GstPropertyProbe *probe = NULL;
@@ -707,7 +718,7 @@ static GstElement * _test_source (gchar *name)
   if (GST_IS_PROPERTY_PROBE (element)) {
     probe = GST_PROPERTY_PROBE (element);
     if (probe) {
-      arr = gst_property_probe_probe_and_get_values_name (probe, "device");
+      arr = gst_property_probe_probe_and_get_values_name (probe, get_device_property_name(name));
       if (arr && arr->n_values > 0) {
         guint i;
         for (i = 0; i < arr->n_values; ++i) {
@@ -722,7 +733,7 @@ static GstElement * _test_source (gchar *name)
           if (device == NULL)
             continue;
 
-          g_object_set(element, "device", device, NULL);
+          g_object_set(element, get_device_property_name(name), device, NULL);
 
           state_ret = gst_element_set_state (bin, GST_STATE_PLAYING);
           if (state_ret == GST_STATE_CHANGE_ASYNC) {
@@ -819,7 +830,7 @@ _create_audio_source ()
       src = gst_element_factory_make (audio_source, NULL);
 
       if (src && audio_source_device)
-        g_object_set(src, "device", audio_source_device, NULL);
+        g_object_set(src, get_device_property_name(audio_source), audio_source_device, NULL);
 
       state_ret = gst_element_set_state (src, GST_STATE_READY);
       if (state_ret == GST_STATE_CHANGE_ASYNC) {
@@ -1163,7 +1174,7 @@ _create_video_source ()
       src = gst_element_factory_make (video_source, NULL);
 
       if (src && video_source_device)
-        g_object_set(src, "device", video_source_device, NULL);
+        g_object_set(src, get_device_property_name(video_source), video_source_device, NULL);
 
       state_ret = gst_element_set_state (src, GST_STATE_READY);
       if (state_ret == GST_STATE_CHANGE_ASYNC) {
@@ -3850,7 +3861,7 @@ int Farsight_Probe _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
       if (GST_IS_PROPERTY_PROBE (element)) {
         probe = GST_PROPERTY_PROBE (element);
         if (probe) {
-          arr = gst_property_probe_probe_and_get_values_name (probe, "device");
+          arr = gst_property_probe_probe_and_get_values_name (probe, get_device_property_name(GST_PLUGIN_FEATURE_NAME(factory)));
           if (arr) {
             guint i;
             for (i = 0; i < arr->n_values; ++i) {
