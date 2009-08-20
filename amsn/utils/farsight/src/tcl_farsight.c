@@ -144,6 +144,15 @@ static char *host2ip(char *hostname)
     return ip;
 }
 
+static gboolean
+g_object_has_property (GObject *object, const gchar *property)
+{
+  GObjectClass *klass;
+
+  klass = G_OBJECT_GET_CLASS (object);
+  return NULL != g_object_class_find_property (klass, property);
+}
+
 
 static void Close ()
 {
@@ -595,8 +604,11 @@ static GstElement * _test_source (gchar *name)
   if (element == NULL)
     return NULL;
 
-  if (name == "directsoundsrc")
+  if (g_object_has_property (element, "buffer-time"))
     g_object_set(element, "buffer-time", G_GINT64_CONSTANT(20000), NULL);
+
+  if (g_object_has_property (element, "is-live"))
+    g_object_set(element, "is-live", TRUE, NULL);
 
   /* Build a bin and put the element in it with a tee ! fakesink */
   bin = gst_bin_new ("source_bin");
@@ -917,15 +929,17 @@ _create_audio_sink ()
       _notify_debug ("Error while creating audio_sink pipeline (%d): %s",
 		  error->code, error->message ? error->message : "(null)");
     }
-  } else if (audio_sink) {
+  } else if (audio_sink && strcmp (audio_sink, "autoaudiosink") != 0) {
     snk = gst_element_factory_make (audio_sink, NULL);
     if (snk && audio_sink_device)
       g_object_set(snk, "device", audio_sink_device, NULL);
     if (snk) {
-      g_object_set(snk, "sync", FALSE, NULL);
-      g_object_set(snk, "async", FALSE, NULL);
+      if (g_object_has_property (snk, "sync")) {
+        g_object_set(snk, "sync", FALSE, NULL);
+        g_object_set(snk, "async", FALSE, NULL);
+      }
     }
- 
+
   }
   if (snk == NULL) {
     snk = gst_element_factory_make ("autoaudiosink", NULL);
@@ -1462,11 +1476,13 @@ _create_video_sink ()
       _notify_debug ("Error while creating video_sink pipeline (%d): %s",
 		  error->code, error->message ? error->message : "(null)");
     }
-  } else if (video_sink) {
+  } else if (video_sink && strcmp (video_sink, "autovideosink") != 0) {
     snk = gst_element_factory_make (video_sink, NULL);
     if (snk) {
-      g_object_set (snk, "async", FALSE, NULL);
-      g_object_set (snk, "sync", FALSE, NULL);
+      if (g_object_has_property (snk, "sync")) {
+        g_object_set (snk, "async", FALSE, NULL);
+        g_object_set (snk, "sync", FALSE, NULL);
+      }
     }
   }
   if (snk == NULL) {
@@ -2045,8 +2061,6 @@ int Farsight_TestAudio _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     _notify_debug ("Couldn't create audio source, using audiotestsrc");
     src = gst_element_factory_make ("audiotestsrc", NULL);
   }
-
-  //g_object_set(src, "blocksize", 640, NULL);
 
   if (gst_bin_add (GST_BIN (test_pipeline), src) == FALSE) {
     _notify_debug ("Couldn't add audio_source to pipeline");
@@ -2985,8 +2999,6 @@ int Farsight_Prepare _ANSI_ARGS_((ClientData clientData,  Tcl_Interp *interp,
     _notify_debug ("Couldn't create audio source");
     goto no_audio_source;
   }
-
-  //g_object_set(src, "blocksize", 640, NULL);
 
   if (gst_bin_add (GST_BIN (pipeline), src) == FALSE) {
     _notify_debug ("Couldn't add audio_source to pipeline");
