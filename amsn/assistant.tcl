@@ -919,13 +919,11 @@ snit::widget assistant {
 
 namespace eval ::AVAssistant {
 
-	variable video_configured
-	variable audio_configured
-	variable fs_configured
+	variable video_configured 0
+	variable audio_configured 0
+	variable fs_configured 0
+	variable assistant ""
 		
-	set video_configured 0
-	set audio_configured 0
-	set fs_configured 0
 
 	######################################################################################
 	#Procedure that starts the assistant.  It creates the window's framework etc         #
@@ -933,6 +931,14 @@ namespace eval ::AVAssistant {
 	proc AVAssistant {} {
 
 		variable firsttime
+		variable assistant
+
+		if {[winfo exists $assistant] } {
+			wm state $assistant normal
+			raise $assistant
+			return
+		}
+
 		set firsttime 1
 
 		#set the name of the window
@@ -2712,8 +2718,8 @@ namespace eval ::AVAssistant {
 				package require voipcontrols
 				frame $contentf.in.r -borderwidth 1 -bg black
 				voipmixer $contentf.in.r.d -orient "vertical" \
-					-height 100 -width 10 \
-					-command [list ::AVAssistant::FSSetVolume 0]
+				    -height 100 -width 10 \
+				    -command [list ::AVAssistant::FSSetVolume 0] 
 			} else {
 				frame $contentf.prev -bg black -width 352 -height 288
 			}
