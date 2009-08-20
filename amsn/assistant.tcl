@@ -2302,6 +2302,9 @@ namespace eval ::AVAssistant {
 
 			set selectedaudiosrcdev $val
 
+			$contentf.in.r.d  setLevel "-inf"
+			$contentf.out.r.d setLevel "-inf"
+
 			$::farsight configure -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-source $selectedaudiosrc -audio-source-device $val
 			after 500 [list ::AVAssistant::TestFSDelayed $contentf $is_audio]
@@ -2414,6 +2417,9 @@ namespace eval ::AVAssistant {
 			variable selectedaudiosinkdev
 
 			set selectedaudiosinkdev $val
+
+			$contentf.out.r.d setLevel "-inf"
+			$contentf.in.r.d setLevel "-inf"
 
 			$::farsight configure -level [list ::AVAssistant::UpdateLevel $contentf] \
 			    -audio-sink $selectedaudiosink -audio-sink-device $val
