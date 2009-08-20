@@ -2249,6 +2249,7 @@ namespace eval ::AVAssistant {
 	proc StepFarsightAudio {assistant contentf} {
 		variable fs_details
 		variable cf
+		variable firsttime
 		set cf $contentf
 
 		set is_audio 1
@@ -2262,7 +2263,11 @@ namespace eval ::AVAssistant {
 
 		pack $contentf.fslabel
 
-		::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
+		if {$firsttime} {
+			::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
+		} else {
+			::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio 1
+		}
 	}
 
 	proc appendFarsightDetails {txt} {
