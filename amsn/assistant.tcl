@@ -2556,6 +2556,8 @@ namespace eval ::AVAssistant {
 
 	proc StopFarsight {assistant contentf} {
 		catch {::Farsight::Stop}
+		after cancel [list ::AVAssistant::TestFSDelayed $contentf 0]
+		after cancel [list ::AVAssistant::TestFSDelayed $contentf 1]
 		$::farsight configure -level ""
 	}
 
