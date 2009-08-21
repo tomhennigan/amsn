@@ -2388,12 +2388,6 @@ snit::type Farsight {
 		    -level $options(-level) \
 		    -debug [list $self Debug] \
 
-		if {$mode == "AV6" || $mode == "AV19" } {
-			::MSN::setClientCap webcam
-			if {[::MSN::myStatusIs] != "FLN" } {
-				::MSN::changeStatus [::MSN::myStatusIs]
-			}
-		}
 
 		set prepare_relay_info ""
 		if {$prepare_ticket != "" } {
@@ -3032,9 +3026,15 @@ namespace eval ::MSNSIP {
 			::MSN::setClientCap sip 0
 			::MSN::setClientCap tunnelsip 0
 			::MSN::setClientCap rtcvideo 0
-			if {[::MSN::myStatusIs] != "FLN" } {
-				::MSN::changeStatus [::MSN::myStatusIs]
-			}
+		}
+
+                if { [::config::getKey wanttosharecam] && [::CAMGUI::camPresent] == 1 } {
+                        ::MSN::setClientCap webcam
+                } else {
+                        ::MSN::setClientCap webcam 0
+		}
+		if {[::MSN::myStatusIs] != "FLN" } {
+			::MSN::changeStatus [::MSN::myStatusIs]
 		}
 		
 		$::farsight setSpecialLogger ""
@@ -3068,12 +3068,12 @@ namespace eval ::MSNSIP {
 			}
 
 		}
-		if { [::config::getKey protocol] >= 18 &&
-		     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip] } {
-			::MSN::setClientCap tunnelsip
+		if { [::config::getKey fsvideosrc ""] != "-" &&
+		     ![::MSN::hasCapability [::config::getKey clientid 0] webcam]} {
+			::MSN::setClientCap webcam
 			set changed 1
 		}
-		
+				     
 		
 		if {$changed } {
 			if {[::MSN::myStatusIs] != "FLN" } {

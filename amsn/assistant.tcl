@@ -2954,10 +2954,12 @@ namespace eval ::AVAssistant {
 		#to get a nice wrapping
 		bind $contentf.textfinish <Configure> [list %W configure -wraplength %w]
 
-		$assistant addCancelProc resetSharecam [list ::AVAssistant::resetSharecam [::config::getKey wanttosharecam] ]
+		if {!$fs_configured} {
+			$assistant addCancelProc resetSharecam [list ::AVAssistant::resetSharecam [::config::getKey wanttosharecam] ]
 
-		checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state $sharecamState
-		pack $contentf.wanttosharecam -pady 10
+			checkbutton $contentf.wanttosharecam -text "[trans wanttosharecam]" -font sboldf -variable [::config::getVar wanttosharecam] -onvalue 1 -offvalue 0 -state $sharecamState
+			pack $contentf.wanttosharecam -pady 10
+		}
 
 		$assistant setFinishProc ::AVAssistant::finish
 	}
@@ -2998,14 +3000,16 @@ namespace eval ::AVAssistant {
 				::config::setKey "webcamDevice" "$selecteddevice"
 			}
 
-			if { [::config::getKey wanttosharecam] } {
-				::MSN::setClientCap webcam
-			} else {
-				::MSN::setClientCap webcam 0
-			}
-			#Refresh clientid if connected
-			if { [::MSN::myStatusIs] != "FLN" } {
-				::MSN::changeStatus [set ::MSN::myStatus]
+			if {!$fs_configure} {
+				if { [::config::getKey wanttosharecam] } {
+					::MSN::setClientCap webcam
+				} else {
+					::MSN::setClientCap webcam 0
+				}
+				#Refresh clientid if connected
+				if { [::MSN::myStatusIs] != "FLN" } {
+					::MSN::changeStatus [set ::MSN::myStatus]
+				}
 			}
 		}
 		#audio settings has been configured
@@ -3033,6 +3037,18 @@ namespace eval ::AVAssistant {
 			::config::setKey fsaudiosinkdev $selectedaudiosinkdev
 			::config::setKey fsvideosrc $selectedvideosrc
 			::config::setKey fsvideosrcdev $selectedvideosrcdev
+
+			if { [::config::getKey fsvideosrc ""] == "-" } {
+				::MSN::setClientCap webcam 0
+				if {[::MSN::myStatusIs] != "FLN" } {
+					::MSN::changeStatus [::MSN::myStatusIs]
+				}
+			} else {
+				::MSN::setClientCap webcam
+				if {[::MSN::myStatusIs] != "FLN" } {
+					::MSN::changeStatus [::MSN::myStatusIs]
+				}
+			}
 		}
 
 		#save the configs
