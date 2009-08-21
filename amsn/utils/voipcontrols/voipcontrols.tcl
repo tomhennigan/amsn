@@ -218,6 +218,7 @@ snit::widget voipmixer {
 		set val [expr {double([set ::$options(-variable)]) - double($options(-volumefrom))}]
 		set val [expr {$val / (double($options(-volumeto)) - double($options(-volumefrom)))}]
 		if { $options(-orient) == "vertical" } {
+			set val [expr {1-$val}]
 			place ${win}.select -relx 0 -rely ${val} -relwidth 1 -height $options(-selectsize)
 		} else {
 			place ${win}.select -rely 0 -relx ${val} -relheight 1 -width $options(-selectsize)
