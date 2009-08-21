@@ -191,7 +191,7 @@ snit::widget voipmixer {
 
 	option -selectsize -default 5 -configuremethod SetSelectSize
 
-	option -variable -default {}
+	option -variable -default {} -configuremethod SetVariable
 	option -command -default {}
 
 	option -orient -default "vertical" -readonly yes
@@ -202,27 +202,12 @@ snit::widget voipmixer {
 
 	constructor {args} {
 
-		$self configurelist $args
-
 		frame ${win}.fill
 		place ${win}.fill -relheight 1 -relwidth 1
 
 		frame ${win}.select -background black
 
-		if {![info exists ::$options(-variable)]
-			|| [set ::$options(-variable)] > $options(-volumeto)
-			|| [set ::$options(-variable)] < $options(-volumefrom)} {
-			set ::$options(-variable) [expr {$options(-volumefrom) + 0.5 * (double($options(-volumeto)) - double($options(-volumefrom)))}]
-		}
-
-		set val [expr {double([set ::$options(-variable)]) - double($options(-volumefrom))}]
-		set val [expr {$val / (double($options(-volumeto)) - double($options(-volumefrom)))}]
-		if { $options(-orient) == "vertical" } {
-			set val [expr {1-$val}]
-			place ${win}.select -relx 0 -rely ${val} -relwidth 1 -height $options(-selectsize)
-		} else {
-			place ${win}.select -rely 0 -relx ${val} -relheight 1 -width $options(-selectsize)
-		}
+		$self configurelist $args
 
 		bind ${win}.select <B1-Motion> "$self Motion"
 
@@ -385,11 +370,32 @@ snit::widget voipmixer {
 		set options($option) $value
 		if { $options(-orient) == "vertical" } {
 			${win}.select configure -height $value
+			place ${win}.select -height $value
 		} else {
 			${win}.select configure -width $value
+			place ${win}.select -width $value
 		}
 	}
 
+	method SetVariable { option value} {
+		set options($option) $value
+
+		if {![info exists ::$options(-variable)]
+			|| [set ::$options(-variable)] > $options(-volumeto)
+			|| [set ::$options(-variable)] < $options(-volumefrom)} {
+			set ::$options(-variable) [expr {$options(-volumefrom) + 0.5 * (double($options(-volumeto)) - double($options(-volumefrom)))}]
+		}
+
+		set val [expr {double([set ::$options(-variable)]) - double($options(-volumefrom))}]
+		set val [expr {$val / (double($options(-volumeto)) - double($options(-volumefrom)))}]
+		if { $options(-orient) == "vertical" } {
+			set val [expr {1-$val}]
+			place ${win}.select -relx 0 -rely ${val} -relwidth 1 -height $options(-selectsize)
+		} else {
+			place ${win}.select -rely 0 -relx ${val} -relheight 1 -width $options(-selectsize)
+		}
+
+	}
 
 	method setLevel {value} {
 		if { $options(-state) != "normal"} {return}
