@@ -231,6 +231,13 @@ snit::widget voipmixer {
 
 		set val [expr {double([set ::$options(-variable)]) - double($options(-volumefrom))}]
 		set val [expr {$val / (double($options(-volumeto)) - double($options(-volumefrom)))}]
+
+		if {$up == 1} {
+			set val [expr {$val + 0.1}]
+		} else {
+			set val [expr {$val - 0.1}]
+		}
+
 		if { $options(-orient) == "vertical" } {
 			set size [winfo height ${win}]
 			set max [expr {1-double($options(-selectsize))/double(${size})}]
@@ -239,11 +246,6 @@ snit::widget voipmixer {
 			set size [winfo width ${win}]
 			set max [expr {1-double($options(-selectsize))/double(${size})}]
 			set rel $val
-		}
-		if {$up == 1} {
-			set rel [expr {$rel + 0.1}]
-		} else {
-			set rel [expr {$rel - 0.1}]
 		}
 		if {$rel > $max} {
 			set rel $max
