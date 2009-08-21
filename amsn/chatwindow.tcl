@@ -2573,7 +2573,7 @@ namespace eval ::ChatWindow {
 			-mutecommand [list ::ChatWindow::MuteIn $frame_in] \
 			-mutevariable ::ChatWindow::voip_mute_in \
 			-volumecommand [list ::ChatWindow::VolumeIn $frame_in] \
-			-volumevariable ::ChatWindow::voip_volume_in
+			-volumevariable [::config::getVar fs_in_volume]
 		if { [::config::getKey old_dpframe 0] == 0 } {
 			set orient "horizontal"
 		} else {
@@ -2588,7 +2588,7 @@ namespace eval ::ChatWindow {
 			-mutecommand [list ::ChatWindow::MuteOut $frame_out] \
 			-mutevariable ::ChatWindow::voip_mute_out \
 			-volumecommand [list ::ChatWindow::VolumeOut $frame_out] \
-			-volumevariable ::ChatWindow::voip_volume_out
+			-volumevariable [::config::getVar fs_out_volume]
 		$frame_in configure -width [$frame_in getSize]
 		pack $frame_in -side left -padx 0 -pady 0 -anchor w -fill y
 		if { [::config::getKey old_dpframe 0] == 0 } {
@@ -2600,10 +2600,8 @@ namespace eval ::ChatWindow {
 			pack $frame_out -side bottom -padx 0 -pady 0 -anchor ne
 		}
 
-		set ::ChatWindow::voip_volume_in 0 ;# -10dB
 		set ::ChatWindow::voip_mute_in 0
 
-		set ::ChatWindow::voip_volume_out 0 ;# -10dB
 		set ::ChatWindow::voip_mute_out 0
 
 		UpdateVoipControls $chatid $video $sip $callid
@@ -2630,10 +2628,9 @@ namespace eval ::ChatWindow {
 		#status_log "Updating CW Voip controls"
 
 		#IN
-		if {[catch {set volume [::Farsight::GetVolumeIn]} ] } {
+		if {[catch {set volume [::Farsight::SetVolumeIn [::config::getKey fs_in_volume]]} ] } {
 			$frame_in configure -volumestate disabled
 		} else {
-			set ::ChatWindow::voip_volume_in $volume
 			$frame_in configure -volumestate normal
 		}
 		if {[catch {set mute [::Farsight::GetMuteIn]} ] } {
@@ -2649,10 +2646,9 @@ namespace eval ::ChatWindow {
 		}
 
 		#OUT
-		if {[catch {set volume [::Farsight::GetVolumeOut]} ] } {
+		if {[catch {set volume [::Farsight::SetVolumeOut [::config::getKey fs_out_volume]]} ] } {
 			$frame_out configure -volumestate disabled
 		} else {
-			set ::ChatWindow::voip_volume_out $volume
 			$frame_out configure -volumestate normal
 		}
 		if {[catch {set mute [::Farsight::GetMuteOut]} ] } {
@@ -2702,13 +2698,7 @@ namespace eval ::ChatWindow {
 			unset ::ChatWindow::voip_mute_in
 		}
 		catch {
-			unset ::ChatWindow::voip_volume_in
-		}
-		catch {
 			unset ::ChatWindow::voip_mute_out
-		}
-		catch {
-			unset ::ChatWindow::voip_volume_out
 		}
 
 		#Redraw the frames correctly
@@ -2724,9 +2714,8 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	proc VolumeIn {widget {val unused}} {
-		puts "VolumeIn=${::ChatWindow::voip_volume_in}"
-		if {[catch {::Farsight::SetVolumeIn $::ChatWindow::voip_volume_in}]} {
+	proc VolumeIn {widget val} {
+		if {[catch {::Farsight::SetVolumeIn $val}]} {
 			$widget configure -volumestate disabled
 		}
 	}
@@ -2736,8 +2725,8 @@ namespace eval ::ChatWindow {
 		}
 	}
 
-	proc VolumeOut {widget {val unused}} {
-		if {[catch {::Farsight::SetVolumeOut $::ChatWindow::voip_volume_out}]} {
+	proc VolumeOut {widget val} {
+		if {[catch {::Farsight::SetVolumeOut $val}]} {
 			$widget configure -volumestate disabled
 		}
 	}

@@ -2286,12 +2286,9 @@ namespace eval ::AVAssistant {
 			if {[catch {set res [::Farsight::TestAudio]} err]} {
 				$contentf.err configure -text $err
 			} else {
-				if {[info exists ::AVAssistant::fs_in_volume] } {
-					::AVAssistant::FSSetVolume 0 $::AVAssistant::fs_in_volume
-				}
-				if {[info exists ::AVAssistant::fs_out_volume] } {
-					::AVAssistant::FSSetVolume 1 $::AVAssistant::fs_out_volume
-				}
+				::AVAssistant::FSSetVolume 0 [::config::getKey fs_in_volume -5.0]
+				::AVAssistant::FSSetVolume 1 [::config::getKey fs_out_volume -5.0]
+
 				FSCheckSinkSource $contentf $is_audio [lindex $res 0] [lindex $res 1]
 			}
 		} else {
@@ -2737,7 +2734,7 @@ namespace eval ::AVAssistant {
 				voipmixer $contentf.in.r.d -orient "vertical" \
 				    -height 100 -width 10 \
 				    -command [list ::AVAssistant::FSSetVolume 0] \
-				    -variable ::AVAssistant::fs_in_volume
+				    -variable [::config::getVar fs_in_volume]
 			} else {
 				frame $contentf.prev -bg black -width 352 -height 288
 			}
@@ -2797,7 +2794,7 @@ namespace eval ::AVAssistant {
 				voipmixer $contentf.out.r.d -orient "vertical" \
 				    -height 100 -width 10 \
 				    -command [list ::AVAssistant::FSSetVolume 1] \
-				    -variable ::AVAssistant::fs_out_volume
+				    -variable [::config::getVar fs_out_volume]
 			}
 
 			label $contentf.err -fg red
