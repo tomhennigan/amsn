@@ -656,6 +656,11 @@ nouserspecified No user specified
 nudge $1 requests your attention
 offline Offline
 oim Offline Messaging
+oimauthenticationfailed Authentication failed
+oimflood Too many Offline messages sent... please wait and try again
+oimmessagetoolarge Offline Message is too large... split it and send again
+oimsystemunavailable Offline Messaging system currently unavailable
+oimunexpectederror Unexpected Error
 ok Ok
 onenewmail 1 new message in Inbox
 onlinehelp Online Help

@@ -3910,17 +3910,19 @@ namespace eval ::MSNOIM {
 					::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr
 					return
 				} else {
-					set res "authentication failed"
+					set res "oimauthenticationfailed"
 				}
 			} elseif { $faultcode == "q0:SystemUnavailable" } {
-				set res "invaliduser"
+				set res "oimsystemunavailable"
 			} elseif { $faultcode == "q0:SenderThrottleLimitExceeded" } {
-				set res "Flood Protection Activated"
+				set res "oimflood"
+			} elseif { $faultcode == "q0:MessageTooLarge" } {
+				set res "oimmessagetoolarge"
 			} else {
-				set res "Unexpected error"
+				set res "oimunexpectederror"
 			}
 		} else {
-			set res "Unexpected error"
+			set res "oimunexpectederror"
 		}
 
 		$soap destroy

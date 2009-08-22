@@ -9026,7 +9026,7 @@ namespace eval ::OIM_GUI {
 
 	proc MessageSendCallback { chatid error } {
 		if {![string match *success* $error]} {
-			::amsn::WinWriteFail $chatid "($error)"
+			::amsn::WinWriteFail $chatid "([trans $error])"
 		}
 	}
 
