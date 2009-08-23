@@ -2997,7 +2997,7 @@ namespace eval ::AVAssistant {
 				::config::setKey "webcamDevice" "$selecteddevice"
 			}
 
-			if {!$fs_configure} {
+			if {!$fs_configured} {
 				if { [::config::getKey wanttosharecam] } {
 					::MSN::setClientCap webcam
 				} else {
