@@ -2444,12 +2444,16 @@ namespace eval ::AVAssistant {
 			variable selectedaudiosrc
 			if { $selectedaudiosrc == "autoaudiosrc" ||
 			     $selectedaudiosrc == ""} {
-				set txt [trans fsautoaudiosrcchosen $src]
+				if {$src == "audiotestsrc" } {
+					set txt [trans fsnosuitablesrc $src]
+				} else {
+					set txt [trans fsautoaudiosrcchosen $src]
+				}
 			} else {
 				if {$selectedaudiosrc == "-" } {
-					set txt [trans fssrcdisabledusing "audiotestsrc"]
+					set txt [trans fssrcdisabledusing $src]
 				} elseif {$src != $selectedaudiosrc} {
-					set txt [trans curfssrcnotworking]
+					set txt [trans curfssrcnotworking $src]
 				}
 			}
 			if { $selectedaudiosink == "autoaudiosink" ||
@@ -2462,9 +2466,9 @@ namespace eval ::AVAssistant {
 			} else {
 				if {$sink != $selectedaudiosink} {
 					if {$txt == ""} {
-						set txt [trans curfssinknotworking]
+						set txt [trans curfssinknotworking $sink]
 					} else {
-						append txt "\n[trans curfssinknotworking]"
+						append txt "\n[trans curfssinknotworking $sink]"
 					}
 				}
 			}
@@ -2472,12 +2476,16 @@ namespace eval ::AVAssistant {
 			variable selectedvideosrc
 			if { $selectedvideosrc == "autovideosrc" ||
 			     $selectedvideosrc == ""} {
-				set txt [trans fsautovideosrcchosen $src]
+				if {$src == "videotestsrc" } {
+					set txt [trans fsnosuitablesrc $src]
+				} else {
+					set txt [trans fsautovideosrcchosen $src]
+				}
 			} else {
 				if {$selectedvideosrc == "-" } {
-					set txt [trans fssrcdisabledusing "videotestsrc"]
+					set txt [trans fssrcdisabledusing $src]
 				} elseif {$src != $selectedvideosrc} {
-					set txt [trans curfssrcnotworking]
+					set txt [trans curfssrcnotworking $src]
 				}
 			}
 		}

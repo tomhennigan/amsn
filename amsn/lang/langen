@@ -71,8 +71,8 @@ author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
 autoacceptwc Automatically accept Webcam requests
-autoaudiosinkdesc
-autoaudiosrcdesc
+autoaudiosinkdesc Automatically detect the best Audio Output device for your system
+autoaudiosrcdesc Automatically detect the best Audio Input device for your system
 autoaway Change state to "Away" when inactive for
 autocheckver Automatically check for newer versions on startup
 autoconnect2 Sign In automatically when aMSN is launched
@@ -82,12 +82,13 @@ autohotmaillog Automatically sign in to Hotmail
 autoidle Auto NoActivity
 autoip Automatic IP
 autolisten_voiceclips Automatically play voiceclips once received
-automaticsink
-automaticsrc
+automaticsink Autodetect Output
+automaticsrc Autodetect Input
 automessage AutoMessage
 autonoact Change state to "Idle" when inactive for
 autoresizedp Automatically resize display pictures to default size
-autovideosrcdesc
+autovideosrcdesc Automatically detect the webcam capture device on your system
+autovideosinkdesc Automatically detect the best video output method for your system
 avaccepted Video Conference call accepted
 avcanceled Video Conference call canceled
 avgotinvitation Received Video Conference invitation from $1
@@ -176,8 +177,8 @@ checkonfln Check if a user blocked you when he gets offline
 checkopenfilecommand Please check the open file command in preferences window
 checkver Check for new version
 choosearq Choose your system architecture
-chooseaudiosink
-chooseaudiosrc
+chooseaudiosink Select Audio Output
+chooseaudiosrc Select Audio Input
 choosebasefont Choose font type
 choosebgcolor Choose background color
 choosechannel Choose a channel
@@ -189,6 +190,7 @@ chooselocation Choose new file location
 choosemixerdev Choose your mixer
 chooseoutputdev Choose your output device
 chooseskin Please select the skin you would like to use
+choosevideosrc Choose Video Input
 ch_to_state Switch to new state
 clear Clear
 clearlog2 Clear the history for all your contacts
@@ -259,6 +261,8 @@ cprofile Create Profile
 created Created
 credits Credits
 curdisplaypic Current display picture
+curfssinknotworking Currently selected output is not working, using '$1' instead
+curfssrcnotworking Currently selected input is not working, using '$1' instead
 currentdate Current Date
 currentdynrate Current real-time speed (in milliseconds)
 currentlanguage This is the language currently in use
@@ -303,8 +307,8 @@ devicebusy Device $1 is busy
 devices Devices
 directconnection I have a direct connection to the internet (uses port 1863)
 disabled Disabled
-disabledaudiosrcdesc
-disabledvideosrcdesc
+disabledaudiosrcdesc Disable Audio input, and do not send any audio from your microphone
+disabledvideosrcdesc Disable Video input and do not send your webcam
 disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
 disablessl Disable SSL
 disableuserfonts Ignore remote user font in chats, and use your own font type
@@ -374,7 +378,6 @@ failed Failed
 faq FAQ (Frequently Asked Questions)
 farsightextchecking Checking if Farsight extension is loaded ...
 farsightextwarn You won't be able to have SIP calls. You may find answers on how to install Farsight on our Wiki:
-farsightinfook Farsight is a framework to deal with audio/video conferencing protocols. With Farsight, you can send or receive SIP calls within aMSN! Have a look at farsight on our Wiki:
 fetching Fetching data...
 filedoesnotexist File does not exist
 file File
@@ -393,8 +396,8 @@ find Find
 findnext Find Next
 findprev Find Previous
 finetunesettings Finetune picture settings
-finish2apply Press Finish to apply those settings.
 finish Finish
+finish2apply Press Finish to apply those settings.
 firewalled2 You are firewalled, please check your Connection settings in the preferences window
 firewalled You are firewalled or behind a router
 followtext Scroll down when new text is entered
@@ -402,10 +405,12 @@ forget_me Forget me
 forgot_pass I forgot my password
 formatcsv CSV format
 formatctt CTT format
-fsautoaudiosinkchosen
-fsautoaudiosrcchosen
-fsautovideosrcchosen
-fsnodevfound
+fsautoaudiosinkchosen Automatically chosen '$1' for Audio output
+fsautoaudiosrcchosen Automatically chosen '$1' for Audio input
+fsautovideosrcchosen Automatically chosen '$1' for Video input
+fsnodevfound No devices available
+fsnosuitablesrc No suitable Input device found, using '$1' for testing purposes
+fssrcdisabledusing Disabled input, using '$1' for testing purposes
 friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
@@ -786,8 +791,8 @@ reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
 reconnectnow Reconnect now
 reconnect Waiting for $1 to reconnect
-recorderror An error occured when trying to record the sound : $1
 record Record
+recorderror An error occured when trying to record the sound : $1
 recvwebcamaccepted $1 accepted your invitation to view his/her webcam. Connecting...
 redirect Click here to get redirected
 reject Reject
@@ -850,8 +855,8 @@ serverunavailable Server is unavailable
 session Session
 setasmydp Set as my display picture
 setbackinitialstate You have set aMSN to connect as $1, but you are now $2. Are you sure you want to set your status back to $1 ?
-setupcamfinetune Setting up webcam device, and finetuning picture
 setupcam Setting up your webcam device
+setupcamfinetune Setting up webcam device, and finetuning picture
 shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
