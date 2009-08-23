@@ -656,6 +656,11 @@ nouserspecified Aucun utilisateur spécifié
 nudge $1 vous a envoyé un nudge.
 offline Déconnecté[e]
 oim Messagerie différée
+oimauthenticationfailed L'authentification a échoué
+oimflood Vous avez envoyé trop de messages différés... merci d'attendre avant de réessayer
+oimmessagetoolarge Le message différé est trop long... coupez-le et réessayez
+oimsystemunavailable La messagerie différée est actuellement indisponible
+oimunexpectederror Erreur inattendue
 ok Ok
 onenewmail Un nouveau message
 online Connecté[e]
