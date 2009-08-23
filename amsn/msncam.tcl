@@ -1818,10 +1818,10 @@ namespace eval ::CAMGUI {
                                 set win_name [::ChatWindow::For $chatid]
                                 set window [::ChatWindow::GetOutDisplayPicturesFrame $win_name]
                                 pack forget $window.dps
-				canvas $window.canvas -width 160 -height 120
-				set wwidth 158
-				set wheight 120
-				[winfo parent $window] configure -width [expr {160 +  [image width [::skin::loadPixmap imghide]] + (2 * [::skin::getKey chat_dp_border])} ]
+				canvas $window.canvas -width 320 -height 240
+				set wwidth 318
+				set wheight 240
+				[winfo parent $window] configure -width [expr {320 +  [image width [::skin::loadPixmap imghide]] + (2 * [::skin::getKey chat_dp_border])} ]
 				if { [::config::getKey old_dpframe 0] == 1 } {
 					pack $window
 				}
@@ -1857,7 +1857,7 @@ namespace eval ::CAMGUI {
 
 		catch {::Webcamsn::Decode $decoder $img $data}
 		if { [winfo exists $window] && [winfo toplevel $window] != $window } {
-			catch {::picture::Resize $img 160 120}
+			#catch {::picture::Resize $img 160 120}
                 } elseif { ![winfo exists $window] && ![OnDarwin] } {
                         ::MSNCAM::CancelCam $chatid $sid
                 }
