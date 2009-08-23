@@ -657,6 +657,11 @@ nouserspecified Usuario no especificado
 nudge $1 reclama tu atención
 offline Desconectado
 oim Mensajes sin conexión
+oimauthenticationfailed Autentificación fallida
+oimflood Has enviado demasiados mensajes fuera de línea... por favor espera e inténtalo otravez
+oimmessagetoolarge Mensaje fuera de línea demasiado largo... divídelo y envíalo otravez
+oimsystemunavailable El sistema de mensajes fuera de línea no está disponible en éste moment
+oimunexpectederror Error inesperado
 ok Aceptar
 onenewmail Un mensaje nuevo en bandeja de entrada
 online Conectado
