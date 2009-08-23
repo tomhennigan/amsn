@@ -6,7 +6,7 @@
 # by Peter Aron Horvath from Hungary, Miskolc
 # petesm@freemail.hu
 clear
-echo -e "Lang File Checking for \33[32;01maMSN\33[0m v0.1b by Peter Aron Horvath"
+echo -e "Lang File Checking for \033[32;01maMSN\033[0m v0.1b by Peter Aron Horvath"
 echo "http://www.iit.uni-miskolc.hu/~horvath16/"
 echo 
 if [ -z $1 ]; then
@@ -19,7 +19,7 @@ if [ -z $2 ]; then
 fi
 
 # checking for missing keys
-echo -e "Using file \33[32;1m'$1'\33[0m as directory to process \33[32;1m'$2'\33[0m"
+echo -e "Using file \033[32;1m'$1'\033[0m as directory to process \033[32;1m'$2'\033[0m"
 echo "Checking for duplicated keys/missing keys and stripping:"
 rows=`cat $1|wc -l|awk '{print $1}'`
 echo -n "key: $rows /  "
@@ -28,24 +28,24 @@ echo>lang.post
 for i in `cat $1 |awk '{print $1}'`
 do
     n=`expr $n + 1`
-    echo -ne "\33[6;13H"
+    echo -ne "\033[6;13H"
     echo "$n"
     res=`cat $2 |grep "^$i "`
     if [ -z "$res" ]; then
 	#key not found
-	err=`echo "$err\n\33[31;01mMissing key:\33[0m $i"`
+	err=`echo "$err\n\033[31;01mMissing key:\033[0m $i"`
     else
 	row=`echo "$res" | uniq`
 	if [[ "$res" != "$row" ]]; then
 	    #duplicated key
-	    err=`echo "$err\n\33[31;1mDuplicated key:\33[0m $i"`
+	    err=`echo "$err\n\033[31;1mDuplicated key:\033[0m $i"`
 	else
 	    orig=`cat $1|grep "^$i "`
 	    trans=`cat $2|grep "^$i "`
 	    if [[ "$orig" == "$trans" ]]; then
 		#key not translated
 		if [[ ! "$i" == "amsn_lang_version" ]]; then
-		    err=`echo "$err\n\33[33;1mNot translated key:\33[0m $i"`
+		    err=`echo "$err\n\033[33;1mNot translated key:\033[0m $i"`
 		fi
 	    else
 		#all ok write key out

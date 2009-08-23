@@ -71,6 +71,8 @@ author Author
 autoaccepted File transfer accepted automatically
 autoacceptft Automatically accept File Transfer requests
 autoacceptwc Automatically accept Webcam requests
+autoaudiosinkdesc
+autoaudiosrcdesc
 autoaway Change state to "Away" when inactive for
 autocheckver Automatically check for newer versions on startup
 autoconnect2 Sign In automatically when aMSN is launched
@@ -80,9 +82,12 @@ autohotmaillog Automatically sign in to Hotmail
 autoidle Auto NoActivity
 autoip Automatic IP
 autolisten_voiceclips Automatically play voiceclips once received
+automaticsink
+automaticsrc
 automessage AutoMessage
 autonoact Change state to "Idle" when inactive for
 autoresizedp Automatically resize display pictures to default size
+autovideosrcdesc
 avaccepted Video Conference call accepted
 avcanceled Video Conference call canceled
 avgotinvitation Received Video Conference invitation from $1
@@ -171,6 +176,8 @@ checkonfln Check if a user blocked you when he gets offline
 checkopenfilecommand Please check the open file command in preferences window
 checkver Check for new version
 choosearq Choose your system architecture
+chooseaudiosink
+chooseaudiosrc
 choosebasefont Choose font type
 choosebgcolor Choose background color
 choosechannel Choose a channel
@@ -296,6 +303,8 @@ devicebusy Device $1 is busy
 devices Devices
 directconnection I have a direct connection to the internet (uses port 1863)
 disabled Disabled
+disabledaudiosrcdesc
+disabledvideosrcdesc
 disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
 disablessl Disable SSL
 disableuserfonts Ignore remote user font in chats, and use your own font type
@@ -393,6 +402,10 @@ forget_me Forget me
 forgot_pass I forgot my password
 formatcsv CSV format
 formatctt CTT format
+fsautoaudiosinkchosen
+fsautoaudiosrcchosen
+fsautovideosrcchosen
+fsnodevfound
 friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
