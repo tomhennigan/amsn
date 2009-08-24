@@ -64,13 +64,15 @@ assistantfinetunepic Pas de volgende instellingen aan om de beeldkwaliteit van j
 assistantselectcam Kies je webcam uit de lijst
 assistantstarting De assistent wordt gestart
 assistanttitle Assistent voor beeld en geluid
-assistantwelcome Deze assistent zal je begeleiden bij het instellen van beeld en geluid voor aMSN.\n\nDe assistent controleert of de vereiste extensies op het systeem aanwezig en in het geheugen geladen zijn. Vervolgens kun je het video-apparaat en -kanaal kiezen en de beeld- en resolutie-instellingen aanpassen.
+assistantwelcome Deze assistent zal je begeleiden bij het instellen van beeld en geluid voor aMSN.\n\nDe assistent controleert of de vereiste extensies op het systeem aanwezig en in het geheugen geladen zijn. Vervolgens kun je het videoapparaat en -kanaal kiezen en de beeld- en resolutie-instellingen aanpassen.
 audioconfigured Je hebt de volgende instellingen gekozen voor geluid:\n\nUitvoerapparaat: $1\nInvoerapparaat: $2
 audiovideo Instellingen voor beeld en geluid
 author Auteur
 autoaccepted Bestandsoverdracht automatisch geaccepteerd
 autoacceptft Bestandsoverdrachten automatisch accepteren
 autoacceptwc Webcamverzoeken automatisch accepteren
+autoaudiosinkdesc Automatisch het beste geluidsuitvoerapparaat voor je systeem detecteren
+autoaudiosrcdesc Automatisch het beste geluidsinvoerapparaat voor je systeem detecteren
 autoaway Status op "Afwezig" zetten als ik niet actief ben gedurende
 autocheckver Automatisch controleren op nieuwere versies bij het opstarten
 autoconnect2 Automatisch aanmelden wanneer aMSN wordt gestart
@@ -80,9 +82,13 @@ autohotmaillog Automatisch aanmelden bij Hotmail
 autoidle Automatisch "Geen activiteit"
 autoip Automatisch IP
 autolisten_voiceclips Voiceclips automatisch afspelen zodra ze zijn ontvangen
+automaticsink Uitvoer automatisch detecteren
+automaticsrc Invoer automatisch detecteren
 automessage Automatisch bericht
 autonoact Status op "Geen activiteit" zetten als ik niet actief ben gedurende
 autoresizedp Schermafbeeldingen automatisch aanpassen aan de standaardafmetingen
+autovideosinkdesc Automatisch de beste beelduitvoermethode voor je systeem detecteren
+autovideosrcdesc Automatisch het beste webcaminvoerapparaat voor je systeem detecteren
 avaccepted Videoconferentie-uitnodiging geaccepteerd
 avcanceled Videoconferentie-uitnodiging geannuleerd
 avgotinvitation $1 nodigt je uit voor een videoconferentie
@@ -170,7 +176,9 @@ checkingver Bezig met zoeken naar een nieuwere versie van aMSN
 checkonfln Controleren of een contact je heeft geblokkeerd wanneer hij offline gaat
 checkopenfilecommand Controleer het 'Commando voor bestand openen' in het venster 'Voorkeuren'
 checkver aMSN-versiecontrole
-choosearq Selecteer je systeem
+choosearq Kies je systeemarchitectuur
+chooseaudiosink Kies je geluidsuitvoer
+chooseaudiosrc Kies je geluidsinvoer
 choosebasefont Lettertype instellen
 choosebgcolor Achtergrondkleur instellen
 choosechannel Kies een kanaal
@@ -182,6 +190,7 @@ chooselocation Kies nieuwe bestandslocatie
 choosemixerdev Kies je mixer
 chooseoutputdev Kies je uitvoerapparaat
 chooseskin Kies de skin die je wilt gebruiken
+choosevideosrc Kies je beeldinvoer
 ch_to_state Nieuwe status activeren
 clearlog2 De geschiedenis voor al je contacten verwijderen
 clearlog3 Logboeken wissen
@@ -252,6 +261,8 @@ cprofile Profiel aanmaken
 created Gemaakt
 credits De makers
 curdisplaypic Huidige schermafbeelding
+curfssinknotworking Momenteel geselecteerde uitvoer werkt niet, '$1' wordt gebruikt
+curfssrcnotworking Momenteel geselecteerde invoer werkt niet, '$1' wordt gebruikt
 currentdate Huidige datum
 currentdynrate Huidige real-timesnelheid (in milliseconden)
 currentlanguage Deze taal gebruik je nu
@@ -296,6 +307,8 @@ devicebusy Apparaat $1 is in gebruik
 devices Apparaten
 directconnection Directe verbinding met het internet (gebruikt poort 1863)
 disabled Uitgeschakeld
+disabledaudiosrcdesc Geluidsinvoer uitschakelen en geen microfoongeluid verzenden
+disabledvideosrcdesc Beeldinvoer uitschakelen en geen webcambeeld verzenden
 disableprofiles Profielen uitschakelen (handig voor internetcafés en gedeelde omgevingen)
 disablessl SSL niet gebruiken
 disableuserfonts Lettertype van gesprekspartner negeren en het eigen lettertype gebruiken
@@ -394,6 +407,12 @@ forgot_pass Ik ben mijn wachtwoord vergeten
 formatcsv CSV-formaat
 formatctt CTT-formaat
 friendlyname Schermnaam tijdens gesprek
+fsautoaudiosinkchosen Automatisch '$1' gekozen voor geluidsuitvoer
+fsautoaudiosrcchosen Automatisch '$1' gekozen voor geluidsinvoer
+fsautovideosrcchosen Automatisch '$1' gekozen voor beeldinvoer
+fsnodevfound Geen apparaten beschikbaar
+fsnosuitablesrc Geen passend invoerapparaat gevonden, '$1' wordt voor testdoeleinden gebruikt
+fssrcdisabledusing Invoer uitgeschakeld, '$1' wordt voor testdoeleinden gebruikt
 ftaccepted Bestandsoverdracht geaccepteerd
 ftacceptedby $1 heeft de overdracht van het bestand '$2' geaccepteerd.
 ftaccepting Verzoek voor bestandsoverdracht wordt geaccepteerd
@@ -511,7 +530,7 @@ leaveblankforhotmail Laat leeg om Hotmail te gebruiken
 leavejoinsinchat In het gespreksvenster tonen dat iemand het gesprek binnenkomt of verlaat
 leaves $1 verlaat het gesprek
 lenteredconf $1 kwam de vergadering binnen op $2
-lineflushlog Logbestanden bijwerken na elke regel
+lineflushlog Logbestanden na elke regel bijwerken
 linprivate PRIVÉ
 listeningon Wachten op inkomende verbinding op poort $1
 listening Wachten op verbinding
@@ -656,6 +675,11 @@ nouserspecified Geen contact geselecteerd
 nudge $1 vraagt je aandacht
 offline Offline
 oim Offlineberichten
+oimauthenticationfailed Authenticatie mislukt
+oimflood Te veel offlineberichten verzonden... Wacht even en probeer het opnieuw
+oimmessagetoolarge Offlinebericht is te groot. Deel het op en verzend het opnieuw
+oimsystemunavailable Offlineberichtensysteem is momenteel niet beschikbaar
+oimunexpectederror Onverwachte fout
 ok Ok
 onenewmail Je hebt 1 nieuw bericht in Postvak IN
 onlinehelp Online Help
