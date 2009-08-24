@@ -61,6 +61,7 @@ assistantainput Choose your input device and try recording with it.
 assistantaoutput Choose your output device, and try playing this file to test it.
 assistantawarn You won't be able to record yourself, or speak to your friends. You may find answers on how to install this extension on our Wiki:
 assistantfinetunepic Change the following settings to adjust the image quality of your webcam
+assistantnote NOTE: this configuration is only for the $1 feature.
 assistantselectcam Select your webcam from the list
 assistantstarting Starting the Assistant
 assistanttitle Audio and Video assistant
@@ -89,6 +90,7 @@ autonoact Change state to "Idle" when inactive for
 autoresizedp Automatically resize display pictures to default size
 autovideosrcdesc Automatically detect the webcam capture device on your system
 autovideosinkdesc Automatically detect the best video output method for your system
+av Video Conference
 avaccepted Video Conference call accepted
 avcanceled Video Conference call canceled
 avgotinvitation Received Video Conference invitation from $1
@@ -1046,6 +1048,7 @@ viewcontactsby View contacts by
 viewprofile View Profile
 viewspace View space items
 view View
+voiceclip Voice Clip
 volume Volume
 wanttosharecam I want to make my webcam available to others
 webcamcanceled The webcam session with $1 has been canceled

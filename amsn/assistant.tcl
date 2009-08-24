@@ -1154,6 +1154,10 @@ namespace eval ::AVAssistant {
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
 
+		label $contentf.note -justify left -text [trans assistantnote [trans webcam] ] \
+			-fg red -font bigfont
+		pack $contentf.note -pady 20 -side bottom
+
 		if {![info exists lowrescam]} {
 			set lowrescam [::config::getKey lowrescam]
 		}
@@ -1480,6 +1484,10 @@ namespace eval ::AVAssistant {
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
 
+		label $contentf.note -justify left -text [trans assistantnote [trans webcam] ] \
+			-fg red -font bigfont
+		pack $contentf.note -pady 10 -side bottom
+
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
 		#frame $leftframe -bd 0
@@ -1681,7 +1689,11 @@ namespace eval ::AVAssistant {
 		pack $contentf.desc -pady 20 
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
-		
+
+		label $contentf.note -justify left -text [trans assistantnote [trans webcam] ] \
+			-fg red -font bigfont
+		pack $contentf.note -pady 20 -side bottom
+
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
 		frame $leftframe -bd 0
@@ -1852,6 +1864,10 @@ namespace eval ::AVAssistant {
 			pack $contentf.desc -pady [list 20 0]
 			#to get a nice wrapping
 			bind $contentf.desc <Configure> [list %W configure -wraplength %w]
+
+			label $contentf.note -justify left -text [trans assistantnote [trans voiceclip]s ] \
+				-fg red -font bigfont
+			pack $contentf.note -pady 10 -side bottom
 
 			#create the left frame (for the comboboxes)
 			set leftframe $contentf.left
@@ -2068,6 +2084,10 @@ namespace eval ::AVAssistant {
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
 
+		label $contentf.note -justify left -text [trans assistantnote [trans voiceclip]s ] \
+			-fg red -font bigfont
+		pack $contentf.note -pady 20 -side bottom
+
 		#create the left frame (for the comboboxes)
 		set leftframe $contentf.left
 		frame $leftframe -bd 0
@@ -2262,6 +2282,10 @@ namespace eval ::AVAssistant {
 		    -image [::skin::loadPixmap smallanim] -compound right
 
 		pack $contentf.fslabel
+		
+		label $contentf.note -justify left -text [trans assistantnote [trans av] ] \
+			-fg red -font bigfont
+		pack $contentf.note -side bottom
 
 		if {$firsttime} {
 			::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
@@ -2876,6 +2900,10 @@ namespace eval ::AVAssistant {
 			-text [trans farsightextchecking] -image [::skin::loadPixmap yes-emblem] \
 			-compound right
 		pack $contentf.fslabel
+
+		label $contentf.note -justify left -text [trans assistantnote [trans av] ] \
+			-fg red -font bigfont
+		pack $contentf.note -side bottom
 
 		::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio 1
 	}
