@@ -1865,7 +1865,7 @@ namespace eval ::AVAssistant {
 			#to get a nice wrapping
 			bind $contentf.desc <Configure> [list %W configure -wraplength %w]
 
-			label $contentf.note -justify left -text [trans assistantnote [trans voiceclip]s ] \
+			label $contentf.note -justify left -text [trans assistantnote [trans voiceclip] ] \
 				-fg red -font bigfont
 			pack $contentf.note -pady 10 -side bottom
 
@@ -2084,7 +2084,7 @@ namespace eval ::AVAssistant {
 		#to get a nice wrapping
 		bind $contentf.desc <Configure> [list %W configure -wraplength %w]
 
-		label $contentf.note -justify left -text [trans assistantnote [trans voiceclip]s ] \
+		label $contentf.note -justify left -text [trans assistantnote [trans voiceclip] ] \
 			-fg red -font bigfont
 		pack $contentf.note -pady 20 -side bottom
 
