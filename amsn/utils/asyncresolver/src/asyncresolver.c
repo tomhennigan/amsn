@@ -5,10 +5,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <wspiapi.h>
+#else
 #include <netdb.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
 #include <arpa/inet.h>
+#endif
 
 
 static void Resolver_Thread(ClientData cdata);
