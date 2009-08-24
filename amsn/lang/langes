@@ -365,7 +365,6 @@ failed Fallo
 faq FAQ (Preguntas frecuentes)
 farsightextchecking Comprobar si está cargada la extensión Farsight ...
 farsightextwarn No puedes realizar llamadas SIP. Puedes encontrar respuestas de cómo instalar Farsight en nuestro Wiki:
-farsightinfook Farsight es un framework para tratar con los protocolos de conferencias de audio/video. ¡Con Farsight se pueden enviar o recibir llamadas SIP dentro de aMSN! Echa un vistazo a farsight en nuestra Wiki:
 fetching Obteniendo datos...
 file Archivo
 filedoesnotexist El archivo no existe
@@ -522,7 +521,6 @@ lleftconf $1 deja la conversación
 loadcontacts Cargar lista de contactos
 load Habilitar
 loadotherdisplaypic Cargando las imágenes mostradas de $1, por favor espere...
-localecode Tus 4 dígitos de idioma-/código-país
 logbigger Archivos de registro de un contacto no superan los
 logeventconnect Registrar las conexiones
 logeventdisconnect Registrar las desconexiones
@@ -658,9 +656,9 @@ nudge $1 reclama tu atención
 offline Desconectado
 oim Mensajes sin conexión
 oimauthenticationfailed Autentificación fallida
-oimflood Has enviado demasiados mensajes fuera de línea... por favor espera e inténtalo otravez
-oimmessagetoolarge Mensaje fuera de línea demasiado largo... divídelo y envíalo otravez
-oimsystemunavailable El sistema de mensajes fuera de línea no está disponible en éste moment
+oimflood Has enviado demasiados mensajes fuera de línea... por favor espera e inténtalo de nuevo
+oimmessagetoolarge Mensaje fuera de línea demasiado largo... divídelo y envíalo de nuevo
+oimsystemunavailable El sistema de mensajes fuera de línea no está disponible en éste momento
 oimunexpectederror Error inesperado
 ok Aceptar
 onenewmail Un mensaje nuevo en bandeja de entrada
@@ -880,13 +878,10 @@ sipcalleenoanswer El usuario no respondió a tu llamada
 sipcalleeunavailable El usuario no se encuentra disponible en estos momentos
 sipcallended Ha finalizado tu llamada
 sipcallimpossible2 No puedes hacer una llamada de audio o video. Por favor, instala Farsight2 y prueba de nuevo.
-sipcallimpossible No puedes realizar una llamada de audio. Por favor, instala Farsight2 e inténtalo de nuevo.
 sipcallmissed Perdiste tu llamada de audio con $1
 sipcallnosipflag El usuario no soporta llamadas de audio.
 sipcallsent Llamando a $1
-sipcallunsupported Has recibido una invitación de llamada de audio que actualmente no está soportada. Puedes devolver la llamada con una nueva invitación. La llamada de audio entonces funcionará
 sipcallyouarebusy2 Solo puedes tener una llamada de audio o video a la vez.
-sipcallyouarebusy Sólo puedes tener una llamada de audio a la vez.
 sipgotinvitation Invitación de llamada de audio recibida de $1
 sipvideocallaccepted Videollamada aceptada
 sipvideocallconnected ¡Tu videollamada está ahora conectada!
@@ -1082,3 +1077,25 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
+assistantnote NOTA: esta configuración es sólo para la característica $1.
+autoaudiosinkdesc Detecta automáticamente el mejor dispositivo de salida de audio para tu sistema
+autoaudiosrcdesc Detecta automáticamente el mejor dispositivo de entrada de audio para tu sistema
+automaticsink Autodetectar salida
+automaticsrc Autodetectar entrada
+autovideosinkdesc Detecta automáticamente el mejor método de salida de vídeo para tu sistema
+autovideosrcdesc Detecta automáticamente el dispositivo de captura de cámara web en tu sistema
+av Conferencia de vídeo
+chooseaudiosink Seleccionar salida de audio
+chooseaudiosrc Seleccionar entrada de audio
+choosevideosrc Seleccionar entrada de vídeo
+curfssinknotworking La salida seleccionada actualmente no está funcionando, usando en su lugar '$1'
+curfssrcnotworking La entrada seleccionada actualmente no está funcionando, usando en su lugar '$1'
+disabledaudiosrcdesc Deshabilitar la entrada de audio y no enviar ningún audio de tu micrófono
+disabledvideosrcdesc Deshabilitar la entrada de vídeo y no enviar tu cámara web
+fsautoaudiosinkchosen Elegido automáticamente '$1' para la salida de audio
+fsautoaudiosrcchosen Elegido automáticamente '$1' para la entrada de audio
+fsautovideosrcchosen Elegido automáticamente '$1' para la entrada de vídeo
+fsnodevfound No hay dispositivos disponibles
+fsnosuitablesrc No se encontró ningún dispositivo de entrada adecuado, usando '$1' para propósitos de pruebas
+fssrcdisabledusing Entrada deshabilitada, usando '$1' para propósitos de pruebas
+voiceclip Clip de voz
