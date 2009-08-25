@@ -1632,10 +1632,10 @@ namespace eval ::log {
 
 		switch $event {
 			connect {
-				set eventlog "$name [trans uonline]"
+				set eventlog "$name [trans online]"
 			}
 			disconnect {
-				set eventlog "$name [trans uoffline]"
+				set eventlog "$name [trans offline]"
 			}
 			email {
 				set eventlog "[trans email] $name"
