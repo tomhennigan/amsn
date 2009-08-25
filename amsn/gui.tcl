@@ -5141,9 +5141,9 @@ proc cmsn_draw_main {} {
 	#Draw main window contents
 	cmsn_draw_status
 	cmsn_draw_offline
-	#iconphoto is bugged under windows so I disable it for now : that should be removed when it will be fixed in Tk
+	#iconphoto is bugged under windows so only use it if we are > 8.4.16
 	# See Tk bug #1467997
-	if { ![OnWin] && [version_vcompare [info patchlevel] 8.4.8] >= 0 } {
+	if { [version_vcompare [info patchlevel] 8.4.16] >= 0 } {
 		set use_old_method 0
 		if { [catch {wm iconphoto . -default [::skin::loadPixmap amsnicon]}] } {
 			set use_old_method 1
