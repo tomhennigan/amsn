@@ -2496,7 +2496,7 @@ namespace eval ::ChatWindow {
 			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
 			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
 			-command "::amsn::InviteCallFromCW $w 1"
-		set_balloon $call "[trans sendvideosip]"
+		set_balloon $callv "[trans sendvideosip]"
 
 
 		# Pack them
