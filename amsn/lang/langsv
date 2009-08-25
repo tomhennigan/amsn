@@ -36,12 +36,12 @@ alarms Larm
 alarmstatus Aktivera Larm för denna kontakt
 allfiles Alla filer
 allmonths Alla månader
-allow_sms Låt användare kontakta mig på min mobila enhet
 allowallbutbl Acceptera alla inkommande konversationsförfrågningar (bortsett från blockerade kontakter)
 allowbadwords Deaktivera censur på smeknamn
 allowlist Anförtrodda kontakter (AK):
 allowonlyinal Acceptera endast inkommande konversationsförfrågningar från anförtrodda kontakter
 allowseen Tillåt denna person att se när jag är ansluten och kontakta mig
+allow_sms Låt användare kontakta mig på min mobila enhet
 allprofilesinuse Alla existerande profiler används för närvarande
 always Alltid
 animatedemoticon Denna smiley är animerad
@@ -61,6 +61,7 @@ assistantainput Välj inenhet och försök spela in med den.
 assistantaoutput Välj utenhet och försök spela den här filen för att testa den.
 assistantawarn Du kommer inte kunna spela in dig själv eller prata med dina vänner. Du kan hitta svar på hur man installerar detta tillägg på vår Wiki: 
 assistantfinetunepic Ändra följande inställningar för att ställa in bildkvalitén för din webbkamera
+assistantnote OBS: Den här konfigurationen är enbar till för funktionen: $1 .
 assistantselectcam Välj din webbkamera från listan
 assistantstarting Startar assistenten
 assistanttitle Ljud och bildassistenten
@@ -71,6 +72,8 @@ author Upphovsman
 autoaccepted Filöverföringen accepterades automatiskt
 autoacceptft Acceptera filöverföringar automatiskt.
 autoacceptwc Tillåt begäran om webkamera automatiskt
+autoaudiosinkdesc Väljer automatiskt den bästa ljuduppspelningsenheten för ditt system
+autoaudiosrcdesc Väljer automatiskt den bästa ljudinspelningsenheten för ditt system
 autoaway Visa som "Inte vid datorn" efter
 autocheckver Sök efter nya versioner av aMSN vid programstart
 autoconnect Automatisk inloggning
@@ -80,9 +83,14 @@ autohotmaillog Automatisk inloggning på MSN Hotmail (krävs för e-postnotifiering
 autoidle Sätt min status till "inaktiv" automatiskt.
 autoip Automatisk IP
 autolisten_voiceclips Spela upp ljudklipp automatiskt när de har blivit mottagna.
+automaticsink Autoval av utenhet
+automaticsrc Autoval av inenhet
 automessage Autosvar
 autonoact Visa som "Inaktiv" efter
 autoresizedp Ändra visningsbildens storlek till standard automatiskt
+autovideosinkdesc Väljer automatiskt den bästa videouppspelningsmetoden för ditt system
+autovideosrcdesc Väljer automatiskt webkameraenhet för ditt system
+av Video Konferens
 avaccepted Videokonferens accepterad
 avcanceled Videokonferens avbruten
 avgotinvitation Fått inbjudan till videokonferens från $1
@@ -138,14 +146,13 @@ capturewarn Du kommer inte kunna sända från din webbkamera om du har en, annars 
 casesensitive Skilj på versaler och gemener
 cfgalarm Konfigurera larm
 cfgalarmall Konfigurera globala larm
-ch_to_state Sätt som status
 change Ändra
 change_account_info Byt kontoinformation
-change_mobile Byt mobilinställningar
 changecustomstate Byt till
 changedisplaypic Byt visningsbild
 changefont Teckensnitt
 changeglobnick Byt globalt smeknamn
+change_mobile Byt mobilinställningar
 changenick Byt smeknamn
 changepsm Ändra ditt privata meddelande
 changesize Ändra storlek
@@ -172,6 +179,8 @@ checkonfln Kontrollera om en användare blockerar dig då han/hon loggar ut
 checkopenfilecommand Kontrollera inställningarna för "Öppna fil"
 checkver Sök efter ny version av aMSN
 choosearq Välj din systemarkitektur
+chooseaudiosink Välj ljuduppspelningsenhet
+chooseaudiosrc Välj ljudinspelningsenhet
 choosebasefont Teckensnitt
 choosebgcolor Bakgrundsfärg
 choosechannel Välj en kanal
@@ -183,6 +192,8 @@ chooselocation Välj ny plats för fil
 choosemixerdev Välj mixer
 chooseoutputdev Välj utenhet
 chooseskin Välj det tema du vill använda i aMSN
+choosevideosrc Välj Videoinspelningsenhet
+ch_to_state Sätt som status
 clear Töm
 clearlog Radera historikfiler
 clearlog2 Radera historiken för alla kontakter
@@ -201,6 +212,7 @@ closed Konversationen med $1 stängdes på grund av inaktivitet.
 closelabel När du klickar på Stäng-knappen i ett flikat konversationsfönster
 closeonly Stäng bara nuvarande flik
 closeorcall Du måste avsluta/avbryta ljudsamtalet innan du stänger fönstret.
+closeorcallvideo Du måste stänga/avbryta videosamtalet innan du stänger fönstret.
 closeordock Om du stänger kontaktlistans fönster avslutas aMSN. Kanske vill du bara minimera fönstret till systemlisten. Är du säker på att du vill avsluta aMSN?
 closeothers Stäng övriga flikar
 closingdocks Stängknappen minimerar programmet till systemfältet
@@ -251,6 +263,8 @@ cprofile Skapa ny profil
 created Skapad
 credits Tack till
 curdisplaypic Nuvarande visningsbild
+curfssinknotworking Nuvarande utenhet fungerar inte. Använder '$1' istället
+curfssrcnotworking Nuvarande inenhet fungerar inte. Använder '$1' istället
 currentdate Datum
 currentdynrate Nuvarande realtidshastighet (i millisekunder) 
 currentlanguage Det här är det språk som används för nuvarande
@@ -259,10 +273,10 @@ custnotifymsg Informera mig när ett konversationsmeddelande tas emot
 custnotifyoffline Informera mig när den här kontakten loggar ut
 custnotifyonline Informera mig när den här kontakten ansluter
 custnotifystatus Informera mig när den här kontakten ändrar sin status
-custom_edit Redigera personlig smiley
-custom_new Lägg till personlig smiley
 customcolor Egen färg
 customdp Personlig visningsbild
+custom_edit Redigera personlig smiley
+custom_new Lägg till personlig smiley
 customnick Anpassat smeknamn
 customsmileys Visa andra användares personliga smileys
 customstyle Anpassat tema
@@ -295,6 +309,8 @@ devicebusy Enhet $1 är upptagen
 devices Enheter
 directconnection Standard (använder port 1863)
 disabled Inaktiverad
+disabledaudiosrcdesc Inaktivera ljudinspelning, och skicka inget ljud från mikrofonen
+disabledvideosrcdesc Inaktivera videoinspelning och skicka ingen video från webkameran
 disableprofiles Inaktivera profiler (bra för till exempel internetcaféer)
 disablessl Använd inte SSL
 disableuserfonts Ignorera andra användares personliga teckensnitt i konversationer och använd ditt eget teckensnitt istället.
@@ -364,7 +380,6 @@ faileddeleteperso Bilden kan inte tas bort. Endast bilder som hör ihop med dina 
 faq Vanliga frågor (FAQ)
 farsightextchecking Kontrollerar om Farsight tillägget är laddat...
 farsightextwarn Du kommer inte kunna ringa SIP samtal innan du installerat Farsight. Information om hur du installerar Farsight hittar på vår wiki:
-farsightinfook Farsight är ett ramverk för att hantera ljud/video-konferensprotokoll. Med Farsight kan du sända eller ta emot SIP samtal med aMSN. Ta en titt på farsight i våran Wiki:
 fetching Hämtar data...
 file Fil
 filedoesnotexist Filen finns inte
@@ -393,6 +408,12 @@ forgot_pass Jag har glömt mitt lösenord
 formatcsv CSV-format
 formatctt CTT-format
 friendlyname Konversationsnamn
+fsautoaudiosinkchosen Valde automatiskt'$1' för ljuduppspelning
+fsautoaudiosrcchosen Valde automatiskt '$1' för ljudinspelning
+fsautovideosrcchosen Valde automatiskt '$1' för videoinspelning
+fsnodevfound Inge enheter tillgängliga
+fsnosuitablesrc Inga passande enheter hittade. Använder '$1' i testsyfte
+fssrcdisabledusing Inaktiverade inspelning. Använder '$1' i testsyfte
 ftaccepted Filöverföring accepterad
 ftacceptedby $1 accepterade överföring av '$2'.
 ftaccepting Accepterar filöverföring
@@ -425,8 +446,8 @@ globaloverride Globala smeknamn åsidosätter anpassade smeknamn
 gonelunch Är och äter
 gotink $1 skickade en ink.
 goto Gå till $1
-goto_prefs_removeprofile Klicka här för att gå till inställningarna och radera din profil
 gotoinbox Gå till inkorgen
+goto_prefs_removeprofile Klicka här för att gå till inställningarna och radera din profil
 group Grupp
 groupadd Lägg till grupp
 groupcontacts Gruppkontakter
@@ -590,8 +611,8 @@ needonline Du är utloggad eller osynlig
 needwinico2 Behöver winico05.dll i utils/windows mappen för att windows aktivitetsfältsikon skall fungera 
 never Aldrig
 new_account Skapa nytt konto
-new_ft_protocol Använd det nya filöverföringsprotokollet (en del fel kan finnas kvar)
 newchat Ny konversation
+new_ft_protocol Använd det nya filöverföringsprotokollet (en del fel kan finnas kvar)
 newline Ny rad
 newmail $1 nya brev i inkorgen
 newmailfolder Du har fått $1 nytt/nya brev i annan hotmailmapp
@@ -607,8 +628,8 @@ next Nästa
 nick Smeknamn
 nickchanged $1 bytte smeknamn till '$2'
 no Nej
-no_blocked_notif Visa inte notifikationsfönster för blockerade kontakter
 noactivity Inaktiv
+no_blocked_notif Visa inte notifikationsfönster för blockerade kontakter
 nocacheddps Inga lagrade visningsbilder för denna kontakt
 nocamwarn Ingen webbkamera hittades eller så används den redan av något annat program (Vilket innebär att den inte kan användas av aMSN).Hur du löser detta fel finns angivet på vår Wiki:
 nodataavailable Ingen data tillgänglig för $1
@@ -655,6 +676,11 @@ nouserspecified Ingen användare vald
 nudge $1 söker din uppmärksamhet
 offline Utloggad
 oim Offlinemeddelanden
+oimauthenticationfailed Autentisering misslyckades
+oimflood För många offlinemeddelande skickade... Vänligen vänta och försök igen
+oimmessagetoolarge Offlinemeddelandet är för stort... Dela upp det och skicka igen
+oimsystemunavailable Offlinemeddelandesystemet är för tillfälligt otillgängligt
+oimunexpectederror Oväntat fel
 ok Ok
 onenewmail 1 nytt meddelande i inkorgen
 online Tillgänglig
@@ -818,6 +844,7 @@ sendmobmsg Skicka till den mobila enheten
 sendmsg Skicka meddelande
 sendoim Skicka ett offline-meddelande
 sendsip Starta ett ljudsamtal
+sendvideosip Starta Videosamtal
 sendvoice Skicka ett ljudklipp
 sendwebcamaccepted $1 accepterade din inbjudan till webbkamerakonversation
 sendwebcaminvite Bjud in en användare att se din webbkamera
@@ -833,10 +860,10 @@ setbackinitialstate Du har ställt in aMSN att ansluta som $1, men du är nu $2. Ä
 setupcam Konfigurerar din webbkameraenhet
 setupcamfinetune Konfigurerar din webbkameraenhet och finjusterar bilden
 shareswebcam Delar ut sin webbkamera
-show_contactdps_in_cl Visa miniatyrer av visningsbilder i kontaktlistan
 showbanner Visa aMSNs logotyp längst ner i kontaktlistan (kräver omstart)
 showblockedlist Visa en lista över personer som blockerar dig
 showcachedpics Visa lagrade visningsbilder
+show_contactdps_in_cl Visa miniatyrer av visningsbilder i kontaktlistan
 showcontactemail Visa kontakternas e-postadresser
 showcontactnick Visa kontakternas smeknamn
 showdetailedview Visa detaljerad kontakt vy
@@ -861,6 +888,7 @@ signouteverywhere Logga ut överallt
 signouthere Logga ut här ($1)
 sipcallaccepted Ljudsamtalet accepterades
 sipcallback Återuppringning
+sipcallconnected Ditt ljudsamtal är nu anslutet!
 sipcalldeclined Ljudsamtalet nekades
 sipcalleeaccepted Användaren accepterade ditt ljudsamtal
 sipcalleebusy Användaren är upptagen i ett annat samtal
@@ -870,13 +898,23 @@ sipcalleedeclined Användaren avslog din inbjudan till ett ljudsamtal
 sipcalleenoanswer Användaren svarade inte på ditt samtal
 sipcalleeunavailable Användaren är inte tillgänglig just nu
 sipcallended Ditt ljudsamtal avslutades
-sipcallimpossible Du kan inte ringa ljudsamtal. Installera Farsight2 och försök igen.
-sipcallmissed Du har ett missat ljudsamtal från $1
+sipcallimpossible2 Du kan inte göra ett ljud/video-samtal. Vänligen installera Farsight2 och försök igen.
+sipcallmissed Du missade ett ljudsamtal från $1
 sipcallnosipflag Användaren saknar stöd för ljudsamtal.
 sipcallsent Ringer $1
-sipcallunsupported Du har mottagit en ljudsamtalsinbjudning som du saknar stöd för. Du kan ringa tillbaka med en egen inbjudan. Ljudsamtalet kommer då fungera
-sipcallyouarebusy Du kan bara ha ett ljudsamtal åt gången.
-sipgotinvitation Mottog ljudsamtals inbjudan från $1
+sipcallyouarebusy2 Du kan bara göra ett ljud/video-samtal åt gången.
+sipgotinvitation Fick ljudsamtalsinbjudan från $1
+sipvideocallaccepted Videosamtal accepterat
+sipvideocallconnected Ditt videosamtal är nu anslutet!
+sipvideocalldeclined Videosamtal avböjt
+sipvideocalleeaccepted Användaren accepterade ditt videosamtal
+sipvideocalleecanceled Användaren avbröt videosamtalsinbjudan
+sipvideocalleeclosed Användaren har avslutat erat videosamtal
+sipvideocalleedeclined Användaren avböjde din videosamtalsinbjudan
+sipvideocallended Ditt videosamtal har slutförts
+sipvideocallmissed Du missade ett videosamtal från $1
+sipvideocallnosipflag Användaren stödjer inte videosamtal
+sipvideogotinvitation Fick videosamtalsinbjudan från $1
 skin Tema
 skinselector Temaväljare
 small Liten
@@ -983,6 +1021,7 @@ unblock Ta bort blockering
 unknown Okänd
 unload Deaktivera
 unselectall Avmarkera alla
+untitled_space Ej namngett
 uoffline Utloggade
 uonline Inloggade
 update Uppdatera
@@ -1009,6 +1048,7 @@ view Alternativ
 viewcontactsby Namnvisningsläge
 viewprofile Visa profil
 viewspace Visa space-objekt
+voiceclip Ljudklipp
 volume Volym
 wanttosharecam Jag vill dela ut min webbkamera
 web Webb
