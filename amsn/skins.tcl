@@ -985,12 +985,12 @@ namespace eval ::skinsGUI {
 		wm title $w "[trans chooseskin]"
 		wm geometry $w +100+100
 
-		label $w.choose -text "[trans chooseskin]" -font bboldf
-		pack $w.choose -side top
+		frame $w.top
+		label $w.top.choose -text "[trans chooseskin]" -font bboldf
 
-		label $w.restart -text "[trans restartforskin]"
-                pack $w.restart -side top
+		label $w.top.restart -text "[trans restartforskin]"
 
+		frame $w.bottom
 		frame $w.main
 		frame $w.main.left
 		frame $w.main.right
@@ -1003,40 +1003,41 @@ namespace eval ::skinsGUI {
 
 		bind $w <<Escape>> "::skinsGUI::SelectSkinCancel $w"
 
+
+		label $w.bottom.status -text ""
+
+		set select -1
+		set idx 0
+
+		label $w.bottom.getmore -text "[trans getmoreskins]"  -font splainf \
+			-bg [::skin::getKey extrastdwindowcolor] -fg [::skin::getKey extralinkcolor]
+		bind $w.bottom.getmore <Enter> "$w.getmore configure -font sunderf -cursor hand2 \
+			-bg [::skin::getKey extralinkbgcoloractive] -fg [::skin::getKey extralinkcoloractive]"
+		bind $w.bottom.getmore <Leave> "$w.getmore configure -font splainf -cursor left_ptr \
+			-background [::skin::getKey extrastdwindowcolor] -foreground [::skin::getKey extralinkcolor]"
+		bind $w.bottom.getmore <ButtonRelease> "launch_browser $::weburl/skins.php"
+
+		button $w.bottom.ok -text "[trans ok]" -command "::skinsGUI::SelectSkinOk $w"
+		button $w.bottom.cancel -text "[trans cancel]" -command "::skinsGUI::SelectSkinCancel $w"
+		checkbutton $w.bottom.preview -text "[trans preview]" -variable ::skin::preview_skin_change -onvalue 1 -offvalue 0
+
+                pack $w.top -side top -fill x
+		pack $w.bottom -side bottom -fill x
+		pack $w.main -side top -fill both -expand 1
+
+		pack $w.bottom.status -side bottom
+		pack $w.bottom.getmore -side left -padx 5
+		pack $w.bottom.ok  $w.bottom.cancel $w.bottom.preview -side right -pady 5 -padx 5
 		pack $w.main.left.images -in $w.main.left -side top -expand 0 -fill both
 		pack $w.main.left.desc -in $w.main.left -side bottom -expand 1 -fill both
 		pack $w.main.left -in $w.main -side left -expand 1 -fill both
 		pack $w.main.right.ys -side right -fill both
 		pack $w.main.right.box -side left -expand 0 -fill both
 		pack $w.main.right -side right -expand 1 -fill both
-		pack $w.main -expand 1 -fill both
+                pack $w.top.restart -side top
+		pack $w.top.choose -side top
 
-		label $w.status -text ""
-		pack $w.status -side bottom
 
-#		image create photo blank -width 1 -height 75
-#		label $w.main.left.images.blank -image blank
-
-#		image create photo blank2 -width 400 -height 1
-#		label $w.main.left.images.blank2 -image blank2
-
-		set select -1
-		set idx 0
-
-		label $w.getmore -text "[trans getmoreskins]"  -font splainf \
-			-bg [::skin::getKey extrastdwindowcolor] -fg [::skin::getKey extralinkcolor]
-		bind $w.getmore <Enter> "$w.getmore configure -font sunderf -cursor hand2 \
-			-bg [::skin::getKey extralinkbgcoloractive] -fg [::skin::getKey extralinkcoloractive]"
-		bind $w.getmore <Leave> "$w.getmore configure -font splainf -cursor left_ptr \
-			-background [::skin::getKey extrastdwindowcolor] -foreground [::skin::getKey extralinkcolor]"
-		bind $w.getmore <ButtonRelease> "launch_browser $::weburl/skins.php"
-
-		button $w.ok -text "[trans ok]" -command "::skinsGUI::SelectSkinOk $w"
-		button $w.cancel -text "[trans cancel]" -command "::skinsGUI::SelectSkinCancel $w"
-		checkbutton $w.preview -text "[trans preview]" -variable ::skin::preview_skin_change -onvalue 1 -offvalue 0		
-
-		pack $w.getmore -side left -padx 5	
-		pack $w.ok  $w.cancel $w.preview -side right -pady 5 -padx 5
 
 		set the_skins [::skin::FindSkins]
 
@@ -1170,9 +1171,9 @@ namespace eval ::skinsGUI {
 	#  - w => Path of the widget skin selector.
 	proc SelectSkinOk { w } {
 		if { [$w.main.right.box curselection] == "" } {
-			$w.status configure -text "[trans selectskin]"
+			$w.bottom.status configure -text "[trans selectskin]"
 		} else {
-			$w.status configure -text ""
+			$w.bottom.status configure -text ""
 			set skinidx [$w.main.right.box curselection]
 			set skin [lindex [lindex [::skin::FindSkins] $skinidx] 0]
 			status_log "Chose skin No $skinidx : $skin\n"
