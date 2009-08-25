@@ -1,0 +1,12 @@
+amsn_lang_version 2
+all Alle
+filterblocked Nur Kontakte, die ich blockiert habe
+filterremovedme Nur Kontakte, die mich gelöscht haben
+clear Leeren
+nickandpsm Spitzname und Persönliche Nachricht
+typeheretofilter Tippen Sie hier, um die Kontaktliste zu filtern...
+storelastinput Die letzte Eingabe wiederherstellen, wenn das Plugin geladen wird
+enableoperators  Unterstütze Operatoren bei der Suche ("& " (UND) und "| " (ODER) können vor den mit Komma/Leerzeichen getrennten Stichwörtern verwendet werden)
+usewildcards Unterstütze die Benutzung von Jokerzeichen: * and ?
+groupname Gruppenname
+filter Filter

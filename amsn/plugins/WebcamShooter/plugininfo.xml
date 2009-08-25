@@ -5,6 +5,7 @@
 	<description>With this plugin you can take shoots of your webcam to use as display picture.</description>
 	<description_fr>Avec ce plugin vous pouvez prendre des photos avec votre webcam afin de les utiliser en tant qu'avatar.</description_fr>
 	<description_es>Con este plugin puedes tomar capturas de tu cámara web para usarla como imagen para mostrar.</description_es>
+	<description_de>Mit diesem Plugin können Sie Bilder mit Ihrer Webcam aufnehmen und direkt als Anzeigebild nutzen.</description_de>
 	<description_hu>A plugin segítségével felvételeket készíthetsz a saját webkamerádról, és e felvételeket megjelenítendő képként használhatod.</description_hu>
 	<description_nl>Met deze plug-in kun je foto's maken met je webcam om als schermafbeelding te gebruiken.</description_nl>
 	<amsn_version>0.97</amsn_version>
@@ -15,6 +16,10 @@
 
 	<cvs_version>9316</cvs_version>
 
+	<lang>
+		<langcode>de</langcode>
+		<version>11531</version>
+	</lang>
 	<lang>
 		<langcode>en</langcode>
 		<version>9316</version>

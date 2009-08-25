@@ -4,6 +4,8 @@
 	<author>Karel Demeyer</author>
 	<description>With this plugin you can draw in the chatwindow and send your drawings/sketches to your contacts.  It implements the ink feature found in MSN Messenger 7+
 Note : Windows users with the official client and the MS Journal Viewer installed may not be able to see your inks</description>
+	<description_de>Mit diesem Plugin können Sie im Chatfenster zeichnen und diese Zeichnungen/Skizzen an Ihre Kontakte senden. Es realisiert die Zeichnenfunktion des MSN Messenger 7+
+Hinweis: Windowsbenutzer die das offiziellen MSN Programm und MS Journal Viewer installiert haben, können diese Zeichnungen möglicherweise nicht sehen.</description_de>
 	<description_es>Con este plugin puedes dibujar en la ventana de conversación y enviar tus dibujos a tus contactos. Implementa la característica "ink" encontrada en MSN Messenger 7+
 Nota: Los usuarios de Windows con el cliente oficial y con MS Journal Viewer instalado puede que no sea capaz de ver tus dibujos</description_es>
 <description_fr>Avec ce plugin vous pouvez dessiner dans la fenêtre de discussion et envoyer vos dessins/schéma à vos contacts.Il implémente la caractéristique "ink" présente dans MSN Messenger 7 et ultérieur.

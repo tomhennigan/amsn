@@ -5,6 +5,7 @@
 	<description>This plugin implements the Nudge feature (From MSN 7.0) into aMSN</description>
 	<description_fr>Ce plugin ajoute la fonctionnalité des Remous (ou Wizz ou Nudge) dans aMSN</description_fr>
 	<description_es>Este plugin implementa la característica de Zumbido (desde MSN 7.0) a aMSN</description_es>
+	<description_de>Dieses Plugin fügt die Nudge-Funktion ('Rrring!') in aMSN ein.</description_de>
 	<description_hu>A rezgő figyelmeztetés implementációja (MSN 7.0-tól).</description_hu>
 	<description_nl>Deze plug-in implementeert de Nudge-functie (van MSN 7.0) in aMSN.</description_nl>
 	<amsn_version>0.94</amsn_version>
