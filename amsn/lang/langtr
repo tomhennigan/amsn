@@ -61,7 +61,7 @@ assistantainput Ses kayýt aygýtýnýzý seçip kaydetmeyi deneyin
 assistantaoutput Ses çýkýþ aygýtýný seçip deneme kaydýný çalmayý deneyin
 assistantawarn Kendi sesinizi kaydedemez ya da baðlantýlarýnýzla sesli konuþamazsýnýz. Bu eklentiyi nasýl kuracaðýnýz hakkýnda bilgiyi Wiki sayfamýzda bulabilirsiniz:
 assistantfinetunepic Aþaðýdaki ayarlarla görüntü kalitesini ayarlayýnýz
-assistantnote NOT: Bu ayar, sadece $1 özelliði için geçerlidir.
+assistantnote NOT: Bu ayar, *SADECE* $1 özelliði için geçerlidir.
 assistantselectcam Kameranýzý listeden seçiniz
 assistantstarting Ayarlayýcý baþlatýlýyor
 assistanttitle Ses Ve Görüntü Ayarlayýcýsý
@@ -90,7 +90,7 @@ autonoact Bu süre kadar eylemsiz kalýrsam "Etkinlik yok" göster:
 autoresizedp Kullanýcý resimlerini kendilðinden öntanýmlý ölçülere boyutlandýr
 autovideosinkdesc Sistemdeki en iyi video çýkýþýný otomatik algýla
 autovideosrcdesc Sistemdeki web kamerasý yakalama aygýtýný otomatik algýla
-av Görüntülü Konferans
+av Sesli ve Görüntülü Konferans
 avaccepted Görüntülü konuþma istemi kabul edildi
 avcanceled Görüntülü konuþma iptal edildi
 avgotinvitation $1 size görüntülü konuþma daveti gönderdi
@@ -380,7 +380,6 @@ faileddeleteperso Bu resim silinemiyor çünkü kiþisel resim dosyasý deðil. Yalnzý
 faq SYS (Sýkça Yanýtlanan Sorular)
 farsightextchecking Farsight eklentisi kurulu mu diye bakýlýyor...
 farsightextwarn SIP aramalarý yapamayacaksýnýz. Farsight kurulumu için Wiki'mizden bilgi alabilirsiniz:
-farsightinfook Farsight, ses/video görüþmesi protokolleri için bir çerçeve yazýlýmdýr. Farsight ile aMSN özerinden SIP çaðrýlarý gönderip alabilirsiniz! Farsight için Wiki sayfamýza bakabilirsiniz:
 fetching Veri alýnýyor...
 file dosya
 filedoesnotexist Dosya bulunamadý
@@ -899,13 +898,10 @@ sipcalleedeclined Kullanýcý sesli arama davetinizi reddetti
 sipcalleenoanswer Kullanýcý aramanýza yanýt vermedi
 sipcalleeunavailable Kullanýcýya þu an ulaþýlamýyor
 sipcallended Sesli aramanýz sona erdi
-sipcallimpossible Sesli Arama yapamazsýnýz. Lütfen Farsight2'yi kurup tekrar deneyiniz.
 sipcallimpossible2 Sesli veya Görüntülü Arama yapamazsýnýz. Lütfen Farsight2'yi kurup tekrar deneyiniz.
 sipcallmissed $1 kullanýcýsýndan gelen bir sesli aramayý kaçýrdýnýz
 sipcallnosipflag Kullanýcý sesli arama yapamýyor.
 sipcallsent $1 aranýyor
-sipcallunsupported Henüz desteklenmeyen bir sesli arama daveti aldýnýz. Geri arama ile yeni bir davet gönderip konuþabilirsiniz.
-sipcallyouarebusy Ayný anda sadece bir Sesli Arama yapabilirsiniz
 sipcallyouarebusy2 Ayný anda sadece bir Sesli ve Görüntülü Arama yapabilirsiniz.
 sipgotinvitation $1 kullanýcýsýndan sesli arama daveti aldýnýz
 sipvideocallaccepted Görüntülü Arama kabul edildi
