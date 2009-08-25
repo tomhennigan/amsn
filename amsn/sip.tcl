@@ -144,7 +144,7 @@ snit::type SIPConnection {
 			return
 		}
 
-		if { [$socket Connect] } {
+	        if { [catch {$socket Connect}] == 0 } {
 			after 20000 [list $self KeepAlive]
 		}
 	}
@@ -285,6 +285,10 @@ snit::type SIPConnection {
 			set state "REGISTERED"
 		}
 		$self Connect
+
+		if {![$socket IsConnected] } {
+			return
+		}
 
 		status_log "SIP : Registering : $state"
 		if { $state == "REGISTERED" } {
@@ -750,6 +754,10 @@ snit::type SIPConnection {
 	method BuildRequest { request uri to {callid ""} {new_request 0}} {
 		$self Connect
 
+		if {![$socket IsConnected] } {
+			return
+		}
+
 		set sockname [$socket GetInfo]
 
 
@@ -818,6 +826,10 @@ snit::type SIPConnection {
 
 	method BuildResponse { callid request status } {
 		$self Connect
+
+		if {![$socket IsConnected] } {
+			return
+		}
 
 		set sockname [$socket GetInfo]
  
@@ -1038,6 +1050,10 @@ snit::type SIPConnection {
 
 	method Send { headers {content_type ""} {body ""}} {
 		$self Connect
+
+		if {![$socket IsConnected] } {
+			return
+		}
 
 		set msg $headers
 		if {$content_type != ""} {
