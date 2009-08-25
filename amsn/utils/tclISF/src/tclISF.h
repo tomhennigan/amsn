@@ -2,16 +2,12 @@
 #define     TCLISF_H
 
 
-extern "C" 
-{
-
 #ifdef WIN32
 #include <windows.h>
 #endif
 
 #include    <tcl.h>
 
-#include    "libISF/libISF.h"
 #include    "ximage.h"
 
 // Defined as described in tcl.tk compiling extension help
@@ -38,6 +34,11 @@ extern "C"
 #  define TCL_STORAGE_CLASS DLLEXPORT
 #endif
 
+
+extern "C" 
+{
+
+#include    "libISF/libISF.h"
 
 /*
  * Declaration for application-specific command procedure

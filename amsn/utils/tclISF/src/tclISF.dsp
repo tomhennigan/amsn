@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCLISF_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCLISF_EXPORTS" /D "USE_TCL_STUBS" /D "USE_TK_STUBS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\TkCximage\src\CxImage\\" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "TCLISF_EXPORTS" /D "USE_TCL_STUBS" /D "USE_TK_STUBS" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x40c /d "NDEBUG"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 tclstub84.lib tkstub84.lib /nologo /dll /machine:I386
+# ADD LINK32 tclstub85.lib tkstub85.lib ..\..\TkCximage\src\Cximage\release\cximage.lib /nologo /dll /machine:I386
 
 !ELSEIF  "$(CFG)" == "tclISF - Win32 Debug"
 
@@ -92,10 +92,40 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\tclISF.c
+SOURCE=.\libISF\compression.c
 # End Source File
+# Begin Source File
 
-# PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+SOURCE=.\libISF\createTags.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\libISF\decodeTags.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\libISF\decompression.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\libISF\decProperty.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\libISF\encoding.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\libISF\libISF.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\libISF\read.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tclISF.cpp
+# End Source File
 # End Group
 # End Target
 # End Project
