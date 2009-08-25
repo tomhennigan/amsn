@@ -340,9 +340,8 @@ namespace eval ::gnotify {
 		
 		set textb $pgtop.gnotifymail_$acnt
 		text $textb -font bboldf -height 1 -background [::skin::getKey topcontactlistbg] -borderwidth 0 -wrap none -cursor left_ptr \
-		    -relief flat -highlightthickness 0 -selectbackground white -selectborderwidth 0 \
+		    -relief flat -highlightthickness 0 -selectbackground [::skin::getKey topcontactlistbg] -selectborderwidth 0 \
 		    -exportselection 0 -relief flat -highlightthickness 0 -borderwidth 0 -padx 0 -pady 0
-
 		if {[::skin::getKey emailabovecolorbar]} {
 			pack $textb -expand true -fill x -after $clbar -side bottom -padx 0 -pady 0
 		} else {
@@ -362,7 +361,7 @@ namespace eval ::gnotify {
 		
 		set mailheight [expr [image height [::skin::loadPixmap $img]]+(2*[::skin::getKey mailbox_ypad])]
 		#in windows need an extra -2 is to include the extra 1 pixel above and below in a font
-		if {$::tcl_platform(platform) == "windows"} {
+		if {[OnWin] || [OnMac]} {
 			set mailheight [expr $mailheight - 2]
 		}
 		set textheight [font metrics splainf -linespace]
@@ -400,10 +399,9 @@ namespace eval ::gnotify {
 		set maxw [expr [winfo width [winfo parent $pgtop]]-[image width [::skin::loadPixmap $img]]-(2*[::skin::getKey mailbox_xpad])]
 		set short_mailmsg [trunc $mailmsg $textb $maxw splainf]
 
-		$textb tag conf gnotifymail_$acnt -fore black -underline false -font splainf
-		$textb tag conf gnotifymail_$acnt -underline true
-		$textb tag bind gnotifymail_$acnt <Enter> "$textb tag conf gnotifymail_$acnt -under false;$textb conf -cursor hand2"
-		$textb tag bind gnotifymail_$acnt <Leave> "$textb tag conf gnotifymail_$acnt -under true;$textb conf -cursor left_ptr"
+		$textb tag conf gnotifymail_$acnt -fore [::skin::getKey emailfg] -underline false -font splainf
+		$textb tag bind gnotifymail_$acnt <Enter> "$textb tag conf gnotifymail_$acnt -under true -fore [::skin::getKey emailhover] -background [::skin::getKey emailhoverbg];$textb conf -cursor hand2"
+		$textb tag bind gnotifymail_$acnt <Leave> "$textb tag conf gnotifymail_$acnt -under false -fore [::skin::getKey emailfg] -background [::skin::getKey topcontactlistbg];$textb conf -cursor left_ptr"
 		
 		$textb tag bind gnotifymail_$acnt <Button1-ButtonRelease> "$textb conf -cursor watch; after 1 [list ::gnotify::open_gmail_account $acnt]"
 		
