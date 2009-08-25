@@ -66,7 +66,7 @@ assistantselectcam Seleziona la tua webcam dalla lista
 assistantstarting Introduzione alla configurazione assistita
 assistanttitle Configurazione audio e video
 assistantwelcome Questa configurazione assistita ti guiderà nel setup dei parametri audio e video per aMSN.\n\nControllerà che le estensioni richieste siano presenti e caricate e potrai scegliere il dispositivo ed il canale, impostare i parametri del video e la risoluzione.
-audioconfigured Hai scelto le seguenti impostazioni audio:\n Dispositivo di output: $1\nDispositivo di input:$2
+audioconfigured Hai scelto le seguenti impostazioni audio:\nDispositivo di output: $1\nDispositivo di input:$2
 audiovideo Impostazioni audio e video
 author Autore
 autoaccepted Trasferimento del file accettato automaticamente
@@ -344,7 +344,7 @@ editavsettings Modifica le impostazioni audio e video
 editcontent Modifica il contenuto dei campi Soggetto e Nota
 editcustomstate Modifica uno stato personalizzato
 edit Modifica
-editmyprofile Modifica il mio profilo Live
+editmyprofile Modifica il mio profilo pubblico
 editnewstate Nuove impostazioni personali di risposta automatica
 editprofile Modifica il profilo
 editstate Modifica lo stato esistente di risposta automatica
@@ -445,7 +445,7 @@ globalnicktitle Nick globale
 globaloverride Il modello dei nick globali dovrebbe avere precedenza sui nick personalizzati
 gonelunch A pranzo
 gotink $1 ti ha inviato un disegno.
-gotoinbox Vai a posta in arrivo
+gotoinbox Vai alla posta in arrivo
 goto_prefs_removeprofile Clicca qui per aprire le preferenze ed eliminare il tuo profilo
 goto Vai a $1
 groupadd Aggiungi un gruppo
@@ -745,12 +745,12 @@ preflog1 Opzioni di cronologia e log
 preflogevent Cronologia degli eventi
 preflook L'aspetto del mio aMSN
 prefmsging L'interfaccia dei miei messaggi
-prefname Il nome/nick del mio Windows Live Messenger
+prefname Il mio nome/nick e messaggio personale
 prefphone2 Inserisci il numero di telefono che vorresti fosse visto dagli utenti \nnella tua lista accettati \n
 prefphone Il mio numero di telefono
 prefprivacy2 Lista contatti/rifiutati dell'utente
 prefprivacy Lista accettati/bloccati dell'utente
-prefprofile2 Crea o modifica il profilo pubblico (la \ndescrizione di te stesso che gli altri possono vedere)
+prefprofile2 Crea o modifica il profilo pubblico (la descrizione \ndi te stesso che gli altri possono vedere)
 prefprofile3 I profili di configurazione dell'utente di aMSN
 prefprofile Il mio profilo pubblico
 prefproxy Le mie impostazioni proxy
@@ -932,7 +932,7 @@ sngdblclick Un click per aprire una nuova finestra per i messaggi
 sortcontactgroup Ordina i contatti per gruppo
 sortcontacthybrid Ordina i contatti in modo ibrido
 sortcontactsasc Ordina i contatti in ordine ascendente
-sortcontactsbylogsize Ordina contatti per dimensione log
+sortcontactsbylogsize Ordina i contatti per dimensione del log
 sortcontactsby Ordina i contatti per
 sortcontactsdesc Ordina i contatti in ordine discendente
 sortcontactstatus Ordina i contatti per stato
@@ -941,8 +941,8 @@ sortgroupsdesc Ordina i gruppi in ordine discendente
 sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
 sound Attiva i suoni
-soundcommand Questo deve essere il comando per emettere il suono (es.: esdplay)
-soundexample (\$sound = Suono da riprodurre) Es: esdplay \$sound
+soundcommand Questo deve essere il comando per emettere il suono (es: aplay)
+soundexample (\$sound = Suono da riprodurre) Es: aplay \$sound
 soundfile File del suono dell'allarme
 soundfiles File audio
 soundloop Loop del suono
