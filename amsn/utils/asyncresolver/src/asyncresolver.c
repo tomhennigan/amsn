@@ -10,6 +10,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <wspiapi.h>
+#define inet_ntop inet_ntop_win32
 #else
 #include <netdb.h>
 #include <netinet/in.h>
@@ -18,7 +19,30 @@
 #endif
 
 
-static void Resolver_Thread(ClientData cdata);
+#ifdef _WIN32
+static const char *inet_ntop_win32(int af, const void *src, char *dst, socklen_t cnt)
+{
+        if (af == AF_INET) {
+                struct sockaddr_in in;
+                memset(&in, 0, sizeof(in));
+                in.sin_family = AF_INET;
+                memcpy(&in.sin_addr, src, sizeof(struct in_addr));
+                getnameinfo((struct sockaddr *)&in, sizeof(struct sockaddr_in), dst, cnt, NULL, 0, NI_NUMERICHOST);
+                return dst;
+        }
+        return NULL;
+}
+
+#endif
+
+
+
+#ifdef _WIN32
+static unsigned __stdcall
+#else
+static void
+#endif
+Resolver_Thread _ANSI_ARGS_((ClientData cdata));
 static int Resolver_EventProc (Tcl_Event *evPtr, int flags);
 
 typedef struct {
@@ -91,7 +115,13 @@ Asyncresolve_Cmd(ClientData cdata,
 
   return TCL_OK;
 }
-static void Resolver_Thread(ClientData cdata)
+
+#ifdef _WIN32
+static unsigned __stdcall 
+#else
+static void
+#endif
+Resolver_Thread _ANSI_ARGS_((ClientData cdata))
 {
 
   ResolverData *data = (ResolverData*) cdata;
