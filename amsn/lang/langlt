@@ -71,6 +71,10 @@ author Autorius
 autoaccepted Rinkmenos persiuntimas priimtas automatiškai
 autoacceptft Automatiškai priimti prašymus rinkmenos persiuntimui
 autoacceptwc Automatiškai priimti prašymus kamerai įjungti
+autoaudiosinkdesc Automatiškai aptikti geriausią garso išvesties įrenginį jūsų sistemoje
+autoaudiosrcdesc Automatiškai aptikti geriausią garso įvesties įrenginį jūsų sistemoje
+automaticsink Automatiškai aptikti išvestis
+automaticsrc Automatiškai aptikti įvestis
 autoaway Keisti būsena į „Išėjęs“, kai neaktyvus
 autocheckver Automatiškai tikrinti naujos versijos prisijungiant
 autoconnect2 Įjungus AMSN, prisijungti automatiškai
@@ -83,6 +87,8 @@ autolisten_voiceclips Automatiškai leisti garso iškarpas, kai jos priimtos
 automessage Auto Žinutė
 autonoact Keisti būsena į „Neaktyvus“, kai neaktyvus
 autoresizedp Automatiškai sumažinti nuotraukas į numatytą dydį
+autovideosrcdesc Automatiškai aptikti vaizdo įrenginį jūsų sistemoje
+autovideosinkdesc Automatiškai aptikti geriausia vaizdo išvesties būdą jūsų sistemoje
 avaccepted Vaizdo konferencijos skambutis priimtas
 avcanceled Vaizdo konferencijos skambutis nutrauktas
 avgotinvitation Priimtas vaizdo konferencijos pakvietimas iš $1
@@ -171,6 +177,8 @@ checkonfln Tikrinti, ar vartotojas užblokavo jus, kai jis atsijungia
 checkopenfilecommand Patikrinti atidaromų rinkmenų komandą nustatymų lange
 checkver Ieškoti naujos versijos
 choosearq Keisti savo sistemos architektūrą
+chooseaudiosink Pasirinki garso išvestį
+chooseaudiosrc Pasirinkti garso įvestį
 choosebasefont Pasirinkti šriftą
 choosebgcolor Pasirinkti fono spalvą
 choosechannel Pasirinkite kanalą
@@ -182,6 +190,7 @@ chooselocation Pasirinkite naują rinkmenos vietą
 choosemixerdev Pasirinkite maišytuvą
 chooseoutputdev Pasirinkite garso įrenginį
 chooseskin Pasirinkite apvalkalą, kurį norėsite naudoti
+choosevideosrc Pasirinkti vaizdo įvestį
 ch_to_state Persijungti į naują būseną
 clear Išvalyti
 clearlog2 Išvalyti istoriją iš visų jūsų kontaktų
@@ -252,6 +261,8 @@ cprofile Sukurti profilį
 created Sukurtas
 credits Autoriai
 curdisplaypic Dabartinė nuotrauka
+curfssinknotworking Pasirinkta dabartinė išvestis neveikia, vietoj naudojamos '$1'
+curfssrcnotworking Pasirinkta dabartinė įvestis neveikia, vietoj naudojamos '$1'
 currentdate Dabartinė data
 currentdynrate Dabartinis esamo laiko greitis (milisekundėmis)
 currentlanguage Ši kalba jau naudojama
@@ -296,6 +307,8 @@ devicebusy Įrenginys $1 yra užimtas
 devices Prietaisai
 directconnection Tiesioginis interneto ryšys (prievadas 1863)
 disabled Uždraustas
+disabledaudiosrcdesc Išjungti garso įrenginį ir nesiųsti jokio garso iš jūsų mikrofono
+disabledvideosrcdesc Išjungti vaizdo įrenginį ir nerodyti jūsų vaizdo
 disableprofiles Uždrausti profilius (naudinga interneto kavinėms arba viešose vietose)
 disablessl Uždrausti SSL
 disableuserfonts Atmesti kito vartotojo šriftą pokalbyje ir naudoti mano paties šriftą
@@ -365,7 +378,6 @@ failed Neleidžiama
 faq DUK (Dažnai Užduodami Klausimai)
 farsightextchecking Tikrinama, ar įkeltas Farsight plėtinys...
 farsightextwarn Jūs negalite priimti SIP skambučių. Atsakymus, kaip įdiegti Farsight, galite rasti mūsų Wiki:
-farsightinfook Farsight yra struktūra, kuri bendrauja su garso/vaizdo protokolais. Su Farsight galite siųsti arba priimti SIP skambučius su aMSN! Pažvelkite į farsight mūsų Wiki:
 fetching Renkami duomenys...
 filedoesnotexist Rinkmena neegzistuoja
 filemanexample (\$location bus pakeista į aplankalą) Pvz: nautilus \$location
@@ -394,6 +406,12 @@ forgot_pass Aš pamiršau slaptažodį
 formatcsv CSV formatu
 formatctt CTT formatu
 friendlyname Draugiškasis vardas
+fsautoaudiosinkchosen Automatiškai pasirinkti '$1' garso išvedimui
+fsautoaudiosrcchosen Automatiškai pasirinkti '$1' garso įvedimui
+fsautovideosrcchosen Automatiškai pasirinkti '$1' vaizdo įvedimui
+fsnodevfound Nėra tinkamų įrenginių
+fsnosuitablesrc Nerasta tinkamų įvesties įrenginių, naudojamas '$1' bandymo tikslais
+fssrcdisabledusing Išjungta įvestis, naudojamas '$1' bandymo tikslais
 ftacceptedby $1 priėmė rinkmenos persiuntimo pakvietimą rinkmenai '$2'.
 ftaccepted Rinkmenos persiuntimas priimtas
 ftaccepting Priimamas rinkmenos persiuntimo prašymas
@@ -656,6 +674,11 @@ nouserspecified Nepasirinktas vartotojas
 nudge $1 kumštelėjo
 offline Atsijungęs
 oim Žinutė neprisijungusiam vartotojui
+oimauthenticationfailed Autentifikacija nepavyko
+oimflood Per daug nusiųsta žinučių neprisijungusiam vartotojui... prašome palaukti ir bandyti vėliau
+oimmessagetoolarge Žinutė neprisijungusiam vartotojui yra per didelė... išskaidykite ją dalimis ir bandykite vėl
+oimsystemunavailable Žinutės neprisijungusiems vartotojams šiuo metu negalimos
+oimunexpectederror Įvyko netikėta klaida
 ok Gerai
 onenewmail Jūs gavote el. laišką
 onlinehelp Tiesioginė pagalba
@@ -809,6 +832,7 @@ selectall Pasirinkti visus
 selectcontact Pasirinkti kontaktą
 selectplugins Pasirinkti įskiepius, kuriuos norėsite aktyvuoti
 selectskin Pasirinkti apvalkalą iš sąrašo
+send Siųsti
 sendcam Įjungti savo kamerą
 sendemail Siųsti pakeitimų pranešimus mano elektroniniu paštu
 sendfeedback Siųsti užklausą
@@ -818,7 +842,6 @@ sendmobmsg Siųsti į mobilųjį įrenginį
 sendmsg Siųsti žinutę
 sendoim Siųsti žinutę neprisijungusiam vartotojui
 sendsip Skambinti
-send Siųsti
 sendvideosip Pradėti vaizdo pokalbį
 sendvoice Garso klipai
 sendwebcamaccepted $1 priėmė kvietimą matyti jus per kamerą
