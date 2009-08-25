@@ -3392,6 +3392,7 @@ namespace eval ::ChatWindow {
 
 		set usrsX [expr {$toX + [font measure bplainf -displayof $top "[trans to]:"] + 5}]
 		set Ycoord [lindex [$top coords text] 1]
+		set Ycoord [expr {int($Ycoord)}]
 		set maxw [expr {[winfo width $top] - [::skin::getKey topbarpadx] - [expr {int([lindex [$top coords text] 0])} ] } ]
 		set default_incr_y $incr_y
 		set default_maxw $maxw
