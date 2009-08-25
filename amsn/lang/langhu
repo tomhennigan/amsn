@@ -36,12 +36,12 @@ alarms Jelzések
 alarmstatus Figyelmeztető jelzés KI/BE kapcsolása ehhez a partnerhez
 allfiles Minden fájl
 allmonths Minden hónap
+allow_sms Engedélyezem, hogy az MSN mobil készülékemen is elérhessenek.
 allowallbutbl A letiltottak listáján szereplő felhasználók is beszélgethessenek velem
 allowbadwords Nevek cenzúrázásának kikapcsolása
 allowlist Engedélyezettek listája (AL):
 allowonlyinal Csak az engedélyezettek listáján szereplő partnerek beszélhessenek velem
 allowseen Ez a személy mindig láthat, ha bejelentkezem
-allow_sms Engedélyezem, hogy az MSN mobil készülékemen is elérhessenek.
 allprofilesinuse Minden létező profil használatban van
 always Mindig
 animatedemoticon Ez a hangulatjel animált
@@ -90,7 +90,7 @@ autonoact Automatikus váltás "Nem elérhető" állapotra, ha inaktív vagyok
 autoresizedp Megjelenítendő kép automatikus átméretezése az alapértelmezett méretre
 autovideosinkdesc A legjobb videó kimenet kiválasztása
 autovideosrcdesc Webkamera automatikus kiválasztása
-av Videóbeszélgetés
+av Hang- és videóbeszélgetés
 avaccepted Video konferencia felkérés elfogadva
 avcanceled Video konferencia felkérés elutasítva
 avgotinvitation Video konferencia felkérés érkezett: $1
@@ -146,13 +146,14 @@ capturewarn Nem fogod tudni továbbítani a webkamerád képét, ha van. Ha ninc
 casesensitive Kisbetű-nagybetű érzékeny szöveg csapdák
 cfgalarm Jelzések hozzáadása / beállítása / törlése
 cfgalarmall Jelzések hozzáadása / beállítása / törlése
+ch_to_state Új állapotra váltás
 change Változtatás
 change_account_info Fiók információk megváltoztatása
+change_mobile Mobil információk megváltoztatása
 changecustomstate Váltás
 changedisplaypic Saját kép megváltoztatása
 changefont Betűtípus kiválasztása
 changeglobnick Általános becenév változtatás
-change_mobile Mobil információk megváltoztatása
 changenick Becenév módosítása
 changepsm Személyes üzenet módosítása
 changesize Méret megváltoztatása
@@ -193,7 +194,6 @@ choosemixerdev Válaszd ki a mixered
 chooseoutputdev Válaszd ki a kimeneti eszközöd
 chooseskin Válaszd ki a használni kívánt felületet
 choosevideosrc Videóbemenet kiválasztása
-ch_to_state Új állapotra váltás
 clear Törlés
 clearlog Naplófájl törlése
 clearlog2 Az összes beszélgetésem naplójának törlése
@@ -273,10 +273,10 @@ custnotifymsg Értesítés új üzenetekről
 custnotifyoffline Értesítési ablak, ha egy partner kijelentkezik
 custnotifyonline Értesítési ablak, ha egy partner bejelentkezik
 custnotifystatus Értesítési ablak, ha egy partner állapotot vált
-customcolor Egyéni szín
-customdp Egyedi fénykép
 custom_edit Saját hangulatjel szerkesztése
 custom_new Saját hangulatjel hozzádása
+customcolor Egyéni szín
+customdp Egyedi fénykép
 customnick Egyéni becenév
 customsmileys Mások egyéni hangulatjeleinek megjelenítése
 customstyle Egyéni stílus
@@ -446,8 +446,8 @@ globaloverride Az általános becenév minták felülírják az egyedi becenevek
 gonelunch ebédel
 gotink $1 kézírásos üzenetet küldött
 goto Ugrás a(z) $1 -re
-gotoinbox Beérkező levelek (csak Hotmail-es címmel működik)
 goto_prefs_removeprofile Kattints ide a beállításokhoz és a profilod törléséhez
+gotoinbox Beérkező levelek (csak Hotmail-es címmel működik)
 group Csoport
 groupadd Csoport hozzáadása
 groupcontacts Partnerek csoportosítása
@@ -611,8 +611,8 @@ needonline Nem vagy bejelentkezve!
 needwinico2 A winico05.dll -re van szükség a utils/windows mappában a tálcára zároláshoz
 never Soha
 new_account Fiók létrehozása
-newchat Új beszélgetés
 new_ft_protocol Használd az új fájlátviteli eljárást (kicsit hibás lehet)
+newchat Új beszélgetés
 newline Új sor
 newmail $1 új leveled van
 newmailfolder $1 leveled van egyéb Hotmail könyvtárakban
@@ -628,8 +628,8 @@ next Következő
 nick Becenév
 nickchanged $1 megváltoztatta becenevét erre: '$2'
 no Nem
-noactivity nem vagyok itt
 no_blocked_notif Ne jelenítsen meg értesítő ablakokat a letiltott partnereknél
+noactivity nem vagyok itt
 nocacheddps Nincs eltárolt kép ettől a felhasználótól
 nocamwarn Nem találtam webkamerát, vagy a webkamerád már használja egy másik program (emiatt az aMSN nem tudja használni). A probléma megoldásához a Wiki oldalunkon találsz segítséget:
 nodataavailable Nincs adat róla ( $1 )
@@ -860,10 +860,10 @@ setbackinitialstate Az aMSN bejelentkezéskor $1 státusszal kapcsolódik, de je
 setupcam Webkamera eszközöd beállítása
 setupcamfinetune Webkamera eszköz beállítása, és képének finomhangolása
 shareswebcam Van webkamerája
+show_contactdps_in_cl A partnerek megjelenítendő képeinek megjelenítése bélyegképként a partnerlistában
 showbanner Az aMSN csík megjelenítése
 showblockedlist Azon partnerek listája, akik letiltottak
 showcachedpics Tárolt képek megjelenítése
-show_contactdps_in_cl A partnerek megjelenítendő képeinek megjelenítése bélyegképként a partnerlistában
 showcontactemail Partnerek megjelenítése e-mail címmel
 showcontactnick Partnerek megjelenítése becenévvel
 showdetailedview Részletes partnernézet megjelenítése
