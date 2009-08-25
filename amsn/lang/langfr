@@ -61,6 +61,7 @@ assistantainput Choisissez le périphérique de capture et essayez d'enregistrer q
 assistantaoutput Choisissez le périphérique de lecture, et essayez de lire ce fichier son pour l'essayer.
 assistantawarn Vous ne pourrez pas vous enregistrer, ni parler avec vos amis. Vous trouverez peut-être le moyen d'installer cette extension sur le wiki :
 assistantfinetunepic Modifiez les paramètres suivants pour ajuster la qualité de l'image de votre webcam
+assistantnote ATTENTION: Cette configuration s'applique uniquement à '$1' !
 assistantselectcam Choisissez votre webcam dans la liste
 assistantstarting Démarrage de l'assistant
 assistanttitle Assistant Audio et Vidéo
@@ -71,6 +72,8 @@ author Auteur
 autoaccepted Transfert de fichier accepté automatiquement
 autoacceptft Accepter automatiquement les transferts de fichiers
 autoacceptwc Accepter automatiquement les invitations pour voir par la webcam.
+autoaudiosinkdesc Détecter automatiquement le meilleur périphérique de sortie audio de votre ordinateur
+autoaudiosrcdesc Détecter automatiquement le meilleur périphérique d'entrée audio de votre ordinateur
 autoaway Me marquer "Absent[e]" quand inactif plus de
 autocheckver Vérification automatique de l'existence d'une nouvelle version d'aMSN lors du lancement
 autoconnect2 Me connecter automatiquement lorsque aMSN est lancé
@@ -80,10 +83,15 @@ autohotmaillog Identification automatique à Hotmail
 autoidle Absence automatique après une période d'inactivité
 autoip IP Automatique
 autolisten_voiceclips Ouvrir automatiquement les messages vocal quand la réception est terminée
+automaticsink Détecter automatiquement la sortie
+automaticsrc Détecter automatiquement l'entrée
 automessage Auto-Message:
 autonoact Me marquer "Inactif" quand inactif plus de
 autoresizedp Redimensionner automatiquement l'avatar à la taille par défaut
+autovideosinkdesc Détecter automatiquement la meilleure sortie graphique pour votre ordinateur
+autovideosrcdesc Détecter automatiquement la webcam de votre ordinateur
 avaccepted Appel pour une vidéo-conférence accepté
+av Audio et Vidéo Conférence
 avcanceled Appel pour une vidéo-conférence annulé
 avgotinvitation $1 vous a invité à une vidéo-conférence
 avinitfailed Initialisation du plugin Audio/Vidéo échouée. Appel annulé
@@ -171,6 +179,8 @@ checkonfln Verifier si un contact vous a bloqué lorsqu'il se déconnecte
 checkopenfilecommand Merci de vérifier que la commande d'ouverture des fichiers dans la fenêtre des préférences
 checkver Vérifier les mises à jour.
 choosearq Veuillez choisir votre architecture système
+chooseaudiosink Sélectionnez la sortie audio
+chooseaudiosrc Sélectionnez l'entrée audio
 choosebasefont Choisir la police de caractère
 choosebgcolor Choisir la couleur de fond
 choosechannel Veuillez choisir un canal
@@ -182,6 +192,7 @@ chooselocation Choisissez un autre emplacement
 choosemixerdev Choisissez le périphérique de mixage
 chooseoutputdev Sélectionnez le périphérique de sortie
 chooseskin Sélectionnez l'apparence que vous souhaitez utiliser dans la liste
+choosevideosrc Sélectionnez l'entrée vidéo
 ch_to_state Changer vers ce nouveau statut immédiatement
 clear Effacer
 clearlog2 Effacer l'historique de tous mes contacts
@@ -252,6 +263,8 @@ cprofile Créer un profil
 created créé[e]
 credits Crédits
 curdisplaypic Avatar actuel
+curfssinknotworking La sortie sélectionnée ne marche pas, utilisation de '$1' à la place
+curfssrcnotworking L'entrée sélectionnée ne marche pas, utilisation de '$1' à la place
 currentdate Date actuelle
 currentdynrate Vitesse courante (en millisecondes)
 currentlanguage Langue actuelle
@@ -295,7 +308,9 @@ details Détails
 devicebusy Le périphérique $1 est occupé
 devices Périphériques
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
+disabledaudiosrcdesc Désactiver l'entrée audio, et ne pas envoyer de son depuis votre micro
 disabled Désactivé
+disabledvideosrcdesc Désactiver l'entrée vidéo, et ne pas envoyer votre webcam
 disableprofiles Désactiver les profils (utile pour les cyber-cafés ou pour les environnements partagés)
 disablessl Désactiver SSL
 disableuserfonts Ignorer la police du contact dans les conversations, et utiliser votre propre police
@@ -359,9 +374,9 @@ eventhistory Voir l'historique des événements
 examples Exemples
 exitamsn Êtes-vous sûr de vouloir quitter aMSN ?
 extras Services Additionnels
+failed Échec
 faileddelete Échec de l'effacement
 faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas un fichier de photo personnelle. Seules les photos qui appartiennent à votre profil personnel peuvent être effacées de cette façon.
-failed Échec
 faq Foire aux Questions
 farsightextchecking Vérifie si l'extension Farsight est chargée...
 farsightextwarn Vous ne pourrez pas avoir d'appels Audio. Vous trouverez des informations sur Farsight sur notre Wiki :
@@ -394,6 +409,12 @@ forgot_pass Mot de passe oublié
 formatcsv format CSV
 formatctt format CTT
 friendlyname Pseudo de conversation
+fsautoaudiosinkchosen Sélection automatique de '$1' pour la sortie audio
+fsautoaudiosrcchosen Sélection automatique de '$1' pour l'entrée audio
+fsautovideosrcchosen Sélection automatique de '$1' pour la sortie vidéo
+fsnodevfound Aucun périphérique disponible
+fsnosuitablesrc Aucun périphérique d'entré détecté, utilisation de '$1' pour les tests
+fssrcdisabledusing Entrée désactivé, utilisation de '$1' pour les tests
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
 ftaccepted Transfert de fichier accepté
 ftaccepting Acceptation du transfert de fichier en cours
@@ -655,9 +676,9 @@ nousersinsession Pas de contacts dans cette session
 nouserspecified Aucun utilisateur spécifié
 nudge $1 vous a envoyé un nudge.
 offline Déconnecté[e]
-oim Messagerie différée
 oimauthenticationfailed L'authentification a échoué
 oimflood Vous avez envoyé trop de messages différés... merci d'attendre avant de réessayer
+oim Messagerie différée
 oimmessagetoolarge Le message différé est trop long... coupez-le et réessayez
 oimsystemunavailable La messagerie différée est actuellement indisponible
 oimunexpectederror Erreur inattendue
@@ -921,7 +942,6 @@ sortgroupsdesc Trier les groupes dans l'ordre descendant (inversé)
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
-sound Événements sonores
 soundexample (\$sound = fichier audio qui sera joué) Ex: esdplay \$sound
 soundfile Fichier son associé à l'alarme
 soundfiles Fichiers son
@@ -929,6 +949,7 @@ soundloop Jouer le son en boucle
 soundnoavail Le périphérique audio n'est pas disponible. Veuillez fermer tous les programmes qui utilisent ce périphérique audio.
 soundserver Serveur de Sons
 soundstatus Activer/Désactiver l'alarme sonore
+sound Événements sonores
 sourcecode Code source (requiert une compilation et une installation)
 splashstart Démarrage
 sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptiona, votre mot de passe sera alors envoyé en clair sur le réseau. À n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
@@ -1028,6 +1049,7 @@ view Affichage
 viewcontactsby Afficher les contacts par
 viewprofile Afficher le profil
 viewspace Voir les éléments des pages personnelles
+voiceclip Message vocal
 volume Volume
 wanttosharecam Je souhaite indiquer à mes contacts que j'ai une webcam
 webcamcanceled La conversation par webcam avec $1 a été annulée
