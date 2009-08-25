@@ -90,8 +90,8 @@ autonoact Me marquer "Inactif" quand inactif plus de
 autoresizedp Redimensionner automatiquement l'avatar à la taille par défaut
 autovideosinkdesc Détecter automatiquement la meilleure sortie graphique pour votre ordinateur
 autovideosrcdesc Détecter automatiquement la webcam de votre ordinateur
-avaccepted Appel pour une vidéo-conférence accepté
 av Audio et Vidéo Conférence
+avaccepted Appel pour une vidéo-conférence accepté
 avcanceled Appel pour une vidéo-conférence annulé
 avgotinvitation $1 vous a invité à une vidéo-conférence
 avinitfailed Initialisation du plugin Audio/Vidéo échouée. Appel annulé
@@ -263,8 +263,8 @@ cprofile Créer un profil
 created créé[e]
 credits Crédits
 curdisplaypic Avatar actuel
-curfssinknotworking La sortie sélectionnée ne marche pas, utilisation de '$1' à la place
-curfssrcnotworking L'entrée sélectionnée ne marche pas, utilisation de '$1' à la place
+curfssinknotworking La sortie sélectionnée ne fonctionne pas, utilisation de '$1' à la place
+curfssrcnotworking L'entrée sélectionnée ne fonctionne pas, utilisation de '$1' à la place
 currentdate Date actuelle
 currentdynrate Vitesse courante (en millisecondes)
 currentlanguage Langue actuelle
@@ -308,8 +308,8 @@ details Détails
 devicebusy Le périphérique $1 est occupé
 devices Périphériques
 directconnection J'ai une connexion directe à Internet (utilisation du port 1863)
-disabledaudiosrcdesc Désactiver l'entrée audio, et ne pas envoyer de son depuis votre micro
 disabled Désactivé
+disabledaudiosrcdesc Désactiver l'entrée audio, et ne pas envoyer de son depuis votre micro
 disabledvideosrcdesc Désactiver l'entrée vidéo, et ne pas envoyer votre webcam
 disableprofiles Désactiver les profils (utile pour les cyber-cafés ou pour les environnements partagés)
 disablessl Désactiver SSL
@@ -413,8 +413,8 @@ fsautoaudiosinkchosen Sélection automatique de '$1' pour la sortie audio
 fsautoaudiosrcchosen Sélection automatique de '$1' pour l'entrée audio
 fsautovideosrcchosen Sélection automatique de '$1' pour la sortie vidéo
 fsnodevfound Aucun périphérique disponible
-fsnosuitablesrc Aucun périphérique d'entré détecté, utilisation de '$1' pour les tests
-fssrcdisabledusing Entrée désactivé, utilisation de '$1' pour les tests
+fsnosuitablesrc Aucun périphérique d'entrée détecté, utilisation de '$1' pour les tests
+fssrcdisabledusing Entrée désactivée, utilisation de '$1' pour les tests
 ftacceptedby $1 accepte l'invitation de transfert de fichier pour le fichier '$2'.
 ftaccepted Transfert de fichier accepté
 ftaccepting Acceptation du transfert de fichier en cours
@@ -676,9 +676,9 @@ nousersinsession Pas de contacts dans cette session
 nouserspecified Aucun utilisateur spécifié
 nudge $1 vous a envoyé un nudge.
 offline Déconnecté[e]
+oim Messagerie différée
 oimauthenticationfailed L'authentification a échoué
 oimflood Vous avez envoyé trop de messages différés... merci d'attendre avant de réessayer
-oim Messagerie différée
 oimmessagetoolarge Le message différé est trop long... coupez-le et réessayez
 oimsystemunavailable La messagerie différée est actuellement indisponible
 oimunexpectederror Erreur inattendue
@@ -939,6 +939,7 @@ sortcontactsdesc Trier les contacts dans l'ordre descendant
 sortcontactstatus Trier les contacts par statut
 sortgroupsasc Trier les groupes dans l'ordre ascendant (standard)
 sortgroupsdesc Trier les groupes dans l'ordre descendant (inversé)
+sound Évènements sonores
 sound2 Jouer un son quand un contact se connecte ou quand un message est reçu
 soundactive Jouer un son même lorsque le message arrive dans la fenêtre active
 soundcommand Ceci est la commande de lecture de sons (ex: esdplay)
@@ -949,7 +950,6 @@ soundloop Jouer le son en boucle
 soundnoavail Le périphérique audio n'est pas disponible. Veuillez fermer tous les programmes qui utilisent ce périphérique audio.
 soundserver Serveur de Sons
 soundstatus Activer/Désactiver l'alarme sonore
-sound Événements sonores
 sourcecode Code source (requiert une compilation et une installation)
 splashstart Démarrage
 sslwarning ATTENTION !! Désactiver SSL désactivera l'encryptiona, votre mot de passe sera alors envoyé en clair sur le réseau. À n'utiliser qu'avec des proxies ou des configurations de réseau très sûres.
