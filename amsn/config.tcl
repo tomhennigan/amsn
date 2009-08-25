@@ -1413,6 +1413,13 @@ proc SwitchToDefaultProfile { } {
 	::config::setKey log_event_nick 0
 	::config::setKey log_event_psm 0
 	::config::setKey displaypic "amsn.png"
+
+	foreach file [glob -type f [file join $::HOME2 displaypic *]] {
+		catch {file delete $file}
+	}
+	foreach file [glob -type f [file join $::HOME2 displaypic cache *]] {
+		catch {file delete $file}
+	}
 }
 
 #///////////////////////////////////////////////////////////////////////////////
