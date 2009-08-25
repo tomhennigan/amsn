@@ -305,11 +305,11 @@ delprofile2 Elige el perfil que te gustaría borrar
 description Descripción
 detach Desempotrar
 details Detalles
-devicebusy El dispositivo $1 esta ocupado 
+devicebusy El dispositivo $1 está ocupado 
 devices Dispositivos
 directconnection Tengo una conexión directa a internet (usa el puerto 1863)
 disabled Desactivado
-disabledaudiosrcdesc Deshabilitar la entrada de audio y no enviar ningún audio de tu micrófono
+disabledaudiosrcdesc Deshabilitar la entrada de audio y no usar el micrófono
 disabledvideosrcdesc Deshabilitar la entrada de vídeo y no enviar tu cámara web
 disableprofiles Desactivar perfiles (útil para cibercafés o entornos compartidos)
 disablessl Desactivar SSL
