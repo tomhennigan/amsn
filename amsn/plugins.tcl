@@ -506,9 +506,10 @@ namespace eval ::plugins {
 		bind $w.getmore <ButtonRelease> "launch_browser $::weburl/plugins.php?lang=$lang"
 
 
-		button $w.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
-		button $w.config -text "[trans configure]" -command "::plugins::GUI_Config" -state disabled
-		button $w.close -text [trans close] -command "::plugins::GUI_Close"
+		frame $w.bf
+		button $w.bf.load -text "[trans load]" -command "::plugins::GUI_Load" -state disabled
+		button $w.bf.config -text "[trans configure]" -command "::plugins::GUI_Config" -state disabled
+		button $w.bf.close -text [trans close] -command "::plugins::GUI_Close"
  
 		#loop through all the plugins and add them to the list
 		foreach {plugin} [lsort -dictionary [array names ::plugins::plugins *_name]] {
@@ -539,9 +540,10 @@ namespace eval ::plugins {
 		pack $mF.author -padx 5 -anchor w
 		pack $mF.desc_title -padx 5 -anchor w
 		pack $mF.desc -anchor nw -expand true -fill x -padx 5
+		pack $w.getmore -side bottom -anchor e -padx 5
+		pack $w.bf.close $w.bf.config $w.bf.load -side right -anchor e -padx 5 -pady 5
+		pack $w.bf -side bottom -anchor e -padx 5 -pady 5
 		pack $w.sw -anchor w -side top -expand true -fill both
-		pack $w.getmore -side top -anchor e -padx 5
-		pack $w.close $w.config $w.load -padx 5 -pady 5 -side right -anchor se
 
 		moveinscreen $w 30
 		return
@@ -590,11 +592,11 @@ namespace eval ::plugins {
 		
 		# update the buttons
 
-		$w.config configure -state normal
+		$w.bf.config configure -state normal
 
 		if {[lsearch "$loadedplugins" $selection] != -1 } {
 			# if the plugin is loaded, enable the Unload button and update the colors
-			$w.load configure -state normal -text [trans unload] -command "::plugins::GUI_Unload"
+			$w.bf.load configure -state normal -text [trans unload] -command "::plugins::GUI_Unload"
 			$w.plugin_list itemconfigure [$w.plugin_list curselection] \
 				-bg [::skin::getKey extralistboxselectedbg] -fg [::skin::getKey extralistboxselected] \
 				-selectforeground [::skin::getKey extralistboxselected]
@@ -602,18 +604,18 @@ namespace eval ::plugins {
 			# if the plugin has a configlist, then enable configuration.
 			# Otherwise disable it
 			if {[info exists ::[getInfo $selection plugin_namespace]::configlist] == 1} {
-				$w.config configure -state normal
+				$w.bf.config configure -state normal
 			} else {
-				$w.config configure -state disabled
+				$w.bf.config configure -state disabled
 			}
 		} else { # plugin is not loaded
 			# enable the load button and disable config button and update color
-			$w.load configure -state normal -text "[trans load]" -command "::plugins::GUI_Load"
+			$w.bf.load configure -state normal -text "[trans load]" -command "::plugins::GUI_Load"
 			$w.plugin_list itemconfigure [$w.plugin_list curselection] \
 				-bg [::skin::getKey extrastdbgcolor] -fg [::skin::getKey extrastdtxtcolor] \
 				-selectforeground [::skin::getKey extraselectedtxtcolor]
 
-			$w.config configure -state disabled
+			$w.bf.config configure -state disabled
 		}
 	}
 
