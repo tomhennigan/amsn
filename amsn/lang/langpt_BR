@@ -17,8 +17,8 @@ addstate Adicionar Novo Estado
 addto Adicionar a $1
 addtoal Adicionar em AL
 addtobl Adicionar em BL
-addtofl Adicionar em FL
 addtocontacts Adicionar à Lista de Contatos
+addtofl Adicionar em FL
 addtoo Adicionar esta pessoa à minha lista de contatos
 admincontacts Gerenciar contatos
 admingroups Gerenciar grupos
@@ -61,6 +61,7 @@ assistantainput Escolha o seu dispositivo de entrada e tente gravar com ele.
 assistantaoutput Escolha seu dispositivo de saida, e tente tocar este arquivo com ele para testar.
 assistantawarn Você não poderá gravar, ou falar com seus amigos. Você poderá encontrar respostas de como instalar esta extensão no nosso Wiki:
 assistantfinetunepic Mude as seguintes opções para ajustar a qualidade da imagem da sua webcam
+assistantnote NOTA: Esta configuracao é *somente* para '$1'
 assistantselectcam Selecia a sua webcam na lista
 assistantstarting Inicar o Assistente
 assistanttitle Assistente de áudio e vídeo
@@ -71,6 +72,7 @@ author Autor
 autoaccepted Transferência de arquivo aceita automaticamente
 autoacceptft Aceitar automaticamente pedidos de transferência de arquivo
 autoacceptwc Aceitar automaticamente pedidos de uso da webcam
+autoaudiosinkdesc Detectar automaticamente o dispositivo de saída de áudio do sistema
 autoaway Mudar estado para "Ausente" quando inativo por
 autocheckver Verificar automaticamente por novas versões ao iniciar
 autoconnect2 Logar-me automaticamente quando o aMSN iniciar
@@ -80,11 +82,16 @@ autohotmaillog Logar-se automaticamente no Hotmail
 autoidle Detectar inatividade
 autoip Endereço IP automático
 autolisten_voiceclips Tocar Clips de Voz automaticamente quando receber.
+automaticsink Auto-Detectar Saída
+automaticsrc Auto-Detectar Entrada
 automessage Mensagem automática
 autonoact Mudar estado para "Sem atividade" quando inativo por
 autoresizedp Automaticamente redimensione as figuras para o tamanho padrão
+autovideosinkdesc Detectar automaticamente o melhor dispositivo de saída de vídeo(ex. Webcam) do sistema
+autovideosrcdesc Detectar automaticamente o dispositivo de captura de imagem(Webcam) do sistema
 avaccepted Chamada para vídeo-conferência aceita
 avcanceled Chamada para vídeo-conferência cancelada
+av Conferência de Áudio e Vídeo
 avgotinvitation Recebido um convite para videoconferência de $1
 avinitfailed O plugin de áudio/vídeo não pôde ser iniciado. Chamada cancelada
 avoidseen Evitar que esta pessoa veja quando eu estou on-line e não permitir que ela me contate
@@ -171,7 +178,9 @@ checkonfln Verificar se um usuário bloqueou você quando ficar offline
 checkopenfilecommand Por favor verifique o comando "abrir arquivo" na janela de preferências
 checkver Procurar por atualizações
 choosearq Escolha a arquitetura do seu sistema
-choosebasefont Escolher tipo de fonte
+chooseaudiosink Selecionar Saída de Áudio
+chooseaudiosrc Selecionar Entrada de Áudio
+choosebasefont Escolha tipo de fonte
 choosebgcolor Escolher cor de fundo
 choosechannel Por favor escolha um canal
 choosecontact Por favor escolha um contato da lista
@@ -182,6 +191,7 @@ chooselocation Escolha a localização para o novo arquivo
 choosemixerdev Escolha seu mixer
 chooseoutputdev Escolha seu dispositivo de saída
 chooseskin Por favor escolha a skin que deseja usar
+choosevideosrc Selecionar Entrada de Vídeo(ex. Webcam)
 ch_to_state Mudar para novo estado
 clear Limpar
 clearlog2 Limpar o histórico de todos os seus contatos
@@ -200,6 +210,7 @@ closed Conversa com $1 foi fechada por inatividade
 close Fechar
 closelabel Quando você clicar no botão de fechar em uma janela de conversa com abas
 closeonly Fechar somente a aba atual
+closeorcallvideo Antes de fechar a janela é preciso cancelar a chamada de vídeo.
 closeorcall Você precisa fechar/cancelar a liganção antes de fechar a janela.
 closeordock Fechar a janela da lista de contatos irá fechar o aMSN.\nTalvez você deseje apenas fechar a janela e manter o aMSN ligado na bandeja do sistema.\n\nVocê tem certeza de que deseja fechar o aMSN?
 closeothers Fechar todas as outras tabs
@@ -251,6 +262,8 @@ cprofile Criar Perfil
 created Criado
 credits Créditos
 curdisplaypic Imagem de exibição atual
+curfssinknotworking Saída de áudio selecionada não está funcionando, usando '$1'
+curfssrcnotworking Entrada de áudio selecionada não está funcionando,usando '$1'
 currentdate Data atual
 currentdynrate Velocidade em tempo-real atual (em milisegundos)
 currentlanguage Este é o idioma atualmente em uso
@@ -294,7 +307,9 @@ details Detalhes
 devicebusy O dispositivo $1 está ocupado
 devices Dispositivos
 directconnection Eu tenho uma conexão direta à Internet (usa a porta 1863)
+disabledaudiosrcdesc Desativar entrada de áudio e não enviar chamadas de áudio
 disabled Desabilitado
+disabledvideosrcdesc Desativar entrada de vídeo e não enviar chamadas de vídeo
 disableprofiles Desabilitar perfis (útil para cyber-cafés ou ambientes compartilhados)
 disablessl Desativar SSL
 disableuserfonts Ignorar fonte do usuário remoto nas mensagens e usar minhas próprias fontes
@@ -334,8 +349,8 @@ editprofile Editar perfil
 editstate Editar o estado de automensagem existente
 editvalue Editar valor
 email E-mail
-emailsinlist Exibir endereços de e-mail ao invés de apelidos na lista de contatos
 emailnotverified (Email não verificado!)
+emailsinlist Exibir endereços de e-mail ao invés de apelidos na lista de contatos
 emoticon_steal Adicionar aos seus emoticons
 emotisounds Reproduzir sons com certos emoticons
 emptygroup Esvaziar grupo
@@ -364,7 +379,6 @@ failed Falha
 faq FAQ (Perguntas Freqüentes)
 farsightextchecking Checando se extensão Farsight está carregada...
 farsightextwarn Você não poderá ter ligações SIP. Você pode encontrar respostas de como instalar o Farsight no nosso Wiki:
-farsightinfook Farsight é um framework para lidar com audio/vídeo em protocolos de conferência. Com Farsight, você pode enviar ou receber ligações SIP usando o aMSN! Dê uma olhada no Farsight no nosso Wiki:
 fetching Recebendo dados...
 file Arquivo
 filedoesnotexist O arquivo não existe
@@ -393,6 +407,12 @@ forgot_pass Eu esqueci minha senha
 formatcsv formato CSV
 formatctt formato CTT
 friendlyname Nome pelo qual prefere ser chamado
+fsautoaudiosinkchosen Escolhido  automaticamente '$1' para a saída de áudio
+fsautoaudiosrcchosen Escolhido automaticamente '$1' entrada de áudio
+fsautovideosrcchosen Escolhido  automaticamente '$1' para a entrada de vídeo
+fsnodevfound Nenhum dispositivo disponível
+fsnosuitablesrc Nenhum dispositivo de entrada adequado foi encontrado, usando '$1' apenas para testes
+fssrcdisabledusing Entrada desabilitada, usando '$1' apenas para testes
 ftacceptedby $1 aceitou pedido de transferência do arquivo "$2".
 ftaccepted Transferência de arquivo aceita
 ftaccepting Aceitando pedido de transferência de arquivo
@@ -445,15 +465,15 @@ handle Manipular
 hangup Desligar
 havenomic Eu não tenho microfone
 help Ajuda
-hidedetails Esconder detalhes
 helpcontents Conteúdo da ajuda
 hidebuttonbar Esconder barra de botões
+hidedetails Esconder detalhes
 hidedisplaypic Esconder Imagem de Exibição
 hidemenumessage Você tem certeza que quer esconder os menus?\nVocê pode restaurá-los a qualquer momento usando a teclado de atalho para mostrar/esconder 'Ctrl-M'.
 hidemenu Mostrar/Econder menu
 hiden Esconde os emoticons do menu de Smileys
-hidewindow Esconder Janela
 hideuserscw Esconder usuários na janela de conversação.
+hidewindow Esconder Janela
 history2 Histórico
 history Ver histórico
 home Casa
@@ -618,11 +638,11 @@ nogroup Nenhum grupo
 nojavascript Você não tem javascript habilitado. Logar automáticamente pode não funcionar.
 nologfile Sem histórico para $1
 nomic Sem microfone
-no Não
 noneavailable Nada Disponível
 nonewmail Sem novas mensagens na Caixa de Entrada
 nonewver Não existe versão mais recente do programa disponível para download
 nonimgroup Contatos não do messenger
+no Não
 nooimconfirmation Não peça confirmação quando enviar/receber Messagens Offline
 nopic Sem imagem
 noprofileexists Não há nenhum perfil instalado,\nvocê têm de instalar (ou criar) um se quiser usar múltiplos endereços de e-mail.\nUse o botão Adicionar Novo Perfil nesta janela para adicionar um novo perfil
@@ -654,7 +674,12 @@ nousersinsession Nenhum usuário na sessão
 nouserspecified Nenhum usuário especificado 
 nudge $1 pede sua atenção!
 offline Desconectado
+oimauthenticationfailed Falha de autenticação
+oimflood Muitas mensagens enviadas.Por favor, aguarde e envie novamente.
 oim Mensagem offline
+oimmessagetoolarge A mensagem está muito grande para ser enviada offline.Divida-a e envie novamente
+oimsystemunavailable Sistema de Mensagem Offline está indisponível no momento.
+oimunexpectederror Erro inesperado
 ok Ok
 onenewmail 1 nova mensagem na Caixa de Entrada
 online Conectado
@@ -674,8 +699,8 @@ other Outro
 others Outros
 p4contextprefix Adicionar este prefixo ao campo de Contexto-P4 do remetente
 pager Pager
-pass Senha
 passportnotverified Sua conta precisa ser verificada antes que você possa alterar dados pessoais (como o apelido). Verifique se há algum e-mail de ativação em sua caixa de entrada.
+pass Senha
 paste Colar
 pausedwebcamreceive A câmera foi pausada por outro usuário
 pause Pausar
@@ -818,6 +843,7 @@ sendmobmsg Enviar mensagem a celular
 sendmsg Enviar mensagem
 sendoim Enviar mensagem offline.
 sendsip Iniciar Ligação
+sendvideosip Iniciar chamada de vídeo
 sendvoice Enviar Clip de Voz
 sendwebcamaccepted $1 aceitou o convite de envio da sua webcam. Conectando...
 sendwebcaminvite Convidar um usuário para ver sua webcam
@@ -861,6 +887,7 @@ signouteverywhere Deslogar de tudo
 signouthere Deslogar daqui ($1)
 sipcallaccepted Ligação Aceita
 sipcallback Ligar de volta
+sipcallconnected Sua chamada de áudio está estabelecida
 sipcalldeclined Ligação rejeitada
 sipcalleeaccepted Usuário aceitou sua ligação
 sipcalleebusy Usuário está ocupado
@@ -870,13 +897,23 @@ sipcalleedeclined Usuário não aceitou seu convite de ligação
 sipcalleenoanswer Usuário não aceitou seu ligação
 sipcalleeunavailable Usuário não está disponível no momento
 sipcallended Sua ligação terminou
-sipcallimpossible Você não pode fazer uma ligação. Por favor instale o farsight2 e tente novamente.
+sipcallimpossible2 Você não pode fazer chamadas de vídeo ou áudio. Por favor, instale Farsight2 e tente novamente.
 sipcallmissed Você perdeu uma ligação de $1
 sipcallnosipflag Usuário não pode fazer ligações.
 sipcallsent Ligando para $1
-sipcallunsupported Você recebeu um convite de ligação que não é suportado no momento. Você pode ligar de volta com um novo convite. A ligação irá funcionar
-sipcallyouarebusy Você só pode ter uma ligação por vez.
+sipcallyouarebusy2 Você pode ter apenas uma chamada de vídeo ou áudio ao mesmo tempo.
 sipgotinvitation Convite de ligação recebido de $1
+sipvideocallaccepted Chamada de vídeo aceita
+sipvideocallconnected Sua chamada de vídeo está estabelecida
+sipvideocalldeclined Chamada de vídeo recusada
+sipvideocalleeaccepted Sua  chamada de vídeo foi aceita
+sipvideocalleecanceled Sua chamada de vídeo não foi aceita
+sipvideocalleeclosed O usuário terminou a chamada de vídeo
+sipvideocalleedeclined O usuário recusou o convite de chamada de vídeo
+sipvideocallended Chamada de vídeo foi finalizada.
+sipvideocallmissed Não foi possivel fazer uma chamada de vídeo com  $1
+sipvideocallnosipflag O usuário não suporta realizar chamadas de vídeo.
+sipvideogotinvitation Chamada de vídeo recebida de $1
 skinselector Skin selecionada
 skin Skin
 smallest Menor
@@ -983,6 +1020,7 @@ unblock Desbloquear
 unknown Desconhecido
 unload Descarregar
 unselectall Deselecionar todos
+untitled_space Sem título
 uoffline Desconectado
 uonline Conectado
 update Atualizar
@@ -1009,6 +1047,7 @@ viewcontactsby Visualizar contatos por
 viewprofile Ver Perfil
 viewspace Visualizar itens de espaço
 view Visualizar
+voiceclip Clipe de Voz
 volume Volume
 wanttosharecam Eu quero fazer minha câmera disponível para os outros
 webcamcanceled A sessão de webcam com $1 foi cancelada
@@ -1027,8 +1066,8 @@ webcamhistory Ver conversas antigas com a webcam
 webcaminvite $1 convidou você a iniciar uma sessão com webcam, mas o aMSN não suporta este recurso
 webcaminvitereceived $1 te convidou para iniciar uma sessão de webcam. Quer aceitar?
 webcaminvitereceivedauto $1 te convidou para iniciar uma sessão de webcam. Esta sessão é aceita automaticamente.
-webcaminvitereceiving Você foi convidado pra iniciar uma webcam com $1 . Quer aceitar?
 webcaminvitereceivingauto Você foi convidado para ver a webcam de $1. Esta sessão é aceita automaticamente.
+webcaminvitereceiving Você foi convidado pra iniciar uma webcam com $1 . Quer aceitar?
 webcaminvitesending $1 gostaria de ver sua webcam. Quer aceitar?
 webcaminvitesendingauto $1 gostaria de ver sua webcam. Esta sessão é aceita automaticamente.
 webcamrejected $1 rejeitou seu convite para a sessão de webcam
