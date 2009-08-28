@@ -97,8 +97,8 @@ wm state . withdrawn
 #	0.98b (after rc1)	0.97.91.svn
 #	0.98				0.98
 
-set version "0.98"
-set rcversion "0.98"
+set version "0.99b"
+set rcversion "0.98.90.svn"
 set date "08/25/2009"
 set weburl "http://www.amsn-project.net"
 set program_dir "."

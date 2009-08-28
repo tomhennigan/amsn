@@ -2205,9 +2205,9 @@ ac_config_headers="$ac_config_headers utils/linux/capture/config.h"
 
 
 APPNAME=amsn
-APPVERSION=0.98
+APPVERSION=0.99b
 APPRELEASE=1
-APPSTABLE=yes
+APPSTABLE=no
 
 
 
