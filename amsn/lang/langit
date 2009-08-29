@@ -424,7 +424,7 @@ ftconnectionlost La connessione con l'utente remoto è caduta.
 ftgotinvitation $1 vuole inviarti il file '$2' di $3 byte. Verrà salvato in $4. Vuoi ricevere questo file?
 ftportpref2 Porta iniziale per le connessioni dirette (necessaria per il trasferimento di file e la webcam)
 ftportpref Porta iniziale per il trasferimento dei file
-ftporttest Porta di prova
+ftporttest Prova la porta
 ftrejectedby $1 ha rifiutato la richiesta di trasferimento del file '$2'.
 ftrejected Trasferimento del file rifiutato
 ftsendinvitation La richiesta di trasferimento del file '$2' di $3 byte è stata inviata a $1.
@@ -614,10 +614,10 @@ new_account Crea un account
 newchat Nuova chat
 new_ft_protocol Usa il nuovo protocollo di trasferimento di file
 newline A capo
-newmail $1 nuovo/i messaggio/i di posta
+newmail $1 nuovi messaggi di posta
 newmailfolder Hai $1 nuovo/i messaggio/i in varie cartelle di Hotmail
 newmailfrom Nuova email da $1 ($2)
-newmailfromother Nuova posta in cartelle varie da $1 ($2)
+newmailfromother Nuova email in cartelle varie da $1 ($2)
 newmsg Nuovo messaggio
 newoim Nuovi messaggi fuori linea
 newstate Aggiungi uno stato personalizzato
@@ -784,7 +784,7 @@ raised Ingrandito
 readonlymsgbox Il trasferimento del file è stato annullato perché la cartella di destinazione ha permessi di sola lettura. \nModifica i permessi.
 readonlywarn ATTENZIONE: Il file potrebbe NON venire salvato correttamente poiché la cartella dei file ricevuti sembra essere protetta dalla scrittura.\nAssicurati che i permessi della cartella ($1) siano impostati correttamente prima di trasferire il file.
 receivedbytes Ricevuti $1 byte su $2
-receiveddir Cartella file ricevuti
+receiveddir Cartella dei file ricevuti
 receivedoimread Hai $1 nuovo/i messaggio/i fuori linea. Vuoi leggerlo/i?
 receivedvoice Messaggio vocale ricevuto
 receivefile Ricezione del file in corso
@@ -1014,7 +1014,7 @@ triggers Scorciatoie di testo
 truncatenames1 Tronca i nick troppo lunghi nei titoli delle finestre e nella lista contatti
 truncatenames2 Tronca i nick troppo lunghi nelle conversazioni
 truncatenicks Tronca i nick che eccedono la larghezza della finestra
-twonewmail $1 nuovo/i messaggio/i di posta
+twonewmail $1 nuovi messaggi di posta
 type Tipo
 unavailablecountryserver Il server del tuo Paese non è disponibile al momento. Riprova tra poco. Puoi risolvere questo problema anche cambiando le impostazioni del tuo account relative al tuo Paese su http://www.passport.net .
 unblock Sblocca
