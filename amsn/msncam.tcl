@@ -1872,6 +1872,7 @@ namespace eval ::CAMGUI {
 				catch {::picture::Resize $img 160 120}
 			}
                 } elseif { ![winfo exists $window] && ![OnDarwin] } {
+			set chatid [getObjOption $sid chatid]
                         ::MSNCAM::CancelCam $chatid $sid
                 }
 
