@@ -2558,8 +2558,10 @@ namespace eval ::ChatWindow {
 		set win [::ChatWindow::For $chatid]
 
 		set frame_in [GetInDisplayPictureFrame $win].voip
-		
+		if {[winfo exists $frame_in]} {destroy $frame_in}
 		set frame_out [GetOutDisplayPicturesFrame $win].voip
+		if {[winfo exists $frame_out]} {destroy $frame_out}
+
 
 		package require voipcontrols
 		status_log "Creating CW Voip controls"
