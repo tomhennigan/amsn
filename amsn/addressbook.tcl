@@ -19,7 +19,6 @@ snit::type Addressbook {
 			catch { $soap_req destroy }
 		}
 		set soap_requests [list]
-		
 	}
 
 	method _destroySoapReq { soap } {
@@ -124,9 +123,8 @@ snit::type Addressbook {
 			$self FindMembership [list $self FindMembershipDone $callback]
 		}
 		if {$fm_done && $ab_done } {
-			$self SynchronizeDone $callback 0			
+			$self SynchronizeDone $callback 0
 		}
-
 	}
 
 	method FindMembershipDone { callback error } {

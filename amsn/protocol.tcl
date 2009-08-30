@@ -7049,6 +7049,9 @@ proc cmsn_auth {{recv ""}} {
 			#We need to wait until the SYN reply comes, or we can send the CHG request before
 			#the server sends the list, and then it won't work (all contacts offline)
 			if { [config::getKey protocol] >= 13 } {
+				if {![info exists ::ab]} {
+					set ::ab [::Addressbook create %AUTO%]
+				}
 				$::ab Synchronize [list ::MSN::ABSynchronizationDone 1]
 			} else {
 				set list_version [::abook::getContactData contactlist list_version]
