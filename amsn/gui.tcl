@@ -7203,6 +7203,7 @@ proc ChangeNameBarEdited {w what} {
 proc change_name_ok {} {
 	set nick_changed 0
 	set psm_changed 0
+	if {![winfo exists .change_name]} {return}
 	set new_name [.change_name.f.nick_entry get]
 	if {$new_name != "" && [::abook::getContactData myself MFN] != $new_name} {
 		if { [string length $new_name] > 130} {
