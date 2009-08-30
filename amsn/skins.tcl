@@ -1011,9 +1011,9 @@ namespace eval ::skinsGUI {
 
 		label $w.bottom.getmore -text "[trans getmoreskins]"  -font splainf \
 			-bg [::skin::getKey extrastdwindowcolor] -fg [::skin::getKey extralinkcolor]
-		bind $w.bottom.getmore <Enter> "$w.getmore configure -font sunderf -cursor hand2 \
+		bind $w.bottom.getmore <Enter> "$w.bottom.getmore configure -font sunderf -cursor hand2 \
 			-bg [::skin::getKey extralinkbgcoloractive] -fg [::skin::getKey extralinkcoloractive]"
-		bind $w.bottom.getmore <Leave> "$w.getmore configure -font splainf -cursor left_ptr \
+		bind $w.bottom.getmore <Leave> "$w.bottom.getmore configure -font splainf -cursor left_ptr \
 			-background [::skin::getKey extrastdwindowcolor] -foreground [::skin::getKey extralinkcolor]"
 		bind $w.bottom.getmore <ButtonRelease> "launch_browser $::weburl/skins.php"
 
