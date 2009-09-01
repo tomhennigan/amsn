@@ -73,6 +73,7 @@ autoaccepted Transferência de arquivo aceita automaticamente
 autoacceptft Aceitar automaticamente pedidos de transferência de arquivo
 autoacceptwc Aceitar automaticamente pedidos de uso da webcam
 autoaudiosinkdesc Detectar automaticamente o dispositivo de saída de áudio do sistema
+autoaudiosrcdesc Detectar automaticamente o dispositivo de entrada de áudio do sistema
 autoaway Mudar estado para "Ausente" quando inativo por
 autocheckver Verificar automaticamente por novas versões ao iniciar
 autoconnect2 Logar-me automaticamente quando o aMSN iniciar
