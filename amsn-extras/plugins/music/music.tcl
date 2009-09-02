@@ -1295,7 +1295,7 @@ namespace eval ::music {
 				plugins_log Music "error : $err"
 				close $chan
 				return 0
-			}		
+			}
 		}
 		#Finish getting infos from status command
 		while {[string range $line 0 1] != "OK" } {
@@ -1303,7 +1303,7 @@ namespace eval ::music {
 				plugins_log Music "error : $err"
 				close $chan
 				return 0
-			}		
+			}
 		}
 		#now, get the currentsong
 		puts $chan "currentsong"
@@ -1312,7 +1312,7 @@ namespace eval ::music {
 			plugins_log Music "error : $err"
 			close $chan
 			return 0
-		}		
+		}
 		set Title ""
 		set Artist ""
 		set File ""
@@ -1336,13 +1336,11 @@ namespace eval ::music {
 				plugins_log music "error : $err"
 				close $chan
 				return 0
-			}		
+			}
 		}
 		
-		return [list $Title $Artist "" "" ""]
-		
 		close $chan
-		return $return
+		return [list $Title $Artist "" "" ""]
 	}
 
 	##################################################
