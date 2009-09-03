@@ -46,6 +46,12 @@ snit::widget dpbrowser {
 		bind $self <Destroy> [list $self cleanUp]
 	}
 
+	destructor {
+		if {$drawlock != ""} {
+			after cancel $drawlock
+		}
+	}
+
 	# Remove the selected dp's temp image (if any)
 	method cleanUp { } {
 		if {$options(-createtempimg)} {
