@@ -7205,6 +7205,12 @@ proc change_name_ok {} {
 	set psm_changed 0
 	if {![winfo exists .change_name]} {return}
 	set new_name [.change_name.f.nick_entry get]
+	set friendly [.change_name.f.p4c_entry get]
+	if { [::config::getKey protocol] >= 11} {
+		set new_psm [.change_name.f.psm_entry get]
+	}
+	destroy .change_name
+
 	if {$new_name != "" && [::abook::getContactData myself MFN] != $new_name} {
 		if { [string length $new_name] > 130} {
 			set answer [::amsn::messageBox [trans longnick] yesno question [trans confirm]]
@@ -7216,7 +7222,6 @@ proc change_name_ok {} {
 	}
 
 	if { [::config::getKey protocol] >= 11} {
-		set new_psm [.change_name.f.psm_entry get]
 		#TODO: how many chars in a Personal Message?
 		if { [string length $new_psm] > 130} {
 			set answer [::amsn::messageBox [trans longpsm] yesno question [trans confirm]]
@@ -7233,7 +7238,6 @@ proc change_name_ok {} {
 		::MSN::changeName $new_name
 	}
 
-	set friendly [.change_name.f.p4c_entry get]
 	if { [string length $friendly] > 130} {
 		set answer [::amsn::messageBox [trans longp4c [string range $friendly 0 129]] yesno question [trans confirm]]
 		if { $answer == "no" } {
@@ -7241,8 +7245,6 @@ proc change_name_ok {} {
 		}
 	}
 	::config::setKey p4c_name $friendly
-
-	destroy .change_name
 }
 #///////////////////////////////////////////////////////////////////////
 
