@@ -713,7 +713,7 @@ namespace eval ::skin {
 	proc FindSkins { } {
 		global HOME HOME2
 
-		set skins [glob -directory skins */settings.xml]
+		set skins [glob -nocomplain -directory skins */settings.xml]
 		set skins_in_home [glob -nocomplain -directory [file join $HOME skins] */settings.xml]
 		set skins_in_home2 [glob -nocomplain -directory [file join $HOME2 skins] */settings.xml]
 		set skins_in_extras [glob -nocomplain -directory [file join $HOME2 amsn-extras skins] */settings.xml]
