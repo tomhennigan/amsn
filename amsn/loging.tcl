@@ -529,6 +529,7 @@ namespace eval ::log {
 		menu ${wname}.copypaste -tearoff 0 -type normal
 		${wname}.copypaste add command -label [trans copy] -command [list tk_textCopy ${wname}.blueframe.log.txt]
 		
+		pack $wname.buttons -side bottom -fill x -pady 3
 		pack $wname.top -side top -fill x
 		pack $wname.blueframe.log.ys -side right -fill y
 		pack $wname.blueframe.log.txt -side left -expand true -fill both
@@ -539,7 +540,6 @@ namespace eval ::log {
 		pack $wname.buttons.save -padx 0 -side right
 		pack $wname.buttons.clear -padx 0 -side right
 		pack $wname.buttons.find -padx 0 -side right
-		pack $wname.buttons -side bottom -fill x -pady 3
 		bind $wname <<Escape>> "destroy $wname"
 		bind ${wname}.blueframe.log.txt <<Button3>> "tk_popup ${wname}.copypaste %X %Y"
 		moveinscreen $wname 30
