@@ -408,12 +408,12 @@ forgot_pass He oblidat la meva contrasenya
 formatcsv Format CSV
 formatctt Format CTT
 friendlyname Missatge personal
-fsautoaudiosinkchosen '$ 1' automàticament elegit per a la sortida d'àudio
-fsautoaudiosrcchosen '$ 1' automàticament elegit per a l'entrada d'àudio
-fsautovideosrcchosen '$ 1' automàticament elegit per a l'entrada de vídeo
+fsautoaudiosinkchosen '$1' automàticament elegit per a la sortida d'àudio
+fsautoaudiosrcchosen '$1' automàticament elegit per a l'entrada d'àudio
+fsautovideosrcchosen '$1' automàticament elegit per a l'entrada de vídeo
 fsnodevfound No hi ha dispositius disponibles
-fsnosuitablesrc No s'ha trobat cap dispositiu d'entrada adequat, utilitzant '$ 1' per a propòsits de prova
-fssrcdisabledusing Entrada deshabilitada, '$ 1' per a propòsits de prova
+fsnosuitablesrc No s'ha trobat cap dispositiu d'entrada adequat, utilitzant '$1' per a propòsits de prova
+fssrcdisabledusing Entrada deshabilitada, '$1' per a propòsits de prova
 ftaccepted Transferència de fitxers acceptada
 ftacceptedby $1 ha acceptat la invitació per la transferència del fitxer '$2'.
 ftaccepting Acceptant la invitació per a la transferència de fitxers
