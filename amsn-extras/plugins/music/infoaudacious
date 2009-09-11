@@ -1,14 +1,27 @@
 #! /bin/sh
 # Shell script to get informations about the current song playing in Audacious
 
+AUDTOOL=""
+for i in audtool2 audtool
+do
+	ret=$($i help 2>/dev/null)
+	if [ $? -eq 0 ]
+	then
+		AUDTOOL=$i
+	fi
+done
+if [ -z "$AUDTOOL" ]
+then
+	exit 1
+fi
 #Audacious is launched ?
-STATUS=$(audtool playback-status)
-VERSION=$(audtool get-version)
+STATUS=$($AUDTOOL playback-status)
+VERSION=$($AUDTOOL get-version)
 
 # if that fails, then check for the new audacious 1.5.0 way
 if [ $? -ne 0 ]
 then
-	VERSION=$(audtool version)
+	VERSION=$($AUDTOOL version)
 fi
 	
 if [ $? = 0 ]
@@ -20,21 +33,21 @@ then
 	if [  "$MAJ" -eq "1" -a "$MIN" -ge "4" ] || [ "$MAJ" -gt "1" ] 
 	then
 		#To force \n when there isn't any information
-		#echo $(audtool current-song-tuple-data title)
-		#echo $(audtool current-song-tuple-data artist) 
-		title=$(audtool current-song-tuple-data title)
-		artist=$(audtool current-song-tuple-data artist) 
+		#echo $($AUDTOOL current-song-tuple-data title)
+		#echo $($AUDTOOL current-song-tuple-data artist) 
+		title=$($AUDTOOL current-song-tuple-data title)
+		artist=$($AUDTOOL current-song-tuple-data artist) 
 	else
 		#To force \n when there isn't any information
-		title=$(audtool current-song-tuple-data track_name)
-		title=$(audtool current-song-tuple-data performer)
+		title=$($AUDTOOL current-song-tuple-data track_name)
+		title=$($AUDTOOL current-song-tuple-data performer)
 	fi
-	file=$(audtool current-song-filename)
+	file=$($AUDTOOL current-song-filename)
 
 	# oops, 'seems that the file doesn't have ID3 data, falling back to the song name
 	if [ -z "$title" -o -z "$artist" ]
 	then
-		title=$(audtool current-song)
+		title=$($AUDTOOL current-song)
 	fi
 	echo $title
 	# $artist returns nothing if ID3 data is missing
