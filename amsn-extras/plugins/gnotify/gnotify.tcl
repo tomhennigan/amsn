@@ -423,9 +423,9 @@ namespace eval ::gnotify {
 			}
 		}
 
-		$textb tag bind gnotifymail_$acnt <Enter> +[list balloon_enter %W %X %Y $balloon_message]
+		$textb tag bind gnotifymail_$acnt <Enter> +[list balloon_enter %W %X %Y "$balloon_message"]
 		$textb tag bind gnotifymail_$acnt <Leave> "+set ::Bulle(first) 0; kill_balloon;"
-		$textb tag bind gnotifymail_$acnt <Motion> +[list balloon_motion %W %X %Y $balloon_message]
+		$textb tag bind gnotifymail_$acnt <Motion> +[list balloon_motion %W %X %Y "$balloon_message"]
 
 		$textb insert end "$short_mailmsg" [list gnotifymail_$acnt dont_replace_smileys]
 		
