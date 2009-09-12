@@ -402,6 +402,7 @@ void AnimateGif(ClientData data) {
                 delete Info->image;
                 LOG("Deleting AnimatedGifInfo");
                 APPENDLOG(Info->Handle);
+                Tcl_DeleteTimerHandler(Info->timerToken);
                 TkCxImage_lstDeleteItem(Info->Handle);
                 for (GifBuffersIterator it=Info->buffers.begin(); it!=Info->buffers.end(); it++) {
                     (*it)->Close();
@@ -411,6 +412,7 @@ void AnimateGif(ClientData data) {
                 Info = NULL;
             }
         } else {
+            Tcl_DeleteTimerHandler(Info->timerToken);
             delete Info;
             Info = NULL;
         }
