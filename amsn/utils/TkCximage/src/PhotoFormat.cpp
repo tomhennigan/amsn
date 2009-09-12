@@ -380,7 +380,7 @@ void AnimateGif(ClientData data) {
     GifInfo *Info = (GifInfo *)data;
 
     if (Info) { //Info is valid
-        if (Info->ImageMaster) {
+        if (Info->ImageMaster && Info->image) {
             Tk_ImageMaster master = (Tk_ImageMaster) *((void **) Info->Handle);
             if (master == Info->ImageMaster) {
                 //Image is always the same
