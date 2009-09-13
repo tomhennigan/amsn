@@ -494,6 +494,9 @@ void PhotoDisplayProcHook(
 			}
 			item->CopiedFrame = item->CurrentFrame; //We set the copied frame before to avoid infinite loops
 			AnimatedGifFrameToTk(NULL, item, image, true);
+			if (item->timerToken) {
+			  Tcl_DeleteTimerHandler(item->timerToken);
+			}
 			item->timerToken = Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, item);
 			//fprintf(stderr, "Copied frame n°%u\n",item->CopiedFrame);
 		}
