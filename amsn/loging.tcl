@@ -446,11 +446,15 @@ namespace eval ::log {
 
 		set wname [::log::wname $email]
 
-		if { [catch {toplevel ${wname} -width 600 -height 400 -borderwidth 0 -highlightthickness 0 } res ] } {
-			raise ${wname}
-			focus ${wname}
-			wm deiconify ${wname}
+		if { [winfo exists $wname] } {
+		    raise ${wname}
+		    focus ${wname}
+		    wm deiconify ${wname}
+		    return 0
+		} else {
+		    if {[catch {toplevel ${wname} -width 600 -height 400 -borderwidth 0 -highlightthickness 0 } res ] } {
 			return 0
+		    }
 		}
 		
 		wm group ${wname} .
@@ -583,13 +587,17 @@ namespace eval ::log {
 		
 		set wname [::log::cam_wname $email]
 
-		if { [catch {toplevel ${wname} -borderwidth 0 -highlightthickness 0 } res ] } {
-			raise ${wname}
-			focus ${wname}
-			wm deiconify ${wname}
+		if { [winfo exists $wname] } {
+		    raise ${wname}
+		    focus ${wname}
+		    wm deiconify ${wname}
+		    return 0
+		} else {
+		    if { [catch {toplevel ${wname} -borderwidth 0 -highlightthickness 0 } res ] } {
 			return 0
+		    }
 		}
-		
+
 		wm group ${wname} .
 
 		if { [file exists [file join ${webcam_dir} ${email}.cam]] } {
@@ -842,7 +850,7 @@ namespace eval ::log {
 		set wname [split $email "@ .:"]
 		set wname [join $wname "_"]
 		set wname ".${wname}_hist"
-		return $wname
+		return [string tolower $wname]
 	}
 
 	proc cam_wname {email} {
@@ -850,7 +858,7 @@ namespace eval ::log {
 		set wname [split $email "@ ."]
 		set wname [join $wname "_"]
 		set wname ".${wname}_cam"
-		return $wname
+		return [string tolower $wname]
 	}
 
 	proc LogsByDate {wname email} {
