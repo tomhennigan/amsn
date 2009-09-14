@@ -380,7 +380,7 @@ Tk_TrayIconNew (ClientData clientData,
 				return TCL_ERROR;
 			}
 		} else {
-			Tcl_AppendResult (interp, "unknown", arg,"option", (char *) NULL);
+			Tcl_AppendResult (interp, "unknown ", arg, " option", (char *) NULL);
 			return TCL_ERROR;
 		}
 	}
