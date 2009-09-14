@@ -303,7 +303,7 @@ Tk_TrayIconNew (ClientData clientData,
 
 	int n,found;
 	char *arg,*pixmap=NULL;
-	size_t length;
+	int length;
 	Tk_Window mainw;
 	unsigned int mask;
 	TrayIcon *icon;
