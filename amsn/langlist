@@ -143,7 +143,7 @@
 		<langcode>el</langcode>
 		<name>Greek (ελληνικά)</name>
 		<version>1.16</version>
-		<encoding>iso8859-7</encoding>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>gr2</langcode>
