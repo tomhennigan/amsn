@@ -1,0 +1,12 @@
+amsn_lang_version 2
+all Todos
+filterblocked Exibir apenas bloqueados
+filterremovedme Exibir apenas quem me apagou
+clear Limpar
+nickandpsm Nick e mensagem pessoal
+typeheretofilter Filtrar contatos da sua lista...
+storelastinput Restaurar ultima entrada ao carregar o plugin
+enableoperators Use operators to search (supported are "& " (AND) and "| " (OR), to be placed before the comma/space separated keywords)
+usewildcards Support the use of wildcards: * and ?
+groupname Nome do grupo
+filter Filtro

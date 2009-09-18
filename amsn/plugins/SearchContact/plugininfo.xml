@@ -40,6 +40,10 @@
 		<version>11067</version>
 	</lang>
 	<lang>
+		<langcode>lt</langcode>
+		<version>10397</version>
+	</lang>
+	<lang>
 		<langcode>nl</langcode>
 		<version>10405</version>
 	</lang>
@@ -48,8 +52,12 @@
 		<version>11209</version>
 	</lang>
 	<lang>
-		<langcode>lt</langcode>
-		<version>10397</version>
+		<langcode>pt</langcode>
+		<version>11610</version>
+	</lang>
+	<lang>
+		<langcode>pt_BR</langcode>
+		<version>11610</version>
 	</lang>
 	<lang>
 		<langcode>tr</langcode>
