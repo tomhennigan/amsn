@@ -5572,7 +5572,7 @@ proc cmsn_rng {recv} {
 	#Init SB properly
 	if { [config::getKey protocol] == 11 ||
 	     ([config::getKey protocol] >= 13 && [lindex $recv 9] == "1") } {
-		$sb configure -force_gateway_server [lindex [split [lindex $recv 2] ":"]]
+		$sb configure -force_gateway_server [lindex [split [lindex $recv 2] ":"] 0]
 	}
 	set auth_username [::config::getKey login]
 	if {[::config::getKey protocol] >= 18 } {
@@ -5624,7 +5624,7 @@ proc cmsn_open_sb {sb recv} {
 
 	if { [config::getKey protocol] == 11 ||
 	     ([config::getKey protocol] >= 13 && [lindex $recv 8] == "1") } {
-		$sb configure -force_gateway_server [lindex [split [lindex $recv 3] ":"]]
+		$sb configure -force_gateway_server [lindex [split [lindex $recv 3] ":"] 0]
 	}
 	set auth_username [::config::getKey login]
 	if {[::config::getKey protocol] >= 18 } {
