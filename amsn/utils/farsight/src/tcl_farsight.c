@@ -1317,8 +1317,8 @@ _create_video_source ()
   }
 
   caps = gst_caps_new_simple ("video/x-raw-yuv",
-      "width", G_TYPE_INT, 352,
-      "height", G_TYPE_INT, 288,
+      "width", G_TYPE_INT, 176,
+      "height", G_TYPE_INT, 144,
       NULL);
   g_object_set (capsfilter, "caps", caps, NULL);
 
