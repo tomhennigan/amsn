@@ -308,6 +308,12 @@
 		<encoding>iso8859-9</encoding>
 	</lang>
 	<lang>
+		<langcode>ca_VC</langcode>
+		<name>Valencian-Catalan (Valencià - Català)</name>
+		<version>1.2</version>
+		<encoding>iso8859-1</encoding>
+	</lang>
+	<lang>
 		<langcode>cy</langcode>
 		<name>Welsh (Cymraeg)</name>
 		<version>1.11</version>
