@@ -74,12 +74,29 @@ typedef struct {
 static TrayIcon *iconlist=NULL;
 
 /* System tray window ID */
-static Window systemtray;
 static Display *display;
 //static int msgid=0;
 Tcl_TimerToken timer=NULL;
 //static int tooltip=0;
 Tcl_Interp * globalinterp;
+
+
+static Window
+_GetSystemTray ()
+{
+
+  char buffer[256];
+  Atom a;
+
+  snprintf (buffer, sizeof (buffer), "_NET_SYSTEM_TRAY_S%d",
+      XScreenNumberOfScreen(Tk_Screen(Tk_MainWindow(globalinterp))));
+
+  /* Get the X11 Atom */
+  a=XInternAtom (display, buffer, False);
+
+  /* And get the window ID associated to that atom */
+  return XGetSelectionOwner(display, a);
+}
 
 /* Set embed information */
 static void
@@ -145,7 +162,7 @@ DockIcon(ClientData clientData)
 	xembed_set_info(icon->win,XEMBED_MAPPED);
 
 	atom = XInternAtom(display, "_NET_SYSTEM_TRAY_OPCODE", False );
-	send_message(display,systemtray, atom,
+	send_message(display, _GetSystemTray (), atom,
 			SYSTEM_TRAY_REQUEST_DOCK,Tk_WindowId(icon->win),0,0);
 }
 
@@ -311,7 +328,7 @@ Tk_TrayIconNew (ClientData clientData,
 	char cmdBuffer[1024];
 
 	/* systemtray was not available in Init */
-	if (systemtray==0) {
+	if (_GetSystemTray () == 0) {
 		Tcl_AppendResult (interp, "cannot create a tray icon without a system tray", (char *) NULL);
 		return TCL_ERROR;
 	}
@@ -700,7 +717,7 @@ Tk_SystemTrayAvailable (ClientData clientData,
     		Tcl_Obj *CONST objv[])
 {
 	Tcl_Obj *result;
-	if (systemtray >0)
+	if (_GetSystemTray () >0)
 		result=Tcl_NewIntObj(1);
 	else
 		result=Tcl_NewIntObj(-1);
@@ -713,10 +730,7 @@ Tk_SystemTrayAvailable (ClientData clientData,
 int
 Tray_Init (Tcl_Interp *interp)
 {
-	char buffer[256];
-	Atom a;
 	Tk_Window mainwin;
-	systemtray=0;
 
 	globalinterp = interp;
 
@@ -726,15 +740,8 @@ Tray_Init (Tcl_Interp *interp)
 	}
 
 	//Get main window, and display
-	mainwin=Tk_MainWindow(interp);
-	display = Tk_Display(mainwin);
+        display = Tk_Display(Tk_MainWindow(interp));
 
-	snprintf (buffer, sizeof (buffer), "_NET_SYSTEM_TRAY_S%d",
-					XScreenNumberOfScreen(Tk_Screen(mainwin)));
-     	/* Get the X11 Atom */
-	a=XInternAtom (display,buffer, False);
-	/* And get the window ID associated to that atom */
-	systemtray=XGetSelectionOwner(display,a);
 
 	/* Create the new trayicon commands */
 	Tcl_CreateObjCommand(interp, "newti", Tk_TrayIconNew,
