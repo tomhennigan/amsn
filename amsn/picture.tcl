@@ -146,6 +146,10 @@ namespace eval ::picture {
 			set origh [image height $photo]
 			#status_log "picture.tcl: Image size is $origw $origh\n" red
 			
+			if {$origw == 0 || $origh == 0 } {
+				$photo configure -width $width -height $height
+				return 1
+			}
 			#Actual ratio of the photo
 			set origratio [expr { 1.0*$origw / $origh } ]
 			#New ratio
