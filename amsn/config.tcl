@@ -790,13 +790,13 @@ proc save_config {} {
 	#Save encripted password
 	if { ([::config::getKey save_password]) && ($password != "")} {
 		set key [string range "${loginback}dummykey" 0 7]
-		binary scan [::DES::des -mode ecb -dir encrypt -key $key "${password}\n"] h* encpass
+		binary scan [::DES::des -mode ecb -dir encrypt -key $key -- "${password}\n"] h* encpass
 		puts $file_id "   <entry>\n      <attribute>encpassword</attribute>\n      <value>$encpass</value>\n   </entry>"
 	}
 
 	#Save encripted remote password
 	set key [string range "${loginback}dummykey" 0 7]
-	binary scan [::DES::des -mode ecb -dir encrypt -key $key "[::config::getKey remotepassword]\n"] h* encpass
+	binary scan [::DES::des -mode ecb -dir encrypt -key $key -- "[::config::getKey remotepassword]\n"] h* encpass
 	puts $file_id "   <entry>\n      <attribute>remotepassword</attribute>\n      <value>$encpass</value>\n   </entry>\n"
 
 	#Save custom emoticons
@@ -929,7 +929,7 @@ proc load_config {} {
 		set key [string range "[::config::getKey login]dummykey" 0 7]
 		set password [::config::getKey encpassword]
 		catch {set encpass [binary format h* [::config::getKey encpassword]]}
-		catch {set password [::DES::des -mode ecb -dir decrypt -key $key $encpass]}
+		catch {set password [::DES::des -mode ecb -dir decrypt -key $key -- $encpass]}
 		#puts "Password length is: [string first "\n" $password]\n"
 		set password [string range $password 0 [expr { [string first "\n" $password] -1 }]]
 		#puts "Password is: $password\nHi\n"
@@ -940,7 +940,7 @@ proc load_config {} {
 	if {[::config::getKey remotepassword]!=""} {
 		set key [string range "[::config::getKey login]dummykey" 0 7]
 		catch {set encpass [binary format h* [::config::getKey remotepassword]]}
-		catch {::config::setKey remotepassword [::DES::des -mode ecb -dir decrypt -key $key $encpass]}
+		catch {::config::setKey remotepassword [::DES::des -mode ecb -dir decrypt -key $key -- $encpass]}
 		#puts "Password length is: [string first "\n" [::config::getKey remotepassword]]\n"
 		::config::setKey remotepassword [string range [::config::getKey remotepassword] 0 [expr { [string first "\n" [::config::getKey remotepassword]] -1 }]]
 		#puts "Password is: [::config::getKey remotepassword]\nHi\n"
