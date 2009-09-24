@@ -160,11 +160,7 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetOutDisplayPicturesFrame { window } {
-		if { [::config::getKey old_dpframe 0] == 0 } {
-			return [[GetOutFrame $window].f.sw.sf getframe]
-		} else {
-			return [GetOutFrame $window].f
-		}
+		return [GetOutFrame $window].f
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -2028,15 +2024,16 @@ namespace eval ::ChatWindow {
 	proc CreateOutputWindow { w paned } {
 		set out [CreateOutputFrame $w $paned]
 		
+		set picture [CreateDisplayPicturesFrame $w $paned]
+
+		pack $picture -side right -fill y -anchor ne \
+		    -padx [::skin::getKey chat_dp_padx] \
+		    -pady [::skin::getKey chat_dp_pady]
+
 		pack $out -side left -expand true -fill both \
 		    -padx [::skin::getKey chat_output_padx] \
 		    -pady [::skin::getKey chat_output_pady]
 		
-		set picture [CreateDisplayPicturesFrame $w $paned]
-			
-		pack $picture -side right -fill y -anchor ne \
-		    -padx [::skin::getKey chat_dp_padx] \
-		    -pady [::skin::getKey chat_dp_pady]
 	}
 
 	proc CreateOutputFrame { w fr } {
@@ -2088,18 +2085,12 @@ namespace eval ::ChatWindow {
 	
 	proc CreateDisplayPicturesFrame { w fr } {
 
-		# Pack them
+		frame $fr.f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
+		    -relief solid -background [::skin::getKey chatwindowbg]
+
 		if { [::config::getKey old_dpframe 0] == 0 } {
 
-			# Create them
-			frame $fr.f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
-	                    -relief solid -background [::skin::getKey chatwindowbg]
-			ScrolledWindow $fr.f.sw -scrollbar vertical -auto vertical -borderwidth 0
-			ScrollableFrame $fr.f.sw.sf -width 0 -bg [::skin::getKey chatwindowbg]
-			$fr.f.sw setwidget $fr.f.sw.sf
-			
-			# Name our widgets
-			set f [$fr.f.sw.sf getframe]
+			set f $fr.f
 			set dpsframe $f.dps
 			set images $dpsframe.imgs
 			set showpic $dpsframe.showpic
@@ -2117,17 +2108,12 @@ namespace eval ::ChatWindow {
 			bind $showpic <Leave> "$showpic configure -image [::skin::loadPixmap imgshow]"
 			set_balloon $showpic [trans showdisplaypic]
 
-			pack $fr.f.sw -fill y -anchor ne
 			pack $dpsframe -side top -padx 0 -pady 0 -anchor ne
 			pack $images -side left -anchor ne
 			pack $showpic -side right -anchor ne
 
 			bind $showpic <<Button1>> [list ::amsn::ToggleShowTopPicture]
 			::amsn::ShowOrHideTopPicture
-		} else {
-			# Create them
-			frame $fr.f -class Amsn -borderwidth 0  -padx 0 -pady 0 \
-	                    -relief solid -background [::skin::getKey chatwindowbg]
 		}
 
 		return $fr.f
@@ -2172,15 +2158,15 @@ namespace eval ::ChatWindow {
 		pack $buttons -side top -expand false -fill x -anchor n \
 				-padx [::skin::getKey chat_buttons_padx] \
 				-pady [::skin::getKey chat_buttons_pady]
+		pack $picture -side right -fill y -anchor ne \
+				-padx [::skin::getKey chat_dp_padx] \
+				-pady [::skin::getKey chat_dp_pady]
 		pack $input -side top -expand true -fill both -anchor n \
 				-padx [::skin::getKey chat_input_padx] \
 				-pady [::skin::getKey chat_input_pady]
 		pack $leftframe -side left -expand true -fill both \
 				-padx [::skin::getKey chat_leftframe_padx] \
 				-pady [::skin::getKey chat_leftframe_pady]
-		pack $picture -side right -fill y -anchor ne \
-				-padx [::skin::getKey chat_dp_padx] \
-				-pady [::skin::getKey chat_dp_pady]
 
 		if {![::config::getKey ShowButtonBar] == 1 } {
 			pack forget $buttons
@@ -2607,14 +2593,6 @@ namespace eval ::ChatWindow {
 		set ::ChatWindow::voip_mute_out 0
 
 		UpdateVoipControls $chatid $video $sip $callid
-
-
-		#Redraw the frames correctly
-		::amsn::ShowOrHidePicture
-		if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win].dps] } {
-				::amsn::ShowOrHideTopPicture
-		}
-
 	}
 
 	proc UpdateVoipControls {chatid video {sip ""} {callid ""}} {
@@ -2691,22 +2669,11 @@ namespace eval ::ChatWindow {
 			destroy $frame_out
 		}
 		
-		if { [::config::getKey old_dpframe 0] != 0 } {
-			#WTF IS THIS NOT WORKING?????
-			[GetOutDisplayPicturesFrame $win] configure -width 0
-			[winfo parent [GetOutDisplayPicturesFrame $win]] configure -width 0
-		}
 		catch {
 			unset ::ChatWindow::voip_mute_in
 		}
 		catch {
 			unset ::ChatWindow::voip_mute_out
-		}
-
-		#Redraw the frames correctly
-		::amsn::ShowOrHidePicture
-		if { [winfo exists [::ChatWindow::GetOutDisplayPicturesFrame $win].dps] } {
-				::amsn::ShowOrHideTopPicture
 		}
 	}
 
