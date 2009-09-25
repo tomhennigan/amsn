@@ -2700,6 +2700,24 @@ namespace eval ::amsn {
 
 			incr idx
 		}
+
+		#compute the size of the frame
+		if {[::config::getKey ShowTopPicture 0] == 1 } {
+			if {[winfo exists $f.voip] && $max_width <100} {
+				set max_width 100
+				$f.voip configure -width 100
+			}
+			incr max_width [image width [::skin::loadPixmap imghide]]
+		} else {
+			set max_width 0
+			if {[winfo exists $f.voip] && $max_width <100} {
+				set max_width 100
+				$f.voip configure -width 100
+			}
+			incr max_width [image width [::skin::loadPixmap imgshow]]
+		}
+		set width [expr {$max_width + (2 * [::skin::getKey chat_dp_border])}]
+		[winfo parent $f] configure -width $width
 	}
 
 	proc HidePicture { win } {
@@ -2764,6 +2782,7 @@ namespace eval ::amsn {
 	}
 
 
+
 	proc ShowTopPicture {win } {
 		set f [::ChatWindow::GetOutDisplayPicturesFrame $win]
 		set frame $f.dps
@@ -2774,6 +2793,14 @@ namespace eval ::amsn {
 		bind $frame.showpic <Enter> [list $frame.showpic configure -image [::skin::loadPixmap imghide_hover]]
 		bind $frame.showpic <Leave> [list $frame.showpic configure -image [::skin::loadPixmap imghide]]
 		change_balloon $frame.showpic [trans hidedisplaypic]
+		
+		#UGLY:
+		set width [expr {96 + (2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imghide]])}]
+		if {[winfo exists $f.voip] && $width <100} {
+			set width 100
+			$f.voip configure -width 100
+		}
+		[winfo parent $f] configure -width $width
 
 		if { $scrolling } {
 			update idletasks
@@ -2792,6 +2819,14 @@ namespace eval ::amsn {
 		bind $frame.showpic <Leave> [list $frame.showpic configure -image [::skin::loadPixmap imgshow]]
 
 		change_balloon $frame.showpic [trans showdisplaypic]
+
+		set width [expr {2 * [::skin::getKey chat_dp_border]+[image width [::skin::loadPixmap imgshow]]}]
+		if {[winfo exists $f.voip] && $width <100} {
+			set width 100
+			$f.voip configure -width 100
+		}
+		[winfo parent $f] configure -width $width
+
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
