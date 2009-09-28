@@ -3073,7 +3073,7 @@ namespace eval ::amsn {
 			"after cancel [list ::amsn::listChooseSearchBar $w $canv.ca [list $command]]; \
 			after 500 [list ::amsn::listChooseSearchBar $w $canv.ca [list $command]]"
 		bind $w <<Escape>> [list destroy $w]
-		bind $w <Return> [list ::amsn::listChooseOk $w $itemlist $command 0]
+		bind $w <Return> [list ::amsn::listChooseOk $w "" $command 1]
 		
 		if {[OnMac]} {
 			bind $canv.ca <MouseWheel> [list ::amsn::scrollCanvas $canv.ca %W %D]
