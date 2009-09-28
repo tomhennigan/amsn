@@ -2837,8 +2837,10 @@ namespace eval ::amsn {
 		set userlist [list]
 
 		foreach user_login [::MSN::sortedContactList] {
-			if { [lsearch [::abook::getContactData $user_login lists] "EL"] != -1 } {
-				continue
+			if {!$show_nonim} {
+				if { [lsearch [::abook::getContactData $user_login lists] "EL"] != -1 } {
+					continue
+				}
 			}
 			set user_state_code [::abook::getVolatileData $user_login state FLN]
 			if { $user_state_code == "NLN" } {
@@ -2848,10 +2850,6 @@ namespace eval ::amsn {
 			}
 		}
 
-		if {$show_nonim} {
-		# TODO
-		#	lappend userlist [list "[::abook::getDisplayNick $user_login] ($user_login)" $user_login]
-		}
 		::amsn::listChoose $title $userlist $command 1 1
 	}
 
