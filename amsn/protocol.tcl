@@ -6167,6 +6167,10 @@ proc cmsn_change_state {recv} {
 #		status_log "contactStateChange in protocol cmsn_change_state $user"
 	}
 
+	if {$substate == "HDN"} {
+		set substate "FLN"
+	}
+
 	set oldstate [::abook::getVolatileData $user state]
 	if { $oldstate != $substate } {
 		set state_changed 1
@@ -6219,7 +6223,7 @@ proc cmsn_change_state {recv} {
 		::plugins::PostEvent ChangeState evpar
 
 		#alarm system (that must replace the one that was before) - KNO
-		if {[lindex $recv 0] == "FLN"} {
+		if {$substate == "FLN"} {
 			#User disconnected
 
 			if {  ( [::alarms::isEnabled $user] == 1 )&& ( [::alarms::getAlarmItem $user ondisconnect] == 1) } {
