@@ -393,7 +393,7 @@ Tk_TrayIconNew (ClientData clientData,
 				n++;
 				strcpy (icon->cmdCallback,Tcl_GetStringFromObj(objv[n],(int *) &length));
 			} else {
-				Tcl_AppendResult (interp, "unknown", arg,"option", (char *) NULL);
+				Tcl_AppendResult (interp, "unknown ", arg, " option", (char *) NULL);
 				return TCL_ERROR;
 			}
 		} else {
@@ -455,7 +455,7 @@ Tk_ConfigureIcon (ClientData clientData,
 {
 	int n,found;
 	char *arg,*pixmap=NULL;
-	size_t length;
+	int length;
 
 	/* Check path name */
 	arg=Tcl_GetStringFromObj(objv[1],(int *) &length);
@@ -519,11 +519,11 @@ Tk_ConfigureIcon (ClientData clientData,
 				n++;
 				strcpy(iconlist->cmdCallback,Tcl_GetStringFromObj(objv[n],(int *) &length));
 			} else {
-				Tcl_AppendResult (interp, "unknown", arg,"option", (char *) NULL);
+				Tcl_AppendResult (interp, "unknown ", arg, " option", (char *) NULL);
 				return TCL_ERROR;
 			}
 		}else{
-			Tcl_AppendResult (interp, "unknown", arg,"option", (char *) NULL);
+			Tcl_AppendResult (interp, "unknown ", arg, " option", (char *) NULL);
 			return TCL_ERROR;
 		}
 	}
@@ -545,7 +545,7 @@ Tk_TrayIconBalloon  (ClientData clientData,
 {
 	int found;
 	char *arg=NULL;
-	size_t length;
+	int length;
   
 
 	arg=Tcl_GetStringFromObj(objv[1],(int *) &length);
@@ -632,7 +632,7 @@ Tk_RemoveIcon (ClientData clientData,
 {
 	int found;
 	char *arg=NULL;
-	size_t length;
+	int length;
 	TrayIcon *tmp=NULL;
 	
 	/* Check path */
