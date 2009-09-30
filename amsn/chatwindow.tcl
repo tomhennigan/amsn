@@ -160,7 +160,10 @@ namespace eval ::ChatWindow {
 	# Arguments:
 	#  - window => Is the chat window widget (.msg_n - Where n is an integer)
 	proc GetOutDisplayPicturesFrame { window } {
-		if { [::config::getKey old_dpframe 0] == 0 } {
+		# We check if the frame exists instead of checking the 'old_dpframe' option
+		# is set because we might change the option and it will cause a bug for
+		# existing chat windows
+		if {[winfo exists [GetOutFrame $window].f.sw.sf] } {
 			return [[GetOutFrame $window].f.sw.sf getframe]
 		} else {
 			return [GetOutFrame $window].f
