@@ -13,6 +13,10 @@
   !define WISH_PATH '.'
 !endif
 
+!ifndef WISH_MINOR
+  !define WISH_MINOR 'x'
+!endif
+
 SetCompressor /SOLID lzma
 
 ;--------------------------------
@@ -40,7 +44,7 @@ ReserveFile "amsn-welcome.bmp"
 !ifdef OUTFILE
   OutFile "${OUTFILE}"
 !else
-  OutFile "aMSN-${VERSION}-windows-installer.exe"
+  OutFile "aMSN-${VERSION}-tcl8${WISH_MINOR}-windows-installer.exe"
 !endif
 
   InstType "Full"
@@ -195,7 +199,7 @@ Files_Next:
   SetOutPath "$INSTDIR\scripts\lang"
   File /r /x "genpage.c" /x "convert.tcl" /x "missing.py" /x "sortlang" /x "addkey.tcl" /x "*.tmpl" /x "langchk.sh" /x "complete.pl" /x "genlangfiles.c" /x ".svn" "..\..\..\lang\*.*"
   SetOutPath "$INSTDIR\scripts\skins"
-  File /r /x ".svn" "..\..\..\skins\*.*"
+  File /r /x ".svn" "..\..\..\skins\default"
   SetOutPath "$INSTDIR\scripts\utils\base64"
   File /r /x ".svn" "..\..\..\utils\base64\*.*"
   SetOutPath "$INSTDIR\scripts\utils\drawboard"
@@ -216,8 +220,8 @@ Files_Next:
   File /r /x ".svn" "..\..\..\utils\sha1\*.*"
   SetOutPath "$INSTDIR\scripts\utils\snit"
   File /r /x ".svn" "..\..\..\utils\snit\*.*"
-  SetOutPath "$INSTDIR\scripts\utils\BWidget1.8.0"
-  File /r /x ".svn" "..\..\..\utils\BWidget1.8.0\*.*"
+  SetOutPath "$INSTDIR\scripts\utils\BWidget-1.9.0"
+  File /r /x ".svn" "..\..\..\utils\BWidget-1.9.0\*.*"
   SetOutPath "$INSTDIR\scripts\utils\dpbrowser"
   File /r /x ".svn" "..\..\..\utils\dpbrowser\*.*"
   SetOutPath "$INSTDIR\scripts\utils\sexytile"
@@ -228,8 +232,22 @@ Files_Next:
   File /r /x ".svn" "..\..\..\utils\uri\*.*"
   SetOutPath "$INSTDIR\scripts\utils\combobox"
   File /r /x ".svn" "..\..\..\utils\combobox\*.*"
+  SetOutPath "$INSTDIR\scripts\utils\voipcontrols"
+  File /r /x ".svn" "..\..\..\utils\voipcontrols\*.*"
+  SetOutPath "$INSTDIR\scripts\utils\des"
+  File /r /x ".svn" "..\..\..\utils\des\*.*"
   SetOutPath "$INSTDIR\scripts\plugins"
-  File /r /x ".svn" "..\..\..\plugins\*.*"
+  File /r /x ".svn" "..\..\..\plugins\ColoredNicks"
+  File /r /x ".svn" "..\..\..\plugins\MSNGameTTT"
+  File /r /x ".svn" "..\..\..\plugins\Notes"
+  File /r /x ".svn" "..\..\..\plugins\Nudge"
+  File /r /x ".svn" "..\..\..\plugins\SearchContact"
+  File /r /x ".svn" "..\..\..\plugins\WebcamShooter"
+  File /r /x ".svn" "..\..\..\plugins\inkdraw"
+  File /r /x ".svn" "..\..\..\plugins\remind"
+  File /r /x ".svn" "..\..\..\plugins\winks"
+  File /r /x ".svn" "..\..\..\plugins\gnotify"
+  File /r /x ".svn" "..\..\..\plugins\music"
 
   SetOutPath "$INSTDIR\scripts\utils\windows\gnash"
   File "..\..\..\utils\windows\gnash\COPYING"
@@ -244,15 +262,38 @@ Files_Next:
   File "..\..\..\utils\windows\gnash\README"
   File "..\..\..\utils\windows\gnash\SDL.dll"
   File "..\..\..\utils\windows\gnash\zlib1.dll"
+  SetOutPath "$INSTDIR\scripts\utils\windows\gstreamer"
+  File "..\..\..\utils\windows\gstreamer\*.*"
+  SetOutPath "$INSTDIR\scripts\utils\asyncresolver"
+  File "..\..\..\utils\asyncresolver\libasyncresolver.dll"
+  File "..\..\..\utils\asyncresolver\asyncresolver.tcl"
+  File "..\..\..\utils\asyncresolver\pkgIndex.tcl"
+  SetOutPath "$INSTDIR\scripts\utils\farsight"
+  File "..\..\..\utils\farsight\tcl_farsight.dll"
+  File "..\..\..\utils\farsight\pkgIndex.tcl"
+  SetOutPath "$INSTDIR\scripts\utils\tclISF"
+  File "..\..\..\utils\tclISF\tclISF.dll"
+  File "..\..\..\utils\tclISF\pkgIndex.tcl"
   SetOutPath "$INSTDIR\scripts\utils\webcamsn"
+!if ${WISH_MINOR} == 4
   File "..\..\..\utils\webcamsn\webcamsn.dll"
+!else
+  File "..\..\..\utils\webcamsn\8.5\webcamsn.dll"
+!endif
   File "..\..\..\utils\webcamsn\pkgIndex.tcl"
   SetOutPath "$INSTDIR\scripts\utils\tcl_siren"
   File "..\..\..\utils\tcl_siren\Tcl_siren.dll"
   File "..\..\..\utils\tcl_siren\pkgIndex.tcl"
   SetOutPath "$INSTDIR\scripts\utils\TkCximage"
+!if ${WISH_MINOR} == 4
   File "..\..\..\utils\TkCximage\TkCximage.dll"
+!else
+  File "..\..\..\utils\TkCximage\8.5\TkCximage.dll"
+!endif
   File "..\..\..\utils\TkCximage\pkgIndex.tcl"
+  SetOutPath "$INSTDIR\scripts\utils\windows\reg1.1"
+  File "..\..\..\utils\windows\reg1.1\tclreg11.dll"
+  File "..\..\..\utils\windows\reg1.1\pkgIndex.tcl"
   SetOutPath "$INSTDIR\scripts\utils\windows\snack2.2"
   File "..\..\..\utils\windows\snack2.2\libsnack.dll"
   File "..\..\..\utils\windows\snack2.2\libsound.dll"
@@ -276,18 +317,18 @@ Files_Next:
   File "..\..\..\utils\windows\winutils\pkgIndex.tcl"
 
   SetOutPath "$INSTDIR\bin"
-  File "${WISH_PATH}\bin\tcl85.dll"
-  File "${WISH_PATH}\bin\tk85.dll"
-  File /oname=wish.exe "${WISH_PATH}\bin\wish85.exe"
+  File "${WISH_PATH}\bin\tcl8${WISH_MINOR}.dll"
+  File "${WISH_PATH}\bin\tk8${WISH_MINOR}.dll"
+  File /oname=wish.exe "${WISH_PATH}\bin\wish8${WISH_MINOR}.exe"
 
-  SetOutPath "$INSTDIR\lib\tcl8.5"
-  File /r "${WISH_PATH}\lib\tcl8.5\*.*"
-  SetOutPath "$INSTDIR\lib\tcl8\8.5"
-  File /r "${WISH_PATH}\lib\tcl8\8.5\*.*"
-  SetOutPath "$INSTDIR\lib\tk8.5"
-  File /r "${WISH_PATH}\lib\tk8.5\*.*"
+  SetOutPath "$INSTDIR\lib\tcl8.${WISH_MINOR}"
+  File /r "${WISH_PATH}\lib\tcl8.${WISH_MINOR}\*.*"
+  SetOutPath "$INSTDIR\lib\tcl8\8.${WISH_MINOR}"
+  File /r "${WISH_PATH}\lib\tcl8\8.${WISH_MINOR}\*.*"
+  SetOutPath "$INSTDIR\lib\tk8.${WISH_MINOR}"
+  File /r "${WISH_PATH}\lib\tk8.${WISH_MINOR}\*.*"
   SetOutPath "$INSTDIR\lib\tls"
-  File /r "${WISH_PATH}\lib\tls\*.*"
+  File /r "${WISH_PATH}\lib\teapot\package\win32-ix86\lib\tls1.6\*.*"
 
   SetOutPath "$INSTDIR"
 
@@ -306,6 +347,34 @@ Files_Next:
                  "UninstallString" "$INSTDIR\uninstall.exe"
 
 SectionEnd
+
+SectionGroup "Extras" SecExtras
+
+  Section "Dark Matter skin" ExtrasDM
+    SectionIn 1
+
+    SetDetailsPrint textonly
+    DetailPrint "Installing Dark Matter skin..."
+    SetDetailsPrint listonly
+
+  SetOutPath "$INSTDIR\scripts\skins"
+  File /r /x ".svn" "..\..\..\skins\Dark Matter 4.0"
+
+  SectionEnd
+
+  Section "Extra plugins" ExtrasPlugins
+    SectionIn 1
+
+    SetDetailsPrint textonly
+    DetailPrint "Installing Dark Matter skin..."
+    SetDetailsPrint listonly
+
+  SetOutPath "$INSTDIR\scripts\plugins"
+  File /r /x ".svn" "..\..\..\plugins\*.*"
+
+  SectionEnd
+  
+SectionGroupEnd
 
 SectionGroup "Shortcuts" SecShortcuts
 
@@ -334,6 +403,8 @@ SectionGroup "Shortcuts" SecShortcuts
   SectionEnd
   
 SectionGroupEnd
+
+
 
 ;--------------------------------
 ;Descriptions
