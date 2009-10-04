@@ -3885,7 +3885,7 @@ namespace eval ::ChatWindow {
 		set nick [list [list text $nick]]
 		canvas $tab -bg [::skin::getKey tabbarbg] -width $tab_width -height $tab_height
 		::guiContactList::renderContact $tab tab_text $tab_width $nick 0
-		$tab create image $tab_width [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -anchor nw -tags tab_close
+		$tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -anchor nw -tags tab_close
 		$tab create image 1 0 -image [::skin::loadPixmap tab] -anchor nw -tags [list tab_bg]
 
 
