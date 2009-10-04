@@ -3466,11 +3466,16 @@ namespace eval ::amsn {
 				  [string first "/me " $msg] == 0 } {
 				
 				set action "$nick [string range $msg 4 end]"
+				set font [lindex [::config::getGlobalKey basefont] 0]
+				if { $font == "" } { set font "Helvetica"}
+
+				set color 333333; #TODO: needs a skin key for this one
+				set customfont [list $font [list "italic"] $color]
 
 				::amsn::WinWrite $chatid "\n" gray
 				::amsn::WinWriteIcon $chatid greyline 3
 				::amsn::WinWrite $chatid "\n" gray
-				::amsn::WinWrite $chatid $action gray
+				::amsn::WinWrite $chatid $action "custom" $customfont
 				::amsn::WinWrite $chatid "\n" gray
 				::amsn::WinWriteIcon $chatid greyline 3
 				::amsn::WinWrite $chatid "\n" gray
@@ -4106,7 +4111,7 @@ namespace eval ::amsn {
 			#By default tagid=tagname unless we generate a new one
 			set tagid $tagname
 
-			if { $tagid == "user" || $tagid == "yours" || $tagid == "says" } {
+			if { $tagid == "user" || $tagid == "yours" || $tagid == "says" || $tagid == "custom" } {
 
 				if { $tagid == "says" && [::config::getKey strictfonts] == 0 } {
 					set size [lindex [::config::getGlobalKey basefont] 1]

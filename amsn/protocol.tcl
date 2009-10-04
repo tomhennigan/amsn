@@ -5482,12 +5482,16 @@ namespace eval ::MSNOIM {
 						if {$id == "3" } {
 							::MSNP2P::RequestObjectEx $chatid $typer $data "voice"
 						} elseif {$id == "4" } {
-							# Action messages... 
-							# TODO : find a better way to write the messages ?
+							# Action messages...
 							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWriteIcon $chatid greyline 3
 							::amsn::WinWrite $chatid "\n" gray
-							::amsn::WinWrite $chatid [encoding convertfrom identity $data] gray
+							set font [lindex [::config::getGlobalKey basefont] 0]
+							if { $font == "" } { set font "Helvetica"}
+
+							set color 333333; #TODO: needs a skin key for this one
+							set customfont [list $font [list "italic"] $color]
+							::amsn::WinWrite $chatid [encoding convertfrom identity $data] "custom" $customfont
 							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWriteIcon $chatid greyline 3
 							::amsn::WinWrite $chatid "\n" gray
