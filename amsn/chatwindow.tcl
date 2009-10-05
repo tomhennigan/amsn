@@ -4045,7 +4045,7 @@ namespace eval ::ChatWindow {
 		
 		::guiContactList::renderContact $tabvar tab_text $tab_width $txt 0
 		incr tab_width 10
-		$tabvar create image $tab_width [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -anchor ne -tags tab_close
+		$tabvar create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -anchor ne -tags tab_close
 		
 		::ChatWindow::UpdateContainerTitle [winfo toplevel $win]
 	}
@@ -4071,7 +4071,7 @@ namespace eval ::ChatWindow {
 		if { [info exists containerwindows($container)] &&
 		     [lsearch [set containerwindows($container)] $win] == -1 } { 
 			status_log "can't switch to a window that doesn't belong to the correct container"
-			return 
+			return
 		}
 		
 #TODO:		# Don't switch if tab clicked is already current tab. > 2 used because otherwise windows for new mesages dont appear. this means this is only effective with three or more tabs open. hope someone can find how to fix this.
