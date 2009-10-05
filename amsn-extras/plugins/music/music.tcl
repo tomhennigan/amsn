@@ -255,6 +255,7 @@ namespace eval ::music {
 					"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 					"Decibel" [list GetSongDecibel FillFrameLess] \
 					"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
+					"gmusicbrowser" [list GetSongGmusicbrowser TreatSongGmusicbrowser FillFrameComplete] \
 					"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 					"Juk-KDE4" [list GetSongJuk2 TreatSongJuk2 FillFrameLess] \
 					"LastFM" [list GetSongLastFM TreatSongLastFM FillFrameLess] \
@@ -1201,6 +1202,41 @@ namespace eval ::music {
 		}
 		
 		return [list $song $art $path "" ""]
+	}
+
+	##################################################
+	# ::music::TreatSongGmusicbrowser                #
+	# -------------------------------------------    #
+	# Gets the current playing song in Gmusicbrowser #
+	##################################################
+	proc TreatSongGmusicbrowser {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list [file join $::music::musicpluginpath "infogmusicbrowser"]] }
+	}
+
+	##################################################
+	# ::music::GetSongGmusicbrowser                  #
+	# -------------------------------------------    #
+	# Gets the current playing song in Gmusicbrowser #
+	##################################################
+	proc GetSongGmusicbrowser {} {
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		set status [lindex $tmplst 0]
+		set title [lindex $tmplst 1]
+		set artist [lindex $tmplst 2]
+		set path [lindex $tmplst 3]
+		set cover [lindex $tmplst 4]
+		set album [lindex $tmplst 5]
+
+		if {$status ne "playing"} {
+			return 0
+		}
+		return [list $title $artist $path $cover $album]
 	}
 
 	###############################################
