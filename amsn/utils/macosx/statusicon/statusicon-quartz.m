@@ -25,9 +25,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define QUARTZ_POOL_ALLOC NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]
-#define QUARTZ_POOL_RELEASE [pool release]
-
 @interface QuartzStatusIcon : NSObject
 {
   void          *callback;
@@ -39,7 +36,7 @@
 - (id) initWithCallback:(void *)callback;
 - (void) ensureItem;
 - (void) actionCb:(NSObject *)button;
-- (void) setImage:(NSImage *)image;
+- (void) setImagePath:(const char *)imagePath;
 - (void) setVisible:(int)visible;
 - (void) setToolTip:(const char *)tooltip_text;
 - (float) getWidth;
@@ -82,7 +79,7 @@
   cb ();
 }
 
-- (void) setImage:(NSImage *)image
+- (void) setImagePath:(const char *)imagePath
 {
   /* Support NULL */
   [self ensureItem];
@@ -98,7 +95,7 @@
     return;
   }
 
-  current_image = image;
+  current_image = [NSImage initWithContentsOfFile:[[NSString initWithUTF8String:imagePath] autorelease];
   [current_image retain];
 
   [ns_item setImage:current_image];
