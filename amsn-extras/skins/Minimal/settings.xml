@@ -176,10 +176,10 @@
 			<chat_sash_pady>0</chat_sash_pady>
 			<chat_tabbar_padx>2</chat_tabbar_padx>
 			<chat_tabbar_pady>0</chat_tabbar_pady>
-            <tab_text_x>8</tab_text_x>
-            <tab_text_y>12</tab_text_y>
-            <tab_text_width>104</tab_text_width>
-            <tab_close_x>130</tab_close_x>
+            <tab_text_x>4</tab_text_x>
+            <tab_text_y>14</tab_text_y>
+            <tab_text_width>100</tab_text_width>
+            <tab_close_x>104</tab_close_x>
             <tab_close_y>14</tab_close_y>
 		</Geometry>
 	</ChatWindow>
