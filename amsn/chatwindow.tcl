@@ -3853,10 +3853,6 @@ namespace eval ::ChatWindow {
 		return ""
 
 	}
-	
-	proc TabsWidth {} {
-		return [image width [::skin::loadPixmap tab]]
-	}
 
 	proc ConfigureTab {tab img} {
 		$tab delete tab_bg
@@ -3885,7 +3881,7 @@ namespace eval ::ChatWindow {
 		set nick [list [list text $nick]]
 		canvas $tab -bg [::skin::getKey tabbarbg] -width $tab_width -height $tab_height
 		::guiContactList::renderContact $tab tab_text $tab_width $nick 0
-		$tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -anchor nw -tags tab_close
+		$tab create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -activeimage [::skin::loadPixmap tab_close_hover] -anchor nw -tags tab_close
 		$tab create image 1 0 -image [::skin::loadPixmap tab] -anchor nw -tags [list tab_bg]
 
 
@@ -4005,7 +4001,6 @@ namespace eval ::ChatWindow {
 		variable win2tab
 		
 
-		set tab_width [TabsWidth]
 		set tab [set win2tab($win)]
 		set users [::MSN::usersInChat $chatid]
 		# We have two ways of changing a tab button text
@@ -4015,9 +4010,6 @@ namespace eval ::ChatWindow {
 			set tabvar ${tab}_lbl
 		}
 		#status_log "naming tab $win with chatid info $chatid\n" red
-
-		incr tab_width -[image width [::skin::loadPixmap tab_close]]
-		incr tab_width -15
 		
 		$tabvar dchars tab_text 0 end
 		$tabvar delete tab_text
@@ -4043,9 +4035,8 @@ namespace eval ::ChatWindow {
 			set txt [concat $style [list [list text $txt]]]
 		}
 		
-		::guiContactList::renderContact $tabvar tab_text $tab_width $txt 0
-		incr tab_width 10
-		$tabvar create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close] -anchor ne -tags tab_close
+		::guiContactList::renderContact $tabvar tab_text [expr {[::skin::getKey tab_close_x] - 5}] $txt 0
+		$tabvar create image [::skin::getKey tab_close_x] [::skin::getKey tab_close_y] -image [::skin::loadPixmap tab_close]  -activeimage [::skin::loadPixmap tab_close_hover] -anchor nw -tags tab_close
 		
 		::ChatWindow::UpdateContainerTitle [winfo toplevel $win]
 	}

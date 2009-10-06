@@ -195,8 +195,8 @@
                         <tab_text_x>4</tab_text_x>
                         <tab_text_y>13</tab_text_y>
                         <tab_text_width>100</tab_text_width>
-                        <tab_close_x>105</tab_close_x>
-                        <tab_close_y>7</tab_close_y>
+                        <tab_close_x>100</tab_close_x>
+                        <tab_close_y>8</tab_close_y>
 		</Geometry>
 	</ChatWindow>
 
