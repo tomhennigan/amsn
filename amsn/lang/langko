@@ -1,7 +1,7 @@
 amsn_lang_version 2
 abort 중지
 about aMSN 정보
-aboutamsn Alvaro's Messenger 정보
+aboutamsn aMSN 정보
 accept 수락
 acceptfile $1 (크기: $2 바이트) 파일을 받으시겠습니까? 이 파일은 $3 (으)로 저장됩니다.
 account 계정
