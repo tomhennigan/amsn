@@ -491,11 +491,23 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
   fi
   AC_SUBST(HAVE_LIBV4L)
 
-fi
+  AC_ARG_ENABLE([upnp],
+        AC_HELP_STRING([--disable-upnp], [Disable upnp support]),
+        [case "${enableval}" in
+            yes) WANT_UPNP=yes ;;
+            no)  WANT_UPNP=no ;;
+            *) AC_MSG_ERROR(bad value ${enableval} for --enable-upnp) ;;
+        esac],
+        WANT_UPNP=test)
+  HAVE_GUPNP=no
+  if test "x$WANT_UPNP" != "xno"; then
+    PKG_CHECK_MODULES(GUPNP, [ gupnp-igd-1.0 ],
+      [ HAVE_GUPNP=yes ],
+      [ HAVE_GUPNP=no ])
+  fi
+  AC_SUBST(HAVE_GUPNP)
 
-PKG_CHECK_MODULES(GUPNP, [ gupnp-igd-1.0 ],
-    [ HAVE_GUPNP=yes ],
-    [ HAVE_GUPNP=no ])
+fi
 
 AC_SUBST(GST_CFLAGS)
 AC_SUBST(GST_LIBS)
@@ -506,7 +518,6 @@ AC_SUBST(FARSIGHT2_CFLAGS)
 AC_SUBST(FARSIGHT2_LIBS)
 
 AC_SUBST(HAVE_FARSIGHT)
-AC_SUBST(HAVE_GUPNP)
 
 dnl ---------------------------------------------------------------------
 dnl write out stuff

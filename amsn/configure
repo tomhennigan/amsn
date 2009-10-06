@@ -590,8 +590,8 @@ ac_includes_default="\
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-HAVE_GUPNP
 HAVE_FARSIGHT
+HAVE_GUPNP
 GUPNP_LIBS
 GUPNP_CFLAGS
 HAVE_LIBV4L
@@ -701,6 +701,7 @@ with_tcl
 with_tk
 with_x
 enable_libv4l
+enable_upnp
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1344,6 +1345,7 @@ Optional Features:
   --enable-static         enable static link of libstdc++
   --disable-version-check Disable checking that linked tcl/tk version is the same version that bin program tclsh
   --disable-libv4l        Disable libv4l support
+  --disable-upnp          Disable upnp support
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -5661,8 +5663,19 @@ fi
   fi
 
 
+  # Check whether --enable-upnp was given.
+if test "${enable_upnp+set}" = set; then :
+  enableval=$enable_upnp; case "${enableval}" in
+            yes) WANT_UPNP=yes ;;
+            no)  WANT_UPNP=no ;;
+            *) as_fn_error "bad value ${enableval} for --enable-upnp" "$LINENO" 5 ;;
+        esac
+else
+  WANT_UPNP=test
 fi
 
+  HAVE_GUPNP=no
+  if test "x$WANT_UPNP" != "xno"; then
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GUPNP" >&5
@@ -5734,7 +5747,10 @@ else
 $as_echo "yes" >&6; }
 	 HAVE_GUPNP=yes
 fi
+  fi
 
+
+fi
 
 
 
