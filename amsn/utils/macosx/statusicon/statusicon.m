@@ -1,6 +1,8 @@
 
 #include "statusicon.h"
 
+#include "statusicon-quartz.m"
+
 #define QUARTZ_POOL_ALLOC NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]
 #define QUARTZ_POOL_RELEASE [pool release]
 
@@ -175,9 +177,6 @@ int Statusicon_Destroy(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_
 int Statusicon_Init(Tcl_Interp *interp)
 {
   if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
-    return TCL_ERROR;
-  }
-  if (Tk_InitStubs(interp, "8.4", 0) == NULL) {
     return TCL_ERROR;
   }
   
