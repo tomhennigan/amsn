@@ -100,6 +100,8 @@
 
 - (void) setToolTip:(const char *)tooltip_text
 {
+  [self ensureItem];
+
   [ns_tooltip release];
   ns_tooltip = [[NSString stringWithUTF8String:tooltip_text] retain];
 
