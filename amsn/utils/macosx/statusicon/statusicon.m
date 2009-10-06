@@ -179,9 +179,6 @@ int Statusicon_Init(Tcl_Interp *interp)
   if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
     return TCL_ERROR;
   }
-  if (Tk_InitStubs(interp, "8.4", 0) == NULL) {
-    return TCL_ERROR;
-  }
   
   icons = (Tcl_HashTable *) ckalloc(sizeof(Tcl_HashTable));
   Tcl_InitHashTable(icons, TCL_STRING_KEYS);

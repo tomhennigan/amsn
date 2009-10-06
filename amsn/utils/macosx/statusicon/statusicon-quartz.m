@@ -71,13 +71,12 @@
     [current_image release];
     current_image = nil;
   }
-
-  // TODO: Where is this pixbuf coming from?!
-  // if (!pixbuf) {
-  //     [ns_item release];
-  //     ns_item = nil;
-  //     return;
-  //   }
+  
+  if (!imagePath) {
+    [ns_item release];
+    ns_item = nil;
+    return;
+  }
 
   current_image = [NSImage initWithContentsOfFile:[[NSString initWithUTF8String:imagePath] autorelease]];
   [current_image retain];
