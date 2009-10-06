@@ -49,6 +49,7 @@
 
 - (void) dealloc
 {
+printf("Deallocating\n");
   [current_image release];
   [ns_item release];
   [ns_bar release];
@@ -58,6 +59,7 @@
 
 - (void) actionCb:(NSObject *)button
 {
+printf("action callback\n");
   // void * cb = [self callback];
   // cb();
 }
@@ -79,6 +81,7 @@
   }
 
   current_image = [[NSImage alloc] initWithContentsOfFile:[[[NSString alloc] initWithUTF8String:imagePath] autorelease]];
+  [current_image setSize:NSMakeSize([self getWidth], [self getHeight])];
   [current_image retain];
 
   [ns_item setImage:current_image];

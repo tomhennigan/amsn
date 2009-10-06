@@ -40,6 +40,7 @@ int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_O
 
 void *Statusicon_Callback()
 {
+  printf("statuicon_Callback\n");
   /*TODO: this is fucked*/
 }
 
