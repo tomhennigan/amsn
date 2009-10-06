@@ -23,7 +23,7 @@ int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_O
 
   QUARTZ_POOL_ALLOC;
   QuartzStatusIcon *status_item = [[QuartzStatusIcon alloc] initWithCallback:Statusicon_Callback];
-  if (status_icon == NULL) {
+  if (status_item == NULL) {
     return TCL_ERROR;
   } else {
     sprintf(name, "statusicon%d", ++icon_counter);
@@ -57,7 +57,7 @@ int Statusicon_SetImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl
   } 
 
   name = Tcl_GetStringFromObj(objv[1], NULL);
-  tooltipwpath = Tcl_GetStringFromObj(objv[2], NULL);
+  path = Tcl_GetStringFromObj(objv[2], NULL);
 
   hPtr = Tcl_FindHashEntry(icons, name);
   if (hPtr != NULL) {
@@ -177,6 +177,9 @@ int Statusicon_Destroy(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_
 int Statusicon_Init(Tcl_Interp *interp)
 {
   if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
+    return TCL_ERROR;
+  }
+  if (Tk_InitStubs(interp, "8.4", 0) == NULL) {
     return TCL_ERROR;
   }
   

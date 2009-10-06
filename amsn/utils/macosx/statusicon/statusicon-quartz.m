@@ -44,12 +44,12 @@
 @end
 
 @implementation QuartzStatusIcon : NSObject
-- (id) initWithCallback:(void *)callback;
+- (id) initWithCallback:(void *)cb;
 {
   [super init];
   ns_bar = [NSStatusBar systemStatusBar];
 
-  cb = callback
+  callback = cb;
 
   return self;
 }
@@ -76,7 +76,8 @@
 
 - (void) actionCb:(NSObject *)button
 {
-  cb ();
+  // void * cb = [self callback];
+  // cb();
 }
 
 - (void) setImagePath:(const char *)imagePath
@@ -89,13 +90,14 @@
     current_image = nil;
   }
 
-  if (!pixbuf) {
-    [ns_item release];
-    ns_item = nil;
-    return;
-  }
+  // TODO: Where is this pixbuf coming from?!
+  // if (!pixbuf) {
+  //     [ns_item release];
+  //     ns_item = nil;
+  //     return;
+  //   }
 
-  current_image = [NSImage initWithContentsOfFile:[[NSString initWithUTF8String:imagePath] autorelease];
+  current_image = [NSImage initWithContentsOfFile:[[NSString initWithUTF8String:imagePath] autorelease]];
   [current_image retain];
 
   [ns_item setImage:current_image];

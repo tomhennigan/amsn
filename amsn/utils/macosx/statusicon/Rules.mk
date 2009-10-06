@@ -1,5 +1,5 @@
 TARGETS-statusicon = $(macosx_dir)/statusicon/statusicon.dylib
-OBJS-statusicon = $(macosx_dir)/statusicon/statusicon.o
+OBJS-statusicon = $(macosx_dir)/statusicon/statusicon.o $(macosx_dir)/statusicon/statusicon-quartz.o
 
 LDFLAGS += -framework Cocoa
 
