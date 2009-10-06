@@ -129,7 +129,7 @@ proc init_dock {} {
 
 		if {[OnWin]} {
 			trayicon_init
-		} elseif {[OnLinux] || [OnBSD]} {
+		} elseif {[OnLinux] || [OnBSD] || [OnMac]} {
 			#We use the freedesktop standard here
 			if { $systemtray_exist == 0 } {
 				trayicon_init
@@ -140,7 +140,7 @@ proc init_dock {} {
 				}
 			}
 			statusicon_proc [::MSN::myStatusIs]
-		}		
+		} 
 	} else {
 		close_dock
 	}
@@ -160,3 +160,11 @@ proc WinDock { } {
 		return 0
 	}
 }
+proc MacDock { } {
+	if {[::config::getKey use_tray] && [OnMac] } {
+		return 1
+	} else {
+		return 0
+	}
+}
+
