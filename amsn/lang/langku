@@ -1,63 +1,63 @@
 amsn_lang_version 2
-  addtobl  Li BL zêdeke
-  addtofl  Li FL zêdeke
-  assistantnote  Jêrenot: ev mîheng *TENÊ* ji bo taybetiya '$1' e.
-  autoaudiosinkdesc  Di pergala we de amûra herî baş a output a dengê jixweber bibîne
-  autoaudiosrcdesc  Di pergala we de amûra herî baş a input a dengê jixweber bibîne
-  automaticsink  Outputê jixweber bibîne
-  automaticsrc  Inputê jixweber bibîne
-  autovideosinkdesc  Di pergala we de metoda herî baş a outputa vîdyoyê jixweber bibîne
-  autovideosrcdesc  Di pergala we de amûra wênekêş a webcamê jixweber bibîne
-  av  Konferansa Deng û Vîdyoyê
-  bringtofront  Hemûyan bîne pêş
-  cam_in_cw  Dîmena webcamê di nava paceya axaftinê de nîşande
-  chooseaudiosink  Outputa dengê hilbijêre
-  chooseaudiosrc  Inputa dengê hilbijêre
-  choosevideosrc  Inputa vîdyoyê hilbijêre
-  closeorcallvideo  Beriya girtina paceyê divê tu Lêgerîna Vîdyoyoê bigirî/betal bikî.
-  compactstyle  Stîla hişk
-  contentroamingsetting  Wêneya xuyaniyê di pêşkêşkerê de tomarke
-  curfssinknotworking  Outputa niha bijartî ye naxebite, şûna wê '$1' bi kar tîne
-  curfssrcnotworking  INPUT niha bijartî ye naxebite, şûna wê '$1' bi kar tîne
-  cyclewindows  Paceyan yek bi yek nîşande
-  disabledaudiosrcdesc  Têketina dengê betal bike û ji mîkrofona xwe tu deng neşîne
-  disabledvideosrcdesc  Têketina vîdyoyê betal bike û ji webcama xwe neşîne
-  emailnotverified  (Epeyam hê nehatiye piştrastkirin!)
-  fsautoaudiosinkchosen  Ji bo derketina dengê '$1' jixweber hat bijartin
-  fsautoaudiosrcchosen  Ji bo têketina dengê '$1' jixweber hat bijartin
-  fsautovideosrcchosen  Ji bo têketina vîdyoyê '$1' jixweber hat bijartin
-  fsnodevfound  Tu amûra guncan tune
-  fsnosuitablesrc  Tu amûrê guncan ê têketinê nehat dîtin, ji bo testê '$1' diceribîne
-  fssrcdisabledusing  Têketin neçalak e, ji bo testê '$1' diceribîne
-  hideuserscw  Di vê paceya axaftinê de bikarhêneran veşêre.
-  minimizeplain  Biçûkirin
-  oimauthenticationfailed  Piştrastkirin nebû
-  oimflood  Gelek zêde peyamên negirêdayî hate şandin... ji kerema xwe re li bendê bimîne û dîsa biceribîne
-  oimmessagetoolarge  Peyama negirêdayî pir dirêj e... parçe bike û dîsa bişîne
-  oimsystemunavailable  Pergala peyamşandina negirêdayî niha ne pêkan e
-  oimunexpectederror  Çewtiya nedihat hêvîkirin
-  sendvideosip  Lêgerîna bi vîdyo bide destpêkirin
-  showuserscw  Di vê axaftinê de $1 bikarhêner hene. Ji bo nîşandan û veşartina wan li vir bitike.
-  sipcallconnected  Lêgerîna we ya bi deng niha hat girêdan!
-  sipcallimpossible2  Tu nikarî Lêgerîna bi Deng an jî Vîdyo bikî. Ji kerema xwe re Farsight2 saz bike û dîsa biceribîne.
-  sipcallyouarebusy2  Di heman demê de tenê axaftineke bi Deng an jî bi Vîdyo pêkan e.
-  sipvideocallaccepted  Axaftina bi vîdyo hat pejirandin
-  sipvideocallconnected  Lêgerîna we ya bi vîdyo niha hat girêdan!
-  sipvideocalldeclined  Axaftina bi vîdyo hat redkirin
-  sipvideocalleeaccepted  Bikarhêner Lêgerîna we ya bi vîdyo pejirand
-  sipvideocalleecanceled  Bikarhêner Lêgerîna we ya bi vîdyo nepejirand
-  sipvideocalleeclosed  Bikarhêner Lêgerîna we ya bi vîdyo qedand
-  sipvideocalleedeclined  Bikarhêner Lêgerîna we ya bi vîdyo red kir
-  sipvideocallended  YLêgerîna we ya bi vîdyo qediya
-  sipvideocallmissed  We Lêgerîna bi Vîdyo a $1 pejirand
-  sipvideocallnosipflag  Piştgiriya Lêgerîna bi Vîdyo a bikarhêner tune.
-  sipvideogotinvitation  Ji $1 vexwendina lêgerîna bi vîdyo hat standin
-  unavailablecountryserver  Pêşkêşkera li welatê we aniha ne guncan e. Paşê dîsa biceribîne. Her wiha ji bo çareserkirina vê pirsgirêkê, dikarî di hesabê xwe yê Passportê de mîhengên welat biguherînî http://www.passport.net.
-  untitled_space  Bêsernav
-  voiceclip  Klîba dengê
+addtobl  Li BL zêdeke
+addtofl  Li FL zêdeke
+assistantnote  Jêrenot: ev mîheng *TENÊ* ji bo taybetiya '$1' e.
+autoaudiosinkdesc  Di pergala we de amûra herî baş a output a dengê jixweber bibîne
+autoaudiosrcdesc  Di pergala we de amûra herî baş a input a dengê jixweber bibîne
+automaticsink  Outputê jixweber bibîne
+automaticsrc  Inputê jixweber bibîne
+autovideosinkdesc  Di pergala we de metoda herî baş a outputa vîdyoyê jixweber bibîne
+autovideosrcdesc  Di pergala we de amûra wênekêş a webcamê jixweber bibîne
+av  Konferansa Deng û Vîdyoyê
+bringtofront  Hemûyan bîne pêş
+cam_in_cw  Dîmena webcamê di nava paceya axaftinê de nîşande
+chooseaudiosink  Outputa dengê hilbijêre
+chooseaudiosrc  Inputa dengê hilbijêre
+choosevideosrc  Inputa vîdyoyê hilbijêre
+closeorcallvideo  Beriya girtina paceyê divê tu Lêgerîna Vîdyoyoê bigirî/betal bikî.
+compactstyle  Stîla hişk
+contentroamingsetting  Wêneya xuyaniyê di pêşkêşkerê de tomarke
+curfssinknotworking  Outputa niha bijartî ye naxebite, şûna wê '$1' bi kar tîne
+curfssrcnotworking  INPUT niha bijartî ye naxebite, şûna wê '$1' bi kar tîne
+cyclewindows  Paceyan yek bi yek nîşande
+disabledaudiosrcdesc  Têketina dengê betal bike û ji mîkrofona xwe tu deng neşîne
+disabledvideosrcdesc  Têketina vîdyoyê betal bike û ji webcama xwe neşîne
+emailnotverified  (Epeyam hê nehatiye piştrastkirin!)
+fsautoaudiosinkchosen  Ji bo derketina dengê '$1' jixweber hat bijartin
+fsautoaudiosrcchosen  Ji bo têketina dengê '$1' jixweber hat bijartin
+fsautovideosrcchosen  Ji bo têketina vîdyoyê '$1' jixweber hat bijartin
+fsnodevfound  Tu amûra guncan tune
+fsnosuitablesrc  Tu amûrê guncan ê têketinê nehat dîtin, ji bo testê '$1' diceribîne
+fssrcdisabledusing  Têketin neçalak e, ji bo testê '$1' diceribîne
+hideuserscw  Di vê paceya axaftinê de bikarhêneran veşêre.
+minimizeplain  Biçûkirin
+oimauthenticationfailed  Piştrastkirin nebû
+oimflood  Gelek zêde peyamên negirêdayî hate şandin... ji kerema xwe re li bendê bimîne û dîsa biceribîne
+oimmessagetoolarge  Peyama negirêdayî pir dirêj e... parçe bike û dîsa bişîne
+oimsystemunavailable  Pergala peyamşandina negirêdayî niha ne pêkan e
+oimunexpectederror  Çewtiya nedihat hêvîkirin
+sendvideosip  Lêgerîna bi vîdyo bide destpêkirin
+showuserscw  Di vê axaftinê de $1 bikarhêner hene. Ji bo nîşandan û veşartina wan li vir bitike.
+sipcallconnected  Lêgerîna we ya bi deng niha hat girêdan!
+sipcallimpossible2  Tu nikarî Lêgerîna bi Deng an jî Vîdyo bikî. Ji kerema xwe re Farsight2 saz bike û dîsa biceribîne.
+sipcallyouarebusy2  Di heman demê de tenê axaftineke bi Deng an jî bi Vîdyo pêkan e.
+sipvideocallaccepted  Axaftina bi vîdyo hat pejirandin
+sipvideocallconnected  Lêgerîna we ya bi vîdyo niha hat girêdan!
+sipvideocalldeclined  Axaftina bi vîdyo hat redkirin
+sipvideocalleeaccepted  Bikarhêner Lêgerîna we ya bi vîdyo pejirand
+sipvideocalleecanceled  Bikarhêner Lêgerîna we ya bi vîdyo nepejirand
+sipvideocalleeclosed  Bikarhêner Lêgerîna we ya bi vîdyo qedand
+sipvideocalleedeclined  Bikarhêner Lêgerîna we ya bi vîdyo red kir
+sipvideocallended  YLêgerîna we ya bi vîdyo qediya
+sipvideocallmissed  We Lêgerîna bi Vîdyo a $1 pejirand
+sipvideocallnosipflag  Piştgiriya Lêgerîna bi Vîdyo a bikarhêner tune.
+sipvideogotinvitation  Ji $1 vexwendina lêgerîna bi vîdyo hat standin
+unavailablecountryserver  Pêşkêşkera li welatê we aniha ne guncan e. Paşê dîsa biceribîne. Her wiha ji bo çareserkirina vê pirsgirêkê, dikarî di hesabê xwe yê Passportê de mîhengên welat biguherînî http://www.passport.net.
+untitled_space  Bêsernav
+voiceclip  Klîba dengê
 abort Jê Bavêje
 about Dermafê aMSN
-aboutamsn Dermafê Alvaro's Messenger
+aboutamsn Dermafê aMSN
 accept Bipejirîne
 acceptfile Tu dixwazî vê pelê bipejirînî $1 (mezinahî $2 bytes)? Wê li vir bê tomarkirin $3
 account Hesab
