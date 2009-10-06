@@ -18,6 +18,7 @@ verbose		?= no
 # dependency files
 
 compile_c	 = $(CC) $(CFLAGS)  -c -o $@ $<
+compile_m	 = $(CC) $(CFLAGS) -ObjC -c -o $@ $<
 compile_cc	 = $(CXX) $(CXXFLAGS)  -c -o $@ $<
 
 ifeq ($(FOUND_OS),mac)
@@ -39,6 +40,7 @@ ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 # non-verbose output
 ifeq ($(verbose),no)
   echo_compile_c	= echo "  CC	 " $@
+  echo_compile_m	= echo "  OBJCC	 " $@
   echo_compile_farsight	= echo "  CC	 " $@
   echo_compile_cc	= echo "  CXX	 " $@
   echo_link_app		= echo "  LD	 " $@
@@ -49,6 +51,7 @@ ifeq ($(verbose),no)
   echo_ar_lib		= echo "  AR	 " $@
 else
   echo_compile_c	= echo $(compile_c)
+  echo_compile_m	= echo $(compile_m)
   echo_compile_farsight	= echo $(compile_farsight)
   echo_compile_cc	= echo $(compile_cc)
   echo_link_app		= echo $(link_app)
@@ -64,8 +67,8 @@ endif
 	@$(compile_c)
 
 %.o: %.m
-	@$(echo_compile_c)
-	@$(compile_c)
+	@$(echo_compile_m)
+	@$(compile_m)
 
 %.cc.o: %.cc
 	@$(echo_compile_cc)
