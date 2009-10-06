@@ -1,7 +1,7 @@
 
 #include "statusicon.h"
 
-#include "statusicon-quartz.m"
+#include "statusicon-quartz.h"
 
 #define QUARTZ_POOL_ALLOC NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]
 #define QUARTZ_POOL_RELEASE [pool release]
