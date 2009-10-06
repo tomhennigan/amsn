@@ -70,7 +70,7 @@ int Statusicon_SetImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl
   }
 
   QUARTZ_POOL_ALLOC;
-  [status_item setImage:path];
+  [status_item setImagePath:path];
   QUARTZ_POOL_RELEASE;
 
   return TCL_OK;
@@ -102,7 +102,7 @@ int Statusicon_SetTooltip(ClientData clientData, Tcl_Interp *interp, int objc, T
   }
 
   QUARTZ_POOL_ALLOC;
-  [status_item setTooltip:tooltip];
+  [status_item setToolTip:tooltip];
   QUARTZ_POOL_RELEASE;
 
   return TCL_OK;
@@ -179,6 +179,8 @@ int Statusicon_Init(Tcl_Interp *interp)
   if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
     return TCL_ERROR;
   }
+
+  NSApplicationLoad();
   
   icons = (Tcl_HashTable *) ckalloc(sizeof(Tcl_HashTable));
   Tcl_InitHashTable(icons, TCL_STRING_KEYS);

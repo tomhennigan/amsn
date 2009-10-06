@@ -78,7 +78,7 @@
     return;
   }
 
-  current_image = [NSImage initWithContentsOfFile:[[NSString initWithUTF8String:imagePath] autorelease]];
+  current_image = [[NSImage alloc] initWithContentsOfFile:[[[NSString alloc] initWithUTF8String:imagePath] autorelease]];
   [current_image retain];
 
   [ns_item setImage:current_image];
