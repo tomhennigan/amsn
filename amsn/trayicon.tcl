@@ -240,7 +240,7 @@ proc statusicon_proc {status} {
 	global systemtray_exist statusicon list_states iconmenu wintrayicon defaultbackground
 	set cmdline ""
 
-	if { [::config::getKey use_tray] == 0 } { return }
+	if { [::config::getKey use_tray] == 0 && $status != "REMOVE"} { return }
 
 	if { ![WinDock] } {
 
@@ -261,7 +261,6 @@ proc statusicon_proc {status} {
 			::statusicon::setTooltip $statusicon "[trans offline]"
 			::statusicon::setImage $statusicon $pixmap
 			::statusicon::setVisible $statusicon 1
-			# TODO callback
 		}
 	} else {
 		if { $systemtray_exist == 1 && $statusicon == 0 && $status != "REMOVE" } {
@@ -473,7 +472,6 @@ proc mailicon_proc {num} {
 			::statusicon::setTooltip $mailicon "[trans onenewmail]"
 			::statusicon::setImage $mailicon $pixmap
 			::statusicon::setVisible $mailicon 1
-			# TODO callback
 		}
 
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {
@@ -518,10 +516,13 @@ proc mailicon_proc {num} {
 
 proc remove_icon {icon} {
 	global systemtray_exist
-	if {$systemtray_exist == 1 && $icon != 0} {
-		if {[UnixDock] } {
+	if {$icon != 0} {
+		# Can't use UnixDock and MacDock because if we remove the icon
+		# it might be because the user disabled the 'use_tray' option
+		# so those functions would always return false...
+		if {[OnLinux] || [OnBSD]} {
 			catch {removeti $icon}
-		} elseif {[MacDock] } {
+		} elseif {[OnMac] } {
 			catch { ::statusicon::destroy $icon}
 		}
 	}

@@ -85,6 +85,7 @@
   
   if (!imagePath) {
     if (ns_item != nil) {
+      [ns_bar removeStatusItem:ns_item];
       [ns_item release];
       ns_item = nil;
     }
@@ -107,6 +108,7 @@
     if (ns_tooltip != nil)
       [ns_item setToolTip:ns_tooltip];
   } else {
+    [ns_bar removeStatusItem:ns_item];
     [ns_item release];
     ns_item = nil;
   }
