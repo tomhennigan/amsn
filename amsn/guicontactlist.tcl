@@ -150,9 +150,7 @@ namespace eval ::guiContactList {
 
 		# Register events
 		::Event::registerEvent contactStateChange all ::guiContactList::contactChanged
-		if {[::config::getKey show_contactdps_in_cl] == "1"} {
-			::Event::registerEvent contactDPChange all ::guiContactList::contactChanged
-		}
+		::Event::registerEvent contactDPChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactNickChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactDataChange all ::guiContactList::contactChanged
 		::Event::registerEvent contactPSMChange all ::guiContactList::contactChanged
@@ -1526,7 +1524,7 @@ namespace eval ::guiContactList {
 		# Set up some vars with info we'll use
 		################################################################
 		
-		if {[::config::getKey show_detailed_view] && [::config::getKey show_contactdps_in_cl]} {
+		if {[::config::getKey show_detailed_view]} {
 			set show_detailed_view 1
 		} else {
 			set show_detailed_view 0
@@ -1565,7 +1563,7 @@ namespace eval ::guiContactList {
 
 		if {[::MSN::userIsNotIM $email]} {
 			set img [::skin::loadPixmap nonim]
-		} elseif {[::config::getKey show_contactdps_in_cl] == "1" &&
+		} elseif {([::config::getKey show_contactdps_in_cl] == "1" || [::config::getKey show_detailed_view]) &&
 		    !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN")} {
 			set img [::skin::getLittleDisplayPictureName $email]_cl
 
@@ -1758,7 +1756,7 @@ namespace eval ::guiContactList {
 		#----------------------------#	
 
 
-		if {(![::config::getKey show_contactdps_in_cl] && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
+		if {(!([::config::getKey show_contactdps_in_cl] || [::config::getKey show_detailed_view]) && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
 			# If you are not on this contact's list, show the notification icon
 			if {![::MSN::userIsNotIM $email] && [expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
 				set icon [::skin::loadPixmap notinlist]
