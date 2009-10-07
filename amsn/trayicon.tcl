@@ -177,6 +177,8 @@ proc taskbar_icon_handler { msg x y } {
 		#tk_popup $iconmenu $x $y
 
 		#workaround for bug with the popup not unposting
+		# TODO: verify if this bug is only for old tk versions and/or if it happens on older windows versions
+		# Tested with Win7 and Tk 8.5.7 and it seems just fine without the workaround!
 		wm state .trayiconwin normal
 		wm geometry .trayiconwin "+0+[expr {2 * [winfo screenheight .]}]"
 		focus -force .trayiconwin
@@ -260,6 +262,10 @@ proc statusicon_proc {status} {
 			::statusicon::setImage $statusicon $pixmap
 			::statusicon::setVisible $statusicon 1
 			# TODO callback
+		}
+	} else {
+		if { $systemtray_exist == 1 && $statusicon == 0 && $status != "REMOVE" } {
+			trayicon_init
 		}
 	}
 
