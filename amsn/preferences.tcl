@@ -1826,11 +1826,8 @@ proc Preferences { { settings "personal"} } {
 	radiobutton $lfname.4.ymd -text "[trans year]/[trans month]/[trans day]" -value YMD -variable [::config::getVar dateformat]
 	pack $lfname.4.mdy $lfname.4.dmy $lfname.4.ymd -side left -padx 10
 
-	# Systray doesn't exist on Mac
-	if { ![OnMac] } {
-		checkbutton $lfname.5.dock -text "[trans trayicon]" -onvalue 1 -offvalue 0 -variable [::config::getVar use_tray]
-		pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
-	}
+	checkbutton $lfname.5.dock -text "[trans trayicon]" -onvalue 1 -offvalue 0 -variable [::config::getVar use_tray]
+	pack $lfname.5.dock -anchor w -side top -padx 10 -pady 0
 
 	checkbutton $lfname.5.show_contactdps_in_cl -text "[trans show_contactdps_in_cl]" -onvalue 1 -offvalue 0 -variable [::config::getVar show_contactdps_in_cl]
 	#checkbutton $lfname.5.show_spaces -text "[trans enablespaces]" -onvalue 1 -offvalue 0 -variable [::config::getVar showspaces]
