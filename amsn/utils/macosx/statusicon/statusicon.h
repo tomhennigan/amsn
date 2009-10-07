@@ -9,6 +9,8 @@
 extern "C"
 #endif
 
+#include "statusicon-quartz.h"
+
 // External functions
 EXTERN int Statusicon_Init _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int Statusicon_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
@@ -24,6 +26,6 @@ EXTERN int Statusicon_SetTooltip _ANSI_ARGS_((ClientData clientData, Tcl_Interp 
 EXTERN int Statusicon_Destroy _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]));
 
-void * Statusicon_Callback();
+void Statusicon_Callback(QuartzStatusIcon *status_item, void *user_data, int doubleAction);
 
 #endif /* _STATUS_ICON */

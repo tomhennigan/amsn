@@ -1,34 +1,50 @@
 
 #include "statusicon.h"
 
-#include "statusicon-quartz.h"
-
 #define QUARTZ_POOL_ALLOC NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]
 #define QUARTZ_POOL_RELEASE [pool release]
 
 static int icon_counter = 0;
 static Tcl_HashTable *icons = NULL;
+static Tcl_HashTable *callbacks = NULL;
+
+typedef struct {
+  Tcl_Interp *interp;
+  Tcl_Obj *cb;
+} callback_s;
 
 int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
   char name[15];
   Tcl_HashEntry *hPtr = NULL;
   int newHash;
+  callback_s *callback = NULL;
 
-  /* TODO: actually needs a callback here */
-  if(objc != 1) {
-    Tcl_WrongNumArgs(interp, 1, objv, "");
+  if(objc != 2) {
+    Tcl_WrongNumArgs(interp, 1, objv, "callback");
     return TCL_ERROR;
   }
 
   QUARTZ_POOL_ALLOC;
-  QuartzStatusIcon *status_item = [[QuartzStatusIcon alloc] initWithCallback:Statusicon_Callback];
+
+  callback = (callback_s *) ckalloc(sizeof(callback_s));
+  callback->interp = interp;
+  callback->cb = objv[1];
+  Tcl_IncrRefCount(callback->cb);
+
+  QuartzStatusIcon *status_item = [[QuartzStatusIcon alloc] initWithCallback:Statusicon_Callback andUserData:callback];
   if (status_item == NULL) {
+    Tcl_DecrRefCount(callback->cb);
+    ckfree(callback);
     return TCL_ERROR;
   } else {
     sprintf(name, "statusicon%d", ++icon_counter);
+
     hPtr = Tcl_CreateHashEntry(icons, name, &newHash);
     Tcl_SetHashValue(hPtr, (ClientData) status_item);
+
+    hPtr = Tcl_CreateHashEntry(callbacks, name, &newHash);
+    Tcl_SetHashValue(hPtr, (ClientData) callback);
 
     Tcl_ResetResult(interp);
     Tcl_AppendResult(interp, name, NULL);
@@ -38,10 +54,26 @@ int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_O
   return TCL_OK;
 }
 
-void *Statusicon_Callback()
+void Statusicon_Callback(QuartzStatusIcon *status_item, void *user_data, int doubleAction)
 {
-  printf("statuicon_Callback\n");
-  /*TODO: this is fucked*/
+  callback_s * callback = (callback_s *) user_data;
+  Tcl_Obj *action = Tcl_NewStringObj(doubleAction ? "DOUBLE_ACTION" : "ACTION", -1);
+  Tcl_Obj *eval = Tcl_NewStringObj("eval", -1);
+  Tcl_Obj *command[] = {eval, callback->cb, action};
+
+  Tcl_Obj *cb = callback->cb;
+  Tcl_IncrRefCount (eval); 
+  Tcl_IncrRefCount (action); 
+  Tcl_IncrRefCount (cb); 
+
+  if (Tcl_EvalObjv(callback->interp, 3, command, TCL_EVAL_GLOBAL) == TCL_ERROR) {
+    Tcl_BackgroundError(callback->interp);
+  }
+
+  Tcl_DecrRefCount (eval); 
+  Tcl_DecrRefCount (action); 
+  Tcl_DecrRefCount (cb); 
+  
 }
 
 int Statusicon_SetImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
@@ -76,6 +108,7 @@ int Statusicon_SetImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl
 
   return TCL_OK;
 }
+
 int Statusicon_SetTooltip(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
@@ -108,6 +141,7 @@ int Statusicon_SetTooltip(ClientData clientData, Tcl_Interp *interp, int objc, T
 
   return TCL_OK;
 }
+
 int Statusicon_SetVisible(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
@@ -142,9 +176,11 @@ int Statusicon_SetVisible(ClientData clientData, Tcl_Interp *interp, int objc, T
 
   return TCL_OK;
 }
+
 int Statusicon_Destroy(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
+  callback_s * callback = NULL;
   Tcl_HashEntry *hPtr = NULL;
   char * name = NULL;
 
@@ -172,6 +208,17 @@ int Statusicon_Destroy(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_
 
   Tcl_DeleteHashEntry(hPtr);
 
+  hPtr = Tcl_FindHashEntry(callbacks, name);
+  if (hPtr != NULL) {
+    callback = (callback_s *) Tcl_GetHashValue(hPtr);
+  }
+
+  if (callback) {
+    Tcl_DecrRefCount(callback->cb);
+    ckfree(callback);
+    Tcl_DeleteHashEntry(hPtr);
+  }
+
   return TCL_OK;
 }
 
@@ -185,6 +232,9 @@ int Statusicon_Init(Tcl_Interp *interp)
   
   icons = (Tcl_HashTable *) ckalloc(sizeof(Tcl_HashTable));
   Tcl_InitHashTable(icons, TCL_STRING_KEYS);
+
+  callbacks = (Tcl_HashTable *) ckalloc(sizeof(Tcl_HashTable));
+  Tcl_InitHashTable(callbacks, TCL_STRING_KEYS);
 
   Tcl_CreateObjCommand(interp, "::statusicon::create", Statusicon_Create, NULL, NULL);
   Tcl_CreateObjCommand(interp, "::statusicon::setImage", Statusicon_SetImage, NULL, NULL);

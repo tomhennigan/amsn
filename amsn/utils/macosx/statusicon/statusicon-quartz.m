@@ -26,12 +26,15 @@
 #include "statusicon-quartz.h"
 
 @implementation QuartzStatusIcon : NSObject
-- (id) initWithCallback:(void *)cb;
+- (id) initWithCallback:(void *)cb andUserData:(void *)data;
 {
   [super init];
   ns_bar = [NSStatusBar systemStatusBar];
 
+  [ns_bar retain];
+
   callback = cb;
+  user_data = data;
 
   return self;
 }
@@ -43,13 +46,14 @@
 
   ns_item = [ns_bar statusItemWithLength:NSVariableStatusItemLength];
   [ns_item setAction:@selector(actionCb:)];
+  [ns_item setDoubleAction:@selector(doubleActionCb:)];
   [ns_item setTarget:self];
   [ns_item retain];
 }
 
 - (void) dealloc
 {
-printf("Deallocating\n");
+  [ns_bar removeStatusItem:ns_item];
   [current_image release];
   [ns_item release];
   [ns_bar release];
@@ -59,9 +63,14 @@ printf("Deallocating\n");
 
 - (void) actionCb:(NSObject *)button
 {
-printf("action callback\n");
-  // void * cb = [self callback];
-  // cb();
+  void (*cb)(QuartzStatusIcon *, void *, int) = callback;
+  cb(self, user_data, 0);
+}
+
+- (void) doubleActionCb:(NSObject *)button
+{
+  void (*cb)(QuartzStatusIcon *, void *, int) = callback;
+  cb(self, user_data, 1);
 }
 
 - (void) setImagePath:(const char *)imagePath
