@@ -260,7 +260,6 @@ proc statusicon_proc {status} {
 			set statusicon [::statusicon::create statusicon_callback]
 			::statusicon::setTooltip $statusicon "[trans offline]"
 			::statusicon::setImage $statusicon $pixmap
-			::statusicon::setVisible $statusicon 1
 		}
 	} else {
 		if { $systemtray_exist == 1 && $statusicon == 0 && $status != "REMOVE" } {
@@ -412,7 +411,6 @@ proc statusicon_proc {status} {
 				if { $pixmap == "null"} {
 					::statusicon::setVisible $statusicon 0
 				} else {
-					::statusicon::setVisible $statusicon 1
 					::statusicon::setImage $statusicon $pixmap
 					::statusicon::setTooltip $statusicon $tooltip
 				}
@@ -471,7 +469,6 @@ proc mailicon_proc {num} {
 			set mailicon [::statusicon::create mailicon_callback]
 			::statusicon::setTooltip $mailicon "[trans onenewmail]"
 			::statusicon::setImage $mailicon $pixmap
-			::statusicon::setVisible $mailicon 1
 		}
 
 	} elseif {$systemtray_exist == 1 && $mailicon != 0 && $num == 0} {
@@ -508,7 +505,6 @@ proc mailicon_proc {num} {
 			bind $mailicon <Enter> [list balloon_enter %W %X %Y $msg]
 			bind $mailicon <Motion> [list balloon_motion %W %X %Y $msg]
 		} elseif {[MacDock] } {
-			::statusicon::setVisible $mailicon 1
 			::statusicon::setTooltip $mailicon $msg
 		}
 	} 
