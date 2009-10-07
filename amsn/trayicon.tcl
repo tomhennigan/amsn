@@ -375,6 +375,7 @@ proc statusicon_proc {status} {
 					winico taskbar delete $wintrayicon
 					set wintrayicon $trayicon
 					winico taskbar add $wintrayicon -text $tooltip -callback "taskbar_icon_handler %m %x %y"
+					set statusicon 1
 				}
 
 			} elseif {[UnixDock] } {
