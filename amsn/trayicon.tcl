@@ -23,7 +23,11 @@ proc iconify_proc {} {
 			focus -force .bossmode
 			return
 		}
-		if { [focus] == "."} {
+		set focus [focus]
+		if {[winfo exists $focus] } {
+			set focus [winfo toplevel $focus]
+		}
+		if {  $focus == "." && [wm state .] != "iconic" && [wm state .] != "withdrawn"} {
 			wm iconify .
 			wm state . withdrawn
 		} else {
@@ -33,7 +37,6 @@ proc iconify_proc {} {
 			focus -force .
 		}
 	}
-	#bind $statusicon <Button-1> deiconify_proc
 }
 
 
@@ -48,7 +51,7 @@ proc isWinicoLoaded {} {
 
 # Load the needed library (platform dependent) and create the context-menu
 proc trayicon_init {} {
-	global systemtray_exist password iconmenu wintrayicon statusicon
+	global systemtray_exist iconmenu wintrayicon statusicon
 
 	if { [WinDock] } {
 		#added to stop creation of more than 1 icon
@@ -215,6 +218,22 @@ proc trayicon_callback {imgSrc imgDst width height} {
 	}
 }
 
+proc statusicon_callback { action } {
+	after cancel [list statusicon_callback_delayed "ACTION"]
+	after 250 [list statusicon_callback_delayed $action]
+}
+
+proc statusicon_callback_delayed { action } {
+	global iconmenu
+
+	if { $action == "ACTION" } {
+		tk_popup $iconmenu [winfo pointerx .] [winfo pointery .]
+	}
+	if { $action == "DOUBLE_ACTION" } {
+		iconify_proc
+	}
+}
+
 proc statusicon_proc {status} {
 	global systemtray_exist statusicon list_states iconmenu wintrayicon defaultbackground
 	set cmdline ""
@@ -236,7 +255,7 @@ proc statusicon_proc {status} {
 		if { $systemtray_exist == 1 && $statusicon == 0 && $status != "REMOVE" && [MacDock]} {
 			set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
 			#add the icon
-			set statusicon [::statusicon::create]
+			set statusicon [::statusicon::create statusicon_callback]
 			::statusicon::setTooltip $statusicon "[trans offline]"
 			::statusicon::setImage $statusicon $pixmap
 			::statusicon::setVisible $statusicon 1
@@ -399,24 +418,20 @@ proc statusicon_proc {status} {
 }
 
 proc taskbar_mail_icon_handler { msg x y } {
-	global password
-
-	if { [winfo exists .bossmode] } {
-		if { $msg=="WM_LBUTTONDBLCLK" } {
-			wm state .bossmode normal
-			focus -force .bossmode
-		}
-		return
-	}
-
 	if { $msg=="WM_LBUTTONUP" } {
 		::hotmail::hotmail_login 
 	}
 }
 
+proc mailicon_callback { action } {
+	if { $action == "DOUBLE_ACTION" } {
+		::hotmail::hotmail_login
+	}   
+}
+
 proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
-	global systemtray_exist mailicon statusicon password winmailicon defaultbackground
+	global systemtray_exist mailicon statusicon winmailicon defaultbackground
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 
 	if { [::config::getKey showmailicon] == 0 } {
@@ -448,7 +463,7 @@ proc mailicon_proc {num} {
 			bind .mi <Leave> "+set Bulle(first) 0; kill_balloon"
 		} elseif {[MacDock] } {
 			#add the icon
-			set mailicon [::statusicon::create]
+			set mailicon [::statusicon::create mailicon_callback]
 			::statusicon::setTooltip $mailicon "[trans onenewmail]"
 			::statusicon::setImage $mailicon $pixmap
 			::statusicon::setVisible $mailicon 1
