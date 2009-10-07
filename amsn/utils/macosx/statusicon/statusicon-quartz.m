@@ -84,12 +84,14 @@
   }
   
   if (!imagePath) {
-    [ns_item release];
-    ns_item = nil;
+    if (ns_item != nil) {
+      [ns_item release];
+      ns_item = nil;
+    }
     return;
   }
 
-  current_image = [[NSImage alloc] initWithContentsOfFile:[[[NSString alloc] initWithUTF8String:imagePath] autorelease]];
+  current_image = [[NSImage alloc] initWithContentsOfFile:[NSString stringWithUTF8String:imagePath]];
   [current_image setSize:NSMakeSize([self getWidth], [self getHeight])];
   [current_image retain];
 
@@ -100,7 +102,7 @@
 {
   if (visible) {
     [self ensureItem];
-    if (ns_item != nil)
+    if (current_image != nil)
       [ns_item setImage:current_image];
     if (ns_tooltip != nil)
       [ns_item setToolTip:ns_tooltip];
@@ -114,8 +116,13 @@
 {
   [self ensureItem];
 
-  [ns_tooltip release];
-  ns_tooltip = [[NSString stringWithUTF8String:tooltip_text] retain];
+  if (ns_tooltip != nil)
+    [ns_tooltip release];
+  ns_tooltip = nil;
+
+  /* if tooltip_text is nil, raises an exception */
+  if (!tooltip_text)
+    ns_tooltip = [[NSString stringWithUTF8String:tooltip_text] retain];
 
   [ns_item setToolTip:ns_tooltip];
 }
