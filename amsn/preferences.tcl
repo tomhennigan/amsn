@@ -2336,7 +2336,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 0 -fill both
 	
 	#Don't change filemanager and open file manager on Mac OS X
-	if { ![OnMac] } {
+	if { ![OnMac] && ![OnWin] } {
 		label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
 		entry $lfname.1.browser -width 40 -textvariable [::config::getVar browser]
 		label $lfname.1.lbrowserex -text "[trans browserexample]" -font examplef
@@ -2350,9 +2350,11 @@ proc Preferences { { settings "personal"} } {
 		label $lfname.1.lopenfileex -text "(Gnome: gnome-open \$file) (KDE: kfmclient exec \$file)" -font examplef
 	}
 	
-	label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
-	entry $lfname.1.mailer -width 40 -textvariable [::config::getVar mailcommand]
-	label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
+	if {![OnWin] } {
+		label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
+		entry $lfname.1.mailer -width 40 -textvariable [::config::getVar mailcommand]
+		label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
+	}
 	
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
 	if { ![OnMac] } {
@@ -2380,7 +2382,7 @@ proc Preferences { { settings "personal"} } {
 		grid $lfname.1.lmailer -row 7 -column 1 -sticky w
 		grid $lfname.1.mailer -row 7 -column 2 -sticky w
 		grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
-	} else {
+	} elseif {![OnWin] } {
 		grid $lfname.1.lfileman -row 3 -column 1 -sticky w
 		grid $lfname.1.fileman -row 3 -column 2 -sticky w
 		grid $lfname.1.lfilemanex -row 4 -column 2 -columnspan 1 -sticky w
