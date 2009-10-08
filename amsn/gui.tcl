@@ -331,8 +331,7 @@ if { $initialize_amsn == 1 } {
 		#this regexp is a bit complex, but it reaches all URLs as specified in the RFC 1738 on http://www.ietf.org/rfc/rfc1738.txt
 		set urlregexps {
 			{\w+://[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+}
-			{www\.[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]+}
-			{(?:[\%\/\$\*\~\,\!\'\#\@\+\-\=\?\;\:\^\&\_[:alnum:]]+\.)+(?:org|com|net)(?:/[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]*)*(?=\y)}
+			{(?:\w+://)?(?:[\%\/\$\*\~\,\!\'\#\@\+\-\=\?\;\:\^\&\_[:alnum:]]+\.)+[a-z]{2,3}(?:/[\%\/\$\*\~\,\!\'\#\.\@\+\-\=\?\;\:\^\&\_[:alnum:]]*)*(?=\y)}
 			{spotify:(?:track|album|artist|search|playlist|user|radio):[^<>\s]+}
 		}
 	}
