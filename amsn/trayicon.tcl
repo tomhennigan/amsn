@@ -221,15 +221,19 @@ proc trayicon_callback {imgSrc imgDst width height} {
 }
 
 proc statusicon_callback { action } {
-	after cancel [list statusicon_callback_delayed "ACTION"]
-	after 250 [list statusicon_callback_delayed $action]
+	global statusicon_callback_afterid
+
+	if { [info exists statusicon_callback_afterid] } {
+		catch { after cancel $statusicon_callback_afterid }
+	}
+	set statusicon_callback_afterid [after 250 [list statusicon_callback_delayed $action [winfo pointerx .] [winfo pointery .]]]
 }
 
-proc statusicon_callback_delayed { action } {
+proc statusicon_callback_delayed { action x y} {
 	global iconmenu
 
 	if { $action == "ACTION" } {
-		tk_popup $iconmenu [winfo pointerx .] [winfo pointery .]
+		tk_popup $iconmenu $x $y
 	}
 	if { $action == "DOUBLE_ACTION" } {
 		iconify_proc
