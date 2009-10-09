@@ -2369,9 +2369,6 @@ proc Preferences { { settings "personal"} } {
 		pack $lfname.1.sound.sound -anchor w -side top -padx 10
 		label $lfname.1.sound.lsoundex -text "[trans soundexample]" -font examplef
 		pack $lfname.1.sound.lsoundex -anchor w -side top -padx 10
-		grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
-		grid $lfname.1.browser -row 1 -column 2 -sticky w
-		grid $lfname.1.lbrowserex -row 2 -column 2 -columnspan 1 -sticky w
 
 	}
 	
@@ -2383,6 +2380,10 @@ proc Preferences { { settings "personal"} } {
 		grid $lfname.1.mailer -row 7 -column 2 -sticky w
 		grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
 	} elseif {![OnWin] } {
+		grid $lfname.1.lbrowser -row 1 -column 1 -sticky w
+		grid $lfname.1.browser -row 1 -column 2 -sticky w
+		grid $lfname.1.lbrowserex -row 2 -column 2 -columnspan 1 -sticky w
+
 		grid $lfname.1.lfileman -row 3 -column 1 -sticky w
 		grid $lfname.1.fileman -row 3 -column 2 -sticky w
 		grid $lfname.1.lfilemanex -row 4 -column 2 -columnspan 1 -sticky w
@@ -2394,7 +2395,10 @@ proc Preferences { { settings "personal"} } {
 		grid $lfname.1.lmailer -row 7 -column 1 -sticky w
 		grid $lfname.1.mailer -row 7 -column 2 -sticky w
 		grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
-		
+
+	}
+
+	if {![OnMac] } {		
 		grid $lfname.1.lsound -row 9 -column 1 -sticky nw
 		grid $lfname.1.sound -row 9 -column 2 -sticky w
 		#grid $lfname.1.lsoundex -row 10 -column 2 -columnspan 1 -sticky w
