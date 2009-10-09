@@ -565,8 +565,9 @@ namespace eval ::ChatWindow {
 		}
 	
 		#If the window changed size use checkfortoomanytabs
+		after cancel [list ::ChatWindow::CheckForTooManyTabs $window 0]
 		if { [winfo exists ${window}.bar] && $sizechanged} {
-			after idle [list ::ChatWindow::CheckForTooManyTabs $window 0]
+			after 1000 [list ::ChatWindow::CheckForTooManyTabs $window 0]
 		}
 
 	}
