@@ -109,6 +109,39 @@ int Statusicon_SetImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl
   return TCL_OK;
 }
 
+int Statusicon_SetAlternateImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+{
+  QuartzStatusIcon *status_item;
+  Tcl_HashEntry *hPtr = NULL;
+  char * name = NULL;
+  char * path = NULL;
+
+  // We verify the arguments
+  if( objc != 3) {
+    Tcl_WrongNumArgs(interp, 1, objv, "icon pathToImage");
+    return TCL_ERROR;
+  } 
+
+  name = Tcl_GetStringFromObj(objv[1], NULL);
+  path = Tcl_GetStringFromObj(objv[2], NULL);
+
+  hPtr = Tcl_FindHashEntry(icons, name);
+  if (hPtr != NULL) {
+    status_item = (QuartzStatusIcon *) Tcl_GetHashValue(hPtr);
+  }
+
+  if (!status_item) {
+    Tcl_AppendResult (interp, "Invalid StatusIcon : " , name, (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  QUARTZ_POOL_ALLOC;
+  [status_item setAlternateImagePath:path];
+  QUARTZ_POOL_RELEASE;
+
+  return TCL_OK;
+}
+
 int Statusicon_SetTooltip(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
@@ -142,6 +175,74 @@ int Statusicon_SetTooltip(ClientData clientData, Tcl_Interp *interp, int objc, T
   return TCL_OK;
 }
 
+int Statusicon_SetTitle(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+{
+  QuartzStatusIcon *status_item;
+  Tcl_HashEntry *hPtr = NULL;
+  char * name = NULL;
+  char * title = NULL;
+
+  // We verify the arguments
+  if( objc != 3) {
+    Tcl_WrongNumArgs(interp, 1, objv, "icon title");
+    return TCL_ERROR;
+  } 
+
+  name = Tcl_GetStringFromObj(objv[1], NULL);
+  title = Tcl_GetStringFromObj(objv[2], NULL);
+
+  hPtr = Tcl_FindHashEntry(icons, name);
+  if (hPtr != NULL) {
+    status_item = (QuartzStatusIcon *) Tcl_GetHashValue(hPtr);
+  }
+
+  if (!status_item) {
+    Tcl_AppendResult (interp, "Invalid StatusIcon : " , name, (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  QUARTZ_POOL_ALLOC;
+  [status_item setTitle:title];
+  QUARTZ_POOL_RELEASE;
+
+  return TCL_OK;
+}
+
+int Statusicon_SetHighlightMode(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+{
+  QuartzStatusIcon *status_item;
+  Tcl_HashEntry *hPtr = NULL;
+  char * name = NULL;
+  int highlighted = 0;
+
+  // We verify the arguments
+  if( objc != 3) {
+    Tcl_WrongNumArgs(interp, 1, objv, "icon highlightMode");
+    return TCL_ERROR;
+  } 
+
+  name = Tcl_GetStringFromObj(objv[1], NULL);
+  if (Tcl_GetBooleanFromObj(interp, objv[2], &highlighted) != TCL_OK) 
+    return TCL_ERROR;
+
+  hPtr = Tcl_FindHashEntry(icons, name);
+  if (hPtr != NULL) {
+    status_item = (QuartzStatusIcon *) Tcl_GetHashValue(hPtr);
+  }
+
+  if (!status_item) {
+    Tcl_AppendResult (interp, "Invalid StatusIcon : " , name, (char *) NULL);
+    return TCL_ERROR;
+  }
+
+  QUARTZ_POOL_ALLOC;
+  [status_item setHighlightMode:highlighted];
+
+  QUARTZ_POOL_RELEASE;
+
+
+  return TCL_OK;
+}
 int Statusicon_SetVisible(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
@@ -238,7 +339,10 @@ int Statusicon_Init(Tcl_Interp *interp)
 
   Tcl_CreateObjCommand(interp, "::statusicon::create", Statusicon_Create, NULL, NULL);
   Tcl_CreateObjCommand(interp, "::statusicon::setImage", Statusicon_SetImage, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setAlternateImage", Statusicon_SetAlternateImage, NULL, NULL);
   Tcl_CreateObjCommand(interp, "::statusicon::setTooltip", Statusicon_SetTooltip, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setTitle", Statusicon_SetTitle, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setHighlightMode", Statusicon_SetHighlightMode, NULL, NULL);
   Tcl_CreateObjCommand(interp, "::statusicon::setVisible", Statusicon_SetVisible, NULL, NULL);
   Tcl_CreateObjCommand(interp, "::statusicon::destroy", Statusicon_Destroy, NULL, NULL);
   

@@ -54,7 +54,10 @@
 - (void) dealloc
 {
   [ns_bar removeStatusItem:ns_item];
-  [current_image release];
+  [image release];
+  [alternate_image release];
+  [tooltip release];
+  [title release];
   [ns_item release];
   [ns_bar release];
 
@@ -78,35 +81,56 @@
   /* Support NULL */
   [self ensureItem];
 
-  if (current_image != nil) {
-    [current_image release];
-    current_image = nil;
+  if (image != nil) {
+    [image release];
+    image = nil;
   }
   
-  if (!imagePath) {
-    if (ns_item != nil) {
-      [ns_bar removeStatusItem:ns_item];
-      [ns_item release];
-      ns_item = nil;
+  if (imagePath) {
+    image = [[NSImage alloc] initWithContentsOfFile:[NSString stringWithUTF8String:imagePath]];
+    if (image) {
+      [image setSize:NSMakeSize([self getWidth], [self getHeight])];
+      [image retain];
     }
-    return;
   }
 
-  current_image = [[NSImage alloc] initWithContentsOfFile:[NSString stringWithUTF8String:imagePath]];
-  [current_image setSize:NSMakeSize([self getWidth], [self getHeight])];
-  [current_image retain];
+  [ns_item setImage:image];
+}
 
-  [ns_item setImage:current_image];
+- (void) setAlternateImagePath:(const char *)alternate_imagePath
+{
+  /* Support NULL */
+  [self ensureItem];
+
+  if (alternate_image != nil) {
+    [alternate_image release];
+    alternate_image = nil;
+  }
+
+  if (alternate_imagePath) {
+    alternate_image = [[NSImage alloc] initWithContentsOfFile:[NSString stringWithUTF8String:alternate_imagePath]];
+    if (alternate_image) {
+      [alternate_image setSize:NSMakeSize([self getWidth], [self getHeight])];
+      [alternate_image retain];
+    }
+  }
+
+  [ns_item setAlternateImage:alternate_image];
 }
 
 - (void) setVisible:(int)visible
 {
   if (visible) {
     [self ensureItem];
-    if (current_image != nil)
-      [ns_item setImage:current_image];
-    if (ns_tooltip != nil)
-      [ns_item setToolTip:ns_tooltip];
+    if (image != nil)
+      [ns_item setImage:image];
+    if (alternate_image != nil)
+      [ns_item setAlternateImage:alternate_image];
+    if (tooltip != nil)
+      [ns_item setToolTip:tooltip];
+    if (title != nil)
+      [ns_item setTitle:title];
+    [ns_item setHighlightMode:highlighted];
   } else {
     [ns_bar removeStatusItem:ns_item];
     [ns_item release];
@@ -118,15 +142,36 @@
 {
   [self ensureItem];
 
-  if (ns_tooltip != nil)
-    [ns_tooltip release];
-  ns_tooltip = nil;
+  if (tooltip != nil)
+    [tooltip release];
+  tooltip = nil;
 
   /* if tooltip_text is nil, raises an exception */
-  if (!tooltip_text)
-    ns_tooltip = [[NSString stringWithUTF8String:tooltip_text] retain];
+  if (tooltip_text)
+    tooltip = [[NSString stringWithUTF8String:tooltip_text] retain];
 
-  [ns_item setToolTip:ns_tooltip];
+  [ns_item setToolTip:tooltip];
+}
+
+- (void) setTitle:(const char *)title_text
+{
+  [self ensureItem];
+
+  if (title != nil)
+    [title release];
+  title = nil;
+
+  /* if title_text is nil, raises an exception */
+  if (title_text)
+    title = [[NSString stringWithUTF8String:title_text] retain];
+
+  [ns_item setTitle:title];
+}
+
+- (void) setHighlightMode:(int)highlightMode
+{
+  highlighted = highlightMode;
+  [ns_item setHighlightMode:highlighted];
 }
 
 - (float) getWidth

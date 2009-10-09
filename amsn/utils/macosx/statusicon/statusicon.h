@@ -19,9 +19,15 @@ EXTERN int Statusicon_Create _ANSI_ARGS_((ClientData clientData, Tcl_Interp *int
         int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Statusicon_SetImage _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]));
+EXTERN int Statusicon_SetAlternateImage _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Statusicon_SetVisible _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Statusicon_SetTooltip _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]));
+EXTERN int Statusicon_SetTitle _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
+        int objc, Tcl_Obj *CONST objv[]));
+EXTERN int Statusicon_SetHighlightMode _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]));
 EXTERN int Statusicon_Destroy _ANSI_ARGS_((ClientData clientData, Tcl_Interp *interp,
         int objc, Tcl_Obj *CONST objv[]));
