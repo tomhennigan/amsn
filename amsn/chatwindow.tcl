@@ -3406,11 +3406,12 @@ namespace eval ::ChatWindow {
 		
 		$top dchars text 0 end
 		$top dchars cw_txt 0 end
+		$top dchars showhideusers 0 end
 		$top delete camicon cw_txt bg ;#remove the camicon(s) and default icons
 
 		#this code is for multichat with more then 3 users
 		if {[llength $user_list] > 3} {
-			$top dchars txt 0 end
+			$top dchars showhideusers 0 end
 			set txt [list ]
 			if {[::config::getKey hide_users_in_cw]} {
 				set len [llength $user_list]
@@ -3420,13 +3421,13 @@ namespace eval ::ChatWindow {
 			} else {
 				lappend txt [list font sboldf] [list text "[trans hideuserscw]"]
 			}
-			::guiContactList::renderContact $top "txt" $maxw $txt 0
+			::guiContactList::renderContact $top "showhideusers" $maxw $txt 0
 			$top configure -state normal 
-			$top move txt $usrsX $Ycoord
+			$top move showhideusers $usrsX $Ycoord
 			
-			$top bind txt <Button-1> "::ChatWindow::ShowHideUsers"
-			$top bind txt <Enter> "$top configure -cursor hand2"
-			$top bind txt <Leave> "$top configure -cursor left_ptr"
+			$top bind showhideusers <Button-1> "::ChatWindow::ShowHideUsers"
+			$top bind showhideusers <Enter> "$top configure -cursor hand2"
+			$top bind showhideusers <Leave> "$top configure -cursor left_ptr"
 			
 			set Ycoord [expr {$Ycoord + $incr_y + 2}]
 		}
