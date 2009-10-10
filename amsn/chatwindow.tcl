@@ -3478,6 +3478,15 @@ namespace eval ::ChatWindow {
 					default { lappend new_temp_list [lindex $unit] }
 				}
 			}
+			foreach unit $psmmedia {
+				switch [lindex $unit 0] {
+					"smiley" {
+						if {[image height [lindex $unit 1]] > $incr_y} {
+							set incr_y [image height [lindex $unit 1]]
+						}
+					}
+				}
+			}
 			set user_name $new_temp_list
 			#to be sure there is a < and a > more
 			incr user_name_dim [font measure sboldf -displayof $top " <<${user_login}>> "]
