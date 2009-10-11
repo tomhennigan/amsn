@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+use Net::DBus;
+
+my $bus = Net::DBus->session;
+my $service = $bus->get_service('org.gmusicbrowser');
+my $object = $service->get_object('/org/gmusicbrowser', 'org.gmusicbrowser');
+my $status= $object->Playing ? 'playing' : '';
+print "$status\n";
+
+my $info= $object->CurrentSong;
+$info->{pathfile}= $info->{path} ? $info->{path}.'/'.$info->{file} : '';
+$info->{album_picture}||= '';
+$info->{album_picture}='' if $info->{album_picture}=~m/flac$|mp3$/i;
+print "$info->{$_}\n" for qw/title artist pathfile album_picture album/;
+
+

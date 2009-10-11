@@ -1,0 +1,28 @@
+amsn_lang_version 2
+musicaddsongtonick Adiciona música ao apelido
+musicaddsongtopsm Adiciona música à mensagem pessoal
+musictimeverify Verifica nova música em ? segundos
+musicnickname Apelido
+musicseparator Símbolo que separa o apelido da música
+musicstopmsg Mensagem ao parar
+musiccurrent Mostra a música atual
+musicsend Envia a música atual
+artsend Envia a capa do Álbum
+musicerr Você não está ouvindo nada ou o plugin não pode pegar a música que está tocando.
+playing Ouvindo : $1
+musicoserr Seu sistema operacional ($1) atualmente não suporta o plugin Music
+musicplayer Selecione seu player preferido
+musicstopdefault Player parou
+separator Separador
+songartist Música-Artista
+song Música
+artistsong Artista-Música
+choose_order Selecione a ordem da música e do nome do artista
+musicballontext Click aqui para mostrar/esconder a música no seu apelido
+changepic Mudar sua imagem de exibição para a capa\n do Album se for possível
+music_mpd_ip Endereço IP do seu servidor MPD
+music_mpd_port Porta de seu servidor MPD
+music_mpd_password Senha de seu servidor MPD (se necessário)
+lasterror Último erro
+noerror Sem erro
+style Forma de exibição

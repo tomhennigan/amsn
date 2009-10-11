@@ -1,0 +1,25 @@
+amsn_lang_version 2
+musicaddsongtonick Näytä kappale nimimerkissä
+musicaddsongtopsm Näytä kappale henkilökohtaisessa viestissäsi
+musictimeverify Tarkista uusi kappale joka ? sekuntti
+musicnickname Nimimerkki
+musicseparator Erotin nimimerkin ja kappaleen välissä
+musicstopmsg Pysäytettäessä näytettävä viesti
+musiccurrent Näytä nykyinen kappale
+musicsend Lähetä nykyinen kappale
+artsend Lähetä nykyisen kappaleen albumitaidetta
+musicerr Mikään ei soi, tai lisäosa ei saanut tietoa mikä kappale on soimassa.
+playing Soittaa : $1
+musicoserr Sinun käyttöjärjestelmäsi ($1) ei ole vielä Music -lisäosan tukema
+musicplayer Valitse musiikinsoittimesi
+musicstopdefault Soitin pysäytetty
+separator Erotin
+songartist Kappale-Artisti
+song Kappale
+artistsong Artisti-Kappele
+choose_order Valitse järjestys kappaleen nimelle ja artistin nimelle
+musicballontext Napsauta tästä näyttääksesi/piilottaaksesi soivan kappaleen nimimerkissäsi.
+changepic Vaihda kuvake albumitaiteeseen jos mahdollista
+music_mpd_ip MPD palvelimesi IP osoite
+music_mpd_port MPD palvelimesi portti
+music_mpd_password MPD palvelimesi salasana (jos tarvitsee)

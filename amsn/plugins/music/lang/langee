@@ -1,0 +1,17 @@
+amsn_lang_version 2
+musicaddsongtonick Lisa enda nimele loo pealkiri
+musictimeverify Kontrolli lugu iga ? sekundi järel
+musicnickname Nimi
+musicseparator Nime ja loo vahel olev sümbol
+musicstopmsg Peatatud oleku teade
+musiccurrent Näita mängivat lugu
+musicsend Saada mängiv lugu
+musicerr Midagi ei mängi või plugin ei saa loo infot.
+playing Kuulan : $1
+musicoserr Sinu operatsioonisüsteem ($1) ei ole veel toetatud
+musicplayer Vali oma lemmik mängija
+musicstopdefault Mängija peatatud
+separator Eraldaja
+songartist lugu-esitaja
+artistsong esitaja-lugu
+choose_order Vali esitaja ja loo järjekord

@@ -1,0 +1,24 @@
+amsn_lang_version 2
+artistsong Artist-Låt
+artsend Skicka låtens skivomslag
+changepic Ändra visningsbilden till låtens skivomslag om det finns tillgängligt
+choose_order Välj ordning på låt- och artistnamnet
+musicaddsongtonick Lägg till låten till smeknamnet
+musicaddsongtopsm Lägg till låten till det personliga meddelandet
+musicballontext Klicka här för att visa/dölja låtnamnet i ditt smeknamn
+musiccurrent Visa vilken låt som spelas
+musicerr Inget spelas, alternativt kan inte "Music" finna den information som behövs
+music_mpd_ip IP-adress för din MPD-server
+music_mpd_port Port för din MPD-server
+musicnickname Smeknamn
+musicoserr Ditt operativsystem ($1) stödjs ännu inte av "Music"
+musicplayer Välj den spelare du använder
+musicsend Skicka låten som spelas
+musicseparator Symbol mellan smeknamn och låt
+musicstopdefault Spelaren stoppad
+musicstopmsg Stoppmeddelande
+musictimeverify Bekräfta låten med ? sekunders mellandrum
+playing Spelar : $1
+separator Seperator
+song Låt
+songartist Låt-Artist

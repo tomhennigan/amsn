@@ -1,0 +1,22 @@
+#!/bin/bash
+# Shell script to get informations about the current song playing in Lastfm
+#
+# Original by pipeta_probeta
+# Little changes by MurDoK
+
+#Lastfm is launched ?
+WINDOW_ID=$(xlsclients -la | grep lastfm -B 3 | head -n 1 | awk '{print $2}' | awk -F":" '{print $1}')
+if [ -n "$WINDOW_ID" ] 
+then
+	#Yes so we get the info
+	ARTIST=$(xwininfo -id $WINDOW_ID | grep xwininfo | awk -F"\"" '{print $2}' | awk -F"  " '{print $1}')
+	SONG=$(xwininfo -id $WINDOW_ID | grep xwininfo | awk -F"\"" '{print $2}' | awk -F"  " '{print $2}')
+	echo 1
+	echo $ARTIST 
+	echo $SONG
+else
+	#No so we set to state stopped
+	echo 0
+fi
+
+exit 0
