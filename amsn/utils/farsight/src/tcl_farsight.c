@@ -4236,7 +4236,7 @@ int Farsight_Init (Tcl_Interp *interp) {
     return TCL_ERROR;
   }
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) || defined(__BSD__) || defined(__FreeBSD__) || defined(__NetBSD__)
   gst_registry_fork_set_enabled((gboolean)FALSE);
 #endif
 
