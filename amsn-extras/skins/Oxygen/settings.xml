@@ -24,15 +24,15 @@
 			<!--Note: On linux, balloonborderwidth 0 gives a border of 1px due to tk platform differences. To have no balloon border, set balloonborderwidth to 0 and have the balloonborder the same colour as the balloonbackground-->
 		</Options>
 		<Geometry>
-			<notifwidth>252</notifwidth>
-			<notifheight>169</notifheight>
-			<x_notifyclose>188</x_notifyclose>
-			<y_notifyclose>0</y_notifyclose>
-			<x_notifydp>17</x_notifydp>
-			<y_notifydp>52</y_notifydp>
-			<x_notifytext>83</x_notifytext>
-			<y_notifytext>52</y_notifytext>
-			<width_notifytext>156</width_notifytext>
+			<notifwidth>414</notifwidth>
+			<notifheight>150</notifheight>
+			<x_notifyclose>322</x_notifyclose>
+			<y_notifyclose>111</y_notifyclose>
+			<x_notifydp>28</x_notifydp>
+			<y_notifydp>60</y_notifydp>
+			<x_notifytext>115</x_notifytext>
+			<y_notifytext>47</y_notifytext>
+			<width_notifytext>279</width_notifytext>
 		</Geometry>
 	</General>
 	
@@ -61,7 +61,7 @@
 			<contactlistbg>#DBD9D8</contactlistbg>	<!-- color of the contact list, where the contacts appear -->
 			<emailhoverbg>#ECEBEA</emailhoverbg>
 			<contactlistborderbg>#000000</contactlistborderbg>
-			<bannerbg>#EDF4F7</bannerbg>
+			<bannerbg>#A0BDDF</bannerbg>
 			<mystatus>#666666</mystatus>
 			<contact_online>#313031</contact_online>
 			<contact_away>#EE8102</contact_away>
