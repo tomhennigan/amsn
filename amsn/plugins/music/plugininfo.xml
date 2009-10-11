@@ -133,10 +133,10 @@
 	</file>
 
 	<URL>
-		<main>http://www.amsn-project.net/autoupdater2/plugins/music/music.tcl</main>
-		<plugininfo>http://www.amsn-project.net/autoupdater2/plugins/music/plugininfo.xml</plugininfo>
-		<lang>http://www.amsn-project.net/autoupdater2/plugins/music/lang/lang$langcode</lang>
-		<file>http://www.amsn-project.net/autoupdater2/plugins/music/$file</file>
+		<main>http://www.amsn-project.net/autoupdater/plugins2/music/music.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins2/music/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins2/music/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins2/music/$file</file>
 	</URL>
 
 </plugin>
