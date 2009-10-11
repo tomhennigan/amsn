@@ -1,11 +1,16 @@
 namespace eval ::winks {
 	
+	variable plugin_path ""
+
 	#----------------------------------------------------------------------------------
 	# DeInit: free resources and unset winks capacity
 	#----------------------------------------------------------------------------------
 	proc DeInit { dir } {
 		# unset tha winks arrays and destroy the menu
-		global HOME winks_list winks_cache
+		global HOME
+		variable winks_list
+		variable winks_cache
+
 		array unset winks_list
 		array unset winks_cache
 		::winks::WinksMenuDestroy 
@@ -22,13 +27,17 @@ namespace eval ::winks {
 		
 		status_log "Loading Winks plugin...\n" green
 
-		global HOME wink_unknown_thumbnail wink_readme_path cabextract_version
-
-		set cabextract_version "undef"
+		global HOME
+		variable wink_unknown_thumbnail
+		variable wink_readme_path
+		variable cabextract_version "undef"
+		variable plugin_path ""
 
 		# this variables helps me to avoid playing two winks at the same time in a chatwindow
-		global winks_f_playing_in
+		variable winks_f_playing_in
 		array unset winks_f_playing_in
+
+		set plugin_path $dir
 
 		# create the directory structure if it doesn't exists
 		create_dir [file join "$HOME" winks]
@@ -107,6 +116,9 @@ namespace eval ::winks {
 			set ::plugins::config(Winks) [array get ::winks::config]
 		} elseif { ! $::winks::config(use_extrac32) } {
 			CheckCabextractVersion
+			if {$cabextract_version == "undef" } {
+				GuessCabextractor "$dir"
+			}
 		}
 		
 		# if there's no flash player configured yet
@@ -163,6 +175,7 @@ namespace eval ::winks {
 					set ::winks::config(flashplayerargs) ""
 				} else {
 					status_log "No player found." red
+					return 0
 				}
 			} else {
 				if {[file exists [file join $dir "gnash"]]} {
@@ -175,9 +188,11 @@ namespace eval ::winks {
 					set ::winks::config(flashplayerargs) ""
 				} else {
 					status_log "No player found." red
+					return 0
 				}
 			}
 		}
+		return 1
 	}
 	
 	#----------------------------------------------------------------------------------
@@ -193,8 +208,13 @@ namespace eval ::winks {
 			# see if cabextract is present in the system
 			set ::winks::config(cabextractor) "cabextract"
 			if { ! [CheckCabextractVersion] } {
-				# ... see if there's one in the plugin directory
-				if {[file exists [file join $dir "cabextract"]]} {
+				if {[OnMac] && [file exists [file join utils macosx "cabextract"]]} {
+					set ::winks::config(cabextractor) [file join utils macosx "cabextract"]
+					CheckCabextractVersion
+					status_log "cabextract found in utils/macosx path." green
+
+				} elseif {[file exists [file join $dir "cabextract"]]} {
+					# ... see if there's one in the plugin directory
 					set ::winks::config(cabextractor) [file join $dir "cabextract"]
 					CheckCabextractVersion
 					status_log "cabextract found in plugin path." green
@@ -213,7 +233,7 @@ namespace eval ::winks {
 	#                         for correct use of -F arguments
 	#----------------------------------------------------------------------------------
 	proc CheckCabextractVersion { } {
-		global cabextract_version
+		variable cabextract_version
 		if { ! [catch { exec "[FixBars $::winks::config(cabextractor)]" "-v" } ver]  } {
 			if { "$ver" == "cabextract version 0.1" || "$ver" == "cabextract version 0.2" 
 			  || "$ver" == "cabextract version 0.3" || "$ver" == "cabextract version 0.4" 
@@ -234,8 +254,7 @@ namespace eval ::winks {
 	# ShowReadme: Shows a help window with the content of README.txt
 	#----------------------------------------------------------------------------------
 	proc ShowReadme { } {
-	
-		global wink_readme_path
+		variable wink_readme_path
 		
 		if {![file exists $wink_readme_path]} {
 			status_log "Can't open \"$wink_readme_path\"." red
@@ -374,7 +393,8 @@ namespace eval ::winks {
 	proc LoadWinks { } {
 
 		# reset winks array and winks menu
-		global HOME winks_list
+		global HOME
+		variable winks_list
 		array unset winks_list
 		::winks::WinksMenuDestroy 
 		set modified 0
@@ -436,7 +456,8 @@ namespace eval ::winks {
 	proc LoadCache { } {
 		
 		# reset winks cache
-		global HOME winks_cache
+		global HOME
+		variable winks_cache
 		array unset winks_cache
 		set modified 0
 		
@@ -496,7 +517,8 @@ namespace eval ::winks {
 	# SaveWinks: write winks_list in $HOME/winks/index.xml
 	#----------------------------------------------------------------------------------
 	proc SaveWinks { } {
-		global HOME winks_list
+		global HOME
+		variable winks_list
 	        set fileId [open [file join "$HOME" winks index.xml] "w"]
 		foreach sha1d [array names winks_list] {
 			array set wink $winks_list($sha1d)
@@ -511,7 +533,8 @@ namespace eval ::winks {
 	# SaveCache: write winks_list in $HOME/winks/index.xml
 	#----------------------------------------------------------------------------------
 	proc SaveCache { } {
-		global HOME winks_cache
+		global HOME
+		variable winks_cache
 	        set fileId [open [file join "$HOME" winks cache index.xml] "w"]
 		foreach sha1d [array names winks_cache] {
 			array set wink $winks_cache($sha1d)
@@ -565,7 +588,7 @@ namespace eval ::winks {
 	#----------------------------------------------------------------------------------
 	proc winksCreateMenu { } {
 	
-		global winks_list
+		variable winks_list
 
 		set w .winksSelector
 
@@ -644,7 +667,7 @@ namespace eval ::winks {
 	# winksCreateInMenu: add a wink button to the winks menu
 	#----------------------------------------------------------------------------------
 	proc winksCreateInMenu {w cols rows smiw smih wink_num wink_pos name symbol image} {
-		global winks_list
+		variable winks_list
 		catch {
 			set resized [image create photo]
 			$resized copy $image
@@ -676,7 +699,7 @@ namespace eval ::winks {
 
 		set chatid [::ChatWindow::Name $window_name]
 
-		global winks_list
+		variable winks_list
 		
 		set w .winksSelector
 		
@@ -728,7 +751,7 @@ namespace eval ::winks {
 	#----------------------------------------------------------------------------------
 	proc EditWinkDialog { chatid sha1d } {
 			set w .editWink
-			global winks_list
+			variable winks_list
 			array set wink $winks_list($sha1d)
 			if { [winfo exists .editWink]} {destroy .editWink}
 			toplevel $w
@@ -771,7 +794,7 @@ namespace eval ::winks {
 	# RenameWink: called from EditWinkDialog, changes a wink name
 	#----------------------------------------------------------------------------------
 	proc RenameWink { chatid sha1d } {
-		global winks_list
+		variable winks_list
 		set wname [.editWink.fn.name get]
 		array set wink $winks_list($sha1d)
 		# if the name is empty, find a suitable one
@@ -792,7 +815,9 @@ namespace eval ::winks {
 	# DeleteWink: called from EditWinkDialog, delete a wink from winks_list
 	#----------------------------------------------------------------------------------
 	proc DeleteWink { chatid sha1d } {
-		global HOME winks_cache winks_list
+		global HOME
+		variable winks_cache
+		variable winks_list
 		set wname [.editWink.fn.name get]
 		array set wink $winks_list($sha1d)
 
@@ -886,7 +911,7 @@ namespace eval ::winks {
 			set wink(sha1d) [::base64::encode [binary format H* [::sha1::sha1 $data]]]
 			
 			# see if the wink is already in the winks menu
-			global winks_list
+			variable winks_list
 			foreach wsha1d [array names winks_list] {
 				if { "$wink(sha1d)" == "$wsha1d" } {
 					status_log "The wink is already in winks menu!" red
@@ -934,7 +959,7 @@ namespace eval ::winks {
 			}
 			
 			# copy information to cache
-			global winks_cache
+			variable winks_cache
 			set winks_cache($wink(sha1d)) [array get wink]
 			SaveCache
 			
@@ -990,22 +1015,16 @@ namespace eval ::winks {
 	# AddWinkDialoOK: change the wink name and moves it to winks menu 
 	#----------------------------------------------------------------------------------
 	proc AddWinkDialoOK { chatid sha1d } {
-status_log "BOOGA"
-		global winks_cache
-status_log "BOOGA"
+		variable winks_cache
 		array set wink $winks_cache($sha1d)
-status_log "BOOGA"
 
 		set wink_name [.addNewWink.fn.name get]
 		if { "$wink_name" != "" } {
 			set wink(name) "$wink_name"
 			set winks_cache($sha1d) [array get wink]
 		}
-status_log "BOOGA"
 		destroy .addNewWink
-status_log "BOOGA"
 		::winks::AddWinkFromCache $chatid $sha1d
-status_log "BOOGA"
 	}
 
 	#----------------------------------------------------------------------------------
@@ -1013,7 +1032,8 @@ status_log "BOOGA"
 	#----------------------------------------------------------------------------------
 	proc PlayWinkFromSHA1D { chatid sha1d } {
 		
-		global winks_list winks_cache
+		variable winks_list
+		variable winks_cache
 		
 		# see if the wink is in our winks menu to play it
 		foreach wsha1d [array names winks_list] {
@@ -1065,10 +1085,17 @@ status_log "BOOGA"
 		# old play wink code
 		status_log "Playing wink $wfile\n" green
 		set command [concat "exec" "\"[FixBars $::winks::config(flashplayer)]\"" [split "$::winks::config(flashplayerargs)" " "] "\"$wfile\"" "&"]
-		catch { eval $command } errs
-		if { "$errs" != "" } {
-			status_log "\nEval: $command\n" red
-			status_log "\nOutput: $errs\n" red
+		if {[catch { eval $command } errs] } {
+			variable plugin_path
+			if {[GuessFlashplayer $plugin_path] } {
+				if {[catch { eval $command } errs] } {
+					status_log "\nEval2: $command\n" red
+					status_log "\nOutput: $errs\n" red
+				}
+			} else {
+				status_log "\nEval: $command\n" red
+				status_log "\nOutput: $errs\n" red
+			}
 		}
 		
 		return
@@ -1079,7 +1106,7 @@ status_log "BOOGA"
 	#----------------------------------------------------------------------------------
 	proc PlayWinkInChatWindow { wfile chatid wkx wky } {
 
-		global winks_f_playing_in
+		variable winks_f_playing_in
 		if { ![info exists winks_f_playing_in($chatid)] } {
 			set winks_f_playing_in($chatid) 0
 		}
@@ -1163,7 +1190,7 @@ status_log "BOOGA"
 		} else {
 
 			# check cabextract version for correct use of -F arguments
-			global cabextract_version
+			variable cabextract_version
 			if { "$cabextract_version" == "undef" } {
 				CheckCabextractVersion
 			}	
@@ -1210,7 +1237,9 @@ status_log "BOOGA"
 	#----------------------------------------------------------------------------------
 	proc ReceiveSomething { event evpar } {
 
-		global winks_list winks_cache HOME
+		global HOME
+		variable winks_list
+		variable winks_cache
 
 		upvar 2 $evpar args
 		upvar 2 $args(chatid) chatid
@@ -1302,7 +1331,8 @@ status_log "BOOGA"
 	#----------------------------------------------------------------------------------
 	proc ReceivedWink { event evpar } {
 		
-		global HOME winks_cache
+		global HOME
+		variable winks_cache
 
 		upvar 2 $evpar args
 		upvar 2 $args(chatid) chatid
@@ -1400,10 +1430,10 @@ status_log "BOOGA"
 	proc WinWriteThumbnail { chatid sha1d { cache 0 } } {
 		
 		if { "$cache" == 1 } {
-			global winks_cache
+			variable winks_cache
 			array set wink $winks_cache($sha1d)
 		} else {
-			global winks_list
+			variable winks_list
 			array set wink $winks_list($sha1d)
 		}
 
@@ -1418,7 +1448,7 @@ status_log "BOOGA"
 			set thumbnail [image create photo $twTag -file $wink(img) -format cximage]
 		} else {
 			# if we don't have the thumbnail yet, we'll show the "please wait..." one
-			global wink_unknown_thumbnail
+			variable wink_unknown_thumbnail
 			set thumbnail [image create photo $twTag -file "$wink_unknown_thumbnail" -format cximage]
 		}
 
@@ -1467,7 +1497,7 @@ status_log "BOOGA"
 	#----------------------------------------------------------------------------------
 	proc SendWink { window_name sha1d } {
 		
-		global winks_list
+		variable winks_list
 		array set wink $winks_list($sha1d)
 
 		set chatid [::ChatWindow::Name $window_name]
@@ -1538,7 +1568,9 @@ status_log "BOOGA"
 	#----------------------------------------------------------------------------------
 	proc AddWinkFromCache { chatid sha1d } { 
 		
-		global HOME winks_cache winks_list
+		global HOME
+		variable winks_cache
+		variable winks_list
 		
 		# see if the wink is in our wink menu
 		foreach wsha1d [array names winks_list] {
