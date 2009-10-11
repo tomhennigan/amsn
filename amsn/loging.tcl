@@ -1228,11 +1228,22 @@ namespace eval ::log {
 					# The color is indicated by the 6 fingers after it
 					if {[string index $line [expr {$aidx + 3}]] == "C"} {
 						set color [string range $line [expr {$aidx + 4}] [expr {$aidx + 9}]]
-						${wname}.blueframe.log.txt tag configure C_$nbline -foreground "#$color"
-						set color "C_$nbline"
-						incr aidx 10
-						# Else, it is the system with LNOR, LGRA...
+						if { [catch {${wname}.blueframe.log.txt tag configure C_$nbline -foreground "#$color"}]} {
+							# invalid color, maybe the file is corrupted... skip only digits
+							incr aidx 4
+							for {set i 0} { $i < 6 } { incr i } {
+								if { ![string is digit [string range $line $aidx $aidx]] } {
+									break
+								}
+								incr aidx
+							}
+							set color "normal"
+						} else {
+							set color "C_$nbline"
+							incr aidx 10
+						}
 					} else {
+						# Else, it is the system with LNOR, LGRA...
 						if {[string range $line $aidx [expr {$aidx + 6}]] == "\|\"LTIME"  } {
 							#it is a time in [clock seconds]
 							incr aidx 7
