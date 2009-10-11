@@ -252,19 +252,26 @@ namespace eval ::music {
 					"Amarok" [list GetSongAmarok TreatSongAmarok FillFrameComplete] \
 					"Amarok2" [list GetSongAmarok2 TreatSongAmarok2 FillFrameComplete] \
 					"Audacious" [list GetSongAudacious TreatSongAudacious FillFrameLess] \
+					"Audacious (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 					"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
+					"BMP (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 					"Decibel" [list GetSongDecibel FillFrameLess] \
 					"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
+					"Exaile (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 					"gmusicbrowser" [list GetSongGmusicbrowser TreatSongGmusicbrowser FillFrameComplete] \
 					"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 					"Juk-KDE4" [list GetSongJuk2 TreatSongJuk2 FillFrameLess] \
 					"LastFM" [list GetSongLastFM TreatSongLastFM FillFrameLess] \
 					"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 					"MPD" [list GetSongMPD return FillFrameMPD] \
+					"MPRIS (any)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 					"QuodLibet" [list GetSongQL TreatSongQL FillFrameLess] \
 					"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 					"Songbird" [list GetSongSongbird TreatSongSongbird FillFrameLess] \
+					"Songbird (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
+					"VLC (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 					"XMMS" [list GetSongXMMS return FillFrameEmpty] \
+					"XMMS2 (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 				]
 			} else {
 				if {[OnWin]} {
@@ -1666,6 +1673,45 @@ namespace eval ::music {
 			set artpath ""
 
 			return [list $song $art "" "" ""]
+		}
+	}
+
+
+	###############################################
+	# ::music::TreatSongMPRIS                     #
+	# ------------------------------------------- #
+	# Gets the current playing song via MPRIS     #
+	###############################################
+	proc TreatSongMPRIS {} {
+		after 0 {::music::exec_async [list [file join $::music::musicpluginpath "infompris"]] }
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongMPRIS                       #
+	# ------------------------------------------- #
+	# Gets the current playing song via MPRIS     #
+	###############################################
+	proc GetSongMPRIS {} {
+		#actualsong is filled asynchronously in TreatSongMPRIS
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		set status [lindex $tmplst 0]
+
+		if {$status != "0"} {
+			return 0
+		} else {
+			set song [lindex $tmplst 1]
+			set artist [lindex $tmplst 2]
+			set path [lindex $tmplst 3]
+			set artpath [lindex $tmplst 4]
+			set album [lindex $tmplst 5]
+
+			return [list $song $artist $path $artpath $album]
 		}
 	}
 

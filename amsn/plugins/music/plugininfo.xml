@@ -12,7 +12,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>11591</cvs_version>
+	<cvs_version>11687</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -106,6 +106,10 @@
 	<file>
 		<path>infolisten</path>
 		<version>10208</version>
+	</file>
+	<file>
+		<path>infompris</path>
+		<version>11687</version>
 	</file>
 	<file>
 		<path>inforhythmbox</path>

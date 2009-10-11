@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Checks global so you can force it to use a specific player
+# in case you have several MPRIS compatible and only want one to show up
+if [ "$AMSN_MPRIS_PLAYER" == "" ]; then
+  AMSN_MPRIS_PLAYER=`dbus-send --print-reply --type=method_call --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames | grep 'org.mpris.\([^"]*\)' -o | head -n 1`
+fi
+
+if [ "$AMSN_MPRIS_PLAYER" != "" ]; then
+  status=`dbus-send --print-reply --type=method_call --dest=$AMSN_MPRIS_PLAYER /Player org.freedesktop.MediaPlayer.GetStatus | head -n3 | tail -n1 | awk '{print $2'}`
+  res=`qdbus $AMSN_MPRIS_PLAYER /Player GetMetadata`
+  title=`echo $res | grep title`
+  artist=`echo $res | grep artist`
+  path=`echo $res | grep location`
+  artpath=`echo $res | grep arturl`
+  album=`echo $res | grep album:`
+
+
+  echo $status
+  echo ${artist/"artist: "/""}
+  echo ${title/"title: "/""}
+  echo ${path/"location: "/""}
+  echo ${artpath/"arturl: "/""}
+  echo ${album/"album: "/""}
+fi
+
