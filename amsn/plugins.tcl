@@ -326,7 +326,6 @@ namespace eval ::plugins {
 			foreach file [glob -nocomplain -directory $dir */plugininfo.xml] {
 				plugins_log core "Found plugin files in $file\n"
 				::plugins::LoadInfo $file
-				::plugins::LoadInfoAutoupdate $file
 			}
 		}
 
@@ -410,17 +409,29 @@ namespace eval ::plugins {
 		set plugin_namespace $sdata(${cstack}:plugin_namespace)
 		set init $sdata(${cstack}:init_procedure)
 
+		if { ![info exists sdata(${cstack}:cvs_version)] } {
+			set cvs_version ""
+		} else {
+			set cvs_version $sdata(${cstack}:cvs_version)
+		}
+
 		if { ![info exists sdata(${cstack}:deinit_procedure)] } {
 			set deinit ""
 		} else {
 			set deinit $sdata(${cstack}:deinit_procedure)
 		}
-		
+
+		if {([getInfo $name plugin_version] != "" && [DetectNew $plugin_version [getInfo $name plugin_version]]) ||
+		    ([getInfo $name cvs_version] != "" && [DetectNew $cvs_version [getInfo $name cvs_version]])} {
+			# A previously detected plugin with the same name but a newer version is already loaded in memory.
+			return 0
+		}
 		set plugins(${name}_name) $name
 		set plugins(${name}_author) $author
 		set plugins(${name}_description) $desc
 		set plugins(${name}_amsn_version) $amsn_version
 		set plugins(${name}_plugin_version) $plugin_version
+		set plugins(${name}_cvs_version) $cvs_version
 		#dir is the path to pluginsinfo.xml, so we need to use [file dirname] to get the actual dir path
 		set plugins(${name}_plugin_file) [file join [file dirname $dir] $plugin_file]
 		set plugins(${name}_plugin_dir) [file dirname $dir]
