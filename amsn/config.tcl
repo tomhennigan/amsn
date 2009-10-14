@@ -1732,12 +1732,8 @@ proc LockProfile { email } {
 	while { $tries < 6 } {
 		set Port [GetRandomProfilePort]
 		status_log "LockProfile: Got random port $Port\n" blue
-		if { [::config::getKey enableremote] == 1 } {
-			set cmd "socket -server lockSvrNew $Port"
-		} else {
-			set cmd "socket -myaddr 127.0.0.1 -server lockSvrNew $Port"
-		}
-		if { [catch {eval $cmd} newlockSock] == 0  } {
+
+		if { [catch {socket -server lockSvrNew $Port} newlockSock] == 0  } {
 			LoginList changelock 0 $email $Port
 			set lockSock $newlockSock
 			break
@@ -1758,10 +1754,10 @@ proc LockProfile { email } {
 proc lockSvrNew { sock addr port} {
 	status_log "lockSvrNew: Accepting connection on port $port\n" blue
 
-#	if { $addr == "127.0.0.1" } {
+	if {[::config::getKey enableremote] || $addr == "127.0.0.1" } {
 		fileevent $sock readable "lockSvrHdl $addr $sock"
 		fconfigure $sock -buffering line
-#	}
+	}
 }
 
 proc lockSvrHdl { addr sock } {
