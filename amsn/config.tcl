@@ -1664,10 +1664,10 @@ proc CheckLock { email } {
 				if {[catch {socket $local_host $Port} clientSock] == 0 } {
 					status_log "CheckLock: Can connect to port. Sending PING\n" blue
 					fileevent $clientSock readable "lockcltHdl $clientSock"
-					fconfigure $clientSock -buffering line
+					fconfigure $clientSock -buffering line -blocking 0
 					puts $clientSock "AMSN_LOCK_PING"
-					after 5000 [list set response failed]
-					vwait response
+					after 200 [list set response failed]
+					tkwait variable response
 
 					if { $response == "AMSN_LOCK_PONG" } {
 						status_log "CheckLock: Got PONG response\n" green
