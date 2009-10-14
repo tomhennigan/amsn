@@ -128,7 +128,7 @@ Resolver_Thread _ANSI_ARGS_((ClientData cdata))
   ResolverEvent *evPtr;
   struct addrinfo * result;
   char * ret;
-  char ip[30];
+  char ip[INET_ADDRSTRLEN];
   int error;
 
   error = getaddrinfo(data->host, NULL, NULL, &result);
