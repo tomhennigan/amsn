@@ -615,10 +615,3 @@ namespace eval ::Version {
 }
 
 ::Version::setSubversionId {$Id$}
-
-
-#Try to use async resolve if available
-# ... but not for Windows 7 at the moment, it prevents profile locking from working :(
-if { ![OnWin7] } {
-	catch { package require asyncresolver }
-}
