@@ -165,6 +165,15 @@ proc OnWinVista {} {
 	}
 }
 
+proc OnWin7 {} {
+	global tcl_platform
+	if { [OnWin] && $tcl_platform(os) == "Windows NT" && $tcl_platform(osVersion) == "6.1" } {
+		return 1
+	} else {
+		return 0
+	}
+}
+
 #Test for BSD
 proc OnBSD {} {
 	global tcl_platform
@@ -609,4 +618,7 @@ namespace eval ::Version {
 
 
 #Try to use async resolve if available
-catch { package require asyncresolver }
+# ... but not for Windows 7 at the moment, it prevents profile locking from working :(
+if { ![OnWin7] } {
+	catch { package require asyncresolver }
+}
