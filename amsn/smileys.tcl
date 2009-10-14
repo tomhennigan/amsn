@@ -207,6 +207,8 @@ namespace eval ::smiley {
 
 			# Make sure the smiley is max 50x50
 			::smiley::resizeCustomSmiley emoticonCustom_std_$emotion(text)
+			
+			update
 		}
 		
 		#Store the emoticon data in the custom_emoticons array

@@ -1661,7 +1661,6 @@ proc CheckLock { email } {
 			#status_log "CheckLock Port is already in use: $newlockSock\n" red
 			# port is taken, let's make sure it's a profile lock
 			foreach {local_host} [list localhost [info hostname] 127.0.0.1] {
-				#after 0 [status_log "testing: [socket $local_host $Port]" blue]
 				if {[catch {socket $local_host $Port} clientSock] == 0 } {
 					status_log "CheckLock: Can connect to port. Sending PING\n" blue
 					fileevent $clientSock readable "lockcltHdl $clientSock"
