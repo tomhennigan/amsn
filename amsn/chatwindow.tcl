@@ -567,7 +567,7 @@ namespace eval ::ChatWindow {
 		#If the window changed size use checkfortoomanytabs
 		after cancel [list ::ChatWindow::CheckForTooManyTabs $window 0]
 		if { [winfo exists ${window}.bar] && $sizechanged} {
-			after 1000 [list ::ChatWindow::CheckForTooManyTabs $window 0]
+			after 100 [list ::ChatWindow::CheckForTooManyTabs $window 0]
 		}
 
 	}
@@ -1174,6 +1174,9 @@ namespace eval ::ChatWindow {
 
 	proc CreateTabBar { w } {
 		set bar $w.bar
+		set less ${bar}.less
+		set more ${bar}.more
+
 		::skin::setPixmap tab tab.gif
 		::skin::setPixmap tab_close tab_close.gif
 
@@ -1185,10 +1188,24 @@ namespace eval ::ChatWindow {
 		::skin::setPixmap moretabs moretabs.gif
 		::skin::setPixmap lesstabs lesstabs.gif
 		
+		set less_w [image width [::skin::loadPixmap moretabs]] 
+		set more_w [image width [::skin::loadPixmap lesstabs]]
+
 		frame $bar -class Amsn -relief solid -bg [::skin::getKey tabbarbg] -bd 0
+
+		label $less -image [::skin::loadPixmap lesstabs] \
+		    -width $less_w -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+		    -activebackground [::skin::getKey tabbarbg] -highlightthickness 0 -pady 0 -padx 0
+		bind $less <<Button1>> "::ChatWindow::LessTabs $w $less $more"
+		label $more -image [::skin::loadPixmap moretabs] \
+		    -width $more_w -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
+		    -activebackground [::skin::getKey tabbarbg] -highlightthickness 0 -pady 0 -padx 0
+		bind $more <<Button1>> "::ChatWindow::MoreTabs $w $less $more"
 
 		if { $::tcl_version >= 8.4 } {
 			$bar configure  -padx [::skin::getKey chat_tabbar_padx] -pady [::skin::getKey chat_tabbar_pady]
+			$less configure -compound center
+			$more configure -compound center
 		}
 
 		return $bar
@@ -4217,9 +4234,6 @@ namespace eval ::ChatWindow {
 		set less_w [image width [::skin::loadPixmap moretabs]] 
 		set more_w [image width [::skin::loadPixmap lesstabs]]
 
-		#set less_w [font measure sboldf <]
-		#set more_w [font measure sboldf >]
-
 		set bar_w [expr {$bar_w - $less_w - $more_w}]
 
 		set max_tabs [expr int(floor($bar_w / $tab_w))]
@@ -4227,8 +4241,9 @@ namespace eval ::ChatWindow {
 	
 		set less ${container}.bar.less
 		set more ${container}.bar.more
-		destroy $less
-		destroy $more
+
+		pack forget $less
+		pack forget $more
 
 #		status_log "Got $number_tabs tabs in $container that has a max of $max_tabs\n" red
 
@@ -4246,22 +4261,6 @@ namespace eval ::ChatWindow {
 
 		}
 		if { $max_tabs > 0 && $number_tabs > $max_tabs } {
-			#-image [::skin::loadPixmap lesstabs] 
-			#[image width [::skin::loadPixmap lesstabs]] 
-			label $less -image [::skin::loadPixmap lesstabs] \
-			    -width $less_w -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-			    -activebackground [::skin::getKey tabbarbg] -highlightthickness 0 -pady 0 -padx 0
-			bind $less <<Button1>> "::ChatWindow::LessTabs $container $less $more"
-			#-image [::skin::loadPixmap moretabs] 
-			#[image width [::skin::loadPixmap lesstabs]] 
-			label $more -image [::skin::loadPixmap moretabs] \
-			    -width $more_w -bg [::skin::getKey tabbarbg] -bd 0 -relief flat \
-			    -activebackground [::skin::getKey tabbarbg] -highlightthickness 0 -pady 0 -padx 0
-			bind $more <<Button1>> "::ChatWindow::MoreTabs $container $less $more"
-			if { $::tcl_version >= 8.4 } {
-				$less configure -compound center
-				$more configure -compound center
-			}			
 			pack $more -side right -expand false -fill both -anchor e
 			pack $less -side right -expand false -fill both -anchor e
 
