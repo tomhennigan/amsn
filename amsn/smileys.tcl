@@ -1087,9 +1087,12 @@ namespace eval ::smiley {
 			#Don't care of extension : as the smiley is animated TkCximage will save to GIF format
 			set filetail_noext [filenoext [file tail "$new_custom_cfg(file)"]]
 			set destfile [file join $HOME smileys $filetail_noext]
-			::picture::Convert [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] "${destfile}.png"
-			set file "${destfile}.png"
-			if { ![file exists $file] } { set file "" }
+			if { [catch {file copy -force [::skin::GetSkinFile smileys "$new_custom_cfg(file)"] "${destfile}.png"}]} {
+				set file ""
+			} else {
+				set file "${destfile}.png"
+				if { ![file exists $file] } { set file "" }
+			}
 		}
 		
 		if { $file == "" } {
