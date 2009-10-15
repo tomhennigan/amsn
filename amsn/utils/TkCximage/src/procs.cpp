@@ -596,7 +596,7 @@ int Tk_EnableAnimation (ClientData clientData,
 	if ( item == NULL ) {
 		return TCL_OK;
 	}
-	if (item != NULL && !item->Enabled) {
+	if (!item->Enabled) {
 		item->Enabled=true;
 		if (item->timerToken == NULL) {
 			int currentFrame = item->CurrentFrame;

@@ -497,7 +497,9 @@ void PhotoDisplayProcHook(
 			if (item->timerToken) {
 			  Tcl_DeleteTimerHandler(item->timerToken);
 			}
-			item->timerToken = Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, item);
+			if (item->Enabled) {
+			  item->timerToken = Tcl_CreateTimerHandler(image->GetFrameDelay()?10*image->GetFrameDelay():40, AnimateGif, item);
+			}
 			//fprintf(stderr, "Copied frame n°%u\n",item->CopiedFrame);
 		}
 	}
