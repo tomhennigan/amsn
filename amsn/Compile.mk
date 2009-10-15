@@ -18,11 +18,11 @@ verbose		?= no
 # dependency files
 
 compile_c	 = $(CC) $(CFLAGS)  -c -o $@ $<
-compile_m	 = $(CC) $(CFLAGS) -ObjC -c -o $@ $<
+compile_m	 = $(CC) $(CFLAGS) -ObjC -fobjc-gc -c -o $@ $<
 compile_cc	 = $(CXX) $(CXXFLAGS)  -c -o $@ $<
 
 ifeq ($(FOUND_OS),mac)
-compile_farsight = $(CC) $(CFLAGS) -ObjC $(GST_CFLAGS) $(FARSIGHT2_CFLAGS) -c -o $@ $<
+compile_farsight = $(CC) $(CFLAGS) -ObjC -fobjc-gc $(GST_CFLAGS) $(FARSIGHT2_CFLAGS) -c -o $@ $<
 SHARED	:= -dynamiclib -fno-common -Wl,-single_module -shared-libgcc
 else
 compile_farsight = $(CC) $(CFLAGS) $(GST_CFLAGS) $(FARSIGHT2_CFLAGS) -c -o $@ $<
