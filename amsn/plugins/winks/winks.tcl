@@ -1107,6 +1107,11 @@ namespace eval ::winks {
 	proc PlayWinkInChatWindow { wfile chatid wkx wky } {
 
 		variable winks_f_playing_in
+
+		if {![OnLinux] } {
+			return [PlayWink $wfile]
+		}
+
 		if { ![info exists winks_f_playing_in($chatid)] } {
 			set winks_f_playing_in($chatid) 0
 		}
@@ -1156,15 +1161,41 @@ namespace eval ::winks {
 		
         	# play the animation
 		status_log "Playing wink $wfile\n" green
-		set io [open "|[FixBars $::winks::config(flashplayer)] -1 -x [winfo id $outframe.wink_canvas] -j $sx -k $sy $wfile" r]
+		if {[catch { 	set io [open "|[FixBars $::winks::config(flashplayer)] -1 -x [winfo id $outframe.wink_canvas] -j $sx -k $sy $wfile" r] } ] } {
+			variable plugin_path
+			if {[GuessFlashplayer $plugin_path] } {
+				if {[catch { 	set io [open "|[FixBars $::winks::config(flashplayer)] -1 -x [winfo id $outframe.wink_canvas] -j $sx -k $sy $wfile" r] } ] } {
+					status_log "Couldn't launch the player"
+					# delete the temp widget and show the text again
+					destroy $outframe.wink_canvas
+					eval pack $outtext $wink_text_pack
+		
+					# say that we finished playing
+					set winks_f_playing_in($chatid) 0
+					PlayWink $wfile
+				}
+			} else {
+				status_log "Couldn't find proper player"
+				# delete the temp widget and show the text again
+				destroy $outframe.wink_canvas
+				eval pack $outtext $wink_text_pack
+		
+				# say that we finished playing
+				set winks_f_playing_in($chatid) 0
+				PlayWink $wfile
+			}
+		}
 		fconfigure $io -blocking 0
 		gets $io line
-
+		status_log "Read $line"
+			
 		while { ![eof $io] } { 
-			gets $io line
+			after 1000
 			update
+			gets $io line
+			status_log "Read $line"
 		}
-
+	
 		# delete the temp widget and show the text again
 		destroy $outframe.wink_canvas
 		eval pack $outtext $wink_text_pack
