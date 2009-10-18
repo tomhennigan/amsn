@@ -1,6 +1,6 @@
 amsn_lang_version 2
 abort Annulla
-aboutamsn Informazioni su aMSN
+aboutamsn Informazioni su Alvaro's Messenger
 about Informazioni
 accept Accetta
 acceptfile Vuoi accettare il file $1 di $2 byte ? Verrà salvato in $3
@@ -90,12 +90,12 @@ autonoact Mostrami come "Inattivo" quando non sono attivo per
 autoresizedp Ridimensiona automaticamente le immagini alla risoluzione predefinita
 autovideosinkdesc Rileva automaticamente il miglior metodo di output video per il sistema
 autovideosrcdesc Rileva automaticamente il dispositivo di acquisizione dalla webcam sul sistema
-avaccepted Richiesta di videoconferenza accettata
-avcanceled Richiesta di videoconferenza annullata
-avgotinvitation Hai ricevuto una richiesta di videoconferenza da $1
+avaccepted Richiesta di videochiamata accettata
+avcanceled Richiesta di videochiamata annullata
+avgotinvitation Hai ricevuto una richiesta di videochiamata da $1
 avinitfailed Inizializzazione del plugin audio/video fallita. Chiamata annullata
 avoidseen Impedisci a questo utente di vedere quando sono connesso e di contattarmi
-av Videoconferenza
+av Videochiamata
 away Assente
 awaymsg1 Chiedi di impostare un messaggio automatico ogni volta che cambio il mio stato in "Assente/Torno Subito/Occupato"
 awaymsg2 Non chiedere mai e usa sempre il messaggio automatico qui sotto
@@ -212,7 +212,7 @@ closed La conversazione con $1 è chiusa per inattività
 closelabel Quando clicco sul pulsante di chiusura di una finestra con più schede:
 closeonly Chiudi solo la scheda attuale
 closeorcall Devi chiudere/annullare la chiamata audio prima di chiudere la finestra.
-closeorcallvideo Devi chiudere/annullare la videoconferenza prima di chiudere la finestra.
+closeorcallvideo Devi chiudere/annullare la videochiamata prima di chiudere la finestra.
 closeordock La chiusura della finestra della lista contatti chiuderà aMSN. Forse vuoi solo chiudere la finestra e vuoi avere aMSN aperto nella barra delle applicazioni.\n\nSei sicuro/a di voler chiudere aMSN?
 closeothers Chiudi le altre schede
 closingdocks Il pulsante di chiusura riduce a icona
@@ -503,7 +503,7 @@ invalidpicsize L'immagine scelta è troppo grande, scegline una più piccola
 invalidsound Il file audio scelto non esiste
 invalidusername Username non valido
 invitationcancelled La richiesta è stata annullata
-invite Invita un contatto a unirsi alla conversazione
+invite Invita un contatto ad unirsi alla conversazione
 ipaddress Indirizzo IP
 ipdetect Determina l'IP corretto per il trasferimento di file usando l'HTTP
 ircstyle Stile IRC
@@ -686,7 +686,7 @@ onenewmail 1 nuovo messaggio di posta
 online Disponibile
 onlinehelp Guida in linea
 onphone Al telefono
-opendir Apri cartella
+opendir Apri la cartella
 openfile Apri
 openfilecommand Comando 'apri file'
 openreceived Apri la cartella dei file ricevuti
@@ -843,8 +843,8 @@ sendmail Invia un messaggio di posta
 sendmobmsg Invia un messaggio ad un cellulare
 sendmsg Invia un messaggio istantaneo
 sendoim Invia un messaggio fuori linea
-sendsip Avvia una telefonata
-sendvideosip Avvia una videoconferenza
+sendsip Avvia una chiamata
+sendvideosip Avvia una videochiamata
 sendvoice Invia un messaggio vocale
 sendwebcamaccepted $1 sta per visualizzare le immagini dalla tua webcam. Connessione in corso...
 sendwebcaminvite Invita l'utente a vedere dalla tua webcam
@@ -886,35 +886,35 @@ signout Disconnetti
 signoutep Esci da $1
 signouteverywhere Esci da tutto
 signouthere Esci da qui ($1)
-sipcallaccepted Telefonata accettata
+sipcallaccepted Chiamata accettata
 sipcallback Richiama
-sipcallconnected La tua telefonata è ora connessa!
-sipcalldeclined Telefonata rifiutata
-sipcalleeaccepted L'utente ha accettato la tua telefonata
+sipcallconnected La tua chiamata è ora connessa!
+sipcalldeclined Chiamata rifiutata
+sipcalleeaccepted L'utente ha accettato la tua chiamata
 sipcalleebusy L'utente é momentaneamente occupato
-sipcalleecanceled L'utente ha annullato la telefonata
-sipcalleeclosed L'utente ha terminato la telefonata
-sipcalleedeclined L'utente ha rifiutato la richiesta di telefonata
+sipcalleecanceled L'utente ha annullato la chiamata
+sipcalleeclosed L'utente ha terminato la chiamata
+sipcalleedeclined L'utente ha rifiutato la richiesta di chiamata
 sipcalleenoanswer L'utente non ha risposto alla chiamata
 sipcalleeunavailable L'utente non è attualmente disponibile
-sipcallended La tua telefonata è terminata
+sipcallended La tua chiamata è terminata
 sipcallimpossible2 Non puoi effettuare una chiamata audio o video. Installa Farsight2 e prova ancora.
-sipcallmissed Hai perso una telefonata da $1
+sipcallmissed Hai perso una chiamata da $1
 sipcallnosipflag L'utente non supporta le chiamate audio.
 sipcallsent Sto chiamando $1
 sipcallyouarebusy2 Puoi fare solo una chiamata audio o video alla volta.
-sipgotinvitation Ricevuta richiesta di telefonata da $1
-sipvideocallaccepted Videoconferenza accettata
-sipvideocallconnected La tua videoconferenza è ora connessa!
-sipvideocalldeclined Videoconferenza rifiutata
-sipvideocalleeaccepted L'utente ha accettato la tua richiesta di videoconferenza	
-sipvideocalleecanceled L'utente ha rifiutato la tua richiesta di videoconferenza
-sipvideocalleeclosed L'utente ha terminato la tua videoconferenza
-sipvideocalleedeclined L'utente ha declinato la tua richiesta di videoconferenza
-sipvideocallended La tua videoconferenza è terminata
-sipvideocallmissed Hai perso una videoconferenza da $1
+sipgotinvitation Hai ricevuto una richiesta di chiamata da $1
+sipvideocallaccepted Videochiamata accettata
+sipvideocallconnected La tua videochiamata è ora connessa!
+sipvideocalldeclined Videochiamata rifiutata
+sipvideocalleeaccepted L'utente ha accettato la tua richiesta di videochiamata
+sipvideocalleecanceled L'utente ha rifiutato la tua richiesta di videochiamata
+sipvideocalleeclosed L'utente ha terminato la tua videochiamata
+sipvideocalleedeclined L'utente ha declinato la tua richiesta di videochiamata
+sipvideocallended La tua videochiamata è terminata
+sipvideocallmissed Hai perso una videochiamata da $1
 sipvideocallnosipflag L'utente non supporta le videochiamate.
-sipvideogotinvitation Hai ricevuto una richiesta di videoconferenza da $1
+sipvideogotinvitation Hai ricevuto una richiesta di videochiamata da $1
 skinselector Seleziona il tema
 skin Tema
 smallest Piccolissimo
@@ -938,7 +938,7 @@ sortcontactsdesc Ordina i contatti in ordine discendente
 sortcontactstatus Ordina i contatti per stato
 sortgroupsasc Ordina i gruppi in ordine ascendente
 sortgroupsdesc Ordina i gruppi in ordine discendente
-sound2 Emetti un suono quando i contatti entrano o mandano un messaggio
+sound2 Emetti un suono quando i contatti si connettono o inviano un messaggio
 soundactive Riproduci un suono anche quando ricevi un messaggio nella finestra attiva
 sound Attiva i suoni
 soundcommand Questo deve essere il comando per emettere il suono (es: aplay)
