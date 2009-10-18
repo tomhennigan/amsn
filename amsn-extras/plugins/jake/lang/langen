@@ -2,75 +2,25 @@ amsn_lang_version 2
 
 state Active
 
-name Bot's name
+guiname Bot name
+guihelptext Help message
+guinresultsgoogle Default number of results in google searches
+guinresultsmegaupload Default number of results in megaupload searches
+guinresultssongs Default number of results when searching songs
+guinresultsyoutube Default number of results in youtube searches
 
-helptext Message for !help
-
-nresults Number of results from searches in Google
-
-msgon I'm on.
-msgoff I'm off.
-
-cmdstate state
-cmdhelp help
-cmdon on
-cmdoff off
-cmdgoogle google
-cmddefine define
-cmdhour hour
-cmddate date
-cmdlearn learn
-cmdforget forget
-cmdyoutube youtube
-cmderror Syntaxis error.   
-cmdexpr expr
-cmdmegaupload megaupload
-cmdmp3 song
-cmddownloadyoutube download youtube
-cmdtranslate translate to
-
-cmdargsdefine word/s
-cmdargsgoogle word/s
-cmdargslearn \"phrase\" \"response\"
-cmdargsforget \"phrase\"
-cmdargsyoutube word/s
-cmdargsexpr Any math expression.
-cmdargsmegaupload file/s
-cmdargsmp3 Artist and/or title.
-cmdargstranslate language text
-
-txtcommands Available commands:
-txthelp Shows this message.
-txtconveron Turn's on the bot's speak capabilities.
-txtconveroff Turn's off the bot's speak capabilities.
-txtgoogle Search in google the word/s that you typed and will show the results in the chat window.
-txtdefine Will try to explain you the best he can the meaning of a word.
-txthour Show's the current time.
-txtdate Show's the current date.
-txtstate Will show the actual state of the bot.
-txtlearn Phrase and response will be added to the dictionary of
-txtforget Phrase will be deleted from the dictionary of
-txtregadd Phrase added succesfully. There are
-txtreg phrases
-txthelplearn The right syntaxis for adding phrases is:
-txtneedhelp I think I don't understand you. If you want to know how do I work, type !help
+txtcommand Command
+txtprm Arguments
+txtdsc Description
+txtexl Example
+txtcommands Available commands
+txtcmderr An error has occurred. Maybe you have not followed the instructions for use?
+txtcmdunknown I don't know what command is
 txtchangestate Change state to
 txtlogactivated activated!
-txtlogdesactivated deactivated!
-txtregdel Deleted
-txtdic phrases from the dictionary.
-txthelpforget The right syntaxis for deleting phrases is:
-txtyoutube Will search in YouTuBe for a video.
-txtexpr This will give the answer for a math expression. To see the math expressions that you can use, type \"!expr help\"
-txtsolution The solution is:
-txtexprhelp abs( x ) - Absolute value (negate if negative.)\n acos( x ) - Inverse cosine (result in radians.)\n asin( x ) - Inverse sine (result in radians.)\n atan( x ) - Inverse tangent (result in radians.)\n atan2( y , x ) - Inverse tangent (result in radians.)\n ceil( x ) - Ceiling (defined over floating point numbers.)\n cos( x ) - Cosine (input in radians.)\n cosh( x ) - Hyperbolic cosine.\n double( x ) - Convert number to floating point.\n exp( x ) - Exponential function.\n floor( x ) - Floor (defined over floating point numbers.)\n fmod( x ) - Floating point remainder.\n hypot( x , y ) - Hypotenuse calculator.\n int( x ) - Convert number to integer by truncation.\n log( x ) - Natural logarithm.\n log10( x ) - Logarithm with respect to base 10.\n pow( x , y ) - Power function.\n rand( ) - Random number. Uses uniform distribution over the range [0,1].\n round( x ) - Round to nearest whole number.\n sin( x ) - Sine (input in radians.)\n sinh( x ) - Hyperbolic sine.\n sqrt( x ) - Square root.\n srand( x ) - Seeds the random number generator with the given value.\n tan( x ) - Tangent (input in radians.)\n tanh( x ) - Hyperbolic tangent.
-txtmegaupload Search files in MegaUpload's base.
-txtmp3 Search for a direct link to listen/download the searched song.
-txtdownloadlink Download link:
-txthelpdownload To download, once opened your web browser, go to File -> Save as... and save the file.
-txttranslate Translate a given text to another language.
-txtuptime Started since: 
-txtlifetime Alive since: 
+txtlogdesactivated desactivated!
+txtuptime Started ago:
+txtlifetime Alive ago: 
 txtyears years
 txtmonths months
 txtdays days
@@ -78,13 +28,101 @@ txthours hours
 txtminutes minutes
 txtseconds seconds
 txtversion Version: 
-txtdictionarysize Size of dictionary: 
+txtdictionarysize Dictionary size:
+txtregs registries
+txtnoresults No results.
+txtchangesearchwords Try to change some words or the phrase.
+txtstatenotonlinebutneverseen The user isn't online but has been never seen.
+txtstateonline The user is currently online.
 
-rsphour The time is
-rspdate The date is
+msgon I'm on.
+msgoff I'm off.
 
-errlng Sorry, but I don't know
-erradd The word was not added because there are already the maximum possible answers for the length of the word.
+cmdgoogle google
+dscgoogle Search in google
+prmgoogle \"word/s\" x (where \"x\" is the number of results you wish to be shown. If you don't type any number, $1 results will be shown.)
+exlgoogle !google \"What is google?\" 2
+txtmaybe Maybe you wanted to say:
+
+cmddefine define
+dscdefine It will explain a word
+prmdefine \"word\" x (where \"x\" is the number of results you wish to be shown. If you don't type any number, $1 results will be shown.)
+exldefine !define \"internet\" 1
+
+cmdhelp help
+dschelp Help/Information about the available commands. (if you type just !help, all available commands will be shown)
+prmhelp \"command\"
+exlhelp !help \"!google\"
+
+cmdon on
+dscon Turns on the bot
+prmon This command doesn't have any arguments
+exlon !on
+
+cmdoff off
+dscoff Turns off the bot
+prmoff This command doesn't have any arguments
+exloff !off
+
+cmdhour hour
+dschour Says the hour
+prmhour This command doesn't have any arguments
+exlhour !hour
+
+cmddate date
+dscdate Says the date
+prmdate This command doesn't have any arguments
+exldate !date
+
+cmdstate state
+dscstate Shows information about a contact or the bot
+prmstate \"messenger\" (If you don't type any arguments, the bot will show his own information/state)
+exlstate !state \"alexandernst@gmail.com\"
+
+cmdlearn learn
+dsclearn Add a word or phrase to the dictionary of the bot
+prmlearn \"word or phrase\" \"answer\"
+exllearn !learn \"Hi!\" \"Hello\"
+txtregadd Registry added succesfully. There are
+txterradd The word or phrase hasn't been added because the maximum number of answers for the length of that word or phrase has been reached.
+
+cmdforget forget
+dscforget Erase a word or phrase from the dictionary of the bot
+prmforget \"word or phrase\"
+exlforget !forget \"Hi!\"
+txtregdel There have been erased
+
+cmdyoutube youtube
+dscyoutube Search in youtube
+prmyoutube \"words/s\" x (where \"x\" is the number of results you wish to be shown. If you don't type any number, $1 results will be shown.)
+exlyoutube !youtube \"funny videos\" 5
+
+cmdexpr expression
+dscexpr Calculate any matemathical expression. Soported commands:\n abs( x ) - Absolute value (negate if negative.)\n acos( x ) - Inverse cosine (result in radians.)\n asin( x ) - Inverse sine (result in radians.)\n atan( x ) - Inverse tangent (result in radians.)\n atan2( y , x ) - Inverse tangent (result in radians.)\n ceil( x ) - Ceiling (defined over floating point numbers.)\n cos( x ) - Cosine (input in radians.)\n cosh( x ) - Hyperbolic cosine.\n double( x ) - Convert number to floating point.\n exp( x ) - Exponential function.\n floor( x ) - Floor (defined over floating point numbers.)\n fmod( x ) - Floating point remainder.\n hypot( x , y ) - Hypotenuse calculator.\n int( x ) - Convert number to integer by truncation.\n log( x ) - Natural logarithm.\n log10( x ) - Logarithm with respect to base 10.\n pow( x , y ) - Power function.\n rand( ) - Random number. Uses uniform distribution over the range [0,1].\n round( x ) - Round to nearest whole number.\n sin( x ) - Sine (input in radians.)\n sinh( x ) - Hyperbolic sine.\n sqrt( x ) - Square root.\n srand( x ) - Seeds the random number generator with the given value.\n tan( x ) - Tangent (input in radians.)\n tanh( x ) - Hyperbolic tangent.
+prmexpr a matemathical expresion
+exlexpr !expression 2 + 2
+
+cmdmegaupload megaupload
+dscmegaupload Search in megaupload
+prmmegaupload \"words/s\" x (where \"x\" is the number of results you wish to be shown. If you don't type any number, $1 results will be shown.)
+exlmegaupload !megaupload \"firefox\" 1
+
+cmdsong song
+dscsong Search a song
+prmsong \"name of song and/or artist\" x (where \"x\" is the number of results you wish to be shown. If you don't type any number, $1 results will be shown.)
+exlsong !song \"we made you - eminem\" 3
+
+cmdtranslate translate to
+dsctranslate Translate a text
+prmtranslate language \"text\"
+exltranslate !translate to spanish \"Hi! How are you?\"
+errtranslate I'm sorry, but I dont know
+
+
+
+txthelpdownload Para descargar, una vez abierto el navegador, haz click en Archivo -> Guardar como... y guarda el archivo.
+
+txthelptranslate Error en la sintaxis del comando. La forma correcta de usar el traductor es: !traduce xx-yy texto, donde xx es el idioma actual e yy es el idioma al que se quiere traducir. Idiomas soportados: en (Ingles), es (Español), fr (Frances), it (Italiano), gr (Aleman)
 
 lngalbanian albanian
 lngarabic arabic

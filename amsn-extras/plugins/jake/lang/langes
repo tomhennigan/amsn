@@ -2,73 +2,23 @@ amsn_lang_version 2
 
 state Activado
 
-name Nombre del bot
+guiname Nombre del bot
+guihelptext Mensaje de ayuda
+guinresultsgoogle Numero de resultados por defecto cuando se busca en google
+guinresultsmegaupload Numero de resultados por defecto cuando se busca en megaupload
+guinresultssongs Numero de resultados por defecto cuando se buscan canciones
+guinresultsyoutube Numero de resultados por defecto cuando se busca en youtube
 
-helptext Mensaje para !ayuda
-
-nresults Numero de resultados de la busqueda en Google
-
-msgon Estoy activado.
-msgoff Estoy desactivado.
-
-cmdstate estado
-cmdhelp ayuda
-cmdon on
-cmdoff off
-cmdgoogle google
-cmddefine define
-cmdhour hora
-cmddate fecha
-cmdlearn aprende
-cmdforget olvida
-cmdyoutube youtube
-cmderror Error en la sintaxis del comando.
-cmdexpr expr
-cmdmegaupload megaupload
-cmdmp3 cancion
-cmdtranslate traduce a
-
-cmdargsgoogle palabra/s
-cmdargsdefine palabra/s
-cmdargslearn \"frase\" \"respuesta\" 
-cmdargsforget \"frase\"
-cmdargsyoutube palabra/s
-cmdargsexpr Cualquiera expresion matematica.
-cmdargsmegaupload archivo/s
-cmdargsmp3 Artista y/o titulo.
-cmdargstranslate idioma texto
-
-txtcommands Comandos disponibles:
-txthelp Muestra este mensaje.
-txtconveron Activa la capacidad de conversar.
-txtconveroff Desactiva la capacidad de conversar.
-txtgoogle Buscara en google la/s palabra/s que pongas y devolvera los resultados en la ventana actual.
-txtdefine Intentara definirte lo mejor posible el significado de una o varias palabras.
-txthour Muestra la hora actual.
-txtdate Muestra la fecha actual.
-txtstate Devuelve el estado actual del bot.
-txtlearn Se añadiran los datos introducidos al diccionario de 
-txtforget Se borraran las frases que coinciden del diccionario de
-txtregadd Registro añadido con exito. Hay
-txtreg registros.
-txthelplearn La forma correcta de añadir datos es:
-txtregdel Se ha/n borrado
-txtdic elemento/s del diccionario.
-txthelpforget La forma correcta de borrar datos es:
-txtneedhelp Creo que no te he entendido. Si quieres saber como funciono, escribe !ayuda
+txtcommand Comando
+txtprm Parametros
+txtdsc Descripcion
+txtexl Ejemplo
+txtcommands Comandos disponibles
+txtcmderr Se ha producido un error. Quizas no has seguido bien las instrucciones de uso?
+txtcmdunknown No se que comando es
 txtchangestate Cambio estado a
 txtlogactivated activado!
 txtlogdesactivated desactivado!
-txtyoutube Buscara en YouTuBe para videos.
-txtexpr Respondera diciendo la respuesta a la expresion matematica. Para ver las expresiones que puedes utilizar escribe \"!expr ayuda\"
-txtsolution La solucion es:
-txtexprhelp abs( x ) - Valor absoluto (negativo si es negativo.)\n acos( x ) - Arcocoseno (resultado en radianes.)\n asin( x ) - Arcoseno (resultado en radianes.)\n atan( x ) - Arcotangente (resultado en radianes.)\n atan2( y , x ) - Arcotangente (resultado en radianes.)\n ceil( x ) - Redondeo a la alta (se debe usar con numeros decimales.)\n cos( x ) - Coseno (se debe usar con radianes.)\n cosh( x ) - Coseno hiperbolico.\n double( x ) - Convierte enteros a decimales.\n exp( x ) - Funccion exponencial.\n floor( x ) - Redondeo a la baja (se debe usar con numeros decimales.)\n fmod( x ) - Punto flotante.\n hypot( x , y ) - Calculador de la hipotenusa.\n int( x ) - Convierte numeros a enteros, sin redondear.\n log( x ) - Logaritmo.\n log10( x ) - Logaritmo en base 10.\n pow( x , y ) - Potencia.\n rand( ) - Numero aleatorio. Aleatoriaridad en el rango [0,1].\n round( x ) - Redondea.\n sin( x ) - Seno (se debe usar con radianes.)\n sinh( x ) - Seno hiperbolico.\n sqrt( x ) - Raiz cuadrada.\n srand( x ) - Numero aleatorio.\n tan( x ) - Tangente (se debe usar con radianes.)\n tanh( x ) - Tangente hiperbolico.
-txtmegaupload Busca en la base de MegaUpload.
-txtmp3 Busca un enlace directo para escuchar/descargar el mp3 buscado.
-txtdownloadlink Link de descarga:
-txthelpdownload Para descargar, una vez abierto el navegador, haz click en Archivo -> Guardar como... y guarda el archivo.
-txthelptranslate Error en la sintaxis del comando. La forma correcta de usar el traductor es: !traduce xx-yy texto, donde xx es el idioma actual e yy es el idioma al que se quiere traducir. Idiomas soportados: en (Ingles), es (Español), fr (Frances), it (Italiano), gr (Aleman)
-txttranslate Traducir un texto dado a otro idioma.
 txtuptime Iniciado hace:
 txtlifetime Vivo desde hace: 
 txtyears años
@@ -78,13 +28,102 @@ txthours horas
 txtminutes minutos
 txtseconds secundos
 txtversion Version: 
-txtdictionarysize Tamaño del diccionario: 
+txtdictionarysize Tamaño del diccionario:
+txtregs registros
+txtnoresults No hay resultados.
+txtchangesearchwords Prueba a cambiar el orden de las palabras o la frase entera.
+txtstatenotonlinebutneverseen El usuario no esta conectado pero nunca ha sido visto.
+txtstateonline El usuario esta conectado en este momento.
 
-rsphour La hora es
-rspdate La fecha es
+msgon Estoy activado.
+msgoff Estoy desactivado.
 
-errlng Lo siento, pero no se
-erradd No se ha podido agregar la palabra porque ya se han alcanzado el maximo numero de posibles respuestas para la longitud de dicha palabra.
+cmdgoogle google
+dscgoogle Buscara en google
+prmgoogle \"palabra/s\" x (donde \"x\" es el numero de resultados que quieres que aparezcan. Si no pones un numero, seran mostrados $1 resultados.)
+exlgoogle !google \"Que es google?\" 2
+txtmaybe A lo mejor querias decir:
+
+cmddefine define
+dscdefine Definira una palabra
+prmdefine \"palabra\" x (donde \"x\" es el numero de resultados que quieres que aparezcan. Si no pones un numero, seran mostrados $1 resultados.)
+exldefine !define \"internet\" 1
+
+cmdhelp ayuda
+dschelp Ayuda/Informacion sobre los comandos disponibles. (si se escribe solo !ayuda, se mostraran los comandos disponibles)
+prmhelp \"comando\"
+exlhelp !ayuda \"!google\"
+
+cmdon on
+dscon Activa la capacidad de conversar
+prmon Este comando no acepta parametros
+exlon !on
+
+cmdoff off
+dscoff Desactiva la capacidad de conversar
+prmoff Este comando no acepta parametros
+exloff !off
+
+cmdhour hora
+dschour Dice la hora
+prmhour Este comando no acepta parametros
+exlhour !hora
+
+cmddate fecha
+dscdate Dice la fecha
+prmdate Este comando no acepta parametros
+exldate !fecha
+
+cmdstate estado
+dscstate Muestra informacion sobre un contacto o sobre jake
+prmstate \"messenger\" (Si no se pasa ningun parametro a este comando, se visualizara la informacion del bot)
+exlstate !estado \"alexandernst@gmail.com\"
+
+cmdlearn aprende
+dsclearn Añadira una palabra o frase al diccionario del bot
+prmlearn \"palabra o frase\" \"respuesta\"
+exllearn !aprende \"Hola!\" \"Hola, que tal?\"
+txtregadd Registro añadido con exito. Hay
+txterradd No se ha podido agregar la palabra porque ya se han alcanzado el maximo numero de posibles respuestas para la longitud de dicha palabra.
+
+cmdforget olvida
+dscforget Borrara una palabra o frase del diccionario del bot
+prmforget \"palabra o frase\"
+exlforget !olvida \"Hola!\"
+txtregdel Se ha/n borrado
+
+cmdyoutube youtube
+dscyoutube Buscara en youtube
+prmyoutube \"palabra/s\" x (donde \"x\" es el numero de resultados que quieres que aparezcan. Si no pones un numero, seran mostrados $1 resultados.)
+exlyoutube !youtube \"videos graciosos\" 5
+
+cmdexpr expresion
+dscexpr Calculara cualquier expresion matematica. Operadores soportados:\n abs( x ) - Valor absoluto (negativo si es negativo.)\n acos( x ) - Arcocoseno (resultado en radianes.)\n asin( x ) - Arcoseno (resultado en radianes.)\n atan( x ) - Arcotangente (resultado en radianes.)\n atan2( y , x ) - Arcotangente (resultado en radianes.)\n ceil( x ) - Redondeo a la alta (se debe usar con numeros decimales.)\n cos( x ) - Coseno (se debe usar con radianes.)\n cosh( x ) - Coseno hiperbolico.\n double( x ) - Convierte enteros a decimales.\n exp( x ) - Funccion exponencial.\n floor( x ) - Redondeo a la baja (se debe usar con numeros decimales.)\n fmod( x ) - Punto flotante.\n hypot( x , y ) - Calculador de la hipotenusa.\n int( x ) - Convierte numeros a enteros, sin redondear.\n log( x ) - Logaritmo.\n log10( x ) - Logaritmo en base 10.\n pow( x , y ) - Potencia.\n rand( ) - Numero aleatorio. Aleatoriaridad en el rango [0,1].\n round( x ) - Redondea.\n sin( x ) - Seno (se debe usar con radianes.)\n sinh( x ) - Seno hiperbolico.\n sqrt( x ) - Raiz cuadrada.\n srand( x ) - Numero aleatorio.\n tan( x ) - Tangente (se debe usar con radianes.)\n tanh( x ) - Tangente hiperbolico.
+prmexpr una expresion matematica
+exlexpr !expr 2 + 2
+
+cmdmegaupload megaupload
+dscmegaupload Buscara en megaupload
+prmmegaupload \"palabra/s\" x (donde \"x\" es el numero de resultados que quieres que aparezcan. Si no pones un numero, seran mostrados $1 resultados.)
+exlmegaupload !megaupload \"firefox\" 1
+
+cmdsong cancion
+dscsong Buscara canciones
+prmsong \"nombre de cancion y/o artista\" x (donde \"x\" es el numero de resultados que quieres que aparezcan. Si no pones un numero, seran mostrados $1 resultados.)
+exlsong !cancion \"caminando por la vida - melendi\" 3
+
+cmdtranslate traduce a
+dsctranslate Traducira un texto
+prmtranslate idioma \"texto\"
+exltranslate !traduce a ingles \"Hola, que tal?\"
+errtranslate Lo siento pero no se
+
+
+
+txthelpdownload Para descargar, una vez abierto el navegador, haz click en Archivo -> Guardar como... y guarda el archivo.
+
+txthelptranslate Error en la sintaxis del comando. La forma correcta de usar el traductor es: !traduce xx-yy texto, donde xx es el idioma actual e yy es el idioma al que se quiere traducir. Idiomas soportados: en (Ingles), es (Español), fr (Frances), it (Italiano), gr (Aleman)
+
 
 lngalbanian albanes
 lngarabic arabe
