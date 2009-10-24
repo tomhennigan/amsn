@@ -799,7 +799,7 @@ recorderror Une erreur s'est produite lors de l'enregistrement du son : $1
 recvwebcamaccepted $1 a accepté votre invitation pour voir par sa webcam. Connexion en cours.
 redirect Cliquez ici pour être redirigé
 reject Refuser
-rememberaccount Enregistrer le nom de compte
+rememberaccount Enregistrer le compte
 rememberpass Enregistrer le mot de passe
 remembersetting Enregistrer ce paramètre
 removeempty Retirer les groupes vides de la liste des contacts
