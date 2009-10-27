@@ -366,7 +366,7 @@ SectionGroup "Extras" SecExtras
     SectionIn 1
 
     SetDetailsPrint textonly
-    DetailPrint "Installing Dark Matter skin..."
+    DetailPrint "Installing extra plugins..."
     SetDetailsPrint listonly
 
   SetOutPath "$INSTDIR\scripts\plugins"
