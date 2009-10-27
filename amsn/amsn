@@ -392,13 +392,13 @@ if { $argv != "" && [LoginList exists 0 $argv] } {
    after idle [list auto_login_argv $argv] 
 } else {
    if { [::config::getKey autoconnect] == 1 && [::config::getKey save_password] == 1} {
-     	::MSN::connect
+     	after idle "::MSN::connect"
    }
 }
 
 
 if { [::config::getKey autocheckver] == 1 } {
-    set new [::autoupdate::check_version_silent]
+    after idle [list ::autoupdate::check_version_silent]
 }
 
 
