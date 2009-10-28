@@ -308,6 +308,7 @@ Türkçe (Turkish): by Baris Cicek
 	Kemal Ilgar Eroglu
 	Oktay Dogangun
 	Murat Şenel (Pardus packager)
+	Sabit Ertan İğde (website translation)
 
 Valencià (Valenciano): Juan Arnal Arlandis
 	Juan José García Amaya
@@ -404,3 +405,4 @@ Collabora Ltd. and Olivier Crete (a.k.a Tester) for their work on Farsight 2.
 Ole Andre Vadla Ravnas (once again) for his work on OABuild for building the gstreamer/farsight binaries for windows.
 Stephane Bisinger (kjir) for his patches on libtray for a better compatibility with fluxbox/stalonetray
 Andoni Morales: for his great help in providing us with the windows binaries for gstreamer/farsight/libnice.
+Sabit Ertan İğde: for refactoring the website to add multiple language support.
