@@ -1587,9 +1587,11 @@ namespace eval ::guiContactList {
 					$img copy [::skin::loadPixmap blocked_emblem]
 				}
 
-				# If you are not on this contact's list, show the notinlist emblem
-				if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-					$img copy [::skin::loadPixmap notinlist_emblem]
+				if {[config::getKey show_not_in_list 1] } {
+					# If you are not on this contact's list, show the notinlist emblem
+					if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+						$img copy [::skin::loadPixmap notinlist_emblem]
+					}
 				}
 			} else {
 				$img copy [::skin::getLittleDisplayPicture $email 60]
@@ -1608,9 +1610,11 @@ namespace eval ::guiContactList {
 					$img copy [::skin::loadPixmap blocked_emblem_detailedview]
 				}
 				
-				# If you are not on this contact's list, show the notinlist emblem
-				if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-					$img copy [::skin::loadPixmap notinlist_emblem_detailedview]
+				if {[config::getKey show_not_in_list 1] } {
+					# If you are not on this contact's list, show the notinlist emblem
+					if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+						$img copy [::skin::loadPixmap notinlist_emblem_detailedview]
+					}
 				}
 			}
 
@@ -1756,12 +1760,14 @@ namespace eval ::guiContactList {
 		#----------------------------#	
 
 
-		if {(!([::config::getKey show_contactdps_in_cl] || [::config::getKey show_detailed_view]) && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
-			# If you are not on this contact's list, show the notification icon
-			if {![::MSN::userIsNotIM $email] && [expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-				set icon [::skin::loadPixmap notinlist]
-				lappend stylestring [list "image" "$icon" "w"]
-				incr marginx [image width $icon]
+		if {[config::getKey show_not_in_list 1] } {
+			if {(!([::config::getKey show_contactdps_in_cl] || [::config::getKey show_detailed_view]) && !([::abook::getContactData $email MOB] == "Y" && $state_code == "FLN"))} {
+				# If you are not on this contact's list, show the notification icon
+				if {![::MSN::userIsNotIM $email] && [expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+					set icon [::skin::loadPixmap notinlist]
+					lappend stylestring [list "image" "$icon" "w"]
+					incr marginx [image width $icon]
+				}
 			}
 		}
 
@@ -2289,8 +2295,10 @@ namespace eval ::guiContactList {
 			lappend balloon_message "[trans notimcontact]"
 		} else {
 			lappend balloon_message "[trans status]: [trans [::MSN::stateToDescription $state_code]]"
-			if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
-				lappend balloon_message "[trans notinlist]"
+			if {[config::getKey show_not_in_list 1] } {
+				if {[expr {[lsearch [::abook::getLists $email] RL] == -1}]} {
+					lappend balloon_message "[trans notinlist]"
+				}
 			}
 			if {[::abook::getContactData $email webcam_shared] == 1} {
 				lappend balloon_message "[trans shareswebcam]"

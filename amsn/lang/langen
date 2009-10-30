@@ -875,6 +875,7 @@ showmailicon Show mail icon on traydock when new emails arrive
 showmypic My Display Picture
 shownonim Show Non-Instant Messaging Contacts
 shownotify Show notify window when some events happen
+shownotinlist Show special icon for contacts that do not have you in their list
 showofflinegroup Show Offline Group
 showonedpframe Show only one DisplayPicture frame in chat windows
 showpicnotify Show users' pictures on notify windows

@@ -324,7 +324,7 @@ namespace eval ::config {
 		::config::setKey ABPreferredHost "byrdr.omega.contacts.msn.com"
 		
 		::config::setKey hide_users_in_cw 1	;#in a multichat don't show users in the topcw
-
+		::config::setKey show_not_in_list 1     ;# Show the 'not in list' icon/emblem
 
 		# Farsight config
                 ::config::setKey fsaudiosrc ""
@@ -373,6 +373,7 @@ namespace eval ::config {
 			[list local big_incoming_smileys bool noresizesmileys] \
 			[list local old_dpframe bool showonedpframe] \
 			[list local contentroaming bool contentroamingsetting] \
+			[list local show_not_in_list bool shownotinlist] \
 			[list title notifyoffset] \
 			[list local notifyXoffset int xoffset] \
 			[list local notifyYoffset int yoffset] \
