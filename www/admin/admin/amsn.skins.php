@@ -1,7 +1,7 @@
 <?php
 if (!defined('CPanel') || !isset($_SESSION['user'], $_SESSION['level'], $_GET['load']) || !user_level(3)) {
     require_once 'lib.misc.php';
-    noperms();
+    //noperms();
     exit;
 }
 

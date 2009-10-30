@@ -9,10 +9,12 @@
 
 $id = (isset($_GET['poll']) && ereg('^[0-9]+$', $_GET['poll'])) ? (int)$_GET['poll'] : 0;
 
-$query_poll = mysql_query("SELECT `id`, `question` FROM `amsn_poll` " . ($id === 0 ? 'ORDER BY id DESC' : "WHERE `id` = '{$id}'"));
+$question_vote='question'.$lang_set;
+$answer_vote='answer'.$lang_set;
+$query_poll = mysql_query("SELECT `id`, $question_vote FROM `amsn_poll` " . ($id === 0 ? 'ORDER BY id DESC' : "WHERE `id` = '{$id}'"));
 
 if (!mysql_num_rows($query_poll)) {
-    echo "<p>The selected poll don't exists. Maybe it was removed</p>";
+    echo '<p>'.POOL_NOT_EXIST.'</p>';
     return;
 }
 
@@ -31,20 +33,20 @@ while ($poll = mysql_fetch_row($query_poll)) {
 		$max = 0;
 	}
 	
-	$query_answers = mysql_query("SELECT `answer`, `votes` FROM `amsn_poll_answers` WHERE `id_father` = '" . (int)$poll[0] . "' ORDER BY id");
+	$query_answers = mysql_query("SELECT $answer_vote, `votes` FROM `amsn_poll_answers` WHERE `id_father` = '" . (int)$poll[0] . "' ORDER BY id");
 	
 	if (mysql_num_rows($query_answers) > 1) {
 	echo "<h3>{$poll[1]}</h3>\n<ul>\n";
 	while ($row = mysql_fetch_row($query_answers)) {
 		$percentage =  (int) (100 * $row[1] / $total);
-		echo '<li>'.$row[0].' (Votes: '.$row[1].' '.(($total === 0) ? "" : " - <b>".$percentage.'%</b>)');
+		echo '<li>'.$row[0].' ('.POOLS_VOTES.': '.$row[1].' '.(($total === 0) ? "" : " - <b>".$percentage.'%</b>)');
 		echo '<br/><img alt="bar chart" src="images/poll_graph.php?percent='.$percentage.'&amp;val='.(int)($percentage * 100 / $max).'"/></li>';
 	}
 	echo "</ul>\n";
 	}
 	
 	if (isset($total)) 
-		echo "Total number of votes : <b>{$total}</b><br/><br/>";
+		echo ''.TOTAL_NUMBER_VOTES.' : <b>'.$total.'</b><br/><br/>';
 	
 	?>
 	
@@ -53,7 +55,7 @@ while ($poll = mysql_fetch_row($query_poll)) {
 <?php
 }
 ?>
-<a href="index.php">Return to main page</a>
+<?php echo '<a href="index.php">'.POOL_TO_MAIN.'</a>'; ?>
 
 <?php include inc . 'footer.php'; ?>
 

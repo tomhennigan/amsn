@@ -275,7 +275,7 @@ function sess_init($host, $base, $user, $password, $session_tblPrefix, //vars to
                    $session_cookie_lifetime = 0,
                    $session_cookie_secure = false, // automaticly set if you use https connection but you can force it to true
                    $session_cookie_path = '/',
-                   $session_cookie_domain = '',
+                   $session_cookie_domain = 'amsn-project.net',
                    $session_cache_limiter = 'nocache', // none, nocache, private, private_no_expire, public
                    $session_cache_expire = 180,
                    $session_use_trans_sid = 0,

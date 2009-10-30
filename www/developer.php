@@ -5,63 +5,60 @@
    include inc . 'header.php';
 ?>
 
-
-<ul>
+<?php echo '<ul>
 <li>
-<b>Amsn Development Team</b>
+<b>'.AMSN_DEV_TEAM.'</b>
 <br /><br />
-Here is a list of people who are currently working or have worked in past on aMSN.
+'.DEV_DESC.'
 <br/><br/>
 </li>
 <li>
-<a href="current-developers.php">Current Developers</a><br />
+<a href="current-developers.php">'.CURRENT_DEVS_DEV.'</a><br />
 <br/></li>
 </ul>
 <ul><li>
-<b>Please Help</b><br /><br />
-If you would like to contribute to this project, please leave a message on our forum at:
-<a href="http://www.amsn-project.net/forums/viewforum.php?f=8">http://www.amsn-project.net/forums/viewforum.php?f=8</a>
+<b>'.PLEASE_HELP.'</b><br /><br />
+'.HELP_DESC.'<a href="http://www.amsn-project.net/forums/viewforum.php?f=8">http://www.amsn-project.net/forums/viewforum.php?f=8</a>
 <br /><br />
-If you would like to donate to the aMSN project, you can find more information about doing so, here: <a href="donations.php">donations</a>
+'.DONATION_DESC.'<a href="donations.php">'.DONATIONS_DEV.'</a>
 <br /></li></ul>
 
 <ul><li>
-<b>aMSN Bug Reports</b><br /><br />
-If you have run into a bug while using aMSN, please submit it with details on recreating the bug and possibly the stack trace on the following forum. Also expect further questions concerning the bug and the environment it was produced in.
+<b>'.AMSN_BUG_REPORT.'</b><br /><br />
+'.BUGS_DESC.'
 <br /></li></ul>
 
 <ul>
 <li>
-<a href="http://sourceforge.net/tracker/?func=add&amp;group_id=54091&amp;atid=472655">Report A Bug </a>
+<a href="http://sourceforge.net/tracker/?func=add&amp;group_id=54091&amp;atid=472655">'.REPORT_BUG.'</a>
 </li>
 </ul>
 
 <ul>
 <li>
-<a href="http://sourceforge.net/tracker/?group_id=54091&amp;atid=472655">Previous Bug Reports </a><br /><br />
+<a href="http://sourceforge.net/tracker/?group_id=54091&amp;atid=472655">'.PREV_BUG_REPORT.' </a><br /><br />
 </li>
 </ul>
 
 
 <ul>
 <li>
-<b>aMSN SVN</b><br /><br />
-If you want to be on the bleeding egde of AMSN you can download our most recent developement version directly from our sourceforge SVN. SVN
-contains new bug fixes from the previous releases. On the other hand, it might not be as stable as the latest stable release.
+<b>'.AMSN_SVN.'</b><br /><br />
+'.SVN_DESC.'
 <br />
 </li>
 </ul>
 
 <ul>
 <li>
-<a href="http://amsn.svn.sourceforge.net/viewvc/amsn/trunk/amsn/">Browse SVN Repository</a>
+<a href="http://amsn.svn.sourceforge.net/viewvc/amsn/trunk/amsn/">'.BROWSE_SVN.'</a>
 <br />
 </li>
 </ul>
 
 <ul>
 <li>
-<a href="http://www.amsn-project.net/wiki/SVN">Instructions on how to install the SVN version</a>
+<a href="http://www.amsn-project.net/wiki/SVN">'.SVN_HOWTO.'</a>
 </li>
 </ul>
 
@@ -69,9 +66,9 @@ contains new bug fixes from the previous releases. On the other hand, it might n
 
 <ul>
 <li>
-<b>aMSN Translations</b>
+<b>'.AMSN_TRANSLATE.'</b>
 <br /><br />
-If you have a translation to submit for aMSN, please visit: 
+'.TRANSLATE_DESC.'
 </li>
 </ul>
 
@@ -80,6 +77,6 @@ If you have a translation to submit for aMSN, please visit:
 <a href="translations.php">http://www.amsn-project.net/translations.php</a>
 <br /><br />
 </li>
-</ul>
-
+</ul>'
+?>
 <?php include inc . 'footer.php'; ?>

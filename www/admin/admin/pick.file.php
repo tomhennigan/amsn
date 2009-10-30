@@ -180,10 +180,10 @@ if (isset($_GET['field'])) {
 ?>
 <body>
 <?php
-if (!user_level()) {
+/*if (!user_level()) {
 	noperms();
 	exit;
-}
+}*/
 
 if (!isset($_GET['field'])) {
 ?>

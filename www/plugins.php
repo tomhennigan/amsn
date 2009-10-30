@@ -9,11 +9,11 @@
 ?>
 
 <div>
-        <strong>aMSN is full of features</strong>, but you can extend its functionality even more now, getting extra features by installing plugins. Plugins are simply that - they "plug in" to aMSN and give it extra features. Here you can download plugins developed by us and by contributors. Make sure you have the right version of aMSN for the plugin (check "requirements") and the right OS (check "platform")
+        <strong><?php echo FULL_FEATURES; ?></strong><?php echo PLUGIN_DESC;?>
         <br /><br />
-        You can find instructions on how to install plugins in our <a href="http://www.amsn-project.net/wiki/Installing_Plugins_and_Skins">skin and plugin installation guide</a>.
+           <?php echo INSTALL_PLUGIN; ?>
         <br /><br />
-        If you would like to submit your plugin to this page, please read the <a href="http://www.amsn-project.net/wiki/Dev:Sumbitting_Plugins_and_Skins">plugin submitting guide</a>.
+            <?php echo SUBMIT_PLUGIN; ?>
         <br /><br />
 
 <a name="top">
@@ -26,7 +26,7 @@
 <?php
 
 if (!mysql_num_rows(($q = mysql_query("SELECT `amsn_plugins`.*, (UNIX_TIMESTAMP(`amsn_files`.`lastmod`)-UNIX_TIMESTAMP(20070101))/86400+`amsn_files`.`count`/15 AS `score` FROM `amsn_plugins` INNER JOIN `amsn_files` ON `amsn_files`.`id` = `amsn_plugins`.`file_id` ORDER BY `score` DESC")))) {
-    echo "<p>There are no plugins available.</p>\n";
+    echo '<p>'.NO_PLUGINS."</p>\n";
 } else {
 	$elements_per_line=5;
 	$i = 0;
@@ -48,31 +48,31 @@ if (!mysql_num_rows(($q = mysql_query("SELECT `amsn_plugins`.*, (UNIX_TIMESTAMP(
 <a name="<?php echo $plugin['id']?>" />
   <ul class="plugins">
     <li class="plugintitle"><?php echo $plugin['name'] ?></li>
-    <li class="lg"><?php echo $plugin['desc'] ?></li>
-    <li class="dg">Created by: <?php echo $plugin['author'] ?></li>
-    <li class="lg">Version: <?php echo $plugin['version'] ?></li>
-    <li class="dg">Platform/OS: <?php echo $plugin['platform'] ?></li>
-    <li class="lg">Requires: <?php echo $plugin['requires'] ?></li>
+    <li class="lg"><?php echo $plugin['desc'.$lang_set]; ?></li>
+    <li class="dg"><?php echo CREATEDBY_PLUGIN.$plugin['author']; ?></li>
+    <li class="lg"> <?php echo VERSION_PLUGIN.$plugin['version']; ?></li>
+    <li class="dg"> <?php echo PLATFORM_PLUGIN.$plugin['platform']; ?></li>
+    <li class="lg"><?php echo REQUIRES_PLUGIN.$plugin['requires']; ?></li>
 <?php 
 		if (getFileURL($plugin['screen_id']) != '') {
 ?>
-    <li class="dg"><a href="getURL.php?id=<?php echo $plugin['screen_id']?>" title="&lt;img src='thumb.php?id=<?php echo $plugin['screen_id'] ?>' /&gt;"><strong>Screenshot</strong></a></li>
+    <li class="dg"><a href="getURL.php?id=<?php echo $plugin['screen_id']?>" title="&lt;img src='thumb.php?id=<?php echo $plugin['screen_id'] ?>' /&gt;"><strong><?php echo SCREENSHOTS_PLUGIN; ?> </strong></a></li>
 <?php 
 		}
 		else {
 ?>
-    <li class="dg"><strong>No screenshot</strong></li>
+    <li class="dg"><strong> <?php echo NOSCREEN_PLUGIN; ?> </strong></li>
 <?php
 		}
 
 		if (getFileURL($plugin['file_id']) != '') {
 ?>
-    <li class="lg"><a href="getURL.php?id=<?php echo $plugin['file_id']?>"><strong>Download this plugin</strong></a></li>
+    <li class="lg"><a href="getURL.php?id=<?php echo $plugin['file_id']?>"><strong><?php echo DOWN_PLUGIN; ?></strong></a></li>
 <?php
 		}
 		else {
 ?>
-    <li class="lg"><strong>Download comming soon!</strong></li>
+    <li class="lg"><strong><?php echo DOWN_SOON_PLUGIN; ?></strong></li>
 <?php
 		}
 ?>
@@ -84,7 +84,7 @@ if (!mysql_num_rows(($q = mysql_query("SELECT `amsn_plugins`.*, (UNIX_TIMESTAMP(
 ?>
 
 <br/><br/>
-<div style="text-align:center"><strong><a href="#top">Back to top</a></strong></div>
+<div style="text-align:center"><strong><a href="#top"><?php echo BACK_TOP_PLUGIN; ?></a></strong></div>
 
 </div>
 <?php include inc . 'footer.php'; ?>

@@ -1,7 +1,7 @@
 <?php
 
 if (!mysql_num_rows(($q = mysql_query("SELECT `id`, `name`, `desc`, `screen_id` FROM `amsn_screenshots` ORDER BY `order` DESC, `name` ASC")))) {
-    echo "<p>There are no screenshots available.</p>\n";
+    echo '<p>'.NOSCREEN_SCREEN."</p>\n";
     return;
 }
 
@@ -21,7 +21,7 @@ while ($row = mysql_fetch_assoc($q)) {
 echo "</ul>\n";
 
 if (!isset($actual)) {
-    echo "<p>The selected screenshot does not exist. It may have been removed.</p>\n";
+    echo '<p>'.NOEXIST_SCREEN."</p>\n";
 } else {
     echo '<p id="desc">' . $actual['desc'] . '</p>';
     echo '<a href="getURL.php?id='.$actual['screen_id'].'"><img src="thumb.php?id='.$actual['screen_id'] .'" alt="' . htmlentities(stripslashes($actual['name'])) . '" class="screenshot" /></a>';

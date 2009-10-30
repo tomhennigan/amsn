@@ -1,10 +1,10 @@
 <div>
-<h3 class="links"><?php echo trans('links') ?></h3>
+<h3 class="links"><?php echo LINKS_SIDE; ?></h3>
 <div class="block_right_top"></div>
 <div class="block_right_content block_links">
-<?php echo trans('linuxinstallerlink') ?>
+<?php echo INSTALLER_LINKS; ?>
 <br/><br/>
-<a href="http://sourceforge.net/projects/amsn/"><?php echo trans('sfprojectpagelink') ?></a>
+<a href="http://sourceforge.net/projects/amsn/"><?php echo SF_LINK; ?></a>
 <br/><br/>
 <a href="http://sourceforge.net/projects/amsn"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=54091&type=12" width="120" height="30" border="0" alt="Get aMSN at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a>
 <br/><br/>

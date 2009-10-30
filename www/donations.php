@@ -4,24 +4,24 @@
    include inc . 'init.php';
    include inc . 'header.php';
 ?>
-
+<?php echo '
         
 	<p>
         <br />
-          <strong>aMSN Donations:</strong> 
+          <strong>'.AMSN_DONATIONS_TITLE.'</strong> 
         </p>
 <p>
-            Sometimes users want to thank the developers for all the time and effort put into the development of a successfull project.  For this reason, we have set up a particular location in which you can donate to specific developers.<br /><br />aMSN as a whole, does not accept donations, but if you want to thank a specific member of the aMSN development team, we provide you these links, so that you may do so:<br /><br />
-
+            '.DONATION_DESC1.'<br /><br />'.DONATION_DESC2.'<br /><br />';
+?>
 <?php
 foreach($devels as $devel) {
         if($devel[3]) {
-                echo '<a href="http://sourceforge.net/donate/index.php?user_id='.$devel[2].'">Donate To : '.$devel[0].' ('.$devel[1].')</a><br /><br />';
+                echo '<a href="http://sourceforge.net/donate/index.php?user_id='.$devel[2].'">'.DONATE_TO.''.$devel[0].' ('.$devel[1].')</a><br /><br />';
         }
 }
 ?>
-
-<a href="developer.php">Back To Developer Page</a>
-</p>
-
+<?php echo '
+<a href="developer.php">'.BACK_TO_DEV.'</a>
+</p>';
+?>
 <?php include inc . 'footer.php'; ?>

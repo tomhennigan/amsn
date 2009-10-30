@@ -40,14 +40,14 @@
         if (source == 'developer') define('nav_developer', 'nav_on');
         else define('nav_developer', 'nav');
 
-        echo '<a class="'.nav_index.'" href="index.php">'.trans('home').'</a>';
-        echo '<a class="'.nav_download.'" href="download.php">'.trans('download').'</a>';
-        echo '<a class="'.nav_features.'" href="features.php">'.trans('features').'</a>';
-        echo '<a class="'.nav_skins.'" href="skins.php">'.trans('skins').'</a>';
-        echo '<a class="'.nav_plugins.'" href="plugins.php">'.trans('plugins').'</a>';
-        echo '<a class="'.nav_screenshots.'" href="screenshots.php">'.trans('screenshots').'</a>';
-        echo '<a class="'.nav_docs.'" href="docs.php">'.trans('docs').'</a>';
-        echo '<a class="'.nav_developer.'" href="developer.php">'.trans('development').'</a>';
+        echo '<a class="'.nav_index.'" href="index.php">'.HOME_MENU.'</a>';
+        echo '<a class="'.nav_download.'" href="download.php">'.DOWNLOAD_MENU.'</a>';
+        echo '<a class="'.nav_features.'" href="features.php">'.FEATURES_MENU.'</a>';
+        echo '<a class="'.nav_skins.'" href="skins.php">'.SKINS_MENU.'</a>';
+        echo '<a class="'.nav_plugins.'" href="plugins.php">'.PLUGINS_MENU.'</a>';
+        echo '<a class="'.nav_screenshots.'" href="screenshots.php">'.SCREEN_MENU.'</a>';
+        echo '<a class="'.nav_docs.'" href="docs.php">'.DOCS_MENU.'</a>';
+        echo '<a class="'.nav_developer.'" href="developer.php">'.DEV_MENU.'</a>';
 ?>
     </div>
 

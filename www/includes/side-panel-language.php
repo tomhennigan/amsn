@@ -1,5 +1,5 @@
 <div>
-<h3><?php echo trans('language') ?></h3>
+<h3><?php echo LANGUAGE_SIDE; ?></h3>
 <div class="block_right_top"></div>
 <div class="block_right_content block_language">
 <?php
@@ -17,6 +17,7 @@ while($row=mysql_fetch_array($result)) {
   }
 }
 ?>
+
 </div>
 <div class="block_right_bottom"></div>
 </div>

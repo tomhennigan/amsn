@@ -1,12 +1,12 @@
 <div>
-<?php echo '<h3 class="forums">'.trans('forums').'</h3>'; ?>
+<?php echo '<h3 class="forums">'.FORUMS_SIDE.'</h3>'; ?>
 
 <div class="block_right_top"></div>
 <div class="block_right_content block_forums">
 <?php
-echo '<b><a href="/forums/">'.trans('amsnforums').'</a></b><br/>';
+echo '<b><a href="/forums/">'.AMSN_FORUMS.'</a></b><br/>';
 echo '<br/>';
-echo '&#8226; '.trans('recentposts').' &#8226;';
+echo '&#8226; '.RECENT_POSTS.' &#8226;';
 ?>
 <ul style="text-align: left;padding-left: 20px;margin-bottom: 0px">
 <?php

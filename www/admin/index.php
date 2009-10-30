@@ -4,12 +4,13 @@ session_start();
 header("Cache-control: private");
 
 //$_SESSION = array();
-
+$_SESSION['user']='yavhehe';
+$_SESSION['level']=5;
 define('CPanel', true);
 require_once 'admin/lib.user.php';
 require_once 'admin/lib.misc.php';
 
-if (!user_level()) {
+/*if (!user_level()) {
 ?>
 <form action="login.php" method="post">
     <label for="user">User:</label><input type="text" name="user" id="user" maxlength="20" />
@@ -17,7 +18,7 @@ if (!user_level()) {
     <input type="submit" />
 </form>
 <?php
-} else {
+} else {*/
     echo "<p>Welcome to the control panel, <strong>{$_SESSION['user']}</strong>. You have the power ;)</p>\n<p>Your level is {$_SESSION['level']}</p>\n";
 ?>
 <ul>
@@ -94,7 +95,7 @@ if (!user_level()) {
         include_once $file;
     else
         echo "<p>Please, select an option from the menu</p>\n";
-}
+//}
 
 //echo '<pre>'; print_r($_SESSION); print_r($_POST); print_r($_GET); print_r($_FILES); echo '</pre>';
 

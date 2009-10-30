@@ -5,20 +5,19 @@
    include inc . 'header.php';
 ?>
 
-
 <br />
-<b>aMSN Documents</b>
+<b><?php echo AMSN_DOCS; ?></b>
 <br /><br />
-Links to aMSN Documents
+<?php echo LINKS_DOCS; ?>
 
 <ul>
 <li>
-<a href="http://www.amsn-project.net/faq.php">FAQ</a>
+<a href="http://www.amsn-project.net/faq.php"><?php echo LINK_FAQ; ?> </a>
 <br />
 </li>
 
 <li>
-<a href="http://www.amsn-project.net/wiki">User WIKI</a>
+<a href="http://www.amsn-project.net/wiki"><?php echo LINK_USER_WIKI; ?> </a>
 <br />
 </li>
 

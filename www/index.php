@@ -20,26 +20,26 @@ include inc . 'header.php';
 
         <p>
   <?php
-  echo trans('amsndescription');
+  echo (AMSN_DESC);
 echo '</p>';
 echo '<ul>';
-echo '<li>'.trans('offlinemessaging').'</li>';
-echo '<li>'.trans('voiceclips').'</li>';
-echo '<li>'.trans('displaypics').'</li>';
-echo '<li>'.trans('customemoticons').'</li>';
-echo '<li>'.trans('multilangsupport').'</li>';
-echo '<li>'.trans('webcamsupport').'</li>';
-echo '<li>'.trans('signinwithmore').'</li>';
-echo '<li>'.trans('fastfiletransfers').'</li>';
-echo '<li>'.trans('groupsupport').'</li>';
-echo '<li>'.trans('animemoticons').'</li>';
-echo '<li>'.trans('chatlogs').'</li>';
-echo '<li>'.trans('timestamping').'</li>';
-echo '<li>'.trans('eventalarms').'</li>';
-echo '<li>'.trans('conferencingsupport').'</li>';
-echo '<li>'.trans('tabbedwindows').'</li>';
+echo '<li>'.DESC_OFF_MSG.'</li>';
+echo '<li>'.VOICE_CLIP.'</li>';
+echo '<li>'.DISPLAY_PICS.'</li>';
+echo '<li>'.CUSTOM_EMOS.'</li>';
+echo '<li>'.MULTI_LANG.'</li>';
+echo '<li>'.WEB_CAM_SUPPORT.'</li>';
+echo '<li>'.SIGNIN_MORE.'</li>';
+echo '<li>'.FSPEED_FTRANS.'</li>';
+echo '<li>'.GROUP_SUPPORT.'</li>';
+echo '<li>'.EMOS_WITH_SOUND.'</li>';
+echo '<li>'.CHAT_LOGS.'</li>';
+echo '<li>'.TIMESTAMPING.'</li>';
+echo '<li>'.EVENT_ALARM.'</li>';
+echo '<li>'.CONFERENCE_SUPPORT.'</li>';
+echo '<li>'.TABBED_CHAT.'</li>';
 echo '</ul>';
-echo trans('forfullfeatures','<a href="features.php">','</a>','<a href="plugins.php">','</a>','<a href="skins.php">','</a>');
+echo '<p>'.FOR_FULL_FEATURES.'</p>';
 echo '<br /><br />';
 
 switch(remoteOS()) {
@@ -56,10 +56,9 @@ switch(remoteOS()) {
     $url="download.php";
     break;
   }
-echo '<a href="'.$url.'" id="download"></a>';
+echo '<a href="'.$url.'" id="download">'.DOWN_IMG.'</a>';
+echo '<a href="plugins.php" id="plugins">'.PLUG_IMG.'</a>';
+echo '<a href="skins.php" id="skins">'.SKIN_IMG.'</a>';
 ?>
-<a href="plugins.php" id="plugins"></a>
-<a href="skins.php" id="skins"></a>
-
 <?php include inc . 'news.php' ?>
 <?php include inc . 'footer.php'; ?>
