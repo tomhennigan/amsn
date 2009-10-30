@@ -1,5 +1,4 @@
 <?php
-
 if (!mysql_num_rows(($q = mysql_query("SELECT `id`, `name`, `desc`, `screen_id` FROM `amsn_screenshots` ORDER BY `order` DESC, `name` ASC")))) {
     echo '<p>'.NOSCREEN_SCREEN."</p>\n";
     return;
@@ -16,14 +15,14 @@ while ($row = mysql_fetch_assoc($q)) {
     }
 
 #    echo '   <li><a href="screenshots.php?screen=' . $row['id'] . '" onclick="changeScreenshot(\'' . $row['screen'] . '\', \'' . $row['desc'] . '\'); return false;">' . $row['name']  . "</a></li>\n";
-	echo '   <li><a href="screenshots.php?screen=' . $row['id'] . '">' . $row['name']  . "</a></li>\n";
+    echo '   <li><a href="screenshots.php?screen=' . $row['id'] . '">' . trans($row['id'], 'screen_name', $row['name'])  . "</a></li>\n";
 }
 echo "</ul>\n";
 
 if (!isset($actual)) {
     echo '<p>'.NOEXIST_SCREEN."</p>\n";
 } else {
-    echo '<p id="desc">' . $actual['desc'] . '</p>';
+    echo '<p id="desc">' .trans($actual['id'], 'screen_desc', $actual['desc']). '</p>';
     echo '<a href="getURL.php?id='.$actual['screen_id'].'"><img src="thumb.php?id='.$actual['screen_id'] .'" alt="' . htmlentities(stripslashes($actual['name'])) . '" class="screenshot" /></a>';
 #	echo '<img src="screenshots/screen_' . basename($actual['screen']) . '" id="screenshot_img" alt="' . htmlentities(stripslashes($actual['name'])) . '" class="screenshot"/>';
 }

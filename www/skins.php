@@ -45,10 +45,11 @@ if (!mysql_num_rows(($q = mysql_query("SELECT `amsn_skins`.*, (UNIX_TIMESTAMP(`a
 	mysql_data_seek($q, 0);
 	while ($skin = mysql_fetch_assoc($q)) {
 ?>
+
 <a name="<?php echo $skin['id']?>" />
   <ul class="skins">
     <li class="skintitle"><?php echo $skin['name'] ?></li>
-    <li class="lg"><?php echo $skin['desc'.$lang_set] ?></li>
+    <li class="lg"><?php echo trans($skin['id'], 'skin', $skin['desc']) ?></li>
     <li class="dg"><?php echo CREATEDBY_SKIN.$skin['author'] ?></li>
     <li class="lg"><?php echo VERSION_SKIN.$skin['version'] ?></li>
 <?php 

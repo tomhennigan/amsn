@@ -16,13 +16,13 @@
             <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2-1.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
 	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2-1.tcl84.x86.package"><span class="toc_title">'.AMSN_INSTALLER_TCL84.'</span></a>
 	</dt><dd>
-		'.INDEPENT_INSTALLER84.'
+		'.INDEPENDENT_INSTALLER84.'
     </dd></dl>
 	<dl><dt>
             <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2-1.tcl85.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" /></a><br />
 	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2-1.tcl85.x86.package"><span class="toc_title">'.AMSN_INSTALLER_TCL85.'</span></a>
 	</dt><dd>
-		'.INDEPENT_INSTALLER85.'
+		'.INDEPENDENT_INSTALLER85.'
     </dd></dl>
     <br />
     <p>
@@ -75,7 +75,7 @@
         <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball" /></a><br />
 	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2.tar.bz2"><span class="toc_title">'.AMSN_SOURCE.'</span></a>
         </dt><dd>
-          
+          '.BUILD_OWN_DISTRO.'
         </dd></dl>
     <p>
       '.SOURCE_DESC_1.'<br />

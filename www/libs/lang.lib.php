@@ -16,39 +16,30 @@ if(!defined("_LANG_LIB_")) {
     return $str;
   }
 
-  function trans($key) {
-    $code=getLangKey();
-    $skey=mysql_escape_string(stripslashes(trim($key)));
+  function trans($id, $trans_type, $default) {
+    $lang_set=getLangKey();
+    $lang_set=mysql_escape_string(stripslashes(trim($lang_set)));
     
-    $query="SELECT lang_text FROM amsn_langs WHERE lang_code='$code' AND lang_key='$skey'";
+    $query="SELECT translation FROM amsn_translations WHERE lang='$lang_set' AND id='$id' AND trans_type='$trans_type'";
     $result=mysql_query($query) or die(mysql_error());
-
     /* If no translation found, look up english */
     if(mysql_num_rows($result)==0) {
-      $query="SELECT lang_text FROM amsn_langs WHERE lang_code='en' AND lang_key='$skey'";
-      $result=mysql_query($query) or die(mysql_error());
-    }
-
-    /* If no translation found in english, return key */
-    if(mysql_num_rows($result)==0) {
-      $text=$key;
+      $text=$default
     } else {
       $row=mysql_fetch_array($result);
-      $text=$row['lang_text'];
+      $text=$row['translation'];
     }
 
-    /* Get rid of $x$ by replacing with arguments */
-    for($x=1;$x<func_num_args();$x++) {
-      $arg=func_get_arg($x);
-      $text=str_replace("\$$x\$",$arg,$text);
-    }
     return utf2html($text);
   }
 
   function getLangKey() {
-    if(isset($_COOKIE['lang'])) {
+    if(isset($_GET['lang'])) {
+      return $_GET['lang'];
+    }
+    elseif(isset($_COOKIE['lang'])) {
       return $_COOKIE['lang'];
-      } elseif(isset($_SESSION['lang'])) {
+    } elseif(isset($_SESSION['lang'])) {
       return $_SESSION['lang'];
     } else {
       return 'en';

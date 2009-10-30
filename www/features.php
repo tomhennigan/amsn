@@ -12,7 +12,7 @@
           
         </p>
 
-<?php echo        OFF_MSG_FEAT.'<br />
+echo        OFF_MSG_FEAT.'<br />
             '.VOICE_CLIP_FEAT.'<br />
             '.NLW_FEAT.'<br />
             '.DISPLAY_PICS_FEAT.'<br />

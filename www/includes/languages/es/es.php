@@ -1,5 +1,6 @@
 <?php
 @setlocale(LC_ALL, 'es_ES.utf-8');
+define('TIME_FORMAT','%e de %B de %Y @ %H:%M:%S');
 //header menu definitions START
 define('HOME_MENU', 'Home');
 define('DOWNLOAD_MENU', 'Downloads');
@@ -246,9 +247,9 @@ define('TRADEMARK_FOOT', 'All logos and trademarks in this site are property of 
 //side_panels START
 define('HOSTED_BY','Hosted by Oxilion');
 define('LANGUAGE_SIDE','Language');
-define('POOLS_SIDE','Pools');
-define('POOL_SIDE_VOTE','Vote');
-define('POOL_SIDE_RESULTS','View Results');
+define('POLLS_SIDE','Pools');
+define('POLL_SIDE_VOTE','Vote');
+define('POLL_SIDE_RESULTS','View Results');
 define('FORUMS_SIDE','Forums');
 define('AMSN_FORUMS','aMSN Forums');
 define('RECENT_POSTS','Recent Posts');
@@ -264,9 +265,9 @@ define('SF_LINK','SourceForge project page');
 //linux-downloads page START
 define('GENERIC_INSTALLER','Generic Installers');
 define('AMSN_INSTALLER_TCL84','aMSN Installer for Tcl/Tk&nbsp;8.4');
-define('INDEPENT_INSTALLER84','Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.4');
+define('INDEPENDENT_INSTALLER84','Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.4');
 define('AMSN_INSTALLER_TCL85','aMSN Installer for Tcl/Tk&nbsp;8.5');
-define('INDEPENT_INSTALLER85','Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.5 <strong>final version</strong>');
+define('INDEPENDENT_INSTALLER85','Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.5 <strong>final version</strong>');
 define('CREATED_WITH_AUTO','These generic installers were created with <a href="http://www.autopackage.org/">Autopackage</a>.
       This is a new Linux technology to create distribution independent packages,
       with an installer <a href="http://www.autopackage.org/gallery.html">with a user-friendly look. Check by yourself !</a>.');
@@ -290,9 +291,9 @@ define('LATEST_DEV_SVN','Latest development version (SVN Snapshot');
 define('LATEST_DEV_DESC','You may want to test our development version. But, as it\'s a development version, it may contains more bugs than the official versions, and may also be completely broken sometimes. You will find more information on how to install that development version <a href="http://www.amsn-project.net/wiki/Installing_SVN">on our wiki</a>');
 //linux-downloads page END
 //pool_results
-define('POOL_NOT_EXIST','The selected poll doesn\'t exists. Maybe it was removed');
-define('POOLS_VOTES','Votes');
+define('POLL_NOT_EXIST','The selected poll doesn\'t exists. Maybe it was removed');
+define('POLLS_VOTES','Votes');
 define('TOTAL_NUMBER_VOTES','Total number of votes');
-define('POOL_TO_MAIN','Return to main page');
+define('POLL_TO_MAIN','Return to main page');
 //pool_result END
 ?>

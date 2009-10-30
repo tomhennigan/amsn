@@ -1,5 +1,6 @@
 <?php
 setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
+define('TIME_FORMAT', 'Le %e %B %Y @ %H:%M:%S');
 //header menu definitions START
 define('HOME_MENU', 'Accueil');
 define('DOWNLOAD_MENU', 'Téléchargements');
@@ -243,9 +244,9 @@ define('TRADEMARK_FOOT', 'Tous les logos et marques dans ce site sont propriét�
 //side_panels START
 define('HOSTED_BY','Hébergé par Oxilion');
 define('LANGUAGE_SIDE','Langue');
-define('POOLS_SIDE','Sondages');
-define('POOL_SIDE_VOTE','Vote');
-define('POOL_SIDE_RESULTS','Voir les résultats');
+define('POLLS_SIDE','Sondages');
+define('POLL_SIDE_VOTE','Vote');
+define('POLL_SIDE_RESULTS','Voir les résultats');
 define('FORUMS_SIDE','Forums');
 define('AMSN_FORUMS','Forums aMSN');
 define('RECENT_POSTS','Messages récents');
@@ -261,9 +262,9 @@ define('SF_LINK','Page SourceForge du projet');
 //linux-downloads page START
 define('GENERIC_INSTALLER','Installateurs génériques');
 define('AMSN_INSTALLER_TCL84','Installateur aMSN pour Tcl/Tk&nbsp;8.4');
-define('INDEPENT_INSTALLER84','Installateur indépendant de la distribution Linux pour ceux qui ont <strong>déjà</strong> Tcl/Tk&nbsp;8.4');
+define('INDEPENDENT_INSTALLER84','Installateur indépendant de la distribution Linux pour ceux qui ont <strong>déjà</strong> Tcl/Tk&nbsp;8.4');
 define('AMSN_INSTALLER_TCL85','Installateur aMSN pour Tcl/Tk&nbsp;8.5');
-define('INDEPENT_INSTALLER85','Installateur indépendant de la distribution Linux pour ceux qui ont <strong>déjà</strong> Tcl/Tk&nbsp;8.5 <strong>en version finale</strong>');
+define('INDEPENDENT_INSTALLER85','Installateur indépendant de la distribution Linux pour ceux qui ont <strong>déjà</strong> Tcl/Tk&nbsp;8.5 <strong>en version finale</strong>');
 define('CREATED_WITH_AUTO','Ces installateurs génériques ont été créés avec <a href="http://www.autopackage.org/">Autopackage</a>.
       C\'est une nouvelle technologie Linux pour créer des packages indépendants de la distribution,
       avec un installateur <a href="http://www.autopackage.org/gallery.html">ayant un look attirant. Vérifiez vous même !</a>.');
@@ -287,9 +288,9 @@ define('LATEST_DEV_SVN','Dernière version de développement (Capture SVN');
 define('LATEST_DEV_DESC','Vous pourriez vouloir tester notre version de développement. Mais, comme c\'est une version de développement, elle peut contenir plus de bugs que les versions officielles, et peut même être des fois complétement non fonctionnelle. Vous trouverez plus d\'informations sur comment installer cette version de développement <a href="http://amsn-project.net/wiki/Installation_de_la_version_SVN">sur notre wiki</a>');
 //linux-downloads page END
 //pool_results
-define('POOL_NOT_EXIST','Le sondage sélectionnés ne existe pas. Peut-être ils ont été enlevés');
-define('POOLS_VOTES','Votes');
+define('POLL_NOT_EXIST','Le sondage sélectionnés ne existe pas. Peut-être ils ont été enlevés');
+define('POLLS_VOTES','Votes');
 define('TOTAL_NUMBER_VOTES','Nombre total de votes');
-define('POOL_TO_MAIN','Retour à la page d\'Accueil');
+define('POLL_TO_MAIN','Retour à la page d\'Accueil');
 //pool_result END
 ?>

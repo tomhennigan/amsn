@@ -1,5 +1,6 @@
 <?php
 @setlocale(LC_ALL, 'tr_TR.utf-8');
+define('TIME_FORMAT','%e %B %Y @ %H:%M:%S');
 //header menu definitions START
 define('HOME_MENU', 'AnaSayfa');
 define('DOWNLOAD_MENU', 'İndir');
@@ -234,9 +235,9 @@ define('TRADEMARK_FOOT', 'Bu sitede bulunan tüm logolar ve ticari markalar kend
 //side_panels START
 define('HOSTED_BY','Oxilion tarafından yayınlanmaktadır');
 define('LANGUAGE_SIDE','Diller');
-define('POOLS_SIDE','Anketler');
-define('POOL_SIDE_VOTE','Oy ver');
-define('POOL_SIDE_RESULTS','Sonuçları Gör');
+define('POLLS_SIDE','Anketler');
+define('POLL_SIDE_VOTE','Oy ver');
+define('POLL_SIDE_RESULTS','Sonuçları Gör');
 define('FORUMS_SIDE','Forumlar');
 define('AMSN_FORUMS','aMSN Forumları');
 define('RECENT_POSTS','Son Yazılar');
@@ -251,9 +252,9 @@ define('SF_LINK','SourceForge proje sayfası');
 //linux-downloads page START
 define('GENERIC_INSTALLER','Genel Kurulum Dosyaları');
 define('AMSN_INSTALLER_TCL84','aMSN Kurulum dosyası, Tcl/Tk&nbsp;8.4 için');
-define('INDEPENT_INSTALLER84','Tcl/Tk&nbsp;8.4\'e <strong>sahip</strong> olanlar için dağıtım bağımsız kurulum dosyası');
+define('INDEPENDENT_INSTALLER84','Tcl/Tk&nbsp;8.4\'e <strong>sahip</strong> olanlar için dağıtım bağımsız kurulum dosyası');
 define('AMSN_INSTALLER_TCL85','aMSN Kurulum dosyası Tcl/Tk&nbsp;8.5');
-define('INDEPENT_INSTALLER85','Tcl/Tk&nbsp;8.5(<strong>son sürüm</strong>)\'e <strong>sahip</strong> olanlar için dağıtım bağımsız kurulum dosyası');
+define('INDEPENDENT_INSTALLER85','Tcl/Tk&nbsp;8.5(<strong>son sürüm</strong>)\'e <strong>sahip</strong> olanlar için dağıtım bağımsız kurulum dosyası');
 define('CREATED_WITH_AUTO','Bu genel kurulum dosyaları <a href="http://www.autopackage.org/">Autopackage</a> kullanılarak hazırlanmıştır.
       Bu dağıtımdan bağımsız ve bir kurucu içeren paketlerin oluşturulmasını sağlayan yeni Linux teknolojisidir. <a href="http://www.autopackage.org/gallery.html">Bu program kullanıcı dostu bir arayüze sahiptir. Kendiniz görün!</a>.');
 define('PLEASE_FOLLOW','Paketleri kurmak için lütfen talimatları takip ediniz.');
@@ -275,9 +276,9 @@ define('LATEST_DEV_SVN','En son geliştirme sürümü (Son SVN Sürümü');
 define('LATEST_DEV_DESC','Geliştirme sürümümüzü denemek isteyebilirsiniz. Ancak, bu bir geliştirme sürümü olduğundan, resmi sürümlerden çok daha fazla hata içerebilir ve zaman zaman tamamiyle çökebilir. <a href="http://www.amsn-project.net/wiki/Installing_SVN">Viki sayfası</a>nda geliştirme sürümünü nasıl kurabileceğinizi ayrıntılı olarak bulabilirsiniz');
 //linux-downloads page END
 //pool_results
-define('POOL_NOT_EXIST','Seçilen anket bulunamadı. Kaldırılmış olabilir.');
-define('POOLS_VOTES','Oylar');
+define('POLL_NOT_EXIST','Seçilen anket bulunamadı. Kaldırılmış olabilir.');
+define('POLLS_VOTES','Oylar');
 define('TOTAL_NUMBER_VOTES','Toplam oy sayısı');
-define('POOL_TO_MAIN','Anasayfaya Geri Dön');
+define('POLL_TO_MAIN','Anasayfaya Geri Dön');
 //pool_result END
 ?>
