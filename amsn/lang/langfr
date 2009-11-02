@@ -876,6 +876,7 @@ showmailicon Montrer l'icône des mails dans la boîte à miniatures lorsque de nou
 showmypic Mon avatar
 shownonim Afficher les contacts hors messagerie instantanée
 shownotify Afficher la fenêtre d'annonce quand certains événements se produisent
+shownotinlist Afficher une icône spéciale pour les contacts qui ne m'ont pas dans leur liste de contacts
 showofflinegroup Montrer le groupe des contacts Déconnectés
 showonedpframe N'afficher qu'un avatar dans la fenêtre de conversation
 showpicnotify Montrer l'avatar des contacts dans la fenêtre d'annonce
