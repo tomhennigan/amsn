@@ -39,7 +39,7 @@ allmonths Todos os meses
 allowallbutbl Permitir que todo os usuarios agás os bloqueados me poidan contactar
 allowbadwords Saltarse a censura nos alcumes
 allowlist Lista de aceptados(AL):
-allowonlyinal Permitirlles so ós usuarios aceptados contactar comigo
+allowonlyinal Permitirlles so aos usuarios aceptados contactar comigo
 allowseen Permitirlle a esta persoa ver cando estás conectado e contactar
 allow_sms Permitir que os usuarios contacten conmigo no meu dispositivo móbil MSN
 allprofilesinuse Todos os perfís que existen están sendo usados actualmente
@@ -91,8 +91,8 @@ autoresizedp Redimensionar a imaxe automaticamente ao tamaño predeterminado
 autovideosinkdesc Detectar automaticamente o mellor método de saída de vídeo para o teu sistema
 autovideosrcdesc Detectar automaticamente a cámara web no teu sistema
 avaccepted Chamada de conferencia de vídeo aceptada
-av Conferencia de audio e video
 avcanceled Chamada de conferencia de vídeo cancelada
+av Conferencia de audio e video
 avgotinvitation Invitación de conferencia de vídeo recibida de $1
 avinitfailed Fallo na inicialización do plugin de audio/vídeo. Chamada cancelada
 avoidseen Evitar que esta persoa vexa a túa conexión e entre en contacto contigo
@@ -114,8 +114,8 @@ blockinter4 segundos
 blocklist Lista de bloqueados(BL):
 blockmessage Os seguientes contactos están conectados e bloqueándote
 block Non admitir
-blocknotifications Inhabilitar a mostra de xanelas de notificación
-blocksounds Inhabilitar sons
+blocknotifications Desactivar a mostra de xanelas de notificación
+blocksounds Desactivar sons
 blockusers Comprobar continuamente 
 bouncedock Animar a icona do aMSN cando se reciba unha mensaxe
 brightness Brillo 
@@ -359,7 +359,7 @@ enabled Activado
 enableproxy Activar o proxy
 enableremote Activar o servidor de control remoto
 enablesound Reproducir o son
-enablespaces Habilitar a compatibilidade con espazos de Windows Live(EXPERIMENTAL)
+enablespaces Activar a compatibilidade con espazos de Windows Live(EXPERIMENTAL)
 encoding2 Cambia a forma na que se codifican os caracteres
 encoding Codificación de caracteres
 enterbugdesc Introduce unha descrición do que estabas facendo para axudarnos a reproducir este fallo:
@@ -436,7 +436,7 @@ gameinvitation $1 invitouche a xogar a $2. Queres aceptar a invitación?
 gamepluginnotfound $1 invitouche a xogar a $2 pero non hai un plugin cargado para este xogo. Por favor activa e configura este plugin primeiro.
 gamerejected $1 rexeitou a túa invitación para xogar
 gamerequest Invitaches a $1 a xogar a $2
-getdisppic Habilitar a recepción de Imaxes para mostrar doutros usuarios
+getdisppic Activar a recepción de Imaxes para mostrar doutros usuarios
 getmoreplugins Consegue máis plugins!
 getmoreskins Consegue máis temas!
 globalcontainer Contedor global
@@ -669,7 +669,7 @@ notifytyping Enviar a outros usuarios notificacións cando se está tecleando
 notifywin Xanela de avisos
 notimcontact Este contacto non é un contacto de mensaxaría instantánea
 notinlist Non estás na súa lista de contactos
-notls A versión 9 do protocolo MSN require usar o paquete "tls". Este paquete non parece estar instalado no equipo. Se está instalado, a ruta ó directorio debería ser especificado na xanela de Preferencias (ex: /opt/tls/lib). \n \n É posíbel descargar "tls" en http://tls.sf.net.
+notls A versión 9 do protocolo MSN require usar o paquete "tls". Este paquete non parece estar instalado no equipo. Se está instalado, a ruta ao directorio debería ser especificado na xanela de Preferencias (ex: /opt/tls/lib). \n \n É posíbel descargar "tls" en http://tls.sf.net.
 nottabbed Xanelas normais sen separadores
 nousersinsession Non hai usuarios na sesión
 nouserspecified Usuarios non especificados
