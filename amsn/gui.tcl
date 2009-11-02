@@ -7590,7 +7590,9 @@ proc msg_box {msg} { ::amsn::infoMsg "$msg" }
 # launch_browser(url)
 # Launches the configured browser
 proc launch_browser { url {local 0}} {
-	if { ![regexp ^\[\[:alnum:\]\]+:// $url] && $local != 1 } {
+	if { $local != 1 &&
+	     ![regexp ^\[\[:alnum:\]\]+:// $url] &&
+	     ![regexp ^spotify: $url]} {
 		set url "http://$url"
 	}
 
