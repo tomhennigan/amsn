@@ -8,11 +8,10 @@
 
 	<p>
         <br />
-          <?php echo AMSN_DESC_FEAT; ?>
+          <?php echo AMSN_DESC_FEAT.'
           
         </p>
-
-echo        OFF_MSG_FEAT.'<br />
+            '.OFF_MSG_FEAT.'<br />
             '.VOICE_CLIP_FEAT.'<br />
             '.NLW_FEAT.'<br />
             '.DISPLAY_PICS_FEAT.'<br />
@@ -47,6 +46,6 @@ echo        OFF_MSG_FEAT.'<br />
             '.HISTORY_STATS_FEAT.'<br />
     	    '.LOGIN_STATUS_FEAT.'<br />
 	        '.TIMESTAMPING_FEAT.'<br /><br />
-	'.MORE_FEAT.''
+			'.MORE_FEAT;
 ?>
 <?php include inc . 'footer.php'; ?>

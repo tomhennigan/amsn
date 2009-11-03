@@ -56,7 +56,7 @@ $idq=$poll[0];
 <?php
 }
 ?>
-<?php echo '<a href="index.php">'.POLL_TO_MAIN.'</a>'; ?>
+<a href="index.php"><?=POLL_TO_MAIN;?></a>
 
 <?php include inc . 'footer.php'; ?>
 

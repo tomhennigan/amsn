@@ -222,11 +222,11 @@ a#download
   float: left;
   clear: none;
   width: 170px;
-  height: 35px;
+  height: 45px;
   margin: 2px 10px 2px 10px;
   cursor: pointer;
-  background: #fff url(images/download.png) no-repeat
-  /*background: #6f90bd;*/
+  background: #fff url(images/download.png) no-repeat;
+  
 }
 a#download:link
 {
@@ -255,9 +255,14 @@ a#download:active
 }
 a#download:hover
 {
-  color: transparent;
-  background: transparent url(images/download_hover.png) no-repeat
+  background: url(images/download_hover.png) no-repeat;
 }
+a#download:hover span
+{
+  visibility:hidden;
+}
+
+
 
 a#plugins
 {
@@ -265,11 +270,9 @@ a#plugins
   float: left;
   clear: none;
   width: 132px;
-  height: 35px;
+  height: 45px;
   margin: 2px 10px 2px 10px;
   cursor: pointer;
-  /*background: #6f90bd;*/
-  
   background: #fff url(images/plugins.png) no-repeat;
 }
 a#plugins:link
@@ -298,8 +301,13 @@ a#plugins:active
 }
 a#plugins:hover
 {
-  color: transparent;
-  background: transparent url(images/plugins_hover.png) no-repeat
+ 
+  background: url(images/plugins_hover.png) no-repeat;
+  
+}
+a#plugins:hover span
+{
+  visibility:hidden;
 }
 
 a#skins
@@ -308,11 +316,10 @@ a#skins
   float: left;
   clear: none;
   width: 133px;
-  height: 35px;
+  height: 45px;
   margin: 2px 10px 2px 10px;
   cursor: pointer;
-  /*background: #6f90bd;*/
-  background: #fff url(images/plugins.png) no-repeat;
+  background: url(images/plugins.png) no-repeat;
 }
 a#skins:link
 {
@@ -340,9 +347,14 @@ a#skins:active
 }
 a#skins:hover
 {
-  color: transparent;
-  background: transparent url(images/skins_hover.png) no-repeat
+  
+  background: url(images/skins_hover.png) no-repeat;
+ 
 
+}
+a#skins:hover span
+{
+  visibility:hidden;
 }
 
 div.news

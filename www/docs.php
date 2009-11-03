@@ -6,18 +6,18 @@
 ?>
 
 <br />
-<b><?php echo AMSN_DOCS; ?></b>
+<b><?= AMSN_DOCS; ?></b>
 <br /><br />
-<?php echo LINKS_DOCS; ?>
+<?= LINKS_DOCS; ?>
 
 <ul>
 <li>
-<a href="http://www.amsn-project.net/faq.php"><?php echo LINK_FAQ; ?> </a>
+<a href="http://www.amsn-project.net/faq.php"><?= LINK_FAQ; ?> </a>
 <br />
 </li>
 
 <li>
-<a href="http://www.amsn-project.net/wiki"><?php echo LINK_USER_WIKI; ?> </a>
+<a href="http://www.amsn-project.net/wiki"><?= LINK_USER_WIKI; ?> </a>
 <br />
 </li>
 

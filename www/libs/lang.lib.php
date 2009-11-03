@@ -24,7 +24,7 @@ if(!defined("_LANG_LIB_")) {
     $result=mysql_query($query) or die(mysql_error());
     /* If no translation found, look up english */
     if(mysql_num_rows($result)==0) {
-      $text=$default
+      $text=$default;
     } else {
       $row=mysql_fetch_array($result);
       $text=$row['translation'];
