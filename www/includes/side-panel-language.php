@@ -3,13 +3,14 @@
 <div class="block_right_top"></div>
 <div class="block_right_content block_language">
 <?php
-$query="SELECT DISTINCT lang_code FROM amsn_langs;";
-$result=mysql_query($query) or die(mysql_error());
 $flag=0;
-while($row=mysql_fetch_array($result)) {
+foreach (glob('includes/languages/*/*.php') as $filename) {
+  $keywords = preg_split("/\//", $filename);
+  $lang = $keywords[2];
+
   /* Does flag for language exist? Hide if not as there is no pic */
-  if(is_readable('images/flags/'.$row['lang_code'].'.png')) {
-    echo '<a href="?lang='.$row['lang_code'].'"><img src="images/flags/'.$row['lang_code'].'.png" alt="'.$row['lang_code'].'" /></a> ';
+  if(is_readable('images/flags/'.$lang.'.png')) {
+    echo '<a href="?lang='.$lang.'"><img src="images/flags/'.$lang.'.png" alt="'.$lang.'" /></a> ';
     $flag++;
     if($flag>5) {
       echo '<br/>';
