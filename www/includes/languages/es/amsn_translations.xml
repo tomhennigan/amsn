@@ -1,0 +1,1197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+-
+- phpMyAdmin XML Dump
+- version 3.2.2.1deb1
+- http://www.phpmyadmin.net
+-
+- Anamakine: localhost
+- Üretim Zamanı: 03 Kasım 2009 saat 18:25:06
+- Sunucu sürümü: 5.1.37
+- PHP Sürümü: 5.2.10-2ubuntu6
+- Spanish version by: nicolunacba
+-->
+
+<!--
+- Veritabanı: 'amsn'
+-->
+<amsn>
+  <!-- Tablo: amsn_translations -->
+    <amsn_translations>
+        <id>1</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Extensión para aMSN similar al MSN Plus!(comandos en la ventana de chat, texto con formato)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>2</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Cambia el color de tu texto en el chat desde una lista predefinida o al azar.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>3</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Renderiza LaTeX si se antepone la frase con tex o usando el TeX Advanced Window</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>4</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugin le permite controlar los mensajes del DBus usando el registro de eventos del aMSN.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>5</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Para usuarios de KDE o GNOME. Cambia las ventanas del TclTk por las ventanas de tu entorno gráfico. Además, agrega algunas opciones para hacer que se ajuste mejor a tu escritorio.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>6</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Plugin para reemplazar los /me en la ventana de chat.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>7</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Plugin para generar nombres al azar.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>8</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Envía los historiales de conversaciones a tu email. Este fue creado para aprovechar las prestaciones de GMail, pero puede ser usado para cualquier cuenta de correo.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>9</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Notificaciones con Growl en Mac OS X</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>10</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Utilidad para hacer una interpretación y cambio de carácter</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>11</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugin bloquea a los contactos que se encuentran Desconectados y los desbloquea cuando éstos vuelven a estar Conectados.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>12</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Mueve la ventana de chat cuando son creadas.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>13</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Plugin de música compatible con iTunes para Mac, varios reproductores para Linux y Winamp. Muestra la canción que se está escuchando en el Apodo y muestra o envía la canción desde la ventana de chat.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>14</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Plugin para revisar cuentas POP3 en aMSN de la misma forma que lo hace con Hotmail.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>15</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Muestra las últimas frases de la conversación anterior cuando una nueva ventana de chat aparece.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>16</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Habla el mensaje que has recibido en segundo plano. Utiliza el set de voces predeterminado del sistema. Si ingresas una voz diferente (Mac), asegúrate de poner en mayúscula la primera letra.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>17</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>¡Obtén información de la palabra o texto, o tradúcela a otro idioma!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>18</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Algunas opciones para hacer la lista de contactos mas pequeña.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>19</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Muestra un botón extra de emoticones para seleccionar tus propios emoticones con una previsualización más grande.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>20</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Busca la definición del texto seleccionado en el diccionario de la Real Academia Española.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>21</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Guarda los archivos recibidos en un subdirectorio del contacto que lo ha enviado y si lo deseas también, en otro subdirectorio con la fecha del envío.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>22</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Pablo Novara</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>23</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Corrector ortográfico en la ventana de chat.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>24</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>¡Juega en aMSN! ¡Con este plugin podrás jugar una gran cantidad de juegos con tus contactos de aMSN! Ten en cuenta que este plugin NO ES compatible con MSN Zone Games.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>25</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Converse con alguien que hable otro idioma, usando este auto-traductor de textos.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>26</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Un Chatbot que le contestará a tus contactos cuando tu no estés. Puede ser controlado desde la ventana de chat también, con los comandos !on y !off.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>27</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugin está orientado a dejar de hacer llorar a los usuarios de aMSN que dicen: &quot;Quiero ver mi propia Imagen como puedo ver las Imágenes de mis contactos...&quot;&lt;/</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>28</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Muestra en la ventana de chat información acerca del contacto con el que estás chateando. . Por NoWhereMan ( http://www.nowhereland.it ). Agradecimientos a Tychondriax ( http://tychodriax.altervista.org ) por ayudarnos a debuggear :)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>29</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Reemplazo automático del texto en la ventana del chat.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>30</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugin agrega el acceso rápido Command(tecla Apple)+` para los usuarios de Mac OS X. Será resuelto para la próxima versión, pero por ahora este plugin debe ser útil para los usuarios de Mac OS X.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>31</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Minimiza automáticamente tu lista de contactos luego de transcurrir una cierta cantidad de segundos.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>32</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Integra aMSN con la Agenda de Mac OS X. Puedes alternar entre tener los nombres de la Agenda o los nicks en la lista de contactos presionando Command(Apple)-Shift-A.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>33</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Un plugin para enviar mensajes automáticamente a tus amigos.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>34</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugin te permite cambiar la apariencia de aMSN usando la extensión Tile para Tk. Este, cambia el diseño del contenido de la ventana por el de tu entorno, de modo que tendrá un diseño como Qt o GTK2 en lugar de el de Tk.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>35</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Transforma los mensajes enviados o recibidos utilizando un filtro de conversaciones.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>36</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Muestra tus estadísticas en el juego que estás jugando (como por ejemplo Enemy Territory, UT2004, CS, etc.) en tu apodo y en el mensaje automático.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>37</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Plugin para verificar las cuentas de Gmail en aMSN y notificar con la información del correo. Una especie de clon del &quot;Gmail Notifer&quot; para aMSN.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>40</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Con este plugin puedes elegir diferentes Imágenes para cada estado. Esto ayuda a tus contactos saber tu estado anímico más fácil y rápido.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>39</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Envía a la persona con la que estás hablando una frase al azar. Argumentos adicionales pueden ser agregado, como -s y -o.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>41</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Agrega la opciones al menú que se obtiene presionando click derecho sobre la ventana de conversación, de modo que puedes utilizar hasta 5 programas que hayas definidos con el texto seleccionado como argumento.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>42</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugin utiliza una herramienta llamada &quot;RÃ©acc&quot;(http://rali.iro.umontreal.ca/Reacc/ReaccWord/WordReacc.fr.html). Está orientada a los usuarios franceses.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>44</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugin implenta el &quot;Menú de Acciones&quot;en la parte inferior de la lista de contactos, agregando las funciones de &quot;Añadir contacto&quot; y &quot;Buscar contacto&quot;.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>45</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugin hace la ventana de chat transparente cuando no es usada, con un espectacular transición de &quot;degradado&quot; Necesita Tcl/Tk 8.5 y un gestor de composición de ventanas (como Compiz Fusion) en Linux.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>46</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Agrega la opción cascada al menú Acciones de tu ventana de chat, para que puedas enviar archivos recientes mas facilmente.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>47</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Este plugins viene como un reemplazo al sistema de notificaciones predeterminado. Este nuevo sistema utiliza la librería libnotify para mostrar las notificaciones.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>48</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Integración del LilyPond en aMSN. (Para más información ve a http://lilypond.org/ for more info)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>50</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Muestra una cuenta regresiva para la fecha especificada.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>51</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Plugin que te permite importar emoticones al aMSN de un solo tiro. Compatible con el paquete de emoticones para Kopete.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>52</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Mantén la conversación activa con la persona con la que estabas hablando.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>53</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Cambia los colores del skin de aMSN.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>54</id>
+        <type>plugin</type>
+        <lang>es</lang>
+        <translation>Chatbot hecho en Tcl. Realmente útil, con un montón de opciones. Para ver la ayuda, escribe !help.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>1</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Haudrey</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>2</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>pmdzskin</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>3</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un merecido homenaje a Darwin.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>4</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>aMSN para Mac.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>5</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Skin de Aqua.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>6</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Brushed Metal, versión final.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>7</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Sin nombre, versión 2</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>8</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Sheeny-Deluxe</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>9</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Snow Grey, versión 1</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>10</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Ubuntu</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>11</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Unified</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>12</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Clearlooks</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>13</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>El original Skin Tux por Steels - con un montón de pequeños pingüinos. Actualizado para aMSN 0.95</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>14</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>¡Skin fusión de aMSN y MSN Messenger!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>15</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Skin basado en el skin del cliente oficial Windows MSN Messenger 7.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>16</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Elegante diseño con íconos del set de íconos Tiger Xi por Smith.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>17</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Inspirado por la Comunidad Catalana.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>18</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Skin basado en los colores del F.C.  Barcelona, el mayor y más reciente campeón de la UEFA Champions League.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>34</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Interface basada en Sedation GTK+ 2.x (http://jp.bizet.free.fr/). Imágenes, emoticones y sonidos vienen del skin Emerald 2.0.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>19</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation></translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>20</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Tema de Windows Classic hecho en aMSN 0.97b</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>21</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Inspirado por los esquema de colores del Ubuntu Dapper.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>22</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Este tema está dedicado a los usuarios de Kubuntu (y KDE por supuesto).</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>23</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Emerald</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>24</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un tema basado en el Human, las barras de desplazamiento son como en Human (de Ubuntu Dapper). Los íconos pertenecen al paquete Nouve XT, Dropline Neu  icon, y del tema Mac OS para aMSN. ¡Disfrútalo!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>25</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>¡He creado este skin para aMSN!I created a skin for aMSN! Funciona con la versión 0.95 en adelante.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>26</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Dado que a muchos usuarios les gusta como el WLM se ve, he diseñado este tema. Personalmente, me desagrada la aariencia del MSN, pero este trabajo está dedicado a la comunidad :)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>27</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation></translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>28</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation></translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>29</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Evolución del popular skin Stylish-brushed. Nuevos sonids y una apariencia estilo brushed metal, diseñada para Mac OS X Tiger.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>30</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Blue&amp;Yellow skin para aMSN, con un set de divertidísimos ícono y más divertido aún, las voces Españolas de South Park.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>31</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Tema de Vista para aMSN por Futurosoft.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>32</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Clearlooks con nuevos íconos más grandes (45x45px).</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>33</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un skin con tema del Partido Pirata de Francia.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>35</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Ten un verdosa apariencia a Cannabis en tu aMSN :) Tiene skins con fondo blanco (para los escritorios mas brillantes) y un fondo oscuro (para los fondos de pantallas menos luminosos). Además incluye unos lindos íconos y ajustes, y el plugin de transparencia v0.5. Regocíjate  =)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>36</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un skin simple de Ubuntu para aMSN</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>37</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Skin parecido al Murrina usando el set de íconos Tango V 0.1</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>38</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Skin Cold para aMSN 0.97+, un skin muy simple con un nuevo set de sonidos y una apariencia más suave, diseñada para todas las plataformas incluyendo Mac OS X.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>39</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un nuevo Skin inspirado en el de Ubuntu (por Gustavo A. D&amp;iacute;az).</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>40</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Tema Human (Ubuntu) para aMSN. Va a hacer aMSN 0.97 (y posiblemente otras versiones) integrarse perfectamente con el tema de Ubuntu. Está basado en Simple Ubuntu, pero con muchas modificaciones.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>41</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un skin simple basado en el skin predeterminado del 0.97. La interfaz está en escala de grises, a excepción de los nombres de los contactos, el cuadro de estado, emoticones y algunos íconos para hacer la interfaz más simple de entender.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>42</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Este skin está hecho para aMSN versión 0.97. El diseño es elegante: blanco y negro con un toque de fibra de carbono como textura.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>43</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un skin Rosa y Púrpura, dedicado a todas las chicas que usan aMSN.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>44</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Simple, casi todo en blanco y negro. Incluye sonidos e imágenes de usuario.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>45</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Skin oscuro para aMSN 0.97 creado por Astaroth (http://astarothsworld.blogspot.com/).</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>46</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Skin oscuro creado y dedicado para todos los que estamos cansados y enfermos de los arco iris y los colores vivos para los clientes de MSN.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>47</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Blood Skin, un skin sangriento para aMSN 0.97.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>48</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un skin muy simple y oscuro de aMSN.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>49</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>El más hermoso skin oscuro.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>50</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Skin BlueDragon. Partes tomadas del skin 'BlackCarbon Skin' por Loi-B.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>51</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Modificación del skin Sedation en un skin a oscuro para ajustarlo al dark/black gtkrc.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>52</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un skin minimalista que haces al aMSN funcionar más rápido.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>53</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation></translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>54</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation></translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>55</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation></translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>56</id>
+        <type>skin</type>
+        <lang>es</lang>
+        <translation>Un lindo skin Oxygen para una mejor integración con KDE</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>8</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>¡Hemos alcanzado la marca del millón de descargas!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>8</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;El 11 de Marzo, las estadísticas de SourceForge indicaban que hemos alcanzado un millón de descargas en total, aproximadamente un mes después  de haber largado la versión 0.90. Esta marca es toda una hazaña para el desarrollo de aMSN. Queremos agradecer a todos los integrantes del proyecto: a los programadores principales, a los encargados de portarlo, a quienes mantienen los paquetes, a los diseñadores, probadores, diseñadores web y también a todos quienes solo pusieron ideas e información en nuestros foros y listas de correos. Queremos agradecer también a todos los usuarios por todo el apoyo a este proyecto (hemos recibido un montón de reportes de errores, mostrándonos la atención que los usuarios nos tienen).&lt;/p&gt;&lt;p&gt;Gracias a todos.&lt;/p&gt;
+</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>9</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>Problemas Conocidos</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>9</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;A partir del aMSN 0.83, desde el lanzamiento del Kernel 2.6 de Linux, y los cambios en el protocolo que hizo Microsoft han surgido dos problemas: Por el lado del Kernel 2.6, aMSN se cuelga en cualquier momento. Esto es probablemente se deba a los nuevos hilos del kernel, Por ahora, utiliza el kernel 2.4. Estamos trabajando con los desarrolladores de Tcl para verificar si este es un problema de aMSN o una mala implementación del Tcl o un bug del propio Tcl. NUEVO: Aparentemente esto ocurre solo cuando se usa TclTk 8.4.x. Personalmente utilizo TclTk 8.3 en Debian, Linux kernel 2.6.4 y todo funciona correctamente. Usando TclTk 8.4.5, hace que aMSN se congele indeterminísticamente. MAS NOTICIAS: Agradecemos a los desarrolladores del núcleo de Tcl (Don Porter) que descubrieron que el problema está en el código del ícono de la barra de tareas, cuyos hilos no estaban asegurados. Vamos a hacer hincapié en esto y corregirlo. Por otro lado de los errores, la Detección de Bloqueos. Este no existe más porque el error del protocolo ha sido corregido. Como esta característica no funciona más, será removida a partir del aMSN 0.90.;/p&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>10</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>¡aMSN 0.91 Disponible!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>10</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;El equpido de aMSN está orgulloso de anunciar la versión 0.91 de su cliente multiplataforma de MSN. Este lanzamiento es una versión de corrección de errores, con algunas menores mejoras como nicks propios para tus contactos, colores personalizados en tu lista de contacto, una interfaz mejorada para las Preferencias (la misma apariencia, nuevos botones)... Hecha una mirada a nuestro ChangeLog, o a nuestra Wiki si deseas conocer mas acerca de esta versión. .¡Haz click aquí para descargarla!&lt;/p&gt;&lt;p&gt;La versión para Mac OS X está retrasadda hasta que un pequeño bus en TkAqua sea corregido, sepan disculpar.&lt;/p&gt;&lt;p&gt;Esperamos que todos disfruten de este lanzamiento.&lt;/p&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>11</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>aMSN 0.91 disponible ahora en Mac OS X</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>11</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;Jerome ha estado trabajando duro en la versión para Mac OS X y ahora la 0.91 está disponible para todos. Puede obtenerlo en este link:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.cmq.qc.ca/4w/amsn&quot;&gt;http://www.cmq.qc.ca/4w/amsn&lt;/a&gt;&lt;/p&gt;&lt;p&gt;o desde otra página. Disfrútenlo.&lt;/p&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>12</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>¡Ha salido aMSN 0.92!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>12</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;Una nueva versión de aMSN (0.92) ha sido lanzada. Esta versión viene con una gran cantidad de correciones y nuevas prestaciones, especialemente para Mac OS X:&lt;/p&gt;&lt;ul&gt;&lt;li&gt; Añadimos nuevas opciones a la Interfaz para hacerla más atractiva&lt;/li&gt;&lt;li&gt; Nueva capa de abstracción. Proxys deben funcionar mejor ahora, Autentificación del Proxy (user name y password) es soportado, y ahora podemos empezar a añadir nuevos tipos de proxys.&lt;/li&gt;&lt;li&gt;Cada usuario puede tener su propia configuración personal de notificación en &quot;Propiedades de Usuario&quot;&lt;/li&gt;&lt;li&gt;Cambiador de cuadros de diálogos con la tecla Tab en la ventana de inicio de sesión. &lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Para Mac OS X:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Ahora pregunta si deseas guardar o no los cambios en la ventana de Preferencias (para la gente con pantalla pequeña).&lt;/li&gt;&lt;li&gt;Error corregido en las Preferencia cuando se edita a un estado personalizado&lt;/li&gt;&lt;li&gt;¡Ahora el ícono de aMSN salta en el dock!k&lt;/li&gt;&lt;li&gt;Utiliza QuickTime para reproducir los sonidos&lt;/li&gt;&lt;li&gt;No más ventanas en la esquina inferior derecha de la pantalla cuando se abren.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;¡Consigue tu copia ahora antes de que se agoten!&lt;/p&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>13</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>¡Ya disponible aMSN 0.93!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>13</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;Finalmente, aMSN 0.93 ha llegado. Muchos cambios y correciones se han hecho, algunas características novedosas e interesantes también, y, aunque muchos usuarios no lo noten, gran cantidad de código se ha cambiado y re escrito para para dejar el camino abierto a nuevas prestaciones en un futuro cercano (sistema de plugins, audio/video,...).&lt;/p&gt;&lt;p&gt;&lt;b&gt;Cambios desde el 0.92 al 0.93:&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Agregada la opción de alarma para enviar un mensaje a un contacto cuando ésta se enciende.&lt;/li&gt;&lt;li&gt;Re escrito el código de los emoticones y los personalizados. Debe funcionar mejor ahora.&lt;/li&gt;&lt;li&gt;Problemas de las Imágenes del usuario con Gaim corregidos.&lt;/li&gt;&lt;li&gt;Problemas de la alarma corregidos y añadida la opción de sustitución de la variable en el comando de alarma.&lt;/li&gt;&lt;li&gt;Soporte mejorado para los sonidos.&lt;/li&gt;&lt;li&gt;Soporte nuevo para personalizar el estilo del chat (estilo MSN/IRC/Propio)&lt;/li&gt;&lt;li&gt;Añadida la opción de re conectarse automáticamente cuando se desconecta.&lt;/li&gt;&lt;li&gt;Correcciones en la autenticación en proxys y soporte para proxys sin keep-alive.&lt;/li&gt;&lt;li&gt;Agrega la opción de ignorar las fuentes personales de los otros usuarios.&lt;/li&gt;&lt;li&gt;Ventana de Chat corregida cuando las teclas arriba/abajo no respondían como uno normalmente espera&lt;/li&gt;&lt;li&gt;Recordar el último directorio en la ventanas de archivos.&lt;/li&gt;&lt;li&gt;Chats estilo IRC.&lt;/li&gt;&lt;li&gt;Cambiar skin sin reiniciar.&lt;/li&gt;&lt;li&gt;Apariencia removida del aMSN para el Modo Jefe.&lt;/li&gt;&lt;li&gt;Añadido un Apodo en conversación.&lt;/li&gt;&lt;li&gt;Agregada la opción para diferentes nombres para cada usuario.&lt;/li&gt;&lt;li&gt;Añadida la opción de permitir forzar el otro nombre del contacto (para mostrar en el chat).&lt;/li&gt;&lt;li&gt;Ahora graba tu imagen de usuario para ser vista en las preferencias cuando estás desconectado.&lt;/li&gt;&lt;li&gt;No necesitas reinicar aMSN para mostrar/ocultar el panel.&lt;/li&gt;&lt;li&gt;No más ventanas fuera de la pantalla.&lt;/li&gt;&lt;li&gt;Opción para permitir un solo o doble click para abrir un nuevo chat.&lt;/li&gt;&lt;li&gt;Opción para remover la línea en grupos vacíos.&lt;/li&gt;&lt;li&gt;Opción para remover grupos vacíos de la lista de contactos.&lt;/li&gt;&lt;li&gt;Agregada la posibilidad de usar la librería Snack para sonidos (predeterminada en Windows)&lt;/li&gt;&lt;li&gt;Posibilidad de bloquear/desbloquar todos los usuarios de un grupo a través de un menú desplegable.&lt;/li&gt;&lt;li&gt;Muchos bugs corregidos.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;b&gt;Para Mac OS X:&lt;/b&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Mejores en el Mostrar/Enviar canción con iTunes&lt;/li&gt;&lt;li&gt;Corregido el bug de las transparencias en el gif.&lt;/li&gt;&lt;li&gt;Ahora totalmente soportado hacer scripts &quot;..&quot;a través del ApplesScript&lt;/li&gt;&lt;li&gt;Ahora pregunta grabar antes de cerrar el menu de Preferencias.&lt;/li&gt;&lt;/ul&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>14</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>¡aMSN 0.94 ahora disponible!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>14</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;Luego de algunas semanas de espera... el aMSN Team se enorgullece en anunciar su versión 0.94.&lt;/p&gt;&lt;p&gt;La característica más importante de esta es el nueva y totalmente funcional sistema de plugins. Ahora todos pueden ampliar la funcionalidad de su aMSN a los limites de sus mentes. Con el paquete 0.94 vienen dos plugins desarrolados por el aMSN Team. Zumbidos, para implementar esta genial prestación del MSN 7.0, y emotes que implementa comandos de Acciones con /me (estilo IRC) .&lt;br/&gt;¡Pero es no es todo! Hay más plugins que no pertenecen a la base del aMSN, por lo que hemos añadido una nueva sección de Plugins donde podrás descargar los últimos plugins para tu aMSN y enviar los tuyos propios. Te invitamos a que mires esto .&lt;/p&gt;&lt;p&gt; En esta versión además te ofrecemos prestaciones como poder saber cual es el cliente que está usando el otro contacto (incluyendo si usa Web Messenger), previsualización de las imágenes cuando son enviadas desde MSN6 (o superior), detección de los mensajes de mantenimiento del servidor MSN, la opción para grabar un archivo entrante donde tu quieras.... y mucho más.&lt;br/&gt;Pero lo más importante en este lanzamiento son los bugs. Esta versión se ha enfocado en la estabilidad y debe ser (esperamos que si) mucho más estable que la 0.93.&lt;/p&gt;&lt;p&gt;¿Qué estás esperando? ¡Bájalo ahoraw!&lt;/p&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>15</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>¡aMSN NO está muerto!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>15</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;Como algunos de ustedes sabe, aMSN no está muerto, estamos trabajando en una versión con grandes cambios: - Nuevas preferencias estilo mozilla usando snit (orientado a objeto). - Una abstracción al GUI y al Protocolo que permite la posibilidad de tener mas de un gui y multiprotocolos. - Ventanas de chat con pestañas (ahora podrás agrupar las conversaciones por grupo o todas en una). - Y estamos trabajando en el soporte de webcam. Les recomendamos descargar el paquete cvs , para que puedas probar estas nuevas características (ahora las pestañas en la ventana de chat es estable) y darnos tu opinión acerca de estas (siempre estás bienvenido a hacerlo). De todas maneras, debemos advertirte que no garantizamos estabilidad en la versión de cvs, por lo que te podrán ocurrir bugs que puedes reportar y ayudarnos en el desarrollo. ¡Gracias por usar este programa!&lt;/p&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>16</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>Cenusra en la red de Messenger!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>16</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;Bueno, para todos quienes creen que aMSN está muerto ... ¡NO LO ESTÁ! Solo obtén la última versión de CVS. Estamos trabajando muy duro para brindarles una nueva versión. ¿Cuándo va a estar lista? ¡No sabemos!&lt;/p&gt;&lt;p&gt;Cambiando de tema, hemos descubierto que algunas palabras son censuradas en la red de Messenger. Por ejemplo, parece que no puedes enviar mensajes que contengan palabras como: download.php ¡Sólo inténtenlo! La conversación se cerrará automáticamente. En el Messenger oficial, el mensaje que contiene esas palabras desaparece. En aMSN obtendrás un error de envío luego de un minuto. Esto es completamente ridículo, un atentado contra la libre expresión en la Internet. ¿Qué piensas de esto? ¿Has descubierto más palabras censuradas? ¡Cuéntanosla por favor!&lt;/p&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>17</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>¡Les presentamos aMSN 0.95 en nuestro nuevo sitio web!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>17</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>&lt;p&gt;Luego de haber transcurrido más de un año desde 0.94, ¡Finalmente aMSN 0.95 ha salido! Las nuevas características incluyen soporte de webcam ventanas de chat con pestañas, un soporte de skins y plugins mejorado, un nuevo protocolo para las transferencias de archivos, muchos nuevos plugins (como soporte de Inkdraw, para que envíes dibujos, y Zumbidos, un mejorado sistema de reporte de errores, y bueno también ¡MUCHOS errores corregidos! ¡Esperamos que la espera haya valido la pena!&lt;/p&gt;&lt;p&gt;También tenemos un nuevo sitio web, el cual no solo se ve mas genial que el anterior, sino que ademas es mucho más sencillo encontrar lo que necesitas :D&lt;br /&gt;Y lo mejor de todo ... ¡sigue estando libre de propagandas! :)&lt;/p&gt;&lt;p&gt;Si tienes comentarios (acerca del lanzamiento o del nuevo sitio web) puedes dejarlos en &lt;a href=&quot;http://amsn.recordingground.com/viewtopic.php?p=265#265&quot;&gt;nuestro foro &lt;/a&gt;&lt;/p&gt;&lt;p&gt;Además puedes unírtenos en &lt;a href=&quot;irc://irc.freenode.net/amsn&quot;&gt;nuestro canal IRC&lt;/a&gt; en caso de que necesites ayuda, o solo quieras decirnos Hola :). El canal&lt;a href=&quot;irc://irc.freenode.net/amsn&quot;&gt;#amsn on irc.freenode.net&lt;/a&gt;ahora es mantenido y tiene muchos visitantes, ¡úsalo!&lt;/p&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>20</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>news_20_title</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>20</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>news_20_text</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>19</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>news_19_title</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>19</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>news_19_text</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>21</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>news_21_title</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>21</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>news_21_text</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>22</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>news_22_title</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>22</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>news_22_text</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>23</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>news_23_title</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>23</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>news_23_text</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>24</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>news_24_title</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>24</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>news_24_text</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>25</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>news_25_title</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>25</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>news_25_text</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>26</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>news_26_title</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>26</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>news_26_text</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>27</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>aMSN Meeting at FOSDEM 2008</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>27</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>Saludos,&lt;br&gt;&lt;br&gt;Queremos anunciarle a todo el mundo que el equipo de aMSN se encontrará en la conferencia FOSDEM este año en Bruselas el día 23 y 24 de Febrero del 2008.&lt;br&gt;Este es el primer encuentro del equipo de aMSN, por lo que estamos muy emocionados de encontrarnos finalmente, luego de trabajar juntos durante tanto tiempo sin encontrarnos o tener idea alguna de como luce cada uno.&lt;br&gt;Quiero aprovechar esta oportunidad para invitarlos a todos los que tienen la posibilidad de asistir a la conferencia FOSDEM, o quienes vivan cerca de Bruselas, a encontrarnos, estamos ansiosos de conocer a nuestros fans, emm.. Quise decir, ¡usuarios!&lt;br&gt;Aparte de tener un encuentro cara a cara, conversar (para felicitarnos por nuestro trabajo fabuloso), divertirnos un poco, etc.. Estaremos repartiendo nuestras camisetas personalizadas con el logo de aMSN y una línea de etiqueta (más detalles abajo). Entonces si quieres una, ¡nos vemos en Bruselas!&lt;br&gt;&lt;br&gt;Detalles de las camisetas: El diseño no está decidido aun, queremos una camiseta con el logo de aMSN y también escrito &quot;aMSN Messenger&quot; en algún lugar, y también una línea de etiqueta... pero no sabemos que escribir ahí todavía..Así que si tienes alguna idea, solo dínosla en &lt;a href=&quot;http://www.amsn-project.net/forums/viewtopic.php?t=4716&quot;&gt;here&lt;/a&gt; para ayudarnos a poner algo genial o divertido en las camisetas. El que traiga una frase genial, será recompensado con una de las camisetas, enviadas directamente a su casa (o al laboratorio de su escuela, dependiendo de cuan geek es :p). Dinos tus preferencias en el color de la camisa o el texto (solo uno permitido para el texto y uno permitido para el fondo de la camiseta).&lt;br&gt;&lt;br&gt;Al mismo tiempo, quiero contarles que nos encantaría entregarles camisetas gratis a todos los involucrados en este gran proyecto y nos ayudó a hacerlo lo que es ahora. Estamos planificando un envío de camisetas a nuestros Power Usuers del foro (no comiencen a enviar comentarios como locos... ¡por favor!), traductores, quienes nos enviaron parches, desarrolladores de plugins y skins, etc...&lt;br&gt;&lt;br&gt;Para más información, o simplemente responder este nuevo post, click en Click&lt;a href=&quot;http://www.amsn-project.net/forums/viewtopic.php?t=4716&quot;&gt;here&lt;/a&gt;</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>28</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>¡aMSN 0.97.1 Disponible!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>28</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>Hi,&lt;br&gt;&lt;br&gt;In order to continually give a great experience to our users, we have decided to release our first ever bugfix release!&lt;br&gt;The aMSN version 0.97.1 is a release which contains only bug fixes from our last stable version 0.97, so this is, as of today, the most stable version we have ever done.&lt;br&gt;&lt;br&gt;It is important for you to update, because this version also fixes a critical bug that prevents a lot of our users from connecting to the MSN network. This is caused by a recent change in the protocol from the MSN server which made aMSN unable to connect to the network... so if you are having suchproblems, please update!&lt;br&gt;&lt;br&gt;You can read the full detailed changelog as well as release notes&lt;a href=&quot;http://sourceforge.net/project/shownotes.php?release_id=610067&amp;amp;group_id=54091&quot;&gt;here&lt;/a&gt;.&lt;br&gt;&lt;br&gt;For those who feel adventurous and want to stay up to date with the latest development version, please refer to our&lt;a href=&quot;http://amsn-project.net/wiki/SVN&quot;&gt;SVN Installation&lt;/a&gt;manual.&lt;br&gt;&lt;br&gt;Enjoy!&lt;br&gt;&lt;br&gt;PS : we just have discovered a bug in the 0.97.1 release. This version bugs when trying to send an offline message. For the moment, just do not use that feature, and aMSN should run fine. We are currently fixing it, and hope releasing a second bugfix in a week or two. If you found an other bug in that release, please tell us about it in the forums in order to get it fixed in next bugfix release. Thanks for your support.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>29</id>
+        <type>news_title</type>
+        <lang>es</lang>
+        <translation>aMSN 0.97.2 ahora disponible</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>29</id>
+        <type>news_text</type>
+        <lang>es</lang>
+        <translation>¡Hola a todos! Incluso en vacaciones, cuando todos ustedes se están cocinando en la playa, los desarrolladores de aMSN siguen trabajando en su programa de Mensajería Instantánea favorito! Y es por eso que ahora puedes descargar un nuevo lanzamiento con muchos errores corregidos de la serie aMSN 0.97: ¡aMSN 0.9.7.2! Esta nueva versión corrige, además de muchos otros bugs, los errores que experimentabas cuando enviabas Mensajes Fuera de Línea.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>22</id>
+        <type>poll_question</type>
+        <lang>es</lang>
+        <translation>¿Debería aMSN proveer de un solo paquete para Linux (autopackage)?</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>19</id>
+        <type>poll_question</type>
+        <lang>es</lang>
+        <translation>¿Emocionado por el lanzamiento del 0.95?</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>21</id>
+        <type>poll_question</type>
+        <lang>es</lang>
+        <translation>¿Qué piensas de la última versión en desarrollo?</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>24</id>
+        <type>poll_question</type>
+        <lang>es</lang>
+        <translation>¿Cuál prestación prefieres en la próxima entrega?</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>26</id>
+        <type>poll_question</type>
+        <lang>es</lang>
+        <translation>¿Cuál es la característica que esperaba ver en el 0.97 y no la tiene?</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>3</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>No realmente, he estado usando CVS durante un tiempo</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>1</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>¡Si! Estaba casi seguro que el proyecto aMSN había muerto</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>4</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Tal vez, tengo que probarla primero</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>2</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>¡Si!, ¡que buen regalo de navidad!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>5</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>No, ¡no parece tener nada lo suficientemente interesante!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>21</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Prefiero seguir con las versiones estables</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>20</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>De vez en cuando, cuando me acuerdo, actualizo a la última versión</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>19</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Lo actualicé ayer</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>22</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>No sé lo que es una versión en desarrollo</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>23</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>¡Nunca supe como acceder! Quiero probarlo, ¿cómo lo obtengo? (Rta: lee las noticias)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>24</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>¡Si! Todas las distribuciones principales proveen de su propia versión de paquete que puedes instalar desde el gestor de paquetes de todos modos.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>25</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>No por favor, hagan paquetes para mi distribución.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>26</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>No importa, mientras sea fácil de instalar.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>27</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Uso Windows así que no me interesa.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>28</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Uso Mac OS X así que tampoco me interesa.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>31</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Mensajes fuera de línea</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>32</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Clips de voz</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>33</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>MSN Spaces</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>34</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Todo lo anterior</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>35</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Otra característica (no enlistada)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>36</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Estoy feliz con las actuales prestaciones de aMSN, gracias</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>37</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>¡A mi nadie me engaña! ¡Estoy usando la versión en SVN!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>43</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Soporte de MSN Spaces.</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>44</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Chat mientras figura Desconectado</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>45</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Llamadas de Audio</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>46</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Compatibilidad con Yahoo!</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>47</id>
+        <type>poll_answer</type>
+        <lang>es</lang>
+        <translation>Soporte a carpetas compartidas</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>1</id>
+        <type>screen_name</type>
+        <lang>es</lang>
+        <translation>Nombres de los contactos</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>1</id>
+        <type>screen_desc</type>
+        <lang>es</lang>
+        <translation>Cambiar tu nombre para hacerlo mas corto en las conversaciones (0.97)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>4</id>
+        <type>screen_name</type>
+        <lang>es</lang>
+        <translation>Webcam</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>4</id>
+        <type>screen_desc</type>
+        <lang>es</lang>
+        <translation>Webcam en acción (0.97)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>5</id>
+        <type>screen_name</type>
+        <lang>es</lang>
+        <translation>Ventana Principal</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>5</id>
+        <type>screen_desc</type>
+        <lang>es</lang>
+        <translation>Lista de Contactos y una Ventana de Conversación (0.97)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>6</id>
+        <type>screen_name</type>
+        <lang>es</lang>
+        <translation>Preferencias</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>6</id>
+        <type>screen_desc</type>
+        <lang>es</lang>
+        <translation>Esto es cómo puedes mejorar aMSN a tus gustos (0.97)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>2</id>
+        <type>screen_name</type>
+        <lang>es</lang>
+        <translation>Selector de emoticones</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>2</id>
+        <type>screen_desc</type>
+        <lang>es</lang>
+        <translation>Emoticones dentro de una Ventana de Conversación (0.97)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>3</id>
+        <type>screen_name</type>
+        <lang>es</lang>
+        <translation>Mensajes Automáticos</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>3</id>
+        <type>screen_desc</type>
+        <lang>es</lang>
+        <translation>Editor de Mensajes Automáticos: fíjese que el comando fortune será ejecutado (0.97)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>7</id>
+        <type>screen_name</type>
+        <lang>es</lang>
+        <translation>Mensajes Personales</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>7</id>
+        <type>screen_desc</type>
+        <lang>es</lang>
+        <translation>Configurando un Mensaje Personal (0.97)</translation>
+    </amsn_translations>
+    <amsn_translations>
+        <id>8</id>
+        <type>screen_name</type>
+        <lang>es</lang>
+        <translation>Miniaturas de las Imágenes de Usuario</translation>
+    </amsn_translations>
+</amsn>
