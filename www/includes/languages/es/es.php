@@ -2,38 +2,38 @@
 @setlocale(LC_ALL, 'es_ES.utf-8');
 define('TIME_FORMAT','%e de %B de %Y @ %H:%M:%S');
 //header menu definitions START
-define('HOME_MENU', 'Home');
-define('DOWNLOAD_MENU', 'Downloads');
-define('FEATURES_MENU','Features');
+define('HOME_MENU', 'Inicio');
+define('DOWNLOAD_MENU', 'Descargas');
+define('FEATURES_MENU','Características');
 define('SKINS_MENU','Skins');
 define('PLUGINS_MENU','Plugins');
-define('SCREEN_MENU','Screenshots');
-define('DOCS_MENU','Docs/Help');
-define('DEV_MENU','Development');
+define('SCREEN_MENU','Capturas');
+define('DOCS_MENU','Docs/Ayuda');
+define('DEV_MENU','Desarrollo');
 //header menu definitions END
 
 // index.php definitions START
-define('AMSN_DESC', '<strong>aMSN</strong> is a free open source MSN Messenger clone, with features such as:
+define('AMSN_DESC', '<strong>aMSN</strong> es un clon open source del MSN Messenger, con características como:
 ');
-define('DESC_OFF_MSG', 'Offline Messaging');
-define('VOICE_CLIP', 'Voice Clips');
-define('DISPLAY_PICS', 'Display pictures');
-define('CUSTOM_EMOS', 'Custom emoticons');
-define('MULTI_LANG', 'Multi-language support (around 40 languages currently supported');
-define('WEB_CAM_SUPPORT', 'Webcam support');
-define('SIGNIN_MORE', 'Sign in to more than one account at once');
-define('FSPEED_FTRANS', 'Full-speed File transfers');
-define('GROUP_SUPPORT', 'Group support');
-define('EMOS_WITH_SOUND', 'Normal, and animated emoticons with sounds');
-define('CHAT_LOGS', 'Chat logs');
-define('TIMESTAMPING', 'Timestamping');
-define('EVENT_ALARM', 'Event alarms');
-define('CONFERENCE_SUPPORT', 'Conferencing support');
-define('TABBED_CHAT', 'Tabbed chat windows');
-define('FOR_FULL_FEATURES', 'For a full list, see the <a href="features.php">features page</a>. More features can be added to aMSN with <a href="plugins.php">plugins</a>, or completely change its look with different <a href="skins.php">skins</a>!');
-define('DOWN_IMG','Download aMSN');
-define('PLUG_IMG','Get Plugins');
-define('SKIN_IMG','Get Skins');
+define('DESC_OFF_MSG', 'Mensajería fuera de línea');
+define('VOICE_CLIP', 'Clips de voz');
+define('DISPLAY_PICS', 'Imágenes de usuario');
+define('CUSTOM_EMOS', 'Emoticones personalizados');
+define('MULTI_LANG', 'Soporte para varios idiomas (aproximadamente 40 idiomas son soportados)');
+define('WEB_CAM_SUPPORT', 'Soporte para Webcam');
+define('SIGNIN_MORE', 'Iniciar varias sesiones al mismo tiempo');
+define('FSPEED_FTRANS', 'Transferencias de archivos veloces');
+define('GROUP_SUPPORT', 'Soporte de grupos');
+define('EMOS_WITH_SOUND', 'Emoticones normales y animados con sonidos');
+define('CHAT_LOGS', 'Registro de conversaciones (Historial de Chats)');
+define('TIMESTAMPING', 'Hora en los mensajes');
+define('EVENT_ALARM', 'Alarma para eventos');
+define('CONFERENCE_SUPPORT', 'Soporte para conferencias (Chats en grupo)');
+define('TABBED_CHAT', 'Ventanas con pestañas');
+define('FOR_FULL_FEATURES', 'Para la lista completa, ve a la <a href="features.php">página de características</a>. ¡Puedes obtener más mediante <a href="plugins.php">plugins</a>, o también cambiar totalmente su apariencia con <a href="skins.php">skins</a>!');
+define('DOWN_IMG','Descargar aMSN');
+define('PLUG_IMG','Ir a Plugins');
+define('SKIN_IMG','Ir a Skins');
 // index.php definitions END
 
 //download.php definitions START
@@ -42,85 +42,85 @@ define('WIN_DOWN', 'Windows');
 define('WIN95_DOWN', 'Windows 95');
 define('MACOSX_DOWN', 'Mac OS X(Universal)');
 define('FREEBSD_DOWN', 'FreeBSD');
-define('TARBALL_DOWN', 'Tarball Source');
-define('LATEST_SVN','Latest development version (SVN Snapshot of');
+define('TARBALL_DOWN', 'Paquete del Fuente');
+define('LATEST_SVN','Última versión de desarrollo (SVN Snapshot');
 //download.php definitions END
 
 //features.php definitions START
-define('AMSN_DESC_FEAT', '<strong>aMSN</strong> is an free open source MSN Messenger clone, featuring:');
-define('OFF_MSG_FEAT', '&#187; Offline Messaging');
-define('VOICE_CLIP_FEAT', '&#187; Voice Clips');
-define('NLW_FEAT', '&#187; A New Login Window &amp; Contact List (As of 0.97)');
-define('DISPLAY_PICS_FEAT', '&#187; Display pictures');
-define('CUSTOM_EMOS_FEAT', '&#187; Custom emoticons');
-define('MULTI_LANG_FEAT', '&#187; Multi-language support (around 40 languages currently supported)');
-define('SIGNIN_MORE_FEAT', '&#187; Sign in to more than one account at once');
-define('FTRANS_FEAT', '&#187; File transfers');
-define('GROUP_SUPPORT_FEAT', '&#187; Group support');
-define('EMOS_WITH_SOUND_FEAT', '&#187; Normal, and animated emoticons with sounds');
-define('CHAT_LOGS_FEAT', '&#187; Chat logs');
-define('EVENT_ALARM_FEAT', '&#187; Event alarms');
-define('CONFERENCE_SUPPORT_FEAT', '&#187; Conferencing support');
-define('WEB_CAM_SUPPORT_FEAT', '&#187; Webcam support');
-define('HISTORY_FEAT', '&#187; History in color');
-define('AUTOCLOSE_FEAT', '&#187; Ability to autoclose the filetransfer window when it is finished');
-define('PLUGIN_WIN_FEAT', ' &#187; New plugins log window (Alt-P)');
-define('PLUGIN_COMP_FEAT', '&#187; Plugins compatible with supported languages');
-define('SKIN_WIN_FEAT', '&#187; Faster loading skin window');
-define('SKINS_CHAT_FEAT', '&#187; Skins in chatwindow');
-define('WIN_BOTTOM_FEAT', '&#187; Resizable chatwindow bottom');
-define('NEW_USER_GROUP_FEAT', '&#187; When you add a new user, you can define in which group you want to add them');
-define('CHAT_WIN_COLOR_FEAT', '&#187; When a contact change status, the top of the chat window changes color ( green for away, grey for offline, etc.)');
-define('VERSION_ALERT_FEAT', '&#187; New panel GUI to alert when there\'s a new aMSN version');
-define('DOWN_RELEASE_FEAT', '&#187; Possibility to download the new release directly by aMSN');
-define('AUTO_UPDATE_FEAT', '&#187; Automatically update language files and plugins from the web');
-define('DEL_USER_GUI_FEAT', '&#187; New gui for deleting users (also possible to block on deletion)');
-define('USER_NOTES_FEAT', '&#187; Possible to add notes for each user (XML)');
-define('MSN_MOBILE_FEAT', '&#187; Support for MSN Mobile service');
-define('TABBED_WIN_FEAT', '&#187; Tabbed windows so you can group conversations using tabs');
-define('STATUS_APPEAR_FEAT', '&#187; Status is displayed inside a frame, so it won\'t dissapear when you scroll');
-define('ALERT_PICTURE_FEAT', '&#187; Display picture in notification alert (like MSN 7)');
-define('HISTORY_STATS_FEAT', '&#187; Statistics for history (logging)');
-define('LOGIN_STATUS_FEAT', '&#187; Now possible to choose any state for your login status (before it was only possible to login invisible or online)');
-define('TIMESTAMPING_FEAT', '&#187; Timestamping');
-define('MORE_FEAT', 'But that\'s not all!  More features can be added to aMSN with <a href="plugins.php">plugins</a>, or for the adventurous, completely change the look of aMSN with different <a href="skins.php">skins</a>!');
+define('AMSN_DESC_FEAT', '<strong>aMSN</strong> es un clon open source del MSN Messenger, que posee:');
+define('OFF_MSG_FEAT', '&#187; Mensajería fuera de línea');
+define('VOICE_CLIP_FEAT', '&#187; Clips de voz');
+define('NLW_FEAT', '&#187; Una nueva ventana para el Inicio de Sesión y la Lista de Contactos (A partir del 0.97)');
+define('DISPLAY_PICS_FEAT', '&#187;Imágenes de usuario');
+define('CUSTOM_EMOS_FEAT', '&#187; Emoticones personalizados');
+define('MULTI_LANG_FEAT', '&#187; Soporte para varios idiomas (aproximadamente 40 idiomas son soportados)');
+define('SIGNIN_MORE_FEAT', '&#187; Iniciar varias sesiones al mismo tiempo');
+define('FTRANS_FEAT', '&#187; Transferencias de archivos');
+define('GROUP_SUPPORT_FEAT', '&#187; Soporte de grupos');
+define('EMOS_WITH_SOUND_FEAT', '&#187; Emoticones normales y animados con sonidos');
+define('CHAT_LOGS_FEAT', '&#187; Registro de conversaciones (Historial de Chats)');
+define('EVENT_ALARM_FEAT', '&#187; Alarma para eventos');
+define('CONFERENCE_SUPPORT_FEAT', '&#187; Soporte para conferencias (Chats en grupo)');
+define('WEB_CAM_SUPPORT_FEAT', '&#187; Soporte para Webcam');
+define('HISTORY_FEAT', '&#187; Historial en color');
+define('AUTOCLOSE_FEAT', '&#187; Posibilidad de cerrar automáticamente la ventana de transferencia de archivos cuando ésta termine');
+define('PLUGIN_WIN_FEAT', ' &#187; Nueva ventana de historial para Plugins (Alt-P)');
+define('PLUGIN_COMP_FEAT', '&#187; Plugins compatibles con los idiomas soportados');
+define('SKIN_WIN_FEAT', '&#187; Ventana de skins con carga rápida');
+define('SKINS_CHAT_FEAT', '&#187; Skins en la ventana de conversación');
+define('WIN_BOTTOM_FEAT', '&#187; Ventana de conversación Redimensionable al fondo');
+define('NEW_USER_GROUP_FEAT', '&#187; Cuando un nuevo usuario te agrega, puedes definir en que grupo agregarlo');
+define('CHAT_WIN_COLOR_FEAT', '&#187; Cuando el estado de un contacto cambia, la parte superior de la ventana de conversación cambia de color (verde for ausente, gris para desconectado, etc.)');
+define('VERSION_ALERT_FEAT', '&#187; Nueva ventana de alerta cuando hay una nueva versión de aMSN');
+define('DOWN_RELEASE_FEAT', '&#187; Posibilidad de autodescargar la nueva versión directamente desde el aMSN');
+define('AUTO_UPDATE_FEAT', '&#187; Automáticamente actualiza los archivos de idioma y plugins desde la web');
+define('DEL_USER_GUI_FEAT', '&#187; Nueva interfaz para eliminar usuarios (además la posibilidad de bloquear cuando se elimina)');
+define('USER_NOTES_FEAT', '&#187; Posibilidad de añadir notas para cada usuario (XML)');
+define('MSN_MOBILE_FEAT', '&#187; Soporte para el servicio de MSN Mobile (móvil)');
+define('TABBED_WIN_FEAT', '&#187; Ventanas con pestañas, tu puedes agrupar las conversaciones usando pestañas');
+define('STATUS_APPEAR_FEAT', '&#187; El Estado es mostrador dentro de un marco, por lo que no desaparecerá cuando desplaces la lista');
+define('ALERT_PICTURE_FEAT', '&#187; Imagen de usuario dentro de la notificación de alerta (como en MSN 7)');
+define('HISTORY_STATS_FEAT', '&#187; Estadística de historiales (registros)');
+define('LOGIN_STATUS_FEAT', '&#187; Ahora la posibilidad de elegir cualquier estado al inicio de sesión (antes solo era posible iniciar sesión como Conectado o Invisible)');
+define('TIMESTAMPING_FEAT', '&#187; Hora en los mensajes');
+define('MORE_FEAT', '¡Pero eso no es todo! Si quieres más en tu aMSN, hazlo con <a href="plugins.php">plugins</a>, o si quieres aventurarte más, ¡cambia totalmente la apariencia de tu aMSN con un <a href="skins.php">skins</a>!');
 //features.php definitions END
 
 //skins.php definitions START
-define('LOVES_CUSTOM', '<strong>aMSN loves customization!</strong>');
-define('SKIN_DESC', ',and one way to customise it is to change its "skin". A skin changes the	look of aMSN. Here you can download skins developed by aMSN and by contributors.');
-define('INSTALL_SKIN', 'You can find instructions on how to install skins in our <a href="http://www.amsn-project.net/wiki/Installing_Plugins_and_Skins">skin and plugin installation guide</a>.');
-define('SUBMIT_SKIN', 'If you would like to submit your skin to this page, please read the <a href="http://www.amsn-project.net/wiki/Dev:Sumbitting_Plugins_and_Skins">skin submitting guide</a>.');
-define('NO_SKIN', 'There are no skins available.');
-define('CREATEDBY_SKIN', 'Created by:');
-define('VERSION_SKIN', 'Version:');
-define('SCREENSHOTS_SKIN', 'Screenshot');
-define('NOSCREEN_SKIN', 'No screenshot');
-define('DOWN_SKIN', 'Download this skin');
-define('DOWN_SOON_SKIN', 'Download comming soon!');
-define('BACK_TOP_SKIN', 'Back to top');
+define('LOVES_CUSTOM', '<strong>aMSN ama ser personalizado!</strong>');
+define('SKIN_DESC', ',y una forma de personalizar es cambiándole su "skin". Un skin cambia la apariencia de aMSN. Aquí puedes descargar skins desarrollados por aMSN y por sus colaboradores.');
+define('INSTALL_SKIN', 'Puedes encontrar instrucciones sobre como instalarlos en nuestra <a href="http://www.amsn-project.net/wiki/Installing_Plugins_and_Skins">guía de instalación de skins y plugins</a>.');
+define('SUBMIT_SKIN', 'Si deseas agregar tu propio skin a esta página, por favor lee la <a href="http://www.amsn-project.net/wiki/Dev:Sumbitting_Plugins_and_Skins">guía para agregar skins</a>.');
+define('NO_SKIN', 'No hay skins disponibles.');
+define('CREATEDBY_SKIN', 'Creado por:');
+define('VERSION_SKIN', 'Versión:');
+define('SCREENSHOTS_SKIN', 'Captura');
+define('NOSCREEN_SKIN', 'No hay captura');
+define('DOWN_SKIN', 'Descarga este skin');
+define('DOWN_SOON_SKIN', '¡Próximamente!');
+define('BACK_TOP_SKIN', 'Volver al principio');
 //skins.php definitions END
 
 //plugins.php definitions START
-define('FULL_FEATURES', 'aMSN is full of features');
-define('PLUGIN_DESC', ', but you can extend its functionality even more now, getting extra features by installing plugins. Plugins are simply that - they "plug in" to aMSN and give it extra features. Here you can download plugins developed by us and by contributors. Make sure you have the right version of aMSN for the plugin (check "requirements") and the right OS (check "platform")');
-define('INSTALL_PLUGIN', 'You can find instructions on how to install plugins in our <a href="http://www.amsn-project.net/wiki/Installing_Plugins_and_Skins">skin and plugin installation guide</a>.');
-define('SUBMIT_PLUGIN', 'If you would like to submit your plugin to this page, please read the <a href="http://www.amsn-project.net/wiki/Dev:Sumbitting_Plugins_and_Skins">plugin submitting guide</a>.');
-define('NO_PLUGINS', 'There are no plugins available.');
-define('CREATEDBY_PLUGIN', 'Created by:');
-define('VERSION_PLUGIN', 'Version:');
-define('PLATFORM_PLUGIN', 'Platform/OS:');
-define('REQUIRES_PLUGIN', 'Requires: ');
-define('SCREENSHOTS_PLUGIN', 'Screenshot');
-define('NOSCREEN_PLUGIN', 'No screenshot');
-define('DOWN_PLUGIN', 'Download this plugin');
-define('DOWN_SOON_PLUGIN', 'Download comming soon!');
-define('BACK_TOP_PLUGIN', 'Back to top');
+define('FULL_FEATURES', 'aMSN está lleno de prestaciones');
+define('PLUGIN_DESC', ', pero puedes extenderlas aun más, agregándole características especiales instalándole plugins. Los plugins son simplemente lo que significa en inglés - ellos "agregan ("plug in") al aMSN y les dan poderes especiales. Aquí puedes descargar los plugins desarrollados por nosotros y nuestros colaboradores. Procura tener la versión correcta de aMSN para el plugin (verifica los "requerimientos") y el Sistema Operativo adecuado (verifica también la "plataforma")');
+define('INSTALL_PLUGIN', 'Puedes encontrar instrucciones sobre como instalar los plugins en nuestra <a href="http://www.amsn-project.net/wiki/Installing_Plugins_and_Skins">guía de instalación de skins y plugins</a>.');
+define('SUBMIT_PLUGIN', 'Si deseas agregar tu propio plugin a esta página, por favor lee la <a href="http://www.amsn-project.net/wiki/Dev:Sumbitting_Plugins_and_Skins">guía para agregar plugins</a>.');
+define('NO_PLUGINS', 'No hay plugins disponibles.');
+define('CREATEDBY_PLUGIN', 'Creado por:');
+define('VERSION_PLUGIN', 'Versión:');
+define('PLATFORM_PLUGIN', 'Platforma/SO:');
+define('REQUIRES_PLUGIN', 'Requiere: ');
+define('SCREENSHOTS_PLUGIN', 'Captura');
+define('NOSCREEN_PLUGIN', 'No hay captura');
+define('DOWN_PLUGIN', 'Descarga este plugin');
+define('DOWN_SOON_PLUGIN', '¡Próximamente!');
+define('BACK_TOP_PLUGIN', 'Volver al principio');
 //plugins.php definitions END
 
 //screenshots.php definitions START
-define('NOSCREEN_SCREEN', 'There are no screenshots available.');
-define('NOEXIST_SCREEN', 'The selected screenshot does not exist. It may have been removed.');
+define('NOSCREEN_SCREEN', 'No hay capturas de pantalla disponibles.');
+define('NOEXIST_SCREEN', 'La captura de pantalla seleccionada no existe. Puede que haya sido eliminada.');
 //screeenshots.php definitions END
 
 //docs.php definitions START
@@ -131,169 +131,164 @@ define('LINK_USER_WIKI', 'User WIKI');
 //docs.php definitions END
 
 //developer.php definitions START
-define('AMSN_DEV_TEAM', 'Amsn Development Team');
-define('DEV_DESC', 'Here is a list of people who are currently working or have worked in past on aMSN.');
-define('CURRENT_DEVS_DEV', 'Current Developers');
-define('PLEASE_HELP', 'Please Help');
-define('HELP_DESC', 'If you would like to contribute to this project, please leave a message on our forum at:');
+define('AMSN_DEV_TEAM', 'Equipo de Desarrollo de aMSN');
+define('DEV_DESC', 'Aquí está la lista de la gente que actualmente está o ha trabajado en aMSN.');
+define('CURRENT_DEVS_DEV', 'Desarrolladores actuales');
+define('PLEASE_HELP', 'Por favor Contribuye');
+define('HELP_DESC', 'Si deseas colaborar con este proyecto, por favor mándanos un mensaje en nuestro foro en:');
 define('DONATION_DESC', 'If you would like to donate to the aMSN project, you can find more information about doing so, here: ');
-define('DONATIONS_DEV','Donations');
-define('AMSN_BUG_REPORT', 'aMSN Bug Reports');
-define('BUGS_DESC', 'If you have run into a bug while using aMSN, please submit it with details on recreating the bug and possibly the stack trace on the following forum. Also expect further questions concerning the bug and the environment it was produced in.');
-define('REPORT_BUG', 'Report A Bug');
-define('PREV_BUG_REPORT', 'Previous Bug Reports');
+define('DONATIONS_DEV','Donaciones');
+define('AMSN_BUG_REPORT', 'Informes de Bugs en aMSN');
+define('BUGS_DESC', 'Si has descubierto un bug mientras usabas aMSN, por favor infórmalo con detalles como recrear el bug y ver su seguimiento en el foro. También aceptamos preguntas sobre el bug y el entorno sobre el cual se produjo.');
+define('REPORT_BUG', 'Informa Un Bug');
+define('PREV_BUG_REPORT', 'Informes de Bugs Anteriores');
 define('AMSN_SVN', 'aMSN SVN');
-define('SVN_DESC', 'If you want to be on the bleeding egde of AMSN you can download our most recent developement version directly from our sourceforge SVN. SVN
-contains new bug fixes from the previous releases. On the other hand, it might not be as stable as the latest stable release.');
-define('BROWSE_SVN', 'Browse SVN Repository');
-define('SVN_HOWTO', 'Instructions on how to install the SVN version');
-define('AMSN_TRANSLATE', 'aMSN Translations');
-define('TRANSLATE_DESC', 'If you have a translation to submit for aMSN, please visit: ');
+define('SVN_DESC', 'Si quieres mantenerte actualizado con lo último de aMSN, puedes descargar nuestra más reciente versión de desarrollo directamente de nuestro SVN en SourceForge. El SVN contiene las nuevas correcciones a los bugs de las versiones anteriores. Por otro lado, esta puede no ser tan estable como la última versión estable lanzada');
+define('BROWSE_SVN', 'Explorar el Repositorio SVN');
+define('SVN_HOWTO', 'Instrucciones sobre como Instalar la versión SVN');
+define('AMSN_TRANSLATE', 'Traducciones de aMSN');
+define('TRANSLATE_DESC', 'Si tienes una traducción para agregar a aMSN, por favor visita: ');
 //developer.php definitions END
 
 //current-developer.php definitions START
-define('CURRENT_DEVS', 'Current Developers :');
-define('ROLE_DEV', 'Role: ');
+define('CURRENT_DEVS', 'Desarrolladores Actuales :');
+define('ROLE_DEV', 'Rol: ');
 define('ADMIN_DEV', 'Admin');
-define('DEVELOPER_DEV', 'Developer');
-define('MANAGER_DEV', 'Project Manager');
-define('INTER_DEV', 'Internationalization');
-define('LOCATION_DEV', 'Location: ');
-define('IRC_DEV', 'IRC Nick: ');
-define('WEB_SITE', 'Web site');
+define('DEVELOPER_DEV', 'Desarrollador');
+define('MANAGER_DEV', 'Manager del proyecto');
+define('INTER_DEV', 'Internacionalización');
+define('LOCATION_DEV', 'Ubicación: ');
+define('IRC_DEV', 'Nick del IRC: ');
+define('WEB_SITE', 'Sitio Web');
 define('BLOG_DEV', 'Blog');
-define('GAMES_PLUG_DEV', 'Games Plugin Maintainer');
-define('RETIRED_WEB_DEV', 'Retired webpage developer ');
-define('FARSIGHT_DEV', ' Farsight Project Manager');
-define('GRAPHICS_DEV', 'Graphics ');
-define('SKIN_DEV', ' Skin Designer ');
-define('WEB_DEV', ' Web Designer');
-define('UID_DEV', ' UI Designer ');
-define('GRAPHART_DEV', ' Graphical artist');
-define('TESTER_DEV', ' Tester');
-define('CONTRIBUTORS_DEV', 'Testers and contributers : ');
-define('CODER_DEV', 'Coder');
-define('PACKAGER_DEV', 'Packager');
-define('AMSN_STARTED_DEV', 'aMSN was started by : ');
-define('CCMSN_DEV', 'original author of CCMSN (aMSN is derived from CCMSN)');
-define('RETIRED_DEV', 'Retired Developer');
-define('PEOPLE_HELPED_DEV', 'People who have helped along the way :');
-define('PHP_CODER_DEV', 'PHP Coder');
-define('DATABASER_DEV', ' Database Developer');
-define('RETIRED_PHP_DEV', 'PHP Coder for retired website ');
-define('PLUGIN_MANAGER_DEV', 'Plugin Manager ');
-define('AMSN_PLUS_DEV', ' aMSN Plus Devel');
-define('WIN_MAIN_DEV', ' Win Maintainer ');
-define('MAC_PORTER_DEV', 'Mac Porter ');
-define('MAINTAINER_DEV', ' Maintainer ');
+define('GAMES_PLUG_DEV', 'Mantenimiento del Plugin de Juegos');
+define('RETIRED_WEB_DEV', 'Desarrollador Web Retirado ');
+define('FARSIGHT_DEV', ' Manager del Proyecto Farsight');
+define('GRAPHICS_DEV', 'Gráficos ');
+define('SKIN_DEV', ' Diseñador de Skins ');
+define('WEB_DEV', ' Diseñador Web');
+define('UID_DEV', ' Diseñador de Interfaz ');
+define('GRAPHART_DEV', ' Artista gráfico');
+define('TESTER_DEV', ' Probadores');
+define('CONTRIBUTORS_DEV', 'Probadores y colaboradores : ');
+define('CODER_DEV', 'Programador');
+define('PACKAGER_DEV', 'Empaquetador');
+define('AMSN_STARTED_DEV', 'aMSN fue iniciado por : ');
+define('CCMSN_DEV', 'autor original de CCMSN (aMSN es un derivado de CCMSN)');
+define('RETIRED_DEV', 'Desarrollador Retirado');
+define('PEOPLE_HELPED_DEV', 'Gente que ayudó en nuestra recorrida :');
+define('PHP_CODER_DEV', 'Programador PHP');
+define('DATABASER_DEV', ' Programador de Base de Datos');
+define('RETIRED_PHP_DEV', 'Programador PHP de la antigua Web ');
+define('PLUGIN_MANAGER_DEV', 'Manager de Plugins ');
+define('AMSN_PLUS_DEV', ' Desarrollador de aMSN Plus');
+define('WIN_MAIN_DEV', ' Mantenimiento para Windows ');
+define('MAC_PORTER_DEV', 'Portador hacia Mac ');
+define('MAINTAINER_DEV', ' Mantenimiento ');
 //current-developer.php definitions end
 
 //donatios.php definitions START
-define('AMSN_DONATIONS_TITLE', 'aMSN Donations:');
-define('DONATION_DESC1', 'Sometimes users want to thank the developers for all the time and effort put into the development of a successfull project.  For this reason, we have set up a particular location in which you can donate to specific developers.');
-define('DONATION_DESC2', 'aMSN as a whole, does not accept donations, but if you want to thank a specific member of the aMSN development team, we provide you these links, so that you may do so:');
-define('DONATE_TO', 'Donate To : ');
-define('BACK_TO_DEV', 'Back To Developer Page');
+define('AMSN_DONATIONS_TITLE', 'Donaciones a aMSN:');
+define('DONATION_DESC1', 'Muchas veces los usuarios quieren agradecer a los desarrolladores por todo el tiempo y esfuerzo que ellos ponen para mejorar un proyecto exitoso. Por este motivo, tenemos un lugar en particular donde puedes hacer donaciones a un desarrollador específico.');
+define('DONATION_DESC2', 'aMSN como un todo no acepta donaciones, pero si tu quieres agradecerle a un miembro en particular del equipo de desarrollo de aMSN, exponemos aquí estos enlaces, así puedes hacerlo:');
+define('DONATE_TO', 'Donar A : ');
+define('BACK_TO_DEV', 'Volver a la Página de Desarrolladores');
 //donations.php definitions END
 
 //translations.php definitions START
-define('TRANSLATION_TITLE', 'Join our mailing list!!');
-define('MAIL_LIST_TRANS', 'We have an <a href="http://lists.sourceforge.net/lists/listinfo/amsn-lang">amsn-
-lang mailing list</a> available for people who wish to help us.');
-define('JOIN_TRANS', 'You can join it by visiting <a href="http://lists.sourceforge.net/lists/listinfo/amsn-lang">this page</a>.');
-define('NEW_SENTENCES_TRANS', 'Translation requests for new sentences will be sent to this list, so anyone can
-instantly answer and send us the translation.');
-define('READ_THIS_TRANS', '<b>How to translate missing keys, please READ THIS before translating!</b><br/><br/>
-RULES THAT MUST BE FOLLOWED:<br/></p>
-<ul><li>Please read the <a href="https://amsn.svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/LANG-HOWTO"><b>LANG-HOWTO</b></a> file.</li>');
-define('READ_AGAIN_TRANS', '<li>Read LANG-HOWTO again!</li>
-<li>Just click the link of the language you want to update (at the bottom of this page)
-<br/><br/>Then, at the page that opens :<br/><br/></li>
-<li>Download the old language file ( you will find the link at that page )</li>
-<li>Add the keywords from the list at the bottom of the page
-to the language file.</li>
-<li>Translate the english explanations</li>');
-define('SEND_UPDATE_TRANS', '<li>Send the updated file to <a href="mailto:amsn-translations@lists.sourceforge.net
+define('TRANSLATION_TITLE', '¡Únete a nuestra lista de correo!');
+define('MAIL_LIST_TRANS', 'Tenemos una <a href="http://lists.sourceforge.net/lists/listinfo/amsn-lang">lista de correo amsn-lang</a> disponible para la gente que desea ayudarnos.');
+define('JOIN_TRANS', 'Puedes unirte visitando <a href="http://lists.sourceforge.net/lists/listinfo/amsn-lang">esta página</a>.');
+define('NEW_SENTENCES_TRANS', 'Las traducciones para las nuevas frases deben ser enviadas a esta lista, cualquiera puede contestarnos inmediatamente y enviarnos la traducción.');
+define('READ_THIS_TRANS', '<b>Cómo traducir las frases faltantes, ¡por favor LEE ESTO antes de traducir!</b><br/><br/>
+REGLAS A SEGUIR:<br/></p>
+<ul><li>Por favor lee el archivo <a href="https://amsn.svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/LANG-HOWTO"><b>LANG-HOWTO</b></a>.</li>');
+define('READ_AGAIN_TRANS', '<li>¡Lee LANG-HOWTO de nuevo!</li>
+<li>Haz click al enlace del idioma que deseas actualizar (al fondo de esta página)
+<br/><br/>Luego, en la página que se abre: <br/><br/></li>
+<li>Descarga el antiguo archivo de idioma (lo encontrarás al fondo de la página)</li>
+<li>Agrega las palabras claves de la lista al final de la página del archivo de idioma.</li>
+<li>Traduce las explicaciones en Inglés</li>');
+define('SEND_UPDATE_TRANS', '<li>Envía el archivo actualizado a <a href="mailto:amsn-translations@lists.sourceforge.net
 ">amsn-translations@lists.sourceforge.net</a></li>
-<li>We will ONLY accept langfiles. We will NOT accept, in ANY way,
-individual keys received in the body of the email. You MUST send
-the COMPLETE langfile (for instance, langit if you are italian)
-ATTACHED to de email message.</li>
-<li>As stated above, keys sent in the body of the email will be IGNORED and DISCARDED.</li>
-<li>Langfiles sent to other email addresses than
-amsn-translations@lists.sourceforge.net will also be IGNORED
-and DISCARDED.</li></ul>');
-define('CAN_HELP_TRANS', '<br/>You can help us by translating some sentences to your language, or modifying
-wrongly translated sentences.<br/><br/>');
-define('BE_CAREFUL', 'Be careful with $1, $2... parameters that appear in some sentences.
-You can change their position, but they <b>must</b> appear on the sentence, they
-\'ll be
-substituted during execution with some values.<br/><br/><br/>');
+<li>SOLO ACEPTAMOS ARCHIVOS DE IDIOMA. Nosotros NO aceptamos, de NINGUNA manera,
+frases individuales recibidas en el cuerpo del mensaje. Tu DEBES enviar
+el archivo de idioma COMPLETO (por ejemplo, langit si traduces al italiano)
+ADJUNTADO al mensaje del correo.</li>
+<li>De no cumplirse los requisitos anteriores, los cambios serán IGNORADOS y DESCARTADOS.</li>
+<li>Archivos de idioma enviados a otra dirección de correo como
+amsn-translations@lists.sourceforge.net también serán IGNORADOS
+y DESCARTADOS.</li></ul>');
+define('CAN_HELP_TRANS', '<br/>Puedes ayudarnos a traducir algunas oraciones a tu idioma o modificar frases incorrectas.<br/><br/>');
+define('BE_CAREFUL', 'Ten cuidado con los parámetros $1, $2... que aparecen en algunas oraciones.
+Puedes cambiarle su posición, pero <b>deben</b> aparecen en la oración, éstos
+serán
+sustituidas durante la ejecución por algunos valores.<br/><br/><br/>');
 define('NEW_LANG_TRANS', '
-<b>How to add a new language</b><br/><br/>
-<ul><li>Choose a short identifier for your language (for example english - en).</li>
-<li>Download the english language file <a href="https://amsn.svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/langen">here</a>.</li>
-<li>Rename the file to langXX with XX the identifier you\'ve chosen</li>
-<li>Translate the file, except for the first word of each line (that is the key).</li>
-<li>Send the new file to <a href="mailto:amsn-translations@lists.sourceforge.net">amsn-translations@lists.sourceforge.net</a></li>
+<b>Como agregar un nuevo idioma</b><br/><br/>
+<ul><li>Elije un identificador corto para tu idioma (por ejemplo español - es).</li>
+<li>Descarga el archivo de idioma Inglés <a href="https://amsn.svn.sourceforge.net/svnroot/amsn/trunk/amsn/lang/langen">desde aquí</a>.</li>
+<li>Renombra el archivo por langXX, donde XX es el identificador que haz elegido</li>
+<li>Traduce el archivo, excepto por las primeras palabras de cada línea (que son las claves que usará aMSN para determinar donde usar cada oración).</li>
+<li>Envía el nuevo archivo de idioma a <a href="mailto:amsn-translations@lists.sourceforge.net">amsn-translations@lists.sourceforge.net</a></li>
 </ul>');
 //translations.php definitions END
 
 //footer definition START
-define('TRADEMARK_FOOT', 'All logos and trademarks in this site are property of their respective
-      owner. Comments and news posts are the property of their posters, all
-      the rest 2002-2006 by the aMSN team.');
+define('TRADEMARK_FOOT', 'Todos los logos y marcas registradas en este sitio son propiedad de su respectivo 
+      propietario. Ls comentarios y entradas son propiedad de sus respectivos autores, todo
+      lo demás 2002-2009 por el aMSN team.');
 //footer definition END
 //side_panels START
-define('HOSTED_BY','Hosted by Oxilion');
-define('LANGUAGE_SIDE','Language');
-define('POLLS_SIDE','Pools');
-define('POLL_SIDE_VOTE','Vote');
-define('POLL_SIDE_RESULTS','View Results');
-define('FORUMS_SIDE','Forums');
-define('AMSN_FORUMS','aMSN Forums');
-define('RECENT_POSTS','Recent Posts');
-define('HELP_SIDE','Please Help');
-define('HELP_BY_SIDE','Help aMSN developers by submitting a donation:');
-define('DONATION_PAGE_SIDE','aMSN donations page');
-define('ADS_SIDE','Advertisement');
-define('LINKS_SIDE','Links');
-define('INSTALLER_LINKS','Installers created with <a href="http://www.autopackage.org/">Autopackage</a> and <a href="http://nsis.sourceforge.net/">NSIS</a>');
-define('SF_LINK','SourceForge project page');
+define('HOSTED_BY','Hosted por Oxilion');
+define('LANGUAGE_SIDE','Idioma');
+define('POLLS_SIDE','Encuestas');
+define('POLL_SIDE_VOTE','Votar');
+define('POLL_SIDE_RESULTS','Ver Resultados');
+define('FORUMS_SIDE','Foros');
+define('AMSN_FORUMS','Foros de aMSN');
+define('RECENT_POSTS','Entradas Recientes');
+define('HELP_SIDE','Contribuye');
+define('HELP_BY_SIDE','Ayuda a los desarrolladores de aMSN haciendo una donación:');
+define('DONATION_PAGE_SIDE','Página de donaciones a aMSN');
+define('ADS_SIDE','Anuncio');
+define('LINKS_SIDE','Enlaces');
+define('INSTALLER_LINKS','Instaladores creados con <a href="http://www.autopackage.org/">Autopackage</a> y <a href="http://nsis.sourceforge.net/">NSIS</a>');
+define('SF_LINK','Página en SourceForge');
 //END
 
 //linux-downloads page START
-define('GENERIC_INSTALLER','Generic Installers');
-define('AMSN_INSTALLER_TCL84','aMSN Installer for Tcl/Tk&nbsp;8.4');
-define('INDEPENDENT_INSTALLER84','Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.4');
-define('AMSN_INSTALLER_TCL85','aMSN Installer for Tcl/Tk&nbsp;8.5');
-define('INDEPENDENT_INSTALLER85','Distribution independent installer for those who <strong>already</strong> have Tcl/Tk&nbsp;8.5 <strong>final version</strong>');
-define('CREATED_WITH_AUTO','These generic installers were created with <a href="http://www.autopackage.org/">Autopackage</a>.
-      This is a new Linux technology to create distribution independent packages,
-      with an installer <a href="http://www.autopackage.org/gallery.html">with a user-friendly look. Check by yourself !</a>.');
-define('PLEASE_FOLLOW','Please follow the instructions to install the package.');
-define('DISTRO_INC_AMSN','Distributions including aMSN');
-define('DISTRO_DESC_1','The following distributions already include aMSN in their package collections.
-      You can install aMSN directly with your package manager, without having to download it here.');
-define('DISTRO_DESC_2','However, some distributions may not supply the last version yet.
-      In that case it\'s recommended to use <a href="#AP">the aMSN Installer.</a>');
-define('OTHERWAY_TARBALL','An other way to install aMSN if everything else fails, is to install the <a href="#tarball">source tarball</a>.');
-define('SOURCE_DOWNLOADS','Source downloads');
-define('AMSN_SOURCE','aMSN Source');
-define('BUILD_OWN_DISTRO','Source package to build a binary for your own distribution.');
-define('SOURCE_DESC_1','You can use the source package to build a binary for your Linux distribution.
-      It is also possible to create RPM or DEB packages from the source package,
-      using the <span class="command">make rpm</span> or <span class="command">make deb</span> command appropriate to your distribution.');
-define('SOURCE_DESC_2','Please follow the <a href="http://amsn-project.net/wiki/Installing_Tarball">instructions to install</a> the package.');
-define('LATEST_DEV_TITLE','Latest development version (SVN Snapshot)');
+define('GENERIC_INSTALLER','Instaladores Genéricos');
+define('AMSN_INSTALLER_TCL84','Instalador de aMSN para Tcl/Tk&nbsp;8.4');
+define('INDEPENDENT_INSTALLER84','Distribución del instalador independiente para quienes <strong>ya tienen</strong> Tcl/Tk&nbsp;8.4');
+define('AMSN_INSTALLER_TCL85','Instalador de aMSN para Tcl/Tk&nbsp;8.5');
+define('INDEPENDENT_INSTALLER85','Distribución del instalador independiente para quienes <strong>ya tienen la versión final</strong> de Tcl/Tk&nbsp;8.5');
+define('CREATED_WITH_AUTO','Estos instaladores genéricos fueron creados con <a href="http://www.autopackage.org/">Autopackage</a>.
+      Esta es una nueva tecnología de Linux para crear distribuciones de paquetes independientes
+      con un instalador <a href="http://www.autopackage.org/gallery.html">fácil de usar. ¡Compruébalo tu mismo!</a>.');
+define('PLEASE_FOLLOW','Por favor, sigue las instrucciones para instalar el paquete.');
+define('DISTRO_INC_AMSN','Distribuciones que incluyen aMSN');
+define('DISTRO_DESC_1','Las siguientes distribuciones ya incluyen a aMSN en su lista de paquetes..
+      Puedes instalarlas directamente desde tu administrador de paquetes, sin tener que descargarlo desde aquí.');
+define('DISTRO_DESC_2','De todas maneras, algunas distribuciones no proveen la última versión aun.
+      En ese caso, te recomendamos que uses <a href="#AP">el Instalador de aMSN.</a>');
+define('OTHERWAY_TARBALL','Otra forma de instalar aMSN si todas las anteriores han fallado, es mediante <a href="#tarball">el paquete fuente</a>.');
+define('SOURCE_DOWNLOADS','Descarga del Código Fuente');
+define('AMSN_SOURCE','Código fuente de aMSN');
+define('BUILD_OWN_DISTRO','Paquete fuente para crear el ejecutable para tu propia distribución.');
+define('SOURCE_DESC_1','Puedes usar el paquete del código fuente para armar el ejecutable para tu distribución de Linux.
+      También es posible crear un paquete RPM o DEB desde el código fuente,
+      usando los comandos <span class="command">make rpm</span> o <span class="command">make deb</span> dependiendo tu distribución.');
+define('SOURCE_DESC_2','Por favor, sigue las <a href="http://amsn-project.net/wiki/Installing_Tarball">instrucciones para instalar</a> el paquete.');
+define('LATEST_DEV_TITLE','Última versión de desarrollo (SVN Snapshot)');
 define('SVN_SNAPSHOT','SVN Snapshot');
-define('LATEST_DEV_SVN','Latest development version (SVN Snapshot');
-define('LATEST_DEV_DESC','You may want to test our development version. But, as it\'s a development version, it may contains more bugs than the official versions, and may also be completely broken sometimes. You will find more information on how to install that development version <a href="http://www.amsn-project.net/wiki/Installing_SVN">on our wiki</a>');
+define('LATEST_DEV_SVN','Última versión de desarrollo (SVN Snapshot)');
+define('LATEST_DEV_DESC','Es posible que desees probar nuestra última versión en desarrollo. Pero al ser una versión en desarrollo, puede que contenga mas bugs que la versión oficial y también dejar de responder algunas veces. Vas a encontrar más información sobre como instalar esta última versión de desarrolladores <a href="http://www.amsn-project.net/wiki/Installing_SVN">en nuestra wiki</a>');
 //linux-downloads page END
 //pool_results
-define('POLL_NOT_EXIST','The selected poll doesn\'t exists. Maybe it was removed');
-define('POLLS_VOTES','Votes');
-define('TOTAL_NUMBER_VOTES','Total number of votes');
-define('POLL_TO_MAIN','Return to main page');
+define('POLL_NOT_EXIST','La encuesta seleccionada no existe. Puede que haya sido eliminada');
+define('POLLS_VOTES','Votos');
+define('TOTAL_NUMBER_VOTES','Numero total de votos');
+define('POLL_TO_MAIN','Volver a la página principal');
 //pool_result END
 ?>
