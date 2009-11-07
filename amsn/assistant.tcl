@@ -168,31 +168,26 @@ snit::widget assistant {
 		set titlef $bodyf.titlef
 		set titlec $titlef.titlec
 		set buttonf $win.buttonf
-		set contentf $bodyf.contentf	
+		set contentf $bodyf.contentf
 		
 		set titlebg [::skin::getKey assistanttitlebg]
 		set titleheight [::skin::getKey assistanttitleheight]
 		set titlefg [::skin::getKey assistanttitlefg]
 
 		frame $bodyf -bd 1 -background $titlebg
-		
+
 		#create title frame and first contents
 		frame $titlef -height $titleheight -bd 0 -background $titlebg
 		canvas $titlec -height $titleheight -background $titlebg
-		
+
 		#set a default text for the title in the canvas that can be changed
 		$titlec create text 10 [expr {$titleheight / 2}] -text $titleText \
 			-anchor w -fill $titlefg -font bboldf -tag titletext
 		set image [::skin::loadPixmap assistant]
 		$titlec create image 0 [expr {$titleheight/2}] -image $image -anchor e -tag img
-		pack $titlec -fill x
-		pack $titlef -side top -fill x
-		pack $bodyf -side top -fill both -padx 4 -pady 4 -expand 1
 		frame $contentf -padx 1 -pady 1;#these pads make a 1 pixel border
-		pack $contentf -side top -fill both -expand 1 
 		
-		frame $buttonf  -bd 0 
-		pack $buttonf  -side top  -fill x -padx 4 -pady 4;#pads keep the stuff a bit away from windowborder
+		frame $buttonf  -bd 0
 		#add the buttons
 		button $buttonf.back -text [trans back] -command [list $self back] \
 			-state disabled ; #first step of assistant, back button is disabled
@@ -205,6 +200,11 @@ snit::widget assistant {
 		button $buttonf.cancel -text [trans cancel] -command [list $self cancel]
 #TODO : maybe a button Help, and/or Defaults
 		#pack 'em
+		pack $buttonf  -side bottom  -fill x -padx 4 -pady 4 ; #pads keep the stuff a bit away from windowborder
+		pack $titlec -fill x
+		pack $titlef -side top -fill x
+		pack $bodyf -side top -fill both -padx 4 -pady 4 -expand 1
+		pack $contentf -side top -fill both -expand 1
 		pack $buttonf.next $buttonf.back $buttonf.cancel -padx 10 -side right
 		
 		bind $win <Configure> [list $self windowResized]
