@@ -43,13 +43,13 @@ include inc . 'header.php';
 
 switch(remoteOS()) {
     case 'Windows':
-    $url='https://sourceforge.net/projects/amsn/files/amsn/0.98.1/aMSN-0.98.1-tcl85-windows-installer.exe/download';
+    $url='http://sourceforge.net/projects/amsn/files/amsn/0.98.1/aMSN-0.98.1-tcl85-windows-installer.exe/download';
     break;
     case 'Linux':
     $url='linux-downloads.php';
     break;
     case 'Mac':
-    $url='https://sourceforge.net/projects/amsn/files/amsn/0.98.1/aMSN-0.98.1-1.dmg/download';
+    $url='http://sourceforge.net/projects/amsn/files/amsn/0.98.1/aMSN-0.98.1-1.dmg/download';
     break;
     case 'FreeBSD':
     $url='http://www.freshports.org/net-im/amsn/';
