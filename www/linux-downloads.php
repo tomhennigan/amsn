@@ -13,14 +13,8 @@
 	<a name="AP"></a>
 	<h3><?=GENERIC_INSTALLER;?></h3>
 	<dl><dt>
-            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2-1.tcl84.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage" ></a><br>
-	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2-1.tcl84.x86.package"><span class="toc_title"><?=AMSN_INSTALLER_TCL84;?></span></a>
-	</dt><dd>
-		<?=INDEPENDENT_INSTALLER84;?>
-    </dd></dl>
-	<dl><dt>
-            <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2-1.tcl85.x86.package"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage"></a><br>
-	    <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2-1.tcl85.x86.package"><span class="toc_title"><?=AMSN_INSTALLER_TCL85;?></span></a>
+            <a href="https://sourceforge.net/projects/amsn/files/amsn/0.98.1/amsn-0.98.1-1.tcl85.x86.package/download"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage"></a><br>
+	    <a href="https://sourceforge.net/projects/amsn/files/amsn/0.98.1/amsn-0.98.1-1.tcl85.x86.package/download"><span class="toc_title"><?=AMSN_INSTALLER_TCL85;?></span></a>
 	</dt><dd>
 		<?=INDEPENDENT_INSTALLER85;?>
     </dd></dl>
@@ -72,8 +66,8 @@
     <a name="tarball"></a>
     <h3><?=SOURCE_DOWNLOADS;?></h3>
         <dl class="toc"><dt>
-        <a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2.tar.bz2"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball"></a><br>
-	<a href="http://prdownloads.sourceforge.net/amsn/amsn-0.97.2.tar.bz2"><span class="toc_title"><?=AMSN_SOURCE;?></span></a>
+        <a href="https://sourceforge.net/projects/amsn/files/amsn/0.98.1/amsn-0.98.1.tar.gz/download"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball"></a><br>
+	<a href="https://sourceforge.net/projects/amsn/files/amsn/0.98.1/amsn-0.98.1.tar.gz/download"><span class="toc_title"><?=AMSN_SOURCE;?></span></a>
         </dt><dd>
           <?=BUILD_OWN_DISTRO;?>
         </dd></dl>
