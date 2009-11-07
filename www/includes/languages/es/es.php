@@ -13,7 +13,7 @@ define('DEV_MENU','Desarrollo');
 //header menu definitions END
 
 // index.php definitions START
-define('AMSN_DESC', '<strong>aMSN</strong> es un clon open source del MSN Messenger, con características como:
+define('AMSN_DESC', '<strong>aMSN</strong> es un clon de codigo abierto del MSN Messenger, con características como:
 ');
 define('DESC_OFF_MSG', 'Mensajería fuera de línea');
 define('VOICE_CLIP', 'Clips de voz');
@@ -47,10 +47,10 @@ define('LATEST_SVN','Última versión de desarrollo (SVN Snapshot');
 //download.php definitions END
 
 //features.php definitions START
-define('AMSN_DESC_FEAT', '<strong>aMSN</strong> es un clon open source del MSN Messenger, que posee:');
+define('AMSN_DESC_FEAT', '<strong>aMSN</strong> es un clon de codigo abierto del MSN Messenger, que posee:');
 define('OFF_MSG_FEAT', '&#187; Mensajería fuera de línea');
 define('VOICE_CLIP_FEAT', '&#187; Clips de voz');
-define('NLW_FEAT', '&#187; Una nueva ventana para el Inicio de Sesión y la Lista de Contactos (A partir del 0.97)');
+define('NLW_FEAT', '&#187; Una nueva ventana para el Inicio de sesión y la lista de contactos (A partir del 0.97)');
 define('DISPLAY_PICS_FEAT', '&#187;Imágenes de usuario');
 define('CUSTOM_EMOS_FEAT', '&#187; Emoticones personalizados');
 define('MULTI_LANG_FEAT', '&#187; Soporte para varios idiomas (aproximadamente 40 idiomas son soportados)');
@@ -64,11 +64,11 @@ define('CONFERENCE_SUPPORT_FEAT', '&#187; Soporte para conferencias (Chats en gr
 define('WEB_CAM_SUPPORT_FEAT', '&#187; Soporte para Webcam');
 define('HISTORY_FEAT', '&#187; Historial en color');
 define('AUTOCLOSE_FEAT', '&#187; Posibilidad de cerrar automáticamente la ventana de transferencia de archivos cuando ésta termine');
-define('PLUGIN_WIN_FEAT', ' &#187; Nueva ventana de historial para Plugins (Alt-P)');
+define('PLUGIN_WIN_FEAT', ' &#187; Nueva ventana de historial para plugins (Alt-P)');
 define('PLUGIN_COMP_FEAT', '&#187; Plugins compatibles con los idiomas soportados');
 define('SKIN_WIN_FEAT', '&#187; Ventana de skins con carga rápida');
 define('SKINS_CHAT_FEAT', '&#187; Skins en la ventana de conversación');
-define('WIN_BOTTOM_FEAT', '&#187; Ventana de conversación Redimensionable al fondo');
+define('WIN_BOTTOM_FEAT', '&#187; Ventana de conversación redimensionable al fondo');
 define('NEW_USER_GROUP_FEAT', '&#187; Cuando un nuevo usuario te agrega, puedes definir en que grupo agregarlo');
 define('CHAT_WIN_COLOR_FEAT', '&#187; Cuando el estado de un contacto cambia, la parte superior de la ventana de conversación cambia de color (verde for ausente, gris para desconectado, etc.)');
 define('VERSION_ALERT_FEAT', '&#187; Nueva ventana de alerta cuando hay una nueva versión de aMSN');
@@ -78,10 +78,10 @@ define('DEL_USER_GUI_FEAT', '&#187; Nueva interfaz para eliminar usuarios (adem�
 define('USER_NOTES_FEAT', '&#187; Posibilidad de añadir notas para cada usuario (XML)');
 define('MSN_MOBILE_FEAT', '&#187; Soporte para el servicio de MSN Mobile (móvil)');
 define('TABBED_WIN_FEAT', '&#187; Ventanas con pestañas, tu puedes agrupar las conversaciones usando pestañas');
-define('STATUS_APPEAR_FEAT', '&#187; El Estado es mostrador dentro de un marco, por lo que no desaparecerá cuando desplaces la lista');
+define('STATUS_APPEAR_FEAT', '&#187; El estado es mostrador dentro de un marco, por lo que no desaparecerá cuando desplaces la lista');
 define('ALERT_PICTURE_FEAT', '&#187; Imagen de usuario dentro de la notificación de alerta (como en MSN 7)');
 define('HISTORY_STATS_FEAT', '&#187; Estadística de historiales (registros)');
-define('LOGIN_STATUS_FEAT', '&#187; Ahora la posibilidad de elegir cualquier estado al inicio de sesión (antes solo era posible iniciar sesión como Conectado o Invisible)');
+define('LOGIN_STATUS_FEAT', '&#187; Ahora la posibilidad de elegir cualquier estado al inicio de sesión (antes solo era posible iniciar sesión como conectado o invisible)');
 define('TIMESTAMPING_FEAT', '&#187; Hora en los mensajes');
 define('MORE_FEAT', '¡Pero eso no es todo! Si quieres más en tu aMSN, hazlo con <a href="plugins.php">plugins</a>, o si quieres aventurarte más, ¡cambia totalmente la apariencia de tu aMSN con un <a href="skins.php">skins</a>!');
 //features.php definitions END
@@ -124,21 +124,21 @@ define('NOEXIST_SCREEN', 'La captura de pantalla seleccionada no existe. Puede q
 //screeenshots.php definitions END
 
 //docs.php definitions START
-define('AMSN_DOCS', 'aMSN Documents');
-define('LINKS_DOCS', 'Links to aMSN Documents');
+define('AMSN_DOCS', 'Documentos de aMSN');
+define('LINKS_DOCS', 'Enlaces a los documentos de aMSN');
 define('LINK_FAQ', 'FAQ');
-define('LINK_USER_WIKI', 'User WIKI');
+define('LINK_USER_WIKI', 'WIKI para usuarios');
 //docs.php definitions END
 
 //developer.php definitions START
-define('AMSN_DEV_TEAM', 'Equipo de Desarrollo de aMSN');
+define('AMSN_DEV_TEAM', 'Equipo de desarrollo de aMSN');
 define('DEV_DESC', 'Aquí está la lista de la gente que actualmente está o ha trabajado en aMSN.');
 define('CURRENT_DEVS_DEV', 'Desarrolladores actuales');
 define('PLEASE_HELP', 'Por favor Contribuye');
 define('HELP_DESC', 'Si deseas colaborar con este proyecto, por favor mándanos un mensaje en nuestro foro en:');
-define('DONATION_DESC', 'If you would like to donate to the aMSN project, you can find more information about doing so, here: ');
+define('DONATION_DESC', 'Si deseas donar al proyecto de aMSN, puedes encontrar mas informacion sobre como hacerlo aqui: ');
 define('DONATIONS_DEV','Donaciones');
-define('AMSN_BUG_REPORT', 'Informes de Bugs en aMSN');
+define('AMSN_BUG_REPORT', 'Informes de bugs en aMSN');
 define('BUGS_DESC', 'Si has descubierto un bug mientras usabas aMSN, por favor infórmalo con detalles como recrear el bug y ver su seguimiento en el foro. También aceptamos preguntas sobre el bug y el entorno sobre el cual se produjo.');
 define('REPORT_BUG', 'Informa Un Bug');
 define('PREV_BUG_REPORT', 'Informes de Bugs Anteriores');
@@ -240,7 +240,7 @@ define('TRADEMARK_FOOT', 'Todos los logos y marcas registradas en este sitio son
       lo demás 2002-2009 por el aMSN team.');
 //footer definition END
 //side_panels START
-define('HOSTED_BY','Hosted por Oxilion');
+define('HOSTED_BY','Hospeado por Oxilion');
 define('LANGUAGE_SIDE','Idioma');
 define('POLLS_SIDE','Encuestas');
 define('POLL_SIDE_VOTE','Votar');
@@ -258,7 +258,7 @@ define('SF_LINK','Página en SourceForge');
 //END
 
 //linux-downloads page START
-define('GENERIC_INSTALLER','Instaladores Genéricos');
+define('GENERIC_INSTALLER','Instaladores genéricos');
 define('AMSN_INSTALLER_TCL84','Instalador de aMSN para Tcl/Tk&nbsp;8.4');
 define('INDEPENDENT_INSTALLER84','Distribución del instalador independiente para quienes <strong>ya tienen</strong> Tcl/Tk&nbsp;8.4');
 define('AMSN_INSTALLER_TCL85','Instalador de aMSN para Tcl/Tk&nbsp;8.5');
@@ -273,7 +273,7 @@ define('DISTRO_DESC_1','Las siguientes distribuciones ya incluyen a aMSN en su l
 define('DISTRO_DESC_2','De todas maneras, algunas distribuciones no proveen la última versión aun.
       En ese caso, te recomendamos que uses <a href="#AP">el Instalador de aMSN.</a>');
 define('OTHERWAY_TARBALL','Otra forma de instalar aMSN si todas las anteriores han fallado, es mediante <a href="#tarball">el paquete fuente</a>.');
-define('SOURCE_DOWNLOADS','Descarga del Código Fuente');
+define('SOURCE_DOWNLOADS','Descarga el código fuente');
 define('AMSN_SOURCE','Código fuente de aMSN');
 define('BUILD_OWN_DISTRO','Paquete fuente para crear el ejecutable para tu propia distribución.');
 define('SOURCE_DESC_1','Puedes usar el paquete del código fuente para armar el ejecutable para tu distribución de Linux.
@@ -291,4 +291,4 @@ define('POLLS_VOTES','Votos');
 define('TOTAL_NUMBER_VOTES','Numero total de votos');
 define('POLL_TO_MAIN','Volver a la página principal');
 //pool_result END
-?>
+?> 
