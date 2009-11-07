@@ -9,11 +9,11 @@ fi
 if [ "$AMSN_MPRIS_PLAYER" != "" ]; then
   status=`dbus-send --print-reply --type=method_call --dest=$AMSN_MPRIS_PLAYER /Player org.freedesktop.MediaPlayer.GetStatus | head -n3 | tail -n1 | awk '{print $2'}`
   res=`qdbus $AMSN_MPRIS_PLAYER /Player GetMetadata`
-  title=`echo $res | grep title`
-  artist=`echo $res | grep artist`
-  path=`echo $res | grep location`
-  artpath=`echo $res | grep arturl`
-  album=`echo $res | grep album:`
+  title=`echo "$res" | grep title`
+  artist=`echo "$res" | grep artist`
+  path=`echo "$res" | grep location`
+  artpath=`echo "$res" | grep arturl`
+  album=`echo "$res" | grep album:`
 
 
   echo $status
