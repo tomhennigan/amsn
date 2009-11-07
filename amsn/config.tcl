@@ -264,7 +264,11 @@ namespace eval ::config {
 		::config::setKey startontray 0		;#Start amsn on tray icon only (hide contact list)
 		::config::setKey storename 1			;#Store original nick in a variable when go to custom states to revert it when go back
 		::config::setKey strictfonts 0		;#Use strict fonts' size in _ALL_ AMSN's fonts (Disabled by default)
-		::config::setKey sngdblclick 0		;#Use single or double click to open a message window (0 double, 1 single)
+		if {[OnMaemo] } {
+			::config::setKey sngdblclick 1		;#Use single or double click to open a message window (0 double, 1 single)
+		} else {
+			::config::setKey sngdblclick 0		;#Use single or double click to open a message window (0 double, 1 single)
+		}
 		::config::setKey nogap 0			;#Remove the empty line between groups
 		::config::setKey removeempty 0		;#Remove empty groups from the contact list
 		::config::setKey tabtitlenick 1		;#Whether nick or mail is displayed in the tab
