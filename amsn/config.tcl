@@ -56,7 +56,11 @@ namespace eval ::config {
 
 		::config::setKey playbackspeed 100
 
-		::config::setKey cam_in_cw 0
+		if {[OnMaemo]} {
+			::config::setKey cam_in_cw 1
+		} else {
+			::config::setKey cam_in_cw 0
+		}
 
 		::config::setKey protocoloverride 0
 
@@ -86,6 +90,16 @@ namespace eval ::config {
 			::config::setKey usesnack 0
 
 			::config::setKey os "mac"
+		} elseif { [OnMaemo] } {
+			::config::setKey soundcommand "play-sound \$sound"
+			::config::setKey browser "dbus-send --system --type=method_call --dest=com.nokia.osso_browser /com/nokia/osso_browser com.nokia.osso_browser.load_url \"string:\$url\""
+			::config::setKey notifyXoffset 0
+			::config::setKey notifyYoffset 100
+			::config::setKey filemanager "xdg-open \$location"
+			::config::setKey openfilecommand "xdg-open \$file"
+			::config::setKey usesnack 0
+
+			::config::setKey os "unix"
 		} elseif { [OnUnix] } {
 			::config::setKey soundcommand "play \$sound"
 			::config::setKey browser "xdg-open \$url"
