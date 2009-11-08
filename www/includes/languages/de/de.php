@@ -13,8 +13,7 @@ define('DEV_MENU','Entwicklung');
 //header menu definitions END
 
 // index.php definitions START
-define('AMSN_DESC', '<strong>aMSN</strong> ist ein kostenloser, quelloffener Klon des MSN Messengers, mit folgenden Funktionen:
-');
+define('AMSN_DESC', '<strong>aMSN</strong> ist ein kostenloser, quelloffener Klon des MSN Messengers, mit folgenden Funktionen: ');
 define('DESC_OFF_MSG', 'Offline-Nachrichten');
 define('VOICE_CLIP', 'Sprachclips');
 define('DISPLAY_PICS', 'Anzeigebilder');
@@ -144,8 +143,7 @@ define('BUGS_DESC', 'Wenn Sie bei der Benutzung von aMSN auf einen Fehler gesto�
 define('REPORT_BUG', 'Einen Fehler berichten');
 define('PREV_BUG_REPORT', 'Vorherige Fehlerberichte');
 define('AMSN_SVN', 'aMSN SVN');
-define('SVN_DESC', 'Wenn Sie die immer auf dem neuesten Stand der aMSN-Entwicklung bleiben möchten, können Sie die neueste Entwickler-Version direkt aus unserem SVN-Verzeichnis bei Sourceforge herunterladen. SVN
-enthält neue Fehlerkorrekturen der letzten Version. Allerdings könnte diese Version nicht so stabil sein wie die neueste stabile Version.');
+define('SVN_DESC', 'Wenn Sie die immer auf dem neuesten Stand der aMSN-Entwicklung bleiben möchten, können Sie die neueste Entwickler-Version direkt aus unserem SVN-Verzeichnis bei Sourceforge herunterladen. SVN enthält neue Fehlerkorrekturen der letzten Version. Allerdings könnte diese Version nicht so stabil sein wie die neueste stabile Version.');
 define('BROWSE_SVN', 'SVN-Verzeichnis durchsuchen');
 define('SVN_HOWTO', 'Anleitung zur Installation der SVN-Version');
 define('AMSN_TRANSLATE', 'aMSN Übersetzungen');
