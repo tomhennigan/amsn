@@ -11,10 +11,11 @@ $_GET['section'] = (isset($_GET['section']) && !empty($_GET['section'])) ? $_GET
 sess_init(DBHOST,DBNAME_WWW,DBUSER,DBPASS,'');
 mysql_select_db(DBNAME_WWW, mysql_connect(DBHOST,DBUSER,DBPASS)) or die(mysql_error());
 
+header('Content-type: text/html;charset=utf-8');
+
 if (file_exists('includes/languages/'.$lang_set.'/'.$lang_set.'.php')) {
   include("includes/languages/".$lang_set."/".$lang_set.".php");  
 } else {
   include("includes/languages/en/en.php");  
 }
-header('Content-type: text/html;charset=utf-8');
 ?>
