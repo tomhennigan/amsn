@@ -38,7 +38,7 @@ define('SKIN_IMG','Get Skins');
 
 //download.php definitions START
 define('LINUX_DOWN', 'Linux');
-define('MAEMO_DOWN', 'Nokia N900 (Maemo 5)');
+define('MAEMO_DOWN', 'Nokia N900 <br>(Maemo 5)');
 define('WIN_DOWN', 'Windows');
 define('WIN95_DOWN', 'Windows 95');
 define('MACOSX_DOWN', 'Mac OS X(Universal)');
