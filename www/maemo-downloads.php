@@ -14,15 +14,12 @@
 	<?= MAEMO_INSTALL ;?> <br/>
         <a href="http://amsn-project.net/maemo/amsn.install"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage"></a><br> <br />
 
-	<a
+	
 	<h3><?=SCREENSHOTS_MAEMO;?></h3> <br/>
-	<img src="images/maemo-screenshot1.png" /> <br/>
-	<img src="images/maemo-screenshot2.png" /> <br/>
-	<img src="images/maemo-screenshot3.png" /> <br/>
-	<img src="images/maemo-screenshot4.png" /> <br/>
-	<dl>
-	<dt>
-	</dt>
-        </dl>
-    <br>
+	<a href="images/maemo-screenshot1.png"><img width="100%" src="images/maemo-screenshot1.png"> <br/></a>
+	<a href="images/maemo-screenshot2.png"><img width="100%" src="images/maemo-screenshot2.png"> <br/></a>
+	<a href="images/maemo-screenshot3.png"><img width="100%" src="images/maemo-screenshot3.png"> <br/></a>
+	<a href="images/maemo-screenshot3.png"><img width="100%" src="images/maemo-screenshot4.png"> <br/></a>
+	<br>
+
 <?php include inc . 'footer.php'; ?>
