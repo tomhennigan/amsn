@@ -19,7 +19,7 @@ define('DESC_OFF_MSG', 'Offline Messaging');
 define('VOICE_CLIP', 'Voice Clips');
 define('DISPLAY_PICS', 'Display pictures');
 define('CUSTOM_EMOS', 'Custom emoticons');
-define('MULTI_LANG', 'Multi-language support (around 40 languages currently supported');
+define('MULTI_LANG', 'Multi-language support (around 40 languages currently supported)');
 define('WEB_CAM_SUPPORT', 'Webcam support');
 define('SIGNIN_MORE', 'Sign in to more than one account at once');
 define('FSPEED_FTRANS', 'Full-speed File transfers');
@@ -79,7 +79,7 @@ define('DEL_USER_GUI_FEAT', '&#187; New gui for deleting users (also possible to
 define('USER_NOTES_FEAT', '&#187; Possible to add notes for each user (XML)');
 define('MSN_MOBILE_FEAT', '&#187; Support for MSN Mobile service');
 define('TABBED_WIN_FEAT', '&#187; Tabbed windows so you can group conversations using tabs');
-define('STATUS_APPEAR_FEAT', '&#187; Status is displayed inside a frame, so it won\'t dissapear when you scroll');
+define('STATUS_APPEAR_FEAT', '&#187; Status is displayed inside a frame, so it won\'t disappear when you scroll');
 define('ALERT_PICTURE_FEAT', '&#187; Display picture in notification alert (like MSN 7)');
 define('HISTORY_STATS_FEAT', '&#187; Statistics for history (logging)');
 define('LOGIN_STATUS_FEAT', '&#187; Now possible to choose any state for your login status (before it was only possible to login invisible or online)');
@@ -91,7 +91,7 @@ define('MORE_FEAT', 'But that\'s not all!  More features can be added to aMSN wi
 define('LOVES_CUSTOM', '<strong>aMSN loves customization!</strong>');
 define('SKIN_DESC', ',and one way to customise it is to change its "skin". A skin changes the	look of aMSN. Here you can download skins developed by aMSN and by contributors.');
 define('INSTALL_SKIN', 'You can find instructions on how to install skins in our <a href="http://www.amsn-project.net/wiki/Installing_Plugins_and_Skins">skin and plugin installation guide</a>.');
-define('SUBMIT_SKIN', 'If you would like to submit your skin to this page, please read the <a href="http://www.amsn-project.net/wiki/Dev:Sumbitting_Plugins_and_Skins">skin submitting guide</a>.');
+define('SUBMIT_SKIN', 'If you would like to submit your skin to this page, please read the <a href="http://www.amsn-project.net/wiki/Dev:Submitting_Plugins_and_Skins">skin submitting guide</a>.');
 define('NO_SKIN', 'There are no skins available.');
 define('CREATEDBY_SKIN', 'Created by:');
 define('VERSION_SKIN', 'Version:');
@@ -106,7 +106,7 @@ define('BACK_TOP_SKIN', 'Back to top');
 define('FULL_FEATURES', 'aMSN is full of features');
 define('PLUGIN_DESC', ', but you can extend its functionality even more now, getting extra features by installing plugins. Plugins are simply that - they "plug in" to aMSN and give it extra features. Here you can download plugins developed by us and by contributors. Make sure you have the right version of aMSN for the plugin (check "requirements") and the right OS (check "platform")');
 define('INSTALL_PLUGIN', 'You can find instructions on how to install plugins in our <a href="http://www.amsn-project.net/wiki/Installing_Plugins_and_Skins">skin and plugin installation guide</a>.');
-define('SUBMIT_PLUGIN', 'If you would like to submit your plugin to this page, please read the <a href="http://www.amsn-project.net/wiki/Dev:Sumbitting_Plugins_and_Skins">plugin submitting guide</a>.');
+define('SUBMIT_PLUGIN', 'If you would like to submit your plugin to this page, please read the <a href="http://www.amsn-project.net/wiki/Dev:Submitting_Plugins_and_Skins">plugin submitting guide</a>.');
 define('NO_PLUGINS', 'There are no plugins available.');
 define('CREATEDBY_PLUGIN', 'Created by:');
 define('VERSION_PLUGIN', 'Version:');
@@ -191,7 +191,7 @@ define('MAINTAINER_DEV', ' Maintainer ');
 
 //donatios.php definitions START
 define('AMSN_DONATIONS_TITLE', 'aMSN Donations:');
-define('DONATION_DESC1', 'Sometimes users want to thank the developers for all the time and effort put into the development of a successfull project.  For this reason, we have set up a particular location in which you can donate to specific developers.');
+define('DONATION_DESC1', 'Sometimes users want to thank the developers for all the time and effort put into the development of a successful project.  For this reason, we have set up a particular location in which you can donate to specific developers.');
 define('DONATION_DESC2', 'aMSN as a whole, does not accept donations, but if you want to thank a specific member of the aMSN development team, we provide you these links, so that you may do so:');
 define('DONATE_TO', 'Donate To : ');
 define('BACK_TO_DEV', 'Back To Developer Page');
@@ -248,7 +248,7 @@ define('TRADEMARK_FOOT', 'All logos and trademarks in this site are property of 
 //side_panels START
 define('HOSTED_BY','Hosted by Oxilion');
 define('LANGUAGE_SIDE','Language');
-define('POLLS_SIDE','Pools');
+define('POLLS_SIDE','Poll');
 define('POLL_SIDE_VOTE','Vote');
 define('POLL_SIDE_RESULTS','View Results');
 define('FORUMS_SIDE','Forums');
