@@ -40,6 +40,7 @@ define('SKIN_IMG','Kabuk Al');
 define('LINUX_DOWN', 'Linux');
 define('WIN_DOWN', 'Windows');
 define('WIN95_DOWN', 'Windows 95');
+define('MAEMO_DOWN', 'Nokia N900<br>(Maemo 5)');
 define('MACOSX_DOWN', 'Mac OS X(Evrensel)');
 define('FREEBSD_DOWN', 'FreeBSD');
 define('TARBALL_DOWN', 'Toplu Kaynak Arşivi');
@@ -275,6 +276,10 @@ define('SVN_SNAPSHOT','Son SVN Sürümü');
 define('LATEST_DEV_SVN','En son geliştirme sürümü (Son SVN Sürümü');
 define('LATEST_DEV_DESC','Geliştirme sürümümüzü denemek isteyebilirsiniz. Ancak, bu bir geliştirme sürümü olduğundan, resmi sürümlerden çok daha fazla hata içerebilir ve zaman zaman tamamiyle çökebilir. <a href="http://www.amsn-project.net/wiki/Installing_SVN">Viki sayfası</a>nda geliştirme sürümünü nasıl kurabileceğinizi ayrıntılı olarak bulabilirsiniz');
 //linux-downloads page END
+//maemo-downloads page START
+define('MAEMO_INSTALL', 'aMSN\'yi Maemo aygıtınıza yüklemek için, aşağıdaki yükleme düğmesine tıklayınız.');
+define('SCREENSHOTS_MAEMO', 'Aşağıda, N900 aygıtında çalışmakta olan aMSN\'ye ait bazı resimleri görebilirsiniz.');
+//maemo-downloads page END
 //pool_results
 define('POLL_NOT_EXIST','Seçilen anket bulunamadı. Kaldırılmış olabilir.');
 define('POLLS_VOTES','Oylar');
