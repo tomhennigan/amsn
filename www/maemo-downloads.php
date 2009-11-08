@@ -11,7 +11,15 @@
 <br>
 <img style="display: block;margin-left: auto;margin-right: auto;" src="images/download-maemo.png" alt="Maemo Download" ><br>
 	<a name="INSTALL"></a>
-	<h3><?=SCREENSHOTS;?></h3>
+	<?= MAEMO_INSTALL ;?>
+        <a href="http://amsn-project.net/maemo/amsn.install"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage"></a><br>
+
+	<a
+	<h3><?=SCREENSHOTS_MAEMO;?></h3>
+	<img src="images/screenshot-maemo1.png" />
+	<img src="images/screenshot-maemo2.png" />
+	<img src="images/screenshot-maemo3.png" />
+	<img src="images/screenshot-maemo4.png" />
 	<dl>
 	<dt>
 	</dt>
