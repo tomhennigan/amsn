@@ -8406,7 +8406,7 @@ proc load_my_pic { } {
 			load_my_smaller_pic
 		} else {
 			# Image corrupted on disk
-			image delete $dpfilename
+			catch {image delete $dpfilename}
 			::config::setKey displaypic nopic.gif 
 		}
 	} else {
