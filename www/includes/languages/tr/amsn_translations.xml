@@ -18,943 +18,943 @@
   <!-- Tablo: amsn_translations -->
     <amsn_translations>
         <id>1</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>MSN Plus! benzeri aMSN eklentisi(Konuşma penceresi komutları, çoklu yazı biçimleri)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>2</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Önceden tanımlanmış bir listeyle ya da rasgele olarak metin rengini değiştirir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>3</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation> LaTeX tanımlamalarının görüntülenmesini sağlar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>4</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti aMSN olay kaydını kullanarak dbus iletilerini gözlemlemenizi sağlar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>5</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti KDE ya da GNOME kullanıcıları içindir. Pencereleri tcl/tk arayüzü yerine masaüstü ayarlarıyla gösterir. Aynı zamanda bazı özellikleri ayarlayarak masaüstünüzle daha uyumlu pencereler elde edebilirsiniz.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>6</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Kişi(/me) olaylarını değiştirmeye yarayan eklenti</translation>
     </amsn_translations>
     <amsn_translations>
         <id>7</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti rasgele isim oluşturmaya yarar</translation>
     </amsn_translations>
     <amsn_translations>
         <id>8</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Konuşma kaydınızı e-postanıza gönderir.Bu eklenti Gmail\'in aynı özelliğini size ulaştırmaktadır, aynı zamanda herhangi bir posta adresiyle kullanabilirsiniz.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>9</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Mac OS X için sesli uyarılar</translation>
     </amsn_translations>
     <amsn_translations>
         <id>10</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Çevrimiçi gönderen bilgilerini değiştirmeye yarayan eklenti</translation>
     </amsn_translations>
     <amsn_translations>
         <id>11</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti çevrimdışı olan kişilerinizi engeller ve çevrimiçi duruma geçtiklerinde engeli kaldırır.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>12</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Konuşma penceresini oluşturulduğu yerde tutmayı sağlar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>13</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Müzik eklentisi, bu eklenti Mac için iTunes,Wiinamp ve Linux\'taki bir çok ortam yürütücüyü destekler.Çalınan parçayı ana pencerede takma isminizin yanında ve konuşma pencerenize ekler.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>14</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti POP3 hesaplarına aMSN üzerinden bağlanmanızı sağlar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>15</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bir kişiyle konuşma penceresi açtığınızda bir önceki konuşmanızdan son cümleleri gösterir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>16</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Arkaplanda almış olduğunuz iletileri seslendirir. Bu eklenti sistem yapılandırmanızda bulunan geçerli konuşma üretecini kullanır. Farklı bir üreteç belirtirseniz (Mac), cümlenizin ilk harfinin büyük olduğundan emin olunuz.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>17</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Yazılan kelime/yazı hakkında bilgi edinin ya da başka bir dile çevirin!</translation>
     </amsn_translations>
     <amsn_translations>
         <id>18</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Kişi listesinizi daha küçük yapmayı sağlayan özellikler içerir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>19</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Seçilen kişisel simgeler için daha büyük bir önizleme göstermeyi sağlayan bir düğme ekler.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>20</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Search for the description of the selected word in the Royal Spanish Academy dictionary&lt;br/&gt;--&lt;br/&gt;Busca la definicion del texto seleccionado en el diccionario de la Real Academia Espa&amp;ntilde;a.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>21</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Alınan dosyaları gönderene özgü bir dizin içerisine saklar. İstenirse tarihe dayalı dizinlerde oluşturabilir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>22</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Pablo Novara</translation>
     </amsn_translations>
     <amsn_translations>
         <id>23</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Konuşma penceresinde yazım denetimi yapar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>24</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>aMSN ile oyunlar oynayın! Bu eklenti ile aMSN kullanıcılarıyla bir çok oyun oynayabilirsiniz! Lütfen dikkat bu eklenti MSN Zone Games! uyumluluğu içermez</translation>
     </amsn_translations>
     <amsn_translations>
         <id>25</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Başka bir dil kullanan biriyle otomatik çeviri ile iletişime geçin.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>26</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Siz dışarıdayken yerinize konuşacak sohbet aracı. Konuşma penceresinden de !on ve !off komutlarıyla denetlenebilir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>27</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklanti aMSN kullanıcılarının şu şikayetini durdurmak için yapılmıştır:&quot;bağlantılarımın çift resmini gördüğüm gibi kendi çift resmimi de görmek istiyorum...&quot;&lt;/</translation>
     </amsn_translations>
     <amsn_translations>
         <id>28</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Sohbet ettiğiniz kişi hakkında bilgileri görmenizi sağlar. NoWhereMan ( http://www.nowhereland.it ) tarafından yapılmıştır.  Tychondriax ( http://tychodriax.altervista.org ) \'a hata gidermedeki yardımları için teşekkürler :)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>29</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Sohbet penceresinde otomatik kelime değiştirmeyi sağlar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>30</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti MacOSX kullanıcıları için Command(Apple key)+` kısayolunun kullanılmasını sağlar. Gelecek sürümde bu durum düzeltilecek gibi görünüyor, ancak bu durum düzeltilene kadar bu eklenti MacOSX kullanıcılarına yardımcı olacaktır.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>31</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Belirlenen süre sonunda bağlantı listenizi otomatik olarak küçültür.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>32</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>MacOSX adres defterini aMSN\'ye aktarır. Adres defteri isimleri ve bağlantı listesindeki takma isimler arasında Apple-Shift-A düğmelerine basarak geçiş yapabilirsiniz.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>33</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Arkadaşlarınıza otomatik iletiler göndermenizi sağlayan bir eklenti.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>34</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti aMSN\'nin görünümünü değiştirmenizi ve Tk için bir eklenti kullanıyor olduğunuzu hissetmenizi sağlar. Bu eklenti bir araçkiti gibi çalışarak doğal, Qt yada GTK2 görünümü elde etmenizi sağlar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>35</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bir konuşma süzgeci kullanarak gönderilen/alınan iletileri dönüştürür.Örneğe buradan bakabilirsiniz: http://www.dystance.net/software/talkfilters/</translation>
     </amsn_translations>
     <amsn_translations>
         <id>36</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Oynamakta olduğunuz oyunun(Enemy Territory, UT2004, CS, vb. gibi) istatistik bilgilerini kişisel iletinizde ve otomatik iletilerde gösterir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>37</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti Gmail hesaplarına aMSN üzerinden bakmanızı sağlar ve bir e-posta uyarısıyla size bildirir. aMSN için bir çeşit&quot;Gmail Notifer&quot;klonudur.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>40</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu ekleti ile herbir durumunuz için ayrı görüntü resmi seçebilirsiniz. Böylece bağlantı listenizdekiler o anki durumunuzu hızlıca ve kolayca anlayabilirler.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>39</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Konuştuğunuz kişiye rasgele alıntılar yollamanızı sağlar. -s -o gibi ek girdiler eklenebilir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>41</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti konuşma penceresinde bulunan bir yazıyı seçtiğiniz(en fazla 5 adet) herhangi bir programa aktarabilir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>42</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti&quot;RÃ©acc&quot; adlı aracın kullanılmasını sağlar(http://rali.iro.umontreal.ca/Reacc/ReaccWord/WordReacc.fr.html). Fransız kullanıcılar için yapılmıştır.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>44</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti bağlantı listesinin altına Bağlantı Ekle ve Bağlantı Ara işlevlerini içeren bir &quot;Eylem Menüsü&quot;ekler.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>45</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti  bir etkinlik olmadığında konuşma penceresini güzel bir geçişle yarı-saydam yapar. Be eklenti Tcl/Tk 8.5 ve Linux üzerinde çalışan bir katıştırma yöneticisine(compiz gibi) ihtiyaç duyar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>46</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Eylemler bölümüne ek bir menü eklemenizi sağlar ve böylece son kullanılan dosyaları kolaylıkla gönderebilirsiniz.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>47</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti varsayılan uyarı sistemini değiştirir. İletilerin gösterilmesi için libnotify kütüphanesini kullanır.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>48</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>aMSN için LilyPond eklentisi. (Ayrıntılı bilgi için http://lilypond.org/ adresini ziyaret ediniz)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>50</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Belirlenen bir tarih için gerisayım yapar ve görüntüler.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>51</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Bu eklenti ile birçok simgeyi tek seferde aMSN\'ye ekleyebilirsiniz. Kopete simge paketleriyle uyumludur.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>52</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Sohbet etmekte olduğunuz kişi ile bağlantınızı canlı tutar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>53</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>aMSN\'s dış görünüm(kabuk) rengini değiştirmenizi sağlar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>54</id>
-        <trans_type>plugin</trans_type>
+        <type>plugin</type>
         <lang>tr</lang>
         <translation>Tcl ile yapılmış otomatik sohbet aracı(Chatbot). Çok kullanışlı özellikler içerir.Yardım almak için !help yazınız.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>1</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Haudrey</translation>
     </amsn_translations>
     <amsn_translations>
         <id>2</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>pmdz kabuğu</translation>
     </amsn_translations>
     <amsn_translations>
         <id>3</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Darwin\'e ithaf edilmiştir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>4</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Mac için aMSN</translation>
     </amsn_translations>
     <amsn_translations>
         <id>5</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Aqua Kabuğu</translation>
     </amsn_translations>
     <amsn_translations>
         <id>6</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Brushed Metal, Son Derleme</translation>
     </amsn_translations>
     <amsn_translations>
         <id>7</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>İsimsiz, Derleme 2</translation>
     </amsn_translations>
     <amsn_translations>
         <id>8</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Sheeny-Deluxe</translation>
     </amsn_translations>
     <amsn_translations>
         <id>9</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Snow Grey, Derleme 1</translation>
     </amsn_translations>
     <amsn_translations>
         <id>10</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Ubuntu</translation>
     </amsn_translations>
     <amsn_translations>
         <id>11</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Birleşik</translation>
     </amsn_translations>
     <amsn_translations>
         <id>12</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Clearlooks</translation>
     </amsn_translations>
     <amsn_translations>
         <id>13</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Steels-Everaldo\'dan bir çok küçük penguen içeren esas Tux Kabuğu. aMSN 0.95 için güncellenmiştir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>14</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>aMSN ve MSN Messenger kabuklarının kaynaşması!</translation>
     </amsn_translations>
     <amsn_translations>
         <id>15</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Resmi Windows MSN Messenger 7 varsayılan temesı üzerine kurulmuş bir kabuk.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>16</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Steve Smith tarafından yapılmış Tiger Xi simge setinden alınan simgeleri içeren zarif bir tema.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>17</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Katalan Topluluğundan esinlenmiştir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>18</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Skin based in colours and characters of Barcelona Spor Klubü\'nün(Yakın zamanda Şampiyonlar Ligi kazanan) renkleri ve karakterleri üzerine kurulmuş bir kabuk.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>34</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Sedation GTK+ 2.x (http://jp.bizet.free.fr/) üzerine kurulu bir arayüz. Piksel Haritaları, simgeler, ve sesler Emerald 2.0 kabuğundan alınmıştır.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>19</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation></translation>
     </amsn_translations>
     <amsn_translations>
         <id>20</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>0.97b üzerinde geliştirilmiş Windows Klasik Teması.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>21</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Ubuntu Dapper renk şemasından esinlenmiştir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>22</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Bu tema Kubuntu kullanıcılarına sunulmuştur(ve tabiki KDE\'ye).</translation>
     </amsn_translations>
     <amsn_translations>
         <id>23</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Emerald</translation>
     </amsn_translations>
     <amsn_translations>
         <id>24</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Human teması üzerine kurulmuş bie kabuk, kaydırma çubukları human (dapper) kardırma çubuklarıyla aynıdır. Simgeler Nouve XT simge pakedi, Dropline Neu  simge pakedi ve aMSN MacOs temasından alınmıştır. İyi eğlenceler!</translation>
     </amsn_translations>
     <amsn_translations>
         <id>25</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>aMSN için yaptığım bir kabuk! 0.95 ve üzeri sürümlerle uyumludur.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>26</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>WLMSN görünümünden hoşlanabilecek kullanıcılar için bu temayı tasarladım. Kişisel olarak MSN\'nin tadından hoşlanmam, ancak bu çalışma daha çok topluluk için yapılmıştır :)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>27</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation></translation>
     </amsn_translations>
     <amsn_translations>
         <id>28</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation></translation>
     </amsn_translations>
     <amsn_translations>
         <id>29</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Tutulan bir kabuk olan Stylish-brushed(Şık-fırçalanmış)\'ın evrimi. Yeni sağlam ve fırçalanmış metal görünümü Mac OSX Tiger için tasarlanmıştır.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>30</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>aMSN için eğlenceli simgeler ve İspanyol South Park sesleri içeren Blue&amp;Yellow(Mavi&amp;Sarı) kabuk.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>31</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Furutosoft tarfından yapılmış Vista aMSN teması.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>32</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Daha büyük simgeler(45x45px) içeren Clearlooks kabuğu.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>33</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Fransız Korsan Parti\'siyle ilişkilendirilmiş bir kabuk.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>35</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>aMSN\'nize Yeşil \'Esrar\' görünümünü alın:) Beyaz arkaplanlı(parlak masaüstü arkaplanı için) ve siyah arkaplanlı(koyu masaüstü arkaplanı için) kabuk seçeneği bulunmaktadır. Birçok güzel simge ve göz kırpmasının yanında saydamlık eklentisi(v0.5) de içerir.İyi eğlenceler =)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>36</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Basit Ubuntu aMSN kabuğu</translation>
     </amsn_translations>
     <amsn_translations>
         <id>37</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Tango simgelerini kullanan Murrina(Camişi) benzeri kabuk (v0.1)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>38</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>aMSN 0.97+ için soğuk kabuk. Sağlam ve düzgün bir görünüme sahip çok basit bir kabuktur. Mac OSX Leopard dahil tüm platformlar için tasarlanmıştır.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>39</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Ubuntu Kabuğundan  esinlenilerek yapılan Yeni Kabuk(yapımcı:Gustavo A. D&amp;iacute;az).</translation>
     </amsn_translations>
     <amsn_translations>
         <id>40</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>aMSN için Human (Ubuntu) teması. Bu kabuk aMSN 0.97\'yi (ve muhtemel diğer sürümleri) Ubuntu teması ile bütünleştirir. Basit Ubuntu(Simple Ubuntu) teması üzerine kurulmuştur, ancak bir çok değişiklik içerir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>41</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Simple skin based upon aMSN 0.97 default skin. Interface is greyscaled but contact names, personal status, smileys and some icons are left in colour in order to be more usable.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>42</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Bu eklenti aMSN(sürüm 0.97) için yapılmıştır. Tasarım şık olmakla birlikte, siyah ve bir parça fiberkarbon doku içerir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>43</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Pembe ve mor bir aMSN kabuğu, aMSN kullanan bayanlar için tasarlanmıştır.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>44</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Basit, çoğunlukla siyah ve beyaz bir kabuk. Sesler ve görüntü resimleri içerir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>45</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Astaroth tarafından aMSN 0.97 için yapılan Koyu kabuk(http://astarothsworld.blogspot.com/).</translation>
     </amsn_translations>
     <amsn_translations>
         <id>46</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Messenger istemcileri için yapılan rengarenk kabuklardan sıkılanlar için Koyu bir kabuk.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>47</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>aMSN 0.97 için Kan Kabuğu(Blood Skin).</translation>
     </amsn_translations>
     <amsn_translations>
         <id>48</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Çok basit ve siyah aMSN teması.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>49</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>En güzel Koyu kabuk.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>50</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>Mavi Ejder(BlueDragon) Kabuğu. Bazı parçalar Loi-B. tarafından yapılan \'SiyahKarbon\' (BlackCarbon) kabuğundan alınmıştır. </translation>
     </amsn_translations>
     <amsn_translations>
         <id>51</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>gtkrc\'ye uyum sağlaması için koyulaştırılıan Sedation(Sakinlik) teması.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>52</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>aMSN\'yi daha hızlı yapan küçük bir kabuk.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>53</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation></translation>
     </amsn_translations>
     <amsn_translations>
         <id>54</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation></translation>
     </amsn_translations>
     <amsn_translations>
         <id>55</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation></translation>
     </amsn_translations>
     <amsn_translations>
         <id>56</id>
-        <trans_type>skin</trans_type>
+        <type>skin</type>
         <lang>tr</lang>
         <translation>KDE ile daha iyi uyum elde etmek için hoş bir Oxygen kabuğu.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>29</id>
-        <trans_type>news_title</trans_type>
+        <type>news_title</type>
         <lang>tr</lang>
         <translation>aMSN 0.97.2 yayımlandı!</translation>
     </amsn_translations>
     <amsn_translations>
         <id>29</id>
-        <trans_type>news_text</trans_type>
+        <type>news_text</type>
         <lang>tr</lang>
         <translation>Herkese Merhaba !&lt;br&gt;&lt;br&gt;Tatil boyunca hepiniz sahilde güneşlenirken bile, aMSN geliştiricileri tercih ettiğiniz anında mesajlaşma(IM) yazılımının üzerinde çalışmaya devam ediyor!&lt;br&gt;&lt;br&gt;Bu sayede bugün  hata-düzeltmesi yapılmış aMSN 0.97 serisinin yeni bir sürümünü indirebilirsiniz: aMSN 0.97.2! Bu sürüm, diğer bazı hatalarla birlikte, diğer anında mesajlaşma yazılımlarına ileti gönderme anında yaşadığınız sorunların düzeltilmesini içerir.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>22</id>
-        <trans_type>poll_question</trans_type>
+        <type>poll_question</type>
         <lang>tr</lang>
         <translation>aMSN Linux için tek bir kurulum paketi halinde mi olmalı(autopackage ile)?</translation>
     </amsn_translations>
     <amsn_translations>
         <id>19</id>
-        <trans_type>poll_question</trans_type>
+        <type>poll_question</type>
         <lang>tr</lang>
         <translation>0.95 sürümü için heyecan içinde misiniz?</translation>
     </amsn_translations>
     <amsn_translations>
         <id>21</id>
-        <trans_type>poll_question</trans_type>
+        <type>poll_question</type>
         <lang>tr</lang>
         <translation>Geliştirme sürümü hakkında ne düşünüyorsunuz?</translation>
     </amsn_translations>
     <amsn_translations>
         <id>24</id>
-        <trans_type>poll_question</trans_type>
+        <type>poll_question</type>
         <lang>tr</lang>
         <translation>Gelecek sürümde görmek istediğiniz özellik nedir?</translation>
     </amsn_translations>
     <amsn_translations>
         <id>26</id>
-        <trans_type>poll_question</trans_type>
+        <type>poll_question</type>
         <lang>tr</lang>
         <translation>0.97 sürümünde olmayan ancak en çok olmasını istediğiniz özellik nedir?</translation>
     </amsn_translations>
     <amsn_translations>
         <id>3</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Tam olarak değil, çünkü uzun süredir CVS sürümünü kullanmaktayım</translation>
     </amsn_translations>
     <amsn_translations>
         <id>1</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Evet!! Neredeyse aMSN projesinin öldüğünü düşünüyordum</translation>
     </amsn_translations>
     <amsn_translations>
         <id>4</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Belki, öncelikle denemem gerek</translation>
     </amsn_translations>
     <amsn_translations>
         <id>2</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Evet, ne güzel bir yılbaşı hediyesi!</translation>
     </amsn_translations>
     <amsn_translations>
         <id>5</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Hayır, yeterince ilginç birşeye sahip görünmüyor!</translation>
     </amsn_translations>
     <amsn_translations>
         <id>21</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Kararlı sürümlerimle kalmayı tercih ederim</translation>
     </amsn_translations>
     <amsn_translations>
         <id>20</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Zaman zaman, hatırladıkça, en son sürüme güncellemekteyim</translation>
     </amsn_translations>
     <amsn_translations>
         <id>19</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Hergün son sürüme güncellemekteyim</translation>
     </amsn_translations>
     <amsn_translations>
         <id>22</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Geliştirme sürümünün ne olduğu hakkında bi fikrim yok</translation>
     </amsn_translations>
     <amsn_translations>
         <id>23</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Nasıl edineceğimi bilmiyorum! Denemek istiyorum, ancak nasıl ulaşabilirim?? (C: Haberleri okuyun)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>24</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Evet! Zaten önde gelen Dağıtımlar kendi paketlerini indirme yöneticisinden sunmaktalar.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>25</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Hayır, lütfen kendi dağıtımım için paketleri sunmaya devam edin.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>26</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Ne kadar kolay bir kurulum olsa da ilgimi çekmiyor.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>27</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Ben Windows kullanıyorum benim için önemi yok.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>28</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Mac OS X kullanıyorum benim için önemi yok.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>31</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Çevrimdışı Mesajlaşma</translation>
     </amsn_translations>
     <amsn_translations>
         <id>32</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Ses Klipleri</translation>
     </amsn_translations>
     <amsn_translations>
         <id>33</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>MSN Space Desteği</translation>
     </amsn_translations>
     <amsn_translations>
         <id>34</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Yukarıdakilerin Hepsi</translation>
     </amsn_translations>
     <amsn_translations>
         <id>35</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Listede olmayan başka bir özellik</translation>
     </amsn_translations>
     <amsn_translations>
         <id>36</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>aMSN\'nin şimdiki özelliklerinden memnunum, teşekkürler</translation>
     </amsn_translations>
     <amsn_translations>
         <id>37</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Beni kandıramazsınız. Zaten SVN sürümünü kullanmaktayım</translation>
     </amsn_translations>
     <amsn_translations>
         <id>43</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>MSN Spaces Desteği.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>44</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Çevrimdışı mesajlaşma</translation>
     </amsn_translations>
     <amsn_translations>
         <id>45</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Sesli görüşme</translation>
     </amsn_translations>
     <amsn_translations>
         <id>46</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Yahoo ile birlikte çalışma</translation>
     </amsn_translations>
     <amsn_translations>
         <id>47</id>
-        <trans_type>poll_answer</trans_type>
+        <type>poll_answer</type>
         <lang>tr</lang>
         <translation>Paylaşılan dizin desteği</translation>
     </amsn_translations>
     <amsn_translations>
         <id>1</id>
-        <trans_type>screen_name</trans_type>
+        <type>screen_name</type>
         <lang>tr</lang>
         <translation>Sohbet içi rumuz</translation>
     </amsn_translations>
     <amsn_translations>
         <id>1</id>
-        <trans_type>screen_desc</trans_type>
+        <type>screen_desc</type>
         <lang>tr</lang>
         <translation>Sohbet içi rumuzunuzu değiştirerek konuşma anında rumuzunuzu daha farklı gösterebilirsiniz.(0.97)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>4</id>
-        <trans_type>screen_name</trans_type>
+        <type>screen_name</type>
         <lang>tr</lang>
         <translation>Ağ Kamerası</translation>
     </amsn_translations>
     <amsn_translations>
         <id>4</id>
-        <trans_type>screen_desc</trans_type>
+        <type>screen_desc</type>
         <lang>tr</lang>
         <translation>Ağ kamerası çalışma anında (0.97)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>5</id>
-        <trans_type>screen_name</trans_type>
+        <type>screen_name</type>
         <lang>tr</lang>
         <translation>Ana Pencereler</translation>
     </amsn_translations>
     <amsn_translations>
         <id>5</id>
-        <trans_type>screen_desc</trans_type>
+        <type>screen_desc</type>
         <lang>tr</lang>
         <translation>Kişi Listesi ve Sohbet Penceresi (0.97)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>6</id>
-        <trans_type>screen_name</trans_type>
+        <type>screen_name</type>
         <lang>tr</lang>
         <translation>Seçenekler</translation>
     </amsn_translations>
     <amsn_translations>
         <id>6</id>
-        <trans_type>screen_desc</trans_type>
+        <type>screen_desc</type>
         <lang>tr</lang>
         <translation>Dileğinize göre aMSN\'yi ayarlayabileceğiniz bölüm.</translation>
     </amsn_translations>
     <amsn_translations>
         <id>2</id>
-        <trans_type>screen_name</trans_type>
+        <type>screen_name</type>
         <lang>tr</lang>
         <translation>Simge(Gülen adam) seçici</translation>
     </amsn_translations>
     <amsn_translations>
         <id>2</id>
-        <trans_type>screen_desc</trans_type>
+        <type>screen_desc</type>
         <lang>tr</lang>
         <translation>Sohbet penceresindeki simgeler(gülen adamlar) (0.97)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>3</id>
-        <trans_type>screen_name</trans_type>
+        <type>screen_name</type>
         <lang>tr</lang>
         <translation>Otomatik İletiler</translation>
     </amsn_translations>
     <amsn_translations>
         <id>3</id>
-        <trans_type>screen_desc</trans_type>
+        <type>screen_desc</type>
         <lang>tr</lang>
         <translation>Otomatik İleti düzenleyici : fortune komutunun işlendiğine dikkat ediniz (0.97)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>7</id>
-        <trans_type>screen_name</trans_type>
+        <type>screen_name</type>
         <lang>tr</lang>
         <translation>Kişisel İletiler</translation>
     </amsn_translations>
     <amsn_translations>
         <id>7</id>
-        <trans_type>screen_desc</trans_type>
+        <type>screen_desc</type>
         <lang>tr</lang>
         <translation>Kişisel İleti ayarlama bölümü (0.97)</translation>
     </amsn_translations>
     <amsn_translations>
         <id>8</id>
-        <trans_type>screen_name</trans_type>
+        <type>screen_name</type>
         <lang>tr</lang>
         <translation>Küçük Resim Gösterimi</translation>
     </amsn_translations>
     <amsn_translations>
         <id>8</id>
-        <trans_type>screen_desc</trans_type>
+        <type>screen_desc</type>
         <lang>tr</lang>
         <translation>Kişi listesinde, bağlatıların Görüntü Resimlerinin önizlemeleri(0.97)</translation>
     </amsn_translations>
