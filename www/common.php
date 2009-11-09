@@ -13,9 +13,11 @@ mysql_select_db(DBNAME_WWW, mysql_connect(DBHOST,DBUSER,DBPASS)) or die(mysql_er
 
 header('Content-type: text/html;charset=utf-8');
 
-include("includes/languages/en/en.php");  
 if (file_exists('includes/languages/'.$lang_set.'/'.$lang_set.'.php')) {
   include("includes/languages/".$lang_set."/".$lang_set.".php");  
 }
+// Include english after the language because we can't redefine constants, so all defines
+// from english will fail apart from the ones that were defined in the language
+include("includes/languages/en/en.php");  
 
 ?>
