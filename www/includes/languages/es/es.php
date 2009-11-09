@@ -285,6 +285,10 @@ define('SVN_SNAPSHOT','SVN Snapshot');
 define('LATEST_DEV_SVN','Última versión de desarrollo (SVN Snapshot)');
 define('LATEST_DEV_DESC','Es posible que desees probar nuestra última versión en desarrollo. Pero al ser una versión en desarrollo, puede que contenga mas bugs que la versión oficial y también dejar de responder algunas veces. Vas a encontrar más información sobre como instalar esta última versión de desarrolladores <a href="http://www.amsn-project.net/wiki/Installing_SVN">en nuestra wiki</a>');
 //linux-downloads page END
+//maemo-downloads page START
+define('MAEMO_INSTALL', 'Para instalar aMSN en tu dispositivo Maemo, haga click en el botón del instalador');
+define('SCREENSHOTS_MAEMO', 'A continuación, algunas capturas del aMSN sobre un N900');
+//maemo-downloads page END
 //pool_results
 define('POLL_NOT_EXIST','La encuesta seleccionada no existe. Puede que haya sido eliminada');
 define('POLLS_VOTES','Votos');
