@@ -262,6 +262,7 @@ namespace eval ::music {
 					"Juk" [list GetSongJuk TreatSongJuk FillFrameLess] \
 					"Juk-KDE4" [list GetSongJuk2 TreatSongJuk2 FillFrameLess] \
 					"LastFM" [list GetSongLastFM TreatSongLastFM FillFrameLess] \
+					"moc" [list GetSongMoc TreatSongMoc FillFrameLess] \
 					"Listen" [list GetSongListen TreatSongListen FillFrameLess] \
 					"MPD" [list GetSongMPD return FillFrameMPD] \
 					"MPRIS (any)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
@@ -1084,6 +1085,42 @@ namespace eval ::music {
 		}
 	
 		return [list $song $artist "" "" ""]
+	}
+
+	###########################################################
+	# ::music::TreatSongMoc                                   #
+	# ------------------------------------------------------- #
+	# Gets the current playing song in moc                    #
+	###########################################################
+	proc TreatSongMoc {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infomoc"]] }
+	}
+
+	###########################################################
+	# ::music::GetSongMoc                                     #
+	# ------------------------------------------------------- #
+	# Gets the current playing song in moc                    #
+	###########################################################
+	proc GetSongMoc {} {
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 4 first lines
+		set status [lindex $tmplst 0]
+		set artist [lindex $tmplst 1]
+		set song [lindex $tmplst 2]
+		set path [lindex $tmplst 3]
+		
+		#if moc is not playing... return 0
+		if { $status == "0" } {	
+			return 0
+		}
+	
+		return [list $song $artist $path "" ""]
 	}
 
 	  ###########################################################
