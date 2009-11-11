@@ -19,7 +19,6 @@
 	<a href="images/maemo-screenshot1.png"><img width="100%" src="images/maemo-screenshot1.png"> <br/></a>
 	<a href="images/maemo-screenshot2.png"><img width="100%" src="images/maemo-screenshot2.png"> <br/></a>
 	<a href="images/maemo-screenshot3.png"><img width="100%" src="images/maemo-screenshot3.png"> <br/></a>
-	<a href="images/maemo-screenshot3.png"><img width="100%" src="images/maemo-screenshot4.png"> <br/></a>
 	<br>
 
 <?php include inc . 'footer.php'; ?>
