@@ -1,0 +1,28 @@
+#!/bin/bash
+# Shell-script to get informations about the current song playing in moc
+#
+# Original by Pedro J. Ruiz (holzplatten@es.gnu.org)
+# Also modified by Pablo Castellano (pablog.ubuntu@gmail.com)
+
+STATUS="`ps ax | grep mocp`"
+if [[ -z $STATUS ]]; then
+    echo 0
+    exit 0
+fi
+
+STATUS="`mocp -i | grep State | awk '{ print $2}'`"
+if [[ $STATUS != "PLAY" ]]; then
+    echo 0
+    exit 0
+fi
+
+SONG="`mocp -i | grep SongTitle | awk '{ $1=null; print $0 }' `"
+ARTIST="`mocp -i | grep Artist | awk '{ $1=null; print $0 }' `"
+PATH="`mocp -i | grep File | awk '{ $1=null; print $0 }' `"
+
+echo 1
+echo $ARTIST
+echo $SONG
+echo $PATH
+
+exit 0
