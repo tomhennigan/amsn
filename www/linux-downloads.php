@@ -58,6 +58,10 @@
 		<a href="http://paketler.pardus.org.tr/info/2009/stable/binary/amsn.html">
 		<img src="images/download-pardus-big.png" class="distr" alt="Pardus (page in Turkish)"><br>Pardus</a>
 	</div>
+	<div style="float:left;margin:1em;text-align:center;">
+		<a href="http://wiki.canaima.softwarelibre.gob.ve/wiki/index.php/Mensajería_instantánea_aMSN">
+		<img src="images/download-canaima-big.png" class="distr" alt="Canaima (page in Spanish)"><br>Canaima</a>
+	</div>
 	<div style="clear:left"></div>
 <br>
 <hr style="width:200px;">
