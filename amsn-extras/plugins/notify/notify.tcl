@@ -65,6 +65,7 @@ namespace eval ::notify {
 	proc registerEvents { } {
 		# ::plugins::RegisterEvent "name" type localProc
 		::plugins::RegisterEvent "Notify" ChangeState userChangeState
+		::plugins::RegisterEvent "Notify" chat_msg_received new_message
 		#::plugins::RegisterEvent "Notify" contactStateChange userChangeState
 		#::plugins::RegisterEvent "Notify" UserConnect userConnected
 	}
@@ -74,8 +75,10 @@ namespace eval ::notify {
 			notify_send {notify-send} 
 			enable {}
 			pic_size {32}
-			notify_header {aMSN: %email}
+			notify_header {aMSN: %dispname}
 			notify_busy {1}
+			notify_msg {1}
+			show_nick {1}
 			debug {0}
 		}
 		
@@ -85,6 +88,8 @@ namespace eval ::notify {
 			[list str "Pic size" pic_size ] \
 			[list str "Header" notify_header ] \
 			[list bool "Show notifications when busy" notify_busy ] \
+			[list bool "Notify messages when unfocused" notify_msg ] \
+			[list bool "Display nicknames instead of e-mail" show_nick ] \
 			[list bool "Debug" debug ] \
 		]
 	}
@@ -220,8 +225,15 @@ namespace eval ::notify {
 		if { $config(notify_header) == "" } {
 			set config(notify_header) "aMSN"
 		}
-		set title [ string map [list "%email" "$email" ] $config(notify_header) ]
-	        #log "plop 1"
+	        
+		if { $config(show_nick) == 1} {
+			set dispname [::abook::getDisplayNick $email]
+		} else {
+			set dispname $email
+		}
+
+		set title [ string map [list "%dispname" "$dispname" ] $config(notify_header) ]
+		#log "plop 1"
 
 	        #log "plop 2"
 		#set txt   [ string map { "[" "\\[" "]" "\\]" "(" "\\(" ")" "\\)" "\$" "\\\$" "-" "\\\\-" ">" "\\\\>" "<" "\\\\<" } $txt ]
@@ -319,6 +331,18 @@ namespace eval ::notify {
 		#log "going to exec"
 		exec_notify "$txt" "$email"
 	}
+
+	proc new_message {event evpar} {
+		variable config
+		upvar 2 $evpar newvar
+		upvar 2 $newvar(msg) msg
+		upvar 2 $newvar(user) user
+		set email $user
+		if { $config(notify_msg) == 1 && ([focus] == "")} {
+			exec_notify "$msg" "$email"
+		}
+	}
+
 
 	# UNUSED
 	#proc userConnected { event epvar } {
