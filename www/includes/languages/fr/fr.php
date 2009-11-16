@@ -1,6 +1,6 @@
 <?php
 setlocale(LC_TIME, 'fr_FR.UTF8', 'fr.UTF8', 'fr_FR.UTF-8', 'fr.UTF-8');
-define('TIME_FORMAT', 'Le %e %B %Y @ %H:%M:%S');
+define('TIME_FORMAT', '%e %B %Y @ %H:%M:%S');
 //header menu definitions START
 define('HOME_MENU', 'Accueil');
 define('DOWNLOAD_MENU', 'Téléchargements');
