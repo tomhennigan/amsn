@@ -1291,7 +1291,7 @@ namespace eval ::amsn {
 			WinWriteIcon $chatid greyline 3
 		}
 
-		if { [::config::getKey ftautoaccept] == 1 || [::abook::getContactData $dest autoacceptft] == 1 } {
+		if { [::config::getKey ftautoaccept] == 1 || [::abook::getContactData $fromlogin autoacceptft] == 1 } {
 			WinWrite $chatid "\n[trans autoaccepted]" green
 			::amsn::AcceptFT $chatid $cookie
 		}
