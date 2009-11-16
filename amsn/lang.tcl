@@ -706,7 +706,9 @@ namespace eval ::lang {
 
 		# If langlist.xml doesn't exist, or if langlist was modified after langlist.xml
 		if { ![file exists $filename] || [file mtime $filename] < [file mtime "langlist"] } {
-			file copy -force "langlist" "$filename"
+			if {[catch {file copy -force "langlist" "$filename"}] } {
+				set filename langlist
+			}
 			set check 1
 		}
 
