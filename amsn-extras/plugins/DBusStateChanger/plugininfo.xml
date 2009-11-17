@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>DBusStateChanger</name>
+	<author>DeadVirus</author>
+	<description>Changes aMSN state to Away when some DBus signal (configurable) is captured (like screensaver start), and back to previous state when another signal is captured.</description>
+	<amsn_version>0.97</amsn_version>
+	<plugin_version>0.5</plugin_version>
+	<plugin_file>DBusStateChanger.tcl</plugin_file>
+	<plugin_namespace>DBusStateChanger</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+</plugin>
