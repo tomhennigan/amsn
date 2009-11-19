@@ -12,7 +12,7 @@
 	<plugin_namespace>music</plugin_namespace>
 	<init_procedure>InitPlugin</init_procedure>
 	<deinit_procedure>DeInit</deinit_procedure>
-	<cvs_version>11783</cvs_version>
+	<cvs_version>11788</cvs_version>
 
 	<lang>
 		<langcode>da</langcode>
@@ -122,6 +122,10 @@
 	<file>
 		<path>infosongbird</path>
 		<version>10634</version>
+	</file>
+	<file>
+		<path>infovlc</path>
+		<version>11788</version>
 	</file>
 	<file>
 		<path>MusicWin.dll</path>

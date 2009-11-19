@@ -271,6 +271,7 @@ namespace eval ::music {
 					"Songbird" [list GetSongSongbird TreatSongSongbird FillFrameLess] \
 					"Songbird (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 					"VLC (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
+					"VLC (DBUS)" [list GetSongVLCDBUS TreatSongVLCDBUS FillFrameLess] \
 					"XMMS" [list GetSongXMMS return FillFrameEmpty] \
 					"XMMS2 (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 				]
@@ -1713,7 +1714,6 @@ namespace eval ::music {
 		}
 	}
 
-
 	###############################################
 	# ::music::TreatSongMPRIS                     #
 	# ------------------------------------------- #
@@ -1731,6 +1731,44 @@ namespace eval ::music {
 	###############################################
 	proc GetSongMPRIS {} {
 		#actualsong is filled asynchronously in TreatSongMPRIS
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		set status [lindex $tmplst 0]
+
+		if {$status != "0"} {
+			return 0
+		} else {
+			set song [lindex $tmplst 1]
+			set artist [lindex $tmplst 2]
+			set path [lindex $tmplst 3]
+			set artpath [lindex $tmplst 4]
+			set album [lindex $tmplst 5]
+
+			return [list $song $artist $path $artpath $album]
+		}
+	}
+
+	###############################################
+	# ::music::TreatSongVLCDBUS                   #
+	# ------------------------------------------- #
+	# Gets the current playing song via VLCDBUS   #
+	###############################################
+	proc TreatSongVLCDBUS {} {
+		after 0 {::music::exec_async [list [file join $::music::musicpluginpath "infovlc"]] }
+		return 0
+	}
+
+	###############################################
+	# ::music::GetSongVLCDBUS                     #
+	# ------------------------------------------- #
+	# Gets the current playing song via VLCDBUS   #
+	###############################################
+	proc GetSongVLCDBUS {} {
+		#actualsong is filled asynchronously in TreatSongVLCDBUS
 		#Split the lines into a list and set the variables as appropriate
 		if { [catch {split $::music::actualsong "\n"} tmplst] } {
 			#actualsong isn't yet defined by asynchronous exec
