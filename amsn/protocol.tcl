@@ -4943,7 +4943,7 @@ namespace eval ::MSNOIM {
 			}
 			status_log "Roaming last modif :$last_modif, AB last modif : $lastchange" 
 			if {$nickname != "" } {
-				::MSN::changeName $nickname 1
+				::MSN::changeName $nickname 0
 			} else {
 				::MSN::changeName [::abook::getPersonal MFN] 1
 			}
