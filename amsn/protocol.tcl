@@ -6069,7 +6069,7 @@ proc cmsn_change_state {recv} {
 	global newstate_server
 	global last_iln
 
-	if {$last_iln == 0 || [expr {[clock seconds] - $last_iln}] <  5} {
+	if {$last_iln == 0 || [expr {[clock seconds] - $last_iln}] <  30} {
 		set initial_status 1
 		set last_iln [clock seconds]
 	} else {
