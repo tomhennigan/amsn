@@ -1980,7 +1980,6 @@ namespace eval ::abookGui {
 		# Update display picture
 		if {[set customdp_$email] ne $old_customdp} {
 			::skin::getDisplayPicture $email 1
-			::skin::getLittleDisplayPicture $email 1
 		}
 		
 		# Store groups
