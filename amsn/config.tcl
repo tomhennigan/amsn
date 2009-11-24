@@ -31,6 +31,7 @@ namespace eval ::config {
 		::config::setKey proxy ""			;# If using proxy, proxy host
 		::config::setKey proxytype "http"		;# Proxy type: http|ssl|socks5
 		::config::setKey proxyauthenticate 0		;# SOCKS5 use username/password
+		::config::setKey proxyauthtype "basic"		;# Proxy authentication type (if not NTLM)
 		::config::setKey proxyuser ""		;# user and password for SOCKS5 proxy
 		::config::setKey proxypass ""		;#
 

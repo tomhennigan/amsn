@@ -10,6 +10,9 @@
 
 package provide Proxy 0.1
 package require -exact http 2.4.4
+package require SASL::NTLM;
+package require uri;
+package require base64;
 
 # This should be converted to a proper package, to use with package require
 source socks.tcl	;# SOCKS5 proxy support
@@ -168,6 +171,107 @@ proc SOCKSSocket { args } {
 
 	# if not proxifying, just create a socket directly
 	return [socket -async $thost $tport]
+}
+
+####################################################
+# All NTLM stuff adapted from autoproxy
+####################################################
+
+proc NTLMsecureSocket { args } {
+
+  upvar host thost
+  upvar port tport
+
+  set s [NTLMauthenticate $thost $tport]
+  return [::tls::import $socket]
+
+}
+
+proc NTLMsocket { args } {
+
+  upvar host thost
+  upvar port tport
+
+  return [::autoproxy::NTLMauthenticate $thost $tport]
+
+}
+
+
+proc NTLMCallback { context command args } {
+
+    switch -exact -- $command {
+        username    { return [::config::getKey proxyuser] }
+        password { return [::config::getKey proxypass] }
+        realm    { return "" }
+        hostname { return [info host] }
+        default  { return -code error unxpected }
+
+}
+
+proc NTLMauthenticate { thost tport } {
+
+  variable options
+  set phost $options(proxy_host)
+  set pport $options(proxy_port)
+
+  set s [socket $phost $pport]
+  fconfigure $s -blocking 1 -buffering line -translation crlf
+
+  set ctx [SASL::new -mechanism NTLM -callback [namespace origin NTLMCallback]]
+  while {1} {
+    set more_steps [SASL::step $ctx $challenge]
+    set response [SASL::response $ctx]
+    #puts "----"
+    #puts "Sending NTLM message to proxy"
+    #puts "NTLM key: [base64::encode -wrapchar {} $response]"
+    puts $s "CONNECT $thost:$tport HTTP/1.1\nHost: $phost\nProxy-Connection: Keep-Alive\nConnection: Keep-Alive\nCache-Control: no-cache\nPragma: no-cache\nProxy-Authorization: NTLM [base64::encode -wrapchar {} $response]\n"
+    #puts "----"
+    if {!$more_steps} {break}
+    #puts "Handling proxy reply"
+
+    set response {}
+    while {[set line [gets $s]] ne "" } {
+      append response $line\r\n
+      # break if headers done
+      if {$line == ""} {
+        break
+      }
+    }
+    set length {}
+    regexp {Content-Length: ([0-9]*)} $response -> length
+    #puts "response length: $length"
+    # puts $response
+    if {$length eq {} } {
+      set body [read $s]
+    } else {
+      set body [read $s [expr $length-1] ]
+    }
+    # puts $body
+    regexp {Proxy-Authenticate: NTLM (.*)\r\n} $response -> challenge
+    #puts "Server challenge: $challenge"
+    set challenge [base64::decode $challenge]
+   }
+   #puts "Handshake completed"
+   #puts "----"
+
+   SASL::cleanup $ctx
+
+   puts $socket ""
+   set reply ""
+   while {[gets $socket r] > 0} {
+      lappend reply $r
+   }
+
+   set result [lindex $reply 0]
+   if {! [regexp {^HTTP/1\.[01] +2[0-9][0-9]} $result]} {
+      return -code error $result
+   }
+
+   fconfigure $s -translation binary -buffering none -blocking 0
+   return $s
+
+}
+
 }
 
 ::snit::type Proxy {
@@ -376,11 +480,27 @@ proc SOCKSSocket { args } {
 		}
 
 		if { [::config::getKey proxytype] == "http"} {
-			status_log "registering http secure socket "
-			if { [catch {http::register https 443 HTTPsecureSocket} res]} {
-				MSN::logout
-				MSN::reconnect "Proxy returned error: $res"
-				return -1
+			if { [::config::getKey proxyauthmethod] == "ntlm" } {
+				status_log "registering ntlm socket"
+				::http::config -proxyhost ""
+				if { [catch {http::register http 80 NTLMsocket} res]} {
+					MSN::logout
+	                                MSN::reconnect "Proxy returned error: $res"
+        	                        return -1
+				}
+				status_log "registering ntlm secure socket "
+                	        if { [catch {http::register https 443 NTLMsecureSocket} res]} {
+                        	        MSN::logout
+                                	MSN::reconnect "Proxy returned error: $res"
+                               	 return -1
+	                        }
+			} else {
+	                        status_log "registering http secure socket "
+	                        if { [catch {http::register https 443 HTTPsecureSocket} res]} {
+	                                MSN::logout
+	                                MSN::reconnect "Proxy returned error: $res"
+	                                return -1
+	                        }
 			}
 		} else {
 			# http://wiki.tcl.tk/2627 :(
