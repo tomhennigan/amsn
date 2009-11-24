@@ -93,12 +93,12 @@ namespace eval ::config {
 
 			::config::setKey os "mac"
 		} elseif { [OnMaemo] } {
-			::config::setKey soundcommand "play-sound \$sound"
-			::config::setKey browser "dbus-send --system --type=method_call --dest=com.nokia.osso_browser /com/nokia/osso_browser com.nokia.osso_browser.load_url \"string:\$url\""
+			::config::setKey soundcommand "aplay \$sound"
+			::config::setKey browser "dbus-send --system --type=method_call --dest=com.nokia.osso_browser /com/nokia/osso_browser com.nokia.osso_browser.open_new_window \"string:\$url\""
 			::config::setKey notifyXoffset 0
 			::config::setKey notifyYoffset 100
-			::config::setKey filemanager "xdg-open \$location"
-			::config::setKey openfilecommand "xdg-open \$file"
+			::config::setKey filemanager "dbus-send --system --type=method_call --dest=com.nokia.osso_filemanager /com/nokia/osso_filemanager com.nokia.osso_filemanager.open_folder \"string:\$location\""
+			::config::setKey openfilecommand "dbus-send --system --type=method_call --dest=com.nokia.osso_filemanager /com/nokia/osso_filemanager com.nokia.osso_filemanager.open_folder \"string:\$file\""
 			::config::setKey usesnack 0
 
 			::config::setKey os "unix"
