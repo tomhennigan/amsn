@@ -274,6 +274,7 @@ namespace eval ::music {
 					"VLC (DBUS)" [list GetSongVLCDBUS TreatSongVLCDBUS FillFrameLess] \
 					"XMMS" [list GetSongXMMS return FillFrameEmpty] \
 					"XMMS2 (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
+					"IDJC" [list GetSongIDJC return FillFrameLess] \
 				]
 			} else {
 				if {[OnWin]} {
@@ -1848,5 +1849,34 @@ namespace eval ::music {
 		
 		return [list $Title $Artist "" "" ""]
 
+	}
+	
+	###############################################
+	# ::music::GetSongIDJC                        #
+	# ------------------------------------------- #
+	# Gets the current playing song in IDJC       #
+	# Added by gOLDfeesh                          #
+	###############################################
+	
+	proc GetSongIDJC {} {
+		if { [catch {open ~/.idjc/songtitle "r"} file_]} {
+			plugins_log music "\nerror: $file_\n"
+			return 0
+		}
+	
+		gets $file_ nowplaying
+		
+		if {[eof $file_] && $nowplaying == ""} {
+			puts "DAMN IT"
+		}
+		close $file_
+	
+		set Title ""
+		set Artist ""
+	
+		if {[regexp {^(.*)\s*-\s*(.*)$} $nowplaying -> Artist Title]} {
+			return [list $Title $Artist "" "" ""]		
+		}
+		return 0
 	}
 }
