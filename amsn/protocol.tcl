@@ -4808,15 +4808,18 @@ namespace eval ::MSNOIM {
 			set contact [lindex $temp 1]
 			unset temp
 		}
+		status_log "Got UBX for contact $contact"
 
 		if {$payload != ""} {
-			if { [catch { set xml [xml2list $payload] } ] } {
+			if { [catch { set xml [xml2list $payload] } res] } {
+				status_log "Got invalid XML in UBX command : $res"
 				return
 			}
 			set psm [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $xml "Data:PSM"]]]
 			set currentMedia [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $xml "Data:CurrentMedia"]]]
 			set signatureSound [::sxml::replacexml [encoding convertfrom utf-8 [GetXmlEntry $xml "Data:SignatureSound"]]]
 		} else {
+			status_log "UBX payload is empty"
 			set psm ""
 			set currentMedia ""
 			set signatureSound ""
@@ -6198,7 +6201,7 @@ proc cmsn_change_state {recv} {
 		} else {
 			# Update the contact's nickname in the server's abook as well
 			if { [::abook::getContactData $user contactguid] != "" } {
-				$::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] $user [list displayName [xmlencode $user_name]] DisplayName
+				after idle [list $::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] $user [list displayName [xmlencode $user_name]] DisplayName]
 			}
 		}
 
