@@ -1694,7 +1694,7 @@ namespace eval ::music {
 	# Gets the current playing song in Amarok     #
 	###############################################
 	proc GetSongSongbird {} {
-		#actualsong is filled asynchronously in TreatSongAmarok
+		#actualsong is filled asynchronously in TreatSongSongbird
 		#Split the lines into a list and set the variables as appropriate
 		if { [catch {split $::music::actualsong "\n"} tmplst] } {
 			#actualsong isn't yet defined by asynchronous exec
