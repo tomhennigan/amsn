@@ -293,6 +293,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
 	}
 
 	delete [] row_pointers;
+	row_pointers = NULL;
 
 	/* read the rest of the file, getting any additional chunks in info_ptr */
 	png_read_end(png_ptr, info_ptr);
@@ -506,6 +507,7 @@ bool CxImagePNG::Encode(CxFile *hFile)
 	}
 
 	delete [] row_pointers;
+	row_pointers = NULL;
 
 	//if necessary, restore the original palette
 	if (!bGrayScale && head.biClrUsed && info.nBkgndIndex>0)
