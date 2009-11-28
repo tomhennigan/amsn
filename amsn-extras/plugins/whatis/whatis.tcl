@@ -125,6 +125,7 @@ namespace eval ::whatis {
 		
 		$copymenu.whatis add cascade -label "Translate" -menu $copymenu.whatis.translate
 		menu $copymenu.whatis.translate -tearoff 0 -type normal
+		$copymenu.whatis.translate add command -label "Auto-detect to English" -command "whatis::translateText $w auto en"
 		$copymenu.whatis.translate add command -label "English to Spanish" -command "whatis::translateText $w en es"	
 		$copymenu.whatis.translate add command -label "English to French" -command "whatis::translateText $w en fr"
 		$copymenu.whatis.translate add command -label "English to German" -command "whatis::translateText $w en de"	
@@ -134,6 +135,7 @@ namespace eval ::whatis {
 		$copymenu.whatis.translate add command -label "English to Russian" -command "whatis::translateText $w en ru"	
 		$copymenu.whatis.translate add command -label "English to Greek" -command "whatis::translateText $w en el"
 		$copymenu.whatis.translate add command -label "English to Japanese"  -command "whatis::translateText $w en ja"
+		$copymenu.whatis.translate add command -label "English to Chinese (simpl)" -command "whatis::translateText $w en zh"
 		$copymenu.whatis.translate add command -label "Dutch to English" -command "whatis::translateText $w nl en"
 		$copymenu.whatis.translate add command -label "Spanish to English" -command "whatis::translateText $w es en"	
 		$copymenu.whatis.translate add command -label "German to English" -command "whatis::translateText $w de en"	
@@ -143,6 +145,7 @@ namespace eval ::whatis {
 		$copymenu.whatis.translate add command -label "Russian to English" -command "whatis::translateText $w ru en"	
 		$copymenu.whatis.translate add command -label "Greek to English" -command "whatis::translateText $w el en"
 		$copymenu.whatis.translate add command -label "Japanese to English" -command "whatis::translateText $w ja en"
+		$copymenu.whatis.translate add command -label "Chinese (simpl) to English" -command "whatis::translateText $w zh en"
 		$copymenu.whatis.translate add command -label "Other..." -command "whatis::manual_langpair $w"
 	}
 	
@@ -215,18 +218,22 @@ namespace eval ::whatis {
 				"ru" { set langTitle "Russian" }		
 				"el" { set langTitle "Greek" }
 				"ja" { set langTitle "Japanese" }
+				"zh" { set langTitle "Chinese (simpl)" }
 				"en" { set langTitle "English" }
 				default { set langTitle "selected language" }
 		}
 		
 		# Strip HTML before translated text 
-		set substring "<div id=result_box dir=\""
+		set substring "<span id=result_box"
 		set start [string first $substring $html]
 		if { $start == -1 } {
 			set translation "Problem parsing return text. Translation engine probably returned an error"
 		} else {
 			set start [expr { $start + [string length $substring]} ]
 			set direction [string range $html $start [expr { [string first "\"" $html $start] - 1}]]
+			set start [string first ">" $html $start]
+			set substring "<span title=\""
+			set start [expr { $start + [string length $substring]} ]
 			set start [string first ">" $html $start]
 			set start [expr { $start + 1 }]
 		
