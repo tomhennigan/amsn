@@ -847,8 +847,10 @@ proc save_config {} {
 	close $file_id
 	
 	#writing was successful, so move config.xml.temp to config.xml
-	file delete -force [file join ${HOME} config.xml]
-	file rename -force [file join ${HOME} config.xml.temp] [file join ${HOME} config.xml]
+	if {[catch {file copy -force [file join ${HOME} config.xml.temp] [file join ${HOME} config.xml]}] } {
+		msg_box "[trans configpermissionerror ${HOME}]"
+	}
+	catch {file delete -force [file join ${HOME} config.xml.temp]}
 
 	# re-rename os-specific keys
 	foreach dstKey $osspecific_keys {

@@ -220,6 +220,7 @@ color Color
 command Command
 commandstatus Execute command
 compactstyle Compact Style
+configpermissionerror Error writing configuration file. Make sure you have the correct permissions for the directory $1
 configure Configure
 configuremic Configuring your microphone
 configureplugin Configure plugin $1
