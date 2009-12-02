@@ -220,6 +220,7 @@ color Color
 command Comando
 commandstatus Ejecutar comando
 compactstyle Estilo compacto
+configpermissionerror Error escribiendo el archivo de configuración. Asegúrate de tener los permisos apropiados para el directorio $1
 configure Configurar
 configuremic Configurando tu micrófono
 configureplugin Configurar plug-in $1
@@ -709,6 +710,7 @@ pausewebcamsend Pausa en el envío de la cámara web
 personal Personal
 phone Teléfono
 phones Números de teléfono
+photosharingrequest Acabas de recibir una solicitud de compartición de fotos. Esta característica aún no está soportada por y no puede ser cancelada desde tu lado de la comunicación. Dile a tu contacto que cancele la compartición de fotos y envíe el archivo como una transferencia de archivo.
 picbrowser Navegador de imágenes para mostrar
 picfile Archivo de imagen (GIF < 500 x 500)
 picstatus Imagen para la alarma
@@ -875,6 +877,7 @@ showmailicon Mostrar el icono de correo en la bandeja del sistema cuando llegue 
 showmypic Mostrar mi imagen
 shownonim Mostrar contactos sin messenger
 shownotify Mostrar ventana de avisos al producirse diversos eventos
+shownotinlist Mostrar un icono especial para contactos que no te tienen en su lista
 showofflinegroup Mostrar el grupo "Desconectados"
 showonedpframe Mostrar un único marco con la imagen para mostrar en las ventanas de conversación
 showpicnotify Mostrar imágenes de usuarios en las ventanas de avisos
@@ -1099,4 +1102,3 @@ youblocked Has sido bloqueado
 yousay Dices
 youwant Quieres
 zoom Ampliación
-shownotinlist Mostrar un icono especial para contactos que no te tienen en su lista
