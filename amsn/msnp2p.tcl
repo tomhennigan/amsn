@@ -726,6 +726,9 @@ namespace eval ::MSNP2P {
 					}
 					"41D3E74E-04A2-4B37-96F8-08ACDB610874" {
 						status_log "MSNP2P | $sid Received a Photo Sharing invitation from $dest\n" red
+						::MSN6FT::GotPhotoSharingInvitation $chatid
+						return
+
 						SessionList set $sid [list 0 0 0 $dest 0 $uid 0 "phot" "" ""]
 
 						# Let's send an ACK

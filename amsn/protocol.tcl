@@ -8103,6 +8103,22 @@ namespace eval ::MSN6FT {
 	}
 
 
+	proc GotPhotoSharingInvitation {chatid} {			
+		SendMessageFIFO [list ::MSN6FT::GotPhotoSharingInvitationWrapped $chatid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+	}
+	
+	
+	#Show a message when we receive a photo sharing invitation so the user isn't clueless
+	proc  GotPhotoSharingInvitationWrapped {chatid} {
+		#Grey line
+		::amsn::WinWrite $chatid "\n" green
+		::amsn::WinWriteIcon $chatid greyline 3
+		::amsn::WinWrite $chatid " \n" green
+		#Description of the problem
+		::amsn::WinWrite $chatid "[timestamp] [trans photosharingrequest]\n" green
+			
+	}
+
 	proc SharePhoto { chatid filename filesize} {
 		global HOME
 

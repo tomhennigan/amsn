@@ -710,6 +710,7 @@ pausewebcamsend Pause sending of webcam
 personal Personal
 phone Phone
 phones Phone numbers
+photosharingrequest You just received a Photo Sharing request. This feature is not yet supported by aMSN and cannot be canceled from your side. Tell your contact to cancel the Photo Sharing and send the file as a File Transfer.
 picbrowser Display Pictures Browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
