@@ -771,6 +771,7 @@ proc save_config {} {
 			set file_id [open "[file join ${HOME} config.xml.temp]" w]
 		}
 	} res]} {
+		msg_box "[trans configpermissionerror ${HOME}] : \n$res"
 		return 0
 	}
 	fconfigure $file_id -encoding utf-8
