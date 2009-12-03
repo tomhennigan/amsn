@@ -16,7 +16,7 @@ namespace eval windowlist {
 
 	menu $mainmenu.window
 
-	$mainmenu.window add command -label [trans minimizeplain] -command [namespace current]::minimizeFrontWindow
+	$mainmenu.window add command -label [trans minimizeplain] -command [namespace current]::minimizeFrontWindow -accelerator "Command-M"
 	$mainmenu.window add separator
 	$mainmenu.window add command -label [trans bringtofront] -command [namespace current]::raiseAllWindows
 	$mainmenu.window add separator
@@ -24,6 +24,8 @@ namespace eval windowlist {
 	    -command  {raise [lindex [wm stackorder .] 0]} \
 	    -accelerator "Command-`"
        	bind all <Command-quoteleft> {raise [lindex [wm stackorder .] 0]}
+       	bind all <Command-m> [namespace current]::minimizeFrontWindow
+       	bind all <Command-M> [namespace current]::minimizeFrontWindow
 	$mainmenu.window add separator
 	$mainmenu.window add separator
 	

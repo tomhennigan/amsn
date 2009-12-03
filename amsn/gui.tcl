@@ -5123,8 +5123,8 @@ proc cmsn_draw_main {} {
 		bind all <$modifier-/> "launch_browser $::weburl/wiki/Main_Page"
 		bind all <$modifier-?> "launch_browser $::weburl/wiki/Main_Page"
 
-		bind all <$modifier-m> "catch {wm state %W normal; carbon::processHICommand mini %W}"
-		bind all <$modifier-M> "catch {wm state %W normal; carbon::processHICommand mini %W}"
+		bind all <$modifier-m> {catch {wm state [winfo toplevel %W] normal; carbon::processHICommand mini [winfo toplevel %W]}}
+		bind all <$modifier-M> {catch {wm state [winfo toplevel %W] normal; carbon::processHICommand mini [winfo toplevel %W]}}
 		# Webcam bindings
 	} else {
 		#Plugins log
