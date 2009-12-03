@@ -6895,12 +6895,21 @@ proc sso_authenticated { failed } {
 	global sso
 	if {$failed == 2} {
 		eval [ns cget -passerror_handler]
-	} elseif { $failed == 1 } {
-		eval [ns cget -autherror_handler]
-	} else {
+	} elseif { $failed == 0 } {
+		$sso configure -done 1
 		if { [$sso cget -nonce] != "" } {
 			sso_authenticate
 		}
+	} elseif { $failed == 4 } {
+		global reconnect_timer
+		set reconnect_timer 0
+
+		status_log "Profile Accrual is required"
+		::MSN::logout
+		::amsn::errorMsg "[trans profileaccrualerror]"
+		launch_browser "https://accountservices.passport.net/"
+	} else {
+		eval [ns cget -autherror_handler]
 	}
 }
 
@@ -6996,8 +7005,7 @@ proc cmsn_auth {{recv ""}} {
 				}
 				global sso
 				$sso configure -nonce [lindex $recv 5]
-				set token [$sso GetSecurityTokenByName MessengerClear]
-				if { [$token cget -ticket] != "" } {
+				if { [$sso cget -done] } {
 					sso_authenticate
 				}
 

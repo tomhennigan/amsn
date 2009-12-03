@@ -55,6 +55,7 @@ snit::type SSOAuthentication {
 	option -username -default ""
 	option -password -default ""
 	option -nonce -default ""
+	option -done -default 0
 
 	constructor { args } {
 		$self configurelist $args
@@ -162,6 +163,20 @@ snit::type SSOAuthentication {
 					$token configure -server_clock $server_clock
 
 					status_log "Found security token $token for address $address" green
+					set faultcode [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:S:Fault:faultcode"]
+					set faultstring [GetXmlEntry $subxml "wst:RequestSecurityTokenResponse:S:Fault:faultstring"]
+					if {$faultcode == "wsse:FailedAuthentication"} {
+						if {[string trim $faultstring] == "Profile accrual is required"} {
+							set error 4
+						} else {
+							set error 5
+						}
+						status_log "Security token for $address had a fault ($faultcode): $faultstring" red
+						if {[catch {eval $callbk [list $error]} result]} {
+							bgerror $result
+						}
+						return
+					}
 				}
 			}
 			if {[catch {eval $callbk [list 0]} result]} {

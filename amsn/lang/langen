@@ -762,6 +762,7 @@ prefshared Shared Connections (only for NAT)
 prefsound Sounds
 preview Preview
 privacy Privacy
+profileaccrualerror Your Windows Live ID account information is incomplete.\nPlease make sure your birthday and country are correctly filled in your profile.
 profiledconfig Profiled Config
 profileexists You cannot create a profile with this login \n because one already exists. Please choose another login.
 profileinuse This Profile is being used by another aMSN session, please choose another one
