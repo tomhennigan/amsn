@@ -5144,8 +5144,10 @@ proc cmsn_draw_main {} {
 		# Default behaviour on OS X is to hide the main window, and open again when the dock icon is clicked.
 		proc ::tk::mac::ReopenApplication {} {
 			if {[::ChatWindow::MacRaiseWindows] == 0 } {
-				wm state . normal
-				raise .
+				if { [wm state .] == "withdrawn"} {
+					wm state . normal
+					raise .
+				}
 			}
 		}
 		wm protocol . WM_DELETE_WINDOW { wm state . withdrawn }
