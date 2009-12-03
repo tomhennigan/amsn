@@ -848,8 +848,8 @@ proc save_config {} {
 	
 	#writing was successful, so move config.xml.temp to config.xml
 	catch {file delete -force [file join ${HOME} config.xml]}
-	if {[catch {file copy -force [file join ${HOME} config.xml.temp] [file join ${HOME} config.xml]}] } {
-		msg_box "[trans configpermissionerror ${HOME}]"
+	if {[catch {file copy -force [file join ${HOME} config.xml.temp] [file join ${HOME} config.xml]} err] } {
+		msg_box "[trans configpermissionerror ${HOME}] : \n$err"
 	}
 	catch {file delete -force [file join ${HOME} config.xml.temp]}
 
