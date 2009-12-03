@@ -2736,7 +2736,8 @@ proc Preferences { { settings "personal"} } {
     moveinscreen .cfg 60
 
     # Show requested page
-    $nb.nn raise $settings
+    # The move in screen could maybe cause the window to get destroyed when it does the 'update' so let's catch this
+    catch { $nb.nn raise $settings }
 }
 
 proc UnregisterPrivacyEvents {} {
