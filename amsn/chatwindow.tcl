@@ -489,6 +489,9 @@ namespace eval ::ChatWindow {
 		::MSN::leaveChat $chatid
 		
 		catch { unset ::amsn::lastchatwith(${chatid}) }
+		if {[OnMac]} {
+			MacBounceDone $window
+		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -634,8 +637,12 @@ namespace eval ::ChatWindow {
 
 		if {[llength $macbouncewindows] > 0 } {
 			set win [lindex $macbouncewindows 0]
-                        wm state $win normal
-                        raise $win
+			if {[catch {wm state $win normal}]} {
+				MacBounceDone $win
+				MacRaiseWindows
+			} else {
+				raise $win
+			}
 			return 1
 		} else {
 			return 0
