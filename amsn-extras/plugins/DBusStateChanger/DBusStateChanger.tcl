@@ -3,6 +3,7 @@ namespace eval ::DBusStateChanger {
 	variable isLoaded
 	variable pluginName
 	variable prevStatus
+	
 	#
 	#	Init proc
 	#	Where it all begins
@@ -117,8 +118,12 @@ namespace eval ::DBusStateChanger {
 		variable bus_fptr
 		log "Closing dbus"
 		fileevent $bus_fptr readable {}
-		close $bus_fptr
-		log "DBus channel closed"
+		set dbus_pid [pid $bus_fptr]	
+		catch { close $bus_fptr }
+		catch { exec kill $dbus_pid }
+		#clear zombie (sometimes processes aren't "reaped" till the next exec)
+		exec true
+		log "DBus channel closed and process with number $dbus_pid killed"
 	}
 	
 	#
@@ -130,6 +135,7 @@ namespace eval ::DBusStateChanger {
 		variable pluginName
 
 		if { [eof $bus_fptr] } {
+			stopDBusMonitor
 			tk_messageBox -parent .main -title "Warning" -icon warning -type ok -message "DBus EOF: something wrong with dbus."
 			::plugins::UnLoadPlugin $pluginName
 			return -1
