@@ -220,6 +220,7 @@ color Couleur
 command Commande
 commandstatus Exécuter la commande
 compactstyle Style compact
+configpermissionerror Une erreur est survenue lors de l'écriture du fichier de configuration. Veuillez vous assurer que les permissions sont correctes sur le répertoire '$1'.
 configure Configurer
 configuremic Configuration du micro
 configureplugin Configurer le plugin $1
@@ -380,7 +381,6 @@ faileddeleteperso Cette photo ne peut pas être effacée parce qu'elle n'est pas u
 faq Foire aux Questions
 farsightextchecking Vérifie si l'extension Farsight est chargée...
 farsightextwarn Vous ne pourrez pas avoir d'appels Audio. Vous trouverez des informations sur Farsight sur notre Wiki :
-farsightinfook Farsight est un ensemble d'outils pour utiliser les protocols de conférences audio/vidéo. Avec Farsight, vous pouvez recevoir et émettre des appels Audio au sein d'aMSN! Vous trouverez d'autres informations sur notre Wiki : 
 fetching Téléchargement des données ...
 filedoesnotexist Le fichier n'existe pas
 file Fichier
@@ -710,6 +710,7 @@ pausewebcamsend Mettre en pause l'envoi de la webcam
 personal Personnel
 phone Numéro
 phones Numéros de téléphone
+photosharingrequest Vous venez de recevoir une invitation à partager des photos (Photo Sharing). Cette fonctionalité n'est pas encore disponible dans aMSN. Cette invitation ne peut pas être annulée de notre part. Veuillez demander à votre contact d'annuler l'invitation et de vous envoyer directement les fichiers.
 picbrowser Voir mes avatars
 picfile Image associée à l'alarme (GIF < 500x500)
 picstatus Activer/Désactiver l'image associée à l'alarme
@@ -761,6 +762,7 @@ prefshared Connexions partagées (Seulement pour NAT)
 prefsound Sons
 preview Aperçu
 privacy Privé
+profileaccrualerror Votre profile Windows Live ID est incomplet.\nVeuillez vous assurer que votre date de naissance et votre pays sont bien renseignés sur votre profile.
 profiledconfig Configuration profilée
 profileexists Vous ne pouvez pas créer un profil avec cet identifiant \n car il est déja utilisé par un profil. Choisissez en un autre.
 profileinuse Profil actuellement utilisé par une autre session aMSN. Veuillez choisir un autre profil.
