@@ -12,7 +12,7 @@ add Toevoegen
 addacontact Contact toevoegen
 addedyou Je bent toegevoegd aan de contactenlijst van $1 ($2)
 addprofile Nieuw profiel toevoegen
-addprofiledesc Geef de aanmeldingsnaam waarvoor je een nieuw profiel wilt aanmaken.\nProfielen maken het mogelijk verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kun je geen wachtwoorden bewaren, gesprekken opslaan in logboeken of alarmen instellen.
+addprofiledesc Geef de aanmeldingsnaam waarvoor je een nieuw profiel wilt aanmaken. \nProfielen maken het mogelijk verschillende configuraties te hebben voor iedere aanmeldingsnaam.\nZonder profielen kun je geen wachtwoorden bewaren, gesprekken opslaan in logboeken of alarmen instellen.
 addstate Nieuwe status toevoegen
 addto Toevoegen aan $1
 addtoal Toevoegen aan AL
@@ -169,7 +169,7 @@ chatsmileys Emoticons weergeven
 chatsmileys2 Emoticons weergeven in gespreksvensters
 checkblocking Blijven controleren of gebruikers je blokkeren
 checkemail Het aantal berichten in je Postvak IN tonen in de contactenlijst
-checkfilman Ontvangen bestanden worden bewaard in de map $1.\nKies Extra > Voorkeuren > Geavanceerd om dit te wijzigen.
+checkfilman Ontvangen bestanden worden opgeslagen in de map $1. Kies Extra > Voorkeuren > Geavanceerd om dit te wijzigen.
 checkingaudio Bezig met controleren of de extensie voor geluid (Snack) is geladen...
 checkingcam Bezig met controleren of er een webcam is aangesloten...
 checkingcapext Bezig met controleren of extensie '$1' is geladen...
@@ -220,6 +220,7 @@ color Kleur
 command Commando
 commandstatus Commandoregel uitvoeren
 compactstyle Compacte stijl
+configpermissionerror Fout bij het schrijven van het configuratiebestand. Zorg ervoor dat je de juiste rechten hebt voor de map $1.
 configure Configureren
 configuremic Microfoon wordt geconfigureerd
 configureplugin Plug-in $1 configureren
@@ -237,7 +238,7 @@ congrats Gefeliciteerd
 connected Je bent nu verbonden
 connectedat Aangemeld om:
 connectedwith Aangemeld als $1
-connecterror Fout bij verbinden met server
+connecterror Fout bij het verbinden met de server
 connectfirst Maak eerst verbinding
 connecting Bezig met verbinden
 connection Verbinding
@@ -709,6 +710,7 @@ pausewebcamsend Webcam pauzeren
 personal Persoonlijk
 phone Abonneenummer
 phones Telefoonnummers
+photosharingrequest Je hebt zojuist een verzoek voor het delen van foto's ontvangen. Deze functie wordt nog door niet door aMSN ondersteund en kan vanaf jouw kant niet worden geannuleerd. Vertel je contact het verzoek voor het delen van foto's te annuleren en het bestand via een bestandsoverdracht te verzenden.
 picbrowser Afbeeldingenbrowser
 picfile Alarmafbeelding (GIF < 500 x 500 pixels)
 picstatus Alarmafbeelding gebruiken
@@ -760,8 +762,9 @@ prefshared Gedeelde verbindingen (alleen voor NAT)
 prefsound Geluiden
 preview Voorbeeld
 privacy Privacy
+profileaccrualerror De accountinformatie voor je Windows Live ID is niet compleet.\nZorg ervoor dat je verjaardag en land juist zijn ingesteld in je profiel.
 profiledconfig Profielconfiguratie
-profileexists Je kunt geen profiel aanmaken met deze aanmeldingsnaam omdat er al een bestaat. Kies een andere aanmeldingsnaam.
+profileexists Je kunt geen profiel aanmaken met deze aanmeldingsnaam \n omdat er al een bestaat. Kies een andere aanmeldingsnaam.
 profileinuse Dit profiel wordt momenteel gebruikt door een andere aMSN-sessie, kies een ander
 profileloginradio Aanmelden met een bestaand profiel
 profiles Profielen
