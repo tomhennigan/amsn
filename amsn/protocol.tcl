@@ -7203,11 +7203,31 @@ proc ::MSN::ABSynchronizationDone { initial error } {
 
 proc ::MSN::roaming_cl_get_profile_cb { email nick date psm fail } {
 	if { $fail == 0 && [::abook::getVolatileData $email state FLN] == "FLN"} {
-
+		variable get_profile_update_cl_after_id
 		::abook::setContactData $email nick $nick
 		::abook::setVolatileData $email PSM $psm
-		::Event::fireEvent contactPSMChange protocol $email
+		# Do not send the events for nick/psm updated because of GetProfile each time we get an answer,
+		# because it causes the contact list to queue the redraws for the initial status change notifications (ILN),
+		# so it makes the contact list show your online contacts a lot later than what it can, which makes the user think amsn got slower to connect... 
+		if { [info exists get_profile_update_cl_after_id] } {
+			if {[catch {set cmd [lindex [after info $get_profile_update_cl_after_id] 0]}] } {
+				set get_profile_update_cl_after_id [after 1000 [list ::MSN::get_profile_update_cl $email]]
+			} else {
+				after cancel $get_profile_update_cl_after_id
+				lappend cmd $email
+				set get_profile_update_cl_after_id [after 1000 $cmd]
+			}
+		} else {
+			set get_profile_update_cl_after_id [after 1000 [list ::MSN::get_profile_update_cl $email]]
+		}
 	}
+}
+
+proc ::MSN::get_profile_update_cl { args } {
+	variable get_profile_update_cl_after_id
+	catch {unset get_profile_update_cl_after_id}
+	::Event::fireEvent contactNickChange protocol $args
+	::Event::fireEvent contactPSMChange protocol $args
 }
 
 proc ::MSN::ABAddDone { error } {
