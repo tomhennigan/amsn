@@ -6201,7 +6201,7 @@ proc cmsn_change_state {recv} {
 		} else {
 			# Update the contact's nickname in the server's abook as well
 			if { [::abook::getContactData $user contactguid] != "" } {
-				after idle [list $::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] $user [list displayName [xmlencode $user_name]] DisplayName]
+				#after idle [list $::ab ABContactUpdate [list ::MSN::ABUpdateNicknameCB] $user [list displayName [xmlencode $user_name]] DisplayName]
 			}
 		}
 
@@ -7179,19 +7179,34 @@ proc ::MSN::ABSynchronizationDone { initial error } {
 				newcontact $username $nickname
 			}
 		}
-
 		::groups::Enable
 
 		if {$initial } {
 			ns setInitialStatus
 		}
-		ns authenticationDone	
+		ns authenticationDone
+
+		if {$initial } {
+			foreach username [::MSN::getList FL] {
+				after idle [list $::roaming GetProfile [list ::MSN::roaming_cl_get_profile_cb $username] $username]
+			}
+		}
+	
 	} elseif {$error == 2 } {
 		#ABDoesNotExist
 		$::ab ABAdd ::MSN::ABAddDone [::config::getKey login]
 	} else {
 		::MSN::logout
 		::amsn::errorMsg "[trans internalerror]"		
+	}
+}
+
+proc ::MSN::roaming_cl_get_profile_cb { email nick date psm fail } {
+	if { $fail == 0 && [::abook::getVolatileData $email state FLN] == "FLN"} {
+
+		::abook::setContactData $email nick $nick
+		::abook::setVolatileData $email PSM $psm
+		::Event::fireEvent contactPSMChange protocol $email
 	}
 }
 
