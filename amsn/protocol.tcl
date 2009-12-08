@@ -4951,6 +4951,10 @@ namespace eval ::MSNOIM {
 				::MSN::changeName [::abook::getPersonal MFN] 1
 			}
 
+			foreach username [::MSN::getList FL] {
+				after idle [list catch [list $::roaming GetProfile [list ::MSN::roaming_cl_get_profile_cb $username] $username]]
+			}
+
 			# Change status after sending the UUX stuff
 			#ChCustomState $newstate_custom
 			#send_dock "STATUS" $newstate
@@ -7185,12 +7189,6 @@ proc ::MSN::ABSynchronizationDone { initial error } {
 			ns setInitialStatus
 		}
 		ns authenticationDone
-
-		if {$initial } {
-			foreach username [::MSN::getList FL] {
-				after idle [list catch [list $::roaming GetProfile [list ::MSN::roaming_cl_get_profile_cb $username] $username]]
-			}
-		}
 	
 	} elseif {$error == 2 } {
 		#ABDoesNotExist
