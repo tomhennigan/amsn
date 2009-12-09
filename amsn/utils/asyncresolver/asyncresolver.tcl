@@ -37,13 +37,6 @@ namespace eval ::asyncresolver {
 
 }
 
-
-rename socket _socket
-proc socket { args } {
-	return [::asyncresolver::resolve _socket $args]	
-}
-
-
 rename fconfigure _fconfigure
 proc fconfigure { channel args } {
 	if { [llength $args] == 1 && [lindex $args 0] == "-sockname" } {
@@ -55,11 +48,18 @@ proc fconfigure { channel args } {
 	}
 }
 
-package require tls
-if {[info commands ::tls::socket] == "::tls::socket"} {
-	rename ::tls::socket ::tls::_socket
-	proc ::tls::socket { args } {
-		return [::asyncresolver::resolve ::tls::_socket $args]	
-	}
 
-}
+# rename socket _socket
+# proc socket { args } {
+# 	return [::asyncresolver::resolve _socket $args]	
+# }
+
+
+# package require tls
+# if {[info commands ::tls::socket] == "::tls::socket"} {
+# 	rename ::tls::socket ::tls::_socket
+# 	proc ::tls::socket { args } {
+# 		return [::asyncresolver::resolve ::tls::_socket $args]	
+# 	}
+
+# }
