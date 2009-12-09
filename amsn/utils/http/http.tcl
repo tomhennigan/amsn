@@ -317,12 +317,7 @@ proc http::geturl { url args } {
     if {[string length $port] == 0} {
 	set port $defport
     }
-    if {[string length $srvurl] == 0} {
-	set srvurl /
-    }
-    if {[string length $proto] == 0} {
-	set url http://$url
-    }
+
     set state(url) $url
     if {![catch {$http(-proxyfilter) $host} proxy]} {
 	set phost [lindex $proxy 0]
@@ -335,16 +330,10 @@ proc http::geturl { url args } {
     if {$state(-timeout) > 0} {
 	set state(after) [after $state(-timeout) \
 		[list http::reset $token timeout]]
-	set async -async
-    } else {
-	set async ""
     }
-
-    # If we are using the proxy, we must pass in the full URL that
-    # includes the server name.
+    set async -async
 
     if {[info exists phost] && [string length $phost]} {
-	set srvurl $url
 	set conStat [catch {eval $defcmd $async {$phost $pport}} s]
     } else {
 	set conStat [catch {eval $defcmd $async {$host $port}} s]
@@ -363,24 +352,59 @@ proc http::geturl { url args } {
 
     # Wait for the connection to complete
 
-    if {$state(-timeout) > 0} {
-	fileevent $s writable [list http::Connect $token]
-	http::wait $token
+    fileevent $s writable [list http::Connect $token]
+    if {! [info exists state(-command)]} {
 
+	# geturl does EVERYTHING asynchronously, so if the user
+	# calls it synchronously, we just do a wait here.
+
+	wait $token
 	if {[string equal $state(status) "error"]} {
-	    # something went wrong while trying to establish the connection
-	    # Clean up after events and such, but DON'T call the command
-	    # callback (if available) because we're going to throw an 
-	    # exception from here instead.
-	    set err [lindex $state(error) 0]
-	    cleanup $token
-	    return -code error $err
-	} elseif {![string equal $state(status) "connect"]} {
-	    # Likely to be connection timeout
-	    return $token
-	}
-	set state(status) ""
+	    # Something went wrong, so throw the exception, and the
+	    # enclosing catch will do cleanup.
+	    return -code error [lindex $state(error) 0]
+        } elseif {[string equal $state(status) "connect"] } {
+	    # We just got connected, wait for the actual response...
+	    wait $token
+	    if {[string equal $state(status) "error"]} {
+		# Something went wrong, so throw the exception, and the
+		# enclosing catch will do cleanup.
+		return -code error [lindex $state(error) 0]
+            }
+        }
     }
+    return $token
+}
+
+proc http::connected { token } {
+    variable http
+    variable urlTypes
+
+    variable $token
+    upvar 0 $token state
+
+    set exp {^(([^:]*)://)?([^@]+@)?([^/:]+)(:([0-9]+))?(/.*)?$}
+    if {![regexp -nocase $exp $state(url) x prefix proto user host y port srvurl]} {
+	Finish $token "Unsupported URL: $url"
+    }
+    set defport [lindex $urlTypes($proto) 0]
+
+    if {[string length $port] == 0} {
+	set port $defport
+    }
+    if {[string length $srvurl] == 0} {
+	set srvurl /
+    }
+
+    # If we are using the proxy, we must pass in the full URL that
+    # includes the server name.
+    if {![catch {$http(-proxyfilter) $host} proxy]} {
+	if { [string length [lindex $proxy 0] ] } {
+	    set srvurl $state(url)
+	}
+    }
+
+    set s $state(sock)
 
     # Send data in cr-lf format, but accept any line terminators
 
@@ -389,6 +413,8 @@ proc http::geturl { url args } {
     # The following is disallowed in safe interpreters, but the socket
     # is already in non-blocking mode in that case.
 
+    set isQueryChannel [info exists state(-querychannel)]
+    set isQuery [info exists state(-query)]
     catch {fconfigure $s -blocking off}
     set how GET
     if {$isQuery} {
@@ -475,18 +501,6 @@ proc http::geturl { url args } {
 	    fileevent $s readable [list http::Event $token]
 	}
 
-	if {! [info exists state(-command)]} {
-
-	    # geturl does EVERYTHING asynchronously, so if the user
-	    # calls it synchronously, we just do a wait here.
-
-	    wait $token
-	    if {[string equal $state(status) "error"]} {
-		# Something went wrong, so throw the exception, and the
-		# enclosing catch will do cleanup.
-		return -code error [lindex $state(error) 0]
-	    }		
-	}
     } err]} {
 	# The socket probably was never connected,
 	# or the connection dropped later.
@@ -497,14 +511,11 @@ proc http::geturl { url args } {
 	
 	# if state(status) is error, it means someone's already called Finish
 	# to do the above-described clean up.
-	if {[string equal $state(status) "error"]} {
-	    Finish $token $err 1
+	if {$state(status) ne "error"} {
+	    Finish $token $err
 	}
-	cleanup $token
-	return -code error $err
     }
 
-    return $token
 }
 
 # Data access functions:
@@ -587,10 +598,11 @@ proc http::Connect {token} {
     global errorInfo errorCode
     if {[eof $state(sock)] ||
 	[string length [fconfigure $state(sock) -error]]} {
-	    Finish $token "connect failed [fconfigure $state(sock) -error]" 1
+	    Finish $token "connect failed [fconfigure $state(sock) -error]"
     } else {
 	set state(status) connect
 	fileevent $state(sock) writable {}
+	::http::connected $token
     }
     return
 }
