@@ -498,7 +498,7 @@ proc http::connected { token } {
 	} else {
 	    puts $s ""
 	    flush $s
-	    fileevent $s readable [list http::Event $token]
+	    fileevent $s readable [list http::Event $s $token]
 	}
 
     } err]} {
@@ -577,6 +577,7 @@ proc http::cleanup {token} {
     variable $token
     upvar 0 $token state
     if {[info exists state]} {
+	Finish $token "" 1
 	unset state
     }
 }
@@ -663,7 +664,7 @@ proc http::Write {token} {
     if {$done} {
 	catch {flush $s}
 	fileevent $s writable {}
-	fileevent $s readable [list http::Event $token]
+	fileevent $s readable [list http::Event $s $token]
     }
 
     # Callback to the client after we've completely handled everything
@@ -684,10 +685,14 @@ proc http::Write {token} {
 # Side Effects
 #	Read the socket and handle callbacks.
 
-proc http::Event {token} {
+proc http::Event {s token} {
     variable $token
     upvar 0 $token state
-    set s $state(sock)
+
+    if {[catch {eof $s}]} {
+	    catch {close $s}
+	    return
+    }
 
      if {[eof $s]} {
 	Eof $token
