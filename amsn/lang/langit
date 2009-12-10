@@ -220,6 +220,7 @@ color Colore
 command Comando
 commandstatus Esegui comando
 compactstyle Stile compatto
+configpermissionerror Errore nella scrittura del file di configurazione. Assicurati di avere i corretti permessi per la directory $1
 configure Configura
 configuremic Configurazione del microfono
 configureplugin Configura il plugin $1
@@ -709,6 +710,7 @@ pausewebcamsend Metti in pausa la trasmissione del video
 personal Personale
 phones Numeri di telefono
 phone Telefono
+photosharingrequest Hai appena ricevuto una richiesta di Condivisione di Foto. Questa funzionalità non è ancora supportata da aMSN e non può essere annullata da parte tua. Chiedi al mittente di annullare la richiesta di Condivisione di Foto e di inviare il file tramite il trasferimento di file
 picbrowser Raccolta delle immagini personali
 picfile File d'immagine (GIF < 500x500)
 picstatus Abilita l'immagine per l'allarme
@@ -760,6 +762,7 @@ prefshared Connessioni condivise (solo per NAT)
 prefsound Suono
 preview Anteprima
 privacy Privacy
+profileaccrualerror Le informazioni del tuo account Windows Live ID sono incomplete.\nAssicurati che la tua data di nascita e Paese siano inserite correttamente nel tuo profilo.
 profiledconfig Configurazione del profilo
 profileexists Non puoi creare un profilo con questo accesso \nperché ne esiste già un altro. Scegli un altro accesso.
 profileinuse Questo profilo è già in uso da un'altra sessione di aMSN. Scegli un altro accesso.
