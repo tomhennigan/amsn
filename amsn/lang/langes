@@ -8,14 +8,14 @@ account Cuenta
 accountkid Esta cuenta para niños no se puede usar con Messenger. Tienes que ir al sitio web de pasaporte para niños y dar el consentimiento paternal.
 actions Acciones
 activeautoupdate Activar actualización automática
-add Añadir
 addacontact Añadir un contacto
+add Añadir
 addedyou $1 ($2) le ha añadido a su lista de contactos
 addprofile Añadir un perfil
 addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
 addstate Añadir nuevo estado
-addto Añadir a $1
 addtoal Añadir a AL
+addto Añadir a $1
 addtobl Añadir a BL
 addtocontacts Añadir a contactos
 addtofl Añadir a FL
@@ -863,6 +863,7 @@ setbackinitialstate Has ajustado aMSN para conectarse como $1, pero ahora estás
 setupcam Configurando tu cámara web
 setupcamfinetune Configurando tu cámara web, y aplicando ajuste fino de imagen
 shareswebcam Usuario con cámara web
+Sharing solicitar y enviar el archivo usando una transferencia de archivo.
 showbanner Mostrar el cartel de aMSN en la lista de contactos
 showblockedlist Mostrar contactos que te bloquean
 showcachedpics Mostrar imágenes para mostrar almacenadas
@@ -1055,9 +1056,9 @@ view Ver
 voiceclip Clip de voz
 volume Volumen
 wanttosharecam Quiero que mi cámara web esté disponible para otros
+webcam Cámara web
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
-webcam Cámara web
 webcamconfigure Configurar cámara web
 webcamconfiguredLinux Has elegido la siguiente configuración:\nDispositivo de cámara web: $1\nCanal de cámara web: $2
 webcamconfiguredMac Tu cámara web ha sido configurada
