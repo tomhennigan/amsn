@@ -455,7 +455,8 @@ _notify_prepared (gchar *msg, FsSession *session,
 
   fs_codec_list_destroy (codecs);
 
-  _notify_callback (msg, local_codecs, Tcl_DuplicateObj(local_candidates));
+  _notify_callback (msg, local_codecs, local_candidates == NULL ?
+      Tcl_NewListObj (0, NULL) : Tcl_DuplicateObj(local_candidates));
 }
 
 static void
