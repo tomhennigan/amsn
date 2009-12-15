@@ -18,6 +18,8 @@ namespace eval ::groups {
 		GetList ToggleStatus UpdateCount IsExpanded \
 		menuCmdMove menuCmdCopy
 
+	variable tempgroupstate
+
 	if { $initialize_amsn == 1 } {
 	
 		#
@@ -27,7 +29,7 @@ namespace eval ::groups {
 		variable entryid -1;
 		variable groupname "";	# Temporary variable for TCL crappiness
 		variable bShowing;		# (array) Y=shown/expanded N=hidden/collapsed
-		
+		array set tempgroupstate []
 		global pgc
 	}
 
@@ -876,6 +878,7 @@ namespace eval ::groups {
 		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
 		# The first group's ID is zero (0) (MSN)
 		set gidlist [lrange [::groups::GetList] 1 end]
+		variable tempgroupstate
 
 		set thelistnames [list]
 
@@ -896,11 +899,11 @@ namespace eval ::groups {
 			set gid [lindex $group 1]
 			lappend glist $name
 			lappend sortlist2 $gid
-			checkbutton $w.box.w$gid -onvalue 1 -offvalue 0 -text " $name" -variable [::config::getVar tempgroup_[::md5::md5 $email]($gid)] -anchor w
+
+			set tempgroupstate("$email$gid") [Belongtogp $email $gid]
+			checkbutton $w.box.w$gid -onvalue 1 -offvalue 0 -text " $name" -variable tempgroupstate("$email$gid") -anchor w
 			pack configure $w.box.w$gid -side top -fill x
-			::config::setKey tempgroup_[::md5::md5 $email]($gid) [Belongtogp $email $gid]
 		}
-		
 		pack configure $w.box -side top -fill x
 	}
 
@@ -908,19 +911,24 @@ namespace eval ::groups {
 		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
 		# The first group's ID is zero (0) (MSN)
 		set gidlist [lrange [::groups::GetList] 1 end]
+		variable tempgroupstate
 
 		set gidlistyes [list]
 		set gidlistno [list]
 
 		#Check which groups the contact belong to (gidlistyes) and which he doesn't (gidlistno)
 		foreach gid $gidlist {
-			set state [::config::getKey tempgroup_[::md5::md5 $email]($gid)]
-			if {$state == 1} {
-				lappend gidlistyes $gid
-			} elseif {$state == 0} {
+			if {[info exists tempgroupstate("$email$gid")]} {
+				set state [set tempgroupstate("$email$key")]
+				if {$state == 1} {
+					lappend gidlistyes $gid
+				} elseif {$state == 0} {
+					lappend gidlistno $gid
+				}
+				array unset tempgroupstate "$email$gid"
+			} else {
 				lappend gidlistno $gid
 			}
-			::config::unsetKey tempgroup_[::md5::md5 $email]($gid)
 		}
 
 		set timer 0
@@ -955,11 +963,11 @@ namespace eval ::groups {
 		# The Unique Group ID (MSN) is sent with the RemoveGroup message.
 		# The first group's ID is zero (0) (MSN)
 		set gidlist [lrange [::groups::GetList] 1 end]
-
+		variable tempgroupstate
 		foreach gid $gidlist {
-			::config::unsetKey tempgroup_[::md5::md5 $email]($gid)
+			array unset tempgroupstate "$email$gid"
 		}
-
+		
 		destroy .gpmanage_[::md5::md5 $email]
 	}
 
