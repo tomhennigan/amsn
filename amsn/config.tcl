@@ -803,7 +803,7 @@ proc save_config {} {
 			set var_value [PathAbsToRel $var_value]
 		}
 
-		if { ("$var_attribute" != "remotepassword") && ("$var_attribute" != "os") } {
+		if { ("$var_attribute" != "remotepassword") && ("$var_attribute" != "os") && ([string first "tempgroup_" "$var_attribute"] != 0) } {
 			set var_value [::sxml::xmlreplace $var_value]
 			puts $file_id "   <entry>\n      <attribute>$var_attribute</attribute>\n      <value>$var_value</value>\n   </entry>"
 		}
