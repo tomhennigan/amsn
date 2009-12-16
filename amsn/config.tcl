@@ -358,6 +358,10 @@ namespace eval ::config {
                 ::config::setKey fs_in_volume -5.0
                 ::config::setKey fs_out_volume -5.0
 
+
+		::config::setKey expanded_group_offline 0
+		::config::setKey expanded_group_nonim 0
+
 		#Advanced options, not in preferences window
 		# Create the entry in the list and then, set
 		# the variable at bottom
