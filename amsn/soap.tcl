@@ -29,8 +29,7 @@ snit::type SOAPRequest {
 	destructor {
 		set status "canceled"
 		if { $http_req != "" } {
-			catch {::http::reset $http_req}
-			catch {::http::cleanup $http_req}
+			::PGU::Cancel $http_req
 			set http_req ""			
 		}
 	}
@@ -105,8 +104,7 @@ snit::type SOAPRequest {
 		::http::config -accept "*/*"  -useragent "MSMSGS"
 
 		if { $http_req != "" } {
-			catch {::http::reset $http_req}
-			catch {::http::cleanup $http_req}
+			::PGU::Cancel $http_req
 			set http_req ""			
 		}
 
@@ -127,7 +125,7 @@ snit::type SOAPRequest {
 		set xml [encoding convertto utf-8 $xml]
 
 		# Catch it in case we have no internet.. 
-		if { ![catch { set http_req [http::geturl $options(-url) -timeout 600000 -command [list $self GotSoapReply] -query $xml -type "text/xml; charset=utf-8" -headers $headers] } res] } {
+		if { ![catch { set http_req [::PGU::Add $options(-url) [list $self GotSoapReply]  $xml "text/xml; charset=utf-8" $headers] } res] } {
 			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
 			if {[info exists ::soap_debug] && $::soap_debug != ""} {
 				set filename "[$self GetDebugFilename]_req.xml"
