@@ -591,6 +591,53 @@ namespace eval ::lang {
 	}
 
 
+    proc downloadlanguage_cb { langcode selection token } {
+        if { [::http::status $token] ne "ok" || [::http::ncode $token ] != 200 } {
+            ::http::cleanup $token
+            return
+        }
+        set content [::http::data $token]
+        ::http::cleanup $token
+
+        set dir [get_language_dir]
+        if { $dir == 0 } {
+            return
+        }
+        set name [::lang::ReadOnlineLang $langcode name]
+        set version [::lang::ReadOnlineLang $langcode version]
+        set encoding [::lang::ReadOnlineLang $langcode encoding]
+        set lang "lang$langcode"
+        # Puts the content into the file
+        set file "[file join ${dir} $lang]"
+        if { ![file writable $file] && [file exists $file] } {
+            status_log "Error while updating $file : file is protected\n" red
+            return
+        }
+
+        if { [catch {
+                set fid [open $file w]
+                fconfigure $fid -encoding binary
+                puts -nonewline $fid "$content"
+                close $fid
+        } ] } {
+            status_log "Error while updating $file : file is protected\n" red
+            return
+        }
+
+        # Add the language into the language list
+        ::lang::AddLang "$langcode" "$name" "$version" "$encoding"
+
+        if { $selection != "" } {
+            catch {
+                .langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection \
+                -fg [::skin::getKey extrastdtxtcolor] \
+                -selectforeground [::skin::getKey extraselectedtxtcolor]
+
+                ::lang::language_manager_selected
+            }
+        }
+    }
+
 	#///////////////////////////////////////////////////////////////////////
 	# Download the lang file
 	proc downloadlanguage { langcode { selection "" } } {
@@ -598,12 +645,6 @@ namespace eval ::lang {
 		global lang_list weburl
 
 		set lang "lang$langcode"
-		
-		set dir [get_language_dir]
-
-		if { $dir == 0 } {
-			return
-		}
 
 		# Get the information from the online version
 		set name [::lang::ReadOnlineLang $langcode name]
@@ -611,54 +652,7 @@ namespace eval ::lang {
 		set encoding [::lang::ReadOnlineLang $langcode encoding]
 
 		# Download the content of the file from the web
-		if { [catch {
-			set token [::http::geturl "$::weburl/autoupdater/lang/$lang" -timeout 120000 -binary 1]
-			set content [::http::data $token]
-			set status [::http::status $token]
-		} ] } {
-			catch {::http::cleanup $token}
-			status_log "Error while uploading lang : $langcode\n" red
-			return
-		}
-
-		#If an error occured, stop the process
-		if { $status != "ok" } {
-			::http::cleanup $token
-			status_log "Error while uploading lang : $langcode ($status)\n" red
-			return
-		}
-
-		# Puts the content into the file
-		set file "[file join ${dir} $lang]"
-		if { ![file writable $file] && [file exists $file] } {
-			::http::cleanup $token
-			status_log "Error while updating $file : file is protected\n" red
-			return
-		}
-
-		if { [catch {
-			set fid [open $file w]
-			fconfigure $fid -encoding binary
-			puts -nonewline $fid "$content"
-			close $fid
-		} ] } {
-			status_log "Error while updating $file : file is protected\n" red
-			return
-		}
-		::http::cleanup $token
-
-		# Add the language into the language list
-		::lang::AddLang "$langcode" "$name" "$version" "$encoding"
-
-		if { $selection != "" } {
-			catch {
-				.langchoose.notebook.nn.fmanager.selection.box itemconfigure $selection \
-					-fg [::skin::getKey extrastdtxtcolor] \
-					-selectforeground [::skin::getKey extraselectedtxtcolor]
-
-				::lang::language_manager_selected
-			}
-		}
+		catch {::http::geturl "$::weburl/autoupdater/lang/$lang" -timeout 120000 -binary 1 -command [list downloadlanguage_cb $langcode $selection]}
 	}
 
 
