@@ -2,10 +2,11 @@
 ::Version::setSubversionId {$Id$}
 
 if { $initialize_amsn == 1 } {
-	global lang_list langenc langlong
+	global lang_list langenc langlong langupdatecounter
 	set lang_list [list]
 	set langenc "iso8859-1"
 	set langlong "English"
+	set langupdatecounter 0
 }
 
 proc scan_languages { } {
@@ -13,7 +14,7 @@ proc scan_languages { } {
 	global lang_list
 	set lang_list [list]
 
-	::lang::LoadVersions	 
+	::lang::LoadVersions
 
 	foreach langcode $::lang::Lang {
 		set name [::lang::ReadLang $langcode name]
@@ -636,24 +637,35 @@ namespace eval ::lang {
                 ::lang::language_manager_selected
             }
         }
+        global langupdatecounter
+        incr langupdatecounter -1
+        if {$langupdatecounter <= 0} {
+            ::lang::SaveVersions
+        }
     }
 
-	#///////////////////////////////////////////////////////////////////////
-	# Download the lang file
-	proc downloadlanguage { langcode { selection "" } } {
+    #///////////////////////////////////////////////////////////////////////
+    # Download the lang file
+    proc downloadlanguage { langcode { selection "" } } {
 
-		global lang_list weburl
+        global lang_list weburl langupdatecounter
+        incr langupdatecounter 1
 
-		set lang "lang$langcode"
+        set lang "lang$langcode"
 
-		# Get the information from the online version
-		set name [::lang::ReadOnlineLang $langcode name]
-		set version [::lang::ReadOnlineLang $langcode version]
-		set encoding [::lang::ReadOnlineLang $langcode encoding]
+        # Get the information from the online version
+        set name [::lang::ReadOnlineLang $langcode name]
+        set version [::lang::ReadOnlineLang $langcode version]
+        set encoding [::lang::ReadOnlineLang $langcode encoding]
 
-		# Download the content of the file from the web
-		catch {::http::geturl "$::weburl/autoupdater/lang/$lang" -timeout 120000 -binary 1 -command [list downloadlanguage_cb $langcode $selection]}
-	}
+        # Download the content of the file from the web
+        if {[catch {::http::geturl "$::weburl/autoupdater/lang/$lang" -timeout 120000 -binary 1 -command [list downloadlanguage_cb $langcode $selection]}]} {
+            incr langupdatecounter -1
+            if {$langupdatecounter <= 0} {
+                ::lang::SaveVersions
+            }
+        }
+    }
 
 
 	#///////////////////////////////////////////////////////////////////////
@@ -964,7 +976,7 @@ namespace eval ::lang {
 		
 		set w ".updatelangplugin"
 	
-		foreach langcode $langcodes {			
+		foreach langcode $langcodes {
 			
 			set langname [::lang::ReadLang $langcode name]
 			if { [winfo exists $w] } {
@@ -976,15 +988,7 @@ namespace eval ::lang {
 			set encoding $::lang::OnlineLang"$langcode"(encoding)
 
 			::lang::downloadlanguage $langcode
-				
-			set ::lang::Lang"$langcode"(version) $onlineversion
-			set ::lang::Lang"$langcode"(name) $name
-			set ::lang::Lang"$langcode"(encoding) $encoding
-			
 		}
-		
-		::lang::SaveVersions
-	
 	}
 
 
