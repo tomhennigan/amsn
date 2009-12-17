@@ -420,7 +420,7 @@ namespace eval ::lang {
     proc show_languagechoose_Ok { itemlist } {
         set sel [.langchoose.notebook.nn.flanguage.list.items curselection]
         if { $sel == "" } { return }
-        destroy .langchoose    
+        destroy .langchoose
         ::lang::set_language [lindex [lindex $itemlist $sel] 1]
     }
 
@@ -588,6 +588,7 @@ namespace eval ::lang {
 
     proc downloadlanguage_cb { langcode selection token } {
         if { [::http::status $token] ne "ok" || [::http::ncode $token ] != 200 } {
+            status_log "Unable to get $::weburl/autoupdater/lang/lang${langcode}: status: [::http::status $token], ncode: [::http::ncode $token]" red
             ::http::cleanup $token
             return
         }
@@ -653,7 +654,8 @@ namespace eval ::lang {
         set encoding [::lang::ReadOnlineLang $langcode encoding]
 
         # Download the content of the file from the web
-        if {[catch {::http::geturl "$::weburl/autoupdater/lang/$lang" -timeout 120000 -binary 1 -command [list ::lang::downloadlanguage_cb $langcode $selection]}]} {
+        if {[catch {::http::geturl "$::weburl/autoupdater/lang/$lang" -timeout 120000 -binary 1 -command [list ::lang::downloadlanguage_cb $langcode $selection]} res]} {
+            status_log "Unable to get $::weburl/autoupdater/lang/$lang: $res" red
             incr langupdatecounter -1
             if {$langupdatecounter <= 0} {
                 ::lang::SaveVersions
@@ -854,12 +856,11 @@ namespace eval ::lang {
         close $file_id
     }
 
-
-
     proc LoadOnlineVersions_cb { cb token } {
         global HOME2
         set filename "[file join $HOME2 langlistnew.xml]"
         if { [::http::status $token] ne "ok" || [::http::ncode $token ] != 200 } {
+            status_log "Unable to get $::weburl/autoupdater/lang/langlist: status: [::http::status $token], ncode: [::http::ncode $token]" red
             ::http::cleanup $token
             set ::lang::LoadOk 0
             catch {eval $cb}
@@ -882,7 +883,8 @@ namespace eval ::lang {
             sxml::end $id
 
             file delete $filename
-        }]} {
+        } res]} {
+            status_log "While getting langlist online, got error: $res" red
             set ::lang::LoadOk 0
         } else {
             set ::lang::LoadOk 1
@@ -896,6 +898,7 @@ namespace eval ::lang {
 
         set ::lang::OnlineLang ""
         if { [catch {::http::geturl "$::weburl/autoupdater/langlist" -timeout 120000 -binary 1 -command [list ::lang::LoadOnlineVersions_cb $cb]} res] } {
+            status_log "Unable to get $::weburl/autoupdater/langlist: $res" red
             set ::lang::LoadOk 0
             catch {eval $cb}
         }
