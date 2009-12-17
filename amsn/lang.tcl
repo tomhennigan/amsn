@@ -871,7 +871,6 @@ namespace eval ::lang {
 
         if { [catch {
             set fid [open $filename w]
-            set content [::http::data $token]
             fconfigure $fid -encoding binary
             puts -nonewline $fid "$content"
             close $fid
