@@ -363,15 +363,7 @@ proc http::geturl { url args } {
 	    # Something went wrong, so throw the exception, and the
 	    # enclosing catch will do cleanup.
 	    return -code error [lindex $state(error) 0]
-        } elseif {[string equal $state(status) "connect"] } {
-	    # We just got connected, wait for the actual response...
-	    wait $token
-	    if {[string equal $state(status) "error"]} {
-		# Something went wrong, so throw the exception, and the
-		# enclosing catch will do cleanup.
-		return -code error [lindex $state(error) 0]
-            }
-        }
+        } 
     }
     return $token
 }
@@ -599,9 +591,8 @@ proc http::Connect {token} {
     global errorInfo errorCode
     if {[eof $state(sock)] ||
 	[string length [fconfigure $state(sock) -error]]} {
-	    Finish $token "connect failed [fconfigure $state(sock) -error]"
+	Finish $token "connect failed [fconfigure $state(sock) -error]"
     } else {
-	set state(status) connect
 	fileevent $state(sock) writable {}
 	::http::connected $token
     }
