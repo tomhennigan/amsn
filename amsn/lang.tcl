@@ -857,6 +857,7 @@ namespace eval ::lang {
 
 
     proc LoadOnlineVersions_cb { cb token } {
+        global HOME2
         set filename "[file join $HOME2 langlistnew.xml]"
         if { [::http::status $token] ne "ok" || [::http::ncode $token ] != 200 } {
             ::http::cleanup $token
@@ -892,8 +893,6 @@ namespace eval ::lang {
     #///////////////////////////////////////////////////////////////////////
     # Load the online version and read the XML file
     proc LoadOnlineVersions { cb } {
-
-        global HOME2
 
         set ::lang::OnlineLang ""
         if { [catch {::http::geturl "$::weburl/autoupdater/langlist" -timeout 120000 -binary 1 -command [list ::lang::LoadOnlineVersions_cb $cb]} res] } {
