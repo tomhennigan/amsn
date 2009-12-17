@@ -217,6 +217,8 @@ proc load_lang { {langcode "en"} {plugindir ""} } {
 namespace eval ::lang {
 
     proc show_languagechoose_cb {} {
+        global HOME2
+
         foreach langcode $::lang::Lang {
             set name [::lang::ReadLang $langcode name]
             lappend languages [list "$name" "$langcode"]
@@ -398,8 +400,6 @@ namespace eval ::lang {
 
     #///////////////////////////////////////////////////////////////////////
     proc show_languagechoose {} {
-
-        global HOME2
 
         set languages [list]
 
@@ -615,8 +615,8 @@ namespace eval ::lang {
                 fconfigure $fid -encoding binary
                 puts -nonewline $fid "$content"
                 close $fid
-        } ] } {
-            status_log "Error while updating $file : file is protected\n" red
+        } res ] } {
+            status_log "Error while updating $file : $res\n" red
             return
         }
 
@@ -863,7 +863,9 @@ namespace eval ::lang {
             status_log "Unable to get $::weburl/autoupdater/lang/langlist: status: [::http::status $token], ncode: [::http::ncode $token]" red
             ::http::cleanup $token
             set ::lang::LoadOk 0
-            catch {eval $cb}
+            if {[catch {eval $cb} res]} {
+                status_log "While running $cb, got error: $res" red
+            }
             return
         }
         set content [::http::data $token]
@@ -888,7 +890,9 @@ namespace eval ::lang {
         } else {
             set ::lang::LoadOk 1
         }
-        catch {eval $cb}
+        if {[catch {eval $cb} res]} {
+            status_log "While running $cb, got error: $res" red
+        }
     }
 
     #///////////////////////////////////////////////////////////////////////
@@ -899,7 +903,9 @@ namespace eval ::lang {
         if { [catch {::http::geturl "$::weburl/autoupdater/langlist" -timeout 120000 -binary 1 -command [list ::lang::LoadOnlineVersions_cb $cb]} res] } {
             status_log "Unable to get $::weburl/autoupdater/langlist: $res" red
             set ::lang::LoadOk 0
-            catch {eval $cb}
+            if {[catch {eval $cb} res]} {
+                status_log "While running $cb, got error: $res" red
+            }
         }
 
     }
