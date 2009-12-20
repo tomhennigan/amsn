@@ -43,6 +43,8 @@ int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_O
     hPtr = Tcl_CreateHashEntry(icons, name, &newHash);
     Tcl_SetHashValue(hPtr, (ClientData) status_item);
 
+    [status_item retain];
+
     hPtr = Tcl_CreateHashEntry(callbacks, name, &newHash);
     Tcl_SetHashValue(hPtr, (ClientData) callback);
 
