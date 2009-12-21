@@ -1778,16 +1778,14 @@ namespace eval ::music {
 
 		set status [lindex $tmplst 0]
 
-		if {$status != "0"} {
+		if {$status != "1"} {
 			return 0
 		} else {
 			set song [lindex $tmplst 1]
 			set artist [lindex $tmplst 2]
 			set path [lindex $tmplst 3]
-			set artpath [lindex $tmplst 4]
-			set album [lindex $tmplst 5]
 
-			return [list $song $artist $path $artpath $album]
+			return [list $song $artist $path "" ""]
 		}
 	}
 
