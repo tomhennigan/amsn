@@ -919,7 +919,7 @@ namespace eval ::groups {
 		#Check which groups the contact belong to (gidlistyes) and which he doesn't (gidlistno)
 		foreach gid $gidlist {
 			if {[info exists tempgroupstate("$email$gid")]} {
-				set state [set tempgroupstate("$email$key")]
+				set state [set tempgroupstate("$email$gid")]
 				if {$state == 1} {
 					lappend gidlistyes $gid
 				} elseif {$state == 0} {
