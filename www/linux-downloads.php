@@ -21,7 +21,7 @@
     <br>
     <p>
       <?=CREATED_WITH_AUTO;?><br>
-      <a href="http://www.autopackage.org/docs/howto-install/"><b><?=PLEASE_FOLLOW;?></b></a>
+      <a href="http://autopackage.org/howtoinstall.html"><b><?=PLEASE_FOLLOW;?></b></a>
     </p>
 <br>
 <hr style="width:200px;">
