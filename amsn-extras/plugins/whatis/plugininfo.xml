@@ -5,12 +5,12 @@
        <description>Get information from text/word or translate it to an other language!</description>
        <description_fr>Obtenir des informations à partir d'un texte/mot ou traduisez le dans un autre langage!</description_fr>
        <amsn_version>0.94</amsn_version>
-       <plugin_version>1.7</plugin_version>
+       <plugin_version>1.8</plugin_version>
        <plugin_file>whatis.tcl</plugin_file>
        <plugin_namespace>whatis</plugin_namespace>
        <init_procedure>init</init_procedure>
 		 <deinit_procedure>deInit</deinit_procedure>
-		 <cvs_version>20091128</cvs_version>
+		 <cvs_version>20091225</cvs_version>
 		 <url>
      		   <plugininfo>http://www.amsn-project.net/autoupdater/plugins/whatis/plugininfo.xml</plugininfo>
 		    	<main>http://www.amsn-project.net/autoupdater/plugins/whatis/whatis.tcl</main>

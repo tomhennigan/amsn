@@ -197,16 +197,37 @@ namespace eval ::whatis {
 	#
 	proc translateText { w fromLang toLang } {
 		set searchText [getSelectedText $w]
+		set html ""
 		if { $searchText == "" } {
 			::amsn::messageBox "No text selected for translation!" ok error 
 		} else { 
 		#set searchText [encoding convertto utf-8 $searchText]
 		
-		set url "http://translate.google.com/translate_t?sl=$fromLang&tl=$toLang"
-		set query [::http::formatQuery hl "en" ie "UTF8" text [convert $searchText] sl $fromLang tl $toLang]
-		set http  [::http::geturl $url -query $query -timeout 72500 -headers {User-Agent "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.14) Gecko/20080419 Ubuntu/8.04 (hardy) Firefox/2.0.0.14"}]
-		set html  [::http::data $http]
-		
+			set url "http://translate.google.com/translate_t?sl=$fromLang&tl=$toLang"
+			set query [::http::formatQuery hl "en" ie "UTF8" text [convert $searchText] sl $fromLang tl $toLang]
+			if {[catch {::http::geturl $url -query $query -timeout 72500 -headers {User-Agent "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.6) Gecko/20091215 Ubuntu/9.10 (karmic) Firefox/3.5.6"} -command [list ::whatis::translateCB $w $fromLang $toLang]} res ]} {
+		                # Write translated text to the chatwindow
+	        	        ::amsn::WinWrite [::ChatWindow::Name $w] "\n" green
+        	        	if { $::version == "0.94" } {
+                	        	        ::amsn::WinWrite [::ChatWindow::Name $w] "--------------------------------------------------" gray_italic
+	                	} else {
+        	                	        ::amsn::WinWriteIcon [::ChatWindow::Name $w] greyline 3
+	                	}
+		                ::amsn::WinWrite [::ChatWindow::Name $w] "\n" green
+        		        ::amsn::WinWriteIcon [::ChatWindow::Name $w] miniinfo
+		                ::amsn::WinWrite [::ChatWindow::Name $w] "\nError in translation: $res\n" red
+        		        if { $::version == "0.94" } {
+                		                ::amsn::WinWrite [::ChatWindow::Name $w] "--------------------------------------------------\n" gray_italic
+	                	} else {
+	        	                        ::amsn::WinWriteIcon [::ChatWindow::Name $w] greyline 3
+        	        	}
+				
+			}
+		}
+	}
+
+	proc translateCB {w fromLang toLang http} {
+		set html [::http::data $http]
 		# Set a language title
 		switch $toLang {
 				"nl" { set langTitle "Dutch" } 
@@ -222,7 +243,6 @@ namespace eval ::whatis {
 				"en" { set langTitle "English" }
 				default { set langTitle "selected language" }
 		}
-		
 		# Strip HTML before translated text 
 		set substring "<span id=result_box"
 		set start [string first $substring $html]
@@ -244,13 +264,8 @@ namespace eval ::whatis {
 			if { $direction == "rtl" } { set translation [string reverse $translation] }
 			#set translation [encoding convertfrom utf-8 $translation]
 		}
-				
 		# Write translated text to the chatwindow
-		
 		::amsn::WinWrite [::ChatWindow::Name $w] "\n" green
-		
-		# Write a seperated line to the chat window
-		# Versions above 0.94 can use a graphical build-in line so I use this call
 		if { $::version == "0.94" } {
 				::amsn::WinWrite [::ChatWindow::Name $w] "--------------------------------------------------" gray_italic	 
 		} else {
@@ -260,18 +275,11 @@ namespace eval ::whatis {
 		::amsn::WinWriteIcon [::ChatWindow::Name $w] miniinfo 
 		::amsn::WinWrite [::ChatWindow::Name $w] " Translated text to $langTitle:" green
 		::amsn::WinWrite [::ChatWindow::Name $w] "\n$translation\n" gray
-		
-		# Write a seperated line to the chat window
-		# Versions above 0.94 can use a graphical build-in line so I use this call
 		if { $::version == "0.94" } {
 				::amsn::WinWrite [::ChatWindow::Name $w] "--------------------------------------------------\n" gray_italic	 
 		} else {
 				::amsn::WinWriteIcon [::ChatWindow::Name $w] greyline 3 
 		} 
-		
-		
-		
-		}
 	}
 
 	#
