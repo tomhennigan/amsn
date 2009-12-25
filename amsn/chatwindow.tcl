@@ -4060,7 +4060,7 @@ namespace eval ::ChatWindow {
 		if { $users == "" || [llength $users] == 1} {
 			set nick [::abook::getDisplayNick $chatid 1]
 			if { $nick == "" || [::config::getKey tabtitlenick] == 0 } {
-				set txt [concat $style [list [list text $tab]]]
+				set txt [concat $style [list [list text $chatid]]]
 			} else {
 				set txt [concat $style $nick]
 			}
