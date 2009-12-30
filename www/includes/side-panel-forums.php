@@ -12,10 +12,20 @@ echo '&#8226; '.RECENT_POSTS.' &#8226;';
 <?php
 //catch so it works when the forum db is not awailible (ei: when developing offline)
 if(@mysql_select_db(DBNAME_FORUM)) {
-  $result=mysql_query("SELECT phpbb_posts.topic_id,phpbb_topics.topic_title FROM phpbb_posts,phpbb_topics WHERE phpbb_topics.topic_id=phpbb_posts.topic_id ORDER BY phpbb_posts.post_time DESC LIMIT 7;") or die(mysql_error());
+  // For PhpBB
+  /*$search = "SELECT phpbb_posts.topic_id,phpbb_topics.topic_title FROM phpbb_posts,phpbb_topics WHERE phpbb_topics.topic_id=phpbb_posts.topic_id ORDER BY phpbb_posts.post_time DESC LIMIT 7;";
+  $result=mysql_query($search) or die(mysql_error());
   while($row=mysql_fetch_array($result)) {
     echo '<li><a href="forums/viewtopic.php?t='.$row['topic_id'].'">'.htmlentities($row['topic_title']).'</a></li>';
+  }*/
+
+  // For SMF
+  $search = "SELECT `subject`, `ID_TOPIC`, `ID_MSG` FROM `smf_messages` GROUP BY `ID_TOPIC` ORDER BY MAX(`posterTime`) DESC LIMIT 7;";
+  $result=mysql_query($search) or die(mysql_error());
+  while($row=mysql_fetch_array($result)) {
+    echo '<li><a href="forums/index.php/topic,'.$row['ID_TOPIC'].'.msg'.$row['ID_MSG'].'.html#msg'.$row['ID_MSG'].'">'.$row['subject'].'</a></li>';
   }
+
   mysql_select_db(DBNAME_WWW);
 }
 ?>
