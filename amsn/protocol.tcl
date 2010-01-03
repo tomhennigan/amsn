@@ -7071,6 +7071,7 @@ proc cmsn_auth {{recv ""}} {
 				if {![info exists ::ab]} {
 					set ::ab [::Addressbook create %AUTO%]
 				}
+				::abook::setPersonal MFN ""
 				$::ab Synchronize [list ::MSN::ABSynchronizationDone 1]
 			} else {
 				set list_version [::abook::getContactData contactlist list_version]

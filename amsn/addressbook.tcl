@@ -398,11 +398,15 @@ snit::type Addressbook {
 			       
 				if {$contacttype == "Me" } {
 					::abook::setPersonal info_lastchange [GetXmlEntry $subxml "Contact:lastChange"]
-					::abook::setPersonal MFN $nickname
+					if {[::abook::getPersonal MFN] == "" } {
+						::abook::setPersonal MFN $nickname
+					}
 					::abook::setPersonal login $username
 					::abook::setPersonal cid $cid
 				} else {
-					::abook::setContactData $username nick $nickname
+					if {[::abook::getPersonal MFN] == "" } {
+						::abook::setContactData $username nick $nickname
+					}
 					::abook::setContactData $username contactguid $contactguid
 					::abook::setContactData $username cid $cid
 					::abook::setContactForGuid $contactguid $username
