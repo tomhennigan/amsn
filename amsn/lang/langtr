@@ -220,6 +220,7 @@ color Renk
 command Komut
 commandstatus Komutu çalýþtýr
 compactstyle Sade tarz
+configpermissionerror Ayar dosyasýný yazarken bir hata oluþtu. $1 dizini için doðru izinlere sahip olduðunuzdan emin olun.
 configure Ayarla
 configuremic Mikrofon ayarlanýyor
 configureplugin $1 eklentisini ayarla
@@ -709,6 +710,7 @@ pausewebcamsend Kameradan gönderilen görüntüyü dondur
 personal Kiþisel
 phone Telefon
 phones Telefon numaralarý
+photosharingrequest Az önce bir Fotoðraf Paylaþma isteði aldýnýz. Bu özellik aMSN tarafýndan henüz desteklenmiyor ve bu isteði siz iptal edemezsiniz. Karþýnýzdaki kiþiye Fotoðraf Paylaþma isteðini iptal etmesini ve Dosya Aktarýmýný kullanarak göndermesini söyleyiniz.
 picbrowser Kullanýcý resmi tarayýcýsý
 picfile Alarm resmi dosyasý (GIF < 500 x 500)
 picstatus Resimli alarmý aç/kapat
@@ -760,6 +762,7 @@ prefshared Paylaþýlan baðlantýlar (yalnýz NAT için)
 prefsound Sesler
 preview Önizleme
 privacy Gizlilik
+profileaccrualerror Windows Live ID hesap bilginiz tam deðil.\nLütfen, doðum gününüzün ve ülkenizin profilinize doðru olarak girildiðinden emin olun.
 profiledconfig Kimliðe özgü ayarlar
 profileexists Bu kullanýcý ismi için bir kimlik zâten var.\n Lütfen baþka isim seçiniz.
 profileinuse Bu kimlik baþka bir aMSN oturumunda kullanýlýyor, lütfen baþka birini seçiniz.
@@ -877,6 +880,7 @@ shownonim Sohbet yapmayan baðlantýlarý göster
 shownotify Belli olaylarda uyarý penceresi göster
 showofflinegroup Çevrim dýþý kullanýcýlar öbeðini göster
 showonedpframe Sohbet pencerelerinde bir tek kullanýcý resmi çerçevesi olsun
+shownotinlist Listelerinde olmadýðýnýz kiþiler için özel simgeler göster
 showpicnotify Uyarý pencerelerinde kullanýcý resimleri gözüksün
 showspaces Spaces ikonunu baðlantý listesinde göster
 showuserpic $1 kullanýcýsýnýn resmi
