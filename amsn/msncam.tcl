@@ -1838,7 +1838,7 @@ namespace eval ::CAMGUI {
 				}
 			} else {
                                 toplevel $window -class AmsnWebcam
-                                wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
+                                wm title $window "[trans receive]: $chatid - [::abook::getDisplayNick $chatid]"
                                 wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 				canvas $window.canvas -width 320 -height 240
 				set wwidth 318
@@ -2058,7 +2058,7 @@ namespace eval ::CAMGUI {
 					[winfo parent $window] configure -width [expr {160 +  [image width [::skin::loadPixmap imghide]] + (2 * [::skin::getKey chat_dp_border])} ]
 				} else {
 					toplevel $window -class AmsnWebcam
-					wm title $window "$chatid - [::abook::getDisplayNick $chatid]"
+					wm title $window "[trans send]: $chatid - [::abook::getDisplayNick $chatid]"
 					wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
 					canvas $window.canvas -width 320 -height 240
 	                                set wwidth 318

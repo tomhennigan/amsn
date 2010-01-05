@@ -786,6 +786,7 @@ quit Quit
 raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
+receive Receive
 receivedbytes Received $1 of $2 bytes
 receiveddir Received Files folder
 receivedoimread You have $1 new Offline Instant Messages. Do you want to read them ?
