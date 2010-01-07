@@ -17,14 +17,14 @@ addstate Ajouter un nouveau statut
 addto Ajouter à $1
 addtoal Ajouter à LA
 addtobl Ajouter à LB
-addtocontacts Ajouter à mes contacts
+addtocontacts Ajouter aux contacts
 addtofl Ajouter à LC
 addtoo Ajouter cette personne à ma liste de contacts
 admincontacts Gérer les contacts
 admingroups Gérer les groupes
 advanced Avancé
 advancedprefs Configuration avancée
-adverts Publicité
+adverts Publicités
 agotinvitation $1 vous a invité à une session audio
 alarmonconnect Activer l'alarme quand le contact se connecte
 alarmondisconnect Activer l'alarme quand le contact se déconnecte ou passe en mode invisible
@@ -46,9 +46,9 @@ allprofilesinuse Tous les profils existants sont présentement utilisés
 always Toujours
 animatedemoticon Cette émoticône/smiley est animée
 animatedsmileys Activer les émoticônes/smileys animées
-animatenotify Animer la fenêtre d'annonces
+animatenotify Animer la fenêtre de notification
 appearance Apparence
-appearoff Apparaître déconnecté[e]
+appearoff Apparaître hors ligne
 areacode Code régional
 aretyping $1 sont en train de taper un message
 askcam Demande à visionner par la webcam
@@ -240,7 +240,7 @@ connectedat Connecté[e] depuis :
 connectedwith Connecté[e] avec $1
 connecterror Erreur de connexion
 connectfirst Veuillez vous connecter
-connecting En cours de connexion
+connecting Connexion en cours
 connection Connexion
 connectionlost Déconnecté[e] : la connexion avec le serveur a été perdue
 contact Contact
@@ -292,11 +292,11 @@ day Jour
 days Jours
 dcprofile Ne pas créer de profil
 default Configuration par défaut
-default2 Défaut
+default2 Par défaut
 defaultloginradio Connexion avec la configuration par défaut
 defchatwinsize Taille par défaut des fenêtres de conversation (Largeur x Hauteur)
 delete Supprimer
-deleteall Tout supprimer
+deleteall Supprimer tout
 deleteblock Supprimer et bloquer
 deletecustomstate Suppression du statut personnel
 delimiters Délimiteurs de l'horodateur
@@ -786,6 +786,7 @@ quit Quitter
 raised Maximisée/Désicônifiée
 readonlymsgbox Le tranfert de fichier a été annulé, car le répertoire de réception est en lecture seule. Veillez modifier les droits d'accès de ce répertoire.
 readonlywarn AVERTISSEMENT: Le fichier ne sera probablement PAS sauvegardé correctement, car le répertoire de réception de fichiers semble être protégé en écriture. Veuillez vous assurer que les droits d'accès du répertoire $1 sont configurés correctement avant de transférer le fichier.
+receive Recevoir
 receivedbytes $1 sur $2 octets reçus
 receiveddir Dossier des fichiers reçus
 receivedoimread Vous avez reçu $1 nouveau(x) message(s) différé(s). Voulez-vous les lire tout de suite ?
@@ -801,7 +802,7 @@ recorderror Une erreur s'est produite lors de l'enregistrement du son : $1
 recvwebcamaccepted $1 a accepté votre invitation pour voir par sa webcam. Connexion en cours.
 redirect Cliquez ici pour être redirigé
 reject Refuser
-rememberaccount Enregistrer le compte
+rememberaccount Enregistrer mon compte
 rememberpass Enregistrer le mot de passe
 remembersetting Enregistrer ce paramètre
 removeempty Retirer les groupes vides de la liste des contacts
