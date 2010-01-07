@@ -791,6 +791,7 @@ receiveddir Cartella dei file ricevuti
 receivedoimread Hai $1 nuovo/i messaggio/i fuori linea. Vuoi leggerlo/i?
 receivedvoice Messaggio vocale ricevuto
 receivefile Ricezione del file in corso
+receive Ricevi
 recentmsg Previeni la chiusura di una finestra di conversazione quando è appena arrivato un messaggio
 reconnect2 Riconnetti su disconnessione
 reconnecting Riconnessione al server
