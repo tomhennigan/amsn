@@ -8,14 +8,14 @@ account Cuenta
 accountkid Esta cuenta para niños no se puede usar con Messenger. Tienes que ir al sitio web de pasaporte para niños y dar el consentimiento paternal.
 actions Acciones
 activeautoupdate Activar actualización automática
-addacontact Añadir un contacto
 add Añadir
+addacontact Añadir un contacto
 addedyou $1 ($2) le ha añadido a su lista de contactos
 addprofile Añadir un perfil
 addprofiledesc Introduce el nombre de usuario para el que quieres crear un perfil. \nLos perfiles permiten tener configuraciones distintas para cada usuario.\nSin un perfil no se puede usar el historial, alarmas o recordar contraseña.
 addstate Añadir nuevo estado
-addtoal Añadir a AL
 addto Añadir a $1
+addtoal Añadir a AL
 addtobl Añadir a BL
 addtocontacts Añadir a contactos
 addtofl Añadir a FL
@@ -791,6 +791,7 @@ receiveddir Carpeta de Archivos Recibidos
 receivedoimread Tienes $1 mensajes instantáneos sin conexión. ¿Quieres leerlos?
 receivedvoice Clip de Voz recibido
 receivefile Recibir archivo
+receive Recibir
 recentmsg Prevenir el cierre de la ventana de chat cuando un mensaje acaba de llegar
 reconnect2 Reconectar al perder la conexión
 reconnect Esperando que $1 se reconecte
@@ -1056,9 +1057,9 @@ view Ver
 voiceclip Clip de voz
 volume Volumen
 wanttosharecam Quiero que mi cámara web esté disponible para otros
-webcam Cámara web
 webcamcanceled La sesión de cámara web con $1 ha sido cancelada
 webcamclosebefcancel Tendrás que cancelar todas las sesiones de cámara web antes de cerrar la ventana
+webcam Cámara web
 webcamconfigure Configurar cámara web
 webcamconfiguredLinux Has elegido la siguiente configuración:\nDispositivo de cámara web: $1\nCanal de cámara web: $2
 webcamconfiguredMac Tu cámara web ha sido configurada
