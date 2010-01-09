@@ -157,69 +157,76 @@ snit::type SOAPRequest {
 	}
 
 	method GotSoapReply { token } {
-		#puts "Received HTTP answer : [::http::code $token]  [::http::status $token]\n[::http::data $token]"
+		if {$token != "" } {
+			#puts "Received HTTP answer : [::http::code $token]  [::http::status $token]\n[::http::data $token]"
 	
-		if {[info exists ::soap_debug] && $::soap_debug != ""} {
-			set filename "[$self GetDebugFilename]_resp.xml"
-			catch {set fd [open [file join $::soap_debug $filename] w]}
-			#catch {puts $fd [$self configure]}
-			catch {puts $fd [xml2prettyxml [::http::data $token]]}
-			catch {close $fd}
-		}
-
-		set last_error [::http::error $token]
-		#shouldn't work if ncode == 500, MS servers ...
-		if { [::http::status $token] == "ok" && [::http::ncode $token] >= 200 && [::http::ncode $token] < 300 || [::http::ncode $token] == 500} {
-			set status "success"
-			if {[catch {set xml [xml2list [::http::data $token]] } res ] } {
-				set status "InvalidXML"
-				set last_error "$res"
-			} else {
-				set fault [GetXmlNode $xml "soap:Envelope:soap:Body:soap:Fault"]
-				set faultcode [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultcode"]
-				set faultstring [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultstring"]
-				set faultdetail [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:errorcode"]
-				if {$fault == "" } {
-					set fault [GetXmlNode $xml "S:Envelope:S:Fault"]
-					set faultcode [GetXmlEntry $xml "S:Envelope:S:Fault:faultcode"]
-					set faultstring [GetXmlEntry $xml "S:Envelope:S:Fault:faultstring"]
-					set faultdetail [GetXmlEntry $xml "S:Envelope:S:Fault:detail:errorcode"]
-				}
-
-				if { $fault != "" } {
-					set status "fault"
-					set last_error $faultcode
-					set fault_code $faultcode
-					set fault_string $faultstring
-					set fault_detail $faultdetail
-				}
+			if {[info exists ::soap_debug] && $::soap_debug != ""} {
+				set filename "[$self GetDebugFilename]_resp.xml"
+				catch {set fd [open [file join $::soap_debug $filename] w]}
+				#catch {puts $fd [$self configure]}
+				catch {puts $fd [xml2prettyxml [::http::data $token]]}
+				catch {close $fd}
 			}
-		} elseif { [::http::status $token] == "ok" } {
-			upvar #0 $token state
-			set meta $state(meta)
 
-			array set meta_array $meta 
-			if {[info exists meta_array(Location)]} {
-				set options(-url) $meta_array(Location)
-				::http::cleanup $token
-
-				set redirected 1
-				if {[catch {$self SendSOAPRequest} err] } {
-					set last_error $err
-					set status [::http::ncode $token]	
+			set last_error [::http::error $token]
+			#shouldn't work if ncode == 500, MS servers ...
+			if { [::http::status $token] == "ok" && [::http::ncode $token] >= 200 && [::http::ncode $token] < 300 || [::http::ncode $token] == 500} {
+				set status "success"
+				if {[catch {set xml [xml2list [::http::data $token]] } res ] } {
+					set status "InvalidXML"
+					set last_error "$res"
 				} else {
-					return
+					set fault [GetXmlNode $xml "soap:Envelope:soap:Body:soap:Fault"]
+					set faultcode [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultcode"]
+					set faultstring [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:faultstring"]
+					set faultdetail [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:errorcode"]
+					if {$fault == "" } {
+						set fault [GetXmlNode $xml "S:Envelope:S:Fault"]
+						set faultcode [GetXmlEntry $xml "S:Envelope:S:Fault:faultcode"]
+						set faultstring [GetXmlEntry $xml "S:Envelope:S:Fault:faultstring"]
+						set faultdetail [GetXmlEntry $xml "S:Envelope:S:Fault:detail:errorcode"]
+					}
+					
+					if { $fault != "" } {
+						set status "fault"
+						set last_error $faultcode
+						set fault_code $faultcode
+						set fault_string $faultstring
+						set fault_detail $faultdetail
+					}
+				}
+			} elseif { [::http::status $token] == "ok" } {
+				upvar #0 $token state
+				set meta $state(meta)
+
+				array set meta_array $meta 
+				if {[info exists meta_array(Location)]} {
+					set options(-url) $meta_array(Location)
+					::http::cleanup $token
+					
+					set redirected 1
+					if {[catch {$self SendSOAPRequest} err] } {
+						set last_error $err
+						set status [::http::ncode $token]	
+					} else {
+						return
+					}
+				} else {
+					set last_error [::http::code $token]
+					set status [::http::ncode $token]
 				}
 			} else {
+				set status [::http::status $token]
 				set last_error [::http::code $token]
-				set status [::http::ncode $token]
 			}
-		} else {
-			set status [::http::code $token]
-		}
 
-		set http_stat [::http::status $token]
-		::http::cleanup $token
+			set http_stat [::http::status $token]
+			::http::cleanup $token
+		} else {
+			set last_error [::PGU::GetLastError]
+			set http_stat error
+			set status error
+		}
 
 		incr [myvar wait]
 		if {$http_stat  != "reset"} {

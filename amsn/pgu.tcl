@@ -18,7 +18,8 @@ namespace eval PGU {
 		variable stats                              ;# Array of statistics
 		variable wait 0                             ;# For vwait
 		variable tokens
-		array set options {-degree 50 -timeout 60000 -maxRetries 3}
+		variable last_error ""
+		array set options {-degree 10 -timeout 60000 -maxRetries 3}
 	}
 
 	proc ::PGU::Reset {} {
@@ -87,6 +88,12 @@ namespace eval PGU {
 
 		return $id
 	}
+
+	proc ::PGU::GetLastError {id} {
+		variable last_error
+		return $last_error
+	}
+
 	##+##########################################################################
 	#
 	# ::PGU::Launch -- launches web requests if we have the capacity
@@ -113,9 +120,16 @@ namespace eval PGU {
 
 			foreach {url cmd query type headers cnt} $queue($id) break
 			status_log "PGU: Getting URL $id : [::PGU::Status]"
-			set tokens($id) [::http::geturl $url -timeout $options(-timeout) \
-					     -command [list ::PGU::_HTTPCommand $id] \
-					     -query $query -type $type -headers $headers]
+			if {[catch {set tokens($id) [::http::geturl $url -timeout $options(-timeout) \
+							 -command [list ::PGU::_HTTPCommand $id] \
+							 -query $query -type $type -headers $headers]} res]} {
+				status_log "Error calling ::http::geturl : $res"
+				if {[catch {eval $cmd ""} emsg]} {
+					status_log "PGU Callback error : $emsg\n" red
+				}
+				set last_error res
+				
+			}
 		}
 	}
 	##+##########################################################################
@@ -141,13 +155,20 @@ namespace eval PGU {
 				array unset tokens $id
 
 				lset queue($id) 5 $cnt              ;# Remember retry attempts
-				set tokens($id) [::http::geturl $url -timeout \
-						     $options(-timeout) \
-						     -command [list ::PGU::_HTTPCommand $id] \
-						     -query $query -type $type \
-						     -headers $headers]
-				return
+				if {![catch {
+					set tokens($id) [::http::geturl $url -timeout \
+							     $options(-timeout) \
+							     -command [list ::PGU::_HTTPCommand $id] \
+							     -query $query -type $type \
+							     -headers $headers]
+				}] } {
+					return
+				}
 			}
+		}
+
+		if {[catch {eval $cmd $token} emsg]} {
+			status_log "PGU Callback error : $emsg\n" red
 		}
 
 		incr stats(pending) -1                      ;# One less outstanding request
@@ -155,9 +176,6 @@ namespace eval PGU {
 		status_log "PGU: Request $id done : [::PGU::Status]"
 		::PGU::Launch                               ;# Try launching another request
 
-		if {[catch {eval $cmd $token} emsg]} {
-			status_log "PGU Callback error : $emsg\n" red
-		}
 		::http::cleanup $token
 		array unset queue $id
 		array unset tokens $id
