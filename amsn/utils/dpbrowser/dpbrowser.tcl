@@ -590,9 +590,9 @@ snit::widget dpbrowser {
 		# remove the entry from the list
 		set i 0
 		foreach dp $dps {
-			if {[lindex $dp 0] == $filename} {
+			if {[filenoext [lindex $dp 0]] == [filenoext $filename]} {
 				set dps [lreplace $dps $i $i]
-				continue
+				break
 			}
 			incr i
 		}
