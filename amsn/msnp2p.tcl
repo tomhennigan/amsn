@@ -735,10 +735,19 @@ namespace eval ::MSNP2P {
 						SendPacket [::MSN::SBFor $chatid] [MakeACK $sid 0 $cTotalDataSize $cId $cAckId]
 						status_log "MSNP2P | $sid $dest -> Sent ACK for INVITE\n" red
 
-						# Let's make and send a 200 OK Message
-						set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
+						set slpdata [MakeMSNSLP "DECLINE" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
+						#SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+
+						set slpdata [MakeMSNSLP "BYE" $dest [::config::getKey login] $branchuid 0 $uid 0 1 "AAHHig=="]
 						SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
-						status_log "MSNP2P | $sid $dest -> Sent 200 OK Message\n" red
+
+						# And we unset our sid vars
+						#::MSNP2P::SessionList unset $sid
+
+						# Let's make and send a 200 OK Message
+						#set slpdata [MakeMSNSLP "OK" $dest [::config::getKey login] $branchuid [expr {$cseq + 1}] $uid 0 0 $sid]
+						#SendPacket [::MSN::SBFor $chatid] [MakePacket $sid $slpdata 1]
+						#status_log "MSNP2P | $sid $dest -> Sent 200 OK Message\n" red
 										
 						return
 					}
