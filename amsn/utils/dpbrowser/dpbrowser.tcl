@@ -258,8 +258,12 @@ snit::widget dpbrowser {
 				set first_draw 0
 			}
 		} else {
+			# dp_error here is to fix a rare case where we might get an error loading the first image of a row (any row)
+			# the 'continue' below after the error happens causes j to get incremented and so we skip a row, this causes
+			# later getEntryFromIndex to return the wrong index
+			set dp_error 0
 			foreach dp $dps {
-				if {($i % $dps_per_row) == 0} {
+				if {($i % $dps_per_row) == 0 && $dp_error == 0} {
 					if {!([info exists j])} {
 						set j 0
 					} else {
@@ -269,6 +273,7 @@ snit::widget dpbrowser {
 					set row $frame.${j}_row
 					frame $row -background $options(-bg)
 				}
+				set dp_error 0
 				if {[lindex $dp 0] != ""} {
 					set file [filenoext [lindex $dp 0]].png
 				} else {
@@ -285,7 +290,10 @@ snit::widget dpbrowser {
 					}
 					if { $file != "" } {
 						#if a problem loading the image arises, go to next
-						if { [catch { set tempimage [image create photo [TmpImgName] -file $file -format cximage] }] } { continue }
+						if { [catch { set tempimage [image create photo [TmpImgName] -file $file -format cximage] } res] } {
+							set dp_error 1
+							continue 
+						}
 					} else {
 						set tempimage [image create photo [TmpImgName] -file [[::skin::getNoDisplayPicture] cget -file] -format cximage]
 					}
