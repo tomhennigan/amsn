@@ -2518,7 +2518,8 @@ namespace eval ::MSN {
 		catch {fileevent [$sb cget -sock] readable "" } res
 		catch {fileevent [$sb cget -sock] writable "" } res
 
-		set sock [$sb cget -sock]
+		catch {close $sock}
+		$sb configure -sock ""
 
 		ClearSB $sb
 	}
@@ -4197,6 +4198,7 @@ namespace eval ::MSNOIM {
 		}
 		catch {
 			close $options(-sock)
+			set $options(-sock) ""
 		}
 	}
 
