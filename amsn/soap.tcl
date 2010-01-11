@@ -14,7 +14,6 @@ snit::type SOAPRequest {
 	option -header ""
 	option -body ""
 	option -ttl 5
-	option -keepalive 1
 
 	variable wait 0
 	variable status ""
@@ -41,10 +40,6 @@ snit::type SOAPRequest {
 		}
 		if { $options(-url) == "" || ($options(-xml) == "" && ($options(-header) == "" || $options(-body) == "")) } {
 			error "SOAPRequest incomplete"
-		}
-		set keepalive 1
-		if { $options(-keepalive) == 0 } {
-			set keepalive 0
 		}
 		status_log "Sending SOAP request to $options(-url) with action $options(-action)" green
 
@@ -130,7 +125,7 @@ snit::type SOAPRequest {
 		set xml [encoding convertto utf-8 $xml]
 
 		# Catch it in case we have no internet.. 
-		if { ![catch { set http_req [::PGU::Add $options(-url) [list $self GotSoapReply]  $xml "text/xml; charset=utf-8" $headers 0 $keepalive] } res] } {
+		if { ![catch { set http_req [::PGU::Add $options(-url) [list $self GotSoapReply]  $xml "text/xml; charset=utf-8" $headers] } res] } {
 			#puts "Sending HTTP request : $options(-url)\nSOAPAction: $options(-action)\n\n$xml"
 			if {[info exists ::soap_debug] && $::soap_debug != ""} {
 				set filename "[$self GetDebugFilename]_req.xml"

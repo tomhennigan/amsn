@@ -73,7 +73,7 @@ namespace eval PGU {
 	#
 	# ::PGU::Add -- adds a url and callback command to are request queue
 	#
-	proc ::PGU::Add {url cmd query type headers {nolaunch 0} {keepalive 1}} {
+	proc ::PGU::Add {url cmd query type headers {nolaunch 0}} {
 		variable queue
 		variable qtail
 		variable stats
@@ -83,7 +83,7 @@ namespace eval PGU {
 		incr stats(qlen)
 		status_log "PGU: Queueing $id for $url : [::PGU::Status]"
 		if {!$nolaunch} {
-			::PGU::Launch $keepalive
+			::PGU::Launch
 		}
 
 		return $id
@@ -98,7 +98,7 @@ namespace eval PGU {
 	#
 	# ::PGU::Launch -- launches web requests if we have the capacity
 	#
-	proc ::PGU::Launch {{keepalive 1}} {
+	proc ::PGU::Launch {} {
 		variable queue
 		variable qtail
 		variable qhead
@@ -120,8 +120,8 @@ namespace eval PGU {
 
 			foreach {url cmd query type headers cnt} $queue($id) break
 			status_log "PGU: Getting URL $id : [::PGU::Status]"
-			if {[catch {set tokens($id) [::http::geturl $url -keepalive $keepalive -timeout $options(-timeout) \
-							 -command [list ::PGU::_HTTPCommand $id $keepalive] \
+			if {[catch {set tokens($id) [::http::geturl $url -keepalive 1 -timeout $options(-timeout) \
+							 -command [list ::PGU::_HTTPCommand $id] \
 							 -query $query -type $type -headers $headers]} res]} {
 				status_log "Error calling ::http::geturl : $res"
 				if {[catch {eval $cmd ""} emsg]} {
@@ -137,7 +137,7 @@ namespace eval PGU {
 	# ::PGU::_HTTPCommand -- our geturl callback command that handles
 	# queue maintenance, timeout retries and user callbacks.
 	#
-	proc ::PGU::_HTTPCommand {id keepalive token} {
+	proc ::PGU::_HTTPCommand {id token} {
 		variable queue
 		variable stats
 		variable options
@@ -156,9 +156,9 @@ namespace eval PGU {
 
 				lset queue($id) 5 $cnt              ;# Remember retry attempts
 				if {![catch {
-					set tokens($id) [::http::geturl $url -keepalive $keepalive \
+					set tokens($id) [::http::geturl $url -keepalive 1 \
 							     -timeout $options(-timeout) \
-							     -command [list ::PGU::_HTTPCommand $id $keepalive] \
+							     -command [list ::PGU::_HTTPCommand $id] \
 							     -query $query -type $type \
 							     -headers $headers]
 				}] } {
@@ -174,7 +174,7 @@ namespace eval PGU {
 		incr stats(pending) -1                      ;# One less outstanding request
 		incr stats(done)
 		status_log "PGU: Request $id done : [::PGU::Status]"
-		::PGU::Launch $keepalive                               ;# Try launching another request
+		::PGU::Launch                               ;# Try launching another request
 
 		::http::cleanup $token
 		array unset queue $id
