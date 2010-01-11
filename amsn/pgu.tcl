@@ -120,7 +120,7 @@ namespace eval PGU {
 
 			foreach {url cmd query type headers cnt} $queue($id) break
 			status_log "PGU: Getting URL $id : [::PGU::Status]"
-			if {[catch {set tokens($id) [::http::geturl $url -timeout $options(-timeout) \
+			if {[catch {set tokens($id) [::http::geturl $url -keepalive 1 -timeout $options(-timeout) \
 							 -command [list ::PGU::_HTTPCommand $id] \
 							 -query $query -type $type -headers $headers]} res]} {
 				status_log "Error calling ::http::geturl : $res"
@@ -156,8 +156,8 @@ namespace eval PGU {
 
 				lset queue($id) 5 $cnt              ;# Remember retry attempts
 				if {![catch {
-					set tokens($id) [::http::geturl $url -timeout \
-							     $options(-timeout) \
+					set tokens($id) [::http::geturl $url -keepalive 1 \
+							     -timeout $options(-timeout) \
 							     -command [list ::PGU::_HTTPCommand $id] \
 							     -query $query -type $type \
 							     -headers $headers]
