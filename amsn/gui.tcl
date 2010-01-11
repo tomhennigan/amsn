@@ -6840,6 +6840,8 @@ proc copy { cut w } {
 
 #///////////////////////////////////////////////////////////////////////
 proc paste { window {middle 0} } {
+	set contents ""
+
 	if { [catch {selection get} res] != 0 } {
 		catch {
 			if { [OnLinux] } {
@@ -6847,7 +6849,6 @@ proc paste { window {middle 0} } {
 			} else {
 				set contents [ selection get -selection CLIPBOARD ]
 			}
-			[::ChatWindow::GetInputText $window] insert insert $contents
 		}
 	} else {
 		if { $middle == 0} {
@@ -6857,9 +6858,17 @@ proc paste { window {middle 0} } {
 	                        } else {
         	                        set contents [ selection get -selection CLIPBOARD ]
                 	        }
-				[::ChatWindow::GetInputText $window] insert insert $contents
 			}
 		}
+	}
+
+	set evPar(contents) contents
+	set evPar(window) window
+	set evpar(middle) middle
+	::plugins::PostEvent pre_paste evPar
+
+	if {$contents != "" } {
+		catch {[::ChatWindow::GetInputText $window] insert insert $contents}
 	}
 }
 #///////////////////////////////////////////////////////////////////////
