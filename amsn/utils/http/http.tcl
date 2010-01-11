@@ -615,28 +615,6 @@ proc http::geturl {url args} {
             set err [lindex $state(error) 0]
             cleanup $token
             return -code error $err
-        } elseif {$state(status) eq "connect"} {
-            # We just got connected, wait for the actual response...
-            set state(status) ""
-            http::wait $token
-
-            if {![info exists state]} {
-                # If we timed out then Finish has been called and the users
-                # command callback may have cleaned up the token. If so we end up
-                # here with nothing left to do.
-                return $token
-            } elseif {$state(status) eq "error"} {
-                # Something went wrong while trying to establish the connection.
-                # Clean up after events and such, but DON'T call the command
-                # callback (if available) because we're going to throw an
-                # exception from here instead.
-                set err [lindex $state(error) 0]
-                cleanup $token
-                return -code error $err
-            } 
-        } else {
-            # Likely to be connection timeout
-            return $token
         }
     }
 
@@ -890,7 +868,6 @@ proc http::Connect {token proto phost srvurl} {
     } then {
         Finish $token "connect failed [fconfigure $state(sock) -error]"
     } else {
-        set state(status) connect
         fileevent $state(sock) writable {}
         ::http::Connected $token $proto $phost $srvurl
     }
