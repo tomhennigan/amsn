@@ -554,7 +554,7 @@ namespace eval ::amsn {
 		wm state .about withdrawn
 
 		#Top frame (Picture and name of developers)
-		set developers "Didimo Grimaldo\n Alvaro J. Iradier\n Khalaf Philippe\n Alaoui Youness\n Dave Mifsud\n..."
+		set developers " Youness Alaoui\n Boris Faure"
 
 		set version "aMSN $::version ([::abook::dateconvert $date])"
 		if {[string index $::version end] == "b" && $::Version::amsn_revision > 0} {
@@ -2630,8 +2630,7 @@ namespace eval ::amsn {
 		}
 
 		if { $scrolling } {
-			update idletasks
-			::ChatWindow::Scroll [::ChatWindow::GetOutText $win]
+			after idle [list ::ChatWindow::Scroll [::ChatWindow::GetOutText $win]]
 		}
 	}
 
@@ -2803,8 +2802,7 @@ namespace eval ::amsn {
 		[winfo parent $f] configure -width $width
 
 		if { $scrolling } {
-			update idletasks
-			::ChatWindow::Scroll [::ChatWindow::GetOutText $win]
+			after idle [list ::ChatWindow::Scroll [::ChatWindow::GetOutText $win]]
 		}
 	}
 
@@ -3592,9 +3590,7 @@ namespace eval ::amsn {
 			chatUser $chatid
 		}
 
-		update idletasks
-		
-		SendMessageFIFO [list ::amsn::WinWriteFail $chatid $msg] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+		after idle [list SendMessageFIFO [list ::amsn::WinWriteFail $chatid $msg] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"]
 
 	}
 	proc WinWriteFail {chatid msg} {
@@ -5180,6 +5176,8 @@ proc cmsn_draw_main {} {
 	}
 
 	#allow for display updates so window size is correct
+	# This is allowed because this function is only called from the startup 'amsn' script
+	# so the 'update' is not called from an event handler, so it is safe to call it
 	update
 	#update idletasks
 	
@@ -5245,8 +5243,12 @@ proc cmsn_draw_main {} {
 		::config::setKey wingeometry $geometry
 	}
 	catch {wm geometry . $geometry}
-	update idletasks
 	
+	# This is allowed because this function is only called from the startup 'amsn' script
+	# so the 'update' is not called from an event handler, so it is safe to call it
+
+	update
+
 	#Unhide main window now that it has finished being created
 	wm state . normal
 }
@@ -6468,6 +6470,7 @@ proc cmsn_draw_buildtop_wrapped {} {
 	#otherwise, the top part stays disappeared until the bottom part
 	#finishes redrawing... and we end up with pgBuddyTop disappearing
 	#for 1 second with like 90 contacts
+	# TODO: try not to use update here...
 	update idletasks
 }
 

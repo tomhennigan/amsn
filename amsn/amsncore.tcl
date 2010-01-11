@@ -535,9 +535,6 @@ proc play_finished {pipe sound id} {
 		fileevent $pipe readable {}
 		catch {close $pipe}
 		if { [info exist looping_sound($id)] } {
-
-			update
-
 			#after 1000 [list play_loop $sound $id]
 			after 1000 [list replay_loop $sound $id]
 		}
