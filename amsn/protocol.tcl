@@ -4954,7 +4954,7 @@ namespace eval ::MSNOIM {
 			}
 
 			foreach username [::MSN::getList FL] {
-				after idle [list catch [list $::roaming GetProfile [list ::MSN::roaming_cl_get_profile_cb $username] $username]]
+				after idle [list catch [list $::roaming GetProfile [list ::MSN::roaming_cl_get_profile_cb $username] $username 0]]
 			}
 
 			# Change status after sending the UUX stuff

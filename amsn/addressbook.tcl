@@ -172,6 +172,7 @@ snit::type Addressbook {
 				 -url $SharingServiceURL \
 				 -action "http://www.msn.com/webservices/AddressBook/FindMembership" \
 				 -header [$self getCommonHeaderXML Initial $ticket] \
+				 -keepalive 0 \
 				 -body [$self getFindMembershipBodyXML] \
 				 -callback [list $self FindMembershipCallback $callbk]]
 
@@ -272,6 +273,7 @@ snit::type Addressbook {
 				 -action "http://www.msn.com/webservices/AddressBook/ABFindAll" \
 				 -header [$self getCommonHeaderXML Initial $ticket] \
 				 -body [$self getABFindAllBodyXML] \
+				 -keepalive 0 \
 				 -callback [list $self ABFindAllCallback $callbk]]
 
 		lappend soap_requests $request

@@ -28,17 +28,18 @@ snit::type ContentRoaming {
 	}
 
 
-	method GetProfile { callbk {email ""}} {
-		$::sso RequireSecurityToken Storage [list $self GetProfileSSOCB $callbk $email]
+	method GetProfile { callbk {email ""} {keepalive 1}} {
+		$::sso RequireSecurityToken Storage [list $self GetProfileSSOCB $callbk $email $keepalive]
 		#TODO: s/Storage/MessengerSecure ?
 	}
 
-	method GetProfileSSOCB { callbk email ticket} {
+	method GetProfileSSOCB { callbk email keepalive ticket} {
 		set request [SOAPRequest create %AUTO% \
 				 -url "https://storage.msn.com/storageservice/SchematizedStore.asmx" \
 				 -action "http://www.msn.com/webservices/storage/w10/GetProfile" \
 				 -header [$self getCommonHeaderXML RoamingSeed $ticket] \
 				 -body [$self getGetProfileBodyXML $email] \
+				 -keepalive $keepalive \
 				 -callback [list $self GetProfileCallback $callbk $email]]
 		
 		lappend soap_requests $request
