@@ -9,7 +9,7 @@
 ::Version::setSubversionId {$Id$}
 
 package provide Proxy 0.1
-package require -exact http 2.4.4
+package require http
 package require SASL::NTLM;
 package require uri;
 package require base64;
