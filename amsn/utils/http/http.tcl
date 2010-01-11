@@ -597,7 +597,7 @@ proc http::geturl {url args} {
     fileevent $sock writable [list http::Connect $token $proto $phost $srvurl]
 
     # Wait for the connection to complete.
-    if {![info exists $state(-command)]} {
+    if {![info exists state(-command)]} {
         # geturl does EVERYTHING asynchronously, so if the user
         # calls it synchronously, we just do a wait here.
         http::wait $token
