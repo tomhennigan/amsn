@@ -83,19 +83,19 @@ autohotmaillog Samodejna prijava v Hotmail
 autoidle Samodejno neaktivno stanje
 autoip Samodejni IP
 autolisten_voiceclips Samodejno predvajaj zvoène posnetke, ko so sprejeti
-automessage Samodejno sporoèilo
 automaticsink Samodejno prepoznaj Izhod
 automaticsrc Samodejno prepoznaj Vhod
+automessage Samodejno sporoèilo
 autonoact Prika¾i me kot neaktivnega, ko sem neaktiven
 autoresizedp Samodejno spremeni velikost prikaznim slikam na privzeto velikost
-autovideosrcdesc Samodejno zaznaj zajem spletne kamere na va¹em sistemu
 autovideosinkdesc Samodejno zaznaj najbolj primerno izhodno video metodo za va¹ sistem
-av Video konferenca
+autovideosrcdesc Samodejno zaznaj zajem spletne kamere na va¹em sistemu
 avaccepted Video konferenca sprejeta
 avcanceled Video konferenca preklicana
 avgotinvitation $1 te vabi na video konferenco
 avinitfailed Zagon avdio/video vstavka ni uspel. Klic preklican
 avoidseen Ne dovoli tej osebi, da vidi moj status, ko sem prijavljen
+av Video konferenca
 awaymsg1 Vpra¹am za away sporoèilo vsakiè, ko zamenjam stanje na Odsoten/Zaposlen?
 awaymsg2 Vedno uporabi to sporoèilo
 away Odsoten
@@ -220,6 +220,7 @@ color Barva
 commandstatus Izvedi ukaz
 command Ukaz
 compactstyle Kompaktni Stil
+configpermissionerror Pri¹lo je do napake pri pisanju nastavitvene datoteke. Preprièaj se, da ima¹ dovoljenja za pisanje za imenik $1
 configuremic Nastavi vhodno zvoèno napravo
 configure Nastavi
 configureplugin Konfiguriraj vstavek $1
@@ -262,9 +263,9 @@ countrycode Oznaka moje dr¾ave
 cprofile Ustvari raèun
 created Ustvarjeno
 credits Zasluge
+curdisplaypic Trenutna prikazna slika
 curfssinknotworking Trenutno izbrani izhod ne deluje, uporabite raje '$1'
 curfssrcnotworking Trenutno izbrani vhod ne deluje, uporabite raje '$1'
-curdisplaypic Trenutna prikazna slika
 currentdate Trenutni datum
 currentdynrate Trenutna realno-èasovna hitrost (v milisekundah)
 currentlanguage Jezik, ki ga trenutno uporablja¹
@@ -308,10 +309,10 @@ details Podrobnosti
 devicebusy Naprava $1 je zasedena
 devices Naprave
 directconnection Neposredna povezava (vrata 1863)
-disabled Izkljuèeno
-disableprofiles Izkljuèi shranjevanje raèunov (Uporabno v internetnih kavarnah in skupinskem okolju)
 disabledaudiosrcdesc Onemogoèi Avdio vhod in ne po¹iljaj zvoka iz mikrofona
+disabled Izkljuèeno
 disabledvideosrcdesc Onemogoèi Video vhod in ne po¹iljaj slike iz spletne kamere
+disableprofiles Izkljuèi shranjevanje raèunov (Uporabno v internetnih kavarnah in skupinskem okolju)
 disablessl Onemogoèi SSL
 disableuserfonts Prezri sogovornikove nastavitve pisave
 disconnect $1 se je odjavil/a.
@@ -407,13 +408,13 @@ forget_me Pozabi moj raèun
 forgot_pass Pozabil/a sem svoje geslo
 formatcsv CSV format
 formatctt CTT format
+friendlyname Prijazno ime
 fsautoaudiosinkchosen Samodejno izbran '$1' za Avdio izhod
 fsautoaudiosrcchosen Samodejno izbran '$1' za Avdio vhod
 fsautovideosrcchosen Samodejno izbran '$1' za Video vhod
 fsnodevfound Nobena naprava ni na voljo
 fsnosuitablesrc Nobena primerna naprava ni na voljo, uporabljam '$1' samo za presku¹anje
 fssrcdisabledusing Onemogoèen vnos, uporabljam '$1' samo za presku¹anje
-friendlyname Prijazno ime
 ftacceptedby $1 je sprejel/a povabilo za prenos datoteke '$2'
 ftaccepted Prenos datoteke sprejet
 ftaccepting Sprejemam povabilo za prenos datoteke
@@ -675,10 +676,10 @@ nousersinsession Ni uporabnikov v seji
 nouserspecified Uporabnika ni doloèenega
 nudge $1 zahteva pozornost
 offline Neprijavljen
-oim Sporoèilo v naèinu brez povezave
 oimauthenticationfailed Overjanje spodletelo
 oimflood Preveè poslanih sporoèil brez povezave... prosimo poèakajte in poskusite znova
 oimmessagetoolarge Sporoèilo poslano brez povezave je predolgo... razdelite ga in po¹ljite znova
+oim Sporoèilo v naèinu brez povezave
 oimsystemunavailable Sistem za po¹iljanje sporoèil brez povezave trenutno ni na voljo
 oimunexpectederror Neprièakovana napaka
 ok V redu
@@ -709,6 +710,7 @@ pausewebcamsend Pavziraj po¹iljanje spletne kamere
 personal Osebno
 phones Telefonske ¹tevilke
 phone Telefon
+photosharingrequest Dobil si povabilo za deljenje slik. Te funkcije aMSN ¹e ne podpira. Povej kontaktu naj prekine deljenje slik in po¹lje sliko preko funkcije za po¹iljanje datotek. 
 picbrowser Brskalnik slik
 picfile Slikovna datoteka
 picstatus Slika omogoèena
@@ -760,6 +762,7 @@ prefshared Deljena povezava (samo NAT)
 prefsound Zvoki
 preview Ogled
 privacy Zasebnost
+profileaccrualerror Podatki  "Windows Live ID" raèuna niso popolni.\nPreveri ali sta datum rojstnega dneva in dr¾ava pravilno vnesena v profil.
 profiledconfig Nastavitve profilov
 profileexists Ni mogoèe ustvariti profila s tem uporabni¹kim imenom,\nker ta ¾e obstaja. Uporabi drugo uporabni¹ko ime.
 profileinuse Ta profil uporablja druga seja Amsn. Prosim izberi drugega.
@@ -789,6 +792,7 @@ receivedoimread Ima¹ $1 novih sporoèil oddanih v naèinu brez povezave. Bi jih ra
 receivedvoice Prejel/a si glasovno sporoèilo
 receivefile Sprejmi datoteko
 recentmsg Prepreèi zapiranje okna s pogovorom takoj po prejemu sporoèila
+receive Sprejmi
 reconnect2 Ponovna prijava ob prekinitvi povezave
 reconnect èakam, da se $1 ponovno pove¾e
 reconnecting Povezujem se s stre¾nikom
@@ -875,6 +879,7 @@ showmailicon Prika¾i ikono v opravilni vrstici, ko prejme¹ po¹to
 showmypic Moja prikazna slika
 shownonim Poka¾i kontakte, ki ne uporabljajo IM.
 shownotify Poka¾i obvestilo ob nekaterih dogodkih
+shownotinlist Poka¾i ikono za kontakte, ki te nimajo na seznamu stikov.
 showofflinegroup Poka¾i skupino brez povezave
 showonedpframe Prika¾i samo en okvir za prikazne slike v pogovornih oknih
 showpicnotify Prika¾i prikazno sliko v obvestilnem oknu
