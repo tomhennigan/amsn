@@ -50,7 +50,7 @@ animatenotify Animer la fenêtre de notification
 appearance Apparence
 appearoff est invisible
 areacode Code régional
-aretyping $1 tapent un message
+aretyping $1 composent un message
 askcam Accepter la connexion webcam
 askcontactwebcam pour inviter le contact à connecter sa webcam, ou
 askeachtime Demander à chaque fois
@@ -508,7 +508,7 @@ invite Invitation au chat
 ipaddress Votre adresse IP
 ipdetect Détection de l'IP exacte pour les transferts de fichier utilisant HTTP
 ircstyle Chat de type IRC
-istyping compose un message ($1)
+istyping $1 compose un message
 joins $1 se joint à la conversation
 justonce Une fois
 keepalive Garder la connexion ouverte (NAT)
