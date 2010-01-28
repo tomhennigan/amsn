@@ -1045,8 +1045,13 @@ namespace eval ::MSNCAM {
 
 		#if {$listening == "true" } {
 			set port [OpenCamPort [config::getKey initialftport] $sid]
-			set clientip [::abook::getDemographicField clientip]
-			set localip [::abook::getDemographicField localip]
+			if { [info exists ::cam_mask_ip] } {
+				set clientip $::cam_mask_ip
+				set localip $::cam_mask_ip
+			} else {
+				set clientip [::abook::getDemographicField clientip]
+				set localip [::abook::getDemographicField localip]
+			}
 		#} else {
 		#	set port ""
 		#	set clientip ""
@@ -1155,6 +1160,7 @@ namespace eval ::MSNCAM {
 
 
 			if {$ip != "" } {
+				if { [info exists ::cam_mask_ip] } { set ip $::cam_mask_ip }
 				foreach port_idx { tcpport tcplocalport tcpexternalport } {
 					set port [GetXmlEntry $list "$type:tcp:${port_idx}"]
 					if {$port != "" } {
