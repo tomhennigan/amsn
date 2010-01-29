@@ -442,7 +442,7 @@ bool CxImagePNG::Encode(CxFile *hFile)
 		info_ptr->trans_color.red   = tc.rgbRed;
 		info_ptr->trans_color.green = tc.rgbGreen;
 		info_ptr->trans_color.blue  = tc.rgbBlue;
-		info_ptr->trans_color.gray  = info_ptr->trans_values.index;
+		info_ptr->trans_color.gray  = info_ptr->trans_color.index;
 #else
 		info_ptr->trans = trans;
 		info_ptr->trans_values.index = (BYTE)info.nBkgndIndex;
