@@ -786,6 +786,7 @@ quit Afsluiten
 raised Gespreksvenster activeren
 readonlymsgbox De bestandsoverdracht is geannuleerd vanwege alleen-lezentoegang tot de map voor ontvangen bestanden. Pas de toegangsrechten voor deze map aan.
 readonlywarn WAARSCHUWING: het bestand zal waarschijnlijk NIET correct worden opgeslagen, omdat de map voor ontvangen bestanden beschermd blijkt te zijn tegen schrijven. Zorg ervoor dat de rechten voor de doelmap ($1) correct zijn ingesteld voordat de bestandsoverdracht wordt gestart.
+receive Ontvangen
 receivedbytes $1 van $2 bytes ontvangen
 receiveddir Map voor ontvangen bestanden
 receivedoimread Je hebt $1 nieuwe offlineberichten. Wil je ze lezen?
