@@ -2408,14 +2408,24 @@ namespace eval ::ChatWindow {
 		set evPar(bottomleft) [$input getinnerframe]
 		::plugins::PostEvent chatsendbutton evPar
 
-		# Drag and Drop file sending
-		if {[catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "fileDropHandler %D sendfile $w"} res ]} {
-				status_log "dnd error: $res"
+		if {[catch {tkdnd::drop_target register [::ChatWindow::GetInputText $w] *} res]} {
+	                status_log "dnd error: $res"
+	        } else {
+			status_log "CW DND registered"
+			#bind [::ChatWindow::GetInputText $w] <<DragEnter>> {list copy}
+        	        #bind [::ChatWindow::GetInputText $w] <<DragLeave>> {}
+			#bind [::ChatWindow::GetInputText $w] <<DragPosition>> {list copy}
+	                bind [::ChatWindow::GetInputText $w] <<Drop>> "::fileDropHandler %D sendfile $w"
 		}
-		#::dnd bindtarget [::ChatWindow::GetInputText $w] UniformResourceLocator <Drop> "%W insert end %D"
-		if {[catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Text <Drop> {%W insert end %D}} res ]} {
-				status_log "dnd error: $res"
-		}
+
+#		# Drag and Drop file sending
+#		if {[catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "fileDropHandler %D sendfile $w"} res ]} {
+#				status_log "dnd error: $res"
+#		}
+#		#::dnd bindtarget [::ChatWindow::GetInputText $w] UniformResourceLocator <Drop> "%W insert end %D"
+#		if {[catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Text <Drop> {%W insert end %D}} res ]} {
+##				status_log "dnd error: $res"
+#		}
 
 		return $input
 	}

@@ -18,7 +18,7 @@ if { $initialize_amsn == 1 } {
 	package require BWidget
 	source BWidget_mods.tcl
 	
-	if {[catch {package require -exact tkdnd 1.0}] } {
+	if {[catch {package require -exact tkdnd 2.0}] } {
 		proc dnd { args } {}
 		proc shape { args } {}
 	}
@@ -6176,8 +6176,13 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 
 	bind $tw.$name <<Button1>> $command
 	# Drag and Drop setting DP
-	if {[catch {::dnd bindtarget $tw.$name Files <Drop> "fileDropHandler %D setdp self"} res]} {
+	status_log "@@@@@@@@@@@@@@ DRAG AND DROP"
+	if {[catch {tkdnd::drop_target register $tw.$name *} res]} {
 		status_log "dnd error: $res"
+	} else {
+		status_log "DP DND registered"
+		
+		bind $tw.$name <<Drop>> "::fileDropHandler %D setdp"
 	}
 
 	return $tw.$name
@@ -6186,6 +6191,7 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 proc fileDropHandler { data action {target "self"}} {
 	set data [string map {\r "" \n "" \x00 ""} $data]
 	set data [urldecode $data]
+	status_log "@@@@@@@ $data"
 
 	#this is for windows
 	if { [string index $data 0] == "{" && [string index $data end] == "}" } {
@@ -6196,6 +6202,7 @@ proc fileDropHandler { data action {target "self"}} {
 	foreach type [list smb http https ftp sftp floppy cdrom dvd] {
 		if {[string first $type $data] == 0} { 
 			status_log "file can't be accessed: $data"
+			return refuse_drop
 		}
 	}
 
@@ -6226,17 +6233,21 @@ proc fileDropHandler { data action {target "self"}} {
 #
 #
 #			}
+			return copy
 
 		}
 		sendfile {
 			if {$target == "self"} {
 				status_log "This ain't right ... should I send a file to window 'self'?"
+				return refuse_drop
 			} else {
 	        		::amsn::FileTransferSend $target $data
+				return copy
 			}
 		}
 		default {
 			status_log "Dunnow what to do with the file ... what's $action ?"
+			return refuse_drop
 		}
 	}
 }
