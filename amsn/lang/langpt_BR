@@ -1099,3 +1099,8 @@ youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
 zoom Zoom
+configpermissionerror Erro escrevendo arquivo de configurações. Esteja certo de que você tem as corretas permissões no diretório $1
+photosharingrequest Você acaba de receber um pedido de Compartilhamento de Foto. Esta funcionalidade ainda não é suportada pelo aMSN e não pode ser cancelada por você. Peça a seu contato que cancele o pedido de Compartilhamento de foto e envie o arquivo utilizando a transferência de arquivo.
+profileaccrualerror As informações da conta do seu Windows Live ID está incompleta.\nPor favor esteja certo de que o seu aniversário e o seu país esteja preenchido corretamente no seu perfil.
+receive Receber
+shownotinlist Mostra um ícone especial nos contatos os quais não tem você na lista de contatos deles.
