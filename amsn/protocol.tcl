@@ -914,7 +914,7 @@ namespace eval ::MSN {
 
 		::config::setKey clientid 0
 
-		::MSN::setClientCap msnc10
+		::MSN::setClientCap msnc8
 		::MSN::setClientCap inkgif
 		::MSN::setClientCap multip
 		::MSN::setClientCap voice
@@ -1505,8 +1505,11 @@ namespace eval ::MSN {
 	# msnc3  This is the value for MSNC3 (MSN Msgr 6.2)
 	# msnc4  This is the value for MSNC4 (MSN Msgr 7.0)
 	# msnc5  This is the value for MSNC5 (MSN Msgr 7.5)
-	# msnc6  This is the value for MSNC5 (MSN Msgr 8.0)
-	# msnc7  This is the value for MSNC5 (MSN Msgr 8.1)
+	# msnc6  This is the value for MSNC6 (MSN Msgr 8.0)
+	# msnc7  This is the value for MSNC7 (MSN Msgr 8.1)
+	# msnc8  This is the value for MSNC8 (MSN Msgr 8.5)
+	# msnc9  This is the value for MSNC9 (WLM 9 Beta)
+	# msnc10  This is the value for MSNC10 (WLM 2009)
 	#
 	#switch==1 means turn on, 0 means turn off 
 	#
