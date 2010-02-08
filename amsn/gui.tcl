@@ -2235,7 +2235,6 @@ namespace eval ::amsn {
 					write_remote "From $chatid : $msg" msgrcv
 				}
 			}
-
 			PutMessage $chatid $user $nick $msg $type $fontformat $p4c
 		}
 	}
@@ -3613,7 +3612,7 @@ namespace eval ::amsn {
 	# - 'type' can be red, gray... or any tag defined for the textbox when the window
 	#   was created, or just "user" to use the fontformat parameter
 	# - 'fontformat' is a list containing font style and color
-	proc PutMessage { chatid user nick msg type fontformat {p4c ""}} {
+	proc PutMessage { chatid user nick msg type fontformat {p4c 0}} {
 		#Run it in mutual exclusion
 		SendMessageFIFO [list ::amsn::PutMessageWrapped $chatid $user $nick $msg $type $fontformat $p4c] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
@@ -3704,17 +3703,10 @@ namespace eval ::amsn {
  		}
 
 		if {[::config::getKey colored_text_in_cw] == 1} {
-			if {$lastchat} {
-			} elseif {$p4c} {
-				set original_nick [::smiley::parseMessageToList [list [ list "text" "$nick" ]]]
-				set evpar(variable) original_nick
-				set evpar(login) $user
-				::plugins::PostEvent parse_contact evpar
-			} elseif {[::abook::getPersonal login] ne $user} {
-				set original_nick [::abook::getNick $user 1]
-			} else {
-				set original_nick [::abook::getVolatileData myself parsed_mfn]
-			}
+			set original_nick [::smiley::parseMessageToList [list [ list "text" "$nick" ]]]
+			set evpar(variable) original_nick
+			set evpar(login) $user
+			::plugins::PostEvent parse_contact evpar
 
 			if {$chatstyle eq "msn"} {
 				set str [trans says __@__]
@@ -3899,8 +3891,6 @@ namespace eval ::amsn {
 			}
 
 			set ::ChatWindow::first_message($win_name) 0
-			
-			status_log "win_name=$win_name" blue
 			
 			#TODO: This check shouldn't be there
 			#Have a look at proc IsOIM (gui.tcl)
