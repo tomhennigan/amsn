@@ -88,10 +88,10 @@ automaticsrc Autodetect Input
 automessage AutoMessage
 autonoact Change state to "Idle" when inactive for
 autoresizedp Automatically resize display pictures to default size
-autovideosrcdesc Automatically detect the webcam capture device on your system
 autovideosinkdesc Automatically detect the best video output method for your system
-av Audio and Video Conference
+autovideosrcdesc Automatically detect the webcam capture device on your system
 avaccepted Video Conference call accepted
+av Audio and Video Conference
 avcanceled Video Conference call canceled
 avgotinvitation Received Video Conference invitation from $1
 avinitfailed Initialization of the Audio/Video Plugin failed. Call Canceled
@@ -309,8 +309,8 @@ details Details
 devicebusy Device $1 is busy
 devices Devices
 directconnection I have a direct connection to the internet (uses port 1863)
-disabled Disabled
 disabledaudiosrcdesc Disable Audio input, and do not send any audio from your microphone
+disabled Disabled
 disabledvideosrcdesc Disable Video input and do not send your webcam
 disableprofiles Disable profiles (Useful for cyber-cafes or shared environments)
 disablessl Disable SSL
@@ -399,8 +399,8 @@ find Find
 findnext Find Next
 findprev Find Previous
 finetunesettings Finetune picture settings
-finish Finish
 finish2apply Press Finish to apply those settings.
+finish Finish
 firewalled2 You are firewalled, please check your Connection settings in the preferences window
 firewalled You are firewalled or behind a router
 followtext Scroll down when new text is entered
@@ -408,13 +408,13 @@ forget_me Forget me
 forgot_pass I forgot my password
 formatcsv CSV format
 formatctt CTT format
+friendlyname Friendly Name
 fsautoaudiosinkchosen Automatically chosen '$1' for Audio output
 fsautoaudiosrcchosen Automatically chosen '$1' for Audio input
 fsautovideosrcchosen Automatically chosen '$1' for Video input
 fsnodevfound No devices available
 fsnosuitablesrc No suitable Input device found, using '$1' for testing purposes
 fssrcdisabledusing Disabled input, using '$1' for testing purposes
-friendlyname Friendly Name
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
 ftaccepted File transfer accepted
 ftaccepting Accepting file transfer request
@@ -440,6 +440,7 @@ gamerequest You have invited $1 to play $2
 getdisppic Enable receiving Display Pictures from other users
 getmoreplugins Get more Plugins!
 getmoreskins Get more skins!
+getprofileoffline Retrieve offline users' nicknames and Personal Messages (Might slow down the login process)
 globalcontainer Global container
 globalnick Insert a pattern to form all your contacts' nicknames. You can use these variables: \$user_login for you contacts' address, \$nick for your contacts' nickname and \$customnick for your contacts' custom nickname. For example: '\$user_login is \$nick' will be 'contact@msn.com is Contact'
 globalnicktitle Global Nickname
@@ -676,10 +677,10 @@ nousersinsession No users in session
 nouserspecified No user specified
 nudge $1 requests your attention
 offline Offline
-oim Offline Messaging
 oimauthenticationfailed Authentication failed
 oimflood Too many Offline messages sent... please wait and try again
 oimmessagetoolarge Offline Message is too large... split it and send again
+oim Offline Messaging
 oimsystemunavailable Offline Messaging system currently unavailable
 oimunexpectederror Unexpected Error
 ok Ok
@@ -786,19 +787,19 @@ quit Quit
 raised Raised/Deiconified
 readonlymsgbox The file transfer has been canceled due to the received directory being read-only. Please fix the permissions on this directory.
 readonlywarn WARNING: The file will probably NOT be saved correctly as the "Received files" directory seems to be write-protected. Please ensure that the permissions on the target directory ($1) are set correctly before transfering the file.
-receive Receive
 receivedbytes Received $1 of $2 bytes
 receiveddir Received Files folder
 receivedoimread You have $1 new Offline Instant Messages. Do you want to read them ?
 receivedvoice Received Voice Clip
 receivefile Receive file
+receive Receive
 recentmsg Prevent closing a chat window when a message has just arrived
 reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
 reconnectnow Reconnect now
 reconnect Waiting for $1 to reconnect
-record Record
 recorderror An error occured when trying to record the sound : $1
+record Record
 recvwebcamaccepted $1 accepted your invitation to view his/her webcam. Connecting...
 redirect Click here to get redirected
 reject Reject
@@ -861,8 +862,8 @@ serverunavailable Server is unavailable
 session Session
 setasmydp Set as my display picture
 setbackinitialstate You have set aMSN to connect as $1, but you are now $2. Are you sure you want to set your status back to $1 ?
-setupcam Setting up your webcam device
 setupcamfinetune Setting up webcam device, and finetuning picture
+setupcam Setting up your webcam device
 shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
