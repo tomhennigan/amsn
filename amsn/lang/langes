@@ -440,6 +440,7 @@ gamerequest Has invitado a $1 para jugar a $2
 getdisppic Habilitar la recepción de imágenes para mostrar de otros usuarios
 getmoreplugins ¡Consigue más plug-ins!
 getmoreskins ¡Consigue más skins!
+getprofileoffline Obtiene los apodos y mensajes personales de los usuarios desconectados (puede demorar el proceso de inicio de sesión)
 globalcontainer Contenedor global
 globalnick Introduce una expresión con la que formar todos los apodos, puedes usar las variables \$user_login para la dirección del contacto y \$nick para tu apodo o \$customnick para tu apodo personalizado.\nPor ejemplo: '\$user_login es \$nick' mostraría 'contacto@hotmail.com es Contacto'
 globalnicktitle Apodo global
