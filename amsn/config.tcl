@@ -281,7 +281,7 @@ namespace eval ::config {
 		::config::setKey charscounter	1	;#Display typed characters counter
 		::config::setKey checkemail	1	;#Show inbox email notification line
 		::config::setKey recentmsg 0		;#Recent message window closing protection
-		::config::setKey getprofileoffline 1    ;#Use GetProfile for offline users
+		::config::setKey getprofileoffline 0    ;#Use GetProfile for offline users
 		::config::setKey displayp4context 1	;#Accept P4-Context fieds
 		::config::setKey p4contextprefix "" ; #Prefix for P4-Context messages
 		::config::setKey notifytimeout 8000 ; #Number of milisecs before the notify will go away
