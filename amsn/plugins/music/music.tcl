@@ -886,7 +886,28 @@ namespace eval ::music {
 		pack $mainFrame.password -anchor w
 		pack $mainFrame.password.label $mainFrame.password.entry -anchor w
 
+		#music directory
+		frame $mainFrame.dir
+		label $mainFrame.dir.label -text "[trans music_mpd_directory]"
+		entry $mainFrame.dir.entry -bg white -width 15 -validate all \
+			-validatecommand {
+				set ::music::config(mpd_music_directory) [::music::encrypt %P]
+				return 1
+			}
+		$mainFrame.dir.entry insert end $::music::config(mpd_music_directory)
+                button $mainFrame.dir.bt -text "[trans browse]" -command [list ::music::chooseMPDDir $mainFrame.dir.entry]
+		pack $mainFrame.dir -anchor w
+		pack $mainFrame.dir.label $mainFrame.dir.entry $mainFrame.dir.bt -anchor w
 	}
+
+        proc chooseMPDDir {en} {
+            set dir [tk_chooseDirectory -initialdir $::music::config(mpd_music_directory)]
+            if { $dir != "" } {
+                $en delete 0 end
+                $en insert 0 $dir
+                set ::music::config(mpd_music_directory)
+            }
+        }
 
 	################################################
 	# ::music::TreatSongAmarok 2                   #

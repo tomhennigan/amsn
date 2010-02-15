@@ -23,6 +23,7 @@ changepic Change the displaypicture to the albumart if possible
 music_mpd_ip IP address of your MPD server
 music_mpd_port Port of your MPD server
 music_mpd_password Password of your MPD server (if needed)
+music_mpd_directory MPD music directory
 lasterror Last error
 noerror No error
 style Format of the display 
