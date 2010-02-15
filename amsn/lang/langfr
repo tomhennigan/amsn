@@ -440,6 +440,7 @@ gamerequest Vous venez d'inviter $1 à jouer à $2
 getdisppic Permettre la réception d'avatars des autres contacts
 getmoreplugins Obtenez d'autres plugins !
 getmoreskins Obtenez d'autres apparences !
+getprofileoffline Récuperer les pseudonymes et messages personnels des contacts hors ligne (Peut ralentir la connexion)
 globalcontainer Fenêtre globale
 globalnick Insérez un modèle afin de former les pseudonymes de vos contacts.Vous pouvez utiliser ces variables : \$user_login pour les adresses de vos contacts, \$nick pour les pseudonymes de vos contacts et enfin \$customnick pour les pseudonymes personnalisés de vos contacts. Par exemple : "\$user_login est \$nick" donnera "contact@msn.com est Contact"
 globalnicktitle Pseudonyme général
