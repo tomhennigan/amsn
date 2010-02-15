@@ -440,6 +440,7 @@ gamerequest Hai invitato $1 a giocare a $2
 getdisppic Attiva la ricezione delle immagini personali degli utenti
 getmoreplugins Scarica altri plugin!
 getmoreskins Scarica altri temi!
+getprofileoffline Recupera fuori linea i soprannomi e i messaggi personali degli utenti (potrebbe rallentare la procedura di accesso)
 globalcontainer Finestra globale
 globalnick Crea un modello per mostrare i soprannomi dei contatti. Puoi usare queste variabili: \$user_login per l'e-mail dei contatti, \$nick per il soprannome dei contatti e \$customnick per i soprannomi personalizzati. Esempio: '\$user_login è \$nick' diventa 'contatto@live.it è Contatto'
 globalnicktitle Soprannome globale
