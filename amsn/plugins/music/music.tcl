@@ -1427,6 +1427,7 @@ namespace eval ::music {
 			}
 			if { [string range $line 0 3] == "file" } {
 				set File [string range $line 6 end]
+				set File [file join $File $::music::config(mpd_music_directory)]
 				plugins_log music "file is $File"
 
 			}
