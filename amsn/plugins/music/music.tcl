@@ -901,7 +901,7 @@ namespace eval ::music {
             if { $dir != "" } {
                 $en delete 0 end
                 $en insert 0 $dir
-                set ::music::config(mpd_music_directory)
+                set ::music::config(mpd_music_directory) $dir
             }
         }
 
