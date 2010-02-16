@@ -572,13 +572,13 @@ namespace eval ::music {
 			}
 			2 {
 				#Send the current song as a file
-				::music::log "Send file with file $file"
+				::music::log "Send file with file '$file'"
 				::amsn::FileTransferSend $win_name $file
 				return 0
 			}
 			3 {
 				#Send the full size version of the album cover as a file
-				::music::log "Send file with file $artfile"				
+				::music::log "Send file with file '$artfile'"
 				::amsn::FileTransferSend $win_name $artfile
 				return 0
 			}
@@ -681,7 +681,7 @@ namespace eval ::music {
 	# ::music::add_command                         #
 	# -------------------------------------------  #
 	# Add irc command /showsong and /sendsong      #
-	# for amsnplus users						   #
+	# for amsnplus users                           #
 	# Need last update of aMSNPlus plugin +/- 2.3  #
 	# Verify first if amsnplus plugin is loaded    #
 	################################################
@@ -1437,7 +1437,7 @@ namespace eval ::music {
 		}
 		
 		close $chan
-		return [list $Title $Artist "" "" ""]
+		return [list $Title $Artist $File "" ""]
 	}
 
 	##################################################
