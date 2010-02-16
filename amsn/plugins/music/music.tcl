@@ -889,11 +889,7 @@ namespace eval ::music {
 		#music directory
 		frame $mainFrame.dir
 		label $mainFrame.dir.label -text "[trans music_mpd_directory]"
-		entry $mainFrame.dir.entry -bg white -width 15 -validate all \
-			-validatecommand {
-				set ::music::config(mpd_music_directory) [::music::encrypt %P]
-				return 1
-			}
+		entry $mainFrame.dir.entry -bg white -width 15 -textvariable ::music::config(mpd_music_directory)
 		$mainFrame.dir.entry insert end $::music::config(mpd_music_directory)
                 button $mainFrame.dir.bt -text "[trans browse]" -command [list ::music::chooseMPDDir $mainFrame.dir.entry]
 		pack $mainFrame.dir -anchor w
