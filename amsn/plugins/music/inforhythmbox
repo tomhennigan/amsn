@@ -4,20 +4,21 @@
 RHYTHMBOX=`ps -e | grep [r]hythmbox | grep -v info`
 if [ "$RHYTHMBOX" ]
 then
-	RCLIENT=`rhythmbox --help | grep print-playing | wc -l `
-	if [ "$RCLIENT" -gt 0 ]
-	then
-		rhythmbox --print-playing --print-playing-artist --print-playing-path --print-song-length --no-focus
-	else
-		rhythmbox-client --print-playing-format "%tt"
-		rhythmbox-client --print-playing-format "%aa"
-		echo ""
-		rhythmbox-client --print-playing-format "%td"
-	fi
+    RCLIENT=`rhythmbox --help | grep print-playing | wc -l `
+    if [ "$RCLIENT" -gt 0 ]
+    then
+        rhythmbox --print-playing --print-playing-artist --print-playing-path --print-song-length --no-focus
+    else
+        rhythmbox-client --print-playing-format "%tt"
+        rhythmbox-client --print-playing-format "%aa"
+        #echo `qdbus org.gnome.Rhythmbox /org/gnome/Rhythmbox/Player org.gnome.Rhythmbox.Player.getPlayingUri`
+        echo `dbus-send --print-reply --dest=org.gnome.Rhythmbox /org/gnome/Rhythmbox/Player org.gnome.Rhythmbox.Player.getPlayingUri | sed -e '1d' | sed -e 's/^ *[^ ]* //' | sed -e 's/^.*\"\(.*\)\",*/\1/'`
+        rhythmbox-client --print-playing-format "%td"
+    fi
 else
-	echo ""
-	echo ""
-	echo ""
-	echo -1
+    echo ""
+    echo ""
+    echo ""
+    echo -1
 fi
 exit 0 
