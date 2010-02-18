@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Written by Alexander Karlstad <alexander@karlstad.be>
+# Initial code from http://github.com/pilt/spotify
+
+PLAYING=`xwininfo -root -tree | grep "Spotify - " | grep -v 'has no name' | sed 's,.*"Spotify - \(.\+\?\)":.*,\1,'`
+if [ "${PLAYING}" ]; then
+    echo "${PLAYING}" | sed 's,\(.\+\) \xe2\x80\x93 \(.\+\),\2\n\1,'
+    echo ""
+    echo ""
+else
+    echo ""
+    echo ""
+    echo ""
+    echo -1
+fi
+exit 0

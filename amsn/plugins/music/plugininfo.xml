@@ -124,6 +124,10 @@
 		<version>11810</version>
 	</file>
 	<file>
+		<path>infospotify</path>
+		<version>11925</version>
+	</file>
+	<file>
 		<path>infovlc</path>
 		<version>11788</version>
 	</file>

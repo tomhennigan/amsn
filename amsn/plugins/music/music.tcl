@@ -270,6 +270,7 @@ namespace eval ::music {
 					"Rhythmbox" [list GetSongRhythmbox TreatSongRhythmbox FillFrameLess] \
 					"Songbird" [list GetSongSongbird TreatSongSongbird FillFrameLess] \
 					"Songbird (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
+					"Spotify" [list GetSongSpotify TreatSongSpotify FillFrameLess] \
 					"VLC (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 					"VLC (DBUS)" [list GetSongVLCDBUS TreatSongVLCDBUS FillFrameLess] \
 					"XMMS" [list GetSongXMMS return FillFrameEmpty] \
@@ -1486,6 +1487,54 @@ namespace eval ::music {
 			return 0
 		}
 	}
+
+	###############################################
+	# ::music::TreatSongSpotify                   #
+	# ------------------------------------------- #
+	# Gets the current playing song in Rhythmbox  #
+	###############################################
+	proc TreatSongSpotify {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infospotify"]] }
+	}
+	###############################################
+	# ::music::GetSongSpotify                     #
+	# ------------------------------------------- #
+	# Gets the current playing song in Spotify    #
+	###############################################
+	proc GetSongSpotify {} {
+		#actualsong is filled asynchronously in TreatSongSpotify
+		#Split the lines into a list and set the variables as appropriate
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the 4 first lines
+		if { [llength $tmplst] == 3 } {
+			set song [lindex $tmplst 0]
+			set art ""
+			set path [lindex $tmplst 1]
+			if { $song == "" } {
+				set songlength "-1"
+			} else {
+				set songlength "0"
+			}
+		} else {
+			set song [lindex $tmplst 0]
+			set art [lindex $tmplst 1]
+			set path [lindex $tmplst 2]
+			set songlength [lindex $tmplst 3]
+		}
+
+		if {$songlength == "-1"} {
+			return 0
+		}
+
+		set path [urldecode [string range $path 5 end]]
+		
+		return [list $song $art $path "" ""]
+       }
 
 	###############################################
 	# ::music::TreatSongRhythmbox                 #
