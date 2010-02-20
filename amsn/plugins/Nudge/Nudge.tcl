@@ -14,14 +14,13 @@ namespace eval ::Nudge {
 	# ------------------------------------------- #
 	# Registration & initialization of the plugin #
 	###############################################
+    global plugindir
 	proc Init { dir } {
+        global plugindir
 		::plugins::RegisterPlugin Nudge
 
 		#Register the events to the plugin system
 		::Nudge::RegisterEvent
-
-		#Save in a config key where is the Nudge plugin
-		::config::setKey nudgepluginpath $dir
 
 		#Get default value for config
 		::Nudge::config_array
@@ -40,6 +39,7 @@ namespace eval ::Nudge {
 		
 		after 5000 "catch {::Nudge::add_command 0 0}"
 		
+        set plugindir $dir
 	}
 	
 	#####################################
@@ -622,9 +622,11 @@ namespace eval ::Nudge {
 	# Real sound from MSN 7                    #
 	############################################
 	proc sound {} {
-		set dir [::config::getKey nudgepluginpath]
-		play_sound $dir/nudge.wav 1
-		::Nudge::log "Play sound for nudge, Directory: [::config::getKey nudgepluginpath]"
+        global plugindir
+        set filename [::skin::GetSkinFile sounds nudge.wav "" $plugindir]
+        play_sound $filename 1
+        set dir [file dirname $filename]
+        ::Nudge::log "Play sound for nudge, Directory: $dir"
 	}
 	
 	############################################
