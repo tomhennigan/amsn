@@ -14,9 +14,9 @@ namespace eval ::Nudge {
 	# ------------------------------------------- #
 	# Registration & initialization of the plugin #
 	###############################################
-    global plugindir
+    variable plugindir
 	proc Init { dir } {
-        global plugindir
+        variable plugindir
 		::plugins::RegisterPlugin Nudge
 
 		#Register the events to the plugin system
@@ -622,7 +622,7 @@ namespace eval ::Nudge {
 	# Real sound from MSN 7                    #
 	############################################
 	proc sound {} {
-        global plugindir
+        variable plugindir
         set filename [::skin::GetSkinFile sounds nudge.wav "" $plugindir]
         play_sound $filename 1
         set dir [file dirname $filename]
