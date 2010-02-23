@@ -2759,14 +2759,21 @@ namespace eval ::MSNSIP {
 		$sip configure -local_audio_codecs [$::farsight GetLocalAudioCodecs] 
 		$sip configure -local_video_candidates [$::farsight GetLocalVideoCandidates]
 		$sip configure -local_video_codecs [$::farsight GetLocalVideoCodecs]
-		set callid [$sip Invite $email [list ::MSNSIP::inviteSIPCB $sip $email]]
 
-		$::farsight configure \
-		    -closed [list ::MSNSIP::inviteClosed $sip $video $email $callid 0] \
-		    -active [list ::MSNSIP::activeCandidates $email $sip $callid 1]
+                if {[$::farsight IsVideo] && [llength $video_local_codecs] == 0} {
+                    # Signal the UI
+                    ::amsn::SIPCallNoVideoCodecs $chatid 
+                    destroySIP $sip
+                } else {
+                    set callid [$sip Invite $email [list ::MSNSIP::inviteSIPCB $sip $email]]
+                    $::farsight configure \
+                        -closed [list ::MSNSIP::inviteClosed $sip $video $email $callid 0] \
+                        -active [list ::MSNSIP::activeCandidates $email $sip $callid 1]
 
-		# Signal the UI
-		::amsn::SIPInviteSent $video $email $sip $callid
+                    # Signal the UI
+                    ::amsn::SIPInviteSent $video $email $sip $callid
+                }
+
 	}
 
 

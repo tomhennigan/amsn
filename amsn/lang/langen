@@ -675,6 +675,7 @@ notls The MSN Protocol 9 requires the TLS package. This package does not seem to
 nottabbed Normal windows without tabs
 nousersinsession No users in session
 nouserspecified No user specified
+novideocodecsavailable No video codecs available.
 nudge $1 requests your attention
 offline Offline
 oimauthenticationfailed Authentication failed

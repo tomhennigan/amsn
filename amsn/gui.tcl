@@ -1827,6 +1827,15 @@ namespace eval ::amsn {
 
 	}
 
+    proc SIPCallNoVideoCodecs { chatid } {
+        status_log "SIP call is impossible.. no codecs found"
+
+        SIPCallMessage $chatid [trans novideocodecsavailable]
+        DelSIPchatidFromList $chatid
+        ::ChatWindow::setCallButton $chatid "invite" 1 ;# last arg is 1 because it will always be a videocall.
+        ::ChatWindow::RemoveVoipControls $chatid
+    }
+
 	proc SIPCallReceived { video chatid sip callid} {
 
 		set fromname [::abook::getDisplayNick $chatid]
