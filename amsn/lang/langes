@@ -675,7 +675,7 @@ notls La versión 9 del protocolo MSN requiere usar el paquete "TLS". Este paque
 nottabbed Ventanas normales sin pestañas
 nousersinsession No hay usuarios en la sesión
 nouserspecified Usuario no especificado
-novideocodecsavailable  No se han encontrado codecs de vídeo.
+novideocodecsavailable No están disponibles los códec de vídeo.
 nudge $1 reclama tu atención
 offline Desconectado
 oimauthenticationfailed Autentificación fallida
@@ -866,7 +866,6 @@ setbackinitialstate Has ajustado aMSN para conectarse como $1, pero ahora estás
 setupcam Configurando tu cámara web
 setupcamfinetune Configurando tu cámara web, y aplicando ajuste fino de imagen
 shareswebcam Usuario con cámara web
-Sharing solicitar y enviar el archivo usando una transferencia de archivo.
 showbanner Mostrar el cartel de aMSN en la lista de contactos
 showblockedlist Mostrar contactos que te bloquean
 showcachedpics Mostrar imágenes para mostrar almacenadas
