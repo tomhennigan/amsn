@@ -675,6 +675,7 @@ notls La versión 9 del protocolo MSN requiere usar el paquete "TLS". Este paque
 nottabbed Ventanas normales sin pestañas
 nousersinsession No hay usuarios en la sesión
 nouserspecified Usuario no especificado
+novideocodecsavailable  No se han encontrado codecs de vídeo.
 nudge $1 reclama tu atención
 offline Desconectado
 oimauthenticationfailed Autentificación fallida
