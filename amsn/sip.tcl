@@ -2760,7 +2760,7 @@ namespace eval ::MSNSIP {
 		$sip configure -local_video_candidates [$::farsight GetLocalVideoCandidates]
 		$sip configure -local_video_codecs [$::farsight GetLocalVideoCodecs]
 
-                if {[$::farsight IsVideo] && [llength $video_local_codecs] == 0} {
+                if {[$::farsight IsVideo] && [llength $::farsight GetLocalVideoCodecs] == 0} {
                     # Signal the UI
                     ::amsn::SIPCallNoVideoCodecs $chatid 
                     destroySIP $sip
