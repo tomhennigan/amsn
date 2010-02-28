@@ -1,0 +1,29 @@
+amsn_lang_version 2
+musicaddsongtonick Track aan de schermnaam toevoegen
+musicaddsongtopsm Track aan het persoonlijke bericht toevoegen
+musictimeverify Nieuwe track om de ? seconden verifiëren
+musicnickname Schermnaam
+musicseparator Symbool tussen schermnaam en track
+musicstopmsg Bericht gestopt
+musiccurrent Huidige track weergeven
+musicsend Huidige track verzenden
+artsend Huidige albumcover verzenden
+musicerr Er wordt niets afgespeeld, of de plug-in kan de muziek niet herkennen.
+playing Afspelen: $1
+musicoserr Je besturingssysteem ($1) wordt nog niet door de Music-plug-in ondersteund
+musicplayer Kies de speler van je voorkeur
+musicstopdefault Speler gestopt
+separator Scheidingsteken
+songartist Track-Artiest
+song Track
+artistsong Artiest-Track
+choose_order Kies de volgorde voor track en naam van artiest
+musicballontext Klik hier om de track in je schermnaam te tonen/verbergen
+changepic De schermafbeelding naar de albumart wijzigen wanneer mogelijk
+music_mpd_ip IP-adres van je MPD-server
+music_mpd_port Poort van je MPD-server
+music_mpd_password Wachtwoord van je MPD-server (wanneer nodig)
+music_mpd_directory MPD-muziekmap
+lasterror Laatste fout
+noerror geen fout
+style Formaat van de weergave
