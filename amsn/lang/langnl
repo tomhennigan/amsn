@@ -440,6 +440,7 @@ gamerequest Je hebt $1 uitgenodigd om $2 te spelen
 getdisppic De schermafbeelding van anderen weergeven tijdens gesprekken
 getmoreplugins Klik hier voor meer plug-ins!
 getmoreskins Klik hier voor meer skins!
+getprofileoffline Schermnamen en persoonlijke berichten van offlinegebruikers ophalen (Kan het aanmeldingsproces vertragen)
 globalcontainer Meerdere gesprekken
 globalnick Voer een patroon in dat wordt gebruikt om een schermnaam te vormen voor al je contacten. Je kunt de volgende variabelen opnemen: \$user_login voor het e-mailadres van het contact, \$nick voor zijn schermnaam en \$customnick voor zijn aangepaste schermnaam.
 globalnicktitle Algemene schermnaam
@@ -674,6 +675,7 @@ notls Versie 9 van het MSN-protocol vereist het pakket TLS. Dit pakket lijkt nie
 nottabbed Geen tabbladen gebruiken
 nousersinsession Geen gebruiker in sessie
 nouserspecified Geen contact geselecteerd
+novideocodecsavailable Geen videocodecs beschikbaar.
 nudge $1 vraagt je aandacht
 offline Offline
 oim Offlineberichten
