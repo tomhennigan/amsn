@@ -1536,7 +1536,7 @@ namespace eval ::winks {
 		# avoid multi-converstation bug
 		if { "[::abook::getContactData $chatid clientid]" != "" } {
 			# check if the other client support winks
-			if { [expr {[::abook::getContactData $chatid clientid] & 0x008000}] == 0 } {
+			if { [::MSN::hasCapability [::abook::getContactData $chatid clientid] winks] == 0 } {
 				amsn::WinWrite $chatid "\n[::abook::getDisplayNick $chatid] [trans winks_yourcontact_amsn_client_doesnt_supports_winks] " green 
 				return
 			}

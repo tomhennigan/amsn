@@ -579,9 +579,6 @@ namespace eval ::Nudge {
 		::Nudge::log "Verify if contact is using MSN 7.0 protocol"
 
 		set clientcaps [::abook::getContactData $email clientid]
-		set clientcaps [split $clientcaps ":"]
-		set clientid [lindex $clientcaps 0]
-		# set extra [lindex $clientcaps 1]
 
 		::Nudge::log "Clientid is $clientid"
 
@@ -592,7 +589,7 @@ namespace eval ::Nudge {
 			return 1
 		}
 		
-		if { ($clientid & 0xF0000000) < 0x40000000 } {
+		if { [::MSN::clientCapsVersion $clientid < 4 } {
 			return 0
 		} else {
 			return 1
