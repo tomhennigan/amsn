@@ -675,6 +675,7 @@ notls Le protocole 9 de MSN requiert le module tls. Celui-ci ne semble pas être 
 nottabbed Fenêtres normales sans onglets
 nousersinsession Pas de contacts dans cette session
 nouserspecified Aucun utilisateur spécifié
+novideocodecsavailable Aucun codec vidéo disponible.
 nudge $1 vous a envoyé un nudge.
 offline Déconnecté[e]
 oim Messagerie différée
