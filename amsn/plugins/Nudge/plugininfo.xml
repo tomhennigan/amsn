@@ -9,12 +9,12 @@
 	<description_hu>A rezgő figyelmeztetés implementációja (MSN 7.0-tól).</description_hu>
 	<description_nl>Deze plug-in implementeert de Nudge-functie (van MSN 7.0) in aMSN.</description_nl>
 	<amsn_version>0.98.1</amsn_version>
-	<plugin_version>0.7</plugin_version>
+	<plugin_version>0.8</plugin_version>
 	<plugin_file>Nudge.tcl</plugin_file>
 	<plugin_namespace>Nudge</plugin_namespace>
 	<init_procedure>Init</init_procedure>
 
-	<cvs_version>11940</cvs_version>
+	<cvs_version>11943</cvs_version>
 
 	<lang>
 		<langcode>ca</langcode>
