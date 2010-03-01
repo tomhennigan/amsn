@@ -1,4 +1,5 @@
 amsn_lang_version 2
+
 artistsong Artista-Canción
 artsend Enviar la portada del álbum actual
 changepic Cambiar la imagen mostrada a la portada del álbum, si es posible
@@ -9,6 +10,7 @@ musicaddsongtopsm Añadir nombre de canción al Mensaje Personal
 musicballontext Clic aquí para mostrar/ocultar la canción en tu apodo
 musiccurrent Mostrar la canción actual
 musicerr No se esta reproduciendo nada, o el plugin no puede obtener la música reproducida.
+music_mpd_directory Directorio de música MPD
 music_mpd_ip Dirección IP de tu servidor MPD
 music_mpd_password Contraseña de tu servidor MPD
 music_mpd_port Puerto de tu servidor MPD
