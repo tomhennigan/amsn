@@ -82,9 +82,10 @@ proc nbgets { sock {varName ""} } {
 	set data ""
 	while { $char != "\n" && $char != "" } {
 		set char [nbread $sock 1]
-		append data $char
+		if {$char != "\r" && $char != "\n" } {
+			append data $char
+		}
 	}
-	set data [string range $data 0 [expr {[string length $data] - 2}] ]
 	
 	if { $varName != "" } {
 		upvar 1 $varName buffer
