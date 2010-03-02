@@ -589,7 +589,7 @@ namespace eval ::Nudge {
 			return 1
 		}
 		
-		if { [::MSN::clientCapsVersion $clientid < 4] } {
+		if { [::MSN::clientCapsVersion $clientid] < 4 } {
 			return 0
 		} else {
 			return 1
