@@ -1693,12 +1693,12 @@ namespace eval ::ChatWindow {
 		$actionsmenu add command -label "[trans sendcam]..." \
 			-command "::amsn::ShowChatList \"[trans sendcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
 
-		
-		$actionsmenu add command -label "[trans sendsip]..." \
-		    -command "::amsn::ShowChatList \"[trans sendsip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 0\""
-
-		$actionsmenu add command -label "[trans sendvideosip]..." \
-		    -command "::amsn::ShowChatList \"[trans sendvideosip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 1\""
+#		
+#		$actionsmenu add command -label "[trans sendsip]..." \
+#		    -command "::amsn::ShowChatList \"[trans sendsip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 0\""
+#
+#		$actionsmenu add command -label "[trans sendvideosip]..." \
+#		    -command "::amsn::ShowChatList \"[trans sendvideosip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 1\""
 
 
 		$actionsmenu add separator

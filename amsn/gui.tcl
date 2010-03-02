@@ -1837,7 +1837,6 @@ namespace eval ::amsn {
     }
 
 	proc SIPCallReceived { video chatid sip callid} {
-		return
 
 		set fromname [::abook::getDisplayNick $chatid]
 		if {$video} {
