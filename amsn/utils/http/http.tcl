@@ -664,6 +664,7 @@ proc http::Connected { token proto phost srvurl} {
         # The query channel must be blocking for the async Write to
         # work properly.
         fconfigure $state(-querychannel) -blocking 1 -translation binary
+	#fconfigure $state(-querychannel) -blocking 0 -translation binary
         set contDone 0
     }
     if {[info exists state(-method)] && $state(-method) ne ""} {
