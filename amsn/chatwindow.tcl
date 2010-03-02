@@ -2520,24 +2520,25 @@ namespace eval ::ChatWindow {
 			-command "::ChatWindow::webcambuttonAction $w"
 		set_balloon $webcam "--command--::ChatWindow::SetWebcamText"
 		
-		#Call button
-		button $call -image [::skin::loadPixmap butcall] -relief flat -padx 0 \
-			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
-			-command "::amsn::InviteCallFromCW $w 0"
-		set_balloon $call "[trans sendsip]"
-
-		#Video button
-		button $callv -image [::skin::loadPixmap butcallvideo] -relief flat -padx 0 \
-			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
-			-command "::amsn::InviteCallFromCW $w 1"
-		set_balloon $callv "[trans sendvideosip]"
+#		#Call button
+#		button $call -image [::skin::loadPixmap butcall] -relief flat -padx 0 \
+#			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+#			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+#			-command "::amsn::InviteCallFromCW $w 0"
+#		set_balloon $call "[trans sendsip]"
+#
+#		#Video button
+#		button $callv -image [::skin::loadPixmap butcallvideo] -relief flat -padx 0 \
+#			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+#			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+#			-command "::amsn::InviteCallFromCW $w 1"
+#		set_balloon $callv "[trans sendvideosip]"
 
 
 		# Pack them
 		pack $fontsel $smileys $voice -side left -padx 0 -pady 0
-		pack $block $webcam $sendfile $invite $call $callv -side right -padx 0 -pady 0
+		#pack $block $webcam $sendfile $invite $call $callv -side right -padx 0 -pady 0
+		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
 
 		bind $voice    <<Button1-Press>> "::ChatWindow::start_voice_clip $w"
 		bind $voice    <<Button1>> "::ChatWindow::stop_and_send_voice_clip $w"
