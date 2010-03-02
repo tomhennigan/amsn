@@ -220,6 +220,7 @@ color Cor
 command Orde
 commandstatus Executar a orde
 compactstyle Estilo compacto
+configpermissionerror Erro ao escribir o ficheiro de configuración. Asegúrese de ter os permisos axeitados para o directorio $1
 configure Configurar
 configuremic Configurando o teu micrófono
 configureplugin Configurar o plugin $1
@@ -439,6 +440,7 @@ gamerequest Invitaches a $1 a xogar a $2
 getdisppic Activar a recepción de Imaxes para mostrar doutros usuarios
 getmoreplugins Consegue máis plugins!
 getmoreskins Consegue máis temas!
+getprofileoffline Obtén os alcumes e as mensaxes persoais dos usuarios desconectados (pode relentizar o proceso de inicio de sesión)
 globalcontainer Contedor global
 globalnick Inserir un modelo para formar os alcumes de todos os teus contactos. Podes usar as seguintes variábeis: \$user_login para o enderezo dos teus conctactos, \$nick para o alcume dos teus conctactos e \$customnick para o alcume personalizado dos teus conctactos. Por exemplo: '\$user_login é \$nick' será 'contact@msn.com é Contact'
 globalnicktitle  Alcume global
@@ -673,6 +675,7 @@ notls A versión 9 do protocolo MSN require usar o paquete "tls". Este paquete no
 nottabbed Xanelas normais sen separadores
 nousersinsession Non hai usuarios na sesión
 nouserspecified Usuarios non especificados
+novideocodecsavailable Non están dispoñíbeis os códec de vídeo.
 nudge $1 reclama a súa atención
 offline Desconectado
 oimauthenticationfailed Fallou a autentificación
@@ -709,6 +712,7 @@ pausewebcamsend Pausa o envío da cámara web
 personal Personal
 phones Números de teléfono
 phone Teléfono
+photosharingrequest Acaba de recibir unha solicitude de compartición de fotos. Esta característica aínda non é compatíbel con aMSN e non pode ser cancelada dende o seu lado da comunicación. Digalle ao seu contacto que cancele a compartición de fotos e envíe o ficheiro como unha transferencia de ficheiro.
 picbrowser Navegador de imaxes para mostrar
 picfile Ficheiro de imaxe (GIF < 500 x 500)
 picstatus Imaxe para a alarma
@@ -760,6 +764,7 @@ prefshared Conexións compartidas (sólo para NAT)
 prefsound Sons
 preview Previsualizar
 privacy Privacidade
+profileaccrualerror A súa información de conta de Windows Live ID está incompleta.\nPor favor asegúrese de que o seu cumpreanos e o seu país están introducidos correctamente no seu perfil.
 profiledconfig Información do perfil
 profileexists Non se pode crear un perfil con este nome de usuario,\n xa existe un co mesmo nome. Por favor elixe outro.
 profileinuse Este perfil está sendo utilizado por outra sesión de AMSN, por favor elixe outro.
@@ -788,6 +793,7 @@ receiveddir Cartafol de ficheiros recibidos
 receivedoimread Tes $1 mensaxes instantáneas novas sen conexión.Queres léelas ?
 receivedvoice Clip de voz recibido
 receivefile Recibir un ficheiro
+receive Recibir
 recentmsg Previr o peche da xanela da conversa cando unha mensaxe acaba de chegar
 reconnect2 Reconectar se se perde a conexión
 reconnect Agardando que $1 reconecte
