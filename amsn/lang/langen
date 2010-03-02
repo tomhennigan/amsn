@@ -910,6 +910,7 @@ sipcallmissed You missed an Audio Call from $1
 sipcallnosipflag User does not support Audio Calls.
 sipcallsent Calling $1
 sipcallyouarebusy2 You can only have one Audio or Video Call at a time.
+sipdisabledprotocol Audio/Video call capabilities have been disabled in this version of aMSN because Microsoft(TM) has changed their protocols again and disabled access to their SIP servers, blocking aMSN from giving you access to this feature.
 sipgotinvitation Received Audio Call invitation from $1
 sipvideocallaccepted Video Call Accepted
 sipvideocallconnected Your Video call is now connected!

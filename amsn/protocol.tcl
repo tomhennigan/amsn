@@ -4,9 +4,10 @@
 ::Version::setSubversionId {$Id$}
 
 if { $initialize_amsn == 1 } {
-	global list_BLP list_cmdhnd sb_list contactlist_loaded
+	global list_BLP list_cmdhnd sb_list contactlist_loaded enable_sip
 
 	set contactlist_loaded 0
+	set enable_sip 0
 
 	#To be deprecated and replaced with ::abook thing
 	set list_BLP -1
@@ -957,7 +958,15 @@ namespace eval ::MSN {
 		# do it on every connect in case you changed protocol
 		# version used, or change profile, etc...
 		# Do it only if necessary (protocol >= 13)
-		if { [::config::getKey protocol] >= 13 } {
+		global enable_sip
+		if {[::config::getKey protocol] >= 18} {
+			set enable_sip 1
+			status_log "SIP capabilities are enabled"
+		} else {
+			set enable_sip 0
+			status_log "SIP capabilities are disabled"
+		}
+		if { [::config::getKey protocol] >= 13 && $enable_sip} {
 			after 0 [list ::MSNSIP::TestFarsight]
 		}
 

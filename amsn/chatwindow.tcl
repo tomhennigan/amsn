@@ -1692,14 +1692,15 @@ namespace eval ::ChatWindow {
 
 		$actionsmenu add command -label "[trans sendcam]..." \
 			-command "::amsn::ShowChatList \"[trans sendcam]\" \[::ChatWindow::getCurrentTab $w\] ::MSNCAM::SendInviteQueue"
+		
+		global enable_sip
+		if {$enable_sip} {
+			$actionsmenu add command -label "[trans sendsip]..." \
+			    -command "::amsn::ShowChatList \"[trans sendsip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 0\""
 
-#		
-#		$actionsmenu add command -label "[trans sendsip]..." \
-#		    -command "::amsn::ShowChatList \"[trans sendsip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 0\""
-#
-#		$actionsmenu add command -label "[trans sendvideosip]..." \
-#		    -command "::amsn::ShowChatList \"[trans sendvideosip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 1\""
-
+			$actionsmenu add command -label "[trans sendvideosip]..." \
+			    -command "::amsn::ShowChatList \"[trans sendvideosip]\" \[::ChatWindow::getCurrentTab $w\] \"::amsn::SIPCallInviteUser 1\""
+		}
 
 		$actionsmenu add separator
 
@@ -2520,25 +2521,30 @@ namespace eval ::ChatWindow {
 			-command "::ChatWindow::webcambuttonAction $w"
 		set_balloon $webcam "--command--::ChatWindow::SetWebcamText"
 		
-#		#Call button
-#		button $call -image [::skin::loadPixmap butcall] -relief flat -padx 0 \
-#			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-#			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
-#			-command "::amsn::InviteCallFromCW $w 0"
-#		set_balloon $call "[trans sendsip]"
-#
-#		#Video button
-#		button $callv -image [::skin::loadPixmap butcallvideo] -relief flat -padx 0 \
-#			-background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
-#			-highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
-#			-command "::amsn::InviteCallFromCW $w 1"
-#		set_balloon $callv "[trans sendvideosip]"
+		global enable_sip
+		if {$enable_sip} {
+			#Call button
+			button $call -image [::skin::loadPixmap butcall] -relief flat -padx 0 \
+			    -background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			    -highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			    -command "::amsn::InviteCallFromCW $w 0"
+			set_balloon $call "[trans sendsip]"
 
+			#Video button
+			button $callv -image [::skin::loadPixmap butcallvideo] -relief flat -padx 0 \
+			    -background [::skin::getKey buttonbarbg] -highlightthickness 0 -borderwidth 0\
+			    -highlightbackground [::skin::getKey buttonbarbg] -activebackground [::skin::getKey buttonbarbg]\
+			    -command "::amsn::InviteCallFromCW $w 1"
+			set_balloon $callv "[trans sendvideosip]"
+		}
 
 		# Pack them
 		pack $fontsel $smileys $voice -side left -padx 0 -pady 0
-		#pack $block $webcam $sendfile $invite $call $callv -side right -padx 0 -pady 0
-		pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
+		if {$enable_sip} {
+			pack $block $webcam $sendfile $invite $call $callv -side right -padx 0 -pady 0
+		} else {
+			pack $block $webcam $sendfile $invite -side right -padx 0 -pady 0
+		}
 
 		bind $voice    <<Button1-Press>> "::ChatWindow::start_voice_clip $w"
 		bind $voice    <<Button1>> "::ChatWindow::stop_and_send_voice_clip $w"
@@ -2559,10 +2565,13 @@ namespace eval ::ChatWindow {
 		bind $invite <Leave> "$invite configure -image [::skin::loadPixmap butinvite]"
 		bind $webcam <Enter> "$webcam configure -image [::skin::loadPixmap butwebcam_hover]"
 		bind $webcam <Leave> "$webcam configure -image [::skin::loadPixmap butwebcam]"
-		bind $call <Enter> "$call configure -image [::skin::loadPixmap butcall_hover]"
-		bind $call <Leave> "$call configure -image [::skin::loadPixmap butcall]"
-		bind $callv <Enter> "$callv configure -image [::skin::loadPixmap butcallvideo_hover]"
-		bind $callv <Leave> "$callv configure -image [::skin::loadPixmap butcallvideo]"
+
+		if {$enable_sip} {
+			bind $call <Enter> "$call configure -image [::skin::loadPixmap butcall_hover]"
+			bind $call <Leave> "$call configure -image [::skin::loadPixmap butcall]"
+			bind $callv <Enter> "$callv configure -image [::skin::loadPixmap butcallvideo_hover]"
+			bind $callv <Leave> "$callv configure -image [::skin::loadPixmap butcallvideo]"
+		}
 		
 		#send chatwindowbutton postevent
 		set evPar(bottom) $buttonsinner

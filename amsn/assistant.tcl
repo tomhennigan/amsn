@@ -2270,6 +2270,8 @@ namespace eval ::AVAssistant {
 		variable fs_details
 		variable cf
 		variable firsttime
+		global enable_sip
+
 		set cf $contentf
 
 		set is_audio 1
@@ -2287,10 +2289,18 @@ namespace eval ::AVAssistant {
 			-fg red -font bigfont
 		pack $contentf.note -side bottom
 
-		if {$firsttime} {
-			::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
+		if {$enable_sip} {
+			if {$firsttime} {
+				::MSNSIP::TestFarsight [list ::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio] "::AVAssistant::appendFarsightDetails"
+			} else {
+				::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio 1
+			}
 		} else {
-			::AVAssistant::StepFarsightClBk $assistant $contentf $is_audio 1
+			$contentf.fslabel configure -image [::skin::loadPixmap no-emblem] -compound right
+			label $contentf.nosip -justify left -anchor nw -font bigfont \
+			    -text [trans sipdisabledprotocol] -pady 100 -wraplength 500
+
+			pack $contentf.nosip
 		}
 	}
 
