@@ -144,6 +144,7 @@ snit::type SIPConnection {
 			return
 		}
 
+		set state "CONNECTING"
 	        if { [catch {$socket Connect}] == 0 } {
 			after 20000 [list $self KeepAlive]
 		}
