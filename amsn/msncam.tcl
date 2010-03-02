@@ -86,14 +86,24 @@ proc nbgets { sock {varName ""} } {
 			append data $char
 		}
 	}
-	
+
+	# Error in nbread
+
 	if { $varName != "" } {
 		upvar 1 $varName buffer
 		set buffer $data
-		return [string length $data]
+		if {$char == "" } {
+			error [string length $data]
+		} else {
+			return [string length $data]
+		}
 	}
 
-	return $data
+	if {$char == "" } {
+		error $data
+	} else {
+		return $data
+	}
 }
 
 namespace eval ::MSNCAM {
@@ -684,10 +694,10 @@ namespace eval ::MSNCAM {
 			"AUTH"
 			{
 				if { $server } {
-					nbgets $sock data
+					catch {nbgets $sock data}
 					status_log "Received Data on socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 					if { $data == "recipientid=${my_rid}&sessionid=${session}\r" } {
-						nbgets $sock
+						catch {nbgets $sock}
 						setObjOption $sock state "CONNECTED"
 						catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
 						setObjOption $sid socket $sock
@@ -699,10 +709,10 @@ namespace eval ::MSNCAM {
 			}
 			"TSP_OK" 
 			{
-				nbgets $sock data
+				catch {nbgets $sock data}
 				status_log "Received Data on Reflector socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 				if { $data == "TSP/1.0 200 OK\r" } {
-					nbgets $sock 
+					catch {nbgets $sock }
 					setObjOption $sock state "TSP_CONNECTED"
 				} else {
 					status_log "ERROR AUTHENTICATING TO THE REFLECTOR - $data\n" red
@@ -710,10 +720,10 @@ namespace eval ::MSNCAM {
 			}
 			"TSP_CONNECTED"
 			{
-				nbgets $sock data
+				catch {nbgets $sock data}
 				status_log "Received Data on Reflector socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 				if { $data == "CONNECTED\r" } {
-					nbgets $sock 
+					catch {nbgets $sock }
 					AuthSuccessfull $sid $sock
 					if { $producer } {
 						setObjOption $sock state "TSP_SEND"
@@ -729,10 +739,10 @@ namespace eval ::MSNCAM {
 			"CONNECTED"
 			{
 				if { $server == 0 } {
-					nbgets $sock data
+					catch {nbgets $sock data}
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 					if { $data == "connected\r" } {
-						nbgets $sock
+						catch {nbgets $sock}
 						setObjOption $sid socket $sock
 						CloseUnusedSockets $sid $sock
 						puts -nonewline $sock "connected\r\n\r\n"
@@ -746,7 +756,7 @@ namespace eval ::MSNCAM {
 							AuthSuccessfull $sid $sock
 						}
 					} else {
-						status_log "ERROR2 : $data -  [nbgets $sock] - [nbgets $sock]\n" red
+						status_log "ERROR2 : $data\n" red
 						AuthFailed $sid $sock
 					}
 				}
@@ -783,14 +793,14 @@ namespace eval ::MSNCAM {
 
 					} else {
 						setObjOption $sock state "END"
-						status_log "ERROR2 : $data - [nbgets $sock] - [nbgets $sock]\n" red
+						status_log "ERROR2 : $data \n" red
 						catch { close $sock }
 						CancelCam $chatid $sid
 					}
 
 				} else {
 					setObjOption $sock state "END"
-					status_log "ERROR3 : [nbgets $sock] - should never received data on state $state when we're the client\n" red
+					status_log "ERROR3 : - should never received data on state $state when we're the client\n" red
 					catch { close $sock }
 					CancelCam $chatid $sid
 				}
@@ -871,7 +881,7 @@ namespace eval ::MSNCAM {
 			}
 			default
 			{
-				status_log "option $state of socket $sock : [getObjOption $sock state] not defined.. receiving data [nbgets $sock]... closing \n" red
+				status_log "option $state of socket $sock : [getObjOption $sock state] not defined.. receiving data ... closing \n" red
 				setObjOption $sock state "END"
 				catch { close $sock }
 				CancelCam $chatid $sid
