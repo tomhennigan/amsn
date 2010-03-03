@@ -910,6 +910,7 @@ sipcallmissed Perdiste tu llamada de audio con $1
 sipcallnosipflag El usuario no soporta llamadas de audio.
 sipcallsent Llamando a $1
 sipcallyouarebusy2 Solo puedes tener una llamada de audio o video a la vez.
+sipdisabledprotocol En esta versión de aMSN han sido deshabilitadas las capacidades de llamadas de audio/vídeo en porque Microsoft(TM) ha cambiado de nuevo sus protocolos y deshabilitado el acceso a sus servidores SIP, bloqueando a aMSN de darte acceso a esta característica.
 sipgotinvitation Invitación de llamada de audio recibida de $1
 sipvideocallaccepted Videollamada aceptada
 sipvideocallconnected ¡Tu videollamada está ahora conectada!
