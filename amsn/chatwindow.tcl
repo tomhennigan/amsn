@@ -580,9 +580,12 @@ namespace eval ::ChatWindow {
         proc TrayBlinkStart { window } {
             variable trayblinkwindows
             if { [::config::getKey blinktray] == 0 } {
-                after cancel ::ChatWindow::TrayBlink 0
-                after cancel ::ChatWindow::TrayBlink 1
-                statusicon_proc [::MSN::myStatusIs]
+		    if {[llength $trayblinkwindows] > 0} {
+			    set trayblinkwindows [list]
+			    after cancel ::ChatWindow::TrayBlink 0
+			    after cancel ::ChatWindow::TrayBlink 1
+			    statusicon_proc [::MSN::myStatusIs]
+		    }
 	        return
             }
             set idx [lsearch [set trayblinkwindows] $window]
@@ -608,6 +611,7 @@ namespace eval ::ChatWindow {
         }
 
         proc TrayBlink { blink } {
+            variable trayblinkwindows
             if { [::config::getKey blinktray] == 0 } {
                 return
             }
