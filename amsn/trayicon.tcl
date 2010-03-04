@@ -424,6 +424,125 @@ proc statusicon_proc {status} {
 	}
 }
 
+proc statusicon_blink_proc {status} {
+    global systemtray_exist statusicon iconmenu wintrayicon
+
+    if { [::config::getKey use_tray] == 0 || $systemtray_exist == 0 || $statusicon == 0 } { return }
+
+    set my_name [::abook::getPersonal MFN]
+    
+    if { $status != "" } {
+        switch $status {
+          "FLN" {
+            set pixmap "[::skin::GetSkinFile pixmaps dofflineb.png]"
+            set tooltip "[trans offline]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons offlineb.ico]]
+            }
+          }
+        
+          "NLN" {
+            set pixmap "[::skin::GetSkinFile pixmaps donlineb.png]"
+            set tooltip "$my_name ([::config::getKey login]): [trans online]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons onlineb.ico]]
+            }
+          }
+          
+          "IDL" {
+            set pixmap "[::skin::GetSkinFile pixmaps dinactiveb.png]"
+            set tooltip "$my_name ([::config::getKey login]): [trans noactivity]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons inactiveb.ico]]
+            }
+          }
+          "BSY" {
+            set pixmap "[::skin::GetSkinFile pixmaps dbusyb.png]"
+            set tooltip "$my_name ([::config::getKey login]): [trans busy]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons busyb.ico]]
+            }
+          }
+          "BRB" {
+            set pixmap "[::skin::GetSkinFile pixmaps dbrbb.png]"
+            set tooltip "$my_name ([::config::getKey login]): [trans rightback]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons brbb.ico]]
+            }
+          }
+          "AWY" {
+            set pixmap "[::skin::GetSkinFile pixmaps dawayb.png]"
+            set tooltip "$my_name ([::config::getKey login]): [trans away]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons awayb.ico]]
+            }
+          }
+          "PHN" {
+            set pixmap "[::skin::GetSkinFile pixmaps dphoneb.png]"
+            set tooltip "$my_name ([::config::getKey login]): [trans onphone]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons phoneb.ico]]
+            }
+          }
+          "LUN" {
+            set pixmap "[::skin::GetSkinFile pixmaps dlunchb.png]"
+            set tooltip "$my_name ([::config::getKey login]): [trans gonelunch]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons lunchb.ico]]
+            }
+          }
+          "HDN" {
+            set pixmap "[::skin::GetSkinFile pixmaps dhiddenb.png]"
+            set tooltip "$my_name ([::config::getKey login]): [trans appearoff]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons hiddenb.ico]]
+            }
+          }
+          "BOSS" {   
+            #for bossmode
+            set pixmap "[::skin::GetSkinFile pixmaps dboss.png]"
+            set tooltip "[trans pass]"
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons bossmode.ico]]
+            }
+          }
+          default {
+            set pixmap "null"
+            set tooltip ""
+            if { [WinDock] } {
+                set trayicon [winico create [::skin::GetSkinFile winicons msn.ico]]
+            }
+          }
+        }
+
+        $iconmenu entryconfigure 0 -label "[::config::getKey login]"
+        if { [WinDock] } {
+            if { ![winfo exists .bossmode] || $status == "BOSS" } {
+                #skip if in bossmode and not setting to BOSS
+                winico taskbar delete $wintrayicon
+                set wintrayicon $trayicon
+                winico taskbar add $wintrayicon -text $tooltip -callback "taskbar_icon_handler %m %x %y"
+                set statusicon 1
+            }
+
+        } elseif {[UnixDock] } {
+            if { $pixmap != "null"} {
+                configureti $statusicon -tooltip $tooltip
+                image create photo statustrayicon -file $pixmap
+                image create photo statustrayiconres
+            }
+        } elseif {[MacDock] } {
+            if { $pixmap == "null"} {
+                ::statusicon::setVisible $statusicon 0
+            } else {
+                ::statusicon::setImage $statusicon $pixmap
+                ::statusicon::setTooltip $statusicon $tooltip
+            }
+        }
+
+    }
+}
+
 proc taskbar_mail_icon_handler { msg x y } {
 	if { $msg=="WM_LBUTTONUP" } {
 		::hotmail::hotmail_login 

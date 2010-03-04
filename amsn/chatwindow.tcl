@@ -37,6 +37,7 @@ namespace eval ::ChatWindow {
 		variable containerid 0
 		variable scrolling
 		variable macbouncewindows [list]
+                variable trayblinkwindows [list]
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -492,6 +493,7 @@ namespace eval ::ChatWindow {
 		if {[OnMac]} {
 			MacBounceDone $window
 		}
+                TrayBlinkStop $window
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
@@ -574,6 +576,54 @@ namespace eval ::ChatWindow {
 		}
 
 	}
+
+        proc TrayBlinkStart { window } {
+            variable trayblinkwindows
+            if { [::config::getKey blinktray] == 0 } {
+                after cancel ::ChatWindow::TrayBlink 0
+                after cancel ::ChatWindow::TrayBlink 1
+                statusicon_proc [::MSN::myStatusIs]
+	        return
+            }
+            set idx [lsearch [set trayblinkwindows] $window]
+            if {$idx == -1} {
+                lappend trayblinkwindows $window
+                after cancel ::ChatWindow::TrayBlink 0
+                after cancel ::ChatWindow::TrayBlink 1
+                ::ChatWindow::TrayBlink 1
+            }
+        }
+
+        proc TrayBlinkStop { window } {
+            variable trayblinkwindows
+            set idx [lsearch [set trayblinkwindows] $window]
+            if {$idx >= 0} {
+                set trayblinkwindows [lreplace [set trayblinkwindows] $idx $idx]
+            }
+            if { [llength $trayblinkwindows] == 0 } {
+		after cancel ::ChatWindow::TrayBlink 0
+		after cancel ::ChatWindow::TrayBlink 1
+                statusicon_proc [::MSN::myStatusIs]
+            }
+        }
+
+        proc TrayBlink { blink } {
+            if { [::config::getKey blinktray] == 0 } {
+                return
+            }
+            if { $blink == 0 } {
+                statusicon_proc [::MSN::myStatusIs]
+                after 500 ::ChatWindow::TrayBlink 1
+            } else {
+                statusicon_blink_proc [::MSN::myStatusIs]
+                after 500 ::ChatWindow::TrayBlink 0
+            }
+            if { [llength $trayblinkwindows] == 0 } {
+                after cancel ::ChatWindow::TrayBlink 0
+                after cancel ::ChatWindow::TrayBlink 1
+                statusicon_proc [::MSN::myStatusIs]
+            }
+        }
 
 	proc MacKeepBouncing { } {
 		if {[catch {::carbon::notification "" 1} res]} {
@@ -687,6 +737,7 @@ namespace eval ::ChatWindow {
 				if {[OnMac]} {
 					MacBounceStart $window
 				}
+                                TrayBlinkStart $window
 			}
 			return 0
 		}
@@ -707,11 +758,11 @@ namespace eval ::ChatWindow {
 						package require winflash
 						winflash $window -count 5
 					} ] } {
-						bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
+						bind $window <FocusIn> [list ::ChatWindow::GotFocusUnflash ${window}]
 						return
 					}
 				} else {
-					bind $window <FocusIn> "catch \" winflash $window -state 0\"; bind $window <FocusIn> \"\""
+					bind $window <FocusIn> [list ::ChatWindow::GotFocusUnflash ${window}]
 					return
 				}
 			} elseif { [OnLinux] } {
@@ -721,17 +772,17 @@ namespace eval ::ChatWindow {
 						package require linflash
 						linflash $window
 					} ] } {
-						bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""
+						bind $window <FocusIn> [list ::ChatWindow::GotFocusUnflash ${window}]
 						return
 					} else {
 						
 						# in case it didn't work, but we were able to set the 'urgency'
 						# hint, we must unset it even if it failed, 
 						# but still fallback to the flickering of the title.
-						bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""	
+						bind $window <FocusIn> [list ::ChatWindow::GotFocusUnflash ${window}]
 					}
 				} else {
-					bind $window <FocusIn> "catch \" linunflash $window \"; bind $window <FocusIn> \"\""
+					bind $window <FocusIn> [list ::ChatWindow::GotFocusUnflash ${window}]
 					return
 				}
 			} elseif { [OnMac] } {
@@ -739,6 +790,7 @@ namespace eval ::ChatWindow {
 				MacBounceStart $window
 
 			}
+                        TrayBlinkStart $window
 		
 
 			set count  [expr {( $count +1 ) % 2}]
@@ -755,12 +807,12 @@ namespace eval ::ChatWindow {
 			set ::ChatWindow::new_message_on(${window}) "flicker"
 			
 		} else {
-
 			catch {wm title ${window} "$::ChatWindow::titles($window)"} res
 			catch {unset ::ChatWindow::new_message_on(${window})}
 			if {[OnMac]} {
 				MacBounceDone $window
 			}
+                        TrayBlinkStop $window
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
@@ -795,10 +847,20 @@ namespace eval ::ChatWindow {
 			if {[OnMac]} {
 				MacBounceDone $window
 			}
+                        TrayBlinkStop $window
 		}
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+        proc GotFocusUnflash { window } {
+            bind ${window} <FocusIn> ""
+            if {[OnUnix]} {
+                catch { linunflash $window }
+            } elseif {[OnWin]} {
+                catch { winflash $window -state 0 }
+            }
+            TrayBlinkStop $window
+        }
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# ::ChatWindow::MacPosition
@@ -3763,6 +3825,8 @@ namespace eval ::ChatWindow {
 		set container [string range $tab 0 [expr {[string last "." $tab] - 1}] ]
 		set container [string range $container 0 [expr {[string last "." $container] -1}] ]
 
+                TrayBlinkStart $win
+
 		#if tab is not visible, then we should change the color of the < or > button
 		#to let know there is an invisible tab flickering (an incoming message)
 		if { [info exists visibletabs($container)] } {
@@ -4116,6 +4180,8 @@ namespace eval ::ChatWindow {
 		     [lsearch [set containerwindows($container)] $win] == -1 } { 
 			status_log "can't switch to a window that doesn't belong to the correct container"
 			return
+		} else {
+			::ChatWindow::TrayBlinkStop $win
 		}
 		
 #TODO:		# Don't switch if tab clicked is already current tab. > 2 used because otherwise windows for new mesages dont appear. this means this is only effective with three or more tabs open. hope someone can find how to fix this.

@@ -169,6 +169,7 @@ namespace eval ::config {
 			::config::setKey wingeometry 350x600-0+0			;#Main window geometry
 			::config::setKey backgroundcolor  #D8D8E0		;#AMSN background color
 		}
+                ::config::setKey blinktray 0                                            ;#Make the trayicon blink if there are unread messages
 
 		::config::setKey closingdocks 0						;#Close button minimizes (or docks) main window
 
@@ -380,6 +381,7 @@ namespace eval ::config {
 			[list local emailsincontactlist bool emailsinlist] \
 			[list local leavejoinsinchat bool leavejoinsinchat] \
 			[list local animatenotify bool animatenotify] \
+                        [list local blinktray bool blinktray] \
 			[list local enablebanner bool showbanner] \
 			[list local truncatenames bool truncatenames1] \
 			[list local truncatenicks bool truncatenames2] \

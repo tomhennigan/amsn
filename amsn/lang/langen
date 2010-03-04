@@ -104,6 +104,7 @@ baduserpass Wrong user name or password
 badwebcam Cannot display the webcam's image. Make sure your webcam is well plugged and installed.
 bgcolor Change aMSN's background color 
 blankdirect Leave blank for direct connection
+blinktray Make the trayicon blink when there are unread messages
 block Block
 blocked Blocked
 blockedyougroup Show a separate group for people who have blocked you

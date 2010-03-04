@@ -104,6 +104,7 @@ baduserpass Nombre de usuario o contraseña incorrectos
 badwebcam No se puede visualizar la imagen de la cámara web. Asegúrate de que la cámara web esté instalada y conectada
 bgcolor Cambia el color de fondo de aMSN
 blankdirect Dejar en blanco para conexión directa
+blinktray El icono en la bandeja del sistema parpadea cuando hay mensajes sin leer
 blocked Bloqueado
 blockedyougroup Mostrar un grupo aparte con los contactos que te bloquean
 blocking Bloqueo
