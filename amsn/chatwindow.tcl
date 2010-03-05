@@ -756,6 +756,7 @@ namespace eval ::ChatWindow {
 			# so we do it in a catch statement, if it fails. Then load the extension before
 			# calling winflash. If this one or the first one were successful, we add a bind
 			# on FocusIn to call the winflash with the -state 0 option to disable it and we return.
+                        TrayBlinkStart $window
 			if { [OnWin] } {
 				if { [catch {winflash $window -count 5} ] } {
 					if { ![catch { 
@@ -794,7 +795,6 @@ namespace eval ::ChatWindow {
 				MacBounceStart $window
 
 			}
-                        TrayBlinkStart $window
 		
 
 			set count  [expr {( $count +1 ) % 2}]
