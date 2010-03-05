@@ -515,6 +515,11 @@ proc statusicon_blink_proc {status} {
           }
         }
 
+	if {[::skin::getKey trayblink_by_status] == 0} {
+            set pixmap "[::skin::GetSkinFile pixmaps trayblink.png]"
+            set trayicon [winico create [::skin::GetSkinFile winicons trayblink.ico]]
+	}
+
         $iconmenu entryconfigure 0 -label "[::config::getKey login]"
         if { [WinDock] } {
             if { ![winfo exists .bossmode] || $status == "BOSS" } {

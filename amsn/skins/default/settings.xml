@@ -22,6 +22,8 @@
 			<balloonfont>splainf</balloonfont>
 			<balloonborderwidth>1</balloonborderwidth>
 			<!--Note: On linux, balloonborderwidth 0 gives a border of 1px due to tk platform differences. To have no balloon border, set balloonborderwidth to 0 and have the balloonborder the same colour as the balloonbackground-->
+			<trayblink_delay>500</trayblink_delay>
+			<trayblink_by_status>1</trayblink_by_status>
 		</Options>
 		<Geometry>
 			<notifwidth>210</notifwidth>

@@ -255,6 +255,11 @@ if { $initialize_amsn == 1 } {
 	::skin::setKey tabfg_hover #333333
 	
 	::skin::setKey statusbartext_sel #000000
+
+
+	::skin::setKey trayblink_delay 500
+	::skin::setKey trayblink_by_status 1
+
 	
 	#Virtual events used by Button-click
 	#On Mac OS X, Control emulate the "right click button"

@@ -617,10 +617,10 @@ namespace eval ::ChatWindow {
             }
             if { $blink == 0 } {
                 statusicon_proc [::MSN::myStatusIs]
-                after 500 ::ChatWindow::TrayBlink 1
+                after [::skin::getKey trayblink_delay] ::ChatWindow::TrayBlink 1
             } else {
                 statusicon_blink_proc [::MSN::myStatusIs]
-                after 500 ::ChatWindow::TrayBlink 0
+                after [::skin::getKey trayblink_delay]  ::ChatWindow::TrayBlink 0
             }
             if { [llength $trayblinkwindows] == 0 } {
                 after cancel ::ChatWindow::TrayBlink 0
