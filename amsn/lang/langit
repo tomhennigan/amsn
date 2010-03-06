@@ -104,6 +104,7 @@ baduserpass Nome utente o password errati
 badwebcam Non riesco ad acquisire dalla webcam. Assicurati che sia collegata e installata.
 bgcolor Cambia il colore di sfondo di aMSN
 blankdirect Lascia vuoto per connessioni dirette
+blinktray Fai lampeggiare l'icona nel vassoio quando ci sono messaggi non letti
 block Blocca
 blocked Bloccato
 blockedyougroup Mostra un gruppo separato per gli utenti che ti hanno bloccato
@@ -675,6 +676,7 @@ notls Il protocollo MSN 9 richiede il pacchetto tls. Al momento è impossibile tr
 nottabbed Finestre normali senza schede
 nousersinsession Nessun utente nella sessione
 nouserspecified Nessun utente specificato
+novideocodecsavailable Nessun codec video disponibile
 nudge $1 chiede la tua attenzione
 offline Disconnesso
 oimauthenticationfailed Autenticazione fallita
@@ -909,6 +911,7 @@ sipcallmissed Hai perso una chiamata da $1
 sipcallnosipflag L'utente non supporta le chiamate audio.
 sipcallsent Sto chiamando $1
 sipcallyouarebusy2 Puoi fare solo una chiamata audio o video alla volta.
+sipdisabledprotocol Le capacità di audio e video sono state disabilitate in questa versione di aMSN perché Microsoft(TM) ha cambiato di nuovo i suoi protocolli e disabilitato l'accesso ai suoi server SIP, impedendo ad aMSN di renderti disponibile questa funzionalità.
 sipgotinvitation Hai ricevuto una richiesta di chiamata da $1
 sipvideocallaccepted Videochiamata accettata
 sipvideocallconnected La tua videochiamata è ora connessa!
