@@ -104,6 +104,7 @@ baduserpass Yanlýþ kullanýcý ismi ya da þifresi
 badwebcam Kamera görüntüsü alýnamýyor. Kameranýzýn takýlý ve kurulu olduðundan emin olun.
 bgcolor aMSN'in arkaplan rengini deðiþtir
 blankdirect Doðrudan baðlantý için boþ býrakýn
+blinktray Okunmamýþ ileti varsa, sistem çekmesindeki simgeyi oynat
 block Engelle
 blocked Engellenmiþ
 blockedyougroup Sizi engelleyenler ayrý bir öbekte gösterilsin
@@ -440,6 +441,7 @@ gamerequest $1'i $2 oynamaya davet ettiniz
 getdisppic Diðer kullanýcýlardan kullanýcý resmi alýnabilsin
 getmoreplugins Yeni eklentiler al!
 getmoreskins Yeni kabuklar al!
+getprofileoffline Çevrimdýþý kullanýcýlarýn adlarýný ve Kiþisel Mesajlarýný al (oturum açma iþlemini uzatabilir)
 globalcontainer Genel pencere
 globalnick Baðlantýlarýnýzýn rumuzlarý için bir þablon yaratýn. Þu deðiþkenleri kullanabilirsiniz: Baðlantýlarýn adresleri için \$user_login, kullanýcý adlarý için \$nick ve özel kullanýcý adý için \$customnick. Örneðin: "\$nick, adresi \$user_login" þablonu "baðlantý, adresi baðlantý@msn.com" þekline dönüþür.
 globalnicktitle Rumuz Þablonu
@@ -674,6 +676,7 @@ notls MSN 9 protokolü tls paketini gerektirir. Bu bilgisayarda tls kurulu görünm
 nottabbed Sekmesiz normal pencereler
 nousersinsession Ortamda kullanýcý yok
 nouserspecified Hiçbir kullanýcý belirtilmemiþ
+novideocodecsavailable Kullanýlabilir video kodlayýcý yok
 nudge $1 sizinle görüþmek istiyor
 offline Çevrim dýþý
 oim Çevrimdýþý sohbet
@@ -786,6 +789,7 @@ quit Çýk
 raised Büyütülmüþ
 readonlymsgbox Alýnan dosyalar dizini salt okunur olduðu için dosya alýnamýyor. \n Lütfen bu dizinin ayarlarýný deðiþtiriniz.
 readonlywarn UYARI: Alýnan dosyalar dizini salt okunur olduðu için \n dosya büyük olasýlýkla alýnamayacak. Lütfen hedefteki ($1) dizinin\n izinlerinin doðru olduðundan emin olun.
+receive Al
 receivedbytes $2 baytýn $1 (s)i alýndý
 receiveddir Alýnan Dosyalar dizini
 receivedoimread $1 yeni çevrimdýþý iletiniz var. Okumak istiyor musunuz?
@@ -907,6 +911,7 @@ sipcallmissed $1 kullanýcýsýndan gelen bir sesli aramayý kaçýrdýnýz
 sipcallnosipflag Kullanýcý sesli arama yapamýyor.
 sipcallsent $1 aranýyor
 sipcallyouarebusy2 Ayný anda sadece bir Sesli ve Görüntülü Arama yapabilirsiniz.
+sipdisabledprotocol Sesli ve görüntülü arama yetenekleri, aMSN'nin bu sürümünde ipal edildi çünkü Microsoft(TM) yine protokolü deðiþtirdi ve aMSN'nin bu özelliði size kullandýrmasýný engelleyerek SIP sunucularýna eriþimi kapattý.
 sipgotinvitation $1 kullanýcýsýndan sesli arama daveti aldýnýz
 sipvideocallaccepted Görüntülü Arama kabul edildi
 sipvideocallconnected Görüntülü Arama baðlantýnýz þuan kuruldu!
