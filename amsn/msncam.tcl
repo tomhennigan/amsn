@@ -82,10 +82,11 @@ proc nbgets { sock {varName ""} } {
 	set data ""
 	while { $char != "\n" && $char != "" } {
 		set char [nbread $sock 1]
-		if {$char != "\r" && $char != "\n" } {
+		#if {$char != "\r" && $char != "\n" } {
 			append data $char
-		}
+		#}
 	}
+	set data [string range $data 0 [expr {[string length $data] - 2}] ]
 
 	# Error in nbread
 
