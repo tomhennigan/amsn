@@ -6,9 +6,8 @@
 <?php
 echo '<b><a href="/forums/">'.AMSN_FORUMS.'</a></b><br/>';
 echo '<br/>';
-echo '&#8226; '.RECENT_POSTS.' &#8226;';
+/*echo '&#8226; '.RECENT_POSTS.' &#8226;'; */
 ?>
-<ul style="text-align: left;padding-left: 20px;margin-bottom: 0px">
 <?php
 //catch so it works when the forum db is not awailible (ei: when developing offline)
 if(@mysql_select_db(DBNAME_FORUM)) {
@@ -20,16 +19,15 @@ if(@mysql_select_db(DBNAME_FORUM)) {
   }*/
 
   // For SMF
-  $search = "SELECT `subject`, `ID_TOPIC`, `ID_MSG` FROM `smf_messages` GROUP BY `ID_TOPIC` ORDER BY MAX(`posterTime`) DESC LIMIT 7;";
+  /*$search = "SELECT `subject`, `ID_TOPIC`, `ID_MSG` FROM `smf_messages` GROUP BY `ID_TOPIC` ORDER BY MAX(`ID_MSG`) DESC LIMIT 7;";
   $result=mysql_query($search) or die(mysql_error());
   while($row=mysql_fetch_array($result)) {
     echo '<li><a href="forums/index.php/topic,'.$row['ID_TOPIC'].'.msg'.$row['ID_MSG'].'.html#msg'.$row['ID_MSG'].'">'.$row['subject'].'</a></li>';
-  }
+  }*/
 
   mysql_select_db(DBNAME_WWW);
 }
 ?>
-</ul>
 
 </div>
 <div class="block_right_bottom"></div>
