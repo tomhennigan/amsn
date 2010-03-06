@@ -104,6 +104,7 @@ baduserpass Mauvais nom d'utilisateur ou mot de passe
 badwebcam Impossible d'afficher l'image de la webcam. Veuillez vous assurer que la webcam est bien branchée et installée.
 bgcolor Changer la couleur de fond de aMSN
 blankdirect Laisser vide pour une connexion sans proxy
+blinktray Faire clignoter l'icône de la boîte à miniatures lorsqu'il y a des messages non lus
 block Bloquer
 blocked Bloqué[e]
 blockedyougroup Créer un groupe séparé pour les personnes qui vous ont bloqué.
@@ -910,6 +911,7 @@ sipcallmissed Vous avez manqué un appel audio de $1
 sipcallnosipflag Votre contact ne peut pas recevoir d'appels audio.
 sipcallsent Appel de $1 en cours
 sipcallyouarebusy2 Vous ne pouvez avoir qu'une conversation audio ou vidéo à la fois.
+sipdisabledprotocol Les appels audio/vidéos sont désactivés dans cette version d'aMSN car Microsoft(TM) a encore changé ses protocoles et désactivés l'accés à leurs serveurs SIP, ce qui bloque aMSN de vous offrir cette fonctionnalité.
 sipgotinvitation Invitation pour un appel audio reçue de la part de $1
 sipvideocallaccepted Appel vidéo accepté
 sipvideocallconnected Votre appel vidéo est maintenant connecté!
