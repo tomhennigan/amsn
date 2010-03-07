@@ -602,11 +602,11 @@ namespace eval ::ChatWindow {
             set idx [lsearch [set trayblinkwindows] $window]
             if {$idx >= 0} {
                 set trayblinkwindows [lreplace [set trayblinkwindows] $idx $idx]
-            }
-            if { [llength $trayblinkwindows] == 0 } {
-		after cancel ::ChatWindow::TrayBlink 0
-		after cancel ::ChatWindow::TrayBlink 1
-                statusicon_proc [::MSN::myStatusIs]
+                if { [llength $trayblinkwindows] == 0 } {
+	            after cancel ::ChatWindow::TrayBlink 0
+                    after cancel ::ChatWindow::TrayBlink 1
+                    statusicon_proc [::MSN::myStatusIs]
+                }
             }
         }
 
