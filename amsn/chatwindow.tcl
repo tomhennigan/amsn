@@ -578,6 +578,7 @@ namespace eval ::ChatWindow {
 	}
 
         proc TrayBlinkStart { window } {
+            if { [OnWin] } { return }
             variable trayblinkwindows
             if { [::config::getKey blinktray] == 0 } {
 		    if {[llength $trayblinkwindows] > 0} {
@@ -598,6 +599,7 @@ namespace eval ::ChatWindow {
         }
 
         proc TrayBlinkStop { window } {
+            if { [OnWin] } { return }
             variable trayblinkwindows
             set idx [lsearch [set trayblinkwindows] $window]
             if {$idx >= 0} {
@@ -611,6 +613,7 @@ namespace eval ::ChatWindow {
         }
 
         proc TrayBlink { blink } {
+            if { [OnWin] } { return }
             variable trayblinkwindows
             if { [::config::getKey blinktray] == 0 } {
                 return

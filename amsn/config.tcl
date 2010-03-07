@@ -380,8 +380,12 @@ namespace eval ::config {
 			[list local tooltips bool tooltips] \
 			[list local emailsincontactlist bool emailsinlist] \
 			[list local leavejoinsinchat bool leavejoinsinchat] \
-			[list local animatenotify bool animatenotify] \
-                        [list local blinktray bool blinktray] \
+			[list local animatenotify bool animatenotify]\
+	        ]
+                if { ![OnWin] } {
+                        lappend advanced_options [list local blinktray bool blinktray]
+                }
+                lappend advanced_options \
 			[list local enablebanner bool showbanner] \
 			[list local truncatenames bool truncatenames1] \
 			[list local truncatenicks bool truncatenames2] \
