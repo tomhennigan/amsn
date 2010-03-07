@@ -11,19 +11,6 @@
 <br>
 <img style="display: block;margin-left: auto;margin-right: auto;" src="images/download-linux.png" alt="Linux Download" ><br>
 	<a name="AP"></a>
-	<h3><?=GENERIC_INSTALLER;?></h3>
-	<dl><dt>
-            <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.3/amsn-0.98.3-1.tcl85.x86.package/download"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage"></a><br>
-	    <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.3/amsn-0.98.3-1.tcl85.x86.package/download"><span class="toc_title"><?=AMSN_INSTALLER_TCL85;?></span></a>
-	</dt><dd>
-		<?=INDEPENDENT_INSTALLER85;?>
-    </dd></dl>
-    <br>
-    <p>
-      <?=CREATED_WITH_AUTO;?><br>
-      <a href="http://autopackage.org/howtoinstall.html"><b><?=PLEASE_FOLLOW;?></b></a>
-    </p>
-<br>
 <hr style="width:200px;">
 <br>
     <h3><?=DISTRO_INC_AMSN;?></h3><br>
@@ -31,7 +18,6 @@
       <?=DISTRO_DESC_1;?>
     </p>
     <p>
-      <?=DISTRO_DESC_2;?>
 	</p>
 	<p>
 	<?=OTHERWAY_TARBALL;?>
