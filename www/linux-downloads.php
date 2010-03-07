@@ -13,8 +13,8 @@
 	<a name="AP"></a>
 	<h3><?=GENERIC_INSTALLER;?></h3>
 	<dl><dt>
-            <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.1/amsn-0.98.1-1.tcl85.x86.package/download"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage"></a><br>
-	    <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.1/amsn-0.98.1-1.tcl85.x86.package/download"><span class="toc_title"><?=AMSN_INSTALLER_TCL85;?></span></a>
+            <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.3/amsn-0.98.3-1.tcl85.x86.package/download"><img class="toc_icon" src="images/download-other-big.png" alt="AutoPackage"></a><br>
+	    <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.3/amsn-0.98.3-1.tcl85.x86.package/download"><span class="toc_title"><?=AMSN_INSTALLER_TCL85;?></span></a>
 	</dt><dd>
 		<?=INDEPENDENT_INSTALLER85;?>
     </dd></dl>
@@ -70,8 +70,8 @@
     <a name="tarball"></a>
     <h3><?=SOURCE_DOWNLOADS;?></h3>
         <dl class="toc"><dt>
-        <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.1/amsn-0.98.1.tar.gz/download"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball"></a><br>
-	<a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.1/amsn-0.98.1.tar.gz/download"><span class="toc_title"><?=AMSN_SOURCE;?></span></a>
+        <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.3/amsn-0.98.3.tar.gz/download"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball"></a><br>
+	<a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.3/amsn-0.98.3.tar.gz/download"><span class="toc_title"><?=AMSN_SOURCE;?></span></a>
         </dt><dd>
           <?=BUILD_OWN_DISTRO;?>
         </dd></dl>
