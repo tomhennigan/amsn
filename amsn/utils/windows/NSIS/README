@@ -14,6 +14,7 @@ Open the NSIS Compiler.
 Set in defines :
 WISH_PATH filled with "C:\Tcl"
 VERSION with the version of your copy if you don't specify anything the version is devel
+WISH_MINOR as in tcl8.x
 
 Compile the script
 
