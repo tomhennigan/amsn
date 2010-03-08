@@ -332,7 +332,9 @@ Files_Next:
   SetOutPath "$INSTDIR\lib\tk8.${WISH_MINOR}"
   File /r "${WISH_PATH}\lib\tk8.${WISH_MINOR}\*.*"
   SetOutPath "$INSTDIR\lib\tls"
-  File /r "${WISH_PATH}\lib\teapot\package\win32-ix86\lib\tls1.6\*.*"
+  File /r "${WISH_PATH}\lib\tls\*.*"
+  SetOutPath "$INSTDIR\lib\TkDND2.0"
+  File /r "${WISH_PATH}\lib\TkDND2.0\*.*"
 
   SetOutPath "$INSTDIR"
 
