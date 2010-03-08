@@ -240,6 +240,8 @@ Files_Next:
   File /r /x ".svn" "..\..\..\utils\voipcontrols\*.*"
   SetOutPath "$INSTDIR\scripts\utils\des"
   File /r /x ".svn" "..\..\..\utils\des\*.*"
+  SetOutPath "$INSTDIR\scripts\utils\sasl"
+  File /r /x ".svn" "..\..\..\utils\sasl\*.*"
   SetOutPath "$INSTDIR\scripts\plugins"
   File /r /x ".svn" "..\..\..\plugins\ColoredNicks"
   File /r /x ".svn" "..\..\..\plugins\MSNGameTTT"
