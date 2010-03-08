@@ -104,6 +104,7 @@ baduserpass Nome de usuario ou contrasinal incorrectos
 badwebcam Non se pode visualizar a imaxe da cámara web. Asegúrate de que a cámara web está instalada e conectada.
 bgcolor Cambiar a cor de fondo de aMSN
 blankdirect Deixar en branco para a conexión directa
+blinktray A icona da bandexa do sistema parpadea cando hai mensaxes sen ler
 blocked Bloqueado
 blockedyougroup Mostrar un grupo á parte cos contactos que che bloquean
 blocking Bloqueo
@@ -910,6 +911,7 @@ sipcallmissed Perdiches a túa chamada de audio con $1
 sipcallnosipflag O usuario non é compatíbel coas chamadas de audio.
 sipcallsent Chamando a $1
 sipcallyouarebusy2 Só podes ter unha chamada de audio ou vídeo ao mesmo tempo.
+sipdisabledprotocol Nesta versión de aMSN deshabilitáronse as capacidades de chamadas de audio/vídeo porque Microsoft(TM) cambiou de novo os seus protocolos e deshabilitou o acceso aos seus servidores SIP, bloqueando a aMSN para que poida darlle acceso a esta característica.
 sipgotinvitation Recibiuse unha invitación de chamada de audio de $1
 sipvideocallaccepted Chamada de vídeo aceptada
 sipvideocallconnected A túa chamada de vídeo esta conectada agora!
