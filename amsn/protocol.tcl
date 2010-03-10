@@ -920,7 +920,6 @@ namespace eval ::MSN {
 		::MSN::setClientCap multip
 		::MSN::setClientCap voice
 
-
 		if {[::config::getKey protocol] >= 15} {
 			global sso
 			if {[info exists sso] && $sso != "" } {
@@ -968,6 +967,13 @@ namespace eval ::MSN {
 		}
 		if { [::config::getKey protocol] >= 13 && $enable_sip} {
 			after 0 [list ::MSNSIP::TestFarsight]
+		} else {
+			if { [::config::getKey wanttosharecam] && \
+				 [::CAMGUI::camPresent] == 1 } {
+				::MSN::setClientCap webcam
+			} else {
+				::MSN::setClientCap webcam 0
+			}
 		}
 
 		# Because of asyncresolver, the 'connect' could block but keep the UI updated,
