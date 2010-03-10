@@ -200,6 +200,8 @@ Files_Next:
   File /r /x "genpage.c" /x "convert.tcl" /x "missing.py" /x "sortlang" /x "addkey.tcl" /x "*.tmpl" /x "langchk.sh" /x "complete.pl" /x "genlangfiles.c" /x ".svn" "..\..\..\lang\*.*"
   SetOutPath "$INSTDIR\scripts\skins"
   File /r /x ".svn" "..\..\..\skins\default"
+  SetOutPath "$INSTDIR\scripts\utils"
+  File /r /x ".svn" "..\..\..\utils\ca-certificates.crt"
   SetOutPath "$INSTDIR\scripts\utils\base64"
   File /r /x ".svn" "..\..\..\utils\base64\*.*"
   SetOutPath "$INSTDIR\scripts\utils\sasl"
