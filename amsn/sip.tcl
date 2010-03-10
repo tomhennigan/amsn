@@ -1469,7 +1469,7 @@ snit::type TURN {
 
 		switch -- $options(-proxy) {
 			"direct" {
-				set sock [::tls::socket -async $options(-host) $options(-port)]
+				set sock [::tls::socket -cafile [file join $::program_dir utils ca-certificates.crt] -request 1 -require 1 -async $options(-host) $options(-port)]
 			}
 			"socks" {
 				# FIXME : we should 'package require socks' ...
@@ -1871,7 +1871,7 @@ snit::type SIPSocket {
 
 		switch -- $options(-proxy) {
 			"direct" {
-				set sock [::tls::socket -async $options(-host) $options(-port)]
+				set sock [::tls::socket -cafile [file join $::program_dir utils ca-certificates.crt] -request 1 -require 1 -async $options(-host) $options(-port)]
 			}
 			"socks" {
 				# FIXME : we should 'package require socks' ...
