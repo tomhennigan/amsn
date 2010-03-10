@@ -103,7 +103,7 @@ proc HTTPsecureSocket { args } {
 	}
 
 	# if not proxifying, just create a tls socket directly
-	return [::tls::socket -cafile [file join $::program_dir utils ca-certificates.crt] -request 1 -require 1 $thost $tport]
+	return [::tls::socket -cafile $::CERT_FILE -request 1 -require 1 $thost $tport]
 }
 
 proc SOCKSsecureSocket { args } {
@@ -141,7 +141,7 @@ proc SOCKSsecureSocket { args } {
 	}
 
 	# if not proxifying, just create a tls socket directly
-	return [::tls::socket -cafile [file join $::program_dir utils ca-certificates.crt] -request 1 -require 1 $thost $tport]
+	return [::tls::socket -cafile $::CERT_FILE -request 1 -require 1 $thost $tport]
 }
 
 proc SOCKSSocket { args } {
