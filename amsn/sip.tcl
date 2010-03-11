@@ -1469,7 +1469,7 @@ snit::type TURN {
 
 		switch -- $options(-proxy) {
 			"direct" {
-				set sock [::tls::socket -cadir $::CERT_DIR -request 1 -require 1 -async $options(-host) $options(-port)]
+				set sock [::tls::socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1 -async $options(-host) $options(-port)]
 			}
 			"socks" {
 				# FIXME : we should 'package require socks' ...
@@ -1487,7 +1487,7 @@ snit::type TURN {
 
 				# now add tls to the socket and return it
 				fconfigure $socket -blocking 1 -buffering none -translation binary
-				set sock [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
+				set sock [::tls::import $socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1]
 
 				# We need to foce the handshake while the socket is blocking
 				# for tls to actually work
@@ -1529,7 +1529,7 @@ snit::type TURN {
 
 				# now add tls to the socket and return it
 				fconfigure $socket -blocking 1 -buffering none -translation binary
-				set sock [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
+				set sock [::tls::import $socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1]
 
 				# We need to foce the handshake while the socket is blocking
 				# for tls to actually work
@@ -1871,7 +1871,7 @@ snit::type SIPSocket {
 
 		switch -- $options(-proxy) {
 			"direct" {
-				set sock [::tls::socket -cadir $::CERT_DIR -request 1 -require 1 -async $options(-host) $options(-port)]
+				set sock [::tls::socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1 -async $options(-host) $options(-port)]
 			}
 			"socks" {
 				# FIXME : we should 'package require socks' ...
@@ -1889,7 +1889,7 @@ snit::type SIPSocket {
 
 				# now add tls to the socket and return it
 				fconfigure $socket -blocking 1 -buffering none -translation binary
-				set sock [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
+				set sock [::tls::import $socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1]
 
 				# We need to foce the handshake while the socket is blocking
 				# for tls to actually work
@@ -1931,7 +1931,7 @@ snit::type SIPSocket {
 
 				# now add tls to the socket and return it
 				fconfigure $socket -blocking 1 -buffering none -translation binary
-				set sock [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
+				set sock [::tls::import $socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1]
 
 				# We need to foce the handshake while the socket is blocking
 				# for tls to actually work

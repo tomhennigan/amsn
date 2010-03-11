@@ -92,8 +92,7 @@ proc HTTPsecureSocket { args } {
 		# now add tls to the socket and return it
 		fconfigure $socket -blocking 1 -buffering none -translation binary
 
-		::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1
-
+		::tls::import $socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1
 		# We need to foce the handshake while the socket is blocking for tls to actually work
 		::tls::handshake $socket
 		
@@ -103,7 +102,7 @@ proc HTTPsecureSocket { args } {
 	}
 
 	# if not proxifying, just create a tls socket directly
-	return [::tls::socket -cadir $::CERT_DIR -request 1 -require 1 $thost $tport]
+	return [::tls::socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1 $thost $tport]
 }
 
 proc SOCKSsecureSocket { args } {
@@ -130,7 +129,7 @@ proc SOCKSsecureSocket { args } {
 		# now add tls to the socket and return it
 		fconfigure $socket -blocking 1 -buffering none -translation binary
 
-		::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1
+		::tls::import $socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1
 
 		# We need to foce the handshake while the socket is blocking for tls to actually work
 		::tls::handshake $socket
@@ -141,7 +140,7 @@ proc SOCKSsecureSocket { args } {
 	}
 
 	# if not proxifying, just create a tls socket directly
-	return [::tls::socket -cadir $::CERT_DIR -request 1 -require 1 $thost $tport]
+	return [::tls::socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1 $thost $tport]
 }
 
 proc SOCKSSocket { args } {
@@ -183,7 +182,7 @@ proc NTLMsecureSocket { args } {
   upvar port tport
 
   set s [NTLMauthenticate $thost $tport]
-  return [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
+  return [::tls::import $socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1]
 
 }
 
