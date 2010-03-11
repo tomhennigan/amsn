@@ -55,12 +55,12 @@ snit::type SOAPRequest {
 
 		if {[::config::getKey connectiontype] == "direct" } {
 			::http::config -proxyhost "" -proxyport ""
-			http::register https 443 [list ::tls::socket -cafile $::CERT_FILE -request 1 -require 1]
+			http::register https 443 [list ::tls::socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1]
 			http::register http 80 ::socket
 		} elseif {[::config::getKey connectiontype] == "http" } {
 			# haha, ok, this is easy, http connection means the http gateway, which means no need to set up a proxy! :D
 			::http::config -proxyhost "" -proxyport ""
-			http::register https 443 [list ::tls::socket -cafile $::CERT_FILE -request 1 -require 1]
+			http::register https 443 [list ::tls::socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1]
 			http::register http 80 ::socket
 		} elseif { [::config::getKey connectiontype] == "proxy" && [::config::getKey proxytype] == "http" } {
 			if {$proxy_host == "" } {
@@ -97,7 +97,7 @@ snit::type SOAPRequest {
 			::config::setKey connectiontype "direct"
 			
 			::http::config -proxyhost "" -proxyport ""
-			http::register https 443 [list ::tls::socket -cafile $::CERT_FILE -request 1 -require 1]
+			http::register https 443 [list ::tls::socket -cadir $::CERT_DIR -command ::amsn::checkcert -request 1 -require 1]
 			http::register http 80 ::socket
 		}
 		

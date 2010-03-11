@@ -638,6 +638,23 @@ namespace eval ::amsn {
 	}
 	#///////////////////////////////////////////////////////////////////////////////
 
+	proc checkcert {args} {
+		if { [lindex $args 0] == "verify" } {
+			set status [lindex $args 4]
+			set errormsg [lindex $args 5]
+			if {!$status} {
+				#set answer [tk_messageBox -type yesno -message "Bad certificate: $errormsg, continue anyway?"]
+				set answer [::amsn::messageBox "Certificate problem" yesno question "Bad certificate: $errormsg, continue anyway?"]
+				switch -- $answer {
+					yes {set status 1}
+				}
+			}
+			puts [info level 0]
+			puts $status
+			return $status
+		}
+	}
+
 
 	#///////////////////////////////////////////////////////////////////////////////
 	# showHelpFileWindow(file, windowtitle, ?english?)

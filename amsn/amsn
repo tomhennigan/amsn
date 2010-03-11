@@ -136,7 +136,7 @@ set program_dir [pwd]
 unset program
 #unset program_dir
 
-set CERT_FILE [file join $program_dir utils ca-certificates.crt]
+set CERT_DIR [file join $program_dir ca-certs]
 
 ############################################################
 ### From here we need amsncore, for platform checks etc
