@@ -1487,7 +1487,7 @@ snit::type TURN {
 
 				# now add tls to the socket and return it
 				fconfigure $socket -blocking 1 -buffering none -translation binary
-				set sock [::tls::import $socket]
+				set sock [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
 
 				# We need to foce the handshake while the socket is blocking
 				# for tls to actually work
@@ -1529,7 +1529,7 @@ snit::type TURN {
 
 				# now add tls to the socket and return it
 				fconfigure $socket -blocking 1 -buffering none -translation binary
-				set sock [::tls::import $socket]
+				set sock [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
 
 				# We need to foce the handshake while the socket is blocking
 				# for tls to actually work
@@ -1889,7 +1889,7 @@ snit::type SIPSocket {
 
 				# now add tls to the socket and return it
 				fconfigure $socket -blocking 1 -buffering none -translation binary
-				set sock [::tls::import $socket]
+				set sock [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
 
 				# We need to foce the handshake while the socket is blocking
 				# for tls to actually work
@@ -1931,7 +1931,7 @@ snit::type SIPSocket {
 
 				# now add tls to the socket and return it
 				fconfigure $socket -blocking 1 -buffering none -translation binary
-				set sock [::tls::import $socket]
+				set sock [::tls::import $socket -cadir $::CERT_DIR -request 1 -require 1]
 
 				# We need to foce the handshake while the socket is blocking
 				# for tls to actually work
