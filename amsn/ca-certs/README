@@ -1,0 +1,6 @@
+after adding a certfile here, you need to run the command:
+$ c_rehash .
+This will create the correct symlink.
+
+If you want to see more info from a cert, just run:
+openssl x509 -in {certfile} -text
