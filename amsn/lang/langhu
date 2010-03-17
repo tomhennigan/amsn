@@ -104,6 +104,7 @@ baduserpass Rossz felhasználónév vagy jelszó
 badwebcam Nem lehet megjeleníteni a webkamera képét. Nézz utána, hogy a webkamerád be van-e dugva és telepítve van-e.
 bgcolor Az aMSN háttérszínének megváltoztatása
 blankdirect Hagyd üresen a közvetlen kapcsolathoz
+blinktray A tálca ikon villogtatása, ha olvasatlan üzenetek vannak
 block Tiltás
 blocked letiltva
 blockedyougroup Külön csoport létrehozása azoknak, akik letiltottak téged
@@ -220,6 +221,7 @@ color Szín
 command Parancs
 commandstatus Parancs futtatása
 compactstyle Kompakt stílus
+configpermissionerror Hiba a konfigurációs fájl írásakor. Ellenőrizd $1 könyvtár jogosultságait.
 configure Beállítás
 configuremic A mikrofon beállítása
 configureplugin $1 plugin beállítása
@@ -439,13 +441,14 @@ gamerequest Meghívtad őt: $1 e játékra: $2
 getdisppic A partnerek megjelenítendő képeinek fogadása
 getmoreplugins Még több plugin letöltése
 getmoreskins Még több felület letöltése
+getprofileoffline A kijelentkezett partnerek becenevének és személyes üzenetének vétele (Lelassíthatja a bejelentkezést)
 globalcontainer Általános tároló
 globalnick Írj ide egy mintát a partnereid nevének megformázására. A következő változókat használhatod: \$user_login A partner címe, \$nick A partner beceneve és \$customnick a partner egyéni beceneve. Pl.: '\$user_login neve \$nick' eredménye 'partner@msn.com neve Partner'
 globalnicktitle Általános becenév
 globaloverride Az általános becenév minták felülírják az egyedi beceneveket
 gonelunch ebédel
 gotink $1 kézírásos üzenetet küldött
-goto Ugrás a(z) $1 -re
+goto Ugrás ide: $1
 goto_prefs_removeprofile Kattints ide a beállításokhoz és a profilod törléséhez
 gotoinbox Beérkező levelek (csak Hotmail-es címmel működik)
 group Csoport
@@ -672,7 +675,8 @@ notinlist Nem vagy a partner listáján
 notls Az MSN 9 protokollnak szüksége van a TLS csomagra. Ez a csomag nincs installálva ezen a gépen. Ha installálva van, a TLS csomag helye a beállításokban adható meg (pl: /opt/tls/lib). \n \n A TLS csomag letölthető innen : http://tls.sf.net.
 nottabbed Normál ablakok fülek nélkül
 nousersinsession Nincs felhasználó a folyamatban
-nouserspecified Nincs partner megadva
+nouserspecified Nincs megadva partner
+novideocodecsavailable Nincs használható video codec
 nudge $1 a figyelmedet szeretné
 offline kijelentkezve
 oim Kapcsolat nélküli üzenet
@@ -709,6 +713,7 @@ pausewebcamsend Webkamerakép küldésének felfüggesztése
 personal Saját
 phone Telefon
 phones Telefonszámok
+photosharingrequest Fotómegosztás felkérést kaptál. Az aMSN még nem támogatja ezt a lehetőséget, és nem is törölheted a felkérést. Kérd meg a partneredet, hogy törölje a Fotómegosztás felkérést, és a fájlt a Fájlátvitel használatával küldje el.
 picbrowser Képböngésző megnyitása
 picfile Figyelmeztető kép fájl (GIF < 500 x 500)
 picstatus Figyelmeztető kép KI/BE kapcsolása
@@ -721,7 +726,7 @@ playgame2 $1 játék
 playing Lejátszás: $1
 playtest Tesztfájl lejátszása
 playwebcamsend Webkamerakép küldésének folytatása
-pluginselector Pluginok kiválasztása
+pluginselector Pluginek kiválasztása
 port Port
 portswellconfigured A portok helyesen vannak beállítva
 prefalerts Saját jelzéseim és hangjaim
@@ -760,6 +765,7 @@ prefshared Megosztott kapcsolatok (csak NAT -ra)
 prefsound Hangok
 preview Előnézet
 privacy Személyes
+profileaccrualerror A Windows Live ID fiók információk hiányosak.\nEllenőrizd, hogy a születési idő és az ország szerepel-e a profilodban.
 profiledconfig Profilbeállítások
 profileexists Ilyen néven már van egy profil. \n Válassz másik nevet.
 profileinuse Ezt a profilt egy másik aMSN használja, válassz másikat
@@ -783,6 +789,7 @@ quit Kilépés
 raised Teljes méret
 readonlymsgbox A fájl átvitel megszakadt, mert a célkönyvtár írásvédett. Állítsd át a jogokat ehhez a könyvtárhoz.
 readonlywarn FIGYELEM: A fájl NEM lesz mentve a "Beérkezett fájlok" könyvtárba, mert az írásvédett. Győződj meg arról, hogy a célkönyvtárhoz ($1) jól vannak beállítva az írási jogok.
+receive Fogadás
 receivedbytes Érkezett: $1 / $2 byte
 receiveddir Beérkezett fájlok könyvtára
 receivedoimread $1 új kapcsolat nélküli üzeneted van. Elolvasod?
@@ -832,7 +839,7 @@ searchdown Keresés lefelé
 searchup Keresés felfelé
 selectall Összes kijelölése
 selectcontact Válassz egy partnert
-selectplugins Válaszd ki a bekapcsolandó pluginokat
+selectplugins Válaszd ki a bekapcsolandó plugineket
 selectskin Válassz egy felületet a listából
 send Küldés
 sendcam Webkamera küldése
@@ -875,6 +882,7 @@ showmailicon Levél ikon megjelenítése a tálcán, ha új e-mail érkezik
 showmypic Saját képem
 shownonim Nem azonnali üzenetküldési partnerek megjelenítése
 shownotify Figyelmeztető üzenet megjelenítése eseménynél
+shownotinlist Speciális ikon megjelenítése, ha nem szerepelsz a partner listáján
 showofflinegroup Kijelentkezett csoport megjelenítése
 showonedpframe Csak egy képmegjelenítő keret megjelenítése a beszélgetés ablakokban
 showpicnotify Partnerek képeinek megjelenítése a figyelmeztető ablakokban
@@ -903,6 +911,7 @@ sipcallmissed Elmulasztott hanghívás tőle: $1
 sipcallnosipflag A felhasználónál nincs hanghívás támogatás.
 sipcallsent $1 hívása
 sipcallyouarebusy2 Egyszerre csak egy hang- vagy videóhívásod lehet.
+sipdisabledprotocol Hang és/vagy videóhívás nem lehetséges az aMSN e verziójával, mivel a Microsoft(TM) újra módosította az MSN protokollt, és letiltotta a hozzáférést a SIP szervereihez.
 sipgotinvitation $1 hanghívásra hívott meg
 sipvideocallaccepted A videóhívás elfogadva
 sipvideocallconnected A videóhívás kapcsolat létrejött!
