@@ -27,6 +27,10 @@
 #		* Code cleaning
 #		* Bumped to version 1.4
 #
+#	2010-03-18
+#		* Fix UTF8 detection, thanks to bardo <ilbardo gmail.com>
+#		* Version 1.5
+#
 
 
 
@@ -243,7 +247,7 @@ namespace eval ::notify {
 		#log "plop 3"
 		# libnotify WANTS them to be in utf8
 		#log "We are in ${::env(LANG)}"
-		if { [string match "*UTF*" $::env(LANG) ] == 0 } {
+		if { [string match -nocase "*UTF*" $::env(LANG) ] == 0 } {
 			set txt [encoding convertto utf-8 $txt]
 			set title [encoding convertto utf-8 $title]
 			#log "Converted to UTF8, because we are in ${::env(LANG)}"
