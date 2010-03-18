@@ -17,7 +17,7 @@ FILES_TO_INSTALL += utils/pixmapscroll utils/pixmapmenu utils/contentmanager
 FILES_TO_INSTALL += utils/scalable-bg utils/sha1 utils/snit utils/BWidget-1.9.0 utils/dpbrowser
 FILES_TO_INSTALL += plugins utils/sexytile
 FILES_TO_INSTALL += utils/log utils/uri utils/combobox utils/voipcontrols
-FILES_TO_INSTALL += utils/md4 utils/sasl utils/ca-certificates.crt
+FILES_TO_INSTALL += utils/md4 utils/sasl ca-certs
 
 FILES_TO_EXCLUDE := lang/genpage.c lang/addkey.tcl lang/lang1.tmpl lang/lang2.tmpl lang/lang3.tmpl lang/langchk.sh lang/complete.pl lang/genlangfiles.c
 
