@@ -5019,8 +5019,6 @@ proc create_main_menu {wmenu} {
 	$help add command -label "[trans faq]" \
 	    -command [list launch_browser "$::weburl/faq.php?lang=$lang"]
 	$help add separator
-	$help add command -label "[trans msnstatus]" \
-	    -command [list launch_browser http://messenger.msn.com/Status.aspx]
 	$help add command -label "[trans sendfeedback]" -command [list launch_browser "$::weburl/forums/index.php"]
 
 	# About is in the app menu on Mac

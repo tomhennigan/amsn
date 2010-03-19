@@ -41,7 +41,6 @@ snit::widgetadaptor loginscreen {
 	variable login_button_tag
 
 	component forgot_pass_link
-	component service_status_link
 	component new_account_link
 
 	component check_ver_icon
@@ -155,8 +154,6 @@ snit::widgetadaptor loginscreen {
 		# Useful links
 		# Forgot password
 		set forgot_pass_link [$self create text 0 0 -anchor nw -text [trans forgot_pass]]
-		# Service status
-		set service_status_link [$self create text 0 0 -anchor nw -text [trans msnstatus]]
 		# New account
 		set new_account_link [$self create text 0 0 -anchor nw -text [trans new_account]]
 		# Check for newer amsn version
@@ -192,7 +189,6 @@ snit::widgetadaptor loginscreen {
 		contentmanager add element login_screen main login login_button -widget $self -tag $login_button_tag
 		# Links
 		contentmanager add element login_screen main links forgot_pass -widget $self -tag $forgot_pass_link -pady 2
-		contentmanager add element login_screen main links service_status -widget $self -tag $service_status_link -pady 2
 		contentmanager add element login_screen main links new_account -widget $self -tag $new_account_link -pady 2
 		contentmanager add element login_screen main check_ver icon -widget $self -tag $check_version_icon -padx 4 -valign middle
 		contentmanager add element login_screen main check_ver text -widget $self -tag $check_version_text -padx 4 -valign middle
@@ -239,7 +235,6 @@ snit::widgetadaptor loginscreen {
 		$self CanvasTextToLink login_screen main checkboxes forget_me label "$self ForgetMe"
 		$self CanvasTextToLink login_screen main more label "$self ShowMore"
 		$self CanvasTextToLink login_screen main links forgot_pass [list launch_browser "https://accountservices.passport.net/uiresetpw.srf?lc=1033"]
-		$self CanvasTextToLink login_screen main links service_status [list launch_browser "http://messenger.msn.com/Status.aspx"]
 		$self CanvasTextToLink login_screen main links new_account [list launch_browser "https://accountservices.passport.net/reg.srf?sl=1&lc=1033"]
 		$self CanvasTextToLink login_screen main check_ver text "::autoupdate::check_version"
 
