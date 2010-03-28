@@ -341,17 +341,17 @@ downloadcanceled Téléchargement annulé.
 downloadingtls Téléchargement du module TLS à partir de:\n $1
 downloadingwait Téléchargement d'une nouvelle version d'aMSN. Veuillez patienter.
 dynamicrate Utiliser le rendu dynamique pour simuler la vitesse en temps réel
-edit Édition
+edit Modifier
 editavsettings Configurer le son et la webcam
 editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregistrer
-editcustomstate Éditer un statut personnalisé
-editmyprofile Editer mon profil MSN
+editcustomstate Modifier un statut personnalisé
+editmyprofile Modifier mon profil MSN
 editnewstate Nouveau statut avec message automatique personnalisé
-editprofile Editer le profil
+editprofile Modifier le profil
 editstate Modifier un statut existant avec message automatique
 editvalue Éditer la valeur
-email Email
-emailnotverified L'email n'a pas encore été vérifié!
+email Courriel
+emailnotverified Le courriel n'a pas encore été vérifié!
 emailsinlist Remplacer les pseudonymes par l'adresse courriel dans la liste de contacts
 emoticon_steal Ajouter aux émoticônes/smileys
 emotisounds Jouer un son pour certains émoticons
@@ -546,7 +546,7 @@ loadotherdisplaypic Chargement des avatars de $1, veuillez patienter...
 logbigger La taille du fichier journal pour chaque contact ne dépasse jamais
 logeventconnect Journaliser les connexions
 logeventdisconnect Journaliser les déconnexions
-logeventemail Journaliser les e-mails
+logeventemail Journaliser les courriels
 logeventnick Journaliser les changements de pseudonyme
 logeventpsm Journaliser les changements de message personnel
 logeventstate Journaliser les changements de statut
