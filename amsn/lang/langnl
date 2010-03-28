@@ -104,6 +104,7 @@ baduserpass Gebruikersnaam of wachtwoord onjuist
 badwebcam Kan het webcambeeld niet weergeven. Controleer of je webcam juist is aangesloten en geïnstalleerd.
 bgcolor Achtergrondkleur van aMSN wijzigen
 blankdirect Laat leeg voor directe verbinding
+blinktray Het systeemvakpictogram laten knipperen bij ongelezen berichten
 block Blokkeren
 blocked Geblokkeerd
 blockedyougroup Mensen die je hebben geblokkeerd in een aparte groep tonen
@@ -910,6 +911,7 @@ sipcallmissed Je hebt een audiogespreksoproep van $1 gemist
 sipcallnosipflag Gebruiker ondersteunt geen audiogesprekken.
 sipcallsent $1 bellen
 sipcallyouarebusy2 Je kunt slechts één audio- of videogesprek tegelijk voeren.
+sipdisabledprotocol Mogelijkheden voor audio-/videogesprekken zijn in deze versie van aMSN uitgeschakeld, omdat Microsoft(TM) zijn protocollen opnieuw heeft gewijzigd en toegang tot zijn SIP-servers heeft uitgeschakeld, waardoor aMSN je geen toegang tot deze functie geeft.
 sipgotinvitation Uitnodiging voor audiogesprek ontvangen van $1
 sipvideocallaccepted Videogesprek geaccepteerd
 sipvideocallconnected Je videogesprek is nu geopend!
