@@ -341,7 +341,7 @@ downloadcanceled Téléchargement annulé.
 downloadingtls Téléchargement du module TLS à partir de:\n $1
 downloadingwait Téléchargement d'une nouvelle version d'aMSN. Veuillez patienter.
 dynamicrate Utiliser le rendu dynamique pour simuler la vitesse en temps réel
-edit Modifier
+edit Édition
 editavsettings Configurer le son et la webcam
 editcontent Remplir les champ Sujet et Note, puis cliquer sur Enregistrer
 editcustomstate Modifier un statut personnalisé
