@@ -4,7 +4,7 @@ include 'common.php';
 if(!isset($_GET['id'])) {
 	die('ERROR! No file specified!');
 }
-$file=getFileURL($_GET['id']);
+$file=getFileURL((int) $_GET['id']);
 
 if($file == '') {
 	die('ERROR! Bad file specified!');
