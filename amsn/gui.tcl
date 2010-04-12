@@ -644,15 +644,17 @@ namespace eval ::amsn {
 			set errormsg [lindex $args 5]
 			if {!$status} {
 				#set answer [::amsn::messageBox "Bad certificate: $errormsg, continue anyway?" yesno question "Certificate problem"]
-				#set answer [tk_messageBox -message "Bad certificate: $errormsg, continue anyway?" -type yesno -icon question -title "Certificate problem" -parent "."]
+				#TODO:
+				# translation
+				# save the answer for this certificate (using sha1)
 				set answer "yes"
 				if { $answer == yes } {
 					set status 1
 				}
+				puts [info level 0]
+				puts $status
+				puts $errormsg
 			}
-			puts [info level 0]
-			puts $status
-			puts $errormsg
 			return $status
 		}
 	}
