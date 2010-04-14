@@ -12,7 +12,7 @@
 <table class="IEFixPNG developer"><tbody>
 
 <tr><td><img  title="Alexander Nestorov" alt="Alexander Nestorov" src="images/developer-default.png" width="168" height="147" /></td><td>
-<b>Boris Faure</b>
+<b>Alexander Nestorov</b>
 		<br />'.ROLE_DEV.''.DEVELOPER_DEV.' &#8226; '.TESTER_DEV.'
 		<br />'.LOCATION_DEV.'
 		<br />'.IRC_DEV.'alexandernst
@@ -38,14 +38,14 @@
 <b>Philippe Valembois</b>
         <br />'.ROLE_DEV.''.ADMIN_DEV.' &#8226; '.DEVELOPER_DEV.'
         <br />'.LOCATION_DEV.' 
-        <br />'.IRC_DEV.'
+        <br />'.IRC_DEV.'Lephilousophe
         <br /><a href="">'.WEB_SITE.'</a> &#8226; <a href="">'.BLOG_DEV.'</a></td></tr>
 
 <tr><td><img  title="Sander Hoentjen" alt="Sander Hoentjen" src="images/developer-default.png" width="168" height="147" /></td><td>
 <b>Sander Hoentjen</b>
         <br />'.ROLE_DEV.''.DEVELOPER_DEV.'
         <br />'.LOCATION_DEV.' 
-        <br />'.IRC_DEV.'
+        <br />'.IRC_DEV.'tjikkun
         <br /><a href="">'.WEB_SITE.'</a> &#8226; <a href="">'.BLOG_DEV.'</a></td></tr>
 
 <tr><td><img  title="Vivia Nikolaidou" alt="Vivia Nikolaidou" src="images/developer-vivia.png" width="168" height="147" /></td><td>
