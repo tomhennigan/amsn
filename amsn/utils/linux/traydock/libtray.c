@@ -164,6 +164,16 @@ DockIcon(ClientData clientData)
 	atom = XInternAtom(display, "_NET_SYSTEM_TRAY_OPCODE", False );
 	send_message(display, _GetSystemTray (), atom,
 			SYSTEM_TRAY_REQUEST_DOCK,Tk_WindowId(icon->win),0,0);
+			
+    char *tray_name = "amsn-tray";
+    XChangeProperty(display, _GetSystemTray(), 
+                    XInternAtom(display, "_NET_WM_NAME", False), 
+                    XInternAtom(display, "UTF8_STRING", False), 
+                    8, 
+                    PropModeReplace, 
+                    (unsigned char *)tray_name, 
+                    strlen(app_name)+1);
+    XStoreName(display, _GetSystemTray(), tray_name);
 }
 
 /* Draw the icon */
