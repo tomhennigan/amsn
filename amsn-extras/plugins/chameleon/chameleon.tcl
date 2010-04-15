@@ -15,6 +15,13 @@ package require Tk
 namespace eval ::chameleon {
   variable chameleon_dir
 
+  variable defThemeCmd
+  variable avThemesCmd
+  variable setThemeCmd
+  variable styleCmd
+  variable themePkgCmd
+
+
   variable THEMELIST
   variable THEMES
   variable WR_WIDGETS
@@ -42,6 +49,20 @@ namespace eval ::chameleon {
   variable wrapped_shortname
 
   #proc ::NoteBook { args } { return [eval ::NoteBook::create $args] }
+
+  if { [package vcompare 0.8 [package require tile]] >= 0 } {
+    set defThemeCmd ::ttk::currentTheme
+    set avThemesCmd ::ttk::themes
+    set setThemeCmd ttk::setTheme
+    set styleCmd ttk::style 
+    set themePkgCmd ttk::theme
+  } else {
+    set defThemeCmd ::tile::defaultTheme
+    set avThemesCmd ::tile::availableThemes
+    set setThemeCmd tile::setTheme
+    set styleCmd style
+    set themePkgCmd tile::theme
+  }
 
   array set wrapped_into {
     NoteBook		notebook
@@ -167,6 +188,7 @@ namespace eval ::chameleon {
     variable THEMELIST
     variable THEMES
     variable WR_WIDGETS
+    variable defThemeCmd
 
     # Avoid having 100s of $dir in auto_path, in case user loads/unloads plugin many times..
     if { [lsearch $::auto_path $dir] == -1  } {
@@ -231,7 +253,7 @@ namespace eval ::chameleon {
     if { [info exists ::Chameleon_cfg(theme)] } {
       set ::chameleon::config(theme) [set ::Chameleon_cfg(theme)]
     } else {
-      set ::chameleon::config(theme) [set ::tile::defaultTheme]
+      set ::chameleon::config(theme) [set $defThemeCmd]
     }
     
     foreach widget [array names WR_WIDGETS] {
@@ -257,8 +279,10 @@ namespace eval ::chameleon {
     array unset THEMES
     array set THEMES $THEMELIST;
 
+    variable avThemesCmd
+
     # Add in any available loadable themes:
-    foreach name [tile::availableThemes] {
+    foreach name [$avThemesCmd] {
       if {![info exists THEMES($name)]} {
 	lappend THEMELIST $name [set THEMES($name) [string totitle $name]]
       }
@@ -317,8 +341,10 @@ namespace eval ::chameleon {
       set lastSetBgColor $defaultBgColor
     }
 
+    variable setThemeCmd
+
     # TODO find a way to get the tile's frame's background more efficiently
-    tile::setTheme $theme
+    $setThemeCmd $theme
 
     switch -- $theme {
       "winnative"	{ set bgcolor "#d6d3ce" }
@@ -331,8 +357,16 @@ namespace eval ::chameleon {
       default		{ set bgcolor "#d9d9d9" }
     }
 
-    if {[style default . -background] ne "" } {
-      set bgcolor [style default . -background]
+    variable styleCmd
+
+    if { [package vcompare 0.8 [package require tile]] >= 0 } {
+      if {[$styleCmd configure default -background] ne "" } {
+	set bgcolor [$styleCmd configure default -background]
+      }
+    } else {
+      if {[$styleCmd default . -background] ne "" } {
+        set bgcolor [$styleCmd default . -background]
+      }
     }
 
     if {![catch {tk windowingsystem} wsystem] && $wsystem eq "aqua"} {
@@ -451,7 +485,8 @@ namespace eval ::chameleon {
 
       pack $b -side top -expand false -fill x
 
-      if {[lsearch -exact [package names] tile::theme::$theme] == -1} {
+      variable themePkgCmd
+      if { [lsearch -exact [package names] ${themePkgCmd}::$theme] == -1} {
 	$themes.s$theme state disabled
       }
     }
@@ -671,7 +706,7 @@ namespace eval ::chameleon {
     set dest	"$a_dest.$src"
 
     #Copy parameters from one style to another
-    eval [list style configure $dest] [style configure $src]
+    eval [list $styleCmd configure $dest] [$styleCmd configure $src]
 
     #eval style layout $dest \{[style layout $src]\}
     #eval style map $dest [style map $src]

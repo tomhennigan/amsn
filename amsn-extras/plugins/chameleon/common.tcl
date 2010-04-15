@@ -131,7 +131,9 @@ namespace eval ::chameleon {
 	set newStyle [::chameleon::copyStyle $widget_type $w [array get options]]
       } 
 
-      eval [list style configure $newStyle] [eval ${widget_type}_parseStyleArgs $args]
+      variable styleCmd
+
+      eval [list $styleCmd configure $newStyle] [eval ${widget_type}_parseStyleArgs $args]
 
       set options(-style) $newStyle
     }
