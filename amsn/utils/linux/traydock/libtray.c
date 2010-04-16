@@ -172,7 +172,7 @@ DockIcon(ClientData clientData)
                     8, 
                     PropModeReplace, 
                     (unsigned char *)tray_name, 
-                    strlen(app_name)+1);
+                    strlen(tray_name)+1);
     XStoreName(display, _GetSystemTray(), tray_name);
 }
 
