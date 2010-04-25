@@ -625,6 +625,7 @@ snit::widgetadaptor loginscreen {
 			if { [::config::getKey login] != "" } {
 				# Switching to default profile, remove lock on previous profiles if needed
 				SwitchToDefaultProfile
+                               wm title . "[trans title]"
 				# -------------------------------------------------------
 				# Change DP
 				$dp_label configure -image [::skin::getNoDisplayPicture]
@@ -677,6 +678,7 @@ snit::widgetadaptor loginscreen {
 				set password ""
 				$pass_field delete 0 end
 			}
+                       wm title . "[trans title] - $user"
 		} else {
 			global password
 			set password ""
@@ -747,6 +749,7 @@ snit::widgetadaptor loginscreen {
 	method ForgetMeLinkClicked { w } {
 		# Switch to default profile so user can delete the current one
 		SwitchToDefaultProfile
+               wm title . "[trans title]"
 		# Open preferences window at "Others" page
 		Preferences others
 
