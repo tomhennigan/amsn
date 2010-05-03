@@ -344,7 +344,12 @@ namespace eval ::chameleon {
     variable setThemeCmd
 
     # TODO find a way to get the tile's frame's background more efficiently
-    $setThemeCmd $theme
+    if { [catch {$setThemeCmd $theme} ] } {
+	#Unable to set current theme
+	::amsn::messageBox "Unable to set $theme, setting default one instead" ok error
+	$setThemeCmd [set $defThemeCmd]
+	set ::chameleon::config(theme) [set $defThemeCmd]
+    }
 
     switch -- $theme {
       "winnative"	{ set bgcolor "#d6d3ce" }
