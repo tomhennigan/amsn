@@ -18,7 +18,7 @@ if { $initialize_amsn == 1 } {
 	package require BWidget
 	source BWidget_mods.tcl
 	
-	if {[catch {package require -exact tkdnd 2.0}] } {
+	if {![catch {package require -exact tkdnd 2.0}] } {
 		proc dnd { args } {}
 		proc shape { args } {}
 	}
