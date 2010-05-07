@@ -2479,19 +2479,15 @@ namespace eval ::ChatWindow {
 		::plugins::PostEvent chatsendbutton evPar
 
 		set droptarget [::ChatWindow::GetInputText $w]
-		if {[catch {tkdnd::drop_target register $droptarget DND_Files} res]} {
+		status_log "Going to register DND for $droptarget"
+		if {[catch {tkdnd::drop_target register $droptarget *} res]} {
 	                status_log "dnd error: $res"
 	        } else {
+			status_log "DND bind for $droptarget"
 			#bind $droptarget <<Drop>> {puts works}
-	                bind $droptarget <<Drop>> [list ::fileDropHandler %D sendfile $w]
+	                bind $droptarget <<Drop:DND_Files>> [list ::fileDropHandler %D sendfile $w]
+			bind $droptarget <<Drop:DND_Text>> [list ::fileDropHandler %D pasteText $w]
 		}
-
-                if {[catch {tkdnd::drop_target register $droptarget DND_Text} res]} {
-                        status_log "dnd error: $res"
-                } else {
-                        #bind $droptarget <<Drop>> {puts works}
-                        bind $droptarget <<Drop>> [list ::fileDropHandler %D pasteText $w]
-                }
 
 #		# Drag and Drop file sending
 #		if {[catch {::dnd bindtarget [::ChatWindow::GetInputText $w] Files <Drop> "fileDropHandler %D sendfile $w"} res ]} {

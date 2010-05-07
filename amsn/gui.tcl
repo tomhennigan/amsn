@@ -18,7 +18,7 @@ if { $initialize_amsn == 1 } {
 	package require BWidget
 	source BWidget_mods.tcl
 	
-	if {![catch {package require -exact tkdnd 2.0}] } {
+	if {[catch {package require -exact tkdnd 2.0}] } {
 		proc dnd { args } {}
 		proc shape { args } {}
 	}
@@ -6213,6 +6213,7 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 proc fileDropHandler { data action {target "self"}} {
 	set data [string map {\r "" \n "" \x00 ""} $data]
 	set data [urldecode $data]
+	status_log "File drop handler: $action"
 
 	#this is for windows
 	if { [string index $data 0] == "{" && [string index $data end] == "}" } {
