@@ -6268,8 +6268,8 @@ proc fileDropHandler { data action {target "self"}} {
 			}
 		}
 		pasteText {
-			if { [catch {$target insert end $data} ] } {
-				status_log "Unable to drop text \"$data\" to $target"
+			if { [catch {$target insert end $data} res] } {
+				status_log "Unable to drop text \"$data\" to $target: $res"
 			}
 		}
 		default {
