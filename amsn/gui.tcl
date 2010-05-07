@@ -6213,7 +6213,6 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 proc fileDropHandler { data action {target "self"}} {
 	set data [string map {\r "" \n "" \x00 ""} $data]
 	set data [urldecode $data]
-	status_log "@@@@@@@ $data"
 
 	#this is for windows
 	if { [string index $data 0] == "{" && [string index $data end] == "}" } {
@@ -6265,6 +6264,11 @@ proc fileDropHandler { data action {target "self"}} {
 			} else {
 	        		::amsn::FileTransferSend $target $data
 				return copy
+			}
+		}
+		pasteText {
+			if { [catch {$target insert end $data} ] } {
+				status_log "Unable to drop text \"$data\" to $target"
 			}
 		}
 		default {
