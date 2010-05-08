@@ -6220,18 +6220,20 @@ proc fileDropHandler { data action {target "self"}} {
 		set data [string range $data 1 end-1]
 	}
 
-#TODO	#(VFS pseudo-)protocol: if we can't acces the file, display an error
-	foreach type [list smb http https ftp sftp floppy cdrom dvd] {
-		if {[string first $type $data] == 0} { 
-			status_log "file can't be accessed: $data"
-			return refuse_drop
+	if { $action != pasteText } {
+	#TODO	#(VFS pseudo-)protocol: if we can't acces the file, display an error
+		foreach type [list smb http https ftp sftp floppy cdrom dvd] {
+			if {[string first $type $data] == 0} { 
+				status_log "file can't be accessed: $data"
+				return refuse_drop
+			}
 		}
-	}
 
-	#If the data begins with "file://", strip this off
-	if { [string range $data 0 6] == "file://" } {
-		set data [string range $data 7 [string length $data]]
-	} 
+		#If the data begins with "file://", strip this off
+		if { [string range $data 0 6] == "file://" } {
+			set data [string range $data 7 [string length $data]]
+		} 
+	}
 
 	status_log "File dropped: $data"
 		
@@ -6271,6 +6273,7 @@ proc fileDropHandler { data action {target "self"}} {
 			if { [catch {[::ChatWindow::GetInputText $target] insert end $data} res] } {
 				status_log "Unable to drop text \"$data\" to $target: $res"
 			}
+			return copy
 		}
 		default {
 			status_log "Dunnow what to do with the file ... what's $action ?"
