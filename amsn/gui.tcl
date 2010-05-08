@@ -7050,6 +7050,12 @@ proc newcontact {new_login new_name} {
 	if { [catch {toplevel ${wname} } ] } {
 		return 0
 	}
+
+	if { [winfo exists .bossmode] } {
+		set ::BossMode(${wname}) "normal"
+		wm state ${wname} withdraw
+	}
+
 	wm group ${wname} .
 
 	wm geometry ${wname} -0+100
