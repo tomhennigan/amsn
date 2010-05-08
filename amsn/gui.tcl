@@ -6268,7 +6268,7 @@ proc fileDropHandler { data action {target "self"}} {
 			}
 		}
 		pasteText {
-			if { [catch {$target insert end $data} res] } {
+			if { [catch {[::ChatWindow::GetInputText $target] insert end $data} res] } {
 				status_log "Unable to drop text \"$data\" to $target: $res"
 			}
 		}
