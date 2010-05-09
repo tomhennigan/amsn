@@ -6220,7 +6220,7 @@ proc fileDropHandler { data action {target "self"}} {
 		set data [string range $data 1 end-1]
 	}
 
-	if { $action != pasteText } {
+	if { $action != "pasteText" } {
 	#TODO	#(VFS pseudo-)protocol: if we can't acces the file, display an error
 		foreach type [list smb http https ftp sftp floppy cdrom dvd] {
 			if {[string first $type $data] == 0} { 
