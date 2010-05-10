@@ -6211,9 +6211,10 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 }
 
 proc fileDropHandler { data action {target "self"}} {
+	status_log "Raw data: $data"
 	set data [string map {\r "" \n "" \x00 ""} $data]
 	set data [urldecode $data]
-	status_log "File drop handler: $action"
+	status_log "File drop handler: $action for string: $data"
 
 	#this is for windows
 	if { [string index $data 0] == "{" && [string index $data end] == "}" } {
@@ -6235,7 +6236,7 @@ proc fileDropHandler { data action {target "self"}} {
 		} 
 	}
 
-	status_log "File dropped: $data"
+	status_log "File/text dropped: $data"
 		
 	switch $action {
 		setdp {
