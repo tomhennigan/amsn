@@ -2,13 +2,14 @@
 ::Version::setSubversionId {$Id$}
 
 if { $initialize_amsn == 1 } {
-    global statusicon mailicon systemtray_exist iconmenu ishidden defaultbackground
+    global statusicon mailicon systemtray_exist iconmenu ishidden defaultbackground use_tktray
 
     set statusicon 0
     set mailicon 0
     set systemtray_exist 0
     set iconmenu 0
     set ishidden 0
+    set use_tktray 0
 }
 
 proc iconify_proc {} {
@@ -51,7 +52,7 @@ proc isWinicoLoaded {} {
 
 # Load the needed library (platform dependent) and create the context-menu
 proc trayicon_init {} {
-	global systemtray_exist iconmenu wintrayicon statusicon
+	global systemtray_exist iconmenu wintrayicon statusicon use_tktray
 
 	if { [WinDock] } {
 		#added to stop creation of more than 1 icon
@@ -87,14 +88,24 @@ proc trayicon_init {} {
 		set iconmenu .trayiconwin.immain
 
 	} elseif {[UnixDock]} {
-		if { [catch {package require libtray} res] } {
-			set systemtray_exist 0
-			status_log "[trans traynotcompiled] : $res"
-			close_dock
-			return
-		}
+               if { [catch {package require tktray} res] } {
+		       if { [catch {package require libtray} res] } {
+			       set systemtray_exist 0
+			       status_log "[trans traynotcompiled] : $res"
+			       close_dock
+			       return
+		       } else {
+			       set use_tktray 0
+		       }
+	       } else {
+		       set use_tktray 1
+	       }
 
-		set systemtray_exist [systemtray_exist]; #a system tray exist?
+		if {$use_tktray} {
+			set systemtray_exist 1
+		} else {
+			set systemtray_exist [systemtray_exist]; #a system tray exist?
+		}
 
 		destroy .immain
 		set iconmenu .immain
@@ -214,9 +225,22 @@ proc taskbar_icon_handler { msg x y } {
 }
 
 proc trayicon_callback {imgSrc imgDst width height} {
-	$imgDst copy $imgSrc -compositingrule set
-	if { [image width $imgSrc] > $width || [image height $imgSrc] > $height} {
-		::picture::ResizeWithRatio $imgDst $width $height
+       $imgDst copy $imgSrc -compositingrule set
+       if { [image width $imgSrc] > $width || [image height $imgSrc] > $height} {
+               ::picture::ResizeWithRatio $imgDst $width $height
+       }
+}
+
+proc trayicon_resize {w} {
+	catch {
+		set width [expr {[lindex [$w bbox] 2] - [lindex [$w bbox] 0] + 1}]
+		set height [expr {[lindex [$w bbox] 2] - [lindex [$w bbox] 0] + 1}]
+		puts "Resizing icon to $width x $height"
+	
+		set img [$w cget -image]
+		if { [image width $img] != $width || [image height $img] != $height} {
+			::picture::ResizeWithRatio $img $width $height
+		}
 	}
 }
 
@@ -241,7 +265,7 @@ proc statusicon_callback_delayed { action x y} {
 }
 
 proc statusicon_proc {status} {
-	global systemtray_exist statusicon list_states iconmenu wintrayicon defaultbackground
+	global systemtray_exist statusicon list_states iconmenu wintrayicon defaultbackground use_tktray
 	set cmdline ""
 
 	if { [::config::getKey use_tray] == 0 && $status != "REMOVE"} { return }
@@ -251,12 +275,23 @@ proc statusicon_proc {status} {
 		if { $systemtray_exist == 1 && $statusicon == 0 && $status != "REMOVE" && [UnixDock]} {
 			set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
 			image create photo statustrayicon -file $pixmap
-			image create photo statustrayiconres
-			#add the icon
-			set statusicon [newti .si -tooltip "[trans offline]" -pixmap statustrayiconres -command "::trayicon_callback statustrayicon statustrayiconres"]
+			set statusicon .si
 
-			bind .si <<Button1>> iconify_proc
-			bind .si <<Button3>> "tk_popup $iconmenu %X %Y"
+			#add the icon
+			if {$use_tktray} {
+				tktray::icon .si -class "amsn-tray" -image statustrayicon
+				after 1000 { trayicon_resize .si}
+				bind $statusicon <<IconCreate>> {puts "tray created"}
+				bind $statusicon <Configure> {puts "tray configured2"}
+				bind $statusicon <<IconConfigure>> {puts "tray configured"; trayicon_resize .si}
+				bind $statusicon <<IconDestroy>> {puts "tray destroyed"}
+			} else {
+				image create photo statustrayiconres
+				set statusicon [newti .si -pixmap statustrayiconres -command "::trayicon_callback statustrayicon statustrayiconres"]
+			}
+
+			bind $statusicon <<Button1>> iconify_proc
+			bind $statusicon <<Button3>> "tk_popup $iconmenu %X %Y"
 		}
 		if { $systemtray_exist == 1 && $statusicon == 0 && $status != "REMOVE" && [MacDock]} {
 			set pixmap "[::skin::GetSkinFile pixmaps doffline.png]"
@@ -281,7 +316,9 @@ proc statusicon_proc {status} {
 			if {[UnixDock] } {
 				catch {
 					image delete statustrayicon
-					image delete statustrayiconres
+					if {!$use_tktray} {
+						image delete statustrayiconres
+					}
 				}
 			}
 		}
@@ -407,9 +444,10 @@ proc statusicon_proc {status} {
 
 			} elseif {[UnixDock] } {
 				if { $pixmap != "null"} {
-					configureti $statusicon -tooltip $tooltip
 					image create photo statustrayicon -file $pixmap
-					image create photo statustrayiconres
+					if {!$use_tktray} {
+						image create photo statustrayiconres
+					}
 				}
 			} elseif {[MacDock] } {
 				if { $pixmap == "null"} {
@@ -534,9 +572,10 @@ proc statusicon_blink_proc {status} {
 
         } elseif {[UnixDock] } {
             if { $pixmap != "null"} {
-                configureti $statusicon -tooltip $tooltip
                 image create photo statustrayicon -file $pixmap
-                image create photo statustrayiconres
+		if {!$use_tktray} {
+			image create photo statustrayiconres
+		}
             }
         } elseif {[MacDock] } {
             if { $pixmap == "null"} {
@@ -564,7 +603,7 @@ proc mailicon_callback { action } {
 
 proc mailicon_proc {num} {
 	# Workaround for bug in the traydock-plugin - statusicon added - BEGIN
-	global systemtray_exist mailicon statusicon winmailicon defaultbackground
+	global systemtray_exist mailicon statusicon winmailicon defaultbackground use_tktray
 	# Workaround for bug in the traydock-plugin - statusicon added - END
 
 	if { [::config::getKey showmailicon] == 0 } {
@@ -587,8 +626,18 @@ proc mailicon_proc {num} {
 			set mailicon 1
 		} elseif {[UnixDock] } {
 			image create photo mailtrayicon -file $pixmap
-			image create photo mailtrayiconres
-			set mailicon [newti .mi -tooltip offline -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
+			if {$use_tktray} {
+				set mailicon [tktray::icon .mi -image mailtrayicon] 
+				after 1000 { trayicon_resize .mi}
+
+				bind .mi <<IconCreate>> {puts "mail tray created"}
+				bind .mi <Configure> {puts "mail tray configured2"}
+				bind .mi <<IconConfigure>> {puts "mail tray configured"; trayicon_resize .mi}
+				bind .mi <<IconDestroy>> {puts "mail tray destroyed"}
+			} else {
+				image create photo mailtrayiconres
+				set mailicon [newti .mi -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
+			} 
 
 			bind .mi <Button-1> "::hotmail::hotmail_login"
 			bind .mi <Enter> [list balloon_enter %W %X %Y $msg]
@@ -609,7 +658,9 @@ proc mailicon_proc {num} {
 			if {[UnixDock] } {
 				catch {
 					image delete mailtrayicon
-					image delete mailtrayiconres
+					if {!$use_tktray} {
+						image delete mailtrayiconres
+					}
 				}
 			}
 		}
@@ -631,7 +682,6 @@ proc mailicon_proc {num} {
 		if { [WinDock] } {
 			winico taskbar modify $winmailicon -text $msg
 		} elseif {[UnixDock] } {
-			configureti $mailicon -tooltip $msg
 			bind $mailicon <Enter> [list balloon_enter %W %X %Y $msg]
 			bind $mailicon <Motion> [list balloon_motion %W %X %Y $msg]
 		} elseif {[MacDock] } {
@@ -641,13 +691,17 @@ proc mailicon_proc {num} {
 }
 
 proc remove_icon {icon} {
-	global systemtray_exist
+	global systemtray_exist use_tktray
 	if {$icon != 0} {
 		# Can't use UnixDock and MacDock because if we remove the icon
 		# it might be because the user disabled the 'use_tray' option
 		# so those functions would always return false...
 		if {[OnLinux] || [OnBSD]} {
-			catch {removeti $icon}
+			if {$use_tktray} {
+				catch {destroy $icon}
+			} else {
+				catch {removeti $icon}
+			}
 		} elseif {[OnMac] } {
 			catch { ::statusicon::destroy $icon}
 		}
