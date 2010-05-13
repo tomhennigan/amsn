@@ -442,7 +442,7 @@ namespace eval ::config {
 			[list local escape_close_cw bool escapeclosescw ] \
 			[list local no_oim_confirmation bool nooimconfirmation ] \
 			[list global disableprofiles bool disableprofiles] \
-		]
+		
 
 		set osspecific_keys [list receiveddir soundcommand browser notifyXoffset \
 					notifyYoffset filemanager openfilecommand usesnack \
