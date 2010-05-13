@@ -65,22 +65,7 @@ namespace eval ::config {
 
 		::config::setKey protocoloverride 0
 
-		#Dir for received files
-		if { [OnDarwin] } {
-		        ::config::setKey receiveddir "[file join $::env(HOME) Desktop]"
-		} elseif { [OnMaemo] } {
-			::config::setKey receiveddir "[file join $::env(HOME) MyDocs amsn_received]"
-		} elseif { [OnUnix] } {
-			::config::setKey receiveddir "[file join $::env(HOME) amsn_received]"
-		} elseif { [OnWin] } {
-			if {[info exists env(USERPROFILE)]} {
-				::config::setKey receiveddir "[file join $::env(USERPROFILE) amsn_received]"
-			} else {
-				::config::setKey receiveddir "[file join [pwd] amsn_received]"
-			}
-		} else {
-			::config::setKey receiveddir "[file join [pwd] amsn_received]"
-		}
+		::config::setKey receiveddir [::config::getDefaultDownloadDir]
 
 		#Some Autodetected options
 		if { [OnDarwin] } {
@@ -382,9 +367,11 @@ namespace eval ::config {
 			[list local leavejoinsinchat bool leavejoinsinchat] \
 			[list local animatenotify bool animatenotify]\
 	        ]
+
                 if { ![OnWin] } {
                         lappend advanced_options [list local blinktray bool blinktray]
                 }
+
                 lappend advanced_options \
 			[list local enablebanner bool showbanner] \
 			[list local truncatenames bool truncatenames1] \
@@ -441,8 +428,7 @@ namespace eval ::config {
 			[list local globaloverride bool globaloverride ] \
 			[list local escape_close_cw bool escapeclosescw ] \
 			[list local no_oim_confirmation bool nooimconfirmation ] \
-			[list global disableprofiles bool disableprofiles] \
-		
+			[list global disableprofiles bool disableprofiles]
 
 		set osspecific_keys [list receiveddir soundcommand browser notifyXoffset \
 					notifyYoffset filemanager openfilecommand usesnack \
@@ -607,6 +593,82 @@ namespace eval ::config {
 		}
 		setGlobalKey dpi 0	;# The screen's DPI if we want to force it. 0 to let it use default
 
+	}
+
+	proc getDefaultDownloadDir { } {
+	
+		#Dir for received files
+		if { [OnDarwin] } {
+		        return "[file join $::env(HOME) Desktop]"
+		} elseif { [OnWin] } {
+			if {[info exists env(USERPROFILE)]} {
+				return "[file join $::env(USERPROFILE) amsn_received]"
+			} else {
+				return "[file join [pwd] amsn_received]"
+			}
+		} elseif { [OnUnix] } {
+			set path ""
+			if {[catch {
+				if {[info exists ::env(XDG_CONFIG_HOME)] } {
+					set config_dir [set ::env(XDG_CONFIG_HOME)]
+				} else {
+					set config_dir [file join [set ::env(HOME)] .config]
+				}
+				status_log "Opening xdg file in [file join $config_dir user-dirs.dir]"
+				set fd [open [file join $config_dir user-dirs.dirs] r]
+				set data [read $fd]
+				close $fd
+				foreach line [split $data "\n"] {
+					status_log "Parsing line $line"
+					set line [string trim $line]
+					if {[string first "XDG_DOWNLOAD_DIR" $line ] == 0} {
+						status_log "found XDG_DOWNLOAD_DIR"
+						set line [string trim [string range $line 16 end]]
+						if {[string first "=" $line] == 0} {
+							status_log "Found ="
+							set path [string trim [string range $line 1 end]]
+							if {[string first "\"" $path] == 0} {
+								status_log "found first quote"
+								set path [string trim [string range $path 1 end]]
+								set second_quote [string first "\"" $path]
+								status_log "second quote at $second_quote"
+								if {$second_quote != -1} {
+									incr second_quote -1
+									set path [string trim [string range $path 0 $second_quote]]
+									status_log "path is $path"
+								}
+								break;
+							}
+						}
+					}
+				}
+				if {$path != ""} {
+					status_log "Found a path : $path"
+					if {[string first "\$HOME/" $path] == 0} {
+						status_log "Path is relative"
+						set relative 1
+						set path [string range  $path 6 end]
+						set path [file join $::env(HOME) $path]
+					}
+					status_log "Final path is : $path"
+				}
+			}]} {
+				set path ""
+				status_log "Error parsing XDG_DOWNLOAD_DIR" red
+			}
+			if {$path == ""} {
+				if { [OnMaemo] } {
+					return "[file join $::env(HOME) MyDocs amsn_received]"
+				}  else { 
+					return "[file join $::env(HOME) amsn_received]"
+				}
+			} else {
+				return $path
+			}
+			
+		} else {
+			return "[file join [pwd] amsn_received]"
+		}
 	}
 
 	proc get {key} {
@@ -1450,6 +1512,7 @@ proc SwitchToDefaultProfile { } {
 	::config::setKey log_event_nick 0
 	::config::setKey log_event_psm 0
 	::config::setKey displaypic "amsn.png"
+	::config::setKey receiveddir [::config::getDefaultDownloadDir]
 
 	foreach file [glob -nocomplain -type f [file join $::HOME2 displaypic *]] {
 		catch {file delete $file}
