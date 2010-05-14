@@ -35,7 +35,7 @@
 		<img src="images/download-gentoo-big.png" class="distr" alt="Gentoo"><br>Gentoo</a>
 	</div>
 	<div style="float:left;margin:1em;text-align:center;">
-		<a href="http://packages.ubuntu.com/cgi-bin/search_packages.pl?keywords=amsn&amp;searchon=names&amp;version=all&amp;release=all&amp;exact=1">
+		<a href="http://packages.ubuntu.com/search?suite=default&section=all&arch=any&searchon=names&keywords=amsn">
 		<img src="images/download-ubuntu-big.png" class="distr" alt="Ubuntu"><br>Ubuntu</a>
 	</div>
 	<div style="clear:left"></div>
