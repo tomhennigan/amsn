@@ -463,7 +463,7 @@ proc statusicon_proc {status} {
 }
 
 proc statusicon_blink_proc {status} {
-    global systemtray_exist statusicon iconmenu wintrayicon
+    global systemtray_exist statusicon iconmenu wintrayicon use_tktray
 
     if { [::config::getKey use_tray] == 0 || $systemtray_exist == 0 || $statusicon == 0 } { return }
 
