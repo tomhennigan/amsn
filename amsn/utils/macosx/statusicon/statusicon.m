@@ -36,14 +36,13 @@ int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_O
   if (status_item == NULL) {
     Tcl_DecrRefCount(callback->cb);
     ckfree(callback);
+    QUARTZ_POOL_RELEASE;
     return TCL_ERROR;
   } else {
     sprintf(name, "statusicon%d", ++icon_counter);
 
     hPtr = Tcl_CreateHashEntry(icons, name, &newHash);
     Tcl_SetHashValue(hPtr, (ClientData) status_item);
-
-    [status_item retain];
 
     hPtr = Tcl_CreateHashEntry(callbacks, name, &newHash);
     Tcl_SetHashValue(hPtr, (ClientData) callback);
@@ -239,7 +238,6 @@ int Statusicon_SetHighlightMode(ClientData clientData, Tcl_Interp *interp, int o
 
   QUARTZ_POOL_ALLOC;
   [status_item setHighlightMode:highlighted];
-
   QUARTZ_POOL_RELEASE;
 
 
