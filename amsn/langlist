@@ -302,6 +302,12 @@
 		<encoding>iso8859-1</encoding>
 	</lang>
 	<lang>
+		<langcode>th</langcode>
+		<name>Thai (ไทย)</name>
+		<version>1.0</version>
+		<encoding>utf-8</encoding>
+	</lang>
+	<lang>
 		<langcode>tr</langcode>
 		<name>Turkish (Türkçe)</name>
 		<version>1.62</version>
