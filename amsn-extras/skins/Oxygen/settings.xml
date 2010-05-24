@@ -2,10 +2,10 @@
 
 <skin>
 	<Information>
-		<Author>KDE Oxygen Skin (default) by Dimitri Pandeleakis</Author>
-		<Contact>dimitrispan88@hotmail.com</Contact>
-		<Description>Dedicated to all KDE and Linux users.</Description>
-		<Version>1.0 (06.10.2009)</Version>
+		<Author>Oxygen Skin (default) by Dimitri Pandeleakis</Author>
+		<Contact>dimitris88@gmail.com</Contact>
+		<Description>Oxygen style for aMSN! Dedicated to all KDE and Linux users.</Description>
+		<Version>2.0 (04.05.2010)</Version>
 	</Information>
 	<General>
 		<Colors>
@@ -13,7 +13,7 @@
 			<balloonborder>#000000</balloonborder>
 			<balloontext>#000000</balloontext>
 			<notifyfg>#000000</notifyfg>
-			<menubackground>#E1E0E0</menubackground>
+			<menubackground>#EEEDEC</menubackground>
 			<menuforeground>#000000</menuforeground>
 			<menuactivebackground>#dddddd</menuactivebackground>
 			<menuactiveforeground>#000000</menuactiveforeground>
@@ -38,18 +38,18 @@
 	
 	<Login>
 		<Colors>
-			<loginbg>#C4D5E4</loginbg>
+			<loginbg>#E6EFF0</loginbg>
 			<loginwidgetbg>#f6f6f6</loginwidgetbg>
-			<loginbuttonbg>#d4e0ea</loginbuttonbg>
+			<loginbuttonbg>#D9EBED</loginbuttonbg>
 			<loginbuttonfg>#000000</loginbuttonfg>
 			<loginbuttonfghover>#000000</loginbuttonfghover>
 		</Colors>
 		<Options>
-			<loginbuttonresize>tile</loginbuttonresize>
+			<loginbuttonresize>scale</loginbuttonresize>
 		</Options>
 		<Geometry>
-			<loginbuttonx>4</loginbuttonx>
-			<loginbuttony>4</loginbuttony>
+			<loginbuttonx>14</loginbuttonx>
+			<loginbuttony>6</loginbuttony>
 			<loginfieldbd>1</loginfieldbd>
 		</Geometry>
 	</Login>
@@ -57,11 +57,11 @@
 	<ContactList>
     		<Colors>
 			<mainwindowbg>#e0dfde</mainwindowbg>
-			<topcontactlistbg>#ECEBEA</topcontactlistbg>	<!-- color for the top of the contact list, the status part -->
+			<topcontactlistbg>#EEEDEC</topcontactlistbg>	<!-- color for the top of the contact list, the status part -->
 			<contactlistbg>#DBD9D8</contactlistbg>	<!-- color of the contact list, where the contacts appear -->
-			<emailhoverbg>#ECEBEA</emailhoverbg>
+			<emailhoverbg>#EEEDEC</emailhoverbg>
 			<contactlistborderbg>#000000</contactlistborderbg>
-			<bannerbg>#A0BDDF</bannerbg>
+			<bannerbg>#A0BDE0</bannerbg>
 			<mystatus>#666666</mystatus>
 			<contact_online>#313031</contact_online>
 			<contact_away>#EE8102</contact_away>
@@ -118,43 +118,67 @@
 
 	<ChatWindow>
 		<Colors>
-			<chatwindowbg>#E1E0E0</chatwindowbg>
-			<tabbarbg>#E1E0E0</tabbarbg>
-			<buttonbarbg>#EEEDED</buttonbarbg>
-			<chat_buttons_border_color>#B9CADC</chat_buttons_border_color>
+			<chatwindowbg>#DDD9D7</chatwindowbg>
+			<tabbarbg>#DDD9D7</tabbarbg>
+			<buttonbarbg>#DDD9D7</buttonbarbg>
+			<chat_buttons_border_color>#DDD9D7</chat_buttons_border_color>
 			<chat_input_border_color>#74ABEF</chat_input_border_color>
-			<chat_output_border_color>#5A8ECA</chat_output_border_color>
+			<chat_output_border_color>#3FA8DB</chat_output_border_color>
 			<chat_output_back_color>#FFFFFF</chat_output_back_color>
 			<chat_dp_border_color>#5A8ECA</chat_dp_border_color>
 			<sendbuttonbg>#ffffff</sendbuttonbg>
 			<sendbuttonfg>#000000</sendbuttonfg>
 			<sendbuttonfghover>#000000</sendbuttonfghover>
-			<topbarbg>#f7f7f7</topbarbg>
-			<topbartext>#000000</topbartext>
+			
+			<topbarbg>#ffffff</topbarbg>
+			<topbartext>#ffffff</topbartext>
 			<topbarborder>#E1E0E0</topbarborder>
+			
 			<topbarawaybg>#dfe7f0</topbarawaybg>
-			<topbarawaytext>#000000</topbarawaytext>
+			<topbarawaytext>#ffffff</topbarawaytext>
 			<topbarawayborder>#E1E0E0</topbarawayborder>
+			
 			<topbarbusybg>#dfe7f0</topbarbusybg>
-			<topbarbusytext>#000000</topbarbusytext>
+			<topbarbusytext>#ffffff</topbarbusytext>
+			
+			<topbaridlebg>#dfe7f0</topbaridlebg>
+			<topbaridletext>#ffffff</topbaridletext>
 			<topbarbusyborder>#E1E0E0</topbarbusyborder>
+			
+			<topbarbrbbg>#dfe7f0</topbarbrbbg>
+			<topbarbrbtext>#ffffff</topbarbrbtext>
+			<topbarbrbborder>#E1E0E0</topbarbrbborder>
+			
+			<topbarphonebg>#dfe7f0</topbarphonebg>
+			<topbarphonetext>#ffffff</topbarphonetext>
+			<topbarphoneborder>#E1E0E0</topbarphoneborder>
+			
+			<topbarlunchbg>#dfe7f0</topbarlunchbg>
+			<topbarlunchtext>#ffffff</topbarlunchtext>
+			<topbarlunchborder>#E1E0E0</topbarlunchborder>
+			
+			<topbarmobilebg>#dfe7f0</topbarmobilebg>
+			<topbarmobiletext>#ffffff</topbarmobiletext>
+			<topbarmobileborder>#E1E0E0</topbarmobileborder>
+			
 			<topbarofflinebg>#dfe7f0</topbarofflinebg>
-			<topbarofflinetext>#000000</topbarofflinetext>
+			<topbarofflinetext>#F0EFEE</topbarofflinetext>
 			<topbarofflineborder>#E1E0E0</topbarofflineborder>
-			<statusbarbg>#f7f7f7</statusbarbg>
-			<statusbarbg_sel>#c6cdd7</statusbarbg_sel>
+			
+			<statusbarbg>#DDD9D7</statusbarbg>
+			<statusbarbg_sel>#DDD9D7</statusbarbg_sel>
 			<statusbartext>#666666</statusbartext>
-			<chat_status_border_color>#BDD7E7</chat_status_border_color>
+			<chat_status_border_color>#000000</chat_status_border_color>
 		</Colors>
 		<Options>
 			<chat_top_pixmap>1</chat_top_pixmap>
 			<chat_top_resize>scale</chat_top_resize>
 			<chat_top_border>0</chat_top_border>
 			<chat_output_border>2</chat_output_border>
-			<chat_buttons_border>1</chat_buttons_border>
+			<chat_buttons_border>0</chat_buttons_border>
 			<chat_input_border>2</chat_input_border>
 			<chat_dp_border>1</chat_dp_border>
-			<chat_status_border>1</chat_status_border>
+			<chat_status_border>0</chat_status_border>
 			<chat_sash_showhandle>0</chat_sash_showhandle>
 			<chat_show_sendbuttonframe>1</chat_show_sendbuttonframe>
 			<chat_show_statusbarframe>1</chat_show_statusbarframe>
@@ -165,27 +189,30 @@
 			<chat_top_pady>4</chat_top_pady>
 			<chat_paned_padx>4</chat_paned_padx>
 			<chat_paned_pady>0</chat_paned_pady>
-			<chat_output_padx>3</chat_output_padx>
-			<chat_output_pady>0</chat_output_pady>
+			<chat_output_padx>5</chat_output_padx>
+			<chat_output_pady>3</chat_output_pady>
 			<chat_buttons_padx>3</chat_buttons_padx>
-			<chat_buttons_pady>4</chat_buttons_pady>
-			<chat_input_padx>3</chat_input_padx>
+			<chat_buttons_pady>1</chat_buttons_pady>
+			<chat_input_padx>4</chat_input_padx>
 			<chat_input_pady>0</chat_input_pady>
 			<chat_dp_padx>2</chat_dp_padx>
-			<chat_dp_pady>7</chat_dp_pady>
+			<chat_dp_pady>2</chat_dp_pady>
 			<chat_leftframe_padx>0</chat_leftframe_padx>
 			<chat_leftframe_pady>3</chat_leftframe_pady>
-			<chat_sendbutton_padx>5</chat_sendbutton_padx>
+			<chat_sendbutton_padx>10</chat_sendbutton_padx>
 			<chat_sendbutton_pady>0</chat_sendbutton_pady>
 			<chat_status_padx>5</chat_status_padx>
-			<chat_status_pady>7</chat_status_pady>
-			<chat_sash_pady>3</chat_sash_pady>
+			<chat_status_pady>2</chat_status_pady>
+			
+			
+			<chat_sash_pady>0</chat_sash_pady>
+			<chat_sash_width>2</chat_sash_width>
 			<chat_tabbar_padx>7</chat_tabbar_padx>
-			<chat_tabbar_pady>0</chat_tabbar_pady>
+			<chat_tabbar_pady>2</chat_tabbar_pady>
                         <tab_text_x>8</tab_text_x>
                         <tab_text_y>9</tab_text_y>
                         <tab_text_width>100</tab_text_width>
-                        <tab_close_x>103</tab_close_x>
+                        <tab_close_x>106</tab_close_x>
                         <tab_close_y>9</tab_close_y>
 		</Geometry>
 	</ChatWindow>
