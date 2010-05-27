@@ -627,8 +627,9 @@ proc mailicon_proc {num} {
 		} elseif {[UnixDock] } {
 			image create photo mailtrayicon -file $pixmap
 			if {$use_tktray} {
-                               catch {destroy .mi}
-				set mailicon [tktray::icon .mi -image mailtrayicon] 
+				catch {destroy .mi}
+				set mailicon .mi
+				tktray::icon .mi -image mailtrayicon
 				after 1000 { trayicon_resize .mi}
 
 				bind .mi <<IconCreate>> {puts "mail tray created"}
