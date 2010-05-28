@@ -1,7 +1,28 @@
+/* statusicon.c:
+ *
+ * Copyright (C) 2010 Youness Alaoui
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
 
 #include "statusicon.h"
 
-#define QUARTZ_POOL_ALLOC NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]
+#define QUARTZ_POOL_ALLOC NSAutoreleasePool *pool = \
+    [[NSAutoreleasePool alloc] init]
 #define QUARTZ_POOL_RELEASE [pool release]
 
 static int icon_counter = 0;
@@ -13,12 +34,15 @@ typedef struct {
   Tcl_Obj *cb;
 } callback_s;
 
-int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int Statusicon_Create(ClientData clientData, Tcl_Interp *interp,
+		      int objc, Tcl_Obj *CONST objv[])
 {
   char name[15];
   Tcl_HashEntry *hPtr = NULL;
   int newHash;
   callback_s *callback = NULL;
+  int ret = TCL_OK;
+  QuartzStatusIcon *status_item = NULL;
 
   if(objc != 2) {
     Tcl_WrongNumArgs(interp, 1, objv, "callback");
@@ -32,12 +56,12 @@ int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_O
   callback->cb = objv[1];
   Tcl_IncrRefCount(callback->cb);
 
-  QuartzStatusIcon *status_item = [[QuartzStatusIcon alloc] initWithCallback:Statusicon_Callback andUserData:callback];
+  status_item = [[QuartzStatusIcon alloc] initWithCallback:Statusicon_Callback
+					       andUserData:callback];
   if (status_item == NULL) {
     Tcl_DecrRefCount(callback->cb);
     ckfree(callback);
-    QUARTZ_POOL_RELEASE;
-    return TCL_ERROR;
+    ret = TCL_ERROR;
   } else {
     sprintf(name, "statusicon%d", ++icon_counter);
 
@@ -50,15 +74,19 @@ int Statusicon_Create(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_O
     Tcl_ResetResult(interp);
     Tcl_AppendResult(interp, name, NULL);
   }
+
   QUARTZ_POOL_RELEASE;
 	
-  return TCL_OK;
+  return ret;
 }
 
-void Statusicon_Callback(QuartzStatusIcon *status_item, void *user_data, int doubleAction)
+void Statusicon_Callback(QuartzStatusIcon *status_item, void *user_data,
+			 int doubleAction)
 {
   callback_s * callback = (callback_s *) user_data;
-  Tcl_Obj *action = Tcl_NewStringObj(doubleAction ? "DOUBLE_ACTION" : "ACTION", -1);
+  Tcl_Obj *action = Tcl_NewStringObj(doubleAction ?
+				     "DOUBLE_ACTION" :
+				     "ACTION", -1);
   Tcl_Obj *eval = Tcl_NewStringObj("eval", -1);
   Tcl_Obj *command[] = {eval, callback->cb, action};
 
@@ -77,7 +105,8 @@ void Statusicon_Callback(QuartzStatusIcon *status_item, void *user_data, int dou
   
 }
 
-int Statusicon_SetImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int Statusicon_SetImage(ClientData clientData, Tcl_Interp *interp,
+			int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
   Tcl_HashEntry *hPtr = NULL;
@@ -110,7 +139,8 @@ int Statusicon_SetImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl
   return TCL_OK;
 }
 
-int Statusicon_SetAlternateImage(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int Statusicon_SetAlternateImage(ClientData clientData, Tcl_Interp *interp,
+				 int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
   Tcl_HashEntry *hPtr = NULL;
@@ -143,7 +173,8 @@ int Statusicon_SetAlternateImage(ClientData clientData, Tcl_Interp *interp, int 
   return TCL_OK;
 }
 
-int Statusicon_SetTooltip(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int Statusicon_SetTooltip(ClientData clientData, Tcl_Interp *interp,
+			  int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
   Tcl_HashEntry *hPtr = NULL;
@@ -176,7 +207,8 @@ int Statusicon_SetTooltip(ClientData clientData, Tcl_Interp *interp, int objc, T
   return TCL_OK;
 }
 
-int Statusicon_SetTitle(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int Statusicon_SetTitle(ClientData clientData, Tcl_Interp *interp,
+			int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
   Tcl_HashEntry *hPtr = NULL;
@@ -209,7 +241,8 @@ int Statusicon_SetTitle(ClientData clientData, Tcl_Interp *interp, int objc, Tcl
   return TCL_OK;
 }
 
-int Statusicon_SetHighlightMode(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int Statusicon_SetHighlightMode(ClientData clientData, Tcl_Interp *interp,
+				int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
   Tcl_HashEntry *hPtr = NULL;
@@ -243,7 +276,8 @@ int Statusicon_SetHighlightMode(ClientData clientData, Tcl_Interp *interp, int o
 
   return TCL_OK;
 }
-int Statusicon_SetVisible(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int Statusicon_SetVisible(ClientData clientData, Tcl_Interp *interp,
+			  int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
   Tcl_HashEntry *hPtr = NULL;
@@ -278,7 +312,8 @@ int Statusicon_SetVisible(ClientData clientData, Tcl_Interp *interp, int objc, T
   return TCL_OK;
 }
 
-int Statusicon_Destroy(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int Statusicon_Destroy(ClientData clientData, Tcl_Interp *interp,
+		       int objc, Tcl_Obj *CONST objv[])
 {
   QuartzStatusIcon *status_item;
   callback_s * callback = NULL;
@@ -337,14 +372,22 @@ int Statusicon_Init(Tcl_Interp *interp)
   callbacks = (Tcl_HashTable *) ckalloc(sizeof(Tcl_HashTable));
   Tcl_InitHashTable(callbacks, TCL_STRING_KEYS);
 
-  Tcl_CreateObjCommand(interp, "::statusicon::create", Statusicon_Create, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "::statusicon::setImage", Statusicon_SetImage, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "::statusicon::setAlternateImage", Statusicon_SetAlternateImage, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "::statusicon::setTooltip", Statusicon_SetTooltip, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "::statusicon::setTitle", Statusicon_SetTitle, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "::statusicon::setHighlightMode", Statusicon_SetHighlightMode, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "::statusicon::setVisible", Statusicon_SetVisible, NULL, NULL);
-  Tcl_CreateObjCommand(interp, "::statusicon::destroy", Statusicon_Destroy, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::create",
+		       Statusicon_Create, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setImage",
+		       Statusicon_SetImage, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setAlternateImage",
+		       Statusicon_SetAlternateImage, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setTooltip",
+		       Statusicon_SetTooltip, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setTitle",
+		       Statusicon_SetTitle, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setHighlightMode",
+		       Statusicon_SetHighlightMode, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::setVisible",
+		       Statusicon_SetVisible, NULL, NULL);
+  Tcl_CreateObjCommand(interp, "::statusicon::destroy",
+		       Statusicon_Destroy, NULL, NULL);
   
 
   return Tcl_PkgProvide(interp, "statusicon", "0.1");
