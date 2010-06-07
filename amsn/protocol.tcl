@@ -1110,9 +1110,10 @@ namespace eval ::MSN {
 				set groups $information
 			}
 		}
-		if { $curr_list == "RL" && [lsearch [::abook::getLists $username] "PL"] == -1 && [lsearch [::abook::getLists $username] "AL"] == -1 && [lsearch [::abook::getLists $username] "BL"] == -1 } {
-			newcontact $username $nickname
-		} elseif { $curr_list == "RL" && ( [lsearch [::abook::getLists $username] "AL"] != -1 || [lsearch [::abook::getLists $username] "BL"] != -1 ) } {
+		#if { $curr_list == "RL" && [lsearch [::abook::getLists $username] "PL"] == -1 && [lsearch [::abook::getLists $username] "AL"] == -1 && [lsearch [::abook::getLists $username] "BL"] == -1 } {
+		#	newcontact $username $nickname
+		#} else
+		if { $curr_list == "RL" && [lsearch [::abook::getLists $username] "PL"] != -1 && ( [lsearch [::abook::getLists $username] "AL"] != -1 || [lsearch [::abook::getLists $username] "BL"] != -1 ) } {
 			#Contact already in Allow List or Block List, so the notification window is useless, just silently remove from the PL:
 			::MSN::WriteSB ns "REM" "PL $username"
 		}
@@ -7203,7 +7204,7 @@ proc ::MSN::ABSynchronizationDone { initial error } {
 				if {$nickname == "" } {
 					set nickname $username
 				}
-				newcontact $username $nickname
+				#newcontact $username $nickname
 			}
 		}
 		::groups::Enable
