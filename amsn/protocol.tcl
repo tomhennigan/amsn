@@ -4499,6 +4499,7 @@ namespace eval ::MSNOIM {
 			}
 			5 {
 				# Closed a CW?
+				# "463803701;207.46.124.143:1863"
 			}
 			6 {
 				# resynchronize..
@@ -5189,10 +5190,10 @@ namespace eval ::MSNOIM {
 		set users_list $options(-users)
 
 		#Look what should be our chatID, depending on the number of users
-		if { [llength $users_list] == 1 } {
-			set desiredchatid $typer
-		} else {
+		if { [llength $users_list] > 1 } {
 			set desiredchatid $self ;#For conferences, use sb_name as chatid
+		} else {
+			set desiredchatid $typer
 		}
 
 		#Get the current chatid
