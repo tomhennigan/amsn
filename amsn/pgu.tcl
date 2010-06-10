@@ -19,7 +19,7 @@ namespace eval PGU {
 		variable wait 0                             ;# For vwait
 		variable tokens
 		variable last_error ""
-		array set options {-degree 10 -timeout 60000 -maxRetries 3}
+		array set options {-degree 10 -timeout 120000 -maxRetries 3}
 	}
 
 	proc ::PGU::Reset {} {
