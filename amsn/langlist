@@ -233,7 +233,7 @@
 		<langcode>pt</langcode>
 		<name>Portuguese - Portugal (português)</name>
 		<version>1.63</version>
-		<encoding>iso8859-1</encoding>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>pt_BR</langcode>
