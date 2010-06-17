@@ -1037,6 +1037,7 @@ update Actualizar
 updateonlycurrentlanguage Actualización sólo del lenguaje actual
 updatesaved Hecho\n Guardado $1 en $2.
 updating Actualizando
+upgradetcltk Necesitas la versión de TCL/TK $1 o superior para ejecutar aMSN. Por favor actualízalo."
 useasdp Usar como imagen para mostrar
 useasregexp Interpretar como expresión regular
 useother Usar un comando o programa distinto
