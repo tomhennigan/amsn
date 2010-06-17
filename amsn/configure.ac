@@ -88,10 +88,10 @@ TCLSH=`which tclsh`
 VERSION=`echo "puts $::tcl_version ; exit" | ${TCLSH}`
 AC_ARG_ENABLE(version-check, [  --disable-version-check Disable checking that linked tcl/tk version is the same version that bin program tclsh ],    [version_ok=$enableval], [version_ok=yes])
 
-OLDV=`expr $VERSION \< 8.4`
+OLDV=`expr $VERSION \< 8.5`
 
 if test "x${version_ok}" = "xyes" -a $OLDV = 1; then
-    AC_MSG_ERROR(Your current Tcl/Tk installation has a version number of $VERSION. The minimal version required for aMSN to run is Tcl/Tk 8.4)
+    AC_MSG_ERROR(Your current Tcl/Tk installation has a version number of $VERSION. The minimal version required for aMSN to run is Tcl/Tk 8.5)
 fi
 
 

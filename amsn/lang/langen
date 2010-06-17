@@ -1037,6 +1037,7 @@ updateonlycurrentlanguage Update only the current language
 updatesaved Done\n Saved $1 in $2.
 update Update
 updating Updating
+upgradetcltk You need TCL/TK $1 or better to run aMSN. Please upgrade."
 useasdp Use as Display Picture
 useasregexp Use as a Regular Expression (regexp)
 useother Use a different program

@@ -61,25 +61,6 @@ set ::env(LC_ALL) "C"
 
 
 ############################################################
-### Try to load tk and make sure tcl/tk is new enough for us
-############################################################
-package require Tk
-
-if {$::tcl_version <= 8.3} {
-	tk_messageBox -default ok -message "You need TCL/TK 8.4\
-	 or better to run aMSN. Please upgrade."  -icon warning
-	exit
-}
-#Q: can't this be done in 1 check like "[package require Tk] > 8.3" ?
-#A: not on windows because you want any version of Tk to be loaded to show the messagebox
-
-############################################################
-### Hide the main window until it has been fully displayed
-############################################################
-wm state . withdrawn
-
-
-############################################################
 ### Some global variables
 ############################################################
 # variable rcversion so autoupdate has no problems, version is used to be easier for users
@@ -165,6 +146,54 @@ if { [OnDarwin] } {
    set HOME "[file join [pwd] amsn_config]"
 }
 set HOME2 $HOME
+
+############################################################
+### Try to load tk and make sure tcl/tk is new enough for us
+############################################################
+package require Tk
+
+if {$::tcl_version < 8.5} {
+	wm state . withdrawn
+
+	# Dummy functions required by sourcing sxml/lang/config.tcl
+	set initialize_amsn 1
+	proc status_log {args} {}
+	proc load_my_pic {args} {}
+	proc Showhidemenu {args} {}
+	proc LoadStateList {args} {}
+	namespace eval ::ChatWindow {
+	    proc ShowHideChatWindowMenus {args} {}
+	}
+	namespace eval ::smiley {
+	    proc cleanup {args} {}
+	    proc parseMessageToList {args} {}
+	}
+	namespace eval ::plugins {
+	    proc LoadPlugins {args} {}
+	    proc calledFrom {args} {return -1}
+	    proc PostEvent {args} {}
+	}
+	namespace eval ::skin {
+	    proc reloadSkin {args} {}
+	}
+
+	# Load the required files for translations and user's lang config
+	source sxml.tcl
+	source lang.tcl
+	source config.tcl
+
+	tk_messageBox -default ok -message [trans upgradetcltk 8.5] -icon warning
+	exit
+}
+#Q: can't this be done in 1 check like "[package require Tk] > 8.5" ?
+#A: not on windows because you want any version of Tk to be loaded to show the messagebox
+
+
+############################################################
+### Hide the main window until it has been fully displayed
+############################################################
+wm state . withdrawn
+
 
 ############################################################
 ### And setup where to find optional packages
