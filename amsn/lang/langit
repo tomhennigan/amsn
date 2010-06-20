@@ -1037,6 +1037,7 @@ update Aggiorna
 updateonlycurrentlanguage Aggiorna soltanto la lingua in uso
 updatesaved Fatto\n $1 salvato in $2.
 updating Aggiornamento in corso
+upgradetcltk Ti serve TCL/TK $1 o superiore per eseguire aMSN. Aggiorna, per favore.
 useasdp Usa come immagine personale
 useasregexp Usa come un'espressione regolare (regexp)
 useother Usa un altro programma

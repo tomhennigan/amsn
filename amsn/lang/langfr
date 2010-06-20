@@ -1037,6 +1037,7 @@ update Mise à jour
 updateonlycurrentlanguage Ne mettre à jour que la langue utilisée
 updatesaved Effectué\n Fichier $1 enregistré dans $2.
 updating Mise à jour
+upgradetcltk aMSN a besoin de TCL/TK version $1 ou supérieure. Merci de mettre à jour.
 useasdp Utiliser en tant qu'avatar
 useasregexp Utiliser en tant qu'expression régulière (regexp)
 useother Utiliser un programme différent
