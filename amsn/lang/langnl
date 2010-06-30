@@ -544,7 +544,7 @@ ljoinedconf $1 nam deel aan de vergadering
 lleftconf $1 heeft de vergadering verlaten
 load Activeren
 loadcontacts Contactenlijst importeren
-loadotherdisplaypic Even geduld, de schermafbeeldingen van $1 worden geladen...	
+loadotherdisplaypic Even geduld, de schermafbeeldingen van $1 worden geladen...
 logbigger Het logboek mag per contact niet groter zijn dan 
 logeventconnect In logboek vastleggen wanneer een contact online komt
 logeventdisconnect In logboek vastleggen wanneer een contact offline gaat
@@ -1037,6 +1037,7 @@ update Bijwerken
 updateonlycurrentlanguage Alleen de huidige taal bijwerken
 updatesaved Klaar\n $1 opgeslagen in $2.
 updating Bezig met bijwerken
+upgradetcltk Je hebt TCL/TK $1 of hoger nodig om aMSN te kunnen gebruiken. Upgrade alsjeblieft.
 useasdp Gebruiken als schermafbeelding
 useasregexp Gebruiken als reguliere expressie (regexp)
 useother Een ander programma gebruiken
