@@ -864,7 +864,7 @@ namespace eval ::ChatWindow {
             if {[OnUnix]} {
                 catch { linunflash $window }
             } elseif {[OnWin]} {
-                catch { winflash $window -state 0 }
+		    #catch { winflash $window -state 0 }
             }
             TrayBlinkStop $window
         }
