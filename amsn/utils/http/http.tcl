@@ -196,7 +196,9 @@ proc http::Finish {token {errormsg ""} {skipCB 0}} {
         ($state(status) eq "timeout") || ($state(status) eq "error") ||
         ([info exists state(connection)] && ($state(connection) eq "close"))
     } then {
-        CloseSocket $state(sock) $token
+	if { [info exists state(sock)]} {
+	    CloseSocket $state(sock) $token
+	}
     }
     if {[info exists state(after)]} {
         after cancel $state(after)
