@@ -386,7 +386,11 @@ proc NTLMauthenticate { thost tport } {
 	                                        return -1
 	                                }
 	                        } else {
-	                                set res [::Socks5::Init $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]
+	                                if { [catch {set res [::Socks5::Init $sock $proxy_serv $proxy_port $proxy_authenticate $proxy_user $proxy_password]} res2]} {
+                                          #Happened with SOCKS proxy when I got kicked for an instant
+                                          $sb configure -error_msg $res2
+                                          return -1
+                                        }
 	                                if { $res != "OK" } {
 	                                        $sb configure -error_msg $res
 	                                        return -1
