@@ -7132,7 +7132,10 @@ proc cmsn_auth {{recv ""}} {
 
 
 proc ::MSN::ABSynchronizationDone { initial error } {
-	if {$error == 0 } {
+	if {$error != -2 } {
+		if {$error != 0} {
+			::amsn::errorMsg "[trans abookerror]"
+		}
 		::MSN::contactListChanged
 
 		set contacts [::MSN::getList FL]
@@ -7218,9 +7221,6 @@ proc ::MSN::ABSynchronizationDone { initial error } {
 	} elseif {$error == 2 } {
 		#ABDoesNotExist
 		$::ab ABAdd ::MSN::ABAddDone [::config::getKey login]
-	} else {
-		::MSN::logout
-		::amsn::errorMsg "[trans internalerror]"		
 	}
 }
 

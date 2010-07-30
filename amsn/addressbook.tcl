@@ -99,27 +99,27 @@ snit::type Addressbook {
 		}
 
 		if {$ab_done == 0 } {
-			::MSN::clearList FL
-			::MSN::clearList EL
-			foreach username [::abook::getAllContacts] {
-				::abook::removeContactFromList $username "FL"
-				::abook::removeContactFromList $username "EL"
-			}
-			::groups::Reset
-			::groups::Set 0 [trans nogroup]
+			#::MSN::clearList FL
+			#::MSN::clearList EL
+			#foreach username [::abook::getAllContacts] {
+			#	::abook::removeContactFromList $username "FL"
+			#	::abook::removeContactFromList $username "EL"
+			#}
+			#::groups::Reset
+			#::groups::Set 0 [trans nogroup]
 
 			after 0 [list $self ABFindAll [list $self ABFindAllDone $callback]]
 		}
 		if {$fm_done == 0 } {
-			::MSN::clearList BL
-			::MSN::clearList RL
-			::MSN::clearList AL
-			foreach username [::abook::getAllContacts] {
+			#::MSN::clearList BL
+			#::MSN::clearList RL
+			#::MSN::clearList AL
+			#foreach username [::abook::getAllContacts] {
 				#Remove user from all lists while receiving List data
-				::abook::removeContactFromList $username "AL"
-				::abook::removeContactFromList $username "BL"
-				::abook::removeContactFromList $username "RL"
-			}
+			#	::abook::removeContactFromList $username "AL"
+			#	::abook::removeContactFromList $username "BL"
+			#	::abook::removeContactFromList $username "RL"
+			#}
 			after 0 [list $self FindMembership [list $self FindMembershipDone $callback]]
 		}
 		if {$fm_done && $ab_done } {
@@ -148,6 +148,15 @@ snit::type Addressbook {
 				$self SynchronizeDone $callback $error
 			} 
 		} else {
+                        ::MSN::clearList FL
+                        ::MSN::clearList EL
+                        foreach username [::abook::getAllContacts] {
+                                ::abook::removeContactFromList $username "FL"
+                                ::abook::removeContactFromList $username "EL"
+                        }
+                        ::groups::Reset
+                        ::groups::Set 0 [trans nogroup]
+
 			set ab_done 1
 			if {$fm_done == 1 } {
 				$self SynchronizeDone $callback $error
@@ -248,11 +257,21 @@ snit::type Addressbook {
 				}
 			} else {
 				$self _destroySoapReq $soap
+				foreach username [::abook::getAllContacts] {
+					foreach list [::abook::getContactData $username lists] {
+						::MSN::addToList $list $username
+					}
+				}
 				if {[catch {eval $callbk [list 1]} result]} {
 					bgerror $result
 				}
 			}
 		} else { 
+			foreach username [::abook::getAllContacts] {
+				foreach list [::abook::getContactData $username lists] {
+					::MSN::addToList $list $username
+				}
+			}
 			$self _destroySoapReq $soap
 			if {[catch {eval $callbk [list 1]} result]} {
 				bgerror $result
