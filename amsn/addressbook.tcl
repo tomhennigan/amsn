@@ -128,31 +128,53 @@ snit::type Addressbook {
 	}
 
 	method FindMembershipDone { callback error } {
-		if {$error } {
+		if { $error == 0 } {
+			set fm_done 1
+			if { $ab_done == 1 } {
+				$self SynchronizeDone $callback $error
+			} elseif { $ab_done == -2 } {
+				$self SynchronizeDone $callback 2
+			} elseif { $ab_done == -1 } {
+				$self SynchronizeDone $callback 1
+			}
+		} elseif { $error == 1 } {
 			set fm_done -1
-			if {$ab_done != -1 } {
+			if { $ab_done == -2 } {
+				$self SynchronizeDone $callback 2
+			} elseif { $ab_done != 0 } {
 				$self SynchronizeDone $callback $error
 			}
-		} else {
-			set fm_done 1
-			if {$ab_done == 1 } {
+		} elseif { $error == 2 } {
+			set fm_done -2
+			if { $ab_done != 0 } {
 				$self SynchronizeDone $callback $error
 			}
 		}
 	}
 
 	method ABFindAllDone {callback error } {
-		if {$error } {
-			set ab_done -1
-			if {$fm_done != -1 } {
-				$self SynchronizeDone $callback $error
-			} 
-		} else {
-			set ab_done 1
-			if {$fm_done == 1 } {
-				$self SynchronizeDone $callback $error
-			}
-		}
+                if { $error == 0 } {
+                        set ab_done 1
+                        if { $fm_done == 1 } {
+                                $self SynchronizeDone $callback $error
+                        } elseif { $fm_done == -2 } {
+                                $self SynchronizeDone $callback 2
+                        } elseif { $fm_done == -1 } {
+                                $self SynchronizeDone $callback 1
+                        }
+                } elseif { $error == 1 } {
+                        set ab_done -1
+                        if { $fm_done == -2 } {
+                                $self SynchronizeDone $callback 2
+                        } elseif { $fm_done != 0 } {
+                                $self SynchronizeDone $callback $error
+                        }
+                } elseif { $error == 2 } {
+                        set ab_done -2
+                        if { $fm_done != 0 } {
+                                $self SynchronizeDone $callback $error
+                        }
+                }
 	}
 
 	method SynchronizeDone {callback error } {
