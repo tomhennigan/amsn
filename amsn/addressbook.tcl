@@ -148,15 +148,6 @@ snit::type Addressbook {
 				$self SynchronizeDone $callback $error
 			} 
 		} else {
-                        ::MSN::clearList FL
-                        ::MSN::clearList EL
-                        foreach username [::abook::getAllContacts] {
-                                ::abook::removeContactFromList $username "FL"
-                                ::abook::removeContactFromList $username "EL"
-                        }
-                        ::groups::Reset
-                        ::groups::Set 0 [trans nogroup]
-
 			set ab_done 1
 			if {$fm_done == 1 } {
 				$self SynchronizeDone $callback $error
@@ -302,6 +293,15 @@ snit::type Addressbook {
 		if {[$self CheckPreferredServer $soap] } return
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
+
+                        ::MSN::clearList FL
+                        ::MSN::clearList EL
+                        foreach username [::abook::getAllContacts] {
+                                ::abook::removeContactFromList $username "FL"
+                                ::abook::removeContactFromList $username "EL"
+                        }
+                        ::groups::Reset
+                        ::groups::Set 0 [trans nogroup]
 
 			set ownercid [GetXmlEntry $xml "soap:Envelope:soap:Body:ABFindAllResponse:ABFindAllResult:ab:abInfo:OwnerCID"]
 			if {$ownercid != "" } {
