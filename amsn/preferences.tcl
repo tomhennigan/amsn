@@ -16,7 +16,7 @@ namespace eval Preferences {
 			catch {focus -force .prefs}
 			return
 		}
-		
+
 		#Set pixmaps
 		::skin::setPixmap prefpers prefpers.gif
 		::skin::setPixmap prefprofile prefprofile.gif
@@ -26,26 +26,26 @@ namespace eval Preferences {
 		::skin::setPixmap preflook preflook.gif
 		::skin::setPixmap prefemotic prefemotic.gif
 		::skin::setPixmap prefalerts prefalerts.gif
-		
-		
+
+
 		if { [LoginList exists 0 [::config::getKey login]] == 1 } {
 			PreferencesWindow .prefs -title "[trans preferences] - [trans profiledconfig] - [::config::getKey login]" -savecommand ::Preferences::Save
 		} else {
 			PreferencesWindow .prefs -title "[trans preferences] - [trans defaultconfig] - [::config::getKey login]" -savecommand ::Preferences::Save
 		}
-		
+
 		#####################################################
 		# Section "Personal"
 		#####################################################
 		set section [PreferencesSection .prefs.personal -text [trans personal]]
-		
+
 		set frame [ItemsFrame .prefs.personal.nicks -text [trans prefname] -icon prefpers]
 		$frame addItem [TextEntry .prefs.personal.nicks.nick -width 40 -text "[trans enternick] :" \
 			-storecommand ::Preferences::StoreNick -retrievecommand [list ::abook::getPersonal MFN]]
 		$frame addItem [TextEntry .prefs.personal.nicks.chat -width 40 -text "[trans friendlyname] :" \
 			-variable [::config::getVar p4c_name]]
 		$section addItem $frame
-		
+
 		set frame [ItemsFrame .prefs.personal.preffont -text [trans preffont] -icon preffont]
 		$frame addItem [Label .prefs.personal.preffont.lab -text [trans preffont2] -align center]
 		$frame addItem [CommandButton .prefs.personal.preffont.changefont -text [trans changefont] \
@@ -53,7 +53,7 @@ namespace eval Preferences {
 		$frame addItem [CommandButton .prefs.personal.preffont.changeincomingfont -text [trans changefont] \
 			-variable [::config::getVar theirchatfont] -buttoncommand ::Preferences::ChangeFont]
 		$section addItem $frame
-	
+
 		set frame [ItemsFrame .prefs.personal.prefphone -text [trans prefphone] -icon prefphone]
 		#$frame addItem [Label create .prefs.personal.prefphone.lab -text [trans prefphone2]]
 		$frame addItem [TextEntry .prefs.personal.prefphone.home -text "[trans myhomephone]:" -width 20 \
@@ -65,7 +65,7 @@ namespace eval Preferences {
 		$frame addItem [CheckBox .prefs.personal.prefphone.allowsms -text [trans allow_sms] \
 			-onvalue "Y" -offvalue "N" -storecommand [list ::abook::setPhone pager] -retrievecommand [list ::abook::getPersonal MOB]]
 		$section addItem $frame
-		
+
 
 		.prefs addSection $section
 
@@ -90,30 +90,30 @@ namespace eval Preferences {
 			-values [list MDY DMY YMD] -variable [::config::getVar dateformat]]
 
 		$section addItem $frame
-	
+
 		####################################################
 		# Section ...
 		#####################################################
 		set section [PreferencesSection .prefs.caca -text "Test"]
 		$section addSection [PreferencesSection .prefs.caca2 -text "Test2"]
 		$section addSection [PreferencesSection .prefs.caca3 -text "Test3"]
-		
+
 		.prefs addSection $section
-			
+
 		.prefs show .prefs_window
-	
+
 		Configure 1
-		
+
 	}
 
 	proc Configure { {fullinit 0} } {
 
 		if {![winfo exists .prefs]} {
 			return
-		} 
+		}
 
 		if { $fullinit } {
-	
+
 			.prefs.personal.nicks.chat setValue [::config::getKey p4c_name]
 			if { [::MSN::myStatusIs] == "FLN" } {
 				.prefs.personal.nicks.nick configure -enabled 0
@@ -121,7 +121,7 @@ namespace eval Preferences {
 				.prefs.personal.prefphone.work configure -enabled 0
 				.prefs.personal.prefphone.mobile configure -enabled 0
 				.prefs.personal.prefphone.allowsms configure -enabled 0
-				
+
 			} else {
 				.prefs.personal.nicks.nick configure -enabled 1
 				.prefs.personal.prefphone.home configure -enabled 1
@@ -133,14 +133,14 @@ namespace eval Preferences {
 			}
 		}
 
-	
+
 	}
 
 	proc Save {} {
 
 		set must_restart 0
-		
-		# Check and save phone numbers		
+
+		# Check and save phone numbers
 		if { [::MSN::myStatusIs] != "FLN" } {
 			#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 			set home [urlencode [.prefs.personal.prefphone.home getValue]]
@@ -156,7 +156,7 @@ namespace eval Preferences {
 				::abook::setPhone mobile $mobile
 			}
 		}
-		
+
 		if { [preflook.font getValue] != [::config::getGlobalKey basefont]} {
 			set must_restart 1
 		}
@@ -173,35 +173,35 @@ namespace eval Preferences {
 	proc ChangeFont { currentfont } {
 
 		#Get current font configuration
-		set fontname [lindex $currentfont 0] 
+		set fontname [lindex $currentfont 0]
 		set fontstyle [lindex $currentfont 1]
 		set fontcolor [lindex $currentfont 2]
-	
+
 		if { [catch {
 				set selfont_and_color [SelectFont .fontsel -parent .prefs_window -title [trans choosebasefont] -font [list $fontname 12 $fontstyle] -initialcolor "#$fontcolor"]
 			}]} {
-			
+
 			set selfont_and_color [SelectFont .fontsel -parent .prefs_window -title [trans choosebasefont] -font [list "helvetica" 12 [list]] -initialcolor "#000000"]
-			
+
 		}
-		
+
 		set selfont [lindex $selfont_and_color 0]
 		set selcolor [lindex $selfont_and_color 1]
-	
+
 		if { $selfont == ""} {
 			return $currentfont
 		}
-		
+
 		set sel_fontfamily [lindex $selfont 0]
 		set sel_fontstyle [lrange $selfont 2 end]
-		
-		
+
+
 		if { $selcolor == "" } {
 			set selcolor $fontcolor
 		} else {
 			set selcolor [string range $selcolor 1 end]
 		}
-		
+
 		return [list $sel_fontfamily $sel_fontstyle $selcolor]
 	}
 
@@ -211,18 +211,18 @@ namespace eval Preferences {
 			return
 		}
 
-	
+
 		if { [catch {
 			set font [SelectFont .basefontsel -parent .prefs_window -title [trans choosebasefont] -font $currentfont -styles [list]]
 			}]} {
-		
+
 			set font [SelectFont .basefontsel -parent .prefs_window -title [trans choosebasefont] -font [list "helvetica" 12 [list]] -styles [list]]
-		
+
 		}
 
 		set family [lindex $font 0]
 		set size [lindex $font 1]
-			
+
 		if { $family == "" || $size == ""} {
 			return $currentfont
 		}
@@ -250,9 +250,9 @@ namespace eval Preferences {
 #This object type is a generic and abstract preference item.
 # OPTIONS
 # -variable	The variable where the value will be stored/retrieved
-# -retrievecommand	
+# -retrievecommand
 #		A command that needs to be called to retrieve the initial value of the text entry
-# -storecommand		
+# -storecommand
 #		A command that needs to be called to store the value of the text entry when the "store"
 #		method is called. The command will be appended one argument, the text entry value
 # -enabled	Enables or disabled the item
@@ -262,21 +262,21 @@ namespace eval Preferences {
 # draw(path)	Draws the item inside the specified container
 # store()	Store the item value in the related variable
 ::snit::type PreferenceItem {
-	
+
 	#The variable where the items stores its data
 	option -variable -readonly no -default ""
 	#The command that must be executed to retrieve the value. This command should return the variable value
 	option -retrievecommand -readonly no -default ""
 	#The command that must be executed to store the command. The value in the widget will be appended as parameter to the command
 	option -storecommand -readonly no -default ""
-	
+
 	#Enable or disable the item
 	option -enabled -default true
 
 	##########################################
 	#Common methods for all preference items
 	##########################################
-	
+
 	constructor {args} {
 		$self configurelist $args
 	}
@@ -286,7 +286,7 @@ namespace eval Preferences {
 		$self setValue $var
 		set options(-variable) $val
 	}
-	onconfigure -retrievecommand { val } {	
+	onconfigure -retrievecommand { val } {
 		$self setValue [eval $val]
 		set options(-retrievecommand) $val
 	}
@@ -297,12 +297,12 @@ namespace eval Preferences {
 	method getValue {} {
 		return $value
 	}
-	
+
 	#Set the item value
 	method setValue {new_val} {
 		set value $new_val
 	}
-	
+
 	#Draw the element in the given widget path (path must be a container)
 	method draw {path} {
 		label $path.l -text "Preference item"
@@ -320,12 +320,12 @@ namespace eval Preferences {
 			status_log "   in variable $options(-variable)\n" blue
 			upvar $options(-variable) var
 			set var [$self getValue]
-		}		
+		}
 		if { $options(-storecommand) != "" } {
 			status_log "   with command $options(-storecommand)\n" blue
 			eval [concat $options(-storecommand) [list [$self getValue]]]
 		}
-		
+
 	}
 
 	method valueVar {} {
@@ -333,7 +333,7 @@ namespace eval Preferences {
 	}
 }
 
-#This type is child of PreferenceItem. It groups some options under a 
+#This type is child of PreferenceItem. It groups some options under a
 #frame with a label and an icon.
 #Usage:
 # OPTIONS
@@ -359,11 +359,11 @@ namespace eval Preferences {
 		install preferenceitem using PreferenceItem %AUTO%
 		$self configurelist $args
 	}
-	
+
 	destructor {
 		#Destroy the PreferenceItem object
 		$preferenceitem destroy
-		
+
 		#Destroy child items
 		foreach item $items {
 			$item destroy
@@ -373,13 +373,13 @@ namespace eval Preferences {
 		if [winfo exists $itemPath.f] {
 			destroy $itemPath.f
 		}
-		
+
 	}
-	
+
 	#########################
 	#Static options (creation time)
 	#########################
-	
+
 	#Text for the item label
 	option -text -readonly yes -default ""
 	#Icon for the frame
@@ -392,12 +392,12 @@ namespace eval Preferences {
 	#Dinamic options
 	#########################
 	option -enabled -default true
-		
+
 	#Add a new PreferenceItem to the group
 	method addItem {item} {
 		lappend items $item
 	}
-	
+
 	#Triggered when the -enabled option is changed
 	onconfigure -enabled { val } {
 		set options(-enabled) $val
@@ -408,28 +408,28 @@ namespace eval Preferences {
 			$item configure -enabled $val
 		}
 	}
-	
-	
+
+
 	#Create the label frame and icon, and tell all children items to draw themshelves
 	method draw { path } {
-	
+
 		#Store the path for later usage
 		set itemPath $path
-		
+
 		#Create and pack the labelframe
-		set f [labelframe $path.f -text $options(-text) -font splainf] 
+		set f [labelframe $path.f -text $options(-text) -font splainf]
 		pack $path.f -side top -fill x
-		
+
 		#If there is an icon, draw it
 		if { $options(-icon) != "" } {
 			frame $f.f
 			label $f.icon -image [::skin::loadPixmap $options(-icon)]
 			pack $f.icon -side left -padx 5 -pady 5
 			pack $f.f -side left -fill x -expand true
-			
+
 			set f $f.f
 		}
-		
+
 		#Now tell all the children to draw themshelves, and pack them
 		set num 0
 		foreach item $items {
@@ -437,11 +437,11 @@ namespace eval Preferences {
 			frame $f2
 			$item draw $f2
 			pack $f2 -side top -expand $options(-expand) -fill $options(-fill)
-			
+
 			incr num
 		}
 	}
-	
+
 	#Tell all children to store themselves
 	method store {} {
 		foreach item $items {
@@ -460,22 +460,22 @@ namespace eval Preferences {
 # -enabled	Enables or disabled the text entry
 # METHODS
 ::snit::type TextEntry {
-	
+
 	#Delegate to PrferenceItem!!
 	delegate method * to preferenceitem
 	delegate option * to preferenceitem
-	
+
 	#Enable or disable the item
 	option -enabled -default true
-		
+
 	#The widget path
 	variable itemPath ""
-		
+
 	constructor {args} {
 		install preferenceitem using PreferenceItem %AUTO%
 		$self configurelist $args
 	}
-	
+
 	destructor {
 		#Destroy the PreferenceItem instance
 		$preferenceitem destroy
@@ -483,46 +483,46 @@ namespace eval Preferences {
 		destroy $itemPath.l
 		destroy $itemPath.t
 	}
-	
+
 	#########################
 	#Static options (creation time)
 	#########################
 	#Command to be triggered when the item changes
 	option -onchange -readonly yes -default ""
-	
+
 	#Text for the item label
 	option -text -readonly yes -default ""
 	#With of the textfield
 	option -width -readonly yes -default ""
-	
+
 	#########################
 	#Dinamic options
 	#########################
-	
+
 	#Triggered when the -enabled option is changed
 	onconfigure -enabled { val } {
 		set options(-enabled) $val
 		$preferenceitem configure -enabled $val
 		if {[winfo exists $itemPath.t]} {
 			if { $val } {
-				$itemPath.t configure -state normal 
+				$itemPath.t configure -state normal
 			} else {
 				$itemPath.t configure -state disabled
 			}
 		}
 	}
-		
+
 	#Draw the text box in the given path
 	method draw { path } {
 
 		set itemPath $path
 		#Draw an input box
-		
+
 		#Composed by a label... and...
 		label $path.l -text $options(-text) -font sboldf
-		
+
 		if { $options(-enabled) } {
-			set state normal 
+			set state normal
 		} else {
 			set state disabled
 		}
@@ -532,7 +532,7 @@ namespace eval Preferences {
 		} else {
 			set validatecommand ""
 		}
-		
+
 		#...a text entry (can have defined width or not)
 		if { [string is integer -strict $options(-width)] } {
 			entry $path.t -width $options(-width) -state $state -textvariable [$self valueVar] \
@@ -546,7 +546,7 @@ namespace eval Preferences {
 			pack $path.l -side right -expand false -padx 5 -pady 3
 		}
 	}
-	
+
 }
 
 #A check box item. Child of PreferenceItem
@@ -559,65 +559,65 @@ namespace eval Preferences {
 # -offvalue	The value that the item will take when the checkbutton is not checked. Defaults to 0
 # METHODS
 ::snit::type CheckBox {
-	
+
 	#Delegate to PrferenceItem!!
 	delegate method * to preferenceitem
 	delegate option * to preferenceitem
 
 	#Enable or disable the item
 	option -enabled -default true
-		
+
 	#The widget path
 	variable itemPath ""
-		
+
 	constructor {args} {
 		install preferenceitem using PreferenceItem %AUTO%
 		$self configurelist $args
 	}
-	
+
 	destructor {
 		#Destroy the PreferenceItem instance
 		$preferenceitem destroy
 		#Destroy widgets
 		destroy $itemPath.c
 	}
-	
+
 	#########################
 	#Static options (creation time)
 	#########################
 	#Command to be triggered when the item changes
 	option -onchange -readonly yes -default ""
-	
+
 	#Text for the item label
 	option -text -readonly yes -default ""
 	#ON/OFF values
 	option -onvalue -readonly yes -default 1
 	option -offvalue -readonly yes -default 0
-	
+
 	#########################
 	#Dynamic options
 	#########################
-	
+
 	#Triggered when the -enabled option is changed
 	onconfigure -enabled { val } {
 		set options(-enabled) $val
 		$preferenceitem configure -enabled $val
 		if {[winfo exists $itemPath.c]} {
 			if { $val } {
-				$itemPath.c configure -state normal 
+				$itemPath.c configure -state normal
 			} else {
 				$itemPath.c configure -state disabled
 			}
 		}
 	}
 
-	
+
 	#Draw the text box in the given path
 	method draw { path } {
 
 		set itemPath $path
 		#Draw an input box
-		
+
 		if { $options(-enabled) } {
 			set state normal
 		} else {
@@ -629,14 +629,14 @@ namespace eval Preferences {
 		} else {
 			set changecommand ""
 		}
-		
+
 		#...a checkbutton entry
 		checkbutton $path.c -text $options(-text) -font sboldf -state $state -variable [$self valueVar] \
 			-command $changecommand -onvalue $options(-onvalue) -offvalue $options(-offvalue)
 
 		pack $path.c -side right -expand false -padx 5 -pady 3
 	}
-	
+
 }
 
 #A group of radio buttons. Child of PreferenceItem
@@ -648,43 +648,43 @@ namespace eval Preferences {
 # -enabled	Enables or disabled the radio buttons
 # METHODS
 ::snit::type RadioGroup {
-	
+
 	#Delegate to PrferenceItem!!
 	delegate method * to preferenceitem
 	delegate option * to preferenceitem
 
 	#Enable or disable the item
 	option -enabled -default true
-		
+
 	#The widget path
 	variable itemPath ""
-		
+
 	constructor {args} {
 		install preferenceitem using PreferenceItem %AUTO%
 		$self configurelist $args
 	}
-	
+
 	destructor {
 		#Destroy the PreferenceItem instance
 		$preferenceitem destroy
 		#Destroy widgets
 		destroy $itemPath.f
 	}
-	
+
 	#########################
 	#Static options (creation time)
 	#########################
 	#Command to be triggered when the item changes
 	option -onchange -readonly yes -default ""
-	
+
 	#Text for the item label
 	option -texts -readonly yes -default [list]
 	option -values -readonly yes -default [list]
-	
+
 	#########################
 	#Dynamic options
 	#########################
-	
+
 	#Triggered when the -enabled option is changed
 	onconfigure -enabled { val } {
 		set options(-enabled) $val
@@ -692,7 +692,7 @@ namespace eval Preferences {
 		if {[winfo exists $itemPath.f]} {
 			foreach child [winfo children $itemPath.f] {
 				if { $val } {
-					$child configure -state normal 
+					$child configure -state normal
 				} else {
 					$child configure -state disabled
 				}
@@ -700,13 +700,13 @@ namespace eval Preferences {
 		}
 	}
 
-	
+
 	#Draw the text box in the given path
 	method draw { path } {
 
 		set itemPath $path
 		#Draw an input box
-		
+
 		if { $options(-enabled) } {
 			set state normal
 		} else {
@@ -718,7 +718,7 @@ namespace eval Preferences {
 		} else {
 			set changecommand ""
 		}
-		
+
 		frame $path.f
 
 		set i 0
@@ -731,7 +731,7 @@ namespace eval Preferences {
 
 		pack $path.f -side left -expand false -padx 5 -pady 3
 	}
-	
+
 }
 
 
@@ -745,62 +745,62 @@ namespace eval Preferences {
 # -enabled	Enables or disabled the checkbutton
 # METHODS
 ::snit::type CommandButton {
-	
+
 	#Delegate to PrferenceItem!!
 	delegate method * to preferenceitem
 	delegate option * to preferenceitem
 
 	#The variable where the items stores its data
 	option -buttoncommand -readonly yes -default ""
-	
+
 	#Enable or disable the item
 	option -enabled -default true
-		
+
 	#The widget path
 	variable itemPath ""
-		
+
 	constructor {args} {
 		install preferenceitem using PreferenceItem %AUTO%
 		$self configurelist $args
 	}
-	
+
 	destructor {
 		#Destroy the PreferenceItem instance
 		$preferenceitem destroy
 		#Destroy widgets
 		destroy $itemPath.b
 	}
-	
+
 	#########################
 	#Static options (creation time)
 	#########################
 	#Text for the item label
 	option -text -readonly yes -default ""
 	option -align -readonly yes -default center
-	
+
 	#########################
 	#Dynamic options
 	#########################
-	
+
 	#Triggered when the -enabled option is changed
 	onconfigure -enabled { val } {
 		set options(-enabled) $val
 		$preferenceitem configure -enabled $val
 		if {[winfo exists $itemPath.b]} {
 			if { $val } {
-				$itemPath.b configure -state normal 
+				$itemPath.b configure -state normal
 			} else {
 				$itemPath.b configure -state disabled
 			}
 		}
 	}
-	
+
 	#Draw the button in the given path
 	method draw { path } {
 
 		set itemPath $path
 		#Draw an input box
-		
+
 		if { $options(-enabled) } {
 			set state normal
 		} else {
@@ -819,11 +819,11 @@ namespace eval Preferences {
 			}
 
 		}
-	
+
 		button $path.b -text $options(-text) -font sboldf -state $state -command [mymethod buttonPressed]
 		pack $path.b -expand false -padx 5 -pady 3 -anchor $anchor
 	}
-	
+
 
 	method buttonPressed {} {
 		if { $options(-buttoncommand) != "" } {
@@ -843,39 +843,39 @@ namespace eval Preferences {
 # -text		The text that is shown in the label
 # -align	right | left | center
 ::snit::type Label {
-	
+
 	#Delegate to PrferenceItem!!
 	delegate method * to preferenceitem
 	delegate option * to preferenceitem
 
 	#The widget path
 	variable itemPath ""
-		
+
 	constructor {args} {
 		install preferenceitem using PreferenceItem %AUTO%
 		$self configurelist $args
-		
+
 	}
-	
+
 	destructor {
 		#Destroy the PreferenceItem instance
 		$preferenceitem destroy
 		#Destroy widgets
 		destroy $itemPath.l
 	}
-	
+
 	#########################
 	#Static options (creation time)
 	#########################
-	
+
 	#Text for the item label
 	option -text -readonly yes -default ""
 	option -align -readonly yes -default center
-	
+
 	#########################
 	#Dinamic options
 	#########################
-	
+
 	#Draw the text box in the given path
 	method draw { path } {
 
@@ -891,7 +891,7 @@ namespace eval Preferences {
 			}
 
 		}
-		
+
 
 		set itemPath $path
 		label $path.l -text $options(-text) -font splainf
@@ -901,47 +901,47 @@ namespace eval Preferences {
 
 
 ::snit::widget PreferencesWindow {
-	
+
 	#Object is a children of PreferencesSection
 	delegate method * to preferencessection
-	
+
 	#Window title
 	option -title ""
 	option -savecommand ""
-	
+
 	constructor {args} {
 		install preferencessection using PreferencesSection %AUTO%
 		$self configurelist $args
 	}
-	
+
 	destructor {
 		#Destroy the instance of the parent.
 		#This will destroy subsections too
 		$preferencessection destroy
-		
+
 		#Destroy the window
 		if { [winfo exists $wname] } {
 			destroy $wname
 		}
-		
+
 	}
 
 	#A list with section objects, one per listbox element
 	variable sectionNames [list]
 	variable wname ""
-	
+
 	#Show the preferences window
 	method show { path } {
-	
+
 		#Create a window name and remember it
 		set wname $path
-		
+
 		#Create the toplevel window
 		toplevel $wname
 		wm title $wname $options(-title)
     		bind $wname <Destroy> [list $self destroyWindow %W]
 		bind $wname <<Escape>> [list destroy $wname]
-		
+
 		#Create the buttons
 		set w [frame $wname.buttons]
 		button $w.save -text [trans save] -default active -command [list $self savePressed]
@@ -952,11 +952,11 @@ namespace eval Preferences {
 		#Create the sections listbox and items area
 		set w [frame $wname.top]
 
-		#Create the sections listbox 
+		#Create the sections listbox
 		listbox $w.sections -width 15
 		#Create the items frame
 		frame $w.items
-		
+
 		#Do the packing
 		pack $w.sections -side left -fill y
 		pack $w.items -side right -fill both -expand true
@@ -967,17 +967,17 @@ namespace eval Preferences {
 		foreach section [$self getSectionsList] {
 			set sectionNames [concat $sectionNames [$section insertIntoList $w.sections 0]]
 		}
-		
+
 		wm geometry $wname 625x450
 	}
-	
+
 	#Invoked when a section is selected in the listbox
 	method sectionSelected { } {
 
-		#Get the section object name from the sectionNames list	
+		#Get the section object name from the sectionNames list
 		set idx [$wname.top.sections curselection]
 		set section [lindex $sectionNames $idx]
-		
+
 		#Create a new frames item, destroying previous one
 		set items "$wname.top.items.f"
 		if {[winfo exists $items]} {
@@ -985,12 +985,12 @@ namespace eval Preferences {
 		}
 		frame $items
 		pack $items -anchor nw -fill both
-		
+
 		#Show the selected section
 		$section show $items
-		
+
 	}
-	
+
 	method destroyWindow { w } {
 		if { $w == $wname } {
 			destroy $self
@@ -1006,19 +1006,19 @@ namespace eval Preferences {
 
 		destroy $wname
 	}
-	
+
 }
 
 #A section that contains zero, one or more preference items
 ::snit::type PreferencesSection {
-	
+
 	#List of items in this section
 	variable items_list [list]
 	#List of subsections
 	variable sections_list [list]
-	
+
 	option -text -readonly yes -default ""
-	
+
 	destructor {
 		#Destroy child items
 		foreach item $items_list {
@@ -1028,12 +1028,12 @@ namespace eval Preferences {
 		foreach section $sections_list {
 			$section destroy
 		}
-	}	
-	
+	}
+
 	method getSectionsList { } {
 		return $sections_list
 	}
-	
+
 	method addItem { item } {
 		lappend items_list $item
 	}
@@ -1041,37 +1041,37 @@ namespace eval Preferences {
 	method addSection {section} {
 		lappend sections_list $section
 	}
-	
+
 	#Insert this section and all subsections in the given listbox.
 	#Retuns a list of this section and all subsections names (recursive calls)
 	method insertIntoList { lb level } {
-	
+
 		#Append instance to sections list
 		set sectionNames $self
-	
+
 		#Set identation
 		set ident ""
 		for { set idx 0 } { $idx < $level } {incr idx } {
 			set ident "$ident   "
 		}
-		
+
 		#Add current section to the listbox
 		$lb insert end "$ident$options(-text)"
-		
+
 		#Add all subsections and append the result of the function call to the sections list
 		foreach subsection $sections_list {
 			set sectionNames [concat $sectionNames [$subsection insertIntoList $lb [expr {$level + 1}]]]
 		}
-		
+
 		#Return the sections list for this section and all subsections
 		return $sectionNames
 	}
-	
+
 	#Show the items in this section in the given path
 	method show { path } {
-	
+
 		set idx 0
-		
+
 		foreach item $items_list {
 			set f [frame $path.f$idx]
 			$item draw $f
@@ -1101,38 +1101,38 @@ proc test2 {item oldval newval} {
 
 proc new_preferences {} {
 	PreferencesWindow create .prefs
-	
+
 	PreferencesSection create .prefs.personal
 	PreferencesSection create .prefs.personal.nick
-	
-	.prefs.personal addItem 
-	
-	.pref_win 
+
+	.prefs.personal addItem
+
+	.pref_win
 }
 
 
 
 if { $initialize_amsn == 1 } {
 	global myconfig proxy_server proxy_port proxy_user proxy_pass rbsel rbcon pgc
-	
+
 	###################### Preferences Window ###########################
 	array set myconfig {}   ; # configuration backup
 	set proxy_server ""
 	set proxy_port ""
 	set proxy_pass ""
 	set proxy_user ""
-    	
+
 	set pgc 1
 }
 
 proc PreferencesCopyConfig {} {
 	global myconfig proxy_server proxy_port
-	
+
 	array set myconfig [::config::getAll]
-	
+
 	set proxy_server ""
 	set proxy_port ""
-	
+
 	# Now process certain exceptions. Should be reverted
 	# in the RestorePreferences procedure
 	catch {
@@ -1144,14 +1144,14 @@ proc PreferencesCopyConfig {} {
 
 ## Function that makes the group list in the preferences ##
 proc MakeGroupList { lfgroup lfcontact } {
-	
+
 	array set groups [::abook::getContactData contactlist groups]
-	
+
 	frame $lfgroup.lbgroup.fix
 	pack $lfgroup.lbgroup.fix -side left -anchor n -expand 1 -fill x -padx 5 -pady 5
 	label $lfgroup.lbgroup.fix.l -text \"[trans groups]\" -font sboldf
 	pack $lfgroup.lbgroup.fix.l -side top -anchor w -pady 5
-	
+
 	frame $lfgroup.lbgroup.fix.list
 	## create the listbox ##
 	listbox $lfgroup.lbgroup.fix.list.lb -yscrollcommand "$lfgroup.lbgroup.fix.list.sb set"
@@ -1161,7 +1161,7 @@ proc MakeGroupList { lfgroup lfcontact } {
 	pack $lfgroup.lbgroup.fix.list.lb -side left -anchor w -pady 0 -padx 0 -expand true -fill both
 	pack $lfgroup.lbgroup.fix.list.sb -side left -anchor w -pady 0 -padx 0 -fill y
 	pack $lfgroup.lbgroup.fix.list -side top -expand true -fill both
-	
+
 
 	## entries ##
 	$lfgroup.lbgroup.fix.list.lb insert end "[trans nogroup]"
@@ -1182,7 +1182,7 @@ proc GroupSelectedIs { lfgroup lfcontact } {
 		#Get the rbsel-th group. Note that groups must be inserted same order
 		array set groups [::abook::getContactData contactlist groups]
 		set rbsel [lindex [lsort [array names groups]] $rbsel]
-		MakeContactList $lfcontact 
+		MakeContactList $lfcontact
 	}
 }
 
@@ -1201,7 +1201,7 @@ proc RefreshGroupList { lfgroup lfcontact } {
 proc MakeContactList { lfcontact } {
 	global rbsel rbcon
 	catch {DeleteContactList $lfcontact}
-	
+
 	if {![info exists rbsel]} { return; }
 	if { ![::groups::Exists [::groups::GetName $rbsel]] || $rbsel == 0 } {
 		if { $rbsel == 0 } {
@@ -1209,12 +1209,12 @@ proc MakeContactList { lfcontact } {
 			label $lfcontact.lbcontact.fix.l -text "[trans nogroup]" -font sboldf
 			pack $lfcontact.lbcontact.fix.l -side top -pady 5 -padx 5  -anchor w
 			frame $lfcontact.lbcontact.fix.list
-			
+
 			## create the listbox ##
 			listbox $lfcontact.lbcontact.fix.list.lb -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
 			scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontact.fix.list.lb yview" -highlightthickness 0 \
 				-borderwidth 1 -elementborderwidth 2
-			
+
 			pack $lfcontact.lbcontact.fix.list.lb -side left -anchor w -expand true -fill both
 			pack $lfcontact.lbcontact.fix.list.sb -side left -anchor w -fill y
 			pack $lfcontact.lbcontact.fix.list -side top -anchor w -pady 5 -padx 5 -expand true -fill both
@@ -1237,7 +1237,7 @@ proc MakeContactList { lfcontact } {
 		label $lfcontact.lbcontact.fix.l -text "[::groups::GetName $rbsel]" -font sboldf
 		pack $lfcontact.lbcontact.fix.l -side top -pady 5 -padx 5 -anchor w
 		frame $lfcontact.lbcontact.fix.list
-		
+
 		## create the listbox ##
 		listbox $lfcontact.lbcontact.fix.list.lb -yscrollcommand "$lfcontact.lbcontact.fix.list.sb set"
 		scrollbar $lfcontact.lbcontact.fix.list.sb -command "$lfcontact.lbcontact.fix.list.lb yview" -highlightthickness 0 \
@@ -1316,7 +1316,7 @@ proc dlgMoveUser {} {
 	set oldgid [lindex $oldgid 0]
 	## variable for the selected group -- we set to oldgid to avoid bugs ##
 	set gsel $oldgid
-	
+
 	set bgcol2 #ABC8D2
 	toplevel .dlgmu -highlightcolor $bgcol2
 	wm title .dlgmu "[trans moveuser]"
@@ -1331,7 +1331,7 @@ proc dlgMoveUser {} {
 	}
 	pack .dlgmu.d -side top -pady 3 -padx 5
 	## button options ##
-	frame .dlgmu.b 
+	frame .dlgmu.b
 	button .dlgmu.b.ok -text "[trans ok]"  -font sboldf \
 		-command " if {![info exists gsel]} {return;}; \
 			::MSN::moveUser \$rbcon $oldgid \$gsel; \
@@ -1366,7 +1366,7 @@ proc dlgCopyUser {} {
 	}
 	## variable for the selected group -- we set to oldgid to avoid bugs ##
 	set gsel $oldgid
-	
+
 	set bgcol2 #ABC8D2
 	toplevel .dlgcu -highlightcolor $bgcol2
 	wm title .dlgcu "[trans moveuser]"
@@ -1381,7 +1381,7 @@ proc dlgCopyUser {} {
 	}
 	pack .dlgcu.d -side top -pady 3 -padx 5
 	## button options ##
-	frame .dlgcu.b 
+	frame .dlgcu.b
 	if { $move == 0 } {
 		button .dlgcu.b.ok -text "[trans ok]"  -font sboldf \
 			-command " if {![info exists gsel]} {return;}; \
@@ -1479,7 +1479,7 @@ proc show_option { w name oldw {w_exp ""}} {
 proc filter_prefs { frm str action } {
 	# action = -1 -> search box focused (do nothing)
 	if {$action == -1} { return 1 }
-	
+
 	set optionlist [winfo children $frm]
 	set oldoption ""
 	# isempty means "there are no options visible below the current one"
@@ -1577,35 +1577,35 @@ proc filter_prefs { frm str action } {
 
 proc Preferences { { settings "personal"} } {
 	global myconfig proxy_server proxy_port temp_BLP list_BLP Preftabs libtls proxy_user proxy_pass rbsel rbcon pager
-	
+
 	set temp_BLP $list_BLP
 	::config::setKey libtls_temp $libtls
 	set pager "N"
 	if {[ winfo exists .cfg ]} {
 		raise .cfg
-	
+
 		# This should raise the settings tab depending on the arg..
 		catch {.cfg.notebook.nn raise $settings}
-	
+
 		return
 	}
-	
+
 	PreferencesCopyConfig	;# Load current configuration
-	
+
 	toplevel .cfg
 	wm state .cfg withdraw
-	
+
 	if { [LoginList exists 0 [::config::getKey login]] == 1 } {
 		wm title .cfg "[trans preferences] - [trans profiledconfig] - [::config::getKey login]"
 	} else {
 		wm title .cfg "[trans preferences] - [trans defaultconfig] - [::config::getKey login]"
 	}
-	
+
 	wm iconname .cfg [trans preferences]
-	
+
 	# Frame to hold the preferences tabs/notebook
 	frame .cfg.notebook
-	
+
 	#set nb .cfg.notebook.nn
 	set nb .cfg.notebook
 
@@ -1619,9 +1619,9 @@ proc Preferences { { settings "personal"} } {
         #set Preftabs(loging) 5
         ##BLOCKING
 	#set Preftabs(blocking) 6
-        #set Preftabs(connection) 6 
-        #set Preftabs(others) 7 
-        #set Preftabs(advanced) 8 
+        #set Preftabs(connection) 6
+        #set Preftabs(others) 7
+        #set Preftabs(advanced) 8
 	NoteBook $nb.nn
 	$nb.nn insert end personal -text [trans personal]
 	$nb.nn insert end appearance -text [trans appearance]
@@ -1648,7 +1648,7 @@ proc Preferences { { settings "personal"} } {
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
-	set frm [$frm.sw.sf getframe]	
+	set frm [$frm.sw.sf getframe]
 
 	## Nickname Selection Entry Frame ##
 	set lfname [labelframe $frm.lfname -text [trans prefname] -font splainf]
@@ -1725,7 +1725,7 @@ proc Preferences { { settings "personal"} } {
 
 	## Phone Numbers Frame ##
 	set lfname [labelframe $frm.lfname4 -text [trans prefphone] -font splainf]
-	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x 
+	pack $frm.lfname4 -anchor n -side top -expand 1 -fill x
 	frame $lfname.1
 	frame $lfname.2
 	label $lfname.1.pphone -image [::skin::loadPixmap prefphone]
@@ -1737,19 +1737,19 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.2.lphone21 -text "[trans areacode]" -pady 3
 	label $lfname.2.lphone22 -text "[trans phone]" -pady 3
 	label $lfname.2.lphone3 -text "[trans myhomephone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone31 -font splainf  -width 5	
+	entry $lfname.2.ephone31 -font splainf  -width 5
 	entry $lfname.2.ephone32 -font splainf  -width 20
 	label $lfname.2.lphone4 -text "[trans myworkphone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone41 -font splainf  -width 5	
+	entry $lfname.2.ephone41 -font splainf  -width 5
 	entry $lfname.2.ephone42 -font splainf  -width 20
 	label $lfname.2.lphone5 -text "[trans mymobilephone] :" -padx 10 -font sboldf
-	entry $lfname.2.ephone51 -font splainf  -width 5	
+	entry $lfname.2.ephone51 -font splainf  -width 5
 	entry $lfname.2.ephone52 -font splainf  -width 20
 	checkbutton $lfname.2.mobphone -text "[trans allow_sms]" -onvalue "Y" -offvalue "N" -variable pager
 	button $lfname.2.person -text "[trans change_account_info]" -command "::hotmail::hotmail_changeAccountInfo"
     button $lfname.2.chgmob -text "[trans change_mobile]" -command "::hotmail::hotmail_changeMobile"
 
-    
+
 	pack $lfname.1 -expand 1 -fill both -side top
 	pack $lfname.2 -expand 1 -fill both -side top
 	grid $lfname.2.lphone1 -row 1 -column 1 -sticky w -columnspan 2
@@ -1771,7 +1771,7 @@ proc Preferences { { settings "personal"} } {
 
 	$nb.nn compute_size
 	[$nb.nn getframe personal].sw.sf compute_size
-	
+
 	#  .------------.
 	# _| Appearance |________________________________________________
 	::skin::setPixmap preflook preflook.gif
@@ -1784,8 +1784,8 @@ proc Preferences { { settings "personal"} } {
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
-	set frm [$frm.sw.sf getframe]	
-	
+	set frm [$frm.sw.sf getframe]
+
 	## General aMSN Look Options (Encoding, BGcolor, General Font, Clock Format)
 	set lfname [labelframe $frm.lfname -text [trans preflook]]
 	pack $frm.lfname -anchor n -side top -expand 0 -fill x
@@ -1811,7 +1811,7 @@ proc Preferences { { settings "personal"} } {
 #	label $lfname.2.llook -text "[trans bgcolor]" -padx 10
 #	button $lfname.2.bbgcolor -text [trans choosebgcolor] -font sboldf -command "choose_theme"
 #	pack $lfname.2 -side top -padx 0 -pady 0 -expand 1 -fill both
-#	pack $lfname.2.llook -side left	
+#	pack $lfname.2.llook -side left
 #	pack $lfname.2.bbgcolor -side right -padx 15
 	label $lfname.3.llook -text "[trans preffont3]" -padx 10
 	button $lfname.3.bfont -text [trans changefont] -command "choose_basefont"
@@ -1873,7 +1873,7 @@ proc Preferences { { settings "personal"} } {
 	checkbutton $lfname.1.sound -text "[trans sound2]" -onvalue 1 -offvalue 0 -variable [::config::getVar sound]
 	pack $lfname.1 -anchor w -side top -padx 0 -pady 5 -expand 1 -fill both
 	pack $lfname.1.alert1 $lfname.1.sound -anchor w -side top -padx 10 -pady 0
-	
+
 	#Bounce icon in the dock preference for Mac OS X
 	if { [OnMac] } {
 		label $lfname.1.bouncedock -text "[trans bouncedock]" -padx 10
@@ -1885,7 +1885,7 @@ proc Preferences { { settings "personal"} } {
 	}
 	$nb.nn compute_size
 	[$nb.nn getframe appearance].sw.sf compute_size
-	
+
 
 	#  .---------.
 	# _| Session |________________________________________________
@@ -1900,8 +1900,8 @@ proc Preferences { { settings "personal"} } {
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
-	set frm [$frm.sw.sf getframe]	
-	
+	set frm [$frm.sw.sf getframe]
+
 	## Sign In and AutoStatus Options Frame ##
 	set lfname [labelframe $frm.lfname -text [trans prefsession]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
@@ -1922,18 +1922,18 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.2.lautoaway $lfname.2.eautoaway $lfname.2.lmins -side left
 	checkbutton $lfname.3.lreconnect -text "[trans reconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar reconnect]
 	checkbutton $lfname.3.lonstart -text "[trans autoconnect2]" -onvalue 1 -offvalue 0 -variable [::config::getVar autoconnect]
-		
-	if { [OnWin] } { 
+
+	if { [OnWin] } {
 		set ::start_on_windows_boot [WinDetectBoot]
 		checkbutton $lfname.3.startonboot -text "[trans startonboot]" -onvalue 1 -offvalue 0 -variable ::start_on_windows_boot
 	}
-	
+
 	pack $lfname.3 -side top -padx 0 -expand 1 -fill both
 
-	if { [OnWin] } { 
+	if { [OnWin] } {
 		pack $lfname.3.lreconnect $lfname.3.lonstart $lfname.3.startonboot  -anchor w -side top
 	} else {
-		pack $lfname.3.lreconnect $lfname.3.lonstart -anchor w -side top       
+		pack $lfname.3.lreconnect $lfname.3.lonstart -anchor w -side top
 	}
 
 	## Away Messages Frame ##
@@ -1968,18 +1968,18 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.3
 	frame $lfname.4
 	frame $lfname.5
-	
+
 	label $lfname.1.lchatmaxmin -text [trans chatmaxmin]
 	radiobutton $lfname.1.max -text [trans raised] -value 0 -variable [::config::getVar newchatwinstate] -padx 17
 	grid $lfname.1.lchatmaxmin -row 1 -column 1 -sticky w
-	
+
 	#Don't show the minimised option on Mac OS X because that does'nt work in TkAqua
 	if { ![OnMac] } {
 		radiobutton $lfname.1.min -text [trans minimised] -value 1 -variable [::config::getVar newchatwinstate] -padx 17
 	}
-	
+
 	radiobutton $lfname.1.no -text [trans dontshow] -value 2 -variable [::config::getVar newchatwinstate]  -padx 17
-	
+
 	#Don't pack the minimised option on Mac OS X because that does'nt work in TkAqua
 	if { [OnMac] } {
 		grid $lfname.1.max -row 2 -column 1 -sticky w
@@ -1989,48 +1989,48 @@ proc Preferences { { settings "personal"} } {
 		grid $lfname.1.min -row 3 -column 1 -sticky w
 		grid $lfname.1.no -row 4 -column 1 -sticky w
 	}
-	
+
 	#Don't enable this option on Mac OS X because we can't minimized window this way with TkAqua
 	if { ![OnMac] } {
 		label $lfname.2.lmsgmaxmin -text [trans msgmaxmin]
 		radiobutton $lfname.2.max -text [trans raised] -value 0 -variable [::config::getVar newmsgwinstate] -padx 17
 		radiobutton $lfname.2.min -text [trans minimised] -value 1 -variable [::config::getVar newmsgwinstate] -padx 17
-		
+
 		grid $lfname.2.lmsgmaxmin -row 1 -column 1 -sticky w
 		grid $lfname.2.max -row 2 -column 1 -sticky w
 		grid $lfname.2.min -row 3 -column 1 -sticky w
 	}
-	
-	label $lfname.3.lmsgmode -text [trans msgmode] 
+
+	label $lfname.3.lmsgmode -text [trans msgmode]
 	radiobutton $lfname.3.nottabbed -text [trans nottabbed] -value 0 -variable [::config::getVar tabbedchat] -padx 17
 	radiobutton $lfname.3.tabbedglobal -text [trans tabbedglobal] -value 1 -variable [::config::getVar tabbedchat] -padx 17
 	radiobutton $lfname.3.tabbedgroups -text [trans tabbedgroups] -value 2 -variable [::config::getVar tabbedchat] -padx 17
-	
+
 	label $lfname.4.containermode -text [trans closelabel]
 	radiobutton $lfname.4.containerask -text [trans askeachtime] -value 0 -variable [::config::getVar closeChatWindowWithTabs] -padx 17
 	radiobutton $lfname.4.containercloseall -text [trans closealltabs] -value 1 -variable [::config::getVar closeChatWindowWithTabs] -padx 17
 	radiobutton $lfname.4.containerclosetab -text [trans closeonly] -value 2 -variable [::config::getVar closeChatWindowWithTabs] -padx 17
-	
+
 	label $lfname.5.logoutwinclosemode -text [trans logoutwincloselabel]
 	radiobutton $lfname.5.logoutwincloseask -text [trans askeachtime] -value 0 -variable [::config::getVar closeChatWindowsAfterLogout] -padx 17
 	radiobutton $lfname.5.logoutwinclosealways -text [trans always] -value 1 -variable [::config::getVar closeChatWindowsAfterLogout] -padx 17
 	radiobutton $lfname.5.logoutwinclosenever -text [trans never] -value 2 -variable [::config::getVar closeChatWindowsAfterLogout] -padx 17
-	
+
 	grid $lfname.3.lmsgmode  -row 1 -column 1 -sticky w
 	grid $lfname.3.nottabbed -row 2 -column 1 -sticky w
 	grid $lfname.3.tabbedglobal -row 3 -column 1 -sticky w
 	grid $lfname.3.tabbedgroups -row 4 -column 1 -sticky w
-	
+
 	grid $lfname.4.containermode  -row 1 -column 1 -sticky w
 	grid $lfname.4.containerask -row 2 -column 1 -sticky w
 	grid $lfname.4.containercloseall -row 3 -column 1 -sticky w
-	grid $lfname.4.containerclosetab -row 4 -column 1 -sticky w	
-	
+	grid $lfname.4.containerclosetab -row 4 -column 1 -sticky w
+
 	grid $lfname.5.logoutwinclosemode -row 1 -column 1 -sticky w
 	grid $lfname.5.logoutwincloseask -row 2 -column 1 -sticky w
 	grid $lfname.5.logoutwinclosealways -row 3 -column 1 -sticky w
-	grid $lfname.5.logoutwinclosenever -row 4 -column 1 -sticky w	
-	
+	grid $lfname.5.logoutwinclosenever -row 4 -column 1 -sticky w
+
 	checkbutton $lfname.winflicker -text "[trans msgflicker]" -onvalue 1 -offvalue 0 -variable [::config::getVar flicker]
 	checkbutton $lfname.showdisplaypic -text "[trans showdisplaypic2]" -onvalue 1 -offvalue 0 -variable [::config::getVar showdisplaypic]
 
@@ -2039,14 +2039,14 @@ proc Preferences { { settings "personal"} } {
 	$nb.nn compute_size
 	[$nb.nn getframe session].sw.sf compute_size
 
-	
+
 	#  .------------------.
 	# _| Group Management |_______________________________________
-	
+
 	::skin::setPixmap prefpersc prefpers.gif
 	::skin::setPixmap prefprofilec prefprofile.gif
-	::skin::setPixmap prefmobile prefmobile.gif	
-		
+	::skin::setPixmap prefmobile prefmobile.gif
+
 	set frm [$nb.nn getframe groups]
 	ScrolledWindow $frm.sw
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
@@ -2058,10 +2058,10 @@ proc Preferences { { settings "personal"} } {
 	set lfmobile [labelframe $frm.lfmobile -text [trans mobilegrp1]]
 	pack $frm.lfmobile -anchor n -side top -expand 1 -fill x
 	label $lfmobile.lbmobile -image [::skin::loadPixmap prefmobile]
-	pack $lfmobile.lbmobile -side left -padx 5 -pady 5 
+	pack $lfmobile.lbmobile -side left -padx 5 -pady 5
 	checkbutton $lfmobile.btmobile -text "[trans mobilegrp2]" -onvalue 1 -offvalue 0 \
 		-variable [::config::getVar showMobileGroup]
-	pack $lfmobile.btmobile  -anchor w -side left -padx 0 -pady 5 
+	pack $lfmobile.btmobile  -anchor w -side left -padx 0 -pady 5
 
 	#compute_size
 	$nb.nn compute_size
@@ -2080,7 +2080,7 @@ proc Preferences { { settings "personal"} } {
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
-	set frm [$frm.sw.sf getframe]	
+	set frm [$frm.sw.sf getframe]
 
 	## Loging Options Frame ##
 	set lfname [labelframe $frm.lfname -text [trans preflog1]]
@@ -2102,7 +2102,7 @@ proc Preferences { { settings "personal"} } {
 #	pack $lfname.2.lstyle -anchor w -side top -padx 10
 #	pack $lfname.2.hist $lfname.2.chat -side left -padx 10
 #	pack $lfname.2 -anchor w -side top -expand 1 -fill x
-	
+
 	## Clear All Logs Frame ##
 	set lfname [labelframe $frm.lfname2 -text [trans clearlog]]
 	pack $frm.lfname2 -anchor n -side top -expand 0 -fill x
@@ -2112,7 +2112,7 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.lclear -text "[trans clearlog2]" -padx 10
 	button $lfname.1.bclear -text [trans clearlog3]  -command "::log::ClearAllLogs"
 	button $lfname.1.camclear -text [trans clearwebcamlogs] -command "::log::ClearAllCamLogs"
-	pack $lfname.1.lclear -side left	
+	pack $lfname.1.lclear -side left
 	pack $lfname.1.bclear -side right -padx 15
 	pack $lfname.1.camclear -side right -padx 15
 	pack $lfname.1 -anchor w -side top -expand 0 -fill x
@@ -2169,7 +2169,7 @@ proc Preferences { { settings "personal"} } {
 
 	#  .------------.
 	# _| Connection |________________________________________________
-	
+
 	::skin::setPixmap prefnat prefnat.gif
 	::skin::setPixmap prefproxy prefproxy.gif
 	::skin::setPixmap prefremote prefpers.gif
@@ -2181,14 +2181,14 @@ proc Preferences { { settings "personal"} } {
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
-	set frm [$frm.sw.sf getframe]	
-	
+	set frm [$frm.sw.sf getframe]
+
 	## Connection Frame ##
 	set lfname [labelframe $frm.lfnameconnection -text [trans prefconnection]]
 	pack $frm.lfnameconnection -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap prefproxy]
-	pack $lfname.pshared -side left -anchor nw	
-	
+	pack $lfname.pshared -side left -anchor nw
+
 	frame $lfname.1
 	frame $lfname.2
 	frame $lfname.3
@@ -2212,13 +2212,13 @@ proc Preferences { { settings "personal"} } {
 
 	radiobutton $lfname.4.post -text "HTTP (POST method)" -value http -variable [::config::getVar proxytype] -command UpdatePreferences
 	radiobutton $lfname.4.ssl -text "SSL (CONNECT method)" -value ssl -variable [::config::getVar proxytype] -command UpdatePreferences
-	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable [::config::getVar proxytype] -command UpdatePreferences 
+	radiobutton $lfname.4.socks5 -text "SOCKS5" -value socks5 -variable [::config::getVar proxytype] -command UpdatePreferences
 
 	grid $lfname.4.post -row 1 -column 1 -sticky w -pady 5 -padx 10
 	grid $lfname.4.ssl -row 1 -column 2 -sticky w -pady 5 -padx 10
 	grid $lfname.4.socks5 -row 1 -column 3 -sticky w -pady 5 -padx 10
 
-		
+
 	label $lfname.5.lserver -text "[trans server] :" -padx 5 -font sboldf
 	entry $lfname.5.server -font splainf  -width 20 -textvariable proxy_server
 	label $lfname.5.lport -text "[trans port] :" -padx 5 -font sboldf
@@ -2261,7 +2261,7 @@ proc Preferences { { settings "personal"} } {
 	frame $lfname.1.ftport
 	label $lfname.1.ftport.text -text "[trans ftportpref2] :" -padx 5 -font splainf
 	entry $lfname.1.ftport.entry -font splainf  -width 5 -textvariable [::config::getVar initialftport]
-	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command [list after 0 connection_check $lfname] 
+	button $lfname.1.ftport.bttest -text "[trans ftporttest]" -padx 5 -font splainf -command [list after 0 connection_check $lfname]
 	label $lfname.1.ftport.test -text "" -padx 5 -font splainf
 	grid $lfname.1.ftport.text -row 1 -column 1 -sticky w -pady 5 -padx 0 -columnspan 3
 	grid $lfname.1.ftport.entry -row 2 -column 1 -sticky w -pady 5 -padx [list 20 3]
@@ -2273,13 +2273,13 @@ proc Preferences { { settings "personal"} } {
 	label $lfname.1.ipaddr.text -text "[trans ipaddress] :" -padx 5 -font splainf
 	entry $lfname.1.ipaddr.entry -font splainf  -width 15 -textvariable [::config::getVar manualip]
 	grid $lfname.1.ipaddr.text -row 1 -column 1 -sticky w -pady 5 -padx 0
-	grid $lfname.1.ipaddr.entry -row 1 -column 2 -sticky w -pady 5 -padx 3	
-		
+	grid $lfname.1.ipaddr.entry -row 1 -column 2 -sticky w -pady 5 -padx 3
+
 	checkbutton $lfname.1.autoaccept -text "[trans autoacceptft]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoaccept]
 
 	pack $lfname.1.ftport $lfname.1.autoip $lfname.1.ipaddr $lfname.1.autoaccept -anchor w -side top -padx 10
-	
-	    
+
+
 	## Remote Control Frame ##
 	set lfname [labelframe $frm.lfname3 -text [trans prefremote]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
@@ -2305,14 +2305,14 @@ proc Preferences { { settings "personal"} } {
 
 	#set frm [Rnotebook:frame $nb $Preftabs(others)]
 	set frm [$nb.nn getframe others]
-	
+
 	#Scrollable frame that will contain options
 	ScrolledWindow $frm.sw
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
-	set frm [$frm.sw.sf getframe]	
-	
+	set frm [$frm.sw.sf getframe]
+
 	## Delete Profiles Frame ##
 	set lfname [labelframe $frm.lfname3 -text [trans prefprofile3]]
 	pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
@@ -2320,13 +2320,13 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pprofile -side left -anchor nw
 	frame $lfname.1
 	label $lfname.1.ldelprofile -text "[trans delprofile2]" -font sboldf -padx 5
-	combobox::combobox $lfname.1.profile -editable true -width 22 
+	combobox::combobox $lfname.1.profile -editable true -width 22
 	button $lfname.1.bdel -text [trans delprofile] -command "DeleteProfile \[${lfname}.1.profile get\] $lfname.1.profile"
 	grid $lfname.1.ldelprofile -row 1 -column 1 -sticky w
 	grid $lfname.1.profile -row 1 -column 2 -sticky w
 	grid $lfname.1.bdel -row 1 -column 3 -padx 5 -sticky w
 	pack $lfname.1 -anchor w -side top -expand 0 -fill none
-		
+
 	## Applications Frame ##
 	set lfname [labelframe $frm.lfname -text [trans prefapps]]
 	pack $frm.lfname -anchor n -side top -expand 1 -fill x
@@ -2334,7 +2334,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.pshared -side left -anchor nw
 	frame $lfname.1
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -expand 0 -fill both
-	
+
 	#Don't change filemanager and open file manager on Mac OS X
 	if { ![OnMac] && ![OnWin] } {
 		label $lfname.1.lbrowser -text "[trans browser] :" -padx 5 -font sboldf
@@ -2349,18 +2349,18 @@ proc Preferences { { settings "personal"} } {
 		entry $lfname.1.openfile -width 40 -textvariable [::config::getVar openfilecommand]
 		label $lfname.1.lopenfileex -text "(Gnome: gnome-open \$file) (KDE: kfmclient exec \$file)" -font examplef
 	}
-	
+
 	if {![OnWin] } {
 		label $lfname.1.lmailer -text "[trans mailer] :" -padx 5 -font sboldf
 		entry $lfname.1.mailer -width 40 -textvariable [::config::getVar mailcommand]
 		label $lfname.1.lmailerex -text "[trans mailerexample]" -font examplef
 	}
-	
+
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
 	if { ![OnMac] } {
 		label $lfname.1.lsound -text "[trans soundserver] :" -padx 5 -font sboldf
 		frame $lfname.1.sound
-	
+
 		radiobutton $lfname.1.sound.snack -text "[trans usesnack]" -value 1 -variable [::config::getVar usesnack] -command UpdatePreferences
 		pack $lfname.1.sound.snack -anchor w -side top -padx 10
 		radiobutton $lfname.1.sound.other -text "[trans useother]" -value 0 -variable [::config::getVar usesnack] -command UpdatePreferences
@@ -2371,7 +2371,7 @@ proc Preferences { { settings "personal"} } {
 		pack $lfname.1.sound.lsoundex -anchor w -side top -padx 10
 
 	}
-	
+
 
 	#aMSN for Mac OS X always use "QuickTimeTCL" (except in Alarms) so don't let mac user choose sound player
 	#because we don't change filemanager and open file manager on Mac OS X
@@ -2387,23 +2387,23 @@ proc Preferences { { settings "personal"} } {
 		grid $lfname.1.lfileman -row 3 -column 1 -sticky w
 		grid $lfname.1.fileman -row 3 -column 2 -sticky w
 		grid $lfname.1.lfilemanex -row 4 -column 2 -columnspan 1 -sticky w
-	
+
 		grid $lfname.1.lopenfile -row 5 -column 1 -sticky w
 		grid $lfname.1.openfile -row 5 -column 2 -sticky w
 		grid $lfname.1.lopenfileex -row 6 -column 2 -columnspan 1 -sticky w
-			
+
 		grid $lfname.1.lmailer -row 7 -column 1 -sticky w
 		grid $lfname.1.mailer -row 7 -column 2 -sticky w
 		grid $lfname.1.lmailerex -row 8 -column 2 -columnspan 1 -sticky w
 
 	}
 
-	if {![OnMac] } {		
+	if {![OnMac] } {
 		grid $lfname.1.lsound -row 9 -column 1 -sticky nw
 		grid $lfname.1.sound -row 9 -column 2 -sticky w
 		#grid $lfname.1.lsoundex -row 10 -column 2 -columnspan 1 -sticky w
 	}
-	
+
 
 	## File transfert directory frame ##
 	set lfname [labelframe $frm.lfname4 -text [trans receiveddir]]
@@ -2420,12 +2420,12 @@ proc Preferences { { settings "personal"} } {
 	grid $lfname.1.receivedpath -row 1 -column 1 -sticky w
 	grid $lfname.1.receiveddir -row 1 -column 2 -sticky w
 	grid $lfname.1.browse -row 1 -column 3 -sticky w
-	
+
 	set lfname [labelframe $frm.lfname5 -text [trans audiovideo]]
 	pack $frm.lfname5 -anchor n -side top -expand 1 -fill x
 	label $lfname.pshared -image [::skin::loadPixmap webcam]
 	pack $lfname.pshared -side left -anchor nw
-	
+
 	frame $lfname.1
 	pack $lfname.1 -anchor w -side left -padx 0 -pady 5 -fill none
 	button $lfname.1.webcam -text [trans editavsettings] -command [list ::AVAssistant::AVAssistant] -padx 20
@@ -2439,14 +2439,14 @@ proc Preferences { { settings "personal"} } {
 
 	#set frm [Rnotebook:frame $nb $Preftabs(advanced)]
 	set frm [$nb.nn getframe advanced]
-	
+
 	set lfname [labelframe $frm.lfname -text [trans advancedprefs]]
-	
+
 	#Scrollable frame that will contain advanced optoins
 	ScrolledWindow $lfname.sw
 	ScrollableFrame $lfname.sw.sf -constrainedwidth 1
 	$lfname.sw setwidget $lfname.sw.sf
-	set path [$lfname.sw.sf getframe]	
+	set path [$lfname.sw.sf getframe]
 
 	# search box
 	set searchfrm [frame $frm.searchframe]
@@ -2459,27 +2459,27 @@ proc Preferences { { settings "personal"} } {
 
 	pack $frm.lfname -anchor n -side top -expand true -fill both
 	pack $lfname.sw -anchor n -side top -expand true -fill both
-	
+
 	advanced_options_reload $path
 
 	#add bindings to scroll with mousewheel
-	#can not use local variables in bind scripts with {}. 
+	#can not use local variables in bind scripts with {}.
 	#and with "", can not use %D  :(
 	# Mac OS X and Windows
 	if { [OnMac] } {
 	    bind .cfg <MouseWheel> {
 		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
 		    if { [winfo exists $w.sw.sf] } {
-			    $w.sw.sf yview scroll [expr {- (%D)}] units   
+			    $w.sw.sf yview scroll [expr {- (%D)}] units
 		    } elseif { [winfo exists $w.lfname.sw.sf] } {
 			    $w.lfname.sw.sf yview scroll [expr {- (%D)}] units
 		    }
-	    } 
+	    }
 	} elseif { [OnWin] } {
 	    bind .cfg <MouseWheel> {
 		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
 		    if { [winfo exists $w.sw.sf] } {
-			    $w.sw.sf yview scroll [expr {%D/-120}] units  
+			    $w.sw.sf yview scroll [expr {%D/-120}] units
 		    } elseif { [winfo exists $w.lfname.sw.sf] } {
 			    $w.lfname.sw.sf yview scroll [expr {%D/-120}] units
 		    }
@@ -2488,7 +2488,7 @@ proc Preferences { { settings "personal"} } {
 	    bind .cfg <5> {
 		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
 		    if { [winfo exists $w.sw.sf] } {
-			    $w.sw.sf yview scroll +1 units   
+			    $w.sw.sf yview scroll +1 units
 		    } elseif { [winfo exists $w.lfname.sw.sf] } {
 			    $w.lfname.sw.sf yview scroll +1 units
 		    }
@@ -2496,7 +2496,7 @@ proc Preferences { { settings "personal"} } {
 	    bind .cfg <4> {
 		    set w [.cfg.notebook.nn getframe [.cfg.notebook.nn raise]]
 		    if { [winfo exists $w.sw.sf] } {
-			    $w.sw.sf yview scroll -1 units   
+			    $w.sw.sf yview scroll -1 units
 		    } elseif { [winfo exists $w.lfname.sw.sf] } {
 			    $w.lfname.sw.sf yview scroll -1 units
 		    }
@@ -2513,8 +2513,8 @@ proc Preferences { { settings "personal"} } {
 
 	$nb.nn compute_size
 	$lfname.sw.sf compute_size
-	
-	
+
+
 	#  .---------.
 	# _| Privacy |________________________________________________
 	#set frm [Rnotebook:frame $nb $Preftabs(privacy)]
@@ -2523,7 +2523,7 @@ proc Preferences { { settings "personal"} } {
 	ScrollableFrame $frm.sw.sf -constrainedwidth 1
 	$frm.sw setwidget $frm.sw.sf
 	pack $frm.sw -anchor n -side top -expand true -fill both
-	set frm [$frm.sw.sf getframe]	
+	set frm [$frm.sw.sf getframe]
 
          # Allow/Block lists
 	set lfname [labelframe $frm.lfname -text [trans prefprivacy]]
@@ -2590,7 +2590,7 @@ proc Preferences { { settings "personal"} } {
 	pack $lfname.contactlist.label $lfname.contactlist.box -side top -expand false -fill x
 	pack $lfname.contactlist.ys -side right -fill y -expand false
 	pack $lfname.contactlist.box -side left -expand true -fill both
-  
+
 	frame $lfname.reverselist -relief sunken -borderwidth 3
 	label $lfname.reverselist.label -text "[trans reverselist]" -background [::skin::getKey extraprivacy_notrl_bg] -font sboldf
 	listbox $lfname.reverselist.box -yscrollcommand "$lfname.reverselist.ys set" \
@@ -2605,7 +2605,7 @@ proc Preferences { { settings "personal"} } {
 	entry $lfname.adding.enter
 	button $lfname.adding.addal -text "[trans addtoal]" -command "Add_To_List $lfname AL"
 	button $lfname.adding.addbl -text "[trans addtobl]" -command "Add_To_List $lfname BL"
-	button $lfname.adding.addfl -text "[trans addtofl]" -command "Add_To_List $lfname FL" 
+	button $lfname.adding.addfl -text "[trans addtofl]" -command "Add_To_List $lfname FL"
 	pack $lfname.adding.addal $lfname.adding.addbl $lfname.adding.addfl -side left
 	pack $lfname.adding.enter -side top
 
@@ -2614,14 +2614,14 @@ proc Preferences { { settings "personal"} } {
 	button $lfname.buttons.right -text "[trans delete] -->"  -command "Remove_Contact $lfname" -width 13
 	button $lfname.buttons.left -text "<-- [trans copy]"  -command "Reverse_to_Contact $lfname" -width 13
 	pack $lfname.adding  $lfname.buttons.right $lfname.buttons.left -side top
-	
+
 
  #       pack $lfname.addal $lfname.addbl $lfname.addfl -side left
 
- #    	grid $lfname.enter -row 3 -column 1 -sticky w 
- #	grid $lfname.addal -row 4 -column 1 -sticky w 
- #	grid $lfname.addbl -row 4 -column 2 -sticky w 
- #	grid $lfname.addfl -row 4 -column 3 -sticky w 
+ #    	grid $lfname.enter -row 3 -column 1 -sticky w
+ #	grid $lfname.addal -row 4 -column 1 -sticky w
+ #	grid $lfname.addbl -row 4 -column 2 -sticky w
+ #	grid $lfname.addfl -row 4 -column 3 -sticky w
 
 	label $lfname.status -text ""
 
@@ -2630,8 +2630,8 @@ proc Preferences { { settings "personal"} } {
 
 	bind $lfname.contactlist.box <<Button3>> "create_users_list_popup $lfname \"contact\" %X %Y"
 	bind $lfname.reverselist.box <<Button3>> "create_users_list_popup $lfname \"reverse\" %X %Y"
-	
-  
+
+
 	::Event::registerEvent contactRemoved protocol [list Fill_users_list_event $frm.lfname $frm.lfname2]
 	::Event::registerEvent contactListChange all [list Fill_users_list_event $frm.lfname $frm.lfname2]
 	::Event::registerEvent contactBlocked all [list Fill_users_list_event $frm.lfname $frm.lfname2]
@@ -2644,36 +2644,36 @@ proc Preferences { { settings "personal"} } {
 	#  .----------.
 	# _| Blocking |________________________________________________
 	#set frm [Rnotebook:frame $nb $Preftabs(blocking)]
-	
+
 	## Check on disconnect ##
 	#set lfname [labelframe $frm.lfname -text [trans prefblock1]]
 	#pack $frm.lfname -anchor n -side top -expand 1 -fill x
 	#label $lfname.ppref1 -image [::skin::loadPixmap prefapps]
-	#pack $lfname.ppref1 -side left -padx 5 -pady 5 
+	#pack $lfname.ppref1 -side left -padx 5 -pady 5
 	#checkbutton $lfname.enable -text "[trans checkonfln]" -onvalue 1 -offvalue 0 -variable [::config::getVar checkonfln]
-	#pack $lfname.enable  -anchor w -side left -padx 0 -pady 5 
+	#pack $lfname.enable  -anchor w -side left -padx 0 -pady 5
 
 	## "You have been blocked" group ##
 	#set lfname [labelframe $frm.lfname3 -text [trans prefblock3]]
 	#pack $frm.lfname3 -anchor n -side top -expand 1 -fill x
 	#label $lfname.ppref3 -image [::skin::loadPixmap prefapps]
-	#pack $lfname.ppref3 -side left -padx 5 -pady 5 
+	#pack $lfname.ppref3 -side left -padx 5 -pady 5
 	#checkbutton $lfname.group -text "[trans blockedyougroup]" -onvalue 1 -offvalue 0 -variable [::config::getVar showblockedgroup]
-	#pack $lfname.group  -anchor w -side left -padx 0 -pady 5 
+	#pack $lfname.group  -anchor w -side left -padx 0 -pady 5
 
 	## Continuously check ##
 	#set lfname [labelframe $frm.lfname2 -text [trans prefblock2]]
 	#pack $frm.lfname2 -anchor n -side top -expand 1 -fill x
 	#label $lfname.ppref2 -image [::skin::loadPixmap prefapps]
-	#pack $lfname.ppref2 -side left -padx 5 -pady 5 
+	#pack $lfname.ppref2 -side left -padx 5 -pady 5
 
 	#frame $lfname.enable -class Degt
-	#pack $lfname.enable -anchor w -side left 
+	#pack $lfname.enable -anchor w -side left
 	#checkbutton $lfname.enable.cb -text "[trans checkblocking]" -onvalue 1 -offvalue 0 -variable [::config::getVar checkblocking] -command UpdatePreferences
 	#grid $lfname.enable.cb -row 1 -column 1 -sticky w
 
 	#frame $lfname.check -class Degt
-	#pack $lfname.check -anchor w -side left -padx 0 -pady 5 
+	#pack $lfname.check -anchor w -side left -padx 0 -pady 5
 
         #label $lfname.check.linter1 -text "[trans blockinter1]"
         #label $lfname.check.linter2 -text "[trans blockinter2]"
@@ -2695,7 +2695,7 @@ proc Preferences { { settings "personal"} } {
         #grid $lfname.check.inter3 -row 2 -column 4 -sticky w
         #grid $lfname.check.users -row 2 -column 2 -sticky w
 
-	#pack $lfname.enable $lfname.check -anchor w -side top 
+	#pack $lfname.enable $lfname.check -anchor w -side top
 
 	#frame $frm.dummy -class Degt
 	#pack $frm.dummy -anchor n -side top -expand 1 -fill both -pady 150
@@ -2708,7 +2708,7 @@ proc Preferences { { settings "personal"} } {
     pack .cfg.buttons.save .cfg.buttons.cancel -side right -padx 10 -pady 5
     pack .cfg.buttons -side bottom -fill x
 
-    
+
     #Rnotebook:totalwidth $nb
     $nb.nn raise personal
     $nb.nn compute_size
@@ -2716,23 +2716,23 @@ proc Preferences { { settings "personal"} } {
     #pack $nb -fill both -expand 1 -padx 10 -pady 10
 
     pack .cfg.notebook -side bottom -fill both -expand true -padx 5 -pady 5
-    
-    
+
+
     InitPref 1
     UpdatePreferences
 
     #wm geometry .cfg [expr [Rnotebook:totalwidth $nb] + 50]x595
 
     #catch { Rnotebook:raise $nb $Preftabs($settings) }
-	
+
 	# This should raise the settings tab depending on the arg..
 	catch {$nb.nn raise $settings}
-    
+
     bind .cfg <Destroy> "UnregisterPrivacyEvents; RestorePreferences %W"
 
     wm state .cfg normal
 
-    
+
     moveinscreen .cfg 60
 
     # Show requested page
@@ -2762,7 +2762,7 @@ proc Fill_users_list_event { path1 path2 args} {
 
 
 proc getTaskbarHeight {{w .taskBarSize}} {
-	global taskbarHeight 
+	global taskbarHeight
 
 	return [list 30 0 0 0]
 
@@ -2778,7 +2778,7 @@ proc getTaskbarHeight {{w .taskBarSize}} {
  	set taskbarTop [expr {[winfo y $w] + 4}]
  	set taskbarLeft [expr {[winfo x $w] + 4}]
  	destroy $w
-	
+
  	return [list $taskbarTop $taskbarRight $taskbarBottom $taskbarLeft]
 }
 
@@ -2792,7 +2792,7 @@ proc moveinscreen {window {mindist 0}} {
 	if { ![winfo exists $window] } {
  		return
  	}
- 	
+
 	#set winx [winfo width $window]
 	#set winy [winfo height $window]
 
@@ -2810,7 +2810,7 @@ proc moveinscreen {window {mindist 0}} {
 
 	set winpx [winfo rootx $window]
 	set winpy [winfo rooty $window]
-    
+
 	set geom [wm geometry $window]
 	scan $geom "%dx%d%c%d%c%d" winx winy sign1 decorationLeft sign2 decorationTop
 
@@ -2854,7 +2854,7 @@ proc moveinscreen {window {mindist 0}} {
 	if { [expr {$winy > ($scry-(2*$mindist))}] } {
 		set winy [expr {$scry-(2*$mindist)}]
 	}
-	
+
 	#check if the window is positioned off the screen
 	if { [expr {$winpx + $winx > ($scrx-$mindist)}] } {
 		set winpx [expr {$scrx-$mindist-$winx}]
@@ -2883,7 +2883,7 @@ proc advanced_options_reload {path} {
 
 	set i 0
 	foreach opt $advanced_options {
-		incr i	
+		incr i
 		#For each advanced option, check if it's a title, it's local config, or global configs
 		if {[lindex $opt 0] == "title" } {
 			if { $i != 1 } {
@@ -2904,7 +2904,7 @@ proc advanced_options_reload {path} {
 				pack $path.l$i -side top -anchor w
 				continue
 			}
-			
+
 			switch [lindex $opt 2] {
 				bool {
 					checkbutton $path.cb$i -text [trans [lindex $opt 3]] -font splainf -variable $config_var
@@ -2912,7 +2912,7 @@ proc advanced_options_reload {path} {
 				}
 				bool_inv {
 					checkbutton $path.cb$i -text [trans [lindex $opt 3]] -font splainf -variable $config_var -onvalue 0 -offvalue 1
-					pack $path.cb$i -side top -anchor w	
+					pack $path.cb$i -side top -anchor w
 				}
 				folder {
 					frame $path.fr$i
@@ -2932,12 +2932,12 @@ proc advanced_options_reload {path} {
 					pack $path.le$i -side top -anchor w -expand true -fill x
 				}
 			}
-			
+
 			if { [lindex $opt 4] != "" } {
 				label $path.exp$i -text "[trans [lindex $opt 4]]\n" -font examplef
 				pack $path.exp$i -side top -anchor w -padx 15
 			}
-			
+
 		}
 
 	}
@@ -2994,21 +2994,21 @@ proc InitPref { {fullinit 0} } {
 			$lfname.lfname4.2.chgmob configure -state normal
 			$lfname.lfname4.2.person configure -state normal
 		}
-		
+
 		if {[::config::getKey protocol] >= 11} {
 			$lfname.lfname.1.psm.entry delete 0 end
 			$lfname.lfname.1.psm.entry insert 0 [::abook::getPersonal PSM]
 		}
-	
+
 		$lfname.lfname.1.p4c.entry delete 0 end
 		$lfname.lfname.1.p4c.entry insert 0 [::config::getKey p4c_name]
-		
+
 		if {[::config::getKey protocol] >= 18} {
 			$lfname.lfname.1.ep.entry delete 0 end
 			$lfname.lfname.1.ep.entry insert 0 [::config::getKey epname aMSN]
 		}
-	
-		
+
+
 		# Get My Phone numbers and insert them
 		set lfname "$lfname.lfname4"
 	    if { [::abook::getPersonal MBE] == "N" } {
@@ -3038,7 +3038,7 @@ proc InitPref { {fullinit 0} } {
 			$lfname.2.ephone42 delete 0 end
 			$lfname.2.ephone51 delete 0 end
 			$lfname.2.ephone52 delete 0 end
-			
+
 			$lfname.2.ephone1 insert 0 [lindex [split [::abook::getPersonal PHH] " "] 0]
 			$lfname.2.ephone31 insert 0 [lindex [split [::abook::getPersonal PHH] " "] 1]
 			$lfname.2.ephone32 insert 0 [join [lrange [split [::abook::getPersonal PHH] " "] 2 end]]
@@ -3046,17 +3046,17 @@ proc InitPref { {fullinit 0} } {
 			$lfname.2.ephone42 insert 0 [join [lrange [split [::abook::getPersonal PHW] " "] 2 end]]
 			$lfname.2.ephone51 insert 0 [lindex [split [::abook::getPersonal PHM] " "] 1]
 			$lfname.2.ephone52 insert 0 [join [lrange [split [::abook::getPersonal PHM] " "] 2 end]]
-		        
+
 		    #$lframe.2.mobphone configure -variable [::abook::getPersonal MOB]
 		}
-		
+
 		# Init remote preferences
 		#set lfname [Rnotebook:frame $nb $Preftabs(connection)]
-		set lfname [$nb.nn getframe connection]	
+		set lfname [$nb.nn getframe connection]
 		set lfname [$lfname.sw.sf getframe]
 		$lfname.lfname3.2.pass delete 0 end
 		$lfname.lfname3.2.pass insert 0 "[::config::getKey remotepassword]"
-		
+
 	}
 
 	#fill the locales combobox
@@ -3076,7 +3076,7 @@ proc InitPref { {fullinit 0} } {
 	}
 	$lfname.clocale select $loc_item_selected
 	$lfname.clocale configure -editable false
-		
+
 	# Lets fill our profile combobox
 	#set lfname [Rnotebook:frame $nb $Preftabs(others)]
 	set lfname [$nb.nn getframe others]
@@ -3152,7 +3152,7 @@ proc UpdatePreferences {} {
 			$lfname.bfontinreset configure -state normal
 		}
 	}
-	
+
 	# autoaway checkbuttons and entries
 	#set lfname [Rnotebook:frame $nb $Preftabs(session)]
 	set lfname [$nb.nn getframe session]
@@ -3217,7 +3217,7 @@ proc UpdatePreferences {} {
 	if { [::config::getKey enableremote] == 1 } {
 		$lfname.2.pass configure -state normal
 	} else {
-		$lfname.2.pass configure -state disabled 
+		$lfname.2.pass configure -state disabled
 	}
 
 	# sound
@@ -3237,12 +3237,12 @@ proc UpdatePreferences {} {
 				msg_box [trans snackfailed]
 			}
 		} else {
-			$lfname.1.sound.sound configure -state normal 
+			$lfname.1.sound.sound configure -state normal
 		}
 	}
 
 }
-	
+
 
 # This function sets all fonts to plain instead of bold,
 # excluding the ones that are set to sboldf or examplef
@@ -3270,7 +3270,7 @@ proc SavePreferences {} {
 	if { [::config::getKey default_ns_server] != [set myconfig(default_ns_server)] } {
 		::config::setKey start_ns_server [::config::getKey default_ns_server]
 	}
-	
+
 	# I. Data Validation & Metavariable substitution
 	# Proxy settings
 	set p_server [string trim $proxy_server]
@@ -3321,20 +3321,20 @@ proc SavePreferences {} {
 	set loc_item_selected [$lfname.clocale curselection]
 	status_log "selected item: $loc_item_selected" red
 	::config::setKey localecode [lindex [lindex $locale_codes $loc_item_selected] 1]
-	
+
 	# Check and save phone numbers
-        
-	if { [::MSN::myStatusIs] != "FLN" } {
+
+	if { [::MSN::myStatusIs] != "FLN" && 1 == 0} {
 		#set lfname [Rnotebook:frame $nb $Preftabs(personal)]
 		set lfname [$nb.nn getframe personal]
 		set lfname [$lfname.sw.sf getframe]
 		set lfname "$lfname.lfname4"
-	
+
 		set cntrycode [$lfname.2.ephone1 get]
 		if { [string is digit $cntrycode] == 0 } {
 			set cntrycode [lindex [split [::abook::getPersonal PHH] " "] 0]
 		}
-	
+
 		append home [$lfname.2.ephone31 get] " " [$lfname.2.ephone32 get]
 		if { [string is digit [$lfname.2.ephone31 get]] == 0 } {
 			set home [join [lrange [split [::abook::getPersonal PHH] " "] 1 end]]
@@ -3347,7 +3347,7 @@ proc SavePreferences {} {
 		if { [string is digit [$lfname.2.ephone51 get]] == 0 } {
 			set mobile [join [lrange [split [::abook::getPersonal PHM] " "] 1 end]]
 		}
-	
+
 		set home [urlencode [set home "$cntrycode $home"]]
 		set work [urlencode [set work "$cntrycode $work"]]
 		set mobile [urlencode [set mobile "$cntrycode $mobile"]]
@@ -3410,7 +3410,7 @@ proc SavePreferences {} {
 		if { $libtls != "" && [lsearch $auto_path $libtls] == -1 } {
 			lprepend auto_path $libtls
 		}
-	
+
 		if { $tlsinstalled == 0 && [catch {package require tls}] } {
 			# Either tls is not installed, or $auto_path does not point to it.
 			# Should now never happen; the check for the presence of tls is made
@@ -3420,7 +3420,7 @@ proc SavePreferences {} {
 		} else {
 			set tlsinstalled 1
 		}
-	
+
 		set fd [open [file join $HOME2 tlsconfig.tcl] w]
 		puts $fd "set libtls [list $libtls]"
 		close $fd
@@ -3449,22 +3449,22 @@ proc SavePreferences {} {
         }
 
 	::Event::fireEvent changedPreferences gui
-    
+
 	#Reset the banner incase the option changed
 	resetBanner
 
 	#Reload the trayicon in case it got changed
 	init_dock
-	
+
 
 }
 
 proc RestorePreferences { {win ".cfg"} } {
-	
+
 	if { $win != ".cfg" } { return }
 
 	global myconfig proxy_server proxy_port
-	
+
 	::config::setAll [array get myconfig]
 	array unset myconfig
 
@@ -3478,7 +3478,7 @@ proc RestorePreferences { {win ".cfg"} } {
 	}
 
 	::Event::fireEvent changedPreferences gui
-	
+
 	#::MSN::WriteSB ns "SYN" "0"
 
 	# Save configuration.
@@ -3490,7 +3490,7 @@ proc RestorePreferences { {win ".cfg"} } {
 
 # Usage: LabelEntry .mypath.mailer "Label:" config(mailcommand) 20
 proc LabelEntry { path lbl variable width } {
-    
+
 
     frame $path
 	label $path.lbl -text $lbl -justify left \
@@ -3513,9 +3513,9 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 	0 {
 	    if { [string is integer  $data] } {
 		$widget delete 0 end
-		$widget insert 0 "$correct" 
+		$widget insert 0 "$correct"
 		after idle "$widget configure -validate all"
-	    }    
+	    }
 	}
 	1 {
 	    if { [string is integer  $data] } {
@@ -3525,7 +3525,7 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 		return 1
 	    } else {return 0}
 	}
-	2 {    
+	2 {
 	    if { [string is integer $data] } {
 		if { $data < 30 } {
 		    return 0
@@ -3533,7 +3533,7 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 		return 1
 	    } else {return 0}
 	}
-	3 {    
+	3 {
 	    if { [string is integer   $data] } {
 		if { $data < 2 } {
 		    return 0
@@ -3541,31 +3541,31 @@ proc BlockValidateEntry { widget data type {correct 0} } {
 		return 1
 	    } else {return 0}
 	}
-	4 {    
+	4 {
 	    if { [string is integer  $data] } {
 		if { $data > 5 } {
 		    return 0
-		} 
-		return 1 
+		}
+		return 1
 	    } else {return 0}
 	}
     }
-	
+
 }
 
 
 #proc Browse_Dialog {}
 #Browse dialog function (used in TLS directory and convert file), first show the dialog (choose folder or choose file), after check if user choosed something, if yes, set the new variable
 proc Browse_Dialog_dir {configitem {initialdir ""}} {
-	
+
 	if { $initialdir == "" } {
 		set initialdir [set $configitem]
 	}
-	
+
 	if { ![file isdirectory $initialdir]} {
 		set initialdir [pwd]
 	}
-	
+
 	catch { set parent [focus]}
 	if {![info exists parent] || $parent == "" } {
 		set parent .
@@ -3603,18 +3603,18 @@ proc choose_basefont { } {
 		return
 	}
 
-	
+
 	if { [catch {
 			set font [SelectFont .basefontsel -parent .cfg -title [trans choosebasefont] -font [::config::getGlobalKey basefont] -styles [list]]
 		}]} {
-		
+
 		set font [SelectFont .basefontsel -parent .cfg -title [trans choosebasefont] -font [list "helvetica" 12 [list]] -styles [list]]
-		
+
 	}
 
 	set family [lindex $font 0]
 	set size [lindex $font 1]
-			
+
 	if { $family == "" || $size == ""} {
 		return
 	}
