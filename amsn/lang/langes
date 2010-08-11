@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abookerror aMSN falló al descargar tu lista de contactos. Lo más probable es que sea un error temporal relacionado con los servidores de MSN. Ahora estás conectado usando tus datos de la lista de contactos en caché (si existe). Disculpe las molestias. Por favor, inténtelo más tarde.
 abort Abortar
 about Acerca de
 aboutamsn Acerca de aMSN
@@ -528,7 +529,7 @@ lastseen Última vez visto en línea
 lazypicretrieval Recuperación "a posteriori" de las imágenes para mostrar
 lclosedwin $1 ha cerrado la ventana a las $2
 lconftopriv La conversación pasa a ser un privado con $1
-lconvstarted Comienza la conversación a las $1
+lconvstarted Comienza la conversación el $1
 lconvstartedOIM Iniciar una conversación de mensajes instantáneos sin conexión en $1
 leaveblankforhotmail Dejar en blanco para usar Hotmail
 leavejoinsinchat Mostrar notificaciones de "deja/se une a la conversación" en la ventana de chat
@@ -572,7 +573,7 @@ longp4c Tu apodo en conversación tiene más de 130 caracteres. Y el apodo mostr
 longpsm Tu mensaje personal es demasiado largo. Esto no está soportado oficialmente por el protocolo MSN. ¿Estás seguro que deseas utilizarlo?
 lowrescam Usar una cámara web de baja resolución
 lprivtoconf El privado se convierte en conversación múltiple con $1
-luclosedwin Has cerrado la ventana a las $1
+luclosedwin Has cerrado la ventana el $1
 mailer Comando de correo electrónico
 mailerexample ( \$recipient = Destinatario ) Dejar en blanco para usar Hotmail
 maintenance El servidor quedará fuera de servicio en $1 minuto/s para su mantenimiento
