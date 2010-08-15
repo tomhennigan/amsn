@@ -523,7 +523,7 @@ Tk_ConfigureIcon (ClientData clientData,
 			} else if (!strncmp(arg,"-tooltip",length))
 			{
 				n++;
-				strcpy(iconlist->tooltip,Tcl_GetStringFromObj(objv[n],(int *) &length));
+				strncpy(iconlist->tooltip,Tcl_GetStringFromObj(objv[n],(int *) &length), 255);
 			} else if (!strncmp(arg,"-command",length))
 			{
 				n++;
