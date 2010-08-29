@@ -9,7 +9,7 @@
 	<description_hu>A partnerek szűrését teszi lehetővé egy keresősáv segítségével, szabadon megadható keresőszöveggel.</description_hu>
 	<description_nl>Deze plug-in voegt een zoeken-terwijl-u-typt-zoekbalk onder de contactenlijst toe voor het filteren van contacten.</description_nl>
 	<amsn_version>0.97</amsn_version>
-	<plugin_version>0.9</plugin_version>
+	<plugin_version>0.9.1</plugin_version>
 	<plugin_file>searchcontact.tcl</plugin_file>
 	<plugin_namespace>searchcontact</plugin_namespace>
 	<init_procedure>Init</init_procedure>

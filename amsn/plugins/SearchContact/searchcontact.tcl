@@ -662,7 +662,15 @@ namespace eval ::searchcontact {
 		if {!$::contactlist_loaded} { return }
 		variable clblocked
 
-		if { $event eq "filterChange" || $event eq "historyScroll" } {
+		if { $event eq "filterChange" } {
+		      if {$::searchcontact::config(filter_blocked) == 0 && $::searchcontact::config(filter_removedme) == 0 && [getInput] == ""} {
+			  set clblocked 0
+			  set ::guiContactList::external_lock 0
+			  ::guiContactList::organiseList .main.f.cl.cvs [::guiContactList::getContactList]
+		      } else {
+			  set clblocked 1
+		      }
+		} elseif { $event eq "historyScroll" } {
 			set clblocked 1
 		}
 		
