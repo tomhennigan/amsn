@@ -3455,7 +3455,7 @@ proc SavePreferences {} {
 
 	#Reload the trayicon in case it got changed
 	init_dock
-
+  restart_tray
 
 }
 
