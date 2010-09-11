@@ -3455,7 +3455,12 @@ proc SavePreferences {} {
 
 	#Reload the trayicon in case it got changed
 	init_dock
-  restart_tray
+    restart_tray
+    if { [::config::getKey showmailicon] == 0 } {
+      mailicon_proc 0
+    } else {
+      mailicon_proc [::hotmail::unreadMessages]
+    }
 
 }
 
