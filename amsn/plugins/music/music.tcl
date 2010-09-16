@@ -952,7 +952,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongAmarok {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoamarok"]] }
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infoamarok"]] }
 	}
 
 	###############################################
@@ -999,7 +999,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongAudacious {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoaudacious"]] }
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infoaudacious"]] }
 	}
 
 	###############################################
@@ -1039,7 +1039,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongBanshee {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infobanshee"]] }
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infobanshee"]] }
 	}
 
 	###############################################
@@ -1076,7 +1076,7 @@ namespace eval ::music {
 	###########################################################
 	proc TreatSongLastFM {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infolastfm"]] }
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infolastfm"]] }
 	}
 
 	###########################################################
@@ -1189,7 +1189,7 @@ namespace eval ::music {
 	 ###########################################################
 	 proc TreatSongJuk {} {
 		#Grab the information asynchronously : thanks to copyleft
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infojuk"]] }
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infojuk"]] }
 	}
 
 	###########################################################
@@ -1231,7 +1231,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongExaile {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infoexaile"]] }
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infoexaile"]] }
 	}
 
 	###############################################
@@ -1495,7 +1495,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongSpotify {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "infospotify"]] }
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infospotify"]] }
 	}
 	###############################################
 	# ::music::GetSongSpotify                     #
@@ -1543,7 +1543,7 @@ namespace eval ::music {
 	###############################################
 	proc TreatSongRhythmbox {} {
 		#Grab the information asynchronously : thanks to Tjikkun
-		after 0 {::music::exec_async [list "sh" [file join $::music::musicpluginpath "inforhythmbox"]] }
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "inforhythmbox"]] }
 	}
 
 	###############################################
