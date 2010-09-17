@@ -24,7 +24,7 @@ then
 	VERSION=$($AUDTOOL version)
 fi
 	
-if [ $? = 0 ]
+if [ $? = 0 ] && [ "$STATUS" = "playing" ]
 then
 	echo $STATUS
 	MAJ=`expr substr ${VERSION#A*\ } 1 1`
