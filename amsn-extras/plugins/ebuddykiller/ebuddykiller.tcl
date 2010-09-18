@@ -22,8 +22,13 @@ namespace eval ::ebuddykiller {
 			if { [string first " - on eBuddy Mobile Messenger http://get.ebuddy.com" $psm] >= 0 } {
 				plugins_log "eBuddyKiller" "eBuddy PSM killed!!!"
 				set psm [::abook::getPersonal PSM]
+				set force 1
 			}
 			eval ::NS::Snit_methodsetInitialNicknameKilled [list $type $selfns $win $self $newstate $newstate_custom $nickname $last_modif $psm $fail]
+			if { $force == 1 } {
+				#We should force updating our PSM on the server
+				::MSN::changePSM $psm [::MSN::myStatusIs] 1 1
+			}
 		}
 
 		set loaded 1
