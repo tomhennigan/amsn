@@ -12,11 +12,11 @@
 
 	<cvs_version>1.1</cvs_version>
 
-	<!-- <URL>
-		<main>http://www.amsn-project.net/autoupdater/plugins/emotes/emotes.tcl</main>
-		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/emotes/plugininfo.xml</plugininfo>
-		<lang>http://www.amsn-project.net/autoupdater/plugins/emotes/lang/lang$langcode</lang>
-		<file>http://www.amsn-project.net/autoupdater/plugins/emotes/$file</file>
-	</URL> -->
+	<URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/ebuddykiller/emotes.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/ebuddykiller/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/ebuddykiller/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/ebuddykiller/$file</file>
+	</URL>
 
 </plugin>
