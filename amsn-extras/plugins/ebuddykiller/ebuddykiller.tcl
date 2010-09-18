@@ -27,6 +27,10 @@ namespace eval ::ebuddykiller {
 			}
 			eval ::NS::Snit_methodsetInitialNicknameKilled [list $type $selfns $win $self $newstate $newstate_custom $nickname $last_modif $psm $fail]
 			if { $force == 1 } {
+				if { [xmldecode [::abook::getPersonal MFN]] != [::abook::getPersonal MFN] } {
+					#eBuddy xmlencoded our nickname... got to change it back
+					::MSN::changeName [xmldecode [::abook::getPersonal MFN]] 1
+				}
 				#We should force updating our PSM on the server
 				::MSN::changePSM $psm [::MSN::myStatusIs] 1 1
 			}
