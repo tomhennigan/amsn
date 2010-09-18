@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<plugin>
+	<name>eBuddyKiller</name>
+	<author>Vivia Nikolaidou</author>
+	<description>Plugin to ignore the personal message forced by eBuddy</description>
+	<amsn_version>0.98</amsn_version>
+	<plugin_version>0.1</plugin_version>
+	<plugin_file>ebuddykiller.tcl</plugin_file>
+	<plugin_namespace>ebuddykiller</plugin_namespace>
+	<init_procedure>Init</init_procedure>
+	<deinit_procedure>DeInit</deinit_procedure>
+
+	<cvs_version>1.1</cvs_version>
+
+	<!-- <URL>
+		<main>http://www.amsn-project.net/autoupdater/plugins/emotes/emotes.tcl</main>
+		<plugininfo>http://www.amsn-project.net/autoupdater/plugins/emotes/plugininfo.xml</plugininfo>
+		<lang>http://www.amsn-project.net/autoupdater/plugins/emotes/lang/lang$langcode</lang>
+		<file>http://www.amsn-project.net/autoupdater/plugins/emotes/$file</file>
+	</URL> -->
+
+</plugin>
