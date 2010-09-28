@@ -24,14 +24,16 @@ namespace eval ::ebuddykiller {
 				plugins_log "eBuddyKiller" "eBuddy PSM killed!!!"
 				set psm [::abook::getPersonal PSM]
 				set force 1
+
+				if { [xmldecode $nickname] != $nickname } {
+					#eBuddy xmlencoded our nickname... got to change it back
+					set nickname [xmldecode $nickname]
+				}
 			}
 			eval ::NS::Snit_methodsetInitialNicknameKilled [list $type $selfns $win $self $newstate $newstate_custom $nickname $last_modif $psm $fail]
 			if { $force == 1 } {
-				if { [xmldecode [::abook::getPersonal MFN]] != [::abook::getPersonal MFN] } {
-					#eBuddy xmlencoded our nickname... got to change it back
-					::MSN::changeName [xmldecode [::abook::getPersonal MFN]] 1
-				}
-				#We should force updating our PSM on the server
+				#Update our stuff on the server
+				::MSN::changeName $nickname 1
 				::MSN::changePSM $psm [::MSN::myStatusIs] 1 1
 			}
 		}
