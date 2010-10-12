@@ -638,10 +638,10 @@ namespace eval ::notes {
 		puts $file_id "<?xml version=\"1.0\"?>\n\n<notes>\n"
 
 		foreach note $::notes::notes {
-			set created [lindex $note 0]
-			set modified [lindex $note 1]
-			set subject [lindex $note 2]
-			set content [lindex $note 3]
+			set created [::sxml::xmlreplace [lindex $note 0]]
+			set modified [::sxml::xmlreplace [lindex $note 1]]
+			set subject [::sxml::xmlreplace [lindex $note 2]]
+			set content [::sxml::xmlreplace [lindex $note 3]]
 			puts -nonewline $file_id "\t<note>\n\t\t<created>$created</created>\n\t\t<modified>$modified</modified>\n\t\t<subject>$subject</subject>\n\t\t<content>$content</content>\n\t</note>\n"
 		}
 
