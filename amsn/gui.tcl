@@ -3455,6 +3455,10 @@ namespace eval ::amsn {
 			foreach user [::MSN::usersInChat $chatid] {
 				set clientid [::abook::getContactData $user clientid]
 				if { $clientid == "" } { set clientid 0 }
+				if { [::MSN::hasCapability $clientid msnc10] } {
+					set supports_actions 0
+					break
+				}
 				if { ![::MSN::hasCapability $clientid msnc6] &&
 				     ![::MSN::hasCapability $clientid msnc7] &&
 				     ![::MSN::hasCapability $clientid msnc8] } {
