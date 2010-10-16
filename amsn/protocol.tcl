@@ -3820,6 +3820,11 @@ namespace eval ::MSNOIM {
 			$soap destroy
 
 			set msg [GetXmlEntry $xml "soap:Envelope:soap:Body:GetMessageResponse:GetMessageResult"]
+			if {$msg == ""} {
+				#microsoft changed the oim format to the prefix s: instead of soap:
+				#so this is some kind of hack to try if this oim has the new prefix 
+				set msg [GetXmlEntry $xml "s:Envelope:s:Body:GetMessageResponse:GetMessageResult"]
+			}
 			set msg [string map {"\r\n" "\n" } $msg]
 			set msg [string map {"\n" "\r\n" } $msg]
 			set message [Message create %AUTO%]
@@ -3839,6 +3844,13 @@ namespace eval ::MSNOIM {
 				status_log "Auth failed, retry : $retry" white
                                 set reauth [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:RequiredAuthPolicy"]
                                 set lock_challenge [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
+				if {$reauth == "" && $lock_challenge == ""} {
+					#microsoft changed the oim format to the prefix s: instead of soap:
+					#so this is some kind of hack to try if this oim has the new prefix 
+					set reauth [GetXmlEntry $xml "s:Envelope:s:Body:s:Fault:detail:RequiredAuthPolicy"]
+					set lock_challenge [GetXmlEntry $xml "s:Envelope:s:Body:s:Fault:detail:LockKeyChallenge"]
+				}
+
                                 if { $lock_challenge != "" } {
                                         CreateLockKey $lock_challenge
                                 }
@@ -3919,6 +3931,13 @@ namespace eval ::MSNOIM {
 			if { $faultcode == "q0:AuthenticationFailed" } {
 				set reauth [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:RequiredAuthPolicy"]
 				set lock_challenge [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
+				if {$reauth == "" && $lock_challenge == ""} {
+					#microsoft changed the oim format to the prefix s: instead of soap:
+					#so this is some kind of hack to try if this oim has the new prefix 
+					set reauth [GetXmlEntry $xml "s:Envelope:s:Body:s:Fault:detail:RequiredAuthPolicy"]
+					set lock_challenge [GetXmlEntry $xml "s:Envelope:s:Body:s:Fault:detail:LockKeyChallenge"]
+				}
+
 				if { $lock_challenge != "" } {
 					CreateLockKey $lock_challenge
 				} 
