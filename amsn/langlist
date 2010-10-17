@@ -3,9 +3,15 @@
 <version>
 	<lang>
 		<langcode>al</langcode>
-		<name>Albanian (shqip)</name>
+		<name>albanian (shqip)</name>
 		<version>1.11</version>
 		<encoding>iso8859-1</encoding>
+	</lang>
+	<lang>
+		<langcode>ar</langcode>
+		<name>Arabic (عربي)</name>
+		<version>1.0</version>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>ast</langcode>

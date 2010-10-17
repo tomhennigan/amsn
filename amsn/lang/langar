@@ -1,0 +1,355 @@
+amsn_lang_version 2
+abort خروج
+about حول
+aboutamsn حول amsn
+accept قبول
+acceptfile هل تود قبول الملف 1$ (الحجم 2$ بايت)؟ سيتم حفظه في 3$
+account حساب
+actions الإجراءات
+activeautoupdate تفعيل التحديثات التلقائية
+addacontact إضافة جهة إتصال
+add إضافة
+addedyou 1$ (2$) قام بإضافتك إلى قائمته/قائمتها
+addprofile إضافة ملف شخصي جديد
+addstate إضافة حالة جديدة
+addto إضافة إلى $1
+addtocontacts إضافة إلى جهات الاتصال
+addtoo إضافة هذا الشخص إلى جهة اتصالي
+admincontacts جهات اتصال المستخدم
+admingroups مجموعات المتسخدم
+advanced متقدم
+advancedprefs تأكيد الإعدادات المتقدمة
+alarmonconnect تفعيل التنبية عندما يكون هذا الشخص متصل
+alarmondisconnect تفعيل التنبيه عندما يكون هذا الشخص مختفي/غير متصل
+alarmonmsg تفعيل التنبيه عندما يرسل هذا الشخص إليك رسالة
+alarmonstatus تفعيل التنبية عندما يغير هذا الشخص حالته
+alarmpref2 اعدادات التنبية لكل اتصال
+alarms تنبيهات
+alarmstatus تفعيل التنبية لهذا الشخص
+allfiles كل الملفات
+allmonths كل الشهور
+allowallbutbl السماح لكل الأشخاص الاتصال بي, ماعدا الذين منعتهم
+allowlist قائمة المستخدمين المقبولين:
+allowonlyinal الأشخاص الذين اقبلهم انا فقط مسموح لهم بالاتصال بي
+allowseen السماح لهذا الشخص رؤيتي عندما اكون متصلا والاتصال بي
+always دائما
+animatedemoticon هذا الرمز متحرك
+animatedsmileys السماح بالرموز المتحركة
+appearance المظهر
+appearoff الظهور دون اتصال
+areacode رمز المنطقة
+aretyping 1$ يكتب رسالة
+askcam طلب رؤية الكاميرا
+askwebcam طلب من هذا الشخص ان يقوم بإرسال كاميرا الويب الخاص به/بها
+audiovideo اعدادات الصوت والفيديو
+author المطور
+autoacceptwc قبول طلبات رؤية الكاميرا تلقائياً
+autoconnect اتصال تلقائي عندما يبدأ aMSN
+autodetectip كشف عنوان الIP تلقائيا
+autohotmaillog تسجيل دخول تلقائي إلى بريد هوتميل
+autoip عنوان IP تلقائي
+automessage الرسالة التلقائية
+away بعيد
+back رجوع
+block حظر
+blocked محظور
+blocking يُحظر
+browse تصفح
+busy مشغول
+bytesymbol b
+cancel إلغاء
+cancelled ملغي
+change تغير
+changefont تغير الخط
+changenick تغير اللقب
+changepsm تغير الرسالة الشخصية
+changesize تغير الحجم
+changestatus تغير الحالة
+changevideosettings تغير إعدادات الفيديو
+chatack يتم تفعيل دردشة من
+chat دردشة
+chatsmileys عرض الأبتسامات داخل الدردشة
+choosebasefont اختر خط الكتابة
+choosebgcolor اختر لون خلفية
+choosechannel اختر قناة
+choosecontact اختر اسم من القائمة
+choosedevice اختر جهاز
+choosefontcolor اختر لون الخط
+chooselocation اختر موقع الملف الجديد
+clear مسح
+clickhere اضغط هنا
+clicktologin اضغط هنا للدخول
+closeothers إغلق كافة التبويبات الأخرى
+color لون
+command امر
+commandstatus تنفيذ الأمر
+compactstyle السمة المضغوطة
+configure تأكيد
+confirm هل انت متأكد؟
+confirmdg هل انت متأكد من انك تود حذف هذه المجموعة؟
+confirmdu هل انت متأكد من انك تود حذف هذا الشخص ؟
+confirmeg هل انت متأكد من انك تود إفراغ هذه المجموعة؟
+congrats تهاني
+connectfirst رجاء اتصل اوﻻ
+copy نسخ
+credits المؤلفون
+currentdate الوقت الحالي
+customcolor لون اختياري
+cut قص
+day يوم
+days ايام
+default2 الأفتراضي
+deleteall حذف الكل
+deleteblock حظر وحذف
+delete حذف
+description الوصف
+details التفاصيل
+displaypic عرض الصورة
+dockgtk شريط جنوم
+dockkde شريط كدي
+done تم
+download تحميل
+edit تحرير
+email البريد الالكتروني
+emptygroup مجموعة خالية
+enabled مفعل
+enableproxy تفعيل البروكسي
+enablesound تشغيل الصوت
+enterfilename رجاء ادخل اسم ملف
+enternick ادخل لقبك
+enterpsm رسالتك الشخصية
+error خطأ
+examples امثلة
+exitamsn هل انت متأكد من انك تود الخروج؟
+extras الخدمات الإضافية
+faileddelete فشل الحذف
+failed فشل
+fetching جلب البيانات...
+file ملف
+fileman مدير الملفات
+filename اسم الملف
+filenotwritable لا يمكن حذف هذا الملف
+filetransfercancelled أُلغي نقل الملف
+filetransfercomplete اكتمل نقل الملف
+filetransfer نقل الملف
+find ابحث
+findnext ابحث بالأمام
+findprev ابحث بالخلف
+finish إنهاء
+forget_me تذكرني
+forgot_pass I نسيت كلمة المرور
+formatcsv صيغة CSV
+formatctt صيغة CTT
+fsnodevfound ﻻ توجد أجهزة متاحة
+ftaccepted قبول نقل الملفات
+ftgotinvitation 1$ يريد ان يرسل الملف'2$' (3$بايتات) سيتم حفظه في المسار 4$ هل تود ان تستلم هذا الملف؟
+ftporttest اختبر المنفذ
+ftrejected رُفض نقل الملف
+fullcontactlist آسفون,قائمة جهات الاتصال الخاصة بك ممتلئة.يجب عليك حذف بعض جهات الاتصال لإضافة جهات اتصال جديدة.
+gameaccepted 1$ قبل دعوتك للعب
+gameinvitation 1$ يدعوك لكي لتلعب 2$.هل تود قبول هذه الدعوة؟
+gamerequest لقد دعوت 1$ للعب 2$
+getmoreplugins احصل المزيد من الإضافات!
+getmoreskins حصل المزيد من السمات!
+goto اذهب إلى 1$
+gotoinbox الذهاب إلى صندوق الوارد
+groupadd إضافة مجموعة
+group مجموعة
+groupnewname اسم جديد
+groupnotempty المجموعة ليست خالية!
+groupoldname اسم قديم
+grouprename إعادة تسمية مجموعة
+groups المجموعات
+groupunknown مجموعة مجهولة
+help مساعدة
+hidedetails إخفاء التفاصيل
+hidewindow إخفاء النافذة
+history2 التاريخ
+history عرض التاريخ
+home المنزل
+huge هائل
+identity الهوية
+ignore تجاهل
+inbox البريد الوارد
+invalidgroup مجموعة خاطئة
+invalidusername اسم مستخدم خاطئ
+ipaddress عنوان IP
+justonce مرة واحدة
+language اللغة
+large كبير
+largest الأكبر
+lastlogin اخر دخول
+lastlogout اخر خروج
+lastmsgedme اخر رسالة
+leaves 1$ ترك المحادثة
+loginas دخول كا
+login دخول
+logout خروج
+logsin قد سجل الدخول
+maintenance الخادم سيتم إغلاقه للصيانة في غضون 1$ دقائق
+mins دقائق
+mobile الهاتف المحمول
+month شهر
+more مزيد
+move نقل
+movetogroup نقل إلى مجموعة
+msg رسالة
+mustrestart يجب عليك إعادة تشغيل البرنامج لتطبيق التغيرات
+myhomephone هاتف منزلي
+mymobilephone هاتفي المحمول
+mynick لقبي
+mypic صورة العرض الخاصة بي
+mypics صور العرض الخاصة بي
+mystatus حالتي
+myworkphone هاتف عملي
+name اسم
+never اطلاقاً
+new_account إنشيء حساب
+newchat دردشة جديدة
+newline سطر جديد
+newmsg رسالة جديدة
+newupdate تتوفر تحديثات جديدة لـaMSN
+newveravailable يتوفر إضدار حديث 1$ للتحميل
+next التالي
+nick لقب
+nogroup ﻻ مجموعة
+nonewmail ﻻ رسائل جديدة في صندوق الوارد
+nopic ﻻتوجد صورة
+nospace ﻻشيء موجود هنا
+note ملاحظة
+notify1 أظهر نافذة التنبيه عندما تصبح جهات الاتصال على الخط
+notify2 أظهر نافذة التنبيه عندما تُستقبل رسالة جديدة
+notify تنبيه
+notifywin نافذة التنبيه
+nousersinsession ﻻيوجد مستخدمون في هذه الجلسة
+offline غير متصل
+ok موافق
+online متصل
+options خيارات
+other آخر
+others اخرى
+pass كلمة السر
+paste لصق
+pause ايقاف مؤقت
+personal شخصي
+phone هاتف
+phones أرقام الهاتف
+picstatus ضورة تنبية
+playgame2 لعب 1$
+playgame لعب لعبة
+play لعب
+port منفذ
+prefapps التطبيقات
+preferences تفضيلات
+preflocale الإعدادات المحلية
+prefsound الأصوات
+preview عرض
+privacy خصوصية
+properties خصائص
+psm رسالة شخصية
+quit خروج
+reconnecting يعاود الاتصال بالخادم
+reconnectnow اعد الاتصال الآن
+record سجل
+rememberaccount تذكر حسابي
+rememberpass تذكر كلمة السر
+remembersetting تذكر اختياري
+removeempty إحذف المجموعات الخالية من جهات الاتصال
+removefromgroup حذف من المجموعة
+rename اعادة تسمية
+retry اعادة المحاولة
+saveas حفظ باسم
+savelocation هل تود حفظ الملف في 1$؟
+save حفظ
+says 1$ يقول
+searchdown ابحث بالأسفل
+searchup ابحث بالأعلى
+selectall حدد الكل
+selectcontact حدد جهة اتصال
+selectplugins الرجاء حدد الاضافات التي تود تفعيلها
+selectskin الرجاء اختيار السمة من هذه القائمة
+sendcam ارسل كاميرا الويب
+sendfile ارسل ملف
+sendmail ارسل بريد إلكتروني
+sendmobmsg ارسل إلى هاتف نقال
+sendmsg ارسال رسالة
+send إرسال
+sendsip بدأ مكالمة صوتية
+sendvideosip بدأ مكالمة فيديو
+sentbytes ارسال $1 من $2 بايت
+sentvoice ارسال مقطع صوتي
+serverbusy الخادم مشغول
+server الخادم
+session الجلسة
+setasmydp اجعلها صورتي للعرض
+showdetails أظهر التفاصيل
+showmypic صورة عرضي
+showofflinegroup اظهر المجموعة الغير متصلة
+signout خروج
+sipcallback عاود الأتصال
+sipcalleebusy المستخدم مشغول حاليا
+sipcalleeclosed المتصل انهى مكامتك الصوتية
+sipcalleedeclined المتسخدم رفض دعوتك الصوتية
+sipcalleenoanswer المستخدم لم يجب على اتصالك
+sipcallended انتهت مكالمتك الصوتية
+sipcallsent يتصل $1
+sipvideocallended انتهت مكالمتك المرئية
+skinselector حدد السمة
+skin سمة
+small صغير
+sortcontactsby تصنيف جهات الاتصال حسب
+soundfile ملف صوتي
+soundfiles ملفات صوتية
+soundstatus تنبية صوتي
+splashstart بدأ
+status الحالة
+step خطوة
+stopalarm ايقاف التنبيهات
+stop توقف
+style النمط
+subject الموضوع
+textsize حجم النص
+thismonth هذا الشهر
+title aMSN
+today اليوم
+tomobile إلى هاتف نقال
+tools الأعدادات
+tooltips Enable tooltips
+totalsize الحجم الكلي
+to إلى
+twonewmail $1 رسائل جديدة في صندوق الوارد
+type اكتب
+unblock فك الحظر
+unknown مجهول
+unselectall إلغ تحديد الكل
+uoffline غير متصل
+uonline متصل
+update تحديث
+updating يتم التحديث
+userdata بيانات المستخدم
+usernotonline جهة الأتصال هذه غير متصلة
+usersettings الضبط
+user المستخدم
+useryourself ﻻتستطيع التحدث مع نفسك
+version إصدار
+viewcontactsby عرض جهات الأتصال بواسطة
+viewprofile عرض الملف الشخصي
+view عرض
+volume صوت
+webcamconfigure إعداد كاميرا الويب
+webcamfaq تعليمات/مساعدة عن كاميرا الويب
+webcamhistory2 جلسة كاميرا الويب
+webcamhistory عرض جلسة كاميرا الويب
+webcaminvitereceiving انت مدعو لتبدأ عرض كاميرا $1 هل تود قبول الدعوة؟
+webcamrequestreceive ارسال طلب لأستقبال كاميرا الويب
+webcamrequestsend ارسال طلب لأرسال كاميرا الويب
+webcam كاميرا الويب
+web الويب
+work اعمل
+year سنة
+yesblock نعم و حظر
+yesterday امس
+yes نعم
+yousay انت تقول
+youwant انت تود
+zoom تقريب
