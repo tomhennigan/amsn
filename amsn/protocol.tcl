@@ -1403,8 +1403,12 @@ namespace eval ::MSN {
 					if {$dprid != ""} {
 						if {$step == 1} {
 							#download DP
-							set dpfullurl "http://byfiles.storage.msn.com"
-							append dpfullurl $dpurl
+							if {[string range $dpurl 0 6] == "http://"} {
+								set dpfullurl $dpurl
+							} else {
+								set dpfullurl "http://byfiles.storage.msn.com"
+								append dpfullurl $dpurl
+							}
 							status_log "downloadDP : downloading $dpfile from $dpfullurl" blue
 							if {[ catch {set tok [::http::geturl $dpfullurl -command "::MSN::downloadDP 3"]} res ]} {
 								status_log "downloadDP : downloading failed" red

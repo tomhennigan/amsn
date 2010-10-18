@@ -118,6 +118,9 @@ snit::type ContentRoaming {
 						set dp_resourceid [GetXmlEntry $result "GetProfileResult:ExpressionProfile:Photo:ResourceID"]
 						::abook::setPersonal dp_resourceid $dp_resourceid
 						set dp_filename [GetXmlEntry $result "GetProfileResult:ExpressionProfile:Photo:Name"]
+						if {$dp_filename == ""} {
+							set dp_filename $dp_resourceid
+						}
 						::abook::setPersonal dp_filename $dp_filename
 						set dp_url [GetXmlEntry $result "GetProfileResult:ExpressionProfile:StaticUserTilePublicURL"]
 						::abook::setPersonal dp_url $dp_url
