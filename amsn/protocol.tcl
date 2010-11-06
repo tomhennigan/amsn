@@ -2994,6 +2994,14 @@ namespace eval ::MSN {
 		return $lowuser
 	}
 
+	########################################################################
+	proc CloseInactiveSB { sb } {
+
+		WriteSBRaw $sb "OUT\r\n"
+		CloseSB $sb
+
+	}
+
 
 	########################################################################
 	#Totally remove the given SB
