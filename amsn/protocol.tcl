@@ -2412,6 +2412,14 @@ namespace eval ::MSN {
 			::MSN::CloseSB $sbn
 			degt_protocol "->$sbn FAILED: $cmd" error
 		}
+		if { $sbn != "ns" } {
+			if { [$sbn cget -killme] != "" } {
+				after cancel [$sbn cget -killme]
+			}
+			if { $cmd != "OUT\r\n" } {
+				$sbn configure -killme [after 60000 "::MSN::CloseInactiveSB $sbn"]
+			}
+		}
 	}
 
 
@@ -2556,6 +2564,11 @@ namespace eval ::MSN {
 
 		set oldstat [$sb cget -stat]
 		$sb configure -stat "d"
+
+		if { [$sb cget -killme] != "" } {
+			after cancel [$sb cget -killme]
+			$sb configure -killme ""
+		}
 
 		if { [string match -nocase "*ns*" $sb] } {
 			status_log "clearing sb $sb. oldstat=$oldstat"
@@ -2997,6 +3010,8 @@ namespace eval ::MSN {
 	########################################################################
 	proc CloseInactiveSB { sb } {
 
+		if { [info commands $sb] == "" } { return }
+		$sb configure -killme ""
 		WriteSBRaw $sb "OUT\r\n"
 		CloseSB $sb
 
@@ -5092,6 +5107,7 @@ namespace eval ::MSNOIM {
 	option -auth_param ""
 	option -last_activity 0
 	option -lastspoke 0
+	option -killme ""
 
 	constructor {args} {
 		install connection using Connection %AUTO% -name $self
@@ -5566,6 +5582,10 @@ namespace eval ::MSNOIM {
 			}
 		}
 		$message destroy
+		if { $options(-killme) != "" } {
+			after cancel $options(-killme)
+		}
+		$self configure -killme [after 60000 [list ::MSN::CloseInactiveSB $self]]
 	}
 
 	method search { option index } {
