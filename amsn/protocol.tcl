@@ -3011,7 +3011,8 @@ namespace eval ::MSN {
 
 		if { [info commands $sb] == "" } { return }
 		$sb configure -killme ""
-		WriteSBRaw $sb "OUT\r\n"
+		# Shouldn't bother about some SB being already killed before we came here ☺
+		if { [catch {WriteSBRaw $sb "OUT\r\n"}] } { return }
 		CloseSB $sb
 
 	}
