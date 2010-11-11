@@ -3013,9 +3013,11 @@ namespace eval ::MSN {
 			return
 		}
 		set chatid [::MSN::ChatFor $sb]
-		set user_list [::MSN::usersInChat $chatid]
-		if { [llength $user_list] > 1 } {
-			   return
+		if {$chatid != 0} {
+			set user_list [::MSN::usersInChat $chatid]
+			if { [llength $user_list] > 1 } {
+				return
+			}
 		}
 		catch {$sb configure -killme ""}
 		if { [catch {WriteSBRaw $sb "OUT\r\n"} ] } {
