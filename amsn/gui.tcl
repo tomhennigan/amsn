@@ -651,9 +651,9 @@ namespace eval ::amsn {
 				if { $answer == yes } {
 					set status 1
 				}
-				puts [info level 0]
-				puts $status
-				puts $errormsg
+				#puts [info level 0]
+				#puts $status
+				#puts $errormsg
 			}
 			return $status
 		}

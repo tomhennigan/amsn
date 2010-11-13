@@ -235,8 +235,7 @@ proc trayicon_resize {w} {
 	catch {
 		set width [expr {[lindex [$w bbox] 2] - [lindex [$w bbox] 0] + 1}]
 		set height [expr {[lindex [$w bbox] 2] - [lindex [$w bbox] 0] + 1}]
-		puts "Resizing icon to $width x $height"
-	
+			
 		set img [$w cget -image]
 		if { [image width $img] != $width || [image height $img] != $height} {
 			::picture::ResizeWithRatio $img $width $height
@@ -281,10 +280,7 @@ proc statusicon_proc {status} {
 			if {$use_tktray} {
 				tktray::icon .si -class "amsn-tray" -image statustrayicon
 				after 1000 { trayicon_resize .si}
-				bind $statusicon <<IconCreate>> {puts "tray created"}
-				bind $statusicon <Configure> {puts "tray configured2"}
-				bind $statusicon <<IconConfigure>> {puts "tray configured"; trayicon_resize .si}
-				bind $statusicon <<IconDestroy>> {puts "tray destroyed"}
+				bind $statusicon <<IconConfigure>> {trayicon_resize .si}
 			} else {
 				image create photo statustrayiconres
 				set statusicon [newti .si -pixmap statustrayiconres -command "::trayicon_callback statustrayicon statustrayiconres"]
@@ -632,10 +628,7 @@ proc mailicon_proc {num} {
 				tktray::icon .mi -image mailtrayicon
 				after 1000 { trayicon_resize .mi}
 
-				bind .mi <<IconCreate>> {puts "mail tray created"}
-				bind .mi <Configure> {puts "mail tray configured2"}
-				bind .mi <<IconConfigure>> {puts "mail tray configured"; trayicon_resize .mi}
-				bind .mi <<IconDestroy>> {puts "mail tray destroyed"}
+				bind .mi <<IconConfigure>> {trayicon_resize .mi}
 			} else {
 				image create photo mailtrayiconres
 				set mailicon [newti .mi -pixmap mailtrayiconres -command "::trayicon_callback mailtrayicon mailtrayiconres"]
