@@ -529,12 +529,12 @@ lastseen Viimati nähtud
 lazypicretrieval Laisk piltide tõmbamine
 lclosedwin $1 sulges akna $2
 lconftopriv Konverents muudeti privaatvestluseks isikuga $1
-lconvstarted Vestlust alustati kell $1
-lconvstartedOIM Ühenduseta kiirvestlust alustati kell $1
+lconvstarted Vestlust alustati $1
+lconvstartedOIM Ühenduseta kiirvestlust alustati $1
 leaveblankforhotmail Hotmaili kasutamiseks jäta tühjaks
 leavejoinsinchat Näita vestluse aknas "liitus vestlusega/lahkus vestluselt" teateid
 leaves $1 lahkub vestluselt
-lenteredconf $1 liitus konverentsiga kell $2
+lenteredconf $1 liitus konverentsiga $2
 lineflushlog Joonda logi failid peale iga rida
 linprivate PRIVAATNE
 listening Kuulamine
