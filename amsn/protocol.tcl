@@ -2413,6 +2413,7 @@ namespace eval ::MSN {
 			degt_protocol "->$sbn FAILED: $cmd" error
 		}
 		if { $sbn != "ns" } {
+			if { [info commands $sb] == "" } { return }
 			if { [$sbn cget -killme] != "" } {
 				after cancel [$sbn cget -killme]
 			}
