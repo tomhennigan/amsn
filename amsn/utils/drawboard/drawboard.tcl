@@ -304,7 +304,7 @@ snit::widgetadaptor drawboard {
 
     method SetEnds {x y} {
         set farx [expr $x + [image width pencil_$self]]
-        set fary [expr $x + [image height pencil_$self]]
+        set fary [expr $y + [image height pencil_$self]]
 
         if { $farx > $endx } {
             set endx $farx
@@ -387,14 +387,14 @@ snit::widgetadaptor drawboard {
         if {$gifFortified} {
             if {![catch {package require tclISF 0.3}]} {
                 if {[catch {[tclISF save $filename $strokes_list $drawAttrs_list]} err]} {
-                    status_log "\[SaveDrawing\] saving to file $filename. Got Error : $err" red
+                    status_log "\[SaveDrawing\] saving to file $filename. Got Error: $err" red
                     status_log "$strokes_list" red
                     status_log "$drawAttrs_list" red
                 }
             } else {
                 if {![catch {package require -exact tclISF 0.2}]} {
                     if {[catch {[tclISF_save $filename $strokes_list $drawAttrs_list]} err]} {
-                        status_log "\[SaveDrawing\] saving to file $filename. Got Error : $err" red
+                        status_log "\[SaveDrawing\] saving to file $filename. Got Error: $err" red
                         status_log "$strokes_list" red
                         status_log "$drawAttrs_list" red
                     }
