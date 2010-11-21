@@ -39,7 +39,7 @@
 #define STROKE_IDS                       30
 
 
-/* 
+/*
  * DRAWING ATTRIBUTES IDs
  */
 #define PEN_STYLE                        67

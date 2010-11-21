@@ -236,14 +236,14 @@ int extractValueHuffman (
      *    each 1, increment the counter n.
      * -# If n equals zero, you've decoded the value 0, and you're done.
      * -# If n is less than the length of the codec's BitAmounts array, do:
-     * 		-# Read BitAmounts[n] number of bits from the stream into the value
-     * 		   offset.\n
-     * 		   This is a signed value having the sign-bit as the LSB, just like
-     * 		   signed multi-byte integers.
-     * 		-# Set value to HuffBases[n] plus offset shifted to the right by one
-     * 		   bit (thus not copying the sign-bit).
-     * 		-# If offset's sign-bit (bit 1) is set, negate value.
-     * 		-# The decoded value is now in value, and we're done.
+     *    -# Read BitAmounts[n] number of bits from the stream into the value
+     *       offset.\n
+     *       This is a signed value having the sign-bit as the LSB, just like
+     *       signed multi-byte integers.
+     *    -# Set value to HuffBases[n] plus offset shifted to the right by one
+     *       bit (thus not copying the sign-bit).
+     *    -# If offset's sign-bit (bit 1) is set, negate value.
+     *    -# The decoded value is now in value, and we're done.
      * -# If n is equal to the length of the codec's BitAmounts array, it means
      *    we're decoding a 64-bit value, and in this case we repeat the
      *    decompression twice, starting from step 1. The first result becomes

@@ -142,8 +142,8 @@ int getHimetricSize (decodeISF_t * pDecISF)
      *  - One MBUINT that contains the tag ID (29)
      *  - One MBUINT that contains the payload size
      *  - The payload which consists of
-     *		- One Signed multibyte integer
-     *		- Another Signed multibyte integer
+     *    - One Signed multibyte integer
+     *    - Another Signed multibyte integer
      *
      *  The two signed multibyte integers represent #HIMETRIC sizes.\n
      *  These are assumed to be the width and height of the canvas where the
@@ -207,10 +207,10 @@ int getDrawAttrsBlock (decodeISF_t * pDecISF)
      * 68  Color         The color in BBGGRR format.                          \n
      * 69  PenWidth      Pen width in #HIMETRIC units.                        \n
      * 70  PenHeight     Pen height in #HIMETRIC units.                       \n
-     * 71  PenTip 	     There are 2 values known :                           \n
+     * 71  PenTip        There are 2 values known :                           \n
      *                   0 : the pen tip is an ellipse (default)              \n
      *                   1 : the pen tip is a rectangle                       \n
-     * 72  Flags 	     Known masks are:                                     \n
+     * 72  Flags         Known masks are:                                     \n
      *                   0x01  Fit To Curve                                   \n
      *                   0x04  Ignore Pressure                                \n
      * 80  Transparency  Value of the alpha channel. (Transparent is 0XFF)    \n
@@ -434,7 +434,6 @@ int getMetricEntry (decodeISF_t * pDecISF)
     /* Check the payload size */
     if (err == OK && value != 0)
     {
-        
         LOG(stdout,"METRIC ENTRY\n");
         LOG(stdout,"payload size = %lld\n", value);
         endPayload = pDecISF->bytesRead + value;
@@ -574,7 +573,7 @@ int getTransform (decodeISF_t * pDecISF)
      *
      * The transform matrix is :\n
      * \f[
-     *	\mbox{T} = \left( \begin{array}{ccc} \mbox{m}_{11} & \mbox{m}_{12} & \mbox{m}_{13} \\ \mbox{m}_{21} & \mbox{m}_{22} & \mbox{m}_{23} \\ 0 & 0 & 1\\ \end{array} \right)
+     * \mbox{T} = \left( \begin{array}{ccc} \mbox{m}_{11} & \mbox{m}_{12} & \mbox{m}_{13} \\ \mbox{m}_{21} & \mbox{m}_{22} & \mbox{m}_{23} \\ 0 & 0 & 1\\ \end{array} \right)
      * \f]
      *
      * \see #transform_t
@@ -640,8 +639,8 @@ int getTransformIsotropicScale (decodeISF_t * pDecISF)
      * This value (let's call it "A") is coded in the stream as float IEEE 754\n
      * The transform matrix is :\n
      * \f[
-     *	\mbox{T} = \mbox{A} * \left( \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1\\ \end{array} \right)
-     *	= \left( \begin{array}{ccc} \mbox{A} & 0 & 0 \\ 0 & \mbox{A} & 0 \\ 0 & 0 & 1\\ \end{array} \right)
+     * \mbox{T} = \mbox{A} * \left( \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1\\ \end{array} \right)
+     * = \left( \begin{array}{ccc} \mbox{A} & 0 & 0 \\ 0 & \mbox{A} & 0 \\ 0 & 0 & 1\\ \end{array} \right)
      * \f]
      * \see #transform_t
      */
@@ -696,7 +695,7 @@ int getTransformAnisotropicScale (decodeISF_t * pDecISF)
      *
      * The transform matrix is :\n
      * \f[
-     *	\mbox{T} = \left( \begin{array}{ccc} \mbox{A} & 0 & 0 \\ 0 & \mbox{B} & 0 \\ 0 & 0 & 1\\ \end{array} \right)
+     *  \mbox{T} = \left( \begin{array}{ccc} \mbox{A} & 0 & 0 \\ 0 & \mbox{B} & 0 \\ 0 & 0 & 1\\ \end{array} \right)
      * \f]
      */
 
@@ -750,10 +749,10 @@ int getTransformRotate (decodeISF_t * pDecISF)
      *
      * The transform matrix is (with cos and sin working with radians) :\n
      * \f[
-     *	\mbox{T} = \left( \begin{array}{ccc} \cos{\frac{\mbox{A} * 2 \pi}{36000}} & -\cos{\frac{\mbox{A} * 2 \pi}{36000}} & 0 \\
-     *										 \sin{\frac{\mbox{A} * 2 \pi}{36000}} &  \cos{\frac{\mbox{A} * 2 \pi}{36000}} & 0 \\
-     *										              0                       &              0                        & 1 \\
-     *										\end{array} \right)
+     * \mbox{T} = \left( \begin{array}{ccc} \cos{\frac{\mbox{A} * 2 \pi}{36000}} & -\cos{\frac{\mbox{A} * 2 \pi}{36000}} & 0 \\
+     * \sin{\frac{\mbox{A} * 2 \pi}{36000}} &  \cos{\frac{\mbox{A} * 2 \pi}{36000}} & 0 \\
+     *              0                       &              0                        & 1 \\
+     * \end{array} \right)
      * \f]
      *
      * \see #transform_t
@@ -810,7 +809,7 @@ int getTransformTranslate (decodeISF_t * pDecISF)
      *
      * The transform matrix is :\n
      * \f[
-     *	\mbox{T} = \left( \begin{array}{ccc} 0 & 0 & \mbox{dx} \\ 0 & 0 & \mbox{dy} \\ 0 & 0 & 1\\ \end{array} \right)
+     * \mbox{T} = \left( \begin{array}{ccc} 0 & 0 & \mbox{dx} \\ 0 & 0 & \mbox{dy} \\ 0 & 0 & 1\\ \end{array} \right)
      * \f]
      *
      * In fact the transform matrix shouldn't be like that cause that
@@ -818,7 +817,7 @@ int getTransformTranslate (decodeISF_t * pDecISF)
      * Anyway, it seems to work this way with the .Net 3.0 framework ...
      * The transform matrix should be :\n
      * \f[
-     *	\mbox{T} = \left( \begin{array}{ccc} \mbox{1} & 0 & \mbox{dx} \\ 0 & \mbox{1} & \mbox{dy} \\ 0 & 0 & 1\\ \end{array} \right)
+     * \mbox{T} = \left( \begin{array}{ccc} \mbox{1} & 0 & \mbox{dx} \\ 0 & \mbox{1} & \mbox{dy} \\ 0 & 0 & 1\\ \end{array} \right)
      * \f]
      */
 
@@ -872,7 +871,7 @@ int getTransformScaleAndTranslate (decodeISF_t * pDecISF)
      *
      * The transform matrix is :\n
      * \f[
-     *	\mbox{T} = \left( \begin{array}{ccc} \mbox{m}_{11} & 0 & \mbox{m}_{13} \\ 0 & \mbox{m}_{22} & \mbox{m}_{23} \\ 0 & 0 & 1\\ \end{array} \right)
+     *  \mbox{T} = \left( \begin{array}{ccc} \mbox{m}_{11} & 0 & \mbox{m}_{13} \\ 0 & \mbox{m}_{22} & \mbox{m}_{23} \\ 0 & 0 & 1\\ \end{array} \right)
      * \f]
      *
      * \see #transform_t

@@ -61,7 +61,7 @@ int createPacketData(
     encodeGorilla ((*lastPayload_ptr)->data+1, arr, nPoints, blockSize);
     /* that payload structure is filled up */
     (*lastPayload_ptr)->cur_length = allocatedSize;
-    
+
     /* increase the global payload size */
     *payloadSize += (*lastPayload_ptr)->cur_length;
 
@@ -145,7 +145,7 @@ void encodeGorilla (
         /* apply the sign mask to encode it the right way */
         if(iTmp<0)
             iTmp |= signMask;
-        
+
         blockSizeTmp = blockSize;
 
         if ( bitsFree  >= blockSize)
@@ -166,7 +166,7 @@ void encodeGorilla (
             blockSizeTmp -= bitsFree;
             mask >>= bitsFree;
             iTmp &= mask;
-            
+
             /* fill all the bytes we can */
             while (blockSizeTmp > 8)
             {
@@ -198,16 +198,16 @@ void encodeGorilla (
  ** ------------------------------------------------------------------------ **/
 void transformDeltaDelta (int * inArr, int * outArr, int packetNumber)
 {
-	int curDelta = 0,
+    int curDelta = 0,
         prevDelta = 0,
         i, tmp;
 
-	for (i=0; i<packetNumber; i++)
-	{
-		outArr[i] = inArr[i] + prevDelta - (curDelta << 1);
-		prevDelta = curDelta;
-		curDelta = inArr[i];
-	}
+    for (i=0; i<packetNumber; i++)
+    {
+        outArr[i] = inArr[i] + prevDelta - (curDelta << 1);
+        prevDelta = curDelta;
+        curDelta = inArr[i];
+    }
 }
 
 

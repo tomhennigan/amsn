@@ -464,7 +464,7 @@ int createStroke(stroke_t ** pStroke, INT64 allocatedSize, stroke_t * next,
 int createSkeletonISF(ISF_t ** pISF, int width, int height)
 {
     int err = OK;
-    
+
     *pISF = (ISF_t *) malloc (sizeof(ISF_t));
     if (!*pISF)
         return OUT_OF_MEMORY;
