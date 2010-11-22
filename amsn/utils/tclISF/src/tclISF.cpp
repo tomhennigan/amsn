@@ -1,4 +1,3 @@
-U
 #include    <cstdio>
 #include    <cstdlib>
 
