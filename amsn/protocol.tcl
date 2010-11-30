@@ -4250,7 +4250,7 @@ namespace eval ::MSNOIM {
 	option -name
 	option -server ""
 	option -stat ""
-	option -sock ""
+	option -sock -default "" -configuremethod sockConfigured
 	option -connected ""
 	option -proxy ""
 	option -time ""
@@ -4277,6 +4277,12 @@ namespace eval ::MSNOIM {
 			close $options(-sock)
 			set $options(-sock) ""
 		}
+	}
+
+	method sockConfigured {option value} {
+		set options($option) $value
+		status_log "Connection $self socket configured. Flushing"
+		set dataBuffer ""
 	}
 
 	##########################################################################################
