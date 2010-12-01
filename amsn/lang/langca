@@ -1077,7 +1077,7 @@ webcamrejected $1 ha rebutjat la invitació per iniciar una sessió de càmera web
 webcamrequestreceive Envia petició per veure la seva càmera web
 webcamrequestsend Envia invitació per veure la teva càmera web
 webcamsending Llista de la gent que actualment està visionant la teva càmera web\nFes clic per cancel·lar
-whatisamsn aMSN és un clon multiplataforma del MSN
+whatisamsn L'aMSN és un clon multiplataforma del MSN
 whatsize La imatge que has demanat no té la mida normal\nd'avatar(96x96) A quina mida vols que es mostri la imatge? 
 willjoin Esperant que $1 s'uneixi a la conversa
 winkreceived Has rebut un Wink de $1. Aquesta característica no està suportada actualment per l'aMSN.
@@ -1099,3 +1099,14 @@ youblocked Has estat bloquejat per
 yousay Dius
 youwant Vols
 zoom Ampliació
+abookerror L'aMSN ha fallat al descarregar la llista de contactes. Segurament es un problema temporal amb els servidors de MSN. Ara estàs connectat utilitzant la informació de la llista de contactes de la memòria cau (si n'hi ha). Torna-ho a provar més tard.
+blinktray Fes parpellejar la icona d'estat de la safata del sistema quan hi hagin missatges sense llegir
+configpermissionerror Hi ha hagut un error al escriure al fitxer de configuració. Assegurat de que tens els permisos correctes per al directori $1
+getprofileoffline Recupera els sobrenoms i els missatges personals dels usuaris desconnectats (Pot alentir el proces de connexió)
+novideocodecsavailable Els còdecs de vídeo no estan disponibles.
+photosharingrequest Has rebut una petició de «Fotografia compartida». Aquesta característica encara no està suportada pel aMSN i no pot ser cancel·lada des del teu costat. Dis-li al teu contacte que cancel·li la petició de «Fotografia compartida» i envii el fitxer utilitzant la «Transferència de fitxers».
+profileaccrualerror La informació del teu compte de Windows Live és incompleta.\nAssegurat de que la teva data de naixement i el teu país estan introduïts al teu perfil.
+receive Rebre
+shownotinlist Mostra una icona especial per als contactes que no et tenen a la seva llista
+sipdisabledprotocol Les característiques de trucada d'àudio i vídeo han estat deshabilitades en aquesta versió del aMSN perquè Microsoft(TM) ha canviat els seus protocols un altre cop i ha deshabilitat l'accés als seus servidors SIP, bloquejant l'aMSN de donat accés a aquesta característica.
+upgradetcltk Necessites TCL/TK $1 o millor per executar l'aMSN.
