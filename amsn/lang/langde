@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abookerror aMSN konnte die Kontaktliste nicht herunterladen. Es handelt sich dabei mit hoher Wahrscheinlichkeit um ein temporäres Problem mit den MSN-Servern. Sie verwenden nun eine gespeicherte Kopie der Kontaktdaten (sofern vorhanden). Wir entschuldigen uns für die Unannehmlichkeiten. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.
 abort Abbruch
 aboutamsn Über aMSN
 about Über
@@ -104,6 +105,7 @@ baduserpass Benutzername oder Passwort falsch
 badwebcam Kann das Webcambild nicht anzeigen. Stellen Sie sicher, dass Ihre Webcam ordnungsgemäß angeschlossen und installiert ist.
 bgcolor Die Hintergrundfarbe von aMSN ändern
 blankdirect Bei direkter Verbindung leer lassen
+blinktray Systemicon blinken lassen bei ungelesenen Nachrichten
 block Blockieren
 blocked Blockiert
 blockedyougroup Separate Gruppe anzeigen für die Leute, die Sie blockiert haben
@@ -440,6 +442,7 @@ gamerequest Sie haben $1 eingeladen $2 zu spielen.
 getdisppic Aktivieren den Empfang der Anzeigebilder meiner Kontakte
 getmoreplugins Mehr Plugins...
 getmoreskins Mehr Skins...
+getprofileoffline Empfangen von Offline-Benutzernamen und persönlichen Nachrichten (Kann den Loginprozess verlangsamen)
 globalcontainer Globaler Container
 globalnick Ein Muster erstellen, nach dem die Spitznamen Ihrer Kontakte angepasst werden. Diese Variablen stehen zur Verfügung: \$user_login für die Adresse ihrer Kontakte, \$nick für den Spitznamen ihrer Kontakte und \$customnick für den angepassten Spitznamen ihrer Kontakte. Beispiel: '\$user_login ist \$nick' erzeugt 'contact@msn.com ist Contact'
 globalnicktitle Globaler Spitzname
@@ -674,6 +677,7 @@ notls Das MSN Protokoll 9 erfordert das TLS-Paket. Dieses Paket scheint auf Ihre
 nottabbed Normale Fenster ohne Tabs
 nousersinsession Keine Kontakte in einer Sitzung
 nouserspecified Kein Kontakt ausgewählt
+novideocodecsavailable Keine Videocodecs verfügbar
 nudge $1 bittet um Beachtung
 offline Offline
 oimauthenticationfailed Anmeldung fehlgeschlagen
@@ -710,6 +714,7 @@ pausewebcamsend Webcamübertragung anhalten
 personal Persönlich
 phones Telefonnummern
 phone Telefon
+photosharingrequest Sie haben eine Anfrage zur Foto-Freigabe erhalten. Diese wird zur Zeit noch nicht von aMSN unterstützt und kann daher auch nicht von Ihnen abgebrochen werden. Bitte teilen Sie ihrem Kontakt mit, die Anfrage abzubrechen und Ihnen das Foto stattdessen per File-Transfer zu schicken.
 picbrowser Anzeigebild-Browser
 picfile Mit der Benachrichtigung verbundenes Bild (GIF < 500 x 500)
 picstatus Mit der Benachrichtigung verbundenes Bild ein/ausschalten
@@ -907,6 +912,7 @@ sipcallmissed Sie haben einen Anruf von $1 verpasst
 sipcallnosipflag Der Kontakt unterstützt keine Anrufe.
 sipcallsent Rufe $1 an
 sipcallyouarebusy2 Sie können nur eine Audio- oder Videokonferenz aufbauen.
+sipdisabledprotocol Die Funktionen für Audio- und Videoanruf wurden in dieser Version von aMSN deaktiviert, da Microsoft(TM) sein Protokoll erneut geändert, und den Zugang zu seinen SIP-Servern deaktiviert hat. aMSN ist es daher nicht möglich, Ihnen diese Funktion anzubieten.
 sipgotinvitation Anruf-Einladung von $1 erhalten
 sipvideocallaccepted Videokonferenz akzeptiert
 sipvideocallconnected Ihre Videokonferenz ist jetzt aufgebaut!
@@ -1032,6 +1038,7 @@ updateonlycurrentlanguage Nur die aktuelle Sprache updaten
 updatesaved Fertig\n $1 im Verzeichnis $2 gespeichert.
 update Updaten
 updating Update wird ausgeführt
+upgradetcltk aMSN benötigt TCL/TK $1 oder höher. Bitte aktualisieren Sie TCL/TK auf die entsprechende Version.
 useasdp Als Anzeigebild verwenden
 useasregexp Als regulären Ausdruck verwenden (Regexp)
 useother Ein anderes Programm benutzen
@@ -1103,6 +1110,3 @@ youblocked Sie wurden blockiert
 yousay Sie sagen
 youwant Sie wollen
 zoom Zoom
-getprofileoffline Empfangen von Offline-Benutzernamen und persönlichen Nachrichten (Kann den Loginprozess verlangsamen)
-novideocodecsavailable Keine Videocodecs verfügbar
-photosharingrequest Sie haben eine Anfrage zur Foto-Freigabe erhalten. Diese wird zur Zeit noch nicht von aMSN unterstützt und kann daher auch nicht von Ihnen abgebrochen werden. Bitte teilen Sie ihrem Kontakt mit, die Anfrage abzubrechen und Ihnen das Foto stattdessen per File-Transfer zu schicken.
