@@ -421,8 +421,8 @@ globalnicktitle Yleinen nimi
 globaloverride Yleisen nimen muoto korvaa erikoisnimet
 gonelunch Lounaalla
 gotink $1 lähetti käsinkirjoitetun viestin.
-gotoinbox Avaa saapuneet sähköpostiviestit
 goto Avaa linkki $1
+gotoinbox Avaa saapuneet sähköpostiviestit
 goto_prefs_removeprofile Paina tästä avataksesi asetukset ja poistaaksesi profiilin
 groupadd Lisää ryhmä
 groupcontactsbystatus Ryhmitä yhteystiedot tilan mukaan

@@ -791,8 +791,8 @@ receiveddir Mapa s prejetimi datotekami
 receivedoimread Ima¹ $1 novih sporoèil oddanih v naèinu brez povezave. Bi jih rad prebral?
 receivedvoice Prejel/a si glasovno sporoèilo
 receivefile Sprejmi datoteko
-recentmsg Prepreèi zapiranje okna s pogovorom takoj po prejemu sporoèila
 receive Sprejmi
+recentmsg Prepreèi zapiranje okna s pogovorom takoj po prejemu sporoèila
 reconnect2 Ponovna prijava ob prekinitvi povezave
 reconnect èakam, da se $1 ponovno pove¾e
 reconnecting Povezujem se s stre¾nikom

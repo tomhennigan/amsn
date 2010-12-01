@@ -2,12 +2,13 @@ amsn_lang_version 2
 abort Przerwij
 aboutamsn O programie aMSN
 about O aMSN
-acceptfile Czy chcesz odebraæ plik $1 (o rozmiarze $2 bitow)? I zapisaæ go w $3
 accept Akceptuj
+acceptfile Czy chcesz odebraæ plik $1 (o rozmiarze $2 bitow)? I zapisaæ go w $3
 account Konta
 actions Dzia³ania
 activeautoupdate Aktywuj autoaktualizacjê
 addacontact Dodaj kontakt
+add Dodaj
 addedyou $1 ($2) doda³ ciê do swojej listy kontaktów
 addprofiledesc Wprowad¼ login, dla którego chcesz utworzyæ nowy profil. \nProfile pozwalaj± na u¿ywanie ró¿nych ustawieñ przy ka¿dym logowaniu.\nBez profilów, nie mo¿esz u¿ywaæ historii, alarmów i funkcji pamiêtania has³a.
 addprofile Dodaj nowy profil
@@ -15,10 +16,9 @@ addstate Dodaj nowy status
 addtoal Dodaj do AL
 addtobl Dodaj do BL
 addtocontacts Dodaj do listy kontaktów
+addto Dodaj do $1
 addtofl Dodaj do FL
 addtoo Dodaj tê osobe do mojej listy kontaktów
-addto Dodaj do $1
-add Dodaj
 admincontacts Zarz±dzaj kontaktami
 admingroups Zarz±dzaj grupami
 advancedprefs Zaawansowane opcje konfiguracji
@@ -30,8 +30,8 @@ alarmondisconnect W³±cz alarm, gdy ten u¿ytkownik zmieni status na offline/niewi
 alarmonmsg W³±cz alarm, gdy ten u¿ytkownik wy¶le Ci wiadomo¶æ
 alarmonstatus W³±cz alarm, gdy ten u¿ytkownik zmieni status
 alarmpref Ustawienia alarmu dla u¿ytkownika
-alarmstatus W³±cz alarm dla tego u¿ytkownika
 alarms Alarmy
+alarmstatus W³±cz alarm dla tego u¿ytkownika
 allfiles Wszystkie pliki
 allmonths Wszystkie miesi±ce
 allowallbutbl Pozwalaj wszystkim u¿ytkownikom kontaktowaæ siê ze mn±, poza zablokowanymi
@@ -88,8 +88,8 @@ avaccepted Wideokonferencja zaakceptowana
 avcanceled Wideokonferencja odrzucona
 avgotinvitation Otrzyma³e¶ zaproszenie do wideokonferencji od $1
 avinitfailed Inicjalizacja pluginu audio/wideo nieudana. Rozmowa anulowana
-avoidseen Nie pozwój tej osobie widzieæ mojego statusu online oraz kontaktowaæ siê ze mn±
 av Konferencja audio-wideo
+avoidseen Nie pozwój tej osobie widzieæ mojego statusu online oraz kontaktowaæ siê ze mn±
 awaymsg1 Pro¶ o wiadomo¶æ, zawsze gdy zmieniam status na Z dala od komputera/Zaraz wracam/Zajêty
 awaymsg2 Nigdy nie pytaj i zawsze u¿ywaj poni¿szej wiadomo¶ci
 away Zdala od komputera
@@ -99,6 +99,7 @@ badwebcam Nie mo¿na wy¶wietliæ obrazu z kamery. Sprawd¼, czy Twoja kamera jest w
 bgcolor Zmieñ kolor t³a aMSN 
 blankdirect Pozostaw puste dla bezpo¶redniego po³±czenia
 blinktray Miganie ikony w zasobniku, gdy s± nieprzeczytane wiadomo¶ci
+block Blokuj
 blockedyougroup Poka¿ oddzieln± grupê dla osób, które zablokowa³y ciê
 blocked Zablokowany
 blocking Blokowanie
@@ -110,20 +111,19 @@ blocklist Lista blokowanych (BL):
 blockmessage Te osoby s± online i zablokowa³y ciê
 blocknotifications Nie pokazuj okien powiadomieñ
 blocksounds Wy³±cz d¼wiêki
-block Blokuj
 bouncedock "Skacz" ikon± aMSN gdy nadchodzi nowa wiadomo¶æ
 brightness Jasno¶æ
+browse Przegl±daj
 browserexample ( \$url zostanie zast±piony przez URL). Np.: mozilla \$url
 browser Przegl±darka
-browse Przegl±daj
 bugerror Wyst±pi³ problem z po³±czeniem z baz± b³êdów. Sprawd¼ swoje po³±czenie internetowe.
 bugnocomment Wys³aæ bez komentarza? Komentarze pomagaj± nam zorientowaæ siê, w czym tkwi problem i szybciej go naprawiæ.
 busy Zajêty
 bytesymbol b
 cachedpics $1 obrazków w pamiêci podrêcznej
 cam_in_cw Pokazuj obrazy z kamer w oknie rozmowy
-cancelled Anulowano
 cancel Anuluj
+cancelled Anulowano
 cannotdeleteprofile Nie mo¿na usun±æ profilu, bo jest w u¿yciu przez sesjê aMSN
 cantexec Nie mo¿na uruchomiæ aplikacji: $1. Sprawd¼ preferencje
 cantloadonlineversion Nie mo¿na uzyskaæ zaktualizowanej listy jêzyków z Internetu
@@ -148,9 +148,9 @@ channels Kana³y
 charscounter Licznik znaków w oknie rozmowy
 chatack Akceptuj rozmowê z
 chatmaxmin Gdy kontakt zaczyna rozmowê ze mn±, chcê by okno by³o:
+chat Rozmowa
 chatsmileys2 Wy¶wietlaj emotikony i u¶mieszki w oknie rozmowy
 chatsmileys Wy¶wietlaj u¶mieszki w oknie rozmowy
-chat Rozmowa
 checkblocking Sprawdzaj ci±gle, czy u¿ytkownicy blokuj± ciê
 checkemail Poka¿ na li¶cie kontaktów liniê powiadomienia o e-mailach
 checkfilman Otrzymane pliki bêd± zapisane w $1. Sprawd¼ ustawienia mened¿era plików w oknie preferencji.
@@ -189,20 +189,20 @@ closechatwindows Zamkn±æ wszystkie rozmowy przed wylogowaniem?
 closed Rozmowa z $1 zosta³a zamkniêta z powodu nieaktywno¶ci
 closelabel Gdy kliknê przycisk zamykaj±cy okno z zak³adkami
 closeonly Zamknij tylko bie¿±c± kartê
-closeorcallvideo Musisz zamkn±æ/anulowaæ wideorozmowê przed zamkniêciem okna.
 closeorcall Musisz zamkn±æ/anulowaæ rozmowê g³osow± przed zamkniêciem okna.
+closeorcallvideo Musisz zamkn±æ/anulowaæ wideorozmowê przed zamkniêciem okna.
 closeordock Zamkniêcie okna z list± kontaktów spowoduje wyj¶cie z aMSN. Byæ mo¿e chcia³e¶ zminimalizowaæ program do zasobnika?\n\nCzy na pewno chcesz wyj¶æ z aMSN?
 closeothers Zamknij wszystkie inne karty
 close Zamknij
 closingdocks Minimalizacja przyciskiem zamykania
 color Kolor
-commandstatus Wykonaj polecenie
 command Polecenie
+commandstatus Wykonaj polecenie
 compactstyle Styl kompaktowy
 configpermissionerror B³±d podczas edycji pliku konfiguracyjnego. Upewnij siê, ¿e masz w³a¶ciwie uprawnienia dla $1
+configure Konfiguracja
 configuremic Konfiguracja mikrofonu
 configureplugin Konfiguracja pluginu $1
-configure Konfiguracja
 configuringaudio Konfiguracja ustawieñ audio
 confirmbl Czy na pewno chcesz zablokowaæ ten kontakt?
 confirmdelete Czy na pewno chcesz usun±æ $1?
@@ -210,26 +210,26 @@ confirmdg Czy na pewno chcesz usun±æ tê grupê?
 confirmdu Czy na pewno chcesz usun±æ tego u¿ytkownika?
 confirmeg Czy na pewno chcesz opró¿niæ tê grupê?
 confirmfulldelete Usuñ równie¿ z ksi±¿ki adresowej Windows Live
+confirm Jeste¶ pewny?
 confirmpurge Wszystkie obrazy wy¶wietlane innych u¿ytkowników zostan± usuniête (Twoje zostan± zachowane). Czy chcesz kontynuowaæ?
 confirmrfl Czy na pewno chcesz usun±æ tego u¿ytkownika z grupy?
-confirm Jeste¶ pewny?
-connectedwith Po³±czony: $1
 connected Jeste¶ po³±czony
+connectedwith Po³±czony: $1
 connecterror B³±d ³±czenia z serwerem
 connecting £±czenie
 connectionlost Straci³em po³±czenie z serwerem
 connection Po³±czenie
 contactadded Dodaj kontakt
 contactdoesnotexist Kontakt nie istnieje!
+contact Kontakt
 contactlist Lista kontaktów (FL):
 contacts Kontakty
-contact Kontakt
 continuously Nieustannie
 contrast Kontrast
 conversationwith $1 u¿ytkowników bierze udzia³ w rozmowie
+copy Kopiuj
 copytoclipboard Kopiuj $1 do schowka
 copytogroup Kopiuj do grupy
-copy Kopiuj
 couldnotrename Nie mo¿na nadaæ nowej nazwy plikowi $1
 countrycode Numer kierunkowy kraju
 cprofile Utwórz profil
@@ -253,10 +253,10 @@ custshowcustomsmileys Pokazuj emotikony niestandardowe tego u¿ytkownika
 cutimageboxreset Ustaw rozmiar ramki wyboru\ndo:
 cutimagebox Wybierz czê¶æ obrazka, której chcesz u¿yæ, zmieniaj±c i przesuwaj±c ramkê wyboru
 cut Wytnij
-dateformat Zmieñ format daty
 date Data
-days Dni
+dateformat Zmieñ format daty
 day Dzieñ
+days Dni
 dcprofile Nie twórz profilu
 default2 Domy¶lny
 defaultloginradio Zaloguj z domy¶ln± konfiguracj±
@@ -279,8 +279,8 @@ disabled Wy³±cz
 disableprofiles Wy³±cz profile (przydatne w kafejkach lub publicznych komputerach)
 disablessl Wy³±cz SSL
 disableuserfonts Ignoruj czcionkê rozmówcy i u¿ywaj w³asnej
-disconnectedfrom Roz³±czony: $1
 disconnect $1 od³±czy³ siê.
+disconnectedfrom Roz³±czony: $1
 displaychat Wy¶wietlaj opcje tekstowe
 displayeventconnect Wy¶wietlaj, gdy kontakty wylogowuj± siê
 displayeventdisconnect Wy¶wietlaj, gdy kontakty loguj± siê
@@ -295,12 +295,12 @@ downloadingtls Pobieranie modu³u TLS z:\n $1
 download Pobierz
 editcontent Edytuj pola tematu i notaki
 editcustomstate Edytuj status niestandardowy
+edit Edytuj
 editmyprofile Edytuj mój profil MSN
 editprofile Edytuj profil
 editvalue Edytuj warto¶æ
-edit Edytuj
-emailsinlist Pokazuj e-maile zamiast nicków na li¶cie kontaktów
 email e-mail
+emailsinlist Pokazuj e-maile zamiast nicków na li¶cie kontaktów
 emoticon_steal Dodaj do emotikonów
 emotisounds Odtwarzaj d¼wiêki dla konkretnych emotikonów
 emptygroup Grupa pusta
@@ -328,13 +328,13 @@ filemanexample ( \$location will be replaced with the directory ) Ex: nautilus \
 fileman Mened¿er plików
 filename Nazwa pliku
 filenotwritable Nie mogê usun±æ tego pliku
+file Plik
 filetransfercancelled Transfer pliku anulowany
 filetransfercomplete Transfer pliku ukoñczony
 filetransfer Transfer pliku
-file Plik
+filters Filtry
 filtersselect Wybierz filtry, które chcesz stosowaæ\n(Uwaga: nie wybranie ¿adnych oznacza 'poka¿ wszystko')
 filtersx Wybór filtru
-filters Filtry
 findnext Znajd¼ nastêpny
 findprev Znajd¼ poprzedni
 find Znajd¼
@@ -363,11 +363,12 @@ globalnicktitle Globalny nick
 globalnick Wprowad¼ wzór, wed³ug jakiego maj± byæ wy¶wietlane nicki znajomych. Mo¿esz u¿ywaæ nastêpuj±cych zmiennych: \$user_login jako adres kontaktu, \$nick jako nick kontaktu i \$customnick dla nicka niestandardowego. Na przyk³ad: '\$user_login to \$nick' bêdzie wy¶wietlany jako 'contact@msn.com to Kontakt'
 globaloverride Globalny wzór nicka wa¿niejszy ni¿ nick niestandardowy
 gonelunch W trakcie obiadu
-gotoinbox Skrzynka odbiorcza
 goto Id¼ do $1
+gotoinbox Skrzynka odbiorcza
 groupadd Dodaj grupê
 groupdelete Usuñ grupê
 groupexists Grupa juz istnieje
+group Grupa
 groupmissing Nie mo¿na znale¼æ grupy
 groupnewname Nowa nazwa
 groupnotempty Grupa nie jest pusta!
@@ -375,7 +376,6 @@ groupoldname Stara nazwa
 grouprename Zmieñ nazwê grupy
 groups Grupy
 groupunknown Nieznana grupa
-group Grupa
 helpcontents Zawarto¶æ pomocy
 help Pomoc
 hidedisplaypic Ukryj obraz wy¶wietlany
@@ -387,8 +387,8 @@ httpconnection Po³±cz u¿ywaj±c metody HTTP (protokó³ HTTP, port 80)
 hue Odcieñ
 huge Wielki
 hybrid Tryb hybrydowy
-identity To¿samo¶æ
 ident Identyfikowanie
+identity To¿samo¶æ
 ignorecontact Ignoruj rozmowy z kontaktem
 ignoreerrors 'Cicho' ignoruj pozosta³e b³êdy aMSN do koñca sesji
 ignore Ignoruj
@@ -400,8 +400,8 @@ invalidfile2 Plik $1 nie mo¿e zostaæ utworzony. Upewnij siê, ¿e masz odpowiednie
 invalidfile Plik $2 wprowadzony w polu "$1" nie istnieje lub nie mo¿e byæ odczytany
 invalidgroup Niepoprawna grupa
 invalidparameter B³±d po³±czenia z serwerem: niepoprawny parametr
-invalidpicsize Podant obrazek jest zbyt du¿y, wybierz mniejszy
 invalidpic Plik podanego obrazka nie istnieje
+invalidpicsize Podant obrazek jest zbyt du¿y, wybierz mniejszy
 invalidsound Podany plik d¼wiêkowy nie istnieje
 invalidusername Niepoprawna nazwa u¿ytkownika
 invitationcancelled Zaproszenie anulowane
@@ -414,8 +414,8 @@ joins $1 do³±cza do rozmowy
 justonce Tylko raz
 keeplog2 Zapisuj wszystkie rozmowy do historii aMSN
 keeplog Zapisuj czaty w historii
-language_manager Mened¿er jêzyków
 language Jêzyk
+language_manager Mened¿er jêzyków
 large Du¿e
 lastlogin Ostatnio zalogowany
 lastlogout Ostatnio wylogowany
@@ -426,14 +426,14 @@ lconftopriv Konferencja sta³a siê prywatn± rozmow± z $1
 leaveblankforhotmail Zostaw puste, by u¿ywaæ Hotmail
 leavejoinsinchat Pokazuj powiadomienia "do³±cza/opuszcza rozmowê" w oknie rozmowy
 leaves $1 opuszcza rozmowê
-listeningon Nas³uchiwanie portu $1
 listening Nas³uchiwanie
+listeningon Nas³uchiwanie portu $1
 listsmileys2 Wy¶wietlaj emotikony i u¶mieszki w g³ównej li¶cie kontaktów aMSN
 listsmileys Lista u¶mieszków
 ljoinedconf $1 do³±czy³(a) do konferencji
 lleftconf $1 opu¶ci³(a) konferencjê
-loadcontacts Za³aduj listê kontaktów
 load £aduj 
+loadcontacts Za³aduj listê kontaktów
 logeventconnect Zapisuj po³±czenia
 logeventdisconnect Zapisuj roz³±czenia
 logeventemail Zapisuj, gdy otrzymujesz e-mail
@@ -470,14 +470,14 @@ modified Zmodyfikowany
 month Miesi±c
 morepersonal Wiêcej statusów ->
 more Wiêcej
-movetogroup Przenie¶ do grupy
 move Przenie¶
+movetogroup Przenie¶ do grupy
 msgflicker Migotaj oknem rozmowy, gdy przychodzi nowa wiadomo¶æ, a okno nie jest aktywne.
 msgmaxmin Gdy nadchodzi nowa wiadomo¶æ, chcê, ¿eby by³a:
 msg Wiadomo¶æ
+msn aMSN
 msnstatus Status sieci MSN
 msnstyle Styl MSN
-msn aMSN
 mustrestart Musisz zrestartowaæ program, aby zmiany zafunkcjonowa³y
 myfriendlyname My friendly name
 myhomephone Telefon domowy
@@ -494,10 +494,10 @@ never Nigdy
 newchat Nowa rozmowa
 new_ft_protocol U¿ywaj nowego protoko³u transferu plików (wci±¿ pozostaj± b³êdy)
 newline Nowy wiersz
-newmailfolder Masz $1 nowych e-maili w innych folderach Hotmail
-newmailfromother Nowy e-mail w innym folderze otrzymany od $1 ($2)
-newmailfrom Nowy e-mail od $1 ($2)
 newmail $1 nowych e-maili w skrzynce odbiorczej
+newmailfolder Masz $1 nowych e-maili w innych folderach Hotmail
+newmailfrom Nowy e-mail od $1 ($2)
+newmailfromother Nowy e-mail w innym folderze otrzymany od $1 ($2)
 newmsg Nowa wiadomo¶æ
 newstate Dodaj status niestandardowy
 newtabbedfeature aMSN ma now± funkcjê zarz±dzania rozmowami, mo¿esz rozmawiaæ z kontaktami z danej grupy lub ca³ej listy kontaktów w jednym oknie z zak³adkami. Wybierz sposób, w jaki aMSN ma obs³ugiwaæ okna rozmowy
@@ -513,6 +513,7 @@ nologfile Brak pliku historii dla $1
 noneavailable Niedostêpny
 nonewmail Brak nowych wiadomo¶ci
 nonewver Nie ma nowych wersji programu dostêpnych do pobrania
+no Nie
 nopic Brak obrazka
 noprofileexists Nie utworzono ¿adnego profilu, \n musisz go utworzyæ, by u¿ywaæ tego sposobu logowania. \nU¿yj przycisku "Dodaj nowy profil" w tym oknie, by dodaæ nowy profil
 normal Normalny
@@ -526,21 +527,20 @@ notify2 Wy¶wietlaj okno powiadomienia, gdy nadchodz± nowe wiadomo¶ci
 notify3 Wy¶wietlaj okno powiadomienia, gdy nadchodz± nowe e-maile
 notify4 Wy¶wietlaj okno powiadomienia, gdy w innych folderach nadchodz± nowe e-maile
 notifyoffset Offset the position of the notification pop-up
+notify Powiadamianie
 notifytimeout Czas wy¶wietlania powiadomienia w milisekundach
 notifytyping Wysy³aj powiadomienie podczas wprowadzania wiadomo¶ci
 notifywin Okno powiadamienia
-notify Powiadamianie
 notinlist Ten u¿ytkownik nie ma ciê na li¶cie kontaktów
 notls Protokó³ 9 MSN wymaga pakietu TLS, który nie wygl±da na zainstalowany. Je¶li jest zainstalowany, ¶cie¿ka do biblioteki powinna byæ podana w oknie preferencji (np.: /opt/tls/lib). \n \n TLS mo¿e byæ porany ze strony http://tls.sf.net.
 nottabbed Zwyk³e okno bez zak³adek
 nousersinsession Brak u¿ytkowników w sesji
-no Nie
 nudge $1 prosi o twoj± uwagê
 offline Niedostêpny
 ok OK
 onenewmail 1 nowa wiadomo¶æ w skrzynce odbiorczej
-onlinehelp Pomoc online
 online Dostêpny
+onlinehelp Pomoc online
 onphone W trakcie rozmowy
 opendir Otwórz katalog
 openfilecommand polecenie otwarcia pliku
@@ -551,14 +551,14 @@ ordercontactsby Sortuj kontakrt wed³ug
 ordergroupsby Sortuj grupy wed³ug
 original Oryginalny
 otherdisplaypic Inne obrazy wy¶wietlane tego u¿ytkownika (PPM pokazuje wiêcej opcji)
-others Inne
 other Inny
+others Inne
 pager Pager
 pass Has³o
 paste Wklej
 pausedwebcamreceive Kamera zosta³a wstrzymana przez innego u¿ytkownika
-pausewebcamsend Zatrzymaj wysy³anie obrazu z kamery
 pause Pauza
+pausewebcamsend Zatrzymaj wysy³anie obrazu z kamery
 personal Dane osobowe
 phones Numery telefonów
 phone Telefon
@@ -567,11 +567,11 @@ picfile Plik ze zdjêciem (GIF < 500 x 500)
 playgame2 Zagraj w $1
 playgame Zagraj w grê
 playing Odtwarzanie: $1
-playwebcamsend Wznów wysy³anie obrazu z kamery
 play Odtwórz
+playwebcamsend Wznów wysy³anie obrazu z kamery
 pluginselector Wybierz wtyczkê
-portswellconfigured Twoje porty s± poprawnie skonfigurowane
 port Port
+portswellconfigured Twoje porty s± poprawnie skonfigurowane
 prefalerts Powiadomienia d¼wiêkowe i graficzne
 prefapps Aplikacje
 prefblock1 Sprawdzaj przy wylogowaniu
@@ -626,8 +626,8 @@ receiveddir Folder Otrzymane pliki
 receivefile Odbierz plik
 recentmsg Zapobiegaj zamkniêciu okna rozmowy, gdy w³a¶nie przysz³a wiadomo¶æ
 reconnect2 £±cz ponownie przy stracie po³±czenia
-reconnecting Ponowne ³±czenie z serwerem
 reconnect Czekanie na ponowne po³±czenie $1
+reconnecting Ponowne ³±czenie z serwerem
 reject Odrzuæ
 rememberpass Pamiêtaj has³o
 remembersetting Pamiêtaj mój wybór
@@ -664,8 +664,8 @@ send Wy¶lij
 sentbytes Wys³ano $1 z $2 bajtów
 serverbusy Serwer jest zajêty
 servergoingdown Disconnected: Server is going down
-serverunavailable Serwer jest niedostêpny
 server Serwer
+serverunavailable Serwer jest niedostêpny
 session Sesja
 setasmydp Ustaw jako mój obraz wy¶wietlany
 shareswebcam Udostêpnia kamerê
@@ -705,13 +705,13 @@ sortgroupsdesc Sortuj grupy malej±co
 sound2 Odtwarzaj d¼wiêki, gdy kontakty loguj± siê lub wysy³aj± wiadomo¶æ
 soundactive Odtwarzaj d¼wiêk, gdy przychodzi wiadomo¶æ w aktywnym oknie
 soundcommand This has to be the play command (ex: esdplay)
+sound Event Sounds
 soundexample ( \$sound = Sound file to be played) Ex: esdplay \$sound
-soundfiles Pliki d¼wiêkowe
 soundfile Plik d¿wiêkowy
+soundfiles Pliki d¼wiêkowe
 soundloop Loop Sound
 soundserver Serwer d¼wiêkowy
 soundstatus Alarm d¼wiêkowy
-sound Event Sounds
 sourcecode Kod ¼ród³owy (wymaga kompilacji i instalacji)
 splashstart Start
 sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
@@ -723,17 +723,17 @@ stateautomsg AutoMessage to Send
 statechange status changed to: 
 stateedittext Please edit the fields you would like \n to modify and press Save
 stateinfo Personal State Configuration
+state I want to appear as
 statename Name of Personal State
 statenewtext Please fill the required information to create \n your new Personal State and press Save
 statenick Custom nick (leave blank for no change)
 statepsm Custom Personal Message (leave blank for no change)
-state I want to appear as
 stats Statystyka
 status Status
 stopalarm Stop alarmu
+stop Stop
 stopwebcamreceive Zatrzymaj odbiór obrazu wideo
 stopwebcamsend Zatrzymaj wysy³anie obrazu wideo
-stop Stop
 storenickname Return to original nickname after a custom state with custom nickname
 strictfonts Restrict all fonts' size to the one I selected (Status bar and others)
 stylechat Same look as chats
@@ -763,10 +763,10 @@ tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnectio
 tlsinstall Kreator instalacji modu³u TLS
 tlsinstcompleted TLS module installation was successful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
 today Dzi¶
+to Do
 tomobile Na komórkê
 tools Narzêdzia
 tooltips W³±cz podpowiedzi
-to Do
 transnotexists Wybrany plik nie zosta³ jeszcze przet³umaczony na dany jêzyk
 trayicon Poka¿ ikonê statusu w obszarze powiadomieñ
 traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
@@ -791,11 +791,11 @@ useralreadyonlist U¿ytkownik jest ju¿ na li¶cie kontaktów
 userblocked U¿ytkownik jest online, ale zablokowa³(a) ciê
 userdata Dane u¿ytkownika
 userdps W³asne obrazy wy¶wietlany
+user Login
 usernotonline U¿ytkownik jest offline
 userproperties W³a¶ciwo¶ci u¿ytkownika $1
 usersettings Ustawienia
 useryourself Nie mo¿esz rozmawiaæ z sob±
-user Login
 usesnack Use the Snack library (Tcl internal)
 verifyblocked Sprawd¼, kto ciê zablokowa³
 version Wersja
@@ -811,13 +811,13 @@ webcamextloaded Webcamsn extension is loaded
 webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
 webcamfaq FAQ/Help for Webcam
 webcamhistory Poka¿ sesjê z kamery
-webcaminvitereceived $1 zaprosi³(a) ciê do wymiany obrazu z kamer. Akceptujesz?
 webcaminvite $1 zaprosi³(a) ciê do wymiany obrazu z kamer, ale aMSN nie obs³uguje tego
+webcaminvitereceived $1 zaprosi³(a) ciê do wymiany obrazu z kamer. Akceptujesz?
+webcam Kamera
 webcamrejected $1 odrzuci³(a) zaproszenie do sesji wideo
 webcamrequestreceive Wys³ano pro¶bê o obraz z kamery
 webcamrequestsend Wys³ano pro¶bê o wysy³anie obrazu z kamery
 webcamsending Osoby, którym wysy³asz w tej chwili obraz z kamery\nKliknij, by przerwaæ
-webcam Kamera
 whatisamsn aMSN is a platform-independent MSN Messenger clone
 whatsize Otrzymany obrazek nie ma standardowego rozmiaru (96x96).\nW jakim rozmiarze chcesz go wy¶wietliæ?
 willjoin Oczekiwanie na $1
@@ -832,8 +832,8 @@ xmmssend Wy¶lij aktualn± piosenkê
 xoffset X Offset
 year Rok
 yesblock Tak i zablokuj
-yesterday Wczoraj
 yes Tak
+yesterday Wczoraj
 yoffset Y Offset
 youblocked Zosta³e¶(a¶) zablokowany(a) przez
 yousay Mówisz

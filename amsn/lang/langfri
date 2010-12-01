@@ -1,18 +1,18 @@
 amsn_lang_version 2
-about Ynformaasje
 aboutamsn Oer aMSN
-accept Oannimme
+about Ynformaasje
 acceptfile Nim triem $1 oan, grute $2? Bware yn $3
+accept Oannimme
 actions Aksje
 activeautoupdate Active automatyske fernijing
-add Tafoegje
 addacontact Foegje in kontaktpersoan ta
 addedyou $1 ($2) hat jo tafoege oan syn/har kontaktpersoanenlist
-addprofile Foegje in nij profyl ta
 addprofiledesc Folje de nije log-yn yn, wer't jo in nij profyl foar meitsje wolle. \n Profylearde log-yns steane jo ta om ferskate konfiguraasjes foar eltse log-yn te hawwen. \n Sûnder profylen kinne jo de skiednis, it alaarm en it wachtwurdoantinken net brûke.
+addprofile Foegje in nij profyl ta
 addstate Foegje in nije tastân ta
-addto Foegje ta oan $1
+add Tafoegje
 addtocontacts Tafoegje oan kontaktpersoanenlist
+addto Foegje ta oan $1
 addtoo Foegje dizze persoan ta oan myn kontaktpersoanenlist
 admincontacts Behear kontaktpersoanen
 admingroups Behear groepen
@@ -29,12 +29,12 @@ alarms Alaarms
 alarmstatus Doch alaarm oan/út foar dizze brûker
 allfiles Alle triemen
 allmonths Alle moannen
-allow_sms Stean brûkers ta om kontakt mei my op te nimmen op myn mobile MSN apparaat
 allowallbutbl Stean alle brûkers, útsein de minsken dy't ik blokkeart haw, ta om kontakt mei my te sykjen
 allowbadwords Skeakelje de sensuer op raar praat út
 allowlist Betrouber-list
 allowonlyinal Stean allinne de minsken út myn Betrouber-list ta om kontakt mei my te sykjen
 allowseen Stean dizze persoan ta om te sjen wannear't ik oanmeld bin, en om my te sprekken
+allow_sms Stean brûkers ta om kontakt mei my op te nimmen op myn mobile MSN apparaat
 allprofilesinuse Alle besteande profylen binne op it stuit yn gebrûk
 animatedemoticon Dizze gnysker is beweeglik
 animatedsmileys Skeakelje beweegjende gnyskers yn
@@ -50,8 +50,8 @@ autoaccepted Triem-ferstjoering automatysk akseptearje
 autoacceptft Automatysk triem-ferstjoering akseptearje
 autoaway Feroarje myn tastân yn "Net oanwêzich" at ik net warber west bin foar
 autocheckver By it starten automatysk om nije ferzjes sjen
-autoconnect Automatysk oanmelde
 autoconnect2 Automatysk oanmelde wannear't aMSN start wurdt
+autoconnect Automatysk oanmelde
 autodetectip Detektearje IP-adres automatysk
 autohotmaillog Automatysk oanmelde by Hotmail
 autoidle Automatysk "Net oanwêzich" 
@@ -63,9 +63,9 @@ avcanceled Fideopetear fersyk wegere
 avgotinvitation Fideopetear/útnoeging ûntfongen fan $1
 avinitfailed Inisjalisaasje fan de Lûds/Fideo Plugin mislearr. Fersyk ôfbrutsen
 avoidseen Foarkom dat dizze persoan sjen kin wannear't ik oanmeld bin en dat hy/sy my sprekke kin
-away Net oanwêzich
 awaymsg1 Freegje om berjocht foar "Net oanwêzich" as de tastân feroare wurdt naar "Net oanwêzich"
 awaymsg2 Net freegje en altyd it ûndersteande berjocht foar "Net oanwêzich" brûke
+away Net oanwêzich
 baduserpass Gjin goed brûkersnamme of wachtwurd
 badwebcam Kin it byld fan de webcam net sjen litte. Bewissigje jo derfan dat jo webcam goed oanslúten en ynstalleare is. 
 bgcolor Feroarje aMSN's eftergrûnkleur
@@ -84,9 +84,9 @@ blockusers Oantal brûkers om fuortdaliks te kontrolearen
 bouncedock Lit it aMSN-byldkaike yn it systeemfak dosse at der in berjocht binnenkomt
 brightness Helderheid
 broughtby Oanbean troch de folgende ûntjouwers
-browse Sneupe
-browser Sneuper
 browserexample ( \$url wurdt ferfangen troch de URL) Start Mozilla \$url
+browser Sneuper
+browse Sneupe
 bugerror Sorry, mar der gie wat mis by de frebining nei de flater database. Kontrolearje jo ynternet ferbining asjebleaft. 
 busy Drok
 cachedpics $1 opsleine plaatsjes
@@ -102,8 +102,6 @@ captureproperties Webcam byld eigenskippen
 casesensitive Haadlettergefoelich
 cfgalarm Alaarm konfigurearje/tafoegje/fuortsmite
 cfgalarmall Algemien alaarm konfigurearje/tafoegje/fuortsmite
-ch_to_state Gean op de nije status oer
-change Wizigje
 changecustomstate Feroarje status yn
 changedisplaypic Persoanlike ôfbylding wizigje
 changefont Feroarje lettertype
@@ -112,14 +110,15 @@ changenick Feroarje skermnamme
 changesize Grutte oanpasse
 changestate $1 feroaret yn $2
 changevideosettings Pas de fideo ynstellings oan
+change Wizigje
 channels Kanalen
 charscounter Teller fan typte tekens yn tsjotterfinster
-chat Tsjotter
 chatack Nim tsjotterfersyk oan fan
 chatmaxmin Werjefte tsjotterfinster at immen in petear mei my begjint:
 chatreq Freegje om te tsjotterjen
-chatsmileys Toan gnyskers
 chatsmileys2 Toan gnyskers yn tsjotter-finsters
+chatsmileys Toan gnyskers
+chat Tsjotter
 checkblocking Yn'e gaten hâlde oft minsken jo blokkeare
 checkemail Lit yn de kontaktpersoanenlist sjen at der nije berjochten binne
 checkfilman Untfangen triemen wurde bewarre yn $1. Sjoch de ynstellings fan it triembehear by ynstellings
@@ -135,21 +134,22 @@ choosecontact Sykje in kontaktpersoan út de list út
 choosedevice Kies in apparaat asjebleaft
 choosefontcolor Kies tekstkleur
 chooseskin Kies de hûd dy't jo brûke wolle
+ch_to_state Gean op de nije status oer
 clear Fuortsmite
-clearlog Smyt fuort
 clearlog2 Smyt de skiednis foar al jo kontaktpersoanen fuort
 clearlog3 Smyt alle logboeken fuort
+clearlog Smyt fuort
 clearwebcamlogs Meitsje alle webcam logs leech
 clicktoadd Klik op Tafoegje foar in nije notysje
 clicktologin Klik hjirre om jo oan te melden
 clientcaps Ferstjoer in x-clientcaps pakketsje nei oare brûkers
 clientname Brûkernamme
-close Slúte
 closeall Alle flappen yn dit finster ôfslúte?
 closealltabs Alle flappen slúte
 closed Jo konversaasje mei $1 is slúten, omdat jimme net aktyf genôch binne
 closelabel Wannear't jo op de ôfslútknop klikke yn in tsjotterfinster mei flappen
 closeonly Allinne de aktuele flap slúte
+close Slúte
 closingdocks Slút finster
 color Kleur
 command Programma
@@ -169,9 +169,9 @@ connecterror Ferbiningsflater
 connecting Dwaande mei ferbinen
 connection Ferbining
 connectionlost De ferbining mei de tsjinner is fuort
-contact Kontakt
 contactadded Kontaktpersoan tafoege
 contactdoesnotexist Kontaktpersoan bestiet net
+contact Kontakt
 contactlist Kontaktpersoanenlist
 continuously Oan ien tried troch
 contrast Kontrast
@@ -192,30 +192,30 @@ custnotifymsg Lit it meldingsfinster sjen at in nij berjocht binnenkommen is
 custnotifyoffline Lit it meldingsfinster sjen at dizze persoan fan'e tried giet
 custnotifyonline Lit it meldingsfinster sjen at dizze persoan op'e tried komt
 custnotifystatus Lit it meldingsfinster sjen at dizze persoan syn tastân feroaret
+customcolor Oanpaste kleur
 custom_edit Bewurkje jo eigen gnysker
 custom_new Meitsje nije gnysker
-customcolor Oanpaste kleur
 customnick Oanpaste skermnamme
 customstyle Oanpaste styl
-cut Knippe
-cutimagebox Selektearje it part fan it byld dat jo brûke wolle troch it seleksje-hokje te ferplakken en fan grutte te feroarjen
 cutimageboxreset Set de seleksje-hokje box\grutte werom nei: 
+cutimagebox Selektearje it part fan it byld dat jo brûke wolle troch it seleksje-hokje te ferplakken en fan grutte te feroarjen
+cut Knippe
 date Datum
 dateformat Datumnotaasje wizigje
 day Dei
 days Dagen
 dcprofile Gjin profyl oanmeitsje
-default Standerd konfiguraasje
 default2 Standerd
 defaultloginradio Ynlogge mei de gewoane ynstellings
+default Standerd konfiguraasje
 defchatwinsize Standerd grutte foar tsjotterfinsters (Xgrutte x Ygrutte)
-delete Wis
 deleteall Alles wisse
 deletecustomstate Wis oanpaste status
+delete Wis
 delimiters Skiedingstekens foar tiidwerjefte
 deliverfail Der wie in probleem by it besoargjen fan de folgende boadskip
-delprofile Smyt profyl foart
 delprofile2 Kies it profyl datst foartsmite wolst
+delprofile Smyt profyl foart
 description Beskriuwing
 detach Losmeitsje
 details Details
@@ -243,8 +243,8 @@ dockkde Fêstsette foar KDE
 done Klear
 dontdownload Helje TLS net oer, ik sil TLS sels wol ynstallearje
 dontshow Net sjen litte
-download Oerhelling
 downloadingtls Hellet TLS-module oer fan: \n $1
+download Oerhelling
 edit Bewurkje
 editcustomstate Bewurkje oanpaste tastân
 editnewstate Nei automatysk berjocht
@@ -260,8 +260,8 @@ enabled Ynskeakele
 enableproxy Brûk proksy
 enableremote Meitsje op ofstân betsjinje mooglik
 enablesound Spylje lûd
-encoding Fersiferje
 encoding2 Feroarje fan fersifering by jo tekens
+encoding Fersiferje
 enterbugdesc Fier in omskriuwing yn fan wat jo by de ein hienen om ús te helpen de flater op'e nij barre te litten:
 entercontactemail Jou it eameladres fan de kontaktpersoan
 enterfilename Jou in triemnamme op
@@ -271,27 +271,27 @@ eventhistory Lit foarfalskiednis sjen
 examples Foarbylden
 exitamsn Slút aMSN
 extras Ekstra's
-failed Misleare
-faileddelete Wisse misleare
 faileddeleteperso Dizze ôfbylding kin net fuortsmiten wurde omdat it net in persoanlike ôfbyldingstriem is. Allinne ôfbyldingen dy't by jo persoanlike profyl heare kinne sa fuortsmiten wurde.
+faileddelete Wisse misleare
+failed Misleare
 faq FAQ (Faak stelde fragen (yn 't Ingelsk))
-file Triem
 filedoesnotexist Triem bestiet net
-fileman Triembehear
 filemanexample ( \$location sil ferfangen wurde troch de map ) Start nautilus \$location
+fileman Triembehear
 filename Triemnamme
 filenotwritable Dizze triem kin net fuortsmiten wurde
-filetransfer Triemoerdracht
 filetransfercancelled Triemferstjoering annuleard
 filetransfercomplete Triemferstjoering klear
+filetransfer Triemoerdracht
+file Triem
 filters Filters
-filtersx Filter seleksje
 filtersselect Selektearje de filters dy't jo sjen wolle\n (Noat: gjint selekteare betsjut lit se allegeare sjen)
+filtersx Filter seleksje
 firewalled Jo sitte efter in brânmuorre of efter in router
 followtext Skow nei ûnderen at der nije tekst ynfoege is
 friendlyname Skermnamme ûnder it petear
-ftaccepted Triemferstjoering oannommen
 ftacceptedby $1 akseptearet de triemferstjoer-útnoeging foar de triem: '$2'
+ftaccepted Triemferstjoering oannommen
 ftaccepting Akseptearje de triemferstjoering
 ftautoclose Slút it finster at de triemoerdracht klear is
 ftconnecterror Ferbiningsflater mei de oare kompjûter
@@ -299,8 +299,8 @@ ftconnecting Ferbynt nei $1 mei poarte $2
 ftconnectionlost Ferbining mei de oare kompjûter is ferlen
 ftgotinvitation $1 wol jo '$2' ($3 bytes) stjoere. Jo kinne it werom fine yn dizze map:  $4. Wolle jo dizze triem grif oannimme?
 ftportpref Begjinpoarte foar triemferstjoering
-ftrejected Triemferstjoering ôfkitse
 ftrejectedby $1 kitste de triemferstjoering fan de triem '$2' ôf
+ftrejected Triemferstjoering ôfkitse
 ftsendinvitation Bestansferstjoering-útnoeging foar de triem '$2' ($3 bytes) is fertsjoerd nei $1
 fullcontactlist Sorry, jo kontaktpersoanenlist is fol. At jo mear kontaktpersoanen tafoegje wolle, dan sille jo earst guonen fuortsmite moatte
 getdisppic Skeakelje it ûntfangen fan de persoanlike ôfbyldings fan oare brûkers yn
@@ -310,10 +310,10 @@ globalnicktitle Algemiene skermnamme
 globaloverride It algemiene skermnammenpatroan hat foarrang op de oanpaste skermnammen
 gonelunch Skoft
 gotink $1 hat jo in pintekening stjoert
-group Groep
 groupadd Foegje in groep ta
 groupdelete Smyt in groep fourt
 groupexists Groep bestiet al
+group Groep
 groupmissing Kin de groep net fine
 groupnewname Nije namme
 groupnotempty Dizze groep is net leech!
@@ -322,8 +322,8 @@ grouprename Feroarje in groepsnamme
 groups Groepen
 groupunknown Unbekende groep
 handle Dwaan
-help Help
 helpcontents Help ynhâld
+help Help
 hidedisplaypic Bring persoanlike ôfbylding ferside
 hiden Bring dizze gnysker ferside yn it gnysker-menu
 hidewindow Bring finster ferside
@@ -333,18 +333,18 @@ httpconnection Ferbine mei in HTTP-protokol, oer poarte 80
 hue Tint
 huge Oergryslik grut
 hybrid Twaslachtige modus
-ident Oan it ydentifisearjen
 identity Ydentiteit
-ignore Negeare
+ident Oan it ydentifisearjen
 ignoreerrors Negearje oare aMSN-flaters sûnder it te melden, ta de ein fan de sesje
+ignore Negeare
 imagefiles Ofbyldingstriemen
 inbox Postfak yn
 insertsmiley Gnysker ynfoegje
 inserttextnote Foegje tekst ta yn it ûnderwerpfjild en it notysjefjild, klik op Opslaan
 installconvert Jo moatte ImageMagick (in omsetprogramma) ynstallearje at jo Kameraadbyldkaikes en Oanpaste gnyskers brûke wolle. Jo kinne in ferzje foar jo bestjoeringssysteem oerhelje fan ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . At jo dat al ynstalleart hawwe, dan is dizze melding in programmearflater; meitsje der asjebleaft gewach oer. Dizze mooglikheden wurde no útskeakele; at jo ImageMagik letter noch ris ynstallearje, skeakelje dizze opsjes dan yn fanút it Foarkarren-finster.
 internalerror Ynterne Tsjinner Flater
-invalidfile Triem $2 ynfolle yn fjild "$1" bestiet net, of is net lêsber
 invalidfile2 Triemnamme $1 kin net oanmakke wurde. Hawwe jo wol de nedige tawurden?
+invalidfile Triem $2 ynfolle yn fjild "$1" bestiet net, of is net lêsber
 invalidgroup Groep is net jildich
 invalidparameter Der gie wat mis by it ferbinen mei de tsjinner: ûnjildiche parameter 
 invalidpic De opjûne ôfbylding bestiet net
@@ -360,10 +360,10 @@ istyping $1 is oan it typen
 joins $1 nimt diel oan konfersaasje
 justonce Mar ien kear
 keepalive Hâld ferbining yn stân
-keeplog Bewarje logboek fan tsjotterpetearen
 keeplog2 Bewarje alle petearen yn it logboek fan aMSN-Skiednis om se letter besjen te kinnen
-language Taal
+keeplog Bewarje logboek fan tsjotterpetearen
 language_manager Taal behearder
+language Taal
 large Grut
 lastlogin Foarige oanmelding
 lastlogout Foarige ôfmelding
@@ -386,8 +386,8 @@ listsmileys2 Toan gnyskers yn aMSN's haadkontaktpersoanenlist
 listsmileys Toan gnyskers yn list
 ljoinedconf $1 hat oan de gearkomste dielnommen
 lleftconf $1 hat de gearkomste ferlitten
-load Lade
 loadcontacts Kontaktpersoanenlist lade
+load Lade
 logbigger De logtriem fan eltse kontaktpersoan mei net grutter wurde as
 logeventconnect Yn in logtriem byhâlde wannear't kontaktpersoanen harren oanmelde
 logeventdisconnect Yn in logtriem byhâlde wannear't kontaktpersoanen harren ôfmelde
@@ -416,9 +416,9 @@ maintenance De tsjinner sil om ûnderhâldswurk oer $1 minuten in skoftke net besk
 maximised Fergrutte
 minimised Ferlytse
 mins minúten
-mobile Mobile tillefoan
 mobilegrp1 Mobile groep
 mobilegrp2 Set brûkers yn "Mobile" groep at ik fan'e triid bin (en sorteare op tastân)
+mobile Mobile tillefoan
 modified Wizige
 month Moanne
 morepersonal Mear tastannen ==>
@@ -442,8 +442,8 @@ name Namme
 natip IP-deteksje troch webside
 natkeepalive Ast faak ôfmeld wurdst, moast dit oanfinke
 needonline Jo binne net oanmeld
-needwinico De triem winico03.dll moat yn de plugin-map stean om it Windows-systeemfak brûke te kinnen
 needwinico2 De triem winico05.dll moat yn de plugin-map stean om it Windows-systeemfak brûke te kinnen
+needwinico De triem winico03.dll moat yn de plugin-map stean om it Windows-systeemfak brûke te kinnen
 never Nea
 new_ft_protocol Brûk it nije triemoerdrachtsprotokol (der sitte noch in pear programmearflaters yn)
 newline Nije rigel
@@ -457,7 +457,6 @@ newtabbedfeature aMSN hat in nije mooglikheid foar it behearen fan petearen, jo 
 newveravailable Nijere ferzje $1 beskikber
 next Folgjende 
 nick Skermnamme
-no Nee
 noactivity Gjin aksje
 nodataavailable Gjin data beskikber foar $1
 nodevices Jo hawwe gjin apparaten ynstalleare
@@ -465,6 +464,7 @@ nogap Gjin romte tusken de groepen
 nogroup Gjin groep
 nologfile Gjin logboek foar $1
 noneavailable Gjin beskikber
+no Nee
 nonewmail Gjin berjochten yn Postfak-yn
 nonewver Der binne gjin nijere ferzjes beskikber
 nopic Gjin ôfbylding
@@ -474,7 +474,6 @@ noskins Kin aMSN net opstarte, om't der gjin hûden ynstalleare binne yn de map s
 nosystemtray Der is gjin systeembalke oanwêzich
 note Notysje
 notificationserver Earste MSN Meidiel Tsjinner (MSN Messenger Server)
-notify Op'e hichte bringe
 notify1_5 Lit yn in skermke sjen at minsken fan'e tried geane
 notify1_75 Lit yn in skermke sjen at minsken de tastân feroarje
 notify1 Lit meidielfinster sjen wannear't in kontaktpersoan sich oanmeldt
@@ -482,6 +481,7 @@ notify2 Lit meidielfinster sjen wannear't nije berjochten ûntfangen wurde
 notify3 Lit meidielfinster sjen wannear't der nije eamels binnenkomme
 notify4 Lit meidielfinster sjen wannear't der nije eamels binnenkomme yn oare mappen
 notifyoffset Feroarje de posysje fan it advysfinster mei it jaan fan koördinaten
+notify Op'e hichte bringe
 notifytimeout Oantal millisekonden foardat it meidielfinster weiwurdt
 notifytyping Bring oare brûkers op'e hichte at ik oan it typen bin
 notifywin Meidielfinster
@@ -493,12 +493,12 @@ nudge $1 freget jo omtinken
 offline Net oanmeld
 ok Ok
 onenewmail 1 nei berjocht yn Postfak-yn
-online Oanmeld
 onlinehelp Help op it web
+online Oanmeld
 onphone Oan de tillefoan
 opendir Iepenje map
-openfile Iepenje
 openfilecommand Iepenje triem kommando
+openfile Iepenje
 openreceived Iepenje ûntfangen triemen
 options Ynstellings
 ordercontactsby Sortear kontaktpersoanen op
@@ -512,13 +512,13 @@ pass Wachtwurd
 paste Plakke
 pause Skoft
 personal Persoanlik
-phone Tillefoan
 phones Tillefoannûmers
+phone Tillefoan
 picbrowser Lit de ôfbyldingsneuper sjen
 picfile Alaarm byldtriem (GIF < 500 x 500 pixels)
 picstatus Skeakelje alaarm byldtriem oan/út
-play Spylje
 playing $1 spilet
+play Spylje
 pluginselector Selektearje de Plugins
 port Poarte
 portswellconfigured Jo poarten binne goed ynstelt
@@ -531,9 +531,9 @@ prefblock3 "Jo binne blokkeart troch"- groep
 prefconnection Ferbynings ynstellings
 prefemotic Gnyskers
 preferences Foarkarren
-preffont Myn berjochtentekst
 preffont2 Feroarje hoe't oaren myn tekst sjogge
 preffont3 Feroarje aMSN's lettertype en grutte
+preffont Myn berjochtentekst
 prefft Triemoerdracht, peer-to-peer en NAT ynstellings
 preflibs Bibleteek mappen
 preflog1 Myn Skiednis- en Logboekynstellings
@@ -545,9 +545,9 @@ prefphone2 De tillefoannûmers dy't minsken, dy't jo dêr tastimming foar jûn haww
 prefphone Myn tillefoannûmers
 prefprivacy2 De brûker's kontaktpersoanen / Omkearde list
 prefprivacy De brûker's betrouberren / Blokkearde list
-prefprofile Myn profyl
 prefprofile2 Meitsje of feroarje in profyl\n (beskriuwing fan josels dy't oaren sjen kinne)
 prefprofile3 aMSN's konfiguraasjeprofylen foar brûkers
+prefprofile Myn profyl
 prefproxy Myn Proksy-ynstellings
 prefremote Ynstellings foar it op ôfstân betsjinjen
 prefsession Myn oanmelding en tastân
@@ -575,23 +575,23 @@ receivedbytes $1 fan $2 bytes krigen
 receiveddir Map foar binnenkommen triemen
 receivefile Untfang triem
 recentmsg Foarkom dat in tsjotterfinster slúten wurdt at der suver krekt in berjocht binnenkomt
-reconnect Wachtsje oant $1 op'e nij ferbynt
 reconnect2 Op'e nij ferbine at de ferbining fuortfalt
 reconnecting Op'e nij oan't ferbinen mei de tsjinner
+reconnect Wachtsje oant $1 op'e nij ferbynt
 reject Ofwize
 rememberpass Bewarje wachtwurd
 remembersetting Unthâld dizze ynstelling
 removeempty Lege groepen fuortsmite út de kontaktpersoanenlist
 removefromlist Helje út dizze list
 rename Oare namme jaan
-report Rapport 
 reporting Rapport oanmeitsje
+report Rapport 
 required_version Kin de plugin net lade, omdat dêrfoar teminsen aMSN $1 nedich is om te draaien
 reversed Omkeart
 reverselist Kear de list om
 rightback Sa werom
-save Bewarje
 saveas Bewarje as
+save Bewarje
 savechatwinsize Grutte fan tsjotterfinster opslaan nei it feroarjen fan de grutte
 savecontacts Kontaktpersoanenlist opslaan
 savetofile Triem opslaan
@@ -600,25 +600,25 @@ sbcon Mei Switch Board oan it ferbinen
 selectall Alles selektearje
 selectplugins Selektearje de plug-ins dy't jo oansette wolle
 selectskin Kies in hûd út de list
-send Ferstjoer
 sendemail Stjoer myn eamel adres mei en hâld my op de hichte fan feroarings
+send Ferstjoer
 sendfile Ferstjoer in triem
 sendmail Ferstjoer in eamel
 sendmobmsg $1 Stjoer nei mobyl apparaat
 sendmsg Ferstjoer in berjocht
 sendwebcaminvite Nûgje dizze brûker út om nei jo webcam te sjen
 sentbytes $1 fan $2 bytes ferstjoerd
-server Tsjinner
 serverbusy De tsjinner hat it drok
 servergoingdown De tsjinner giet út
+server Tsjinner
 serverunavailable De tsjinner is net beskikber
 session Sitting
 shareswebcam Hat in webcam
 showbanner Lit it findel fan aMSN sjen
 showblockedlist Lit de list sjen fan minsken dy't jo blokkeart hawwe
 showcachedpics Lit de opsleine ôfbyldings sjen
-showdisplaypic Lit de persoanlike ôfbylding sjen
 showdisplaypic2 Lit standerd de persoanlike ôfbylding sjen at in tsjotterfinster iepene wurdt
+showdisplaypic Lit de persoanlike ôfbylding sjen
 showmypic Myn persoanlike ôfbylding
 shownotify Lit it meidielfinster sjen by bepaalde foarfallen
 showpicnotify Lit de brûker syn/har skermôfbylding sjen yn meidielfinsters
@@ -629,18 +629,18 @@ skinselector Selektearje de hûd
 small Lyts
 smileconfig Eigen gnysker-ynstellings
 smilefile Gnysker triemnamme:
-smileintro Folje de nedige fjilden yn om in nije gnysker te meitsjen. Foar help, sjoch yn de FAQ.
 smileintro2 Bewurkje de benedigde fjilden om in nije eigen gnysker te meitsjen
+smileintro Folje de nedige fjilden yn om in nije gnysker te meitsjen. Foar help, sjoch yn de FAQ.
 smiletoobig De gnysker dy't jo keazen hawwe is grutter dan normaal. Wolle jo de grutte derfan oanpasse?
 snackfailed It laden fan Snack is misleare; werom nei standert funksjes
 sngdblclick Ien kear klikke om in nij tsjotterfinster te iepenjen
-sound Lûd
 sound2 Meitsje lûd at kontaktpersoanen sich oanmelde of in berjocht stjoere
 soundactive Meitsje ek lûd at in berjocht binnenkomt yn in aktyf finster
 soundcommand Dit moat in ôfspylkommando wêze (bg: esdplay)
 soundexample (\$sound = de te spyljen lûdstriem) Ex. esdplay \$sound
 soundfile Lûdstriem
 soundfiles Lûdstriemen
+sound Lûd
 soundloop Lûd werheljen bliuwe
 soundserver Lûdtsjinner
 soundstatus Skeakelje alaarmlûd oan/út
@@ -650,32 +650,32 @@ sslwarning WARSKOGING!! At jo SSL útskeakelje, dan wurdt jo wachtwurd by it fers
 startoffline2 'Stil' oanmelde mei "Net oanmeld"-tastân
 startoffline Begjin "Net oanmeld"
 startontray Start aMSN allinne as systeemfak-byldkaike
-state Ik wol ferskyne as:
 stateautomsg Automatysk berjocht om te stjoeren:
 statechange Tastân feroare yn:
 stateedittext Bewurkje de fjilden dy't jo graach \n feroare hawwe wolle en druk dan op Ok
+state Ik wol ferskyne as:
 stateinfo Persoanlyke Tastân Ynstellings
 statename Namme fan de persoanlyke tastân
 statenewtext Folje de ferplichte ynformaasje yn, \n om jo nije persoanlyke tastân te meitsjen en druk dan op Ok
 statenick Oanpaste skermnamme (lit leech foar gjin feroarings)
 stats Statistyken
-stop Stopje
 status Tastân
 stopalarm Stopje it alaarm
+stop Stopje
 stopwebcamreceive Stopje de webcamûntfangst
 stopwebcamsend Stopje de ferstjoering fan webcambylden
 storenickname Ferhelje de oarspronklike skermnamme nei in oanpaste tastân mei in oanpaste skermnamme
 strictfonts Behein de lettergrutte oeral ta de grutte dy't ik selekteare haw, ek yn de tastânbalke en oare plakken
-style Styl
 stylechat Styl lyk as tsjotterberjochten
 stylehist aMSN's Skiednis styl
 stylelog Kies it formaat wêryn jo jo Skiednis besjen wolle
-subject Underwerp
+style Styl
 subjectrequired Underwerp fereaske
+subject Underwerp
 syntaxerror Opbouflater
-tabbed 'Tabbed' finsters
 tabbedglobal In finster mei flappen foar alle brûkers yn de kontaktpersoanenlist
 tabbedgroups In finster mei flappen foar brûkers fan deselde groep
+tabbed 'Tabbed' finsters
 tabtitlenick Lit de skermnammen yn de flappen sjen ynstee fan eameladres
 takesnapshot Foto meitsje
 temp_state Net opslaan (Tydlike tastân, giet ferlern at aMSN ôfslúten wurdt)
@@ -683,19 +683,19 @@ textsize Tekstgrutte
 thismonth Dizze moanne
 throughserver Troch tsjinner
 timeremaining Tiid oer
-timestamp Tiidstimpel 
 timestamps Lit de tiden sjen yn'e tsjotterfinsters
+timestamp Tiidstimpel 
 title aMSN
-tkerror TK hat in flater jûn, der zit in programmearflater yn aMSN, bring ús dêrfan op'e hichte asjebleaft! Stjoer de triem $1 nei amsn-bugs@lists.sf.net
 tkerror1 TK hat in flater jûn, troch in programmearflater yn amsn. Meld dit asjebleaft troch op de Rapport knop te klikken. Jo kinne op Details klikke om mear ynformaasje te sjen oer de programmearflater of klik op Ok om fierder te tsjotterjen mei AMsn 
+tkerror TK hat in flater jûn, der zit in programmearflater yn aMSN, bring ús dêrfan op'e hichte asjebleaft! Stjoer de triem $1 nei amsn-bugs@lists.sf.net
 tlsdowncompleted Triem is oerhelle yn map $2. Jo moatte it útpakke, kompilearje (at jo boarnekoade oerhelle hawwe) en ynstallearje yn $3
 tlsexplain De map wêr't de tcl TLS module stiet. Folje dit yn at aMSN it sels net fine kin.\n(Dit is nedich foar befeilige oanmelding mei SSL)
 tlsinstallexp aMSN brûkt no MSNP9, wat it brûken fan in feilige ferbining troch SSL fereasket. Om SSL te brûken hat aMSN in module nedich, TLS, dy't net yn jo systeem sit. Dizze gûchelder helpt jo by it oerheljen en ynstallearjen fan TLS. Kies jo systeem-soart sadat TLS automatysk foar jo oerhelle wurde kin.
 tlsinstall TLS module ynstallaasje-gûchelder
 tlsinstcompleted TLS is goed ynstalleard, jo kinne no MSNP9 brûke. At it net wurket, dan hawwe jo fêst de ferkearde module oerhelle, of de kompilearde module is net beskikber foar jo systeem.
-to Oan
 today Hjoed
 tomobile Nei Mobyl
+to Oan
 tools Ark
 tooltips Arktips oansette
 transnotexists Dizze triem is noch net nei it Frysk oerset
@@ -705,22 +705,22 @@ triggers Tekst triggers
 truncatenames1 Skermnammen yn de kontaktpersoanenlist en yn finstertitels ôfkappe at hja langer binne dan it finster breed is
 truncatenames2 Skermnammen yn petearen ôfkappe at hja langer binne dan it finster breed is
 truncatenicks Skermnammen ôfkappe at hja langer binne dan it finster breed is
-type Soart
 twonewmail $1 nije berjochten
+type Soart
 unblock Deblokkear
 unknown Unbekend
 unload Ut it ûnthâld helje
+unselectall Deselektearje alles
 uoffline Net oanmeld
 uonline Oanmeld
 update Fernije
 updateonlycurrentlanguage Allinne de aktuele taal fernije
 updating Oan it fernijen
-unselectall Deselektearje alles
 useasdp Brûk as skermôfbylding
 useother Brûk in oar programma
-user Brûker
 useralreadyonlist De brûker stiet al yn jo list
 userblocked Dizze brûker is wol op'e tried, mar hat jo blokkeart
+user Brûker
 userdata Brûker ynformaasje
 usernotonline De brûker is net oanmeld
 userproperties Eigenskippen fan brûker $1
@@ -731,7 +731,6 @@ version Ferzje
 view Byld
 viewcontactsby Lit kontaktpersoanen sjen mei
 viewprofile Profyl werjaan
-webcam Webkamera
 webcamcanceled De webkamera sitting mei $1 is ôfbrutsen
 webcamclosebefcancel Jo moatte alle webkamera sittings ôfbrekke foardat jo it finster slúte kinne
 webcamconfigure Webkamera ynstelle
@@ -742,10 +741,11 @@ webcamhistory Lit Webkamera sittings sjen
 webcaminvite $1 wol in webkamera-sesje begjinne, mar dizze funksje wurdt net stipe troch aMSN
 webcaminvitereceived $1 hat jo útnûge om in webkamera sitting te begjinnen. Wolle jo dat ek?
 webcamrejected $1 hat jo fersyk om in webkamera sitting te begjinnen ôfkitst 
-webcamrequestsend Jo oanbod om webkamerabyld sjen te litten is ferstjoert
 webcamrequestreceive Jo fersyk om webkamerabyld sjen te meien is ferstjoert
+webcamrequestsend Jo oanbod om webkamerabyld sjen te litten is ferstjoert
 webcamsending List fan minsken dy't op dit stuit jo webkamerabylden sjen kinne\nKlik om ôf te brekken
 webcamshot Webkamera foto
+webcam Webkamera
 whatisamsn aMSN is in platfoarm-ûnôfhinklike MSN Messenger-allyk
 whatsize It plaatsje wat jo keazen hawwe, hat net it gongbere formaat\nfoar skermôfbyldingen (96x96). Hoe grut wolle joe dat it plaatsje werjûn wurdt?
 willjoin Wachtsje oant $1 de konfersaasje bywenje sil
@@ -759,8 +759,8 @@ xmmserr Der wurdt neat ôfspyle of jo hawwe xmms-infopipe net ynstalleare
 xmmssend Ferstjoer it hjoeddeiske nûmer
 xoffset X-posysje
 year Jier
-yes Ja
 yesblock Ja en blokkeare
+yes Ja
 yesterday Juster
 yoffset Y-posysje
 youblocked Jo binne blokkeart

@@ -220,6 +220,7 @@ color Cor
 command Comando
 commandstatus Executar comando
 compactstyle Modo compacto
+configpermissionerror Erro escrevendo arquivo de configurações. Esteja certo de que você tem as corretas permissões no diretório $1
 configure Configurar
 configuremic Configurando seu microfone
 configureplugin Configurar plugin $1
@@ -709,6 +710,7 @@ pausewebcamsend Enviar pause da webcam
 personal Pessoal
 phones Números de Telefone
 phone Telefone
+photosharingrequest Você acaba de receber um pedido de Compartilhamento de Foto. Esta funcionalidade ainda não é suportada pelo aMSN e não pode ser cancelada por você. Peça a seu contato que cancele o pedido de Compartilhamento de foto e envie o arquivo utilizando a transferência de arquivo.
 picbrowser Navegador de Imagens de Exibição
 picfile Arquivo de imagem (GIF < 500 x 500)
 picstatus Alarme com imagem
@@ -760,6 +762,7 @@ prefshared Conexões compartilhadas (apenas para NAT)
 prefsound Sons
 preview Visualizar
 privacy Privacidade
+profileaccrualerror As informações da conta do seu Windows Live ID está incompleta.\nPor favor esteja certo de que o seu aniversário e o seu país esteja preenchido corretamente no seu perfil.
 profiledconfig Configuração por perfis
 profileexists Você não pode criar um perfil com este endereço de e-mail\npois ele já existe. Por Favor escolha outro endereço de e-mail.
 profileinuse Esta configuração está em uso por outra sessão do aMSN, por favor escolha outra.
@@ -788,6 +791,7 @@ receiveddir Pasta de arquivos recebidos
 receivedoimread Você tem mensagens offline de $1. Deseja lê-las?
 receivedvoice Clip de Voz recebido.
 receivefile Arquivo recebido
+receive Receber
 recentmsg Evitar fechar uma janela de conversa quando uma mensagem acaba de chegar
 reconnect2 Reconectar ao perder a conexão
 reconnect Esperando por $1 para reconectar
@@ -875,6 +879,7 @@ showmailicon Mostrar ícone de e-mail na bandeja do sistema quando novos e-mails 
 showmypic Minha imagem de exibição
 shownonim Mostrar contatos que não estão no messenger
 shownotify Exibir janela de notificação quando alguns eventos acontecerem
+shownotinlist Mostra um ícone especial nos contatos os quais não tem você na lista de contatos deles.
 showofflinegroup Mostrar grupo Offline
 showonedpframe Mostrar apenas 1 imagem de exibição na janela de chat
 showpicnotify Mostrar figuras do usuário na janela de notificação
@@ -1099,8 +1104,3 @@ youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
 zoom Zoom
-configpermissionerror Erro escrevendo arquivo de configurações. Esteja certo de que você tem as corretas permissões no diretório $1
-photosharingrequest Você acaba de receber um pedido de Compartilhamento de Foto. Esta funcionalidade ainda não é suportada pelo aMSN e não pode ser cancelada por você. Peça a seu contato que cancele o pedido de Compartilhamento de foto e envie o arquivo utilizando a transferência de arquivo.
-profileaccrualerror As informações da conta do seu Windows Live ID está incompleta.\nPor favor esteja certo de que o seu aniversário e o seu país esteja preenchido corretamente no seu perfil.
-receive Receber
-shownotinlist Mostra um ícone especial nos contatos os quais não tem você na lista de contatos deles.

@@ -104,8 +104,8 @@ busy Okupatuta
 bytesymbol b
 cachedpics $1 irudi jasota
 cagreement Ixilpeko Akordioa
-cancel Utzi
 cancelled Ezeztatua
+cancel Utzi
 cannotdeleteprofile Ezin da profila ezabatu, aMSN beste sesio batean erabilia izaten omen ari delako
 cantexec $1 aplikazioa ezin izan da exekutatua izan. Konfigurazioa egiaztatu
 cantloadonlineversion Eguneratutako hizkuntz-zerrenda ezin da Internetetik jaso
@@ -236,9 +236,9 @@ default Konfigurazio lehenetsia
 defaultloginradio Lehenetsitako konfigurazioarekin sartu
 defchatwinsize Txat leihorako lehenetsitako tamaina (XSIZExYSIZE)
 deleteall Guztia ezabatu
+deleteblock Ezabatu eta Blokeatu
 deletecustomstate  Egoera pertsonalizatua ezabatu
 delete Ezabatu
-deleteblock Ezabatu eta Blokeatu
 delimiters Data-zigiluen mugatzaileak:
 deliverfail Hurrengo mezua bidaltzen arazoa egon da
 delprofile2 Ezabatu nahi duzun profila aukeratu
@@ -525,9 +525,9 @@ nonewver Ez dago bertsio berriagorik deskargatzeko erabilgarri
 nopic Ez dago irudirik
 noprofileexists Momentu honetan ez daude profilik, \n profilak erabili nahi badituzu sortu behar dituzu.  \nErabili Profil Berria Gehitu botoia leiho honetan profil berri bat sortzeko.
 normal Normala
+noskins Pertsonalizatutako azala ez da aurkitu azalen direktorioan. AMSN ezin da hasi
 nosound Ez da soinurik detektatu, egiaztatu mikrofonoa ondo konektaturik dagoela
 nosound_or_hold Ez da soinurik detektatu. Ahots grabaketa bat bidaltzeko, hitzegiten duzun bitartean botoia sakatu eta mantendu behar duzu, eta gero mezua bidaltzeko, botoia utzi.
-noskins Pertsonalizatutako azala ez da aurkitu azalen direktorioan. AMSN ezin da hasi
 nosystemtray Aska sistema ez erabilgarria
 note Oharra
 notificationserver MSN jakinarazpen zerbitzariaren hasiera (MSN Messenger zerbitzaria)
@@ -731,13 +731,13 @@ sortcontactstatus Kontaktuak Egoeratik Ordenatu
 sortgroupsasc Behetik gora Taldeak ordenatu
 sortgroupsdesc Goitik behera Taldeak ordenatu
 sortin $1 ordenatu $2-n
-sound Gertaeren soinuak
 sound2 Kontaktuak sartzen direnean edo mezu bat jasotzerakoan soinu bat jo
 soundactive Leihoa aktiboetan zaudenean mezu bat jasotzerakoan soinuak egin ere.
 soundcommand Hau martxan jartzeko komandoa izan behar da (ex: esdplay)
 soundexample ( \$sound = Soinu fitxategia erreproduzitua izateko) Adibidez:: esdplay \$sound
 soundfile Alarmaren Soinuaren Fitxategia
 soundfiles Soinuen fitxategiak
+sound Gertaeren soinuak
 soundloop Etengabeko soinua
 soundnoavail Soinu txartela ez dago. Gelditu mesedez soinu txartela erabiltzen egon daitekeen aplikazioa.
 soundserver Soinu zerbitzaria
@@ -837,8 +837,8 @@ viewcontactsby Kontaktuak sailkatu
 view Ikuspegia
 viewprofile Profila ikusi
 voice_notimplemented Ahots zatiak jasotzea ez dago oraindik martxan. Pazientzia, mesedez.
-voice_windows Windows erabiltzailea izanik, soinu zatia entzungarri izan ahal zaizu Media Playerrekin zabaltzen baduzu.
 voice_windows_click Klik hemen hori egiteko.
+voice_windows Windows erabiltzailea izanik, soinu zatia entzungarri izan ahal zaizu Media Playerrekin zabaltzen baduzu.
 wanttosharecam Nire webkama besteontzako ikusgarri egotea nahi dut
 webcamcanceled $1-rekin webkamera saioa amaitu egin da
 webcamclosebefcancel Webkamera saio guztiak utzi behar dituzu leihoa itxi baino lehen

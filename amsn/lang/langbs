@@ -1,24 +1,24 @@
 amsn_lang_version 2
 abookerror aMSN nije u mogućnosti preuzeti vašu kontakt listu. Ovo je najvjerovatnije trenutni problem sa MSN serverima. Sada si prijavljen sa prije snimljenom kontakt listom (ako postoji). Izvinjavamo se zbog ovoga. Molimo pokušajte poslije.
 abort Odustani
-about O aMSN-u ...
 aboutamsn O aMSN-u
-accept Prihvati
+about O aMSN-u ...
 acceptfile Da li želiš prihvatiti fajl $1 (veličine $2 bajta)? Bit ce sačuvan u $3
-account Račun
+accept Prihvati
 accountkid Ovaj dječiji račun ne može se koristiti sa mesendžerom. Moraš posjetiti "Kids Passport" sajt i dati roditeljsku dozvolu.
+account Račun
 actions Radnje
 activeautoupdate Aktiviraj auto-ažuriranje!
 addacontact Dodaj kontakt
 add Dodaj
 addedyou $1 ($2) je dodan na njenu/njegovu kontakt listu
-addprofile Dodaj Novi Profil
 addprofiledesc Enter the login which you would like to create a new profile for. \nProfiles allow you to have different configurations for each login.\nWithout profiles you cannot use the History, Alarms or "Remember Password" functions.
+addprofile Dodaj Novi Profil
 addstate Dodaj Novo Stanje
-addto Dodaj u $1
 addtoal Dodaj u PL
 addtobl Dodaj u LB
 addtocontacts Dodaj u kontakt listu
+addto Dodaj u $1
 addtofl Dodaj u FL
 addtoo Dodaj ovu osobu na moju kontakt listu
 admincontacts Admin kontakti
@@ -97,9 +97,9 @@ avcanceled Poziv Video konferencije odbijen
 avgotinvitation Primljena pozivnica Video konferencije od $1
 avinitfailed Pokretanje Audio/Video Dodatka nije uspjelo. Poziv prekinut
 avoidseen Zabrani ovoj osobi da me kontaktira i vidi kad sam Na mreži
-away Odsutan
 awaymsg1 Pitaj me svaki put za Poruku kada sam Odsutan svaki puta kad promjenim status na Odsutan/Vracam se brzo/Zauzet
 awaymsg2 Nikad ne pitaj i uvijek koristi poruku ispod
+away Odsutan
 back Nazad
 baduserpass Pogrešno ime ili šifra
 badwebcam Ne mogu prikazati sliku sa kamere. Provjeri da li je ukljucena i pravilno konfigurisana.
@@ -124,8 +124,8 @@ brightness Svjetlost
 bringtofront Dovedi sve na početak
 broughtby Napravljeno za vas od sljedecih programera
 browse Pregled
-browser Preglednik
 browserexample (\$url ce biti zamijenjeno za URL) Npr: firefox \$url
+browser Preglednik
 bugerror Žao nam je. ali spajanje na "bug" bazu podataka nije uspjelo. Molimo provjerite Vašu vezu sa internetom.
 bugnocomment Poslati bez komentara? Komentar nam pomaže puno pri pronalasku rješenja.
 busy Zauzet
@@ -134,8 +134,8 @@ cachedpics $1 snimljene slike
 cachedpicsfor Snimljene slike za korisnika
 cagreement Sporazum o povjerljivosti
 cam_in_cw Pokazi sliku kamere u prozoru razgovora
-cancel Odustani
 cancelled Odustao
+cancel Odustani
 cannotdeleteprofile Ne mogu izbrisati račun, izgleda da se račun trenutno koristi.
 cantexec Ne mogu pokrenuti aplikaciju: $1. Provjeri opcije
 cantget Ne mogu dobiti $1
@@ -149,13 +149,13 @@ casesensitive Uključi razlikovanje velikih i malih slova
 cfgalarmall Opcije/Dodavanje/Brisanje globalnog alarma
 cfgalarm Opcije/Dodaj/Izbriši alarm
 change_account_info Promjeni informacije računa
-change Promjeni
 changecustomstate Pređi na
 changedisplaypic Promjeni sliku
 changefont Promijeni font
 changeglobnick Promjeni globalni nadimak
 change_mobile Promjeni mobilne opcije
 changenick Promjeni nadimak
+change Promjeni
 changepsm Promjeni privatnu poruku
 changesize Promjeni veličinu
 changestate $1 promjenio stanje u $2
@@ -164,8 +164,8 @@ changevideosettings Promjeni Video opcije
 channels Kanali
 charscounter Uključi brojač ukucanih slova
 chatack Prihvatam razgovor sa
-chat Razgovor
 chatmaxmin Kada kontakt otvori prozor razgovora želim da bude:
+chat Razgovor
 chatreq Zahtijevam razgovor
 chatsmileys2 Prikazi smajle i slikovne emocije u prozoru razgovora
 chatsmileys Prikazi smajle u razgovorima
@@ -196,58 +196,58 @@ chooseoutputdev Izaberi svoj Izlazni uređaj
 chooseskin Izaberi izgled koji želis koristiti
 choosevideosrc Izaberi Video Ulaz
 ch_to_state Pređi u novo stanje
-clear Očisti
 clearlog2 Izbrisi historiju za sve kontakte
 clearlog3 Izbrisi sve fajlove historije
 clearlog Izbrisi historiju
+clear Očisti
 clearwebcamlogs Briši historiju web kamere
 clickhere Klikni ovdje
 clicktoadd Klikni na 'Dodaj' da dodaš novu napomenu
 clicktologin Klikni ovdje da se prijavis
 clientcaps Pošalji x-clientcaps paket drugim klijentima
 clientname Ime klijenta
-closeall Zatvoriti sve tabove ovog prozora?
 closealltabs Zatvori sve tabove
+closeall Zatvoriti sve tabove ovog prozora?
 closechatwindows Zatvoriti sve razgovore prije odjave?
-close Zatvori
 closed Razgovor sa $1 je zatvoren zbog neaktivnosti
 closelabel Kada kliknes Zatvori u prozoru sa tabovima
 closeonly Zatvori samo trenutni tab
-closeorcallvideo Moraš zatvoriti/prekinuti sve Video Pozive prije zatvaranje prozora.
 closeorcall Moraš zatvoriti/prekinuti sve Aideo Pozive prije zatvaranje prozora.
+closeorcallvideo Moraš zatvoriti/prekinuti sve Video Pozive prije zatvaranje prozora.
 closeordock Zatvaranje liste kontakata će zatvoriti aMSN. Možda si mislio samo zatvoriti prozor i imati uključen aMSN u sistemskoj traci.\n\nJesi li siguran da želis zatvoriti aMSN?
 closeothers Zatvori sve druge tabove
+close Zatvori
 closingdocks Klikom na zatvori samo minimizira aMSN
 color Boja
 command Komanda
 commandstatus Izvrši komandu
 compactstyle Kompaktni izgled
 configpermissionerror Greška pri snimanju fajla opcija. Provjeri da li imas potrebna ovlaštenja direktorije $1
-configure Podesi
 configuremic Podesi mikrofon
 configureplugin Podesi dodatak $1
+configure Podesi
 configuringaudio Podesi audio postavke
-confirm Jesi li siguran/na?
 confirmbl Sigurno želis blokirati ovog korisnika?
 confirmdelete Sigurno želis izbrisati $1?
 confirmdg Sigurno želis izbrisati ovu grupu?
 confirmdu Sigurno želis izbrisat ovok korisnika?
 confirmeg Sigurno želis isprazniti ovu grupu?
 confirmfulldelete Takođe sa Windows Live Address Book
+confirm Jesi li siguran/na?
 confirmpurge Sve snimljene slike svih korisnika će biti izbrisane (tvoje će biti sačuvane). Jesi li siguran/na?
 confirmrfl Sigurno želis izbrisati ovog korisnika iz ove grupe?
 congrats Čestitamo
 connectedat Prijavljen u:
-connectedwith Prijavljen sa $1
 connected Sada si prijavljen
+connectedwith Prijavljen sa $1
 connecterror Greška pri spajanju
 connectfirst Molim prvo se prijavi
 connecting Spajam
-connection Veza
 connectionlost Odjavljen: Izgubljena veza sa serverom
+connection Veza
 contactadded Kontakt dodan
-contact Kontakt
 contactdoesnotexist Kontakt ne postoji
+contact Kontakt
 contactlist Kontakt lista (KL):
 contacts Kontakti
 contentroamingsetting Sačuvaj svoje slike na serveru
@@ -284,9 +284,9 @@ customnick Moj nadimak
 customsmileys Prikazi slike emocija od drugih korisnika
 customstyle Uređeni izgled
 custshowcustomsmileys Prikazi smajle od drugih korisnika
-cut Isijeci
 cutimageboxreset Podesi velicinu kocke selekcije \nna:
 cutimagebox Selektuj dio slike koje želiš koristiti, podešavanjem i mijenjanjem mjesta kocke selekcije
+cut Isijeci
 cyclewindows Kruži kroz prozore
 date Datum
 dateformat Promijeni format datuma
@@ -294,8 +294,8 @@ day Dan
 days Dani
 dcprofile Nemoj kreirati račun
 default2 Početno
-default Promjena podešavanja na početno
 defaultloginradio Prijavi se sa početnim podešavanjima
+default Promjena podešavanja na početno
 defchatwinsize Početna veličina prozora razgovora (XSIZExYSIZE)
 deleteall Izbriši sve
 deleteblock Izbriši i blokiraj
@@ -330,26 +330,26 @@ displayp4context Prikaži P4-Kontekst kao sadržaj poruke
 displaypic Slika
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
 dockgtk Gnome Dock
-docking Prijanjanje
 dockingoff Prijanjanje isključeno
+docking Prijanjanje
 dockkde KDE Prijanjanje
 done Završeno
 dontaskweek Ne pitaj za update do sljedeće sedmice
 dontdownload Ne skidaj TLS, sam ću ga instalirati
-dontshow Ne prikazuj
 dontshowdp Ne dozvoli korisnicima da skidaju tvoju sliku
+dontshow Ne prikazuj
 downloadcanceled Skidanje prekinuto.
-download Skini
 downloadingtls Skidam TLS modul sa:\n $1
 downloadingwait Skidam novu verziju aMSN-a. Molimo sačekajte...
+download Skini
 dynamicrate Koristi dinamičnu FPS da simuliras stvarno vrijeme-uživo
 editavsettings Promijeni audio i video opcije
 editcontent Edit the content of the subject field and the note field
 editcustomstate Promjeni svoja stanja
-edit Promjeni
 editmyprofile Promjeni moj MSN račun
 editnewstate Nova privatna auto-poruka stanja
 editprofile Promjeni račun
+edit Promjeni
 editstate Promjeni trenutnu auto-poruku stanja
 editvalue Promjeni iznos
 email Email
@@ -397,9 +397,9 @@ filters Filteri
 filtersselect Odaberi filtere koje želiš koristiti\n(Napomena: ništa odabrano znači 'prikaži sve')
 filtersx Odabir filtera
 findasyoutype Traži dok kucaš
-find Traži
 findnext Traži sljedeći izraz
 findprev Traži prošli izraz
+find Traži
 finetunesettings Fino podešavanje opcija kvaliteta slike
 finish2apply Press Finish to apply those settings.
 finish Završi
@@ -444,8 +444,8 @@ getmoreplugins Dodaj još dodataka!
 getmoreskins Dodaj još Izgleda!
 getprofileoffline Prikaži slike i privatne poruke odjavljenih korisnika(Može usporiti proces prijave)
 globalcontainer Globalni container
-globalnick Ubaci uzorak da formulišeš nadimke svih kontakata. Možeš koristiti sljedeće varijable: \$user_login za adrese kontakata, \$nick za nadimke kontakata \$customnick uređene nadimke kontakata. Na primjer: '\$user_login is \$nick' će biti 'contact@msn.com je kontakt'
 globalnicktitle Globalni Nadimak
+globalnick Ubaci uzorak da formulišeš nadimke svih kontakata. Možeš koristiti sljedeće varijable: \$user_login za adrese kontakata, \$nick za nadimke kontakata \$customnick uređene nadimke kontakata. Na primjer: '\$user_login is \$nick' će biti 'contact@msn.com je kontakt'
 globaloverride Obrazac globalnog nadimka će nadjačati prilagođeni nadimak
 gonelunch Na ručku
 gotink $1 ti je poslao crtež.
@@ -502,8 +502,8 @@ invalidfile2 Ime fajla $1 se ne može kreirati, budi siguran da imaš potrebne d
 invalidfile Fajl $2 upisan u polje "$1" ne postoji, ili se ne može čitati
 invalidgroup Pogrešna grupa
 invalidparameter Grešla u prijavljivanju na server:\npogrešni parametri
-invalidpicsize Ova slika je previše velika, molim izabri manju
 invalidpic Fajl odabrane slike ne postoji
+invalidpicsize Ova slika je previše velika, molim izabri manju
 invalidsound Fajl odabranog zvuka ne postoji
 invalidusername Ne tačno korisničko ime
 invitationcancelled Odustao od pozivnice
@@ -519,8 +519,8 @@ keeplog2 Sačuvaj sve razgovore aMSN-a za naknadni pregled
 keeplog Sačuvaj historiju razgovora
 language Jezik
 language_manager Menadžer jezika
-large Velika
 largest Najveća
+large Velika
 lastlogin Zadnji puta prijavljen/a
 lastlogout Zadnji puta odjavljen/a
 lastmsgedme Zadnja poruka
@@ -529,23 +529,23 @@ lastseen Zadnji puta Na mreži
 lazypicretrieval Sporije preuzimanje slika
 lclosedwin $1 je zatvorio prozor  $2
 lconftopriv Koneferencija pretvorena u privatni razgovor sa $1
-lconvstarted Razgovor počeo u $1
 lconvstartedOIM Počeo slanje poruka u sakrivenom stanju sa $1
+lconvstarted Razgovor počeo u $1
 leaveblankforhotmail Ostavi prazno da koristiš Hotmail
 leavejoinsinchat Prikaži "napustio/pridružio se razgovoru" obavijesti u prozoru razgovora
 leaves $1 je napustio razgovor
 lenteredconf $1 se pridružio konferenciji $2
 lineflushlog Osvježi fajlove historije nakon svake linije
 linprivate PRIVATNO
-listening Slušam
 listeningon Slušam na portu $1
+listening Slušam
 listsmileys2 Prikaži smajle i slikovne emocije u aMSN-ovoj main glavnoj kontakt listi
 listsmileys Listaj smajle
 ljoinedconf $1 se pridružio konferenciji
 lleftconf $1 je napustio konferenciju
 loadcontacts Učitaj kontakt listu
-load Učitaj
 loadotherdisplaypic Učitavam slike od $1, molimo sačekajte...
+load Učitaj
 logbigger Historija za određene kontakte je bez kraja 
 logeventconnect Sačuvaj svako prijavljivanje u historiju
 logeventdisconnect Sačuvaj odjavljivanje u historiju
@@ -580,22 +580,22 @@ maintenance Radovi na serveru počinju za  $1 minuta
 maximised Prošireni
 medium Srednje
 minimised Spušten/Ikonovan
-minimize Spusti u sistemsku traku
 minimizeplain Spusti
+minimize Spusti u sistemsku traku
 mins minuta
 mobilegrp1 Mobilna grupa
 mobilegrp2 Stavi korisnike u "Mobilni" grupu kada su odjavljeni (i složeni po statusu)
 mobile Mobilni
 modified Promjenjeni
 month Mjesec
-more Više
 morepersonal Više stanja ->
+more Više
 move Premjesti
 movetogroup Premjesti u grupu
 msgflicker Uključi treperanje prozora koji nije u fokusu kada primim poruku.
 msgmaxmin Kada stigne nova poruka želim da bude:
-msg Poruka
 msgmode Izaberi kako da se ponašaju multi-prozori:
+msg Poruka
 msn aMSN
 msnstatus Stanje MSN mreže
 msnstyle MSN Izgled
@@ -643,19 +643,19 @@ nogroup Nema grupe
 nojavascript Nije ti uključen javascript.Auto-prijava neće raditi
 nologfile Nema historije za $1
 nomic Nema mikorfona
+no Ne
 noneavailable Nema mogućih
 nonewmail Nema novih poruka u Inbox-u
 nonewver Nema novih verzija!
 nonimgroup Nema instant-dopisivanje kontakata
-no Ne
 nooimconfirmation Ne pitaj za dozvolu pri slanju/primanju poruka u sakrivenom stanju
 nopic Nema slike
 noprofileexists Trenutno nema računa \n moraš napraviti jedan ako želis koristiti prijavu preko računa. \nKoristi Dodaj Novi Račun u ovom prozoru da dodaš novi račun.
 noresizesmileys Nemoj smanjivati smajle
 normal Normalno
 noskins Ne mogu pronaći početni izgled u skins/ folderu. Ne mogu pokrenuti aMSN
-nosound Zvuk nije detektovan, provjeri da li si dobro spojio mikofon
 nosound_or_hold Zvuk nije detektovan. Da bi poslao Glasovnu poruku moraš pritisnuti i držati tipku dok pričaš i onda pustiti da pošalješ poruku.
+nosound Zvuk nije detektovan, provjeri da li si dobro spojio mikofon
 nospace Ovjde nemaš šta vidjeti
 nosystemtray Sistemska traka nije prisutna
 note Napomena
@@ -681,9 +681,9 @@ novideocodecsavailable Nema potrebnih video kodeka.
 nudge $1 zahtijeva tvoju pažnju.
 offline Odjavljen/a
 oimauthenticationfailed Provjera autentičnosti nije uspjela
+oim Dopisivanje u sakrivenom stanju
 oimflood Previše poruka poslano u sakrivenom stanju... molio sačekajte i pokušajte poslije
 oimmessagetoolarge Poruka previše velika za sakriveno stanje. Podijeli je i pokušaj ponovo
-oim Dopisivanje u sakrivenom stanju
 oimsystemunavailable Dopisivanje u sakrivenom stanju trenutno nije moguć
 oimunexpectederror Neočekivana greška
 ok Uredu
@@ -712,8 +712,8 @@ pausedwebcamreceive Web kamera pauzirana od strane kontakta
 pause Pauza
 pausewebcamsend Pauziraj slanje web kamere
 personal Lično
-phone Telefon
 phones Telefonski brojevi
+phone Telefon
 photosharingrequest Moraš primiti zahtjev Dijeljenja Slika. Ova mogućnost još nije podržana od strane aMSN-a i ne može biti prekinuta od strane aMSN-a. Kaži kontaktu da odustane od Dijeljenja slika i pošalje fajl koristeći transfer fajlova
 picbrowser Preglednik slika
 picfile Fajl slike (GIF < 500 x 500)
@@ -781,8 +781,8 @@ psmatend Prikaži privatnu poruku pored nadimka
 psmchanged $1 promjenio privatnu poruku u '$2'
 psmdontshow Ne prikazuj privatnu poruku, osim ako nije drugačije podešeno u globalno/određenom nadimku
 psmnewline Prikaži privatnu poruku ispod nadimka
-psm Privatna poruka
 psmplace Mjesto tvoje privatne poruke ?
+psm Privatna poruka
 publishphones Objavi brojeve mojih mobilnih telefona
 purge Očisti
 pwcdriver Koristiš pwc driver
@@ -798,9 +798,9 @@ receivefile Preuzmi fajl
 receive Preuzmi
 recentmsg Zabrani zatvaranje prozora razgovora kad poruka tek stigne
 reconnect2 Ponovna prijava pri gubitku veze
+reconnect Čekam $1 da se ponovo prijavim
 reconnecting Ponovo se prijavljujem na server za
 reconnectnow Ponovo se prijavi sada
-reconnect Čekam $1 da se ponovo prijavim
 recorderror Uočena greška pri snimanju fajla : $1
 record Snimaj
 recvwebcamaccepted $1 prihvatio tvoju pozivnicu da gledas njenu/njegovu web kameru. Spajam se...
@@ -925,8 +925,8 @@ sipvideocallended Vaš Video poziv je završen
 sipvideocallmissed Propustio si Video poziv od $1
 sipvideocallnosipflag Korisnik ne podržava Video poziv.
 sipvideogotinvitation Primljena pozivnica za Video poziv od $1
-skinselector Odaberi izgled
 skin Izgled
+skinselector Odaberi izgled
 smallest Najmanje
 small Malo
 smileconfig Podepavanje vaših slikovnih emocija
@@ -951,14 +951,14 @@ sortgroupsdesc Složi grupe silazno
 sound2 Pusti zvuk kada kontak dođe na mrežu ili pošalje poruku
 soundactive Pusti zvuk kada kontakt pošalje poruku i ako je prozor u fokusu
 soundcommand Ovo mora biti reprodukcijska komanda (ex: esdplay)
-sound Zvukovi dešavanja
 soundexample (\$sound = Zvučni fajl da bude pušten) Ex: esdplay \$sound
-soundfile Zvučni fajl
 soundfiles Zvučni fajlovi
+soundfile Zvučni fajl
 soundloop Neprekidni zvuk
 soundnoavail Audio uređaj nije dostupan. Molimo isključite sve aplikacije koje koriste audio uređaj.
 soundserver Server Zvuka
 soundstatus Zvučni alarm
+sound Zvukovi dešavanja
 sourcecode Izvorni kod (treba kompajlirati i instalirati)
 splashstart Start
 sslwarning UPOZORENJE!! Isključivanjem SSL će isključiti enkripciju, tako da će tvoja šifra biti poslana u običnom tekstu preko mreže. Nije preporučljivo.
@@ -970,11 +970,11 @@ stateautomsg AutoPoruka za slanje
 statechange stanje promjenjeno u: 
 stateedittext Molim izmjeni polja koja zelis promjeniti i klikni na Uredu
 stateinfo Opcije privatnog stanja
-state Zelim biti kao
 statename Ime privatnog stanja
 statenewtext Molimo popunite potrebne informacije za kreiranje novog stanja i klikni na Uredu
 statenick Prilagođeni nadimak (za ne promjenu ostavi prazno)
 statepsm Prilagođeni privatni nadimak (za ne promjenu ostavi prazno)
+state Zelim biti kao
 stats Statistika
 status Stanje
 step Korak
@@ -986,10 +986,10 @@ storenickname Vrati na orginalni nadimak nakon uređenog stanja sa uređenim nad
 strictfonts Svi fontovi imaju veličinu koju ja odaberem(Statusna traka i ostalo)
 stylechat Isti izgled kao prozori razgovora
 stylehist Izgled aMSN-ove historije
-stylelog Odaberi format u kojem želis pregledati historiju
 style Izgled
-subjectrequired Potreban predmet
+stylelog Odaberi format u kojem želis pregledati historiju
 subject Predmet
+subjectrequired Potreban predmet
 svnversion SVN Verzija
 syntaxerror Greška sintakse
 tabbedglobal Prozor sa tabovima za sve kontakte sa kontakt liste
@@ -1008,15 +1008,15 @@ tkerror1 TK je naišao na grešku. Postoji bug u  aMSN, molimo prijavite. Može�
 tkerror TK je naišao na grešku. Postoji bug u  aMSN, molimo prijavite. Pošalji fajl $1 na amsn-bugs@lists.sf.net
 tlsdowncompleted Fajl $1 je preuzet u direktorij $2. Moraš je izvaditi, kreirati (ako si preuzeo izvorni kod) i instalirati u $3.
 tlsexplain Folder gdje je tcl TLS. Ako aMSN ga ne može pronači molimo navedite ga.\n(Potrebno za SSL ovjeru autentičnosti).
-tlsinstallexp aMSN sada koristi MSNP9, koji zahtjeva korištenje sigurne \nveze preko SSL-a. Da bi koristio SSL, aMSN treba instalirati modul TLS,\nkoji nije prisutan na tvom sistemu. Ovaj čarobnjak će ti pomoci preuzeti i instalirati TLS. Molimo odaberitie tip vašeg sistema tako da možemo automatski preuzeti\npotrebne TLS fajlove.
 tlsinstall Čarobnjak instalacije TLS Modula
+tlsinstallexp aMSN sada koristi MSNP9, koji zahtjeva korištenje sigurne \nveze preko SSL-a. Da bi koristio SSL, aMSN treba instalirati modul TLS,\nkoji nije prisutan na tvom sistemu. Ovaj čarobnjak će ti pomoci preuzeti i instalirati TLS. Molimo odaberitie tip vašeg sistema tako da možemo automatski preuzeti\npotrebne TLS fajlove.
 tlsinstcompleted Instalacija TLS modula je uspješna. Sada možeš koristiti MSNP9.Ako opet ne radi, onda vjerovatno nisi odabrao tačan modul, ili modul ne podržava tvoj sistem.
 today Danas
 tomobile Na mobilni
 tools Alati
 tooltips Uključi savjete za alate
-totalsize Ukupna veličina
 to Sa
+totalsize Ukupna veličina
 transnotexists Trenutni fajl još nije preveden u trenutni jezik.
 trayicon Pokaži ikonu stanja u sistemskoj traci
 traynotcompiled Ikona sistemske trake nije kompajliran. Provjeri dodatke/traydock
@@ -1034,9 +1034,9 @@ unselectall Odselektuj sve
 untitled_space Bez imena
 uoffline Odjavljeni
 uonline Na mreži
+update Nadogradnja
 updateonlycurrentlanguage Nadogradi samo trenutni jezik
 updatesaved Zavrženo\n Sačuvan $1 u $2.
-update Nadogradnja
 updating Nadograđujem
 upgradetcltk Za bolje korištenje aMSN-a potrebno ti je TCL/TK $1 ili bolje. Molimo nadogradite.
 useasdp Koristi kao moju sliku
@@ -1046,28 +1046,28 @@ useralreadyonlist Korisnik je već u kontakt listi
 userblocked Korisnike je Na mreži ali te blokirao
 userdata Korisnički podatci
 userdps Slike korisnika
+user Korisnik
 usernotonline Korisnik nije na mreži
 userproperties Opcije korisnika od$1
 usersettings Opcije
-user Korisnik
 useryourself Ne možeš razgovarati sam sa sobom
 usesnack Koristi Snack biblioteku (Tcl interni)
 verifyblocked Provjeri ko te blokirao
 version Verzija
 videoconversationrequest Upravo si primio pozivnicu za Video poziv (dvosmjerno audio/video). Ova mogućnost jos nije podržana u aMSN-u i odbijena je. Kako god, još uvijek možeš koristiti obični video poziv.
 viewcontactsby Pogledaj kontakte po
+view Pogled
 viewprofile Pogledaj račun
 viewspace Pogledaj Spaces predete
-view Pogled
 voiceclip Glasovna poruka
 volume Glasnoća
 wanttosharecam Želim omogućiti ostalima moju web kameru
 webcamcanceled Sesija web kamere sa $1 je prekinuta
 webcamclosebefcancel Moraš prekinuti sve sesije web kamere prije zatvaranja prozora
-webcamconfigure Podesi kameru
 webcamconfiguredLinux Izabrao si sljedeće opcije web kamere:\nUređaj: $1\nKanal: $2
 webcamconfiguredMac Opcije web kamere su podešene
 webcamconfiguredWin Možeš izabrati sljedeće uređaje : $1
+webcamconfigure Podesi kameru
 webcamextchecking Provjeravam da li je učitan dodatak web kamere ...
 webcamextloaded Webcamsn dodatak je učitan
 webcamextnotloaded Webcamsn dodatak nije učitan. Moraš ga kompajlirati.
@@ -1103,8 +1103,8 @@ xoffset X Ofset
 xplaces $1 Mjesta
 year Godina
 yesblock Da i blokiraj
-yesterday Juče
 yes Da
+yesterday Juče
 yoffset Y Ofset
 youblocked Blokiran si od
 yousay Ti kažeš

@@ -25,8 +25,11 @@ alarms Alarmet
 alarmstatus ndez/fik Alarmoj p� kjo p�dorues
 allfiles T�gjith�skedat
 allowallbutbl Lejo t�gjith�shfryt�uesit t�m�kontaktojn�p�veq ata q�i kam ne bllok list�allowbadwords Ndalo cenzur� tek nofkat
+allowbadwords Beje te pamundshem cenzorimin ne nofka
 allowlist Lista e t�lejuarve (AL):
 allowonlyinal Lejo vet� shfryt�uesit e list�se lejuarve t�m�kontaktojn�allowseen Lejoje k��person t�m�shoh�dhe t�m�kontaktoj�kur un�jam n�linj�allprofilesinuse Te gjitha profilet momentalisht jan�n�perdorim
+allowseen Lejo kete person te sheh kur jam on-line dhe t'me kontaktoj
+allprofilesinuse Te gjitha Profilet ekzistuese jane ne shfrytezim
 animatedemoticon Ky simbol �ht�i animuar
 animatedsmileys Lejo simbolet e animuara
 animatenotify Dritarja e animuar p� njoftim
@@ -48,6 +51,8 @@ autoip IP Automatike
 automessage AutoMessage
 autonoact M�paraqit si "Joaktiv" kur joaktiv p�
 avoidseen Mos e lejoje k��person t�m�shoh�dhe t�m�kontaktoj�kur un�jam n�linj�away Jasht�awaymsg1 M�pyet p� mesazhet e largimeve sa her�q�e nd�roj gjendjen n�Away/BRB/Busy
+away Larg
+awaymsg1 Pyet per mesazhet "larg" sa here qe te ndrroj statusin tim ne Larg/Kthehem se shpejti/Zene
 awaymsg2 Kurr�mos pyet dhe gjithmon�p�dore mesazhin e largimit t�m�osht�
 baduserpass Shfryt�uesi apo fjal�alimi i gabuar
 bgcolor Nd�ro ngjyr� e prapavis�s�aMSN-it
@@ -64,11 +69,13 @@ blocklist Bllok lista (BL):
 blockmessage K�a njer� jan�t�ky�r dhe ju kan�bllokuar
 blockusers Numri i shfryt�uesve p� t'i shikuar p�nj�er�broughtby Sjellur tek ju nga
 bouncedock Dridhe aMSN ikonen ne taskbar kurr pranon mesazh te ri
+broughtby Eshte sjellur tek ju nga keta njerez
 browse hedh nj�sy
 browserexample ( \$url do t�z�end�ohet me URL). P.sh: mozilla \$url
 browser Shfletuesi
 busy I z��cancel Anulo
 cachedpics $1 Fotografit e Chashe-irata
+cancel Anulo
 cannotdeleteprofile Nuk mund t�fshij profilin sepse duket q��ht�i zanun nga sesioni i aMSN-it
 cantexec Nuk mund t�ekzekuton aplikacionin: $1. Shiko preferencat
 cantremoveothers Nuk mund t�fshin grupin "T�tjer�" 
@@ -100,6 +107,7 @@ choosearq Zgjidh arkitektur� e sistemit
 choosebasefont Zgjidh llojin e shkronjave
 choosebgcolor Zgjidh ngjyren e prapavise
 choosecontact Ju lutem zgjidh kontaktin n�list�choosefontcolor Zgjidh ngjyr� e fontit
+choosefontcolor Zgjedh ngjyren e shkronjave
 chooseskin Ju lutemi zgjidhni mbules� q�do t'a p�dorni
 ch_to_state Kalo n�gjendjen e re
 clearlog2 Fshij historin�p� t�gjith�kontaktet
@@ -110,8 +118,10 @@ clicktologin Kliko k�u p� t�hyr�close Mbylle
 clientcaps Dergo x-clientcaps paket tek Klientet tjere
 clientname Emri i Klientit
 closed Biseda me $1 u mbyll per shkak t�joaktivitetit
+close Mbylle
 closingdocks Mbyll dritaren pjes� s�butonave (button docks)
 command Komand�commandstatus Ekzekuto komand�
+commandstatus Ekzekuto komanden
 configure Konfiguro
 confirm A jeni t�sigurt�
 confirmbl A jeni i sigurt se doni ta bllokoni kete Kontakt?
@@ -154,6 +164,7 @@ date Data
 dateformat Ndrro formatin e dates
 day Dita
 days Dit�dcprofile Mos Krijo Profil
+dcprofile Mos krijo Profil
 default Konfigurimi i parazgjedhur
 defaultloginradio Ky� me konfigurimin e parazgjedhur
 defchatwinsize Madh�ia e parazgjedhur p� dritaret p� bisedime (XSIZExYSIZE)
@@ -184,6 +195,7 @@ docking Docking
 dockingoff Docking Off
 dockkde KDE Dock
 dontdownload Mos shkarko TLS, Do t'a instaloj vet�dontshow Mos paraqit
+dontshow Mos e trego
 downloadingtls Shkarko TLS modulin prej:\n $1
 editcustomstate Edito gjendjen e kostumizuar
 edit Edito
@@ -241,9 +253,11 @@ getdisppic Lejo pranimin e fotografive q�paraqiten prej shfryt�uesve tjer�
 globalnick Beje te mundshem Formimin e te gjith shfrytezuesve ne Nofka. Mund t'i shfrytezoni keto variable: \$user_login per ty kontaktet' adresen, \$nick for your contacts' nofka dhe \$customnick for your contacts' Nofka e Zakonshme. Per Shembull: '\$user_login eshte \$nick' do te jete 'contact@msn.com eshte Kontakt'
 globalnicktitle Nofka Globale
 globaloverride Nofkat globale duhet t'i mposhtin nofkat e zakonshme
+gonelunch Jam ne drek
 groupadd Shto nj�grup
 groupdelete Fshije nj�grup
 groupexists Grupi ekziston
+group Grup
 groupmissing Nuk mund ta gjej grupin
 groupnewname emri i ri
 groupnotempty Grupi nuk �ht�i zbraz�!
@@ -252,9 +266,13 @@ grouprename Riem�toje grupin
 groups Grupet
 groupunknown Group i panjohur
 handle Mban�help Ndihm�helpcontents P�mbajtja e ndihm�
+helpcontents Permbledhja e Ndihmes
+help Ndihme
 hidedisplaypic Fshih paraqitjen e fotografis�hiden Fshih simbolin (emoticon) prej list� s�'smiley-ve'
+hiden Fshih emotikonet nga menyja e fytyrave
 hidewindow Fshih dritaren
 history Shiko Historin�home Sht�i
+home Shtepi
 httpconnection Ky� duke p�dorur HTTP metod� (perdor HTTP protocollin p�mes portit 80)
 hybrid Klasifikimeve
 ident Duke identifikuar
@@ -277,11 +295,13 @@ invite Ftoje
 ipaddress IP Adresa
 ipdetect Detekto IP valide p� transferin e skedave p�mes HTTP-s�istyping $1 �ht�duke shkruar porosi
 ircstyle IRC stil
+istyping $1 eshte duke shkruar
 joins $1 i bashkangjitet bised�
 justonce Vetem nje here
 keepalive Keepalive (NAT)
 keeplog2 Regjistro(Log) t�gjitha bisedat tek historia e aMSN-it p� t'i shikuar m�von�language Gjuha
 keeplog Mbaj regjistrimet (Logs) e bisedave
+language Gjuha
 lastlogin Log in-i i Fundit
 lastlogout Log Out-i i Fundit
 lastmsgedme Mesazhi i Fundit
@@ -309,6 +329,7 @@ logeventdisconnect Regjistro lidhjet e shkeputura
 logeventemail Regjistro kurr pranohet nje e-mail
 logeventstate Regjistro ndryshimet e statusit
 logfandexp Regjistro(Log) madh�it�e skedave dhe mbarimin (expiry) e historis�loggedotherlocation U �ky� Ky�a �ht�b��nga ndonj�lokacion tjet�
+loggedotherlocation Ckyqur. Keni hyre ne ndonje tjeter Lokacion
 loggingin Duke u ky�r
 loginas Ky�
 loging Regjistrimi (Logging)
@@ -317,6 +338,7 @@ logolder Regjistroi vet� bisedat t�cilat jan�b��n�fund
 logout �ky�
 logsbydate Rendo Regjistrimet simbas dates (Shiko historine shum me shpejt)
 logsin Vet� sa u ky�logsmileys Shfaq simbolet(Emoticons dhe Smileys) n�dritaren e historis�s�aMSN-it
+logsmileys Trego emotikonet dhe fytyrat ne dritaren e historise se aMSN'it
 logsout vet� sa doli
 longnick Nofka juaj �ht�m�e gjat�se 130 simbole. Kjo zyrtarisht nuk �ht�e p�krahur nga MSN protokolli. A jeni t�sigurt�se do t�vendosni ket�
 longp4c Emri yt shoqerues eshte me i gjat se 130 karaktere. Emerimi i Emrit shoqerues do te jete si $1. A jeni i/e sigurt?
@@ -351,6 +373,7 @@ name Emri
 natip detektimi i IP-s�p�mes web faqes
 natkeepalive N�e vazhdimisht po keni nd�prerje at�er�lejo k��"KeepAlive"
 needonline Ju ende jeni i paraqitur si jasht�linj�!
+needwinico2 Nevojitet winico05.dll ne utils/windows direktoriumin per windows traydocking per te punuar
 needwinico Duhet winico03.dll ne Plugins direktorium per windows traydocking te funksionoj
 never Kurr
 new_ft_protocol Shfrytezo File Transfer protocol (Disa probleme te pazgjidhura)
@@ -370,18 +393,22 @@ nogroup Pa Grupe
 no Jo
 nologfile Nuk ka skedar t�regjistrimeve (Log file) p� $1
 noneavailable S'ka asnj�nonewmail Nuk ka e-mail te ri
+nonewmail Asnje mesazh i ri ne Inbox
 nonewver Nuk ka version t�ri p� ta marr�nopic Nuk ka fotografi
+nopic Nuk ka Fotografi
 noprofileexists Momentalisht nuk ekziston ndonj�profil, \n duhet t�krijoni nj�n�e d�hironi t�p�dorni ky�e t�profilizuara. \nP�dore butonin Shto profil t�ri n�k��dritare n�m�yr�q�ta shtoni nj�profil t�ri.
 normal normale
 noskins Nuk mund t'a gjen mbules� e parazgjedhur n�lokacionin e mbulesave. AMSN nuk po mundet t�starton
 nosystemtray Tabaku i sistemit (System tray) nuk �ht�n�dispozicion
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
+notify1_5 Trego dritaren sinjalizuese kur kontaktet dalin jasht (off-line)
 notify1_75 Shfaq dritaren lajm�uese kur kontakti nd�ron gjendjen
 notify1 Shfaq dritaren lajm�uese kur kontakti futet ne linj�notify1_5 Shfaq dritaren lajm�uese kur kontakti del nga linja
 notify2 Shfaq dritaren lajm�uese kur porosit�e reja pranohen
 notify3 Shfaq dritaren lajm�uese kur e-maili i ri arrin�notifyoffset Offset the position of the notification pop-up
 notify4 Trego notifikimin per e-mailat e ri te pranuar
 notify Lajm�o
+notifyoffset Nderro pozicionin e dritares sinjalizuese
 notifytimeout Numri i milisekondave para se te zhdukej dritarja e notifikimit
 notifytyping Send other users notifications when typing
 notifywin Dritarja e lajm�imeve
@@ -393,11 +420,14 @@ offline Jasht�linj�
 ok Ok
 onenewmail 1 Mesazhe t�reja n�In-Box
 online N�Linj�onphone N�telefon
+onphone Ne Telefon
 openreceived Hapi Skedat e marrura
 options Opcionet
 ordercontactsby Rradhit kontaktet ne baz�t�ordergroupsby Rradhit grupet n�menyr�other Tj�er
+ordergroupsby Cakto grupet sipas
 original Origjinal
 others T�Tjer�
+other Tjera
 p4contextprefix Prefiksi P4-Context Derguesit me kete rresht
 pager Pejgjer
 pass Fjal�alimi
@@ -408,11 +438,13 @@ phone Telefoni
 picbrowser Paraqit browserin e fotografive
 picfile Alarmoj Piktur�Dosje (GIF < 500 x 500)
 picstatus ndez/fik Alarmoj Piktur�playing Playing: $1
+playing Duke luajtur(playing): $1
 pluginselector Zgjidh Plugin-�
 port Porti
 prefalerts Urgjencat dhe Tingujt
 prefapps Aplikacionet
 prefawaymsg Mesazhi im gjat�gjendjes Jasht�prefblock1 Shiko n��ky�e
+prefblock1 Rishiko Ckycjet
 prefblock2 Vazhdimisht shiko
 prefblock3 "Ju jeni bllokuar nga" grupi
 prefconnection Opcionet e Konekcionit
@@ -479,6 +511,7 @@ savecontacts Ruaje list� e kontakteve
 save Ruaje
 savetofile Ruaje n�sked�
 says $1 thot�sbcon Duke u lidhur n�Switch Board
+sbcon Duke u lidhur me Centralin
 selectplugins Ju lutemi zgjidh plugin-in q�do ta aktivoni
 selectskin Ju lutemi zgjidh mbules� nga lista
 send D�go
@@ -487,12 +520,14 @@ sendmail D�go post�
 sendmsg D�go mesazhin
 sentbytes $1 u d�gua $2 bajt
 serverbusy Serveri �ht�i z��servergoingdown U �ky� Serveri u ndal
+servergoingdown Ckyqur: Serveri duke u ndalur
 server Serveri
 serverunavailable Serveri nuk �ht�ne dispozicion
 session Sesionet
 showbanner Trego banerin e aMSN-it
 showblockedlist Trego list� e njer�ve q�ju kan�bllokuar
 showcachedpics Trego Fotografit e Chashe-irata
+showdisplaypic2 Trego Fotografine e personit menjeher pas hapjes se dritares per bisede
 showdisplaypic Trego fotografin�showdisplaypic2 Trego fotografin�gjithmon�sa her�t�hapet dritarja p� bisedime
 showmypic Fotografija ime e paraqitjes
 shownotify Paraqit dritaren p� lajm�ime sa her�q�ndodh di�a
@@ -558,6 +593,7 @@ transnotexists Skedari i k�kuar akoma nuk �ht�p�kthyer n�gjuh� momen
 traynotcompiled plugin-i i ikon� s�tabakut(Tray icon) nuk �ht�kompajlluar. Shiko plugins/traydock
 triggers Tekst "triggers"
 truncatenames1 K�ut nofkat q�jan�m�t�gjata se gjer�ia e dritares ne vendet si titujt e dritareve dhe n�kontakt list�truncatenames2 K�ut nofkat q�jan�m�t�gjata se gjer�ia e dritares brenda dritares s�bisedimeve
+truncatenames2 Zvogelo nofkat me te gjata se mundesia e dritares mbrenda bisedes
 truncatenicks K�ut nofkat q�jan�m�t�gjata se gjer�ia e dritares
 twonewmail $1 Mesazhe t�reja n�In-Box
 unblock �bllokoje
@@ -571,6 +607,7 @@ userblocked Shfryt�uesi gjindet n�linj�mir�o ju ka bllokuar
 userdata Datat e Shfrytezuesit
 usernotonline Shfryt�uesi gjindet jasht�linjes
 userproperties Ndryshimet e shfrytezuesit $1
+user Shfrytezuesi
 useryourself Ju nuk mund t�bisedoni me vet�et�
 usesnack Shfrytezo Snack librar-in (Tcl internal)
 verifyblocked Shiko njer�it q�ju kan�bllokuar
@@ -582,6 +619,7 @@ webcaminvite $1 Ju therret qe te shiheni me kamer, por aMSN nuk e suporton kete 
 willjoin Duke pritur $1 t'i bashkangjitet bised�
 winkreceived Ju keni pranuar Wink prej $1. Kjo mundesi nuk eshte e suportuar nga aMSN.
 work Pun�wrongfields Fushat "$1", "$2" dhe/ose "$3" nuk jan�valide
+wrongfields Keto "$1", "$2" dhe/ose "$3" fushat nuk jane valide
 wrongprofileversion Versioni i skedarit p� konfigurimin e profilit �ht�gabim. N�m�yr�q�ta rregulloni at�at�er�ju lutemi fshini lokacionin $1, ose p�trini(update) aMSN-in
 xmmscurrent Paraqit k�g� momentale
 xmmserr Asgj�nuk po luan(Nothing is playing), ose ju nuk e keni xmms-infopipe t�instaluar.
@@ -594,41 +632,3 @@ yoffset Y Ofseti
 youblocked Ju jeni bllokuar nga
 yousay Ju thuani
 youwant Ju doni
-allowbadwords Beje te pamundshem cenzorimin ne nofka
-allowseen Lejo kete person te sheh kur jam on-line dhe t'me kontaktoj
-allprofilesinuse Te gjitha Profilet ekzistuese jane ne shfrytezim
-away Larg
-awaymsg1 Pyet per mesazhet "larg" sa here qe te ndrroj statusin tim ne Larg/Kthehem se shpejti/Zene
-broughtby Eshte sjellur tek ju nga keta njerez
-cancel Anulo
-choosefontcolor Zgjedh ngjyren e shkronjave
-close Mbylle
-commandstatus Ekzekuto komanden
-dcprofile Mos krijo Profil
-dontshow Mos e trego
-gonelunch Jam ne drek
-group Grup
-helpcontents Permbledhja e Ndihmes
-help Ndihme
-hiden Fshih emotikonet nga menyja e fytyrave
-home Shtepi
-istyping $1 eshte duke shkruar
-language Gjuha
-loggedotherlocation Ckyqur. Keni hyre ne ndonje tjeter Lokacion
-logsmileys Trego emotikonet dhe fytyrat ne dritaren e historise se aMSN'it
-needwinico2 Nevojitet winico05.dll ne utils/windows direktoriumin per windows traydocking per te punuar
-nonewmail Asnje mesazh i ri ne Inbox
-nopic Nuk ka Fotografi
-notify1_5 Trego dritaren sinjalizuese kur kontaktet dalin jasht (off-line)
-notifyoffset Nderro pozicionin e dritares sinjalizuese
-onphone Ne Telefon
-ordergroupsby Cakto grupet sipas
-other Tjera
-playing Duke luajtur(playing): $1
-prefblock1 Rishiko Ckycjet
-sbcon Duke u lidhur me Centralin
-servergoingdown Ckyqur: Serveri duke u ndalur
-showdisplaypic2 Trego Fotografine e personit menjeher pas hapjes se dritares per bisede
-truncatenames2 Zvogelo nofkat me te gjata se mundesia e dritares mbrenda bisedes
-user Shfrytezuesi
-wrongfields Keto "$1", "$2" dhe/ose "$3" fushat nuk jane valide

@@ -1,15 +1,15 @@
 amsn_lang_version 2
 abort Întrerupe
-about Despre
 aboutamsn Despre aMSN
+about Despre
 accept Acceptã
 acceptfile Doriþi sã acceptaþi fiºierul $1 (mãrime $2 baiþi)? Va fi salvat în $3
 account Cont
 accountkid Acest cont de copil (autentificat cu Kids Passport) nu poate fi utilizat direct cu mesagerul MSN. Trebuie sã mergeþi pe situl passport.com ºi sã oferiþi consimþãmîntul parental.
 actions Acþiuni
 activeautoupdate Activeazã actualizarea automatã a programului
-add Adaugã
 addacontact Adaugã Contact
+add Adaugã
 addedyou $1 ($2) v-a adãugat la lista sa de contacte
 addprofile Adaugã Profil Nou
 addprofiledesc Introduceþi numele de utilizator pentru care doriþi sã creaþi un profil nou. \nProfilurile vã permit sã aveþi configuraþii diferite pentru fiecare nume de utilizator.\nFãrã profiluri nu puteþi utiliza Istoricul, Alarmele sau Memorarea Parolei.
@@ -30,8 +30,8 @@ alarmonconnect Activeazã alarma cînd acest utilizator devine disponibil
 alarmondisconnect Activeazã alarma cînd acest utilizator devine neconectat/invizibil
 alarmonmsg Activeazã alarma cînd acest utilizator îmi trimite un mesaj
 alarmonstatus Activeazã alarma cînd se schimbã starea acestui utilizator
-alarmpref Setãri de alarmare specifice fiecãrui utilizator
 alarmpref2 Setãri de alarmare pentru fiecare contact
+alarmpref Setãri de alarmare specifice fiecãrui utilizator
 alarms Alarme
 alarmstatus Activeazã alarma pentru acest utilizator
 allfiles Toate Fiºierele
@@ -76,8 +76,8 @@ autoaudiosinkdesc Detecteazã automat cel mai bun dispozitiv de ieºire audio al c
 autoaudiosrcdesc Detecteazã automat cel mai bun dispozitiv de intrare audio al calculatorului
 autoaway Schimbã starea la "Absent" cînd sînt inactiv pentru
 autocheckver Cautã automat versiuni noi la pornire
-autoconnect Autentificã Automat la Pornire 
 autoconnect2 Autentificare automatã la pornirea programului
+autoconnect Autentificã Automat la Pornire 
 autodetectip Detecteazã automat adresa IP
 autohotmaillog Autentificã automat la Hotmail
 autoidle Inactivitate Automatã
@@ -90,9 +90,9 @@ autonoact Schimbã starea la "Inactiv" cînd sînt inactiv pentru
 autoresizedp Redimensioneazã automat avatarurile [pozele personale] la mãrimea implicitã
 autovideosinkdesc Detecteazã automat cea mai bunã metodã de ieºire video a calculatorului
 autovideosrcdesc Detecteazã automat dispozitivul de capturã video al calculatorului
-av Conferinþã Video
 avaccepted Apel de Conferinþã Video Acceptat
 avcanceled Apel de Conferinþã Video Anulat
+av Conferinþã Video
 avgotinvitation Aþi primit o Invitaþie la o Conferinþã Video de la $1
 avinitfailed Iniþializarea Extensiei Audio/Video a eºuat. Apelul a fost anulat
 avoidseen Împiedicã aceastã persoanã sã vadã cînd sînt conectat ºi sã mã contacteze
@@ -122,8 +122,8 @@ brightness Luminozitate
 bringtofront Adu Totul în Prim-Plan
 broughtby Programul vã este oferit de urmãtorii dezvoltatori
 browse Exploreazã
-browser Explorator
 browserexample (\$url va fi înlocuit cu URL). De ex: mozilla \$url
+browser Explorator
 bugerror Scuze, a apãrut o problemã în timpul conectãrii la baza de date cu buguri. Verificaþi conexiunea la internet.
 bugnocomment Trimiteþi fãrã nici un comentariu? Comentarea unui bug ajutã la diagnosticarea ºi repararea problemei.
 busy Ocupat
@@ -144,9 +144,8 @@ captureextnotloaded Extensia de capturã -$1- nu e încãrcatã, va trebui s-o compi
 captureproperties Proprietãþile imaginii videocamerei
 capturewarn Nu veþi putea trimite imagini cu videocamera, dacã aveþi una. Dacã nu aveþi, e ceva normal. Veþi gãsi detalii despre instalarea extensiei pe wikiul nostru:
 casesensitive Foloseºte texte declanºatoare sensibile la MAJ/min
-cfgalarm Configureazã Alarma
 cfgalarmall Configureazã Alarma Globalã
-change Schimbã
+cfgalarm Configureazã Alarma
 change_account_info Modificã Informaþiile Contului
 changecustomstate Comutã la
 changedisplaypic Schimbã Avatarul
@@ -155,18 +154,19 @@ changeglobnick Schimbã Porecla Globalã
 change_mobile Schimbã Setãrile Modului Mobil
 changenick Schimbã Porecla Afiºatã
 changepsm Schimbã Mesajul Personal
+change Schimbã
 changesize Dimensiunea Pozei
 changestate $1 schimbã starea la $2
 changestatus Schimbã Starea
 changevideosettings Configureazã Setãrile Video 
 channels Canale
 charscounter Contor de caractere tastate în camera de taifas
-chat Taifas
 chatack Accept taifasul cu
 chatmaxmin Cînd un contact deschide o fereastrã de taifas cu mine vreau sã fie:
 chatreq Solicit Taifas
-chatsmileys Aratã Emoticoniþele Inserate
 chatsmileys2 Aratã emoticoniþele în ferestrele de taifas
+chatsmileys Aratã Emoticoniþele Inserate
+chat Taifas
 checkblocking Verificaþi continuu dacã alþi utilizatori vã blocheazã
 checkemail Aratã în lista de contacte o notificare la primirea de mesaje de poºtã electronicã
 checkfilman Fiºierele primite vor fi salvate în $1. Verificaþi setãrile administratorului de fiºiere în fereastra preferinþelor.
@@ -195,21 +195,21 @@ chooseskin Selectaþi costumul pe care doriþi sã-l foloseascã aMSN
 choosevideosrc Selectarea Intrãrii Video
 ch_to_state Comutã la starea nouã
 clear Curãþã
-clearlog Curãþã Jurnalul
 clearlog2 Curãþã Istoricul Contactelor
 clearlog3 Curãþã Toate Jurnalele
+clearlog Curãþã Jurnalul
 clearwebcamlogs Curãþã Jurnalul Videocamerei
 clickhere Clic Aici
 clicktoadd Clic pe butonul "Adaugã" pentru a adãuga o notã nouã
 clicktologin Clic aici pentru autentificare
 clientcaps Trimite pachet x-clientcaps la alþi clienþi
 clientname Soft
-close Închide
 closeall Închideþi toate taburile din aceastã fereastrã?
 closealltabs Închide toate taburile
 closechatwindows Închideþi toate conversaþiile înainte de dezautentificare?
 closed Conversaþia cu $1 a fost închisã: inactivitate
 closelabel La clicarea butonului de închidere al unui tab de taifas:
+close Închide
 closeonly Închide tabul curent
 closeorcall Trebuie sã închideþi/anulaþi Apelul Audio înainte de a închide fereastra.
 closeorcallvideo Trebuie sã închideþi/anulaþi Apelul Video înainte de a închide fereastra.
@@ -224,7 +224,6 @@ configure Configureazã
 configuremic Configurarea microfonului
 configureplugin Configureazã extensia $1 
 configuringaudio Configurarea setãrilor audio
-confirm Sînteþi sigur?
 confirmbl Sigur doriþi sã blocaþi acest contact?
 confirmdelete Sigur doriþi sã ºtergeþi $1?
 confirmdg Sigur doriþi sã ºtergeþi acest grup?
@@ -233,6 +232,7 @@ confirmeg Sigur doriþi sã goliþi acest grup?
 confirmfulldelete ªterge ºi din Agenda cu Adrese Windows Live
 confirmpurge Toate avatarurile stocate ale contactelor vor fi ºterse (ale dv. vor fi pãstrate). Sînteþi sigur?
 confirmrfl Sigur doriþi sã ºtergeþi acest utilizator din grup?
+confirm Sînteþi sigur?
 congrats Felicitãri
 connected Acum sînteþi conectat
 connectedat Conectat la:
@@ -242,8 +242,8 @@ connectfirst Mai întîi trebuie sã vã conectaþi
 connecting Mã conectez
 connection Conexiune
 connectionlost Deconectat: Am pierdut conexiunea cu serverul
-contact Contact
 contactadded Contact adãugat
+contact Contact
 contactdoesnotexist Contactul nu existã!
 contactlist Lista de Contacte (FL):
 contacts Contacte
@@ -282,34 +282,34 @@ customsmileys Afiºeazã emoticoniþele personalizate ale altor utilizatori
 customstyle Stil Personalizat
 custshowcustomsmileys Afiºeazã emoticoniþele personalizate ale utilizatorului
 cut Decupeazã
-cutimagebox Selectaþi partea din imagine pe care doriþi s-o utilizaþi, redimensionînd ºi mutînd caseta de selectare
 cutimageboxreset Reseteazã mãrimea\nselecþiei la:
+cutimagebox Selectaþi partea din imagine pe care doriþi s-o utilizaþi, redimensionînd ºi mutînd caseta de selectare
 cyclewindows Comutã între Ferestre
 date Datã
 dateformat Formatul Datei
-day Zi
 days Zile
+day Zi
 dcprofile Nu Crea Profilul
-default Config. Implicitã
 default2 Implicitã
+default Config. Implicitã
 defaultloginradio Autentificã cu configuraþia implicitã
 defchatwinsize Mãrimea implicitã pentru fereastra de taifas (XSIZExYSIZE)
-delete ªterge 
 deleteall ªterge Tot
 deleteblock ªterge ºi Blocheazã
 deletecustomstate ªterge starea personalizatã
+delete ªterge 
 delimiters Delimitatoarele marcajelor de timp:
 deliverfail Mesajul urmãtor nu a putut fi trimis
-delprofile ªterge Profilul
 delprofile2 Selectaþi profilul pe care doriþi sã-l înlãturaþi 
+delprofile ªterge Profilul
 description Descriere
 detach Detaºeazã
 details Detalii
 devicebusy Dispozitivul $1 e ocupat
 devices Dispozitive
 directconnection Conectare directã (prin portul 1863)
-disabled Dezactivat
 disabledaudiosrcdesc Dezactiveazã intrarea audio ºi nu trimite sunet de la microfon
+disabled Dezactivat
 disabledvideosrcdesc Dezactiveazã intrarea video ºi nu trimite imagine de la videocamerã
 disableprofiles Dezactiveazã profilurile (util pentru netcafenele sau medii partajate)
 disablessl Dezactiveazã SSL
@@ -333,17 +333,17 @@ dockkde Doc KDE
 done Gata
 dontaskweek Nu mã mai întreba o sãptãmînã despre actualizãri
 dontdownload Nu descãrca TLS, îl voi instala eu însumi
-dontshow Pãstratã în fundal
 dontshowdp Nu lãsa acest utilizator sã descarce noile avataruri
-download Descarcã
+dontshow Pãstratã în fundal
 downloadcanceled Descãrcare anulatã.
+download Descarcã
 downloadingtls Descarc modulul TLS de la:\n $1
 downloadingwait Descarc versiunea nouã de aMSN. Aºteptaþi...
 dynamicrate Foloseºte ratã de cadre dinamicã pentru a simula o vitezã în timp real
-edit Editeazã
 editavsettings Configureazã Setãrile Audio ºi Video
 editcontent Editeazã conþinutul cîmpurilor Subiect ºi Notã
 editcustomstate Editeazã starea personalizatã
+edit Editeazã
 editmyprofile Editeazã Profilul Meu MSN 
 editnewstate Stare nouã cu mesaj automat personalizat
 editprofile Editeazã Profilul
@@ -360,8 +360,8 @@ enableproxy Activeazã proxy
 enableremote Activeazã controlul la distanþã
 enablesound Emite sunet
 enablespaces Activeazã suportul pentru Windows Live Spaces (EXPERIMENTAL)
-encoding Selecteazã Codarea
 encoding2 Codarea Caracterelor
+encoding Selecteazã Codarea
 enterbugdesc Introduceþi o descriere a ceea ce fãceaþi pentru a ne ajuta sã reproducem bugul:
 entercontactemail Scrieþi adresa de poºtã electronicã a contactului
 enterfilename Scrieþi un nume de fiºier
@@ -374,34 +374,34 @@ eventhistory Vezi Istoricul Evenimentelor
 examples Exemple
 exitamsn Sigur doriþi sã închideþi programul?
 extras Servicii Suplimentare
-failed Eºuat
-faileddelete ªtergerea a eºuat
 faileddeleteperso Aceastã imagine nu poate fi ºtearsã deoarece nu aparþine profilului dv. Doar imaginile care aparþin acestuia pot fi înlãturate în acest fel.
+faileddelete ªtergerea a eºuat
+failed Eºuat
 faq FAQ (Întrebãri Puse Frecvent)
 farsightextchecking Verific dacã extensia Farsight este încãrcatã ...
 farsightextwarn Nu veþi putea folosi apeluri SIP. Aflaþi de pe wikiul nostru cum se poate instala Farsight:
 fetching Preiau datele...
-file Fiºier
 filedoesnotexist Fiºierul nu existã
-fileman Manager de Fiºiere
+file Fiºier
 filemanexample (\$location va fi înlocuit cu dosarul) De ex: nautilus \$location
+fileman Manager de Fiºiere
 filename Numele Fiºierului
 filenotwritable Nu pot ºterge acest fiºier
-filetransfer Transfer de Fiºiere
 filetransfercancelled Transferul fiºierului a fost anulat
 filetransfercomplete Transferul fiºierului a fost terminat
+filetransfer Transfer de Fiºiere
 filters Filtre
 filtersselect Selectaþi filtrele pe care doriþi sã le utilizaþi\n(Notã: nici o selectare înseamnã "aratã-le pe toate")
 filtersx Selectarea Filtrelor
-find Gãseºte
 findasyoutype Gãseºte instantaneu
+find Gãseºte
 findnext Gãseºte Urmãtorul
 findprev Gãseºte Precedentul
 finetunesettings Ajusteazã setãrile imaginilor
-finish Finalizeazã
 finish2apply Apãsaþi butonul Finalizeazã pentru a aplica aceste setãri.
-firewalled Sînteþi în spatele unui paravan [firewall] sau a unui ruter
+finish Finalizeazã
 firewalled2 Sînteþi în spatele unui paravan, verificaþi setãrile conexiunii la internet în fereastra preferinþelor
+firewalled Sînteþi în spatele unui paravan [firewall] sau a unui ruter
 followtext Derulaþi în jos cînd este introdus text
 forget_me Uitã-mã
 forgot_pass Parolã Pierdutã
@@ -414,19 +414,19 @@ fsautovideosrcchosen A fost ales în mod automat '$1' pentru intrarea video
 fsnodevfound Nu existã dispozitive disponibile
 fsnosuitablesrc Nu a fost gãsit un dispozitiv de intrare potrivit, se va folosi '$1' în scop de testare
 fssrcdisabledusing Intrarea e dezactivatã, se va folosi '$1' în scop de testare
-ftaccepted Transfer de fiºiere acceptat
 ftacceptedby $1 a acceptat invitaþia la transfer pentru fiºierul '$2'.
+ftaccepted Transfer de fiºiere acceptat
 ftaccepting Accept cererea de transfer a fiºierului
 ftautoclose Închide aceastã fereastrã dupã terminarea transferului de fiºiere
 ftconnecterror Eroare în timpul conectãrii la partenerul distant
 ftconnecting Conectare la $1 portul $2
 ftconnectionlost Conexiunea la partenerul distant a fost pierdutã 
 ftgotinvitation $1 doreºte sã vã trimitã fiºierul '$2' ($3 baiþi). Va fi salvat în dosarul $4. Doriþi sã primiþi acest fiºier?
-ftportpref Portul de pornire pentru transferurile de fiºiere
 ftportpref2 Portul de pornire pentru conexiunile directe (necesar pentru transferurile de fiºiere ºi videocamerã)
+ftportpref Portul de pornire pentru transferurile de fiºiere
 ftporttest Testare Port
-ftrejected Transferul fiºierului a fost respins
 ftrejectedby $1 a respins cererea de transfer a fiºierului '$2'.
+ftrejected Transferul fiºierului a fost respins
 ftsendinvitation Invitaþia de transfer pentru fiºierul '$2' ($3 baiþi) i-a fost trimisã lui $1.
 fullcontactlist Scuze, lista dv. de contacte e plinã. Va trebui sã înlãturaþi cîteva din ele înainte de a adãuga unele noi.
 gameaccepted $1 a acceptat invitaþia dv. la joc
@@ -448,12 +448,12 @@ gotink $1 v-a trimis o mîzgãliturã.
 goto Du-te la $1
 gotoinbox Deschide Cutia Poºtalã
 goto_prefs_removeprofile Clicaþi aici pentru a merge la preferinþe ca sã vã ºtergeþi profilul
-group Grup
 groupadd Adaugã Grup
-groupcontacts Contactele Grupului
 groupcontactsbystatus Contactele Grupului dupã Stare
+groupcontacts Contactele Grupului
 groupdelete ªterge Grupul
 groupexists Grupul existã deja
+group Grup
 groupmissing Nu pot gãsi grupul
 groupnewname Nume nou
 groupnonim Grupeazã la un loc contactele non-mesagerie instantanee
@@ -475,8 +475,8 @@ hidemenumessage Sigur doriþi sã ascundeþi meniurile ?\nLe puteþi restaura în ori
 hiden Ascunde emoticoniþa din meniul dedicat
 hideuserscw Ascunde utilizatorii din aceastã fereastrã de taifas.
 hidewindow Ascunde Fereastra
-history Vezi Istoricul
 history2 Istoric
+history Vezi Istoricul
 home Acasã
 howto_remove_profile Pentru a vã ºterge profilul (sã uitaþi $1) trebuie sã o faceþi din fereastra preferinþelor. \n\nDin motive de securitate, nu este permisã ºtergerea profilului din fereastra de autentificare.
 httpconnection Conectare prin metoda HTTP (e folosit protocolul HTTP prin portul 80)
@@ -485,17 +485,17 @@ huge Enormã
 hybrid Mod Hibrid 
 ident Identific
 identity Identitate
-ignore Ignorã
 ignorecontact Ignorã invitaþiile la conversaþie venite de la acest contact
 ignoreerrors Ignorã silenþios alte erori aMSN pînã la sfîrºitul acestei sesiuni
+ignore Ignorã
 imagefiles Fiºiere Imagine 
 inbox Cãsuþã Poºtalã
 insertsmiley Insereazã Emoticoniþã
 inserttextnote Inseraþi text în cîmpurile Subiect ºi Notã, apoi clicaþi pe butonul "Salveazã"
 installconvert Trebuie sã instalaþi ImageMagick (program de convertire) pentru a folosi Iconiþe ale Amicilor ºi Iconiþe Personalizate. Puteþi descãrca fiºierele binare pentru sistemul de operare pe care-l folosiþi de la ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . Dacã le aveþi deja, atunci e vorba de un bug ºi vã rugãm sã-l raportaþi. Aceste facilitãþi vor fi acum dezactivate, iar dacã veþi instala ImageMagick mai tîrziu, va trebui sã reactivaþi opþiunile din fereastra preferinþelor. 
 internalerror Eroare Internã a Serverului
-invalidfile Fiºierul $2 introdus în cîmpul "$1" nu existã sau nu poate fi citit
 invalidfile2 Numele de fiºier $1 nu a putut fi creat, asiguraþi-vã cã aveþi permisiunile corecte pentru þinta respectivã.
+invalidfile Fiºierul $2 introdus în cîmpul "$1" nu existã sau nu poate fi citit
 invalidgroup Grup Invalid
 invalidparameter Eroare în timpul conectãrii la server:\nparametru invalid
 invalidpic Fiºierul imagine indicat nu existã
@@ -511,8 +511,8 @@ istyping $1 tasteazã un mesaj
 joins $1 s-a alãturat conversaþiei
 justonce O singurã datã
 keepalive Pãstreazã activ (NAT)
-keeplog Pãstreazã Jurnale ale Taifasurilor
 keeplog2 Jurnalizeazã toate conversaþiile în istoricul aMSN pentru citire ulterioarã
+keeplog Pãstreazã Jurnale ale Taifasurilor
 language Limbã
 language_manager Managerul de Limbi
 large Mare
@@ -535,12 +535,12 @@ lineflushlog Curãþã fiºierele jurnal dupã fiecare linie
 linprivate MOD PRIVAT
 listening Ascult
 listeningon Ascult pe portul $1
-listsmileys Listeazã emoticoniþele
 listsmileys2 Afiºeazã emoticoniþele în lista principalã de contacte
+listsmileys Listeazã emoticoniþele
 ljoinedconf $1 s-a alãturat conferinþei
 lleftconf $1 a pãrãsit conferinþa
-load Încarcã
 loadcontacts Încarcã Lista de Contacte
+load Încarcã
 loadotherdisplaypic Încarc avatarurile lui $1, aºteptaþi...
 logbigger Mãrimea fiºierului jurnal pentru fiecare contact nu va depãºi 
 logeventconnect Jurnalizeazã conectãrile
@@ -552,8 +552,8 @@ logeventstate Jurnalizeazã schimbarea stãrii
 logfandexp Jurnalizeazã Mãrimea Fiºierelor ºi Expirarea Istoricului
 loggedotherlocation Deconectat. Autentificat din altã locaþie
 loggingin Autentific
-login Autentificã
 loginas Autentific ca
+login Autentificã
 loging Jurnalizare
 logolder Jurnalizeazã doar taifasurile care au avut loc în ultimele
 logout Dezautentificã
@@ -570,8 +570,8 @@ longpsm Mesajul dv. personal e prea lung. Acest lucru nu e suportat oficial de p
 lowrescam Foloseºte o videocamerã de rezoluþie scãzutã
 lprivtoconf Taifas privat schimbat în conferinþã cu $1
 luclosedwin Fereastrã de conversaþie închisã pe $1
-mailer Program de Poºtã Electronicã
 mailerexample (\$recipient = Destinatar) Lãsaþi gol pentru a folosi Hotmail
+mailer Program de Poºtã Electronicã
 maintenance Serverul va fi închis pentru întreþinere în $1 minute
 maximised Maximizat
 medium Mediu
@@ -579,18 +579,18 @@ minimised Minimizatã / Iconificatã
 minimize Minimizeazã în Sistaler
 minimizeplain Minimizeazã
 mins minute
-mobile Mobil
 mobilegrp1 Grup Mobil
 mobilegrp2 Pune utilizatorii în grupul "Mobil" cînd sînt neconectaþi ºi sorteazã-i dupã stare
+mobile Mobil
 modified Modificat
 month Lunã
 more Mai multe
 morepersonal Mai Multe Stãri ->
 move Mutã
 movetogroup Mutã în Grupul
-msg Mesaj
 msgflicker Licãreºte titlul ferestrei de taifas cînd soseºte un mesaj nou într-o fereastrã nefocalizatã
 msgmaxmin Cînd soseºte un mesaj nou vreau ca fereastra lui sã fie:
+msg Mesaj
 msgmode Ferestrele multiple de mesaje trebuie sã fie:
 msn aMSN
 msnstatus Starea Reþelei
@@ -625,9 +625,8 @@ newtabbedfeature aMSN are o nouã facilitate pentru administrarea conversaþiilor,
 newupdate Actualizãri noi pentru aMSN
 newveravailable Versiune nouã $1 disponibilã pentru descãrcare
 next Înainte
-nick Poreclã
 nickchanged $1 ºi-a schimbat porecla în '$2'
-no Nu
+nick Poreclã
 noactivity Inactiv
 no_blocked_notif Nu arãta notificãri pentru contactele blocate
 nocacheddps Nu caºa avatarurile ale acestui utilizator
@@ -644,6 +643,7 @@ noneavailable Niciunul Disponibil
 nonewmail Nu existã mesaje noi în cutia poºtalã
 nonewver Nu existã versiuni noi disponibile pentru descãrcare
 nonimgroup Contacte Non-Mesagerie Instantanee
+no Nu
 nooimconfirmation Nu cere confirmare la trimiterea/primirea de mesaje neconectate [offline messages]
 nopic Nici o imagine
 noprofileexists Nu existã momentan nici un profil, \n trebuie sã creaþi unul dacã doriþi sã utilizaþi profiluri de autentificare. \nFolosiþi butonul Adaugã Profil Nou din aceastã fereastrã pentru a face acest lucru.
@@ -656,13 +656,13 @@ nospace Nimic de vãzut aici
 nosystemtray Sistalerul nu e disponibil
 note Note
 notificationserver Serverul Iniþial de Notificare MSN (Serverul MSN Messenger)
-notify notificã
-notify1 Aratã fereastra de notificare cînd contactele se conecteazã
 notify1_5 Aratã fereastra de notificare cînd contactele se deconecteazã
 notify1_75 Aratã fereastra de notificare cînd contactele îºi schimbã starea
+notify1 Aratã fereastra de notificare cînd contactele se conecteazã
 notify2 Aratã fereastra de notificare cînd sînt primite mesaje instantanee noi
 notify3 Aratã fereastra de notificare cînd sînt primite mesaje noi în cutia poºtalã [inbox]
 notify4 Aratã fereastra de notificare cînd sînt primite mesaje noi în alte dosare poºtale
+notify notificã
 notifyoffset Decalarea Poziþiei Ferestrei de Notificare
 notifytimeout Numãrul de milisecunde cît e afiºatã fereastra de notificare
 notifytyping Trimite celorlalþi utilizatori notificãri cînd tastez
@@ -675,9 +675,9 @@ nousersinsession Nu existã utilizatori în sesiune
 nouserspecified Nu e specificat nici un utilizator
 nudge $1 vã solicitã atenþia
 offline Neconectat
-oim Mesagerie Neconectatã
 oimauthenticationfailed Autentificare eºuatã
 oimflood Au fost trimise prea multe mesaje neconectate... aºteptaþi ºi reîncercaþi
+oim Mesagerie Neconectatã
 oimmessagetoolarge Mesajul Neconectat e prea mare... divizaþi-l ºi retrimiteþi-l
 oimsystemunavailable Sistemul de mesagerie neconectatã este indisponibil momentan
 oimunexpectederror Eroare neaºteptatã
@@ -687,8 +687,8 @@ online Disponibil
 onlinehelp Ajutor pe Internet
 onphone Într-o Convorbire
 opendir Deschide Dosarul
-openfile Deschide
 openfilecommand Comandã de Deschidere a Fiºierelor
+openfile Deschide
 openreceived Exploreazã Fiºierele Primite
 options Opþiuni
 ordercontactsby Ordoneazã Contactele dupã
@@ -703,22 +703,22 @@ pager Pager
 pass Parolã
 passportnotverified Contul de poºtã electronicã cu care aþi fãcut paºaportul MSN/Live trebuie verificat înainte de a putea sã vã schimbaþi informaþiile personale (de ex. porecla). Verificaþi cutia poºtalã ºi cãutaþi mesajul de activare.
 paste Lipeºte
-pause Pauzã
 pausedwebcamreceive Videocamera a fost pauzatã de interlocutor
+pause Pauzã
 pausewebcamsend Pauzeazã transmisia videocamerei
 personal Personale
-phone Telefon
 phones Numere de Telefon
+phone Telefon
 picbrowser Exploratorul Avatarurilor
 picfile Fiºier Imagine (GIF < 500 x 500)
 picstatus Alarmã cu Avatar
-play Redã
 playbackposition Poziþia redãrii
 playbackspeed Viteza redãrii (milisecunde între fiecare cadru)
 playerror A apãrut o eroare la redarea sunetului : $1
-playgame Porneºte jocul
 playgame2 Joacã $1
+playgame Porneºte jocul
 playing Redau: $1
+play Redã
 playtest Redã Fiºierul de Test
 playwebcamsend Reia trimiterea imaginilor prin videocamerã
 pluginselector Selecteazã Extensiile
@@ -733,26 +733,26 @@ prefblock3 Grupul "Aþi fost blocat de"
 prefconnection Conexiunea la Internet
 prefemotic Emoticoniþe / Mutriþe 
 preferences Preferinþe
-preffont Aspect al Mesajului Instantaneu
 preffont2 Modul în care vãd ceilalþi textul scris de mine în sesiunile de taifas.
 preffont3 Tipul ºi Mãrimea Fontului Interfeþei
 preffont4 Modul în care vãd eu textul scris de ceilalþi în sesiunile de taifas.
+preffont Aspect al Mesajului Instantaneu
 prefft Transfer de Fiºiere / Conexiune Partener-la-Partener / NAT
 preflibs Dosarele bibliotecilor
-preflocale Setãri de Localizare
 preflocale2 Selectaþi limba/codul de þarã
+preflocale Setãri de Localizare
 preflog1 Opþiunile Istoricului ºi Jurnalizãrii
 preflogevent Istoricul Evenimentelor
 preflook Aspectul Programului
 prefmsging Interfaþa de Mesagerie
 prefname Identificare în Reþeaua MSN/Live
-prefphone Numere de Telefon
 prefphone2 Tastaþi numerele de telefon pe care doriþi \nsã le vadã cei de pe lista de persoane acceptate \n
-prefprivacy Lista de Acceptaþi / Blocaþi
+prefphone Numere de Telefon
 prefprivacy2 Lista de Contacte / Reciprocitãþi
-prefprofile Profil Public
+prefprivacy Lista de Acceptaþi / Blocaþi
 prefprofile2 Creaþi sau modificaþi profilul dv. public \n(descrierea personalã pe care o vãd ceilalþi)
 prefprofile3 Profiluri de Configurare a Programului
+prefprofile Profil Public
 prefproxy Setãrile Proxyului Meu
 prefremote Preferinþele Conexiunii Distante
 prefsession Autentificare ºi Stare
@@ -766,14 +766,14 @@ profileinuse Acest Profil e utilizat de o altã sesiune aMSN, va trebui sã alegeþ
 profileloginradio Autentificã folosind un Profil existent
 profiles Profiluri
 properties Proprietãþi
-proxy Sînt în spatele unui server proxy (HTTP sau SOCKS5)
 proxyconf Configuraþie Proxy
 proxyconfhttp Configuraþie de suport a proxyului HTTP
 proxyconnection Conectare printr-un server proxy:
-psm Mesaj Personal
+proxy Sînt în spatele unui server proxy (HTTP sau SOCKS5)
 psmatend Aratã mesajul personal lîngã poreclã [nickname]
 psmchanged $1 ºi-a schimbat MSP în '$2'
 psmdontshow Aratã mesajul personal doar cînd e definit în poreclele globale/personalizate
+psm Mesaj Personal
 psmnewline Aratã mesajul personal sub poreclã
 psmplace Locul Mesajului Personal
 publishphones Publicã numerele mele de telefon
@@ -789,12 +789,12 @@ receivedoimread Aveþi mesaje neconectate noi ($1). Doriþi sã le citiþi ?
 receivedvoice Clip Vocal Primit
 receivefile Primeºte Fiºierul
 recentmsg Împiedicã închiderea ferestrei de taifas dacã un mesaj tocmai a sosit
-reconnect Aºtept ca $1 sã se reconecteze
 reconnect2 Reconecteazã la întrerupere
+reconnect Aºtept ca $1 sã se reconecteze
 reconnecting Reconectez la server
 reconnectnow Reconecteazã acum
-record Înregistreazã
 recorderror A apãrut o eroare la încercarea de înregistrare a sunetului : $1
+record Înregistreazã
 recvwebcamaccepted $1 a acceptat invitaþia de a-i vedea videocamera. Conectez...
 redirect Clicaþi aici pentru a fi redirecþionat
 reject Respinge
@@ -804,11 +804,11 @@ remembersetting Memoreazã alegerea mea
 removeempty Înlãturã grupurile goale din lista de contacte
 removefromgroup ªterge din Grupul
 removefromlist ªterge din Listã
-rename Redenumeºte
 renameep Redenumeºte acest loc ($1)
 renamelocation Redenumeºte acest loc
-report Raporteazã
+rename Redenumeºte
 reporting Raportez
+report Raporteazã
 required_version Nu pot încãrca extensia. E necesarã cel puþin versiunea $1 de aMSN. 
 resetincomingfont Reseteazã fontul (foloseºte fontul utilizat de expeditorul mesajului)
 restartforskin Notã: Va trebuie sã reporniþi programul pentru a vedea corect costumul!
@@ -816,7 +816,6 @@ retry Reîncearcã
 reversed Ordine inversã
 reverselist Lista de Reciprocitãþi (RL):
 rightback Revin Imediat
-save Salveazã
 saveas Salveazã ca
 savechatwinsize Salveazã mãrimea ferestrei de taifas ca implicitã dupã redimensionare
 savecontacts Salveazã Lista de Contacte
@@ -824,6 +823,7 @@ saveddefaultloc Salveazã în locul implicit
 savelocation Doriþi sã salvaþi fiºierul în $1?
 savelocationerror Fiºierul nu poate fi salvat în acest loc.
 saveotherdirectory Salvaþi în alt dosar
+save Salveazã
 savetofile Salveazã în Fiºier
 says $1 zice
 sbcon Conectez la Centrala Telefonicã
@@ -834,7 +834,6 @@ selectall Selecteazã tot
 selectcontact Selecteazã un contact
 selectplugins Selectaþi extensiile pe care le doriþi activate
 selectskin Alegeþi un costum din listã
-send Trimite
 sendcam Porneºte Videocamera
 sendemail Include adresa mea de poºtã electronicã pentru a fi anunþat despre reparare
 sendfeedback Spuneþi-vã Pãrerea
@@ -844,15 +843,16 @@ sendmobmsg Trimite Mesaj la Dispozitiv Mobil
 sendmsg Trimite Mesaj Instantaneu
 sendoim Trimite Mesaj Neconectat
 sendsip Iniþiazã un Apel Audio
+send Trimite
 sendvideosip Iniþiazã un Apel Video
 sendvoice Trimite un Clip Vocal
 sendwebcamaccepted $1 a acceptat invitaþia de a vedea videocamera. Conectez...
 sendwebcaminvite Invitaþi un utilizator sã vã vadã videocamera
 sentbytes Au fost trimiºi $1 din $2 baiþi
 sentvoice Clip Vocal Trimis
-server Server
 serverbusy Serverul e ocupat
 servergoingdown Deconectat: Serverul s-a prãbuºit
+server Server
 serverunavailable Serverul nu e disponibil
 session Sesiune
 setasmydp Seteazã ca avatar al meu
@@ -868,8 +868,8 @@ showcontactemail Aratã Contactele cu Adresa de Poºtã Electronicã
 showcontactnick Aratã Contactele cu Poreclã
 showdetailedview Aratã Vedere Detaliatã a Contactelor
 showdetails Aratã Detalii
-showdisplaypic Aratã Avatarul Meu
 showdisplaypic2 Aratã avatarul în mod implicit cînd e deschisã o fereastrã de taifas [chat]
+showdisplaypic Aratã Avatarul Meu
 showlinksinlogin Aratã legãturile în ecranul de autentificare
 showmailicon Aratã iconiþa de poºtã în sistaler cînd sosesc mesaje noi de poºtã electronicã
 showmypic Avatarul Meu
@@ -917,12 +917,12 @@ sipvideocallnosipflag Utilizatorul nu poate primi Apeluri Video.
 sipvideogotinvitation Aþi primit o invitaþie la Apel Video de la $1
 skin Costum
 skinselector Selecteazã Costumul
-small Micã
 smallest Minimã
+small Micã
 smileconfig Configurarea emoticoniþei personalizate
 smilefile Numele de fiºier al emoticoniþei
-smileintro Completaþi cîmpurile necesare pentru a crea o emoticoniþã personalizatã (vedeþi FAQ pt. ajutor)
 smileintro2 Editaþi cîmpurile necesare pentru a personaliza emoticoniþa (vedeþi FAQ pt. ajutor)
+smileintro Completaþi cîmpurile necesare pentru a crea o emoticoniþã personalizatã (vedeþi FAQ pt. ajutor)
 smiletoobig Emoticoniþa aleasã e mai mare decît trebuie. Doriþi s-o redimensionaþi ?
 smileynotavailable Emoticoniþã nedisponibilã!
 snackfailed Biblioteca Snack nu s-a încãrcat, revin la implicite
@@ -932,13 +932,12 @@ sngdblclick Clicul simplu deschide o nouã fereastrã de mesaj
 sortcontactgroup Sorteazã Contactele dupã Grup
 sortcontacthybrid Sorteazã Contactele în Mod Hibrid
 sortcontactsasc Sorteazã Contactele Ascendent
-sortcontactsby Sorteazã Contactele
 sortcontactsbylogsize Sorteazã Contactele dupã Mãrimea Jurnalului
+sortcontactsby Sorteazã Contactele
 sortcontactsdesc Sorteazã Contactele Descendent
 sortcontactstatus Sorteazã Contactele dupã Stare
 sortgroupsasc Sorteazã Grupurile Crescãtor
 sortgroupsdesc Sorteazã Grupurile Descrescãtor
-sound Notificã Sonor la Evenimente
 sound2 Emite un sunet cînd contactele se autentificã sau trimit un mesaj
 soundactive Emite sunet chiar ºi cînd sînt primite mesaje în fereastra activã
 soundcommand Aici trebuie sã fie comanda de redare (de ex: esdplay)
@@ -947,16 +946,16 @@ soundfile Fiºier de Sunet
 soundfiles Fiºiere de Sunet
 soundloop Bucleazã Sunetul
 soundnoavail Dispozitivul audio nu e disponibil. Opriþi orice altã aplicaþie care foloseºte dispozitivul audio.
+sound Notificã Sonor la Evenimente
 soundserver Server de Sunet
 soundstatus Alarmã Sonorã
 sourcecode Cod Sursã (necesitã compilare ºi instalare)
 splashstart Start
 sslwarning ATENÞIE!! Dezactivarea SSL va duce la dezactivarea criptãrii, deci parola dv. va fi trimisã ca text simplu în reþea. Folosiþi setarea doar în cazuri speciale pentru servere proxy sau configuraþii de reþea mai deosebite.
-startoffline Porneºte Neconectat
 startoffline2 Autentificã silenþios ca "Invizibil"
+startoffline Porneºte Neconectat
 startonboot Porneºte programul odatã cu sistemul de operare (SO)
 startontray Porneºte programul în sistaler [system tray]
-state Vreau sã apar ca
 stateautomsg Mesaj Automat de Trimis
 statechange stare schimbatã în: 
 stateedittext Editaþi cîmpurile pe care doriþi sã le modificaþi ºi apoi apãsaþi pe OK
@@ -965,21 +964,22 @@ statename Numele Stãrii Personale
 statenewtext Completaþi informaþiile necesare pentru a crea noua Stare Personalã ºi apãsaþi pe OK
 statenick Poreclã Personalizatã (lãsaþi gol în caz de nemodificare)
 statepsm Mesaj Personalizat (lãsaþi gol în caz de nemodificare)
+state Vreau sã apar ca
 stats Statistici
 status Stare
 step Pasul
-stop Opreºte
 stopalarm Opreºte Alarma
+stop Opreºte
 stopwebcamreceive Opreºte Recepþionarea Videocamerei
 stopwebcamsend Opreºte Difuzarea Videocamerei
 storenickname Revino la porecla originalã dupã folosirea unei stãri cu poreclã personalizatã
 strictfonts Restricþioneazã mãrimea tuturor fonturilor la cea aleasã de mine (bara de stare ºi restul)
-style Stil
 stylechat Acelaºi aspect ca taifasurile
 stylehist Aspectul Istoricului aMSN
 stylelog Selectaþi formatul în care aþi dori sã vedeþi Istoricul
-subject Subiect
+style Stil
 subjectrequired E necesar subiectul
+subject Subiect
 svnversion Versiune SVN
 syntaxerror Eroare de Sintaxã
 tabbed Ferestre Tabulare
@@ -994,19 +994,19 @@ timeremaining Timp rãmas
 timestamp Marcaj de Timp
 timestamps Activeazã marcajele de timp în ferestrele de taifas [chat]
 title aMSN
-tkerror TK a semnalat o eroare, existã un bug în aMSN, vã rugãm sã-l raportaþi. Trimiteþi fiºierul $1 la amsn-bugs@lists.sf.net
 tkerror1 TK a semnalat o eroare, deci existã un bug în aMSN. Vã rugãm sã-l raportaþi clicînd pe butonul Raporteazã. Puteþi sã clicaþi pe butonul Detalii pentru a vedea informaþii suplimentare despre bug sau sã clicaþi pe OK pentru a continua taifasul prin aMSN
+tkerror TK a semnalat o eroare, existã un bug în aMSN, vã rugãm sã-l raportaþi. Trimiteþi fiºierul $1 la amsn-bugs@lists.sf.net
 tlsdowncompleted Fiºierul $1 a fost descãrcat în dosarul $2. Trebuie sã-l extrageþi, apoi sã-l construiþi (dacã aþi descãrcat codul-sursã) ºi sã-l instalaþi înãuntrul lui $3.
 tlsexplain Dosarul unde este modulul tcl TLS. Dacã aMSN nu-l poate gãsi, specificaþi calea.\n(Necesar pentru autentificarea SSL).
-tlsinstall Vrãjitor de instalare a modulului TLS
 tlsinstallexp aMSN foloseºte acum MSNP9, care necesitã folosirea unei conexiuni\nsecurizate prin SSL. Pentru a folosi SSL, aMSN trebuie sã instaleze un modul numit TLS,\ncare lipseºte de pe sistemul dv. Acest vrãjitor vã va ajuta sã descãrcaþi\nºi sã instalaþi TLS. Alegeþi tipul de SO pentru ca sã fie descãrcate automat\nfiºierele TLS necesare.
+tlsinstall Vrãjitor de instalare a modulului TLS
 tlsinstcompleted Instalarea modulului TLS a avut succes - Acum ar trebui sã puteþi folosi MSNP9. Dacã nu merge, atunci probabil cã nu aþi selectat modulul potrivit, sau cã un modul compilat nu este disponibil pentru sistemul dv.
-to To
 today Azi
 tomobile Cãtre Mobil
 tools Unelte
 tooltips Activeazã ponturile flotante [tooltips]
 totalsize Mãrime Totalã
+to To
 transnotexists Fiºierul solicitat nu a fost tradus încã în limba curentã.
 trayicon Aratã o iconiþã de stare în aria de notificare
 traynotcompiled Extensia pentru iconiþa din sistaler nu e compilatã. Verificaþi-o în dosarul plugins/traydock
@@ -1031,7 +1031,6 @@ updating Actualizez
 useasdp Foloseºte ca Avatar
 useasregexp Foloseºte ca expresie regulatã (regexp)
 useother Foloseºte un program diferit
-user Utilizator
 useralreadyonlist Utilizatorul e deja în lista de contacte
 userblocked Utilizatorul e conectat, dar v-a blocat
 userdata Datele Utilizatorului
@@ -1039,20 +1038,19 @@ userdps Avatarurile Utilizatorului
 usernotonline Utilizatorul nu e conectat
 userproperties Proprietãþile utilizatorului $1
 usersettings Setãri
+user Utilizator
 useryourself Nu puteþi discuta cu dumneavoastrã înºivã
 usesnack Foloseºte biblioteca Snack (Tcl intern)
 verifyblocked Cãutaþi-i pe cei care vã blocheazã
 version Versiune
 videoconversationrequest Tocmai aþi primit o solicitare de conversaþie bidirecþionalã audio ºi video. Aceastã facilitate nu este încã suportatã de aMSN, iar solicitarea a fost anulatã. Totuºi, puteþi folosi conversaþia standard prin videocamerã.
-view Vezi
 viewcontactsby Vezi contactele dupã
 viewprofile Vezi Profilul
 viewspace Vez Paginile Personale
+view Vezi
 voiceclip Clip Vocal
 volume Volum
 wanttosharecam Doresc sã pun la dispoziþie videocamera mea pentru vizionare
-web Internet
-webcam Videocamerã
 webcamcanceled Sesiunea de videocamerã cu $1 a fost anulatã
 webcamclosebefcancel Trebuie sã anulaþi toate sesiunile de videocamerã înainte de a închide fereastra
 webcamconfigure Configureazã Videocamera
@@ -1064,19 +1062,21 @@ webcamextloaded Extensia Webcamsn e încãrcatã
 webcamextnotloaded Extensia Webcamsn nu e încãrcatã. Va trebui s-o compilaþi.
 webcamextwarn Nu veþi putea vedea videocamerele contactelor. Aflaþi de pe wiki detalii despre instalarea extensiilor:
 webcamfaq FAQ/Ajutor pentru Videocamerã
-webcamhistory Sesiuni de Vizionare a Videocamerei
 webcamhistory2 Sesiuni de Videocamerã
+webcamhistory Sesiuni de Vizionare a Videocamerei
 webcaminvite $1 v-a invitat sã porniþi o sesiune de vizionare a videocamerei, dar aMSN nu suportã aceastã facilitate.
 webcaminvitereceived $1 v-a invitat sã porniþi o sesiune de vizionare a videocamerei. Doriþi sã acceptaþi sesiunea?
 webcaminvitereceivedauto $1 v-a invitat sã porniþi o sesiune de vizionare a videocamerei. Aceastã sesiune e acceptatã automat.
-webcaminvitereceiving Sînteþi invitat sã vedeþi imagini de la videocamera lui $1. Doriþi sã acceptaþi sesiunea de vizionare?
 webcaminvitereceivingauto Sînteþi invitat sã vedeþi imagini de la videocamera lui $1. Aceastã sesiune e acceptatã automat.
+webcaminvitereceiving Sînteþi invitat sã vedeþi imagini de la videocamera lui $1. Doriþi sã acceptaþi sesiunea de vizionare?
 webcaminvitesending $1 ar dori sã vadã imagini de la videocamera dv. Doriþi sã acceptaþi sesiunea de vizionare?
 webcaminvitesendingauto $1 ar dori sã vadã imagini de la videocamera dv. Aceastã sesiune e acceptatã automat.
 webcamrejected $1 a respins invitaþia pentru o sesiune cu videocamera
 webcamrequestreceive Solicitarea de recepþionare a imaginilor de la videocamerã a fost trimisã
 webcamrequestsend Solicitarea de difuzare a imaginilor de la videocamerã a fost trimisã
 webcamsending Lista persoanelor cãtre care difuzaþi actualmente imaginea videocamerei\nClicaþi pentru a anula
+webcam Videocamerã
+web Internet
 whatisamsn aMSN este o clonã multi-platformã a lui MSN Messenger
 whatsize Imaginea solicitatã nu are mãrimea obiºnuitã(96x96)\nLa ce mãrime aþi dori sã fie afiºatã aceastã imagine?
 willjoin Aºtept ca $1 sã se alãture conversaþiei
@@ -1091,8 +1091,8 @@ xmmssend Trimite melodia curentã
 xoffset Decalare X
 xplaces $1 Locuri
 year An
-yes Da
 yesblock Da ºi Blocheazã
+yes Da
 yesterday Ieri
 yoffset Decalare Y 
 youblocked Aþi fost blocat de

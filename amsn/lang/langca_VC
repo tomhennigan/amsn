@@ -27,8 +27,8 @@ alarmonconnect Activar avís quan este usuari es connecte
 alarmondisconnect Activar avís quan este usuari es desconnecte 
 alarmonmsg Activar avís quan este usuari t'envie un missatge
 alarmonstatus Activar avís quan este usuari canvie el seu estat
-alarmpref Configurar avisos per a este usuari
 alarmpref2 Configuracions d'avisos per a cada contacte
+alarmpref Configurar avisos per a este usuari
 alarms Avisos
 alarmstatus Activar avisos per a este usuari
 allfiles Tots els arxius
@@ -139,9 +139,9 @@ changecustomstate Canviar a
 changedisplaypic Canviar la imatge a mostrar (avatar)
 changefont Canviar font
 changeglobnick Canviar el sobrenom global
-changepsm Canviar el meu missatge personal
 change_mobile Canviar la configuració del mòvil
 changenick Canviar sobrenom
+changepsm Canviar el meu missatge personal
 changesize Canviar el tamany
 changestate $1 canvia el seu estat a $2
 changestatus Canviar l'estat
@@ -188,7 +188,6 @@ clicktoadd Fes clic en Afegir per a crear una nova nota
 clicktologin Fes click ací per a iniciar la sessió
 clientcaps Enviar paquets x-clientcaps a altres clients
 clientname Nom del client
-close Tancar
 closealltabs Tancar totes les pestanyes
 closeall Vols tancar totes les pestanyes de la finestra?
 closechatwindows Vols tancar totes les converses abans de tancar sessió?
@@ -198,6 +197,7 @@ closeonly Tancar només la pestanya actual
 closeorcall Has de tancar/cancel·lar la conversa d'àudio abans de tancar la finestra
 closeordock El tancar la llista de contactes tancará aMSN. Potser només vols tancar la finestra i que aMSN continue a l'àrea de notificació.\n\nEstàs segur que vols eixir d'aMSN?
 closeothers Tancar les altres pestanyes
+close Tancar
 closingdocks Botó de tancar minimitza la finestra
 color Color
 command Ordre
@@ -212,8 +212,8 @@ confirmdelete Segur que vols esborrar a $1?
 confirmdg Segur que vols eliminar este grup?
 confirmdu Segur que vols eliminar este usuari?
 confirmeg Segur que vols buidar este grup?
-confirmfulldelete A més, eliminar de l'agenda de contactes de Windows Live
 confirm Estàs segur?
+confirmfulldelete A més, eliminar de l'agenda de contactes de Windows Live
 confirmpurge Totes les imatges de mostra d'altres contactes (no les teues) seran esborrades. Estàs segur?
 confirmrfl Segur que vols eliminar este usuari d'este grup?
 congrats Felicitats
@@ -311,10 +311,10 @@ dockkde Icon KDE
 done Fet
 dontaskweek No tornar a preguntar per l'actualització durant una setmana
 dontdownload No descarregar TLS, l'instal·laré jo mateix
-dontshow No mostrar
 dontshowdp No deixar que este usuari es descarregue les teues noves imatges de mostra
-download Descarregar
+dontshow No mostrar
 downloadcanceled Descàrrega cancel·lada.
+download Descarregar
 downloadingtls Descarregant el mòdul TLS des de: \n $1
 downloadingwait Descarregant una nova versió d'aMSN. Per favor, espera...
 dynamicrate Canviar dinàmicament la velocitat per a simular la velocitat en temps real
@@ -383,8 +383,8 @@ firewalled Estàs utilitzant un tallafoc (fiewall) o estàs darrere d'un router
 followtext Avançar quan s'introduixca nou text
 forget_me Eliminar este perfil
 forgot_pass He oblidat la meua contrasenya
-formatctt En format CTT
 formatcsv En format CSV
+formatctt En format CTT
 friendlyname Sobrenom en conversa
 ftacceptedby $1 ha acceptat la invitació de transferència de l'arxiu '$2'
 ftaccepted Transferència d'arxius acceptada
@@ -446,8 +446,8 @@ hidemenumessage Segur que vols amagar els menús?\nPots recuperar-hos en qualsevo
 hidemenu Mostra/Amaga menus
 hiden Ocultar l'emoticon del menú d'emoticons
 hidewindow Ocultar finestra
-history Vore historial
 history2 Historial
+history Vore historial
 home Inici
 howto_remove_profile Necessites anar a la finestra de preferències per a esborrar el teu perfil (oblida $1). \n\nPer raons de seguretat, no està permés l'esborrat de perfils des de la finestra de connexió.
 httpconnection Connectar usant el mètode HTTP (utilitza el protocol HTTP sobre el port 80)
@@ -596,11 +596,10 @@ newtabbedfeature aMSN té una nova característica en conversa, ara pots tindre to
 newupdate Noves actualitzacions disponibles per a aMSN
 newveravailable Nova versió $1 disponible per a descàrrega
 next Següent
-nick Sobrenom
 nickchanged $1 ha canviat el seu sobrenom a '$2'
-no No
-no_blocked_notif No mostrar finestres d'avís per a contactes sense admissió
+nick Sobrenom
 noactivity Inactivitat
+no_blocked_notif No mostrar finestres d'avís per a contactes sense admissió
 nocacheddps Cap imatge de mostra en caché per a este usuari
 nocamwarn No s'ha trobat cap càmera web, el problema pot ser també perquè la teua càmera web ja està sent utilitzada per un altre programa (la qual cosa significa que no pot ser utilitzada per aMSN). Trobaràs ajuda per solucionar este obstacle al nostre Wiki:
 nodataavailable Informació no disponible per a $1
@@ -615,11 +614,12 @@ noneavailable Cap disponible
 nonewmail No hi ha nous correus
 nonewver No hi ha una nova versió disponible per a descarregar
 nonimgroup Contactes sense messenger
+no No
 nooimconfirmation No sol·licitar confirmació en enviar/rebre missatges sense connexió
 nopic No hi ha imatge
 noprofileexists No hi han perfils actualment, \n has de crear un de nou si vols utilitzar els perfils d'entrada. \nUtilitza el botó Afegir Nou Perfil en esta finestra per a afegir un nou perfil.
-normal Normal
 noresizesmileys No reduir tamany d'emoticons personalitzats
+normal Normal
 noskins No s'ha pogut trobar el perfil predeterminat (default) en la carpeta skins/. No es pot iniciar aMSN
 nosound No s'ha detectat so. Assegura't de que el teu micròfon està correctament connectat
 nosound_or_hold No s'ha detectat so. Per a enviar un missatge de so, es necessita tindre apretat el botó mentres es parla i soltar-ho per a enviar el missatge.
@@ -680,11 +680,11 @@ picfile Triar arxiu d'imatge per a l'avís (GIF < 500x500)
 picstatus Activar/desactivar imatge per a l'avís
 playbackposition Moment de reproducció
 playbackspeed Velocitat de reproducció (mil·lisegons entre cada fotograma)
+playerror S'ha produït un error a l'intentar reproduir el so : $1
+playgame2 Jugar a $1
+playgame Jugar al joc
 playing Reproduint: $1
 play Reproduir
-playerror S'ha produït un error a l'intentar reproduir el so : $1
-playgame Jugar al joc
-playgame2 Jugar a $1
 playtest Reproduix l'arxiu de prova
 playwebcamsend Continua enviant per càmera web
 pluginselector Seleccionar plug-in
@@ -705,8 +705,8 @@ preffont4 Canvia la manera en què veig el text dels altres en sessions de conver
 preffont Text dels meus missatges
 prefft Transferències d'arxius, P2P i configuració de NAT
 preflibs Directoris de llibreries
-preflocale Ajustaments de l'idioma
 preflocale2 Selecciona el teu idioma/codi del país
+preflocale Ajustaments de l'idioma
 preflog1 Les meues opcions d'Historial i registres
 preflogevent El meu historial d'events
 preflook Apariència del meu aMSN Messenger
@@ -737,9 +737,9 @@ proxyconfhttp Configurar suport de proxy http
 proxyconnection Em connecte a internet a través d'un servidor proxy:
 proxy Estic darrere d'un servidor proxy (HTTP o SOCKS5)
 psmatend Mostra missatge personal al costat del sobrenom
+psmchanged $1 ha canviat el seu missatge personal a '$2'
 psmdontshow No mostrar el missatge personal, excepte si s'ha definit una altra cosa en els sobrenoms globals/personalitzats
 psm Missatge personal
-psmchanged $1 ha canviat el seu missatge personal a '$2'
 psmnewline Mostra el missatge personal davall del sobrenom
 psmplace On hauria de ser situat el missatge personal?
 publishphones Publicar els meus numeros de telèfon
@@ -768,8 +768,8 @@ rememberaccount Recorda el meu compte
 rememberpass Recordar contrasenya
 remembersetting Recordar este ajustament
 removeempty Eliminar els grups buits de la llista de contactes
-removefromlist Esborrar d'esta llista
 removefromgroup Esborrar del grup
+removefromlist Esborrar d'esta llista
 rename Canviar nom
 renameep Reanomenar este lloc ($1)
 renamelocation Reanomenar este lloc
@@ -782,13 +782,13 @@ retry Reintentar
 reversed Invertit
 reverselist Llista inversa (LI):
 rightback Ara torne
-save Guardar
 saveas Guardar com
 savechatwinsize Al canviar-ho, guardar el tamany de la finestra de conversa com predeterminat 
 savecontacts Guardar llista de contactes
 saveddefaultloc Guardar en el lloc predeterminat
-savelocation Vols guardar l'arxiu en $1?
+save Guardar
 savelocationerror L'arxiu no es pot guardar en este lloc.
+savelocation Vols guardar l'arxiu en $1?
 saveotherdirectory Guardar en una altra carpeta
 savetofile Guardar en arxiu
 says $1 diu
@@ -846,10 +846,10 @@ showpicnotify Mostrar les imatges dels usuaris en les finestres d'alerta
 showspaces Mostrar l'icon d'espais en la lista de contactes
 showuserpic La imatge de mostra de $1
 signinstatus Estat inicial
-signout Tancar la sessió
 signoutep Tancar la sessió de $1
 signouteverywhere Tancar totes les sessions
 signouthere Tancar esta sessió ($1)
+signout Tancar la sessió
 sipcallaccepted Conversa d'àudio acceptada
 sipcallback Tornar la cridada
 sipcalldeclined Conversa d'àudio rebutjada
@@ -885,8 +885,8 @@ sngdblclick Només un click per obrir una nova finestra de conversa
 sortcontactgroup Ordena contactes per grup
 sortcontacthybrid Ordena contactes en mode mixt
 sortcontactsasc Ordena els contactes ascendentment
-sortcontactsby Ordena els contactes per
 sortcontactsbylogsize Ordena els contactes per la mida de l'historial
+sortcontactsby Ordena els contactes per
 sortcontactsdesc Ordena els contactes descendentment
 sortcontactstatus Ordena contactes per estat
 sortgroupsasc Ordena ascendentment els grups
@@ -1013,13 +1013,13 @@ webcamextloaded S'ha carregat l'extensió Webcamsn
 webcamextnotloaded No s'ha carregat l'extensió Webcamsn. L'has de compilar
 webcamextwarn No podràs vore la càmera web dels teus contactes. Trobaràs respostes sobre com instal·lar algunes extensions al nostre Wiki:
 webcamfaq PMF-FAQ/Ajuda per a la càmera web
-webcamhistory Vore les sessions de càmera web
 webcamhistory2 Sessions de càmera web
+webcamhistory Vore les sessions de càmera web
 webcaminvite $1 t'ha convidat a iniciar una conversa amb càmera web però aMSN encara no ho suporta.
 webcaminvitereceived $1 t'ha convidat a iniciar una sessió de càmera web. Vols acceptar esta sessió?
 webcaminvitereceivedauto $1 t'ha convidat a iniciar una sessió de càmera web. Esta sessió s'accepta automàticament.
-webcaminvitereceiving Estàs convidat a vore la càmera web de $1. Estàs d'acord?
 webcaminvitereceivingauto Estàs convidat a vore la càmera web de $1. Esta sessió s'accepta automàticament.
+webcaminvitereceiving Estàs convidat a vore la càmera web de $1. Estàs d'acord?
 webcaminvitesending $1 voldria vore la teua càmera web. Vols acceptar esta sessió?
 webcaminvitesendingauto $1 voldria vore la teua càmera web. Esta sessió s'accepta automàticament.
 webcamrejected $1 ha rebutjat la invitació per a iniciar una sessió de càmera web

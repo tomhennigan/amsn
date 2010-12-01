@@ -622,11 +622,11 @@ nogroup Sem grupo
 nojavascript Você não tem "javascript" activado. O início automático de sessão pode não funcionar.
 nologfile Ficheiro de Registo inexistente para $1
 nomic Sem microfone
-no Não
 noneavailable Nenhum Disponível
 nonewmail Sem mensagens novas na Caixa de entrada
 nonewver Não há versões novas disponíveis para descarga
 nonimgroup Contactos de Mensageiro Não Instantâneo ("Non-Instant Messenger")
+no Não
 nooimconfirmation Não pedir confirmação para envio/recepção de mensagens "offline"
 nopic Sem imagem
 noprofileexists De momento não existem perfis.\nTem de criar um se quiser usar inícios de sessão perfilados.\nUse o botão Adicionar Novo Perfil nesta janela, para adicionar um novo perfil.

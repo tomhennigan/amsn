@@ -1,25 +1,25 @@
 amsn_lang_version 2
 abort Bỏ qua
-about Thông tin
 aboutamsn Thông tin về chúng tôi
+about Thông tin
 accept Chấp nhận
 acceptfile Bạn có chấp nhận việc nhận file $1 (kích thước $2 byte)? File đó sẽ được lưu ở $3
-account Tài khoản
 accountkid Tài khoản này không thể dùng để đăng nhập đối với trẻ em. Bạn phải vào trang web để có sự đồng ý của phụ huynh.
+account Tài khoản
 actions Hành động
 activeautoupdate Tự động cập nhật
-add Thêm
 addacontact Thêm liên lạc
 addedyou $1 ($2) đã thêm bạn vào danh sách của người đó
-addprofile Thêm thông tin cá nhân mới
 addprofiledesc Điền vào phần đăng nhập mà bạn muốn tạo cho phần thông tin cá nhân mới. \nThông tin cá nhân sẽ cho phép bạn có các tùy chọn khác nhau cho mỗi phần đăng nhập.\nNếu không có thông tin cá nhân bạn sẽ không thể sử dụng chức năng Lịch Sử, Thông báo hay "Ghi nhớ mật khẩu".
+addprofile Thêm thông tin cá nhân mới
 addstate Thêm New State
-addto Thêm vào $1
+add Thêm
 addtoal Thêm vào AL
 addtobl Thêm vào BL
 addtocontacts Thêm vào danh sách liên lạc
 addtofl Thêm vào FL
 addtoo Thêm người này vào danh sách liên lạc của bạn
+addto Thêm vào $1
 admincontacts Liên lạc chính
 admingroups Nhóm chính
 advanced Nâng cao
@@ -30,8 +30,8 @@ alarmonconnect Kích hoạt cảnh báo khi người này online
 alarmondisconnect Kích hoạt cảnh báo khi người này offline/ẩn 
 alarmonmsg Kích hoạt cảnh báo khi người này gửi bạn tin nhắn
 alarmonstatus Kích hoạt cảnh báo khi người này changes state
-alarmpref Thiết lập tùy chọn cảnh báo 
 alarmpref2 Thiết lập cảnh báo cho tất cả liên lạc
+alarmpref Thiết lập tùy chọn cảnh báo 
 alarms Cảnh báo
 alarmstatus Thiết lập cảnh báo cho người sử dụng này
 allfiles Tất cả tập tin
@@ -73,8 +73,8 @@ autoacceptft Tự động chấp nhận yêu cầu gửi file
 autoacceptwc Tự động chấp nhận xem Webcam
 autoaway Change state to "Away" when inactive for
 autocheckver Tự động kiểm tra phiên bản mới khi đăng nhập
-autoconnect Tự động kết nối khi aMSN bắt đầu
 autoconnect2 Tự động đăng nhập khi khởi động aMSN
+autoconnect Tự động kết nối khi aMSN bắt đầu
 autodetectip Tự động xác định địa chỉ IP
 autohotmaillog Tự động đăng nhập vào Hotmail
 autoidle Auto NoActivity
@@ -96,7 +96,6 @@ baduserpass Tên tài khoản hoặc mật khẩu không đúng
 badwebcam Không thể hiển thị hình ảnh từ Webcam. Hãy kiểm tra lại kết nối của Webcam và máy tính hoặc phần cài đặt của Webcam.
 bgcolor Thay đổi màu sắc nền của aMSN 
 blankdirect Để trống nếu là kết nối trực tiếp
-block Ngăn chặn
 blocked Bị ngăn chặn
 blockedyougroup Hiển thị một nhóm riêng biệt cho những người đã chặn bạn
 blocking Đang chặn
@@ -106,6 +105,7 @@ blockinter3 mỗi
 blockinter4 giây.
 blocklist Danh sách chặn (BL):
 blockmessage Những người này đang online và họ đã chặn bạn
+block Ngăn chặn
 blocknotifications Tắt chế độ hiển thị cửa sổ thông báo
 blocksounds Tắt âm thanh
 blockusers Number of users to check at once 
@@ -114,8 +114,8 @@ brightness Độ sang
 bringtofront Mang tất cả về phía trước
 broughtby Được mang đến cho bạn bởi những người phát triển sau
 browse Duyệt
-browser Trình duyệt
 browserexample (\$url sẽ được thay thế bởi URL) Vd: firefox \$url
+browser Trình duyệt
 bugerror Xin lỗi, đã xảy ra sự cố khi kết nối với hệ thống cơ sở dữ liệu gỡ rối lỗi. Hãy kiểm tra kết nối của internet.
 bugnocomment Gửi mà không có nhận xét? Nhận xét các lỗi giúp chúng tôi nhanh chóng tìm ra lỗi và giải quyết vấn đề.
 busy Bận
@@ -136,9 +136,8 @@ captureextnotloaded Capture extension -$1- is not loaded, you have to compile it
 captureproperties Thuộc tính hình ảnh Webcam
 capturewarn You won't be able to send your webcam if you have one. If not, it's normal. You may find answers on how to install this extension on our Wiki:
 casesensitive Use case-sensitive triggers
-cfgalarm Chỉnh sửa/Thêm/Loại bỏ Cảnh Báo
 cfgalarmall Chỉnh sửa/Thêm/Loại bỏ Cảnh Báo chung
-change Thay đổi
+cfgalarm Chỉnh sửa/Thêm/Loại bỏ Cảnh Báo
 change_account_info Thay đổi thông tin tài khoản
 changecustomstate Chuyển đến
 changedisplaypic Thay đổi hình ảnh hiển thị
@@ -150,15 +149,16 @@ changepsm Thay đổi thông điệp cá nhân
 changesize Thay đổi kích thước
 changestate $1 đổi trạng thái đến $2
 changestatus Thay đổi Trạng Thái
+change Thay đổi
 changevideosettings Thay đổi thiết lập Video
 channels Kênh
 charscounter Đếm số lượng các ký tự trong cửa sổ chat
-chat Chat
 chatack Đang chấp nhân chat từ
+chat Chat
 chatmaxmin Khi một liên lạc muốn chat với bạn, bạm mong muốn:
 chatreq Đang yêu cầu chat
-chatsmileys Hiển thị biểu tượng vui trong khi chat
 chatsmileys2 Hiển thị các biểu tượng vui trong cửa sổ chat
+chatsmileys Hiển thị biểu tượng vui trong khi chat
 checkblocking Liên tiếp kiểm tra nếu những người đó tiếp tục chăn bạn
 checkemail Show mail notification line (inbox) in contact list
 checkfilman Received files will be saved in $1. Please check file manager settings in preferences window.
@@ -184,24 +184,24 @@ chooseoutputdev Choose your output device
 chooseskin Please select the skin you would like to use
 ch_to_state Switch to new state
 clear Clear
-clearlog Clear Log
 clearlog2 Clear the history for all your contacts
 clearlog3 Clear All Logs
+clearlog Clear Log
 clearwebcamlogs Clear All Webcam logs
 clickhere Click Here
 clicktoadd Click the 'Add' button to add a new note
 clicktologin Click here to Sign in
 clientcaps Send x-clientcaps packet to other's clients
 clientname Client name
-close Close
 closeall Close all tabs in this window?
 closealltabs Close all tabs
 closechatwindows Close all conversations before Sign Out?
+close Close
 closed Conversation with $1 has been closed due to inactivity
 closelabel When you click the close button in a tabbed chat window
 closeonly Close only the current tab
-closeorcall You have to close/cancel the Audio Call before closing the window.
 closeorcallvideo You have to close/cancel the Video Call before closing the window.
+closeorcall You have to close/cancel the Audio Call before closing the window.
 closeordock Closing the contact list window will quit aMSN. Maybe you meant to just close the window and have aMSN stay alive in the tray.\n\nAre you sure you want to quit aMSN?
 closeothers Close All Other Tabs
 closingdocks Close button minimizes
@@ -223,16 +223,16 @@ confirmfulldelete Also remove from Windows Live Address Book
 confirmpurge All stored display pictures from other contacts will be erased (those of your own will be kept). Are you sure?
 confirmrfl Are you sure you want to delete this user from this group?
 congrats Congratulations
-connected You are now connected
 connectedat Connected At:
 connectedwith Connected with $1
+connected You are now connected
 connecterror Error connecting to server
 connectfirst Please connect first
 connecting Connecting
 connection Connection
 connectionlost Disconnected: Lost connection with the server
-contact Contact
 contactadded Contact added
+contact Contact
 contactdoesnotexist Contact does not exist!
 contactlist Contact list (FL):
 contacts Contacts
@@ -269,26 +269,26 @@ customsmileys Display other users' Custom Emoticons
 customstyle Customized Style
 custshowcustomsmileys Show user's Custom Emoticons
 cut Cut
-cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
 cutimageboxreset Reset the selection box\nsize to:
+cutimagebox Select the part of the image you want to use, resizing and moving the selection-box
 cyclewindows Cycle Through Windows
 date Date
 dateformat Change date format 
 day Day
 days Days
 dcprofile Don't Create Profile
-default Default Config
 default2 Default
+default Default Config
 defaultloginradio Sign in with default configuration
 defchatwinsize Default size for chat windows (XSIZExYSIZE)
-delete Delete
 deleteall Delete all
 deleteblock Delete and Block
 deletecustomstate Delete custom state
+delete Delete
 delimiters Timestamp delimiters:
 deliverfail The following message could not be delivered
-delprofile Delete Profile
 delprofile2 Select the profile that you would like to remove 
+delprofile Delete Profile
 description Description
 detach Detach
 details Details
@@ -320,15 +320,15 @@ dontaskweek Don't ask update again for one week
 dontdownload Don't download TLS, I'll install it myself
 dontshow Don't show
 dontshowdp Don't let this user download your new Display Pictures
-download Download
 downloadcanceled Download canceled.
+download Download
 downloadingtls Downloading TLS module from:\n $1
 downloadingwait Downloading new aMSN version. Please Wait...
 dynamicrate Use dynamic frame rate to simulate the real-time speed 
-edit Edit
 editavsettings Edit audio and video settings
 editcontent Edit the content of the subject field and the note field
 editcustomstate Edit custom state
+edit Edit
 editmyprofile Edit my MSN Profile
 editnewstate New Personal Automessage State
 editprofile Edit Profile
@@ -345,8 +345,8 @@ enableproxy Enable proxy
 enableremote Enable remote controlling
 enablesound Play sound
 enablespaces Enable Windows Live Spaces support (EXPERIMENTAL)
-encoding Choose encoding
 encoding2 Change the way your characters are encoded
+encoding Choose encoding
 enterbugdesc Enter a description of what you were doing to help us reproduce the bug:
 entercontactemail Enter contact e-mail
 enterfilename Please enter a filename
@@ -359,54 +359,54 @@ eventhistory View Events History
 examples Examples
 exitamsn Are you sure you want to quit?
 extras Extra Services
-failed Failed
 faileddelete Failed to delete
 faileddeleteperso This picture cannot be deleted because it does not belong to your profile. Only pictures that belong to your personal profile can be removed this way.
+failed Failed
 faq FAQ (Frequently Asked Questions)
 farsightextchecking Checking if Farsight extension is loaded ...
 farsightextwarn You won't be able to have SIP calls. You may find answers on how to install Farsight on our Wiki:
 farsightinfook Farsight is a framework to deal with audio/video conferencing protocols. With Farsight, you can send or receive SIP calls within aMSN! Have a look at farsight on our Wiki:
 fetching Fetching data...
-file File
 filedoesnotexist File does not exist
-fileman File Manager
+file File
 filemanexample (\$location will be replaced with the directory) Ex: nautilus \$location
+fileman File Manager
 filename Filename
 filenotwritable Cannot delete this file
-filetransfer File Transfer
 filetransfercancelled File transfer cancelled
 filetransfercomplete File transfer complete
+filetransfer File Transfer
 filters Filters
 filtersselect Select the filters you want to use\n(Note: none selected means 'show all')
 filtersx Filter Selection
-find Find
 findasyoutype Find as you type
+find Find
 findnext Find Next
 findprev Find Previous
 finetunesettings Finetune picture settings
-finish Finish
 finish2apply Press Finish to apply those settings.
-firewalled You are firewalled or behind a router
+finish Finish
 firewalled2 You are firewalled, please check your Connection settings in the preferences window
+firewalled You are firewalled or behind a router
 followtext Scroll down when new text is entered
 forget_me Forget me
 forgot_pass I forgot my password
 formatcsv CSV format
 formatctt CTT format
 friendlyname Friendly Name
-ftaccepted File transfer accepted
 ftacceptedby $1 accepted file transfer invitation for file '$2'.
+ftaccepted File transfer accepted
 ftaccepting Accepting file transfer request
 ftautoclose Close this window after completing the file transfer
 ftconnecterror Error connecting to remote peer
 ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection with remote peer lost
 ftgotinvitation $1 wants to send you the file '$2' ($3 bytes). It will be saved in directory $4. Do you want to receive this file?
-ftportpref Starting port for file transfers
 ftportpref2 Starting port for direct connections (needed for file transfers and webcam)
+ftportpref Starting port for file transfers
 ftporttest Test port
-ftrejected File transfer rejected
 ftrejectedby $1 rejected the transfer request for file '$2'.
+ftrejected File transfer rejected
 ftsendinvitation File transfer invitation for file '$2' ($3 bytes) has been sent to $1.
 fullcontactlist Sorry, your contact list is full. You'll need to remove some contacts in order to add new ones.
 gameaccepted $1 has accepted your game invitation
@@ -428,12 +428,12 @@ gotink $1 sent you an ink.
 goto Go to $1
 gotoinbox Go to Inbox
 goto_prefs_removeprofile Click here to go to preferences and delete your profile
-group Group
 groupadd Add Group
-groupcontacts Group contacts
 groupcontactsbystatus Group Contacts by Status
+groupcontacts Group contacts
 groupdelete Delete Group
 groupexists Group already exists
+group Group
 groupmissing Cannot find group
 groupnewname New name
 groupnonim Group Non-Instant Messaging Contacts Together
@@ -445,18 +445,18 @@ groupunknown Unknown group
 handle Handle
 hangup Hang Up
 havenomic I have no microphone
-help Help
 helpcontents Help Contents
+help Help
 hidebuttonbar Hide Button Bar
 hidedetails Hide details
 hidedisplaypic Hide Display Picture
-hidemenu Show/Hide menus
 hidemenumessage Are you sure you want to hide the menus ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
+hidemenu Show/Hide menus
 hiden Hide the emoticon from the smileys menu
 hideuserscw Hide users in this chat window.
 hidewindow Hide Window
-history View History
 history2 History
+history View History
 home Home
 howto_remove_profile To delete your profile (forget $1) you need to do so from the preferences window. \n\nFor security reasons, profile deletion from the login screen is not allowed.
 httpconnection Connect using HTTP method (uses HTTP protocol over port 80)
@@ -465,21 +465,21 @@ huge Huge
 hybrid Hybrid mode
 ident Identifying
 identity Identity
-ignore Ignore
 ignorecontact Ignore the conversations from the contact
 ignoreerrors Silently ignore other aMSN errors until the end of session
+ignore Ignore
 imagefiles Image Files
 inbox Inbox
 insertsmiley Insert emoticon
 inserttextnote Insert text into the subject field and the note field, then click 'Save'
 installconvert You must install ImageMagick (convert program) in order to use Buddy Icons and Custom Emoticons. You can download the binaries for your Operating System ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/ . If you already have it, then it is a bug, please report it. These features will now be disabled, if you install ImageMagick later on reenable these options from the Preferences. 
 internalerror Internal Server Error
-invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidfile2 Filename $1 could not be created, make sure you have the correct permissions for that target.
+invalidfile File $2 entered in field "$1" does not exist or is not readable
 invalidgroup Invalid group
 invalidparameter Error connecting to server:\ninvalid parameter
-invalidpic The given picture file doesn't exist
 invalidpicsize The given picture is too big, please choose a smaller one
+invalidpic The given picture file doesn't exist
 invalidsound The given sound file doesn't exist
 invalidusername Invalid user name
 invitationcancelled The invitation was cancelled
@@ -491,8 +491,8 @@ istyping $1 is typing a message
 joins $1 joins conversation
 justonce Just once
 keepalive Keepalive (NAT)
-keeplog Keep Logs of Chats
 keeplog2 Log all conversations to aMSN's History for future viewing
+keeplog Keep Logs of Chats
 language Language
 language_manager Language manager
 large Large
@@ -515,12 +515,12 @@ lineflushlog Flush log files after each line
 linprivate IN PRIVATE
 listening Listening
 listeningon Listening on port $1
-listsmileys List smileys
 listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
+listsmileys List smileys
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
-load Load
 loadcontacts Load Contact List
+load Load
 loadotherdisplaypic Loading display pictures of $1, please wait...
 logbigger Log file sizes for each contact never exceeds 
 logeventconnect Log the connections
@@ -532,9 +532,9 @@ logeventstate Log the status changes
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
-login Sign In
 loginas Sign in as
 loging Logging
+login Sign In
 logolder Only log chats that have taken place in the last
 logout Sign Out
 logoutwincloselabel When Signing Out, close conversations
@@ -550,8 +550,8 @@ longpsm Your Personal Message is too long. This is not officially supported by t
 lowrescam Use a low-resolution webcam
 lprivtoconf Private chat turned into Conference with $1
 luclosedwin You have closed the window on $1
-mailer Mailer
 mailerexample (\$recipient = Recipient) Leave blank to use Hotmail
+mailer Mailer
 maintenance The server is going down for maintenance in $1 minutes
 maximised Maximised
 medium Medium
@@ -559,18 +559,18 @@ minimised Minimised/Iconified
 minimize Minimize to Tray
 minimizeplain Minimize
 mins minutes
-mobile Mobile
 mobilegrp1 Mobile group
 mobilegrp2 Put users in "Mobile" group when offline (and sorted by status)
+mobile Mobile
 modified Modified
 month Month
 more More
 morepersonal More States ->
 move Move
 movetogroup Move to Group
-msg Message
 msgflicker Flicker chat window title when new message is received on unfocused window.
 msgmaxmin When a new message arrives I want it to be:
+msg Message
 msgmode Select how to handle multiple message windows:
 msn aMSN
 msnstatus MSN Network Status
@@ -605,9 +605,8 @@ newtabbedfeature aMSN has a new feature for managing conversation, you can now h
 newupdate New updates available for aMSN
 newveravailable Newer version $1 available for download
 next Next
-nick Nick
 nickchanged $1 Changed nickname to '$2'
-no No
+nick Nick
 noactivity Idle
 no_blocked_notif Do not show notification windows for blocked contacts
 nocacheddps No Display Pictures in cache for this user
@@ -624,6 +623,7 @@ noneavailable None Available
 nonewmail No new messages in Inbox
 nonewver There are no new versions available to download
 nonimgroup Non-Instant Messaging Contacts
+no No
 nooimconfirmation Do not ask for confirmation when sending/receiving Offline Messages
 nopic No picture
 noprofileexists There are currently no profiles, \n you must create one if you wish to use profiled logins. \nUse the Add New Profile button in this window to add a new profile.
@@ -636,13 +636,13 @@ nospace Nothing to see here
 nosystemtray System tray not available
 note Note
 notificationserver Initial MSN Notification Server (MSN Messenger Server)
-notify notify
-notify1 Display notify window when contacts come online
 notify1_5 Display notify window when contacts go offline
 notify1_75 Display notify window when contacts change status
+notify1 Display notify window when contacts come online
 notify2 Display notify window when new messages are received
 notify3 Display notify window when new emails arrive
 notify4 Display notify window when new emails arrive in other folders
+notify notify
 notifyoffset Offset the position of the notification pop-up
 notifytimeout Number of milliseconds before notify window disappears
 notifytyping Send other users notifications when typing
@@ -658,28 +658,28 @@ offline Offline
 oim Offline Messaging
 ok Ok
 onenewmail 1 new message in Inbox
-online Online
 onlinehelp Online Help
+online Online
 onphone In a Call
 opendir Open directory
-openfile Open
 openfilecommand Open file command
+openfile Open
 openreceived Open Received Files
 options Options
 ordercontactsby Order contacts by
 ordergroupsby Order groups by
 original Original
-other Other
 otherdisplaypic Other display pictures of this user (right-click for more options)
 otherdps Other display pictures
+other Other
 others Others
 p4contextprefix Prefix P4-Context senders with this string
 pager Pager
 pass Password
 passportnotverified Your passport account must be verified before you can change your personal information (such as your nickname). Please check your inbox for an activation email.
 paste Paste
-pause Pause
 pausedwebcamreceive The webcam has been paused by the other user
+pause Pause
 pausewebcamsend Pause sending of webcam
 personal Personal
 phone Phone
@@ -687,13 +687,13 @@ phones Phone numbers
 picbrowser Display Pictures Browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
-play Play
 playbackposition Playback position
 playbackspeed Playback speed (milliseconds between each frame)
 playerror An error occured when trying to play the sound : $1
-playgame Play game
 playgame2 Play $1
+playgame Play game
 playing Playing: $1
+play Play
 playtest Play the test file
 playwebcamsend Resume sending webcam
 pluginselector Select Plugins
@@ -708,26 +708,26 @@ prefblock3 "You have been blocked by" group
 prefconnection Connection settings
 prefemotic Emotions Icons and Smileys 
 preferences Preferences
-preffont My Message Text
 preffont2 Change the way others see my text in chat sessions
 preffont3 Change aMSN's interface font and size
 preffont4 Change the way I see other people's text in chat sessions
+preffont My Message Text
 prefft File transfer, peer-to-peer and NAT settings
 preflibs Libraries directories
-preflocale Locale settings
 preflocale2 Select your language-/country-code
+preflocale Locale settings
 preflog1 My History and Logging Options
 preflogevent My Events History
 preflook My aMSN Messenger Look
 prefmsging My Messaging Interface
 prefname My MSN Messenger Name/NickName
-prefphone My Phone Numbers
 prefphone2 Type the phone numbers that you would like people \n on your Allow List to see \n
-prefprivacy User's Allow/Block lists
+prefphone My Phone Numbers
 prefprivacy2 User's Contact/Reverse lists
-prefprofile My Public Profile
+prefprivacy User's Allow/Block lists
 prefprofile2 Create or modify your public profile (the \n description of yourself that others can see)
 prefprofile3 aMSN's User Configuration Profiles
+prefprofile My Public Profile
 prefproxy My Proxy Settings
 prefremote Remote Connection Preferences
 prefsession My Sign In and Status
@@ -741,15 +741,15 @@ profileinuse This Profile is being used by another aMSN session, please choose a
 profileloginradio Sign in using an existing Profile
 profiles Profiles
 properties Properties
-proxy I am behind a proxy server (HTTP or SOCKS5)
-proxyconf Proxy configuration
 proxyconfhttp HTTP proxy support configuration
+proxyconf Proxy configuration
 proxyconnection I connect to the internet using a proxy server:
-psm Personal Message
+proxy I am behind a proxy server (HTTP or SOCKS5)
 psmatend Show Personal Message beside the nickname
 psmchanged $1 Changed PSM to '$2'
 psmdontshow Don't show Personal Message, unless otherwise defined in global/custom nicks
 psmnewline Show Personal Message below the nickname
+psm Personal Message
 psmplace Where should the Personal Message be placed ?
 publishphones Publish my phone numbers
 purge Purge
@@ -764,12 +764,12 @@ receivedoimread You have $1 new Offline Instant Messages. Do you want to read th
 receivedvoice Received Voice Clip
 receivefile Receive file
 recentmsg Prevent closing a chat window when a message has just arrived
-reconnect Waiting for $1 to reconnect
 reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
 reconnectnow Reconnect now
-record Record
+reconnect Waiting for $1 to reconnect
 recorderror An error occured when trying to record the sound : $1
+record Record
 recvwebcamaccepted $1 accepted your invitation to view his/her webcam. Connecting...
 redirect Click here to get redirected
 reject Reject
@@ -779,11 +779,11 @@ remembersetting Remember my choice
 removeempty Remove empty groups from the contact list
 removefromgroup Remove from group
 removefromlist Remove from this list
-rename Rename
 renameep Rename this location ($1)
 renamelocation Rename this location
-report Report
+rename Rename
 reporting Reporting
+report Report
 required_version Unable to load this plugin. It requires, at least, aMSN version $1
 resetincomingfont Reset font (use font message sender chooses)
 restartforskin Note: You may need to restart aMSN to view the skin properly!
@@ -791,7 +791,6 @@ retry Retry
 reversed Reversed order
 reverselist Reverse list (RL):
 rightback Be Right Back
-save Save
 saveas Save as
 savechatwinsize Save chat window size as default when resizing it
 savecontacts Save Contact List
@@ -799,6 +798,7 @@ saveddefaultloc Save in default location
 savelocation Do you want to save file on $1?
 savelocationerror File can't be saved at this place.
 saveotherdirectory Save in another directory
+save Save
 savetofile Save to File
 says $1 says
 sbcon Connecting to Switch Board
@@ -809,7 +809,6 @@ selectall Select all
 selectcontact Select a contact
 selectplugins Please select the plugins you want enabled
 selectskin Please choose a skin from the list
-send Send
 sendcam Send Webcam
 sendemail Send my email address to notify me of changes
 sendfeedback Send Feedback
@@ -818,6 +817,7 @@ sendmail Send E-mail
 sendmobmsg Send to Mobile Device
 sendmsg Send Message
 sendoim Send an Offline Message
+send Send
 sendsip Start Audio Call
 sendvideosip Start Video Call
 sendvoice Send a Voice Clip
@@ -825,15 +825,15 @@ sendwebcamaccepted $1 accepted your invitation to view your webcam. Connecting..
 sendwebcaminvite Invite a user to see your webcam
 sentbytes Sent $1 of $2 bytes
 sentvoice Sent Voice Clip
-server Server
 serverbusy Server is busy
 servergoingdown Disconnected: Server is going down
+server Server
 serverunavailable Server is unavailable
 session Session
 setasmydp Set as my display picture
 setbackinitialstate You have set aMSN to connect as $1, but you are now $2. Are you sure you want to set your status back to $1 ?
-setupcam Setting up your webcam device
 setupcamfinetune Setting up webcam device, and finetuning picture
+setupcam Setting up your webcam device
 shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
@@ -843,8 +843,8 @@ showcontactemail Show Contacts with E-mail
 showcontactnick Show Contacts with Nickname
 showdetailedview Show Detailed Contacts View
 showdetails Show details
-showdisplaypic Show Display Picture
 showdisplaypic2 Show Display Picture by default when a chat window is opened
+showdisplaypic Show Display Picture
 showlinksinlogin Show Links in the Login Screen
 showmailicon Show mail icon on traydock when new emails arrive
 showmypic My Display Picture
@@ -857,10 +857,10 @@ showspaces Show Spaces icon in the contact list
 showuserpic $1's Display Picture
 showuserscw There are $1 users in this conversation. If you want to see or hide them click here.
 signinstatus Sign-in status
-signout Sign out
 signoutep Sign out from $1
 signouteverywhere Sign out from everywhere
 signouthere Sign out from here ($1)
+signout Sign out
 sipcallaccepted Audio Call Accepted
 sipcallback Call Back
 sipcallconnected Your audio call is now connected!
@@ -890,14 +890,14 @@ sipvideocallended Your Video Call has ended
 sipvideocallmissed You missed a Video Call from $1
 sipvideocallnosipflag User does not support Video Calls.
 sipvideogotinvitation Received Video Call invitation from $1
-skin Skin
 skinselector Select Skin
-small Small
+skin Skin
 smallest Smallest
+small Small
 smileconfig Custom emoticon configuration
 smilefile Smiley filename
-smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 smileintro2 Please edit the required fields to customize this smiley (see the FAQ for help)
+smileintro Please complete the required fields to create a new custom smiley (see the FAQ for help)
 smiletoobig The smiley you choose is bigger than normal size. Do you want to resize it ?
 smileynotavailable Smiley not available!
 snackfailed Snack failed to load, reverting to default
@@ -907,16 +907,16 @@ sngdblclick Single click to open a new message window
 sortcontactgroup Sort Contacts by Group
 sortcontacthybrid Sort Contacts in Hybrid Mode
 sortcontactsasc Sort Contacts Ascending
-sortcontactsby Sort Contacts by
 sortcontactsbylogsize Sort Contacts by log size
+sortcontactsby Sort Contacts by
 sortcontactsdesc Sort Contacts Descending
 sortcontactstatus Sort Contacts by Status
 sortgroupsasc Sort Groups Ascending
 sortgroupsdesc Sort Groups Descending
-sound Event Sounds
 sound2 Play sounds when contacts sign in or send a message
 soundactive Play sounds when receiving incoming messages also in active windows
 soundcommand This has to be the play command (ex: esdplay)
+sound Event Sounds
 soundexample (\$sound = Sound file to be played) Ex: esdplay \$sound
 soundfile Sound File
 soundfiles Sound Files
@@ -927,15 +927,15 @@ soundstatus Sound Alarm
 sourcecode Source Code (needs compiling and installing)
 splashstart Start
 sslwarning WARNING!! Disabling SSL will disable encryption, so your password will be sent as plain text over the network. Use only for really tricky proxies or network configurations.
-startoffline Start Offline
 startoffline2 Sign in silently as "Appear Offline"
+startoffline Start Offline
 startonboot Start aMSN on Windows boot
 startontray Start aMSN on tray icon only
-state I want to appear as
 stateautomsg AutoMessage to Send
 statechange status changed to: 
 stateedittext Please edit the fields you would like to modify and press Ok
 stateinfo Personal State Configuration
+state I want to appear as
 statename Name of Personal State
 statenewtext Please fill the required information to create your new Personal State and press Ok
 statenick Custom nick (leave blank for no change)
@@ -943,45 +943,45 @@ statepsm Custom Personal Message (leave blank for no change)
 stats Statistics
 status Status
 step Step
-stop Stop
 stopalarm Stop Alarm
+stop Stop
 stopwebcamreceive Stop receiving Webcam
 stopwebcamsend Stop sending Webcam
 storenickname Return to original nickname after a custom state with custom nickname
 strictfonts Restrict all fonts' size to the one I selected (Status bar and others)
-style Style
 stylechat Same look as chats
 stylehist aMSN's history look
 stylelog Select the format in which you would like to view your History
-subject Subject
+style Style
 subjectrequired Subject required
+subject Subject
 svnversion SVN Version
 syntaxerror Syntax Error
-tabbed Tabbed Windows
 tabbedglobal A tabbed window for all users in the contact list
 tabbedgroups A tabbed window for users from the same group
+tabbed Tabbed Windows
 tabtitlenick Display nicks in the tabs instead of email
 temp_state Temporary state (will not be saved)
 textsize Text Size
 thismonth This month
 throughserver Through server
 timeremaining Time remaining
-timestamp Timestamp
 timestamps Enable timestamps on chat windows
+timestamp Timestamp
 title aMSN
-tkerror TK has brought an error, there is a bug in aMSN, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tkerror1 TK has brought an error, there is a bug in aMSN, please report it by clicking the Report button. You can click Details to see more informations about the bug or click Ignore to continue chatting with aMSN.
+tkerror TK has brought an error, there is a bug in aMSN, please report it. Send the file $1 to amsn-bugs@lists.sf.net
 tlsdowncompleted File $1 was downloaded to directory $2. You must extract it, build it (if you downloaded source code) and install it inside $3.
 tlsexplain Folder where the tcl TLS module is located. If aMSN can't locate it, please specify.\n(Required for SSL authentication).
-tlsinstall TLS Module installation wizard
 tlsinstallexp aMSN now uses MSNP9, which requires the use of a secure\nconnection using SSL. In order to use SSL, aMSN needs to install a module called TLS,\nwhich is missing from your system. This wizard will help you to download and\ninstall TLS. Please choose your system type so we can automatically download\nthe required TLS files.
+tlsinstall TLS Module installation wizard
 tlsinstcompleted TLS module installation was successful - you should now be able to use MSNP9. If this doesn't work, then you probably didn't select the right module, or a compiled module is not available for your system.
-to To
 today Today
 tomobile To Mobile
 tools Tools
 tooltips Enable tooltips
 totalsize Total size
+to To
 transnotexists The requested file has not been translated into the current language yet.
 trayicon Show a status icon in the notification area
 traynotcompiled Tray icon plugin is not compiled. Check plugins/traydock
@@ -999,14 +999,13 @@ unselectall Unselect all
 untitled_space Untitled
 uoffline Offline
 uonline Online
-update Update
 updateonlycurrentlanguage Update only the current language
 updatesaved Done\n Saved $1 in $2.
+update Update
 updating Updating
 useasdp Use as Display Picture
 useasregexp Use as a Regular Expression (regexp)
 useother Use a different program
-user User
 useralreadyonlist User is already on contact list
 userblocked The user is online but blocked you
 userdata User Data
@@ -1014,19 +1013,18 @@ userdps User display pictures
 usernotonline The user is not online
 userproperties User properties of $1
 usersettings Settings
+user User
 useryourself You can't chat with yourself
 usesnack Use the Snack library (Tcl internal)
 verifyblocked Check for people blocking you
 version Version
 videoconversationrequest You just received a video conversation (bidirectional audio and video) request. This feature is not yet supported by aMSN and has been canceled. However, you can still use the standard webcam conversation.
-view View
 viewcontactsby View contacts by
 viewprofile View Profile
 viewspace View space items
+view View
 volume Volume
 wanttosharecam I want to make my webcam available to others
-web Web
-webcam Webcam
 webcamcanceled The webcam session with $1 has been canceled
 webcamclosebefcancel You have to cancel all webcam sessions before closing the window
 webcamconfigure Configure Webcam
@@ -1038,19 +1036,21 @@ webcamextloaded Webcamsn extension is loaded
 webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
 webcamextwarn You won't be able to view your contacts' webcams. You may find answers on how to install some extensions on our Wiki:
 webcamfaq FAQ/Help for Webcam
-webcamhistory View Webcam Sessions
 webcamhistory2 Webcam Sessions
+webcamhistory View Webcam Sessions
 webcaminvite $1 invited you to start an webcam session, but aMSN does not support this feature.
 webcaminvitereceived $1 invited you to start a webcam session. Do you want to accept this session?
 webcaminvitereceivedauto $1 invited you to start a webcam session. This session is automatically accepted.
-webcaminvitereceiving You are invited to start viewing $1 's webcam. Do you want to accept this session?
 webcaminvitereceivingauto You are invited to start viewing $1 's webcam. This session is automatically accepted.
+webcaminvitereceiving You are invited to start viewing $1 's webcam. Do you want to accept this session?
 webcaminvitesending $1 would like to view your webcam. Do you want to accept this session?
 webcaminvitesendingauto $1 would like to view your webcam. This session is automatically accepted.
 webcamrejected $1 rejected invitation for webcam session
 webcamrequestreceive Sent request to receive webcam
 webcamrequestsend Sent request to send webcam
 webcamsending List of people you are currently sending webcam\nClick to cancel
+webcam Webcam
+web Web
 whatisamsn aMSN is a platform-independent MSN Messenger clone
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What size would you like the image to be displayed as?
 willjoin Waiting for $1 to join conversation
@@ -1065,9 +1065,9 @@ xmmssend Send current song
 xoffset X Offset
 xplaces $1 Places
 year Year
-yes Yes
 yesblock Yes and block
 yesterday Yesterday
+yes Yes
 yoffset Y Offset
 youblocked You have been blocked by
 yousay You say

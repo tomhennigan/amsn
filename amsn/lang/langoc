@@ -1,7 +1,7 @@
 amsn_lang_version 2
 abort Abandonar
-about A prepaus de
 aboutamsn A prepaus de aMSN
+about A prepaus de
 accept Acceptar
 acceptfile Volètz acceptar lo fichièr $1 (talha $2 octets) ? Serà enregistrat dins $3
 account Compte
@@ -106,8 +106,8 @@ bouncedock Bounce aMSN's icon in the dock quand un messatge is received
 brightness Brightness
 broughtby Brought to you by the following developers
 browse Navegar
-browser Navegaire
 browserexample ( \$url will be replaced amb the URL). Ex: mozilla \$url
+browser Navegaire
 bugerror Sorry, but there was un problem connecting to the bug database. Please check your internet connection.
 bugnocomment Enviar sens comentari ? Commenting on un bug helps us figure out what went wrong and fix it easier.
 busy Busy
@@ -129,12 +129,12 @@ casesensitive Use case-sensitive triggers
 cfgalarmall Configure/Apondre/Remove Global Alarm
 cfgalarm Configure/Apondre/Remove Alarm
 change_account_info Change Compte Information
-change Modificar
 changecustomstate Switch to
 changedisplaypic Change Display picture
 changefont Modificar la poliça
 changeglobnick Change Global Nick
 change_mobile Change Mobile settings
+change Modificar
 changenick Modificar l'escais
 changesize Modificar la talha
 changestate $1 changes state to $2
@@ -171,24 +171,24 @@ choosemixerdev Choose your mixer
 chooseoutputdev Choose your output device
 chooseskin Please select the skin you would like to use
 ch_to_state Switch to new state
-clear Netejar
 clearlog2 Clear the history for all your contactes
 clearlog3 Clear All Logs
 clearlog Clear Log
+clear Netejar
 clearwebcamlogs Clear All Webcam logs
 clickhere Clicatz aicí
 clicktoadd Click the 'Apondre' button to add un new note
 clicktologin Click here to log in
 clientcaps Enviar x-clientcaps packet to others clients
 clientname Nom del client
-closeall Tampar all tabs in aqueste window ?
 closealltabs Tampar all tabs
-close Tampar
+closeall Tampar all tabs in aqueste window ?
 closed Conversation amb $1 has been closed due to inactivity
 closelabel When you click the close button in un tabbed chat window
 closeonly Tampar only the current tab
 closeordock Closing the contact list window will quit aMSN. Maybe you meant to just close the window and have aMSN stay alive in the tray.\n\nAre you sure you want to quit aMSN ?
 closeothers Tampar All Other Tabs
+close Tampar
 closingdocks Tampar button minimizes
 color Color
 comanda Comanda
@@ -196,7 +196,6 @@ commandstatus Executar la comanda
 configure Configurar
 configuremic Configuring your microphone
 configuringaudio Configuring audio settings
-confirm Sètz segur ?
 confirmbl Sètz segur que volètz blocar aqueste contacte ?
 confirmdelete Sètz segur que volètz suprimir $1 ?
 confirmdg Sètz segur que volètz suprimir aqueste grop ?
@@ -204,9 +203,10 @@ confirmdu Sètz segur que volètz suprimir aqueste utilizaire ?
 confirmeg Sètz segur que volètz voidar aqueste grop ?
 confirmpurge All stored display pictures from other contactes will be erased (those of your own will be kept). Sètz segur ?
 confirmrfl Sètz segur que volètz suprimir aqueste utilizaire from aqueste grop ?
+confirm Sètz segur ?
 congrats Òsca
-connectedwith Connectat amb $1
 connected Sètz connectat
+connectedwith Connectat amb $1
 connecterror Error connecting to server
 connectfirst Please connect first
 connecting Connecting
@@ -215,8 +215,8 @@ connectionlost Disconnected: Lost connection amb the server
 contactadded Contacte apondut
 contact Contacte
 contactdoesnotexist Contacte does not exist!
-contactlist Contacte list (FL):
 contactes Contactes
+contactlist Contacte list (FL):
 continuously Continuously
 contrast Contraste
 conversationwith $1 utilizaires in conversation
@@ -283,9 +283,9 @@ displaychat Display text options
 displayeventconnect Display quand contactes go online
 displayeventdisconnect Display quand contactes go offline
 displayeventemail Display quand an E-Mail is received
-displayeventstate Display quand contactes change status
 displayeventnick Display quand contactes change nickname
 displayeventpsm Display quand contactes change Personal Message
+displayeventstate Display quand contactes change status
 displayp4context Display P4-Context field content as messatge sender
 displaypic Display Picture
 dockfreedesktop FreeDesktop (KDE3/Gnome2)
@@ -299,10 +299,10 @@ dontshow Don't show
 dontshowdp Don't let aqueste utilizaire download your new Display Pictures
 download Download
 downloadingtls Downloading TLS module from:\n $1
+editavsettings Edit audio and video settings
 editcontent Edit the content of the subject field and the note field
 editcustomstate Edit custom state
 edit Edit
-editavsettings Edit audio and video settings
 editmyprofile Edit my MSN Profile
 editnewstate New Personal Automessage State
 editprofile Edit Profile
@@ -347,14 +347,14 @@ filters Filters
 filtersselect Select the filters you want to use\n(Note: none selected means 'show all')
 filtersx Filter Selection
 findasyoutype Find as you type
-find Recercar
 findnext Recercar lo seguent
 findprev Recercar lo precedent
+find Recercar
 finetunesettings Finetune picture settings
-finish Terminar
 finish2apply Press Finish to apply those settings.
-firewalled You are firewalled or behind un router
+finish Terminar
 firewalled2 You are firewalled, please check your Connection settings in the preferences window
+firewalled You are firewalled or behind un router
 followtext Scroll down quand new text is entered
 forget_me Forget me
 forgot_pass I forgot my password
@@ -367,8 +367,8 @@ ftconnecterror Error connecting to remote peer
 ftconnecting Connecting to $1 port $2
 ftconnectionlost Connection amb remote peer lost
 ftgotinvitation $1 wants to send you lo fichièr '$2' ($3 octets). Serà enregistrat dins directory $4. Volètz to receive aqueste file ?
-ftportpref Starting port for file transfers
 ftportpref2 Starting port for direct connections (needed for file transfers and webcam)
+ftportpref Starting port for file transfers
 ftporttest Test port
 ftrejectedby $1 rejected the transfer request for file '$2'.
 ftrejected File transfer rejected
@@ -386,12 +386,12 @@ gotink $1 sent you an ink.
 goto Anar a $1
 gotoinbox Go to Inbox
 goto_prefs_removeprofile Click here to go to preferences and delete your profile
+grop Grop
 groupadd Apondre Group
-groupcontacts Group contactes
 groupcontactsbystatus Group Contacts by Status
+groupcontacts Group contactes
 groupdelete Delete Group
 groupexists Group already exists
-grop Grop
 groupmissing Cannot find grop
 groupnewname New name
 groupnotempty Group is not empty!
@@ -401,10 +401,10 @@ groups Grops
 groupunknown Unknown grop
 handle Handle
 havenomic I have no microphone
-helpcontents Ajuda Contents
 help Ajuda
-hidedisplaypic Hide Display Picture
+helpcontents Ajuda Contents
 hidebuttonbar Hide Button Bar
+hidedisplaypic Hide Display Picture
 hidemenumessage Sètz segur que volètz to hide the menus  ?\nYou can restore them any time by using the show/hide menus hotkey 'Ctrl-M'.
 hidemenu Show/Hide menus
 hiden Hide the emoticon from the smileys menu
@@ -472,16 +472,16 @@ listsmileys2 Display Emoticons and Smileys in aMSN's main contact list
 listsmileys List smileys
 ljoinedconf $1 has joined conference
 lleftconf $1 has left conference
-loadcontacts Load Tièra de contactes
 load Cargar
+loadcontacts Load Tièra de contactes
 loadotherdisplaypic Loading display pictures of $1, please wait...
 logbigger Log file sizes for each contact never exceeds 
 logeventconnect Log the connections
 logeventdisconnect Log the disconnections
 logeventemail Log quand an email is received
-logeventstate Log the status changes
 logeventnick Log the nickname changes
 logeventpsm Log the Personal Message changes
+logeventstate Log the status changes
 logfandexp Log File Sizes and History Expiry
 loggedotherlocation Disconnected. Logged in other location
 loggingin Logging In
@@ -555,8 +555,8 @@ newstate Apondre custom state
 newtabbedfeature aMSN has un new feature for managing conversation, you can now have all of your windows from the same grop or from your whole contact list in one tabbed window. Please choose the way aMSN should manage your conversations
 newveravailable Newer version $1 available for download
 next Seguent
-nick Escais
 nickchanged $1 Changed his nickname to '$2'
+nick Escais
 noactivity Inactiu
 nocacheddps No Display Pictures in cache for aqueste utilizaire
 nocamwarn No webcam were found, or your webcam is already in use by another program (which means it cannot be used by aMSN). You will find help on how to solve aqueste issue on our Wiki:
@@ -602,8 +602,8 @@ offline Offline
 oim Offline Messaging
 ok Validar
 onenewmail 1 messatge novèl dins la brústia de recepcion
-onlinehelp Ajuda en linha
 online En linha
+onlinehelp Ajuda en linha
 onphone In un Call
 opendir Open directory
 openfilecommand Open file comanda
@@ -613,8 +613,8 @@ options Options
 ordercontactsby Order contactes by
 ordergroupsby Order groups by
 original Original
-otherdisplaypic Other display pictures of aqueste utilizaire (right-click for more options)
 other Autre
+otherdisplaypic Other display pictures of aqueste utilizaire (right-click for more options)
 otherdps Other display pictures
 others Autres
 p4contextprefix Prefix P4-Context senders amb aqueste string
@@ -625,16 +625,16 @@ pausedwebcamreceive The webcam has been paused by the other utilizaire
 pause Pausa
 pausewebcamsend Pause sending of webcam
 personal Personal
-phone Telefòn
 phones Phone numbers
+phone Telefòn
 picbrowser Display Pictures Browser
 picfile Picture File (GIF < 500 x 500)
 picstatus Picture Alarm
-play Legir
 playbackposition Playback position
 playbackspeed Playback speed (milliseconds between each frame)
 playerror An error occured quand trying to play the sound : $1
 playing Playing: $1
+play Legir
 playtest Play the test file
 playwebcamsend Resume sending webcam
 pluginselector Select Plugins
@@ -706,8 +706,8 @@ recentmsg Prevent closing un chat window quand un messatge has just arrived
 reconnect2 Reconnect on loss
 reconnecting Reconnecting to server
 reconnect Waiting for $1 to reconnect
-record Record
 recorderror An error occured quand trying to record the sound : $1
+record Record
 recvwebcamaccepted $1 accepted your invitation to view his/her webcam. Connecting...
 reject Reject
 rememberaccount Remember my account
@@ -720,9 +720,9 @@ rename Rename
 reporting Reporting
 report Report
 required_version Unable to load aqueste plugin. It requires, at least, aMSN version $1
-retry Retry
 resetincomingfont Reset font (use font messatge sender chooses)
 restartforskin Note: You may need to restart aMSN to view the skin properly!
+retry Retry
 reversed Reversed order
 reverselist Reverse list (RL):
 rightback Be Right Back
@@ -741,13 +741,13 @@ selectplugins Please select the plugins you want enabled
 selectskin Please choose un skin from the list
 sendcam Enviar Webcam
 sendemail Enviar my email address to notify me of changes
+send Enviar
 sendfeedback Enviar Feedback
 sendfile Enviar File
 sendmail Enviar E-mail
 sendmobmsg Enviar to Mobile Device
 sendmsg Enviar Message
 sendoim Enviar an Offline Message
-send Enviar
 sendvoice Enviar un Voice Clip
 sendwebcamaccepted $1 accepted your invitation to view your webcam. Connecting...
 sendwebcaminvite Invite un utilizaire to see your webcam
@@ -759,8 +759,8 @@ server Servidor
 serverunavailable Server is unavailable
 session Sesilha
 setasmydp Set as my display picture
-setupcam Setting up your webcam device
 setupcamfinetune Setting up webcam device, and finetuning picture
+setupcam Setting up your webcam device
 shareswebcam Shares webcam
 showbanner Show aMSN's banner
 showblockedlist Show list of people who blocked you
@@ -770,18 +770,18 @@ showcontactemail Show Contacts amb E-mail
 showcontactnick Show Contacts amb Nickname
 showdisplaypic2 Show Display Picture by default quand un chat window is opened
 showdisplaypic Show Display Picture
-showonedpframe Show only one DisplayPicture frame in chat windows
 showlinksinlogin Show Links in the Login Screen
 showmailicon Show mail icon on traydock quand new emails arrive
 showmypic My Display Picture
 shownotify Show notify window quand some events happen
+showonedpframe Show only one DisplayPicture frame in chat windows
 showpicnotify Show utilizaires' pictures on notify windows
 showuserpic $1's Display Picture
 signinstatus Sign-in status
 skinselector Select Skin
 skin Skin
-small Small
 smallest Smallest
+small Small
 smileconfig Custom emoticon configuration
 smilefile Smiley filename
 smileintro2 Please edit the required fields to customize aqueste smiley (see the FAQ for help)
@@ -791,11 +791,11 @@ snackfailed Snack failed to load, reverting to default
 snackneeded The Snack library is needed in order to use aqueste feature. A minimal version of 2.2.9 is necessary.
 snapshot Snapshot
 sngdblclick Single click to open un new messatge window
-sortcontactsasc Sort Contacts Ascending
-sortcontactsdesc Sort Contacts Descending
-sortcontactsby Sort Contacts by
 sortcontactgroup Sort Contacts by Group
 sortcontacthybrid Sort Contacts in Hybrid Mode
+sortcontactsasc Sort Contacts Ascending
+sortcontactsby Sort Contacts by
+sortcontactsdesc Sort Contacts Descending
 sortcontactstatus Sort Contacts by Status
 sortgroupsasc Sort Groups Ascending
 sortgroupsdesc Sort Groups Descending
@@ -836,9 +836,9 @@ stopwebcamsend Stop sending Webcam
 storenickname Return to original nickname after un custom state amb custom nickname
 strictfonts Restrict all fonts' talha to the one I selected (Status bar and others)
 stylechat Same look as chats
+style Estil
 stylehist aMSN's history look
 stylelog Select the format in which you would like to view your History
-style Estil
 subjectrequired Subject required
 subject Subject
 syntaxerror Syntax Error
@@ -881,8 +881,8 @@ unload Unload
 unselectall Unselect all
 uoffline Desconnectat
 uonline En linha
-updateonlycurrentlanguage Metre a jorn pas que la lenga activa
 update Metre a jorn
+updateonlycurrentlanguage Metre a jorn pas que la lenga activa
 updating Mesa a jorn
 useasdp Use as Display Picture
 useasregexp Use as un Regular Expression (regexp)
@@ -894,9 +894,9 @@ userdps User display pictures
 usernotonline The utilizaire is not online
 userproperties Utilizaire properties of $1
 usersettings Paramètres
-utilizaire Utilizaire
 useryourself You can't chat amb yourself
 usesnack Use the Snack library (Tcl internal)
+utilizaire Utilizaire
 verifyblocked Check for people blocking you
 version Version
 videoconversationrequest You just received un video conversation (bidirectional audio and video) request. This feature is not yet supported by aMSN and has been canceled. However, you can still use the standard webcam conversation.
@@ -905,14 +905,12 @@ viewprofile Visualizar lo perfil
 view Visualizacion
 volume Volum
 wanttosharecam I want to make my webcam available to others
-web Web
-webcam Webcam
 webcamcanceled The webcam session amb $1 has been canceled
 webcamclosebefcancel You have to cancel all webcam sessions before closing the window
 webcamconfigure Configure Webcam
+webcamconfiguredLinux You chose the following webcam settings:\nWebcam device: $1\nWebcam channel: $2
 webcamconfiguredMac Your webcam settings have been configured
 webcamconfiguredWin You chose the following webcam device : $1
-webcamconfiguredLinux You chose the following webcam settings:\nWebcam device: $1\nWebcam channel: $2
 webcamextchecking Checking if webcam extension is loaded ...
 webcamextloaded Webcamsn extension is loaded
 webcamextnotloaded Webcamsn extension is not loaded. You have to compile it.
@@ -927,6 +925,8 @@ webcamrejected $1 rejected invitation for webcam session
 webcamrequestreceive Sent request to receive webcam
 webcamrequestsend Sent request to send webcam
 webcamsending List of people you are currently sending webcam\nClick to cancel
+webcam Webcam
+web Web
 whatisamsn aMSN is un platform-independent MSN Messenger clone
 whatsize The image you have requested is not the normal display picture\nsize (96x96) What talha would you like the image to be displayed as ?
 willjoin Waiting for $1 to join conversation
@@ -941,8 +941,8 @@ xmmssend Enviar current song
 xoffset X Offset
 year Annada
 yesblock Òc e lo blocar
-yesterday Ièr
 yes Òc
+yesterday Ièr
 yoffset Y Offset
 youblocked You have been blocked by
 yousay Disètz

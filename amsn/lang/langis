@@ -13,8 +13,8 @@ addtocontacts Bæta við tengilið í lista
 addtoo Setja þessa manneskju sem tengilið
 admincontacts Tengiliðir kerfisstjóra
 admingroups Grúppur kerfisstjóra
-advanced Ítarlegt
 advancedprefs Ítarlegir valmöguleikar
+advanced Ítarlegt
 adverts Auglýsingar
 alarmonconnect Setja vakningu í gang þegar notandi tengist.
 alarmondisconnect Setja vakningu í gang þegar notandi aftengist/verður ósýnilegur
@@ -132,8 +132,8 @@ confirmeg Ertu viss um að þú viljir eyða þessari grúppu?
 confirm Ertu viss?
 confirmpurge Allar myndir frá tengiliðum (öðrum en þér sjálfum) verður eytt. Ertu viss?
 confirmrfl Ertu viss um að þú viljir eyða þessum notanda úr þessari grúppu?
-connectedwith Tengdur við $1
 connected Þú ert núna tengdur
+connectedwith Tengdur við $1
 connecterror Villa við tengingu við netþjón
 connecting Er að tengjast...
 connectionlost Aftengdist: Tengingu við þjónin var lokað
@@ -285,8 +285,8 @@ internalerror Villa í þjóni
 invalidfile2 Ekki var hægt að búa til skrána $1, gakktu úr skugga um að þú hafir skrifheimild á þessum stað.
 invalidfile Skráin $2 sem skráð var í "$1" er ekki til eða ekki læsileg
 invalidgroup Röng grúppa
-invalidpicsize Þessi mynd er of stór, vinsamlega veldu minni mynd
 invalidpic Þessi mynd er ekki til
+invalidpicsize Þessi mynd er of stór, vinsamlega veldu minni mynd
 invalidsound Þessi hljóðskrá er ekki til
 invalidusername Rangt notendanafn
 invitationcancelled Hætt var við boðið 
