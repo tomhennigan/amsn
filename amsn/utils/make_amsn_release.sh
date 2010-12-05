@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TAG='Release-0_98_3'
-VERSION='0.98.3'
+TAG='Release-0_98_4'
+VERSION='0.98.4'
 DIR_NAME="amsn-$VERSION"
 SKINS="Dark%20Matter%204.0 Oxygen"
 RM_PLUGINS='DualDisplayPicture advancedconfigviewer chameleon devel'
