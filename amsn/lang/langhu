@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abookerror Az aMSN nem tudta letölteni a partnerlistád. Ez valószínűleg az MSN szerverek átmeneti hibája. Jelenleg a mentett parnerlistával léptél be, ha létezik. Elnézést kérünk a kellemetlenségért, kérjük, próbáld meg később.
 abort Megszakítás
 aboutamsn Az aMSN névjegye
 about Névjegy
@@ -1037,6 +1038,7 @@ update Frissítés
 updateonlycurrentlanguage Csak a jelenlegi nyelv frissítése
 updatesaved Kész\n $1 elmentve ide: $2.
 updating Frissítés
+upgradetcltk Az aMSN használatához $1 vagy újabb TCL/TK kell, kérjük, frissítsd.
 useasdp Kijelző kép használata
 useasregexp Reguláris kifejezésként használd (regexp)
 useother Más program használata
