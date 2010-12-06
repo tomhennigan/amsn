@@ -641,7 +641,7 @@ proc mailicon_proc {num} {
 		} elseif {[MacDock] } {
 			#add the icon
 			set mailicon [::statusicon::create mailicon_callback]
-			::statusicon::setTooltip $mailicon "[trans onenewmail]"
+			::statusicon::setTooltip $mailicon $msg
 			::statusicon::setImage $mailicon $pixmap
 		}
 
