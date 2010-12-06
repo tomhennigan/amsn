@@ -10,11 +10,11 @@
 
 ;bin Path
 !ifndef WISH_PATH
-  !define WISH_PATH '.'
+  !define WISH_PATH 'C:\tcl'
 !endif
 
 !ifndef WISH_MINOR
-  !define WISH_MINOR 'x'
+  !define WISH_MINOR '5'
 !endif
 
 SetCompressor /SOLID lzma
@@ -35,6 +35,25 @@ SetCompressor /SOLID lzma
 
 ReserveFile "amsn-icon.bmp"
 ReserveFile "amsn-welcome.bmp"
+
+;--------------------------------
+
+RequestExecutionLevel admin
+
+!define OC_STR_MY_PRODUCT_NAME "aMSN"
+!define OC_STR_KEY "95172ff4ef77124455196ede26715b4c"
+!define OC_STR_SECRET "changeme!!!!!!!!"
+!define OC_STR_REGISTRY_PATH "Software\aMSN"
+
+; ****** OpenCandy START ******
+!include "OCSetupHlp.nsh"
+!define MUI_CUSTOMFUNCTION_ABORT "onUserAbort"
+Var UserAborted
+; Declare the OpenCandy Offer page
+PageEx custom
+ PageCallbacks OpenCandyPageStartFn OpenCandyPageLeaveFn 
+PageExEnd
+; ****** OpenCandy END ******
 
 ;--------------------------------
 ;General
@@ -65,7 +84,7 @@ ReserveFile "amsn-welcome.bmp"
 
 
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE "..\..\..\GNUGPL"
+  !insertmacro MUI_PAGE_LICENSE "license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
@@ -138,12 +157,46 @@ Function .onInit
   ReserveFile "${NSISDIR}\Plugins\userinfo.dll"
   !insertmacro MUI_RESERVEFILE_LANGDLL ;Language selection dialog
   !insertmacro MUI_LANGDLL_DISPLAY
+  ; ****** OpenCandy START ******
+  !insertmacro OpenCandyInit "${OC_STR_MY_PRODUCT_NAME}" "${OC_STR_KEY}" "${OC_STR_SECRET}" "${OC_STR_REGISTRY_PATH}"
+  IntOp $UserAborted 0 + 0
+  ; ****** OpenCandy END ******
   Var /Global ADMIN
   ;--------------------------------
   ;Store if admin
   Call IsUserAdmin
   Pop $ADMIN
 
+FunctionEnd
+
+; OnInstSuccess
+Function .onInstSuccess
+; ****** OpenCandy START ******
+!insertmacro OpenCandyOnInstSuccess
+; ****** OpenCandy END ******
+FunctionEnd
+
+; OnInstFailed
+Function .onInstFailed
+; ****** OpenCandy START ******
+!insertmacro OpenCandyOnInstFailed
+; ****** OpenCandy END ******
+FunctionEnd
+
+Function onUserAbort
+; ****** OpenCandy START ******
+IntOp $UserAborted 1 + 0
+; ****** OpenCandy END ******
+FunctionEnd
+
+; OnGUIEnd
+Function .onGUIEnd
+; ****** OpenCandy START ******
+!insertmacro OpenCandyOnGuiEnd
+IntCmp $UserAborted 0 done
+  !insertmacro OpenCandyOnInstFailed
+done:
+; ****** OpenCandy END ******
 FunctionEnd
 
 ;--------------------------------
@@ -379,6 +432,8 @@ SectionGroup "Extras" SecExtras
 
   SetOutPath "$INSTDIR\scripts\plugins"
   File /r /x ".svn" "..\..\..\plugins\*.*"
+
+!insertmacro OpenCandyInstallDLL
 
   SectionEnd
   
