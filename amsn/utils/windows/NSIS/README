@@ -4,10 +4,12 @@ To make the install package you need :
 - The Tls package for Windows
 - The TkDnd2 package with source files removed
 - An export of the aMSN directory (checkout can work too but it's safer to export)
+- OpenCandy SDK together with our key
 
 Instructions :
 Copy the Tls package in C:\Tcl\Lib\Tls
 Copy the TkDND2 package in C:\Tcl\Lib\TkDND2.0
+Copy OCSetupHlp.dll, OCSetupHlp.nsh and OpenCandy_Why_Is_This_Here.txt to utils\windows\NSIS (this directory)
 
 Open the NSIS Compiler.
 
