@@ -42,18 +42,8 @@ RequestExecutionLevel admin
 
 !define OC_STR_MY_PRODUCT_NAME "aMSN"
 !define OC_STR_KEY "95172ff4ef77124455196ede26715b4c"
-!define OC_STR_SECRET "changeme!!!!!!!!"
-!define OC_STR_REGISTRY_PATH "Software\aMSN"
-
-; ****** OpenCandy START ******
-!include "OCSetupHlp.nsh"
-!define MUI_CUSTOMFUNCTION_ABORT "onUserAbort"
-Var UserAborted
-; Declare the OpenCandy Offer page
-PageEx custom
- PageCallbacks OpenCandyPageStartFn OpenCandyPageLeaveFn 
-PageExEnd
-; ****** OpenCandy END ******
+!define OC_STR_SECRET "changeme!!!!"
+!define OC_STR_REGISTRY_PATH "Software\aMSN\OpenCandy"
 
 ;--------------------------------
 ;General
@@ -87,6 +77,17 @@ PageExEnd
   !insertmacro MUI_PAGE_LICENSE "license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
+
+; ****** OpenCandy START ******
+!include "OCSetupHlp.nsh"
+!define MUI_CUSTOMFUNCTION_ABORT "onUserAbort"
+Var UserAborted
+; Declare the OpenCandy Offer page
+PageEx custom
+ PageCallbacks OpenCandyPageStartFn OpenCandyPageLeaveFn 
+PageExEnd
+; ****** OpenCandy END ******
+
   !insertmacro MUI_PAGE_INSTFILES
   !insertmacro MUI_PAGE_FINISH
   
@@ -433,7 +434,7 @@ SectionGroup "Extras" SecExtras
   SetOutPath "$INSTDIR\scripts\plugins"
   File /r /x ".svn" "..\..\..\plugins\*.*"
 
-!insertmacro OpenCandyInstallDLL
+  !insertmacro OpenCandyInstallDLL
 
   SectionEnd
   
@@ -463,6 +464,7 @@ SectionGroup "Shortcuts" SecShortcuts
     CreateShortCut "$SMPROGRAMS\aMSN\aMSN.lnk" "$INSTDIR\amsn.exe" ""
 
     CreateShortCut "$SMPROGRAMS\aMSN\Uninstall.lnk" "$INSTDIR\uninstall.exe"
+
   SectionEnd
   
 SectionGroupEnd
