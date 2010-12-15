@@ -59,18 +59,20 @@ if(!defined('_FUNC_LIB_')) {
   /* REMOTE OS IDENTIFICATION */
   function remoteOS() {
     $agent = $_SERVER['HTTP_USER_AGENT'];
-    if (preg_match("/win/", $agent))
+    if (preg_match("/win/i", $agent))
       return "Windows";
-    elseif (preg_match("/mac/", $agent))
+    elseif (preg_match("/mac/i", $agent))
       return "Mac";
-    elseif (preg_match("/linux/", $agent))
+    elseif (preg_match("/linux/i", $agent))
       return "Linux";
-    elseif (preg_match("/OS\/2/", $agent))
+    elseif (preg_match("/OS\/2/i", $agent))
       return "OS/2";
-    elseif (preg_match("/BeOS/", $agent))
+    elseif (preg_match("/BeOS/i", $agent))
       return "BeOS";
-    elseif (preg_match("/FreeBSD/", $agent))
+    elseif (preg_match("/FreeBSD/i", $agent))
       return "FreeBSD";
+    else
+      return "Unknown";
   }
 
   function ereg_mline($reg,$string) {
