@@ -180,7 +180,11 @@ if {$::tcl_version < 8.5} {
 	# Load the required files for translations and user's lang config
 	source sxml.tcl
 	source lang.tcl
-	source config.tcl
+	#source config.tcl
+	#Can't load config.tcl in 8.4, I can't make it work, so
+	#just autodetect lang - better than spitting out random errors!
+	scan_languages
+	load_lang [detect_language "en"]
 
 	tk_messageBox -default ok -message [trans upgradetcltk 8.5] -icon warning
 	exit
