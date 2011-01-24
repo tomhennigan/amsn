@@ -122,8 +122,8 @@ snit::type ContentRoaming {
 							set dp_filename $dp_resourceid
 						}
 						::abook::setPersonal dp_filename $dp_filename
-						set dp_url [GetXmlEntry $result "GetProfileResult:ExpressionProfile:StaticUserTilePublicURL"]
-						::abook::setPersonal dp_url $dp_url
+						#set dp_url [GetXmlEntry $result "GetProfileResult:ExpressionProfile:StaticUserTilePublicURL"]
+						#::abook::setPersonal dp_url $dp_url
 						set i 0
 						while {1} {
 							set subxml [GetXmlNode $result "GetProfileResult:ExpressionProfile:Photo:DocumentStreams" $i]
@@ -135,8 +135,8 @@ snit::type ContentRoaming {
 							if {$dsn == "UserTileStatic"} {
 								set dp_mimetype [GetXmlEntry $subxml "DocumentStreams:DocumentStream:MimeType"]
 								::abook::setPersonal dp_mimetype $dp_mimetype
-								#							set dp_url [GetXmlEntry $subxml "DocumentStreams:DocumentStream:PreAuthURL"]
-								#							::abook::setPersonal dp_url $dp_url
+								set dp_url [GetXmlEntry $subxml "DocumentStreams:DocumentStream:PreAuthURL"]
+								::abook::setPersonal dp_url $dp_url
 							}
 						}
 					}

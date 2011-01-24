@@ -1395,7 +1395,7 @@ namespace eval ::MSN {
 				set dpmimetype [::abook::getPersonal dp_mimetype]
 				set dplastrid [::abook::getPersonal dp_last_resourceid]
 				set dpurl [::abook::getPersonal dp_url]
-				
+
 				set dpfile "$dpfile.png"
 				status_log "downloadDP : comparing $dprid with $dplastrid" blue
 				
@@ -1457,6 +1457,8 @@ namespace eval ::MSN {
 								save_config
 								
 								status_log "downloadDP : setting new DP done" blue
+							} else {
+                                                                status_log "downloadDP : failed with status [::http::status $token] and code [::http::ncode $token]" blue
 							}
 						}
 					} else {
