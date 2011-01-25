@@ -236,6 +236,44 @@ proc GetPlatformModifier {} {
 	}
 }
 
+if { [OnX11] && [info commands ::tk::wm] == ""  && [info commands wm] == "wm" } {
+	rename wm ::tk::wm
+	proc ::wm {option window args} {
+		if {$option == "state"} {
+			if {[llength $args] == 0} {
+				set state [::tk::wm state $window]
+				if {$state == "normal"} {
+					if {[::tk::wm attributes $window -zoomed]} {
+						return "zoomed"
+					}
+				}
+				return $state
+			} elseif {[llength $args] == 1} {
+				set state [lindex $args 0]
+				if {$state == "normal"} {
+					::tk::wm attributes $window -zoomed 0
+					::tk::wm state $window normal
+				} elseif {$state == "zoomed"} {
+					::tk::wm state $window normal
+					::tk::wm attributes $window -zoomed 1
+				} else {
+					if {[catch {::tk::wm state $window $state} err]} {
+						if {[string first $err "bad argument"] == 0} {
+							error "bad argument \"$state\": must be normal, iconic, withdrawn or zoomed"
+						} else {
+							return -code error $err
+						}
+					}
+				}
+			} else {
+				error "wrong # args: should be \"wm state window ?state?\""
+			}
+		} else {
+			eval [linsert $args 0 ::tk::wm $option $window]
+		}
+	}
+}
+
 ################################################
 # 'Missing' image commands                     #
 ################################################

@@ -9624,20 +9624,20 @@ namespace eval ::MSNMobile {
 			after 200 "::MSNMobile::UpdateWindow $win $user"
 			
 			if { [winfo exists .bossmode] } {
-			set ::BossMode(${win_name}) "normal"
-			wm state $win withdraw
+				set ::BossMode(${win_name}) "normal"
+				wm state $win withdraw
 			} else {
-			wm state $win normal
+				wm state $win normal
 			}
 
 			wm deiconify $win
 		} else {
 			set win [::ChatWindow::For $chatid]
 			if { [winfo exists .bossmode] } {
-			set ::BossMode(${win_name}) "normal"
-			wm state $win withdraw
+				set ::BossMode(${win_name}) "normal"
+				wm state $win withdraw
 			} else {
-			wm state $win normal
+				wm state $win normal
 			}
 
 			wm deiconify $win
