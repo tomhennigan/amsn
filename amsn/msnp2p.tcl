@@ -1748,6 +1748,12 @@ namespace eval ::MSNP2P {
 			set MsgId [lindex [SessionList get $sid] 0]			
 			setObjOption $sid data_blob_id $MsgId
 		}
+
+                if { [$sbn cget -killme] != "" } {
+                        after cancel [$sbn cget -killme]
+                }
+		$sbn configure -killme [after 60000 "::MSN::CloseInactiveSB $sbn"]
+
 	}
 	
 	proc SetSendDataFileEvent { sock sbn sid fd match} { 
