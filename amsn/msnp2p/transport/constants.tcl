@@ -1,0 +1,33 @@
+namespace eval ::p2p::TLPFlag {
+
+	set NAK 0x1
+	set ACK 0x2
+	set RAK 0x4
+	set RST 0x8
+	set FILE 0x10
+	set EACH 0x20
+	set CAN 0x40
+	set ERR 0x80
+	set KEY 0x100
+	set CRYPT 0x200
+	set UNKNOWN 0x1000000
+
+}
+
+namespace eval ::p2pv1::TLPFlag {
+
+	set NAK 0x1
+	set ACK 0x2
+	set RAK 0x4
+	set RST 0x8
+	set FILE 0x10
+	set EACH 0x20
+	set CAN 0x40
+	set ERR 0x80
+	set KEY 0x100
+	set CRYPT 0x200
+	set UNKNOWN 0x1000000
+
+}
+
+
