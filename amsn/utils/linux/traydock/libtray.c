@@ -180,7 +180,7 @@ DockIcon(ClientData clientData)
 		classHint->res_name = "amsn-window"; //TODO:  Change 
 		classHint->res_class = "amsn-wm_class"; //    those names?
 	}
-	XSetClassHint(display, _GetSystemTray(), classHint);
+	XSetClassHint(display, Tk_WindowId(icon->win), classHint);
 	XFree(classHint);
 }
 
