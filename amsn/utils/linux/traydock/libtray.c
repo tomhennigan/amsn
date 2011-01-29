@@ -174,6 +174,14 @@ DockIcon(ClientData clientData)
                     (unsigned char *)tray_name, 
                     strlen(tray_name)+1);
     XStoreName(display, _GetSystemTray(), tray_name);
+		
+	XClassHint* classHint = XAllocClassHint();
+	if(classHint){
+		classHint->res_name = "amsn-window"; //TODO:  Change 
+		classHint->res_class = "amsn-wm_class"; //    those names?
+	}
+	XSetClassHint(display, _GetSystemTray(), classHint);
+	XFree(classHint);
 }
 
 /* Draw the icon */
