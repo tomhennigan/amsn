@@ -10,7 +10,7 @@ rename toplevel Tk_toplevel
 
 proc toplevel { pathname args } {
 	set window [eval Tk_toplevel [list $pathname] $args]
-	::macWindowStyle::setBrushed $window
+	catch {::macWindowStyle::setBrushed $window}
 	return $window
 }
 
