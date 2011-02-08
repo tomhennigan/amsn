@@ -89,11 +89,11 @@ static int Tk_WinLoadFile (ClientData clientData,
 
 	res = (int) ShellExecute(NULL, L"open", file, argsStr, NULL, SW_SHOWNORMAL);
 	if (res <= 32) {
-		Tcl_Obj *result = Tcl_NewStringObj("Unable to open file : ", strlen("Unable to open file : "));
-		Tcl_AppendUnicodeToObj(result, file, lstrlen(file));
-		Tcl_AppendToObj(result, " " , strlen(" "));
-		Tcl_AppendUnicodeToObj(result, argsStr, lstrlen(argsStr));
-		Tcl_AppendToObj(result, " : " , strlen(" : "));
+		Tcl_Obj *result = Tcl_NewStringObj("Unable to open file : ", -1);
+		Tcl_AppendUnicodeToObj(result, file, -1);
+		Tcl_AppendToObj(result, " " , -1);
+		Tcl_AppendUnicodeToObj(result, argsStr, -1);
+		Tcl_AppendToObj(result, " : " , -1);
 		Tcl_AppendObjToObj(result, Tcl_NewIntObj(res));
 
 		Tcl_SetObjResult(interp, result);

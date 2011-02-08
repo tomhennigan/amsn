@@ -153,9 +153,9 @@ DockIcon(ClientData clientData)
 	Window parent;
 	unsigned int ret, atom;
 	TrayIcon *icon= clientData;
-	char* wm_name;
+	static const char *tray_name = "amsn-tray";
 
-    Tk_MakeWindowExist(icon->win);
+	Tk_MakeWindowExist(icon->win);
 
 	Tk_SetWindowBackgroundPixmap(icon->win, ParentRelative);
 
@@ -165,15 +165,14 @@ DockIcon(ClientData clientData)
 	send_message(display, _GetSystemTray (), atom,
 			SYSTEM_TRAY_REQUEST_DOCK,Tk_WindowId(icon->win),0,0);
 			
-    char *tray_name = "amsn-tray";
-    XChangeProperty(display, _GetSystemTray(), 
-                    XInternAtom(display, "_NET_WM_NAME", False), 
-                    XInternAtom(display, "UTF8_STRING", False), 
-                    8, 
-                    PropModeReplace, 
-                    (unsigned char *)tray_name, 
-                    strlen(tray_name)+1);
-    XStoreName(display, _GetSystemTray(), tray_name);
+	XChangeProperty(display, _GetSystemTray(), 
+			XInternAtom(display, "_NET_WM_NAME", False), 
+			XInternAtom(display, "UTF8_STRING", False), 
+			8, 
+			PropModeReplace, 
+			(unsigned char *)tray_name, 
+			strlen(tray_name)+1);
+	XStoreName(display, _GetSystemTray(), tray_name);
 		
 	XClassHint* classHint = XAllocClassHint();
 	if(classHint){
