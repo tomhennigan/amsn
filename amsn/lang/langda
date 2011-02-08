@@ -1,9 +1,11 @@
 amsn_lang_version 2
+abookerror aMSN kunne ikke downloade din kontaktliste. Dette er sandsynligvis et midlertidigt problem med MSN serverne. Du er nu logget ind med din tidligere gemte kontaktliste (hvis der findes en).Vi undskylder ulejligheden Prøv venligst igen senere.
 abort Afbryd
 aboutamsn Om aMSN
 about Om
 accept Accepter
 acceptfile Accepter fil $1, størrelse $2? Gemt i $3
+accountkid Denne børnekonto kan ikke bruges med Messenger. Du er nødt til at gå til Kids Passport hjemmesiden og give forældresamtykke.
 account Konto
 actions Handlinger
 activeautoupdate Automatisk opdatering
@@ -13,7 +15,10 @@ addprofiledesc Skriv det login-navn som du vil lave en ny profil til.\nProfilere
 addprofile Tilføj ny profil
 addstate Tilføj ny status
 add Tilføj
+addtoal Tilføj til AL
+addtobl Tilføj til BL
 addtocontacts Tilføj til kontaktliste
+addtofl Tilføj til FL
 addtoo Tilføj denne person til min kontaktliste
 addto Tilføj til $1
 admincontacts Admin kontakter
@@ -57,6 +62,7 @@ assistantainput Vælg din input enhed og forsøg at optage med det.
 assistantaoutput Vælg din output enhed og forsøg at afspille denne fil for at teste enheden.
 assistantawarn Du vil ikke have mulighed for at optage dig selv eller tale med dine venner. Du kan finde svar på hvordan du installerer denne udvidelse på vores Wiki:
 assistantfinetunepic Ændrer de følgende indstillinger for at justere billedkvaliteten på dit webcam
+assistantnote NOTE: denne indstilling er *KUN* for '$1'-funktionen
 assistantselectcam Vælg dit webcam fra listen
 assistantstarting Starter guiden
 assistanttitle Lyd- og Videoassistent
@@ -66,6 +72,9 @@ audiovideo Lyd og Video indstillinger
 author Forfatter
 autoaccepted Fil-overførsel automatisk acceptéret
 autoacceptft Acceptér fil-overførsels-forespørgelser automatisk
+autoacceptwc Acceptér automatisk webcam anmodninger
+autoaudiosinkdesc Find automatisk den bedste lyd-output enhed til dit system
+autoaudiosrcdesc Find automatisk den bedste lyd-input enhed til dit system
 autoaway Vis mig som "Ikke til stede" når jeg har været inaktiv i
 autocheckver Tjek automatisk efter nye versioner ved opstart
 autoconnect2 automatisk log på når aMSN startes
@@ -75,13 +84,18 @@ autohotmaillog Hotmail autologin
 autoidle Automatisk Inaktiv
 autoip Automatisk IP
 autolisten_voiceclips Automatisk afspil lydklip ved modtagelse
+automaticsink Find automatisk output
+automaticsrc Find automatisk input
 automessage AutoBesked
 autonoact Vis mig som "Ikke aktiv" når jeg har været inaktiv i
 autoresizedp Automatisk ændre display billede til standard størrelse
+autovideosinkdesc Find automatisk den bedste video output metode til dit system
+autovideosrcdesc Find automatisk webcam enheden på dit system
 avaccepted Anmodning om videokonference accepteret
 avcanceled Anmodning om videokonference anulleret
 avgotinvitation Anmodning om videokonference modtaget fra $1
 avinitfailed Initialisering af lyd- eller videosamtale fejlede. Samtale anulleret
+av Lyd- og videokonference
 avoidseen Undlad at denne person kan se, når jeg er online
 away Ikke til stede
 awaymsg1 Spørg efter "Ikke til stede" besked hver gang jeg ændrer min status til Ikke til stede/Er straks tilbage/Optaget
@@ -91,6 +105,7 @@ baduserpass Forkert brugernavn eller password
 badwebcam Kan ikke vise webcamet's billed. Hver sikker på dit webcam er sat til og installeret.
 bgcolor Ændre aMSN's baggrundsfarve
 blankdirect Efterlad blank for direkte forbindelse
+blinktray Lad tray-iconet blinke når der er ulæste beskeder
 block Bloker
 blocked Blokeret
 blockedyougroup Vis en separat gruppe med folk der har blokeret dig
@@ -106,6 +121,7 @@ blocksounds Slå lyde fra
 blockusers Antal brugere der skal tjekkes af gangen
 bouncedock Afvis aMSN's ikon i bjælen når en besked modtages
 brightness Lysstyrke
+bringtofront Anbring alle forrest
 broughtby Bragt til dig af følgende udviklere
 browse Gennemse
 browser Browser
@@ -117,6 +133,7 @@ bytesymbol B
 cachedpics $1 gemte billeder
 cachedpicsfor Gemte display billeder for brugeren
 cagreement Fortrolig med Aftalen
+cam_in_cw Vis webcam-streams indbygget i chatwinduerne
 cancel Annuller
 cancelled Afbrudt
 cannotdeleteprofile Kan ikke slette profilen da det ser ud til, at profilen er i brug af en aMSN session
@@ -138,6 +155,7 @@ changefont Skift skrifttype
 changeglobnick Skift globalt kaldenavn
 change_mobile Ændre mobilindstillinger
 changenick Skift kaldenavn
+changepsm Ændre personlig besked
 change Redigér
 changesize Skift størrelse
 changestate $1 skifter status til $2
@@ -163,6 +181,8 @@ checkonfln Tjek om en bruger bare har blokeret dig, når han/hun går offline
 checkopenfilecommand Vér venlig at kontrollere åben fil kommandoen i egenskaber
 checkver Tjek for ny version
 choosearq Vælg din system-arkitektur
+chooseaudiosink Vælg lyd-output
+chooseaudiosrc Vælg lyd-input
 choosebasefont Vælg skrifttype
 choosebgcolor Vælg baggrundsfarve
 choosechannel Vælg en kannel
@@ -174,6 +194,7 @@ chooselocation Vælg ny filplacering
 choosemixerdev Vælg din mixer
 chooseoutputdev Vælg din output enhed
 chooseskin Vælg det skin du vil bruge
+choosevideosrc Vælg video-input
 ch_to_state Skift til ny status
 clearlog2 Tøm historien for alle dine kontaktpersoner
 clearlog3 Tøm alle log-filer
@@ -192,12 +213,16 @@ closed Samtalen med $1 er lukket pga. inaktivitet
 closelabel Når du klikker på luk knappen i et faneblad chat vindue
 close Luk
 closeonly Luk kun den aktuelle faneblad
+closeorcall Du skal lukke/annullere lyd-opkaldet inden du lukker vinduet.
+closeorcallvideo Du skal lukke/annullere video-opkaldet inden du lukker viduet.
 closeordock At lukke kontaktlisten vil afslutte aMSN. Måske mente du bare at du ville lukke kontaktlisten og lade aMSN være åbent i docken.\n\nEr du sikker på at du vil afslutte aMSN?
 closeothers Luk alle andre tabs
 closingdocks Luk-knap minimerer vinduet
 color Farve
 command Kommando
 commandstatus Eksekver kommando
+compactstyle Kompakt stil
+configpermissionerror Fejl under skrivning af konfigurationsfil. Søg for at de korrekte tilladelser for mappen $1
 configure Konfigurér
 configuremic Konfigurer din mikrofon
 configureplugin Konfigurer plugin $1
@@ -208,9 +233,11 @@ confirmdg Er du sikker på du ønsker at slette denne gruppe?
 confirmdu Er du sikker på du ønsker at slette denne bruger?
 confirmeg Er du sikker på du ønsker at tømme denne gruppe?
 confirm Er du sikker?
+confirmfulldelete Slet også fra Windows Live Address Book
 confirmpurge Alle gemte display-billeder fra andre kontakter (ikke dine egne display-billeder) vil blive slettet. Er du sikker?
 confirmrfl Er du sikker på du ønsker at slette denne bruger fra denne gruppe?
 congrats Tillykke
+connectedat Tilsluttet:
 connected Du er nu tilsluttet
 connectedwith Forbundet med $1
 connecterror Kunne ikke få forbindelse til server
@@ -223,6 +250,7 @@ contactdoesnotexist Kontakt eksisterer ikke!
 contact Kontakt
 contactlist Kontakt-Liste (KL):
 contacts Kontakter
+contentroamingsetting Gem display billede på serveren
 continuously Fortsat
 contrast Kontrast
 conversationwith $1 personer i samtalen
@@ -238,7 +266,10 @@ cprofile Opret profil
 created Opret
 credits Credits
 curdisplaypic Nuværende display billede
+curfssinknotworking Det valgte outputvirker ikke - bruger '$1' i stedet
+curfssrcnotworking Det valgte input virker ikke - bruger '$1' i stedet
 currentdate Nuværende Dato
+currentdynrate Aktuelle real-time hastighed (i millisekunder)
 currentlanguage Det aktuelle sprog
 currentnotes nuvérende noter
 custnotifymsg Vis beskedvindue når en ny brugerbesked modtages
@@ -256,6 +287,7 @@ custshowcustomsmileys Vis brugers custom emoticons
 cutimageboxreset Gendan valgte boks\nstørrelse til:
 cutimagebox Vælg den part af billedet du vil bruge, trakke og flytte boksen
 cut Klip
+cyclewindows Bladre mellem vinduerne
 date Dato
 dateformat Skift datoformat
 day Dag
@@ -279,7 +311,9 @@ details Detaljer
 devicebusy Driver $1 er optaget
 devices Driver
 directconnection Jeg har en direkte forbindelse til Internettet (anvender port 1863)
+disabledaudiosrcdesc Frakoble lyd-input, og send ingen lyd fra din mikrofon
 disabled Deaktiveret
+disabledvideosrcdesc Frakoble video-input og send ikke video fra webcam
 disableprofiles Deaktivér profiler (Nyttig i netcaféer eller offentlige områder)
 disablessl Anvend ikke SSL
 disableuserfonts Ignorer fjernbrugerens valg af fonte i chatten, og brug din egen font
@@ -308,6 +342,7 @@ downloadcanceled Download annulleret.
 download Hent
 downloadingtls Henter TLS-modulet fra:\n $1
 downloadingwait Henter ny aMSN version. Vent venligst...
+dynamicrate Brug dynamisk frame rate til at simulere real-time hastighed
 editavsettings Rediger lyd- og videoindstillinger
 editcontent Rediger indholdet i emne feltet og note feltet
 editcustomstate Redigér brugerdefineret status
@@ -318,6 +353,7 @@ edit Rediger
 editstate Redigér Eksisterende Auto-besked-Status
 editvalue Redigér værdi
 email E-mail
+emailnotverified (email ikke verificeret endnu!)
 emailsinlist Vis emails i stedet for kaldenavn i kontaktlisten
 emoticon_steal Tilføj humørikon
 emotisounds Afspil lyde for bestemte humørikoner
@@ -327,6 +363,7 @@ enabled Aktiveret
 enableproxy Tilslut proxy
 enableremote Gør fjernkontrol mulig
 enablesound Afspil lyd
+enablespaces Muliggør brug af Windows Live Spaces (EKSPERIMENTIEL)
 encoding2 Vælg måden hvorpå dine tegn er kodet
 encoding Vælg kodning
 enterbugdesc Skriv en beskrivelse om hvad du gør for at hjélpe os reproducere fejlne:
@@ -345,6 +382,8 @@ faileddelete Kunne ikke slette
 faileddeleteperso Dette billede kan ikke slettes, fordi det ikke er en personlig billedfil. Kun billeder, der tilhører din personlige profil, kan slettes på denne måde.
 failed Fejl
 faq OSS (Ofte Stillede Spørgsmål)
+farsightextchecking Check om Farsight-udvidelsen er loadet...
+farsightextwarn Do vil ikke kunne foretage SIP opkald. Do kan måske finde svar på, hvordan man installerer Farsight på vores Wiki:
 fetching Henter data...
 filedoesnotexist Filen eksisterer ikke
 file Fil
@@ -373,6 +412,12 @@ forgot_pass Jeg har glemt mit password
 formatcsv CSV format
 formatctt CTT format
 friendlyname Vennenavn
+fsautoaudiosinkchosen Automatisk valgt '$1' til lyd-output
+fsautoaudiosrcchosen Automatisk valgt '$1' til lyd-input
+fsautovideosrcchosen Automatisk valgt '$1' til video-input
+fsnodevfound Ingen enheder tilgængelige
+fsnosuitablesrc Ingen brugbart input-enhed fundet - bruger '$1' til test
+fssrcdisabledusing Frakobler input - bruger '$1' til test
 ftacceptedby $1 acceptérer filoverførsels-tilbud på filen '$2'.
 ftaccepted Filoverførsel accepteret
 ftaccepting Acceptérer filoverførsels-tilbud
@@ -388,9 +433,17 @@ ftrejectedby $1 har afvist filoverførsels-tilbuddet på filen '$2'.
 ftrejected Filoverførsel afvist
 ftsendinvitation Filoverførsels-tilbud på filen '$2' ($3 bytes) er blevet sendt til $1.
 fullcontactlist Desværre, din kontaktliste er fuld. Du er nødt til at fjerne nogle kontakter for at kunne tilføje nogle nye.
+gameaccepted $1 har accepteret din spil-invitation
+gameclosedbyother $1 har annulleret spillet med dig.
+gameclosedbyself Du har annulleret spillet med $1.
+gameinvitation $1 har inviteret dig til at spille $2. Vil du acceptere denne invitation?
+gamepluginnotfound $1 har inviteret dig til at spille $2 men der er ikke loadet noget plugin til dette spil. Aktivér og konfigurer venligst denne plugin først.
+gamerejected $1 har afvist din spil-invitation
+gamerequest Du har inviteret $1 til at spille $2
 getdisppic Modtag gerne Display-billeder fra andre brugere
 getmoreplugins Få flere Plungins!
 getmoreskins Få flere skins!
+getprofileoffline Hent offline brugeres kaldenavne og personlige beskeder (nedsætter måske hastigheden på login processen)
 globalcontainer Global container
 globalnick Indsæt en skabelon til at danne alle dine kontakters kaldenavne. Du kan bruge disse variabler:\$user_login for dine kontakters addresse, \$nick for dine kontakters kaldenavn og \$customnick for dine kontakters brugervalgte kaldenavn. For eksempel: '\$user_login er \$nick' vil være 'contact@msn.com er kontakt'
 globalnicktitle Globalt kaldenavn
@@ -408,20 +461,24 @@ groupexists Gruppen eksisterer allerede
 group Gruppe
 groupmissing Kan ikke finde gruppen
 groupnewname Nyt navn
+groupnonim Gruppér Non-Instant Messaging kontakter sammen
 groupnotempty Gruppen er ikke tom!
 groupoldname Gammelt navn
 grouprename Omdøb en gruppe
 groups Grupper
 groupunknown Ukendt gruppe
 handle Kaldenavn
+hangup Læg på
 havenomic Jeg har ingen mikrofon
 helpcontents Indhold i Hjælp
 help Hjælp
 hidebuttonbar Skjul knapper
+hidedetails Skjul detaljer
 hidedisplaypic Skjul Display-billede
 hidemenumessage Er du sikker på at du vil skjule menuerne?\nDu kan til enhver tid gendanne dem ved at bruge skjul/vis menu genvejen 'Ctrl-M'.
 hidemenu Vis/skjul menuer
 hiden Skjul humørikonerne fra smileys-menuen
+hideuserscw Skjul brugere i chat-vindue.
 hidewindow Skjul Vindue
 history2 Historie
 history Vis Historien
@@ -525,6 +582,7 @@ maximised Maksimeret
 medium Medium
 minimised Minimeret
 minimize Minimér til dock
+minimizeplain Minimér
 mins minutter
 mobilegrp1 Mobil grouppe
 mobilegrp2 Put personer i "Mobil" groppen når de er offline (og sorter efter status)
@@ -575,6 +633,7 @@ next Næste
 nickchanged $1 ændrede sit kaldenavn til '$2'
 nick Kaldenavn
 noactivity Ingen aktivitet
+no_blocked_notif Vis ikke notifikationsvinduer for blokerede kontakter
 nocacheddps Ingen display billeder i cachen for denne bruger
 nocamwarn Intet webcam blev fundet eller dit webcam er allerede i brug af et andet program (hvilket betyder at det ikke kan bruges af aMSN). Du kan finde hjælp til at løse dette problem på vores Wiki:
 nodataavailable Ingen ledig data til $1
@@ -582,12 +641,15 @@ nodevices Du har ikke driverne installeret
 noftpreview Slå preview af afsendte billeder fra ved filoverførsel
 nogap Ingen mellemrum mellem grupper
 nogroup Ingen gruppe
+nojavascript Du har ikke slået javascript til. Automatisk login virker måske ikke.
 nologfile Der er ingen logfil for $1
 nomic Ingen mikrofon
 noneavailable Ingen ledige
 no Nej
 nonewmail Ingen nye meddelelser i Indboksen
 nonewver Der er ingen nye versioner at downloade
+nonimgroup Non-Instant Messaging kontakter
+nooimconfirmation Spørg ikke om bekræftelse når der sendes/modtages offline beskeder
 nopic Intet billede
 noprofileexists Der er ingen profiler, \n du skal lave én, hvis du ønsker at anvende profilerede logins. \nBrug Tilføj Ny Profil-knappen i dette vindue for at tilføje en ny profil.
 noresizesmileys Nedskaler ikke indkommende brugerdefinerede smileys
@@ -610,14 +672,21 @@ notifyoffset Koordinér positionen på popup-beskeder
 notifytimeout Antal milisekunder før beskedvinduet forsvinder
 notifytyping Send notifikationer til andre brugere, når du skriver
 notifywin Beskedvindue
+notimcontact Denne kontakt er en Non-Instant Messaging kontakt
 notinlist Du er ikke på hans/hendes kontaktliste
 notls MSN Protokol 9 kræver TLS-pakken. Denne pakke ser ikke ud til at være installeret på denne maskine. Hvis den er installeret, så skal stien til dennes bibliotek specificeres i Præferencer-vinduet (f.eks: /opt/tls/lib). \n \n Det er muligt at downloade TLS fra http://tls.sf.net .
 nottabbed Normal vinduer uden faneblad
 nousersinsession Ingen brugere i session
 nouserspecified Ingen bruger specifiseret
+novideocodecsavailable Ingen video codecs tilgængelige.
 nudge $1 anmoder om din opmærksomhed
 offline Offline
+oimauthenticationfailed Godkendelse fejlede
+oimflood For mange offline beskeder sendt... Vent venligst og prøv igen
+oimmessagetoolarge Offline beskeden er for stor... Del den op og send igen
 oim Offline Messaging
+oimsystemunavailable Offline besked systemet er midlertidigt utilgængeligt
+oimunexpectederror Uventet fejl
 ok Ok
 onenewmail 1 ny besked i Indbakken
 onlinehelp Online hjælp
@@ -638,6 +707,7 @@ others Andre
 p4contextprefix Præfiks P4-Kontekst-sendere med denne tekststreng
 pager Pager
 pass Adgangskode
+passportnotverified Din passport konto skal verificeres inden du kan ændre dine personlige informationer (f.eks. kaldenavn). Check venligst din inbox for en aktiveringsmail.
 paste Sæt ind
 pausedwebcamreceive Webcammet er blevet pauset af den anden bruger
 pause Pause
@@ -645,6 +715,7 @@ pausewebcamsend Paus webcammet
 personal Personlig
 phones Telefonnumre
 phone Telefon
+photosharingrequest Du har modtaget en ansøgning om fotodeling. Denne funktion er endnu ikke tilgængelig i aMSN og kan ikke annulleres af dig. Fortæl din kontakt at han skal annullere fotodeling ansøgningen og sende billedet ved at bruge send fil.
 picbrowser Display-Billed-browser
 picfile Billedfil (GIF < 500 x 500)
 picstatus Billedalarm
@@ -652,6 +723,8 @@ play Afspil
 playbackposition Afspilningsposition
 playbackspeed Afspilningshastighed (millisekunder mellem hver frame)
 playerror Der opstod en fejl under forsøget på at afspille lyden : $1
+playgame2 Spil $1
+playgame Spil
 playing Spiller: $1
 playtest Afspil testfilen
 playwebcamsend Genoptag webcammet
@@ -673,6 +746,8 @@ preffont4 Ændrer måden jeg ser andre folks tekst i chat sessions
 preffont Min beskedtekst
 prefft Filoverførsel, peer-to-peer og NAT-indstillinger
 preflibs Library-mapper
+preflocale2 Vælg dit sprog/landekode
+preflocale Lokale indstillinger
 preflog1 Mine historie- og logging-indstillinger
 preflogevent Historikken over mine handlinger
 preflook Mit aMSN Messenger udseende
@@ -692,6 +767,7 @@ prefshared Delte Forbindelser (kun for NAT)
 prefsound Lyd
 preview Vis
 privacy Privat
+profileaccrualerror Dine Windows Live ID konto oplysninger er mangelfulde.\nSørg venligst for at din fødselsdato og land er udfyldt korrekt i din profil.
 profiledconfig Profilerede konfigurationer
 profileexists Du kan ikke lave en profil med dette login, \n fordi der allerede eksisterer et sådant. Vælg venligst et andet login.
 profileinuse Denne profil er i brug af en anden aMSN-session, vælg venligst en anden
@@ -720,13 +796,16 @@ receiveddir "Modtagne Filer"-mappe
 receivedoimread Du har $1 nye Offline Instant Messages. Vil du læse dem nu ?
 receivedvoice Modtaget Voice Clip
 receivefile Modtag fil
+receive Modtag
 recentmsg Forhindre lukning af chatvindue når en besked lige er ankommet
 reconnect2 Forbind igen ved tabt forbindelse
 reconnecting Genforbinder til server
+reconnectnow Genforbind nu
 reconnect Venter på at $1 genforbinder
 recorderror En fejl opstod ved forsøg på at optage lyden : $1
 record Optag
 recvwebcamaccepted $1 accepterede din invitation til at se hans/hendes webcam. Tilslutter...
+redirect Click her for at blive viderestillet
 reject Afvis
 rememberaccount Husk min konto
 rememberpass Husk adgangskode
@@ -734,6 +813,8 @@ remembersetting Husk denne indstilling
 removeempty Fjern tomme grupper fra kontaktlisten
 removefromgroup Fjern fra gruppen
 removefromlist Fjern fra listen
+renameep Omdøb denne lokation ($1)
+renamelocation Omdøb denne lokation
 rename Omdøb
 reporting Repporter
 report Rapportere
@@ -755,6 +836,7 @@ saveotherdirectory Gem i en anden mappe
 savetofile Gem i fil
 says $1 siger
 sbcon Forbinder til Switch Board
+searchadvprefs Søg i avancerede indstillinger:
 searchdown Søg nedad
 searchup Søg opad
 selectall Vælg alt
@@ -770,6 +852,8 @@ sendmobmsg $1 Send til Mobil
 sendmsg Send besked
 sendoim Send en offline besked
 send Send
+sendsip Start lyd-opkald
+sendvideosip Start video-opkald
 sendvoice Send et Voice Clip
 sendwebcamaccepted $1 accepterede din invitation til at sende dit webcam. Tilslutter...
 sendwebcaminvite Inviter til webcam samtale
@@ -781,6 +865,7 @@ server Server
 serverunavailable Serveren kan ikke kontaktes
 session Session
 setasmydp Indstil som mit display billede
+setbackinitialstate Do har sat aMSN til at forbinde som $1, men du er nu $2.  Er du sikker på at du vil sætte din status tilbage til $1 ?
 setupcamfinetune Opsætter webcam enhed og fintuner billede
 setupcam Opsætter din webcam enhed
 shareswebcam Del webcam
@@ -790,16 +875,57 @@ showcachedpics Vis gemte display-billeder
 show_contactdps_in_cl Vis thumbnails af kontakters display billeder i kontaktlisten
 showcontactemail Vis kontakter med email
 showcontactnick Vis kontakter med kaldenavn
+showdetailedview Vis detaljeret kontaktvisning
+showdetails Vis detaljer
 showdisplaypic2 Vis automatisk Display-billede når et chatvindue åbnes
 showdisplaypic Vis Display-billede
 showlinksinlogin Vis links på login skærmen
 showmailicon Vis mail ikon docken når nye emails ankommer.
 showmypic Mit Display-billede
+shownonim Vis Non-Instant Messaging kontakter
 shownotify Vis påmindelsesvindue når der sker noget
+shownotinlist Vis specielt ikon for kontakter, der ikke har dig i deres liste
+showofflinegroup Vis offline gruppe
 showonedpframe Vis kun et Display-billede i chatvinduer
 showpicnotify Vis kontaktpersoners' billed i beskedvindue
+showspaces Vis Spaces ikon i kontaktlisten
 showuserpic $1's Display-billede
+showuserscw Der er $1 brugere i denne samtale. Hvis du vil se eller skjule dem, click her.
 signinstatus Login status
+signoutep Log ud fra $1
+signouteverywhere Log ud af alt
+signouthere Log ud herfra ($1)
+signout Log ud
+sipcallaccepted Lyd-opkald accepteret
+sipcallback Ring tilbage
+sipcallconnected Dit lyd-opkald er nu forbundet!
+sipcalldeclined Lyd-opkald afvist
+sipcalleeaccepted Brugeren accepterede dit lyd-opkald
+sipcalleebusy Brugeren er i øjeblikket optaget
+sipcalleecanceled Brugeren har afvist lyd-opkald invitationen
+sipcalleeclosed Brugeren afsluttede dit lyd-opkald
+sipcalleedeclined Brugeren afviste dit lyd-opkald
+sipcalleenoanswer Brugeren svarede ikke på dit opkald
+sipcalleeunavailable Brugeren er ikke tilgængelig lige nu
+sipcallended Dit lyd-opkald er afsluttet
+sipcallimpossible2 Du kan ikke lave et lyd- eller video-opkald. Installér venligst Farsight2 og prøv igen.
+sipcallmissed Du mistede et lyd-opkald fra $1
+sipcallnosipflag Brugeren understøtter ikke lyd-opkald.
+sipcallsent Ringer til $1
+sipcallyouarebusy2 Du kan kun have ét lyd- eller video-opkald ad gangen.
+sipdisabledprotocol Lyd/video opkald mulighederne er blevet frakoblet i denne version af aMSN, fordi Microsoft(TM)  har ændret deres protokoller igen og lukket for adgang til deres SIP servere. Dette blokerer aMSN fra at give dig adgang til denne funktion.
+sipgotinvitation Modtaget lyd-opkald invitation fra $1
+sipvideocallaccepted Video-opkald accepteret
+sipvideocallconnected Dit video-opkald er nu forbundet!
+sipvideocalldeclined Video-opkald afvist
+sipvideocalleeaccepted Brugeren accepterede dit video-opkald
+sipvideocalleecanceled Brugeren har annulleret video-opkald invitationen
+sipvideocalleeclosed Brugeren har stoppet dit video-opkald
+sipvideocalleedeclined Brugeren har afvist din video-opkald invitation
+sipvideocallended Dit video-opkald er afsluttet
+sipvideocallmissed Du mistede et video-opkald fra $1
+sipvideocallnosipflag Bruger understøtter ikke video-samtaler.
+sipvideogotinvitation Modtaget video-samtale invitation fra $1
 skinselector Vælg Skin
 skin Skin
 smallest Mindst
@@ -809,6 +935,7 @@ smilefile Smiley-filnavn
 smileintro2 Redigær venligst de krævede felter for at definere denne smiley (se OSSen for hjælp)
 smileintro Udfyld venligst de krævede felter for at lave en ny brugerdefineret smiley (se OSSen for hjælp)
 smiletoobig Humørikonet du har valgt er større end normal størelse. Vil du gøre det mindre?
+smileynotavailable Smiley ikke tilgængelig!
 snackfailed Snack kunne ikke hentes, går tilbage til standard
 snackneeded Snack biblioteket er nødvendigt for at bruge denne feature. En minimal version af 2.2.9 er nødvendig.
 snapshot Snapshot
@@ -816,6 +943,7 @@ sngdblclick Enkeltklik for at åbne nyt beskedvindue
 sortcontactgroup Sortér kontakter efter gruppe
 sortcontacthybrid Sortér kontakter i hybrid mode
 sortcontactsasc Sortér kontakter stigende
+sortcontactsbylogsize Sortér kontakter efter log-størrelse
 sortcontactsby Sortér kontakter efter
 sortcontactsdesc Sortér kontakter aftagende
 sortcontactstatus Sortér kontakter efter status
@@ -863,6 +991,7 @@ stylelog Vælg formatet du vil have vist din historie i
 style Stil
 subject Emne
 subjectrequired Emne kræves
+svnversion SVN version
 syntaxerror Syntaksfejl
 tabbed Faneblad vinduer
 tabbedglobal Faneblad vindue for alle personer i kontakt listen
@@ -899,16 +1028,19 @@ truncatenames2 Afkort kaldenavne der er længere end vinduebredden inde i samtale
 truncatenicks Afkort kaldenavne der er længere end vinduebredden
 twonewmail $1 nye beskeder i Indbakken
 type Type
+unavailablecountryserver Serveren for dit land er midlertidigt utilgængelig. Prøv igen senere.Du kan måske løse dette problem ved at ændre lande-indstillingerne på din Passport konto på http://www.passport.net.
 unblock Fjern blokering
 unknown Ukendt
 unload Smid ud af hukommelsen
 unselectall Vælge alt fra
+untitled_space Unavngivet
 uoffline Offline
 uonline Online
 updateonlycurrentlanguage Opdater kun nuværende sprog
 update Opdater
 updatesaved Færdig\n $1 er gemt i $2.
 updating Opdatere
+upgradetcltk Du skal bruge TCL/TK $1 eller bedre for at køre aMSN. Upgradér venligst.
 useasdp Brug som Display Billed
 useasregexp Brug et regulært udtryk (regexp)
 useother Benyt et andet program
@@ -929,6 +1061,7 @@ viewcontactsby Se kontakter efter
 viewprofile Vis profil
 viewspace Vis plads genstande
 view Vis
+voiceclip Stemmeklip
 volume Volume
 wanttosharecam Jeg vil gøre mit webcam tilgængligt for andre
 webcamcanceled Webcam samtalen med $1 er blivet afbrudt
@@ -946,8 +1079,11 @@ webcamhistory2 Webcam samtaler
 webcamhistory Se webcam samtaler
 webcaminvite $1 har inviteret dig til webcam samtale
 webcaminvitereceived $1 invitere dig til at starte en webcam samtale. Vil du acceptere?
+webcaminvitereceivedauto $1 inviterede dig til at starte en webcam-samtale. Denne session accepteres automatisk.
+webcaminvitereceivingauto Du blev inviteret til at se $1 's webcam. Denne session accepteres automatisk.
 webcaminvitereceiving Du er blevet inviteret til at se $1 's webcam. Vil du acceptere denne session?
 webcaminvitesending $1 vil gerne se dit webcam. Vil du acceptere denne session?
+webcaminvitesendingauto $1 vil gerne se dit webcam. Denne session accepteres automatisk.
 webcamrejected $1 afviser invitation til webcam samtale
 webcamrequestreceive Send anmodning til at modtage webcam
 webcamrequestsend Send anmodning til at sende webcam
@@ -967,6 +1103,7 @@ xmmscurrent Vis nuværende sang
 xmmserr Der er ingenting, der spiller, eller også har du ikke xmms-infopipe installeret.
 xmmssend Send nuværende sang
 xoffset X-koordinat
+xplaces $1 Places
 year år
 yesblock Ja og bloker
 yes Ja
