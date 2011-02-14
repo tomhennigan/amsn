@@ -1004,6 +1004,78 @@ namespace eval ::amsn {
 		return
 	}
 	
+	proc WriteNewData { msnobj } {
+ 
+		#@@@@@@@@@@@@@
+		global HOME
+		set user_login [$msnobj cget -creator]
+		set type [$msnobj cget -type]
+		set data [$msnobj cget -data]
+		set filename [::MSNP2P::GetFilenameFromMSNOBJ [$msnobj toString]]
+		status_log "Got data from $user_login in $filename"
+		if { $type == $::p2p::MSNObjectType::DISPLAY_PICTURE } {
+        set filename [::abook::getContactData $user_login displaypicfile ""]
+
+			create_dir [file join $HOME displaypic cache]
+			create_dir [file join $HOME displaypic cache $user_login]
+			set fd [open "[file join $HOME displaypic cache $user_login ${filename}.png]" w]
+			fconfigure $fd -translation {binary binary}
+			puts -nonewline $fd $data
+			close $fd
+			::skin::getDisplayPicture $user_login 1
+			::amsn::UpdateAllPictures
+			set desc_file "[file join $HOME displaypic cache $user_login ${filename}.dat]"
+			create_dir [file join $HOME displaypic]
+			set fd [open [file join $HOME displaypic $desc_file] w]
+			status_log "Writing description to $desc_file\n"
+			puts $fd "[clock seconds]\n$user_login"
+			close $fd
+			::Event::fireEvent contactDPChange protocol $user_login
+		} elseif { $type == $::p2p::MSNObjectType::CUSTOM_EMOTICON } {
+			set dot [string first ".tmp" $filename]
+			if { $dot >= 0 } {
+			  set filename [string range $filename 0 [expr { $dot - 1} ] ]
+			}
+			status_log "Incoming emoticon"
+			create_dir [file join $HOME smileys cache]
+			set fd [open "[file join $HOME smileys cache ${filename}.png]" w]
+			fconfigure $fd -translation {binary binary}
+			puts -nonewline $fd $data
+			close $fd
+			set tw [::ChatWindow::GetOutText [::ChatWindow::For $user_login]]
+			set scrolling [::ChatWindow::getScrolling $tw]
+			catch {image create photo emoticonCustom_std_${filename} -file "[file join $HOME smileys cache ${filename}.png]" -format cximage}
+			if {[::config::getKey big_incoming_smileys 0] == 0} {
+				::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
+		    }
+			if {[::config::getKey big_incoming_smileys 0] == 0} {
+				::smiley::resizeCustomSmiley emoticonCustom_std_${filename}
+			}
+			if { $scrolling } { ::ChatWindow::Scroll $tw }
+		} elseif { $type == $::p2p::MSNObjectType::WINK } {
+			status_log "Incoming wink"
+			set fd [open "[file join $HOME winks cache ${filename}.cab]" w]
+			if {$fd != "" } {
+                        	fconfigure $fd -translation {binary binary}
+				puts -nonewline $fd $data
+				close $fd
+				set evPar(chatid) $user_login
+				set evPar(filename) [file join $HOME winks cache ${filename}.cab]
+				::plugins::PostEvent WinkReceived evPar
+		    }
+		}  elseif { $type == $::p2p::MSNObjectType::VOICE_CLIP } {
+			status_log "Incoming voice clip"
+			create_dir [file join $HOME voiceclips]
+			create_dir [file join $HOME voiceclips cache]
+			set fd [open "[file join $HOME voiceclips cache ${filename}.wav]" w]
+			fconfigure $fd -translation {binary binary}
+puts -nonewline $fd $data
+			close $fd
+			set file [file join $HOME voiceclips cache ${filename}.wav]
+			::ChatWindow::ReceivedVoiceClip $user_login $file
+	    }
+	}	
+	
 
 	proc InkSend { win_name filename {friendlyname ""}} {
 		set chatid [::ChatWindow::Name $win_name]
@@ -1170,6 +1242,7 @@ namespace eval ::amsn {
 		}
 
 		::MSNFT::cancelFTInvitation $chatid $cookie
+		$::ft_handler cancel_by_cookie $cookie
 		DisableCancelText $cookie $chatid
 
 		set txt [trans invitationcancelled]
@@ -1228,7 +1301,7 @@ namespace eval ::amsn {
 	#////////////////////////////////////////////////////////////////////////////////
 	#  GotFileTransferRequest ( chatid dest branchuid cseq uid sid filename filesize)
 	#  This procedure is called when we receive an MSN6 File Transfer Request
-	proc GotFileTransferRequest { chatid dest branchuid cseq uid sid filename filesize} {
+	proc GotFileTransferRequest { chatid dest session} {
 		set win_name [::ChatWindow::For $chatid]
 
 		if { [::ChatWindow::For $chatid] == 0} {
@@ -1241,11 +1314,14 @@ namespace eval ::amsn {
                 }
 
 		set fromname [::abook::getDisplayNick $dest]
-		set txt [trans ftgotinvitation $fromname '$filename' [::amsn::sizeconvert $filesize] [::config::getKey receiveddir]]
+		set filen [$session cget -filename]
+		set filesize [$session cget -size]
+		set txt [trans ftgotinvitation $fromname '$filen' [::amsn::sizeconvert $filesize] [::config::getKey receiveddir]]
 		set win_name [::ChatWindow::MakeFor $chatid $txt $dest]
 		WinWrite $chatid "\n" green
 		WinWriteIcon $chatid greyline 3
 		WinWrite $chatid " \n" green
+		set sid [$session cget -id]
 
 		if { [::skin::loadPixmap "FT_preview_${sid}"] != "" } {
 			WinWriteIcon $chatid FT_preview_${sid} 5 5
@@ -1255,11 +1331,14 @@ namespace eval ::amsn {
 		WinWriteIcon $chatid fticon 3 2
 		WinWrite $chatid $txt green
 		WinWrite $chatid " - (" green
-		WinWriteClickable $chatid "[trans accept]" [list ::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]] ftyes$sid
+		#WinWriteClickable $chatid "[trans accept]" [list ::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]] ftyes$sid
+		WinWriteClickable $chatid "[trans accept]" [list $session accept] ftyes$sid
 		WinWrite $chatid " / " green
-		WinWriteClickable $chatid "[trans saveas]" [list ::amsn::SaveAsFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]] ftsaveas$sid
+		#WinWriteClickable $chatid "[trans saveas]" [list ::amsn::SaveAsFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]] ftsaveas$sid
+		WinWriteClickable $chatid "[trans saveas]" [list $session saveAs] ftsaveas$sid
 		WinWrite $chatid " / " green
-		WinWriteClickable $chatid "[trans reject]" [list ::amsn::RejectFT $chatid -1 [list $sid $branchuid $uid]] ftno$sid
+		#WinWriteClickable $chatid "[trans reject]" [list ::amsn::RejectFT $chatid -1 [list $sid $branchuid $uid]] ftno$sid
+		WinWriteClickable $chatid "[trans reject]" [list $session reject] ftno$sid
 		WinWrite $chatid ")\n" green
 		WinWriteIcon $chatid greyline 3
 
@@ -1272,7 +1351,8 @@ namespace eval ::amsn {
 
 		if { [::config::getKey ftautoaccept] == 1  || [::abook::getContactData $dest autoacceptft] == 1 } {
 			WinWrite $chatid "\n[trans autoaccepted]" green
-			::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]
+			#::amsn::AcceptFT $chatid -1 [list $dest $branchuid $cseq $uid $sid $filename]
+			$session accept
 		}
 	}
 
@@ -1334,13 +1414,13 @@ namespace eval ::amsn {
 	}
 
 	proc AcceptFT { chatid cookie {varlist ""} } {
-		foreach var $varlist {
-			status_log "Var: $var\n" red
-		}
+		#foreach var $varlist {
+		#    status_log "Var: $var\n" red
+		#}
 
 		set chatid [::MSN::chatTo $chatid]
 
-		::MSN::ChatQueue $chatid [list ::amsn::AcceptFTOpenSB $chatid $cookie $varlist]
+		#::MSN::ChatQueue $chatid [list ::amsn::AcceptFTOpenSB $chatid $cookie $varlist]
 
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
@@ -1405,8 +1485,9 @@ namespace eval ::amsn {
 		if { $cookie != -1 && $cookie != -2 } {
 			::MSNFT::rejectFT $chatid $cookie
 		} elseif { $cookie == - 1 } {
-			::MSN6FT::RejectFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2]
-			set cookie [lindex $varlist 0]
+			#::MSN6FT::RejectFT $chatid [lindex $varlist 0] [lindex $varlist 1] [lindex $varlist 2]
+			#set cookie [lindex $varlist 0]
+			set cookie $varlist
 		} elseif { $cookie == -2 } {
 			set cookie [lindex $varlist 0]
 			set txt [trans filetransfercancelled]
@@ -1487,18 +1568,26 @@ namespace eval ::amsn {
 	}
 
 	#PRIVATE: Opens Receiving Window
-	proc FTWin {cookie filename user {chatid 0}} {
+	proc FTWin {cookie filename user session {chatid 0}} {
 		status_log "Creating receive progress window\n"
 
+		if { $chatid == 0 } { set chatid $user }
+		
 		if { [string range $filename [expr {[string length $filename] - 11}] [string length $filename]] == ".incomplete" } {
 			set filename [filenoext $filename]
 		}
 
 		# Set appropriate Cancel command
-		if { [::MSNP2P::SessionList get $cookie] == 0 } {
-			set cancelcmd "::MSNFT::cancelFT $cookie"
+    	#if { [::MSNP2P::SessionList get $cookie] == 0 } {
+		#	set cancelcmd "::MSNFT::cancelFT $cookie"
+		#} else {
+		#	set cancelcmd "::MSN6FT::CancelFT $chatid $cookie"
+		#}
+
+		if { [string first "FileTransferSession" "$session"] >= 0 } {
+			set cancelcmd [list $session cancel]
 		} else {
-			set cancelcmd "::MSN6FT::CancelFT $chatid $cookie"
+			set cancelcmd "::MSNFT::cancelFT $cookie"
 		}
 
 		set w .ft$cookie
@@ -1525,8 +1614,8 @@ namespace eval ::amsn {
 		checkbutton $w.ftautoclose -text "[trans ftautoclose]" -onvalue 1 -offvalue 0 -variable [::config::getVar ftautoclose]
 		pack $w.ftautoclose -side top
 		#Specify the path to the file
-		set filepath [file join [::config::getKey receiveddir] $filename]
-		set filedir [file dirname $filepath]
+		set filepath $filename
+		set filedir [file dirname $filename]
 
 		#Open directory and Open picture button
 		button $w.close -text "[trans cancel]" -command $cancelcmd
@@ -1564,11 +1653,16 @@ namespace eval ::amsn {
 	# filesize: total bytes in the file
 	# chatid: used for through server transfers
 	#####
-	proc FTProgress {mode cookie filename {bytes 0} {filesize 1000} {chatid 0}} {
+	proc FTProgress {mode session filename {bytes 0} {filesize 1000} {chatid 0}} {
 
 		variable firsttimes    ;# Array. Times in ms when the FT started.
 		variable ratetimer
 
+		#set filename [$session cget -localpath]
+		set username [$session cget -peer]
+		if { $chatid == 0 } { set chatid $username }
+		set cookie [$session cget -id]
+		
 		if { [info exists ratetimer($cookie)] } {
 			after cancel $ratetimer($cookie)
 		}
@@ -1577,11 +1671,12 @@ namespace eval ::amsn {
 
 		if { ([winfo exists $w] == 0) && ($mode != "ca")} {
 			#set filename2 [::MSNFT::getFilename $cookie]
-			if { $filename == "" } {
-				FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie] $chatid
-			} else {
-				FTWin $cookie $filename $bytes $chatid
-			}
+			#if { $filename == "" } {
+			#	FTWin $cookie [::MSNFT::getFilename $cookie] [::MSNFT::getUsername $cookie] $chatid
+			#   FTWin $cookie $filename $username $session $chatid
+			#} else {
+				FTWin $cookie $filename $username $session $chatid
+			#}
 		}
 
 		if {[winfo exists $w] == 0} {
@@ -1657,7 +1752,7 @@ namespace eval ::amsn {
 				$w.time configure -text "[trans timeremaining] :  $timeleft"
 				set percent [expr {int(double($bytes)/ (double($filesize)/100.0))}]
 
-				set ratetimer($cookie) [after 1000 [list ::amsn::FTProgress $mode $cookie $filename $bytes $filesize $chatid]]
+				set ratetimer($cookie) [after 1000 [list ::amsn::FTProgress $mode $session $filename $bytes $filesize $chatid]]
 
 				setFTWinTitle $w $cookie $filename "${percent}%"
 				if { $filesize != 0 } {
@@ -6202,11 +6297,11 @@ proc clickableDisplayPicture {tw type name command {padx 0} {pady 0}} {
 
 	bind $tw.$name <<Button1>> $command
 	# Drag and Drop setting DP
-	status_log "@@@@@@@@@@@@@@ DRAG AND DROP"
+	#status_log "@@@@@@@@@@@@@@ DRAG AND DROP"
 	if {[catch {tkdnd::drop_target register $tw.$name *} res]} {
-		status_log "dnd error: $res"
+		#status_log "dnd error: $res"
 	} else {
-		status_log "DP DND registered"
+		#status_log "DP DND registered"
 		
 		bind $tw.$name <<Drop>> "::fileDropHandler %D setdp"
 	}

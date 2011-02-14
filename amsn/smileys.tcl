@@ -1374,7 +1374,16 @@ proc process_custom_smileys_SB { txt {animated 0} } {
 			     (!$animated && (! [ info exists emotion(animated) ] || ! [ is_true $emotion(animated) ]))} {
 				if { [info exists emotion(casesensitive)] && [is_true $emotion(casesensitive)] } {
 					if {  [string first $symbol $txt] != -1 } {
-						lappend result [list $symbol [create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]]
+           set msnobj [create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]
+           lappend result [list $symbol $msnobj]
+           set filen [::skin::GetSkinFile smileys [filenoext $file].png]
+           set fd [open $filen r]
+           fconfigure $fd -translation {binary binary}
+           set data [read $fd]
+           close $fd
+           set p2pmsnobj [::p2p::MSNObject parse $msnobj]
+           $p2pmsnobj configure -data $data
+           $::obj_stor publish $p2pmsnobj
 					}
 				} else {
 					set msnobj ""
@@ -1384,7 +1393,15 @@ proc process_custom_smileys_SB { txt {animated 0} } {
 						if { $msnobj == "" } {
 							set msnobj [create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]
 						}
-						
+           set msnobj [create_msnobj [::config::getKey login] 2 [::skin::GetSkinFile smileys [filenoext $file].png]]
+                                                set filen [::skin::GetSkinFile smileys [filenoext $file].png]
+                                                set fd [open $filen r]
+                                                fconfigure $fd -translation {binary binary}
+                                                set data [read $fd]
+                                                close $fd
+                                                set p2pmsnobj [::p2p::MSNObject parse $msnobj]
+                                                $p2pmsnobj configure -data $data
+                                                $::obj_stor publish $p2pmsnobj
 						set idx [string first $symbol2 $txt2 $startidx]
 						set startidx [expr {$idx + [string length $symbol2]}]
 						set symbol [string range $txt $idx [expr {$startidx - 1}]]

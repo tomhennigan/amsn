@@ -114,15 +114,16 @@ namespace eval ::MSNCAM {
 	#//////////////////////////////////////////////////////////////////////////////
 	# CamCanceled ( chat sid )
 	#  This function is called when a cam conversation is canceled by the remote contact
-	proc CamCanceled { chatid sid } {
-		set grabber [getObjOption $sid grabber]
-		set window [getObjOption $sid window]
+ proc CamCanceled { chatid sess_obj } {
+   set sid [$sess_obj cget -sid]
+   set grabber [$sess_obj cget -grabber]
+   set window [$sess_obj cget -window]
 
-		set sock [getObjOption $sid socket]
+   set sock [$sess_obj cget -socket]
 
-		after cancel "::MSNCAM::CreateReflectorSession $sid"
+		after cancel "::MSNCAM::CreateReflectorSession $sess_obj"
 		 
- 		CloseUnusedSockets $sid ""
+ 		CloseUnusedSockets $sess_obj ""
 
 
 		#draw a notification in the window (gui)
@@ -143,7 +144,7 @@ namespace eval ::MSNCAM {
 		}
 		
 		# close file for log of the webcam...
-		set fd [getObjOption $sid weblog]
+		set fd [$sess_obj cget -weblog]
 		if { $fd != "" } {
 			catch { close $fd }
 		}
@@ -155,7 +156,7 @@ namespace eval ::MSNCAM {
 				#$window.canvas bind stopbut <<Button1>> [list destroy $window]
 				$window.canvas delete stopbut
 	
-				if { [getObjOption $sid producer] } {
+				if { [$sess_obj cget -producer] } {
 					#We disable the button which show the properties
 					#$window.settings configure -state disable -command ""
 					$window.canvas delete confbut
@@ -176,17 +177,17 @@ namespace eval ::MSNCAM {
 			}
 		}
 
-		set listening [getObjOption $sid listening_socket]
+		set listening [$sess_obj cget -listening_socket]
 		if { $listening != "" } {
 			catch { close $listening }
-			set port [getObjOption $sid listening_port]
+			set port [$sess_obj cget -listening_port]
 			if {$port != ""} {
 				::abook::CloseUPnPPort $port
 			}
 		}
 
 
-		clearObjOption $sid
+		#clearObjOption $sid
 		catch {close $sock}
 		clearObjOption $sock
 	}
@@ -194,26 +195,27 @@ namespace eval ::MSNCAM {
 	#//////////////////////////////////////////////////////////////////////////////
 	# CancelFT ( chatid sid )
 	# This function is called when a cam conversation is canceled by the user
-	proc CancelCam { chatid sid } {
+	proc CancelCam { chatid sess_obj } {
 
-		set session_data [::MSNP2P::SessionList get $sid]
-		set user_login [lindex $session_data 3]
-		set callid [lindex $session_data 5]
-		set socket [getObjOption $sid socket]
+   set sid [$sess_obj cget -sid]
+   #set session_data [::MSNP2P::SessionList get $sess_]
+   #set user_login [lindex $session_data 3]
+   #set callid [lindex $session_data 5]
+   set socket [$sess_obj cget -socket]
 		setObjOption $socket state "END"
 
-		if {[getObjOption $sid canceled] == 1 } {
+		if {[$sess_obj cget -canceled] == 1 } {
 			return
 		}
-		setObjOption $sid canceled 1
+		$sess_obj configure -canceled 1
 
-		set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
+		#set branchid "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
 
 
-		status_log "Canceling webcam $sid with $chatid \n" red
-		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 1 "dAMAgQ==\r\n"] 1]
+		#status_log "Canceling webcam $sid with $chatid \n" red
+		#::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid [::MSNP2P::MakeMSNSLP "BYE" $user_login [::config::getKey login] $branchid 0 $callid 0 1 "dAMAgQ==\r\n"] 1]
 
-		::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "BYE" -1 -1 -1 -1 -1]
+		#::MSNP2P::SessionList set $sid [list -1 -1 -1 -1 "BYE" -1 -1 -1 -1 -1]
 
 		if { $socket != "" } {
 			status_log "Connected through socket $socket : closing socket\n" red
@@ -221,7 +223,8 @@ namespace eval ::MSNCAM {
 			CloseUnusedSockets $sid ""
 		}
 
-		CamCanceled $chatid $sid
+		#CamCanceled $chatid $sid
+   $sess_obj end
 
 		#::MSNP2P::SessionList unset $sid
 	}
@@ -229,7 +232,8 @@ namespace eval ::MSNCAM {
 	#//////////////////////////////////////////////////////////////////////////////
 	# RejectFT ( chatid sid branchuid uid )
 	# This function is called when a cam conversation is rejected/canceled
-	proc RejectFT { chatid sid branchuid uid } {
+ proc RejectFT { chatid sess_obj branchuid uid } {
+   set sid [$sess_obj cget -sid]
 		# All we need to do is send a DECLINE
 		set slpdata [::MSNP2P::MakeMSNSLP "DECLINE" [lindex [::MSNP2P::SessionList get $sid] 3] [::config::getKey login] $branchuid 1 $uid 0 0 $sid]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
@@ -238,7 +242,8 @@ namespace eval ::MSNCAM {
 		::MSNP2P::SessionList unset $sid
 	}
 
-	proc RejectFTOpenSB { chatid sid branchuid uid } {
+ proc RejectFTOpenSB { chatid sess_obj branchuid uid } {
+   set sid [$sess_obj cget -sid]
 		#Execute the reject webcam protocol
 		if {[catch {::MSNCAM::RejectFT $chatid $sid $branchuid $uid} res]} {
 			status_log "Error in InvitationRejected: $res\n" red
@@ -249,16 +254,17 @@ namespace eval ::MSNCAM {
 	#//////////////////////////////////////////////////////////////////////////////
 	# AcceptFT ( chatid dest branchuid cseq uid sid filename1 )
 	# This function is called when a cam conversation is accepted by the user (local)
-	proc AcceptWebcam { chatid dest branchuid cseq uid sid producer} {
+ proc AcceptWebcam { chatid dest branchuid cseq uid sess_obj producer} {
+   set sid [$sess_obj cget -sid]
 
-		setObjOption $sid producer $producer
-		setObjOption $sid inviter 0
-		setObjOption $sid chatid $chatid
-		setObjOption $sid reflector 0
+   $sess_obj configure -producer $producer
+   $sess_obj configure -inviter 0
+   $sess_obj configure -chatid $chatid
+   $sess_obj configure -reflector 0
 
 
 		if { $producer } {
-		    setObjOption $sid source [::config::getKey "webcamDevice" "0"]
+		    $sess_obj configure -source [::config::getKey "webcamDevice" "0"]
 		}
 
 		# Let's make and send a 200 OK Message
@@ -270,14 +276,17 @@ namespace eval ::MSNCAM {
 		SendSyn $sid $chatid
 	}
 
-	proc AcceptWebcamOpenSB {chatid dest branchuid cseq uid sid producer } {
+ proc AcceptWebcamOpenSB {chatid dest branchuid cseq uid sess_obj producer } {
+   set sid [$sess_obj cget -sid]
 		if {[catch {::MSNCAM::AcceptWebcam $chatid $dest $branchuid $cseq $uid $sid $producer} res]} {
 			status_log "Error in InvitationAccepted: $res\n" red
 			return 0
 		}
 	}
 
-	proc SendAcceptInvite { sid chatid} {
+ proc SendAcceptInvite { sess_obj chatid} {
+ 
+   set sid [$sess_obj cget -sid]
 
 		set session [::MSNP2P::SessionList get $sid]
 		set branchid [lindex $session 9]
@@ -309,12 +318,13 @@ namespace eval ::MSNCAM {
 
 	}
 
-	proc SendReflData { sid chatid refldata } {
+ proc SendReflData { sess_obj chatid refldata } {
 
-		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
-		set dest [lindex [::MSNP2P::SessionList get $sid] 3]
-		incr MsgId
-		::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
+   set sid [$sess_obj cget -sid]
+   #set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
+   #set dest $chatid
+   #incr MsgId
+   #::MSNP2P::SessionList set $sid [list $MsgId -1 -1 -1 -1 -1 -1 -1 -1 -1 ]
 
 		binary scan $refldata H* refldata
 
@@ -337,11 +347,11 @@ namespace eval ::MSNCAM {
 
 		status_log "Sending Refldata : $data" green
 
-		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
+		$sess_obj send_data $refldata
 	}
 
 	proc SendSyn { sid chatid } {
-		if { [getObjOption $sid send_syn] == 1 } {
+		if { [$sess_obj cget -send_syn] == 1 } {
 			status_log "Try to send double syn"
 			return
 		}
@@ -365,7 +375,7 @@ namespace eval ::MSNCAM {
 		set theader "MIME-Version: 1.0\r\nContent-Type: application/x-msnmsgrp2p\r\nP2P-Dest: $dest\r\n\r\n"
 
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] "${theader}${data}"
-		setObjOption $sid send_syn 1
+		$sess_obj configure -send_syn 1
 	}	
 
 
@@ -430,13 +440,14 @@ namespace eval ::MSNCAM {
 	}
 
 	proc SendInvite { chatid } {
-		SendCamInvitation $chatid  "4BD96FC0-AB17-4425-A14A-439185962DC8" "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"
+		$::cam_handler Invite $chatid 1
 	}
 	proc AskWebcam { chatid } {
-		SendCamInvitation $chatid "1C9AA97E-9C05-4583-A3BD-908A196F1E92" "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}"
+		$::cam_handler Invite $chatid 0
 	}
 	proc StartVideoConference { chatid } {
-		SendCamInvitation $chatid "4BD96FC0-AB17-4425-A14A-439185962DC8" "\{0425E797-49F1-4D37-909A-031116119D9B\}"
+   #SendCamInvitation $chatid "4BD96FC0-AB17-4425-A14A-439185962DC8" "\{0425E797-49F1-4D37-909A-031116119D9B\}"
+   #Not supported anymore :p
 	}
 
 	proc SendCamInvitation { chatid guid context } {
@@ -455,11 +466,11 @@ namespace eval ::MSNCAM {
 		set dest [lindex [::MSN::usersInChat $chatid] 0]
 
 		if { $context == "\{B8BE70DE-E2CA-4400-AE03-88FF85B9F4E8\}" } {
-			setObjOption $sid webcam 1
-			setObjOption $sid conference 0
+     $sess_obj configure -webcam 1
+     $sess_obj configure -conference 0
 		} else {
-			setObjOption $sid webcam 0
-			setObjOption $sid conference 1
+     $sess_obj configure -webcam 0
+     $sess_obj configure -conference 1
 		}
 
 		# This is a fixed value... it must be that way or the invite won't work
@@ -467,17 +478,17 @@ namespace eval ::MSNCAM {
 
 		::MSNP2P::SessionList set $sid [list 0 0 0 $dest 0 $callid 0 "webcam" "$context" "$branchid"]
 
-		setObjOption $sid inviter 1
-		setObjOption $sid chatid $chatid
-		setObjOption $sid reflector 0
+   $sess_obj configure -inviter 1
+   $sess_obj configure -chatid $chatid
+   $sess_obj configure -reflector 0
 
 		if { $guid == "4BD96FC0-AB17-4425-A14A-439185962DC8" } {
-			setObjOption $sid producer 1
+			$sess_obj configure -producer 1
 
-			setObjOption $sid source [::config::getKey "webcamDevice" "0"]
+			$sess_obj configure -source [::config::getKey "webcamDevice" "0"]
 			::CAMGUI::InvitationToSendSent $chatid $sid
 		} else {
-			setObjOption $sid producer 0
+			$sess_obj configure -producer 0
 			::CAMGUI::InvitationToReceiveSent $chatid $sid
 		}
 
@@ -504,7 +515,7 @@ namespace eval ::MSNCAM {
 		set slpdata [::MSNP2P::MakeMSNSLP "DECLINE" $dest [::config::getKey login] $branchid 1 $callid 0 3]
 		::MSNP2P::SendPacket [::MSN::SBFor $chatid] [::MSNP2P::MakePacket $sid $slpdata 1]
 
-		set producer [getObjOption $sid producer]
+		set producer [$sess_obj cget -producer]
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		set nick [::abook::getDisplayNick $chatid]
@@ -518,19 +529,22 @@ namespace eval ::MSNCAM {
 
 	}
 
-	proc OpenCamPort { port sid} {
-		while { [catch {set sock [socket -server "::MSNCAM::handleMsnCam $sid" $port] } ] } {
+ proc OpenCamPort { port sess_obj} {
+   set sid [$sess_obj cget -sid]
+		while { [catch {set sock [socket -server "::MSNCAM::handleMsnCam $sess_obj" $port] } ] } {
 			incr port
 		}
 		::abook::OpenUPnPPort $port
-		setObjOption $sid listening_socket $sock
-		setObjOption $sid listening_port $port
+   $sess_obj configure -listening_socket $sock
+   $sess_obj configure -listening_port $port
 		status_log "Opening server on port $port\n" red
 		return $port
 	}
 
 
-	proc handleMsnCam { sid sock ip port } {
+ proc handleMsnCam { sess_obj sock ip port } {
+ 
+   set sid [$sess_obj cget -sid]
 
 
 		if { [info exists ::test_webcam_reflector] && $::test_webcam_reflector} {
@@ -541,6 +555,7 @@ namespace eval ::MSNCAM {
 		}
 
 		setObjOption $sock sid $sid
+   setObjOption $sock sess_obj $sess_obj
 		setObjOption $sock server 1
 		setObjOption $sock state "AUTH"
 		setObjOption $sock reflector 1
@@ -548,12 +563,12 @@ namespace eval ::MSNCAM {
 		status_log "Received connection from $ip on port $port - socket $sock\n" red
 		fconfigure $sock -blocking 0 -buffering none -translation {binary binary}
 
-		set connected_ips [getObjOption $sid connected_ips]
+		set connected_ips [$sess_obj cget -connected_ips]
 		lappend connected_ips [list $ip $port $sock]
-		setObjOption $sid connected_ips $connected_ips
+		$sess_obj configure -connected_ips $connected_ips
 
-		if { [getObjOption $sid socket] == "" } {
-			#setObjOption $sid socket $sock
+   if { [$sess_obj cget -socket] == "" } {
+     #$sess_obj configure -socket $sock
 			fileevent $sock readable "::MSNCAM::ReadFromSock $sock"
 		}
 
@@ -561,7 +576,9 @@ namespace eval ::MSNCAM {
 
 
 
-	proc connectMsnCam { sid ip port } {
+ proc connectMsnCam { sess_obj ip port } {
+ 
+   set sid [$sess_obj cget -sid]
 
 		if { [info exists ::test_webcam_reflector] && $::test_webcam_reflector} {
 			return 0
@@ -573,6 +590,7 @@ namespace eval ::MSNCAM {
 		} else {
 
 			setObjOption $sock sid $sid
+     setObjOption $sock sess_obj $sess_obj
 			setObjOption $sock server 0
 			setObjOption $sock state "AUTH"
 			setObjOption $sock reflector 0
@@ -583,7 +601,9 @@ namespace eval ::MSNCAM {
 		}
 	}
 
-	proc ConnectToReflector { sid refldata } {
+ proc ConnectToReflector { sess_obj refldata } {
+ 
+   set sid [$sess_obj cget -sid]
 
 		set ru [string range $refldata [expr {[string first "ru=" $refldata] + 3}] end]
 		if { [string first "&" $ru] != -1 } {
@@ -607,13 +627,14 @@ namespace eval ::MSNCAM {
 
 		if { [catch {set sock [socket $host $port] } ] } {
 			status_log "ERROR CONNECTING TO THE SERVER\n\n" red
-			::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+			$sess_obj end
 		} else {
 
-			setObjOption $sid socket $sock
-			setObjOption $sid reflector 1
+     $sess_obj configure -socket $sock
+     $sess_obj configure -reflector 1
 
 			setObjOption $sock sid $sid
+     setObjOption $sock sess_obj $sess_obj
 			setObjOption $sock server 0
 			setObjOption $sock state "TID"
 			setObjOption $sock tid "$ti"
@@ -668,22 +689,22 @@ namespace eval ::MSNCAM {
 	proc ReadFromSock { sock } {
 
 
-		set sid [getObjOption $sock sid]
+		set sess_obj [getObjOption $sock sess_obj]
 
-		set producer [getObjOption $sid producer]
+		set producer [$sess_obj cget -producer]
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
-		set reflector [getObjOption $sid reflector]
+		set reflector [$sess_obj cget -reflector]
 
-		set my_rid [getObjOption $sid my_rid]
-		set rid [getObjOption $sid rid]
-		set session [getObjOption $sid session]
-		set chatid [getObjOption $sid chatid]
+   set my_rid [$sess_obj cget -my_rid]
+   set rid [$sess_obj cget -rid]
+   set session [$sess_obj cget -session]
+   set chatid [$sess_obj cget -chatid]
 
 	 	if { [eof $sock] } {
  			status_log "WebCam Socket $sock closed\n"
  			close $sock
-			CancelCam $chatid $sid
+			$sess_obj end
  			return
  		}
 
@@ -701,10 +722,11 @@ namespace eval ::MSNCAM {
 						catch {nbgets $sock}
 						setObjOption $sock state "CONNECTED"
 						catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
-						setObjOption $sid socket $sock
-						CloseUnusedSockets $sid $sock
+           $sess_obj configure -socket $sock
+           CloseUnusedSockets $sess_obj $sock
 					} else {
-						AuthFailed $sid $sock
+            status_log "Authentification failed: $data should be recipientid=${my_rid}&sessionid=${session}"
+						AuthFailed $sess_obj $sock
 					}
 				}
 			}
@@ -725,7 +747,7 @@ namespace eval ::MSNCAM {
 				status_log "Received Data on Reflector socket $sock $my_rid - $rid server=$server - state=$state : \n$data\n" red
 				if { $data == "CONNECTED\r" } {
 					catch {nbgets $sock }
-					AuthSuccessfull $sid $sock
+					AuthSuccessfull $sess_obj $sock
 					if { $producer } {
 						setObjOption $sock state "TSP_SEND"
 						catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
@@ -744,21 +766,21 @@ namespace eval ::MSNCAM {
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 					if { $data == "connected\r" } {
 						catch {nbgets $sock}
-						setObjOption $sid socket $sock
-						CloseUnusedSockets $sid $sock
+           $sess_obj configure -socket $sock
+           CloseUnusedSockets $sess_obj $sock
 						puts -nonewline $sock "connected\r\n\r\n"
 						status_log "Sending \"connected\" to the server\n" red
 						if { $producer } {
 							setObjOption $sock state "SEND"
 							catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
-							AuthSuccessfull $sid $sock
+							AuthSuccessfull $sess_obj $sock
 						} else {
 							setObjOption $sock state "RECEIVE"
-							AuthSuccessfull $sid $sock
+							AuthSuccessfull $sess_obj $sock
 						}
 					} else {
 						status_log "ERROR2 : $data\n" red
-						AuthFailed $sid $sock
+						AuthFailed $sess_obj $sock
 					}
 				}
 			}
@@ -771,7 +793,7 @@ namespace eval ::MSNCAM {
 					status_log "Received Data on socket $sock sending=$producer - server=$server - state=$state : \n$data\n" red
 
 					if { $data == "connected\r\n\r\n" } {
-						setObjOption $sid socket $sock
+						$sess_obj configure -socket $sock
 						if { $producer == 0} {
 							setObjOption $sock state "RECEIVE"
 						}
@@ -782,28 +804,28 @@ namespace eval ::MSNCAM {
 						set size [GetCamDataSize $header]
 						if { $size > 0 } {
 							set data "$header[nbread $sock $size]"
-							::CAMGUI::ShowCamFrame $sid $data
+							::CAMGUI::ShowCamFrame $sess_obj "$data"
 						} elseif { $size != 0 } {
 							setObjOption $sock state "END"
 							status_log "ERROR1 : $header - invalid data received" red
 							catch { close $sock }
-							CancelCam $chatid $sid
+							$sess_obj end 
 						} else {
-							::CAMGUI::GotPausedFrame $sid
+							::CAMGUI::GotPausedFrame $sess_obj
 						}
 
 					} else {
 						setObjOption $sock state "END"
 						status_log "ERROR2 : $data \n" red
 						catch { close $sock }
-						CancelCam $chatid $sid
+						$sess_obj end
 					}
 
 				} else {
 					setObjOption $sock state "END"
 					status_log "ERROR3 : - should never received data on state $state when we're the client\n" red
 					catch { close $sock }
-					CancelCam $chatid $sid
+					$sess_obj end
 				}
 			}
 			"TSP_SEND" 
@@ -817,7 +839,7 @@ namespace eval ::MSNCAM {
 					setObjOption $sock state "END"
 					status_log "ERROR4 : Received $data from socket on state TSP_SEND \n" red
 					catch { close $sock }
-					CancelCam $chatid $sid
+					$sess_obj end
 				}
 			}
 			"TSP_PAUSED"
@@ -827,7 +849,7 @@ namespace eval ::MSNCAM {
 					setObjOption $sock state "END"
 					status_log "ERROR4 : Received $data from socket on state TSP_PAUSED \n" red
 					catch { close $sock }
-					CancelCam $chatid $sid
+					$sess_obj end
 				}
 			}
 			"TSP_RECEIVE" -
@@ -838,12 +860,12 @@ namespace eval ::MSNCAM {
 				if { $size > 0 } {
 					set data "$header[nbread $sock $size]"
 					if { [::config::getKey webcamlogs] == 1 } {
-						set fd [getObjOption $sid weblog]
+						set fd [$sess_obj cget -weblog]
 						if { $fd == "" } {
-							set email [string tolower [lindex [::MSNP2P::SessionList get $sid] 3]]
+							set email [$sess_obj cget -chatid]
 							if { ![catch {set fd [open [file join $::webcam_dir ${email}.cam] a]}] } {
 								fconfigure $fd -translation binary
-								setObjOption $sid weblog $fd
+								$sess_obj configure -weblog $fd
 								# Update cam sessions metadata
 								::log::UpdateCamMetadata $email
 							}
@@ -854,7 +876,7 @@ namespace eval ::MSNCAM {
 					}
 					catch { fileevent $sock readable "" }
 
-					after 0 "::CAMGUI::ShowCamFrame $sid [list $data];
+					after 0 "::CAMGUI::ShowCamFrame $sess_obj [list $data];
 						 catch {fileevent $sock readable \"::MSNCAM::ReadFromSock $sock\"}"
 
 					if { $reflector } {
@@ -866,10 +888,10 @@ namespace eval ::MSNCAM {
 					setObjOption $sock state "END"
 					status_log "ERROR5 : $data - invalid data received" red
 					catch { close $sock }
-					CancelCam $chatid $sid
+					$sess_obj end
 
 				} else {
-					::CAMGUI::GotPausedFrame $sid
+					::CAMGUI::GotPausedFrame $sess_obj
 				}
 
 			}
@@ -877,7 +899,7 @@ namespace eval ::MSNCAM {
 			{
 				status_log "Closing socket $sock because it's in END state\n" red
 				catch { close $sock }
-				CancelCam $chatid $sid
+				$sess_obj end
 
 			}
 			default
@@ -885,7 +907,7 @@ namespace eval ::MSNCAM {
 				status_log "option $state of socket $sock : [getObjOption $sock state] not defined.. receiving data ... closing \n" red
 				setObjOption $sock state "END"
 				catch { close $sock }
-				CancelCam $chatid $sid
+				$sess_obj end
 			}
 
 		}
@@ -901,16 +923,17 @@ namespace eval ::MSNCAM {
 		catch { fileevent $sock writable "" }
 
 
-		set sid [getObjOption $sock sid]
+   set sess_obj [getObjOption $sock sess_obj]
+   set sid [$sess_obj cget -sid]
 
 		set sending [getObjOption $sock producer]
 		set server [getObjOption $sock server]
 		set state [getObjOption $sock state]
-		set producer [getObjOption $sid producer]
-		set reflector [getObjOption $sid reflector]
+   set producer [$sess_obj cget -producer]
+   set reflector [$sess_obj cget -reflector]
 
-		set rid [getObjOption $sid rid]
-		set session [getObjOption $sid session]
+   set rid [$sess_obj cget -rid]
+   set session [$sess_obj cget -session]
 
 
 		# Uncomment next line to test for failed authentifications...
@@ -950,19 +973,19 @@ namespace eval ::MSNCAM {
 				if { $producer } {
 					setObjOption $sock state "SEND"
 					catch { fileevent $sock writable "::MSNCAM::WriteToSock $sock" }
-					AuthSuccessfull $sid $sock
+					AuthSuccessfull $sess_obj $sock
 				} else {
 					setObjOption $sock state "CONNECTED2"
-					AuthSuccessfull $sid $sock
+					AuthSuccessfull $sess_obj $sock
 				}
 			}
 			"TSP_SEND" 
 			{
-				after 250 "::CAMGUI::GetCamFrame $sid $sock"
+				after 250 "::CAMGUI::GetCamFrame $sess_obj $sock"
 			}
 			"SEND"
 			{
-				after 250 "::CAMGUI::GetCamFrame $sid $sock;
+				after 250 "::CAMGUI::GetCamFrame $sess_obj $sock;
 					   catch {fileevent $sock writable \"::MSNCAM::WriteToSock $sock\" }"
 			}
 			"TSP_PAUSED" -
@@ -997,10 +1020,10 @@ namespace eval ::MSNCAM {
 			}
 			"END"
 			{
-				set chatid [getObjOption $sid chatid]
+				set chatid [$sess_obj cget -chatid]
 				status_log "Closing socket $sock because it's in END state\n" red
 				catch { close $sock }
-				CancelCam $chatid $sid
+				$sess_obj end
 			}
 
 		}
@@ -1017,9 +1040,11 @@ namespace eval ::MSNCAM {
 
 	proc CloseSocket { sock } {
 
-		set sid [getObjOption $sock sid]
+   set sess_obj [getObjOption $sock sess_obj]
+   set sid [$sess_obj cget -sid]
 
-		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
+   #set MsgId [$sess_obj cget -blob_id]
+   set MsgId 0
 
 		set bheader [binary format ii 0 $MsgId][binword 0][binword 0][binary format iiii 0 4 [expr {int([expr {rand() * 1000000000}])%125000000 + 4}] 0][binword 0]
 
@@ -1031,32 +1056,34 @@ namespace eval ::MSNCAM {
 
 
 
-	proc CreateInvitationXML { sid } {
-		set session [getObjOption $sid session]
+ proc CreateInvitationXML { sess_obj } {
+   set sid [$sess_obj cget -sid]
+
+   set session [$sess_obj cget -session]
 		if {$session == "" } {
 			set session [myRand 9000 9999]
 		}
 
-		setObjOption $sid session $session
+		$sess_obj configure -session $session
 
-		set rid [getObjOption $sid my_rid]
+		set rid [$sess_obj cget -my_rid]
 		if { $rid == "" } {
 			set rid [myRand 100 199]
 		}
-		setObjOption $sid my_rid $rid
+		$sess_obj configure -my_rid $rid
 
 		set udprid [expr {$rid + 1}]
 		set conntype [abook::getDemographicField conntype]
 		set listening [abook::getDemographicField listening]
 
-		set producer [getObjOption $sid producer]
+		set producer [$sess_obj cget -producer]
 
 		# Here we force the creation of a server and send it in the XML in case we don't detect correctly
 		# the firewalled state, in any case, it doesn't bother us if we're firewalled, we'll either connect 
 		# as a client or use the reflector
 
 		#if {$listening == "true" } {
-			set port [OpenCamPort [config::getKey initialftport] $sid]
+			set port [OpenCamPort [config::getKey initialftport] $sess_obj]
 			if { [info exists ::cam_mask_ip] } {
 				set clientip $::cam_mask_ip
 				set localip $::cam_mask_ip
@@ -1096,14 +1123,16 @@ namespace eval ::MSNCAM {
 
 	}
 
-	proc ReceivedXML {chatid sid } {
-		set producer [getObjOption $sid producer]
-		set inviter [getObjOption $sid inviter]
+ proc ReceivedXML {chatid sess_obj } {
+   set sid [$sess_obj cget -sid]
 
-		set xml [getObjOption $sid xml]
-		set xml [FromUnicode $xml]
-		set xml [string map  { "\r\n\r\n\x00" ""} $xml]
-		setObjOption $sid xml $xml
+   set producer [$sess_obj cget -producer]
+   set inviter [$sess_obj cget -inviter]
+ 
+   #set xml [$sess_obj cget -xml]
+   #set xml [FromUnicode $xml]
+   #set xml [string map  { "\r\n\r\n\x00" ""} $xml]
+   #$sess_obj configure -xml $xml
 
 		status_log "Got XML : $xml\n" red
 
@@ -1122,8 +1151,8 @@ namespace eval ::MSNCAM {
 		status_log "Found session $session and rid $rid\n" red
 
 
-		setObjOption $sid session $session
-		setObjOption $sid rid $rid
+   $sess_obj configure -session $session
+   $sess_obj configure -rid $rid
 
 
 		if { $producer } {
@@ -1136,16 +1165,18 @@ namespace eval ::MSNCAM {
 
 	}
 
-	proc ConnectSockets { sid } {
-		set auth [getObjOption $sid authenticated]
+ proc ConnectSockets { sess_obj } {
+   set sid [$sess_obj cget -sid]
+
+   set auth [$sess_obj cget -authenticated]
 		if { $auth == 1} { return }
 
-		set xml [getObjOption $sid xml]
+		set xml [$sess_obj cget -xml]
 		set list [xml2list $xml]
 
 		set ip_idx 7
-		set ips [getObjOption $sid ips]
-		set producer [getObjOption $sid producer]
+   set ips [$sess_obj cget -ips]
+   set producer [$sess_obj cget -producer]
 
 		if { $ips == "" } {
 			set ips [list]
@@ -1177,7 +1208,7 @@ namespace eval ::MSNCAM {
 					set port [GetXmlEntry $list "$type:tcp:${port_idx}"]
 					if {$port != "" } {
 						status_log "Trying to connect to $ip at port $port\n" red
-						set socket [connectMsnCam $sid "$ip" $port]
+						set socket [connectMsnCam $sess_obj "$ip" $port]
 						if { $socket != 0 } {
 							lappend ips [list $ip $port $socket]
 						}
@@ -1189,45 +1220,48 @@ namespace eval ::MSNCAM {
 		    incr ip_idx -1
 		}
 
-		setObjOption $sid ips $ips
+		$sess_obj configure -ips $ips
 
 		foreach connection $ips {
 			set sock [lindex $connection 2]
 
 			catch { fconfigure $sock -blocking 0 -buffering none -translation {binary binary} }
-			catch { fileevent $sock readable "::MSNCAM::CheckConnected $sid $sock " }
-			catch { fileevent $sock writable "::MSNCAM::CheckConnected $sid $sock " }
+     catch { fileevent $sock readable "::MSNCAM::CheckConnected $sess_obj $sock " }
+     catch { fileevent $sock writable "::MSNCAM::CheckConnected $sess_obj $sock " }
 		}
 
-		after 15000 "::MSNCAM::CheckConnectSuccess $sid"
+		after 15000 "::MSNCAM::CheckConnectSuccess $sess_obj"
 
 	}
 
-	proc CheckConnectSuccess { sid } {
-		set ips [getObjOption $sid ips]
-		set connected_ips [getObjOption $sid connected_ips]
+ proc CheckConnectSuccess { sess_obj } {
+   set sid [$sess_obj cget -sid]
+   set ips [$sess_obj cget -ips]
+   set connected_ips [$sess_obj cget -connected_ips]
 		status_log "we have $ips connecting sockets and $connected_ips connected sockets\n" red
 		if { [llength $connected_ips] == 0
-		     && [getObjOption $sid canceled] != 1 && [checkObjExists $sid]
-		     && [getObjOption $sid reflector] != 1} {
+        && [$sess_obj cget -canceled] != 1
+        && [$sess_obj cget -reflector] != 1} {
 			status_log "No socket was connected\n" red
-			after 5000 "::MSNCAM::CreateReflectorSession $sid"
+			after 5000 "::MSNCAM::CreateReflectorSession $sess_obj"
 		}
 	}
 	
-	proc CreateReflectorSession { sid } {
-		if { [getObjOption $sid producer] && [getObjOption $sid reflector] != 1} {
+ proc CreateReflectorSession { sess_obj } {
+   if { [$sess_obj cget -producer] && [$sess_obj cget -reflector] != 1} {
 			status_log "Trying Reflector\n" red 
-			setObjOption $sid reflector 1
-			if { [catch {::http::geturl [list http://m1reflector.spotlife.net/createSession]  -timeout 3000 -command "::MSNCAM::ReflectorCreateSession $sid" }] } {
+     $sess_obj configure -reflector 1
+     if { [catch {::http::geturl [list http://m1reflector.spotlife.net/createSession]  -timeout 3000 -command "::MSNCAM::ReflectorCreateSession $sess_obj" }] } {
 				status_log "Unable to connect to the reflector.. canceling\n" red
-				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+				$sess_obj end
 			}
 		}
 		
 	}
 
-	proc ReflectorCreateSession { sid token } {
+ proc ReflectorCreateSession { sess_obj token } {
+ 
+   set sid [$sess_obj cget -sid]
 
 		if { ! [info exists ::webcamsn_loaded] } { ::CAMGUI::ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { status_log "Error when trying to load Webcamsn extension" red; return }
@@ -1243,7 +1277,7 @@ namespace eval ::MSNCAM {
 
 			if {[catch {set xml [xml2list  $tmp_data]} res ] } {
 				status_log "Error in parsing xml file... $tmp_data  -- $res\n" red
-				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+				$sess_obj end
 				::http::cleanup $token
 				return
 			}
@@ -1264,9 +1298,9 @@ namespace eval ::MSNCAM {
 
 			status_log "Creating the tunnel with the url : $refl_url\n" red
 
-			if { [catch {::http::geturl [list $refl_url]  -timeout 3000 -command "::MSNCAM::ReflectorCreateTunnel $sid" } res] } {
+			if { [catch {::http::geturl [list $refl_url]  -timeout 3000 -command "::MSNCAM::ReflectorCreateTunnel $sess_obj" } res] } {
 				status_log "Unable to connect to the reflector.. $res canceling\n" red
-				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+				$sess_obj end
 			}
 			
 			
@@ -1274,14 +1308,16 @@ namespace eval ::MSNCAM {
 			status_log "Session : Unable to connect to the Reflector: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue
 			status_log "tmp_data : $tmp_data\n" blue
 			
-			::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+			$sess_obj end
 		}
 		
 		::http::cleanup $token
 		
 	}
 
-	proc ReflectorCreateTunnel {sid token} {
+ proc ReflectorCreateTunnel {sess_obj token} {
+
+   set sid [$sess_obj cget -sid]
 		set tmp_data [ ::http::data $token ]
 
 		status_log "createTunnel  finished : $tmp_data\n" red
@@ -1292,7 +1328,7 @@ namespace eval ::MSNCAM {
 
 			if {[catch {set xml [xml2list $tmp_data] } res ] } {
 				status_log "Error in parsing xml file... $tmp_data  -- res\n" red
-				::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+				$sess_obj end
 				::http::cleanup $token
 				return
 			}
@@ -1304,12 +1340,12 @@ namespace eval ::MSNCAM {
 
 			status_log "ReflData is : $refldata\n" red
 
-			if { [catch { SendReflData $sid [getObjOption $sid chatid] $refldata} res] } {
+			if { [catch { SendReflData $sess_obj [$sess_obj cget -chatid] $refldata} res] } {
 				status_log "ERROR Sending REFLDATA : $res\n" red
 			}
 			
 			status_log "Connecting to the reflector\n" red
-			if { [catch { ConnectToReflector $sid $refldata} res] } {
+			if { [catch { ConnectToReflector $sess_obj $refldata} res] } {
 				status_log "ERROR Connecting to reflector : $res\n" red
 			}
 
@@ -1318,14 +1354,16 @@ namespace eval ::MSNCAM {
 			status_log "Tunnel : Unable to connect to the Reflector: status=[::http::status $token] ncode=[::http::ncode $token]\n" blue
 			status_log "tmp_data : $tmp_data\n" blue
 			
-			::MSNCAM::CancelCam [getObjOption $sid chatid] $sid
+			$sess_obj end
 		}
 
 		::http::cleanup $token
 		
 	}
 
-	proc CheckConnected { sid socket}  {
+ proc CheckConnected { sess_obj socket}  {
+
+   set sid [$sess_obj cget -sid]
 		status_log "fileevent CheckConnected for socket $socket\n"
 
 		fileevent $socket readable ""
@@ -1336,16 +1374,16 @@ namespace eval ::MSNCAM {
 			close $socket
 			clearObjOption $socket
 
-			if {[checkObjExists $sid] } {
-				set ips [getObjOption $sid ips]
-				setObjOption $sid ips [RemoveSocketFromList $ips $socket]
-			}
+     #if {[checkObjExists $sid] } {
+       set ips [$sess_obj cget -ips]
+       $sess_obj configure -ips [RemoveSocketFromList $ips $socket]
+     #}
 
 		} else {
 			status_log "Connected on socket $socket : [eof $socket] || [fconfigure $socket -error]\n" red
 
 
-			set ips [getObjOption $sid ips]
+			set ips [$sess_obj cget -ips]
 			for {set idx 0} { $idx < [llength $ips] } {incr idx } {
 				set connection [lindex $ips $idx]
 				set ip [lindex $connection 0]
@@ -1357,40 +1395,45 @@ namespace eval ::MSNCAM {
 				}
 			}
 
-			set connected_ips [getObjOption $sid connected_ips]
+			set connected_ips [$sess_obj cget -connected_ips]
 			lappend connected_ips [list $ip $port $socket]
-			setObjOption $sid connected_ips $connected_ips
+			$sess_obj configure -connected_ips $connected_ips
 
-			if { [getObjOption $sid socket] == "" } {
-				#setObjOption $sid socket $socket
+     if { [$sess_obj cget -socket] == "" } {
+       #$sess_obj configure -socket $socket
 				fileevent $socket readable "::MSNCAM::ReadFromSock $socket"
 				fileevent $socket writable "::MSNCAM::WriteToSock $socket"
 			}
 
-			set ips [getObjOption $sid ips]
-			setObjOption $sid ips [RemoveSocketFromList $ips $socket]
+     set ips [$sess_obj cget -ips]
+     $sess_obj configure -ips [RemoveSocketFromList $ips $socket]
 
 
 
 		}
 
-		after 5000 "::MSNCAM::CheckConnectSuccess $sid"
+		after 5000 "::MSNCAM::CheckConnectSuccess $sess_obj"
 	}
 
-	proc AuthSuccessfull { sid socket } {
-		status_log "Authentification on socket $socket successfull [fileevent $socket readable] - [fileevent $socket writable]\n" red
-		CloseUnusedSockets $sid $socket
+ proc AuthSuccessfull { sess_obj socket } {
+   set sid [$sess_obj cget -sid]
 
-		setObjOption $sid authenticated 1
+		status_log "Authentification on socket $socket successfull [fileevent $socket readable] - [fileevent $socket writable]\n" red
+		CloseUnusedSockets $sess_obj $socket
+
+		$sess_obj configure -authenticated 1
 
 		status_log "wtf  : [fileevent $socket readable] - [fileevent $socket writable]\n" red
 	}
 
-	proc AuthFailed { sid socket } {
-		set list [RemoveSocketFromList [getObjOption $sid connected_ips] $socket]
-		setObjOption $sid connected_ips $list
+ proc AuthFailed { sess_obj socket } {
 
-		#setObjOption $sid socket ""
+   set sid [$sess_obj cget -sid]
+ 
+   set list [RemoveSocketFromList [$sess_obj cget -connected_ips] $socket]
+   $sess_obj configure -connected_ips $list
+
+   #$sess_obj configure -socket ""
 
 		catch { close $socket }
 		clearObjOption $socket
@@ -1400,16 +1443,16 @@ namespace eval ::MSNCAM {
 		#	set element [lindex $list 0]
 		#	set socket [lindex $element 2]
 
-		#	setObjOption $sid socket $socket
+		# $sess_obj configure -socket $socket
 		#	fileevent $socket readable "::MSNCAM::ReadFromSock $socket"
 
-		#	if { [getObjOption $sid server] == 0 } {
+		# if { [$sess_obj cget -server] == 0 } {
 		#		fileevent $socket writable "::MSNCAM::WriteToSock $socket"
 		#	}
 
 		#}
 
-		after 5000 "::MSNCAM::CheckConnectSuccess $sid"
+		after 5000 "::MSNCAM::CheckConnectSuccess $sess_obj"
 	}
 
 	proc RemoveSocketFromList { list socket } {
@@ -1430,31 +1473,33 @@ namespace eval ::MSNCAM {
 		return $list
 	}
 
-	proc CloseUnusedSockets { sid used_socket {list ""}} {
+ proc CloseUnusedSockets { sess_obj used_socket {list ""}} {
+
+   set sid [$sess_obj cget -sid]
 		if { $list == "" } {
-			set ips [getObjOption $sid ips]
+			set ips [$sess_obj cget -ips]
 			status_log "Closing ips $ips\n" red
 			if { $ips != "" } {
-				CloseUnusedSockets $sid $used_socket  $ips
-				setObjOption $sid ips ""
+       CloseUnusedSockets $sess_obj $used_socket  $ips
+       $sess_obj configure -ips ""
 			}
 
-			set ips [getObjOption $sid connected_ips]
+			set ips [$sess_obj cget -connected_ips]
 			status_log "Closing connected_ips $ips\n" red
 			if { $ips != "" } {
-				CloseUnusedSockets $sid $used_socket $ips
+				CloseUnusedSockets $sess_obj $used_socket $ips
 			}
 
 			status_log "resetting ips and connected_ipss\n red"
 
-			set ips [getObjOption $sid connected_ips]
+			set ips [$sess_obj cget -connected_ips]
 			for {set idx 0} { $idx < [llength $ips] } {incr idx } {
 				set connection [lindex $ips $idx]
 				foreach {ip port sock} $connection break
 				if {$sock == $used_socket } break
 			}
 			if {$used_socket != "" && [info exists sock] && $sock == $used_socket } {
-				setObjOption $sid connected_ips [list $ip $port $sock]
+				$sess_obj configure -connected_ips [list $ip $port $sock]
 			}
 		} else {
 			status_log "Closing in $list of length [llength $list]\n" red
@@ -1483,14 +1528,17 @@ namespace eval ::MSNCAM {
 		status_log "Finished\n" red
 	}
 
-	proc SendXML { chatid sid } {
-		set producer [getObjOption $sid producer]
-		set inviter [getObjOption $sid inviter]
+ proc SendXML { chatid sess_obj } {
 
-		set xml [CreateInvitationXML $sid]
+   set sid [$sess_obj cget -sid]
+
+   set producer [$sess_obj cget -producer]
+   set inviter [$sess_obj cget -inviter]
+
+   set xml [CreateInvitationXML $sess_obj]
 		set xml [ToUnicode $xml]
 
-		setObjOption $sid my_xml $xml
+		$sess_obj configure -my_xml $xml
 
 		set int [binary format i [myRand 0 255]]
 		if {$producer } {
@@ -1513,7 +1561,9 @@ namespace eval ::MSNCAM {
 
 	}
 
-	proc SendXMLChunk { chatid sid msg offset totalsize } {
+ proc SendXMLChunk { chatid sess_obj msg offset totalsize } {
+
+   set sid [$sess_obj cget -sid]
 		set MsgId [lindex [::MSNP2P::SessionList get $sid] 0]
 		set dest [lindex [::MSNP2P::SessionList get $sid] 3]
 		incr MsgId
@@ -1806,18 +1856,19 @@ namespace eval ::CAMGUI {
 		return $campresent
 	}
 
-	proc ShowCamFrame { sid data } {
+ proc ShowCamFrame { sess_obj data } {
+   set sid [$sess_obj cget -sid]
 		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { return }
 
-		if { [getObjOption [getObjOption $sid socket] state] == "END" } { return }
+		if { [getObjOption [$sess_obj cget -socket] state] == "END" } { return }
 
-		set window [getObjOption $sid window]
-		set decoder [getObjOption $sid codec]
-	        set img [getObjOption $sid image]
+   set window [$sess_obj cget -window]
+   set decoder [$sess_obj cget -codec]
+         set img [$sess_obj cget -image]
 
 # 		if { 1 == 1 } {
-# 		    set chatid [getObjOption $sid chatid]
+# 		    set chatid [$sess_obj cget -chatid]
 # 		    set window [::ChatWindow::For $chatid]
 # 		    set img displaypicture_std_$chatid
 # 		}
@@ -1825,12 +1876,12 @@ namespace eval ::CAMGUI {
 
 		if { $decoder == "" } {
 			set decoder [::Webcamsn::NewDecoder]
-			setObjOption $sid codec $decoder
+			$sess_obj configure -codec $decoder
 		}
 
 		if { $window == "" } {
 			set window .webcam_$sid
-			set chatid [getObjOption $sid chatid]
+			set chatid [$sess_obj cget -chatid]
 			set img [image create photo [TmpImgName]]
 			if { [::config::getKey cam_in_cw] } {
                                 set win_name [::ChatWindow::For $chatid]
@@ -1857,7 +1908,7 @@ namespace eval ::CAMGUI {
 			} else {
                                 toplevel $window -class AmsnWebcam
                                 wm title $window "[trans receive]: $chatid - [::abook::getDisplayNick $chatid]"
-                                wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
+                                wm protocol $window WM_DELETE_WINDOW "$sess_obj end"
 				canvas $window.canvas -width 320 -height 240
 				set wwidth 318
 				set wheight 240
@@ -1870,12 +1921,12 @@ namespace eval ::CAMGUI {
 			#pack $window.paused -expand true -fill x
 			$canv create image $wwidth 0 -anchor ne -image [::skin::loadPixmap pause] -state hidden -tags paused
 			$canv create image $wwidth $wheight -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut
-			$canv bind stopbut <<Button1>> [list ::MSNCAM::CancelCam $chatid $sid]
+			$canv bind stopbut <<Button1>> [list $sess_obj end]
 			$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 			$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
 			$canv bind stopbut <Motion> [list balloon_motion %W %X %Y [trans stopwebcamreceive]]
-			setObjOption $sid window $window
-			setObjOption $sid image $img
+     $sess_obj configure -window $window
+     $sess_obj configure -image $img
 		} else {
 			#$window.paused configure -text ""
 			if {[winfo exists $window.canvas]} {
@@ -1890,22 +1941,23 @@ namespace eval ::CAMGUI {
 				catch {::picture::Resize $img 160 120}
 			}
                 } elseif { ![winfo exists $window] && ![OnDarwin] } {
-			set chatid [getObjOption $sid chatid]
-                        ::MSNCAM::CancelCam $chatid $sid
+			$sess_obj end
                 }
 
 
 	}
 	
-	proc GotPausedFrame {sid} {
-		set window [getObjOption $sid window]
+ proc GotPausedFrame {sess_obj} {
+   set window [$sess_obj cget -window]
 		if { $window != "" } {
 			#$window.paused configure -text "[trans pausedwebcamreceive]"
 			$window.canvas itemconfigure paused -state normal
 		}
 	}
 
-	proc GetCamFrame { sid socket } {
+ proc GetCamFrame { sess_obj socket } {
+ 
+   set sid [$sess_obj cget -sid]
 
 		if { ! [info exists ::webcamsn_loaded] } { ExtensionLoaded }
 		if { ! $::webcamsn_loaded } { return }
@@ -1915,22 +1967,22 @@ namespace eval ::CAMGUI {
 
 		if { [getObjOption $socket state] == "END" } { return }
 
-		set chatid [getObjOption $sid chatid]
+		set chatid [$sess_obj cget -chatid]
 
-		set window [getObjOption $sid window]
-		set img [getObjOption $sid image]
+   set window [$sess_obj cget -window]
+   set img [$sess_obj cget -image]
 
 		set encoder [getObjOption $socket codec]
-		set source [getObjOption $sid source]
+		set source [$sess_obj cget -source]
 
 		if { [OnLinux]  || [OnBSD]} {
-			if {$source == "0" } { set source "/dev/video0:0" }
+			if {$source == "0" || $source == ""} { set source "/dev/video0:0" }
 			set pos [string last ":" $source]
 			set dev [string range $source 0 [expr {$pos-1}]]
 			set channel [string range $source [expr {$pos+1}] end]
 		}
 
-		set grabber [getObjOption $sid grabber]
+		set grabber [$sess_obj cget -grabber]
 		if { $grabber == "" } {
 			if { [OnWin] } {
 				foreach grabberItm [array names ::grabbers] {
@@ -1950,7 +2002,7 @@ namespace eval ::CAMGUI {
 		}
 
 
-		set grab_proc [getObjOption $sid grab_proc]
+		set grab_proc [$sess_obj cget -grab_proc]
 
 		if { !([info exists ::test_webcam_send_log] && $::test_webcam_send_log != "") && ![::CAMGUI::IsGrabberValid $grabber] } {
 			status_log "Invalid grabber : $grabber"
@@ -1959,7 +2011,7 @@ namespace eval ::CAMGUI {
 
 				set grabber .grabber_$sid
 				set grabber [tkvideo $grabber]
-				set source [getObjOption $sid source]
+				set source [$sess_obj cget -source]
 				if { [catch { $grabber configure -source $source } res] } {
 					msg_box "[trans badwebcam]\n$res"
 					return
@@ -1972,15 +2024,15 @@ namespace eval ::CAMGUI {
 					msg_box "[trans badwebcam]\n$res"
 					return
 				}
-				setObjOption $sid grab_proc "Grab_Windows"
+				$sess_obj configure -grab_proc "Grab_Windows"
 
 			} elseif { [OnDarwin] } {
 				#Add grabber to the window
 				if {![::CAMGUI::CreateGrabberWindowMac]} {
-					::MSNCAM::CancelCam $chatid $sid
+					$sess_obj end
 					return
 				}
-				setObjOption $sid grab_proc "Grab_Mac"
+				$sess_obj configure -grab_proc "Grab_Mac"
 
 			} elseif { [OnLinux] || [OnBSD] } {
 				set pos [string last ":" $source]
@@ -1994,7 +2046,7 @@ namespace eval ::CAMGUI {
 				}
 
 				if { [catch { ::Capture::Open $dev $channel $cam_res} grabber] } {
-					::MSNCAM::CancelCam $chatid $sid
+					$sess_obj end
 					msg_box "[trans badwebcam]\n$grabber"
 					return
 				}
@@ -2021,7 +2073,7 @@ namespace eval ::CAMGUI {
 					}
 				}
 				
-				setObjOption $sid grab_proc "Grab_Linux"
+				$sess_obj configure -grab_proc "Grab_Linux"
 
 				#scale $window.b -from 0 -to 65535 -resolution 1 -showvalue 1 -label "B" -command "::Capture::SetBrightness $grabber" -orient horizontal
 				#scale $window.c -from 0 -to 65535 -resolution 1 -showvalue 1 -label "C" -command "::Capture::SetContrast $grabber" -orient horizontal
@@ -2035,9 +2087,9 @@ namespace eval ::CAMGUI {
 			}
 			status_log "Created grabber : $grabber"
 			set ::grabbers($grabber) [list]
-			setObjOption $sid grabber $grabber
-			set grab_proc [getObjOption $sid grab_proc]
-			status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
+     $sess_obj configure -grabber $grabber
+     set grab_proc [$sess_obj cget -grab_proc]
+     status_log "grab_proc is $grab_proc - [$sess_obj cget -grab_proc]\n" red
 			status_log "SID of this connection is $sid\n" red
 		}
 
@@ -2056,7 +2108,7 @@ namespace eval ::CAMGUI {
 					}
 					#Add button for each contact you are sending webcam
 					set buttontext [trunc [::abook::getDisplayNick $chatid] . 200 splainf]
-					button $w.delete_$sid -command "::MSNCAM::CancelCam $chatid $sid" -text $buttontext
+					button $w.delete_$sid -command "$sess_obj end" -text $buttontext
 					pack $w.delete_$sid
 					if {![info exists ::activegrabbers]} {
 						set ::activegrabbers 0
@@ -2077,7 +2129,7 @@ namespace eval ::CAMGUI {
 				} else {
 					toplevel $window -class AmsnWebcam
 					wm title $window "[trans send]: $chatid - [::abook::getDisplayNick $chatid]"
-					wm protocol $window WM_DELETE_WINDOW "::MSNCAM::CancelCam $chatid $sid"
+					wm protocol $window WM_DELETE_WINDOW "$sess_obj end"
 					canvas $window.canvas -width 320 -height 240
 	                                set wwidth 318
         	                        set wheight 240
@@ -2089,7 +2141,7 @@ namespace eval ::CAMGUI {
 				set confbut [$canv create image $wwidth $wheight -anchor se -image [::skin::loadPixmap confbut] -activeimage [::skin::loadPixmap confbuth] -tags confbut]
 				set stopbut [$canv create image [expr {$wwidth - 28}] $wheight -anchor se -image [::skin::loadPixmap stopbut] -activeimage [::skin::loadPixmap stopbuth] -tags stopbut]
 				set pausebut [$canv create image [expr {$wwidth - 56}] $wheight -anchor se -image [::skin::loadPixmap pausebut] -activeimage [::skin::loadPixmap pausebuth] -tags pausebut]
-				$canv bind stopbut <<Button1>> [list ::MSNCAM::CancelCam $chatid $sid]
+				$canv bind stopbut <<Button1>> [list $sess_obj end]
 				$canv bind stopbut <Enter> [list balloon_enter %W %X %Y [trans stopwebcamreceive]]
 				$canv bind stopbut <Leave> "set Bulle(first) 0; kill_balloon"
 				$canv bind stopbut <Motion> [list balloon_motion %W %X %Y [trans stopwebcamreceive]]
@@ -2108,11 +2160,11 @@ namespace eval ::CAMGUI {
 
 			if { [OnDarwin] } {
 				if {![winfo exists ::grabbers($grabber)]} {
-					setObjOption $sid grab_proc "Grab_Mac"
+					$sess_obj configure -grab_proc "Grab_Mac"
 					set ::grabbers($grabber) [list]
-					setObjOption $sid grabber $grabber
-					set grab_proc [getObjOption $sid grab_proc]
-					status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
+         $sess_obj configure -grabber $grabber
+         set grab_proc [$sess_obj cget -grab_proc]
+         status_log "grab_proc is $grab_proc - [$sess_obj cget -grab_proc]\n" red
 					status_log "SID of this connection is $sid\n" red
 				}
 			}
@@ -2126,25 +2178,25 @@ namespace eval ::CAMGUI {
 			lappend windows $window
 			set ::grabbers($grabber) $windows
 
-			setObjOption $sid window $window
-			setObjOption $sid image $img
+     $sess_obj configure -window $window
+     $sess_obj configure -image $img
 		}
 
 		if { $grab_proc == "" } {
 			if { [OnWin] } {
-				setObjOption $sid grab_proc "Grab_Windows"
+				$sess_obj configure -grab_proc "Grab_Windows"
 
 			} elseif { [OnDarwin] } {
-				setObjOption $sid grab_proc "Grab_Mac"
+				$sess_obj configure -grab_proc "Grab_Mac"
 
 			} elseif { [OnLinux] || [OnBSD] } {
-				setObjOption $sid grab_proc "Grab_Linux"
+				$sess_obj configure -grab_proc "Grab_Linux"
 
 			} else {
 				return
 			}
-			set grab_proc [getObjOption $sid grab_proc]
-			status_log "grab_proc is $grab_proc - [getObjOption $sid grab_proc]\n" red
+     set grab_proc [$sess_obj cget -grab_proc]
+     status_log "grab_proc is $grab_proc - [$sess_obj cget -grab_proc]\n" red
 		}
 
 
@@ -2154,7 +2206,7 @@ namespace eval ::CAMGUI {
                 if { [winfo exists $window] && [winfo toplevel $window] != $window } {
                         catch {::picture::Resize $img 160 120}
                 } elseif { ![winfo exists $window] && ![OnDarwin] } {
-			::MSNCAM::CancelCam $chatid $sid
+			$sess_obj end
 		}
 
 	}
@@ -2381,11 +2433,13 @@ namespace eval ::CAMGUI {
 		}
 	}
 
-	proc AcceptOrRefuse {chatid dest branchuid cseq uid sid producer} {
-		SendMessageFIFO [list ::CAMGUI::AcceptOrRefuseWrapped $chatid $dest $branchuid $cseq $uid $sid $producer] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+ proc AcceptOrRefuse {chatid session producer} {
+   SendMessageFIFO [list ::CAMGUI::AcceptOrRefuseWrapped $chatid $session $producer] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
 	#Executed when we receive a request to accept or refuse a webcam session
-	proc AcceptOrRefuseWrapped {chatid dest branchuid cseq uid sid producer} {
+ proc AcceptOrRefuseWrapped {chatid session producer} {
+
+   set sid [$session cget -sid]
 	
 		#Grey line
 		::amsn::WinWrite $chatid "\n" green
@@ -2401,7 +2455,8 @@ namespace eval ::CAMGUI {
 				::amsn::WinWrite $chatid "[timestamp] [trans webcaminvitesendingauto [::abook::getDisplayNick $chatid]]\n" green
 			}
 			
-			::CAMGUI::InvitationAccepted $chatid $dest $branchuid $cseq $uid $sid $producer
+     $session accept
+     #::CAMGUI::InvitationAccepted $chatid $dest $branchuid $cseq $uid $sid $producer
 			
 		} else {
 			#Show invitation
@@ -2415,9 +2470,9 @@ namespace eval ::CAMGUI {
 		
 			#Accept and refuse actions
 			::amsn::WinWrite $chatid " - (" green
-			::amsn::WinWriteClickable $chatid "[trans accept]" [list ::CAMGUI::InvitationAccepted $chatid $dest $branchuid $cseq $uid $sid $producer] acceptwebcam$sid
+			::amsn::WinWriteClickable $chatid "[trans accept]" [list $session accept] acceptwebcam$sid
 			::amsn::WinWrite $chatid " / " green
-			::amsn::WinWriteClickable $chatid "[trans reject]" [list ::CAMGUI::InvitationRejected $chatid $sid $branchuid $uid] nowebcam$sid
+			::amsn::WinWriteClickable $chatid "[trans reject]" [list $session reject] nowebcam$sid
 			::amsn::WinWrite $chatid ")\n" green
 		}
 		
@@ -2492,7 +2547,7 @@ namespace eval ::CAMGUI {
 		::MSNCAM::SendInviteQueue $chatid
 	}
 	
-	proc InvitationAccepted { chatid dest branchuid cseq uid sid producer} {
+ proc InvitationAccepted { chatid sid } {
 		#Get the chatwindow name
 		set win_name [::ChatWindow::For $chatid]
 		if { [::ChatWindow::For $chatid] == 0} {
@@ -2516,12 +2571,12 @@ namespace eval ::CAMGUI {
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 		
 		#Execute the accept webcam protocol
-		if {[::MSN::ChatQueue $chatid [list ::MSNCAM::AcceptWebcamOpenSB $chatid $dest $branchuid $cseq $uid $sid $producer]] == 0} {
-			return 0
-		}
+		#if {[::MSN::ChatQueue $chatid [list ::MSNCAM::AcceptWebcamOpenSB $chatid $dest $branchuid $cseq $uid $sid $producer]] == 0} {
+		#	return 0
+		#}
 	}
 
-	proc InvitationRejected {chatid sid branchuid uid} {
+	proc InvitationRejected {chatid sid } {
 		
 		#Get the chatwindow name
 		set win_name [::ChatWindow::For $chatid]
@@ -2546,9 +2601,9 @@ namespace eval ::CAMGUI {
 		[::ChatWindow::GetOutText ${win_name}] conf -cursor left_ptr
 		
 		#Execute the reject webcam protocol
-		if {[::MSN::ChatQueue $chatid [list ::MSNCAM::RejectFTOpenSB $chatid $sid $branchuid $uid ]] == 0} {
-			return 0
-		}
+		#if {[::MSN::ChatQueue $chatid [list ::MSNCAM::RejectFTOpenSB $chatid $sid $branchuid $uid ]] == 0} {
+		#	return 0
+		#}
 	}
 	
 	#Executed when you invite someone to a webcam session and he refuses the request
@@ -2613,32 +2668,34 @@ namespace eval ::CAMGUI {
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when you invite someone to send your webcam
-	proc InvitationToSendSent {chatid sid} {
-		SendMessageFIFO [list ::CAMGUI::InvitationToSendSentWrapped $chatid $sid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+ proc InvitationToSendSent {chatid sess_obj} {
+   SendMessageFIFO [list ::CAMGUI::InvitationToSendSentWrapped $chatid $sess_obj] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
-	proc InvitationToSendSentWrapped {chatid sid} {
+ proc InvitationToSendSentWrapped {chatid sess_obj} {
+   set sid [$sess_obj cget -sid]
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid " \n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestsend]" green
 		::amsn::WinWrite $chatid " - (" green
-		::amsn::WinWriteClickable $chatid "[trans cancel]" [list ::MSNCAM::CancelCam $chatid $sid] cancelwebcam$sid
+		::amsn::WinWriteClickable $chatid "[trans cancel]" [list $sess_obj end] cancelwebcam$sid
 		::amsn::WinWrite $chatid ")\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}
 	#Executed when you invite someone to receive his webcam
-	proc InvitationToReceiveSent {chatid sid} {
-		SendMessageFIFO [list ::CAMGUI::InvitationToReceiveSentWrapped $chatid $sid] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
+ proc InvitationToReceiveSent {chatid sess_obj} {
+   SendMessageFIFO [list ::CAMGUI::InvitationToReceiveSentWrapped $chatid $sess_obj] "::amsn::messages_stack($chatid)" "::amsn::messages_flushing($chatid)"
 	}
-	proc InvitationToReceiveSentWrapped {chatid sid} {
+ proc InvitationToReceiveSentWrapped {chatid sess_obj} {
+   set sid [$sess_obj cget -sid]
 		::amsn::WinWrite $chatid "\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 		::amsn::WinWrite $chatid " \n" green
 		::amsn::WinWriteIcon $chatid winwritecam 3 2
 		::amsn::WinWrite $chatid "[timestamp] [trans webcamrequestreceive]" green
 		::amsn::WinWrite $chatid " - (" green
-		::amsn::WinWriteClickable $chatid "[trans cancel]" [list ::MSNCAM::CancelCam $chatid $sid] cancelwebcam$sid
+		::amsn::WinWriteClickable $chatid "[trans cancel]" [list $sess_obj end] cancelwebcam$sid
 		::amsn::WinWrite $chatid ")\n" green
 		::amsn::WinWriteIcon $chatid greyline 3
 	}

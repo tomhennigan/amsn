@@ -264,6 +264,7 @@ proc reload_files { } {
 	source ctthemes.tcl
 	source progressbar.tcl	;# Progressbar Megawidget
 	source migmd5.tcl
+        #package require md5
 	source sxml.tcl   	;# Simple XML parser
 	package require combobox 2.3
 	source mutex.tcl
@@ -312,6 +313,7 @@ proc reload_files { } {
 	source addressbook.tcl    ;# MSNP15 contactlist handling functions
 	source roaming.tcl    ;# MSNP15 Content Roaming functions
 	source sip.tcl		  ;# Support for Audio conferencing with SIP and Farsight2
+        source msnp2p/sourcefiles.tcl
     }
     #As we reloaded amsncore, the version has been resetted and maybe amsn is the newest file
     ::Version::setSubversionId {$Id$}

@@ -1370,6 +1370,7 @@ namespace eval ::winks {
 
 		upvar 2 $evpar newvar
 		set filename $newvar(filename)
+    set chatid $newvar(chatid)
 		
 		status_log "Received wink file: $filename from $chatid\n" green
 
@@ -1561,6 +1562,9 @@ namespace eval ::winks {
 		set sbn [::MSN::SBFor $chatid]
 		create_msnobj [::config::getKey login] 8 $wink(cab) $friendly
 		set msnobj [create_msnobj [::config::getKey login] 8 $wink(cab) $friendly $wink(stamp)]
+    set p2pmsnobj [::p2p::MSNObject parse $msnobj]
+    $p2pmsnobj configure -data $data
+    $::obj_stor publish $p2pmsnobj
 
 		#  send chunks
 		set maxchars 1202

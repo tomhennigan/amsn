@@ -478,9 +478,10 @@ namespace eval ::MSNFT {
 		variable filedata
 
 		if {[supportsNewFT [::abook::getContactData $chatid clientid]]} {
-			set sid [::MSN6FT::SendFT $chatid $filename $filesize]
-			setObjOption $cookie msn6ftsid $sid
-			setObjOption $sid theCookie $cookie
+     #set sid [::MSN6FT::SendFT $chatid $filename $filesize]
+     #setObjOption $cookie msn6ftsid $sid
+     #setObjOption $sid theCookie $cookie
+     $::ft_handler request $chatid $filename $filesize "" "" $cookie
 			return 0
 		}
 
@@ -935,6 +936,18 @@ namespace eval ::MSN {
 
 		#Setup the conection
 		setup_connection ns
+                #@@@@@@@@@@@
+                if { ![info exists ::ses_mgr] } {
+                 set ::ses_mgr [::p2p::P2PSessionManager %AUTO%]
+                 set ::obj_stor [::p2p::MSNObjectStore %AUTO% -client $::ses_mgr]
+                        $::ses_mgr register_handler $::obj_stor
+       set ::trsp_mgr [$::ses_mgr transport_manager]
+     set ::ft_handler [::p2p::FileTransferHandler %AUTO% -client $::ses_mgr]
+     $::ses_mgr register_handler $::ft_handler
+     set ::cam_handler [::p2p::WebcamHandler %AUTO% -client $::ses_mgr]
+                        $::ses_mgr register_handler $::cam_handler
+                }
+
 
 		::plugins::PostEvent OnConnecting evPar
 
@@ -1487,12 +1500,23 @@ namespace eval ::MSN {
 		}
 		set chg_last_dp [::config::getKey displaypic]
 
+   set filen [::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]
+   set fd [open $filen r]
+   fconfigure $fd -translation {binary binary}
+   set data [read $fd]
+   close $fd
+   set msnobj [create_msnobj [::config::getKey login] 3 $filen]
+   set p2pmsnobj [::p2p::MSNObject parse $msnobj]
+   $p2pmsnobj configure -data $data
+   $::obj_stor publish $p2pmsnobj
+   
+
 		if {[::MSN::myStatusIs] == "FLN" || [::MSN::myStatusIs] == "HDN" || [::config::getKey protocol]  >= 18 } {
 			::MSN::sendUUXData $new_status
 		}
 
 		if { [::config::getKey displaypic] != "nopic.gif" } {
-			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid] [urlencode [create_msnobj [::config::getKey login] 3 [::skin::GetSkinFile displaypic [PathRelToAbs [::config::getKey displaypic]]]]]"
+     ::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid] [urlencode $msnobj]"
 		} else {
 			::MSN::WriteSB ns "CHG" "$new_status [::config::getKey clientid]"
 		}
@@ -2388,6 +2412,10 @@ namespace eval ::MSN {
 			lappend list_cmdhnd [list $sbn $trid $handler]
 		}
 
+   if { [$sbn info vars unacked] != "" } {
+     $sbn add_unacked $msgid
+   }
+
 		return $msgid
 	}
 
@@ -2414,8 +2442,8 @@ namespace eval ::MSN {
 			::MSN::CloseSB $sbn
 			degt_protocol "->$sbn FAILED: $cmd" error
 		}
+   if { [info commands $sbn] == "" } { return }
 		if { $sbn != "ns" } {
-			if { [info commands $sbn] == "" } { return }
 			if { [$sbn cget -killme] != "" } {
 				after cancel [$sbn cget -killme]
 			}
@@ -4182,6 +4210,7 @@ namespace eval ::MSNOIM {
 	variable fields
 	variable headers
 	variable body ""
+        variable payld ""
 
 	constructor {args} {
 	}
@@ -4192,8 +4221,13 @@ namespace eval ::MSNOIM {
 		array set fields $fields_list
 	}
 
+        method getPayload { } {
+                return $payld
+        }
+
 	#creates a message object from a received payload
 	method createFromPayload { payload } {
+                set payld $payload
 		set idx [string first "\r\n\r\n" $payload]
 		if {$idx == -1 } { 
 			$self setRaw $payload 
@@ -5129,6 +5163,8 @@ namespace eval ::MSNOIM {
 	option -lastspoke 0
 	option -killme ""
 
+ variable unacked [list]
+
 	constructor {args} {
 		install connection using Connection %AUTO% -name $self
 		$self configurelist $args
@@ -5137,6 +5173,14 @@ namespace eval ::MSNOIM {
 	destructor {
 		catch { $connection destroy }
 	}
+
+ method add_unacked { id } {
+   set unacked [lappend $unacked $id]
+ }
+
+ method get_unacked { } {
+   return [llength $unacked]
+ }
 
 	method addUser { user } {
 		lappend options(-users) $user
@@ -5222,6 +5266,10 @@ namespace eval ::MSNOIM {
 						::amsn::ackMessage $ackid
 						unset msgacks($ret_trid)
 					}
+         set trid_ind [lsearch $unacked $ret_trid]
+         set options(-unacked) [lreplace $unacked $trid_ind $trid_ind]
+         ::Event::fireEvent ackReceived $self $self
+         
 				}
 				208 {
 					status_log "sb::handleCommand: invalid user name for chat\n" red
@@ -5471,29 +5519,36 @@ namespace eval ::MSNOIM {
 				}
 			}
 			application/x-msnmsgrp2p {
-				set dest [$message getHeader "P2P-Dest"]
-				set semic [string first ";" $dest]
-				set destid ""
-				if { $semic > 0 } {
-					set destid [string range $dest [expr { $semic + 1}] end]
-					set dest [string range $dest 0 [expr {$semic - 1}]]
-				}
-				if { [string compare -nocase $dest [::config::getKey login]] == 0 } {
-					if { $destid == "" ||
-					     [string compare -nocase $destid [::config::getGlobalKey machineguid]] == 0 } {
-						set p2pmessage [P2PMessage create %AUTO%]
-						if {[catch {$p2pmessage createFromMessage $message}] } {
-							status_log "ouch.. invalid data for p2p.. might be a WLM beta bug.."
-						} else {
-							::MSNP2P::ReadData $p2pmessage $chatid
+                                status_log "Received $message"
+                                set msg [::p2p::Message create %AUTO%]
+                                $msg parse [$message getPayload]
+       destroy $message
+         #@@@@@@@@@@p2pv2
+       set transport [$::trsp_mgr Get_transport $typer "" ""]
+       $transport On_message_received $msg
+       #set dest [$message getHeader "P2P-Dest"]
+       #set semic [string first ";" $dest]
+       #set destid ""
+       #if { $semic > 0 } {
+#          set destid [string range $dest [expr { $semic + 1}] end]
+#          set dest [string range $dest 0 [expr {$semic - 1}]]
+#        }
+#        if { [string compare -nocase $dest [::config::getKey login]] == 0 } {
+#          if { $destid == "" ||
+             # [string compare -nocase $destid [::config::getGlobalKey machineguid]] == 0 } {
+       #   set p2pmessage [P2PMessage create %AUTO%]
+     #     if {[catch {$p2pmessage createFromMessage $message}] } {
+   #         status_log "ouch.. invalid data for p2p.. might be a WLM beta bug.."
+ #         } else {
+#              ::MSNP2P::ReadData $p2pmessage $chatid
 							#status_log [$p2pmessage toString 1]
-						}
-						catch { $p2pmessage destroy }
-					} else {
-						status_log "Received an MSNP2P message not addressed to us... ignoring"
-                                        }
-
-				}
+#            }
+#            catch { $p2pmessage destroy }
+#          } else {
+#            status_log "Received an MSNP2P message not addressed to us... ignoring"
+ #                                       }
+#
+#        }
 			}
 
 			text/x-mms-emoticon -
@@ -8140,11 +8195,11 @@ proc FromUnicode { text } {
 }
 
 proc int2word { int1 int2 } {
-	if { $int2>0} {
-		status_log "Warning!!!! int was a 64-bit integer!! Ignoring for tcl/tk 8.3 compatibility!!!!\n" white
-	}
-	return $int1
-	#return [expr $int2 * 4294967296 + $int1]
+ #if { $int2>0} {
+ # status_log "Warning!!!! int was a 64-bit integer!! Ignoring for tcl/tk 8.3 compatibility!!!!\n" white
+ #}
+ #return $int1
+ return [expr $int2 * 4294967296 + $int1]
 }
 
 namespace eval ::MSN6FT {

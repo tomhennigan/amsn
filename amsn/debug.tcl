@@ -218,6 +218,15 @@ namespace eval ::debug {
 		::debug::disable_hook
 	}
 
+ proc find_all_snits { {ns "::"} } {
+   foreach n [namespace children $ns] { 
+     if {[string first "Snit_inst" $n] != -1} { 
+       puts "[namespace parent $n] --- [set ${n}::Snit_instance]" 
+     }
+     find_all_snits $n 
+   }
+ }
+
 }
 
 
