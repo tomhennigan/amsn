@@ -5175,7 +5175,7 @@ namespace eval ::MSNOIM {
 	}
 
  method add_unacked { id } {
-   set unacked [lappend $unacked $id]
+   set unacked [lappend unacked $id]
  }
 
  method get_unacked { } {
@@ -5267,7 +5267,7 @@ namespace eval ::MSNOIM {
 						unset msgacks($ret_trid)
 					}
          set trid_ind [lsearch $unacked $ret_trid]
-         set options(-unacked) [lreplace $unacked $trid_ind $trid_ind]
+         set unacked [lreplace $unacked $trid_ind $trid_ind]
          ::Event::fireEvent ackReceived $self $self
          
 				}
