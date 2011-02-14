@@ -101,7 +101,7 @@ namespace eval ::p2p {
 				status_log "Error!!!!!!!! $res"
 				return 0
 			}
-			after cancel "$self On_connect_timeout"
+			#after cancel "$self On_connect_timeout"
 			status_log "Connected: using $sock"
 			::Event::fireEvent p2pIdentifying p2p $options(-client)
 			fconfigure $sock -blocking 0 -translation {binary binary} -buffering none
@@ -278,6 +278,7 @@ namespace eval ::p2p {
 			$self Send_foo
 			$self Send_nonce
 			if { $data != "" } {
+				after cancel "$self On_connect_timeout"
 				$self Send_data $data $callback
 			}
 

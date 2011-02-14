@@ -480,12 +480,18 @@ namespace eval ::p2p {
 		method cancel_by_cookie { cookie } {
 
 			foreach session $out_sessions {
+				if { [info commands $session] == "" } {
+					$self remove_session $session
+					status_log "Dead session $session"
+					continue
+				}
 				if { [$session cget -cookie] == $cookie } {
 					$session cancel
 					$self remove_session $session
 					return
 				}
 			}
+			status_log "Found no session $cookie in $out_sessions"
 
 		}
 
