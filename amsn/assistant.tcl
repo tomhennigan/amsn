@@ -1786,10 +1786,29 @@ namespace eval ::AVAssistant {
 				after 3000 "catch { $previmc delete errmsg }"
 				return
 			}
-			if { [catch { .webcam_preview format 320x240 } res] } {
-				$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
-				after 3000 "catch { $previmc delete errmsg }"
-				return
+			
+			#look for the next best cam resolution (320x240 or higher)
+			set format_list [.webcam_preview formats]
+			set valid_fmt -1
+			foreach fmt $format_list {
+				set fmt2 [split $fmt "x"]
+				
+				if {[llength $fmt2] == 2 && [lindex $fmt2 0] >= 320 && [lindex $fmt2 1] >= 240 
+					&& ($valid_fmt == -1 || ([lindex $fmt2 0] <= [lindex $valid_fmt 0] && [lindex $fmt2 1] <= [lindex $valid_fmt 1]))} {
+					
+					set valid_fmt $fmt2
+				}
+			}
+			
+			if {$valid_fmt != -1} {
+				#a valid cam resolution was found, so select it. otherwise use cam default
+				status_log "valid cam format found: [lindex $valid_fmt 0]x[lindex $valid_fmt 1]" blue
+				
+				if { [catch { .webcam_preview format [lindex $valid_fmt 0]x[lindex $valid_fmt 1] } res] } {
+					$previmc create text 5 215 -anchor nw -font bboldf -text "$res" -fill #FF0000 -anchor nw -tag errmsg
+					after 3000 "catch { $previmc delete errmsg }"
+					return
+				}
 			}
 			
 			set previmg [image create photo [TmpImgName]]

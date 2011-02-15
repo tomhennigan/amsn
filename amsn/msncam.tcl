@@ -1735,10 +1735,10 @@ namespace eval ::MSNCAM {
 			#status_log "webcam: Wrong size: Width is [image width $img] and height is [image height $img]\n" red
 			#return
 			
-			#We crop the image to avoid bad sizes
-			#This is a test..seems to work well for bad-sized ratio camera
+			#We resize the image to avoid bad sizes
+			#This is a test..seems to work well for bad-sized (ratio) camera
 			if { [image width $img] != "0" || [image height $img] != "0" } {
-				$img configure -width $camwidth -height $camheight
+				catch {::picture::Resize $img $camwidth $camheight}
 			} else {
 				return 0
 			}
@@ -1912,7 +1912,17 @@ namespace eval ::CAMGUI {
 				canvas $window.canvas -width 320 -height 240
 				set wwidth 318
 				set wheight 240
+				set cwidth 320
+				set cheight 240
 			}
+
+			#resize preview image
+			if { [image width $img] != "$cwidth" || [image height $img] != "$cheight" } {
+				if { [image width $img] != "0" || [image height $img] != "0" } {
+					catch {::picture::Resize $img $cwidth $cheight}
+				}
+			}
+			
 			set canv $window.canvas
 			$canv create image 0 0 -anchor nw -image $img
 			pack $canv
@@ -2020,9 +2030,28 @@ namespace eval ::CAMGUI {
 					msg_box "[trans badwebcam]\n$res"
 					return
 				}
-				if { [catch { $grabber format 320x240 } res] } {
-					msg_box "[trans badwebcam]\n$res"
-					return
+				
+				#look for the next best cam resolution (320x240 or higher)
+				set format_list [$grabber formats]
+				set valid_fmt -1
+				foreach fmt $format_list {
+					set fmt2 [split $fmt "x"]
+					
+					if {[llength $fmt2] == 2 && [lindex $fmt2 0] >= 320 && [lindex $fmt2 1] >= 240 
+						&& ($valid_fmt == -1 || ([lindex $fmt2 0] <= [lindex $valid_fmt 0] && [lindex $fmt2 1] <= [lindex $valid_fmt 1]))} {
+						
+						set valid_fmt $fmt2
+					}
+				}
+				
+				if {$valid_fmt != -1} {
+					#a valid cam resolution was found, so select it. otherwise use cam default
+					status_log "valid cam format found: [lindex $valid_fmt 0]x[lindex $valid_fmt 1]" blue
+					
+					if { [catch { $grabber format [lindex $valid_fmt 0]x[lindex $valid_fmt 1] } res] } {
+						msg_box "[trans badwebcam]\n$res"
+						return
+					}
 				}
 				$sess_obj configure -grab_proc "Grab_Windows"
 
@@ -3655,4 +3684,3 @@ namespace eval ::CAMGUI {
 	}
 
 }
-
