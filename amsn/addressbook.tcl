@@ -207,6 +207,17 @@ snit::type Addressbook {
 		
 		if { [$soap GetStatus] == "success" } {
 			set xml  [$soap GetResponse]
+
+			::MSN::clearList BL
+			::MSN::clearList RL
+			::MSN::clearList AL
+			foreach username [::abook::getAllContacts] {
+				#Remove user from all lists while receiving List data
+				::abook::removeContactFromList $username "AL"
+				::abook::removeContactFromList $username "BL"
+				::abook::removeContactFromList $username "RL"
+			}
+
 			set i 0
 			while {1} {
 				set service [GetXmlNode $xml "soap:Envelope:soap:Body:FindMembershipResponse:FindMembershipResult:Services:Service" $i]

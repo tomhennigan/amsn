@@ -7207,7 +7207,9 @@ proc cmsn_auth {{recv ""}} {
 			save_config						;# CONFIG
 			::config::saveGlobal
 
+			set abook_cached 1
 			if { [::abook::loadFromDisk] < 0 } {
+				set abook_cached 0
 				::abook::clearData
 				::abook::setConsistent
 			}
@@ -7221,8 +7223,16 @@ proc cmsn_auth {{recv ""}} {
 				if {![info exists ::ab]} {
 					set ::ab [::Addressbook create %AUTO%]
 				}
-				::abook::setPersonal MFN ""
-				$::ab Synchronize [list ::MSN::ABSynchronizationDone 1]
+
+				if {$abook_cached} {
+					::MSN::makeLists
+					::MSN::ABSynchronizationDone 1 0
+
+					after 500 {$::ab Synchronize [list ::MSN::ABSynchronizationDone 0]}
+				} else {
+					::abook::setPersonal MFN ""
+					$::ab Synchronize [list ::MSN::ABSynchronizationDone 1]
+				}
 			} else {
 				set list_version [::abook::getContactData contactlist list_version]
 				#If the value is invalid, we will be disconnected from server
