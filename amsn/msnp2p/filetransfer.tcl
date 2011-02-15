@@ -73,7 +73,7 @@ namespace eval ::p2p {
 
 		method saveAs { } {
 
-			set filename [tk_getSaveFile -initialfile $options(-initialpath) -initialdir $options(-filename)]
+      set filename [tk_getSaveFile -initialfile $options(-filename) -initialdir $options(-initialpath)]
 
 			set origfile $filename
 			set incompl "incomplete"
@@ -84,7 +84,9 @@ namespace eval ::p2p {
 				incr num
 			}
 			set options(-localpath) $filename
-			$self accept
+      if {$filename != ""} {
+        $self accept
+      }
 			#set fd [open $filename.$incompl a]
 			#fconfigure $fd -translation {binary binary}
 			#$p2pSession configure -fd $fd
