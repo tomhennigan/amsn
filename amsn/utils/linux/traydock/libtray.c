@@ -162,17 +162,17 @@ DockIcon(ClientData clientData)
 	xembed_set_info(icon->win,XEMBED_MAPPED);
 
 	atom = XInternAtom(display, "_NET_SYSTEM_TRAY_OPCODE", False );
-	send_message(display, _GetSystemTray (), atom,
-			SYSTEM_TRAY_REQUEST_DOCK,Tk_WindowId(icon->win),0,0);
+	send_message(display, Tk_WindowId(icon->win), atom,
+			SYSTEM_TRAY_REQUEST_DOCK, Tk_WindowId(icon->win),0,0);
 			
-	XChangeProperty(display, _GetSystemTray(), 
+	XChangeProperty(display, Tk_WindowId(icon->win), 
 			XInternAtom(display, "_NET_WM_NAME", False), 
 			XInternAtom(display, "UTF8_STRING", False), 
 			8, 
 			PropModeReplace, 
 			(unsigned char *)tray_name, 
 			strlen(tray_name)+1);
-	XStoreName(display, _GetSystemTray(), tray_name);
+	XStoreName(display, Tk_WindowId(icon->win), tray_name);
 		
 	XClassHint* classHint = XAllocClassHint();
 	if(classHint){
