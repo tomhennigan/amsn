@@ -89,9 +89,9 @@ namespace eval ::p2p {
 				set chatid [::MSN::chatTo $peer]
 				set sb [::MSN::SBFor $chatid]
 				if { [$sb get_unacked] < 5 } {
-					::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "D $data_len\r\n$data"]
+					::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL $sb "MSG" "D $data_len\r\n$data"]
 				} else {
-					set queue [lappend queue [list ::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL $sb "MSG" "D $data_len\r\n$data"]]]
+					set queue [lappend queue [list ::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "D $data_len\r\n$data"]]]
 				}
 				catch {$sendme destroy}
 			}
