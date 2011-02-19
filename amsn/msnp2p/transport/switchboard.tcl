@@ -92,13 +92,14 @@ namespace eval ::p2p {
 					::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL $sb "MSG" "D $data_len\r\n$data"]
 				} else {
 					#set queue [lappend queue [list ::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "D $data_len\r\n$data"]]]
-					set queue [lappend queue [list $self AddToQueue $chatid $data]
+					set queue [lappend queue [list $self AddToQueue $chatid $data]]
 				}
 				catch {$sendme destroy}
 			}
 
 			method AddToQueue { chatid data } {
 
+				set data_len [expr [string length $data]]
 				::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "D $data_len\r\n$data"]
 
 			}
