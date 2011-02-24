@@ -49,7 +49,7 @@ animatedemoticon See emotikon on animeeritud
 animatedsmileys Luba animeeritud emotikonid
 animatenotify Animeeritud teateaken
 appearance Välimus
-appearoff Ilmu lahtiühendatuna
+appearoff Pole sees
 areacode Piirkonnakood
 aretyping $1 kirjutavad sõnumit
 askcam Palu kasutajalt kaamerapilti
@@ -888,7 +888,7 @@ showofflinegroup Näita ühenduseta gruppe
 showonedpframe Näita vestlusakendes ainult üht pildiraami
 showpicnotify Näita teateakendes kasutajate pilte
 showspaces Näita kontaktide nimekirjas Spaces ikooni
-showuserpic $1'es kuvapilt
+showuserpic $1 kuvapilt
 showuserscw Vestluses on $1 kasutajat. Kui sa tahad neid näha või neid peita, siis vajuta siia.
 signinstatus Sisselogimise olek
 signoutep Logi välja kohast $1
