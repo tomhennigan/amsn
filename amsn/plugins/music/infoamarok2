@@ -8,7 +8,7 @@ then
 	#Yes so we get the info
 	#artist=`qdbus org.kde.amarok /Player GetMetadata | grep artist`
 	title=`qdbus org.kde.amarok /Player GetMetadata | grep title`
-	artist=`qdbus org.kde.amarok /Player GetMetadata | grep artist`
+	artist=`qdbus org.kde.amarok /Player GetMetadata | grep ^artist`
 	path=`qdbus org.kde.amarok /Player GetMetadata | grep location | sed -e s/%20/\ /g`
 	artpath=`qdbus org.kde.amarok /Player GetMetadata | grep arturl | sed -e s/%20/\ /g`
 	album=`qdbus org.kde.amarok /Player GetMetadata | grep album:`
