@@ -42,7 +42,8 @@ RequestExecutionLevel admin
 
 !define OC_STR_MY_PRODUCT_NAME "aMSN"
 !define OC_STR_KEY "95172ff4ef77124455196ede26715b4c"
-!define OC_STR_SECRET "changeme!!!!"
+!define OC_STR_SECRET "change me!!!"
+!define OC_OCSETUPHLP_FILE_PATH ".\OCSetupHlp.dll"
 !define OC_STR_REGISTRY_PATH "Software\aMSN\OpenCandy"
 
 ;--------------------------------
@@ -80,12 +81,14 @@ RequestExecutionLevel admin
 
 ; ****** OpenCandy START ******
 !include "OCSetupHlp.nsh"
+!insertmacro OpenCandyReserveFile
 !define MUI_CUSTOMFUNCTION_ABORT "onUserAbort"
 Var UserAborted
 ; Declare the OpenCandy Offer page
-PageEx custom
- PageCallbacks OpenCandyPageStartFn OpenCandyPageLeaveFn 
-PageExEnd
+;PageEx custom
+; PageCallbacks OpenCandyPageStartFn OpenCandyPageLeaveFn 
+;PageExEnd
+  !insertmacro OpenCandyOfferPage
 ; ****** OpenCandy END ******
 
   !insertmacro MUI_PAGE_INSTFILES
@@ -159,7 +162,8 @@ Function .onInit
   !insertmacro MUI_RESERVEFILE_LANGDLL ;Language selection dialog
   !insertmacro MUI_LANGDLL_DISPLAY
   ; ****** OpenCandy START ******
-  !insertmacro OpenCandyInit "${OC_STR_MY_PRODUCT_NAME}" "${OC_STR_KEY}" "${OC_STR_SECRET}" "${OC_STR_REGISTRY_PATH}"
+  ;!insertmacro OpenCandyInit "${OC_STR_MY_PRODUCT_NAME}" "${OC_STR_KEY}" "${OC_STR_SECRET}" "${OC_STR_REGISTRY_PATH}"
+  !insertmacro OpenCandyAsyncInit "${OC_STR_MY_PRODUCT_NAME}" "${OC_STR_KEY}" "${OC_STR_SECRET}" ${OC_INIT_MODE_NORMAL}
   IntOp $UserAborted 0 + 0
   ; ****** OpenCandy END ******
   Var /Global ADMIN
@@ -177,12 +181,12 @@ Function .onInstSuccess
 ; ****** OpenCandy END ******
 FunctionEnd
 
-; OnInstFailed
-Function .onInstFailed
+; OnInstFailed <-- This doesn't exist on 1.6.1.54
+;Function .onInstFailed
 ; ****** OpenCandy START ******
-!insertmacro OpenCandyOnInstFailed
+;!insertmacro OpenCandyOnInstFailed
 ; ****** OpenCandy END ******
-FunctionEnd
+;FunctionEnd
 
 Function onUserAbort
 ; ****** OpenCandy START ******
@@ -194,14 +198,21 @@ FunctionEnd
 Function .onGUIEnd
 ; ****** OpenCandy START ******
 !insertmacro OpenCandyOnGuiEnd
-IntCmp $UserAborted 0 done
-  !insertmacro OpenCandyOnInstFailed
-done:
+;IntCmp $UserAborted 0 done <-- This doesn't exist on 1.6.1.54
+;  !insertmacro OpenCandyOnInstFailed
+;done:
 ; ****** OpenCandy END ******
 FunctionEnd
 
 ;--------------------------------
 ;Installer Sections
+
+;Recomended before any other sections
+Section "-OpenCandyEmbedded"
+	; Handle any offers the user accepted
+	!insertmacro OpenCandyInstallEmbedded
+SectionEnd
+
 ;Default section
 Section "aMSN (required)" Core
 
@@ -306,7 +317,6 @@ Files_Next:
   File /r /x ".svn" "..\..\..\plugins\inkdraw"
   File /r /x ".svn" "..\..\..\plugins\remind"
   File /r /x ".svn" "..\..\..\plugins\winks"
-  File /r /x ".svn" "..\..\..\plugins\gnotify"
   File /r /x ".svn" "..\..\..\plugins\music"
 
   SetOutPath "$INSTDIR\scripts\utils\windows\gnash"
@@ -389,8 +399,8 @@ Files_Next:
   File /r "${WISH_PATH}\lib\tk8.${WISH_MINOR}\*.*"
   SetOutPath "$INSTDIR\lib\tls"
   File /r "${WISH_PATH}\lib\tls\*.*"
-  SetOutPath "$INSTDIR\lib\TkDND2.0"
-  File /r "${WISH_PATH}\lib\TkDND2.0\*.*"
+  SetOutPath "$INSTDIR\lib\TkDND2.2"
+  File /r "${WISH_PATH}\lib\TkDND2.2\*.*"
 
   SetOutPath "$INSTDIR"
 
@@ -434,7 +444,7 @@ SectionGroup "Extras" SecExtras
   SetOutPath "$INSTDIR\scripts\plugins"
   File /r /x ".svn" "..\..\..\plugins\*.*"
 
-  !insertmacro OpenCandyInstallDLL
+  ;!insertmacro OpenCandyInstallDLL <-- This doesn't exist on 1.6.1.54
 
   SectionEnd
   
@@ -504,3 +514,6 @@ Section "Uninstall"
 
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\aMSN"
 SectionEnd
+
+;Make Open Candy API perform some basic checks.
+!insertmacro OpenCandyAPIDoChecks
