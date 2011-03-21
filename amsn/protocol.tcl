@@ -2393,12 +2393,12 @@ namespace eval ::MSN {
 	}
 
 	#Write a string to the given SB, followed by a NewLine character, adding the transfer ID
-	proc WriteSB {sbn cmd param {handler ""}} {
-		WriteSBNoNL $sbn $cmd "$param\r\n" $handler
+	proc WriteSB {sbn cmd param {handler ""} {noack 0}} {
+		WriteSBNoNL $sbn $cmd "$param\r\n" $handler $noack
 	}
 
 	#Write a string to the given SB, with no NewLine, adding the transfer ID
-	proc WriteSBNoNL {sbn cmd param {handler ""}} {
+	proc WriteSBNoNL {sbn cmd param {handler ""} {noack 0}} {
 
 		variable trid
 
@@ -2412,9 +2412,9 @@ namespace eval ::MSN {
 			lappend list_cmdhnd [list $sbn $trid $handler]
 		}
 
-   if { [$sbn info vars unacked] != "" } {
-     $sbn add_unacked $msgid
-   }
+		if { $noack == 0 && [$sbn info vars unacked] != "" } {
+			$sbn add_unacked $msgid
+		}
 
 		return $msgid
 	}
@@ -5266,9 +5266,9 @@ namespace eval ::MSNOIM {
 						::amsn::ackMessage $ackid
 						unset msgacks($ret_trid)
 					}
-         set trid_ind [lsearch $unacked $ret_trid]
-         set unacked [lreplace $unacked $trid_ind $trid_ind]
-         ::Event::fireEvent ackReceived $self $self
+					set trid_ind [lsearch $unacked $ret_trid]
+					set unacked [lreplace $unacked $trid_ind $trid_ind]
+					::Event::fireEvent ackReceived $self $self
          
 				}
 				208 {
@@ -5699,7 +5699,7 @@ proc cmsn_invite_user {sb user} {
 		|| ("[$sb cget -stat]" == "n") \
 		|| ("[$sb cget -stat]" == "i")} {
 
-		::MSN::WriteSB $sb "CAL" $user "::MSN::CALReceived $sb $user"
+		::MSN::WriteSB $sb "CAL" $user "::MSN::CALReceived $sb $user" 1
 
 	} else {
 
@@ -5806,7 +5806,7 @@ proc cmsn_conn_sb {sb sock} {
 	set cmd [$sb cget -auth_cmd]
 	set param [$sb cget -auth_param]
 
-	::MSN::WriteSB $sb $cmd $param "cmsn_auth_sb $sb"
+	::MSN::WriteSB $sb $cmd $param "cmsn_auth_sb $sb" 1
 
 	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans ident]...\n" miniinfo ready
 
@@ -7562,7 +7562,7 @@ proc sb_change { chatid } {
 
 		#::MSN::WriteSB $sbn "MSG" "U $msg_len"
 		#::MSN::WriteSBRaw $sbn "$msg"
-		::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg"
+		::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg" "" 1
 	}
 }
 
