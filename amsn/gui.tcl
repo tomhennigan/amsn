@@ -559,7 +559,7 @@ namespace eval ::amsn {
 		wm state .about withdrawn
 
 		#Top frame (Picture and name of developers)
-		set developers " Youness Alaoui\n Boris Faure"
+		set developers " Youness Alaoui\n Boris Faure\n Vivia Nikolaidou\n Philippe Valembois\n Alexander Nestorov"
 
 		set version "aMSN $::version ([::abook::dateconvert $date])"
 		if {[string index $::version end] == "b" && $::Version::amsn_revision > 0} {
