@@ -12,7 +12,7 @@ include 'common.php';
 if(!isset($_GET['id'])) {
 	die('ERROR! No file specified!');
 }
-$file=getFileSysName($_GET['id']);
+$file=getFileSysName((int) $_GET['id']);
 
 if($file == '') {
 	die('ERROR! Bad file specified!');

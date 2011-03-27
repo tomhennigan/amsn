@@ -9,6 +9,7 @@ function getFilePath($file)
 
 function getFileName($id)
 {
+	$id = (int) $id;
 	if ( $id == -1) {
 		return "No file";
 	}
@@ -26,6 +27,7 @@ function getFileName($id)
 
 function getFileSysName($id)
 {
+	$id = (int) $id;
 	if ( $id == -1) {
 		return "";
 	}
@@ -43,6 +45,7 @@ function getFileSysName($id)
 
 function getFileURL($id)
 {
+	$id = (int) $id;
 	if ( $id == -1) {
 		return "";
 	}
@@ -60,6 +63,7 @@ function getFileURL($id)
 
 function getFileCount($id)
 {
+	$id = (int) $id;
 	if ( $id == -1) {
 		return "";
 	}
@@ -73,6 +77,7 @@ function getFileCount($id)
 
 function getFileID($id)
 {
+	$id = (int) $id;
 	if (@mysql_num_rows(@mysql_query("SELECT * FROM `amsn_files` WHERE id=".$id.";")) != 1) {
 		return -1;
 	} else {
