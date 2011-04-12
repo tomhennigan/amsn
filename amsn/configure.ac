@@ -491,7 +491,7 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
   fi
   AC_CHECK_HEADERS(linux/videodev.h,HAVE_LIBV4L=yes,HAVE_LIBV4L=no)
   AC_CHECK_HEADERS(linux/videodev2.h,HAVE_LIBV4L2=yes,HAVE_LIBV4L2=no)
-  if test x"$v4l2" = x"yes" ; then
+  if test x"$HAVE_LIBV4L2" = x"yes" ; then
     HAVE_LIBV4L=yes
   fi
   AC_SUBST(HAVE_LIBV4L)
