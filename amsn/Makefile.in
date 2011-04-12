@@ -79,6 +79,8 @@ X_CFLAGS := @X_CFLAGS@
 FOUND_X11	:= @FOUND_X11@
 FOUND_OS	:= @FOUND_OS@
 USE_MMX		:= @USE_MMX@
+HAVE_V4L        := @HAVE_V4L@
+HAVE_V4L2       := @HAVE_V4L2@
 
 # build final cflags
 CFLAGS   := @CFLAGS@
