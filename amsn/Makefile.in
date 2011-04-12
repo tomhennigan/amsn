@@ -96,6 +96,9 @@ CFLAGS   += @LIBV4L_CFLAGS@
 ifeq (@HAVE_LIBV4L@,yes)
   CFLAGS += -DHAVE_LIBV4L
 endif
+ifeq (@HAVE_LIBV4L2@,yes)
+  CFLAGS += -DHAVE_LIBV4L2
+endif
 ifeq (@HAVE_GUPNP@,yes)
   CFLAGS += @GUPNP_CFLAGS@
 endif
@@ -176,8 +179,10 @@ endif
 
 #AppMain.tcl is needed by MacOSX : do not try to simplify by moving it outside the ifeq/else.
 ifeq ($(FOUND_OS),linux)
-FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/drv1-v4l.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl utils/asyncresolver/asyncresolver.tcl utils/asyncresolver/libasyncresolver.so utils/asyncresolver/pkgIndex.tcl
-
+FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl utils/asyncresolver/asyncresolver.tcl utils/asyncresolver/libasyncresolver.so utils/asyncresolver/pkgIndex.tcl
+  ifeq (@HAVE_V4L@,yes)
+    FILES_TO_INSTALL += utils/linux/capture/libng/plugins/drv1-v4l.so
+  endif
 FILES_TO_EXCLUDE += AppMain.tcl
 else 
 	ifeq ($(FOUND_OS),bsd)
