@@ -30,11 +30,13 @@
 
 #include "config.h"
 
+/*
 #ifdef HAVE_SYS_VIDEODEV2_H
 #   include <sys/videodev2.h>
 #else
 #   include <linux/videodev.h>
 #endif
+*/
 
 #include "grab-ng.h"
 
