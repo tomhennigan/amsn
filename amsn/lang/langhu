@@ -592,7 +592,7 @@ morepersonal További állapotok
 more Továbbiak
 move Áthelyezés
 movetogroup Áthelyezés csoportba
-msgflicker Inaktív ablakba érkező üzenet esetén az ablak nevének villogtatása.
+msgflicker Inaktív ablakba érkező üzenet esetén az ablak nevének villogtatása
 msgmaxmin Új üzenet érkezésekor:
 msgmode Beszélgetés ablakok kezelési módja:
 msg Üzenet
@@ -637,7 +637,7 @@ nocacheddps Nincs eltárolt kép ettől a felhasználótól
 nocamwarn Nem találtam webkamerát, vagy a webkamerád már használja egy másik program (emiatt az aMSN nem tudja használni). A probléma megoldásához a Wiki oldalunkon találsz segítséget:
 nodataavailable Nincs adat róla ( $1 )
 nodevices Jelenleg nincs eszköz telepítve
-noftpreview A képek mejelenítésének tiltása fájl átvitelkor.
+noftpreview A képek megjelenítésének tiltása fájl átvitelkor
 nogap Nincs szünet a csoportok közt
 nogroup Nincs csoport
 nojavascript Nincs engedélyezve a javascript. Az automatikus bejelentkezés nem használható.
@@ -883,7 +883,7 @@ showmailicon Levél ikon megjelenítése a tálcán, ha új e-mail érkezik
 showmypic Saját képem
 shownonim Nem azonnali üzenetküldési partnerek megjelenítése
 shownotify Figyelmeztető üzenet megjelenítése eseménynél
-shownotinlist Speciális ikon megjelenítése, ha nem szerepelsz a partner listáján
+shownotinlist Speciális ikon megjelenítése, ha nem vagyok fent a partner listáján
 showofflinegroup Kijelentkezett csoport megjelenítése
 showonedpframe Csak egy képmegjelenítő keret megjelenítése a beszélgetés ablakokban
 showpicnotify Partnerek képeinek megjelenítése a figyelmeztető ablakokban
@@ -949,7 +949,7 @@ sortcontactstatus Partnerek rendezése állapot szerint
 sortgroupsasc Partnerek rendezése növekvő sorrendben
 sortgroupsdesc Partnerek rendezése csökkenő sorrendben
 sound2 Hangok lejátszása mikor valaki bejelentkezik / üzenetet küld
-soundactive Akkor is legyen hang új üzenet esetén, ha az ablak épp aktív.
+soundactive Akkor is legyen hangjelzés új üzenet esetén, ha az ablak épp aktív
 soundcommand Ez a lejátszási parancs (pl: esdplay)
 sound Eseményhangok
 soundexample ( \$sound = a hangfájl ami lejátszásra kerül) Pl: esdplay \$sound
@@ -995,7 +995,7 @@ syntaxerror Szintaktikai hiba
 tabbed Füles ablakok
 tabbedglobal Egy füles ablak minden beszélgetésnek a listából minden partnerrel
 tabbedgroups Egy füles ablak minden beszélgetésnek a listából minden partnerrel csoportonként
-tabtitlenick Becenevek jelenjenek meg e-mail címek helyett a fülön?
+tabtitlenick Becenevek jelenjenek meg e-mail címek helyett a fülön
 temp_state Ne mentsd (Ideiglenes beállítás, elveszik az aMSN bezárásával)
 textsize Szöveg méret
 thismonth Ez a hónap
