@@ -909,7 +909,7 @@ namespace eval ::log {
 
 			$wname.top.date.list select 0
 
-			$wname.top.date.list configure -command "::log::ChangeLogToDate $wname $email"
+			$wname.top.date.list configure -command [list ::log::ChangeLogToDate $wname $email]
 			$wname.top.date.list configure -editable false
 			pack $wname.top.date.list -side right
 			pack $wname.top.date -side right
