@@ -66,8 +66,12 @@ namespace eval ::p2p {
 			if { $idx < 0 } { return "" }
 			set ret [lindex $elem $idx]
 			set ret [string range $ret [expr { [string length $data]+1}] end]
-			if { [string index $ret 0] == "\"" } { set ret [string range $ret 1 end] }
-			if { [string index $ret end] == "\"" } { set ret [string range $ret 0 end-1] }
+                        if {[string first "\"" $ret] != -1} {
+                            set ret [string range $ret [expr { [string first "\"" $ret]+1}] end]
+                        }
+                        if {[string last "\"" $ret] != -1} {
+                            set ret [string range $ret 0 [expr { [string last "\"" $ret]+1}]-2]
+                        }
 			return $ret
 
 		}
