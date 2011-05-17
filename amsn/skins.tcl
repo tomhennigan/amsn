@@ -230,7 +230,7 @@ namespace eval ::skin {
 		if { [info exists loaded_images(displaypicture_std_none)] } {
 			return displaypicture_std_none
 		}
-		image create photo displaypicture_std_none -file [::skin::GetSkinFile displaypic nopic.png $skin_name] -format cximage
+		image create photo displaypicture_std_none -file [::skin::GetSkinFile displaypic nopic.gif $skin_name] -format cximage
 		set loaded_images(displaypicture_std_none) 1
 		return displaypicture_std_none
 	}
