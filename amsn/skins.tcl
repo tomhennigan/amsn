@@ -642,6 +642,10 @@ namespace eval ::skin {
 				
 		#If we didn't find anything...use null file
 		set path [file join [set ::program_dir] skins $defaultskin $type null]
+		if { ![file exists $path] } {
+			catch {set fd [open $path w]}
+			catch {close $fd}
+		}
 		return $path
 	}
 
