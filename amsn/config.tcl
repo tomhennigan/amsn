@@ -1371,7 +1371,7 @@ proc LoginList { action age {email ""} {lock ""} } {
 
 		lockexists {
 			set tmp_list [array get LockList]
-			return [lsearch $tmp_list [LoginList getlock "" "$email"]]
+			return [expr {[lsearch $tmp_list [LoginList getlock "" "$email"]] >= 0}]
 		}
 
 		size {
