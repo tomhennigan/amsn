@@ -299,7 +299,7 @@ namespace eval ::p2p {
 
 			if { $session != $p2pSession } { return }
                         ::amsn::FTProgress l $self $options(-localpath) 
-			after 60000 [list catch [list $self destroy]]
+			#after 60000 [list catch [list $self destroy]]
 
 		}
 
@@ -408,7 +408,7 @@ namespace eval ::p2p {
 			set filename [$self cget -localpath]
 			file rename $filename.incomplete $filename
 			$::ft_handler remove_session $self
-			after 60000 [list catch [list $self destroy]]
+			##after 60000 [list catch [list $self destroy]]
 
 		}
 
