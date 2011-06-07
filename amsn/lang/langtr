@@ -451,12 +451,12 @@ gotink $1 size bir þekil gönderdi
 goto $1 adresine git
 gotoinbox Posta kutusuna git
 goto_prefs_removeprofile Seçeneklere gidip kimliðinizi silmek için buraya týklayýn
-groupadd Öbek Ekle
-group Öbek
-groupcontacts Baðlantýlarý öbekle
+groupadd Kisa yol Ekle
+group Kisayol
+groupcontacts Baðlantýlarý Kisayola ekle
 groupcontactsbystatus Baðlantýlarý durumlarýna göre öbekle
-groupdelete Öbek Sil
-groupexists Bu öbek zâten var
+groupdelete Kisa yol sil
+groupexists Bu Kisayol zâten var
 groupmissing Öbek bulunamadý
 groupnewname Yeni isim
 groupnonim Sohbet yapmayan baðlantýlarý bir öbeðe topla
@@ -504,7 +504,7 @@ invalidparameter Sunucuya baðlanýrken sorun oluþtu:\nGeçersiz parametre.
 invalidpic Belirttiðiniz resim dosyasý yok
 invalidpicsize Seçilen resim çok büyük, lütfen daha küçük bir resim seçin.
 invalidsound Belirttiðiniz ses dosyasý yok
-invalidusername Geçersiz kullanýcý ismi
+invalidusername Geçersiz email adresi
 invitationcancelled Davet iptal edildi
 invite Davet et
 ipaddress IP adresi
@@ -559,7 +559,7 @@ loginas Kullanýcý ismi seç
 login Baðlan
 loging Kayda geçirme
 logolder Yalnýz bu süre öncesine kadar yapýlan sohbetlerin kaydýný tut
-logout Baðlantýyý kes
+logout Oturumu kapat
 logoutwincloselabel Baðlantý kesildiðinde tüm pencereleri kapat.
 logsbydate Kayýtlarý tarihe göre sýrala (Geçmiþ böyle çok daha hýzlý yükleniyor)
 logschats Sohbetleri kaydediyor mu?
@@ -580,7 +580,7 @@ maximised Büyütülmüþ
 medium Ortam
 minimised Küçültülmüþ
 minimizeplain Küçült
-minimize Sistem çubuðuna küçült
+minimize Küçült
 mins dakika
 mobile Cep
 mobilegrp1 Cep Öbeði
@@ -638,7 +638,7 @@ nodataavailable $1 hakkýnda bilgi yok
 nodevices Kurulu aygýt yok
 noftpreview Dosya aktarýmlarýnda resimlerin küçük kopyalarý gösterilmesin
 nogap Öbekler arasýnda boþluk olmasýn
-nogroup Öbek dýþý
+nogroup Çevrim içi
 no Hayýr
 nojavascript Javascript etkin deðil. Otomatik giriþ çalýþmayabilir.
 nologfile $1 ile sohbet kaydý yok
@@ -704,7 +704,7 @@ otherdps Diðer kullanýcý resimleri
 others Diðerleri
 p4contextprefix P4-Ýçerik göndericilerin önüne bu metni ekle
 pager Çaðrý cihazý
-pass Þifre
+pass Sifre
 passportnotverified Kiþisel bilgilerinizi deðiþtirmeden önce pasaport hesabýnýzýn doðrulanmasý gerekmektedir (kullanýcý adýnýz gibi). Etkinleþtirme e-postasý için gelen kutunuzu kontrol edin.
 paste Yapýþtýr
 pause Dondur
@@ -785,7 +785,7 @@ psmplace Kiþisel iletiler nerede gözüksün?
 publishphones Telefon numaramý göster
 purge Temizle
 pwcdriver pwc sürücüsünü kullanýyorsunuz.
-quit Çýk
+quit Msn yi tamamen kapat
 raised Büyütülmüþ
 readonlymsgbox Alýnan dosyalar dizini salt okunur olduðu için dosya alýnamýyor. \n Lütfen bu dizinin ayarlarýný deðiþtiriniz.
 readonlywarn UYARI: Alýnan dosyalar dizini salt okunur olduðu için \n dosya büyük olasýlýkla alýnamayacak. Lütfen hedefteki ($1) dizinin\n izinlerinin doðru olduðundan emin olun.
@@ -890,7 +890,7 @@ showspaces Spaces ikonunu baðlantý listesinde göster
 showuserpic $1 kullanýcýsýnýn resmi
 showuserscw Bu sohbette $1 kiþi var. Eðer, bu kiþileri gizlemek veya göstermek istiyorsanýz, burayý týklayýnýz.
 signinstatus Baðlanma þekli:
-signout Baðlantýyý kes
+signout Oturumu kapat
 signoutep $1 baðlantýsýný kes
 signouteverywhere Tüm baðlantýlarý kes
 signouthere Bu baðlantýyý kes ($1)
