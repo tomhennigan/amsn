@@ -35,7 +35,7 @@ switch(remoteOS()) {
 <br />
 <div style="text-align: center">
   <?php
-  echo '<a href="'.$url.'><img src="images/box2.png" alt=" aMSN box " /></a>';
+  echo '<a href="'.$url.'><img src="images/box1.png" alt=" aMSN box " /></a>';
   ?>
 </div>
 
