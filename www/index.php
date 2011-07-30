@@ -11,11 +11,32 @@ include inc . 'header.php';
   <img class="preload" src="images/skins_hover.png" alt="" />
 
 
+<?php
+switch(remoteOS()) {
+    case 'Windows':
+    $url='http://sourceforge.net/projects/amsn/files/amsn/0.98.4/aMSN-0.98.4-tcl85-windows-installer.exe/download';
+    break;
+    case 'Linux':
+    $url='linux-downloads.php';
+    break;
+    case 'Mac':
+    $url='http://sourceforge.net/projects/amsn/files/amsn/0.98.4/aMSN-0.98.4-1.dmg/download';
+    break;
+    case 'FreeBSD':
+    $url='http://www.freshports.org/net-im/amsn/';
+    break;
+    default:
+    $url="download.php";
+    break;
+  }
+?>
 
 <!--box with bow-->
 <br />
 <div style="text-align: center">
-<img src="images/box2.png" alt=" aMSN box " />
+  <?php
+  echo '<a href="'.$url.'><img src="images/box2.png" alt=" aMSN box " /></a>';
+  ?>
 </div>
 
         <p>
@@ -41,23 +62,6 @@ include inc . 'header.php';
 </ul>
 <p>'.FOR_FULL_FEATURES.'</p>';
 
-switch(remoteOS()) {
-    case 'Windows':
-    $url='http://sourceforge.net/projects/amsn/files/amsn/0.98.4/aMSN-0.98.4-tcl85-windows-installer.exe/download';
-    break;
-    case 'Linux':
-    $url='linux-downloads.php';
-    break;
-    case 'Mac':
-    $url='http://sourceforge.net/projects/amsn/files/amsn/0.98.4/aMSN-0.98.4-1.dmg/download';
-    break;
-    case 'FreeBSD':
-    $url='http://www.freshports.org/net-im/amsn/';
-    break;
-    default:
-    $url="download.php";
-    break;
-  }
 echo '<a href="'.$url.'" id="download"><span>'.DOWN_IMG.'</span></a>
 <a href="plugins.php" id="plugins"><span>'.PLUG_IMG.'</span></a>
 <a href="skins.php" id="skins"><span>'.SKIN_IMG.'</span></a>';
