@@ -1,4 +1,6 @@
 amsn_lang_version 2
+abookerror O aMSN não conseguiu obter a sua lista de contactos. Isto provavelmente é uma falha temporária nos servidores do MSN. Está agora em linha utilizando a sua lista de contactos que foi guardada em cache (se existir). Pedimos desculpas por qualquer inconveniente. Por favor tente outra vez mais tarde.
+abort Abortar
 about Acerca de
 aboutamsn Acerca de aMSN
 accept Aceitar
@@ -82,7 +84,7 @@ autohotmaillog Ligar-se automaticamente ao Hotmail
 autoidle Sem Actividade Automática
 autoip IP Automático
 autolisten_voiceclips Reproduzir automaticamente gravações de voz ao serem recebidas
-automaticsin Auto-detectar Output
+automaticsink Detectar automaticamente o Output
 automaticsrc Auto-detectar Input
 automessage Mensagem Automática
 autonoact Mostrar-me como "Não Activo" se estiver inactivo por
@@ -103,6 +105,7 @@ baduserpass Palavra-chave ou nome de utilizador errado
 badwebcam Não é possível mostrar a imagem da "webcam". Verifique que o dispositivo está bem ligado e instalado.
 bgcolor Alterar a cor de fundo do aMSN
 blankdirect Deixar em branco para ligação directa
+blinktray Faz com que o ícone pisque quanto existem mensagens não lidas
 block Bloquear
 blocked Bloqueado
 blockedyougroup Mostrar um grupo separado para as pessoas que o bloquearam
@@ -130,6 +133,7 @@ bytesymbol b
 cachedpics $1 imagens em cache
 cachedpicsfor Imagens de utilizador em cache para o utilizador
 cagreement Acordo de Confidencialidade
+cam_in_cw Mostra as imagens da webcam dentro da janela de conversação
 cancel Cancelar
 cancelled Cancelado
 cannotdeleteprofile Não é possível remover o perfil porque parece estar a ser usado numa sessão de aMSN
@@ -177,6 +181,8 @@ checkonfln Verificar se um utilizador o(a) bloqueou quando este se desliga
 checkopenfilecommand Por favor verifique o comando para abertura de ficheiros na janela de preferências
 checkver Procurar nova versão
 choosearq Escolha a arquitectura do seu sistema
+chooseaudiosink Seleccionar saída do Áudio
+chooseaudiosrc Seleccionar entrada do Áudio
 choosebasefont Escolher tipo de letra
 choosebgcolor Escolher cor de fundo
 choosechannel Escolha um canal
@@ -188,6 +194,7 @@ chooselocation Escolha nova localização de ficheiro
 choosemixerdev Escolha o seu misturador de som (mixer)
 chooseoutputdev Escolha o seu dispositivo de saída
 chooseskin Por favor escolha o aspecto gráfico ("skin") que gostaria de usar
+choosevideosrc Seleccionar entrada de vídeo
 ch_to_state Alterar para novo estado
 clear Limpar
 clearlog2 Limpar o histórico de todos o contactos
@@ -207,6 +214,7 @@ close Fechar
 closelabel Quando clica no botão de fechar num separador de conversação
 closeonly Fechar apenas o separador actual
 closeorcall Tem de fechar/cancelar a chamada áudio antes de fechar a janela.
+closeorcallvideo Tem que fechar/cancelar a chamada de vídeo antes de fechar a janela
 closeordock Fechar a lista de contactos irá fechar o aMSN. Talvez quisesse apenas fechar a janela e manter o aMSN na área de notificação.\n\nTem a certeza de que deseja sair do aMSN?
 closeothers Fechar Todas os Outros Separadores
 closingdocks Botão de terminar minimiza
@@ -214,6 +222,7 @@ color Côr
 command Comando
 commandstatus Executar comando
 compactstyle Estilo Compacto
+configpermissionerror Erro ao escrever no ficheiro de configuração. Verifique que tem as permissões correctas para a directoria '$1'
 configure Configurar
 configuremic A configurar o seu microfone
 configureplugin Configurar extensão $1
@@ -369,7 +378,6 @@ failed Falhou
 faq FAQ (Frequently Asked Questions) - Perguntas Frequentes
 farsightextchecking A verificar se extensão Farsight está carregada...
 farsightextwarn Não lhe será permitido ter chamadas SIP. Pode procurar respostas sobre como instalar Farsight na nossa Wiki:
-farsightinfook Farsight é uma plataforma que lida com protocolos de conferência áudio/vídeo. Com Farsight, pode enviar ou receber chamadas SIP a partir do aMSN! Dê uma olha a Farsight na nossa Wiki:
 fetching A obter dados...
 filedoesnotexist Ficheiro não existe
 file Ficheiro
@@ -873,12 +881,9 @@ sipcalleedeclined Utilizador Rejeitou o seu convite para chamada Áudio
 sipcalleenoanswer Utilizador não respondeu à sua Chamada
 sipcalleeunavailable Utilizador não está disponível neste momento
 sipcallended A sua Chamada Áudio terminou
-sipcallimpossible Você não pode fazer uma Chamada Áudio. Por favor instale Farsight2 e tente novamente.
 sipcallmissed Você tem uma Chamada Não Atendida de $1
 sipcallnosipflag Utilizador não tem suporte para Chamadas Áudio.
 sipcallsent A chamar $1
-sipcallunsupported Você recebeu um convite para Chamada Áudio que não é actualmente suportado. Você pode responder com um novo convite. A Chamada Áudio funcionará nessa altura
-sipcallyouarebusy Você só pode manter uma Chamada Áudio ao mesmo tempo.
 sipgotinvitation Convite para Chamada Áudio recebido de $1 
 skin Aspecto Gráfico ("Skin")
 skinselector Escolha Aspecto Gráfico ("Skin")
