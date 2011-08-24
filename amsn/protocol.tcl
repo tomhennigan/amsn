@@ -2412,6 +2412,14 @@ namespace eval ::MSN {
 			lappend list_cmdhnd [list $sbn $trid $handler]
 		}
 
+		#let's just override noack...
+		if { $cmd == "MSG" } {
+			set ack_id [string range $param 0 0]
+			set noack [expr {$ack_id != "D" && $ack_id != "A"}]
+		} else {
+			set noack 1
+		}
+
 		if { $noack == 0 && [$sbn info vars unacked] != "" } {
 			$sbn add_unacked $msgid
 		}
