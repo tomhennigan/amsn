@@ -103,7 +103,7 @@ namespace eval ::p2p {
 			array unset pending_blob $ack_id
 			::Event::fireEvent p2pBlobSent p2pBaseTransport $blob
 			status_log "Del_pending_blob destroying blob"
-			#catch {$blob destroy}
+			catch {$blob destroy}
 
 		}
 
