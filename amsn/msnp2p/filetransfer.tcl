@@ -386,7 +386,8 @@ namespace eval ::p2p {
 				::amsn::FTProgress fs $self $options(-localpath)
 				$::ft_handler remove_session $self
 				$self WinWriteText [$p2pSession cget -peer] [trans filetransfercomplete]
-				close [$p2pSession cget -fd]
+				#stupid bug when sending file to self... also below
+				catch {close [$p2pSession cget -fd]}
 			}
 
 		}
@@ -404,7 +405,7 @@ namespace eval ::p2p {
 
 			$self configure -data $data
 
-			close [$p2pSession cget -fd]
+			catch {close [$p2pSession cget -fd]}
 			set filename [$self cget -localpath]
 			file rename $filename.incomplete $filename
 			$::ft_handler remove_session $self

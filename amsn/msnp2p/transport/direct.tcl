@@ -67,6 +67,12 @@ namespace eval ::p2p {
 
 		}
 
+		method get_sock { } {
+
+			return $options(-sock)
+
+		}
+
 		method die { {message ""} } {
 
 			catch { fileevent $options(-sock) readable ""}

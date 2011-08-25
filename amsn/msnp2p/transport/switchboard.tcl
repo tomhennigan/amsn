@@ -15,7 +15,7 @@ namespace eval ::p2p {
 		option -listening 0
 		option -client ""
 
-		variable queue {}
+		#variable queue {}
 
 		constructor { args } {
 
@@ -40,17 +40,24 @@ namespace eval ::p2p {
 
 		#}
 
+		method get_sock { } {
+
+			set sb [::MSN::SBFor [$self cget -peer]]
+			return [$sb cget -sock]
+
+		}
+
 		method On_ack { event sb } {
 
-			if { $sb != [::MSN::SBFor [$self cget -peer]] } {
+			#if { $sb != [::MSN::SBFor [$self cget -peer]] } {
 				#status_log "Not acked for [$self cget -peer] on $sb"
 				return
-			} else {
-				status_log "Processing queue for $sb"
-				if { [llength $queue] <= 0 } { return }
-				eval [lindex $queue 0]
-				set queue [lreplace $queue 0 0]
-			}
+			#} else {
+			#	status_log "Processing queue for $sb"
+			#	if { [llength $queue] <= 0 } { return }
+			#	eval [lindex $queue 0]
+			#	set queue [lreplace $queue 0 0]
+			#}
 
 		}
 
@@ -92,7 +99,8 @@ namespace eval ::p2p {
 					::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL $sb "MSG" "D $data_len\r\n$data"]
 				} else {
 					#set queue [lappend queue [list ::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL [::MSN::SBFor $chatid] "MSG" "D $data_len\r\n$data"]]]
-					set queue [lappend queue [list $self AddToQueue $chatid $data]]
+					#set queue [lappend queue [list $self AddToQueue $chatid $data]]
+					$self AddToQueue $chatid $data
 				}
 				catch {$sendme destroy}
 			}
