@@ -2393,12 +2393,12 @@ namespace eval ::MSN {
 	}
 
 	#Write a string to the given SB, followed by a NewLine character, adding the transfer ID
-	proc WriteSB {sbn cmd param {handler ""} {noack 0}} {
-		WriteSBNoNL $sbn $cmd "$param\r\n" $handler $noack
+	proc WriteSB {sbn cmd param {handler ""}} {
+		WriteSBNoNL $sbn $cmd "$param\r\n" $handler
 	}
 
 	#Write a string to the given SB, with no NewLine, adding the transfer ID
-	proc WriteSBNoNL {sbn cmd param {handler ""} {noack 0}} {
+	proc WriteSBNoNL {sbn cmd param {handler ""}} {
 
 		variable trid
 
@@ -2412,7 +2412,6 @@ namespace eval ::MSN {
 			lappend list_cmdhnd [list $sbn $trid $handler]
 		}
 
-		#let's just override noack...
 		if { $cmd == "MSG" } {
 			set ack_id [string range $param 0 0]
 			set noack [expr {$ack_id != "D" && $ack_id != "A"}]
@@ -5707,7 +5706,7 @@ proc cmsn_invite_user {sb user} {
 		|| ("[$sb cget -stat]" == "n") \
 		|| ("[$sb cget -stat]" == "i")} {
 
-		::MSN::WriteSB $sb "CAL" $user "::MSN::CALReceived $sb $user" 1
+		::MSN::WriteSB $sb "CAL" $user "::MSN::CALReceived $sb $user"
 
 	} else {
 
@@ -5814,7 +5813,7 @@ proc cmsn_conn_sb {sb sock} {
 	set cmd [$sb cget -auth_cmd]
 	set param [$sb cget -auth_param]
 
-	::MSN::WriteSB $sb $cmd $param "cmsn_auth_sb $sb" 1
+	::MSN::WriteSB $sb $cmd $param "cmsn_auth_sb $sb"
 
 	::amsn::chatStatus [::MSN::ChatFor $sb] "[trans ident]...\n" miniinfo ready
 
@@ -7570,7 +7569,7 @@ proc sb_change { chatid } {
 
 		#::MSN::WriteSB $sbn "MSG" "U $msg_len"
 		#::MSN::WriteSBRaw $sbn "$msg"
-		::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg" "" 1
+		::MSN::WriteSBNoNL $sb "MSG" "U $msg_len\r\n$msg" ""
 	}
 }
 
