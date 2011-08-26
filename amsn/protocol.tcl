@@ -1744,9 +1744,10 @@ namespace eval ::MSN {
 				    [lsearch [::abook::getContactData $user lists] "RL"] == -1} {
 					continue
 				}
-				if {[lsearch [::abook::getContactData $user lists] "AL"] != -1} {
-					lappend users_to_delete $user
-				}
+				#Don't delete from AL, just add to BL... server will automatically remove from AL, otherwise it won't work
+				#if {[lsearch [::abook::getContactData $user lists] "AL"] != -1} {
+				#	lappend users_to_delete $user
+				#}
 				if {[lsearch [::abook::getContactData $user lists] "BL"] == -1} {
 					lappend users_to_add $user
 				}
