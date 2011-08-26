@@ -134,7 +134,10 @@ namespace eval ::p2p {
 			#  status_log "Error: $res"
 			#  return 0
 			#}
-			set session [$self Blob_to_session $blob]
+			if { [catch {set session [$self Blob_to_session $blob]}]} {
+				status_log "ERROR: Cannot get this blob's session ID!!!"
+				return
+			}
 			if { $session == "" } {
 				if { [$blob cget -session_id] != 0 } {
 					#TODO: send TLP, RESET connection
