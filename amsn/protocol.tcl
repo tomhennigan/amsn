@@ -7075,7 +7075,7 @@ proc sso_authenticated { failed } {
 }
 
 proc cmsn_auth {{recv ""}} {
-	global HOME info
+	global HOME HOME2 info
 
 	status_log "cmsn_auth starting, stat=[ns cget -stat]\n" blue
 
@@ -7219,6 +7219,11 @@ proc cmsn_auth {{recv ""}} {
 				set abook_cached 0
 				::abook::clearData
 				::abook::setConsistent
+			}
+
+			#Don't use cached abook if using default profile
+			if { $HOME == $HOME2 } {
+				set abook_cached 0
 			}
 			
 			::abook::setPersonal login [lindex $recv 3]
