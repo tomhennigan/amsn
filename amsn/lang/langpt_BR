@@ -1104,3 +1104,9 @@ youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
 zoom Zoom
+abookerror aMSN falhou ao fazer download da sua lista de contatos. Isto é provavelmente causado por algum problema temporário nos servidores MSN. Você agora está logado usando a lista de contatos guardada em cache, se tiver alguma. Nós nos desculpamos pelo inconveniente. Por favor tente novamente.
+blinktray Fazer ícone da bandeja piscar quando tiver mensagens não lidas
+getprofileoffline Obter apelidos e mensagens de usuários offline (Pode deixar o processo de login mais lento)
+novideocodecsavailable Nenhum codec de video disponível.
+sipdisabledprotocol Recursos de chamada com Audio/Video foram desativados nesta versão do aMSN porque a Microsoft(TM) mudou seus protocolos novamente e desativou o acessor aos servidores SIP deles, bloqueando o aMSN de dar acesso a este recurso.
+upgradetcltk Você precisa do TCL/TK $1 ou mais novo para executar o aMSN. Por favor atualize a sua versão.
