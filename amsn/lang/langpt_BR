@@ -1,4 +1,5 @@
 amsn_lang_version 2
+abookerror aMSN falhou ao fazer download da sua lista de contatos. Isto é provavelmente causado por algum problema temporário nos servidores MSN. Você agora está logado usando a lista de contatos guardada em cache, se tiver alguma. Nós nos desculpamos pelo inconveniente. Por favor tente novamente.
 abort Abortar
 aboutamsn Sobre aMSN
 about Sobre
@@ -104,6 +105,7 @@ baduserpass Usuário ou senha inválido
 badwebcam Não é possível mostrar a imagem da webcam. Certifique-se que sua webcam está bem conectada e configurada.
 bgcolor Alterar a cor de fundo do aMSN
 blankdirect Deixar em branco para conexão direta
+blinktray Fazer ícone da bandeja piscar quando tiver mensagens não lidas
 block Bloquear
 blocked Bloqueado
 blockedyougroup Mostra um grupo separado para as pessoas que bloquearam você
@@ -440,6 +442,7 @@ gamerequest Você convidou $1 para jogar $2
 getdisppic Permitir recebimento de imagens de exibição de outros usuários
 getmoreplugins Pegue mais plugins!
 getmoreskins Pegue mais skins!
+getprofileoffline Obter apelidos e mensagens de usuários offline (Pode deixar o processo de login mais lento)
 globalcontainer Contêiner global
 globalnick Insira uma expressão para formar os apelidos de todos os seus contatos. Você pode usar estas variáveis: \$user_login para o endereço de e-mail dos seus contatos, \$nick para o apelido dos seus contatos e \$customnick para o apelido personalizado dos seus contatos. Por exemplo: "\$user_login é o \$nick" será "contato@msn.com é o Contato"
 globalnicktitle Apelido Global
@@ -673,7 +676,8 @@ notinlist Você não está na lista de contatos dele(a)
 notls O protocolo MSN 9 requer o pacote tls. Aparentemente ele não está instalado em sua máquina. Se estiver, o caminho para a biblioteca deve ser especificado na janela Preferences (ex: /opt/tls/lib). É possível baixar o tls de http://tls.sf.net.
 nottabbed Janelas normais, sem abas
 nousersinsession Nenhum usuário na sessão
-nouserspecified Nenhum usuário especificado 
+nouserspecified Nenhum usuário especificado
+novideocodecsavailable Nenhum codec de video disponível.
 nudge $1 pede sua atenção!
 offline Desconectado
 oimauthenticationfailed Falha de autenticação
@@ -774,7 +778,7 @@ proxyconfhttp Suporte a configuração de proxy HTTP
 proxyconnection Eu me conecto à Internet usando um servidor proxy:
 proxy Eu estou atrás de um servidor de proxy (HTTP ou SOCKS5)
 psmatend Mostrar mensagem pessoal ao lado do apelido
-psmchanged $1 Mudou a mesagem para '$2'
+psmchanged $1 Mudou a mensagem para '$2'
 psmdontshow Não mostrar mensagem pessoal, invés disso mostre apelido global/customizado
 psm Mensagem Pessoal
 psmnewline Mostrar mensagem pessoal embaixo do apelido
@@ -908,6 +912,7 @@ sipcallmissed Você perdeu uma ligação de $1
 sipcallnosipflag Usuário não pode fazer ligações.
 sipcallsent Ligando para $1
 sipcallyouarebusy2 Você pode ter apenas uma chamada de vídeo ou áudio ao mesmo tempo.
+sipdisabledprotocol Recursos de chamada com Audio/Video foram desativados nesta versão do aMSN porque a Microsoft(TM) mudou seus protocolos novamente e desativou o acessor aos servidores SIP deles, bloqueando o aMSN de dar acesso a este recurso.
 sipgotinvitation Convite de ligação recebido de $1
 sipvideocallaccepted Chamada de vídeo aceita
 sipvideocallconnected Sua chamada de vídeo está estabelecida
@@ -1033,6 +1038,7 @@ update Atualizar
 updateonlycurrentlanguage Atualize apenas a linguagem corrente
 updatesaved Feito\n Salvo $1 em $2.
 updating Atualizando
+upgradetcltk Você precisa do TCL/TK $1 ou mais novo para executar o aMSN. Por favor atualize a sua versão.
 useasdp Usar como sua própria figura
 useasregexp Usar como expressão regular (regexp)
 useother Usar um programa diferente
@@ -1104,9 +1110,3 @@ youblocked Você foi bloqueado
 yousay Você diz
 youwant Você quer
 zoom Zoom
-abookerror aMSN falhou ao fazer download da sua lista de contatos. Isto é provavelmente causado por algum problema temporário nos servidores MSN. Você agora está logado usando a lista de contatos guardada em cache, se tiver alguma. Nós nos desculpamos pelo inconveniente. Por favor tente novamente.
-blinktray Fazer ícone da bandeja piscar quando tiver mensagens não lidas
-getprofileoffline Obter apelidos e mensagens de usuários offline (Pode deixar o processo de login mais lento)
-novideocodecsavailable Nenhum codec de video disponível.
-sipdisabledprotocol Recursos de chamada com Audio/Video foram desativados nesta versão do aMSN porque a Microsoft(TM) mudou seus protocolos novamente e desativou o acessor aos servidores SIP deles, bloqueando o aMSN de dar acesso a este recurso.
-upgradetcltk Você precisa do TCL/TK $1 ou mais novo para executar o aMSN. Por favor atualize a sua versão.
