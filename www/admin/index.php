@@ -3,9 +3,6 @@ require_once '../common.php';
 session_start();
 header("Cache-control: private");
 
-//$_SESSION = array();
-$_SESSION['user']='yavhehe';
-$_SESSION['level']=5;
 define('CPanel', true);
 require_once 'admin/lib.user.php';
 require_once 'admin/lib.misc.php';

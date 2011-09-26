@@ -34,9 +34,7 @@ switch(remoteOS()) {
 <!--box with bow-->
 <br />
 <div style="text-align: center">
-  <?php
-  echo '<a href="'.$url.'><img src="images/box1.png" alt=" aMSN box " /></a>';
-  ?>
+  <a href="<?php echo $url; ?>"><img src="images/box1.png" alt=" aMSN box " /></a>
 </div>
 
         <p>

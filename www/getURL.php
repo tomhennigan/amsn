@@ -10,7 +10,7 @@ if($file == '') {
 	die('ERROR! Bad file specified!');
 }
 
-@mysql_query("UPDATE `amsn_files` SET `count` = `count` + 1 WHERE id = '" . (int)$_GET['id'] . "' LIMIT 1");
+@mysql_query("UPDATE `amsn_files` SET `count` = `count` + 1 WHERE id = '" . (int) $_GET['id'] . "' LIMIT 1");
 
 header("Location: {$file}");
 ?>
