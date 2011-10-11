@@ -731,7 +731,7 @@ namespace eval ::gnotify {
 			set headers [list Cookie $cookie]
 
 			setup_http
-			set token [http::geturl $url -headers $headers -timeout 10000 -command [list ::gnotify::check_gmail_callback $acnt]]
+			set token [http::geturl $url -headers $headers -timeout 50000 -command [list ::gnotify::check_gmail_callback $acnt]]
 		} else {
 			set token [authenticate_gmail $acnt [list ::gnotify::check_gmail $acnt]]
 		}
@@ -756,15 +756,20 @@ namespace eval ::gnotify {
 
 		switch [::http::ncode $token] {
 			200 {
-				set info_$acnt [parseGData [::http::data $token]]
-				
-				array set info [set info_$acnt]
-				if { $info(errors) > 0 } {
+				if { [catch {
+					set info_$acnt [parseGData [::http::data $token]]
+				}] } {
 					set status_$acnt -3
 					cmsn_draw_online
 				} else {
-					set status_$acnt 2
-					cmsn_draw_online
+					array set info [set info_$acnt]
+					if { $info(errors) > 0 } {
+						set status_$acnt -3
+						cmsn_draw_online
+					} else {
+						set status_$acnt 2
+						cmsn_draw_online
+					}
 				}
 				
 			} 
@@ -799,7 +804,7 @@ namespace eval ::gnotify {
 				}
 			}
 			default {
-				plugins_log gnotify "Unknown error during check_gmail for $username : [::http::ncode $token] - $meta - [::http::data $token]"
+				plugins_log gnotify "Unknown error during check_gmail for $username : [::http::status $token] - [::http::ncode $token] - $meta - [::http::data $token]"
 				set status_$acnt -3
 				set info_$acnt [list errors 1 mails [list]]
 				cmsn_draw_online
@@ -1103,6 +1108,8 @@ namespace eval ::gnotify {
 
 		while {$data(offset) < $end } {
 			set key [ReadKey data]
+                        #plugins_log gnotify "Email Key is $key : [hexify_all [binary format i $key]]"
+                        #plugins_log gnotify "offset : $data(offset) < $end"
 			switch -- $key {
 				16 {
 					# 0x10 unknown / message id?
@@ -1162,6 +1169,10 @@ namespace eval ::gnotify {
 					# 0xB8 Number of threads
 					set info(threads) [GetMultiByte data]
 				}
+                                208 {
+					set value [GetMultiByte data]
+					plugins_log gnotify "Unknown email key 0xd0 has value : $value"
+                                }
 				default {
 					plugins_log gnotify "Unknown email key : $key"
 					incr info(errors)
@@ -1183,8 +1194,10 @@ namespace eval ::gnotify {
 		set info(nb_mails) 0
 		set info(errors) 0
 
+                #plugins_log gnotify "Parsing GData : \n[hexify $data_bin]\n\n[hexify_all $data_bin]"
 		while {$data(offset) < $data(len)} {
 			set key [ReadKey data]
+                        #plugins_log gnotify "Key is $key : [hexify_all [binary format i $key]]"
 			switch -- $key {
 				10 {
 					# 0x0A New mail Key
