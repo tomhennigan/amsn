@@ -3995,121 +3995,40 @@ namespace eval ::MSNOIM {
 		return $xml
 	}
 
-	proc sendOIMMessageCallback { callbk to msg retry seq_nbr soap} {
-		if { [$soap GetStatus] == "success" } {
-			status_log "OIM sent to $to successfully : [$soap GetResponse]" green
-			set res "success"
-		} elseif { [$soap GetStatus] == "fault" } {
-			set xml [$soap GetResponse]
-			status_log "Error in OIM:" white
-			status_log $xml white
-			set faultcode [$soap GetFaultCode]
+        proc sendOIMMessage { callbk to msg } {
+          #TODO: This should go to a proc, but I don't know where it belongs to.
+          #GUI.tcl shouldn't be used for things not related to the GUI, and protocol
+          #just musn't have that kind of check's.
+          set fontfamily [lindex [::config::getKey mychatfont] 0]
+          set fontstyle [lindex [::config::getKey mychatfont] 1]
+          set fontcolor [lindex [::config::getKey mychatfont] 2]
 
-			if { $faultcode == "q0:AuthenticationFailed" } {
-				set reauth [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:RequiredAuthPolicy"]
-				set lock_challenge [GetXmlEntry $xml "soap:Envelope:soap:Body:soap:Fault:detail:LockKeyChallenge"]
-				if {$reauth == "" && $lock_challenge == ""} {
-					#microsoft changed the oim format to the prefix s: instead of soap:
-					#so this is some kind of hack to try if this oim has the new prefix 
-					set reauth [GetXmlEntry $xml "s:Envelope:s:Body:s:Fault:detail:RequiredAuthPolicy"]
-					set lock_challenge [GetXmlEntry $xml "s:Envelope:s:Body:s:Fault:detail:LockKeyChallenge"]
-				}
+          set color "000000$fontcolor"
+          set color "[string range $color end-1 end][string range $color end-3 end-2][string range $color end-5 end-4]"
 
-				if { $lock_challenge != "" } {
-					CreateLockKey $lock_challenge
-				} 
-				if {$reauth != "" } {
-					set token [$::sso GetSecurityTokenByName MessengerSecure]
-					$token configure -expires ""
-				}
-				if { $retry > 0 } {
-					$soap destroy
-					::MSNOIM::sendOIMMessage $callbk $to $msg [incr retry -1] $seq_nbr
-					return
-				} else {
-					set res "oimauthenticationfailed"
-				}
-			} elseif { $faultcode == "q0:SystemUnavailable" } {
-				set res "oimsystemunavailable"
-			} elseif { $faultcode == "q0:SenderThrottleLimitExceeded" } {
-				set res "oimflood"
-			} elseif { $faultcode == "q0:MessageTooLarge" } {
-				set res "oimmessagetoolarge"
-			} else {
-				set res "oimunexpectederror"
-			}
-		} else {
-			set res "oimunexpectederror"
-		}
+          set style ""
 
-		$soap destroy
-		if {[catch {eval $callbk [list $res]} result]} {
-			bgerror $result
-		}
-	}
-	
-	proc sendOIMMessage { callbk to msg {retry 5} {seq_nbr 0}} {
-		$::sso RequireSecurityToken MessengerSecure [list ::MSNOIM::sendOIMMessageSSOCB $callbk $to $msg $retry $seq_nbr]
-	}
+          if { [string first "bold" $fontstyle] >= 0 } {
+                  set style "${style}B"
+          }
+          if { [string first "italic" $fontstyle] >= 0 } {
+                  set style "${style}I"
+          }
+          if { [string first "overstrike" $fontstyle] >= 0 } {
+                  set style "${style}S"
+          }
+          if { [string first "underline" $fontstyle] >= 0 } {
+                  set style "${style}U"
+          }
+          
+          set style "X-MMS-IM-Format: FN=[urlencode $fontfamily]; EF=$style; CO=$color; CS=0; PF=22"
+          #</TODO>
 
-	proc sendOIMMessageSSOCB { callbk to msg retry seq_nbr ticket} {
-		variable seq_number
-		set id [::md5::hmac $to $msg]
+          set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\n$style\r\n\r\n$msg"
+          set msg_len [string length $msg]
 
-		if { $seq_nbr == 0 } {
-			if {![info exists seq_number($to)] } {
-				set seq_number($to) 1
-			} else {
-				incr seq_number($to)
-			}
-			set seq_nbr [set seq_number($to)]
-		}
-
-		set soap_req [SOAPRequest create %AUTO% \
-				  -url "https://ows.messenger.msn.com/OimWS/oim.asmx" \
-				  -action "http://messenger.live.com/ws/2006/09/oim/Store2" \
-				  -xml [::MSNOIM::sendOIMMessageXml $ticket $to $msg $seq_nbr] \
-				  -callback [list ::MSNOIM::sendOIMMessageCallback $callbk $to $msg $retry $seq_nbr]]
-
-		$soap_req SendSOAPRequest
-	}
-	
-	proc CreateLockKey { challenge } {
-		variable lockkey
-		set lockkey [::MSN::CreateQRYHash $challenge  {PROD0119GSJUC$18} {ILTXC!4IXB5FB*PX}]
-	}
-
-	proc sendOIMMessageXml {ticket to msg seq_number} {
-		variable lockkey 
-		variable runid
-
-		if { ![info exists lockkey ]} {
-			set lockkey ""
-		}
-		if {![info exists runid($to)]} {
-			set runid($to) "[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [myRand 4369 65450]]-[format %X [expr { int([expr {rand() * 1000000}])%65450 } ] + 4369]-[format %X [myRand 4369 65450]][format %X [myRand 4369 65450]][format %X [myRand 4369 65450]]"
-		}
-
-		# The official client sends the nickname limited to 48 characters, if we don't limit it to 48, the server will throw an error at us...
-		set bmessage [base64::encode [encoding convertto identity [string map {"\n" "\r\n"} $msg]] ]
-
-		set bnick [string map {"\n" "" } [base64::encode [string range [encoding convertto utf-8 [::abook::getPersonal MFN]] 0 47]]]
-
-		set xml {<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><From}
-		append xml " memberName=\"[config::getKey login]\" friendlyName=\"=?utf-8?B?${bnick}?=\" "
-		append xml {xml:lang="en-US" proxy="MSNMSGR" xmlns="http://messenger.msn.com/ws/2004/09/oim/" msnpVer="MSNP15" buildVer="8.5.1302"/> <To}
-		append xml " memberName=\"$to\" "
-		append xml {xmlns="http://messenger.msn.com/ws/2004/09/oim/"/><Ticket}
-		append xml " passport=\"[xmlencode $ticket]\" appid=\"PROD0119GSJUC\$18\" lockkey=\"[xmlencode $lockkey]\" xmlns=\"http://messenger.msn.com/ws/2004/09/oim/\"/> "
-		append xml {<Sequence xmlns="http://schemas.xmlsoap.org/ws/2003/03/rm"><Identifier xmlns="http://schemas.xmlsoap.org/ws/2002/07/utility">http://messenger.msn.com</Identifier><MessageNumber>}
-		append xml $seq_number
-		append xml {</MessageNumber></Sequence></soap:Header><soap:Body><MessageType xmlns="http://messenger.msn.com/ws/2004/09/oim/">text</MessageType><Content xmlns="http://messenger.msn.com/ws/2004/09/oim/">}
-		append xml "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\nX-OIM-Message-Type: OfflineMessage\r\nX-OIM-Run-Id: {[set runid($to)]}\r\nX-OIM-Sequence-Num: ${seq_number}\r\n\r\n$bmessage"
-		append xml {</Content></soap:Body></soap:Envelope>}
-		status_log "Sending OIM:" green
-		#status_log $xml green
-		return $xml
-	}
+          ::MSN::WriteSBNoNL ns "UUM" "$to 1 1 $msg_len\r\n$msg"
+        }
 
 	proc deleteOIMMessageCallback { callbk soap } {
 		if { [$soap GetStatus] == "success" } {
