@@ -15,7 +15,7 @@
 #######################################################################
 REPOSITORY_URL="https://github.com/amsn/amsn2.git"
 SCRIPT_URL="http://www.amsn-project.net/script/amsn2-git.sh"
-VERSION=2
+VERSION=3
 TEMPFILE="/tmp/$(basename $0).$RANDOM.txt"
 MYSELF=$(basename $0)
 WHEREAMI=`dirname $(readlink -f $0)`
@@ -194,9 +194,9 @@ while true; do
       cd "$AMSN2DIR"
       export python_bin=`which python2`
       echo "Select one of the available front ends."
-      env python_bin amsn2.py -l
+      env $python_bin amsn2.py -l
       read answer
-      env python_bin amsn2.py -f $answer
+      env $python_bin amsn2.py -f $answer
       ;;
     4)
       exit 0
