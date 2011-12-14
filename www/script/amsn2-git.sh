@@ -15,7 +15,7 @@
 #######################################################################
 REPOSITORY_URL="https://github.com/amsn/amsn2.git"
 SCRIPT_URL="http://www.amsn-project.net/script/amsn2-git.sh"
-VERSION=3
+VERSION=4
 TEMPFILE="/tmp/$(basename $0).$RANDOM.txt"
 MYSELF=$(basename $0)
 WHEREAMI=`dirname $(readlink -f $0)`
