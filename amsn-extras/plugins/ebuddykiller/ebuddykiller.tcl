@@ -20,7 +20,7 @@ namespace eval ::ebuddykiller {
 		proc ::NS::Snit_methodsetInitialNicknameCB { type selfns win self newstate newstate_custom nickname last_modif psm fail } {
 			plugins_log "eBuddyKiller" "Callback called"
 			set force 0
-			if { [string first "- on eBuddy Mobile Messenger http://get.ebuddy.com" $psm] >= 0 || [string first "on www.ebuddy.com Web Messenger" $psm] >= 0 || [string first "- on eBuddy Lite Messenger http://m.ebuddy.com" $psm] >= 0 || [string first "ebuddyxms" $psm] >= 0 } {
+			if { [string first "on http://ebuddy.com" $psm] >= 0 || [string first "- on eBuddy Mobile Messenger http://get.ebuddy.com" $psm] >= 0 || [string first "on www.ebuddy.com Web Messenger" $psm] >= 0 || [string first "- on eBuddy Lite Messenger http://m.ebuddy.com" $psm] >= 0 || [string first "ebuddyxms" $psm] >= 0 } {
 				plugins_log "eBuddyKiller" "eBuddy PSM killed!!!"
 				set psm [::abook::getPersonal PSM]
 				set force 1
