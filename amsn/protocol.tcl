@@ -5231,43 +5231,8 @@ namespace eval ::MSNOIM {
 
 		set users_list $options(-users)
 
-		#Look what should be our chatID, depending on the number of users
-		if { [llength $users_list] > 1 } {
-			set desiredchatid $self ;#For conferences, use sb_name as chatid
-		} else {
-			set desiredchatid $typer
-		}
-
 		#Get the current chatid
 		set chatid [::MSN::ChatFor $self]
-
-		if { $chatid != 0} {
-			if { !([::config::getKey protocol] >= 18 &&
-			       $desiredchatid == [::config::getKey login] ) && 
-			     "$chatid" != "$desiredchatid" } {
-				#Our chatid is different than the desired one!! try to change
-				status_log "cmsn_sb_msg: Trying to change chatid from $chatid to $desiredchatid for SB $self\n"
-				set newchatid [::ChatWindow::Change $chatid $desiredchatid]
-				if { "$newchatid" != "$desiredchatid" } {
-					#The GUI doesn't accept the change, as there's another window for that chatid
-					status_log "cmsn_sb_msg: change NOT accepted\n"
-				} else {
-					#The GUI accepts the change, so let's change
-					status_log "sb_msg: change accepted\n"
-					::MSN::DelSBFor $chatid $self
-					set chatid $desiredchatid
-					::MSN::AddSBFor $chatid $self
-				}
-			} else {
-				#Add it so it's moved to front
-				::MSN::AddSBFor $chatid $self
-			}
-		} else {
-			status_log "cmsn_sb_msg: NO chatid in cmsn_sb_msg, please check this!!\n" white
-			set chatid $desiredchatid
-			::MSN::AddSBFor $chatid $self
-		}
-
 
 		set message_id [$message getHeader Message-ID]
 		set chunks [$message getHeader Chunks]
@@ -5936,6 +5901,50 @@ proc cmsn_reconnect { sb } {
 
 
 #///////////////////////////////////////////////////////////////////////
+
+proc sb_update_chatid {sb } {
+    set users_list [$sb cget -users]
+
+    #Look what should be our chatID, depending on the number of users
+    if { [llength $users_list] > 1 } {
+        set desiredchatid $sb ;#For conferences, use sb_name as chatid
+    } elseif { [llength $users_list] == 1 } {
+        set desiredchatid [lindex $users_list 0]
+    } else {
+        set desiredchatid [$sb cget -last_user]
+    }
+
+    set chatid [::MSN::ChatFor $sb]
+    if { $chatid != 0} {
+        if { !([::config::getKey protocol] >= 18 &&
+               $desiredchatid == [::config::getKey login] ) && 
+             "$chatid" != "$desiredchatid" } {
+            #Our chatid is different than the desired one!! try to change
+            status_log "sb_update_chatid: Trying to change chatid from $chatid to $desiredchatid for SB $sb\n"
+            set newchatid [::ChatWindow::Change $chatid $desiredchatid]
+            if { "$newchatid" != "$desiredchatid" } {
+                #The GUI doesn't accept the change, as there's another window for that chatid
+                status_log "sb_update_chatid: change NOT accepted\n"
+            } else {
+                #The GUI accepts the change, so let's change
+                status_log "sb_update_chatid: change accepted\n"
+                ::MSN::DelSBFor $chatid $sb
+                set chatid $desiredchatid
+                ::MSN::AddSBFor $chatid $sb
+            }
+        } else {
+            #Add it so it's moved to front
+            ::MSN::AddSBFor $chatid $sb
+        }
+    } else {
+        status_log "cmsn_sb_msg: NO chatid in cmsn_sb_msg, please check this!!\n" white
+        set chatid $desiredchatid
+        ::MSN::AddSBFor $chatid $sb
+    }
+
+    return $chatid
+}
+
 proc cmsn_update_users {sb recv} {
 
 	switch -- [lindex $recv 0] {
@@ -5955,6 +5964,7 @@ proc cmsn_update_users {sb recv} {
 			$sb configure -last_user [lindex [$sb cget -users] $leaves]
 			$sb delUser $leaves
 
+			sb_update_chatid $sb
 
 			set usr_login [lindex [$sb cget -users] 0]
 
@@ -6052,6 +6062,8 @@ proc cmsn_update_users {sb recv} {
 
 			$sb addUser [list $usr_login]
 
+			sb_update_chatid $sb
+
 			::abook::setContactData $usr_login nick $usr_name
 
 			$sb configure -last_user $usr_login
@@ -6087,6 +6099,8 @@ proc cmsn_update_users {sb recv} {
 				set clientid [lindex $recv 3]
 				add_Clientid $usr_login $clientid
 			}
+
+			sb_update_chatid $sb
 
 			if { [llength [$sb cget -users]] == 1 } {
 
