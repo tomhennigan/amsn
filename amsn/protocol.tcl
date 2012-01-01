@@ -2519,7 +2519,7 @@ namespace eval ::MSN {
 		#Send the packet
 		::MSN::WriteSBNoNL $sbn "MSG" "U $msg_len\r\n$msg"
 		
-		if {[::config::getKey keep_logs]} {
+		if {[::abook::getKeepLogs $chatid]} {
 			::log::WriteLog $chatid $action
 		}
 	}
@@ -2862,7 +2862,7 @@ namespace eval ::MSN {
 		set msg "${msg}Client-Name: aMSN [set ::version]\r\n"
 		
 		#Verify if the user keep logs or not
-		if {[::config::getKey keep_logs]} {
+		if {[::abook::getKeepLogs $chatid]} {
 			set chatlogging "Y"
 		} else {
 			set chatlogging "N"
@@ -5528,7 +5528,7 @@ namespace eval ::MSNOIM {
 							::amsn::WinWrite $chatid "\n" gray
 							::amsn::WinWriteIcon $chatid greyline 3
 							::amsn::WinWrite $chatid "\n" gray
-							if {[::config::getKey keep_logs]} {
+							if {[::abook::getKeepLogs $chatid]} {
 								::log::WriteLog $chatid $data
 							}
 
@@ -9591,7 +9591,7 @@ namespace eval ::MSNMobile {
 		#set plen [string length $msg]
 		::MSN::WriteSBNoNL ns "PGD" "$name 1 $msglen\r\n$msg"
 
-		if {[::config::getKey keep_logs]} {
+		if {[::abook::getKeepLogs $chatid]} {
 			::log::PutLog $chatid [::abook::getPersonal login] $txt
 		}
 	}
@@ -9616,7 +9616,7 @@ namespace eval ::MSNMobile {
 		::amsn::WinWrite $chatid "\n[timestamp] [trans mobilesays $user] : \n" says
 		::amsn::WinWrite $chatid "$msg" user
 
-		if {[::config::getKey keep_logs]} {
+		if {[::abook::getKeepLogs $chatid]} {
 			::log::PutLog $chatid $user $msg
 		}
 

@@ -900,6 +900,14 @@ namespace eval ::abook {
 		}
 		return $out
 	}
+	proc getKeepLogs { user_login } {
+            if {[::abook::getContactData $user_login keeplogs] == 1 ||
+                ([::config::getKey keep_logs] && [::abook::getContactData $user_login keeplogs] != 0)} {
+                return 1
+            } else {
+                return 0
+            }
+        }
 	
 	#Used to remove styles from the nickname/psm and returns full text
 	proc removeStyles {list_styles} {
@@ -1336,7 +1344,7 @@ namespace eval ::abookGui {
 	}
 
 	proc showUserProperties { email } {
-		global colorval_$email customdp_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email ignorecontact_$email HOME customdp_img_$email dontshowdp_$email
+		global colorval_$email customdp_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email keeplogs_$email ignorecontact_$email HOME customdp_img_$email dontshowdp_$email
 		set w ".user_[::md5::md5 $email]_prop"
 		if { [winfo exists $w] } {
 			raise $w
@@ -1559,6 +1567,7 @@ namespace eval ::abookGui {
 		set autoacceptwc_$email [::abook::getContactData $email autoacceptwc]
 		set ignorecontact_$email [::abook::getContactData $email ignored]
 		set dontshowdp_$email [::abook::getContactData $email dontshowdp]
+		set keeplogs_$email [::abook::getContactData $email keeplogs]
 
 		frame $nbSettings.fNick.fColor.col -width 96 -bd 1 -relief flat -highlightbackground black -highlightcolor black
 		if { [set colorval_$email] ne "" } {
@@ -1613,11 +1622,13 @@ namespace eval ::abookGui {
 		checkbutton $nbSettings.fChat.dontshowdp -variable dontshowdp_$email -text "[trans dontshowdp]" -anchor w
 		checkbutton $nbSettings.fChat.autoacceptft -variable autoacceptft_$email -text "[trans autoacceptft]" -anchor w
 		checkbutton $nbSettings.fChat.autoacceptwc -variable autoacceptwc_$email -text "[trans autoacceptwc]" -anchor w
+		checkbutton $nbSettings.fChat.keeplogs -variable keeplogs_$email -text "[trans keeplog]" -anchor w
 		pack $nbSettings.fChat.showcustomsmileys -side top -fill x
 		pack $nbSettings.fChat.ignoreuser -side top -fill x
 		pack $nbSettings.fChat.dontshowdp -side top -fill x
 		pack $nbSettings.fChat.autoacceptft -side top -fill x
 		pack $nbSettings.fChat.autoacceptwc -side top -fill x
+		pack $nbSettings.fChat.keeplogs -side top -fill x
 		
 		labelframe $nbSettings.fGroup -relief groove -text [trans groups]
 		::groups::Groupmanager $email $nbSettings.fGroup
@@ -1803,7 +1814,7 @@ namespace eval ::abookGui {
 	}
 	
 	proc PropDestroyed { email w win } {
-		global colorval_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email ignorecontact_$email dontshowdp_$email
+		global colorval_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email ignorecontact_$email dontshowdp_$email keeplogs_$email
 
 		if { $w eq $win } {
 			#Clean temporal variables
@@ -1817,6 +1828,7 @@ namespace eval ::abookGui {
 			catch {unset autoacceptwc_$email}
 			catch {unset ignorecontact_$email}
 			catch {unset dontshowdp_$email}
+			catch {unset keeplogs_$email}
 		}
 	}
 	
@@ -1959,7 +1971,7 @@ namespace eval ::abookGui {
 	}
 
 	proc PropOk { email w } {
-		global colorval_$email customdp_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email ignorecontact_$email dontshowdp_$email
+		global colorval_$email customdp_$email showcustomsmileys_$email autoacceptft_$email autoacceptwc_$email ignorecontact_$email dontshowdp_$email keeplogs_$email
 		
 		if {[::alarms::SaveAlarm $email] != 0 } {
 			return
@@ -1972,8 +1984,8 @@ namespace eval ::abookGui {
 		set old_customdp [::abook::getContactData $email customdp ""]
 
 		# Store custom display information options
-		::abook::setAtomicContactData $email [list cust_p4c_name customcolor customdp showcustomsmileys autoacceptft autoacceptwc ignored dontshowdp] \
-			[list [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set autoacceptft_$email] [set autoacceptwc_$email] [set ignorecontact_$email] [set dontshowdp_$email]]
+		::abook::setAtomicContactData $email [list cust_p4c_name customcolor customdp showcustomsmileys autoacceptft autoacceptwc ignored dontshowdp keeplogs] \
+                    [list [$nbSettings.fNick.ycustomfnick.ent get] [set colorval_$email] [set customdp_$email] [set showcustomsmileys_$email] [set autoacceptft_$email] [set autoacceptwc_$email] [set ignorecontact_$email] [set dontshowdp_$email] [set keeplogs_$email]]
 		
 		::abook::setContactData $email customnick [$nbSettings.fNick.customnick.ent get]
 		::abook::setContactData $email customfnick [$nbSettings.fNick.customfnick.ent get]

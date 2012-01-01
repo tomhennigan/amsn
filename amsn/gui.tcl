@@ -2498,7 +2498,7 @@ puts -nonewline $fd $data
 			}
 		}
 
-		if { [::config::getKey keep_logs] } {
+                if {[::abook::getKeepLogs $chatid]} {
 			::log::JoinsConf $chatid $usr_name
 		}
 		#Postevent when user joins a chat
@@ -2566,7 +2566,7 @@ puts -nonewline $fd $data
 
 		::ChatWindow::TopUpdate $chatid
 
-		if { [::config::getKey keep_logs] } {
+                if {[::abook::getKeepLogs $chatid]} {
 			::log::LeavesConf $chatid $usr_name
 		}
 
@@ -3728,7 +3728,7 @@ puts -nonewline $fd $data
 	proc WinWriteFail {chatid msg} {
 		WinWrite $chatid "\n[timestamp] [trans deliverfail]:\n" red
 		WinWrite $chatid "$msg" gray "" 1 [::config::getKey login]
-		if {[::config::getKey keep_logs]} {
+                if {[::abook::getKeepLogs $chatid]} {
 			::log::PutLog $chatid [trans deliverfail] $msg "" 1
 		}
 
@@ -3938,7 +3938,7 @@ puts -nonewline $fd $data
 				WinWrite $chatid "$message" $type $fontformat 1 $user
 			}
 			
-			if {[::config::getKey keep_logs]} {
+                        if {[::abook::getKeepLogs $chatid]} {
 				::log::PutLog $chatid $nick $msg $fontformat
 			}
 		}
@@ -9384,7 +9384,7 @@ namespace eval ::OIM_GUI {
 
 		#We	should add an event for sending message
 		#loging
-		if {[::config::getKey keep_logs]} {
+                if {[::abook::getKeepLogs $chatid]} {
 			::log::PutLog $chatid $nick $msg "" 0 $tstamp
 		}
 		return 1

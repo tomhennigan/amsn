@@ -459,15 +459,18 @@ namespace eval ::ChatWindow {
 			status_log "VERY BAD ERROR in ::ChatWindow::Closed!!!\n" red
 			return 0
 		}
-		if {[::config::getKey keep_logs]} {
-			if { [::OIM_GUI::IsOIM $chatid] == 1} {
-				::log::StopLog $chatid
-			} else {
-				foreach user_login [::MSN::usersInChat $chatid] {
-					::log::StopLog $user_login
-				}
-			}
-		}
+
+                if { [::OIM_GUI::IsOIM $chatid] == 1} {
+                    if {[::abook::getKeepLogs $chatid]} {
+                        ::log::StopLog $chatid
+                    }
+                } else {
+                    foreach user_login [::MSN::usersInChat $chatid] {
+                        if {[::abook::getKeepLogs $user_login]} {
+                            ::log::StopLog $user_login
+                        }
+                    }
+                }
 
 		set evPar(chatid) chatid
 		::plugins::PostEvent chatwindow_closed evPar

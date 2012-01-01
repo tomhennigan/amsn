@@ -1769,7 +1769,7 @@ namespace eval ::log {
 
 	proc ftlog {email txt} {
 
-		if { [::config::getKey keep_logs] } {
+                if {[::abook::getKeepLogs $email]} {
 			set fileid [LogArray $email get]
 			if { $fileid == 0 } {
 				StartLog $email
