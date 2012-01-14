@@ -255,6 +255,7 @@ namespace eval ::music {
 					"Audacious (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
 					"Banshee" [list GetSongBanshee TreatSongBanshee FillFrameComplete] \
 					"BMP (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
+					"Clementine" [list GetSongClementine TreatSongClementine FillFrameComplete] \
 					"Decibel" [list GetSongDecibel FillFrameLess] \
 					"Exaile" [list GetSongExaile TreatSongExaile FillFrameLess] \
 					"Exaile (MPRIS)" [list GetSongMPRIS TreatSongMPRIS FillFrameLess] \
@@ -1067,6 +1068,48 @@ namespace eval ::music {
 		set Uri [urldecode [string range $Uri 7 end]]
 
 		return [list $Title $Artist $Uri $CoverUri ""]
+	}
+	
+	################################################
+	# ::music::TreatSongClementine                #
+	# -------------------------------------------  #
+	# Gets the current playing song in Clementine  #
+	################################################
+	proc TreatSongClementine {} {
+		#Grab the information asynchronously : thanks to Tjikkun
+		after 0 {::music::exec_async [list "bash" [file join $::music::musicpluginpath "infoclementine"]] }
+	}
+	
+	################################################
+	# ::music::GetSongClementine                   #
+	# -------------------------------------------  #
+	# Gets the current playing song in Clementine  #
+	################################################
+	proc GetSongClementine {} {
+
+		#actualsong is filled asynchronously in TreatSongClementine
+		#Split the lines into a list and set the variables as appropriate
+		
+		if { [catch {split $::music::actualsong "\n"} tmplst] } {
+			#actualsong isn't yet defined by asynchronous exec
+			return 0
+		}
+
+		#Get the information
+		set status [lindex $tmplst 0]
+		set art [lindex $tmplst 1]
+		set song [lindex $tmplst 2]
+	        set path [lindex $tmplst 3]
+		set artpath [lindex $tmplst 4]
+		set album [lindex $tmplst 5]
+		if {[string first "nocover" [file tail $artpath]] != -1} {set artpath "" }	
+		if {$status == "0"} {
+			return 0
+		}
+
+
+
+		return [list $song $art $path $artpath $album]
 	}
 
 	###########################################################
