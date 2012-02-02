@@ -357,7 +357,10 @@ namespace eval ::p2p {
 					}
 				}
 			}
-			set chunk [MessageChunk parse $version [string range [$message get_body] 0 end-4]]
+			if { [catch {set chunk [MessageChunk parse $version [string range [$message get_body] 0 end-4]]}]} {
+				status_log "Received erroneous chunk"
+				return ""
+			}
 			binary scan [string range [$message get_body] end-4 end] iu appid
 			$message destroy
 			$self On_chunk_received [$self cget -peer] "" $chunk
@@ -440,7 +443,10 @@ namespace eval ::p2p {
 				
 				#@@@@@@@@@@ p2pv2
 				set module 1
-				set chunk [MessageChunk parse $module $data]
+				if { [catch {set chunk [MessageChunk parse $module $data]}] } {
+					status_log "Received erroneous chunk"
+					return ""
+				}
 				status_log "Created chunk $chunk"
 				#puts "Chunk $chunk body: [$chunk cget -body]"
 				

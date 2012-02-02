@@ -128,7 +128,10 @@ namespace eval ::p2p {
 						}
 					}
 				}
-				set chunk [MessageChunk parse $version [string range [$message get_body] 0 end-4]]
+				if { [catch {set chunk [MessageChunk parse $version [string range [$message get_body] 0 end-4]]}] } {
+					status_log "Received erroneous chunk"
+					return ""
+				}
 				binary scan [string range [$message get_body] end-4 end] iu appid
 				catch {$message destroy}
 				$self On_chunk_received [$self cget -peer] [$self cget -peer_guid] $chunk
