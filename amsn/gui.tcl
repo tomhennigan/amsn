@@ -5579,6 +5579,17 @@ proc choose_font { parent title {initialfont ""} {initialcolor ""}} {
 	}
 
 	set selected_font [SelectFont .fontsel -parent $parent -title $title -font $initialfont -initialcolor $initialcolor]
+
+	# If the color is 48 bits, then convert into 24 bit colors
+	set color [lindex $selected_font 1]
+	if {[string length $color] == 13} {
+		set r [string range $color 1 2]
+		set g [string range $color 5 6]
+		set b [string range $color 9 10]
+		set color "#${r}${g}${b}"
+		set selected_font [lreplace $selected_font 1 1 $color]
+	}
+
 	return $selected_font
 }
 
