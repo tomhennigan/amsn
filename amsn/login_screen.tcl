@@ -655,7 +655,6 @@ snit::widgetadaptor loginscreen {
 		# Don't let us use integers as username (see UsernameEdited)
 		if { [string is integer $user] } { set user "" }
 		# We have to check whether this profile exists because sometimes userSelected gets called when it shouldn't,
-                set user [string tolower $user]
 		# e.g when tab is pressed in the username combobox
 		if { [LoginList exists 0 $user] } {
 			# Select and disable 'remember me' checkbutton
