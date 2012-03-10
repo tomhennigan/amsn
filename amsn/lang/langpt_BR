@@ -1,14 +1,14 @@
 amsn_lang_version 2
-abookerror aMSN falhou ao fazer download da sua lista de contatos. Isto é provavelmente causado por algum problema temporário nos servidores MSN. Você agora está logado usando a lista de contatos guardada em cache, se tiver alguma. Nós nos desculpamos pelo inconveniente. Por favor tente novamente.
+abookerror O aMSN falhou ao fazer download da sua lista de contatos. Isto é provavelmente causado por algum problema temporário nos servidores MSN. Você agora está logado usando a lista de contatos guardada em cache, se tiver alguma. Nós nos desculpamos pelo inconveniente. Por favor tente novamente.
 abort Abortar
-aboutamsn Sobre aMSN
+aboutamsn Sobre o aMSN
 about Sobre
 accept Aceitar
 acceptfile Aceitar arquivo $1 ($2 bytes de tamanho)? Será gravado em $3
 account Conta
 accountkid Esta conta infantil não pode acessar o Messenger. Você deve ir ao site de contas infantis e autorizar o uso.
 actions Ações
-activeautoupdate Ativar auto-atualização
+activeautoupdate Ativar autoatualização
 addacontact Adicionar contato
 add Adicionar
 addedyou $1 ($2) adicionou você à sua lista de contatos
@@ -91,8 +91,8 @@ autonoact Mudar estado para "Sem atividade" quando inativo por
 autoresizedp Automaticamente redimensione as figuras para o tamanho padrão
 autovideosinkdesc Detectar automaticamente o melhor dispositivo de saída de vídeo(ex. Webcam) do sistema
 autovideosrcdesc Detectar automaticamente o dispositivo de captura de imagem(Webcam) do sistema
-avaccepted Chamada para vídeo-conferência aceita
-avcanceled Chamada para vídeo-conferência cancelada
+avaccepted Chamada para videoconferência aceita
+avcanceled Chamada para videoconferência cancelada
 av Conferência de Áudio e Vídeo
 avgotinvitation Recebido um convite para videoconferência de $1
 avinitfailed O plugin de áudio/vídeo não pôde ser iniciado. Chamada cancelada
@@ -380,7 +380,7 @@ extras Serviços adicionais
 faileddelete Falha na exclusão
 faileddeleteperso Esta imagem não pôde ser excluída porque ela não pertence ao seu perfil. Apenas imagens que pertençam ao seu perfil pessoal podem ser removidas deste modo.
 failed Falha
-faq FAQ (Perguntas Freqüentes)
+faq FAQ (Perguntas Frequentes)
 farsightextchecking Checando se extensão Farsight está carregada...
 farsightextwarn Você não poderá ter ligações SIP. Você pode encontrar respostas de como instalar o Farsight no nosso Wiki:
 fetching Recebendo dados...
@@ -610,7 +610,7 @@ mystatus Meu estado
 myworkphone Meu telefone comercial
 name Nome
 natip Detectar IP pela web
-natkeepalive Estou sendo desconectado com freqüência (manter conexão ativa)
+natkeepalive Estou sendo desconectado com frequência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
 needwinico2 Preciso do arquivo winico05.dll na pasta utils/windows para que o ícone de inicialização rápida possa funcionar na barra de tarefas do windows
 never Nunca
