@@ -137,7 +137,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
 	int num_palette = -1;
 	png_colorp palette;
 	if (png_get_PLTE(png_ptr, info_ptr, &palette, &num_palette)) {
-		SetPalette((rgb_color*)&palette, num_palette);
+		SetPalette((rgb_color*)palette, num_palette);
 		SetClrImportant(num_palette);
 	} else if (png_get_bit_depth(png_ptr, info_ptr)==2) { //<DP> needed for 2 bpp grayscale PNGs
 		SetPaletteColor(0,0,0,0);
