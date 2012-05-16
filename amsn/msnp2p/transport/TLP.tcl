@@ -67,21 +67,32 @@ namespace eval ::p2p {
 			set sendme ""
 			set csize 0
 			set data $options(-data)
-			if { $data != "" } {
+			if { $version == 1 } {
+				#P2Pv2 has a variable header so we can't calculate it in advance
+				#so P2Pv2 takes care of internally calculating chunk size
+				#Might be best to do that in v1 as well, but tbh ... v1 is known to work... so I'd better make a small mess here
 				set newsize [expr {$options(-current_size) + $max_size - [${module}::TLPHeader size]}]
-				if { $newsize >= [string length $data] } { set newsize [string length $data] }
+				if { $data != "" && $newsize >= [string length $data] } { 
+					set newsize [string length $data]
+				}
 				set csize [expr { $newsize - $options(-current_size) } ]
+				set chunk [${module}::MessageChunk createMsg $options(-application_id) $options(-session_id) $options(-id) $offset $options(-blob_size) $max_size $sync $csize]
+			} else {
+				set chunk [${module}::MessageChunk createMsg $options(-application_id) $options(-session_id) $options(-id) $offset $options(-blob_size) $max_size $sync 0]
+				#case when it will exceed blob size is taken care of in the header
+				set csize [[$chunk cget -header] cget -chunk_size]
+				set newsize [expr {$options(-current_size) + $csize}]
+			}
+
+			if { $data != "" } {
 				set sendme [string range $data $options(-current_size) [expr { $newsize - 1 }] ]
 			} elseif { $options(-fd) != "" } { ;#data in memory
 				set fd $options(-fd)
-				set newsize [expr {$options(-current_size) + $max_size - [${module}::TLPHeader size]}]
-				set csize [expr { $newsize - $options(-current_size) } ]
 				set sendme [read $fd $csize]
 				#Maybe we actually read less data (in EOF) so let's calculate again
 				set csize [string length $sendme]
 				set newsize [expr { $options(-current_size) + $csize } ]
 			}
-			set chunk [${module}::MessageChunk createMsg $options(-application_id) $options(-session_id) $options(-id) $offset $options(-blob_size) $max_size $sync $csize]
 			status_log "Chunk of $self is of size [$chunk size] from $options(-current_size) to $newsize"
 			$chunk set_data $sendme
 			set options(-current_size) $newsize
@@ -112,6 +123,7 @@ namespace eval ::p2p {
 		typemethod parse {version data} {
 
 			set module ::p2pv$version
+			puts "parsing chunk of version $version"
 			return [${module}::MessageChunk parse $data]
 
 		}

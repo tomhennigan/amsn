@@ -44,13 +44,12 @@ namespace eval ::p2p {
 		}
 
 		method version { } {
-			#@@@@@@@@@@@@@@@@@ amsn doesn't support p2pv2 yet.
-			#now, about finding whether remote peer supports p2pv2... TODO later
-			#if { [[[[$self cget -client] cget -profile] cget -client_id] supports_p2pv2] && [[[[$self cget -peer] cget -client] cget -capabilities] supports_p2pv2]} {
-			#  return 2
-			#} else {
-			return 1
-			#}
+			#@@@@@@@@@@@@@@@@@ p2pv2
+			if { [::config::getKey protocol] > 15 && [::MSN::hasCapability [::abook::getContactData $options(-peer) clientid] p2pv2]} {
+			  return 2
+			} else {
+			  return 1
+			}
 		}
 
 		method send {peer peer_guid blob} {
@@ -157,7 +156,7 @@ namespace eval ::p2p {
 					$self On_signaling_chunk_received $chunk
 				} else {
 					status_log "It is not a signaling chunk either"
-					::Event::fireEvent p2pChunkReceived p2pBaseTransport $chunk
+					::Event::fireEvent p2pChunkReceived p2pBaseTransport $self $chunk
 				}
 			}
 
@@ -229,7 +228,7 @@ namespace eval ::p2p {
 				return 0
 			}
 
-			set first 0
+			#set first 0
 
 			set blob [lindex [lindex $queue 0] 2]
 			set peer_guid [lindex [lindex $queue 0] 1]

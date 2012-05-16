@@ -75,6 +75,7 @@ namespace eval ::p2pv1 {
 		option -header ""
 		option -body ""
 		option -application_id 0
+		option -version 1
 
 		constructor { args } {
 
@@ -101,6 +102,12 @@ namespace eval ::p2pv1 {
 		method set_id { val } {
 
 			$self set_field dw1 $val
+
+		}
+
+		method set_appid { val } {
+
+			set options(-application_id) $val
 
 		}
 

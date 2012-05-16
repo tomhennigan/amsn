@@ -171,12 +171,12 @@ namespace eval ::p2p {
 
 		}
 
-		method On_chunk_received { transport chunk } {
+		method On_chunk_received { event transport chunk } {
 
 			set session_id [$chunk session_id]
 			set blob_id [$chunk blob_id]
 
-			status_log "Transport manager received $chunk ($session_id -- $blob_id)"
+			status_log "Transport manager received $chunk ($session_id -- $blob_id) on transport $transport"
 
 			if { ![info exists data_blobs($session_id)] } {
 				set data_blobs($session_id) [list]

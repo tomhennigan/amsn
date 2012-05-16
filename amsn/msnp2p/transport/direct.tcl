@@ -307,7 +307,7 @@ namespace eval ::p2p {
 
 			set nonce_sent 1
 			#@@@@@@@@@@@@@ p2pv2
-			set module 1
+			set module [$self transport]
 			set chunk [::p2pv${module}::MessageChunk %AUTO%]
 			$chunk set_field blob_id [::p2p::generate_id]
 			$chunk set_nonce $options(-nonce)
@@ -442,7 +442,7 @@ namespace eval ::p2p {
 				}
 				
 				#@@@@@@@@@@ p2pv2
-				set module 1
+				set module [$self version]
 				if { [catch {set chunk [MessageChunk parse $module $data]}] } {
 					status_log "Received erroneous chunk"
 					return ""

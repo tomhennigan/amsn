@@ -920,6 +920,9 @@ namespace eval ::MSN {
 		::MSN::setClientCap inkgif
 		::MSN::setClientCap multip
 		::MSN::setClientCap voice
+		if { [::config::getKey protocol] > 15 } {
+			::MSN::setClientCap p2pv2
+		}
 
 		if {[::config::getKey protocol] >= 15} {
 			global sso
@@ -1627,6 +1630,7 @@ namespace eval ::MSN {
 			p2paware  { set flag 0xF0000000 }
 			rtcvideo { set extra 0x00000010 }
 			unknown { set extra 0x00000020 }
+			p2pv2 { set extra 0x00000030 }
 		}
 
 		return [list $flag $extra]

@@ -7,7 +7,7 @@ source msnp2p/transport/switchboard.tcl
 source msnp2p/transport/direct.tcl
 source msnp2p/transport/TLP.tcl
 source msnp2p/transport/TLPv1.tcl
-#source msnp2p/transport/TLPv2.tcl
+source msnp2p/transport/TLPv2.tcl
 source msnp2p/transport/transport_manager.tcl
 source msnp2p/session.tcl
 source msnp2p/session_manager.tcl
