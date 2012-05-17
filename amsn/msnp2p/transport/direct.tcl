@@ -307,7 +307,7 @@ namespace eval ::p2p {
 
 			set nonce_sent 1
 			#@@@@@@@@@@@@@ p2pv2
-			set module [$self transport]
+			set module [$self version]
 			set chunk [::p2pv${module}::MessageChunk %AUTO%]
 			$chunk set_field blob_id [::p2p::generate_id]
 			$chunk set_nonce $options(-nonce)

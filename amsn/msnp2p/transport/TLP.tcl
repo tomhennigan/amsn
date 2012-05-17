@@ -123,7 +123,7 @@ namespace eval ::p2p {
 		typemethod parse {version data} {
 
 			set module ::p2pv$version
-			puts "parsing chunk of version $version"
+			#puts "parsing chunk of version $version"
 			return [${module}::MessageChunk parse $data]
 
 		}
