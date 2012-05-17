@@ -30,7 +30,7 @@ namespace eval ::p2pv2::DLPParamType {
 
 namespace eval ::p2pv2 {
 
-	snit::type TLV {
+	snit::type tlv {
 
 		option -length_dict {}
 
@@ -55,7 +55,7 @@ namespace eval ::p2pv2 {
 			if { [info exists data($key)] } {
 				return data($key)
 			} else {
-				return def
+				return $def
 			}
 
 		}
@@ -73,7 +73,9 @@ namespace eval ::p2pv2 {
 		method size_to_packed_format { size } {
 
 			if { [lsearch [array names formats] $size] >= 0 } {
-				return ${formats($size)}u
+				set ret $formats($size)
+				set ret ${ret}u
+				return $ret
 			}
 			return "characters"
 
@@ -89,6 +91,7 @@ namespace eval ::p2pv2 {
 				set l $ldict($t)
 				set f [$self size_to_packed_format $l]
 				set v $data($t)
+				puts "T L V: [hexify $t] [hexify $l] [hexify $v]"
 				if { $f == "characters" } {
 					#Just the string itself
 					set app_str [binary format cucu $t $l]
@@ -102,28 +105,40 @@ namespace eval ::p2pv2 {
 					set str $str$zero
 				}
 			}
+			puts "Final tlv: [hexify $str]"
 			return $str
 
 		}
 
-		method parse { data size } {
+		method parse { scandata size } {
 
 			set offset 0
-			puts "parsing TLV"
-			while { offset < size } {
-				set scanme [string range $data $offset end]
-				binary scan $scanme cucu t l
-				if { t == 0 } {
+			puts "We are going to scan a TLV"
+			puts "Data is [hexify $scandata]"
+			while { $offset < $size } {
+				puts "okay..."
+				set scanme [string range $scandata $offset end]
+				binary scan $scanme bcu t l
+				if { $t == 0 } {
+					puts "breaking"
 					break
 				}
 				set f [$self size_to_packed_format $l]
-				set end [expr {$offset + 2 + l}]
-				if { end > size } {
+				set end [expr {$offset + 2 + $l}]
+				if { $end > $size } {
+					puts ":("
 					#raise some error i guess
 					return
 				}
 				#again?
-				binary scan $scanme cucu$f t l v
+				puts "format is $f"
+				if { $f == "characters" } {
+					set v [string range $scanme 2 [expr {2 + $l}]]
+				} else {
+					binary scan $scanme bcu$f t l v
+				}
+				puts "Wow, we scanned a TLV"
+				puts "Scanned tlv [hexify $t] [hexify $l] [hexify $v]"
 				set data($t) $l
 				set offset $end
 			}
@@ -161,10 +176,10 @@ namespace eval ::p2pv2 {
 
 			$self configurelist $args
 			if { $options(-tlv) == "" } {
-				set options(-tlv) [TLV %AUTO% -length_dict $TLPParamLength]
+				set options(-tlv) [tlv %AUTO% -length_dict $TLPParamLength]
 			}
 			if { $options(-data_tlv) == "" } {
-				set options(-data_tlv) [TLV %AUTO% -length_dict $DLPParamLength]
+				set options(-data_tlv) [tlv %AUTO% -length_dict $DLPParamLength]
 			}
 
 		}
@@ -257,7 +272,7 @@ namespace eval ::p2pv2 {
 				set data_header_size [string length $data_header]
 				set data_size [ expr {$data_size + $data_header_size}]
 			}
-			set header [binary format cucuSuRu $size $options(-op_code) $data_size $options(-chunk_id)]
+			set header [binary format cucuSuIu $size $options(-op_code) $data_size $options(-chunk_id)]
 			set tlvstr [$options(-tlv) toString]
 			return $header$tlvstr$data_header
 
@@ -265,24 +280,26 @@ namespace eval ::p2pv2 {
 
 		method parse { data } {
 
-			puts "parsing header"
-			if { [catch {binary scan cucuSuR* [string range $data 0 7] size $options(-op_code) $options(-chunk_size) $options(-chunk_id)}]} {
+			if { [catch {binary scan [string range $data 0 7] cubSuIu size options(-op_code) options(-chunk_size) options(-chunk_id)} msg]} {
 				return ""
 			}
-			$options(-tlv) parse [string range data 8 size-8]
+			puts "scanned data [hexify [string range $data 0 7]] and got size $options(-chunk_size)"
+			$options(-tlv) parse [string range $data 8 $size] [expr {$size - 8}]
 			if { $options(-chunk_size) > 0 } {
-				set dph_size [$self parse_data_header [string range data size end]]
-				set options(-chunk_size) dph_size
-				set size [expr {size + dph_size}]
+				set dph_size [$self parse_data_header [string range $data $size end]]
+				puts "dph size is $dph_size , chunk size is $options(-chunk_size)"
+				set options(-chunk_size) [expr {$options(-chunk_size) - $dph_size}]
+				set size [expr {$size + $dph_size}]
 			}
-			return size
+			puts "Chunk size $options(-chunk_size) of data [hexify [string range $data 0 7]]"
+			return $size
 
 		}
 
 		method build_data_header { } {
 
 			set size [expr {[string length [$options(-data_tlv) toString]] + 8}]
-			set header [binary format cucuSuRu $size [$self tf_combination] $options(-package_number) $options(-session_id)]
+			set header [binary format cubSuWu $size [$self tf_combination] $options(-package_number) $options(-session_id)]
 			set datatlv [$options(-data_tlv) toString]
 			return $header$datatlv
 
@@ -290,11 +307,11 @@ namespace eval ::p2pv2 {
 
 		method parse_data_header { data } {
 
-			if { [catch {binary scan cucuSuRu* [string range $data 0 7] size tf_combination $options(-package_number) $options(-session_id)}]} {
+			if { [catch {binary scan [string range $data 0 7] cubSuWu size tf_combination options(-package_number) options(-session_id)}]} {
 				return 0
 			}
 			$self set_tf_combination $tf_combination
-			$options(-data_tlv) parse [string range $data 8 size-8]
+			$options(-data_tlv) parse [string range $data 8 $size] [expr {$size - 8}]
 			return $size
 
 		}
@@ -376,6 +393,7 @@ namespace eval ::p2pv2 {
 
 		method ack_id { } {
 
+			puts "chunk id [hexify [$self get_field chunk_id]] and data size [hexify [$options(-header) data_size]]"
 			return [expr {[$self get_field chunk_id] + [$options(-header) data_size]}]
 
 		}
@@ -400,15 +418,18 @@ namespace eval ::p2pv2 {
 
 		method blob_size { } {
 
-			if { [$options(-header) first] == 0 } {
+			if { [$self get_field first] == 0 } {
 				return 0
 			}
+			puts "Data remaining: [$options(-header) data_remaining] and size: [$self size]"
 			return [expr {[$options(-header) data_remaining] + [$self size]}]
 
 		}
 
 		method is_control_chunk { } {
 
+			puts "Is this a control chunk? [expr {[$self is_ack_chunk] || [$self is_nak_chunk] || ([$self require_ack] && [$self size] == 0)}]"
+			puts "Our size is [$self size] and we require ack? [$self require_ack]"
 			return [expr {[$self is_ack_chunk] || [$self is_nak_chunk] || ([$self require_ack] && [$self size] == 0)}]
 
 		}
@@ -421,7 +442,7 @@ namespace eval ::p2pv2 {
 
 		method is_nak_chunk { } {
 
-			return [expr {$options(-header) nak_seq > 0}]
+			return [expr {[$options(-header) nak_seq] > 0}]
 		
 		}
 
@@ -439,13 +460,14 @@ namespace eval ::p2pv2 {
 
 		method is_data_preparation_chunk { } {
 
-			return [expr {[$self get_field first] || ([$self size] == 4)}]
+			return [expr {[$self get_field first] == 1 || ([$self size] == 4)}]
 
 		}
 
 		method require_ack { } {
 
-			return [expr {[$self get_field op_code] & $::p2pv2::TLPFlag::RAK}]
+			puts "Requiring ack? [hexify [expr {[$self get_field op_code] & $::p2pv2::TLPFlag::RAK == $::p2pv2::TLPFlag::RAK}]]"
+			return [expr {[$self get_field op_code] & $::p2pv2::TLPFlag::RAK == $::p2pv2::TLPFlag::RAK}]
 
 		}
 
@@ -457,7 +479,8 @@ namespace eval ::p2pv2 {
 
 		method create_ack_chunk { {sync 0} } {
 
-			set header [TLPHeader %AUTO% -ack_seq [$self ack_id]]
+			set header [TLPHeader %AUTO%]
+			$header set_ack_seq [$self ack_id]
 			$header set_sync $sync
 			return [MessageChunk %AUTO% -header $header]
 
@@ -499,7 +522,6 @@ namespace eval ::p2pv2 {
 
 		typemethod parse { data } {
 
-			puts "parsing chunk"
 			set header [TLPHeader %AUTO%]
 			set header_size [$header parse $data]
 			set body [string range $data $header_size end]

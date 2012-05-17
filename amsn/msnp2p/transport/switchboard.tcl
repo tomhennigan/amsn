@@ -117,22 +117,26 @@ namespace eval ::p2p {
 				set version 1
 				set headers [$message headers]
 				foreach {key value} $headers {
-					if { $key == "P2P-Dest" && [string first ";" $key] >= 0 } {
+					if { $key == "P2P-Dest" && [string first ";" $value] >= 0 } {
 						set version 2
 						set semic [string first ";" $value]
 						set dest_guid [string range $value [expr {$semic+1}] end]
 						if { $dest_guid != [::config::getGlobalKey machineguid] } {
 							#this chunk is for our other self
 							status_log "Ignoring our other self"
-							return
+							# TODO: @@@@@@@@@@@ p2pv2T
+							#return
 						}
 					}
 				}
-				if { [catch {set chunk [MessageChunk parse $version [string range [$message get_body] 0 end-4]]}] } {
+				if { [catch {set chunk [MessageChunk parse $version [string range [$message get_body] 0 end-4]]} msg] } {
 					status_log "Received erroneous chunk"
+					puts "Received erroneous chunk: $msg"
 					return ""
 				}
+				puts "Received a right chunk"
 				binary scan [string range [$message get_body] end-4 end] iu appid
+				puts "Destroying"
 				catch {$message destroy}
 				$self On_chunk_received [$self cget -peer] [$self cget -peer_guid] $chunk
 				catch {$chunk destroy}

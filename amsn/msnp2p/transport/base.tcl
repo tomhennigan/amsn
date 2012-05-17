@@ -142,14 +142,17 @@ namespace eval ::p2p {
 		method On_chunk_received { peer peer_guid chunk } {
 			
 			status_log "base.tcl received $chunk"
+			puts "base.tcl received $chunk"
 			if { [$chunk require_ack] == 1 } {
+				puts "Requires ACK"
 				status_log "Will send ACK"
 				set ack_chunk [$chunk create_ack_chunk]
 				$self __Send_chunk $peer $peer_guid $ack_chunk "skip"
 				#$ack_chunk destroy
 			}
 
-			if { [$chunk is_control_chunk] == 0 } {
+			if { [$chunk is_control_chunk] == 0 || [$chunk is_signaling_chunk] == 1 } {
+				puts "No control"
 				status_log "It is not a control chunk"
 				if { [$chunk is_signaling_chunk] == 1 } {
 					status_log "It is a signaling chunk"
