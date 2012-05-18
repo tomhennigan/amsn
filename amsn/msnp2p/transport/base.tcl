@@ -303,6 +303,10 @@ namespace eval ::p2p {
 			#puts "Sent [hexify [$chunk toString]]"
 
                         if { $blob != "skip" && [llength $data_blob_queue] > 0 } {
+				if { [catch {$blob is_complete}] } {
+					#can't really debug something that happens so rarely , so just catch it here...?
+					return
+				}
 				if { [$blob is_complete] } {
 					status_log "Queue says blob $blob is complete with chunk $chunk"
 					if { [lindex [lindex $data_blob_queue 0] 2] == $blob } {
