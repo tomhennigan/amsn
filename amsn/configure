@@ -601,16 +601,19 @@ ac_includes_default="\
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+HAVE_FARSTREAM
 HAVE_FARSIGHT
 HAVE_GUPNP
 GUPNP_LIBS
 GUPNP_CFLAGS
-HAVE_LIBV4L2
-HAVE_LIBV4L
+HAVE_V4L2
+HAVE_V4L
 LIBV4L_LIBS
 LIBV4L_CFLAGS
 FARSIGHT2_LIBS
 FARSIGHT2_CFLAGS
+FARSTREAM_LIBS
+FARSTREAM_CFLAGS
 GST_INTERFACES_LIBS
 GST_INTERFACES_CFLAGS
 GST_LIBS
@@ -739,6 +742,8 @@ GST_CFLAGS
 GST_LIBS
 GST_INTERFACES_CFLAGS
 GST_INTERFACES_LIBS
+FARSTREAM_CFLAGS
+FARSTREAM_LIBS
 FARSIGHT2_CFLAGS
 FARSIGHT2_LIBS
 LIBV4L_CFLAGS
@@ -1396,6 +1401,10 @@ Some influential environment variables:
               C compiler flags for GST_INTERFACES, overriding pkg-config
   GST_INTERFACES_LIBS
               linker flags for GST_INTERFACES, overriding pkg-config
+  FARSTREAM_CFLAGS
+              C compiler flags for FARSTREAM, overriding pkg-config
+  FARSTREAM_LIBS
+              linker flags for FARSTREAM, overriding pkg-config
   FARSIGHT2_CFLAGS
               C compiler flags for FARSIGHT2, overriding pkg-config
   FARSIGHT2_LIBS
@@ -5124,10 +5133,12 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $USE_MMX" >&5
 $as_echo "$USE_MMX" >&6; }
 
-HAVE_FARSIGHT=no
+HAVE_FARSIGHT="N/A"
+HAVE_FARSTREAM=no
 GST_REQUIRED=0.10.22
 GST_MAJORMINOR=0.10
 FARSIGHT_REQUIRED=0.0.9
+FARSTREAM_REQUIRED=0.1
 
 # Extract the first word of "pkg-config", so it can be a program name with args.
 set dummy pkg-config; ac_word=$2
@@ -5170,6 +5181,7 @@ fi
 
 
 if test "x$HAVE_PKGCONFIG" = "xyes"; then
+
 
 
 
@@ -5307,6 +5319,7 @@ if test -n "$GLIB_CFLAGS"; then
   test $ac_status = 0; }; then
   pkg_cv_GLIB_CFLAGS=`$PKG_CONFIG --cflags "\
     glib-2.0 >= 2.14" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5326,6 +5339,7 @@ if test -n "$GLIB_LIBS"; then
   test $ac_status = 0; }; then
   pkg_cv_GLIB_LIBS=`$PKG_CONFIG --libs "\
     glib-2.0 >= 2.14" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5345,10 +5359,10 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "\
+	        GLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "\
     glib-2.0 >= 2.14" 2>&1`
         else
-	        GLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors "\
+	        GLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "\
     glib-2.0 >= 2.14" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
@@ -5386,6 +5400,7 @@ if test -n "$GST_CFLAGS"; then
   test $ac_status = 0; }; then
   pkg_cv_GST_CFLAGS=`$PKG_CONFIG --cflags "\
       gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5405,6 +5420,7 @@ if test -n "$GST_LIBS"; then
   test $ac_status = 0; }; then
   pkg_cv_GST_LIBS=`$PKG_CONFIG --libs "\
       gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5424,10 +5440,10 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GST_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "\
+	        GST_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "\
       gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED" 2>&1`
         else
-	        GST_PKG_ERRORS=`$PKG_CONFIG --print-errors "\
+	        GST_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "\
       gstreamer-$GST_MAJORMINOR >= $GST_REQUIRED" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
@@ -5464,6 +5480,7 @@ if test -n "$GST_INTERFACES_CFLAGS"; then
   test $ac_status = 0; }; then
   pkg_cv_GST_INTERFACES_CFLAGS=`$PKG_CONFIG --cflags "\
       gstreamer-interfaces-$GST_MAJORMINOR >= $GST_REQUIRED" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5483,6 +5500,7 @@ if test -n "$GST_INTERFACES_LIBS"; then
   test $ac_status = 0; }; then
   pkg_cv_GST_INTERFACES_LIBS=`$PKG_CONFIG --libs "\
       gstreamer-interfaces-$GST_MAJORMINOR >= $GST_REQUIRED" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5502,10 +5520,10 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GST_INTERFACES_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "\
+	        GST_INTERFACES_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "\
       gstreamer-interfaces-$GST_MAJORMINOR >= $GST_REQUIRED" 2>&1`
         else
-	        GST_INTERFACES_PKG_ERRORS=`$PKG_CONFIG --print-errors "\
+	        GST_INTERFACES_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "\
       gstreamer-interfaces-$GST_MAJORMINOR >= $GST_REQUIRED" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
@@ -5526,42 +5544,45 @@ fi
 
         if test "x$HAVE_GST" = "xyes"; then
 
-pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for FARSIGHT2" >&5
-$as_echo_n "checking for FARSIGHT2... " >&6; }
 
-if test -n "$FARSIGHT2_CFLAGS"; then
-    pkg_cv_FARSIGHT2_CFLAGS="$FARSIGHT2_CFLAGS"
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for FARSTREAM" >&5
+$as_echo_n "checking for FARSTREAM... " >&6; }
+
+if test -n "$FARSTREAM_CFLAGS"; then
+    pkg_cv_FARSTREAM_CFLAGS="$FARSTREAM_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
     { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\\
-             farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\""; } >&5
+          farstream-\$FARSTREAM_REQUIRED\""; } >&5
   ($PKG_CONFIG --exists --print-errors "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
+          farstream-$FARSTREAM_REQUIRED") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_FARSIGHT2_CFLAGS=`$PKG_CONFIG --cflags "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
+  pkg_cv_FARSTREAM_CFLAGS=`$PKG_CONFIG --cflags "\
+          farstream-$FARSTREAM_REQUIRED" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
  else
     pkg_failed=untried
 fi
-if test -n "$FARSIGHT2_LIBS"; then
-    pkg_cv_FARSIGHT2_LIBS="$FARSIGHT2_LIBS"
+if test -n "$FARSTREAM_LIBS"; then
+    pkg_cv_FARSTREAM_LIBS="$FARSTREAM_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
     { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\\
-             farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\""; } >&5
+          farstream-\$FARSTREAM_REQUIRED\""; } >&5
   ($PKG_CONFIG --exists --print-errors "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
+          farstream-$FARSTREAM_REQUIRED") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_FARSIGHT2_LIBS=`$PKG_CONFIG --libs "\
-             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
+  pkg_cv_FARSTREAM_LIBS=`$PKG_CONFIG --libs "\
+          farstream-$FARSTREAM_REQUIRED" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5581,10 +5602,90 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        FARSIGHT2_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "\
+	        FARSTREAM_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "\
+          farstream-$FARSTREAM_REQUIRED" 2>&1`
+        else
+	        FARSTREAM_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "\
+          farstream-$FARSTREAM_REQUIRED" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$FARSTREAM_PKG_ERRORS" >&5
+
+	HAVE_FARSTREAM=no
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	HAVE_FARSTREAM=no
+else
+	FARSTREAM_CFLAGS=$pkg_cv_FARSTREAM_CFLAGS
+	FARSTREAM_LIBS=$pkg_cv_FARSTREAM_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	HAVE_FARSTREAM=yes
+fi
+      if test "x$HAVE_FARSTREAM" = "xno"; then
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for FARSIGHT2" >&5
+$as_echo_n "checking for FARSIGHT2... " >&6; }
+
+if test -n "$FARSIGHT2_CFLAGS"; then
+    pkg_cv_FARSIGHT2_CFLAGS="$FARSIGHT2_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\\
+             farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "\
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_FARSIGHT2_CFLAGS=`$PKG_CONFIG --cflags "\
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$FARSIGHT2_LIBS"; then
+    pkg_cv_FARSIGHT2_LIBS="$FARSIGHT2_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\\
+             farsight2-\$GST_MAJORMINOR >= \$FARSIGHT_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "\
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_FARSIGHT2_LIBS=`$PKG_CONFIG --libs "\
+             farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        FARSIGHT2_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "\
              farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>&1`
         else
-	        FARSIGHT2_PKG_ERRORS=`$PKG_CONFIG --print-errors "\
+	        FARSIGHT2_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "\
              farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
@@ -5602,6 +5703,7 @@ else
 $as_echo "yes" >&6; }
 	HAVE_FARSIGHT=yes
 fi
+      fi
     fi
   fi
 
@@ -5637,6 +5739,7 @@ if test -n "$LIBV4L_CFLAGS"; then
   test $ac_status = 0; }; then
   pkg_cv_LIBV4L_CFLAGS=`$PKG_CONFIG --cflags "\
       libv4l2 >= 0.5.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5656,6 +5759,7 @@ if test -n "$LIBV4L_LIBS"; then
   test $ac_status = 0; }; then
   pkg_cv_LIBV4L_LIBS=`$PKG_CONFIG --libs "\
       libv4l2 >= 0.5.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5675,10 +5779,10 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        LIBV4L_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "\
+	        LIBV4L_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "\
       libv4l2 >= 0.5.0" 2>&1`
         else
-	        LIBV4L_PKG_ERRORS=`$PKG_CONFIG --print-errors "\
+	        LIBV4L_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "\
       libv4l2 >= 0.5.0" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
@@ -5704,9 +5808,9 @@ if test "x$ac_cv_header_linux_videodev_h" = xyes; then :
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LINUX_VIDEODEV_H 1
 _ACEOF
- HAVE_LIBV4L=yes
+ HAVE_V4L=yes
 else
-  HAVE_LIBV4L=no
+  HAVE_V4L=no
 fi
 
 done
@@ -5718,9 +5822,9 @@ if test "x$ac_cv_header_linux_videodev2_h" = xyes; then :
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LINUX_VIDEODEV2_H 1
 _ACEOF
- HAVE_LIBV4L2=yes
+ HAVE_V4L2=yes
 else
-  HAVE_LIBV4L2=no
+  HAVE_V4L2=no
 fi
 
 done
@@ -5756,6 +5860,7 @@ if test -n "$GUPNP_CFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_GUPNP_CFLAGS=`$PKG_CONFIG --cflags " gupnp-igd-1.0 " 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5772,6 +5877,7 @@ if test -n "$GUPNP_LIBS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_GUPNP_LIBS=`$PKG_CONFIG --libs " gupnp-igd-1.0 " 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5791,9 +5897,9 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GUPNP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors " gupnp-igd-1.0 " 2>&1`
+	        GUPNP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs " gupnp-igd-1.0 " 2>&1`
         else
-	        GUPNP_PKG_ERRORS=`$PKG_CONFIG --print-errors " gupnp-igd-1.0 " 2>&1`
+	        GUPNP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs " gupnp-igd-1.0 " 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GUPNP_PKG_ERRORS" >&5
@@ -5814,6 +5920,11 @@ fi
 
 
 fi
+
+
+
+
+
 
 
 
@@ -7122,15 +7233,17 @@ compile time options summary
     TK 		 : $TK_VERSION
     DEBUG        : $DEBUG
     STATIC       : $STATIC
+    FARSTREAM    : $HAVE_FARSTREAM
     FARSIGHT     : $HAVE_FARSIGHT
+    V4L          : $HAVE_V4L
+    V4L2         : $HAVE_V4L2
     LIBV4L       : $HAVE_LIBV4L
-    LIBV4L2      : $HAVE_LIBV4L2
     GUPNP-IGD    : $HAVE_GUPNP
 
 EOF
 
-if test x"$HAVE_FARSIGHT" = "xno"; then
-   echo "*** You do not seem to have gstreamer and farsight2 installed."
+if test x"$HAVE_FARSTREAM" != "xyes" -a x"$HAVE_FARSIGHT" != "xyes"; then
+   echo "*** You do not seem to have gstreamer and farsight2 or farstream installed."
    echo "*** You will not be able to build the required component for audio conversations."
    echo "*** Read this for more information : http://amsn-project.net/wiki/Farsight"
 fi

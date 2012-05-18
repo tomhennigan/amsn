@@ -1,7 +1,6 @@
 OBJS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.$(SHLIB_EXTENSION)
 TARGETS-TkCximage := $(tkcximage_dir)/TkCximage.$(SHLIB_EXTENSION) 
 
-
 $(TARGETS-TkCximage): $(OBJS-TkCximage)
 	cp $< $@
 

@@ -9,14 +9,21 @@ OBJS-libng := \
 	$(capture_dir)/libng/color_lut.o \
 	$(capture_dir)/libng/color_yuv2rgb.o \
 	$(capture_dir)/libng/convert.o \
-	$(capture_dir)/libng/misc.o \
-	$(TARGETS-plugins)
+	$(capture_dir)/libng/misc.o
 
-TARGET-libng := $(capture_dir)/libng/libng.a
+TARGET-libng := $(capture_dir)/libng/libng.so
+
+V4L_CFLAGS=
+ifeq ($(HAVE_LIBV4L),yes)
+  V4L_CFLAGS += -DHAVE_LIBV4L
+endif
+
+$(OBJS-libng): CFLAGS+=-I$(capture_dir) $(V4L_CFLAGS)
+$(TARGET-libng): MORE_LIBS=-ldl
 
 $(TARGET-libng): $(OBJS-libng)
-	@$(echo_ar_lib)
-	@$(ar_lib)
+	@$(echo_link_so)
+	@$(link_so)
 
 all:: $(TARGET-libng)
 

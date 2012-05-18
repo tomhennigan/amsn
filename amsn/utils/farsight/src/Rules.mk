@@ -1,17 +1,9 @@
 OBJS-tcl_farsight := $(tcl_farsight_dir)/src/tcl_farsight.o
 TARGETS-tcl_farsight := $(tcl_farsight_dir)/src/tcl_farsight.$(SHLIB_EXTENSION) 
 
-ifeq ($(FOUND_OS),mac)
-LDFLAGS += -framework Cocoa
-endif
+$(OBJS-tcl_farsight): CFLAGS += ${FARSIGHT2_CFLAGS}
 
-$(OBJS-tcl_farsight): $(tcl_farsight_dir)/src/tcl_farsight.c
-	@$(echo_compile_farsight)
-	@$(compile_farsight)
-
-$(TARGETS-tcl_farsight): $(OBJS-tcl_farsight)
-	@$(echo_link_farsight)
-	@$(link_farsight)
+$(TARGETS-tcl_farsight): LDFLAGS += ${FARSIGHT2_LIBS}
 
 all:: $(TARGETS-tcl_farsight)
 

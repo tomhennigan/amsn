@@ -13,7 +13,7 @@
 ########################################################################
 
 # verbose yes/no
-verbose		?= no
+verbose		?= yes
 
 # dependency files
 
@@ -21,19 +21,9 @@ compile_c	 = $(CC) $(CFLAGS)  -c -o $@ $<
 compile_m	 = $(CC) $(CFLAGS) -ObjC -fobjc-gc -c -o $@ $<
 compile_cc	 = $(CXX) $(CXXFLAGS)  -c -o $@ $<
 
-ifeq ($(FOUND_OS),mac)
-compile_farsight = $(CC) $(CFLAGS) -ObjC -fobjc-gc $(GST_CFLAGS) $(FARSIGHT2_CFLAGS) -c -o $@ $<
-SHARED	:= -dynamiclib -fno-common -Wl,-single_module -shared-libgcc
-else
-compile_farsight = $(CC) $(CFLAGS) $(GST_CFLAGS) $(FARSIGHT2_CFLAGS) -c -o $@ $<
-SHARED	:= -shared
-endif
-
-link_app	= $(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
-link_farsight	= $(CC) $(LDFLAGS) $^ $(LDLIBS) $(GST_LIBS) $(FARSIGHT2_LIBS) $(SHARED) -o $@
-link_so		= $(CC) $(LDFLAGS) $^ $(LDLIBS) $(SHARED) -o $@
-link_so_addlibs = $(link_so) $(ADDLIBS)
-link_so_cpp	= $(CXX) $(LDFLAGS) $^ $(LDLIBS) $(CXX_LIB) $(SHARED) -o $@
+link_app	= $(CC) $(LDFLAGS) $^ $(LDLIBS) $(MORE_lIBS) -o $@
+link_so		= $(CC) $(LDFLAGS) $^ $(LDLIBS) $(MORE_LIBS) $(SHARED) -o $@
+link_so_cpp	= $(CXX) $(LDFLAGS) $^ $(LDLIBS) $(CXX_LIB) $(MORE_LIBS) $(SHARED) -o $@
 ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 
 
@@ -41,23 +31,17 @@ ar_lib		= rm -f $@ && ar -sr $@ $^ && ranlib $@
 ifeq ($(verbose),no)
   echo_compile_c	= echo "  CC	 " $@
   echo_compile_m	= echo "  OBJCC	 " $@
-  echo_compile_farsight	= echo "  CC	 " $@
   echo_compile_cc	= echo "  CXX	 " $@
   echo_link_app		= echo "  LD	 " $@
-  echo_link_farsight	= echo "  LD	 " $@
   echo_link_so		= echo "  LD	 " $@
   echo_link_so_cpp	= echo "  LDX	 " $@
-  echo_link_so_addlibs	= echo "  LD	 " $@
   echo_ar_lib		= echo "  AR	 " $@
 else
   echo_compile_c	= echo $(compile_c)
   echo_compile_m	= echo $(compile_m)
-  echo_compile_farsight	= echo $(compile_farsight)
   echo_compile_cc	= echo $(compile_cc)
   echo_link_app		= echo $(link_app)
-  echo_link_farsight	= echo $(link_farsight)
   echo_link_so		= echo $(link_so)
-  echo_link_so_addlibs	= echo $(link_so_addlibs)
   echo_link_so_cpp	= echo $(link_so_cpp)
   echo_ar_lib		= echo $(ar_lib)
 endif

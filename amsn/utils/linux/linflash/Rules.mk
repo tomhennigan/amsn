@@ -1,10 +1,7 @@
 OBJS-linflash := $(linflash_dir)/flash.o
 TARGETS-linflash := $(linflash_dir)/flash.so 
 
-$(TARGETS-linflash):: $(OBJS-linflash)
-	@$(echo_link_so_addlibs)
-	@$(link_so_addlibs)
-
+$(TARGETS-linflash): MORE_LIBS=${X_LIBS}
 
 all:: $(TARGETS-linflash)
 

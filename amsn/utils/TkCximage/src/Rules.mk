@@ -5,13 +5,13 @@ ifeq ($(STATIC),yes)
 OBJS-TkCximage += libstdc++.a
 endif
 
-ifeq ($(FOUND_OS),mac)
-  EXTRAOBJS-TkCximage := $(prefix)/lib/libpng.a $(prefix)/lib/libjpeg.a
-endif
-
 TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.$(SHLIB_EXTENSION)
 
-$(TARGETS-TkCximage):: $(OBJS-TkCximage) $(EXTRAOBJS-TkCximage)
+$(OBJS-TkCximage): CXXFLAGS+=-I$(tkcximage_dir)/src/CxImage
+
+$(TARGETS-TkCximage): $(OBJS-TkCximage) ${STATIC_PNG_JPEG}
+	@$(echo_link_so)
+	@$(link_so)
 
 all:: $(TARGETS-TkCximage)
 

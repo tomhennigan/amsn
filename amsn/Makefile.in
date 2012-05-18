@@ -1,3 +1,5 @@
+.POSIX:
+
 prefix  	:= @prefix@
 exec_prefix	:= @exec_prefix@
 srcdir		:= @srcdir@
@@ -5,6 +7,8 @@ datarootdir	:= @datarootdir@
 dstdir  	:= @datadir@
 slnkdir 	:= @bindir@
 VPATH		:= $(srcdir)
+
+.SECONDARY:
 
 STATIC		:= @STATIC@
 
@@ -44,7 +48,7 @@ BASEVERSION	:= @APPVERSION@
 ifeq (@APPSTABLE@,yes)
 RELEASEVERSION	:= @APPRELEASE@
 else
-RELEASEVERSION  := svn`which svnversion > /dev/null && svnversion ||  true`
+RELEASEVERSION  := svn$(shell which svnversion > /dev/null && svnversion ||  true)
 endif
 VERSION		:= $(BASEVERSION)-$(RELEASEVERSION)
 TCL_VERSION     := @TCL_VERSION@
@@ -54,15 +58,10 @@ TK_VERSION      := @TK_VERSION@
 #WARN_FLAGS	:= -Wall -Wmissing-prototypes -Wstrict-prototypes -Wpointer-arith
 WARN_FLAGS	:= -w
 LFS_FLAGS	:= -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-LIB_FLAGS	:= -I. -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs
-LIB_FLAGS	+= -I$(webcamsn_dir)/src -I$(tcl_siren_dir)/src
-LIB_FLAGS	+= -I$(tclISF_dir)/src/libISF
 LIBDIR		:= @LIBDIR@
-
 
 # various libraries
 THREAD_LIBS	:= @LIBPTHREAD@
-
 
 # Directories in which the Tcl core can be found
 TCL_INC_SPEC 	:= @TCL_INC_SPEC@
@@ -72,79 +71,50 @@ TCL_STUB_LIB_SPEC := @TCL_STUB_LIB_SPEC@
 TK_INC_SPEC 	:= @TK_INC_SPEC@
 TK_STUB_LIB_SPEC := @TK_STUB_LIB_SPEC@
 
-# C Flags for X
-X_CFLAGS := @X_CFLAGS@
-
 # stuff configure has found
 FOUND_X11	:= @FOUND_X11@
 FOUND_OS	:= @FOUND_OS@
 USE_MMX		:= @USE_MMX@
 HAVE_V4L        := @HAVE_V4L@
 HAVE_V4L2       := @HAVE_V4L2@
+HAVE_LIBV4L     := @HAVE_LIBV4L@
+HAVE_FARSTREAM  := @HAVE_FARSTREAM@
+HAVE_FARSIGHT   := @HAVE_FARSIGHT@
+
+ADDITIONAL_FLAGS = $(WARN_FLAGS) $(LFS_FLAGS) ${TCL_INC_SPEC} ${TK_INC_SPEC}
+ifeq (@DEBUG@,no)
+ADDITIONAL_FLAGS   += -O2
+else
+ADDITIONAL_FLAGS   += -g3 -DDEBUG
+endif
+ADDITIONAL_FLAGS   += -DPACKAGE='"$(PACKAGE)"'
+ADDITIONAL_FLAGS   += -DVERSION='"$(VERSION)"'
+ADDITIONAL_FLAGS   += -DLIBDIR='"$(LIBDIR)"'
+
+# shared objects need -fPIC
+ADDITIONAL_FLAGS   += -fPIC
+
+ifeq ($(FOUND_OS),mac)
+  SHARED	:= -dynamiclib -fno-common -Wl,-single_module -shared-libgcc
+else
+  SHARED	:= -shared
+endif
 
 # build final cflags
-CFLAGS   := @CFLAGS@
-ifeq (@DEBUG@,no)
-CFLAGS   += -O2
-else
-CFLAGS   += -g3 -DDEBUG
-endif
+CFLAGS   := @CFLAGS@ $(ADDITIONAL_FLAGS)
 
-CFLAGS   += $(WARN_FLAGS)
-CFLAGS   += $(LFS_FLAGS)
-CFLAGS	 += ${TCL_INC_SPEC}
-CFLAGS	 += ${TK_INC_SPEC}
-CFLAGS   += @LIBV4L_CFLAGS@
-ifeq (@HAVE_LIBV4L@,yes)
-  CFLAGS += -DHAVE_LIBV4L
-endif
-ifeq (@HAVE_LIBV4L2@,yes)
-  CFLAGS += -DHAVE_LIBV4L2
-endif
-ifeq (@HAVE_GUPNP@,yes)
-  CFLAGS += @GUPNP_CFLAGS@
-endif
-CFLAGS	 += ${X_CFLAGS}
-CFLAGS   += $(LIB_FLAGS)
-CFLAGS   += -DPACKAGE='"$(PACKAGE)"'
-CFLAGS   += -DVERSION='"$(VERSION)"'
-CFLAGS   += -DLIBDIR='"$(LIBDIR)"'
-
-CXXFLAGS := @CXXFLAGS@
-ifeq (@DEBUG@,no)
-CXXFLAGS   += -O2
-else
-CXXFLAGS   += -g3 -DDEBUG
-endif
-
-CXXFLAGS   += $(WARN_FLAGS)
-CXXFLAGS   += $(LFS_FLAGS)
-CXXFLAGS   += ${TCL_INC_SPEC}
-CXXFLAGS   += ${TK_INC_SPEC}
-CXXFLAGS   += -I$(tkcximage_dir)/src -I$(tkcximage_dir)/src/CxImage
-CXXFLAGS   += -DPACKAGE='"$(PACKAGE)"'
-CXXFLAGS   += -DVERSION='"$(VERSION)"'
-CXXFLAGS   += -DLIBDIR='"$(LIBDIR)"'
+CXXFLAGS := @CXXFLAGS@ $(ADDITIONAL_FLAGS)
 
 ifeq ($(STATIC),yes)
 CXXFLAGS += -static-libgcc -L.
 endif
 
-
-GST_LIBS        := @GST_LIBS@ @GST_INTERFACES_LIBS@
-GST_CFLAGS      := @GST_CFLAGS@ @GST_INTERFACES_CFLAGS@
-FARSIGHT2_LIBS  := @FARSIGHT2_LIBS@
-FARSIGHT2_CFLAGS := @FARSIGHT2_CFLAGS@
-
-
 # for gcc3
 #CFLAGS   += -std-gnu99
 
-# shared objects need -fPIC
-CFLAGS   += -fPIC
-CXXFLAGS += -fPIC
-
 # libraries
+CXX_LIB := @CXX_LIB@
+
 ifeq (@FOUND_OS@,mac)
   LDLIBS  := @LDLIBS@ -lz -lm
 else
@@ -158,46 +128,73 @@ else
 	SHLIB_EXTENSION := so
 endif
 
-ifeq (@DEBUG@,no)
-	ifneq (@FOUND_OS@,mac)
-LDFLAGS += -s
-	endif
-endif
-X_LIBS  := @X_LIBS@
-CXX_LIB := @CXX_LIB@
+#ifeq (@DEBUG@,no)
+#  ifneq (@FOUND_OS@,mac)
+#    LDFLAGS += -s
+#  endif
+#endif
 
+# C Flags for X
+ifeq (@FOUND_X11@,yes)
+  X_CFLAGS := @X_CFLAGS@
+endif
+
+X_LIBS  := @X_LIBS@
+
+# Mac uses static libjpeg and libpng
+STATIC_PNG_JPEG := 
+ifeq ($(FOUND_OS),mac)
+  STATIC_PNG_JPEG := $(prefix)/lib/libpng.a $(prefix)/lib/libjpeg.a
+endif
+
+# MORE_LIBS is to include libs for specific target : it must remain empty here
+MORE_LIBS=
+
+# Tcl and Tk libs are used by many libs we compile so we link against them for everything : not the best practice but simpler
+# If the distribution links with --as-needed linker flag these shouldn't get linked in the binary if not needed
 LDLIBS	 += ${TCL_STUB_LIB_SPEC}
 LDLIBS	 += ${TK_STUB_LIB_SPEC}
-LDLIBS	 += @LIBV4L_LIBS@
 
 ifeq (@HAVE_GUPNP@,yes)
-  LDLIBS += @GUPNP_LIBS@
+  GUPNP_CFLAGS = @GUPNP_CFLAGS@
+  GUPNP_LIBS = @GUPNP_LIBS@
   FILES_TO_INSTALL += utils/gupnp/gupnp.$(SHLIB_EXTENSION) utils/gupnp/pkgIndex.tcl
 endif
 
-ifeq (@HAVE_FARSIGHT@,yes)
+ifeq ($(findstring yes,$(HAVE_FARSTREAM)$(HAVE_FARSIGHT)),yes)
+  FARSIGHT2_LIBS  := @GST_LIBS@ @GST_INTERFACES_LIBS@ @FARSIGHT2_LIBS@ @FARSTREAM_LIBS@
+  FARSIGHT2_CFLAGS := @GST_CFLAGS@ @GST_INTERFACES_CFLAGS@ @FARSIGHT2_CFLAGS@ @FARSTREAM_CFLAGS@
+
+  ifeq (@FOUND_OS@,mac)
+    FARSIGHT2_CFLAGS += -ObjC -fobjc-gc
+    FARSIGHT2_LIBS += -framework Cocoa
+  endif
+
   FILES_TO_INSTALL += utils/farsight/tcl_farsight.$(SHLIB_EXTENSION) utils/farsight/pkgIndex.tcl
 endif
 
 #AppMain.tcl is needed by MacOSX : do not try to simplify by moving it outside the ifeq/else.
 ifeq ($(FOUND_OS),linux)
-FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl utils/asyncresolver/asyncresolver.tcl utils/asyncresolver/libasyncresolver.so utils/asyncresolver/pkgIndex.tcl
-  ifeq (@HAVE_V4L@,yes)
+FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/conv-mjpeg.so utils/linux/capture/libng/plugins/sn9c10x.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl utils/asyncresolver/asyncresolver.tcl utils/asyncresolver/libasyncresolver.so utils/asyncresolver/pkgIndex.tcl
+  ifeq ($(HAVE_V4L2),yes)
+    FILES_TO_INSTALL += utils/linux/capture/libng/plugins/drv0-v4l2.so
+  endif
+  ifeq ($(HAVE_V4L),yes)
     FILES_TO_INSTALL += utils/linux/capture/libng/plugins/drv1-v4l.so
   endif
 FILES_TO_EXCLUDE += AppMain.tcl
 else 
-	ifeq ($(FOUND_OS),bsd)
+  ifeq ($(FOUND_OS),bsd)
 FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl utils/asyncresolver/asyncresolver.tcl utils/asyncresolver/libasyncresolver.so utils/asyncresolver/pkgIndex.tcl
 
 FILES_TO_EXCLUDE += AppMain.tcl
-	else 
-		ifeq ($(FOUND_OS),solaris)
+  else 
+    ifeq ($(FOUND_OS),solaris)
 FILES_TO_INSTALL += utils/webcamsn/webcamsn.so utils/webcamsn/pkgIndex.tcl utils/TkCximage/TkCximage.so utils/TkCximage/pkgIndex.tcl utils/linux/capture/capture.so utils/linux/capture/pkgIndex.tcl utils/linux/linflash/flash.so utils/linux/linflash/pkgIndex.tcl utils/linux/traydock/libtray.so  utils/linux/traydock/pkgIndex.tcl utils/linux/capture/libng/plugins/drv0-v4l2.so utils/linux/capture/libng/plugins/conv-mjpeg.so utils/tcl_siren/tcl_siren.so utils/tcl_siren/pkgIndex.tcl utils/tclISF/tclISF.so utils/tclISF/pkgIndex.tcl utils/asyncresolver/asyncresolver.tcl utils/asyncresolver/libasyncresolver.so utils/asyncresolver/pkgIndex.tcl
 
 FILES_TO_EXCLUDE += AppMain.tcl
-		endif
-	endif
+    endif
+  endif
 endif
 
 CONFIGURE_ARGS := @CONFIGURE_ARGS@
@@ -311,7 +308,6 @@ endif
 include $(tkcximage_dir)/Rules.mk
 include $(tkcximage_dir)/src/Rules.mk
 include $(tkcximage_dir)/src/CxImage/Rules.mk
-include $(tkcximage_dir)/src/Rules.mk
 
 include $(webcamsn_dir)/Rules.mk
 include $(webcamsn_dir)/src/Rules.mk
@@ -327,7 +323,7 @@ include $(tclISF_dir)/src/Rules.mk
 include $(async_dir)/Rules.mk
 include $(async_dir)/src/Rules.mk
 
-ifeq (@HAVE_FARSIGHT@,yes)
+ifeq ($(findstring yes,@HAVE_FARSTREAM@@HAVE_FARSIGHT@),yes)
   include $(tcl_farsight_dir)/Rules.mk
   include $(tcl_farsight_dir)/src/Rules.mk
 endif
@@ -337,12 +333,18 @@ ifeq (@HAVE_GUPNP@,yes)
 endif
 
 ifeq ($(FOUND_OS),linux)
+  LIBNG_PLUGINS=sn9c10x
+  ifeq ($(HAVE_V4L2),yes)
+    LIBNG_PLUGINS+=drv0-v4l2
+  endif
+  ifeq ($(HAVE_V4L),yes)
+    LIBNG_PLUGINS+=drv1-v4l
+  endif
   include $(capture_dir)/Rules.mk
   include $(capture_dir)/libng/Rules.mk
   include $(capture_dir)/libng/plugins/Rules.mk
 
   ifeq ($(FOUND_X11),yes)
-      ADDLIBS	 += ${X_LIBS}
       include $(tray_dir)/Rules.mk
       include $(linflash_dir)/Rules.mk
   endif
@@ -364,19 +366,19 @@ all:: finishbuild
 
   endif
   ifeq ($(FOUND_OS),bsd)
+    LIBNG_PLUGINS=drv0-bsd
     ifeq ($(FOUND_X11),yes)
-       ADDLIBS    += ${X_LIBS} 
       include $(tray_dir)/Rules.mk
       include $(linflash_dir)/Rules.mk
     endif
   else
     ifeq ($(FOUND_OS),solaris)
+      LIBNG_PLUGINS=drv0-v4l2
       include $(capture_dir)/Rules.mk
       include $(capture_dir)/libng/Rules.mk
       include $(capture_dir)/libng/plugins/Rules.mk
 
       ifeq ($(FOUND_X11),yes)
-        ADDLIBS	 += ${X_LIBS}
         include $(tray_dir)/Rules.mk
         include $(linflash_dir)/Rules.mk
       endif

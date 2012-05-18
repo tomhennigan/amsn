@@ -14,8 +14,9 @@ $(TARGETS-siren): $(OBJS-siren)
 	@$(echo_ar_lib)
 	@$(ar_lib)
 
-
 $(TARGETS-tcl_siren): $(OBJS-tcl_siren)
+	@$(echo_link_so)
+	@$(link_so)
 
 all:: $(TARGETS-tcl_siren)
 
@@ -34,5 +35,3 @@ siren_test : $(TARGETS-siren_test)
 $(TARGETS-siren_test): $(OBJS-siren_test)
 	@$(echo_link_app)
 	@$(link_app)
-
-

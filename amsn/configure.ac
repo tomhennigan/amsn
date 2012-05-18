@@ -440,10 +440,12 @@ else
 fi
 AC_MSG_RESULT($USE_MMX)
 
-HAVE_FARSIGHT=no
+HAVE_FARSIGHT="N/A"
+HAVE_FARSTREAM=no
 GST_REQUIRED=0.10.22
 GST_MAJORMINOR=0.10
 FARSIGHT_REQUIRED=0.0.9
+FARSTREAM_REQUIRED=0.1
  
 dnl Check for pkgconfig first
 AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, yes, no)
@@ -467,9 +469,15 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
 
     dnl Give error and exit if we don't have gstreamer
     if test "x$HAVE_GST" = "xyes"; then
+      
+      PKG_CHECK_MODULES(FARSTREAM, \
+          farstream-$FARSTREAM_REQUIRED,
+          HAVE_FARSTREAM=yes,HAVE_FARSTREAM=no)
+      if test "x$HAVE_FARSTREAM" = "xno"; then
          PKG_CHECK_MODULES(FARSIGHT2, \
              farsight2-$GST_MAJORMINOR >= $FARSIGHT_REQUIRED,
             HAVE_FARSIGHT=yes,HAVE_FARSIGHT=no)
+      fi
     fi
   fi
 
@@ -489,10 +497,10 @@ if test "x$HAVE_PKGCONFIG" = "xyes"; then
       libv4l2 >= 0.5.0,
       HAVE_LIBV4L=yes,HAVE_LIBV4L=no)
   fi
-  AC_CHECK_HEADERS(linux/videodev.h,HAVE_LIBV4L=yes,HAVE_LIBV4L=no)
-  AC_CHECK_HEADERS(linux/videodev2.h,HAVE_LIBV4L2=yes,HAVE_LIBV4L2=no)
-  AC_SUBST(HAVE_LIBV4L)
-  AC_SUBST(HAVE_LIBV4L2)
+  AC_CHECK_HEADERS(linux/videodev.h,HAVE_V4L=yes,HAVE_V4L=no)
+  AC_CHECK_HEADERS(linux/videodev2.h,HAVE_V4L2=yes,HAVE_V4L2=no)
+  AC_SUBST(HAVE_V4L)
+  AC_SUBST(HAVE_V4L2)
 
   AC_ARG_ENABLE([upnp],
         AC_HELP_STRING([--disable-upnp], [Disable upnp support]),
@@ -522,6 +530,11 @@ AC_SUBST(FARSIGHT2_LIBS)
 
 AC_SUBST(HAVE_FARSIGHT)
 
+AC_SUBST(FARSTREAM_CFLAGS)
+AC_SUBST(FARSTREAM_LIBS)
+
+AC_SUBST(HAVE_FARSTREAM)
+
 dnl ---------------------------------------------------------------------
 dnl write out stuff
 AC_OUTPUT(Makefile)
@@ -538,15 +551,17 @@ compile time options summary
     TK 		 : $TK_VERSION
     DEBUG        : $DEBUG
     STATIC       : $STATIC
+    FARSTREAM    : $HAVE_FARSTREAM
     FARSIGHT     : $HAVE_FARSIGHT
+    V4L          : $HAVE_V4L
+    V4L2         : $HAVE_V4L2
     LIBV4L       : $HAVE_LIBV4L
-    LIBV4L2      : $HAVE_LIBV4L2
     GUPNP-IGD    : $HAVE_GUPNP
 
 EOF
 
-if test x"$HAVE_FARSIGHT" = "xno"; then
-   echo "*** You do not seem to have gstreamer and farsight2 installed."
+if test x"$HAVE_FARSTREAM" != "xyes" -a x"$HAVE_FARSIGHT" != "xyes"; then
+   echo "*** You do not seem to have gstreamer and farsight2 or farstream installed."
    echo "*** You will not be able to build the required component for audio conversations."
    echo "*** Read this for more information : http://amsn-project.net/wiki/Farsight"
 fi

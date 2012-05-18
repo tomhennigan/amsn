@@ -1,5 +1,8 @@
 OBJS-gupnp := $(gupnp_dir)/gupnp.o
-TARGETS-gupnp := $(gupnp_dir)/gupnp.$(SHLIB_EXTENSION) 
+TARGETS-gupnp := $(gupnp_dir)/gupnp.$(SHLIB_EXTENSION)
+
+$(OBJS-gupnp): CFLAGS+=${GUPNP_CFLAGS}
+$(TARGETS-gupnp): MORE_LIBS=${GUPNP_LIBS}
 
 all:: $(TARGETS-gupnp)
 
