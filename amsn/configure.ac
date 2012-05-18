@@ -82,8 +82,6 @@ esac
 dnl ---------------------------------------------------------------------
 dnl Checks for TCL and TK.
 
-AC_PREFIX_PROGRAM(wish)
-
 TCLSH=`which tclsh`
 VERSION=`echo "puts $::tcl_version ; exit" | ${TCLSH}`
 AC_ARG_ENABLE(version-check, [  --disable-version-check Disable checking that linked tcl/tk version is the same version that bin program tclsh ],    [version_ok=$enableval], [version_ok=yes])
