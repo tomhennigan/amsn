@@ -11,8 +11,10 @@ clean-plugins:
 	rm -f $(TARGETS-plugins) $(capture_dir)/libng/plugins/*.o
 
 $(TARGETS-plugins): CFLAGS+=$(V4L_CFLAGS) -I$(capture_dir) -I$(capture_dir)/libng -I$(capture_dir)/structs
-$(TARGETS-plugins): LDFLAGS+=-Wl,-rpath=$(capture_dir)/libng
+$(TARGETS-plugins): LDFLAGS+=$(foreach rp,$(RPATH),"-Wl,-rpath=$(rp)/$(capture_dir)/libng")
 $(TARGETS-plugins): MORE_LIBS=-L$(capture_dir)/libng -lng
+
+$(TARGETS-plugins): | $(capture_dir)/libng/libng.so
 
 $(capture_dir)/libng/plugins/drv0-v4l2.so: \
 	$(capture_dir)/libng/plugins/drv0-v4l2.o \

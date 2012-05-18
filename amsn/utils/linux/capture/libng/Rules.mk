@@ -18,7 +18,7 @@ ifeq ($(HAVE_LIBV4L),yes)
   V4L_CFLAGS += -DHAVE_LIBV4L
 endif
 
-$(OBJS-libng): CFLAGS+=-I$(capture_dir) $(V4L_CFLAGS)
+$(OBJS-libng): CFLAGS+=-I$(capture_dir) $(V4L_CFLAGS) $(if $(strip ${LIBDIR}),-DLIBDIR=\"${LIBDIR}/$(capture_dir)/libng/plugins\",)
 $(TARGET-libng): MORE_LIBS=-ldl
 
 $(TARGET-libng): $(OBJS-libng)

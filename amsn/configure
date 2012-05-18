@@ -649,7 +649,6 @@ TK_LIB
 TK_VERSION
 TCL_LIB_DIR
 BUILD_DIR
-LIBDIR
 TOP_DIR
 TCLSH
 ac_ct_CXX
@@ -3495,9 +3494,7 @@ fi
 BUILD_DIR=`pwd`
 cd ${srcdir}
 TOP_DIR=`pwd`
-LIBDIR=`pwd`
 cd "${BUILD_DIR}"
-
 
 
 

@@ -117,12 +117,10 @@ fi
 BUILD_DIR=`pwd`
 cd ${srcdir}
 TOP_DIR=`pwd`
-LIBDIR=`pwd`
 cd "${BUILD_DIR}"
 
 AC_SUBST(TCLSH)
 AC_SUBST(TOP_DIR)
-AC_SUBST(LIBDIR)
 AC_SUBST(BUILD_DIR)
 
 

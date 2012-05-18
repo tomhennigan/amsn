@@ -10,12 +10,12 @@ TARGETS-TkCximage := $(tkcximage_dir)/src/TkCximage.cpp.$(SHLIB_EXTENSION)
 $(OBJS-TkCximage): CXXFLAGS+=-I$(tkcximage_dir)/src/CxImage
 
 $(TARGETS-TkCximage): $(OBJS-TkCximage) ${STATIC_PNG_JPEG}
-	@$(echo_link_so)
-	@$(link_so)
+	@$(echo_link_so_cpp)
+	@$(link_so_cpp)
 
 all:: $(TARGETS-TkCximage)
 
-clean:: clean-tkcximage
+clean:: clean-tkcximagesrc
 
-clean-tkcximage::
+clean-tkcximagesrc::
 	rm -f $(TARGETS-TkCximage) $(OBJS-TkCximage)

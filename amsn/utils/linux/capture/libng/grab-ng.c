@@ -1198,7 +1198,9 @@ ng_init(void)
     if (!ng_dev.video[0])
 	return;
 
+#ifdef LIBDIR
     count += ng_plugins(LIBDIR);
+#endif
     count += ng_plugins("./libng/plugins");
     count += ng_plugins("./libng/contrib-plugins"); 
     count += ng_plugins("../libng/plugins");

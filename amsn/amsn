@@ -221,6 +221,20 @@ if { [OnDarwin] } {
 }
 lprepend auto_path [file join utils]
 
+set lib_path ""
+if { $lib_path != "" } {
+	if { [OnDarwin] } {
+		lprepend auto_path [file join $lib_path utils macosx]
+	} elseif { [OnWin] } {
+		lprepend auto_path [file join $lib_path utils windows]
+	} elseif { [OnLinux] } {
+		lprepend auto_path [file join $lib_path utils linux]
+	} elseif { [OnBSD] } {
+		lprepend auto_path [file join $lib_path utils linux] 
+	}
+	lprepend auto_path [file join $lib_path utils]
+}
+
 set libtls ""
 
 catch { source [file join $HOME tlsconfig.tcl] }
