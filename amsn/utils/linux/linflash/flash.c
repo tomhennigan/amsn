@@ -158,6 +158,9 @@ int demands_attention(Display *display, Window root, Window window, int flash) {
   wmSupported = XInternAtom(display, "_NET_SUPPORTED", True);
 
 
+  if (demandsAttention == None || wmState == None || wmSupported == None)
+    return 0;
+
   if( XGetWindowProperty( display, root, wmSupported, 0, 4096, False, XA_ATOM,
                             &type_return, &format_return,
                             &nitems_return, &bytes_after_return,
