@@ -124,6 +124,7 @@ namespace eval ::MSNCAM {
 		after cancel "::MSNCAM::CreateReflectorSession $sess_obj"
 		 
  		CloseUnusedSockets $sess_obj ""
+		setObjOption $sock state "END"
 
 
 		#draw a notification in the window (gui)
