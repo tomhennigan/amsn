@@ -13,7 +13,7 @@
 ########################################################################
 
 # verbose yes/no
-verbose		?= yes
+verbose		?= no
 
 # dependency files
 
