@@ -656,8 +656,8 @@ void ng_yuv422p_to_lut2(void *h, struct ng_video_buf *out,
 void ng_yuv422p_to_lut4(void *h, struct ng_video_buf *out,
 			struct ng_video_buf *in);
 
-void __init yuv2rgb_init(void);
-void __init packed_init(void);
+void yuv2rgb_init(void);
+void packed_init(void);
 
 /* color_common.c stuff */
 void* ng_packed_init(struct ng_video_fmt *out, void *priv);
