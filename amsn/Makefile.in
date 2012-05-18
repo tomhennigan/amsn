@@ -249,7 +249,7 @@ install:: $(FILES_TO_INSTALL) | install_libs
 	done
 
 	# This doesn't work if the libdir has quotes in it
-	sed -i -e 's#^set lib_path ""$$#set lib_path "$(libdir)/$(PACKAGE)"#' $(dstdir)/$(PACKAGE)/amsn
+	sed -i -e 's#^set lib_path ""$$#set lib_path "$(libdir)/$(PACKAGE)"#' $(DESTDIR)$(dstdir)/$(PACKAGE)/amsn
 
 	ln -sf $(dstdir)/$(PACKAGE)/amsn $(DESTDIR)$(slnkdir)/amsn
 	ln -sf $(dstdir)/$(PACKAGE)/amsn-remote $(DESTDIR)$(slnkdir)/amsn-remote
