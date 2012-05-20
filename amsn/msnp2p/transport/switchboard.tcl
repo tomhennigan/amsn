@@ -42,9 +42,16 @@ namespace eval ::p2p {
 
 		method get_sock { } {
 
-			set sb [::MSN::SBFor [$self cget -peer]]
+			if {[config::getKey protocol] >= 18 } {
+				foreach {peer machineguid} [split [$self cget -peer] ";"] break
+			} else {
+				set peer [$self cget -peer]
+			}
+			set sb [::MSN::SBFor $peer]
+			if {$sb == 0} {
+				return ""
+			}
 			return [$sb cget -sock]
-
 		}
 
 		method On_ack { event sb } {
@@ -77,7 +84,7 @@ namespace eval ::p2p {
 			}
 
 			method Send_chunk { peer peer_guid chunk } {
-
+				puts "Sending chunk to $peer -- $peer_guid"
 				set content_type "application/x-msnmsgrp2p"
 				set sendme [Message %AUTO%]
 				$sendme add_header MIME-Version 1.0
@@ -95,6 +102,7 @@ namespace eval ::p2p {
 				set data_len [expr [string length $data]]
 				set chatid [::MSN::chatTo $peer]
 				set sb [::MSN::SBFor $chatid]
+				puts "Chat to $chatid - $sb"
 				if { [$sb get_unacked] < 10 } {
 					::MSN::ChatQueue $chatid [list ::MSN::WriteSBNoNL $sb "MSG" "D $data_len\r\n$data"]
 				} else {
@@ -152,7 +160,7 @@ namespace eval ::p2p {
 			}
 
 			typemethod handle_peer { transport_manager peer peer_guid } {
-				status_log "Creating new SB for manager $transport_manager"
+				status_log "Creating new SB for manager $transport_manager ($peer - $peer_guid)"
 				return [SwitchboardP2PTransport %AUTO% -peer $peer -peer_guid $peer_guid -transport_manager $transport_manager -contacts $peer ]
 			}
 

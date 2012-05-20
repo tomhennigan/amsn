@@ -31,10 +31,6 @@ namespace eval ::p2pv2::DLPParamType {
 namespace eval ::p2pv2 {
 
 	snit::type tlv {
-
-		option -length_dict {}
-
-		variable ldict -array {}
 		variable data -array {}
 		variable formats -array {
 			1 c
@@ -44,13 +40,9 @@ namespace eval ::p2pv2 {
 		}
 
 		constructor { args } {
-
-			$self configurelist $args
-			array set ldict $options(-length_dict)
-
 		}
 
-		method get { key def } {
+		method get { key {def ""} } {
 
 			if { [info exists data($key)] } {
 				return data($key)
@@ -70,40 +62,18 @@ namespace eval ::p2pv2 {
 
 		}
 
-		method size_to_packed_format { size } {
-
-			if { [lsearch [array names formats] $size] >= 0 } {
-				set ret $formats($size)
-				set ret ${ret}u
-				return $ret
-			}
-			return "characters"
-
-		}
-
 		method toString { } {
-
 			set str ""
 			foreach t [array names data] {
-				if { [lsearch [array names ldict] $t] == -1 } {
-					continue;
-				}
-				set l $ldict($t)
-				set f [$self size_to_packed_format $l]
 				set v $data($t)
+				set l [string length $v]
 				puts "T L V: [hexify $t] [hexify $l] [hexify $v]"
-				if { $f == "characters" } {
-					#Just the string itself
-					set app_str [binary format cucu $t $l]
-					set str $str$app_str$v
-				} else {
-					set app_str [binary format cucu$f $t $l $v]
-					set str $str$app_str
-				}
-				set zero \x00
-				while { [expr {[string length $str] % 4}] != 0 } {
-					set str $str$zero
-				}
+				set app_str [binary format cucu $t $l]
+				append str "$app_str$v"
+			}
+			set padding [expr {4 - ([string length $str] % 4)}]
+			if {$padding != 4} {
+				append str [string repeat "\x00" $padding]
 			}
 			puts "Final tlv: [hexify $str]"
 			return $str
@@ -123,23 +93,16 @@ namespace eval ::p2pv2 {
 					puts "breaking"
 					break
 				}
-				set f [$self size_to_packed_format $l]
 				set end [expr {$offset + 2 + $l}]
 				if { $end > $size } {
 					puts ":("
 					#raise some error i guess
 					return
 				}
-				#again?
-				puts "format is $f"
-				if { $f == "characters" } {
-					set v [string range $scanme 2 [expr {2 + $l}]]
-				} else {
-					binary scan $scanme bcu$f t l v
-				}
+				set v [string range $scanme 2 [expr {2 + $l}]]
 				puts "Wow, we scanned a TLV"
 				puts "Scanned tlv [hexify $t] [hexify $l] [hexify $v]"
-				set data($t) $l
+				set data($t) $v
 				set offset $end
 			}
 
@@ -163,23 +126,23 @@ namespace eval ::p2pv2 {
                 #$::p2pv2::TLPParamType::ACK_SEQ 4
                 #$::p2pv2::TLPParamType::NAK_SEQ 4
 
-		typevariable TLPParamLength {
+		typevariable TLPParamLength -array {
 			0x1 12
 			0x2 4
 			0x3 4
 		}
-		typevariable DLPParamLength {
-			0x1 1
+		typevariable DLPParamLength -array {
+			0x1 8
 		}
 
 		constructor { args } {
 
 			$self configurelist $args
 			if { $options(-tlv) == "" } {
-				set options(-tlv) [tlv %AUTO% -length_dict $TLPParamLength]
+				set options(-tlv) [tlv %AUTO%]
 			}
 			if { $options(-data_tlv) == "" } {
-				set options(-data_tlv) [tlv %AUTO% -length_dict $DLPParamLength]
+				set options(-data_tlv) [tlv %AUTO%]
 			}
 
 		}
@@ -215,6 +178,12 @@ namespace eval ::p2pv2 {
 		}
 
 		method set_peer_info { val } {
+			if {$val != "" } {
+				set len [set TLPParamLength($::p2pv2::TLPParamType::PEER_INFO)]
+				if {[string length $val] != $len} {
+					set val [string range $val[string repeat \x00 $len] 0 [expr {$len - 1}]]
+				}
+			}
 			$options(-tlv) upd $::p2pv2::TLPParamType::PEER_INFO $val
 		}
 
@@ -223,6 +192,12 @@ namespace eval ::p2pv2 {
 		}
 
 		method set_ack_seq { val } {
+			if {$val != "" } {
+				set len [set TLPParamLength($::p2pv2::TLPParamType::ACK_SEQ)]
+				if {[string length $val] != $len} {
+					set val [string range $val[string repeat \x00 $len] 0 [expr {$len - 1}]]
+				}
+			}
 			$options(-tlv) upd $::p2pv2::TLPParamType::ACK_SEQ $val
 		}
 
@@ -231,6 +206,12 @@ namespace eval ::p2pv2 {
 		}
 
 		method set_nak_seq { val } {
+			if {$val != "" } {
+				set len [set TLPParamLength($::p2pv2::TLPParamType::NAK_SEQ)]
+				if {[string length $val] != $len} {
+					set val [string range $val[string repeat \x00 $len] 0 [expr {$len - 1}]]
+				}
+			}
 			 $options(-tlv) upd $::p2pv2::TLPParamType::NAK_SEQ $val
 		}
 
@@ -248,6 +229,12 @@ namespace eval ::p2pv2 {
 		}
 
 		method set_data_remaining { val } {
+			if {$val != "" } {
+				set len [set DLPParamLength($::p2pv2::DLPParamType::DATA_REMAINING)]
+				if {[string length $val] != $len} {
+					set val [string range $val[string repeat \x00 $len] 0 [expr {$len - 1}]]
+				}
+			}
 			$options(-tlv) upd $::p2pv2::DLPParamType::DATA_REMAINING $val
 		}
 
@@ -477,11 +464,11 @@ namespace eval ::p2pv2 {
 
 		}
 
-		method create_ack_chunk { {sync 0} } {
+		method create_ack_chunk { } {
 
 			set header [TLPHeader %AUTO%]
 			$header set_ack_seq [$self ack_id]
-			$header set_sync $sync
+			$header set_sync [expr {([$self get_field op_code] & $::p2pv2::TLPFlag::SYN) != 0}]
 			return [MessageChunk %AUTO% -header $header]
 
 		}

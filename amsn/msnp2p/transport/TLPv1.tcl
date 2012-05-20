@@ -100,8 +100,9 @@ namespace eval ::p2pv1 {
 		}
 
 		method set_id { val } {
-
-			$self set_field dw1 $val
+			if { [$self is_ack_chunk] == 0 } {
+				$self set_field dw1 $val
+			}
 
 		}
 

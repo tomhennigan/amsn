@@ -260,14 +260,12 @@ namespace eval ::p2p {
 
 		method __Send_chunk {peer peer_guid chunk blob} {
 			variable local_chunk_id
-			status_log "Sending chunk $chunk to $peer"
+			status_log "Sending chunk $chunk to $peer -- $peer_guid"
 
 			if { ![info exists local_chunk_id] } {
 				set local_chunk_id [expr {int(1000 + rand() * (1+65540-1000))}]
 			}
-			if { [$chunk is_ack_chunk] == 0 } {
-				$chunk set_id $local_chunk_id
-			}
+			$chunk set_id $local_chunk_id
 			set local_chunk_id [$chunk next_id]
 
 			if { [$chunk require_ack] == 1 } {
@@ -275,7 +273,9 @@ namespace eval ::p2p {
 			}
 
 			#puts "Going to send [hexify [$chunk toString]]"
+			puts "Adding command : Send_chunk $peer $peer_guid $chunk"
 			set chunk_queue [lappend chunk_queue [list [list $options(-transport) Send_chunk $peer $peer_guid $chunk] $blob]]
+			puts "send $self. Chunk queue: $chunk_queue"
 
 			set sock [$options(-transport) get_sock]
 			if { [fileevent $sock writable] == "" } {
@@ -292,9 +292,11 @@ namespace eval ::p2p {
 			fileevent $sock writable ""
 
 			if { [llength $chunk_queue] <= 0 } { return }
+			puts "process $self: Chunk queue: $chunk_queue"
 			set command [lindex $chunk_queue 0]
 			set blob [lindex $command 1]
 			set command [lindex $command 0]
+			puts "Calling command : $command"
 			eval $command
 			set chunk_queue [lreplace $chunk_queue 0 0]
 
