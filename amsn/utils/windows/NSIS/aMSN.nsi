@@ -265,6 +265,8 @@ Files_Next:
   File /r /x ".svn" "..\..\..\desktop-icons\*.*"
   SetOutPath "$INSTDIR\scripts\lang"
   File /r /x "genpage.c" /x "convert.tcl" /x "missing.py" /x "sortlang" /x "addkey.tcl" /x "*.tmpl" /x "langchk.sh" /x "complete.pl" /x "genlangfiles.c" /x ".svn" "..\..\..\lang\*.*"
+  SetOutPath "$INSTDIR\scripts\msnp2p"
+  File /r /x ".svn" "..\..\..\msnp2p\*.*"
   SetOutPath "$INSTDIR\scripts\skins"
   File /r /x ".svn" "..\..\..\skins\default"
   SetOutPath "$INSTDIR\scripts\utils\base64"
