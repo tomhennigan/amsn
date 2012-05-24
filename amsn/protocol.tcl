@@ -1681,13 +1681,13 @@ namespace eval ::MSN {
 		if {$cap == "p2paware"} {
 			return [expr {[clientCapsVersion $clientid] > 0}]
 		}
-		if {$cap == "p2pv2" } {
-			if {[llength [split $clientcaps ":"]] > 1} {
-				return 1
-			} else {
-				return 0
-			}
-		}
+		#if {$cap == "p2pv2" } {
+		#	if {[llength [split $clientcaps ":"]] > 1} {
+		#		return 1
+		#	} else {
+		#		return 0
+		#	}
+		#}
 
 		if {$flag != 0} {
 			if {($clientid & $flag) == $flag} {

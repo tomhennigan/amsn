@@ -274,6 +274,7 @@ namespace eval ::p2p {
 
 			#puts "Going to send [hexify [$chunk toString]]"
 			puts "Adding command : Send_chunk $peer $peer_guid $chunk"
+			puts "Chunk id is [hexify [$chunk id]]"
 			set chunk_queue [lappend chunk_queue [list [list $options(-transport) Send_chunk $peer $peer_guid $chunk] $blob]]
 			puts "send $self. Chunk queue: $chunk_queue"
 
