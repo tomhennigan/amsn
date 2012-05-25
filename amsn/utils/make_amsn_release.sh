@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TAG='Release-0_98_4'
-VERSION='0.98.4'
+TAG='Release-0_98_9'
+VERSION='0.98.9'
 DIR_NAME="amsn-$VERSION"
 SKINS="Dark%20Matter%204.0 Oxygen"
 RM_PLUGINS='DualDisplayPicture advancedconfigviewer chameleon devel'
@@ -51,6 +51,7 @@ find . -name "*.exe" | xargs rm -rf
 rm -rf utils/macosx/sndplay utils/macosx/cabextract utils/macosx/QuickTimeTcl3.1 utils/macosx/gstreamer/ utils/macosx/tclAE2.0.4 utils/macosx/tls1.5.0
 find . -name "*.dylib" | xargs rm -rf
 find . -name "*.so" | xargs rm -rf
+rm -rf debian
 cd $RELEASE_DIR
 tar -czf amsn-$VERSION-src.tar.gz $DIR_NAME
 tar -cjf amsn-$VERSION-src.tar.bz2 $DIR_NAME
