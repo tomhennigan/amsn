@@ -56,8 +56,8 @@
     <a name="tarball"></a>
     <h3><?=SOURCE_DOWNLOADS;?></h3>
         <dl class="toc"><dt>
-        <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.4/amsn-0.98.4-src.tar.gz/download"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball"></a><br>
-	<a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.4/amsn-0.98.4-src.tar.gz/download"><span class="toc_title"><?=AMSN_SOURCE;?></span></a>
+        <a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.9/amsn-0.98.9-src.tar.gz/download"><img class="toc_icon" src="images/download-tarball-big.png" alt="Tarball"></a><br>
+	<a href="http://sourceforge.net/projects/amsn/files/amsn/0.98.9/amsn-0.98.9-src.tar.gz/download"><span class="toc_title"><?=AMSN_SOURCE;?></span></a>
         </dt><dd>
           <?=BUILD_OWN_DISTRO;?>
         </dd></dl>
