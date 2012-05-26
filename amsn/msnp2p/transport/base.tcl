@@ -279,6 +279,10 @@ namespace eval ::p2p {
 			puts "send $self. Chunk queue: $chunk_queue"
 
 			set sock [$options(-transport) get_sock]
+			if { $sock == "" } {
+				#Just pretend we sent it??
+				return 1
+			}
 			if { [fileevent $sock writable] == "" } {
 				fileevent $sock writable [list $self Process_queue $peer $peer_guid]
 			}
