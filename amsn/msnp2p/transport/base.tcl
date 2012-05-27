@@ -263,7 +263,10 @@ namespace eval ::p2p {
 			status_log "Sending chunk $chunk to $peer -- $peer_guid"
 
 			if { ![info exists local_chunk_id] } {
-				set local_chunk_id [expr {int(1000 + rand() * (1+65540-1000))}]
+                            set local_chunk_id [expr {((rand() * 256) << 24) |
+                                                      ((rand() * 256) << 16) |
+                                                      (([rand() * 256) << 8) |
+                                                       rand() * 256}]
 			}
 			$chunk set_id $local_chunk_id
 			set local_chunk_id [$chunk next_id]
