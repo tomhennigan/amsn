@@ -1588,7 +1588,11 @@ _conference_element_added (FsElementAddedNotifier *notifier,
   const gchar *name;
 
   factory = gst_element_get_factory (element);
+  if (!factory)
+    return;
   name = gst_plugin_feature_get_name (GST_PLUGIN_FEATURE (factory));
+  if (!name)
+    return;
 
   if (strcmp (name, "ffenc_h263") == 0) {
     /* Ensure that the encoder works with rtp */
