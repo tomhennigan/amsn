@@ -966,12 +966,12 @@ snit::type SIPConnection {
 					set lowest_priority $priority
 				}
 				if {$options(-ice) == 6 } {
-					if {$priority < "0.5"} {
+					if {$priority < "0.5"&& $component_id == 1} {
 						set lowest_priority $priority
 						break
 					}
 				} elseif {$options(-ice) == 19 } {
-					if {$type == "relay" } {
+					if {$type == "relay" && $component_id == 1} {
 						set lowest_priority $priority
 						break
 					}
@@ -985,6 +985,7 @@ snit::type SIPConnection {
 			    ($lowest_priority == 0 || $priority == $lowest_priority)} {
 				set default_ip $ip
 				set default_port $port
+                                break
 			}
 		}
 		foreach candidate $local_candidates {
@@ -3076,6 +3077,11 @@ namespace eval ::MSNSIP {
 			::MSN::setClientCap sip
 			set changed 1
 		}
+		if { [::config::getKey protocol] > 15 &&
+		     ![::MSN::hasCapability [::config::getKey clientid 0] tunnelsip]} {
+			::MSN::setClientCap tunnelsip
+			set changed 1
+		}
 		if {$force_video ||
 		    ( [$::farsight GetLocalVideoCandidates] != "" &&
 		      [$::farsight GetLocalVideoCodecs] != "") } {
@@ -3098,10 +3104,10 @@ namespace eval ::MSNSIP {
 			set changed 1
 		}
 				     
-		
 		if {$changed } {
 			if {[::MSN::myStatusIs] != "FLN" } {
 				::MSN::changeStatus [::MSN::myStatusIs]
+                        	::MSN::sendUUXData
 			}
 		}
 
