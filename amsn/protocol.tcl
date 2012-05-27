@@ -916,13 +916,15 @@ namespace eval ::MSN {
 
 		::config::setKey clientid 0
 
-		::MSN::setClientCap msnc8
 		::MSN::setClientCap inkgif
 		::MSN::setClientCap multip
 		::MSN::setClientCap voice
 		if { [::config::getKey protocol] > 15 } {
 			::MSN::setClientCap p2pv2
-		}
+                	::MSN::setClientCap msnc10
+		} else {
+                	::MSN::setClientCap msnc8
+                }
 
 		if {[::config::getKey protocol] >= 15} {
 			global sso
@@ -981,8 +983,15 @@ namespace eval ::MSN {
 			set enable_sip 0
 			status_log "SIP capabilities are disabled"
 		}
+
+                # Because of asyncresolver, the 'connect' could block but keep the UI updated,
+                # so we need to put the login screen into 'loggingIn' mode before...
+                ::Event::fireEvent loggingIn protocol
+
+
 		if { [::config::getKey protocol] >= 13 && $enable_sip} {
-			after 0 [list ::MSNSIP::TestFarsight]
+                    # We need to get our capabilities before we connect
+                    after 0 [list ::MSNSIP::TestFarsight [list ::MSN::initial_test_farsight_done $username $passwd]]
 		} else {
 			if { [::config::getKey wanttosharecam] && \
 				 [::CAMGUI::camPresent] == 1 } {
@@ -990,15 +999,14 @@ namespace eval ::MSN {
 			} else {
 				::MSN::setClientCap webcam 0
 			}
+                    cmsn_ns_connect $username $passwd
 		}
 
-		# Because of asyncresolver, the 'connect' could block but keep the UI updated,
-		# so we need to put the login screen into 'loggingIn' mode before...
-		::Event::fireEvent loggingIn protocol
-
-		cmsn_ns_connect $username $passwd
 	}
 
+        proc initial_test_farsight_done {username passwd success} {
+            cmsn_ns_connect $username $passwd
+        }
 
 	proc logoutEP { ep } {
 		set msg "goawyplzthxbye"
@@ -1615,7 +1623,7 @@ namespace eval ::MSN {
 			sip    { set flag 0x100000 }
 			tunnelsip { set flag 0x200000 }
 			shared { set flag 0x400000 }
-			unknown    { set flag 0x02000000 }
+			turn   { set flag 0x02000000 }
 			uun    { set flag 0x04000000 }
 			msnc1  { set flag 0x10000000 }
 			msnc2  { set flag 0x20000000 }
@@ -1629,8 +1637,7 @@ namespace eval ::MSN {
 			msnc10  { set flag 0xA0000000 }
 			p2paware  { set flag 0xF0000000 }
 			rtcvideo { set extra 0x00000010 }
-			unknown { set extra 0x00000020 }
-			p2pv2 { set extra 0x00000030 }
+			p2pv2 { set extra 0x00000020 }
 		}
 
 		return [list $flag $extra]
