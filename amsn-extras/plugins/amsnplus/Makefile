@@ -1,5 +1,5 @@
-snapshot:
-	gcc snapshot.c -o snapshot `imlib-config --cflags` `imlib-config --libs`
+CFLAGS=$(shell imlib-config --cflags)
+LDLIBS=$(shell imlib-config --libs)
 
 all: snapshot
 clean:
