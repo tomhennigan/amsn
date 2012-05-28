@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<plugin>
+    <name>Off The Record</name>
+    <author>Youness Alaoui (KaKaRoTo), Alexander Nestorov (alexandernst@gmail.com)</author>
+    <description>OTR</description>
+    <description_en>OTR</description_en>
+    <description_es>OTR</description_es>
+    <amsn_version>0.97</amsn_version>
+    <plugin_version>0.1</plugin_version>
+    <plugin_file>otr.tcl</plugin_file>
+    <plugin_namespace>otr</plugin_namespace>
+    <init_procedure>otrStart</init_procedure>
+    <deinit_procedure>otrEnd</deinit_procedure>
+    <cvs_version>12357</cvs_version>
+
+    <lang>
+        <langcode>en</langcode>
+        <version>11712</version>
+    </lang>
+    <lang>
+        <langcode>es</langcode>
+        <version>11712</version>
+    </lang>
+
+    <file>
+        <path>README</path>
+        <version>11712</version>
+    </file>
+
+
+    <URL>
+        <main>http://www.amsn-project.net/autoupdater/plugins/otr/otr.tcl</main>
+        <plugininfo>http://www.amsn-project.net/autoupdater/plugins/otr/plugininfo.xml</plugininfo>
+        <lang>http://www.amsn-project.net/autoupdater/plugins/otr/lang/lang$langcode</lang>
+        <file>http://www.amsn-project.net/autoupdater/plugins/otr/$file</file>
+    </URL>
+</plugin>
