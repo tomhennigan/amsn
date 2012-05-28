@@ -21,6 +21,13 @@
 #########################################################################
 
 
+# Add some math utility to use in expr { }
+
+proc ::tcl::mathfunc::randByte { } {
+	return [expr {int(rand() * 256)}]
+}
+
+
 # The following functions were taken from TIP 268 http://www.tcl.tk/cgi-bin/tct/tip/268.html
 # Their purpose is to compare version numbers while taking into account the alpha/beta versions.
 
