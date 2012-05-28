@@ -259,7 +259,9 @@ install:: $(FILES_TO_INSTALL) | install_libs
 
 	ln -sf $(dstdir)/$(PACKAGE)/desktop-icons/48x48/apps/amsn.png $(DESTDIR)$(dstdir)/pixmaps/
 
-install_libs:: rebuild_libs do_install_libs
+install_libs:: clean_libs
+	$(MAKE) rebuild_libs
+	$(MAKE) do_install_libs
 
 do_install_libs:: $(LIBS_TO_INSTALL)
 	rm -Rf $(DESTDIR)$(libdir)/$(PACKAGE)
@@ -276,7 +278,7 @@ clean_libs::
 
 rebuild_libs: RPATH+=$(libdir)/$(PACKAGE)
 rebuild_libs: LIBDIR=$(libdir)/$(PACKAGE)
-rebuild_libs: clean_libs $(LIBS_WITH_RPATH)
+rebuild_libs: $(LIBS_WITH_RPATH)
 
 uninstall::
 	rm -Rf $(dstdir)/$(PACKAGE)
