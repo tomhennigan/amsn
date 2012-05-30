@@ -107,7 +107,7 @@
 		<langcode>fi</langcode>
 		<name>Finnish (suomi)</name>
 		<version>1.10</version>
-		<encoding>iso8859-1</encoding>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>fr</langcode>
