@@ -4038,7 +4038,9 @@ namespace eval ::MSNOIM {
           set msg "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\n$style\r\n\r\n$msg"
           set msg_len [string length $msg]
 
-          ::MSN::WriteSBNoNL ns "UUM" "$to 1 1 $msg_len\r\n$msg"
+          if { [config::getKey protocol] >= 18} {
+              ::MSN::WriteSBNoNL ns "UUM" "$to 1 1 $msg_len\r\n$msg"
+          }
         }
 
 	proc deleteOIMMessageCallback { callbk soap } {
