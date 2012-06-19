@@ -4040,6 +4040,10 @@ namespace eval ::MSNOIM {
 
           if { [config::getKey protocol] >= 18} {
               ::MSN::WriteSBNoNL ns "UUM" "$to 1 1 $msg_len\r\n$msg"
+          } else {
+              if {[catch {eval $callbk oimsystemunavailable} result]} {
+                  bgerror $result
+              }
           }
         }
 
