@@ -257,7 +257,7 @@ install:: $(FILES_TO_INSTALL) | install_libs
 
 	cp $(srcdir)/amsn.desktop $(DESTDIR)$(dstdir)/applications/
 
-	ln -sf $(dstdir)/$(PACKAGE)/desktop-icons/48x48/apps/amsn.png $(DESTDIR)$(dstdir)/pixmaps/
+	ln -sf $(dstdir)/$(PACKAGE)/desktop-icons/128x128/apps/amsn.png $(DESTDIR)$(dstdir)/pixmaps/
 
 install_libs:: clean_libs
 	$(MAKE) rebuild_libs
