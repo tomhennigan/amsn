@@ -2351,7 +2351,9 @@ namespace eval ::guiContactList {
 			}
 		}
 		
-		$canvas lower $bgtag "$tag"
+		catch {
+			$canvas lower $bgtag "$tag"
+		}
 	}
 
 
