@@ -109,7 +109,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
                         * png_get_channels(png_ptr, info_ptr);
 	if (channels == 1 && pixel_depth>8) pixel_depth=8;
 	if (channels == 2) pixel_depth=8;
-	if (channels >= 3) pixel_depth=32;
+	if (channels >= 3 && pixel_depth < 32) pixel_depth=32;
 
 	if (!Create(png_get_image_width(png_ptr, info_ptr),
                     png_get_image_height(png_ptr, info_ptr),
