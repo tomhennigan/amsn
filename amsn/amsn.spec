@@ -102,9 +102,12 @@ true
 %{_bindir}
 %{_desk_icons}/amsn.png
 %{_datadir}
+%{_libdir}
 %{_desk_applnk}/*.desktop
 
 %changelog
+* Sat Sep 01 2012 Alexander Nestorov <alexandernst AT users.sourceforge.net>
+- Fix broken RPM generation (thanks to gibus92)
 * Mon Apr 16 2007 Le Philousophe <lephilousophe AT users.sourceforge.net>
 - Some changes to install API
 * Sun Nov 6 2005 Le Philousophe <lephilousophe AT users.sourceforge.net>
