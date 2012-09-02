@@ -1,5 +1,5 @@
 amsn_lang_version 2
-abookerror O aMSN falhou ao fazer download da sua lista de contatos. Isto é provavelmente causado por algum problema temporário nos servidores MSN. Você agora está logado usando a lista de contatos guardada em cache, se tiver alguma. Nós nos desculpamos pelo inconveniente. Por favor tente novamente.
+abookerror O aMSN falhou ao fazer download da sua lista de contatos. Isto é provavelmente causado por algum problema temporário nos servidores MSN. Você agora está logado usando a lista de contatos guardada em cache, se tiver alguma. Nós nos desculpamos pelo inconveniente. Por favor, tente novamente.
 abort Abortar
 aboutamsn Sobre o aMSN
 about Sobre
@@ -8,7 +8,7 @@ acceptfile Aceitar arquivo $1 ($2 bytes de tamanho)? Será gravado em $3
 account Conta
 accountkid Esta conta infantil não pode acessar o Messenger. Você deve ir ao site de contas infantis e autorizar o uso.
 actions Ações
-activeautoupdate Ativar autoatualização
+activeautoupdate Ativar auto atualização
 addacontact Adicionar contato
 add Adicionar
 addedyou $1 ($2) adicionou você à sua lista de contatos
@@ -40,8 +40,8 @@ allmonths Todos os meses
 allowallbutbl Permitir que todos os usuários me contatem, menos aqueles na Lista de bloqueados
 allowbadwords Desativar censura nos apelidos
 allowlist Contatos autorizados (AL):
-allowonlyinal Somente os contatos na lista de "contatos autorizados" podem me contactar
-allowseen Permitir que este usuário me veja e possa me contactar quando eu estiver on-line
+allowonlyinal Somente os contatos na lista de "contatos autorizados" podem me contatar
+allowseen Permitir que este usuário me veja e possa me contatar quando eu estiver on-line
 allow_sms Permitir que os usuários entrem em contato comigo pelo meu MSN de celular
 allprofilesinuse Todos os perfis existentes estão atualmente em uso
 always Sempre
@@ -59,16 +59,16 @@ asksendingyourwebcam pedir para que seja enviada a imagem da sua webcam
 asksendoim Você quer enviar essa mensagem como uma mensagem offline?
 askwebcam Pedir ao usuário para enviar imagem de webcam
 assistantainput Escolha o seu dispositivo de entrada e tente gravar com ele.
-assistantaoutput Escolha seu dispositivo de saida, e tente tocar este arquivo com ele para testar.
+assistantaoutput Escolha seu dispositivo de saída, e tente tocar este arquivo com ele para testar.
 assistantawarn Você não poderá gravar, ou falar com seus amigos. Você poderá encontrar respostas de como instalar esta extensão no nosso Wiki:
 assistantfinetunepic Mude as seguintes opções para ajustar a qualidade da imagem da sua webcam
-assistantnote NOTA: Esta configuracao é *somente* para '$1'
+assistantnote NOTA: Esta configuração é *somente* para '$1'
 assistantselectcam Selecia a sua webcam na lista
 assistantstarting Inicar o Assistente
 assistanttitle Assistente de áudio e vídeo
-assistantwelcome Este assistente irá guiá-lo atrás da configuração do seu áudio e vídeo para o seu aMSN.\n\nIrá checar se as extensões necessárias estão presentes e carregá-las, você poderá escolher o dispositivo e canal, setar a imagem e a resolução.
+assistantwelcome Este assistente irá guiá-lo atrás da configuração do seu áudio e vídeo para o seu aMSN.\n\nIrá checar se as extensões necessárias estão presentes e carregá-las, você poderá escolher o dispositivo e canal, configurar a imagem e a resolução.
 audioconfigured Você escolheu as seguintes opções: \n Dispositivo de saída: $1\n Dispositivo de entrada:$2
-audiovideo Configuração de Audio e Video
+audiovideo Configuração de Áudio e Vídeo
 author Autor
 autoaccepted Transferência de arquivo aceita automaticamente
 autoacceptft Aceitar automaticamente pedidos de transferência de arquivo
@@ -84,8 +84,8 @@ autohotmaillog Logar-se automaticamente no Hotmail
 autoidle Detectar inatividade
 autoip Endereço IP automático
 autolisten_voiceclips Tocar Clips de Voz automaticamente quando receber.
-automaticsink Auto-Detectar Saída
-automaticsrc Auto-Detectar Entrada
+automaticsink Auto Detectar Saída
+automaticsrc Auto Detectar Entrada
 automessage Mensagem automática
 autonoact Mudar estado para "Sem atividade" quando inativo por
 autoresizedp Automaticamente redimensione as figuras para o tamanho padrão
@@ -126,14 +126,14 @@ broughtby Desenvolvido para você pelos seguintes programadores
 browse Pesquisar
 browserexample (\$url será substituída pela URL). Ex: mozilla \$url
 browser Navegador web
-bugerror Desculpe, mas não foi possível conectar ao banco de dados de bugs. Por favor verifique sua conexão com a Internet.
+bugerror Desculpe, mas não foi possível conectar ao banco de dados de bugs. Por favor, verifique sua conexão com a Internet.
 bugnocomment Enviar sem comentar? Comentar o bug nos ajuda a descobrir o que houve de errado e como corrigir o erro mais facilmente.
 busy Ocupado
 bytesymbol b
 cachedpics $1 figuras em cache
 cachedpicsfor Imagens arquivadas para o usuário
 cagreement Aceitação de Privacidade
-cam_in_cw Exibir a camera junto a janela de conversação
+cam_in_cw Exibir a câmera junto a janela de conversação
 cancel Cancelar
 cancelled Cancelado 
 cannotdeleteprofile Impossível apagar este perfil pois ele está sendo usado por uma sessão do aMSN.
@@ -145,7 +145,7 @@ captureextloaded Extensão de captura -$1- foi carregada
 captureextnotloaded Extensão de captura -$1- não foi carregada, você deve compilá-la primeiro
 captureproperties Propriedades da imagem da Webcam
 capturewarn Você não poderá enviar sua webcam se tiver uma. Senão, é normal. Você pode encontrar respostar de como instalar a extensão no nosso Wiki:
-casesensitive Diferenciar maísculas/minúsculas
+casesensitive Diferenciar maiúsculas/minúsculas
 cfgalarmall Configurar/Adicionar/Remover alarme global
 cfgalarm Configurar/Adicionar/Remover Alarme
 change_account_info Mudar informações da conta
@@ -181,7 +181,7 @@ checkonfln Verificar se um usuário bloqueou você quando ficar offline
 checkopenfilecommand Por favor verifique o comando "abrir arquivo" na janela de preferências
 checkver Procurar por atualizações
 choosearq Escolha a arquitetura do seu sistema
-chooseaudiosink Selecionar Saída de Áudio
+chooseaudiosink Selecionar Saída de Áudio	
 chooseaudiosrc Selecionar Entrada de Áudio
 choosebasefont Escolha tipo de fonte
 choosebgcolor Escolher cor de fundo
@@ -208,13 +208,13 @@ clientcaps Enviar pacote x-clientcaps para outros clientes
 clientname Nome do cliente
 closeall Fechar todas as abas desta janela?
 closealltabs Fechar todas as abas
-closechatwindows Fechar todas as conversas antes de deslogar?
+closechatwindows Fechar todas as conversas antes de sair?
 closed Conversa com $1 foi fechada por inatividade
 close Fechar
 closelabel Quando você clicar no botão de fechar em uma janela de conversa com abas
 closeonly Fechar somente a aba atual
 closeorcallvideo Antes de fechar a janela é preciso cancelar a chamada de vídeo.
-closeorcall Você precisa fechar/cancelar a liganção antes de fechar a janela.
+closeorcall Você precisa fechar/cancelar a ligação antes de fechar a janela.
 closeordock Fechar a janela da lista de contatos irá fechar o aMSN.\nTalvez você deseje apenas fechar a janela e manter o aMSN ligado na bandeja do sistema.\n\nVocê tem certeza de que deseja fechar o aMSN?
 closeothers Fechar todas as outras tabs
 closingdocks Botão de fechar minimiza janela
@@ -267,9 +267,9 @@ created Criado
 credits Créditos
 curdisplaypic Imagem de exibição atual
 curfssinknotworking Saída de áudio selecionada não está funcionando, usando '$1'
-curfssrcnotworking Entrada de áudio selecionada não está funcionando,usando '$1'
+curfssrcnotworking Entrada de áudio selecionada não está funcionando, usando '$1'
 currentdate Data atual
-currentdynrate Velocidade em tempo-real atual (em milisegundos)
+currentdynrate Velocidade em tempo real atual (em milissegundos)
 currentlanguage Este é o idioma atualmente em uso
 currentnotes Comentários atuais
 custnotifymsg Exibir janela de notificação quando chegar uma nova mensagem deste contato
@@ -314,7 +314,7 @@ directconnection Eu tenho uma conexão direta à Internet (usa a porta 1863)
 disabledaudiosrcdesc Desativar entrada de áudio e não enviar chamadas de áudio
 disabled Desabilitado
 disabledvideosrcdesc Desativar entrada de vídeo e não enviar chamadas de vídeo
-disableprofiles Desabilitar perfis (útil para cyber-cafés ou ambientes compartilhados)
+disableprofiles Desabilitar perfis (útil para cybercafés ou ambientes compartilhados)
 disablessl Desativar SSL
 disableuserfonts Ignorar fonte do usuário remoto nas mensagens e usar minhas próprias fontes
 disconnect $1 desconectou-se.
@@ -342,15 +342,15 @@ downloadcanceled Download cancelado.
 download Download
 downloadingtls Efetuando download do módulo TLS de:\n $1
 downloadingwait Fazendo download da nova versão do amsn. Por favor, aguarde...
-dynamicrate Usar frame rate dinamico para simular a velocidade em tempo-real
+dynamicrate Usar frame rate dinâmico para simular a velocidade em temporal
 editavsettings Editar opções de áudio e vídeo
-editcontent Altere o contéudo do campo de assunto e do campo de nota
+editcontent Altere o conteúdo do campo de assunto e do campo de nota
 editcustomstate Editar estado personalizado
 edit Editar
 editmyprofile Editar meu perfil do MSN
-editnewstate Novo Estado de Automensagem Pessoal
+editnewstate Novo Estado de Auto mensagem Pessoal
 editprofile Editar perfil
-editstate Editar o estado de automensagem existente
+editstate Editar o estado de auto mensagem existente
 editvalue Editar valor
 email E-mail
 emailnotverified (Email não verificado!)
@@ -460,7 +460,7 @@ groupexists Grupo já existente
 group Grupo
 groupmissing Não pude localizar o grupo
 groupnewname Novo nome
-groupnonim Agrupar contatos que não são do messenger juntos
+groupnonim Agrupar contatos que não são do messenger
 groupnotempty Grupo não está vazio
 groupoldname Nome antigo
 grouprename Renomear um grupo
@@ -496,7 +496,7 @@ imagefiles Arquivos de Imagem
 inbox Caixa de Entrada
 insertsmiley Inserir emotion
 inserttextnote Insira texto no campo de assunto e no campo de comentários. Depois clique em Salvar.
-installconvert Você deve instalar ImageMagick (programa conversor) para converter as imagens para o formato requerido pelos servidores MSN. Você pode pegar os binários para o seu Sistema Operacional em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se você já o tem, então isto é um bug, favor reportá-lo. Estas opções serão desativadas, se você instalar o ImageMagick, reative as opçãoes em "Preferências"
+installconvert Você deve instalar ImageMagick (programa conversor) para converter as imagens para o formato requerido pelos servidores MSN. Você pode pegar os binários para o seu Sistema Operacional em ftp://ftp.imagemagick.net/pub/ImageMagick/binaries/. Se você já o tem, então isto é um bug, favor reportá-lo. Estas opções serão desativadas, se você instalar o ImageMagick, reative as opções em "Preferências"
 internalerror Erro interno do servidor
 invalidfile2 O Arquivo $1 não pôde ser salvo. Certifique-se que você tem as permissões corretas para o diretório de destino.
 invalidfile Arquivo $2 no campo "$1" não existe ou não pode ser lido
@@ -612,7 +612,7 @@ name Nome
 natip Detectar IP pela web
 natkeepalive Estou sendo desconectado com frequência (manter conexão ativa)
 needonline Você ainda está/aparece desconectado
-needwinico2 Preciso do arquivo winico05.dll na pasta utils/windows para que o ícone de inicialização rápida possa funcionar na barra de tarefas do windows
+needwinico2 Preciso do arquivo winico05.dll que está localizado na pasta utils/windows para que o ícone de inicialização rápida possa funcionar na barra de tarefas do Windows
 never Nunca
 new_account Criar uma conta
 newchat Novo chat
@@ -636,11 +636,11 @@ no_blocked_notif Esconder notificações de contatos bloqueados
 nocacheddps Não mostrar figuras em cache para esse usuário
 nocamwarn Nenhuma webcam foi encontrada, ou sua webcam já está em uso por outro programa (o que significa que não pode ser usado pelo aMSN). Você pode encontrar ajuda de como resolver esse problema no nosso Wiki:
 nodataavailable Sem dados disponíveis para $1
-nodevices No momento, não há devices instalados
-noftpreview Desabilitar o envio de preview da imagem na transferência de arquivos
+nodevices No momento, não há dispositivos instalados
+noftpreview Desabilitar o envio de pré-visualização da imagem na transferência de arquivos
 nogap Nenhum espaço entre grupos
 nogroup Nenhum grupo
-nojavascript Você não tem javascript habilitado. Logar automáticamente pode não funcionar.
+nojavascript Você não tem javascript habilitado. Logar automaticamente pode não funcionar.
 nologfile Sem histórico para $1
 nomic Sem microfone
 noneavailable Nada Disponível
@@ -677,13 +677,13 @@ notls O protocolo MSN 9 requer o pacote tls. Aparentemente ele não está instalad
 nottabbed Janelas normais, sem abas
 nousersinsession Nenhum usuário na sessão
 nouserspecified Nenhum usuário especificado
-novideocodecsavailable Nenhum codec de video disponível.
+novideocodecsavailable Nenhum codec de vídeo disponível.
 nudge $1 pede sua atenção!
 offline Desconectado
 oimauthenticationfailed Falha de autenticação
-oimflood Muitas mensagens enviadas.Por favor, aguarde e envie novamente.
+oimflood Muitas mensagens enviadas. Por favor, aguarde e envie novamente.
 oim Mensagem offline
-oimmessagetoolarge A mensagem está muito grande para ser enviada offline.Divida-a e envie novamente
+oimmessagetoolarge A mensagem está muito grande para ser enviada offline. Divida-a e envie novamente
 oimsystemunavailable Sistema de Mensagem Offline está indisponível no momento.
 oimunexpectederror Erro inesperado
 ok Ok
@@ -739,7 +739,7 @@ prefblock3 "Você foi bloqueado por" grupo
 prefconnection Configurações de conexão
 prefemotic Emoticons e smileys
 preferences Preferências
-preffont2 Alterar a maneira como os outros vêem meu texto em conversas
+preffont2 Alterar a maneira como os outros veem meu texto em conversas
 preffont3 Alterar as fontes da interface do aMSN
 preffont4 Mudar o modo como vejo o texto na sessão de chat de outras pessoas
 preffont Minhas mensagens de texto
@@ -912,7 +912,7 @@ sipcallmissed Você perdeu uma ligação de $1
 sipcallnosipflag Usuário não pode fazer ligações.
 sipcallsent Ligando para $1
 sipcallyouarebusy2 Você pode ter apenas uma chamada de vídeo ou áudio ao mesmo tempo.
-sipdisabledprotocol Recursos de chamada com Audio/Video foram desativados nesta versão do aMSN porque a Microsoft(TM) mudou seus protocolos novamente e desativou o acessor aos servidores SIP deles, bloqueando o aMSN de dar acesso a este recurso.
+sipdisabledprotocol Recursos de chamada com Áudio/Vídeo foram desativados nesta versão do aMSN porque a Microsoft(TM) mudou seus protocolos novamente e desativou o acesso aos servidores SIP deles, bloqueando o aMSN de dar acesso a este recurso.
 sipgotinvitation Convite de ligação recebido de $1
 sipvideocallaccepted Chamada de vídeo aceita
 sipvideocallconnected Sua chamada de vídeo está estabelecida
@@ -922,7 +922,7 @@ sipvideocalleecanceled Sua chamada de vídeo não foi aceita
 sipvideocalleeclosed O usuário terminou a chamada de vídeo
 sipvideocalleedeclined O usuário recusou o convite de chamada de vídeo
 sipvideocallended Chamada de vídeo foi finalizada.
-sipvideocallmissed Não foi possivel fazer uma chamada de vídeo com  $1
+sipvideocallmissed Não foi possível fazer uma chamada de vídeo com  $1
 sipvideocallnosipflag O usuário não suporta realizar chamadas de vídeo.
 sipvideogotinvitation Chamada de vídeo recebida de $1
 skinselector Skin selecionada
@@ -966,7 +966,7 @@ startoffline2 Iniciar conectado mas invisível ("Aparecer Offline")
 startoffline Iniciar desconectado
 startonboot Iniciar o aMSN quando o Windows iniciar
 startontray Iniciar o aMSN apenas na bandeja do sistema
-stateautomsg Automensagem a ser enviada
+stateautomsg Auto mensagem a ser enviada
 statechange Estado mudado para:
 stateedittext Por favor edite os campos que gostaria \n de modificar e clique em Salvar
 stateinfo Configuração do Estado Pessoal
@@ -1054,7 +1054,7 @@ useryourself Você não pode conversar consigo mesmo
 usesnack Usar a biblioteca Snack (interna do Tcl)
 verifyblocked Descubra se alguém bloqueou você
 version Versão
-videoconversationrequest Você recebeu um pedido de videoconferência (áudio e vídeo bidirecional). Isto ainda não é suportado pelo aMSN e por isso foi cancelado. Entretando, você pode continuar usando a conversa padrão pela webcam.
+videoconversationrequest Você recebeu um pedido de videoconferência (áudio e vídeo bidirecional). Isto ainda não é suportado pelo aMSN e por isso foi cancelado. Entretanto, você pode continuar usando a conversa padrão pela webcam.
 viewcontactsby Visualizar contatos por
 viewprofile Ver Perfil
 viewspace Visualizar itens de espaço
