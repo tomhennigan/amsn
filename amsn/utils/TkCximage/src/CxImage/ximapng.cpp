@@ -108,7 +108,7 @@ bool CxImagePNG::Decode(CxFile *hFile)
 	int pixel_depth = png_get_bit_depth(png_ptr, info_ptr)
                         * png_get_channels(png_ptr, info_ptr);
 	if (channels == 1 && pixel_depth>8) pixel_depth=8;
-	if (channels == 2) pixel_depth=8;
+	if (channels == 2 && pixel_depth < 8) pixel_depth=8;
 	if (channels >= 3 && pixel_depth < 32) pixel_depth=32;
 
 	if (!Create(png_get_image_width(png_ptr, info_ptr),
@@ -254,11 +254,13 @@ bool CxImagePNG::Decode(CxFile *hFile)
 				//RGBA -> RGB + A
 				for(ax=0;ax<head.biWidth;ax++){
 					long px = ax * pixel_offset;
+					long qx = ax * 3;
 					if (channels == 2){
-						prow[ax] = row_pointers[px];
+						prow[qx]  =row_pointers[px];
+						prow[qx+1]=row_pointers[px];
+						prow[qx+2]=row_pointers[px];
 						AlphaSet(ax,ay,row_pointers[px+chan_offset]);
 					} else {
-						long qx = ax * 3;
 						prow[qx]  =row_pointers[px];
 						prow[qx+1]=row_pointers[px+chan_offset];
 						prow[qx+2]=row_pointers[px+chan_offset*2];
