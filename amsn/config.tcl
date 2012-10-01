@@ -51,7 +51,7 @@ namespace eval ::config {
 		::config::setKey ShowButtonBar 1
 		::config::setKey show_contactdps_in_cl 0		
 
-		::config::setKey autoresizedp 0
+		::config::setKey autoresizedp 1
 
 		::config::setKey lowrescam 0
 
