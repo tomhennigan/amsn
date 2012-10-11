@@ -89,13 +89,14 @@ namespace eval ::config {
 
 			::config::setKey os "unix"
 		} elseif { [OnUnix] } {
+			#Distros are free to change the default sound command to whatever is shipped with them, if they don't distribute snack with amsn
 			::config::setKey soundcommand "play \$sound"
 			::config::setKey browser "xdg-open \$url"
 			::config::setKey notifyXoffset 0
 			::config::setKey notifyYoffset 0
 			::config::setKey filemanager "xdg-open \$location"
 			::config::setKey openfilecommand "xdg-open \$file"
-			::config::setKey usesnack 0
+			::config::setKey usesnack 1
 
 			::config::setKey os "unix"
 		} elseif { [OnWin] } {
