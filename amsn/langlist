@@ -286,8 +286,8 @@
 	<lang>
 		<langcode>sr</langcode>
 		<name>Serbian (Српски)</name>
-		<version>1.12</version>
-		<encoding>iso8859-5</encoding>
+		<version>1.13</version>
+		<encoding>utf-8</encoding>
 	</lang>
 	<lang>
 		<langcode>sv</langcode>
