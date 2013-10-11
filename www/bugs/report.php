@@ -3,7 +3,11 @@ include("../libs/lang.lib.php");
 include("../libs/mail.lib.php");
 include("lang/en");
 if(isset($_GET['lang']) && is_readable("lang/".$_GET['lang'])) {
-  include("lang/".$_GET['lang']);
+  if(strlen($_GET['lang']) > 2){
+    include("lang/en");
+  }else{
+    include("lang/".$_GET['lang']);
+  }
 }
 
 if(!isset($_FILES['file']) && !isset($_POST['report'])) {
